@@ -11,6 +11,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE=("common-mk" "")
 
 PLATFORM_SUBDIR="update_engine"
+# Some unittests crash when run through qemu/arm.  Should figure this out.
+PLATFORM_NATIVE_TEST="yes"
 
 inherit toolchain-funcs cros-debug cros-workon platform systemd
 
@@ -97,26 +99,19 @@ platform_pkg_test() {
 	# able to access this file.
 	cp "${S}/update_engine.conf" ./
 
-	if ! use x86 && ! use amd64 ; then
-		einfo "Skipping tests on non-x86 platform..."
+	# If GTEST_FILTER isn't provided, we run two subsets of tests
+	# separately: the set of non-privileged  tests (run normally)
+	# followed by the set of privileged tests (run as root).
+	# Otherwise, we pass the GTEST_FILTER environment variable as
+	# an argument and run all the tests as root; while this might
+	# lead to tests running with excess privileges, it is necessary
+	# in order to be able to run every test, including those that
+	# need to be run with root privileges.
+	if [[ -z "${GTEST_FILTER}" ]]; then
+		platform_test "run" "${unittests_binary}" 0 '-*.RunAsRoot*'
+		platform_test "run" "${unittests_binary}" 1 '*.RunAsRoot*'
 	else
-		# If GTEST_FILTER isn't provided, we run two subsets of tests
-		# separately: the set of non-privileged  tests (run normally)
-		# followed by the set of privileged tests (run as root).
-		# Otherwise, we pass the GTEST_FILTER environment variable as
-		# an argument and run all the tests as root; while this might
-		# lead to tests running with excess privileges, it is necessary
-		# in order to be able to run every test, including those that
-		# need to be run with root privileges.
-		if [[ -z "${GTEST_FILTER}" ]]; then
-			platform_test "run" "${unittests_binary}" 0 '-*.RunAsRoot*' \
-			|| die "${unittests_binary} (unprivileged) failed, retval=$?"
-			platform_test "run" "${unittests_binary}" 1 '*.RunAsRoot*' \
-			|| die "${unittests_binary} (root) failed, retval=$?"
-		else
-			platform_test "run" "${unittests_binary}" 1 "${GTEST_FILTER}" \
-			|| die "${unittests_binary} (root) failed, retval=$?"
-		fi
+		platform_test "run" "${unittests_binary}" 1 "${GTEST_FILTER}"
 	fi
 }
 
