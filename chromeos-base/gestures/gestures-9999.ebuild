@@ -47,6 +47,8 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		einfo "Skipping tests on non-x86 platform..."
 	else
+		# This is an ugly hack that happens to work, but should not be copied.
+		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" \
 		./test || die
 	fi
 }

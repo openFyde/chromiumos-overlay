@@ -55,6 +55,8 @@ src_test() {
 		elog "Skipping unit tests on non-x86 platform"
 	else
 		cd cras
+		# This is an ugly hack that happens to work, but should not be copied.
+		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" \
 		emake check
 	fi
 }
