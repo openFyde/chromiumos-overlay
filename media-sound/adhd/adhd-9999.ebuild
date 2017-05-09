@@ -15,13 +15,14 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="selinux systemd unibuild"
+IUSE="+cras-apm selinux systemd unibuild"
 
 RDEPEND=">=media-libs/alsa-lib-1.0.27
 	media-sound/alsa-utils
 	media-plugins/alsa-plugins
 	media-libs/sbc
 	media-libs/speex
+	cras-apm? ( media-libs/webrtc-apm )
 	dev-libs/iniparser
 	>=sys-apps/dbus-1.4.12
 	dev-libs/libpthread-stubs
@@ -39,7 +40,8 @@ src_prepare() {
 
 src_configure() {
 	cd cras
-	cros-workon_src_configure $(use_enable selinux)
+	cros-workon_src_configure $(use_enable selinux) \
+		$(use_enable cras-apm webrtc-apm)
 }
 
 src_compile() {
