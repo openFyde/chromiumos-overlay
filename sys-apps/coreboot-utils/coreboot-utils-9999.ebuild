@@ -39,6 +39,7 @@ _emake() {
 	emake \
 		TOOLLDFLAGS="${LDFLAGS}" \
 		CC="${CC}" \
+		STRIP="true" \
 		"$@"
 }
 
