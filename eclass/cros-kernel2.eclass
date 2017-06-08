@@ -32,7 +32,7 @@ IUSE="
 	apply_patches
 	-asan
 	buildtest
-	clang
+	+clang
 	-device_tree
 	+fit_compression_kernel_lz4
 	fit_compression_kernel_lzma
