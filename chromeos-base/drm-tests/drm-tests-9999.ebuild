@@ -18,6 +18,7 @@ IUSE="vulkan"
 
 RDEPEND="virtual/opengles
 	|| ( media-libs/mesa[gbm] media-libs/minigbm )
+	media-libs/libsync
 	vulkan? (
 		media-libs/vulkan-loader
 		virtual/vulkan-icd
@@ -34,7 +35,7 @@ src_install() {
 	cd build-opt-local
 	dobin atomictest drm_cursor_test gamma_test linear_bo_test \
 	mapped_texture_test mmap_test null_platform_test plane_test \
-	swrast_test vgem_test
+	synctest swrast_test vgem_test
 
 	if use vulkan; then
 		dobin vk_glow
