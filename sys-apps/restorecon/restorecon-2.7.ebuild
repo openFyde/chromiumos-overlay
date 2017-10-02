@@ -8,7 +8,7 @@ inherit toolchain-funcs eutils
 
 MY_P="policycoreutils-${PV}"
 
-MY_RELEASEDATE="20150202"
+MY_RELEASEDATE="20170804"
 SELNX_VER="${PV}"
 SEPOL_VER="${PV}"
 
@@ -34,7 +34,6 @@ RDEPEND="${DEPEND} !sys-apps/policycoreutils"
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-	epatch "${FILESDIR}/0020-disable-autodetection-of-pam-and-audit.patch"
 	epatch_user
 }
 
@@ -46,5 +45,6 @@ src_compile() {
 }
 
 src_install() {
+	epatch "${FILESDIR}/0020-disable-autodetection-of-pam-and-audit.patch"
 	emake -C setfiles restorecon DESTDIR="${D}" install
 }
