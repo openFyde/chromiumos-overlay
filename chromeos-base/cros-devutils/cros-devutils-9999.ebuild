@@ -44,7 +44,6 @@ src_install() {
 			gdb_remote
 			gdb_x86_local
 			gmergefs
-			image_to_live.sh
 			netboot_firmware_settings.py
 			strip_package
 			willis
