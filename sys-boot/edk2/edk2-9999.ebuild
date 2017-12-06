@@ -5,7 +5,7 @@
 # edk2 and an auto-revbump is required.
 # VERSION=REVBUMP-0.0.1
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/edk2"
 CROS_WORKON_LOCALNAME="edk2"
 
@@ -31,6 +31,9 @@ PATCHES=(
 	"${FILESDIR}/03_Library_EndofDXE.patch"
 	"${FILESDIR}/04_CorebootPayloadPkg_addps2.patch"
 	"${FILESDIR}/06_CorebootPayloadPkg_keep_cb_table.patch"
+	"${FILESDIR}/07_apics.patch"
+	"${FILESDIR}/08_nvme.patch"
+	"${FILESDIR}/09_nomask_8259.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE
