@@ -34,6 +34,7 @@ PATCHES=(
 	"${FILESDIR}/07_apics.patch"
 	"${FILESDIR}/08_nvme.patch"
 	"${FILESDIR}/09_nomask_8259.patch"
+	"${FILESDIR}/10_eMMC.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE

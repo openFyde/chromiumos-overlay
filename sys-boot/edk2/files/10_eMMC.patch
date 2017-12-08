@@ -1,0 +1,32 @@
+Author: Stefan Reinauer <reinauer@chromium.org>
+
+    This enables eMMC booting when starting edk2 from depthcharge.
+    Previously the driver would bail out with an error while setting
+    the eMMC frequency, because depthcharge has already set up the
+    controller.
+
+diff --git a/MdeModulePkg/Bus/Pci/SdMmcPciHcDxe/EmmcDevice.c b/MdeModulePkg/Bus/Pci/SdMmcPciHcDxe/EmmcDevice.c
+index c5fd214307..d126895f71 100755
+--- a/MdeModulePkg/Bus/Pci/SdMmcPciHcDxe/EmmcDevice.c
++++ b/MdeModulePkg/Bus/Pci/SdMmcPciHcDxe/EmmcDevice.c
+@@ -693,7 +693,7 @@ EmmcSwitchClockFreq (
+   Status = EmmcSendStatus (PassThru, Slot, Rca, &DevStatus);
+   if (EFI_ERROR (Status)) {
+     DEBUG ((DEBUG_ERROR, "EmmcSwitchClockFreq: Send status fails with %r\n", Status));
+-    return Status;
++    // return Status;
+   }
+   //
+   // Check the switch operation is really successful or not.
+@@ -1161,7 +1161,10 @@ EmmcIdentification (
+   Private->Slot[Slot].CardType = EmmcCardType;
+ 
+   Status = EmmcSetBusMode (PciIo, PassThru, Slot, Rca);
++  if (EFI_ERROR (Status)) {
++    DEBUG ((DEBUG_ERROR, "EmmcSetBusMode: fails with %r\n", Status));
++  }
+ 
+-  return Status;
++  return EFI_SUCCESS;
+ }
+ 
