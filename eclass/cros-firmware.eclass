@@ -263,12 +263,17 @@ _add_bool_param() {
 
 cros-firmware_src_compile() {
 	local image_cmd=() ext_cmd=()
-	local root="${ROOT%/}"
+	local root="${SYSROOT%/}"
 	local output_file="updater.sh"
 
+	# We need lddtree from chromite.
+	export PATH="${CHROMITE_BIN_DIR}:${PATH}"
+
 	# Prepare extra commands
-	_add_param ext_cmd --tool_base \
-		"${root}/firmware/utils:${root}/usr/sbin:${root}/usr/bin"
+	ext_cmd+=(
+		--tool_base "/firmware/utils:/usr/sbin:/usr/bin"
+		--root "${root}"
+	)
 	_add_param ext_cmd --script "${CROS_FIRMWARE_SCRIPT}"
 	if use unibuild; then
 		if [[ -e "${SYSROOT}/${UNIBOARD_YAML_CONFIG}" ]]; then
