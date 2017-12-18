@@ -35,6 +35,7 @@ PATCHES=(
 	"${FILESDIR}/08_nvme.patch"
 	"${FILESDIR}/09_nomask_8259.patch"
 	"${FILESDIR}/10_eMMC.patch"
+	"${FILESDIR}/11_parallel_BaseTools.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE
@@ -74,7 +75,7 @@ src_prepare() {
 src_compile() {
 	. ./edksetup.sh
 	cat ${FILESDIR}/tools-add.txt >> Conf/tools_def.txt
-	(cd BaseTools/Source/C && ARCH=${ARCHITECTURE} emake -j1)
+	( cd BaseTools/Source/C && emake ARCH=X64 )
 	export COREBOOT_SDK_PREFIX_arm COREBOOT_SDK_PREFIX_arm64 COREBOOT_SDK_PREFIX_x86_32 COREBOOT_SDK_PREFIX_x86_64
 	build -t CBSDK -a IA32 -a X64 -b ${BUILDTYPE} -n $(makeopts_jobs) \
 			-p CorebootPayloadPkg/CorebootPayloadPkgIa32X64.dsc
