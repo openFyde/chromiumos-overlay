@@ -3,18 +3,18 @@
 
 EAPI=6
 
-CROS_WORKON_LOCALNAME=("platform2" "aosp/system/connectivity/apmanager")
-CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/connectivity/apmanager")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/connectivity/apmanager")
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_SUBTREE="common-mk apmanager"
 
 PLATFORM_SUBDIR="apmanager"
 
 inherit cros-workon platform user
 
 DESCRIPTION="Access Point Manager for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/apmanager/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -34,12 +34,6 @@ DEPEND="
 	chromeos-base/permission_broker-client
 	chromeos-base/shill
 "
-
-src_unpack() {
-	local s="${S}"
-	platform_src_unpack
-	S="${s}/aosp/system/connectivity/apmanager"
-}
 
 src_install() {
 	dobin "${OUT}"/apmanager
