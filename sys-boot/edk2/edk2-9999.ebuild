@@ -3,7 +3,7 @@
 
 # Change this version number when any change is made to patches/files under
 # edk2 and an auto-revbump is required.
-# VERSION=REVBUMP-0.0.1
+# VERSION=REVBUMP-0.0.2
 
 EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/edk2"

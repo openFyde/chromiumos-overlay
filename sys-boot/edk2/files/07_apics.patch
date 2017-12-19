@@ -1,48 +1,31 @@
-Author: Stefan Reinauer <reinauer@chromium.org>
+commit e2ef8b9a684fcee4bb52c706020bfa5fca796665
+Author: Benjamin You <benjamin.you@intel.com>
+Date:   Tue Nov 14 16:41:13 2017 +0800
 
-    Disable ASSERTs for APICs and HPET
-
-    Without this, tianocore dies with debug builds. We should
-    find a better long term fix for this, but this works for now.
+    CorebootModulePkg/CbSupportDxe: Remove duplicated IO Space addition
     
-    Signed-off-by: Stefan Reinauer <reinauer@chromium.org>
+    Since UefiCpuPkg's CpuDxe Driver already adds Local Apic's MMIO space to
+    GCD, CorebootModulePkg's CbSupportDxe should not do this again. Doing this
+    again causes error return status from GCD service, and ASSERT (FALSE) with
+    debug build, so the duplicated addition is removed.
+    
+    Cc: Maurice Ma <maurice.ma@intel.com>
+    Cc: Prince Agyeman <prince.agyeman@intel.com>
+    Contributed-under: TianoCore Contribution Agreement 1.0
+    Signed-off-by: Benjamin You <benjamin.you@intel.com>
+    Reviewed-by: Maurice Ma <maurice.ma@intel.com>
 
 diff --git a/CorebootModulePkg/CbSupportDxe/CbSupportDxe.c b/CorebootModulePkg/CbSupportDxe/CbSupportDxe.c
-index 24bacf815c..93cb27dd6c 100755
+index 24bacf815c..c526c9e871 100755
 --- a/CorebootModulePkg/CbSupportDxe/CbSupportDxe.c
 +++ b/CorebootModulePkg/CbSupportDxe/CbSupportDxe.c
-@@ -54,7 +54,7 @@ CbReserveResourceInGcd (
-         Length
-         ));
-     }
--    ASSERT_EFI_ERROR (Status);
-+    //ASSERT_EFI_ERROR (Status);
-     Status = gDS->AllocateMemorySpace (
-                     EfiGcdAllocateAddress,
-                     GcdType,
-@@ -64,7 +64,7 @@ CbReserveResourceInGcd (
-                     ImageHandle,
-                     NULL
-                     );
--    ASSERT_EFI_ERROR (Status);
-+    //ASSERT_EFI_ERROR (Status);
-   } else {
-     Status = gDS->AddIoSpace (
-                     GcdType,
-@@ -141,13 +141,13 @@ CbDxeEntryPoint (
+@@ -140,9 +140,6 @@ CbDxeEntryPoint (
+   //
    // Report MMIO/IO Resources
    //
-   Status = CbReserveResourceInGcd (TRUE, EfiGcdMemoryTypeMemoryMappedIo, 0xFEE00000, SIZE_1MB, 0, SystemTable); // LAPIC
+-  Status = CbReserveResourceInGcd (TRUE, EfiGcdMemoryTypeMemoryMappedIo, 0xFEE00000, SIZE_1MB, 0, SystemTable); // LAPIC
 -  ASSERT_EFI_ERROR (Status);
-+  //ASSERT_EFI_ERROR (Status);
- 
+-
    Status = CbReserveResourceInGcd (TRUE, EfiGcdMemoryTypeMemoryMappedIo, 0xFEC00000, SIZE_4KB, 0, SystemTable); // IOAPIC
--  ASSERT_EFI_ERROR (Status);
-+  //ASSERT_EFI_ERROR (Status);
+   ASSERT_EFI_ERROR (Status);
  
-   Status = CbReserveResourceInGcd (TRUE, EfiGcdMemoryTypeMemoryMappedIo, 0xFED00000, SIZE_1KB, 0, SystemTable); // HPET
--  ASSERT_EFI_ERROR (Status);
-+  //ASSERT_EFI_ERROR (Status);
- 
-   //
-   // Find the system table information guid hob
