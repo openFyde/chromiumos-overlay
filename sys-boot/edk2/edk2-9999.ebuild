@@ -61,7 +61,7 @@ create_cbfs() {
 	_cbfstool ${cbfs} create -s "${cbfs_size}" -m x86
 	# Add tianocore binary to CBFS. FIXME needs newer cbfstool
 	_cbfstool ${cbfs} add-payload \
-			-f Build/CorebootPayloadPkgX64/${BUILDTYPE}_CBSDK/FV/UEFIPAYLOAD.fd \
+			-f Build/CorebootPayloadPkgX64/${BUILDTYPE}_COREBOOT/FV/UEFIPAYLOAD.fd \
 			-n payload -c lzma
 	# Add VGA option rom to CBFS
 	if [ -r "${oprom}" ]; then
@@ -81,10 +81,11 @@ src_prepare() {
 
 src_compile() {
 	. ./edksetup.sh
-	cat ${FILESDIR}/tools-add.txt >> Conf/tools_def.txt
+	cat /opt/coreboot-sdk/share/edk2config/tools_def.txt \
+		>> Conf/tools_def.txt
 	( cd BaseTools/Source/C && emake ARCH=X64 )
 	export COREBOOT_SDK_PREFIX_arm COREBOOT_SDK_PREFIX_arm64 COREBOOT_SDK_PREFIX_x86_32 COREBOOT_SDK_PREFIX_x86_64
-	build -t CBSDK -a IA32 -a X64 -b ${BUILDTYPE} -n $(makeopts_jobs) \
+	build -t COREBOOT -a IA32 -a X64 -b ${BUILDTYPE} -n $(makeopts_jobs) \
 			-p CorebootPayloadPkg/CorebootPayloadPkgIa32X64.dsc
 	create_cbfs
 }
