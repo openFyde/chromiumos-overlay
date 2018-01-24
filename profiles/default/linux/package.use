@@ -98,3 +98,4 @@ sys-boot/coreboot		coreboot-sdk
 sys-boot/libpayload		coreboot-sdk
 sys-boot/depthcharge		coreboot-sdk
 sys-boot/chromeos-seabios	coreboot-sdk
+chromeos-base/chromeos-ec	coreboot-sdk
