@@ -61,6 +61,9 @@ src_install() {
 	pushd "${OUT}" >/dev/null
 	dosbin cryptohomed cryptohome cryptohome-path lockbox-cache tpm-manager
 	dosbin mount-encrypted
+	if use tpm2; then
+		dosbin bootlockboxd bootlockboxtool
+	fi
 	if use cert_provision; then
 		dolib.so lib/libcert_provision.so
 		dosbin cert_provision_client
@@ -69,6 +72,9 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins etc/Cryptohome.conf
+	if use tpm2; then
+		doins etc/BootLockbox.conf
+	fi
 
 	# Install init scripts
 	if use systemd; then
@@ -92,6 +98,9 @@ src_install() {
 			sed -i 's/started tcsd/started attestationd/' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't replace tcsd with attestationd in cryptohomed.conf"
+			insinto /usr/share/policy
+			newins bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy \
+				bootlockboxd-seccomp.policy
 		fi
 		if use direncryption; then
 			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
@@ -109,6 +118,11 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
 		--seed_corpus "${S}"/fuzzers/cryptolib_rsa_oaep_decrypt_corpus
+}
+
+pkg_preinst() {
+	enewuser "bootlockboxd"
+	enewgroup "bootlockboxd"
 }
 
 platform_pkg_test() {
