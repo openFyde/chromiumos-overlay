@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -17,10 +17,18 @@ KEYWORDS="~*"
 # Enable autotest by default.
 IUSE="+autotest"
 
-RDEPEND="
+COMMON_DEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
 "
-DEPEND="${RDEPEND}"
+
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/cryptohome-dev-utils
+"
+
+DEPEND="
+	${COMMON_DEPEND}
+"
 
 IUSE_TESTS="
 	+tests_platform_BootLockbox
@@ -35,6 +43,8 @@ IUSE_TESTS="
 	+tests_platform_CryptohomeNonDirs
 	+tests_platform_CryptohomeStress
 	+tests_platform_CryptohomeTestAuth
+	+tests_platform_CryptohomeTpmLiveTest
+	+tests_platform_CryptohomeTpmLiveTestServer
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
