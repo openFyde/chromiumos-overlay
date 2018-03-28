@@ -65,5 +65,8 @@
 	<flag name='linux_firmware_qca-bt'>
 		Install all QCA firmware files for BT driver
 	</flag>
+	<flag name='linux_firmware_venus-52'>
+		Install Venus 5.2 codec firmware files
+	</flag>
 </use>
 </pkgmetadata>
