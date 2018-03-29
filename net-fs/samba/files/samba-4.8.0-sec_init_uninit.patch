@@ -1,0 +1,57 @@
+From e2b94b9cead2334fe1f706b0a10339debc720200 Mon Sep 17 00:00:00 2001
+From: Lutz Justen <ljusten@google.com>
+Date: Wed, 4 Apr 2018 09:50:12 -0700
+Subject: [PATCH] s3: lib: messages: Don't use the result of sec_init() before
+ calling sec_init().
+
+Commit ad8c7171ba86e8a47d78b0c7329bb814e5a8871e accidently
+moved sec_init() to the point after sec_initial_uid() is
+called in the call to directory_create_or_exist_strict().
+I missed this in the review (sorry). This works as root
+as initial_uid/initial_gid are static (and so initialized
+as zero) but doesn't work on ChromeOS as this code isn't
+running as root.
+
+BUG: https://bugzilla.samba.org/show_bug.cgi?id=13368
+
+Signed-off-by: Lutz Justen <ljusten@google.com>
+Reviewed-by: Jeremy Allison <jra@samba.org>
+Reviewed-by: Andreas Schneider <asn@samba.org>
+
+Autobuild-User(master): Jeremy Allison <jra@samba.org>
+Autobuild-Date(master): Wed Apr  4 23:52:02 CEST 2018 on sn-devel-144
+
+(cherry picked from commit e895b6cf4a7eb3d50d618a022be74db85975bf69)
+---
+ source3/lib/messages.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/source3/lib/messages.c b/source3/lib/messages.c
+index 464233fda2c..5a31f3414d7 100644
+--- a/source3/lib/messages.c
++++ b/source3/lib/messages.c
+@@ -457,6 +457,13 @@ static NTSTATUS messaging_init_internal(TALLOC_CTX *mem_ctx,
+ 	const char *priv_path;
+ 	bool ok;
+ 
++	/*
++	 * sec_init() *must* be called before any other
++	 * functions that use sec_XXX(). e.g. sec_initial_uid().
++	 */
++
++	sec_init();
++
+ 	lck_path = lock_path("msg.lock");
+ 	if (lck_path == NULL) {
+ 		return NT_STATUS_NO_MEMORY;
+@@ -507,8 +514,6 @@ static NTSTATUS messaging_init_internal(TALLOC_CTX *mem_ctx,
+ 		goto done;
+ 	}
+ 
+-	sec_init();
+-
+ 	ctx->msg_dgm_ref = messaging_dgm_ref(ctx,
+ 					     ctx->event_ctx,
+ 					     &ctx->id.unique_id,
+-- 
+2.17.0.484.g0c8726318c-goog

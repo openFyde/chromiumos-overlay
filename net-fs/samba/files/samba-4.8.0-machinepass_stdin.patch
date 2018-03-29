@@ -9,7 +9,7 @@ crbug.com/777979.
 
 
 diff --git a/source3/utils/net_ads.c b/source3/utils/net_ads.c
-index e6b9fdc..8e373f2 100644
+index c83aced..ea67432 100644
 --- a/source3/utils/net_ads.c
 +++ b/source3/utils/net_ads.c
 @@ -1352,6 +1352,7 @@ static int net_ads_join_usage(struct net_context *c, int argc, const char **argv
@@ -30,7 +30,7 @@ index e6b9fdc..8e373f2 100644
 +				d_fprintf(stderr,
 +					  _("Machine password already "
 +					    "specified.\n"));
-+				werr = WERR_INVALID_PARAM;
++				werr = WERR_INVALID_PARAMETER;
 +				goto fail;
 +			}
 +			int ret = 0;
@@ -52,15 +52,15 @@ index e6b9fdc..8e373f2 100644
 +				goto fail;
 +			}
 +			machine_password = buf;
-+		}
++		}		
  		else if ( !strncasecmp_m(argv[i], "machinepass", strlen("machinepass")) ) {
 +			if ( machine_password ) {
 +				d_fprintf(stderr,
 +					  _("Machine password already "
 +					    "specified.\n"));
-+				werr = WERR_INVALID_PARAM;
++				werr = WERR_INVALID_PARAMETER;
 +				goto fail;
 +			}
  			if ( (machine_password = get_string_param(argv[i])) == NULL ) {
  				d_fprintf(stderr, _("Please supply a valid password to set as trust account password.\n"));
- 				werr = WERR_INVALID_PARAM;
+ 				werr = WERR_INVALID_PARAMETER;
