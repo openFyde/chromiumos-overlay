@@ -17,8 +17,8 @@ Date:   2016-09-08
     Replace the use of auto_ptr with unique_ptr throughout the code to fix
     this.
 
---- src/image-reader.cpp
-+++ src/image-reader.cpp
+--- a/src/image-reader.cpp
++++ b/src/image-reader.cpp
 @@ -120,7 +120,7 @@ PNGReader::init(const std::string& filename)
  
      Log::debug("Reading PNG file %s\n", filename.c_str());
@@ -28,8 +28,8 @@ Date:   2016-09-08
      if (!(*is_ptr)) {
          Log::error("Cannot open file %s!\n", filename.c_str());
          return false;
---- src/libmatrix/shader-source.cc
-+++ src/libmatrix/shader-source.cc
+--- a/src/libmatrix/shader-source.cc
++++ b/src/libmatrix/shader-source.cc
 @@ -34,7 +34,7 @@ ShaderSource::default_precision_(ShaderSource::ShaderTypeUnknown + 1);
  bool
  ShaderSource::load_file(const std::string& filename, std::string& str)
@@ -39,8 +39,8 @@ Date:   2016-09-08
      std::istream& inputFile(*is_ptr);
  
      if (!inputFile)
---- src/model.cpp
-+++ src/model.cpp
+--- a/src/model.cpp
++++ b/src/model.cpp
 @@ -361,7 +361,7 @@ Model::load_3ds(const std::string &filename)
  
      Log::debug("Loading model from 3ds file '%s'\n", filename.c_str());
@@ -59,8 +59,8 @@ Date:   2016-09-08
      std::istream& inputFile(*input_file_ptr);
      if (!inputFile)
      {
---- src/scene-jellyfish.cpp
-+++ src/scene-jellyfish.cpp
+--- a/src/scene-jellyfish.cpp
++++ b/src/scene-jellyfish.cpp
 @@ -272,7 +272,7 @@ JellyfishPrivate::load_obj(const std::string &filename)
  {
      Log::debug("Loading model from file '%s'\n", filename.c_str());

@@ -2,9 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="5"
+EAPI="6"
 
-inherit toolchain-funcs waf-utils flag-o-matic
+PYTHON_COMPAT=( python2_7 )
+PYTHON_REQ_USE='threads(+)'
+
+inherit toolchain-funcs python-any-r1 waf-utils flag-o-matic
 
 DESCRIPTION="OpenGL (ES) 2.0 benchmark"
 HOMEPAGE="https://launchpad.net/glmark2"
@@ -17,11 +20,9 @@ SRC_URI="http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
-IUSE="drm opengles opengl X"
+IUSE="drm opengles opengl python X"
 
-REQUIRED_USE="
-	|| ( opengl opengles )
-	"
+REQUIRED_USE="|| ( opengl opengles )"
 
 RDEPEND="media-libs/libpng
 	opengles? ( virtual/opengles )
@@ -31,6 +32,7 @@ RDEPEND="media-libs/libpng
 	drm? ( media-libs/mesa[gbm] )
 	virtual/jpeg"
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	dev-util/pkgconfig"
 
 PATCHES=(
@@ -46,6 +48,10 @@ PATCHES=(
 	"${FILESDIR}/glmark2-libcxx.patch"
 	"${FILESDIR}/deprecated-auto-ptr.patch"
 )
+
+pkg_setup() {
+	python-any-r1_pkg_setup
+}
 
 src_configure() {
 	local myconf=""
