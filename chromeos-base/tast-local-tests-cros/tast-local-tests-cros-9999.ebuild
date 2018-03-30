@@ -33,8 +33,10 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	chromeos-base/system_api
 	dev-go/cdp
 	dev-go/dbus
 	dev-go/gopsutil
+	dev-go/protobuf
 "
 RDEPEND="!chromeos-base/tast-local-tests"
