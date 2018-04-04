@@ -20,12 +20,15 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/sd
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
+IUSE="esdfs"
 
 CONTAINER_DIR="/opt/google/containers/arc-sdcard"
 
 src_install() {
-	insinto /etc/init
-	doins arc-sdcard.conf
+	if ! use esdfs; then
+		insinto /etc/init
+		doins arc-sdcard.conf
+	fi
 
 	insinto "${CONTAINER_DIR}"
 	doins "${OUT}"/rootfs.squashfs

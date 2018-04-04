@@ -24,6 +24,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="
 	android-container-nyc
+	esdfs
 	houdini
 	ndk_translation
 	unibuild"
@@ -39,7 +40,8 @@ RDEPEND="
 	chromeos-base/swap-init
 	sys-libs/libselinux
 	dev-libs/dbus-glib
-	dev-libs/protobuf"
+	dev-libs/protobuf
+	esdfs? ( sys-apps/restorecon )"
 
 DEPEND="${RDEPEND}
 	chromeos-base/system_api"
@@ -76,10 +78,8 @@ set_density_scale() {
 
 # Enables the option to clear app/*/oat/ after update.
 enable_clear_app_executables_after_ota() {
-	local arc_setup_conf="$1"
-	grep -e "^export DELETE_DATA_EXECUTABLES_AFTER_OTA=0" "${arc_setup_conf}" && \
-		sed -i "s/^\(export DELETE_DATA_EXECUTABLES_AFTER_OTA=\)0/\11/" "${arc_setup_conf}" || \
-		die "enable_clear_app_executables_after_ota failed!"
+	local arc_setup_env="$1"
+	sed -i '/^export DELETE_DATA_EXECUTABLES_AFTER_OTA=/s:=.*:=1:' "${arc_setup_env}" || die
 }
 
 # Enables the option to start arc-appfuse-provider.
@@ -90,12 +90,21 @@ enable_appfuse_provider() {
 	fi
 }
 
+enable_esdfs() {
+	local arc_setup_env="$1"
+	sed -i '/^export USE_ESDFS=/s:=.*:=1:' "${arc_setup_env}" || die
+}
+
+
 src_install() {
 	dosbin "${OUT}"/arc-setup
 	dosbin arc_setup_wrapper.sh
 
 	insinto /etc/init
 	doins etc/arc-boot-continue.conf
+	if use esdfs; then
+		doins etc/arc-sdcard.conf
+	fi
 	doins etc/arc-kmsg-logger.conf
 	doins etc/arc-lifetime.conf
 	doins etc/arc-sensor.conf
@@ -108,6 +117,9 @@ src_install() {
 	# TODO(hidehiko): Move arc-setup-env from /etc/init to /etc.
 	doins etc/arc-setup-env
 	set_density_scale "${D}/etc/init/arc-setup-env"
+	if use esdfs; then
+		enable_esdfs "${D}/etc/init/arc-setup-env"
+	fi
 	enable_clear_app_executables_after_ota "${D}/etc/init/arc-setup-env"
 	enable_appfuse_provider "${D}/etc/init/arc-setup-env"
 
