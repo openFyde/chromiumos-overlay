@@ -34,7 +34,10 @@ RDEPEND="
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	"
 
-DEPEND="${COMMON_DEPEND}"
+DEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/chromeos-ec-headers
+	"
 
 src_install() {
 	insinto /etc/dbus-1/system.d
@@ -49,6 +52,7 @@ src_install() {
 		doins trunksd.conf
 	fi
 
+	dosbin "${OUT}"/pinweaver_client
 	dosbin "${OUT}"/trunks_client
 	dosbin "${OUT}"/trunks_send
 	dosbin tpm_version
@@ -61,6 +65,7 @@ src_install() {
 
 	insinto /usr/include/trunks
 	doins *.h
+	doins "${OUT}"/gen/include/trunks/*.h
 
 	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
 		"${OUT}/lib" libtrunks /usr/include/trunks
