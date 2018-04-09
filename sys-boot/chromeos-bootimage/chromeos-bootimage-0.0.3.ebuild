@@ -1,7 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit cros-debug cros-unibuild
 
@@ -19,7 +19,7 @@ BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi reef samus"
 BOARDS="${BOARDS} sand sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
 IUSE="${BOARDS} cb_legacy_seabios cb_legacy_tianocore cb_legacy_uboot"
-IUSE="${IUSE} fsp fastboot unibuild"
+IUSE="${IUSE} fsp fastboot unibuild u-boot"
 
 REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
@@ -33,6 +33,7 @@ DEPEND="
 	cb_legacy_tianocore? ( sys-boot/edk2 )
 	cb_legacy_uboot? ( virtual/u-boot )
 	unibuild? ( chromeos-base/chromeos-config )
+	u-boot? ( sys-boot/u-boot )
 	"
 
 # Directory where the generated files are looked for and placed.
@@ -260,6 +261,29 @@ build_images() {
 			do_cbfstool ${coreboot_file} write \
 				-f ${legacy_file} --force -r RW_LEGACY
 		fi
+	fi
+
+	if use u-boot; then
+		einfo "Adding U-Boot"
+		local cbfs="u-boot.cbfs"
+
+		# Input: "'RW_LEGACY' (size 7864320, offset 4718592)"
+		# Output: "7864320"
+		local cbfs_size="$(do_cbfstool "${coreboot_file}" layout | \
+			sed -e "/^'RW_LEGACY'/ {s|.*size \([0-9]*\)[^0-9].*$|\1|; q}; d" )"
+
+		# Create a new CBFS file with U-Boot in it
+		# Suppress message "Created CBFS (capacity = 7864216 bytes)"
+		do_cbfstool "${cbfs}" create -s "${cbfs_size}" -m x86 >/dev/null
+		do_cbfstool "${cbfs}" add-flat-binary -n u-boot \
+			-c lzma -l 0x1110000 -e 0x1110000 \
+			-f "${CROS_FIRMWARE_ROOT}/u-boot.bin"
+
+		# Write this CBFS file into the RW_LEGACY region
+		do_cbfstool "${coreboot_file}" write -f "${cbfs}" -r RW_LEGACY \
+			--force
+		do_cbfstool "${coreboot_file}.serial" write -f "${cbfs}" -r RW_LEGACY \
+			--force
 	fi
 
 	local depthcharge="${depthcharge_prefix}/depthcharge/depthcharge.elf"
