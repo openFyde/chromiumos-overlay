@@ -13,6 +13,8 @@ PER_DEVICE_OVERRIDE_DIR=/var/lib/swap
 
 SWAP_SIZE_BOARD_OVERRIDE_FILE="${PER_BOARD_OVERRIDE_DIR}/swap_size_mb"
 SWAP_ENABLE_FILE="${PER_DEVICE_OVERRIDE_DIR}/swap_enabled"
+DISK_BASED_SWAP_FILE="/proc/sys/vm/disk_based_swap"
+SWAP_DIR="/mnt/stateful_partition/unencrypted/swap"
 
 MARGIN_MAX=20000  # MiB
 MARGIN_CONVERSION=1
@@ -152,6 +154,27 @@ migrate_old_swap_setting() {
   fi
 }
 
+disk_based_swap_supported() {
+  # Can be set in the ebuild.
+  local disk_based_swap_enabled=false
+
+  # Return true if kernel supports disk based swap.
+  if [ "${disk_based_swap_enabled}" = "true" ] &&
+     [ -e "${DISK_BASED_SWAP_FILE}" ]; then
+    echo 1 > "${DISK_BASED_SWAP_FILE}"
+  else
+    disk_based_swap_enabled=false
+  fi
+
+  ${disk_based_swap_enabled}
+}
+
+die() {
+  message="$1"
+  logger -t "${JOB}" "${message}"
+  exit 1
+}
+
 start() {
   local mem_total param
   mem_total=$(get_mem_total)
@@ -194,24 +217,43 @@ start() {
     size_kb=$(( requested_size_mb * 1024 ))
   fi
 
-  # Load zram module.  Ignore failure (it could be compiled in the kernel).
-  modprobe zram || logger -t "${JOB}" "modprobe zram failed (compiled?)"
+  if disk_based_swap_supported; then
+    if [ -e "${SWAP_DIR}" ]; then
+      rm -r "${SWAP_DIR}"
+    fi
+    mkdir -p "${SWAP_DIR}"
+    dd if=/dev/urandom bs=1 count=32 2> /dev/null |
+        e4crypt add_key "${SWAP_DIR}"
+    fallocate -l 20G "${SWAP_DIR}/swapfile" ||
+        die "failed to create swapfile"
+    chmod 600 "${SWAP_DIR}/swapfile" ||
+        die "failed to set swapfile permissions"
+    mkswap "${SWAP_DIR}/swapfile" ||
+        die "mkswap "${SWAP_DIR}/swapfile" failed"
+    swapon "${SWAP_DIR}/swapfile" ||
+        die "swapon "${SWAP_DIR}/swapfile" failed"
+    echo 1 > /sys/module/zswap/parameters/enabled
+  else
+    # Load zram module.  Ignore failure (it could be compiled in the kernel).
+    modprobe zram || logger -t "${JOB}" "modprobe zram failed (compiled?)"
 
-  logger -t "${JOB}" "setting zram size to ${size_kb} Kb"
-  # Approximate the kilobyte to byte conversion to avoid issues
-  # with 32-bit signed integer overflow.
-  echo "${size_kb}000" >/sys/block/zram0/disksize ||
-      logger -t "${JOB}" "failed to set zram size"
-  mkswap /dev/zram0 || logger -t "${JOB}" "mkswap /dev/zram0 failed"
-  # Swapon may fail because of races with other programs that inspect all
-  # block devices, so try several times.
-  local tries=0
-  while [ ${tries} -le 10 ]; do
-    swapon /dev/zram0 && break
-    : $(( tries += 1 ))
-    logger -t "${JOB}" "swapon /dev/zram0 failed, try ${tries}"
-    sleep 0.1
-  done
+    logger -t "${JOB}" "setting zram size to ${size_kb} Kb"
+    # Approximate the kilobyte to byte conversion to avoid issues
+    # with 32-bit signed integer overflow.
+    echo "${size_kb}000" >/sys/block/zram0/disksize ||
+        logger -t "${JOB}" "failed to set zram size"
+
+    mkswap /dev/zram0 || logger -t "${JOB}" "mkswap /dev/zram0 failed"
+    # Swapon may fail because of races with other programs that inspect all
+    # block devices, so try several times.
+    local tries=0
+    while [ ${tries} -le 10 ]; do
+      swapon /dev/zram0 && break
+      : $(( tries += 1 ))
+      logger -t "${JOB}" "swapon /dev/zram0 failed, try ${tries}"
+      sleep 0.1
+    done
+  fi
 
   local swaptotalkb
   swaptotalkb=$(awk '/SwapTotal/ { print $2 }' /proc/meminfo)
@@ -225,9 +267,11 @@ stop() {
   # This is safe to call even if no swap is turned on.
   swapoff -av
 
-  # When we start up, we try to configure zram0, but it doesn't like to
-  # be reconfigured on the fly.  Reset it so we can changes its params.
-  echo 1 > /sys/block/zram0/reset || :
+  if [ -b "/dev/zram0" ]; then
+    # When we start up, we try to configure zram0, but it doesn't like to
+    # be reconfigured on the fly.  Reset it so we can changes its params.
+    echo 1 > /sys/block/zram0/reset || :
+  fi
 }
 
 status() {
@@ -244,11 +288,18 @@ status() {
     cat "${EXTRA_FREE_SPECIAL_FILE}"
   fi
 
-  # Then spam various zram settings.
-  local dir="/sys/block/zram0"
-  printf '\ntop-level entries in %s:\n' "${dir}"
-  cd "${dir}"
-  grep -s '^' * || :
+  if [ -b "/dev/zram0" ]; then
+    # Then spam various zram settings.
+    local dir="/sys/block/zram0"
+    printf '\ntop-level entries in %s:\n' "${dir}"
+    cd "${dir}"
+    grep -s '^' * || :
+  elif [ -e "/sys/kernel/debug/zswap" ]; then
+    local dir="/sys/kernel/debug/zswap"
+    printf '\ntop-level entries in %s:\n' "${dir}"
+    cd "${dir}"
+    grep -s '^' * || :
+  fi
 }
 
 enable() {

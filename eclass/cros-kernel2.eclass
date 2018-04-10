@@ -121,6 +121,7 @@ CONFIG_FRAGMENTS=(
 	cros_ec_mec
 	cros_ec_sysfs_usb
 	devdebug
+	diskswap
 	dm_snapshot
 	dp_cec
 	dwc2_dual_role
@@ -251,6 +252,18 @@ CONFIG_CROS_EC_SYSFS_USB=y
 devdebug_desc="Miscellaneous developer debugging options"
 devdebug_config="
 CONFIG_BLK_DEBUG_FS=y
+"
+
+diskswap_desc="Enable swap file"
+diskswap_config="
+CONFIG_CRYPTO_LZO=y
+CONFIG_DISK_BASED_SWAP=y
+CONFIG_FRONTSWAP=y
+CONFIG_LZO_COMPRESS=y
+CONFIG_Z3FOLD=y
+CONFIG_ZBUD=y
+CONFIG_ZPOOL=y
+CONFIG_ZSWAP=y
 "
 
 dm_snapshot_desc="Snapshot device mapper target"
