@@ -25,6 +25,10 @@ TPM_FIRMWARE_DIR=/lib/firmware/tpm
 # Flag file indicating that a TPM firmware update has been requested.
 TPM_FIRMWARE_UPDATE_REQUEST=/mnt/stateful_partition/unencrypted/preserve/tpm_firmware_update_request
 
+# Flag file indicating to mount_encrypted that encrypted stateful should be
+# preserved across TPM clear.
+PRESERVATION_REQUEST=/mnt/stateful_partition/preservation_request
+
 # Executes the updater, collects its status and prints the status to stdout.
 run_updater() {
   (
@@ -112,6 +116,16 @@ main() {
   # Check whether a firmware update has been requested, bail out if not.
   if [ ! -e "${TPM_FIRMWARE_UPDATE_REQUEST}" ]; then
     return 0
+  fi
+
+  # See if the update mode is set to preserve stateful. If so, put another
+  # stateful preservation request for mount_encrypted in place so the TPM clear
+  # happening after the installation of the update won't clobber stateful. Note
+  # that in case the update fails, mount_encrypted will clear the stateful
+  # preservation request on next reboot if it finds the TPM owned, so it's OK
+  # to put the request file in place opportunistically.
+  if [ "$(cat "${TPM_FIRMWARE_UPDATE_REQUEST}")" = "preserve_stateful" ]; then
+    touch "${PRESERVATION_REQUEST}"
   fi
 
   # Remove the request file so we don't trigger the TPM update again after
