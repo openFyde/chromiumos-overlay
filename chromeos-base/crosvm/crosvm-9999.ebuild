@@ -16,12 +16,16 @@ fuchsia-zircon-sys-0.3.3
 gcc-0.3.54
 libc-0.2.34
 log-0.4.1
+proc-macro2-0.2.3
 protobuf-1.4.3
 protoc-1.4.3
 protoc-rust-1.4.3
+quote-0.4.2
 rand-0.3.20
 rand-0.4.2
+syn-0.12.15
 tempdir-0.3.5
+unicode-xid-0.1.0
 winapi-0.3.4
 winapi-i686-pc-windows-gnu-0.4.0
 winapi-x86_64-pc-windows-gnu-0.4.0
