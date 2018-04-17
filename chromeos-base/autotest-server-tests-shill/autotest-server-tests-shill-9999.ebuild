@@ -24,6 +24,7 @@ DEPEND="${RDEPEND}
 "
 
 SERVER_IUSE_TESTS="
+	+tests_network_WiFi_AssocConfigPerformance
 	+tests_network_WiFi_AttenuatedPerf
 	+tests_network_WiFi_BeaconInterval
 	+tests_network_WiFi_BgscanBackoff
