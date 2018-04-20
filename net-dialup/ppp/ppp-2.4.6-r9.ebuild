@@ -41,6 +41,8 @@ src_prepare() {
 	epatch "${FILESDIR}/${P}-buffer-overflow-in-radius.patch"
 	# Fix for clang FORTIFY (crbug.com/640358).
 	epatch "${FILESDIR}/${PN}-remove-ttyname.patch"
+	epatch "${FILESDIR}/${P}-allow-non-root.patch"
+	epatch "${FILESDIR}/${P}-specify-runtime-data-dir.patch"
 
 	if use atm ; then
 		einfo "Enabling PPPoATM support"
