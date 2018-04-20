@@ -675,7 +675,7 @@ src_unpack() {
 		# First check if there is a specified "frozen" AFDO profile.
 		# Otherwise use the current one.
 
-		local AFDO_SRC="${AFDO_PROFILE_SOURCE:-benchmark}"
+		local AFDO_SRC="${AFDO_PROFILE_SOURCE:-silvermont}"
 		local PROFILE_FILE="${AFDO_SRC}_${AFDO_FILE[${AFDO_SRC}]}"
 
 		PROFILE_STATE="CURRENT"
