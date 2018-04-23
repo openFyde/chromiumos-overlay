@@ -33,6 +33,7 @@ RDEPEND="
 	sys-fs/exfat-utils
 	sys-fs/fuse-exfat
 	sys-fs/ntfs3g
+	sys-fs/sshfs-fuse
 	virtual/udev
 "
 
@@ -51,6 +52,9 @@ pkg_preinst() {
 
 	enewuser "fuse-exfat"
 	enewgroup "fuse-exfat"
+
+	enewuser "fuse-sshfs"
+	enewgroup "fuse-sshfs"
 }
 
 src_install() {
