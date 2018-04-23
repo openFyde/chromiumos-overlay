@@ -1,7 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 
 inherit cros-debug cros-unibuild
 
@@ -14,8 +14,8 @@ KEYWORDS="*"
 BOARDS="alex aplrvp atlas auron bayleybay beltino bolt butterfly"
 BOARDS="${BOARDS} chell cnlrvp coral cyan emeraldlake2 eve falco fizz fox"
 BOARDS="${BOARDS} glados glkrvp grunt jecht kahlee kblrvp kunimitsu link"
-BOARDS="${BOARDS} lumpy lumpy64 mario meowth nasher nami nautilus octopus"
-BOARDS="${BOARDS} panther parrot peppy poppy pyro rambi reef samus"
+BOARDS="${BOARDS} lumpy lumpy64 mario meowth nasher nami nautilus nocturne"
+BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi reef samus"
 BOARDS="${BOARDS} sand sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
 IUSE="${BOARDS} cb_legacy_seabios cb_legacy_tianocore cb_legacy_uboot"

@@ -3,9 +3,9 @@
 
 # Change this version number when any change is made to configs/files under
 # libpayload and an auto-revbump is required.
-# VERSION=REVBUMP-0.0.12
+# VERSION=REVBUMP-0.0.13
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 
 DESCRIPTION="coreboot's libpayload library"
