@@ -4,7 +4,7 @@
 EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/third_party/libqrtr"
 
-inherit autotools cros-workon
+inherit autotools cros-workon user
 
 DESCRIPTION="QRTR userspace helper library"
 HOMEPAGE="https://github.com/andersson/qrtr"
@@ -23,7 +23,22 @@ src_configure() {
 	asan-setup-env
 }
 
+src_install() {
+	emake DESTDIR="${D}" prefix="${EPREFIX}/usr" install
+
+	insinto /etc/init
+	doins "${FILESDIR}/qrtr-ns.conf"
+
+	insinto /usr/share/policy
+	newins "${FILESDIR}/qrtr-ns-seccomp-${ARCH}.policy" qrtr-ns-seccomp.policy
+}
+
 src_test() {
 	# TODO(ejcaruso): upstream some tests for this thing
 	:
+}
+
+pkg_preinst() {
+	enewuser "qrtr"
+	enewgroup "qrtr"
 }
