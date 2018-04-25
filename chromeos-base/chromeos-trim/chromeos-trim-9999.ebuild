@@ -25,7 +25,7 @@ IUSE=""
 DEPEND=""
 
 RDEPEND="${DEPEND}
-	chromeos-base/chromeos-installer
+	chromeos-base/chromeos-common-script
 	chromeos-base/chromeos-init
 	sys-apps/util-linux"
 

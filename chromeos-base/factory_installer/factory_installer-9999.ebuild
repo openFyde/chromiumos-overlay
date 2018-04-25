@@ -72,6 +72,7 @@ RDEPEND="$COMMON_DEPEND
 	app-arch/pigz
 	app-misc/jq
 	chromeos-base/chromeos-installer
+	chromeos-base/chromeos-storage-info
 	chromeos-base/ec-utils
 	chromeos-base/vpd
 	net-misc/htpdate

@@ -20,7 +20,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_embedded cros_host direncryption +mmc -mtd nvme pam +sata systemd test"
+IUSE="cros_embedded cros_host -mtd pam systemd test"
 
 DEPEND="
 	chromeos-base/verity
@@ -30,23 +30,18 @@ DEPEND="
 	)"
 RDEPEND="
 	pam? ( app-admin/sudo )
+	chromeos-base/chromeos-common-script
 	chromeos-base/libbrillo
 	chromeos-base/vboot_reference
 	dev-util/shflags
 	sys-apps/rootdev
-	!cros_embedded? (
-		sata? ( sys-apps/hdparm )
-		sata? ( sys-apps/smartmontools )
-		nvme? ( sys-apps/smartmontools )
-		mmc? ( sys-apps/mmc-utils )
-	)
+	!cros_embedded? ( chromeos-base/chromeos-storage-info )
 	sys-apps/util-linux
 	sys-apps/which
 	sys-fs/e2fsprogs"
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/cros_installer_unittest"
-	platform_test "run" "test/storage_info_unit_test"
 }
 
 src_install() {
@@ -72,16 +67,5 @@ src_install() {
 		fi
 		insinto /usr/share/cros/init
 		doins init/crx-import.sh
-	fi
-
-	insinto /usr/share/misc
-	doins share/chromeos-common.sh
-	if ! use cros_embedded; then
-		doins share/storage-info-common.sh
-	fi
-	if use direncryption; then
-		sed -i '/local direncryption_enabled=/s/false/true/' \
-			"${D}/usr/share/misc/chromeos-common.sh" ||
-			die "Can not set directory encryption in common library"
 	fi
 }

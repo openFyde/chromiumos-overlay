@@ -53,6 +53,7 @@ FACTORY_NETBOOT_DEPENDS="
 	chromeos-base/chromeos-base
 	chromeos-base/chromeos-installer
 	chromeos-base/chromeos-installshim
+	chromeos-base/chromeos-storage-info
 	chromeos-base/ec-utils
 	chromeos-base/factory_installer
 	chromeos-base/vboot_reference

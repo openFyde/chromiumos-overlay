@@ -35,6 +35,7 @@ RDEPEND="${DEPEND}
 	app-arch/tar
 	chromeos-base/bootstat
 	!chromeos-base/chromeos-disableecho
+	chromeos-base/chromeos-common-script
 	chromeos-base/secure-erase-file
 	chromeos-base/tty
 	chromeos-base/vboot_reference
@@ -44,7 +45,7 @@ RDEPEND="${DEPEND}
 	virtual/chromeos-bootcomplete
 	!cros_embedded? (
 		chromeos-base/common-assets
-		>=chromeos-base/chromeos-installer-0.0.2
+		chromeos-base/chromeos-storage-info
 		chromeos-base/swap-init
 		sys-fs/e2fsprogs
 	)

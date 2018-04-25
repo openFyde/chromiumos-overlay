@@ -18,13 +18,13 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="mmc nvme"
+IUSE="+sata mmc nvme"
 
 DEPEND=""
 
 RDEPEND="${DEPEND}
-	chromeos-base/chromeos-installer
-	sys-apps/hdparm
+	chromeos-base/chromeos-common-script
+	sata? ( sys-apps/hdparm )
 	mmc? ( sys-apps/mmc-utils )
 	nvme? ( sys-apps/nvme-cli )"
 
