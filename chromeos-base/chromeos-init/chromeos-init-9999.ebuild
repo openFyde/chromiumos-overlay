@@ -21,7 +21,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="
-	cros_embedded +encrypted_stateful frecon
+	cros_embedded +debugd +encrypted_stateful frecon
 	kernel-3_8 kernel-3_10 kernel-3_14 kernel-3_18 +midi
 	-s3halt +syslog systemd +udev vtconsole"
 
@@ -103,6 +103,13 @@ src_install_upstart() {
 		dosbin chromeos-send-kernel-errors
 		dosbin display_low_battery_alert
 	fi
+
+	if ! use debugd; then
+		sed -i '/^env PSTORE_GROUP=/s:=.*:=root:' \
+			"${D}/etc/init/pstore.conf" || \
+			die "Failed to replace PSTORE_GROUP in pstore.conf"
+	fi
+
 	if use midi; then
 		if use kernel-3_8 || use kernel-3_10 || use kernel-3_14 || use kernel-3_18; then
 			doins upstart/workaround-init/midi-workaround.conf
