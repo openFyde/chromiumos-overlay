@@ -34,6 +34,10 @@ VA_INSTALL="src/gallium/targets/va/"
 src_prepare() {
 	epatch "${FILESDIR}"/17.2.3-config-make-error-as-warning-for-drm.patch
 	epatch "${FILESDIR}"/17.2.3-st-va-Make-the-vendor-string-more-descriptive.patch
+	epatch "${FILESDIR}"/18.2.0-st-va-Fix-potential-buffer-overread.patch
+	epatch "${FILESDIR}"/18.2.0-st-va-Fix-typos.patch
+	epatch "${FILESDIR}"/18.2.0-st-va-Support-YUV-formats-in-vaCreateSurfaces.patch
+
 	eautoreconf
 }
 
