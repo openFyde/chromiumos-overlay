@@ -55,7 +55,7 @@ IUSE_LINUX_FIRMWARE=(
 	adsp_kbl
 	adsp_skl
 	ath9k_htc
-	ath10k
+	ath10k_qca6174
 	bcm4354-bt
 	cros-pd
 	fw_sst
@@ -94,7 +94,7 @@ LICENSE="
 	linux_firmware_ath3k-ar3011? ( LICENCE.atheros_firmware )
 	linux_firmware_ath3k-ar3012? ( LICENCE.atheros_firmware )
 	linux_firmware_ath9k_htc? ( LICENCE.atheros_firmware )
-	linux_firmware_ath10k? ( LICENCE.atheros_firmware )
+	linux_firmware_ath10k_qca6174? ( LICENCE.atheros_firmware )
 	linux_firmware_bcm4354-bt? ( LICENCE.broadcom_bcm43xx )
 	linux_firmware_cros-pd? ( BSD-Google )
 	linux_firmware_fw_sst? ( LICENCE.fw_sst )
@@ -181,7 +181,7 @@ src_install() {
 	use_fw adsp_kbl && doins_subdir intel/dsp_fw_kbl*
 	use_fw adsp_skl && doins_subdir intel/dsp_fw_*
 	use_fw ath9k_htc && doins htc_*.fw
-	use_fw ath10k && doins_subdir ath10k/QCA6174/hw3.0/*
+	use_fw ath10k_qca6174 && doins_subdir ath10k/QCA6174/hw3.0/*
 	use_fw bcm4354-bt && doins_subdir brcm/BCM4354_*.hcd
 	use_fw cros-pd && doins_subdir cros-pd/*
 	use_fw fw_sst && doins_subdir intel/fw_sst*
