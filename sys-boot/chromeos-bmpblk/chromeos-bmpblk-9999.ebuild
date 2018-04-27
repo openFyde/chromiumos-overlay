@@ -39,7 +39,6 @@ CROS_BOARDS=(
 	grunt
 	guado
 	kahlee
-	kblrvp
 	kevin
 	kip
 	lars
