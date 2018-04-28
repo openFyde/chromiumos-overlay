@@ -178,6 +178,9 @@ build_image() {
 #       compressed-assets/*      - fonts, images and screens for recovery mode
 #                                  originally from rocbfs/*, pre-compressed
 #                                  in src_compile
+#       compressed-assets-rw/*   - files originally from rocbfs/*,
+#                                  pre-compressed in src_compile
+#                                  used for vbt*.bin
 #       cbfs/*                   - files to add to all three CBFS regions,
 #                                  uncompressed
 #   $2: Name to use when naming output files (see note above, can be empty)
@@ -216,6 +219,15 @@ build_images() {
 		for rom in ${coreboot_file}{,.serial}; do
 			do_cbfstool ${rom} add \
 				-r COREBOOT \
+				-f $file -n $(basename $file) -t raw \
+				-c precompression
+		done
+	done
+
+	for file in $(find compressed-assets-rw -type f 2>/dev/null); do
+		for rom in ${coreboot_file}{,.serial}; do
+			do_cbfstool ${rom} add \
+				-r COREBOOT,FW_MAIN_A,FW_MAIN_B \
 				-f $file -n $(basename $file) -t raw \
 				-c precompression
 		done
@@ -298,6 +310,15 @@ src_compile() {
 		xargs -0 -n 1 -P $(nproc) -I '{}' \
 		cbfs-compression-tool compress ${froot}/rocbfs/'{}' \
 			compressed-assets/'{}' LZMA
+
+	# files from cbfs-rw-compress/ are installed in
+	# all images' RO/RW CBFS, compressed
+	mkdir compressed-assets-rw
+	find ${froot}/cbfs-rw-compress -mindepth 1 -maxdepth 1 -printf "%P\0" \
+		2>/dev/null | \
+		xargs -0 -n 1 -P $(nproc) -I '{}' \
+		cbfs-compression-tool compress ${froot}/cbfs-rw-compress/'{}' \
+			compressed-assets-rw/'{}' LZMA
 
 	if use unibuild; then
 		local fields="coreboot,depthcharge"
