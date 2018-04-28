@@ -14,7 +14,7 @@ cfg-if-0.1.2
 fuchsia-zircon-0.3.3
 fuchsia-zircon-sys-0.3.3
 cc-1.0.15
-libc-0.2.34
+libc-0.2.40
 log-0.4.1
 proc-macro2-0.2.3
 protobuf-1.4.3
