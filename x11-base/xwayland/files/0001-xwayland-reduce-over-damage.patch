@@ -1,0 +1,62 @@
+From 04795169895335c2609b71da83ef675642c9ecb4 Mon Sep 17 00:00:00 2001
+From: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Date: Wed, 20 Dec 2017 13:18:45 +0200
+Subject: [PATCH xserver] xwayland: reduce over-damage
+
+If an X11 app draws a little here, some there, and a tiny bit in the
+opposite corner, using RegionExtents for the damage to be sent to the
+Wayland compositor will cause massive over-damaging.
+
+However, we cannot blindly send an arbitrary number of damage
+rectangles, because there is a risk of overflowing the Wayland
+connection. If that happens, it triggers an abort in libwayland-client.
+
+Try to be more accurate with the damage by sending up to 256 rectangles
+per window, and fall back to extents otherwise. The number is completely
+arbitrary.
+
+Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Reviewed-by: Daniel Stone <daniels@collabora.com>
+---
+ hw/xwayland/xwayland.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/hw/xwayland/xwayland.c b/hw/xwayland/xwayland.c
+index c27787018..978df6ab6 100644
+--- a/hw/xwayland/xwayland.c
++++ b/hw/xwayland/xwayland.c
+@@ -465,6 +465,7 @@ xwl_screen_post_damage(struct xwl_screen *xwl_screen)
+     BoxPtr box;
+     struct wl_buffer *buffer;
+     PixmapPtr pixmap;
++    int i;
+ 
+     xorg_list_for_each_entry_safe(xwl_window, next_xwl_window,
+                                   &xwl_screen->damage_window_list, link_damage) {
+@@ -485,9 +486,20 @@ xwl_screen_post_damage(struct xwl_screen *xwl_screen)
+ 
+         wl_surface_attach(xwl_window->surface, buffer, 0, 0);
+ 
+-        box = RegionExtents(region);
+-        wl_surface_damage(xwl_window->surface, box->x1, box->y1,
+-                          box->x2 - box->x1, box->y2 - box->y1);
++        /* Arbitrary limit to try to avoid flooding the Wayland
++         * connection. If we flood it too much anyway, this could
++         * abort in libwayland-client.
++         */
++        if (RegionNumRects(region) > 256) {
++            box = RegionExtents(region);
++            wl_surface_damage(xwl_window->surface, box->x1, box->y1,
++                              box->x2 - box->x1, box->y2 - box->y1);
++        } else {
++            box = RegionRects(region);
++            for (i = 0; i < RegionNumRects(region); i++, box++)
++                wl_surface_damage(xwl_window->surface, box->x1, box->y1,
++                                  box->x2 - box->x1, box->y2 - box->y1);
++        }
+ 
+         xwl_window->frame_callback = wl_surface_frame(xwl_window->surface);
+         wl_callback_add_listener(xwl_window->frame_callback, &frame_listener, xwl_window);
+-- 
+2.11.0
+
