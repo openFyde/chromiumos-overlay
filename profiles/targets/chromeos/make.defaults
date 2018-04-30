@@ -19,6 +19,9 @@ USE="${USE} mist"
 USE="${USE} cellular mbim"
 USE="${USE} ime"
 
+# Board overlays can unset this to disable the ACPI AC kernel driver.
+USE="${USE} acpi_ac"
+
 # Enable general security hardening by default.
 USE="${USE} hardened"
 

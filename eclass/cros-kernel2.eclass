@@ -110,7 +110,7 @@ fi
 #   %ROOT% => ${ROOT}
 
 CONFIG_FRAGMENTS=(
-	acpi_ac_off
+	acpi_ac
 	allocator_slab
 	binder
 	blkdevram
@@ -172,8 +172,11 @@ CONFIG_FRAGMENTS=(
 	x32
 )
 
-acpi_ac_off_desc="Turn off ACPI AC"
-acpi_ac_off_config="
+acpi_ac_desc="Enable ACPI AC"
+acpi_ac_config="
+CONFIG_ACPI_AC=y
+"
+acpi_ac_config_disable="
 # CONFIG_ACPI_AC is not set
 "
 
