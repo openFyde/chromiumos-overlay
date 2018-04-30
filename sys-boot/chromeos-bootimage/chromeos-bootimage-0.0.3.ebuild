@@ -175,10 +175,10 @@ build_image() {
 #       depthcharge/dev.elf      - developer version of depthcharge
 #       depthcharge/netboot.elf  - netboot version of depthcharge
 #       depthcharge/fastboot.elf - fastboot version of depthcharge
-#       compressed-assets/*      - fonts, images and screens for recovery mode
-#                                  originally from rocbfs/*, pre-compressed
-#                                  in src_compile
-#       compressed-assets-rw/*   - files originally from rocbfs/*,
+#       compressed-assets-ro/*   - fonts, images and screens for recovery mode
+#                                  originally from cbfs-ro-compress/*,
+#                                  pre-compressed in src_compile
+#       compressed-assets-rw/*   - files originally from cbfs-rw-compress/*,
 #                                  pre-compressed in src_compile
 #                                  used for vbt*.bin
 #       cbfs/*                   - files to add to all three CBFS regions,
@@ -215,7 +215,7 @@ build_images() {
 	cp ${coreboot_file}.serial coreboot.rom.serial
 	coreboot_file=coreboot.rom
 
-	for file in $(find compressed-assets -type f 2>/dev/null); do
+	for file in $(find compressed-assets-ro -type f 2>/dev/null); do
 		for rom in ${coreboot_file}{,.serial}; do
 			do_cbfstool ${rom} add \
 				-r COREBOOT \
@@ -304,12 +304,19 @@ build_images() {
 src_compile() {
 	local froot="${CROS_FIRMWARE_ROOT}"
 	einfo "Compressing static assets"
-	# files from rocbfs/ are installed in all images' RO CBFS, compressed
-	mkdir compressed-assets
-	find ${froot}/rocbfs -mindepth 1 -maxdepth 1 -printf "%P\0" 2>/dev/null | \
+
+	if [ -d ${froot}/rocbfs ]; then
+	    die "something is still using ${froot}/rocbfs, which is deprecated."
+	fi
+
+	# files from cbfs-ro-compress/ are installed in
+	# all images' RO CBFS, compressed
+	mkdir compressed-assets-ro
+	find ${froot}/cbfs-ro-compress -mindepth 1 -maxdepth 1 -printf "%P\0" \
+		2>/dev/null | \
 		xargs -0 -n 1 -P $(nproc) -I '{}' \
-		cbfs-compression-tool compress ${froot}/rocbfs/'{}' \
-			compressed-assets/'{}' LZMA
+		cbfs-compression-tool compress ${froot}/cbfs-ro-compress/'{}' \
+			compressed-assets-ro/'{}' LZMA
 
 	# files from cbfs-rw-compress/ are installed in
 	# all images' RO/RW CBFS, compressed
