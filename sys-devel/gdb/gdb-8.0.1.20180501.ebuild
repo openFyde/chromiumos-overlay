@@ -6,7 +6,7 @@ PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
 
 inherit flag-o-matic eutils python-single-r1 versionator
 
-GIT_SHAI="3b4e21d2318bc1b6547e45f3393514e7b0be7df2"
+GIT_SHAI="a7e49fd02c21a496095c828841f209eef8ae2985"
 SRC_URI="https://android.googlesource.com/toolchain/gdb/+archive/${GIT_SHAI}.tar.gz -> ${P}.tar.gz"
 
 export CTARGET=${CTARGET:-${CHOST}}
@@ -76,6 +76,7 @@ src_prepare() {
 	[[ -n ${RPM} ]] && rpm_spec_epatch "${WORKDIR}"/gdb.spec
 	! use vanilla && [[ -n ${PATCH_VER} ]] && EPATCH_SUFFIX="patch" epatch "${WORKDIR}"/patch
 	epatch "${FILESDIR}"/gdb-8.0.1-remote-arm64.patch
+	epatch "${FILESDIR}"/gdb-8.0.1-sht_relr.patch
 
 	default
 

@@ -1,0 +1,64 @@
+Proposal for adding SHT_RELR sections in generic-abi is at
+https://groups.google.com/forum/#!topic/generic-abi/bX460iggiKg
+
+Experimental support for SHT_RELR sections is available in the aosp
+gdb repository, with the section type and dynamic array tags defined
+in the OS specific range.
+
+This patch moves those definitions to the generic range so we can load
+binaries containing SHT_RELR sections created by the experimental support
+in sys-devel/binutils.
+
+--- gdb-8.0.1/include/elf/common.h
++++ gdb-8.0.1/include/elf/common.h
+@@ -494,6 +494,7 @@
+ #define SHT_PREINIT_ARRAY 16		/* Array of ptrs to pre-init funcs */
+ #define SHT_GROUP	  17		/* Section contains a section group */
+ #define SHT_SYMTAB_SHNDX  18		/* Indicies for SHN_XINDEX entries */
++#define SHT_RELR	  19		/* Relative relocations, only offsets */
+ 
+ #define SHT_LOOS	0x60000000	/* First of OS specific semantics */
+ #define SHT_HIOS	0x6fffffff	/* Last of OS specific semantics */
+@@ -514,10 +515,6 @@
+ #define SHT_GNU_verneed	SHT_SUNW_verneed
+ #define SHT_GNU_versym	SHT_SUNW_versym
+ 
+-/* Experimental support for SHT_RELR sections. For details, see proposal
+-   at https://groups.google.com/forum/#!topic/generic-abi/bX460iggiKg */
+-#define SHT_RELR	0x6fffff00	/* Relative relocations, only offsets */
+-
+ #define SHT_LOPROC	0x70000000	/* Processor-specific semantics, lo */
+ #define SHT_HIPROC	0x7FFFFFFF	/* Processor-specific semantics, hi */
+ #define SHT_LOUSER	0x80000000	/* Application-specific semantics */
+@@ -864,6 +861,9 @@
+ #define DT_PREINIT_ARRAY   32
+ #define DT_PREINIT_ARRAYSZ 33
+ #define DT_SYMTAB_SHNDX    34
++#define DT_RELRSZ          35
++#define DT_RELR            36
++#define DT_RELRENT         37
+ 
+ /* Note, the Oct 4, 1999 draft of the ELF ABI changed the values
+    for DT_LOOS and DT_HIOS.  Some implementations however, use
+@@ -910,6 +910,7 @@
+ #define DT_SYMINFO	0x6ffffeff
+ #define DT_ADDRRNGHI	0x6ffffeff
+ 
++#define DT_RELRCOUNT	0x6ffffff8
+ #define DT_RELACOUNT	0x6ffffff9
+ #define DT_RELCOUNT	0x6ffffffa
+ #define DT_FLAGS_1	0x6ffffffb
+@@ -921,13 +922,6 @@
+ /* This tag is a GNU extension to the Solaris version scheme.  */
+ #define DT_VERSYM	0x6ffffff0
+ 
+-/* Experimental support for SHT_RELR sections. For details, see proposal
+-   at https://groups.google.com/forum/#!topic/generic-abi/bX460iggiKg */
+-#define DT_RELR		0x6fffe000
+-#define DT_RELRSZ	0x6fffe001
+-#define DT_RELRENT	0x6fffe003
+-#define DT_RELRCOUNT	0x6fffe005
+-
+ #define DT_LOPROC	0x70000000
+ #define DT_HIPROC	0x7fffffff
+ 
