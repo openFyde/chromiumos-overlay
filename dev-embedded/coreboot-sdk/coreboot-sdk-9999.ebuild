@@ -47,6 +47,8 @@ src_prepare() {
 	# buildgcc uses 'cc' to find gnat1 so it needs to find the gnat-gpl
 	# compiler under that name
 	ln -s gcc gnat-gpl-2017-x86_64-linux-bin/bin/cc
+	# Add a gcc patch to make it builds with glibc 2.26.
+	cp "${FILESDIR}/${PN}-gcc-ucontext.patch" "${S}/util/crossgcc/patches/gcc-6.3.0_ucontext.patch"
 }
 
 src_compile() {
