@@ -45,6 +45,7 @@ IUSE="
 	instant_tethering
 	internal_stylus
 	kevin
+	kvm_host
 	legacy_keyboard
 	legacy_power_button
 	link
