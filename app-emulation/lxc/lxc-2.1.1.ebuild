@@ -106,8 +106,14 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.0.6-bash-completion.patch
 	#558854
 	epatch "${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch
+	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-filter-syscalls-based-on-arguments.patch
+	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-use-return-instead-of-attribution-and-return.patch
 	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-handle-arch-inversion.patch
 	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-handle-all-errors.patch
+	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-cleanup-architecture-handling.patch
+	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-improve-logging.patch
+	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-non-functional-changes.patch
+	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-handle-arch-inversion-ii.patch
 	epatch_user
 	eautoreconf
 }

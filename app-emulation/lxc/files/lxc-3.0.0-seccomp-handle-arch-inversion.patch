@@ -1,4 +1,4 @@
-commit b5ed021bbc47efe77732b38b5946116be94367e1
+commit babd8f1dd2df6d894de723a2229a418a900d35eb
 Author: Christian Brauner <christian.brauner@ubuntu.com>
 Date:   Fri Apr 13 14:02:24 2018 +0200
 
@@ -22,12 +22,12 @@ Date:   Fri Apr 13 14:02:24 2018 +0200
     Reported-by: Chirantan Ekbote <chirantan@chromium.org>
     Reported-by: Sonny Rao <sonnyrao@chromium.org>
     Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-    [SR: backported to lxc 2.1.1]
 
-diff -Naurp lxc-2.1.1_original/src/lxc/seccomp.c lxc-2.1.1/src/lxc/seccomp.c
---- lxc-2.1.1_original/src/lxc/seccomp.c	2017-10-19 10:08:34.000000000 -0700
-+++ lxc-2.1.1/src/lxc/seccomp.c	2018-04-16 02:58:29.951072225 -0700
-@@ -243,17 +243,21 @@ scmp_filter_ctx get_new_ctx(enum lxc_hos
+diff --git a/src/lxc/seccomp.c b/src/lxc/seccomp.c
+index 310a742f..5da31a56 100644
+--- a/src/lxc/seccomp.c
++++ b/src/lxc/seccomp.c
+@@ -370,17 +370,21 @@ scmp_filter_ctx get_new_ctx(enum lxc_hostarch_t n_arch, uint32_t default_policy_
  		WARN("Failed to turn on seccomp nop-skip, continuing");
  	}
  #endif
@@ -60,14 +60,14 @@ diff -Naurp lxc-2.1.1_original/src/lxc/seccomp.c lxc-2.1.1/src/lxc/seccomp.c
  	}
  
  	return ctx;
-@@ -621,11 +625,23 @@ static int parse_config_v2(FILE *f, char
+@@ -772,11 +776,23 @@ static int parse_config_v2(FILE *f, char *line, struct lxc_conf *conf)
  	}
  
  	if (compat_ctx[0]) {
--		INFO("Merging in the compat Seccomp ctx into the main one.");
+-		INFO("Merging in the compat Seccomp ctx into the main one");
 -		if (seccomp_merge(conf->seccomp_ctx, compat_ctx[0]) != 0 ||
 -			(compat_ctx[1] != NULL && seccomp_merge(conf->seccomp_ctx, compat_ctx[1]) != 0)) {
--			ERROR("Error merging compat Seccomp contexts.");
+-			ERROR("Error merging compat Seccomp contexts");
 -			goto bad;
 +		INFO("Merging compat seccomp contexts into main context");
 +		if (compat_arch[0] != native_arch && compat_arch[0] != seccomp_arch_native()) {
@@ -76,8 +76,8 @@ diff -Naurp lxc-2.1.1_original/src/lxc/seccomp.c lxc-2.1.1/src/lxc/seccomp.c
 +				ERROR("Failed to merge first compat seccomp context into main context");
 +				goto bad;
 +			}
-+			INFO("Merged first compat seccomp context into main context");
- 		}
++			TRACE("Merged first compat seccomp context into main context");
++		}
 +
 +		if (compat_arch[1] && compat_arch[1] != native_arch && compat_arch[1] != seccomp_arch_native()) {
 +			ret = seccomp_merge(conf->seccomp_ctx, compat_ctx[1]);
@@ -85,8 +85,7 @@ diff -Naurp lxc-2.1.1_original/src/lxc/seccomp.c lxc-2.1.1/src/lxc/seccomp.c
 +				ERROR("Failed to merge first compat seccomp context into main context");
 +				goto bad;
 +			}
-+			INFO("Merged second compat seccomp context into main context");
-+		}
++			TRACE("Merged second compat seccomp context into main context");
+ 		}
  	}
  
- 	return 0;
