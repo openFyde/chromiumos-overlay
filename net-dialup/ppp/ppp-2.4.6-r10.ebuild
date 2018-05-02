@@ -96,7 +96,10 @@ src_prepare() {
 
 src_compile() {
 	tc-export AR CC
-	emake COPTS="${CFLAGS} -D_GNU_SOURCE"
+
+	append-cppflags " '-DRUNTIME_DATA_DIR=\"/run/l2tpipsec_vpn/\"'"
+	append-cppflags " -D_GNU_SOURCE"
+	emake COPTS="${CFLAGS}"
 
 	# build pppgetpass
 	cd contrib/pppgetpass || die

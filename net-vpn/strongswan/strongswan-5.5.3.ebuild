@@ -107,6 +107,7 @@ src_configure() {
 
 	if use non-root; then
 		myconf="${myconf} --with-user=${UGID} --with-group=${UGID}"
+		myconf="${myconf} --with-piddir=/run/ipsec"
 	fi
 
 	# If a user has already enabled db support, those plugins will
