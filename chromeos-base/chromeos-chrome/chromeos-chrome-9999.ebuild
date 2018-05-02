@@ -328,6 +328,7 @@ set_build_args() {
 		is_asan=$(usetf asan)
 		is_clang=$(usetf clang)
 		cros_host_is_clang=$(usetf clang)
+		cros_v8_snapshot_is_clang=$(usetf clang)
 		clang_use_chrome_plugins=false
 		use_thin_lto=$(usetf thinlto)
 		use_lld=$(usetf lld)
