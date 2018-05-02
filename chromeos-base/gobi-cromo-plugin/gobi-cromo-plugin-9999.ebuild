@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=4
+EAPI=6
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -16,7 +16,7 @@ DESCRIPTION="Cromo plugin to control Qualcomm Gobi modems"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="install_tests"
+IUSE="install_tests test"
 
 RDEPEND="
 	dev-cpp/glog
