@@ -840,6 +840,11 @@ setup_compile_flags() {
 		fi
 	fi
 
+	if use cfi; then
+		local resource_dir=$($CC -print-resource-dir)
+		append-flags "-fsanitize-blacklist=${resource_dir}/share/cfi_blacklist.txt"
+	fi
+
 	# Enable std::vector []-operator bounds checking.
 	append-cxxflags -D__google_stl_debug_vector=1
 
