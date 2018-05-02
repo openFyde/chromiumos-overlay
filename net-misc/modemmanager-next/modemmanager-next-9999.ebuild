@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # Based on gentoo's modemmanager ebuild
 
-EAPI="4"
+EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
 
 inherit eutils autotools cros-workon flag-o-matic systemd udev user
@@ -38,6 +38,8 @@ DEPEND="${RDEPEND}
 DOCS="AUTHORS NEWS README"
 
 src_prepare() {
+	default
+
 	# According to "Introspection Data Format" of the DBus specification,
 	# revision 0.30 [1], "Only the root <node> element can omit the node
 	# name, as it's known to be the object that was introspected. If the
