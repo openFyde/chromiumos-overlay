@@ -95,6 +95,7 @@ RDEPEND="${RDEPEND}
 	net-wireless/iw
 	net-wireless/wireless-tools
 	dev-lang/python
+	dev-libs/libgpiod
 	dev-python/protobuf-python
 	dev-python/cherrypy
 	dev-python/dbus-python
