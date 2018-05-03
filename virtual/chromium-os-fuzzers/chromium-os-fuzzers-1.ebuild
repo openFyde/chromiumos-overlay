@@ -12,6 +12,7 @@ KEYWORDS="*"
 
 RDEPEND="
 	chromeos-base/authpolicy[fuzzer]
+	chromeos-base/cryptohome[fuzzer]
 	chromeos-base/midis[fuzzer]
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
