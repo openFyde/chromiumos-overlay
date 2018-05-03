@@ -16,7 +16,7 @@ HOMEPAGE="http://www.denx.de/wiki/U-Boot"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="vboot"
+IUSE="dev vboot"
 
 DEPEND=""
 
