@@ -807,7 +807,13 @@ setup_compile_flags() {
 
 	# LLVM needs this when parsing profiles.
 	# See README on https://github.com/google/autofdo
-	use clang && append-flags -fdebug-info-for-profiling
+	# For ARM, we do not need this flag because we don't get profiles
+	# from ARM machines. And it triggers an llvm assertion when thinlto
+	# and debug fission is used together.
+	# See https://bugs.llvm.org/show_bug.cgi?id=37255
+	if use clang && ! use arm; then
+		append-flags -fdebug-info-for-profiling
+	fi
 
 	# The .dwp file for x86 and arm exceeds 4GB limit. Adding this flag as a
 	# workaround. The generated symbol files are the same with/without this
