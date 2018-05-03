@@ -1,13 +1,13 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=6
 
 DESCRIPTION="Das U-Boot boot scripts"
 
 LICENSE="BSD-Google"
 SLOT="0"
-KEYWORDS="-* arm"
+KEYWORDS="*"
 IUSE=""
 
 RDEPEND="chromeos-base/u-boot-license"
@@ -20,7 +20,7 @@ src_compile() {
 
 	local script
 	for script in boot-{A,B}.scr; do
-		mkimage -A arm -O linux -T script -C none -a 0 -e 0 \
+		mkimage -O linux -T script -C none -a 0 -e 0 \
 			-n "${script}" -d "${script}" "${script}.uimg" >/dev/null || die
 	done
 }

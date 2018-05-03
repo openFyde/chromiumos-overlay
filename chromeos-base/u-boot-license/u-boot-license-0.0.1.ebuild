@@ -3,14 +3,14 @@
 
 # This ebuild exists to install a license file for U-Boot so that licenesing
 # information will appear on the Chrome OS credits page.
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Das U-Boot -- the Universal Boot Loader"
 HOMEPAGE="https://www.denx.de/wiki/U-Boot"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="-* arm"
+KEYWORDS="*"
 IUSE=""
 
 S=${WORKDIR}
