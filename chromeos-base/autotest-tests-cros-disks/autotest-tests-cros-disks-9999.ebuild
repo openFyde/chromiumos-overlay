@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -28,6 +28,7 @@ IUSE_TESTS="
 	+tests_platform_CrosDisksFilesystem
 	+tests_platform_CrosDisksFormat
 	+tests_platform_CrosDisksRename
+	+tests_platform_CrosDisksSshfs
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
