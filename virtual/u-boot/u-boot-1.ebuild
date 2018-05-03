@@ -12,5 +12,5 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	sys-boot/chromeos-u-boot
+	sys-boot/u-boot
 "

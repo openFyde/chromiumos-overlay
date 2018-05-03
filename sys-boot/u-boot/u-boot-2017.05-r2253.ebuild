@@ -3,6 +3,8 @@
 
 EAPI=6
 
+CROS_WORKON_COMMIT=("1e26ac220258662e911d2471a090c9219566fffe" "ae602dee78452ee2c9667ad9d71c54ac1668e743")
+CROS_WORKON_TREE=("53c6615d5ff3a2a77a437c91d553ec3b4058a255" "7d34afe033caf8132ad03fe5c26a39e53f5ebd7e")
 CROS_WORKON_PROJECT=("chromiumos/third_party/u-boot" "chromiumos/platform/vboot_reference")
 CROS_WORKON_LOCALNAME=("u-boot/files" "../platform/vboot_reference")
 VBOOT_REFERENCE_DESTDIR="${S}/vboot_reference"
@@ -15,13 +17,14 @@ HOMEPAGE="http://www.denx.de/wiki/U-Boot"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 IUSE="vboot"
 
 DEPEND=""
 
 RDEPEND="${DEPEND}
 	chromeos-base/u-boot-scripts
+	!!sys-boot/chromeos-u-boot
 	"
 
 UB_BUILD_DIR="build"
