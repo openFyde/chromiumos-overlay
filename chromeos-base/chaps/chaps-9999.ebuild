@@ -33,6 +33,7 @@ RDEPEND="
 	tpm2? (
 		chromeos-base/trunks
 	)
+	test? ( app-arch/gzip )
 	chromeos-base/minijail
 	chromeos-base/libbrillo
 	chromeos-base/metrics
