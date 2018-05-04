@@ -97,10 +97,7 @@ src_install() {
 	# TODO(hidehiko): Move arc-setup-env from /etc/init to /etc.
 	doins etc/arc-setup-env
 	set_density_scale "${D}/etc/init/arc-setup-env"
-	if use android-container-nyc; then
-		enable_clear_app_executables_after_ota \
-			"${D}/etc/init/arc-setup-env"
-	fi
+	enable_clear_app_executables_after_ota "${D}/etc/init/arc-setup-env"
 
 	insinto /opt/google/containers/arc-art
 	doins "${OUT}/dev-rootfs.squashfs"
