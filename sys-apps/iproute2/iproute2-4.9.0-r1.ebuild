@@ -43,6 +43,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-update-kernel-headers-2.patch
 	"${FILESDIR}"/${P}-add-uidrange-routing.patch
 	"${FILESDIR}"/${P}-jetstream-nss-qdisc.patch
+	"${FILESDIR}"/${P}-stdint.patch
 )
 
 src_prepare() {
