@@ -76,11 +76,6 @@ src_configure() {
 		append-flags -Wa,-mfpu=vfpv2
 	fi
 	BUILD_DIR=${WORKDIR}/${P}_build
-	local llvm_version=$(llvm-config --version)
-	# Strip git and svn from llvm_version string
-	local clang_version=${llvm_version%svn*}
-	clang_version=${clang_version%git*}
-	local libdir=$(llvm-config --libdir)
 
 	local mycmakeargs=()
 	if [[ ${CTARGET} == *-eabi ]]; then
@@ -97,7 +92,7 @@ src_configure() {
 		)
 	fi
 	mycmakeargs+=(
-		-DCOMPILER_RT_INSTALL_PATH="${EPREFIX}${libdir}/clang/${clang_version}"
+		-DCOMPILER_RT_INSTALL_PATH="${EPREFIX}$(${CC} --print-resource-dir)"
 	)
 	cmake-utils_src_configure
 }
@@ -125,10 +120,10 @@ src_install() {
 	local llvm_version=$(llvm-config --version)
 	local clang_version=${llvm_version%svn*}
 	clang_version=${clang_version%git*}
-	if [[ ${clang_version} == "6.0.0" ]] ; then
+	if [[ ${clang_version} == "8.0.0" ]] ; then
 		new_version="7.0.0"
 	else
-		new_version="6.0.0"
+		new_version="8.0.0"
 	fi
 	cp -r  "${D}${libdir}/clang/${clang_version}" "${D}${libdir}/clang/${new_version}"
 }
