@@ -756,6 +756,10 @@ setup_test_lists() {
 		wayland_client_perftests
 	)
 
+	if use vaapi; then
+		TEST_FILES+=( jpeg_encode_accelerator_unittest )
+	fi
+
 	TEST_FILES+=( ppapi/examples/video_decode )
 
 	# TODO(ihf): Figure out how to keep this in sync with telemetry.
