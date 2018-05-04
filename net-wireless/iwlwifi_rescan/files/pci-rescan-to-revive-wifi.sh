@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2039
 
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
@@ -12,16 +13,21 @@
 # not OK (reading all Fs).
 # Rescanning the bus implies a memory window is allocated again.
 
-TAG="pci-rescan"
+readonly PID=$$
+readonly TAG="pci-rescan"
 
 ###### Helpers
+
+# $*: String to log.
+log() {
+  logger -t "${TAG}" --id "${PID}" "$*"
+}
 
 # $1: function that evaluates a condition to check for.
 wait_for_true_or_time_out() {
   local count
   for count in $(seq 0 1 60); do
     if "$@"; then
-      RESULT=true
       return 0
     fi
     sleep 1
@@ -30,7 +36,6 @@ wait_for_true_or_time_out() {
 }
 
 wifi_nic_in_lspci() {
-
   # Check for the Intel wifi PCI ID
   # 8086:095a/095b = StonePeak2
   # 8086:08b1/08b2 = WilkinsPeak2
@@ -38,10 +43,10 @@ wifi_nic_in_lspci() {
      [ -n "$(lspci -n -d 8086:095b)" ] || \
      [ -n "$(lspci -n -d 8086:08b1)" ] || \
      [ -n "$(lspci -n -d 8086:08b2)" ]; then
-    logger -t ${TAG} "Successfully found PCI wifi device in lspci"
+    log "Successfully found PCI wifi device in lspci"
     return 0
   else
-    logger -t ${TAG} "No known PCI wifi device in lspci, retrying scan..."
+    log "No known PCI wifi device in lspci, retrying scan..."
     # A rescan does not delete any devices already discovered. It only checks
     # for new devices, so we are still good. A retry also covers the cases where
     # the wifi device may take some time to come back up rather than
@@ -54,10 +59,10 @@ wifi_nic_in_lspci() {
 
 wlan0_present() {
   if [ -e "/sys/class/net/wlan0" ]; then
-    logger -t ${TAG} "Successfully found /sys/class/net/wlan0"
+    log "Successfully found /sys/class/net/wlan0"
     return 0
   else
-    logger -t ${TAG} "Can't find /sys/class/net/wlan0"
+    log "Can't find /sys/class/net/wlan0"
     return 1
   fi
 }
@@ -67,11 +72,11 @@ shill_has_wlan0() {
   count=$(dbus-send --system --print-reply --dest=org.chromium.flimflam \
           /device/wlan0 \
           org.chromium.flimflam.Device.GetProperties | grep -c wlan0)
-  if [ ${count} -ge 0 ]; then
-    logger -t ${TAG} "Shill brought up wlan0, interface is functional"
+  if [ "${count}" -ge 0 ]; then
+     log "Shill brought up wlan0, interface is functional"
     return 0
   else
-    logger -t ${TAG} "Shill can't bringup wlan0, interface not functional"
+     log "Shill can't bringup wlan0, interface not functional"
     return 1
   fi
 }
@@ -92,7 +97,7 @@ main() {
 
   # Get rid of wifi module to restart cleanly.
   modprobe -r iwlmvm iwlwifi
-  logger -t ${TAG} "Starting pci bus rescan"
+  log "Starting pci bus rescan"
   echo 1 > /sys/bus/pci/rescan
   # Delay b/w rescanning pci bus and wlan0 appearining is 100-300 ms. Hence
   # sleep here to make the checks below easier.
@@ -112,13 +117,12 @@ main() {
       fi
     fi
   else
-    logger -t ${TAG} "Wifi NIC did not show up in lspci"
+    log "Wifi NIC did not show up in lspci"
     buf="$(lspci -vvv)"
-    echo "${buf}" | logger -t ${TAG}
+    echo "${buf}" | log
   fi
 
-  logger -t ${TAG} "Sending metric: Platform.WiFiStatusAfterForcedPCIRescan: \
-      ${wifi_status}"
+  log "Sending : Platform.WiFiStatusAfterForcedPCIRescan: ${wifi_status}"
   metrics_client -e Platform.WiFiStatusAfterForcedPCIRescan ${wifi_status} 3
 }
 
