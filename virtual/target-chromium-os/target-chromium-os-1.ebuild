@@ -200,6 +200,7 @@ CROS_COMMON_RDEPEND+="
 	systemd? ( sys-apps/systemd )
 	kvm_host? (
 		chromeos-base/chromeos-termina-scripts
+		chromeos-base/crosdns
 		chromeos-base/vm_host_tools
 	)
 	sys-kernel/linux-firmware

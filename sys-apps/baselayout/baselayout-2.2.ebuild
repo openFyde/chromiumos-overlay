@@ -14,7 +14,7 @@ SRC_URI="mirror://gentoo/${P}.tar.bz2
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+auto_seed_etc_files"
+IUSE="+auto_seed_etc_files kvm_host"
 
 src_prepare() {
 	epatch "${FILESDIR}"/add-dash-shell.patch
@@ -44,6 +44,11 @@ src_install() {
 		rm -f "${D}/etc/${x}"
 	done
 
+	if use kvm_host ; then
+		# Set up the dir for where we will symlink /etc/hosts.
+		dodir /etc/hostsdir
+	fi
+
 	# This file has moved to openrc, but we don't want that.
 	# https://bugs.gentoo.org/373219
 	insinto /etc/init.d
@@ -72,4 +77,11 @@ pkg_postinst() {
 	for x in shadow ; do
 		[ -e "${ROOT}etc/${x}" ] && chmod o-rwx "${ROOT}etc/${x}"
 	done
+
+	if use kvm_host ; then
+		# Set up the symlinked /etc/hosts file by moving the existing one into
+		# /etc/hostsdir and then symlinking to it from /etc/hosts.
+		mv "${ROOT}/etc/hosts" "${ROOT}/etc/hostsdir/hosts"
+		ln -s /etc/hostsdir/hosts "${ROOT}/etc/hosts"
+	fi
 }
