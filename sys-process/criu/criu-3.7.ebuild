@@ -70,11 +70,17 @@ src_prepare() {
 	fi
 }
 
+src_configure() {
+	# Gold linker generates invalid object file when used with criu's custom
+	# linker script.  Use the bfd linker instead. See https://crbug.com/839665#c3
+	tc-ld-disable-gold
+}
+
 src_compile() {
 	RAW_LDFLAGS="$(raw-ldflags)" emake \
 		HOSTCC="$(tc-getCC)" \
 		CC="$(tc-getCC)" \
-		LD="${CHOST}-ld.bfd" \
+		LD="$(tc-getLD)" \
 		OBJCOPY="$(tc-getOBJCOPY)" \
 		LIBDIR="${EPREFIX}/usr/$(get_libdir)" \
 		ARCH="$(criu_arch)" \
