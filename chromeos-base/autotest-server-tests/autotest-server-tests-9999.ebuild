@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -140,6 +140,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50InvalidateRW
 	+tests_firmware_Cr50Open
 	+tests_firmware_Cr50OpenWhileAPOff
+	+tests_firmware_Cr50PinWeaverServer
 	+tests_firmware_Cr50RMAOpen
 	+tests_firmware_Cr50SetBoardId
 	+tests_firmware_Cr50Testlab
