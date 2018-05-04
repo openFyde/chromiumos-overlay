@@ -165,7 +165,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-68.0.3419.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-68.0.3420.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R68-3396.12-1525084432.afdo"
 AFDO_FILE["airmont"]="R68-3396.12-1525084432.afdo"
 AFDO_FILE["haswell"]="R68-3383.0-1524480987.afdo"
@@ -807,7 +807,13 @@ setup_compile_flags() {
 
 	# LLVM needs this when parsing profiles.
 	# See README on https://github.com/google/autofdo
-	use clang && append-flags -fdebug-info-for-profiling
+	# For ARM, we do not need this flag because we don't get profiles
+	# from ARM machines. And it triggers an llvm assertion when thinlto
+	# and debug fission is used together.
+	# See https://bugs.llvm.org/show_bug.cgi?id=37255
+	if use clang && ! use arm; then
+		append-flags -fdebug-info-for-profiling
+	fi
 
 	# The .dwp file for x86 and arm exceeds 4GB limit. Adding this flag as a
 	# workaround. The generated symbol files are the same with/without this
