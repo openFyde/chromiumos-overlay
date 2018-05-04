@@ -137,6 +137,7 @@ src_configure() {
 	epatch "${FILESDIR}"/${P}-workaround-cros-build.patch
 	epatch "${FILESDIR}"/${P}-mysql-type-mismatch.patch
 	epatch "${FILESDIR}"/${P}-mysql-narrowing.patch
+	epatch "${FILESDIR}"/${P}-sql-bison-compatibility.patch
 
 	# Append the SYSROOT Library Path in order for the linker to find
 	# libbfd when cross-compiling. See crbug.com/336580 for more details.
