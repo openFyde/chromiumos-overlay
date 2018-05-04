@@ -16,7 +16,7 @@ KEYWORDS="*"
 
 LICENSE="LGPL-3"
 SLOT="0"
-IUSE="cgmanager doc examples lua python seccomp selinux"
+IUSE="cgmanager doc examples lua python seccomp selinux etcconfigdir"
 
 RDEPEND="
 	net-libs/gnutls
@@ -97,6 +97,13 @@ DOCS=(AUTHORS CONTRIBUTING MAINTAINERS NEWS README doc/FAQ.txt)
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
+LXC_STATEDIR_PATH="/var"
+LXC_CONFIG_PATH="/var/lib/lxc"
+if use etcconfigdir; then
+	LXC_STATEDIR_PATH="/etc"
+	LXC_CONFIG_PATH="/etc/lxc"
+fi
+
 pkg_setup() {
 	kernel_is -lt 4 7 && CONFIG_CHECK="${CONFIG_CHECK} ~DEVPTS_MULTIPLE_INSTANCES"
 	linux-info_pkg_setup
@@ -132,11 +139,11 @@ src_configure() {
 	# /usr/lib/lxc.
 	# Note by holgersson: Why is apparmor disabled?
 	econf \
-		--localstatedir=/var \
+		--localstatedir="${LXC_STATEDIR_PATH}" \
 		--bindir=/usr/bin \
 		--sbindir=/usr/bin \
-		--with-config-path=/var/lib/lxc	\
-		--with-rootfs-path=/var/lib/lxc/rootfs \
+		--with-config-path="${LXC_CONFIG_PATH}"\
+		--with-rootfs-path="${LXC_CONFIG_PATH}"/rootfs \
 		--with-distro=gentoo \
 		--with-runtime-path=/run \
 		--disable-apparmor \
@@ -181,7 +188,7 @@ src_install() {
 		popd > /dev/null
 	fi
 
-	keepdir /etc/lxc /var/lib/lxc/rootfs /var/log/lxc
+	keepdir /etc/lxc "${LXC_CONFIG_PATH}"/rootfs /var/log/lxc
 
 	find "${D}" -name '*.la' -delete
 
