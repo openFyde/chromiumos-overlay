@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=6
 
-CROS_WORKON_COMMIT=("bdc5c6460b32da5d025a4e2a019a8ea7210c4f82" "367bdb38f60fdfe76814c8cf9f383ff8d6f5b484")
+CROS_WORKON_COMMIT=("96e8d80bde6d41c9e62061e5c8518c8e20cc5fda" "367bdb38f60fdfe76814c8cf9f383ff8d6f5b484")
 CROS_WORKON_TREE=("94a1336ddfc584b23df58564be093463f801d558" "dc3351025959287acf11482ee54e9264e4c8ad66")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/connectivity/apmanager")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/connectivity/apmanager")

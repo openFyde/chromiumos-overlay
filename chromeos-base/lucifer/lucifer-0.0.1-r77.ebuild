@@ -25,6 +25,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/errors
 	dev-go/gcp-bigquery
 	dev-go/go-sys
 	dev-go/luci-swarming

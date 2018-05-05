@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="372596a0beaa6722c28c24120d03a581ea2c4723"
+CROS_WORKON_COMMIT="96e8d80bde6d41c9e62061e5c8518c8e20cc5fda"
 CROS_WORKON_TREE=("94a1336ddfc584b23df58564be093463f801d558" "a2f564a5cb204c580b9dd60a891f05becefa3eac" "2879d4e7ab8b8818fbd9c9eaf75e54739e7bb22f")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -108,6 +108,10 @@ src_install() {
 		insinto /usr/include/cryptohome
 		doins cert_provision.h
 	fi
+
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
+		--seed_corpus "${S}"/fuzzers/cryptolib_rsa_oaep_decrypt_corpus
 }
 
 platform_pkg_test() {
