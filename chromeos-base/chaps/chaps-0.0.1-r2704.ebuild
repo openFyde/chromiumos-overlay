@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="6f70960f22f19ee326da9dfff3a362652ee7d118"
+CROS_WORKON_COMMIT="96e8d80bde6d41c9e62061e5c8518c8e20cc5fda"
 CROS_WORKON_TREE=("94a1336ddfc584b23df58564be093463f801d558" "135616d70479375e73019cf23f2f4c1395609a06" "413888b8ea9a5695763b620c5ed048a20960333b" "572cb82ed59f603ae792d287496ab8fdf6b259d7")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -35,6 +35,7 @@ RDEPEND="
 	tpm2? (
 		chromeos-base/trunks
 	)
+	test? ( app-arch/gzip )
 	chromeos-base/minijail
 	chromeos-base/libbrillo
 	chromeos-base/metrics
