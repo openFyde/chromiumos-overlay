@@ -38,6 +38,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-fclang.patch
 	"${FILESDIR}"/${P}-symbolcmap.patch
 	"${FILESDIR}"/${P}-mtime.patch # 205424
+	"${FILESDIR}"/${P}-glibc2-26.patch
 )
 
 MULTILIB_CHOST_TOOLS=(
