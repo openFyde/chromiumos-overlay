@@ -142,7 +142,7 @@ new file mode 100644
 index 000000000000..e65264a78afd
 --- /dev/null
 +++ b/include/uapi/linux/virtwl.h
-@@ -0,0 +4,41 @@
+@@ -0,0 +4,55 @@
 +#ifndef _LINUX_VIRTWL_H
 +#define _LINUX_VIRTWL_H
 +
@@ -162,13 +162,27 @@ index 000000000000..e65264a78afd
 +	VIRTWL_IOCTL_NEW_ALLOC, /* create a new virtwl shm allocation */
 +	VIRTWL_IOCTL_NEW_PIPE_READ, /* create a new virtwl pipe that is readable via the returned fd */
 +	VIRTWL_IOCTL_NEW_PIPE_WRITE, /* create a new virtwl pipe that is writable via the returned fd */
++	VIRTWL_IOCTL_NEW_DMABUF, /* create a new virtwl dmabuf that is writable via the returned fd */
 +};
 +
 +struct virtwl_ioctl_new {
 +	__u32 type; /* VIRTWL_IOCTL_NEW_* */
 +	int fd; /* return fd */
 +	__u32 flags; /* currently always 0 */
-+	__u32 size; /* size of allocation if type == VIRTWL_IOCTL_NEW_ALLOC */
++	union {
++		__u32 size; /* size of allocation if type == VIRTWL_IOCTL_NEW_ALLOC */
++		struct {
++			__u32 width; /* width in pixels */
++			__u32 height; /* height in pixels */
++			__u32 format; /* fourcc format */
++			__u32 stride0; /* return stride0 */
++			__u32 stride1; /* return stride1 */
++			__u32 stride2; /* return stride2 */
++			__u32 offset0; /* return offset0 */
++			__u32 offset1; /* return offset1 */
++			__u32 offset2; /* return offset2 */
++		} dmabuf;
++	};
 +};
 +
 +struct virtwl_ioctl_txn {
