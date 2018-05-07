@@ -29,20 +29,24 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	dobin "${OUT}"/btdispatch
+	dobin "${OUT}"/newblued
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Bluetooth.conf
+	doins dbus/org.chromium.Newblue.conf
 
 	insinto /etc/init
 	doins init/upstart/btdispatch.conf
+	doins init/upstart/newblued.conf
 
 	if use seccomp; then
 		# Install seccomp policy files.
 		insinto /usr/share/policy
 		newins "seccomp_filters/btdispatch-seccomp-${ARCH}.policy" btdispatch-seccomp.policy
+		newins "seccomp_filters/newblued-seccomp-${ARCH}.policy" newblued-seccomp.policy
 	else
 		# Remove seccomp flags from minijail parameters.
-		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/btdispatch.conf || die
+		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/btdispatch.conf "${ED}"/etc/init/newblued.conf || die
 	fi
 }
 
