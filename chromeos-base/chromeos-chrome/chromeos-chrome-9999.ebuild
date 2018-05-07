@@ -841,7 +841,7 @@ setup_compile_flags() {
 	fi
 
 	if use cfi; then
-		local resource_dir=$($CC -print-resource-dir)
+		local resource_dir=$(${CC} -print-resource-dir)
 		append-flags "-fsanitize-blacklist=${resource_dir}/share/cfi_blacklist.txt"
 	fi
 
