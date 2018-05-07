@@ -35,7 +35,6 @@ DEPEND="
 	media-fonts/crosextrafonts-carlito
 	media-fonts/noto-cjk
 	media-fonts/notofonts
-	media-fonts/dejavu
 	media-fonts/ko-nanumfonts
 	media-fonts/lohitfonts-cros
 	media-fonts/robotofonts

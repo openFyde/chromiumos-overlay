@@ -145,15 +145,13 @@ multilib_src_install_all() {
 		/etc/fonts/conf.d/11-lcdfilter-default.conf
 	check_fontconfig_default 11-lcdfilter-default.conf
 
-	# Enable antialiasing by default.
-	dosym ../conf.avail/10-antialias.conf /etc/fonts/conf.d/10-antialias.conf
-	check_fontconfig_default 10-antialias.conf
-
 	# CrOS: Delete unnecessary configurtaion files
 	local confs_to_delete=(
 		"20-unhint-small-vera"
 		"40-nonlatin"
+		"45-latin"
 		"50-user"
+		"60-latin"
 		"65-fonts-persian"
 		"65-nonlatin"
 		"69-unifont"
