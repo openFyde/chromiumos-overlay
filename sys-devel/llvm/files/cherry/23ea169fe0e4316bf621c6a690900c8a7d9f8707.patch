@@ -1,0 +1,62 @@
+commit 23ea169fe0e4316bf621c6a690900c8a7d9f8707
+Author: Peter Collingbourne <peter@pcc.me.uk>
+Date:   Mon May 7 20:54:05 2018 +0000
+
+    [CFI] Force LLVM to die if the implicit blacklist files cannot be found.
+    
+    Currently LLVM CFI tries to use an implicit blacklist file, currently
+    in /usr/lib64/clang/<version>/share. If the file is not there, LLVM
+    happily continues, which causes CFI to add checks to files/functions
+    that are known to fail, generating binaries that fail. This CL causes
+    LLVM to die (I hope) if it can't find these implicit blacklist files.
+    
+    Patch by Caroline Tice!
+    
+    Differential Revision: https://reviews.llvm.org/D46403
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/cfe/trunk@331674 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Driver/SanitizerArgs.cpp b/lib/Driver/SanitizerArgs.cpp
+index 8fb0ea08fe..bb8ead2152 100644
+--- a/lib/Driver/SanitizerArgs.cpp
++++ b/lib/Driver/SanitizerArgs.cpp
+@@ -115,6 +115,10 @@ static void addDefaultBlacklists(const Driver &D, SanitizerMask Kinds,
+     llvm::sys::path::append(Path, "share", BL.File);
+     if (llvm::sys::fs::exists(Path))
+       BlacklistFiles.push_back(Path.str());
++    else if (BL.Mask == CFI)
++      // If cfi_blacklist.txt cannot be found in the resource dir, driver
++      // should fail.
++      D.Diag(clang::diag::err_drv_no_such_file) << Path;
+   }
+ }
+ 
+diff --git a/test/Driver/Inputs/resource_dir_with_cfi_blacklist/share/cfi_blacklist.txt b/test/Driver/Inputs/resource_dir_with_cfi_blacklist/share/cfi_blacklist.txt
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/test/Driver/fsanitize-blacklist.c b/test/Driver/fsanitize-blacklist.c
+index 1ad4aa76b6..609b1f0ba2 100644
+--- a/test/Driver/fsanitize-blacklist.c
++++ b/test/Driver/fsanitize-blacklist.c
+@@ -62,4 +62,8 @@
+ // CHECK-ONLY-FIRST-DISABLED: -fsanitize-blacklist={{.*}}.second
+ // CHECK-ONLY_FIRST-DISABLED-NOT: good
+ 
++// If cfi_blacklist.txt cannot be found in the resource dir, driver should fail.
++// RUN: %clang -target x86_64-linux-gnu -fsanitize=cfi -resource-dir=/dev/null %s -### 2>&1 | FileCheck %s --check-prefix=CHECK-MISSING-CFI-BLACKLIST
++// CHECK-MISSING-CFI-BLACKLIST: error: no such file or directory: '{{.*}}/share/cfi_blacklist.txt'
++
+ // DELIMITERS: {{^ *"}}
+diff --git a/test/Frontend/dependency-gen.c b/test/Frontend/dependency-gen.c
+index e4b0feea16..5ae88219ac 100644
+--- a/test/Frontend/dependency-gen.c
++++ b/test/Frontend/dependency-gen.c
+@@ -21,7 +21,7 @@
+ // RUN: %clang -MD -MF - %s -fsyntax-only -I ./ | FileCheck -check-prefix=CHECK-SIX %s
+ // CHECK-SIX: {{ }}x.h
+ // RUN: echo "fun:foo" > %t.blacklist
+-// RUN: %clang -MD -MF - %s -fsyntax-only -fsanitize=cfi-vcall -flto -fvisibility=hidden -fsanitize-blacklist=%t.blacklist -I ./ | FileCheck -check-prefix=CHECK-SEVEN %s
++// RUN: %clang -MD -MF - %s -fsyntax-only -resource-dir=%S/../Driver/Inputs/resource_dir_with_cfi_blacklist -fsanitize=cfi-vcall -flto -fvisibility=hidden -fsanitize-blacklist=%t.blacklist -I ./ | FileCheck -check-prefix=CHECK-SEVEN %s
+ // CHECK-SEVEN: .blacklist
+ // CHECK-SEVEN: {{ }}x.h
+ #ifndef INCLUDE_FLAG_TEST
