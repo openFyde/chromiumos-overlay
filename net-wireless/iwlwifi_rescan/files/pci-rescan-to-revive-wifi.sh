@@ -39,11 +39,28 @@ wifi_nic_in_lspci() {
   # Check for the Intel wifi PCI ID
   # 8086:095a/095b = StonePeak2
   # 8086:08b1/08b2 = WilkinsPeak2
-  if [ -n "$(lspci -n -d 8086:095a)" ] || \
-     [ -n "$(lspci -n -d 8086:095b)" ] || \
-     [ -n "$(lspci -n -d 8086:08b1)" ] || \
-     [ -n "$(lspci -n -d 8086:08b2)" ]; then
-    log "Successfully found PCI wifi device in lspci"
+  local sp2_1="$(lspci -nD -d 8086:095a)"
+  local sp2_2="$(lspci -nD -d 8086:095b)"
+  local wp2_1="$(lspci -nD -d 8086:08b1)"
+  local wp2_2="$(lspci -nD -d 8086:08b2)"
+  local wifi_dev="${sp2_1}${sp2_2}${wp2_1}${wp2_2}"
+  wifi_dev="${wifi_dev%% *}"
+
+  if [ -n "${wifi_dev}" ]; then
+
+    # Disable ClkPM, Enable L1, CommClk via link control register
+    # It is at offset 0x50 for both SP2 and WP2
+    setpci -s "${wifi_dev}" 0x50.w=0x42
+
+    # The WP2 does not have L1 PM substate capabilities
+    if [ -z "${wp2_1}${wp2_2}" ]; then
+      # Disable L1 substates.
+      log "Disabling L1 PM substates"
+      setpci -s "${wifi_dev}" 0x15c.l=0x0
+    fi
+
+    log "Successfully found PCI wifi device in lspci: ${wifi_dev}"
+    lspci -vvv -s "${wifi_dev}" | log
     return 0
   else
     log "No known PCI wifi device in lspci, retrying scan..."
