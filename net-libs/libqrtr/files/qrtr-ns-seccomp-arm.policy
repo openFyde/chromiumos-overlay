@@ -25,8 +25,8 @@ recvfrom: 1
 rt_sigaction: 1
 send: 1
 sendto: 1
-# Only AF_NETLINK and AF_QIPCRTR sockets
-socket: arg0 == AF_NETLINK || arg0 == 42
+# Only AF_UNIX (for syslog), AF_NETLINK and AF_QIPCRTR sockets
+socket: arg0 == AF_UNIX || arg0 == AF_NETLINK || arg0 == 42
 stat64: 1
 uname: 1
 wait4: 1
