@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=4
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -68,9 +68,7 @@ src_install() {
 
 	insinto /usr/include/metrics
 	doins c_metrics_library.h \
-		cumulative_metrics.h \
 		metrics_library{,_mock}.h \
-		persistent_integer.h \
 		timer{,_mock}.h
 
 	# Install the protobuf so that autotests can have access to it.
@@ -80,7 +78,6 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
-		cumulative_metrics_test
 		metrics_library_test
 		$(usex passive_metrics 'metrics_daemon_test' '')
                 persistent_integer_test
