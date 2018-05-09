@@ -1075,7 +1075,7 @@ clang-setup-env() {
 		return 0
 	fi
 	case ${ARCH} in
-	amd64|x86|arm)
+	amd64|x86|arm|arm64)
 		export CC="${CHOST}-clang" CXX="${CHOST}-clang++"
 		;;
 	*) die "Clang is not yet supported for ${ARCH}"

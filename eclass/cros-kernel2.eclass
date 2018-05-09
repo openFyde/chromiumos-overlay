@@ -814,7 +814,7 @@ get_build_cfg() {
 # - "<arch>_defconfig" if there is no splitconfig
 # - "chromiumos-<arch>" if CHROMEOS_KERNEL_SPLITCONFIG is not defined
 get_build_arch() {
-	if [ "${ARCH}" = "arm" ] ; then
+	if [[ "${ARCH}" == "arm"  ||  "${ARCH}" == "arm64" ]]; then
 		case "${CHROMEOS_KERNEL_SPLITCONFIG}" in
 			*exynos*)
 				echo "exynos5"
@@ -829,10 +829,10 @@ get_build_arch() {
 				echo "tegra"
 				;;
 			*)
-				echo "arm"
+				echo "${ARCH}"
 				;;
 		esac
-	elif [ "${ARCH}" = "x86" ] ; then
+	elif [[ "${ARCH}" == "x86" ]]; then
 		case "${CHROMEOS_KERNEL_SPLITCONFIG}" in
 			*i386*)
 				echo "i386"
@@ -844,9 +844,9 @@ get_build_arch() {
 				echo "x86"
 				;;
 		esac
-	elif [ "${ARCH}" = "amd64" ] ; then
+	elif [[ "${ARCH}" == "amd64" ]]; then
 		echo "x86_64"
-	elif [ "${ARCH}" = "mips" ] ; then
+	elif [[ "${ARCH}" == "mips" ]]; then
 		case "${CHROMEOS_KERNEL_SPLITCONFIG}" in
 			*pistachio*)
 				echo "pistachio"
@@ -1402,7 +1402,7 @@ cros-kernel2_src_install() {
 	local version=$(kernelrelease)
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 	local kernel_bin="${D}/boot/vmlinuz-${version}"
-	if use arm || use mips; then
+	if use arm || use arm64 || use mips; then
 		local kernel_dir="$(cros-workon_get_build_dir)"
 		local boot_dir="${kernel_dir}/arch/${kernel_arch}/boot"
 		local zimage_bin="${D}/boot/zImage-${version}"
@@ -1449,7 +1449,7 @@ cros-kernel2_src_install() {
 				;;
 		esac
 	fi
-	if use arm || use mips; then
+	if use arm || use arm64 || use mips; then
 		# TODO(vbendeb): remove the below .uimg link creation code
 		# after the build scripts have been modified to use the base
 		# image name.
