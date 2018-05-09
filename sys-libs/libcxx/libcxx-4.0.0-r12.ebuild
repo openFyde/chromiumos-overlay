@@ -84,6 +84,9 @@ pkg_setup() {
 }
 
 multilib_src_configure() {
+	# Filter sanitzers flags.
+	filter_sanitizers
+
 	local cxxabi cxxabi_incs
 	if use libcxxabi; then
 		cxxabi=libcxxabi
