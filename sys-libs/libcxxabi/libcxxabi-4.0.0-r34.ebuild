@@ -70,6 +70,8 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# Filter sanitzers flags.
+	filter_sanitizers
 	# Use vpfv3 fpu to be able to target non-neon targets.
 	if [[ $(tc-arch) == "arm" ]] ; then
 		append-flags -mfpu=vfpv3
