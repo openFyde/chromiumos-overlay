@@ -252,3 +252,16 @@ filter_clang_syntax() {
 		flags=()
 	done
 }
+
+filter_sanitizers() {
+	local var flag flags=()
+	for var in CFLAGS CXXFLAGS LDFLAGS; do
+		for flag in ${!var}; do
+			if [[ ${flag} != "-fsanitize"* ]]; then
+				flags+=("${flag}")
+			fi
+		done
+		export ${var}="${flags[*]}"
+		flags=()
+	done
+}
