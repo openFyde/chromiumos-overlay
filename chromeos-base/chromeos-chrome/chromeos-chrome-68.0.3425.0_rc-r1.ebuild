@@ -165,7 +165,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-68.0.3423.0_rc-r2.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-68.0.3425.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R68-3396.26-1525700645.afdo"
 AFDO_FILE["airmont"]="R68-3396.26-1525700645.afdo"
 AFDO_FILE["haswell"]="R68-3396.26-1525700645.afdo"
@@ -756,6 +756,10 @@ setup_test_lists() {
 		wayland_client_perftests
 	)
 
+	if use vaapi; then
+		TEST_FILES+=( jpeg_encode_accelerator_unittest )
+	fi
+
 	TEST_FILES+=( ppapi/examples/video_decode )
 
 	# TODO(ihf): Figure out how to keep this in sync with telemetry.
@@ -841,7 +845,7 @@ setup_compile_flags() {
 	fi
 
 	if use cfi; then
-		local resource_dir=$($CC -print-resource-dir)
+		local resource_dir=$(${CC} -print-resource-dir)
 		append-flags "-fsanitize-blacklist=${resource_dir}/share/cfi_blacklist.txt"
 	fi
 
