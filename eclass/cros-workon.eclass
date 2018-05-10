@@ -169,13 +169,6 @@ ARRAY_VARIABLES=(
 # site, set this to "1".
 : ${CROS_WORKON_BLACKLIST:=}
 
-# @ECLASS-VARIABLE: CROS_WORKON_CLANG
-# @DESCRIPTION:
-# If set to "1", for target board packages, build with -clang-syntax.
-# This is a flag our compiler wrapper uses, not the real gcc. If you want to
-# disable this feature, set this to "0".
-: ${CROS_WORKON_CLANG:=1}
-
 # @ECLASS-VARIABLE: CROS_WORKON_MAKE_COMPILE_ARGS
 # @DESCRIPTION:
 # Args to pass to `make` when running src_compile. Not intended for ebuilds
@@ -727,7 +720,6 @@ cros-workon_src_prepare() {
 }
 
 cros-workon_src_configure() {
-	cros-workon_check_clang_syntax
 	if [[ $(type -t cros-debug-add-NDEBUG) == "function" ]] ; then
 		# Only run this if we've inherited cros-debug.eclass.
 		cros-debug-add-NDEBUG
@@ -745,14 +737,6 @@ cros-workon_src_configure() {
 		econf "$@"
 	else
 		default
-	fi
-}
-
-cros-workon_check_clang_syntax() {
-	if ! use cros_host && [[ ${CROS_WORKON_CLANG} == "1" ]]; then
-		# For target board packages, build with -clang-syntax.  This is a flag our
-		# compiler wrapper uses, not the real gcc.
-		append-flags -clang-syntax
 	fi
 }
 

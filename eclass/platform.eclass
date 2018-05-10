@@ -222,7 +222,6 @@ platform_src_compile() {
 }
 
 platform_configure() {
-	cros-workon_check_clang_syntax
 	platform "configure" "$@"
 }
 
