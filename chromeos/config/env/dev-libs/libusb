@@ -3,7 +3,9 @@
 # found in the LICENSE file.
 
 # servod is unhappy when libusb is built w/clang.  https://crbug.com/723145
+# Filter sanitizer flags since it is built with GCC, https://crbug.com/841865
 cros_pre_src_prepare_use_gcc() {
 	cros_use_gcc
 	filter_clang_syntax
+	filter_sanitizers
 }
