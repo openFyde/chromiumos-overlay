@@ -20,6 +20,7 @@ RDEPEND="
 	app-mobilephone/dfu-util
 	sys-firmware/servo-firmware
 	sys-apps/flashrom
+	chromeos-base/ec-utils
 	"
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 

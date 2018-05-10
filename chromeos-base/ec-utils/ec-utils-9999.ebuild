@@ -23,7 +23,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-cr50_onboard -cr50_utils cros_host static unibuild"
+IUSE="-cr50_onboard -cr50_utils cros_host static unibuild -updater_utils"
 
 DEPEND="dev-embedded/libftdi"
 RDEPEND="${DEPEND}"
@@ -51,6 +51,11 @@ src_compile() {
 
 		# Make sure to override environment setting for BOARD, if any.
 		BOARD=cr50 emake -C extra/usb_updater gsctool
+	fi
+
+	# Add usb_updater2 for servo or hammer updates.
+	if use updater_utils || use cros_host; then
+		emake -C extra/usb_updater usb_updater2
 	fi
 
 	get_ec_boards
@@ -109,6 +114,11 @@ set '${EC_BOARDS[*]}'"
 	if use cr50_onboard || use cr50_utils || use cros_host; then
 		dosbin "extra/usb_updater/gsctool"
 		dosym "gsctool" "/usr/sbin/usb_updater"
+	fi
+
+	# Add usb_updater2 for servo or hammer updates.
+	if use updater_utils || use cros_host; then
+		dosbin "extra/usb_updater/usb_updater2"
 	fi
 
 	if [[ -d "board/${BOARD}/userspace/etc/init" ]] ; then
