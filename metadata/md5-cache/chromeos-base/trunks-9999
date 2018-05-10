@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile configure info install preinst setup test unpack
-DEPEND=chromeos-base/minijail chromeos-base/libbrillo chromeos-base/power_manager-client ftdi_tpm? ( dev-embedded/libftdi ) tpm2_simulator? ( chromeos-base/tpm2 ) dev-vcs/git dev-vcs/git chromeos-base/libchrome:395517[cros-debug=] test? ( dev-cpp/gmock ) dev-cpp/gtest sys-apps/baselayout
+DEPEND=chromeos-base/minijail chromeos-base/libbrillo chromeos-base/power_manager-client ftdi_tpm? ( dev-embedded/libftdi ) tpm2_simulator? ( chromeos-base/tpm2 ) chromeos-base/chromeos-ec-headers dev-vcs/git dev-vcs/git chromeos-base/libchrome:395517[cros-debug=] test? ( dev-cpp/gmock ) dev-cpp/gtest sys-apps/baselayout
 DESCRIPTION=Trunks service for Chromium OS
 EAPI=5
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/trunks/
@@ -10,4 +10,4 @@ RDEPEND=chromeos-base/minijail chromeos-base/libbrillo chromeos-base/power_manag
 REQUIRED_USE=fuzzer? ( asan )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-workon	cfcfc48d82610b9c36a91a8a3b11da0a	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d8721ae80a433d74914c59b01337e601	libchrome	b52d05e71fc666d335a6d65c29d19a88	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	f6b5962e9c6b8a7475452825904d4d09	toolchain-funcs	4c726f6edcd64ed3ba475e6d749c76a7	user	c8f947561e8797a300801d0dd3625448
-_md5_=28a7319ee0c67c5b8d5288c9fbbdfad6
+_md5_=8431f31d28501f16d3c9f5c5b2754fb1
