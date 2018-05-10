@@ -1,0 +1,25 @@
+s3: libsmbclient: Fix hard-coded connection error return of ETIMEDOUT.
+
+We shouldn't hard-code the connection error as ETIMEDOUT when
+we have a perfectly good NT_STATUS to map from.
+
+Found by the ChromeOS guys trying to connect an SMB2-only client
+to an SMB1-only supporting server.
+
+BUG: https://bugzilla.samba.org/show_bug.cgi?id=13419
+
+Signed-off-by: Jeremy Allison <jra@samba.org>
+Reviewed-by: Volker Lendecke <Volker.Lendecke@SerNet.DE>
+
+diff --git a/source3/libsmb/libsmb_server.c b/source3/libsmb/libsmb_server.c
+index e6067be2013..67dfcf72327 100644
+--- a/source3/libsmb/libsmb_server.c
++++ b/source3/libsmb/libsmb_server.c
+@@ -500,7 +500,7 @@ SMBC_server_internal(TALLOC_CTX *ctx,
+ 				 lp_client_max_protocol());
+ 	if (!NT_STATUS_IS_OK(status)) {
+ 		cli_shutdown(c);
+-		errno = ETIMEDOUT;
++		errno = map_errno_from_nt_status(status);
+ 		return NULL;
+ 	}
