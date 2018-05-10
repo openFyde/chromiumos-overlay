@@ -45,10 +45,5 @@ src_configure() {
 
 src_install() {
 	meson_src_install
-
-	if ! use static; then
-		rm "${D}/usr/sbin/mosys_s"
-	fi
-
 	dodoc README TODO
 }
