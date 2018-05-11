@@ -20,9 +20,11 @@ IUSE="$(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 
 RDEPEND="
 	x11-libs/arc-libdrm[${MULTILIB_USEDEP}]
-	video_cards_amdgpu? ( media-libs/arc-amdgpu-addrlib )
 "
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	video_cards_amdgpu? ( media-libs/arc-mesa )
+"
 
 src_configure() {
 	# Use arc-build base class to select the right compiler

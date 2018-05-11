@@ -27,11 +27,11 @@ done
 
 RDEPEND="
 	x11-libs/libdrm
-	!media-libs/mesa[gbm]
-	video_cards_amdgpu? ( media-libs/amdgpu-addrlib )"
+	!media-libs/mesa[gbm]"
 
 DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+	virtual/pkgconfig
+	video_cards_amdgpu? ( media-libs/mesa )"
 
 src_prepare() {
 	asan-setup-env
