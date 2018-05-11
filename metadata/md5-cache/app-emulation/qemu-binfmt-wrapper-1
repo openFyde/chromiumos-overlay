@@ -5,5 +5,5 @@ HOMEPAGE=http://www.chromium.org/
 KEYWORDS=*
 LICENSE=BSD-Google
 SLOT=0
-_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	33010b99ae18aa7ceab2327759543695
+_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	8abdf916e4ce29b8952bc60b587b3236
 _md5_=3229a7096446f53e23da8ced093287d6

@@ -7,5 +7,5 @@ KEYWORDS=*
 LICENSE=Artistic-2
 SLOT=0
 SRC_URI=mirror://sourceforge/pipeviewer/pv-1.1.4.tar.gz
-_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	33010b99ae18aa7ceab2327759543695
+_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	8abdf916e4ce29b8952bc60b587b3236
 _md5_=a3bf55faeb5a5833e81e6183f88033fb

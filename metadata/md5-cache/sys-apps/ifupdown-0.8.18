@@ -7,5 +7,5 @@ LICENSE=BSD GPL-2
 RDEPEND=sys-apps/debianutils
 SLOT=0
 SRC_URI=mirror://debian/pool/main/i/ifupdown/ifupdown_0.8.18.tar.xz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	33010b99ae18aa7ceab2327759543695
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	8abdf916e4ce29b8952bc60b587b3236
 _md5_=57deb370ff1581ee532a02fb8e4cd496
