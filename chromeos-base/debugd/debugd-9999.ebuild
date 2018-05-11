@@ -64,7 +64,6 @@ src_install() {
 
 	into /
 	dosbin "${OUT}"/debugd
-	dodir /debugd
 
 	exeinto /usr/libexec/debugd/helpers
 	doexe "${OUT}"/capture_packets
