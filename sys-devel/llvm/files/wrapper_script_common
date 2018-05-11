@@ -7,7 +7,12 @@ from __future__ import print_function
 import os
 import sys
 
-WRAPPER_ONLY_OPTIONS = set(('-print-cmdline', '-nopie', '-noccache'))
+WRAPPER_ONLY_OPTIONS = set((
+    '-print-cmdline',
+    '-nopie',
+    '-noccache',
+    '-clang-syntax',
+))
 
 X86_DISABLE_FLAGS = set(['-mno-movbe'])
 

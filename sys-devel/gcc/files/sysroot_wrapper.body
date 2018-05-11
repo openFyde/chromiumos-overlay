@@ -8,8 +8,6 @@ PIE = set(['-D__KERNEL__', '-A', '-fno-PIC', '-fno-PIE', '-fno-pic', '-fno-pie',
            '-shared', '-static'])
 SSE = set(['-msse3', '-mssse3', '-msse4.1', '-msse4.2', '-msse4', '-msse4a'])
 
-WRAPPER_ONLY_OPTIONS |= set(['-clang-syntax'])
-
 def update_flags(arch, myargs):
   # ARM32 specfic:
   # 1. Generate thumb codes by default.  GCC is configured with
