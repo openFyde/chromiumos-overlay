@@ -1,8 +1,7 @@
 From bd3c01004e6eb34907f71d7fdb9c95f60431dcc4 Mon Sep 17 00:00:00 2001
 From: Corbin Simpson <simpsoco@chromium.org>
 Date: Thu, 28 Aug 2014 14:48:31 -0700
-Subject: [PATCH] CHROMIUM: i965: Clamp scissor state instead of truncating on
- gen6.
+Subject: [PATCH] CHROMIUM: i965: Clamp scissor state instead of truncating on gen6.
 
 Replaces one undefined behavior with another, slightly more friendly,
 undefined behavior.
@@ -25,12 +24,12 @@ Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
  1 file changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/src/mesa/drivers/dri/i965/genX_state_upload.c b/src/mesa/drivers/dri/i965/genX_state_upload.c
-index a5ad2ca473..2fbf90ac7b 100644
+index a69a496f1dbb..0e76c08f99b7 100644
 --- a/src/mesa/drivers/dri/i965/genX_state_upload.c
 +++ b/src/mesa/drivers/dri/i965/genX_state_upload.c
 @@ -56,6 +56,13 @@
- #include "main/varray.h"
  #include "main/viewport.h"
+ #include "util/half_float.h"
  
 +/* Clamp scissors to 16-bit unsigned values; otherwise, the compiler truncates
 + * them to fit inside the bitfields, which is often not what is desired.
@@ -42,7 +41,7 @@ index a5ad2ca473..2fbf90ac7b 100644
  UNUSED static void *
  emit_dwords(struct brw_context *brw, unsigned n)
  {
-@@ -1980,16 +1987,16 @@ set_scissor_bits(const struct gl_context *ctx, int i,
+@@ -2301,16 +2308,16 @@ set_scissor_bits(const struct gl_context *ctx, int i,
        sc->ScissorRectangleYMax = 0;
     } else if (render_to_fbo) {
        /* texmemory: Y=0=bottom */
@@ -68,5 +67,5 @@ index a5ad2ca473..2fbf90ac7b 100644
  }
  
 -- 
-2.12.2
+1.9.1
 

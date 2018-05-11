@@ -4,8 +4,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="131e871385b343467d3f8be0a8f3ccf09ab81075"
-CROS_WORKON_TREE="92f454a7dcbc7ce8cb20ca3ec3439b67794fc314"
+CROS_WORKON_COMMIT="0f959215c340150cb6075f5c2d3ccfc5d109558f"
+CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
@@ -118,24 +118,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/10.3-dri-i965-Return-NULL-if-we-don-t-have-a-miptree.patch
 	epatch "${FILESDIR}"/10.3-drivers-dri-i965-gen6-Clamp-scissor-state-instead-of.patch
 	epatch "${FILESDIR}"/17.0-glcpp-Hack-to-handle-expressions-in-line-di.patch
-	epatch "${FILESDIR}"/17.3-virgl-also-remove-dimension-on-indirect.patch
-	epatch "${FILESDIR}"/17.3-virgl-Support-v2-caps-struct-v2.patch
-	epatch "${FILESDIR}"/17.3-mesa-don-t-clamp-just-based-on-ARB_viewport_array-ex.patch
-	epatch "${FILESDIR}"/17.3-virgl-remap-query-types-to-hw-support.patch
-	epatch "${FILESDIR}"/17.3-virgl-handle-getting-new-capsets.patch
-	epatch "${FILESDIR}"/17.3-virgl-reduce-some-default-capset-limits.patch
-	epatch "${FILESDIR}"/17.3-virgl-add-offset-alignment-values-to-to-v2-caps-stru.patch
-	epatch "${FILESDIR}"/17.3-virgl-Implement-seamless-cube-maps.patch
-	epatch "${FILESDIR}"/17.3-gallium-winsys-kms-Fix-possible-leak-in-map-unmap.patch
-	epatch "${FILESDIR}"/17.3-gallium-winsys-kms-Add-support-for-multi-planes.patch
-	epatch "${FILESDIR}"/18.1-mesa-add-xbgr-support-adjacent-to-xrgb.patch
-	epatch "${FILESDIR}"/18.1-amdgpu-always-allow-GTT-placements-on-APUs.patch
-	epatch "${FILESDIR}"/18.1-dri_util-Add-R10G10B10-A-X-2-translation-between_DRI.patch
-	epatch "${FILESDIR}"/18.1-i965-add-X-A-BGR2101010-to-intel_image_formats.patch
-	epatch "${FILESDIR}"/18.1-HACK-llvmpipe-delay-raster-threads-creation.patch
 	base_src_prepare
 
-	base_src_prepare
 	eautoreconf
 }
 
@@ -206,6 +190,8 @@ src_configure() {
 			egl_platforms="${egl_platforms},wayland"
 		fi
 	fi
+
+	append-flags "-UENABLE_SHADER_CACHE"
 
 	# --with-driver=dri|xlib|osmesa || do we need osmesa?
 	econf \

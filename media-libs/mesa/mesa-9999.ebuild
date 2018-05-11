@@ -115,21 +115,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/10.3-dri-i965-Return-NULL-if-we-don-t-have-a-miptree.patch
 	epatch "${FILESDIR}"/10.3-drivers-dri-i965-gen6-Clamp-scissor-state-instead-of.patch
 	epatch "${FILESDIR}"/17.0-glcpp-Hack-to-handle-expressions-in-line-di.patch
-	epatch "${FILESDIR}"/17.3-virgl-also-remove-dimension-on-indirect.patch
-	epatch "${FILESDIR}"/17.3-virgl-Support-v2-caps-struct-v2.patch
-	epatch "${FILESDIR}"/17.3-mesa-don-t-clamp-just-based-on-ARB_viewport_array-ex.patch
-	epatch "${FILESDIR}"/17.3-virgl-remap-query-types-to-hw-support.patch
-	epatch "${FILESDIR}"/17.3-virgl-handle-getting-new-capsets.patch
-	epatch "${FILESDIR}"/17.3-virgl-reduce-some-default-capset-limits.patch
-	epatch "${FILESDIR}"/17.3-virgl-add-offset-alignment-values-to-to-v2-caps-stru.patch
-	epatch "${FILESDIR}"/17.3-virgl-Implement-seamless-cube-maps.patch
-	epatch "${FILESDIR}"/17.3-gallium-winsys-kms-Fix-possible-leak-in-map-unmap.patch
-	epatch "${FILESDIR}"/17.3-gallium-winsys-kms-Add-support-for-multi-planes.patch
-	epatch "${FILESDIR}"/18.1-mesa-add-xbgr-support-adjacent-to-xrgb.patch
-	epatch "${FILESDIR}"/18.1-amdgpu-always-allow-GTT-placements-on-APUs.patch
-	epatch "${FILESDIR}"/18.1-dri_util-Add-R10G10B10-A-X-2-translation-between_DRI.patch
-	epatch "${FILESDIR}"/18.1-i965-add-X-A-BGR2101010-to-intel_image_formats.patch
-	epatch "${FILESDIR}"/18.1-HACK-llvmpipe-delay-raster-threads-creation.patch
 	base_src_prepare
 
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
@@ -205,6 +190,8 @@ src_configure() {
 			egl_platforms="${egl_platforms},wayland"
 		fi
 	fi
+
+        append-flags "-UENABLE_SHADER_CACHE"
 
 	# --with-driver=dri|xlib|osmesa || do we need osmesa?
 	econf \

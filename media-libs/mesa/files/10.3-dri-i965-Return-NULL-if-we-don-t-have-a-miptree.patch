@@ -31,7 +31,7 @@ index 27511525bffd..21ce2ed00194 100644
 +      return NULL;
     if (irb->mt->stencil_mt)
        return irb->mt->stencil_mt;
-    return irb->mt;
+    return intel_renderbuffer_get_mt(irb);
 -- 
 2.5.1
 
