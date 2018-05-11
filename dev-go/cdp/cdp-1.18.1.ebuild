@@ -13,6 +13,7 @@ CROS_WORKON_DESTDIR="${S}/src/github.com/mafredri/cdp"
 CROS_GO_PACKAGES=(
 	"github.com/mafredri/cdp"
 	"github.com/mafredri/cdp/devtool"
+	"github.com/mafredri/cdp/internal/..."
 	"github.com/mafredri/cdp/protocol/..."
 	"github.com/mafredri/cdp/rpcc"
 )
@@ -32,5 +33,9 @@ KEYWORDS="*"
 IUSE="test"
 RESTRICT="binchecks strip"
 
-DEPEND="test? ( dev-go/sync )"
+DEPEND="
+	test? (
+		dev-go/cmp
+		dev-go/sync
+	)"
 RDEPEND="dev-go/websocket"
