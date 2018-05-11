@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
 
 CROS_WORKON_PROJECT="chromiumos/platform/inputcontrol"
 
@@ -13,15 +13,11 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+X"
+IUSE=""
 
-RDEPEND="
-	app-arch/gzip
-	X? ( x11-apps/xinput )
-"
-DEPEND="${RDEPEND}"
+RDEPEND="app-arch/gzip"
+DEPEND=""
 
 src_configure() {
-	export HAVE_XINPUT=$(usex X 1 0)
 	cros-workon_src_configure
 }
