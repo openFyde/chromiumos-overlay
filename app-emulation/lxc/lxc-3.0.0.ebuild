@@ -1,12 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-PYTHON_COMPAT=( python3_{4,5,6} )
-DISTUTILS_OPTIONAL=1
-
-inherit autotools bash-completion-r1 distutils-r1 linux-info versionator flag-o-matic systemd
+inherit autotools bash-completion-r1 linux-info flag-o-matic systemd pam
 
 DESCRIPTION="LinuX Containers userspace utilities"
 HOMEPAGE="https://linuxcontainers.org/"
@@ -16,14 +13,12 @@ KEYWORDS="*"
 
 LICENSE="LGPL-3"
 SLOT="0"
-IUSE="cgmanager doc examples lua python seccomp selinux etcconfigdir"
+IUSE="doc examples pam seccomp selinux etcconfigdir"
 
 RDEPEND="
 	net-libs/gnutls
 	sys-libs/libcap
-	cgmanager? ( app-admin/cgmanager )
-	lua? ( >=dev-lang/lua-5.1:= )
-	python? ( ${PYTHON_DEPS} )
+	pam? ( virtual/pam )
 	seccomp? ( sys-libs/libseccomp )
 	selinux? ( sys-libs/libselinux )"
 
@@ -95,14 +90,8 @@ ERROR_GRKERNSEC_SYSFS_RESTRICT="CONFIG_GRKERNSEC_SYSFS_RESTRICT:  this GRSEC fea
 
 DOCS=(AUTHORS CONTRIBUTING MAINTAINERS NEWS README doc/FAQ.txt)
 
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
-
 LXC_STATEDIR_PATH="/var"
 LXC_CONFIG_PATH="/var/lib/lxc"
-if use etcconfigdir; then
-	LXC_STATEDIR_PATH="/etc"
-	LXC_CONFIG_PATH="/etc/lxc"
-fi
 
 pkg_setup() {
 	kernel_is -lt 4 7 && CONFIG_CHECK="${CONFIG_CHECK} ~DEVPTS_MULTIPLE_INSTANCES"
@@ -110,90 +99,57 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-2.0.6-bash-completion.patch
+	eapply "${FILESDIR}"/${PN}-3.0.0-bash-completion.patch
 	#558854
-	epatch "${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch
-	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-filter-syscalls-based-on-arguments.patch
-	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-use-return-instead-of-attribution-and-return.patch
-	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-handle-arch-inversion.patch
-	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-handle-all-errors.patch
-	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-cleanup-architecture-handling.patch
-	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-improve-logging.patch
-	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-non-functional-changes.patch
-	epatch "${FILESDIR}"/${PN}-3.0.0-seccomp-handle-arch-inversion-ii.patch
-	epatch_user
+	eapply "${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch
+	eapply_user
 	eautoreconf
 }
 
 src_configure() {
-	append-flags -fno-strict-aliasing
-
-	if use python; then
-		#541932
-		python_setup "python3*"
-		export PKG_CONFIG_PATH="${T}/${EPYTHON}/pkgconfig:${PKG_CONFIG_PATH}"
+	if use etcconfigdir ; then
+		LXC_STATEDIR_PATH="/etc"
+		LXC_CONFIG_PATH="/etc/lxc"
 	fi
+	append-flags -fno-strict-aliasing
 
 	# I am not sure about the --with-rootfs-path
 	# /var/lib/lxc is probably more appropriate than
 	# /usr/lib/lxc.
 	# Note by holgersson: Why is apparmor disabled?
+
 	econf \
 		--localstatedir="${LXC_STATEDIR_PATH}" \
 		--bindir=/usr/bin \
 		--sbindir=/usr/bin \
-		--with-config-path="${LXC_CONFIG_PATH}"\
+		--with-config-path="${LXC_CONFIG_PATH}" \
 		--with-rootfs-path="${LXC_CONFIG_PATH}"/rootfs \
 		--with-distro=gentoo \
 		--with-runtime-path=/run \
 		--disable-apparmor \
 		--disable-werror \
-		$(use_enable cgmanager) \
 		$(use_enable doc) \
 		$(use_enable examples) \
-		$(use_enable lua) \
-		$(use_enable python) \
+		$(use_enable pam) \
+		$(use_with pam pamdir $(getpam_mod_dir)) \
 		$(use_enable seccomp) \
 		$(use_enable selinux)
-}
-
-python_compile() {
-	distutils-r1_python_compile build_ext -I ../ -L ../${PN}
-}
-
-src_compile() {
-	default
-
-	if use python; then
-		pushd "${S}/src/python-${PN}" > /dev/null
-		distutils-r1_src_compile
-		popd > /dev/null
-	fi
 }
 
 src_install() {
 	default
 
 	mv "${ED}"/usr/share/bash-completion/completions/${PN} "${ED}"/$(get_bashcompdir)/${PN}-start || die
-	# start-ephemeral is no longer a command but removing it here
-	# generates QA warnings (still in upstream completion script)
 	bashcomp_alias ${PN}-start \
-		${PN}-{attach,cgroup,copy,console,create,destroy,device,execute,freeze,info,monitor,snapshot,start-ephemeral,stop,unfreeze,wait}
-
-	if use python; then
-		pushd "${S}/src/python-lxc" > /dev/null
-		# Unset DOCS. This has been handled by the default target
-		unset DOCS
-		distutils-r1_src_install
-		popd > /dev/null
-	fi
+		${PN}-{attach,cgroup,copy,console,create,destroy,device,execute,freeze,info,monitor,snapshot,stop,unfreeze,wait}
 
 	keepdir /etc/lxc "${LXC_CONFIG_PATH}"/rootfs /var/log/lxc
+	rmdir "${D}"/"${LXC_STATEDIR_PATH}"/cache/lxc "${D}"/"${LXC_STATEDIR_PATH}"/cache || die "rmdir failed"
 
 	find "${D}" -name '*.la' -delete
 
 	# Gentoo-specific additions!
-	newinitd "${FILESDIR}/${PN}.initd.5" ${PN}
+	newinitd "${FILESDIR}/${PN}.initd.7" ${PN}
 
 	# Remember to compare our systemd unit file with the upstream one
 	# config/init/systemd/lxc.service.in
@@ -202,16 +158,16 @@ src_install() {
 
 pkg_postinst() {
 	elog ""
-	elog "Starting from version ${PN}-1.1.0-r3, the default lxc path has been"
-	elog "moved from /etc/lxc to /var/lib/lxc. If you still want to use /etc/lxc"
-	elog "please add the following to your /etc/lxc/default.conf"
-	elog "lxc.lxcpath = /etc/lxc"
-	elog ""
-	elog "There is an init script provided with the package now; no documentation"
-	elog "is currently available though, so please check out /etc/init.d/lxc ."
-	elog "You _should_ only need to symlink it to /etc/init.d/lxc.configname"
-	elog "to start the container defined into /etc/lxc/configname.conf ."
-	elog "For further information about LXC development see"
-	elog "http://blog.flameeyes.eu/tag/lxc" # remove once proper doc is available
-	elog ""
+		elog "Starting from version ${PN}-1.1.0-r3, the default lxc path has been"
+		elog "moved from /etc/lxc to /var/lib/lxc. If you still want to use /etc/lxc"
+		elog "please add the following to your /etc/lxc/default.conf"
+		elog "lxc.lxcpath = /etc/lxc"
+		elog ""
+		elog "There is an init script provided with the package now; no documentation"
+		elog "is currently available though, so please check out /etc/init.d/lxc ."
+		elog "You _should_ only need to symlink it to /etc/init.d/lxc.configname"
+		elog "to start the container defined into /etc/lxc/configname.conf ."
+		elog "For further information about LXC development see"
+		elog "http://blog.flameeyes.eu/tag/lxc" # remove once proper doc is available
+		elog ""
 }
