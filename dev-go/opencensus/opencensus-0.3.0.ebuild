@@ -3,12 +3,7 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="v${PV}"
-CROS_WORKON_PROJECT="external/github.com/census-instrumentation/opencensus-go"
-CROS_WORKON_DESTDIR="${S}/src/go.opencensus.io"
+CROS_GO_SOURCE="github.com/census-instrumentation/opencensus-go:go.opencensus.io v${PV}"
 
 CROS_GO_PACKAGES=(
 	"go.opencensus.io/exporter/stackdriver"
@@ -28,10 +23,11 @@ CROS_GO_TEST=(
 	"${CROS_GO_PACKAGES[@]}"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="A stats collection and distributed tracing framework"
 HOMEPAGE="http://opencensus.io/"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="Apache-2.0"
 SLOT="0"

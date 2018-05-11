@@ -3,12 +3,7 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="v${PV}"
-CROS_WORKON_PROJECT="external/github.com/mafredri/cdp"
-CROS_WORKON_DESTDIR="${S}/src/github.com/mafredri/cdp"
+CROS_GO_SOURCE="github.com/mafredri/cdp v${PV}"
 
 CROS_GO_PACKAGES=(
 	"github.com/mafredri/cdp"
@@ -22,10 +17,11 @@ CROS_GO_TEST=(
 	"${CROS_GO_PACKAGES[@]}"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="Type-safe bindings for the Chrome Debugging Protocol written in Go"
 HOMEPAGE="https://github.com/mafredri/cdp"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="MIT"
 SLOT="0"

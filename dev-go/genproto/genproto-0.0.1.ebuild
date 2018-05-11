@@ -3,12 +3,7 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="2b5a72b8730b0b16380010cfe5286c42108d88e7"
-CROS_WORKON_PROJECT="external/github.com/google/go-genproto"
-CROS_WORKON_DESTDIR="${S}/src/google.golang.org/genproto"
+CROS_GO_SOURCE="github.com/google/go-genproto:google.golang.org/genproto 2b5a72b8730b0b16380010cfe5286c42108d88e7"
 
 CROS_GO_PACKAGES=(
 	"google.golang.org/genproto/googleapis/api/annotations"
@@ -25,10 +20,11 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/genproto/protobuf/field_mask"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="Go generated proto packages"
 HOMEPAGE="https://github.com/googleapis/googleapis/"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="BSD-Google"
 SLOT="0"

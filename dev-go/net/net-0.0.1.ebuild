@@ -3,13 +3,7 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="66aacef3dd8a676686c7ae3716979581e8b03c47"
-CROS_WORKON_REPO="https://go.googlesource.com"
-CROS_WORKON_PROJECT="net"
-CROS_WORKON_DESTDIR="${S}/src/golang.org/x/net"
+CROS_GO_SOURCE="go.googlesource.com/net:golang.org/x/net 66aacef3dd8a676686c7ae3716979581e8b03c47"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/net/bpf"
@@ -32,10 +26,11 @@ CROS_GO_TEST=(
 	"${CROS_GO_PACKAGES[@]}"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="Go supplementary network libraries"
 HOMEPAGE="https://golang.org/x/net"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="BSD-Google"
 SLOT="0"

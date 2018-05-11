@@ -3,12 +3,7 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
-CROS_WORKON_PROJECT="external/github.com/golang/protobuf"
-CROS_WORKON_DESTDIR="${S}/src/github.com/golang/protobuf"
+CROS_GO_SOURCE="github.com/golang/protobuf bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
 
 CROS_GO_PACKAGES=(
 	"github.com/golang/protobuf/proto"
@@ -21,10 +16,11 @@ CROS_GO_BINARIES=(
 	"github.com/golang/protobuf/protoc-gen-go"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="Go support for Protocol Buffers"
 HOMEPAGE="https://github.com/golang/protobuf"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="BSD-Google"
 SLOT="0"

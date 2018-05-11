@@ -3,14 +3,9 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
 # The dev-go/gapi* packages are all built from this repo.  They should
 # be updated together.
-CROS_WORKON_COMMIT="068431dcab1a5817548dd244d9795788a98329f4"
-CROS_WORKON_PROJECT="external/github.com/google/google-api-go-client"
-CROS_WORKON_DESTDIR="${S}/src/google.golang.org/api"
+CROS_GO_SOURCE="github.com/google/google-api-go-client:google.golang.org/api 068431dcab1a5817548dd244d9795788a98329f4"
 
 CROS_GO_PACKAGES=(
 	"google.golang.org/api/iterator"
@@ -21,10 +16,11 @@ CROS_GO_TEST=(
 	"${CROS_GO_PACKAGES[@]}"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="Auto-generated Google APIs for Go"
 HOMEPAGE="https://github.com/google/google-api-go-client"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="BSD-Google"
 SLOT="0"

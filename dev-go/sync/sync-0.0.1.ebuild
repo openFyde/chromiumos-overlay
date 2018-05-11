@@ -3,13 +3,7 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="f52d1811a62927559de87708c8913c1650ce4f26"
-CROS_WORKON_REPO="https://go.googlesource.com"
-CROS_WORKON_PROJECT="sync"
-CROS_WORKON_DESTDIR="${S}/src/golang.org/x/sync"
+CROS_GO_SOURCE="go.googlesource.com/sync:golang.org/x/sync f52d1811a62927559de87708c8913c1650ce4f26"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/sync/errgroup"
@@ -20,10 +14,11 @@ CROS_GO_TEST=(
 	"${CROS_GO_PACKAGES[@]}"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="Additional Go concurrency primitives"
 HOMEPAGE="https://golang.org/x/sync"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="BSD-Google"
 SLOT="0"

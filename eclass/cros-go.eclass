@@ -1,19 +1,52 @@
-# Copyright 2015 The Chromium OS Authors. All rights reserved.
-# Distributed under the terms of the GNU General Public License v2.
+# Copyright 2015-2018 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
 
-#
-# Original Author: The Chromium OS Authors <chromium-os-dev@chromium.org>
-# Purpose: Library for supporting the Go programming language in Chromium OS.
-#
+# @ECLASS: cros-go.eclass
+# @MAINTAINER:
+# The Chromium OS Authors <chromium-os-dev@chromium.org>
+# @BUGREPORTS:
+# Please report bugs via https://crbug.com/new (with component "Tools>ChromeOS-Toolchain")
+# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/eclass/@ECLASS@
+# @BLURB: Eclass for fetching, building, and installing Go packages.
+# @DESCRIPTION:
+# See http://www.chromium.org/chromium-os/developer-guide/go-in-chromium-os for details.
+
+# @ECLASS-VARIABLE: CROS_GO_SOURCE
+# @PRE_INHERIT
+# @DESCRIPTION:
+# Path to the upstream repository and commit id.
+# Go repositories on "github.com" and "*.googlesource.com" are supported.
+# The source string contains the path of the git repository containing Go
+# packages, and a commit-id (or version tag).
+# For example:
+#   CROS_GO_SOURCE="github.com/golang/glog 44145f04b68cf362d9c4df2182967c2275eaefed"
+# will fetch the sources from https://github.com/golang/glog at the
+# specified commit-id, and
+#   CROS_GO_SOURCE="github.com/pkg/errors v0.8.0"
+# will fetch the sources from https://github.com/pkg/errors at version
+# v0.8.0.
+# By default, the import path for Go packages in the repository is the
+# same as repository path. This can be overridden by appending a colon
+# to the repository path, followed by an alternate import path.
+# For example:
+#   CROS_GO_SOURCE="github.com/go-yaml/yaml:gopkg.in/yaml.v2 v2.2.1"
+# will fetch the sources from https://github.com/go-yaml/yaml at version
+# v2.2.1, and install the package under "gopkg.in/yaml.v2".
+# CROS_GO_SOURCE can contain multiple items when defined as an array:
+#   CROS_GO_SOURCE=(
+#     "github.com/golang/glog 44145f04b68cf362d9c4df2182967c2275eaefed"
+#     "github.com/pkg/errors v0.8.0"
+#     "github.com/go-yaml/yaml:gopkg.in/yaml.v2 v2.2.1"
+#   )
 
 # @ECLASS-VARIABLE: CROS_GO_WORKSPACE
 # @DESCRIPTION:
-# Path to the Go workspace, default is ${S}
+# Path to the Go workspace, default is ${S}.
 
 # @ECLASS-VARIABLE: CROS_GO_BINARIES
 # @DESCRIPTION:
-# Go executable binaries to build and install
-# Package paths are relative to ${CROS_GO_WORKSPACE}/src
+# Go executable binaries to build and install.
+# Package paths are relative to ${CROS_GO_WORKSPACE}/src.
 # Each path must contain a package "main". The last component
 # of the package path will become the name of the executable.
 # The executable name can be overridden by appending a colon
@@ -40,8 +73,8 @@
 
 # @ECLASS-VARIABLE: CROS_GO_PACKAGES
 # @DESCRIPTION:
-# Go packages to install in /usr/lib/gopath
-# Package paths are relative to ${CROS_GO_WORKSPACE}/src
+# Go packages to install in /usr/lib/gopath.
+# Package paths are relative to ${CROS_GO_WORKSPACE}/src.
 # Packages are installed in /usr/lib/gopath such that they
 # can be imported later from Go code using the exact paths
 # listed here. For example:
@@ -58,8 +91,8 @@
 
 # @ECLASS-VARIABLE: CROS_GO_TEST
 # @DESCRIPTION:
-# Go packages to test
-# Package paths are relative to ${CROS_GO_WORKSPACE}/src
+# Go packages to test.
+# Package paths are relative to ${CROS_GO_WORKSPACE}/src.
 # Package tests are run with "-short" flag by default.
 # Package tests are always built and run locally on host.
 # Default is to test all packages in ${CROS_GO_WORKSPACE}.
@@ -69,24 +102,147 @@ inherit toolchain-funcs
 
 DEPEND="dev-lang/go"
 
+# @FUNCTION: cros-go_get
+# @USAGE: <source> [variables to extract]
+# @INTERNAL
+# @DESCRIPTION:
+# Parse source string and extract different components.
+# This function parses the string containing upstream
+# repository, import path, and commit id information
+# (see description of CROS_GO_SOURCE format above).
+# It can also be used to construct the name of the
+# distfile and a uri for fetching it.
+cros-go_get() {
+	local src commit repopath importpath distfile uri
+	src="$1"
+	commit="${src##* }"
+	repopath="${src%% *}"
+	importpath="${repopath#*:}"
+	repopath="${repopath%:*}"
+	distfile="${repopath//\//-}-${commit}.tar.gz"
+	uri="https://${repopath}/${commit}.tar.gz"
+	case "${repopath%%/*}" in
+		github.com)
+			uri="https://${repopath}/archive/${commit}.tar.gz" ;;
+		*.googlesource.com)
+			uri="https://${repopath}/+archive/${commit}.tar.gz" ;;
+		*)
+			die "Unsupported upstream source in ${repopath}" ;;
+	esac
+
+	shift
+	local arg
+	for arg in "$@" ; do
+		case "${arg}" in
+			commit) printf "%s" "${commit}" ;;
+			repopath) printf "%s" "${repopath}" ;;
+			importpath) printf "%s" "${importpath}" ;;
+			distfile) printf "%s" "${distfile}" ;;
+			uri) printf "%s" "${uri}" ;;
+			*) printf "${arg}" ;;
+		esac
+	done
+}
+
+# @FUNCTION: cros-go_src_uri
+# @RETURN: a valid SRC_URI for CROS_GO_SOURCE
+# @DESCRIPTION:
+# Set the SRC_URI in an ebuild with:
+#   SRC_URI="$(cros-go_src_uri)"
+cros-go_src_uri() {
+	local src
+	for src in "${CROS_GO_SOURCE[@]}" ; do
+		cros-go_get "${src}" uri " -> " distfile "\n"
+	done
+}
+
+# @FUNCTION: cros-go_pkg_nofetch
+# @DESCRIPTION:
+# Print useful information on how to download a source tarball and
+# add it to chromeos-localmirror.
+cros-go_pkg_nofetch() {
+	local src
+	for src in "${CROS_GO_SOURCE[@]}" ; do
+		local uri="$(cros-go_get "${src}" uri)"
+		local distfile="$(cros-go_get "${src}" distfile)"
+		einfo "Run these commands to add ${distfile} to chromeos-localmirror:"
+		einfo "  wget -O ${distfile} ${uri}"
+		einfo "  gsutil cp -a public-read ${distfile} gs://chromeos-localmirror/distfiles/"
+		einfo
+	done
+	einfo "After all distfiles have been mirrored, update the 'Manifest' file with:"
+	einfo "  ebuild ${EBUILD} manifest"
+}
+
+# @FUNCTION: cros-go_src_unpack
+# @DESCRIPTION:
+# Unpack the source tarball under appropriate location based on
+# the desired import path.
+cros-go_src_unpack() {
+	local src
+	for src in "${CROS_GO_SOURCE[@]}" ; do
+		local commit="$(cros-go_get "${src}" commit)"
+		local repopath="$(cros-go_get "${src}" repopath)"
+		local importpath="$(cros-go_get "${src}" importpath)"
+		local distfile="$(cros-go_get "${src}" distfile)"
+
+		local destdir="${S}/src/${importpath}"
+		case "${repopath%%/*}" in
+			github.com)
+				# Unpacking tarballs from github creates a top level
+				# directory "projectname-version", so extra logic is
+				# required to make the contents appear correctly in
+				# the desired destination directory.
+				mkdir -p "${destdir%/*}" || die
+				pushd "${destdir%/*}" >/dev/null || die
+				unpack "${distfile}"
+				mv "${repopath##*/}-${commit#v}" "${importpath##*/}" || die
+				popd >/dev/null || die
+				;;
+			*.googlesource.com)
+				mkdir -p "${destdir}" || die
+				pushd "${destdir}" >/dev/null || die
+				unpack "${distfile}"
+				popd >/dev/null || die
+				;;
+		esac
+	done
+}
+
+# @FUNCTION: cros_go
+# @DESCRIPTION:
+# Wrapper function for invoking the Go tool from an ebuild.
+# Sets up GOPATH, and uses the appropriate cross-compiler.
 cros_go() {
 	local workspace="${CROS_GO_WORKSPACE:-${S}}"
 	GOPATH="${workspace}:${SYSROOT}/usr/lib/gopath" \
 		$(tc-getGO) "$@" || die
 }
 
+# @FUNCTION: go_list
+# @DESCRIPTION:
+# List all Go packages matching a pattern. Only looks up
+# package names in the current workspace (doesn't match
+# packages installed under /usr/lib/gopath).
 go_list() {
 	local workspace="${CROS_GO_WORKSPACE:-${S}}"
 	GOPATH="${workspace}" \
 		$(tc-getGO) list "$@" || die
 }
 
+# @FUNCTION: go_test
+# @DESCRIPTION:
+# Wrapper function for building and running unit tests.
+# Package tests are always built and run locally on host.
 go_test() {
 	local workspace="${CROS_GO_WORKSPACE:-${S}}"
 	GOPATH="${workspace}:${SYSROOT}/usr/lib/gopath" \
 		$(tc-getBUILD_GO) test "$@" || die
 }
 
+# @FUNCTION: cros-go_src_compile
+# @DESCRIPTION:
+# Build CROS_GO_BINARIES.
 cros-go_src_compile() {
 	local bin
 	for bin in "${CROS_GO_BINARIES[@]}" ; do
@@ -101,11 +257,17 @@ cros-go_src_compile() {
 	done
 }
 
+# @FUNCTION: cros-go_src_test
+# @DESCRIPTION:
+# Run tests for packages listed in CROS_GO_TEST.
 cros-go_src_test() {
 	local pkglist=( $(go_list "${CROS_GO_TEST[@]}") )
 	go_test -short "${pkglist[@]}"
 }
 
+# @FUNCTION: cros-go_src_install
+# @DESCRIPTION:
+# Install CROS_GO_BINARIES and CROS_GO_PACKAGES.
 cros-go_src_install() {
 	local workspace="${CROS_GO_WORKSPACE:-${S}}"
 
@@ -156,5 +318,9 @@ cros-go_src_install() {
 	# 	fi
 	# done
 }
+
+if [[ ${#CROS_GO_SOURCE[@]} != 0 ]] ; then
+	EXPORT_FUNCTIONS pkg_nofetch src_unpack
+fi
 
 EXPORT_FUNCTIONS src_compile src_test src_install

@@ -3,14 +3,9 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
 # The dev-go/luci-* packages are all built from this repo.  They should
 # be updated together.
-CROS_WORKON_COMMIT="77b23ce4c9189484e14035690f439c97f7629c2e"
-CROS_WORKON_PROJECT="infra/luci/luci-go"
-CROS_WORKON_DESTDIR="${S}/src/go.chromium.org/luci"
+CROS_GO_SOURCE="chromium.googlesource.com/infra/luci/luci-go:go.chromium.org/luci 77b23ce4c9189484e14035690f439c97f7629c2e"
 
 CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/auth"
@@ -18,10 +13,11 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/auth/integration/localauth/rpcs"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="LUCI Go auth library"
 HOMEPAGE="https://chromium.googlesource.com/infra/luci/luci-go/"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="Apache-2.0"
 SLOT="0"

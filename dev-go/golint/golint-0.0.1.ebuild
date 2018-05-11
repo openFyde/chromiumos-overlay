@@ -3,21 +3,17 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="c5fb716d6688a859aae56d26d3e6070808df29f7"
-CROS_WORKON_PROJECT="external/github.com/golang/lint"
-CROS_WORKON_DESTDIR="${S}/src/github.com/golang/lint"
+CROS_GO_SOURCE="github.com/golang/lint c5fb716d6688a859aae56d26d3e6070808df29f7"
 
 CROS_GO_BINARIES=(
 	"github.com/golang/lint/golint"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="A linter for Go source code"
 HOMEPAGE="https://github.com/golang/lint"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="BSD-Google"
 SLOT="0"

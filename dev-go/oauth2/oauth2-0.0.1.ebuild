@@ -3,13 +3,7 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="fdc9e635145ae97e6c2cb777c48305600cf515cb"
-CROS_WORKON_REPO="https://go.googlesource.com"
-CROS_WORKON_PROJECT="oauth2"
-CROS_WORKON_DESTDIR="${S}/src/golang.org/x/oauth2"
+CROS_GO_SOURCE="go.googlesource.com/oauth2:golang.org/x/oauth2 fdc9e635145ae97e6c2cb777c48305600cf515cb"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/oauth2"
@@ -28,10 +22,11 @@ CROS_GO_TEST=(
 	# "golang.org/x/oauth2/google"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="Go packages for oauth2"
 HOMEPAGE="https://golang.org/x/oauth2"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="BSD-Google"
 SLOT="0"

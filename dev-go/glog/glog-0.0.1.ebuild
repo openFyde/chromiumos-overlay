@@ -3,21 +3,17 @@
 
 EAPI=5
 
-# Disable cros-workon auto-uprev since this is an external package.
-# Must manage commit hash manually.
-CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="44145f04b68cf362d9c4df2182967c2275eaefed"
-CROS_WORKON_PROJECT="external/github.com/golang/glog"
-CROS_WORKON_DESTDIR="${S}/src/github.com/golang/glog"
+CROS_GO_SOURCE="github.com/golang/glog 44145f04b68cf362d9c4df2182967c2275eaefed"
 
 CROS_GO_PACKAGES=(
 	"github.com/golang/glog"
 )
 
-inherit cros-workon cros-go
+inherit cros-go
 
 DESCRIPTION="Leveled execution logs for Go"
 HOMEPAGE="https://github.com/golang/glog"
+SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="BSD-Google"
 SLOT="0"
