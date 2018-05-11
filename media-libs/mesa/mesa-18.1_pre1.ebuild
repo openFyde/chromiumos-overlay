@@ -135,8 +135,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/17.3-gallium-winsys-kms-Fix-possible-leak-in-map-unmap.patch
 	epatch "${FILESDIR}"/17.3-gallium-winsys-kms-Add-support-for-multi-planes.patch
 	epatch "${FILESDIR}"/18.1-mesa-add-xbgr-support-adjacent-to-xrgb.patch
-	base_src_prepare
+	epatch "${FILESDIR}"/18.1-amdgpu-always-allow-GTT-placements-on-APUs.patch
 
+	base_src_prepare
 	eautoreconf
 }
 
