@@ -1,0 +1,45 @@
+From b14d33d72df0e7348321727414d5e856131480ef Mon Sep 17 00:00:00 2001
+From: Ben Chan <benchan@chromium.org>
+Date: Fri, 11 May 2018 07:46:55 +0000
+Subject: [PATCH] Mock more methods of dbus::Bus in dbus::MockBus.
+
+This CL updates dbus::MockBus to mock dbus::Bus::AddFilterFunction and
+dbus::Bus::RemoveFilterFunction. Neither method is exercised in existing
+Chrome unit tests. However, some Chrome OS unit tests (e.g. CL:1048028)
+need to mock them, which is currently done by sub-classing
+dbus::MockBus. This CL alleviates the need of such sub-classing.
+
+Bug: None
+Change-Id: Ib5f3e41573ec900351ebedad030bb6147db3b74f
+Reviewed-on: https://chromium-review.googlesource.com/1054159
+Reviewed-by: Ryo Hashimoto <hashimoto@chromium.org>
+Commit-Queue: Ben Chan <benchan@chromium.org>
+Cr-Commit-Position: refs/heads/master@{#557811}
+---
+ dbus/mock_bus.h | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/dbus/mock_bus.h b/dbus/mock_bus.h
+index 37b31b090574..216bc64bd068 100644
+--- a/dbus/mock_bus.h
++++ b/dbus/mock_bus.h
+@@ -48,10 +48,12 @@ class MockBus : public Bus {
+                                    DBusPendingCall** pending_call,
+                                    int timeout_ms));
+   MOCK_METHOD2(Send, void(DBusMessage* request, uint32_t* serial));
+-  MOCK_METHOD2(AddFilter, void(DBusHandleMessageFunction handle_message,
+-                               void* user_data));
+-  MOCK_METHOD2(RemoveFilter, void(DBusHandleMessageFunction handle_message,
+-                                  void* user_data));
++  MOCK_METHOD2(AddFilterFunction,
++               void(DBusHandleMessageFunction filter_function,
++                    void* user_data));
++  MOCK_METHOD2(RemoveFilterFunction,
++               void(DBusHandleMessageFunction filter_function,
++                    void* user_data));
+   MOCK_METHOD2(AddMatch, void(const std::string& match_rule,
+                               DBusError* error));
+   MOCK_METHOD2(RemoveMatch, bool(const std::string& match_rule,
+-- 
+2.17.0.441.gb46fe60e1d-goog
+
