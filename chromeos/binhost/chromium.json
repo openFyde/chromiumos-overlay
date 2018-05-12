@@ -99,53 +99,6 @@
   }, 
   {
     "compat_id": {
-      "arch": "amd64", 
-      "cflags": [
-        "-O2", 
-        "-pipe", 
-        "-O2", 
-        "-pipe", 
-        "-march=x86-64", 
-        "-msse3", 
-        "-g", 
-        "-fno-exceptions", 
-        "-fno-unwind-tables", 
-        "-fno-asynchronous-unwind-tables"
-      ], 
-      "useflags": [
-        "accessibility", 
-        "authpolicy", 
-        "autotest", 
-        "build_tests", 
-        "buildcheck", 
-        "chrome_debug", 
-        "chrome_remoting", 
-        "clang", 
-        "cups", 
-        "debug_fission", 
-        "evdev_gestures", 
-        "fonts", 
-        "gold", 
-        "highdpi", 
-        "libcxx", 
-        "nacl", 
-        "opengles", 
-        "ozone_platform_default_gbm", 
-        "ozone_platform_gbm", 
-        "runhooks", 
-        "smbprovider", 
-        "v4l2_codec", 
-        "vaapi", 
-        "xkbcommon"
-      ]
-    }, 
-    "key": {
-      "board": "amd64-generic", 
-      "useflags": []
-    }
-  }, 
-  {
-    "compat_id": {
       "arch": "arm", 
       "cflags": [
         "-O2", 
@@ -192,6 +145,54 @@
       "useflags": [
         "-chrome_internal"
       ]
+    }
+  }, 
+  {
+    "compat_id": {
+      "arch": "amd64", 
+      "cflags": [
+        "-O2", 
+        "-pipe", 
+        "-O2", 
+        "-pipe", 
+        "-march=x86-64", 
+        "-msse3", 
+        "-g", 
+        "-fno-exceptions", 
+        "-fno-unwind-tables", 
+        "-fno-asynchronous-unwind-tables"
+      ], 
+      "useflags": [
+        "accessibility", 
+        "authpolicy", 
+        "autotest", 
+        "build_tests", 
+        "buildcheck", 
+        "chrome_debug", 
+        "chrome_remoting", 
+        "clang", 
+        "cups", 
+        "debug_fission", 
+        "evdev_gestures", 
+        "fonts", 
+        "gold", 
+        "highdpi", 
+        "libcxx", 
+        "nacl", 
+        "opengles", 
+        "ozone_platform_default_gbm", 
+        "ozone_platform_gbm", 
+        "runhooks", 
+        "smbprovider", 
+        "thinlto", 
+        "v4l2_codec", 
+        "vaapi", 
+        "xkbcommon"
+      ]
+    }, 
+    "key": {
+      "board": "amd64-generic", 
+      "useflags": []
     }
   }
 ]
