@@ -59,13 +59,10 @@ index 47b988a21b..f70748db6e 100644
      }
  
      pub fn search<F>(&self, mut pick: F)
-diff --git a/src/librustc_metadata/locator.rs b/src/librustc_metadata/locator.rs
-index 34b07af9f0..2739765307 100644
 --- a/src/librustc_metadata/locator.rs
 +++ b/src/librustc_metadata/locator.rs
-@@ -245,6 +245,18 @@ use std::time::Instant;
- use flate;
- use owning_ref::{ErasedBoxRef, OwningRef};
+@@ -246,6 +246,18 @@ use std::time::Instant;
+ use flate2::read::DeflateDecoder;
  
 +fn vender_to_unknown(target: &str) -> Option<String> {
 +    let mut triple: Vec<&str> = target.splitn(3, '-').collect();
@@ -79,26 +76,27 @@ index 34b07af9f0..2739765307 100644
 +    Some(triple.join("-"))
 +}
 +
+ use rustc_data_structures::owning_ref::OwningRef;
  pub struct CrateMismatch {
      path: PathBuf,
      got: String,
 @@ -698,14 +710,24 @@ impl<'a> Context<'a> {
          }
  
-         if root.triple != self.triple {
+         if &root.triple != self.triple {
 -            info!("Rejecting via crate triple: expected {} got {}",
 -                  self.triple,
 -                  root.triple);
 -            self.rejected_via_triple.push(CrateMismatch {
 -                path: libpath.to_path_buf(),
--                got: root.triple,
+-                got: format!("{}", root.triple),
 -            });
 -            return None;
-+            if let Some(triple) = vender_to_unknown(self.triple) {
-+                if root.triple != triple.as_str() {
++            if let Some(triple) = vender_to_unknown(self.triple.triple()) {
++                if root.triple.triple() != triple.as_str() {
 +                    self.rejected_via_triple.push(CrateMismatch {
 +                        path: libpath.to_path_buf(),
-+                        got: root.triple,
++                        got: format!("{}", root.triple),
 +                    });
 +                    return None;
 +                }
@@ -108,7 +106,7 @@ index 34b07af9f0..2739765307 100644
 +                      root.triple);
 +                self.rejected_via_triple.push(CrateMismatch {
 +                    path: libpath.to_path_buf(),
-+                    got: root.triple,
++                    got: format!("{}", root.triple),
 +                });
 +                return None;
 +            }

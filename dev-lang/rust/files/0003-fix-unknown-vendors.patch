@@ -7,10 +7,10 @@ ordinary dictionary search fails.
 See: https://github.com/rust-lang/rust/issues/41402
 
 diff --git a/src/librustc_back/target/mod.rs b/src/librustc_back/target/mod.rs
-index 5afa85d155..50c44b514b 100644
+index 507243a58a..4c0a5a2c8c 100644
 --- a/src/librustc_back/target/mod.rs
 +++ b/src/librustc_back/target/mod.rs
-@@ -664,10 +664,28 @@ impl Target {
+@@ -839,6 +839,18 @@ impl Target {
              Target::from_json(obj)
          }
  
@@ -26,16 +26,20 @@ index 5afa85d155..50c44b514b 100644
 +            Some(triple.join("-"))
 +        }
 +
-         if let Ok(t) = load_specific(target) {
-             return Ok(t)
-         }
+         match target_triple {
+             &TargetTriple::TargetTriple(ref target_triple) => {
+                 // check if triple is in list of supported targets
+@@ -846,6 +858,12 @@ impl Target {
+                     return Ok(t)
+                 }
  
-+        if let Some(novendor_target) = vender_to_unknown(target) {
-+             if let Ok(t) = load_specific(&novendor_target) {
-+                return Ok(t)
-+            }
-+        }
++                if let Some(novendor_target) = vender_to_unknown(target_triple) {
++                    if let Ok(t) = load_specific(&novendor_target) {
++                        return Ok(t)
++                    }
++                }
 +
-         let path = Path::new(target);
- 
-         if path.is_file() {
+                 // search for a file named `target_triple`.json in RUST_TARGET_PATH
+                 let path = {
+                     let mut target = target_triple.to_string();
+

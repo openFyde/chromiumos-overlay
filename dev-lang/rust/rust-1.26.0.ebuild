@@ -25,7 +25,7 @@ fi
 
 STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).0"
 STAGE0_VERSION_CARGO="0.$(($(get_version_component_range 2))).0"
-STAGE0_DATE="2018-02-15"
+STAGE0_DATE="2018-03-29"
 RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
@@ -53,6 +53,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-fix-unknown-vendors.patch
 	"${FILESDIR}"/0004-fix-rpath.patch
 	"${FILESDIR}"/0005-add-unknown-vendor-to-filesearch.patch
+	"${FILESDIR}"/0006-Fix-fp-feature-for-AArch64.patch
 )
 
 S="${WORKDIR}/${MY_P}-src"
@@ -76,7 +77,7 @@ src_prepare() {
 	# One of the patches changes a vendored library, thereby changing the
 	# checksum.
 	pushd src/vendor/cc || die
-	sed -i 's:996b650e19d5ccd6e64e741789427017c913644e980862a7286ec4ed53c14a17:ba9a3ee0614027d99fbbe8a69e0d6d9e8275b80fdf7a47f5a164c82acf1e367e:g' \
+	sed -i 's:6e8cea99f5fc8e5982b1ea9a336ee2f9a6158a9498c8f0c36f1e8cee8c99716e:ade194aa562bbec55c1cead07b7cc8ff529aad6633a47447f9ce5e80f63a5439:g' \
 		.cargo-checksum.json
 	popd
 
