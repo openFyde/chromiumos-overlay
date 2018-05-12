@@ -36,7 +36,7 @@ SRC_URI="$(cargo_crate_uris ${CRATES})"
 LICENSE="BSD-Google BSD-2 Apache-2.0 MIT"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug -crosvm-plugin"
+IUSE="debug -crosvm-plugin +crosvm-wl-dmabuf"
 
 RDEPEND="chromeos-base/minijail
 	!chromeos-base/crosvm-bin
@@ -54,9 +54,14 @@ src_compile() {
 	export TARGET_CC="$(tc-getCC)"
 	export CARGO_TARGET_DIR="${WORKDIR}"
 
+	local features=(
+		$(usex crosvm-plugin plugin "")
+		$(usex crosvm-wl-dmabuf wl-dmabuf "")
+	)
+
 	cargo build -v --target="${CHOST}" \
 				$(usex debug "" --release) \
-				$(usex crosvm-plugin --features=plugin "") \
+				--features="${features[*]}" \
 		|| die "cargo build failed"
 }
 
