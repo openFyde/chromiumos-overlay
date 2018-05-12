@@ -6,7 +6,9 @@ EAPI=5
 # Disable cros-workon auto-uprev since this is an external package.
 # Must manage commit hash manually.
 CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_COMMIT="cd0af436c99af77e8b752efda9d38413290faf66"
+# The dev-go/luci-* packages are all built from this repo.  They should
+# be updated together.
+CROS_WORKON_COMMIT="77b23ce4c9189484e14035690f439c97f7629c2e"
 CROS_WORKON_PROJECT="infra/luci/luci-go"
 CROS_WORKON_DESTDIR="${S}/src/go.chromium.org/luci"
 

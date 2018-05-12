@@ -13,28 +13,27 @@ CROS_WORKON_PROJECT="infra/luci/luci-go"
 CROS_WORKON_DESTDIR="${S}/src/go.chromium.org/luci"
 
 CROS_GO_PACKAGES=(
-	"go.chromium.org/luci/auth"
-	"go.chromium.org/luci/auth/internal"
-	"go.chromium.org/luci/auth/integration/localauth/rpcs"
+	"go.chromium.org/luci/logdog/api/logpb"
+	"go.chromium.org/luci/logdog/client/butlerlib/streamclient"
+	"go.chromium.org/luci/logdog/client/butlerlib/streamproto"
+	"go.chromium.org/luci/logdog/common/types"
 )
 
 inherit cros-workon cros-go
 
-DESCRIPTION="LUCI Go auth library"
+DESCRIPTION="LUCI Go LogDog stream client library"
 HOMEPAGE="https://chromium.googlesource.com/infra/luci/luci-go/"
 
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
-# Tests import "github.com/smartystreets/goconvey/convey", which we don't have.
+# Tests require a lot of packages
 RESTRICT="binchecks test strip"
 
 DEPEND="
-	dev-go/gcp-compute
-	dev-go/grpc
 	dev-go/luci-common
-	dev-go/net
-	dev-go/oauth2
+	dev-go/luci-config
+	dev-go/protobuf
 "
 RDEPEND="${DEPEND}"
