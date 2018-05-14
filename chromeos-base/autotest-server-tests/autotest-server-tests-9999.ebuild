@@ -255,6 +255,7 @@ SERVER_IUSE_TESTS="
 	+tests_power_BrightnessResetAfterReboot
 	+tests_power_RPMTest
 	+tests_provision_AutoUpdate
+	+tests_rlz_CheckPing
 	+tests_security_kASLR
 	+tests_sequences
 	+tests_servohost_Reboot
