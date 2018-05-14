@@ -45,10 +45,17 @@ def main(argv):
   bisect_stage = os.environ.get('BISECT_STAGE')
 
   print_cmdline = '-print-cmdline' in myargs
+
+  # Filter unsupported linker flags if sanitizers are used.
+  filter_unsupported_asan_flags = has_sanitizer_flags(myargs)
+
   clang_cmdline = clang_flags + list(FLAGS_TO_ADD)
   clang_flags = list(FLAGS_TO_ADD)
 
   cmdline = [x for x in myargs if x not in WRAPPER_ONLY_OPTIONS]
+
+  if filter_unsupported_asan_flags:
+    cmdline = [x for x in cmdline if x not in LINKER_UNSUPPORTED_ASAN_FLAGS]
 
   prog_base = os.path.basename(sys.argv[0])
   if prog_base.startswith('x86_64') or startswith_i86(prog_base):

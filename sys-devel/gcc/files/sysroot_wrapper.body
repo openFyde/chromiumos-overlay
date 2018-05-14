@@ -247,6 +247,9 @@ def main():
   # If -print-cmdline is present.
   print_cmdline = False
 
+  # Filter unsupported linker flags if sanitizers are used.
+  filter_unsupported_asan_flags = has_sanitizer_flags(myargs)
+
   # The following value is found/updated by
   # chromite/scripts/cros_setup_toolchain.py (in the function
   # _ProcessSysrootWrappers).
@@ -271,11 +274,14 @@ def main():
 
   cmdline = [x for x in myargs if x not in WRAPPER_ONLY_OPTIONS]
 
+  if filter_unsupported_asan_flags:
+    cmdline = [x for x in cmdline if x not in LINKER_UNSUPPORTED_ASAN_FLAGS]
+
   if gcc_comp.startswith('x86_64') or startswith_i86(gcc_comp):
     cmdline.extend(X86_DISABLE_FLAGS)
 
   if not invoke_clang:
-    gcc_cmdline = cmdline
+    gcc_cmdline = [x for x in cmdline if x not in GCC_UNSUPPORTED]
   else:
 
     # If these options are specified, do not run clang, even if -clang-syntax is
@@ -323,7 +329,8 @@ def main():
           tuple = arch.split('-')
           if not (tuple[0] == 'armv7a' and tuple[2] == 'linux'):
             clang_cmdline.append(flag)
-      gcc_cmdline.append(flag)
+      if flag not in GCC_UNSUPPORTED:
+        gcc_cmdline.append(flag)
 
   sysroot = os.environ.get('SYSROOT', '')
   if not sysroot:

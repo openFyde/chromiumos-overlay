@@ -34,6 +34,15 @@ CLANG_UNSUPPORTED = set((
     '-mno-movbe',
 ))
 
+# Flags not supported by GCC.
+GCC_UNSUPPORTED = set(['-Xcompiler'])
+
+# Flags not supported by sanitizers (ASan etc.)
+LINKER_UNSUPPORTED_ASAN_FLAGS = set((
+    '-Wl,--no-undefined',
+    '-Wl,-z,defs',
+))
+
 CLANG_UNSUPPORTED_PREFIXES = ('-Wstrict-aliasing=', '-finline-limit=')
 
 # clang with '-ftrapv' generates 'call __mulodi4', which is only implemented
@@ -63,6 +72,11 @@ def handle_exec_exception(exc, argv0, use_ccache, execargs):
       file=sys.stderr)
   raise
 
+def has_sanitizer_flags(args):
+  """Returns true if ASan/MSan flags are present."""
+  if any([x.startswith('-fsanitize') for x in args]):
+    return True
+  return False
 
 def startswith_i86(s):
   """Returns true if s starts with i.86."""
