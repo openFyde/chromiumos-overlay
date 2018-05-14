@@ -230,6 +230,8 @@ cros_use_gcc() {
 		export BUILD_CC=${CBUILD}-gcc
 		export BUILD_CXX=${CBUILD}-g++
 	fi
+	filter_unsupported_gcc_flags
+	filter_sanitizers
 }
 
 # Enforce use of libstdc++ instead of libc++ when building with clang.
@@ -258,6 +260,19 @@ filter_sanitizers() {
 	for var in CFLAGS CXXFLAGS LDFLAGS; do
 		for flag in ${!var}; do
 			if [[ ${flag} != "-fsanitize"* ]]; then
+				flags+=("${flag}")
+			fi
+		done
+		export ${var}="${flags[*]}"
+		flags=()
+	done
+}
+
+filter_unsupported_gcc_flags() {
+	local var flag flags=()
+	for var in CFLAGS CXXFLAGS LDFLAGS; do
+		for flag in ${!var}; do
+			if [[ ${flag} != "-Xcompiler" ]]; then
 				flags+=("${flag}")
 			fi
 		done
