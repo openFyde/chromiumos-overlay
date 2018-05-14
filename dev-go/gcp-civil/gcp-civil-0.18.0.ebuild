@@ -31,5 +31,5 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND=""
+DEPEND="dev-go/cmp"
 RDEPEND="${DEPEND}"
