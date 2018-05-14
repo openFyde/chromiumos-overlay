@@ -200,6 +200,7 @@ ALL_BOARDS=(
 	marble
 	mccloud
 	meowth
+	metis
 	minnowboard
 	mipseb-n32-generic
 	mipseb-n64-generic
