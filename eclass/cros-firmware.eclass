@@ -14,7 +14,7 @@ if [[ -z "${EBUILD}" ]]; then
 	die "This eclass needs EBUILD environment variable."
 fi
 
-inherit cros-workon cros-unibuild
+inherit cros-workon cros-unibuild cros-constants
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_BCS_OVERLAY
 # @DESCRIPTION: (Optional) Name of board overlay on Binary Component Server
@@ -428,6 +428,9 @@ cros-firmware_src_install() {
 # failures in their normal workflow.
 cros-firmware_src_test() {
 	local fname
+
+	# We need lddtree from chromite.
+	export PATH="${CHROMITE_BIN_DIR}:${PATH}"
 
 	for fname in *test.py; do
 		einfo "Running tests in ${fname}"
