@@ -68,14 +68,15 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
-		# Exluding tests that need memfd_create or need /dev/kvm access
-		# because the bots don't support either.
+		# Exluding tests that need memfd_create, /dev/kvm, or /dev/dri access
+		# because the bots don't support these.
 		cargo test --all \
 			--exclude kvm \
 			--exclude kvm_sys \
 			--exclude net_util -v \
 			--exclude qcow \
 			--exclude aarch64 \
+			--exclude gpu_buffer \
 			--target="${CHOST}" -- --test-threads=1 \
 			|| die "cargo test failed"
 		# Plugin tests all require /dev/kvm, but we want to make sure they build
