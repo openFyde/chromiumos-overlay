@@ -211,7 +211,9 @@ SERVER_IUSE_TESTS="
 	+tests_graphics_PowerConsumption
 	+tests_hardware_DiskFirmwareUpgrade
 	+tests_hardware_MemoryIntegrity
+	+tests_hardware_StorageQual
 	+tests_hardware_StorageQualBase
+	+tests_hardware_StorageQualCheckSetup
 	+tests_hardware_StorageQualSuspendStress
 	+tests_hardware_StorageQualTrimStress
 	+tests_hardware_StorageStress
