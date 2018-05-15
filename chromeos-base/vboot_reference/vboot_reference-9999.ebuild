@@ -13,7 +13,7 @@ DESCRIPTION="Chrome OS verified boot tools"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_host dev_debug_force -mtd pd_sync tpmtests tpm tpm2"
+IUSE="cros_host dev_debug_force fuzzer -mtd pd_sync tpmtests tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
@@ -37,6 +37,7 @@ vemake() {
 		PD_SYNC=$(usev pd_sync) \
 		USE_MTD=$(usev mtd) \
 		MINIMAL=$(usev !cros_host) \
+		NO_BUILD_TOOLS=$(usev fuzzer) \
 		DEV_DEBUG_FORCE=$(usev dev_debug_force) \
 		"$@"
 }
