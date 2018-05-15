@@ -58,6 +58,23 @@ PATCHES=(
 
 S="${WORKDIR}/${MY_P}-src"
 
+# This is the list of target triples as they appear in the cros_sdk. If this list gets changed,
+# ensure that the target_triple_to_rustc_triple function returns correct results for each of these
+# values.
+RUSTC_TARGET_TRIPLES=(
+	x86_64-pc-linux-gnu
+	armv7a-cros-linux-gnueabi
+	aarch64-cros-linux-gnu
+)
+
+pkg_setup() {
+	python-any-r1_pkg_setup
+	local tt
+	for tt in "${RUSTC_TARGET_TRIPLES[@]}" ; do
+		which "${tt}-clang" >/dev/null || die "missing toolchain ${tt}"
+	done
+}
+
 src_prepare() {
 	local stagename="RUST_STAGE0_${ARCH}"
 	local stage0="${!stagename}"
@@ -104,13 +121,29 @@ src_prepare() {
 	default
 }
 
+# Converts a target triple from RUSTC_TARGET_TRIPLES to a format the rustc build configuration
+# expects. The pc and cros vendor string is replaced with unknown except in the armv7a target
+# because that was patched into the toolchain source in src_prepare with the cros vendor string.
+target_triple_to_rustc_triple() {
+	local tt_unknown="${1/-pc-/-unknown-}"
+	tt_unknown="${tt_unknown/aarch64-cros-/aarch64-unknown-}"
+	echo "${tt_unknown}"
+}
+
 src_configure() {
 	local stagename="RUST_STAGE0_${ARCH}"
 	local stage0="${!stagename}"
 
-	cat > cros-config.toml <<EOF
+	local targets=""
+	local tt
+	for tt in "${RUSTC_TARGET_TRIPLES[@]}" ; do
+		targets+="\"$(target_triple_to_rustc_triple "${tt}")\", "
+	done
+
+	local config=cros-config.toml
+	cat > "${config}" <<EOF
 [build]
-target = ["x86_64-unknown-linux-gnu", "armv7a-cros-linux-gnueabi", "aarch64-unknown-linux-gnu"]
+target = [${targets}]
 cargo = "${WORKDIR}/cargo-${STAGE0_VERSION_CARGO}-x86_64-unknown-linux-gnu/cargo/bin/cargo"
 rustc = "${WORKDIR}/${stage0}/rustc/bin/rustc"
 docs = false
@@ -132,22 +165,16 @@ default-linker = "${CBUILD}-clang"
 channel = "${SLOT%%/*}"
 codegen-units = 0
 
-[target.x86_64-unknown-linux-gnu]
-cc = "x86_64-pc-linux-gnu-clang"
-cxx = "x86_64-pc-linux-gnu-clang++"
-linker = "x86_64-pc-linux-gnu-clang++"
-
-[target.armv7a-cros-linux-gnueabi]
-cc = "armv7a-cros-linux-gnueabi-clang"
-cxx = "armv7a-cros-linux-gnueabi-clang++"
-linker = "armv7a-cros-linux-gnueabi-clang++"
-
-[target.aarch64-unknown-linux-gnu]
-cc = "aarch64-cros-linux-gnu-clang"
-cxx = "aarch64-cros-linux-gnu-clang++"
-linker = "aarch64-cros-linux-gnu-clang++"
 EOF
+	for tt in "${RUSTC_TARGET_TRIPLES[@]}" ; do
+		cat >> cros-config.toml <<EOF
+[target.$(target_triple_to_rustc_triple "${tt}")]
+cc = "${tt}-clang"
+cxx = "${tt}-clang++"
+linker = "${tt}-clang++"
 
+EOF
+	done
 }
 
 src_compile() {
