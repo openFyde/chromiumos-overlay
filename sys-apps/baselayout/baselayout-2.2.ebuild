@@ -46,7 +46,7 @@ src_install() {
 
 	if use kvm_host ; then
 		# Set up the dir for where we will symlink /etc/hosts.
-		dodir /etc/hostsdir
+		dodir /etc/hosts.d
 	fi
 
 	# This file has moved to openrc, but we don't want that.
@@ -80,8 +80,8 @@ pkg_postinst() {
 
 	if use kvm_host ; then
 		# Set up the symlinked /etc/hosts file by moving the existing one into
-		# /etc/hostsdir and then symlinking to it from /etc/hosts.
-		mv "${ROOT}/etc/hosts" "${ROOT}/etc/hostsdir/hosts"
-		ln -s /etc/hostsdir/hosts "${ROOT}/etc/hosts"
+		# /etc/hosts.d and then symlinking to it from /etc/hosts.
+		mv "${ROOT}/etc/hosts" "${ROOT}/etc/hosts.d/hosts"
+		ln -s /etc/hosts.d/hosts "${ROOT}/etc/hosts"
 	fi
 }

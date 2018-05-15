@@ -38,8 +38,9 @@ src_install() {
 
 	# Install seccomp policy file.
 	insinto /usr/share/policy
-	# TODO(jkardatzke): Install the seccomp policy.
-	# use seccomp && newins "init/crosdns-seccomp-${ARCH}.policy" crosdns-seccomp.policy
+	if use seccomp; then
+		newins "init/crosdns-seccomp-${ARCH}.policy" crosdns-seccomp.policy
+	fi
 
 	# Install the init script.
 	insinto /etc/init
