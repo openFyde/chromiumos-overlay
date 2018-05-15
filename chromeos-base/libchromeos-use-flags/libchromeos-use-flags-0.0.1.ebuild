@@ -68,6 +68,7 @@ IUSE="
 	test
 	touchscreen_wakeup
 	touchview
+	touch_centric_device
 	veyron_mickey
 	veyron_minnie
 	voice_interaction
