@@ -1,0 +1,115 @@
+commit b25fd2f921ce952213dcf1ac047150996c1d15c2
+Author: Peter Smith <peter.smith@linaro.org>
+Date:   Wed May 16 09:33:25 2018 +0000
+
+    [AArch64] Support "S" inline assembler constraint
+    
+    This patch re-introduces the "S" inline assembler constraint. This matches
+    an absolute symbolic address or a label reference. The primary use case is
+    
+    asm("adrp %0, %1\n\t"
+        "add %0, %0, :lo12:%1" : "=r"(addr) : "S"(&var));
+    
+    I say re-introduces as it seems like "S" was implemented in the original
+    AArch64 backend, but it looks like it wasn't carried forward to the merged
+    backend. The original implementation had A and L modifiers that could be
+    used to print ":lo12:" to the string. It looks like gcc doesn't use these
+    and :lo12: is expected to be written in the inline assembly string so I've
+    not implemented A and L. Clang already supports the S modifier.
+    
+    Fixes PR37180
+    
+    Differential Revision: https://reviews.llvm.org/D46745
+    
+    
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@332444 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Target/AArch64/AArch64AsmPrinter.cpp b/lib/Target/AArch64/AArch64AsmPrinter.cpp
+index 7788fa5d3cc..f5ee0c46c07 100644
+--- a/lib/Target/AArch64/AArch64AsmPrinter.cpp
++++ b/lib/Target/AArch64/AArch64AsmPrinter.cpp
+@@ -276,6 +276,11 @@ void AArch64AsmPrinter::printOperand(const MachineInstr *MI, unsigned OpNum,
+     printOffset(MO.getOffset(), O);
+     break;
+   }
++  case MachineOperand::MO_BlockAddress: {
++    MCSymbol *Sym = GetBlockAddressSymbol(MO.getBlockAddress());
++    Sym->print(O, MAI);
++    break;
++  }
+   }
+ }
+ 
+diff --git a/lib/Target/AArch64/AArch64ISelLowering.cpp b/lib/Target/AArch64/AArch64ISelLowering.cpp
+index 51063ee7fb4..b5b65e0b817 100644
+--- a/lib/Target/AArch64/AArch64ISelLowering.cpp
++++ b/lib/Target/AArch64/AArch64ISelLowering.cpp
+@@ -5212,7 +5212,7 @@ SDValue AArch64TargetLowering::getRecipEstimate(SDValue Operand,
+ 
+ // Table of Constraints
+ // TODO: This is the current set of constraints supported by ARM for the
+-// compiler, not all of them may make sense, e.g. S may be difficult to support.
++// compiler, not all of them may make sense.
+ //
+ // r - A general register
+ // w - An FP/SIMD register of some size in the range v0-v31
+@@ -5272,6 +5272,8 @@ AArch64TargetLowering::getConstraintType(StringRef Constraint) const {
+     // currently handle addresses it is the same as 'r'.
+     case 'Q':
+       return C_Memory;
++    case 'S': // A symbolic address
++      return C_Other;
+     }
+   }
+   return TargetLowering::getConstraintType(Constraint);
+@@ -5396,6 +5398,23 @@ void AArch64TargetLowering::LowerAsmOperandForConstraint(
+       Result = DAG.getRegister(AArch64::WZR, MVT::i32);
+     break;
+   }
++  case 'S': {
++    // An absolute symbolic address or label reference.
++    if (const GlobalAddressSDNode *GA = dyn_cast<GlobalAddressSDNode>(Op)) {
++      Result = DAG.getTargetGlobalAddress(GA->getGlobal(), SDLoc(Op),
++                                          GA->getValueType(0));
++    } else if (const BlockAddressSDNode *BA =
++                   dyn_cast<BlockAddressSDNode>(Op)) {
++      Result =
++          DAG.getTargetBlockAddress(BA->getBlockAddress(), BA->getValueType(0));
++    } else if (const ExternalSymbolSDNode *ES =
++                   dyn_cast<ExternalSymbolSDNode>(Op)) {
++      Result =
++          DAG.getTargetExternalSymbol(ES->getSymbol(), ES->getValueType(0));
++    } else
++      return;
++    break;
++  }
+ 
+   case 'I':
+   case 'J':
+diff --git a/test/CodeGen/AArch64/inlineasm-S-constraint.ll b/test/CodeGen/AArch64/inlineasm-S-constraint.ll
+new file mode 100644
+index 00000000000..3fb2a3f32ce
+--- /dev/null
++++ b/test/CodeGen/AArch64/inlineasm-S-constraint.ll
+@@ -0,0 +1,20 @@
++;RUN: llc -mtriple=aarch64-none-linux-gnu -mattr=+neon < %s | FileCheck %s
++@var = global i32 0
++define void @test_inline_constraint_S() {
++; CHECK-LABEL: test_inline_constraint_S:
++  call void asm sideeffect "adrp x0, $0", "S"(i32* @var)
++  call void asm sideeffect "add x0, x0, :lo12:$0", "S"(i32* @var)
++; CHECK: adrp x0, var
++; CHECK: add x0, x0, :lo12:var
++  ret void
++}
++define i32 @test_inline_constraint_S_label(i1 %in) {
++; CHECK-LABEL: test_inline_constraint_S_label:
++  call void asm sideeffect "adr x0, $0", "S"(i8* blockaddress(@test_inline_constraint_S_label, %loc))
++; CHECK: adr x0, .Ltmp{{[0-9]+}}
++br i1 %in, label %loc, label %loc2
++loc:
++  ret i32 0
++loc2:
++  ret i32 42
++}

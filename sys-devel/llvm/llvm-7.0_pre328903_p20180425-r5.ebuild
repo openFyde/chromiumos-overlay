@@ -192,6 +192,7 @@ pick_cherries() {
 	CHERRIES+=" abb490ec962c6db7c2071ba9d1bd0cd60b4a1b3a" # r329300
 	CHERRIES+=" 6f11d411da7302cfb1d049928a8222c649eef441" # r329512
 	CHERRIES+=" 23ea169fe0e4316bf621c6a690900c8a7d9f8707" # r331674
+	CHERRIES+=" ff5baa90d1d3b92c0cffb3a7b1060088d8dcf82b" # r331925
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -202,12 +203,15 @@ pick_cherries() {
 	CHERRIES=""
 	CHERRIES+=" 4804b20184409ec68e3e1c029e23264147c997f6" # r328944
 	CHERRIES+=" aa2d256782e57f9dc5a4421cef1d01444bb7fbb1" # r329030
+	CHERRIES+=" b4cde9307b55ff01e7c3f1d7e12eff086aa2179e" # r329414
 	CHERRIES+=" 21a0c18174343502c9f2b546a01333d1c351d9c0" # r329657 (Modified to resolve conflicts)
-	CHERRIES+=" 9f8f7c5e8ab12afcc92f51d0ed596ac0867eb0fa" # r329673 (Modified to resolve conflicts)
+	CHERRIES+=" 9f8f7c5e8ab12afcc92f51d0ed596ac0867eb0fa" # r329673
 	CHERRIES+=" 1c5a9ad72a4a947e9d5a70834e12b041c6525810" # r329771
 	CHERRIES+=" 1a785071aa52843bb70082c6b5acb1057bd67066" # r329822
 	CHERRIES+=" 4c208ab0d79745e51886b3b14b97c3a1abd526f9" # r330264
 	CHERRIES+=" bb1ae438ca59097e3e6106b1b4e715631150f419" # r330269
+	CHERRIES+=" d5ae6a3f71cbd25e2367c56e1d452bcff16c8324" # r332389
+	CHERRIES+=" b25fd2f921ce952213dcf1ac047150996c1d15c2" # r332444
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -227,6 +231,7 @@ pick_next_cherries() {
 	# clang
 	local CHERRIES=""
 	CHERRIES+=" 23ea169fe0e4316bf621c6a690900c8a7d9f8707" # r331674
+	CHERRIES+=" ff5baa90d1d3b92c0cffb3a7b1060088d8dcf82b" # r331925
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -235,6 +240,8 @@ pick_next_cherries() {
 
 	# llvm
 	CHERRIES=""
+	CHERRIES+=" d5ae6a3f71cbd25e2367c56e1d452bcff16c8324" # r332389
+	CHERRIES+=" b25fd2f921ce952213dcf1ac047150996c1d15c2" # r332444
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"

@@ -1,0 +1,162 @@
+commit ff5baa90d1d3b92c0cffb3a7b1060088d8dcf82b
+Author: Manoj Gupta <manojgupta@google.com>
+Date:   Wed May 9 21:41:18 2018 +0000
+
+    [Clang] Implement function attribute no_stack_protector.
+    
+    Summary:
+    This attribute tells clang to skip this function from stack protector
+    when -stack-protector option is passed.
+    GCC option for this is:
+    __attribute__((__optimize__("no-stack-protector"))) and the
+    equivalent clang syntax would be: __attribute__((no_stack_protector))
+    
+    This is used in Linux kernel to selectively disable stack protector
+    in certain functions.
+    
+    Reviewers: aaron.ballman, rsmith, rnk, probinson
+    
+    Reviewed By: aaron.ballman
+    
+    Subscribers: probinson, srhines, cfe-commits
+    
+    Differential Revision: https://reviews.llvm.org/D46300
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/cfe/trunk@331925 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/include/clang/Basic/Attr.td b/include/clang/Basic/Attr.td
+index 9aa91b82fc..9e6a5d6de5 100644
+--- a/include/clang/Basic/Attr.td
++++ b/include/clang/Basic/Attr.td
+@@ -1495,6 +1495,12 @@ def NotTailCalled : InheritableAttr {
+   let Documentation = [NotTailCalledDocs];
+ }
+ 
++def NoStackProtector : InheritableAttr {
++  let Spellings = [Clang<"no_stack_protector">];
++  let Subjects = SubjectList<[Function]>;
++  let Documentation = [NoStackProtectorDocs];
++}
++
+ def NoThrow : InheritableAttr {
+   let Spellings = [GCC<"nothrow">, Declspec<"nothrow">];
+   let Subjects = SubjectList<[Function]>;
+diff --git a/include/clang/Basic/AttrDocs.td b/include/clang/Basic/AttrDocs.td
+index 6df0ffe26f..1cb510560d 100644
+--- a/include/clang/Basic/AttrDocs.td
++++ b/include/clang/Basic/AttrDocs.td
+@@ -2740,6 +2740,28 @@ The syntax of the declare target directive is as follows:
+   }];
+ }
+ 
++def NoStackProtectorDocs : Documentation {
++  let Category = DocCatFunction;
++  let Content = [{
++Clang supports the ``__attribute__((no_stack_protector))`` attribute which disables
++the stack protector on the specified function. This attribute is useful for
++selectively disabling the stack protector on some functions when building with
++``-fstack-protector`` compiler option.
++
++For example, it disables the stack protector for the function ``foo`` but function
++``bar`` will still be built with the stack protector with the ``-fstack-protector``
++option.
++
++.. code-block:: c
++
++    int __attribute__((no_stack_protector))
++    foo (int x); // stack protection will be disabled for foo.
++
++    int bar(int y); // bar can be built with the stack protector.
++
++    }];
++}
++
+ def NotTailCalledDocs : Documentation {
+   let Category = DocCatFunction;
+   let Content = [{
+diff --git a/lib/CodeGen/CodeGenModule.cpp b/lib/CodeGen/CodeGenModule.cpp
+index bfdd1e65e2..3a27d99935 100644
+--- a/lib/CodeGen/CodeGenModule.cpp
++++ b/lib/CodeGen/CodeGenModule.cpp
+@@ -1142,12 +1142,14 @@ void CodeGenModule::SetLLVMFunctionAttributesForDefinition(const Decl *D,
+   if (!hasUnwindExceptions(LangOpts))
+     B.addAttribute(llvm::Attribute::NoUnwind);
+ 
+-  if (LangOpts.getStackProtector() == LangOptions::SSPOn)
+-    B.addAttribute(llvm::Attribute::StackProtect);
+-  else if (LangOpts.getStackProtector() == LangOptions::SSPStrong)
+-    B.addAttribute(llvm::Attribute::StackProtectStrong);
+-  else if (LangOpts.getStackProtector() == LangOptions::SSPReq)
+-    B.addAttribute(llvm::Attribute::StackProtectReq);
++  if (!D || !D->hasAttr<NoStackProtectorAttr>()) {
++    if (LangOpts.getStackProtector() == LangOptions::SSPOn)
++      B.addAttribute(llvm::Attribute::StackProtect);
++    else if (LangOpts.getStackProtector() == LangOptions::SSPStrong)
++      B.addAttribute(llvm::Attribute::StackProtectStrong);
++    else if (LangOpts.getStackProtector() == LangOptions::SSPReq)
++      B.addAttribute(llvm::Attribute::StackProtectReq);
++  }
+ 
+   if (!D) {
+     // If we don't have a declaration to control inlining, the function isn't
+diff --git a/lib/Sema/SemaDeclAttr.cpp b/lib/Sema/SemaDeclAttr.cpp
+index be69e15d6d..e4532a7e67 100644
+--- a/lib/Sema/SemaDeclAttr.cpp
++++ b/lib/Sema/SemaDeclAttr.cpp
+@@ -6230,6 +6230,10 @@ static void ProcessDeclAttribute(Sema &S, Scope *scope, Decl *D,
+   case AttributeList::AT_NoInstrumentFunction: // Interacts with -pg.
+     handleSimpleAttribute<NoInstrumentFunctionAttr>(S, D, AL);
+     break;
++  case AttributeList::AT_NoStackProtector:
++    // Interacts with -fstack-protector options.
++    handleSimpleAttribute<NoStackProtectorAttr>(S, D, AL);
++    break;
+   case AttributeList::AT_StdCall:
+   case AttributeList::AT_CDecl:
+   case AttributeList::AT_FastCall:
+diff --git a/test/CodeGen/stack-protector.c b/test/CodeGen/stack-protector.c
+index 7a45a2f4ac..5037a3e0d6 100644
+--- a/test/CodeGen/stack-protector.c
++++ b/test/CodeGen/stack-protector.c
+@@ -22,6 +22,14 @@ void test1(const char *msg) {
+   printf("%s\n", a);
+ }
+ 
++// DEF: define {{.*}}void @test2(i8* %msg) #[[B:.*]] {
++__attribute__((no_stack_protector))
++void test2(const char *msg) {
++  char a[strlen(msg) + 1];
++  strcpy(a, msg);
++  printf("%s\n", a);
++}
++
+ // NOSSP-NOT: attributes #[[A]] = {{.*}} ssp
+ // SSP: attributes #[[A]] = {{.*}} ssp{{ }}
+ // SSPSTRONG: attributes #[[A]] = {{.*}} sspstrong
+@@ -33,3 +41,15 @@ void test1(const char *msg) {
+ // SAFESTACK-SSP: attributes #[[A]] = {{.*}} safestack ssp{{ }}
+ // SAFESTACK-SSPSTRONG: attributes #[[A]] = {{.*}} safestack sspstrong
+ // SAFESTACK-SSPREQ: attributes #[[A]] = {{.*}} safestack sspreq
++
++// NOSSP-NOT: attributes #[[B]] = {{.*}} ssp
++// SSP-NOT: attributes #[[B]] = {{.*}} ssp{{ }}
++// SSPSTRONG-NOT: attributes #[[B]] = {{.*}} sspstrong
++// SSPREQ-NOT: attributes #[[B]] = {{.*}} sspreq
++
++// SAFESTACK-SSP: attributes #[[B]] = {{.*}} safestack
++// SAFESTACK-SSP-NOT: attributes #[[B]] = {{.*}} safestack ssp{{ }}
++// SAFESTACK-SSPSTRONG: attributes #[[B]] = {{.*}} safestack
++// SAFESTACK-SSPSTRONG-NOT: attributes #[[B]] = {{.*}} safestack sspstrong
++// SAFESTACK-SSPREQ: attributes #[[B]] = {{.*}} safestack
++// SAFESTACK-SSPREQ-NOT: attributes #[[B]] = {{.*}} safestack sspreq
+diff --git a/test/Sema/no_stack_protector.c b/test/Sema/no_stack_protector.c
+new file mode 100644
+index 0000000000..8e52f0982f
+--- /dev/null
++++ b/test/Sema/no_stack_protector.c
+@@ -0,0 +1,5 @@
++// RUN: %clang_cc1 -fsyntax-only -verify %s
++
++void __attribute__((no_stack_protector)) foo() {}
++int __attribute__((no_stack_protector)) var; // expected-warning {{'no_stack_protector' attribute only applies to functions}}
++void  __attribute__((no_stack_protector(2))) bar() {} // expected-error {{'no_stack_protector' attribute takes no arguments}}
