@@ -1,12 +1,12 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 
-inherit cros-workon cros-board
+inherit cros-workon cros-board cros-constants
 
 DESCRIPTION="Create Chrome OS initramfs"
 HOMEPAGE="http://www.chromium.org/"
@@ -90,13 +90,11 @@ DEPEND="
 RDEPEND=""
 
 src_prepare() {
-	local srcroot='/mnt/host/source'
-	export BUILD_LIBRARY_DIR="${srcroot}/src/scripts/build_library"
+	export BUILD_LIBRARY_DIR="${CHROOT_SOURCE_ROOT}/src/scripts/build_library"
 	export INTERACTIVE_COMPLETE="$(usex interactive_recovery true false)"
 
 	# Need the lddtree from the chromite dir.
-	local chromite_bin="${srcroot}/chromite/bin"
-	export PATH="${chromite_bin}:${PATH}"
+	export PATH="${CHROMITE_BIN_DIR}:${PATH}"
 }
 
 src_compile() {
