@@ -165,7 +165,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-68.0.3432.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-68.0.3432.0_rc-r2.afdo"
 AFDO_FILE["silvermont"]="R68-3417.0-1526293041.afdo"
 AFDO_FILE["airmont"]="R68-3417.0-1526293041.afdo"
 AFDO_FILE["haswell"]="R68-3417.0-1526293041.afdo"
@@ -1272,16 +1272,9 @@ src_install() {
 	LS=$(ls -alhS ${FROM})
 	einfo "CHROME_DIR after build\n${LS}"
 
-	insinto /etc/dbus-1/system.d
-	# Copy org.chromium.LibCrosService.conf, the D-Bus config file for the
-	# D-Bus service exported by Chrome.
-	# TODO(teravest): Remove this installation once this file is present
-	# in /opt/google/chrome/dbus.
-	DBUS="${CHROME_ROOT}"/src/chromeos/dbus/services
-	doins "${DBUS}"/org.chromium.LibCrosService.conf
-
-	# Copy a config file that includes other configs that are installed to
+	# Copy a D-Bus config file that includes other configs that are installed to
 	# /opt/google/chrome/dbus by deploy_chrome.
+	insinto /etc/dbus-1/system.d
 	doins "${FILESDIR}"/chrome.conf
 
 	# Copy Quickoffice resources for official build.
