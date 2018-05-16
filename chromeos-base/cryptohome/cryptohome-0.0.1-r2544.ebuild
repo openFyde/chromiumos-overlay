@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="683bd4cddeabb5784147bc1f67ab78563a22b8ea"
+CROS_WORKON_COMMIT="999bee1003b0a1455bc289aeb0817e8b705fee3f"
 CROS_WORKON_TREE=("ce18fba0c0aae39b3917fd9511c2a282b7fb703b" "10770026261557a20a0cc6ad77757ce532a8cf38" "2879d4e7ab8b8818fbd9c9eaf75e54739e7bb22f")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -116,4 +116,5 @@ src_install() {
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/cryptohome_testrunner"
+	platform_test "run" "${OUT}/mount_encrypted_unittests"
 }
