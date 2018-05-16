@@ -1,11 +1,11 @@
-DEFINED_PHASES=compile configure info install setup unpack
+DEFINED_PHASES=compile info install setup unpack
 DEPEND=dev-vcs/git
-DESCRIPTION=Exported headers from the embedded controller codebase.
+DESCRIPTION=Android header files required for building camera HAL v3
 EAPI=5
-HOMEPAGE=https://www.chromium.org/chromium-os/ec-development
-IUSE=cros_host cros_workon_tree_ profiling
-KEYWORDS=~*
+IUSE=cros_host cros_workon_tree_b4eb245353b058e14202f460478890d73aabede8 profiling
+KEYWORDS=*
 LICENSE=BSD-Google
+RDEPEND=!media-libs/arc-camera3-android-headers
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d8721ae80a433d74914c59b01337e601	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	8abdf916e4ce29b8952bc60b587b3236
-_md5_=c93cc57069724dbf9b2f550cd9284c4a
+_md5_=f8b44fe386b5c0aa142e55d5318abfdb
