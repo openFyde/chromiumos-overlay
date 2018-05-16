@@ -72,6 +72,7 @@ pkg_preinst() {
 	enewuser "android-root"
 	enewgroup "android-root"
 	enewgroup "arc-sensor"
+	enewgroup "android-everybody"
 }
 
 # Creates dalvik-cache/ and its isa/ directories.
