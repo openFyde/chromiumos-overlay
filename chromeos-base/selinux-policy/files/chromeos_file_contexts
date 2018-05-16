@@ -24,9 +24,20 @@
 /sys/devices/system/cpu(/.*)?                                   u:object_r:sysfs_devices_system_cpu:s0
 # Use u:object_r:sysfs:s0 for writable files to disallow regular apps to
 # access them.
+/sys/devices/system/cpu/cpufreq/ondemand/ignore_nice_load       u:object_r:sysfs:s0
+/sys/devices/system/cpu/cpufreq/ondemand/io_is_busy             u:object_r:sysfs:s0
+/sys/devices/system/cpu/cpufreq/ondemand/powersave_bias         u:object_r:sysfs:s0
+/sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor   u:object_r:sysfs:s0
+/sys/devices/system/cpu/cpufreq/ondemand/sampling_rate          u:object_r:sysfs:s0
+/sys/devices/system/cpu/cpufreq/ondemand/up_threshold           u:object_r:sysfs:s0
+/sys/devices/system/cpu/cpufreq/policy[0-9]+/cpb                u:object_r:sysfs:s0
+/sys/devices/system/cpu/cpufreq/policy[0-9]+/stats/reset        u:object_r:sysfs:s0
+/sys/devices/system/cpu/(cpu[0-9]+/)?(cache/)?(index[0-9]+/)?hotplug/fail               u:object_r:sysfs:s0
+/sys/devices/system/cpu/(cpu[0-9]+/)?(cache/)?(index[0-9]+/)?hotplug/target             u:object_r:sysfs:s0
 /sys/devices/system/cpu/(cpu[0-9]+/)?(cache/)?(index[0-9]+/)?power/async                u:object_r:sysfs:s0
 /sys/devices/system/cpu/(cpu[0-9]+/)?(cache/)?(index[0-9]+/)?power/autosuspend_delay_ms u:object_r:sysfs:s0
 /sys/devices/system/cpu/(cpu[0-9]+/)?(cache/)?(index[0-9]+/)?power/control              u:object_r:sysfs:s0
+/sys/devices/system/cpu/(cpu[0-9]+/)?(cache/)?(index[0-9]+/)?power/pm_qos_resume_latency_us     u:object_r:sysfs:s0
 /sys/devices/system/cpu/(cpu[0-9]+/)?(cache/)?(index[0-9]+/)?uevent                     u:object_r:sysfs:s0
 /sys/devices/system/cpu/(cpu[0-9]+/)?cpufreq/(interactive/)?above_hispeed_delay u:object_r:sysfs:s0
 /sys/devices/system/cpu/(cpu[0-9]+/)?cpufreq/(interactive/)?boost               u:object_r:sysfs:s0
