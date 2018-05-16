@@ -123,6 +123,7 @@ ALL_BOARDS=(
 	#eve-bertha
 	eve-campfire
 	eve-kvm
+	eve-swap
 	eve-userdebug
 	expresso
 	falco
