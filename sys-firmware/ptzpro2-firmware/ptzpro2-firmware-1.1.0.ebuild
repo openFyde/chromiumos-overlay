@@ -1,4 +1,4 @@
-# Copyright 2017 The Chromium OS Authors. All rights reserved.
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -20,4 +20,7 @@ src_install() {
 	doins "ptzpro2_video.bin"
 	doins "ptzpro2_eeprom.s19"
 	doins "ptzpro2_mcu2.bin"
+	doins "ptzpro2_video.bin.sig"
+	doins "ptzpro2_eeprom.s19.sig"
+	doins "ptzpro2_mcu2.bin.sig"
 }
