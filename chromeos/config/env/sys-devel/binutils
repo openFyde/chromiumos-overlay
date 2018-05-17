@@ -8,5 +8,4 @@
 # bring it here, so force it to build with gcc for now.
 cros_pre_src_prepare_use_gcc() {
 	cros_use_gcc
-	filter_clang_syntax
 }

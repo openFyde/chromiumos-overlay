@@ -6,5 +6,4 @@
 # and https://crbug.com/656818
 cros_pre_src_compile_use_gcc() {
 	unset CC CXX
-	filter_clang_syntax
 }
