@@ -46,6 +46,9 @@ src_install() {
 
 	# Udev rules for hidraw nodes
 	udev_dorules "${FILESDIR}/99-hidraw.rules"
+
+	# Fuzzer.
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firewall_fuzzer
 }
 
 platform_pkg_test() {
