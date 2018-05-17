@@ -142,6 +142,11 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.8.0-splice_fallback.patch"
 	"${FILESDIR}/${PN}-4.8.0-initialize-written.patch"
 	"${FILESDIR}/${PN}-4.8.0-splice_correct_bytes.patch"
+	"${FILESDIR}/${PN}-4.8.0-readdirplus_1_btime.patch"
+	"${FILESDIR}/${PN}-4.8.0-readdirplus_2_data_structures.patch"
+	"${FILESDIR}/${PN}-4.8.0-readdirplus_3_add_dirplus.patch"
+	"${FILESDIR}/${PN}-4.8.0-readdirplus_4_update_abi.patch"
+	"${FILESDIR}/${PN}-4.8.0-readdirplus_5_cleanup_close.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
