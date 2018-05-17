@@ -72,6 +72,7 @@ src_compile() {
 
 	# YAML config support.
 	local yaml_files=( "${SYSROOT}${UNIBOARD_YAML_DIR}/"*.yaml )
+	local input_yaml_files=()
 	local yaml="${WORKDIR}/config.yaml"
 	local c_file="${WORKDIR}/config.c"
 	local json="${WORKDIR}/config.json"
@@ -81,11 +82,16 @@ src_compile() {
 		for source_yaml in "${yaml_files[@]}"; do
 			if [[ "${source_yaml}" != "${gen_yaml}" ]]; then
 				einfo "Adding source YAML file ${source_yaml}"
-				cat "${source_yaml}" >> "${yaml}"
+				# Order matters here.  This will control how YAML files
+				# are merged.  To control the order, change the name
+				# of the input files to be in the order desired.
+				input_yaml_files+=("${source_yaml}")
 			fi
 		done
+		cros_config_schema -o "${yaml}" -m "${input_yaml_files[@]}" \
+			|| die "cros_config_schema failed for build config."
 		cros_config_schema -c "${yaml}" -o "${json}" -g "${c_file}" -f "True" \
-			|| echo "Warning: Validation failed"
+			|| die "cros_config_schema failed for platform config."
 	else
 		einfo "Emitting empty c interface config for mosys."
 		cp "${FILESDIR}/empty_config.c" "${c_file}"
