@@ -1,0 +1,26 @@
+From 6a394a70f99c0033a06c31b364c0047f135e2bbd Mon Sep 17 00:00:00 2001
+From: Andreas Schneider <asn@samba.org>
+Date: Thu, 17 May 2018 11:53:18 +0200
+Subject: [PATCH] s3:utils: Do not segfault on error in DoDNSUpdate()
+
+BUG: https://bugzilla.samba.org/show_bug.cgi?id=13440
+
+Signed-off-by: Andreas Schneider <asn@samba.org>
+---
+ source3/utils/net_dns.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/source3/utils/net_dns.c b/source3/utils/net_dns.c
+index d972a5d4bad..9ee856c0059 100644
+--- a/source3/utils/net_dns.c
++++ b/source3/utils/net_dns.c
+@@ -75,6 +75,7 @@ DNS_ERROR DoDNSUpdate(char *pszServerName,
+ 
+ 		if (!ERR_DNS_IS_OK(err)) {
+ 			DEBUG(3,("DoDNSUpdate: failed to probe DNS\n"));
++			goto error;
+ 		}
+ 
+ 		if ((dns_response_code(resp->flags) == DNS_NO_ERROR) &&
+-- 
+2.16.3

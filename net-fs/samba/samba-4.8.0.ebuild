@@ -138,6 +138,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.8.0-reuse_existing_computer_account.patch"
 	"${FILESDIR}/${PN}-4.8.0-sec_init_uninit.patch"
 	"${FILESDIR}/${PN}-4.8.0-smb1_error_code.patch"
+	"${FILESDIR}/${PN}-4.8.0-dns_segfault_on_domain_join.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
