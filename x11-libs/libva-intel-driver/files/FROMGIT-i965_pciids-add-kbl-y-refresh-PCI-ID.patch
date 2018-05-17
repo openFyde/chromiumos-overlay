@@ -1,0 +1,25 @@
+From 6125c2c94a304ffc90c0f15a27925c9ff9ad9c32 Mon Sep 17 00:00:00 2001
+From: Patrick Waterlander <patrick.waterlander@intel.com>
+Date: Wed, 30 May 2018 13:45:54 -0700
+Subject: [PATCH] i965_pciids: add kbl-y refresh PCI ID
+
+Signed-off-by: Patrick Waterlander <patrick.waterlander@intel.com>
+---
+ src/i965_pciids.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/i965_pciids.h b/src/i965_pciids.h
+index 7c0828d72fd7..613833429d12 100644
+--- a/src/i965_pciids.h
++++ b/src/i965_pciids.h
+@@ -173,6 +173,7 @@ CHIPSET(0x590E, kbl, kbl,       "Intel(R) Kaby Lake")
+ CHIPSET(0x591E, kbl, kbl,       "Intel(R) Kaby Lake")
+ CHIPSET(0x5912, kbl, kbl,       "Intel(R) Kaby Lake")
+ CHIPSET(0x5917, kbl, kbl,       "Intel(R) Kaby Lake")
++CHIPSET(0x591C, kbl, kbl,       "Intel(R) Kaby Lake")
+ CHIPSET(0x5902, kbl, kbl,       "Intel(R) Kaby Lake")
+ CHIPSET(0x591B, kbl, kbl,       "Intel(R) Kaby Lake")
+ CHIPSET(0x593B, kbl, kbl,       "Intel(R) Kaby Lake")
+-- 
+1.9.1
+
