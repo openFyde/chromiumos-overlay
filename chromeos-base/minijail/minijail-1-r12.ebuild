@@ -19,7 +19,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+seccomp test"
+IUSE="asan +seccomp test"
 
 RDEPEND="sys-libs/libcap
 	!<chromeos-base/chromeos-minijail-1"
@@ -28,6 +28,7 @@ DEPEND="test? ( dev-cpp/gtest )
 	${RDEPEND}"
 
 src_configure() {
+	asan-setup-env
 	cros-workon_src_configure
 }
 
