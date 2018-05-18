@@ -41,6 +41,7 @@ KEYWORDS="*"
 IUSE="debug -crosvm-plugin +crosvm-wl-dmabuf"
 
 RDEPEND="chromeos-base/minijail
+	crosvm-wl-dmabuf? ( media-libs/minigbm )
 	!chromeos-base/crosvm-bin
 	arm? ( sys-apps/dtc )"
 DEPEND="${RDEPEND}"
