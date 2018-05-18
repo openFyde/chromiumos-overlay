@@ -95,11 +95,6 @@ QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 
 # Think about: ggi, fbcon, no-X configs
 
-pkg_setup() {
-	# workaround toc-issue wrt #386545
-	use ppc64 && append-flags -mminimal-toc
-}
-
 src_prepare() {
 	# apply patches
 	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
