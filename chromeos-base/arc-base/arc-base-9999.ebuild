@@ -74,31 +74,18 @@ pkg_preinst() {
 	enewgroup "arc-sensor"
 }
 
-# Creates dalvik-cache/ and its arch/ directory.
-create_dalvik_cache_arch_dir() {
+# Creates dalvik-cache/ and its isa/ directories.
+create_dalvik_cache_isa_dir() {
 	local dalvik_cache_dir="${ROOT}${CONTAINER_ROOTFS}/android-data/data/dalvik-cache"
 
 	install -d --mode=0555 --owner=root --group=root \
 		"${dalvik_cache_dir}" || true
-
-	# TODO(yusukes): Do not create x86_64 directory unless the board
-	# actually supports 64bit container.
-	case ${ABI} in
-	amd64|x86)
-		install -d --mode=0555 --owner=root --group=root \
-			"${dalvik_cache_dir}/x86" || true
-		install -d --mode=0555 --owner=root --group=root \
-			"${dalvik_cache_dir}/x86_64" || true
-		;;
-	arm)
-		install -d --mode=0555 --owner=root --group=root \
-			"${dalvik_cache_dir}/arm" || true
-		;;
-	*)
-		echo "Unsupported ABI: ${ABI}" >&2
-		exit 1
-		;;
-	esac
+	install -d --mode=0555 --owner=root --group=root \
+		"${dalvik_cache_dir}/x86" || true
+	install -d --mode=0555 --owner=root --group=root \
+		"${dalvik_cache_dir}/x86_64" || true
+	install -d --mode=0555 --owner=root --group=root \
+		"${dalvik_cache_dir}/arm" || true
 }
 
 pkg_postinst() {
@@ -135,7 +122,7 @@ pkg_postinst() {
 		"${ROOT}${CONTAINER_ROOTFS}/android-data/data/cache" \
 		|| true
 
-	# Create /data/dalvik-cache/<arch> directory so that we can start zygote
+	# Create /data/dalvik-cache/<isa> directories so that we can start zygote
 	# for the login screen.
-	create_dalvik_cache_arch_dir
+	create_dalvik_cache_isa_dir
 }
