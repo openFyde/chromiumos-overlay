@@ -15,7 +15,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+cras-apm selinux systemd unibuild"
+IUSE="asan +cras-apm selinux systemd unibuild"
 
 RDEPEND=">=media-libs/alsa-lib-1.0.27
 	media-sound/alsa-utils
@@ -39,6 +39,7 @@ src_prepare() {
 }
 
 src_configure() {
+	asan-setup-env
 	cd cras
 	cros-workon_src_configure $(use_enable selinux) \
 		$(use_enable cras-apm webrtc-apm)
