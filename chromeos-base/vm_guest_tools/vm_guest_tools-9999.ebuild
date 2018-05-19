@@ -57,7 +57,6 @@ src_install() {
 platform_pkg_test() {
 	local tests=(
 		garcon_desktop_file_test
-		garcon_icon_index_file_test
 		maitred_service_test
 		maitred_syslog_test
 	)
