@@ -22,6 +22,7 @@ IUSE="seccomp"
 
 RDEPEND="
 	chromeos-base/libbrillo
+	chromeos-base/newblue
 	net-wireless/bluez"
 
 DEPEND="${RDEPEND}
