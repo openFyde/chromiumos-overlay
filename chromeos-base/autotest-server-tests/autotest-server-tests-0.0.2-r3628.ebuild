@@ -255,6 +255,7 @@ SERVER_IUSE_TESTS="
 	readahead? ( +tests_platform_UReadAheadServer )
 	+tests_platform_Vpd
 	+tests_power_BrightnessResetAfterReboot
+	+tests_power_MeasurementWrapper
 	+tests_power_RPMTest
 	+tests_provision_AutoUpdate
 	+tests_rlz_CheckPing
