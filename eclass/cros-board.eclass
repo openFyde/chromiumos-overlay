@@ -171,6 +171,7 @@ ALL_BOARDS=(
 	kevin-arcnext
 	#kevin-bertha
 	kevin-tpm2
+	kidd
 	#kiev
 	kip
 	klang
