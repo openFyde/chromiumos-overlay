@@ -35,17 +35,18 @@ DEPEND="
 "
 
 src_install() {
+	dobin "${OUT}"/concierge_client
 	dobin "${OUT}"/maitred_client
+	dobin "${OUT}"/vm_cicerone
+	dobin "${OUT}"/vm_concierge
 	dobin "${OUT}"/vmlog_forwarder
 	dobin "${OUT}"/vsh
-	dobin "${OUT}"/vm_concierge
-	dobin "${OUT}"/concierge_client
 
 	insinto /etc/init
 	doins init/*.conf
 
 	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.VmConcierge.conf
+	doins dbus/*.conf
 
 	udev_dorules udev/99-vm.rules
 }
@@ -66,4 +67,7 @@ pkg_preinst() {
 	# We need the syslog user and group for both host and guest builds.
 	enewuser syslog
 	enewgroup syslog
+
+	enewuser vm_cicerone
+	enewgroup vm_cicerone
 }
