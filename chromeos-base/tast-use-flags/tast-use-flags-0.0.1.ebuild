@@ -13,6 +13,7 @@ KEYWORDS="*"
 IUSE="
 	arc
 	chromeless_tty
+	kvm_host
 	rialto
 "
 
