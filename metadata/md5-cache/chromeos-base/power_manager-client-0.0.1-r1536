@@ -3,11 +3,11 @@ DEPEND=cros_host? ( >=chromeos-base/chromeos-dbus-bindings-0.0.1-r1058 ) >=chrom
 DESCRIPTION=Power manager DBus client library for Chromium OS
 EAPI=4
 HOMEPAGE=http://www.chromium.org/
-IUSE=cros_host cros_host cros_workon_tree_ce18fba0c0aae39b3917fd9511c2a282b7fb703b_9aa8461e9073676c012af25df5984e3f792243f9 profiling cros-debug cros_host cros_workon_tree_ce18fba0c0aae39b3917fd9511c2a282b7fb703b_9aa8461e9073676c012af25df5984e3f792243f9 profiling cros-debug asan cros_host fuzzer test
+IUSE=cros_host cros_host cros_workon_tree_ce18fba0c0aae39b3917fd9511c2a282b7fb703b_8693bb4db9f65331704f869f65a482bdd6117854 profiling cros-debug cros_host cros_workon_tree_ce18fba0c0aae39b3917fd9511c2a282b7fb703b_8693bb4db9f65331704f869f65a482bdd6117854 profiling cros-debug asan cros_host fuzzer test
 KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=!<chromeos-base/power_manager-0.0.2 chromeos-base/libchrome:395517[cros-debug=]
 REQUIRED_USE=fuzzer? ( asan )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d8721ae80a433d74914c59b01337e601	libchrome	b52d05e71fc666d335a6d65c29d19a88	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	cf85a77d6c4b45947919f9dd4aaa9dfb	toolchain-funcs	8abdf916e4ce29b8952bc60b587b3236
-_md5_=101343e75da41f3729b9d742743d2ded
+_md5_=0d98f1b4e2a8e7f8447c206f1b8628ec
