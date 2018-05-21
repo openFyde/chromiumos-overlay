@@ -1,18 +1,17 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
-CROS_WORKON_PROJECT="chromiumos/third_party/grub2"
-CROS_WORKON_LOCALNAME="grub2"
+EAPI="5"
 
-inherit eutils toolchain-funcs multiprocessing cros-workon
+inherit eutils toolchain-funcs multiprocessing
 
 DESCRIPTION="GNU GRUB 2 boot loader"
 HOMEPAGE="http://www.gnu.org/software/grub/"
+SRC_URI="ftp://ftp.gnu.org/gnu/grub/${P}.tar.xz"
+
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="-* ~amd64"
-IUSE=""
+KEYWORDS="-* amd64"
 
 PROVIDE="virtual/bootloader"
 
@@ -21,6 +20,13 @@ export STRIP_MASK="*.img *.mod *.module"
 # The ordering doesn't seem to matter.
 PLATFORMS=( "efi" "pc" )
 TARGETS=( "i386" "x86_64" )
+
+src_prepare() {
+	epatch "${FILESDIR}/0001-Forward-port-ChromeOS-specific-GRUB-environment-vari.patch"
+	epatch "${FILESDIR}/0002-Forward-port-gptpriority-command-to-GRUB-2.00.patch"
+
+	bash autogen.sh || die
+}
 
 src_configure() {
 	local platform target
