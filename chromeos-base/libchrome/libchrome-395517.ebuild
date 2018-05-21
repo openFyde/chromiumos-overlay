@@ -62,6 +62,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-delete-preg-parser.patch
 	epatch "${FILESDIR}"/${P}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
 	epatch "${FILESDIR}"/${P}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
+	epatch "${FILESDIR}"/${P}-Add-FuzzedDataProvider.patch
+
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685
 	use asan && epatch "${FILESDIR}"/${P}-Disable-memory-allocator.patch
@@ -133,6 +135,7 @@ src_install() {
 
 	insinto /usr/include/base-${SLOT}/base/test
 	doins \
+		base/test/fuzzed_data_provider.h \
 		base/test/simple_test_clock.h \
 		base/test/simple_test_tick_clock.h \
 
