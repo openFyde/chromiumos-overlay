@@ -31,7 +31,6 @@ KEYWORDS="~*"
 IUSE="-asan"
 
 RDEPEND="
-	dev-cpp/gtest
 	!media-libs/arc-camera3-test
 	media-libs/cros-camera-libcamera_client
 	media-libs/cros-camera-libcamera_common
@@ -43,6 +42,7 @@ RDEPEND="
 	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}
+	dev-cpp/gtest
 	media-libs/cros-camera-android-headers
 	media-libs/libyuv
 	virtual/pkgconfig"
