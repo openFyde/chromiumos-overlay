@@ -59,6 +59,11 @@ S="${WORKDIR}/${MY_P}"
 PYVER=${SLOT%/*}
 
 src_prepare() {
+	# According to the comments at the top of cgi.py, Linux vendors need to
+	# patch the shebang in cgi.py. We'll ignore the comment about not using
+	# "/usr/bin/env python" and use it anyway.
+	sed -i -e '1 s:^#!.*$:#! /usr/bin/env python:' Lib/cgi.py || die
+
 	# Ensure that internal copies of expat, libffi and zlib are not used.
 	rm -fr Modules/expat
 	rm -fr Modules/_ctypes/libffi*
@@ -70,6 +75,30 @@ src_prepare() {
 	fi
 
 	EPATCH_SUFFIX="patch" epatch "${WORKDIR}/patches"
+
+	#
+	# START: ChromiumOS specific changes
+	#
+	if tc-is-cross-compiler ; then
+		epatch "${FILESDIR}"/python-3.4.7-cross-h2py.patch
+		epatch "${FILESDIR}"/python-3.4.7-cross-hack-compiler.patch
+		sed -i 's:^python$EXE:${HOSTPYTHON}:' Lib/*/regen || die
+	fi
+	epatch "${FILESDIR}"/python-3.4.7-cross-setup-sysroot.patch
+	epatch "${FILESDIR}"/python-3.4.7-cross-distutils.patch
+	epatch "${FILESDIR}"/python-3.4.7-ldshared.patch
+	# Undo the @libdir@ change for portage's pym folder as it is always
+	# installed into /usr/lib/ and not the abi libdir.
+	sed -i \
+		-e '/portage.*pym/s:@@GENTOO_LIBDIR@@:lib:g' \
+		Lib/site.py || die
+
+	sed -i -e "s:sys.exec_prefix]:sys.exec_prefix, '/usr/local']:g" \
+		Lib/site.py || die "sed failed to add /usr/local to prefixes"
+	#
+	# END: ChromiumOS specific changes
+	#
+
 	epatch "${FILESDIR}/${PN}-3.4.3-ncurses-pkg-config.patch"
 	epatch "${FILESDIR}/${PN}-3.4.5-cross.patch"
 	epatch "${FILESDIR}/3.4-getentropy-linux.patch"
