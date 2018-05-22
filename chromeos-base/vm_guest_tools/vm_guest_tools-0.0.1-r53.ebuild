@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="a617bfc5904a43de9d4ef169696e00539c76ce2e"
-CROS_WORKON_TREE=("ce18fba0c0aae39b3917fd9511c2a282b7fb703b" "34bcc26cefb6614afe60723807e6154c1e6d8e2b")
+CROS_WORKON_COMMIT="bcbad88c6d02589b925c2cb0dddf77a3a4194200"
+CROS_WORKON_TREE=("ce18fba0c0aae39b3917fd9511c2a282b7fb703b" "bc12cd40f45bfe9a0cefa975a321db3a7da5750b")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -59,6 +59,7 @@ src_install() {
 platform_pkg_test() {
 	local tests=(
 		garcon_desktop_file_test
+		garcon_icon_index_file_test
 		maitred_service_test
 		maitred_syslog_test
 	)
