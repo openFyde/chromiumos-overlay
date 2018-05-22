@@ -37,11 +37,16 @@ src_install() {
 			/usr/bin/xkbcomp \
 			/usr/sbin/vshd
 
-	# Xwayland dlopens this library so lddtree doesn't know about it.
-	local swrast_libs=(
-		$("${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --list "/usr/$(get_libdir)/dri/swrast_dri.so")
+	# These libraries are dlopen()'d so lddtree doesn't know about them.
+	local dlopen_libs=(
+		$("${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --list \
+			"/usr/$(get_libdir)/dri/swrast_dri.so" \
+			"/$(get_libdir)/libnss_compat.so.2" \
+			"/$(get_libdir)/libnss_files.so.2" \
+			"/$(get_libdir)/libnss_nis.so.2"
+		)
 	)
-	cp -aL "${swrast_libs[@]}" "${WORKDIR}"/container_pkg/lib/
+	cp -aL "${dlopen_libs[@]}" "${WORKDIR}"/container_pkg/lib/
 
 	insinto /opt/google/cros-containers
 	insopts -m0755
