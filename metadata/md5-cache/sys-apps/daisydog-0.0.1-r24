@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install preinst prepare setup unpack
+DEPEND=dev-vcs/git sys-apps/baselayout
+DESCRIPTION=Simple HW watchdog daemon
+EAPI=4
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/daisydog
+IUSE=cros_host cros_workon_tree_3a92d9e0ac770d7a2c09db6b7c1801082e1dfefe profiling
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=sys-apps/baselayout
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d8721ae80a433d74914c59b01337e601	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	8abdf916e4ce29b8952bc60b587b3236	user	c8f947561e8797a300801d0dd3625448
+_md5_=c80b549c0240336c28719f15caf8ab93
