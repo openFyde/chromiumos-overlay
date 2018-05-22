@@ -90,7 +90,10 @@ sign_region() {
 	if [ -n "${size}" ] && [ ${size} -gt 0 ]; then
 		head -c ${size} ${tmpfile} > ${tmpfile}.2
 		mv ${tmpfile}.2 ${tmpfile}
-		do_cbfstool ${fw_image} write --force -u -i 0 \
+		# Use 255 (aka 0xff) as the filler, this greatly reduces
+		# memory areas which need to be programmed for spi flash
+		# chips, because the erase value is 0xff.
+		do_cbfstool ${fw_image} write --force -u -i 255 \
 			-r ${cbfs} -f ${tmpfile}
 	fi
 
