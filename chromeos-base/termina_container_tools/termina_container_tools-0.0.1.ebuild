@@ -35,7 +35,7 @@ src_install() {
 			/usr/bin/sommelier \
 			/usr/bin/Xwayland \
 			/usr/bin/xkbcomp \
-			/usr/sbin/vshd \
+			/usr/sbin/vshd
 
 	# Xwayland dlopens this library so lddtree doesn't know about it.
 	local swrast_libs=(
