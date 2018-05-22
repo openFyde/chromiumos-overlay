@@ -53,6 +53,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
+		cicerone_test
 		concierge_test
 		syslog_forwarder_test
 	)
