@@ -135,6 +135,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/17.3-gallium-winsys-kms-Add-support-for-multi-planes.patch
 	epatch "${FILESDIR}"/18.1-mesa-add-xbgr-support-adjacent-to-xrgb.patch
 	epatch "${FILESDIR}"/18.1-amdgpu-always-allow-GTT-placements-on-APUs.patch
+	epatch "${FILESDIR}"/18.1-dri_util-Add-R10G10B10-A-X-2-translation-between_DRI.patch
+	epatch "${FILESDIR}"/18.1-i965-add-X-A-BGR2101010-to-intel_image_formats.patch
+	base_src_prepare
 
 	base_src_prepare
 	eautoreconf
