@@ -16,7 +16,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 )
 CROS_WORKON_SUBTREE=(
-	"build common include"
+	"build common include mojo"
 	"common-mk"
 )
 PLATFORM_GYP_FILE="common/libcamera_jpeg.gyp"
@@ -34,6 +34,7 @@ RDEPEND="
 	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}
+	chromeos-base/libmojo
 	media-libs/libyuv
 	virtual/pkgconfig"
 

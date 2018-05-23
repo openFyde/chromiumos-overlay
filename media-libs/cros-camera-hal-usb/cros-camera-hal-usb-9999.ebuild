@@ -42,7 +42,6 @@ RDEPEND="
 	media-libs/cros-camera-libcamera_timezone
 	media-libs/cros-camera-libcbm
 	media-libs/cros-camera-libjda
-	media-libs/cros-camera-libjea
 	media-libs/libsync"
 
 DEPEND="${RDEPEND}

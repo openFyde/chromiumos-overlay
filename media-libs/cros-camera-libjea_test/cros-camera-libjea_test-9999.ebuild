@@ -34,9 +34,6 @@ RDEPEND="
 	media-libs/cros-camera-libcamera_exif
 	media-libs/cros-camera-libcamera_jpeg"
 
-DEPEND="${RDEPEND}
-	media-libs/cros-camera-libjea"
-
 src_unpack() {
 	cros-camera_src_unpack
 }
