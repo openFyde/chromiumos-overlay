@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="0721e6874fe6fa422dc97c48224ab4c751afa0c8"
+CROS_WORKON_COMMIT="6b6ed7a1430f63a32b35327a4e53f9a6141d61c6"
 CROS_WORKON_TREE=("32c5802f3fce5f474cfae5f70fb058b1df68675f" "c9f93d2c26681868d7021028b18bee5bd5120986" "649ab02f4cbc503876ff7b6e57fb9f64fa1c843d")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -74,6 +74,7 @@ pkg_preinst() {
 	enewuser "android-root"
 	enewgroup "android-root"
 	enewgroup "arc-sensor"
+	enewgroup "android-everybody"
 }
 
 # Creates dalvik-cache/ and its isa/ directories.
