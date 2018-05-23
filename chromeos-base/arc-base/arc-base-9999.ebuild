@@ -52,6 +52,9 @@ src_install() {
 	insinto /etc/sysctl.d
 	doins arc/scripts/01-sysctl-arc.conf
 
+	insinto /etc/rsyslog.d
+	doins arc/scripts/rsyslog.arc.conf
+
 	dosbin arc/scripts/android-sh
 	dobin arc/scripts/collect-cheets-logs
 
