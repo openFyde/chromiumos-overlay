@@ -24,10 +24,6 @@ app-arch/rpm2targz-9.0.0.3g
 # Needed for building Icedtea
 app-arch/zip-3.0
 
-# For board targets we get the root certificate list
-# from chromeos-base/root-certificates.
-app-misc/ca-certificates-20090709-r6
-
 app-text/build-docbook-catalog-1.4
 app-text/docbook-xsl-stylesheets-1.75.2
 app-text/texi2html-1.76

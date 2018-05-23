@@ -46,10 +46,15 @@ RDEPEND+=" app-shells/dash"
 #  /usr/bin/awk
 RDEPEND+=" chromeos-base/chromeos-base"
 
-# Many packages need a blessed list of SSL certificates.
-# TODO: figure out why we need this in addition to chromeos-ca-certificates
-# http://crbug.com/320802
-RDEPEND+=" chromeos-base/root-certificates"
+# Many packages need a blessed list of SSL certificates, and
+# app-misc/ca-certificates from portage-stable is good enough. We used to have a
+# chromium os fork - chromeos-base/root-certificates, but that's not the case
+# any more.
+# TODO: document the decision somewhere?
+RDEPEND+="
+	app-misc/ca-certificates
+	!chromeos-base/root-certificates
+"
 
 # Basic FHS setup.
 RDEPEND+=" sys-apps/baselayout"

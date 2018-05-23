@@ -334,11 +334,6 @@ RDEPEND="${RDEPEND}
 	sys-fs/libfat
 	"
 
-# Host dependency used by the chromeos-base/root-certificates ebuild
-RDEPEND="${RDEPEND}
-	>=app-misc/ca-certificates-20090709-r6
-	"
-
 # Host dependencies that are needed for cros_generate_update_payload.
 RDEPEND="${RDEPEND}
 	chromeos-base/update_engine
