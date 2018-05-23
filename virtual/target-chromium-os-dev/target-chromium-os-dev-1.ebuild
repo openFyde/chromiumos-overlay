@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 
 DESCRIPTION="List of packages that are needed inside the Chromium OS dev image"
 HOMEPAGE="http://dev.chromium.org/"
@@ -103,6 +103,7 @@ RDEPEND="${RDEPEND}
 	dev-util/mem
 	dev-util/strace
 	net-dialup/lrzsz
+	net-fs/sshfs
 	net-misc/curl
 	net-misc/wget
 	sys-apps/coreboot-utils
@@ -125,7 +126,6 @@ RDEPEND="${RDEPEND}
 	sys-fs/fuse
 	sys-fs/lvm2
 	sys-fs/mtd-utils
-	sys-fs/sshfs-fuse
 	power_management? ( sys-power/powertop )
 	sys-process/procps
 	sys-process/psmisc

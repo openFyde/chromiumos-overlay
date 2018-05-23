@@ -26,6 +26,7 @@ RDEPEND="
 	chromeos-base/metrics
 	chromeos-base/minijail
 	chromeos-base/session_manager-client
+	net-fs/sshfs
 	sys-apps/rootdev
 	sys-apps/util-linux
 	sys-fs/avfs
@@ -33,7 +34,6 @@ RDEPEND="
 	sys-fs/exfat-utils
 	sys-fs/fuse-exfat
 	sys-fs/ntfs3g
-	sys-fs/sshfs-fuse
 	virtual/udev
 "
 

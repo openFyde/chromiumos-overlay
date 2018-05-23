@@ -209,6 +209,7 @@ RDEPEND="${RDEPEND}
 	dev-vcs/subversion[-dso]
 	>=media-libs/freetype-2.2.1
 	>=media-libs/lcms-2.6:2
+	net-fs/sshfs
 	net-misc/gsutil
 	sys-apps/usbutils
 	!sys-apps/nih-dbus-tool
@@ -218,7 +219,6 @@ RDEPEND="${RDEPEND}
 	sys-devel/lld
 	sys-libs/libcxxabi
 	sys-libs/libcxx
-	sys-fs/sshfs-fuse
 	virtual/udev
 	sys-libs/libnih
 	sys-power/iasl
