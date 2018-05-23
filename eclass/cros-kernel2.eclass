@@ -115,12 +115,14 @@ CONFIG_FRAGMENTS=(
 	binder
 	blkdevram
 	ca0132
+	cec
 	cifs
 	criu
 	cros_ec_mec
 	cros_ec_sysfs_usb
 	devdebug
 	dm_snapshot
+	dp_cec
 	dwc2_dual_role
 	dyndebug
 	eve_bt_hacks
@@ -205,6 +207,12 @@ CONFIG_SND_HDA_CODEC_CA0132=y
 CONFIG_SND_HDA_DSP_LOADER=y
 "
 
+cec_desc="Consumer Electronics Control support"
+cec_config="
+CONFIG_CEC_CORE=y
+CONFIG_MEDIA_CEC_SUPPORT=y
+"
+
 cifs_desc="Samba/CIFS Support"
 cifs_config="
 CONFIG_CIFS=m
@@ -248,6 +256,12 @@ CONFIG_BLK_DEBUG_FS=y
 dm_snapshot_desc="Snapshot device mapper target"
 dm_snapshot_config="
 CONFIG_BLK_DEV_DM=y
+CONFIG_DM_SNAPSHOT=m
+"
+
+dp_cec_desc="DisplayPort CEC-Tunneling-over-AUX support"
+dp_cec_config="
+CONFIG_DRM_DP_CEC=y
 CONFIG_DM_SNAPSHOT=m
 "
 
