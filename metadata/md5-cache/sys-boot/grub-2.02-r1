@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile configure install prepare
+DESCRIPTION=GNU GRUB 2 boot loader
+EAPI=5
+HOMEPAGE=http://www.gnu.org/software/grub/
+KEYWORDS=-* amd64
+LICENSE=GPL-3
+PROVIDE=virtual/bootloader
+SLOT=0
+SRC_URI=ftp://ftp.gnu.org/gnu/grub/grub-2.02.tar.xz
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	toolchain-funcs	8abdf916e4ce29b8952bc60b587b3236
+_md5_=f397921799ec95ed4ff87ca1d55b0244
