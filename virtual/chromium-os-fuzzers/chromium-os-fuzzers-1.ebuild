@@ -16,6 +16,7 @@ RDEPEND="
 	chromeos-base/midis[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/shill[fuzzer]
+	chromeos-base/smbprovider[fuzzer]
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
 "
