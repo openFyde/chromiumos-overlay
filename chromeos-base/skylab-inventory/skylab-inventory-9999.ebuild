@@ -9,6 +9,7 @@ CROS_GO_WORKSPACE="${S}/go"
 
 CROS_GO_BINARIES=(
 	"skyinv/cmd/skylab-inventory-servers"
+	"skyinv/cmd/skylab-inventory-daemon"
 )
 
 CROS_GO_PACKAGES=(
@@ -29,6 +30,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/errors
+	dev-go/go-sys
 	dev-go/luci-tsmon
 	dev-go/protobuf
 "
