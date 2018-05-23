@@ -165,11 +165,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-68.0.3437.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R68-3425.0-1526907439.afdo"
-AFDO_FILE["airmont"]="R68-3425.0-1526907439.afdo"
-AFDO_FILE["haswell"]="R68-3425.0-1526907439.afdo"
-AFDO_FILE["broadwell"]="R68-3425.0-1526907439.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-68.0.3437.0_rc-r2.afdo"
+AFDO_FILE["silvermont"]="R68-3425.0-1527007610.afdo"
+AFDO_FILE["airmont"]="R68-3425.0-1527007610.afdo"
+AFDO_FILE["haswell"]="R68-3425.0-1527007610.afdo"
+AFDO_FILE["broadwell"]="R68-3425.0-1527007610.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -213,8 +213,6 @@ RDEPEND="${RDEPEND}
 	dev-libs/libxml2
 	>=media-libs/alsa-lib-1.0.19
 	media-libs/fontconfig
-	media-libs/freetype
-	media-libs/harfbuzz
 	media-libs/libsync
 	x11-libs/libdrm
 	ozone_platform_gbm? ( media-libs/minigbm )
@@ -315,8 +313,12 @@ set_build_args() {
 		icu_use_data_file=true
 		use_cras=true
 		# use_system_minigbm is set below.
-		use_system_harfbuzz=true
-		use_system_freetype=true
+		# HarfBuzz and FreeType need to be built together in a specific way
+		# to get FreeType autohinting to work properly. Chromium bundles
+		# FreeType and HarfBuzz to meet that need.
+		# See crbug.com/694137 .
+		use_system_harfbuzz=false
+		use_system_freetype=false
 		use_system_libsync=true
 		use_cups=$(usetf cups)
 		# Jumbo merges translation units together, making builds faster on single machines.
