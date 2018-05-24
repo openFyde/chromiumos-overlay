@@ -1,0 +1,9 @@
+DEFINED_PHASES=install
+DESCRIPTION=Logitech PTZ Pro 2 firmware
+EAPI=5
+KEYWORDS=*
+LICENSE=Google-TOS
+RDEPEND=sys-apps/logitech-updater
+SLOT=0
+SRC_URI=https://s3.amazonaws.com/chromiumos/ptzpro2-bin/ptzpro2-firmware-1.1.0.tar.gz
+_md5_=a665946b118f7e96d7f562f9fea98dd6
