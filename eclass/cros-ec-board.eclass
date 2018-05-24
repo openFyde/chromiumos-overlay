@@ -49,6 +49,7 @@ EC_BOARD_NAMES=(
 	cr50
 	cyan
 	dingdong
+	dragonegg
 	elm
 	eve
 	eve_fp
