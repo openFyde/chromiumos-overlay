@@ -23,3 +23,5 @@ CONFIG_AGESA_SPLIT_MEMORY_FILES=y
 # TODO(b/78293873): Remove once a better fallback has been implemented or once
 # daughter boards are common.
 CONFIG_GBB_FLAG_DISABLE_PD_SOFTWARE_SYNC=y
+CONFIG_ELOG_GSMI=y
+CONFIG_SPI_FLASH_SMM=y
