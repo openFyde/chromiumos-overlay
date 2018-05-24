@@ -16,7 +16,7 @@ HOMEPAGE="http://mosys.googlecode.com/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="static unibuild"
+IUSE="unibuild"
 
 # We need util-linux for libuuid.
 RDEPEND="unibuild? (
@@ -38,7 +38,6 @@ src_configure() {
 	local emesonargs=(
 		$(meson_use unibuild use_cros_config)
 		-Darch=$(tc-arch)
-		$(meson_use static)
 	)
 	meson_src_configure
 }
