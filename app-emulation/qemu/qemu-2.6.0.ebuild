@@ -332,6 +332,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.6.0-crypto-static.patch
 	epatch "${FILESDIR}"/${PN}-2.6.0-slirp-send-queue-hangs.patch
 	epatch "${FILESDIR}"/${PN}-2.6.0-o_tmpfile.patch
+	epatch "${FILESDIR}"/${PN}-2.6.0-memfd.patch
+	epatch "${FILESDIR}"/${PN}-2.6.0-ucontext.patch
 
 	# Fix ld and objcopy being called directly
 	tc-export AR LD OBJCOPY
