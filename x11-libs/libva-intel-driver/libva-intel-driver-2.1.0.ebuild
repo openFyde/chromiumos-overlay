@@ -47,7 +47,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/no_explicit_sync_in_va_sync_surface.patch
 	epatch "${FILESDIR}"/Avoid-GPU-crash-with-malformed-streams.patch
 	epatch "${FILESDIR}"/set_multisample_state_for_gen6.patch
-	epatch "${FILESDIR}"/disable_vp8_encoding.patch
 	epatch "${FILESDIR}"/Disable-VP8-decoder-on-BDW.patch
 	epatch "${FILESDIR}"/FROMGIT-i965_pciids-add-kbl-y-refresh-PCI-ID.patch
 
