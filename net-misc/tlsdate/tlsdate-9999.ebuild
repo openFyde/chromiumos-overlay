@@ -1,7 +1,7 @@
 # Copyright 2012 The Chromium OS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/third_party/tlsdate"
 
 inherit autotools flag-o-matic toolchain-funcs cros-workon cros-debug systemd user
@@ -22,6 +22,8 @@ RDEPEND="${DEPEND}
 "
 
 src_prepare() {
+	default
+
 	eautoreconf
 }
 
@@ -44,6 +46,11 @@ src_compile() {
 
 src_install() {
 	default
+
+	# Use the system cert store; see src_prepare. #446426 #534394
+	rm "${ED}"/etc/tlsdate/ca-roots/tlsdate-ca-roots.conf || die
+	rmdir "${ED}"/etc/tlsdate/ca-roots || die
+
 	insinto /etc/tlsdate
 	doins "${FILESDIR}/tlsdated.conf"
 	insinto /etc/dbus-1/system.d
