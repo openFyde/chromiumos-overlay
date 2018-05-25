@@ -44,7 +44,7 @@ src_install() {
 
 	insinto /etc/init
 	doins "${S}"/init/arc-network.conf
-	doins "${S}"/init/bridge.conf
+	doins "${S}"/init/arc-network-bridge.conf
 }
 
 pkg_preinst() {
