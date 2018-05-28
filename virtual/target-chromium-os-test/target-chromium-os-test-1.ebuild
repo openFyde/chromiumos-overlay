@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="List of packages that are needed inside the Chromium OS test image;
 Note: test images are a superset of dev images."
@@ -72,7 +72,6 @@ CROS_COMMON_RDEPEND="
 	p2p? ( dev-python/dpkt )
 	peerd? ( dev-python/dpkt )
 	dev-util/dbus-spy
-	dev-util/fps_meter
 	cr50_onboard? ( dev-util/u2f-ref-code )
 	net-misc/rsync
 	sys-apps/memtester
