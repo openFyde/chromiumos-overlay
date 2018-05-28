@@ -102,6 +102,27 @@ IUSE="detachable_ui"
 src_prepare() {
 	export BOARD="$(get_current_board_with_variant "${ARCH}-generic")"
 	export VCSID
+
+	# if fontconfig's cache is empty, prepare single use cache.
+	# That's still faster than having each process (of which there
+	# are many) re-scan the fonts
+	if find /usr/share/cache/fontconfig -maxdepth 0 -type d -empty \
+		-exec false {} +; then
+
+		return
+	fi
+
+	TMPCACHE=$(mktemp -d)
+	cat > $TMPCACHE/local-conf.xml <<-EOF
+		<?xml version="1.0"?>
+		<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+		<fontconfig>
+		<cachedir>$TMPCACHE</cachedir>
+		<include>/etc/fonts/fonts.conf</include>
+		</fontconfig>
+	EOF
+	export FONTCONFIG_FILE=$TMPCACHE/local-conf.xml
+	fc-cache -v
 }
 
 src_compile() {
