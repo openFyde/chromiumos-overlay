@@ -29,8 +29,9 @@ src_unpack() {
 		# llvm:r331547 https://critique.corp.google.com/#review/196053977
 		EGIT_COMMIT="def9f6a10422ae7aa0804d50b2d276ced09ce2d0" #r331523
 	else
-		# llvm:r328903 https://critique.corp.google.com/#review/191960518
-		EGIT_COMMIT="13c69d3bcd85a38da14fd28322b0b2f8b675d943" #r328849
+
+		# llvm:r331547 https://critique.corp.google.com/#review/196053977
+		EGIT_COMMIT="def9f6a10422ae7aa0804d50b2d276ced09ce2d0" #r331523
 	fi
 	git-2_src_unpack
 }
