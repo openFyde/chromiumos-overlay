@@ -3,10 +3,17 @@
 
 EAPI=5
 
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_SUBTREE="sepolicy"
+
+inherit cros-workon
+
 DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE="android-container-pi android-container-master-arc-dev"
 
 DEPEND="
@@ -16,8 +23,6 @@ DEPEND="
 
 SELINUX_VERSION="30"
 SEPOLICY_FILENAME="policy.${SELINUX_VERSION}"
-
-S="${WORKDIR}"
 
 src_compile() {
 	# Files under $SEPATH are built by android-container-* in DEPEND.
@@ -32,7 +37,7 @@ src_compile() {
 		"${SEPATH}/vendor_sepolicy.cil" \
 		-f /dev/null || die "fail to build sepolicy"
 
-	cat "${FILESDIR}/chromeos_file_contexts" \
+	cat "sepolicy/file_contexts/chromeos_file_contexts" \
 		"${SYSROOT}/etc/selinux/intermediates/arc_file_contexts" > file_contexts
 }
 
