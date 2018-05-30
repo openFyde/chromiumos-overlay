@@ -4,7 +4,6 @@
 net-misc/dhcp server
 
 # For ft2232_spi support in flashrom.
-dev-libs/libusb static-libs
 sys-apps/flashrom ft2232_spi
 
 # For programming EC with servo board.

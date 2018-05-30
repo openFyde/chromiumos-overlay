@@ -18,8 +18,7 @@ KEYWORDS="~*"
 IUSE="+atahpt +bitbang_spi +buspirate_spi dediprog +drkaiser
 +dummy +fdtmap ft2232_spi +gfxnvidia +internal +linux_i2c +linux_mtd +linux_spi
 +nic3com +nicintel +nicintel_spi +nicnatsemi +nicrealtek +ogp_spi
-+raiden_debug_spi +rayer_spi +satasii +satamv +serprog static use_os_timer +wiki
-cros_host"
++raiden_debug_spi +rayer_spi +satasii +satamv +serprog static use_os_timer +wiki"
 
 LIB_DEPEND="atahpt? ( sys-apps/pciutils[static-libs(+)] )
 	dediprog? ( virtual/libusb:0[static-libs(+)] )
@@ -40,7 +39,6 @@ LIB_DEPEND="atahpt? ( sys-apps/pciutils[static-libs(+)] )
 	ogp_spi? ( sys-apps/pciutils[static-libs(+)] )"
 RDEPEND="!static? ( ${LIB_DEPEND//\[static-libs(+)]} )"
 DEPEND="${RDEPEND}
-	!cros_host? ( ${LIB_DEPEND} )
 	static? ( ${LIB_DEPEND} )
 	sys-apps/diffutils"
 RDEPEND+=" internal? ( sys-apps/dmidecode )"
@@ -108,27 +106,12 @@ src_compile() {
 	tc-export AR CC RANLIB
 	# emake WARNERROR=no ${args}	# upstream gentoo
 
-	# For ChromeOS AU we want static and dynamic version both generated.
-	if ! use cros_host && ! use static; then
-		emake CONFIG_STATIC=yes ${args}
-		mv flashrom flashrom_s
-	fi
 	_flashrom_enable static STATIC
 	emake ${args}
 }
 
-src_test() {
-	use cros_host || return
-	if [[ -d tests ]] ; then
-		pushd tests >/dev/null
-		./tests.py || die
-		popd >/dev/null
-	fi
-}
-
 src_install() {
 	dosbin flashrom
-	nonfatal dosbin flashrom_s
 	doman flashrom.8
 	dodoc README.chromiumos Documentation/*.txt
 }
