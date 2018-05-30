@@ -13,12 +13,13 @@ HOMEPAGE="https://www.chromium.org/chromium-os/servo"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_host"
+IUSE="cros_host test"
 
 RDEPEND=">=dev-embedded/libftdi-0.18
 	dev-python/numpy
 	>=dev-python/pexpect-3.0
 	dev-python/pyserial
+	test? ( dev-python/pytest )
 	dev-python/pyusb
 	virtual/libusb:1
 	app-misc/screen
@@ -28,6 +29,10 @@ DEPEND="${RDEPEND}
 
 src_configure() {
 	cros-workon_src_configure
+}
+
+src_test() {
+	py.test -v build/ || die
 }
 
 src_compile() {
