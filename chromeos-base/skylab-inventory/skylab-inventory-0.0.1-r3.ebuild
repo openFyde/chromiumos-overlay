@@ -11,7 +11,7 @@ CROS_GO_WORKSPACE="${S}/go"
 
 CROS_GO_BINARIES=(
 	"skyinv/cmd/skylab-inventory-servers"
-	"skyinv/cmd/skylab-inventory-daemon"
+	"skyinv/cmd/skylab-inventory-mon"
 )
 
 CROS_GO_PACKAGES=(
