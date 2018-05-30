@@ -127,6 +127,7 @@ CONFIG_FRAGMENTS=(
 	dwc2_dual_role
 	dyndebug
 	eve_bt_hacks
+	eve_wifi_etsi
 	fbconsole
 	factory_netboot_ramfs
 	factory_shim_ramfs
@@ -290,6 +291,11 @@ CONFIG_DYNAMIC_DEBUG=y
 eve_bt_hacks_desc="Enable Bluetooth Hacks for Eve"
 eve_bt_hacks_config="
 CONFIG_BT_EVE_HACKS=y
+"
+
+eve_wifi_etsi_desc="Eve-specific workaround for ETSI"
+eve_wifi_etsi_config="
+CONFIG_EVE_ETSI_WORKAROUND=y
 "
 
 fbconsole_desc="framebuffer console"
