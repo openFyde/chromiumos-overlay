@@ -275,7 +275,6 @@ CONFIG_DM_SNAPSHOT=m
 dp_cec_desc="DisplayPort CEC-Tunneling-over-AUX support"
 dp_cec_config="
 CONFIG_DRM_DP_CEC=y
-CONFIG_DM_SNAPSHOT=m
 "
 
 dwc2_dual_role_desc="Dual Role support for DesignWare USB2.0 controller"
