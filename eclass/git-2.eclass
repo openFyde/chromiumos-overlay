@@ -357,6 +357,13 @@ git-2_fetch() {
 
 	[[ -n ${EGIT_LOCAL_NONBARE} ]] && repo_type="non-bare repository" || repo_type="bare repository"
 
+	# if repo does not exist, or if the repo directory is corrupt, clone the
+	# repo again.
+	git -C "${EGIT_DIR}" rev-parse HEAD &>/dev/null
+	if [[ $? -ne 0 ]]; then
+		ewarn "Existing git repo corrupt, removing and initialing clean checkout in ${EGIT_DIR}"
+		rm -rf "${EGIT_DIR}"
+	fi
 	if [[ ! -d ${EGIT_DIR} ]]; then
 		git-2_initial_clone
 		pushd "${EGIT_DIR}" > /dev/null

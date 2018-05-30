@@ -217,6 +217,13 @@ _git-r3_set_gitdir() {
 	fi
 
 	addwrite "${EGIT3_STORE_DIR}"
+	# if directory exists already, validate that the git repo is valid and
+	# remove if not.
+	git -C "${GIT_DIR}" rev-parse HEAD &>/dev/null
+	if [[ $? -ne 0 ]]; then
+		ewarn "Existing git repo corrupt, removing and initialing clean checkout in ${GIT_DIR}"
+		rm -rf "${GIT_DIR}"
+	fi
 	if [[ ! -d ${GIT_DIR} ]]; then
 		mkdir "${GIT_DIR}" || die
 		git init --bare || die
