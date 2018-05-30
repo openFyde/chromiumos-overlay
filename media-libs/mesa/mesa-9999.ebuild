@@ -129,6 +129,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.1-amdgpu-always-allow-GTT-placements-on-APUs.patch
 	epatch "${FILESDIR}"/18.1-dri_util-Add-R10G10B10-A-X-2-translation-between_DRI.patch
 	epatch "${FILESDIR}"/18.1-i965-add-X-A-BGR2101010-to-intel_image_formats.patch
+	epatch "${FILESDIR}"/18.1-HACK-llvmpipe-delay-raster-threads-creation.patch
 	base_src_prepare
 
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory

@@ -1,0 +1,68 @@
+From 402af30a94fee6c0696c80da8c2de558c2015e1d Mon Sep 17 00:00:00 2001
+From: Alexandre Courbot <acourbot@chromium.org>
+Date: Fri, 1 Jun 2018 14:00:46 +0900
+Subject: [PATCH] llvmpipe: delay raster threads creation
+
+LLVMpipe's raster threads are created along with the display. This
+causes a problem for Chromium because the threads are then created
+before the GPU process has been sandboxed, which is a security
+violation. Move the threads creation to the first render as a
+workaround.
+
+BUG=b:79891439
+TEST=Checked that GPU process is working properly and that the raster
+threads are also present.
+
+Change-Id: Ifa41e99c756cb7343fbf9a2980880468a392e79c
+Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+---
+ src/gallium/drivers/llvmpipe/lp_screen.c | 7 +------
+ src/gallium/drivers/llvmpipe/lp_setup.c  | 7 +++++++
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/src/gallium/drivers/llvmpipe/lp_screen.c b/src/gallium/drivers/llvmpipe/lp_screen.c
+index af1aff4e1e..2c754defa6 100644
+--- a/src/gallium/drivers/llvmpipe/lp_screen.c
++++ b/src/gallium/drivers/llvmpipe/lp_screen.c
+@@ -683,12 +683,7 @@ llvmpipe_create_screen(struct sw_winsys *winsys)
+    screen->num_threads = debug_get_num_option("LP_NUM_THREADS", screen->num_threads);
+    screen->num_threads = MIN2(screen->num_threads, LP_MAX_THREADS);
+ 
+-   screen->rast = lp_rast_create(screen->num_threads);
+-   if (!screen->rast) {
+-      lp_jit_screen_cleanup(screen);
+-      FREE(screen);
+-      return NULL;
+-   }
++   screen->rast = NULL;
+    (void) mtx_init(&screen->rast_mutex, mtx_plain);
+ 
+    return &screen->base;
+diff --git a/src/gallium/drivers/llvmpipe/lp_setup.c b/src/gallium/drivers/llvmpipe/lp_setup.c
+index c157323133..717a51c4a1 100644
+--- a/src/gallium/drivers/llvmpipe/lp_setup.c
++++ b/src/gallium/drivers/llvmpipe/lp_setup.c
+@@ -33,6 +33,7 @@
+  */
+ 
+ #include <limits.h>
++#include <stdio.h>
+ 
+ #include "pipe/p_defines.h"
+ #include "util/u_framebuffer.h"
+@@ -167,6 +168,12 @@ lp_setup_rasterize_scene( struct lp_setup_context *setup )
+ 
+    mtx_lock(&screen->rast_mutex);
+ 
++   if (!screen->rast) {
++      screen->rast = lp_rast_create(screen->num_threads);
++      if (!screen->rast)
++        fprintf(stderr, "LLVMPIPE: Error creating raster threads. Expect crash.\n");
++   }
++
+    /* FIXME: We enqueue the scene then wait on the rasterizer to finish.
+     * This means we never actually run any vertex stuff in parallel to
+     * rasterization (not in the same context at least) which is what the
+-- 
+2.17.1.1185.g55be947832-goog
+
