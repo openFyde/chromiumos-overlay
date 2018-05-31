@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils linux-info multilib pam toolchain-funcs
+inherit eutils linux-info multilib pam toolchain-funcs udev
 
 PATCH_VER="4"
 DESCRIPTION="Point-to-Point Protocol (PPP)"
@@ -182,6 +182,10 @@ src_install() {
 
 	dodoc PLUGINS README* SETUP Changes-2.3 FAQ
 	dodoc "${FILESDIR}/README.mpls"
+
+	# This rules file is specific to CrOS and cannot be upstreamed, so must be
+	# carried forward.
+	udev_dorules "${FILESDIR}/99-pppd.rules"
 
 	dosbin scripts/p{on,off,log}
 	doman scripts/pon.1
