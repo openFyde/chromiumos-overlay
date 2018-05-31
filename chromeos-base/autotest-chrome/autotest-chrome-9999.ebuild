@@ -135,6 +135,7 @@ IUSE_TESTS=(
 	+tests_platform_LowMemoryTest
 	+tests_platform_MemoryPressure
 	+tests_platform_OSLimits
+	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_policy_AudioOutputAllowed
 	+tests_policy_ChromeOsLockOnIdleSuspend
