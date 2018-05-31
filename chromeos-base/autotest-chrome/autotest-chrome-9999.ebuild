@@ -137,9 +137,11 @@ IUSE_TESTS=(
 	+tests_platform_LogoutPerf
 	+tests_platform_LowMemoryTest
 	+tests_platform_MemoryPressure
+	+tests_platform_MouseScrollTest
 	+tests_platform_OSLimits
 	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
+	+tests_platform_ScrollTest
 	+tests_policy_AudioOutputAllowed
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
