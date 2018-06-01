@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/newblue"
 CROS_WORKON_LOCALNAME="newblue"
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-inherit toolchain-funcs multilib cros-workon
+inherit toolchain-funcs multilib cros-workon udev
 
 DESCRIPTION="NewBlue Bluetooth stack"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/newblue"
@@ -34,4 +34,6 @@ src_install() {
 
 	insinto /usr/"$(get_libdir)"/pkgconfig
 	doins newblue.pc
+
+	udev_dorules "${FILESDIR}"/50-newblue.rules
 }

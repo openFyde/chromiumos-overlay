@@ -1,0 +1,1 @@
+KERNEL=="hci_le", OWNER="bluetooth", GROUP="bluetooth", MODE="0660"
