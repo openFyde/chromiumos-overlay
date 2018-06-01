@@ -8,5 +8,5 @@ LICENSE=libpng
 RDEPEND=media-libs/libpng:0=[-pnm2png(-)]
 SLOT=0/16
 SRC_URI=mirror://sourceforge/libpng/libpng-1.6.25.tar.xz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	8abdf916e4ce29b8952bc60b587b3236
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
 _md5_=97270c3138063ea32139caac485ae925

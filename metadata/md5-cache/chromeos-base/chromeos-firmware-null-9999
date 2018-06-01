@@ -9,5 +9,5 @@ LICENSE=BSD-Google
 RDEPEND=unibuild? ( chromeos-base/chromeos-config:= ) app-arch/gzip app-arch/sharutils app-arch/tar chromeos-base/vboot_reference sys-apps/util-linux
 RESTRICT=mirror
 SLOT=0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-firmware	10ebed672c0c3e20fca88264f8d6dd73	cros-unibuild	f17301504f641c602712ff5618a0611b	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d8721ae80a433d74914c59b01337e601	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	8abdf916e4ce29b8952bc60b587b3236
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-firmware	10ebed672c0c3e20fca88264f8d6dd73	cros-unibuild	f17301504f641c602712ff5618a0611b	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d8721ae80a433d74914c59b01337e601	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
 _md5_=972bd8e200957bf1ac0569eff2c45674
