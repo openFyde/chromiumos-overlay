@@ -1,8 +1,0 @@
-DEFINED_PHASES=compile install
-DESCRIPTION=Das U-Boot boot scripts
-EAPI=4
-KEYWORDS=-* arm
-LICENSE=BSD-Google
-RDEPEND=chromeos-base/u-boot-license
-SLOT=0
-_md5_=3c8ec671720caa22471fa0b463819da2
