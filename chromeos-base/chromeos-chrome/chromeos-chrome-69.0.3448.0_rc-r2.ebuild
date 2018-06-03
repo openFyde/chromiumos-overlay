@@ -165,7 +165,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3448.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3448.0_rc-r2.afdo"
 AFDO_FILE["silvermont"]="R69-3431.0-1527503029.afdo"
 AFDO_FILE["airmont"]="R69-3431.0-1527503029.afdo"
 AFDO_FILE["haswell"]="R69-3431.0-1527503029.afdo"
@@ -675,7 +675,7 @@ src_unpack() {
 		# First check if there is a specified "frozen" AFDO profile.
 		# Otherwise use the current one.
 
-		local AFDO_SRC="${AFDO_PROFILE_SOURCE:-benchmark}"
+		local AFDO_SRC="${AFDO_PROFILE_SOURCE:-silvermont}"
 		local PROFILE_FILE="${AFDO_SRC}_${AFDO_FILE[${AFDO_SRC}]}"
 
 		PROFILE_STATE="CURRENT"
