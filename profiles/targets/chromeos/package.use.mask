@@ -31,3 +31,5 @@ sys-libs/glibc -hardened
 # Disable asan for these two packages.
 chromeos-base/libevdev asan
 chromeos-base/gestures asan
+# Disable asan on minijail (https://crbug.com/848440).
+chromeos-base/minijail asan
