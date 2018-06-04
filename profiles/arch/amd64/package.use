@@ -1,3 +1,6 @@
 # Enable thinlto on AMD64 boards, remove this
 # after thinlto is enabled in ebuild.
 >chromeos-base/chromeos-chrome-68.0.3428 thinlto
+# Enable cfi on AMD64 boards, remove this
+# after cfi is enabled in ebuild.
+>chromeos-base/chromeos-chrome-69.0.3453 cfi
