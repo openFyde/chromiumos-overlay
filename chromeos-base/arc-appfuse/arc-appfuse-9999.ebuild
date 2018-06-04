@@ -40,3 +40,7 @@ src_install() {
 	# TODO(hashimoto): Add an upstart conf file to start this service in
 	# minijail when ARC starts.
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/arc-appfuse_testrunner"
+}
