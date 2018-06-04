@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="0b2361be41d516cab9a4a06dc543bb24b8bf1468"
+CROS_WORKON_COMMIT="873d7e41ddbd7a8f807477096696a4d20ec3626c"
 CROS_WORKON_TREE=("6dd24c3358b82474c558c65a0d6e0d3f3d9193c4" "77b86fe588951ce651b101063af7aa5de1c81d0b" "00d2eb11c6ae40e5b507234d3760edf84bbfa12f")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,6 +28,7 @@ RDEPEND="
 	chromeos-base/metrics
 	chromeos-base/minijail
 	chromeos-base/session_manager-client
+	net-fs/sshfs
 	sys-apps/rootdev
 	sys-apps/util-linux
 	sys-fs/avfs
@@ -35,7 +36,6 @@ RDEPEND="
 	sys-fs/exfat-utils
 	sys-fs/fuse-exfat
 	sys-fs/ntfs3g
-	sys-fs/sshfs-fuse
 	virtual/udev
 "
 
