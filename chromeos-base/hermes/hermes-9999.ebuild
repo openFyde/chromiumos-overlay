@@ -27,3 +27,7 @@ RDEPEND="${DEPEND}"
 src_install() {
 	dobin "${OUT}"/hermes
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/hermes_test"
+}
