@@ -46,11 +46,12 @@ RDEPEND+=" app-shells/dash"
 #  /usr/bin/awk
 RDEPEND+=" chromeos-base/chromeos-base"
 
-# Many packages need a blessed list of SSL certificates, and
-# app-misc/ca-certificates from portage-stable is good enough. We used to have a
-# chromium os fork - chromeos-base/root-certificates, but that's not the case
-# any more.
-# TODO: document the decision somewhere?
+# Many packages need a blessed list of SSL certificates. For non Google
+# distributed Chromium OS systems, that's the Mozilla NSS set, which is
+# installed by app-misc/ca-certificates from portable-stable. The old
+# chromiumos-overlay for - chromeos-base/root-certificates has been deleted. See
+# https://chromium.googlesource.com/chromiumos/docs/+/master/ca_certs.md for
+# more details.
 RDEPEND+="
 	app-misc/ca-certificates
 	!chromeos-base/root-certificates
