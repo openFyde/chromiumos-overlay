@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="131e871385b343467d3f8be0a8f3ccf09ab81075"
-CROS_WORKON_TREE="92f454a7dcbc7ce8cb20ca3ec3439b67794fc314"
+CROS_WORKON_COMMIT="0f959215c340150cb6075f5c2d3ccfc5d109558f"
+CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_BLACKLIST="1"
 
@@ -33,10 +33,6 @@ VA_INSTALL="src/gallium/targets/va/"
 
 src_prepare() {
 	epatch "${FILESDIR}"/17.2.3-config-make-error-as-warning-for-drm.patch
-	epatch "${FILESDIR}"/17.2.3-st-va-Make-the-vendor-string-more-descriptive.patch
-	epatch "${FILESDIR}"/18.2.0-st-va-Fix-potential-buffer-overread.patch
-	epatch "${FILESDIR}"/18.2.0-st-va-Fix-typos.patch
-	epatch "${FILESDIR}"/18.2.0-st-va-Support-YUV-formats-in-vaCreateSurfaces.patch
 
 	eautoreconf
 }
