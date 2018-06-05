@@ -105,7 +105,7 @@ pkg_postinst() {
 	install -d --mode=0700 --owner=${root_uid} --group=${root_gid} \
 		"${ROOT}${CONTAINER_ROOTFS}/root" \
 		|| true
-	install -d --mode=0755 --owner=root --group=root \
+	install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
 		"${ROOT}${CONTAINER_ROOTFS}/android-data" \
 		|| true
 
