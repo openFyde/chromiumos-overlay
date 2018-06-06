@@ -36,6 +36,7 @@ PATCHES=(
 	"${FILESDIR}/09_nomask_8259.patch"
 	"${FILESDIR}/10_eMMC.patch"
 	"${FILESDIR}/11_parallel_BaseTools.patch"
+	"${FILESDIR}/12_vrt.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE
