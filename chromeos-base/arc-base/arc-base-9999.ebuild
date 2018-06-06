@@ -96,15 +96,19 @@ pkg_postinst() {
 	local root_uid=$(egetent passwd android-root | cut -d: -f3)
 	local root_gid=$(egetent group android-root | cut -d: -f3)
 
-	# Create a 0700 directory, and then a subdirectory mount point.
+	# Create a rootfs directory, and then a subdirectory mount point. We
+	# use 0500 for CONTAINER_ROOTFS instead of 0555 so that non-system
+	# processes running outside the container don't start depending on
+	# files in system.raw.img.
 	# These are created here rather than at
 	# install because some of them may already exist and have mounts.
-	install -d --mode=0700 --owner=${root_uid} --group=${root_gid} \
+	install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
 		"${ROOT}${CONTAINER_ROOTFS}" \
 		|| true
-	install -d --mode=0700 --owner=${root_uid} --group=${root_gid} \
-		"${ROOT}${CONTAINER_ROOTFS}/root" \
-		|| true
+	# This CONTAINER_ROOTFS/root directory works as a mount point for
+	# system.raw.img, and once it's mounted, the image's root directory's
+	# permissions override the mode, owner, and group mkdir sets here.
+	mkdir -p "${ROOT}${CONTAINER_ROOTFS}/root" || true
 	install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
 		"${ROOT}${CONTAINER_ROOTFS}/android-data" \
 		|| true
