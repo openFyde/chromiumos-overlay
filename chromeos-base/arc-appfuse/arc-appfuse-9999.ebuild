@@ -37,8 +37,11 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.ArcAppfuseProvider.conf
 
-	# TODO(hashimoto): Add an upstart conf file to start this service in
-	# minijail when ARC starts.
+	insinto /etc/init
+	doins init/arc-appfuse-provider.conf
+
+	insinto /usr/share/policy
+	newins "seccomp/arc-appfuse-provider-seccomp-${ARCH}.policy" arc-appfuse-provider-seccomp.policy
 }
 
 platform_pkg_test() {
