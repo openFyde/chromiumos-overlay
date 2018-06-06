@@ -5,7 +5,7 @@
 # TODO(toolchain): This should not be building the compiler just to build
 # the target libs.  It should re-use the existing system cross compiler.
 
-EAPI="4"
+EAPI="5"
 
 # These are used to find the project sources. Since the gcc-libs sources are
 # within the gcc source tree, we leave these "gcc" rather than "gcc-libs".
@@ -96,6 +96,7 @@ src_configure() {
 		--disable-openmp
 		--disable-libcilkrts
 		--with-system-zlib
+		--disable-libsanitizer
 	)
 
 	GCC_LANG="c,c++"
