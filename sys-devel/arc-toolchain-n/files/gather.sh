@@ -18,7 +18,7 @@
 #
 # 1. Download prebuilts for ARM and x86_64
 #
-# Go to go/a-b, select branch git_nyc-mr1-arc. Pick a -userdebug build for all
+# Go to go/ab, select branch git_nyc-mr1-arc. Pick a -userdebug build for all
 # architectures, then download cheets_${arch}-target_files-${build_id}.zip.
 # Extract those files and point ARTIFACTS_DIR_${ARCH} to the respective
 # directories.
@@ -54,7 +54,7 @@ ARC_ARCH_LIBM=('i387' 'arm' 'amd64')
 # ARCH names used in kernel uapi.
 ARC_ARCH_UAPI=('x86' 'arm' 'x86')
 
-# 2. The dir to which the artifacts tarball (downloaded from go/a-b) was
+# 2. The dir to which the artifacts tarball (downloaded from go/ab) was
 # extracted. Pick a -userdebug build.
 # Now we support two platforms: 32-bit arm and 32/64-bit x86.
 : "${ARTIFACTS_DIR_ARM:="${ANDROID_TREE}/arm_target_files/"}"

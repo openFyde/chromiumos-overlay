@@ -54,7 +54,7 @@ ARC_ARCH_ANDROID=('x86' 'arm' 'x86_64')
 # ARCH names used in kernel uapi.
 ARC_ARCH_UAPI=('x86' 'arm' 'x86')
 
-# 2. The dir to which the artifacts tarball (downloaded from go/a-b) was
+# 2. The dir to which the artifacts tarball (downloaded from go/ab) was
 # extracted. Pick a -userdebug build.
 # Now we support two platforms: 32-bit arm and 32/64-bit x86.
 : "${ARTIFACTS_DIR_ARM:="${ANDROID_TREE}/arm_target_files/"}"
