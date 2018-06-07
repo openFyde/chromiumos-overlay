@@ -836,14 +836,14 @@ setup_compile_flags() {
 		# from 25% to 10%. The performance number of page_cycler is the
 		# same on two of the thinLTO configurations, we got 1% slowdown
 		# on speedometer when changing import-instr-limit from 100 to 30.
-		if use gold; then
-			EBUILD_LDFLAGS+=( "-Wl,-plugin-opt,-import-instr-limit=30" )
-		elif use lld; then
-			EBUILD_LDFLAGS+=( "-Wl,-mllvm,-import-instr-limit=30" )
-		fi
+		# We need to further reduce it to 20 for arm to limit the size
+		# increase to 10%.
+		local thinlto_ldflag="-Wl,-plugin-opt,-import-instr-limit=30"
 		if use arm; then
-			append-ldflags -glto-dwo-dir=${DWO_FILE_DIR}
+			thinlto_ldflag="-Wl,-plugin-opt,-import-instr-limit=20"
+			EBUILD_LDFLAGS+=( -glto-dwo-dir=${DWO_FILE_DIR} )
 		fi
+		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
 	fi
 
 	# Enable std::vector []-operator bounds checking.
