@@ -23,9 +23,17 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-DEPEND="chromeos-base/libbrillo"
-
-RDEPEND="${DEPEND}"
+COMMON_DEPEND="
+	chromeos-base/libbrillo
+"
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/permission_broker
+"
+DEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/system_api
+"
 
 src_unpack() {
 	local s="${S}"
