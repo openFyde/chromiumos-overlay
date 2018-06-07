@@ -29,7 +29,7 @@ diff --git a/lib/Driver/ToolChains/CommonArgs.cpp b/lib/Driver/ToolChains/Common
 index 17ab82e97c..67992a655e 100644
 --- a/tools/clang/lib/Driver/ToolChains/CommonArgs.cpp
 +++ b/tools/clang/lib/Driver/ToolChains/CommonArgs.cpp
-@@ -417,6 +417,16 @@
+@@ -417,6 +417,19 @@
    if (IsThinLTO)
      CmdArgs.push_back("-plugin-opt=thinlto");
  
@@ -38,9 +38,12 @@ index 17ab82e97c..67992a655e 100644
 +        Args.MakeArgString(ToolChain.GetProgramPath(CLANG_DEFAULT_OBJCOPY));
 +    CmdArgs.push_back(
 +        Args.MakeArgString(Twine("-plugin-opt=objcopy=") + Objcopy));
-+    StringRef DWO_Dir = A->getValue();
++    StringRef Dwo_Dir = A->getValue();
++     SmallString<1024> DwoDir;
++     llvm::sys::path::native(Dwo_Dir, DwoDir);
++     llvm::sys::path::append(DwoDir, Twine(Output.getFilename()) + "_dwo");
 +    CmdArgs.push_back(
-+        Args.MakeArgString(Twine("-plugin-opt=dwo_dir=") + DWO_Dir));
++        Args.MakeArgString(Twine("-plugin-opt=dwo_dir=") + DwoDir));
 +  }
 +
    if (unsigned Parallelism = getLTOParallelism(Args, ToolChain.getDriver()))
