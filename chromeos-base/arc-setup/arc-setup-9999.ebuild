@@ -56,6 +56,9 @@ set_density_scale() {
 		nautilus*) # 1.6x. Among the standard Android dpi, the closest value 213 is chosen.
 			density=213
 			scale=160 ;;
+		grunt*) # 1x.  Set here to avoid being picked up by gru* below.
+			density=160
+			scale=100 ;;
 		cave*|elm*|gru*) # 1.25x default scaling
 			density=160
 			scale=125 ;;
