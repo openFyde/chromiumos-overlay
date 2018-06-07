@@ -64,7 +64,7 @@ set_density_scale() {
 		cave*|elm*|gru*) # 1.25x default scaling
 			density=160
 			scale=125 ;;
-		cyan*|kahlee*|veyron_minnie*) # 1x
+		cyan*|veyron_minnie*) # 1x
 			density=160
 			scale=100 ;;
 		*)

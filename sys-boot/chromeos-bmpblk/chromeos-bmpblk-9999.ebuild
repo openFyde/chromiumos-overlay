@@ -38,7 +38,6 @@ CROS_BOARDS=(
 	gnawty
 	grunt
 	guado
-	kahlee
 	kevin
 	kip
 	lars
