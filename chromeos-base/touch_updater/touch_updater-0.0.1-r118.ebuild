@@ -2,12 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="4"
-CROS_WORKON_COMMIT="a4eca6b5591a14c9a5e5c2c371daffe18f190cc0"
-CROS_WORKON_TREE="9534ed5ef0334ee32169fddef68f413b701c3bf7"
+CROS_WORKON_COMMIT="e36ca9f18aee4b496cae8b80c2265d494734f75b"
+CROS_WORKON_TREE="e0037f64493912fa7931c73158c395feaf57a592"
 CROS_WORKON_PROJECT="chromiumos/platform/touch_updater"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit cros-workon
+inherit cros-workon user
 
 DESCRIPTION="Touch firmware and config updater"
 HOMEPAGE="http://www.chromium.org/"
@@ -21,6 +21,7 @@ IUSE="input_devices_synaptics
 	input_devices_st
 	input_devices_weida
 	input_devices_goodix
+	input_devices_sis
 "
 
 RDEPEND="
@@ -29,8 +30,16 @@ RDEPEND="
 	input_devices_st? ( chromeos-base/st_flash )
 	input_devices_weida? ( chromeos-base/weida_wdt_util )
 	input_devices_goodix? ( chromeos-base/gdix_hid_firmware_update )
+	input_devices_sis? ( chromeos-base/sisConsoletool )
 	sys-apps/mosys
 "
+
+pkg_preinst() {
+	if use input_devices_sis; then
+		enewgroup sisfwupdate
+		enewuser sisfwupdate
+	fi
+}
 
 src_install() {
 	exeinto "/opt/google/touch/scripts"

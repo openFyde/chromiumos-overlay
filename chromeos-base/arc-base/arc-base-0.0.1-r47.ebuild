@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="d26c561f228e5be62c4150595f4c5672b26db4f2"
+CROS_WORKON_COMMIT="a98cb102e16995c8ad3a630e66fd238575b4af06"
 CROS_WORKON_TREE=("7f3772ca0f71f93049a5823095bfa3f5620f016f" "c9f93d2c26681868d7021028b18bee5bd5120986" "e04a446fe49f58d86acbe0f17e4917c69ad414ce")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -98,15 +98,19 @@ pkg_postinst() {
 	local root_uid=$(egetent passwd android-root | cut -d: -f3)
 	local root_gid=$(egetent group android-root | cut -d: -f3)
 
-	# Create a 0700 directory, and then a subdirectory mount point.
+	# Create a rootfs directory, and then a subdirectory mount point. We
+	# use 0500 for CONTAINER_ROOTFS instead of 0555 so that non-system
+	# processes running outside the container don't start depending on
+	# files in system.raw.img.
 	# These are created here rather than at
 	# install because some of them may already exist and have mounts.
-	install -d --mode=0700 --owner=${root_uid} --group=${root_gid} \
+	install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
 		"${ROOT}${CONTAINER_ROOTFS}" \
 		|| true
-	install -d --mode=0700 --owner=${root_uid} --group=${root_gid} \
-		"${ROOT}${CONTAINER_ROOTFS}/root" \
-		|| true
+	# This CONTAINER_ROOTFS/root directory works as a mount point for
+	# system.raw.img, and once it's mounted, the image's root directory's
+	# permissions override the mode, owner, and group mkdir sets here.
+	mkdir -p "${ROOT}${CONTAINER_ROOTFS}/root" || true
 	install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
 		"${ROOT}${CONTAINER_ROOTFS}/android-data" \
 		|| true
