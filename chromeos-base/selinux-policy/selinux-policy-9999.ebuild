@@ -14,9 +14,12 @@ DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="android-container-pi android-container-master-arc-dev combine_chromeos_policy"
+IUSE="android-container-pi android-container-master-arc-dev +combine_chromeos_policy"
+# When developers are doing something not Android. This required use is to let
+# the developer know, disabling combine_chromeos_policy flag doesn't change
+# anything.
 REQUIRED_USE="
-	combine_chromeos_policy? ( || ( android-container-pi android-container-master-arc-dev ) )
+	!combine_chromeos_policy? ( ^^ ( android-container-pi android-container-master-arc-dev ) )
 "
 
 DEPEND="
