@@ -32,7 +32,8 @@ src_install() {
 		cidb \
 		lib/datafiles/ \
 		third_party/pyelftools/test \
-		mobmonitor
+		mobmonitor \
+		venv
 }
 
 src_test() {
