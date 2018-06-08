@@ -23,7 +23,8 @@ src_install() {
 	# TODO (crbug.com/346859) Convert to using distutils and a setup.py
 	# to specify which files should be installed.
 	cd "${D}/$(python_get_sitedir)/chromite"
-	find '(' -name '*.pyc' -o -name '*unittest.py' ')' -delete
+	find '(' -name '*.py[co]' -o -name '*unittest.py' ')' -delete
+	find -name '.git' -exec rm -rf {} +
 	rm -rf lib/datafiles/
 	rm -rf third_party/pyelftools/test
 	rm -rf mobmonitor
