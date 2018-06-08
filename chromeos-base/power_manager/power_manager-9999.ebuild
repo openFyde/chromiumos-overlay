@@ -115,6 +115,8 @@ src_install() {
 	fi
 	if ! use touchpad_wakeup; then
 		udev_dorules udev/optional/93-powerd-tags-no-touchpad-wakeup.rules
+	elif use unibuild; then
+		udev_dorules udev/optional/93-powerd-tags-unibuild-touchpad-wakeup.rules
 	fi
 	if use touchscreen_wakeup; then
 		udev_dorules udev/optional/93-powerd-tags-touchscreen-wakeup.rules
