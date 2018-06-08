@@ -27,9 +27,12 @@ src_install() {
 	cd "${D}/$(python_get_sitedir)/chromite"
 	find '(' -name '*.py[co]' -o -name '*unittest.py' ')' -delete
 	find -name '.git' -exec rm -rf {} +
-	rm -rf lib/datafiles/
-	rm -rf third_party/pyelftools/test
-	rm -rf mobmonitor
+	rm -rf \
+		appengine \
+		cidb \
+		lib/datafiles/ \
+		third_party/pyelftools/test \
+		mobmonitor
 }
 
 src_test() {
