@@ -78,7 +78,7 @@ IUSE_TESTS=(
 	+tests_bluetooth_RegressionClient
 	+tests_bluetooth_TurnOnOffUI
 	+tests_cfm_AutotestSmokeTest
-	+tests_cheets_AppCompat
+	+tests_cheets_AppCompatTest
 	+tests_desktopui_AudioFeedback
 	tests_desktopui_CameraApp
 	+tests_desktopui_CheckRlzPingSent
