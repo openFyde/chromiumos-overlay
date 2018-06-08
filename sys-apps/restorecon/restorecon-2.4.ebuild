@@ -39,12 +39,12 @@ src_prepare() {
 }
 
 src_compile() {
-	emake -C setfiles \
+	emake -C setfiles restorecon \
 		AUDITH="$(usex audit)" \
 		DESTDIR="${EROOT}" \
 		CC="$(tc-getCC)"
 }
 
 src_install() {
-	emake -C setfiles DESTDIR="${D}" install
+	emake -C setfiles restorecon DESTDIR="${D}" install
 }
