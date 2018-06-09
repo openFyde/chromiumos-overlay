@@ -43,7 +43,6 @@ src_install() {
 			cros_workon_make
 			gdb_remote
 			gdb_x86_local
-			gmergefs
 			netboot_firmware_settings.py
 			strip_package
 			willis
