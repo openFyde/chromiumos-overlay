@@ -29,7 +29,4 @@ src_install() {
 
 	insinto /usr/share/chromeos-assets/images_200_percent
 	doins -r "${S}"/images_200_percent/*
-
-	insinto /usr/share/chromeos-assets/screensavers
-	doins -r "${S}"/screensavers/*
 }
