@@ -3,10 +3,10 @@ DEPEND=>=dev-libs/glib-2.36 >=sys-apps/dbus-1.2 dev-libs/dbus-glib net-dialup/pp
 DESCRIPTION=Modem and mobile broadband management libraries
 EAPI=6
 HOMEPAGE=http://mail.gnome.org/archives/networkmanager-list/2008-July/msg00274.html
-IUSE=-asan doc gobi mbim systemd qmi cros_host cros_workon_tree_ profiling
-KEYWORDS=~*
+IUSE=-asan doc gobi mbim systemd qmi cros_host cros_workon_tree_a387784c5b0d4d9bb2181a18a58697767bebbf9b profiling
+KEYWORDS=*
 LICENSE=GPL-2
 RDEPEND=>=dev-libs/glib-2.36 >=sys-apps/dbus-1.2 dev-libs/dbus-glib net-dialup/ppp mbim? ( net-libs/libmbim ) qmi? ( net-libs/libqmi ) !net-misc/modemmanager sys-apps/baselayout
 SLOT=0
 _eclasses_=autotools	999c8f6cf5d91495cb0779588f20716c	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	systemd	8f5286f89e265842f5b5189666eae88b	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9	udev	d91cac2c73b94629cad2daea66e0d182	user	c8f947561e8797a300801d0dd3625448
-_md5_=6bef3d8637fb200b373fcc7d0a9b9a1a
+_md5_=e65b74b8a989e01480714bec4e40e8df
