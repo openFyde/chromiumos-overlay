@@ -49,6 +49,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/set_multisample_state_for_gen6.patch
 	epatch "${FILESDIR}"/Disable-VP8-decoder-on-BDW.patch
 	epatch "${FILESDIR}"/FROMGIT-i965_pciids-add-kbl-y-refresh-PCI-ID.patch
+	epatch "${FILESDIR}"/UPSTREAM-Always-set-pre-post-deblocking-output-buffe.patch
 
 	sed -e 's/intel-gen4asm/\0diSaBlEd/g' -i configure.ac || die
 	autotools-multilib_src_prepare

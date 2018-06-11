@@ -1,0 +1,44 @@
+From 28c0fafced604765402bb95109fb96a59648f6b0 Mon Sep 17 00:00:00 2001
+From: Haihao Xiang <haihao.xiang@intel.com>
+Date: Fri, 18 May 2018 15:13:18 +0800
+Subject: UPSTREAM: Always set pre/post deblocking output buffer
+
+Signed-off-by: Haihao Xiang <haihao.xiang@intel.com>
+(cherry picked from commit 021bcb79d1bd873bbd9fbca55f40320344bab866)
+[posciak@chromium.org: cherrypick to backport to 2.1.0]
+Signed-off-by: Pawel Osciak <posciak@chromium.org>
+---
+ src/i965_encoder_vp8.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/src/i965_encoder_vp8.c b/src/i965_encoder_vp8.c
+index fdaeac0a..7f382e5a 100644
+--- a/src/i965_encoder_vp8.c
++++ b/src/i965_encoder_vp8.c
+@@ -5935,7 +5935,6 @@ i965_encoder_vp8_pak_pipeline_prepare(VADriverContextP ctx,
+     struct object_surface *obj_surface;
+     struct object_buffer *obj_buffer;
+     struct i965_coded_buffer_segment *coded_buffer_segment;
+-    VAEncPictureParameterBufferVP8 *pic_param = (VAEncPictureParameterBufferVP8 *)encode_state->pic_param_ext->buffer;
+     dri_bo *bo;
+     int i;
+ 
+@@ -5943,13 +5942,8 @@ i965_encoder_vp8_pak_pipeline_prepare(VADriverContextP ctx,
+     obj_surface = encode_state->reconstructed_object;
+     i965_check_alloc_surface_bo(ctx, obj_surface, 1, VA_FOURCC_NV12, SUBSAMPLE_YUV420);
+ 
+-    if (pic_param->loop_filter_level[0] == 0) {
+-        PAK_REFERENCE_BO(vp8_context->pre_deblocking_output.bo, obj_surface->bo, 1);
+-        PAK_REFERENCE_BO(vp8_context->post_deblocking_output.bo, NULL, 0);
+-    } else {
+-        PAK_REFERENCE_BO(vp8_context->pre_deblocking_output.bo, NULL, 0);
+-        PAK_REFERENCE_BO(vp8_context->post_deblocking_output.bo, obj_surface->bo, 1);
+-    }
++    PAK_REFERENCE_BO(vp8_context->pre_deblocking_output.bo, obj_surface->bo, 1);
++    PAK_REFERENCE_BO(vp8_context->post_deblocking_output.bo, obj_surface->bo, 1);
+ 
+     /* set vp8 reference frames */
+     for (i = 0; i < ARRAY_ELEMS(vp8_context->reference_surfaces); i++) {
+-- 
+2.18.0.rc1.244.gcf134e6275-goog
+
