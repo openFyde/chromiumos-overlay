@@ -176,6 +176,7 @@ ALL_BOARDS=(
 	#kiev
 	kip
 	klang
+	kukui
 	kunimitsu
 	lakitu
 	lakitu-gpu

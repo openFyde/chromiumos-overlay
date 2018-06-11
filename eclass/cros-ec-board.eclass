@@ -67,6 +67,7 @@ EC_BOARD_NAMES=(
 	jerry
 	kahlee
 	kevin
+	kukui
 	llama
 	lux
 	meowth
