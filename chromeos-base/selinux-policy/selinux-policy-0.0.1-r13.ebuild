@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="a98cb102e16995c8ad3a630e66fd238575b4af06"
+CROS_WORKON_COMMIT="89844538a356effd043c81394f8e0b2bc80b8d65"
 CROS_WORKON_TREE="6fef7b27eac60bc732fb1056412196039ecfa4a0"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -84,6 +84,10 @@ filter_file_line_by_line() {
 	grep -F -x -v -f "$1" | grep -v "^;"
 }
 
+has_arc() {
+	use android-container-pi || use android-container-master-arc-dev;
+}
+
 # Build SELinux intermediate language files.
 # Look into SELinux policies in given directories, and
 # pre-compile with m4 macro preprocessor, and merge them into
@@ -132,7 +136,7 @@ build_chromeos_policy() {
 src_compile() {
 	build_chromeos_policy
 
-	if use android-container-pi || use android-container-master-arc-dev; then
+	if has_arc; then
 		if use combine_chromeos_policy; then
 			einfo "combining Chrome OS and Android SELinux policy"
 
@@ -176,4 +180,11 @@ src_install() {
 
 	insinto /etc/selinux/arc/policy
 	doins "${SEPOLICY_FILENAME}"
+
+	if has_arc; then
+		# Install ChromeOS cil so push_to_device.py can compile a new
+		# version of SELinux policy.
+		insinto /etc/selinux/intermediates.raw/
+		doins chromeos.cil
+	fi
 }
