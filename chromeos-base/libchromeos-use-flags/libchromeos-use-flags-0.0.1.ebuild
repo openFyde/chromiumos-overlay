@@ -51,6 +51,7 @@ IUSE="
 	legacy_keyboard
 	legacy_power_button
 	link
+	low_pressure_touch_filtering
 	moblab
 	native_assistant
 	native_gpu_memory_buffers
