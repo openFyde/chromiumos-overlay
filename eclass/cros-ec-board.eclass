@@ -45,6 +45,7 @@ EC_BOARD_NAMES=(
 	bds
 	chell
 	chell_pd
+	cheza
 	coral
 	cr50
 	cyan
