@@ -168,6 +168,7 @@
         "autotest", 
         "build_tests", 
         "buildcheck", 
+        "cfi", 
         "chrome_debug", 
         "chrome_remoting", 
         "clang", 

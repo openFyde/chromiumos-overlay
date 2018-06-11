@@ -165,11 +165,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3452.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R69-3437.0-1528107682.afdo"
-AFDO_FILE["airmont"]="R69-3437.0-1528107682.afdo"
-AFDO_FILE["haswell"]="R69-3437.0-1528107682.afdo"
-AFDO_FILE["broadwell"]="R69-3437.0-1528107682.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3455.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R69-3440.4-1528721362.afdo"
+AFDO_FILE["airmont"]="R69-3440.4-1528721362.afdo"
+AFDO_FILE["haswell"]="R69-3440.4-1528721362.afdo"
+AFDO_FILE["broadwell"]="R69-3440.4-1528721362.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -836,14 +836,14 @@ setup_compile_flags() {
 		# from 25% to 10%. The performance number of page_cycler is the
 		# same on two of the thinLTO configurations, we got 1% slowdown
 		# on speedometer when changing import-instr-limit from 100 to 30.
-		if use gold; then
-			EBUILD_LDFLAGS+=( "-Wl,-plugin-opt,-import-instr-limit=30" )
-		elif use lld; then
-			EBUILD_LDFLAGS+=( "-Wl,-mllvm,-import-instr-limit=30" )
-		fi
+		# We need to further reduce it to 20 for arm to limit the size
+		# increase to 10%.
+		local thinlto_ldflag="-Wl,-plugin-opt,-import-instr-limit=30"
 		if use arm; then
-			append-ldflags -glto-dwo-dir=${DWO_FILE_DIR}
+			thinlto_ldflag="-Wl,-plugin-opt,-import-instr-limit=20"
+			EBUILD_LDFLAGS+=( -glto-dwo-dir=${DWO_FILE_DIR} )
 		fi
+		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
 	fi
 
 	# Enable std::vector []-operator bounds checking.
