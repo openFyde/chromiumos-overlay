@@ -42,18 +42,9 @@ src_install() {
 	doins -r "${S}"/text/boot_messages
 	dosbin "${S}"/text/display_boot_message
 
-	mkdir "${S}"/connectivity_diagnostics_launcher_deploy
-	pushd "${S}"/connectivity_diagnostics_launcher_deploy > /dev/null
-	unpack ./../connectivity_diagnostics_launcher/connectivity_diagnostics_launcher.zip
-	insinto /usr/share/chromeos-assets/connectivity_diagnostics_launcher
-	doins -r "${S}"/connectivity_diagnostics_launcher_deploy/*
-	popd > /dev/null
-
-	mkdir "${S}"/connectivity_diagnostics_deploy
-	unzip "${S}"/connectivity_diagnostics/connectivity_diagnostics.zip \
-		-d "${S}"/connectivity_diagnostics_deploy
-	insinto /usr/share/chromeos-assets/connectivity_diagnostics
-	doins -r "${S}"/connectivity_diagnostics_deploy/*
+	insinto /usr/share/chromeos-assets
+	doins -r "${S}"/connectivity_diagnostics
+	doins -r "${S}"/connectivity_diagnostics_launcher
 
 	#
 	# Speech synthesis
