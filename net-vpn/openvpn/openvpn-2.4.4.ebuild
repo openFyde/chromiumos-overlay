@@ -24,6 +24,7 @@ REQUIRED_USE="static? ( !plugins !pkcs11 )
 	inotify? ( plugins )"
 
 CDEPEND="
+	!net-misc/openvpn
 	kernel_linux? (
 		iproute2? ( sys-apps/iproute2[-minimal] )
 		!iproute2? ( >=sys-apps/net-tools-1.60_p20160215155418 )
