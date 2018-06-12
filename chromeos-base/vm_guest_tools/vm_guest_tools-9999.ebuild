@@ -2,6 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
+
+CROS_GO_PACKAGES=(
+	"chromiumos/vm_tools/tremplin_proto"
+)
+
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -10,7 +15,7 @@ CROS_WORKON_SUBTREE="common-mk vm_tools"
 
 PLATFORM_SUBDIR="vm_tools"
 
-inherit cros-workon platform user
+inherit cros-go cros-workon platform user
 
 DESCRIPTION="VM guest tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
@@ -52,6 +57,9 @@ src_install() {
 
 	into /
 	newsbin "${OUT}"/maitred init
+
+	CROS_GO_WORKSPACE="${OUT}/gen/go"
+	cros-go_src_install
 }
 
 platform_pkg_test() {
