@@ -47,4 +47,8 @@ src_install() {
 	insinto /usr/include/hammerd/
 	doins hammerd_api.h
 	distutils-r1_src_install
+
+	# Install hammer base tests on dut
+	dodir /usr/local/bin/hammertests
+	cp -R "${S}/hammertests" "${D}/usr/local/bin/hammertests"
 }
