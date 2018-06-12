@@ -54,9 +54,7 @@ DEPEND="cheets? (
 		video_cards_amdgpu? (
 			dev-libs/arc-libelf[${MULTILIB_USEDEP}]
 		)
-	)
-	x11-drivers/opengles-headers
-"
+	)"
 
 RDEPEND="${DEPEND}"
 
@@ -70,6 +68,18 @@ QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 pkg_setup() {
 	# workaround toc-issue wrt #386545
 	use ppc64 && append-flags -mminimal-toc
+
+	# Remove symlinks created by an earlier version so we don't have
+	# install conflicts.
+	# TODO: Delete this after June 2019, since everybody should have
+	# upgraded by then.
+	local d
+	for d in EGL GL GLES GLES2 GLES3 KHR; do
+		local replaced_link="${ROOT}${ARC_PREFIX}/vendor/include/${d}"
+		if [[ -L "${replaced_link}" ]]; then
+			rm -f "${replaced_link}"
+		fi
+	done
 }
 
 src_prepare() {
@@ -267,13 +277,6 @@ multilib_src_install_cheets() {
 			newexe $(get_libdir)/libvulkan_intel.so vulkan.cheets.so
 		fi
 	fi
-
-	# Reuse headers from opengles-headers instead of installing our own.
-	local incdir=$(realpath -m --relative-to="${ARC_PREFIX}/vendor/include" /usr/include)
-	local d
-	for d in EGL GL GLES GLES2 GLES3 KHR; do
-		dosym "${incdir}/${d}" "${ARC_PREFIX}/vendor/include/${d}"
-	done
 }
 
 multilib_src_install() {
@@ -376,6 +379,10 @@ multilib_src_install_all_cheets() {
 		insinto "${ARC_PREFIX}/vendor/etc/permissions"
 		doins "${FILESDIR}/android.hardware.opengles.aep.xml"
 	fi
+
+	# Install the dri header for arc-cros-gralloc
+	insinto "${ARC_PREFIX}/vendor/include/GL"
+	doins -r "${S}/include/GL/internal"
 }
 
 multilib_src_install_all() {
