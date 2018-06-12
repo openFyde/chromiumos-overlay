@@ -67,6 +67,9 @@ src_install() {
 	doins *.h
 	doins "${OUT}"/gen/include/trunks/*.h
 
+	insinto /usr/include/proto
+	doins "${S}"/pinweaver.proto
+
 	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
 		"${OUT}/lib" libtrunks /usr/include/trunks
 	insinto "/usr/$(get_libdir)/pkgconfig"
