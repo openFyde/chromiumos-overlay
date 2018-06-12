@@ -29,7 +29,8 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
-RESTRICT="binchecks strip"
+# Disable tests because they run an HTTP server locally (crbug.com/852179).
+RESTRICT="binchecks strip test"
 
 DEPEND="
 	dev-go/cmp
