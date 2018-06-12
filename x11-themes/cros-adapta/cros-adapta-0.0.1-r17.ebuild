@@ -18,5 +18,10 @@ KEYWORDS="*"
 
 src_install() {
 	insinto /opt/google/cros-containers/cros-adapta
-	doins -r assets gtk-2.0 gtk-3.0 gtk-3.22 index.theme
+	doins -r gtk-2.0 gtk-3.0 gtk-3.22 index.theme
+
+	# Install the assets directory if it exists.
+	if [[ -d assets ]] ; then
+		doins -r assets
+	fi
 }
