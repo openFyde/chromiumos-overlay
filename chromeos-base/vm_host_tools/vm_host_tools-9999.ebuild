@@ -35,6 +35,7 @@ DEPEND="
 "
 
 src_install() {
+	dobin "${OUT}"/cicerone_client
 	dobin "${OUT}"/concierge_client
 	dobin "${OUT}"/maitred_client
 	dobin "${OUT}"/vm_cicerone
