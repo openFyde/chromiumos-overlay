@@ -26,10 +26,6 @@ RDEPEND+="
 	fonts? ( chromeos-base/chromeos-fonts )
 	x11-libs/pango"
 
-# Languages for which we preinstall text to speech voice data.
-TTS_LANGUAGES="de-DE en-GB en-IN en-US es-ES es-US fr-FR hi-IN id-ID it-IT
-	ko-KR nl-NL pt-BR"
-
 CROS_WORKON_LOCALNAME="assets"
 
 src_install() {
@@ -76,15 +72,18 @@ src_install() {
 		# Speech synthesis component extension code
 		doins "${S}"/speech_synthesis/patts/manifest.json
 		doins "${S}"/speech_synthesis/patts/manifest_guest.json
+		doins "${S}"/speech_synthesis/patts/options.css
+		doins "${S}"/speech_synthesis/patts/options.html
+		doins "${S}"/speech_synthesis/patts/options.js
 		doins "${S}"/speech_synthesis/patts/tts_main.js
 		doins "${S}"/speech_synthesis/patts/tts_controller.js
 		doins "${S}"/speech_synthesis/patts/tts_service.nmf
 
 		# Speech synthesis voice data
-		for i in ${TTS_LANGUAGES}; do
-			doins "${S}"/speech_synthesis/patts/voice_*${i}.js
-			doins "${S}"/speech_synthesis/patts/voice_*${i}.zvoice
-		done
+		doins "${S}"/speech_synthesis/patts/voice_*.{js,zvoice}
+
+		# Remote speech synthesis voice data
+		doins "${S}"/speech_synthesis/patts/remote_*.js
 
 		# Speech synthesis engine (platform-specific native client module)
 		if use arm ; then
