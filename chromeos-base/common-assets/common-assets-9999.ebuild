@@ -55,12 +55,6 @@ src_install() {
 	insinto /usr/share/chromeos-assets/connectivity_diagnostics
 	doins -r "${S}"/connectivity_diagnostics_deploy/*
 
-	mkdir "${S}"/connectivity_diagnostics_kiosk_deploy
-	unzip "${S}"/connectivity_diagnostics/connectivity_diagnostics_kiosk.zip \
-		-d "${S}"/connectivity_diagnostics_kiosk_deploy
-	insinto /usr/share/chromeos-assets/connectivity_diagnostics_kiosk
-	doins -r "${S}"/connectivity_diagnostics_kiosk_deploy/*
-
 	#
 	# Speech synthesis
 	#
