@@ -82,6 +82,14 @@ enable_clear_app_executables_after_ota() {
 		die "enable_clear_app_executables_after_ota failed!"
 }
 
+# Enables the option to start arc-appfuse-provider.
+enable_appfuse_provider() {
+	# Only enabled for P and later.
+	if use !android-container-nyc; then
+		sed -i "s/^\(export ENABLE_APPFUSE_PROVIDER=\)0\$/\11/" "$1"
+	fi
+}
+
 src_install() {
 	dosbin "${OUT}"/arc-setup
 	dosbin arc_setup_wrapper.sh
@@ -101,6 +109,7 @@ src_install() {
 	doins etc/arc-setup-env
 	set_density_scale "${D}/etc/init/arc-setup-env"
 	enable_clear_app_executables_after_ota "${D}/etc/init/arc-setup-env"
+	enable_appfuse_provider "${D}/etc/init/arc-setup-env"
 
 	insinto /opt/google/containers/arc-art
 	doins "${OUT}/dev-rootfs.squashfs"
