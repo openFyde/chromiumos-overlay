@@ -38,6 +38,7 @@ IUSE="
 	edge_touch_filtering
 	eve
 	gpu_sandbox_allow_sysv_shm
+	gpu_sandbox_failures_not_fatal
 	gpu_sandbox_start_after_initialization
 	gpu_sandbox_start_early
 	has_diamond_key
