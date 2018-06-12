@@ -34,6 +34,7 @@ RDEPEND="
 		chromeos-base/tpm_manager
 		chromeos-base/attestation
 	)
+	chromeos-base/chaps
 	chromeos-base/libbrillo:=
 	chromeos-base/metrics
 	chromeos-base/secure-erase-file
