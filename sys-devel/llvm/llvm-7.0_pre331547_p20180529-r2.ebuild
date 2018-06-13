@@ -196,6 +196,7 @@ pick_cherries() {
 
 	# llvm
 	CHERRIES=""
+	CHERRIES+=" 44b4b3a25821d2024d98417752844a0809ecd204" # r331635
 	CHERRIES+=" d5ae6a3f71cbd25e2367c56e1d452bcff16c8324" # r332389
 	CHERRIES+=" b25fd2f921ce952213dcf1ac047150996c1d15c2" # r332444
 	pushd "${S}" >/dev/null || die
@@ -226,6 +227,7 @@ pick_next_cherries() {
 
 	# llvm
 	CHERRIES=""
+	CHERRIES+=" 44b4b3a25821d2024d98417752844a0809ecd204" # r331635
 	CHERRIES+=" d5ae6a3f71cbd25e2367c56e1d452bcff16c8324" # r332389
 	CHERRIES+=" b25fd2f921ce952213dcf1ac047150996c1d15c2" # r332444
 	pushd "${S}" >/dev/null || die

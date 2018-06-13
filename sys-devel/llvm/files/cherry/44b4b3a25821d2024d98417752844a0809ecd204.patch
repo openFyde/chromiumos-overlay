@@ -1,0 +1,112 @@
+commit 44b4b3a25821d2024d98417752844a0809ecd204
+Author: Petar Jovanovic <petar.jovanovic@mips.com>
+Date:   Mon May 7 14:09:33 2018 +0000
+
+    Add option -verify-cfiinstrs to run verifier in CFIInstrInserter
+    
+    Instead of enabling it for non NDEBUG builds, use -verify-cfiinstrs to
+    run verifier in CFIInstrInserter. It defaults to false.
+    
+    Differential Revision: https://reviews.llvm.org/D46444
+    
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@331635 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/CodeGen/CFIInstrInserter.cpp b/lib/CodeGen/CFIInstrInserter.cpp
+index b021d960921..a7382692050 100644
+--- a/lib/CodeGen/CFIInstrInserter.cpp
++++ b/lib/CodeGen/CFIInstrInserter.cpp
+@@ -29,6 +29,11 @@
+ #include "llvm/Target/TargetMachine.h"
+ using namespace llvm;
+ 
++static cl::opt<bool> VerifyCFI("verify-cfiinstrs",
++    cl::desc("Verify Call Frame Information instructions"),
++    cl::init(false),
++    cl::Hidden);
++
+ namespace {
+ class CFIInstrInserter : public MachineFunctionPass {
+  public:
+@@ -50,11 +55,12 @@ class CFIInstrInserter : public MachineFunctionPass {
+ 
+     MBBVector.resize(MF.getNumBlockIDs());
+     calculateCFAInfo(MF);
+-#ifndef NDEBUG
+-    if (unsigned ErrorNum = verify(MF))
+-      report_fatal_error("Found " + Twine(ErrorNum) +
+-                         " in/out CFI information errors.");
+-#endif
++
++    if (VerifyCFI) {
++      if (unsigned ErrorNum = verify(MF))
++        report_fatal_error("Found " + Twine(ErrorNum) +
++                           " in/out CFI information errors.");
++    }
+     bool insertedCFI = insertCFIInstrs(MF);
+     MBBVector.clear();
+     return insertedCFI;
+diff --git a/test/CodeGen/X86/cfi-inserter-verify-inconsistent-offset.mir b/test/CodeGen/X86/cfi-inserter-verify-inconsistent-offset.mir
+new file mode 100644
+index 00000000000..9ea5587fd97
+--- /dev/null
++++ b/test/CodeGen/X86/cfi-inserter-verify-inconsistent-offset.mir
+@@ -0,0 +1,26 @@
++# RUN: not llc -o - %s -mtriple=x86_64-- -verify-cfiinstrs \
++# RUN:     -run-pass=cfi-instr-inserter 2>&1 | FileCheck %s
++# Test that CFI verifier finds inconsistent offset between bb.end and one of
++# its precedessors.
++--- |
++  define void @inconsistentOffset() {
++    bb.end:
++      ret void
++  }
++...
++---
++# CHECK: *** Inconsistent CFA register and/or offset between pred and succ ***
++# CHECK: Succ: bb.end
++# CHECK: LLVM ERROR: Found 1 in/out CFI information errors.
++name: inconsistentOffset
++body: |
++  bb.0:
++    CFI_INSTRUCTION def_cfa_offset 24
++    JNE_1 %bb.2, implicit undef $eflags
++
++  bb.1:
++    CFI_INSTRUCTION def_cfa_offset 32
++
++  bb.2.bb.end:
++    RET 0
++...
+diff --git a/test/CodeGen/X86/cfi-inserter-verify-inconsistent-register.mir b/test/CodeGen/X86/cfi-inserter-verify-inconsistent-register.mir
+new file mode 100644
+index 00000000000..33bfac299b2
+--- /dev/null
++++ b/test/CodeGen/X86/cfi-inserter-verify-inconsistent-register.mir
+@@ -0,0 +1,26 @@
++# RUN: not llc -o - %s -mtriple=x86_64-- -verify-cfiinstrs \
++# RUN:     -run-pass=cfi-instr-inserter 2>&1 | FileCheck %s
++# Test that CFI verifier finds inconsistent register between bb.end and one of
++# its precedessors.
++--- |
++  define void @inconsistentRegister() {
++    bb.end:
++      ret void
++  }
++...
++---
++# CHECK: *** Inconsistent CFA register and/or offset between pred and succ ***
++# CHECK: Succ: bb.end
++# CHECK: LLVM ERROR: Found 1 in/out CFI information errors.
++name: inconsistentRegister
++body: |
++  bb.0:
++    CFI_INSTRUCTION def_cfa_register $rbp
++    JNE_1 %bb.2, implicit undef $eflags
++
++  bb.1:
++    CFI_INSTRUCTION def_cfa $rsp, 8
++
++  bb.2.bb.end:
++    RET 0
++...
