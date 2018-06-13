@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile info install setup test unpack
+DEPEND=dev-go/crypto dev-go/subcommands dev-lang/go dev-vcs/git
+DESCRIPTION=Host executables for running integration tests
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast/
+IUSE=cros_host cros_workon_tree_6d046590b28ce39d07abb88d3f7c564f029b925a profiling
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=app-arch/tar app-arch/xz-utils chromeos-base/google-breakpad net-misc/gsutil !chromeos-base/tast-common
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-go	117dba28da9bef152ae016ce5528b6ca	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_md5_=0b678e1a1943cea0b0ac953bae2d66c4
