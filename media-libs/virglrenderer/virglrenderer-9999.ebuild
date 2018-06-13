@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-inherit autotools eutils
+inherit autotools eutils flag-o-matic toolchain-funcs
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="https://anongit.freedesktop.org/git/virglrenderer.git"
@@ -18,7 +18,7 @@ HOMEPAGE="https://virgil3d.github.io/"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="static-libs test"
+IUSE="asan fuzzer static-libs test"
 
 RDEPEND=">=x11-libs/libdrm-2.4.50
 	media-libs/libepoxy"
@@ -34,16 +34,32 @@ PATCHES=(
 
 src_prepare() {
 	default
+	if use fuzzer; then
+		epatch "${FILESDIR}"/${PN}-0.6.0-fuzzer.patch
+	fi
 	[[ -e configure ]] || eautoreconf
 }
 
 src_configure() {
+	asan-setup-env
+	fuzzer-setup-env
+
 	econf \
 		$(use_enable static-libs static) \
-		$(use_enable test tests)
+		$(use_enable test tests) \
+		$(use_enable fuzzer)
 }
 
 src_install() {
 	default
+
+	if use fuzzer; then
+		local f="tests/fuzzer/.libs/virgl_fuzzer"
+		insinto /usr/libexec/fuzzers
+		exeinto /usr/libexec/fuzzers
+		doexe "${f}"
+		newins "${FILESDIR}/fuzzer-OWNERS" "${f##*/}.owners"
+	fi
+
 	find "${ED}"/usr -name 'lib*.la' -delete
 }
