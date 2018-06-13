@@ -18,7 +18,7 @@ HOMEPAGE="https://virgil3d.github.io/"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="asan fuzzer static-libs test"
+IUSE="asan fuzzer profiling static-libs test"
 
 RDEPEND=">=x11-libs/libdrm-2.4.50
 	media-libs/libepoxy"
@@ -44,6 +44,10 @@ src_configure() {
 	asan-setup-env
 	fuzzer-setup-env
 
+	if use profiling; then
+		append-flags -fprofile-instr-generate -fcoverage-mapping
+		append-ldflags -fprofile-instr-generate -fcoverage-mapping
+	fi
 	econf \
 		$(use_enable static-libs static) \
 		$(use_enable test tests) \
