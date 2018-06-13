@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+kvm_host"
+IUSE="+kvm_host +seccomp"
 REQUIRED_USE="kvm_host"
 
 RDEPEND="
@@ -47,6 +47,11 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
+
+	insinto /usr/share/policy
+	if use seccomp; then
+		newins "init/vm_cicerone-seccomp-${ARCH}.policy" vm_cicerone-seccomp.policy
+	fi
 
 	udev_dorules udev/99-vm.rules
 }
