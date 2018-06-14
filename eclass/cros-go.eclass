@@ -60,6 +60,7 @@
 # @DESCRIPTION:
 # Go packages to test
 # Package paths are relative to ${CROS_GO_WORKSPACE}/src
+# Package tests are run with "-short" flag by default.
 # Package tests are always built and run locally on host.
 # Default is to test all packages in ${CROS_GO_WORKSPACE}.
 : ${CROS_GO_TEST:=./...}
@@ -102,7 +103,7 @@ cros-go_src_compile() {
 
 cros-go_src_test() {
 	local pkglist=( $(go_list "${CROS_GO_TEST[@]}") )
-	go_test "${pkglist[@]}"
+	go_test -short "${pkglist[@]}"
 }
 
 cros-go_src_install() {
