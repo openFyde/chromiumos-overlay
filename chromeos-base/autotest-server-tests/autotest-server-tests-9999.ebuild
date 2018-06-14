@@ -119,6 +119,7 @@ SERVER_IUSE_TESTS="
 	+tests_factory_Basic
 	+tests_firmware_Bmpblk
 	+tests_firmware_CgptStress
+	+tests_firmware_ClearTPMOwnerAndReset
 	+tests_firmware_CompareInstalledToShellBall
 	+tests_firmware_ConsecutiveBoot
 	+tests_firmware_ConsecutiveBootPowerButton
@@ -136,11 +137,13 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50CCDServoCap
 	+tests_firmware_Cr50ConsoleCommands
 	+tests_firmware_Cr50DeepSleepStress
+	+tests_firmware_Cr50DeviceState
 	+tests_firmware_Cr50GetName
 	+tests_firmware_Cr50InvalidateRW
 	+tests_firmware_Cr50Open
 	+tests_firmware_Cr50OpenWhileAPOff
 	+tests_firmware_Cr50PinWeaverServer
+	+tests_firmware_Cr50RejectUpdate
 	+tests_firmware_Cr50RMAOpen
 	+tests_firmware_Cr50SetBoardId
 	+tests_firmware_Cr50Testlab
