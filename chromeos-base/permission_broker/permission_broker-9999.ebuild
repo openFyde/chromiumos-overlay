@@ -27,6 +27,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	containers? ( chromeos-base/container_utils )
 	sys-apps/dbus
+	virtual/libusb:1
 	virtual/udev"
 
 DEPEND="${RDEPEND}
