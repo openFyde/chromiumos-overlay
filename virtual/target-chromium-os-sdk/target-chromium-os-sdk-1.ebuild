@@ -26,6 +26,7 @@ RDEPEND="${RDEPEND}
 	app-arch/bzip2
 	app-arch/cpio
 	app-arch/gzip
+	app-arch/p7zip
 	app-arch/tar
 	app-shells/bash
 	net-misc/iputils
