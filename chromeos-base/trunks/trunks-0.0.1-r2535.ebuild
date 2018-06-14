@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="eec6d0a6c3962e71e3b1a7db2dfaa422ec88a15e"
+CROS_WORKON_COMMIT="49d66d7e63798bf31f0ab4d113f8fb122f80c80e"
 CROS_WORKON_TREE=("1d995a5f11b89f06713e6b213ea3f8741ace4008" "af569e5f34ae151047d0ca54ded89d00ddca989e")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -68,6 +68,9 @@ src_install() {
 	insinto /usr/include/trunks
 	doins *.h
 	doins "${OUT}"/gen/include/trunks/*.h
+
+	insinto /usr/include/proto
+	doins "${S}"/pinweaver.proto
 
 	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
 		"${OUT}/lib" libtrunks /usr/include/trunks
