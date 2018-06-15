@@ -20,9 +20,15 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND=""
+RDEPEND="
+	chromeos-base/libbrillo
+"
 
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	chromeos-base/libmojo
+	chromeos-base/system_api
+"
 
 src_install() {
 	dobin "${OUT}"/ml_service
