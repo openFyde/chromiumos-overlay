@@ -37,6 +37,7 @@ PATCHES=(
 	"${FILESDIR}/10_eMMC.patch"
 	"${FILESDIR}/11_parallel_BaseTools.patch"
 	"${FILESDIR}/12_vrt.patch"
+	"${FILESDIR}/13_smmstore.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE
@@ -63,6 +64,10 @@ create_cbfs() {
 	if [ -r "${oprom}" ]; then
 		_cbfstool ${cbfs} add -f "${oprom}" -n $(basename "${oprom}") -t optionrom
 	fi
+	# Add smm variable store
+	local smmstore=$(mktemp)
+	dd if=/dev/zero bs=64K count=1 | tr '\000' '\377' > ${smmstore}
+	_cbfstool ${cbfs} add -f "${smmstore}" -n "smm store" -t raw -a 0x10000
 	# Print CBFS inventory
 	_cbfstool ${cbfs} print
 }
