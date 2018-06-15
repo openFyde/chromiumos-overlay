@@ -142,6 +142,7 @@ RDEPEND="
 src_prepare() {
 	cd "src/github.com/lxc/lxd" || die "can't cd into ${S}/src/github.com/lxc/lxd"
 	eapply "${FILESDIR}/2.21-unprivileged-only.patch"
+	eapply "${FILESDIR}/3.00-tcp-keepalive.patch"
 	eapply_user
 }
 
