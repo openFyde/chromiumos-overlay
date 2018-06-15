@@ -7,11 +7,18 @@ inherit autotools eutils
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="https://anongit.freedesktop.org/git/virglrenderer.git"
+	KEYWORDS="~*"
 	inherit git-r3
 else
-	SRC_URI="mirror://gentoo/${P}.tar.xz"
+	GIT_SHA1="2ec172f4c53bbdd6640b852c8002cd057f6ee108"
+	SRC_URI="https://github.com/freedesktop/virglrenderer/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
+	S="${WORKDIR}/${PN}-${GIT_SHA1}"
 	KEYWORDS="*"
 fi
+
+# Uncomment the following line temporarily to update the manifest when updating
+# the pinned version via: ebuild $(equery w virglrenderer) manifest
+#RESTRICT=nomirror
 
 DESCRIPTION="library used implement a virtual 3D GPU used by qemu"
 HOMEPAGE="https://virgil3d.github.io/"
