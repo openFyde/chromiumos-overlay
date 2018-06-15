@@ -34,11 +34,11 @@ src_install() {
 		insinto /etc/gesture
 	fi
 
-	# -cheets and -arcnext variants are running on the same hardware as
-	# their non-cheets and non-arcnext counterpart. Strip the suffix to
-	# re-use the config.
+	# -cheets, -arcnext and -campfire variants are running on the same
+	# hardware as their non-cheets, non-arcnext, and non-campfire
+	# counterpart. Strip the suffix to re-use the config.
 	local suffix
-	for suffix in cheets arcnext; do
+	for suffix in cheets arcnext campfire; do
 		board_variant=${board_variant%-${suffix}}
 		board=${board%-${suffix}}
 	done
