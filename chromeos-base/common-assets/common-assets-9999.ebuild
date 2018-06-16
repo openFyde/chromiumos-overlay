@@ -58,38 +58,23 @@ src_install() {
 	#
 	# Speech synthesis
 	#
-
 	if use tts ; then
-
 		insinto /usr/share/chromeos-assets/speech_synthesis/patts
 
-		# Speech synthesis component extension code
-		doins "${S}"/speech_synthesis/patts/manifest.json
-		doins "${S}"/speech_synthesis/patts/manifest_guest.json
-		doins "${S}"/speech_synthesis/patts/options.css
-		doins "${S}"/speech_synthesis/patts/options.html
-		doins "${S}"/speech_synthesis/patts/options.js
-		doins "${S}"/speech_synthesis/patts/tts_main.js
-		doins "${S}"/speech_synthesis/patts/tts_controller.js
-		doins "${S}"/speech_synthesis/patts/tts_service.nmf
+		doins speech_synthesis/patts/*.{css,html,js,json,zvoice}
+		doins speech_synthesis/patts/tts_service.nmf
 
-		# Speech synthesis voice data
-		doins "${S}"/speech_synthesis/patts/voice_*.{js,zvoice}
-
-		# Remote speech synthesis voice data
-		doins "${S}"/speech_synthesis/patts/remote_*.js
-
-		# Speech synthesis engine (platform-specific native client module)
+		# Speech synthesis engine (platform-specific native client module).
+		pushd "${D}"/usr/share/chromeos-assets/speech_synthesis/patts >/dev/null || die
 		if use arm ; then
-			unzip "${S}"/speech_synthesis/patts/tts_service_arm.nexe.zip
-			doins "${S}"/tts_service_arm.nexe
+			unzip "${S}"/speech_synthesis/patts/tts_service_arm.nexe.zip || die
 		elif use x86 ; then
-			unzip "${S}"/speech_synthesis/patts/tts_service_x86_32.nexe.zip
-			doins "${S}"/tts_service_x86_32.nexe
+			unzip "${S}"/speech_synthesis/patts/tts_service_x86_32.nexe.zip || die
 		elif use amd64 ; then
-			unzip "${S}"/speech_synthesis/patts/tts_service_x86_64.nexe.zip
-			doins "${S}"/tts_service_x86_64.nexe
+			unzip "${S}"/speech_synthesis/patts/tts_service_x86_64.nexe.zip || die
 		fi
-
+		# We don't need these to be executable, and some autotests will fail it.
+		chmod 0644 *.nexe || die
+		popd >/dev/null
 	fi
 }
