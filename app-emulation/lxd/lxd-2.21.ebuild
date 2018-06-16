@@ -56,6 +56,17 @@ EGO_VENDOR=(
 	"gopkg.in/lxc/go-lxc.v2 a7d112aed2f5f57f565d6e557671eeef7e76811c github.com/lxc/go-lxc" # branch v2
 )
 
+CROS_GO_PACKAGES=(
+	"github.com/lxc/lxd/client"
+	"github.com/lxc/lxd/shared"
+	"github.com/lxc/lxd/shared/api"
+	"github.com/lxc/lxd/shared/cancel"
+	"github.com/lxc/lxd/shared/ioprogress"
+	"github.com/lxc/lxd/shared/logger"
+	"github.com/lxc/lxd/shared/osarch"
+	"github.com/lxc/lxd/shared/simplestreams"
+)
+
 ARCHIVE_URI="https://${EGO_PN}/archive/${P}.tar.gz -> ${P}.tar.gz"
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -63,7 +74,7 @@ KEYWORDS="-* amd64 arm"
 
 IUSE="+daemon +ipv6 +dnsmasq nls test"
 
-inherit bash-completion-r1 linux-info systemd user golang-vcs-snapshot cros-go
+inherit bash-completion-r1 epatch linux-info systemd user golang-vcs-snapshot cros-go
 
 SRC_URI="${ARCHIVE_URI}
 	${EGO_VENDOR_URI}"
@@ -118,11 +129,7 @@ src_compile() {
 }
 
 src_install() {
-	dobin lxc
-	if use daemon; then
-		dosbin lxd
-		dobin fuidshift
-	fi
+	cros-go_src_install
 
 	cd "src/${EGO_PN}" || die "can't cd into ${S}/src/${EGO_PN}"
 
