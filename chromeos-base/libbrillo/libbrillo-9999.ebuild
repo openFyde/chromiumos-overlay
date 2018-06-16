@@ -4,7 +4,6 @@
 EAPI="5"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libbrillo")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libbrillo")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libbrillo")
