@@ -892,6 +892,7 @@ src_configure() {
 		export CC="${CC} -fuse-ld=lld"
 		export CXX="${CXX} -fuse-ld=lld"
 		export STRIP=eu-strip
+		append-ldflags -Wl,--no-rosegment
 	else
 		ewarn "gold and lld disabled. Using GNU ld."
 	fi
