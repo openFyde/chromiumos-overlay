@@ -3,10 +3,9 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("eec6d0a6c3962e71e3b1a7db2dfaa422ec88a15e" "aeb7bb4b05662d0ccd8a6104414dbc5af71f6ad5")
+CROS_WORKON_COMMIT=("106a27fdb5292455087643e88010fa17aa6297db" "aeb7bb4b05662d0ccd8a6104414dbc5af71f6ad5")
 CROS_WORKON_TREE=("1d995a5f11b89f06713e6b213ea3f8741ace4008" "3ad3b48829e37573f8d2ef436b043b446014d529")
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libbrillo")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libbrillo")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libbrillo")
