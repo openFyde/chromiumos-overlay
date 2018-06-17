@@ -47,6 +47,7 @@ RDEPEND="${RDEPEND}
 	sys-devel/autoconf
 	sys-devel/automake:1.10
 	sys-devel/automake:1.11
+	sys-devel/automake:1.15
 	sys-devel/binutils
 	sys-devel/bison
 	sys-devel/flex
