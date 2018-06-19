@@ -1,0 +1,35 @@
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=5
+CROS_WORKON_COMMIT=("00d1af072d9fffbce16ff5d5f978adc264a19957" "46ea2fc66ffb17fd23402bf5b82feb304abe5960")
+CROS_WORKON_TREE=("b94ad68a12e61d748ad4efc722f9d434c093d8eb" "d81c0232fd9bbd4a13e086904ea1b027093cc957")
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/tast-tests"
+	"chromiumos/platform/tast"
+)
+CROS_WORKON_LOCALNAME=(
+	"tast-tests"
+	"tast"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}"
+	"${S}/tast-base"
+)
+# TODO(derat): Delete this hack after https://crbug.com/812032 is addressed.
+CROS_GO_WORKSPACE="${S}:${S}/tast-base"
+
+CROS_GO_TEST=(
+	# Test support packages that live above remote/bundles/.
+	"chromiumos/tast/remote/..."
+)
+
+inherit cros-workon tast-bundle
+
+DESCRIPTION="Bundle of remote integration tests for Chrome OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
+
+LICENSE="BSD-Google"
+SLOT="0"
+KEYWORDS="*"
+IUSE=""

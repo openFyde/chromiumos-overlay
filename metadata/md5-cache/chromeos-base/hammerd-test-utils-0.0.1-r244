@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=chromeos-base/hammerd dev-python/setuptools[python_targets_python2_7(-)?,-python_single_target_python2_7(-)] dev-vcs/git dev-vcs/git chromeos-base/libchrome:395517[cros-debug=] test? ( dev-cpp/gmock ) dev-cpp/gtest python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,-python_single_target_python2_7(-)]
+DESCRIPTION=Python wrapper of hammerd API and some python utility scripts.
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/hammerd/
+IUSE=+hammerd_api cros_host cros_workon_tree_490ca454234851e3d93af0e5b95c6ca36400a09f_4f2178d18d9b18045c509cbbdc9f37eadad70c20 profiling cros-debug cros_host cros_workon_tree_490ca454234851e3d93af0e5b95c6ca36400a09f_4f2178d18d9b18045c509cbbdc9f37eadad70c20 profiling cros-debug asan cros_host fuzzer test python_targets_python2_7
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=chromeos-base/hammerd chromeos-base/libchrome:395517[cros-debug=] python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,-python_single_target_python2_7(-)]
+REQUIRED_USE=fuzzer? ( asan ) || ( python_targets_python2_7 )
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-workon	45666967b021aef0c5fea654f8679613	distutils-r1	4e8ac1ba76ddacd8f7c0289aa586a34c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	b52d05e71fc666d335a6d65c29d19a88	multibuild	742139c87a9fa3766f0c2b155e5522bf	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	cf85a77d6c4b45947919f9dd4aaa9dfb	python-r1	9f6eda21d15d6a8f665d7996a4e0f4e3	python-utils-r1	ec7e05a608c9ab8ae4d180d10bd61600	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_md5_=e5c44e341bce88292fd4a01b90f2a714
