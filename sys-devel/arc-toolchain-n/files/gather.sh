@@ -118,6 +118,7 @@ for (( a = 0; a < ${len}; ++a )); do
 
 	### 1. Binaries.
 	BINARY_FILES=(
+		libbacktrace.so
 		libbinder.so
 		libc.so
 		libc++.so
@@ -215,6 +216,7 @@ for (( a = 0; a < ${len}; ++a )); do
 		"frameworks/native/vulkan/include/vulkan"
 		"hardware/libhardware/include/hardware"
 		"system/core/include/android"
+		"system/core/include/backtrace"
 		"system/core/include/cutils"
 		"system/core/include/log"
 		"system/core/include/system"
