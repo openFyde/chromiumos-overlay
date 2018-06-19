@@ -69,6 +69,7 @@ multilib_src_install() {
 	fi
 
 	insinto "${INSTALL_DIR}/vendor/$(get_libdir)/pkgconfig"
+	install_pc_file backtrace.pc
 	install_pc_file cutils.pc
 	install_pc_file expat.pc
 	install_pc_file hardware.pc
