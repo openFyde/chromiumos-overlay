@@ -11,11 +11,15 @@
 #     ART_BUILD_HOST_STATIC=true ART_BUILD_HOST_NDEBUG=true mmma art/dex2oat
 # We do not build it from source because of size and complexity of pulling
 # down a big portion of AOSP source tree.
+#
+# For P, the binary was copied from:
+# https://android-build.googleplex.com/builds/submitted/5016670/cheets_x86_64-user/latest
 
 EAPI="5"
 
 DESCRIPTION="Ebuild which pulls in binaries of dex2oatds"
-SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tbz2"
+SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tbz2
+	gs://chromeos-localmirror/distfiles/${P}-pi.tbz2"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -26,4 +30,5 @@ S="${WORKDIR}"
 
 src_install() {
 	dobin dex2oatds
+	dobin dex2oatds-pi
 }
