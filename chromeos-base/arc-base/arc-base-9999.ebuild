@@ -78,20 +78,6 @@ pkg_preinst() {
 	enewgroup "android-everybody"
 }
 
-# Creates dalvik-cache/ and its isa/ directories.
-create_dalvik_cache_isa_dir() {
-	local dalvik_cache_dir="${ROOT}${CONTAINER_ROOTFS}/android-data/data/dalvik-cache"
-
-	install -d --mode=0555 --owner=root --group=root \
-		"${dalvik_cache_dir}" || true
-	install -d --mode=0555 --owner=root --group=root \
-		"${dalvik_cache_dir}/x86" || true
-	install -d --mode=0555 --owner=root --group=root \
-		"${dalvik_cache_dir}/x86_64" || true
-	install -d --mode=0555 --owner=root --group=root \
-		"${dalvik_cache_dir}/arm" || true
-}
-
 pkg_postinst() {
 	local root_uid=$(egetent passwd android-root | cut -d: -f3)
 	local root_gid=$(egetent group android-root | cut -d: -f3)
@@ -112,25 +98,4 @@ pkg_postinst() {
 	install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
 		"${ROOT}${CONTAINER_ROOTFS}/android-data" \
 		|| true
-
-	# Create /cache and /data directories. These are used when the container
-	# is started for login screen as empty and readonly directories. To make
-	# the directory not writable from the container even when / is remounted
-	# with 'rw', use host's root as --owner and --group.
-	install -d --mode=0555 --owner=root --group=root \
-		"${ROOT}${CONTAINER_ROOTFS}/android-data/cache" \
-		|| true
-	install -d --mode=0555 --owner=root --group=root \
-		"${ROOT}${CONTAINER_ROOTFS}/android-data/data" \
-		|| true
-
-	# master also needs /data/cache as a mount point. To make images look
-	# similar, do the same for N too.
-	install -d --mode=0555 --owner=root --group=root \
-		"${ROOT}${CONTAINER_ROOTFS}/android-data/data/cache" \
-		|| true
-
-	# Create /data/dalvik-cache/<isa> directories so that we can start zygote
-	# for the login screen.
-	create_dalvik_cache_isa_dir
 }
