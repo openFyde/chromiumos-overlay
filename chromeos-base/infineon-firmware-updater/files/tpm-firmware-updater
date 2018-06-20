@@ -148,33 +148,33 @@ validate_attempt() {
 # Prepares the TPM before installing the update.
 prepare_tpm() {
   local tpm_auth_mechanism="$1"
-  case "${tpm_auth_mechanism}" in
-    # In case of owner-authorized updates:
-    # Request another TPM reset to take place after installing the update. This
-    # is important because owner-authorized update carries over some state
-    # (notably the SRK) which we specifically don't want to happen.
-    tpm12-takeownership|tpm12-ownerauth)
-      crossystem clear_tpm_owner_request=1
-      ;;
 
-    # In case of PP-authorized updates:
-    # The PP update still fails if the TPM is owned. Clear the TPM owner
-    # before the update. Do it on a "best effort" basis, ignoring any errors. If
-    # the TPM is in failed selftest mode, the commands will actually fail, but
-    # the firmware update can still be installed. If anything else fails and the
-    # TPM is left in non-updatable state, infineon-firmware-updater will detect
-    # the problem and report an error, which causes an error screen to be shown
-    # to the user.
-    tpm12-PP)
-      (
-        set +e
-        tpmc ppon
-        tpmc clear
-        tpmc enable
-        tpmc activate
-      ) || :
-      ;;
-  esac
+  # Request another TPM reset to take place after installing the update. This
+  # is important because the update carries over some state (notably the SRK)
+  # which we specifically don't want to happen.
+  #
+  # This is necessary for owner-authorized updating where the SRK is known to be
+  # present and must be cleared. It's also necessary for PP-authorized update
+  # retries in recovery mode, because the retry will keep TPM ownership intact
+  # and the TPM clear attempt below fails if the TPM is in failed selftest mode.
+  crossystem clear_tpm_owner_request=1
+
+  # If the TPM is owned, the PP-authorized update fails, so clear the TPM owner
+  # before the update. Do it on a "best effort" basis, ignoring any errors. If
+  # the TPM is in failed selftest mode, the commands will actually fail, but the
+  # firmware update can still be installed. If anything else fails and the TPM
+  # is left in non-updatable state, infineon-firmware-updater will detect the
+  # problem and report an error, which causes an error screen to be shown to the
+  # user.
+  if [ "${tpm_auth_mechanism}" = "tpm12-PP" ]; then
+    (
+      set +e
+      tpmc ppon
+      tpmc clear
+      tpmc enable
+      tpmc activate
+    ) || :
+  fi
 }
 
 # Fires off the firmware updater to install the update. Writes progress
