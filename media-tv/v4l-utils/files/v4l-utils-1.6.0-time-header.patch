@@ -1,0 +1,55 @@
+From f54e3a31e15e0244135ddf3cc09c9145403bcc5a Mon Sep 17 00:00:00 2001
+From: Ricky Liang <jcliang@chromium.org>
+Date: Thu, 21 Jun 2018 00:22:23 +0800
+Subject: [PATCH] Add time.h header in some files to fix build errors
+
+---
+ utils/rds-ctl/rds-ctl.cpp             | 3 ++-
+ utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
+index bd9cb83..56ba0e6 100644
+--- a/utils/rds-ctl/rds-ctl.cpp
++++ b/utils/rds-ctl/rds-ctl.cpp
+@@ -36,6 +36,7 @@
+ #include <dirent.h>
+ #include <config.h>
+ #include <signal.h>
++#include <time.h>
+ 
+ #include <linux/videodev2.h>
+ #include <libv4l2.h>
+@@ -521,7 +522,7 @@ static void print_rds_tmc_tuning(const struct v4l2_rds *handle, uint32_t updated
+ {
+ 	const struct v4l2_tmc_tuning *tuning = &handle->tmc.tuning;
+ 	const struct v4l2_tmc_station *station;
+-	
++
+ 	if (updated_fields & V4L2_RDS_TMC_TUNING) {
+ 		printf("\nTMC Service provider: %s, %u alternative stations\n", handle->tmc.spn, tuning->station_cnt);
+ 		for (int i = 0; i < tuning->station_cnt; i++) {
+diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+index 1c901bb..9357795 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+@@ -14,6 +14,7 @@
+ #include <sys/mman.h>
+ #include <dirent.h>
+ #include <math.h>
++#include <time.h>
+ 
+ #include "v4l2-ctl.h"
+ 
+@@ -242,7 +243,7 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
+ 			fprintf(f, "\t\tData Offset: %u\n", p->data_offset);
+ 		}
+ 	}
+-			
++
+ 	fprintf(f, "\n");
+ }
+ 
+-- 
+2.13.5
+

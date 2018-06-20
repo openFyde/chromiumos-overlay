@@ -102,6 +102,7 @@ RDEPEND="${RDEPEND}
 	dev-util/hdctools
 	dev-util/mem
 	dev-util/strace
+	media-tv/v4l-utils
 	net-dialup/lrzsz
 	net-fs/sshfs
 	net-misc/curl
