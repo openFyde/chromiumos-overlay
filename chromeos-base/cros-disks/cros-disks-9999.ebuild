@@ -55,6 +55,9 @@ pkg_preinst() {
 
 	enewuser "fuse-sshfs"
 	enewgroup "fuse-sshfs"
+
+	enewuser "fuse-drivefs"
+	enewgroup "fuse-drivefs"
 }
 
 src_install() {
