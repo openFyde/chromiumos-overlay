@@ -63,7 +63,7 @@ IUSE="
 	opengles
 	+runhooks
 	+smbprovider
-	+thinlto
+	thinlto
 	+v4l2_codec
 	v4lplugin
 	vaapi
