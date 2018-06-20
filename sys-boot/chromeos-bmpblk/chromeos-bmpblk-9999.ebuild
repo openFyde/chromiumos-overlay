@@ -55,6 +55,7 @@ CROS_BOARDS=(
 	nocturne
 	nyan
 	nyan_big
+	octopus
 	orco
 	panther
 	parrot
