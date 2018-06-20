@@ -122,6 +122,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/modem-diagnostics
 	chromeos-base/protofiles
 	chromeos-base/pywalt
+	chromeos-base/screenshot
 	shill? ( chromeos-base/shill-test-scripts )
 	!chromeless_tests? ( chromeos-base/telemetry )
 	chromeos-base/touchbot

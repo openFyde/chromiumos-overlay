@@ -83,6 +83,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/cryptohome-dev-utils
 	chromeos-base/gmerge
 	chromeos-base/protofiles
+	chromeos-base/screenshot
 	shill? ( chromeos-base/shill-test-scripts )
 	chromeos-base/touch_firmware_test
 	net-analyzer/tcpdump
