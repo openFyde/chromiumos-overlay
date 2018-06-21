@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="b641b43656faf2e3f236b4ccfb1c5a4c37f502fd"
+CROS_WORKON_COMMIT="8ae6dcca2b7464a828d7601b5e844eb953b1d52e"
 CROS_WORKON_TREE=("490ca454234851e3d93af0e5b95c6ca36400a09f" "e0c95ead9c93d4eb5bded3748987b2fc2c972b02")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,9 +22,15 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND=""
+RDEPEND="
+	chromeos-base/libbrillo
+"
 
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	chromeos-base/libmojo
+	chromeos-base/system_api
+"
 
 src_install() {
 	dobin "${OUT}"/ml_service
