@@ -1424,7 +1424,7 @@ pkg_preinst() {
 		die "Installed chrome binary got suspiciously large (size=${CHROME_SIZE})."
 	fi
 	if use arm; then
-		local files=$(find "${ED}/usr/lib/debug${CHROME_DIR}" -size 4G -o -size +4G)
+		local files=$(find "${ED}/usr/lib/debug${CHROME_DIR}" -size +$((4 * 1024 * 1024 * 1024 - 1))c)
 		[[ -n ${files} ]] && die "Debug files exceed 4GiB: ${files}"
 	fi
 }
