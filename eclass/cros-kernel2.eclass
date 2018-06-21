@@ -112,6 +112,7 @@ fi
 CONFIG_FRAGMENTS=(
 	acpi_ac
 	allocator_slab
+	apex
 	binder
 	blkdevram
 	ca0132
@@ -192,6 +193,12 @@ allocator_slab_desc="Turn on SLAB allocator"
 allocator_slab_config="
 CONFIG_SLAB=y
 # CONFIG_SLUB is not set
+"
+
+apex_desc="Apex chip kernel driver"
+apex_config="
+CONFIG_STAGING_GASKET_FRAMEWORK=m
+CONFIG_STAGING_APEX_DRIVER=m
 "
 
 binder_desc="binder IPC"
