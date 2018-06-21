@@ -312,9 +312,13 @@ cros-firmware_src_compile() {
 			# build-targets config from the model.dtsi file.
 			image_cmd+=(
 				-b "${root}/firmware/image-BUILD_TARGET.bin"
-				-e "${root}/firmware/BUILD_TARGET/ec.bin"
-				-p "${root}/firmware/BUILD_TARGET/pd.bin"
 			)
+			if use cros_ec; then
+				image_cmd+=(
+					-e "${root}/firmware/BUILD_TARGET/ec.bin"
+					-p "${root}/firmware/BUILD_TARGET/pd.bin"
+				)
+			fi
 			./pack_firmware.py -l "${image_cmd[@]}" \
 				"${ext_cmd[@]}" -o "${output_file}" ||
 				die "Cannot pack local firmware."
