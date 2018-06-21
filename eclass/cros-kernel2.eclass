@@ -173,6 +173,7 @@ CONFIG_FRAGMENTS=(
 	usb_gadget_ncm
 	vfat
 	virtio_balloon
+	vivid
 	vlan
 	vtconsole
 	wifi_testbed_ap
@@ -679,6 +680,12 @@ virtio_balloon_config="
 CONFIG_MEMORY_BALLOON=y
 CONFIG_BALLOON_COMPACTION=y
 CONFIG_VIRTIO_BALLOON=m
+"
+
+vivid_desc="Virtual Video Test Driver"
+vivid_config="
+CONFIG_VIDEO_VIVID=m
+CONFIG_VIDEO_VIVID_MAX_DEVS=64
 "
 
 vlan_desc="802.1Q VLAN"
