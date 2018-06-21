@@ -113,6 +113,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-2.1.4-timeout.patch"
 	"${FILESDIR}/${PN}-2.2.2-Tweak-the-PDL-priority-Issue-4932.patch"
 	"${FILESDIR}/${PN}-2.2.2-Only-list-supported-PDLs-Issue-4923.patch"
+	"${FILESDIR}/${PN}-2.2.2-no-tests.patch"
 	"${FILESDIR}/${PN}-2.1.4-cups-config-libs.patch"
 )
 

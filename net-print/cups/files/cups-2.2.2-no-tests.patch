@@ -1,0 +1,25 @@
+From b72cef01204d8799f3bc3325e18145b112141dcc Mon Sep 17 00:00:00 2001
+From: David Valleau <valleau@chromium.org>
+Date: Thu, 21 Jun 2018 11:03:39 -0700
+Subject: [PATCH] Removing test dir from cups Makefile
+
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 94ce714..71f2b6e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -20,7 +20,7 @@ include Makedefs
+ # Directories to make...
+ #
+ 
+-DIRS	=	cups test $(BUILDDIRS)
++DIRS	=	cups $(BUILDDIRS)
+ 
+ 
+ #
+-- 
+2.18.0.rc2.346.g013aa6912e-goog
+
