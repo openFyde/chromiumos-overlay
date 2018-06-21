@@ -101,5 +101,8 @@ src_install() {
 	# install mosys instead.
 	local build_dir="${WORKDIR}/${CHOST}/$(usex debug debug release)"
 	dosbin "${build_dir}/mosys"
+
+	insinto /usr/share/policy
+	newins "seccomp/mosys-seccomp-${ARCH}.policy" mosys-seccomp.policy
 	dodoc README TODO
 }
