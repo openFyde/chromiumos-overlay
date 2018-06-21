@@ -14,8 +14,10 @@ CROS_WORKON_DESTDIR=(
 	"${S}"
 	"${S}/tast-base"
 )
-# TODO(derat): Delete this hack after https://crbug.com/812032 is addressed.
-CROS_GO_WORKSPACE="${S}:${S}/tast-base"
+
+CROS_GO_WORKSPACE=(
+	"${CROS_WORKON_DESTDIR[@]}"
+)
 
 CROS_GO_TEST=(
 	# Test support packages that live above remote/bundles/.

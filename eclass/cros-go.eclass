@@ -42,11 +42,18 @@
 # @ECLASS-VARIABLE: CROS_GO_WORKSPACE
 # @DESCRIPTION:
 # Path to the Go workspace, default is ${S}.
+# The Go workspace is searched for packages to build and install.
+# If all Go packages in a repository are located under "go/src/":
+#   CROS_GO_WORKSPACE="${S}/go"
+# CROS_GO_WORKSPACE can contain multiple items when defined as an array:
+#   CROS_GO_WORKSPACE=(
+#     "${S}"
+#     "${S}/tast-base"
+#   )
 
 # @ECLASS-VARIABLE: CROS_GO_BINARIES
 # @DESCRIPTION:
 # Go executable binaries to build and install.
-# Package paths are relative to ${CROS_GO_WORKSPACE}/src.
 # Each path must contain a package "main". The last component
 # of the package path will become the name of the executable.
 # The executable name can be overridden by appending a colon
@@ -74,16 +81,14 @@
 # @ECLASS-VARIABLE: CROS_GO_PACKAGES
 # @DESCRIPTION:
 # Go packages to install in /usr/lib/gopath.
-# Package paths are relative to ${CROS_GO_WORKSPACE}/src.
 # Packages are installed in /usr/lib/gopath such that they
 # can be imported later from Go code using the exact paths
 # listed here. For example:
 #   CROS_GO_PACKAGES=(
 #     "github.com/golang/glog"
 #   )
-# will install package files
-#   from "${CROS_GO_WORKSPACE}/src/github.com/golang/glog"
-#   to "/usr/lib/gopath/src/github.com/golang/glog"
+# will install package files to
+#   "/usr/lib/gopath/src/github.com/golang/glog"
 # and other Go projects can use the package with
 #   import "github.com/golang/glog"
 # If the last component of a package path is "...", it is
@@ -92,10 +97,9 @@
 # @ECLASS-VARIABLE: CROS_GO_TEST
 # @DESCRIPTION:
 # Go packages to test.
-# Package paths are relative to ${CROS_GO_WORKSPACE}/src.
 # Package tests are run with "-short" flag by default.
 # Package tests are always built and run locally on host.
-# Default is to test all packages in ${CROS_GO_WORKSPACE}.
+# Default is to test all packages in CROS_GO_WORKSPACE(s).
 : ${CROS_GO_TEST:=./...}
 
 inherit toolchain-funcs
@@ -209,25 +213,44 @@ cros-go_src_unpack() {
 	done
 }
 
+# @FUNCTION: cros-go_workspace
+# @RETURN: Go workspaces, colon separated
+# @INTERNAL
+# @DESCRIPTION:
+# Return the list of workspaces in CROS_GO_WORKSPACE,
+# properly formatted for inclusion into GOPATH.
+cros-go_workspace() {
+	if [[ ${#CROS_GO_WORKSPACE[@]} != 0 ]] ; then
+		( IFS=:; echo "${CROS_GO_WORKSPACE[*]}" )
+	else
+		echo "${S}"
+	fi
+}
+
+# @FUNCTION: cros-go_gopath
+# @RETURN: a valid GOPATH for CROS_GO_WORKSPACE
+# @DESCRIPTION:
+# Set the GOPATH in an ebuild with:
+#   GOPATH="$(cros-go_gopath)"
+cros-go_gopath() {
+	echo "$(cros-go_workspace):${SYSROOT}/usr/lib/gopath"
+}
+
 # @FUNCTION: cros_go
 # @DESCRIPTION:
 # Wrapper function for invoking the Go tool from an ebuild.
 # Sets up GOPATH, and uses the appropriate cross-compiler.
 cros_go() {
-	local workspace="${CROS_GO_WORKSPACE:-${S}}"
-	GOPATH="${workspace}:${SYSROOT}/usr/lib/gopath" \
-		$(tc-getGO) "$@" || die
+	GOPATH="$(cros-go_gopath)" $(tc-getGO) "$@" || die
 }
 
 # @FUNCTION: go_list
 # @DESCRIPTION:
 # List all Go packages matching a pattern. Only looks up
-# package names in the current workspace (doesn't match
+# package names in the current workspace (does not match
 # packages installed under /usr/lib/gopath).
 go_list() {
-	local workspace="${CROS_GO_WORKSPACE:-${S}}"
-	GOPATH="${workspace}" \
-		$(tc-getGO) list "$@" || die
+	GOPATH="$(cros-go_workspace)" $(tc-getGO) list "$@" || die
 }
 
 # @FUNCTION: go_test
@@ -235,9 +258,7 @@ go_list() {
 # Wrapper function for building and running unit tests.
 # Package tests are always built and run locally on host.
 go_test() {
-	local workspace="${CROS_GO_WORKSPACE:-${S}}"
-	GOPATH="${workspace}:${SYSROOT}/usr/lib/gopath" \
-		$(tc-getBUILD_GO) test "$@" || die
+	GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) test "$@" || die
 }
 
 # @FUNCTION: cros-go_src_compile
@@ -269,8 +290,6 @@ cros-go_src_test() {
 # @DESCRIPTION:
 # Install CROS_GO_BINARIES and CROS_GO_PACKAGES.
 cros-go_src_install() {
-	local workspace="${CROS_GO_WORKSPACE:-${S}}"
-
 	# Install the compiled binaries.
 	local bin
 	for bin in "${CROS_GO_BINARIES[@]}" ; do
@@ -297,7 +316,7 @@ cros-go_src_install() {
 	local pkg
 	for pkg in "${pkglist[@]}" ; do
 		einfo "Installing \"${pkg}\""
-		local pkgdir="${workspace}/src/${pkg}"
+		local pkgdir="$(go_list -f "{{.Dir}}" "${pkg}")"
 		(
 			# Run in sub-shell so we do not modify env.
 			insinto "/usr/lib/gopath/src/${pkg}"
