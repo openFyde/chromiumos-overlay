@@ -3,9 +3,9 @@ DEPEND=>=x11-libs/libdrm-2.4.50 media-libs/libepoxy sys-devel/autoconf-archive >
 DESCRIPTION=library used implement a virtual 3D GPU used by qemu
 EAPI=6
 HOMEPAGE=https://virgil3d.github.io/
-IUSE=static-libs test
+IUSE=asan fuzzer static-libs test
 LICENSE=MIT
 RDEPEND=>=x11-libs/libdrm-2.4.50 media-libs/libepoxy
 SLOT=0
-_eclasses_=autotools	999c8f6cf5d91495cb0779588f20716c	eutils	06133990e861be0fe60c2b428fd025d9	git-r3	a65e8933af3c817e225b5518502093ed	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
-_md5_=3f01723faa4c986e4ea15b24baaff22e
+_eclasses_=autotools	999c8f6cf5d91495cb0779588f20716c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-r3	a65e8933af3c817e225b5518502093ed	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_md5_=42dbb21e6d1fa2c1c2aa08eee63bfaec
