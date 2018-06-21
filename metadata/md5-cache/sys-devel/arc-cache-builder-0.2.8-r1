@@ -1,8 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Ebuild which pulls in java library arc-cache-builder.jar
-EAPI=5
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles/arc-cache-builder-0.2.8.tbz2
-_md5_=0c8633138dd10262a9471aaf56c2f8d9
