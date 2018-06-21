@@ -37,3 +37,7 @@ media-plugins/gst-plugins-meta lame taglib
 # David Hendricks <dhendrix@chromium.org> (10 Oct 2011)
 # libpci will cause program to exit(1) during init if PCI not present in system
 sys-apps/flashrom drkaiser gfxnvidia nicintel nicintel_spi nicrealtek ogp_spi satasii
+
+# Yunlian Jiang <yunlian@chromium.org> (20 Jun 2018)
+# debug fission with thinlto is flaky.
+>chromeos-base/chromeos-chrome-69.0.3466.0_rc-r1 thinlto
