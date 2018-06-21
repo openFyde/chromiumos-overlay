@@ -1,0 +1,3 @@
+# Mask the package by default to force each board to unmask the specific
+# version they require.
+sys-firmware/parade-ps8751a3-firmware
