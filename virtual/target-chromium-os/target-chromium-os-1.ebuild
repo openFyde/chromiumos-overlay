@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 DESCRIPTION="List of packages that are needed inside the Chromium OS base (release)"
 HOMEPAGE="http://dev.chromium.org/"
@@ -39,6 +39,7 @@ IUSE="
 	input_devices_evdev
 	intel_lpe
 	kvm_host
+	memd
 	mist
 	modemfwd
 	ml_service
@@ -285,6 +286,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/crosh-extension
 	chromeos-base/dev-install
 	chromeos-base/inputcontrol
+	memd? ( chromeos-base/memd )
 	chromeos-base/mtpd
 	chromeos-base/permission_broker
 	chromeos-base/userfeedback

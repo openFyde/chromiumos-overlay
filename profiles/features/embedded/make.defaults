@@ -16,5 +16,8 @@ USE="${USE} -powerknobs"
 # Disable containers for embedded use cases.
 USE="${USE} -containers"
 
+# By default, don't run memd as it may have excessive impact on CPU usage.
+USE="${USE} -memd"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
