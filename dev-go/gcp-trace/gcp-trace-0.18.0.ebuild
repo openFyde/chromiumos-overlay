@@ -25,8 +25,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
-# The tests try to talk GCP (crbug.com/852633).
-RESTRICT="binchecks strip test"
+RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/cmp
