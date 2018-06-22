@@ -19,4 +19,5 @@ IUSE=""
 RDEPEND="
 	dev-lang/rust
 	dev-util/cargo
+	sys-apps/mosys
 "
