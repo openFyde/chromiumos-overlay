@@ -25,8 +25,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
-# Disable tests because they talk to the network
-RESTRICT="binchecks strip test"
+RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/gapi-bigquery
