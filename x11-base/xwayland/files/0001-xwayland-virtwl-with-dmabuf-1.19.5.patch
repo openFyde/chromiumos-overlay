@@ -1,15 +1,15 @@
-From c257b8dfa3ef86412447d947c16df73bc3b1da8c Mon Sep 17 00:00:00 2001
+From fafc053cb6a011464dc85baced22fb555ae870ce Mon Sep 17 00:00:00 2001
 From: David Reveman <reveman@chromium.org>
 Date: Sat, 10 Mar 2018 14:39:00 +0000
 Subject: [PATCH] xwayland virtwl with dmabuf 1.19.5
 
 ---
- hw/xwayland/Makefile.am       |  10 ++--
- hw/xwayland/xwayland-cursor.c |  33 +++++++++-----
- hw/xwayland/xwayland-shm.c    | 104 ++++++++++++++++++++++++++++++++++++------
- hw/xwayland/xwayland.c        |  13 ++++--
+ hw/xwayland/Makefile.am       |  10 +---
+ hw/xwayland/xwayland-cursor.c |  33 +++++++----
+ hw/xwayland/xwayland-shm.c    | 135 +++++++++++++++++++++++++++++++++++++-----
+ hw/xwayland/xwayland.c        |  13 ++--
  hw/xwayland/xwayland.h        |   2 +
- 5 files changed, 126 insertions(+), 36 deletions(-)
+ 5 files changed, 155 insertions(+), 38 deletions(-)
 
 diff --git a/hw/xwayland/Makefile.am b/hw/xwayland/Makefile.am
 index a3c9fce48..9c4692be2 100644
@@ -122,7 +122,7 @@ index f334f1ca5..549ff7753 100644
      wl_pointer_set_cursor(xwl_seat->wl_pointer,
                            xwl_seat->pointer_enter_serial,
 diff --git a/hw/xwayland/xwayland-shm.c b/hw/xwayland/xwayland-shm.c
-index 452d1f509..8216ad9e8 100644
+index 452d1f509..2edc95050 100644
 --- a/hw/xwayland/xwayland-shm.c
 +++ b/hw/xwayland/xwayland-shm.c
 @@ -32,6 +32,7 @@
@@ -133,26 +133,32 @@ index 452d1f509..8216ad9e8 100644
  #include <sys/mman.h>
  #include <sys/types.h>
  #include <unistd.h>
-@@ -39,14 +40,17 @@
+@@ -39,14 +40,23 @@
  #include <errno.h>
  #include <string.h>
  #include <stdlib.h>
 +#include <linux/virtwl.h>
 +
 +#include "drm-client-protocol.h"
++
++#define DMA_BUF_SYNC_READ (1 << 0)
++#define DMA_BUF_SYNC_WRITE (2 << 0)
++#define DMA_BUF_SYNC_RW (DMA_BUF_SYNC_READ | DMA_BUF_SYNC_WRITE)
++#define DMA_BUF_SYNC_START (0 << 2)
++#define DMA_BUF_SYNC_END (1 << 2)
  
  struct xwl_pixmap {
      struct wl_buffer *buffer;
      void *data;
      size_t size;
-+    int is_dmabuf;
++    int dmabuf_fd;
  };
  
 -#ifndef HAVE_MKOSTEMP
  static int
  set_cloexec_or_close(int fd)
  {
-@@ -68,7 +72,6 @@ set_cloexec_or_close(int fd)
+@@ -68,7 +78,6 @@ set_cloexec_or_close(int fd)
      close(fd);
      return -1;
  }
@@ -160,7 +166,7 @@ index 452d1f509..8216ad9e8 100644
  
  static int
  create_tmpfile_cloexec(char *tmpname)
-@@ -189,6 +192,27 @@ shm_format_for_depth(int depth)
+@@ -189,6 +198,27 @@ shm_format_for_depth(int depth)
      }
  }
  
@@ -188,7 +194,7 @@ index 452d1f509..8216ad9e8 100644
  PixmapPtr
  xwl_shm_create_pixmap(ScreenPtr screen,
                        int width, int height, int depth, unsigned int hint)
-@@ -201,7 +225,7 @@ xwl_shm_create_pixmap(ScreenPtr screen,
+@@ -201,7 +231,7 @@ xwl_shm_create_pixmap(ScreenPtr screen,
      uint32_t format;
      int fd;
  
@@ -197,7 +203,7 @@ index 452d1f509..8216ad9e8 100644
          (width == 0 && height == 0) || depth < 15)
          return fbCreatePixmap(screen, width, height, depth, hint);
  
-@@ -216,11 +240,60 @@ xwl_shm_create_pixmap(ScreenPtr screen,
+@@ -216,11 +246,65 @@ xwl_shm_create_pixmap(ScreenPtr screen,
      stride = PixmapBytePad(width, depth);
      size = stride * height;
      xwl_pixmap->buffer = NULL;
@@ -205,7 +211,7 @@ index 452d1f509..8216ad9e8 100644
 -    fd = os_create_anonymous_file(size);
 -    if (fd < 0)
 -        goto err_free_xwl_pixmap;
-+    xwl_pixmap->is_dmabuf = 0;
++    xwl_pixmap->dmabuf_fd = -1;
 +    fd = -1;
 +
 +    if (xwl_screen->drm &&
@@ -226,9 +232,14 @@ index 452d1f509..8216ad9e8 100644
 +        if (ret == 0) {
 +            fd = set_cloexec_or_close(new_alloc.fd);
 +            if (fd >= 0) {
++                struct virtwl_ioctl_dmabuf_sync sync = {0};
++
++                sync.flags = DMA_BUF_SYNC_START | DMA_BUF_SYNC_RW;
++                ioctl(fd, VIRTWL_IOCTL_DMABUF_SYNC, &sync);
++
 +                stride = new_alloc.dmabuf.stride0;
 +                size = stride * height;
-+                xwl_pixmap->is_dmabuf = 1;
++                xwl_pixmap->dmabuf_fd = fd;
 +                xwl_pixmap->buffer =
 +                    wl_drm_create_prime_buffer(xwl_screen->drm,
 +                                               fd,
@@ -262,7 +273,7 @@ index 452d1f509..8216ad9e8 100644
      xwl_pixmap->data = mmap(NULL, size, PROT_READ | PROT_WRITE,
                                    MAP_SHARED, fd, 0);
      if (xwl_pixmap->data == MAP_FAILED)
-@@ -231,15 +304,10 @@ xwl_shm_create_pixmap(ScreenPtr screen,
+@@ -231,14 +315,10 @@ xwl_shm_create_pixmap(ScreenPtr screen,
                                          stride, xwl_pixmap->data))
          goto err_munmap;
  
@@ -273,14 +284,15 @@ index 452d1f509..8216ad9e8 100644
 -                                                   pixmap->drawable.height,
 -                                                   pixmap->devKind, format);
 -    wl_shm_pool_destroy(pool);
-     close(fd);
+-    close(fd);
++     if (xwl_pixmap->dmabuf_fd != -1)
++         xwl_screen->dmabuf_count++;
++     else
++         close(fd);
  
-+    xwl_screen->dmabuf_count += xwl_pixmap->is_dmabuf;
-+
      xwl_pixmap_set_private(pixmap, xwl_pixmap);
  
-     return pixmap;
-@@ -262,9 +330,12 @@ xwl_shm_destroy_pixmap(PixmapPtr pixmap)
+@@ -262,9 +342,15 @@ xwl_shm_destroy_pixmap(PixmapPtr pixmap)
      struct xwl_pixmap *xwl_pixmap = xwl_pixmap_get(pixmap);
  
      if (xwl_pixmap && pixmap->refcnt == 1) {
@@ -289,11 +301,35 @@ index 452d1f509..8216ad9e8 100644
          if (xwl_pixmap->buffer)
              wl_buffer_destroy(xwl_pixmap->buffer);
          munmap(xwl_pixmap->data, xwl_pixmap->size);
-+        xwl_screen->dmabuf_count -= xwl_pixmap->is_dmabuf;
++        if (xwl_pixmap->dmabuf_fd != -1) {
++            close(xwl_pixmap->dmabuf_fd);
++            xwl_screen->dmabuf_count--;
++        }
          free(xwl_pixmap);
      }
  
-@@ -283,6 +354,11 @@ xwl_shm_create_screen_resources(ScreenPtr screen)
+@@ -274,7 +360,19 @@ xwl_shm_destroy_pixmap(PixmapPtr pixmap)
+ struct wl_buffer *
+ xwl_shm_pixmap_get_wl_buffer(PixmapPtr pixmap)
+ {
+-    return xwl_pixmap_get(pixmap)->buffer;
++    struct xwl_pixmap *xwl_pixmap = xwl_pixmap_get(pixmap);
++
++    if (xwl_pixmap->dmabuf_fd != -1) {
++        struct virtwl_ioctl_dmabuf_sync sync = {0};
++
++        // Trigger a flush by stopping and starting access to buffer.
++        sync.flags = DMA_BUF_SYNC_END | DMA_BUF_SYNC_RW;
++        ioctl(xwl_pixmap->dmabuf_fd, VIRTWL_IOCTL_DMABUF_SYNC, &sync);
++        sync.flags = DMA_BUF_SYNC_START | DMA_BUF_SYNC_RW;
++        ioctl(xwl_pixmap->dmabuf_fd, VIRTWL_IOCTL_DMABUF_SYNC, &sync);
++    }
++
++    return xwl_pixmap->buffer;
+ }
+ 
+ Bool
+@@ -283,6 +381,11 @@ xwl_shm_create_screen_resources(ScreenPtr screen)
      struct xwl_screen *xwl_screen = xwl_screen_get(screen);
      int ret;
  
