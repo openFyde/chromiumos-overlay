@@ -9,5 +9,5 @@ RDEPEND=dev-go/gapi-bundler dev-go/gcp-monitoring dev-go/gcp-trace dev-go/genpro
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/census-instrumentation/opencensus-go/archive/v0.3.0.tar.gz -> github.com-census-instrumentation-opencensus-go-v0.3.0.tar.gz
-_eclasses_=cros-go	585191a9e0ca39c0ec081a7b0bbb6171	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	96494ace23991f5a803ebe1c15117373	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
 _md5_=1fa681baf715a7650195774f961656ba

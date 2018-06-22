@@ -9,5 +9,5 @@ RDEPEND=dev-go/gapi-googleapi dev-go/net dev-go/oauth2 dev-go/protobuf
 RESTRICT=binchecks test strip
 SLOT=0
 SRC_URI=https://chromium.googlesource.com/infra/luci/luci-go/+archive/77b23ce4c9189484e14035690f439c97f7629c2e.tar.gz -> chromium.googlesource.com-infra-luci-luci-go-77b23ce4c9189484e14035690f439c97f7629c2e.tar.gz
-_eclasses_=cros-go	585191a9e0ca39c0ec081a7b0bbb6171	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	96494ace23991f5a803ebe1c15117373	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
 _md5_=a7801c8ea8813469ca692b3ed60701c7

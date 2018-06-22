@@ -8,5 +8,5 @@ LICENSE=BSD
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/pkg/errors/archive/v0.8.0.tar.gz -> github.com-pkg-errors-v0.8.0.tar.gz
-_eclasses_=cros-go	585191a9e0ca39c0ec081a7b0bbb6171	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	96494ace23991f5a803ebe1c15117373	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
 _md5_=71ed1bdf63adc6fe9c005b151abc5186

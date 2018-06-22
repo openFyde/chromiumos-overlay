@@ -9,5 +9,5 @@ RDEPEND=dev-go/protobuf
 RESTRICT=binchecks strip test
 SLOT=0
 SRC_URI=https://github.com/google/go-genproto/archive/2b5a72b8730b0b16380010cfe5286c42108d88e7.tar.gz -> github.com-google-go-genproto-2b5a72b8730b0b16380010cfe5286c42108d88e7.tar.gz
-_eclasses_=cros-go	585191a9e0ca39c0ec081a7b0bbb6171	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	96494ace23991f5a803ebe1c15117373	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
 _md5_=2fe6afb3a4dbed554b1e5da40b201712
