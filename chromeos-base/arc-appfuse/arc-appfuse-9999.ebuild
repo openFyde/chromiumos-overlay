@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk arc/appfuse"
 PLATFORM_SUBDIR="arc/appfuse"
 PLATFORM_GYP_FILE="appfuse.gyp"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="D-Bus service to provide ARC Appfuse"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/appfuse"
@@ -42,6 +42,11 @@ src_install() {
 
 	insinto /usr/share/policy
 	newins "seccomp/arc-appfuse-provider-seccomp-${ARCH}.policy" arc-appfuse-provider-seccomp.policy
+}
+
+pkg_preinst() {
+	enewuser "arc-appfuse-provider"
+	enewgroup "arc-appfuse-provider"
 }
 
 platform_pkg_test() {
