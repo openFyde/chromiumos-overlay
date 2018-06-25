@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="207b9c95e801b90f6616962cb928bec371aed39f"
-CROS_WORKON_TREE=("17f4a6efa079886fb3e23fd256264f932d59721d" "f709751825e7699c14e0315d807288e9a1fbe25f")
+CROS_WORKON_COMMIT="c6c5ab11b7fe0ebe1720c7451a5a99d7e78e1f3b"
+CROS_WORKON_TREE=("17f4a6efa079886fb3e23fd256264f932d59721d" "9d6b06459df3decabd55b30b5a1d8ae37a723e1b")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -12,57 +12,57 @@ CROS_WORKON_SUBTREE="common-mk vm_tools"
 
 PLATFORM_SUBDIR="vm_tools"
 
-inherit cros-workon platform user
+inherit cros-workon platform udev user
 
-DESCRIPTION="VM guest tools for Chrome OS"
+DESCRIPTION="VM host tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="kvm_guest"
-
-# This ebuild should only be used on VM guest boards.
-REQUIRED_USE="kvm_guest"
+IUSE="+kvm_host +seccomp"
+REQUIRED_USE="kvm_host"
 
 RDEPEND="
 	!!chromeos-base/vm_tools
+	chromeos-base/crosvm
 	chromeos-base/libbrillo
 	chromeos-base/minijail
 	dev-libs/grpc
 	dev-libs/protobuf:=
-	media-libs/minigbm
-	x11-base/xwayland
-	x11-libs/libxkbcommon
-	x11-libs/pixman
 "
 DEPEND="
 	${RDEPEND}
-	>=sys-kernel/linux-headers-4.4-r16
+	>=chromeos-base/system_api-0.0.1-r3259
 "
 
-src_configure() {
-	platform_src_configure "vm_tools/sommelier/sommelier.gyp"
-}
-
 src_install() {
-	dobin "${OUT}"/garcon
-	dobin "${OUT}"/sommelier
-	dobin "${OUT}"/virtwl_guest_proxy
-	dobin "${OUT}"/vm_syslog
-	dosbin "${OUT}"/vshd
+	dobin "${OUT}"/concierge_client
+	dobin "${OUT}"/maitred_client
+	dobin "${OUT}"/vm_cicerone
+	dobin "${OUT}"/vm_concierge
+	dobin "${OUT}"/vmlog_forwarder
+	dobin "${OUT}"/vsh
 
-	into /
-	newsbin "${OUT}"/maitred init
+	insinto /etc/init
+	doins init/*.conf
+
+	insinto /etc/dbus-1/system.d
+	doins dbus/*.conf
+
+	insinto /usr/share/policy
+	if use seccomp; then
+		newins "init/vm_cicerone-seccomp-${ARCH}.policy" vm_cicerone-seccomp.policy
+	fi
+
+	udev_dorules udev/99-vm.rules
 }
 
 platform_pkg_test() {
 	local tests=(
-		garcon_desktop_file_test
-		garcon_icon_index_file_test
-		garcon_icon_finder_test
-		maitred_service_test
-		maitred_syslog_test
+		cicerone_test
+		concierge_test
+		syslog_forwarder_test
 	)
 
 	local test_bin
@@ -75,4 +75,7 @@ pkg_preinst() {
 	# We need the syslog user and group for both host and guest builds.
 	enewuser syslog
 	enewgroup syslog
+
+	enewuser vm_cicerone
+	enewgroup vm_cicerone
 }
