@@ -74,13 +74,16 @@ src_install() {
 	doins client/dbus_proxy.h
 	insinto /usr/include/attestation/common
 	doins common/attestation_interface.h
-	doins common/print_common_proto.h
+	doins common/print_attestation_ca_proto.h
 	doins common/print_interface_proto.h
-	doins "${OUT}"/gen/include/attestation/common/common.pb.h
+	doins common/print_keystore_proto.h
+	doins "${OUT}"/gen/include/attestation/common/attestation_ca.pb.h
 	doins "${OUT}"/gen/include/attestation/common/interface.pb.h
+	doins "${OUT}"/gen/include/attestation/common/keystore.pb.h
 	insinto /usr/share/protofiles/attestation
-	doins common/common.proto
+	doins common/attestation_ca.proto
 	doins common/interface.proto
+	doins common/keystore.proto
 }
 
 platform_pkg_test() {
