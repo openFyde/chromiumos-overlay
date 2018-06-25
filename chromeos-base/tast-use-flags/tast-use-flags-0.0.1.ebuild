@@ -15,6 +15,8 @@ IUSE="
 	chromeless_tty
 	kvm_host
 	rialto
+	veyron_mickey
+	veyron_rialto
 "
 
 S=${WORKDIR}
