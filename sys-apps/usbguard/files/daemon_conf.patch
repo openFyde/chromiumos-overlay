@@ -1,0 +1,28 @@
+diff --git a/usbguard-daemon.conf.in b/usbguard-daemon.conf.in
+index 450c576..bf4e7cc 100644
+--- a/usbguard-daemon.conf.in
++++ b/usbguard-daemon.conf.in
+@@ -7,7 +7,7 @@
+ #
+ # RuleFile=/path/to/rules.conf
+ #
+-RuleFile=%sysconfdir%/usbguard/rules.conf
++RuleFile=/run/usbguard/rules.conf
+
+ #
+ # Implicit policy target.
+@@ -34,7 +34,7 @@ ImplicitPolicyTarget=block
+ # * apply-policy - evaluate the ruleset for every present
+ #                  device
+ #
+-PresentDevicePolicy=apply-policy
++PresentDevicePolicy=keep
+
+ #
+ # Present controller policy.
+@@ -169,5 +169,5 @@ AuditBackend=FileAudit
+ #
+ # USBGuard audit events log file path.
+ #
+-AuditFilePath=%localstatedir%/log/usbguard/usbguard-audit.log
++AuditFilePath=/dev/null
