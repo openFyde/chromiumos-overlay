@@ -1380,8 +1380,9 @@ src_install() {
 	LS=$(ls -alhS ${D}/${CHROME_DIR})
 	einfo "CHROME_DIR after deploy_chrome\n${LS}"
 
-	# Keep the .dwp file.
-	if use chrome_debug && use debug_fission; then
+	# Keep the .dwp file for debugging.  On AMD64 systems, dwo files aren't
+	# generated even when using debug fission.
+	if use arm && use chrome_debug && use debug_fission; then
 		mkdir -p "${D}/usr/lib/debug/${CHROME_DIR}"
 		DWP="${CHOST}"-dwp
 		cd "${D}/${CHROME_DIR}"
@@ -1400,9 +1401,8 @@ src_install() {
 			if [[ ${source} == "./chrome-sandbox" ]] ; then
 				source="chrome_sandbox"
 			fi
-			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp"
+			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp" || die
 		done < <(scanelf -BRyF '%F' ".")
-		rm -rf ${DWO_FILE_DIR}
 	fi
 
 	if use build_tests; then
