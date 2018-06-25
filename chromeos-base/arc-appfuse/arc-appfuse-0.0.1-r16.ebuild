@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="207b9c95e801b90f6616962cb928bec371aed39f"
-CROS_WORKON_TREE=("17f4a6efa079886fb3e23fd256264f932d59721d" "3e1b9a6c551474daff869dc6be446cf16caaa044")
+CROS_WORKON_COMMIT="ec6238304fd9deca28d2f85c6f08691221cd2628"
+CROS_WORKON_TREE=("17f4a6efa079886fb3e23fd256264f932d59721d" "dfa3c7070ac400833aa4d8a7f49d08a0c2b8e248")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk arc/appfuse"
 PLATFORM_SUBDIR="arc/appfuse"
 PLATFORM_GYP_FILE="appfuse.gyp"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="D-Bus service to provide ARC Appfuse"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/appfuse"
@@ -44,6 +44,11 @@ src_install() {
 
 	insinto /usr/share/policy
 	newins "seccomp/arc-appfuse-provider-seccomp-${ARCH}.policy" arc-appfuse-provider-seccomp.policy
+}
+
+pkg_preinst() {
+	enewuser "arc-appfuse-provider"
+	enewgroup "arc-appfuse-provider"
 }
 
 platform_pkg_test() {
