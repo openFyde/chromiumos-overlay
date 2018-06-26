@@ -42,3 +42,7 @@ DEPEND="
 	dev-go/protobuf
 "
 RDEPEND="!chromeos-base/tast-local-tests"
+
+# Permit files/external_data.conf to pull in files that are located in
+# gs://chromiumos-test-assets-public.
+RESTRICT=nomirror
