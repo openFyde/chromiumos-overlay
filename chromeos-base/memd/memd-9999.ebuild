@@ -79,7 +79,11 @@ src_compile() {
 src_test() {
 	export CARGO_HOME="${ECARGO_HOME}"
 	export CARGO_TARGET_DIR="${WORKDIR}"
-	RUST_BACKTRACE=1 cargo test || die "memd test failed"
+	if ! use x86 && ! use amd64 ; then
+		elog "Skipping unit tests on non-x86 platform"
+	else
+		RUST_BACKTRACE=1 cargo test || die "memd test failed"
+	fi
 }
 
 src_install() {
