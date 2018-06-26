@@ -41,8 +41,6 @@ src_install() {
 			cros_choose_profile
 			cros_chrome_make
 			cros_workon_make
-			gdb_remote
-			gdb_x86_local
 			netboot_firmware_settings.py
 			strip_package
 			willis
