@@ -5,7 +5,7 @@ EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
 
-inherit cros-workon multilib python
+inherit cros-workon multilib
 
 DESCRIPTION="Development utilities for ChromiumOS"
 HOMEPAGE="http://www.chromium.org/"
@@ -60,10 +60,6 @@ src_install() {
 		newins host/repo_bash_completion repo
 		dosym /usr/share/bash-completion/repo /etc/bash_completion.d/repo
 		dosym /usr/share/bash-completion/completions/git /etc/bash_completion.d/git
-
-		insinto "$(python_get_sitedir)"
-		# Copy the python files in this directory except __init__.py
-		doins $(find host/lib/ -name '*.py' | grep -v __init__)
 	fi
 }
 
