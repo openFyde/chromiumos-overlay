@@ -4,8 +4,7 @@
 EAPI=5
 
 CROS_GO_PACKAGES=(
-	"chromiumos/system_api/vm_cicerone_proto"
-	"chromiumos/system_api/vm_concierge_proto"
+	"chromiumos/system_api/..."
 )
 
 CROS_WORKON_INCREMENTAL_BUILD=1
