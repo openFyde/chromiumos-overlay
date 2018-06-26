@@ -1,3 +1,0 @@
-# Enable thinlto on arm boards, remove this
-# after thinlto is enabled in ebuild.
->chromeos-base/chromeos-chrome-69.0.3455.0_rc-r1 thinlto
