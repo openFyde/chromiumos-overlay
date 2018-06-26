@@ -12,7 +12,7 @@ SRC_URI="${MY_P}.tar.bz2"
 DESCRIPTION="XWayland"
 SLOT="0/${PV}"
 KEYWORDS="*"
-IUSE="kvm_guest"
+IUSE="kvm_guest minimal"
 
 # This ebuild and source is based on x11-base/xorg-server so conflicts may occur
 # depending on USE flags.
@@ -90,6 +90,9 @@ src_configure() {
 		--without-fop
 		--with-os-vendor=Gentoo
 		--with-sha1=libcrypto
+		$(use_enable !minimal dri)
+		$(use_enable !minimal dri2)
+		$(use_enable !minimal glx)
 	)
 
 	if use kvm_guest; then
