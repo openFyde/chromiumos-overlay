@@ -3,6 +3,8 @@
 
 EAPI=5
 
+# The dev-go/genproto* packages are all built from this repo.  They should
+# be updated together.
 CROS_GO_SOURCE="github.com/google/go-genproto:google.golang.org/genproto 2b5a72b8730b0b16380010cfe5286c42108d88e7"
 
 CROS_GO_PACKAGES=(
@@ -14,10 +16,11 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/genproto/googleapis/devtools/cloudtrace/v2"
 	"google.golang.org/genproto/googleapis/iam/v1"
 	"google.golang.org/genproto/googleapis/monitoring/v3"
-	"google.golang.org/genproto/googleapis/rpc/code"
-	"google.golang.org/genproto/googleapis/rpc/errdetails"
-	"google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/genproto/protobuf/field_mask"
+)
+
+CROS_GO_TEST=(
+	"${CROS_GO_PACKAGES[@]}"
 )
 
 inherit cros-go
@@ -30,7 +33,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
-RESTRICT="binchecks strip test"
+RESTRICT="binchecks strip"
 
-DEPEND=""
-RDEPEND="dev-go/protobuf"
+DEPEND="dev-go/grpc"
+RDEPEND="${DEPEND}"

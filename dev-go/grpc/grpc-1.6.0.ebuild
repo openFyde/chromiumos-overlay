@@ -42,8 +42,8 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND=""
-RDEPEND="
-	dev-go/genproto
+DEPEND="
+	dev-go/genproto-rpc
 	dev-go/net
 "
+RDEPEND="${DEPEND}"
