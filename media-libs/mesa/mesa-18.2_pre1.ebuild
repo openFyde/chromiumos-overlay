@@ -116,6 +116,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/9.1-mesa-st-no-flush-front.patch
 	epatch "${FILESDIR}"/8.1-array-overflow.patch
 	epatch "${FILESDIR}"/17.0-glcpp-Hack-to-handle-expressions-in-line-di.patch
+	epatch "${FILESDIR}"/18.1-radeonsi-fix-occlusion-queries.patch
 	base_src_prepare
 
 	eautoreconf
