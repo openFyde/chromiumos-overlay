@@ -6,6 +6,104 @@
         "-O2", 
         "-O2", 
         "-pipe", 
+        "-march=armv7-a", 
+        "-mtune=cortex-a15", 
+        "-mfpu=neon", 
+        "-mfloat-abi=hard", 
+        "-g", 
+        "-fno-exceptions", 
+        "-fno-unwind-tables", 
+        "-fno-asynchronous-unwind-tables"
+      ], 
+      "useflags": [
+        "accessibility", 
+        "autotest", 
+        "build_tests", 
+        "buildcheck", 
+        "chrome_debug", 
+        "chrome_remoting", 
+        "clang", 
+        "cups", 
+        "debug_fission", 
+        "evdev_gestures", 
+        "fonts", 
+        "gold", 
+        "hardfp", 
+        "highdpi", 
+        "libcxx", 
+        "nacl", 
+        "neon", 
+        "opengles", 
+        "ozone_platform_default_gbm", 
+        "ozone_platform_gbm", 
+        "runhooks", 
+        "v4l2_codec", 
+        "xkbcommon"
+      ]
+    }, 
+    "key": {
+      "board": "arm-generic", 
+      "useflags": [
+        "-chrome_internal"
+      ]
+    }
+  }, 
+  {
+    "compat_id": {
+      "arch": "arm", 
+      "cflags": [
+        "-O2", 
+        "-O2", 
+        "-pipe", 
+        "-march=armv7-a", 
+        "-mtune=cortex-a15", 
+        "-mfpu=neon", 
+        "-mfloat-abi=hard", 
+        "-g", 
+        "-fno-exceptions", 
+        "-fno-unwind-tables", 
+        "-fno-asynchronous-unwind-tables"
+      ], 
+      "useflags": [
+        "accessibility", 
+        "autotest", 
+        "build_tests", 
+        "buildcheck", 
+        "chrome_debug", 
+        "chrome_remoting", 
+        "clang", 
+        "cups", 
+        "debug_fission", 
+        "evdev_gestures", 
+        "fonts", 
+        "gold", 
+        "hardfp", 
+        "highdpi", 
+        "libcxx", 
+        "nacl", 
+        "neon", 
+        "opengles", 
+        "ozone_platform_default_gbm", 
+        "ozone_platform_gbm", 
+        "runhooks", 
+        "v4l2_codec", 
+        "xkbcommon"
+      ]
+    }, 
+    "key": {
+      "board": "daisy", 
+      "useflags": [
+        "-chrome_internal"
+      ]
+    }
+  }, 
+  {
+    "compat_id": {
+      "arch": "arm", 
+      "cflags": [
+        "-O2", 
+        "-O2", 
+        "-pipe", 
         "-mcpu=cortex-a12", 
         "-mtune=cortex-a12", 
         "-mfpu=neon", 
@@ -37,7 +135,6 @@
         "ozone_platform_default_gbm", 
         "ozone_platform_gbm", 
         "runhooks", 
-        "thinlto", 
         "v4l2_codec", 
         "v4lplugin", 
         "xkbcommon"
@@ -97,106 +194,6 @@
     "key": {
       "board": "amd64-generic", 
       "useflags": []
-    }
-  }, 
-  {
-    "compat_id": {
-      "arch": "arm", 
-      "cflags": [
-        "-O2", 
-        "-O2", 
-        "-pipe", 
-        "-march=armv7-a", 
-        "-mtune=cortex-a15", 
-        "-mfpu=neon", 
-        "-mfloat-abi=hard", 
-        "-g", 
-        "-fno-exceptions", 
-        "-fno-unwind-tables", 
-        "-fno-asynchronous-unwind-tables"
-      ], 
-      "useflags": [
-        "accessibility", 
-        "autotest", 
-        "build_tests", 
-        "buildcheck", 
-        "chrome_debug", 
-        "chrome_remoting", 
-        "clang", 
-        "cups", 
-        "debug_fission", 
-        "evdev_gestures", 
-        "fonts", 
-        "gold", 
-        "hardfp", 
-        "highdpi", 
-        "libcxx", 
-        "nacl", 
-        "neon", 
-        "opengles", 
-        "ozone_platform_default_gbm", 
-        "ozone_platform_gbm", 
-        "runhooks", 
-        "thinlto", 
-        "v4l2_codec", 
-        "xkbcommon"
-      ]
-    }, 
-    "key": {
-      "board": "arm-generic", 
-      "useflags": [
-        "-chrome_internal"
-      ]
-    }
-  }, 
-  {
-    "compat_id": {
-      "arch": "arm", 
-      "cflags": [
-        "-O2", 
-        "-O2", 
-        "-pipe", 
-        "-march=armv7-a", 
-        "-mtune=cortex-a15", 
-        "-mfpu=neon", 
-        "-mfloat-abi=hard", 
-        "-g", 
-        "-fno-exceptions", 
-        "-fno-unwind-tables", 
-        "-fno-asynchronous-unwind-tables"
-      ], 
-      "useflags": [
-        "accessibility", 
-        "autotest", 
-        "build_tests", 
-        "buildcheck", 
-        "chrome_debug", 
-        "chrome_remoting", 
-        "clang", 
-        "cups", 
-        "debug_fission", 
-        "evdev_gestures", 
-        "fonts", 
-        "gold", 
-        "hardfp", 
-        "highdpi", 
-        "libcxx", 
-        "nacl", 
-        "neon", 
-        "opengles", 
-        "ozone_platform_default_gbm", 
-        "ozone_platform_gbm", 
-        "runhooks", 
-        "thinlto", 
-        "v4l2_codec", 
-        "xkbcommon"
-      ]
-    }, 
-    "key": {
-      "board": "daisy", 
-      "useflags": [
-        "-chrome_internal"
-      ]
     }
   }
 ]
