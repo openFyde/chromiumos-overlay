@@ -1,8 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Text file listing USE flags for Tast test dependencies
-EAPI=5
-IUSE=arc chromeless_tty kvm_host rialto
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0
-_md5_=964e753a1342480a0e844dcf75bf088a
