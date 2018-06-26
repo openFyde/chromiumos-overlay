@@ -37,7 +37,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="quiet verbose coreboot-sdk unibuild"
+IUSE="quiet verbose coreboot-sdk unibuild fuzzer"
 
 RDEPEND="dev-embedded/libftdi"
 DEPEND="
@@ -107,6 +107,10 @@ src_compile() {
 		BOARD=${target} emake "${EC_OPTS[@]}" "${ec_opts_all[@]}" all
 		BOARD=${target} emake "${EC_OPTS[@]}" tests
 	done
+
+	if use fuzzer ; then
+		emake buildfuzztests
+	fi
 }
 
 #
@@ -180,6 +184,19 @@ src_install() {
 	if ! use unibuild; then
 		board_install "${EC_BOARDS[0]}" /firmware || die \
 			"Couldn't install main firmware"
+	fi
+
+	if use fuzzer ; then
+		local f
+
+		insinto /usr/libexec/fuzzers
+		exeinto /usr/libexec/fuzzers
+		for f in build/host/*_fuzz/*_fuzz.exe; do
+			local fuzzer="$(basename "${f}")"
+			fuzzer="ec_${fuzzer%_fuzz.exe}_fuzzer"
+			newexe "${f}" "${fuzzer}"
+			newins "${S}/OWNERS" "${f##*/}.owners"
+		done
 	fi
 }
 
