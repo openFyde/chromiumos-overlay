@@ -18,7 +18,7 @@ HOMEPAGE="http://src.chromium.org"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cellular dhcpv6 json_store kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn wake_on_wifi +wifi wimax +wired_8021x"
+IUSE="asan cellular dhcpv6 fuzzer json_store kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn wake_on_wifi +wifi wimax +wired_8021x"
 
 # Sorted by the package we depend on. (Not by use flag!)
 RDEPEND="
@@ -209,6 +209,11 @@ src_install() {
 	doins init/*.sh
 
 	udev_dorules udev/*.rules
+
+	local fuzzer
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+	done
 }
 
 platform_pkg_test() {

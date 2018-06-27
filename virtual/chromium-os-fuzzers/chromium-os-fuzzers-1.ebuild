@@ -15,6 +15,7 @@ RDEPEND="
 	chromeos-base/cryptohome[fuzzer]
 	chromeos-base/midis[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
+	chromeos-base/shill[fuzzer]
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
 "
