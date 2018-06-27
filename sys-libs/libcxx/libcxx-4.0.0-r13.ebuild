@@ -62,6 +62,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/libcxx-use-libgcc_eh.patch
 	# Remove "#inluce xlocale.h" to make glibc 2.26 and after happy.
 	epatch "${FILESDIR}/${PN}-4.0-xlocale.patch"
+	# Adds visibility annotions to make CFI work.
+	# Patch is under review at https://reviews.llvm.org/D48680
+	epatch "${FILESDIR}/${PN}-cfi.patch"
 }
 
 pkg_setup() {

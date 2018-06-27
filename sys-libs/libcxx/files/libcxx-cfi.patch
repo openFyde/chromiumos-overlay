@@ -1,0 +1,18 @@
+This adds correct visibility annotations so that CFI check can be disabled on
+these functions. See crbug.com/853946
+The patch is currently under review at
+https://reviews.llvm.org/D48680
+diff --git a/libcxx/include/functional b/libcxx/include/functional
+index bb0bdf151a09..8b1c7d750440 100644
+--- a/libcxx/include/functional
++++ b/libcxx/include/functional
+@@ -1458,7 +1458,7 @@ bool __not_null(function<_Fp> const& __f) { return !!__f; }
+ 
+ namespace __function {
+ 
+-template<class _Fp> class __base;
++template<class _Fp> class _LIBCPP_TEMPLATE_VIS __base;
+ 
+ template<class _Rp, class ..._ArgTypes>
+ class __base<_Rp(_ArgTypes...)>
+
