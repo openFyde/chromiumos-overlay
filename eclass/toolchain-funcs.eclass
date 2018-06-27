@@ -1031,6 +1031,53 @@ gen_usr_ldscript() {
 # ChromiumOS extensions below here.
 #
 
+# @FUNCTION: tc-get-BUILD_compiler-type
+# @RETURN: keyword identifying the compiler for the build machine: gcc, clang, pathcc, unknown
+tc-get-BUILD_compiler-type() {
+	local code='
+#if defined(__PATHSCALE__)
+	HAVE_PATHCC
+#elif defined(__clang__)
+	HAVE_CLANG
+#elif defined(__GNUC__)
+	HAVE_GCC
+#endif
+'
+	local res=$($(tc-getBUILD_CPP "$@") -E -P - <<<"${code}")
+
+	case ${res} in
+		*HAVE_PATHCC*)	echo pathcc;;
+		*HAVE_CLANG*)	echo clang;;
+		*HAVE_GCC*)		echo gcc;;
+		*)				echo unknown;;
+	esac
+}
+
+# @FUNCTION: tc-getDWP
+# @USAGE: [toolchain prefix]
+# @RETURN: name of the DWARF package builder
+tc-getDWP() { tc-getPROG DWP dwp "$@"; }
+
+# @FUNCTION: tc-getGCOV
+# @USAGE: [toolchain prefix]
+# @RETURN: name of the test coverage program
+tc-getGCOV() { tc-getPROG GCOV gcov "$@"; }
+
+# @FUNCTION: tc-getBUILD_DWP
+# @USAGE: [toolchain prefix]
+# @RETURN: name of the DWARF package builder to run on the build machine
+tc-getBUILD_DWP() { tc-getBUILD_PROG DWP dwp "$@"; }
+
+# @FUNCTION: tc-getBUILD_GCOV
+# @USAGE: [toolchain prefix]
+# @RETURN: name of the test coverage program to run on the build machine
+tc-getBUILD_GCOV() { tc-getBUILD_PROG GCOV gcov "$@"; }
+
+# @FUNCTION: tc-getBUILD_OBJDUMP
+# @USAGE: [toolchain prefix]
+# @RETURN: name of the object dumper to run on the build machine
+tc-getBUILD_OBJDUMP() { tc-getBUILD_PROG OBJDUMP objdump "$@"; }
+
 # @FUNCTION: tc-getBUILD_GO
 # @USAGE: [toolchain prefix]
 # @RETURN: name of the Go compiler for building binaries to run on the build machine
