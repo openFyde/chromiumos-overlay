@@ -55,6 +55,7 @@ src_prepare() {
 	epatch "${FILESDIR}/0026-sync-nl80211-v4.16.patch"
 	epatch "${FILESDIR}/0027-BACKPORT-add-CEC-headers.patch"
 	epatch "${FILESDIR}/0028-BACKPORT-add-gpio-header-file.patch"
+	epatch "${FILESDIR}/0029-BACKPORT-media-v4l-ctrls-Add-a-control-for-digital-g.patch"
 }
 
 src_install() {
