@@ -32,6 +32,7 @@ RDEPEND="
 	pam? ( app-admin/sudo )
 	chromeos-base/chromeos-common-script
 	chromeos-base/libbrillo
+	!cros_host? ( chromeos-base/secure-erase-file )
 	chromeos-base/vboot_reference
 	dev-util/shflags
 	sys-apps/rootdev
@@ -53,6 +54,8 @@ src_install() {
 			dobin "${OUT}"/nand_partition
 		fi
 		dosbin chromeos-* encrypted_import
+		# Scrubbing has to be available from non-root processes.
+		mv "${D}"/usr/sbin/chromeos-saferemove "${D}"/usr/bin/ || die
 		dosym usr/sbin/chromeos-postinst /postinst
 
 		# Install init scripts.
