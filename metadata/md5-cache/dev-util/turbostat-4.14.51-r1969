@@ -1,11 +1,11 @@
 DEFINED_PHASES=compile configure info install setup unpack
 DEPEND=dev-vcs/git
-DESCRIPTION=Exported headers from the embedded controller codebase.
+DESCRIPTION=Intel processor C-state and P-state reporting tool
 EAPI=5
-HOMEPAGE=https://www.chromium.org/chromium-os/ec-development
-IUSE=cros_host cros_workon_tree_b5f25ceed86ae01cf01f49ac35d63db8077511fb profiling
+HOMEPAGE=https://www.kernel.org/
+IUSE=-asan cros_host cros_workon_tree_69ce943520c70a06e881b59b185107bba3453a55 profiling
 KEYWORDS=*
-LICENSE=BSD-Google
+LICENSE=GPL-2
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
-_md5_=dc228a39c1e87f35f243af60a0d3a70f
+_md5_=a61c0aea1ba20896709136bd62381727
