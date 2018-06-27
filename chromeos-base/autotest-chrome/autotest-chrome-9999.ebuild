@@ -93,6 +93,7 @@ IUSE_TESTS=(
 	+tests_display_ClientChameleonConnection
 	+tests_display_DisplayContainEdid
 	+tests_dummy_IdleSuspend
+	+tests_enterprise_CFM_AtrusUpdaterStress
 	+tests_enterprise_CFM_USBPeripheralDetect
 	+tests_enterprise_CFM_VolumeChangeClient
 	+tests_enterprise_FakeEnrollment
