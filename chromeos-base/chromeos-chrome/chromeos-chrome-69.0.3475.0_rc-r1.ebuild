@@ -165,7 +165,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3474.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3475.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R69-3464.0-1529967409.afdo"
 AFDO_FILE["airmont"]="R69-3464.0-1529969358.afdo"
 AFDO_FILE["haswell"]="R69-3464.0-1529921361.afdo"
@@ -1380,8 +1380,9 @@ src_install() {
 	LS=$(ls -alhS ${D}/${CHROME_DIR})
 	einfo "CHROME_DIR after deploy_chrome\n${LS}"
 
-	# Keep the .dwp file.
-	if use chrome_debug && use debug_fission; then
+	# Keep the .dwp file for debugging.  On AMD64 systems, dwo files aren't
+	# generated even when using debug fission.
+	if use arm && use chrome_debug && use debug_fission; then
 		mkdir -p "${D}/usr/lib/debug/${CHROME_DIR}"
 		DWP="${CHOST}"-dwp
 		cd "${D}/${CHROME_DIR}"
@@ -1400,9 +1401,8 @@ src_install() {
 			if [[ ${source} == "./chrome-sandbox" ]] ; then
 				source="chrome_sandbox"
 			fi
-			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp"
+			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp" || die
 		done < <(scanelf -BRyF '%F' ".")
-		rm -rf ${DWO_FILE_DIR}
 	fi
 
 	if use build_tests; then
