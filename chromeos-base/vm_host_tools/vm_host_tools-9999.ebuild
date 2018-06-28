@@ -31,7 +31,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	>=chromeos-base/system_api-0.0.1-r3259
+	>=chromeos-base/system_api-0.0.1-r3360
 "
 
 src_install() {
