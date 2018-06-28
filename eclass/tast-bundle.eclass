@@ -90,7 +90,7 @@ tast-bundle_src_install() {
 	cros-go_src_install
 
 	# The base directory where test data files are installed.
-	local basedatadir=/usr/share/tast/data/${TAST_BUNDLE_TYPE}
+	local basedatadir=/usr/share/tast/data
 
 	# Install each test category's data dir.
 	pushd src >/dev/null || die "failed to pushd src"
