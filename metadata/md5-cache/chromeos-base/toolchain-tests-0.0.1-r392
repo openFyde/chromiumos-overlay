@@ -1,0 +1,11 @@
+DEFINED_PHASES=info setup test unpack
+DEPEND=dev-vcs/git
+DESCRIPTION=Compilation and runtime tests for toolchain
+EAPI=5
+HOMEPAGE=http://www.chromium.org/
+IUSE=cros_host cros_workon_tree_5d336be4c04f8e1380d522bf6cec40dfe628acf8 profiling
+KEYWORDS=*
+LICENSE=BSD-Google
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_md5_=778331c4819f5480e6fab78ea2a9e2da
