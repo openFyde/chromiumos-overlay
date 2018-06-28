@@ -188,6 +188,7 @@ pick_cherries() {
 	local CHERRIES=""
 	CHERRIES+=" 23ea169fe0e4316bf621c6a690900c8a7d9f8707" # r331674
 	CHERRIES+=" ff5baa90d1d3b92c0cffb3a7b1060088d8dcf82b" # r331925
+	CHERRIES+=" 3707aa46066aa2da2490fe79c65c6c45c6957ece" # r335546
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -219,6 +220,7 @@ pick_next_cherries() {
 	local CHERRIES=""
 	CHERRIES+=" 23ea169fe0e4316bf621c6a690900c8a7d9f8707" # r331674
 	CHERRIES+=" ff5baa90d1d3b92c0cffb3a7b1060088d8dcf82b" # r331925
+	CHERRIES+=" 3707aa46066aa2da2490fe79c65c6c45c6957ece" # r335546
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -259,6 +261,9 @@ src_prepare() {
 	# Convert to cherry-picks once
 	# https://reviews.llvm.org/D44788 gets merged
 	epatch "${FILESDIR}"/clang-7.0-flto-fission.patch
+
+	# Remove this patch when llvm version is greater than r332884.
+	epatch "${FILESDIR}"/clang-7.0-flto-objcopy.patch
 
 	# Make ocaml warnings non-fatal, bug #537308
 	sed -e "/RUN/s/-warn-error A//" -i test/Bindings/OCaml/*ml  || die

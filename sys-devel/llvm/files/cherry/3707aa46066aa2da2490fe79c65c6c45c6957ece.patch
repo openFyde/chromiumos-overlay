@@ -1,0 +1,49 @@
+commit 3707aa46066aa2da2490fe79c65c6c45c6957ece
+Author: Yunlian Jiang <yunlian@google.com>
+Date:   Mon Jun 25 23:05:27 2018 +0000
+
+    Add an option to support debug fission on implicit ThinLTO.
+    
+    Summary:
+    This adds an option -gsplit-dwarf=<arg>. LLVM can create .dwo files in the given directory
+    during the implicit ThinLTO link stage.
+    
+    Reviewers: tejohnson, dblaikie, pcc
+    
+    Reviewed By: pcc
+    
+    Subscribers: steven_wu, aprantl, JDevlieghere, yunlian, probinson, mehdi_amini, inglorion, cfe-commits
+    
+    Differential Revision: https://reviews.llvm.org/D44788
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/cfe/trunk@335546 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Driver/ToolChains/CommonArgs.cpp b/lib/Driver/ToolChains/CommonArgs.cpp
+index 43f7d7f3b7..98a36bcd83 100644
+--- a/lib/Driver/ToolChains/CommonArgs.cpp
++++ b/lib/Driver/ToolChains/CommonArgs.cpp
+@@ -416,6 +416,12 @@ void tools::AddGoldPlugin(const ToolChain &ToolChain, const ArgList &Args,
+       CmdArgs.push_back(Args.MakeArgString(Twine("-plugin-opt=O") + OOpt));
+   }
+ 
++  if (Args.hasArg(options::OPT_gsplit_dwarf)) {
++    CmdArgs.push_back(
++        Args.MakeArgString(Twine("-plugin-opt=dwo_dir=") +
++            Output.getFilename() + "_dwo"));
++  }
++
+   if (IsThinLTO)
+     CmdArgs.push_back("-plugin-opt=thinlto");
+ 
+diff --git a/test/Driver/lto-dwo.c b/test/Driver/lto-dwo.c
+new file mode 100644
+index 0000000000..486ace43f0
+--- /dev/null
++++ b/test/Driver/lto-dwo.c
+@@ -0,0 +1,6 @@
++// Confirm that -gsplit-dwarf=DIR is passed to linker
++
++// RUN: %clang -target x86_64-unknown-linux -### %s -flto=thin -gsplit-dwarf -o a.out 2> %t
++// RUN: FileCheck -check-prefix=CHECK-LINK-DWO-DIR-DEFAULT < %t %s
++//
++// CHECK-LINK-DWO-DIR-DEFAULT: "-plugin-opt=dwo_dir=a.out_dwo"

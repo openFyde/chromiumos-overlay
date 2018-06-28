@@ -1,0 +1,16 @@
+--- a/tools/clang/lib/Driver/ToolChains/CommonArgs.cpp
++++ b/tools/clang/lib/Driver/ToolChains/CommonArgs.cpp
+@@ -420,6 +420,13 @@ void tools::AddGoldPlugin(const ToolChai
+             Output.getFilename() + "_dwo"));
+   }
+ 
++  if (Args.hasArg(options::OPT_gsplit_dwarf)) {
++    const char *Objcopy =
++        Args.MakeArgString(ToolChain.GetProgramPath(CLANG_DEFAULT_OBJCOPY));
++    CmdArgs.push_back(
++        Args.MakeArgString(Twine("-plugin-opt=objcopy=") + Objcopy));
++  }
++
+   if (IsThinLTO)
+     CmdArgs.push_back("-plugin-opt=thinlto");
+ 
