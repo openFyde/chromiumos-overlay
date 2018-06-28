@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile install nofetch test unpack
-DEPEND=dev-lang/go
+DEPEND=dev-go/genproto-rpc dev-go/net dev-lang/go
 DESCRIPTION=Go implementation of gRPC
 EAPI=5
 HOMEPAGE=https://grpc.io/
 KEYWORDS=*
 LICENSE=BSD-Google
-RDEPEND=dev-go/genproto dev-go/net
+RDEPEND=dev-go/genproto-rpc dev-go/net
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/grpc/grpc-go/archive/v1.6.0.tar.gz -> github.com-grpc-grpc-go-v1.6.0.tar.gz
 _eclasses_=cros-go	96494ace23991f5a803ebe1c15117373	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
-_md5_=f9169cbee34ce960a5b69e118f03abf9
+_md5_=4d1826716ba18d7e6af3c586d4a4577b

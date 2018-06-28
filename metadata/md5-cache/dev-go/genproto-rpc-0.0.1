@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile install nofetch test unpack
-DEPEND=dev-go/grpc dev-lang/go
+DEPEND=dev-go/protobuf dev-lang/go
 DESCRIPTION=Go generated proto packages
 EAPI=5
 HOMEPAGE=https://github.com/googleapis/googleapis/
 KEYWORDS=*
 LICENSE=BSD-Google
-RDEPEND=dev-go/grpc
+RDEPEND=dev-go/protobuf !<dev-go/genproto-0.0.1-r5
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/google/go-genproto/archive/2b5a72b8730b0b16380010cfe5286c42108d88e7.tar.gz -> github.com-google-go-genproto-2b5a72b8730b0b16380010cfe5286c42108d88e7.tar.gz
 _eclasses_=cros-go	96494ace23991f5a803ebe1c15117373	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
-_md5_=275e358ea148c4b42060e77ed07955f1
+_md5_=2ecd64d01fe25c8faae041c8d57156cb
