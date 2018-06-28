@@ -1,0 +1,32 @@
+From 5e29e1ba60fdffe38b41921ff9a85d0197405abc Mon Sep 17 00:00:00 2001
+From: Bailey Berro <baileyberro@chromium.org>
+Date: Tue, 26 Jun 2018 13:13:39 -0700
+Subject: [PATCH 1/1] Initialize written in cli_splice_fallback
+
+---
+ source3/libsmb/clireadwrite.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/source3/libsmb/clireadwrite.c b/source3/libsmb/clireadwrite.c
+index 39874779bc1..00ee09ece89 100644
+--- a/source3/libsmb/clireadwrite.c
++++ b/source3/libsmb/clireadwrite.c
+@@ -1459,6 +1459,7 @@ static NTSTATUS cli_splice_fallback(TALLOC_CTX *frame,
+ 	uint8_t *buf = talloc_size(frame, SPLICE_BLOCK_SIZE);
+ 	size_t nread;
+ 	off_t remaining = initial_size;
++	*written = 0;
+ 
+ 	while (remaining) {
+ 		status = cli_read(srccli, src_fnum,
+@@ -1480,6 +1481,7 @@ static NTSTATUS cli_splice_fallback(TALLOC_CTX *frame,
+ 		}
+ 		src_offset += nread;
+ 		dst_offset += nread;
++		*written += nread;
+ 		if (remaining < nread) {
+ 			return NT_STATUS_INTERNAL_ERROR;
+ 		}
+-- 
+2.18.0.399.gad0ab374a1-goog
+
