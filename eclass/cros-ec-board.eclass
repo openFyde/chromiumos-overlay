@@ -82,6 +82,7 @@ EC_BOARD_NAMES=(
 	octopus
 	plankton
 	poppy
+	rammus
 	reef
 	rowan
 	ryu

@@ -265,6 +265,7 @@ ALL_BOARDS=(
 	quawks
 	rainier
 	rambi
+	rammus
 	raspberrypi
 	reef
 	relm
