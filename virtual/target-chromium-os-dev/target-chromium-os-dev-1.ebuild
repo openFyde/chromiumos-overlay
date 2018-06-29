@@ -104,6 +104,7 @@ RDEPEND="${RDEPEND}
 	dev-util/mem
 	dev-util/strace
 	media-tv/v4l-utils
+	media-video/yavta
 	net-dialup/lrzsz
 	net-fs/sshfs
 	net-misc/curl
