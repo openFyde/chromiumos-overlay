@@ -1,0 +1,20 @@
+This patch makes the .dwo files have the same name across different builds.
+With this change, we can keep the .dwo files without worrying the size of
+.dwo files in incremental builds.
+We can remove this patch after we upgrade llvm to r332884 or newer,
+since that CL did the same thing.
++++ a/lib/LTO/LTOBackend.cpp
+--- b/lib/LTO/LTOBackend.cpp
+@@ -293,11 +293,7 @@ void codegenWithSplitDwarf(Config &Conf,
+         TempFile.str() + ": " + EC.message());
+   llvm::raw_fd_ostream OS(FD, true);
+   SmallString<1024> DwarfFile(Conf.DwoDir);
+-  std::string DwoName = sys::path::filename(Mod.getModuleIdentifier()).str() +
+-      "-" + std::to_string(Task) + "-";
+-  size_t index = TempFile.str().rfind("lto-llvm-fission");
+-  StringRef TempID = TempFile.str().substr(index + 17, 6);
+-  DwoName += TempID.str() + ".dwo";
++  std::string DwoName = std::to_string(Task) + ".dwo";
+   sys::path::append(DwarfFile, DwoName);
+   TM->Options.MCOptions.SplitDwarfFile = DwarfFile.str().str();
+ 

@@ -264,6 +264,7 @@ src_prepare() {
 
 	# Remove this patch when llvm version is greater than r332884.
 	epatch "${FILESDIR}"/clang-7.0-flto-objcopy.patch
+	epatch "${FILESDIR}"/llvm-7.0-dwo-name.patch
 
 	# Make ocaml warnings non-fatal, bug #537308
 	sed -e "/RUN/s/-warn-error A//" -i test/Bindings/OCaml/*ml  || die
