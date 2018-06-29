@@ -18,25 +18,25 @@ EGIT_REPO_URI="http://llvm.org/git/llvm.git
 LICENSE="UoI-NCSA"
 
 if use llvm-next; then
-
-# llvm:r331547 https://critique.corp.google.com/#review/196053977
+# llvm:r333878 https://critique.corp.google.com/#review/199724125
 EGIT_REPO_URIS=(
 	"llvm"
 		""
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm.git"
-		"eb53cf72757e4d4bd43043bf81b4f18336b7d33a" # EGIT_COMMIT r331547
+		"40c66c3d40377cf85640b3a35e6ec5c5b1cbc41f" # EGIT_COMMIT r333873
 	"compiler-rt"
 		"projects/compiler-rt"
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/compiler-rt.git"
-		"def9f6a10422ae7aa0804d50b2d276ced09ce2d0" # EGIT_COMMIT r331523
+		#		"393b329e7345976d7d0c5ee08425eacb34b4c5be" # EGIT_COMMIT r333870
+		"fb98f1095aa66e72ab36738c4eac597193de7a8a" # temporary workaround. r333025
 	"clang"
 		"tools/clang"
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/clang.git"
-		"1084e053422cbbaaa6e06a972aac210489e7a0ad" # EGIT_COMMIT r331542
+		"38ad3c9160e5814ec8cad29a990cf76730c5f20e" # EGIT_COMMIT r333874
 	"clang-tidy"
 		"tools/clang/tools/extra"
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm-clang-tools-extra.git"
-		"77e60e54f9c127ca9023d00dca047e7638ad4744" # EGIT_COMMIT r331545
+		"ea7316f9641f7071afadec5358b9c66c124d571d" # EGIT_COMMIT r333877
 )
 else
 # llvm:r331547 https://critique.corp.google.com/#review/196053977
@@ -218,8 +218,6 @@ pick_cherries() {
 pick_next_cherries() {
 	# clang
 	local CHERRIES=""
-	CHERRIES+=" 23ea169fe0e4316bf621c6a690900c8a7d9f8707" # r331674
-	CHERRIES+=" ff5baa90d1d3b92c0cffb3a7b1060088d8dcf82b" # r331925
 	CHERRIES+=" 3707aa46066aa2da2490fe79c65c6c45c6957ece" # r335546
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
@@ -229,9 +227,6 @@ pick_next_cherries() {
 
 	# llvm
 	CHERRIES=""
-	CHERRIES+=" 44b4b3a25821d2024d98417752844a0809ecd204" # r331635
-	CHERRIES+=" d5ae6a3f71cbd25e2367c56e1d452bcff16c8324" # r332389
-	CHERRIES+=" b25fd2f921ce952213dcf1ac047150996c1d15c2" # r332444
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -260,11 +255,15 @@ src_prepare() {
 	# This is need by thinlto on ARM.
 	# Convert to cherry-picks once
 	# https://reviews.llvm.org/D44788 gets merged
-	epatch "${FILESDIR}"/clang-7.0-flto-fission.patch
+	if use llvm-next ; then
+		epatch "${FILESDIR}"/clang-7.0-flto-fission.llvm-next.patch
+	else
+		epatch "${FILESDIR}"/clang-7.0-flto-fission.patch
+	fi
 
-	# Remove this patch when llvm version is greater than r332884.
-	epatch "${FILESDIR}"/clang-7.0-flto-objcopy.patch
-	epatch "${FILESDIR}"/llvm-7.0-dwo-name.patch
+	# Remove these two patches when llvm version is greater than r332884.
+	use llvm-next || epatch "${FILESDIR}"/clang-7.0-flto-objcopy.patch
+	use llvm-next || epatch "${FILESDIR}"/llvm-7.0-dwo-name.patch
 
 	# Make ocaml warnings non-fatal, bug #537308
 	sed -e "/RUN/s/-warn-error A//" -i test/Bindings/OCaml/*ml  || die

@@ -23,11 +23,10 @@ if [[ ${CATEGORY} == cross-* ]] ; then
 fi
 
 src_unpack() {
-	# For this version of the ebuild, llvm and llvm-next are the same until we roll
-	# a new version of llvm-next.
 	if use llvm-next; then
-		# llvm:r331547 https://critique.corp.google.com/#review/196053977
-		EGIT_COMMIT="def9f6a10422ae7aa0804d50b2d276ced09ce2d0" #r331523
+		# llvm:r333878 https://critique.corp.google.com/#review/199724125
+		#		EGIT_COMMIT="393b329e7345976d7d0c5ee08425eacb34b4c5be" #r333870
+		"fb98f1095aa66e72ab36738c4eac597193de7a8a" # temporary workaround. r333025
 	else
 
 		# llvm:r331547 https://critique.corp.google.com/#review/196053977
