@@ -24,6 +24,10 @@ src_configure() {
 src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
+	elif [[ $(get-flag march) == amd* ]]; then
+		# SSE4a optimization causes tests to not run properly on Intel bots.
+		# https://crbug.com/856686
+		elog "Skipping unit tests on AMD platform"
 	else
 		emake test
 	fi
