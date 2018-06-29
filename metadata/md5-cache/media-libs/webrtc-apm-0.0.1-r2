@@ -1,0 +1,12 @@
+DEFINED_PHASES=configure info install setup unpack
+DEPEND=dev-libs/libevent:= dev-libs/protobuf:= dev-vcs/git
+DESCRIPTION=Standalone WebRTC APM library
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/webrtc-apm
+IUSE=cpu_flags_x86_sse2 neon cros_host cros_workon_tree_12c53f1442421e26ccee89131fcdd9d5cdbc99cf profiling
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=dev-libs/libevent:= dev-libs/protobuf:=
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_md5_=453acef8e018e7a828a4bf96a137b21e
