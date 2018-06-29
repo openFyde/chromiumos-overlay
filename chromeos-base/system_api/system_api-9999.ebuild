@@ -88,7 +88,18 @@ src_install() {
 	done
 
 	dirs=(
-		authpolicy biod chaps cryptohome login_manager power_manager smbprovider system_api vm_applications vm_cicerone vm_concierge
+		authpolicy
+		biod
+		chaps
+		cryptohome
+		login_manager
+		power_manager
+		seneschal
+		smbprovider
+		system_api
+		vm_applications
+		vm_cicerone
+		vm_concierge
 	)
 	for dir in "${dirs[@]}"; do
 		insinto /usr/include/"${dir}"/proto_bindings
