@@ -10,10 +10,11 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CRATES="
 bitflags-1.0.1
 byteorder-1.1.0
+cc-1.0.15
 cfg-if-0.1.2
 fuchsia-zircon-0.3.3
 fuchsia-zircon-sys-0.3.3
-cc-1.0.15
+getopts-0.2.17
 libc-0.2.40
 log-0.4.1
 pkg-config-0.3.11
@@ -65,10 +66,18 @@ src_compile() {
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 	)
 
-	cargo build -v --target="${CHOST}" \
-				$(usex debug "" --release) \
-				--features="${features[*]}" \
-		|| die "cargo build failed"
+	local packages=(
+		9s
+		crosvm
+	)
+	for pkg in "${packages[@]}"; do
+		cargo build -v --target="${CHOST}" \
+			$(usex debug "" --release) \
+			--features="${features[*]}" \
+			-p "${pkg}" \
+			|| die "cargo build failed"
+	done
+
 }
 
 src_test() {
@@ -112,6 +121,7 @@ src_install() {
 	# crosvm instead.
 	local build_dir="${WORKDIR}/${CHOST}/$(usex debug debug release)"
 	dobin "${build_dir}/crosvm"
+	dobin "${build_dir}/9s"
 
 	# Install seccomp policy files.
 	local seccomp_path="${S}/seccomp/${seccomp_arch}"
