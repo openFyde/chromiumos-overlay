@@ -38,6 +38,8 @@ src_install() {
 	dobin "${OUT}"/cicerone_client
 	dobin "${OUT}"/concierge_client
 	dobin "${OUT}"/maitred_client
+	dobin "${OUT}"/seneschal
+	dobin "${OUT}"/seneschal_client
 	dobin "${OUT}"/vm_cicerone
 	dobin "${OUT}"/vm_concierge
 	dobin "${OUT}"/vmlog_forwarder
@@ -77,4 +79,9 @@ pkg_preinst() {
 
 	enewuser vm_cicerone
 	enewgroup vm_cicerone
+
+	enewuser seneschal
+	enewgroup seneschal
+	enewuser seneschal-dbus
+	enewgroup seneschal-dbus
 }
