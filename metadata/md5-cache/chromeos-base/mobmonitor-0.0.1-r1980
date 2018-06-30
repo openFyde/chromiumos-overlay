@@ -3,10 +3,10 @@ DEPEND=dev-vcs/git
 DESCRIPTION=Service health checking tool for Moblab
 EAPI=4
 HOMEPAGE=http://www.chromium.org/
-IUSE=cros_host cros_workon_tree_899e9bb480eb1dda487824d58b5d9358f02eaebe profiling
+IUSE=cros_host cros_workon_tree_6fae648a5ed389e6eeb597915a11868fda93cf22 profiling
 KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=>=chromeos-base/chromite-0.0.2
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	python	efc1c55fc44c5b7272fc2ffba73c3e6f	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
-_md5_=823dcdc66d5056e90b143bc90e28c659
+_md5_=297ce1cf066de3331e6f770fa5bd48f6
