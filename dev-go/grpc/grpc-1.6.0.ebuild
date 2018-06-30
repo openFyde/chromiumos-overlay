@@ -20,6 +20,7 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/naming"
 	"google.golang.org/grpc/peer"
+	"google.golang.org/grpc/reflection/..."
 	"google.golang.org/grpc/stats"
 	"google.golang.org/grpc/status"
 	"google.golang.org/grpc/tap"
