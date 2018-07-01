@@ -32,6 +32,7 @@ board_setup_32bit_au_env()
 		export CC=${CHOST}-clang
 		export CXX=${CHOST}-clang++
 		append-flags "-Xclang-only=-stdlib=libstdc++"
+		append-ldflags "-Xclang-only=-stdlib=libstdc++"
 	fi
 	__AU_OLD_SYSROOT=${SYSROOT}
 	export SYSROOT=/usr/${CHOST}
@@ -67,8 +68,6 @@ use_i686() { use cros_i686 && use amd64; }
 
 push_i686_env() {
 	board_setup_32bit_au_env
-	export CC=${CHOST}-gcc
-	export CXX=${CHOST}-g++
 }
 
 pop_i686_env() {
