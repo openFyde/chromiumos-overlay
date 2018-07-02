@@ -63,6 +63,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
 	epatch "${FILESDIR}"/${P}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
 	epatch "${FILESDIR}"/${P}-Add-FuzzedDataProvider.patch
+	epatch "${FILESDIR}"/${P}-Replace-usage-readdir_r.patch
 
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685

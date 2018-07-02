@@ -1,0 +1,71 @@
+readdir_r() is deprecated, which causes build failures when using
+glibc-2.24 or newer headers.  This CL replaces usage of readdir_r()
+with readdir()
+changes on proc_utils is from
+https://chromium-review.googlesource.com/c/chromium/src/+/599120
+
+diff --git a/base/files/file_enumerator_posix.cc b/base/files/file_enumerator_posix.cc
+index fb4010a..2f3a87e 100644
+--- a/base/files/file_enumerator_posix.cc
++++ b/base/files/file_enumerator_posix.cc
+@@ -131,9 +131,8 @@ bool FileEnumerator::ReadDirectory(std::vector<FileInfo>* entries,
+          additional space for pathname may be needed
+ #endif
+ 
+-  struct dirent dent_buf;
+   struct dirent* dent;
+-  while (readdir_r(dir, &dent_buf, &dent) == 0 && dent) {
++  while ((dent = readdir(dir))) {
+     FileInfo info;
+     info.filename_ = FilePath(dent->d_name);
+ 
+diff --git a/sandbox/linux/services/proc_util.cc b/sandbox/linux/services/proc_util.cc
+index b6d58de..06b9002 100644
+--- a/sandbox/linux/services/proc_util.cc
++++ b/sandbox/linux/services/proc_util.cc
+@@ -51,15 +51,14 @@ int ProcUtil::CountOpenFds(int proc_fd) {
+   CHECK(dir);
+ 
+   int count = 0;
+-  struct dirent e;
+   struct dirent* de;
+-  while (!readdir_r(dir.get(), &e, &de) && de) {
+-    if (strcmp(e.d_name, ".") == 0 || strcmp(e.d_name, "..") == 0) {
++  while ((de = readdir(dir.get()))) {
++    if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) {
+       continue;
+     }
+ 
+     int fd_num;
+-    CHECK(base::StringToInt(e.d_name, &fd_num));
++    CHECK(base::StringToInt(de->d_name, &fd_num));
+     if (fd_num == proc_fd || fd_num == proc_self_fd) {
+       continue;
+     }
+@@ -81,22 +80,21 @@ bool ProcUtil::HasOpenDirectory(int proc_fd) {
+   ScopedDIR dir(fdopendir(proc_self_fd));
+   CHECK(dir);
+ 
+-  struct dirent e;
+   struct dirent* de;
+-  while (!readdir_r(dir.get(), &e, &de) && de) {
+-    if (strcmp(e.d_name, ".") == 0 || strcmp(e.d_name, "..") == 0) {
++  while ((de = readdir(dir.get()))) {
++    if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) {
+       continue;
+     }
+ 
+     int fd_num;
+-    CHECK(base::StringToInt(e.d_name, &fd_num));
++    CHECK(base::StringToInt(de->d_name, &fd_num));
+     if (fd_num == proc_fd || fd_num == proc_self_fd) {
+       continue;
+     }
+ 
+     struct stat s;
+     // It's OK to use proc_self_fd here, fstatat won't modify it.
+-    CHECK(fstatat(proc_self_fd, e.d_name, &s, 0) == 0);
++    CHECK(fstatat(proc_self_fd, de->d_name, &s, 0) == 0);
+     if (S_ISDIR(s.st_mode)) {
+       return true;
+     }
