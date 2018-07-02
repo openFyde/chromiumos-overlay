@@ -32,5 +32,6 @@ DEPEND="
 	dev-go/luci-swarming
 	dev-go/luci-tsmon
 	dev-go/opencensus
+	dev-go/subcommands
 "
 RDEPEND=""
