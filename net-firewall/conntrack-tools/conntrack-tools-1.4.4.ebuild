@@ -12,7 +12,7 @@ SRC_URI="http://www.netfilter.org/projects/conntrack-tools/files/${P}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=*
-IUSE="doc +seccomp"
+IUSE="doc +libtirpc +seccomp"
 
 RDEPEND="
 	>=net-libs/libmnl-1.0.3
@@ -21,6 +21,8 @@ RDEPEND="
 	>=net-libs/libnetfilter_cttimeout-1.0.0
 	>=net-libs/libnetfilter_queue-1.0.2
 	>=net-libs/libnfnetlink-1.0.1
+	!libtirpc? ( sys-libs/glibc[rpc(-)] )
+	libtirpc? ( net-libs/libtirpc )
 "
 DEPEND="
 	${RDEPEND}
@@ -68,7 +70,12 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-lazy-binding.patch
 	epatch "${FILESDIR}"/${P}-upnp-helper.patch
 	epatch "${FILESDIR}"/${P}-pktb-memory-leak.patch
+	epatch "${FILESDIR}"/${P}-rpc.patch
 	eautoreconf
+}
+
+src_configure() {
+	econf $(use_with libtirpc)
 }
 
 src_compile() {
