@@ -108,8 +108,26 @@ reboot_here() {
   else
     reboot
   fi
-  sleep 1d
+  sleep infinity
   exit 1
+}
+
+# Verifies that the TPM is in good state after updating. When performing an
+# owner-authorized TPM firmware update, the previous SRK remains. Since that SRK
+# might be weak we can't allow for it to stick around. The updater generally
+# requests the TPM to be cleared after updating, but there are edge cases
+# (interrupted updates, TPM firmware bugs that prevent the update from
+# completing successfully) for which we might reboot in normal mode without the
+# TPM having been cleared. As a safety net to handle these cases we check that
+# the TPM is cleared and if not request another clear here.
+cleanup() {
+  if [ "$(tpmc getownership)" != "Owned: no" ]; then
+    crossystem clear_tpm_owner_request=1
+    reboot_here "warm"
+  fi
+
+  # Looking good, don't trigger the TPM updater again after reboot.
+  rm "${TPM_FIRMWARE_UPDATE_REQUEST}"
 }
 
 main() {
@@ -118,66 +136,82 @@ main() {
     return 0
   fi
 
-  # See if the update mode is set to preserve stateful. If so, put another
-  # stateful preservation request for mount_encrypted in place so the TPM clear
-  # happening after the installation of the update won't clobber stateful. Note
-  # that in case the update fails, mount_encrypted will clear the stateful
-  # preservation request on next reboot if it finds the TPM owned, so it's OK
-  # to put the request file in place opportunistically.
-  if [ "$(cat "${TPM_FIRMWARE_UPDATE_REQUEST}")" = "preserve_stateful" ]; then
-    touch "${PRESERVATION_REQUEST}"
-  fi
+  local mode="$(cat "${TPM_FIRMWARE_UPDATE_REQUEST}")"
+  case "${mode}" in
+    preserve_stateful)
+      # If the update mode is set to preserve stateful, put another stateful
+      # preservation request for mount_encrypted in place so the TPM clear
+      # happening after the installation of the update won't clobber stateful.
+      # Note that in case the update fails, mount_encrypted will clear the
+      # stateful preservation request on next reboot if it finds the TPM owned,
+      # so it's OK to put the request file in place opportunistically.
+      touch "${PRESERVATION_REQUEST}"
+      ;;
+    cleanup)
+      # Make sure to return the TPM into a good state after completion.
+      cleanup
+      exit 0
+      ;;
+    first_boot|*)
+      # Just run the updater. This is also the default so the unlikely case of a
+      # request file with an absent / unknown mode gets handled.
+      ;;
+  esac
 
-  # Remove the request file so we don't trigger the TPM update again after
-  # reboot. The updater would decide there's nothing to do, but that takes time,
-  # so we want to remove the flag file so we take the quick exit path above.
-  rm "${TPM_FIRMWARE_UPDATE_REQUEST}"
+  # Update the request file to avoid making another updating attempt if we fail
+  # and reboot.
+  echo cleanup > "${TPM_FIRMWARE_UPDATE_REQUEST}"
+  sync "${TPM_FIRMWARE_UPDATE_REQUEST}"
 
   # Run the updater in a loop so we can perform retries in case of insufficient
   # battery charge.
+  local status
   while true; do
-    local status="$(run_updater)"
-    case "${status}" in
-      ${EXIT_CODE_SUCCESS})
-        reboot_here "warm"
-        ;;
-      ${EXIT_CODE_SUCCESS_COLD_REBOOT})
-        reboot_here "cold"
-        ;;
-      ${EXIT_CODE_ERROR}|${EXIT_CODE_NO_UPDATE}|${EXIT_CODE_BAD_RETRY})
-        # It's OK to continue booting.
-        ;;
-      ${EXIT_CODE_UPDATE_FAILED})
-        # The TPM is likely to be in an inoperational state due to the failed
-        # update. If it is, we need to go through recovery anyways to retry the
-        # update. Show a message to the user telling them about the failed
-        # update and reboot so the firmware can determine whether recovery is
-        # necessary.
-        chromeos-boot-alert update_tpm_firmware_failure
-        reboot_here "warm"
-        ;;
-      ${EXIT_CODE_LOW_BATTERY})
-        # Show a notification while we wait for the battery to charge.
-        wait_for_battery_to_charge
-        continue
-        ;;
-      ${EXIT_CODE_NOT_UPDATABLE})
-        # We have an update, but the TPM is already owned. This indicates a
-        # logic error - the system should have requested a TPM clear when
-        # putting the update request flag in place.
-        ;;
-      *)
-        # When we see an undefined status code, we continue booting. That's
-        # somewhat risky, but likely indicates a bug in the firmware updater
-        # driver script before it got to the point of actually attempting an
-        # update, so we should be good. The alternative would be to inhibit
-        # further firmware updates by updating VPD and rebooting.
-        ;;
-    esac
+    status="$(run_updater)"
+    if [ "${status}" != "${EXIT_CODE_LOW_BATTERY}" ]; then
+      break;
+    fi
 
-    # Fall through means "continue booting".
-    exit 0
+    # Show a notification while we wait for the battery to charge.
+    wait_for_battery_to_charge
   done
+
+  case "${status}" in
+    ${EXIT_CODE_SUCCESS})
+      # The TPM requires a reset after update before it works again, reboot
+      # accomplishes that.
+      reboot_here "warm"
+      ;;
+    ${EXIT_CODE_SUCCESS_COLD_REBOOT})
+      # In some cases, cold reboot is useful since it causes a more thorough TPM
+      # reset.
+      reboot_here "cold"
+      ;;
+    ${EXIT_CODE_UPDATE_FAILED})
+      # The TPM is likely to be in an inoperational state due to the failed
+      # update. If it is, we need to go through recovery anyways to retry the
+      # update. Show a message to the user telling them about the failed
+      # update and reboot so the firmware can determine whether recovery is
+      # necessary.
+      chromeos-boot-alert update_tpm_firmware_failure
+      reboot_here "warm"
+      ;;
+    ${EXIT_CODE_NOT_UPDATABLE})
+      # We have an update, but the TPM is already owned. This indicates a
+      # logic error - the system should have requested a TPM clear when
+      # putting the update request flag in place. Pretend nothing happened and
+      # boot back into the OS.
+      rm "${TPM_FIRMWARE_UPDATE_REQUEST}"
+      ;;
+    ${EXIT_CODE_ERROR}|${EXIT_CODE_NO_UPDATE}|${EXIT_CODE_BAD_RETRY}|*)
+      # Update attempt complete, goal is to boot back into OS. Regardless of
+      # result, call cleanup to make sure the system is put back into sane state
+      # with the TPM clear.
+      cleanup
+      ;;
+  esac
+
+  exit 0
 }
 
 main "$@"
