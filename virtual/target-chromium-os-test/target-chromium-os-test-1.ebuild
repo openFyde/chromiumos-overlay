@@ -48,6 +48,7 @@ CROS_COMMON_RDEPEND="
 	tpm? ( app-crypt/tpm-tools )
 	chromeos-base/chromeos-test-root
 	chromeos-base/ec-utils
+	chromeos-base/ec-utils-test
 	chromeos-base/factory-deps
 	hammerd? ( chromeos-base/hammerd-test-utils )
 	chromeos-base/recover-duts
@@ -56,10 +57,7 @@ CROS_COMMON_RDEPEND="
 	chromeos-base/tast-use-flags
 	chromeos-base/verity
 	chromeos-base/vpd
-	cros_ec? (
-		chromeos-base/ec-devutils
-		chromeos-base/ec-utils-test
-	)
+	cros_ec? ( chromeos-base/ec-devutils )
 	!chromeless_tty? (
 		!chromeless_tests? (
 			>=dev-cpp/gflags-2.0
