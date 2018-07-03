@@ -22,9 +22,9 @@ https://ftpmirror.gnu.org/gmp/gmp-6.1.2.tar.xz
 https://ftpmirror.gnu.org/mpfr/mpfr-3.1.5.tar.xz
 https://ftpmirror.gnu.org/mpc/mpc-1.0.3.tar.gz
 https://sourceware.org/elfutils/ftp/0.170/elfutils-0.170.tar.bz2
-https://ftpmirror.gnu.org/gcc/gcc-6.3.0/gcc-6.3.0.tar.bz2
-https://ftpmirror.gnu.org/binutils/binutils-2.29.1.tar.xz
-https://acpica.org/sites/acpica/files/acpica-unix2-20161222.tar.gz
+https://ftpmirror.gnu.org/gcc/gcc-8.1.0/gcc-8.1.0.tar.xz
+https://ftpmirror.gnu.org/binutils/binutils-2.30.tar.xz
+https://acpica.org/sites/acpica/files/acpica-unix2-20180531.tar.gz
 https://ftpmirror.gnu.org/make/make-4.2.1.tar.bz2
 "
 
