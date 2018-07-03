@@ -12,9 +12,12 @@ KEYWORDS="*"
 # NB: Flags listed here are off by default unless prefixed with a '+'.
 IUSE="
 	arc
+	betty
 	chromeless_tty
 	kvm_host
 	rialto
+	tpm
+	tpm2
 	veyron_mickey
 	veyron_rialto
 "
