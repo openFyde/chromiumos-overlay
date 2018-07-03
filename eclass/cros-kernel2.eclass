@@ -851,6 +851,9 @@ get_build_arch() {
 			*exynos*)
 				echo "exynos5"
 				;;
+			*qualcomm*)
+				echo "qualcomm"
+				;;
 			*rockchip64*)
 				echo "rockchip64"
 				;;
