@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile info install setup unpack
+DEPEND=android-container-pi? ( chromeos-base/android-container-pi:0= ) android-container-master-arc-dev? ( chromeos-base/android-container-master-arc-dev:0= ) dev-vcs/git
+DESCRIPTION=Chrome OS SELinux Policy Package
+EAPI=5
+IUSE=android-container-pi android-container-master-arc-dev +combine_chromeos_policy cros_host cros_workon_tree_9662492e6226332564f837efde474264a935c831 profiling
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=android-container-pi? ( chromeos-base/android-container-pi:0= ) android-container-master-arc-dev? ( chromeos-base/android-container-master-arc-dev:0= ) !!chromeos-base/android-container-nyc
+REQUIRED_USE=!combine_chromeos_policy? ( ^^ ( android-container-pi android-container-master-arc-dev ) )
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_md5_=cee789982d00b548017996038dc1a033
