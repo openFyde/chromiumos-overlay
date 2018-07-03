@@ -74,6 +74,10 @@ SECILC_ARGS=(
 	-f /dev/null
 )
 
+# Common flags for m4
+M4_COMMON_FLAGS=(
+)
+
 # Remove all lines existed in $1 from /dev/stdin.
 # and remove all lines begin with "^;" (cil comment)
 # remove cil comment is necessary for clearing unmatched line marker
@@ -84,6 +88,18 @@ filter_file_line_by_line() {
 
 has_arc() {
 	use android-container-pi || use android-container-master-arc-dev;
+}
+
+gen_m4_flags() {
+	M4_COMMON_FLAGS=()
+	local arc_version="none"
+	if use android-container-pi; then
+		arc_version="p"
+	elif use android-container-master-arc-dev; then
+		arc_version="master"
+	fi
+	M4_COMMON_FLAGS+=("-Darc_version=${arc_version}")
+	einfo "m4 flags: ${M4_COMMON_FLAGS}"
 }
 
 # Build SELinux intermediate language files.
@@ -105,14 +121,8 @@ build_cil() {
 			done < <(find "${path}" -xtype f -name "${pattern}" -print0)
 		done
 	done
-	local arc_version="none"
-	if use android-container-pi; then
-		arc_version="p"
-	elif use android-container-master-arc-dev; then
-		arc_version="master"
-	fi
 	m4 "-Dmls_num_sens=${MLS_NUM_SENS}" "-Dmls_num_cats=${MLS_NUM_CATS}" \
-		"-Darc_version=${arc_version}" \
+		"${M4_COMMON_FLAGS[@]}" \
 		-s "${policy_files[@]}" > "${output}.conf" \
 		|| die "failed to generate ${output}.conf"
 	checkpolicy -M -C -c "${SELINUX_VERSION}" "${output}.conf" \
@@ -131,8 +141,17 @@ build_chromeos_policy() {
 		die "failed to convert raw cil to filtered cil"
 }
 
+build_file_contexts() {
+	einfo "Compiling chromeos_file_contexts"
+	m4 "${M4_COMMON_FLAGS[@]}" "sepolicy/file_contexts/macros" \
+		"sepolicy/file_contexts/chromeos_file_contexts" > chromeos_file_contexts
+}
+
 src_compile() {
+	gen_m4_flags
+
 	build_chromeos_policy
+	build_file_contexts
 
 	if has_arc; then
 		if use combine_chromeos_policy; then
@@ -152,7 +171,7 @@ src_compile() {
 				"${SEPATH}/vendor_sepolicy.cil" || die "fail to build sepolicy"
 		fi
 
-		cat "sepolicy/file_contexts/chromeos_file_contexts" \
+		cat "chromeos_file_contexts" \
 			"${SYSROOT}/etc/selinux/intermediates/arc_file_contexts" \
 			> file_contexts \
 			|| die "failed to combine *_file_contexts files"
@@ -164,7 +183,7 @@ src_compile() {
 		einfo "Use Chrome OS-only SELinux policy."
 
 		secilc "${SECILC_ARGS[@]}" chromeos.raw.cil || die "fail to build sepolicy"
-		cp "sepolicy/file_contexts/chromeos_file_contexts" file_contexts \
+		cp "chromeos_file_contexts" file_contexts \
 			|| die "didn't find chromeos_file_contexts for file_contexts"
 	fi
 }
