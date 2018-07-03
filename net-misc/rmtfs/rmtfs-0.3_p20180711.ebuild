@@ -30,4 +30,7 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" prefix="${EPREFIX}/usr" install
+
+	insinto /etc/init
+	doins "${FILESDIR}/rmtfs.conf"
 }
