@@ -13,8 +13,13 @@ inherit cros-constants
 CROS_WORKON_REPO=${CROS_GIT_AOSP_URL}
 CROS_WORKON_PROJECT="external/libcxx"
 CROS_WORKON_LOCALNAME="../aosp/external/libcxx"
-CROS_WORKON_COMMIT="1e705dad853445419ccc8d35d82de263e91de3f3"
-CROS_WORKON_TREE="334ca76de56b9d026c1b20885a2a98645b12e8f6"
+if use llvm-next; then
+	CROS_WORKON_COMMIT="ff6224a58cf9348c10b17c7ea707d5228c5101c5"
+	CROS_WORKON_TREE="930f377a3dab90e3413eed81f8a55dff32fce18d"
+else
+	CROS_WORKON_COMMIT="1e705dad853445419ccc8d35d82de263e91de3f3"
+	CROS_WORKON_TREE="334ca76de56b9d026c1b20885a2a98645b12e8f6"
+fi
 CROS_WORKON_BLACKLIST="1"
 
 inherit cmake-multilib cros-llvm cros-workon llvm python-any-r1 toolchain-funcs
@@ -25,7 +30,7 @@ HOMEPAGE="http://libcxx.llvm.org/"
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt libunwind +static-libs test"
+IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt libunwind llvm-next +static-libs test"
 REQUIRED_USE="libunwind? ( || ( libcxxabi libcxxrt ) )
 	?? ( libcxxabi libcxxrt )"
 
@@ -57,11 +62,12 @@ python_check_deps() {
 src_prepare() {
 	# Remove a symoblic link pointing to some location
 	# outside of the source tree. crbug.com/740232
-	rm "include/__cxxabi_config.h"
+	rm "include/__cxxabi_config.h" || die
 	# Link with libgcc_eh when compiler-rt is used.
-	epatch "${FILESDIR}"/libcxx-use-libgcc_eh.patch
+	use llvm-next || epatch "${FILESDIR}"/libcxx-use-libgcc_eh.patch
+	use llvm-next && epatch "${FILESDIR}"/libcxx-7-use-libgcc_eh.patch
 	# Remove "#inluce xlocale.h" to make glibc 2.26 and after happy.
-	epatch "${FILESDIR}/${PN}-4.0-xlocale.patch"
+	use llvm-next || epatch "${FILESDIR}/${PN}-4.0-xlocale.patch"
 	# Adds visibility annotions to make CFI work.
 	# Patch is under review at https://reviews.llvm.org/D48680
 	epatch "${FILESDIR}/${PN}-cfi.patch"

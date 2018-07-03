@@ -1,0 +1,52 @@
+Link libcxx with gcc_eh when linking with gcc_s is
+not desired. Normally, llvm's libunwind would be used but
+we are not using libunwind in ChromeOS right now because of
+some reported crashes when libunwind was used.
+https://crbug.com/747113
+
+diff -Nuar old/libcxx-9999.src/cmake/config-ix.cmake new/libcxx-9999.src/cmake/config-ix.cmake
+--- a/cmake/config-ix.cmake
++++ b/cmake/config-ix.cmake
+@@ -27,7 +27,7 @@
+ # configuration checks to avoid spurious link errors.
+ check_c_compiler_flag(-nodefaultlibs LIBCXX_SUPPORTS_NODEFAULTLIBS_FLAG)
+ if (LIBCXX_SUPPORTS_NODEFAULTLIBS_FLAG)
+-  set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} -nodefaultlibs")
++  set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} -nostdlib++")
+   if (LIBCXX_HAS_C_LIB)
+     list(APPEND CMAKE_REQUIRED_LIBRARIES c)
+   endif ()
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 66bb14c89..eb7416f27 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -85,8 +85,7 @@
+ add_library_flags_if(LIBCXX_HAS_M_LIB m)
+ add_library_flags_if(LIBCXX_HAS_RT_LIB rt)
+ if (LIBCXX_USE_COMPILER_RT)
+-  find_compiler_rt_library(builtins LIBCXX_BUILTINS_LIBRARY)
+-  add_library_flags_if(LIBCXX_BUILTINS_LIBRARY "${LIBCXX_BUILTINS_LIBRARY}")
++  add_link_flags("-rtlib=compiler-rt")
+ else()
+   add_library_flags_if(LIBCXX_HAS_GCC_S_LIB gcc_s)
+ endif()
+@@ -102,6 +101,10 @@
+   else()
+     add_interface_library(unwind)
+   endif()
++else()
++  if (NOT LIBCXX_HAS_GCC_S_LIB)
++    add_library_flags(gcc_eh)
++  endif()
+ endif()
+ 
+ # Setup flags.
+@@ -109,7 +112,7 @@
+   add_flags_if_supported(-fPIC)
+ endif()
+ 
+-add_link_flags_if_supported(-nodefaultlibs)
++add_link_flags_if_supported(-nostdlib++)
+ 
+ if (LIBCXX_TARGETING_MSVC)
+   if (LIBCXX_DEBUG_BUILD)
