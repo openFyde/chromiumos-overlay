@@ -3,12 +3,13 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="d509772be5c0833649ffb099f69f943fde13bd1a"
-CROS_WORKON_TREE="ef46b09e03d58fe6eb068ea9c2c99fe461d40bcd"
+CROS_WORKON_COMMIT="e6bc61396dbf99446f5906b12839b3388561e147"
+CROS_WORKON_TREE="bc91dfd0815d9684d3e392fecf471d3ce288f964"
 CROS_WORKON_PROJECT="chromiumos/infra/lucifer"
 CROS_WORKON_LOCALNAME="../../infra/lucifer"
 
 CROS_GO_BINARIES=(
+	"lucifer/cmd/lucifer"
 	"lucifer/cmd/lucifer_admin_task"
 	"lucifer/cmd/lucifer_run_job"
 	"lucifer/cmd/skylab_swarming_worker"
