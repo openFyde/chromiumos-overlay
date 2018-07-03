@@ -52,6 +52,7 @@ IUSE="
 	legacy_power_button
 	link
 	low_pressure_touch_filtering
+	ml_service
 	moblab
 	native_assistant
 	native_gpu_memory_buffers
