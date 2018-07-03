@@ -1403,6 +1403,7 @@ src_install() {
 			fi
 			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp" || die
 		done < <(scanelf -BRyF '%F' ".")
+		rm -rf "${DWO_FILE_DIR}"
 	fi
 
 	if use build_tests; then
