@@ -246,9 +246,8 @@ cros_go() {
 
 # @FUNCTION: go_list
 # @DESCRIPTION:
-# List all Go packages matching a pattern. Only looks up
-# package names in the current workspace (does not match
-# packages installed under /usr/lib/gopath).
+# List all Go packages matching a pattern.
+# Only list packages in the current workspace.
 go_list() {
 	GOPATH="$(cros-go_workspace)" $(tc-getGO) list "$@" || die
 }
@@ -326,20 +325,36 @@ cros-go_src_install() {
 			done < <(find "${pkgdir}" -maxdepth 1 ! -type d -print0)
 		)
 	done
+}
 
-	# TODO(crbug.com/811542,crbug.com/749300): Disable as workaround for bug.
-	# # Check for missing dependencies of installed packages.
-	# local CROS_GO_WORKSPACE="${D}/usr/lib/gopath"
-	# for pkg in "${pkglist[@]}" ; do
-	# 	if [[ $(cros_go list -f "{{.Incomplete}}" "${pkg}") == "true" ]] ; then
-	# 		cros_go list -f "{{.DepsErrors}}" "${pkg}"
-	# 		die "Package has missing dependency: \"${pkg}\""
-	# 	fi
-	# done
+# @FUNCTION: cros-go_pkg_postinst
+# @DESCRIPTION:
+# Check for missing dependencies of installed packages.
+cros-go_pkg_postinst() {
+	# This only works if we're building and installing from source.
+	[[ "${MERGE_TYPE}" == "source" ]] || return
+
+	# Get the list of packages from the workspace in ${S}.
+	local pkglist=()
+	if [[ ${#CROS_GO_PACKAGES[@]} != 0 ]] ; then
+		pkglist=( $(go_list "${CROS_GO_PACKAGES[@]}") )
+	fi
+
+	# Switch the workspace to where the packages were installed.
+	local CROS_GO_WORKSPACE="${SYSROOT}/usr/lib/gopath"
+
+	# For each installed package, check for missing dependencies.
+	local pkg
+	for pkg in "${pkglist[@]}" ; do
+		if [[ $(go_list -f "{{.Incomplete}}" "${pkg}") == "true" ]] ; then
+			go_list -f "{{.DepsErrors}}" "${pkg}"
+			die "Package has missing dependency: \"${pkg}\""
+		fi
+	done
 }
 
 if [[ ${#CROS_GO_SOURCE[@]} != 0 ]] ; then
 	EXPORT_FUNCTIONS pkg_nofetch src_unpack
 fi
 
-EXPORT_FUNCTIONS src_compile src_test src_install
+EXPORT_FUNCTIONS src_compile src_test src_install pkg_postinst
