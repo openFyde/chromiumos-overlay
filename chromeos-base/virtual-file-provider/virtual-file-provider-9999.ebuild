@@ -30,29 +30,15 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api"
 
 
-MOUNTPOINTS="/opt/google/containers/virtual-file-provider/mountpoints"
-
 src_install() {
 	dobin "${OUT}"/virtual-file-provider
 	newbin virtual-file-provider-jailed.sh virtual-file-provider-jailed
-
-	insinto /usr/share/virtual-file-provider
-	doins "${OUT}"/rootfs.squashfs
 
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.VirtualFileProvider.conf
 
 	insinto /usr/share/dbus-1/system-services
 	doins org.chromium.VirtualFileProvider.service
-
-	# Keep the parent directory of mountpoints inaccessible from non-root
-	# users because mountpoints themselves are often world-readable but we
-	# do not want to expose them.
-	# container-root is where the root filesystem of the container in which
-	# virtual-file-provider daemon runs is mounted.
-	diropts --mode=0700 --owner=root --group=root
-	keepdir "${MOUNTPOINTS}"
-	keepdir "${MOUNTPOINTS}"/container-root
 }
 
 pkg_preinst() {
