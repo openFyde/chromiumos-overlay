@@ -14,22 +14,22 @@ DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="android-container-pi android-container-master-arc-dev +combine_chromeos_policy"
+IUSE="android-container-pi android-container-master-arc-dev android-container-nyc +combine_chromeos_policy"
 # When developers are doing something not Android. This required use is to let
 # the developer know, disabling combine_chromeos_policy flag doesn't change
 # anything.
 REQUIRED_USE="
-	!combine_chromeos_policy? ( ^^ ( android-container-pi android-container-master-arc-dev ) )
+	!combine_chromeos_policy? ( ^^ ( android-container-pi android-container-master-arc-dev android-container-nyc ) )
 "
 
 DEPEND="
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
 	android-container-master-arc-dev? ( chromeos-base/android-container-master-arc-dev:0= )
+	android-container-nyc? ( chromeos-base/android-container-nyc:0= )
 "
 
 RDEPEND="
 	${DEPEND}
-	!!chromeos-base/android-container-nyc
 "
 
 SELINUX_VERSION="30"
@@ -87,7 +87,7 @@ filter_file_line_by_line() {
 }
 
 has_arc() {
-	use android-container-pi || use android-container-master-arc-dev;
+	use android-container-pi || use android-container-master-arc-dev || use android-container-nyc;
 }
 
 gen_m4_flags() {
@@ -97,6 +97,8 @@ gen_m4_flags() {
 		arc_version="p"
 	elif use android-container-master-arc-dev; then
 		arc_version="master"
+	elif use android-container-nyc; then
+		arc_version="n"
 	fi
 	M4_COMMON_FLAGS+=("-Darc_version=${arc_version}")
 	einfo "m4 flags: ${M4_COMMON_FLAGS}"
@@ -157,11 +159,16 @@ src_compile() {
 		if use combine_chromeos_policy; then
 			einfo "combining Chrome OS and Android SELinux policy"
 
-			secilc "${SECILC_ARGS[@]}" "${SEPATH}/plat_sepolicy.cil" \
-				"${SEPATH}/mapping.cil" \
-				"${SEPATH}/plat_pub_versioned.cil" \
-				"${SEPATH}/vendor_sepolicy.cil" \
+			if use android-container-nyc; then
+				secilc "${SECILC_ARGS[@]}" "${SEPATH}/sepolicy.cil" \
+					chromeos.cil || die "fail to build sepolicy"
+			else
+				secilc "${SECILC_ARGS[@]}" "${SEPATH}/plat_sepolicy.cil" \
+					"${SEPATH}/mapping.cil" \
+					"${SEPATH}/plat_pub_versioned.cil" \
+					"${SEPATH}/vendor_sepolicy.cil" \
 				chromeos.cil || die "fail to build sepolicy"
+			fi
 		else
 			einfo "use ARC++ policy"
 
@@ -188,15 +195,29 @@ src_compile() {
 	fi
 }
 
+# Install file into system if it doesn't exist.
+# cond_ins dest_dir_path file_name [source_filepath]
+cond_ins() {
+	local destpath="${SYSROOT}/$1/$2"
+	if use android-container-nyc && [[ -f "$destpath" ]]; then
+		ewarn "Skipping $2"
+	else
+		einfo "Installing $2"
+		insinto "$1"
+		if [[ -z "$3" ]]; then
+			doins "$2"
+		else
+			newins "$3" "$2"
+		fi
+	fi
+}
+
 src_install() {
-	insinto /etc/selinux/arc/contexts/files/
-	doins file_contexts
+	cond_ins /etc/selinux/arc/contexts/files file_contexts
 
-	insinto /etc/selinux/
-	newins "${FILESDIR}"/selinux_config config
+	cond_ins /etc/selinux config "${FILESDIR}/selinux_config"
 
-	insinto /etc/selinux/arc/policy
-	doins "${SEPOLICY_FILENAME}"
+	cond_ins /etc/selinux/arc/policy "${SEPOLICY_FILENAME}"
 
 	if has_arc; then
 		# Install ChromeOS cil so push_to_device.py can compile a new
