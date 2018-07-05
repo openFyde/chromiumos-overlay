@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT=("c6c5cd3b71b6837b9d3db12c845493c3f23f4d5b" "a27f753fe66a9a15f25246303ea3cf74e7915232")
-CROS_WORKON_TREE=("6589055d0d41e7fc58d42616ba5075408d810f7d" "d94cdb151aea508d3de25b3bbe9f7647aef5886f" "85db6764c18b2cd6e849d2c5e5cd3138c23f3563")
+CROS_WORKON_COMMIT=("13917719c831a1c3a2500ed522ea377f36b4c4ed" "4ec9b3041a9ed2f617dddcf90aecb1a182b92ed4")
+CROS_WORKON_TREE=("6589055d0d41e7fc58d42616ba5075408d810f7d" "de8fa4cecc59ae774f2a38fb5c4697e410ab9a22" "85db6764c18b2cd6e849d2c5e5cd3138c23f3563")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/arc-camera"
 	"chromiumos/platform2"
@@ -21,19 +21,18 @@ CROS_WORKON_SUBTREE=(
 	"build android"
 	"common-mk"
 )
-PLATFORM_GYP_FILE="android/libcamera_client/libcamera_client.gyp"
+PLATFORM_GYP_FILE="android/libcamera_metadata/libcamera_metadata.gyp"
 
 inherit cros-camera cros-workon
 
-DESCRIPTION="Android libcamera_client"
+DESCRIPTION="Android libcamera_metadata"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
+IUSE="-asan"
 
-RDEPEND="
-	!media-libs/arc-camera3-libcamera_client
-	media-libs/cros-camera-libcamera_metadata"
+RDEPEND="!media-libs/arc-camera3-libcamera_metadata"
 
 DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers"
@@ -45,16 +44,16 @@ src_unpack() {
 src_install() {
 	local INCLUDE_DIR="/usr/include/android"
 	local LIB_DIR="/usr/$(get_libdir)"
-	local SRC_DIR="android/libcamera_client"
+	local SRC_DIR="android/libcamera_metadata"
 
-	dolib.so "${OUT}/lib/libcamera_client.so"
+	dolib.so "${OUT}/lib/libcamera_metadata.so"
 
-	insinto "${INCLUDE_DIR}/camera"
-	doins "${SRC_DIR}/include/camera"/*.h
+	insinto "${INCLUDE_DIR}/system"
+	doins "${SRC_DIR}/include/system"/*.h
 
 	sed -e "s|@INCLUDE_DIR@|${INCLUDE_DIR}|" -e "s|@LIB_DIR@|${LIB_DIR}|" \
-		"${SRC_DIR}/libcamera_client.pc.template" > \
-		"${SRC_DIR}/libcamera_client.pc"
+		"${SRC_DIR}/libcamera_metadata.pc.template" > \
+		"${SRC_DIR}/libcamera_metadata.pc"
 	insinto "${LIB_DIR}/pkgconfig"
-	doins "${SRC_DIR}/libcamera_client.pc"
+	doins "${SRC_DIR}/libcamera_metadata.pc"
 }
