@@ -1,4 +1,4 @@
-DEFINED_PHASES=compile install nofetch test unpack
+DEFINED_PHASES=compile install nofetch postinst test unpack
 DEPEND=dev-go/gapi-bundler dev-go/gcp-monitoring dev-go/gcp-trace dev-go/genproto dev-go/protobuf dev-lang/go
 DESCRIPTION=A stats collection and distributed tracing framework
 EAPI=5
@@ -9,5 +9,5 @@ RDEPEND=dev-go/gapi-bundler dev-go/gcp-monitoring dev-go/gcp-trace dev-go/genpro
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/census-instrumentation/opencensus-go/archive/v0.3.0.tar.gz -> github.com-census-instrumentation-opencensus-go-v0.3.0.tar.gz
-_eclasses_=cros-go	96494ace23991f5a803ebe1c15117373	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
 _md5_=1fa681baf715a7650195774f961656ba

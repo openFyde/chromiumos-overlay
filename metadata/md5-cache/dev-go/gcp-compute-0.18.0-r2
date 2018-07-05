@@ -1,4 +1,4 @@
-DEFINED_PHASES=compile install nofetch test unpack
+DEFINED_PHASES=compile install nofetch postinst test unpack
 DEPEND=dev-go/net dev-lang/go
 DESCRIPTION=Google Cloud Client Libraries for Go
 EAPI=5
@@ -9,5 +9,5 @@ RDEPEND=dev-go/net
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/GoogleCloudPlatform/google-cloud-go/archive/v0.18.0.tar.gz -> github.com-GoogleCloudPlatform-google-cloud-go-v0.18.0.tar.gz
-_eclasses_=cros-go	96494ace23991f5a803ebe1c15117373	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
 _md5_=6cea665232db3a60ff232ad0871863db

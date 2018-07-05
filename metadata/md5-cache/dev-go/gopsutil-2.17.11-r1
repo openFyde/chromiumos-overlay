@@ -1,4 +1,4 @@
-DEFINED_PHASES=compile install nofetch test unpack
+DEFINED_PHASES=compile install nofetch postinst test unpack
 DEPEND=test? ( dev-go/go-sys ) dev-lang/go
 DESCRIPTION=Cross-platform lib for process and system monitoring in Go
 EAPI=5
@@ -10,5 +10,5 @@ RDEPEND=dev-go/go-sys
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/shirou/gopsutil/archive/v2.17.11.tar.gz -> github.com-shirou-gopsutil-v2.17.11.tar.gz
-_eclasses_=cros-go	96494ace23991f5a803ebe1c15117373	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
 _md5_=464cc3e9435e1c664157a77dcce6cc81

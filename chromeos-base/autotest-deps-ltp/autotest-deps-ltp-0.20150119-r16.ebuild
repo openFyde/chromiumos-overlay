@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=4
-CROS_WORKON_COMMIT="7df860dd2389c5c9a5b2ed9ac8a7f1d48d6fed03"
-CROS_WORKON_TREE="f76881d2f2a67167b8b3d72a7b3af600fed4430d"
+CROS_WORKON_COMMIT="acae41a2bb5649c1d1af640459b3a9a1272acb1d"
+CROS_WORKON_TREE="823711497e4042fd905e2e130546a3793ed06b7b"
 CROS_WORKON_PROJECT="chromiumos/third_party/ltp"
 CROS_WORKON_LOCALNAME=../third_party/ltp
 
