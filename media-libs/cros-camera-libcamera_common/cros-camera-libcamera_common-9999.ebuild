@@ -32,7 +32,9 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-RDEPEND="!media-libs/arc-camera3-libcamera_common"
+RDEPEND="
+	!media-libs/arc-camera3-libcamera_common
+	virtual/libudev"
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
