@@ -87,7 +87,7 @@ filter_file_line_by_line() {
 }
 
 has_arc() {
-	use android-container-pi || use android-container-master-arc-dev || use android-container-nyc;
+	use android-container-pi || use android-container-master-arc-dev || use android-container-nyc
 }
 
 gen_m4_flags() {
@@ -167,7 +167,7 @@ src_compile() {
 					"${SEPATH}/mapping.cil" \
 					"${SEPATH}/plat_pub_versioned.cil" \
 					"${SEPATH}/vendor_sepolicy.cil" \
-				chromeos.cil || die "fail to build sepolicy"
+					chromeos.cil || die "fail to build sepolicy"
 			fi
 		else
 			einfo "use ARC++ policy"
@@ -195,29 +195,15 @@ src_compile() {
 	fi
 }
 
-# Install file into system if it doesn't exist.
-# cond_ins dest_dir_path file_name [source_filepath]
-cond_ins() {
-	local destpath="${SYSROOT}/$1/$2"
-	if use android-container-nyc && [[ -f "$destpath" ]]; then
-		ewarn "Skipping $2"
-	else
-		einfo "Installing $2"
-		insinto "$1"
-		if [[ -z "$3" ]]; then
-			doins "$2"
-		else
-			newins "$3" "$2"
-		fi
-	fi
-}
-
 src_install() {
-	cond_ins /etc/selinux/arc/contexts/files file_contexts
+	insinto /etc/selinux/arc/contexts/files
+	doins file_contexts
 
-	cond_ins /etc/selinux config "${FILESDIR}/selinux_config"
+	insinto /etc/selinux
+	newins "${FILESDIR}/selinux_config" config
 
-	cond_ins /etc/selinux/arc/policy "${SEPOLICY_FILENAME}"
+	insinto /etc/selinux/arc/policy
+	doins "${SEPOLICY_FILENAME}"
 
 	if has_arc; then
 		# Install ChromeOS cil so push_to_device.py can compile a new
