@@ -159,6 +159,7 @@ ALL_BOARDS=(
 	hana
 	heli
 	hsb
+	iclrvp
 	ironhide
 	jadeite
 	#jaguar
