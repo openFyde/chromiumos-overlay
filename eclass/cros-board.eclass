@@ -170,6 +170,7 @@ ALL_BOARDS=(
 	kefka
 	#kennet
 	kevin
+	kevin64
 	kevin-arcnext
 	#kevin-bertha
 	kevin-tpm2
