@@ -16,7 +16,7 @@ HOMEPAGE="https://www.tensorflow.org/"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cuda jemalloc mpi +python"
+IUSE="cuda jemalloc mpi minimal +python"
 CPU_USE_FLAGS_X86="sse sse2 sse3 sse4_1 sse4_2 avx avx2 fma3 fma4"
 for i in $CPU_USE_FLAGS_X86; do
 	IUSE+=" cpu_flags_x86_$i"
@@ -24,28 +24,32 @@ done
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
-	http://pilotfiber.dl.sourceforge.net/project/giflib/giflib-5.1.4.tar.gz
-	http://pkgs.fedoraproject.org/repo/pkgs/nasm/nasm-2.12.02.tar.bz2/d15843c3fb7db39af80571ee27ec6fad/nasm-2.12.02.tar.bz2
-	http://www.kurims.kyoto-u.ac.jp/~ooura/fft.tgz -> oourafft-20061228.tgz
-	https://bitbucket.org/eigen/eigen/get/6913f0cf7d06.tar.gz -> eigen-6913f0cf7d06.tar.gz
-	https://github.com/LMDB/lmdb/archive/LMDB_0.9.19.tar.gz
-	https://github.com/abseil/abseil-cpp/archive/9613678332c976568272c8f4a78631a29159271d.tar.gz -> abseil-cpp-9613678332c976568272c8f4a78631a29159271d.tar.gz
+	https://github.com/google/flatbuffers/archive/971a68110e4fc1bace10fcb6deeb189e7e1a34ce.tar.gz -> flatbuffers-971a68110e4fc1bace10fcb6deeb189e7e1a34ce.tar.gz
+	https://github.com/intel/ARM_NEON_2_x86_SSE/archive/0f77d9d182265259b135dad949230ecbf1a2633d.tar.gz -> ARM_NEON_2_x86_SSE-0f77d9d182265259b135dad949230ecbf1a2633d.tar.gz
 	https://github.com/bazelbuild/rules_closure/archive/dbb96841cc0a5fb2664c37822803b06dab20c7d1.tar.gz -> bazelbuild-rules_closure-dbb96841cc0a5fb2664c37822803b06dab20c7d1.tar.gz
-	https://github.com/glennrp/libpng/archive/v1.6.34.tar.gz -> libpng-v1.6.34.tar.gz
-	https://github.com/google/double-conversion/archive/3992066a95b823efc8ccc1baf82a1cfc73f6e9b8.zip -> double-conversion-3992066a95b823efc8ccc1baf82a1cfc73f6e9b8.zip
-	https://github.com/google/farmhash/archive/816a4ae622e964763ca0862d9dbd19324a1eaf45.tar.gz -> farmhash-816a4ae622e964763ca0862d9dbd19324a1eaf45.tar.gz
-	https://github.com/google/gemmlowp/archive/38ebac7b059e84692f53e5938f97a9943c120d98.zip -> gemmlowp-38ebac7b059e84692f53e5938f97a9943c120d98.zip
-	https://github.com/google/highwayhash/archive/fd3d9af80465e4383162e4a7c5e2f406e82dd968.tar.gz -> highwayhash-fd3d9af80465e4383162e4a7c5e2f406e82dd968.tar.gz
-	https://github.com/google/nsync/archive/0559ce013feac8db639ee1bf776aca0325d28777.tar.gz -> nsync-0559ce013feac8db639ee1bf776aca0325d28777.tar.gz
 	https://github.com/google/protobuf/archive/396336eb961b75f03b25824fe86cf6490fb75e3a.tar.gz -> protobuf-396336eb961b75f03b25824fe86cf6490fb75e3a.tar.gz
-	https://github.com/google/re2/archive/26cd968b735e227361c9703683266f01e5df7857.tar.gz -> re2-26cd968b735e227361c9703683266f01e5df7857.tar.gz
-	https://github.com/google/snappy/archive/1.1.7.tar.gz -> snappy-1.1.7.tar.gz
-	https://github.com/grpc/grpc/archive/d184fa229d75d336aedea0041bd59cb93e7e267f.tar.gz -> grpc-d184fa229d75d336aedea0041bd59cb93e7e267f.tar.gz
-	https://github.com/libjpeg-turbo/libjpeg-turbo/archive/1.5.3.tar.gz -> libjpeg_turbo-1.5.3.tar.gz
-	https://github.com/open-source-parsers/jsoncpp/archive/11086dd6a7eba04289944367ca82cea71299ed70.tar.gz -> jsoncpp-11086dd6a7eba04289944367ca82cea71299ed70.tar.gz
-	https://www.sqlite.org/2018/sqlite-amalgamation-3230100.zip
-	https://zlib.net/zlib-1.2.11.tar.gz
-	https://github.com/jemalloc/jemalloc/archive/4.4.0.tar.gz -> jemalloc-4.4.0.tar.gz
+	https://github.com/google/gemmlowp/archive/38ebac7b059e84692f53e5938f97a9943c120d98.zip -> gemmlowp-38ebac7b059e84692f53e5938f97a9943c120d98.zip
+	https://bitbucket.org/eigen/eigen/get/6913f0cf7d06.tar.gz -> eigen-6913f0cf7d06.tar.gz
+	https://github.com/google/farmhash/archive/816a4ae622e964763ca0862d9dbd19324a1eaf45.tar.gz -> farmhash-816a4ae622e964763ca0862d9dbd19324a1eaf45.tar.gz
+	http://www.kurims.kyoto-u.ac.jp/~ooura/fft.tgz -> oourafft-20061228.tgz
+	!minimal? (
+		http://pilotfiber.dl.sourceforge.net/project/giflib/giflib-5.1.4.tar.gz
+		http://pkgs.fedoraproject.org/repo/pkgs/nasm/nasm-2.12.02.tar.bz2/d15843c3fb7db39af80571ee27ec6fad/nasm-2.12.02.tar.bz2
+		https://github.com/LMDB/lmdb/archive/LMDB_0.9.19.tar.gz
+		https://github.com/abseil/abseil-cpp/archive/9613678332c976568272c8f4a78631a29159271d.tar.gz -> abseil-cpp-9613678332c976568272c8f4a78631a29159271d.tar.gz
+		https://github.com/glennrp/libpng/archive/v1.6.34.tar.gz -> libpng-v1.6.34.tar.gz
+		https://github.com/google/double-conversion/archive/3992066a95b823efc8ccc1baf82a1cfc73f6e9b8.zip -> double-conversion-3992066a95b823efc8ccc1baf82a1cfc73f6e9b8.zip
+		https://github.com/google/highwayhash/archive/fd3d9af80465e4383162e4a7c5e2f406e82dd968.tar.gz -> highwayhash-fd3d9af80465e4383162e4a7c5e2f406e82dd968.tar.gz
+		https://github.com/google/nsync/archive/0559ce013feac8db639ee1bf776aca0325d28777.tar.gz -> nsync-0559ce013feac8db639ee1bf776aca0325d28777.tar.gz
+		https://github.com/google/re2/archive/26cd968b735e227361c9703683266f01e5df7857.tar.gz -> re2-26cd968b735e227361c9703683266f01e5df7857.tar.gz
+		https://github.com/google/snappy/archive/1.1.7.tar.gz -> snappy-1.1.7.tar.gz
+		https://github.com/grpc/grpc/archive/d184fa229d75d336aedea0041bd59cb93e7e267f.tar.gz -> grpc-d184fa229d75d336aedea0041bd59cb93e7e267f.tar.gz
+		https://github.com/libjpeg-turbo/libjpeg-turbo/archive/1.5.3.tar.gz -> libjpeg_turbo-1.5.3.tar.gz
+		https://github.com/open-source-parsers/jsoncpp/archive/11086dd6a7eba04289944367ca82cea71299ed70.tar.gz -> jsoncpp-11086dd6a7eba04289944367ca82cea71299ed70.tar.gz
+		https://www.sqlite.org/2018/sqlite-amalgamation-3230100.zip
+		https://zlib.net/zlib-1.2.11.tar.gz
+		https://github.com/jemalloc/jemalloc/archive/4.4.0.tar.gz -> jemalloc-4.4.0.tar.gz
+	)
 	python? (
 		http://ftp.exim.org/pub/pcre/pcre-8.39.tar.gz
 		http://ufpr.dl.sourceforge.net/project/swig/swig/swig-3.0.8/swig-3.0.8.tar.gz
@@ -56,9 +60,7 @@ bazel_external_uris="
 		https://github.com/cython/cython/archive/3732784c45cfb040a5b0936951d196f83a12ea17.tar.gz -> cython-3732784c45cfb040a5b0936951d196f83a12ea17.tar.gz
 		https://github.com/edenhill/librdkafka/archive/v0.11.1.tar.gz -> librdkafka-v0.11.1.tar.gz
 		https://github.com/google/boringssl/archive/a0fb951d2a26a8ee746b52f3ba81ab011a0af778.tar.gz -> boringssl-a0fb951d2a26a8ee746b52f3ba81ab011a0af778.tar.gz
-		https://github.com/google/flatbuffers/archive/971a68110e4fc1bace10fcb6deeb189e7e1a34ce.tar.gz -> flatbuffers-971a68110e4fc1bace10fcb6deeb189e7e1a34ce.tar.gz
 		https://github.com/hfp/libxsmm/archive/1.8.1.tar.gz -> libxsmm-1.8.1.tar.gz
-		https://github.com/intel/ARM_NEON_2_x86_SSE/archive/0f77d9d182265259b135dad949230ecbf1a2633d.tar.gz -> ARM_NEON_2_x86_SSE-0f77d9d182265259b135dad949230ecbf1a2633d.tar.gz
 		https://github.com/intel/mkl-dnn/archive/v0.12.tar.gz -> mkl_dnn-v0.12.tar.gz
 		https://github.com/llvm-mirror/llvm/archive/7e78daafdd22f3f17720a103d29d89590534004e.tar.gz -> llvm-7e78daafdd22f3f17720a103d29d89590534004e.tar.gz
 		https://mirror.bazel.build/docs.python.org/2.7/_sources/license.txt -> tensorflow-python-license.txt
@@ -80,12 +82,14 @@ DEPEND="${RDEPEND}
 	app-arch/unzip
 	dev-python/mock
 	"
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} !minimal )"
 
 S="${WORKDIR}/${MY_P}"
 BUILD_DIR="${S}"
 
 DOCS=( AUTHORS CONTRIBUTING.md ISSUE_TEMPLATE.md README.md RELEASE.md )
+
+PATCHES=( "${FILESDIR}/tensorflow-1.9.0_rc1-lite-lib.patch" )
 
 bazel_cc_config_dir="ebazel_cc_config"
 
@@ -412,9 +416,8 @@ src_compile() {
 
 	ebazel build \
 		$(usex cuda --config=cuda '') \
-		//tensorflow:libtensorflow_framework.so \
-		//tensorflow:libtensorflow.so \
-		//tensorflow:libtensorflow_cc.so
+		$(usex minimal '' '//tensorflow:libtensorflow_framework.so //tensorflow:libtensorflow.so //tensorflow:libtensorflow_cc.so') \
+		//tensorflow/contrib/lite:libtensorflow_lite.so
 
 	do_compile() {
 		ebazel build \
@@ -459,26 +462,46 @@ src_install() {
 		cd "${S}-${MULTIBUILD_VARIANT}" || die
 	fi
 
-	einfo "Installing headers"
-	# Install c c++ and core header files
-	for i in $(find ${PN}/{c,cc,core} -name "*.h"); do
+	local base_suffix="${MULTIBUILD_VARIANT+-}${MULTIBUILD_VARIANT}"
+	local output_base="${WORKDIR}/bazel-base${base_suffix}"
+
+	if ! use minimal; then
+		einfo "Installing TF headers"
+
+		for i in $(find ${PN}/{c,cc,core} -name "*.h"); do
+			insinto /usr/include/${PN}/${i%/*}
+			doins ${i}
+		done
+
+		# Eigen headers
+		insinto /usr/include/${PN}/third_party/eigen3/Eigen/
+		doins third_party/eigen3/Eigen/*
+
+		einfo "Installing TF libraries"
+
+		${PN}/c/generate-pc.sh --prefix=/usr --libdir=$(get_libdir) --version=${MY_PV} || die
+		insinto /usr/$(get_libdir)/pkgconfig
+		doins ${PN}.pc
+
+		dolib.so bazel-bin/tensorflow/lib${PN}_framework.so
+		dolib.so bazel-bin/tensorflow/lib${PN}.so
+		dolib.so bazel-bin/tensorflow/lib${PN}_cc.so
+	fi
+
+	einfo "Installing TF lite headers"
+
+	for i in $(find ${PN}/contrib/lite/{,kernels,nnapi,profiling,schema,testing} -maxdepth 1 -name "*.h"); do
 		insinto /usr/include/${PN}/${i%/*}
 		doins ${i}
 	done
 
-	# Eigen headers
-	insinto /usr/include/${PN}/third_party/eigen3/Eigen/
-	doins third_party/eigen3/Eigen/*
+	# TODO(crbug.com/836100): remove this once we unbundle distfiles (i.e. use the system
+	#                         flatbuffers library and includes).
+	insinto /usr/include/${PN}/third_party/flatbuffers/
+	doins -r "${output_base}/external/flatbuffers/include/flatbuffers"
 
-	einfo "Installing libs"
-	# Generate pkg-config file
-	${PN}/c/generate-pc.sh --prefix=/usr --libdir=$(get_libdir) --version=${MY_PV} || die
-	insinto /usr/$(get_libdir)/pkgconfig
-	doins ${PN}.pc
-
-	dolib.so bazel-bin/tensorflow/lib${PN}_framework.so
-	dolib.so bazel-bin/tensorflow/lib${PN}.so
-	dolib.so bazel-bin/tensorflow/lib${PN}_cc.so
+	einfo "Installing TF lite libraries"
+	dolib.so bazel-bin/tensorflow/contrib/lite/lib${PN}_lite.so
 
 	einstalldocs
 }

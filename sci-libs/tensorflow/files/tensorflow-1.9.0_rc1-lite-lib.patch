@@ -1,0 +1,51 @@
+From 9bf8a9231992a99603694a0928963f5b5a44bd8f Mon Sep 17 00:00:00 2001
+From: Michael Martis <martis@chromium.org>
+Date: Fri, 6 Jul 2018 11:29:47 +1000
+Subject: [PATCH] Added a TF lite shared library target.
+
+Typically TF lite projects are built with Bazel, so do not use a
+TF lite library. Since we want to use TF lite in projects with
+arbitrary build systems, we add a simple target to generate a TF
+lite shared library.
+
+We are investigating upstreaming this change:
+https://github.com/tensorflow/tensorflow/issues/20905
+
+Author: martis@chromium.org
+---
+ tensorflow/contrib/lite/BUILD | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+--- a/tensorflow/contrib/lite/BUILD
++++ b/tensorflow/contrib/lite/BUILD
+@@ -4,7 +4,8 @@ package(default_visibility = [
+ 
+ licenses(["notice"])  # Apache 2.0
+ 
+-load("//tensorflow/contrib/lite:build_def.bzl", "tflite_copts", "gen_selected_ops")
++load("//tensorflow/contrib/lite:build_def.bzl", "tflite_copts", "tflite_linkopts", "gen_selected_ops")
++load("//tensorflow:tensorflow.bzl", "tf_cc_shared_object")
+ 
+ exports_files(glob([
+     "testdata/*.bin",
+@@ -92,6 +93,17 @@ cc_library(
+ 
+ exports_files(["builtin_ops.h"])
+ 
++tf_cc_shared_object(
++    name = "libtensorflow_lite.so",
++    framework_so = [],
++    linkopts = tflite_linkopts() + ["-s"],  # Strip library.
++    visibility = ["//visibility:public"],
++    deps = [
++        ":framework",
++        "//tensorflow/contrib/lite/kernels:builtin_ops",
++    ]
++)
++
+ cc_library(
+     name = "string",
+     hdrs = [
+-- 
+2.18.0.203.gfac676dfb9-goog
+
