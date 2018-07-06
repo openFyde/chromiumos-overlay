@@ -56,7 +56,8 @@ src_compile() {
 src_install() {
 	into /
 	dosbin "${OUT}"/crash_reporter
-	dosbin crash_sender
+	dosbin "${OUT}"/crash_sender
+	dosbin crash_sender.sh
 
 	into /usr
 	use cros_embedded || dobin "${OUT}"/list_proxies
