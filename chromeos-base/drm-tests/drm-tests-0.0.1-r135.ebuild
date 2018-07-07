@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=4
-CROS_WORKON_COMMIT="9a187d45f371a3f7d4a965095657403dbb91c9df"
-CROS_WORKON_TREE="d6171a337df3053352c75c2c3e3ae97222a10167"
+CROS_WORKON_COMMIT="6adafc50289530be403bed33659df41e7b429d37"
+CROS_WORKON_TREE="c78b7eb2b183e628e2d2598d262c62dbc78a7a6a"
 CROS_WORKON_PROJECT="chromiumos/platform/drm-tests"
 
 inherit cros-workon toolchain-funcs
