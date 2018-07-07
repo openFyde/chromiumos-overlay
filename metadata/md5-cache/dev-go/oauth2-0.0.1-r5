@@ -9,5 +9,5 @@ RDEPEND=dev-go/gcp-compute
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://go.googlesource.com/oauth2/+archive/fdc9e635145ae97e6c2cb777c48305600cf515cb.tar.gz -> go.googlesource.com-oauth2-fdc9e635145ae97e6c2cb777c48305600cf515cb.tar.gz
-_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ec054a21b8fbe9f1357f0978ee7a4b34
 _md5_=7c3db10fba69117029c6857cec8d7270

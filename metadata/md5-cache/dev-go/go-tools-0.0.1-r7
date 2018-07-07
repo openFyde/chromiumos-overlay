@@ -8,5 +8,5 @@ LICENSE=BSD-Google
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://go.googlesource.com/tools/+archive/2d19ab38faf14664c76088411c21bf4fafea960b.tar.gz -> go.googlesource.com-tools-2d19ab38faf14664c76088411c21bf4fafea960b.tar.gz
-_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ec054a21b8fbe9f1357f0978ee7a4b34
 _md5_=0093db6d638ea8b9af435f56f696e748

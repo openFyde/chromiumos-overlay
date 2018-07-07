@@ -9,5 +9,5 @@ LICENSE=BSD-Google
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/golang/protobuf/archive/bbd03ef6da3a115852eaf24c8a1c46aeb39aa175.tar.gz -> github.com-golang-protobuf-bbd03ef6da3a115852eaf24c8a1c46aeb39aa175.tar.gz
-_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ec054a21b8fbe9f1357f0978ee7a4b34
 _md5_=5e21e1677aa7322332fd1b406eb60467

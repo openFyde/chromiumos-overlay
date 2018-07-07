@@ -8,5 +8,5 @@ LICENSE=GPL-2
 RDEPEND=net-print/cups
 SLOT=0
 SRC_URI=https://download3.ebz.epson.net/dsc/f/03/00/05/20/91/05b7c89713fa620593175010796eecfbfe73cb9a/epson-inkjet-printer-escpr-1.6.10-1lsb3.2.tar.gz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	742e459b012d80fe4cafd6b6885663c9
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ec054a21b8fbe9f1357f0978ee7a4b34
 _md5_=24c0b05e862568f9432f127969600b91

@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT=("ab84d6811300a43268f8a8bc37c716ea38265eae" "0e87cf5dc5ef30723eed5991cec27d01ba7eccee")
+CROS_WORKON_COMMIT=("d8f264efe3e6289e86cbb34ce18212b2c53d65e4" "0e87cf5dc5ef30723eed5991cec27d01ba7eccee")
 CROS_WORKON_TREE=("85db6764c18b2cd6e849d2c5e5cd3138c23f3563" "e9f685180a32752c6cf302591e0aa59037e43b62")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
@@ -41,6 +41,7 @@ IUSE="cros_host"
 RDEPEND="chromeos-base/libmojo"
 
 DEPEND="${RDEPEND}
+	dev-go/protobuf
 	dev-libs/protobuf
 	cros_host? ( dev-libs/grpc )
 "
