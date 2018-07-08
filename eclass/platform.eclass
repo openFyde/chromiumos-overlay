@@ -152,7 +152,7 @@ platform_fuzzer_install() {
 # Tests a fuzzer binary (passed as an argument) against a small corpus of
 # files. This is needed to make sure the fuzzer is built correctly and runs
 # properly before being uploaded for contiguous tests.
-# @USAGE: <owners file> <fuzzer binary> [corpus_path]
+# @USAGE: <fuzzer binary> [corpus_path]
 platform_fuzzer_test() {
 	fuzzer_test "$@" "${PLATFORM_TOOLDIR}"/fuzzer_corpus || die
 }
