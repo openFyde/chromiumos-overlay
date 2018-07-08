@@ -24,6 +24,11 @@ CROS_GO_TEST=(
 	"chromiumos/tast/local/..."
 )
 
+# The URLs listed here must match those in files/external_data.conf.
+TAST_BUNDLE_EXTERNAL_DATA_URLS=(
+	"gs://chromiumos-test-assets-public/tast/cros/example/data_files_external_20180626.txt"
+)
+
 inherit cros-workon tast-bundle
 
 DESCRIPTION="Bundle of local integration tests for Chrome OS"
