@@ -25,7 +25,7 @@ fi
 
 STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).0"
 STAGE0_VERSION_CARGO="0.$(($(get_version_component_range 2))).0"
-STAGE0_DATE="2018-03-29"
+STAGE0_DATE="2018-05-10"
 RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
@@ -53,7 +53,6 @@ PATCHES=(
 	"${FILESDIR}"/0003-fix-unknown-vendors.patch
 	"${FILESDIR}"/0004-fix-rpath.patch
 	"${FILESDIR}"/0005-add-unknown-vendor-to-filesearch.patch
-	"${FILESDIR}"/0006-Fix-fp-feature-for-AArch64.patch
 )
 
 S="${WORKDIR}/${MY_P}-src"
@@ -91,7 +90,7 @@ src_prepare() {
 	# armv7a in cros versus armv7. Currently we have two abis: gnueabi and
 	# gnueabihf. gnueabi should be removed after chromium:711369
 	# is fixed.
-	pushd src/librustc_back/target || die
+	pushd src/librustc_target/spec || die
 	sed -e 's:"unknown":"cros":g' armv7_unknown_linux_gnueabihf.rs >armv7a_cros_linux_gnueabi.rs
 	sed -e 's:"unknown":"cros":g' armv7_unknown_linux_gnueabihf.rs >armv7a_cros_linux_gnueabihf.rs
 	popd
@@ -99,7 +98,7 @@ src_prepare() {
 	# One of the patches changes a vendored library, thereby changing the
 	# checksum.
 	pushd src/vendor/cc || die
-	sed -i 's:6e8cea99f5fc8e5982b1ea9a336ee2f9a6158a9498c8f0c36f1e8cee8c99716e:ade194aa562bbec55c1cead07b7cc8ff529aad6633a47447f9ce5e80f63a5439:g' \
+	sed -i 's:4950879e90459eeb7cb1d15415bf25339d7ce0bfc6cff7dadc24aa6bb3960b4a:f20d3e0e95f868670d2f6f31f304cc9c8ff96b570849b026265deda9a901cbd5:g' \
 		.cargo-checksum.json
 	popd
 
