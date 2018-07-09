@@ -416,6 +416,15 @@ set_build_args() {
 			BUILD_STRING_ARGS+=( arm_arch="${arm_arch}" )
 		fi
 		;;
+	arm64)
+		BUILD_STRING_ARGS+=(
+			target_cpu=arm64
+		)
+		local arm_arch=$(get-flag march)
+		if [[ -n "${arm_arch}" ]]; then
+			BUILD_STRING_ARGS+=( arm_arch="${arm_arch}" )
+		fi
+		;;
 	amd64)
 		BUILD_STRING_ARGS+=( target_cpu=x64 )
 		;;
@@ -773,7 +782,7 @@ setup_test_lists() {
 		lib{32,64}
 		mock_nacl_gdb
 		ppapi_nacl_tests_{newlib,glibc}.nmf
-		ppapi_nacl_tests_{newlib,glibc}_{x32,x64,arm}.nexe
+		ppapi_nacl_tests_{newlib,glibc}_{x32,x64,arm,arm64}.nexe
 		test_case.html
 		test_case.html.mock-http-headers
 		test_page.css
@@ -1293,6 +1302,9 @@ src_install() {
 		case "${ARCH}" in
 		arm)
 			doins -r "${QUICKOFFICE}"/_platform_specific/arm
+			;;
+		arm64)
+			doins -r "${QUICKOFFICE}"/_platform_specific/arm64
 			;;
 		x86)
 			doins -r "${QUICKOFFICE}"/_platform_specific/x86_32
