@@ -6,7 +6,7 @@ CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk biod"
+CROS_WORKON_SUBTREE="common-mk biod metrics"
 
 PLATFORM_SUBDIR="biod"
 
@@ -22,6 +22,7 @@ KEYWORDS="~*"
 RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/libchrome
+	chromeos-base/metrics
 	"
 
 DEPEND="
