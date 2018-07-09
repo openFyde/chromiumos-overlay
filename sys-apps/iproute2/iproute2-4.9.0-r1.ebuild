@@ -44,6 +44,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-add-uidrange-routing.patch
 	"${FILESDIR}"/${P}-jetstream-nss-qdisc.patch
 	"${FILESDIR}"/${P}-stdint.patch
+	"${FILESDIR}"/${P}-tc-add-support-for-new-qdisc-arl.patch
 )
 
 src_prepare() {
