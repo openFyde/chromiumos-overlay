@@ -74,6 +74,6 @@ src_install() {
 	insinto /opt/google/usbguard
 	newins "${FILESDIR}/usbguard-daemon-seccomp-${ARCH}.policy" usbguard-daemon-seccomp.policy
 
-	# insinto /etc/init
-	# doins "${FILESDIR}"/usbguard.conf
+	insinto /etc/init
+	doins "${FILESDIR}"/usbguard.conf
 }
