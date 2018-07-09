@@ -41,6 +41,8 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
+	dev-go/grpc
+	dev-go/protobuf
 	>=sys-kernel/linux-headers-4.4-r16
 "
 
