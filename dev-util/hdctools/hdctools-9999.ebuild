@@ -1,7 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/third_party/hdctools"
 PYTHON_COMPAT=( python2_{6,7} )
 
@@ -20,7 +20,7 @@ RDEPEND=">=dev-embedded/libftdi-0.18
 	>=dev-python/pexpect-3.0
 	dev-python/pyserial
 	test? ( dev-python/pytest )
-	dev-python/pyusb
+	>=dev-python/pyusb-1.0.2
 	virtual/libusb:1
 	app-misc/screen
 	chromeos-base/ec-devutils"
