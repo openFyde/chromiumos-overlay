@@ -79,6 +79,7 @@ REQUIRED_USE="
 	libcxx? ( clang )
 	thinlto? ( clang || ( gold lld ) )
 	afdo_use? ( clang )
+	build_native_assistant? ( chrome_internal )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
