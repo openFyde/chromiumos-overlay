@@ -26,7 +26,7 @@ src_unpack() {
 	if use llvm-next; then
 		# llvm:r333878 https://critique.corp.google.com/#review/199724125
 		#		EGIT_COMMIT="393b329e7345976d7d0c5ee08425eacb34b4c5be" #r333870
-		"fb98f1095aa66e72ab36738c4eac597193de7a8a" # temporary workaround. r333025
+		EGIT_COMMIT="fb98f1095aa66e72ab36738c4eac597193de7a8a" # temporary workaround. r333025
 	else
 
 		# llvm:r331547 https://critique.corp.google.com/#review/196053977
