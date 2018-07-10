@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="a27f753fe66a9a15f25246303ea3cf74e7915232"
+CROS_WORKON_COMMIT="e427cd86eb47b97568fa11241bb1062bf3e5b11a"
 CROS_WORKON_TREE=("85db6764c18b2cd6e849d2c5e5cd3138c23f3563" "e0c95ead9c93d4eb5bded3748987b2fc2c972b02")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -16,6 +16,8 @@ inherit cros-workon platform user
 
 DESCRIPTION="Machine learning service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
+SRC_URI="http://storage.googleapis.com/chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180517.pb
+	http://storage.googleapis.com/chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180704.tflite"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -45,6 +47,13 @@ src_install() {
 	# Install D-Bus configuration file
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Ml.conf
+
+	# Install the ML models.
+	insinto /opt/google/chrome/ml_models
+	local model
+	for model in ${A}; do
+		doins "${DISTDIR}/${model}"
+	done
 }
 
 pkg_preinst() {
