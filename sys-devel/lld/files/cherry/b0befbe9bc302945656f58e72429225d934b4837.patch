@@ -1,0 +1,848 @@
+commit b0befbe9bc302945656f58e72429225d934b4837
+Author: Rui Ueyama <ruiu@google.com>
+Date:   Mon Jul 9 20:08:55 2018 +0000
+
+    lld: add experimental support for SHT_RELR sections.
+    
+    Patch by Rahul Chaudhry!
+    
+    This change adds experimental support for SHT_RELR sections, proposed
+    here: https://groups.google.com/forum/#!topic/generic-abi/bX460iggiKg
+    
+    Pass '--pack-dyn-relocs=relr' to enable generation of SHT_RELR section
+    and DT_RELR, DT_RELRSZ, and DT_RELRENT dynamic tags.
+    
+    Definitions for the new ELF section type and dynamic array tags, as well
+    as the encoding used in the new section are all under discussion and are
+    subject to change. Use with caution!
+    
+    Pass '--use-android-relr-tags' with '--pack-dyn-relocs=relr' to use
+    SHT_ANDROID_RELR section type instead of SHT_RELR, as well as
+    DT_ANDROID_RELR* dynamic tags instead of DT_RELR*. The generated
+    section contents are identical.
+    
+    '--pack-dyn-relocs=android+relr --use-android-relr-tags' enables both
+    '--pack-dyn-relocs=android' and '--pack-dyn-relocs=relr': lld will
+    encode the relative relocations in a SHT_ANDROID_RELR section, and pack
+    the rest of the dynamic relocations in a SHT_ANDROID_REL(A) section.
+    
+    Differential Revision: https://reviews.llvm.org/D48247
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/lld/trunk@336594 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/ELF/Config.h b/ELF/Config.h
+index 5f3f87fec..a346f32a2 100644
+--- a/ELF/Config.h
++++ b/ELF/Config.h
+@@ -153,6 +153,7 @@ struct Configuration {
+   bool PrintGcSections;
+   bool PrintIcfSections;
+   bool Relocatable;
++  bool RelrPackDynRelocs = false;
+   bool SaveTemps;
+   bool SingleRoRx;
+   bool Shared;
+@@ -163,6 +164,7 @@ struct Configuration {
+   bool ThinLTOEmitImportsFiles;
+   bool ThinLTOIndexOnly;
+   bool UndefinedVersion;
++  bool UseAndroidRelrTags = false;
+   bool WarnBackrefs;
+   bool WarnCommon;
+   bool WarnMissingEntry;
+diff --git a/ELF/Driver.cpp b/ELF/Driver.cpp
+index 691482836..b8ee026a6 100644
+--- a/ELF/Driver.cpp
++++ b/ELF/Driver.cpp
+@@ -794,6 +794,8 @@ void LinkerDriver::readConfigs(opt::InputArgList &Args) {
+   Config->Undefined = args::getStrings(Args, OPT_undefined);
+   Config->UndefinedVersion =
+       Args.hasFlag(OPT_undefined_version, OPT_no_undefined_version, true);
++  Config->UseAndroidRelrTags = Args.hasFlag(
++      OPT_use_android_relr_tags, OPT_no_use_android_relr_tags, false);
+   Config->UnresolvedSymbols = getUnresolvedSymbolPolicy(Args);
+   Config->WarnBackrefs =
+       Args.hasFlag(OPT_warn_backrefs, OPT_no_warn_backrefs, false);
+@@ -873,10 +875,16 @@ void LinkerDriver::readConfigs(opt::InputArgList &Args) {
+ 
+   if (auto *Arg = Args.getLastArg(OPT_pack_dyn_relocs)) {
+     StringRef S = Arg->getValue();
+-    if (S == "android")
++    if (S == "android") {
+       Config->AndroidPackDynRelocs = true;
+-    else if (S != "none")
++    } else if (S == "relr") {
++      Config->RelrPackDynRelocs = true;
++    } else if (S == "android+relr") {
++      Config->AndroidPackDynRelocs = true;
++      Config->RelrPackDynRelocs = true;
++    } else if (S != "none") {
+       error("unknown -pack-dyn-relocs format: " + S);
++    }
+   }
+ 
+   if (auto *Arg = Args.getLastArg(OPT_symbol_ordering_file))
+diff --git a/ELF/LinkerScript.cpp b/ELF/LinkerScript.cpp
+index 19ac72361..abdd899da 100644
+--- a/ELF/LinkerScript.cpp
++++ b/ELF/LinkerScript.cpp
+@@ -414,7 +414,8 @@ LinkerScript::computeInputSections(const InputSectionDescription *Cmd) {
+ void LinkerScript::discard(ArrayRef<InputSection *> V) {
+   for (InputSection *S : V) {
+     if (S == InX::ShStrTab || S == InX::Dynamic || S == InX::DynSymTab ||
+-        S == InX::DynStrTab || S == InX::RelaPlt || S == InX::RelaDyn)
++        S == InX::DynStrTab || S == InX::RelaPlt || S == InX::RelaDyn ||
++        S == InX::RelrDyn)
+       error("discarding " + S->Name + " section is not allowed");
+ 
+     // You can discard .hash and .gnu.hash sections by linker scripts. Since
+diff --git a/ELF/Options.td b/ELF/Options.td
+index d95015875..b92279416 100644
+--- a/ELF/Options.td
++++ b/ELF/Options.td
+@@ -233,7 +233,11 @@ defm orphan_handling:
+ 
+ defm pack_dyn_relocs:
+   Eq<"pack-dyn-relocs", "Pack dynamic relocations in the given format">,
+-  MetaVarName<"[none,android]">;
++  MetaVarName<"[none,android,relr,android+relr]">;
++
++defm use_android_relr_tags: B<"use-android-relr-tags",
++    "use SHT_ANDROID_RELR / DT_ANDROID_RELR* tags instead of SHT_RELR / DT_RELR*",
++    "use SHT_RELR / DT_RELR* tags (default)">;
+ 
+ defm pie: B<"pie",
+     "Create a position independent executable",
+diff --git a/ELF/Relocations.cpp b/ELF/Relocations.cpp
+index 639fd70d9..467219ad0 100644
+--- a/ELF/Relocations.cpp
++++ b/ELF/Relocations.cpp
+@@ -717,6 +717,24 @@ private:
+ };
+ } // namespace
+ 
++static void addRelativeReloc(InputSectionBase *IS, uint64_t OffsetInSec,
++                             Symbol *Sym, int64_t Addend, RelExpr Expr,
++                             RelType Type) {
++  // Add a relative relocation. If RelrDyn section is enabled, and the
++  // relocation offset is guaranteed to be even, add the relocation to
++  // the RelrDyn section, otherwise add it to the RelaDyn section.
++  // RelrDyn sections don't support odd offsets. Also, RelrDyn sections
++  // don't store the addend values, so we must write it to the relocated
++  // address.
++  if (InX::RelrDyn && IS->Alignment >= 2 && OffsetInSec % 2 == 0) {
++    IS->Relocations.push_back({Expr, Type, OffsetInSec, Addend, Sym});
++    InX::RelrDyn->Relocs.push_back({IS, OffsetInSec});
++    return;
++  }
++  InX::RelaDyn->addReloc(Target->RelativeRel, IS, OffsetInSec, Sym, Addend,
++                         Expr, Type);
++}
++
+ template <class ELFT, class GotPltSection>
+ static void addPltEntry(PltSection *Plt, GotPltSection *GotPlt,
+                         RelocationBaseSection *Rel, RelType Type, Symbol &Sym) {
+@@ -748,14 +766,12 @@ template <class ELFT> static void addGotEntry(Symbol &Sym) {
+ 
+   // Otherwise, we emit a dynamic relocation to .rel[a].dyn so that
+   // the GOT slot will be fixed at load-time.
+-  RelType Type;
+-  if (Sym.isTls())
+-    Type = Target->TlsGotRel;
+-  else if (!Sym.IsPreemptible && Config->Pic && !isAbsolute(Sym))
+-    Type = Target->RelativeRel;
+-  else
+-    Type = Target->GotRel;
+-  InX::RelaDyn->addReloc(Type, InX::Got, Off, &Sym, 0,
++  if (!Sym.isTls() && !Sym.IsPreemptible && Config->Pic && !isAbsolute(Sym)) {
++    addRelativeReloc(InX::Got, Off, &Sym, 0, R_ABS, Target->GotRel);
++    return;
++  }
++  InX::RelaDyn->addReloc(Sym.isTls() ? Target->TlsGotRel : Target->GotRel,
++                         InX::Got, Off, &Sym, 0,
+                          Sym.IsPreemptible ? R_ADDEND : R_ABS, Target->GotRel);
+ }
+ 
+@@ -806,8 +822,7 @@ static void processRelocAux(InputSectionBase &Sec, RelExpr Expr, RelType Type,
+     bool IsPreemptibleValue = Sym.IsPreemptible && Expr != R_GOT;
+ 
+     if (!IsPreemptibleValue) {
+-      InX::RelaDyn->addReloc(Target->RelativeRel, &Sec, Offset, &Sym, Addend,
+-                             Expr, Type);
++      addRelativeReloc(&Sec, Offset, &Sym, Addend, Expr, Type);
+       return;
+     } else if (RelType Rel = Target->getDynRel(Type)) {
+       InX::RelaDyn->addReloc(Rel, &Sec, Offset, &Sym, Addend, R_ADDEND, Type);
+diff --git a/ELF/SyntheticSections.cpp b/ELF/SyntheticSections.cpp
+index dd2650aa8..ca8ef1d41 100644
+--- a/ELF/SyntheticSections.cpp
++++ b/ELF/SyntheticSections.cpp
+@@ -1294,6 +1294,14 @@ template <class ELFT> void DynamicSection<ELFT>::finalizeContents() {
+         addInt(IsRela ? DT_RELACOUNT : DT_RELCOUNT, NumRelativeRels);
+     }
+   }
++  if (InX::RelrDyn && !InX::RelrDyn->Relocs.empty()) {
++    addInSec(Config->UseAndroidRelrTags ? DT_ANDROID_RELR : DT_RELR,
++             InX::RelrDyn);
++    addSize(Config->UseAndroidRelrTags ? DT_ANDROID_RELRSZ : DT_RELRSZ,
++            InX::RelrDyn->getParent());
++    addInt(Config->UseAndroidRelrTags ? DT_ANDROID_RELRENT : DT_RELRENT,
++           sizeof(Elf_Relr));
++  }
+   // .rel[a].plt section usually consists of two parts, containing plt and
+   // iplt relocations. It is possible to have only iplt relocations in the
+   // output. In that case RelaPlt is empty and have zero offset, the same offset
+@@ -1466,6 +1474,11 @@ void RelocationBaseSection::finalizeContents() {
+   getParent()->Link = Link;
+ }
+ 
++RelrBaseSection::RelrBaseSection()
++    : SyntheticSection(SHF_ALLOC,
++                       Config->UseAndroidRelrTags ? SHT_ANDROID_RELR : SHT_RELR,
++                       Config->Wordsize, ".relr.dyn") {}
++
+ template <class ELFT>
+ static void encodeDynamicReloc(typename ELFT::Rela *P,
+                                const DynamicReloc &Rel) {
+@@ -1694,6 +1707,97 @@ bool AndroidPackedRelocationSection<ELFT>::updateAllocSize() {
+   return RelocData.size() != OldSize;
+ }
+ 
++template <class ELFT> RelrSection<ELFT>::RelrSection() {
++  this->Entsize = Config->Wordsize;
++}
++
++template <class ELFT> bool RelrSection<ELFT>::updateAllocSize() {
++  // This function computes the contents of an SHT_RELR packed relocation
++  // section.
++  //
++  // Proposal for adding SHT_RELR sections to generic-abi is here:
++  //   https://groups.google.com/forum/#!topic/generic-abi/bX460iggiKg
++  //
++  // The encoded sequence of Elf64_Relr entries in a SHT_RELR section looks
++  // like [ AAAAAAAA BBBBBBB1 BBBBBBB1 ... AAAAAAAA BBBBBB1 ... ]
++  //
++  // i.e. start with an address, followed by any number of bitmaps. The address
++  // entry encodes 1 relocation. The subsequent bitmap entries encode up to 63
++  // relocations each, at subsequent offsets following the last address entry.
++  //
++  // The bitmap entries must have 1 in the least significant bit. The assumption
++  // here is that an address cannot have 1 in lsb. Odd addresses are not
++  // supported.
++  //
++  // Excluding the least significant bit in the bitmap, each non-zero bit in
++  // the bitmap represents a relocation to be applied to a corresponding machine
++  // word that follows the base address word. The second least significant bit
++  // represents the machine word immediately following the initial address, and
++  // each bit that follows represents the next word, in linear order. As such,
++  // a single bitmap can encode up to 31 relocations in a 32-bit object, and
++  // 63 relocations in a 64-bit object.
++  //
++  // This encoding has a couple of interesting properties:
++  // 1. Looking at any entry, it is clear whether it's an address or a bitmap:
++  //    even means address, odd means bitmap.
++  // 2. Just a simple list of addresses is a valid encoding.
++
++  size_t OldSize = RelrRelocs.size();
++  RelrRelocs.clear();
++
++  // Number of bits to use for the relocation offsets bitmap.
++  // These many relative relocations can be encoded in a single entry.
++  const size_t NBits = 8 * Config->Wordsize - 1;
++
++  // Get offsets for all relative relocations and sort them.
++  std::vector<uint64_t> Offsets;
++  for (const RelativeReloc &Rel : Relocs) {
++    Offsets.push_back(Rel.getOffset());
++  }
++  std::sort(Offsets.begin(), Offsets.end());
++
++  uint64_t Base = 0;
++  typename std::vector<uint64_t>::iterator Curr = Offsets.begin();
++  while (Curr != Offsets.end()) {
++    uint64_t Current = *Curr;
++    assert(Current % 2 == 0);
++
++    uint64_t Bits = 0;
++    typename std::vector<uint64_t>::iterator Next = Curr;
++    if (Base > 0 && Base <= Current) {
++      while (Next != Offsets.end()) {
++        uint64_t Delta = *Next - Base;
++        // If Next is too far out, it cannot be folded into Curr.
++        if (Delta >= NBits * Config->Wordsize)
++          break;
++        // If Next is not a multiple of wordsize away, it cannot
++        // be folded into Curr.
++        if (Delta % Config->Wordsize != 0)
++          break;
++        // Next can be folded into Curr, add it to the bitmap.
++        Bits |= 1ULL << (Delta / Config->Wordsize);
++        ++Next;
++      }
++    }
++
++    if (Bits == 0) {
++      RelrRelocs.push_back(Elf_Relr(Current));
++      // This is not a continuation entry, only one offset was
++      // consumed. Set base offset for subsequent bitmap entries.
++      Base = Current + Config->Wordsize;
++      ++Curr;
++    } else {
++      RelrRelocs.push_back(Elf_Relr((Bits << 1) | 1));
++      // This is a continuation entry encoding multiple offsets
++      // in a bitmap. Advance base offset by NBits words.
++      Base += NBits * Config->Wordsize;
++      Curr = Next;
++    }
++  }
++
++  return RelrRelocs.size() != OldSize;
++}
++
+ SymbolTableBaseSection::SymbolTableBaseSection(StringTableSection &StrTabSec)
+     : SyntheticSection(StrTabSec.isDynamic() ? (uint64_t)SHF_ALLOC : 0,
+                        StrTabSec.isDynamic() ? SHT_DYNSYM : SHT_SYMTAB,
+@@ -2893,6 +2997,7 @@ MipsRldMapSection *InX::MipsRldMap;
+ PltSection *InX::Plt;
+ PltSection *InX::Iplt;
+ RelocationBaseSection *InX::RelaDyn;
++RelrBaseSection *InX::RelrDyn;
+ RelocationBaseSection *InX::RelaPlt;
+ RelocationBaseSection *InX::RelaIplt;
+ StringTableSection *InX::ShStrTab;
+@@ -2954,6 +3059,11 @@ template class elf::AndroidPackedRelocationSection<ELF32BE>;
+ template class elf::AndroidPackedRelocationSection<ELF64LE>;
+ template class elf::AndroidPackedRelocationSection<ELF64BE>;
+ 
++template class elf::RelrSection<ELF32LE>;
++template class elf::RelrSection<ELF32BE>;
++template class elf::RelrSection<ELF64LE>;
++template class elf::RelrSection<ELF64BE>;
++
+ template class elf::SymbolTableSection<ELF32LE>;
+ template class elf::SymbolTableSection<ELF32BE>;
+ template class elf::SymbolTableSection<ELF64LE>;
+diff --git a/ELF/SyntheticSections.h b/ELF/SyntheticSections.h
+index b2a609b18..22c5e8a25 100644
+--- a/ELF/SyntheticSections.h
++++ b/ELF/SyntheticSections.h
+@@ -438,6 +438,7 @@ template <class ELFT> class DynamicSection final : public SyntheticSection {
+   typedef typename ELFT::Dyn Elf_Dyn;
+   typedef typename ELFT::Rel Elf_Rel;
+   typedef typename ELFT::Rela Elf_Rela;
++  typedef typename ELFT::Relr Elf_Relr;
+   typedef typename ELFT::Shdr Elf_Shdr;
+   typedef typename ELFT::Sym Elf_Sym;
+ 
+@@ -517,6 +518,39 @@ private:
+   SmallVector<char, 0> RelocData;
+ };
+ 
++struct RelativeReloc {
++  uint64_t getOffset() const { return InputSec->getVA(OffsetInSec); }
++
++  const InputSectionBase *InputSec;
++  uint64_t OffsetInSec;
++};
++
++class RelrBaseSection : public SyntheticSection {
++public:
++  RelrBaseSection();
++  std::vector<RelativeReloc> Relocs;
++};
++
++// RelrSection is used to encode offsets for relative relocations.
++// Proposal for adding SHT_RELR sections to generic-abi is here:
++//   https://groups.google.com/forum/#!topic/generic-abi/bX460iggiKg
++// For more details, see the comment in RelrSection::updateAllocSize().
++template <class ELFT> class RelrSection final : public RelrBaseSection {
++  typedef typename ELFT::Relr Elf_Relr;
++
++public:
++  RelrSection();
++
++  bool updateAllocSize() override;
++  size_t getSize() const override { return RelrRelocs.size() * this->Entsize; }
++  void writeTo(uint8_t *Buf) override {
++    memcpy(Buf, RelrRelocs.data(), getSize());
++  }
++
++private:
++  std::vector<Elf_Relr> RelrRelocs;
++};
++
+ struct SymbolTableEntry {
+   Symbol *Sym;
+   size_t StrTabOffset;
+@@ -958,6 +992,7 @@ struct InX {
+   static PltSection *Plt;
+   static PltSection *Iplt;
+   static RelocationBaseSection *RelaDyn;
++  static RelrBaseSection *RelrDyn;
+   static RelocationBaseSection *RelaPlt;
+   static RelocationBaseSection *RelaIplt;
+   static StringTableSection *ShStrTab;
+diff --git a/ELF/Writer.cpp b/ELF/Writer.cpp
+index 9753991f5..fa7594c4d 100644
+--- a/ELF/Writer.cpp
++++ b/ELF/Writer.cpp
+@@ -349,6 +349,11 @@ template <class ELFT> static void createSyntheticSections() {
+     Add(InX::RelaDyn);
+   }
+ 
++  if (Config->RelrPackDynRelocs) {
++    InX::RelrDyn = make<RelrSection<ELFT>>();
++    Add(InX::RelrDyn);
++  }
++
+   // Add .got. MIPS' .got is so different from the other archs,
+   // it has its own class.
+   if (Config->EMachine == EM_MIPS) {
+@@ -1646,12 +1651,12 @@ template <class ELFT> void Writer<ELFT>::finalizeSections() {
+   // Dynamic section must be the last one in this list and dynamic
+   // symbol table section (DynSymTab) must be the first one.
+   applySynthetic(
+-      {InX::DynSymTab,   InX::Bss,          InX::BssRelRo, InX::GnuHashTab,
+-       InX::HashTab,     InX::SymTab,       InX::ShStrTab, InX::StrTab,
+-       In<ELFT>::VerDef, InX::DynStrTab,    InX::Got,      InX::MipsGot,
+-       InX::IgotPlt,     InX::GotPlt,       InX::RelaDyn,  InX::RelaIplt,
+-       InX::RelaPlt,     InX::Plt,          InX::Iplt,     InX::EhFrameHdr,
+-       In<ELFT>::VerSym, In<ELFT>::VerNeed, InX::Dynamic},
++      {InX::DynSymTab,   InX::Bss,         InX::BssRelRo,     InX::GnuHashTab,
++       InX::HashTab,     InX::SymTab,      InX::ShStrTab,     InX::StrTab,
++       In<ELFT>::VerDef, InX::DynStrTab,   InX::Got,          InX::MipsGot,
++       InX::IgotPlt,     InX::GotPlt,      InX::RelaDyn,      InX::RelrDyn,
++       InX::RelaIplt,    InX::RelaPlt,     InX::Plt,          InX::Iplt,
++       InX::EhFrameHdr,  In<ELFT>::VerSym, In<ELFT>::VerNeed, InX::Dynamic},
+       [](SyntheticSection *SS) { SS->finalizeContents(); });
+ 
+   if (!Script->HasSectionsCommand && !Config->Relocatable)
+@@ -1666,7 +1671,8 @@ template <class ELFT> void Writer<ELFT>::finalizeSections() {
+   // for jump instructions that is the linker's responsibility for creating
+   // range extension thunks for. As the generation of the content may also
+   // alter InputSection addresses we must converge to a fixed point.
+-  if (Target->NeedsThunks || Config->AndroidPackDynRelocs) {
++  if (Target->NeedsThunks || Config->AndroidPackDynRelocs ||
++      Config->RelrPackDynRelocs) {
+     ThunkCreator TC;
+     AArch64Err843419Patcher A64P;
+     bool Changed;
+@@ -1683,6 +1689,8 @@ template <class ELFT> void Writer<ELFT>::finalizeSections() {
+       if (InX::MipsGot)
+         InX::MipsGot->updateAllocSize();
+       Changed |= InX::RelaDyn->updateAllocSize();
++      if (InX::RelrDyn)
++        Changed |= InX::RelrDyn->updateAllocSize();
+     } while (Changed);
+   }
+ 
+diff --git a/test/ELF/pack-dyn-relocs.s b/test/ELF/pack-dyn-relocs.s
+index e79cac64f..b37729dd8 100644
+--- a/test/ELF/pack-dyn-relocs.s
++++ b/test/ELF/pack-dyn-relocs.s
+@@ -5,12 +5,10 @@
+ // RUN: llvm-mc -filetype=obj -triple=armv7a-none-linux-gnueabi %s -o %t.a32
+ // RUN: ld.lld -pie --pack-dyn-relocs=none %t.a32 %t.a32.so -o %t2.a32
+ // RUN: llvm-readobj -relocations %t2.a32 | FileCheck --check-prefix=UNPACKED32 %s
+-// RUN: ld.lld -pie --pack-dyn-relocs android %t.a32 %t.a32.so -o %t3.a32
+-// RUN: llvm-readobj -s -dynamic-table %t3.a32 | FileCheck --check-prefix=PACKED32-HEADERS %s
+-// RUN: llvm-readobj -relocations %t3.a32 | FileCheck --check-prefix=PACKED32 %s
+ 
+ // Unpacked should have the relative relocations in their natural order.
+-// UNPACKED32:          0x1000 R_ARM_RELATIVE - 0x0
++// UNPACKED32:          Section ({{.+}}) .rel.dyn {
++// UNPACKED32-NEXT:     0x1000 R_ARM_RELATIVE - 0x0
+ // UNPACKED32-NEXT:     0x1004 R_ARM_RELATIVE - 0x0
+ // UNPACKED32-NEXT:     0x1008 R_ARM_RELATIVE - 0x0
+ // UNPACKED32-NEXT:     0x100C R_ARM_RELATIVE - 0x0
+@@ -37,70 +35,146 @@
+ // UNPACKED32-NEXT:     0x1060 R_ARM_RELATIVE - 0x0
+ // UNPACKED32-NEXT:     0x1064 R_ARM_RELATIVE - 0x0
+ 
++// UNPACKED32-NEXT:     0x1069 R_ARM_RELATIVE - 0x0
+ // UNPACKED32-NEXT:     0x1020 R_ARM_ABS32 bar2 0x0
+ // UNPACKED32-NEXT:     0x1040 R_ARM_ABS32 zed2 0x0
++// UNPACKED32-NEXT:     }
+ 
+-// PACKED32-HEADERS:       Index: 1
+-// PACKED32-HEADERS-NEXT:  Name: .dynsym
+-
+-// PACKED32-HEADERS:       Name: .rel.dyn
+-// PACKED32-HEADERS-NEXT:  Type: SHT_ANDROID_REL
+-// PACKED32-HEADERS-NEXT:  Flags [ (0x2)
+-// PACKED32-HEADERS-NEXT:    SHF_ALLOC (0x2)
+-// PACKED32-HEADERS-NEXT:  ]
+-// PACKED32-HEADERS-NEXT:  Address: [[ADDR:.*]]
+-// PACKED32-HEADERS-NEXT:  Offset: [[ADDR]]
+-// PACKED32-HEADERS-NEXT:  Size: [[SIZE:.*]]
+-// PACKED32-HEADERS-NEXT:  Link: 1
+-// PACKED32-HEADERS-NEXT:  Info: 0
+-// PACKED32-HEADERS-NEXT:  AddressAlignment: 4
+-// PACKED32-HEADERS-NEXT:  EntrySize: 1
+-
+-// PACKED32-HEADERS: 0x6000000F ANDROID_REL          [[ADDR]]
+-// PACKED32-HEADERS: 0x60000010 ANDROID_RELSZ        [[SIZE]]
++// RUN: ld.lld -pie --pack-dyn-relocs=android %t.a32 %t.a32.so -o %t3.a32
++// RUN: llvm-readobj -s -dynamic-table %t3.a32 | FileCheck --check-prefix=ANDROID32-HEADERS %s
++// RUN: llvm-readobj -relocations %t3.a32 | FileCheck --check-prefix=ANDROID32 %s
++
++// ANDROID32-HEADERS:       Index: 1
++// ANDROID32-HEADERS-NEXT:  Name: .dynsym
++
++// ANDROID32-HEADERS:       Name: .rel.dyn
++// ANDROID32-HEADERS-NEXT:  Type: SHT_ANDROID_REL
++// ANDROID32-HEADERS-NEXT:  Flags [ (0x2)
++// ANDROID32-HEADERS-NEXT:    SHF_ALLOC (0x2)
++// ANDROID32-HEADERS-NEXT:  ]
++// ANDROID32-HEADERS-NEXT:  Address: [[ADDR:.*]]
++// ANDROID32-HEADERS-NEXT:  Offset: [[ADDR]]
++// ANDROID32-HEADERS-NEXT:  Size: [[SIZE:.*]]
++// ANDROID32-HEADERS-NEXT:  Link: 1
++// ANDROID32-HEADERS-NEXT:  Info: 0
++// ANDROID32-HEADERS-NEXT:  AddressAlignment: 4
++// ANDROID32-HEADERS-NEXT:  EntrySize: 1
++
++// ANDROID32-HEADERS: 0x6000000F ANDROID_REL          [[ADDR]]
++// ANDROID32-HEADERS: 0x60000010 ANDROID_RELSZ        [[SIZE]]
+ 
+ // Packed should have the larger groups of relative relocations first,
+ // i.e. the 8 and 9 followed by the 7.
+-// PACKED32:          0x1000 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1004 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1008 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x100C R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1010 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1014 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1018 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x101C R_ARM_RELATIVE - 0x0
+-
+-// PACKED32-NEXT:     0x1044 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1048 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x104C R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1050 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1054 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1058 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x105C R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1060 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1064 R_ARM_RELATIVE - 0x0
+-
+-// PACKED32-NEXT:     0x1024 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1028 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x102C R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1030 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1034 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x1038 R_ARM_RELATIVE - 0x0
+-// PACKED32-NEXT:     0x103C R_ARM_RELATIVE - 0x0
+-
+-// PACKED32-NEXT:     0x1020 R_ARM_ABS32 bar2 0x0
+-// PACKED32-NEXT:     0x1040 R_ARM_ABS32 zed2 0x0
++// ANDROID32:          Section ({{.+}}) .rel.dyn {
++// ANDROID32-NEXT:     0x1000 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1004 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1008 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x100C R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1010 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1014 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1018 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x101C R_ARM_RELATIVE - 0x0
++
++// ANDROID32-NEXT:     0x1044 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1048 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x104C R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1050 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1054 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1058 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x105C R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1060 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1064 R_ARM_RELATIVE - 0x0
++
++// ANDROID32-NEXT:     0x1024 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1028 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x102C R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1030 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1034 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1038 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x103C R_ARM_RELATIVE - 0x0
++
++// ANDROID32-NEXT:     0x1069 R_ARM_RELATIVE - 0x0
++// ANDROID32-NEXT:     0x1020 R_ARM_ABS32 bar2 0x0
++// ANDROID32-NEXT:     0x1040 R_ARM_ABS32 zed2 0x0
++// ANDROID32-NEXT:     }
++
++// RUN: ld.lld -pie --pack-dyn-relocs=relr %t.a32 %t.a32.so -o %t4.a32
++// RUN: llvm-readobj -s -dynamic-table %t4.a32 | FileCheck --check-prefix=RELR32-HEADERS %s
++// RUN: llvm-readobj -relocations -raw-relr %t4.a32 | FileCheck --check-prefix=RAW-RELR32 %s
++// RUN: llvm-readobj -relocations %t4.a32 | FileCheck --check-prefix=RELR32 %s
++
++// RELR32-HEADERS:       Index: 1
++// RELR32-HEADERS-NEXT:  Name: .dynsym
++
++// RELR32-HEADERS:       Name: .relr.dyn
++// RELR32-HEADERS-NEXT:  Type: SHT_RELR
++// RELR32-HEADERS-NEXT:  Flags [ (0x2)
++// RELR32-HEADERS-NEXT:    SHF_ALLOC (0x2)
++// RELR32-HEADERS-NEXT:  ]
++// RELR32-HEADERS-NEXT:  Address: [[ADDR:.*]]
++// RELR32-HEADERS-NEXT:  Offset: [[ADDR]]
++// RELR32-HEADERS-NEXT:  Size: 8
++// RELR32-HEADERS-NEXT:  Link: 0
++// RELR32-HEADERS-NEXT:  Info: 0
++// RELR32-HEADERS-NEXT:  AddressAlignment: 4
++// RELR32-HEADERS-NEXT:  EntrySize: 4
++
++// RELR32-HEADERS:       0x00000024 RELR                 [[ADDR]]
++// RELR32-HEADERS:       0x00000023 RELRSZ               0x8
++// RELR32-HEADERS:       0x00000025 RELRENT              0x4
++
++// SHT_RELR section contains address/bitmap entries
++// encoding the offsets for relative relocation.
++// RAW-RELR32:           Section ({{.+}}) .relr.dyn {
++// RAW-RELR32-NEXT:      0x1000
++// RAW-RELR32-NEXT:      0x3FEFEFF
++// RAW-RELR32-NEXT:      }
++
++// Decoded SHT_RELR section is same as UNPACKED,
++// but contains only the relative relocations.
++// Any relative relocations with odd offset stay in SHT_REL.
++// RELR32:               Section ({{.+}}) .rel.dyn {
++// RELR32-NEXT:          0x1069 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1020 R_ARM_ABS32 bar2 0x0
++// RELR32-NEXT:          0x1040 R_ARM_ABS32 zed2 0x0
++// RELR32-NEXT:          }
++// RELR32-NEXT:          Section ({{.+}}) .relr.dyn {
++// RELR32-NEXT:          0x1000 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1004 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1008 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x100C R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1010 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1014 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1018 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x101C R_ARM_RELATIVE - 0x0
++
++// RELR32-NEXT:          0x1024 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1028 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x102C R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1030 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1034 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1038 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x103C R_ARM_RELATIVE - 0x0
++
++// RELR32-NEXT:          0x1044 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1048 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x104C R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1050 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1054 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1058 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x105C R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1060 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          0x1064 R_ARM_RELATIVE - 0x0
++// RELR32-NEXT:          }
+ 
+ // RUN: llvm-mc -filetype=obj -triple=aarch64-unknown-linux %p/Inputs/shared2.s -o %t.a64.so.o
+ // RUN: ld.lld -shared %t.a64.so.o -o %t.a64.so
+ // RUN: llvm-mc -filetype=obj -triple=aarch64-unknown-linux %s -o %t.a64
+ // RUN: ld.lld -pie --pack-dyn-relocs=none %t.a64 %t.a64.so -o %t2.a64
+ // RUN: llvm-readobj -relocations %t2.a64 | FileCheck --check-prefix=UNPACKED64 %s
+-// RUN: ld.lld -pie --pack-dyn-relocs=android %t.a64 %t.a64.so -o %t3.a64
+-// RUN: llvm-readobj -s -dynamic-table %t3.a64 | FileCheck --check-prefix=PACKED64-HEADERS %s
+-// RUN: llvm-readobj -relocations %t3.a64 | FileCheck --check-prefix=PACKED64 %s
+ 
+-// UNPACKED64:          0x10000 R_AARCH64_RELATIVE - 0x1
++// UNPACKED64:          Section ({{.+}}) .rela.dyn {
++// UNPACKED64-NEXT:     0x10000 R_AARCH64_RELATIVE - 0x1
+ // UNPACKED64-NEXT:     0x10008 R_AARCH64_RELATIVE - 0x2
+ // UNPACKED64-NEXT:     0x10010 R_AARCH64_RELATIVE - 0x3
+ // UNPACKED64-NEXT:     0x10018 R_AARCH64_RELATIVE - 0x4
+@@ -127,59 +201,138 @@
+ // UNPACKED64-NEXT:     0x100C0 R_AARCH64_RELATIVE - 0x8
+ // UNPACKED64-NEXT:     0x100C8 R_AARCH64_RELATIVE - 0x9
+ 
++// UNPACKED64-NEXT:     0x100D1 R_AARCH64_RELATIVE - 0xA
+ // UNPACKED64-NEXT:     0x10040 R_AARCH64_ABS64 bar2 0x1
+ // UNPACKED64-NEXT:     0x10080 R_AARCH64_ABS64 zed2 0x0
++// UNPACKED64-NEXT:     }
++
++// RUN: ld.lld -pie --pack-dyn-relocs=android %t.a64 %t.a64.so -o %t3.a64
++// RUN: llvm-readobj -s -dynamic-table %t3.a64 | FileCheck --check-prefix=ANDROID64-HEADERS %s
++// RUN: llvm-readobj -relocations %t3.a64 | FileCheck --check-prefix=ANDROID64 %s
++
++// ANDROID64-HEADERS:       Index: 1
++// ANDROID64-HEADERS-NEXT:  Name: .dynsym
++
++// ANDROID64-HEADERS:       Name: .rela.dyn
++// ANDROID64-HEADERS-NEXT:  Type: SHT_ANDROID_RELA
++// ANDROID64-HEADERS-NEXT:  Flags [ (0x2)
++// ANDROID64-HEADERS-NEXT:    SHF_ALLOC (0x2)
++// ANDROID64-HEADERS-NEXT:  ]
++// ANDROID64-HEADERS-NEXT:  Address: [[ADDR:.*]]
++// ANDROID64-HEADERS-NEXT:  Offset: [[ADDR]]
++// ANDROID64-HEADERS-NEXT:  Size: [[SIZE:.*]]
++// ANDROID64-HEADERS-NEXT:  Link: 1
++// ANDROID64-HEADERS-NEXT:  Info: 0
++// ANDROID64-HEADERS-NEXT:  AddressAlignment: 8
++// ANDROID64-HEADERS-NEXT:  EntrySize: 1
++
++// ANDROID64-HEADERS: 0x0000000060000011 ANDROID_RELA          [[ADDR]]
++// ANDROID64-HEADERS: 0x0000000060000012 ANDROID_RELASZ        [[SIZE]]
++
++// ANDROID64:          Section ({{.+}}) .rela.dyn {
++// ANDROID64-NEXT:     0x10000 R_AARCH64_RELATIVE - 0x1
++// ANDROID64-NEXT:     0x10008 R_AARCH64_RELATIVE - 0x2
++// ANDROID64-NEXT:     0x10010 R_AARCH64_RELATIVE - 0x3
++// ANDROID64-NEXT:     0x10018 R_AARCH64_RELATIVE - 0x4
++// ANDROID64-NEXT:     0x10020 R_AARCH64_RELATIVE - 0x5
++// ANDROID64-NEXT:     0x10028 R_AARCH64_RELATIVE - 0x6
++// ANDROID64-NEXT:     0x10030 R_AARCH64_RELATIVE - 0x7
++// ANDROID64-NEXT:     0x10038 R_AARCH64_RELATIVE - 0x8
++
++// ANDROID64-NEXT:     0x10088 R_AARCH64_RELATIVE - 0x1
++// ANDROID64-NEXT:     0x10090 R_AARCH64_RELATIVE - 0x2
++// ANDROID64-NEXT:     0x10098 R_AARCH64_RELATIVE - 0x3
++// ANDROID64-NEXT:     0x100A0 R_AARCH64_RELATIVE - 0x4
++// ANDROID64-NEXT:     0x100A8 R_AARCH64_RELATIVE - 0x5
++// ANDROID64-NEXT:     0x100B0 R_AARCH64_RELATIVE - 0x6
++// ANDROID64-NEXT:     0x100B8 R_AARCH64_RELATIVE - 0x7
++// ANDROID64-NEXT:     0x100C0 R_AARCH64_RELATIVE - 0x8
++// ANDROID64-NEXT:     0x100C8 R_AARCH64_RELATIVE - 0x9
++
++// ANDROID64-NEXT:     0x10048 R_AARCH64_RELATIVE - 0x1
++// ANDROID64-NEXT:     0x10050 R_AARCH64_RELATIVE - 0x2
++// ANDROID64-NEXT:     0x10058 R_AARCH64_RELATIVE - 0x3
++// ANDROID64-NEXT:     0x10060 R_AARCH64_RELATIVE - 0x4
++// ANDROID64-NEXT:     0x10068 R_AARCH64_RELATIVE - 0x5
++// ANDROID64-NEXT:     0x10070 R_AARCH64_RELATIVE - 0x6
++// ANDROID64-NEXT:     0x10078 R_AARCH64_RELATIVE - 0x7
++
++// ANDROID64-NEXT:     0x100D1 R_AARCH64_RELATIVE - 0xA
++// ANDROID64-NEXT:     0x10040 R_AARCH64_ABS64 bar2 0x1
++// ANDROID64-NEXT:     0x10080 R_AARCH64_ABS64 zed2 0x0
++// ANDROID64-NEXT:     }
++
++// RUN: ld.lld -pie --pack-dyn-relocs=relr %t.a64 %t.a64.so -o %t4.a64
++// RUN: llvm-readobj -s -dynamic-table %t4.a64 | FileCheck --check-prefix=RELR64-HEADERS %s
++// RUN: llvm-readobj -relocations -raw-relr %t4.a64 | FileCheck --check-prefix=RAW-RELR64 %s
++// RUN: llvm-readobj -relocations %t4.a64 | FileCheck --check-prefix=RELR64 %s
++
++// RELR64-HEADERS:       Index: 1
++// RELR64-HEADERS-NEXT:  Name: .dynsym
++
++// RELR64-HEADERS:       Name: .relr.dyn
++// RELR64-HEADERS-NEXT:  Type: SHT_RELR
++// RELR64-HEADERS-NEXT:  Flags [ (0x2)
++// RELR64-HEADERS-NEXT:    SHF_ALLOC (0x2)
++// RELR64-HEADERS-NEXT:  ]
++// RELR64-HEADERS-NEXT:  Address: [[ADDR:.*]]
++// RELR64-HEADERS-NEXT:  Offset: [[ADDR]]
++// RELR64-HEADERS-NEXT:  Size: 16
++// RELR64-HEADERS-NEXT:  Link: 0
++// RELR64-HEADERS-NEXT:  Info: 0
++// RELR64-HEADERS-NEXT:  AddressAlignment: 8
++// RELR64-HEADERS-NEXT:  EntrySize: 8
++
++// RELR64-HEADERS:       0x0000000000000024 RELR                 [[ADDR]]
++// RELR64-HEADERS:       0x0000000000000023 RELRSZ               0x10
++// RELR64-HEADERS:       0x0000000000000025 RELRENT              0x8
++
++// SHT_RELR section contains address/bitmap entries
++// encoding the offsets for relative relocation.
++// RAW-RELR64:           Section ({{.+}}) .relr.dyn {
++// RAW-RELR64-NEXT:      0x10000
++// RAW-RELR64-NEXT:      0x3FEFEFF
++// RAW-RELR64-NEXT:      }
++
++// Decoded SHT_RELR section is same as UNPACKED,
++// but contains only the relative relocations.
++// Any relative relocations with odd offset stay in SHT_RELA.
++// RELR64:               Section ({{.+}}) .rela.dyn {
++// RELR64-NEXT:          0x100D1 R_AARCH64_RELATIVE - 0xA
++// RELR64-NEXT:          0x10040 R_AARCH64_ABS64 bar2 0x1
++// RELR64-NEXT:          0x10080 R_AARCH64_ABS64 zed2 0x0
++// RELR64-NEXT:          }
++// RELR64-NEXT:          Section ({{.+}}) .relr.dyn {
++// RELR64-NEXT:          0x10000 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10008 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10010 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10018 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10020 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10028 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10030 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10038 R_AARCH64_RELATIVE - 0x0
++
++// RELR64-NEXT:          0x10048 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10050 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10058 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10060 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10068 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10070 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10078 R_AARCH64_RELATIVE - 0x0
+ 
+-// PACKED64:          0x10000 R_AARCH64_RELATIVE - 0x1
+-// PACKED64-NEXT:     0x10008 R_AARCH64_RELATIVE - 0x2
+-// PACKED64-NEXT:     0x10010 R_AARCH64_RELATIVE - 0x3
+-// PACKED64-NEXT:     0x10018 R_AARCH64_RELATIVE - 0x4
+-// PACKED64-NEXT:     0x10020 R_AARCH64_RELATIVE - 0x5
+-// PACKED64-NEXT:     0x10028 R_AARCH64_RELATIVE - 0x6
+-// PACKED64-NEXT:     0x10030 R_AARCH64_RELATIVE - 0x7
+-// PACKED64-NEXT:     0x10038 R_AARCH64_RELATIVE - 0x8
+-
+-// PACKED64-NEXT:     0x10088 R_AARCH64_RELATIVE - 0x1
+-// PACKED64-NEXT:     0x10090 R_AARCH64_RELATIVE - 0x2
+-// PACKED64-NEXT:     0x10098 R_AARCH64_RELATIVE - 0x3
+-// PACKED64-NEXT:     0x100A0 R_AARCH64_RELATIVE - 0x4
+-// PACKED64-NEXT:     0x100A8 R_AARCH64_RELATIVE - 0x5
+-// PACKED64-NEXT:     0x100B0 R_AARCH64_RELATIVE - 0x6
+-// PACKED64-NEXT:     0x100B8 R_AARCH64_RELATIVE - 0x7
+-// PACKED64-NEXT:     0x100C0 R_AARCH64_RELATIVE - 0x8
+-// PACKED64-NEXT:     0x100C8 R_AARCH64_RELATIVE - 0x9
+-
+-// PACKED64-NEXT:     0x10048 R_AARCH64_RELATIVE - 0x1
+-// PACKED64-NEXT:     0x10050 R_AARCH64_RELATIVE - 0x2
+-// PACKED64-NEXT:     0x10058 R_AARCH64_RELATIVE - 0x3
+-// PACKED64-NEXT:     0x10060 R_AARCH64_RELATIVE - 0x4
+-// PACKED64-NEXT:     0x10068 R_AARCH64_RELATIVE - 0x5
+-// PACKED64-NEXT:     0x10070 R_AARCH64_RELATIVE - 0x6
+-// PACKED64-NEXT:     0x10078 R_AARCH64_RELATIVE - 0x7
+-
+-// PACKED64-NEXT:     0x10040 R_AARCH64_ABS64 bar2 0x1
+-// PACKED64-NEXT:     0x10080 R_AARCH64_ABS64 zed2 0x0
+-
+-// PACKED64-HEADERS:       Index: 1
+-// PACKED64-HEADERS-NEXT:  Name: .dynsym
+-
+-// PACKED64-HEADERS:       Name: .rela.dyn
+-// PACKED64-HEADERS-NEXT:  Type: SHT_ANDROID_RELA
+-// PACKED64-HEADERS-NEXT:  Flags [ (0x2)
+-// PACKED64-HEADERS-NEXT:    SHF_ALLOC (0x2)
+-// PACKED64-HEADERS-NEXT:  ]
+-// PACKED64-HEADERS-NEXT:  Address: [[ADDR:.*]]
+-// PACKED64-HEADERS-NEXT:  Offset: [[ADDR]]
+-// PACKED64-HEADERS-NEXT:  Size: [[SIZE:.*]]
+-// PACKED64-HEADERS-NEXT:  Link: 1
+-// PACKED64-HEADERS-NEXT:  Info: 0
+-// PACKED64-HEADERS-NEXT:  AddressAlignment: 8
+-// PACKED64-HEADERS-NEXT:  EntrySize: 1
+-
+-// PACKED64-HEADERS: 0x0000000060000011 ANDROID_RELA          [[ADDR]]
+-// PACKED64-HEADERS: 0x0000000060000012 ANDROID_RELASZ        [[SIZE]]
++// RELR64-NEXT:          0x10088 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10090 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x10098 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x100A0 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x100A8 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x100B0 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x100B8 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x100C0 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          0x100C8 R_AARCH64_RELATIVE - 0x0
++// RELR64-NEXT:          }
+ 
+ .data
++.align 2
+ .dc.a __ehdr_start + 1
+ .dc.a __ehdr_start + 2
+ .dc.a __ehdr_start + 3
+@@ -208,3 +361,5 @@
+ .dc.a __ehdr_start + 7
+ .dc.a __ehdr_start + 8
+ .dc.a __ehdr_start + 9
++.byte 00
++.dc.a __ehdr_start + 10
