@@ -258,6 +258,8 @@ SERVER_IUSE_TESTS="
 	+tests_platform_SyncCrash
 	readahead? ( +tests_platform_UReadAheadServer )
 	+tests_platform_Vpd
+	+tests_policy_ExternalStorageDisabledServer
+	+tests_policy_WiFiAutoconnectServer
 	+tests_power_BrightnessResetAfterReboot
 	+tests_power_MeasurementWrapper
 	+tests_power_RPMTest
