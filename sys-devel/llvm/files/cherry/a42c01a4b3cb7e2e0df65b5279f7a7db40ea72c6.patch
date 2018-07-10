@@ -1,0 +1,29 @@
+commit a42c01a4b3cb7e2e0df65b5279f7a7db40ea72c6
+Author: Peter Collingbourne <peter@pcc.me.uk>
+Date:   Thu Jun 7 00:06:41 2018 +0000
+
+    Add definition for ELF dynamic tag DT_SYMTAB_SHNDX.
+    
+    DT_SYMTAB_SHNDX is defined in generic-abi:
+    
+    http://www.sco.com/developers/gabi/latest/ch5.dynamic.html
+    
+    Patch by Rahul Chaudhry!
+    
+    Differential Revision: https://reviews.llvm.org/D47803
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@334149 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/include/llvm/BinaryFormat/DynamicTags.def b/include/llvm/BinaryFormat/DynamicTags.def
+index 34c888d2759..40b2b2ac46d 100644
+--- a/include/llvm/BinaryFormat/DynamicTags.def
++++ b/include/llvm/BinaryFormat/DynamicTags.def
+@@ -63,6 +63,8 @@ DYNAMIC_TAG_MARKER(ENCODING, 32) // Values from here to DT_LOOS follow the rules
+ DYNAMIC_TAG(PREINIT_ARRAY, 32)   // Pointer to array of preinit functions.
+ DYNAMIC_TAG(PREINIT_ARRAYSZ, 33) // Size of the DT_PREINIT_ARRAY array.
+ 
++DYNAMIC_TAG(SYMTAB_SHNDX, 34) // Address of the SHT_SYMTAB_SHNDX section.
++
+ DYNAMIC_TAG_MARKER(LOOS, 0x60000000)   // Start of environment specific tags.
+ DYNAMIC_TAG_MARKER(HIOS, 0x6FFFFFFF)   // End of environment specific tags.
+ DYNAMIC_TAG_MARKER(LOPROC, 0x70000000) // Start of processor specific tags.
