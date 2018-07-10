@@ -156,7 +156,8 @@ src_compile() {
 	build_file_contexts
 
 	if has_arc; then
-		if use combine_chromeos_policy; then
+		# Don't combine policy on NYC now since combined policy breaks CTS.
+		if use combine_chromeos_policy && ! use android-container-nyc; then
 			einfo "combining Chrome OS and Android SELinux policy"
 
 			if use android-container-nyc; then
@@ -172,10 +173,15 @@ src_compile() {
 		else
 			einfo "use ARC++ policy"
 
-			secilc "${SECILC_ARGS[@]}" "${SEPATH}/plat_sepolicy.cil" \
-				"${SEPATH}/mapping.cil" \
-				"${SEPATH}/plat_pub_versioned.cil" \
-				"${SEPATH}/vendor_sepolicy.cil" || die "fail to build sepolicy"
+			if use android-container-nyc; then
+				secilc "${SECILC_ARGS[@]}" "${SEPATH}/sepolicy.cil" \
+					|| die "fail to build sepolicy"
+			else
+				secilc "${SECILC_ARGS[@]}" "${SEPATH}/plat_sepolicy.cil" \
+					"${SEPATH}/mapping.cil" \
+					"${SEPATH}/plat_pub_versioned.cil" \
+					"${SEPATH}/vendor_sepolicy.cil" || die "fail to build sepolicy"
+			fi
 		fi
 
 		cat "chromeos_file_contexts" \
