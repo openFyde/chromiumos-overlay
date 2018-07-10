@@ -13,6 +13,12 @@ IUSE=""
 
 S="${WORKDIR}"
 
+# We must ensure that the older private package is not installed
+DEPEND="
+	!sys-firmware/parade-ps8751a3"
+
+RDEPEND="${DEPEND}"
+
 src_install() {
 	local fw_rev_hex=$(printf '%02x' "$PV")
 	local bf=ps8751_a3.bin
