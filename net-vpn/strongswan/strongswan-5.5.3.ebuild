@@ -99,6 +99,7 @@ pkg_setup() {
 src_prepare() {
 	epatch "${FILESDIR}/${P}-fix-cve-2017-11185.patch"
 	epatch "${FILESDIR}/${P}-start-non-root.patch"
+	epatch "${FILESDIR}/${P}-stdint.patch"
 	epatch_user
 }
 
