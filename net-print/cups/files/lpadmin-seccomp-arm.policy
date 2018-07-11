@@ -34,6 +34,8 @@ recv: 1
 recvfrom: 1
 rt_sigaction: 1
 send: 1
+sendmsg: 1
+sendmmsg: 1
 setsockopt: 1
 socket:1
 stat64: 1
