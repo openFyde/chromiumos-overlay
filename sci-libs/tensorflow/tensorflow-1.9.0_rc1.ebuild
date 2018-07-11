@@ -78,14 +78,46 @@ RDEPEND="python? (
 DEPEND="${RDEPEND}
 	!python? ( dev-lang/python )
 	app-arch/unzip
-	>=dev-util/bazel-0.14.0
-	dev-java/java-config
-	dev-python/mock"
+	dev-python/mock
+	"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 S="${WORKDIR}/${MY_P}"
+BUILD_DIR="${S}"
 
 DOCS=( AUTHORS CONTRIBUTING.md ISSUE_TEMPLATE.md README.md RELEASE.md )
+
+bazel_cc_config_dir="ebazel_cc_config"
+
+# Accepts a compiler, and returns the directories that are searched by default
+# on invocation of its preprocessor.
+# These directories are normalized (e.g. parsing "..") and formatted as
+# cxx_builtin_include_directory fields of the CToolchain proto message.
+bazel-get-builtin-include-dirs() {
+	# Constants that demarcate default include dir information.
+	local match_head="#include <...> search starts here:"
+	local match_foot="End of search list."
+
+	declare comp="$1"
+
+	# Get preprocessor output (which contains searched include dirs).
+	local preproc_output
+	preproc_output=$("${comp}" -E -xc++ -Wp,-v - 2>&1 <<< "int main() { return 0; }") || die
+
+	# Keep only the include dirs (which are between two known markers).
+	local include_dirs
+	include_dirs=$(sed "1,/${match_head}/d;/${match_foot}/,\$d" <<< "${preproc_output}") || die
+
+	# For each include dir...
+	while read -r include_dir; do
+		# Normalize (e.g. process '..' sequences in) the path.
+		local norm_dir
+		norm_dir=$(cd "${include_dir}" && pwd) || die
+
+		# Print the normalized path as a proto field.
+		echo "  cxx_builtin_include_directory: \"${norm_dir}\""
+	done <<< "${include_dirs}"
+}
 
 bazel-get-cpu-flags() {
 	local i f=()
@@ -97,29 +129,145 @@ bazel-get-cpu-flags() {
 	echo "${f[*]}"
 }
 
+# Echos the correct stdlib linking flag for the given compiler type.
+bazel-get-stdlib-linkflag() {
+	case "${1}" in
+	clang) echo "-lc++";;
+	gcc) echo "-lstdc++";;
+	*) die "Unsupported compiler type '${comp_type}'."
+	esac
+}
+
 bazel-get-flags() {
 	local i fs=()
-	for i in ${CFLAGS} $(bazel-get-cpu-flags); do
-		fs+=( "--copt=${i}" "--host_copt=${i}" )
+
+	# Add CPU flags for C and C++.
+	for i in $(bazel-get-cpu-flags); do
+		fs+=( "--copt=${i}" "--cxxopt=${i}" )
 	done
-	for i in ${CXXFLAGS} $(bazel-get-cpu-flags); do
-		fs+=( "--cxxopt=${i}" "--host_cxxopt=${i}" )
+
+	# Add C flags (also for the build environment).
+	for i in ${CFLAGS}; do
+		fs+=( "--copt=${i}" )
 	done
-	for i in ${CPPFLAGS}; do
-		fs+=( "--copt=${i}" "--host_copt=${i}" )
-		fs+=( "--cxxopt=${i}" "--host_cxxopt=${i}" )
+
+	for i in ${BUILD_CFLAGS}; do
+		fs+=( "--host_copt=${i}" )
 	done
+
+	# Add C++ flags (also for the build environment).
+	for i in ${CXXFLAGS}; do
+		fs+=( "--cxxopt=${i}" )
+	done
+
+	for i in ${BUILD_CXXFLAGS}; do
+		fs+=( "--host_cxxopt=${i}" )
+	done
+
+	# Add linker flags (also for the build environment).
 	for i in ${LDFLAGS}; do
-		fs+=( "--linkopt=${i}" "--host_linkopt=${i}" )
+		fs+=( "--linkopt=${i}" )
 	done
+
+	for i in ${BUILD_LDFLAGS}; do
+		fs+=( "--host_linkopt=${i}" )
+	done
+
+	# Add preprocessor flags for C/C++ (also for the build environment).
+	for i in ${CPPFLAGS}; do
+		fs+=( "--copt=${i}" "--cxxcopt=${i}" )
+	done
+
+	for i in ${BUILD_CPPFLAGS}; do
+		fs+=( "--host_copt=${i}" "--host_cxxopt=${i}" )
+	done
+
+	# Add correct C++ standard lib (also for the build environment).
+	fs+=( "--linkopt=$(bazel-get-stdlib-linkflag $(tc-get-compiler-type))" )
+	fs+=( "--host_linkopt=$(bazel-get-stdlib-linkflag $(tc-get-BUILD_compiler-type))" )
+
 	echo "${fs[*]}"
 }
 
-setup_bazelrc() {
-	if [[ -f "${T}/bazelrc" ]]; then
-		return
+# Accepts an envionment name, environment sysroot and environment prefix (used
+# to locate correct binaries for the environment) and populates Bazel toolchain
+# targets for the specified environment in the given output directory.
+populate_crosstool_target() {
+	declare env="${1}"
+	declare env_sysroot="${2}"
+	declare env_prefix="${3}"
+	declare output_dir="${4}"
+
+	# Query compiler type (gcc / clang) from environment variables.
+	local comp_type
+	comp_type="$(tc-get-${env_prefix}compiler-type)" || die
+
+	# Get actual compiler binary.
+	local comp
+	comp="$(tc-get${env_prefix}CC)" || die
+
+	# Write out the BUILD file for this configuration.
+	env="${env}" comp_type="${comp_type}" \
+	envsubst < "${FILESDIR}/tensorflow-1.9.0_rc1-BUILD.tpl" > "${output_dir}/BUILD" || die
+
+	# Write out the CROSSTOOL file for this configuration, including formatted
+	# include directories and compiler / linker flags from the environment.
+	#
+	# We call tc-getPROG directly for cpp, since we require a program that directly
+	# performs preprocessing (i.e. takes no flags), whereas tc-getCPP returns an
+	# invocation of the compiler for preprocessing (which uses flags).
+	env="${env}" comp_type="${comp_type}" \
+	builtin_include_dirs="$(bazel-get-builtin-include-dirs ${comp})" \
+	env_sysroot="${env_sysroot}" \
+	env_cc="$(command -v ${comp})" \
+	env_ar="$(command -v $(tc-get${env_prefix}AR))" \
+	env_ld="$(command -v $(tc-get${env_prefix}LD))" \
+	env_cpp="$(command -v $(tc-get${env_prefix}PROG CPP cpp))" \
+	env_dwp="$(command -v $(tc-get${env_prefix}DWP))" \
+	env_gcov="$(command -v $(tc-get${env_prefix}GCOV))" \
+	env_nm="$(command -v $(tc-get${env_prefix}NM))" \
+	env_objcopy="$(command -v $(tc-get${env_prefix}OBJCOPY))" \
+	env_objdump="$(command -v $(tc-get${env_prefix}OBJDUMP))" \
+	env_strip="$(command -v $(tc-get${env_prefix}STRIP))" \
+	envsubst < "${FILESDIR}/tensorflow-1.9.0_rc1-CROSSTOOL.tpl" > "${output_dir}/CROSSTOOL" || die
+}
+
+# Accepts a Bazel project directory, and creates Bazel targets:
+#   <project_dir>/ebazel_cc_config/{host,target}:toolchain
+# which can be used to configure Bazel C++ compilation based on Portage
+# environment variables.
+#
+# Also creates <project_dir>/ebazel_cc_config/bazelrc which specifies
+# the new crosstool targets by default.
+setup_bazel_crosstool() {
+	# Check that the project dir exists.
+	declare project_dir="${1}"
+	if [[ ! -d "${project_dir}" ]]; then
+		die "Bazel project dir '${project_dir}' does not exist."
 	fi
 
+	# Populate host toolchain targets.
+	local host_crosstool_dir="${project_dir}/${bazel_cc_config_dir}/host"
+	mkdir -p "${host_crosstool_dir}" || die
+	populate_crosstool_target host / BUILD_ "${host_crosstool_dir}"
+
+	# Populate target toolchain targets.
+	local target_crosstool_dir="${project_dir}/${bazel_cc_config_dir}/target"
+	mkdir -p "${target_crosstool_dir}" || die
+	populate_crosstool_target target "${PORTAGE_CONFIGROOT}" "" "${target_crosstool_dir}"
+
+	# Create a bazelrc specifying the new toolchain targets by default.
+	cat > "${project_dir}/${bazel_cc_config_dir}/bazelrc" <<-EOF
+	# Make Bazel respect Portage C/C++ configuration.
+	build --host_crosstool_top="//${bazel_cc_config_dir}/host:toolchain"
+	build --crosstool_top="//${bazel_cc_config_dir}/target:toolchain"
+
+	# Some compiler scripts require SYSROOT defined.
+	build --action_env SYSROOT="${PORTAGE_CONFIGROOT}"
+	EOF
+}
+
+setup_bazelrc() {
 	# F: fopen_wr
 	# P: /proc/self/setgroups
 	# Even with standalone enabled, the Bazel sandbox binary is run for feature test:
@@ -140,10 +288,6 @@ setup_bazelrc() {
 	build --jobs=$(makeopts_jobs) $(bazel-get-flags)
 	build --compilation_mode=opt --host_compilation_mode=opt
 
-	# Make build compatible with Clang.
-	# TODO(crbug.com/820295): remove this when we have proper C++ toolchain support.
-	build --linkopt=-lc++ --host_linkopt=-lc++
-
 	# Use standalone strategy to deactivate the bazel sandbox, since it
 	# conflicts with FEATURES=sandbox.
 	build --spawn_strategy=standalone --genrule_strategy=standalone
@@ -160,8 +304,6 @@ setup_bazelrc() {
 }
 
 ebazel() {
-	setup_bazelrc
-
 	# Use different build folders for each multibuild variant.
 	local base_suffix="${MULTIBUILD_VARIANT+-}${MULTIBUILD_VARIANT}"
 	local output_base="${WORKDIR}/bazel-base${base_suffix}"
@@ -198,7 +340,7 @@ load_distfiles() {
 }
 
 pkg_setup() {
-	export JAVA_HOME=$(java-config --jre-home)
+	JAVA_HOME=/etc/java-config-2/current-system-vm/
 }
 
 src_unpack() {
@@ -207,6 +349,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	setup_bazel_crosstool "${BUILD_DIR}"
 	setup_bazelrc
 	load_distfiles
 
@@ -217,7 +360,7 @@ src_prepare() {
 src_configure() {
 	do_configure() {
 		export CC_OPT_FLAGS=""
-		export GCC_HOST_COMPILER_PATH=$(which $(tc-getCC))
+		export GCC_HOST_COMPILER_PATH="$(which $(tc-getBUILD_CC))"
 		export TF_NEED_JEMALLOC=$(usex jemalloc 1 0)
 		export TF_NEED_GCP=0
 		export TF_NEED_HDFS=0
@@ -244,8 +387,9 @@ src_configure() {
 			export PYTHON_LIB_PATH="$(python -c 'from distutils.sysconfig import *; print(get_python_lib())')"
 		fi
 
-		# Only one bazelrc is read, import our one before configure sets its options
+		# Only one bazelrc is read, import ours before configure sets its options
 		echo "import ${T}/bazelrc" >> ./.bazelrc
+		echo "import ${BUILD_DIR}/${bazel_cc_config_dir}/bazelrc" >> ./.bazelrc
 
 		# This is not autoconf
 		./configure || die
