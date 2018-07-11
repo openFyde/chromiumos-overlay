@@ -6,5 +6,5 @@ KEYWORDS=*
 LICENSE=Google-TOS
 RDEPEND=!sys-firmware/parade-ps8751a3
 SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles/parade-ps8751a3-firmware-52.tar.xz
+SRC_URI=gs://chromeos-localmirror/distfiles/parade-ps8751a3-firmware-56.tar.xz
 _md5_=b9b5bb73b5d028660a2cd2f98cd832f6

@@ -1,8 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=PS8751-A3 Firmware Binary
-EAPI=6
-KEYWORDS=*
-LICENSE=Google-TOS
-SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles/parade-ps8751a3-firmware-57.tar.xz
-_md5_=7970a3e07db0c3ca15637c7513888541
