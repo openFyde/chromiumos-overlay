@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+inherit toolchain-funcs
+
 DESCRIPTION="QMI Remote File System Server"
 HOMEPAGE="https://github.com/andersson/rmtfs"
 GIT_SHA1="a75ad5dc2af5251cb714a75ca07dffd18d291c47"
