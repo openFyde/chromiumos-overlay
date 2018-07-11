@@ -68,7 +68,7 @@ src_configure() {
 	# correctly.
 	# Disable stripping since we do that ourselves.
 	# Change the directory for the api unix socket from its default
-	# (under /var/lib) to a location under /var/run because the latter
+	# (under /var/lib) to a location under /run because the latter
 	# is backed by tmpfs.
 	local myconf=(
 		--prefix=/
@@ -78,7 +78,8 @@ src_configure() {
 		--without-attributes-table
 		--without-text-table
 		--with-install-root="${D}"
-		--with-api-socket-path=/var/run/brltty/BrlAPI
+		--with-writable-directory=/run/brltty
+		--with-api-socket-path=/run/brltty/BrlAPI
 		$(use_enable api)
 		$(use_with beeper beep-package)
 		$(use_enable contracted-braille)

@@ -10,7 +10,7 @@ index 006d034..eedb7c4 100644
  LABEL="brltty_run"
 -ENV{BRLTTY_PID_FILE}="/run/brltty.$kernel.pid"
 -ACTION=="add", GOTO="brltty_add"
-+ENV{BRLTTY_PID_FILE}="/var/run/brltty/brltty.$kernel.pid"
++ENV{BRLTTY_PID_FILE}="/run/brltty/brltty.$kernel.pid"
 +ACTION=="add|change", GOTO="brltty_add"
  ACTION=="remove", GOTO="brltty_remove"
  GOTO="brltty_end"

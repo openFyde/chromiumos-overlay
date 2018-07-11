@@ -6,7 +6,7 @@
 
 # This script starts brltty in a minijail sandbox.
 
-BRLTTY_RUNDIR=/var/run/brltty
+BRLTTY_RUNDIR=/run/brltty
 BRLAPI_SOCKETDIR="${BRLTTY_RUNDIR}"/BrlAPI
 # The number (0) must be kept in sync with the Host api parameter in
 # brltty.conf.
