@@ -59,6 +59,7 @@ IUSE="
 	+tpm
 	-tpm2
 	+trim_supported
+	usbguard
 	+vpn
 	watchdog
 	wimax
@@ -299,6 +300,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	sys-apps/pv
 	sys-apps/rootdev
 	!systemd? ( sys-apps/upstart )
+	usbguard? ( sys-apps/usbguard )
 	sys-fs/e2fsprogs
 	virtual/assets
 	virtual/cheets
