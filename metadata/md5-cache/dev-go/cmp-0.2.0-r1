@@ -8,5 +8,5 @@ LICENSE=BSD-Google
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/google/go-cmp/archive/v0.2.0.tar.gz -> github.com-google-go-cmp-v0.2.0.tar.gz
-_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ec054a21b8fbe9f1357f0978ee7a4b34
+_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	5fa59991fdade11a0d04aaa1f2585c53
 _md5_=b2dbab3ec63f91282ba490f15aeda3e9

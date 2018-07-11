@@ -8,5 +8,5 @@ KEYWORDS=-* amd64 x86
 LICENSE=Apache-2.0 GPL-2 BSD
 SLOT=0
 SRC_URI=https://github.com/01org/dptf/archive/8.0.10001.tar.gz -> dptf-8.0.10001.tar.gz
-_eclasses_=cmake-utils	625ac0250848368bad285a1d1de242cf	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ec054a21b8fbe9f1357f0978ee7a4b34	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
+_eclasses_=cmake-utils	625ac0250848368bad285a1d1de242cf	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	5fa59991fdade11a0d04aaa1f2585c53	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
 _md5_=1fd730f5e2c7e2006c5cc94047fbf500

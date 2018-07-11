@@ -6,5 +6,5 @@ KEYWORDS=*
 LICENSE=Apache-2.0
 SLOT=0
 SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/chromeos-keyboards-1.1.4.0-r6.tar.gz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ec054a21b8fbe9f1357f0978ee7a4b34
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	5fa59991fdade11a0d04aaa1f2585c53
 _md5_=2663c7a46c12420fe321bd19ffe60665
