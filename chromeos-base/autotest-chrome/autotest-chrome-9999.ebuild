@@ -181,6 +181,7 @@ IUSE_TESTS=(
 	+tests_power_UiResume
 	+tests_power_VideoDetector
 	+tests_power_VideoSuspend
+	+tests_power_WebGL
 	+tests_security_BundledExtensions
 	+tests_security_ProfilePermissions
 	+tests_security_SandboxLinuxUnittests
