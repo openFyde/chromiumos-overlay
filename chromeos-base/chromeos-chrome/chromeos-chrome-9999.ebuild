@@ -928,7 +928,11 @@ src_configure() {
 
 	setup_compile_flags
 
-	export BOTO_CONFIG=/home/$(whoami)/.boto
+	# We might set BOTO_CONFIG in the builder environment in case the
+	# existing file needs modifications (e.g. for working with older
+	# branches). So don't overwrite it if it's already set.
+	# See https://crbug.com/847676 for details.
+	export BOTO_CONFIG="${BOTO_CONFIG:-/home/$(whoami)/.boto}"
 	export PATH=${PATH}:${DEPOT_TOOLS}
 
 	export DEPOT_TOOLS_GSUTIL_BIN_DIR="${CHROME_CACHE_DIR}/gsutil_bin"
