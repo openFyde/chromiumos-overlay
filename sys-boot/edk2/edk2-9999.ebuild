@@ -39,6 +39,7 @@ PATCHES=(
 	"${FILESDIR}/12_vrt.patch"
 	"${FILESDIR}/13_smmstore.patch"
 	"${FILESDIR}/14_Basetools_pie.patch"
+	"${FILESDIR}/15_SdMMcPciHcDxe_Bayhub.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE
