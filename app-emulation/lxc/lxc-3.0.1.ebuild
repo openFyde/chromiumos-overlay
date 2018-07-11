@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools bash-completion-r1 linux-info flag-o-matic systemd pam
+inherit autotools bash-completion-r1 linux-info flag-o-matic systemd readme.gentoo-r1 pam
 
 DESCRIPTION="LinuX Containers userspace utilities"
 HOMEPAGE="https://linuxcontainers.org/"
@@ -13,7 +13,7 @@ KEYWORDS="*"
 
 LICENSE="LGPL-3"
 SLOT="0"
-IUSE="doc examples pam seccomp selinux etcconfigdir"
+IUSE="doc etcconfigdir examples pam python seccomp selinux -templates"
 
 RDEPEND="
 	net-libs/gnutls
@@ -23,14 +23,17 @@ RDEPEND="
 	selinux? ( sys-libs/libselinux )"
 
 DEPEND="${RDEPEND}
-	doc? ( app-text/docbook-sgml-utils )
+	doc? ( >=app-text/docbook-sgml-utils-0.6.14-r2 )
 	>=sys-kernel/linux-headers-3.2"
 
 RDEPEND="${RDEPEND}
-	sys-process/criu[selinux=]
 	sys-apps/util-linux
+	sys-process/criu[selinux=]
 	app-misc/pax-utils
 	virtual/awk"
+
+PDEPEND="templates? ( app-emulation/lxc-templates )
+	python? ( dev-python/python3-lxc )"
 
 CONFIG_CHECK="~CGROUPS ~CGROUP_DEVICE
 	~CPUSETS ~CGROUP_CPUACCT
@@ -38,10 +41,6 @@ CONFIG_CHECK="~CGROUPS ~CGROUP_DEVICE
 
 	~NAMESPACES
 	~IPC_NS ~USER_NS ~PID_NS
-
-	~NETLINK_DIAG ~PACKET_DIAG
-	~INET_UDP_DIAG ~INET_TCP_DIAG
-	~UNIX_DIAG ~CHECKPOINT_RESTORE
 
 	~CGROUP_FREEZER
 	~UTS_NS ~NET_NS
@@ -68,13 +67,6 @@ ERROR_NET_NS="CONFIG_NET_NS:  needed for unshared network"
 
 ERROR_VETH="CONFIG_VETH:  needed for internal (host-to-container) networking"
 ERROR_MACVLAN="CONFIG_MACVLAN:  needed for internal (inter-container) networking"
-
-ERROR_NETLINK_DIAG="CONFIG_NETLINK_DIAG:  needed for lxc-checkpoint"
-ERROR_PACKET_DIAG="CONFIG_PACKET_DIAG:  needed for lxc-checkpoint"
-ERROR_INET_UDP_DIAG="CONFIG_INET_UDP_DIAG:  needed for lxc-checkpoint"
-ERROR_INET_TCP_DIAG="CONFIG_INET_TCP_DIAG:  needed for lxc-checkpoint"
-ERROR_UNIX_DIAG="CONFIG_UNIX_DIAG:  needed for lxc-checkpoint"
-ERROR_CHECKPOINT_RESTORE="CONFIG_CHECKPOINT_RESTORE:  needed for lxc-checkpoint"
 
 ERROR_POSIX_MQUEUE="CONFIG_POSIX_MQUEUE:  needed for lxc-execute command"
 
@@ -154,20 +146,23 @@ src_install() {
 	# Remember to compare our systemd unit file with the upstream one
 	# config/init/systemd/lxc.service.in
 	systemd_newunit "${FILESDIR}"/${PN}_at.service.4 "lxc@.service"
+
+	DOC_CONTENTS="
+	For openrc, there is an init script provided with the package.
+	You _should_ only need to symlink /etc/init.d/lxc to
+	/etc/init.d/lxc.configname to start the container defined in
+	/etc/lxc/configname.conf.
+
+	Correspondingly, for systemd a service file lxc@.service is installed.
+	Enable and start lxc@configname in order to start the container defined
+	in /etc/lxc/configname.conf.
+
+	If you want checkpoint/restore functionality, please install criu
+	(sys-process/criu)."
+	DISABLE_AUTOFORMATTING=true
+	readme.gentoo_create_doc
 }
 
 pkg_postinst() {
-	elog ""
-		elog "Starting from version ${PN}-1.1.0-r3, the default lxc path has been"
-		elog "moved from /etc/lxc to /var/lib/lxc. If you still want to use /etc/lxc"
-		elog "please add the following to your /etc/lxc/default.conf"
-		elog "lxc.lxcpath = /etc/lxc"
-		elog ""
-		elog "There is an init script provided with the package now; no documentation"
-		elog "is currently available though, so please check out /etc/init.d/lxc ."
-		elog "You _should_ only need to symlink it to /etc/init.d/lxc.configname"
-		elog "to start the container defined into /etc/lxc/configname.conf ."
-		elog "For further information about LXC development see"
-		elog "http://blog.flameeyes.eu/tag/lxc" # remove once proper doc is available
-		elog ""
+	readme.gentoo_print_elog
 }
