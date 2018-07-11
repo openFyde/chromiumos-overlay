@@ -7,7 +7,7 @@ inherit toolchain-funcs
 
 DESCRIPTION="QMI Remote File System Server"
 HOMEPAGE="https://github.com/andersson/rmtfs"
-GIT_SHA1="a75ad5dc2af5251cb714a75ca07dffd18d291c47"
+GIT_SHA1="b3ea7fdf7b33bf1d9b225db41dcfb2041dd76ae0"
 SRC_URI="https://github.com/andersson/rmtfs/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
@@ -26,9 +26,8 @@ S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
 src_configure() {
 	asan-setup-env
+}
 
-	# TODO(benchan): send PR to respect CFLAGS/LDFLAGS
-	sed -i \
-		-e '/^prefix/s:=.*:=/usr:' -e '/LDFLAGS/s/:=/+=/' -e '/^CFLAGS/d' \
-		Makefile || die
+src_install() {
+	emake DESTDIR="${D}" prefix="${EPREFIX}/usr" install
 }
