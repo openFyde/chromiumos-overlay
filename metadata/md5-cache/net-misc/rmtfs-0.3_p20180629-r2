@@ -9,4 +9,5 @@ LICENSE=BSD
 RDEPEND=net-libs/libqrtr virtual/udev
 SLOT=0
 SRC_URI=https://github.com/andersson/rmtfs/archive/a75ad5dc2af5251cb714a75ca07dffd18d291c47.tar.gz -> rmtfs-0.3_p20180629.tar.gz
-_md5_=0fbec737468aba76eef6ca7f385c71dc
+_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ec054a21b8fbe9f1357f0978ee7a4b34
+_md5_=0cd07d3a84f0ed1dfecde98fb2eba59e
