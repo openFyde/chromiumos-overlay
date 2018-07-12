@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
@@ -48,7 +48,7 @@ RDEPEND="audit? ( sys-process/audit )
 	perl? ( dev-lang/perl )
 	python? ( ${PYTHON_DEPS} )
 	slang? ( dev-libs/newt )
-	unwind? ( sys-libs/libunwind )
+	unwind? ( sys-libs/llvm-libunwind )
 	dev-libs/elfutils"
 DEPEND="${RDEPEND}
 	>=sys-kernel/linux-headers-4.4
