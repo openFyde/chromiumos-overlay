@@ -53,7 +53,7 @@ src_install() {
 		if use mtd ; then
 			dobin "${OUT}"/nand_partition
 		fi
-		dosbin chromeos-* encrypted_import
+		dosbin chromeos-* encrypted_import "${OUT}"/evwaitkey
 		# Scrubbing has to be available from non-root processes.
 		mv "${D}"/usr/sbin/chromeos-saferemove "${D}"/usr/bin/ || die
 		dosym usr/sbin/chromeos-postinst /postinst
