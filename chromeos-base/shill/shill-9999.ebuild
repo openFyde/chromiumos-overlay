@@ -34,6 +34,7 @@ RDEPEND="
 	pppoe? ( net-dialup/ppp )
 	vpn? ( net-dialup/ppp )
 	net-dns/c-ares
+	net-libs/libtirpc
 	net-firewall/iptables
 	net-libs/libnetfilter_queue
 	net-libs/libnfnetlink
