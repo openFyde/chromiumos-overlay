@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install setup unpack
+DEPEND=dev-vcs/git
+DESCRIPTION=Das U-Boot boot loader
+EAPI=6
+HOMEPAGE=http://www.denx.de/wiki/U-Boot
+IUSE=dev vboot cros_host cros_workon_tree_53c6615d5ff3a2a77a437c91d553ec3b4058a255_14ca424503fac3a7aa1e74c9bd24c2f9d117bd90 profiling
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=chromeos-base/u-boot-scripts !!sys-boot/chromeos-u-boot
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	5fa59991fdade11a0d04aaa1f2585c53
+_md5_=fa9947355e220962ef1c62cbd74a0603
