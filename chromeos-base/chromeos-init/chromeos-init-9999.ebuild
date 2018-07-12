@@ -33,6 +33,7 @@ DEPEND="chromeos-base/libbrillo
 # vboot_reference for crossystem
 RDEPEND="${DEPEND}
 	app-arch/tar
+	app-misc/jq
 	chromeos-base/bootstat
 	!chromeos-base/chromeos-disableecho
 	chromeos-base/chromeos-common-script
