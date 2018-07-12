@@ -165,10 +165,10 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3480.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R69-3473.0-1530526313.afdo"
-AFDO_FILE["airmont"]="R69-3473.0-1530528411.afdo"
-AFDO_FILE["haswell"]="R69-3464.0-1530527083.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3488.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R69-3473.0-1531130680.afdo"
+AFDO_FILE["airmont"]="R69-3473.0-1531133355.afdo"
+AFDO_FILE["haswell"]="R69-3473.0-1531130903.afdo"
 AFDO_FILE["broadwell"]="R69-3464.0-1529921361.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
@@ -260,7 +260,6 @@ AUTOTEST_COMMON="src/chrome/test/chromeos/autotest/files"
 AUTOTEST_DEPS="${AUTOTEST_COMMON}/client/deps"
 AUTOTEST_DEPS_LIST="chrome_test page_cycler_dep perf_data_dep telemetry_dep"
 
-DWO_FILE_DIR="dwo_file_dir"
 IUSE="${IUSE} +autotest"
 
 export CHROMIUM_HOME=/usr/$(get_libdir)/chromium-browser
@@ -413,6 +412,15 @@ set_build_args() {
 				"${arm_cpu}" == "cortex-a15" ]]; then
 			arm_arch="armv7ve"
 		fi
+		if [[ -n "${arm_arch}" ]]; then
+			BUILD_STRING_ARGS+=( arm_arch="${arm_arch}" )
+		fi
+		;;
+	arm64)
+		BUILD_STRING_ARGS+=(
+			target_cpu=arm64
+		)
+		local arm_arch=$(get-flag march)
 		if [[ -n "${arm_arch}" ]]; then
 			BUILD_STRING_ARGS+=( arm_arch="${arm_arch}" )
 		fi
@@ -750,7 +758,6 @@ src_prepare() {
 setup_test_lists() {
 	TEST_FILES=(
 		jpeg_decode_accelerator_unittest
-		media_unittests
 		ozone_gl_unittests
 		sandbox_linux_unittests
 		video_decode_accelerator_unittest
@@ -775,7 +782,7 @@ setup_test_lists() {
 		lib{32,64}
 		mock_nacl_gdb
 		ppapi_nacl_tests_{newlib,glibc}.nmf
-		ppapi_nacl_tests_{newlib,glibc}_{x32,x64,arm}.nexe
+		ppapi_nacl_tests_{newlib,glibc}_{x32,x64,arm,arm64}.nexe
 		test_case.html
 		test_case.html.mock-http-headers
 		test_page.css
@@ -841,7 +848,7 @@ setup_compile_flags() {
 		local thinlto_ldflag="-Wl,-plugin-opt,-import-instr-limit=30"
 		if use arm; then
 			thinlto_ldflag="-Wl,-plugin-opt,-import-instr-limit=20"
-			EBUILD_LDFLAGS+=( -glto-dwo-dir=${DWO_FILE_DIR} )
+			EBUILD_LDFLAGS+=( -gsplit-dwarf )
 		fi
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
 	fi
@@ -1296,6 +1303,9 @@ src_install() {
 		arm)
 			doins -r "${QUICKOFFICE}"/_platform_specific/arm
 			;;
+		arm64)
+			doins -r "${QUICKOFFICE}"/_platform_specific/arm64
+			;;
 		x86)
 			doins -r "${QUICKOFFICE}"/_platform_specific/x86_32
 			;;
@@ -1403,7 +1413,6 @@ src_install() {
 			fi
 			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp" || die
 		done < <(scanelf -BRyF '%F' ".")
-		rm -rf "${DWO_FILE_DIR}"
 	fi
 
 	if use build_tests; then
