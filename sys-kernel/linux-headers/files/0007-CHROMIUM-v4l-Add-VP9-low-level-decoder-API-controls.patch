@@ -19,13 +19,14 @@ diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-contro
 index 895f849..23b11a2 100644
 --- include/uapi/linux/v4l2-controls.h
 +++ include/uapi/linux/v4l2-controls.h
-@@ -587,6 +587,10 @@ enum v4l2_vp8_golden_frame_sel {
+@@ -587,7 +587,11 @@ enum v4l2_vp8_golden_frame_sel {
  
- #define V4L2_CID_MPEG_VIDEO_VP8_FRAME_HDR		(V4L2_CID_MPEG_BASE+512)
+ /* Control IDs not existing in upstream */
+ #define V4L2_CID_MPEG_VIDEO_VP8_FRAME_HDR		(V4L2_CID_MPEG_BASE+590)
  
-+#define V4L2_CID_MPEG_VIDEO_VP9_FRAME_HDR		(V4L2_CID_MPEG_BASE+513)
-+#define V4L2_CID_MPEG_VIDEO_VP9_DECODE_PARAM		(V4L2_CID_MPEG_BASE+514)
-+#define V4L2_CID_MPEG_VIDEO_VP9_ENTROPY			(V4L2_CID_MPEG_BASE+515)
++#define V4L2_CID_MPEG_VIDEO_VP9_FRAME_HDR		(V4L2_CID_MPEG_BASE+591)
++#define V4L2_CID_MPEG_VIDEO_VP9_DECODE_PARAM		(V4L2_CID_MPEG_BASE+592)
++#define V4L2_CID_MPEG_VIDEO_VP9_ENTROPY			(V4L2_CID_MPEG_BASE+593)
 +
  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
  #define V4L2_CID_MPEG_CX2341X_BASE 				(V4L2_CTRL_CLASS_MPEG | 0x1000)
