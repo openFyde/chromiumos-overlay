@@ -41,7 +41,11 @@ src_configure() {
 
 src_test() {
 	# TODO(benchan): Run unit tests for non-x86 platforms via qemu.
-	[[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] && emake check
+	if [[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] ; then
+		# This is an ugly hack that happens to work, but should not be copied.
+		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" \
+		emake check
+	fi
 }
 
 src_install() {
