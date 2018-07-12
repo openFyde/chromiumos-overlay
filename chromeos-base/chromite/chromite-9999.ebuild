@@ -16,8 +16,6 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="cros_host"
 
-RDEPEND="dev-python/psutil"
-
 src_install() {
 	use cros_host && return
 	insinto "$(python_get_sitedir)/chromite"
