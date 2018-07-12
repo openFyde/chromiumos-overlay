@@ -166,6 +166,10 @@ EOF
 	fi
 	local version=$(${CHROOT_SOURCE_ROOT}/src/third_party/chromiumos-overlay/chromeos/config/chromeos_version.sh |grep "^[[:space:]]*CHROMEOS_VERSION_STRING=" |cut -d= -f2)
 	echo "CONFIG_VBOOT_FWID_VERSION=\".${version}\"" >> "${CONFIG}"
+	if use em100-mode; then
+		einfo "Enabling em100 mode via CONFIG_EM100 (slower SPI flash)"
+		echo "CONFIG_EM100=y" >> "${CONFIG}"
+	fi
 
 	cp "${CONFIG}" "${CONFIG_SERIAL}"
 	# handle the case when "${CONFIG}" does not have a newline in the end.
@@ -283,8 +287,12 @@ make_coreboot() {
 	# Record the config that we used.
 	cp "${config_fname}" "${builddir}/${config_fname}"
 
-	# Modify firmware descriptor if building for the EM100 emulator.
-	if use em100-mode; then
+	# Modify firmware descriptor if building for the EM100 emulator on
+	# Intel platforms.
+	# TODO(crbug.com/863396): Should we have an 'intel' USE flag? Do we
+	# still have any Intel platforms that don't use ifdtool?
+	if ! use amd_cpu && use em100-mode; then
+		einfo "Enabling em100 mode via ifdttool (slower SPI flash)"
 		ifdtool --em100 "${builddir}/coreboot.rom" || die
 		mv "${builddir}/coreboot.rom"{.new,} || die
 	fi
