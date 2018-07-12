@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: cargo.eclass
@@ -23,7 +23,14 @@ EXPORT_FUNCTIONS src_unpack src_compile src_install
 
 IUSE="${IUSE} debug"
 
-[[ ${CATEGORY}/${PN} != dev-util/cargo ]] && DEPEND=">=dev-util/cargo-0.13.0"
+CARGO_DEP=""
+[[ ${CATEGORY}/${PN} != dev-util/cargo ]] && CARGO_DEP=">=dev-util/cargo-0.13.0"
+
+RDEPEND="sys-libs/llvm-libunwind"
+DEPEND="
+	${RDEPEND}
+	${CARGO_DEP}
+"
 
 ECARGO_HOME="${WORKDIR}/cargo_home"
 ECARGO_VENDOR="${ECARGO_HOME}/gentoo"
