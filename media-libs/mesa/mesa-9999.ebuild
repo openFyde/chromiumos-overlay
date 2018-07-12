@@ -179,7 +179,7 @@ src_configure() {
 
 	LLVM_ENABLE="--disable-llvm"
 	if use llvm && use !video_cards_softpipe; then
-		export LLVM_CONFIG=${SYSROOT}/usr/bin/llvm-config-host
+		export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
 		LLVM_ENABLE="--enable-llvm"
 	fi
 

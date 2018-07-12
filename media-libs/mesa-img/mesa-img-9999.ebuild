@@ -122,7 +122,7 @@ src_configure() {
 
 	driver_enable pvr
 
-	export LLVM_CONFIG=${SYSROOT}/usr/bin/llvm-config-host
+	export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
 
 	# --with-driver=dri|xlib|osmesa || do we need osmesa?
 	econf \

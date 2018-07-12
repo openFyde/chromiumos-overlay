@@ -76,6 +76,8 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}
 
 S=${WORKDIR}/${P/_/}.src
 
+HOST_DIR="${WORKDIR}/${PF}-${CBUILD}"
+
 # least intrusive of all
 CMAKE_BUILD_TYPE=RelWithDebInfo
 
@@ -94,42 +96,20 @@ src_prepare() {
 	eapply_user
 }
 
-build_host_tblgen() {
+build_host_tools() {
 	# Use host toolchain when building for the host.
 	local CC=clang
 	local CXX=clang++
 	local CFLAGS=''
 	local CXXFLAGS=''
 	local LDFLAGS=''
-	export HOST_DIR="${WORKDIR}/${PF}-${CBUILD}";
 	mkdir -p "${HOST_DIR}" || die
 	cd "${HOST_DIR}" || die
-	cmake -DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS// /;};host" -G "Unix Makefiles" ${S}
+	cmake "${@}" -G "Unix Makefiles" "${S}" || die
 	cd "${HOST_DIR}/utils/TableGen" || die
 	emake
-}
-
-create_llvmconfig_wrapper() {
-	cat > "${LLVM_CONFIG_HOST}" <<EOF
-#!/bin/bash
-$1 "\${SYSROOT}"/usr/lib/llvm/bin/llvm-config "\$@"
-EOF
-}
-
-create_llvmconfig_host() {
-	export LLVM_CONFIG_HOST="${WORKDIR}/llvm-config-host"
-	create_llvmconfig_wrapper
-	if use arm; then
-		rm "${LLVM_CONFIG_HOST}"
-		create_llvmconfig_wrapper "qemu-arm -L ${SYSROOT}"
-	fi
-
-	if use arm64; then
-		rm "${LLVM_CONFIG_HOST}"
-		create_llvmconfig_wrapper "qemu-aarch64 -L ${SYSROOT}"
-	fi
-
-	chmod a+rx "${LLVM_CONFIG_HOST}"
+	cd "${HOST_DIR}/tools/llvm-config" || die
+	emake
 }
 
 multilib_src_configure() {
@@ -202,7 +182,7 @@ multilib_src_configure() {
 	fi
 
 	if tc-is-cross-compiler; then
-		build_host_tblgen
+		build_host_tools "${mycmakeargs[@]}"
 		# die early if the build tools are not installed
 		[[ -x "${HOST_DIR}/bin/llvm-tblgen" ]] \
 			|| die "${HOST_DIR}/bin/llvm-tblgen not found or usable"
@@ -261,8 +241,12 @@ src_install() {
 
 	# move wrapped headers back
 	mv "${ED%/}"/usr/include "${ED%/}"/usr/lib/llvm/include || die
-	create_llvmconfig_host
-	newbin "${LLVM_CONFIG_HOST}" llvm-config-host
+
+	# llvm-config --includedir and --libdir print output based on where
+	# llvm-config itself is located. So to get an includedir of
+	# .../usr/lib/llvm/include, llvm-config needs to be in
+	# .../usr/lib/llvm/bin.
+	mv "${HOST_DIR}"/bin/llvm-config "${ED%/}"/usr/lib/llvm/bin/llvm-config-host || die
 }
 
 multilib_src_install() {
