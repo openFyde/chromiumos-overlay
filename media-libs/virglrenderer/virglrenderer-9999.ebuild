@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-inherit autotools eutils flag-o-matic toolchain-funcs
+inherit autotools cros-fuzzer eutils flag-o-matic toolchain-funcs
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="https://anongit.freedesktop.org/git/virglrenderer.git"
@@ -57,13 +57,8 @@ src_configure() {
 src_install() {
 	default
 
-	if use fuzzer; then
-		local f="tests/fuzzer/.libs/virgl_fuzzer"
-		insinto /usr/libexec/fuzzers
-		exeinto /usr/libexec/fuzzers
-		doexe "${f}"
-		newins "${FILESDIR}/fuzzer-OWNERS" "${f##*/}.owners"
-	fi
+	local f="tests/fuzzer/.libs/virgl_fuzzer"
+	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" "${f}"
 
 	find "${ED}"/usr -name 'lib*.la' -delete
 }

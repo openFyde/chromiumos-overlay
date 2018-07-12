@@ -31,7 +31,7 @@
 # Name of GYP file within PLATFORM_SUBDIR.
 : ${PLATFORM_GYP_FILE:="${PLATFORM_SUBDIR}.gyp"}
 
-inherit cros-debug cros-workon flag-o-matic toolchain-funcs multiprocessing
+inherit cros-debug cros-fuzzer cros-workon flag-o-matic toolchain-funcs multiprocessing
 
 [[ "${WANT_LIBCHROME}" == "yes" ]] && inherit libchrome
 

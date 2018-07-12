@@ -3,7 +3,7 @@
 
 EAPI="4"
 
-inherit cros-debug libchrome multilib toolchain-funcs
+inherit cros-debug cros-fuzzer libchrome multilib toolchain-funcs
 
 DESCRIPTION="Mojo library"
 # TODO(ejcaruso): libmojo is in AOSP but the current version will

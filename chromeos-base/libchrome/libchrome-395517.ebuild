@@ -12,7 +12,7 @@ CROS_WORKON_COMMIT="7b88bc885b9d8dc551beab840b853a79fa06494d"
 CROS_WORKON_LOCALNAME="aosp/external/libchrome"
 CROS_WORKON_BLACKLIST="1"
 
-inherit cros-workon cros-debug flag-o-matic toolchain-funcs scons-utils
+inherit cros-fuzzer cros-workon cros-debug flag-o-matic toolchain-funcs scons-utils
 
 DESCRIPTION="Chrome base/ and dbus/ libraries extracted for use on Chrome OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/libchrome"
