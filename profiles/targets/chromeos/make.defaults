@@ -17,7 +17,8 @@ USE="${USE} containers"
 USE="${USE} mist"
 USE="${USE} cellular mbim"
 USE="${USE} ime"
-USE="${USE} memd"
+# TODO(crbug.com/860034): Re-enable after R69 branches.
+USE="${USE} -memd"
 
 # Board overlays can unset this to disable the ACPI AC kernel driver.
 USE="${USE} acpi_ac"
