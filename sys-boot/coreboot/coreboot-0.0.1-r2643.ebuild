@@ -424,8 +424,10 @@ do_install() {
 	fi
 	insinto "${dest_dir}"/coreboot
 	doins "${BUILD_DIR}"/cbfs/fallback/*.debug
+	nonfatal doins "${BUILD_DIR}"/cbfs/fallback/bootblock.bin
 	insinto "${dest_dir}"/coreboot_serial
 	doins "${BUILD_DIR_SERIAL}"/cbfs/fallback/*.debug
+	nonfatal doins "${BUILD_DIR_SERIAL}"/cbfs/fallback/bootblock.bin
 }
 
 src_install() {

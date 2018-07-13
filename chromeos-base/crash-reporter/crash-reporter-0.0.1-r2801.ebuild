@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="cc47dd3002ca560051a8c4786ad18a8cf9ee9dcb"
-CROS_WORKON_TREE=("85db6764c18b2cd6e849d2c5e5cd3138c23f3563" "e1659e4b05d5001846fc0ec87a36b671ed92a909" "f16df4fd11ad50362ec1284570a96653b2e14faf")
+CROS_WORKON_COMMIT="e034ae012a13491bd8a3d9faf17a4ebd1181f00b"
+CROS_WORKON_TREE=("85db6764c18b2cd6e849d2c5e5cd3138c23f3563" "216a2552ed5767633ddc2dc444ca5fa38e339e3b" "f16df4fd11ad50362ec1284570a96653b2e14faf")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -58,7 +58,8 @@ src_compile() {
 src_install() {
 	into /
 	dosbin "${OUT}"/crash_reporter
-	dosbin crash_sender
+	dosbin "${OUT}"/crash_sender
+	dosbin crash_sender.sh
 
 	into /usr
 	use cros_embedded || dobin "${OUT}"/list_proxies
