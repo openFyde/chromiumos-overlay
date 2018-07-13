@@ -221,6 +221,7 @@ RDEPEND="${RDEPEND}
 	sys-devel/lld
 	sys-libs/libcxxabi
 	sys-libs/libcxx
+	sys-libs/llvm-libunwind
 	virtual/udev
 	sys-libs/libnih
 	sys-power/iasl
