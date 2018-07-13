@@ -54,6 +54,7 @@ SERVER_IUSE_TESTS="
 	+tests_autotest_SyncCount
 	+tests_autoupdate_CatchBadSignatures
 	+tests_autoupdate_Cellular
+	+tests_autoupdate_DataPreserved
 	+tests_autoupdate_ForcedOOBEUpdate
 	+tests_autoupdate_Interruptions
 	+tests_autoupdate_NonBlockingOOBEUpdate
