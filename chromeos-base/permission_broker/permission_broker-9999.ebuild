@@ -66,5 +66,4 @@ platform_pkg_test() {
 pkg_preinst() {
 	enewuser "devbroker"
 	enewgroup "devbroker"
-	enewgroup "devbroker-access"
 }
