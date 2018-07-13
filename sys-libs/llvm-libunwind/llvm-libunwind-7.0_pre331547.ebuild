@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit cros-constants cmake-utils git-2 cros-llvm
+inherit cros-constants cmake-multilib cmake-utils git-2 cros-llvm
 
 DESCRIPTION="C++ runtime stack unwinder from LLVM"
 HOMEPAGE="https://github.com/llvm-mirror/libunwind"
@@ -16,22 +16,24 @@ KEYWORDS="*"
 IUSE="debug llvm-next +static-libs +shared-libs"
 RDEPEND="!${CATEGORY}/libunwind"
 
+pkg_setup() {
+	# Setup llvm toolchain for cross-compilation
+	setup_cross_toolchain
+}
+
 src_unpack() {
 	if use llvm-next; then
-		EGIT_COMMIT="86219d8c6a73f95e694b4e1594e1a8a0a33613b6" #r303206
+		EGIT_COMMIT="1e1c6b739595098ba5c466bfe9d58b993e646b48" #r332513
 	else
-		EGIT_COMMIT="ab68429b2d2159947e1c96933a034afbfb1feb55" #r300020
+		EGIT_COMMIT="0f3cbe4123f8afacd646bd4f5414aa6528ef8129" #r326250
 	fi
 	git-2_src_unpack
 }
 
-src_configure() {
-	# Setup llvm toolchain for cross-compilation
-	setup_cross_toolchain
-
-	# Add neon fpu for armv7a
+multilib_src_configure() {
+	# Allow targeting non-neon targets for armv7a.
 	if [[ ${CATEGORY} == cross-armv7a* ]] ; then
-		append-flags -mfpu=neon
+		append-flags -mfpu=vfpv3
 	fi
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
@@ -41,14 +43,17 @@ src_configure() {
 		-DLIBUNWIND_ENABLE_STATIC=$(usex static-libs)
 		-DLIBUNWIND_ENABLE_SHARED=$(usex shared-libs)
 		-DLIBUNWIND_TARGET_TRIPLE=${CTARGET}
+		-DLIBUNWIND_ENABLE_THREADS=OFF
+		-DLIBUNWIND_ENABLE_CROSS_UNWINDING=ON
+		-DCMAKE_INSTALL_PREFIX=${PREFIX}
 	)
 
 	cmake-utils_src_configure
 }
 
-src_install() {
+multilib_src_install() {
 	cmake-utils_src_install
-	# install headers like sys-libs/libunwind
+	# Install headers.
 	insinto "${PREFIX}"/include
-	doins -r include/.
+	doins -r "${S}"/include/.
 }
