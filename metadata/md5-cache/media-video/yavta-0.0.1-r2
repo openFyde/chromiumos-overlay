@@ -6,5 +6,5 @@ KEYWORDS=*
 LICENSE=GPL-2
 SLOT=0
 SRC_URI=http://storage.googleapis.com/chromeos-localmirror/distfiles/yavta-20180702.tar.gz
-_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	5fa59991fdade11a0d04aaa1f2585c53
+_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
 _md5_=32e70ce3ea9280573207819f8403d8fe

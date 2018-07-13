@@ -7,5 +7,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=virtual/modutils virtual/udev
 SLOT=0
-_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	5fa59991fdade11a0d04aaa1f2585c53	udev	d91cac2c73b94629cad2daea66e0d182
+_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7	udev	d91cac2c73b94629cad2daea66e0d182
 _md5_=7f9bc85ecd87d0b2c6b64b2da40b4e5e
