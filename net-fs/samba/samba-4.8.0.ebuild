@@ -141,6 +141,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.8.0-dns_segfault_on_domain_join.patch"
 	"${FILESDIR}/${PN}-4.8.0-splice_fallback.patch"
 	"${FILESDIR}/${PN}-4.8.0-initialize-written.patch"
+	"${FILESDIR}/${PN}-4.8.0-splice_correct_bytes.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"

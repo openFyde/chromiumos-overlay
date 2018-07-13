@@ -1,0 +1,37 @@
+From fdbeea5d91329b6380e89094b3016be290caf6d8 Mon Sep 17 00:00:00 2001
+From: Jeremy Allison <jra@samba.org>
+Date: Thu, 12 Jul 2018 12:18:50 -0700
+Subject: [PATCH 2/2] s3: libsmbclient: Fix cli_splice() fallback when reading
+ less than a complete file.
+
+We were always asking for SPLICE_BLOCK_SIZE even when the
+remaining bytes we wanted were smaller than that. This works
+when using cli_splice() on a complete file, as the cli_read()
+terminated the read at the right place. We always have the
+space to read SPLICE_BLOCK_SIZE bytes so this isn't an overflow.
+
+Found by Bailey Berro <baileyberro@google.com>
+
+BUG: https://bugzilla.samba.org/show_bug.cgi?id=13527
+
+Signed-off-by: Bailey Berro <baileyberro@google.com>
+Reviewed-by: Jeremy Allison <jra@samba.org>
+
+diff --git a/source3/libsmb/clireadwrite.c b/source3/libsmb/clireadwrite.c
+index 00ee09ece89..67870d8c40b 100644
+--- a/source3/libsmb/clireadwrite.c
++++ b/source3/libsmb/clireadwrite.c
+@@ -1462,8 +1462,10 @@ static NTSTATUS cli_splice_fallback(TALLOC_CTX *frame,
+ 	*written = 0;
+
+ 	while (remaining) {
++		size_t to_read = MIN(remaining, SPLICE_BLOCK_SIZE);
++
+ 		status = cli_read(srccli, src_fnum,
+-				  (char *)buf, src_offset, SPLICE_BLOCK_SIZE,
++				  (char *)buf, src_offset, to_read,
+ 				  &nread);
+ 		if (!NT_STATUS_IS_OK(status)) {
+ 			return status;
+--
+2.18.0.203.gfac676dfb9-goog
