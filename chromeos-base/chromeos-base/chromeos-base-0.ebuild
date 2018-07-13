@@ -100,10 +100,11 @@ pkg_preinst() {
 	# Create users and groups that are used by system daemons at runtime.
 	# Users and groups that are also needed at build time should be
 	# created in pkg_setup instead.
-	add_daemon_user "input"  # For /dev/input/event access
-	enewgroup "i2c"          # For I2C device node access.
-	enewgroup "serial"       # For owning access to serial devices.
-	enewgroup "tun"          # For access to /dev/net/tun.
+	add_daemon_user "input"      # For /dev/input/event access
+	enewgroup "i2c"              # For I2C device node access.
+	enewgroup "password-viewers" # For access to the user's password
+	enewgroup "serial"           # For owning access to serial devices.
+	enewgroup "tun"              # For access to /dev/net/tun.
 
 	# The user that all user-facing processes will run as.
 	local system_user="${SHARED_USER_NAME}"
