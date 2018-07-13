@@ -17,7 +17,7 @@ https://github.com/taocpp/PEGTL/archive/${PEGTL_REV}.tar.gz -> ${P}-pegtl.tar.gz
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="cfm_enabled_device hammerd"
 
 COMMON_DEPEND="
 		dev-libs/dbus-glib
@@ -57,7 +57,7 @@ src_prepare() {
 src_configure() {
 	econf --without-polkit --without-dbus \
 		--with-bundled-catch --with-bundled-pegtl --with-crypto-library=gcrypt \
-		 CXXFLAGS="-fexceptions "
+		CXXFLAGS="-fexceptions "
 }
 
 src_compile() {
@@ -69,11 +69,16 @@ src_install() {
 
 	insinto /etc/usbguard
 	doins usbguard-daemon.conf
-	doins "${FILESDIR}/rules.conf"
+
+	insinto /etc/usbguard/rules.d
+	use cfm_enabled_device && doins "${FILESDIR}/50-cfm-rules.conf"
+	use hammerd && doins "${FILESDIR}/50-soraka-rules.conf"
+	doins "${FILESDIR}/99-rules.conf"
 
 	insinto /opt/google/usbguard
 	newins "${FILESDIR}/usbguard-daemon-seccomp-${ARCH}.policy" usbguard-daemon-seccomp.policy
 
 	insinto /etc/init
 	doins "${FILESDIR}"/usbguard.conf
+	doins "${FILESDIR}"/usbguard-wrapper.conf
 }
