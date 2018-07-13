@@ -27,8 +27,7 @@ EGIT_REPO_URIS=(
 	"compiler-rt"
 		"projects/compiler-rt"
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/compiler-rt.git"
-		#		"393b329e7345976d7d0c5ee08425eacb34b4c5be" # EGIT_COMMIT r333870
-		"fb98f1095aa66e72ab36738c4eac597193de7a8a" # temporary workaround. r333025
+		"393b329e7345976d7d0c5ee08425eacb34b4c5be" # EGIT_COMMIT r333870
 	"clang"
 		"tools/clang"
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/clang.git"
@@ -237,6 +236,7 @@ pick_next_cherries() {
 
 	# compiler-rt
 	CHERRIES=""
+	CHERRIES+=" 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c"
 	pushd "${S}"/projects/compiler-rt >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"

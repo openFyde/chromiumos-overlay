@@ -25,10 +25,8 @@ fi
 src_unpack() {
 	if use llvm-next; then
 		# llvm:r333878 https://critique.corp.google.com/#review/199724125
-		#		EGIT_COMMIT="393b329e7345976d7d0c5ee08425eacb34b4c5be" #r333870
-		EGIT_COMMIT="fb98f1095aa66e72ab36738c4eac597193de7a8a" # temporary workaround. r333025
+		EGIT_COMMIT="393b329e7345976d7d0c5ee08425eacb34b4c5be" #r333870
 	else
-
 		# llvm:r331547 https://critique.corp.google.com/#review/196053977
 		EGIT_COMMIT="def9f6a10422ae7aa0804d50b2d276ced09ce2d0" #r331523
 	fi
@@ -39,7 +37,7 @@ src_prepare() {
 	# Cherry-picks
 	local CHERRIES=""
 	if use llvm-next; then
-		CHERRIES+=""
+		CHERRIES+=" 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c"
 	else
 		CHERRIES+=""
 	fi

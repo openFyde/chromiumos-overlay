@@ -1,0 +1,45 @@
+commit 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c
+Author: Petr Hosek <phosek@chromium.org>
+Date:   Fri Jul 13 19:16:30 2018 +0000
+
+    [CMake] Don't use CLANG_DEFAULT_* values
+    
+    These are not necessarily correct, just because Clang is configured
+    to use libc++ or compiler-rt as defaults doesn't mean that the host
+    compiler uses these as defaults as well. A more correct solution
+    would be to test the host compiler to check what the default actually
+    is as attempted in D46857.
+    
+    Part of PR-38025.
+    
+    Differential Revision: https://reviews.llvm.org/D49272
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@337033 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 77507b78a..6c2b5bb17 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -142,10 +142,7 @@ set(CXXABIS none default libstdc++ libc++)
+ set_property(CACHE SANITIZER_CXX_ABI PROPERTY STRINGS ;${CXXABIS})
+ 
+ if (SANITIZER_CXX_ABI STREQUAL "default")
+-  if (CLANG_DEFAULT_CXX_STDLIB STREQUAL "libc++" AND (TARGET cxx OR HAVE_LIBCXX))
+-    set(SANITIZER_CXX_ABI_LIBNAME "libc++")
+-    set(SANITIZER_CXX_ABI_INTREE 1)
+-  elseif (APPLE)
++  if (APPLE)
+     set(SANITIZER_CXX_ABI_LIBNAME "libc++")
+     set(SANITIZER_CXX_ABI_SYSTEM 1)
+   elseif (FUCHSIA)
+@@ -164,9 +161,7 @@ set(COMPILER_RT_RUNTIME "default" CACHE STRING
+     "Compiler runtime to use.")
+ 
+ if (COMPILER_RT_RUNTIME STREQUAL "default")
+-  if (CLANG_DEFAULT_RTLIB STREQUAL "compiler-rt")
+-    set(COMPILER_RT_RUNTIME_LIBRARY "builtins")
+-  elseif (FUCHSIA)
++  if (FUCHSIA)
+     set(COMPILER_RT_RUNTIME_LIBRARY "builtins")
+   endif()
+ else()
