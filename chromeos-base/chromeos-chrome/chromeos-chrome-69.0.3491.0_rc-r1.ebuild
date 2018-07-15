@@ -79,6 +79,7 @@ REQUIRED_USE="
 	libcxx? ( clang )
 	thinlto? ( clang || ( gold lld ) )
 	afdo_use? ( clang )
+	build_native_assistant? ( chrome_internal )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -165,7 +166,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3488.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3491.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R69-3473.0-1531130680.afdo"
 AFDO_FILE["airmont"]="R69-3473.0-1531133355.afdo"
 AFDO_FILE["haswell"]="R69-3473.0-1531130903.afdo"
@@ -927,7 +928,11 @@ src_configure() {
 
 	setup_compile_flags
 
-	export BOTO_CONFIG=/home/$(whoami)/.boto
+	# We might set BOTO_CONFIG in the builder environment in case the
+	# existing file needs modifications (e.g. for working with older
+	# branches). So don't overwrite it if it's already set.
+	# See https://crbug.com/847676 for details.
+	export BOTO_CONFIG="${BOTO_CONFIG:-/home/$(whoami)/.boto}"
 	export PATH=${PATH}:${DEPOT_TOOLS}
 
 	export DEPOT_TOOLS_GSUTIL_BIN_DIR="${CHROME_CACHE_DIR}/gsutil_bin"
