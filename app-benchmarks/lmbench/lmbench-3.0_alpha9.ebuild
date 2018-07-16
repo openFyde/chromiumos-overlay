@@ -2,8 +2,8 @@
 # Copyright 2014 The Chromium OS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
-inherit toolchain-funcs multilib
+EAPI=5
+inherit eutils toolchain-funcs multilib
 
 MY_P=${P/_alpha/-a}
 DESCRIPTION="Suite of simple, portable benchmarks"
@@ -15,6 +15,14 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
+RDEPEND="
+	net-libs/libtirpc
+"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+	"
+
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
@@ -22,6 +30,7 @@ src_prepare() {
 		-e "/\$(BASE)\/lib/s:/lib:/$(get_libdir):g" \
 		-e '/-ranlib/s:ranlib:$(RANLIB):' \
 		src/Makefile || die
+	epatch "${FILESDIR}/lmbench-cflags.patch"
 }
 
 src_compile() {
@@ -29,6 +38,8 @@ src_compile() {
 		AR="$(tc-getAR)" \
 		RANLIB="$(tc-getRANLIB)" \
 		CC="$(tc-getCC)" \
+		EXTRA_CFLAGS="$($(tc-getPKG_CONFIG) libtirpc --cflags)" \
+		LDLIBS="$($(tc-getPKG_CONFIG) libtirpc --libs)" \
 		build
 }
 
