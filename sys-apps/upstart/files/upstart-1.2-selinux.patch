@@ -1,5 +1,6 @@
 This patch adds SELinux functionality to upstart, by making it load the SELinux
-policy and then re-exec itself.  This appears to be all that is required to
+policy and then re-exec itself. It also relabels devtmpfs created by kernel
+before init scripts execute. This appears to be all that is required to
 support SELinux in the init process.
 
 This mimics an existing upstart patch that is floating around but was never
@@ -13,10 +14,11 @@ of other patches as described in the Chromium OS upstart ebuild in
 src/third_party/chromiumos-overlay/sys-apps/upstart.
 
 Patch by Luigi Semenzato <semenzato@chromium.org>
+Modified by Qijiang Fan <fqj@chromium.org> to relabel some fs.
 
 --- a/configure.ac
 +++ b/configure.ac
-@@ -34,6 +34,15 @@ PKG_CHECK_MODULES([DBUS], [dbus-1 >= 1.2.16])
+@@ -34,6 +34,16 @@ PKG_CHECK_MODULES([DBUS], [dbus-1 >= 1.2.16])
  # Checks for header files.
  AC_CHECK_HEADERS([valgrind/valgrind.h])
  
@@ -27,6 +29,7 @@ Patch by Luigi Semenzato <semenzato@chromium.org>
 +if test "x$enable_selinux" = "xyes" ; then
 +	PKG_CHECK_MODULES(SELINUX, [libselinux])
 +	AC_DEFINE(HAVE_SELINUX, 1, [Define if we have SELinux])
++	AC_DEFINE(RESTORE_PATHS, [{"/dev"}], [Define restorecon paths])
 +fi
 +
  # Checks for typedefs, structures, and compiler characteristics.
@@ -84,12 +87,13 @@ Patch by Luigi Semenzato <semenzato@chromium.org>
  
  #include <errno.h>
  #include <stdio.h>
-@@ -39,6 +43,10 @@
+@@ -39,6 +43,11 @@
  #include <syslog.h>
  #include <unistd.h>
  
 +#ifdef HAVE_SELINUX
 +#include <selinux/selinux.h>
++#include <selinux/restorecon.h>
 +#endif
 +
  #include <linux/kd.h>
@@ -150,7 +154,7 @@ Patch by Luigi Semenzato <semenzato@chromium.org>
  		NihError *err;
  
  		err = nih_error_get ();
-@@ -225,6 +238,56 @@
+@@ -225,6 +238,70 @@
  			  err->message);
  		nih_free (err);
  	}
@@ -188,6 +192,20 @@ Patch by Luigi Semenzato <semenzato@chromium.org>
 +
 +			exit (1);
 +		}
++
++               const char *restore_paths[] = RESTORE_PATHS;
++               for (size_t i = 0;
++		     i < sizeof(restore_paths) / sizeof(const char *);
++		     i++) {
++			const int restorecon_args = SELINUX_RESTORECON_RECURSE |
++						    SELINUX_RESTORECON_REALPATH;
++       	        if (selinux_restorecon(restore_paths[i],
++					       restorecon_args) != 0) {
++				nih_warn ("%s: %d",
++					  _("Failed to restorecon"), errno);
++				// ignore error for now until policy are combined. exit(1);
++			}
++               }
 +
 +		putenv ("SELINUX_INIT=YES");
 +		nih_info (_("SELinux policy loaded, doing self-exec"));
