@@ -280,6 +280,8 @@ def main():
   if gcc_comp.startswith('x86_64') or startswith_i86(gcc_comp):
     cmdline.extend(X86_DISABLE_FLAGS)
 
+  sysroot_set = False
+
   if not invoke_clang:
     gcc_cmdline = [x for x in cmdline if x not in GCC_UNSUPPORTED]
   else:
@@ -321,6 +323,9 @@ def main():
           clang_path = flag.partition('=')[2]
           clang_bin = os.path.join(clang_path, 'clang')
           continue
+        elif flag.startswith('--sysroot'):
+          sysroot_set = True
+          clang_cmdline.append(flag)
         elif flag in GCC_TO_CLANG.keys():
           clang_cmdline.append(GCC_TO_CLANG[flag])
         elif flag not in CLANG_ARM_OPTIONS_TO_BE_DISCARDED:
@@ -332,13 +337,15 @@ def main():
       if flag not in GCC_UNSUPPORTED:
         gcc_cmdline.append(flag)
 
-  sysroot = os.environ.get('SYSROOT', '')
+  sysroot = os.environ.pop('SYSROOT', '')
   if not sysroot:
     # Use the bundled sysroot by default.
     sysroot = os.path.join(get_relocatable_root(), 'usr', arch)
 
-  clang_cmdline.insert(0, '--sysroot=%s' % sysroot)
-  gcc_cmdline.insert(0, '--sysroot=%s' % sysroot)
+  # Pass sysroot if --sysroot flag is not set.
+  if not sysroot_set:
+    clang_cmdline.insert(0, '--sysroot=%s' % sysroot)
+    gcc_cmdline.insert(0, '--sysroot=%s' % sysroot)
 
   if invoke_clang and not skip_clang:
     clang_comp = os.environ.get('CLANG', clang_bin)
