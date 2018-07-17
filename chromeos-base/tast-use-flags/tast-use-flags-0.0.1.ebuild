@@ -15,9 +15,8 @@ IUSE="
 	betty
 	chromeless_tty
 	kvm_host
+	mocktpm
 	rialto
-	tpm
-	tpm2
 	veyron_mickey
 	veyron_rialto
 "
