@@ -19,6 +19,7 @@ USE="${USE} cellular mbim"
 USE="${USE} ime"
 # TODO(crbug.com/860034): Re-enable after R69 branches.
 USE="${USE} -memd"
+USE="${USE} usbguard"
 
 # Board overlays can unset this to disable the ACPI AC kernel driver.
 USE="${USE} acpi_ac"

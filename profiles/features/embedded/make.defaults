@@ -19,5 +19,8 @@ USE="${USE} -containers"
 # By default, don't run memd as it may have excessive impact on CPU usage.
 USE="${USE} -memd"
 
+# Disable usbguard on embedded CrOS because it currently only protects the lockscreen.
+USE="${USE} -usbguard"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
