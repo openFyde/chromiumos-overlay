@@ -14,8 +14,8 @@ inherit cros-workon platform user
 
 DESCRIPTION="Machine learning service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
-SRC_URI="http://storage.googleapis.com/chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180517.pb
-	http://storage.googleapis.com/chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180704.tflite"
+SRC_URI="gs://chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180517.pb
+	gs://chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180704.tflite"
 
 LICENSE="BSD-Google"
 SLOT="0"
