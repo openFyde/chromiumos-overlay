@@ -40,6 +40,7 @@ PATCHES=(
 	"${FILESDIR}/13_smmstore.patch"
 	"${FILESDIR}/14_Basetools_pie.patch"
 	"${FILESDIR}/15_SdMMcPciHcDxe_Bayhub.patch"
+	"${FILESDIR}/16_SATA_channelcount.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE
