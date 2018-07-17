@@ -156,8 +156,7 @@ src_compile() {
 	build_file_contexts
 
 	if has_arc; then
-		# Don't combine policy on NYC now since combined policy breaks CTS.
-		if use combine_chromeos_policy && ! use android-container-nyc; then
+		if use combine_chromeos_policy; then
 			einfo "combining Chrome OS and Android SELinux policy"
 
 			if use android-container-nyc; then
