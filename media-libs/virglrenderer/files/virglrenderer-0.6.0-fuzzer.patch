@@ -81,10 +81,10 @@ index 0000000..37addef
 +endif
 diff --git a/tests/fuzzer/virgl_fuzzer.c b/tests/fuzzer/virgl_fuzzer.c
 new file mode 100644
-index 0000000..0eac46a
+index 0000000..f907de3
 --- /dev/null
 +++ b/tests/fuzzer/virgl_fuzzer.c
-@@ -0,0 +1,167 @@
+@@ -0,0 +1,174 @@
 +// Copyright 2018 The Chromium OS Authors. All rights reserved.
 +//
 +// Redistribution and use in source and binary forms, with or without
@@ -209,11 +209,6 @@ index 0000000..0eac46a
 +      assert(eglMakeCurrent(cookie.display, EGL_NO_SURFACE, EGL_NO_SURFACE,
 +                            cookie.ctx));
 +
-+      assert(!virgl_renderer_init(&cookie, 0, &fuzzer_cbs));
-+
-+      const char *name = "fuzzctx";
-+      assert(!virgl_renderer_context_create(FUZZER_CTX_ID, strlen(name), name));
-+
 +      initialized = true;
 +   }
 +
@@ -223,9 +218,6 @@ index 0000000..0eac46a
 +#ifdef CLEANUP_EACH_INPUT
 +static void cleanup_environment()
 +{
-+   virgl_renderer_context_destroy(FUZZER_CTX_ID);
-+   virgl_renderer_cleanup(&cookie);
-+
 +   if (cookie.ctx != EGL_NO_CONTEXT) {
 +      eglMakeCurrent(cookie.display, NULL, NULL, NULL);
 +      eglDestroyContext(cookie.display, cookie.ctx);
@@ -243,7 +235,22 @@ index 0000000..0eac46a
 +{
 +   uint32_t ctx_id = initialize_environment();
 +
++   // There are trade-offs here between ensuring that state is not persisted
++   // between invocations of virgl_renderer_submit_cmd, and to avoid leaking
++   // resources that comes with repeated dlopen()/dlclose()ing the mesa
++   // driver with each eglInitialize()/eglTerminate() if CLEANUP_EACH_INPUT
++   // is set.
++
++   assert(!virgl_renderer_init(&cookie, 0, &fuzzer_cbs));
++
++   const char *name = "fuzzctx";
++   assert(!virgl_renderer_context_create(FUZZER_CTX_ID, strlen(name), name));
++
 +   virgl_renderer_submit_cmd((void *) data, ctx_id, size / sizeof(uint32_t));
++
++   virgl_renderer_context_destroy(FUZZER_CTX_ID);
++
++   virgl_renderer_cleanup(&cookie);
 +
 +#ifdef CLEANUP_EACH_INPUT
 +   // The following cleans up between each input which is a lot slower.
