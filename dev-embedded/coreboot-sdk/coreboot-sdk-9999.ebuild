@@ -82,6 +82,7 @@ src_compile() {
 		aarch64-elf
 		mipsel-elf
 		nds32le-elf
+		riscv-elf
 	)
 
 	local arch
