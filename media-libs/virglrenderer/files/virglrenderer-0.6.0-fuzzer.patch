@@ -81,10 +81,10 @@ index 0000000..37addef
 +endif
 diff --git a/tests/fuzzer/virgl_fuzzer.c b/tests/fuzzer/virgl_fuzzer.c
 new file mode 100644
-index 0000000..f907de3
+index 0000000..73dfb5d
 --- /dev/null
 +++ b/tests/fuzzer/virgl_fuzzer.c
-@@ -0,0 +1,174 @@
+@@ -0,0 +1,193 @@
 +// Copyright 2018 The Chromium OS Authors. All rights reserved.
 +//
 +// Redistribution and use in source and binary forms, with or without
@@ -126,6 +126,25 @@ index 0000000..f907de3
 +#include "virglrenderer.h"
 +
 +int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size);
++
++#ifndef CLEANUP_EACH_INPUT
++// eglInitialize leaks unless eglTeriminate is called (which only happens
++// with CLEANUP_EACH_INPUT), so suppress leak detection on everything
++// allocated by it.
++
++#if !defined(__has_feature)
++#define __has_feature(x) 0
++#endif
++
++#if __has_feature(address_sanitizer)
++const char* __lsan_default_suppressions(void);
++
++const char* __lsan_default_suppressions() {
++   return "leak:eglInitialize\n";
++}
++#endif // __has_feature(address_sanitizer)
++
++#endif // !CLEANUP_EACH_INPUT
 +
 +struct fuzzer_cookie
 +{
