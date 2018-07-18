@@ -116,6 +116,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.1-radeonsi-fix-occlusion-queries.patch
 	epatch "${FILESDIR}"/18.1-glsl-cache-save-restore-ExternalSamplersUsed.patch
 	epatch "${FILESDIR}"/18.1-virgl-Fix-flush-in-virgl_encoder_inline_write.patch
+	epatch "${FILESDIR}"/18.1-util-disk_cache-Fix-disk_cache_get_function_timestamp-with-disabled-cache.patch
 
 	base_src_prepare
 
