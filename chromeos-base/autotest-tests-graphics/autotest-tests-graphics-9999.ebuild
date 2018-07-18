@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -40,6 +40,7 @@ IUSE_TESTS="
 	+tests_graphics_GLBench
 	+tests_graphics_GLMark2
 	+tests_graphics_GpuReset
+	+tests_graphics_KernelConfig
 	+tests_graphics_KernelMemory
 	+tests_graphics_LibDRM
 	+tests_graphics_PerfControl
