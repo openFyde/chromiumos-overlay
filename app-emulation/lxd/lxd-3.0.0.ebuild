@@ -40,7 +40,6 @@ CROS_GO_SOURCE=(
 	"github.com/juju/utils 57d958857adc4e7fe33ea74366aeee0f4a3a8dde"
 	"github.com/juju/version b64dbd566305c836274f0268fa59183a52906b36"
 	"github.com/juju/webbrowser 54b8c57083b4afb7dc75da7f13e2967b2606a507"
-	"github.com/julienschmidt/httprouter d1898390779332322e6b5ca5011da4bf249bb056"
 	"github.com/kr/pretty cfb55aafdaf3ec08f0db22699ab822c50091b1c4"
 	"github.com/kr/text 7cafcd837844e784b526369c9bce262804aebc60"
 	"github.com/mattn/go-colorable efa589957cd060542a26d2dd7832fd6a6c6c3ade"
@@ -79,7 +78,6 @@ CROS_GO_PACKAGES=(
 	"github.com/gosexy/gettext"
 	"github.com/juju/loggo"
 	"github.com/juju/webbrowser"
-	"github.com/julienschmidt/httprouter"
 	"github.com/lxc/lxd/client"
 	"github.com/lxc/lxd/shared/..."
 	"github.com/mattn/go-colorable"
@@ -112,6 +110,7 @@ DEPEND="
 	dev-go/genproto
 	dev-go/glog
 	dev-go/go-sys
+	dev-go/httprouter
 	dev-go/net
 	dev-go/text
 	dev-go/websocket

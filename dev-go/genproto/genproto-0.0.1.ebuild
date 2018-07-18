@@ -16,6 +16,7 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/genproto/googleapis/devtools/cloudtrace/v2"
 	"google.golang.org/genproto/googleapis/iam/v1"
 	"google.golang.org/genproto/googleapis/monitoring/v3"
+	"google.golang.org/genproto/googleapis/pubsub/v1"
 	"google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -35,5 +36,8 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/grpc"
+DEPEND="
+	dev-go/genproto-rpc
+	dev-go/grpc
+"
 RDEPEND="${DEPEND}"
