@@ -103,29 +103,6 @@ build_host_config() {
 	mv "${HOST_DIR}/bin/llvm-config" "${HOST_DIR}/bin/llvm-config-${ABI}"
 }
 
-create_llvmconfig_wrapper() {
-	cat > "${LLVM_CONFIG_HOST}" <<EOF
-#!/bin/bash
-$1 "\${SYSROOT}"/usr/lib/llvm/bin/llvm-config "\$@"
-EOF
-}
-
-create_llvmconfig_host() {
-	export LLVM_CONFIG_HOST="${WORKDIR}/llvm-config-host"
-	create_llvmconfig_wrapper
-	if use arm; then
-		rm "${LLVM_CONFIG_HOST}"
-		create_llvmconfig_wrapper "qemu-arm -L ${SYSROOT}"
-	fi
-
-	if use arm64; then
-		rm "${LLVM_CONFIG_HOST}"
-		create_llvmconfig_wrapper "qemu-aarch64 -L ${SYSROOT}"
-	fi
-
-	chmod a+rx "${LLVM_CONFIG_HOST}"
-}
-
 src_configure() {
 	arc-build-select-clang
 	multilib-minimal_src_configure
