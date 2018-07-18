@@ -166,7 +166,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3493.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-69.0.3494.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R69-3473.0-1531735727.afdo"
 AFDO_FILE["airmont"]="R69-3473.0-1531737113.afdo"
 AFDO_FILE["haswell"]="R69-3473.0-1531738592.afdo"
@@ -244,7 +244,6 @@ RDEPEND="${RDEPEND}
 		sys-libs/libcxx
 	)
 	smbprovider? ( chromeos-base/smbprovider )
-	build_native_assistant? ( chromeos-base/chromeos-libassistant )
 	"
 
 DEPEND="${DEPEND}
@@ -885,9 +884,10 @@ setup_compile_flags() {
 }
 
 src_configure() {
-	tc-export CXX CC AR AS RANLIB STRIP
+	tc-export CXX CC AR AS NM RANLIB STRIP
 	export CC_host=$(usex clang "${CBUILD}-clang" "$(tc-getBUILD_CC)")
 	export CXX_host=$(usex clang "${CBUILD}-clang++" "$(tc-getBUILD_CXX)")
+	export NM_host=$(tc-getBUILD_NM)
 
 	if use gold ; then
 		if [[ "${GOLD_SET}" != "yes" ]]; then
@@ -961,6 +961,7 @@ src_configure() {
 		custom_toolchain="//build/toolchain/cros:target"
 		v8_snapshot_toolchain="//build/toolchain/cros:v8_snapshot"
 		cros_target_ld="${LD}"
+		cros_target_nm="${NM}"
 		cros_target_extra_cflags="${CFLAGS} ${EBUILD_CFLAGS[*]}"
 		cros_target_extra_cppflags="${CPPFLAGS}"
 		cros_target_extra_cxxflags="${CXXFLAGS} ${EBUILD_CXXFLAGS[*]}"
@@ -969,6 +970,7 @@ src_configure() {
 		cros_host_cxx="${CXX_host}"
 		cros_host_ar="${AR_host}"
 		cros_host_ld="${LD_host}"
+		cros_host_nm="${NM_host}"
 		cros_host_extra_cflags="${CFLAGS_host}"
 		cros_host_extra_cxxflags="${CXXFLAGS_host}"
 		cros_host_extra_cppflags="${CPPFLAGS_host}"
@@ -977,6 +979,7 @@ src_configure() {
 		cros_v8_snapshot_cxx="${CXX_host}"
 		cros_v8_snapshot_ar="${AR_host}"
 		cros_v8_snapshot_ld="${LD_host}"
+		cros_v8_snapshot_nm="${NM_host}"
 		cros_v8_snapshot_extra_cflags="${CFLAGS_host}"
 		cros_v8_snapshot_extra_cxxflags="${CXXFLAGS_host}"
 		cros_v8_snapshot_extra_cppflags="${CPPFLAGS_host}"
