@@ -30,6 +30,7 @@ RDEPEND="
 	chromeos-base/metrics
 	chromeos-base/nsswitch
 	wimax? ( chromeos-base/wimax_manager )
+	dev-libs/openssl
 	cellular? ( net-dialup/ppp )
 	pppoe? ( net-dialup/ppp )
 	vpn? ( net-dialup/ppp )
