@@ -70,6 +70,7 @@ RDEPEND="${COMMON_DEPEND}
 REQUIRED_USE="!minimal? ( ${PYTHON_REQUIRED_USE} )"
 
 PATCHES=(
+	"${FILESDIR}/${PN}-3.18.6-disable-create-ppd.patch"
 	"${WORKDIR}/patches"
 )
 
@@ -194,6 +195,7 @@ src_configure() {
 		--disable-cups11-build \
 		--disable-lite-build \
 		--disable-foomatic-rip-hplip-install \
+		--disable-run-create-ppd \
 		--disable-shadow-build \
 		--disable-qt3 \
 		--disable-qt4 \
