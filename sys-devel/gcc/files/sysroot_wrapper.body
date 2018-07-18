@@ -334,41 +334,8 @@ def main():
 
   sysroot = os.environ.get('SYSROOT', '')
   if not sysroot:
-    # Keep these import statements here, rather than making them global, to
-    # prevent performance penalties when this execution path is taken (see
-    # commend at top of this file).
-    import logging
-    import logging.handlers
-    import traceback
-
     # Use the bundled sysroot by default.
     sysroot = os.path.join(get_relocatable_root(), 'usr', arch)
-
-    # Log the wrapper invocation without SYSROOT.
-
-    log_file = '/tmp/sysroot_wrapper.error'
-
-    log = logging.getLogger('sysroot_wrapper')
-    log.setLevel(logging.DEBUG)
-
-    handler = logging.handlers.RotatingFileHandler(log_file,
-                                                   maxBytes=0x20000000,
-                                                   backupCount=1)
-    formatter = logging.Formatter('%(asctime)s %(message)s')
-    handler.setFormatter(formatter)
-    log.addHandler(handler)
-
-    log.warning('Invocation with missing SYSROOT: %s', ' '.join(sys.argv))
-    try:
-      log_parent_process_tree(log, os.getppid())
-    except IOError:
-      log.error('%s', traceback.format_exc())
-
-    try:
-      # The logging module does not support setting permissions.
-      os.chmod(log_file, 0o0666)
-    except OSError:
-      pass
 
   clang_cmdline.insert(0, '--sysroot=%s' % sysroot)
   gcc_cmdline.insert(0, '--sysroot=%s' % sysroot)
