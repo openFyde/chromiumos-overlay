@@ -88,6 +88,7 @@ src_test() {
 			--exclude aarch64 \
 			--exclude gpu_buffer \
 			--exclude gpu_display \
+			--exclude gpu_renderer \
 			--target="${CHOST}" -- --test-threads=1 \
 			|| die "cargo test failed"
 		# Plugin tests all require /dev/kvm, but we want to make sure they build
