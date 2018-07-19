@@ -15,7 +15,9 @@ S="${WORKDIR}"
 
 # We must ensure that the older private package is not installed
 DEPEND="
-	!sys-firmware/parade-ps8751a3"
+	!sys-firmware/parade-ps8751a3
+	!sys-boot/chromeos-firmware-ps8751
+"
 
 RDEPEND="${DEPEND}"
 
