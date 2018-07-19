@@ -65,6 +65,7 @@ CROS_BOARDS=(
 	peppy
 	poppy
 	quawks
+	rammus
 	reks
 	rikku
 	scarlet
