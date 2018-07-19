@@ -141,10 +141,14 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50ConsoleCommands
 	+tests_firmware_Cr50DeepSleepStress
 	+tests_firmware_Cr50DeviceState
+	+tests_firmware_Cr50DevMode
+	+tests_firmware_Cr50DevModeOpen
+	+tests_firmware_Cr50DevModeUnlock
 	+tests_firmware_Cr50GetName
 	+tests_firmware_Cr50InvalidateRW
 	+tests_firmware_Cr50Open
 	+tests_firmware_Cr50OpenWhileAPOff
+	+tests_firmware_Cr50Password
 	+tests_firmware_Cr50PinWeaverServer
 	+tests_firmware_Cr50RejectUpdate
 	+tests_firmware_Cr50RMAOpen
