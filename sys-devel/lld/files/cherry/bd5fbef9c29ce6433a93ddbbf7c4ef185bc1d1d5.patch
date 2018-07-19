@@ -1,0 +1,96 @@
+commit bd5fbef9c29ce6433a93ddbbf7c4ef185bc1d1d5
+Author: Yunlian Jiang <yunlian@google.com>
+Date:   Mon Jul 16 17:55:48 2018 +0000
+
+    Support option -plugin-opt=dwo_dir=
+    
+    Summary:
+    This adds support to option -plugin-opt=dwo_dir=${DIR}. This option is used to specify the directory to store the .dwo files when LTO and debug fission is used
+    at the same time.
+    
+    Reviewers: ruiu, espindola, pcc
+    
+    Reviewed By: pcc
+    
+    Subscribers: eraman, dexonsmith, mehdi_amini, emaste, arichardson, steven_wu, llvm-commits
+    
+    Differential Revision: https://reviews.llvm.org/D47904
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/lld/trunk@337195 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/ELF/Config.h b/ELF/Config.h
+index 1f3748627..ced3cbaac 100644
+--- a/ELF/Config.h
++++ b/ELF/Config.h
+@@ -80,6 +80,7 @@ struct Configuration {
+   llvm::StringMap<uint64_t> SectionStartMap;
+   llvm::StringRef Chroot;
+   llvm::StringRef DynamicLinker;
++  llvm::StringRef DwoDir;
+   llvm::StringRef Entry;
+   llvm::StringRef Emulation;
+   llvm::StringRef Fini;
+diff --git a/ELF/Driver.cpp b/ELF/Driver.cpp
+index 85ebb33fc..4c0e1f9db 100644
+--- a/ELF/Driver.cpp
++++ b/ELF/Driver.cpp
+@@ -727,6 +727,7 @@ void LinkerDriver::readConfigs(opt::InputArgList &Args) {
+   Config->Demangle = Args.hasFlag(OPT_demangle, OPT_no_demangle, true);
+   Config->DisableVerify = Args.hasArg(OPT_disable_verify);
+   Config->Discard = getDiscard(Args);
++  Config->DwoDir = Args.getLastArgValue(OPT_plugin_opt_dwo_dir_eq);
+   Config->DynamicLinker = getDynamicLinker(Args);
+   Config->EhFrameHdr =
+       Args.hasFlag(OPT_eh_frame_hdr, OPT_no_eh_frame_hdr, false);
+diff --git a/ELF/LTO.cpp b/ELF/LTO.cpp
+index b22f0717f..ef58932e8 100644
+--- a/ELF/LTO.cpp
++++ b/ELF/LTO.cpp
+@@ -99,6 +99,7 @@ static lto::Config createConfig() {
+   C.SampleProfile = Config->LTOSampleProfile;
+   C.UseNewPM = Config->LTONewPassManager;
+   C.DebugPassManager = Config->LTODebugPassManager;
++  C.DwoDir = Config->DwoDir;
+ 
+   if (Config->SaveTemps)
+     checkError(C.addSaveTemps(Config->OutputFile.str() + ".",
+diff --git a/ELF/Options.td b/ELF/Options.td
+index b92279416..7c42daafd 100644
+--- a/ELF/Options.td
++++ b/ELF/Options.td
+@@ -432,6 +432,8 @@ def: J<"plugin-opt=O">, Alias<lto_O>, HelpText<"Alias for -lto-O">;
+ def: F<"plugin-opt=debug-pass-manager">,
+   Alias<lto_debug_pass_manager>, HelpText<"Alias for -lto-debug-pass-manager">;
+ def: F<"plugin-opt=disable-verify">, Alias<disable_verify>, HelpText<"Alias for -disable-verify">;
++def plugin_opt_dwo_dir_eq: J<"plugin-opt=dwo_dir=">,
++  HelpText<"Directory to store .dwo files when LTO and debug fission are used">;
+ def: J<"plugin-opt=jobs=">, Alias<thinlto_jobs>, HelpText<"Alias for -thinlto-jobs">;
+ def: J<"plugin-opt=lto-partitions=">, Alias<lto_partitions>, HelpText<"Alias for -lto-partitions">;
+ def plugin_opt_mcpu_eq: J<"plugin-opt=mcpu=">;
+diff --git a/test/ELF/lto/thinlto-debug-fission.ll b/test/ELF/lto/thinlto-debug-fission.ll
+new file mode 100644
+index 000000000..98c8bbda3
+--- /dev/null
++++ b/test/ELF/lto/thinlto-debug-fission.ll
+@@ -0,0 +1,21 @@
++; REQUIRES: x86
++
++; RUN: opt %s -o %t1.o
++
++; Test to ensure that --plugin-opt=dwo_dir=$DIR creates .dwo files under $DIR
++; RUN: ld.lld --plugin-opt=dwo_dir=%T/dwo -shared %t1.o -o /dev/null
++; RUN: llvm-readobj -h %T/dwo/0.dwo | FileCheck %s
++; RUN: rm -rf %T/dwo
++
++; CHECK: Format: ELF64-x86-64
++
++target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
++target triple = "x86_64-unknown-linux-gnu"
++
++declare void @g(...)
++
++define void @f() {
++entry:
++  call void (...) @g()
++  ret void
++}
