@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk avtest_label_detect"
+CROS_WORKON_SUBTREE="common-mk avtest_label_detect .gn"
 
 inherit cros-workon cros-common.mk
 

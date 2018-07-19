@@ -6,7 +6,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk touch_firmware_calibration"
+CROS_WORKON_SUBTREE="common-mk touch_firmware_calibration .gn"
 
 PLATFORM_SUBDIR="touch_firmware_calibration"
 

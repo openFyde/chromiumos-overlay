@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk power_manager wimax_manager"
+CROS_WORKON_SUBTREE="common-mk power_manager wimax_manager .gn"
 
 PLATFORM_SUBDIR="wimax_manager"
 

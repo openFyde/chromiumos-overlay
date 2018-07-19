@@ -8,7 +8,7 @@ CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk easy-unlock"
+CROS_WORKON_SUBTREE="common-mk easy-unlock .gn"
 
 PLATFORM_SUBDIR="easy-unlock"
 

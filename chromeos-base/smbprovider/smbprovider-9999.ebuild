@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(allenvic): Remove libpasswordprovider from here once crbug.com/833675 is resolved.
-CROS_WORKON_SUBTREE="common-mk libpasswordprovider smbprovider"
+CROS_WORKON_SUBTREE="common-mk libpasswordprovider smbprovider .gn"
 
 PLATFORM_SUBDIR="smbprovider"
 

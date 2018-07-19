@@ -1,13 +1,13 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
-CROS_WORKON_SUBTREE="common-mk libchromeos-ui"
+CROS_WORKON_SUBTREE="common-mk libchromeos-ui .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="libchromeos-ui"
