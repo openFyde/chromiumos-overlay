@@ -1,3 +1,4 @@
 # Mask the package by default to force each board to unmask the specific
 # version they require.
 sys-firmware/parade-ps8751a3-firmware
+sys-firmware/analogix-anx3429-firmware
