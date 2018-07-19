@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install prepare
+DEPEND=>=x11-libs/libdrm-2.4.50 media-libs/libepoxy sys-devel/autoconf-archive >=x11-misc/util-macros-1.8 test? ( >=dev-libs/check-0.9.4 ) !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.13:1.13 >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
+DESCRIPTION=library used implement a virtual 3D GPU used by qemu
+EAPI=6
+HOMEPAGE=https://virgil3d.github.io/
+IUSE=asan fuzzer profiling static-libs test fuzzer
+KEYWORDS=*
+LICENSE=MIT
+RDEPEND=>=x11-libs/libdrm-2.4.50 media-libs/libepoxy
+SLOT=0
+SRC_URI=https://github.com/freedesktop/virglrenderer/archive/0fb73b11e4cdadced885e52848002b2e9c79e3f5.tar.gz -> virglrenderer-0.6.0_p20180716.tar.gz
+_eclasses_=autotools	999c8f6cf5d91495cb0779588f20716c	cros-fuzzer	ebc02f60bcf39df5297008f1b894323d	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
+_md5_=eb5f7c68b981602f46cd77ff2d50f237
