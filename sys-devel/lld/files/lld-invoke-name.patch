@@ -4,7 +4,7 @@ lld.elf, so the LLD cannot get the host system informaction
 and dies. see crbug.com/701659
 --- tools/lld/lld.cpp
 +++ tools/lld/lld.cpp
-@@ -39,17 +39,17 @@ enum Flavor {
+@@ -39,17 +39,18 @@ enum Flavor {
  
  LLVM_ATTRIBUTE_NORETURN static void die(const Twine &S) {
    errs() << S << "\n";
@@ -14,7 +14,8 @@ and dies. see crbug.com/701659
  static Flavor getFlavor(StringRef S) {
    return StringSwitch<Flavor>(S)
 -      .CasesLower("ld", "ld.lld", "gnu", Gnu)
-+      .CasesLower("ld", "ld.lld", "gnu", "lld.elf", Gnu)
++      .CasesLower("ld", "ld.lld", "gnu", Gnu)
++      .CasesLower("lld.elf", "lld.real", "lld.real.elf", "gnu", Gnu)
        .CasesLower("wasm", "ld-wasm", Wasm)
        .CaseLower("link", WinLink)
        .CasesLower("ld64", "ld64.lld", "darwin", Darwin)

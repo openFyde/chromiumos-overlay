@@ -92,3 +92,11 @@ src_configure() {
 	)
 	cmake-utils_src_configure
 }
+
+src_install() {
+	cmake-utils_src_install
+	local binpath="/usr/bin"
+	mv "${D}${binpath}/lld" "${D}${binpath}/lld.real" || die
+	exeinto "${binpath}"
+	newexe "${FILESDIR}/ldwrapper" "lld" || die
+}
