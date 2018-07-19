@@ -201,6 +201,13 @@ multilib_src_configure() {
 		# FIXME(tfiga): Possibly use flag?
 		EGL_PLATFORM="android"
 
+		# The AOSP build system defines the Make variable
+		# PLATFORM_SDK_VERSION, and Mesa's Android.mk files use it to
+		# define the macro ANDROID_API_LEVEL. Arc emulates that here.
+		if [[ -n "${ARC_PLATFORM_SDK_VERSION}" ]]; then
+			CPPFLAGS+=" -DANDROID_API_LEVEL=${ARC_PLATFORM_SDK_VERSION}"
+		fi
+
 		#
 		# end of arc-mesa specific overrides
 		#
