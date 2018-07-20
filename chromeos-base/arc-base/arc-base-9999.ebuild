@@ -76,6 +76,7 @@ pkg_preinst() {
 	enewgroup "android-root"
 	enewgroup "arc-sensor"
 	enewgroup "android-everybody"
+	enewgroup "android-reserved-disk"
 }
 
 pkg_postinst() {
