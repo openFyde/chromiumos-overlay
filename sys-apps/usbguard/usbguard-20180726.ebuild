@@ -7,12 +7,12 @@ inherit autotools eutils
 
 DESCRIPTION="The USBGuard software framework helps to protect your computer against rogue USB devices (a.k.a. BadUSB) by implementing basic whitelisting and blacklisting capabilities based on device attributes."
 HOMEPAGE="https://usbguard.github.io/"
-GIT_REV="1ed764f9f4740d6849b69612d62c23677efdae7f"
+GIT_REV="09be6dcc1e2004b06d610278020b3468db69cc57"
 CATCH_REV="35f510545d55a831372d3113747bf1314ff4f2ef"
 PEGTL_REV="4a41a7aec66deb99764246c5ce7d59f45489c175"
 SRC_URI="https://github.com/USBGuard/usbguard/archive/${GIT_REV}.tar.gz -> ${P}.tar.gz
-https://github.com/catchorg/Catch2/archive/${CATCH_REV}.tar.gz -> ${P}-catch.tar.gz
-https://github.com/taocpp/PEGTL/archive/${PEGTL_REV}.tar.gz -> ${P}-pegtl.tar.gz"
+https://github.com/catchorg/Catch2/archive/${CATCH_REV}.tar.gz -> ${PN}-201807-catch.tar.gz
+https://github.com/taocpp/PEGTL/archive/${PEGTL_REV}.tar.gz -> ${PN}-201807-pegtl.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -66,6 +66,8 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" install
+	# Cleanup an unused file from the emake install command.
+	rm -f "${D}/etc/usbguard/rules.conf"
 
 	insinto /etc/usbguard
 	doins usbguard-daemon.conf
