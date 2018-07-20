@@ -14,7 +14,7 @@ DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="android-container-pi android-container-master-arc-dev android-container-nyc +combine_chromeos_policy"
+IUSE="android-container-pi android-container-master-arc-dev android-container-nyc +combine_chromeos_policy selinux_audit_all"
 # When developers are doing something not Android. This required use is to let
 # the developer know, disabling combine_chromeos_policy flag doesn't change
 # anything.
@@ -155,31 +155,42 @@ src_compile() {
 	build_chromeos_policy
 	build_file_contexts
 
+	cp -r "${SEPATH}" intermediate_policy
+
+	if use selinux_audit_all; then
+		find intermediate_policy/ -xtype f -name '*.cil' -exec \
+			sed -i 's/^(dontaudit .*//g' {} \;
+		sed -i 's/^(dontaudit .*//g' chromeos.cil
+		sed -i 's/^(dontaudit .*//g' chromeos.raw.cil
+	fi
+
+	local cilpath="$(pwd)/intermediate_policy"
+
 	if has_arc; then
 		if use combine_chromeos_policy; then
 			einfo "combining Chrome OS and Android SELinux policy"
 
 			if use android-container-nyc; then
-				secilc "${SECILC_ARGS[@]}" "${SEPATH}/sepolicy.cil" \
+				secilc "${SECILC_ARGS[@]}" "${cilpath}/sepolicy.cil" \
 					chromeos.cil || die "fail to build sepolicy"
 			else
-				secilc "${SECILC_ARGS[@]}" "${SEPATH}/plat_sepolicy.cil" \
-					"${SEPATH}/mapping.cil" \
-					"${SEPATH}/plat_pub_versioned.cil" \
-					"${SEPATH}/vendor_sepolicy.cil" \
+				secilc "${SECILC_ARGS[@]}" "${cilpath}/plat_sepolicy.cil" \
+					"${cilpath}/mapping.cil" \
+					"${cilpath}/plat_pub_versioned.cil" \
+					"${cilpath}/vendor_sepolicy.cil" \
 					chromeos.cil || die "fail to build sepolicy"
 			fi
 		else
 			einfo "use ARC++ policy"
 
 			if use android-container-nyc; then
-				secilc "${SECILC_ARGS[@]}" "${SEPATH}/sepolicy.cil" \
+				secilc "${SECILC_ARGS[@]}" "${cilpath}/sepolicy.cil" \
 					|| die "fail to build sepolicy"
 			else
-				secilc "${SECILC_ARGS[@]}" "${SEPATH}/plat_sepolicy.cil" \
-					"${SEPATH}/mapping.cil" \
-					"${SEPATH}/plat_pub_versioned.cil" \
-					"${SEPATH}/vendor_sepolicy.cil" || die "fail to build sepolicy"
+				secilc "${SECILC_ARGS[@]}" "${cilpath}/plat_sepolicy.cil" \
+					"${cilpath}/mapping.cil" \
+					"${cilpath}/plat_pub_versioned.cil" \
+					"${cilpath}/vendor_sepolicy.cil" || die "fail to build sepolicy"
 			fi
 		fi
 
