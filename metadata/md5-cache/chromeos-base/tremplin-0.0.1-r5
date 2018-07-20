@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile info install postinst setup test unpack
+DEPEND=app-emulation/lxd chromeos-base/vm_guest_tools dev-go/grpc dev-vcs/git dev-lang/go
+DESCRIPTION=Tremplin LXD client with gRPC support
+EAPI=6
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tremplin/
+IUSE=cros_host cros_workon_tree_8feab5941624df784687dbbfdfba06d6cfc9ed68 profiling
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=app-emulation/lxd
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-go	1531dde9453d4664aa648b3b3758d9d6	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
+_md5_=11456d8c7974fa5c3a65b0a856c4148b
