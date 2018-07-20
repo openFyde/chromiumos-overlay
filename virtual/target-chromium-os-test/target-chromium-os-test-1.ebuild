@@ -130,6 +130,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	dev-python/contextlib2
 	dev-python/dbus-python
 	dev-python/dpkt
+	dev-python/httplib2
 	dev-python/imaging
 	dev-python/jsonrpclib
 	dev-python/mkvparse
