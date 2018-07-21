@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile configure info install prepare setup unpack
-DEPEND=media-libs/libv4l !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.13:1.13 >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 dev-vcs/git
+DEPEND=media-libs/libv4l !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16.1:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 dev-vcs/git
 DESCRIPTION=Separate plugin library from upstream v4l-utils package
 EAPI=4
 HOMEPAGE=http://git.linuxtv.org/v4l-utils.git
@@ -10,5 +10,5 @@ RDEPEND=media-libs/libv4l
 REQUIRED_USE=^^ ( rockchip rockchip_v2 )
 SLOT=0
 SRC_URI=http://linuxtv.org/downloads/v4l-utils/v4l-utils-1.6.0.tar.bz2
-_eclasses_=autotools	999c8f6cf5d91495cb0779588f20716c	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
 _md5_=b71f3bdaa8c230367e74befed7b99ace
