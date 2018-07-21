@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 
 DESCRIPTION="Chrome OS Fonts (meta package)"
 HOMEPAGE="http://src.chromium.org"
@@ -26,7 +26,10 @@ IUSE="cros_host internal"
 # The gcc-libs requirement is a similar situation.  Ultimately this comes down
 # to fixing http://crbug.com/205424.
 DEPEND="
-	internal? ( chromeos-base/monotype-fonts )
+	internal? (
+		chromeos-base/monotype-fonts
+		chromeos-base/google-sans-fonts
+	)
 	media-fonts/croscorefonts
 	media-fonts/crosextrafonts
 	media-fonts/crosextrafonts-carlito
