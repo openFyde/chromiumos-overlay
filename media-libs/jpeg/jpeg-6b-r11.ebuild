@@ -14,7 +14,7 @@ HOMEPAGE="http://www.ijg.org/"
 SRC_URI="mirror://gentoo/jpegsrc.v${PV}.tar.gz
 	mirror://gentoo/${P}-patches-${PATCH_VER}.tar.bz2"
 
-LICENSE="as-is"
+LICENSE="IJG"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

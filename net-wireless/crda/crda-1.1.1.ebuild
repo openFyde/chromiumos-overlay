@@ -9,7 +9,7 @@ inherit toolchain-funcs multilib udev
 DESCRIPTION="Central Regulatory Domain Agent for wireless networks."
 HOMEPAGE="http://wireless.kernel.org/en/developers/Regulatory"
 SRC_URI="http://wireless.kernel.org/download/crda/${P}.tar.bz2"
-LICENSE="as-is"
+LICENSE="ISC"
 SLOT="0"
 
 KEYWORDS="*"

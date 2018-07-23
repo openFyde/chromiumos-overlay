@@ -19,7 +19,7 @@ SRC_URI="
 	)
 	doc? ( http://www.sqlite.org/${PN}_docs_${DOC_PV}.zip )"
 
-LICENSE="as-is"
+LICENSE="public-domain"
 SLOT="3"
 KEYWORDS="*"
 IUSE="debug doc extensions +fts3 icu +readline secure-delete soundex tcl +threadsafe test"
