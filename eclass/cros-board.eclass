@@ -224,6 +224,7 @@ ALL_BOARDS=(
 	nocturne
 	novato
 	novato-arc64
+	novato-arcnext
 	nyan
 	nyan_big
 	nyan_blaze
