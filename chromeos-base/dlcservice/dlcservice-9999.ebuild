@@ -43,6 +43,10 @@ src_install() {
 	doins org.chromium.DlcService.conf
 }
 
+platform_pkg_test() {
+	platform_test "run" "${OUT}/dlcservice_unittests"
+}
+
 pkg_preinst() {
 	enewuser "dlcservice"
 	enewgroup "dlcservice"
