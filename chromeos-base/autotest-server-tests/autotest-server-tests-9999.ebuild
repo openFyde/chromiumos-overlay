@@ -73,6 +73,7 @@ SERVER_IUSE_TESTS="
 		+tests_cheets_GTS
 	)
 	android-container-pi? (
+		+tests_cheets_CTS_P
 		+tests_cheets_GTS
 	)
 	+tests_component_UpdateFlash
