@@ -68,6 +68,7 @@ RDEPEND="
 		x11-libs/libXext
 		x11-libs/libXxf86vm
 	)
+	llvm? ( virtual/libelf )
 	dev-libs/expat
 	dev-libs/libgcrypt
 	virtual/udev
