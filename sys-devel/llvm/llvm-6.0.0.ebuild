@@ -100,6 +100,7 @@ build_host_tblgen() {
 	local CXX=clang++
 	local CFLAGS=''
 	local CXXFLAGS=''
+	local LDFLAGS=''
 	export HOST_DIR="${WORKDIR}/${PF}-${CBUILD}";
 	mkdir -p "${HOST_DIR}" || die
 	cd "${HOST_DIR}" || die
