@@ -3,18 +3,20 @@
 
 EAPI=5
 
-CROS_WORKON_LOCALNAME=("platform2" "aosp/system/connectivity/shill")
-CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/connectivity/shill")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/connectivity/shill")
-CROS_WORKON_INCREMENTAL_BUILD="1"
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk libpasswordprovider metrics shill"
 
 PLATFORM_SUBDIR="shill"
 
 inherit cros-workon platform systemd udev user
 
 DESCRIPTION="Shill Connection Manager for Chromium OS"
-HOMEPAGE="http://src.chromium.org"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
+
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
@@ -77,12 +79,6 @@ get_dependent_services() {
 		echo "started network-services " \
 			"${dependent_services[*]/#/and started }"
 	fi
-}
-
-src_unpack() {
-	local s="${S}"
-	platform_src_unpack
-	S="${s}/aosp/system/connectivity/shill"
 }
 
 src_install() {

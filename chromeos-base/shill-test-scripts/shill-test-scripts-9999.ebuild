@@ -3,15 +3,16 @@
 
 EAPI=6
 
-CROS_WORKON_LOCALNAME="aosp/system/connectivity/shill"
-CROS_WORKON_PROJECT="aosp/platform/system/connectivity/shill"
-CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_SUBTREE="shill/test-scripts"
 
 inherit cros-workon
 
 DESCRIPTION="shill's test scripts"
-HOMEPAGE="http://src.chromium.org"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -35,5 +36,5 @@ src_compile() {
 
 src_install() {
 	exeinto /usr/lib/flimflam/test
-	doexe test-scripts/*
+	doexe shill/test-scripts/*
 }
