@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=List of packages that should be fuzzed
-EAPI=5
-HOMEPAGE=http://dev.chromium.org/
-KEYWORDS=*
-LICENSE=BSD-Google
-RDEPEND=chromeos-base/authpolicy[fuzzer] chromeos-base/cryptohome[fuzzer] chromeos-base/midis[fuzzer] chromeos-base/permission_broker[fuzzer] chromeos-base/shill[fuzzer] chromeos-base/smbprovider[fuzzer] dev-util/bsdiff[fuzzer] dev-util/puffin[fuzzer]
-SLOT=0
-_md5_=fd30535e3d3ae58854f00202d7886b7d
