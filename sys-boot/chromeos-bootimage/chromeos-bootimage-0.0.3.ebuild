@@ -237,14 +237,9 @@ build_images() {
 		done
 	done
 
-	# files from cbfs/ are installed in all CBFS regions, uncompressed
-	for file in $(find "${CROS_FIRMWARE_ROOT}/cbfs" -type f 2>/dev/null); do
-		for rom in ${coreboot_file}{,.serial}; do
-			do_cbfstool ${rom} add \
-				-r COREBOOT,FW_MAIN_A,FW_MAIN_B \
-				-f $file -n $(basename $file) -t raw
-		done
-	done
+	if [[ -d ${froot}/cbfs ]]; then
+		die "something is still using ${froot}/cbfs, which is deprecated."
+	fi
 
 	local legacy_file=""
 	prepare_legacy_image legacy_file

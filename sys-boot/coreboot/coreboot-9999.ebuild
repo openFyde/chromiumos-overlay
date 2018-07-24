@@ -322,15 +322,9 @@ to Coreboot"
 			"${fblobroot}/${blob}" || die
 	done
 
-	( cd "${froot}/cbfs" 2>/dev/null && find . -type f) | \
-	while read file; do
-		file="${file:2}" # strip ./ prefix
-		cbfstool "${builddir}/coreboot.rom" add \
-			-r COREBOOT,FW_MAIN_A,FW_MAIN_B \
-			-f "${froot}/cbfs/$file" \
-			-n "$file" \
-			-t raw -c lzma
-	done
+	if [ -d ${froot}/cbfs ]; then
+	    die "something is still using ${froot}/cbfs, which is deprecated."
+	fi
 }
 
 src_compile() {
