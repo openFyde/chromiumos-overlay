@@ -39,9 +39,6 @@ src_install() {
 	)
 	dobin "${host_tools[@]/#/host/}"
 
-	# Payload generation scripts.
-	dobin host/cros_generate_stateful_update_payload
-
 	# Repo and git bash completion.
 	insinto /usr/share/bash-completion
 	newins host/repo_bash_completion repo
