@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure info install preinst setup test unpack
+DEPEND=!tpm2? ( app-crypt/trousers ) tpm2? ( chromeos-base/trunks ) test? ( app-arch/gzip ) chromeos-base/minijail chromeos-base/libbrillo chromeos-base/metrics chromeos-base/system_api !dev-db/leveldb dev-libs/leveldb dev-libs/openssl dev-libs/protobuf tpm2? ( chromeos-base/trunks[test?] ) dev-vcs/git dev-vcs/git chromeos-base/libchrome:395517[cros-debug=] test? ( dev-cpp/gmock ) dev-cpp/gtest virtual/pkgconfig sys-apps/baselayout
+DESCRIPTION=PKCS #11 layer over TrouSerS
+EAPI=5
+HOMEPAGE=http://www.chromium.org/developers/design-documents/chaps-technical-design
+IUSE=systemd test tpm tpm2 cros_host cros_workon_tree_2fbf3369a444e70d6320c89efbced5d7ddf79efb_fe4393e097cb6e2abd29521a62d6ae6db0d16074_4fe19368f13999381d7005c0c760cefa16043714_4ff3ced7f9a17a4a25ccf17846e5c228e72f5a62 profiling cros-debug fuzzer cros_host cros_workon_tree_2fbf3369a444e70d6320c89efbced5d7ddf79efb_fe4393e097cb6e2abd29521a62d6ae6db0d16074_4fe19368f13999381d7005c0c760cefa16043714_4ff3ced7f9a17a4a25ccf17846e5c228e72f5a62 profiling cros-debug asan cros_host fuzzer test
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!tpm2? ( app-crypt/trousers ) tpm2? ( chromeos-base/trunks ) test? ( app-arch/gzip ) chromeos-base/minijail chromeos-base/libbrillo chromeos-base/metrics chromeos-base/system_api !dev-db/leveldb dev-libs/leveldb dev-libs/openssl dev-libs/protobuf chromeos-base/libchrome:395517[cros-debug=] sys-apps/baselayout
+REQUIRED_USE=tpm2? ( !tpm ) fuzzer? ( asan )
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	ebc02f60bcf39df5297008f1b894323d	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	b52d05e71fc666d335a6d65c29d19a88	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	c5039a61d56841f2fdfec5dfc834d4bb	systemd	8f5286f89e265842f5b5189666eae88b	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7	user	c8f947561e8797a300801d0dd3625448
+_md5_=9cff659f8dac70e9734e6e67bf359bbc
