@@ -207,6 +207,7 @@ pick_cherries() {
 
 	# compiler-rt
 	CHERRIES=""
+	CHERRIES+=" 1b2e8fb0ce651da2d47b98c33b29c0f42a080f13" #r331825
 	pushd "${S}"/projects/compiler-rt >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"

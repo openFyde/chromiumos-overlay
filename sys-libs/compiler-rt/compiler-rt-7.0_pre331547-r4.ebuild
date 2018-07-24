@@ -39,7 +39,7 @@ src_prepare() {
 	if use llvm-next; then
 		CHERRIES+=" 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c"
 	else
-		CHERRIES+=""
+		CHERRIES+=" 1b2e8fb0ce651da2d47b98c33b29c0f42a080f13"
 	fi
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
