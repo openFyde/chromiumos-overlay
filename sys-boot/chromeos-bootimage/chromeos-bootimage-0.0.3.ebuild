@@ -19,7 +19,7 @@ BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi rammus reef"
 BOARDS="${BOARDS} samus sand sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
 IUSE="${BOARDS} cb_legacy_seabios cb_legacy_tianocore cb_legacy_uboot"
-IUSE="${IUSE} fsp fastboot unibuild u-boot"
+IUSE="${IUSE} fsp fastboot unibuild u-boot cros_ec pd_sync"
 
 REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
@@ -34,6 +34,8 @@ DEPEND="
 	cb_legacy_uboot? ( virtual/u-boot )
 	unibuild? ( chromeos-base/chromeos-config )
 	u-boot? ( sys-boot/u-boot )
+	cros_ec? ( chromeos-base/chromeos-ec )
+	pd_sync? ( chromeos-base/chromeos-ec )
 	"
 
 # Directory where the generated files are looked for and placed.
@@ -132,6 +134,28 @@ add_payloads() {
 		-f ${rw_payload} -n fallback/payload -c lzma -r FW_MAIN_A,FW_MAIN_B
 }
 
+# Returns true if EC supports EFS.
+is_ec_efs_enabled() {
+	local coreboot_config="$1"
+
+	grep -q "^CONFIG_VBOOT_EC_EFS=y$" "${coreboot_config}"
+}
+
+add_ec() {
+	local coreboot_config="$1"
+	local rom="$2"
+	local name="$3"
+	local ecroot="$4"
+	local pad="0"
+
+	is_ec_efs_enabled "${coreboot_config}" && pad="128"
+	einfo "Padding ecrw ${pad} byte."
+	cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c lzma \
+		-f "${ecroot}/ec.RW.bin" -n "${name}" -p "${pad}" || die
+	cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
+		-f "${ecroot}/ec.RW.hash" -n "${name}.hash" || die
+}
+
 # Add payloads and sign the image.
 # This takes the base image and creates a new signed one with the given
 # payloads added to it.
@@ -185,22 +209,24 @@ build_image() {
 #       compressed-assets-rw/*   - files originally from cbfs-rw-compress/*,
 #                                  pre-compressed in src_compile
 #                                  used for vbt*.bin
-#       cbfs/*                   - files to add to all three CBFS regions,
-#                                  uncompressed
 #   $2: Name to use when naming output files (see note above, can be empty)
 #
 #   $3: Name of target to build for coreboot (can be empty)
 #
 #   $4: Name of target to build for depthcharge (can be empty)
+#
+#   $5: Name of target to build for ec (can be empty)
 build_images() {
 	local froot="$1"
 	local build_name="$2"
 	local coreboot_build_target="$3"
 	local depthcharge_build_target="$4"
+	local ec_build_target="$5"
 	local outdir
 	local suffix
 
 	local coreboot_file
+	local coreboot_config
 	local depthcharge_prefix
 
 	if [ -n "${build_name}" ]; then
@@ -209,9 +235,11 @@ build_images() {
 		mkdir "${outdir}"
 		suffix="-${build_name}"
 		coreboot_file="${froot}/${coreboot_build_target}/coreboot.rom"
+		coreboot_config="${froot}/${coreboot_build_target}/coreboot.config"
 		depthcharge_prefix="${froot}/${depthcharge_build_target}"
 	else
 		coreboot_file="${froot}/coreboot.rom"
+		coreboot_config="${froot}/coreboot.config"
 		depthcharge_prefix="${froot}"
 	fi
 
@@ -256,6 +284,19 @@ build_images() {
 			do_cbfstool ${coreboot_file} write \
 				-f ${legacy_file} --force -r RW_LEGACY
 		fi
+	fi
+
+	if use cros_ec; then
+		if use unibuild; then
+			einfo "Adding EC for ${ec_build_target}"
+			add_ec "${coreboot_config}" "${coreboot_file}" "ecrw" "${froot}/${ec_build_target}"
+		else
+			add_ec "${coreboot_config}" "${coreboot_file}" "ecrw" "${froot}"
+		fi
+	fi
+
+	if use pd_sync; then
+		add_ec "${coreboot_config}" "${coreboot_file}" "pdrw" "${froot}/${PD_FIRMWARE}"
 	fi
 
 	if use u-boot; then
@@ -350,17 +391,18 @@ src_compile() {
 			compressed-assets-rw/'{}' LZMA
 
 	if use unibuild; then
-		local fields="coreboot,depthcharge"
+		local fields="coreboot,depthcharge,ec"
 		local cmd="get-firmware-build-combinations"
 		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
 			read -r depthcharge
+			read -r ec
 			einfo "Building image for: ${name}"
-			build_images ${froot} ${name} ${coreboot} ${depthcharge}
+			build_images ${froot} ${name} ${coreboot} ${depthcharge} ${ec}
 		done
 	else
-		build_images "${froot}" "" "" ""
+		build_images "${froot}" "" "" "" ""
 	fi
 }
 
