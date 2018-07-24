@@ -9,15 +9,4 @@
 # - If you want to use different versions in the cros_sdk chroot and the target
 #   boards, then use package.mask to control visibility.
 
-=dev-util/gdbus-codegen-2.30.2	amd64 x86
-
-# Get a newer version of pylint
-=dev-python/astng-0.21.1           amd64
-=dev-python/logilab-common-0.53.0  amd64
-
 =app-text/xmlto-0.0.24-r1	amd64 arm x86
-=x11-proto/glproto-1.4.14-r1	amd64 arm x86
-
-# Once we update past these versions, we should move the
-# keywords to the ebuild itself and drop these.
-=cross-arm-none-eabi/newlib-1.18.0	arm
