@@ -101,7 +101,6 @@ SERVER_IUSE_TESTS="
 	+tests_enterprise_CFM_AutotestSmokeTest
 	+tests_enterprise_CFM_AutoZoomSanity
 	+tests_enterprise_CFM_ConfigurableCfmTestSanity
-	+tests_enterprise_CFM_DualSpeaker
 	+tests_enterprise_CFM_LowLevelPeripheralTest
 	+tests_enterprise_CFM_MeetAppSanity
 	+tests_enterprise_CFM_MimoSanity
@@ -109,11 +108,6 @@ SERVER_IUSE_TESTS="
 	+tests_enterprise_CFM_PTZStress
 	+tests_enterprise_CFM_RebootStress
 	+tests_enterprise_CFM_Sanity
-	+tests_enterprise_CFM_SessionStress
-	+tests_enterprise_CFM_USBPeripheralHotplugDetect
-	+tests_enterprise_CFM_USBPeripheralHotplugStress
-	+tests_enterprise_CFM_USBPeripheralRebootStress
-	+tests_enterprise_CFM_USBSpeakerEndToEndSanity
 	+tests_enterprise_CFM_VolumeChange
 	+tests_enterprise_ClearTPM
 	+tests_enterprise_KioskEnrollmentServer
