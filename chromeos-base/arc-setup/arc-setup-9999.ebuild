@@ -104,6 +104,7 @@ src_install() {
 	doins etc/arc-boot-continue.conf
 	if use esdfs; then
 		doins etc/arc-sdcard.conf
+		doins etc/arc-sdcard-mount.conf
 	fi
 	doins etc/arc-kmsg-logger.conf
 	doins etc/arc-lifetime.conf
