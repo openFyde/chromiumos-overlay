@@ -53,6 +53,7 @@ dev-util/gtk-doc-am-1.13-r2
 dev-util/pkgconfig-0.23
 
 perl-core/digest-base-1.16
+perl-core/File-Temp-0.230.400-r1
 perl-core/MIME-Base64-3.08
 
 sys-apps/help2man-1.36.4
