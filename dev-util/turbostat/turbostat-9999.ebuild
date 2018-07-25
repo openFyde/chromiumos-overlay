@@ -6,6 +6,10 @@ CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/v4.14"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
+# Narrow the workon scope to just files referenced by the turbostat
+# Makefile:
+# https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-4.14/tools/power/x86/turbostat/Makefile#13
+CROS_WORKON_SUBTREE="arch/x86/include/asm tools/power/x86/turbostat"
 
 inherit cros-workon toolchain-funcs
 
@@ -16,6 +20,8 @@ LICENSE="GPL-2"
 SLOT=0
 KEYWORDS="~*"
 IUSE="-asan"
+
+using_common_mk() { return 1; }
 
 domake() {
 	emake -C tools/power/x86/turbostat \
