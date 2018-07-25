@@ -21,7 +21,6 @@ RDEPEND="
 	sys-firmware/servo-firmware
 	sys-apps/flashrom
 	chromeos-base/ec-utils
-	>=dev-python/pyusb-1.0.2
 	"
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 

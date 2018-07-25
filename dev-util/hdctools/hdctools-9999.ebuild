@@ -20,7 +20,7 @@ RDEPEND=">=dev-embedded/libftdi-0.18
 	>=dev-python/pexpect-3.0
 	dev-python/pyserial
 	test? ( dev-python/pytest )
-	>=dev-python/pyusb-1.0.2
+	dev-python/pyusb
 	virtual/libusb:1
 	app-misc/screen
 	chromeos-base/ec-devutils"
