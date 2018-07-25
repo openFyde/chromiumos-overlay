@@ -129,6 +129,10 @@ src_install() {
 	# install dbus config allowing cras access
 	insinto /etc/dbus-1/system.d
 	doins dbus-config/org.chromium.cras.conf
+
+	# Install seccomp policy file.
+	insinto /usr/share/policy
+	newins "seccomp/cras-seccomp-${ARCH}.policy" cras-seccomp.policy
 }
 
 pkg_preinst() {
