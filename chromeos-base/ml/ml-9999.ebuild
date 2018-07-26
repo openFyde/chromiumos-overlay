@@ -44,7 +44,7 @@ src_install() {
 
 	# Install D-Bus configuration file
 	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Ml.conf
+	doins dbus/org.chromium.MachineLearning.conf
 
 	# Install the ML models.
 	insinto /opt/google/chrome/ml_models
