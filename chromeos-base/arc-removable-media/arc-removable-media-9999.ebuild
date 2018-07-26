@@ -22,18 +22,7 @@ RDEPEND="chromeos-base/mount-passthrough
 	!<chromeos-base/chromeos-cheets-scripts-0.0.2-r470
 "
 
-CONTAINER_DIR="/opt/google/containers/arc-removable-media"
-
 src_install() {
 	insinto /etc/init
 	doins arc/removable-media/arc-removable-media.conf
-
-	# Keep the parent directory of mountpoints inaccessible from non-root
-	# users because mountpoints themselves are often world-readable but we
-	# do not want to expose them.
-	# container-root is where the root filesystem of the container in which
-	# arc-obb-mounter daemon runs is mounted.
-	diropts --mode=0700 --owner=root --group=root
-	keepdir "${CONTAINER_DIR}/mountpoints/"
-	keepdir "${CONTAINER_DIR}/mountpoints/container-root"
 }

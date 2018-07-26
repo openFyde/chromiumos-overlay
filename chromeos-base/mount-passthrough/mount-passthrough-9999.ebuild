@@ -29,7 +29,4 @@ DEPEND="${RDEPEND}"
 src_install() {
 	dobin "${OUT}"/mount-passthrough
 	dobin mount-passthrough-jailed
-
-	insinto /usr/share/mount-passthrough
-	doins "${OUT}"/rootfs.squashfs
 }
