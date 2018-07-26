@@ -153,6 +153,7 @@ IUSE_TESTS=(
 	+tests_policy_DisableScreenshots
 	+tests_policy_EditBookmarksEnabled
 	+tests_policy_ExternalStorageDisabled
+	+tests_policy_ExternalStorageReadOnly
 	+tests_policy_ForceGoogleSafeSearch
 	+tests_policy_ForceYouTubeSafetyMode
 	+tests_policy_ImagesAllowedForUrls

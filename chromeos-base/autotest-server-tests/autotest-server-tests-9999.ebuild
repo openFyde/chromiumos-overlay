@@ -263,7 +263,7 @@ SERVER_IUSE_TESTS="
 	readahead? ( +tests_platform_UReadAheadServer )
 	+tests_platform_Vpd
 	+tests_policy_AUServer
-	+tests_policy_ExternalStorageDisabledServer
+	+tests_policy_ExternalStorageServer
 	+tests_policy_WiFiAutoconnectServer
 	+tests_power_BrightnessResetAfterReboot
 	+tests_power_MeasurementWrapper
