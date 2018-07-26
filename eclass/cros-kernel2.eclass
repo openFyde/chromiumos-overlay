@@ -150,6 +150,7 @@ CONFIG_FRAGMENTS=(
 	nfc
 	nfs
 	nowerror
+	pca954x
 	pcserial
 	plan9
 	ppp
@@ -547,6 +548,11 @@ CONFIG_SUNRPC_GSS=y
 CONFIG_USB_USBNET=y
 CONFIG_IP_PNP=y
 CONFIG_IP_PNP_DHCP=y
+"
+
+pca954x_desc="PCA954x I2C mux"
+pca954x_config="
+CONFIG_I2C_MUX_PCA954x=m
 "
 
 pcserial_desc="PC serial"
