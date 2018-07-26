@@ -19,4 +19,5 @@ RDEPEND="
 	chromeos-base/smbprovider[fuzzer]
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
+	media-libs/virglrenderer[fuzzer]
 "
