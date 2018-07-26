@@ -27,12 +27,16 @@ DEPEND="
 	mtd? ( dev-embedded/android_mtdutils )
 	!cros_host? (
 		chromeos-base/vboot_reference
+		dev-libs/openssl
 	)"
 RDEPEND="
 	pam? ( app-admin/sudo )
 	chromeos-base/chromeos-common-script
 	chromeos-base/libbrillo
-	!cros_host? ( chromeos-base/secure-erase-file )
+	!cros_host? (
+		chromeos-base/secure-erase-file
+		dev-libs/openssl
+	)
 	chromeos-base/vboot_reference
 	dev-util/shflags
 	sys-apps/rootdev
@@ -49,7 +53,7 @@ src_install() {
 	if use cros_host ; then
 		dosbin chromeos-install
 	else
-		dobin "${OUT}"/cros_installer
+		dobin "${OUT}"/{cros_installer,cros_oobe_crypto}
 		if use mtd ; then
 			dobin "${OUT}"/nand_partition
 		fi
