@@ -10,7 +10,7 @@ if [[ ${PV} == "9999" ]] ; then
 	KEYWORDS="~*"
 	inherit git-r3
 else
-	GIT_SHA1="0fb73b11e4cdadced885e52848002b2e9c79e3f5"
+	GIT_SHA1="9c420d224d86215d408dff8dea599ed9414a24d6"
 	SRC_URI="https://github.com/freedesktop/virglrenderer/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${GIT_SHA1}"
 	KEYWORDS="*"
@@ -41,9 +41,6 @@ PATCHES=(
 
 src_prepare() {
 	default
-	if use fuzzer; then
-		epatch "${FILESDIR}"/${PN}-0.6.0-fuzzer.patch
-	fi
 	[[ -e configure ]] || eautoreconf
 }
 
