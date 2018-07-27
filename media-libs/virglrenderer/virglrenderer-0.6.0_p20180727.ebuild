@@ -27,8 +27,11 @@ LICENSE="MIT"
 SLOT="0"
 IUSE="asan fuzzer profiling static-libs test"
 
-RDEPEND=">=x11-libs/libdrm-2.4.50
-	media-libs/libepoxy"
+RDEPEND="
+	>=x11-libs/libdrm-2.4.50
+	media-libs/libepoxy
+	fuzzer? ( media-libs/mesa[gbm] )
+"
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
 	sys-devel/autoconf-archive
