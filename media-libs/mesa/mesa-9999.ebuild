@@ -121,6 +121,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.1-radv-Still-enable-inmemory-API-level-caching-if-disk.patch
 	epatch "${FILESDIR}"/18.2-mesa-GL_MESA_framebuffer_flip_y-extension-v4.patch
 	epatch "${FILESDIR}"/18.2-i965-implement-GL_MESA_framebuffer_flip_y-v3.patch
+	epatch "${FILESDIR}"/18.1-egl-surfaceless-swrastloader.patch
+	epatch "${FILESDIR}"/18.1-egl-surfaceless-drmless.patch
 
 	base_src_prepare
 
