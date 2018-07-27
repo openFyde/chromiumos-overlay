@@ -119,6 +119,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.1-virgl-Fix-flush-in-virgl_encoder_inline_write.patch
 	epatch "${FILESDIR}"/18.1-util-disk_cache-Fix-disk_cache_get_function_timestamp-with-disabled-cache.patch
 	epatch "${FILESDIR}"/18.1-radv-Still-enable-inmemory-API-level-caching-if-disk.patch
+	epatch "${FILESDIR}"/18.2-mesa-GL_MESA_framebuffer_flip_y-extension-v4.patch
+	epatch "${FILESDIR}"/18.2-i965-implement-GL_MESA_framebuffer_flip_y-v3.patch
 
 	base_src_prepare
 
