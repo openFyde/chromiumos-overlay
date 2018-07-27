@@ -48,6 +48,9 @@ src_install() {
 
 	insinto "${INCLUDE_DIR}/system"
 	doins "${SRC_DIR}/include/system"/*.h
+	# Install into the system folder to avoid cros lint complaint of "include the
+	# directory when naming .h files"
+	doins "${SRC_DIR}/include/camera_metadata_hidden.h"
 
 	sed -e "s|@INCLUDE_DIR@|${INCLUDE_DIR}|" -e "s|@LIB_DIR@|${LIB_DIR}|" \
 		"${SRC_DIR}/libcamera_metadata.pc.template" > \
