@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -54,7 +54,6 @@ PATCHES=(
 	"${FILESDIR}"/0004-fix-rpath.patch
 	"${FILESDIR}"/0005-add-unknown-vendor-to-filesearch.patch
 	"${FILESDIR}"/0006-Fix-fp-feature-for-AArch64.patch
-	"${FILESDIR}"/0007-link-against-libunwind.patch
 )
 
 S="${WORKDIR}/${MY_P}-src"
