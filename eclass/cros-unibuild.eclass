@@ -207,13 +207,20 @@ _unibuild_common_install() {
 	[[ $# -eq 1 ]] || die "${FUNCNAME}: takes one argument"
 
 	local cmd="$1"
-	local source dest
+	local source dest origfile
 	(cros_config_host "${cmd}" || die) |
 	while read -r source; do
 		read -r dest
 		einfo "   - ${source}"
 		insinto "$(dirname "${dest}")"
-		newins "${FILESDIR}/${source}" "$(basename "${dest}")"
+		# From EAPI4+ symbolic links are not dereferenced when
+		# installing, but we want to dereference our links when
+		# installing config files. Common config files may be linked
+		# in the source directory, but the installed file should not be
+		# a link especially since the installed folder structure is
+		# different.
+		origfile="$(readlink -f "${FILESDIR}/${source}")"
+		newins "${origfile}" "$(basename "${dest}")"
 	done
 }
 
