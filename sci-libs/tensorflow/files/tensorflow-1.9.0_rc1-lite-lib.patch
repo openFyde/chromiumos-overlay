@@ -1,20 +1,25 @@
-From 9bf8a9231992a99603694a0928963f5b5a44bd8f Mon Sep 17 00:00:00 2001
+From dbfaf5786e58f546b901311be1850a283fdb9b6b Mon Sep 17 00:00:00 2001
 From: Michael Martis <martis@chromium.org>
 Date: Fri, 6 Jul 2018 11:29:47 +1000
 Subject: [PATCH] Added a TF lite shared library target.
 
-Typically TF lite projects are built with Bazel, so do not use a
-TF lite library. Since we want to use TF lite in projects with
-arbitrary build systems, we add a simple target to generate a TF
-lite shared library.
+Typically TF lite projects are built with Bazel, so there is no TF
+target to produce a standalone TF lite shared library. Since we want to
+use TF lite in projects with arbitrary build systems, we add such a
+target.
 
-We are investigating upstreaming this change:
+We also (coarsely) filter symbols exported by the library to minimize
+its size.
+
+The TF team intends to eventually support a target like this: see
 https://github.com/tensorflow/tensorflow/issues/20905
 
 Author: martis@chromium.org
 ---
- tensorflow/contrib/lite/BUILD | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ tensorflow/contrib/lite/BUILD              | 23 +++++++++++++++++++++-
+ tensorflow/contrib/lite/version_script.lds |  9 +++++++++
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 tensorflow/contrib/lite/version_script.lds
 
 --- a/tensorflow/contrib/lite/BUILD
 +++ b/tensorflow/contrib/lite/BUILD
@@ -28,24 +33,45 @@ Author: martis@chromium.org
  
  exports_files(glob([
      "testdata/*.bin",
-@@ -92,6 +93,17 @@ cc_library(
+@@ -92,6 +93,26 @@ cc_library(
  
  exports_files(["builtin_ops.h"])
  
++LINKER_SCRIPT = "version_script.lds"
++
 +tf_cc_shared_object(
 +    name = "libtensorflow_lite.so",
 +    framework_so = [],
-+    linkopts = tflite_linkopts() + ["-s"],  # Strip library.
++    copts = ["-DFARMHASH_NO_CXX_STRING"],
++    linkopts = tflite_linkopts() + [
++        "-s",                      # Strip library.
++        "-Wl,--version-script",    # Export only relevant symbols.
++        "$(location {})".format(LINKER_SCRIPT)
++    ],
++    linkstatic = 1,
 +    visibility = ["//visibility:public"],
 +    deps = [
 +        ":framework",
 +        "//tensorflow/contrib/lite/kernels:builtin_ops",
++        LINKER_SCRIPT,
 +    ]
 +)
 +
  cc_library(
      name = "string",
      hdrs = [
+--- /dev/null
++++ b/tensorflow/contrib/lite/version_script.lds
+@@ -0,0 +1,9 @@
++VERS_1.0 {
++  # Export all TF-lite symbols.
++  global:
++    *tflite*;
++
++  # Hide everything else.
++  local:
++    *;
++};
 -- 
-2.18.0.203.gfac676dfb9-goog
+2.18.0.345.g5c9ce644c3-goog
 
