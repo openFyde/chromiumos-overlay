@@ -3,10 +3,10 @@ DEPEND=>=dev-libs/glib-2.36 virtual/libgudev doc? ( dev-util/gtk-doc ) virtual/p
 DESCRIPTION=MBIM modem protocol helper library
 EAPI=6
 HOMEPAGE=http://cgit.freedesktop.org/libmbim/
-IUSE=-asan doc static-libs cros_host cros_workon_tree_2c122cfe1ad04573381889a296efaf0fa5fd102a profiling
+IUSE=-asan doc static-libs cros_host cros_workon_tree_ac83eb62f047bb8275cb226937626bfd8f80b85c profiling
 KEYWORDS=*
 LICENSE=GPL-2
 RDEPEND=>=dev-libs/glib-2.36 virtual/libgudev
 SLOT=0
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
-_md5_=8fe2ad9d087116289b55f0b0e6081b36
+_md5_=3ae2ed19eea8b5ab120cf1b0d1b8bde2
