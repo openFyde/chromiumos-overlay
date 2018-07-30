@@ -12,7 +12,7 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="detachable_ui fastboot fwconsole mocktpm pd_sync unibuild verbose"
+IUSE="detachable_ui fastboot fwconsole mocktpm pd_sync unibuild verbose debug"
 
 DEPEND="
 	chromeos-base/vboot_reference
@@ -68,6 +68,7 @@ dc_make() {
 	)
 
 	use verbose && OPTS+=( "V=1" )
+	use debug && OPTS+=( "SOURCE_DEBUG=1" )
 
 	emake "${OPTS[@]}" \
 		${libpayload} \
