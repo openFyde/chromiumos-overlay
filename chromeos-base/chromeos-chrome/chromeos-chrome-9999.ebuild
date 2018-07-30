@@ -59,6 +59,7 @@ IUSE="
 	mojo
 	+nacl
 	neon
+	oobe_config
 	opengl
 	opengles
 	+runhooks
@@ -243,6 +244,7 @@ RDEPEND="${RDEPEND}
 		sys-libs/libcxxabi
 		sys-libs/libcxx
 	)
+	oobe_config? ( chromeos-base/oobe_config )
 	smbprovider? ( chromeos-base/smbprovider )
 	"
 
