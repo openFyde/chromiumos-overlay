@@ -34,6 +34,9 @@ PATCHES=(
 	"${FILESDIR}"/${P}-disable-dynamic-modules.patch
 
 	"${FILESDIR}"/${P}-use-posix-shell.patch
+
+	# Excludes modules that are not used on Chromium OS
+	"${FILESDIR}"/${P}-exclude-unused-modules.patch
 )
 
 src_prepare() {

@@ -1,0 +1,28 @@
+From 12d0ef074feee8a538aa6dc9d603c4eb2d9f1998 Mon Sep 17 00:00:00 2001
+From: Ben Chan <benchan@chromium.org>
+Date: Tue, 31 Jul 2018 14:40:36 -0700
+Subject: [PATCH] exclude all modules except for those used on Chromium OS
+
+This patch excludes all modules except for zip and rar, which are used
+on Chromium OS.
+---
+ modules/Makefile.am | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/modules/Makefile.am b/modules/Makefile.am
+index 5beb96a..a6e5081 100644
+--- a/modules/Makefile.am
++++ b/modules/Makefile.am
+@@ -38,6 +38,9 @@ if BUILD_DAVSUPPORT
+     libmodules_la_SOURCES += dav.c dav_ls.c
+ endif
+ 
++# CHROMIUM: Exclude all modules except for those used by Chromium OS.
++modules := urar.c uzip.c
++
+ nodist_libmodules_la_SOURCES = \
+ 	mod_static.c
+ 
+-- 
+2.18.0.597.ga71716f1ad-goog
+
