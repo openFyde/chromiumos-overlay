@@ -30,6 +30,7 @@ IUSE="
 	unibuild"
 
 RDEPEND="
+	chromeos-base/bootstat
 	!<chromeos-base/chromeos-cheets-scripts-0.0.4
 	unibuild? ( chromeos-base/chromeos-config )
 	chromeos-base/chromeos-config-tools
