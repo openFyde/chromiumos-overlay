@@ -1,4 +1,4 @@
-From 539320dbee4f74def507782b30c0be2cc36eaf15 Mon Sep 17 00:00:00 2001
+From 42db8282247b9d7090ad62fdd29bff34859e8392 Mon Sep 17 00:00:00 2001
 From: "Nam T. Nguyen" <namnguyen@chromium.org>
 Date: Fri, 22 May 2015 08:38:37 -0700
 Subject: [PATCH] scripts: Use POSIX shell instead of bash
@@ -52,5 +52,5 @@ index 09dc629..4b6190b 100644
     else
        umount -l "$MntDir"
 -- 
-2.2.0.rc0.207.ga3a616c
+2.18.0.597.ga71716f1ad-goog
 

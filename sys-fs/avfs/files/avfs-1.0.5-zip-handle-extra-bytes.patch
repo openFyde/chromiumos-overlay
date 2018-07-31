@@ -1,17 +1,17 @@
-From a3eed95ccc6a7663a3cba42e7c238795f6b64412 Mon Sep 17 00:00:00 2001
+From 81474f24895f522fe42471601567efe90d2fb024 Mon Sep 17 00:00:00 2001
 From: Ben Chan <benchan@chromium.org>
 Date: Wed, 19 Feb 2014 20:22:34 -0800
 Subject: [PATCH] handle extra bytes at the beginning of a zip file
 
 ---
- modules/uzip.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ modules/uzip.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/modules/uzip.c b/modules/uzip.c
-index 36cee0e..7ab9dca 100644
+index 73ef0e5..f5f27f1 100644
 --- a/modules/uzip.c
 +++ b/modules/uzip.c
-@@ -235,7 +235,7 @@ static void zipnode_delete(struct zipnode *nod)
+@@ -286,7 +286,7 @@ static void zipnode_delete(struct zipnode *nod)
  
  static void fill_zipentry(struct archive *arch, const char *path, 
                            struct entry *ent, struct cdirentry *cent,
@@ -20,7 +20,7 @@ index 36cee0e..7ab9dca 100644
  {
      struct archnode *nod;
      struct zipnode *info;
-@@ -264,12 +264,13 @@ static void fill_zipentry(struct archive *arch, const char *path,
+@@ -315,12 +315,13 @@ static void fill_zipentry(struct archive *arch, const char *path,
      if(cent->start_disk != 0 || ecrec->cdir_disk != 0)
          info->headeroff = -1;
      else
@@ -36,7 +36,7 @@ index 36cee0e..7ab9dca 100644
  {
      struct entry *ent;
      int entflags = 0;
-@@ -297,12 +298,12 @@ static void insert_zipentry(struct archive *arch, char *path,
+@@ -348,7 +349,7 @@ static void insert_zipentry(struct archive *arch, char *path,
      if(ent == NULL)
          return;
  
@@ -45,30 +45,42 @@ index 36cee0e..7ab9dca 100644
      av_unref_obj(ent);
  }
  
+@@ -457,7 +458,7 @@ static int parse_extra_header(vfile *vf, avoff_t pos,
+ }
+ 
  static avoff_t read_entry(vfile *vf, struct archive *arch, avoff_t pos,
 -                          struct ecrec *ecrec)
 +                          struct ecrec *ecrec, avoff_t extra_bytes)
  {
      int res;
      char buf[CDIRENT_SIZE];
-@@ -342,7 +343,7 @@ static avoff_t read_entry(vfile *vf, struct archive *arch, avoff_t pos,
+@@ -508,7 +509,7 @@ static avoff_t read_entry(vfile *vf, struct archive *arch, avoff_t pos,
+         return -EIO;
      }
-     filename[ent.fname_len] = '\0';
  
 -    insert_zipentry(arch, filename, &ent, ecrec);
 +    insert_zipentry(arch, filename, &ent, ecrec, extra_bytes);
      av_free(filename);
  
      return pos + CDIRENT_SIZE + ent.fname_len + ent.extra_len +
-@@ -388,7 +389,7 @@ static int read_zipfile(vfile *vf, struct archive *arch)
+@@ -645,7 +646,7 @@ static int read_zip64file(vfile *vf, struct archive *arch, struct ecrec *ecrec,
              av_log(AVLOG_ERROR, "UZIP: Broken archive");
              return -EIO;
+         }
+-        cdir_pos = read_entry(vf, arch, cdir_pos, ecrec);
++        cdir_pos = read_entry(vf, arch, cdir_pos, ecrec, extra_bytes);
+         if(cdir_pos < 0) 
+             return cdir_pos;
+     }
+@@ -698,7 +699,7 @@ static int read_zipfile(vfile *vf, struct archive *arch)
+             return -EIO;
  	}
+ 
 -	cdir_pos = read_entry(vf, arch, cdir_pos, &ecrec);
 +	cdir_pos = read_entry(vf, arch, cdir_pos, &ecrec, extra_bytes);
  	if(cdir_pos < 0) 
              return cdir_pos;
      }
 -- 
-1.9.0.rc1.175.g0b1dcb5
+2.18.0.597.ga71716f1ad-goog
 

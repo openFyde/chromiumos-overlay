@@ -1,9 +1,21 @@
-This patch adds a flag to remove the dynamic module loading support given that
-it is not used.
+From 5acca28e08f3a2a4cd4383546ba59cc0f0b1ed2d Mon Sep 17 00:00:00 2001
+From: Ben Chan <benchan@chromium.org>
+Date: Tue, 31 Jul 2018 14:26:23 -0700
+Subject: [PATCH] disable dynamic modules
 
---- a/configure.in	2014-08-18 08:46:41.844674749 -0700
-+++ b/configure.in	2014-08-18 10:05:40.917158196 -0700
-@@ -113,6 +113,13 @@
+This patch adds a flag to remove the dynamic module loading support
+given that it is not used.
+---
+ configure.ac    | 14 +++++++++++++-
+ src/Makefile.am |  5 ++++-
+ src/parse.c     |  3 +++
+ 3 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index ea16b8c..ad883e5 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -113,6 +113,13 @@ fi
  
  AC_MSG_RESULT([$build_result])
  
@@ -17,7 +29,7 @@ it is not used.
  AC_MSG_CHECKING([whether debugging is enabled])
  AC_ARG_ENABLE(debug,
  [  --enable-debug          Compile in debug information
-@@ -278,7 +285,12 @@
+@@ -280,7 +287,12 @@ AC_SUBST(DAV)
  AC_SUBST(DAV_LS)
  AC_SUBST(LIBDAV)
  
@@ -31,9 +43,11 @@ it is not used.
  AC_CHECK_LIB(pthread, pthread_create)
  if test -z "`echo "$LIBS"|grep pthread`"; then
  	LIBS="$LIBS -pthread"
---- a/src/Makefile.am	2014-08-18 08:46:41.844674749 -0700
-+++ b/src/Makefile.am	2014-08-18 09:27:35.677419056 -0700
-@@ -21,7 +21,6 @@
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 43b6bde..03c17f9 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -21,7 +21,6 @@ libavfscore_la_SOURCES = utils.c      \
  	oper.c       \
  	fdops.c      \
  	virtual.c    \
@@ -41,7 +55,7 @@ it is not used.
  	remote.c     \
  	archive.c    \
  	archutil.c   \
-@@ -38,6 +37,10 @@
+@@ -38,6 +37,10 @@ libavfscore_la_SOURCES = utils.c      \
  	realfile.c   \
  	bzread.c
  
@@ -52,8 +66,10 @@ it is not used.
  if USE_LIBLZMA
  libavfscore_la_SOURCES += xzread.c
  endif
---- a/src/parse.c	2014-08-18 08:46:41.844674749 -0700
-+++ b/src/parse.c	2014-08-18 10:04:26.036638175 -0700
+diff --git a/src/parse.c b/src/parse.c
+index 1af1966..2dbd8b0 100644
+--- a/src/parse.c
++++ b/src/parse.c
 @@ -9,6 +9,7 @@
      Path parser module
  */
@@ -62,7 +78,7 @@ it is not used.
  #include "internal.h"
  #include "version.h"
  #include "local.h"
-@@ -227,7 +228,9 @@
+@@ -227,7 +228,9 @@ static int init()
          if(res == 0) {
              av_init_avfsstat();
              av_init_static_modules();
@@ -72,3 +88,6 @@ it is not used.
              av_init_logstat();
              init_stats();
              av_init_cache();
+-- 
+2.18.0.597.ga71716f1ad-goog
+
