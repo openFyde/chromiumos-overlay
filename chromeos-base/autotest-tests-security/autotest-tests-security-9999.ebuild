@@ -73,6 +73,7 @@ IUSE_TESTS="
 	+tests_security_SymlinkRestrictions
 	+tests_security_SysLogPermissions
 	+tests_security_SysVIPC
+	+tests_security_Usbguard
 	x86? ( +tests_security_x86Registers )
 	amd64? ( +tests_security_x86Registers )
 "
