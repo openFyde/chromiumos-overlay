@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-inherit autotools eutils
+inherit autotools eutils user
 
 DESCRIPTION="The USBGuard software framework helps to protect your computer against rogue USB devices (a.k.a. BadUSB) by implementing basic whitelisting and blacklisting capabilities based on device attributes."
 HOMEPAGE="https://usbguard.github.io/"
@@ -69,9 +69,6 @@ src_install() {
 	# Cleanup an unused file from the emake install command.
 	rm -f "${D}/etc/usbguard/rules.conf"
 
-	insinto /etc/usbguard
-	doins usbguard-daemon.conf
-
 	insinto /etc/usbguard/rules.d
 	use cfm_enabled_device && doins "${FILESDIR}/50-cfm-rules.conf"
 	use hammerd && doins "${FILESDIR}/50-soraka-rules.conf"
@@ -83,4 +80,13 @@ src_install() {
 	insinto /etc/init
 	doins "${FILESDIR}"/usbguard.conf
 	doins "${FILESDIR}"/usbguard-wrapper.conf
+
+	insinto /etc/usbguard
+	insopts -o usbguard -g usbguard -m600
+	doins usbguard-daemon.conf
+}
+
+pkg_setup() {
+	enewuser usbguard
+	enewgroup usbguard
 }
