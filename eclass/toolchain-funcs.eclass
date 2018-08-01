@@ -15,7 +15,7 @@
 if [[ -z ${_TOOLCHAIN_FUNCS_ECLASS} ]]; then
 _TOOLCHAIN_FUNCS_ECLASS=1
 
-inherit multilib
+inherit multilib flag-o-matic
 
 # tc-getPROG <VAR [search vars]> <default> [tuple]
 _tc-getPROG() {
