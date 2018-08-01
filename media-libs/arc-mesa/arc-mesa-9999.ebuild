@@ -248,6 +248,8 @@ multilib_src_configure() {
 		--with-dri-drivers=${DRI_DRIVERS} \
 		--with-gallium-drivers=${GALLIUM_DRIVERS} \
 		--with-vulkan-drivers=${VULKAN_DRIVERS} \
+		--with-egl-lib-suffix=_mesa \
+		--with-gles-lib-suffix=_mesa \
 		$(use egl && echo "--with-platforms=${EGL_PLATFORM}")
 }
 
@@ -256,9 +258,9 @@ multilib_src_install_cheets() {
 	newexe $(get_libdir)/libglapi.so libglapi.so
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/egl"
-	newexe $(get_libdir)/libEGL.so libEGL_mesa.so
-	newexe $(get_libdir)/libGLESv1_CM.so libGLESv1_CM_mesa.so
-	newexe $(get_libdir)/libGLESv2.so libGLESv2_mesa.so
+	newexe $(get_libdir)/libEGL_mesa.so libEGL_mesa.so
+	newexe $(get_libdir)/libGLESv1_CM_mesa.so libGLESv1_CM_mesa.so
+	newexe $(get_libdir)/libGLESv2_mesa.so libGLESv2_mesa.so
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/dri"
 	if use classic && use video_cards_intel; then
