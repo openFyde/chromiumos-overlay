@@ -54,7 +54,7 @@ src_install() {
 	if use tts ; then
 		insinto /usr/share/chromeos-assets/speech_synthesis/patts
 
-		doins speech_synthesis/patts/*.{css,html,js,json,zvoice}
+		doins speech_synthesis/patts/*.{css,html,js,json,svg,zvoice}
 		doins speech_synthesis/patts/tts_service.nmf
 
 		# Speech synthesis engine (platform-specific native client module).
