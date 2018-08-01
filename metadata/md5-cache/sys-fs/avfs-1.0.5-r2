@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install postinst prepare
+DEPEND=>=sys-fs/fuse-2.4:0 sys-libs/zlib app-arch/bzip2 lzma? ( app-arch/xz-utils ) virtual/pkgconfig !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16.1:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
+DESCRIPTION=AVFS is a virtual filesystem that allows browsing of compressed files
+EAPI=6
+HOMEPAGE=https://sourceforge.net/projects/avf
+IUSE=extfs static-libs +lzma
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=>=sys-fs/fuse-2.4:0 sys-libs/zlib app-arch/bzip2 lzma? ( app-arch/xz-utils )
+SLOT=0
+SRC_URI=mirror://sourceforge/avf/avfs-1.0.5.tar.bz2
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	libtool	52d0e17251d04645ffaa61bfdd858944	ltprune	2770eed66a9b8ef944714cd0e968182e	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
+_md5_=955aaaa9d4f73a3e41c2f712a75e7b47
