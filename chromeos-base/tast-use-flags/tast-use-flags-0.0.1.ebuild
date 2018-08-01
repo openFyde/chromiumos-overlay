@@ -14,6 +14,7 @@ IUSE="
 	arc
 	betty
 	chromeless_tty
+	+display_backlight
 	kvm_host
 	mocktpm
 	rialto
