@@ -36,7 +36,7 @@ IUSE="
 	build_native_assistant
 	+build_tests
 	+chrome_debug
-	cfi
+	+cfi
 	chrome_debug_tests
 	chrome_internal
 	chrome_media
