@@ -144,6 +144,7 @@ src_prepare() {
 	eapply "${FILESDIR}/2.21-unprivileged-only.patch"
 	eapply "${FILESDIR}/3.00-tcp-keepalive.patch"
 	eapply "${FILESDIR}/3.00-unprivileged-idmap.patch"
+	eapply "${FILESDIR}/3.0.0-lxd-expose-syslog-flag-via-CLI.patch"
 	eapply_user
 }
 

@@ -1,0 +1,25 @@
+From 8655efbd2b6e9470859f0a3c88c1027138787118 Mon Sep 17 00:00:00 2001
+From: Stephen Barber <smbarber@chromium.org>
+Date: Tue, 31 Jul 2018 17:03:47 -0700
+Subject: [PATCH] lxd: expose syslog flag via CLI
+
+Signed-off-by: Stephen Barber <smbarber@chromium.org>
+---
+ lxd/main.go | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/lxd/main.go b/lxd/main.go
+index 983f1812..74161481 100644
+--- a/lxd/main.go
++++ b/lxd/main.go
+@@ -71,6 +71,7 @@ func main() {
+ 	app.PersistentFlags().BoolVar(&globalCmd.flagVersion, "version", false, "Print version number")
+ 	app.PersistentFlags().BoolVarP(&globalCmd.flagHelp, "help", "h", false, "Print help")
+ 	app.PersistentFlags().StringVar(&globalCmd.flagLogFile, "logfile", "", "Path to the log file"+"``")
++	app.PersistentFlags().BoolVar(&globalCmd.flagLogSyslog, "syslog", false, "Log to system logger")
+ 	app.PersistentFlags().StringArrayVar(&globalCmd.flagLogTrace, "trace", []string{}, "Log tracing targets"+"``")
+ 	app.PersistentFlags().BoolVarP(&globalCmd.flagLogDebug, "debug", "d", false, "Show all debug messages")
+ 	app.PersistentFlags().BoolVarP(&globalCmd.flagLogVerbose, "verbose", "v", false, "Show all information messages")
+-- 
+2.18.0.345.g5c9ce644c3-goog
+
