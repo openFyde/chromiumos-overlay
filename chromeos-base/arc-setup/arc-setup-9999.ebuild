@@ -86,14 +86,6 @@ enable_clear_app_executables_after_ota() {
 	sed -i '/^export DELETE_DATA_EXECUTABLES_AFTER_OTA=/s:=.*:=1:' "${arc_setup_env}" || die
 }
 
-# Enables the option to start arc-appfuse-provider.
-enable_appfuse_provider() {
-	# Only enabled for P and later.
-	if use !android-container-nyc; then
-		sed -i "s/^\(export ENABLE_APPFUSE_PROVIDER=\)0\$/\11/" "$1"
-	fi
-}
-
 enable_esdfs() {
 	local arc_setup_env="$1"
 	sed -i '/^export USE_ESDFS=/s:=.*:=1:' "${arc_setup_env}" || die
@@ -126,7 +118,6 @@ src_install() {
 		enable_esdfs "${D}/etc/init/arc-setup-env"
 	fi
 	enable_clear_app_executables_after_ota "${D}/etc/init/arc-setup-env"
-	enable_appfuse_provider "${D}/etc/init/arc-setup-env"
 
 	insinto /opt/google/containers/arc-art
 	doins "${OUT}/dev-rootfs.squashfs"
