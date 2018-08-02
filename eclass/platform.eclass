@@ -40,8 +40,6 @@ inherit cros-debug cros-fuzzer cros-workon flag-o-matic toolchain-funcs multipro
 # everywhere even if they otherwise aren't using the flag.
 IUSE="asan cros_host fuzzer test"
 
-REQUIRED_USE="fuzzer? ( asan )"
-
 # Similarly to above, we use gmock/gtest for unittests in platform2 packages.
 # Add the dep all the time even if a few packages wouldn't use it as it doesn't
 # add any real overhead. As we often use the FRIEND_TEST macro provided by
