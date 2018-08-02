@@ -67,15 +67,6 @@ platform() {
 		--cache_dir="$(cros-workon_get_build_dir)"
 		"$@"
 	)
-	# dev-utils/{puffin,bsdiff} are using platform2 but blacklisted for uprev,
-	# and see older version of platform2.py, which doens't have this flag.
-	# TODO(oka): remove them from the blacklist.
-	if [[ "${CROS_WORKON_BLACKLIST}" != "1" ]]; then
-		cmd+=(
-			--platform_subdir="${PLATFORM_SUBDIR}"
-			--iuse_flags="${IUSE}"
-		)
-	fi
 	if [[ "${CROS_WORKON_INCREMENTAL_BUILD}" != "1" ]]; then
 		cmd+=( --disable_incremental )
 	fi
