@@ -16,6 +16,7 @@ fuchsia-zircon-sys-0.3.3
 cc-1.0.15
 libc-0.2.40
 log-0.4.1
+pkg-config-0.3.11
 proc-macro2-0.2.3
 protobuf-1.4.3
 protoc-1.4.3
