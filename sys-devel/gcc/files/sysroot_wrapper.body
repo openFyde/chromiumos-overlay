@@ -357,7 +357,7 @@ def main():
 
     # Specify the target for clang.
     linker = arch + '-ld'
-    linker_path = get_linker_path(linker)
+    linker_path = os.path.relpath(get_linker_path(linker))
     clang_cmdline += ['-B' + linker_path]
     if startswith_i86(arch):
       # TODO: -target i686-pc-linux-gnu causes clang to search for
