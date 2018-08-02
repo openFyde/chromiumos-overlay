@@ -371,8 +371,8 @@ src_compile() {
 	local froot="${CROS_FIRMWARE_ROOT}"
 	einfo "Compressing static assets"
 
-	if [ -d ${froot}/rocbfs ]; then
-	    die "something is still using ${froot}/rocbfs, which is deprecated."
+	if [[ -d ${froot}/rocbfs ]]; then
+		die "something is still using ${froot}/rocbfs, which is deprecated."
 	fi
 
 	# files from cbfs-ro-compress/ are installed in
