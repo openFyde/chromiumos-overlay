@@ -9,5 +9,5 @@ LICENSE=GPL-2
 RDEPEND=>=sys-libs/libselinux-2.4:= >=sys-libs/glibc-2.4 >=sys-libs/libsepol-2.4:= audit? ( >=sys-process/audit-1.5.1 ) !sys-apps/policycoreutils
 SLOT=0
 SRC_URI=https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20150202/policycoreutils-2.4.tar.gz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=8651f470f398da1a96d506f14a4fa5a2

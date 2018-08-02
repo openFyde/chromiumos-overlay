@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile install nofetch postinst test unpack
+DEPEND=dev-go/gapi-bundler dev-go/gapi-iterator dev-go/gapi-option dev-go/gapi-transport dev-go/gax dev-go/gcp-iam dev-go/gcp-internal dev-go/genproto dev-go/grpc dev-go/net dev-go/opencensus dev-go/protobuf dev-go/sync dev-lang/go
+DESCRIPTION=Google Cloud Client Libraries for Go
+EAPI=5
+HOMEPAGE=https://code.googlesource.com/gocloud
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=dev-go/gapi-bundler dev-go/gapi-iterator dev-go/gapi-option dev-go/gapi-transport dev-go/gax dev-go/gcp-iam dev-go/gcp-internal dev-go/genproto dev-go/grpc dev-go/net dev-go/opencensus dev-go/protobuf dev-go/sync
+RESTRICT=binchecks strip
+SLOT=0
+SRC_URI=https://github.com/GoogleCloudPlatform/google-cloud-go/archive/v0.18.0.tar.gz -> github.com-GoogleCloudPlatform-google-cloud-go-v0.18.0.tar.gz
+_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=f2c030bce92c3acf9fce2b8a6dfa5477

@@ -7,5 +7,5 @@ KEYWORDS=*
 LICENSE=LGPL-2.1
 SLOT=0
 SRC_URI=http://www.netfilter.org/projects/libmnl/files/libmnl-1.0.3.tar.bz2
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=42e8b65981ce5cdc572d2f3c8f895d5d

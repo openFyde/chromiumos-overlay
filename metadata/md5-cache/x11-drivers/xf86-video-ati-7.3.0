@@ -9,5 +9,5 @@ LICENSE=MIT
 RDEPEND=>=x11-libs/libdrm-2.4.46[video_cards_radeon] glamor? ( >=x11-libs/glamor-0.6 ) udev? ( virtual/udev ) x11-base/xorg-server[-minimal] x11-libs/libdrm x11-base/xorg-server[xorg] x11-libs/libpciaccess
 SLOT=0
 SRC_URI=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-ati-7.3.0.tar.bz2
-_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	autotools-utils	3727db64c7b960903d5033280f108080	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	52d0e17251d04645ffaa61bfdd858944	linux-info	e60da1ae009f60d1c79c5af918dfd844	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7	versionator	26ca8a8bd95d6a74122c08ba98a4ee72	xorg-2	50dd640df6d0554c259daa81531ed3ee
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	autotools-utils	3727db64c7b960903d5033280f108080	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	52d0e17251d04645ffaa61bfdd858944	linux-info	e60da1ae009f60d1c79c5af918dfd844	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	versionator	26ca8a8bd95d6a74122c08ba98a4ee72	xorg-2	50dd640df6d0554c259daa81531ed3ee
 _md5_=05e1cd4aa238444588124a5ac4057a0f

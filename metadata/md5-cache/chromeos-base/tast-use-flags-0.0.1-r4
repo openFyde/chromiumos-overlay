@@ -1,8 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Text file listing USE flags for Tast test dependencies
-EAPI=5
-IUSE=arc betty chromeless_tty kvm_host mocktpm rialto veyron_mickey veyron_rialto
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0
-_md5_=739a29628cc4941a4035669f76e592cd

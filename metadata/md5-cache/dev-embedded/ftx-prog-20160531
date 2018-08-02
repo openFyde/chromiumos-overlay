@@ -8,5 +8,5 @@ LICENSE=GPL-2
 RDEPEND=>=dev-embedded/libftdi-1.0
 SLOT=0
 SRC_URI=https://github.com/richardeoin/ftx-prog/archive/1341d561973b87238676950140ea91bd1b456bd8.tar.gz -> ftx-prog-20160531.tar.gz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=a761386e3562b7047ca1533c7e275b57

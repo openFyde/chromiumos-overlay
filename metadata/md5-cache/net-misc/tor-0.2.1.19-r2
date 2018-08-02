@@ -9,5 +9,5 @@ LICENSE=BSD
 RDEPEND=dev-libs/openssl >=dev-libs/libevent-1.2 net-proxy/tsocks sys-apps/baselayout
 SLOT=0
 SRC_URI=http://www.torproject.org/dist/tor-0.2.1.19.tar.gz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7	user	c8f947561e8797a300801d0dd3625448
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	user	c8f947561e8797a300801d0dd3625448
 _md5_=c7569eb019cb5c91e9ecf542787d0fbd

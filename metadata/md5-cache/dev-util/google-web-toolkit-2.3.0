@@ -8,5 +8,5 @@ LICENSE=Apache-2.0
 RDEPEND=>=virtual/jre-1.5
 SLOT=0
 SRC_URI=http://google-web-toolkit.googlecode.com/files/gwt-2.3.0.zip
-_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	java-utils-2	1971a6927fcd7ec839f7e12b28a24bdd	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
+_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	java-utils-2	1971a6927fcd7ec839f7e12b28a24bdd	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
 _md5_=0066f3b3c69b94cf3e9ab5c854f8c2be

@@ -10,5 +10,5 @@ RDEPEND=dev-go/websocket
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/mafredri/cdp/archive/v0.18.1.tar.gz -> github.com-mafredri-cdp-v0.18.1.tar.gz
-_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
+_eclasses_=cros-go	1531dde9453d4664aa648b3b3758d9d6	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=b32641e8b352ef66839cd2a9e61788b9

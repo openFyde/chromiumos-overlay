@@ -8,5 +8,5 @@ KEYWORDS=~*
 LICENSE=LGPL-2
 RDEPEND=glib? ( >=dev-libs/dbus-glib-0.76 ) glib? ( >=dev-libs/glib-2.19:2 ) >=sys-apps/dbus-1.0 cros_host? ( >=dev-cpp/ctemplate-2.0 )
 SLOT=1
-_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff5f7521e6d186b9926230d7bbf095f7
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=cdc0ecfe62d5d4729ea280f6185c35fe
