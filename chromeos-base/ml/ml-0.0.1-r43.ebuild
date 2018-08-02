@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="99cefae5bfc92ddfc8bb1c1e9c40326acbeea2e1"
-CROS_WORKON_TREE=("34bcb6266df551e7744073b28ff1b6aa18023fe2" "88eef16faacf3605e001529aa3c533213c986e11")
+CROS_WORKON_COMMIT="49f50b36492ae6bdeb2bc4fe55b5fd1fdc83b411"
+CROS_WORKON_TREE=("34bcb6266df551e7744073b28ff1b6aa18023fe2" "a44e222f85f22d1fabeeee88e7ff04b6b895018d")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -46,7 +46,7 @@ src_install() {
 
 	# Install D-Bus configuration file
 	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Ml.conf
+	doins dbus/org.chromium.MachineLearning.conf
 
 	# Install the ML models.
 	insinto /opt/google/chrome/ml_models
