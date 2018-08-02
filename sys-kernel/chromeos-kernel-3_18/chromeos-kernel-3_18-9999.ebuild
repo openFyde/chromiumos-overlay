@@ -18,6 +18,8 @@ HOMEPAGE="https://www.chromium.org/chromium-os/chromiumos-design-docs/chromium-o
 DESCRIPTION="Chrome OS Linux Kernel 3.18"
 KEYWORDS="~*"
 
+RDEPEND="!!sys-kernel/gale-kernel-3_18"
+
 # Change the following (commented out) number to the next prime number
 # when you change "cros-kernel2.eclass" to work around http://crbug.com/220902
 #
