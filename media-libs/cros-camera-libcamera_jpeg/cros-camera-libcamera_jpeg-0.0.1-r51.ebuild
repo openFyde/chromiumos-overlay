@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT=("f41f448b9ce877da521f65f1e60c4d10dc0a99f9" "99cefae5bfc92ddfc8bb1c1e9c40326acbeea2e1")
+CROS_WORKON_COMMIT=("3fe6aa5f465e6342d0fd088133f7ad1c7d9a0a89" "49f50b36492ae6bdeb2bc4fe55b5fd1fdc83b411")
 CROS_WORKON_TREE=("6589055d0d41e7fc58d42616ba5075408d810f7d" "743d220243a801114bf32893bd59865830667327" "7db7e0f493ad0b47165e64d5c78cf43c560326cc" "04d2f915e83148f85ce085e7ee18f2506ec85a47" "34bcb6266df551e7744073b28ff1b6aa18023fe2")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/arc-camera"
@@ -33,6 +33,7 @@ KEYWORDS="*"
 
 RDEPEND="
 	!media-libs/arc-camera3-libcamera_jpeg
+	media-libs/cros-camera-libcamera_common
 	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}
