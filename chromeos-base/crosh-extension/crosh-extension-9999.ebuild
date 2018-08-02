@@ -1,16 +1,16 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI="6"
 
 CROS_WORKON_PROJECT="apps/libapps"
 CROS_WORKON_LOCALNAME="../third_party/libapps"
-CROS_WORKON_USE_VCSID="true"
+CROS_WORKON_SUBTREE="libdot hterm nassh"
 
 inherit cros-workon
 
 DESCRIPTION="The Chromium OS Shell extension (the HTML/JS rendering part)"
-HOMEPAGE="https://chromium.googlesource.com/apps/libapps/"
+HOMEPAGE="https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/chromeos-crosh.md"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -25,14 +25,12 @@ e() {
 }
 
 src_compile() {
-	cd nassh
-	e ./bin/mkdeps.sh
-	e ./bin/mkzip.sh
-	e ./bin/mkcrosh.sh dist/zip/*.zip
+	export VCSID="${CROS_WORKON_COMMIT:-${PF}}"
+	e ./nassh/bin/mkcrosh.sh
 }
 
 src_install() {
-	insinto /usr/share/chromeos-assets/crosh_builtin
-	unzip -d crosh_builtin_deploy/ nassh/bin/crosh_builtin.zip || die
-	doins -r crosh_builtin_deploy/*
+	local dir="/usr/share/chromeos-assets/crosh_builtin"
+	dodir "${dir}"
+	unzip -d "${D}${dir}" nassh/dist/zip/crosh*.zip || die
 }
