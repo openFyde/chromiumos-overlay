@@ -31,6 +31,7 @@ KEYWORDS="~*"
 
 RDEPEND="
 	!media-libs/arc-camera3-libcamera_jpeg
+	media-libs/cros-camera-libcamera_common
 	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}
