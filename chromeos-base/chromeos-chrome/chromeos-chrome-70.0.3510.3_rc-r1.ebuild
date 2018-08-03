@@ -36,7 +36,7 @@ IUSE="
 	build_native_assistant
 	+build_tests
 	+chrome_debug
-	cfi
+	+cfi
 	chrome_debug_tests
 	chrome_internal
 	chrome_media
@@ -166,7 +166,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-70.0.3508.3_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-70.0.3510.3_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R70-3494.0-1532949385.afdo"
 AFDO_FILE["airmont"]="R70-3494.0-1532946440.afdo"
 AFDO_FILE["haswell"]="R70-3494.0-1532948383.afdo"
