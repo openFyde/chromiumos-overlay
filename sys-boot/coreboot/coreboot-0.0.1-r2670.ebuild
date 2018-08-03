@@ -38,7 +38,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 IUSE="em100-mode fastboot fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
-IUSE="${IUSE} +bmpblk cros_ec +intel_mrc pd_sync qca-framework quiet unibuild verbose"
+IUSE="${IUSE} +bmpblk +intel_mrc qca-framework quiet unibuild verbose"
 IUSE="${IUSE} amd_cpu coreboot-sdk"
 # coreboot's build system handles stripping the binaries and producing a
 # separate .debug file with the symbols. This flag prevents portage from
@@ -64,8 +64,6 @@ DEPEND="
 	${DEPEND_BLOCKERS}
 	virtual/coreboot-private-files
 	bmpblk? ( sys-boot/chromeos-bmpblk )
-	cros_ec? ( chromeos-base/chromeos-ec )
-	pd_sync? ( chromeos-base/chromeos-ec )
 	intel_mrc? ( x86? ( sys-boot/chromeos-mrc )
 		amd64? ( sys-boot/chromeos-mrc ) )
 	amd_cpu? ( sys-boot/amd-firmware )
@@ -224,25 +222,6 @@ src_prepare() {
 	fi
 }
 
-# Returns true if EC supports EFS.
-is_ec_efs_enabled() {
-	grep -q "^CONFIG_VBOOT_EC_EFS=y$" "${CONFIG}"
-}
-
-add_ec() {
-	local rom="$1"
-	local name="$2"
-	local ecroot="$3"
-	local pad="0"
-
-	is_ec_efs_enabled && pad="128"
-	einfo "Padding ecrw ${pad} byte."
-	cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c lzma \
-		-f "${ecroot}/ec.RW.bin" -n "${name}" -p "${pad}" || die
-	cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
-		-f "${ecroot}/ec.RW.hash" -n "${name}.hash" || die
-}
-
 add_fw_blob() {
 	local rom="$1"
 	local cbname="$2"
@@ -260,12 +239,10 @@ add_fw_blob() {
 #   $1: Build directory to use (e.g. "build_serial")
 #   $2: Config file to use (e.g. ".config_serial")
 #   $3: Build target build (e.g. "pyro"), for USE=unibuild only.
-#   $4: Build target ec (e.g. "pyro"), for USE=unibuild only.
 make_coreboot() {
 	local builddir="$1"
 	local config_fname="$2"
 	local build_target="$3"
-	local ec_target="$4"
 	local froot="${SYSROOT}/firmware"
 	local fblobroot="${SYSROOT}/firmware"
 
@@ -297,23 +274,6 @@ make_coreboot() {
 		einfo "Enabling em100 mode via ifdttool (slower SPI flash)"
 		ifdtool --em100 "${builddir}/coreboot.rom" || die
 		mv "${builddir}/coreboot.rom"{.new,} || die
-	fi
-
-	if use cros_ec; then
-		if use unibuild; then
-			einfo "Adding ec for ${ec_target}"
-			add_ec "${builddir}/coreboot.rom" "ecrw" \
-				"${SYSROOT}/firmware/${ec_target}"
-		else
-			add_ec "${builddir}/coreboot.rom" "ecrw" "${froot}"
-		fi
-	fi
-
-	if use pd_sync; then
-		add_ec "${builddir}/coreboot.rom" "pdrw" \
-			"${froot}/${PD_FIRMWARE}" ||
-			die "Could not add PD in '${froot}/${PD_FIRMWARE}' \
-to Coreboot"
 	fi
 
 	local blob
@@ -359,20 +319,17 @@ src_compile() {
 	use verbose && elog "Toolchain:\n$(sh util/xcompile/xcompile)\n"
 
 	if use unibuild; then
-		local fields="coreboot,ec"
+		local fields="coreboot"
 		local cmd="get-firmware-build-combinations"
 		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
-			read -r ec
 
 			set_build_env "${coreboot}" "${name}"
-			make_coreboot "${BUILD_DIR}" "${CONFIG}" "${name}" \
-				"${ec}"
+			make_coreboot "${BUILD_DIR}" "${CONFIG}" "${name}"
 
 			# Build a second ROM with serial support for developers.
-			make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}" \
-				"${name}" "${ec}"
+			make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}" "${name}"
 		done
 	else
 		set_build_env "$(get_board)"
