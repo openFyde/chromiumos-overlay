@@ -10,8 +10,8 @@ inherit cmake-utils
 DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
 HOMEPAGE="https://android.googlesource.com/platform/external/deqp"
 
-# This corresponds to a commit near ToT.
-MY_DEQP_COMMIT='1dfe5d68bd78ebc44ee80222452e4a5f5656aab6'
+# This corresponds to a commit near ToT. (tagged in AOSP as 'android-p-preview-5')
+MY_DEQP_COMMIT='e98bb687e85fb0e4b671f8e301a2f8ddee14f181'
 
 # To uprev deqp, follow these commands:
 # wget https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz
