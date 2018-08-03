@@ -58,6 +58,8 @@ src_prepare() {
 	epatch "${FILESDIR}/0029-BACKPORT-media-v4l-ctrls-Add-a-control-for-digital-g.patch"
 	epatch "${FILESDIR}/0030-BACKPORT-FROMGIT-media-v4l2-ctrl-Change-control-for-.patch"
 	epatch "${FILESDIR}/0031-BACKPORT-FROMGIT-media-v4l2-ctrl-Add-control-for-VP9.patch"
+	epatch "${FILESDIR}/0032-BACKPORT-FROMLIST-media-v4l-Add-JPEG_RAW-format.patch"
+	epatch "${FILESDIR}/0033-BACKPORT-FROMLIST-v4l-Add-controls-for-jpeg-quantization-tables.patch"
 }
 
 src_install() {
