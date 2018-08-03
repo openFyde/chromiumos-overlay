@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install postinst prepare setup unpack
+DEPEND=ssl? ( dev-libs/openssl ) kernel_linux? ( dev-libs/libnl:3 crda? ( net-wireless/crda ) ) netlink? ( net-libs/libnfnetlink ) sqlite? ( >=dev-db/sqlite-3 ) dev-vcs/git
+DESCRIPTION=IEEE 802.11 wireless LAN Host AP daemon
+EAPI=4
+HOMEPAGE=http://hostap.epitest.fi
+IUSE=ipv6 logwatch netlink sqlite +ssl +wps +crda taxonomy cros_host cros_workon_tree_64677e4fcbe280d5b480da27c6c2b870244bac87 profiling
+KEYWORDS=*
+LICENSE=|| ( GPL-2 BSD )
+RDEPEND=ssl? ( dev-libs/openssl ) kernel_linux? ( dev-libs/libnl:3 crda? ( net-wireless/crda ) ) netlink? ( net-libs/libnfnetlink ) sqlite? ( >=dev-db/sqlite-3 )
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=dfd6a7fd7ac9cfaf6ae700975d08a259
