@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=!media-libs/arc-camera3-test media-libs/cros-camera-libcamera_client media-libs/cros-camera-libcamera_common media-libs/cros-camera-libcamera_metadata media-libs/cros-camera-libcbm media-libs/libexif media-libs/libsync media-libs/minigbm virtual/jpeg:0 dev-cpp/gtest media-libs/cros-camera-android-headers media-libs/libyuv virtual/pkgconfig dev-vcs/git chromeos-base/libchrome:395517[cros-debug=] test? ( dev-cpp/gmock ) dev-cpp/gtest dev-vcs/git
+DESCRIPTION=Chrome OS camera HAL native test.
+EAPI=5
+IUSE=-asan cros-debug fuzzer cros_host cros_workon_tree_6589055d0d41e7fc58d42616ba5075408d810f7d_8e84b2ad7ed255a624befb36989c395d435e0ce5_743d220243a801114bf32893bd59865830667327_f76158d0e16c8033308464a79a91fc0165d07fc8 profiling cros-debug asan cros_host fuzzer test cros_host cros_workon_tree_6589055d0d41e7fc58d42616ba5075408d810f7d_8e84b2ad7ed255a624befb36989c395d435e0ce5_743d220243a801114bf32893bd59865830667327_f76158d0e16c8033308464a79a91fc0165d07fc8 profiling
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!media-libs/arc-camera3-test media-libs/cros-camera-libcamera_client media-libs/cros-camera-libcamera_common media-libs/cros-camera-libcamera_metadata media-libs/cros-camera-libcbm media-libs/libexif media-libs/libsync media-libs/minigbm virtual/jpeg:0 chromeos-base/libchrome:395517[cros-debug=]
+REQUIRED_USE=fuzzer? ( asan )
+SLOT=0
+_eclasses_=cros-camera	24b00e4438f36dec813ea3afa9f6c750	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	ebc02f60bcf39df5297008f1b894323d	cros-workon	45666967b021aef0c5fea654f8679613	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	b52d05e71fc666d335a6d65c29d19a88	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	c5039a61d56841f2fdfec5dfc834d4bb	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=b8dad611cea7b41b63ed3d502a71961c
