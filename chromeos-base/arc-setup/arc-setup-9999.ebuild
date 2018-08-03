@@ -80,12 +80,6 @@ set_density_scale() {
 	sed -i "s/\(ARC_UI_SCALE=\)-1/\1${scale}/" "$1" || die "set_density_scale failed!"
 }
 
-# Enables the option to clear app/*/oat/ after update.
-enable_clear_app_executables_after_ota() {
-	local arc_setup_env="$1"
-	sed -i '/^export DELETE_DATA_EXECUTABLES_AFTER_OTA=/s:=.*:=1:' "${arc_setup_env}" || die
-}
-
 enable_esdfs() {
 	local arc_setup_env="$1"
 	sed -i '/^export USE_ESDFS=/s:=.*:=1:' "${arc_setup_env}" || die
@@ -117,7 +111,6 @@ src_install() {
 	if use esdfs; then
 		enable_esdfs "${D}/etc/init/arc-setup-env"
 	fi
-	enable_clear_app_executables_after_ota "${D}/etc/init/arc-setup-env"
 
 	insinto /opt/google/containers/arc-art
 	doins "${OUT}/dev-rootfs.squashfs"
