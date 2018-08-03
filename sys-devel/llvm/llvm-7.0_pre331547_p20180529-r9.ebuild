@@ -286,6 +286,10 @@ src_prepare() {
 	# https://llvm.org/bugs/show_bug.cgi?id=28681
 	epatch "${FILESDIR}"/clang-6.0-enable-libgcc-with-compiler-rt.patch
 
+	# Temporarily revert r332058 as it caused speedometer2 perf regression.
+	# https://crbug.com/864781
+	use llvm-next && epatch "${FILESDIR}"/llvm-revert-afdo-hotness.patch
+
 	python_setup
 
 	# User patches
