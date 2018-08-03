@@ -53,10 +53,10 @@ set_density_scale() {
 	# Scale is passed in percent
 	local scale=100
 	case $(get_current_board_with_variant) in
-		chell) # 2.25x. Among the standard Android dpi, the closest value 280 is chosen.
+		chell*|nocturne*) # 2.25x. Among the standard Android dpi, the closest value 280 is chosen.
 			density=280
 			scale=225 ;;
-		betty*|caroline*|eve*|kevin*|newbie|novato*|samus*|scarlet*|soraka*) # 2x HiDPI
+		betty*|caroline*|eve*|kevin*|newbie*|novato*|samus*|scarlet*|soraka*) # 2x HiDPI
 			density=240
 			scale=200 ;;
 		nautilus*) # 1.6x. Among the standard Android dpi, the closest value 213 is chosen.
