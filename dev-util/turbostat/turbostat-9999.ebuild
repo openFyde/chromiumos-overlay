@@ -21,8 +21,6 @@ SLOT=0
 KEYWORDS="~*"
 IUSE="-asan"
 
-using_common_mk() { return 1; }
-
 domake() {
 	emake -C tools/power/x86/turbostat \
 		BUILD_OUTPUT="$(cros-workon_get_build_dir)" DESTDIR="${D}" \

@@ -373,10 +373,6 @@ get_rev() {
 	GIT_DIR="$1" git rev-parse HEAD
 }
 
-using_common_mk() {
-	[[ -n $(find -H "${S}" -name common.mk -exec grep -l 'The authoritative common.mk is located in' {} +) ]]
-}
-
 cros-workon_src_unpack() {
 	local fetch_method # local|git
 
@@ -712,11 +708,6 @@ cros-workon_pkg_setup() {
 cros-workon_src_prepare() {
 	local out="$(cros-workon_get_build_dir)"
 	[[ ${CROS_WORKON_INCREMENTAL_BUILD} != "1" ]] && mkdir -p "${out}"
-
-	if using_common_mk ; then
-		: ${OUT=${out}}
-		export OUT
-	fi
 }
 
 cros-workon_src_configure() {
@@ -725,24 +716,8 @@ cros-workon_src_configure() {
 		cros-debug-add-NDEBUG
 	fi
 
-	if using_common_mk ; then
-		# We somewhat overshoot here, but it isn't harmful,
-		# and catches all the packages we care about.
-		tc-export CC CXX AR RANLIB LD NM PKG_CONFIG
-
-		# Portage takes care of this for us.
-		export SPLITDEBUG=0
-		export MODE=opt
-	elif [[ -x ${ECONF_SOURCE:-.}/configure ]]; then
+	if [[ -x ${ECONF_SOURCE:-.}/configure ]]; then
 		econf "$@"
-	else
-		default
-	fi
-}
-
-cros-workon_src_compile() {
-	if using_common_mk ; then
-		emake ${CROS_WORKON_MAKE_COMPILE_ARGS}
 	else
 		default
 	fi
