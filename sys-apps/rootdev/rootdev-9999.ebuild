@@ -30,9 +30,6 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		einfo Skipping unit tests on non-x86 platform
 	else
-		# Needed for `cros_run_unit_tests`.
-		cros-workon_src_test
-
 		sudo LD_LIBRARY_PATH=${WORKDIR} \
 			./rootdev_test.sh "${WORKDIR}/rootdev" || die
 	fi

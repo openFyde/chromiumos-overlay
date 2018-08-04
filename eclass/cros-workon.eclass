@@ -748,14 +748,6 @@ cros-workon_src_compile() {
 	fi
 }
 
-cros-workon_src_test() {
-	if using_common_mk ; then
-		emake tests
-	else
-		default
-	fi
-}
-
 cros-workon_pkg_info() {
 	print_quoted_array() { printf '"%s"\n' "$@"; }
 
