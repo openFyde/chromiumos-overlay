@@ -1,47 +1,27 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
+
 CROS_WORKON_PROJECT="chromiumos/platform/dm-verity"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit cros-workon
+inherit cros-workon cros-common.mk
 
 DESCRIPTION="File system integrity image generator for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
-SRC_URI=""
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dm-verity"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="test"
 
 RDEPEND=""
-
-# qemu use isn't reflected as it is copied into the target
-# from the build host environment.
 DEPEND="${RDEPEND}
 	test? (
 		dev-cpp/gmock
 		dev-cpp/gtest
 	)"
-
-src_prepare() {
-	cros-workon_src_prepare
-}
-
-src_configure() {
-	cros-workon_src_configure
-}
-
-src_compile() {
-	cros-workon_src_compile
-}
-
-src_test() {
-	! use amd64 && ! use x86 && ewarn "Skipping unittests for non-x86" && return 0
-	emake tests
-}
 
 src_install() {
 	dolib.a "${OUT}"/libdm-bht.a
