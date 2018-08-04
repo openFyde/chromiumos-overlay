@@ -11,7 +11,7 @@ inherit cros-workon eutils toolchain-funcs qt4-r2 qmake-utils multilib systemd u
 DESCRIPTION="IEEE 802.1X/WPA supplicant for secure wireless transfers"
 # HOMEPAGE="http://hostap.epitest.fi/wpa_supplicant/"
 # SRC_URI="http://hostap.epitest.fi/releases/${P}.tar.gz"
-HOMEPAGE="${CROS_GIT_HOST_URL}/${CROS_WORKON_PROJECT}"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/hostap"
 SRC_URI=""
 LICENSE="|| ( GPL-2 BSD )"
 

@@ -4,7 +4,7 @@
 EAPI=4
 CROS_WORKON_PROJECT="chromiumos/third_party/mmc-utils"
 
-inherit cros-constants cros-workon toolchain-funcs
+inherit cros-workon toolchain-funcs
 
 # original Announcement of project:
 #	http://permalink.gmane.org/gmane.linux.kernel.mmc/12766
@@ -20,8 +20,7 @@ inherit cros-constants cros-workon toolchain-funcs
 #   git remote update
 
 DESCRIPTION="Userspace tools for MMC/SD devices"
-HOMEPAGE="${CROS_GIT_HOST_URL}/${CROS_WORKON_PROJECT}"
-SRC_URI=""
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/mmc-utils"
 
 LICENSE="GPL-2"
 SLOT="0"

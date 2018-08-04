@@ -6,11 +6,10 @@ EAPI="4"
 CROS_WORKON_PROJECT="chromiumos/platform/bootcache"
 CROS_WORKON_LOCALNAME="../platform/bootcache"
 CROS_WORKON_OUTOFTREE_BUILD=1
-inherit cros-constants cros-workon
+inherit cros-workon
 
 DESCRIPTION="Utility for creating store for boot cache"
-HOMEPAGE="${CROS_GIT_HOST_URL}/${CROS_WORKON_PROJECT}"
-SRC_URI=""
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/bootcache"
 
 LICENSE="GPL-2"
 SLOT="0"

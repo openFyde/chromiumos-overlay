@@ -7,11 +7,10 @@ CROS_WORKON_LOCALNAME="../platform/frecon"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-inherit cros-constants cros-workon toolchain-funcs
+inherit cros-workon toolchain-funcs
 
 DESCRIPTION="Chrome OS KMS console"
-HOMEPAGE="${CROS_GIT_HOST_URL}/${CROS_WORKON_PROJECT}"
-SRC_URI=""
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/frecon"
 
 LICENSE="BSD-Google"
 SLOT="0"

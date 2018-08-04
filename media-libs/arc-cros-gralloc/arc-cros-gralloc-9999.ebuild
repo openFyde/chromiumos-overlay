@@ -8,8 +8,7 @@ CROS_WORKON_LOCALNAME="../platform/minigbm"
 inherit multilib-minimal arc-build cros-workon
 
 DESCRIPTION="ChromeOS gralloc implementation"
-HOMEPAGE="${CROS_GIT_HOST_URL}/${CROS_WORKON_PROJECT}"
-SRC_URI=""
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/minigbm"
 
 LICENSE="BSD-Google"
 SLOT="0"
