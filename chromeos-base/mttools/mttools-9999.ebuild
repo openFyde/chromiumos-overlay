@@ -1,12 +1,14 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI="6"
+
 CROS_WORKON_PROJECT="chromiumos/platform/mttools"
 
-inherit cros-workon cros-constants cros-debug
+inherit cros-workon cros-common.mk cros-constants cros-debug
 
 DESCRIPTION="Chromium OS multitouch utilities"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/mttools"
 
 LICENSE="BSD"
 SLOT="0"
@@ -20,17 +22,9 @@ RDEPEND="chromeos-base/gestures
 
 DEPEND=${RDEPEND}
 
-src_prepare() {
-	cros-workon_src_prepare
-}
-
 src_configure() {
 	asan-setup-env
-	cros-workon_src_configure
-}
-
-src_compile() {
-	cros-workon_src_compile
+	cros-common.mk_src_configure
 }
 
 src_install() {
