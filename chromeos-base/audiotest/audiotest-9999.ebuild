@@ -1,14 +1,15 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI="6"
 
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/audiotest"
-inherit cros-workon
+
+inherit cros-workon cros-common.mk toolchain-funcs
 
 DESCRIPTION="Audio test tools"
-HOMEPAGE="http://src.chromium.org"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/audiotest"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -19,17 +20,9 @@ RDEPEND="media-libs/alsa-lib
 	media-sound/adhd"
 DEPEND="${RDEPEND}"
 
-src_prepare() {
-	cros-workon_src_prepare
-}
-
 src_configure() {
 	asan-setup-env
-	cros-workon_src_configure
-}
-
-src_compile() {
-	cros-workon_src_compile
+	cros-common.mk_src_configure
 }
 
 src_install() {
