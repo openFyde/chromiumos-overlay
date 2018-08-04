@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=4
+EAPI="6"
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -10,10 +10,10 @@ CROS_WORKON_DESTDIR="${S}"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk avtest_label_detect"
 
-inherit cros-workon eutils
+inherit cros-workon cros-common.mk
 
 DESCRIPTION="Autotest label detector for audio/video/camera"
-HOMEPAGE="http://src.chromium.org"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/avtest_label_detect"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -28,18 +28,10 @@ src_unpack() {
 	S+="/avtest_label_detect"
 }
 
-src_prepare() {
-	cros-workon_src_prepare
-}
-
 src_configure() {
 	export USE_VAAPI=$(usex vaapi)
 	asan-setup-env
-	cros-workon_src_configure
-}
-
-src_compile() {
-	cros-workon_src_compile
+	cros-common.mk_src_configure
 }
 
 src_install() {
