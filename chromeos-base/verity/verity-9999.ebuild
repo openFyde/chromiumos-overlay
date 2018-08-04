@@ -14,7 +14,7 @@ SRC_URI=""
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="valgrind"
+IUSE=""
 
 RDEPEND=""
 
@@ -24,8 +24,7 @@ DEPEND="${RDEPEND}
 	test? (
 		dev-cpp/gmock
 		dev-cpp/gtest
-	)
-	valgrind? ( dev-util/valgrind )"
+	)"
 
 src_prepare() {
 	cros-workon_src_prepare

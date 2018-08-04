@@ -750,9 +750,7 @@ cros-workon_src_compile() {
 
 cros-workon_src_test() {
 	if using_common_mk ; then
-		emake \
-			VALGRIND=$(use_if_iuse valgrind && echo 1) \
-			tests
+		emake tests
 	else
 		default
 	fi
