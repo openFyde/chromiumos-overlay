@@ -198,7 +198,7 @@ ARRAY_VARIABLES=(
 
 # Join the tree commits to produce a unique identifier
 CROS_WORKON_TREE_COMPOSITE=$(IFS="_"; echo "${CROS_WORKON_TREE[*]}")
-IUSE="cros_host cros_workon_tree_$CROS_WORKON_TREE_COMPOSITE profiling"
+IUSE="cros_host cros_workon_tree_$CROS_WORKON_TREE_COMPOSITE"
 
 inherit flag-o-matic toolchain-funcs
 
@@ -732,7 +732,7 @@ cros-workon_src_configure() {
 
 		# Portage takes care of this for us.
 		export SPLITDEBUG=0
-		export MODE=$(usex profiling profiling opt)
+		export MODE=opt
 	elif [[ -x ${ECONF_SOURCE:-.}/configure ]]; then
 		econf "$@"
 	else
@@ -789,27 +789,7 @@ cros-workon_src_test() {
 }
 
 cros-workon_src_install() {
-	# common.mk supports coverage analysis, but only generates data when
-	# the tests have been run as part of the build process. Thus this code
-	# needs to test of the analysis output is present before trying to
-	# install it.
-	if using_common_mk ; then
-		if use profiling; then
-			LCOV_DIR=$(find "${WORKDIR}" -name "lcov-html")
-			if [[ $(echo "${LCOV_DIR}" | wc -l) -gt 1 ]] ; then
-				die "More then one instance of lcov-html " \
-				    "found! The instances are ${LCOV_DIR}. " \
-				    "It is unclear which version to use, " \
-				    "failing install."
-			fi
-			if [[ -d "${LCOV_DIR}" ]] ; then
-				local dir="${PN}"
-				[[ ${SLOT} != "0" ]] && dir+=":${SLOT}"
-				insinto "/usr/share/profiling/${dir}/lcov"
-				doins -r "${LCOV_DIR}"/*
-			fi
-		fi
-	else
+	if ! using_common_mk ; then
 		default
 	fi
 }
