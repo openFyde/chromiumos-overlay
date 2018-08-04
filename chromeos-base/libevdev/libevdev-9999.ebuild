@@ -1,33 +1,25 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
+
 CROS_WORKON_PROJECT="chromiumos/platform/libevdev"
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit toolchain-funcs multilib cros-debug cros-workon
+inherit toolchain-funcs multilib cros-debug cros-workon cros-common.mk
 
 DESCRIPTION="evdev userspace library"
-HOMEPAGE="http://www.chromium.org/"
-SRC_URI=""
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/libevdev"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="-asan"
 
-src_prepare() {
-	cros-workon_src_prepare
-}
-
 src_configure() {
 	asan-setup-env
-	cros-workon_src_configure
-}
-
-src_compile() {
-	cros-workon_src_compile
+	cros-common.mk_src_configure
 }
 
 src_install() {
