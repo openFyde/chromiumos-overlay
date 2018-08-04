@@ -43,8 +43,6 @@ src_compile() {
 }
 
 src_install() {
-	cros-workon_src_install
-
 	# Install built tools
 	pushd "${OUT}" >/dev/null
 	dobin avtest_label_detect

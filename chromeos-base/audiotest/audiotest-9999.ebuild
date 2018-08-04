@@ -33,8 +33,6 @@ src_compile() {
 }
 
 src_install() {
-	cros-workon_src_install
-
 	# Install built tools
 	pushd "${OUT}" >/dev/null
 	dobin src/alsa_api_test

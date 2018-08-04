@@ -42,6 +42,5 @@ src_compile() {
 
 src_install() {
 	cd try_touch_experiment
-	cros-workon_src_install
 	default
 }

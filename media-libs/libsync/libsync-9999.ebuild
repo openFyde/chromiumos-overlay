@@ -33,7 +33,3 @@ src_configure() {
 	export GENTOO_LIBDIR=$(get_libdir)
 	tc-export CC
 }
-
-src_install() {
-	cros-workon_src_install
-}

@@ -59,8 +59,6 @@ src_compile() {
 }
 
 src_install() {
-	cros-workon_src_install
-
 	insinto "${EPREFIX}/etc/udev/rules.d"
 	doins "${FILESDIR}/50-vgem.rules"
 

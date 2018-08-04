@@ -788,12 +788,6 @@ cros-workon_src_test() {
 	fi
 }
 
-cros-workon_src_install() {
-	if ! using_common_mk ; then
-		default
-	fi
-}
-
 cros-workon_pkg_info() {
 	print_quoted_array() { printf '"%s"\n' "$@"; }
 

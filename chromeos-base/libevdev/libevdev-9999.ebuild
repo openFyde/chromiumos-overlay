@@ -31,6 +31,5 @@ src_compile() {
 }
 
 src_install() {
-	cros-workon_src_install
 	emake DESTDIR="${ED}" LIBDIR="/usr/$(get_libdir)" install
 }

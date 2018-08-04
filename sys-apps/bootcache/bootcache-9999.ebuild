@@ -30,7 +30,6 @@ src_compile() {
 }
 
 src_install() {
-	cros-workon_src_install
 	dosbin "${OUT}"/bootcache
 
 	insinto /etc/init

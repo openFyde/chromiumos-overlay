@@ -40,8 +40,3 @@ src_configure() {
 src_compile() {
 	cros-workon_src_compile
 }
-
-src_install() {
-	cros-workon_src_install
-	default
-}

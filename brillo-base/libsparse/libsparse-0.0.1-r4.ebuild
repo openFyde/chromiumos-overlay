@@ -46,7 +46,7 @@ src_configure() {
 }
 
 src_install() {
-	cros-workon_src_install
+	default
 
 	python_doscript simg_dump.py
 }
