@@ -1,13 +1,14 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
+
 CROS_WORKON_PROJECT="chromiumos/platform/minigbm"
 CROS_WORKON_LOCALNAME="../platform/minigbm"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-inherit cros-workon toolchain-funcs
+inherit cros-workon cros-common.mk toolchain-funcs multilib
 
 DESCRIPTION="Mini GBM implementation"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/minigbm"
@@ -33,6 +34,7 @@ DEPEND="${RDEPEND}
 	video_cards_amdgpu? ( media-libs/mesa )"
 
 src_prepare() {
+	default
 	asan-setup-env
 	cros-workon_src_prepare
 }
@@ -51,11 +53,11 @@ src_configure() {
 	use video_cards_tegra && append-cppflags -DDRV_TEGRA && export DRV_TEGRA=1
 	use video_cards_vc4 && append-cppflags -DDRV_VC4 && export DRV_VC4=1
 	use video_cards_virgl && append-cppflags -DDRV_VIRGL && export DRV_VIRGL=1
-	cros-workon_src_configure
+	cros-common.mk_src_configure
 }
 
 src_compile() {
-	cros-workon_src_compile
+	cros-common.mk_src_compile
 }
 
 src_install() {
