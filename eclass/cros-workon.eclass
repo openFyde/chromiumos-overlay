@@ -740,39 +740,9 @@ cros-workon_src_configure() {
 	fi
 }
 
-cw_emake() {
-	local dir=$(cros-workon_get_build_dir)
-
-	# Clean up a previous build dir if it exists.  Use sudo in case some
-	# files happened to be owned by root or are otherwise marked a-w.
-	# The sandbox/preload magic is to turn off the sandbox before the sudo.
-	SANDBOX_ON=0 env -u LD_PRELOAD sudo rm -rf "${dir}%failed"
-
-	if ! nonfatal emake "$@" ; then
-		# If things failed, move the incremental dir out of the way --
-		# we don't know why exactly it failed as it could be due to
-		# corruption.  Don't throw it away immediately in case the the
-		# developer wants to poke around.
-		# http://crosbug.com/35958
-		if [[ ${CROS_WORKON_INCREMENTAL_BUILD} == "1" ]] ; then
-			if [[ $(hostname -d) == "golo.chromium.org" ]] ; then
-				eerror "The build failed.  Output has been retained at:"
-				eerror "  ${dir}%failed/"
-				eerror "It will be cleaned up automatically next emerge."
-				wait # wait for the `rm` to finish.
-				mv "${dir}" "${dir}%failed"
-			else
-				ewarn "If this failure is due to build-dir corruption, run:"
-				ewarn "  sudo rm -rf '${dir}'"
-			fi
-		fi
-		die "command: emake $*"
-	fi
-}
-
 cros-workon_src_compile() {
 	if using_common_mk ; then
-		cw_emake ${CROS_WORKON_MAKE_COMPILE_ARGS}
+		emake ${CROS_WORKON_MAKE_COMPILE_ARGS}
 	else
 		default
 	fi

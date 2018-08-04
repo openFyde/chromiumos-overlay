@@ -1183,7 +1183,7 @@ kmake() {
 	ARCH=${kernel_arch} \
 		CROSS_COMPILE="${cross}-" \
 		KCFLAGS="${kcflags}" \
-		cw_emake \
+		emake \
 		O="$(cros-workon_get_build_dir)" \
 		"$@"
 }

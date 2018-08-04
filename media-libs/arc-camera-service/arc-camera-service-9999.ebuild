@@ -29,7 +29,7 @@ src_configure() {
 }
 
 src_compile() {
-	cw_emake -C hal/usb_v1 arc_camera_service
+	emake -C hal/usb_v1 arc_camera_service
 }
 
 src_install() {
