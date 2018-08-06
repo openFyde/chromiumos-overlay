@@ -133,14 +133,11 @@ REQUIRED_USE="
 
 ################################################################################
 #
-# CROS_COMMON_* : Dependencies common to all CrOS flavors (embedded, regular)
+# Dependencies common to all CrOS flavors (embedded, regular).
+# Everything in here should be behind a USE flag.
 #
 ################################################################################
-
-# Block the old package to force people to clean up.
-CROS_COMMON_RDEPEND="!chromeos-base/chromeos"
-
-CROS_COMMON_RDEPEND+="
+RDEPEND="
 	input_devices_evdev? ( app-misc/evtest )
 	syslog? ( app-admin/rsyslog )
 	biod? ( chromeos-base/biod )
@@ -252,6 +249,8 @@ CROS_RDEPEND="
 	amd64? ( ${CROS_X86_RDEPEND} )
 "
 
+# Anything behind a USE flag belongs in the main RDEPEND list above.
+# New packages usually should be behind a USE flag.
 CROS_RDEPEND="${CROS_RDEPEND}
 	app-arch/tar
 	app-editors/vim
@@ -283,9 +282,4 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	virtual/udev
 "
 
-################################################################################
-# Assemble the final RDEPEND and DEPEND variables for portage
-################################################################################
-RDEPEND="${CROS_COMMON_RDEPEND}
-	!cros_embedded? ( ${CROS_RDEPEND} )
-"
+RDEPEND+="!cros_embedded? ( ${CROS_RDEPEND} )"
