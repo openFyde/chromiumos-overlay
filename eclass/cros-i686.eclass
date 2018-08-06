@@ -38,6 +38,11 @@ board_setup_32bit_au_env()
 	export SYSROOT=/usr/${CHOST}
 	append-ldflags -L"${__AU_OLD_SYSROOT}"/usr/lib
 	append-cppflags -isystem "${__AU_OLD_SYSROOT}"/usr/include
+	# Link to libc and libstdc++ statically, because the i686 shared
+	# libraries are not available on x86_64. In addition, disable sanitizers
+	# for 32-bit builds.
+	append-flags -static -fno-sanitize=all
+	append-ldflags -static -fno-sanitize=all
 }
 
 # undo what we did in the above function
@@ -49,6 +54,7 @@ board_teardown_32bit_au_env()
 
 	filter-ldflags -L"${__AU_OLD_SYSROOT}"/usr/lib
 	filter-flags -isystem "${__AU_OLD_SYSROOT}"/usr/include
+	filter-flags -static -fno-sanitize=all
 	export SYSROOT=${__AU_OLD_SYSROOT}
 	export CHOST=${__AU_OLD_CHOST}
 	export LIBDIR_x86=${__AU_OLD_LIBDIR_x86}
@@ -83,7 +89,9 @@ _get_i686_cache() {
 platform_src_configure_i686() {
 	local cache=$(_get_i686_cache)
 	push_i686_env
-	platform_src_configure "--cache_dir=${cache}"
+	cros-debug-add-NDEBUG
+	append-lfs-flags
+	platform_configure "--cache_dir=${cache}" "${S}/${PLATFORM_GYP_FILE}" "$@"
 	pop_i686_env
 }
 
