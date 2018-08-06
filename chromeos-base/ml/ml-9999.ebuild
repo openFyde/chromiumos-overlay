@@ -35,6 +35,7 @@ DEPEND="
 src_install() {
 	dobin "${OUT}"/ml_service
 
+	# Install upstart configuration.
 	insinto /etc/init
 	doins init/*.conf
 
@@ -42,9 +43,13 @@ src_install() {
 	insinto /usr/share/policy
 	newins "seccomp/ml_service-seccomp-${ARCH}.policy" ml_service-seccomp.policy
 
-	# Install D-Bus configuration file
+	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.MachineLearning.conf
+
+	# Install D-Bus service activation configuration.
+	insinto /usr/share/dbus-1/system-services
+	doins dbus/org.chromium.MachineLearning.service
 
 	# Install the ML models.
 	insinto /opt/google/chrome/ml_models
