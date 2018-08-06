@@ -175,6 +175,7 @@ CROS_COMMON_RDEPEND+="
 	ml_service? ( chromeos-base/ml )
 	peerd? ( chromeos-base/peerd )
 	hammerd? ( chromeos-base/hammerd )
+	memd? ( chromeos-base/memd )
 	power_management? ( chromeos-base/power_manager )
 	!chromeos-base/platform2
 	profile? ( chromeos-base/quipper )
@@ -197,6 +198,7 @@ CROS_COMMON_RDEPEND+="
 	eclog? ( chromeos-base/timberslide )
 	chromeos-base/chromeos-machine-id-regen
 	systemd? ( sys-apps/systemd )
+	usbguard? ( sys-apps/usbguard )
 	kvm_host? (
 		chromeos-base/chromeos-termina-scripts
 		chromeos-base/crosdns
@@ -284,7 +286,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/crosh-extension
 	chromeos-base/dev-install
 	chromeos-base/inputcontrol
-	memd? ( chromeos-base/memd )
 	chromeos-base/mtpd
 	chromeos-base/permission_broker
 	chromeos-base/userfeedback
@@ -300,7 +301,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	sys-apps/pv
 	sys-apps/rootdev
 	!systemd? ( sys-apps/upstart )
-	usbguard? ( sys-apps/usbguard )
 	sys-fs/e2fsprogs
 	virtual/assets
 	virtual/cheets
