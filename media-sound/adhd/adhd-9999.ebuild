@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
 
-inherit toolchain-funcs autotools cros-workon cros-board systemd user
+inherit toolchain-funcs autotools cros-workon cros-board systemd user libchrome-version
 
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="http://www.chromium.org"
@@ -29,6 +29,7 @@ RDEPEND=">=media-libs/alsa-lib-1.0.27
 	virtual/udev
 	unibuild? ( chromeos-base/chromeos-config )
 	chromeos-base/chromeos-config-tools
+	chromeos-base/metrics
 	selinux? ( sys-libs/libselinux )"
 DEPEND="${RDEPEND}
 	media-libs/ladspa-sdk"
@@ -42,7 +43,8 @@ src_configure() {
 	asan-setup-env
 	cd cras
 	cros-workon_src_configure $(use_enable selinux) \
-		$(use_enable cras-apm webrtc-apm)
+		$(use_enable cras-apm webrtc-apm) \
+		--enable-metrics
 }
 
 src_compile() {
