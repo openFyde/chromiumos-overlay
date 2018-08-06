@@ -149,6 +149,7 @@ IUSE_TESTS=(
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
 	+tests_policy_CookiesSessionOnlyForUrls
+	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DisableScreenshots
 	+tests_policy_EditBookmarksEnabled
 	+tests_policy_ExternalStorageDisabled
