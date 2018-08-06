@@ -146,7 +146,8 @@ build_chromeos_policy() {
 build_file_contexts() {
 	einfo "Compiling chromeos_file_contexts"
 	m4 "${M4_COMMON_FLAGS[@]}" "sepolicy/file_contexts/macros" \
-		"sepolicy/file_contexts/chromeos_file_contexts" > chromeos_file_contexts
+		"sepolicy/file_contexts/chromeos_file_contexts" > chromeos_file_contexts ||
+		die "failed to build chromeos file contexts"
 }
 
 src_compile() {
