@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk crosdns"
 
 PLATFORM_SUBDIR="crosdns"
 
-inherit cros-workon platform user
+inherit cros-fuzzer cros-workon platform user
 
 DESCRIPTION="Local hostname modifier service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crosdns"
@@ -18,10 +18,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crosdn
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+seccomp"
+IUSE="+seccomp asan fuzzer"
 
 RDEPEND="
-	chromeos-base/libbrillo
+	chromeos-base/libbrillo[asan?,fuzzer?]
 	chromeos-base/minijail"
 
 DEPEND="
@@ -45,6 +45,8 @@ src_install() {
 	# Install the init script.
 	insinto /etc/init
 	doins init/crosdns.conf
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hosts_modifier_fuzzer
 }
 
 platform_pkg_test() {
