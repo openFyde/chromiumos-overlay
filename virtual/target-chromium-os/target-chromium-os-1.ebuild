@@ -118,7 +118,6 @@ REQUIRED_USE="
 # Variable Naming Convention:
 # ---------------------------
 # CROS_COMMON_* : Dependencies common to all CrOS flavors
-# CROS_E_* : Dependencies for embedded CrOS devices (busybox, etc.)
 # CROS_* : Dependencies for "regular" CrOS devices (coreutils, etc.)
 ################################################################################
 
@@ -241,23 +240,6 @@ CROS_COMMON_RDEPEND+="
 # We depend on dash for the /bin/sh shell for runtime speeds, but we also
 # depend on bash to make the dev mode experience better.  We do not enable
 # things like line editing in dash, so its interactive mode is very bare.
-#
-# sys-apps/which:
-# In gentoo, the 'which' command is part of 'system' and certain packages
-# assume sys-apps/which is already installed, since we dont install 'system'
-# explicitly list sys-apps/which.
-#
-# app-i18n/nacl-mozc:
-# A text input processors based on IME extension APIs.
-#
-# app-i18n/chinese-input:
-# A suite of Chinese input methods based on IME extension APIs.
-
-# app-i18n/keyboard-input:
-# A suite of keyboard input methods based on IME extension APIs.
-#
-# app-i18n/chromeos-hangul
-# A Hangul input processor based on extension APIs.
 ################################################################################
 
 CROS_X86_RDEPEND="
@@ -302,18 +284,8 @@ CROS_RDEPEND="${CROS_RDEPEND}
 "
 
 ################################################################################
-# CROS_E_* : Dependencies for embedded CrOS devices (busybox, etc.)
-#
-################################################################################
-
-CROS_E_RDEPEND="${CROS_E_RDEPEND}
-	sys-apps/util-linux
-"
-
-################################################################################
 # Assemble the final RDEPEND and DEPEND variables for portage
 ################################################################################
 RDEPEND="${CROS_COMMON_RDEPEND}
-	cros_embedded? ( ${CROS_E_RDEPEND} )
 	!cros_embedded? ( ${CROS_RDEPEND} )
 "
