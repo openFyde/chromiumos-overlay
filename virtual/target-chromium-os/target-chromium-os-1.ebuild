@@ -14,7 +14,6 @@ IUSE="
 	biod
 	bluetooth
 	bootchart
-	bootimage
 	buffet
 	cellular
 	compupdates
@@ -23,7 +22,6 @@ IUSE="
 	+cras
 	+crash_reporting
 	+cros_disks
-	cros_ec
 	cros_embedded
 	cups
 	+debugd
@@ -227,10 +225,6 @@ CROS_COMMON_RDEPEND+="
 	fuzzer? ( virtual/target-fuzzers )
 	!dev-python/socksipy
 "
-CROS_COMMON_DEPEND="${CROS_COMMON_RDEPEND}
-	bootimage? ( sys-boot/chromeos-bootimage )
-	cros_ec? ( chromeos-base/chromeos-ec )
-"
 
 ################################################################################
 #
@@ -307,16 +301,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	virtual/udev
 "
 
-# Build time dependencies
-CROS_X86_DEPEND="
-	sys-boot/syslinux
-"
-
-CROS_DEPEND="${CROS_RDEPEND}
-	x86? ( ${CROS_X86_DEPEND} )
-	amd64? ( ${CROS_X86_DEPEND} )
-"
-
 ################################################################################
 # CROS_E_* : Dependencies for embedded CrOS devices (busybox, etc.)
 #
@@ -324,10 +308,6 @@ CROS_DEPEND="${CROS_RDEPEND}
 
 CROS_E_RDEPEND="${CROS_E_RDEPEND}
 	sys-apps/util-linux
-"
-
-# Build time dependencies
-CROS_E_DEPEND="${CROS_E_RDEPEND}
 "
 
 ################################################################################
