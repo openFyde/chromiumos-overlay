@@ -290,13 +290,16 @@ build_images() {
 		if use unibuild; then
 			einfo "Adding EC for ${ec_build_target}"
 			add_ec "${coreboot_config}" "${coreboot_file}" "ecrw" "${froot}/${ec_build_target}"
+			add_ec "${coreboot_config}" "${coreboot_file}.serial" "ecrw" "${froot}/${ec_build_target}"
 		else
 			add_ec "${coreboot_config}" "${coreboot_file}" "ecrw" "${froot}"
+			add_ec "${coreboot_config}" "${coreboot_file}.serial" "ecrw" "${froot}/${ec_build_target}"
 		fi
 	fi
 
 	if use pd_sync; then
 		add_ec "${coreboot_config}" "${coreboot_file}" "pdrw" "${froot}/${PD_FIRMWARE}"
+		add_ec "${coreboot_config}" "${coreboot_file}.serial" "pdrw" "${froot}/${PD_FIRMWARE}"
 	fi
 
 	if use u-boot; then
