@@ -35,6 +35,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	!media-libs/arc-camera3
 	cros-camera-algo-sandbox? ( media-libs/cros-camera-libcab )
+	media-libs/cros-camera-hal-usb
 	media-libs/cros-camera-libcamera_common
 	media-libs/cros-camera-libcamera_metadata
 	media-libs/libsync
