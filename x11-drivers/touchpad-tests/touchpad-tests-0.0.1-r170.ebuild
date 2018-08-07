@@ -1,0 +1,30 @@
+# Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI="6"
+
+CROS_WORKON_COMMIT="f3e4d3bca41b674e89583d74dfb7e538fe58ff18"
+CROS_WORKON_TREE="4a17ad2a4b7249bd39b3ea0cd1882cba18ae4152"
+CROS_WORKON_PROJECT="chromiumos/platform/touchpad-tests"
+CROS_WORKON_LOCALNAME="../platform/touchpad-tests"
+
+inherit cros-workon cros-constants
+
+DESCRIPTION="Chromium OS multitouch driver regression tests"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/touchpad-tests"
+
+LICENSE="BSD-Google"
+SLOT="0"
+KEYWORDS="*"
+IUSE=""
+
+RDEPEND="chromeos-base/gestures
+	chromeos-base/libevdev
+	app-misc/utouch-evemu
+	x11-proto/inputproto"
+DEPEND=${RDEPEND}
+
+src_install() {
+	# install to autotest deps directory for dependency
+	emake DESTDIR="${D}${AUTOTEST_BASE}/client/deps/touchpad-tests" install
+}
