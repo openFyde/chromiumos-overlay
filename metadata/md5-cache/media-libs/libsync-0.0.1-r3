@@ -1,0 +1,12 @@
+DEFINED_PHASES=configure info prepare setup unpack
+DEPEND=dev-vcs/git
+DESCRIPTION=Library for Android sync objects
+EAPI=5
+HOMEPAGE=https://android.googlesource.com/platform/system/core/libsync
+IUSE=cros_host cros_workon_tree_6735ede3571072051f02df69fdf53bb239ebe6bd
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!media-libs/arc-camera3-libsync
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	778025233e6be4c418066de8bb07abaf	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=4239022be0fc153f95b52cb4144815a4
