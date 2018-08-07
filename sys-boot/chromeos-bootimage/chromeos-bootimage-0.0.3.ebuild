@@ -293,7 +293,7 @@ build_images() {
 			add_ec "${coreboot_config}" "${coreboot_file}.serial" "ecrw" "${froot}/${ec_build_target}"
 		else
 			add_ec "${coreboot_config}" "${coreboot_file}" "ecrw" "${froot}"
-			add_ec "${coreboot_config}" "${coreboot_file}.serial" "ecrw" "${froot}/${ec_build_target}"
+			add_ec "${coreboot_config}" "${coreboot_file}.serial" "ecrw" "${froot}"
 		fi
 	fi
 
