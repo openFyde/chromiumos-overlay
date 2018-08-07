@@ -39,12 +39,12 @@ DEPEND="
 	chromeos-base/system_api
 "
 
-pkg_preinst() {
-	# Create user and group for authpolicyd and authpolicyd-exec.
+pkg_setup() {
 	enewuser "authpolicyd"
 	enewgroup "authpolicyd"
 	enewuser "authpolicyd-exec"
 	enewgroup "authpolicyd-exec"
+	cros-workon_pkg_setup
 }
 
 src_install() {
@@ -56,6 +56,13 @@ src_install() {
 	doins etc/init/authpolicyd.conf
 	insinto /usr/share/policy
 	doins seccomp_filters/*.policy
+
+	# Create daemon store folder prototype, see
+	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
+	local daemon_store="/etc/daemon-store/authpolicyd"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners authpolicyd:authpolicyd "${daemon_store}"
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/preg_parser_fuzzer \
 		--seed_corpus "${S}"/policy/testdata/preg_parser_fuzzer_seed_corpus.zip \
