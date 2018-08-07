@@ -8,5 +8,5 @@ LICENSE=BSD-Google
 RDEPEND=dev-libs/libpcre dev-libs/glib
 RESTRICT=mirror
 SLOT=0
-SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/gn-d2c9075aedbc0894ff2e573870d8ac35b37def57.bin
-_md5_=241d344ff22f00deb6f63d4acd8f466a
+SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/gn-c39494bc0710270aa3b56027d455b5db56977702.bin
+_md5_=d37009bd1f0582522fc192a7999fdf19
