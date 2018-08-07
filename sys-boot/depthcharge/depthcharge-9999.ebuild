@@ -12,7 +12,7 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="detachable_ui fastboot fwconsole mocktpm pd_sync unibuild"
+IUSE="detachable_ui fastboot fwconsole mocktpm pd_sync unibuild verbose"
 
 DEPEND="
 	chromeos-base/vboot_reference
@@ -60,9 +60,16 @@ dc_make() {
 	[[ -n "$3" ]] && libpayload="LIBPAYLOAD_DIR=${SYSROOT}/firmware/$3/"
 
 	shift 3
-	emake VB_SOURCE="${VBOOT_REFERENCE_DESTDIR}" \
-		PD_SYNC=$(usev pd_sync) \
-		obj="${builddir}" \
+
+	local OPTS=(
+		"VB_SOURCE=${VBOOT_REFERENCE_DESTDIR}"
+		"PD_SYNC=$(usev pd_sync)"
+		"obj=${builddir}"
+	)
+
+	use verbose && OPTS+=( "V=1" )
+
+	emake "${OPTS[@]}" \
 		${libpayload} \
 		"${target}" \
 		"$@"
