@@ -32,6 +32,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+	!app-crypt/tpm-tools
 	"
 
 DEPEND="
