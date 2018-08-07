@@ -1,4 +1,4 @@
-# Copyright 2014 The Chromium OS Authors. All rights reserved.
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
@@ -14,7 +14,7 @@ EAPI="5"
 #
 # Once you've updated the ebuild, run `ebuild gn-<SVN>-r1 manifest` to generate
 # the Manifest file.
-GN_X64_SHA1="d2c9075aedbc0894ff2e573870d8ac35b37def57"
+GN_X64_SHA1="c39494bc0710270aa3b56027d455b5db56977702"
 
 DESCRIPTION="GN (generate ninja) meta-build system"
 HOMEPAGE="https://code.google.com/p/chromium/wiki/gn"
