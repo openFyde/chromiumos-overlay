@@ -4,7 +4,7 @@
 # Dummy setting so we can use the same append form below.
 USE=""
 
-USE="${USE} acpi bluetooth cairo cros_p2p -fbconsole opengl pam usb vlan -vtconsole X"
+USE="${USE} acpi bluetooth cairo cros_p2p -fbconsole pam usb vlan -vtconsole"
 USE="${USE} zlib bindist cros-debug -introspection"
 USE="${USE} -acl -cracklib -gpm ipv6 -openmp -python -sha512 xattr"
 USE="${USE} -fortran -abiword -perl -poppler-data -nls -openrc"
@@ -25,6 +25,31 @@ USE="${USE} acpi_ac"
 
 # Enable general security hardening by default.
 USE="${USE} hardened"
+
+# Formerly project-freon configs
+# Use opengles instead of opengl
+USE="${USE} opengles"
+
+# Enable ozone in Chrome.
+USE="${USE} ozone"
+
+# Enable gestures support in Chrome.
+USE="${USE} evdev_gestures"
+
+# Enable xkbcommon in Chrome for keyboard layouts.
+USE="${USE} xkbcommon"
+
+# Enable the freon console
+USE="${USE} frecon"
+
+# Disable tty2 console.
+TTY_CONSOLE="-tty2"
+
+# Ozone platforms to build into Chrome.
+OZONE_PLATFORM="gbm"
+
+# Of the above, platform to use by default at runtime.
+OZONE_PLATFORM_DEFAULT="gbm"
 
 # Most targets will override these.
 VIDEO_CARDS="-*"

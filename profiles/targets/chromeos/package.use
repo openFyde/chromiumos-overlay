@@ -48,8 +48,10 @@ media-libs/harfbuzz	-cairo -introspection
 media-libs/libdvdread	-css
 media-libs/libsndfile	minimal
 # disabled in profiles/default/linux/package.use
-media-libs/mesa		gallium classic
+media-libs/mesa		gallium classic shared-glapi gles2 egl -gbm
 media-libs/opencv	-gtk python png jpeg -tiff v4l
+media-libs/piglit	waffle
+media-libs/waffle	gbm
 media-sound/sox		alsa ogg
 media-video/mplayer	cpudetection fbcon -encode -ass -a52 -cdio -dirac -dts -dv -dvd -dvdnav -enca -faac -faad -live -quicktime -mp3 -rar -real -speex -schroedinger -theora -tremor -toolame -twolame -vorbis -xscreensaver -x264 -xv -xvid
 net-analyzer/tcpdump	-chroot
@@ -126,6 +128,7 @@ x11-base/xorg-server	-suid
 x11-libs/libdrm		libkms
 x11-libs/libdrm-tests	libkms
 x11-libs/cairo		-opengl
+x11-libs/libva		egl
 # Need png for color font support. bzip2 is not used. It's only for X11 *pcf.bz2
 # that we don't have.
 media-libs/freetype	png -bzip2
