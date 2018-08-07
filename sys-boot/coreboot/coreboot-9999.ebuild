@@ -123,6 +123,8 @@ create_config() {
 			echo "CONFIG_BOARD_ID_MANUAL=y" >> "${CONFIG}"
 			echo "CONFIG_BOARD_ID_STRING=\"${BOARD_USE}\"" >> "${CONFIG}"
 		fi
+	else
+		ewarn "Could not find existing config for ${BOARD}."
 	fi
 
 	if use rmt; then
