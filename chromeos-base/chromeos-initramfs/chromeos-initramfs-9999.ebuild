@@ -14,7 +14,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="device_tree frecon +interactive_recovery -mtd +power_management"
+IUSE="detachable_ui device_tree frecon +interactive_recovery -mtd +power_management"
 
 # Build Targets
 TARGETS_IUSE="
@@ -115,6 +115,7 @@ src_compile() {
 
 	emake SYSROOT="${SYSROOT}" BOARD="$(get_current_board_with_variant)" \
 		INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
+		DEVICE_IS_DETACHABLE="$(usex detachable_ui 1 0)" \
 		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
 		LOCALE_LIST="${RECOVERY_LOCALES}" ${targets[*]}
 }
