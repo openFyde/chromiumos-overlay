@@ -13,8 +13,7 @@ https://lists.01.org/pipermail/edk2-devel/2017-August/013508.html
 '-pie'
      Produce a position independent executable on targets that support
      it.  For predictable results, you must also specify the same set
-     of options used for compilation ('-fpie', '-fPIE', or model
-     suboptions) when you specify this linker option.
+     of options used for compilation ('-fpie', '-fPIE', or model     suboptions) when you specify this linker option.
 
 3.18 Options for Code Generation Conventions
 ============================================
