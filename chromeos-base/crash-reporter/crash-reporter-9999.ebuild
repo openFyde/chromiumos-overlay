@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -14,19 +14,15 @@ PLATFORM_SUBDIR="crash-reporter"
 
 inherit cros-i686 cros-workon platform systemd udev
 
-DESCRIPTION="Crash reporting service that uploads crash reports with debug
-information"
-HOMEPAGE="http://dev.chromium.org/chromium-os/platform"
-SRC_URI=""
+DESCRIPTION="Crash reporting service that uploads crash reports with debug information"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cheets cros_embedded -cros_host -direncryption systemd"
-REQUIRED_USE="!cros_host"
+IUSE="cheets cros_embedded -direncryption systemd"
 
 RDEPEND="
-	chromeos-base/chromeos-ca-certificates
 	chromeos-base/minijail
 	chromeos-base/google-breakpad[cros_i686?]
 	chromeos-base/libbrillo
@@ -41,6 +37,9 @@ DEPEND="
 	chromeos-base/session_manager-client
 	chromeos-base/system_api
 	sys-devel/flex
+"
+RDEPEND+="
+	chromeos-base/chromeos-ca-certificates
 "
 
 src_configure() {
