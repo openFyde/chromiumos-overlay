@@ -43,6 +43,12 @@ src_install() {
 	dosbin "${OUT}"/oobe_config_restore
 	dosbin "${OUT}"/finish_oobe_auto_config
 
+	insinto /etc/init
+	doins etc/init/oobe_config_restore.conf
+
+	insinto /etc/dbus-1/system.d
+	doins etc/dbus-1/org.chromium.OobeConfigRestore.conf
+
 	# TODO(zentaro): Add secomp filters once implemented.
 }
 
