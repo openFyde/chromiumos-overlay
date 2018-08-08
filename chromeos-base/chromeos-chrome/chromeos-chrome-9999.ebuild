@@ -80,7 +80,6 @@ REQUIRED_USE="
 	libcxx? ( clang )
 	thinlto? ( clang || ( gold lld ) )
 	afdo_use? ( clang )
-	build_native_assistant? ( chrome_internal )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -376,17 +375,6 @@ set_build_args() {
 		BUILD_ARGS+=(use_system_libdrm=true)
 	fi
 
-	# Assistant features.
-	# Only add the args when use flag is on. This is to avoid conflicting
-	# with future finch based release. At that time, these build args will
-	# be default true.
-	if use "build_native_assistant"; then
-		BUILD_ARGS+=(
-			enable_cros_assistant=true
-			enable_cros_libassistant=true
-		)
-	fi
-
 	# Set proper build args for the arch
 	case "${ARCH}" in
 	x86)
@@ -465,6 +453,17 @@ set_build_args() {
 		export CHROMIUM_BUILD='_google_Chrome'
 		export OFFICIAL_BUILD='1'
 		export CHROME_BUILD_TYPE='_official'
+
+		# Assistant features.
+		# Only add the gn args when both chrome_internal and
+		# build_native_assistant use flags are on because it requires
+		# internal repos to build.
+		if use "build_native_assistant"; then
+			BUILD_ARGS+=(
+				enable_cros_assistant=true
+				enable_cros_libassistant=true
+			)
+		fi
 	elif use chrome_media; then
 		echo "Building Chromium with additional media codecs and containers."
 		BUILD_ARGS+=( proprietary_codecs=true )
