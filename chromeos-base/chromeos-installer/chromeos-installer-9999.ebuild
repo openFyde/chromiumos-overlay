@@ -34,6 +34,7 @@ RDEPEND="
 	chromeos-base/chromeos-common-script
 	chromeos-base/libbrillo
 	!cros_host? (
+		chromeos-base/oobe_config
 		chromeos-base/secure-erase-file
 		dev-libs/openssl
 	)
