@@ -25,7 +25,7 @@ src_unpack() {
 	if use llvm-next; then
 		EGIT_COMMIT="1e1c6b739595098ba5c466bfe9d58b993e646b48" #r332513
 	else
-		EGIT_COMMIT="0f3cbe4123f8afacd646bd4f5414aa6528ef8129" #r326250
+		EGIT_COMMIT="1e1c6b739595098ba5c466bfe9d58b993e646b48" #r332513
 	fi
 	git-2_src_unpack
 }

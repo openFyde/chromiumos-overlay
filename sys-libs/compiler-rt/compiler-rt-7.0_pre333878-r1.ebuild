@@ -27,8 +27,8 @@ src_unpack() {
 		# llvm:r333878 https://critique.corp.google.com/#review/199724125
 		EGIT_COMMIT="393b329e7345976d7d0c5ee08425eacb34b4c5be" #r333870
 	else
-		# llvm:r331547 https://critique.corp.google.com/#review/196053977
-		EGIT_COMMIT="def9f6a10422ae7aa0804d50b2d276ced09ce2d0" #r331523
+		# llvm:r333878 https://critique.corp.google.com/#review/199724125
+		EGIT_COMMIT="393b329e7345976d7d0c5ee08425eacb34b4c5be" #r333870
 	fi
 	git-2_src_unpack
 }
@@ -37,9 +37,9 @@ src_prepare() {
 	# Cherry-picks
 	local CHERRIES=""
 	if use llvm-next; then
-		CHERRIES+=" 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c"
+		CHERRIES+=" 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c" #r337033
 	else
-		CHERRIES+=" 1b2e8fb0ce651da2d47b98c33b29c0f42a080f13"
+		CHERRIES+=" 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c" #r337033
 	fi
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"

@@ -17,8 +17,8 @@ if use llvm-next; then
 	CROS_WORKON_COMMIT="ff6224a58cf9348c10b17c7ea707d5228c5101c5"
 	CROS_WORKON_TREE="930f377a3dab90e3413eed81f8a55dff32fce18d"
 else
-	CROS_WORKON_COMMIT="1e705dad853445419ccc8d35d82de263e91de3f3"
-	CROS_WORKON_TREE="334ca76de56b9d026c1b20885a2a98645b12e8f6"
+	CROS_WORKON_COMMIT="ff6224a58cf9348c10b17c7ea707d5228c5101c5"
+	CROS_WORKON_TREE="930f377a3dab90e3413eed81f8a55dff32fce18d"
 fi
 CROS_WORKON_BLACKLIST="1"
 
@@ -64,10 +64,7 @@ src_prepare() {
 	# outside of the source tree. crbug.com/740232
 	rm "include/__cxxabi_config.h" || die
 	# Link with libgcc_eh when compiler-rt is used.
-	use llvm-next || epatch "${FILESDIR}"/libcxx-use-libgcc_eh.patch
-	use llvm-next && epatch "${FILESDIR}"/libcxx-7-use-libgcc_eh.patch
-	# Remove "#inluce xlocale.h" to make glibc 2.26 and after happy.
-	use llvm-next || epatch "${FILESDIR}/${PN}-4.0-xlocale.patch"
+	epatch "${FILESDIR}"/libcxx-7-use-libgcc_eh.patch
 	# Adds visibility annotions to make CFI work.
 	# Patch is under review at https://reviews.llvm.org/D48680
 	epatch "${FILESDIR}/${PN}-cfi.patch"
