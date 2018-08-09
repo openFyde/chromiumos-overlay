@@ -1,0 +1,54 @@
+From e8ef10b869c4c2c8d0630dc3ca5221b19b5390d9 Mon Sep 17 00:00:00 2001
+From: Sonny Sasaka <sonnysasaka@chromium.org>
+Date: Thu, 9 Aug 2018 16:08:28 -0700
+Subject: [PATCH] dbus: Remove LOG(ERROR) in ObjectProxy
+
+It is a valid use case for a daemon to have multiple ObjectProxies of
+different services with the exact same object path and interface name.
+Currently, this may cause log pollution of "rejecting a message from a
+wrong sender" because one ObjectProxy receives signals intended for
+another ObjectProxy. Since it's actually a valid case and not a bug, it
+shouldn't be logged as error but it may still be logged with VLOG.
+
+Currently this is discovered in Bluetooth daemon (btdispatch) because it
+listens to both BlueZ's and Newblue's objects which have identical
+object paths and interfaces.
+
+Bug: 866704
+---
+ dbus/object_proxy.cc | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/dbus/object_proxy.cc b/dbus/object_proxy.cc
+index 15f20c7..ec2c432 100644
+--- a/dbus/object_proxy.cc
++++ b/dbus/object_proxy.cc
+@@ -485,6 +485,11 @@ DBusHandlerResult ObjectProxy::HandleMessage(
+     return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+   }
+ 
++  std::string sender = signal->GetSender();
++  // Ignore message from sender we are not interested in.
++  if (service_name_owner_ != sender)
++    return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
++
+   const std::string interface = signal->GetInterface();
+   const std::string member = signal->GetMember();
+ 
+@@ -500,13 +505,6 @@ DBusHandlerResult ObjectProxy::HandleMessage(
+   }
+   VLOG(1) << "Signal received: " << signal->ToString();
+ 
+-  std::string sender = signal->GetSender();
+-  if (service_name_owner_ != sender) {
+-    LOG(ERROR) << "Rejecting a message from a wrong sender.";
+-    UMA_HISTOGRAM_COUNTS("DBus.RejectedSignalCount", 1);
+-    return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+-  }
+-
+   const base::TimeTicks start_time = base::TimeTicks::Now();
+   if (bus_->HasDBusThread()) {
+     // Post a task to run the method in the origin thread.
+-- 
+2.16.4
+
