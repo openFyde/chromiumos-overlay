@@ -55,7 +55,7 @@ create_cbfs() {
 	local bootblock="${T}/bootblock"
 
 	_cbfstool() { set -- cbfstool "$@"; echo "$@"; "$@" || die "'$*' failed"; }
-	local coreboot_rom="$(find "${CROS_FIRMWARE_ROOT}" -name coreboot.rom 2>/dev/null)"
+	local coreboot_rom="$(find "${CROS_FIRMWARE_ROOT}" -name coreboot.rom 2>/dev/null | head -n 1)"
 	# Get the size of the RW_LEGACY region from the ROM
 	local cbfs_size="$(_cbfstool "${coreboot_rom}" layout | sed -e "/^'RW_LEGACY'/ {s|.*size \([0-9]*\)[^0-9].*$|\1|; q}; d" )"
 
