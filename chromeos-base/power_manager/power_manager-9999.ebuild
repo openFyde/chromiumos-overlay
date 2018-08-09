@@ -60,6 +60,7 @@ src_install() {
 	dobin "${OUT}"/powerd
 	dobin "${OUT}"/powerd_setuid_helper
 	dobin "${OUT}"/power_supply_info  # feedback
+	dobin "${OUT}"/set_cellular_transmit_power
 	dobin "${OUT}"/set_wifi_transmit_power
 	fowners root:power /usr/bin/powerd_setuid_helper
 	fperms 4750 /usr/bin/powerd_setuid_helper
