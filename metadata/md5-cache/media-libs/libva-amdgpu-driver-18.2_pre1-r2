@@ -8,5 +8,5 @@ KEYWORDS=*
 LICENSE=MIT LGPL-3 SGI-B-2.0
 RDEPEND=>=x11-libs/libdrm-2.4.60 >=x11-libs/libva-1.8.3
 SLOT=0
-_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	fb60d2310bac28fdda1fd1d49c101681	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=aa5444f7c2f8845cdf0f7d02c9f95ae0

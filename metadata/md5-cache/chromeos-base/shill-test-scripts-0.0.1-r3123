@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile info install setup unpack
+DEPEND=!!chromeos-base/flimflam-test dev-lang/python dev-python/dbus-python dev-python/pygobject dev-vcs/git
+DESCRIPTION=shill's test scripts
+EAPI=6
+HOMEPAGE=http://src.chromium.org
+IUSE=cros_host cros_workon_tree_9bc5882efd5a7bbf21b4e51e7e25f022541eb889
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!!chromeos-base/flimflam-test dev-lang/python dev-python/dbus-python dev-python/pygobject chromeos-base/shill net-dns/dnsmasq sys-apps/iproute2
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=7ed7f0480b7c0c0bb96582ef764d6b4e
