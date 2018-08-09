@@ -86,6 +86,14 @@ filter_file_line_by_line() {
 	grep -F -x -v -f "$1" | grep -v "^;"
 }
 
+# Quick hack for conflicting generated base_typeattr_XX with
+# non-versioned Android cil.
+# A better solution could be to use libsepol to parse and process
+# cil to modify it.
+version_cil() {
+	sed -e 's/base_typeattr_\([0-9]*\)/base_typeattr_cros_\1/g'
+}
+
 has_arc() {
 	use android-container-pi || use android-container-master-arc-dev || use android-container-nyc
 }
@@ -139,7 +147,8 @@ build_chromeos_policy() {
 	build_android_reqd_cil
 
 	build_cil "chromeos.raw.cil" "sepolicy/policy/base/" "sepolicy/policy/chromeos/"
-	filter_file_line_by_line android_reqd.cil < chromeos.raw.cil > chromeos.cil ||
+	version_cil < chromeos.raw.cil > chromeos.raw.versioned.cil
+	filter_file_line_by_line android_reqd.cil < chromeos.raw.versioned.cil > chromeos.cil ||
 		die "failed to convert raw cil to filtered cil"
 }
 
