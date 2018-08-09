@@ -115,6 +115,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-2.2.2-Only-list-supported-PDLs-Issue-4923.patch"
 	"${FILESDIR}/${PN}-2.2.2-no-tests.patch"
 	"${FILESDIR}/${PN}-2.1.4-cups-config-libs.patch"
+	"${FILESDIR}/${PN}-2.2.4-case-insensitive-pwg-raster-types.patch"
 )
 
 MULTILIB_CHOST_TOOLS=(

@@ -1,0 +1,46 @@
+From 26a03a4c68d8e3f12ff3dcb0033afd2895fc91ee Mon Sep 17 00:00:00 2001
+From: David Valleau <valleau@chromium.org>
+Date: Thu, 9 Aug 2018 13:54:58 -0700
+Subject: [PATCH] Allow PWG Raster types to vary by case
+
+Link to the upstream patch:
+https://github.com/apple/cups/commit/d2817c9f02391c8cba8ae478b952d3405f45ff59
+
+---
+ cups/ppd-cache.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/cups/ppd-cache.c b/cups/ppd-cache.c
+index c5814c5..349cb6b 100644
+--- a/cups/ppd-cache.c
++++ b/cups/ppd-cache.c
+@@ -3331,7 +3331,7 @@ _ppdCreateFromIPP(char   *buffer,	/* I - Filename buffer */
+       const char *keyword = ippGetString(attr, i, NULL);
+ 					/* Keyword for color/bit depth */
+ 
+-      if (!strcmp(keyword, "black_1") || !strcmp(keyword, "bi-level") || !strcmp(keyword, "process-bi-level"))
++      if (!strcasecmp(keyword, "black_1") || !strcmp(keyword, "bi-level") || !strcmp(keyword, "process-bi-level"))
+       {
+         if (!default_color)
+ 	  cupsFilePuts(fp, "*OpenUI *ColorModel/Color Mode: PickOne\n"
+@@ -3342,7 +3342,7 @@ _ppdCreateFromIPP(char   *buffer,	/* I - Filename buffer */
+         if (!default_color)
+ 	  default_color = "FastGray";
+       }
+-      else if (!strcmp(keyword, "sgray_8") || !strcmp(keyword, "monochrome") || !strcmp(keyword, "process-monochrome"))
++      else if (!strcasecmp(keyword, "sgray_8") || !strcmp(keyword, "monochrome") || !strcmp(keyword, "process-monochrome"))
+       {
+         if (!default_color)
+ 	  cupsFilePuts(fp, "*OpenUI *ColorModel/Color Mode: PickOne\n"
+@@ -3353,7 +3353,7 @@ _ppdCreateFromIPP(char   *buffer,	/* I - Filename buffer */
+         if (!default_color || !strcmp(default_color, "FastGray"))
+ 	  default_color = "Gray";
+       }
+-      else if (!strcmp(keyword, "srgb_8") || !strcmp(keyword, "color"))
++      else if (!strcasecmp(keyword, "srgb_8") || !strcmp(keyword, "color"))
+       {
+         if (!default_color)
+ 	  cupsFilePuts(fp, "*OpenUI *ColorModel/Color Mode: PickOne\n"
+-- 
+2.18.0.597.ga71716f1ad-goog
+
