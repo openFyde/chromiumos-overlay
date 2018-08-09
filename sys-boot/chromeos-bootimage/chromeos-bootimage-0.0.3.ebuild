@@ -156,6 +156,29 @@ add_ec() {
 		-f "${ecroot}/ec.RW.hash" -n "${name}.hash" || die
 }
 
+# Add and sign a legacy payload (in its own CBFS) into image.
+# Usage: add_and_sign_legacy legacy_payload cbfs_rom [fallback_payload]
+add_and_sign_legacy() {
+	local payload="$1"
+	local rom="$2"
+	local fallback_payload="$3"
+	local tmpfile="$(mktemp)"
+
+	if [[ ! -f "${payload}" ]] && [[ -f "${fallback_payload}" ]]; then
+		payload="${fallback_payload}"
+	fi
+
+	do_cbfstool "${rom}" write -r RW_LEGACY -f "${payload}" --force
+
+	# TODO(kitching): Get hash and sign.
+
+	# Add the tag for silent updating.
+	do_cbfstool "${rom}" add -r RW_LEGACY -f "${tmpfile}" -t raw -c none \
+		-n "cros_allow_auto_update"
+
+	rm -f "${tmpfile}"
+}
+
 # Add payloads and sign the image.
 # This takes the base image and creates a new signed one with the given
 # payloads added to it.
@@ -273,17 +296,9 @@ build_images() {
 	prepare_legacy_image legacy_file
 	if [ -n "${legacy_file}" ]; then
 		einfo "Using legacy boot payload: ${legacy_file}"
-		if [ -f "${legacy_file}.serial" ]; then
-			do_cbfstool ${coreboot_file}.serial write \
-				-f ${legacy_file}.serial --force -r RW_LEGACY
-			do_cbfstool ${coreboot_file} write \
-				-f ${legacy_file} --force -r RW_LEGACY
-		else
-			do_cbfstool ${coreboot_file}.serial write \
-				-f ${legacy_file} --force -r RW_LEGACY
-			do_cbfstool ${coreboot_file} write \
-				-f ${legacy_file} --force -r RW_LEGACY
-		fi
+		add_and_sign_legacy "${legacy_file}" "${coreboot_file}" ""
+		add_and_sign_legacy "${legacy_file}.serial" \
+			"${coreboot_file}.serial" "${legacy_file}"
 	fi
 
 	if use cros_ec; then
