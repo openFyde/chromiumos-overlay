@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=net-misc/curl test? ( dev-cpp/gmock dev-cpp/gtest ) dev-vcs/git dev-vcs/git
+DESCRIPTION=Google crash reporting
+EAPI=4
+HOMEPAGE=http://code.google.com/p/google-breakpad
+IUSE=-alltests cros_host test cros_host cros_workon_tree_ea5253091c98e020dd7eddb5412d9633957fd87d_271ee38a26d6ecc7edb191ed0a9954b38a4e86e2 cros_i686 cros_host cros_workon_tree_ea5253091c98e020dd7eddb5412d9633957fd87d_271ee38a26d6ecc7edb191ed0a9954b38a4e86e2
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=net-misc/curl
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-i686	03e4121e41b138f4b51eca2571281b5b	cros-workon	fb60d2310bac28fdda1fd1d49c101681	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=811714962ce5241387fdefe718353adb
