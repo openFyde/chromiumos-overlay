@@ -1,0 +1,46 @@
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=5
+
+CROS_WORKON_COMMIT=("d077152a94e5b5bf38e0bb8b0506e5e37b43eded" "35f3ca6df8747d454c1f3430df5b7788089d5f49")
+CROS_WORKON_TREE=("6589055d0d41e7fc58d42616ba5075408d810f7d" "c1e06d9f00c106dff199c84c68f58508a9332bac" "15c6d2b3c8226508b7434556acbda449e788a508" "04d2f915e83148f85ce085e7ee18f2506ec85a47" "0d933f3b05830583b657e61eed24a84fd3e825ab")
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/arc-camera"
+	"chromiumos/platform2"
+)
+CROS_WORKON_LOCALNAME=(
+	"../platform/arc-camera"
+	"../platform2"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform/arc-camera"
+	"${S}/platform2"
+)
+CROS_WORKON_SUBTREE=(
+	"build common include mojo"
+	"common-mk"
+)
+PLATFORM_GYP_FILE="common/jpeg/libjea_test.gyp"
+
+inherit cros-camera cros-workon
+
+DESCRIPTION="End to end test for JPEG encode accelerator"
+
+LICENSE="BSD-Google"
+SLOT="0"
+KEYWORDS="*"
+
+RDEPEND="
+	dev-cpp/gtest
+	media-libs/cros-camera-libcamera_exif
+	media-libs/cros-camera-libcamera_jpeg"
+
+src_unpack() {
+	cros-camera_src_unpack
+}
+
+src_install() {
+	dobin "${OUT}/libjea_test"
+}
+
