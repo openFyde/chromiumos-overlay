@@ -240,6 +240,12 @@ def main():
   # Get clang binary location.
   clang_bin = os.path.join(get_relocatable_root(), 'usr/bin/clang')
 
+  if not os.path.isabs(sys.argv[0]):
+    # If sysroot_wrapper is invoked by relative path, call actual compiler in
+    # relative form. This is neccesary to remove absolute path from compile
+    # outputs.
+    clang_bin = os.path.relpath(clang_bin)
+
   # If -clang-syntax is present or the command line uses clang instead
   # of GCC.
   invoke_clang = False
