@@ -122,6 +122,7 @@ CONFIG_FRAGMENTS=(
 	cros_ec_sysfs_usb
 	devdebug
 	diskswap
+	dmadebug
 	dm_snapshot
 	dp_cec
 	dwc2_dual_role
@@ -273,6 +274,11 @@ CONFIG_Z3FOLD=y
 CONFIG_ZBUD=y
 CONFIG_ZPOOL=y
 CONFIG_ZSWAP=y
+"
+
+dmadebug_desc="Enable DMA debugging"
+dmadebug_config="
+CONFIG_DMA_API_DEBUG=y
 "
 
 dm_snapshot_desc="Snapshot device mapper target"
