@@ -13,13 +13,6 @@ inherit cros-constants
 CROS_WORKON_REPO=${CROS_GIT_AOSP_URL}
 CROS_WORKON_PROJECT="external/libcxx"
 CROS_WORKON_LOCALNAME="../aosp/external/libcxx"
-if use llvm-next; then
-	CROS_WORKON_COMMIT="ff6224a58cf9348c10b17c7ea707d5228c5101c5"
-	CROS_WORKON_TREE="930f377a3dab90e3413eed81f8a55dff32fce18d"
-else
-	CROS_WORKON_COMMIT="ff6224a58cf9348c10b17c7ea707d5228c5101c5"
-	CROS_WORKON_TREE="930f377a3dab90e3413eed81f8a55dff32fce18d"
-fi
 CROS_WORKON_BLACKLIST="1"
 
 inherit cmake-multilib cros-llvm cros-workon llvm python-any-r1 toolchain-funcs
@@ -57,6 +50,17 @@ PATCHES=(
 
 python_check_deps() {
 	has_version "dev-python/lit[${PYTHON_USEDEP}]"
+}
+
+src_unpack() {
+	if use llvm-next; then
+		CROS_WORKON_COMMIT="ff6224a58cf9348c10b17c7ea707d5228c5101c5"
+		CROS_WORKON_TREE="930f377a3dab90e3413eed81f8a55dff32fce18d"
+	else
+		CROS_WORKON_COMMIT="ff6224a58cf9348c10b17c7ea707d5228c5101c5"
+		CROS_WORKON_TREE="930f377a3dab90e3413eed81f8a55dff32fce18d"
+	fi
+	cros-workon_src_unpack
 }
 
 src_prepare() {

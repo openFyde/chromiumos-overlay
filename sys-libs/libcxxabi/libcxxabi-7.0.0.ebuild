@@ -3,13 +3,6 @@
 
 EAPI=5
 
-if use llvm-next; then
-	CROS_WORKON_COMMIT=("1607e38f339e32d6bcf7bb02531d3bf19f42f5c0" "ff6224a58cf9348c10b17c7ea707d5228c5101c5" "2dd29ac655fd62d8ba81208a6d14fd16cfcbbc0c")
-	CROS_WORKON_TREE=("44200848ad653e99f8756fa5533e2eff1cf95e1d" "930f377a3dab90e3413eed81f8a55dff32fce18d" "a8ee8bd315c38ac40b1ca0a98456d72168643174")
-else
-	CROS_WORKON_COMMIT=("1607e38f339e32d6bcf7bb02531d3bf19f42f5c0" "ff6224a58cf9348c10b17c7ea707d5228c5101c5" "2dd29ac655fd62d8ba81208a6d14fd16cfcbbc0c")
-	CROS_WORKON_TREE=("44200848ad653e99f8756fa5533e2eff1cf95e1d" "930f377a3dab90e3413eed81f8a55dff32fce18d" "a8ee8bd315c38ac40b1ca0a98456d72168643174")
-fi
 : ${CMAKE_MAKEFILE_GENERATOR:=ninja}
 PYTHON_COMPAT=( python2_7 )
 
@@ -67,6 +60,17 @@ pkg_setup() {
 	setup_cross_toolchain
 	llvm_pkg_setup
 	use test && python-any-r1_pkg_setup
+}
+
+src_unpack() {
+	if use llvm-next; then
+		CROS_WORKON_COMMIT=("1607e38f339e32d6bcf7bb02531d3bf19f42f5c0" "ff6224a58cf9348c10b17c7ea707d5228c5101c5" "2dd29ac655fd62d8ba81208a6d14fd16cfcbbc0c")
+		CROS_WORKON_TREE=("44200848ad653e99f8756fa5533e2eff1cf95e1d" "930f377a3dab90e3413eed81f8a55dff32fce18d" "a8ee8bd315c38ac40b1ca0a98456d72168643174")
+	else
+		CROS_WORKON_COMMIT=("1607e38f339e32d6bcf7bb02531d3bf19f42f5c0" "ff6224a58cf9348c10b17c7ea707d5228c5101c5" "2dd29ac655fd62d8ba81208a6d14fd16cfcbbc0c")
+		CROS_WORKON_TREE=("44200848ad653e99f8756fa5533e2eff1cf95e1d" "930f377a3dab90e3413eed81f8a55dff32fce18d" "a8ee8bd315c38ac40b1ca0a98456d72168643174")
+	fi
+	cros-workon_src_unpack
 }
 
 src_prepare() {
