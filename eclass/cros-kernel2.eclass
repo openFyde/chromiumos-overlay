@@ -254,7 +254,13 @@ CONFIG_CROS_EC_SYSFS_USB=y
 # overhead while providing useful information for developers.
 devdebug_desc="Miscellaneous developer debugging options"
 devdebug_config="
+CONFIG_ARM_PTDUMP=y
+CONFIG_ARM_PTDUMP_DEBUGFS=y
+CONFIG_ARM64_PTDUMP_DEBUGFS=y
 CONFIG_BLK_DEBUG_FS=y
+CONFIG_DEBUG_WX=y
+CONFIG_GENERIC_IRQ_DEBUGFS=y
+CONFIG_IRQ_DOMAIN_DEBUG=y
 "
 
 diskswap_desc="Enable swap file"
