@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="eee36c5192f4eaa2959f1b532c00d6d021b32c91"
-CROS_WORKON_TREE=("45463f6780972e10b5979ed201843a5dd6e93b53" "4bd0ecf795a2dd74b88bbf2df79dc5e347a37d7a")
+CROS_WORKON_COMMIT="38e019b5d7446a1feb13ab7deda3d856ae5a3928"
+CROS_WORKON_TREE=("45463f6780972e10b5979ed201843a5dd6e93b53" "11b9f2dfbfa9dacb5fe1fc5fd7477ea7bccb1fb1")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -43,6 +43,7 @@ pkg_preinst() {
 src_install() {
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
+	dosbin "${OUT}"/finish_oobe_auto_config
 
 	# TODO(zentaro): Add secomp filters once implemented.
 }
