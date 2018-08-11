@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="e3d7e9341c5626a8f6f4bf91e4b44cfdc02ba8b6"
-CROS_WORKON_TREE="70264e99d7557bcdcf1b7d2a7ea80ab8c9d2ff76"
+CROS_WORKON_COMMIT="8eb5a83f704bd235f3a92082f798cd8ff6805ca4"
+CROS_WORKON_TREE="d8f43dc31e0e397bec38dda398329fcdbb7e0dea"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
 CROS_WORKON_SUBTREE="util/crossgcc"
@@ -24,9 +24,9 @@ https://ftpmirror.gnu.org/gmp/gmp-6.1.2.tar.xz
 https://ftpmirror.gnu.org/mpfr/mpfr-3.1.5.tar.xz
 https://ftpmirror.gnu.org/mpc/mpc-1.0.3.tar.gz
 https://sourceware.org/elfutils/ftp/0.170/elfutils-0.170.tar.bz2
-https://ftpmirror.gnu.org/gcc/gcc-6.3.0/gcc-6.3.0.tar.bz2
-https://ftpmirror.gnu.org/binutils/binutils-2.29.1.tar.xz
-https://acpica.org/sites/acpica/files/acpica-unix2-20161222.tar.gz
+https://ftpmirror.gnu.org/gcc/gcc-8.1.0/gcc-8.1.0.tar.xz
+https://ftpmirror.gnu.org/binutils/binutils-2.30.tar.xz
+https://acpica.org/sites/acpica/files/acpica-unix2-20180531.tar.gz
 https://ftpmirror.gnu.org/make/make-4.2.1.tar.bz2
 "
 
@@ -84,6 +84,7 @@ src_compile() {
 		aarch64-elf
 		mipsel-elf
 		nds32le-elf
+		riscv-elf
 	)
 
 	local arch
