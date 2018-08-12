@@ -33,13 +33,11 @@ is_cross() { [[ ${CHOST} != ${CTARGET} ]] ; }
 DESCRIPTION="Tools necessary to build programs"
 HOMEPAGE="http://sources.redhat.com/binutils/"
 LICENSE="|| ( GPL-3 LGPL-3 )"
-IUSE="hardened mounted_binutils multislot multitarget nls test vanilla
+IUSE="hardened mounted_binutils multitarget nls test vanilla
 	next_binutils prev_binutils"
 REQUIRED_USE="next_binutils? ( !prev_binutils )"
 
-if use multislot ; then
-	SLOT="${CTARGET}-${BVER}"
-elif is_cross ; then
+if is_cross ; then
 	SLOT="${CTARGET}"
 else
 	SLOT="0"
