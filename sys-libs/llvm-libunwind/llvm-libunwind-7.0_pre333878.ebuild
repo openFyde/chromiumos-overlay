@@ -10,6 +10,8 @@ HOMEPAGE="https://github.com/llvm-mirror/libunwind"
 SRC_URI=""
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/llvm.org/libunwind"
 
+EGIT_COMMIT="1e1c6b739595098ba5c466bfe9d58b993e646b48" #r332513
+
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
@@ -23,9 +25,7 @@ pkg_setup() {
 
 src_unpack() {
 	if use llvm-next; then
-		EGIT_COMMIT="1e1c6b739595098ba5c466bfe9d58b993e646b48" #r332513
-	else
-		EGIT_COMMIT="1e1c6b739595098ba5c466bfe9d58b993e646b48" #r332513
+		export EGIT_COMMIT="1e1c6b739595098ba5c466bfe9d58b993e646b48" #r332513
 	fi
 	git-2_src_unpack
 }

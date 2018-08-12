@@ -15,6 +15,8 @@ SRC_URI=""
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/llvm.org/lld
 	https://git.llvm.org/git/lld.git"
 
+EGIT_COMMIT="8611960159f18591cb319ae527a6559d0861224e" #r333793
+
 LICENSE="UoI-NCSA"
 SLOT="0"
 KEYWORDS="*"
@@ -53,10 +55,8 @@ pkg_setup() {
 }
 
 src_unpack() {
-	EGIT_COMMIT="8611960159f18591cb319ae527a6559d0861224e" #r333793
-
 	if use llvm-next && has_version --host-root 'sys-devel/llvm[llvm-next]'; then
-		EGIT_COMMIT="8611960159f18591cb319ae527a6559d0861224e" #r333793
+		export EGIT_COMMIT="8611960159f18591cb319ae527a6559d0861224e" #r333793
 	fi
 
 	git-r3_fetch
