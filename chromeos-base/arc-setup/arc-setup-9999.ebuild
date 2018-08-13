@@ -102,6 +102,7 @@ src_install() {
 	doins etc/arc-start-sysctl.conf
 	doins etc/arc-stop-sysctl.conf
 	doins etc/arc-system-mount.conf
+	doins etc/arc-update-restorecon-last.conf
 	doins etc/arc-ureadahead.conf
 	doins etc/arc-ureadahead-trace.conf
 
