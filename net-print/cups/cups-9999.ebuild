@@ -4,9 +4,11 @@
 
 EAPI=5
 
+CROS_WORKON_PROJECT="chromiumos/third_party/cups"
+
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools fdo-mime gnome2-utils flag-o-matic linux-info \
+inherit cros-workon autotools fdo-mime gnome2-utils flag-o-matic linux-info \
 	multilib multilib-minimal pam python-single-r1 user versionator \
 	java-pkg-opt-2 systemd toolchain-funcs
 
@@ -15,16 +17,7 @@ MY_P=${MY_P/_beta/b}
 MY_PV=${PV/_rc/rc}
 MY_PV=${MY_PV/_beta/b}
 
-if [[ ${PV} == *9999 ]]; then
-	inherit git-r3
-	EGIT_REPO_URI="http://www.cups.org/cups.git"
-	if [[ ${PV} != 9999 ]]; then
-		EGIT_BRANCH=branch-${PV/.9999}
-	fi
-else
-	SRC_URI="https://github.com/apple/${PN}/archive/release-${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="*"
-fi
+KEYWORDS="~*"
 
 DESCRIPTION="The Common Unix Printing System"
 HOMEPAGE="http://www.cups.org/"
@@ -91,33 +84,6 @@ RESTRICT="test"
 
 S="${WORKDIR}/${PN}-release-${MY_PV}"
 
-# systemd-socket.patch from Fedora
-PATCHES=(
-	"${FILESDIR}/${PN}-1.6.0-dont-compress-manpages.patch"
-	"${FILESDIR}/${PN}-1.6.0-fix-install-perms.patch"
-	"${FILESDIR}/${PN}-1.4.4-nostrip.patch"
-	"${FILESDIR}/${PN}-2.0.2-rename-systemd-service-files.patch"
-	"${FILESDIR}/${PN}-2.1.2-systemd-socket.patch"
-	"${FILESDIR}/${PN}-2.0.1-xinetd-installation-fix.patch"
-	"${FILESDIR}/${PN}-2.0.3-cross-compile.patch"
-	"${FILESDIR}/${PN}-2.0.3-Add-printerroot-to-configure.patch"
-	"${FILESDIR}/${PN}-2.1.2-PrinterRoot.patch"
-	"${FILESDIR}/${PN}-2.0.3-upstart-on-demand.patch"
-	"${FILESDIR}/${PN}-2.1.4-strict-filters.patch"
-	"${FILESDIR}/${PN}-2.1.4-usb-device-uris.patch"
-	"${FILESDIR}/${PN}-2.1.4-non-standard-grays.patch"
-	"${FILESDIR}/${PN}-2.1.4-raise-log-level-for-desired-features.patch"
-	"${FILESDIR}/${PN}-2.1.4-search-filter.patch"
-	"${FILESDIR}/${PN}-2.1.4-limit-PSVersion-sscanf.patch"
-	"${FILESDIR}/${PN}-2.1.4-ippusb-query.patch"
-	"${FILESDIR}/${PN}-2.1.4-timeout.patch"
-	"${FILESDIR}/${PN}-2.2.2-Tweak-the-PDL-priority-Issue-4932.patch"
-	"${FILESDIR}/${PN}-2.2.2-Only-list-supported-PDLs-Issue-4923.patch"
-	"${FILESDIR}/${PN}-2.2.2-no-tests.patch"
-	"${FILESDIR}/${PN}-2.1.4-cups-config-libs.patch"
-	"${FILESDIR}/${PN}-2.2.4-case-insensitive-pwg-raster-types.patch"
-)
-
 MULTILIB_CHOST_TOOLS=(
 	/usr/bin/cups-config
 )
@@ -170,8 +136,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch ${PATCHES[@]}
-
 	epatch_user
 
 	# Remove ".SILENT" rule for verbose output (bug 524338).
