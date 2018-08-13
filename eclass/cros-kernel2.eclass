@@ -120,6 +120,7 @@ CONFIG_FRAGMENTS=(
 	criu
 	cros_ec_mec
 	cros_ec_sysfs_usb
+	debugobjects
 	devdebug
 	diskswap
 	dmadebug
@@ -249,6 +250,17 @@ CONFIG_CROS_EC_LPC_MEC=y
 cros_ec_sysfs_usb_desc="Expose a sysfs USB attribute group for the EC"
 cros_ec_sysfs_usb_config="
 CONFIG_CROS_EC_SYSFS_USB=y
+"
+
+debugobjects_desc="Enable kernel debug objects debugging"
+debugobjects_config="
+CONFIG_DEBUG_OBJECTS=y
+CONFIG_DEBUG_OBJECTS_SELFTEST=y
+CONFIG_DEBUG_OBJECTS_FREE=y
+CONFIG_DEBUG_OBJECTS_TIMERS=y
+CONFIG_DEBUG_OBJECTS_WORK=y
+CONFIG_DEBUG_OBJECTS_RCU_HEAD=y
+CONFIG_DEBUG_OBJECTS_PERCPU_COUNTER=y
 "
 
 # devdebug configuration options should impose no or little runtime
