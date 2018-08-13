@@ -72,6 +72,7 @@ _emake() {
 		PKG_CONFIG="$(tc-getPKG_CONFIG)" \
 		HOSTCC="$(tc-getBUILD_CC)" \
 		LD="${LD}" \
+		AS="${AS}" \
 		CC="${CC} -fuse-ld=bfd" \
 		AS="${AS}" \
 		"$@"
