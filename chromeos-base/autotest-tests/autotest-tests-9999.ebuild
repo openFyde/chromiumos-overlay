@@ -233,6 +233,7 @@ CLIENT_IUSE_TESTS="
 		+tests_platform_Perf
 		+tests_platform_Quipper
 	)
+	cups? ( +tests_platform_PrinterPpds )
 	+tests_platform_Rootdev
 	+tests_platform_RootPartitionsNotMounted
 	+tests_platform_SecureEraseFile
