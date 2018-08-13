@@ -1,7 +1,7 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_COMMIT="3004147dd3707e600772ec6c5d37beac7f4b8eb4"
 CROS_WORKON_TREE="86739723f748584f03ca50902660cae0adbc1cbf"
 CROS_WORKON_PROJECT="chromiumos/third_party/seabios"
@@ -62,9 +62,11 @@ _emake() {
 	if ! use coreboot-sdk; then
 		local LD="$(tc-getLD).bfd"
 		local CC="$(tc-getCC)"
+		local AS="$(tc-getAS)"
 	else
 		local CC=${COREBOOT_SDK_PREFIX_x86_32}gcc
 		local LD=${COREBOOT_SDK_PREFIX_x86_32}ld
+		local AS=${COREBOOT_SDK_PREFIX_x86_32}as
 	fi
 
 	emake \
@@ -73,6 +75,7 @@ _emake() {
 		HOSTCC="$(tc-getBUILD_CC)" \
 		LD="${LD}" \
 		CC="${CC} -fuse-ld=bfd" \
+		AS="${AS}" \
 		"$@"
 }
 
