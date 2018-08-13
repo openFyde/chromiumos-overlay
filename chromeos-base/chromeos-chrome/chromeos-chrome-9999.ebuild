@@ -1050,7 +1050,6 @@ src_compile() {
 
 	local chrome_targets=(
 		chrome_sandbox
-		libosmesa.so
 		$(usex mojo "mojo_shell" "")
 	)
 	if use app_shell; then
