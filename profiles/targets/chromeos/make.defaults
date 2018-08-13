@@ -27,6 +27,9 @@ USE="${USE} acpi_ac"
 USE="${USE} hardened"
 
 # Formerly project-freon configs
+# Disable X11.
+USE="${USE} -X"
+
 # Use opengles instead of opengl
 USE="${USE} opengles"
 
