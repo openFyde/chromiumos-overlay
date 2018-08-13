@@ -52,7 +52,6 @@ create_cbfs() {
 	local CROS_FIRMWARE_ROOT="${SYSROOT%/}${CROS_FIRMWARE_IMAGE_DIR}"
 	local oprom=$(echo "${CROS_FIRMWARE_ROOT}"/pci????,????.rom)
 	local cbfs=tianocore.cbfs
-	local bootblock="${T}/bootblock"
 
 	_cbfstool() { set -- cbfstool "$@"; echo "$@"; "$@" || die "'$*' failed"; }
 	local coreboot_rom="$(find "${CROS_FIRMWARE_ROOT}" -name coreboot.rom 2>/dev/null | head -n 1)"
