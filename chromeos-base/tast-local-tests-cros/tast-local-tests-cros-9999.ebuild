@@ -50,7 +50,10 @@ DEPEND="
 	dev-go/gopsutil
 	dev-go/protobuf
 "
-RDEPEND="!chromeos-base/tast-local-tests"
+RDEPEND="
+	!chromeos-base/tast-local-tests
+	dev-util/android-uiautomator-server
+"
 
 # Permit files/external_data.conf to pull in files that are located in
 # gs://chromiumos-test-assets-public.
