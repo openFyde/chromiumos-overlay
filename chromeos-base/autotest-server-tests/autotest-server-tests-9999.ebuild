@@ -273,8 +273,9 @@ SERVER_IUSE_TESTS="
 	+tests_policy_WiFiAutoconnectServer
 	+tests_policy_WiFiTypesServer
 	+tests_power_BrightnessResetAfterReboot
-	+tests_power_MeasurementWrapper
+	+tests_power_PowerlogWrapper
 	+tests_power_RPMTest
+	+tests_power_ServodWrapper
 	+tests_provision_AutoUpdate
 	+tests_rlz_CheckPing
 	+tests_security_kASLR
