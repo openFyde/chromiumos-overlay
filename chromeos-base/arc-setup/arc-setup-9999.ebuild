@@ -113,6 +113,9 @@ src_install() {
 		enable_esdfs "${D}/etc/init/arc-setup-env"
 	fi
 
+	insinto /usr/share/arc-setup
+	doins etc/config.json
+
 	insinto /opt/google/containers/arc-art
 	doins "${OUT}/dev-rootfs.squashfs"
 
