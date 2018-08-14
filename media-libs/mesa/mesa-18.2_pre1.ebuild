@@ -126,6 +126,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-i965-implement-GL_MESA_framebuffer_flip_y-v3.patch
 	epatch "${FILESDIR}"/18.1-egl-surfaceless-swrastloader.patch
 	epatch "${FILESDIR}"/18.1-egl-surfaceless-drmless.patch
+	epatch "${FILESDIR}"/18.2-radv-Make-fs-key-exemplars-ordered-to-be-a-reverse-f.patch
+	epatch "${FILESDIR}"/18.2-radv-Refactor-blit-pipeline-creation.patch
+	epatch "${FILESDIR}"/18.2-radv-Add-on-demand-compilation-of-built-in-shaders.patch
 
 	base_src_prepare
 
