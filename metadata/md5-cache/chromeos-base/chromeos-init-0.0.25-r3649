@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install preinst setup test unpack
+DEPEND=chromeos-base/libbrillo dev-util/shunit2 dev-vcs/git dev-vcs/git chromeos-base/libchrome:395517[cros-debug=] test? ( dev-cpp/gmock ) dev-cpp/gtest sys-apps/baselayout
+DESCRIPTION=Upstart init scripts for Chromium OS
+EAPI=5
+HOMEPAGE=http://www.chromium.org/
+IUSE=cros_embedded +debugd +encrypted_stateful frecon kernel-3_8 kernel-3_10 kernel-3_14 kernel-3_18 +midi -s3halt +syslog systemd +udev vtconsole cros_host cros_workon_tree_45463f6780972e10b5979ed201843a5dd6e93b53_7f14bf8bd330c6d1e1cf8dcaf761f8a401ce45ae_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug fuzzer cros_host cros_workon_tree_45463f6780972e10b5979ed201843a5dd6e93b53_7f14bf8bd330c6d1e1cf8dcaf761f8a401ce45ae_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug asan cros_host fuzzer test
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=chromeos-base/libbrillo dev-util/shunit2 app-arch/tar app-misc/jq chromeos-base/bootstat !chromeos-base/chromeos-disableecho chromeos-base/chromeos-common-script chromeos-base/secure-erase-file chromeos-base/tty chromeos-base/vboot_reference sys-apps/rootdev sys-apps/upstart sys-process/lsof virtual/chromeos-bootcomplete !cros_embedded? ( chromeos-base/common-assets chromeos-base/chromeos-storage-info chromeos-base/swap-init sys-fs/e2fsprogs ) frecon? ( sys-apps/frecon ) chromeos-base/libchrome:395517[cros-debug=] sys-apps/baselayout
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	ebc02f60bcf39df5297008f1b894323d	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	58f44b2918bfba7ca44f71c3848b8c08	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	1cd6ae2081c61848159ad6bee535ca86	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	user	c8f947561e8797a300801d0dd3625448
+_md5_=37d995f4c2cee56c26b9c84a13c948b7

@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile info install setup unpack
+DEPEND=dev-libs/openssl dev-vcs/git
+DESCRIPTION=TPM2.0 library
+EAPI=4
+HOMEPAGE=http://www.chromium.org/
+IUSE=cros_host cros_workon_tree_c7e9b3952c4b68e6ebbc9cafa17215b2f8412920
+KEYWORDS=*
+LICENSE=BSD-Google
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=ea16189212c360d58997cfa8e82b5277
