@@ -249,7 +249,7 @@ make_coreboot() {
 	fi
 	rm -rf "${builddir}" .xcompile
 
-	local CB_OPTS=( "objutil=objutil" "DOTCONFIG=${config_fname}" )
+	local CB_OPTS=( "DOTCONFIG=${config_fname}" )
 	use quiet && CB_OPTS+=( "V=0" )
 	use verbose && CB_OPTS+=( "V=1" )
 	use quiet && REDIR="/dev/null" || REDIR="/dev/stdout"
