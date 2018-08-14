@@ -31,7 +31,7 @@
 # Name of GYP file within PLATFORM_SUBDIR.
 : ${PLATFORM_GYP_FILE:="${PLATFORM_SUBDIR}.gyp"}
 
-inherit cros-debug cros-fuzzer cros-workon flag-o-matic toolchain-funcs multiprocessing
+inherit cros-debug cros-fuzzer cros-sanitizers cros-workon flag-o-matic toolchain-funcs multiprocessing
 
 [[ "${WANT_LIBCHROME}" == "yes" ]] && inherit libchrome
 
@@ -175,7 +175,10 @@ platform_src_configure() {
 	cros-debug-add-NDEBUG
 	append-lfs-flags
 	asan-setup-env
+	coverage-setup-env
 	fuzzer-setup-env
+	msan-setup-env
+	ubsan-setup-env
 	platform_configure "${S}/${PLATFORM_GYP_FILE}" "$@"
 }
 
