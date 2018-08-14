@@ -4,19 +4,18 @@
 EAPI="5"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libbrillo")
-CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libbrillo")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libbrillo")
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk libbrillo"
 
 PLATFORM_SUBDIR="libbrillo"
 PLATFORM_NATIVE_TEST="yes"
 
-inherit cros-workon libchrome multilib platform
+inherit cros-workon multilib platform
 
 DESCRIPTION="Base library for Chromium OS"
-HOMEPAGE="http://dev.chromium.org/chromium-os/platform"
-SRC_URI=""
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libbrillo/"
 
 LICENSE="BSD-Google"
 SLOT="0/${PV}.0"
