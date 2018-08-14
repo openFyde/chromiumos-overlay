@@ -10,8 +10,8 @@ inherit cmake-utils
 DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
 HOMEPAGE="https://android.googlesource.com/platform/external/deqp"
 
-# This corresponds to a commit near ToT. (tagged in AOSP as 'android-p-preview-5')
-MY_DEQP_COMMIT='e98bb687e85fb0e4b671f8e301a2f8ddee14f181'
+# This corresponds to a commit near ToT.
+MY_DEQP_COMMIT='467f04a3329992d8e3df4381094c39653144b503'
 
 # To uprev deqp, follow these commands:
 # wget https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz
@@ -21,9 +21,9 @@ MY_DEQP_COMMIT='e98bb687e85fb0e4b671f8e301a2f8ddee14f181'
 # dependencies be unpacked into the source tree. See ${S}/external/fetch_sources.py
 # in the dEQP for the required dependencies. Upload these tarballs to the ChromeOS mirror too and
 # update the manifest.
-MY_GLSLANG_COMMIT='a5c5fb61180e8703ca85f36d618f98e16dc317e2'
-MY_SPIRV_TOOLS_COMMIT='0b0454c42c6b6f6746434bd5c78c5c70f65d9c51'
-MY_SPIRV_HEADERS_COMMIT='2bf02308656f97898c5f7e433712f21737c61e4e'
+MY_GLSLANG_COMMIT='ac3707921ed313eaba1c206e8113b85fef054c34'
+MY_SPIRV_TOOLS_COMMIT='dc938c27b34dee5492c29c4e92b49bd0c32e604f'
+MY_SPIRV_HEADERS_COMMIT='854b5dda6149c481d6faf0b9c760c311ab45b05d'
 
 SRC_URI="https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz -> deqp-${MY_DEQP_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/glslang/archive/${MY_GLSLANG_COMMIT}.tar.gz -> glslang-${MY_GLSLANG_COMMIT}.tar.gz
@@ -84,10 +84,10 @@ src_configure() {
 		-DDEQP_TARGET=surfaceless
 	)
 
-	# Use runtime loading as specified in external/deqp/Android.mk.
-	append-cxxflags "-DDEQP_EGL_RUNTIME_LOAD=1"
-	append-cxxflags "-DDEQP_GLES2_RUNTIME_LOAD=1"
-	append-cxxflags "-DDEQP_GLES3_RUNTIME_LOAD=1"
+	# Undefine direct link to use runtime loading.
+	append-cxxflags "-UDEQP_EGL_DIRECT_LINK"
+	append-cxxflags "-UDEQP_GLES2_DIRECT_LINK"
+	append-cxxflags "-UEQP_GLES3_DIRECT_LINK"
 	append-cxxflags "-DQP_SUPPORT_PNG=1"
 
 	cmake-utils_src_configure
