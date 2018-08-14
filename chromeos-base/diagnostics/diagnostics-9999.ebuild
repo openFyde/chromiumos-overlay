@@ -57,6 +57,7 @@ src_install() {
 platform_pkg_test() {
 	local tests=(
 		diagnosticsd_test
+		libgrpc_async_adapter_test
 	)
 
 	local test_bin
