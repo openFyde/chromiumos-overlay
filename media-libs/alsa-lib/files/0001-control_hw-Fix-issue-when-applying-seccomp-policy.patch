@@ -1,0 +1,41 @@
+From a84916364c1884ba07f5ae5a871b6995e49d6f9a Mon Sep 17 00:00:00 2001
+From: Hsin-Yu Chao <hychao@chromium.org>
+Date: Fri, 17 Aug 2018 11:12:27 +0800
+Subject: [PATCH 1/2] control_hw: Fix issue when applying seccomp policy
+
+When seccomp policy is applied to filter ioctl syscall with
+SNDRV_CTL_IOCTL_TLV_COMMAND, SNDRV_CTL_IOCTL_TLV_READ and
+SNDRV_CTL_IOCTL_TLV_WRITE in whiltelist, alsa-lib still breaks
+in at snd_ctl_hw_elem_tlv().
+
+The problem behind is because ioctl() takes unsigned long cmd
+argument, and the signed bit of local int variable could cause
+0xff bytes appended after casted to unsigned long.
+In kernel, seccomp data struct takes 64 bits argument to check
+against seccomp rules, these unexpected 0xff bytes could make
+the rule check fail.
+
+Fix the problem by passing unsigned int to ioctl.
+
+Signed-off-by: Hsin-Yu Chao <hychao@chromium.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ src/control/control_hw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/control/control_hw.c b/src/control/control_hw.c
+index 68eca522..b54d65f2 100644
+--- a/src/control/control_hw.c
++++ b/src/control/control_hw.c
+@@ -215,7 +215,7 @@ static int snd_ctl_hw_elem_tlv(snd_ctl_t *handle, int op_flag,
+ 			       unsigned int numid,
+ 			       unsigned int *tlv, unsigned int tlv_size)
+ {
+-	int inum;
++	unsigned int inum;
+ 	snd_ctl_hw_t *hw = handle->private_data;
+ 	struct snd_ctl_tlv *xtlv;
+ 	
+-- 
+2.19.0.rc0.228.g281dcd1b4d0-goog
+

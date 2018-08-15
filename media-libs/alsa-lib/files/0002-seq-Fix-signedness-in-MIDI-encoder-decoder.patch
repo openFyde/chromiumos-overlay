@@ -1,0 +1,50 @@
+From 7c5c0500903e0064a162f69ef26a39d0599e9466 Mon Sep 17 00:00:00 2001
+From: Takashi Iwai <tiwai@suse.de>
+Date: Thu, 23 Aug 2018 08:34:37 +0200
+Subject: [PATCH 2/2] seq: Fix signedness in MIDI encoder/decoder
+
+The qlen field of struct snd_midi_event was declared as size_t while
+status_events[] assigns the qlen to -1 indicating to skip.  This leads
+to the misinterpretation since size_t is unsigned, hence it passes the
+check "dev.qlen > 0" incorrectly in snd_midi_event_encode_byte(),
+which eventually results in a memory corruption.
+
+Also, snd_midi_event_decode() doesn't consider about a negative qlen
+value and tries to copy the size as is.
+
+This patch fixes these issues: the first one is addressed by simply
+replacing size_t with ssize_t in snd_midi_event struct.  For the
+latter, a check "qlen <= 0" is added to bail out; this is also good as
+a slight optimization.
+
+Reported-by: Prashant Malani <pmalani@chromium.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ src/seq/seq_midi_event.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/seq/seq_midi_event.c b/src/seq/seq_midi_event.c
+index 2e7d1035..5a12a18c 100644
+--- a/src/seq/seq_midi_event.c
++++ b/src/seq/seq_midi_event.c
+@@ -35,7 +35,7 @@
+ 
+ /* midi status */
+ struct snd_midi_event {
+-	size_t qlen;	/* queue length */
++	ssize_t qlen;	/* queue length */
+ 	size_t read;	/* chars read */
+ 	int type;	/* current event type */
+ 	unsigned char lastcmd;
+@@ -606,6 +606,8 @@ long snd_midi_event_decode(snd_midi_event_t *dev, unsigned char *buf, long count
+ 				status_event[type].decode(ev, xbuf + 0);
+ 			qlen = status_event[type].qlen;
+ 		}
++		if (qlen <= 0)
++			return 0;
+ 		if (count < qlen)
+ 			return -ENOMEM;
+ 		memcpy(buf, xbuf, qlen);
+-- 
+2.19.0.rc0.228.g281dcd1b4d0-goog
+
