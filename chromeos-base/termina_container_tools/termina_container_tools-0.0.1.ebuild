@@ -44,6 +44,10 @@ src_install() {
 	local dlopen_libs=(
 		$("${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --list \
 			"/usr/$(get_libdir)/dri/swrast_dri.so" \
+			"/usr/$(get_libdir)/dri/virtio_gpu_dri.so" \
+			"/usr/$(get_libdir)/libwayland-egl.so.1" \
+			"/usr/$(get_libdir)/libEGL.so.1" \
+			"/usr/$(get_libdir)/libGLESv2.so.2" \
 			"/$(get_libdir)/libnss_compat.so.2" \
 			"/$(get_libdir)/libnss_files.so.2" \
 			"/$(get_libdir)/libnss_nis.so.2"
