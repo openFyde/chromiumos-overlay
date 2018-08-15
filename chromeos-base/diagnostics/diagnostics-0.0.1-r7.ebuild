@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="4e8782b53f76d16b20a151eb8acef91d498c5467"
-CROS_WORKON_TREE=("45463f6780972e10b5979ed201843a5dd6e93b53" "82420aa5da0a83a168518f47947abf20fd5c7047")
+CROS_WORKON_COMMIT="f71393d04c226f87ff55574dfbd2e5cd2f93d23f"
+CROS_WORKON_TREE=("45463f6780972e10b5979ed201843a5dd6e93b53" "94786324b23c58c02f5559f14f2a23816b98738d")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk diagnostics"
 
 PLATFORM_SUBDIR="diagnostics"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="Device telemetry and diagnostics for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics"
@@ -21,15 +21,32 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagno
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="+seccomp"
 
-RDEPEND="
+DEPEND="
 	chromeos-base/libbrillo:=
 "
-DEPEND="${RDEPEND}"
+RDEPEND="
+	${DEPEND}
+	chromeos-base/minijail
+"
+
+pkg_preinst() {
+	enewuser diagnostics
+	enewgroup diagnostics
+}
 
 src_install() {
 	dobin "${OUT}/diagnosticsd"
+
+	# Install seccomp policy file.
+	insinto /usr/share/policy
+	use seccomp && newins "init/diagnosticsd-seccomp-${ARCH}.policy" \
+		diagnosticsd-seccomp.policy
+
+	# Install the init scripts.
+	insinto /etc/init
+	doins init/diagnosticsd.conf
 }
 
 platform_pkg_test() {
