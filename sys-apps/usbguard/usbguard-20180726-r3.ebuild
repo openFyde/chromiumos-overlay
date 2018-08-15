@@ -71,7 +71,7 @@ src_install() {
 
 	insinto /etc/usbguard/rules.d
 	use cfm_enabled_device && doins "${FILESDIR}/50-cfm-rules.conf"
-	use hammerd && doins "${FILESDIR}/50-soraka-rules.conf"
+	use hammerd && doins "${FILESDIR}/50-hammer-rules.conf"
 	doins "${FILESDIR}/99-rules.conf"
 
 	insinto /opt/google/usbguard
