@@ -22,7 +22,7 @@ KEYWORDS="~*"
 IUSE=""
 
 src_install() {
-	newlib.a libmodpb64.pie.a libmodp_b64.a
+	newlib.a "${OUT}"/libmodpb64.pie.a libmodp_b64.a
 
 	insinto /usr/include
 	doins -r modp_b64
