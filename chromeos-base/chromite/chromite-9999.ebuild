@@ -39,6 +39,6 @@ src_test() {
 	# one using a sudo invocation. Currently the tests assume they run from a
 	# repo checkout, so they need to be run from the real source dir.
 	# TODO(davidjames): Fix that, and run the tests from ${S} instead.
-	cd "${CHROMITE_DIR}/cbuildbot" && sudo -u "${PORTAGE_USERNAME}" \
+	cd "${CHROMITE_DIR}" && sudo -u "${PORTAGE_USERNAME}" \
 		PATH="${CROS_WORKON_SRCROOT}/../depot_tools:${PATH}" ./run_tests || die
 }
