@@ -202,7 +202,8 @@ src_install() {
 			init/network-services.conf \
 			init/shill-start-user-session.conf \
 			init/shill-stop-user-session.conf \
-			init/shill_respawn.conf
+			init/shill_respawn.conf \
+			init/shill-sandboxing-kill-switch.conf
 		if [[ "${netfilter_queue_helper}" == "yes" ]]; then
 			doins init/netfilter-queue.conf
 		fi
