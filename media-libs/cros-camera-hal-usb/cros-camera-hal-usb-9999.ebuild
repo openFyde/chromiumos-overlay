@@ -16,7 +16,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 )
 CROS_WORKON_SUBTREE=(
-	"build hal/usb include"
+	"build common hal/usb include"
 	"common-mk"
 )
 PLATFORM_GYP_FILE="hal/usb/libcamera_hal.gyp"
