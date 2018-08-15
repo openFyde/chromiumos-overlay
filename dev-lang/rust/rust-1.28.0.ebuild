@@ -23,9 +23,9 @@ else
 fi
 
 
-STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).0"
+STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).2"
 STAGE0_VERSION_CARGO="0.$(($(get_version_component_range 2))).0"
-STAGE0_DATE="2018-05-10"
+STAGE0_DATE="2018-07-20"
 RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
@@ -98,7 +98,7 @@ src_prepare() {
 	# One of the patches changes a vendored library, thereby changing the
 	# checksum.
 	pushd src/vendor/cc || die
-	sed -i 's:4950879e90459eeb7cb1d15415bf25339d7ce0bfc6cff7dadc24aa6bb3960b4a:f20d3e0e95f868670d2f6f31f304cc9c8ff96b570849b026265deda9a901cbd5:g' \
+	sed -i 's:aac6033585ae8ae55369d25a511dba45d50d8196743f1d73f644db7678c223cd:0ad65fbe8f2fd35b95a53648d99e61f162996d9a0f54cf77ba93455aa945ebe0:g' \
 		.cargo-checksum.json
 	popd
 
