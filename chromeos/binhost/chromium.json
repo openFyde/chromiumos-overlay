@@ -38,6 +38,7 @@
         "ozone_platform_default_gbm", 
         "ozone_platform_gbm", 
         "runhooks", 
+        "smbprovider", 
         "thinlto", 
         "v4l2_codec", 
         "v4lplugin", 
@@ -90,6 +91,7 @@
         "ozone_platform_default_gbm", 
         "ozone_platform_gbm", 
         "runhooks", 
+        "smbprovider", 
         "thinlto", 
         "v4l2_codec", 
         "xkbcommon"
@@ -141,6 +143,7 @@
         "ozone_platform_default_gbm", 
         "ozone_platform_gbm", 
         "runhooks", 
+        "smbprovider", 
         "thinlto", 
         "v4l2_codec", 
         "xkbcommon"
