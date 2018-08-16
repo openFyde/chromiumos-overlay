@@ -25,6 +25,7 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/common/iotools"
 	"go.chromium.org/luci/common/lhttp"
 	"go.chromium.org/luci/common/logging"
+	"go.chromium.org/luci/common/logging/gologger"
 	"go.chromium.org/luci/common/proto/git"
 	"go.chromium.org/luci/common/proto/google"
 	"go.chromium.org/luci/common/proto/milo"
@@ -35,6 +36,7 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/common/sync/cancelcond"
 	"go.chromium.org/luci/common/sync/parallel"
 	"go.chromium.org/luci/common/system/environ"
+	"go.chromium.org/luci/common/system/terminal"
 	"go.chromium.org/luci/lucictx"
 )
 
@@ -52,10 +54,12 @@ IUSE=""
 RESTRICT="binchecks test strip"
 
 DEPEND="
+	dev-go/crypto
 	dev-go/gapi-googleapi
 	dev-go/gcp-pubsub
 	dev-go/net
 	dev-go/oauth2
+	dev-go/op-logging
 	dev-go/protobuf
 "
 RDEPEND="${DEPEND}"
