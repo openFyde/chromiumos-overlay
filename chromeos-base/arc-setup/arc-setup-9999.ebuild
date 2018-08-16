@@ -74,21 +74,20 @@ set_density_scale() {
 		*)
 			ewarn "Unknown board - using default pixel density of -1" ;;
 	esac
-	grep -e "ARC_LCD_DENSITY=-1" "$1" || die "set_density_scale failed! Density pattern not found."
-	sed -i "s/\(ARC_LCD_DENSITY=\)-1/\1${density}/" "$1" || die "set_density_scale failed!"
-	grep -e "ARC_UI_SCALE=-1" "$1" || die "set_density_scale failed! Scale pattern not found."
-	sed -i "s/\(ARC_UI_SCALE=\)-1/\1${scale}/" "$1" || die "set_density_scale failed!"
+	[[ -f "$1" ]] || die
+	local data=$(jq ".ARC_LCD_DENSITY=${density}|.ARC_UI_SCALE=${scale}" "$1")
+	echo "${data}" > "$1" || die
 }
 
 enable_esdfs() {
-	local arc_setup_env="$1"
-	sed -i '/^export USE_ESDFS=/s:=.*:=1:' "${arc_setup_env}" || die
+	[[ -f "$1" ]] || die
+	local data=$(jq ".USE_ESDFS=true" "$1")
+	echo "${data}" > "$1" || die
 }
 
 
 src_install() {
 	dosbin "${OUT}"/arc-setup
-	dosbin arc_setup_wrapper.sh
 
 	insinto /etc/init
 	doins etc/arc-boot-continue.conf
@@ -106,15 +105,13 @@ src_install() {
 	doins etc/arc-ureadahead.conf
 	doins etc/arc-ureadahead-trace.conf
 
-	# TODO(hidehiko): Move arc-setup-env from /etc/init to /etc.
-	doins etc/arc-setup-env
-	set_density_scale "${D}/etc/init/arc-setup-env"
-	if use esdfs; then
-		enable_esdfs "${D}/etc/init/arc-setup-env"
-	fi
-
 	insinto /usr/share/arc-setup
 	doins etc/config.json
+
+	set_density_scale "${D}/usr/share/arc-setup/config.json"
+	if use esdfs; then
+		enable_esdfs "${D}/usr/share/arc-setup/config.json"
+	fi
 
 	insinto /opt/google/containers/arc-art
 	doins "${OUT}/dev-rootfs.squashfs"
