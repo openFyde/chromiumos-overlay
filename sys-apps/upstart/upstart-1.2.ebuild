@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="4"
+EAPI="5"
 
 inherit autotools eutils flag-o-matic
 
@@ -33,6 +33,8 @@ DEPEND=">=dev-libs/expat-2.0.0
 		sys-fs/e2fsprogs
 	)
 	${RDEPEND}"
+RDEPEND+="
+	selinux? ( chromeos-base/selinux-policy )"
 
 src_prepare() {
 	# 1.3+ has scary user and chroot session support that we just
