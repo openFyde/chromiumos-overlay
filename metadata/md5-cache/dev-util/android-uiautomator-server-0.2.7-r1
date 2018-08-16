@@ -1,0 +1,9 @@
+DEFINED_PHASES=install
+DESCRIPTION=Android app to allow using UIAutomator remotely.
+EAPI=5
+HOMEPAGE=https://github.com/xiaocong/android-uiautomator-server
+KEYWORDS=*
+LICENSE=MIT
+SLOT=0
+SRC_URI=https://github.com/xiaocong/uiautomator/archive/0.2.7.zip -> android-uiautomator-server-0.2.7.zip
+_md5_=af9646a247a9901216804cb54f704cec
