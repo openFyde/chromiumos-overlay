@@ -104,28 +104,6 @@ STRIP_MASK+=" */nacl_helper_bootstrap"
 # Portage version without optional portage suffix.
 CHROME_VERSION="${PV/_*/}"
 
-CHROME_SRC="chrome-src"
-if use chrome_internal; then
-	CHROME_SRC="${CHROME_SRC}-internal"
-fi
-
-# CHROME_CACHE_DIR is used for storing output artifacts, and is always a
-# regular directory inside the chroot (i.e. it's never mounted in, so it's
-# always safe to use cp -al for these artifacts).
-if [[ -z ${CHROME_CACHE_DIR} ]] ; then
-	CHROME_CACHE_DIR="/var/cache/chromeos-chrome/${CHROME_SRC}"
-fi
-addwrite "${CHROME_CACHE_DIR}"
-
-# CHROME_DISTDIR is used for storing the source code, if any source code
-# needs to be unpacked at build time (e.g. in the SERVER_SOURCE scenario.)
-# It will be mounted into the chroot, so it is never safe to use cp -al
-# for these files.
-if [[ -z ${CHROME_DISTDIR} ]] ; then
-	CHROME_DISTDIR="${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}/${CHROME_SRC}"
-fi
-addwrite "${CHROME_DISTDIR}"
-
 # chrome destination directory
 CHROME_DIR=/opt/google/chrome
 D_CHROME_DIR="${D}/${CHROME_DIR}"
@@ -582,6 +560,24 @@ src_unpack() {
 
 	# Prevent gclient metrics collection.
 	export DEPOT_TOOLS_METRICS=0
+
+	CHROME_SRC="chrome-src"
+	if use chrome_internal; then
+		CHROME_SRC+="-internal"
+	fi
+
+	# CHROME_CACHE_DIR is used for storing output artifacts, and is always a
+	# regular directory inside the chroot (i.e. it's never mounted in, so it's
+	# always safe to use cp -al for these artifacts).
+	: "${CHROME_CACHE_DIR:="/var/cache/chromeos-chrome/${CHROME_SRC}"}"
+	addwrite "${CHROME_CACHE_DIR}"
+
+	# CHROME_DISTDIR is used for storing the source code, if any source code
+	# needs to be unpacked at build time (e.g. in the SERVER_SOURCE scenario.)
+	# It will be mounted into the chroot, so it is never safe to use cp -al
+	# for these files.
+	: "${CHROME_DISTDIR:="${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}/${CHROME_SRC}"}"
+	addwrite "${CHROME_DISTDIR}"
 
 	# Create storage directories.
 	sandboxless_ensure_directory "${CHROME_DISTDIR}" "${CHROME_CACHE_DIR}"
