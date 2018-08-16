@@ -1,0 +1,83 @@
+From 8251cbae26df869c8e5d70c915154e46b1822e07 Mon Sep 17 00:00:00 2001
+From: Sonny Sasaka <sonnysasaka@chromium.org>
+Date: Tue, 14 Aug 2018 15:26:56 -0700
+Subject: [PATCH] dbus: Make Bus::is_connected() mockable
+
+Change-Id: I31ab01119309919917d82f3d8f07a002cf5d501f
+---
+ dbus/bus.cc             | 4 ++++
+ dbus/bus.h              | 2 +-
+ dbus/exported_object.cc | 2 +-
+ dbus/mock_bus.h         | 1 +
+ dbus/object_proxy.cc    | 2 +-
+ 5 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/dbus/bus.cc b/dbus/bus.cc
+index a869717..9c96c95 100644
+--- a/dbus/bus.cc
++++ b/dbus/bus.cc
+@@ -1024,6 +1024,10 @@ std::string Bus::GetConnectionName() {
+   return dbus_bus_get_unique_name(connection_);
+ }
+ 
++bool Bus::IsConnected() {
++  return connection_ != NULL;
++}
++
+ dbus_bool_t Bus::OnAddWatch(DBusWatch* raw_watch) {
+   AssertOnDBusThread();
+ 
+diff --git a/dbus/bus.h b/dbus/bus.h
+index 59a1972..855a094 100644
+--- a/dbus/bus.h
++++ b/dbus/bus.h
+@@ -583,7 +583,7 @@ class CHROME_DBUS_EXPORT Bus : public base::RefCountedThreadSafe<Bus> {
+   std::string GetConnectionName();
+ 
+   // Returns true if the bus is connected to D-Bus.
+-  bool is_connected() { return connection_ != NULL; }
++  virtual bool IsConnected();
+ 
+  protected:
+   // This is protected, so we can define sub classes.
+diff --git a/dbus/exported_object.cc b/dbus/exported_object.cc
+index 0024df6..24ba118 100644
+--- a/dbus/exported_object.cc
++++ b/dbus/exported_object.cc
+@@ -281,7 +281,7 @@ void ExportedObject::OnMethodCompleted(std::unique_ptr<MethodCall> method_call,
+ 
+   // Check if the bus is still connected. If the method takes long to
+   // complete, the bus may be shut down meanwhile.
+-  if (!bus_->is_connected())
++  if (!bus_->IsConnected())
+     return;
+ 
+   if (!response) {
+diff --git a/dbus/mock_bus.h b/dbus/mock_bus.h
+index 40b090b..69b446a 100644
+--- a/dbus/mock_bus.h
++++ b/dbus/mock_bus.h
+@@ -66,6 +66,7 @@ class MockBus : public Bus {
+   MOCK_METHOD0(HasDBusThread, bool());
+   MOCK_METHOD0(AssertOnOriginThread, void());
+   MOCK_METHOD0(AssertOnDBusThread, void());
++  MOCK_METHOD0(IsConnected, bool());
+ 
+  protected:
+   virtual ~MockBus();
+diff --git a/dbus/object_proxy.cc b/dbus/object_proxy.cc
+index 15f20c7..6bcbd02 100644
+--- a/dbus/object_proxy.cc
++++ b/dbus/object_proxy.cc
+@@ -211,7 +211,7 @@ void ObjectProxy::WaitForServiceToBeAvailable(
+ void ObjectProxy::Detach() {
+   bus_->AssertOnDBusThread();
+ 
+-  if (bus_->is_connected())
++  if (bus_->IsConnected())
+     bus_->RemoveFilterFunction(&ObjectProxy::HandleMessageThunk, this);
+ 
+   for (const auto& match_rule : match_rules_) {
+-- 
+2.16.4
+
