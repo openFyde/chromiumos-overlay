@@ -12,7 +12,7 @@ _CROS_SANITIZER_ECLASS=1
 
 inherit flag-o-matic toolchain-funcs
 
-IUSE="coverage msan ubsan"
+IUSE="asan coverage fuzzer msan ubsan"
 
 # @FUNCTION: coverage-setup-env
 # @DESCRIPTION:
@@ -38,8 +38,37 @@ msan-setup-env() {
 ubsan-setup-env() {
 	use ubsan || return 0
 	# TODO: Find a safe subset of ubsan flags that can be used to build packages.
-#	append-flags "-fsanitize=undefined"
-#	append-ldflags "-fsanitize=undefined"
+	append-flags "-fsanitize=undefined"
+	append-ldflags "-fsanitize=undefined"
+}
+
+# @FUNCTION: sanitizers-setup-env
+# @DESCRIPTION:
+# Build a package with required sanitizer flags.
+sanitizers-setup-env() {
+	asan-setup-env
+	coverage-setup-env
+	if [[ $(type -t fuzzer-setup-env) == "function" ]] ; then
+		# Only run this if we've inherited cros-fuzzer.eclass.
+		fuzzer-setup-env
+	fi
+	msan-setup-env
+	ubsan-setup-env
+}
+
+# @FUNCTION: use_sanitizers
+# @DESCRIPTION:
+# Checks whether sanitizers are being used.
+# Also returns a true/false value when passed as arguments.
+# Usage: use_sanitizers [trueVal] [falseVal]
+use_sanitizers() {
+	if use asan || use coverage || use fuzzer || use msan || use ubsan; then
+		[[ "$#" -eq 2 ]] && echo "$1"
+		return 0
+	fi
+
+	[[ "$#" -eq 2 ]] && echo "$2"
+	return 1
 }
 
 fi
