@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install setup unpack
+DEPEND=!static? ( sys-apps/pciutils ) static? ( sys-apps/pciutils[static-libs(+)] ) dev-vcs/git
+DESCRIPTION=Utilities for modifying coreboot firmware images
+EAPI=4
+HOMEPAGE=http://coreboot.org
+IUSE=cros_host mma +pci static cros_host cros_workon_tree_38144f96e7855a625979e2aa1c5164a2b033c4d4_490258b98281abfec39acfd7b554d532dd8ea46b
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=!static? ( sys-apps/pciutils )
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=03efa3eab900832faa34e73bee6b1fbb
