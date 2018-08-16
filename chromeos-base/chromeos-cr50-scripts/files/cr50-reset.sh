@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
@@ -73,7 +73,7 @@ cr50_reset() {
   local status
   while [ ${n} -lt ${MAX_RETRIES} ]; do
     # Read authorization code.
-    read -p "Enter authorization code: " ac
+    read -e -p "Enter authorization code: " ac
 
     # Test authorization code.
     if gsctool -t -r "${ac}"; then
