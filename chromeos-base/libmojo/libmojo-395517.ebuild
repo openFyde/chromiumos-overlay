@@ -3,7 +3,7 @@
 
 EAPI="4"
 
-inherit cros-debug cros-fuzzer libchrome multilib toolchain-funcs
+inherit cros-debug cros-fuzzer cros-sanitizers libchrome multilib toolchain-funcs
 
 DESCRIPTION="Mojo library"
 # TODO(ejcaruso): libmojo is in AOSP but the current version will
@@ -13,7 +13,7 @@ SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tgz"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-asan fuzzer"
+IUSE=""
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
@@ -26,8 +26,7 @@ src_compile() {
 	if [[ "${PV}" != "${LIBCHROME_VERS}" ]]; then
 		die "Version mismatch"
 	fi
-	asan-setup-env
-	fuzzer-setup-env
+	sanitizers-setup-env
 	tc-export CC CXX AR RANLIB LD NM PKG_CONFIG
 	cros-debug-add-NDEBUG
 	emake templates

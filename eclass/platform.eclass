@@ -38,7 +38,7 @@ inherit cros-debug cros-fuzzer cros-sanitizers cros-workon flag-o-matic toolchai
 # While not all packages utilize USE=test, it's common to write gyp conditionals
 # based on the flag.  Add it to the eclass so ebuilds don't have to duplicate it
 # everywhere even if they otherwise aren't using the flag.
-IUSE="asan cros_host fuzzer test"
+IUSE="cros_host test"
 
 # Similarly to above, we use gmock/gtest for unittests in platform2 packages.
 # Add the dep all the time even if a few packages wouldn't use it as it doesn't
@@ -174,11 +174,7 @@ platform_configure() {
 platform_src_configure() {
 	cros-debug-add-NDEBUG
 	append-lfs-flags
-	asan-setup-env
-	coverage-setup-env
-	fuzzer-setup-env
-	msan-setup-env
-	ubsan-setup-env
+	sanitizers-setup-env
 	platform_configure "${S}/${PLATFORM_GYP_FILE}" "$@"
 }
 

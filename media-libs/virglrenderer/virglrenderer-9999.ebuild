@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-inherit autotools cros-fuzzer eutils flag-o-matic toolchain-funcs
+inherit autotools cros-fuzzer cros-sanitizers eutils flag-o-matic toolchain-funcs
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="https://anongit.freedesktop.org/git/virglrenderer.git"
@@ -18,7 +18,7 @@ HOMEPAGE="https://virgil3d.github.io/"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="asan fuzzer profiling static-libs test"
+IUSE="fuzzer profiling static-libs test"
 
 RDEPEND="
 	>=x11-libs/libdrm-2.4.50
@@ -44,8 +44,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
-	fuzzer-setup-env
+	sanitizers-setup-env
 
 	if use profiling; then
 		append-flags -fprofile-instr-generate -fcoverage-mapping

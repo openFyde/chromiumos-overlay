@@ -12,7 +12,7 @@ CROS_WORKON_COMMIT="7b88bc885b9d8dc551beab840b853a79fa06494d"
 CROS_WORKON_LOCALNAME="aosp/external/libchrome"
 CROS_WORKON_BLACKLIST="1"
 
-inherit cros-fuzzer cros-workon cros-debug flag-o-matic toolchain-funcs scons-utils
+inherit cros-fuzzer cros-sanitizers cros-workon cros-debug flag-o-matic toolchain-funcs scons-utils
 
 DESCRIPTION="Chrome base/ and dbus/ libraries extracted for use on Chrome OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/libchrome"
@@ -21,7 +21,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="${PV}"
 KEYWORDS="*"
-IUSE="asan cros_host +crypto +dbus fuzzer +timers"
+IUSE="cros_host +crypto +dbus +timers"
 
 # TODO(avakulenko): Put dev-libs/nss behind a USE flag to make sure NSS is
 # pulled only into the configurations that require it.
@@ -69,7 +69,7 @@ src_prepare() {
 
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685
-	use asan && epatch "${FILESDIR}"/${P}-Disable-memory-allocator.patch
+	use_sanitizers && epatch "${FILESDIR}"/${P}-Disable-memory-allocator.patch
 
 	# base/files/file_posix.cc expects 64-bit off_t, which requires
 	# enabling large file support.
@@ -77,8 +77,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
-	fuzzer-setup-env
+	sanitizers-setup-env
 	tc-export CC CXX AR RANLIB LD NM PKG_CONFIG
 	cros-debug-add-NDEBUG
 }
@@ -86,7 +85,7 @@ src_configure() {
 src_compile() {
 	BASE_VER=${SLOT} \
 	CHROME_INCLUDE_PATH="${S}" \
-	USE_ASAN="$(usex asan 1 0)" \
+	USE_ASAN="$(use_sanitizers 1 0)" \
 	USE_DBUS="$(usex dbus 1 0)" \
 	USE_CRYPTO="$(usex crypto 1 0)" \
 	USE_TIMERS="$(usex timers 1 0)" \

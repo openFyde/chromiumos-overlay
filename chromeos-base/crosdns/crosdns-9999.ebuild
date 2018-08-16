@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk crosdns"
 
 PLATFORM_SUBDIR="crosdns"
 
-inherit cros-fuzzer cros-workon platform user
+inherit cros-fuzzer cros-sanitizers cros-workon platform user
 
 DESCRIPTION="Local hostname modifier service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crosdns"
