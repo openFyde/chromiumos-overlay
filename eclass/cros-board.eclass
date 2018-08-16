@@ -151,7 +151,6 @@ ALL_BOARDS=(
 	gonzo
 	gru
 	grunt
-	grunt-ndktranslation
 	guado
 	guado-accelerator
 	guado-macrophage
