@@ -1,48 +1,48 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-dialup/ppp/ppp-2.4.6-r3.ebuild,v 1.1 2014/06/18 18:51:54 pinkbyte Exp $
 
-EAPI=5
+EAPI=6
 
-inherit eutils linux-info multilib pam toolchain-funcs udev
+inherit linux-info multilib pam toolchain-funcs udev
 
-PATCH_VER="4"
+PATCH_VER="6"
 DESCRIPTION="Point-to-Point Protocol (PPP)"
-HOMEPAGE="http://www.samba.org/ppp"
-SRC_URI="ftp://ftp.samba.org/pub/ppp/${P}.tar.gz
-	http://dev.gentoo.org/~pinkbyte/distfiles/patches/${P}-patches-${PATCH_VER}.tar.xz
+HOMEPAGE="https://ppp.samba.org/"
+SRC_URI="https://download.samba.org/pub/ppp/${P}.tar.gz
+	https://dev.gentoo.org/~polynomial-c/${P}-patches-${PATCH_VER}.tar.xz
 	http://www.netservers.net.uk/gpl/ppp-dhcpc.tgz"
 
 LICENSE="BSD GPL-2"
 SLOT="0/${PV}"
 KEYWORDS="*"
-IUSE="activefilter atm dhcp eap-tls gtk ipv6 pam radius"
+IUSE="activefilter atm dhcp eap-tls gtk ipv6 libressl pam radius"
 
 DEPEND="activefilter? ( net-libs/libpcap )
 	atm? ( net-dialup/linux-atm )
 	pam? ( virtual/pam )
 	gtk? ( x11-libs/gtk+:2 )
-	eap-tls? ( net-misc/curl dev-libs/openssl )"
+	eap-tls? (
+		!libressl? ( dev-libs/openssl:0= )
+		libressl? ( dev-libs/libressl:= )
+	)"
 RDEPEND="${DEPEND}"
+PDEPEND="net-dialup/ppp-scripts"
 
 src_prepare() {
 	mv "${WORKDIR}/dhcp" "${S}/pppd/plugins" || die
 
-	use eap-tls || EPATCH_EXCLUDE+=" 8?_all_eaptls-*"
-	EPATCH_SUFFIX="patch" \
-	epatch "${WORKDIR}"/patch
+	if ! use eap-tls ; then
+		rm "${WORKDIR}"/patch/8?_all_eaptls-* || die
+	fi
+	eapply "${WORKDIR}"/patch
 	# Apply Chromium OS specific patch regarding the nosystemconfig option
 	# See https://chromium-review.googlesource.com/#/c/7751/ and
 	# http://crosbug.com/17185 for details.
-	epatch "${FILESDIR}/${P}-systemconfig.patch"
-	# Upstream fix for parsing options in config file (crbug.com/390709).
-	epatch "${FILESDIR}/${P}-options-fix.patch"
-	# Upstream fix for buffer overflow fix in radius (crbug.com/481874).
-	epatch "${FILESDIR}/${P}-buffer-overflow-in-radius.patch"
+	eapply "${FILESDIR}/${PN}-2.4.6-systemconfig.patch"
 	# Fix for clang FORTIFY (crbug.com/640358).
-	epatch "${FILESDIR}/${PN}-remove-ttyname.patch"
-	epatch "${FILESDIR}/${P}-allow-non-root.patch"
-	epatch "${FILESDIR}/${P}-specify-runtime-data-dir.patch"
+	eapply "${FILESDIR}/${PN}-remove-ttyname.patch"
+	eapply "${FILESDIR}/${PN}-2.4.6-allow-non-root.patch"
+	eapply "${FILESDIR}/${PN}-2.4.6-specify-runtime-data-dir.patch"
 
 	if use atm ; then
 		einfo "Enabling PPPoATM support"
@@ -63,6 +63,7 @@ src_prepare() {
 	if use ipv6 ; then
 		einfo "Enabling IPv6"
 		sed -i '/#HAVE_INET6/s:#::' pppd/Makefile.linux || die
+		echo "+ipv6" >> etc.ppp/options || die
 	fi
 
 	einfo "Enabling CBCP"
@@ -70,9 +71,9 @@ src_prepare() {
 
 	if use dhcp ; then
 		einfo "Adding ppp-dhcp plugin files"
-		sed -i \
+		sed \
 			-e '/^SUBDIRS :=/s:$: dhcp:' \
-				pppd/plugins/Makefile.linux || die
+			-i pppd/plugins/Makefile.linux || die
 	fi
 
 	# Set correct libdir
@@ -81,9 +82,9 @@ src_prepare() {
 
 	if use radius ; then
 		#set the right paths in radiusclient.conf
-		sed -i -e "s:/usr/local/etc:/etc:" \
+		sed -e "s:/usr/local/etc:/etc:" \
 			-e "s:/usr/local/sbin:/usr/sbin:" \
-				pppd/plugins/radius/etc/radiusclient.conf || die
+			-i pppd/plugins/radius/etc/radiusclient.conf || die
 		#set config dir to /etc/ppp/radius
 		sed -i -e "s:/etc/radiusclient:/etc/ppp/radius:g" \
 			pppd/plugins/radius/{*.8,*.c,*.h} \
@@ -92,10 +93,20 @@ src_prepare() {
 		einfo "Disabling radius"
 		sed -i -e '/+= radius/s:^:#:' pppd/plugins/Makefile.linux || die
 	fi
+
+	# Respect our pkg-config settings.
+	sed -i \
+		-e 's:pkg-config:$(PKG_CONFIG):' \
+		contrib/pppgetpass/Makefile.linux || die
+	sed -i \
+		-e '/^LIBS/{s:-L/usr/local/ssl/lib::;s:-lcrypto:`$(PKG_CONFIG) --libs libcrypto`:}' \
+		pppd/Makefile.linux || die
+
+	eapply_user #549588
 }
 
 src_compile() {
-	tc-export AR CC
+	tc-export AR CC PKG_CONFIG
 
 	append-cppflags \
 		-D_GNU_SOURCE \
@@ -133,18 +144,6 @@ src_install() {
 
 	insopts -m0644
 	doins etc.ppp/options
-
-	exeinto /etc/ppp
-	for i in ip-up ip-down ; do
-		doexe "${WORKDIR}/scripts/${i}"
-		insinto /etc/ppp/${i}.d
-		use ipv6 && dosym ${i} /etc/ppp/${i/ip/ipv6}
-		doins "${WORKDIR}/scripts/${i}.d"/*
-		# Remove ip-up/ip-down 40-dns.sh scripts because these scripts
-		# modify /etc/resolv.conf, which should only be managed by the
-		# connection manager (shill). See http://crosbug.com/24486.
-		rm "${D}"/etc/ppp/${i}.d/40-dns.sh || die "failed to remove /etc/ppp/${i}.d/40-dns.sh"
-	done
 
 	pamd_mimic_system ppp auth account session
 
