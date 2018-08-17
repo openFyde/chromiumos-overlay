@@ -20,7 +20,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_embedded cros_host -mtd pam systemd test"
+IUSE="cros_embedded cros_host -mtd pam systemd test +oobe_config"
 
 DEPEND="
 	chromeos-base/verity
@@ -34,7 +34,7 @@ RDEPEND="
 	chromeos-base/chromeos-common-script
 	chromeos-base/libbrillo
 	!cros_host? (
-		chromeos-base/oobe_config
+		oobe_config? ( chromeos-base/oobe_config )
 		chromeos-base/secure-erase-file
 		dev-libs/openssl
 	)
