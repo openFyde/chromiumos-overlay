@@ -117,6 +117,7 @@ src_install() {
 	dobin "${FILESDIR}/dbus_send_blutooth_class.awk"
 	dobin "${FILESDIR}/get_bluetooth_device_class.sh"
 	dobin "${FILESDIR}/start_bluetoothd.sh"
+	dobin "${FILESDIR}/start_bluetoothlog.sh"
 
 	# Install init scripts.
 	if use systemd; then
@@ -126,6 +127,7 @@ src_install() {
 	else
 		insinto /etc/init
 		newins "${FILESDIR}/${PN}-upstart.conf" bluetoothd.conf
+		newins "${FILESDIR}/bluetoothlog-upstart.conf" bluetoothlog.conf
 	fi
 
 	udev_dorules "${FILESDIR}/99-uhid.rules"
