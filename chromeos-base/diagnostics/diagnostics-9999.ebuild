@@ -21,11 +21,18 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="+seccomp"
 
-DEPEND="
+COMMON_DEPEND="
 	chromeos-base/libbrillo:=
+	chromeos-base/libmojo
+	dev-libs/grpc
+	dev-libs/protobuf:=
+"
+DEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/system_api
 "
 RDEPEND="
-	${DEPEND}
+	${COMMON_DEPEND}
 	chromeos-base/minijail
 "
 
