@@ -1,7 +1,7 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 
 inherit cros-sanitizers cros-workon toolchain-funcs cros-factory
@@ -75,6 +75,7 @@ RDEPEND="$COMMON_DEPEND
 	chromeos-base/chromeos-storage-info
 	chromeos-base/ec-utils
 	chromeos-base/vpd
+	dev-util/stressapptest
 	net-misc/htpdate
 	net-wireless/iw
 	sys-apps/flashrom
