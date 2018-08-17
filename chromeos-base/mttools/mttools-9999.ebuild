@@ -14,6 +14,8 @@ LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="-asan"
+# This package has no tests.
+RESTRICT="test"
 
 RDEPEND="chromeos-base/gestures
 	app-misc/utouch-evemu
