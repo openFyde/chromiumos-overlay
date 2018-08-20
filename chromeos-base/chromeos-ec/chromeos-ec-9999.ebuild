@@ -37,7 +37,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="quiet verbose coreboot-sdk unibuild fuzzer"
+IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec"
 
 RDEPEND="
 	dev-embedded/libftdi
@@ -52,6 +52,7 @@ DEPEND="
 	virtual/chromeos-ec-private-files
 	virtual/chromeos-ec-touch-firmware
 	unibuild? ( chromeos-base/chromeos-config )
+	bootblock_in_ec? ( sys-boot/coreboot )
 "
 
 # We don't want binchecks since we're cross-compiling firmware images using
@@ -100,22 +101,76 @@ set_build_env() {
 	use verbose && EC_OPTS+=( V=1 )
 }
 
+# Build EC with a supplied configuration and output directory.
+#   $1: Board name.
+#   $2: Build directory to use (e.g. "build_serial").
+#   $3: Path to touchpad firmware to be packed (optional).
+#   $4: Path to bootblock to be packed (optional).
+make_ec() {
+	local board="$1"
+	local build_dir="$2"
+	local touchpad_fw="$3"
+	local bootblock="$4"
+	local extra_opts=()
+
+	einfo "Building EC for ${board} into ${build_dir} with" \
+		"touchpad_fw=${touchpad_fw} bootblock=${bootblock}"
+
+	if [[ -n "${touchpad_fw}" ]]; then
+		extra_opts+=( TOUCHPAD_FW="${touchpad_fw}" )
+	fi
+	if [[ -n "${bootblock}" ]]; then
+		if [[ ! -f "${bootblock}" ]]; then
+			die "bootblock file not available: ${bootblock}"
+		fi
+		extra_opts+=( BOOTBLOCK="${bootblock}" )
+	fi
+
+	BOARD=${target} emake "${EC_OPTS[@]}" clean
+	BOARD=${target} emake "${EC_OPTS[@]}" "${extra_opts[@]}" all
+	BOARD=${target} emake "${EC_OPTS[@]}" tests
+	# Since the ec codebase does not allow specifying a target build
+	# directory, move its build directory to the requested location.
+	rm -rf "${build_dir}"
+	mv build "${build_dir}"
+}
+
 src_compile() {
 	set_build_env
 
 	local target
-	einfo "Building targets: ${TARGETS[@]}"
+	einfo "Building targets: ${EC_BOARDS[@]}"
 	for target in "${EC_BOARDS[@]}"; do
 		# Always pass TOUCHPAD_FW parameter: boards that do not require
 		# it will simply ignore the parameter, even if the touchpad FW
-		# file does not exist.
-		local ec_opts_all=(
-			TOUCHPAD_FW="${SYSROOT}/firmware/${target}/touchpad.bin"
-		)
+		# file does not exist.  Note that touchpad firmware lives in
+		# the ${target} subdirectory regardless of whether or not unibuild
+		# is enabled.
+		local touchpad_fw="${SYSROOT}/firmware/${target}/touchpad.bin"
 
-		BOARD=${target} emake "${EC_OPTS[@]}" clean
-		BOARD=${target} emake "${EC_OPTS[@]}" "${ec_opts_all[@]}" all
-		BOARD=${target} emake "${EC_OPTS[@]}" tests
+		# In certain devices, the only root-of-trust available is EC-RO.
+		# Thus the AP bootblock needs to be installed in this write-protected
+		# area, and supplied to AP on boot.  See b:110907438 for details.
+		local bootblock
+		local bootblock_serial
+		local target_root
+		if use unibuild; then
+			target_root="${SYSROOT}/firmware/${target}"
+		else
+			target_root="${SYSROOT}/firmware"
+		fi
+
+		if use bootblock_in_ec; then
+			local bootblock="${target_root}/coreboot/bootblock.bin"
+			local bootblock_serial="${target_root}/coreboot_serial/bootblock.bin"
+
+			# Since we are including AP bootblock, two sets of EC images need to
+			# be built -- one with serial console enabled, and one without.
+			make_ec "${target}" "${WORKDIR}/build_${target}_serial" \
+				"${touchpad_fw}" "${bootblock_serial}"
+		fi
+		make_ec "${target}" "${WORKDIR}/build_${target}" \
+			"${touchpad_fw}" "${bootblock}"
 	done
 
 	if use fuzzer ; then
@@ -127,19 +182,31 @@ src_compile() {
 # Install firmware binaries for a specific board.
 #
 # param $1 - the board name.
-# param $2 - the output directory to install artifacts.
+# param $2 - the build directory.
+# param $3 - the output directory to install artifacts.
+# param $4 - the suffix to be used for installed artifacts (optional).
+#            e.g. if suffix="serial", ec.bin => ec.serial.bin
 #
 board_install() {
 	local board="$1"
-	local destdir="$2"
+	local build_dir="$2"
+	local dest_dir="$3"
+	local suffix="$4"
+	local file_suffix
 	local ecrw
 
-	einfo "Installing EC for ${board} into ${destdir}"
-	insinto "${destdir}"
-	pushd "build/${board}" >/dev/null || die
+	einfo "Installing EC for ${board} from ${build_dir} into ${dest_dir}" \
+		"(suffix=${suffix})"
+
+	if [[ -n "${suffix}" ]]; then
+		file_suffix=".${suffix}"
+	fi
+
+	insinto "${dest_dir}"
+	pushd "${build_dir}/${target}" >/dev/null || die
 
 	openssl dgst -sha256 -binary RO/ec.RO.flat > RO/ec.RO.hash
-	doins ec.bin
+	newins ec.bin "ec${file_suffix}.bin"
 	if grep -q '^CONFIG_VBOOT_EFS=y' .config; then
 		# This extracts EC_RW.bin (= RW_A region image) from ec.bin.
 		futility sign --type rwsig ec.bin || die
@@ -147,36 +214,40 @@ board_install() {
 	else
 		ecrw="RW/ec.RW.flat"
 	fi
-	newins "${ecrw}" ec.RW.bin
+	newins "${ecrw}" "ec${file_suffix}.RW.bin"
 	openssl dgst -sha256 -binary "${ecrw}" > RW/ec.RW.hash
-	doins RW/ec.RW.hash
+	newins RW/ec.RW.hash "ec${file_suffix}.RW.hash"
 	# Intermediate file for debugging.
-	doins RW/ec.RW.elf
+	newins RW/ec.RW.elf "ec${file_suffix}.RW.elf"
 
 	# Install RW_B files except for RWSIG, which uses the same files as RW_A
 	if grep -q '^CONFIG_RW_B=y' .config && \
 			! grep -q '^CONFIG_RWSIG_TYPE_RWSIG=y' .config; then
 		openssl dgst -sha256 -binary RW/ec.RW_B.flat > RW/ec.RW_B.hash
-		newins RW/ec.RW_B.flat ec.RW_B.bin
-		doins RW/ec.RW_B.hash
+		newins RW/ec.RW_B.flat "ec${file_suffix}.RW_B.bin"
+		newins RW/ec.RW_B.hash "ec${file_suffix}.RW_B.hash"
 		# Intermediate file for debugging.
-		doins RW/ec.RW_B.elf
+		newins RW/ec.RW_B.elf "ec${file_suffix}.RW_B.elf"
 	fi
 
 	if grep -q '^CONFIG_FW_INCLUDE_RO=y' .config; then
-		newins RO/ec.RO.flat ec.RO.bin
-		doins RO/ec.RO.hash
+		newins RO/ec.RO.flat "ec${file_suffix}.RO.bin"
+		newins RO/ec.RO.hash "ec${file_suffix}.RO.hash"
 		# Intermediate file for debugging.
-		doins RO/ec.RO.elf
+		newins RO/ec.RO.elf "ec${file_suffix}.RO.elf"
 	fi
 
 	# The shared objects library is not built by default.
 	if grep -q '^CONFIG_SHAREDLIB=y' .config; then
-		doins libsharedobjs/libsharedobjs.elf
+		newins libsharedobjs/libsharedobjs.elf "libsharedobjs${file_suffix}.elf"
 	fi
 
 	# EC test binaries
-	nonfatal doins test-*.bin || ewarn "No test binaries found"
+	stat -t test-*.bin >/dev/null || ewarn "No test binaries found"
+	for f in test-*.bin; do
+		local name="$(basename "${f}")"
+		nonfatal newins "${f}" "${name}${file_suffix}.bin"
+	done
 	popd > /dev/null
 }
 
@@ -185,15 +256,27 @@ src_install() {
 
 	local target
 
-	einfo "Installing targets: ${TARGETS[@]}"
+	einfo "Installing targets: ${EC_BOARDS[@]}"
 	for target in "${EC_BOARDS[@]}"; do
-		board_install "${target}" "/firmware/${target}"  \
-			|| die  "Couldn't install ${target}"
+		board_install "${target}" "${WORKDIR}/build_${target}" \
+			"/firmware/${target}" "" \
+			|| die "Couldn't install ${target}"
+		if use bootblock_in_ec; then
+			board_install "${target}" "${WORKDIR}/build_${target}_serial" \
+				"/firmware/${target}" serial \
+				|| die "Couldn't install ${target} (serial)"
+		fi
 	done
 	# Unibuild platforms don't have "main" EC firmware.
 	if ! use unibuild; then
-		board_install "${EC_BOARDS[0]}" /firmware || die \
-			"Couldn't install main firmware"
+		board_install "${EC_BOARDS[0]}" "${WORKDIR}/build_${target}" \
+			/firmware "" \
+			|| die "Couldn't install main firmware"
+		if use bootblock_in_ec; then
+			board_install "${EC_BOARDS[0]}" "${WORKDIR}/build_${target}_serial" \
+				/firmware serial \
+				|| die "Couldn't install main firmware"
+		fi
 	fi
 
 	if use fuzzer ; then
