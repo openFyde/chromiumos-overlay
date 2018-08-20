@@ -10,7 +10,7 @@
 # available to build. The logic in this ebuild succeeds so long as one
 # of the many models successfully builds.
 
-EAPI="4"
+EAPI="5"
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
@@ -75,6 +75,9 @@ set_build_env() {
 		export CROSS_COMPILE_arm=${COREBOOT_SDK_PREFIX_arm}
 		export CROSS_COMPILE_i386=${COREBOOT_SDK_PREFIX_x86_32}
 	fi
+
+	export CROSS_COMPILE_coreboot_sdk_arm=${COREBOOT_SDK_PREFIX_arm}
+	export CROSS_COMPILE_coreboot_sdk_i386=${COREBOOT_SDK_PREFIX_x86_32}
 
 	# nds32 always uses coreboot-sdk
 	export CROSS_COMPILE_nds32=${COREBOOT_SDK_PREFIX_nds32}
