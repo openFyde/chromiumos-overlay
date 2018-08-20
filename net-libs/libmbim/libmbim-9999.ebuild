@@ -4,7 +4,7 @@
 EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
 
-inherit autotools cros-workon multilib
+inherit autotools cros-sanitizers cros-workon multilib
 
 DESCRIPTION="MBIM modem protocol helper library"
 HOMEPAGE="http://cgit.freedesktop.org/libmbim/"
@@ -28,7 +28,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 
 	# Disable the unused function check as libmbim has auto-generated
 	# functions that may not be used.

@@ -7,7 +7,7 @@ CROS_WORKON_LOCALNAME="../platform/btsocket"
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit cros-workon distutils-r1
+inherit cros-sanitizers cros-workon distutils-r1
 
 DESCRIPTION="Bluetooth Socket support module"
 HOMEPAGE="http://www.chromium.org/"
@@ -21,6 +21,6 @@ DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND=""
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 }

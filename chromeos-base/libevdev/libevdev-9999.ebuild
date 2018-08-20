@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/libevdev"
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit toolchain-funcs multilib cros-debug cros-workon cros-common.mk
+inherit toolchain-funcs multilib cros-debug cros-sanitizers cros-workon cros-common.mk
 
 DESCRIPTION="evdev userspace library"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/libevdev"
@@ -18,7 +18,7 @@ KEYWORDS="~*"
 IUSE="-asan"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-common.mk_src_configure
 }
 

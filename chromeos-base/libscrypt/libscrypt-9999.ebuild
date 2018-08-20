@@ -5,7 +5,7 @@ EAPI=4
 CROS_WORKON_PROJECT="chromiumos/third_party/libscrypt"
 CROS_WORKON_LOCALNAME="../third_party/libscrypt"
 
-inherit cros-workon autotools
+inherit cros-sanitizers cros-workon autotools
 
 DESCRIPTION="Scrypt key derivation library"
 HOMEPAGE="http://www.tarsnap.com/scrypt.html"
@@ -26,7 +26,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure \
 		$(use_enable static-libs static)
 }

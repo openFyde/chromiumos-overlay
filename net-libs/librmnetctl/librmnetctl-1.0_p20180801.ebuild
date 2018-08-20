@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-inherit toolchain-funcs
+inherit cros-sanitizers toolchain-funcs
 
 DESCRIPTION="Userspace interface to RmNet driver"
 HOMEPAGE="https://source.codeaurora.org/quic/lc/chromiumos/third_party/librmnetctl"
@@ -32,7 +32,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 }
 
 src_install() {

@@ -5,7 +5,7 @@ EAPI="6"
 
 CROS_WORKON_PROJECT="chromiumos/platform/mttools"
 
-inherit cros-workon cros-common.mk cros-constants cros-debug
+inherit cros-sanitizers cros-workon cros-common.mk cros-constants cros-debug
 
 DESCRIPTION="Chromium OS multitouch utilities"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/mttools"
@@ -25,7 +25,7 @@ RDEPEND="chromeos-base/gestures
 DEPEND=${RDEPEND}
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-common.mk_src_configure
 }
 

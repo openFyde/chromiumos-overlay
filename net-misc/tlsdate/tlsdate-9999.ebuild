@@ -4,7 +4,7 @@
 EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/third_party/tlsdate"
 
-inherit autotools flag-o-matic toolchain-funcs cros-workon cros-debug systemd user
+inherit autotools flag-o-matic toolchain-funcs cros-sanitizers cros-workon cros-debug systemd user
 
 DESCRIPTION="Update local time over HTTPS"
 HOMEPAGE="https://github.com/ioerror/tlsdate"
@@ -28,7 +28,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure \
 		$(use_enable dbus) \
 		$(use_enable seccomp seccomp-filter) \

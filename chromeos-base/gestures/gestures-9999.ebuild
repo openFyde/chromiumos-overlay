@@ -5,7 +5,7 @@ EAPI="4"
 CROS_WORKON_PROJECT="chromiumos/platform/gestures"
 CROS_WORKON_USE_VCSID=1
 
-inherit toolchain-funcs multilib cros-debug cros-workon
+inherit toolchain-funcs multilib cros-debug cros-sanitizers cros-workon
 
 DESCRIPTION="Gesture recognizer library"
 HOMEPAGE="http://www.chromium.org/"
@@ -28,7 +28,7 @@ DEPEND="dev-cpp/gtest
 S="${WORKDIR}/gestures"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 	export USE_X11=$(usex X 1 0)
 }

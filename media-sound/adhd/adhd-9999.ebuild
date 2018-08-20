@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
 
-inherit toolchain-funcs autotools cros-workon cros-board systemd user libchrome-version
+inherit toolchain-funcs autotools cros-sanitizers cros-workon cros-board systemd user libchrome-version
 
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="http://www.chromium.org"
@@ -40,7 +40,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cd cras
 	cros-workon_src_configure $(use_enable selinux) \
 		$(use_enable cras-apm webrtc-apm) \

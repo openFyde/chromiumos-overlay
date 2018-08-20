@@ -5,7 +5,7 @@ EAPI=4
 CROS_WORKON_PROJECT="chromium/deps/libmtp"
 CROS_WORKON_LOCALNAME="../../chromium/src/third_party/libmtp"
 
-inherit autotools cros-workon
+inherit autotools cros-sanitizers cros-workon
 
 DESCRIPTION="An implementation of Microsoft's Media Transfer Protocol (MTP)."
 HOMEPAGE="http://libmtp.sourceforge.net/"
@@ -35,7 +35,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure \
 		$(use_enable static-libs static) \
 		$(use_enable doc doxygen) \

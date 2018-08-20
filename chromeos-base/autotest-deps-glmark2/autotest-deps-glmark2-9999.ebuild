@@ -5,7 +5,7 @@ EAPI=4
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
-inherit cros-workon autotest-deponly
+inherit cros-sanitizers cros-workon autotest-deponly
 
 DESCRIPTION="Autotest glmark2 dependency"
 HOMEPAGE="https://launchpad.net/glmark2"
@@ -28,6 +28,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 }

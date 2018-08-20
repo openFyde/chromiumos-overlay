@@ -4,7 +4,7 @@
 EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/third_party/libqrtr"
 
-inherit autotools cros-workon user
+inherit autotools cros-sanitizers cros-workon user
 
 DESCRIPTION="QRTR userspace helper library"
 HOMEPAGE="https://github.com/andersson/qrtr"
@@ -20,7 +20,7 @@ DEPEND="
 "
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 }
 
 src_install() {

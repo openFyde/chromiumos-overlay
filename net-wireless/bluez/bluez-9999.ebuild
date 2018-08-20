@@ -6,7 +6,7 @@ EAPI="5"
 PYTHON_DEPEND="test-programs? 2"
 CROS_WORKON_PROJECT="chromiumos/third_party/bluez"
 
-inherit autotools multilib eutils systemd python udev user libchrome cros-workon toolchain-funcs flag-o-matic
+inherit autotools multilib eutils systemd python udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="http://www.bluez.org/"
@@ -60,7 +60,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	# Workaround a global-buffer-overflow warning in asan build.
 	# See crbug.com/748216 for details.
 	if use asan; then

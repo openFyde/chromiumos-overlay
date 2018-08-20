@@ -5,7 +5,7 @@ EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/platform/arc-camera"
 CROS_WORKON_LOCALNAME="../platform/arc-camera"
 
-inherit cros-debug cros-workon libchrome toolchain-funcs user
+inherit cros-debug cros-sanitizers cros-workon libchrome toolchain-funcs user
 
 DESCRIPTION="ARC camera service. The service is in charge of accessing camera
 device. It uses linux domain socket (/run/camera/camera.sock) to build a
@@ -24,7 +24,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 }
 

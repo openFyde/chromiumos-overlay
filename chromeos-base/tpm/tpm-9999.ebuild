@@ -6,7 +6,7 @@ EAPI="4"
 CROS_WORKON_PROJECT="chromiumos/platform/tpm"
 CROS_WORKON_LOCALNAME="../third_party/tpm"
 
-inherit cros-workon toolchain-funcs
+inherit cros-sanitizers cros-workon toolchain-funcs
 
 DESCRIPTION="Various TPM tools"
 HOMEPAGE="http://www.chromium.org/"
@@ -20,7 +20,7 @@ RDEPEND="app-crypt/trousers"
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 }
 

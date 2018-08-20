@@ -10,7 +10,7 @@ CROS_WORKON_DESTDIR="${S}"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk avtest_label_detect .gn"
 
-inherit cros-workon cros-common.mk
+inherit cros-sanitizers cros-workon cros-common.mk
 
 DESCRIPTION="Autotest label detector for audio/video/camera"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/avtest_label_detect"
@@ -30,7 +30,7 @@ src_unpack() {
 
 src_configure() {
 	export USE_VAAPI=$(usex vaapi)
-	asan-setup-env
+	sanitizers-setup-env
 	cros-common.mk_src_configure
 }
 

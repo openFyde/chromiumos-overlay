@@ -10,7 +10,7 @@ CROS_WORKON_LOCALNAME="aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
 CROS_WORKON_REPO="https://android.googlesource.com"
 
-inherit cros-debug cros-workon toolchain-funcs
+inherit cros-debug cros-sanitizers cros-workon toolchain-funcs
 
 DESCRIPTION="helper binary and library for sandboxing & restricting privs of services"
 HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
@@ -28,7 +28,7 @@ DEPEND="test? ( dev-cpp/gtest )
 	${RDEPEND}"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 }
 

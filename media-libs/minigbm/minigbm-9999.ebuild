@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="../platform/minigbm"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-inherit cros-workon cros-common.mk toolchain-funcs multilib
+inherit cros-sanitizers cros-workon cros-common.mk toolchain-funcs multilib
 
 DESCRIPTION="Mini GBM implementation"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/minigbm"
@@ -35,7 +35,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	default
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_prepare
 }
 

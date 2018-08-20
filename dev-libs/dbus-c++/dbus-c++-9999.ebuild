@@ -4,7 +4,7 @@
 EAPI="4"
 CROS_WORKON_PROJECT="chromiumos/third_party/dbus-cplusplus"
 
-inherit cros-workon autotools
+inherit cros-sanitizers cros-workon autotools
 
 DESCRIPTION="C++ D-Bus bindings"
 HOMEPAGE="http://www.freedesktop.org/wiki/Software/dbus-c%2B%2B"
@@ -42,7 +42,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure \
 		$(use_enable debug) \
 		$(use_enable doc doxygen-docs) \

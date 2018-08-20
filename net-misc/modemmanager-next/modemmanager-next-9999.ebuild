@@ -5,7 +5,7 @@
 EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
 
-inherit eutils autotools cros-workon flag-o-matic systemd udev user
+inherit eutils autotools cros-sanitizers cros-workon flag-o-matic systemd udev user
 
 # ModemManager likes itself with capital letters
 MY_P=${P/modemmanager/ModemManager}
@@ -76,7 +76,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	append-flags -Xclang-only=-Wno-unneeded-internal-declaration
 	cros-workon_src_configure \
 		--with-html-dir="\${datadir}/doc/${PF}/html" \

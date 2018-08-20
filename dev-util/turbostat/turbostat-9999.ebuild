@@ -11,7 +11,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 # https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-4.14/tools/power/x86/turbostat/Makefile#13
 CROS_WORKON_SUBTREE="arch/x86/include/asm tools/power/x86/turbostat"
 
-inherit cros-workon toolchain-funcs
+inherit cros-sanitizers cros-workon toolchain-funcs
 
 HOMEPAGE="https://www.kernel.org/"
 DESCRIPTION="Intel processor C-state and P-state reporting tool"
@@ -30,7 +30,7 @@ domake() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 }
 

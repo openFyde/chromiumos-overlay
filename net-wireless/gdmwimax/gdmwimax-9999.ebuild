@@ -4,7 +4,7 @@
 EAPI=4
 CROS_WORKON_PROJECT="chromiumos/third_party/gdmwimax"
 
-inherit cros-workon
+inherit cros-sanitizers cros-workon
 
 DESCRIPTION="GCT GDM7205 WiMAX SDK"
 HOMEPAGE="http://www.gctsemi.com/"
@@ -33,7 +33,7 @@ src_configure() {
 	append-flags -U_FORTIFY_SOURCE
 	tc-export AR CC
 
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 }
 

@@ -6,7 +6,7 @@
 EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/third_party/trousers"
 
-inherit autotools base cros-debug cros-workon flag-o-matic libchrome systemd toolchain-funcs user
+inherit autotools base cros-debug cros-sanitizers cros-workon flag-o-matic libchrome systemd toolchain-funcs user
 
 DESCRIPTION="An open-source TCG Software Stack (TSS) v1.1 implementation"
 HOMEPAGE="http://trousers.sf.net"
@@ -41,7 +41,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	use tss_trace && append-cppflags -DTSS_TRACE
 	use mocktpm && append-cppflags -DMOCK_TPM
 

@@ -6,7 +6,7 @@ EAPI="6"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/audiotest"
 
-inherit cros-workon cros-common.mk toolchain-funcs
+inherit cros-sanitizers cros-workon cros-common.mk toolchain-funcs
 
 DESCRIPTION="Audio test tools"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/audiotest"
@@ -21,7 +21,7 @@ RDEPEND="media-libs/alsa-lib
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-common.mk_src_configure
 }
 

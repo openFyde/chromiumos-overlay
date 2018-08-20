@@ -4,7 +4,7 @@
 EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/libqmi"
 
-inherit autotools cros-workon
+inherit autotools cros-sanitizers cros-workon
 
 DESCRIPTION="QMI modem protocol helper library"
 HOMEPAGE="http://cgit.freedesktop.org/libqmi/"
@@ -27,7 +27,7 @@ src_prepare() {
 }
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 
 	# Disable the unused function check as libqmi has auto-generated
 	# functions that may not be used.

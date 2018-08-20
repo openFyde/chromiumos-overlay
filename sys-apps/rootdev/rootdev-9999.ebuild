@@ -5,7 +5,7 @@ EAPI="4"
 CROS_WORKON_PROJECT="chromiumos/third_party/rootdev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 
-inherit toolchain-funcs cros-workon
+inherit toolchain-funcs cros-sanitizers cros-workon
 
 DESCRIPTION="Chrome OS root block device tool/library"
 HOMEPAGE="http://www.chromium.org/"
@@ -17,7 +17,7 @@ KEYWORDS="~*"
 IUSE="-asan"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 	tc-export CC
 }

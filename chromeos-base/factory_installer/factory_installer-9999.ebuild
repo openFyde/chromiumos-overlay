@@ -4,7 +4,7 @@
 EAPI=4
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 
-inherit cros-workon toolchain-funcs cros-factory
+inherit cros-sanitizers cros-workon toolchain-funcs cros-factory
 
 DESCRIPTION="Chrome OS Factory Installer"
 HOMEPAGE="http://www.chromium.org/"
@@ -93,7 +93,7 @@ CROS_WORKON_LOCALNAME="factory_installer"
 FACTORY_SERVER="${FACTORY_SERVER:-$(hostname -f)}"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 	cros-workon_src_configure
 }
 
