@@ -14,8 +14,20 @@ inherit cros-workon platform user
 
 DESCRIPTION="Machine learning service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
-SRC_URI="gs://chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180517.pb
-	gs://chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180704.tflite"
+
+# Clients of the ML service should place the URIs of their model files into
+# this variable.
+system_models=""
+
+# Any test model (i.e. models that should not be available in non-test builds)
+# URIs should be placed into this variable.
+test_models="gs://chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180704.tflite"
+
+models="${system_models}
+	${test_models}
+"
+
+SRC_URI="${models}"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -24,6 +36,7 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/libbrillo
+	sci-libs/tensorflow
 "
 
 DEPEND="
@@ -51,15 +64,26 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.MachineLearning.service
 
-	# Install the ML models.
+	# Install system ML models (but not test models).
 	insinto /opt/google/chrome/ml_models
-	local model
-	for model in ${A}; do
-		doins "${DISTDIR}/${model}"
+	local distfile_uri
+	for distfile_uri in ${system_models}; do
+		doins "${DISTDIR}/${distfile_uri##*/}"
 	done
 }
 
 pkg_preinst() {
 	enewuser "ml-service"
 	enewgroup "ml-service"
+}
+
+platform_pkg_test() {
+	# Recreate model dir in the temp directory (for use in unit tests).
+	mkdir "${T}/ml_models" || die
+	local distfile_uri
+	for distfile_uri in ${models}; do
+		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
+	done
+
+	platform_test "run" "${OUT}/ml_service_test"
 }
