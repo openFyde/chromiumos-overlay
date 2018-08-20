@@ -44,6 +44,7 @@ IUSE_TESTS="
 	+tests_network_ShillStability
 	+tests_network_TwoShills
 	+tests_network_WiFiInvalidParameters
+	+tests_network_WiFiResume
 	+tests_network_WlanDriver
 	+tests_network_WlanHasIP
 	tpm? ( +tests_network_VPNConnect )
