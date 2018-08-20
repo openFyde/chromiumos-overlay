@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -42,6 +42,7 @@ IUSE_TESTS="
 	+tests_network_DhcpVendorEncapsulatedOptions
 	+tests_network_DhcpWpadNegotiation
 	+tests_network_ShillInitScripts
+	+tests_network_ShillStability
 	+tests_network_TwoShills
 	+tests_network_WiFiInvalidParameters
 	+tests_network_WlanDriver
