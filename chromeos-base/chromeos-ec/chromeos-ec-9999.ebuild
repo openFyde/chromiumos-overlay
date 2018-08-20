@@ -39,9 +39,16 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="quiet verbose coreboot-sdk unibuild fuzzer"
 
-RDEPEND="dev-embedded/libftdi"
+RDEPEND="
+	dev-embedded/libftdi
+	fuzzer? (
+		dev-libs/openssl:=
+		dev-libs/protobuf:=
+	)
+"
 DEPEND="
 	${RDEPEND}
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 	virtual/chromeos-ec-private-files
 	virtual/chromeos-ec-touch-firmware
 	unibuild? ( chromeos-base/chromeos-config )
