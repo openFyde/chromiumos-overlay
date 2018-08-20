@@ -172,6 +172,9 @@ cros_post_src_unpack_asan_init() {
 		strip_sysroot="${SYSROOT}"
 	fi
 	export ASAN_OPTIONS+=" log_path=${log_path#${strip_sysroot}}"
+	export MSAN_OPTIONS+=" log_path=${log_path#${strip_sysroot}}"
+	export TSAN_OPTIONS+=" log_path=${log_path#${strip_sysroot}}"
+	export UBSAN_OPTIONS+=" log_path=${log_path#${strip_sysroot}}"
 
 	local lsan_suppression="${S}/lsan_suppressions"
 	local lsan_suppression_ebuild="${FILESDIR}/lsan_suppressions"
@@ -259,7 +262,7 @@ filter_sanitizers() {
 	local var flag flags=()
 	for var in CFLAGS CXXFLAGS LDFLAGS; do
 		for flag in ${!var}; do
-			if [[ ${flag} != "-fsanitize"* ]]; then
+			if [[ ${flag} != "-fsanitize"* && ${flag} != "-fno-sanitize"* ]]; then
 				flags+=("${flag}")
 			fi
 		done

@@ -37,9 +37,8 @@ msan-setup-env() {
 # Build a package with undefined behavior sanitizer flags.
 ubsan-setup-env() {
 	use ubsan || return 0
-	# TODO: Find a safe subset of ubsan flags that can be used to build packages.
-	append-flags "-fsanitize=undefined"
-	append-ldflags "-fsanitize=undefined"
+	append-flags -fsanitize=undefined -fno-sanitize=vptr
+	append-ldflags -fsanitize=undefined -fno-sanitize=vptr
 }
 
 # @FUNCTION: sanitizers-setup-env
