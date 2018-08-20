@@ -4,7 +4,8 @@
 EAPI=5
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
+# TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
+CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_SUBTREE="common-mk ml .gn"
 
 PLATFORM_SUBDIR="ml"
@@ -35,6 +36,7 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/libbrillo
+	chromeos-base/metrics
 	sci-libs/tensorflow
 "
 
