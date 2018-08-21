@@ -1,0 +1,12 @@
+DEFINED_PHASES=info install postinst preinst setup unpack
+DEPEND=!<chromeos-base/chromeos-cheets-scripts-0.0.3 dev-vcs/git sys-apps/baselayout
+DESCRIPTION=Container to run Android.
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container-bundle
+IUSE=android-container-master-arc-dev android-container-nyc android-container-pi cros_host cros_workon_tree_335c01060e7415af95705bf53ce03552097ba3cd_1194709da47cfeb34f364480a7c42e79c4748df2_640af8b64da89bf245c6abfa85bdbfe408a167ab_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!<chromeos-base/chromeos-cheets-scripts-0.0.3 sys-apps/baselayout
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	user	3b54473ad93c2d51e2dc0e14f601e048
+_md5_=54a0e31c38b50ca46c9216b3a1142976
