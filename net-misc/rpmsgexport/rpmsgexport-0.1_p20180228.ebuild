@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+inherit cros-sanitizers
+
 DESCRIPTION="Remoteproc endpoint creation utility"
 HOMEPAGE="https://github.com/andersson/rpmsgexport"
 GIT_SHA1="324d88d668f36c6a5e6a9c2003a050b8a5a3cd60"
@@ -16,7 +18,7 @@ IUSE="asan"
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 
 	# TODO(ejcaruso): send PR to respect CFLAGS/LDFLAGS
 	sed -i \

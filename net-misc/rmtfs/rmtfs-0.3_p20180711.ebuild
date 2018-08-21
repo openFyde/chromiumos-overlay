@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-inherit toolchain-funcs
+inherit cros-sanitizers
 
 DESCRIPTION="QMI Remote File System Server"
 HOMEPAGE="https://github.com/andersson/rmtfs"
@@ -25,7 +25,7 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 }
 
 src_install() {

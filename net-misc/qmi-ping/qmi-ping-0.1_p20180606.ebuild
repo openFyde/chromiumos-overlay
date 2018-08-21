@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+inherit cros-sanitizers
+
 DESCRIPTION="QMI over QRTR test program"
 HOMEPAGE="https://github.com/andersson/qmi-ping"
 GIT_SHA1="36799ff5464a7ee384dcf3ad3a8f1d2b107f062e"
@@ -20,7 +22,7 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
 src_configure() {
-	asan-setup-env
+	sanitizers-setup-env
 
 	# TODO(ejcaruso): send PR to respect CFLAGS/LDFLAGS
 	sed -i \
