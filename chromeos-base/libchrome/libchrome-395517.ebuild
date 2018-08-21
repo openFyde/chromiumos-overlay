@@ -68,6 +68,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-dbus-Remove-LOG-ERROR-in-ObjectProxy.patch
 	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
 
+	# TODO(b/37434548): Remove this patch on update to r456626.
+	epatch "${FILESDIR}"/${P}-Add-CalledOnValidSequence-alias.patch
+
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685
 	use_sanitizers && epatch "${FILESDIR}"/${P}-Disable-memory-allocator.patch

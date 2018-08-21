@@ -1,0 +1,48 @@
+From a99539463307f86c55f416f3aa19e79e5bc16f43 Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Wed, 22 Aug 2018 06:16:12 +0900
+Subject: [PATCH] Add CalledOnValidSequence() alias.
+
+This is the preparation to uprev libchrome to r456626.
+https://codereview.chromium.org/2189113002 renamed the method.
+For transition, this CL introduces the method just proxying to
+CalledOnValidSequence(), so that callers can be updated in advance.
+
+This patch can/should be removed on lbchrome uprev to r456626.
+
+BUG=b:37434548
+TEST=Trybots.
+
+Change-Id: Icd4c61dfa43b4ed3c66258bfaef1da38937688ea
+---
+ base/sequence_checker.h      | 1 +
+ base/sequence_checker_impl.h | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/base/sequence_checker.h b/base/sequence_checker.h
+index ad01828..93f27c7 100644
+--- a/base/sequence_checker.h
++++ b/base/sequence_checker.h
+@@ -25,6 +25,7 @@ class SequenceCheckerDoNothing {
+   bool CalledOnValidSequencedThread() const {
+     return true;
+   }
++  bool CalledOnValidSequence() const { return CalledOnValidSequencedThread(); }
+ 
+   void DetachFromSequence() {}
+ };
+diff --git a/base/sequence_checker_impl.h b/base/sequence_checker_impl.h
+index e3c5fed..464d746 100644
+--- a/base/sequence_checker_impl.h
++++ b/base/sequence_checker_impl.h
+@@ -27,6 +27,7 @@ class BASE_EXPORT SequenceCheckerImpl {
+   // as previous calls. If there is no associated sequence, then returns
+   // whether we are being called on the underlying ThreadChecker's thread.
+   bool CalledOnValidSequencedThread() const;
++  bool CalledOnValidSequence() const { return CalledOnValidSequencedThread(); }
+ 
+   // Unbinds the checker from the currently associated sequence. The
+   // checker will be re-bound on the next call to CalledOnValidSequence().
+-- 
+2.18.0.1017.ga543ac7ca45-goog
+
