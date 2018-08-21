@@ -29,7 +29,7 @@ fi
 src_unpack() {
 	if use llvm-next; then
 		# llvm:r333878 https://critique.corp.google.com/#review/199724125
-		export EGIT_COMMIT="393b329e7345976d7d0c5ee08425eacb34b4c5be" #r333870
+		export EGIT_COMMIT="dafd5b461e1808fce4a76da13b81065968eff6aa" #r339405
 	fi
 	git-2_src_unpack
 }
@@ -38,7 +38,7 @@ src_prepare() {
 	# Cherry-picks
 	local CHERRIES=""
 	if use llvm-next; then
-		CHERRIES+=" 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c" #r337033
+		true
 	else
 		CHERRIES+=" 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c" #r337033
 	fi

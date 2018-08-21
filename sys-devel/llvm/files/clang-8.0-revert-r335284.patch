@@ -1,0 +1,149 @@
+From: Caroline Tice <cmtice@google.com>
+Date: 10-Sep-2018
+
+This patch reverts Clang commit r335284.  It is one of two commits that were
+identified in https://buganizer.corp.google.com/issues/113573336 as responsible
+for crashes with LLVM r339409.  The actual commit that this reverts is here:
+ https://reviews.llvm.org/D34156
+
+This patch is intended to be temporary:  Once the bug is fixed this patch can
+be removed.
+
+diff --git a/include/clang/Frontend/CodeGenOptions.def b/include/clang/Frontend/CodeGenOptions.def
+index a7e71f7ac0..b4ae6233f6 100644
+--- a/include/clang/Frontend/CodeGenOptions.def
++++ b/include/clang/Frontend/CodeGenOptions.def
+@@ -110,7 +110,7 @@ CODEGENOPT(LessPreciseFPMAD  , 1, 0) ///< Enable less precise MAD instructions t
+                                      ///< be generated.
+ CODEGENOPT(PrepareForLTO     , 1, 0) ///< Set when -flto is enabled on the
+                                      ///< compile step.
+-CODEGENOPT(PrepareForThinLTO , 1, 0) ///< Set when -flto=thin is enabled on the
++CODEGENOPT(EmitSummaryIndex , 1, 0) ///< Set when -flto=thin is enabled on the
+                                      ///< compile step.
+ CODEGENOPT(LTOUnit, 1, 0) ///< Emit IR to support LTO unit features (CFI, whole
+                           ///< program vtable opt).
+diff --git a/lib/CodeGen/BackendUtil.cpp b/lib/CodeGen/BackendUtil.cpp
+index 415bd96262..494a3bb4bf 100644
+--- a/lib/CodeGen/BackendUtil.cpp
++++ b/lib/CodeGen/BackendUtil.cpp
+@@ -525,7 +525,7 @@ void EmitAssemblyHelper::CreatePasses(legacy::PassManager &MPM,
+     PMBuilder.Inliner = createFunctionInliningPass(
+         CodeGenOpts.OptimizationLevel, CodeGenOpts.OptimizeSize,
+         (!CodeGenOpts.SampleProfileFile.empty() &&
+-         CodeGenOpts.PrepareForThinLTO));
++         CodeGenOpts.EmitSummaryIndex));
+   }
+ 
+   PMBuilder.OptLevel = CodeGenOpts.OptimizationLevel;
+@@ -535,7 +535,7 @@ void EmitAssemblyHelper::CreatePasses(legacy::PassManager &MPM,
+ 
+   PMBuilder.DisableUnrollLoops = !CodeGenOpts.UnrollLoops;
+   PMBuilder.MergeFunctions = CodeGenOpts.MergeFunctions;
+-  PMBuilder.PrepareForThinLTO = CodeGenOpts.PrepareForThinLTO;
++  PMBuilder.PrepareForThinLTO = CodeGenOpts.EmitSummaryIndex;
+   PMBuilder.PrepareForLTO = CodeGenOpts.PrepareForLTO;
+   PMBuilder.RerollLoops = CodeGenOpts.RerollLoops;
+ 
+@@ -777,7 +777,7 @@ void EmitAssemblyHelper::EmitAssembly(BackendAction Action,
+     break;
+ 
+   case Backend_EmitBC:
+-    if (CodeGenOpts.PrepareForThinLTO) {
++    if (CodeGenOpts.EmitSummaryIndex) {
+       if (!CodeGenOpts.ThinLinkBitcodeFile.empty()) {
+         ThinLinkOS = openOutputFile(CodeGenOpts.ThinLinkBitcodeFile);
+         if (!ThinLinkOS)
+@@ -785,20 +785,11 @@ void EmitAssemblyHelper::EmitAssembly(BackendAction Action,
+       }
+       PerModulePasses.add(createWriteThinLTOBitcodePass(
+           *OS, ThinLinkOS ? &ThinLinkOS->os() : nullptr));
+-    } else {
+-      // Emit a module summary by default for Regular LTO except for ld64
+-      // targets
+-      bool EmitLTOSummary =
+-          (CodeGenOpts.PrepareForLTO &&
+-           llvm::Triple(TheModule->getTargetTriple()).getVendor() !=
+-               llvm::Triple::Apple);
+-      if (EmitLTOSummary && !TheModule->getModuleFlag("ThinLTO"))
+-        TheModule->addModuleFlag(Module::Error, "ThinLTO", uint32_t(0));
+-
+-      PerModulePasses.add(
+-          createBitcodeWriterPass(*OS, CodeGenOpts.EmitLLVMUseLists,
+-                                  EmitLTOSummary));
+     }
++    else
++      PerModulePasses.add(
++	  createBitcodeWriterPass(*OS, CodeGenOpts.EmitLLVMUseLists));
++
+     break;
+ 
+   case Backend_EmitLL:
+@@ -946,7 +937,7 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
+   ModulePassManager MPM(CodeGenOpts.DebugPassManager);
+ 
+   if (!CodeGenOpts.DisableLLVMPasses) {
+-    bool IsThinLTO = CodeGenOpts.PrepareForThinLTO;
++    bool IsThinLTO = CodeGenOpts.EmitSummaryIndex;
+     bool IsLTO = CodeGenOpts.PrepareForLTO;
+ 
+     if (CodeGenOpts.OptimizationLevel == 0) {
+@@ -1008,7 +999,7 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
+     break;
+ 
+   case Backend_EmitBC:
+-    if (CodeGenOpts.PrepareForThinLTO) {
++    if (CodeGenOpts.EmitSummaryIndex) {
+       if (!CodeGenOpts.ThinLinkBitcodeFile.empty()) {
+         ThinLinkOS = openOutputFile(CodeGenOpts.ThinLinkBitcodeFile);
+         if (!ThinLinkOS)
+@@ -1017,17 +1008,9 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
+       MPM.addPass(ThinLTOBitcodeWriterPass(*OS, ThinLinkOS ? &ThinLinkOS->os()
+                                                            : nullptr));
+     } else {
+-      // Emit a module summary by default for Regular LTO except for ld64
+-      // targets
+-      bool EmitLTOSummary =
+-          (CodeGenOpts.PrepareForLTO &&
+-           llvm::Triple(TheModule->getTargetTriple()).getVendor() !=
+-               llvm::Triple::Apple);
+-      if (EmitLTOSummary && !TheModule->getModuleFlag("ThinLTO"))
+-        TheModule->addModuleFlag(Module::Error, "ThinLTO", uint32_t(0));
+-
+       MPM.addPass(BitcodeWriterPass(*OS, CodeGenOpts.EmitLLVMUseLists,
+-                                    EmitLTOSummary));
++				    CodeGenOpts.EmitSummaryIndex,
++				    CodeGenOpts.EmitSummaryIndex));
+     }
+     break;
+ 
+diff --git a/lib/CodeGen/CGDebugInfo.cpp b/lib/CodeGen/CGDebugInfo.cpp
+index 1265bba764..7047636302 100644
+--- a/lib/CodeGen/CGDebugInfo.cpp
++++ b/lib/CodeGen/CGDebugInfo.cpp
+@@ -575,7 +575,7 @@ void CGDebugInfo::CreateCompileUnit() {
+                           remapDIPath(getCurrentDirname()), CSInfo,
+                           getSource(SM, SM.getMainFileID())),
+       CGOpts.EmitVersionIdentMetadata ? Producer : "",
+-      LO.Optimize || CGOpts.PrepareForLTO || CGOpts.PrepareForThinLTO,
++      LO.Optimize || CGOpts.PrepareForLTO || CGOpts.EmitSummaryIndex,
+       CGOpts.DwarfDebugFlags, RuntimeVers,
+       CGOpts.EnableSplitDwarf ? "" : CGOpts.SplitDwarfFile, EmissionKind,
+       0 /* DWOid */, CGOpts.SplitDwarfInlining, CGOpts.DebugInfoForProfiling,
+diff --git a/lib/Frontend/CompilerInvocation.cpp b/lib/Frontend/CompilerInvocation.cpp
+index ed22c1a745..1d8bca3116 100644
+--- a/lib/Frontend/CompilerInvocation.cpp
++++ b/lib/Frontend/CompilerInvocation.cpp
+@@ -753,11 +753,11 @@ static bool ParseCodeGenArgs(CodeGenOptions &Opts, ArgList &Args, InputKind IK,
+   Opts.ProfileSampleAccurate = Args.hasArg(OPT_fprofile_sample_accurate);
+ 
+   Opts.PrepareForLTO = Args.hasArg(OPT_flto, OPT_flto_EQ);
+-  Opts.PrepareForThinLTO = false;
++  Opts.EmitSummaryIndex = false;
+   if (Arg *A = Args.getLastArg(OPT_flto_EQ)) {
+     StringRef S = A->getValue();
+     if (S == "thin")
+-      Opts.PrepareForThinLTO = true;
++      Opts.EmitSummaryIndex = true;
+     else if (S != "full")
+       Diags.Report(diag::err_drv_invalid_value) << A->getAsString(Args) << S;
+   }
