@@ -32,10 +32,15 @@ src_compile() {
 }
 
 src_install() {
-	insinto /usr/include
+	insinto /usr/include/libprotobuf-mutator/port
+	doins port/*.h
+	insinto /usr/include/libprotobuf-mutator/src
 	doins src/*.h
-	insinto /usr/include/libfuzzer
+	insinto /usr/include/libprotobuf-mutator/src/libfuzzer
 	doins src/libfuzzer/*.h
+
+	insinto /usr/share/pkgconfig
+	doins "${FILESDIR}/${PN}.pc"
 
 	dolib.a "${BUILD_DIR}/src/libprotobuf-mutator.a"
 	dolib.a "${BUILD_DIR}/src/libfuzzer/libprotobuf-mutator-libfuzzer.a"
