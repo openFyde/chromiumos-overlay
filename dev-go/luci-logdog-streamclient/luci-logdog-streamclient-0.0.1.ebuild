@@ -18,6 +18,7 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/logdog/client/butler/output/logdog"
 	"go.chromium.org/luci/logdog/client/butler/output/pubsub"
 	"go.chromium.org/luci/logdog/client/butler/streamserver"
+	"go.chromium.org/luci/logdog/client/butler/streamserver/localclient"
 	"go.chromium.org/luci/logdog/client/butlerproto"
 	"go.chromium.org/luci/logdog/client/butlerlib/streamclient"
 	"go.chromium.org/luci/logdog/client/butlerlib/streamproto"
