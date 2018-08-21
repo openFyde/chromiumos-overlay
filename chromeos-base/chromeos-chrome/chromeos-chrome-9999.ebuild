@@ -518,9 +518,6 @@ set_build_args() {
 		fi
 		BUILD_ARGS+=( symbol_level=2 )
 	fi
-
-	# Prevents gclient from updating self.
-	export DEPOT_TOOLS_UPDATE=0
 }
 
 unpack_chrome() {
@@ -579,7 +576,12 @@ src_unpack() {
 	local WHOAMI=$(whoami)
 	export EGCLIENT="${EGCLIENT:-${DEPOT_TOOLS}/gclient}"
 	export ENINJA="${ENINJA:-${DEPOT_TOOLS}/ninja}"
+
+	# Prevents gclient from updating self.
 	export DEPOT_TOOLS_UPDATE=0
+
+	# Prevent gclient metrics collection.
+	export DEPOT_TOOLS_METRICS=0
 
 	# Create storage directories.
 	sandboxless_ensure_directory "${CHROME_DISTDIR}" "${CHROME_CACHE_DIR}"
