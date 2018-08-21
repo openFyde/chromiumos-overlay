@@ -3,20 +3,8 @@ minor_version: ""
 default_target_cpu: "same_as_host"
 
 default_toolchain {
-  cpu: "k8"
-  toolchain_identifier: "${env}_${comp_type}"
-}
-default_toolchain {
-  cpu: "piii"
-  toolchain_identifier: "${env}_${comp_type}"
-}
-default_toolchain {
-  cpu: "armeabi-v7a"
-  toolchain_identifier: "${env}_${comp_type}"
-}
-default_toolchain {
-  cpu: "arm"
-  toolchain_identifier: "${env}_${comp_type}"
+  cpu: "${cpu_str}"
+  toolchain_identifier: "portage_toolchain"
 }
 
 toolchain {
@@ -26,9 +14,9 @@ toolchain {
   host_system_name: "local"
   needsPic: true
   target_libc: "local"
-  target_cpu: "local"
+  target_cpu: "${cpu_str}"
   target_system_name: "local"
-  toolchain_identifier: "${env}_${comp_type}"
+  toolchain_identifier: "portage_toolchain"
 
   feature {
     name: "determinism"

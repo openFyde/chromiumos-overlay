@@ -3,17 +3,17 @@ package(default_visibility = ["//visibility:public"])
 cc_toolchain_suite(
   name = 'toolchain',
   toolchains = {
-    'local|local': ':${env}_${comp_type}_compiler',
+    '${cpu_str}|local': ':portage_toolchain',
   },
 )
 
 filegroup(name = "empty")
 
 cc_toolchain(
-    name = "${env}_${comp_type}_compiler",
+    name = "portage_toolchain",
     all_files = ":empty",
     compiler_files = ":empty",
-    cpu = "local",
+    cpu = "${cpu_str}",
     dwp_files = ":empty",
     dynamic_runtime_libs = [":empty"],
     linker_files = ":empty",

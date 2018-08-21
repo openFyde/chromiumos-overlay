@@ -102,7 +102,7 @@ bazel-get-builtin-include-dirs() {
 	local match_head="#include <...> search starts here:"
 	local match_foot="End of search list."
 
-	declare comp="$1"
+	local comp="${1}"
 
 	# Get preprocessor output (which contains searched include dirs).
 	local preproc_output
@@ -193,14 +193,15 @@ bazel-get-flags() {
 	echo "${fs[*]}"
 }
 
-# Accepts an envionment name, environment sysroot and environment prefix (used
-# to locate correct binaries for the environment) and populates Bazel toolchain
-# targets for the specified environment in the given output directory.
+# Accepts an environment sysroot, environment prefix (used to locate correct
+# binaries for the environment) and environment CPU string, and populates Bazel
+# toolchain targets for the specified environment in the given output
+# directory.
 populate_crosstool_target() {
-	declare env="${1}"
-	declare env_sysroot="${2}"
-	declare env_prefix="${3}"
-	declare output_dir="${4}"
+	local env_sysroot="${1}"
+	local env_prefix="${2}"
+	local cpu_str="${3}"
+	local output_dir="${4}"
 
 	# Query compiler type (gcc / clang) from environment variables.
 	local comp_type
@@ -211,7 +212,7 @@ populate_crosstool_target() {
 	comp="$(tc-get${env_prefix}CC)" || die
 
 	# Write out the BUILD file for this configuration.
-	env="${env}" comp_type="${comp_type}" \
+	cpu_str="${cpu_str}" \
 	envsubst < "${FILESDIR}/tensorflow-1.9.0_rc1-BUILD.tpl" > "${output_dir}/BUILD" || die
 
 	# Write out the CROSSTOOL file for this configuration, including formatted
@@ -220,7 +221,7 @@ populate_crosstool_target() {
 	# We call tc-getPROG directly for cpp, since we require a program that directly
 	# performs preprocessing (i.e. takes no flags), whereas tc-getCPP returns an
 	# invocation of the compiler for preprocessing (which uses flags).
-	env="${env}" comp_type="${comp_type}" \
+	cpu_str="${cpu_str}" \
 	builtin_include_dirs="$(bazel-get-builtin-include-dirs ${comp})" \
 	env_sysroot="${env_sysroot}" \
 	env_cc="$(command -v ${comp})" \
@@ -236,7 +237,8 @@ populate_crosstool_target() {
 	envsubst < "${FILESDIR}/tensorflow-1.9.0_rc1-CROSSTOOL.tpl" > "${output_dir}/CROSSTOOL" || die
 }
 
-# Accepts a Bazel project directory, and creates Bazel targets:
+# Accepts Bazel "host" and "target" CPU strings and a Bazel project
+# directory, and creates Bazel targets:
 #   <project_dir>/ebazel_cc_config/{host,target}:toolchain
 # which can be used to configure Bazel C++ compilation based on Portage
 # environment variables.
@@ -244,8 +246,18 @@ populate_crosstool_target() {
 # Also creates <project_dir>/ebazel_cc_config/bazelrc which specifies
 # the new crosstool targets by default.
 setup_bazel_crosstool() {
+	local host_cpu_str="${1}"
+	if [[ -z "${host_cpu_str}" ]]; then
+		die "Must specify host CPU string when generating Bazel CROSSTOOL targets."
+	fi
+
+	local target_cpu_str="${2}"
+	if [[ -z "${target_cpu_str}" ]]; then
+		die "Must specify target CPU string when generating Bazel CROSSTOOL targets."
+	fi
+
 	# Check that the project dir exists.
-	declare project_dir="${1}"
+	local project_dir="${3}"
 	if [[ ! -d "${project_dir}" ]]; then
 		die "Bazel project dir '${project_dir}' does not exist."
 	fi
@@ -253,18 +265,18 @@ setup_bazel_crosstool() {
 	# Populate host toolchain targets.
 	local host_crosstool_dir="${project_dir}/${bazel_cc_config_dir}/host"
 	mkdir -p "${host_crosstool_dir}" || die
-	populate_crosstool_target host / BUILD_ "${host_crosstool_dir}"
+	populate_crosstool_target / BUILD_ "${host_cpu_str}" "${host_crosstool_dir}"
 
 	# Populate target toolchain targets.
 	local target_crosstool_dir="${project_dir}/${bazel_cc_config_dir}/target"
 	mkdir -p "${target_crosstool_dir}" || die
-	populate_crosstool_target target "${PORTAGE_CONFIGROOT}" "" "${target_crosstool_dir}"
+	populate_crosstool_target "${PORTAGE_CONFIGROOT}" "" "${target_cpu_str}" "${target_crosstool_dir}"
 
 	# Create a bazelrc specifying the new toolchain targets by default.
 	cat > "${project_dir}/${bazel_cc_config_dir}/bazelrc" <<-EOF
 	# Make Bazel respect Portage C/C++ configuration.
-	build --host_crosstool_top="//${bazel_cc_config_dir}/host:toolchain"
-	build --crosstool_top="//${bazel_cc_config_dir}/target:toolchain"
+	build --host_crosstool_top="//${bazel_cc_config_dir}/host:toolchain" --crosstool_top="//${bazel_cc_config_dir}/target:toolchain"
+	build --host_cpu="${host_cpu_str}" --cpu="${target_cpu_str}"
 
 	# Some compiler scripts require SYSROOT defined.
 	build --action_env SYSROOT="${PORTAGE_CONFIGROOT}"
@@ -343,6 +355,18 @@ load_distfiles() {
 	done <<< "$(sed -re 's/!?[A-Za-z]+\?\s+\(\s*//g; s/\s+\)//' <<< "${bazel_external_uris}")"
 }
 
+# Echos the CPU string that TensorFlow uses to refer to the given architecture.
+get-tf-cpu-str() {
+	local arch
+	arch="$(tc-arch "${1}")"
+
+	case "${arch}" in
+	amd64) echo "k8";;
+	arm) echo "arm";;
+	*) die "Unsupported architecture '${arch}'."
+	esac
+}
+
 pkg_setup() {
 	JAVA_HOME=/etc/java-config-2/current-system-vm/
 }
@@ -353,7 +377,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	setup_bazel_crosstool "${BUILD_DIR}"
+	setup_bazel_crosstool "$(get-tf-cpu-str "${CBUILD}")" "$(get-tf-cpu-str "${CHOST}")" "${BUILD_DIR}"
 	setup_bazelrc
 	load_distfiles
 
