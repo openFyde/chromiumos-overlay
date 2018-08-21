@@ -3,10 +3,10 @@ DEPEND=dev-libs/openssl dev-vcs/git !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-d
 DESCRIPTION=Scrypt key derivation library
 EAPI=4
 HOMEPAGE=http://www.tarsnap.com/scrypt.html
-IUSE=-asan static-libs cros_host cros_workon_tree_
+IUSE=-asan static-libs asan coverage fuzzer msan ubsan cros_host cros_workon_tree_
 KEYWORDS=~*
 LICENSE=BSD
 RDEPEND=dev-libs/openssl
 SLOT=0
-_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
-_md5_=5a99c39e2bbc94557e6e917b0766f217
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-sanitizers	d7e3621d62170a6a6a4e2723dc75e7bc	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=e696509763c78d69f45b8972a5591788

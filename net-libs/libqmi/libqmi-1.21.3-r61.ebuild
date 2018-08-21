@@ -1,0 +1,56 @@
+# Copyright 1999-2012 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=6
+CROS_WORKON_COMMIT="c92163a9e4cb8da6c9f695b771c97555ee8b5c9f"
+CROS_WORKON_TREE="5ca323e1a14b8f1e0c070bbab1d9accc267e8250"
+CROS_WORKON_PROJECT="chromiumos/third_party/libqmi"
+
+inherit autotools cros-sanitizers cros-workon
+
+DESCRIPTION="QMI modem protocol helper library"
+HOMEPAGE="http://cgit.freedesktop.org/libqmi/"
+
+LICENSE="GPL-2"
+SLOT="0"
+KEYWORDS="*"
+IUSE="-asan doc mbim static-libs"
+
+RDEPEND=">=dev-libs/glib-2.36
+	mbim? ( >=net-libs/libmbim-1.14.0 )"
+DEPEND="${RDEPEND}
+	doc? ( dev-util/gtk-doc )
+	virtual/pkgconfig"
+
+src_prepare() {
+	default
+	gtkdocize
+	eautoreconf
+}
+
+src_configure() {
+	sanitizers-setup-env
+
+	# Disable the unused function check as libqmi has auto-generated
+	# functions that may not be used.
+	append-flags -Xclang-only=-Wno-unused-function
+	econf \
+		--enable-qmi-username='modem' \
+		$(use_enable mbim mbim-qmux) \
+		$(use_enable static{-libs,}) \
+		$(use_enable {,gtk-}doc)
+}
+
+src_test() {
+	# TODO(benchan): Run unit tests for non-x86 platforms via qemu.
+	if [[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] ; then
+		# This is an ugly hack that happens to work, but should not be copied.
+		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" \
+		emake check
+	fi
+}
+
+src_install() {
+	default
+	use static-libs || rm -f "${ED}"/usr/$(get_libdir)/libqmi-glib.la
+}
