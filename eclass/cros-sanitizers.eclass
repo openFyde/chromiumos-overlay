@@ -37,8 +37,13 @@ msan-setup-env() {
 # Build a package with undefined behavior sanitizer flags.
 ubsan-setup-env() {
 	use ubsan || return 0
-	append-flags -fsanitize=undefined -fno-sanitize=vptr
-	append-ldflags -fsanitize=undefined -fno-sanitize=vptr
+	local flags=(
+		-fsanitize=alignment,array-bounds,function,shift,vla-bound
+		-fno-sanitize=vptr
+		-fno-sanitize-recover=all
+	)
+	append-flags "${flags[@]}"
+	append-ldflags "${flags[@]}"
 }
 
 # @FUNCTION: sanitizers-setup-env
