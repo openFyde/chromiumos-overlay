@@ -68,7 +68,8 @@ RDEPEND="unibuild? (
 		sys-apps/dtc
 	)
 	sys-apps/util-linux
-	>=sys-apps/flashmap-0.3-r4"
+	>=sys-apps/flashmap-0.3-r4
+	chromeos-base/minijail"
 DEPEND="${RDEPEND}"
 
 src_unpack() {
