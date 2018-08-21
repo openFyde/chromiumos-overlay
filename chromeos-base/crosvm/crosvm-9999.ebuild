@@ -42,12 +42,18 @@ SRC_URI="$(cargo_crate_uris ${CRATES})"
 LICENSE="BSD-Google BSD-2 Apache-2.0 MIT"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug -crosvm-plugin +crosvm-wl-dmabuf"
+IUSE="debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf"
 
-RDEPEND="chromeos-base/minijail
-	crosvm-wl-dmabuf? ( media-libs/minigbm )
+RDEPEND="
+	arm? ( sys-apps/dtc )
 	!chromeos-base/crosvm-bin
-	arm? ( sys-apps/dtc )"
+	chromeos-base/minijail
+	crosvm-gpu? (
+		dev-libs/wayland
+		media-libs/virglrenderer
+	)
+	crosvm-wl-dmabuf? ( media-libs/minigbm )
+"
 DEPEND="${RDEPEND}"
 
 src_unpack() {
@@ -62,6 +68,7 @@ src_compile() {
 	export CARGO_TARGET_DIR="${WORKDIR}"
 
 	local features=(
+		$(usex crosvm-gpu gpu "")
 		$(usex crosvm-plugin plugin "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 	)
@@ -70,6 +77,7 @@ src_compile() {
 		9s
 		crosvm
 	)
+
 	for pkg in "${packages[@]}"; do
 		cargo build -v --target="${CHOST}" \
 			$(usex debug "" --release) \
