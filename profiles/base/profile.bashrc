@@ -175,6 +175,8 @@ cros_post_src_unpack_asan_init() {
 	export MSAN_OPTIONS+=" log_path=${log_path#${strip_sysroot}}"
 	export TSAN_OPTIONS+=" log_path=${log_path#${strip_sysroot}}"
 	export UBSAN_OPTIONS+=" log_path=${log_path#${strip_sysroot}}"
+	# symbolize ubsan crashes.
+	export UBSAN_OPTIONS+=":symbolize=1:print_stacktrace=1"
 
 	local lsan_suppression="${S}/lsan_suppressions"
 	local lsan_suppression_ebuild="${FILESDIR}/lsan_suppressions"
