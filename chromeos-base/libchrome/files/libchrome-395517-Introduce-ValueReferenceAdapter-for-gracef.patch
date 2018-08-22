@@ -1,0 +1,71 @@
+From 387676f5076411d72920d634243e5d4504b43cd2 Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Wed, 22 Aug 2018 19:01:28 +0900
+Subject: [PATCH] libchrome: Introduce ValueReferenceAdapter for graceful
+ migration.
+
+BUG=b:37434548
+
+Change-Id: I7c4c61e6b88e1fa12e8d20327317bc9cea75b18c
+---
+ base/values.h | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+
+diff --git a/base/values.h b/base/values.h
+index e2506cc..4963992 100644
+--- a/base/values.h
++++ b/base/values.h
+@@ -513,6 +513,50 @@ class BASE_EXPORT ListValue : public Value {
+   DISALLOW_COPY_AND_ASSIGN(ListValue);
+ };
+ 
++// Adapter for the ListValue::const_iterator to return "const Value&", for
++// libchrome uprev.
++class BASE_EXPORT ValueReferenceAdapter {
++ public:
++  class Iterator {
++   public:
++    using difference_type = std::ptrdiff_t;
++    using value_type = const Value&;
++    using pointer = const Value*;
++    using reference = const Value&;
++    using iterator_category = std::input_iterator_tag;
++
++    explicit Iterator(ListValue::const_iterator iter) : iter_(iter) {}
++    const Value& operator*() const { return **iter_; }
++    const Value* operator->() const { return *iter_; }
++    Iterator& operator++() {
++      ++iter_;
++      return *this;
++    }
++    Iterator operator++(int) {
++      Iterator result = *this;
++      ++(*this);
++      return result;
++    }
++
++    friend bool operator==(const Iterator& it1, const Iterator& it2) {
++      return it1.iter_ == it2.iter_;
++    }
++    friend bool operator!=(const Iterator& it1, const Iterator& it2) {
++      return !(it1 == it2);
++    }
++
++   private:
++    ListValue::const_iterator iter_;
++  };
++
++  explicit ValueReferenceAdapter(const ListValue& v) : v_(v) {}
++  Iterator begin() { return Iterator(v_.begin()); }
++  Iterator end() { return Iterator(v_.end()); }
++
++ private:
++  const ListValue& v_;
++};
++
+ // This interface is implemented by classes that know how to serialize
+ // Value objects.
+ class BASE_EXPORT ValueSerializer {
+-- 
+2.18.0.1017.ga543ac7ca45-goog
+

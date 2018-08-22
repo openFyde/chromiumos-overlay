@@ -72,6 +72,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-Add-CalledOnValidSequence-alias.patch
 	epatch "${FILESDIR}"/${P}-Introduce-alias-for-libchrome-uprev-preparation.patch
 
+	# TODO(hidehiko): Remove this patch after libchrome is uprevved
+	# to >= r463684.
+	epatch "${FILESDIR}"/${P}-Introduce-ValueReferenceAdapter-for-gracef.patch
+
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685
 	use_sanitizers && epatch "${FILESDIR}"/${P}-Disable-memory-allocator.patch
