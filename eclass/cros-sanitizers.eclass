@@ -38,7 +38,7 @@ msan-setup-env() {
 ubsan-setup-env() {
 	use ubsan || return 0
 	local flags=(
-		-fsanitize=alignment,array-bounds,function,shift,vla-bound
+		-fsanitize=alignment,array-bounds,shift,vla-bound
 		-fno-sanitize=vptr
 		-fno-sanitize-recover=all
 	)
