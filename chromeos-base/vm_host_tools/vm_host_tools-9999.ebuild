@@ -14,6 +14,8 @@ inherit cros-workon platform udev user
 
 DESCRIPTION="VM host tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
+CREDITS_SRC="linux_credits-10895.tar.bz2"
+SRC_URI="gs://chromeos-localmirror/distfiles/${CREDITS_SRC}"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -33,6 +35,12 @@ DEPEND="
 	${RDEPEND}
 	>=chromeos-base/system_api-0.0.1-r3360
 "
+
+src_unpack() {
+	platform_src_unpack
+
+	unpack "${CREDITS_SRC}"
+}
 
 src_install() {
 	dobin "${OUT}"/cicerone_client
@@ -57,6 +65,16 @@ src_install() {
 	fi
 
 	udev_dorules udev/99-vm.rules
+
+	# TODO(crbug.com/876898): Remove hardcoded credits file.
+	local credits_arch="unknown"
+	case ${ARCH} in
+		amd64) credits_arch=x86;;
+		arm) credits_arch=arm;;
+		arm64) credits_arch=arm;;
+	esac
+	insinto /opt/google/chrome/resources
+	newins "${WORKDIR}/credits_${credits_arch}.html" linux_credits.html
 }
 
 platform_pkg_test() {
