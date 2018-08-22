@@ -10,10 +10,10 @@
 # available to build. The logic in this ebuild succeeds so long as one
 # of the many models successfully builds.
 
-EAPI="4"
+EAPI="5"
 
-CROS_WORKON_COMMIT=("eb2de572ba72cfdc5bbd93f40c4eed1a6d5cc9d9" "5cb743a9637937e93992a762179ecc09c6f1bcd2" "6283eeeaf5ccebcca982d5318b36d49e7b32cb6d")
-CROS_WORKON_TREE=("969191d884287c036482febd2530e63eb8728e2c" "c7e9b3952c4b68e6ebbc9cafa17215b2f8412920" "cc44d33412e29b2c10a03bf8ac819f5630af57b2")
+CROS_WORKON_COMMIT=("26708ffa05ee1fc88bd754ddb959499acea1c41d" "5cb743a9637937e93992a762179ecc09c6f1bcd2" "6283eeeaf5ccebcca982d5318b36d49e7b32cb6d")
+CROS_WORKON_TREE=("c9cac042aef873a4ce511f2777c6a7cd2fb207b4" "c7e9b3952c4b68e6ebbc9cafa17215b2f8412920" "cc44d33412e29b2c10a03bf8ac819f5630af57b2")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/tpm2"
@@ -77,6 +77,9 @@ set_build_env() {
 		export CROSS_COMPILE_arm=${COREBOOT_SDK_PREFIX_arm}
 		export CROSS_COMPILE_i386=${COREBOOT_SDK_PREFIX_x86_32}
 	fi
+
+	export CROSS_COMPILE_coreboot_sdk_arm=${COREBOOT_SDK_PREFIX_arm}
+	export CROSS_COMPILE_coreboot_sdk_i386=${COREBOOT_SDK_PREFIX_x86_32}
 
 	# nds32 always uses coreboot-sdk
 	export CROSS_COMPILE_nds32=${COREBOOT_SDK_PREFIX_nds32}
