@@ -70,6 +70,7 @@ src_prepare() {
 
 	# TODO(b/37434548): Remove this patch on update to r456626.
 	epatch "${FILESDIR}"/${P}-Add-CalledOnValidSequence-alias.patch
+	epatch "${FILESDIR}"/${P}-Introduce-alias-for-libchrome-uprev-preparation.patch
 
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685

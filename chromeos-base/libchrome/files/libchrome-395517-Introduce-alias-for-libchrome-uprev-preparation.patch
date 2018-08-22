@@ -1,0 +1,43 @@
+From 2f1be951b454e740ec202b715e203ccbd9f09b71 Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Thu, 23 Aug 2018 00:09:36 +0900
+Subject: [PATCH] Introduce alias for libchrome uprev preparation.
+
+r455405 renames DefaultLazyInstanceTraits to LazyInstanceTraitsBase.
+Also, it requires us to use LazyInstance<T>::DestructorAtExit,
+instead of LazyInstance<T> directly.
+This is to fill the gap temporarily.
+
+BUG=b:37434548
+TEST=Trybot.
+
+Change-Id: I84f642a0cea0c608d801a067cbcaa084af5dacf1
+---
+ base/lazy_instance.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/base/lazy_instance.h b/base/lazy_instance.h
+index ac970c5..2f6cabd 100644
+--- a/base/lazy_instance.h
++++ b/base/lazy_instance.h
+@@ -78,6 +78,9 @@ struct DefaultLazyInstanceTraits {
+   }
+ };
+ 
++template <typename Type>
++using LazyInstanceTraitsBase = DefaultLazyInstanceTraits<Type>;
++
+ // We pull out some of the functionality into non-templated functions, so we
+ // can implement the more complicated pieces out of line in the .cc file.
+ namespace internal {
+@@ -135,6 +138,7 @@ class LazyInstance {
+   // Convenience typedef to avoid having to repeat Type for leaky lazy
+   // instances.
+   typedef LazyInstance<Type, internal::LeakyLazyInstanceTraits<Type> > Leaky;
++  using DestructorAtExit = LazyInstance;
+ 
+   Type& Get() {
+     return *Pointer();
+-- 
+2.18.0.1017.ga543ac7ca45-goog
+
