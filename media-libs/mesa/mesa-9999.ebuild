@@ -125,6 +125,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-radv-Make-fs-key-exemplars-ordered-to-be-a-reverse-f.patch
 	epatch "${FILESDIR}"/18.2-radv-Refactor-blit-pipeline-creation.patch
 	epatch "${FILESDIR}"/18.2-radv-Add-on-demand-compilation-of-built-in-shaders.patch
+	epatch "${FILESDIR}"/18.3-i965-Replace-checks-for-rb-Name-with-FlipY.patch
 
 	base_src_prepare
 
