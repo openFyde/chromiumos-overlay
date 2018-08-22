@@ -5,13 +5,17 @@ EAPI="5"
 
 inherit eutils flag-o-matic toolchain-funcs multilib multilib-minimal
 
-PATCH_SET="openssl-1.0.2-patches-1.3"
+PATCH_SET="openssl-1.0.2-patches-1.5"
 MY_P=${P/_/-}
 DESCRIPTION="full-strength general purpose cryptography library (including SSL and TLS)"
 HOMEPAGE="https://www.openssl.org/"
 SRC_URI="mirror://openssl/source/${MY_P}.tar.gz
-	mirror://gentoo/${PATCH_SET}.tar.xz
-	https://dev.gentoo.org/~whissi/dist/${PN}/${PATCH_SET}.tar.xz"
+	!vanilla? (
+		mirror://gentoo/${PATCH_SET}.tar.xz
+		https://dev.gentoo.org/~chutzpah/dist/${PN}/${PATCH_SET}.tar.xz
+		https://dev.gentoo.org/~whissi/dist/${PN}/${PATCH_SET}.tar.xz
+		https://dev.gentoo.org/~polynomial-c/dist/${PATCH_SET}.tar.xz
+	)"
 
 LICENSE="openssl"
 SLOT="0"
@@ -32,6 +36,28 @@ DEPEND="${RDEPEND}
 	)"
 PDEPEND="app-misc/ca-certificates"
 
+# This does not copy the entire Fedora patchset, but JUST the parts that
+# are needed to make it safe to use EC with RESTRICT=bindist.
+# See openssl.spec for the matching numbering of SourceNNN, PatchNNN
+SOURCE1=hobble-openssl
+SOURCE12=ec_curve.c
+SOURCE13=ectest.c
+# These are ported instead
+#PATCH1=openssl-1.1.0-build.patch # Fixes EVP testcase for EC
+#PATCH37=openssl-1.1.0-ec-curves.patch
+FEDORA_GIT_BASE='https://src.fedoraproject.org/cgit/rpms/openssl.git/plain/'
+FEDORA_GIT_BRANCH='f25'
+FEDORA_SRC_URI=()
+FEDORA_SOURCE=( $SOURCE1 $SOURCE12 $SOURCE13 )
+FEDORA_PATCH=( $PATCH1 $PATCH37 )
+for i in "${FEDORA_SOURCE[@]}" ; do
+	FEDORA_SRC_URI+=( "${FEDORA_GIT_BASE}/${i}?h=${FEDORA_GIT_BRANCH} -> ${P}_${i}" )
+done
+for i in "${FEDORA_PATCH[@]}" ; do # Already have a version prefix
+	FEDORA_SRC_URI+=( "${FEDORA_GIT_BASE}/${i}?h=${FEDORA_GIT_BRANCH} -> ${i}" )
+done
+SRC_URI+=" bindist? ( ${FEDORA_SRC_URI[@]} )"
+
 S="${WORKDIR}/${MY_P}"
 
 MULTILIB_WRAPPED_HEADERS=(
@@ -39,6 +65,25 @@ MULTILIB_WRAPPED_HEADERS=(
 )
 
 src_prepare() {
+	if use bindist; then
+		# This just removes the prefix, and puts it into WORKDIR like the RPM.
+		for i in "${FEDORA_SOURCE[@]}" ; do
+			cp -f "${DISTDIR}"/"${P}_${i}" "${WORKDIR}"/"${i}" || die
+		done
+		# .spec %prep
+		bash "${WORKDIR}"/"${SOURCE1}" || die
+		cp -f "${WORKDIR}"/"${SOURCE12}" "${S}"/crypto/ec/ || die
+		cp -f "${WORKDIR}"/"${SOURCE13}" "${S}"/crypto/ec/ || die # Moves to test/ in OpenSSL-1.1
+		for i in "${FEDORA_PATCH[@]}" ; do
+			epatch "${DISTDIR}"/"${i}"
+		done
+		epatch "${FILESDIR}"/openssl-1.0.2o-hobble-ecc.patch
+		# Also see the configure parts below:
+		# enable-ec \
+		# $(use_ssl !bindist ec2m) \
+		# $(use_ssl !bindist srp) \
+	fi
+
 	# keep this in sync with app-misc/c_rehash
 	SSL_CNF_DIR="/etc/ssl"
 
@@ -80,7 +125,8 @@ src_prepare() {
 	# since we're forcing $(CC) as makedep anyway, just fix
 	# the conditional as always-on
 	# helps clang (#417795), and versioned gcc (#499818)
-	sed -i 's/expr.*MAKEDEPEND.*;/true;/' util/domd || die
+	# this breaks build with 1.0.2p, not sure if it is needed anymore
+	#sed -i 's/expr.*MAKEDEPEND.*;/true;/' util/domd || die
 
 	# quiet out unknown driver argument warnings since openssl
 	# doesn't have well-split CFLAGS and we're making it even worse
@@ -144,12 +190,15 @@ multilib_src_configure() {
 	local config="Configure"
 	[[ -z ${sslout} ]] && config="config"
 
+	# Fedora hobbled-EC needs 'no-ec2m', 'no-srp'
 	echoit \
 	./${config} \
 		${sslout} \
 		$(use cpu_flags_x86_sse2 || echo "no-sse2") \
 		enable-camellia \
-		$(use_ssl !bindist ec) \
+		enable-ec \
+		$(use_ssl !bindist ec2m) \
+		$(use_ssl !bindist srp) \
 		${ec_nistp_64_gcc_128} \
 		enable-idea \
 		enable-mdc2 \
@@ -188,7 +237,7 @@ multilib_src_configure() {
 multilib_src_compile() {
 	# depend is needed to use $confopts; it also doesn't matter
 	# that it's -j1 as the code itself serializes subdirs
-	emake -j1 depend
+	emake -j1 V=1 depend
 	emake all
 	# rehash is needed to prep the certs/ dir; do this
 	# separately to avoid parallel build issues.
