@@ -1,0 +1,8 @@
+DEFINED_PHASES=-
+DESCRIPTION=Chrome OS OOBE assets virtual package
+EAPI=5
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=chromeos-base/chromeos-oobe-assets
+SLOT=0
+_md5_=8af0e51c2edacc25015857d5d9d76ed3
