@@ -71,6 +71,8 @@ src_prepare() {
 	# TODO(b/37434548): Remove this patch on update to r456626.
 	epatch "${FILESDIR}"/${P}-Add-CalledOnValidSequence-alias.patch
 	epatch "${FILESDIR}"/${P}-Introduce-alias-for-libchrome-uprev-preparation.patch
+	epatch "${FILESDIR}"/${P}-Manually-cherrypick-ScopedClosureRunner-ReplaceClosu.patch
+
 	# This optional.h is taken from r569568.
 	# TODO(hidehiko): Remove this patch on update.
 	epatch "${FILESDIR}"/${P}-Add-base-Optional.patch

@@ -1,0 +1,49 @@
+From 5ac198d3a6407890bdce31424a6c53a908f51b11 Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Thu, 23 Aug 2018 19:19:09 +0900
+Subject: [PATCH] Manually cherrypick ScopedClosureRunner::ReplaceClosure().
+
+https://codereview.chromium.org/2094803005 replaces
+ScopedClosureRunner::Reset(). This CL cherry-picks the new method
+from the CL so that the uprev work can be step-by-step.
+
+BUG=b:37434548
+TEST=Trybot.
+
+Change-Id: Ia3f7ea630f61c7c19fe084b78b2cfd7f0745875f
+---
+ base/callback_helpers.cc | 4 ++++
+ base/callback_helpers.h  | 4 ++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/base/callback_helpers.cc b/base/callback_helpers.cc
+index ef02b2b..82ac435 100644
+--- a/base/callback_helpers.cc
++++ b/base/callback_helpers.cc
+@@ -39,4 +39,8 @@ Closure ScopedClosureRunner::Release() {
+   return result;
+ }
+ 
++void ScopedClosureRunner::ReplaceClosure(const Closure& closure) {
++  closure_ = closure;
++}
++
+ }  // namespace base
+diff --git a/base/callback_helpers.h b/base/callback_helpers.h
+index 8608039..b4bad70 100644
+--- a/base/callback_helpers.h
++++ b/base/callback_helpers.h
+@@ -39,6 +39,10 @@ class BASE_EXPORT ScopedClosureRunner {
+   void Reset(const Closure& closure);
+   Closure Release() WARN_UNUSED_RESULT;
+ 
++  // Manual cherrypick from https://codereview.chromium.org/2094803005
++  // for libchrome uprev.
++  void ReplaceClosure(const Closure& closuer);
++
+  private:
+   Closure closure_;
+ 
+-- 
+2.18.0.1017.ga543ac7ca45-goog
+
