@@ -7,5 +7,5 @@ KEYWORDS=*
 LICENSE=BSD
 SLOT=0
 SRC_URI=https://github.com/andersson/rpmsgexport/archive/324d88d668f36c6a5e6a9c2003a050b8a5a3cd60.tar.gz -> rpmsgexport-0.1_p20180228.tar.gz
-_eclasses_=cros-sanitizers	880800cfccefa6b86ad1f603a90ded40	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=cros-sanitizers	40275da665152fb71fee4b717a9c7de7	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=684a9f262ee917ad8d55caa32d1100aa
