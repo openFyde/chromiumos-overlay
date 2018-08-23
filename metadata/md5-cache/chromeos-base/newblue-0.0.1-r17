@@ -1,0 +1,11 @@
+DEFINED_PHASES=configure info install setup test unpack
+DEPEND=dev-vcs/git virtual/pkgconfig
+DESCRIPTION=NewBlue Bluetooth stack
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/newblue
+IUSE=cros_host cros_workon_tree_e79456e5d48efd648ee5a69e1143240c74ff1878
+KEYWORDS=*
+LICENSE=BSD-Google
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	udev	d91cac2c73b94629cad2daea66e0d182
+_md5_=cbc556b83c1d9375b893504ce8e7b446
