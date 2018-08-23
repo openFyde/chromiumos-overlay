@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME=("platform2" "weave/libweave")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "weave/libweave")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/weave/libweave")
-CROS_WORKON_SUBTREE=("common-mk libweave .gn" "")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="libweave"
 PLATFORM_GYP_FILE="libweave.gyp"
@@ -27,7 +27,6 @@ DEPEND="dev-cpp/gmock"
 src_unpack() {
 	local s="${S}"
 	platform_src_unpack
-	cp -al "${s}"/platform2/libweave/libweave.gyp "${s}"/weave/libweave/
 	S="${s}/weave/libweave/"
 }
 
@@ -37,7 +36,7 @@ src_install() {
 	# Install libraries.
 	local v
 	for v in "${LIBCHROME_VERS[@]}"; do
-		../../platform2/libweave/preinstall.sh "${OUT}" "${v}"
+		./preinstall.sh "${OUT}" "${v}"
 		dolib.so "${OUT}"/lib/libweave-"${v}".so
 		doins "${OUT}"/lib/libweave-*"${v}".pc
 		dolib.a "${OUT}"/libweave-test-"${v}".a
