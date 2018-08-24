@@ -69,6 +69,7 @@ platform_pkg_test() {
 		garcon_desktop_file_test
 		garcon_icon_index_file_test
 		garcon_icon_finder_test
+		garcon_mime_types_parser_test
 		maitred_service_test
 		maitred_syslog_test
 	)
