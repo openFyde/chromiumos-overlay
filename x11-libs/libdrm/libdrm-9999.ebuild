@@ -2,7 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="4"
+EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
+CROS_WORKON_BLACKLIST="1"
 
 inherit xorg-2 cros-workon
 
@@ -37,6 +39,14 @@ DEPEND="${RDEPEND}"
 XORG_EAUTORECONF=yes
 
 src_prepare() {
+	epatch "${FILESDIR}"/Add-Mediatek-proprietary-format.patch
+	epatch "${FILESDIR}"/add-DRM_IOCTL_VGEM_MODE_MAP_DUMB-support.patch
+	epatch "${FILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
+	epatch "${FILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
+	epatch "${FILESDIR}"/Add-Evdi-module-userspace-api-file.patch
+	epatch "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
+	epatch "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
+
 	xorg-2_src_prepare
 }
 

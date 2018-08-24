@@ -2,10 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="3c7f95590fc380b52fc31906c146e19adac9dc69"
-CROS_WORKON_TREE="b9a3521cd072305049672a298a35c83428f2aedc"
+CROS_WORKON_COMMIT="8389c5454804d5cd7f62f1cadb841fb1b8a51817"
+CROS_WORKON_TREE="da51fccbee8fd24522ae5784933d84d2bf94cef2"
+EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_LOCALNAME="libdrm"
+CROS_WORKON_BLACKLIST="1"
 
 P=${P#"arc-"}
 PN=${PN#"arc-"}
@@ -38,6 +40,15 @@ DEPEND="${RDEPEND}"
 XORG_EAUTORECONF=yes
 
 src_prepare() {
+	DRMFILESDIR=${FILESDIR/arc-/}
+	epatch "${DRMFILESDIR}"/Add-Mediatek-proprietary-format.patch
+	epatch "${DRMFILESDIR}"/add-DRM_IOCTL_VGEM_MODE_MAP_DUMB-support.patch
+	epatch "${DRMFILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
+	epatch "${DRMFILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
+	epatch "${DRMFILESDIR}"/Add-Evdi-module-userspace-api-file.patch
+	epatch "${DRMFILESDIR}"/Add-Rockchip-AFBC-modifier.patch
+	epatch "${DRMFILESDIR}"/Add-back-VENDOR_NV-name.patch
+
 	xorg-2_src_prepare
 }
 
