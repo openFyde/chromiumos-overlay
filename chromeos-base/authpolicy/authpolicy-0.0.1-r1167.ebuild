@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="4ee65cf0f6e22136659fa786ef844a384b1d8e1e"
+CROS_WORKON_COMMIT="c9b0ebabf630382dda6a29800629e623fb1354d7"
 CROS_WORKON_TREE=("eb27a012c12cb92576a9d02f418326ea0b60313b" "176ae1273c964238e8308bd9c08cdd8d806e77be" "639d0474955cb4e676b3f0bdc148e230f9c12d72" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -41,12 +41,12 @@ DEPEND="
 	chromeos-base/system_api
 "
 
-pkg_preinst() {
-	# Create user and group for authpolicyd and authpolicyd-exec.
+pkg_setup() {
 	enewuser "authpolicyd"
 	enewgroup "authpolicyd"
 	enewuser "authpolicyd-exec"
 	enewgroup "authpolicyd-exec"
+	cros-workon_pkg_setup
 }
 
 src_install() {
@@ -58,6 +58,13 @@ src_install() {
 	doins etc/init/authpolicyd.conf
 	insinto /usr/share/policy
 	doins seccomp_filters/*.policy
+
+	# Create daemon store folder prototype, see
+	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
+	local daemon_store="/etc/daemon-store/authpolicyd"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners authpolicyd:authpolicyd "${daemon_store}"
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/preg_parser_fuzzer \
 		--seed_corpus "${S}"/policy/testdata/preg_parser_fuzzer_seed_corpus.zip \
