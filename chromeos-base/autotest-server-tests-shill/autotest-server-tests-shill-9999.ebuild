@@ -31,6 +31,7 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_BluetoothScanPerf
 	+tests_network_WiFi_BluetoothStreamPerf
 	+tests_network_WiFi_BSSTMReq
+	+tests_network_WiFi_BT_AntennaCoex
 	+tests_network_WiFi_ChannelScanDwellTime
 	+tests_network_WiFi_ChaosConfigFailure
 	+tests_network_WiFi_ChaosConnectDisconnect
