@@ -282,6 +282,16 @@ multilib_src_install() {
 		systemd_dounit "${FILESDIR}"/winbindd.service
 		systemd_dounit "${FILESDIR}"/samba.service
 	fi
+
+	# Hack to unbreak crbug.com/877675
+	if ! use perl; then
+		rm -rf "${D}"/usr/lib*/perl*
+	fi
+	if ! use python; then
+		rm -rf "${D}"/usr/lib*/python*
+	fi
+	# Prune empty dirs to avoid tripping multilib checks.
+	rmdir "${D}"/usr/lib* 2>/dev/null
 }
 
 multilib_src_test() {
