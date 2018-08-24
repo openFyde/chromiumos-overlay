@@ -1,12 +1,20 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
-CROS_WORKON_COMMIT="3c7f95590fc380b52fc31906c146e19adac9dc69"
-CROS_WORKON_TREE="b9a3521cd072305049672a298a35c83428f2aedc"
+EAPI="5"
+EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
+CROS_WORKON_COMMIT="cb592ac8166e348bf61afa3f7b7f626ccaf55a0f"
+CROS_WORKON_TREE="403e5120a268739bfaca336ad89067d7760f18f8"
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
+CROS_WORKON_LOCALNAME="libdrm"
+CROS_WORKON_BLACKLIST="1"
 
-inherit xorg-2 cros-workon
+P=${P#"arc-"}
+PN=${PN#"arc-"}
+S="${WORKDIR}/${P}"
+
+XORG_MULTILIB=yes
+inherit xorg-2 cros-workon arc-build
 
 DESCRIPTION="X.Org libdrm library"
 HOMEPAGE="http://dri.freedesktop.org/"
@@ -18,46 +26,53 @@ SRC_URI=""
 LICENSE="|| ( MIT X )"
 SLOT="0"
 KEYWORDS="*"
-VIDEO_CARDS="amdgpu exynos freedreno intel nouveau omap radeon vc4 vmware"
+VIDEO_CARDS="amdgpu exynos freedreno nouveau omap radeon vc4 vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
 IUSE="${IUSE_VIDEO_CARDS} libkms manpages +udev"
-REQUIRED_USE="video_cards_exynos? ( libkms )"
 RESTRICT="test" # see bug #236845
 
-RDEPEND="dev-libs/libpthread-stubs
-	udev? ( virtual/udev )
-	video_cards_amdgpu? ( dev-util/cunit )
-	video_cards_intel? ( >=x11-libs/libpciaccess-0.10 )
-	!<x11-libs/libdrm-tests-2.4.58-r3
-"
-
+RDEPEND=""
 DEPEND="${RDEPEND}"
 
 XORG_EAUTORECONF=yes
 
 src_prepare() {
+	DRMFILESDIR=${FILESDIR/arc-/}
+	epatch "${DRMFILESDIR}"/Add-Mediatek-proprietary-format.patch
+	epatch "${DRMFILESDIR}"/add-DRM_IOCTL_VGEM_MODE_MAP_DUMB-support.patch
+	epatch "${DRMFILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
+	epatch "${DRMFILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
+	epatch "${DRMFILESDIR}"/Add-Evdi-module-userspace-api-file.patch
+	epatch "${DRMFILESDIR}"/Add-Rockchip-AFBC-modifier.patch
+	epatch "${DRMFILESDIR}"/Add-back-VENDOR_NV-name.patch
+
 	xorg-2_src_prepare
 }
 
 src_configure() {
+	# FIXME(tfiga): Could inherit arc-build invoke this implicitly?
+	arc-build-select-clang
+
 	XORG_CONFIGURE_OPTIONS=(
-		--enable-install-test-programs
+		--disable-install-test-programs
 		$(use_enable video_cards_amdgpu amdgpu)
 		$(use_enable video_cards_exynos exynos-experimental-api)
 		$(use_enable video_cards_freedreno freedreno)
-		$(use_enable video_cards_intel intel)
 		$(use_enable video_cards_nouveau nouveau)
 		$(use_enable video_cards_omap omap-experimental-api)
 		$(use_enable video_cards_radeon radeon)
-		$(use_enable video_cards vc4 vc4)
+		$(use_enable video_cards_vc4 vc4)
 		$(use_enable video_cards_vmware vmwgfx)
 		$(use_enable libkms)
 		$(use_enable manpages)
 		$(use_enable udev)
 		--disable-cairo-tests
+		--disable-intel
+		"--prefix=${ARC_PREFIX}/vendor"
+		"--datadir=${ARC_PREFIX}/vendor/usr/share"
 	)
 	xorg-2_src_configure
 }
