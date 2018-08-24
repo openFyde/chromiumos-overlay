@@ -38,7 +38,7 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	default
 	sanitizers-setup-env
-	cros-workon_src_prepare
+	cros-common.mk_src_prepare
 }
 
 src_configure() {

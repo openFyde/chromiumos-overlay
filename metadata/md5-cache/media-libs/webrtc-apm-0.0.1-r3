@@ -3,10 +3,10 @@ DEPEND=dev-libs/libevent:= dev-libs/protobuf:= dev-vcs/git
 DESCRIPTION=Standalone WebRTC APM library
 EAPI=5
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/webrtc-apm
-IUSE=cpu_flags_x86_sse2 neon cros_host cros_workon_tree_12c53f1442421e26ccee89131fcdd9d5cdbc99cf
+IUSE=cpu_flags_x86_sse2 neon cros_host cros_workon_tree_c9efb5c5ade11277d6460bd575e1094d80cdd88c
 KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=dev-libs/libevent:= dev-libs/protobuf:=
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	353ffca08e66fda6e3b14fecc306543c	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
-_md5_=453acef8e018e7a828a4bf96a137b21e
+_md5_=1e971b9afec949af14cb64248bad0e63
