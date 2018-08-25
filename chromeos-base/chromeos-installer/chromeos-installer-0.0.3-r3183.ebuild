@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="4ee65cf0f6e22136659fa786ef844a384b1d8e1e"
+CROS_WORKON_COMMIT="d93e771c96a8499aff8d891a4fbcc99d7bde6a42"
 CROS_WORKON_TREE=("eb27a012c12cb92576a9d02f418326ea0b60313b" "d02359fd01e592425382457a1260b8a951a8bd8c" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,7 +22,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cros_embedded cros_host -mtd pam systemd test"
+IUSE="cros_embedded cros_host -mtd pam systemd test +oobe_config"
 
 DEPEND="
 	chromeos-base/verity
@@ -36,7 +36,7 @@ RDEPEND="
 	chromeos-base/chromeos-common-script
 	chromeos-base/libbrillo
 	!cros_host? (
-		chromeos-base/oobe_config
+		oobe_config? ( chromeos-base/oobe_config )
 		chromeos-base/secure-erase-file
 		dev-libs/openssl
 	)
