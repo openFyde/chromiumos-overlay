@@ -104,28 +104,6 @@ STRIP_MASK+=" */nacl_helper_bootstrap"
 # Portage version without optional portage suffix.
 CHROME_VERSION="${PV/_*/}"
 
-CHROME_SRC="chrome-src"
-if use chrome_internal; then
-	CHROME_SRC="${CHROME_SRC}-internal"
-fi
-
-# CHROME_CACHE_DIR is used for storing output artifacts, and is always a
-# regular directory inside the chroot (i.e. it's never mounted in, so it's
-# always safe to use cp -al for these artifacts).
-if [[ -z ${CHROME_CACHE_DIR} ]] ; then
-	CHROME_CACHE_DIR="/var/cache/chromeos-chrome/${CHROME_SRC}"
-fi
-addwrite "${CHROME_CACHE_DIR}"
-
-# CHROME_DISTDIR is used for storing the source code, if any source code
-# needs to be unpacked at build time (e.g. in the SERVER_SOURCE scenario.)
-# It will be mounted into the chroot, so it is never safe to use cp -al
-# for these files.
-if [[ -z ${CHROME_DISTDIR} ]] ; then
-	CHROME_DISTDIR="${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}/${CHROME_SRC}"
-fi
-addwrite "${CHROME_DISTDIR}"
-
 # chrome destination directory
 CHROME_DIR=/opt/google/chrome
 D_CHROME_DIR="${D}/${CHROME_DIR}"
@@ -166,7 +144,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-70.0.3530.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-70.0.3532.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R70-3497.35-1534759395.afdo"
 AFDO_FILE["airmont"]="R70-3497.35-1534760280.afdo"
 AFDO_FILE["haswell"]="R70-3497.35-1534761249.afdo"
@@ -518,9 +496,6 @@ set_build_args() {
 		fi
 		BUILD_ARGS+=( symbol_level=2 )
 	fi
-
-	# Prevents gclient from updating self.
-	export DEPOT_TOOLS_UPDATE=0
 }
 
 unpack_chrome() {
@@ -579,7 +554,30 @@ src_unpack() {
 	local WHOAMI=$(whoami)
 	export EGCLIENT="${EGCLIENT:-${DEPOT_TOOLS}/gclient}"
 	export ENINJA="${ENINJA:-${DEPOT_TOOLS}/ninja}"
+
+	# Prevents gclient from updating self.
 	export DEPOT_TOOLS_UPDATE=0
+
+	# Prevent gclient metrics collection.
+	export DEPOT_TOOLS_METRICS=0
+
+	CHROME_SRC="chrome-src"
+	if use chrome_internal; then
+		CHROME_SRC+="-internal"
+	fi
+
+	# CHROME_CACHE_DIR is used for storing output artifacts, and is always a
+	# regular directory inside the chroot (i.e. it's never mounted in, so it's
+	# always safe to use cp -al for these artifacts).
+	: "${CHROME_CACHE_DIR:="/var/cache/chromeos-chrome/${CHROME_SRC}"}"
+	addwrite "${CHROME_CACHE_DIR}"
+
+	# CHROME_DISTDIR is used for storing the source code, if any source code
+	# needs to be unpacked at build time (e.g. in the SERVER_SOURCE scenario.)
+	# It will be mounted into the chroot, so it is never safe to use cp -al
+	# for these files.
+	: "${CHROME_DISTDIR:="${PORTAGE_ACTUAL_DISTDIR:-${DISTDIR}}/${CHROME_SRC}"}"
+	addwrite "${CHROME_DISTDIR}"
 
 	# Create storage directories.
 	sandboxless_ensure_directory "${CHROME_DISTDIR}" "${CHROME_CACHE_DIR}"
