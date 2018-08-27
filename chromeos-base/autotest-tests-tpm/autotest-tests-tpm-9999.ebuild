@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -23,6 +23,8 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
+	+tests_firmware_Cr50VirtualNVRam
+	+tests_firmware_Cr50VirtualNVRamServer
 	+tests_hardware_TPMCheck
 	-tests_kernel_TPMPing
 	+tests_kernel_TPMStress
