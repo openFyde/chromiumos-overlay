@@ -80,16 +80,25 @@ respect the target's lib structure by getting the libdir name from Makefile.
      """
      if prefix is None:
          if standard_lib:
-@@ -141,8 +154,10 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
+@@ -141,8 +154,19 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
              prefix = plat_specific and EXEC_PREFIX or PREFIX
  
      if os.name == "posix":
 -        libpython = os.path.join(prefix,
 -                                 "@@GENTOO_LIBDIR@@", "python" + get_python_version())
-+        for libdir in ['@@GENTOO_LIBDIR@@', 'lib64', 'lib32', 'libx32', 'lib']:
-+            libpython = os.path.join(prefix, libdir, "python" + get_python_version())
-+            if os.path.exists(libpython):
-+                break
++        # Search known Gentoo vars first.
++        libpython = None
++        if SYSROOT:
++            abi = os.environ.get('ABI')
++            libdir = os.environ.get('LIBDIR_%s' % abi)
++            if libdir:
++                libpython = os.path.join(prefix, libdir, "python" + get_python_version())
++        if not libpython:
++            # Fallback to hardcoded search.
++            for libdir in ['@@GENTOO_LIBDIR@@', 'lib64', 'lib32', 'libx32', 'lib']:
++                libpython = os.path.join(prefix, libdir, "python" + get_python_version())
++                if os.path.exists(libpython):
++                    break
          if standard_lib:
              return libpython
          else:
