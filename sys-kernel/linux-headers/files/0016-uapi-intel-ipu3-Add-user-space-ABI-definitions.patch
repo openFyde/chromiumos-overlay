@@ -1,7 +1,10 @@
-From 63ede21fb383c39f4e5bf3262fc5a4cdb975cf17 Mon Sep 17 00:00:00 2001
-From: Yong Zhi <yong.zhi@intel.com>
-Date: Wed, 28 Jun 2017 11:47:50 -0500
-Subject: FROMLIST: uapi: intel-ipu3: Add user space ABI definitions
+From 08c83f6264d5894009506c6a8b23fa63ced390bf Mon Sep 17 00:00:00 2001
+From: Rajmohan Mani <rajmohan.mani@intel.com>
+Date: Mon, 27 Aug 2018 14:48:44 -0700
+Subject: [PATCH] From 63ede21fb383c39f4e5bf3262fc5a4cdb975cf17 Mon Sep 17
+ 00:00:00 2001 From: Yong Zhi <yong.zhi@intel.com> Date: Wed, 28 Jun 2017
+ 11:47:50 -0500 Subject: FROMLIST: uapi: intel-ipu3: Add user space ABI
+ definitions
 
 Change-Id: Ib7e047f107ca779d400244bdd325780168f997d7
 Signed-off-by: Yong Zhi <yong.zhi@intel.com>
@@ -43,42 +46,90 @@ TEST=check basic camera functions with Nexus app
 
 Change-Id: Ie5a0087c420855db3df1ea98a2d6d24f00bc852b
 Signed-off-by: Yong Zhi <yong.zhi@intel.com>
+Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
+Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
+
+commit 0339d44c1079d12606acd0633e6de51bc076d36b
+Author: Yong Zhi <yong.zhi@intel.com>
+Date:   Wed Jun 6 16:33:50 2018 -0700
+
+CHROMIUM: media: intel-ipu3: Move bds related structs to abi header
+
+bds config settings from user space are not currently
+used by ImgU driver, so move the structs to ipu3-abi.h.
+
+ipu3_uapi_bds* in intel-ipu3.h are moved
+into ipu3-abi.h as ipu3_abi_bds*.
+
+BUG=b:113187542
+TEST=check basic camera functions with Nexus app
+CQ-DEPEND=CL:1189434
+
+Change-Id: Iaa234fee33672674e2ff5e686e06c168a822bc64
+Signed-off-by: Yong Zhi <yong.zhi@intel.com>
+Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
+Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
+
+commit f3f02f92471a576b743b94c8a8d9092fd85177ec
+Author: Yong Zhi <yong.zhi@intel.com>
+Date:   Thu Jun 7 10:16:07 2018 -0700
+
+CHROMIUM: media: intel-ipu3: Move some ANR settings out of uAPI
+
+Some ANR settings like w and h are calculated by
+the driver itself, so remove them from uAPI.
+
+BUG=b:113187542
+TEST=check basic camera functions with Nexus app
+CQ-DEPEND=CL:1189435
+
+Change-Id: Ia594928108bcdc72f1195acdb309077d6e48632f
+Signed-off-by: Yong Zhi <yong.zhi@intel.com>
+Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
+Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
+
+commit 25f310b36f4d0d1590da4ce5830d5cb6d2b48206
+Author: Bingbu Cao <bingbu.cao@intel.com>
+Date:   Thu Aug 23 15:51:05 2018 +0800
+
+CHROMIUM: intel-ipu3: Add a custom ctrl for pipe mode
+
+Add a custom control V4L2_CID_INTEL_IPU3_MODE for ipu3
+to allow user to set the pipe mode - video or still.
+
+BUG=none
+TEST=verify basic camera functions via application
+CQ-DEPEND=CL:1179466, CL:1182953
+
+Change-Id: Ief89a39fe38d850e211e2f7cdfb78b1c36a7195a
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
 ---
  include/uapi/linux/Kbuild       |    1 +
- include/uapi/linux/intel-ipu3.h | 1428 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 1429 insertions(+)
+ include/uapi/linux/intel-ipu3.h | 1305 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 1306 insertions(+)
  create mode 100644 include/uapi/linux/intel-ipu3.h
 
 diff --git a/include/uapi/linux/Kbuild b/include/uapi/linux/Kbuild
-index efa2a9c6456b..740c177768ef 100644
+index 4d3e0a7..29b4af3 100644
 --- a/include/uapi/linux/Kbuild
 +++ b/include/uapi/linux/Kbuild
-@@ -434,6 +434,7 @@ header-y += veth.h
- header-y += vfio.h
- header-y += vhost.h
- header-y += videodev2.h
+@@ -196,6 +196,7 @@ header-y += in.h
+ header-y += inotify.h
+ header-y += input.h
+ header-y += input-event-codes.h
 +header-y += intel-ipu3.h
- header-y += virtio_9p.h
- header-y += virtio_balloon.h
- header-y += virtio_blk.h
+ header-y += in_route.h
+ header-y += ioctl.h
+ header-y += ip6_tunnel.h
 diff --git a/include/uapi/linux/intel-ipu3.h b/include/uapi/linux/intel-ipu3.h
 new file mode 100644
-index 000000000000..83cdbaf3ce10
+index 0000000..47a5d3a
 --- /dev/null
 +++ b/include/uapi/linux/intel-ipu3.h
-@@ -0,0 +1,1428 @@
-+/*
-+ * Copyright (c) 2017 Intel Corporation.
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License version
-+ * 2 as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ */
+@@ -0,0 +1,1305 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright (C) 2018 Intel Corporation */
 +
 +#ifndef __IPU3_UAPI_H
 +#define __IPU3_UAPI_H
@@ -346,28 +397,10 @@ index 000000000000..83cdbaf3ce10
 +#define IPU3_UAPI_YUVP2_TCC_GAIN_PCWL_LUT_ELEMENTS	258
 +#define IPU3_UAPI_YUVP2_TCC_R_SQR_LUT_ELEMENTS		24
 +
-+#define IPU3_UAPI_BDS_SAMPLE_PATTERN_ARRAY_SIZE		8
-+#define IPU3_UAPI_BDS_PHASE_COEFFS_ARRAY_SIZE		32
-+
 +#define IPU3_UAPI_ANR_LUT_SIZE				26
 +#define IPU3_UAPI_ANR_PYRAMID_SIZE			22
 +
 +#define IPU3_UAPI_AE_WEIGHTS				96
-+
-+struct ipu3_uapi_acc_operation {
-+	/*
-+	 * zero means on init,
-+	 * others mean upon receiving an ack signal from the BC acc.
-+	 */
-+	__u8 op_indicator;
-+	__u8 op_type;
-+} __packed;
-+
-+struct ipu3_uapi_acc_process_lines_cmd_data {
-+	__u16 lines;
-+	__u8 cfg_set;
-+	__u8 __reserved;		/* Align to 4 bytes */
-+} __packed;
 +
 +/* Bayer Noise Reduction related structs */
 +struct ipu3_uapi_bnr_static_config_wb_gains_config {
@@ -1093,99 +1126,7 @@ index 000000000000..83cdbaf3ce10
 +	struct ipu3_uapi_yuvp2_tcc_r_sqr_lut_static_config r_sqr_lut;
 +} __packed;
 +
-+/* Bayer Down-Scaler */
-+
-+struct ipu3_uapi_bds_hor_ctrl0 {
-+	__u32 sample_patrn_length:9;
-+	__u32 __reserved0:3;
-+	__u32 hor_ds_en:1;
-+	__u32 min_clip_val:1;
-+	__u32 max_clip_val:2;
-+	__u32 out_frame_width:13;
-+	__u32 __reserved1:3;
-+} __packed;
-+
-+struct ipu3_uapi_bds_ptrn_arr {
-+	__u32 elems[IPU3_UAPI_BDS_SAMPLE_PATTERN_ARRAY_SIZE];
-+} __packed;
-+
-+struct ipu3_uapi_bds_phase_entry {
-+	__s8 coeff_min2;
-+	__s8 coeff_min1;
-+	__s8 coeff_0;
-+	__s8 nf;
-+	__s8 coeff_pls1;
-+	__s8 coeff_pls2;
-+	__s8 coeff_pls3;
-+	__u8 __reserved;
-+} __packed;
-+
-+struct ipu3_uapi_bds_phase_arr {
-+	struct ipu3_uapi_bds_phase_entry
-+		even[IPU3_UAPI_BDS_PHASE_COEFFS_ARRAY_SIZE];
-+	struct ipu3_uapi_bds_phase_entry
-+		odd[IPU3_UAPI_BDS_PHASE_COEFFS_ARRAY_SIZE];
-+} __packed;
-+
-+struct ipu3_uapi_bds_hor_ctrl1 {
-+	__u32 hor_crop_start:13;
-+	__u32 __reserved0:3;
-+	__u32 hor_crop_end:13;
-+	__u32 __reserved1:1;
-+	__u32 hor_crop_en:1;
-+	__u32 __reserved2:1;
-+} __packed;
-+
-+struct ipu3_uapi_bds_hor_ctrl2 {
-+	__u32 input_frame_height:13;
-+	__u32 __reserved0:19;
-+} __packed;
-+
-+struct ipu3_uapi_bds_hor {
-+	struct ipu3_uapi_bds_hor_ctrl0 hor_ctrl0;
-+	struct ipu3_uapi_bds_ptrn_arr hor_ptrn_arr;
-+	struct ipu3_uapi_bds_phase_arr hor_phase_arr;
-+	struct ipu3_uapi_bds_hor_ctrl1 hor_ctrl1;
-+	struct ipu3_uapi_bds_hor_ctrl2 hor_ctrl2;
-+} __packed;
-+
-+struct ipu3_uapi_bds_ver_ctrl0 {
-+	__u32 sample_patrn_length:9;
-+	__u32 __reserved0:3;
-+	__u32 ver_ds_en:1;
-+	__u32 min_clip_val:1;
-+	__u32 max_clip_val:2;
-+	__u32 __reserved1:16;
-+} __packed;
-+
-+struct ipu3_uapi_bds_ver_ctrl1 {
-+	__u32 out_frame_width:13;
-+	__u32 __reserved0:3;
-+	__u32 out_frame_height:13;
-+	__u32 __reserved1:3;
-+} __packed;
-+
-+struct ipu3_uapi_bds_ver {
-+	struct ipu3_uapi_bds_ver_ctrl0 ver_ctrl0;
-+	struct ipu3_uapi_bds_ptrn_arr ver_ptrn_arr;
-+	struct ipu3_uapi_bds_phase_arr ver_phase_arr;
-+	struct ipu3_uapi_bds_ver_ctrl1 ver_ctrl1;
-+
-+} __packed;
-+
-+struct ipu3_uapi_bds_config {
-+	struct ipu3_uapi_bds_hor hor IPU3_ALIGN;
-+	struct ipu3_uapi_bds_ver ver IPU3_ALIGN;
-+	__u32 enabled;
-+} __packed;
-+
 +/* Advanced Noise Reduction related structs */
-+
-+struct ipu3_uapi_anr_search_config {
-+	__u32 enable;
-+	__u16 frame_width;
-+	__u16 frame_height;
-+} __packed;
 +
 +struct ipu3_uapi_anr_alpha {
 +	__u16 gr;					/* 9 bits */
@@ -1217,7 +1158,7 @@ index 000000000000..83cdbaf3ce10
 +	__u32 adaptive_treshhold_en:1;	/* On IPU3, always enabled */
 +
 +	__u32 __reserved1:30;
-+	__u8 __reserved2[40+4];
++	__u8 __reserved2[40 + 4];
 +
 +	struct ipu3_uapi_anr_alpha alpha[3];
 +	struct ipu3_uapi_anr_beta beta[3];
@@ -1248,23 +1189,13 @@ index 000000000000..83cdbaf3ce10
 +
 +struct ipu3_uapi_anr_stitch_config {
 +	__u32 anr_stitch_en;
-+	__u16 frame_width;
-+	__u16 frame_height;
-+	__u8 __reserved[40];
++	__u8 __reserved[44];
 +	struct ipu3_uapi_anr_stitch_pyramid pyramid[IPU3_UAPI_ANR_PYRAMID_SIZE];
 +} __packed;
 +
-+struct ipu3_uapi_anr_tile2strm_config {
-+	__u32 enable;
-+	__u16 frame_width;
-+	__u16 frame_height;
-+} __packed;
-+
 +struct ipu3_uapi_anr_config {
-+	struct ipu3_uapi_anr_search_config search IPU3_ALIGN;
 +	struct ipu3_uapi_anr_transform_config transform IPU3_ALIGN;
 +	struct ipu3_uapi_anr_stitch_config stitch IPU3_ALIGN;
-+	struct ipu3_uapi_anr_tile2strm_config tile2strm IPU3_ALIGN;
 +} __packed;
 +
 +struct ipu3_uapi_awb_fr_config {
@@ -1324,7 +1255,6 @@ index 000000000000..83cdbaf3ce10
 +	struct ipu3_uapi_yuvp2_y_tm_lut_static_config ytm IPU3_ALIGN;
 +	struct ipu3_uapi_yuvp1_yds_config yds2 IPU3_ALIGN;
 +	struct ipu3_uapi_yuvp2_tcc_static_config tcc IPU3_ALIGN;
-+	struct ipu3_uapi_bds_config bds;
 +	struct ipu3_uapi_anr_config anr;
 +	struct ipu3_uapi_awb_fr_config awb_fr;
 +	struct ipu3_uapi_ae_config ae;
@@ -1493,6 +1423,14 @@ index 000000000000..83cdbaf3ce10
 +
 +	struct ipu3_uapi_obgrid_param obgrid_param;
 +} __packed;
++
++/* custom ctrl to set pipe mode */
++#define V4L2_CID_INTEL_IPU3_BASE (V4L2_CID_USER_BASE + 0x10a0)
++#define V4L2_CID_INTEL_IPU3_MODE (V4L2_CID_INTEL_IPU3_BASE + 1)
++enum ipu3_running_mode {
++	IPU3_RUNNING_MODE_VIDEO = 0,
++	IPU3_RUNNING_MODE_STILL = 1,
++};
 +
 +#endif
 -- 
