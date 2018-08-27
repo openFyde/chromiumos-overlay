@@ -66,9 +66,9 @@ pkg_preinst() {
 
 platform_pkg_test() {
 	local tests=(
-		sms_message_unittest
-		sms_cache_unittest
-		utilities_unittest
+		sms_message_test
+		sms_cache_test
+		utilities_test
 	)
 
 	local test_bin
