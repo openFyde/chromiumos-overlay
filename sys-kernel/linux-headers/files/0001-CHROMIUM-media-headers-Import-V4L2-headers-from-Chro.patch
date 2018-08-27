@@ -5,6 +5,7 @@ Subject: [PATCH] CHROMIUM: v4l: Add H264 low-level decoder API compound
  controls.
 
 ---
+
  include/uapi/linux/v4l2-controls.h | 153 +++++++++++++++++++++++++++++++++++++
  include/uapi/linux/videodev2.h     |  22 +++++-
  2 files changed, 173 insertions(+), 2 deletions(-)
@@ -209,7 +210,7 @@ index a0e87d1..5606acb 100644
  	__u32			reserved;
  };
  
-@@ -1471,12 +1473,20 @@ struct v4l2_ext_control {
+@@ -1471,17 +1473,23 @@ struct v4l2_ext_control {
  		__u8 __user *p_u8;
  		__u16 __user *p_u16;
  		__u32 __user *p_u32;
@@ -223,11 +224,13 @@ index a0e87d1..5606acb 100644
  } __attribute__ ((packed));
  
  struct v4l2_ext_controls {
--	__u32 ctrl_class;
-+	union {
-+		__u32 ctrl_class;
+ 	union {
+ #ifndef __KERNEL__
+ 		__u32 ctrl_class;
 +		__u32 config_store;
-+	};
+ #endif
+ 		__u32 which;
+ 	};
  	__u32 count;
  	__u32 error_idx;
  	__u32 reserved[2];
@@ -249,10 +252,10 @@ index a0e87d1..5606acb 100644
  #define V4L2_CTRL_FLAG_VOLATILE		0x0080
  #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
  #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
+ #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
 +#define V4L2_CTRL_FLAG_CAN_STORE	0x8000
  
  /*  Query flags, to be ORed with the control ID */
- #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
 -- 
 2.6.6
 

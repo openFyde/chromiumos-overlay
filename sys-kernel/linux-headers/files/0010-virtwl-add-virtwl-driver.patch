@@ -12,41 +12,33 @@ Commit-Ready: Zach Reizner <zachr@chromium.org>
 Tested-by: Zach Reizner <zachr@chromium.org>
 Reviewed-by: Zach Reizner <zachr@chromium.org>
 ---
- include/uapi/linux/Kbuild       |  2 +
+
+Brian: removed include/uapi/linux/Kbuild changes (not needed)
+       tweaked to apply to 4.14
+
  include/uapi/linux/virtio_ids.h |  1 +
  include/uapi/linux/virtio_wl.h  | 86 +++++++++++++++++++++++++++++++++++++++++
  include/uapi/linux/virtwl.h     | 39 +++++++++++++++++++
- 4 files changed, 128 insertions(+)
+ 3 files changed, 126 insertions(+)
  create mode 100644 include/uapi/linux/virtio_wl.h
  create mode 100644 include/uapi/linux/virtwl.h
 
-diff --git a/include/uapi/linux/Kbuild b/include/uapi/linux/Kbuild
-index c2e5d6cb34e3..c038d0525943 100644
---- a/include/uapi/linux/Kbuild
-+++ b/include/uapi/linux/Kbuild
-@@ -447,6 +447,8 @@ header-y += virtio_ring.h
- header-y += virtio_rng.h
- header-y += virtio_scsi.h
- header-y += virtio_types.h
-+header-y += virtio_wl.h
-+header-y += virtwl.h
- header-y += vm_sockets.h
- header-y += vt.h
- header-y += wait.h
 diff --git a/include/uapi/linux/virtio_ids.h b/include/uapi/linux/virtio_ids.h
 --- a/include/uapi/linux/virtio_ids.h
 +++ b/include/uapi/linux/virtio_ids.h
-@@ -41,5 +41,6 @@
+@@ -41,7 +41,8 @@
  #define VIRTIO_ID_CAIF	       12 /* Virtio caif */
  #define VIRTIO_ID_GPU          16 /* virtio GPU */
  #define VIRTIO_ID_INPUT        18 /* virtio input */
+ #define VIRTIO_ID_VSOCK        19 /* virtio vsock transport */
+ #define VIRTIO_ID_CRYPTO       20 /* virtio crypto */
 +#define VIRTIO_ID_WL           30 /* virtio wayland */
  
  #endif /* _LINUX_VIRTIO_IDS_H */
 diff --git a/include/uapi/linux/virtio_wl.h b/include/uapi/linux/virtio_wl.h
 new file mode 100644
 --- /dev/null
-+++ b/include/uapi/linux/virtio_wl.h
++++ include/uapi/linux/virtio_wl.h
 @@ -0,0 +1,89 @@
 +#ifndef _LINUX_VIRTIO_WL_H
 +#define _LINUX_VIRTIO_WL_H

@@ -105,28 +105,17 @@ Change-Id: Ief89a39fe38d850e211e2f7cdfb78b1c36a7195a
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
 ---
- include/uapi/linux/Kbuild       |    1 +
+Brian: dropped include/uapi/linux/Kbuild changes (no longer necessary)
+
  include/uapi/linux/intel-ipu3.h | 1305 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 1306 insertions(+)
+ 1 files changed, 1305 insertions(+)
  create mode 100644 include/uapi/linux/intel-ipu3.h
 
-diff --git a/include/uapi/linux/Kbuild b/include/uapi/linux/Kbuild
-index 4d3e0a7..29b4af3 100644
---- a/include/uapi/linux/Kbuild
-+++ b/include/uapi/linux/Kbuild
-@@ -196,6 +196,7 @@ header-y += in.h
- header-y += inotify.h
- header-y += input.h
- header-y += input-event-codes.h
-+header-y += intel-ipu3.h
- header-y += in_route.h
- header-y += ioctl.h
- header-y += ip6_tunnel.h
 diff --git a/include/uapi/linux/intel-ipu3.h b/include/uapi/linux/intel-ipu3.h
 new file mode 100644
 index 0000000..47a5d3a
 --- /dev/null
-+++ b/include/uapi/linux/intel-ipu3.h
++++ include/uapi/linux/intel-ipu3.h
 @@ -0,0 +1,1305 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/* Copyright (C) 2018 Intel Corporation */

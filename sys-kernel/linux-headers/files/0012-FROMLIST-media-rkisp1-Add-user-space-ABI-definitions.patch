@@ -14,28 +14,15 @@ TEST=Camera works on Scarlet with the whole series
 
 Change-Id: I2ae3db2f719c4a5de2dc631a5692b333effe5ea3
 ---
- include/uapi/linux/Kbuild          |   1 +
  include/uapi/linux/rkisp1-config.h | 757 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 758 insertions(+)
+ 1 files changed, 757 insertions(+)
  create mode 100644 include/uapi/linux/rkisp1-config.h
 
-diff --git a/include/uapi/linux/Kbuild b/include/uapi/linux/Kbuild
-index 6d1095b4edd3..b96ddf3f1834 100644
---- a/include/uapi/linux/Kbuild
-+++ b/include/uapi/linux/Kbuild
-@@ -353,6 +353,7 @@ header-y += reiserfs_fs.h
- header-y += reiserfs_xattr.h
- header-y += resource.h
- header-y += rfkill.h
-+header-y += rkisp1-config.h
- header-y += romfs_fs.h
- header-y += rose.h
- header-y += route.h
 diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
 new file mode 100644
 index 000000000000..0f9f42265a7a
 --- /dev/null
-+++ b/include/uapi/linux/rkisp1-config.h
++++ include/uapi/linux/rkisp1-config.h
 @@ -0,0 +1,757 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*

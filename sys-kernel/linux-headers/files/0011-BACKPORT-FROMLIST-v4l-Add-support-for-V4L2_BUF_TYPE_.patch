@@ -47,7 +47,7 @@ index b45a23899e65..ce988cfe3157 100644
  #define V4L2_CAP_STREAMING              0x04000000  /* streaming I/O ioctls */
 +#define V4L2_CAP_META_OUTPUT		0x08000000  /* Is a metadata output device */
  
- #define V4L2_CAP_DEVICE_CAPS            0x80000000  /* sets device capabilities field */
+ #define V4L2_CAP_TOUCH                  0x10000000  /* Is a touch device */
  
 -- 
 2.7.4

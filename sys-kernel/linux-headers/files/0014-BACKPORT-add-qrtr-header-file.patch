@@ -10,45 +10,27 @@ File copied from kernel tree at commit dbcd478f5237.
 
 Change-Id: I797c8367ceb609fdb772c3f9b7912e0a72f5bc10
 ---
- include/uapi/linux/Kbuild |  1 +
- include/uapi/linux/qrtr.h | 49 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100644 include/uapi/linux/qrtr.h
 
-diff --git a/include/uapi/linux/Kbuild b/include/uapi/linux/Kbuild
-index b96ddf3f1834b..2d915d7779322 100644
---- a/include/uapi/linux/Kbuild
-+++ b/include/uapi/linux/Kbuild
-@@ -343,6 +343,7 @@ header-y += ptp_clock.h
- header-y += ptrace.h
- header-y += qnx4_fs.h
- header-y += qnxtypes.h
-+header-y += qrtr.h
- header-y += quota.h
- header-y += radeonfb.h
- header-y += random.h
+Brian: refreshed from commit dbcd478f5237, with delta against v4.14,
+where qrtr.h exists
+
 diff --git a/include/uapi/linux/qrtr.h b/include/uapi/linux/qrtr.h
-new file mode 100644
-index 0000000000000..f7e2fb3d752b5
---- /dev/null
+index 5d9aab1f1893..f7e2fb3d752b 100644
+--- a/include/uapi/linux/qrtr.h
 +++ b/include/uapi/linux/qrtr.h
-@@ -0,0 +1,49 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _LINUX_QRTR_H
-+#define _LINUX_QRTR_H
-+
-+#include <linux/socket.h>
-+#include <linux/types.h>
-+
+@@ -5,10 +5,45 @@
+ #include <linux/socket.h>
+ #include <linux/types.h>
+ 
 +#define QRTR_NODE_BCAST	0xffffffffu
 +#define QRTR_PORT_CTRL	0xfffffffeu
 +
-+struct sockaddr_qrtr {
-+	__kernel_sa_family_t sq_family;
-+	__u32 sq_node;
-+	__u32 sq_port;
-+};
-+
+ struct sockaddr_qrtr {
+ 	__kernel_sa_family_t sq_family;
+ 	__u32 sq_node;
+ 	__u32 sq_port;
+ };
+ 
 +enum qrtr_pkt_type {
 +	QRTR_TYPE_DATA		= 1,
 +	QRTR_TYPE_HELLO		= 2,
@@ -81,7 +63,4 @@ index 0000000000000..f7e2fb3d752b5
 +	};
 +} __packed;
 +
-+#endif /* _LINUX_QRTR_H */
--- 
-2.13.5
-
+ #endif /* _LINUX_QRTR_H */
