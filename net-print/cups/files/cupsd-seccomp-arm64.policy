@@ -51,6 +51,7 @@ kill: 1
 listen: 1
 lseek: 1
 madvise: 1
+mkdir: 1
 mkdirat: 1
 # Don't allow mmap or mprotect with both PROT_WRITE and PROT_EXEC
 mmap: arg2 in 0xfffffffb || arg2 in 0xfffffffd
@@ -78,7 +79,9 @@ sendmmsg: 1
 sendmsg: 1
 sendto: 1
 setpgid: 1
+setgroups: 1
 setpriority: 1
+setresuid: 1
 setrlimit: 1
 set_robust_list: 1
 setsockopt: 1
