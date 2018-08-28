@@ -73,6 +73,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-Introduce-alias-for-libchrome-uprev-preparation.patch
 	epatch "${FILESDIR}"/${P}-Manually-cherrypick-ScopedClosureRunner-ReplaceClosu.patch
 	epatch "${FILESDIR}"/${P}-Manually-cherry-pick-SplitStringUsingSubstr.patch
+	epatch "${FILESDIR}"/${P}-Add-check-exploded-time-is-properly-converted.patch
 
 	# This optional.h is taken from r569568.
 	# TODO(hidehiko): Remove this patch on update.
