@@ -242,6 +242,10 @@ board_install() {
 		newins libsharedobjs/libsharedobjs.elf "libsharedobjs${file_suffix}.elf"
 	fi
 
+	if [[ -f chip/npcx/spiflashfw/npcx_monitor.bin ]]; then
+		doins chip/npcx/spiflashfw/npcx_monitor.bin
+	fi
+
 	# EC test binaries
 	stat -t test-*.bin >/dev/null || ewarn "No test binaries found"
 	for f in test-*.bin; do
