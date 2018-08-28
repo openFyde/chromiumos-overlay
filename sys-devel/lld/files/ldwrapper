@@ -5,4 +5,4 @@
 
 # This files wraps lld.
 
-exec "$0".real --no-rosegment "$@"
+exec "$(readlink -f "$0").real" --no-rosegment "$@"
