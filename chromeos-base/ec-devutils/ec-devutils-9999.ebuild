@@ -54,6 +54,7 @@ src_install() {
 	set_board
 	dobin "build/${BOARD}/util/stm32mon"
 	dobin "build/${BOARD}/util/ec_parse_panicinfo"
+	dobin "build/${BOARD}/util/uartupdatetool"
 
 	dobin "util/flash_ec"
 	insinto /usr/bin/lib
