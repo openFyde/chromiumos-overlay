@@ -1,0 +1,75 @@
+From f6de613f17b3e6f47f423c53805f5c25e1305ca0 Mon Sep 17 00:00:00 2001
+From: Fritz Koenig <frkoenig@google.com>
+Date: Tue, 28 Aug 2018 09:29:28 -0700
+Subject: [PATCH] i965: Provide a mechanism to flip fs coordinate system
+
+gl_FragCoord assumes a lower-left origin window.  When the
+framebuffer is flipped, the origin must also be flipped
+so the access is correct.
+
+Fixes: ab05dd183cc ("i965: implement GL_MESA_framebuffer_flip_y [v3]")
+---
+ src/compiler/nir/nir.h                       | 1 +
+ src/compiler/nir/nir_lower_wpos_ytransform.c | 6 +++++-
+ src/mesa/drivers/dri/i965/brw_program.c      | 5 ++++-
+ 3 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/src/compiler/nir/nir.h b/src/compiler/nir/nir.h
+index d0fa693884..3e634d5fff 100644
+--- a/src/compiler/nir/nir.h
++++ b/src/compiler/nir/nir.h
+@@ -2867,6 +2867,7 @@ typedef struct nir_lower_wpos_ytransform_options {
+    bool fs_coord_origin_lower_left :1;
+    bool fs_coord_pixel_center_integer :1;
+    bool fs_coord_pixel_center_half_integer :1;
++   bool fs_coord_change_origin :1;
+ } nir_lower_wpos_ytransform_options;
+ 
+ bool nir_lower_wpos_ytransform(nir_shader *shader,
+diff --git a/src/compiler/nir/nir_lower_wpos_ytransform.c b/src/compiler/nir/nir_lower_wpos_ytransform.c
+index 444e211b68..10a70c98b8 100644
+--- a/src/compiler/nir/nir_lower_wpos_ytransform.c
++++ b/src/compiler/nir/nir_lower_wpos_ytransform.c
+@@ -150,6 +150,7 @@ lower_fragcoord(lower_wpos_ytransform_state *state,
+    float adjX = 0.0f;
+    float adjY[2] = { 0.0f, 0.0f };
+    bool invert = false;
++   bool origin_upper_left = fragcoord->data.origin_upper_left;
+ 
+    /* Based on logic in emit_wpos():
+     *
+@@ -181,7 +182,10 @@ lower_fragcoord(lower_wpos_ytransform_state *state,
+     * u,h -> l,i: (99.5 + 0.5) * -1 + 100 = 0
+     */
+ 
+-   if (fragcoord->data.origin_upper_left) {
++   if (options->fs_coord_change_origin)
++      origin_upper_left = !origin_upper_left;
++
++   if (origin_upper_left) {
+       /* Fragment shader wants origin in upper-left */
+       if (options->fs_coord_origin_upper_left) {
+          /* the driver supports upper-left origin */
+diff --git a/src/mesa/drivers/dri/i965/brw_program.c b/src/mesa/drivers/dri/i965/brw_program.c
+index a669814d0d..a8a959a1fc 100644
+--- a/src/mesa/drivers/dri/i965/brw_program.c
++++ b/src/mesa/drivers/dri/i965/brw_program.c
+@@ -122,11 +122,14 @@ brw_create_nir(struct brw_context *brw,
+       nir_lower_patch_vertices(nir, static_patch_vertices, tokens);
+    }
+ 
++   bool change_origin = (ctx->DrawBuffer->Name != 0) && ctx->DrawBuffer->FlipY;
++
+    if (stage == MESA_SHADER_FRAGMENT) {
+-      static const struct nir_lower_wpos_ytransform_options wpos_options = {
++      const struct nir_lower_wpos_ytransform_options wpos_options = {
+          .state_tokens = {STATE_INTERNAL, STATE_FB_WPOS_Y_TRANSFORM, 0, 0, 0},
+          .fs_coord_pixel_center_integer = 1,
+          .fs_coord_origin_upper_left = 1,
++         .fs_coord_change_origin = change_origin,
+       };
+ 
+       bool progress = false;
+-- 
+2.19.0.rc0.228.g281dcd1b4d0-goog
+
