@@ -40,7 +40,10 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/vboot_reference
-	tpm2? ( chromeos-base/trunks[test?] )
+	tpm2? (
+		chromeos-base/trunks[test?]
+		chromeos-base/chromeos-ec-headers
+	)
 	"
 
 pkg_preinst() {
