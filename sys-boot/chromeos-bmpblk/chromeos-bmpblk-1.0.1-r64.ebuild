@@ -26,10 +26,7 @@ CROS_BOARDS=(
 	daisy
 	daisy_snow
 	daisy_spring
-	daisy_spring-freon
 	daisy_skate
-	daisy_skate-freon
-	daisy_freon
 	enguarde
 	expresso
 	eve
@@ -61,9 +58,7 @@ CROS_BOARDS=(
 	panther
 	parrot
 	peach_pi
-	peach_pi-freon
 	peach_pit
-	peach_pit-freon
 	peppy
 	poppy
 	quawks
