@@ -72,11 +72,17 @@ cr50_reset() {
   local ac
   local status
   while [ ${n} -lt ${MAX_RETRIES} ]; do
-    # Read authorization code.
-    read -e -p "Enter authorization code: " ac
+    # Read authorization code. Show input in uppercase letters.
+    printf "Enter authorization code: "
+    stty olcuc
+    read -e ac
+    stty -olcuc
+
+    # The input string is still lowercase. Convert to uppercase.
+    ac_uppercase="$(echo "${ac}" | tr 'a-z' 'A-Z')"
 
     # Test authorization code.
-    if gsctool -t -r "${ac}"; then
+    if gsctool -t -r "${ac_uppercase}"; then
       return 0
     fi
 
