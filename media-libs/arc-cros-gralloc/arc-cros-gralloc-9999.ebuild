@@ -14,7 +14,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-VIDEO_CARDS="amdgpu exynos intel marvell mediatek rockchip tegra virgl"
+VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
 IUSE="$(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 
 RDEPEND="
@@ -47,6 +47,11 @@ src_configure() {
 	if use video_cards_mediatek; then
 		export DRV_MEDIATEK=1
 		append-cppflags -DDRV_MEDIATEK
+	fi
+
+	if use video_cards_msm; then
+		export DRV_MSM=1
+		append-cppflags -DDRV_MSM
 	fi
 
 	if use video_cards_amdgpu; then
