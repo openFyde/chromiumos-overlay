@@ -17,3 +17,13 @@ evdev:input:b0005v3175p9000e*-*m4*
 evdev:input:b0005v3175p9100e*-*m4*
 evdev:input:b0003v3175p9100e*-*m4*
  KEYBOARD_KEY_ffd10018=assistant
+
+# Because HID spec does not yet have official usage for system
+# microphone mute function, devices connected to Logitech's BOLT
+# receiver (USB) and their bluetooth keyboards are using "Start or
+# Stop Microphone Capture" usage code to indicate that microphone
+# should be muted or unmuted.
+evdev:input:b0003v046DpC548e*-*m4*
+evdev:input:b0005v046DpB36Fe*-*m4*
+evdev:input:b0005v046DpB370e*-*m4*
+ KEYBOARD_KEY_000c00d5=micmute
