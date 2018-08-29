@@ -47,6 +47,9 @@ src_prepare() {
 		-e 's/keyboard:usb:v046DpC52D\*/keyboard:usb:v046DpC52Dd*dc*dsc*dp*ic*isc*ip*in00*/' \
 		-e 's/keyboard:usb:v0458p0708\*/keyboard:usb:v0458p0708d*dc*dsc*dp*ic*isc*ip*in01*/' \
 		udev/60-keyboard.hwdb > udev/61-oldkeyboard.hwdb || die
+
+	# Drop in our common keyboard rules
+	cp "${FILESDIR}/61-keyboard-chromeos.hwdb" udev/
 }
 
 _emake() {
