@@ -35,8 +35,8 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
-		container_config_parser_unittest
-		run_oci_unittest
+		container_config_parser_test
+		run_oci_test
 	)
 
 	local test_bin
