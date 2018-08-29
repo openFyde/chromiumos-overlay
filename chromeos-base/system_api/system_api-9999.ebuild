@@ -74,6 +74,7 @@ src_install() {
 		cros-disks
 		cryptohome
 		debugd
+		diagnosticsd
 		login_manager
 		lorgnette
 		permission_broker
