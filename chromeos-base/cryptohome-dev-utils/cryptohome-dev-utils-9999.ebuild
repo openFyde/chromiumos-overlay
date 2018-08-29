@@ -36,14 +36,20 @@ RDEPEND="
 	)
 	chromeos-base/chaps
 	chromeos-base/libbrillo:=
+	chromeos-base/libscrypt
 	chromeos-base/metrics
 	chromeos-base/secure-erase-file
+	dev-libs/glib
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
+	sys-apps/keyutils
+	sys-fs/e2fsprogs
 	sys-fs/ecryptfs-utils
 "
 
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	chromeos-base/vboot_reference
+"
 
 src_install() {
 	dosbin "${OUT}"/cryptohome-tpm-live-test
