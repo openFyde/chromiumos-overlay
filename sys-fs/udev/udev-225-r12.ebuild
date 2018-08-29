@@ -328,6 +328,9 @@ multilib_src_install_all() {
 	insinto /lib/udev/rules.d
 	doins "${T}"/40-gentoo.rules
 
+	# Install ChromeOS-specific rules
+	doins "${FILESDIR}"/91-chromeos-keyboard.rules
+
 	# maintainer note: by not letting the upstream build-sys create the .so
 	# link, you also avoid a parallel make problem
 	mv "${D}"/usr/share/man/man8/systemd-udevd{.service,}.8
