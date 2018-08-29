@@ -132,6 +132,7 @@ S="${WORKDIR}/${MY_P}"
 PATCHES=(
 	"${FILESDIR}/${PN}-4.4.0-pam.patch"
 	"${FILESDIR}/${PN}-4.5.1-compile_et_fix.patch"
+	"${FILESDIR}/${PN}-4.8.0-CVE-2018-10858.patch"
 	"${FILESDIR}/${PN}-4.8.0-improve_gss_init_sec_context_error_handing.patch"
 	"${FILESDIR}/${PN}-4.8.0-machinepass_stdin.patch"
 	"${FILESDIR}/${PN}-4.8.0-machinepass_expire.patch"
