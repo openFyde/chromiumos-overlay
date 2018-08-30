@@ -47,6 +47,7 @@ IUSE="cros_host test"
 # outside test as well.
 DEPEND="
 	test? ( dev-cpp/gmock )
+	cros_host? ( dev-util/gn )
 	dev-cpp/gtest
 "
 
