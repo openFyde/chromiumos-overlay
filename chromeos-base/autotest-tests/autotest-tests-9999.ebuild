@@ -54,7 +54,7 @@ RDEPEND="${RDEPEND}
 		tests_camera_HAL3? ( chromeos-base/autotest-deps-camera-hal3 )
 		tests_camera_HAL3Perf? ( chromeos-base/autotest-deps-camera-hal3 )
 	)
-	tests_camera_V4L2? ( media-libs/libyuv )
+	tests_camera_V4L2? ( media-libs/libyuv dev-libs/re2 )
 	tests_xfsFilesystemTestSuite? ( app-benchmarks/xfstests )
 "
 
