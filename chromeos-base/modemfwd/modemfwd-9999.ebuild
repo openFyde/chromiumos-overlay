@@ -40,5 +40,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/modemfw_unittest"
+	platform_test "run" "${OUT}/modemfw_test"
 }
