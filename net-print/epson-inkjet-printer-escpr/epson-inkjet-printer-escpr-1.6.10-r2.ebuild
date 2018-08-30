@@ -1,1 +1,0 @@
-epson-inkjet-printer-escpr-1.6.10.ebuild

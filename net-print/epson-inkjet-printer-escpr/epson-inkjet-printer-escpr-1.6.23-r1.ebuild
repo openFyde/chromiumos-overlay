@@ -1,0 +1,1 @@
+epson-inkjet-printer-escpr-1.6.23.ebuild
