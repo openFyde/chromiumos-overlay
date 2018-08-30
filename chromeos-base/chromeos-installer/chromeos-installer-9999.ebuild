@@ -47,7 +47,7 @@ RDEPEND="
 	sys-fs/e2fsprogs"
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/cros_installer_unittest"
+	platform_test "run" "${OUT}/cros_installer_test"
 }
 
 src_install() {
