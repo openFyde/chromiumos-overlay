@@ -504,9 +504,7 @@ unpack_chrome() {
 
 	local cmd=( "${CHROMITE_BIN_DIR}"/sync_chrome )
 	use chrome_internal && cmd+=( --internal )
-	if [[ -n "${CROS_SVN_COMMIT}" ]]; then
-		cmd+=( --revision="${CROS_SVN_COMMIT}" )
-	elif [[ "${CHROME_VERSION}" != "9999" ]]; then
+	if [[ "${CHROME_VERSION}" != "9999" ]]; then
 		cmd+=( --tag="${CHROME_VERSION}" )
 	fi
 	# --reset tells sync_chrome to blow away local changes and to feel
@@ -583,12 +581,8 @@ src_unpack() {
 	sandboxless_ensure_directory "${CHROME_DISTDIR}" "${CHROME_CACHE_DIR}"
 
 	# Copy in credentials to fake home directory so that build process
-	# can access svn and ssh if needed.
+	# can access vcs and ssh if needed.
 	mkdir -p ${HOME}
-	SUBVERSION_CONFIG_DIR=/home/${WHOAMI}/.subversion
-	if [[ -d ${SUBVERSION_CONFIG_DIR} ]]; then
-		cp -rfp ${SUBVERSION_CONFIG_DIR} ${HOME} || die
-	fi
 	SSH_CONFIG_DIR=/home/${WHOAMI}/.ssh
 	if [[ -d ${SSH_CONFIG_DIR} ]]; then
 		cp -rfp ${SSH_CONFIG_DIR} ${HOME} || die
@@ -1091,8 +1085,6 @@ src_compile() {
 		# src_prepare, but we need to call install_chrome_test_resources first.
 		autotest-deponly_src_prepare
 
-		# Remove .svn dirs
-		esvn_clean "${AUTOTEST_WORKDIR}"
 		# Remove .git dirs
 		find "${AUTOTEST_WORKDIR}" -type d -name .git -prune -exec rm -rf {} +
 
@@ -1117,7 +1109,7 @@ install_test_resources() {
 	# Note: we need to specify -r when using --files-from and -a to get a
 	# recursive copy.
 	# TODO(ihf): Make failures here fatal.
-	rsync -r -a --delete --exclude=.svn --exclude=.git --exclude="*.pyc" \
+	rsync -r -a --delete --exclude=.git --exclude="*.pyc" \
 		--files-from="${tmp_list_file}" "${CHROME_ROOT}/src/" \
 		"${CHROME_CACHE_DIR}/src/"
 

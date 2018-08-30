@@ -92,14 +92,10 @@ chromium_source_compute_source_dir() {
 }
 
 # Copy in credentials to fake home directory so that build process can
-# access svn and ssh if needed.
+# access vcs and ssh if needed.
 chromium_source_copy_credentials() {
 	mkdir -p "${HOME}"
 	local whoami=$(whoami)
-	local subversion_config_dir="/home/${whoami}/.subversion"
-	if [[ -d "${subversion_config_dir}" ]]; then
-		cp -rfp "${subversion_config_dir}" "${HOME}" || die
-	fi
 	local ssh_config_dir="/home/${whoami}/.ssh"
 	if [[ -d "${ssh_config_dir}" ]]; then
 		cp -rfp "${ssh_config_dir}" "${HOME}" || die
@@ -135,9 +131,7 @@ chromium_source_check_out_source() {
 
 	local cmd=( "${CHROMITE_BIN_DIR}"/sync_chrome )
 	use chrome_internal && cmd+=( --internal )
-	if [[ -n "${CROS_SVN_COMMIT}" ]]; then
-		cmd+=( --revision="${CROS_SVN_COMMIT}" )
-	elif [[ "${CHROMIUM_VERSION}" != "9999" ]]; then
+	if [[ "${CHROMIUM_VERSION}" != "9999" ]]; then
 		cmd+=( --tag="${CHROMIUM_VERSION}" )
 	fi
 	if [[ -n "${CHROMIUM_GCLIENT_TEMPLATE}" ]]; then
