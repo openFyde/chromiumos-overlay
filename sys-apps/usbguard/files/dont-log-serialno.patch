@@ -1,0 +1,140 @@
+Patch by Allen Webb <allenwebb@chromium.org>
+
+This patch needs to be tied to a configuration option before it can be upstreamed.
+It excludes USB device serial numbers and descriptor hashes from being included in
+the logs to avoid logging personally identifiable information.
+
+diff --git a/src/Library/RulePrivate.cpp b/src/Library/RulePrivate.cpp
+index 73140fa..a87c0f2 100644
+--- a/src/Library/RulePrivate.cpp
++++ b/src/Library/RulePrivate.cpp
+@@ -420,7 +420,7 @@ namespace usbguard
+     return;
+   }
+ 
+-  std::string RulePrivate::toString(bool invalid) const
++  std::string RulePrivate::toString(bool invalid, bool hide_serial) const
+   {
+     std::string rule_string;
+ 
+@@ -437,10 +437,13 @@ namespace usbguard
+     }
+ 
+     toString_appendNonEmptyAttribute(rule_string, _device_id);
+-    toString_appendNonEmptyAttribute(rule_string, _serial);
++    if (!hide_serial)
++      toString_appendNonEmptyAttribute(rule_string, _serial);
+     toString_appendNonEmptyAttribute(rule_string, _name);
+-    toString_appendNonEmptyAttribute(rule_string, _hash);
+-    toString_appendNonEmptyAttribute(rule_string, _parent_hash);
++    if (!hide_serial) {
++      toString_appendNonEmptyAttribute(rule_string, _hash);
++      toString_appendNonEmptyAttribute(rule_string, _parent_hash);
++    }
+     toString_appendNonEmptyAttribute(rule_string, _via_port);
+     toString_appendNonEmptyAttribute(rule_string, _with_interface);
+     toString_appendNonEmptyAttribute(rule_string, _conditions);
+diff --git a/src/Library/RulePrivate.hpp b/src/Library/RulePrivate.hpp
+index e498ebc..19baf20 100644
+--- a/src/Library/RulePrivate.hpp
++++ b/src/Library/RulePrivate.hpp
+@@ -121,7 +121,7 @@ namespace usbguard
+     const Rule::Attribute<RuleCondition>& attributeConditions() const;
+     Rule::Attribute<RuleCondition>& attributeConditions();
+ 
+-    std::string toString(bool invalid = false) const;
++    std::string toString(bool invalid = false, bool hide_serial = false) const;
+ 
+     MetaData& metadata();
+     const MetaData& metadata() const;
+diff --git a/src/Library/public/usbguard/Audit.cpp b/src/Library/public/usbguard/Audit.cpp
+index b9377e5..167ad37 100644
+--- a/src/Library/public/usbguard/Audit.cpp
++++ b/src/Library/public/usbguard/Audit.cpp
+@@ -200,7 +200,7 @@ namespace usbguard
+     AuditEvent event(identity, _backend);
+     event.setKey("type", std::string("Policy.") + Policy::eventTypeToString(event_type));
+     event.setKey("rule.id", numberToString(rule->getRuleID()));
+-    event.setKey("rule", rule->toString());
++    event.setKey("rule", rule->toString(false, true));
+     return event;
+   }
+ 
+@@ -209,8 +209,8 @@ namespace usbguard
+     AuditEvent event(identity, _backend);
+     event.setKey("type", std::string("Policy.") + Policy::eventTypeToString(Policy::EventType::Update));
+     event.setKey("rule.id", numberToString(old_rule->getRuleID()));
+-    event.setKey("rule.old", old_rule->toString());
+-    event.setKey("rule.new", new_rule->toString());
++    event.setKey("rule.old", old_rule->toString(false, true));
++    event.setKey("rule.new", new_rule->toString(false, true));
+     return event;
+   }
+ 
+@@ -220,7 +220,7 @@ namespace usbguard
+     event.setKey("type", std::string("Policy.Device.") + Policy::eventTypeToString(event_type));
+     event.setKey("target", Rule::targetToString(device->getTarget()));
+     event.setKey("device.system_name", device->getSystemName());
+-    event.setKey("device.rule", device->getDeviceRule()->toString());
++    event.setKey("device.rule", device->getDeviceRule()->toString(false, true));
+     return event;
+   }
+ 
+@@ -232,7 +232,7 @@ namespace usbguard
+     event.setKey("target.old", Rule::targetToString(old_target));
+     event.setKey("target.new", Rule::targetToString(new_target));
+     event.setKey("device.system_name", device->getSystemName());
+-    event.setKey("device.rule", device->getDeviceRule()->toString());
++    event.setKey("device.rule", device->getDeviceRule()->toString(false, true));
+     return event;
+   }
+ 
+@@ -242,7 +242,7 @@ namespace usbguard
+     AuditEvent event(identity, _backend);
+     event.setKey("type", std::string("Device.") + DeviceManager::eventTypeToString(event_type));
+     event.setKey("device.system_name", device->getSystemName());
+-    event.setKey("device.rule", device->getDeviceRule()->toString());
++    event.setKey("device.rule", device->getDeviceRule()->toString(false, true));
+     return event;
+   }
+ 
+@@ -252,8 +252,8 @@ namespace usbguard
+     AuditEvent event(identity, _backend);
+     event.setKey("type", std::string("Device.") + DeviceManager::eventTypeToString(DeviceManager::EventType::Update));
+     event.setKey("device.system_name", new_device->getSystemName());
+-    event.setKey("device.rule.old", old_device->getDeviceRule()->toString());
+-    event.setKey("device.rule.new", new_device->getDeviceRule()->toString());
++    event.setKey("device.rule.old", old_device->getDeviceRule()->toString(false, true));
++    event.setKey("device.rule.new", new_device->getDeviceRule()->toString(false, true));
+     return event;
+   }
+ } /* namespace usbguard */
+diff --git a/src/Library/public/usbguard/Rule.cpp b/src/Library/public/usbguard/Rule.cpp
+index 326eb85..89e696e 100644
+--- a/src/Library/public/usbguard/Rule.cpp
++++ b/src/Library/public/usbguard/Rule.cpp
+@@ -243,9 +243,9 @@ namespace usbguard
+         getTarget() == Target::Empty);
+   }
+ 
+-  std::string Rule::toString(bool invalid) const
++  std::string Rule::toString(bool invalid, bool hide_serial) const
+   {
+-    return d_pointer->toString(invalid);
++    return d_pointer->toString(invalid, hide_serial);
+   }
+ 
+   void Rule::updateMetaDataCounters(bool applied, bool evaluated)
+diff --git a/src/Library/public/usbguard/Rule.hpp b/src/Library/public/usbguard/Rule.hpp
+index 3d4dd4a..cac1bc0 100644
+--- a/src/Library/public/usbguard/Rule.hpp
++++ b/src/Library/public/usbguard/Rule.hpp
+@@ -481,7 +481,7 @@ namespace usbguard
+ 
+ 
+     operator bool() const;
+-    std::string toString(bool invalid = false) const;
++    std::string toString(bool invalid = false, bool hide_serial = false) const;
+ 
+     void updateMetaDataCounters(bool applied = true, bool evaluated = false);
+ 
