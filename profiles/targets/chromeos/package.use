@@ -87,6 +87,8 @@ net-proxy/tsocks	tordns
 net-wireless/bluez	-cups
 net-wireless/wpa_supplicant	dbus debug -readline smartcard ssl
 sci-geosciences/gpsd	-python -ntp -X dbus garmin minimal ocean tntc usb -sockets
+# Build only TF lite to save disk space.
+sci-libs/tensorflow	-python minimal
 # Prevent gnuplot from indirectly requiring harfbuzz to be bilt with glib.
 sci-visualization/gnuplot	-cairo
 sys-apps/busybox	-pam -selinux
