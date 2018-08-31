@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile configure install postinst postrm preinst prepare setup test unpack
-DEPEND=static-analyzer? ( dev-lang/perl ) dev-vcs/subversion[webdav-neon,webdav-serf] net-misc/rsync dev-vcs/git
+DEPEND=static-analyzer? ( dev-lang/perl ) dev-vcs/subversion net-misc/rsync dev-vcs/git
 DESCRIPTION=C language family frontend for LLVM
 EAPI=4
 HOMEPAGE=http://clang.llvm.org/
@@ -8,5 +8,5 @@ KEYWORDS=~amd64
 LICENSE=UoI-NCSA
 RDEPEND=~sys-devel/llvm-9999[multitarget=]
 SLOT=0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	python	efc1c55fc44c5b7272fc2ffba73c3e6f	subversion	9c7c21460890d4af8d8ec4446112d0d6	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	python	efc1c55fc44c5b7272fc2ffba73c3e6f	subversion	358513fdd056fcbb3d06deb666e85ef0	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=5933dfdeb0180d192966f353b8d23761
