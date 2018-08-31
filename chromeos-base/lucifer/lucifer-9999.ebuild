@@ -8,7 +8,6 @@ CROS_WORKON_LOCALNAME="../../infra/lucifer"
 
 CROS_GO_BINARIES=(
 	"lucifer/cmd/lucifer"
-	"lucifer/cmd/skylab_swarming_worker"
 )
 
 inherit cros-workon cros-go
