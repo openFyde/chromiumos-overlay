@@ -1,0 +1,9 @@
+DEFINED_PHASES=install
+DESCRIPTION=AVer VC520 firmware
+EAPI=5
+KEYWORDS=*
+LICENSE=BSD
+RDEPEND=sys-apps/aver-updater
+SLOT=0
+SRC_URI=https://ecrm.aver.com/SupportDownload/aver-firmware-0.0.0018.07.tar.gz
+_md5_=59926364cfe0a89e47617f3fe8faf5ef
