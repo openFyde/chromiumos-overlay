@@ -60,6 +60,8 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="+seccomp"
 
+DEPEND="chromeos-base/system_api"
+
 # If crates are missing, Uncomment the RESTRICT setting below, then run
 #     ebuild-<board> $(equery-<board> w memd) manifest
 # to download the needed crates into
