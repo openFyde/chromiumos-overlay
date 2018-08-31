@@ -239,6 +239,10 @@ multilib_src_install() {
 	# this shared library.
 	into "${ARC_PREFIX}/vendor"
 	dolib $(get_libdir)/libLLVM-6.0.so
+
+	# Then replace the copy in the build directory with a symlink to the
+	# vendor image copy.
+	dosym ../../vendor/$(get_libdir)/libLLVM-6.0.so "${ARC_PREFIX}/build/$(get_libdir)/libLLVM-6.0.so"
 }
 
 multilib_src_install_all() {
