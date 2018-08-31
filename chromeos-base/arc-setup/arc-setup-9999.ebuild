@@ -98,8 +98,7 @@ src_install() {
 	doins etc/arc-kmsg-logger.conf
 	doins etc/arc-lifetime.conf
 	doins etc/arc-sensor.conf
-	doins etc/arc-start-sysctl.conf
-	doins etc/arc-stop-sysctl.conf
+	doins etc/arc-sysctl.conf
 	doins etc/arc-system-mount.conf
 	doins etc/arc-update-restorecon-last.conf
 	doins etc/arc-ureadahead.conf
