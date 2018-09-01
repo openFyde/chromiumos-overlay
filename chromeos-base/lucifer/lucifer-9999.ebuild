@@ -25,8 +25,6 @@ DEPEND="
 	dev-go/errors
 	dev-go/gcp-bigquery
 	dev-go/go-sys
-	dev-go/luci-logdog-streamclient
-	dev-go/luci-swarming
 	dev-go/luci-tsmon
 	dev-go/opencensus
 	dev-go/subcommands
