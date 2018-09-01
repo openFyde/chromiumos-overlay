@@ -33,7 +33,7 @@ LICENSE="UoI-NCSA rc BSD public-domain
 	llvm_targets_ARM? ( LLVM-Grant )"
 SLOT="$(get_major_version)"
 KEYWORDS="*"
-IUSE="debug doc gold libedit +libffi ncurses test xar xml
+IUSE="debug doc gold libedit +libffi ncurses test tools xar xml
 	kernel_Darwin ${ALL_LLVM_TARGETS[*]}"
 RESTRICT="!test? ( test )"
 
@@ -129,6 +129,7 @@ multilib_src_configure() {
 
 		-DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS// /;}"
 		-DLLVM_BUILD_TESTS=$(usex test)
+		-DLLVM_BUILD_TOOLS=$(usex tools)
 
 		-DLLVM_ENABLE_FFI=$(usex libffi)
 		-DLLVM_ENABLE_LIBEDIT=$(usex libedit)
@@ -182,7 +183,9 @@ multilib_src_configure() {
 	fi
 
 	if tc-is-cross-compiler; then
-		build_host_tools "${mycmakeargs[@]}"
+		# Force LLVM_BUILD_TOOLS=ON to ensure build_host_tools builds
+		# llvm-config
+		build_host_tools "${mycmakeargs[@]}" -DLLVM_BUILD_TOOLS=ON
 		# die early if the build tools are not installed
 		[[ -x "${HOST_DIR}/bin/llvm-tblgen" ]] \
 			|| die "${HOST_DIR}/bin/llvm-tblgen not found or usable"
@@ -228,9 +231,13 @@ multilib_src_test() {
 }
 
 src_install() {
-	local MULTILIB_CHOST_TOOLS=(
-		/usr/lib/llvm/bin/llvm-config
-	)
+	local MULTILIB_CHOST_TOOLS=()
+
+	if use tools; then
+		MULTILIB_CHOST_TOOLS+=(
+			/usr/lib/llvm/bin/llvm-config
+		)
+	fi
 
 	local MULTILIB_WRAPPED_HEADERS=(
 		/usr/include/llvm/Config/llvm-config.h
