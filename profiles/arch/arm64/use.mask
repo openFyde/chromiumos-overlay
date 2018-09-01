@@ -159,3 +159,6 @@ video_cards_voodoo
 # Bug #184563, 18 Sep 2007
 # Robin H. Johnson <robbat2@gentoo.org>
 audit
+
+# Disable pepper_flash on arm64.
+pepper_flash
