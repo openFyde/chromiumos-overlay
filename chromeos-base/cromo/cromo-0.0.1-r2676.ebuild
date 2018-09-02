@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="2a4bbdeda70082ebadfb32021de4fdc3f5e404f4"
-CROS_WORKON_TREE=("0a0fbef74ac40dc525a95f9339687c591f6a8534" "8f7ba5733ccd45c7a7061254deca79e7fbd42dd1" "4fca01bd4094a2635dacaf0362deb64b6ae20197" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="1a956ef00c23f22dba831c1a5f6aed7bdd2678ea"
+CROS_WORKON_TREE=("0a0fbef74ac40dc525a95f9339687c591f6a8534" "c7af8d2c971e97654126675db5fbfc2ac8722ff1" "4fca01bd4094a2635dacaf0362deb64b6ae20197" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_USE_VCSID="1"
@@ -68,9 +68,9 @@ pkg_preinst() {
 
 platform_pkg_test() {
 	local tests=(
-		sms_message_unittest
-		sms_cache_unittest
-		utilities_unittest
+		sms_message_test
+		sms_cache_test
+		utilities_test
 	)
 
 	local test_bin
