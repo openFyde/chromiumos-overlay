@@ -39,6 +39,7 @@ RDEPEND="
 	media-libs/cros-camera-libcamera_common
 	media-libs/cros-camera-libcamera_metadata
 	media-libs/libsync
+	virtual/cros-camera-effects
 	virtual/cros-camera-hal
 	virtual/cros-camera-hal-configs"
 
