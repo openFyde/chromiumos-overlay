@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="8776cec2e9a3ec805f21e65d37ea6d708766df9f"
-CROS_WORKON_TREE="6242bcda446754be4d2491ddbd8eee648fd23115"
+CROS_WORKON_COMMIT="90fad0567ec6a1074ff4a48597c1d5ca8a3086d6"
+CROS_WORKON_TREE="e21bf38bc1636f67b4bc7efd2031135b744b9c74"
 CROS_WORKON_PROJECT="chromiumos/platform/tast"
 CROS_WORKON_LOCALNAME="tast"
 
