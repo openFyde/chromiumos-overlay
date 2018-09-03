@@ -33,3 +33,5 @@ chromeos-base/libevdev asan
 chromeos-base/gestures asan
 # Disable asan on minijail (https://crbug.com/848440).
 chromeos-base/minijail asan
+# Disable ubsan on minijail (https://crbug.com/877846).
+chromeos-base/minijail ubsan
