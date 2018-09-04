@@ -72,6 +72,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-Add-CalledOnValidSequence-alias.patch
 	epatch "${FILESDIR}"/${P}-Introduce-alias-for-libchrome-uprev-preparation.patch
 	epatch "${FILESDIR}"/${P}-Manually-cherrypick-ScopedClosureRunner-ReplaceClosu.patch
+	epatch "${FILESDIR}"/${P}-Manually-cherry-pick-SplitStringUsingSubstr.patch
 
 	# This optional.h is taken from r569568.
 	# TODO(hidehiko): Remove this patch on update.
