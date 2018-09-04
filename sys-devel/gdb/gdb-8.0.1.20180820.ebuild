@@ -6,7 +6,7 @@ PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
 
 inherit flag-o-matic eutils python-single-r1 versionator
 
-GIT_SHAI="a7e49fd02c21a496095c828841f209eef8ae2985"
+GIT_SHAI="689b53dab1f782ff0ecc29f4d65e0d193c376703"
 SRC_URI="https://android.googlesource.com/toolchain/gdb/+archive/${GIT_SHAI}.tar.gz -> ${P}.tar.gz"
 
 export CTARGET=${CTARGET:-${CHOST}}
