@@ -14,7 +14,7 @@ DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="android-container-pi android-container-master-arc-dev android-container-nyc +combine_chromeos_policy selinux_audit_all"
+IUSE="android-container-pi android-container-master-arc-dev android-container-nyc +combine_chromeos_policy selinux_audit_all selinux_develop"
 # When developers are doing something not Android. This required use is to let
 # the developer know, disabling combine_chromeos_policy flag doesn't change
 # anything.
@@ -230,6 +230,12 @@ src_install() {
 
 	insinto /etc/selinux/arc/policy
 	doins "${SEPOLICY_FILENAME}"
+
+	if use selinux_develop; then
+		insinto /etc/init
+		doins "${FILESDIR}/selinux_debug.conf"
+		dobin "${FILESDIR}/audit_log_since_boot"
+	fi
 
 	if has_arc; then
 		# Install ChromeOS cil so push_to_device.py can compile a new
