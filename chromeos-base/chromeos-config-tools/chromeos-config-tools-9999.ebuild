@@ -47,14 +47,14 @@ src_install() {
 }
 
 platform_pkg_test() {
-	# Run this here since we may not run cros_config_main_unittest.
+	# Run this here since we may not run cros_config_main_test.
 	./chromeos-config-test-setup.sh
 	local tests=(
-		fake_cros_config_unittest
-		cros_config_unittest
-		cros_config_main_unittest
-		cros_config_json_unittest
-		cros_config_main_json_unittest
+		fake_cros_config_test
+		cros_config_test
+		cros_config_main_test
+		cros_config_json_test
+		cros_config_main_json_test
 	)
 
 	local test_bin
