@@ -18,6 +18,7 @@ getgid: 1
 getpeername: 1
 getrandom: 1
 getrusage: 1
+gettimeofday: 1
 getuid: 1
 ioctl: 1
 lseek: 1
