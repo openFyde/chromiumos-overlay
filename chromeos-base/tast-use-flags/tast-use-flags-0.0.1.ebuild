@@ -18,6 +18,7 @@ IUSE="
 	kvm_host
 	mocktpm
 	rialto
+	selinux
 	veyron_mickey
 	veyron_rialto
 "
