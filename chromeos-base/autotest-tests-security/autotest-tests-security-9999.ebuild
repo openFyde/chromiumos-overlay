@@ -63,7 +63,6 @@ IUSE_TESTS="
 	+tests_security_ptraceRestrictions
 	+tests_security_RootCA
 	+tests_security_RootfsOwners
-	+tests_security_RootfsStatefulSymlinks
 	containers? ( +tests_security_RunOci )
 	+tests_security_RuntimeExecStack
 	+tests_security_SandboxedServices
