@@ -1300,7 +1300,9 @@ src_install() {
 			doins -r "${QUICKOFFICE}"/_platform_specific/arm
 			;;
 		arm64)
-			doins -r "${QUICKOFFICE}"/_platform_specific/arm64
+			true
+			# Quickoffice is not yet available for arm64, https://crbug.com/881489 .
+			# doins -r "${QUICKOFFICE}"/_platform_specific/arm64
 			;;
 		x86)
 			doins -r "${QUICKOFFICE}"/_platform_specific/x86_32
