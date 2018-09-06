@@ -249,7 +249,7 @@ board_install() {
 	# EC test binaries
 	stat -t test-*.bin >/dev/null || ewarn "No test binaries found"
 	for f in test-*.bin; do
-		local name="$(basename "${f}")"
+		local name="${f%.bin}"
 		nonfatal newins "${f}" "${name}${file_suffix}.bin"
 	done
 	popd > /dev/null
