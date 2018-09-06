@@ -1,4 +1,5 @@
 chromeos-base/autotest-tests-security selinux
+chromeos-base/tast-use-flags selinux
 sys-apps/upstart selinux
 sys-process/lsof selinux
 sys-process/procps selinux
