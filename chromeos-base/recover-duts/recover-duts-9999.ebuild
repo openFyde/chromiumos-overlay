@@ -26,8 +26,7 @@ DEPEND=""
 
 src_install() {
 	pushd "${S}/recover_duts" || die
-	exeinto "/usr/bin"
-	doexe recover_duts.py
+	newbin recover_duts.sh recover_duts
 
 	pushd "hooks" || die
 	dodir /usr/bin/hooks
