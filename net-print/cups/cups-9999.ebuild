@@ -234,8 +234,6 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	dodoc {CHANGES,CREDITS,README}.txt
-
 	# move the default config file to docs
 	dodoc "${ED}"/etc/cups/cupsd.conf.default
 	rm -f "${ED}"/etc/cups/cupsd.conf.default
