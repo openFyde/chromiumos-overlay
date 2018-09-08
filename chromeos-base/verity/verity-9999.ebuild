@@ -11,7 +11,7 @@ inherit cros-workon cros-common.mk
 DESCRIPTION="File system integrity image generator for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dm-verity"
 
-LICENSE="BSD"
+LICENSE="BSD-Google GPL-2"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="test"
