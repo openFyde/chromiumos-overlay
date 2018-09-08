@@ -130,6 +130,11 @@ src_prepare() {
 	sed -e '/${PYTHON}/d' \
 		-i glib/Makefile.{am,in} || die
 
+	# Make sure we use /run directly instead of /var/run.  https://crbug.com/853158
+	sed -i \
+		-e '/unix:path=/s:/var/run:/run:' \
+		gio/gdbusaddress.c || die
+
 	# Also needed to prevent cross-compile failures, see bug #267603
 	eautoreconf
 
