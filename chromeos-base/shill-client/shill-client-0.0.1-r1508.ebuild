@@ -3,13 +3,13 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("5f27649cb24a11fd887c61ab61df275b6a702587" "94a9379d71a7066d4a10abf4d826276b308a7490")
-CROS_WORKON_TREE=("56c75aa73108d344f9441f26855f37e4c4838dd3" "cd7d460472e7735a025a2963f2790795a55085b9")
-CROS_WORKON_LOCALNAME=("platform2" "aosp/system/connectivity/shill")
-CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/connectivity/shill")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/connectivity/shill")
+CROS_WORKON_COMMIT="c348da544894a4868edda1099d186cee97306884"
+CROS_WORKON_TREE=("56c75aa73108d344f9441f26855f37e4c4838dd3" "d1e13ed55d15f48bffa5a3a180c0eaa33a8d5234")
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_SUBTREE="common-mk shill"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="${PN%-client}"
@@ -18,7 +18,7 @@ PLATFORM_GYP_FILE="${PN}.gyp"
 inherit cros-workon platform
 
 DESCRIPTION="Shill DBus client library for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -39,12 +39,6 @@ DEPEND="
 RDEPEND="
 	!<chromeos-base/shill-0.0.2
 "
-
-src_unpack() {
-	local s="${S}"
-	platform_src_unpack
-	S="${s}/aosp/system/connectivity/shill"
-}
 
 src_install() {
 	# Install DBus client library.

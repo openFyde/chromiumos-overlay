@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="6fbf1e370142f0100cf09fe9681a880b6b3a98b8"
+CROS_WORKON_COMMIT="c348da544894a4868edda1099d186cee97306884"
 CROS_WORKON_TREE=("56c75aa73108d344f9441f26855f37e4c4838dd3" "ea0c25356a907158aac3a3b7eb836866a8bdf25c" "dbfda49800304e0ffb26eb32495829417f1ef894" "79bf591415271af1bb9b3029a62b30bb54fcd115" "7c88ab2e4411eb58a2bfb911adf4836f896cec8b" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -42,7 +42,10 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/vboot_reference
-	tpm2? ( chromeos-base/trunks[test?] )
+	tpm2? (
+		chromeos-base/trunks[test?]
+		chromeos-base/chromeos-ec-headers
+	)
 	"
 
 pkg_preinst() {
