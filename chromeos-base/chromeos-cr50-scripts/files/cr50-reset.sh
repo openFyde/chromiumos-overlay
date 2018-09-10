@@ -16,6 +16,22 @@ MAX_RETRIES=3
 # - Time in seconds to delay before generating another qrcode.
 RETRY_DELAY=10
 
+display_leave_dev_mode_message() {
+  # Checks if GBB_FLAG_FORCE_DEV_SWITCH_ON (0x8) is set.
+  local tmp_file="$(mktemp)"
+  flashrom -p host -i GBB -r "${tmp_file}" > /dev/null 2>&1
+  local flags="$(futility gbb -g --flags "${tmp_file}" | egrep -o "0x[0-9]+")"
+  # Display message only when the flag is not set.
+  if [ $(( ${flags} & 0x8 )) -eq 0 ]; then
+    echo ""
+    echo "After RMA reset, the system will reboot and leave developer mode."
+    echo "To boot the USB shim again, please re-enter developer mode and"
+    echo "boot from USB in recovery mode."
+    echo ""
+  fi
+  rm -f "${tmp_file}"
+}
+
 cr50_reset() {
   # Make sure frecon is running.
   local frecon_pid="$(cat /run/frecon/pid)"
@@ -67,6 +83,10 @@ cr50_reset() {
   # Create qrcode and display it.
   qrencode -o "${chg_str_path}/chg.png" "${chstr}"
   printf "\033]image:file=/chg.png;scale=2\033\\" > /run/frecon/vt0
+
+  # Display instructions to boot from USB shim again if the system will
+  # leave developer mode after RMA reset.
+  display_leave_dev_mode_message
 
   local n=0
   local ac
