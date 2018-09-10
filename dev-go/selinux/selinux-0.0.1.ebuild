@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/opencontainers/selinux b6fa367ed7f534f9ba25391cc2d467085dbb445a"
+CROS_GO_SOURCE="github.com/opencontainers/selinux f5322ec9f783adb26f125d2086908dc546508b6d"
 
 CROS_GO_PACKAGES=(
 	"github.com/opencontainers/selinux/go-selinux"
