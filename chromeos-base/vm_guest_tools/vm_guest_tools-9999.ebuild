@@ -52,6 +52,7 @@ src_configure() {
 
 src_install() {
 	dobin "${OUT}"/garcon
+	dobin "${OUT}"/notificationd
 	dobin "${OUT}"/sommelier
 	dobin "${OUT}"/virtwl_guest_proxy
 	dobin "${OUT}"/vm_syslog
@@ -72,6 +73,7 @@ platform_pkg_test() {
 		garcon_mime_types_parser_test
 		maitred_service_test
 		maitred_syslog_test
+		notificationd_test
 	)
 
 	local test_bin
