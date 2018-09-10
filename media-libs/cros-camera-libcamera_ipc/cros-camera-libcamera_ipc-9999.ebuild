@@ -33,6 +33,7 @@ RDEPEND="media-libs/cros-camera-libcamera_metadata"
 
 DEPEND="${RDEPEND}
 	chromeos-base/libmojo
+	media-libs/cros-camera-libcamera_common
 	virtual/pkgconfig"
 
 src_unpack() {
