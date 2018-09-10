@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="e0d0d33ea648feba145c8483ece317b6845a074d"
+CROS_WORKON_COMMIT="c348da544894a4868edda1099d186cee97306884"
 CROS_WORKON_TREE=("56c75aa73108d344f9441f26855f37e4c4838dd3" "3848ec8f04ff204bcd74225f597250e76660006a")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -44,6 +44,12 @@ src_install() {
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
 	dosbin "${OUT}"/finish_oobe_auto_config
+
+	insinto /etc/init
+	doins etc/init/oobe_config_restore.conf
+
+	insinto /etc/dbus-1/system.d
+	doins etc/dbus-1/org.chromium.OobeConfigRestore.conf
 
 	# TODO(zentaro): Add secomp filters once implemented.
 }
