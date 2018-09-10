@@ -32,6 +32,7 @@ src_install() {
 			--libdir=/lib --generate-wrappers \
 			--copy-to-tree="${WORKDIR}"/container_pkg/ \
 			/usr/bin/garcon \
+			/usr/bin/notificationd \
 			/usr/bin/sommelier \
 			/usr/bin/Xwayland \
 			/usr/bin/xkbcomp \
