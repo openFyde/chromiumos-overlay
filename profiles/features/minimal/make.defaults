@@ -32,8 +32,8 @@ USE="${USE} -doc -profile -profiling -python"
 # Make stuff small.
 USE="${USE} -attestation -buffet -cellular chromeless_tty -crash_reporting"
 USE="${USE} -cros_disks cros_embedded -debugd -encrypted_stateful -gdmwimax"
-USE="${USE} -lorgnette -memd -mist -pam -passive_metrics -power_management"
-USE="${USE} -scanner -tpm -usbguard -vpn -wimax"
+USE="${USE} -lorgnette -memd -mist -ml_service -pam -passive_metrics"
+USE="${USE} -power_management -scanner -tpm -usbguard -vpn -wimax"
 
 # Remove most of the unused firmware in kernel build (see crbug.com/378877).
 USE="${USE} -firmware_install"

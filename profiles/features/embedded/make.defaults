@@ -19,6 +19,9 @@ USE="${USE} -containers"
 # By default, don't run memd as it may have excessive impact on CPU usage.
 USE="${USE} -memd"
 
+# Disable ML Service until/unless features on embedded devices need it.
+USE="${USE} -ml_service"
+
 # Disable usbguard on embedded CrOS because it currently only protects the lockscreen.
 USE="${USE} -usbguard"
 
