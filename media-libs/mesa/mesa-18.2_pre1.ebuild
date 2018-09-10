@@ -132,6 +132,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.3-i965-Replace-checks-for-rb-Name-with-FlipY.patch
 	epatch "${FILESDIR}"/18.2-egl-rewire-the-build-systems-to-use-libwayland-egl.patch
 	epatch "${FILESDIR}"/18.2-egl-remove-wayland-egl-now-that-we-re-using-libwayla.patch
+	epatch "${FILESDIR}"/18.2-mesa-Additional-FlipY-applications.patch
 
 	base_src_prepare
 
