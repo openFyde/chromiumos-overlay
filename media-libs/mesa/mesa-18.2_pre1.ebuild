@@ -130,7 +130,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-radv-Add-on-demand-compilation-of-built-in-shaders.patch
 	epatch "${FILESDIR}"/18.3-glapi-actually-implement-GL_EXT_robustness.patch
 	epatch "${FILESDIR}"/18.3-i965-Replace-checks-for-rb-Name-with-FlipY.patch
-	epatch "${FILESDIR}"/18.4-i965-Provide-a-mechanism-to-flip-fs-coordinate-syste.patch
 	epatch "${FILESDIR}"/18.2-egl-rewire-the-build-systems-to-use-libwayland-egl.patch
 	epatch "${FILESDIR}"/18.2-egl-remove-wayland-egl-now-that-we-re-using-libwayla.patch
 
