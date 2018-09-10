@@ -50,6 +50,7 @@ DEPEND="
 	dev-go/dbus
 	dev-go/gopsutil
 	dev-go/protobuf
+	dev-go/selinux
 "
 RDEPEND="
 	!chromeos-base/tast-local-tests
