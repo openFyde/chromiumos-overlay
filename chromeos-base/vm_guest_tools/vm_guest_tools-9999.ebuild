@@ -56,6 +56,8 @@ src_install() {
 	dobin "${OUT}"/sommelier
 	dobin "${OUT}"/virtwl_guest_proxy
 	dobin "${OUT}"/vm_syslog
+	dobin "${OUT}"/wayland_demo
+	dobin "${OUT}"/x11_demo
 	dosbin "${OUT}"/vshd
 
 	into /

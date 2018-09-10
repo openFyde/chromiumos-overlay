@@ -34,7 +34,9 @@ src_install() {
 			/usr/bin/garcon \
 			/usr/bin/notificationd \
 			/usr/bin/sommelier \
+			/usr/bin/wayland_demo \
 			/usr/bin/Xwayland \
+			/usr/bin/x11_demo \
 			/usr/bin/xkbcomp \
 			/usr/sbin/vshd
 
