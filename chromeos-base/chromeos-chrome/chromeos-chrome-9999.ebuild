@@ -1243,7 +1243,8 @@ install_telemetry_dep_resources() {
 			chrome/test/data/image_decoding \
 			content/test/data/gpu \
 			content/test/data/media \
-			content/test/gpu
+			content/test/gpu \
+			media/test/data
 		# For crosperf, which uses some tests only available on internal builds.
 		if use chrome_internal; then
 			install_test_resources "${test_dir}" \
