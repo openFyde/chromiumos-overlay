@@ -13,7 +13,7 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="coreboot-sdk"
+IUSE="coreboot-sdk verbose"
 
 CROS_WORKON_LOCALNAME="coreboot"
 
@@ -63,17 +63,21 @@ src_compile() {
 	# nuke build artifacts potentially present in the source directory
 	rm -rf build build_gdb .xcompile
 
+	local OPTS=( objutil="objutil" )
+
+	use verbose && OPTS+=( "V=1" )
+
 	# Configure and build
 	cp "${board_config}" .config
 	yes "" | \
-	emake obj="build" objutil="objutil" oldconfig
-	emake obj="build" objutil="objutil"
+	emake "${OPTS[@]}" obj="build" oldconfig
+	emake "${OPTS[@]}" obj="build"
 
 	# Build a second set of libraries with GDB support for developers
 	( cat .config; echo "CONFIG_LP_REMOTEGDB=y" ) > .config.gdb
 	yes "" | \
-	emake obj="build_gdb" objutil="objutil" DOTCONFIG=.config.gdb oldconfig
-	emake obj="build_gdb" objutil="objutil" DOTCONFIG=.config.gdb
+	emake "${OPTS[@]}" obj="build_gdb" DOTCONFIG=.config.gdb oldconfig
+	emake "${OPTS[@]}" obj="build_gdb" DOTCONFIG=.config.gdb
 
 	popd
 }
