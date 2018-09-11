@@ -889,10 +889,7 @@ src_configure() {
 			export CC="${CC} -B$(get_binutils_path_gold)"
 			export CXX="${CXX} -B$(get_binutils_path_gold)"
 		fi
-	elif use lld ; then
-		export CC="${CC} -fuse-ld=lld"
-		export CXX="${CXX} -fuse-ld=lld"
-	else
+	elif ! use lld ; then
 		ewarn "gold and lld disabled. Using GNU ld."
 	fi
 
