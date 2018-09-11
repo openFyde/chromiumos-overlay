@@ -248,13 +248,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
 	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
 
-	# This is need by thinlto on ARM.
-	# Convert to cherry-picks once
-	# https://reviews.llvm.org/D44788 gets merged
-	# Note: D44788 was already merged but this is still needed.
-	# See crosbug/872525
-	epatch "${FILESDIR}"/clang-7.0-flto-fission.llvm-next.patch
-
 	# Make ocaml warnings non-fatal, bug #537308
 	sed -e "/RUN/s/-warn-error A//" -i test/Bindings/OCaml/*ml  || die
 
