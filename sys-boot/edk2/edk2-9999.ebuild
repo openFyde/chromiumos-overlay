@@ -41,6 +41,7 @@ PATCHES=(
 	"${FILESDIR}/14_Basetools_pie.patch"
 	"${FILESDIR}/15_SdMMcPciHcDxe_Bayhub.patch"
 	"${FILESDIR}/16_SATA_channelcount.patch"
+	"${FILESDIR}/17_CorebootModulePkg_noscien.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE
