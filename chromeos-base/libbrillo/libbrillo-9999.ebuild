@@ -29,6 +29,7 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 	net-misc/curl
 	sys-apps/rootdev
+	sys-fs/lvm2
 "
 RDEPEND="
 	${COMMON_DEPEND}
