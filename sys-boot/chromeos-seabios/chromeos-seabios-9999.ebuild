@@ -19,14 +19,15 @@ CROS_FIRMWARE_IMAGE_DIR="/firmware"
 CROS_FIRMWARE_ROOT="${SYSROOT%/}${CROS_FIRMWARE_IMAGE_DIR}"
 
 create_seabios_cbfs() {
+	_cbfstool() { set -- cbfstool "$@"; echo "$@"; "$@" || die "'$*' failed"; }
+
 	local suffix="$1"
 	local oprom=$(echo "${CROS_FIRMWARE_ROOT}"/pci????,????.rom)
 	local seabios_cbfs="seabios.cbfs${suffix}"
-	local cbfs_size=$(( 2 * 1024 * 1024 ))
+	local coreboot_rom="$(find "${CROS_FIRMWARE_ROOT}" -name coreboot.rom 2>/dev/null | head -n 1)"
+	local cbfs_size="$(_cbfstool "${coreboot_rom}" layout | sed -e "/^'RW_LEGACY'/ {s|.*size \([0-9]*\)[^0-9].*$|\1|; q}; d" )"
 	local bootblock="${T}/bootblock"
 	local vgabios="out/vgabios.bin"
-
-	_cbfstool() { set -- cbfstool "$@"; echo "$@"; "$@" || die "'$*' failed"; }
 
 	# Create empty CBFS
 	_cbfstool ${seabios_cbfs} create -s ${cbfs_size} -m x86
