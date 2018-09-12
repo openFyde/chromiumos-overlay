@@ -207,6 +207,9 @@ src_install() {
 	exeinto /usr/share/cros/init
 	doexe init/*.sh
 
+	insinto /usr/share/cros/startup/process_management_policies
+	doins setuid_restrictions/shill_whitelist.txt
+
 	udev_dorules udev/*.rules
 
 	local fuzzer
