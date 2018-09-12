@@ -25,7 +25,7 @@ create_seabios_cbfs() {
 	local oprom=$(echo "${CROS_FIRMWARE_ROOT}"/pci????,????.rom)
 	local seabios_cbfs="seabios.cbfs${suffix}"
 	local coreboot_rom="$(find "${CROS_FIRMWARE_ROOT}" -name coreboot.rom 2>/dev/null | head -n 1)"
-	local cbfs_size="$(_cbfstool "${coreboot_rom}" layout | sed -e "/^'RW_LEGACY'/ {s|.*size \([0-9]*\)[^0-9].*$|\1|; q}; d" )"
+	local cbfs_size="$(_cbfstool "${coreboot_rom}" layout | sed -E -n -e "/^'RW_LEGACY'/{s|.*size ([0-9]+).*$|\1|;p}" )"
 	local bootblock="${T}/bootblock"
 	local vgabios="out/vgabios.bin"
 
