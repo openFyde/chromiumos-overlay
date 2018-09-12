@@ -43,15 +43,23 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}/diagnosticsd"
+	dobin "${OUT}/diagnostics_processor"
 
-	# Install seccomp policy file.
+	# Install seccomp policy files.
 	insinto /usr/share/policy
 	use seccomp && newins "init/diagnosticsd-seccomp-${ARCH}.policy" \
 		diagnosticsd-seccomp.policy
+	use seccomp && newins "init/diagnostics_processor-seccomp-${ARCH}.policy" \
+		diagnostics_processor-seccomp.policy
+
+	# Install D-Bus configuration file.
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.Diagnosticsd.conf
 
 	# Install the init scripts.
 	insinto /etc/init
 	doins init/diagnosticsd.conf
+	doins init/diagnostics_processor.conf
 }
 
 platform_pkg_test() {
