@@ -14,7 +14,7 @@ PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/setup"
 PLATFORM_GYP_FILE="arc-setup.gyp"
 
-inherit cros-board cros-workon platform
+inherit cros-workon platform
 
 DESCRIPTION="Set up environment to run ARC."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/setup"
@@ -48,37 +48,6 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api"
 
 
-set_density_scale() {
-	local density=160
-	# Scale is passed in percent
-	local scale=100
-	case $(get_current_board_with_variant) in
-		chell*|nocturne*) # 2.25x. Among the standard Android dpi, the closest value 280 is chosen.
-			density=280
-			scale=225 ;;
-		betty*|caroline*|eve*|kevin*|newbie*|novato*|samus*|scarlet*|soraka*) # 2x HiDPI
-			density=240
-			scale=200 ;;
-		nautilus*) # 1.6x. Among the standard Android dpi, the closest value 213 is chosen.
-			density=213
-			scale=160 ;;
-		grunt*) # 1x.  Set here to avoid being picked up by gru* below.
-			density=160
-			scale=100 ;;
-		cave*|elm*|gru*) # 1.25x default scaling
-			density=160
-			scale=125 ;;
-		cyan*|veyron_minnie*) # 1x
-			density=160
-			scale=100 ;;
-		*)
-			ewarn "Unknown board - using default pixel density of -1" ;;
-	esac
-	[[ -f "$1" ]] || die
-	local data=$(jq ".ARC_LCD_DENSITY=${density}|.ARC_UI_SCALE=${scale}" "$1")
-	echo "${data}" > "$1" || die
-}
-
 enable_esdfs() {
 	[[ -f "$1" ]] || die
 	local data=$(jq ".USE_ESDFS=true" "$1")
@@ -107,7 +76,6 @@ src_install() {
 	insinto /usr/share/arc-setup
 	doins etc/config.json
 
-	set_density_scale "${D}/usr/share/arc-setup/config.json"
 	if use esdfs; then
 		enable_esdfs "${D}/usr/share/arc-setup/config.json"
 	fi
