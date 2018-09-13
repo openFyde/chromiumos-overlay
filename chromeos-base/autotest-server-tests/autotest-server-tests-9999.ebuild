@@ -230,7 +230,10 @@ SERVER_IUSE_TESTS="
 	+tests_kernel_IdlePerf
 	+tests_kernel_MemoryRamoop
 	+tests_logging_GenerateCrashFiles
-	moblab? ( +tests_moblab_RunSuite )
+	moblab? (
+		+tests_moblab_RunSuite
+		+tests_moblab_StorageQual
+	)
 	+tests_moblab_Setup
 	cros_p2p? ( +tests_p2p_EndToEndTest )
 	+tests_network_FirewallHolePunchServer
