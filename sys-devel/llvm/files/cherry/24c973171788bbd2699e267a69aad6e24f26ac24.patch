@@ -1,0 +1,57 @@
+commit 24c973171788bbd2699e267a69aad6e24f26ac24
+Author: Reid Kleckner <rnk@google.com>
+Date:   Fri Aug 17 22:11:31 2018 +0000
+
+    Don't warn on returning the address of a label from a statement expression
+
+
+    Summary:
+        There isn't anything inherently wrong with returning a label from a
+	    statement expression. In practice, the Linux kernel uses this pattern to
+	        materialize PCs.
+
+    Fixes PR38569
+
+    Reviewers: niravd, rsmith, nickdesaulniers
+
+    Subscribers: cfe-commits
+
+    Differential Revision: https://reviews.llvm.org/D50805
+
+    git-svn-id: https://llvm.org/svn/llvm-project/cfe/trunk@340101 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Sema/SemaInit.cpp b/lib/Sema/SemaInit.cpp
+index 766f23b05b..71d5a52638 100644
+--- a/lib/Sema/SemaInit.cpp
++++ b/lib/Sema/SemaInit.cpp
+@@ -6924,6 +6924,10 @@ void Sema::checkInitializerLifetime(const InitializedEntity &Entity,
+       } else if (isa<BlockExpr>(L)) {
+         Diag(DiagLoc, diag::err_ret_local_block) << DiagRange;
+       } else if (isa<AddrLabelExpr>(L)) {
++        // Don't warn when returning a label from a statement expression.
++	 // Leaving the scope doesn't end its lifetime.
++	 if (LK == LK_StmtExprResult)
++	   return false;
+         Diag(DiagLoc, diag::warn_ret_addr_label) << DiagRange;
+       } else {
+         Diag(DiagLoc, diag::warn_ret_local_temp_addr_ref)
+diff --git a/test/Sema/statements.c b/test/Sema/statements.c
+index dbb4d56ee1..575a52d8bc 100644
+--- a/test/Sema/statements.c
++++ b/test/Sema/statements.c
+@@ -34,6 +34,15 @@ bar:
+   return &&bar;  // expected-warning {{returning address of label, which is local}}
+ }
+ 
++// PR38569: Don't warn when returning a label from a statement expression.
++void test10_logpc(void*);
++void test10a() {
++  test10_logpc(({
++      my_pc:
++	&&my_pc;
++      }));
++}
++
+ // PR6034
+ void test11(int bit) {
+   switch (bit)

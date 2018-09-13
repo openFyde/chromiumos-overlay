@@ -215,6 +215,7 @@ pick_cherries() {
 pick_next_cherries() {
 	# clang
 	local CHERRIES=""
+	CHERRIES+=" 24c973171788bbd2699e267a69aad6e24f26ac24" # r340101
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -268,7 +269,10 @@ src_prepare() {
 
 	# Temporarily revert r332058 as it caused speedometer2 perf regression.
 	# https://crbug.com/864781
-	if ! use llvm-next; then
+
+	if use llvm-next; then
+		epatch "${FILESDIR}"/llvm-next-revert-afdo-hotness.patch
+	else
 		epatch "${FILESDIR}"/llvm-revert-afdo-hotness.patch
 	fi
 
