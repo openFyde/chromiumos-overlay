@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 
 inherit cros-debug cros-fuzzer cros-sanitizers libchrome multilib toolchain-funcs
 
@@ -19,7 +19,11 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_prepare() {
-	epatch "${FILESDIR}/libmojo-395517-Link-against-pic-object-instead-of-pie-object.patch"
+	epatch "${FILESDIR}/${P}-Link-against-pic-object-instead-of-pie-object.patch"
+
+	# For forward compatibility with r456626.
+	# TODO(hidehiko): Remove on uprev.
+	epatch "${FILESDIR}/${P}-libmojo-Prepare-r456626-uprev.patch"
 }
 
 src_compile() {
