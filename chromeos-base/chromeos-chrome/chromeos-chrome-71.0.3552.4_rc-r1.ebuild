@@ -144,11 +144,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-71.0.3544.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R71-3524.2-1535969833.afdo"
-AFDO_FILE["airmont"]="R71-3524.2-1535972422.afdo"
-AFDO_FILE["haswell"]="R71-3524.2-1535972638.afdo"
-AFDO_FILE["broadwell"]="R71-3497.58-1535969065.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-71.0.3552.4_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R71-3532.8-1536575759.afdo"
+AFDO_FILE["airmont"]="R71-3532.8-1536574662.afdo"
+AFDO_FILE["haswell"]="R71-3532.8-1536577059.afdo"
+AFDO_FILE["broadwell"]="R71-3497.73-1536574851.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -889,10 +889,7 @@ src_configure() {
 			export CC="${CC} -B$(get_binutils_path_gold)"
 			export CXX="${CXX} -B$(get_binutils_path_gold)"
 		fi
-	elif use lld ; then
-		export CC="${CC} -fuse-ld=lld"
-		export CXX="${CXX} -fuse-ld=lld"
-	else
+	elif ! use lld ; then
 		ewarn "gold and lld disabled. Using GNU ld."
 	fi
 
@@ -1243,7 +1240,8 @@ install_telemetry_dep_resources() {
 			chrome/test/data/image_decoding \
 			content/test/data/gpu \
 			content/test/data/media \
-			content/test/gpu
+			content/test/gpu \
+			media/test/data
 		# For crosperf, which uses some tests only available on internal builds.
 		if use chrome_internal; then
 			install_test_resources "${test_dir}" \
@@ -1300,7 +1298,9 @@ src_install() {
 			doins -r "${QUICKOFFICE}"/_platform_specific/arm
 			;;
 		arm64)
-			doins -r "${QUICKOFFICE}"/_platform_specific/arm64
+			true
+			# Quickoffice is not yet available for arm64, https://crbug.com/881489 .
+			# doins -r "${QUICKOFFICE}"/_platform_specific/arm64
 			;;
 		x86)
 			doins -r "${QUICKOFFICE}"/_platform_specific/x86_32
