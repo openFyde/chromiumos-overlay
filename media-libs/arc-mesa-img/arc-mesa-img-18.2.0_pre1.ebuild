@@ -4,9 +4,12 @@
 
 EAPI="5"
 
+CROS_WORKON_COMMIT="2921bfe22d43cbf8fd07d9574aa3c4572c954917"
+CROS_WORKON_TREE="b90b52684248415ff0dd917cf0a631ce091e7285"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa-img"
 CROS_WORKON_LOCALNAME="mesa-img"
 CROS_WORKON_BLACKLIST="1"
+EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 
 inherit base autotools multilib-minimal flag-o-matic python toolchain-funcs cros-workon arc-build
 
@@ -23,7 +26,7 @@ HOMEPAGE="http://mesa3d.sourceforge.net/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
@@ -33,7 +36,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	android_aep -android_gles2 -android_gles30 +android_gles31 -android_gles32
+	android_aep -android_gles2 -android_gles30 -android_gles31 +android_gles32
 	-android_vulkan_compute_0
 	cheets +classic debug dri egl -gallium
 	-gbm gles1 gles2 -llvm +nptl pic selinux shared-glapi vulkan X xlib-glx
@@ -125,6 +128,22 @@ src_prepare() {
 		einfo "Limiting android to gles2."
 		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
+
+	# IMG patches
+	epatch "${FILESDIR}"/0001-dri-pvr-Introduce-PowerVR-DRI-driver.patch
+	epatch "${FILESDIR}"/0003-dri-Add-some-new-DRI-formats-and-fourccs.patch
+	epatch "${FILESDIR}"/0004-dri-Add-MT21-DRI-fourcc.patch
+	epatch "${FILESDIR}"/0006-GL_EXT_sparse_texture-entry-points.patch
+	epatch "${FILESDIR}"/0007-Add-support-for-various-GLES-extensions.patch
+	epatch "${FILESDIR}"/0014-GL_EXT_shader_pixel_local_storage2-entry-points.patch
+	epatch "${FILESDIR}"/0016-GL_IMG_framebuffer_downsample-entry-points.patch
+	epatch "${FILESDIR}"/0017-GL_OVR_multiview-entry-points.patch
+	epatch "${FILESDIR}"/0018-Add-OVR_multiview_multisampled_render_to_texture.patch
+	epatch "${FILESDIR}"/0023-GL_IMG_bindless_texture-entry-points.patch
+	epatch "${FILESDIR}"/0025-egl-automatically-call-eglReleaseThread-on-thread-te.patch
+
+	# Android/IMG patches
+	epatch "${FILESDIR}"/0601-mesa-img-Android-build-fixups.patch
 
 	base_src_prepare
 
