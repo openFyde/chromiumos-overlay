@@ -69,8 +69,11 @@ MARCH_TUNE=""
 
 # Allow a board to override or define additional settings.
 source make.conf.board
-CFLAGS="${CFLAGS} -O2 -pipe ${MARCH_TUNE} -g ${CXXEXCEPTIONS_FLAGS}"
-CXXFLAGS="${CXXFLAGS} ${CFLAGS}"
+COMMON_COMPILER_FLAGS="-O2 -pipe ${MARCH_TUNE} ${BOARD_COMPILER_FLAGS} -g ${CXXEXCEPTIONS_FLAGS}"
+CFLAGS="${CFLAGS} ${COMMON_COMPILER_FLAGS}"
+CXXFLAGS="${CXXFLAGS} ${COMMON_COMPILER_FLAGS}"
+# Clear the variable so people don't try to rely on it.
+COMMON_COMPILER_FLAGS=""
 
 # Allow the user to override or define additional settings.
 source make.conf.user
