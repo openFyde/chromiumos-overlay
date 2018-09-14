@@ -59,11 +59,14 @@ index 47b988a21b..f70748db6e 100644
      }
  
      pub fn search<F>(&self, mut pick: F)
+diff --git a/src/librustc_metadata/locator.rs b/src/librustc_metadata/locator.rs
+index f68bcdd62c..c07c5eb1de 100644
 --- a/src/librustc_metadata/locator.rs
 +++ b/src/librustc_metadata/locator.rs
-@@ -246,6 +246,18 @@ use std::time::Instant;
- use flate2::read::DeflateDecoder;
+@@ -248,6 +248,18 @@ use std::time::Instant;
  
+ use flate2::read::DeflateDecoder;
+
 +fn vender_to_unknown(target: &str) -> Option<String> {
 +    let mut triple: Vec<&str> = target.splitn(3, '-').collect();
 +    if triple.len() < 3 {
@@ -79,8 +82,7 @@ index 47b988a21b..f70748db6e 100644
  use rustc_data_structures::owning_ref::OwningRef;
  pub struct CrateMismatch {
      path: PathBuf,
-     got: String,
-@@ -698,14 +710,24 @@ impl<'a> Context<'a> {
+@@ -717,14 +729,24 @@ impl<'a> Context<'a> {
          }
  
          if &root.triple != self.triple {
@@ -89,7 +91,7 @@ index 47b988a21b..f70748db6e 100644
 -                  root.triple);
 -            self.rejected_via_triple.push(CrateMismatch {
 -                path: libpath.to_path_buf(),
--                got: format!("{}", root.triple),
+-                got: root.triple.to_string(),
 -            });
 -            return None;
 +            if let Some(triple) = vender_to_unknown(self.triple.triple()) {

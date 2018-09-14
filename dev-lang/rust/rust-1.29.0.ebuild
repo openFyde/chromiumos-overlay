@@ -23,9 +23,9 @@ else
 fi
 
 
-STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).2"
+STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).0"
 STAGE0_VERSION_CARGO="0.$(($(get_version_component_range 2))).0"
-STAGE0_DATE="2018-07-20"
+STAGE0_DATE="2018-08-02"
 RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
@@ -48,11 +48,10 @@ DEPEND="${PYTHON_DEPS}
 "
 
 PATCHES=(
-	"${FILESDIR}"/0001-fix-target-armv7a-cros.patch
-	"${FILESDIR}"/0002-add-target-armv7a-cros-linux.patch
-	"${FILESDIR}"/0003-fix-unknown-vendors.patch
-	"${FILESDIR}"/0004-fix-rpath.patch
-	"${FILESDIR}"/0005-add-unknown-vendor-to-filesearch.patch
+	"${FILESDIR}"/0001-add-target-armv7a-cros-linux.patch
+	"${FILESDIR}"/0002-fix-unknown-vendors.patch
+	"${FILESDIR}"/0003-fix-rpath.patch
+	"${FILESDIR}"/0004-add-unknown-vendor-to-filesearch.patch
 )
 
 S="${WORKDIR}/${MY_P}-src"
@@ -154,6 +153,8 @@ docs = false
 submodules = false
 python = "${EPYTHON}"
 vendor = true
+extended = true
+tools = ["rustfmt", "clippy", "cargofmt"]
 
 [llvm]
 ninja = true
@@ -187,7 +188,10 @@ src_compile() {
 
 src_install() {
 	local obj="build/x86_64-unknown-linux-gnu/stage2"
+	local tools="${obj}-tools/x86_64-unknown-linux-gnu/release/"
 	dobin "${obj}/bin/rustc" "${obj}/bin/rustdoc"
+	dobin "${tools}/rustfmt" "${tools}/cargo-fmt"
+	dobin "${tools}/clippy-driver" "${tools}/cargo-clippy"
 	dobin src/etc/rust-gdb src/etc/rust-lldb
 	insinto "/usr/$(get_libdir)"
 	doins -r "${obj}/lib/"*
