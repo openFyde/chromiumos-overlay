@@ -17,15 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 
 # Clients of the ML service should place the URIs of their model files into
 # this variable.
-system_models=""
-
-# Any test model (i.e. models that should not be available in non-test builds)
-# URIs should be placed into this variable.
-test_models="gs://chromeos-localmirror/distfiles/mlservice-model-tab_discarder-quantized-20180704.tflite"
-
-models="${system_models}
-	${test_models}
-"
+models="gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite"
 
 SRC_URI="${models}"
 
@@ -68,7 +60,7 @@ src_install() {
 	# Install system ML models (but not test models).
 	insinto /opt/google/chrome/ml_models
 	local distfile_uri
-	for distfile_uri in ${system_models}; do
+	for distfile_uri in ${models}; do
 		doins "${DISTDIR}/${distfile_uri##*/}"
 	done
 }
