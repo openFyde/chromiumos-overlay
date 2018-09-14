@@ -1,0 +1,1 @@
+ghostscript-gpl-9.25.ebuild

@@ -1,27 +1,27 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=5
+EAPI=6
 
-inherit autotools eutils multilib versionator flag-o-matic toolchain-funcs
+inherit autotools multilib versionator flag-o-matic toolchain-funcs
 
 DESCRIPTION="Ghostscript is an interpreter for the PostScript language and for PDF"
-HOMEPAGE="http://ghostscript.com/"
+HOMEPAGE="https://ghostscript.com/"
 
 MY_P=${P/-gpl}
-GSDJVU_PV=1.6
 PVM=$(get_version_component_range 1-2)
 PVM_S=$(replace_all_version_separators "" ${PVM})
+
+MY_PATCHSET=1
+
 SRC_URI="
-	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${PVM_S}/${MY_P}.tar.bz2
-	mirror://gentoo/${PN}-9.12-patchset-1.tar.bz2
-	djvu? ( mirror://sourceforge/djvu/gsdjvu-${GSDJVU_PV}.tar.gz )"
+	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${PVM_S}/${MY_P}.tar.xz
+	https://dev.gentoo.org/~dilfridge/distfiles/${P}-patchset-${MY_PATCHSET}.tar.xz
+"
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="cups dbus djvu gtk idn internal linguas_de crosfonts static-libs tiff X"
-RESTRICT="djvu? ( bindist )"
+IUSE="cups dbus gtk idn internal linguas_de crosfonts static-libs tiff unicode X"
 
 # Google has a commercial license for ghostscript when distributed with Chrome OS (Not
 # Chromium OS).  So toggle the license to the required copyright when building for Chrome OS,
@@ -37,12 +37,11 @@ COMMON_DEPEND="
 	>=media-libs/freetype-2.4.9:2=
 	media-libs/jbig2dec
 	>=media-libs/lcms-2.6:2
-	>=media-libs/libpng-1.2:0=
+	>=media-libs/libpng-1.6.2:0=
 	>=sys-libs/zlib-1.2.7:=
 	virtual/jpeg:0
 	cups? ( >=net-print/cups-1.3.8 )
 	dbus? ( sys-apps/dbus )
-	djvu? ( app-text/djvu )
 	gtk? ( || ( x11-libs/gtk+:3 x11-libs/gtk+:2 ) )
 	idn? ( net-dns/libidn )
 	tiff? ( >=media-libs/tiff-4.0.1:0= )
@@ -72,14 +71,9 @@ for X in ${LANGS} ; do
 	IUSE="${IUSE} linguas_${X}"
 done
 
-pkg_setup() {
-	if use djvu; then
-		ewarn "With USE=\"djvu\", distribution of binaries is restricted!"
-		ewarn "See http://djvu.sourceforge.net/gsdjvu/COPYING for details on licensing issues."
-	fi
-}
-
 src_prepare() {
+	default
+
 	# remove internal copies of various libraries
 	rm -rf "${S}"/cups/libs || die
 	rm -rf "${S}"/expat || die
@@ -95,41 +89,20 @@ src_prepare() {
 
 	# apply various patches, many borrowed from Fedora
 	# http://pkgs.fedoraproject.org/cgit/ghostscript.git
-	EPATCH_SUFFIX="patch" EPATCH_FORCE="yes"
-	EPATCH_SOURCE="${WORKDIR}/patches/"
-	EPATCH_EXCLUDE="
-		ghostscript-gpl-8.61-multilib.patch
-		ghostscript-gpl-8.64-noopt.patch
-		ghostscript-gpl-9.07-wrf-snprintf.patch
-		ghostscript-gpl-9.12-gs694154.patch
-		ghostscript-gpl-9.12-icc-missing-check.patch
-		ghostscript-gpl-9.12-sys-zlib.patch
-	"
-	epatch
+	eapply "${FILESDIR}/"*.patch
 
-	epatch "${FILESDIR}/${PN}-9.19-ccaux.patch"
-	epatch "${FILESDIR}/${PN}-9.18-libdata-deps.patch"
-	epatch "${FILESDIR}/${PN}-9.23-Ensure-is_glyph_index-flag-is-consistent.patch"
-	epatch "${FILESDIR}/${PN}-9.23-another-case-of-is_glyph_index-set_wrongly.patch"
-	epatch "${FILESDIR}/${PN}-clang-fortify.patch"
-	epatch "${FILESDIR}/${PN}-have-eqproc-check-its-parameters.patch"
-	epatch "${FILESDIR}/${PN}-have-rsdparams-check-its-parameters.patch"
-	epatch "${FILESDIR}/${PN}-9.19-epson-sigbus.patch"
-
-	if use djvu ; then
-		unpack gsdjvu-${GSDJVU_PV}.tar.gz
-		cp gsdjvu-${GSDJVU_PV}/gsdjvu "${S}" || die
-		cp gsdjvu-${GSDJVU_PV}/gdevdjvu.c "${S}"/base || die
-		epatch "${WORKDIR}"/patches-gsdjvu/gsdjvu-1.3-${PN}-8.64.patch
-		cp "${S}"/contrib/contrib.mak "${S}"/base/contrib.mak.gsdjvu || die
-		grep -q djvusep "${S}"/contrib/contrib.mak || \
-			cat gsdjvu-${GSDJVU_PV}/gsdjvu.mak >> "${S}"/contrib/contrib.mak || die
-
-		# install ps2utf8.ps, bug #197818
-		cp gsdjvu-${GSDJVU_PV}/ps2utf8.ps "${S}"/lib || die
-		sed -i -e '/$(EXTRA_INIT_FILES)/ a\ps2utf8.ps \\' \
-			"${S}"/base/unixinst.mak || die "sed failed"
-	fi
+	# remove files pruned in the patch ghostscript-*-prune-contrib-directory
+	rm -rf "${S}"/contrib/epson740
+	rm -rf "${S}"/contrib/gdevgdi.c
+	rm -rf "${S}"/contrib/gdevln03.c
+	rm -rf "${S}"/contrib/gdevlx7.c
+	rm -rf "${S}"/contrib/gdevmd2k.c
+	rm -rf "${S}"/contrib/gdevop4w.c
+	rm -rf "${S}"/contrib/gdevxes.c
+	rm -rf "${S}"/contrib/japanese
+	rm -rf "${S}"/contrib/md2k_md5k
+	rm -rf "${S}"/contrib/pscolor
+	rm -rf "${S}"/contrib/uniprint
 
 	if ! use gtk ; then
 		sed -i -e "s:\$(GSSOX)::" \
@@ -147,8 +120,11 @@ src_prepare() {
 		-e "/^ZLIBDIR=/s:=.*:=${T}:" \
 		configure.ac || die
 	# Some files depend on zlib.h directly.  Redirect them. #573248
+	# Also make sure to not define OPJ_STATIC to avoid linker errors due to
+	# hidden symbols (https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=203327#c1)
 	sed -i \
 		-e '/^zlib_h/s:=.*:=:' \
+		-e 's|-DOPJ_STATIC ||' \
 		base/lib.mak || die
 
 	# search path fix
@@ -170,16 +146,16 @@ src_prepare() {
 src_configure() {
 	local FONTPATH
 	for path in \
-		/usr/share/fonts/urw-fonts \
-		/usr/share/fonts/Type1 \
-		/usr/share/fonts \
-		/usr/share/poppler/cMap/Adobe-CNS1 \
-		/usr/share/poppler/cMap/Adobe-GB1 \
-		/usr/share/poppler/cMap/Adobe-Japan1 \
-		/usr/share/poppler/cMap/Adobe-Japan2 \
-		/usr/share/poppler/cMap/Adobe-Korea1
+		"${EPREFIX}"/usr/share/fonts/urw-fonts \
+		"${EPREFIX}"/usr/share/fonts/Type1 \
+		"${EPREFIX}"/usr/share/fonts \
+		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-CNS1 \
+		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-GB1 \
+		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-Japan1 \
+		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-Japan2 \
+		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-Korea1
 	do
-		FONTPATH="$FONTPATH${FONTPATH:+:}$path"
+		FONTPATH="$FONTPATH${FONTPATH:+:}${EPREFIX}$path"
 	done
 
 	tc-export_build_env BUILD_CC
@@ -189,7 +165,6 @@ src_configure() {
 		CCAUX="${BUILD_CC}" \
 		CFLAGSAUX="${BUILD_CFLAGS}" \
 		LDFLAGSAUX="${BUILD_LDFLAGS}" \
-		--disable-contrib \
 		--enable-dynamic \
 		--enable-freetype \
 		--enable-fontconfig \
@@ -210,11 +185,6 @@ src_configure() {
 		$(use_with tiff system-libtiff) \
 		$(use_with X x)
 
-	if use djvu ; then
-		sed -i -e 's!$(DD)bbox.dev!& $(DD)djvumask.dev $(DD)djvusep.dev!g' \
-			"${S}"/Makefile || die "sed failed"
-	fi
-
 	cd "${S}/ijs" || die
 	econf \
 		--enable-shared \
@@ -222,7 +192,7 @@ src_configure() {
 }
 
 src_compile() {
-	emake so all
+	emake -j1 so all
 
 	cd "${S}/ijs" || die
 	emake
@@ -230,8 +200,6 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" install-so install
-
-	use djvu && dobin gsdjvu
 
 	# move gsc to gs, bug #343447
 	# gsc collides with gambit, bug #253064
@@ -259,7 +227,7 @@ src_install() {
 		dosym /usr/share/poppler/cMaps /usr/share/ghostscript/${PVM}/Resource/CMap
 	fi
 
-	use static-libs || prune_libtool_files --all
+	use static-libs || find "${ED}" -name '*.la' -delete
 
 	if ! use linguas_de; then
 		rm -r "${ED}"/usr/share/man/de || die
