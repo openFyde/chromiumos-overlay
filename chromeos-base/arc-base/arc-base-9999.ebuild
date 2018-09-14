@@ -47,6 +47,7 @@ src_install() {
 	# Install scripts.
 	insinto /etc/init
 	doins arc/scripts/arc-stale-directory-remover.conf
+	doins arc/scripts/arc-remove-data.conf
 
 	insinto /etc/sysctl.d
 	doins arc/scripts/01-sysctl-arc.conf
