@@ -73,12 +73,17 @@ FEATURES="allow-missing-manifests buildpkg clean-logs -collision-protect
 #   src/scripts/hooks/install/gen-package-licenses.sh.
 ENABLE_LICENSING="Y"
 
+# We reset compiler settings as the base ones are generic (just -O2) and our
+# common make.conf already adds those and more.
+CFLAGS=""
+CXXFLAGS=""
+LDFLAGS=""
+
 # C++ exception support disabled by default. This can be re-enabled by reseting
 # the CXXEXCEPTIONS_FLAGS for a whole board or, package by package, by calling
 # cros_enable_cxx_exceptions().
 CXXEXCEPTIONS=0
-CXXEXCEPTIONS_FLAGS="-fno-exceptions -fno-unwind-tables
-  -fno-asynchronous-unwind-tables "
+CXXEXCEPTIONS_FLAGS="-fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables"
 
 # Don't strip NaCl executables. These are not linux executables and the
 # linux host's strip command doesn't know how to handle them correctly.
