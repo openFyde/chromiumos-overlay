@@ -4,8 +4,8 @@
 
 EAPI=5
 
-CROS_WORKON_PROJECT="chromiumos/third_party/mesa-img"
-CROS_WORKON_LOCALNAME="mesa-img"
+EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
+CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_BLACKLIST="1"
 
 if [[ ${PV} = 9999* ]]; then
@@ -23,6 +23,14 @@ FOLDER="${PV/_rc*/}"
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
 
+#SRC_PATCHES="mirror://gentoo/${P}-gentoo-patches-01.tar.bz2"
+if [[ $PV = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
+	SRC_URI="${SRC_PATCHES}"
+else
+	SRC_URI="ftp://ftp.freedesktop.org/pub/mesa/${FOLDER}/${P}.tar.bz2
+		${SRC_PATCHES}"
+fi
+
 # Most of the code is MIT/X11.
 # ralloc is LGPL-3
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
@@ -32,18 +40,21 @@ KEYWORDS="~*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
-VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} freedreno llvmpipe mach64 mga nouveau powervr r128 radeonsi savage sis vmware tdfx via"
+VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} freedreno llvmpipe mach64 mga nouveau powervr r128 radeonsi savage sis softpipe tdfx via virgl vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri egl -gallium -gbm gles1 gles2 -llvm +nptl pic selinux
-	shared-glapi kernel_FreeBSD vulkan xlib-glx X"
+	shared-glapi kernel_FreeBSD vulkan wayland xlib-glx X"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 
-# keep correct libdrm dep
+REQUIRED_USE="video_cards_amdgpu? ( llvm )
+	video_cards_llvmpipe? ( llvm )"
+
+# keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
 	!media-libs/mesa
@@ -54,6 +65,7 @@ RDEPEND="
 		x11-libs/libXext
 		x11-libs/libXxf86vm
 	)
+	llvm? ( virtual/libelf )
 	dev-libs/expat
 	dev-libs/libgcrypt
 	virtual/udev
@@ -67,6 +79,7 @@ DEPEND="${RDEPEND}
 	sys-devel/flex
 	virtual/pkgconfig
 	x11-base/xorg-proto
+	wayland? ( >=dev-libs/wayland-protocols-1.8 )
 	llvm? ( sys-devel/llvm )
 	video_cards_powervr? (
 		virtual/img-ddk
@@ -81,11 +94,6 @@ QA_EXECSTACK="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 
 # Think about: ggi, fbcon, no-X configs
-
-pkg_setup() {
-	# workaround toc-issue wrt #386545
-	use ppc64 && append-flags -mminimal-toc
-}
 
 src_prepare() {
 	# apply patches
@@ -113,9 +121,33 @@ src_configure() {
 	# Needs std=gnu++11 to build with libc++. crbug.com/750831
 	append-cxxflags "-std=gnu++11"
 
+	# For llvmpipe on ARM we'll get errors about being unable to resolve
+	# "__aeabi_unwind_cpp_pr1" if we don't include this flag; seems wise
+	# to include it for all platforms though.
+	use video_cards_llvmpipe && append-flags "-rtlib=libgcc"
+
 	driver_enable pvr
 
-	export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
+	LLVM_ENABLE="--disable-llvm"
+	if use llvm && use !video_cards_softpipe; then
+		export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
+		LLVM_ENABLE="--enable-llvm"
+	fi
+
+	local egl_platforms=""
+	if use egl; then
+		egl_platforms="--with-platforms=surfaceless"
+
+		if use X; then
+			egl_platforms="${egl_platforms},x11"
+		fi
+
+		if use wayland; then
+			egl_platforms="${egl_platforms},wayland"
+		fi
+	fi
+
+        append-flags "-UENABLE_SHADER_CACHE"
 
 	# --with-driver=dri|xlib|osmesa || do we need osmesa?
 	econf \
@@ -123,7 +155,7 @@ src_configure() {
 		--with-driver=dri \
 		--disable-glu \
 		--disable-glut \
-		--disable-omx \
+		--disable-omx-bellagio \
 		--disable-va \
 		--disable-vdpau \
 		--disable-xvmc \
@@ -132,7 +164,6 @@ src_configure() {
 		--disable-dri3 \
 		--disable-llvm-shared-libs \
 		$(use_enable X glx) \
-		$(use_enable llvm gallium-llvm) \
 		$(use_enable egl) \
 		$(use_enable gbm) \
 		$(use_enable gles1) \
@@ -147,19 +178,14 @@ src_configure() {
 		--with-dri-drivers=${DRI_DRIVERS} \
 		--with-gallium-drivers=${GALLIUM_DRIVERS} \
 		--with-vulkan-drivers=${VULKAN_DRIVERS} \
-		$(use egl && echo "--with-egl-platforms=surfaceless")
+		${LLVM_ENABLE} \
+		"${egl_platforms}"
 }
 
 src_install() {
 	base_src_install
 
-	# Remove redundant headers
-	# GLU and GLUT
-	rm -f "${D}"/usr/include/GL/glu*.h || die "Removing GLU and GLUT headers failed."
-	# Glew includes
-	rm -f "${D}"/usr/include/GL/{glew,glxew,wglew}.h \
-		|| die "Removing glew includes failed."
-	# GLES headers
+	# Remove redundant GLES headers
 	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
 
 	# Move libGL and others from /usr/lib to /usr/lib/opengl/blah/lib

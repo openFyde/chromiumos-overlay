@@ -1,25 +1,25 @@
-From d32913e3bb9ade8dbb739002bb239dd4e67546e2 Mon Sep 17 00:00:00 2001
+From c607884c160fe85c7e93f6ac4e2b857e5fd0fe80 Mon Sep 17 00:00:00 2001
 From: Frank Binns <frank.binns@imgtec.com>
-Date: Mon, 30 Oct 2017 11:40:29 +0000
+Date: Tue, 4 Sep 2018 13:40:00 +0100
 Subject: [PATCH] dri/pvr: Introduce PowerVR DRI driver.
 
-Change-Id: Iab222336df40939dbc61807640f2fc8f26aca9b8
+Change-Id: I6c2f32d9d2afd6d6215c3b7224f1e0c1b7660c83
 ---
  configure.ac                              |    8 +
  src/mesa/drivers/dri/Makefile.am          |    6 +
- src/mesa/drivers/dri/pvr/Makefile.am      |   49 ++
+ src/mesa/drivers/dri/pvr/Makefile.am      |   45 ++
  src/mesa/drivers/dri/pvr/Makefile.sources |   35 +
- src/mesa/drivers/dri/pvr/mesa_context.c   |  259 +++++++
+ src/mesa/drivers/dri/pvr/mesa_context.c   |  260 +++++++
  src/mesa/drivers/dri/pvr/pvrdrawable.c    |  660 +++++++++++++++++
- src/mesa/drivers/dri/pvr/pvrdri.c         | 1134 +++++++++++++++++++++++++++++
+ src/mesa/drivers/dri/pvr/pvrdri.c         | 1139 +++++++++++++++++++++++++++++
  src/mesa/drivers/dri/pvr/pvrdri.h         |  293 ++++++++
  src/mesa/drivers/dri/pvr/pvrext.c         |  388 ++++++++++
  src/mesa/drivers/dri/pvr/pvrimage.c       | 1042 ++++++++++++++++++++++++++
  src/mesa/drivers/dri/pvr/pvrimage.h       |   93 +++
  src/mesa/drivers/dri/pvr/pvrmesa.h        |   41 ++
  src/mesa/drivers/dri/pvr/pvrqueue.h       |   74 ++
- src/mesa/drivers/dri/pvr/pvrutil.c        |  589 +++++++++++++++
- 14 files changed, 4671 insertions(+)
+ src/mesa/drivers/dri/pvr/pvrutil.c        |  592 +++++++++++++++
+ 14 files changed, 4676 insertions(+)
  create mode 100644 src/mesa/drivers/dri/pvr/Makefile.am
  create mode 100644 src/mesa/drivers/dri/pvr/Makefile.sources
  create mode 100644 src/mesa/drivers/dri/pvr/mesa_context.c
@@ -34,18 +34,18 @@ Change-Id: Iab222336df40939dbc61807640f2fc8f26aca9b8
  create mode 100644 src/mesa/drivers/dri/pvr/pvrutil.c
 
 diff --git a/configure.ac b/configure.ac
-index 7fade23..1117fbc 100644
+index 4bb8960..d17f686 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -76,6 +76,7 @@ LIBDRM_REQUIRED=2.4.75
  LIBDRM_RADEON_REQUIRED=2.4.71
- LIBDRM_AMDGPU_REQUIRED=2.4.81
+ LIBDRM_AMDGPU_REQUIRED=2.4.91
  LIBDRM_INTEL_REQUIRED=2.4.75
 +LIBDRM_PVR_REQUIRED=2.4.60
  LIBDRM_NVVIEUX_REQUIRED=2.4.66
  LIBDRM_NOUVEAU_REQUIRED=2.4.66
- LIBDRM_FREEDRENO_REQUIRED=2.4.74
-@@ -1862,6 +1863,11 @@ if test -n "$with_dri_drivers"; then
+ LIBDRM_FREEDRENO_REQUIRED=2.4.91
+@@ -1985,6 +1986,11 @@ if test -n "$with_dri_drivers"; then
              HAVE_R200_DRI=yes
              PKG_CHECK_MODULES([RADEON], [libdrm >= $LIBDRM_RADEON_REQUIRED libdrm_radeon >= $LIBDRM_RADEON_REQUIRED])
              ;;
@@ -57,7 +57,7 @@ index 7fade23..1117fbc 100644
          xswrast)
              HAVE_SWRAST_DRI=yes
              ;;
-@@ -2646,6 +2652,7 @@ AM_CONDITIONAL(HAVE_I965_DRI, test x$HAVE_I965_DRI = xyes)
+@@ -2902,6 +2908,7 @@ AM_CONDITIONAL(HAVE_I965_DRI, test x$HAVE_I965_DRI = xyes)
  AM_CONDITIONAL(HAVE_NOUVEAU_DRI, test x$HAVE_NOUVEAU_DRI = xyes)
  AM_CONDITIONAL(HAVE_R200_DRI, test x$HAVE_R200_DRI = xyes)
  AM_CONDITIONAL(HAVE_RADEON_DRI, test x$HAVE_RADEON_DRI = xyes)
@@ -65,16 +65,16 @@ index 7fade23..1117fbc 100644
  AM_CONDITIONAL(HAVE_SWRAST_DRI, test x$HAVE_SWRAST_DRI = xyes)
  
  AM_CONDITIONAL(HAVE_RADEON_VULKAN, test "x$HAVE_RADEON_VULKAN" = xyes)
-@@ -2844,6 +2851,7 @@ AC_CONFIG_FILES([Makefile
- 		src/mesa/drivers/dri/nouveau/Makefile
- 		src/mesa/drivers/dri/r200/Makefile
- 		src/mesa/drivers/dri/radeon/Makefile
-+		src/mesa/drivers/dri/pvr/Makefile
- 		src/mesa/drivers/dri/swrast/Makefile
- 		src/mesa/drivers/osmesa/Makefile
- 		src/mesa/drivers/osmesa/osmesa.pc
+@@ -3100,6 +3107,7 @@ AC_CONFIG_FILES([Makefile
+                  src/mesa/drivers/dri/i915/Makefile
+                  src/mesa/drivers/dri/i965/Makefile
+                  src/mesa/drivers/dri/Makefile
++                 src/mesa/drivers/dri/pvr/Makefile
+                  src/mesa/drivers/dri/nouveau/Makefile
+                  src/mesa/drivers/dri/r200/Makefile
+                  src/mesa/drivers/dri/radeon/Makefile
 diff --git a/src/mesa/drivers/dri/Makefile.am b/src/mesa/drivers/dri/Makefile.am
-index 381c6a2..fa5cba5 100644
+index 3876d7c..15b0d53 100644
 --- a/src/mesa/drivers/dri/Makefile.am
 +++ b/src/mesa/drivers/dri/Makefile.am
 @@ -36,6 +36,12 @@ MEGADRIVERS_DEPS += radeon/libradeon_dri.la
@@ -92,7 +92,7 @@ index 381c6a2..fa5cba5 100644
  MEGADRIVERS_DEPS += swrast/libswrast_dri.la
 diff --git a/src/mesa/drivers/dri/pvr/Makefile.am b/src/mesa/drivers/dri/pvr/Makefile.am
 new file mode 100644
-index 0000000..23db505
+index 0000000..94d9355
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/Makefile.am
 @@ -0,0 +1,45 @@
@@ -184,10 +184,10 @@ index 0000000..c907dc0
 + pvrutil.c
 diff --git a/src/mesa/drivers/dri/pvr/mesa_context.c b/src/mesa/drivers/dri/pvr/mesa_context.c
 new file mode 100644
-index 0000000..bce441f
+index 0000000..4876ee8
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/mesa_context.c
-@@ -0,0 +1,259 @@
+@@ -0,0 +1,260 @@
 +/* -*- mode: c; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 +/* vi: set ts=8 sw=8 sts=8: */
 +/**
@@ -232,6 +232,7 @@ index 0000000..bce441f
 +#include "glapi.h"
 +#include "dispatch.h"
 +#include "pvrmesa.h"
++#include "main/errors.h"
 +
 +#include "powervr/dri_support.h"
 +
@@ -449,7 +450,7 @@ index 0000000..bce441f
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrdrawable.c b/src/mesa/drivers/dri/pvr/pvrdrawable.c
 new file mode 100644
-index 0000000..044097e
+index 0000000..eea3a22
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrdrawable.c
 @@ -0,0 +1,660 @@
@@ -1115,10 +1116,10 @@ index 0000000..044097e
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrdri.c b/src/mesa/drivers/dri/pvr/pvrdri.c
 new file mode 100644
-index 0000000..9ac7e45
+index 0000000..0dc294e
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrdri.c
-@@ -0,0 +1,1134 @@
+@@ -0,0 +1,1139 @@
 +/* -*- mode: c; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 +/* vi: set ts=8 sw=8 sts=8: */
 +/*
@@ -1411,7 +1412,7 @@ index 0000000..9ac7e45
 +                                        const struct gl_config *psGLMode)
 +{
 +	memset(psConfigInfo, 0, sizeof(*psConfigInfo));
-+	
++
 +	if (psGLMode)
 +	{
 +		psConfigInfo->samples           = psGLMode->samples;
@@ -1681,20 +1682,25 @@ index 0000000..9ac7e45
 +static GLboolean PVRDRICreateContext(gl_api eMesaAPI,
 +                                     const struct gl_config *psGLMode,
 +                                     __DRIcontext *psDRIContext,
-+                                     unsigned uMajorVersion,
-+                                     unsigned uMinorVersion,
-+                                     uint32_t uFlags,
-+                                     bool notify_reset,
++                                     const struct __DriverContextConfig *psCtxConfig,
 +                                     unsigned *puError,
 +                                     void *pvSharedContextPrivate)
 +{
 +	__DRIscreen *psDRIScreen = psDRIContext->driScreenPriv;
 +	PVRDRIScreen *psPVRScreen = (PVRDRIScreen *)DRIScreenPrivate(psDRIScreen);
 +	PVRDRIContext *psPVRContext;
-+	unsigned uPriority;
 +	PVRDRIAPISubType eAPISub = PVRDRI_API_SUB_NONE;
++	uint32_t uFlags;
++	unsigned uMajorVersion, uMinorVersion;
++	bool notify_reset;
++	unsigned uPriority;
 +	PVRDRIConfigInfo sConfigInfo;
 +	bool bResult;
++
++	uFlags = psCtxConfig->flags;
++	uMajorVersion = psCtxConfig->major_version;
++	uMinorVersion = psCtxConfig->minor_version;
++	notify_reset = psCtxConfig->reset_strategy;
 +
 +	psPVRContext = calloc(1, sizeof(*psPVRContext));
 +	if (psPVRContext == NULL)
@@ -1709,7 +1715,7 @@ index 0000000..9ac7e45
 +	psPVRContext->psPVRScreen = psPVRScreen;
 +
 +#if defined(__DRI_PRIORITY)
-+	uPriority = psDRIContext->priority;
++	uPriority = psCtxConfig->priority;
 +#else
 +	uPriority = PVRDRI_CONTEXT_PRIORITY_MEDIUM;
 +#endif
@@ -2948,7 +2954,7 @@ index 0000000..877e23f
 +};
 diff --git a/src/mesa/drivers/dri/pvr/pvrimage.c b/src/mesa/drivers/dri/pvr/pvrimage.c
 new file mode 100644
-index 0000000..8bd8057
+index 0000000..3a35af1
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrimage.c
 @@ -0,0 +1,1042 @@
@@ -3445,7 +3451,7 @@ index 0000000..8bd8057
 +	}
 +
 +	PVRDRIEGLImageSetCallbackData(psEGLImage, image);
-+	
++
 +	/*
 +	 * We can't destroy the image after this point, as the
 +	 * renderbuffer now has a reference to it.
@@ -4222,10 +4228,10 @@ index 0000000..3fdc0a8
 +#endif /* defined(__PVRQUEUE_H__) */
 diff --git a/src/mesa/drivers/dri/pvr/pvrutil.c b/src/mesa/drivers/dri/pvr/pvrutil.c
 new file mode 100644
-index 0000000..53d4fd4
+index 0000000..82dca8d
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrutil.c
-@@ -0,0 +1,589 @@
+@@ -0,0 +1,592 @@
 +/* -*- mode: c; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 +/* vi: set ts=8 sw=8 sts=8: */
 +/*
@@ -4599,7 +4605,10 @@ index 0000000..53d4fd4
 +
 +const __DRIconfig **PVRDRICreateConfigs(void)
 +{
-+	static const GLenum asBackBufferModes[]	= { GLX_NONE, GLX_SWAP_UNDEFINED_OML };
++	static const GLenum asBackBufferModes[]	= {
++		__DRI_ATTRIB_SWAP_NONE,
++		__DRI_ATTRIB_SWAP_UNDEFINED,
++	};
 +	const uint8_t *puDepthBits = PVRDRIDepthBitsArray();
 +	const uint8_t *puStencilBits = PVRDRIStencilBitsArray();
 +	const uint8_t *puMSAASamples = PVRDRIMSAABitsArray();

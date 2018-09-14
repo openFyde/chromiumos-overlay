@@ -4,12 +4,11 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="277621bbb724b0a627a0f5473bdeb82e02fdf389"
-CROS_WORKON_TREE="286d9bc36c9a9302b6578a2d791a97f70c98ff74"
+CROS_WORKON_COMMIT="0f959215c340150cb6075f5c2d3ccfc5d109558f"
+CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="mesa"
 CROS_WORKON_BLACKLIST="1"
 
 if [[ ${PV} = 9999* ]]; then
@@ -44,18 +43,21 @@ KEYWORDS="*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
-VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} freedreno llvmpipe mach64 mga nouveau powervr r128 radeonsi savage sis vmware tdfx via"
+VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} freedreno llvmpipe mach64 mga nouveau powervr r128 radeonsi savage sis softpipe tdfx via virgl vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri egl -gallium -gbm gles1 gles2 -llvm +nptl pic selinux
-	shared-glapi kernel_FreeBSD vulkan xlib-glx X"
+	shared-glapi kernel_FreeBSD vulkan wayland xlib-glx X"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 
-# keep correct libdrm dep
+REQUIRED_USE="video_cards_amdgpu? ( llvm )
+	video_cards_llvmpipe? ( llvm )"
+
+# keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
 	!media-libs/mesa
@@ -66,6 +68,7 @@ RDEPEND="
 		x11-libs/libXext
 		x11-libs/libXxf86vm
 	)
+	llvm? ( virtual/libelf )
 	dev-libs/expat
 	dev-libs/libgcrypt
 	virtual/udev
@@ -79,6 +82,7 @@ DEPEND="${RDEPEND}
 	sys-devel/flex
 	virtual/pkgconfig
 	x11-base/xorg-proto
+	wayland? ( >=dev-libs/wayland-protocols-1.8 )
 	llvm? ( sys-devel/llvm )
 	video_cards_powervr? (
 		virtual/img-ddk
@@ -93,11 +97,6 @@ QA_EXECSTACK="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 
 # Think about: ggi, fbcon, no-X configs
-
-pkg_setup() {
-	# workaround toc-issue wrt #386545
-	use ppc64 && append-flags -mminimal-toc
-}
 
 src_prepare() {
 	# apply patches
@@ -114,40 +113,27 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	epatch "${FILESDIR}"/9.1-mesa-st-no-flush-front.patch
-	epatch "${FILESDIR}"/10.3-state_tracker-gallium-fix-crash-with-st_renderbuffer.patch
-	epatch "${FILESDIR}"/10.3-state_tracker-gallium-fix-crash-with-st_renderbuffer-freedreno.patch
 	epatch "${FILESDIR}"/8.1-array-overflow.patch
-	epatch "${FILESDIR}"/10.3-fix-compile-disable-asm.patch
-	epatch "${FILESDIR}"/9.1-renderbuffer_0sized.patch
-	epatch "${FILESDIR}"/10.0-i965-Disable-ctx-gen6.patch
-	epatch "${FILESDIR}"/10.3-dri-i965-Return-NULL-if-we-don-t-have-a-miptree.patch
-	epatch "${FILESDIR}"/10.3-Fix-workaround-corner-cases.patch
-	epatch "${FILESDIR}"/10.3-drivers-dri-i965-gen6-Clamp-scissor-state-instead-of.patch
-	epatch "${FILESDIR}"/10.3-i965-remove-read-only-restriction-of-imported-buffer.patch
-	epatch "${FILESDIR}"/10.3-egl-dri2-report-EXT_image_dma_buf_import-extension.patch
-	epatch "${FILESDIR}"/10.3-egl-dri2-add-support-for-image-config-query.patch
-	epatch "${FILESDIR}"/12.1-dri-add-swrast-support-on-top-of-prime-imported.patch
-	epatch "${FILESDIR}"/11.5-meta-state-fix.patch
-	epatch "${FILESDIR}"/12.1-radeonsi-sampler_view_destroy.patch
 	epatch "${FILESDIR}"/17.0-glcpp-Hack-to-handle-expressions-in-line-di.patch
-	epatch "${FILESDIR}"/17.0-CHROMIUM-disable-hiz-on-braswell.patch
+	epatch "${FILESDIR}"/18.1-glsl-cache-save-restore-ExternalSamplersUsed.patch
+	epatch "${FILESDIR}"/18.1-util-disk_cache-Fix-disk_cache_get_function_timestamp-with-disabled-cache.patch
+	epatch "${FILESDIR}"/18.2-mesa-GL_MESA_framebuffer_flip_y-extension-v4.patch
+	epatch "${FILESDIR}"/18.1-egl-surfaceless-swrastloader.patch
+	epatch "${FILESDIR}"/18.1-egl-surfaceless-drmless.patch
+	epatch "${FILESDIR}"/18.3-glapi-actually-implement-GL_EXT_robustness.patch
 
 	# IMG patches
 	epatch "${FILESDIR}"/0001-dri-pvr-Introduce-PowerVR-DRI-driver.patch
 	epatch "${FILESDIR}"/0003-dri-Add-some-new-DRI-formats-and-fourccs.patch
 	epatch "${FILESDIR}"/0004-dri-Add-MT21-DRI-fourcc.patch
-	epatch "${FILESDIR}"/0005-Separate-EXT_framebuffer_object-from-ARB-version.patch
-	epatch "${FILESDIR}"/0006-GL_EXT_robustness-entry-points.patch
-	epatch "${FILESDIR}"/0007-GL_EXT_sparse_texture-entry-points.patch
-	epatch "${FILESDIR}"/0008-Add-support-for-various-GLES-extensions.patch
-	epatch "${FILESDIR}"/0009-Add-EGL_IMG_context_priority-EGL-extension.patch
-	epatch "${FILESDIR}"/0016-GL_EXT_shader_pixel_local_storage2-entry-points.patch
-	epatch "${FILESDIR}"/0018-GL_IMG_framebuffer_downsample-entry-points.patch
-	epatch "${FILESDIR}"/0019-GL_OVR_multiview-entry-points.patch
-	epatch "${FILESDIR}"/0020-Add-OVR_multiview_multisampled_render_to_texture.patch
-	epatch "${FILESDIR}"/0026-GL_IMG_bindless_texture-entry-points.patch
-	epatch "${FILESDIR}"/0028-egl-automatically-call-eglReleaseThread-on-thread-te.patch
+	epatch "${FILESDIR}"/0006-GL_EXT_sparse_texture-entry-points.patch
+	epatch "${FILESDIR}"/0007-Add-support-for-various-GLES-extensions.patch
+	epatch "${FILESDIR}"/0014-GL_EXT_shader_pixel_local_storage2-entry-points.patch
+	epatch "${FILESDIR}"/0016-GL_IMG_framebuffer_downsample-entry-points.patch
+	epatch "${FILESDIR}"/0017-GL_OVR_multiview-entry-points.patch
+	epatch "${FILESDIR}"/0018-Add-OVR_multiview_multisampled_render_to_texture.patch
+	epatch "${FILESDIR}"/0023-GL_IMG_bindless_texture-entry-points.patch
+	epatch "${FILESDIR}"/0025-egl-automatically-call-eglReleaseThread-on-thread-te.patch
 
 	base_src_prepare
 
@@ -160,9 +146,33 @@ src_configure() {
 	# Needs std=gnu++11 to build with libc++. crbug.com/750831
 	append-cxxflags "-std=gnu++11"
 
+	# For llvmpipe on ARM we'll get errors about being unable to resolve
+	# "__aeabi_unwind_cpp_pr1" if we don't include this flag; seems wise
+	# to include it for all platforms though.
+	use video_cards_llvmpipe && append-flags "-rtlib=libgcc"
+
 	driver_enable pvr
 
-	export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
+	LLVM_ENABLE="--disable-llvm"
+	if use llvm && use !video_cards_softpipe; then
+		export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
+		LLVM_ENABLE="--enable-llvm"
+	fi
+
+	local egl_platforms=""
+	if use egl; then
+		egl_platforms="--with-platforms=surfaceless"
+
+		if use X; then
+			egl_platforms="${egl_platforms},x11"
+		fi
+
+		if use wayland; then
+			egl_platforms="${egl_platforms},wayland"
+		fi
+	fi
+
+	append-flags "-UENABLE_SHADER_CACHE"
 
 	# --with-driver=dri|xlib|osmesa || do we need osmesa?
 	econf \
@@ -170,7 +180,7 @@ src_configure() {
 		--with-driver=dri \
 		--disable-glu \
 		--disable-glut \
-		--disable-omx \
+		--disable-omx-bellagio \
 		--disable-va \
 		--disable-vdpau \
 		--disable-xvmc \
@@ -179,7 +189,6 @@ src_configure() {
 		--disable-dri3 \
 		--disable-llvm-shared-libs \
 		$(use_enable X glx) \
-		$(use_enable llvm gallium-llvm) \
 		$(use_enable egl) \
 		$(use_enable gbm) \
 		$(use_enable gles1) \
@@ -194,19 +203,15 @@ src_configure() {
 		--with-dri-drivers=${DRI_DRIVERS} \
 		--with-gallium-drivers=${GALLIUM_DRIVERS} \
 		--with-vulkan-drivers=${VULKAN_DRIVERS} \
-		$(use egl && echo "--with-egl-platforms=surfaceless")
+		${LLVM_ENABLE} \
+		"${egl_platforms}"
+
 }
 
 src_install() {
 	base_src_install
 
-	# Remove redundant headers
-	# GLU and GLUT
-	rm -f "${D}"/usr/include/GL/glu*.h || die "Removing GLU and GLUT headers failed."
-	# Glew includes
-	rm -f "${D}"/usr/include/GL/{glew,glxew,wglew}.h \
-		|| die "Removing glew includes failed."
-	# GLES headers
+	# Remove redundant GLES headers
 	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
 
 	# Move libGL and others from /usr/lib to /usr/lib/opengl/blah/lib
