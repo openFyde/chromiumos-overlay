@@ -1,0 +1,150 @@
+From: Caroline Tice <cmtice@google.com>
+Date: 14-Sep-2018
+
+This patch reverts LLD commit r326242.  It appears to be necessary for
+upgrading LLD to r339371.
+
+r326242 CL description:
+
+Author: Rafael Espindola <rafael.espindola@gmail.com>
+Date:   Tue Feb 27 20:31:22 2018 +0000
+
+    Put undefined symbols from shared libraries in the symbol table.
+
+    With the recent fixes these symbols have more in common than not
+    with regular undefined symbols.
+
+    git-svn-id: https://llvm.org/svn/llvm-project/lld/trunk@326242 91177308-0d34-0410-b5e6-96231b3b80d8
+    
+
+diff --git a/ELF/Driver.cpp b/ELF/Driver.cpp
+index 26fc015..b25d97e 100644
+--- a/ELF/Driver.cpp
++++ b/ELF/Driver.cpp
+@@ -1420,6 +1420,10 @@ template <class ELFT> void LinkerDriver::link(opt::InputArgList &Args) {
+   // They also might be exported if referenced by DSOs.
+   Script->declareSymbols();
+ 
++  // Handle undefined symbols in DSOs.
++  if (!Config->Shared)
++    Symtab->scanShlibUndefined<ELFT>();
++
+   // Handle the -exclude-libs option.
+   if (Args.hasArg(OPT_exclude_libs))
+     excludeLibs<ELFT>(Args);
+diff --git a/ELF/InputFiles.cpp b/ELF/InputFiles.cpp
+index e4a32be..84cd276 100644
+--- a/ELF/InputFiles.cpp
++++ b/ELF/InputFiles.cpp
+@@ -994,10 +994,7 @@ template <class ELFT> void SharedFile<ELFT>::parseRest() {
+ 
+     StringRef Name = CHECK(Sym.getName(this->StringTable), this);
+     if (Sym.isUndefined()) {
+-      Symbol *S = Symtab->addUndefined<ELFT>(Name, Sym.getBinding(),
+-                                             Sym.st_other, Sym.getType(),
+-                                             /*CanOmitFromDynSym=*/false, this);
+-      S->ExportDynamic = true;
++      this->Undefs.insert(Name);
+       continue;
+     }
+ 
+diff --git a/ELF/InputFiles.h b/ELF/InputFiles.h
+index 0db3203..423b082 100644
+--- a/ELF/InputFiles.h
++++ b/ELF/InputFiles.h
+@@ -92,6 +92,13 @@ public:
+     return Symbols;
+   }
+ 
++  // Returns undefined symbols of a shared library.
++  // It is a runtime error to call this function on files of other types.
++  const llvm::DenseSet<StringRef> &getUndefinedSymbols() {
++    assert(FileKind == SharedKind);
++    return Undefs;
++  }
++
+   // Filename of .a which contained this file. If this file was
+   // not in an archive file, it is the empty string. We use this
+   // string for creating error messages.
+@@ -127,6 +134,7 @@ protected:
+   InputFile(Kind K, MemoryBufferRef M);
+   std::vector<InputSectionBase *> Sections;
+   std::vector<Symbol *> Symbols;
++  llvm::DenseSet<StringRef> Undefs;
+ 
+ private:
+   const Kind FileKind;
+diff --git a/ELF/LinkerScript.cpp b/ELF/LinkerScript.cpp
+index c865e9b..08bec1e 100644
+--- a/ELF/LinkerScript.cpp
++++ b/ELF/LinkerScript.cpp
+@@ -157,6 +157,10 @@ static bool shouldDefineSym(SymbolAssignment *Cmd) {
+   Symbol *B = Symtab->find(Cmd->Name);
+   if (B && !B->isDefined())
+     return true;
++  // It might also be referenced by a DSO.
++  for (InputFile *F : SharedFiles)
++    if (F->getUndefinedSymbols().count(Cmd->Name))
++      return true;
+   return false;
+ }
+ 
+diff --git a/ELF/SymbolTable.cpp b/ELF/SymbolTable.cpp
+index 1f5a84e..0b4c6a4 100644
+--- a/ELF/SymbolTable.cpp
++++ b/ELF/SymbolTable.cpp
+@@ -656,6 +656,29 @@ template <class ELFT> void SymbolTable::fetchLazy(Symbol *Sym) {
+     addFile<ELFT>(File);
+ }
+ 
++// This function takes care of the case in which shared libraries depend on
++// the user program (not the other way, which is usual). Shared libraries
++// may have undefined symbols, expecting that the user program provides
++// the definitions for them. An example is BSD's __progname symbol.
++// We need to put such symbols to the main program's .dynsym so that
++// shared libraries can find them.
++// Except this, we ignore undefined symbols in DSOs.
++template <class ELFT> void SymbolTable::scanShlibUndefined() {
++  for (InputFile *F : SharedFiles) {
++    for (StringRef U : F->getUndefinedSymbols()) {
++      Symbol *Sym = find(U);
++      if (!Sym)
++	continue;
++      if (auto *L = dyn_cast<Lazy>(Sym))
++	if (InputFile *File = L->fetch())
++	  addFile<ELFT>(File);
++
++      if (Sym->isDefined())
++	Sym->ExportDynamic = true;
++    }
++  }
++}
++
+ // Initialize DemangledSyms with a map from demangled symbols to symbol
+ // objects. Used to handle "extern C++" directive in version scripts.
+ //
+@@ -869,6 +892,11 @@ template void SymbolTable::fetchLazy<ELF32BE>(Symbol *);
+ template void SymbolTable::fetchLazy<ELF64LE>(Symbol *);
+ template void SymbolTable::fetchLazy<ELF64BE>(Symbol *);
+ 
++template void SymbolTable::scanShlibUndefined<ELF32LE>();
++template void SymbolTable::scanShlibUndefined<ELF32BE>();
++template void SymbolTable::scanShlibUndefined<ELF64LE>();
++template void SymbolTable::scanShlibUndefined<ELF64BE>();
++
+ template void SymbolTable::addShared<ELF32LE>(StringRef, SharedFile<ELF32LE> &,
+                                               const typename ELF32LE::Sym &,
+                                               uint32_t Alignment, uint32_t);
+diff --git a/ELF/SymbolTable.h b/ELF/SymbolTable.h
+index 5e6d44d..b40d5d4 100644
+--- a/ELF/SymbolTable.h
++++ b/ELF/SymbolTable.h
+@@ -78,7 +78,7 @@ public:
+                                    InputFile *File);
+ 
+   template <class ELFT> void fetchLazy(Symbol *Sym);
+-
++  template <class ELFT> void scanShlibUndefined();
+   void scanVersionScript();
+ 
+   Symbol *find(StringRef Name);

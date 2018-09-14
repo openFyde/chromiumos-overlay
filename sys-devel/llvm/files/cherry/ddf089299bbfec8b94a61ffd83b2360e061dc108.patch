@@ -1,0 +1,22 @@
+commit ddf089299bbfec8b94a61ffd83b2360e061dc108
+Author: Joel Galenson <jgalenson@google.com>
+Date:   Fri Aug 24 19:40:35 2018 +0000
+
+    Use unique_ptr.
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@340642 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Object/ELFObjectFile.cpp b/lib/Object/ELFObjectFile.cpp
+index 173cb30ca40..3f8984800e9 100644
+--- a/lib/Object/ELFObjectFile.cpp
++++ b/lib/Object/ELFObjectFile.cpp
+@@ -351,7 +351,8 @@ ELFObjectFileBase::getPltAddresses() const {
+     default:
+       return {};
+   }
+-  const auto *MIA = T->createMCInstrAnalysis(T->createMCInstrInfo());
++  std::unique_ptr<const MCInstrAnalysis> MIA(
++      T->createMCInstrAnalysis(T->createMCInstrInfo()));
+   if (!MIA)
+     return {};
+   Optional<SectionRef> Plt = None, RelaPlt = None, GotPlt = None;

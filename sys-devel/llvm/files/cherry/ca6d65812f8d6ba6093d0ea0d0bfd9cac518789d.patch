@@ -1,0 +1,204 @@
+commit ca6d65812f8d6ba6093d0ea0d0bfd9cac518789d
+Author: Tri Vo <trong@android.com>
+Date:   Wed Sep 12 23:45:04 2018 +0000
+
+    [AArch64] Support reserving x1-7 registers.
+    
+    Summary: Reserving registers x1-7 is used to support CONFIG_ARM64_LSE_ATOMICS in Linux kernel. This change adds support for reserving registers x1 through x7.
+    
+    Reviewers: javed.absar, efriedma, nickdesaulniers, srhines, phosek
+    
+    Reviewed By: nickdesaulniers
+    
+    Subscribers: manojgupta, jfb, cfe-commits, kristof.beyls
+    
+    Differential Revision: https://reviews.llvm.org/D48581
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/cfe/trunk@342100 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/docs/ClangCommandLineReference.rst b/docs/ClangCommandLineReference.rst
+index b60c4ed42f..2ba544b06b 100644
+--- a/docs/ClangCommandLineReference.rst
++++ b/docs/ClangCommandLineReference.rst
+@@ -2298,6 +2298,34 @@ The thread model to use, e.g. posix, single (posix by default)
+ 
+ AARCH64
+ -------
++.. option:: -ffixed-x1
++
++Reserve the x1 register (AArch64 only)
++
++.. option:: -ffixed-x2
++
++Reserve the x2 register (AArch64 only)
++
++.. option:: -ffixed-x3
++
++Reserve the x3 register (AArch64 only)
++
++.. option:: -ffixed-x4
++
++Reserve the x4 register (AArch64 only)
++
++.. option:: -ffixed-x5
++
++Reserve the x5 register (AArch64 only)
++
++.. option:: -ffixed-x6
++
++Reserve the x6 register (AArch64 only)
++
++.. option:: -ffixed-x7
++
++Reserve the x7 register (AArch64 only)
++
+ .. option:: -ffixed-x18
+ 
+ Reserve the x18 register (AArch64 only)
+diff --git a/include/clang/Driver/Options.td b/include/clang/Driver/Options.td
+index e1c284447c..bdbc16717a 100644
+--- a/include/clang/Driver/Options.td
++++ b/include/clang/Driver/Options.td
+@@ -2050,10 +2050,9 @@ def mfix_cortex_a53_835769 : Flag<["-"], "mfix-cortex-a53-835769">,
+ def mno_fix_cortex_a53_835769 : Flag<["-"], "mno-fix-cortex-a53-835769">,
+   Group<m_aarch64_Features_Group>,
+   HelpText<"Don't workaround Cortex-A53 erratum 835769 (AArch64 only)">;
+-def ffixed_x18 : Flag<["-"], "ffixed-x18">, Group<m_aarch64_Features_Group>,
+-  HelpText<"Reserve the x18 register (AArch64 only)">;
+-def ffixed_x20 : Flag<["-"], "ffixed-x20">, Group<m_aarch64_Features_Group>,
+-  HelpText<"Reserve the x20 register (AArch64 only)">;
++foreach i = {1-7,18,20} in
++  def ffixed_x#i : Flag<["-"], "ffixed-x"#i>, Group<m_aarch64_Features_Group>,
++    HelpText<"Reserve the "#i#" register (AArch64 only)">;
+ 
+ def msign_return_address : Joined<["-"], "msign-return-address=">,
+   Flags<[CC1Option]>, Group<m_Group>,
+diff --git a/lib/Driver/ToolChains/Arch/AArch64.cpp b/lib/Driver/ToolChains/Arch/AArch64.cpp
+index 5114279b4b..ef31a0458d 100644
+--- a/lib/Driver/ToolChains/Arch/AArch64.cpp
++++ b/lib/Driver/ToolChains/Arch/AArch64.cpp
+@@ -198,6 +198,27 @@ void aarch64::getAArch64TargetFeatures(const Driver &D, const ArgList &Args,
+     if (A->getOption().matches(options::OPT_mno_unaligned_access))
+       Features.push_back("+strict-align");
+ 
++  if (Args.hasArg(options::OPT_ffixed_x1))
++    Features.push_back("+reserve-x1");
++
++  if (Args.hasArg(options::OPT_ffixed_x2))
++    Features.push_back("+reserve-x2");
++
++  if (Args.hasArg(options::OPT_ffixed_x3))
++    Features.push_back("+reserve-x3");
++
++  if (Args.hasArg(options::OPT_ffixed_x4))
++    Features.push_back("+reserve-x4");
++
++  if (Args.hasArg(options::OPT_ffixed_x5))
++    Features.push_back("+reserve-x5");
++
++  if (Args.hasArg(options::OPT_ffixed_x6))
++    Features.push_back("+reserve-x6");
++
++  if (Args.hasArg(options::OPT_ffixed_x7))
++    Features.push_back("+reserve-x7");
++
+   if (Args.hasArg(options::OPT_ffixed_x18))
+     Features.push_back("+reserve-x18");
+ 
+diff --git a/test/Driver/aarch64-fixed-x-register.c b/test/Driver/aarch64-fixed-x-register.c
+new file mode 100644
+index 0000000000..bc7d993ed9
+--- /dev/null
++++ b/test/Driver/aarch64-fixed-x-register.c
+@@ -0,0 +1,71 @@
++// RUN: %clang -target aarch64-none-gnu -ffixed-x1 -### %s 2> %t
++// RUN: FileCheck --check-prefix=CHECK-FIXED-X1 < %t %s
++// CHECK-FIXED-X1: "-target-feature" "+reserve-x1"
++
++// RUN: %clang -target aarch64-none-gnu -ffixed-x2 -### %s 2> %t
++// RUN: FileCheck --check-prefix=CHECK-FIXED-X2 < %t %s
++// CHECK-FIXED-X2: "-target-feature" "+reserve-x2"
++
++// RUN: %clang -target aarch64-none-gnu -ffixed-x3 -### %s 2> %t
++// RUN: FileCheck --check-prefix=CHECK-FIXED-X3 < %t %s
++// CHECK-FIXED-X3: "-target-feature" "+reserve-x3"
++
++// RUN: %clang -target aarch64-none-gnu -ffixed-x4 -### %s 2> %t
++// RUN: FileCheck --check-prefix=CHECK-FIXED-X4 < %t %s
++// CHECK-FIXED-X4: "-target-feature" "+reserve-x4"
++
++// RUN: %clang -target aarch64-none-gnu -ffixed-x5 -### %s 2> %t
++// RUN: FileCheck --check-prefix=CHECK-FIXED-X5 < %t %s
++// CHECK-FIXED-X5: "-target-feature" "+reserve-x5"
++
++// RUN: %clang -target aarch64-none-gnu -ffixed-x6 -### %s 2> %t
++// RUN: FileCheck --check-prefix=CHECK-FIXED-X6 < %t %s
++// CHECK-FIXED-X6: "-target-feature" "+reserve-x6"
++
++// RUN: %clang -target aarch64-none-gnu -ffixed-x7 -### %s 2> %t
++// RUN: FileCheck --check-prefix=CHECK-FIXED-X7 < %t %s
++// CHECK-FIXED-X7: "-target-feature" "+reserve-x7"
++
++// RUN: %clang -target aarch64-none-gnu -ffixed-x18 -### %s 2> %t
++// RUN: FileCheck --check-prefix=CHECK-FIXED-X18 < %t %s
++// CHECK-FIXED-X18: "-target-feature" "+reserve-x18"
++
++// RUN: %clang -target aarch64-none-gnu -ffixed-x20 -### %s 2> %t
++// RUN: FileCheck --check-prefix=CHECK-FIXED-X20 < %t %s
++// CHECK-FIXED-X20: "-target-feature" "+reserve-x20"
++
++// Test multiple of reserve-x# options together.
++// RUN: %clang -target aarch64-none-gnu \
++// RUN: -ffixed-x1 \
++// RUN: -ffixed-x2 \
++// RUN: -ffixed-x18 \
++// RUN: -### %s 2> %t
++// RUN: FileCheck \
++// RUN: --check-prefix=CHECK-FIXED-X1 \
++// RUN: --check-prefix=CHECK-FIXED-X2 \
++// RUN: --check-prefix=CHECK-FIXED-X18 \
++// RUN: < %t %s
++
++// Test all reserve-x# options together.
++// RUN: %clang -target aarch64-none-gnu \
++// RUN: -ffixed-x1 \
++// RUN: -ffixed-x2 \
++// RUN: -ffixed-x3 \
++// RUN: -ffixed-x4 \
++// RUN: -ffixed-x5 \
++// RUN: -ffixed-x6 \
++// RUN: -ffixed-x7 \
++// RUN: -ffixed-x18 \
++// RUN: -ffixed-x20 \
++// RUN: -### %s 2> %t
++// RUN: FileCheck \
++// RUN: --check-prefix=CHECK-FIXED-X1 \
++// RUN: --check-prefix=CHECK-FIXED-X2 \
++// RUN: --check-prefix=CHECK-FIXED-X3 \
++// RUN: --check-prefix=CHECK-FIXED-X4 \
++// RUN: --check-prefix=CHECK-FIXED-X5 \
++// RUN: --check-prefix=CHECK-FIXED-X6 \
++// RUN: --check-prefix=CHECK-FIXED-X7 \
++// RUN: --check-prefix=CHECK-FIXED-X18 \
++// RUN: --check-prefix=CHECK-FIXED-X20 \
++// RUN: < %t %s
+diff --git a/test/Driver/aarch64-fixed-x18.c b/test/Driver/aarch64-fixed-x18.c
+deleted file mode 100644
+index 631865f9aa..0000000000
+--- a/test/Driver/aarch64-fixed-x18.c
++++ /dev/null
+@@ -1,4 +0,0 @@
+-// RUN: %clang -target aarch64-none-gnu -ffixed-x18 -### %s 2> %t
+-// RUN: FileCheck --check-prefix=CHECK-FIXED-X18 < %t %s
+-
+-// CHECK-FIXED-X18: "-target-feature" "+reserve-x18"
+diff --git a/test/Driver/aarch64-fixed-x20.c b/test/Driver/aarch64-fixed-x20.c
+deleted file mode 100644
+index 0be63971a4..0000000000
+--- a/test/Driver/aarch64-fixed-x20.c
++++ /dev/null
+@@ -1,4 +0,0 @@
+-// RUN: %clang -target aarch64-none-gnu -ffixed-x20 -### %s 2> %t
+-// RUN: FileCheck --check-prefix=CHECK-FIXED-X20 < %t %s
+-
+-// CHECK-FIXED-X20: "-target-feature" "+reserve-x20"

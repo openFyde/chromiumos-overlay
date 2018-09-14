@@ -1,0 +1,321 @@
+commit 42eb082d63383b17c395e033e0095076efe4cb5e
+Author: Eric Christopher <echristo@gmail.com>
+Date:   Thu Sep 6 22:09:31 2018 +0000
+
+    The initial .text section generated in object files was missing the
+    SHF_ARM_PURECODE flag when being built with the -mexecute-only flag.
+    All code sections of an ELF must have the flag set for the final .text
+    section to be execute-only, otherwise the flag gets removed.
+    
+    A HasData flag is added to MCSection to aid in the determination that
+    the section is empty. A virtual setTargetSectionFlags is added to
+    MCELFObjectTargetWriter to allow subclasses to set target specific
+    section flags to be added to sections which we then use in the ARM
+    backend to set SHF_ARM_PURECODE.
+    
+    Patch by Ivan Lozano!
+    
+    Reviewed By: echristo
+    
+    Differential Revision: https://reviews.llvm.org/D48792
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@341593 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/include/llvm/MC/MCELFObjectWriter.h b/include/llvm/MC/MCELFObjectWriter.h
+index 58cb3aeda8d..f226d6a45a5 100644
+--- a/include/llvm/MC/MCELFObjectWriter.h
++++ b/include/llvm/MC/MCELFObjectWriter.h
+@@ -13,6 +13,7 @@
+ #include "llvm/ADT/Triple.h"
+ #include "llvm/BinaryFormat/ELF.h"
+ #include "llvm/MC/MCObjectWriter.h"
++#include "llvm/MC/MCSectionELF.h"
+ #include "llvm/Support/Casting.h"
+ #include "llvm/Support/raw_ostream.h"
+ #include <cstdint>
+@@ -92,6 +93,8 @@ public:
+   virtual void sortRelocs(const MCAssembler &Asm,
+                           std::vector<ELFRelocationEntry> &Relocs);
+ 
++  virtual void addTargetSectionFlags(MCContext &Ctx, MCSectionELF &Sec);
++
+   /// \name Accessors
+   /// @{
+   uint8_t getOSABI() const { return OSABI; }
+diff --git a/include/llvm/MC/MCSection.h b/include/llvm/MC/MCSection.h
+index ba5c60d3ba5..eb210b4e9df 100644
+--- a/include/llvm/MC/MCSection.h
++++ b/include/llvm/MC/MCSection.h
+@@ -78,6 +78,10 @@ private:
+   /// Whether this section has had instructions emitted into it.
+   bool HasInstructions : 1;
+ 
++  /// Whether this section has had data emitted into it.
++  /// Right now this is only used by the ARM backend.
++  bool HasData : 1;
++
+   bool IsRegistered : 1;
+ 
+   MCDummyFragment DummyFragment;
+@@ -137,6 +141,9 @@ public:
+   bool hasInstructions() const { return HasInstructions; }
+   void setHasInstructions(bool Value) { HasInstructions = Value; }
+ 
++  bool hasData() const { return HasData; }
++  void setHasData(bool Value) { HasData = Value; }
++
+   bool isRegistered() const { return IsRegistered; }
+   void setIsRegistered(bool Value) { IsRegistered = Value; }
+ 
+diff --git a/lib/MC/ELFObjectWriter.cpp b/lib/MC/ELFObjectWriter.cpp
+index 358c036f2a7..5b8b013ad08 100644
+--- a/lib/MC/ELFObjectWriter.cpp
++++ b/lib/MC/ELFObjectWriter.cpp
+@@ -29,6 +29,7 @@
+ #include "llvm/MC/MCFixup.h"
+ #include "llvm/MC/MCFixupKindInfo.h"
+ #include "llvm/MC/MCFragment.h"
++#include "llvm/MC/MCObjectFileInfo.h"
+ #include "llvm/MC/MCObjectWriter.h"
+ #include "llvm/MC/MCSection.h"
+ #include "llvm/MC/MCSectionELF.h"
+@@ -1107,6 +1108,8 @@ uint64_t ELFWriter::writeObject(MCAssembler &Asm, const MCAsmLayout &Layout) {
+       SectionIndexMap[RelSection] = addToSectionTable(RelSection);
+       Relocations.push_back(RelSection);
+     }
++
++    OWriter.TargetObjectWriter->addTargetSectionFlags(Ctx, Section);
+   }
+ 
+   MCSectionELF *CGProfileSection = nullptr;
+diff --git a/lib/MC/MCELFObjectTargetWriter.cpp b/lib/MC/MCELFObjectTargetWriter.cpp
+index 483ee94c0db..ff53dd7299c 100644
+--- a/lib/MC/MCELFObjectTargetWriter.cpp
++++ b/lib/MC/MCELFObjectTargetWriter.cpp
+@@ -26,3 +26,6 @@ void
+ MCELFObjectTargetWriter::sortRelocs(const MCAssembler &Asm,
+                                     std::vector<ELFRelocationEntry> &Relocs) {
+ }
++
++void MCELFObjectTargetWriter::addTargetSectionFlags(MCContext &Ctx,
++                                                    MCSectionELF &Sec) {}
+diff --git a/lib/MC/MCObjectStreamer.cpp b/lib/MC/MCObjectStreamer.cpp
+index 019b9348a4e..8c88db009bd 100644
+--- a/lib/MC/MCObjectStreamer.cpp
++++ b/lib/MC/MCObjectStreamer.cpp
+@@ -496,6 +496,12 @@ void MCObjectStreamer::EmitBytes(StringRef Data) {
+   MCDataFragment *DF = getOrCreateDataFragment();
+   flushPendingLabels(DF, DF->getContents().size());
+   DF->getContents().append(Data.begin(), Data.end());
++
++  // EmitBytes might not cover all possible ways we emit data (or could be used
++  // to emit executable code in some cases), but is the best method we have
++  // right now for checking this.
++  MCSection *Sec = getCurrentSectionOnly();
++  Sec->setHasData(true);
+ }
+ 
+ void MCObjectStreamer::EmitValueToAlignment(unsigned ByteAlignment,
+diff --git a/lib/MC/MCSection.cpp b/lib/MC/MCSection.cpp
+index 97bc65387dd..d4f11d10136 100644
+--- a/lib/MC/MCSection.cpp
++++ b/lib/MC/MCSection.cpp
+@@ -23,7 +23,8 @@ using namespace llvm;
+ 
+ MCSection::MCSection(SectionVariant V, SectionKind K, MCSymbol *Begin)
+     : Begin(Begin), BundleGroupBeforeFirstInst(false), HasInstructions(false),
+-      IsRegistered(false), DummyFragment(this), Variant(V), Kind(K) {}
++      HasData(false), IsRegistered(false), DummyFragment(this), Variant(V),
++      Kind(K) {}
+ 
+ MCSymbol *MCSection::getEndSymbol(MCContext &Ctx) {
+   if (!End)
+diff --git a/lib/Target/ARM/ARMTargetObjectFile.cpp b/lib/Target/ARM/ARMTargetObjectFile.cpp
+index d0620761ea9..9c13359cba7 100644
+--- a/lib/Target/ARM/ARMTargetObjectFile.cpp
++++ b/lib/Target/ARM/ARMTargetObjectFile.cpp
+@@ -32,7 +32,8 @@ void ARMElfTargetObjectFile::Initialize(MCContext &Ctx,
+                                         const TargetMachine &TM) {
+   const ARMBaseTargetMachine &ARM_TM = static_cast<const ARMBaseTargetMachine &>(TM);
+   bool isAAPCS_ABI = ARM_TM.TargetABI == ARMBaseTargetMachine::ARMABI::ARM_ABI_AAPCS;
+-  //  genExecuteOnly = ARM_TM.getSubtargetImpl()->genExecuteOnly();
++  bool genExecuteOnly =
++      ARM_TM.getMCSubtargetInfo()->hasFeature(ARM::FeatureExecuteOnly);
+ 
+   TargetLoweringObjectFileELF::Initialize(Ctx, TM);
+   InitializeELF(isAAPCS_ABI);
+@@ -40,6 +41,17 @@ void ARMElfTargetObjectFile::Initialize(MCContext &Ctx,
+   if (isAAPCS_ABI) {
+     LSDASection = nullptr;
+   }
++
++  // Make code section unreadable when in execute-only mode
++  if (genExecuteOnly) {
++    unsigned Type = ELF::SHT_PROGBITS;
++    unsigned Flags =
++        ELF::SHF_EXECINSTR | ELF::SHF_ALLOC | ELF::SHF_ARM_PURECODE;
++    // Since we cannot modify flags for an existing section, we create a new
++    // section with the right flags, and use 0 as the unique ID for
++    // execute-only text
++    TextSection = Ctx.getELFSection(".text", Type, Flags, 0, "", 0U);
++  }
+ }
+ 
+ const MCExpr *ARMElfTargetObjectFile::getTTypeGlobalReference(
+diff --git a/lib/Target/ARM/MCTargetDesc/ARMELFObjectWriter.cpp b/lib/Target/ARM/MCTargetDesc/ARMELFObjectWriter.cpp
+index 7d04c73fb3f..b8ba7584911 100644
+--- a/lib/Target/ARM/MCTargetDesc/ARMELFObjectWriter.cpp
++++ b/lib/Target/ARM/MCTargetDesc/ARMELFObjectWriter.cpp
+@@ -14,6 +14,7 @@
+ #include "llvm/MC/MCELFObjectWriter.h"
+ #include "llvm/MC/MCExpr.h"
+ #include "llvm/MC/MCFixup.h"
++#include "llvm/MC/MCObjectFileInfo.h"
+ #include "llvm/MC/MCObjectWriter.h"
+ #include "llvm/MC/MCValue.h"
+ #include "llvm/Support/ErrorHandling.h"
+@@ -40,6 +41,8 @@ namespace {
+ 
+     bool needsRelocateWithSymbol(const MCSymbol &Sym,
+                                  unsigned Type) const override;
++
++    void addTargetSectionFlags(MCContext &Ctx, MCSectionELF &Sec) override;
+   };
+ 
+ } // end anonymous namespace
+@@ -236,6 +239,21 @@ unsigned ARMELFObjectWriter::GetRelocTypeInner(const MCValue &Target,
+   }
+ }
+ 
++void ARMELFObjectWriter::addTargetSectionFlags(MCContext &Ctx,
++                                               MCSectionELF &Sec) {
++  // The mix of execute-only and non-execute-only at link time is
++  // non-execute-only. To avoid the empty implicitly created .text
++  // section from making the whole .text section non-execute-only, we
++  // mark it execute-only if it is empty and there is at least one
++  // execute-only section in the object.
++  MCSectionELF *TextSection =
++      static_cast<MCSectionELF *>(Ctx.getObjectFileInfo()->getTextSection());
++  if (Sec.getKind().isExecuteOnly() && !TextSection->hasInstructions() &&
++      !TextSection->hasData()) {
++    TextSection->setFlags(TextSection->getFlags() | ELF::SHF_ARM_PURECODE);
++  }
++}
++
+ std::unique_ptr<MCObjectTargetWriter>
+ llvm::createARMELFObjectWriter(uint8_t OSABI) {
+   return llvm::make_unique<ARMELFObjectWriter>(OSABI);
+diff --git a/test/CodeGen/ARM/execute-only.ll b/test/CodeGen/ARM/execute-only.ll
+index b5d9d89f1f7..3f42ca3b5f4 100644
+--- a/test/CodeGen/ARM/execute-only.ll
++++ b/test/CodeGen/ARM/execute-only.ll
+@@ -2,6 +2,9 @@
+ ; RUN: llc -mtriple=thumbv7m-eabi      -mattr=+execute-only %s -o - | FileCheck --check-prefix=CHECK --check-prefix=CHECK-T2 %s
+ ; RUN: llc -mtriple=thumbv8m.main-eabi -mattr=+execute-only %s -o - | FileCheck --check-prefix=CHECK --check-prefix=CHECK-T2 %s
+ 
++; CHECK-NOT: {{^ *}}.text{{$}}
++; CHECK: .section .text,"axy",%progbits,unique,0
++
+ @var = global i32 0
+ 
+ define i32 @global() minsize {
+diff --git a/test/MC/ARM/elf-execute-only-section.ll b/test/MC/ARM/elf-execute-only-section.ll
+new file mode 100644
+index 00000000000..2be3f4c7038
+--- /dev/null
++++ b/test/MC/ARM/elf-execute-only-section.ll
+@@ -0,0 +1,13 @@
++; RUN: llc < %s -mtriple=thumbv8m.base-eabi -mattr=+execute-only -filetype=obj %s -o - | \
++; RUN: llvm-readelf -s | FileCheck %s
++; RUN: llc < %s -mtriple=thumbv8m.main-eabi -mattr=+execute-only -filetype=obj %s -o - | \
++; RUN: llvm-readelf -s | FileCheck %s
++; RUN: llc < %s -mtriple=thumbv7m-eabi -mattr=+execute-only -filetype=obj %s -o - | \
++; RUN: llvm-readelf -s | FileCheck %s
++
++; CHECK-NOT: {{.text[ ]+PROGBITS[ ]+[0-9]+ [0-9]+ [0-9]+ [0-9]+ AX[^p]}}
++; CHECK: {{.text[ ]+PROGBITS[ ]+[0-9]+ [0-9]+ [0-9]+ [0-9]+ AXp}}
++define void @test_func() {
++entry:
++  ret void
++}
+diff --git a/test/MC/ELF/ARM/execute-only-populated-text-section.s b/test/MC/ELF/ARM/execute-only-populated-text-section.s
+new file mode 100644
+index 00000000000..26a9c499f89
+--- /dev/null
++++ b/test/MC/ELF/ARM/execute-only-populated-text-section.s
+@@ -0,0 +1,27 @@
++// RUN: llvm-mc -filetype=obj -triple thumbv7m-arm-linux-gnu %s -o - \
++// RUN: | llvm-readobj -s -t | FileCheck %s
++
++        .text
++        bx      lr
++
++        .section        .text.foo,"axy"
++        bx      lr
++
++// CHECK:      Section {
++// CHECK:        Name: .text
++// CHECK-NEXT:   Type: SHT_PROGBITS (0x1)
++// CHECK-NEXT:   Flags [ (0x6)
++// CHECK-NEXT:     SHF_ALLOC (0x2)
++// CHECK-NEXT:     SHF_EXECINSTR (0x4)
++// CHECK-NEXT:   ]
++// CHECK:      }
++
++// CHECK:      Section {
++// CHECK:        Name: .text.foo
++// CHECK-NEXT:   Type: SHT_PROGBITS (0x1)
++// CHECK-NEXT:   Flags [ (0x20000006)
++// CHECK-NEXT:     SHF_ALLOC (0x2)
++// CHECK-NEXT:     SHF_ARM_PURECODE (0x20000000)
++// CHECK-NEXT:     SHF_EXECINSTR (0x4)
++// CHECK-NEXT:   ]
++// CHECK:      }
+diff --git a/test/MC/ELF/ARM/execute-only-section.s b/test/MC/ELF/ARM/execute-only-section.s
+index 600ef5a41fd..524ba8ac687 100644
+--- a/test/MC/ELF/ARM/execute-only-section.s
++++ b/test/MC/ELF/ARM/execute-only-section.s
+@@ -20,8 +20,9 @@ foo:
+ // CHECK:      Section {
+ // CHECK:        Name: .text (16)
+ // CHECK-NEXT:   Type: SHT_PROGBITS (0x1)
+-// CHECK-NEXT:   Flags [ (0x6)
++// CHECK-NEXT:   Flags [ (0x20000006)
+ // CHECK-NEXT:     SHF_ALLOC (0x2)
++// CHECK-NEXT:     SHF_ARM_PURECODE (0x20000000)
+ // CHECK-NEXT:     SHF_EXECINSTR (0x4)
+ // CHECK-NEXT:   ]
+ // CHECK:        Size: 0
+diff --git a/test/MC/ELF/ARM/execute-only-text-section-data.s b/test/MC/ELF/ARM/execute-only-text-section-data.s
+new file mode 100644
+index 00000000000..3e9abca34a2
+--- /dev/null
++++ b/test/MC/ELF/ARM/execute-only-text-section-data.s
+@@ -0,0 +1,27 @@
++// RUN: llvm-mc -filetype=obj -triple thumbv7m-arm-linux-gnu %s -o - \
++// RUN: | llvm-readobj -s -t | FileCheck %s
++
++        .text
++        .ascii "test"
++
++        .section        .text.foo,"axy"
++        bx      lr
++
++// CHECK:      Section {
++// CHECK:        Name: .text
++// CHECK-NEXT:   Type: SHT_PROGBITS (0x1)
++// CHECK-NEXT:   Flags [ (0x6)
++// CHECK-NEXT:     SHF_ALLOC (0x2)
++// CHECK-NEXT:     SHF_EXECINSTR (0x4)
++// CHECK-NEXT:   ]
++// CHECK:      }
++
++// CHECK:      Section {
++// CHECK:        Name: .text.foo
++// CHECK-NEXT:   Type: SHT_PROGBITS (0x1)
++// CHECK-NEXT:   Flags [ (0x20000006)
++// CHECK-NEXT:     SHF_ALLOC (0x2)
++// CHECK-NEXT:     SHF_ARM_PURECODE (0x20000000)
++// CHECK-NEXT:     SHF_EXECINSTR (0x4)
++// CHECK-NEXT:   ]
++// CHECK:      }

@@ -1,0 +1,87 @@
+commit fc72aa17367e33a63c9619ed351a06b3486f80f5
+Author: George Rimar <grimar@accesssoftek.com>
+Date:   Tue Aug 28 08:24:34 2018 +0000
+
+    [LLF][ELF] - Support -z global.
+    
+    -z global is a flag used on Android (see D49198).
+    
+    Differential revision: https://reviews.llvm.org/D49374
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/lld/trunk@340802 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/ELF/Config.h b/ELF/Config.h
+index 5dc7f5321..acaf3b319 100644
+--- a/ELF/Config.h
++++ b/ELF/Config.h
+@@ -181,6 +181,7 @@ struct Configuration {
+   bool ZCombreloc;
+   bool ZCopyreloc;
+   bool ZExecstack;
++  bool ZGlobal;
+   bool ZHazardplt;
+   bool ZInitfirst;
+   bool ZKeepTextSectionPrefix;
+diff --git a/ELF/Driver.cpp b/ELF/Driver.cpp
+index 5b05b2181..4d22742b8 100644
+--- a/ELF/Driver.cpp
++++ b/ELF/Driver.cpp
+@@ -340,10 +340,10 @@ static bool getZFlag(opt::InputArgList &Args, StringRef K1, StringRef K2,
+ 
+ static bool isKnown(StringRef S) {
+   return S == "combreloc" || S == "copyreloc" || S == "defs" ||
+-         S == "execstack" || S == "hazardplt" || S == "initfirst" ||
+-         S == "keep-text-section-prefix" || S == "lazy" || S == "muldefs" ||
+-         S == "nocombreloc" || S == "nocopyreloc" || S == "nodelete" ||
+-         S == "nodlopen" || S == "noexecstack" ||
++         S == "execstack" || S == "global" || S == "hazardplt" ||
++         S == "initfirst" || S == "keep-text-section-prefix" || S == "lazy" ||
++         S == "muldefs" || S == "nocombreloc" || S == "nocopyreloc" ||
++         S == "nodelete" || S == "nodlopen" || S == "noexecstack" ||
+          S == "nokeep-text-section-prefix" || S == "norelro" || S == "notext" ||
+          S == "now" || S == "origin" || S == "relro" || S == "retpolineplt" ||
+          S == "rodynamic" || S == "text" || S == "wxneeded" ||
+@@ -833,6 +833,7 @@ void LinkerDriver::readConfigs(opt::InputArgList &Args) {
+   Config->ZCombreloc = getZFlag(Args, "combreloc", "nocombreloc", true);
+   Config->ZCopyreloc = getZFlag(Args, "copyreloc", "nocopyreloc", true);
+   Config->ZExecstack = getZFlag(Args, "execstack", "noexecstack", false);
++  Config->ZGlobal = hasZOption(Args, "global");
+   Config->ZHazardplt = hasZOption(Args, "hazardplt");
+   Config->ZInitfirst = hasZOption(Args, "initfirst");
+   Config->ZKeepTextSectionPrefix = getZFlag(
+diff --git a/ELF/SyntheticSections.cpp b/ELF/SyntheticSections.cpp
+index f156c8e43..3f1a15bad 100644
+--- a/ELF/SyntheticSections.cpp
++++ b/ELF/SyntheticSections.cpp
+@@ -1264,6 +1264,8 @@ template <class ELFT> void DynamicSection<ELFT>::finalizeContents() {
+   uint32_t DtFlags1 = 0;
+   if (Config->Bsymbolic)
+     DtFlags |= DF_SYMBOLIC;
++  if (Config->ZGlobal)
++    DtFlags1 |= DF_1_GLOBAL;
+   if (Config->ZInitfirst)
+     DtFlags1 |= DF_1_INITFIRST;
+   if (Config->ZNodelete)
+diff --git a/test/ELF/dt_flags.s b/test/ELF/dt_flags.s
+index e160e0600..310a1db82 100644
+--- a/test/ELF/dt_flags.s
++++ b/test/ELF/dt_flags.s
+@@ -3,7 +3,8 @@
+ # RUN: llvm-mc -filetype=obj -triple=x86_64-unknown-linux %s -o %t
+ # RUN: ld.lld -shared %t -o %t.so
+ 
+-# RUN: ld.lld -z initfirst -z now -z nodelete -z nodlopen -z origin -Bsymbolic %t %t.so -o %t1
++# RUN: ld.lld -z global -z initfirst -z now -z nodelete -z nodlopen -z origin \
++# RUN:   -Bsymbolic %t %t.so -o %t1
+ # RUN: llvm-readobj -dynamic-table %t1 | FileCheck -check-prefix=FLAGS %s
+ 
+ # RUN: ld.lld %t %t.so -o %t2
+@@ -14,7 +15,7 @@
+ 
+ # FLAGS: DynamicSection [
+ # FLAGS:   0x000000000000001E FLAGS ORIGIN SYMBOLIC BIND_NOW
+-# FLAGS:   0x000000006FFFFFFB FLAGS_1 NOW NODELETE INITFIRST NOOPEN ORIGIN
++# FLAGS:   0x000000006FFFFFFB FLAGS_1 NOW GLOBAL NODELETE INITFIRST NOOPEN ORIGIN
+ # FLAGS: ]
+ 
+ # CHECK: DynamicSection [

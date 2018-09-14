@@ -1,0 +1,401 @@
+commit 906fd9ab476d0fa9e221bec32009eac3f3af5c60
+Author: Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri Sep 7 20:58:57 2018 +0000
+
+    [AArch64] Support reserving x1-7 registers.
+    
+    Summary:
+    Reserving registers x1-7 is used to support CONFIG_ARM64_LSE_ATOMICS in Linux kernel. This change adds support for reserving registers x1 through x7.
+    
+    Reviewers: javed.absar, phosek, srhines, nickdesaulniers, efriedma
+    
+    Reviewed By: nickdesaulniers, efriedma
+    
+    Subscribers: niravd, jfb, manojgupta, nickdesaulniers, jyknight, efriedma, kristof.beyls, llvm-commits
+    
+    Differential Revision: https://reviews.llvm.org/D48580
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@341706 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Target/AArch64/AArch64.td b/lib/Target/AArch64/AArch64.td
+index 26608469f9a..f0e6889a04e 100644
+--- a/lib/Target/AArch64/AArch64.td
++++ b/lib/Target/AArch64/AArch64.td
+@@ -99,13 +99,10 @@ def FeatureStrictAlign : SubtargetFeature<"strict-align",
+                                           "Disallow all unaligned memory "
+                                           "access">;
+ 
+-def FeatureReserveX18 : SubtargetFeature<"reserve-x18", "ReserveX18", "true",
+-                                         "Reserve X18, making it unavailable "
+-                                         "as a GPR">;
+-
+-def FeatureReserveX20 : SubtargetFeature<"reserve-x20", "ReserveX20", "true",
+-                                         "Reserve X20, making it unavailable "
+-                                         "as a GPR">;
++foreach i = {1-7,18,20} in
++    def FeatureReserveX#i : SubtargetFeature<"reserve-x"#i, "ReserveXRegister["#i#"]", "true",
++                                             "Reserve X"#i#", making it unavailable "
++                                             "as a GPR">;
+ 
+ def FeatureUseAA : SubtargetFeature<"use-aa", "UseAA", "true",
+                                     "Use alias analysis during codegen">;
+diff --git a/lib/Target/AArch64/AArch64CallLowering.cpp b/lib/Target/AArch64/AArch64CallLowering.cpp
+index ad751ab0682..b9438036322 100644
+--- a/lib/Target/AArch64/AArch64CallLowering.cpp
++++ b/lib/Target/AArch64/AArch64CallLowering.cpp
+@@ -377,9 +377,12 @@ bool AArch64CallLowering::lowerCall(MachineIRBuilder &MIRBuilder,
+   MIB.add(Callee);
+ 
+   // Tell the call which registers are clobbered.
+-  auto TRI = MF.getSubtarget().getRegisterInfo();
++  auto TRI = MF.getSubtarget<AArch64Subtarget>().getRegisterInfo();
+   MIB.addRegMask(TRI->getCallPreservedMask(MF, F.getCallingConv()));
+ 
++  if (TRI->isAnyArgRegReserved(MF))
++    TRI->emitReservedArgRegCallError(MF);
++
+   // Do the actual argument marshalling.
+   SmallVector<unsigned, 8> PhysRegs;
+   OutgoingArgHandler Handler(MIRBuilder, MRI, MIB, AssignFnFixed,
+diff --git a/lib/Target/AArch64/AArch64FastISel.cpp b/lib/Target/AArch64/AArch64FastISel.cpp
+index 572d1c22fee..af82eda52a0 100644
+--- a/lib/Target/AArch64/AArch64FastISel.cpp
++++ b/lib/Target/AArch64/AArch64FastISel.cpp
+@@ -3208,6 +3208,10 @@ bool AArch64FastISel::fastLowerCall(CallLoweringInfo &CLI) {
+   if (!processCallArgs(CLI, OutVTs, NumBytes))
+     return false;
+ 
++  const AArch64RegisterInfo *RegInfo = Subtarget->getRegisterInfo();
++  if (RegInfo->isAnyArgRegReserved(*MF))
++    RegInfo->emitReservedArgRegCallError(*MF);
++
+   // Issue the call.
+   MachineInstrBuilder MIB;
+   if (Subtarget->useSmallAddressing()) {
+diff --git a/lib/Target/AArch64/AArch64FrameLowering.cpp b/lib/Target/AArch64/AArch64FrameLowering.cpp
+index 54914c0a1b3..1dabab9e644 100644
+--- a/lib/Target/AArch64/AArch64FrameLowering.cpp
++++ b/lib/Target/AArch64/AArch64FrameLowering.cpp
+@@ -1253,7 +1253,7 @@ static void computeCalleeSaveRegisterPairs(
+     // we also need to save lr in the shadow call stack.
+     if ((RPI.Reg1 == AArch64::LR || RPI.Reg2 == AArch64::LR) &&
+         MF.getFunction().hasFnAttribute(Attribute::ShadowCallStack)) {
+-      if (!MF.getSubtarget<AArch64Subtarget>().isX18Reserved())
++      if (!MF.getSubtarget<AArch64Subtarget>().isXRegisterReserved(18))
+         report_fatal_error("Must reserve x18 to use shadow call stack");
+       NeedShadowCallStackProlog = true;
+     }
+diff --git a/lib/Target/AArch64/AArch64ISelLowering.cpp b/lib/Target/AArch64/AArch64ISelLowering.cpp
+index c5be4e13ae6..2a71bbadfc6 100644
+--- a/lib/Target/AArch64/AArch64ISelLowering.cpp
++++ b/lib/Target/AArch64/AArch64ISelLowering.cpp
+@@ -3727,6 +3727,9 @@ AArch64TargetLowering::LowerCall(CallLoweringInfo &CLI,
+   } else
+     Mask = TRI->getCallPreservedMask(MF, CallConv);
+ 
++  if (TRI->isAnyArgRegReserved(MF))
++    TRI->emitReservedArgRegCallError(MF);
++
+   assert(Mask && "Missing call preserved mask for calling convention");
+   Ops.push_back(DAG.getRegisterMask(Mask));
+ 
+@@ -5037,15 +5040,43 @@ unsigned AArch64TargetLowering::getRegisterByName(const char* RegName, EVT VT,
+                                                   SelectionDAG &DAG) const {
+   unsigned Reg = StringSwitch<unsigned>(RegName)
+                        .Case("sp", AArch64::SP)
++                       .Case("x1", AArch64::X1)
++                       .Case("w1", AArch64::W1)
++                       .Case("x2", AArch64::X2)
++                       .Case("w2", AArch64::W2)
++                       .Case("x3", AArch64::X3)
++                       .Case("w3", AArch64::W3)
++                       .Case("x4", AArch64::X4)
++                       .Case("w4", AArch64::W4)
++                       .Case("x5", AArch64::X5)
++                       .Case("w5", AArch64::W5)
++                       .Case("x6", AArch64::X6)
++                       .Case("w6", AArch64::W6)
++                       .Case("x7", AArch64::X7)
++                       .Case("w7", AArch64::W7)
+                        .Case("x18", AArch64::X18)
+                        .Case("w18", AArch64::W18)
+                        .Case("x20", AArch64::X20)
+                        .Case("w20", AArch64::W20)
+                        .Default(0);
+-  if (((Reg == AArch64::X18 || Reg == AArch64::W18) &&
+-      !Subtarget->isX18Reserved()) ||
++  if (((Reg == AArch64::X1 || Reg == AArch64::W1) &&
++      !Subtarget->isXRegisterReserved(1)) ||
++      ((Reg == AArch64::X2 || Reg == AArch64::W2) &&
++      !Subtarget->isXRegisterReserved(2)) ||
++      ((Reg == AArch64::X3 || Reg == AArch64::W3) &&
++      !Subtarget->isXRegisterReserved(3)) ||
++      ((Reg == AArch64::X4 || Reg == AArch64::W4) &&
++      !Subtarget->isXRegisterReserved(4)) ||
++      ((Reg == AArch64::X5 || Reg == AArch64::W5) &&
++      !Subtarget->isXRegisterReserved(5)) ||
++      ((Reg == AArch64::X6 || Reg == AArch64::W6) &&
++      !Subtarget->isXRegisterReserved(6)) ||
++      ((Reg == AArch64::X7 || Reg == AArch64::W7) &&
++      !Subtarget->isXRegisterReserved(7)) ||
++      ((Reg == AArch64::X18 || Reg == AArch64::W18) &&
++      !Subtarget->isXRegisterReserved(18)) ||
+       ((Reg == AArch64::X20 || Reg == AArch64::W20) &&
+-      !Subtarget->isX20Reserved()))
++      !Subtarget->isXRegisterReserved(20)))
+     Reg = 0;
+   if (Reg)
+     return Reg;
+diff --git a/lib/Target/AArch64/AArch64RegisterInfo.cpp b/lib/Target/AArch64/AArch64RegisterInfo.cpp
+index 8d7639b78ef..beccb3fc0e6 100644
+--- a/lib/Target/AArch64/AArch64RegisterInfo.cpp
++++ b/lib/Target/AArch64/AArch64RegisterInfo.cpp
+@@ -25,6 +25,7 @@
+ #include "llvm/CodeGen/MachineRegisterInfo.h"
+ #include "llvm/CodeGen/RegisterScavenging.h"
+ #include "llvm/IR/Function.h"
++#include "llvm/IR/DiagnosticInfo.h"
+ #include "llvm/Support/raw_ostream.h"
+ #include "llvm/CodeGen/TargetFrameLowering.h"
+ #include "llvm/Target/TargetOptions.h"
+@@ -147,11 +148,10 @@ AArch64RegisterInfo::getReservedRegs(const MachineFunction &MF) const {
+   if (TFI->hasFP(MF) || TT.isOSDarwin())
+     markSuperRegs(Reserved, AArch64::W29);
+ 
+-  if (MF.getSubtarget<AArch64Subtarget>().isX18Reserved())
+-    markSuperRegs(Reserved, AArch64::W18); // Platform register
+-
+-  if (MF.getSubtarget<AArch64Subtarget>().isX20Reserved())
+-    markSuperRegs(Reserved, AArch64::W20); // Platform register
++  for (size_t i = 0; i < AArch64::GPR32commonRegClass.getNumRegs(); ++i) {
++    if (MF.getSubtarget<AArch64Subtarget>().isXRegisterReserved(i))
++      markSuperRegs(Reserved, AArch64::GPR32commonRegClass.getRegister(i));
++  }
+ 
+   if (hasBasePointer(MF))
+     markSuperRegs(Reserved, AArch64::W19);
+@@ -162,31 +162,23 @@ AArch64RegisterInfo::getReservedRegs(const MachineFunction &MF) const {
+ 
+ bool AArch64RegisterInfo::isReservedReg(const MachineFunction &MF,
+                                       unsigned Reg) const {
+-  const AArch64FrameLowering *TFI = getFrameLowering(MF);
++  return getReservedRegs(MF)[Reg];
++}
+ 
+-  switch (Reg) {
+-  default:
+-    break;
+-  case AArch64::SP:
+-  case AArch64::XZR:
+-  case AArch64::WSP:
+-  case AArch64::WZR:
+-    return true;
+-  case AArch64::X18:
+-  case AArch64::W18:
+-    return MF.getSubtarget<AArch64Subtarget>().isX18Reserved();
+-  case AArch64::X19:
+-  case AArch64::W19:
+-    return hasBasePointer(MF);
+-  case AArch64::X20:
+-  case AArch64::W20:
+-    return MF.getSubtarget<AArch64Subtarget>().isX20Reserved();
+-  case AArch64::FP:
+-  case AArch64::W29:
+-    return TFI->hasFP(MF) || TT.isOSDarwin();
+-  }
++bool AArch64RegisterInfo::isAnyArgRegReserved(const MachineFunction &MF) const {
++  // FIXME: Get the list of argument registers from TableGen.
++  static const MCPhysReg GPRArgRegs[] = { AArch64::X0, AArch64::X1, AArch64::X2,
++                                          AArch64::X3, AArch64::X4, AArch64::X5,
++                                          AArch64::X6, AArch64::X7 };
++  return std::any_of(std::begin(GPRArgRegs), std::end(GPRArgRegs),
++                     [this, &MF](MCPhysReg r){return isReservedReg(MF, r);});
++}
+ 
+-  return false;
++void AArch64RegisterInfo::emitReservedArgRegCallError(
++    const MachineFunction &MF) const {
++  const Function &F = MF.getFunction();
++  F.getContext().diagnose(DiagnosticInfoUnsupported{F, "AArch64 doesn't support"
++    " function calls if any of the argument registers is reserved."});
+ }
+ 
+ bool AArch64RegisterInfo::isAsmClobberable(const MachineFunction &MF,
+@@ -454,10 +446,7 @@ unsigned AArch64RegisterInfo::getRegPressureLimit(const TargetRegisterClass *RC,
+   case AArch64::GPR64commonRegClassID:
+     return 32 - 1                                   // XZR/SP
+               - (TFI->hasFP(MF) || TT.isOSDarwin()) // FP
+-              - MF.getSubtarget<AArch64Subtarget>()
+-                    .isX18Reserved() // X18 reserved as platform register
+-              - MF.getSubtarget<AArch64Subtarget>()
+-                    .isX20Reserved() // X20 reserved as platform register
++              - MF.getSubtarget<AArch64Subtarget>().getNumXRegisterReserved()
+               - hasBasePointer(MF);  // X19
+   case AArch64::FPR8RegClassID:
+   case AArch64::FPR16RegClassID:
+diff --git a/lib/Target/AArch64/AArch64RegisterInfo.h b/lib/Target/AArch64/AArch64RegisterInfo.h
+index d57ebbe9c00..261f20629b9 100644
+--- a/lib/Target/AArch64/AArch64RegisterInfo.h
++++ b/lib/Target/AArch64/AArch64RegisterInfo.h
+@@ -31,6 +31,8 @@ public:
+   AArch64RegisterInfo(const Triple &TT);
+ 
+   bool isReservedReg(const MachineFunction &MF, unsigned Reg) const;
++  bool isAnyArgRegReserved(const MachineFunction &MF) const;
++  void emitReservedArgRegCallError(const MachineFunction &MF) const;
+ 
+   /// Code Generation virtual methods...
+   const MCPhysReg *getCalleeSavedRegs(const MachineFunction *MF) const override;
+diff --git a/lib/Target/AArch64/AArch64Subtarget.cpp b/lib/Target/AArch64/AArch64Subtarget.cpp
+index f4e1e39500a..445c57df9cf 100644
+--- a/lib/Target/AArch64/AArch64Subtarget.cpp
++++ b/lib/Target/AArch64/AArch64Subtarget.cpp
+@@ -152,10 +152,14 @@ AArch64Subtarget::AArch64Subtarget(const Triple &TT, const std::string &CPU,
+                                    const std::string &FS,
+                                    const TargetMachine &TM, bool LittleEndian)
+     : AArch64GenSubtargetInfo(TT, CPU, FS),
+-      ReserveX18(AArch64::isX18ReservedByDefault(TT)), IsLittle(LittleEndian),
++      ReserveXRegister(AArch64::GPR64commonRegClass.getNumRegs()),
++      IsLittle(LittleEndian),
+       TargetTriple(TT), FrameLowering(),
+       InstrInfo(initializeSubtargetDependencies(FS, CPU)), TSInfo(),
+       TLInfo(TM, *this) {
++  if (AArch64::isX18ReservedByDefault(TT))
++    ReserveXRegister.set(18);
++
+   CallLoweringInfo.reset(new AArch64CallLowering(*getTargetLowering()));
+   Legalizer.reset(new AArch64LegalizerInfo(*this));
+ 
+diff --git a/lib/Target/AArch64/AArch64Subtarget.h b/lib/Target/AArch64/AArch64Subtarget.h
+index 6f08ca03381..8ac6903bce3 100644
+--- a/lib/Target/AArch64/AArch64Subtarget.h
++++ b/lib/Target/AArch64/AArch64Subtarget.h
+@@ -138,11 +138,8 @@ protected:
+   unsigned MaxJumpTableSize = 0;
+   unsigned WideningBaseCost = 0;
+ 
+-  // ReserveX18 - X18 is not available as a general purpose register.
+-  bool ReserveX18;
+-
+-  // ReserveX20 - X20 is not available as a general purpose register.
+-  bool ReserveX20 = false;
++  // ReserveXRegister[i] - X#i is not available as a general purpose register.
++  BitVector ReserveXRegister;
+ 
+   bool IsLittle;
+ 
+@@ -229,8 +226,8 @@ public:
+     return MinVectorRegisterBitWidth;
+   }
+ 
+-  bool isX18Reserved() const { return ReserveX18; }
+-  bool isX20Reserved() const { return ReserveX20; }
++  bool isXRegisterReserved(size_t i) const { return ReserveXRegister[i]; }
++  unsigned getNumXRegisterReserved() const { return ReserveXRegister.count(); }
+   bool hasFPARMv8() const { return HasFPARMv8; }
+   bool hasNEON() const { return HasNEON; }
+   bool hasCrypto() const { return HasCrypto; }
+diff --git a/test/CodeGen/AArch64/arm64-platform-reg.ll b/test/CodeGen/AArch64/arm64-platform-reg.ll
+index 899759624c2..73fe36d7611 100644
+--- a/test/CodeGen/AArch64/arm64-platform-reg.ll
++++ b/test/CodeGen/AArch64/arm64-platform-reg.ll
+@@ -7,6 +7,49 @@
+ ; RUN: llc -mtriple=aarch64-fuchsia -o - %s | FileCheck %s --check-prefix=CHECK-RESERVE --check-prefix=CHECK-RESERVE-X18
+ ; RUN: llc -mtriple=aarch64-windows -o - %s | FileCheck %s --check-prefix=CHECK-RESERVE --check-prefix=CHECK-RESERVE-X18
+ 
++; Test reserve-x# options individually.
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x1 -o - %s | FileCheck %s --check-prefixes=CHECK-RESERVE,CHECK-RESERVE-X1
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x2 -o - %s | FileCheck %s --check-prefixes=CHECK-RESERVE,CHECK-RESERVE-X2
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x3 -o - %s | FileCheck %s --check-prefixes=CHECK-RESERVE,CHECK-RESERVE-X3
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x4 -o - %s | FileCheck %s --check-prefixes=CHECK-RESERVE,CHECK-RESERVE-X4
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x5 -o - %s | FileCheck %s --check-prefixes=CHECK-RESERVE,CHECK-RESERVE-X5
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x6 -o - %s | FileCheck %s --check-prefixes=CHECK-RESERVE,CHECK-RESERVE-X6
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x7 -o - %s | FileCheck %s --check-prefixes=CHECK-RESERVE,CHECK-RESERVE-X7
++
++; Test multiple of reserve-x# options together.
++; RUN: llc -mtriple=arm64-linux-gnu \
++; RUN: -mattr=+reserve-x1 \
++; RUN: -mattr=+reserve-x2 \
++; RUN: -mattr=+reserve-x18 \
++; RUN: -o - %s | FileCheck %s \
++; RUN: --check-prefix=CHECK-RESERVE \
++; RUN: --check-prefix=CHECK-RESERVE-X1 \
++; RUN: --check-prefix=CHECK-RESERVE-X2 \
++; RUN: --check-prefix=CHECK-RESERVE-X18
++
++; Test all reserve-x# options together.
++; RUN: llc -mtriple=arm64-linux-gnu \
++; RUN: -mattr=+reserve-x1 \
++; RUN: -mattr=+reserve-x2 \
++; RUN: -mattr=+reserve-x3 \
++; RUN: -mattr=+reserve-x4 \
++; RUN: -mattr=+reserve-x5 \
++; RUN: -mattr=+reserve-x6 \
++; RUN: -mattr=+reserve-x7 \
++; RUN: -mattr=+reserve-x18 \
++; RUN: -mattr=+reserve-x20 \
++; RUN: -o - %s | FileCheck %s \
++; RUN: --check-prefix=CHECK-RESERVE \
++; RUN: --check-prefix=CHECK-RESERVE-X1 \
++; RUN: --check-prefix=CHECK-RESERVE-X2 \
++; RUN: --check-prefix=CHECK-RESERVE-X3 \
++; RUN: --check-prefix=CHECK-RESERVE-X4 \
++; RUN: --check-prefix=CHECK-RESERVE-X5 \
++; RUN: --check-prefix=CHECK-RESERVE-X6 \
++; RUN: --check-prefix=CHECK-RESERVE-X7 \
++; RUN: --check-prefix=CHECK-RESERVE-X18 \
++; RUN: --check-prefix=CHECK-RESERVE-X20
++
+ ; x18 is reserved as a platform register on Darwin but not on other
+ ; systems. Create loads of register pressure and make sure this is respected.
+ 
+@@ -23,10 +66,24 @@ define void @keep_live() {
+ ; CHECK: str x18
+ 
+ ; CHECK-RESERVE-NOT: ldr fp
++; CHECK-RESERVE-X1-NOT: ldr x1,
++; CHECK-RESERVE-X2-NOT: ldr x2,
++; CHECK-RESERVE-X3-NOT: ldr x3,
++; CHECK-RESERVE-X4-NOT: ldr x4,
++; CHECK-RESERVE-X5-NOT: ldr x5,
++; CHECK-RESERVE-X6-NOT: ldr x6,
++; CHECK-RESERVE-X7-NOT: ldr x7,
+ ; CHECK-RESERVE-X18-NOT: ldr x18
+ ; CHECK-RESERVE-X20-NOT: ldr x20
+ ; CHECK-RESERVE: Spill
+ ; CHECK-RESERVE-NOT: ldr fp
++; CHECK-RESERVE-X1-NOT: ldr x1,
++; CHECK-RESERVE-X2-NOT: ldr x2,
++; CHECK-RESERVE-X3-NOT: ldr x3,
++; CHECK-RESERVE-X4-NOT: ldr x4,
++; CHECK-RESERVE-X5-NOT: ldr x5,
++; CHECK-RESERVE-X6-NOT: ldr x6,
++; CHECK-RESERVE-X7-NOT: ldr x7,
+ ; CHECK-RESERVE-X18-NOT: ldr x18
+ ; CHECK-RESERVE-X20-NOT: ldr x20
+ ; CHECK-RESERVE: ret
+diff --git a/test/CodeGen/AArch64/arm64-reserved-arg-reg-call-error.ll b/test/CodeGen/AArch64/arm64-reserved-arg-reg-call-error.ll
+new file mode 100644
+index 00000000000..b98b11e180e
+--- /dev/null
++++ b/test/CodeGen/AArch64/arm64-reserved-arg-reg-call-error.ll
+@@ -0,0 +1,19 @@
++; RUN: not llc < %s -mtriple=arm64-linux-gnu -mattr=+reserve-x1 2>&1 | FileCheck %s
++; RUN: not llc < %s -mtriple=arm64-linux-gnu -mattr=+reserve-x1 -fast-isel 2>&1 | FileCheck %s
++; RUN: not llc < %s -mtriple=arm64-linux-gnu -mattr=+reserve-x1 -global-isel 2>&1 | FileCheck %s
++
++; CHECK: error:
++; CHECK-SAME: AArch64 doesn't support function calls if any of the argument registers is reserved.
++define void @call_function() {
++  call void @foo()
++  ret void
++}
++declare void @foo()
++
++; CHECK: error:
++; CHECK-SAME: AArch64 doesn't support function calls if any of the argument registers is reserved.
++define void @call_memcpy(i8* %out, i8* %in) {
++  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %out, i8* %in, i64 800, i1 false)
++  ret void
++}
++declare void @llvm.memcpy.p0i8.p0i8.i64(i8*, i8*, i64, i1)

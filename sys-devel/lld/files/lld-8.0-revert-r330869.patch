@@ -1,0 +1,114 @@
+From: Caroline Tice <cmtice@google.com>
+Date: 14-Sep-2018
+
+This patch reverts LLD commit r330869.  It appears to be necessary for
+upgrading LLD to r339371.
+
+r330869 CL description:
+
+Author: Rafael Espindola <rafael.espindola@gmail.com>
+Date:   Wed Apr 25 20:46:08 2018 +0000
+
+    Also demote lazy symbols.
+
+    This is not a big simplification right now, but the special cases for
+    lazy symbols have been a common source of bugs in the past.
+
+    git-svn-id: https://llvm.org/svn/llvm-project/lld/trunk@330869 91177308-0d34-0410-b5e6-96231b3b80d8
+
+
+
+diff --git a/ELF/Driver.cpp b/ELF/Driver.cpp
+index 8cf4527..26fc015 100644
+--- a/ELF/Driver.cpp
++++ b/ELF/Driver.cpp
+@@ -1231,34 +1231,20 @@ template <class ELFT> static void handleLibcall(StringRef Name) {
+     Symtab->fetchLazy<ELFT>(Sym);
+ }
+ 
+-template <class ELFT> static bool shouldDemote(Symbol &Sym) {
+-  // If all references to a DSO happen to be weak, the DSO is not added to
+-  // DT_NEEDED. If that happens, we need to eliminate shared symbols created
+-  // from the DSO. Otherwise, they become dangling references that point to a
+-  // non-existent DSO.
+-  if (auto *S = dyn_cast<SharedSymbol>(&Sym))
+-    return !S->getFile<ELFT>().IsNeeded;
+-
+-  // We are done processing archives, so lazy symbols that were used but not
+-  // found can be converted to undefined. We could also just delete the other
+-  // lazy symbols, but that seems to be more work than it is worth.
+-  return Sym.isLazy() && Sym.IsUsedInRegularObj;
+-}
+-
+-// Some files, such as .so or files between -{start,end}-lib may be removed
+-// after their symbols are added to the symbol table. If that happens, we
+-// need to remove symbols that refer files that no longer exist, so that
+-// they won't appear in the symbol table of the output file.
+-//
+-// We remove symbols by demoting them to undefined symbol.
+-template <class ELFT> static void demoteSymbols() {
++// If all references to a DSO happen to be weak, the DSO is not added
++// to DT_NEEDED. If that happens, we need to eliminate shared symbols
++// created from the DSO. Otherwise, they become dangling references
++// that point to a non-existent DSO.
++template <class ELFT> static void demoteSharedSymbols() {
+   for (Symbol *Sym : Symtab->getSymbols()) {
+-    if (shouldDemote<ELFT>(*Sym)) {
+-      bool Used = Sym->Used;
+-      replaceSymbol<Undefined>(Sym, nullptr, Sym->getName(), Sym->Binding,
+-                               Sym->StOther, Sym->Type);
+-      Sym->Used = Used;
+-    }
++    if (auto *S = dyn_cast<SharedSymbol>(Sym)) {
++      if (!S->getFile<ELFT>().IsNeeded) {
++	bool Used = S->Used;
++	replaceSymbol<Undefined>(S, nullptr, S->getName(), STB_WEAK, S->StOther,
++				 S->Type);
++	S->Used = Used;
++      }
++    }
+   }
+ }
+ 
+@@ -1524,7 +1509,7 @@ template <class ELFT> void LinkerDriver::link(opt::InputArgList &Args) {
+   decompressSections();
+   splitSections<ELFT>();
+   markLive<ELFT>();
+-  demoteSymbols<ELFT>();
++  demoteSharedSymbols<ELFT>();
+   mergeSections();
+   if (Config->ICF != ICFLevel::None) {
+     findKeepUniqueSections<ELFT>(Args);
+diff --git a/ELF/Symbols.cpp b/ELF/Symbols.cpp
+index c16bda8..d007e44 100644
+--- a/ELF/Symbols.cpp
++++ b/ELF/Symbols.cpp
+@@ -103,7 +103,8 @@ static uint64_t getSymVA(const Symbol &Sym, int64_t &Addend) {
+     return 0;
+   case Symbol::LazyArchiveKind:
+   case Symbol::LazyObjectKind:
+-    llvm_unreachable("lazy symbol reached writer");
++    assert(Sym.IsUsedInRegularObj && "lazy symbol reached writer");
++    return 0;
+   }
+   llvm_unreachable("invalid symbol kind");
+ }
+diff --git a/ELF/Symbols.h b/ELF/Symbols.h
+index a1bab2e..c00e9e9 100644
+--- a/ELF/Symbols.h
++++ b/ELF/Symbols.h
+@@ -128,8 +128,12 @@ public:
+     return SymbolKind == LazyArchiveKind || SymbolKind == LazyObjectKind;
+   }
+ 
+-  // True if this is an undefined weak symbol.
+-  bool isUndefWeak() const { return isWeak() && isUndefined(); }
++  // True if this is an undefined weak symbol.  This only works once
++  // all input files have been added.
++  bool isUndefWeak() const {
++    // See comment on lazy symbols for details.
++    return isWeak() && (isUndefined() || isLazy());
++  }
+ 
+   StringRef getName() const {
+     if (NameSize == (uint32_t)-1)

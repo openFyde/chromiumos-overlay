@@ -1,0 +1,173 @@
+commit 3e5777f3b95e846530d70ed76577abca1be4f5f5
+Author: George Burgess IV <george.burgess.iv@gmail.com>
+Date:   Fri Aug 10 05:14:43 2018 +0000
+
+    [MemorySSA] "Fix" lifetime intrinsic handling
+    
+    MemorySSA currently creates MemoryAccesses for lifetime intrinsics, and
+    sometimes treats them as clobbers. This may/may not be the best way
+    forward, but while we're doing it, we should consider
+    MayAlias/PartialAlias to be clobbers.
+    
+    The ideal fix here is probably to remove all of this reasoning about
+    lifetimes from MemorySSA + put it into the passes that need to care. But
+    that's a wayyy broader fix that needs some consensus, and we have
+    miscompiles + a release branch today, and this should solve the
+    miscompiles just as well.
+    
+    differential revision is D43269. Landing without an explicit LGTM (and
+    without using the special please-autoclose-this syntax) so we can still
+    use that revision as a place to decide what the right fix here is.
+    
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@339411 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Analysis/MemorySSA.cpp b/lib/Analysis/MemorySSA.cpp
+index f57d490ce96..b38c0c4f143 100644
+--- a/lib/Analysis/MemorySSA.cpp
++++ b/lib/Analysis/MemorySSA.cpp
+@@ -258,13 +258,18 @@ static ClobberAlias instructionClobbersQuery(MemoryDef *MD,
+ 
+   if (const IntrinsicInst *II = dyn_cast<IntrinsicInst>(DefInst)) {
+     // These intrinsics will show up as affecting memory, but they are just
+-    // markers.
++    // markers, mostly.
++    //
++    // FIXME: We probably don't actually want MemorySSA to model these at all
++    // (including creating MemoryAccesses for them): we just end up inventing
++    // clobbers where they don't really exist at all. Please see D43269 for
++    // context.
+     switch (II->getIntrinsicID()) {
+     case Intrinsic::lifetime_start:
+       if (UseCS)
+         return {false, NoAlias};
+       AR = AA.alias(MemoryLocation(II->getArgOperand(1)), UseLoc);
+-      return {AR == MustAlias, AR};
++      return {AR != NoAlias, AR};
+     case Intrinsic::lifetime_end:
+     case Intrinsic::invariant_start:
+     case Intrinsic::invariant_end:
+diff --git a/test/Transforms/EarlyCSE/memoryssa.ll b/test/Transforms/EarlyCSE/memoryssa.ll
+index 1c10efe2293..41e8d488ab4 100644
+--- a/test/Transforms/EarlyCSE/memoryssa.ll
++++ b/test/Transforms/EarlyCSE/memoryssa.ll
+@@ -106,3 +106,45 @@ end:
+   store i32 %v2, i32* @G3
+   ret void
+ }
++
++;; Check that we respect lifetime.start/lifetime.end intrinsics when deleting
++;; stores that, without the lifetime calls, would be writebacks.
++; CHECK-LABEL: @test_writeback_lifetimes(
++; CHECK-NOMEMSSA-LABEL: @test_writeback_lifetimes(
++define void @test_writeback_lifetimes(i32* %p) {
++entry:
++  %q = getelementptr i32, i32* %p, i64 1
++  %pv = load i32, i32* %p
++  %qv = load i32, i32* %q
++  call void @llvm.lifetime.end.p0i8(i64 8, i32* %p)
++  call void @llvm.lifetime.start.p0i8(i64 8, i32* %p)
++  ; CHECK: store i32 %pv
++  ; CHECK-NOMEMSSA-LABEL: store i32 %pv
++  store i32 %pv, i32* %p
++  ; CHECK: store i32 %qv, i32* %q
++  ; CHECK-NOMEMSSA-LABEL: store i32 %qv, i32* %q
++  store i32 %qv, i32* %q
++  ret void
++}
++
++;; Check that we respect lifetime.start/lifetime.end intrinsics when deleting
++;; stores that, without the lifetime calls, would be writebacks.
++; CHECK-LABEL: @test_writeback_lifetimes_multi_arg(
++; CHECK-NOMEMSSA-LABEL: @test_writeback_lifetimes_multi_arg(
++define void @test_writeback_lifetimes_multi_arg(i32* %p, i32* %q) {
++entry:
++  %pv = load i32, i32* %p
++  %qv = load i32, i32* %q
++  call void @llvm.lifetime.end.p0i8(i64 8, i32* %p)
++  call void @llvm.lifetime.start.p0i8(i64 8, i32* %p)
++  ; CHECK: store i32 %pv
++  ; CHECK-NOMEMSSA-LABEL: store i32 %pv
++  store i32 %pv, i32* %p
++  ; CHECK: store i32 %qv, i32* %q
++  ; CHECK-NOMEMSSA-LABEL: store i32 %qv, i32* %q
++  store i32 %qv, i32* %q
++  ret void
++}
++
++declare void @llvm.lifetime.end.p0i8(i64, i32*)
++declare void @llvm.lifetime.start.p0i8(i64, i32*)
+diff --git a/unittests/Analysis/MemorySSA.cpp b/unittests/Analysis/MemorySSA.cpp
+index 1a1675faca1..0eb543b5477 100644
+--- a/unittests/Analysis/MemorySSA.cpp
++++ b/unittests/Analysis/MemorySSA.cpp
+@@ -1199,3 +1199,69 @@ TEST_F(MemorySSATest, TestStoreMayAlias) {
+     ++I;
+   }
+ }
++
++TEST_F(MemorySSATest, LifetimeMarkersAreClobbers) {
++  // Example code:
++  // define void @a(i8* %foo) {
++  //   %bar = getelementptr i8, i8* %foo, i64 1
++  //   store i8 0, i8* %foo
++  //   store i8 0, i8* %bar
++  //   call void @llvm.lifetime.end.p0i8(i64 8, i32* %p)
++  //   call void @llvm.lifetime.start.p0i8(i64 8, i32* %p)
++  //   store i8 0, i8* %foo
++  //   store i8 0, i8* %bar
++  //   ret void
++  // }
++  //
++  // Patterns like this are possible after inlining; the stores to %foo and %bar
++  // should both be clobbered by the lifetime.start call if they're dominated by
++  // it.
++
++  IRBuilder<> B(C);
++  F = Function::Create(
++      FunctionType::get(B.getVoidTy(), {B.getInt8PtrTy()}, false),
++      GlobalValue::ExternalLinkage, "F", &M);
++
++  // Make blocks
++  BasicBlock *Entry = BasicBlock::Create(C, "entry", F);
++
++  B.SetInsertPoint(Entry);
++  Value *Foo = &*F->arg_begin();
++
++  Value *Bar = B.CreateGEP(Foo, B.getInt64(1), "bar");
++
++  B.CreateStore(B.getInt8(0), Foo);
++  B.CreateStore(B.getInt8(0), Bar);
++
++  auto GetLifetimeIntrinsic = [&](Intrinsic::ID ID) {
++    return Intrinsic::getDeclaration(&M, ID, {Foo->getType()});
++  };
++
++  B.CreateCall(GetLifetimeIntrinsic(Intrinsic::lifetime_end),
++               {B.getInt64(2), Foo});
++  Instruction *LifetimeStart = B.CreateCall(
++      GetLifetimeIntrinsic(Intrinsic::lifetime_start), {B.getInt64(2), Foo});
++
++  Instruction *FooStore = B.CreateStore(B.getInt8(0), Foo);
++  Instruction *BarStore = B.CreateStore(B.getInt8(0), Bar);
++
++  setupAnalyses();
++  MemorySSA &MSSA = *Analyses->MSSA;
++
++  MemoryAccess *LifetimeStartAccess = MSSA.getMemoryAccess(LifetimeStart);
++  ASSERT_NE(LifetimeStartAccess, nullptr);
++
++  MemoryAccess *FooAccess = MSSA.getMemoryAccess(FooStore);
++  ASSERT_NE(FooAccess, nullptr);
++
++  MemoryAccess *BarAccess = MSSA.getMemoryAccess(BarStore);
++  ASSERT_NE(BarAccess, nullptr);
++
++  MemoryAccess *FooClobber =
++      MSSA.getWalker()->getClobberingMemoryAccess(FooAccess);
++  EXPECT_EQ(FooClobber, LifetimeStartAccess);
++
++  MemoryAccess *BarClobber =
++      MSSA.getWalker()->getClobberingMemoryAccess(BarAccess);
++  EXPECT_EQ(BarClobber, LifetimeStartAccess);
++}

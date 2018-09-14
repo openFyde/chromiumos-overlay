@@ -1,0 +1,263 @@
+commit 77a17afc92d543811e0f4f7913d4424aa630c117
+Author: Joel Galenson <jgalenson@google.com>
+Date:   Fri Aug 24 15:21:56 2018 +0000
+
+    Find PLT entries for x86, x86_64, and AArch64.
+    
+    This adds a new method to ELFObjectFileBase that returns the symbols and addresses of PLT entries.
+    
+    This design was suggested by pcc and eugenis in https://reviews.llvm.org/D49383.
+    
+    Differential Revision: https://reviews.llvm.org/D50203
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@340610 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/include/llvm/MC/MCInstrAnalysis.h b/include/llvm/MC/MCInstrAnalysis.h
+index e1673208d87..0777add2e73 100644
+--- a/include/llvm/MC/MCInstrAnalysis.h
++++ b/include/llvm/MC/MCInstrAnalysis.h
+@@ -23,6 +23,7 @@
+ namespace llvm {
+ 
+ class MCRegisterInfo;
++class Triple;
+ 
+ class MCInstrAnalysis {
+ protected:
+@@ -105,6 +106,13 @@ public:
+   virtual bool
+   evaluateBranch(const MCInst &Inst, uint64_t Addr, uint64_t Size,
+                  uint64_t &Target) const;
++
++  /// Returns (PLT virtual address, GOT virtual address) pairs for PLT entries.
++  virtual std::vector<std::pair<uint64_t, uint64_t>>
++  findPltEntries(uint64_t PltSectionVA, ArrayRef<uint8_t> PltContents,
++                 uint64_t GotPltSectionVA, const Triple &TargetTriple) const {
++    return {};
++  }
+ };
+ 
+ } // end namespace llvm
+diff --git a/include/llvm/Object/ELFObjectFile.h b/include/llvm/Object/ELFObjectFile.h
+index 2c0905d545a..54907cbca4c 100644
+--- a/include/llvm/Object/ELFObjectFile.h
++++ b/include/llvm/Object/ELFObjectFile.h
+@@ -86,6 +86,8 @@ public:
+   void setARMSubArch(Triple &TheTriple) const override;
+ 
+   virtual uint16_t getEType() const = 0;
++
++  std::vector<std::pair<DataRefImpl, uint64_t>> getPltAddresses() const;
+ };
+ 
+ class ELFSectionRef : public SectionRef {
+diff --git a/lib/Object/ELFObjectFile.cpp b/lib/Object/ELFObjectFile.cpp
+index e806c8f28b1..173cb30ca40 100644
+--- a/lib/Object/ELFObjectFile.cpp
++++ b/lib/Object/ELFObjectFile.cpp
+@@ -14,6 +14,7 @@
+ #include "llvm/Object/ELFObjectFile.h"
+ #include "llvm/ADT/Triple.h"
+ #include "llvm/BinaryFormat/ELF.h"
++#include "llvm/MC/MCInstrAnalysis.h"
+ #include "llvm/MC/SubtargetFeature.h"
+ #include "llvm/Object/ELF.h"
+ #include "llvm/Object/ELFTypes.h"
+@@ -23,6 +24,7 @@
+ #include "llvm/Support/Endian.h"
+ #include "llvm/Support/ErrorHandling.h"
+ #include "llvm/Support/MathExtras.h"
++#include "llvm/Support/TargetRegistry.h"
+ #include <algorithm>
+ #include <cstddef>
+ #include <cstdint>
+@@ -327,3 +329,66 @@ void ELFObjectFileBase::setARMSubArch(Triple &TheTriple) const {
+ 
+   TheTriple.setArchName(Triple);
+ }
++
++std::vector<std::pair<DataRefImpl, uint64_t>>
++ELFObjectFileBase::getPltAddresses() const {
++  std::string Err;
++  const auto Triple = makeTriple();
++  const auto *T = TargetRegistry::lookupTarget(Triple.str(), Err);
++  if (!T)
++    return {};
++  uint64_t JumpSlotReloc = 0;
++  switch (Triple.getArch()) {
++    case Triple::x86:
++      JumpSlotReloc = ELF::R_386_JUMP_SLOT;
++      break;
++    case Triple::x86_64:
++      JumpSlotReloc = ELF::R_X86_64_JUMP_SLOT;
++      break;
++    case Triple::aarch64:
++      JumpSlotReloc = ELF::R_AARCH64_JUMP_SLOT;
++      break;
++    default:
++      return {};
++  }
++  const auto *MIA = T->createMCInstrAnalysis(T->createMCInstrInfo());
++  if (!MIA)
++    return {};
++  Optional<SectionRef> Plt = None, RelaPlt = None, GotPlt = None;
++  for (const SectionRef &Section : sections()) {
++    StringRef Name;
++    if (Section.getName(Name))
++      continue;
++    if (Name == ".plt")
++      Plt = Section;
++    else if (Name == ".rela.plt" || Name == ".rel.plt")
++      RelaPlt = Section;
++    else if (Name == ".got.plt")
++      GotPlt = Section;
++  }
++  if (!Plt || !RelaPlt || !GotPlt)
++    return {};
++  StringRef PltContents;
++  if (Plt->getContents(PltContents))
++    return {};
++  ArrayRef<uint8_t> PltBytes((const uint8_t *)PltContents.data(),
++                             Plt->getSize());
++  auto PltEntries = MIA->findPltEntries(Plt->getAddress(), PltBytes,
++                                        GotPlt->getAddress(), Triple);
++  // Build a map from GOT entry virtual address to PLT entry virtual address.
++  DenseMap<uint64_t, uint64_t> GotToPlt;
++  for (const auto &Entry : PltEntries)
++    GotToPlt.insert(std::make_pair(Entry.second, Entry.first));
++  // Find the relocations in the dynamic relocation table that point to
++  // locations in the GOT for which we know the corresponding PLT entry.
++  std::vector<std::pair<DataRefImpl, uint64_t>> Result;
++  for (const auto &Relocation : RelaPlt->relocations()) {
++    if (Relocation.getType() != JumpSlotReloc)
++      continue;
++    auto PltEntryIter = GotToPlt.find(Relocation.getOffset());
++    if (PltEntryIter != GotToPlt.end())
++      Result.push_back(std::make_pair(
++          Relocation.getSymbol()->getRawDataRefImpl(), PltEntryIter->second));
++  }
++  return Result;
++}
+diff --git a/lib/Target/AArch64/MCTargetDesc/AArch64MCTargetDesc.cpp b/lib/Target/AArch64/MCTargetDesc/AArch64MCTargetDesc.cpp
+index 4ceda7e122f..744bb0805d2 100644
+--- a/lib/Target/AArch64/MCTargetDesc/AArch64MCTargetDesc.cpp
++++ b/lib/Target/AArch64/MCTargetDesc/AArch64MCTargetDesc.cpp
+@@ -24,6 +24,7 @@
+ #include "llvm/MC/MCRegisterInfo.h"
+ #include "llvm/MC/MCStreamer.h"
+ #include "llvm/MC/MCSubtargetInfo.h"
++#include "llvm/Support/Endian.h"
+ #include "llvm/Support/ErrorHandling.h"
+ #include "llvm/Support/TargetRegistry.h"
+ 
+@@ -153,6 +154,31 @@ public:
+     }
+     return false;
+   }
++
++  std::vector<std::pair<uint64_t, uint64_t>>
++  findPltEntries(uint64_t PltSectionVA, ArrayRef<uint8_t> PltContents,
++                 uint64_t GotPltSectionVA,
++                 const Triple &TargetTriple) const override {
++    // Do a lightweight parsing of PLT entries.
++    std::vector<std::pair<uint64_t, uint64_t>> Result;
++    for (uint64_t Byte = 0, End = PltContents.size(); Byte + 7 < End;
++         Byte += 4) {
++      uint32_t Insn = support::endian::read32le(PltContents.data() + Byte);
++      // Check for adrp.
++      if ((Insn & 0x9f000000) != 0x90000000)
++        continue;
++      uint64_t Imm = (((PltSectionVA + Byte) >> 12) << 12) +
++            (((Insn >> 29) & 3) << 12) + (((Insn >> 5) & 0x3ffff) << 14);
++      uint32_t Insn2 = support::endian::read32le(PltContents.data() + Byte + 4);
++      // Check for: ldr Xt, [Xn, #pimm].
++      if (Insn2 >> 22 == 0x3e5) {
++        Imm += ((Insn2 >> 10) & 0xfff) << 3;
++        Result.push_back(std::make_pair(PltSectionVA + Byte, Imm));
++        Byte += 4;
++      }
++    }
++    return Result;
++  }
+ };
+ 
+ } // end anonymous namespace
+diff --git a/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.cpp b/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.cpp
+index 7a192b72da9..b7aab91d217 100644
+--- a/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.cpp
++++ b/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.cpp
+@@ -384,6 +384,9 @@ public:
+                             const MCInst &Inst) const override;
+   bool clearsSuperRegisters(const MCRegisterInfo &MRI, const MCInst &Inst,
+                             APInt &Mask) const override;
++  std::vector<std::pair<uint64_t, uint64_t>>
++  findPltEntries(uint64_t PltSectionVA, ArrayRef<uint8_t> PltContents,
++                 uint64_t GotSectionVA, const Triple &TargetTriple) const;
+ };
+ 
+ bool X86MCInstrAnalysis::isDependencyBreaking(const MCSubtargetInfo &STI,
+@@ -510,6 +513,64 @@ bool X86MCInstrAnalysis::clearsSuperRegisters(const MCRegisterInfo &MRI,
+   return Mask.getBoolValue();
+ }
+ 
++static std::vector<std::pair<uint64_t, uint64_t>>
++findX86PltEntries(uint64_t PltSectionVA, ArrayRef<uint8_t> PltContents,
++                  uint64_t GotPltSectionVA) {
++  // Do a lightweight parsing of PLT entries.
++  std::vector<std::pair<uint64_t, uint64_t>> Result;
++  for (uint64_t Byte = 0, End = PltContents.size(); Byte + 6 < End; ) {
++    // Recognize a jmp.
++    if (PltContents[Byte] == 0xff && PltContents[Byte + 1] == 0xa3) {
++      // The jmp instruction at the beginning of each PLT entry jumps to the
++      // address of the base of the .got.plt section plus the immediate.
++      uint32_t Imm = support::endian::read32le(PltContents.data() + Byte + 2);
++      Result.push_back(
++          std::make_pair(PltSectionVA + Byte, GotPltSectionVA + Imm));
++      Byte += 6;
++    } else if (PltContents[Byte] == 0xff && PltContents[Byte + 1] == 0x25) {
++      // The jmp instruction at the beginning of each PLT entry jumps to the
++      // immediate.
++      uint32_t Imm = support::endian::read32le(PltContents.data() + Byte + 2);
++      Result.push_back(std::make_pair(PltSectionVA + Byte, Imm));
++      Byte += 6;
++    } else
++      Byte++;
++  }
++  return Result;
++}
++
++static std::vector<std::pair<uint64_t, uint64_t>>
++findX86_64PltEntries(uint64_t PltSectionVA, ArrayRef<uint8_t> PltContents) {
++  // Do a lightweight parsing of PLT entries.
++  std::vector<std::pair<uint64_t, uint64_t>> Result;
++  for (uint64_t Byte = 0, End = PltContents.size(); Byte + 6 < End; ) {
++    // Recognize a jmp.
++    if (PltContents[Byte] == 0xff && PltContents[Byte + 1] == 0x25) {
++      // The jmp instruction at the beginning of each PLT entry jumps to the
++      // address of the next instruction plus the immediate.
++      uint32_t Imm = support::endian::read32le(PltContents.data() + Byte + 2);
++      Result.push_back(
++          std::make_pair(PltSectionVA + Byte, PltSectionVA + Byte + 6 + Imm));
++      Byte += 6;
++    } else
++      Byte++;
++  }
++  return Result;
++}
++
++std::vector<std::pair<uint64_t, uint64_t>> X86MCInstrAnalysis::findPltEntries(
++    uint64_t PltSectionVA, ArrayRef<uint8_t> PltContents,
++    uint64_t GotPltSectionVA, const Triple &TargetTriple) const {
++  switch (TargetTriple.getArch()) {
++    case Triple::x86:
++      return findX86PltEntries(PltSectionVA, PltContents, GotPltSectionVA);
++    case Triple::x86_64:
++      return findX86_64PltEntries(PltSectionVA, PltContents);
++    default:
++      return {};
++  }
++}
++
+ } // end of namespace X86_MC
+ 
+ } // end of namespace llvm

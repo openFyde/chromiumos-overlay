@@ -37,6 +37,7 @@ pick_cherries() {
 
 pick_next_cherries() {
 	CHERRIES=""
+	CHERRIES+=" fc72aa17367e33a63c9619ed351a06b3486f80f5" # r340802
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -64,6 +65,9 @@ src_unpack() {
 src_prepare() {
 	if use llvm-next  && has_version --host-root 'sys-devel/llvm[llvm-next]'; then
 		pick_next_cherries
+		epatch "${FILESDIR}"/lld-8.0-revert-r330869.patch
+		epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
+		epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
 	else
 		pick_cherries
 	fi

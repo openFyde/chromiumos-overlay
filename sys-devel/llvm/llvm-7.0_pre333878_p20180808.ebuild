@@ -150,7 +150,7 @@ src_unpack() {
 	fi
 
 	if use llvm-next; then
-		# llvm:r339407 https://critique.corp.google.com/#review/199724125
+		# llvm:r339409 https://critique.corp.google.com/#review/199724125
 		export EGIT_REPO_URIS=(
 		"llvm"
 			""
@@ -159,11 +159,11 @@ src_unpack() {
 		"compiler-rt"
 			"projects/compiler-rt"
 			"${CROS_GIT_HOST_URL}/chromiumos/third_party/compiler-rt.git"
-			"dafd5b461e1808fce4a76da13b81065968eff6aa" # EGIT_COMMIT r339405
+			"4f7c361dfbe533e883737844251598152333f087" # EGIT_COMMIT r339408
 		"clang"
 			"tools/clang"
 			"${CROS_GIT_HOST_URL}/chromiumos/third_party/clang.git"
-			"7e2622ef400b7a11434ef0ca3e4ff9a8c665e946" # EGIT_COMMIT r339403
+			"6601c8f525499269dba75f75bbd1ee2671aaa262" # EGIT_COMMIT r339409
 		"clang-tidy"
 			"tools/clang/tools/extra"
 			"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm-clang-tools-extra.git"
@@ -216,6 +216,7 @@ pick_next_cherries() {
 	# clang
 	local CHERRIES=""
 	CHERRIES+=" 24c973171788bbd2699e267a69aad6e24f26ac24" # r340101
+	CHERRIES+=" ca6d65812f8d6ba6093d0ea0d0bfd9cac518789d" # r342100
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -224,6 +225,12 @@ pick_next_cherries() {
 
 	# llvm
 	CHERRIES=""
+	CHERRIES+=" 3e5777f3b95e846530d70ed76577abca1be4f5f5" # r339411
+	CHERRIES+=" 77a17afc92d543811e0f4f7913d4424aa630c117" # r340610
+	CHERRIES+=" ddf089299bbfec8b94a61ffd83b2360e061dc108" # r340642
+	CHERRIES+=" a4da437c1dec3fec9cf24e5d4b40bc77c2a6cec2" # r340654
+	CHERRIES+=" 42eb082d63383b17c395e033e0095076efe4cb5e" # r341593
+	CHERRIES+=" 906fd9ab476d0fa9e221bec32009eac3f3af5c60" # r341706
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -245,7 +252,9 @@ src_prepare() {
 		use llvm-next && pick_next_cherries
 	fi
 	epatch "${FILESDIR}"/llvm-6.0-gnueabihf.patch
-	epatch "${FILESDIR}"/llvm-7.0-mssa-bugfix.patch
+	if ! use llvm-next; then
+		epatch "${FILESDIR}"/llvm-7.0-mssa-bugfix.patch
+	fi
 	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
 	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
 

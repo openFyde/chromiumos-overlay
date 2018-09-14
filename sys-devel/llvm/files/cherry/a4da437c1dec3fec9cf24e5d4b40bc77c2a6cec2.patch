@@ -1,0 +1,23 @@
+commit a4da437c1dec3fec9cf24e5d4b40bc77c2a6cec2
+Author: Vitaly Buka <vitalybuka@google.com>
+Date:   Fri Aug 24 21:03:35 2018 +0000
+
+    Use unique_ptr to hold MCInstrInfo
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@340654 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Object/ELFObjectFile.cpp b/lib/Object/ELFObjectFile.cpp
+index 3f8984800e9..9fb3a55ac7b 100644
+--- a/lib/Object/ELFObjectFile.cpp
++++ b/lib/Object/ELFObjectFile.cpp
+@@ -351,8 +351,9 @@ ELFObjectFileBase::getPltAddresses() const {
+     default:
+       return {};
+   }
++  std::unique_ptr<const MCInstrInfo> MII(T->createMCInstrInfo());
+   std::unique_ptr<const MCInstrAnalysis> MIA(
+-      T->createMCInstrAnalysis(T->createMCInstrInfo()));
++      T->createMCInstrAnalysis(MII.get()));
+   if (!MIA)
+     return {};
+   Optional<SectionRef> Plt = None, RelaPlt = None, GotPlt = None;

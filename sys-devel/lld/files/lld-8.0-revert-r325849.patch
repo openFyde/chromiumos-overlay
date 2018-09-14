@@ -1,0 +1,52 @@
+From: Caroline Tice <cmtice@google.com>
+Date: 14-Sep-2018
+
+This patch reverts LLD commit r325849.  It appears to be necessary for
+upgrading LLD to r339371.
+
+r325849 CL description:
+
+
+Author: Rui Ueyama <ruiu@google.com>
+Date:   Fri Feb 23 01:16:57 2018 +0000
+
+    Make undefined symbol in DSO to pull out object files from archive files.
+
+    We have an internal program that does't link without this patch. I
+    don't know of any open-source program that needs this, but there
+    might be.  Since this patch improves compatibility with GNU
+    linkers with a few lines of code, I think it's worth to be
+    committed.
+
+    The problem is about undefined symbols in DSOs. Some programs
+    depend on the GNU linkers' behavior that they pull out object
+    files from archive files to resolve undefined symbols in DSOs. We
+    already allow that kind of "reverse" dependency (from DSOs to the
+    main executable) for regular symbols, in particular, for
+    "__progname" symbol (which is usually in crt0.o), but that doesn't
+    work if the symbol is in an archive file.  This patch is to make
+    it work.
+
+    Differential Revision: https://reviews.llvm.org/D43658
+    
+diff --git a/ELF/SymbolTable.cpp.orig b/ELF/SymbolTable.cpp
+index 0b4c6a4..ab66967 100644
+--- a/ELF/SymbolTable.cpp.orig
++++ b/ELF/SymbolTable.cpp
+@@ -667,14 +667,9 @@ template <class ELFT> void SymbolTable::scanShlibUndefined() {
+   for (InputFile *F : SharedFiles) {
+     for (StringRef U : F->getUndefinedSymbols()) {
+       Symbol *Sym = find(U);
+-      if (!Sym)
++      if (!Sym || !Sym->isDefined())
+ 	continue;
+-      if (auto *L = dyn_cast<Lazy>(Sym))
+-	if (InputFile *File = L->fetch())
+-	  addFile<ELFT>(File);
+-
+-      if (Sym->isDefined())
+-	Sym->ExportDynamic = true;
++      Sym->ExportDynamic = true;
+     }
+   }
+ }
