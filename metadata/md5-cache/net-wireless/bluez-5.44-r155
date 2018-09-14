@@ -3,10 +3,10 @@ DEPEND=>=dev-libs/glib-2.14:2 sys-apps/dbus virtual/udev cups? ( net-print/cups 
 DESCRIPTION=Bluetooth Tools and System Daemons for Linux
 EAPI=5
 HOMEPAGE=http://www.bluez.org/
-IUSE=asan cups debug systemd test-programs readline bt_deprecated_tools cros-debug asan coverage fuzzer msan ubsan cros_host cros_workon_tree_b47475d0735af26a254d7a996ad270f2012f34cd
+IUSE=asan cups debug systemd test-programs readline bt_deprecated_tools cros-debug asan coverage fuzzer msan ubsan cros_host cros_workon_tree_dc856b35dad3e88c7a22f47c9e134e3fa7e985a3
 KEYWORDS=*
 LICENSE=GPL-2 LGPL-2.1
 RDEPEND=>=dev-libs/glib-2.14:2 sys-apps/dbus virtual/udev cups? ( net-print/cups ) readline? ( sys-libs/readline ) chromeos-base/metrics !net-wireless/bluez-hcidump !net-wireless/bluez-libs !net-wireless/bluez-test !net-wireless/bluez-utils test-programs? ( dev-python/dbus-python dev-python/pygobject:2 ) test-programs? ( =dev-lang/python-2* ) sys-apps/baselayout chromeos-base/libchrome:395517[cros-debug=]
 SLOT=0
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-sanitizers	40275da665152fb71fee4b717a9c7de7	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	58f44b2918bfba7ca44f71c3848b8c08	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	python	efc1c55fc44c5b7272fc2ffba73c3e6f	systemd	8f5286f89e265842f5b5189666eae88b	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	udev	d91cac2c73b94629cad2daea66e0d182	user	77ad494d1257e3badef496e390973d6b
-_md5_=e293ef89cf0aaea17dc083c69cda7f48
+_md5_=84a2d372cc82d79a25c147f6db087f3c
