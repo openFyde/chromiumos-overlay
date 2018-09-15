@@ -130,6 +130,14 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-egl-rewire-the-build-systems-to-use-libwayland-egl.patch
 	epatch "${FILESDIR}"/18.2-egl-remove-wayland-egl-now-that-we-re-using-libwayla.patch
 	epatch "${FILESDIR}"/18.2-mesa-Additional-FlipY-applications.patch
+	epatch "${FILESDIR}"/18.2-ac-move-all-LLVM-module-initialization-into.patch
+	epatch "${FILESDIR}"/18.2-ac-radeonsi-refactor-out-pass-manager-init-to-common.patch
+	epatch "${FILESDIR}"/18.2-ac-add-target-library-info-helpers.patch
+	epatch "${FILESDIR}"/18.2-radeonsi-rename-si_compiler-ac_llvm_compiler.patch
+	epatch "${FILESDIR}"/18.2-ac-radeonsi-port-compiler-init-destroy-out-of-radeon.patch
+	epatch "${FILESDIR}"/18.2-ac-add-reusable-helpers-for-direct-LLVM-compilation.patch
+	epatch "${FILESDIR}"/18.2-radeonsi-use-ac_compile_module_to_binary-to-reduce-c.patch
+	epatch "${FILESDIR}"/18.2-ac-radeonsi-reduce-optimizations-for-complex-compute.patch
 
 	base_src_prepare
 
