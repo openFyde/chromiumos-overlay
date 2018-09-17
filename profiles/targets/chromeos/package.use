@@ -105,6 +105,7 @@ sys-apps/util-linux     -unicode
 sys-auth/pambase	-nullok
 sys-block/fio		aio
 sys-block/parted	device-mapper
+sys-devel/bc		forced-sandbox
 sys-devel/clang		-multitarget
 sys-devel/llvm		-multitarget -ncurses
 sys-fs/avfs		-extfs
