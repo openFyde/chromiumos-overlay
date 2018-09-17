@@ -257,6 +257,7 @@ SERVER_IUSE_TESTS="
 		+tests_power_DarkResumeShutdownServer
 		+tests_power_DarkResumeDisplay
 		+tests_power_DeferForFlashrom
+		+tests_power_WakeSources
 	)
 	+tests_platform_Powerwash
 	+tests_platform_RebootAfterUpdate
