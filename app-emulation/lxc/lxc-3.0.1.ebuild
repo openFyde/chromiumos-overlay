@@ -94,6 +94,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-3.0.0-bash-completion.patch
 	#558854
 	eapply "${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch
+	eapply "${FILESDIR}"/${PN}-3.0.1-attach-shutdown.patch
 	eapply_user
 	eautoreconf
 }
