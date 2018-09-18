@@ -144,11 +144,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-71.0.3552.6_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R71-3532.8-1536575759.afdo"
-AFDO_FILE["airmont"]="R71-3532.8-1536574662.afdo"
-AFDO_FILE["haswell"]="R71-3532.8-1536577059.afdo"
-AFDO_FILE["broadwell"]="R71-3497.73-1536574851.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-71.0.3554.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R71-3538.7-1537178702.afdo"
+AFDO_FILE["airmont"]="R71-3538.7-1537179938.afdo"
+AFDO_FILE["haswell"]="R71-3538.7-1537182274.afdo"
+AFDO_FILE["broadwell"]="R71-3497.73-1537181229.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
