@@ -249,10 +249,10 @@ been updated to include the new definitions.
  
 +auto inline void
 +__attribute ((always_inline))
-+elf_machine_relr_relative (Elf32_Addr l_addr,
++elf_machine_relr_relative (ElfW(Addr) l_addr,
 +			   void *const reloc_addr_arg)
 +{
-+  Elf32_Addr *const reloc_addr = reloc_addr_arg;
++  ElfW(Addr) *const reloc_addr = reloc_addr_arg;
 +  *reloc_addr += l_addr;
 +}
 +
@@ -265,10 +265,26 @@ been updated to include the new definitions.
     Prelinked libraries may use Elf32_Rela though.  */
  #define ELF_MACHINE_NO_RELA defined RTLD_BOOTSTRAP
  #define ELF_MACHINE_NO_REL 0
-+#define ELF_MACHINE_NO_RELR 1
++#define ELF_MACHINE_NO_RELR 0
  
  #ifdef RESOLVE_MAP
  
+@@ -616,6 +616,15 @@
+   *reloc_addr += l_addr;
+ }
+ 
++auto inline void
++__attribute ((always_inline))
++elf_machine_relr_relative (ElfW(Addr) l_addr,
++			   void *const reloc_addr_arg)
++{
++  ElfW(Addr) *const reloc_addr = reloc_addr_arg;
++  *reloc_addr += l_addr;
++}
++
+ # ifndef RTLD_BOOTSTRAP
+ auto inline void
+ __attribute__ ((always_inline))
 --- sysdeps/x86_64/dl-machine.h
 +++ sysdeps/x86_64/dl-machine.h
 @@ -212,6 +212,7 @@ _dl_start_user:\n\
