@@ -1,1 +1,1 @@
-/var/spool
+/var/spool/cups
