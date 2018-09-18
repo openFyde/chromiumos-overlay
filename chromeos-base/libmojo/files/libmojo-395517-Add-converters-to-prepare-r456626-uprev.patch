@@ -1,0 +1,85 @@
+From 98df8f96cb613257a206e023a6d613e74584c618 Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Tue, 18 Sep 2018 22:18:50 +0900
+Subject: [PATCH] Add converters to prepare r456626 uprev.
+
+BUG=b:37434548
+TEST=Build.
+---
+ Makefile                          |  2 +-
+ mojo/public/cpp/bindings/array.h  | 14 ++++++++++++++
+ mojo/public/cpp/bindings/string.h |  1 +
+ 3 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index db2e12e..8a6893d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -9,7 +9,7 @@ PC_CFLAGS := $(shell $(PKG_CONFIG) --cflags $(PC_DEPS))
+ PC_LIBS := $(shell $(PKG_CONFIG) --libs $(PC_DEPS))
+ 
+ CPPFLAGS += -Wno-unused-parameter -Wno-missing-field-initializers $(PC_CFLAGS) -I$(OUT)
+-CXXFLAGS += -std=c++11 \
++CXXFLAGS += -std=c++14 \
+ 	-Wno-sign-promo \
+ 	-Wno-non-virtual-dtor \
+ 	-Wno-ignored-qualifiers \
+diff --git a/mojo/public/cpp/bindings/array.h b/mojo/public/cpp/bindings/array.h
+index d94feb0..f59660c 100644
+--- a/mojo/public/cpp/bindings/array.h
++++ b/mojo/public/cpp/bindings/array.h
+@@ -14,6 +14,7 @@
+ #include <vector>
+ 
+ #include "base/move.h"
++#include "base/optional.h"
+ #include "mojo/public/cpp/bindings/lib/array_internal.h"
+ #include "mojo/public/cpp/bindings/lib/bindings_internal.h"
+ #include "mojo/public/cpp/bindings/lib/template_util.h"
+@@ -42,6 +43,7 @@ class Array {
+   Array() : is_null_(false) {}
+   // Constructs a null array.
+   Array(std::nullptr_t null_pointer) : is_null_(true) {}
++  Array(base::nullopt_t) : is_null_(true) {}
+ 
+   // Constructs a new non-null array of the specified size. The elements will
+   // be value-initialized (meaning that they will be initialized by their
+@@ -86,6 +88,9 @@ class Array {
+     return TypeConverter<U, Array>::Convert(*this);
+   }
+ 
++  operator std::vector<T>&() { return vec_; }
++  operator const std::vector<T>&() const { return vec_; }
++
+   // Indicates whether the array is null (which is distinct from empty).
+   bool is_null() const { return is_null_; }
+ 
+@@ -307,4 +312,13 @@ inline bool operator<(const Array<T>& a, const Array<T>& b) {
+ 
+ }  // namespace mojo
+ 
++// Borrow this file to add mojo::TimeDelta for compatibility.
++namespace base {
++class TimeDelta;
++}  // namespace base
++
++namespace mojo {
++using TimeDelta = const base::TimeDelta&;
++}  // namespace mojo
++
+ #endif  // MOJO_PUBLIC_CPP_BINDINGS_ARRAY_H_
+diff --git a/mojo/public/cpp/bindings/string.h b/mojo/public/cpp/bindings/string.h
+index 5f22b4c..8bb07be 100644
+--- a/mojo/public/cpp/bindings/string.h
++++ b/mojo/public/cpp/bindings/string.h
+@@ -86,6 +86,7 @@ class String {
+   bool is_null() const { return is_null_; }
+ 
+   size_t size() const { return value_.size(); }
++  bool empty() const { return value_.empty() && !is_null_; }
+ 
+   const char* data() const { return value_.data(); }
+ 
+-- 
+2.19.0.397.gdd90340f6a-goog
+
