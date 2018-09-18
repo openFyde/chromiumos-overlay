@@ -287,6 +287,7 @@ ALL_BOARDS=(
 	samus
 	samus-cheets
 	sand
+	sarien
 	scarlet
 	scarlet-arcnext
 	sentry
