@@ -18,7 +18,7 @@ BOARDS="${BOARDS} lumpy lumpy64 mario meowth nasher nami nautilus nocturne"
 BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi rammus reef"
 BOARDS="${BOARDS} samus sand sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
-IUSE="${BOARDS} cb_legacy_seabios cb_legacy_tianocore cb_legacy_uboot"
+IUSE="${BOARDS} altfw cb_legacy_seabios cb_legacy_tianocore cb_legacy_uboot"
 IUSE="${IUSE} fsp fastboot unibuild u-boot cros_ec pd_sync"
 
 REQUIRED_USE="
@@ -205,6 +205,51 @@ build_image() {
 	sign_image ${dst_image} "${devkeys_dir}"
 }
 
+# Set up alternative bout loaders
+#
+# This creates a new CBFS in the RW_LEGACY area and puts boot loaders into it,
+# based on USE flags. A list is written to an "altfw/list" file so that there
+# is a record of what is available.
+#
+# TODO(sjg@chromium.org): Bring in Tianocore here, and perhaps memtest
+# Args
+#  $1: Coreboot file to add to (will add to this, and the .serial version of it)
+setup_altfw() {
+	local coreboot_file="$1"
+	local cbfs="altfw.cbfs"
+	local bl_list="altfw"
+
+	einfo "Adding alternative firmware"
+	# Input: "'RW_LEGACY' (size 7864320, offset 4718592)"
+	# Output: "7864320"
+	local cbfs_size="$(do_cbfstool "${coreboot_file}" layout | \
+		sed -e "/^'RW_LEGACY'/ {s|.*size \([0-9]*\)[^0-9].*$|\1|; q}; d" )"
+
+	# Create a new, empty CBFS file
+	# Suppress message "Created CBFS (capacity = 7864216 bytes)"
+	do_cbfstool "${cbfs}" create -s "${cbfs_size}" -m x86 >/dev/null
+	rm -f "${bl_list}"
+
+	# Add U-Boot if enabled
+	if use u-boot; then
+		einfo "- Adding U-Boot"
+
+		do_cbfstool "${cbfs}" add-flat-binary -n altfw/u-boot \
+			-c lzma -l 0x1110000 -e 0x1110000 \
+			-f "${CROS_FIRMWARE_ROOT}/u-boot.bin"
+		echo "1;altfw/u-boot;U-Boot;U-Boot bootloader" >> "${bl_list}"
+	fi
+
+	# Add the list
+	einfo "- adding firmware list"
+	do_cbfstool "${cbfs}" add -n altfw/list -t raw -f "${bl_list}"
+
+	# Write this CBFS file into the RW_LEGACY region
+	do_cbfstool "${coreboot_file}" write -f "${cbfs}" -r RW_LEGACY --force
+	do_cbfstool "${coreboot_file}.serial" write -f "${cbfs}" -r RW_LEGACY \
+		--force
+}
+
 # Build firmware images for a given board
 # Creates image*.bin for the following images:
 #    image.bin          - production image (no serial console)
@@ -317,27 +362,8 @@ build_images() {
 		add_ec "${coreboot_config}" "${coreboot_file}.serial" "pdrw" "${froot}/${PD_FIRMWARE}"
 	fi
 
-	if use u-boot; then
-		einfo "Adding U-Boot"
-		local cbfs="u-boot.cbfs"
-
-		# Input: "'RW_LEGACY' (size 7864320, offset 4718592)"
-		# Output: "7864320"
-		local cbfs_size="$(do_cbfstool "${coreboot_file}" layout | \
-			sed -e "/^'RW_LEGACY'/ {s|.*size \([0-9]*\)[^0-9].*$|\1|; q}; d" )"
-
-		# Create a new CBFS file with U-Boot in it
-		# Suppress message "Created CBFS (capacity = 7864216 bytes)"
-		do_cbfstool "${cbfs}" create -s "${cbfs_size}" -m x86 >/dev/null
-		do_cbfstool "${cbfs}" add-flat-binary -n u-boot \
-			-c lzma -l 0x1110000 -e 0x1110000 \
-			-f "${CROS_FIRMWARE_ROOT}/u-boot.bin"
-
-		# Write this CBFS file into the RW_LEGACY region
-		do_cbfstool "${coreboot_file}" write -f "${cbfs}" -r RW_LEGACY \
-			--force
-		do_cbfstool "${coreboot_file}.serial" write -f "${cbfs}" -r RW_LEGACY \
-			--force
+	if use altfw; then
+		setup_altfw "${coreboot_file}"
 	fi
 
 	local depthcharge="${depthcharge_prefix}/depthcharge/depthcharge.elf"
