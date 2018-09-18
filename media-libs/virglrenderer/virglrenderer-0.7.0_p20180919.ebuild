@@ -10,7 +10,7 @@ if [[ ${PV} == "9999" ]] ; then
 	KEYWORDS="~*"
 	inherit git-r3
 else
-	GIT_SHA1="9c420d224d86215d408dff8dea599ed9414a24d6"
+	GIT_SHA1="9b91cc380fdd5bf993f64a9cd452dbc4c98872fa"
 	SRC_URI="https://github.com/freedesktop/virglrenderer/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${GIT_SHA1}"
 	KEYWORDS="*"
@@ -39,7 +39,7 @@ DEPEND="${RDEPEND}
 	test? ( >=dev-libs/check-0.9.4 )"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.6.0-libdrm.patch
+	"${FILESDIR}"/${PN}-0.7.0-libdrm.patch
 )
 
 src_prepare() {

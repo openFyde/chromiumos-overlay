@@ -37,9 +37,6 @@ PATCHES=(
 
 src_prepare() {
 	default
-	if use fuzzer; then
-		epatch "${FILESDIR}"/${PN}-0.6.0-fuzzer.patch
-	fi
 	[[ -e configure ]] || eautoreconf
 }
 
