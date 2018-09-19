@@ -8,22 +8,10 @@ CROS_GO_PACKAGES=(
 )
 
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_LOCALNAME=(
-	"platform2"
-	"platform/system_api"
-)
-CROS_WORKON_PROJECT=(
-	"chromiumos/platform2"
-	"chromiumos/platform/system_api"
-)
-CROS_WORKON_DESTDIR=(
-	"${S}/platform2"
-	"${S}/platform/system_api"
-)
-CROS_WORKON_SUBTREE=(
-	"common-mk"
-	""
-)
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk system_api .gn"
 
 PLATFORM_SUBDIR="system_api"
 
@@ -45,12 +33,7 @@ DEPEND="${RDEPEND}
 "
 
 src_unpack() {
-	local s="${S}"
 	platform_src_unpack
-
-	# The platform eclass will look for system_api in src/platform2.
-	# This forces it to look in src/platform.
-	S="${s}/platform/system_api"
 	CROS_GO_WORKSPACE="${OUT}/gen/go"
 }
 
@@ -60,10 +43,9 @@ src_install() {
 	insinto /usr/"$(get_libdir)"/pkgconfig
 	doins system_api.pc
 
-	rm dbus/power_manager/OWNERS
-
 	insinto /usr/include/chromeos
 	doins -r dbus switches constants
+	find "${D}" -name OWNERS -delete || die
 
 	# Install the dbus-constants.h files in the respective daemons' client library
 	# include directory. Users will need to include the corresponding client
