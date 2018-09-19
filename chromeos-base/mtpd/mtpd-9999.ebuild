@@ -31,11 +31,10 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api"
 
 src_install() {
-	exeinto /opt/google/mtpd
-	doexe "${OUT}"/mtpd
+	dosbin "${OUT}"/mtpd
 
 	# Install seccomp policy file.
-	insinto /opt/google/mtpd
+	insinto /usr/share/policy
 	use seccomp && newins "mtpd-seccomp-${ARCH}.policy" mtpd-seccomp.policy
 
 	# Install the init scripts.
