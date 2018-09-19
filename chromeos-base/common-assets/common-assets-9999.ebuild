@@ -48,6 +48,9 @@ src_install() {
 	doins -r connectivity_diagnostics
 	doins -r connectivity_diagnostics_launcher
 
+	# These files aren't used at runtime.
+	find "${D}" -name '*.grd' -delete
+
 	#
 	# Speech synthesis
 	#
