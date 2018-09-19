@@ -39,8 +39,11 @@ pkg_preinst() {
 }
 
 src_install() {
+	dosbin "${OUT}"/rollback_prepare_save
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
+	dosbin "${OUT}"/rollback_finish_restore
+
 	dosbin "${OUT}"/finish_oobe_auto_config
 
 	insinto /etc/init
