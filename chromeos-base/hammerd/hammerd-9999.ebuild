@@ -49,6 +49,10 @@ src_install() {
 	# Install DBus config.
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.hammerd.conf
+
+	# Install rsyslog config.
+	insinto /etc/rsyslog.d
+	doins rsyslog/rsyslog.hammerd.conf
 }
 
 platform_pkg_test() {
