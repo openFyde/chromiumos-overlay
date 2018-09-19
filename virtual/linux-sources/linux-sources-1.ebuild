@@ -18,6 +18,7 @@ IUSE_KERNEL_VERS=(
 	kernel-4_4
 	kernel-4_14
 	kernel-experimental
+	kernel-next
 	kernel-upstream-mainline
 	kernel-upstream-next
 )
