@@ -50,6 +50,7 @@ IUSE="
 	+profile
 	+readahead
 	scanner
+	selinux
 	+shill
 	+syslog
 	+system_locales
@@ -174,7 +175,7 @@ RDEPEND="
 	power_management? ( chromeos-base/power_manager )
 	!chromeos-base/platform2
 	profile? ( chromeos-base/quipper )
-	chromeos-base/selinux-policy
+	selinux? ( chromeos-base/selinux-policy )
 	shill? ( chromeos-base/shill )
 	chromeos-base/update_engine
 	vpn? ( chromeos-base/vpn-manager )
