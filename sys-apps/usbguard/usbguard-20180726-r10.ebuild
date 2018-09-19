@@ -75,7 +75,7 @@ src_install() {
 	use hammerd && doins "${FILESDIR}/50-hammer-rules.conf"
 	doins "${FILESDIR}/99-rules.conf"
 
-	insinto /opt/google/usbguard
+	insinto /usr/share/policy
 	newins "${FILESDIR}/usbguard-daemon-seccomp-${ARCH}.policy" usbguard-daemon-seccomp.policy
 
 	insinto /etc/init
