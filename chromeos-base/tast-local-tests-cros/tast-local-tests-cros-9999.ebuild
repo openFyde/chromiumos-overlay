@@ -29,6 +29,8 @@ CROS_GO_VET=(
 
 # The URLs listed here must match those in files/external_data.conf.
 TAST_BUNDLE_EXTERNAL_DATA_URLS=(
+	"gs://chromiumos-test-assets-public/tast/cros/arcapp/media_session_60sec_test_20180919.ogg"
+	"gs://chromiumos-test-assets-public/tast/cros/arcapp/media_session_test_20181101.apk"
 	"gs://chromiumos-test-assets-public/tast/cros/arcapp/todo-mvp-20180814.apk"
 	"gs://chromiumos-test-assets-public/tast/cros/debugd/debugd_printer_GenericPostScript_20181001.ppd.gz"
 	"gs://chromiumos-test-assets-public/tast/cros/example/data_files_external_20180626.txt"
@@ -53,7 +55,7 @@ inherit cros-workon tast-bundle
 DESCRIPTION="Bundle of local integration tests for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
 
-LICENSE="BSD-Google"
+LICENSE="Apache-2.0 BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE=""
