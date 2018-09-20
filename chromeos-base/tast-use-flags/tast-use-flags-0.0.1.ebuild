@@ -16,6 +16,7 @@ IUSE="
 	chromeless_tty
 	+display_backlight
 	kvm_host
+	ml_service
 	mocktpm
 	rialto
 	selinux
