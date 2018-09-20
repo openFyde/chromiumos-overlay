@@ -95,6 +95,7 @@ src_install() {
 		chaps
 		cryptohome
 		login_manager
+		metrics_event
 		oobe_config
 		power_manager
 		seneschal
