@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile install prepare
+DEPEND=>=sys-libs/libselinux-2.7:= >=sys-libs/glibc-2.4 >=sys-libs/libsepol-2.7:= audit? ( >=sys-process/audit-1.5.1 )
+DESCRIPTION=SELinux restorecon utility
+EAPI=5
+HOMEPAGE=https://github.com/SELinuxProject/selinux/wiki
+IUSE=audit
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=>=sys-libs/libselinux-2.7:= >=sys-libs/glibc-2.4 >=sys-libs/libsepol-2.7:= audit? ( >=sys-process/audit-1.5.1 ) !sys-apps/policycoreutils
+SLOT=0
+SRC_URI=https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20170804/policycoreutils-2.7.tar.gz
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=e2f29a1745d951db84319de5d7e4db09
