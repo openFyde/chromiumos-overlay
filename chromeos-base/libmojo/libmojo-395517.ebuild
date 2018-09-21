@@ -25,6 +25,7 @@ src_prepare() {
 	# TODO(hidehiko): Remove on uprev.
 	epatch "${FILESDIR}/${P}-libmojo-Prepare-r456626-uprev.patch"
 	epatch "${FILESDIR}/${P}-Add-converters-to-prepare-r456626-uprev.patch"
+	epatch "${FILESDIR}/${P}-Add-Optional-compatible-methods.patch"
 }
 
 src_compile() {
