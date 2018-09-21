@@ -1,0 +1,99 @@
+commit b9c9629e618b883df7f03dc92f0d23eeca38693f
+Author: Craig Topper <craig.topper@intel.com>
+Date:   Thu Sep 6 02:03:14 2018 +0000
+
+    [X86][Assembler] Allow %eip as a register in 32-bit mode for .cfi directives.
+    
+    This basically reverts a change made in r336217, but improves the text of the error message for not allowing IP-relative addressing in 32-bit mode.
+    
+    Fixes PR38826.
+    
+    Patch by Iain Sandoe.
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@341512 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Target/X86/AsmParser/X86AsmParser.cpp b/lib/Target/X86/AsmParser/X86AsmParser.cpp
+index b02e4d80fbb..8b7b250e1a0 100644
+--- a/lib/Target/X86/AsmParser/X86AsmParser.cpp
++++ b/lib/Target/X86/AsmParser/X86AsmParser.cpp
+@@ -1054,7 +1054,7 @@ static bool CheckBaseRegAndIndexRegAndScale(unsigned BaseReg, unsigned IndexReg,
+   // RIP/EIP-relative addressing is only supported in 64-bit mode.
+   if (!Is64BitMode && BaseReg != 0 &&
+       (BaseReg == X86::RIP || BaseReg == X86::EIP)) {
+-    ErrMsg = "RIP-relative addressing requires 64-bit mode";
++    ErrMsg = "IP-relative addressing requires 64-bit mode";
+     return true;
+   }
+ 
+@@ -1099,7 +1099,7 @@ bool X86AsmParser::ParseRegister(unsigned &RegNo,
+     // checked.
+     // FIXME: Check AH, CH, DH, BH cannot be used in an instruction requiring a
+     // REX prefix.
+-    if (RegNo == X86::RIZ || RegNo == X86::RIP || RegNo == X86::EIP ||
++    if (RegNo == X86::RIZ || RegNo == X86::RIP ||
+         X86MCRegisterClasses[X86::GR64RegClassID].contains(RegNo) ||
+         X86II::isX86_64NonExtLowByteReg(RegNo) ||
+         X86II::isX86_64ExtendedReg(RegNo))
+diff --git a/test/CodeGen/X86/eip-addressing-i386.ll b/test/CodeGen/X86/eip-addressing-i386.ll
+index ddb7c782c20..b686be5727a 100644
+--- a/test/CodeGen/X86/eip-addressing-i386.ll
++++ b/test/CodeGen/X86/eip-addressing-i386.ll
+@@ -1,8 +1,8 @@
+ ; RUN: not llc -mtriple i386-apple-- -o /dev/null < %s 2>&1| FileCheck %s
+-; CHECK: <inline asm>:1:13: error: register %eip is only available in 64-bit mode
++; CHECK: <inline asm>:1:13: error: IP-relative addressing requires 64-bit mode
+ ; CHECK-NEXT: jmpl *_foo(%eip)
+ 
+-; Make sure that we emit an error if we encounter RIP-relative instructions in
++; Make sure that we emit an error if we encounter IP-relative instructions in
+ ; 32-bit mode.
+ 
+ define i32 @foo() { ret i32 0 }
+diff --git a/test/MC/X86/pr38826.s b/test/MC/X86/pr38826.s
+new file mode 100644
+index 00000000000..76289a147ec
+--- /dev/null
++++ b/test/MC/X86/pr38826.s
+@@ -0,0 +1,24 @@
++// RUN: llvm-mc %s -triple i386-unknown-unknown
++
++// Make sure %eip is allowed as a register in cfi directives in 32-bit mode
++
++ .text
++ .align 4
++ .globl foo
++
++foo:
++ .cfi_startproc
++
++ movl (%edx), %ecx
++ movl 4(%edx), %ebx
++ movl 8(%edx), %esi
++ movl 12(%edx), %edi
++ movl 16(%edx), %ebp
++ .cfi_def_cfa %edx, 0
++ .cfi_offset %eip, 24
++ .cfi_register %esp, %ecx
++ movl %ecx, %esp
++
++ jmp *24(%edx)
++
++ .cfi_endproc
+diff --git a/test/MC/X86/x86_errors.s b/test/MC/X86/x86_errors.s
+index 6aa429c7d80..1fe0a583e59 100644
+--- a/test/MC/X86/x86_errors.s
++++ b/test/MC/X86/x86_errors.s
+@@ -103,11 +103,11 @@ lea (%si,%bx), %ax
+ // 64: error: invalid 16-bit base register
+ lea (%di,%bx), %ax
+ 
+-// 32: error: register %eip is only available in 64-bit mode
++// 32: error: invalid base+index expression
+ // 64: error: invalid base+index expression
+ mov (,%eip), %rbx
+ 
+-// 32: error: register %eip is only available in 64-bit mode
++// 32: error: invalid base+index expression
+ // 64: error: invalid base+index expression
+ mov (%eip,%eax), %rbx
+ 

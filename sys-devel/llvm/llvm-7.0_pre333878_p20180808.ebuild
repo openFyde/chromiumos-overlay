@@ -229,6 +229,7 @@ pick_next_cherries() {
 	CHERRIES+=" 77a17afc92d543811e0f4f7913d4424aa630c117" # r340610
 	CHERRIES+=" ddf089299bbfec8b94a61ffd83b2360e061dc108" # r340642
 	CHERRIES+=" a4da437c1dec3fec9cf24e5d4b40bc77c2a6cec2" # r340654
+	CHERRIES+=" b9c9629e618b883df7f03dc92f0d23eeca38693f" # r341512
 	CHERRIES+=" 42eb082d63383b17c395e033e0095076efe4cb5e" # r341593
 	CHERRIES+=" 906fd9ab476d0fa9e221bec32009eac3f3af5c60" # r341706
 	pushd "${S}" >/dev/null || die
