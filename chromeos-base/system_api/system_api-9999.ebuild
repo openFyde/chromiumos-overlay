@@ -77,6 +77,7 @@ src_install() {
 		diagnosticsd
 		login_manager
 		lorgnette
+		oobe_config
 		permission_broker
 		power_manager
 		shill
@@ -94,6 +95,7 @@ src_install() {
 		chaps
 		cryptohome
 		login_manager
+		oobe_config
 		power_manager
 		seneschal
 		smbprovider
