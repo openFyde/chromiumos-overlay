@@ -3,6 +3,7 @@
 # found in the LICENSE file.
 accept: 1
 access: 1
+arch_prctl: 1
 bind: 1
 brk: 1
 capget: 1
@@ -68,6 +69,7 @@ socket: arg0 == 1 || arg0 == 16 && arg2 == 15
 stat: 1
 unlink: 1
 umask: 1
+uname: 1
 write: 1
 getpid: 1
 prlimit64: arg2 == 0 && arg3 != 0
