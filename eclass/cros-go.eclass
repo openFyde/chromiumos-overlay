@@ -102,6 +102,16 @@
 # Default is to test all packages in CROS_GO_WORKSPACE(s).
 : ${CROS_GO_TEST:=./...}
 
+# @ECLASS-VARIABLE: CROS_GO_VET
+# @DESCRIPTION:
+# Go packages to check using "go vet".
+# As in CROS_GO_PACKAGES, "..." is expanded.
+
+# @ECLASS-VARIABLE: CROS_GO_VET_FLAGS
+# @DESCRIPTION:
+# Flags to pass to "go vet" if CROS_GO_VET is set.
+# See https://golang.org/cmd/vet/ for available flags.
+
 inherit toolchain-funcs
 
 DEPEND="dev-lang/go"
@@ -260,6 +270,14 @@ go_test() {
 	GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) test "$@" || die
 }
 
+# @FUNCTION: go_vet
+# @DESCRIPTION:
+# Wrapper function for running "go vet".
+go_vet() {
+	GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) vet \
+		"${CROS_GO_VET_FLAGS[@]}" "$@" || die
+}
+
 # @FUNCTION: cros-go_src_compile
 # @DESCRIPTION:
 # Build CROS_GO_BINARIES.
@@ -274,6 +292,12 @@ cros-go_src_compile() {
 			${CROS_GO_VERSION:+"-ldflags=-X main.Version=${CROS_GO_VERSION}"} \
 			-o "${name}" \
 			"${bin}"
+	done
+
+	local pkg
+	for pkg in "${CROS_GO_VET[@]}" ; do
+		einfo "Vetting \"${pkg}\""
+		go_vet "${pkg}"
 	done
 }
 

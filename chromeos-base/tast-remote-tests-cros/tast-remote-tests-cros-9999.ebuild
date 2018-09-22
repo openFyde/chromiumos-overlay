@@ -20,8 +20,11 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_TEST=(
-	# Test support packages that live above remote/bundles/.
+	# Also test support packages that live above remote/bundles/.
 	"chromiumos/tast/remote/..."
+)
+CROS_GO_VET=(
+	"${CROS_GO_TEST[@]}"
 )
 
 inherit cros-workon tast-bundle

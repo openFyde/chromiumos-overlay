@@ -14,6 +14,9 @@ CROS_GO_TEST=(
 	# Also test common code.
 	"chromiumos/tast/..."
 )
+CROS_GO_VET=(
+	"${CROS_GO_TEST[@]}"
+)
 
 inherit cros-go cros-workon
 

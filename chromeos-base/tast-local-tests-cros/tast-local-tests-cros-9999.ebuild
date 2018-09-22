@@ -20,8 +20,11 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_TEST=(
-	# Test support packages that live above local/bundles/.
+	# Also test support packages that live above local/bundles/.
 	"chromiumos/tast/local/..."
+)
+CROS_GO_VET=(
+	"${CROS_GO_TEST[@]}"
 )
 
 # The URLs listed here must match those in files/external_data.conf.

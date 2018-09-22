@@ -101,6 +101,11 @@ tast-bundle_pkg_setup() {
 	CROS_GO_BINARIES=(
 		"chromiumos/tast/${TAST_BUNDLE_TYPE}/bundles/${TAST_BUNDLE_NAME}:/usr/libexec/tast/bundles/${TAST_BUNDLE_TYPE}/${TAST_BUNDLE_NAME}"
 	)
+
+	CROS_GO_VET_FLAGS=(
+		# Check printf-style arguments passed to testing.State methods.
+		"-printfuncs=Log,Logf,Error,Errorf,Fatal,Fatalf"
+	)
 }
 
 # @FUNCTION: tast-bundle_src_install
