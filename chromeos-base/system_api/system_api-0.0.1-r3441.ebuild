@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT=("5754a23f1e0c393f2edc41f5e4e159005c9b80b5" "9aded9e58d151bed18bb02d1ad2394580189d1a4")
+CROS_WORKON_COMMIT=("d5df3797223b2e4c82e1e4c7bfe8864c8c91b60c" "9aded9e58d151bed18bb02d1ad2394580189d1a4")
 CROS_WORKON_TREE=("3187b1cb305c8252aae1be2602c9a517cb2347fa" "4a7257ff1a451e5ac1c5779d77f9d86fb4a44565")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
@@ -79,6 +79,7 @@ src_install() {
 		diagnosticsd
 		login_manager
 		lorgnette
+		oobe_config
 		permission_broker
 		power_manager
 		shill
@@ -96,6 +97,7 @@ src_install() {
 		chaps
 		cryptohome
 		login_manager
+		oobe_config
 		power_manager
 		seneschal
 		smbprovider
