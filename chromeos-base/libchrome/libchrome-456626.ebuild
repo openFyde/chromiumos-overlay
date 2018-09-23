@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT="aosp/platform/external/libchrome"
-CROS_WORKON_COMMIT="7b88bc885b9d8dc551beab840b853a79fa06494d"
+CROS_WORKON_COMMIT="876a619fbd629f047eec163321fb770cad3e3ea5"
 CROS_WORKON_LOCALNAME="aosp/external/libchrome"
 CROS_WORKON_BLACKLIST="1"
 
@@ -42,24 +42,9 @@ DEPEND="${RDEPEND}
 	cros_host? ( dev-util/scons )"
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-preg_leak_fix.patch
-	epatch "${FILESDIR}"/${P}-synchronization-add-new-WaitableEvent-constructor.patch
-	epatch "${FILESDIR}"/${P}-base-Move-all-stl-utilities-to-the-base-namespace.patch
-	epatch "${FILESDIR}"/${P}-Base-ObserverList-Add-basic-support-for-standard-C-i.patch
-	epatch "${FILESDIR}"/${P}-ScopedTempDir-add-GetPath-from-upstream-libchrome.patch
-	epatch "${FILESDIR}"/${P}-FileDescriptorWatcher-add-constructor-taking-Locatio.patch
-	epatch "${FILESDIR}"/${P}-Base-DirReader-Alignment.patch
-	epatch "${FILESDIR}"/${P}-Value-convert-Type-to-enum-class.patch
-	epatch "${FILESDIR}"/${P}-SConstruct-asan-build.patch
-	epatch "${FILESDIR}"/${P}-Inline-FundamentalValue-into-base-Value.patch
-	epatch "${FILESDIR}"/${P}-Remove-Custom-StringValue-implementations.patch
-	epatch "${FILESDIR}"/${P}-Inline-StringValue-into-base-Value.patch
-	epatch "${FILESDIR}"/${P}-dbus-Property-Add-type-specializations.patch
-	epatch "${FILESDIR}"/${P}-dbus-add-new-style-FD-bindings.patch
 	epatch "${FILESDIR}"/${P}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
 	epatch "${FILESDIR}"/${P}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
 	epatch "${FILESDIR}"/${P}-dbus-Make-MockObjectManager-useful.patch
-	epatch "${FILESDIR}"/${P}-delete-preg-parser.patch
 	epatch "${FILESDIR}"/${P}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
 	epatch "${FILESDIR}"/${P}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
 	epatch "${FILESDIR}"/${P}-Add-FuzzedDataProvider.patch
@@ -67,17 +52,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-dbus-Add-TryRegisterFallback.patch
 	epatch "${FILESDIR}"/${P}-dbus-Remove-LOG-ERROR-in-ObjectProxy.patch
 	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
-
-	# TODO(b/37434548): Remove this patch on update to r456626.
-	epatch "${FILESDIR}"/${P}-Add-CalledOnValidSequence-alias.patch
-	epatch "${FILESDIR}"/${P}-Introduce-alias-for-libchrome-uprev-preparation.patch
-	epatch "${FILESDIR}"/${P}-Manually-cherrypick-ScopedClosureRunner-ReplaceClosu.patch
-	epatch "${FILESDIR}"/${P}-Manually-cherry-pick-SplitStringUsingSubstr.patch
-	epatch "${FILESDIR}"/${P}-Add-check-exploded-time-is-properly-converted.patch
-
-	# This optional.h is taken from r569568.
-	# TODO(hidehiko): Remove this patch on update.
-	epatch "${FILESDIR}"/${P}-Add-base-Optional.patch
+	epatch "${FILESDIR}"/${P}-SequencedWorkerPool-allow-pools-of-one-thread.patch
 
 	# This no_destructor.h is taken from r599267.
 	# TODO(hidehiko): Remove this patch after libchrome is uprevved
@@ -91,6 +66,10 @@ src_prepare() {
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685
 	use_sanitizers && epatch "${FILESDIR}"/${P}-Disable-memory-allocator.patch
+
+	# Introduce backward compatible ctor for quipper only.
+	# TODO(hidehiko): Remove this.
+	epatch "${FILESDIR}"/${P}-Add-backward-compatible-WaitableEvent-ctor.patch
 
 	# base/files/file_posix.cc expects 64-bit off_t, which requires
 	# enabling large file support.
@@ -134,6 +113,7 @@ src_install() {
 		base/strings
 		base/synchronization
 		base/task
+		base/task_scheduler
 		base/third_party/icu
 		base/third_party/nspr
 		base/third_party/valgrind

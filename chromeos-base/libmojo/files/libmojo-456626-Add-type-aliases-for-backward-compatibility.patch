@@ -1,0 +1,65 @@
+From e832cf9e82e79d916939981bb3f7113590ca01cd Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Tue, 18 Sep 2018 14:32:34 +0900
+Subject: [PATCH] Add type aliases for backward compatibility.
+
+BUG=b:37434548
+TEST=Ran trybot.
+
+Change-Id: Icc7930fe77eb802eda9a6888a1e3ef34230acce8
+---
+ mojo/public/cpp/bindings/lib/array_internal.h | 33 +++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+diff --git a/mojo/public/cpp/bindings/lib/array_internal.h b/mojo/public/cpp/bindings/lib/array_internal.h
+index eecfcfb..32c93f4 100644
+--- a/mojo/public/cpp/bindings/lib/array_internal.h
++++ b/mojo/public/cpp/bindings/lib/array_internal.h
+@@ -10,6 +10,7 @@
+ 
+ #include <limits>
+ #include <new>
++#include <unordered_map>
+ 
+ #include "base/logging.h"
+ #include "mojo/public/c/system/macros.h"
+@@ -365,4 +366,36 @@ using String_Data = Array_Data<char>;
+ }  // namespace internal
+ }  // namespace mojo
+ 
++// For uprev compatibility, add a few type aliases.
++// TODO(hidehiko,hashimoto): Remove this after uprev is completed.
++namespace base {
++class TimeDelta;
++}  // namespace base
++
++namespace mojo {
++namespace internal {
++
++template <typename T, bool IsCopyable=std::is_copy_constructible<T>::value>
++struct ArrayImpl {
++  using Type = const std::vector<T>&;
++};
++
++template <typename T>
++struct ArrayImpl<T, false> {
++  using Type = std::vector<T>;
++};
++
++}  // namespace internal
++
++template <typename T>
++using Array = typename internal::ArrayImpl<T>::Type;
++using String = std::string;
++
++template <typename K, typename V>
++using Map = std::unordered_map<K, V>;
++
++using TimeDelta = base::TimeDelta;
++
++}  // namespace mojo
++
+ #endif  // MOJO_PUBLIC_CPP_BINDINGS_LIB_ARRAY_INTERNAL_H_
+-- 
+2.19.0.397.gdd90340f6a-goog
+

@@ -1,0 +1,28 @@
+From 623a4e28f507fc56411c24d0a552135ab1737cd7 Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Wed, 17 Oct 2018 15:17:39 +0900
+Subject: [PATCH] Define MOJO_EDK_LEGACY_PROTOCOL.
+
+BUG=b:37434548
+TEST=Ran on DUT.
+
+Change-Id: Icc0068d496f7eee5dabb69dffebd094f563a1dc3
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index c1321ea..9a9e1d6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -20,6 +20,7 @@ CXXFLAGS += -std=c++11 \
+ 	-Wno-char-subscripts \
+ 	-DOS_POSIX \
+ 	-DNO_TCMALLOC \
++	-DMOJO_EDK_LEGACY_PROTOCOL \
+ 
+ LDLIBS += $(PC_LIBS)
+ 
+-- 
+2.19.1.568.g152ad8e336-goog
+

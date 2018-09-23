@@ -1,0 +1,32 @@
+From 4b9190afb25670fb8fafdd9695197cd6c88a5923 Mon Sep 17 00:00:00 2001
+From: Eric Caruso <ejcaruso@chromium.org>
+Date: Thu, 31 May 2018 15:55:03 -0700
+Subject: [PATCH] SequencedWorkerPool: allow pools of one thread
+
+This allows us to avoid some behavioral changes in the feedback
+package until we uprev to a version of libchrome that has a
+proper TaskScheduler.
+
+BUG=b:37434548
+TEST=unit tests
+
+Change-Id: I83b51dd488a3cdb022ffa8551b00829d58ed9a6a
+---
+ base/threading/sequenced_worker_pool.cc | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/base/threading/sequenced_worker_pool.cc b/base/threading/sequenced_worker_pool.cc
+index ce594cd..14b249a 100644
+--- a/base/threading/sequenced_worker_pool.cc
++++ b/base/threading/sequenced_worker_pool.cc
+@@ -660,7 +660,6 @@ SequencedWorkerPool::Inner::Inner(SequencedWorkerPool* worker_pool,
+                              static_cast<int>(g_max_task_priority)
+                          ? task_priority
+                          : g_max_task_priority) {
+-  DCHECK_GT(max_threads_, 1U);
+ }
+ 
+ SequencedWorkerPool::Inner::~Inner() {
+-- 
+2.13.5
+

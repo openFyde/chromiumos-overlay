@@ -1,1 +1,0 @@
-libmojo-395517.ebuild

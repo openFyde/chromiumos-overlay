@@ -1,0 +1,28 @@
+From 75c3244fcc30cb1ca2900b4fe552f9d854460fef Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Sun, 7 Oct 2018 06:59:06 +0900
+Subject: [PATCH] Add pending_process_connection.o.
+
+BUG=b:37434548
+TEST=Try.
+
+Change-Id: I9be17bd4a87ab9dc529bb073ea9ec0c8e7dab917
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index b554549..c1321ea 100644
+--- a/Makefile
++++ b/Makefile
+@@ -39,6 +39,7 @@ CXX_OBJECTS := \
+ 	mojo/edk/embedder/connection_params.o \
+ 	mojo/edk/embedder/embedder.o \
+ 	mojo/edk/embedder/entrypoints.o \
++	mojo/edk/embedder/pending_process_connection.o \
+ 	mojo/edk/embedder/platform_channel_pair.o \
+ 	mojo/edk/embedder/platform_channel_pair_posix.o \
+ 	mojo/edk/embedder/platform_channel_utils_posix.o \
+-- 
+2.19.0.605.g01d371f741-goog
+

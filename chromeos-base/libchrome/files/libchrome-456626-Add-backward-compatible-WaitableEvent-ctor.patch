@@ -1,0 +1,35 @@
+From a71429249bcb2dab7ff284ccce04a82276d6872d Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Mon, 8 Oct 2018 12:08:11 +0900
+Subject: [PATCH] Add backward compatible WaitableEvent ctor.
+
+BUG=b:37434548
+TEST=Ran try.
+
+Change-Id: I7ee16b3d306b2d91f5bc7a92a77e793bd7678d1c
+---
+ base/synchronization/waitable_event.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/base/synchronization/waitable_event.h b/base/synchronization/waitable_event.h
+index 761965f..5e854db 100644
+--- a/base/synchronization/waitable_event.h
++++ b/base/synchronization/waitable_event.h
+@@ -57,6 +57,14 @@ class BASE_EXPORT WaitableEvent {
+   // the above enums.
+   WaitableEvent(ResetPolicy reset_policy, InitialState initial_state);
+ 
++  // Just for backward compatibility for quipper.
++  // TODO(hidehiko): Remove this.
++  WaitableEvent(bool manual_reset, bool initially_signaled)
++      : WaitableEvent(
++            manual_reset ? ResetPolicy::MANUAL : ResetPolicy::AUTOMATIC,
++            initially_signaled ? InitialState::SIGNALED
++                               : InitialState::NOT_SIGNALED) {}
++
+ #if defined(OS_WIN)
+   // Create a WaitableEvent from an Event HANDLE which has already been
+   // created. This objects takes ownership of the HANDLE and will close it when
+-- 
+2.19.0.605.g01d371f741-goog
+
