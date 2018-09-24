@@ -25,7 +25,10 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND="dev-go/crypto"
+DEPEND="
+	dev-go/crypto
+	dev-go/yaml
+"
 RDEPEND="
 	app-arch/tar
 	!chromeos-base/tast-common
