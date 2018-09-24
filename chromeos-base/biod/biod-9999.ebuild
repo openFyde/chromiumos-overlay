@@ -30,6 +30,11 @@ DEPEND="
 	chromeos-base/system_api
 	"
 
+pkg_setup() {
+	enewuser biod
+	enewgroup biod
+}
+
 src_install() {
 	dobin "${OUT}"/biod
 
@@ -44,11 +49,13 @@ src_install() {
 	doins dbus/org.chromium.BiometricsDaemon.conf
 
 	udev_dorules udev/99-biod.rules
-}
 
-pkg_preinst() {
-        enewuser biod
-        enewgroup biod
+	# Set up cryptohome daemon mount store in daemon's mount
+	# namespace.
+	local daemon_store="/etc/daemon-store/biod"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners biod:biod "${daemon_store}"
 }
 
 platform_pkg_test() {
