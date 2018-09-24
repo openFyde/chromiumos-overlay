@@ -191,9 +191,7 @@ multilib_src_configure() {
 	# After CL:492089 lands, it will fail to build because of
 	# the warning -Wpoison-system-directories. We want to disable
 	# this warning as a workaround. See https://crbug.com/717299.
-	# TODO yunlian: replace it with -Wno-poison-system-directories after
-	# that CL lands.
-	append-flags -Wno-error
+	append-flags -Wno-poison-system-directories
 	# when specifying libs for samba build you must append NONE to the end to 
 	# stop it automatically including things
 	local bundled_libs="NONE"
