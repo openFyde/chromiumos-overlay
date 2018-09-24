@@ -1,0 +1,46 @@
+From 8c2675b2c741161155305d228d8536d2634519d4 Mon Sep 17 00:00:00 2001
+From: David Gibson <david@gibson.dropbear.id.au>
+Date: Fri, 10 Aug 2018 13:52:33 +1000
+Subject: [PATCH 5/9] pylibfdt: Make SETUP make variable
+
+This points to the Python setup script, since we reference it in a couple
+of places.  While we're there correct two small problems:
+
+1) setup.py is part of the checked in sources and so lives in
+   $(PYLIBFDT_srcdir) not $(PYLIBFDT_objdir) [this only worked because
+   those are the same by default]
+
+2) The module itself should depend on the setup script so it is rebuilt
+   if the script is changed
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Simon Glass <sjg@chromium.org>
+---
+
+ pylibfdt/Makefile.pylibfdt | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/pylibfdt/Makefile.pylibfdt b/pylibfdt/Makefile.pylibfdt
+index 3c6ae44..bbd6518 100644
+--- a/pylibfdt/Makefile.pylibfdt
++++ b/pylibfdt/Makefile.pylibfdt
+@@ -4,12 +4,14 @@
+ PYLIBFDT_srcs = $(PYLIBFDT_srcdir)/libfdt.i
+ PYMODULE = $(PYLIBFDT_objdir)/_libfdt.so
+ 
++SETUP = $(PYLIBFDT_srcdir)/setup.py
++
+ define run_setup
+ 	VERSION="$(dtc_version)"
+-	$(PYLIBFDT_objdir)/setup.py --quiet $(1)
++	$(SETUP) --quiet $(1)
+ endef
+ 
+-$(PYMODULE): $(PYLIBFDT_srcs) $(LIBFDT_archive)
++$(PYMODULE): $(PYLIBFDT_srcs) $(LIBFDT_archive) $(SETUP)
+ 	@$(VECHO) PYMOD $@
+ 	$(call run_setup, build_ext --build-lib=$(PYLIBFDT_objdir))
+ 
+-- 
+2.19.0.444.g18242da7ef-goog
+

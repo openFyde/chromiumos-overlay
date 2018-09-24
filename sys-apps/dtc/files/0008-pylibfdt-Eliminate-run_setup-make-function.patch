@@ -1,0 +1,41 @@
+From 40004ba53e2a6b5bbcb1e5e09065d5ccfef3ebc6 Mon Sep 17 00:00:00 2001
+From: David Gibson <david@gibson.dropbear.id.au>
+Date: Fri, 10 Aug 2018 14:37:52 +1000
+Subject: [PATCH 8/9] pylibfdt: Eliminate run_setup make function
+
+This function no longer does anything useful, so get rid of it.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Simon Glass <sjg@chromium.org>
+---
+
+ pylibfdt/Makefile.pylibfdt | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+
+diff --git a/pylibfdt/Makefile.pylibfdt b/pylibfdt/Makefile.pylibfdt
+index 5fe5c82..0dc5e96 100644
+--- a/pylibfdt/Makefile.pylibfdt
++++ b/pylibfdt/Makefile.pylibfdt
+@@ -11,16 +11,12 @@ ifndef V
+ SETUPFLAGS += --quiet
+ endif
+ 
+-define run_setup
+-	$(SETUP) $(SETUPFLAGS) $(1)
+-endef
+-
+ $(PYMODULE): $(PYLIBFDT_srcs) $(LIBFDT_archive) $(SETUP) $(VERSION_FILE)
+ 	@$(VECHO) PYMOD $@
+-	$(call run_setup, build_ext --build-lib=$(PYLIBFDT_objdir))
++	$(SETUP) $(SETUPFLAGS) build_ext --build-lib=$(PYLIBFDT_objdir)
+ 
+ install_pylibfdt: $(PYMODULE)
+-	$(VECHO) INSTALL-PYLIB; \
+-	$(call run_setup, install $(if $(SETUP_PREFIX),--prefix=$(SETUP_PREFIX)))
++	@$(VECHO) INSTALL-PYLIB
++	$(SETUP) $(SETUPFLAGS) install $(if $(SETUP_PREFIX),--prefix=$(SETUP_PREFIX))
+ 
+ PYLIBFDT_cleanfiles = libfdt_wrap.c libfdt.py libfdt.pyc _libfdt.so
+-- 
+2.19.0.444.g18242da7ef-goog
+

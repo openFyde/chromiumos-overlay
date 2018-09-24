@@ -1,0 +1,78 @@
+From a0c8998efac693c1141e395aa1880bb9cbbe694b Mon Sep 17 00:00:00 2001
+From: David Gibson <david@gibson.dropbear.id.au>
+Date: Fri, 10 Aug 2018 13:43:50 +1000
+Subject: [PATCH 4/9] pylibfdt: Simpler CFLAGS handling
+
+At the moment we have some fiddly code to either pass in make's CPPFLAGS to
+setup.py, or have setup.py extract them from the Makefile.  But really the
+only thing we need from here is the include paths.  We already know what
+include paths we need (libfdt/) so we can just set that directly in
+setup.py.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Simon Glass <sjg@chromium.org>
+---
+
+ pylibfdt/Makefile.pylibfdt |  2 +-
+ pylibfdt/setup.py          | 11 ++++-------
+ 2 files changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/pylibfdt/Makefile.pylibfdt b/pylibfdt/Makefile.pylibfdt
+index 6b34b01..3c6ae44 100644
+--- a/pylibfdt/Makefile.pylibfdt
++++ b/pylibfdt/Makefile.pylibfdt
+@@ -5,7 +5,7 @@ PYLIBFDT_srcs = $(PYLIBFDT_srcdir)/libfdt.i
+ PYMODULE = $(PYLIBFDT_objdir)/_libfdt.so
+ 
+ define run_setup
+-	CPPFLAGS="$(CPPFLAGS)" VERSION="$(dtc_version)"
++	VERSION="$(dtc_version)"
+ 	$(PYLIBFDT_objdir)/setup.py --quiet $(1)
+ endef
+ 
+diff --git a/pylibfdt/setup.py b/pylibfdt/setup.py
+index aafe70d..95f1601 100755
+--- a/pylibfdt/setup.py
++++ b/pylibfdt/setup.py
+@@ -5,7 +5,6 @@ setup.py file for SWIG libfdt
+ Copyright (C) 2017 Google, Inc.
+ Written by Simon Glass <sjg@chromium.org>
+ 
+-C flags to use are provided in CPPFLAGS
+ Version is provided in VERSION
+ 
+ If these variables are not given they are parsed from the Makefiles. This
+@@ -75,26 +74,24 @@ def GetEnvFromMakefiles():
+     makevars = ParseMakefile(os.path.join(basedir, 'Makefile'))
+     version = '%s.%s.%s' % (makevars['VERSION'], makevars['PATCHLEVEL'],
+                             makevars['SUBLEVEL'])
+-    cflags = ['-I%s/libfdt' % basedir]
+-    return  version, cflags
++    return version
+ 
+ 
+ progname = sys.argv[0]
+-cflags = os.environ.get('CPPFLAGS', '').split()
+ version = os.environ.get('VERSION')
+ 
+ # If we were called directly rather than through our Makefile (which is often
+ # the case with Python module installation), read the settings from the
+ # Makefile.
+-if not all((version, cflags)):
+-    version, cflags= GetEnvFromMakefiles()
++if not version:
++    version = GetEnvFromMakefiles()
+ 
+ libfdt_module = Extension(
+     '_libfdt',
+     sources = ['pylibfdt/libfdt.i'],
++    include_dirs = ['libfdt'],
+     libraries = ['fdt'],
+     library_dirs = ['libfdt'],
+-    extra_compile_args = cflags,
+ )
+ 
+ setup(
+-- 
+2.19.0.444.g18242da7ef-goog
+

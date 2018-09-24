@@ -1,0 +1,153 @@
+From 6164fa1d7eb648cefb60ec64ada9c9744c76f1fb Mon Sep 17 00:00:00 2001
+From: David Gibson <david@gibson.dropbear.id.au>
+Date: Fri, 10 Aug 2018 14:25:42 +1000
+Subject: [PATCH 7/9] pylibfdt: Improved version extraction
+
+Currently setup.py expects the library version in a VERSION environment
+variable, or it exctracts the version from the Makefile.  The latter is
+for the case where the script is run standalone, rather than from make.
+But parsing the Makefile is ugly and fragile, and won't always get the
+same version we put into the C code.
+
+This changes to instead extracting the version from the trivial .h file we
+already generate to put the version into C code.  It's still slightly ugly,
+but it's simpler and since we can control the precise format of that .h,
+not as fragile.
+
+This lets us remove the remains of the makefile parsing code from setup.py.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Simon Glass <sjg@chromium.org>
+---
+
+ pylibfdt/Makefile.pylibfdt |  3 +-
+ pylibfdt/setup.py          | 78 ++++----------------------------------
+ 2 files changed, 8 insertions(+), 73 deletions(-)
+
+diff --git a/pylibfdt/Makefile.pylibfdt b/pylibfdt/Makefile.pylibfdt
+index 005cb25..5fe5c82 100644
+--- a/pylibfdt/Makefile.pylibfdt
++++ b/pylibfdt/Makefile.pylibfdt
+@@ -12,11 +12,10 @@ SETUPFLAGS += --quiet
+ endif
+ 
+ define run_setup
+-	VERSION="$(dtc_version)"
+ 	$(SETUP) $(SETUPFLAGS) $(1)
+ endef
+ 
+-$(PYMODULE): $(PYLIBFDT_srcs) $(LIBFDT_archive) $(SETUP)
++$(PYMODULE): $(PYLIBFDT_srcs) $(LIBFDT_archive) $(SETUP) $(VERSION_FILE)
+ 	@$(VECHO) PYMOD $@
+ 	$(call run_setup, build_ext --build-lib=$(PYLIBFDT_objdir))
+ 
+diff --git a/pylibfdt/setup.py b/pylibfdt/setup.py
+index 95f1601..f0f0e10 100755
+--- a/pylibfdt/setup.py
++++ b/pylibfdt/setup.py
+@@ -4,13 +4,6 @@
+ setup.py file for SWIG libfdt
+ Copyright (C) 2017 Google, Inc.
+ Written by Simon Glass <sjg@chromium.org>
+-
+-Version is provided in VERSION
+-
+-If these variables are not given they are parsed from the Makefiles. This
+-allows this script to be run stand-alone, e.g.:
+-
+-    ./pylibfdt/setup.py install [--prefix=...]
+ """
+ 
+ from distutils.core import setup, Extension
+@@ -18,73 +11,16 @@ import os
+ import re
+ import sys
+ 
+-# Decodes a Makefile assignment line into key and value (and plus for +=)
+-RE_KEY_VALUE = re.compile('(?P<key>\w+) *(?P<plus>[+])?= *(?P<value>.*)$')
+-
+-
+-def ParseMakefile(fname):
+-    """Parse a Makefile to obtain its variables.
+-
+-    This collects variable assigments of the form:
+-
+-        VAR = value
+-        VAR += more
+-
+-    It does not pick out := assignments, as these are not needed here. It does
+-    handle line continuation.
+-
+-    Returns a dict:
+-        key: Variable name (e.g. 'VAR')
+-        value: Variable value (e.g. 'value more')
+-    """
+-    makevars = {}
+-    with open(fname) as fd:
+-        prev_text = ''  # Continuation text from previous line(s)
+-        for line in fd.read().splitlines():
+-          if line and line[-1] == '\\':  # Deal with line continuation
+-            prev_text += line[:-1]
+-            continue
+-          elif prev_text:
+-            line = prev_text + line
+-            prev_text = ''  # Continuation is now used up
+-          m = RE_KEY_VALUE.match(line)
+-          if m:
+-            value = m.group('value') or ''
+-            key = m.group('key')
+-
+-            # Appending to a variable inserts a space beforehand
+-            if 'plus' in m.groupdict() and key in makevars:
+-              makevars[key] += ' ' + value
+-            else:
+-              makevars[key] = value
+-    return makevars
+-
+-def GetEnvFromMakefiles():
+-    """Scan the Makefiles to obtain the settings we need.
+-
+-    This assumes that this script is being run from the top-level directory,
+-    not the pylibfdt directory.
+ 
+-    Returns:
+-        Tuple with:
+-            Version string
+-            List of extra C preprocessor flags needed
+-    """
+-    basedir = os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[0])))
+-    makevars = ParseMakefile(os.path.join(basedir, 'Makefile'))
+-    version = '%s.%s.%s' % (makevars['VERSION'], makevars['PATCHLEVEL'],
+-                            makevars['SUBLEVEL'])
+-    return version
++VERSION_PATTERN = '^#define DTC_VERSION "DTC ([^"]*)"$'
+ 
+ 
+-progname = sys.argv[0]
+-version = os.environ.get('VERSION')
++def get_version():
++    version_file = "version_gen.h"
++    f = open(version_file, 'rt')
++    m = re.match(VERSION_PATTERN, f.readline())
++    return m.group(1)
+ 
+-# If we were called directly rather than through our Makefile (which is often
+-# the case with Python module installation), read the settings from the
+-# Makefile.
+-if not version:
+-    version = GetEnvFromMakefiles()
+ 
+ libfdt_module = Extension(
+     '_libfdt',
+@@ -96,7 +32,7 @@ libfdt_module = Extension(
+ 
+ setup(
+     name='libfdt',
+-    version= version,
++    version= get_version(),
+     author='Simon Glass <sjg@chromium.org>',
+     description='Python binding for libfdt',
+     ext_modules=[libfdt_module],
+-- 
+2.19.0.444.g18242da7ef-goog
+

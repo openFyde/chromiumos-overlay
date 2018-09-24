@@ -1,0 +1,111 @@
+From a828954ba820707d9d776c426d4728a5916b3fd6 Mon Sep 17 00:00:00 2001
+From: David Gibson <david@gibson.dropbear.id.au>
+Date: Wed, 8 Aug 2018 23:34:11 +1000
+Subject: [PATCH 3/9] pylibfdt: Link extension module with libfdt rather than
+ rebuilding
+
+Currently we build the Python extension module from all the libfdt source
+files as well as the swig wrapper file.  This is a bit silly, since we've
+already compiled libfdt itself.
+
+This changes the build to instead build the extension module from just the
+swig wrapper, linking it against the libfdt.a we've already build.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Simon Glass <sjg@chromium.org>
+---
+
+ pylibfdt/Makefile.pylibfdt | 14 ++++++--------
+ pylibfdt/setup.py          | 17 ++++++-----------
+ 2 files changed, 12 insertions(+), 19 deletions(-)
+
+diff --git a/pylibfdt/Makefile.pylibfdt b/pylibfdt/Makefile.pylibfdt
+index 0b5364e..6b34b01 100644
+--- a/pylibfdt/Makefile.pylibfdt
++++ b/pylibfdt/Makefile.pylibfdt
+@@ -1,22 +1,20 @@
+ # Makefile.pylibfdt
+ #
+ 
+-PYLIBFDT_srcs = $(addprefix $(LIBFDT_srcdir)/,$(LIBFDT_SRCS)) \
+-		$(PYLIBFDT_srcdir)/libfdt.i
++PYLIBFDT_srcs = $(PYLIBFDT_srcdir)/libfdt.i
+ PYMODULE = $(PYLIBFDT_objdir)/_libfdt.so
+ 
+ define run_setup
+-	SOURCES="$(1)" CPPFLAGS="$(CPPFLAGS)" VERSION="$(dtc_version)"
+-	$(PYLIBFDT_objdir)/setup.py --quiet $(2)
++	CPPFLAGS="$(CPPFLAGS)" VERSION="$(dtc_version)"
++	$(PYLIBFDT_objdir)/setup.py --quiet $(1)
+ endef
+ 
+-$(PYMODULE): $(PYLIBFDT_srcs)
++$(PYMODULE): $(PYLIBFDT_srcs) $(LIBFDT_archive)
+ 	@$(VECHO) PYMOD $@
+-	$(call run_setup, $^, build_ext --build-lib=$(PYLIBFDT_objdir))
++	$(call run_setup, build_ext --build-lib=$(PYLIBFDT_objdir))
+ 
+ install_pylibfdt: $(PYMODULE)
+ 	$(VECHO) INSTALL-PYLIB; \
+-	$(call run_setup, $(PYLIBFDT_srcs), \
+-		install $(if $(SETUP_PREFIX),--prefix=$(SETUP_PREFIX)))
++	$(call run_setup, install $(if $(SETUP_PREFIX),--prefix=$(SETUP_PREFIX)))
+ 
+ PYLIBFDT_cleanfiles = libfdt_wrap.c libfdt.py libfdt.pyc _libfdt.so
+diff --git a/pylibfdt/setup.py b/pylibfdt/setup.py
+index a9e8051..aafe70d 100755
+--- a/pylibfdt/setup.py
++++ b/pylibfdt/setup.py
+@@ -5,7 +5,6 @@ setup.py file for SWIG libfdt
+ Copyright (C) 2017 Google, Inc.
+ Written by Simon Glass <sjg@chromium.org>
+ 
+-Files to be built into the extension are provided in SOURCES
+ C flags to use are provided in CPPFLAGS
+ Version is provided in VERSION
+ 
+@@ -70,35 +69,31 @@ def GetEnvFromMakefiles():
+     Returns:
+         Tuple with:
+             Version string
+-            List of files to build
+             List of extra C preprocessor flags needed
+     """
+     basedir = os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[0])))
+     makevars = ParseMakefile(os.path.join(basedir, 'Makefile'))
+     version = '%s.%s.%s' % (makevars['VERSION'], makevars['PATCHLEVEL'],
+                             makevars['SUBLEVEL'])
+-    makevars = ParseMakefile(os.path.join(basedir, 'libfdt', 'Makefile.libfdt'))
+-    files = makevars['LIBFDT_SRCS'].split()
+-    files = [os.path.join(basedir, 'libfdt', fname) for fname in files]
+-    files.append('pylibfdt/libfdt.i')
+     cflags = ['-I%s/libfdt' % basedir]
+-    return  version, files, cflags
++    return  version, cflags
+ 
+ 
+ progname = sys.argv[0]
+-files = os.environ.get('SOURCES', '').split()
+ cflags = os.environ.get('CPPFLAGS', '').split()
+ version = os.environ.get('VERSION')
+ 
+ # If we were called directly rather than through our Makefile (which is often
+ # the case with Python module installation), read the settings from the
+ # Makefile.
+-if not all((version, files, cflags)):
+-    version, files, cflags= GetEnvFromMakefiles()
++if not all((version, cflags)):
++    version, cflags= GetEnvFromMakefiles()
+ 
+ libfdt_module = Extension(
+     '_libfdt',
+-    sources = files,
++    sources = ['pylibfdt/libfdt.i'],
++    libraries = ['fdt'],
++    library_dirs = ['libfdt'],
+     extra_compile_args = cflags,
+ )
+ 
+-- 
+2.19.0.444.g18242da7ef-goog
+

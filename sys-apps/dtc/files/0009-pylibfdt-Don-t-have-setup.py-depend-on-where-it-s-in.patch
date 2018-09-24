@@ -1,0 +1,95 @@
+From bdd01de323807f49f2d27aa9ad81dcec04738222 Mon Sep 17 00:00:00 2001
+From: David Gibson <david@gibson.dropbear.id.au>
+Date: Fri, 10 Aug 2018 17:33:24 +1000
+Subject: [PATCH 9/9] pylibfdt: Don't have setup.py depend on where it's
+ invoked from
+
+Currently setup.py depends on being invoked from the right directory
+(specifically it needs to be run from the root of the project).  That's a
+bit confusing.
+
+This updates setup.py to no longer depend on the invoking directory by
+instead having it change directory to the location of the script itself,
+then using internal paths relative to that.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Simon Glass <sjg@chromium.org>
+---
+
+ pylibfdt/Makefile.pylibfdt |  2 +-
+ pylibfdt/libfdt.i          |  4 ++--
+ pylibfdt/setup.py          | 13 ++++++++-----
+ 3 files changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/pylibfdt/Makefile.pylibfdt b/pylibfdt/Makefile.pylibfdt
+index 0dc5e96..8f00b3d 100644
+--- a/pylibfdt/Makefile.pylibfdt
++++ b/pylibfdt/Makefile.pylibfdt
+@@ -13,7 +13,7 @@ endif
+ 
+ $(PYMODULE): $(PYLIBFDT_srcs) $(LIBFDT_archive) $(SETUP) $(VERSION_FILE)
+ 	@$(VECHO) PYMOD $@
+-	$(SETUP) $(SETUPFLAGS) build_ext --build-lib=$(PYLIBFDT_objdir)
++	$(SETUP) $(SETUPFLAGS) build_ext --build-lib=../$(PYLIBFDT_objdir)
+ 
+ install_pylibfdt: $(PYMODULE)
+ 	@$(VECHO) INSTALL-PYLIB
+diff --git a/pylibfdt/libfdt.i b/pylibfdt/libfdt.i
+index 842e7b6..462b5b0 100644
+--- a/pylibfdt/libfdt.i
++++ b/pylibfdt/libfdt.i
+@@ -1028,7 +1028,7 @@ class NodeAdder():
+  */
+ typedef uint32_t fdt32_t;
+ 
+-%include "libfdt/fdt.h"
++%include "fdt.h"
+ 
+ %include "typemaps.i"
+ 
+@@ -1134,4 +1134,4 @@ int fdt_property_cell(void *fdt, const char *name, uint32_t val);
+  */
+ int fdt_property_stub(void *fdt, const char *name, const char *val, int len);
+ 
+-%include <../libfdt/libfdt.h>
++%include <libfdt.h>
+diff --git a/pylibfdt/setup.py b/pylibfdt/setup.py
+index f0f0e10..bd8ccf8 100755
+--- a/pylibfdt/setup.py
++++ b/pylibfdt/setup.py
+@@ -16,18 +16,21 @@ VERSION_PATTERN = '^#define DTC_VERSION "DTC ([^"]*)"$'
+ 
+ 
+ def get_version():
+-    version_file = "version_gen.h"
++    version_file = "../version_gen.h"
+     f = open(version_file, 'rt')
+     m = re.match(VERSION_PATTERN, f.readline())
+     return m.group(1)
+ 
++setupdir = os.path.dirname(os.path.abspath(sys.argv[0]))
++os.chdir(setupdir)
+ 
+ libfdt_module = Extension(
+     '_libfdt',
+-    sources = ['pylibfdt/libfdt.i'],
+-    include_dirs = ['libfdt'],
++    sources = ['libfdt.i'],
++    include_dirs = ['../libfdt'],
+     libraries = ['fdt'],
+-    library_dirs = ['libfdt'],
++    library_dirs = ['../libfdt'],
++    swig_opts = ['-I../libfdt'],
+ )
+ 
+ setup(
+@@ -36,5 +39,5 @@ setup(
+     author='Simon Glass <sjg@chromium.org>',
+     description='Python binding for libfdt',
+     ext_modules=[libfdt_module],
+-    py_modules=['pylibfdt/libfdt'],
++    py_modules=['libfdt'],
+ )
+-- 
+2.19.0.444.g18242da7ef-goog
+
