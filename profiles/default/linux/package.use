@@ -46,19 +46,24 @@ net-misc/dhcpcd -crash
 # Build qemu's userland helpers statically so we can copy them into sysroots
 # and run unittests standalone.  Build qemu's softmmu helpers statically so
 # we can run vms outside of the chroot.
-app-emulation/qemu	-pin-upstream-blobs -seccomp static-user static-softmmu usb
+app-emulation/qemu	-pin-upstream-blobs -seccomp static-user static usb
+dev-libs/glib		static-libs
 dev-libs/libaio		static-libs
+dev-libs/libpcre	static-libs
 dev-libs/libusb		static-libs
+dev-libs/libxml2	static-libs
 dev-libs/openssl	static-libs
 media-libs/jpeg		static-libs
 media-libs/libjpeg-turbo	static-libs
 media-libs/libpng	static-libs
 net-misc/curl		static-libs
+sys-apps/attr		static-libs
 sys-apps/dtc		static-libs
 sys-libs/libcap-ng	static-libs
 sys-libs/ncurses	static-libs unicode
 virtual/jpeg		static-libs
 virtual/libusb		static-libs
+x11-libs/libxkbcommon	static-libs
 x11-libs/pixman		static-libs
 
 cross-armv7a-cros-linux-gnueabi/gcc   hardfp
