@@ -19,6 +19,7 @@ IUSE="
 	ml_service
 	mocktpm
 	rialto
+	rk3399
 	selinux
 	veyron_mickey
 	veyron_rialto
