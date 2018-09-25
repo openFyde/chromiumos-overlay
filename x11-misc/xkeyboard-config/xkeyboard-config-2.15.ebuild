@@ -21,7 +21,7 @@ SLOT="0"
 
 DEPEND="cros_host? ( >=x11-apps/xkbcomp-1.2.3 )
 	dev-util/intltool
-	>=x11-proto/xproto-7.0.20"
+	x11-base/xorg-proto"
 
 XORG_CONFIGURE_OPTIONS=(
 	--with-xkb-base="${EPREFIX}/usr/share/X11/xkb"
