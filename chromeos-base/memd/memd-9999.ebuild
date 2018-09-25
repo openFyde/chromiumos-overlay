@@ -58,7 +58,7 @@ SRC_URI="$(cargo_crate_uris ${CRATES})"
 LICENSE="BSD-Google BSD-2 Apache-2.0 MIT"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+seccomp"
+IUSE="+seccomp debug"
 
 DEPEND="chromeos-base/system_api"
 
@@ -83,7 +83,8 @@ src_compile() {
 	export CARGO_HOME="${ECARGO_HOME}"
 	export CARGO_TARGET_DIR="${WORKDIR}"
 	export PKG_CONFIG_ALLOW_CROSS=1
-	cargo build -v --target="${CHOST}" --release || \
+	cargo build -v --target="${CHOST}" \
+		$(usex debug "" --release) || \
 		die "cargo build failed"
 }
 
@@ -101,7 +102,7 @@ src_install() {
 	# cargo doesn't know how to install cross-compiled binaries.  It will
 	# always install native binaries for the host system.  Install manually
 	# instead.
-	local build_dir="${WORKDIR}/${CHOST}/release"
+	local build_dir="${WORKDIR}/${CHOST}/$(usex debug "debug" "release")"
 	dobin "${build_dir}/memd"
 	insinto /etc/init
 	doins init/memd.conf
