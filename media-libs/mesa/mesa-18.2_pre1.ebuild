@@ -49,8 +49,8 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	+classic debug dri egl +gallium -gbm gles1 gles2 llvm +nptl pic selinux
-	shared-glapi kernel_FreeBSD vulkan wayland xlib-glx X"
+	+classic debug dri drm egl +gallium -gbm gles1 gles2 llvm +nptl pic
+	selinux shared-glapi kernel_FreeBSD vulkan wayland xlib-glx X"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 
@@ -200,12 +200,16 @@ src_configure() {
 	if use egl; then
 		egl_platforms="--with-platforms=surfaceless"
 
-		if use X; then
-			egl_platforms="${egl_platforms},x11"
+		if use drm; then
+			egl_platforms="${egl_platforms},drm"
 		fi
 
 		if use wayland; then
 			egl_platforms="${egl_platforms},wayland"
+		fi
+
+		if use X; then
+			egl_platforms="${egl_platforms},x11"
 		fi
 	fi
 
