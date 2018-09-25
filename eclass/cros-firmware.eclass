@@ -29,10 +29,7 @@ $(basename "$(dirname "$(dirname "$(dirname "${EBUILD}")")")")}
 # @DESCRIPTION: (Optional) Location of RW system firmware image
 : ${CROS_FIRMWARE_MAIN_RW_IMAGE:=}
 
-# @ECLASS-VARIABLE: CROS_FIRMWARE_STABLE_MAIN_VERSION
-# @DESCRIPTION: (Optional) Version name of stabled system firmware
-: ${CROS_FIRMWARE_STABLE_MAIN_VERSION:=}
-
+# TODO(hungte) Remove this once we've eliminated that in daisy_spring updater.
 # @ECLASS-VARIABLE: CROS_FIRMWARE_BUILD_MAIN_RW_IMAGE
 # @DESCRIPTION: (Optional) Re-sign and generate a RW system firmware image.
 : ${CROS_FIRMWARE_BUILD_MAIN_RW_IMAGE:=}
@@ -41,22 +38,15 @@ $(basename "$(dirname "$(dirname "$(dirname "${EBUILD}")")")")}
 # @DESCRIPTION: (Optional) Location of EC firmware image
 : ${CROS_FIRMWARE_EC_IMAGE:=}
 
-# @ECLASS-VARIABLE: CROS_FIRMWARE_STABLE_EC_VERSION
-# @DESCRIPTION: (Optional) Version name of stabled EC firmware
-: ${CROS_FIRMWARE_STABLE_EC_VERSION:=}
-
 # @ECLASS-VARIABLE: CROS_FIRMWARE_PD_IMAGE
 # @DESCRIPTION: (Optional) Location of PD firmware image
 : ${CROS_FIRMWARE_PD_IMAGE:=}
-
-# @ECLASS-VARIABLE: CROS_FIRMWARE_STABLE_PD_VERSION
-# @DESCRIPTION: (Optional) Version name of stabled PD firmware
-: ${CROS_FIRMWARE_STABLE_PD_VERSION:=}
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_SCRIPT
 # @DESCRIPTION: (Optional) Entry script file name of updater
 : ${CROS_FIRMWARE_SCRIPT:=updater4.sh}
 
+# TODO(hungte) Remove this once we've eliminated that in daisy_snow updater.
 # @ECLASS-VARIABLE: CROS_FIRMWARE_EXTRA_LIST
 # @DESCRIPTION: (Optional) Semi-colon separated list of additional resources
 : ${CROS_FIRMWARE_EXTRA_LIST:=}
@@ -335,12 +325,6 @@ cros-firmware_src_compile() {
 		# Prepare extra commands
 		_add_param ext_cmd --extra \
 			"$(IFS=:; echo "${EXTRA_LOCATIONS[*]}")"
-		_add_param ext_cmd --stable_main_version \
-			"${CROS_FIRMWARE_STABLE_MAIN_VERSION}"
-		_add_param ext_cmd --stable_ec_version \
-			"${CROS_FIRMWARE_STABLE_EC_VERSION}"
-		_add_param ext_cmd --stable_pd_version \
-			"${CROS_FIRMWARE_STABLE_PD_VERSION}"
 
 		# Pack firmware update script!
 		if [ ${#image_cmd[@]} -ne 0 ]; then
