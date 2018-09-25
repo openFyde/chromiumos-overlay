@@ -1,22 +1,29 @@
-From fafc053cb6a011464dc85baced22fb555ae870ce Mon Sep 17 00:00:00 2001
+From 39e686c1fc7e4bcf78ea722f654af79fca8c2271 Mon Sep 17 00:00:00 2001
 From: David Reveman <reveman@chromium.org>
 Date: Sat, 10 Mar 2018 14:39:00 +0000
-Subject: [PATCH] xwayland virtwl with dmabuf 1.19.5
+Subject: [PATCH] xwayland virtwl with dmabuf for 1.20.1
 
 ---
- hw/xwayland/Makefile.am       |  10 +---
- hw/xwayland/xwayland-cursor.c |  33 +++++++----
- hw/xwayland/xwayland-shm.c    | 135 +++++++++++++++++++++++++++++++++++++-----
- hw/xwayland/xwayland.c        |  13 ++--
- hw/xwayland/xwayland.h        |   2 +
- 5 files changed, 155 insertions(+), 38 deletions(-)
+ hw/xwayland/Makefile.am           |  11 +--
+ hw/xwayland/xwayland-cursor.c     |  56 ++++++++----
+ hw/xwayland/xwayland-glamor-gbm.c |   8 ++
+ hw/xwayland/xwayland-shm.c        | 139 ++++++++++++++++++++++++++----
+ hw/xwayland/xwayland.c            |   4 +-
+ hw/xwayland/xwayland.h            |  58 +++++++------
+ 6 files changed, 207 insertions(+), 69 deletions(-)
 
 diff --git a/hw/xwayland/Makefile.am b/hw/xwayland/Makefile.am
-index a3c9fce48..9c4692be2 100644
+index bc1cb8506..377e4b9bf 100644
 --- a/hw/xwayland/Makefile.am
 +++ b/hw/xwayland/Makefile.am
-@@ -40,12 +40,6 @@ Xwayland_SOURCES += 				\
+@@ -41,18 +41,11 @@ if XV
+ Xwayland_SOURCES += 				\
  	xwayland-glamor-xv.c
+ endif
+-
+ if XWAYLAND_EGLSTREAM
+ Xwayland_SOURCES +=				\
+ 	xwayland-glamor-eglstream.c
  endif
  
 -glamor_built_sources =				\
@@ -28,19 +35,19 @@ index a3c9fce48..9c4692be2 100644
  glamor_lib = $(top_builddir)/glamor/libglamor.la
  
  Xwayland_LDADD += $(GLAMOR_LIBS) $(GBM_LIBS) -lEGL -lGL
-@@ -56,7 +50,9 @@ Xwayland_built_sources +=					\
- 	relative-pointer-unstable-v1-client-protocol.h		\
- 	relative-pointer-unstable-v1-protocol.c			\
- 	pointer-constraints-unstable-v1-client-protocol.h	\
--	pointer-constraints-unstable-v1-protocol.c
-+	pointer-constraints-unstable-v1-protocol.c		\
+@@ -71,7 +64,9 @@ Xwayland_built_sources +=					\
+ 	xdg-output-unstable-v1-protocol.c			\
+ 	xdg-output-unstable-v1-client-protocol.h		\
+ 	linux-dmabuf-unstable-v1-client-protocol.h		\
+-	linux-dmabuf-unstable-v1-protocol.c
++	linux-dmabuf-unstable-v1-protocol.c			\
 +	drm-client-protocol.h					\
 +	drm-protocol.c
  
- nodist_Xwayland_SOURCES = $(Xwayland_built_sources)
- CLEANFILES = $(Xwayland_built_sources)
+ if XWAYLAND_EGLSTREAM
+ Xwayland_built_sources +=					\
 diff --git a/hw/xwayland/xwayland-cursor.c b/hw/xwayland/xwayland-cursor.c
-index f334f1ca5..549ff7753 100644
+index cf8395f1d..25991f3ba 100644
 --- a/hw/xwayland/xwayland-cursor.c
 +++ b/hw/xwayland/xwayland-cursor.c
 @@ -31,19 +31,19 @@
@@ -59,7 +66,7 @@ index f334f1ca5..549ff7753 100644
          (cursor->foreGreen & 0xff00) | (cursor->foreGreen >> 8);
      bg = ((cursor->backRed & 0xff00) << 8) |
          (cursor->backGreen & 0xff00) | (cursor->backGreen >> 8);
-     stride = (bits->width / 8 + 3) & ~3;
+     stride = BitmapBytePad(bits->width);
 -    for (y = 0; y < bits->height; y++)
 +    for (y = 0; y < bits->height; y++) {
 +        p = data + y * dataStride / sizeof (*p);
@@ -84,8 +91,8 @@ index f334f1ca5..549ff7753 100644
      dixSetPrivate(&cursor->devPrivates, &xwl_cursor_private_key, pixmap);
  
      return TRUE;
-@@ -127,7 +129,7 @@ xwl_seat_set_cursor(struct xwl_seat *xwl_seat)
- {
+@@ -128,7 +130,7 @@ xwl_seat_set_cursor(struct xwl_seat *xwl_seat)
+     struct xwl_cursor *xwl_cursor = &xwl_seat->cursor;
      PixmapPtr pixmap;
      CursorPtr cursor;
 -    int stride;
@@ -93,7 +100,7 @@ index f334f1ca5..549ff7753 100644
  
      if (!xwl_seat->wl_pointer)
          return;
-@@ -150,12 +152,21 @@ xwl_seat_set_cursor(struct xwl_seat *xwl_seat)
+@@ -151,12 +153,21 @@ xwl_seat_set_cursor(struct xwl_seat *xwl_seat)
      if (!pixmap)
          return;
  
@@ -121,8 +128,69 @@ index f334f1ca5..549ff7753 100644
  
      wl_pointer_set_cursor(xwl_seat->wl_pointer,
                            xwl_seat->pointer_enter_serial,
+@@ -182,7 +193,7 @@ xwl_tablet_tool_set_cursor(struct xwl_tablet_tool *xwl_tablet_tool)
+     struct xwl_cursor *xwl_cursor = &xwl_tablet_tool->cursor;
+     PixmapPtr pixmap;
+     CursorPtr cursor;
+-    int stride;
++    int srcStride, dstStride;
+ 
+     if (!xwl_seat->x_cursor) {
+         zwp_tablet_tool_v2_set_cursor(xwl_tablet_tool->tool,
+@@ -201,12 +212,21 @@ xwl_tablet_tool_set_cursor(struct xwl_tablet_tool *xwl_tablet_tool)
+     if (!pixmap)
+         return;
+ 
+-    stride = cursor->bits->width * 4;
+-    if (cursor->bits->argb)
+-        memcpy(pixmap->devPrivate.ptr,
+-               cursor->bits->argb, cursor->bits->height * stride);
+-    else
+-        expand_source_and_mask(cursor, pixmap->devPrivate.ptr);
++    srcStride = cursor->bits->width * 4;
++    dstStride = (int) pixmap->devKind;
++    if (cursor->bits->argb) {
++        CARD8 *s = (CARD8 *) cursor->bits->argb;
++        CARD8 *d = pixmap->devPrivate.ptr;
++        int height = cursor->bits->height;
++
++        while (height--) {
++            memcpy(d, s, srcStride);
++            s += srcStride;
++            d += dstStride;
++        }
++    } else {
++        expand_source_and_mask(cursor, pixmap->devPrivate.ptr, dstStride);
++    }
+ 
+     zwp_tablet_tool_v2_set_cursor(xwl_tablet_tool->tool,
+                                   xwl_tablet_tool->proximity_in_serial,
+diff --git a/hw/xwayland/xwayland-glamor-gbm.c b/hw/xwayland/xwayland-glamor-gbm.c
+index 06fcf5239..ccd67445c 100644
+--- a/hw/xwayland/xwayland-glamor-gbm.c
++++ b/hw/xwayland/xwayland-glamor-gbm.c
+@@ -304,6 +304,13 @@ xwl_glamor_gbm_get_wl_buffer_for_pixmap(PixmapPtr pixmap,
+     return xwl_pixmap->buffer;
+ }
+ 
++static struct wl_drm *
++xwl_glamor_gbm_get_wl_drm_interface(struct xwl_screen *xwl_screen)
++{
++    struct xwl_gbm_private *xwl_gbm = xwl_gbm_get(xwl_screen);
++    return xwl_gbm->drm;
++}
++
+ static void
+ xwl_glamor_gbm_cleanup(struct xwl_screen *xwl_screen)
+ {
+@@ -933,4 +940,5 @@ xwl_glamor_init_gbm(struct xwl_screen *xwl_screen)
+     xwl_screen->gbm_backend.init_screen = xwl_glamor_gbm_init_screen;
+     xwl_screen->gbm_backend.get_wl_buffer_for_pixmap = xwl_glamor_gbm_get_wl_buffer_for_pixmap;
+     xwl_screen->gbm_backend.is_available = TRUE;
++    xwl_screen->gbm_backend.get_wl_drm_interface = xwl_glamor_gbm_get_wl_drm_interface;
+ }
 diff --git a/hw/xwayland/xwayland-shm.c b/hw/xwayland/xwayland-shm.c
-index 452d1f509..2edc95050 100644
+index 29732eaca..274bdefb7 100644
 --- a/hw/xwayland/xwayland-shm.c
 +++ b/hw/xwayland/xwayland-shm.c
 @@ -32,6 +32,7 @@
@@ -203,7 +271,7 @@ index 452d1f509..2edc95050 100644
          (width == 0 && height == 0) || depth < 15)
          return fbCreatePixmap(screen, width, height, depth, hint);
  
-@@ -216,11 +246,65 @@ xwl_shm_create_pixmap(ScreenPtr screen,
+@@ -216,11 +246,69 @@ xwl_shm_create_pixmap(ScreenPtr screen,
      stride = PixmapBytePad(width, depth);
      size = stride * height;
      xwl_pixmap->buffer = NULL;
@@ -214,9 +282,13 @@ index 452d1f509..2edc95050 100644
 +    xwl_pixmap->dmabuf_fd = -1;
 +    fd = -1;
 +
-+    if (xwl_screen->drm &&
++    if (xwl_screen->egl_backend &&
++	xwl_screen->egl_backend->get_wl_drm_interface &&
++	xwl_screen->egl_backend->get_wl_drm_interface(xwl_screen) &&
 +        size > DMABUF_SIZE_THRESHOLD &&
 +        xwl_screen->dmabuf_count < DMABUF_COUNT_MAX) {
++	struct wl_drm *drm = xwl_screen->egl_backend->get_wl_drm_interface(
++	     xwl_screen);
 +        uint32_t drm_format = drm_format_for_depth(depth);
 +        struct virtwl_ioctl_new new_alloc = {
 +            .type = VIRTWL_IOCTL_NEW_DMABUF,
@@ -241,7 +313,7 @@ index 452d1f509..2edc95050 100644
 +                size = stride * height;
 +                xwl_pixmap->dmabuf_fd = fd;
 +                xwl_pixmap->buffer =
-+                    wl_drm_create_prime_buffer(xwl_screen->drm,
++                    wl_drm_create_prime_buffer(drm,
 +                                               fd,
 +                                               width,
 +                                               height,
@@ -273,7 +345,7 @@ index 452d1f509..2edc95050 100644
      xwl_pixmap->data = mmap(NULL, size, PROT_READ | PROT_WRITE,
                                    MAP_SHARED, fd, 0);
      if (xwl_pixmap->data == MAP_FAILED)
-@@ -231,14 +315,10 @@ xwl_shm_create_pixmap(ScreenPtr screen,
+@@ -231,14 +319,10 @@ xwl_shm_create_pixmap(ScreenPtr screen,
                                          stride, xwl_pixmap->data))
          goto err_munmap;
  
@@ -292,7 +364,7 @@ index 452d1f509..2edc95050 100644
  
      xwl_pixmap_set_private(pixmap, xwl_pixmap);
  
-@@ -262,9 +342,15 @@ xwl_shm_destroy_pixmap(PixmapPtr pixmap)
+@@ -262,9 +346,15 @@ xwl_shm_destroy_pixmap(PixmapPtr pixmap)
      struct xwl_pixmap *xwl_pixmap = xwl_pixmap_get(pixmap);
  
      if (xwl_pixmap && pixmap->refcnt == 1) {
@@ -308,7 +380,7 @@ index 452d1f509..2edc95050 100644
          free(xwl_pixmap);
      }
  
-@@ -274,7 +360,19 @@ xwl_shm_destroy_pixmap(PixmapPtr pixmap)
+@@ -274,7 +364,19 @@ xwl_shm_destroy_pixmap(PixmapPtr pixmap)
  struct wl_buffer *
  xwl_shm_pixmap_get_wl_buffer(PixmapPtr pixmap)
  {
@@ -329,7 +401,7 @@ index 452d1f509..2edc95050 100644
  }
  
  Bool
-@@ -283,6 +381,11 @@ xwl_shm_create_screen_resources(ScreenPtr screen)
+@@ -283,6 +385,11 @@ xwl_shm_create_screen_resources(ScreenPtr screen)
      struct xwl_screen *xwl_screen = xwl_screen_get(screen);
      int ret;
  
@@ -342,10 +414,10 @@ index 452d1f509..2edc95050 100644
      ret = (*screen->CreateScreenResources) (screen);
      xwl_screen->CreateScreenResources = screen->CreateScreenResources;
 diff --git a/hw/xwayland/xwayland.c b/hw/xwayland/xwayland.c
-index 939f3392c..c762c3178 100644
+index 96b4db18c..210eaabca 100644
 --- a/hw/xwayland/xwayland.c
 +++ b/hw/xwayland/xwayland.c
-@@ -40,6 +40,8 @@
+@@ -43,6 +43,8 @@
  _X_EXPORT Bool noXFree86VidModeExtension;
  #endif
  
@@ -354,39 +426,95 @@ index 939f3392c..c762c3178 100644
  void
  ddxGiveUp(enum ExitCode error)
  {
-@@ -551,12 +553,15 @@ registry_global(void *data, struct wl_registry *registry, uint32_t id,
-         if (xwl_output_create(xwl_screen, id))
-             xwl_screen->expecting_event++;
+@@ -769,12 +771,10 @@ registry_global(void *data, struct wl_registry *registry, uint32_t id,
+             wl_registry_bind(registry, id, &zxdg_output_manager_v1_interface, 1);
+         xwl_screen_init_xdg_output(xwl_screen);
      }
-+    else if (strcmp(interface, "wl_drm") == 0 && version >= 2) {
- #ifdef GLAMOR_HAS_GBM
--    else if (xwl_screen->glamor &&
--             strcmp(interface, "wl_drm") == 0 && version >= 2) {
--        xwl_screen_init_glamor(xwl_screen, id, version);
--    }
-+        if (xwl_screen->glamor)
-+            xwl_screen_init_glamor(xwl_screen, id, version);
-+        else
- #endif
-+            xwl_screen->drm =
-+                wl_registry_bind(registry, id, &wl_drm_interface, 2);
-+    }
+-#ifdef XWL_HAS_GLAMOR
+     else if (xwl_screen->glamor) {
+         xwl_glamor_init_wl_registry(xwl_screen, registry, id, interface,
+                                     version);
+     }
+-#endif
  }
  
  static void
 diff --git a/hw/xwayland/xwayland.h b/hw/xwayland/xwayland.h
-index 5e5624be0..f0327c905 100644
+index d70ad54bf..a1d839f7b 100644
 --- a/hw/xwayland/xwayland.h
 +++ b/hw/xwayland/xwayland.h
-@@ -99,6 +99,8 @@ struct xwl_screen {
-     void *egl_display, *egl_context;
-     struct gbm_device *gbm;
+@@ -85,31 +85,36 @@ struct xwl_egl_backend {
+      * this to setup any required wraps around X server callbacks like
+      * CreatePixmap.
+      */
+-     Bool (*init_screen)(struct xwl_screen *xwl_screen);
+-
+-     /* Called by Xwayland to retrieve a pointer to a valid wl_buffer for
+-      * the given window/pixmap combo so that damage to the pixmap may be
+-      * displayed on-screen. Backends should use this to create a new
+-      * wl_buffer for a currently buffer-less pixmap, or simply return the
+-      * pixmap they've prepared beforehand.
+-      */
+-     struct wl_buffer *(*get_wl_buffer_for_pixmap)(PixmapPtr pixmap,
+-                                                   Bool *created);
+-
+-     /* Called by Xwayland to perform any pre-wl_surface damage routines
+-      * that are required by the backend. If your backend is poorly
+-      * designed and lacks the ability to render directly to a surface,
+-      * you should implement blitting from the glamor pixmap to the wayland
+-      * pixmap here. Otherwise, this callback is optional.
+-      */
+-     void (*post_damage)(struct xwl_window *xwl_window,
+-                         PixmapPtr pixmap, RegionPtr region);
+-
+-     /* Called by Xwayland to confirm with the egl backend that the given
+-      * pixmap is completely setup and ready for display on-screen. This
+-      * callback is optional.
+-      */
+-     Bool (*allow_commits)(struct xwl_window *xwl_window);
++    Bool (*init_screen)(struct xwl_screen *xwl_screen);
++
++    /* Called by Xwayland to retrieve a pointer to a valid wl_buffer for
++     * the given window/pixmap combo so that damage to the pixmap may be
++     * displayed on-screen. Backends should use this to create a new
++     * wl_buffer for a currently buffer-less pixmap, or simply return the
++     * pixmap they've prepared beforehand.
++     */
++    struct wl_buffer *(*get_wl_buffer_for_pixmap)(PixmapPtr pixmap,
++                                                  Bool *created);
++
++    /* Called by Xwayland to perform any pre-wl_surface damage routines
++     * that are required by the backend. If your backend is poorly
++     * designed and lacks the ability to render directly to a surface,
++     * you should implement blitting from the glamor pixmap to the wayland
++     * pixmap here. Otherwise, this callback is optional.
++     */
++    void (*post_damage)(struct xwl_window *xwl_window,
++                        PixmapPtr pixmap, RegionPtr region);
++
++    /* Called by Xwayland to confirm with the egl backend that the given
++     * pixmap is completely setup and ready for display on-screen. This
++     * callback is optional.
++     */
++    Bool (*allow_commits)(struct xwl_window *xwl_window);
++
++    /* Called by Xwayland to retrieve a pointer to a valid wl_drm for
++     * the given screen such that buffers can shared via dmabuf.
++     */
++    struct wl_drm *(*get_wl_drm_interface)(struct xwl_screen *xwl_screen);
+ };
+ 
+ struct xwl_screen {
+@@ -171,6 +176,9 @@ struct xwl_screen {
      struct glamor_context *glamor_ctx;
+ 
+     Atom allow_commits_prop;
++
 +    int wl_fd;
 +    int dmabuf_count;
  };
  
  struct xwl_window {
 -- 
-2.11.0
+2.19.0.605.g01d371f741-goog
 

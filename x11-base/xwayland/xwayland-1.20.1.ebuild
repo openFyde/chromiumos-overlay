@@ -8,7 +8,7 @@ XORG_DOC=doc
 inherit xorg-2
 
 MY_P="xorg-server-${PV}"
-SRC_URI="${MY_P}.tar.bz2"
+SRC_URI="https://www.x.org/releases/individual/xserver/${MY_P}.tar.bz2"
 DESCRIPTION="XWayland"
 SLOT="0/${PV}"
 KEYWORDS="*"
@@ -35,12 +35,14 @@ DEPEND="${RDEPEND}
 	>=x11-libs/libxkbfile-1.0.4
 	>=x11-libs/xtrans-1.3.5
 	>=x11-misc/xbitmaps-1.0.1
-	x11-base/xorg-proto"
+	>=x11-base/xorg-proto-2018.3"
 
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-	epatch "${FILESDIR}"/*.patch
+	epatch "${FILESDIR}"/0001-HACK-make-monotonic-detection-always-succeed-on-cros.patch
+	epatch "${FILESDIR}"/0001-xwayland-virtwl-with-dmabuf-for-1.20.1.patch
+	epatch "${FILESDIR}"/0001-Eliminate-conflict-with-X11-Xlib.h-with-khronos-eglp.patch
 
 	# Needed for patches that modify configure.ac
 	eautoreconf

@@ -1,1 +1,0 @@
-xwayland-1.19.5.ebuild
