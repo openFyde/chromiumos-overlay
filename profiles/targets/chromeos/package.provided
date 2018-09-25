@@ -88,7 +88,7 @@ dev-util/boost-build-1.62.0
 dev-util/cargo-0.29.0
 
 # We don't need the toolchain itself in the target board.
-dev-lang/rust-1.24.0
+dev-lang/rust-1.30.0
 
 # We sometimes need ruby for building, but don't yet care about targets.
 dev-lang/ruby-1.9.4
