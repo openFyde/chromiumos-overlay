@@ -139,7 +139,7 @@ src_install() {
 	fi
 
 	# Install qcow utils library, header, and pkgconfig files.
-	dolib.so "${build_dir}/libqcow_utils.so"
+	dolib.so "${build_dir}/deps/libqcow_utils.so"
 
 	local include_dir="/usr/include/crosvm"
 
@@ -155,7 +155,7 @@ src_install() {
 	if use crosvm-plugin ; then
 		insinto "${include_dir}"
 		doins "${S}/crosvm_plugin/crosvm.h"
-		dolib.so "${build_dir}/libcrosvm_plugin.so"
+		dolib.so "${build_dir}/deps/libcrosvm_plugin.so"
 	fi
 }
 

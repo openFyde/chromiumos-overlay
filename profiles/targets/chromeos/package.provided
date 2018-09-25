@@ -85,7 +85,7 @@ app-misc/editor-wrapper-4
 dev-util/boost-build-1.62.0
 
 # A build tool only; not needed on the target board.
-dev-util/cargo-0.21.0
+dev-util/cargo-0.29.0
 
 # We don't need the toolchain itself in the target board.
 dev-lang/rust-1.24.0
