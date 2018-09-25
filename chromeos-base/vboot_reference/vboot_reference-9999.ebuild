@@ -66,6 +66,20 @@ src_install() {
 		# Installing on the host
 		exeinto /usr/share/vboot/bin
 		doexe scripts/image_signing/*.sh
+
+		# Remove board stuff.
+		rm -r \
+			"${D}"/usr/default \
+			"${D}"/usr/bin/chromeos-tpm-recovery \
+			"${D}"/usr/bin/dev_debug_vboot \
+			"${D}"/usr/bin/enable_dev_usb_boot \
+			"${D}"/usr/bin/load_kernel_test \
+			"${D}"/usr/bin/make_dev_firmware.sh \
+			"${D}"/usr/bin/make_dev_ssd.sh \
+			"${D}"/usr/bin/tpm_init_temp_fix \
+			"${D}"/usr/bin/tpm-nvsize \
+			"${D}"/usr/bin/tpmc \
+			|| die
 	fi
 
 	if use tpmtests; then
