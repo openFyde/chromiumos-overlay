@@ -50,6 +50,7 @@ DEPEND="
 	chromeos-base/power_manager-client
 	chromeos-base/session_manager-client
 	chromeos-base/shill-client
+	chromeos-base/system_api
 	chromeos-base/update_engine-client
 	mtd? ( dev-embedded/android_mtdutils )
 	sys-fs/e2fsprogs
