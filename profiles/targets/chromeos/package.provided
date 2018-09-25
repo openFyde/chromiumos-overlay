@@ -93,3 +93,6 @@ dev-lang/rust-1.24.0
 # We sometimes need ruby for building, but don't yet care about targets.
 dev-lang/ruby-1.9.4
 dev-ruby/rubygems-2.2.2
+
+# Needed for xorg-proto.
+dev-util/meson-0.44.1
