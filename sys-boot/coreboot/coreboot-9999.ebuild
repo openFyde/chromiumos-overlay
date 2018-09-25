@@ -306,7 +306,7 @@ src_compile() {
 		export CROSS_COMPILE_x86="i686-pc-linux-gnu-"
 		export CROSS_COMPILE_mipsel="mipsel-cros-linux-gnu-"
 		export CROSS_COMPILE_arm64="aarch64-cros-linux-gnu-"
-		export CROSS_COMPILE_arm="armv7a-cros-linux-gnu- armv7a-cros-linux-gnueabi-"
+		export CROSS_COMPILE_arm="armv7a-cros-linux-gnu- armv7a-cros-linux-gnueabihf-"
 	else
 		export CROSS_COMPILE_x86=${COREBOOT_SDK_PREFIX_x86_32}
 		export CROSS_COMPILE_mipsel=${COREBOOT_SDK_PREFIX_mips}
