@@ -134,7 +134,7 @@ AFDO_COMPRESSOR_SUFFIX["broadwell"]=".xz"
 
 declare -A AFDO_LOCATION
 AFDO_LOCATION["benchmark"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/llvm/"}
-AFDO_LOCATION["silvermont"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/"}
+AFDO_LOCATION["silvermont"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/silvermont/"}
 AFDO_LOCATION["airmont"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/airmont/"}
 AFDO_LOCATION["haswell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/haswell/"}
 AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/broadwell/"}
