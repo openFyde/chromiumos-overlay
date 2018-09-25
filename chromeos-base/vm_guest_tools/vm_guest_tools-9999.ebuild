@@ -34,7 +34,7 @@ RDEPEND="
 	chromeos-base/minijail
 	dev-libs/grpc
 	dev-libs/protobuf:=
-	media-libs/minigbm
+	media-libs/mesa[gbm]
 	x11-base/xwayland
 	x11-libs/libxkbcommon
 	x11-libs/pixman
