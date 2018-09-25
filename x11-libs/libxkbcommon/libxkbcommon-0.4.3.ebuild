@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 inherit cros-constants
 
@@ -15,8 +15,7 @@ DESCRIPTION="X.Org xkbcommon library"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND="x11-proto/xproto
-	>=x11-proto/kbproto-1.0.5"
+RDEPEND="x11-base/xorg-proto"
 DEPEND="${RDEPEND}
 	sys-devel/bison
 	sys-devel/flex"
