@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI=4
+EAPI=5
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa-img"
 CROS_WORKON_LOCALNAME="mesa-img"
@@ -43,13 +43,12 @@ IUSE="${IUSE_VIDEO_CARDS}
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 
-# keep correct libdrm and dri2proto dep
+# keep correct libdrm dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
 	!media-libs/mesa
 	X? (
 		!<x11-base/xorg-server-1.7
-		!<=x11-proto/xf86driproto-2.0.3
 		>=x11-libs/libX11-1.3.99.901
 		x11-libs/libXdamage
 		x11-libs/libXext
@@ -67,13 +66,7 @@ DEPEND="${RDEPEND}
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig
-	>=x11-proto/dri2proto-2.6
-	X? (
-		>=x11-proto/glproto-1.4.11
-		>=x11-proto/xextproto-7.0.99.1
-		x11-proto/xf86driproto
-		x11-proto/xf86vidmodeproto
-	)
+	x11-base/xorg-proto
 	llvm? ( sys-devel/llvm )
 	video_cards_powervr? (
 		virtual/img-ddk

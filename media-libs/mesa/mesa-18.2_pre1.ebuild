@@ -62,7 +62,6 @@ REQUIRED_USE="video_cards_amdgpu? ( llvm )
 RDEPEND="
 	X? (
 		!<x11-base/xorg-server-1.7
-		!<=x11-proto/xf86driproto-2.0.3
 		>=x11-libs/libX11-1.3.99.901
 		x11-libs/libXdamage
 		x11-libs/libXext
@@ -81,14 +80,8 @@ DEPEND="${RDEPEND}
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig
-	>=x11-proto/dri2proto-2.6
+	x11-base/xorg-proto
 	wayland? ( >=dev-libs/wayland-protocols-1.8 )
-	X? (
-		>=x11-proto/glproto-1.4.11
-		>=x11-proto/xextproto-7.0.99.1
-		x11-proto/xf86driproto
-		x11-proto/xf86vidmodeproto
-	)
 	llvm? ( sys-devel/llvm )
 "
 
