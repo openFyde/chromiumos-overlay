@@ -166,6 +166,7 @@ ALL_BOARDS=(
 	#jaguar
 	jecht
 	#kahlee
+	kalista
 	kayle
 	kblrvp
 	kefka
