@@ -61,14 +61,14 @@ pkg_preinst() {
 }
 
 src_install() {
-	exeinto /opt/google/cros-disks
-	doexe "${OUT}"/disks
+	dobin "${OUT}"/cros-disks
 
 	# Install USB device IDs file.
-	insinto /opt/google/cros-disks
+	insinto /usr/share/cros-disks
 	doins usb-device-info
 
 	# Install seccomp policy file.
+	insinto /usr/share/policy
 	use seccomp && newins avfsd-seccomp-${ARCH}.policy avfsd-seccomp.policy
 
 	# Install upstart config file.
