@@ -44,7 +44,7 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/dlcservice_unittests"
+	platform_test "run" "${OUT}/dlcservice_tests"
 }
 
 pkg_preinst() {
