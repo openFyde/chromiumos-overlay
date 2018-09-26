@@ -10,7 +10,7 @@ HOMEPAGE="https://github.com/llvm-mirror/libunwind"
 SRC_URI=""
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/llvm.org/libunwind"
 
-EGIT_COMMIT="1e1c6b739595098ba5c466bfe9d58b993e646b48" #r332513
+EGIT_COMMIT="1e73ceedf467eebae88c3f560c680cee3c527f24" #r339259
 
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"

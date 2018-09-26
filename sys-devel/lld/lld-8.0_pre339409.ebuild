@@ -15,7 +15,7 @@ SRC_URI=""
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/llvm.org/lld
 	https://git.llvm.org/git/lld.git"
 
-EGIT_COMMIT="8611960159f18591cb319ae527a6559d0861224e" #r333793
+EGIT_COMMIT="e260fac81cb305498a823b059ba8279b520296cc" #r339371
 
 LICENSE="UoI-NCSA"
 SLOT="0"
@@ -26,8 +26,7 @@ DEPEND="${RDEPEND}"
 
 pick_cherries() {
 	CHERRIES=""
-	CHERRIES+=" b0befbe9bc302945656f58e72429225d934b4837" # r336594
-	CHERRIES+=" bd5fbef9c29ce6433a93ddbbf7c4ef185bc1d1d5" # r337195
+	CHERRIES+=" fc72aa17367e33a63c9619ed351a06b3486f80f5" # r340802
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -65,12 +64,12 @@ src_unpack() {
 src_prepare() {
 	if use llvm-next  && has_version --host-root 'sys-devel/llvm[llvm-next]'; then
 		pick_next_cherries
-		epatch "${FILESDIR}"/lld-8.0-revert-r330869.patch
-		epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
-		epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
 	else
 		pick_cherries
 	fi
+	epatch "${FILESDIR}"/lld-8.0-revert-r330869.patch
+	epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
+	epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
 	epatch "${FILESDIR}/$PN-invoke-name.patch"
 }
 src_configure() {

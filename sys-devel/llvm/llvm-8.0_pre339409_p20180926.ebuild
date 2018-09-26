@@ -16,24 +16,24 @@ SRC_URI=""
 EGIT_REPO_URI="http://llvm.org/git/llvm.git
 	https://github.com/llvm-mirror/llvm.git"
 
-# llvm:r333878 https://critique.corp.google.com/#review/199724125
+# llvm:r339409 https://critique.corp.google.com/#review/209234450
 EGIT_REPO_URIS=(
 	"llvm"
 		""
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm.git"
-		"40c66c3d40377cf85640b3a35e6ec5c5b1cbc41f" # EGIT_COMMIT r333873
+		"36f54002c931a026f490f9fb074c11d91e3487a2" # EGIT_COMMIT r339407
 	"compiler-rt"
 		"projects/compiler-rt"
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/compiler-rt.git"
-		"393b329e7345976d7d0c5ee08425eacb34b4c5be" # EGIT_COMMIT r333870
+		"4f7c361dfbe533e883737844251598152333f087" # EGIT_COMMIT r339408
 	"clang"
 		"tools/clang"
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/clang.git"
-		"38ad3c9160e5814ec8cad29a990cf76730c5f20e" # EGIT_COMMIT r333874
+		"6601c8f525499269dba75f75bbd1ee2671aaa262" # EGIT_COMMIT r339409
 	"clang-tidy"
 		"tools/clang/tools/extra"
 		"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm-clang-tools-extra.git"
-		"ea7316f9641f7071afadec5358b9c66c124d571d" # EGIT_COMMIT r333877
+		"a32ea61ae09dc772fd7f688a89a0bd07c1bcc4f1" # EGIT_COMMIT r339401
 )
 
 LICENSE="UoI-NCSA"
@@ -185,7 +185,8 @@ src_unpack() {
 pick_cherries() {
 	# clang
 	local CHERRIES=""
-	CHERRIES+=" 3707aa46066aa2da2490fe79c65c6c45c6957ece" # r335546
+	CHERRIES+=" 24c973171788bbd2699e267a69aad6e24f26ac24" # r340101
+	CHERRIES+=" ca6d65812f8d6ba6093d0ea0d0bfd9cac518789d" # r342100
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -194,8 +195,13 @@ pick_cherries() {
 
 	# llvm
 	CHERRIES=""
-	CHERRIES+=" a42c01a4b3cb7e2e0df65b5279f7a7db40ea72c6" # r334149
-	CHERRIES+=" eefdbb43aabbac2041be1b4ee0a134281be35dc8" # r335922
+	CHERRIES+=" 3e5777f3b95e846530d70ed76577abca1be4f5f5" # r339411
+	CHERRIES+=" 77a17afc92d543811e0f4f7913d4424aa630c117" # r340610
+	CHERRIES+=" ddf089299bbfec8b94a61ffd83b2360e061dc108" # r340642
+	CHERRIES+=" a4da437c1dec3fec9cf24e5d4b40bc77c2a6cec2" # r340654
+	CHERRIES+=" b9c9629e618b883df7f03dc92f0d23eeca38693f" # r341512
+	CHERRIES+=" 42eb082d63383b17c395e033e0095076efe4cb5e" # r341593
+	CHERRIES+=" 906fd9ab476d0fa9e221bec32009eac3f3af5c60" # r341706
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -204,7 +210,6 @@ pick_cherries() {
 
 	# compiler-rt
 	CHERRIES=""
-	CHERRIES+=" 5291d19fa227cf4dcd8fb2a6d83a0fcb49214c5c" # r337033
 	pushd "${S}"/projects/compiler-rt >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch" 
@@ -253,9 +258,6 @@ src_prepare() {
 		use llvm-next && pick_next_cherries
 	fi
 	epatch "${FILESDIR}"/llvm-6.0-gnueabihf.patch
-	if ! use llvm-next; then
-		epatch "${FILESDIR}"/llvm-7.0-mssa-bugfix.patch
-	fi
 	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
 	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
 
@@ -280,21 +282,15 @@ src_prepare() {
 	# Temporarily revert r332058 as it caused speedometer2 perf regression.
 	# https://crbug.com/864781
 
-	if use llvm-next; then
-		epatch "${FILESDIR}"/llvm-next-revert-afdo-hotness.patch
-	else
-		epatch "${FILESDIR}"/llvm-revert-afdo-hotness.patch
-	fi
+	epatch "${FILESDIR}"/llvm-next-revert-afdo-hotness.patch
 
-	if use llvm-next; then
-		# Revert r328973 and r335145, to fix issues with llvm-next
-		epatch "${FILESDIR}"/llvm-8.0-revert-r328973.patch
-		epatch "${FILESDIR}"/llvm-8.0-revert-r335145.patch
-		# Revert r335284, in clang, to fix issues with llvm-next
-		pushd "${S}"/tools/clang >/dev/null || die
-		epatch "${FILESDIR}"/clang-8.0-revert-r335284.patch
-		popd >/dev/null || die
-	fi
+	# Revert r328973 and r335145
+	epatch "${FILESDIR}"/llvm-8.0-revert-r328973.patch
+	epatch "${FILESDIR}"/llvm-8.0-revert-r335145.patch
+	# Revert r335284, in clang
+	pushd "${S}"/tools/clang >/dev/null || die
+	epatch "${FILESDIR}"/clang-8.0-revert-r335284.patch
+	popd >/dev/null || die
 
 	python_setup
 
