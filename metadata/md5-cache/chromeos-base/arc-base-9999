@@ -9,4 +9,4 @@ LICENSE=BSD-Google
 RDEPEND=!<chromeos-base/chromeos-cheets-scripts-0.0.3 sys-apps/baselayout
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	user	77ad494d1257e3badef496e390973d6b
-_md5_=9b0d1c61124220635dba9b8c3c474a9c
+_md5_=d917fc2f8bc91c0f5ba8ea80d3a0dc19
