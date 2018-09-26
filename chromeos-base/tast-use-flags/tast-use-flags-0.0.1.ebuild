@@ -14,6 +14,7 @@ IUSE="
 	arc
 	betty
 	chromeless_tty
+	cups
 	+display_backlight
 	kvm_host
 	ml_service
