@@ -33,7 +33,6 @@ IUSE="
 	app_shell
 	asan
 	+authpolicy
-	build_native_assistant
 	+build_tests
 	+chrome_debug
 	+cfi
@@ -431,17 +430,6 @@ set_build_args() {
 		export CHROMIUM_BUILD='_google_Chrome'
 		export OFFICIAL_BUILD='1'
 		export CHROME_BUILD_TYPE='_official'
-
-		# Assistant features.
-		# Only add the gn args when both chrome_internal and
-		# build_native_assistant use flags are on because it requires
-		# internal repos to build.
-		if use "build_native_assistant"; then
-			BUILD_ARGS+=(
-				enable_cros_assistant=true
-				enable_cros_libassistant=true
-			)
-		fi
 	elif use chrome_media; then
 		echo "Building Chromium with additional media codecs and containers."
 		BUILD_ARGS+=( proprietary_codecs=true )
