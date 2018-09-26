@@ -61,7 +61,6 @@ S="${WORKDIR}/${MY_P}-src"
 # values.
 RUSTC_TARGET_TRIPLES=(
 	x86_64-pc-linux-gnu
-	armv7a-cros-linux-gnueabi
 	armv7a-cros-linux-gnueabihf
 	aarch64-cros-linux-gnu
 )
@@ -86,11 +85,8 @@ src_prepare() {
 
 	# armv7a is treated specially because the cros toolchain differs in
 	# more than just the vendor part of the target triple. The arch is
-	# armv7a in cros versus armv7. Currently we have two abis: gnueabi and
-	# gnueabihf. gnueabi should be removed after chromium:711369
-	# is fixed.
+	# armv7a in cros versus armv7.
 	pushd src/librustc_target/spec || die
-	sed -e 's:"unknown":"cros":g' armv7_unknown_linux_gnueabihf.rs >armv7a_cros_linux_gnueabi.rs
 	sed -e 's:"unknown":"cros":g' armv7_unknown_linux_gnueabihf.rs >armv7a_cros_linux_gnueabihf.rs
 	popd
 
