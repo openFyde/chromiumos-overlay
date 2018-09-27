@@ -19,7 +19,7 @@ HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="asan +seccomp test"
+IUSE="asan cros-debug +seccomp test"
 
 RDEPEND="sys-libs/libcap
 	!<chromeos-base/chromeos-minijail-1"
@@ -34,6 +34,7 @@ src_configure() {
 	cros-common.mk_src_configure
 	export LIBDIR="/$(get_libdir)"
 	export USE_seccomp=$(usex seccomp)
+	export ALLOW_DEBUG_LOGGING=$(usex cros-debug)
 	export USE_SYSTEM_GTEST=yes
 }
 
