@@ -56,7 +56,7 @@ media-libs/libpng	static-libs
 net-misc/curl		static-libs
 sys-apps/dtc		static-libs
 sys-libs/libcap-ng	static-libs
-sys-libs/ncurses	static-libs
+sys-libs/ncurses	static-libs unicode
 virtual/jpeg		static-libs
 virtual/libusb		static-libs
 x11-libs/pixman		static-libs
