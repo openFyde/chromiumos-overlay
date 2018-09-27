@@ -31,6 +31,7 @@ IUSE=""
 DEPEND="
 	dev-go/crypto
 	dev-go/subcommands
+	dev-go/yaml
 "
 RDEPEND="
 	app-arch/tar
