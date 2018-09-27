@@ -311,7 +311,6 @@ set_build_args() {
 		clang_use_chrome_plugins=false
 		use_thin_lto=$(usetf thinlto)
 		use_lld=$(usetf lld)
-		use_gold=$(usetf gold)
 		is_cfi=$(usetf cfi)
 		use_cfi_cast=$(usetf cfi)
 	)
