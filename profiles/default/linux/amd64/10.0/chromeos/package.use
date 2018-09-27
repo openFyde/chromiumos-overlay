@@ -1,2 +1,2 @@
 # USE flags only for target boards.
-sys-boot/chromeos-bootimage cb_legacy_seabios
+sys-boot/chromeos-bootimage cb_legacy_tianocore

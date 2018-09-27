@@ -1,1 +1,1 @@
-sys-boot/chromeos-bootimage cb_legacy_seabios
+sys-boot/chromeos-bootimage cb_legacy_tianocore
