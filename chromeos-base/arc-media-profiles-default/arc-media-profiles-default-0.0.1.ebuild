@@ -14,6 +14,13 @@ IUSE=""
 S="${WORKDIR}"
 
 src_install() {
-	insinto "${ARC_VENDOR_DIR}/etc/"
+	insinto "/oem/etc/"
 	doins "${FILESDIR}/media_profiles.xml"
+
+	# /etc/media_profiles.xml in container is a symbolic link to vendor image.
+	# In order to change profile at runtime, we have to install the file
+	# into /oem partition. Create a symbolic link in vendor image to redirect
+	# profiles correctly.
+	dosym "/oem/etc/media_profiles.xml" \
+		"${ARC_VENDOR_DIR}/etc/media_profiles.xml"
 }
