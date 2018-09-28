@@ -90,6 +90,11 @@ src_compile() {
 }
 
 src_install() {
+	# TODO(sjg@chromiumo.org): Drop this once we have altfw completed
+	# in chromeos-bootimage
 	insinto /firmware
 	doins tianocore.cbfs
+
+	insinto /firmware/tianocore
+	doins "Build/CorebootPayloadPkgX64/${BUILDTYPE}_COREBOOT/FV/UEFIPAYLOAD.fd"
 }
