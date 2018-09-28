@@ -109,20 +109,29 @@ generate_font_cache() {
 	# Bind mount over the cache directory so that we don't scribble over the
 	# $SYSROOT.  Same warning as above applies: don't use sudo in your ebuild.
 	mkdir -p "${WORKDIR}/out"
+	if grep -q "${ROOT}/usr/share/cache/fontconfig" /proc/mounts; then
+		sudo umount "${ROOT}/usr/share/cache/fontconfig"
+	fi
 	sudo mount --bind "${WORKDIR}/out" "${ROOT}/usr/share/cache/fontconfig"
 
-	# If we're running directly on the target (e.g. gmerge), we don't need to
-	# chroot or use qemu.
-	if [[ "${ROOT:-/}" == "/" ]]; then
-		sudo /usr/bin/fc-cache -f -v || die
-	elif [[ "${ARCH}" == "amd64" ]]; then
-		# Uses the host's fc-cache binary to build the font cache on the target
-		sudo /usr/bin/fc-cache --sysroot="${SYSROOT}" -f -v
-	else
-		qemu_run /usr/bin/fc-cache -f -v
-	fi
+	# If we're running directly on the target (e.g. gmerge), we don't need
+	# to chroot or use qemu.  Run in a subshell so that we can clean up
+	# the bind mount even if fc-cache fails.
+	(
+		if [[ "${ROOT:-/}" == "/" ]]; then
+			sudo /usr/bin/fc-cache -f -v || die
+		elif [[ "${ARCH}" == "amd64" ]]; then
+			# Uses the host's fc-cache binary to build the font
+			# cache on the target.
+			sudo /usr/bin/fc-cache --sysroot="${SYSROOT}" -f -v
+		else
+			qemu_run /usr/bin/fc-cache -f -v
+		fi
+	)
+	local retval=$?
 
 	sudo umount "${ROOT}/usr/share/cache/fontconfig"
+	[[ ${retval} == 0 ]] || die "fc-cache failed"
 }
 
 # TODO(cjmcdonald): crbug/913317 These .uuid files need to exist when fc-cache
