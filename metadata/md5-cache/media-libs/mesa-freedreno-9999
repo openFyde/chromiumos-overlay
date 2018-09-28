@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install prepare setup unpack
+DEPEND=dev-libs/expat dev-libs/libgcrypt virtual/udev >=x11-libs/libdrm-2.4.94 =dev-lang/python-2* dev-libs/libxml2 sys-devel/bison sys-devel/flex virtual/pkgconfig !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16.1:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 dev-vcs/git
+DESCRIPTION=OpenGL-like graphic library for Linux
+EAPI=5
+HOMEPAGE=http://mesa3d.sourceforge.net/
+IUSE=video_cards_freedreno debug vulkan cros_host cros_workon_tree_
+KEYWORDS=~*
+LICENSE=MIT SGI-B-2.0
+RDEPEND=dev-libs/expat dev-libs/libgcrypt virtual/udev >=x11-libs/libdrm-2.4.94
+SLOT=0
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	base	ec46b36a6f6fd1d0b505a33e0b74e413	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	python	efc1c55fc44c5b7272fc2ffba73c3e6f	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=3da51b0e7958dbee13e64fa12b5075e0
