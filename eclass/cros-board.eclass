@@ -90,6 +90,7 @@ ALL_BOARDS=(
 	chell
 	chell-cheets
 	cheza
+	cheza-freedreno
 	#chronos
 	cid
 	clapper
