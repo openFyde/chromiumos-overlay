@@ -19,7 +19,7 @@ BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi rammus reef"
 BOARDS="${BOARDS} samus sand sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
 IUSE="${BOARDS} altfw cb_legacy_seabios cb_legacy_tianocore cb_legacy_uboot"
-IUSE="${IUSE} fsp fastboot unibuild u-boot cros_ec pd_sync"
+IUSE="${IUSE} fsp fastboot unibuild u-boot tianocore cros_ec pd_sync"
 
 REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
@@ -31,6 +31,7 @@ DEPEND="
 	sys-boot/chromeos-bmpblk
 	cb_legacy_seabios? ( sys-boot/chromeos-seabios )
 	cb_legacy_tianocore? ( sys-boot/edk2 )
+	tianocore? ( sys-boot/edk2 )
 	cb_legacy_uboot? ( virtual/u-boot )
 	unibuild? ( chromeos-base/chromeos-config )
 	u-boot? ( sys-boot/u-boot )
@@ -210,8 +211,6 @@ build_image() {
 # This creates a new CBFS in the RW_LEGACY area and puts boot loaders into it,
 # based on USE flags. A list is written to an "altfw/list" file so that there
 # is a record of what is available.
-#
-# TODO(sjg@chromium.org): Bring in Tianocore here, and perhaps memtest
 # Args
 #  $1: Coreboot file to add to (will add to this, and the .serial version of it)
 setup_altfw() {
@@ -238,6 +237,16 @@ setup_altfw() {
 			-c lzma -l 0x1110000 -e 0x1110000 \
 			-f "${CROS_FIRMWARE_ROOT}/u-boot.bin"
 		echo "1;altfw/u-boot;U-Boot;U-Boot bootloader" >> "${bl_list}"
+	fi
+
+	# Add TianoCore if enabled
+	if use tianocore; then
+		einfo "- Adding TianoCore"
+
+		do_cbfstool "${cbfs}" add-payload -n altfw/tianocore -c lzma \
+			-f "${CROS_FIRMWARE_ROOT}/tianocore/UEFIPAYLOAD.fd"
+		echo "2;altfw/tianocore;TianoCore;TianoCore bootloader" \
+			>> "${bl_list}"
 	fi
 
 	# Add the list
