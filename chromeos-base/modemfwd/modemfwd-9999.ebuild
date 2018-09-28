@@ -22,6 +22,7 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
+	chromeos-base/chromeos-config
 	chromeos-base/libbrillo
 	dev-libs/protobuf
 "
