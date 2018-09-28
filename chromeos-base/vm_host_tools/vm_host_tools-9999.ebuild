@@ -34,6 +34,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
+	chromeos-base/shill-client
 	>=chromeos-base/system_api-0.0.1-r3360
 "
 
