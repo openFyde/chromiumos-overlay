@@ -1,0 +1,87 @@
+commit 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1
+Author: Vitaly Buka <vitalybuka@google.com>
+Date:   Mon Aug 27 17:26:28 2018 +0000
+
+    Revert "[lsan] Do not check for leaks in the forked process"
+    
+    Users need leak reports in forks.
+    
+    This reverts commit r334036.
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@340758 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/lsan/lsan_common.cc b/lib/lsan/lsan_common.cc
+index 012a673c3..eaa5cadc8 100644
+--- a/lib/lsan/lsan_common.cc
++++ b/lib/lsan/lsan_common.cc
+@@ -100,8 +100,6 @@ static SuppressionContext *GetSuppressionContext() {
+ 
+ static InternalMmapVector<RootRegion> *root_regions;
+ 
+-static uptr initialized_for_pid;
+-
+ InternalMmapVector<RootRegion> const *GetRootRegions() { return root_regions; }
+ 
+ void InitializeRootRegions() {
+@@ -115,7 +113,6 @@ const char *MaybeCallLsanDefaultOptions() {
+ }
+ 
+ void InitCommonLsan() {
+-  initialized_for_pid = internal_getpid();
+   InitializeRootRegions();
+   if (common_flags()->detect_leaks) {
+     // Initialization which can fail or print warnings should only be done if
+@@ -571,12 +568,6 @@ static void CheckForLeaksCallback(const SuspendedThreadsList &suspended_threads,
+ static bool CheckForLeaks() {
+   if (&__lsan_is_turned_off && __lsan_is_turned_off())
+       return false;
+-  if (initialized_for_pid != internal_getpid()) {
+-    // If process was forked and it had threads we fail to detect references
+-    // from other threads.
+-    Report("WARNING: LeakSanitizer is disabled in forked process.\n");
+-    return false;
+-  }
+   EnsureMainThreadIDIsCorrect();
+   CheckForLeaksParam param;
+   param.success = false;
+diff --git a/test/lsan/TestCases/Linux/fork_with_threads.cc b/test/lsan/TestCases/Linux/fork_with_threads.cc
+deleted file mode 100644
+index 221c5d249..000000000
+--- a/test/lsan/TestCases/Linux/fork_with_threads.cc
++++ /dev/null
+@@ -1,35 +0,0 @@
+-// Test forked process does not run lsan.
+-// RUN: %clangxx_lsan %s -o %t && %run %t 2>&1 | FileCheck %s
+-
+-#include <pthread.h>
+-#include <stdlib.h>
+-#include <sys/wait.h>
+-#include <unistd.h>
+-
+-static pthread_barrier_t barrier;
+-
+-// CHECK-NOT: SUMMARY: {{(Leak|Address)}}Sanitizer:
+-static void *thread_func(void *arg) {
+-  void *buffer = malloc(1337);
+-  pthread_barrier_wait(&barrier);
+-  for (;;)
+-    pthread_yield();
+-  return 0;
+-}
+-
+-int main() {
+-  pthread_barrier_init(&barrier, 0, 2);
+-  pthread_t tid;
+-  int res = pthread_create(&tid, 0, thread_func, 0);
+-  pthread_barrier_wait(&barrier);
+-  pthread_barrier_destroy(&barrier);
+-
+-  pid_t pid = fork();
+-  if (pid > 0) {
+-    int status = 0;
+-    waitpid(pid, &status, 0);
+-  }
+-  return 0;
+-}
+-
+-// CHECK: WARNING: LeakSanitizer is disabled in forked process

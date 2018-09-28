@@ -38,9 +38,9 @@ src_prepare() {
 	# Cherry-picks
 	local CHERRIES=""
 	if use llvm-next; then
-		true
+		CHERRIES+=" 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1" #r340758
 	else
-		true
+		CHERRIES+=" 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1" #r340758
 	fi
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"

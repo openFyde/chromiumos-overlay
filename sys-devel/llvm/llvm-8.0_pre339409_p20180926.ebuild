@@ -210,6 +210,7 @@ pick_cherries() {
 
 	# compiler-rt
 	CHERRIES=""
+	CHERRIES+=" 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1" #r340758
 	pushd "${S}"/projects/compiler-rt >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch" 
@@ -245,6 +246,7 @@ pick_next_cherries() {
 
 	# compiler-rt
 	CHERRIES=""
+	CHERRIES+=" 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1" #r340758
 	pushd "${S}"/projects/compiler-rt >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch" 
