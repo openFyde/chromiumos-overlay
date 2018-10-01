@@ -30,6 +30,7 @@ CROS_GO_VET=(
 # The URLs listed here must match those in files/external_data.conf.
 TAST_BUNDLE_EXTERNAL_DATA_URLS=(
 	"gs://chromiumos-test-assets-public/tast/cros/arcapp/todo-mvp-20180814.apk"
+	"gs://chromiumos-test-assets-public/tast/cros/debugd/debugd_printer_GenericPostScript_20181001.ppd.gz"
 	"gs://chromiumos-test-assets-public/tast/cros/example/data_files_external_20180626.txt"
 	"gs://chromiumos-test-assets-public/tast/cros/meta/local_files_external_20180811.txt"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_h264_320x180_20180629.mp4"
