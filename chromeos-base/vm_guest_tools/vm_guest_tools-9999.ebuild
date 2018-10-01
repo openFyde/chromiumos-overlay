@@ -63,6 +63,8 @@ src_install() {
 	into /
 	newsbin "${OUT}"/maitred init
 
+	dosym /run/resolv.conf /etc/resolv.conf
+
 	CROS_GO_WORKSPACE="${OUT}/gen/go"
 	cros-go_src_install
 }
