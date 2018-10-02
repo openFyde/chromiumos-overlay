@@ -34,6 +34,7 @@ ioctl: arg1 == 0x5401
 listen: 1
 lseek: 1
 lstat: 1
+madvise: 1
 mmap: 1
 # These constants are from <asm-generic/mman-common.h> and are essentially:
 # arg2 == PROT_NONE || arg2 == PROT_READ || arg2 == PROT_WRITE ||
