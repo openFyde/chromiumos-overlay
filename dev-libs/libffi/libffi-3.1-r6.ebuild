@@ -51,10 +51,6 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	# Arm assembly syntax used in libffi is not recognized by
-	# the integrated assembler (https://crbug.com/801303).
-	append-flags -fno-integrated-as
-
 	use userland_BSD && export HOST="${CHOST}"
 	econf \
 		$(use_enable static-libs static) \
