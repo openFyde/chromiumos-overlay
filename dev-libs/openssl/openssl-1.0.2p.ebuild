@@ -104,7 +104,7 @@ src_prepare() {
 	# See crbug.com/630057
 	if tc-is-clang ; then
 		epatch "${FILESDIR}"/${PN}-1.0.2-gas.patch
-		append-flags -no-integrated-as
+		use arm && append-flags -no-integrated-as
 	fi
 
 	# disable fips in the build
