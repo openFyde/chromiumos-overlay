@@ -185,8 +185,6 @@ DEPEND="${COMMON_DEPEND}
 	sys-apps/findutils
 	sys-apps/sed"
 
-PATCHES=()
-
 src_configure() {
 	# Do nothing
 	echo "Configuring cargo..."
