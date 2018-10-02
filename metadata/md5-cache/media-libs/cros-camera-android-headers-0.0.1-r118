@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile info install setup unpack
+DEPEND=dev-vcs/git
+DESCRIPTION=Android header files required for building camera HAL v3
+EAPI=5
+IUSE=cros_host cros_workon_tree_886b75f834d224e8f07d54d53d64c0c5391f6841
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!media-libs/arc-camera3-android-headers
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=b82ab0ba4051dffb632651e4ca3c786d
