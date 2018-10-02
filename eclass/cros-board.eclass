@@ -122,6 +122,7 @@ ALL_BOARDS=(
 	#envoy-jerry
 	eve
 	eve-arcnext
+	eve-arcvm
 	#eve-bertha
 	eve-campfire
 	eve-kvm
