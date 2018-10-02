@@ -114,6 +114,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/autotest-client
 	chromeos-base/audiotest
 	chromeos-base/avtest_label_detect
+	chromeos-base/chrome-binary-tests
 	chromeos-base/cros-camera-tool
 	ozone? ( chromeos-base/drm-tests )
 	chromeos-base/factory-mini
