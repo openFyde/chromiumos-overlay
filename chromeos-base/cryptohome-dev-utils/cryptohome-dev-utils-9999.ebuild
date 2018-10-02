@@ -10,8 +10,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
 CROS_WORKON_SUBTREE="common-mk cryptohome secure_erase_file .gn"
 
-PLATFORM_SUBDIR="cryptohome"
-PLATFORM_GYP_FILE="cryptohome-dev-utils.gyp"
+PLATFORM_SUBDIR="cryptohome/dev-utils"
 
 inherit cros-workon platform
 
