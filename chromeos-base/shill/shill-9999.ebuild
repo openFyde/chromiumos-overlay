@@ -196,6 +196,7 @@ src_install() {
 		doins "${T}"/*.conf
 		doins \
 			init/network-services.conf \
+			init/shill-event.conf \
 			init/shill-start-user-session.conf \
 			init/shill-stop-user-session.conf \
 			init/shill_respawn.conf \
