@@ -7,7 +7,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk libtpmcrypto .gn"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk libtpmcrypto trunks .gn"
 
 PLATFORM_SUBDIR="libtpmcrypto"
 
@@ -20,7 +21,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="tpm tpm2"
-REQUIRED_USE="^^ ( tpm tpm2 )"
+REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="
 	tpm2? (
