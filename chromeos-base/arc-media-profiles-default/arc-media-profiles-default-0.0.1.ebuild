@@ -14,8 +14,10 @@ IUSE=""
 S="${WORKDIR}"
 
 src_install() {
-	insinto "/oem/etc/"
+	insinto /etc/camera/
 	doins "${FILESDIR}/media_profiles.xml"
+
+	dobin "${FILESDIR}/generate_camera_profile"
 
 	# /etc/media_profiles.xml in container is a symbolic link to vendor image.
 	# In order to change profile at runtime, we have to install the file
