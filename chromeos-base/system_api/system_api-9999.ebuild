@@ -38,8 +38,6 @@ src_unpack() {
 }
 
 src_install() {
-	dolib.a "${OUT}"/libsystem_api*.a
-
 	insinto /usr/"$(get_libdir)"/pkgconfig
 	doins system_api.pc
 
@@ -71,25 +69,29 @@ src_install() {
 		doins dbus/"${dir}"/dbus-constants.h
 	done
 
-	dirs=(
-		authpolicy
-		biod
-		chaps
-		cryptohome
-		login_manager
-		metrics_event
-		oobe_config
-		power_manager
-		seneschal
-		smbprovider
-		system_api
-		vm_applications
-		vm_cicerone
-		vm_concierge
-	)
+	# These are files/projects installed in the common dir.
+	dirs=( system_api )
+
+	# These are project-specific files.
+	dirs+=( $(
+		cd "${S}/dbus" || die
+		dirname */*.proto | sort -u
+	) )
+
 	for dir in "${dirs[@]}"; do
+		# TODO(crbug.com/891591): Fix gyp to build headers/libs like others.
+		case ${dir} in
+		bootlockbox) continue;;
+		esac
+
 		insinto /usr/include/"${dir}"/proto_bindings
-		doins -r "${OUT}"/gen/include/"${dir}"/proto_bindings/*.h
+		doins "${OUT}"/gen/include/"${dir}"/proto_bindings/*.h
+
+		if [[ "${dir}" == "system_api" ]]; then
+			dolib.a "${OUT}/libsystem_api-protos.a"
+		else
+			dolib.a "${OUT}/libsystem_api-${dir}-protos.a"
+		fi
 	done
 
 	cros-go_src_install
