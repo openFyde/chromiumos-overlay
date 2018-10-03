@@ -2,10 +2,10 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=5
+EAPI=6
 
-CROS_WORKON_COMMIT=("5d04fea5416eff612903c48aff366c9d8087b211" "e117046df35aa9de5c7dc7215951418ce935c764")
-CROS_WORKON_TREE=("7bcd83907690430e66b5a71e2dc849fa4b3e41b0" "3a91077c66f88c901cf4d72d7088604130f4f2ea")
+CROS_WORKON_COMMIT=("a14582f5b2ae17da4bbc7b5d887d601dbb407a2" "f0bad1d0035d5045eac9d9e895239fc712d07715")
+CROS_WORKON_TREE=("43f50f314fa9a22ac645b844e0e9f4abe31a4f4e" "38ea516577da057fb423c69fa98d17fcb0d053d8")
 inherit cros-constants
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
@@ -13,10 +13,8 @@ CROS_WORKON_LOCALNAME=("../platform2" "../aosp/external/puffin")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/external/puffin")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/puffin")
 CROS_WORKON_REPO=("${CROS_GIT_HOST_URL}" "${CROS_GIT_AOSP_URL}")
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 CROS_WORKON_BLACKLIST=1
-# We may need to blacklist this ebuild at some point, but it not totally
-# necessary right now.
 
 PLATFORM_SUBDIR="puffin"
 
@@ -39,12 +37,14 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
-	dobin "${OUT}"/puffin
-	dolib.so "${OUT}"/lib/libpuffpatch.so
-	dolib.so "${OUT}"/lib/libpuffdiff.so
+	if use cros_host; then
+		dobin "${OUT}"/puffin
+	fi
+	dolib.a "${OUT}"/libpuffpatch.a
+	dolib.a "${OUT}"/libpuffdiff.a
 
 	insinto /usr/include
-	doins -r src/include/puffin/
+	doins -r src/include/puffin
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins libpuffdiff.pc libpuffpatch.pc
@@ -53,15 +53,8 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/puffin_unittest"
+	platform_test "run" "${OUT}/puffin_test"
 
 	# Run fuzzer.
 	platform_fuzzer_test "${OUT}"/puffin_fuzzer
-}
-
-pkg_preinst() {
-	# We only want libpuffpatch.so in runtime images.
-	if [[ $(cros_target) == "target_image" ]]; then
-		rm "${D}"/usr/bin/puffin "${D}"/usr/$(get_libdir)/puffdiff.so
-	fi
 }

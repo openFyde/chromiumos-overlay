@@ -23,7 +23,7 @@ SRC_URI=""
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_p2p +dbus -delta_generator -hwid_override mtd +power_management systemd"
+IUSE="cros_p2p +dbus -hwid_override mtd +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2
@@ -70,7 +70,7 @@ DELTA_GENERATOR_RDEPEND="
 RDEPEND="
 	chromeos-base/chromeos-installer
 	${COMMON_DEPEND}
-	delta_generator? ( ${DELTA_GENERATOR_RDEPEND} )
+	cros_host? ( ${DELTA_GENERATOR_RDEPEND} )
 	power_management? ( chromeos-base/power_manager )
 	virtual/update-policy
 "
@@ -120,7 +120,7 @@ src_install() {
 	dosbin "${OUT}"/update_engine
 	dobin "${OUT}"/update_engine_client
 
-	if use delta_generator; then
+	if use cros_host; then
 		dobin "${S}"/scripts/brillo_update_payload
 		dobin "${OUT}"/delta_generator
 	fi

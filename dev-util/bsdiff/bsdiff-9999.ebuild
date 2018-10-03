@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/bsdiff/bsdiff-4.3-r2.ebuild,v 1.1 2010/12/13 00:35:03 flameeyes Exp $
 
-EAPI="5"
+EAPI=6
 
 inherit cros-constants
 
@@ -13,7 +13,7 @@ CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/bsdiff")
 CROS_WORKON_REPO=("${CROS_GIT_HOST_URL}" "${CROS_GIT_AOSP_URL}")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_BLACKLIST=1
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="bsdiff"
 
@@ -35,27 +35,25 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
-	dolib.so "${OUT}"/lib/libbsdiff.so
-	dolib.so "${OUT}"/lib/libbspatch.so
-	dobin "${OUT}"/bsdiff
-	dobin "${OUT}"/bspatch
+	if use cros_host; then
+		dobin "${OUT}"/bsdiff
+		dobin "${OUT}"/bspatch
+	fi
+	dolib.a "${OUT}"/libbsdiff.a
+	dolib.a "${OUT}"/libbspatch.a
 
-	insinto /usr/include/bsdiff
-	doins include/bsdiff/*.h
+	insinto /usr/include
+	doins -r include/bsdiff
+
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins libbsdiff.pc libbspatch.pc
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bspatch_fuzzer
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/bsdiff_unittest"
+	platform_test "run" "${OUT}/bsdiff_test"
 
 	# Run fuzzer.
 	platform_fuzzer_test "${OUT}"/bspatch_fuzzer
-}
-
-pkg_preinst() {
-	# We only want libbspatch.so in runtime images.
-	if [[ $(cros_target) == "target_image" ]]; then
-		rm "${D}"/usr/bin/bsdiff "${D}"/usr/bin/bspatch "${D}"/usr/$(get_libdir)/bsdiff.so
-	fi
 }

@@ -2,10 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/bsdiff/bsdiff-4.3-r2.ebuild,v 1.1 2010/12/13 00:35:03 flameeyes Exp $
 
-EAPI="5"
+EAPI=6
 
-CROS_WORKON_COMMIT=("5d04fea5416eff612903c48aff366c9d8087b211" "c35a3dd7996924b9925880f988993faec3449e26")
-CROS_WORKON_TREE=("7bcd83907690430e66b5a71e2dc849fa4b3e41b0" "23e60e6f9a85c8a97d188d1e45d42c125bd7e368")
+CROS_WORKON_COMMIT=("a14582f5b2ae17da4bbc7b5d887d601dbb407a2" "e80e2243950174015342af10a97cec3a84fec068")
+CROS_WORKON_TREE=("43f50f314fa9a22ac645b844e0e9f4abe31a4f4e" "7ef9eda9a39061de912ceca05c9e23fe48eb6c06")
 inherit cros-constants
 
 # cros-workon expects the repo to be in src/third_party, but is in src/aosp.
@@ -15,7 +15,7 @@ CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/bsdiff")
 CROS_WORKON_REPO=("${CROS_GIT_HOST_URL}" "${CROS_GIT_AOSP_URL}")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_BLACKLIST=1
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="bsdiff"
 
@@ -37,27 +37,25 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
-	dolib.so "${OUT}"/lib/libbsdiff.so
-	dolib.so "${OUT}"/lib/libbspatch.so
-	dobin "${OUT}"/bsdiff
-	dobin "${OUT}"/bspatch
+	if use cros_host; then
+		dobin "${OUT}"/bsdiff
+		dobin "${OUT}"/bspatch
+	fi
+	dolib.a "${OUT}"/libbsdiff.a
+	dolib.a "${OUT}"/libbspatch.a
 
-	insinto /usr/include/bsdiff
-	doins include/bsdiff/*.h
+	insinto /usr/include
+	doins -r include/bsdiff
+
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins libbsdiff.pc libbspatch.pc
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bspatch_fuzzer
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/bsdiff_unittest"
+	platform_test "run" "${OUT}/bsdiff_test"
 
 	# Run fuzzer.
 	platform_fuzzer_test "${OUT}"/bspatch_fuzzer
-}
-
-pkg_preinst() {
-	# We only want libbspatch.so in runtime images.
-	if [[ $(cros_target) == "target_image" ]]; then
-		rm "${D}"/usr/bin/bsdiff "${D}"/usr/bin/bspatch "${D}"/usr/$(get_libdir)/bsdiff.so
-	fi
 }

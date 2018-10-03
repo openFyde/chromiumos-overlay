@@ -13,7 +13,6 @@ sys-libs/zlib static-libs
 # Drop this once we audit code to make sure we aren't using `echo -n` or `echo -e`.
 app-shells/dash	vanilla
 
-chromeos-base/update_engine delta_generator
 net-misc/openssh kerberos hpn
 sys-apps/flashrom dediprog ft2232_spi serprog
 dev-lang/python gdbm
