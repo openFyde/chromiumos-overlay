@@ -104,7 +104,7 @@ tast-bundle_pkg_setup() {
 
 	CROS_GO_VET_FLAGS=(
 		# Check printf-style arguments passed to testing.State methods.
-		"-printfuncs=Log,Logf,Error,Errorf,Fatal,Fatalf"
+		"-printfuncs=Log,Logf,Error,Errorf,Fatal,Fatalf,Wrap,Wrapf"
 	)
 }
 
