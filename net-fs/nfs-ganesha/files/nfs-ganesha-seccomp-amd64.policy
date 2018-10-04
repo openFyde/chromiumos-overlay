@@ -45,6 +45,7 @@ setsockopt: 1
 getsockname: 1
 getsockopt: 1
 bind: 1
+gettimeofday: 1
 
 getpeername: 1
 

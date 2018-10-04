@@ -19,6 +19,7 @@ getpeername: 1
 getrlimit: 1
 getsockname: 1
 getsockopt: 1
+gettimeofday: 1
 # arg1 == SIOCGIFINDEX
 ioctl: arg1 == 0x8933
 listen: 1

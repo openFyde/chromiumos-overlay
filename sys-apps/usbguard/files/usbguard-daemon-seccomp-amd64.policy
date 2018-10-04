@@ -28,6 +28,7 @@ getdents: 1
 getrlimit: arg0 == 7
 getsockname: 1
 gettid: 1
+gettimeofday: 1
 getuid: 1
 # This constant is TCGETS from <asm-generic/ioctls.h>.
 ioctl: arg1 == 0x5401
