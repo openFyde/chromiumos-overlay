@@ -7,6 +7,10 @@
 # doesn't compile for arm yet.
 chromeos-base/chromeos-chrome authpolicy
 
+# smbprovider needs samba which does not compile for arm64.
+# https://crbug.com/892278 .
+chromeos-base/chromeos-chrome smbprovider
+
 # Markus Meier <maekke@gentoo.org> (27 Sep 2009)
 # mask media-gfx/imagemagick[autotrace] as autotrace is not keyworded
 media-gfx/imagemagick autotrace
