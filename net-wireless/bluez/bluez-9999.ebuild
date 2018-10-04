@@ -19,6 +19,7 @@ IUSE="asan cups debug systemd test-programs readline bt_deprecated_tools"
 
 CDEPEND="
 	>=dev-libs/glib-2.14:2
+	app-arch/bzip2
 	sys-apps/dbus
 	virtual/udev
 	cups? ( net-print/cups )
