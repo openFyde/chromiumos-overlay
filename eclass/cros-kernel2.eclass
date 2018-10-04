@@ -169,6 +169,7 @@ CONFIG_FRAGMENTS=(
 	systemtap
 	tpm
 	transparent_hugepage
+	ubsan
 	usb_gadget
 	usb_gadget_acm
 	usb_gadget_audio
@@ -666,6 +667,13 @@ systemtap_desc="systemtap support"
 systemtap_config="
 CONFIG_KPROBES=y
 CONFIG_DEBUG_INFO=y
+"
+
+ubsan_desc="Enable UBSAN"
+ubsan_config="
+CONFIG_UBSAN=y
+CONFIG_UBSAN_SANITIZE_ALL=y
+CONFIG_TEST_UBSAN=m
 "
 
 usb_gadget_desc="USB gadget support with ConfigFS/FunctionFS"
