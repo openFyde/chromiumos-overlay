@@ -121,6 +121,7 @@ CONFIG_FRAGMENTS=(
 	criu
 	cros_ec_mec
 	cros_ec_sysfs_usb
+	debug
 	debugobjects
 	devdebug
 	diskswap
@@ -775,6 +776,27 @@ CONFIG_ARM_LPAE=y
 CONFIG_TRANSPARENT_HUGEPAGE=y
 CONFIG_TRANSPARENT_HUGEPAGE_MADVISE=y
 "
+
+# We blast in all the debug options we can under this use flag so we can catch
+# as many kernel bugs as possible in testing. Developers  can choose to use
+# this option too, but they should expect performance to be degraded, unlike
+# the devdebug use flag
+debug_desc="All the debug options to catch kernel bugs in testing configurations"
+debug_config="
+${debugobjects_config}
+${devdebug_config}
+${dmadebug_config}
+${dyndebug_config}
+${kasan_config}
+${lockdebug_config}
+${memory_debug_config}
+CONFIG_DEBUG_LIST=y
+CONFIG_DEBUG_PREEMPT=y
+CONFIG_DEBUG_STACK_USAGE=y
+CONFIG_SCHED_STACK_END_CHECK=y
+CONFIG_WQ_WATCHDOG=y
+"
+
 # Firmware binaries selected by USE flags.  Selected firmware binaries will
 # be built into the kernel using CONFIG_EXTRA_FIRMWARE.
 
