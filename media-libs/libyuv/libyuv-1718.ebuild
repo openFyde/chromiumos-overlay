@@ -7,7 +7,7 @@ inherit cros-debug toolchain-funcs
 
 DESCRIPTION="YUV library"
 HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv"
-GIT_SHA1="55f5d91f11f929c4c59c32621c3d5457cca3ab0b"
+GIT_SHA1="20bf569a049bc5f4a4954c401cc6fff11d453274"
 SRC_URI="https://chromium.googlesource.com/libyuv/libyuv/+archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-Google"
