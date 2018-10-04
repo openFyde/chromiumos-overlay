@@ -149,6 +149,7 @@ CONFIG_FRAGMENTS=(
 	lockdebug
 	lxc
 	mbim
+	memory_debug
 	module_sign
 	nfc
 	nfs
@@ -524,6 +525,21 @@ CONFIG_KVM_ARM_HOST=y
 mbim_desc="CDC MBIM driver"
 mbim_config="
 CONFIG_USB_NET_CDC_MBIM=m
+"
+
+memory_debug_desc="Memory debugging"
+memory_debug_config="
+CONFIG_DEBUG_MEMORY_INIT=y
+CONFIG_DEBUG_PAGEALLOC=y
+CONFIG_DEBUG_PER_CPU_MAPS=y
+CONFIG_DEBUG_STACKOVERFLOW=y
+CONFIG_DEBUG_VM=y
+CONFIG_DEBUG_VM_PGFLAGS=y
+CONFIG_DEBUG_VM_RB=y
+CONFIG_DEBUG_VM_VMACACHE=y
+CONFIG_DEBUG_VIRTUAL=y
+CONFIG_PAGE_OWNER=y
+CONFIG_PAGE_POISONING=y
 "
 
 module_sign_desc="Enable kernel module signing and signature verification"
