@@ -10,8 +10,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk power_manager .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="${PN%-client}"
-PLATFORM_GYP_FILE="${PN}.gyp"
+PLATFORM_SUBDIR="power_manager/client"
 
 inherit cros-workon platform
 
