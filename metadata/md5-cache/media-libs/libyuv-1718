@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile install prepare
+DEPEND=virtual/jpeg:0
+DESCRIPTION=YUV library
+EAPI=4
+HOMEPAGE=https://chromium.googlesource.com/libyuv/libyuv
+IUSE=cros-debug
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=virtual/jpeg:0
+SLOT=0
+SRC_URI=https://chromium.googlesource.com/libyuv/libyuv/+archive/20bf569a049bc5f4a4954c401cc6fff11d453274.tar.gz -> libyuv-1718.tar.gz
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=0b24ec0494bddfb9f2d385c144c6078f
