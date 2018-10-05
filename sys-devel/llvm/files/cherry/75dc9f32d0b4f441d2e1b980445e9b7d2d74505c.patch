@@ -1,0 +1,450 @@
+commit 75dc9f32d0b4f441d2e1b980445e9b7d2d74505c
+Author: Tri Vo <trong@android.com>
+Date:   Sat Sep 22 22:17:50 2018 +0000
+
+    [AArch64] Support adding X[8-15,18] registers as CSRs.
+    
+    Summary:
+    Specifying X[8-15,18] registers as callee-saved is used to support
+    CONFIG_ARM64_LSE_ATOMICS in Linux kernel. As part of this patch we:
+    - use custom CSR list/mask when user specifies custom CSRs
+    - update Machine Register Info's list of CSRs with additional custom CSRs in
+    LowerCall and LowerFormalArguments.
+    
+    Reviewers: srhines, nickdesaulniers, efriedma, javed.absar
+    
+    Reviewed By: nickdesaulniers
+    
+    Subscribers: kristof.beyls, jfb, llvm-commits
+    
+    Differential Revision: https://reviews.llvm.org/D52216
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@342824 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Target/AArch64/AArch64.td b/lib/Target/AArch64/AArch64.td
+index 3931cd51fe9..b9a3f751ec2 100644
+--- a/lib/Target/AArch64/AArch64.td
++++ b/lib/Target/AArch64/AArch64.td
+@@ -104,6 +104,10 @@ foreach i = {1-7,18,20} in
+                                              "Reserve X"#i#", making it unavailable "
+                                              "as a GPR">;
+ 
++foreach i = {8-15,18} in
++    def FeatureCallSavedX#i : SubtargetFeature<"call-saved-x"#i,
++         "CustomCallSavedXRegs["#i#"]", "true", "Make X"#i#" callee saved.">;
++
+ def FeatureUseAA : SubtargetFeature<"use-aa", "UseAA", "true",
+                                     "Use alias analysis during codegen">;
+ 
+diff --git a/lib/Target/AArch64/AArch64CallLowering.cpp b/lib/Target/AArch64/AArch64CallLowering.cpp
+index b9438036322..5980e5684e8 100644
+--- a/lib/Target/AArch64/AArch64CallLowering.cpp
++++ b/lib/Target/AArch64/AArch64CallLowering.cpp
+@@ -337,6 +337,10 @@ bool AArch64CallLowering::lowerFormalArguments(MachineIRBuilder &MIRBuilder,
+     FuncInfo->setVarArgsStackIndex(MFI.CreateFixedObject(4, StackOffset, true));
+   }
+ 
++  auto &Subtarget = MF.getSubtarget<AArch64Subtarget>();
++  if (Subtarget.hasCustomCallingConv())
++    Subtarget.getRegisterInfo()->UpdateCustomCalleeSavedRegs(MF);
++
+   // Move back to the end of the basic block.
+   MIRBuilder.setMBB(MBB);
+ 
+@@ -378,7 +382,10 @@ bool AArch64CallLowering::lowerCall(MachineIRBuilder &MIRBuilder,
+ 
+   // Tell the call which registers are clobbered.
+   auto TRI = MF.getSubtarget<AArch64Subtarget>().getRegisterInfo();
+-  MIB.addRegMask(TRI->getCallPreservedMask(MF, F.getCallingConv()));
++  const uint32_t *Mask = TRI->getCallPreservedMask(MF, F.getCallingConv());
++  if (MF.getSubtarget<AArch64Subtarget>().hasCustomCallingConv())
++    TRI->UpdateCustomCallPreservedMask(MF, &Mask);
++  MIB.addRegMask(Mask);
+ 
+   if (TRI->isAnyArgRegReserved(MF))
+     TRI->emitReservedArgRegCallError(MF);
+diff --git a/lib/Target/AArch64/AArch64FastISel.cpp b/lib/Target/AArch64/AArch64FastISel.cpp
+index e9e68ac1621..5e4c5dcf09c 100644
+--- a/lib/Target/AArch64/AArch64FastISel.cpp
++++ b/lib/Target/AArch64/AArch64FastISel.cpp
+@@ -2918,6 +2918,9 @@ bool AArch64FastISel::fastLowerArguments() {
+   if (CC != CallingConv::C && CC != CallingConv::Swift)
+     return false;
+ 
++  if (Subtarget->hasCustomCallingConv())
++    return false;
++
+   // Only handle simple cases of up to 8 GPR and FPR each.
+   unsigned GPRCnt = 0;
+   unsigned FPRCnt = 0;
+diff --git a/lib/Target/AArch64/AArch64FrameLowering.cpp b/lib/Target/AArch64/AArch64FrameLowering.cpp
+index 40efcbe5278..f2d7ea9ba3e 100644
+--- a/lib/Target/AArch64/AArch64FrameLowering.cpp
++++ b/lib/Target/AArch64/AArch64FrameLowering.cpp
+@@ -356,7 +356,7 @@ static unsigned findScratchNonCalleeSaveRegister(MachineBasicBlock *MBB) {
+   LiveRegs.addLiveIns(*MBB);
+ 
+   // Mark callee saved registers as used so we will not choose them.
+-  const MCPhysReg *CSRegs = TRI.getCalleeSavedRegs(MF);
++  const MCPhysReg *CSRegs = MF->getRegInfo().getCalleeSavedRegs();
+   for (unsigned i = 0; CSRegs[i]; ++i)
+     LiveRegs.addReg(CSRegs[i]);
+ 
+@@ -1541,7 +1541,7 @@ void AArch64FrameLowering::determineCalleeSaves(MachineFunction &MF,
+   unsigned UnspilledCSGPRPaired = AArch64::NoRegister;
+ 
+   MachineFrameInfo &MFI = MF.getFrameInfo();
+-  const MCPhysReg *CSRegs = RegInfo->getCalleeSavedRegs(&MF);
++  const MCPhysReg *CSRegs = MF.getRegInfo().getCalleeSavedRegs();
+ 
+   unsigned BasePointerReg = RegInfo->hasBasePointer(MF)
+                                 ? RegInfo->getBaseRegister()
+diff --git a/lib/Target/AArch64/AArch64ISelLowering.cpp b/lib/Target/AArch64/AArch64ISelLowering.cpp
+index 4d114b000cd..3282d951033 100644
+--- a/lib/Target/AArch64/AArch64ISelLowering.cpp
++++ b/lib/Target/AArch64/AArch64ISelLowering.cpp
+@@ -3106,6 +3106,9 @@ SDValue AArch64TargetLowering::LowerFormalArguments(
+   // much is there while considering tail calls (because we can reuse it).
+   FuncInfo->setBytesInStackArgArea(StackArgSize);
+ 
++  if (Subtarget->hasCustomCallingConv())
++    Subtarget->getRegisterInfo()->UpdateCustomCalleeSavedRegs(MF);
++
+   return Chain;
+ }
+ 
+@@ -3336,6 +3339,10 @@ bool AArch64TargetLowering::isEligibleForTailCallOptimization(
+   const uint32_t *CallerPreserved = TRI->getCallPreservedMask(MF, CallerCC);
+   if (!CCMatch) {
+     const uint32_t *CalleePreserved = TRI->getCallPreservedMask(MF, CalleeCC);
++    if (Subtarget->hasCustomCallingConv()) {
++      TRI->UpdateCustomCallPreservedMask(MF, &CallerPreserved);
++      TRI->UpdateCustomCallPreservedMask(MF, &CalleePreserved);
++    }
+     if (!TRI->regmaskSubsetEqual(CallerPreserved, CalleePreserved))
+       return false;
+   }
+@@ -3729,6 +3736,9 @@ AArch64TargetLowering::LowerCall(CallLoweringInfo &CLI,
+   } else
+     Mask = TRI->getCallPreservedMask(MF, CallConv);
+ 
++  if (Subtarget->hasCustomCallingConv())
++    TRI->UpdateCustomCallPreservedMask(MF, &Mask);
++
+   if (TRI->isAnyArgRegReserved(MF))
+     TRI->emitReservedArgRegCallError(MF);
+ 
+@@ -4021,8 +4031,10 @@ AArch64TargetLowering::LowerDarwinGlobalTLSAddress(SDValue Op,
+   // TLS calls preserve all registers except those that absolutely must be
+   // trashed: X0 (it takes an argument), LR (it's a call) and NZCV (let's not be
+   // silly).
+-  const uint32_t *Mask =
+-      Subtarget->getRegisterInfo()->getTLSCallPreservedMask();
++  const AArch64RegisterInfo *TRI = Subtarget->getRegisterInfo();
++  const uint32_t *Mask = TRI->getTLSCallPreservedMask();
++  if (Subtarget->hasCustomCallingConv())
++    TRI->UpdateCustomCallPreservedMask(DAG.getMachineFunction(), &Mask);
+ 
+   // Finally, we can make the call. This is just a degenerate version of a
+   // normal AArch64 call node: x0 takes the address of the descriptor, and
+@@ -7745,8 +7757,10 @@ SDValue AArch64TargetLowering::LowerWindowsDYNAMIC_STACKALLOC(
+   EVT PtrVT = getPointerTy(DAG.getDataLayout());
+   SDValue Callee = DAG.getTargetExternalSymbol("__chkstk", PtrVT, 0);
+ 
+-  const uint32_t *Mask =
+-      Subtarget->getRegisterInfo()->getWindowsStackProbePreservedMask();
++  const AArch64RegisterInfo *TRI = Subtarget->getRegisterInfo();
++  const uint32_t *Mask = TRI->getWindowsStackProbePreservedMask();
++  if (Subtarget->hasCustomCallingConv())
++    TRI->UpdateCustomCallPreservedMask(DAG.getMachineFunction(), &Mask);
+ 
+   Size = DAG.getNode(ISD::SRL, dl, MVT::i64, Size,
+                      DAG.getConstant(4, dl, MVT::i64));
+diff --git a/lib/Target/AArch64/AArch64RegisterInfo.cpp b/lib/Target/AArch64/AArch64RegisterInfo.cpp
+index fdadcefc1f1..73fb726effb 100644
+--- a/lib/Target/AArch64/AArch64RegisterInfo.cpp
++++ b/lib/Target/AArch64/AArch64RegisterInfo.cpp
+@@ -75,6 +75,23 @@ const MCPhysReg *AArch64RegisterInfo::getCalleeSavedRegsViaCopy(
+   return nullptr;
+ }
+ 
++void AArch64RegisterInfo::UpdateCustomCalleeSavedRegs(
++    MachineFunction &MF) const {
++  const MCPhysReg *CSRs = getCalleeSavedRegs(&MF);
++  SmallVector<MCPhysReg, 32> UpdatedCSRs;
++  for (const MCPhysReg *I = CSRs; *I; ++I)
++    UpdatedCSRs.push_back(*I);
++
++  for (size_t i = 0; i < AArch64::GPR64commonRegClass.getNumRegs(); ++i) {
++    if (MF.getSubtarget<AArch64Subtarget>().isXRegCustomCalleeSaved(i)) {
++      UpdatedCSRs.push_back(AArch64::GPR64commonRegClass.getRegister(i));
++    }
++  }
++  // Register lists are zero-terminated.
++  UpdatedCSRs.push_back(0);
++  MF.getRegInfo().setCalleeSavedRegs(UpdatedCSRs);
++}
++
+ const TargetRegisterClass *
+ AArch64RegisterInfo::getSubClassWithSubReg(const TargetRegisterClass *RC,
+                                        unsigned Idx) const {
+@@ -122,6 +139,26 @@ const uint32_t *AArch64RegisterInfo::getTLSCallPreservedMask() const {
+   return CSR_AArch64_TLS_ELF_RegMask;
+ }
+ 
++void AArch64RegisterInfo::UpdateCustomCallPreservedMask(MachineFunction &MF,
++                                                 const uint32_t **Mask) const {
++  uint32_t *UpdatedMask = MF.allocateRegMask();
++  unsigned RegMaskSize = MachineOperand::getRegMaskSize(getNumRegs());
++  memcpy(UpdatedMask, *Mask, sizeof(Mask[0]) * RegMaskSize);
++
++  for (size_t i = 0; i < AArch64::GPR64commonRegClass.getNumRegs(); ++i) {
++    if (MF.getSubtarget<AArch64Subtarget>().isXRegCustomCalleeSaved(i)) {
++      for (MCSubRegIterator SubReg(AArch64::GPR64commonRegClass.getRegister(i),
++                                   this, true);
++           SubReg.isValid(); ++SubReg) {
++        // See TargetRegisterInfo::getCallPreservedMask for how to interpret the
++        // register mask.
++        UpdatedMask[*SubReg / 32] |= 1u << (*SubReg % 32);
++      }
++    }
++  }
++  *Mask = UpdatedMask;
++}
++
+ const uint32_t *
+ AArch64RegisterInfo::getThisReturnPreservedMask(const MachineFunction &MF,
+                                                 CallingConv::ID CC) const {
+diff --git a/lib/Target/AArch64/AArch64RegisterInfo.h b/lib/Target/AArch64/AArch64RegisterInfo.h
+index 261f20629b9..93f625c70b5 100644
+--- a/lib/Target/AArch64/AArch64RegisterInfo.h
++++ b/lib/Target/AArch64/AArch64RegisterInfo.h
+@@ -34,6 +34,10 @@ public:
+   bool isAnyArgRegReserved(const MachineFunction &MF) const;
+   void emitReservedArgRegCallError(const MachineFunction &MF) const;
+ 
++  void UpdateCustomCalleeSavedRegs(MachineFunction &MF) const;
++  void UpdateCustomCallPreservedMask(MachineFunction &MF,
++                                     const uint32_t **Mask) const;
++
+   /// Code Generation virtual methods...
+   const MCPhysReg *getCalleeSavedRegs(const MachineFunction *MF) const override;
+   const MCPhysReg *
+diff --git a/lib/Target/AArch64/AArch64Subtarget.cpp b/lib/Target/AArch64/AArch64Subtarget.cpp
+index 38491e3bb82..c181f4016b6 100644
+--- a/lib/Target/AArch64/AArch64Subtarget.cpp
++++ b/lib/Target/AArch64/AArch64Subtarget.cpp
+@@ -153,6 +153,7 @@ AArch64Subtarget::AArch64Subtarget(const Triple &TT, const std::string &CPU,
+                                    const TargetMachine &TM, bool LittleEndian)
+     : AArch64GenSubtargetInfo(TT, CPU, FS),
+       ReserveXRegister(AArch64::GPR64commonRegClass.getNumRegs()),
++      CustomCallSavedXRegs(AArch64::GPR64commonRegClass.getNumRegs()),
+       IsLittle(LittleEndian),
+       TargetTriple(TT), FrameLowering(),
+       InstrInfo(initializeSubtargetDependencies(FS, CPU)), TSInfo(),
+diff --git a/lib/Target/AArch64/AArch64Subtarget.h b/lib/Target/AArch64/AArch64Subtarget.h
+index 6086723858c..dbbcd0dd17c 100644
+--- a/lib/Target/AArch64/AArch64Subtarget.h
++++ b/lib/Target/AArch64/AArch64Subtarget.h
+@@ -142,6 +142,9 @@ protected:
+   // ReserveXRegister[i] - X#i is not available as a general purpose register.
+   BitVector ReserveXRegister;
+ 
++  // CustomCallUsedXRegister[i] - X#i call saved.
++  BitVector CustomCallSavedXRegs;
++
+   bool IsLittle;
+ 
+   /// TargetTriple - What processor and OS we're targeting.
+@@ -229,6 +232,10 @@ public:
+ 
+   bool isXRegisterReserved(size_t i) const { return ReserveXRegister[i]; }
+   unsigned getNumXRegisterReserved() const { return ReserveXRegister.count(); }
++  bool isXRegCustomCalleeSaved(size_t i) const {
++    return CustomCallSavedXRegs[i];
++  }
++  bool hasCustomCallingConv() const { return CustomCallSavedXRegs.any(); }
+   bool hasFPARMv8() const { return HasFPARMv8; }
+   bool hasNEON() const { return HasNEON; }
+   bool hasCrypto() const { return HasCrypto; }
+diff --git a/test/CodeGen/AArch64/arm64-custom-call-saved-reg.ll b/test/CodeGen/AArch64/arm64-custom-call-saved-reg.ll
+new file mode 100644
+index 00000000000..a8c0f27152a
+--- /dev/null
++++ b/test/CodeGen/AArch64/arm64-custom-call-saved-reg.ll
+@@ -0,0 +1,141 @@
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+call-saved-x8 -o - %s \
++; RUN: | FileCheck %s --check-prefix=CHECK-SAVED-X8
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+call-saved-x9 -o - %s \
++; RUN: | FileCheck %s --check-prefix=CHECK-SAVED-X9
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+call-saved-x10 -o - %s \
++; RUN: | FileCheck %s --check-prefix=CHECK-SAVED-X10
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+call-saved-x11 -o - %s \
++; RUN: | FileCheck %s --check-prefix=CHECK-SAVED-X11
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+call-saved-x12 -o - %s \
++; RUN: | FileCheck %s --check-prefix=CHECK-SAVED-X12
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+call-saved-x13 -o - %s \
++; RUN: | FileCheck %s --check-prefix=CHECK-SAVED-X13
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+call-saved-x14 -o - %s \
++; RUN: | FileCheck %s --check-prefix=CHECK-SAVED-X14
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+call-saved-x15 -o - %s \
++; RUN: | FileCheck %s --check-prefix=CHECK-SAVED-X15
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+call-saved-x18 -o - %s \
++; RUN: | FileCheck %s --check-prefix=CHECK-SAVED-X18
++
++; Test all call-saved-x# options together.
++; RUN: llc -mtriple=arm64-linux-gnu \
++; RUN: -mattr=+call-saved-x8 \
++; RUN: -mattr=+call-saved-x9 \
++; RUN: -mattr=+call-saved-x10 \
++; RUN: -mattr=+call-saved-x11 \
++; RUN: -mattr=+call-saved-x12 \
++; RUN: -mattr=+call-saved-x13 \
++; RUN: -mattr=+call-saved-x14 \
++; RUN: -mattr=+call-saved-x15 \
++; RUN: -mattr=+call-saved-x18 \
++; RUN: -o - %s | FileCheck %s \
++; RUN: --check-prefix=CHECK-SAVED-ALL
++
++; Test GlobalISel.
++; RUN: llc -mtriple=arm64-linux-gnu \
++; RUN: -mattr=+call-saved-x8 \
++; RUN: -mattr=+call-saved-x9 \
++; RUN: -mattr=+call-saved-x10 \
++; RUN: -mattr=+call-saved-x11 \
++; RUN: -mattr=+call-saved-x12 \
++; RUN: -mattr=+call-saved-x13 \
++; RUN: -mattr=+call-saved-x14 \
++; RUN: -mattr=+call-saved-x15 \
++; RUN: -mattr=+call-saved-x18 \
++; RUN: -global-isel \
++; RUN: -o - %s | FileCheck %s \
++; RUN: --check-prefix=CHECK-SAVED-ALL
++
++; Used to exhaust the supply of GPRs.
++@var = global [30 x i64] zeroinitializer
++
++; Check that callee preserves additional CSRs.
++define void @callee() {
++; CHECK-LABEL: callee
++
++; CHECK-SAVED-X8: str x8, [sp
++; CHECK-SAVED-X9: str x9, [sp
++; CHECK-SAVED-X10: str x10, [sp
++; CHECK-SAVED-X11: str x11, [sp
++; CHECK-SAVED-X12: str x12, [sp
++; CHECK-SAVED-X13: str x13, [sp
++; CHECK-SAVED-X14: str x14, [sp
++; CHECK-SAVED-X15: str x15, [sp
++; CHECK-SAVED-X18: str x18, [sp
++
++; CHECK-SAVED-ALL: str x18, [sp
++; CHECK-SAVED-ALL-NEXT: stp x15, x14, [sp
++; CHECK-SAVED-ALL-NEXT: stp x13, x12, [sp
++; CHECK-SAVED-ALL-NEXT: stp x11, x10, [sp
++; CHECK-SAVED-ALL-NEXT: stp x9, x8, [sp
++
++  %val = load volatile [30 x i64], [30 x i64]* @var
++  store volatile [30 x i64] %val, [30 x i64]* @var
++
++; CHECK-SAVED-ALL: ldp x9, x8, [sp
++; CHECK-SAVED-ALL-NEXT: ldp x11, x10, [sp
++; CHECK-SAVED-ALL-NEXT: ldp x13, x12, [sp
++; CHECK-SAVED-ALL-NEXT: ldp x15, x14, [sp
++; CHECK-SAVED-ALL-NEXT: ldr x18, [sp
++
++; CHECK-SAVED-X8: ldr x8, [sp
++; CHECK-SAVED-X9: ldr x9, [sp
++; CHECK-SAVED-X10: ldr x10, [sp
++; CHECK-SAVED-X11: ldr x11, [sp
++; CHECK-SAVED-X12: ldr x12, [sp
++; CHECK-SAVED-X13: ldr x13, [sp
++; CHECK-SAVED-X14: ldr x14, [sp
++; CHECK-SAVED-X15: ldr x15, [sp
++; CHECK-SAVED-X18: ldr x18, [sp
++
++  ret void
++}
++
++; Check that caller doesn't shy away from allocating additional CSRs.
++define void @caller() {
++; CHECK-LABEL: caller
++
++  %val = load volatile [30 x i64], [30 x i64]* @var
++; CHECK-SAVED-X8: adrp x8, var
++; CHECK-SAVED-X9: adrp x9, var
++; CHECK-SAVED-X10: adrp x10, var
++; CHECK-SAVED-X11: adrp x11, var
++; CHECK-SAVED-X12: adrp x12, var
++; CHECK-SAVED-X13: adrp x13, var
++; CHECK-SAVED-X14: adrp x14, var
++; CHECK-SAVED-X15: adrp x15, var
++; CHECK-SAVED-X18: adrp x18, var
++
++; CHECK-SAVED-ALL: adrp x8, var
++; CHECK-SAVED-ALL-DAG: ldr x9
++; CHECK-SAVED-ALL-DAG: ldr x10
++; CHECK-SAVED-ALL-DAG: ldr x11
++; CHECK-SAVED-ALL-DAG: ldr x12
++; CHECK-SAVED-ALL-DAG: ldr x13
++; CHECK-SAVED-ALL-DAG: ldr x14
++; CHECK-SAVED-ALL-DAG: ldr x15
++; CHECK-SAVED-ALL-DAG: ldr x18
++
++  call void @callee()
++; CHECK: bl callee
++
++  store volatile [30 x i64] %val, [30 x i64]* @var
++; CHECK-SAVED-ALL-DAG: str x9
++; CHECK-SAVED-ALL-DAG: str x10
++; CHECK-SAVED-ALL-DAG: str x11
++; CHECK-SAVED-ALL-DAG: str x12
++; CHECK-SAVED-ALL-DAG: str x13
++; CHECK-SAVED-ALL-DAG: str x14
++; CHECK-SAVED-ALL-DAG: str x15
++; CHECK-SAVED-ALL-DAG: str x18
++
++  ret void
++}
+diff --git a/test/CodeGen/AArch64/arm64-reserve-call-saved-reg.ll b/test/CodeGen/AArch64/arm64-reserve-call-saved-reg.ll
+new file mode 100644
+index 00000000000..050e3033fcb
+--- /dev/null
++++ b/test/CodeGen/AArch64/arm64-reserve-call-saved-reg.ll
+@@ -0,0 +1,28 @@
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x18 -mattr=+call-saved-x18 \
++; RUN: -o - %s | FileCheck %s
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x18 -mattr=+call-saved-x18 \
++; RUN: -global-isel \
++; RUN: -o - %s | FileCheck %s
++
++; RUN: llc -mtriple=arm64-linux-gnu -mattr=+reserve-x18 -mattr=+call-saved-x18 \
++; RUN: -fast-isel \
++; RUN: -o - %s | FileCheck %s
++
++; Used to exhaust the supply of GPRs.
++@var = global [30 x i64] zeroinitializer
++
++; If a register is specified to be both reserved and callee-saved, then it
++; should not be allocated and should not be spilled onto the stack.
++define void @foo() {
++; CHECK-NOT: str x18, [sp
++
++  %val = load volatile [30 x i64], [30 x i64]* @var
++  store volatile [30 x i64] %val, [30 x i64]* @var
++
++; CHECK-NOT: ldr x18
++; CHECK-NOT: str x18
++
++; CHECK-NOT: ldr x18, [sp
++  ret void
++}

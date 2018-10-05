@@ -187,6 +187,7 @@ pick_cherries() {
 	local CHERRIES=""
 	CHERRIES+=" 24c973171788bbd2699e267a69aad6e24f26ac24" # r340101
 	CHERRIES+=" ca6d65812f8d6ba6093d0ea0d0bfd9cac518789d" # r342100
+	CHERRIES+=" 260dbbf3855227c827be14b15cac86126f1d22fe" # r342990
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -202,6 +203,7 @@ pick_cherries() {
 	CHERRIES+=" b9c9629e618b883df7f03dc92f0d23eeca38693f" # r341512
 	CHERRIES+=" 42eb082d63383b17c395e033e0095076efe4cb5e" # r341593
 	CHERRIES+=" 906fd9ab476d0fa9e221bec32009eac3f3af5c60" # r341706
+	CHERRIES+=" 75dc9f32d0b4f441d2e1b980445e9b7d2d74505c" # r342824
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -223,6 +225,7 @@ pick_next_cherries() {
 	local CHERRIES=""
 	CHERRIES+=" 24c973171788bbd2699e267a69aad6e24f26ac24" # r340101
 	CHERRIES+=" ca6d65812f8d6ba6093d0ea0d0bfd9cac518789d" # r342100
+	CHERRIES+=" 260dbbf3855227c827be14b15cac86126f1d22fe" # r342990
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -238,6 +241,7 @@ pick_next_cherries() {
 	CHERRIES+=" b9c9629e618b883df7f03dc92f0d23eeca38693f" # r341512
 	CHERRIES+=" 42eb082d63383b17c395e033e0095076efe4cb5e" # r341593
 	CHERRIES+=" 906fd9ab476d0fa9e221bec32009eac3f3af5c60" # r341706
+	CHERRIES+=" 75dc9f32d0b4f441d2e1b980445e9b7d2d74505c" # r342824
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"

@@ -1,0 +1,198 @@
+commit 260dbbf3855227c827be14b15cac86126f1d22fe
+Author: Tri Vo <trong@android.com>
+Date:   Tue Sep 25 16:48:40 2018 +0000
+
+    [AArch64] Support adding X[8-15,18] registers as CSRs.
+    
+    Summary:
+    Making X[8-15,18] registers call-saved is used to support
+    CONFIG_ARM64_LSE_ATOMICS in Linux kernel.
+    
+    Signed-off-by: Tri Vo <trong@android.com>
+    
+    Reviewers: srhines, nickdesaulniers, javed.absar
+    
+    Reviewed By: nickdesaulniers
+    
+    Subscribers: kristof.beyls, jfb, cfe-commits
+    
+    Differential Revision: https://reviews.llvm.org/D52399
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/cfe/trunk@342990 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/docs/ClangCommandLineReference.rst b/docs/ClangCommandLineReference.rst
+index 2ba544b06b..d14dfc75cd 100644
+--- a/docs/ClangCommandLineReference.rst
++++ b/docs/ClangCommandLineReference.rst
+@@ -2334,6 +2334,42 @@ Reserve the x18 register (AArch64 only)
+ 
+ Reserve the x20 register (AArch64 only)
+ 
++.. option:: -fcall-saved-x8
++
++Make the x8 register call-saved (AArch64 only)
++
++.. option:: -fcall-saved-x9
++
++Make the x9 register call-saved (AArch64 only)
++
++.. option:: -fcall-saved-x10
++
++Make the x10 register call-saved (AArch64 only)
++
++.. option:: -fcall-saved-x11
++
++Make the x11 register call-saved (AArch64 only)
++
++.. option:: -fcall-saved-x12
++
++Make the x12 register call-saved (AArch64 only)
++
++.. option:: -fcall-saved-x13
++
++Make the x13 register call-saved (AArch64 only)
++
++.. option:: -fcall-saved-x14
++
++Make the x14 register call-saved (AArch64 only)
++
++.. option:: -fcall-saved-x15
++
++Make the x15 register call-saved (AArch64 only)
++
++.. option:: -fcall-saved-x18
++
++Make the x18 register call-saved (AArch64 only)
++
+ .. option:: -mfix-cortex-a53-835769, -mno-fix-cortex-a53-835769
+ 
+ Workaround Cortex-A53 erratum 835769 (AArch64 only)
+diff --git a/include/clang/Driver/Options.td b/include/clang/Driver/Options.td
+index bdbc16717a..cf81643425 100644
+--- a/include/clang/Driver/Options.td
++++ b/include/clang/Driver/Options.td
+@@ -2029,6 +2029,10 @@ foreach i = {1-7,18,20} in
+   def ffixed_x#i : Flag<["-"], "ffixed-x"#i>, Group<m_aarch64_Features_Group>,
+     HelpText<"Reserve the "#i#" register (AArch64 only)">;
+ 
++foreach i = {8-15,18} in
++  def fcall_saved_x#i : Flag<["-"], "fcall-saved-x"#i>, Group<m_aarch64_Features_Group>,
++    HelpText<"Make the x"#i#" register call-saved (AArch64 only)">;
++
+ def msimd128 : Flag<["-"], "msimd128">, Group<m_wasm_Features_Group>;
+ def mno_simd128 : Flag<["-"], "mno-simd128">, Group<m_wasm_Features_Group>;
+ def mnontrapping_fptoint : Flag<["-"], "mnontrapping-fptoint">, Group<m_wasm_Features_Group>;
+--- a/lib/Driver/ToolChains/Arch/AArch64.cpp
++++ b/lib/Driver/ToolChains/Arch/AArch64.cpp
+@@ -251,6 +251,33 @@ fp16_fml_fallthrough:
+   if (Args.hasArg(options::OPT_ffixed_x20))
+     Features.push_back("+reserve-x20");
+ 
++  if (Args.hasArg(options::OPT_fcall_saved_x8))
++    Features.push_back("+call-saved-x8");
++
++  if (Args.hasArg(options::OPT_fcall_saved_x9))
++    Features.push_back("+call-saved-x9");
++
++  if (Args.hasArg(options::OPT_fcall_saved_x10))
++    Features.push_back("+call-saved-x10");
++
++  if (Args.hasArg(options::OPT_fcall_saved_x11))
++    Features.push_back("+call-saved-x11");
++
++  if (Args.hasArg(options::OPT_fcall_saved_x12))
++    Features.push_back("+call-saved-x12");
++
++  if (Args.hasArg(options::OPT_fcall_saved_x13))
++    Features.push_back("+call-saved-x13");
++
++  if (Args.hasArg(options::OPT_fcall_saved_x14))
++    Features.push_back("+call-saved-x14");
++
++  if (Args.hasArg(options::OPT_fcall_saved_x15))
++    Features.push_back("+call-saved-x15");
++
++  if (Args.hasArg(options::OPT_fcall_saved_x18))
++    Features.push_back("+call-saved-x18");
++
+   if (Args.hasArg(options::OPT_mno_neg_immediates))
+     Features.push_back("+no-neg-immediates");
+ }
+diff --git a/test/Driver/aarch64-call-saved-x-register.c b/test/Driver/aarch64-call-saved-x-register.c
+new file mode 100644
+index 0000000000..6a3ee63225
+--- /dev/null
++++ b/test/Driver/aarch64-call-saved-x-register.c
+@@ -0,0 +1,58 @@
++// RUN: %clang -target aarch64-none-gnu -fcall-saved-x8 -### %s  2>&1  \
++// RUN: | FileCheck --check-prefix=CHECK-CALL-SAVED-X8 %s
++
++// RUN: %clang -target aarch64-none-gnu -fcall-saved-x9 -### %s  2>&1  \
++// RUN: | FileCheck --check-prefix=CHECK-CALL-SAVED-X9 %s
++
++// RUN: %clang -target aarch64-none-gnu -fcall-saved-x10 -### %s  2>&1  \
++// RUN: | FileCheck --check-prefix=CHECK-CALL-SAVED-X10 %s
++
++// RUN: %clang -target aarch64-none-gnu -fcall-saved-x11 -### %s  2>&1  \
++// RUN: | FileCheck --check-prefix=CHECK-CALL-SAVED-X11 %s
++
++// RUN: %clang -target aarch64-none-gnu -fcall-saved-x12 -### %s  2>&1  \
++// RUN: | FileCheck --check-prefix=CHECK-CALL-SAVED-X12 %s
++
++// RUN: %clang -target aarch64-none-gnu -fcall-saved-x13 -### %s  2>&1  \
++// RUN: | FileCheck --check-prefix=CHECK-CALL-SAVED-X13 %s
++
++// RUN: %clang -target aarch64-none-gnu -fcall-saved-x14 -### %s  2>&1  \
++// RUN: | FileCheck --check-prefix=CHECK-CALL-SAVED-X14 %s
++
++// RUN: %clang -target aarch64-none-gnu -fcall-saved-x15 -### %s  2>&1  \
++// RUN: | FileCheck --check-prefix=CHECK-CALL-SAVED-X15 %s
++
++// RUN: %clang -target aarch64-none-gnu -fcall-saved-x18 -### %s  2>&1  \
++// RUN: | FileCheck --check-prefix=CHECK-CALL-SAVED-X18 %s
++
++// Test all call-saved-x# options together.
++// RUN: %clang -target aarch64-none-gnu \
++// RUN: -fcall-saved-x8 \
++// RUN: -fcall-saved-x9 \
++// RUN: -fcall-saved-x10 \
++// RUN: -fcall-saved-x11 \
++// RUN: -fcall-saved-x12 \
++// RUN: -fcall-saved-x13 \
++// RUN: -fcall-saved-x14 \
++// RUN: -fcall-saved-x15 \
++// RUN: -fcall-saved-x18 \
++// RUN: -### %s  2>&1 | FileCheck %s \
++// RUN: --check-prefix=CHECK-CALL-SAVED-X8 \
++// RUN: --check-prefix=CHECK-CALL-SAVED-X9 \
++// RUN: --check-prefix=CHECK-CALL-SAVED-X10 \
++// RUN: --check-prefix=CHECK-CALL-SAVED-X11 \
++// RUN: --check-prefix=CHECK-CALL-SAVED-X12 \
++// RUN: --check-prefix=CHECK-CALL-SAVED-X13 \
++// RUN: --check-prefix=CHECK-CALL-SAVED-X14 \
++// RUN: --check-prefix=CHECK-CALL-SAVED-X15 \
++// RUN: --check-prefix=CHECK-CALL-SAVED-X18
++
++// CHECK-CALL-SAVED-X8: "-target-feature" "+call-saved-x8"
++// CHECK-CALL-SAVED-X9: "-target-feature" "+call-saved-x9"
++// CHECK-CALL-SAVED-X10: "-target-feature" "+call-saved-x10"
++// CHECK-CALL-SAVED-X11: "-target-feature" "+call-saved-x11"
++// CHECK-CALL-SAVED-X12: "-target-feature" "+call-saved-x12"
++// CHECK-CALL-SAVED-X13: "-target-feature" "+call-saved-x13"
++// CHECK-CALL-SAVED-X14: "-target-feature" "+call-saved-x14"
++// CHECK-CALL-SAVED-X15: "-target-feature" "+call-saved-x15"
++// CHECK-CALL-SAVED-X18: "-target-feature" "+call-saved-x18"
+diff --git a/test/Driver/aarch64-fixed-call-saved-x-register.c b/test/Driver/aarch64-fixed-call-saved-x-register.c
+new file mode 100644
+index 0000000000..aa781fda91
+--- /dev/null
++++ b/test/Driver/aarch64-fixed-call-saved-x-register.c
+@@ -0,0 +1,8 @@
++// Check that -ffixed and -fcall-saved flags work correctly together.
++// RUN: %clang -target aarch64-none-gnu \
++// RUN: -ffixed-x18 \
++// RUN: -fcall-saved-x18 \
++// RUN: -### %s  2>&1 | FileCheck %s
++
++// CHECK: "-target-feature" "+reserve-x18"
++// CHECK: "-target-feature" "+call-saved-x18"
