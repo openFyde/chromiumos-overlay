@@ -1,7 +1,9 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+
+WANT_AUTOMAKE="1.15"
 
 inherit autotools bash-completion-r1 linux-info flag-o-matic systemd readme.gentoo-r1 pam
 
@@ -13,7 +15,7 @@ KEYWORDS="*"
 
 LICENSE="LGPL-3"
 SLOT="0"
-IUSE="doc etcconfigdir examples pam python seccomp selinux -templates"
+IUSE="apparmor doc etcconfigdir examples pam python seccomp selinux -templates"
 
 RDEPEND="
 	net-libs/gnutls
@@ -28,7 +30,6 @@ DEPEND="${RDEPEND}
 
 RDEPEND="${RDEPEND}
 	sys-apps/util-linux
-	sys-process/criu[selinux=]
 	app-misc/pax-utils
 	virtual/awk"
 
@@ -56,6 +57,7 @@ CONFIG_CHECK="~CGROUPS ~CGROUP_DEVICE
 	~!GRKERNSEC_CHROOT_CAPS
 	~!GRKERNSEC_PROC
 	~!GRKERNSEC_SYSFS_RESTRICT
+	~!GRKERNSEC_CHROOT_FINDTASK
 "
 
 ERROR_DEVPTS_MULTIPLE_INSTANCES="CONFIG_DEVPTS_MULTIPLE_INSTANCES:  needed for pts inside container"
@@ -90,14 +92,11 @@ pkg_setup() {
 	linux-info_pkg_setup
 }
 
-src_prepare() {
-	eapply "${FILESDIR}"/${PN}-3.0.0-bash-completion.patch
-	#558854
-	eapply "${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch
-	eapply "${FILESDIR}"/${PN}-3.0.1-attach-shutdown.patch
-	eapply_user
-	eautoreconf
-}
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.0.0-bash-completion.patch
+	"${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch # bug 558854
+	"${FILESDIR}"/${PN}-3.0.2-attach-shutdown.patch # crbug.com/884244
+)
 
 src_configure() {
 	if use etcconfigdir ; then
@@ -106,27 +105,27 @@ src_configure() {
 	fi
 	append-flags -fno-strict-aliasing
 
-	# I am not sure about the --with-rootfs-path
-	# /var/lib/lxc is probably more appropriate than
-	# /usr/lib/lxc.
-	# Note by holgersson: Why is apparmor disabled?
-
-	econf \
-		--localstatedir="${LXC_STATEDIR_PATH}" \
-		--bindir=/usr/bin \
-		--sbindir=/usr/bin \
-		--with-config-path="${LXC_CONFIG_PATH}" \
-		--with-rootfs-path="${LXC_CONFIG_PATH}"/rootfs \
-		--with-distro=gentoo \
-		--with-runtime-path=/run \
-		--disable-apparmor \
-		--disable-werror \
-		$(use_enable doc) \
-		$(use_enable examples) \
-		$(use_enable pam) \
-		$(use_with pam pamdir $(getpam_mod_dir)) \
-		$(use_enable seccomp) \
+	# --enable-doc is for manpages which is why we don't link it to a "doc"
+	# USE flag. We always want man pages.
+	local myeconfargs=(
+		--localstatedir="${LXC_STATEDIR_PATH}"
+		--bindir=/usr/bin
+		--sbindir=/usr/bin
+		--with-config-path="${LXC_CONFIG_PATH}"
+		--with-rootfs-path="${LXC_CONFIG_PATH}"/rootfs
+		--with-distro=gentoo
+		--with-runtime-path=/run
+		--disable-apparmor
+		--disable-werror
+		$(use_enable doc)
+		$(use_enable apparmor)
+		$(use_enable examples)
+		$(use_enable pam)
+		$(use_with pam pamdir $(getpam_mod_dir))
+		$(use_enable seccomp)
 		$(use_enable selinux)
+	)
+	econf "${myeconfargs[@]}"
 }
 
 src_install() {

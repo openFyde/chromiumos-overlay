@@ -1,4 +1,4 @@
-From 04af335792c8576fbb4f88302e32d9b324bc9fb9 Mon Sep 17 00:00:00 2001
+From 8cf8e2e32a7b92e5d730d3aeaa934352496a00f9 Mon Sep 17 00:00:00 2001
 From: Stephen Barber <smbarber@chromium.org>
 Date: Mon, 17 Sep 2018 17:31:22 -0700
 Subject: [PATCH] attach: don't shutdown ipc socket in child
@@ -14,14 +14,14 @@ Merged upstream with https://github.com/lxc/lxc/pull/2619
 
 Signed-off-by: Stephen Barber <smbarber@chromium.org>
 ---
- src/lxc/attach.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ src/lxc/attach.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/src/lxc/attach.c b/src/lxc/attach.c
-index b62dcecf..6fcaa5a5 100644
+index d4282f81..072918d3 100644
 --- a/src/lxc/attach.c
 +++ b/src/lxc/attach.c
-@@ -753,7 +753,6 @@ struct attach_clone_payload {
+@@ -728,7 +728,6 @@ struct attach_clone_payload {
  static void lxc_put_attach_clone_payload(struct attach_clone_payload *p)
  {
  	if (p->ipc_socket >= 0) {
@@ -29,15 +29,14 @@ index b62dcecf..6fcaa5a5 100644
  		close(p->ipc_socket);
  		p->ipc_socket = -EBADF;
  	}
-@@ -904,7 +903,7 @@ static int attach_child_main(struct attach_clone_payload *payload)
- 			goto on_error;
+@@ -906,7 +905,6 @@ static int attach_child_main(struct attach_clone_payload *payload)
  		TRACE("Loaded seccomp profile");
  	}
+ 
 -	shutdown(payload->ipc_socket, SHUT_RDWR);
-+
  	close(payload->ipc_socket);
  	payload->ipc_socket = -EBADF;
  	lxc_proc_put_context_info(init_ctx);
 -- 
-2.19.0.397.gdd90340f6a-goog
+2.19.0.605.g01d371f741-goog
 
