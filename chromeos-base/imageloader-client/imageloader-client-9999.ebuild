@@ -9,8 +9,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk imageloader .gn"
 
-PLATFORM_SUBDIR="imageloader"
-PLATFORM_GYP_FILE="imageloader-client.gyp"
+PLATFORM_SUBDIR="imageloader/client"
 
 inherit cros-workon platform
 
