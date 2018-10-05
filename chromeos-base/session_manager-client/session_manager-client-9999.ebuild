@@ -10,8 +10,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk login_manager .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="login_manager"
-PLATFORM_GYP_FILE="${PN}.gyp"
+PLATFORM_SUBDIR="login_manager/session_manager-client"
 
 inherit cros-workon platform
 
