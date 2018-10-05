@@ -79,7 +79,6 @@ src_install() {
 	use wimax && doexe "${OUT}"/wimax_status
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
-	use cellular && doexe src/helpers/send_at_command.sh
 
 	# Install DBus configuration.
 	insinto /etc/dbus-1/system.d
