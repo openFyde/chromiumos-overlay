@@ -10,8 +10,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk permission_broker .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="${PN%-client}"
-PLATFORM_GYP_FILE="${PN}.gyp"
+PLATFORM_SUBDIR="permission_broker/client"
 
 inherit cros-workon platform
 
