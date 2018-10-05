@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="cfm-device-updater common-mk"
+CROS_WORKON_SUBTREE="cfm-device-updater common-mk .gn"
 
 PLATFORM_SUBDIR="cfm-device-updater"
 
