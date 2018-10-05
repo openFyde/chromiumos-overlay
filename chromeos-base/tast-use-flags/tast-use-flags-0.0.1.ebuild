@@ -16,6 +16,7 @@ IUSE="
 	chromeless_tty
 	cups
 	+display_backlight
+	+internal_mic
 	kvm_host
 	ml_service
 	mocktpm
