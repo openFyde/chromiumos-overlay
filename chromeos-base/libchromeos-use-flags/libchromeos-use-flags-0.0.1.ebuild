@@ -58,6 +58,7 @@ IUSE="
 	native_gpu_memory_buffers
 	natural_scroll_default
 	neon
+	nocturne
 	oobe_skip_postlogin
 	oobe_skip_to_login
 	opengles
