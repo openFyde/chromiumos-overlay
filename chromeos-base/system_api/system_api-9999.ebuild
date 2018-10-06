@@ -79,11 +79,6 @@ src_install() {
 	) )
 
 	for dir in "${dirs[@]}"; do
-		# TODO(crbug.com/891591): Fix gyp to build headers/libs like others.
-		case ${dir} in
-		bootlockbox) continue;;
-		esac
-
 		insinto /usr/include/"${dir}"/proto_bindings
 		doins "${OUT}"/gen/include/"${dir}"/proto_bindings/*.h
 
