@@ -1,11 +1,12 @@
-DEFINED_PHASES=info install setup test unpack
+DEFINED_PHASES=info install setup unpack
 DEPEND=dev-vcs/git
-DESCRIPTION=Wrapper for running chromite unit tests
-EAPI=5
-HOMEPAGE=https://chromium.googlesource.com/chromiumos/chromite/
-IUSE=cros_host cros_host cros_workon_tree_b9c10ed39f85ba1b6c8f21b71f8a82d02ecf38da
+DESCRIPTION=Service health checking tool for Moblab
+EAPI=4
+HOMEPAGE=http://www.chromium.org/
+IUSE=cros_host cros_workon_tree_9cb88232586fd04c454fea8b0ff5f4cd8257a7d2
 KEYWORDS=*
 LICENSE=BSD-Google
+RDEPEND=>=chromeos-base/chromite-0.0.2
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	python	efc1c55fc44c5b7272fc2ffba73c3e6f	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
-_md5_=45ef27ad65735baefb47d07dc13592c2
+_md5_=10e1a83fb5e294ee15ed6719b18c7be6
