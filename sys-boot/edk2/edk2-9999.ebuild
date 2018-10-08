@@ -24,6 +24,8 @@ DEPEND="
 	sys-boot/coreboot
 "
 
+SRC_URI="https://www.openssl.org/source/openssl-1.1.0e.tar.gz"
+
 PATCHES=(
 	"${FILESDIR}/00_BaseTools_Scripts.patch"
 	"${FILESDIR}/01_CorebootPayloadPkg_pcinoenum.patch"
@@ -69,6 +71,13 @@ create_cbfs() {
 	fi
 	# Print CBFS inventory
 	_cbfstool ${cbfs} print
+}
+
+src_unpack() {
+	cros-workon_src_unpack
+
+	unpack "openssl-1.1.0e.tar.gz"
+	mv openssl-1.1.0e ${S}/CryptoPkg/Library/OpensslLib/openssl || die "moving openssl into place failed"
 }
 
 src_prepare() {
