@@ -24,12 +24,14 @@ IUSE="-hammerd_api"
 RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/metrics
-	chromeos-base/system_api
 	chromeos-base/vboot_reference
 	dev-libs/openssl
 	sys-apps/flashmap
 "
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	chromeos-base/system_api
+"
 
 pkg_preinst() {
 	# Create user and group for hammerd

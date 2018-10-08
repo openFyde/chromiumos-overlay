@@ -22,7 +22,6 @@ IUSE="metrics_uploader +passive_metrics systemd"
 
 RDEPEND="
 	chromeos-base/libbrillo
-	chromeos-base/system_api
 	dev-libs/dbus-glib
 	dev-libs/libpcre
 	dev-libs/protobuf
@@ -32,6 +31,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/session_manager-client
+	chromeos-base/system_api
 	chromeos-base/vboot_reference
 	"
 

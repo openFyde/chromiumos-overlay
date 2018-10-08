@@ -37,7 +37,6 @@ RDEPEND="
 	chromeos-base/minijail
 	chromeos-base/libbrillo
 	chromeos-base/metrics
-	chromeos-base/system_api
 	!dev-db/leveldb
 	dev-libs/leveldb
 	dev-libs/openssl
@@ -45,6 +44,7 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}
+	chromeos-base/system_api
 	tpm2? ( chromeos-base/trunks[test?] )
 	"
 

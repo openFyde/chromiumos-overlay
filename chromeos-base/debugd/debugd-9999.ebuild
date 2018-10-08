@@ -26,7 +26,6 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-sshd-init
 	chromeos-base/libbrillo
 	chromeos-base/shill-client
-	chromeos-base/system_api
 	chromeos-base/vboot_reference
 	!chromeos-base/workarounds
 	dev-libs/dbus-c++
@@ -46,6 +45,7 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-login
 	chromeos-base/debugd-client
+	chromeos-base/system_api
 	sys-apps/dbus
 	virtual/modemmanager"
 
