@@ -34,6 +34,7 @@ VA_INSTALL="src/gallium/targets/va/"
 src_prepare() {
 	epatch "${FILESDIR}"/17.2.3-config-make-error-as-warning-for-drm.patch
 	epatch "${FILESDIR}"/18.2-radeon-uvd-use-coded-number-for-symbols-of-Huffman-t.patch
+	epatch "${FILESDIR}"/18.2-winsys-one-amdgpu_winsys_bo-per-BO.patch
 
 	eautoreconf
 }
