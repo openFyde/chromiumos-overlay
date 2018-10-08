@@ -57,6 +57,7 @@ IUSE_TESTS="
 	+tests_security_Minijail0
 	+tests_security_ModuleLocking
 	+tests_security_mprotect
+	+tests_security_NosymfollowMountOption
 	+tests_security_OpenFDs
 	+tests_security_OpenSSLBlacklist
 	+tests_security_ProcessManagementPolicy
