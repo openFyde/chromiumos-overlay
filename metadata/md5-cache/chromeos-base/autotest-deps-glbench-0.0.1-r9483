@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install postinst prepare setup unpack
+DEPEND=>=dev-cpp/gflags-2.0 media-libs/libpng !opengles? ( virtual/opengl ) opengles? ( virtual/opengles ) media-libs/waffle x11-drivers/opengles-headers dev-vcs/git chromeos-base/libchrome:395517[cros-debug=]
+DESCRIPTION=Autotest glbench dep
+EAPI=5
+HOMEPAGE=http://www.chromium.org/
+IUSE=+autotest X cros_host cros_workon_tree_f16fc4840b52e2807225e87ea5182f5a16972f59 +buildcheck autotest opengles cros-debug cros-debug
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=>=dev-cpp/gflags-2.0 media-libs/libpng !opengles? ( virtual/opengl ) opengles? ( virtual/opengles ) media-libs/waffle ( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) ) chromeos-base/libchrome:395517[cros-debug=]
+SLOT=0
+_eclasses_=autotest	dab5e9c4c56400e64334c094393ae194	autotest-deponly	9b1e5d19c437abea0e7c0fa90c192abd	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	58f44b2918bfba7ca44f71c3848b8c08	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=b894257db7be619bbe5366c6166fdf69
