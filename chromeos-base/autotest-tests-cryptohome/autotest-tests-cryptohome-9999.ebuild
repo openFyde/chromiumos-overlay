@@ -39,6 +39,8 @@ IUSE_TESTS="
 	+tests_platform_CryptohomeKeyEviction
 	+tests_platform_CryptohomeLECredentialManager
 	+tests_platform_CryptohomeLECredentialManagerServer
+	+tests_platform_CryptohomeMigrateChapsToken
+	+tests_platform_CryptohomeMigrateChapsTokenClient
 	+tests_platform_CryptohomeMigrateKey
 	+tests_platform_CryptohomeMount
 	+tests_platform_CryptohomeMultiple
@@ -47,6 +49,8 @@ IUSE_TESTS="
 	+tests_platform_CryptohomeTestAuth
 	+tests_platform_CryptohomeTpmLiveTest
 	+tests_platform_CryptohomeTpmLiveTestServer
+	+tests_platform_CryptohomeTPMReOwn
+	+tests_platform_CryptohomeTPMReOwnServer
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
