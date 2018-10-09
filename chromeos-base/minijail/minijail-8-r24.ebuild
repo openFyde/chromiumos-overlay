@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="677900fb3a5fcde716e0a07e15365acc46d7356f"
-CROS_WORKON_TREE="f2247050ff5efef914d2f979a839adb1b783d122"
+CROS_WORKON_COMMIT="f6423bb75c60d5c2cca0431355fa8e93037c34eb"
+CROS_WORKON_TREE="c0c2bbe630022025f932c2d759684a55b365cd68"
 CROS_WORKON_BLACKLIST=1
 CROS_WORKON_LOCALNAME="aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
@@ -34,7 +34,7 @@ DEPEND="${RDEPEND}
 src_configure() {
 	sanitizers-setup-env
 	cros-common.mk_src_configure
-	export LIBDIR=$(get_libdir)
+	export LIBDIR="/$(get_libdir)"
 	export USE_seccomp=$(usex seccomp)
 	export USE_SYSTEM_GTEST=yes
 }

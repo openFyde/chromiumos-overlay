@@ -32,7 +32,7 @@ DEPEND="${RDEPEND}
 src_configure() {
 	sanitizers-setup-env
 	cros-common.mk_src_configure
-	export LIBDIR=$(get_libdir)
+	export LIBDIR="/$(get_libdir)"
 	export USE_seccomp=$(usex seccomp)
 	export USE_SYSTEM_GTEST=yes
 }
