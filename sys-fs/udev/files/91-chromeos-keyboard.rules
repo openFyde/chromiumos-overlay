@@ -15,5 +15,5 @@ SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
 
 # Wallaby has the new top row layout as well.
 SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1" \
-  ATTR{id/vendor}=="03f6", ATTR{id/product}=="a001", \
+  ATTRS{id/vendor}=="03f6", ATTRS{id/product}=="a001", \
   ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="2"
