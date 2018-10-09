@@ -19,6 +19,7 @@ REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="cros_host? ( dev-libs/libyaml )
 	mtd? ( sys-apps/flashrom )
+	dev-libs/libzip
 	dev-libs/openssl
 	sys-apps/util-linux"
 DEPEND="mtd? ( dev-embedded/android_mtdutils )
