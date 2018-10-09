@@ -22,6 +22,12 @@ RDEPEND="${DEPEND}
 "
 
 src_prepare() {
+	# Use the system cert store rather than a custom one specific
+	# to the tlsdate package. #534394
+	sed -i \
+		-e 's:/tlsdate/ca-roots/tlsdate-ca-roots.conf:/ssl/certs/ca-certificates.crt:' \
+		Makefile.am || die
+
 	default
 
 	eautoreconf
