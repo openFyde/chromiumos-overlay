@@ -28,7 +28,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	app-arch/brotli
+	>=app-arch/brotli-1.0.6
 	app-arch/bzip2
 	dev-libs/libdivsufsort
 "
