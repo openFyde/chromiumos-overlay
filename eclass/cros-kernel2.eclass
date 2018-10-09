@@ -1320,7 +1320,7 @@ cros-kernel2_src_configure() {
 				sed -i -e 's/CONFIG_CPU_BIG_ENDIAN=y/# CONFIG_CPU_BIG_ENDIAN is not set/' "$(get_build_cfg)"
 				;;
 		esac
-		kmake oldnoconfig
+		kmake olddefconfig
 		return 0
 	fi
 
@@ -1417,9 +1417,7 @@ cros-kernel2_src_configure() {
 	fi
 
 	# Use default for any options not explitly set in splitconfig
-	# Note: oldnoconfig is a misleading name -- it picks the default
-	# value for new options, not 'n'.
-	kmake oldnoconfig
+	kmake olddefconfig
 
 	# Restore the old config if it is unchanged.
 	if cmp -s "$(get_build_cfg)" "${temp_config}" ; then
