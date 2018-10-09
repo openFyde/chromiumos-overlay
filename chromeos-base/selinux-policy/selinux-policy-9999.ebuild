@@ -147,7 +147,7 @@ build_android_reqd_cil() {
 build_chromeos_policy() {
 	build_android_reqd_cil
 
-	build_cil "chromeos.raw.cil" "sepolicy/policy/base/" "sepolicy/policy/chromeos/"
+	build_cil "chromeos.raw.cil" "sepolicy/policy/base/" "sepolicy/policy/chromeos_base" "sepolicy/policy/chromeos/"
 	version_cil < chromeos.raw.cil > chromeos.raw.versioned.cil
 	filter_file_line_by_line android_reqd.cil < chromeos.raw.versioned.cil > chromeos.cil ||
 		die "failed to convert raw cil to filtered cil"
