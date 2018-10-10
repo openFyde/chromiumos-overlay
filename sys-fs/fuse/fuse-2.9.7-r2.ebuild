@@ -43,6 +43,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/fuse-2.8.6-user-option.patch
 	epatch "${FILESDIR}"/fuse-2.8.6-remove-setuid.patch
 	epatch "${FILESDIR}"/fuse-2.9.3-kernel-types.patch
+	epatch "${FILESDIR}"/fuse-2.9.7-pass-fuse-fd.patch
 }
 
 src_configure() {
