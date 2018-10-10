@@ -58,6 +58,7 @@ IUSE="
 	mojo
 	+nacl
 	neon
+	new_tcmalloc
 	oobe_config
 	opengl
 	opengles
@@ -302,6 +303,8 @@ set_build_args() {
 		# This flag is not automatically tested, so it may not work all the time.
 		use_jumbo_build=$(usetf jumbo)
 		use_bundled_fontconfig=false
+		# If to use the new tcmalloc version in Chromium.
+		use_new_tcmalloc=$(usetf new_tcmalloc)
 
 		# Clang features.
 		is_asan=$(usetf asan)
