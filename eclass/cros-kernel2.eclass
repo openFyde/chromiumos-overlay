@@ -786,9 +786,10 @@ CONFIG_TRANSPARENT_HUGEPAGE_MADVISE=y
 "
 
 # We blast in all the debug options we can under this use flag so we can catch
-# as many kernel bugs as possible in testing. Developers  can choose to use
+# as many kernel bugs as possible in testing. Developers can choose to use
 # this option too, but they should expect performance to be degraded, unlike
-# the devdebug use flag
+# the devdebug use flag. Since the kernel binary in gzip may be too large to
+# fit into a typical 16MB partition, we also switch to xz compression.
 debug_desc="All the debug options to catch kernel bugs in testing configurations"
 debug_config="
 ${debugobjects_config}
@@ -803,6 +804,12 @@ CONFIG_DEBUG_PREEMPT=y
 CONFIG_DEBUG_STACK_USAGE=y
 CONFIG_SCHED_STACK_END_CHECK=y
 CONFIG_WQ_WATCHDOG=y
+# CONFIG_KERNEL_GZIP is not set
+# CONFIG_KERNEL_BZIP2 is not set
+# CONFIG_KERNEL_LZMA is not set
+# CONFIG_KERNEL_LZO is not set
+# CONFIG_KERNEL_LZ4 is not set
+CONFIG_KERNEL_XZ=y
 "
 
 # Firmware binaries selected by USE flags.  Selected firmware binaries will
