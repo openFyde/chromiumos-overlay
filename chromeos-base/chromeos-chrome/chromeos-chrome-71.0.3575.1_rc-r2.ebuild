@@ -783,6 +783,10 @@ setup_compile_flags() {
 	# nothing to do with USE=clang.
 	filter-flags -clang-syntax
 
+	# Remove unsupported arm64 linker flag on arm32 builds.
+	# https://crbug.com/889079
+	use arm && filter-flags "-Wl,--fix-cortex-a53-843419"
+
 	# There are some flags we want to only use in the ebuild.
 	# The rest will be exported to the simple chrome workflow.
 	EBUILD_CFLAGS=()
