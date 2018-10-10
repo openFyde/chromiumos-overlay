@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-inherit eutils libtool linux-info udev toolchain-funcs fcaps
+inherit eutils libtool linux-info udev toolchain-funcs
 
 DESCRIPTION="An interface for filesystems implemented in userspace"
 HOMEPAGE="https://github.com/libfuse/libfuse"
@@ -41,7 +41,6 @@ src_prepare() {
 	# socket/connect syscalls, which allows Chromium OS daemons to
 	# put more restrictive seccomp filters on fusermount.
 	epatch "${FILESDIR}"/fuse-2.8.6-user-option.patch
-	epatch "${FILESDIR}"/fuse-2.8.6-remove-setuid.patch
 	epatch "${FILESDIR}"/fuse-2.9.3-kernel-types.patch
 }
 
@@ -91,8 +90,4 @@ src_install() {
 		#
 		user_allow_other
 	EOF
-}
-
-pkg_postinst() {
-	fcaps cap_sys_admin usr/bin/fusermount
 }
