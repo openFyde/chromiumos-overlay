@@ -74,7 +74,6 @@ src_compile() {
 	)
 
 	local packages=(
-		9s
 		qcow_utils
 		crosvm
 	)
@@ -131,7 +130,6 @@ src_install() {
 	# crosvm instead.
 	local build_dir="${WORKDIR}/${CHOST}/$(usex debug debug release)"
 	dobin "${build_dir}/crosvm"
-	dobin "${build_dir}/9s"
 
 	# Install seccomp policy files.
 	local seccomp_path="${S}/seccomp/${seccomp_arch}"

@@ -31,6 +31,7 @@ RDEPEND="
 	chromeos-base/minijail
 	net-libs/grpc:=
 	dev-libs/protobuf:=
+	dev-rust/9s
 "
 DEPEND="
 	${RDEPEND}
