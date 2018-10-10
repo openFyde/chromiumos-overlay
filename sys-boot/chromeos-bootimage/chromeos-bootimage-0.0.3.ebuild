@@ -247,6 +247,10 @@ setup_altfw() {
 			-f "${CROS_FIRMWARE_ROOT}/tianocore/UEFIPAYLOAD.fd"
 		echo "2;altfw/tianocore;TianoCore;TianoCore bootloader" \
 			>> "${bl_list}"
+
+		# For now, use TianoCore as the default
+		echo "0;altfw/tianocore;TianoCore;TianoCore bootloader" \
+			>> "${bl_list}"
 	fi
 
 	# Add the list
