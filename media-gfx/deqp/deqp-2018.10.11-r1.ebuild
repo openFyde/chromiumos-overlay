@@ -11,7 +11,7 @@ DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
 HOMEPAGE="https://android.googlesource.com/platform/external/deqp"
 
 # This corresponds to a commit near ToT.
-MY_DEQP_COMMIT='467f04a3329992d8e3df4381094c39653144b503'
+MY_DEQP_COMMIT='b57a8fe92b4d76ededea70b4a838b885abfb8e72'
 
 # To uprev deqp, follow these commands:
 # wget https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz
