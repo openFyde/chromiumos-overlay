@@ -1,7 +1,7 @@
 # Copyright (c) 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -29,6 +29,7 @@ AUTOTEST_WORK="${WORKDIR}/autotest-work"
 AUTOTEST_BASE="/autotest"
 
 src_prepare() {
+	default
 	mkdir -p "${AUTOTEST_WORK}"
 	cp -fpru "${S}"/* "${AUTOTEST_WORK}/" &>/dev/null
 	find "${AUTOTEST_WORK}" -name '*.pyc' -delete
@@ -53,9 +54,6 @@ src_install() {
 	chmod a+x "${D}/${AUTOTEST_BASE}"/tko/*.cgi
 
 	dosym /var/log/autotest "${AUTOTEST_BASE}"/logs
-
-	insinto /etc/init
-	doins "${FILESDIR}"/*.conf
 }
 
 src_test() {
