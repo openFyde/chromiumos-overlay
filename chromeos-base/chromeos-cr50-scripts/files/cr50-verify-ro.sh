@@ -69,6 +69,17 @@ get_chip_bid_values() {
   echo "${flags[0]} ${flags[2]}"
 }
 
+# Retrieve RLZ from the H1 on the DUT.
+#
+# Output of 'gsctool -i -M' contains a line of the following format:
+#
+# BID_RLZ=<RLZ String>
+#
+
+get_chip_rlz_value() {
+  ${GSCTOOL} -i -M | grep BID_RLZ | sed -e 's/BID_RLZ=//g;'
+}
+
 # Retrieve Cr50 binary's board ID and flags values.
 #
 # Ouput of 'gsctool -b cr50.bin' contains a line of the following format:
@@ -192,11 +203,12 @@ main() {
   local image_rw_version
   local new_image
   local ro_descriptions
+  local rlz
 
   new_image="$1"
   ro_descriptions="$2"
 
-  if [[ "$#" != 2 || ! -f "${new_image}" || ! -f "${ro_descriptions}" ]]; then
+  if [[ "$#" != 2 || ! -f "${new_image}" || ! -d "${ro_descriptions}" ]]; then
     die "Two parameters are required: name of the Cr50 image file"\
         "and name of the RO verification descriptors database file"
   fi
@@ -236,8 +248,11 @@ main() {
     fi
   fi
 
+  # Retrieve board RLZ
+  rlz=( $(get_chip_rlz_value) )
+
   # Run RO verification and report results.
-  if ${GSCTOOL} -O "${ro_descriptions}"; then
+  if ${GSCTOOL} -O "${ro_descriptions}/verify_ro_${rlz}.db"; then
     echo "${V_BOLD_GREEN}Hash verification succeeded${V_VIDOFF}"
     exit 0
   else
