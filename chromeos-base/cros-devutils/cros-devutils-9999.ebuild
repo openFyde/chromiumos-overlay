@@ -31,7 +31,6 @@ src_install() {
 	dosym /var/lib/devserver/static /usr/lib/devserver/static
 
 	local host_tools=(
-		cros_chrome_make
 		cros_workon_make
 		netboot_firmware_settings.py
 		strip_package
