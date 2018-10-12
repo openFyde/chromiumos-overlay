@@ -5,6 +5,8 @@ EAPI=4
 
 CROS_WORKON_PROJECT="chromiumos/platform/crosutils"
 CROS_WORKON_LOCALNAME="../scripts/"
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_OUTOFTREE_BUILD=1
 
 inherit cros-workon
 
@@ -16,19 +18,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-src_unpack() {
-	cros-workon_src_unpack
-
-	# Clean out files we don't use.
-	cd "${S}"
-	find -type l -delete
-	rm -rf PRESUBMIT.cfg WATCHLISTS inherit-review-settings-ok lib/shflags
-}
-
 src_install() {
 	exeinto /usr/lib/crosutils
-	doexe *
-
-	insinto /usr/lib/crosutils/lib
-	doins lib/*
+	doexe common.sh remote_access.sh
 }
