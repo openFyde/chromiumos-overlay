@@ -21,7 +21,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 # The crosvm_wl_dmabuf USE flag is used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp crosvm_wl_dmabuf"
+IUSE="+kvm_host +seccomp +crosvm_wl_dmabuf"
 REQUIRED_USE="kvm_host"
 
 RDEPEND="
