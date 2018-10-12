@@ -279,6 +279,7 @@ SERVER_IUSE_TESTS="
 	+tests_security_kASLR
 	+tests_sequences
 	+tests_servohost_Reboot
+	+tests_stress_ClientTestReboot
 	+tests_video_PowerConsumption
 "
 
