@@ -58,6 +58,7 @@ IUSE="
 	mojo
 	+nacl
 	neon
+	new_tcmalloc
 	oobe_config
 	opengl
 	opengles
@@ -143,7 +144,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-71.0.3575.1_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-71.0.3577.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R71-3558.0-1538993828.afdo"
 AFDO_FILE["airmont"]="R71-3558.0-1538994092.afdo"
 AFDO_FILE["haswell"]="R71-3558.0-1538996965.afdo"
@@ -302,6 +303,8 @@ set_build_args() {
 		# This flag is not automatically tested, so it may not work all the time.
 		use_jumbo_build=$(usetf jumbo)
 		use_bundled_fontconfig=false
+		# If to use the new tcmalloc version in Chromium.
+		use_new_tcmalloc=$(usetf new_tcmalloc)
 
 		# Clang features.
 		is_asan=$(usetf asan)
