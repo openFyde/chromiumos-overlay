@@ -27,9 +27,6 @@ RDEPEND="app-portage/gentoolkit
 DEPEND=""
 
 src_install() {
-	dosym /build /var/lib/devserver/static/pkgroot
-	dosym /var/lib/devserver/static /usr/lib/devserver/static
-
 	local host_tools=(
 		cros_workon_make
 		netboot_firmware_settings.py

@@ -15,7 +15,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-RDEPEND="!<chromeos-base/cros-devutils-0.0.2
+RDEPEND="!<chromeos-base/cros-devutils-0.0.4
 	chromeos-base/devserver-deps
 "
 DEPEND="
@@ -26,6 +26,9 @@ src_install() {
 	emake install DESTDIR="${D}"
 
 	dobin host/start_devserver
+
+	dosym /build /var/lib/devserver/static/pkgroot
+	dosym /var/lib/devserver/static /usr/lib/devserver/static
 
 	# Install Mob* Monitor checkfiles for the devserver.
 	insinto "/etc/mobmonitor/checkfiles/devserver/"
