@@ -60,7 +60,12 @@ src_prepare() {
 			"${DISTDIR}/${PN}-cacert-class1-class3.patch"
 		)
 	fi
-
+	# use host shlibsign if need be crbug/884946
+	if tc-is-cross-compiler ; then
+		PATCHES+=(
+			"${FILESDIR}/${PN}-3.38-shlibsign-path-pollution.patch"
+		)
+	fi
 	default
 
 	pushd coreconf >/dev/null || die
@@ -79,13 +84,6 @@ src_prepare() {
 	# Fix pkgconfig file for Prefix
 	sed -i -e "/^PREFIX =/s:= /usr:= ${EPREFIX}/usr:" \
 		config/Makefile || die
-
-	# use host shlibsign if need be #436216
-	if tc-is-cross-compiler ; then
-		sed -i \
-			-e 's:"${2}"/shlibsign:shlibsign:' \
-			cmd/shlibsign/sign.sh || die
-	fi
 
 	# dirty hack
 	sed -i -e "/CRYPTOLIB/s:\$(SOFTOKEN_LIB_DIR):../freebl/\$(OBJDIR):" \
