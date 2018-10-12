@@ -35,7 +35,6 @@ src_install() {
 		cros_workon_make
 		netboot_firmware_settings.py
 		strip_package
-		willis
 	)
 	dobin "${host_tools[@]/#/host/}"
 
