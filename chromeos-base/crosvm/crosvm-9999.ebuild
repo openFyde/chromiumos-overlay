@@ -92,6 +92,7 @@ src_test() {
 	export CARGO_HOME="${ECARGO_HOME}"
 	export TARGET_CC="$(tc-getCC)"
 	export CARGO_TARGET_DIR="${WORKDIR}"
+	export RUST_BACKTRACE=1
 
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
