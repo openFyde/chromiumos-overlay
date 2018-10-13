@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="3fb82730c01b9938672dd20c1fd65d02c5384ebe"
+CROS_WORKON_COMMIT="80b6aaabd82f4ee93e26a2e0e75f1243820dd4c5"
 CROS_WORKON_TREE=("5d76066514dca6a32e833620a997a659f7fb2fd0" "8e1120035f43c372a792acbcde06fa9738d7a4b6" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_GO_PACKAGES=(
 	"chromiumos/vm_tools/tremplin_proto"
@@ -36,7 +36,7 @@ RDEPEND="
 	chromeos-base/minijail
 	dev-libs/grpc
 	dev-libs/protobuf:=
-	media-libs/minigbm
+	media-libs/mesa[gbm]
 	x11-base/xwayland
 	x11-libs/libxkbcommon
 	x11-libs/pixman
