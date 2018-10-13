@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="3fb82730c01b9938672dd20c1fd65d02c5384ebe"
-CROS_WORKON_TREE=("5d76066514dca6a32e833620a997a659f7fb2fd0" "15d7608480ef5d2126a43ccf0a8d4709550be7f0" "3f476aa5fceadde88601a86ddd321cd272089ac0")
+CROS_WORKON_COMMIT="80b6aaabd82f4ee93e26a2e0e75f1243820dd4c5"
+CROS_WORKON_TREE=("5d76066514dca6a32e833620a997a659f7fb2fd0" "15d7608480ef5d2126a43ccf0a8d4709550be7f0" "3f476aa5fceadde88601a86ddd321cd272089ac0" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk lorgnette metrics"
+CROS_WORKON_SUBTREE="common-mk lorgnette metrics .gn"
 
 PLATFORM_SUBDIR="lorgnette"
 
