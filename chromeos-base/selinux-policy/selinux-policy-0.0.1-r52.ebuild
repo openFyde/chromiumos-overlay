@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="525deb972a924c2ef03656ea50f8c4e71a1205dc"
+CROS_WORKON_COMMIT="3fb82730c01b9938672dd20c1fd65d02c5384ebe"
 CROS_WORKON_TREE="47366f6370f41ffebcf0e234e6425a7bd984e31c"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -149,7 +149,7 @@ build_android_reqd_cil() {
 build_chromeos_policy() {
 	build_android_reqd_cil
 
-	build_cil "chromeos.raw.cil" "sepolicy/policy/base/" "sepolicy/policy/chromeos/"
+	build_cil "chromeos.raw.cil" "sepolicy/policy/base/" "sepolicy/policy/chromeos_base" "sepolicy/policy/chromeos/"
 	version_cil < chromeos.raw.cil > chromeos.raw.versioned.cil
 	filter_file_line_by_line android_reqd.cil < chromeos.raw.versioned.cil > chromeos.cil ||
 		die "failed to convert raw cil to filtered cil"

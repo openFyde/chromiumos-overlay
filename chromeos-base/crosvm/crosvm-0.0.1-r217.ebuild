@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="c7af4b1e68ea06136b1474976df8ea2e9528b2b3"
-CROS_WORKON_TREE="c604aa4838fd825b08b6bcaa31d576d2a2223442"
+CROS_WORKON_COMMIT="73a40e37a338e43b33daf823a3dbb46444bfcdce"
+CROS_WORKON_TREE="0cb62d97660fa31618a650fe1573872847e43af1"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -94,6 +94,7 @@ src_test() {
 	export CARGO_HOME="${ECARGO_HOME}"
 	export TARGET_CC="$(tc-getCC)"
 	export CARGO_TARGET_DIR="${WORKDIR}"
+	export RUST_BACKTRACE=1
 
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
