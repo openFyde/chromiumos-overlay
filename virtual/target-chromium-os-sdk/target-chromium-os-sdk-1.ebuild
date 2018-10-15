@@ -231,6 +231,10 @@ RDEPEND="${RDEPEND}
 	x11-apps/xcursorgen
 	x11-apps/xkbcomp
 	>=x11-misc/util-macros-1.2
+	|| (
+		~sys-libs/glibc-2.23
+		net-libs/rpcsvc-proto
+	)
 	"
 
 # Various fonts are needed in order to generate messages for the
