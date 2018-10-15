@@ -65,6 +65,7 @@ EC_BOARD_NAMES=(
 	hoho
 	host
 	jerry
+	kalista
 	kevin
 	kukui
 	llama
