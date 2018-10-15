@@ -120,7 +120,6 @@ CONFIG_FRAGMENTS=(
 	cifs
 	criu
 	cros_ec_mec
-	cros_ec_sysfs_usb
 	debug
 	debugobjects
 	devdebug
@@ -257,11 +256,6 @@ cros_ec_mec_desc="LPC Support for Microchip Embedded Controller"
 cros_ec_mec_config="
 CONFIG_MFD_CROS_EC_LPC_MEC=y
 CONFIG_CROS_EC_LPC_MEC=y
-"
-
-cros_ec_sysfs_usb_desc="Expose a sysfs USB attribute group for the EC"
-cros_ec_sysfs_usb_config="
-CONFIG_CROS_EC_SYSFS_USB=y
 "
 
 debugobjects_desc="Enable kernel debug objects debugging"
