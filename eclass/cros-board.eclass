@@ -225,7 +225,7 @@ ALL_BOARDS=(
 	nami
 	nautilus
 	nefario
-	newbie
+	#newbie
 	ninja
 	nocturne
 	novato
