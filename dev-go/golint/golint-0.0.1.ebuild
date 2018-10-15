@@ -3,10 +3,14 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/golang/lint c5fb716d6688a859aae56d26d3e6070808df29f7"
+CROS_GO_SOURCE="go.googlesource.com/lint:golang.org/x/lint 5906bd5c48cd840279ace88b165057fbbd7fb35a"
 
 CROS_GO_BINARIES=(
-	"github.com/golang/lint/golint"
+	"golang.org/x/lint/golint"
+)
+
+CROS_GO_PACKAGES=(
+	"golang.org/x/lint"
 )
 
 inherit cros-go
