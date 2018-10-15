@@ -12,7 +12,7 @@
 
 EAPI="5"
 
-inherit cros-constants git-2
+inherit cros-constants eutils git-2
 
 # Every 3 strings in this array indicates a repository to checkout:
 #   - A unique name (to avoid checkout conflits)
@@ -21,7 +21,7 @@ inherit cros-constants git-2
 EGIT_REPO_URIS=(
 	"cloud/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"7c04a487ca40373dab9f82a0d098cb3e042c3eac"
+	"a7a84eb42b6e427361b4ed50f44555b09537ef7d"
 
 	# If you uprev these repos, please also:
 	# - Update files/VERSION to the corresponding revision of
@@ -59,6 +59,12 @@ src_unpack() {
 		git-2_src_unpack
 		shift 3
 	done
+}
+
+src_prepare() {
+	# TODO(https://crbug.com/895457): Remove this patch when protobuf has
+	# been upgraded to >=3.5.0 and supports reserved enum values.
+	epatch "${FILESDIR}/${PN}-0.0.25-reserved-enum-values.patch"
 }
 
 src_install() {

@@ -1,0 +1,14 @@
+# TODO(https://crbug.com/895457): Remove this patch when protobuf has been
+# upgraded to >=3.5.0 and supports reserved enum values.
+diff -Naur protofiles-0.0.25.orig/cloud/policy/proto/device_management_backend.proto protofiles-0.0.25/cloud/policy/proto/device_management_backend.proto
+--- protofiles-0.0.25.orig/cloud/policy/proto/device_management_backend.proto	2018-10-17 17:35:42.689496736 +0200
++++ protofiles-0.0.25/cloud/policy/proto/device_management_backend.proto	2018-10-17 17:36:41.289072110 +0200
+@@ -52,7 +52,7 @@
+   // client has been registered properly.  For example, a client must
+   // register with type DEVICE in order to retrieve device policies.
+   enum Type {
+-    reserved 5;
++    RESERVED_5 = 5;        // Do not use.
+ 
+     TT   = 0;             // Register for TT release.
+     USER = 1;             // Register for Chrome OS user polices.
