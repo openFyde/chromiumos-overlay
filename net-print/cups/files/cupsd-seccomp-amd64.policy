@@ -37,6 +37,7 @@ getpgrp: 1
 getpid: 1
 getppid: 1
 getpriority: 1
+gettid: 1
 getrandom: 1
 getresgid: 1
 getresuid: 1
@@ -100,6 +101,7 @@ timerfd_create: 1
 timerfd_settime: 1
 timerfd_gettime: 1
 times: 1
+tgkill: 1
 umask: 1
 uname: 1
 unlink: 1

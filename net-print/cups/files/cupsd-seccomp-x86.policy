@@ -55,6 +55,7 @@ getrlimit: 1
 getrusage: 1
 getsockname: 1
 getsockopt: 1
+gettid: 1
 gettimeofday: 1
 getuid: 1
 getuid32: 1
@@ -121,6 +122,7 @@ timerfd_create: 1
 timerfd_settime: 1
 timerfd_gettime: 1
 times: 1
+tgkill: 1
 ugetrlimit: 1
 umask: 1
 uname: 1
