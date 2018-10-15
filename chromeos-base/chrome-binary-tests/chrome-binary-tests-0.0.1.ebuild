@@ -16,13 +16,13 @@ S="${WORKDIR}"
 DEPEND="chromeos-base/chromeos-chrome"
 
 src_install() {
-	insinto /usr/share/chrome-binary-tests
+	exeinto /usr/libexec/chrome-binary-tests
 	# The binary tests in ${BINARY_DIR} are built by chrome-chrome.
 	BINARY_DIR="${SYSROOT}/usr/local/build/autotest/client/deps/chrome_test/test_src/out/Release"
-	doins "${BINARY_DIR}/jpeg_decode_accelerator_unittest"
-	doins "${BINARY_DIR}/ozone_gl_unittests"
-	doins "${BINARY_DIR}/sandbox_linux_unittests"
-	doins "${BINARY_DIR}/video_decode_accelerator_unittest"
-	doins "${BINARY_DIR}/video_encode_accelerator_unittest"
-	doins "${BINARY_DIR}/wayland_client_perftests"
+	doexe "${BINARY_DIR}/jpeg_decode_accelerator_unittest"
+	doexe "${BINARY_DIR}/ozone_gl_unittests"
+	doexe "${BINARY_DIR}/sandbox_linux_unittests"
+	doexe "${BINARY_DIR}/video_decode_accelerator_unittest"
+	doexe "${BINARY_DIR}/video_encode_accelerator_unittest"
+	doexe "${BINARY_DIR}/wayland_client_perftests"
 }
