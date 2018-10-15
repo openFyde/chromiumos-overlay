@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trunks
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cr50_onboard ftdi_tpm test tpm2_simulator"
+IUSE="cr50_onboard fuzzer ftdi_tpm test tpm2_simulator"
 
 COMMON_DEPEND="
 	chromeos-base/minijail
@@ -75,6 +75,8 @@ src_install() {
 		"${OUT}/lib" libtrunks /usr/include/trunks
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/lib/libtrunks.pc
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/creation_blob_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/key_blob_fuzzer
 }
 
 platform_pkg_test() {

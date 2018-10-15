@@ -19,6 +19,7 @@ RDEPEND="
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/shill[fuzzer]
 	chromeos-base/smbprovider[fuzzer]
+	chromeos-base/trunks[fuzzer]
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
 	media-libs/virglrenderer[fuzzer]
