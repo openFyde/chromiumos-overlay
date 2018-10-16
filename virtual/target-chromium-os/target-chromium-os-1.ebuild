@@ -271,7 +271,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/vpd
 	bluetooth? ( net-wireless/ath3k )
 	net-wireless/crda
-	net-wireless/marvell_sd8787
 	sys-apps/dbus
 	sys-apps/flashrom
 	sys-apps/iproute2
