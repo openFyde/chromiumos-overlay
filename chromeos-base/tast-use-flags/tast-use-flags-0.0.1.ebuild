@@ -23,6 +23,9 @@ IUSE="
 	rialto
 	rk3399
 	selinux
+	skate
+	snow
+	spring
 	veyron_mickey
 	veyron_rialto
 "
