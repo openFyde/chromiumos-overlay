@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=chromeos-base/minijail chromeos-base/google-breakpad[cros_i686?] chromeos-base/libbrillo chromeos-base/metrics dev-libs/libpcre net-misc/curl direncryption? ( sys-apps/keyutils ) chromeos-base/debugd-client chromeos-base/session_manager-client chromeos-base/system_api sys-devel/flex dev-vcs/git dev-vcs/git dev-vcs/git chromeos-base/libchrome:395517[cros-debug=] test? ( dev-cpp/gmock ) cros_host? ( dev-util/gn ) dev-cpp/gtest virtual/pkgconfig virtual/pkgconfig
+DESCRIPTION=Crash reporting service that uploads crash reports with debug information
+EAPI=6
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/
+IUSE=cheets cros_embedded -direncryption systemd cros_host cros_workon_tree_190c4cfe4984640ab62273e06456d51a30cfb725_4c0b3b4460510b33464feb12703dc403cd34b0e7_db3d5a8083bc615b7029631913592c927bf1b01f_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros_i686 cros_host cros_workon_tree_190c4cfe4984640ab62273e06456d51a30cfb725_4c0b3b4460510b33464feb12703dc403cd34b0e7_db3d5a8083bc615b7029631913592c927bf1b01f_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug fuzzer asan coverage fuzzer msan ubsan cros_host cros_workon_tree_190c4cfe4984640ab62273e06456d51a30cfb725_4c0b3b4460510b33464feb12703dc403cd34b0e7_db3d5a8083bc615b7029631913592c927bf1b01f_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=chromeos-base/minijail chromeos-base/google-breakpad[cros_i686?] chromeos-base/libbrillo chromeos-base/metrics dev-libs/libpcre net-misc/curl direncryption? ( sys-apps/keyutils ) chromeos-base/chromeos-ca-certificates chromeos-base/libchrome:395517[cros-debug=]
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	ebc02f60bcf39df5297008f1b894323d	cros-i686	03e4121e41b138f4b51eca2571281b5b	cros-sanitizers	40275da665152fb71fee4b717a9c7de7	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	58f44b2918bfba7ca44f71c3848b8c08	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	8a1973c111ce121421a1ddfdb415f5cd	systemd	8f5286f89e265842f5b5189666eae88b	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	udev	d91cac2c73b94629cad2daea66e0d182
+_md5_=bb075035e24dcaca6ee6178e3c8c251c
