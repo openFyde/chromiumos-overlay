@@ -48,6 +48,7 @@ src_prepare() {
 	# Fix a file descriptor leak due to fsync errors.
 	# See crosbug.com/33674 for details.
 	epatch "${FILESDIR}/${P}-fix-file-descriptor-leak.patch" || die
+	epatch "${FILESDIR}/${P}-sysmacro.patch" || die
 
 	eautoreconf
 }
