@@ -1,0 +1,9 @@
+DEFINED_PHASES=-
+DESCRIPTION=List of packages that are needed inside the SDK, but where we only want to install a binpkg. We never want to install build-time deps or recompile from source unless the user explicitly requests it.
+EAPI=6
+HOMEPAGE=http://dev.chromium.org/
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=dev-util/shellcheck
+SLOT=0
+_md5_=768dd75a86e5e15974d72fc6dade079a

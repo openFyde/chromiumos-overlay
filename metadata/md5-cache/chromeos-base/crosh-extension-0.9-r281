@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile info install setup unpack
+DEPEND=dev-vcs/git
+DESCRIPTION=The Chromium OS Shell extension (the HTML/JS rendering part)
+EAPI=6
+HOMEPAGE=https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/chromeos-crosh.md
+IUSE=cros_host cros_workon_tree_b4997fed6003ac950527ceab72c1a7f167f356b1_9b84fb561b6d48ccf04442a8baae364003ed5ed7_f1e600bfb00186a11041cdd35969b50e42cfe70f
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!<chromeos-base/common-assets-0.0.2
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=97ed79a8e33ec1e01b6538a2bd2a74f2
