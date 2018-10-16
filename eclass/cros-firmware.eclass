@@ -29,11 +29,6 @@ $(basename "$(dirname "$(dirname "$(dirname "${EBUILD}")")")")}
 # @DESCRIPTION: (Optional) Location of RW system firmware image
 : ${CROS_FIRMWARE_MAIN_RW_IMAGE:=}
 
-# TODO(hungte) Remove this once we've eliminated that in daisy_spring updater.
-# @ECLASS-VARIABLE: CROS_FIRMWARE_BUILD_MAIN_RW_IMAGE
-# @DESCRIPTION: (Optional) Re-sign and generate a RW system firmware image.
-: ${CROS_FIRMWARE_BUILD_MAIN_RW_IMAGE:=}
-
 # @ECLASS-VARIABLE: CROS_FIRMWARE_EC_IMAGE
 # @DESCRIPTION: (Optional) Location of EC firmware image
 : ${CROS_FIRMWARE_EC_IMAGE:=}
@@ -319,8 +314,6 @@ cros-firmware_src_compile() {
 		_add_param image_cmd -e "${EC_IMAGE_LOCATION}"
 		_add_param image_cmd -p "${PD_IMAGE_LOCATION}"
 		_add_param image_cmd -w "${FW_RW_IMAGE_LOCATION}"
-		_add_bool_param image_cmd --create_bios_rw_image \
-			"${CROS_FIRMWARE_BUILD_MAIN_RW_IMAGE}"
 
 		# Prepare extra commands
 		_add_param ext_cmd --extra \
