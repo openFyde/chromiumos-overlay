@@ -23,6 +23,7 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/chromeos-config
+	chromeos-base/chromeos-config-tools
 	chromeos-base/libbrillo
 	dev-libs/protobuf
 "
