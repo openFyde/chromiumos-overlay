@@ -29,6 +29,8 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-time-header.patch
+	epatch "${FILESDIR}"/${P}-sysmacro.patch
+
 	eautoreconf
 }
 

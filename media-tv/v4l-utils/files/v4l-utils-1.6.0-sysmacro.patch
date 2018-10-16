@@ -1,0 +1,36 @@
+include sys/sysmacros.h for major/minor/makedev
+These functions have always been defined in sys/sysmacros.h under
+Linux C libraries.  For some, including sys/types.h implicitly
+includes that as well, but glibc deprecated that in glibc 2.25.
+Include the header explicitly for the funcs.
+
+--- a/v4l-utils-1.6.0/utils/libmedia_dev/get_media_devices.c
++++ b/v4l-utils-1.6.0/utils/libmedia_dev/get_media_devices.c
+@@ -19,6 +19,7 @@
+ 
+ #include <stdio.h>
+ #include <unistd.h>
++#include <sys/sysmacros.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <string.h>
+--- a/v4l-utils-1.6.0/utils/media-ctl/libmediactl.c
++++ b/v4l-utils-1.6.0/utils/media-ctl/libmediactl.c
+@@ -23,6 +23,7 @@
+ 
+ #include <sys/ioctl.h>
+ #include <sys/stat.h>
++#include <sys/sysmacros.h>
+ #include <sys/types.h>
+ 
+ #include <ctype.h>
+--- a/v4l-utils-1.6.0/lib/libv4lconvert/control/libv4lcontrol.c
++++ b/v4l-utils-1.6.0/lib/libv4lconvert/control/libv4lcontrol.c
+@@ -23,6 +23,7 @@
+ #include <sys/mman.h>
+ #include <fcntl.h>
+ #include <sys/stat.h>
++#include <sys/sysmacros.h>
+ #include <ctype.h>
+ #include <errno.h>
+ #include <fnmatch.h>
