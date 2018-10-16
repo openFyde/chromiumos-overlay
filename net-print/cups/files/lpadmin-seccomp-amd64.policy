@@ -16,6 +16,7 @@ getegid: 1
 geteuid: 1
 getgid: 1
 getpeername: 1
+getpid: 1
 getrandom: 1
 getrusage: 1
 gettimeofday: 1
