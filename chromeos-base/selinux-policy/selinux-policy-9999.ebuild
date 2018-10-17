@@ -160,6 +160,40 @@ build_file_contexts() {
 		die "failed to build chromeos file contexts"
 }
 
+check_filetrans_defined_in_file_contexts() {
+	einfo "Verifying policy and file_contexts for filetrans_pattern"
+	_is_empty() {
+		local err=0
+		while read line; do
+			if [[ "$err" -eq "0" ]]; then
+				ewarn "Expected to find these lines in file_contexts, but were not found:"
+				err=1
+			fi
+			ewarn "$line"
+		done
+		return $err
+	}
+	# filetrans is a kind of typetransition. Typetrasition is described like
+	# the following in a .cil file:
+	# (typetransition source target class new_type) or
+	# (typetransition source target class object_name new_type)
+	# We only want to verify where
+	#  - both source and target are not tmpfs-related.
+	#  - source is not unconfined domain: chromeos
+	#  - type is not process since we only care file typetransition.
+	cat chromeos.cil | awk '
+		/^\(typetransition/	{
+						context=substr($NF,0,length($NF)-1)
+						if ($4=="process"||$2=="chromeos") next;
+						if(context ~/cros_.*tmp_file/) next; # Created an cros_.*_tmp_file
+						if(context ~/(device|rootfs|tmpfs)/) next; # Created a file labeled as device, tmpfs, or rootfs.
+						if($3 ~/^(cros_run(_.*)?|cros_.*tmp_file|tmpfs|arc_dir)$/) next; # Create a file in tmpfs.
+						if(NF==6) { print substr($5,2,length($5)-2) ".*u:object_r:" context ":s0" }
+						else { print "u:object_r:" context ":s0" }
+					}
+	' | sort -u | xargs -d'\n' -n 1 sh -c 'grep $0 file_contexts >/dev/null || echo $0' | _is_empty
+}
+
 src_compile() {
 	gen_m4_flags
 
@@ -220,6 +254,9 @@ src_compile() {
 		cp "chromeos_file_contexts" file_contexts \
 			|| die "didn't find chromeos_file_contexts for file_contexts"
 	fi
+
+	check_filetrans_defined_in_file_contexts \
+		|| die "failed to check consistency between filetrans_pattern and file_contexts"
 }
 
 src_install() {
