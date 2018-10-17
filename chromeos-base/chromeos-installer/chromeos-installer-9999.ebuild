@@ -73,7 +73,7 @@ src_install() {
 			insinto /etc/init
 			doins init/*.conf
 		fi
-		insinto /usr/share/cros/init
-		doins init/crx-import.sh
+		exeinto /usr/share/cros/init
+		doexe init/crx-import.sh
 	fi
 }

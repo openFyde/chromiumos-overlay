@@ -99,8 +99,8 @@ src_install() {
 				die "Can't replace direncryption flag in cryptohomed.conf"
 		fi
 	fi
-	insinto /usr/share/cros/init
-	doins init/lockbox-cache.sh
+	exeinto /usr/share/cros/init
+	doexe init/lockbox-cache.sh
 	if use cert_provision; then
 		insinto /usr/include/cryptohome
 		doins cert_provision.h

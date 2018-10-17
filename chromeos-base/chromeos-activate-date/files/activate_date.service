@@ -8,4 +8,4 @@ PartOf=system-services.target
 After=tlsdated.target
 
 [Service]
-ExecStart=/bin/sh /usr/share/cros/init/activate_date.sh
+ExecStart=/usr/share/cros/init/activate_date.sh

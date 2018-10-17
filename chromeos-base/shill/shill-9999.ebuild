@@ -204,8 +204,8 @@ src_install() {
 			doins init/netfilter-queue.conf
 		fi
 	fi
-	insinto /usr/share/cros/init
-	doins init/*.sh
+	exeinto /usr/share/cros/init
+	doexe init/*.sh
 
 	udev_dorules udev/*.rules
 

@@ -133,8 +133,8 @@ src_install() {
 		insinto /etc/init
 		doins init/upstart/*.conf
 	fi
-	insinto /usr/share/cros/init
-	doins init/shared/powerd-pre-start.sh
+	exeinto /usr/share/cros/init
+	doexe init/shared/powerd-pre-start.sh
 
 	if use buffet; then
 		# Buffet command handler definition

@@ -34,6 +34,6 @@ src_install() {
 		insinto "/etc/init"
 		doins "${FILESDIR}/activate_date.conf"
 	fi
-	insinto /usr/share/cros/init
-	doins "${FILESDIR}/activate_date.sh"
+	exeinto /usr/share/cros/init
+	doexe "${FILESDIR}/activate_date.sh"
 }

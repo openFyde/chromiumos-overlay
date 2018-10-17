@@ -67,8 +67,8 @@ src_install() {
 		insinto /etc/init
 		doins init/*.conf
 	fi
-	insinto /usr/share/cros/init
-	doins init/tcsd-pre-start.sh
+	exeinto /usr/share/cros/init
+	doexe init/tcsd-pre-start.sh
 }
 
 pkg_postinst() {
