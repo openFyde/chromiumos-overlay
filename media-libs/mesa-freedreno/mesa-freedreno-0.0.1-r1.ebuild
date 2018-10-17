@@ -13,7 +13,7 @@ if [[ ${PV} = 9999* ]]; then
 	EXPERIMENTAL="true"
 fi
 
-KEYWORDS="~*"
+KEYWORDS="*"
 
 inherit base autotools multilib flag-o-matic python toolchain-funcs cros-workon
 
