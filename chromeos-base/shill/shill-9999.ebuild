@@ -132,7 +132,6 @@ src_install() {
 
 	local shims_dir=/usr/$(get_libdir)/shill/shims
 	exeinto "${shims_dir}"
-	doexe "${OUT}"/crypto-util
 
 	use vpn && doexe "${OUT}"/openvpn-script
 	if use cellular || use pppoe || use vpn; then
