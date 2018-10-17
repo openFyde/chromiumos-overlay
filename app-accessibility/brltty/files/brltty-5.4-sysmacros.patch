@@ -1,0 +1,26 @@
+include sys/sysmacros.h for major/minor/makedev
+These functions have always been defined in sys/sysmacros.h under
+Linux C libraries.  For some, including sys/types.h implicitly
+includes that as well, but glibc deprecated that in glibc 2.25.
+Include the header explicitly for the funcs.
+--- a/brltty-5.4/Programs/brlapi_client.c
++++ b/brltty-5.4/Programs/brlapi_client.c
+@@ -73,6 +73,7 @@
+ #include <linux/tty.h>
+ #include <linux/vt.h>
+ #define MAXIMUM_VIRTUAL_CONSOLE MAX_NR_CONSOLES
++#include <sys/sysmacros.h>
+ #endif /* linux */
+ 
+ #ifdef __OpenBSD__
+diff -ur a/brltty-5.4/Programs/system_linux.c b/brltty-5.4/Programs/system_linux.c
+--- a/brltty-5.4/Programs/system_linux.c
++++ b/brltty-5.4/Programs/system_linux.c
+@@ -24,6 +24,7 @@
+ #include <fcntl.h>
+ #include <sys/ioctl.h>
+ #include <sys/stat.h>
++#include <sys/sysmacros.h>
+ #include <linux/major.h>
+ 
+ #include "log.h"
