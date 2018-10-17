@@ -33,6 +33,7 @@ IUSE=""
 
 DEPEND="
 	dev-go/crypto
+	dev-go/golint
 	dev-go/subcommands
 	dev-go/yaml
 "
