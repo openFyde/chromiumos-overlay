@@ -35,6 +35,7 @@ CROS_BOARDS=(
 	gnawty
 	grunt
 	guado
+	kalista
 	kevin
 	kip
 	lars
