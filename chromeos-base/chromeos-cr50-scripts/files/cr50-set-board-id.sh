@@ -12,6 +12,7 @@ UPDATER="/usr/sbin/gsctool"
 ERR_GENERAL=1
 ERR_ALREADY_SET=2
 ERR_ALREADY_SET_DIFFERENT=3
+ERR_DEVICE_STATE=4
 
 die_as() {
   local exit_value="$1"
@@ -78,6 +79,31 @@ cr50_set_board_id_and_flag() {
   fi
 }
 
+# Only check and set Board ID in normal mode without debug features turned on
+# and only if the device has been finalized, as evidenced by the software
+# write protect status. In some states scripts should also skip the reboot
+# after update. If the SW WP is disabled or the state can not be gotten, skip
+# reboot. Use ERR_GENERAL when the board id shouldn't be set. Use the
+# ERR_DEVICE_STATE exit status when the reboot and setting the board id should
+# be skipped
+check_device() {
+  local exit_status=0
+  local flash_status=""
+
+  flash_status=$(flashrom --wp-status 2>&1) || exit_status="$?"
+  if [ "${exit_status}" != "0" ]; then
+    echo "${flash_status}"
+    exit_status="${ERR_DEVICE_STATE}"
+  elif ! crossystem 'mainfw_type?normal' 'cros_debug?0'; then
+    echo "Not running normal image."
+    exit_status="${ERR_GENERAL}"
+  elif echo "${flash_status}" | grep -q 'write protect is disabled'; then
+    echo "write protection is disabled"
+    exit_status="${ERR_DEVICE_STATE}"
+  fi
+  exit "${exit_status}"
+}
+
 main() {
   local phase=""
   local rlz=""
@@ -102,6 +128,11 @@ main() {
     *)
       die "Usage: $0 phase [board_id]"
   esac
+
+  if [ "$1" = "check_device" ]; then
+    # The check_device function will not return
+    check_device
+  fi
 
   case "${#rlz}" in
     0)
