@@ -1,0 +1,57 @@
+From: Brian Norris <briannorris@chromium.org>
+Date: Wed, 17 Oct 2018 11:07:19 -0700
+Subject: [PATCH] storage: configure directory at build time
+
+Storage shouldn't be fixed to the /boot directory; the location should
+be up to the distribution.
+
+This supports: make RMTFS_DIR=/var/some/other/path
+
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+---
+Submitted upstream:
+
+  commit 44a892ad4e80e254f6d6c656ada2754eb53e6d37
+  https://github.com/andersson/rmtfs/pull/6
+
+ Makefile  | 4 ++++
+ storage.c | 8 ++++----
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 45b71380315c..f35d0962a7eb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -4,6 +4,10 @@ CFLAGS += -Wall -g -O2
+ LDFLAGS += -lqrtr -ludev
+ prefix = /usr/local
+ 
++RMTFS_DIR = /boot
++
++CFLAGS += -DRMTFS_DIR=\"$(RMTFS_DIR)\"
++
+ SRCS := qmi_rmtfs.c rmtfs.c sharedmem.c storage.c util.c
+ OBJS := $(SRCS:.c=.o)
+ 
+diff --git a/storage.c b/storage.c
+index 09092a7860dc..245446f64273 100644
+--- a/storage.c
++++ b/storage.c
+@@ -23,10 +23,10 @@ struct caller {
+ };
+ 
+ static const struct partition partition_table[] = {
+-	{ "/boot/modem_fs1", "/boot/modem_fs1" },
+-	{ "/boot/modem_fs2", "/boot/modem_fs2" },
+-	{ "/boot/modem_fsc", "/boot/modem_fsc" },
+-	{ "/boot/modem_fsg", "/boot/modem_fsg" },
++	{ "/boot/modem_fs1", RMTFS_DIR "/modem_fs1" },
++	{ "/boot/modem_fs2", RMTFS_DIR "/modem_fs2" },
++	{ "/boot/modem_fsc", RMTFS_DIR "/modem_fsc" },
++	{ "/boot/modem_fsg", RMTFS_DIR "/modem_fsg" },
+ 	{}
+ };
+ 
+-- 
+2.19.1.331.ge82ca0e54c-goog
+

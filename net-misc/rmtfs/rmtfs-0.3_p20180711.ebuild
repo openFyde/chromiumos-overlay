@@ -24,8 +24,16 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
+PATCHES=(
+	"${FILESDIR}/${PN}-configure-boot-directory.patch"
+)
+
 src_configure() {
 	sanitizers-setup-env
+}
+
+src_compile() {
+	emake RMTFS_DIR="/var/lib/rmtfs/boot"
 }
 
 src_install() {
