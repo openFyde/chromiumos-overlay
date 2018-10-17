@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="ba8bd67e0e4d81f0468fe4f259d8a7e79306dd6a"
+CROS_WORKON_COMMIT="d5175c5357c7a90ba5b0f8fc94ed8c358c233fb7"
 CROS_WORKON_TREE=("190c4cfe4984640ab62273e06456d51a30cfb725" "1fdb88017b7b2a0d28efae2651ddd80ef64ad450" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,6 +25,7 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/chromeos-config
+	chromeos-base/chromeos-config-tools
 	chromeos-base/libbrillo
 	dev-libs/protobuf
 "
