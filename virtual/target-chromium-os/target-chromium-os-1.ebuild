@@ -26,6 +26,7 @@ IUSE="
 	cros_embedded
 	cups
 	+debugd
+	dlc
 	dptf
 	eclog
 	+fonts
@@ -144,6 +145,7 @@ RDEPEND="
 	syslog? ( app-admin/rsyslog )
 	biod? ( chromeos-base/biod )
 	compupdates? ( chromeos-base/imageloader )
+	dlc? ( chromeos-base/dlcservice )
 	bluetooth? ( chromeos-base/bluetooth )
 	bootchart? ( app-benchmarks/bootchart )
 	tpm? (
