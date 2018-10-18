@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
@@ -19,7 +19,7 @@ REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="cros_host? ( dev-libs/libyaml )
 	mtd? ( sys-apps/flashrom )
-	dev-libs/libzip
+	dev-libs/libzip:=
 	dev-libs/openssl
 	sys-apps/util-linux"
 DEPEND="mtd? ( dev-embedded/android_mtdutils )
