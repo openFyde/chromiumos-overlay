@@ -160,6 +160,25 @@ src_configure() {
 
 	tc-export_build_env BUILD_CC
 
+	# This list contains all ghostscript devices used by CUPS/PPD files.
+	# It was built basing on an output from platform_PrinterPpds autotest.
+	# See the readme.txt file in the autotest directory to learn how the list
+	# was created.
+	local devices=(
+		ap3250 bj10e bj200 bjc600 bjc800 bjc880j bjccolor cdj500
+		cdj550 cdnj500 cljet5c declj250 djet500 dnj650c epl2050 eplcolor
+		eps9high eps9mid epson epsonc hl1250 ibmpro imagen jetp3852 laserjet
+		lbp8 lips2p lips3 lips4 ljet2p ljet3 ljet4 ljetplus lp1800 lp1900
+		lp2200 lp2400 lp2500 lp2563 lp3000c lp7500 lp7700 lp7900 lp8000
+		lp8000c lp8100 lp8200c lp8300c lp8300f lp8400f lp8500c lp8600 lp8600f
+		lp8700 lp8800c lp8900 lp9000b lp9000c lp9100 lp9200b lp9200c lp9300
+		lp9400 lp9500c lp9600 lp9600s lp9800c lps4500 lps6500 lq850 lxm5700m
+		m8510 necp6 oce9050 oki182 okiibm pcl3 picty180 pjxl300 pxlcolor
+		pxlmono r4081 sj48 stcolor t4693d4 tek4696
+		# The "cups" driver is added if and only if we are building with CUPS.
+		$(usev cups)
+	)
+
 	econf \
 		CUPSCONFIG="${EROOT}/usr/bin/${CHOST}-cups-config" \
 		CCAUX="${BUILD_CC}" \
@@ -170,7 +189,7 @@ src_configure() {
 		--enable-fontconfig \
 		--enable-openjpeg \
 		--disable-compile-inits \
-		--with-drivers=ALL \
+		--with-drivers="$(printf %s, "${devices[@]}")" \
 		--with-fontpath="$FONTPATH" \
 		--with-ijs \
 		--with-jbig2dec \
