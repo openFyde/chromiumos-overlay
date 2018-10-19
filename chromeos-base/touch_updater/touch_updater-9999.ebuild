@@ -18,6 +18,7 @@ IUSE="input_devices_synaptics
 	input_devices_wacom
 	input_devices_etphidiap
 	input_devices_st
+	input_devices_st_touchscreen
 	input_devices_weida
 	input_devices_goodix
 	input_devices_sis
@@ -30,6 +31,7 @@ RDEPEND="
 	input_devices_wacom? ( chromeos-base/wacom_fw_flash )
 	input_devices_etphidiap? ( chromeos-base/etphidiap )
 	input_devices_st? ( chromeos-base/st_flash )
+	input_devices_st_touchscreen? ( sys-apps/st-touch-fw-updater )
 	input_devices_weida? ( chromeos-base/weida_wdt_util )
 	input_devices_goodix? ( chromeos-base/gdix_hid_firmware_update )
 	input_devices_sis? ( chromeos-base/sisConsoletool )
@@ -39,7 +41,7 @@ RDEPEND="
 "
 
 pkg_preinst() {
-	if use input_devices_etphidiap; then
+	if use input_devices_etphidiap || use input_devices_st_touchscreen; then
 		enewgroup fwupdate-i2c
 		enewuser fwupdate-i2c
 	fi
