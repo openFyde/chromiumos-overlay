@@ -143,6 +143,7 @@ CONFIG_FRAGMENTS=(
 	iscsi
 	kasan
 	kcov
+	kernel_compress_xz
 	kgdb
 	kmemleak
 	kvm
@@ -399,6 +400,16 @@ kcov_desc="Enable kcov"
 kcov_config="
 CONFIG_KCOV=y
 # CONFIG_RANDOMIZE_BASE is not set
+"
+
+kernel_compress_xz_desc="Compresss kernel image with XZ"
+kernel_compress_xz_config="
+# CONFIG_KERNEL_GZIP is not set
+# CONFIG_KERNEL_BZIP2 is not set
+# CONFIG_KERNEL_LZMA is not set
+# CONFIG_KERNEL_LZO is not set
+# CONFIG_KERNEL_LZ4 is not set
+CONFIG_KERNEL_XZ=y
 "
 
 kgdb_desc="Enable kgdb"
@@ -798,6 +809,7 @@ ${devdebug_config}
 ${dmadebug_config}
 ${dyndebug_config}
 ${kasan_config}
+${kernel_compress_xz_config}
 ${lockdebug_config}
 ${memory_debug_config}
 CONFIG_DEBUG_LIST=y
@@ -805,12 +817,6 @@ CONFIG_DEBUG_PREEMPT=y
 CONFIG_DEBUG_STACK_USAGE=y
 CONFIG_SCHED_STACK_END_CHECK=y
 CONFIG_WQ_WATCHDOG=y
-# CONFIG_KERNEL_GZIP is not set
-# CONFIG_KERNEL_BZIP2 is not set
-# CONFIG_KERNEL_LZMA is not set
-# CONFIG_KERNEL_LZO is not set
-# CONFIG_KERNEL_LZ4 is not set
-CONFIG_KERNEL_XZ=y
 "
 
 # Firmware binaries selected by USE flags.  Selected firmware binaries will
