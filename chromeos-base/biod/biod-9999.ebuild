@@ -38,6 +38,8 @@ pkg_setup() {
 src_install() {
 	dobin "${OUT}"/biod
 
+	dobin "${OUT}"/bio_wash
+
 	into /usr/local
 	dobin "${OUT}"/biod_client_tool
 	dobin "${OUT}"/fake_biometric_tool
