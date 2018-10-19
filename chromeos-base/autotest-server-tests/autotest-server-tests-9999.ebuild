@@ -151,6 +151,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50RMAOpen
 	+tests_firmware_Cr50SetBoardId
 	+tests_firmware_Cr50Testlab
+	+tests_firmware_Cr50TpmMode
 	+tests_firmware_Cr50Unlock
 	+tests_firmware_Cr50Update
 	+tests_firmware_Cr50UpdateScriptStress
