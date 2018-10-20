@@ -18,7 +18,7 @@ BOARDS="${BOARDS} lumpy lumpy64 mario meowth nasher nami nautilus nocturne"
 BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi rammus reef"
 BOARDS="${BOARDS} samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
-IUSE="${BOARDS} altfw seabios cb_legacy_uboot"
+IUSE="${BOARDS} altfw seabios"
 IUSE="${IUSE} fsp fastboot unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 
 REQUIRED_USE="
@@ -30,7 +30,6 @@ DEPEND="
 	sys-boot/depthcharge
 	bmpblk? ( sys-boot/chromeos-bmpblk )
 	tianocore? ( sys-boot/edk2 )
-	cb_legacy_uboot? ( virtual/u-boot )
 	seabios? ( sys-boot/chromeos-seabios )
 	unibuild? ( chromeos-base/chromeos-config )
 	u-boot? ( sys-boot/u-boot )
@@ -46,17 +45,7 @@ S=${WORKDIR}
 
 prepare_legacy_image() {
 	local legacy_var="$1"
-	if use cb_legacy_uboot; then
-		local output="${T}/_u-boot.cbfs"
-		"${FILESDIR}/build_cb_legacy_uboot.sh" \
-			"${CROS_FIRMWARE_ROOT}/u-boot" \
-			"${CROS_FIRMWARE_ROOT}/dtb/${U_BOOT_FDT_USE}.dtb" \
-			"${T}" "${output}" ||
-			die "Failed to build legacy U-Boot."
-		export "${legacy_var}=${output}"
-	else
-		einfo "No legacy boot payloads specified."
-	fi
+	einfo "No legacy boot payloads specified."
 }
 
 do_cbfstool() {
