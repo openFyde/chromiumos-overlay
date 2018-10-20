@@ -43,11 +43,6 @@ CROS_FIRMWARE_ROOT="${ROOT%/}${CROS_FIRMWARE_IMAGE_DIR}"
 
 S=${WORKDIR}
 
-prepare_legacy_image() {
-	local legacy_var="$1"
-	einfo "No legacy boot payloads specified."
-}
-
 do_cbfstool() {
 	local output
 	output=$(cbfstool "$@" 2>&1)
@@ -139,29 +134,6 @@ add_ec() {
 		-f "${ecroot}/ec.RW.bin" -n "${name}" -p "${pad}" || die
 	cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
 		-f "${ecroot}/ec.RW.hash" -n "${name}.hash" || die
-}
-
-# Add and sign a legacy payload (in its own CBFS) into image.
-# Usage: add_and_sign_legacy legacy_payload cbfs_rom [fallback_payload]
-add_and_sign_legacy() {
-	local payload="$1"
-	local rom="$2"
-	local fallback_payload="$3"
-	local tmpfile="$(mktemp)"
-
-	if [[ ! -f "${payload}" ]] && [[ -f "${fallback_payload}" ]]; then
-		payload="${fallback_payload}"
-	fi
-
-	do_cbfstool "${rom}" write -r RW_LEGACY -f "${payload}" --force
-
-	# TODO(kitching): Get hash and sign.
-
-	# Add the tag for silent updating.
-	do_cbfstool "${rom}" add -r RW_LEGACY -f "${tmpfile}" -t raw -c none \
-		-n "cros_allow_auto_update"
-
-	rm -f "${tmpfile}"
 }
 
 # Add payloads and sign the image.
@@ -270,6 +242,8 @@ setup_altfw() {
 	# Add the tag for silent updating.
 	do_cbfstool "${cbfs}" add-int -i 1 -n "cros_allow_auto_update"
 
+	# TODO(kitching): Get hash and sign.
+
 	# Write this CBFS file into the RW_LEGACY region
 	do_cbfstool "${coreboot_file}" write -f "${cbfs}" -r RW_LEGACY --force
 	do_cbfstool "${coreboot_file}.serial" write -f "${cbfs}" -r RW_LEGACY \
@@ -361,15 +335,6 @@ build_images() {
 
 	if [[ -d ${froot}/cbfs ]]; then
 		die "something is still using ${froot}/cbfs, which is deprecated."
-	fi
-
-	local legacy_file=""
-	prepare_legacy_image legacy_file
-	if [ -n "${legacy_file}" ]; then
-		einfo "Using legacy boot payload: ${legacy_file}"
-		add_and_sign_legacy "${legacy_file}" "${coreboot_file}" ""
-		add_and_sign_legacy "${legacy_file}.serial" \
-			"${coreboot_file}.serial" "${legacy_file}"
 	fi
 
 	if use cros_ec; then
