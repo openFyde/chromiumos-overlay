@@ -12,8 +12,8 @@ HOMEPAGE="http://www.coreboot.org/SeaBIOS"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="-* ~amd64 ~x86"
-IUSE="coreboot-sdk"
-DEPEND="sys-boot/coreboot"
+IUSE="altfw coreboot-sdk"
+DEPEND="!altfw? ( sys-boot/coreboot ) "
 
 # Directory where the generated files are looked for and placed.
 CROS_FIRMWARE_IMAGE_DIR="/firmware"
@@ -27,7 +27,6 @@ create_seabios_cbfs() {
 	local seabios_cbfs="seabios.cbfs${suffix}"
 	local coreboot_rom="$(find "${CROS_FIRMWARE_ROOT}" -name coreboot.rom 2>/dev/null | head -n 1)"
 	local cbfs_size="$(_cbfstool "${coreboot_rom}" layout | sed -E -n -e "/^'RW_LEGACY'/{s|.*size ([0-9]+).*$|\1|;p}" )"
-	local bootblock="${T}/bootblock"
 	local vgabios="out/vgabios.bin"
 
 	# Create empty CBFS
@@ -85,21 +84,59 @@ src_compile() {
 
 	_emake defconfig KCONFIG_DEFCONFIG="${config}"
 	_emake
-	create_seabios_cbfs ""
+	if use altfw; then
+		mkdir staging
+		cp out/bios.bin.elf "staging/seabios.elf"
+	else
+		create_seabios_cbfs ""
+	fi
 	_emake clean
 
 	echo "CONFIG_DEBUG_SERIAL=y" >> "${config}"
 	_emake defconfig KCONFIG_DEFCONFIG="${config}"
 	_emake
-	create_seabios_cbfs ".serial"
+	if use altfw; then
+		cp out/bios.bin.elf "staging/seabios.serial.elf"
+	else
+		create_seabios_cbfs ".serial"
+	fi
 }
 
 src_install() {
-	insinto /firmware
-	doins out/bios.bin.elf seabios.cbfs seabios.cbfs.serial
-	doins legacy.elf{,.serial}
-	insinto /firmware/legacy
-	doins -r legacy/*
-	insinto /firmware/legacy.serial
-	doins -r legacy.serial/*
+	if use altfw; then
+		local oprom=$(echo "${CROS_FIRMWARE_ROOT}"/pci????,????.rom)
+		local vgabios="out/vgabios.bin"
+
+		insinto /firmware/seabios
+		doins staging/seabios*.elf
+
+		# Add VGA option rom to CBFS, prefer native VGABIOS if it exists
+		if [[ ! -f "${vgabios}" ]]; then
+			vgabios="${oprom}"
+		fi
+		if [[ ! -f "${oprom}" ]]; then
+			cbfsrom="seavgabios.rom"
+		else
+			cbfsrom=$(basename "${oprom}")
+		fi
+		insinto /firmware/seabios/oprom
+		newins "${vgabios}" "${cbfsrom}"
+
+		# Add additional configuration
+		insinto /firmware/seabios/cbfs
+		doins chromeos/links
+		doins chromeos/bootorder
+		insinto /firmware/seabios/etc
+		doins chromeos/etc/boot-menu-key
+		doins chromeos/etc/boot-menu-message
+		doins chromeos/etc/boot-menu-wait
+	else
+		insinto /firmware
+		doins out/bios.bin.elf seabios.cbfs seabios.cbfs.serial
+		doins legacy.elf{,.serial}
+		insinto /firmware/legacy
+		doins -r legacy/*
+		insinto /firmware/legacy.serial
+		doins -r legacy.serial/*
+	fi
 }
