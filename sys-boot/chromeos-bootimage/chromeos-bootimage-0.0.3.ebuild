@@ -18,7 +18,7 @@ BOARDS="${BOARDS} lumpy lumpy64 mario meowth nasher nami nautilus nocturne"
 BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi rammus reef"
 BOARDS="${BOARDS} samus sand sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
-IUSE="${BOARDS} altfw cb_legacy_seabios cb_legacy_tianocore cb_legacy_uboot"
+IUSE="${BOARDS} altfw cb_legacy_seabios cb_legacy_uboot"
 IUSE="${IUSE} fsp fastboot unibuild u-boot tianocore cros_ec pd_sync"
 
 REQUIRED_USE="
@@ -30,7 +30,6 @@ DEPEND="
 	sys-boot/depthcharge
 	sys-boot/chromeos-bmpblk
 	cb_legacy_seabios? ( sys-boot/chromeos-seabios )
-	cb_legacy_tianocore? ( sys-boot/edk2 )
 	tianocore? ( sys-boot/edk2 )
 	cb_legacy_uboot? ( virtual/u-boot )
 	unibuild? ( chromeos-base/chromeos-config )
@@ -47,9 +46,7 @@ S=${WORKDIR}
 
 prepare_legacy_image() {
 	local legacy_var="$1"
-	if use cb_legacy_tianocore; then
-		export "${legacy_var}=${CROS_FIRMWARE_ROOT}/tianocore.cbfs"
-	elif use cb_legacy_seabios; then
+	if use cb_legacy_seabios; then
 		export "${legacy_var}=${CROS_FIRMWARE_ROOT}/seabios.cbfs"
 	elif use cb_legacy_uboot; then
 		local output="${T}/_u-boot.cbfs"
