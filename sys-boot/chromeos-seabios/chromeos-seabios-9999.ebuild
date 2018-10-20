@@ -12,7 +12,7 @@ HOMEPAGE="http://www.coreboot.org/SeaBIOS"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="-* ~amd64 ~x86"
-IUSE="altfw coreboot-sdk"
+IUSE="altfw coreboot-sdk fwserial"
 DEPEND="!altfw? ( sys-boot/coreboot ) "
 
 # Directory where the generated files are looked for and placed.
@@ -86,7 +86,11 @@ src_compile() {
 	_emake
 	if use altfw; then
 		mkdir staging
-		cp out/bios.bin.elf "staging/seabios.elf"
+		cp out/bios.bin.elf staging/seabios.noserial.elf
+		# Select which version is the default
+		if ! use fwserial; then
+			cp out/bios.bin.elf staging/seabios.elf
+		fi
 	else
 		create_seabios_cbfs ""
 	fi
@@ -96,7 +100,10 @@ src_compile() {
 	_emake defconfig KCONFIG_DEFCONFIG="${config}"
 	_emake
 	if use altfw; then
-		cp out/bios.bin.elf "staging/seabios.serial.elf"
+		cp out/bios.bin.elf staging/seabios.serial.elf
+		if use fwserial; then
+			cp out/bios.bin.elf staging/seabios.elf
+		fi
 	else
 		create_seabios_cbfs ".serial"
 	fi

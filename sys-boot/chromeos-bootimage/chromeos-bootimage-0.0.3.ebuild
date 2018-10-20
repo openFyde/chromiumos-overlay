@@ -18,7 +18,7 @@ BOARDS="${BOARDS} lumpy lumpy64 mario meowth nasher nami nautilus nocturne"
 BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi rammus reef"
 BOARDS="${BOARDS} samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
-IUSE="${BOARDS} altfw cb_legacy_seabios cb_legacy_uboot"
+IUSE="${BOARDS} altfw cb_legacy_seabios seabios cb_legacy_uboot"
 IUSE="${IUSE} fsp fastboot unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 
 REQUIRED_USE="
@@ -32,6 +32,7 @@ DEPEND="
 	cb_legacy_seabios? ( sys-boot/chromeos-seabios )
 	tianocore? ( sys-boot/edk2 )
 	cb_legacy_uboot? ( virtual/u-boot )
+	seabios? ( sys-boot/chromeos-seabios )
 	unibuild? ( chromeos-base/chromeos-config )
 	u-boot? ( sys-boot/u-boot )
 	cros_ec? ( chromeos-base/chromeos-ec )
@@ -247,6 +248,32 @@ setup_altfw() {
 
 		# For now, use TianoCore as the default
 		echo "0;altfw/tianocore;TianoCore;TianoCore bootloader" \
+			>> "${bl_list}"
+	fi
+
+	# Add SeaBIOS if enabled
+	if use seabios; then
+		local root="${CROS_FIRMWARE_ROOT}/seabios/"
+		einfo "- Adding SeaBIOS"
+
+		do_cbfstool "${cbfs}" add-payload -n altfw/seabios -c lzma \
+			-f "${root}/seabios.elf"
+		for f in "${root}oprom/"*; do
+			if [[ -f "${f}" ]]; then
+				do_cbfstool ${cbfs} add -f "${f}" \
+					-n "${f#${root}oprom/}" -t optionrom
+			fi
+		done
+		for f in "${root}cbfs/"*; do
+			if [[ -f "${f}" ]]; then
+				do_cbfstool ${cbfs} add -f "${f}" \
+					-n "${f#${root}cbfs/}" -t raw
+			fi
+		done
+		for f in "${root}"etc/*; do
+			do_cbfstool ${cbfs} add -f "${f}" -n "${f#$root}" -t raw
+		done
+		echo "3;altfw/seabios;SeaBIOS;SeaBIOS bootloader" \
 			>> "${bl_list}"
 	fi
 
