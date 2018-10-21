@@ -71,3 +71,5 @@ socket: arg0 == 1 || arg0 == 16 && arg2 == 15
 unlinkat: 1
 umask: 1
 write: 1
+getpid: 1
+prlimit64: arg2 == 0 && arg3 != 0

@@ -72,3 +72,5 @@ ugetrlimit: arg0 == 7 || arg0 == 3
 unlink: 1
 umask: 1
 write: 1
+getpid: 1
+prlimit64: arg2 == 0 && arg3 != 0
