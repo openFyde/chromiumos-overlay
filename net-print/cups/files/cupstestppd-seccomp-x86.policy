@@ -14,6 +14,7 @@ getdents64: 1
 getegid32: 1
 geteuid32: 1
 getgid32: 1
+getpid: 1
 getuid32: 1
 lstat: 1
 # Disallow mmap with PROT_EXEC set.  The syntax here doesn't

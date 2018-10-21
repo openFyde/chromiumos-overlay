@@ -32,6 +32,7 @@ nanosleep: 1
 newfstatat: 1
 openat: 1
 ppoll: 1
+prlimit64: arg2 == 0 && arg3 != 0
 read: 1
 recvfrom: 1
 rt_sigaction: 1
