@@ -103,3 +103,5 @@ dup2: 1
 # jail system calls
 setresgid: 1
 setresuid: 1
+getpid: 1
+prlimit64: 1
