@@ -258,6 +258,88 @@ pick_next_cherries() {
 	popd >/dev/null || die
 }
 
+get_most_recent_revision_for_dir() {
+	local subdir="$1"
+
+	# Tries to parse the last git-svn-id present in the most recent commit
+	# with a git-svn-id attached. We can't simply `grep -m 1 git-svn-id`,
+	# since it's reasonable for a revert message to include the git-svn-id
+	# of the commit it's reverting.
+	#
+	# Thankfully, LLVM's machinery always makes this git-svn-id the last
+	# line of each upstream commit, so we just need to search for
+	# /git-svn-id/, with /^commit/ two lines later.
+	#
+	# Example of git-svn-id line:
+	# git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@344884 [etc]
+	#
+	# Where:
+	#   - The URL isn't the same across clang, llvm, compiler-rt, etc.
+	#   - The revision is r344884
+	#   - [etc] is trailing stuff we don't need to care about.
+	git -C "$subdir" log | \
+		sed -En ':x
+			/^\s+git-svn-id:/!b
+			h
+			n
+			/^$/!bx
+			n
+			/^commit/!bx
+			g
+			s/[^@]+@([0-9]+) .*/\1/
+			p
+			q'
+}
+
+get_uncached_most_recent_revision() {
+	set -- "${EGIT_REPO_URIS[@]}"
+	local max=0
+	while [[ $# -gt 0 ]]; do
+		local dir_name="${S}/$2"
+		local subdir_rev=$(get_most_recent_revision_for_dir "$dir_name")
+
+		if test "$max" -lt "$subdir_rev"; then
+			max="$subdir_rev"
+		fi
+		shift 4
+	done
+
+	echo "$max"
+}
+
+# This cache is a bit awkward, since the most natural way to do this is "make a
+# get_most_recent_revision function, and call it in a subshell." Subshells make
+# caching worthless. :)
+most_recent_revision=
+
+ensure_most_recent_revision_set() {
+	if test -z "$most_recent_revision"; then
+		most_recent_revision="$(get_uncached_most_recent_revision)"
+	fi
+}
+
+epatch_between() {
+	local min_revision="$1"
+	local max_revision="$2"
+	local patch="$3"
+
+	ensure_most_recent_revision_set
+	if test "$min_revision" -le "$most_recent_revision" -a \
+			"$max_revision" -ge "$most_recent_revision"; then
+		epatch "$patch"
+	else
+		return 1
+	fi
+}
+
+epatch_after() {
+	epatch_between $1 9999999 $2
+}
+
+epatch_before() {
+	epatch_between 0 $1 $2
+}
+
 src_prepare() {
 	if ! use llvm-tot ; then
 		use llvm-next || pick_cherries
@@ -288,11 +370,11 @@ src_prepare() {
 	# Temporarily revert r332058 as it caused speedometer2 perf regression.
 	# https://crbug.com/864781
 
-	epatch "${FILESDIR}"/llvm-next-revert-afdo-hotness.patch
+	epatch_after 332058 "${FILESDIR}"/llvm-next-revert-afdo-hotness.patch
 
 	# Revert r328973 and r335145
-	epatch "${FILESDIR}"/llvm-8.0-revert-r328973.patch
-	epatch "${FILESDIR}"/llvm-8.0-revert-r335145.patch
+	epatch_after 328973 "${FILESDIR}"/llvm-8.0-revert-r328973.patch
+	epatch_after 335145 "${FILESDIR}"/llvm-8.0-revert-r335145.patch
 	# Revert r335284, in clang
 	pushd "${S}"/tools/clang >/dev/null || die
 	epatch "${FILESDIR}"/clang-8.0-revert-r335284.patch
