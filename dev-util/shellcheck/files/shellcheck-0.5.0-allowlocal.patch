@@ -1,0 +1,18 @@
+Allow local in sh scripts even though it isn't officially
+part of POSIX shell.
+
+See https://crbug.com/891826 for discussion and
+https://github.com/koalaman/shellcheck/issues/1341
+for an upstream proposal to fix this more completely.
+
+--- ShellCheck-0.5.0.orig/src/ShellCheck/Checks/ShellSupport.hs
++++ ShellCheck-0.5.0/src/ShellCheck/Checks/ShellSupport.hs
+@@ -277,7 +277,7 @@
+             "let", "caller", "builtin", "complete", "compgen", "declare", "dirs", "disown",
+             "enable", "mapfile", "readarray", "pushd", "popd", "shopt", "suspend",
+             "typeset"
+-            ] ++ if not isDash then ["local"] else []
++            ]
+         allowedFlags = Map.fromList [
+             ("exec", []),
+             ("export", ["-p"]),

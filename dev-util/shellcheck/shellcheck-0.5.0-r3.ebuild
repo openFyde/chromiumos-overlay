@@ -33,6 +33,10 @@ DEPEND="dev-haskell/aeson:=[profile?]
 
 S="${WORKDIR}/${MY_P}"
 
+PATCHES=(
+	"${FILESDIR}/${PN}-0.5.0-allowlocal.patch"
+)
+
 src_install() {
 	cabal_src_install
 	doman "${PN}.1"
