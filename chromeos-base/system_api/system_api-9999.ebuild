@@ -55,6 +55,7 @@ src_install() {
 		cryptohome
 		debugd
 		diagnosticsd
+		dlcservice
 		login_manager
 		lorgnette
 		oobe_config
