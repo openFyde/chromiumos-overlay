@@ -17,8 +17,9 @@ MAX_RETRIES=3
 RETRY_DELAY=10
 
 gbb_force_dev_mode() {
-  # Set GBB_FLAG_FORCE_DEV_SWITCH_ON (0x8) to force boot in developer mode
-  # after RMA reset.
+  # Disable SW WP and set GBB_FLAG_FORCE_DEV_SWITCH_ON (0x8) to force boot in
+  # developer mode after RMA reset.
+  flashrom -p host --wp-disable --wp-range 0 0 > /dev/null 2>&1
   local flags="$(/usr/share/vboot/bin/get_gbb_flags.sh 2>/dev/null \
     | awk '/Chrome OS GBB set flags:/ {print $NF}')"
   local new_flags="$(printf '0x%x' "$(( ${flags} | 0x8 ))")"
@@ -96,6 +97,8 @@ cr50_reset() {
       # Force the next boot to be in developer mode so that we can boot to
       # RMA shim again.
       echo "The system will reboot shortly."
+      # Wait for cr50 to enter RMA mode.
+      sleep 2
       gbb_force_dev_mode
       reboot
       # Sleep indefinitely to avoid continue.
