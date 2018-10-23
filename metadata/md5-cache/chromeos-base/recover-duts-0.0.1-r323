@@ -1,11 +1,12 @@
 DEFINED_PHASES=info install setup unpack
 DEPEND=dev-vcs/git
-DESCRIPTION=Chromium OS build utilities
+DESCRIPTION=Test tool that recovers bricked Chromium OS test devices
 EAPI=4
-HOMEPAGE=http://www.chromium.org/chromium-os
-IUSE=cros_host cros_workon_tree_b67fe926442acf79c3afb996c0488a4424c82648
+HOMEPAGE=http://www.chromium.org/
+IUSE=cros_host cros_workon_tree_e0cab5e190dd57fd9118fb6aef77f1193138ce50
 KEYWORDS=*
-LICENSE=BSD-Google
+LICENSE=GPL-2
+RDEPEND=chromeos-base/chromeos-init dev-lang/python
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
-_md5_=5b19e47574f82b6eb53768b735146792
+_md5_=eec24b97d3a1967398970b0698edd439
