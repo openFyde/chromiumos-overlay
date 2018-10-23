@@ -82,6 +82,10 @@ src_install() {
 	# Install D-Bus config file.
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.CrosDisks.conf
+
+	# Install setuid restrictions file.
+	insinto /usr/share/cros/startup/process_management_policies
+	doins setuid_restrictions/cros_disks_whitelist.txt
 }
 
 platform_pkg_test() {
