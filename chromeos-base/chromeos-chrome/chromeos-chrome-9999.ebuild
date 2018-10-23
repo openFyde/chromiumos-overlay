@@ -216,7 +216,10 @@ RDEPEND="${RDEPEND}
 		chromeos-base/gestures
 		chromeos-base/libevdev
 	)
-	accessibility? ( app-accessibility/brltty )
+	accessibility? (
+		app-accessibility/brltty
+		app-accessibility/espeak-ng
+	)
 	libcxx? (
 		sys-libs/libcxxabi
 		sys-libs/libcxx
