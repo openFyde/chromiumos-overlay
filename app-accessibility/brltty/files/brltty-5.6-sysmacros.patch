@@ -3,8 +3,8 @@ These functions have always been defined in sys/sysmacros.h under
 Linux C libraries.  For some, including sys/types.h implicitly
 includes that as well, but glibc deprecated that in glibc 2.25.
 Include the header explicitly for the funcs.
---- a/brltty-5.4/Programs/brlapi_client.c
-+++ b/brltty-5.4/Programs/brlapi_client.c
+--- a/Programs/brlapi_client.c
++++ b/Programs/brlapi_client.c
 @@ -73,6 +73,7 @@
  #include <linux/tty.h>
  #include <linux/vt.h>
@@ -13,9 +13,9 @@ Include the header explicitly for the funcs.
  #endif /* linux */
  
  #ifdef __OpenBSD__
-diff -ur a/brltty-5.4/Programs/system_linux.c b/brltty-5.4/Programs/system_linux.c
---- a/brltty-5.4/Programs/system_linux.c
-+++ b/brltty-5.4/Programs/system_linux.c
+diff -ur a/Programs/system_linux.c b/Programs/system_linux.c
+--- a/Programs/system_linux.c
++++ b/Programs/system_linux.c
 @@ -24,6 +24,7 @@
  #include <fcntl.h>
  #include <sys/ioctl.h>

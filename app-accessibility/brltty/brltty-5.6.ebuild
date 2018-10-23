@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=4
+EAPI=5
 
 FINDLIB_USE="ocaml"
 
@@ -42,10 +42,6 @@ RDEPEND="java? ( >=virtual/jre-1.4 )
 	${COMMON_DEP}"
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-fix-ldflags.patch
-	epatch "${FILESDIR}"/${P}-fix-compile-list.patch
-	epatch "${FILESDIR}"/${P}-sysmacros.patch
-
 	java-pkg-opt-2_src_prepare
 
 	# The code runs `pkg-config` directly instead of locating a suitable
@@ -131,7 +127,7 @@ src_install() {
 
 	insinto /etc
 	doins Documents/brltty.conf
-	udev_newrules Autostart/Udev/udev.rules 70-brltty.rules
+	udev_newrules Autostart/Udev/rules 70-brltty.rules
 	newinitd "${FILESDIR}"/brltty.rc brltty
 
 	libdir="$(get_libdir)"

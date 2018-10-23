@@ -3,17 +3,12 @@
 # found in the LICENSE file.
 
 cros_pre_src_prepare_brltty_config() {
+	epatch "${FILESDIR}"/${P}-Customize-retain-dots-for-Chrome-OS-and-ChromeVox.patch
+	epatch "${FILESDIR}"/${P}-fix-ldflags.patch
+	epatch "${FILESDIR}"/${P}-suppress-messages.patch
+	epatch "${FILESDIR}"/${P}-sysmacros.patch
 	epatch "${FILESDIR}"/${P}-tty0-openflags.patch
-	epatch "${FILESDIR}/"${P}-supress-messages.patch
 	epatch "${FILESDIR}"/${P}-udev-run-script.patch
-	epatch "${FILESDIR}"/${P}-r1-0001-The-autorelease-alarm-wasn-t-correctly-cancelled-on-.patch
-	epatch "${FILESDIR}"/${P}-r1-0002-Hotkey-handling-shouldn-t-interfere-with-non-hotkey-.patch
-	epatch "${FILESDIR}"/${P}-r1-0003-Add-a-so-far-manually-settable-flag-for-retaining-th.patch
-	epatch "${FILESDIR}"/${P}-r1-0004-Fixes-to-chord-key-retention.-dm.patch
-	epatch "${FILESDIR}"/${P}-r1-0005-Retain-the-chord-key-when-converting-from-a-brltty-t.patch
-	epatch "${FILESDIR}"/${P}-r1-0006-A-bit-of-retain-chords-code-cleanup.-dm.patch
-	epatch "${FILESDIR}"/${P}-r1-0007-Customize-retain-dots-for-Chrome-OS-and-ChromeVox.patch
-	epatch "${FILESDIR}"/${P}-orbit.patch
 }
 
 cros_post_src_prepare_brltty_config() {
@@ -26,7 +21,7 @@ cros_post_src_prepare_brltty_config() {
 	# modify the usb device definitions in the C source, and for those
 	# to be picked up by updusbdevs, those patches need to be applied
 	# before the below line.
-	./updusbdevs -nogeneric udev:Autostart/Udev/udev.rules || die
+	./updusbdevs -nogeneric udev:Autostart/Udev/rules || die
 }
 
 cros_post_src_install_brltty_config() {
