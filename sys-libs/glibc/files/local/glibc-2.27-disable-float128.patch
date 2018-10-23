@@ -1,0 +1,145 @@
+This disabled float128 support for x86_64, x86. This is a simplied
+revert of commit c86ed71d633c22d6f638576f7660c52a5f783d66
+
+
+Author: Joseph Myers <joseph@codesourcery.com>
+Date:   Mon Jun 26 22:01:27 2017 +0000
+
+    Add float128 support for x86_64, x86.
+
+The reason to revert it is we are using compiler-rt instead of libgcc.
+Some builtins are not ready in compiler-rt, as a result, we hit
+some problems like crbug.com/843822    
+diff --git a/sysdeps/x86/bits/floatn.h b/sysdeps/x86/bits/floatn.h
+index 49c75f26c5..94ee275b34 100644
+--- a/sysdeps/x86/bits/floatn.h
++++ b/sysdeps/x86/bits/floatn.h
+@@ -37,7 +37,7 @@
+ /* Defined to 1 if __HAVE_FLOAT128 is 1 and the type is ABI-distinct
+    from the default float, double and long double types in this glibc.  */
+ #if __HAVE_FLOAT128
+-# define __HAVE_DISTINCT_FLOAT128 1
++# define __HAVE_DISTINCT_FLOAT128 0
+ #else
+ # define __HAVE_DISTINCT_FLOAT128 0
+ #endif
+diff --git a/sysdeps/i386/Implies b/sysdeps/i386/Implies
+index 76cb207173..20b2dffc29 100644
+--- a/sysdeps/i386/Implies
++++ b/sysdeps/i386/Implies
+@@ -1,6 +1,5 @@
+ x86
+ wordsize-32
+-ieee754/float128
+ ieee754/ldbl-96
+ ieee754/dbl-64
+ ieee754/flt-32
+diff --git a/sysdeps/i386/fpu/fenv_private.h b/sysdeps/i386/fpu/fenv_private.h
+index 38fd0b92b5..e20e1f1662 100644
+--- a/sysdeps/i386/fpu/fenv_private.h
++++ b/sysdeps/i386/fpu/fenv_private.h
+@@ -1,46 +1,36 @@
+ #ifndef FENV_PRIVATE_H
+ #define FENV_PRIVATE_H 1
+ 
+-#include <bits/floatn.h>
+ #include <fenv.h>
+ #include <fpu_control.h>
+ 
+ #ifdef __SSE2_MATH__
+-# define math_opt_barrier(x)						\
+-  ({ __typeof(x) __x;							\
+-     if (sizeof (x) <= sizeof (double)					\
+-	|| __builtin_types_compatible_p (__typeof (x), _Float128))	\
+-       __asm ("" : "=x" (__x) : "0" (x));				\
+-     else								\
+-       __asm ("" : "=t" (__x) : "0" (x));				\
++# define math_opt_barrier(x) \
++  ({ __typeof(x) __x;					\
++     if (sizeof (x) <= sizeof (double))			\
++       __asm ("" : "=x" (__x) : "0" (x));		\
++     else						\
++       __asm ("" : "=t" (__x) : "0" (x));		\
+      __x; })
+-# define math_force_eval(x)						\
+-  do {									\
+-    if (sizeof (x) <= sizeof (double)					\
+-	|| __builtin_types_compatible_p (__typeof (x), _Float128))	\
+-      __asm __volatile ("" : : "x" (x));				\
+-    else								\
+-      __asm __volatile ("" : : "f" (x));				\
++# define math_force_eval(x) \
++  do {							\
++    if (sizeof (x) <= sizeof (double))			\
++      __asm __volatile ("" : : "x" (x));		\
++    else						\
++      __asm __volatile ("" : : "f" (x));		\
+   } while (0)
+ #else
+-# define math_opt_barrier(x)						\
+-  ({ __typeof (x) __x;							\
+-     if (__builtin_types_compatible_p (__typeof (x), _Float128))	\
+-       {								\
+-	 __x = (x);							\
+-	 __asm ("" : "+m" (__x));					\
+-       }								\
+-     else								\
+-       __asm ("" : "=t" (__x) : "0" (x));				\
++# define math_opt_barrier(x) \
++  ({ __typeof (x) __x;					\
++     __asm ("" : "=t" (__x) : "0" (x));			\
+      __x; })
+-# define math_force_eval(x)						\
+-  do {									\
+-    __typeof (x) __x = (x);						\
+-    if (sizeof (x) <= sizeof (double)					\
+-	|| __builtin_types_compatible_p (__typeof (x), _Float128))	\
+-      __asm __volatile ("" : : "m" (__x));				\
+-    else								\
+-      __asm __volatile ("" : : "f" (__x));				\
++# define math_force_eval(x) \
++  do {							\
++    __typeof (x) __x = (x);				\
++    if (sizeof (x) <= sizeof (double))			\
++      __asm __volatile ("" : : "m" (__x));		\
++    else						\
++      __asm __volatile ("" : : "f" (__x));		\
+   } while (0)
+ #endif
+ 
+@@ -332,13 +322,6 @@ libc_feresetround_387 (fenv_t *e)
+ # define libc_feholdsetround_53bit	libc_feholdsetround_387_53bit
+ #endif
+ 
+-#ifdef __x86_64__
+-/* The SSE rounding mode is used by soft-fp (libgcc and glibc) on
+-   x86_64, so that must be set for float128 computations.  */
+-# define SET_RESTORE_ROUNDF128(RM) \
+-  SET_RESTORE_ROUND_GENERIC (RM, libc_feholdsetround_sse, libc_feresetround_sse)
+-#endif
+-
+ /* We have support for rounding mode context.  */
+ #define HAVE_RM_CTX 1
+ 
+diff --git a/sysdeps/x86_64/Implies b/sysdeps/x86_64/Implies
+index 3d7ded70d2..811c19a8f2 100644
+--- a/sysdeps/x86_64/Implies
++++ b/sysdeps/x86_64/Implies
+@@ -1,5 +1,4 @@
+ x86
+-ieee754/float128
+ ieee754/ldbl-96
+ ieee754/dbl-64/wordsize-64
+ ieee754/dbl-64diff --git a/sysdeps/x86/fpu/Makefile b/sysdeps/x86/fpu/Makefile
+index 600e42c3db..a8047a4504 100644
+--- a/sysdeps/x86/fpu/Makefile
++++ b/sysdeps/x86/fpu/Makefile
+@@ -1,7 +1,4 @@
+ ifeq ($(subdir),math)
+-# sqrtf128 requires soft-fp.
+-CPPFLAGS += -I../soft-fp
+-
+ libm-support += powl_helper
+ tests += test-fenv-sse test-fenv-clear-sse test-fenv-x87 test-fenv-sse-2 \
+ 	 test-flt-eval-method-387 test-flt-eval-method-sse
+
