@@ -36,7 +36,7 @@ HOMEPAGE="http://libcxxabi.llvm.org/"
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+compiler-rt cros_host libunwind llvm-next +static-libs test"
+IUSE="+compiler-rt cros_host libunwind msan llvm-next +static-libs test"
 
 RDEPEND="
 	libunwind? (
@@ -98,6 +98,13 @@ multilib_src_configure() {
 		-DLIBCXXABI_LIBCXX_INCLUDES="${S}"/libcxx/include
 		-DLIBCXXABI_USE_COMPILER_RT=$(usex compiler-rt)
 	)
+
+	if use msan; then
+		mycmakeargs+=(
+			-DLLVM_USE_SANITIZER=Memory
+		)
+	fi
+
 	if use test; then
 		mycmakeargs+=(
 			-DLIT_COMMAND="${EPREFIX}"/usr/bin/lit

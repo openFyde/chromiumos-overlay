@@ -26,7 +26,7 @@ HOMEPAGE="http://libcxx.llvm.org/"
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt libunwind llvm-next +static-libs test"
+IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt libunwind llvm-next msan +static-libs test"
 REQUIRED_USE="libunwind? ( || ( libcxxabi libcxxrt ) )
 	?? ( libcxxabi libcxxrt )"
 
@@ -153,6 +153,12 @@ multilib_src_configure() {
 		-DCMAKE_INSTALL_PREFIX=${PREFIX}
 		-DCMAKE_SHARED_LINKER_FLAGS="${extra_libs[*]} ${LDFLAGS}"
 	)
+
+	if use msan; then
+		mycmakeargs+=(
+			-DLLVM_USE_SANITIZER=Memory
+		)
+	fi
 
 	if use test; then
 		mycmakeargs+=(
