@@ -105,6 +105,8 @@ src_install() {
 			insinto /usr/share/policy
 			newins bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy \
 				bootlockboxd-seccomp.policy
+			insinto /etc/init
+			doins bootlockbox/bootlockboxd.conf
 		fi
 		if use direncryption; then
 			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
