@@ -29,6 +29,7 @@ IUSE="fuzzer profiling static-libs test"
 
 RDEPEND="
 	>=x11-libs/libdrm-2.4.50
+	x11-libs/libX11
 	media-libs/libepoxy
 	fuzzer? ( media-libs/mesa[gbm] )
 "

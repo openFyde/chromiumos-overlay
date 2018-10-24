@@ -22,6 +22,7 @@ IUSE="fuzzer profiling static-libs test"
 
 RDEPEND="
 	>=x11-libs/libdrm-2.4.50
+	x11-libs/libX11
 	media-libs/libepoxy
 	fuzzer? ( media-libs/mesa[gbm] )
 "
@@ -32,7 +33,7 @@ DEPEND="${RDEPEND}
 	test? ( >=dev-libs/check-0.9.4 )"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.6.0-libdrm.patch
+	"${FILESDIR}"/${PN}-0.7.0-libdrm.patch
 )
 
 src_prepare() {
