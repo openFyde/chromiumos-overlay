@@ -25,6 +25,7 @@ DEPEND="${RDEPEND}"
 IUSE_TESTS="
 	+tests_firmware_Cr50VirtualNVRam
 	+tests_firmware_Cr50VirtualNVRamServer
+	+tests_firmware_Cr50U2fPowerwash
 	+tests_hardware_TPMCheck
 	-tests_kernel_TPMPing
 	+tests_kernel_TPMStress
