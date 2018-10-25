@@ -28,7 +28,7 @@ IUSE=""
 # The locale files change across glibc versions, so make sure we stay in sync
 # with them.  Pinning the version here forces us to revbump it when we update
 # the glibc version.
-DEPEND="~sys-libs/glibc-${PV}"
+DEPEND=">=sys-libs/glibc-${PV}"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}"
@@ -42,9 +42,9 @@ src_compile() {
 	# When we update to glibc-2.24+, it has better command line options for
 	# controlling where files get installed to.  For now, hack around it by
 	# assuming specific output paths.
-	if has_version '>=sys-libs/glibc-2.24'; then
-		die "Update the ebuild hack!"
-	fi
+	#if has_version '>=sys-libs/glibc-2.24'; then
+	#	die "Update the ebuild hack!"
+	#fi
 
 	local args=(
 		# Many locales contain warnings that we don't care about and we can't
