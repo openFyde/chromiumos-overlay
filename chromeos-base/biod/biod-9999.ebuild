@@ -42,7 +42,6 @@ src_install() {
 
 	into /usr/local
 	dobin "${OUT}"/biod_client_tool
-	dobin "${OUT}"/fake_biometric_tool
 
 	insinto /etc/init
 	doins init/*.conf
