@@ -67,6 +67,8 @@ platform_pkg_test() {
 	for test_bin in "${tests[@]}"; do
 		platform_test "run" "./${test_bin}"
 	done
+
+	platform_test "run" "${OUT}/clobber_state_test" "1"
 }
 
 src_install_upstart() {
