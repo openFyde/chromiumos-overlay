@@ -7,39 +7,29 @@ ordinary dictionary search fails.
 See: https://github.com/rust-lang/rust/issues/41402
 
 diff --git a/src/librustc_target/spec/mod.rs b/src/librustc_target/spec/mod.rs
-index 507243a58a..4c0a5a2c8c 100644
+index 3c68b5a7ab..f9e2ca31e6 100644
 --- a/src/librustc_target/spec/mod.rs
 +++ b/src/librustc_target/spec/mod.rs
-@@ -839,6 +839,18 @@ impl Target {
-             Target::from_json(obj)
+@@ -247,11 +247,19 @@ macro_rules! supported_targets {
+                         // run-time that the parser works correctly
+                         t = Target::from_json(t.to_json())?;
+                         debug!("Got builtin target: {:?}", t);
+-                        Ok(t)
++                        return Ok(t)
+                     },
+                 )+
+-                _ => Err(format!("Unable to find target: {}", target))
++                _ => {},
+             }
++            let mut triple: Vec<&str> = target.splitn(3, '-').collect();
++            if triple.len() >= 3 {
++                if triple[1] != "unknown" {
++                    triple[1] = "unknown";
++                    return load_specific(&triple.join("-"))
++                }
++            }
++            Err(format!("Unable to find target: {}", target))
          }
  
-+        fn vender_to_unknown(target: &str) -> Option<String> {
-+            let mut triple: Vec<&str> = target.splitn(3, '-').collect();
-+            if triple.len() < 3 {
-+                return None
-+            }
-+            if triple[1] == "unknown" {
-+                return None
-+            }
-+            triple[1] = "unknown";
-+            Some(triple.join("-"))
-+        }
-+
-         match target_triple {
-             &TargetTriple::TargetTriple(ref target_triple) => {
-                 // check if triple is in list of supported targets
-@@ -846,6 +858,12 @@ impl Target {
-                     return Ok(t)
-                 }
- 
-+                if let Some(novendor_target) = vender_to_unknown(target_triple) {
-+                    if let Ok(t) = load_specific(&novendor_target) {
-+                        return Ok(t)
-+                    }
-+                }
-+
-                 // search for a file named `target_triple`.json in RUST_TARGET_PATH
-                 let path = {
-                     let mut target = target_triple.to_string();
+         pub fn get_targets() -> Box<dyn Iterator<Item=String>> {
 
