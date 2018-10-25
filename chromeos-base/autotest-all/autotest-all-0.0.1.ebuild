@@ -19,7 +19,6 @@ RDEPEND="
 	chromeos-base/autotest-server-tests
 	chromeos-base/autotest-server-tests-tast
 	chromeos-base/autotest-tests
-	chromeos-base/autotest-tests-ltp
 	chromeos-base/autotest-tests-security
 	chromeos-base/autotest-tests-toolchain
 	chromeos-base/ci-results-archiver
