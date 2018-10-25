@@ -2,10 +2,26 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_PROJECT="chromiumos/platform/arc-camera"
-CROS_WORKON_LOCALNAME="../platform/arc-camera"
 
-inherit cros-debug cros-sanitizers cros-workon libchrome toolchain-funcs user
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/arc-camera"
+	"chromiumos/platform2"
+)
+CROS_WORKON_LOCALNAME=(
+	"../platform/arc-camera"
+	"../platform2"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform/arc-camera"
+	"${S}/platform2"
+)
+CROS_WORKON_SUBTREE=(
+	"hal/usb_v1 build"
+	"common-mk"
+)
+PLATFORM_GYP_FILE="hal/usb_v1/arc_camera_service.gyp"
+
+inherit cros-workon platform user
 
 DESCRIPTION="ARC camera service. The service is in charge of accessing camera
 device. It uses linux domain socket (/run/camera/camera.sock) to build a
@@ -23,17 +39,15 @@ DEPEND="${RDEPEND}
 	chromeos-base/libmojo
 	virtual/pkgconfig"
 
-src_configure() {
-	sanitizers-setup-env
-	cros-workon_src_configure
-}
-
-src_compile() {
-	emake -C hal/usb_v1 arc_camera_service
+src_unpack() {
+	local s="${S}"
+	platform_src_unpack
+	# look in src/platform/arc-camera
+	S="${s}/platform/arc-camera"
 }
 
 src_install() {
-	dobin arc_camera_service
+	dobin "${OUT}/arc_camera_service"
 
 	insinto /etc/init
 	doins hal/usb_v1/init/arc-camera.conf
