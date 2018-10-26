@@ -322,6 +322,8 @@ src_install() {
 	mv "${ED}usr/bin/idle" "${ED}usr/bin/idle${SLOT}"
 	rm -f "${ED}usr/bin/smtpd.py"
 
+	local abiver="python2.7"
+
 	if use build; then
 		rm -fr "${ED}usr/bin/idle${SLOT}" "${libdir}/"{bsddb,dbhash.py,idlelib,lib-tk,sqlite3,test}
 	else
@@ -353,7 +355,7 @@ src_install() {
 		-i "${ED}etc/conf.d/pydoc-${SLOT}" "${ED}etc/init.d/pydoc-${SLOT}" || die "sed failed"
 
 	# for python-exec
-	python_export python${SLOT} EPYTHON PYTHON PYTHON_SITEDIR
+	python_export python${SLOT} EPYTHON PYTHON PYTHON_SITEDIR PYTHON_SCRIPTDIR
 
 	# if not using a cross-compiler, use the fresh binary
 	if ! tc-is-cross-compiler; then
@@ -363,6 +365,37 @@ src_install() {
 
 	echo "EPYTHON='${EPYTHON}'" > epython.py
 	python_domodule epython.py
+
+	# python-exec wrapping support
+	local pymajor=${SLOT%.*}
+	mkdir -p "${D}${PYTHON_SCRIPTDIR}" || die
+
+	# python-exec: python, pythonX
+	dosym "../../../bin/${abiver}" \
+		"${PYTHON_SCRIPTDIR}/python${pymajor}"
+	dosym "python${pymajor}" "${PYTHON_SCRIPTDIR}/python"
+
+	# python-exec: python-config, python-configX
+	#
+	# Note: we need to create a wrapper rather than symlinking it due
+	# to some random dirname(argv[0]) magic performed by python-config.
+	cat > "${D}${PYTHON_SCRIPTDIR}/python${pymajor}-config" <<-EOF || die
+		#!/bin/sh
+		exec "${abiver}-config" "\${@}"
+	EOF
+	# Must strip EPREFIX because fperms prepends ED.
+	fperms 755 "${PYTHON_SCRIPTDIR#$EPREFIX}/python${pymajor}-config"
+	dosym "python${pymajor}-config" \
+		"${PYTHON_SCRIPTDIR}/python-config"
+
+	# python-exec: pydoc, pydocX
+	dosym "../../../bin/pydoc${SLOT}" \
+		"${PYTHON_SCRIPTDIR}/pydoc${pymajor}"
+	dosym "pydoc${pymajor}" "${PYTHON_SCRIPTDIR}/pydoc"
+
+	# python-exec: 2to3
+	dosym "../../../bin/2to3-${SLOT}" \
+		"${PYTHON_SCRIPTDIR}/2to3"
 
 	# The sysconfig module will actually read the pyconfig.h at runtime to see what kind
 	# of functionality is enabled in the build.  Deploy it behind the back of portage as
