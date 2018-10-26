@@ -254,6 +254,9 @@ setup_altfw() {
 	einfo "- adding firmware list"
 	do_cbfstool "${cbfs}" add -n altfw/list -t raw -f "${bl_list}"
 
+	# Add the tag for silent updating.
+	do_cbfstool "${cbfs}" add-int -i 1 -n "cros_allow_auto_update"
+
 	# Write this CBFS file into the RW_LEGACY region
 	do_cbfstool "${coreboot_file}" write -f "${cbfs}" -r RW_LEGACY --force
 	do_cbfstool "${coreboot_file}.serial" write -f "${cbfs}" -r RW_LEGACY \
