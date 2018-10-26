@@ -273,11 +273,12 @@ src_install() {
 	done
 	# Unibuild platforms don't have "main" EC firmware.
 	if ! use unibuild; then
-		board_install "${EC_BOARDS[0]}" "${WORKDIR}/build_${target}" \
+		target="${EC_BOARDS[0]}"
+		board_install "${target}" "${WORKDIR}/build_${target}" \
 			/firmware "" \
 			|| die "Couldn't install main firmware"
 		if use bootblock_in_ec; then
-			board_install "${EC_BOARDS[0]}" "${WORKDIR}/build_${target}_serial" \
+			board_install "${target}" "${WORKDIR}/build_${target}_serial" \
 				/firmware serial \
 				|| die "Couldn't install main firmware"
 		fi
