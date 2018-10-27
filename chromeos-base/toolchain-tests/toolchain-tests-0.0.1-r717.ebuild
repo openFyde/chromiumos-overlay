@@ -23,6 +23,8 @@ src_unpack() {
 
 # cros-run-unit_tests checks the existence of src_test.
 # Spell it explictly so that it will be tested.
-src_test() {
-	default
-}
+# Temporarily disable this test while we are in the trasition of 
+# upgrade glibc. Re-enable this after glibc upgrade finishes.
+#src_test() {
+#	default
+#}
