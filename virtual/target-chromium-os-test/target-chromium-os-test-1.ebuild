@@ -125,6 +125,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	shill? ( chromeos-base/shill-test-scripts )
 	!chromeless_tests? ( chromeos-base/telemetry )
 	chromeos-base/touchbot
+	chromeos-base/toolchain-tests
 	dev-libs/re2
 	dev-python/protobuf-python
 	dev-python/btsocket
