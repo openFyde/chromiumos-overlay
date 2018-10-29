@@ -26,6 +26,7 @@ IUSE="
 	cros_embedded
 	cups
 	+debugd
+	diagnostics
 	dlc
 	dptf
 	eclog
@@ -169,6 +170,7 @@ RDEPEND="
 	)
 	cros_disks? ( chromeos-base/cros-disks )
 	debugd? ( chromeos-base/debugd )
+	diagnostics? ( chromeos-base/diagnostics )
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
 	peerd? ( chromeos-base/peerd )
