@@ -23,6 +23,10 @@ src_unpack() {
 # Spell it explictly so that it will be tested.
 # Temporarily disable this test while we are in the trasition of 
 # upgrade glibc. Re-enable this after glibc upgrade finishes.
-#src_test() {
-#	default
-#}
+src_test() {
+	if has_version '>=sys-libs/glibc-2.24'; then
+		default
+	else
+		return
+	fi
+}
