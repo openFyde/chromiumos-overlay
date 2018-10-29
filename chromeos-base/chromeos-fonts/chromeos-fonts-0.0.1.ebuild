@@ -55,7 +55,7 @@ qemu_run() {
 	case "${ARCH}" in
 		amd64)
 			# Note that qemu is not actually run below in this case.
-			qemu=( qemu-x86_64 -cpu Broadwell )
+			qemu=( qemu-x86_64 -cpu max )
 			;;
 		arm)
 			qemu=( qemu-arm )
@@ -67,7 +67,7 @@ qemu_run() {
 			qemu=( qemu-mipsel )
 			;;
 		x86)
-			qemu=( qemu-i386 -cpu Broadwell )
+			qemu=( qemu-i386 -cpu max )
 			;;
 		*)
 			die "Unable to determine QEMU from ARCH."
@@ -101,22 +101,9 @@ qemu_run() {
 	# All of which is to say: don't use sudo in your ebuild.  You have been
 	# warned.  -- chirantan
 
-	# If we're running directly on the target (e.g. gmerge), we don't need to
-	# chroot or use qemu.
-	if [ "${ROOT:-/}" = "/" ]; then
-		sudo "$@" || die
-	else
-		# Try to run it natively first as it should be fast.
-		if [ "${ARCH}" = "amd64" ] || [ "${ARCH}" = "x86" ]; then
-			if sudo chroot "${ROOT}" "$@" ; then
-				return
-			fi
-			ewarn "Native crashed; falling back to qemu"
-		fi
-		cp "/usr/bin/${qemu[0]}" "${ROOT}/tmp" || die
-		sudo chroot "${ROOT}" "/tmp/${qemu[0]}" "${qemu[@]:1}" "$@" || die
-		rm "${ROOT}/tmp/${qemu[0]}" || die
-	fi
+	cp "/usr/bin/${qemu[0]}" "${ROOT}/tmp" || die
+	sudo chroot "${ROOT}" "/tmp/${qemu[0]}" "${qemu[@]:1}" "$@" || die
+	rm "${ROOT}/tmp/${qemu[0]}" || die
 }
 
 generate_font_cache() {
@@ -124,7 +111,18 @@ generate_font_cache() {
 	# $SYSROOT.  Same warning as above applies: don't use sudo in your ebuild.
 	mkdir -p "${WORKDIR}/out"
 	sudo mount --bind "${WORKDIR}/out" "${ROOT}/usr/share/cache/fontconfig"
-	qemu_run /usr/bin/fc-cache -f -v
+
+	# If we're running directly on the target (e.g. gmerge), we don't need to
+	# chroot or use qemu.
+	if [[ "${ROOT:-/}" == "/" ]]; then
+		sudo /usr/bin/fc-cache -f -v || die
+	elif [[ "${ARCH}" == "amd64" ]]; then
+		# Uses the host's fc-cache binary to build the font cache on the target
+		sudo /usr/bin/fc-cache --sysroot="${SYSROOT}" -f -v
+	else
+		qemu_run /usr/bin/fc-cache -f -v
+	fi
+
 	sudo umount "${ROOT}/usr/share/cache/fontconfig"
 }
 
