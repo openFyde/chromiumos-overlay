@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-libs/db/db-4.7.25_p4.ebuild,v 1.13 2010/01/24 18:29:31 armin76 Exp $
 
-inherit eutils db flag-o-matic java-pkg-opt-2 autotools libtool binutils-funcs
+EAPI=5
+inherit eutils db flag-o-matic java-pkg-opt-2 autotools libtool binutils-funcs toolchain-funcs
 
 #Number of official patches
 #PATCHNO=`echo ${PV}|sed -e "s,\(.*_p\)\([0-9]*\),\2,"`
@@ -26,13 +27,17 @@ SLOT="4.7"
 KEYWORDS="*"
 IUSE="doc java nocxx tcl test"
 
+
 # the entire testsuite needs the TCL functionality
-DEPEND="tcl? ( >=dev-lang/tcl-8.4 )
-	test? ( >=dev-lang/tcl-8.4 )
-	java? ( >=virtual/jdk-1.5 )
-	>=sys-devel/binutils-2.16.1"
 RDEPEND="tcl? ( dev-lang/tcl )
-	java? ( >=virtual/jre-1.5 )"
+	java? ( >=virtual/jre-1.5 )
+	net-libs/libtirpc"
+DEPEND="
+	${RDEPEND}
+	test? ( >=dev-lang/tcl-8.4 )
+	>=sys-devel/binutils-2.16.1
+	virtual/pkgconfig
+	"
 
 src_unpack() {
 	unpack "${MY_P}".tar.gz
@@ -78,8 +83,12 @@ src_unpack() {
 src_compile() {
 	if use arm ; then
 		append-cflags "-marm"
-		appennd-cxxflags "-marm"
+		append-cxxflags "-marm"
 	fi
+
+	append-cflags "$($(tc-getPKG_CONFIG) libtirpc --cflags)"
+	append-cxxflags "$($(tc-getPKG_CONFIG) libtirpc --cflags)"
+	append-ldflags "$($(tc-getPKG_CONFIG) libtirpc --libs)"
 
 	local myconf=''
 
