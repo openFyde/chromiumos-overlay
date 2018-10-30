@@ -46,6 +46,25 @@ SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
   ATTRS{idVendor}=="0461", ATTRS{idProduct}=="4e05", \
   ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="1"
 
+# Dell USB Keyboard for Chrome OS (KB115 Keyboard, Model: KB69211).
+# This keyboard has original top row layout.
+SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
+  ATTRS{idVendor}=="0461", ATTRS{idProduct}=="4e05", \
+  ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="1"
+
+# Belkin USB C Keyboard for Chrome OS (B2B190).
+# This keyboard has original sequence of top row keys.
+SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
+  ATTRS{idVendor}=="050d", ATTRS{idProduct}=="0190", \
+  ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="1"
+
+# Belkin USB C Wired Tablet Keyboard for Chrome OS (B2B191).
+# This keyboard has original sequence of top row keys, even though they are
+# arranged in an unconventional way.
+SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
+  ATTRS{idVendor}=="050d", ATTRS{idProduct}=="019b", \
+  ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="1"
+
 # Wilco keyboard (5220W-C) for Chrome OS
 SUBSYSTEM=="input", \
   ATTRS{idVendor}=="413c", ATTRS{idProduct}=="2510", \
