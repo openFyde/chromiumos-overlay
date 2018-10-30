@@ -145,6 +145,11 @@ src_install() {
 		dohtml -r Manual-BrlAPI
 		dodoc BrlAPI-*.txt
 	fi
+
+	insinto /etc/init
+	doins "${FILESDIR}"/etc/init/brltty.conf
+	insinto /etc/dbus-1/system.d
+	doins "${FILESDIR}"/etc/dbus-1/org.chromium.Brltty.conf
 }
 
 pkg_preinst() {

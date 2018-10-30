@@ -5,6 +5,10 @@
 # found in the LICENSE file.
 
 # This script starts brltty in a minijail sandbox.
+if [ $# -ne 0 ]; then
+  echo "ERROR: $0 takes no arguments"
+  exit 1
+fi
 
 BRLTTY_RUNDIR=/run/brltty
 BRLAPI_SOCKETDIR="${BRLTTY_RUNDIR}"/BrlAPI
@@ -54,9 +58,14 @@ umask 0007
 log "Starting brltty, device: ${BRLTTY_BRAILLE_DEVICE}, " \
     "driver: ${BRLTTY_BRAILLE_DRIVER}"
 
+# -d: device for accessing braille.
+if [ -n "${ADDRESS}" ]; then
+  set -- "$@" -d "bluetooth:${ADDRESS}"
+fi
+
 # Start brltty in the jail.
-# The options are:
+# The options used below are:
 # - -q: No startup announcement of brltty's version on the braille display.
 # - -E: Get some arguments (driver, device, etc) from the environment.
-exec /sbin/minijail0 -u brltty -g brltty -G -- \
-  /bin/brltty -q -E -P${BRLTTY_PID_FILE}
+# - -n: makes Brltty run without forking (keeping this job started/stoppable).
+exec /sbin/minijail0 -u brltty -g brltty -G -- /bin/brltty -q -E -n "$@"
