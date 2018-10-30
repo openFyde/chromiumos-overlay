@@ -52,6 +52,12 @@ SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
   ATTRS{idVendor}=="0461", ATTRS{idProduct}=="4e05", \
   ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="1"
 
+# Acer USB Keyboard for Chrome OS (KB69211).
+# This keyboard has original top row layout.
+SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
+  ATTRS{idVendor}=="0461", ATTRS{idProduct}=="4e17", \
+  ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="1"
+
 # Belkin USB C Keyboard for Chrome OS (B2B190).
 # This keyboard has original sequence of top row keys.
 SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \

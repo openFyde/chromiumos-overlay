@@ -78,7 +78,6 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-225-udev-rules-no-slash-run.patch
 	"${FILESDIR}"/${PN}-225-udev-use-interface-before-the-string-that-interface-.patch
 	"${FILESDIR}"/${PN}-225-udev-stop-freeing-value-after-using-it-for-setting-s.patch
-	"${FILESDIR}"/${PN}-225-workaround-renameat-syscall-wrapper-misdetection.patch
 )
 
 check_default_rules() {
