@@ -14,6 +14,12 @@ SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
   ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="2"
 
 # Wallaby has the new top row layout as well.
-SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1" \
+SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
   ATTRS{id/vendor}=="03f6", ATTRS{id/product}=="a001", \
   ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="2"
+
+# LG USB Keyboard for Chrome OS (SK6822).
+# This keyboard has original top row layout.
+SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
+  ATTRS{idVendor}=="04ca", ATTRS{idProduct}=="0082", \
+  ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="1"
