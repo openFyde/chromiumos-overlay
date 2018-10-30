@@ -40,6 +40,12 @@ SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
   ATTRS{idVendor}=="04ca", ATTRS{idProduct}=="0082", \
   ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="1"
 
+# Samsung USB Keyboard for Chrome OS (AA-SK4PCUB).
+# This keyboard has original top row layout.
+SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
+  ATTRS{idVendor}=="0461", ATTRS{idProduct}=="4e05", \
+  ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="1"
+
 # Wilco keyboard (5220W-C) for Chrome OS
 SUBSYSTEM=="input", \
   ATTRS{idVendor}=="413c", ATTRS{idProduct}=="2510", \
