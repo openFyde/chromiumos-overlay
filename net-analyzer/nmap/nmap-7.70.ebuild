@@ -66,6 +66,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-7.25-CXXFLAGS.patch
 	"${FILESDIR}"/${PN}-7.25-libpcre.patch
 	"${FILESDIR}"/${PN}-7.31-libnl.patch
+	"${FILESDIR}"/${PN}-7.70-fix-clang-build.patch
 )
 S="${WORKDIR}/${MY_P}"
 
