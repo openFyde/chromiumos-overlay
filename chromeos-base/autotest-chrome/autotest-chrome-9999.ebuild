@@ -193,6 +193,7 @@ IUSE_TESTS=(
 	+tests_security_ProfilePermissions
 	+tests_security_SandboxLinuxUnittests
 	+tests_security_SandboxStatus
+	+tests_security_Usbguard
 	+tests_telemetry_AFDOGenerateClient
 	+tests_telemetry_UnitTests
 	+tests_telemetry_UnitTestsServer
