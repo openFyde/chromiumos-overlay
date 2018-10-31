@@ -70,8 +70,8 @@ src_install() {
 platform_pkg_test() {
 	local v
 	for v in "${LIBCHROME_VERS[@]}"; do
-		platform_test "run" "${OUT}/libbrillo-${v}_unittests"
-		platform_test "run" "${OUT}/libinstallattributes-${v}_unittests"
-		platform_test "run" "${OUT}/libpolicy-${v}_unittests"
+		platform_test "run" "${OUT}/libbrillo-${v}_tests"
+		platform_test "run" "${OUT}/libinstallattributes-${v}_tests"
+		platform_test "run" "${OUT}/libpolicy-${v}_tests"
 	done
 }
