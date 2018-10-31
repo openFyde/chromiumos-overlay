@@ -32,7 +32,9 @@ inherit toolchain-funcs cros-ec-board cros-workon cros-unibuild coreboot-sdk
 
 DESCRIPTION="Embedded Controller firmware code"
 HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
-SRC_URI=""
+MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
+CR50_ROS=(cr50.prod.ro.A.0.0.10 cr50.prod.ro.B.0.0.10)
+SRC_URI="${CR50_ROS[@]/#/${MIRROR_PATH}}"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -179,6 +181,25 @@ src_compile() {
 }
 
 #
+# Install additional files, necessary for Cr50 signer inputs.
+#
+# param $1 - the output directory to install the files.
+#
+install_cr50_signer_aid () {
+	local dest_dir="${1}"
+
+	elog "Installing Cr50 signer support files"
+
+	insinto "${dest_dir}"
+
+	newins "${DISTDIR}/cr50.prod.ro.A.0.0.10" "prod.ro.A"
+	newins "${DISTDIR}/cr50.prod.ro.B.0.0.10" "prod.ro.B"
+	doins "${S}/board/cr50/rma_key_blob".*.{prod,test}
+	doins "${S}/util/signer/ec_RW-manifest-prod.json"
+	doins "${S}/util/signer/fuses.xml"
+}
+
+#
 # Install firmware binaries for a specific board.
 #
 # param $1 - the board name.
@@ -253,6 +274,10 @@ board_install() {
 		nonfatal newins "${f}" "${name}${file_suffix}.bin"
 	done
 	popd > /dev/null
+
+	if [[ "${board}" = "cr50" ]]; then
+		install_cr50_signer_aid "${dest_dir}"
+	fi
 }
 
 src_install() {
