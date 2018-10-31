@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="a14582f5b2ae17da4bbc7b5d887d601dbb407a26"
-CROS_WORKON_TREE=("190c4cfe4984640ab62273e06456d51a30cfb725" "58a039d3599c16ba9fb839b4aa7d212aa624a8c5" "1d0efcc32080ae00cd6bfc9275c0e14d0142658c" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="4188c4ab676c6523e16e36dcf159e2740f50097f"
+CROS_WORKON_TREE=("190c4cfe4984640ab62273e06456d51a30cfb725" "353932cc52fd916225440d4e393f4c3860895be6" "1d0efcc32080ae00cd6bfc9275c0e14d0142658c" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -84,6 +84,10 @@ src_install() {
 	# Install D-Bus config file.
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.CrosDisks.conf
+
+	# Install setuid restrictions file.
+	insinto /usr/share/cros/startup/process_management_policies
+	doins setuid_restrictions/cros_disks_whitelist.txt
 }
 
 platform_pkg_test() {
