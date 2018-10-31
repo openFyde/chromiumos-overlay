@@ -22,9 +22,6 @@ S="${WORKDIR}/${P}/src"
 
 PATCHES=(
 	"${FILESDIR}/unix-socket.patch"
-	"${FILESDIR}/hold-usb-interfaces.patch"
-	"${FILESDIR}/multithreaded-communication.patch"
-	"${FILESDIR}/thread-cleanup.patch"
 )
 
 src_install() {

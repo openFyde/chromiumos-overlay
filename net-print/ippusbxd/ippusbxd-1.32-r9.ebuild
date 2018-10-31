@@ -1,1 +1,0 @@
-ippusbxd-1.32.ebuild
