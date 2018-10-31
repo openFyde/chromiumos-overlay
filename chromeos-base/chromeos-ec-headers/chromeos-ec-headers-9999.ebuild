@@ -30,5 +30,6 @@ src_compile() { :; }
 src_install() {
 	insinto /usr/include/trunks/cr50_headers/
 	doins include/pinweaver_types.h
+	doins include/u2f.h
 	doins board/cr50/tpm2/virtual_nvmem.h
 }
