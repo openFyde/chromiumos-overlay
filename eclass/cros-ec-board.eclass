@@ -75,6 +75,7 @@ EC_BOARD_NAMES=(
 	meowth_fp
 	minimuffin
 	nami
+	nami_fp
 	nautilus
 	nefario
 	nocturne
