@@ -277,37 +277,6 @@ cros-firmware_src_compile() {
 		./pack_firmware.py "${image_cmd[@]}" "${ext_cmd[@]}" \
 			-o "${UPDATE_SCRIPT}" ||
 			die "Cannot pack firmware."
-
-		if use bootimage; then
-			if [[ -e "${SYSROOT}/${UNIBOARD_YAML_CONFIG}" ]]; then
-				image_cmd+=(
-					-c "${SYSROOT}/${UNIBOARD_YAML_CONFIG}"
-					-i "${DISTDIR}"
-				)
-			else
-				image_cmd+=(
-					-c "${SYSROOT}/${UNIBOARD_DTB_INSTALL_PATH}"
-					-i "${DISTDIR}"
-				)
-			fi
-
-			einfo "Updater for local fw"
-			# Tell pack_firmware.py where to find the files.
-			# 'BUILD_TARGET' will be replaced with the the
-			# build-targets config from the model.dtsi file.
-			image_cmd+=(
-				-b "${root}/firmware/image-BUILD_TARGET.bin"
-			)
-			if use cros_ec; then
-				image_cmd+=(
-					-e "${root}/firmware/BUILD_TARGET/ec.bin"
-					-p "${root}/firmware/BUILD_TARGET/pd.bin"
-				)
-			fi
-			./pack_firmware.py -l "${image_cmd[@]}" \
-				"${ext_cmd[@]}" -o "${output_file}" ||
-				die "Cannot pack local firmware."
-		fi
 	else
 		# Prepare images for legacy mode (not unified builds)
 		_add_param image_cmd -b "${FW_IMAGE_LOCATION}"
@@ -328,28 +297,6 @@ cros-firmware_src_compile() {
 				-o "${UPDATE_SCRIPT}" ||
 				die "Cannot pack firmware."
 		fi
-
-		# Create local updaters
-		if use bootimage; then
-			local local_image_cmd=(-b "${root}/firmware/image.bin")
-			if use cros_ec; then
-				local_image_cmd+=(-e "${root}/firmware/ec.bin")
-				if [ -e "$root/firmware/pd.bin" ]; then
-					local_image_cmd+=(-p
-						"${root}/firmware/pd.bin")
-				fi
-			fi
-
-			einfo "Updater for local fw"
-			./pack_firmware.py -o "${output_file}" --legacy \
-				"${local_image_cmd[@]}" "${ext_cmd[@]}" ||
-				die "Cannot pack local firmware."
-			if [[ ${#image_cmd[@]} -eq 0 ]]; then
-				# When no pre-built binaries are available,
-				# dupe local updater to system updater.
-				cp -f "${output_file}" "${UPDATE_SCRIPT}"
-			fi
-		fi
 	fi
 
 	if [ ${#image_cmd[@]} -eq 0 ]; then
@@ -358,25 +305,9 @@ cros-firmware_src_compile() {
 		einfo "Building empty firmware update script"
 		echo -n > "${UPDATE_SCRIPT}"
 	fi
-
-	if ! use bootimage && use cros_ec; then
-		# TODO(hungte) Deal with a platform that has only EC and no
-		# BIOS, which is usually incorrect configuration.
-		# We only warn here to allow for BCS based firmware to still
-		# generate a proper chromeos-firmwareupdate update script.
-		ewarn "WARNING: platform has no local BIOS."
-		ewarn "EC-only is not supported."
-		ewarn "Not generating a locally built firmware update script."
-	fi
 }
 
 cros-firmware_src_install() {
-	# install updaters for firmware-from-source archive.
-	if use bootimage; then
-		exeinto /firmware
-		doexe updater*.sh
-	fi
-
 	# skip anything else if no main updater program.
 	if [[ ! -s "${UPDATE_SCRIPT}" ]]; then
 		return
