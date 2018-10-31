@@ -27,6 +27,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/chromeos-ec-headers
 	"
 
 src_install() {
