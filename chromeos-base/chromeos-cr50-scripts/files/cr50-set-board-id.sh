@@ -90,7 +90,7 @@ check_device() {
   local exit_status=0
   local flash_status=""
 
-  flash_status=$(flashrom --wp-status 2>&1) || exit_status="$?"
+  flash_status=$(flashrom -p host --wp-status 2>&1) || exit_status="$?"
   if [ "${exit_status}" != "0" ]; then
     echo "${flash_status}"
     exit_status="${ERR_DEVICE_STATE}"
