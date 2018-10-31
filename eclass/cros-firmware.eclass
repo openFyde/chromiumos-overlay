@@ -41,11 +41,6 @@ $(basename "$(dirname "$(dirname "$(dirname "${EBUILD}")")")")}
 # @DESCRIPTION: (Optional) Entry script file name of updater
 : ${CROS_FIRMWARE_SCRIPT:=updater4.sh}
 
-# TODO(hungte) Remove this once we've eliminated that in daisy_snow updater.
-# @ECLASS-VARIABLE: CROS_FIRMWARE_EXTRA_LIST
-# @DESCRIPTION: (Optional) Semi-colon separated list of additional resources
-: ${CROS_FIRMWARE_EXTRA_LIST:=}
-
 # Check for EAPI 2+
 case "${EAPI:-0}" in
 2|3|4|5|6) ;;
@@ -203,10 +198,6 @@ cros-firmware_src_unpack() {
 		for i in {FW,FW_RW,EC,PD}_IMAGE_LOCATION; do
 			_unpack_archive ${i}
 		done
-
-		for ((i = 0; i < ${#EXTRA_LOCATIONS[@]}; i++)); do
-			_unpack_archive "EXTRA_LOCATIONS[$i]"
-		done
 	fi
 }
 
@@ -255,10 +246,7 @@ cros-firmware_src_compile() {
 	export PATH="${CHROMITE_BIN_DIR}:${PATH}"
 
 	# Prepare extra commands
-	ext_cmd+=(
-		--tool_base "/firmware/utils:/usr/sbin:/usr/bin"
-		--root "${root}"
-	)
+	ext_cmd+=(--root "${root}")
 	_add_param ext_cmd --script "${CROS_FIRMWARE_SCRIPT}"
 	if use unibuild; then
 		if [[ -e "${SYSROOT}/${UNIBOARD_YAML_CONFIG}" ]]; then
@@ -316,22 +304,7 @@ cros-firmware_src_install() {
 	# install the main updater program if available.
 	dosbin "${UPDATE_SCRIPT}"
 
-	# install additional scripts ( sbin/firmware-*.${version} ).
-	local main_script="${CROS_FIRMWARE_SCRIPT##*updater}"
-	local version="${main_script%.sh}"
-	for script in "${S}"/sbin/firmware-* "${S}"/sbin/chromeos-*; do
-		local script_base="$(basename "${script}")"
-		if [[ "${script_base#*.}" == "${script_base}" ]] &&
-		   [[ ! -f "${script}.${version}" ]]; then
-			# A general script to be installed on all systems, if no
-			# version-specific script exists.
-			dosbin "${script}"
-		elif [[ "${script_base##*.}" == "${version}" ]]; then
-			# A script only installed if version matches.
-			newsbin "${script}" "${script_base%.*}"
-		fi
-	done
-
+	dosbin "${S}"/sbin/*
 	# install ${FILESDIR}/sbin/* (usually board-setgoodfirmware).
 	if [[ -d "${FILESDIR}"/sbin ]]; then
 		dosbin "${FILESDIR}"/sbin/*
@@ -403,7 +376,6 @@ cros-firmware_setup_source() {
 	FW_RW_IMAGE_LOCATION="${CROS_FIRMWARE_MAIN_RW_IMAGE}"
 	EC_IMAGE_LOCATION="${CROS_FIRMWARE_EC_IMAGE}"
 	PD_IMAGE_LOCATION="${CROS_FIRMWARE_PD_IMAGE}"
-	_expand_list EXTRA_LOCATIONS ";" "${CROS_FIRMWARE_EXTRA_LIST}"
 
 	# Always add ${FILESDIR}/extra if available.
 	if [[ -d "${FILESDIR}/extra" ]]; then
@@ -415,9 +387,6 @@ cros-firmware_setup_source() {
 		uris+=" $(_add_source ${i})"
 	done
 
-	for ((i = 0; i < ${#EXTRA_LOCATIONS[@]}; i++)); do
-		uris+=" $(_add_source "EXTRA_LOCATIONS[$i]")"
-	done
 	if [[ -n "${uris// }" ]]; then
 		SRC_URI+="!unibuild? ( ${uris} ) "
 	fi
