@@ -38,6 +38,7 @@ pkg_setup() {
 src_install() {
 	dobin "${OUT}"/biod
 
+	dobin "${OUT}"/bio_crypto_init
 	dobin "${OUT}"/bio_wash
 
 	into /usr/local
