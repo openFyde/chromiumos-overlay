@@ -49,6 +49,7 @@ IUSE="
 	+fonts
 	+gold
 	goma
+	grunt_march
 	hardfp
 	+highdpi
 	internal_gles_conform
@@ -788,6 +789,14 @@ setup_compile_flags() {
 	# there is no need to check it again in Chrome OS land. And this flag has
 	# nothing to do with USE=clang.
 	filter-flags -clang-syntax
+
+	# USE flag to enable upgrading the -march flags for Chrome only until
+	# we can enable these changes for the entire board.
+	# https://crbug.com/884613
+	if use grunt_march; then
+		filter-flags -march=*
+		append-flags -march=bdver4
+	fi
 
 	# Remove unsupported arm64 linker flag on arm32 builds.
 	# https://crbug.com/889079
