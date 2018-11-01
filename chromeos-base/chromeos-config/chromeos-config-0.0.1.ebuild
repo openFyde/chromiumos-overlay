@@ -69,7 +69,6 @@ src_compile() {
 	validate_config "${dtb}" || die "Validation failed"
 	einfo "- OK"
 
-
 	# YAML config support.
 	local yaml_files=( "${SYSROOT}${UNIBOARD_YAML_DIR}/"*.yaml )
 	local input_yaml_files=()
@@ -115,3 +114,29 @@ src_install() {
 		doins config.yaml
 	fi
 }
+
+src_test() {
+	local expected_config="${SYSROOT}${CROS_CONFIG_TEST_DIR}/config_dump.json"
+	local actual_config="${WORKDIR}/config_dump.json"
+	if [[ -e "${expected_config}" ]]; then
+		if [[ -e "${WORKDIR}/config.yaml" ]]; then
+			cros_config_host -c "${WORKDIR}/config.yaml" dump-config > \
+				"${actual_config}"
+		else
+			cros_config_host -c "${WORKDIR}/config.dtb" dump-config > \
+				"${actual_config}"
+		fi
+		einfo "Verifying ${expected_config} matches ${actual_config}"
+		local expected_cksum="$(cksum "${expected_config}" | cut -d ' ' -f 1)"
+		local actual_cksum="$(cksum "${actual_config}" | cut -d ' ' -f 1)"
+		if [[ "${expected_cksum}" -ne "${actual_cksum}" ]]; then
+			eerror "Generated config doesn't match expected config. \n" \
+				"Generated config is available at: ${actual_config}\n" \
+				"If this is an expected change, copy this change to the expected" \
+				"config_dump.json file and commit with your CL.\n"
+			die
+		fi
+		einfo "Successfully verified ${expected_config} matches ${actual_config}"
+	fi
+}
+

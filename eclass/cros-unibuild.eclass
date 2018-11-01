@@ -54,6 +54,20 @@ UNIBOARD_C_CONFIG="${UNIBOARD_YAML_DIR}/config.c"
 #  This is the installation directory of files referenced in the model.dtsi.
 UNIBOARD_CROS_CONFIG_FILES_DIR="/usr/share/chromeos-config/files"
 
+# @ECLASS-VARIABLE: CROS_CONFIG_TEST_DIR
+# @DESCRIPTION:
+#  Local to install build specific cros_config test files.
+#  These are used for chromeos-config integration testing that verifies
+#  the integrity of the config changes.
+CROS_CONFIG_TEST_DIR="/tmp/chromeos-config"
+
+# @ECLASS-VARIABLE: CROS_CONFIG_BUILD_CONFIG_DUMP_FILE
+# @DESCRIPTION:
+#  Local to install build specific cros_config test files.
+#  These are used for chromeos-config integration testing that verifies
+#  the integrity of the config changes.
+CROS_CONFIG_BUILD_CONFIG_DUMP_FILE="config_dump.json"
+
 # @FUNCTION: _unibuild_find_configs
 # @USAGE: [directory] [extension]
 # @INTERNAL
