@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -23,11 +23,13 @@ IUSE="doc static-libs"
 # Purposefully dropped the xml USE flag and libxml2 support.  Expat is the
 # default and used by every distro.  See bug #283191.
 RDEPEND=">=dev-libs/expat-2.1.0-r3[${MULTILIB_USEDEP}]
-	>=media-libs/freetype-2.8.1[${MULTILIB_USEDEP}]
-	sys-apps/util-linux[${MULTILIB_USEDEP}]
+	>=media-libs/freetype-2.9[${MULTILIB_USEDEP}]
+	!elibc_Darwin? ( sys-apps/util-linux[${MULTILIB_USEDEP}] )
+	elibc_Darwin? ( sys-libs/native-uuid )
 	virtual/libintl[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
+	>=sys-devel/gettext-0.19.8
 	doc? ( =app-text/docbook-sgml-dtd-3.1*
 		app-text/docbook-sgml-utils[jadetex] )"
 PDEPEND="!x86-winnt? ( app-eselect/eselect-fontconfig )
@@ -56,6 +58,7 @@ src_prepare() {
 	sed -i -e 's/FC_GPERF_SIZE_T="unsigned int"/FC_GPERF_SIZE_T=size_t/' \
 		configure.ac || die # rest of gperf dependency fix, #631920
 	eautoreconf
+	rm test/out.expected || die #662048
 }
 
 multilib_src_configure() {
