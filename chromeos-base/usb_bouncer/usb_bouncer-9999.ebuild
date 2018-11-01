@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk usb_bouncer .gn"
 
 PLATFORM_SUBDIR="usb_bouncer"
 
-inherit cros-workon platform user
+inherit cros-workon platform user cros-fuzzer cros-sanitizers
 
 DESCRIPTION="Manage the usbguard whitelist"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/usb_bouncer/"
@@ -19,9 +19,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/usb_bo
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="fuzzer"
 
 RDEPEND="chromeos-base/libbrillo
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 	chromeos-base/minijail
 	dev-libs/openssl
 	sys-apps/usbguard"
@@ -40,6 +41,9 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
 	fowners usb_bouncer:usb_bouncer "${daemon_store}"
+
+	local f="${OUT}/usb_bouncer_fuzzer"
+	fuzzer_install "${S}/OWNERS" "${f}"
 }
 
 platform_pkg_test() {
