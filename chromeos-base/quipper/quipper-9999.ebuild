@@ -46,6 +46,10 @@ src_unpack() {
 	unpack ${SRC}
 	mv "${SRC_DIR}"/{.[!.],}* ./ || die
 	epatch "${FILESDIR}"/quipper-disable-flaky-tests.patch
+	epatch "${FILESDIR}"/quipper-gyp.patch
+	epatch "${FILESDIR}"/quipper-build.patch
+	epatch "${FILESDIR}"/quipper-fuzzer.patch
+	epatch "${FILESDIR}"/quipper-owners.patch
 	popd >/dev/null
 }
 
@@ -61,6 +65,7 @@ src_compile() {
 
 src_install() {
 	dobin "${OUT}"/quipper
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/quipper_perf_reader_read_fuzzer
 }
 
 platform_pkg_test() {

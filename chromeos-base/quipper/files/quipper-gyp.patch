@@ -1,0 +1,33 @@
+diff --git a/quipper.gyp.orig b/quipper.gyp
+index 607302f..fdfe5b7 100644
+--- a/quipper.gyp.orig
++++ b/quipper.gyp
+@@ -188,5 +188,28 @@
+         },
+       ],
+     }],
++    # Fuzzer target.
++    ['USE_fuzzer == 1', {
++      'targets': [
++        {
++          'target_name': 'quipper_perf_reader_read_fuzzer',
++          'type': 'executable',
++          'includes': [
++            '../common-mk/common_fuzzer.gypi',
++          ],
++          'dependencies': [
++            'common',
++          ],
++	   'variables': {
++            'deps': [
++              'libchrome-test-<(libbase_ver)',
++            ],
++          },
++          'sources': [
++            'perf_reader_read_fuzzer.cc',
++          ],
++        },
++      ],
++    }],
+   ],
+ }

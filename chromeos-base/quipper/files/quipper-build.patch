@@ -1,0 +1,17 @@
+diff --git a/BUILD b/BUILD
+index 7dd2e05..d94dfe8 100644
+--- a/BUILD
++++ b/BUILD
+@@ -450,6 +450,12 @@ cc_library(
+     data = perf_test_data,
+ )
+
++cc_test(
++    name = "quipper_perf_reader_read_fuzzer",
++    srcs = ["perf_reader_read_fuzzer.cc"],
++    hdrs = ["perf_reader.h"],
++)
++
+ cc_test(
+     name = "address_mapper_test",
+     srcs = ["address_mapper_test.cc"],

@@ -1,0 +1,36 @@
+diff --git a/perf_reader_read_fuzzer.cc b/perf_reader_read_fuzzer.cc
+index e69de29..e79a282 100644
+--- /dev/null
++++ perf_reader_read_fuzzer.cc
+@@ -0,0 +1,31 @@
++// Copyright 2018 The Chromium OS Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include <vector>
++#include "base/logging.h"
++#include "base/test/fuzzed_data_provider.h"
++
++#include "perf_reader.h"
++#include "buffer_reader.h"
++
++namespace quipper {
++
++struct Environment {
++  Environment() {
++    logging::SetMinLogLevel(logging::LOG_FATAL); // Disable logging.
++  }
++};
++
++extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
++  static Environment env;
++  const char *char_data = reinterpret_cast<const char *>(data);
++  const std::vector<char> vector_data(char_data, char_data+size);
++  PerfReader pr;
++
++  pr.ReadFromVector(vector_data);
++
++  return 0;
++}
++}
++
