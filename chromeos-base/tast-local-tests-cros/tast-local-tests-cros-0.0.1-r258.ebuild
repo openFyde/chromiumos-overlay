@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT=("cfeab1beb3459c290389618a4f45acfb3e185d41" "c3523a24b7435e9fb4c577bddfae058559627a7e")
-CROS_WORKON_TREE=("7b730f0941aab9312d701cb421d7f586e8c5972e" "6be90f0ea6ff732c90a2ff7a5963b6d38170a2d6")
+CROS_WORKON_COMMIT=("bdfc15efa8a161af65a4fc4a97d6a1d11d432826" "c3523a24b7435e9fb4c577bddfae058559627a7e")
+CROS_WORKON_TREE=("611d598545c163e42d3156d99e825b23c3907c34" "6be90f0ea6ff732c90a2ff7a5963b6d38170a2d6")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast-tests"
 	"chromiumos/platform/tast"
@@ -35,6 +35,9 @@ TAST_BUNDLE_EXTERNAL_DATA_URLS=(
 	"gs://chromiumos-test-assets-public/tast/cros/debugd/debugd_printer_GenericPostScript_20181001.ppd.gz"
 	"gs://chromiumos-test-assets-public/tast/cros/example/data_files_external_20180626.txt"
 	"gs://chromiumos-test-assets-public/tast/cros/meta/local_files_external_20180811.txt"
+	"gs://chromiumos-test-assets-public/tast/cros/printer/printer_add_generic_printer_GenericPostScript_20181031.ppd.gz"
+	"gs://chromiumos-test-assets-public/tast/cros/printer/printer_add_generic_printer_golden_20181031.ps"
+	"gs://chromiumos-test-assets-public/tast/cros/printer/to_print_20181031.pdf"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_320x192_40frames_20181020.nv12.yuv"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_320x192_40frames_20181020.yuv"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_h264_320x180_20180629.mp4"

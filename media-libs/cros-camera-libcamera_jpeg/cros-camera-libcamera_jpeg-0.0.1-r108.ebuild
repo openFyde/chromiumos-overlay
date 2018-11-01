@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT=("cdebb2f32b1696841aa4ba6fc8eccf5dac8058a7" "044b7be3c864ed4a528ebffee8b2a4e5f1f11bd1")
+CROS_WORKON_COMMIT=("cdebb2f32b1696841aa4ba6fc8eccf5dac8058a7" "54a012d42c5f377ede60f42f640cb2f37f6b0001")
 CROS_WORKON_TREE=("6589055d0d41e7fc58d42616ba5075408d810f7d" "b13ecfe59d89499092d4325f309ff6f87ba80f3a" "9c2d57f35528e62d4d73f405ad0800ea16aba9f0" "28e477cbf2a0d305f7152b988fee8a1aeaf36790" "190c4cfe4984640ab62273e06456d51a30cfb725")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/arc-camera"
@@ -38,6 +38,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	chromeos-base/libmojo
+	media-libs/cros-camera-libcamera_ipc
 	media-libs/libyuv
 	virtual/pkgconfig"
 
