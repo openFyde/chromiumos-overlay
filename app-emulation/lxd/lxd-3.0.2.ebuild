@@ -136,6 +136,8 @@ src_unpack() {
 }
 
 src_prepare() {
+	eapply "${FILESDIR}/${P}-dqlite-timeout.patch" # crbug.com/901108
+
 	cd "${S}/dist/src/${EGO_PN}"
 	eapply "${FILESDIR}/${P}-cert-ec384.patch" # crbug.com/837445
 	eapply_user
