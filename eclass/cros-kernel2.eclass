@@ -96,11 +96,6 @@ MULTILIB_STRICT_EXEMPT+="|modules"
 : ${CROS_WORKON_OUTOFTREE_BUILD:=1}
 : ${CROS_WORKON_INCREMENTAL_BUILD:=1}
 
-# Force in-tree builds if private patches may have to be applied.
-if [[ "${PV}" != "9999" ]] || use apply_patches; then
-	CROS_WORKON_OUTOFTREE_BUILD=0
-fi
-
 # Config fragments selected by USE flags. _config fragments are mandatory,
 # _config_disable fragments are optional and will be appended to kernel config
 # if use flag is not set.
@@ -1291,6 +1286,11 @@ kmake() {
 }
 
 cros-kernel2_src_unpack() {
+	# Force in-tree builds if private patches may have to be applied.
+	if [[ "${PV}" != "9999" ]] || use apply_patches; then
+		CROS_WORKON_OUTOFTREE_BUILD=0
+	fi
+
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 	case ${kernel_arch} in
 		arm)
