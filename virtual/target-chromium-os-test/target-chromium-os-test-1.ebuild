@@ -155,6 +155,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	media-gfx/perceptualdiff
 	media-gfx/zbar
 	media-libs/libexif
+	media-libs/libvpx
 	media-libs/opencv
 	ozone? ( media-gfx/deqp )
 	media-libs/tiff
