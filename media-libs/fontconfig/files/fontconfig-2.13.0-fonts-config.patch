@@ -17,9 +17,11 @@ ebuilds (/usr/local/share/fonts) are not searched.
 In addition, we remove the rescan directive because the font list won't
 change.
 
---- fontconfig-2.11.1.old/fonts.conf.in	2017-01-04 15:26:25.654050277 -0800
-+++ fontconfig-2.11.1/fonts.conf.in	2017-01-04 15:30:06.321853736 -0800
-@@ -21,14 +21,6 @@
+diff --git a/fonts.conf.in b/fonts.conf.in
+index 2019923..6be5d0a 100644
+--- a/fonts.conf.in
++++ b/fonts.conf.in
+@@ -26,14 +26,6 @@
  	Keith Packard
  -->
  
@@ -34,26 +36,21 @@ change.
  <!--
    Accept deprecated 'mono' alias, replacing it with 'monospace'
  -->
-@@ -73,9 +65,6 @@
+@@ -78,17 +70,5 @@
  <!-- Font cache directory list -->
  
  	<cachedir>@FC_CACHEDIR@</cachedir>
 -	<cachedir prefix="xdg">fontconfig</cachedir>
 -	<!-- the following element will be removed in the future -->
 -	<cachedir>~/.fontconfig</cachedir>
- 
- 	<config>
- <!--
-@@ -144,12 +133,6 @@
- 			<int>0xFFFA</int>	<!-- INTERLINEAR ANNOTATION SEPARATOR -->
- 			<int>0xFFFB</int>	<!-- INTERLINEAR ANNOTATION TERMINATOR -->
- 		</blank>
+-
+-	<config>
 -<!--
 -  Rescan configuration every 30 seconds when FcFontSetList is called
 - -->
 -		<rescan>
 -			<int>30</int>
 -		</rescan>
- 	</config>
+-	</config>
  
  </fontconfig>

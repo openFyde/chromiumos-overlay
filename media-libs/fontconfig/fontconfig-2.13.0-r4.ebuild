@@ -17,8 +17,8 @@ SRC_URI="https://fontconfig.org/release/${P}.tar.bz2"
 
 LICENSE="MIT"
 SLOT="1.0"
-KEYWORDS="~*"
-IUSE="doc static-libs"
+KEYWORDS="*"
+IUSE="cros_host doc static-libs +subpixel_rendering touchview"
 
 # Purposefully dropped the xml USE flag and libxml2 support.  Expat is the
 # default and used by every distro.  See bug #283191.
@@ -32,16 +32,25 @@ DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.19.8
 	doc? ( =app-text/docbook-sgml-dtd-3.1*
 		app-text/docbook-sgml-utils[jadetex] )"
-PDEPEND="!x86-winnt? ( app-eselect/eselect-fontconfig )
-	virtual/ttf-fonts"
+# CrOS change: we don't need fontconfig eselect.
+PDEPEND="virtual/ttf-fonts"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.10.2-docbook.patch # 310157
-	"${FILESDIR}"/${PN}-2.12.3-latin-update.patch # 130466 + make liberation default
+	"${FILESDIR}"/${P}-fonts-config.patch
 	"${FILESDIR}"/${P}-locale.patch #650332
+	"${FILESDIR}"/${P}-mtime.patch
 	"${FILESDIR}"/${P}-names.patch #650370
-	"${FILESDIR}"/${P}-add-missing-lintl.patch #652674
 )
+
+# Checks that a passed-in fontconfig default symlink (e.g. "10-autohint.conf")
+# is present and dies if it isn't.
+check_fontconfig_default() {
+	local path="${D}"/etc/fonts/conf.d/"$1"
+	if [[ ! -L ${path} ]]; then
+		die "Didn't find $1 among default fontconfig settings (at ${path})."
+	fi
+}
 
 MULTILIB_CHOST_TOOLS=( /usr/bin/fc-cache$(get_exeext) )
 
@@ -85,7 +94,9 @@ multilib_src_configure() {
 		$(use_enable doc docbook)
 		$(use_enable static-libs static)
 		--enable-docs
-		--localstatedir="${EPREFIX}"/var
+		# Font cache should be in /usr/share/cache instead of /var/cache
+		# because the latter is not in the read-only partition.
+		--localstatedir="${EPREFIX}"/usr/share
 		--with-default-fonts="${EPREFIX}"/usr/share/fonts
 		--with-add-fonts="${EPREFIX}/usr/local/share/fonts${addfonts}"
 		--with-templatedir="${EPREFIX}"/etc/fonts/conf.avail
@@ -112,10 +123,58 @@ multilib_src_install_all() {
 	einstalldocs
 	find "${ED}" -name "*.la" -delete || die
 
-	# fc-lang directory contains language coverage datafiles
-	# which are needed to test the coverage of fonts.
-	insinto /usr/share/fc-lang
-	doins fc-lang/*.orth
+	insinto /etc/fonts
+	doins "${FILESDIR}"/local.conf
+	# Enable autohint by default
+	# match what we want to use.
+	dosym ../conf.avail/10-autohint.conf /etc/fonts/conf.d/
+	check_fontconfig_default 10-autohint.conf
+
+	# Make sure that hinting-slight is on.
+	check_fontconfig_default 10-hinting-slight.conf
+
+	# Set sub-pixel mode to RGB
+	dosym ../conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d/
+	check_fontconfig_default 10-sub-pixel-rgb.conf
+
+	# Use the default LCD filter
+	dosym ../conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d/
+	check_fontconfig_default 11-lcdfilter-default.conf
+
+	# Enable antialiasing by default.
+	dosym ../conf.avail/10-antialias.conf /etc/fonts/conf.d/
+	check_fontconfig_default 10-antialias.conf
+
+	# CrOS: Delete unnecessary configurtaion files
+	local confs_to_delete=(
+		"20-unhint-small-vera"
+		"40-nonlatin"
+		"50-user"
+		"65-fonts-persian"
+		"65-nonlatin"
+		"69-unifont"
+		"80-delicious"
+	)
+
+	local conf
+	for conf in "${confs_to_delete[@]}"; do
+		rm -f "${D}"/etc/fonts/conf.d/"${conf}".conf
+	done
+
+	# There's a lot of variability across different displays with subpixel
+	# rendering. Until we have a better solution, turn it off and use grayscale
+	# instead on boards that don't have internal displays.
+	#
+	# Additionally, disable it for convertible devices with rotatable displays
+	# (http://crbug.com/222208) and when installing to the host sysroot so the
+	# images in the initramfs package won't use subpixel rendering
+	# (http://crosbug.com/27872).
+	if ! use subpixel_rendering || use touchview || use cros_host; then
+		rm "${D}"/etc/fonts/conf.d/10-sub-pixel-rgb.conf
+		rm "${D}"/etc/fonts/conf.d/11-lcdfilter-default.conf
+		dosym ../conf.avail/10-no-sub-pixel.conf /etc/fonts/conf.d/
+		check_fontconfig_default 10-no-sub-pixel.conf
+	fi
 
 	dodoc doc/fontconfig-user.{txt,pdf}
 
@@ -130,30 +189,11 @@ multilib_src_install_all() {
 	doenvd "${T}"/37fontconfig
 
 	# As of fontconfig 2.7, everything sticks their noses in here.
+	# Replace /var/cache with /usr/share/cache for CrOS.
 	dodir /etc/sandbox.d
-	echo 'SANDBOX_PREDICT="/var/cache/fontconfig"' > "${ED}"/etc/sandbox.d/37fontconfig
+	echo 'SANDBOX_PREDICT="/usr/share/cache/fontconfig"' > "${ED}"/etc/sandbox.d/37fontconfig
 
 	readme.gentoo_create_doc
-}
-
-pkg_preinst() {
-	# Bug #193476
-	# /etc/fonts/conf.d/ contains symlinks to ../conf.avail/ to include various
-	# config files.  If we install as-is, we'll blow away user settings.
-	ebegin "Syncing fontconfig configuration to system"
-	if [[ -e ${EROOT}/etc/fonts/conf.d ]]; then
-		for file in "${EROOT}"/etc/fonts/conf.avail/*; do
-			f=${file##*/}
-			if [[ -L ${EROOT}/etc/fonts/conf.d/${f} ]]; then
-				[[ -f ${ED}etc/fonts/conf.avail/${f} ]] \
-					&& ln -sf ../conf.avail/"${f}" "${ED}"etc/fonts/conf.d/ &>/dev/null
-			else
-				[[ -f ${ED}etc/fonts/conf.avail/${f} ]] \
-					&& rm "${ED}"etc/fonts/conf.d/"${f}" &>/dev/null
-			fi
-		done
-	fi
-	eend $?
 }
 
 pkg_postinst() {
