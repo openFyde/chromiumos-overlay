@@ -41,7 +41,11 @@ TAST_BUNDLE_EXTERNAL_DATA_URLS=(
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_h264_320x180_20180629.mp4"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_vp8_320x180_20180629.webm"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_vp9_320x240_20180629.webm"
+	"gs://chromiumos-test-assets-public/tast/cros/video/crowd-1920x1080_20181103.webm"
 	"gs://chromiumos-test-assets-public/traffic/traffic-1920x1080-8005020218f6b86bfa978e550d04956e.mp4"
+	"gs://chromiumos-test-assets-public/tast/cros/video/tulip2-1280x720_20181103.webm"
+	"gs://chromiumos-test-assets-public/tast/cros/video/tulip2-320x180_20181103.webm"
+	"gs://chromiumos-test-assets-public/tast/cros/video/tulip2-640x360_20181103.webm"
 )
 
 inherit cros-workon tast-bundle
