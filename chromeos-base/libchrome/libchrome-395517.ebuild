@@ -79,6 +79,11 @@ src_prepare() {
 	# TODO(hidehiko): Remove this patch on update.
 	epatch "${FILESDIR}"/${P}-Add-base-Optional.patch
 
+	# This no_destructor.h is taken from r599267.
+	# TODO(hidehiko): Remove this patch after libchrome is uprevved
+	# to >= r599267.
+	epatch "${FILESDIR}"/${P}-Add-base-NoDestructor-T.patch
+
 	# TODO(hidehiko): Remove this patch after libchrome is uprevved
 	# to >= r463684.
 	epatch "${FILESDIR}"/${P}-Introduce-ValueReferenceAdapter-for-gracef.patch
