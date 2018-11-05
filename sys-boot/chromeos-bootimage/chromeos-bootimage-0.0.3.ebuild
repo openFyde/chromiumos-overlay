@@ -19,7 +19,7 @@ BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi rammus reef"
 BOARDS="${BOARDS} samus sand sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
 IUSE="${BOARDS} altfw cb_legacy_seabios cb_legacy_uboot"
-IUSE="${IUSE} fsp fastboot unibuild u-boot tianocore cros_ec pd_sync"
+IUSE="${IUSE} fsp fastboot unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 
 REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
@@ -28,7 +28,7 @@ REQUIRED_USE="
 DEPEND="
 	sys-boot/coreboot
 	sys-boot/depthcharge
-	sys-boot/chromeos-bmpblk
+	bmpblk? ( sys-boot/chromeos-bmpblk )
 	cb_legacy_seabios? ( sys-boot/chromeos-seabios )
 	tianocore? ( sys-boot/edk2 )
 	cb_legacy_uboot? ( virtual/u-boot )
