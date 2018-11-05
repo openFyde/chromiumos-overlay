@@ -96,3 +96,5 @@ x11-libs/pixman		static-libs
 dev-util/meson python_targets_python3_6
 dev-python/setuptools python_targets_python3_6
 dev-python/certifi python_targets_python3_6
+dev-python/mako python_targets_python3_6
+dev-python/markupsafe python_targets_python3_6
