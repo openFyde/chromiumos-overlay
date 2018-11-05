@@ -174,7 +174,7 @@ src_configure() {
 		lp8700 lp8800c lp8900 lp9000b lp9000c lp9100 lp9200b lp9200c lp9300
 		lp9400 lp9500c lp9600 lp9600s lp9800c lps4500 lps6500 lq850 lxm5700m
 		m8510 necp6 oce9050 oki182 okiibm pcl3 picty180 pjxl300 pxlcolor
-		pxlmono r4081 sj48 stcolor t4693d4 tek4696
+		pxlmono r4081 sj48 stcolor t4693d4 tek4696 uniprint
 		# The "cups" driver is added if and only if we are building with CUPS.
 		$(usev cups)
 	)
