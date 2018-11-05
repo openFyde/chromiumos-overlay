@@ -2,7 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI=5
+EAPI=6
+
+MESON_AUTO_DEPEND=no
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-freedreno"
@@ -13,7 +15,7 @@ fi
 
 KEYWORDS="~*"
 
-inherit base autotools multilib flag-o-matic python toolchain-funcs cros-workon
+inherit base meson multilib flag-o-matic toolchain-funcs cros-workon
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -43,14 +45,12 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	base_src_prepare
-
 	if [[ ${PV} = 9999* ]]; then
 		# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
 		echo '#define MESA_GIT_SHA1 "git-0000000"' > src/git_sha1.h
 	fi
 
-	eautoreconf
+	default
 }
 
 src_configure() {
@@ -59,31 +59,39 @@ src_configure() {
 	# Needs std=gnu++11 to build with libc++. crbug.com/750831
 	append-cxxflags "-std=gnu++11"
 
-	if use vulkan; then
-		VULKAN_DRIVERS="freedreno"
+	append-cppflags "-UENABLE_SHADER_CACHE"
+
+	if use debug; then
+		emesonargs+=( -Dbuildtype=debug)
 	fi
 
-	append-flags "-UENABLE_SHADER_CACHE"
+	emesonargs+=(
+		-Dllvm=false
+		-Ddri3=false
+		-Dglx=disabled
+		-Degl=true
+		-Dgbm=false
+		-Dgles1=false
+		-Dgles2=true
+		-Dshared-glapi=true
+		-Ddri-drivers=
+		-Dgallium-drivers=freedreno
+		-Dgallium-vdpau=false
+		-Dgallium-xa=false
+		-Dplatforms=surfaceless
+	)
 
-	econf \
-		--enable-autotools \
-		--disable-option-checking \
-		--enable-texture-float \
-		--disable-dri3 \
-		--disable-glx \
-		--disable-gbm \
-		--disable-gles1 \
-		--enable-gles2 \
-		--enable-shared-glapi \
-		$(use_enable debug) \
-		--with-dri-drivers= \
-		--with-gallium-drivers=freedreno \
-		--with-vulkan-drivers=${VULKAN_DRIVERS} \
-		--with-egl-platforms=surfaceless
+	if use vulkan; then
+		emesonargs+=( -Dvulkan-drivers=freedreno )
+	else
+		emesonargs+=( -Dvulkan-drivers= )
+	fi
+
+	meson_src_configure
 }
 
 src_install() {
-	base_src_install
+	meson_src_install
 
 	find ${ED} -name '*kgsl*' -exec rm -f {} +
 	rm -v -rf ${ED}"usr/include"
