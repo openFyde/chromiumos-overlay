@@ -143,6 +143,7 @@ CONFIG_FRAGMENTS=(
 	kasan
 	kcov
 	kernel_compress_xz
+	kexec_file
 	kgdb
 	kmemleak
 	kvm
@@ -404,6 +405,15 @@ kernel_compress_xz_config="
 # CONFIG_KERNEL_LZO is not set
 # CONFIG_KERNEL_LZ4 is not set
 CONFIG_KERNEL_XZ=y
+"
+
+kexec_file_desc="Enable CONFIG_KEXEC_FILE"
+kexec_file_config="
+CONFIG_CRASH_CORE=y
+CONFIG_KEXEC_CORE=y
+# CONFIG_KEXEC is not set
+CONFIG_KEXEC_FILE=y
+# CONFIG_KEXEC_VERIFY_SIG is not set
 "
 
 kgdb_desc="Enable kgdb"
