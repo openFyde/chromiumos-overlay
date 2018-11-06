@@ -12,27 +12,10 @@ esac
 #  This is the installation directory of cros-config data.
 UNIBOARD_CROS_CONFIG_DIR="/usr/share/chromeos-config"
 
-# @ECLASS-VARIABLE: UNIBOARD_DTB_INSTALL_PATH
-# @DESCRIPTION:
-#  This is the filename of the master configuration for use with doins.
-UNIBOARD_DTB_INSTALL_PATH="${UNIBOARD_CROS_CONFIG_DIR}/config.dtb"
-
 # @ECLASS-VARIABLE: UNIBOARD_JSON_INSTALL_PATH
 # @DESCRIPTION:
 #  This is the filename of the master configuration for use with doins.
 UNIBOARD_JSON_INSTALL_PATH="${UNIBOARD_CROS_CONFIG_DIR}/config.json"
-
-# @ECLASS-VARIABLE: UNIBOARD_DTS_DIR
-# @DESCRIPTION:
-#  This is the installation directory of the device-tree source files.
-UNIBOARD_DTS_DIR="${UNIBOARD_CROS_CONFIG_DIR}/dts"
-
-# @ECLASS-VARIABLE: UNIBOARD_DTS_BASEBOARD
-# @DESCRIPTION:
-#  This is a shared file that can be installed by a baseboard ebuild and shared
-#  among various overlays. Commonly used for sharing SKU's.
-UNIBOARD_DTS_BASEBOARD="${CROS_MODELS_DIR}/baseboard/model.dtsi"
-# TODO(jclinton): Support YAML joining of files
 
 # @ECLASS-VARIABLE: UNIBOARD_YAML_DIR
 # @DESCRIPTION:
@@ -48,11 +31,6 @@ UNIBOARD_YAML_CONFIG="${UNIBOARD_YAML_DIR}/config.yaml"
 # @DESCRIPTION:
 #  This is the installation path to the C source file.
 UNIBOARD_C_CONFIG="${UNIBOARD_YAML_DIR}/config.c"
-
-# @ECLASS-VARIABLE: UNIBOARD_CROS_CONFIG_FILES_DIR
-# @DESCRIPTION:
-#  This is the installation directory of files referenced in the model.dtsi.
-UNIBOARD_CROS_CONFIG_FILES_DIR="/usr/share/chromeos-config/files"
 
 # @ECLASS-VARIABLE: CROS_CONFIG_TEST_DIR
 # @DESCRIPTION:
@@ -72,10 +50,10 @@ CROS_CONFIG_BUILD_CONFIG_DUMP_FILE="config_dump.json"
 # @USAGE: [directory] [extension]
 # @INTERNAL
 # @DESCRIPTION:
-# Find .dtsi/.yaml files in a given directory tree.
+# Find .yaml files in a given directory tree.
 # Args:
 #   $1: Directory to search.
-#   $2: Extension to search for (.dtsi or .yaml)
+#   $2: Extension to search for (e.g. .yaml)
 # Returns:
 #   Exports a 'files' variable containing the array of files found.
 _unibuild_find_configs() {
@@ -90,7 +68,7 @@ _unibuild_find_configs() {
 # @USAGE: [prefix]
 # @INTERNAL
 # @DESCRIPTION:
-# Find .dtsi/.yaml files in a given directory tree.
+# Find .yaml files in a given directory tree.
 # Install model files with a given prefix:
 # Args:
 #   $1: Prefix to use (either "" or "private-")
@@ -99,35 +77,6 @@ _install_model_files() {
 
 	local prefix="$1"
 	local files
-
-	_unibuild_find_configs "${FILESDIR}" ".dtsi"
-	if [ -n "$files" ]; then
-		files=()
-		# Support a shared base file that can be imported from a baseboard ebuild
-		if [[ -e "${SYSROOT}/${UNIBOARD_DTS_BASEBOARD}" ]]; then
-			files+=( "${SYSROOT}/${UNIBOARD_DTS_BASEBOARD}" )
-		fi
-		_unibuild_find_configs "${FILESDIR}" ".dtsi"
-
-
-		einfo "Validating ${#files[@]} files:"
-		validate_config -p "${files[@]}" || die "Validation failed"
-
-		einfo "Installing ${#files[@]} files to ${UNIBOARD_DTS_DIR}"
-
-		# Avoid polluting callers with our newins.
-		(
-			insinto "${UNIBOARD_DTS_DIR}"
-			for file in "${files[@]}"; do
-				local dest="${file%/*}"
-				dest="${prefix}${dest##*/}.dtsi"
-
-				einfo "Installing ${dest}"
-				newins "${file}" "${dest}"
-			done
-		)
-	fi
-
 
 	files=()
 	_unibuild_find_configs "${FILESDIR}" ".yaml"
@@ -152,9 +101,9 @@ _install_model_files() {
 # @FUNCTION: install_private_model_files
 # @USAGE:
 # @DESCRIPTION:
-# Installs all .dtsi files for the current board. This is intended to be called
+# Installs all .yaml files for the current board. This is intended to be called
 # from the chromeos-config-<board> private ebuild. The files are named
-# "private-<fname>.dtsi".
+# "private-<fname>.yaml".
 install_private_model_files() {
 	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
 
@@ -164,9 +113,9 @@ install_private_model_files() {
 # @FUNCTION: install_model_files
 # @USAGE:
 # @DESCRIPTION:
-# Installs all .dtsi files for the current board. This is intended to be called
+# Installs all .yaml files for the current board. This is intended to be called
 # from the chromeos-config-<board> public ebuild. The files are named
-# "<fname>.dtsi".
+# "<fname>.yaml".
 install_model_files() {
 	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
 
@@ -187,19 +136,8 @@ cros_config_host_local() {
 	local configdir="${basedir}/chromeos-config-bsp/files"
 	local files
 
-	if [[ -d "${configdir}" ]]; then
-		if [[ -e "${configdir}/model.yaml" ]]; then
-			echo $(cros_config_host -c "${configdir}/model.yaml" "$1")
-		else
-			# We are not allowed to access the ROOT directory here, so compile the
-			# model fragment on the fly and pull out the value we want.
-			_unibuild_find_configs "${configdir}" ".dtsi"
-			echo $(echo "/dts-v1/; / { chromeos { family: family { }; " \
-				"models: models { }; }; };" |
-				cat "-" "${files[@]}" |
-				dtc -O dtb -Wno-unit_address_vs_reg |
-				cros_config_host -c - "$1")
-		fi
+	if [[ -e "${configdir}/model.yaml" ]]; then
+		echo $(cros_config_host -c "${configdir}/model.yaml" "$1")
 	else
 		# We cannot die here if there are no config files as this function is
 		# called by non-unibuild boards. We just need to output an empty

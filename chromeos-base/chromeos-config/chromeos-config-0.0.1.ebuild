@@ -21,55 +21,15 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 # This ebuild creates the Chrome OS master configuration file stored in
-# ${UNIBOARD_DTB}. See go/cros-unified-builds-design for more information.
+# ${UNIBOARD_JSON_INSTALL_PATH}. See go/cros-unified-builds-design for
+# more information.
 
 # There is no workon source directory, so use the work directory.
 S=${WORKDIR}
 
-# Use the device-tree compiler to create and install a config.dtb file
-# containing all the .dtsi files from ${UNIBOARD_DTS_DIR}.
-# For YAML files, convert them into JSON for platform runtime access.
+# Merges all of the source YAML config files and generates the
+# corresponding build config and platform config files.
 src_compile() {
-	local dts="${WORKDIR}/config.dts"
-	local dtb="${WORKDIR}/config.dtb"
-	local added=0
-	local dtsi
-	local files=( "${SYSROOT}${UNIBOARD_DTS_DIR}/"*.dtsi )
-	local schema_info="${WORKDIR}/_dir_targets.dtsi"
-
-	# Create a .dts file with all the includes.
-	cp "${FILESDIR}/skeleton.dts" "${dts}"
-	cros_config_host write-target-dirs >"${schema_info}" \
-		|| die "Failed to write directory targets"
-	cros_config_host write-phandle-properties >>"${schema_info}" \
-		|| die "Failed to write phandle properties"
-	# For YAML cases, we still need to generate a shell DTB file for
-	# now since mosys still attempts to link it in.
-	if [[ "${files[0]}" =~ .*[a-z_]+\.dtsi$ ]]; then
-		for dtsi in "${SYSROOT}${UNIBOARD_DTS_DIR}"/*.dtsi "${schema_info}"; do
-			einfo "Adding ${dtsi}"
-			[[ "${dtsi}" != "${schema_info}" ]] && cp "${dtsi}" "${WORKDIR}"
-			# Drop the directory path from ${dtsi} in the #include.
-			echo "#include \"${dtsi##*/}\"" >> "${dts}"
-			: $((added++))
-		done
-		einfo "${added} files found"
-	fi
-
-	# Use the preprocessor to handle the #include directives.
-	$(tc-getCPP) -P -x assembler-with-cpp "${dts}" -o "${dts}.tmp" \
-		|| die "Preprocessor failed"
-
-	# Compile it to produce the requird output file.
-	dtc -I dts -O dtb -Wno-unit_address_vs_reg -o "${dtb}" "${dts}.tmp" \
-		|| die "Device-tree compilation failed"
-
-	# Validate the config.
-	einfo "Validating config:"
-	validate_config "${dtb}" || die "Validation failed"
-	einfo "- OK"
-
-	# YAML config support.
 	local yaml_files=( "${SYSROOT}${UNIBOARD_YAML_DIR}/"*.yaml )
 	local input_yaml_files=()
 	local yaml="${WORKDIR}/config.yaml"
@@ -99,11 +59,6 @@ src_compile() {
 
 src_install() {
 	# Get the directory name only, and use that as the install directory.
-	if [[ -e "${WORKDIR}/config.dtb" ]]; then
-		insinto "${UNIBOARD_DTB_INSTALL_PATH%/*}"
-		doins config.dtb
-	fi
-
 	if [[ -e "${WORKDIR}/config.json" ]]; then
 		insinto "${UNIBOARD_JSON_INSTALL_PATH%/*}"
 		doins config.json
@@ -121,9 +76,6 @@ src_test() {
 	if [[ -e "${expected_config}" ]]; then
 		if [[ -e "${WORKDIR}/config.yaml" ]]; then
 			cros_config_host -c "${WORKDIR}/config.yaml" dump-config > \
-				"${actual_config}"
-		else
-			cros_config_host -c "${WORKDIR}/config.dtb" dump-config > \
 				"${actual_config}"
 		fi
 		einfo "Verifying ${expected_config} matches ${actual_config}"
