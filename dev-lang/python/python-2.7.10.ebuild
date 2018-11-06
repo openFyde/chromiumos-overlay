@@ -119,6 +119,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/python-2.7.10-cross-distutils.patch
 	epatch "${FILESDIR}"/python-2.7.3-unique-semaphore-name.patch
 	epatch "${FILESDIR}"/python-2.7.10-ldshared.patch
+	epatch "${FILESDIR}"/python-2.7.17-getentropy.patch
 	epatch "${FILESDIR}"/2.7-disable-nis.patch
 	# Undo the @libdir@ change for portage's pym folder as it is always
 	# installed into /usr/lib/ and not the abi libdir.
