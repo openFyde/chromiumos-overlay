@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chrome
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
-IUSE="json"
+IUSE=""
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -53,8 +53,6 @@ platform_pkg_test() {
 		fake_cros_config_test
 		cros_config_test
 		cros_config_main_test
-		cros_config_json_test
-		cros_config_main_json_test
 	)
 
 	local test_bin
