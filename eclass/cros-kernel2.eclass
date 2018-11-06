@@ -169,7 +169,7 @@ CONFIG_FRAGMENTS=(
 	systemtap
 	tpm
 	transparent_hugepage
-	kernel_ubsan
+	ubsan
 	usb_gadget
 	usb_gadget_acm
 	usb_gadget_audio
@@ -674,9 +674,8 @@ CONFIG_KPROBES=y
 CONFIG_DEBUG_INFO=y
 "
 
-# TODO: Rename to ubsan after increasing kernel image size (crbug.com/894237)
-kernel_ubsan_desc="Enable UBSAN"
-kernel_ubsan_config="
+ubsan_desc="Enable UBSAN"
+ubsan_config="
 CONFIG_UBSAN=y
 CONFIG_UBSAN_SANITIZE_ALL=y
 CONFIG_TEST_UBSAN=m
