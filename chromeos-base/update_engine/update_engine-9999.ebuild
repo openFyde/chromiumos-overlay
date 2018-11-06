@@ -23,7 +23,7 @@ SRC_URI=""
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_p2p +dbus -hwid_override mtd +power_management systemd"
+IUSE="cros_p2p +dbus dlc -hwid_override mtd +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2
@@ -47,6 +47,7 @@ DEPEND="
 	app-arch/xz-utils
 	chromeos-base/system_api
 	chromeos-base/debugd-client
+	dlc? ( chromeos-base/dlcservice-client )
 	chromeos-base/power_manager-client
 	chromeos-base/session_manager-client
 	chromeos-base/shill-client
