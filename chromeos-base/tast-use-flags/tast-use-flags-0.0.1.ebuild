@@ -13,6 +13,7 @@ KEYWORDS="*"
 IUSE="
 	arc
 	betty
+	chrome_internal
 	chromeless_tty
 	cups
 	+display_backlight
