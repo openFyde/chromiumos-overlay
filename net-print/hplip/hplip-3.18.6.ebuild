@@ -208,7 +208,7 @@ src_configure() {
 		${drv_build} \
 		${minimal_build} \
 		--enable-hpps-install \
-		--disable-class-driver \
+		--enable-class-driver \
 		$(use_enable doc doc-build) \
 		$(use_enable fax fax-build) \
 		$(use_enable !minimal gui-build) \
@@ -233,34 +233,10 @@ src_configure() {
 }
 
 src_install() {
-	# Disable parallel install
-	# Gentoo Bug: https://bugs.gentoo.org/show_bug.cgi?id=578018
-	emake -j1 DESTDIR="${D}" install
-	einstalldocs
-	# default
-
-	# Installed by sane-backends
-	# Gentoo Bug: https://bugs.gentoo.org/show_bug.cgi?id=201023
-	rm -f "${ED%/}"/etc/sane.d/dll.conf || die
-
-	# Remove desktop and autostart files
-	# Gentoo Bug: https://bugs.gentoo.org/show_bug.cgi?id=638770
-	use qt5 || {
-		rm -Rf "${ED}"/usr/share/applications "${ED}"/etc/xdg
-	}
-
-	rm -f "${ED%/}"/usr/share/doc/${PF}/{copyright,README_LIBJPG,COPYING} || die
-	rmdir --ignore-fail-on-non-empty "${ED%/}"/usr/share/doc/${PF}/ || die
-
-	# Remove hal fdi files
-	rm -rf "${ED%/}"/usr/share/hal || die
-
-	find "${D}" -name '*.la' -delete || die
-
-	if use !minimal ; then
-		python_export EPYTHON PYTHON
-		python_optimize "${ED%/}"/usr/share/hplip
-	fi
+	# Only install the hpps and hpcups filters.
+	exeinto /usr/libexec/cups/filter
+	doexe hpps
+	doexe hpcups
 
 	readme.gentoo_create_doc
 }
