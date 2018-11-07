@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile info install setup test unpack
+DEPEND=dev-vcs/git dev-vcs/git >=chromeos-base/vboot_reference-1.0-r230 chromeos-base/vpd dev-util/shflags >=sys-apps/flashrom-0.9.4-r269 sys-apps/mosys unibuild? ( chromeos-base/chromeos-config:= ) bootimage? ( sys-boot/chromeos-bootimage ) cros_ec? ( chromeos-base/chromeos-ec )
+DESCRIPTION=Chrome OS Firmware (Template - change to board name)
+EAPI=5
+HOMEPAGE=http://src.chromium.org
+IUSE=cros_host cros_workon_tree_358b62ff1e7267e4fe25e61915cf515606d35ffd cros_host cros_workon_tree_358b62ff1e7267e4fe25e61915cf515606d35ffd bootimage cros_ec unibuild
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=unibuild? ( chromeos-base/chromeos-config:= ) app-arch/gzip app-arch/sharutils app-arch/tar chromeos-base/vboot_reference sys-apps/util-linux
+RESTRICT=mirror
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-firmware	c4d8cd651ba1762d8a8811a061d12c6c	cros-unibuild	ed0ab6fb99e1177998fb7089b2ab1b57	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=c80ba805feb2a602e763cdde870a3e63
