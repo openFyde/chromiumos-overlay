@@ -1,0 +1,86 @@
+From 4c200f25dc0c75c1ddffb2dac52bc4e77ced93f6 Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Wed, 7 Nov 2018 22:50:29 +0900
+Subject: [PATCH] Introduce a ctor for forward compatibility.
+
+With this new constructor, Map can take std::unordered_map,
+which is the bound type of map in the new libmojo.
+Also, add Array<String>(std::vector<std::string>&& other) and
+implicit converter from Array<T> to base::Optional<std::vector<T>>.
+
+BUG=b:37434548
+TEST=Build.
+---
+ mojo/public/cpp/bindings/array.h | 14 ++++++++++++++
+ mojo/public/cpp/bindings/map.h   |  9 +++++++++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/mojo/public/cpp/bindings/array.h b/mojo/public/cpp/bindings/array.h
+index 6f879b3..f435921 100644
+--- a/mojo/public/cpp/bindings/array.h
++++ b/mojo/public/cpp/bindings/array.h
+@@ -23,6 +23,8 @@
+ 
+ namespace mojo {
+ 
++class String;
++
+ // Represents a moveable array with contents of type |T|. The array can be null,
+ // meaning that no value has been assigned to it. Null is distinct from empty.
+ template <typename T>
+@@ -55,6 +57,15 @@ class Array {
+   Array(std::vector<T>&& other) : vec_(std::move(other)), is_null_(false) {}
+   Array(Array&& other) : is_null_(true) { Take(&other); }
+ 
++  // Needs to be template constructor to make SFINAE work.
++  // Array(std::vector<std::string>&& other) defined only for Array<String>.
++  template <typename U = T>
++  Array(std::enable_if_t<std::is_same<U, String>::value,
++                         std::vector<std::string>&&> other)
++      : vec_(std::make_move_iterator(other.begin()),
++             std::make_move_iterator(other.end())),
++        is_null_(false) {}
++
+   Array& operator=(std::vector<T>&& other) {
+     vec_ = std::move(other);
+     is_null_ = false;
+@@ -90,6 +101,9 @@ class Array {
+ 
+   operator std::vector<T>&() { return vec_; }
+   operator const std::vector<T>&() const { return vec_; }
++  operator base::Optional<std::vector<T>>() && {
++    return is_null_ ? base::nullopt : base::make_optional(std::move(vec_));
++  }
+ 
+   // Indicates whether the array is null (which is distinct from empty).
+   bool is_null() const { return is_null_; }
+diff --git a/mojo/public/cpp/bindings/map.h b/mojo/public/cpp/bindings/map.h
+index f1cdd41..6daa8f3 100644
+--- a/mojo/public/cpp/bindings/map.h
++++ b/mojo/public/cpp/bindings/map.h
+@@ -7,6 +7,7 @@
+ 
+ #include <stddef.h>
+ #include <map>
++#include <unordered_map>
+ #include <utility>
+ 
+ #include "base/logging.h"
+@@ -60,6 +61,14 @@ class Map {
+   Map(std::map<Key, Value>&& other) : map_(std::move(other)), is_null_(false) {}
+   Map(Map&& other) : is_null_(true) { Take(&other); }
+ 
++  template <typename ArgKey, typename ArgValue>
++  Map(std::unordered_map<ArgKey, ArgValue>&& m) : is_null_(false) {
++    // Move once so that the passed object will be properly destroyed on caller.
++    auto owned = std::move(m);
++    map_.insert(std::make_move_iterator(owned.begin()),
++                std::make_move_iterator(owned.end()));
++  }
++
+   Map& operator=(std::map<Key, Value>&& other) {
+     is_null_ = false;
+     map_ = std::move(other);
+-- 
+2.19.1.930.g4563a0d9d0-goog
+

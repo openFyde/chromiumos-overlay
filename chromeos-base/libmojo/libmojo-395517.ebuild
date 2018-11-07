@@ -26,6 +26,7 @@ src_prepare() {
 	epatch "${FILESDIR}/${P}-libmojo-Prepare-r456626-uprev.patch"
 	epatch "${FILESDIR}/${P}-Add-converters-to-prepare-r456626-uprev.patch"
 	epatch "${FILESDIR}/${P}-Add-Optional-compatible-methods.patch"
+	epatch "${FILESDIR}/${P}-Introduce-a-ctor-for-forward-compatibility.patch"
 }
 
 src_compile() {
