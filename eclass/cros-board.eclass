@@ -290,6 +290,7 @@ ALL_BOARDS=(
 	sama5d3
 	samus
 	samus-cheets
+	samus-kernelnext
 	sand
 	sarien
 	scarlet
