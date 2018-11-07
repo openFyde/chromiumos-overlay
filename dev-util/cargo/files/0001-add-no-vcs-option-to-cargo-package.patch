@@ -1,0 +1,78 @@
+The problem with the behavior of cargo package today is that it violates the
+portage ebuild sandbox used to verify that only files inside of its own working
+directory are accessed.
+
+Bug introduced by PR: https://github.com/rust-lang/cargo/pull/5886
+Upstream PR to fix: https://github.com/rust-lang/cargo/pull/6280
+
+The cargo maintainers seem ok with the patch, but are under feature freeze until
+end of year 2018. Check back if PR is merged or 2019 starts.
+
+commit 154f293a9e853592f9c696fcdbc117e405c78bb0
+Author: Zach Reizner <zachr@google.com>
+Date:   Wed Nov 7 13:01:15 2018 -0800
+
+    add --no-vcs option to `cargo package`
+
+diff --git a/src/bin/cargo/commands/package.rs b/src/bin/cargo/commands/package.rs
+index f5e9d918..1da90841 100644
+--- a/src/bin/cargo/commands/package.rs
++++ b/src/bin/cargo/commands/package.rs
+@@ -23,6 +23,10 @@ pub fn cli() -> App {
+             "allow-dirty",
+             "Allow dirty working directories to be packaged",
+         ))
++        .arg(opt(
++            "no-vcs",
++            "Ignore version control for packaging",
++        ))
+         .arg_target_triple("Build for the target triple")
+         .arg_target_dir()
+         .arg_manifest_path()
+@@ -39,6 +43,7 @@ pub fn exec(config: &mut Config, args: &ArgMatches) -> CliResult {
+             list: args.is_present("list"),
+             check_metadata: !args.is_present("no-metadata"),
+             allow_dirty: args.is_present("allow-dirty"),
++            use_vcs: !args.is_present("no-vcs"),
+             target: args.target(),
+             jobs: args.jobs()?,
+             registry: None,
+diff --git a/src/cargo/ops/cargo_package.rs b/src/cargo/ops/cargo_package.rs
+index 2b062840..ad9f230e 100644
+--- a/src/cargo/ops/cargo_package.rs
++++ b/src/cargo/ops/cargo_package.rs
+@@ -24,6 +24,7 @@ pub struct PackageOpts<'cfg> {
+     pub check_metadata: bool,
+     pub allow_dirty: bool,
+     pub verify: bool,
++    pub use_vcs: bool,
+     pub jobs: Option<u32>,
+     pub target: Option<String>,
+     pub registry: Option<String>,
+@@ -55,8 +56,12 @@ pub fn package(ws: &Workspace, opts: &PackageOpts) -> CargoResult<Option<FileLoc
+     // Check (git) repository state, getting the current commit hash if not
+     // dirty. This will `bail!` if dirty, unless allow_dirty. Produce json
+     // info for any sha1 (HEAD revision) returned.
+-    let vcs_info = check_repo_state(pkg, &src_files, &config, opts.allow_dirty)?
+-        .map(|h| json!({"git":{"sha1": h}}));
++    let vcs_info = if opts.use_vcs {
++            check_repo_state(pkg, &src_files, &config, opts.allow_dirty)?
++                .map(|h| json!({"git":{"sha1": h}}))
++    } else {
++        None
++    };
+ 
+     if opts.list {
+         let root = pkg.root();
+diff --git a/src/cargo/ops/registry.rs b/src/cargo/ops/registry.rs
+index 9216f903..84a0b5a2 100644
+--- a/src/cargo/ops/registry.rs
++++ b/src/cargo/ops/registry.rs
+@@ -78,6 +78,7 @@ pub fn publish(ws: &Workspace, opts: &PublishOpts) -> CargoResult<()> {
+             list: false,
+             check_metadata: true,
+             allow_dirty: opts.allow_dirty,
++            use_vcs: true,
+             target: opts.target.clone(),
+             jobs: opts.jobs,
+             registry: opts.registry.clone(),

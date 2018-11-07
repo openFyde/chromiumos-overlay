@@ -202,6 +202,10 @@ DEPEND="${COMMON_DEPEND}
 	sys-apps/findutils
 	sys-apps/sed"
 
+PATCHES=(
+	"${FILESDIR}"/0001-add-no-vcs-option-to-cargo-package.patch
+)
+
 src_configure() {
 	# Do nothing
 	echo "Configuring cargo..."
