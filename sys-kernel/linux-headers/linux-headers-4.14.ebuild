@@ -45,6 +45,8 @@ src_prepare() {
 	epatch "${FILESDIR}/0014-BACKPORT-add-qrtr-header-file.patch"
 	epatch "${FILESDIR}/0015-BACKPORT-FROMGIT-media-v4l2-ctrl-Change-control-for-.patch"
 	epatch "${FILESDIR}/0016-BACKPORT-FROMGIT-media-v4l2-ctrl-Add-control-for-VP9.patch"
+	epatch "${FILESDIR}/0017-BACKPORT-FROMLIST-media-v4l-Add-JPEG_RAW-format.patch"
+	epatch "${FILESDIR}/0018-BACKPORT-FROMLIST-v4l-Add-controls-for-jpeg-quantization-tables.patch"
 }
 
 src_install() {
