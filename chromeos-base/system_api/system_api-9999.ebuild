@@ -59,6 +59,7 @@ src_install() {
 		login_manager
 		lorgnette
 		oobe_config
+		runtime_probe
 		permission_broker
 		power_manager
 		shill
