@@ -77,6 +77,10 @@ _arc-build-select-common() {
 
 		export CHOST="${ARC_GCC_TUPLE}"
 		append-cppflags -I"${ARC_SYSROOT}/usr/include/arch-arm/include/"
+
+		# Android uses softfp ABI
+		filter-flags -mfloat-abi=hard
+		append-flags -mfloat-abi=softfp
 		;;
 	amd64)
 		ARC_GCC_TUPLE=x86_64-linux-android
@@ -100,9 +104,6 @@ _arc-build-select-common() {
 
 	# Strip out flags that are specific to our compiler wrapper.
 	filter-flags -clang-syntax
-
-	# Android uses soft floating point still.
-	filter-flags -mfpu=neon -mfloat-abi=hard
 
 	# Set up flags for the android sysroot.
 	append-flags --sysroot="${ARC_SYSROOT}"
