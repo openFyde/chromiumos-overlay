@@ -28,6 +28,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/power_manager-client
 	chromeos-base/system_api
 "
 
