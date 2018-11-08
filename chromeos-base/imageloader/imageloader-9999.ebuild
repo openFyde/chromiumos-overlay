@@ -43,6 +43,8 @@ src_install() {
 	insinto /etc/init
 	doins imageloader.conf
 	doins imageloader-shutdown.conf
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_helper_process_receiver_fuzzer
 }
 
 platform_pkg_test() {
