@@ -47,5 +47,5 @@ src_install() {
 	done
 
 	insinto /opt/google/cr50/ro_db
-	doins "${FILESDIR}"/*.db
+	doins "${FILESDIR}"/ro_db/*.db
 }
