@@ -64,6 +64,7 @@ CROS_BOARDS=(
 	rammus
 	reks
 	rikku
+	sarien
 	scarlet
 	soraka
 	squawks
