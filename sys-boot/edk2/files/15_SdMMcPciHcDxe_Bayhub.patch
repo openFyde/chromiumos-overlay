@@ -34,7 +34,7 @@ index c5fd214..8b6e802
    gBS->Stall (1000);
  
    Status = SdMmcPassThruPassThru (PassThru, Slot, &Packet, NULL);
-@@ -1073,7 +1074,12 @@ EmmcSetBusMode (
+@@ -1125,7 +1126,12 @@ EmmcSetBusMode (
      //
      // Execute HS200 timing switch procedure
      //
@@ -130,7 +130,7 @@ index aa75aa8..e59a9f5 100644
    }
  
    Status = SdMmcHcInitTimeoutCtrl (PciIo, Slot);
-@@ -1921,3 +1939,33 @@ SdMmcWaitTrbResult (
+@@ -1929,3 +1947,33 @@ SdMmcWaitTrbResult (
    return EFI_TIMEOUT;
  }
  
