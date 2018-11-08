@@ -39,7 +39,7 @@ $(basename "$(dirname "$(dirname "$(dirname "${EBUILD}")")")")}
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_SCRIPT
 # @DESCRIPTION: (Optional) Entry script file name of updater
-: ${CROS_FIRMWARE_SCRIPT:=updater4.sh}
+: ${CROS_FIRMWARE_SCRIPT:=}
 
 # Check for EAPI 2+
 case "${EAPI:-0}" in
