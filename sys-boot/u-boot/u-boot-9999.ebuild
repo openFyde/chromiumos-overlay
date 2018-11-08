@@ -23,6 +23,7 @@ DEPEND=""
 RDEPEND="${DEPEND}
 	chromeos-base/u-boot-scripts
 	!!sys-boot/chromeos-u-boot
+	chromeos-base/chromeos-config
 	"
 
 UB_BUILD_DIR="build"
