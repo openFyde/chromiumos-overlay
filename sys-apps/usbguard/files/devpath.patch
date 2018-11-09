@@ -1,0 +1,79 @@
+Patch by Allen Webb <allenwebb@chromium.org>
+
+https://github.com/USBGuard/usbguard/pull/264
+Now when invoking usbguard generate-policy -d ${devpath}, no netlink
+socket or listener thread is spawned. This removes a race condition
+where a device connecting while scan(devpath) was executing might be
+included in the policy list.
+
+This can be removed once the pull request lands upstream.
+
+diff --git a/src/CLI/PolicyGenerator.cpp b/src/CLI/PolicyGenerator.cpp
+index c9f1e6d..28592da 100644
+--- a/src/CLI/PolicyGenerator.cpp
++++ b/src/CLI/PolicyGenerator.cpp
+@@ -38,7 +38,6 @@ namespace usbguard
+     _catchall_target = Rule::Target::Block;
+     _dm = DeviceManager::create(*this, "uevent");
+     _dm->setEnumerationOnlyMode(true);
+-    _dm->start();
+   }
+ 
+   void PolicyGenerator::setWithHashAttribute(bool state)
+@@ -64,6 +63,7 @@ namespace usbguard
+   void PolicyGenerator::generate()
+   {
+     if (_devpath.empty()) {
++      _dm->start();
+       _dm->scan();
+     }
+     else {
+diff --git a/src/Library/UEventDeviceManager.cpp b/src/Library/UEventDeviceManager.cpp
+index ca0a707..5078ad6 100644
+--- a/src/Library/UEventDeviceManager.cpp
++++ b/src/Library/UEventDeviceManager.cpp
+@@ -250,9 +250,6 @@ namespace usbguard
+   {
+     setDefaultBlockedState(/*state=*/true);
+     setEnumerationOnlyMode(/*state=*/false);
+-    USBGUARD_SYSCALL_THROW("UEvent device manager",
+-      (_wakeup_fd = eventfd(0, 0)) < 0);
+-    _uevent_fd = ueventOpen();
+   }
+ 
+   UEventDeviceManager::~UEventDeviceManager()
+@@ -284,19 +281,27 @@ namespace usbguard
+ 
+   void UEventDeviceManager::start()
+   {
++    // Lazy initialization is used for the sockets to allow scanning a devpath
++    // without needed to open the socket or start the thread.
++    USBGUARD_SYSCALL_THROW("UEvent device manager",
++      (_wakeup_fd = eventfd(0, 0)) < 0);
++    _uevent_fd = ueventOpen();
+     _thread.start();
+   }
+ 
+   void UEventDeviceManager::stop()
+   {
+-    // stop monitor
+-    _thread.stop(/*do_wait=*/false);
+-    { /* Wakeup the device manager thread */
+-      const uint64_t one = 1;
+-      USBGUARD_SYSCALL_THROW("Linux device manager",
+-        write(_wakeup_fd, &one, sizeof one) != sizeof one);
++    if (_thread.running()) {
++      // stop monitor
++      _thread.stop(/*do_wait=*/false);
++      { /* Wakeup the device manager thread */
++        const uint64_t one = 1;
++        USBGUARD_SYSCALL_THROW("Linux device manager",
++          write(_wakeup_fd, &one, sizeof one)
++          != sizeof one);
++      }
++      _thread.wait();
+     }
+-    _thread.wait();
+   }
+ 
+   void UEventDeviceManager::scan()
