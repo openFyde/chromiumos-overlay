@@ -24,7 +24,9 @@ IUSE=""
 RDEPEND="chromeos-base/libbrillo"
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api"
+	chromeos-base/imageloader-client
+	chromeos-base/system_api
+	chromeos-base/update_engine-client"
 
 src_install() {
 	dosbin "${OUT}/dlcservice"
