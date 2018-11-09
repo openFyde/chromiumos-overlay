@@ -25,4 +25,7 @@ RDEPEND="chromeos-base/mount-passthrough
 src_install() {
 	insinto /etc/init
 	doins arc/removable-media/arc-removable-media.conf
+	doins arc/removable-media/arc-removable-media-default.conf
+	doins arc/removable-media/arc-removable-media-read.conf
+	doins arc/removable-media/arc-removable-media-write.conf
 }
