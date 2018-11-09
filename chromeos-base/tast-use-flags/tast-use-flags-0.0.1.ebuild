@@ -11,6 +11,7 @@ KEYWORDS="*"
 
 # NB: Flags listed here are off by default unless prefixed with a '+'.
 IUSE="
+	android-container-pi
 	arc
 	betty
 	chrome_internal
