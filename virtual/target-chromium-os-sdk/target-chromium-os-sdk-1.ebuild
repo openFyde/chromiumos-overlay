@@ -213,6 +213,7 @@ RDEPEND="${RDEPEND}
 	>=media-libs/freetype-2.2.1
 	>=media-libs/lcms-2.6:2
 	net-fs/sshfs
+	net-libs/rpcsvc-proto
 	net-misc/gsutil
 	sys-apps/usbutils
 	!sys-apps/nih-dbus-tool
@@ -220,6 +221,7 @@ RDEPEND="${RDEPEND}
 	sys-devel/bc
 	sys-devel/clang
 	sys-devel/lld
+	>=sys-libs/glibc-2.27
 	sys-libs/libcxxabi
 	sys-libs/libcxx
 	sys-libs/llvm-libunwind
@@ -231,10 +233,6 @@ RDEPEND="${RDEPEND}
 	x11-apps/xcursorgen
 	x11-apps/xkbcomp
 	>=x11-misc/util-macros-1.2
-	|| (
-		~sys-libs/glibc-2.23
-		net-libs/rpcsvc-proto
-	)
 	"
 
 # Various fonts are needed in order to generate messages for the
