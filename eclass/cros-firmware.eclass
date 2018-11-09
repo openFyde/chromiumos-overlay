@@ -37,10 +37,6 @@ $(basename "$(dirname "$(dirname "$(dirname "${EBUILD}")")")")}
 # @DESCRIPTION: (Optional) Location of PD firmware image
 : ${CROS_FIRMWARE_PD_IMAGE:=}
 
-# @ECLASS-VARIABLE: CROS_FIRMWARE_SCRIPT
-# @DESCRIPTION: (Optional) Entry script file name of updater
-: ${CROS_FIRMWARE_SCRIPT:=}
-
 # Check for EAPI 2+
 case "${EAPI:-0}" in
 2|3|4|5|6) ;;
@@ -105,7 +101,6 @@ FW_IMAGE_LOCATION=""
 FW_RW_IMAGE_LOCATION=""
 EC_IMAGE_LOCATION=""
 PD_IMAGE_LOCATION=""
-EXTRA_LOCATIONS=()
 
 # Output the URI associated with a file to download. This can be added to the
 # SRC_URI variable.
@@ -258,8 +253,6 @@ cros-firmware_src_compile() {
 	# We need lddtree from chromite.
 	export PATH="${CHROMITE_BIN_DIR}:${PATH}"
 
-	# Prepare extra commands
-	ext_cmd+=(--root "${root}")
 	if use unibuild; then
 		_add_param ext_cmd -i "${DISTDIR}"
 		_add_param ext_cmd -c "${root}${UNIBOARD_YAML_CONFIG}"
@@ -269,9 +262,6 @@ cros-firmware_src_compile() {
 		_add_param image_cmd -e "${EC_IMAGE_LOCATION}"
 		_add_param image_cmd -p "${PD_IMAGE_LOCATION}"
 		_add_param image_cmd -w "${FW_RW_IMAGE_LOCATION}"
-		_add_param ext_cmd --extra \
-			"$(IFS=:; echo "${EXTRA_LOCATIONS[*]}")"
-
 	fi
 
 	if [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
@@ -422,11 +412,6 @@ cros-firmware_setup_source() {
 	FW_RW_IMAGE_LOCATION="${CROS_FIRMWARE_MAIN_RW_IMAGE}"
 	EC_IMAGE_LOCATION="${CROS_FIRMWARE_EC_IMAGE}"
 	PD_IMAGE_LOCATION="${CROS_FIRMWARE_PD_IMAGE}"
-
-	# Always add ${FILESDIR}/extra if available.
-	if [[ -d "${FILESDIR}/extra" ]]; then
-		EXTRA_LOCATIONS+=("${FILESDIR}/extra")
-	fi
 
 	# Add these files for use if unibuild is not set.
 	for i in {FW,FW_RW,EC,PD}_IMAGE_LOCATION; do
