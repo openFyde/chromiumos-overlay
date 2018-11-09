@@ -1,28 +1,27 @@
-From 798276c4a1f9d0b2d1d2d886806171db6460f0e5 Mon Sep 17 00:00:00 2001
+From c2fbbd86eb148b13cdebca7834fdfff4edef8515 Mon Sep 17 00:00:00 2001
 From: Frank Binns <frank.binns@imgtec.com>
-Date: Wed, 5 Sep 2018 15:17:04 +0100
-Subject: [PATCH] dri: Add some new DRI formats and fourccs
+Date: Thu, 5 Jun 2014 12:07:01 +0100
+Subject: [PATCH 03/33] dri: Add some new DRI formats and fourccs
 
-Change-Id: I39836d3a5d3fabb155edaa2d005c35f4597c9f39
+Add ARGB4444 DRI format and fourcc.
 ---
- include/GL/internal/dri_interface.h    | 3 +++
- src/egl/drivers/dri2/egl_dri2.c        | 5 +++++
+ include/GL/internal/dri_interface.h    | 2 ++
  src/mesa/drivers/dri/common/dri_util.c | 4 ++++
- 3 files changed, 12 insertions(+)
+ 2 files changed, 6 insertions(+)
 
 diff --git a/include/GL/internal/dri_interface.h b/include/GL/internal/dri_interface.h
-index c32cdd3..a3ba0f0 100644
+index a8f5af1..1982c90 100644
 --- a/include/GL/internal/dri_interface.h
 +++ b/include/GL/internal/dri_interface.h
-@@ -1271,6 +1271,7 @@ struct __DRIdri2ExtensionRec {
- #define __DRI_IMAGE_FORMAT_YUYV         0x100f
- #define __DRI_IMAGE_FORMAT_XBGR2101010  0x1010
- #define __DRI_IMAGE_FORMAT_ABGR2101010  0x1011
-+#define __DRI_IMAGE_FORMAT_ARGB4444     0x1013
- #define __DRI_IMAGE_FORMAT_SABGR8       0x1012
+@@ -1173,6 +1173,7 @@ struct __DRIdri2ExtensionRec {
+ #define __DRI_IMAGE_FORMAT_ARGB1555     0x100c
+ #define __DRI_IMAGE_FORMAT_R16          0x100d
+ #define __DRI_IMAGE_FORMAT_GR1616       0x100e
++#define __DRI_IMAGE_FORMAT_ARGB4444     0x100f
  
  #define __DRI_IMAGE_USE_SHARE		0x0001
-@@ -1302,6 +1303,7 @@ struct __DRIdri2ExtensionRec {
+ #define __DRI_IMAGE_USE_SCANOUT		0x0002
+@@ -1203,6 +1204,7 @@ struct __DRIdri2ExtensionRec {
  #define __DRI_IMAGE_FOURCC_ARGB1555	0x35315241
  #define __DRI_IMAGE_FOURCC_R16		0x20363152
  #define __DRI_IMAGE_FOURCC_GR1616	0x32335247
@@ -30,52 +29,28 @@ index c32cdd3..a3ba0f0 100644
  #define __DRI_IMAGE_FOURCC_RGB565	0x36314752
  #define __DRI_IMAGE_FOURCC_ARGB8888	0x34325241
  #define __DRI_IMAGE_FOURCC_XRGB8888	0x34325258
-@@ -1332,6 +1334,7 @@ struct __DRIdri2ExtensionRec {
- #define __DRI_IMAGE_FOURCC_YVU420	0x32315659
- #define __DRI_IMAGE_FOURCC_YVU422	0x36315659
- #define __DRI_IMAGE_FOURCC_YVU444	0x34325659
-+#define __DRI_IMAGE_FOURCC_YVU444_PACK10_IMG 0x32474d49
- 
- /**
-  * Queryable on images created by createImageFromNames.
-diff --git a/src/egl/drivers/dri2/egl_dri2.c b/src/egl/drivers/dri2/egl_dri2.c
-index 45d0c72..67ace26 100644
---- a/src/egl/drivers/dri2/egl_dri2.c
-+++ b/src/egl/drivers/dri2/egl_dri2.c
-@@ -89,6 +89,10 @@
- #define DRM_FORMAT_GR1616        fourcc_code('G', 'R', '3', '2') /* [31:0] R:G 16:16 little endian */
- #endif
- 
-+#ifndef DRM_FORMAT_YVU444_PACK10_IMG
-+#define DRM_FORMAT_YVU444_PACK10_IMG fourcc_code('I', 'M', 'G', '2')
-+#endif
-+
- #ifndef DRM_FORMAT_MOD_INVALID
- #define DRM_FORMAT_MOD_INVALID ((1ULL<<56) - 1)
- #endif
-@@ -2277,6 +2281,7 @@ dri2_check_dma_buf_format(const _EGLImageAttribs *attrs)
-    case DRM_FORMAT_YVYU:
-    case DRM_FORMAT_UYVY:
-    case DRM_FORMAT_VYUY:
-+   case DRM_FORMAT_YVU444_PACK10_IMG:
-       plane_n = 1;
-       break;
-    case DRM_FORMAT_NV12:
 diff --git a/src/mesa/drivers/dri/common/dri_util.c b/src/mesa/drivers/dri/common/dri_util.c
-index d257cb6..5ad8838 100644
+index bfae020..03e1cc7 100644
 --- a/src/mesa/drivers/dri/common/dri_util.c
 +++ b/src/mesa/drivers/dri/common/dri_util.c
-@@ -881,6 +881,10 @@ static const struct {
-       .mesa_format  =        MESA_FORMAT_B5G5R5A1_UNORM,
-    },
-    {
-+      .image_format = __DRI_IMAGE_FORMAT_ARGB4444,
-+      .mesa_format  =        MESA_FORMAT_B4G4R4A4_UNORM,
-+   },
-+   {
-       .image_format = __DRI_IMAGE_FORMAT_XRGB8888,
-       .mesa_format  =        MESA_FORMAT_B8G8R8X8_UNORM,
-    },
+@@ -850,6 +850,8 @@ driGLFormatToImageFormat(mesa_format format)
+       return __DRI_IMAGE_FORMAT_RGB565;
+    case MESA_FORMAT_B5G5R5A1_UNORM:
+       return __DRI_IMAGE_FORMAT_ARGB1555;
++   case MESA_FORMAT_B4G4R4A4_UNORM:
++      return __DRI_IMAGE_FORMAT_ARGB4444;
+    case MESA_FORMAT_B8G8R8X8_UNORM:
+       return __DRI_IMAGE_FORMAT_XRGB8888;
+    case MESA_FORMAT_B10G10R10A2_UNORM:
+@@ -885,6 +887,8 @@ driImageFormatToGLFormat(uint32_t image_format)
+       return MESA_FORMAT_B5G6R5_UNORM;
+    case __DRI_IMAGE_FORMAT_ARGB1555:
+       return MESA_FORMAT_B5G5R5A1_UNORM;
++   case __DRI_IMAGE_FORMAT_ARGB4444:
++      return MESA_FORMAT_B4G4R4A4_UNORM;
+    case __DRI_IMAGE_FORMAT_XRGB8888:
+       return MESA_FORMAT_B8G8R8X8_UNORM;
+    case __DRI_IMAGE_FORMAT_ARGB2101010:
 -- 
 2.7.4
 

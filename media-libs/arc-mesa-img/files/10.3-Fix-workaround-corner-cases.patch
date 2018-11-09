@@ -1,0 +1,70 @@
+From 1d04841335da04fa7b97cf105ebf1514f081f7d9 Mon Sep 17 00:00:00 2001
+From: Haixia Shi <hshi@chromium.org>
+Date: Mon, 12 Dec 2016 11:51:55 -0800
+Subject: [PATCH 10/39] CHROMIUM: i965: Fix corner cases of brw depth stencil
+ workaround
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Since we can't repro this bug, it's hard to track it down, but it
+looks like there are multiple issues with the workaround, which this
+patch tries to fix.
+
+This fixes two corner cases with the workaround:
+- Fix the case where there is a depth but no stencil
+- Fix the case there the depth mt hasn't been created
+
+BUG=chromium:423546
+TEST=builds and runs on link
+
+Change-Id: Ib2813252dc825443470f67b6214c16d38981cda5
+Signed-off-by: Stéphane Marchesin <marcheu@chromium.org>
+Signed-off-by: Prince Agyeman <prince.agyeman@intel.com>
+Signed-off-by: Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
+Signed-off-by: James Ausmus <james.ausmus@intel.com>
+Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+---
+ src/mesa/drivers/dri/i965/brw_misc_state.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/mesa/drivers/dri/i965/brw_misc_state.c b/src/mesa/drivers/dri/i965/brw_misc_state.c
+index 6940f0b..7c6ed59 100644
+--- a/src/mesa/drivers/dri/i965/brw_misc_state.c
++++ b/src/mesa/drivers/dri/i965/brw_misc_state.c
+@@ -229,11 +229,11 @@ brw_workaround_depthstencil_alignment(struct brw_context *brw,
+    /* Check if depth buffer is in depth/stencil format.  If so, then it's only
+     * safe to invalidate it if we're also clearing stencil.
+     */
+-   if (depth_irb && invalidate_depth &&
++   if (depth_irb && depth_mt && invalidate_depth &&
+       _mesa_get_format_base_format(depth_mt->format) == GL_DEPTH_STENCIL)
+       invalidate_depth = invalidate_stencil && stencil_irb;
+ 
+-   if (depth_irb) {
++   if (depth_irb && depth_mt) {
+       if (rebase_depth_stencil(brw, depth_irb, invalidate_depth)) {
+          /* In the case of stencil_irb being the same packed depth/stencil
+           * texture but not the same rb, make it point at our rebased mt, too.
+@@ -246,7 +246,7 @@ brw_workaround_depthstencil_alignment(struct brw_context *brw,
+          }
+       }
+ 
+-      if (stencil_irb) {
++      if (stencil_irb && stencil_irb->mt) {
+          assert(stencil_irb->mt == depth_irb->mt);
+          assert(stencil_irb->mt_level == depth_irb->mt_level);
+          assert(stencil_irb->mt_layer == depth_irb->mt_layer);
+@@ -254,7 +254,7 @@ brw_workaround_depthstencil_alignment(struct brw_context *brw,
+    }
+ 
+    /* If there is no depth attachment, consider if stencil needs rebase. */
+-   if (!depth_irb && stencil_irb)
++   if (!(depth_irb && depth_mt) && stencil_irb && stencil_irb->mt)
+        rebase_depth_stencil(brw, stencil_irb, invalidate_stencil);
+ }
+ 
+-- 
+2.7.4
+

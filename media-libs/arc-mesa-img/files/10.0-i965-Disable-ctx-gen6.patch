@@ -1,0 +1,36 @@
+From f12a531c67e865e427f1f21c960e6c4a30ff45c8 Mon Sep 17 00:00:00 2001
+From: Stéphane Marchesin <marcheu@chromium.org>
+Date: Tue, 5 May 2015 14:26:08 -0700
+Subject: [PATCH 08/39] CHROMIUM: i965: Disable hardware contexts for gen6
+
+They don't seem to work, and cause regular GPU hangs, so let's disable
+them.
+
+BUG=chromium:288818
+TEST=by hand: (along with the kernel patch) run multiple flash videos with hardware decode, no GPU hang happens
+
+Signed-off-by: Dominik Behr <dbehr@chromium.org>
+Signed-off-by: Prince Agyeman <prince.agyeman@intel.com>
+Signed-off-by: Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
+Signed-off-by: James Ausmus <james.ausmus@intel.com>
+Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+---
+ src/mesa/drivers/dri/i965/brw_context.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/mesa/drivers/dri/i965/brw_context.c b/src/mesa/drivers/dri/i965/brw_context.c
+index d0b22d4..50eb256 100644
+--- a/src/mesa/drivers/dri/i965/brw_context.c
++++ b/src/mesa/drivers/dri/i965/brw_context.c
+@@ -936,7 +936,7 @@ brwCreateContext(gl_api api,
+ 
+    intel_batchbuffer_init(&brw->batch, brw->bufmgr, brw->has_llc);
+ 
+-   if (brw->gen >= 6) {
++   if (brw->gen >= 7) {
+       /* Create a new hardware context.  Using a hardware context means that
+        * our GPU state will be saved/restored on context switch, allowing us
+        * to assume that the GPU is in the same state we left it in.
+-- 
+2.7.4
+
