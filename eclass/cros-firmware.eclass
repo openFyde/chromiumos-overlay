@@ -51,52 +51,50 @@ esac
 # from source".
 IUSE="bootimage cros_ec unibuild"
 
-# Some tools (flashrom, iotools, mosys, ...) were bundled in the updater so we
-# don't write RDEPEND=$DEPEND. RDEPEND should have an explicit list of what it
-# needs to extract and execute the updater.
-DEPEND="
-	>=chromeos-base/vboot_reference-1.0-r230
-	chromeos-base/vpd
-	dev-util/shflags
-	>=sys-apps/flashrom-0.9.4-r269
-	sys-apps/mosys
-	"
-RDEPEND=""
+# "futility update" is needed when building and running updater package.
+COMMON_DEPEND=" chromeos-base/vboot_reference "
 
 # For unibuild we need EAPI 5 for the sub-slot dependency feature.
 case "${EAPI:-0}" in
 5|6)
-	DEPEND+=" unibuild? (
-			chromeos-base/chromeos-config:=
-		) "
-	RDEPEND+=" unibuild? (
+	COMMON_DEPEND+=" unibuild? (
 			chromeos-base/chromeos-config:=
 		) "
 	;;
 esac
 
-# Build firmware from source.
-DEPEND="$DEPEND
-	bootimage? ( sys-boot/chromeos-bootimage )
-	cros_ec? ( chromeos-base/chromeos-ec )
-	"
-
-# Maintenance note:  The factory install shim downloads and executes
-# the firmware updater.  Consequently, runtime dependencies for the
-# updater are also runtime dependencies for the install shim.
-#
-# The contents of RDEPEND below must also be present in the
-# chromeos-base/factory_installer ebuild in PROVIDED_DEPEND.
-# If you make any change to the list below, you may need to make a
-# matching change in the factory_installer ebuild.
-#
-# TODO(hungte) remove gzip/tar if we have busybox
-RDEPEND="${RDEPEND}
+# Dependency for SFX v1 (needed by both build and run time).
+COMMON_DEPEND+="
 	app-arch/gzip
 	app-arch/sharutils
 	app-arch/tar
-	chromeos-base/vboot_reference
-	sys-apps/util-linux"
+	sys-apps/util-linux
+	"
+
+# Apply common dependency.
+DEPEND="${COMMON_DEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+
+# Dependency for run time only (invoked by `futility update`).
+RDEPEND+="
+	chromeos-base/vpd
+	sys-apps/flashrom
+	sys-apps/mosys
+	"
+# Maintenance note:  The factory install shim downloads and executes
+# the firmware updater.  Consequently, run time dependencies for the
+# updater are also run time dependencies for the install shim.
+#
+# The contents of RDEPEND must also be present in the
+# chromeos-base/factory_installer ebuild in PROVIDED_DEPEND.  If you make any
+# change to the list above, you may need to make a matching change in the
+# factory_installer ebuild.
+
+# Dependency to build firmware from source (build phase only).
+DEPEND+="
+	bootimage? ( sys-boot/chromeos-bootimage )
+	cros_ec? ( chromeos-base/chromeos-ec )
+	"
 
 RESTRICT="mirror"
 
