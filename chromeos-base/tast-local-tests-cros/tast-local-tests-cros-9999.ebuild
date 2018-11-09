@@ -46,10 +46,15 @@ TAST_BUNDLE_EXTERNAL_DATA_URLS=(
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_vp8_320x180_20180629.webm"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_vp9_320x240_20180629.webm"
 	"gs://chromiumos-test-assets-public/tast/cros/video/crowd-1920x1080_20181103.webm"
-	"gs://chromiumos-test-assets-public/traffic/traffic-1920x1080-8005020218f6b86bfa978e550d04956e.mp4"
+	"gs://chromiumos-test-assets-public/tast/cros/video/peach_pi-1280x720_20181105.jpg"
+	"gs://chromiumos-test-assets-public/tast/cros/video/peach_pi-40x23_20181109.jpg"
+	"gs://chromiumos-test-assets-public/tast/cros/video/peach_pi-41x22_20181109.jpg"
+	"gs://chromiumos-test-assets-public/tast/cros/video/peach_pi-41x23_20181109.jpg"
+	"gs://chromiumos-test-assets-public/tast/cros/video/pixel-1280x720_20181109.jpg"
 	"gs://chromiumos-test-assets-public/tast/cros/video/tulip2-1280x720_20181103.webm"
 	"gs://chromiumos-test-assets-public/tast/cros/video/tulip2-320x180_20181103.webm"
 	"gs://chromiumos-test-assets-public/tast/cros/video/tulip2-640x360_20181103.webm"
+	"gs://chromiumos-test-assets-public/traffic/traffic-1920x1080-8005020218f6b86bfa978e550d04956e.mp4"
 )
 
 inherit cros-workon tast-bundle
