@@ -16,26 +16,6 @@ SRC_URI=""
 EGIT_REPO_URI="http://llvm.org/git/llvm.git
 	https://github.com/llvm-mirror/llvm.git"
 
-# llvm:r339409 https://critique.corp.google.com/#review/209234450
-EGIT_REPO_URIS=(
-	"llvm"
-		""
-		"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm.git"
-		"36f54002c931a026f490f9fb074c11d91e3487a2" # EGIT_COMMIT r339407
-	"compiler-rt"
-		"projects/compiler-rt"
-		"${CROS_GIT_HOST_URL}/chromiumos/third_party/compiler-rt.git"
-		"4f7c361dfbe533e883737844251598152333f087" # EGIT_COMMIT r339408
-	"clang"
-		"tools/clang"
-		"${CROS_GIT_HOST_URL}/chromiumos/third_party/clang.git"
-		"6601c8f525499269dba75f75bbd1ee2671aaa262" # EGIT_COMMIT r339409
-	"clang-tidy"
-		"tools/clang/tools/extra"
-		"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm-clang-tools-extra.git"
-		"a32ea61ae09dc772fd7f688a89a0bd07c1bcc4f1" # EGIT_COMMIT r339401
-)
-
 LICENSE="UoI-NCSA"
 SLOT="0/${PV%%_*}"
 KEYWORDS="-* amd64"
@@ -125,51 +105,47 @@ pkg_setup() {
 	pkg_pretend
 }
 
-trunk_src_unpack() {
-	git-r3_fetch "http://llvm.org/git/compiler-rt.git
-		https://github.com/llvm-mirror/compiler-rt.git"
-	git-r3_fetch "http://llvm.org/git/clang.git
-		https://github.com/llvm-mirror/clang.git"
-	git-r3_fetch "http://llvm.org/git/clang-tools-extra.git
-		https://github.com/llvm-mirror/clang-tools-extra.git"
-	git-r3_fetch
-
-	git-r3_checkout http://llvm.org/git/compiler-rt.git \
-		"${S}"/projects/compiler-rt
-	git-r3_checkout http://llvm.org/git/clang.git \
-		"${S}"/tools/clang
-	git-r3_checkout http://llvm.org/git/clang-tools-extra.git \
-		"${S}"/tools/clang/tools/extra
-	git-r3_checkout
-}
-
 src_unpack() {
-	if use llvm-tot ; then
-		trunk_src_unpack
-		return
+	local clang_hash clang_tidy_hash compiler_rt_hash llvm_hash
+
+	if use llvm-tot; then
+		clang_hash="origin/master"
+		clang_tidy_hash="origin/master"
+		compiler_rt_hash="origin/master"
+		llvm_hash="origin/master"
+	elif use llvm-next; then
+		# llvm:r339409 https://critique.corp.google.com/#review/199724125
+		clang_hash="6601c8f525499269dba75f75bbd1ee2671aaa262" # EGIT_COMMIT r339409
+		clang_tidy_hash="a32ea61ae09dc772fd7f688a89a0bd07c1bcc4f1" # EGIT_COMMIT r339401
+		compiler_rt_hash="4f7c361dfbe533e883737844251598152333f087" # EGIT_COMMIT r339408
+		llvm_hash="36f54002c931a026f490f9fb074c11d91e3487a2" # EGIT_COMMIT r339407
+	else
+		# llvm:r339409 https://critique.corp.google.com/#review/199724125
+		clang_hash="6601c8f525499269dba75f75bbd1ee2671aaa262" # EGIT_COMMIT r339409
+		clang_tidy_hash="a32ea61ae09dc772fd7f688a89a0bd07c1bcc4f1" # EGIT_COMMIT r339401
+		compiler_rt_hash="4f7c361dfbe533e883737844251598152333f087" # EGIT_COMMIT r339408
+		llvm_hash="36f54002c931a026f490f9fb074c11d91e3487a2" # EGIT_COMMIT r339407
 	fi
 
-	if use llvm-next; then
-		# llvm:r339409 https://critique.corp.google.com/#review/199724125
-		export EGIT_REPO_URIS=(
+	# non-local
+	EGIT_REPO_URIS=(
 		"llvm"
 			""
 			"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm.git"
-			"36f54002c931a026f490f9fb074c11d91e3487a2" # EGIT_COMMIT r339407
+			"$llvm_hash"
 		"compiler-rt"
 			"projects/compiler-rt"
 			"${CROS_GIT_HOST_URL}/chromiumos/third_party/compiler-rt.git"
-			"4f7c361dfbe533e883737844251598152333f087" # EGIT_COMMIT r339408
+			"$compiler_rt_hash"
 		"clang"
 			"tools/clang"
 			"${CROS_GIT_HOST_URL}/chromiumos/third_party/clang.git"
-			"6601c8f525499269dba75f75bbd1ee2671aaa262" # EGIT_COMMIT r339409
+			"$clang_hash"
 		"clang-tidy"
 			"tools/clang/tools/extra"
 			"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm-clang-tools-extra.git"
-			"a32ea61ae09dc772fd7f688a89a0bd07c1bcc4f1" # EGIT_COMMIT r339401
-		)
-	fi
+			"$clang_tidy_hash"
+	)
 
 	set -- "${EGIT_REPO_URIS[@]}"
 		while [[ $# -gt 0 ]]; do
