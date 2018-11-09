@@ -75,6 +75,7 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	chromeos-base/policy-go-proto
 	chromeos-base/system_api
 	dev-go/cdp
 	dev-go/dbus
