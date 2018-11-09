@@ -278,7 +278,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	sys-apps/dbus
 	sys-apps/flashrom
 	sys-apps/iproute2
-	sys-apps/mosys
 	sys-apps/pv
 	sys-apps/rootdev
 	!systemd? ( sys-apps/upstart )
