@@ -203,9 +203,9 @@ build_image() {
 	sign_image ${dst_image} "${devkeys_dir}"
 }
 
-# Set up alternative bout loaders
+# Set up alternative bootloaders
 #
-# This creates a new CBFS in the RW_LEGACY area and puts boot loaders into it,
+# This creates a new CBFS in the RW_LEGACY area and puts bootloaders into it,
 # based on USE flags. A list is written to an "altfw/list" file so that there
 # is a record of what is available.
 # Args
