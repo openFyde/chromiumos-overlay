@@ -174,7 +174,7 @@ setup_altfw() {
 	local target="$1"
 	local coreboot_file="$2"
 	local cbfs="altfw.cbfs"
-	local bl_list="altfw"
+	local bl_list="${T}/altfw"
 
 	einfo "Adding alternative firmware"
 	# Input: "'RW_LEGACY' (size 7864320, offset 4718592)"
@@ -185,7 +185,7 @@ setup_altfw() {
 	# Create a new, empty CBFS file
 	# Suppress message "Created CBFS (capacity = 7864216 bytes)"
 	do_cbfstool "${cbfs}" create -s "${cbfs_size}" -m x86 >/dev/null
-	rm -f "${bl_list}"
+	> "${bl_list}"
 
 	# Add U-Boot if enabled
 	if use u-boot; then
