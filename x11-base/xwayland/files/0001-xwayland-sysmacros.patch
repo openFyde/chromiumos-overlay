@@ -1,0 +1,21 @@
+Include header <sys/sysmacros.h> to use major/minor.
+
+glibc 2.25 has dropped sys/sysmacros.h from sys/types.h, we need
+to add it explicitly if we want to use minor/major.
+
+diff --git a/config/udev.c b/config/udev.c
+index 3a73189..35ca38e 100644
+--- a/config/udev.c
++++ b/config/udev.c
+@@ -38,6 +38,11 @@
+ #include "os.h"
+ #include "globals.h"
+ #include "systemd-logind.h"
++#include "xorg-config.h"
++
++#ifdef HAVE_SYS_SYSMACROS_H
++#include <sys/sysmacros.h>
++#endif
+ 
+ #define UDEV_XKB_PROP_KEY "xkb"
+ 
