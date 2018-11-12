@@ -208,8 +208,8 @@ build_image() {
 # This creates a new CBFS in the RW_LEGACY area and puts bootloaders into it,
 # based on USE flags. A list is written to an "altfw/list" file so that there
 # is a record of what is available.
-# Args
-#  $1: Coreboot file to add to (will add to this, and the .serial version of it)
+# Args:
+#   $1: coreboot file to add to (will add to this and the .serial version of it)
 setup_altfw() {
 	local coreboot_file="$1"
 	local cbfs="altfw.cbfs"
