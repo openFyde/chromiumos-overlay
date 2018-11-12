@@ -162,6 +162,39 @@ build_image() {
 	sign_image ${dst_image} "${devkeys_dir}"
 }
 
+# Hash the payload of an altfw alternative bootloader
+# Loads the payload from $altfw_cbfs under:
+#   altfw/<name>
+# Stores the hash into $coreboot_file on RW-A and RW-B as:
+#   altfw_hash/<name>.sha256
+# Args:
+#   $1: altfw CBFS file where the payload can be found
+#   $2: coreboot file to add to (will add to this and the .serial version of it)
+#   $3: name of the alternative bootloader
+hash_altfw_payload() {
+	local altfw_cbfs="$1"
+	local coreboot_file="$2"
+	local name="$3"
+	local payload_file="altfw/${name}"
+	local hash_file="altfw_hash/${name}.sha256"
+	local tmpfile="$(mktemp)"
+	local tmphash="$(mktemp)"
+	local rom
+
+	einfo "  Hashing ${payload_file}"
+
+	# Grab the raw uncompressed payload (-U) and hash it into $tmphash.
+	do_cbfstool "${altfw_cbfs}" extract -n "${payload_file}" \
+		-f "${tmpfile}" -U >/dev/null
+	openssl dgst -sha256 -binary "${tmpfile}" > "${tmphash}"
+
+	# Copy $tmphash into RW-A and RW-B.
+	for rom in ${coreboot_file}{,.serial}; do
+		do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B \
+			-f "${tmphash}" -n "${hash_file}" -t raw
+	done
+}
+
 # Set up alternative bootloaders
 #
 # This creates a new CBFS in the RW_LEGACY area and puts bootloaders into it,
@@ -194,6 +227,7 @@ setup_altfw() {
 		do_cbfstool "${cbfs}" add-flat-binary -n altfw/u-boot \
 			-c lzma -l 0x1110000 -e 0x1110000 \
 			-f "${CROS_FIRMWARE_ROOT}/u-boot.bin"
+		hash_altfw_payload "${cbfs}" "${coreboot_file}" u-boot
 		echo "1;altfw/u-boot;U-Boot;U-Boot bootloader" >> "${bl_list}"
 	fi
 
@@ -203,6 +237,7 @@ setup_altfw() {
 
 		do_cbfstool "${cbfs}" add-payload -n altfw/tianocore -c lzma \
 			-f "${CROS_FIRMWARE_ROOT}/tianocore/UEFIPAYLOAD.fd"
+		hash_altfw_payload "${cbfs}" "${coreboot_file}" tianocore
 		echo "2;altfw/tianocore;TianoCore;TianoCore bootloader" \
 			>> "${bl_list}"
 
