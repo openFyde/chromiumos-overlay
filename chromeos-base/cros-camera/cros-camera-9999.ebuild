@@ -29,7 +29,7 @@ camera device. It uses unix domain socket to build a synchronous channel."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cheets +cros-camera-algo-sandbox"
+IUSE="arc-camera1 cheets +cros-camera-algo-sandbox"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -64,7 +64,7 @@ src_install() {
 	insinto /usr/share/policy
 	newins "hal_adapter/seccomp_filter/cros-camera-${ARCH}.policy" cros-camera.policy
 
-	if use cheets; then
+	if use cheets && ! use arc-camera1; then
 		insinto "${ARC_VENDOR_DIR}/etc/init"
 		doins hal_adapter/init/init.camera.rc
 	fi
