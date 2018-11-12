@@ -83,8 +83,20 @@ M4_COMMON_FLAGS=(
 # and remove all lines begin with "^;" (cil comment)
 # remove cil comment is necessary for clearing unmatched line marker
 # after base policy definitions are removed.
+# Also preserve type definitions since secilc can handle duplicates on
+# definition of types.
 filter_file_line_by_line() {
-	grep -F -x -v -f "$1" | grep -v "^;"
+	perl -e '
+		my @reflines;
+		open(my $ref, "<", $ARGV[0]);
+		while(<$ref>) { push @reflines, $_; }
+		while(<STDIN>) {
+			if ( m/^\(type / ) { print; next; }
+			if ( m/^;/ ) { next; }
+			if ($_ ~~ @reflines) { next; }
+			print
+		}
+	' "$1"
 }
 
 # Quick hack for conflicting generated base_typeattr_XX with
@@ -120,6 +132,8 @@ gen_m4_flags() {
 # intermediate files using checkpolicy compiler.
 build_cil() {
 	local policy_files=()
+	local ciltype="$1"
+	shift
 	local output="$1"
 	shift
 	local pattern
@@ -134,6 +148,7 @@ build_cil() {
 	done
 	m4 "-Dmls_num_sens=${MLS_NUM_SENS}" "-Dmls_num_cats=${MLS_NUM_CATS}" \
 		"${M4_COMMON_FLAGS[@]}" \
+		"-Dciltype=${ciltype}" \
 		-s "${policy_files[@]}" > "${output}.conf" \
 		|| die "failed to generate ${output}.conf"
 	checkpolicy -M -C -c "${SELINUX_VERSION}" "${output}.conf" \
@@ -141,13 +156,13 @@ build_cil() {
 }
 
 build_android_reqd_cil() {
-	build_cil "android_reqd.cil" "sepolicy/policy/base/" "sepolicy/policy/mask_only/"
+	build_cil reqd "android_reqd.cil" "sepolicy/policy/base/" "sepolicy/policy/mask_only/"
 }
 
 build_chromeos_policy() {
 	build_android_reqd_cil
 
-	build_cil "chromeos.raw.cil" "sepolicy/policy/base/" "sepolicy/policy/chromeos_base" "sepolicy/policy/chromeos/"
+	build_cil cros "chromeos.raw.cil" "sepolicy/policy/base/" "sepolicy/policy/chromeos_base" "sepolicy/policy/chromeos/"
 	version_cil < chromeos.raw.cil > chromeos.raw.versioned.cil
 	filter_file_line_by_line android_reqd.cil < chromeos.raw.versioned.cil > chromeos.cil ||
 		die "failed to convert raw cil to filtered cil"
