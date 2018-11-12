@@ -1,0 +1,28 @@
+From b3102e1d5add6b694ce32b047d97734f5623e105 Mon Sep 17 00:00:00 2001
+From: Azhar Shaikh <azhar.shaikh@intel.com>
+Date: Tue, 13 Nov 2018 11:05:09 -0800
+Subject: [PATCH] Adjust compile flags for clang
+
+Signed-off-by: Azhar Shaikh <azhar.shaikh@intel.com>
+---
+ media_driver/cmake/linux/media_compile_flags_linux.cmake | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/media_driver/cmake/linux/media_compile_flags_linux.cmake b/media_driver/cmake/linux/media_compile_flags_linux.cmake
+index 8efb9ec64ac6..6a3bbd0bfcb8 100644
+--- a/media_driver/cmake/linux/media_compile_flags_linux.cmake
++++ b/media_driver/cmake/linux/media_compile_flags_linux.cmake
+@@ -215,3 +215,10 @@ if (DEFINED MEDIA_VERSION)
+ elseif (DEFINED ENV{MEDIA_VERSION})
+     add_definitions(-DUFO_VERSION="$ENV{MEDIA_VERSION}")
+ endif()
++
++add_compile_options("-Wno-reorder")
++add_compile_options("-Wno-deprecated")
++add_compile_options("-Wno-missing-braces")
++add_compile_options("-Wno-overloaded-virtual")
++add_compile_options("-Wno-inconsistent-missing-override")
++add_compile_options("-Wno-bitfield-constant-conversion")
+-- 
+2.19.0
+

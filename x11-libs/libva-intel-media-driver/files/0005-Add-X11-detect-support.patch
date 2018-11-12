@@ -1,0 +1,160 @@
+From 8b5e3019646f898adb15bb1233246ae2a60e9845 Mon Sep 17 00:00:00 2001
+From: Azhar Shaikh <azhar.shaikh@intel.com>
+Date: Mon, 14 Jan 2019 18:02:32 -0800
+Subject: [PATCH] Add X11 detect support
+
+Signed-off-by: Azhar Shaikh <azhar.shaikh@intel.com>
+---
+ .../linux/media_compile_flags_linux.cmake     |  3 +++
+ media_driver/linux/common/ddi/media_libva.cpp | 20 +++++++++++--------
+ .../linux/common/ddi/media_libva_common.h     |  2 +-
+ .../linux/common/ddi/media_srcs.cmake         |  2 +-
+ media_driver/media_top_cmake.cmake            |  5 ++++-
+ 5 files changed, 21 insertions(+), 11 deletions(-)
+
+diff --git a/media_driver/cmake/linux/media_compile_flags_linux.cmake b/media_driver/cmake/linux/media_compile_flags_linux.cmake
+index 8efb9ec64ac6..36d0369bd66c 100644
+--- a/media_driver/cmake/linux/media_compile_flags_linux.cmake
++++ b/media_driver/cmake/linux/media_compile_flags_linux.cmake
+@@ -194,6 +194,9 @@ set(MEDIA_COMPILER_FLAGS_DEBUG
+     -DINSTR_GTUNE_EXT
+ )
+ 
++if(X11_FOUND)
++     add_definitions(-DX11_FOUND)
++endif()
+ 
+ include(${MEDIA_DRIVER_CMAKE}/ext/linux/media_compile_flags_linux_ext.cmake OPTIONAL)
+ 
+diff --git a/media_driver/linux/common/ddi/media_libva.cpp b/media_driver/linux/common/ddi/media_libva.cpp
+index 3868f4093f4e..80478d1f0e46 100644
+--- a/media_driver/linux/common/ddi/media_libva.cpp
++++ b/media_driver/linux/common/ddi/media_libva.cpp
+@@ -32,7 +32,7 @@
+ #include <sys/ioctl.h>
+ #include <unistd.h>
+ 
+-#ifndef ANDROID
++#if !defined(ANDROID) && defined(X11_FOUND)
+ #include <X11/Xutil.h>
+ #endif
+ 
+@@ -41,7 +41,7 @@
+ #include "media_libva_util.h"
+ #include "media_libva_decoder.h"
+ #include "media_libva_encoder.h"
+-#ifndef ANDROID
++#if !defined(ANDROID) && defined(X11_FOUND)
+ #include "media_libva_putsurface_linux.h"
+ #endif
+ #include "media_libva_vp.h"
+@@ -668,7 +668,7 @@ DDI_MEDIA_FORMAT DdiMedia_OsFormatAlphaMaskToMediaFormat(int32_t fourcc, int32_t
+     }
+ }
+ 
+-#ifndef ANDROID
++#if !defined(ANDROID) && defined(X11_FOUND)
+ 
+ #define X11_LIB_NAME "libX11.so.6"
+ 
+@@ -1376,7 +1376,7 @@ VAStatus DdiMedia__Initialize (
+     DdiMediaUtil_InitMutex(&mediaCtx->VpMutex);
+     DdiMediaUtil_InitMutex(&mediaCtx->CmMutex);
+     DdiMediaUtil_InitMutex(&mediaCtx->MfeMutex);
+-#ifndef ANDROID
++#if !defined(ANDROID) && defined(X11_FOUND)
+     DdiMediaUtil_InitMutex(&mediaCtx->PutSurfaceRenderMutex);
+     DdiMediaUtil_InitMutex(&mediaCtx->PutSurfaceSwapBufferMutex);
+ 
+@@ -1387,14 +1387,14 @@ VAStatus DdiMedia__Initialize (
+         // PutSurface (Linux) needs X11 support, so just replace
+         // it with a dummy version. DdiCodec_PutSurfaceDummy() will
+         // return VA_STATUS_ERROR_UNIMPLEMENTED directly.
+-        ctx->vtable->vaPutSurface = DdiMedia_PutSurfaceDummy;
++        ctx->vtable->vaPutSurface = NULL;
+     }
+ #endif
+ 
+     ctx->pDriverData  = (void*)mediaCtx;
+     mediaCtx->bIsAtomSOC = IS_ATOMSOC(mediaCtx->iDeviceId);
+ 
+-#ifndef ANDROID
++#if !defined(ANDROID) && defined(X11_FOUND)
+     output_dri_init(ctx);
+ #endif
+ 
+@@ -1510,7 +1510,7 @@ static VAStatus DdiMedia_Terminate (
+         mediaCtx->m_auxTableMgr = nullptr;
+     }
+ 
+-#ifndef ANDROID
++#if !defined(ANDROID) && defined(X11_FOUND)
+     DdiMedia_DestroyX11Connection(mediaCtx);
+ 
+     if (mediaCtx->m_caps)
+@@ -3683,7 +3683,7 @@ static VAStatus DdiMedia_PutSurface(
+         vpCtx = DdiMedia_GetContextFromContextID(ctx, (VAContextID)(0 + DDI_MEDIA_VACONTEXTID_OFFSET_VP), &ctxType);
+     }
+ 
+-#ifdef ANDROID
++#if defined(ANDROID) || !defined(X11_FOUND)
+        return VA_STATUS_ERROR_UNIMPLEMENTED;
+ #else
+     if(nullptr == vpCtx)
+@@ -5935,7 +5935,11 @@ VAStatus __vaDriverInit(VADriverContextP ctx )
+     pVTable->vaQuerySurfaceStatus            = DdiMedia_QuerySurfaceStatus;
+     pVTable->vaQuerySurfaceError             = DdiMedia_QuerySurfaceError;
+     pVTable->vaQuerySurfaceAttributes        = DdiMedia_QuerySurfaceAttributes;
++#if defined(X11_FOUND)
+     pVTable->vaPutSurface                    = DdiMedia_PutSurface;
++#else
++    pVTable->vaPutSurface                    = NULL;
++#endif
+     pVTable->vaQueryImageFormats             = DdiMedia_QueryImageFormats;
+ 
+     pVTable->vaCreateImage                   = DdiMedia_CreateImage;
+diff --git a/media_driver/linux/common/ddi/media_libva_common.h b/media_driver/linux/common/ddi/media_libva_common.h
+index 09f40f322c73..23cfbf2f021a 100644
+--- a/media_driver/linux/common/ddi/media_libva_common.h
++++ b/media_driver/linux/common/ddi/media_libva_common.h
+@@ -446,7 +446,7 @@ struct DDI_MEDIA_CONTEXT
+ 
+     bool                m_useSwSwizzling;
+ 
+-#ifndef ANDROID
++#if !defined(ANDROID) && defined(X11_FOUND)
+     // X11 Func table, for vpgPutSurface (Linux)
+     PDDI_X11_FUNC_TABLE X11FuncTable;
+ 
+diff --git a/media_driver/linux/common/ddi/media_srcs.cmake b/media_driver/linux/common/ddi/media_srcs.cmake
+index b5f6c5b20b93..d9bdc7dfc55c 100644
+--- a/media_driver/linux/common/ddi/media_srcs.cmake
++++ b/media_driver/linux/common/ddi/media_srcs.cmake
+@@ -37,7 +37,7 @@ set(TMP_HEADERS_
+     ${CMAKE_CURRENT_LIST_DIR}/media_libva_util.h
+ )
+ 
+-if(NOT ${PLATFORM} STREQUAL "android")
++if(NOT ${PLATFORM} STREQUAL "android" AND X11_FOUND)
+  set(TMP_SOURCES_
+     ${TMP_SOURCES_}
+     ${CMAKE_CURRENT_LIST_DIR}/media_libva_putsurface_linux.cpp
+diff --git a/media_driver/media_top_cmake.cmake b/media_driver/media_top_cmake.cmake
+index 6f1b12dd59ec..9f46862fc58e 100644
+--- a/media_driver/media_top_cmake.cmake
++++ b/media_driver/media_top_cmake.cmake
+@@ -46,7 +46,10 @@ message("-- media -- LIB_NAME = ${LIB_NAME}")
+ message("-- media -- OUTPUT_NAME = ${OUTPUT_NAME}")
+ message("-- media -- BUILD_TYPE/UFO_BUILD_TYPE/CMAKE_BUILD_TYPE = ${BUILD_TYPE}/${UFO_BUILD_TYPE}/${CMAKE_BUILD_TYPE}")
+ message("-- media -- LIBVA_INSTALL_PATH = ${LIBVA_INSTALL_PATH}")
+-Message("-- media -- MEDIA_VERSION = ${MEDIA_VERSION}")
++message("-- media -- MEDIA_VERSION = ${MEDIA_VERSION}")
++if(X11_FOUND)
++message("-- media -- X11 Found")
++endif()
+ 
+ set(LIB_NAME_OBJ    "${LIB_NAME}_OBJ")
+ set(LIB_NAME_STATIC "${LIB_NAME}_STATIC")
+-- 
+2.19.0
+
