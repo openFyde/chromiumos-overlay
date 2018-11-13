@@ -35,6 +35,8 @@ TAST_BUNDLE_EXTERNAL_DATA_URLS=(
 	"gs://chromiumos-test-assets-public/tast/cros/debugd/debugd_printer_GenericPostScript_20181001.ppd.gz"
 	"gs://chromiumos-test-assets-public/tast/cros/example/data_files_external_20180626.txt"
 	"gs://chromiumos-test-assets-public/tast/cros/meta/local_files_external_20180811.txt"
+	"gs://chromiumos-test-assets-public/tast/cros/printer/printer_add_epson_printer_EpsonWF3620_20181113.ppd"
+	"gs://chromiumos-test-assets-public/tast/cros/printer/printer_add_epson_printer_golden_20181113.ps"
 	"gs://chromiumos-test-assets-public/tast/cros/printer/printer_add_generic_printer_GenericPostScript_20181031.ppd.gz"
 	"gs://chromiumos-test-assets-public/tast/cros/printer/printer_add_generic_printer_golden_20181031.ps"
 	"gs://chromiumos-test-assets-public/tast/cros/printer/to_print_20181031.pdf"
