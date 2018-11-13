@@ -23,7 +23,7 @@ KEYWORDS="~*"
 IUSE="
 	cros_embedded +debugd +encrypted_stateful frecon
 	kernel-3_8 kernel-3_10 kernel-3_14 kernel-3_18 +midi
-	-s3halt +syslog systemd +udev vtconsole"
+	-s3halt +syslog systemd +udev vivid vtconsole"
 
 # shunit2 should be a dependency only if USE=test, but cros_run_unit_test
 # doesn't calculate dependencies when emerging packages.
@@ -123,6 +123,10 @@ src_install_upstart() {
 		newins upstart/halt/s3halt.conf halt.conf
 	else
 		doins upstart/halt/halt.conf
+	fi
+
+	if use vivid; then
+		doins upstart/vivid/vivid.conf
 	fi
 
 	use vtconsole && doins upstart/vtconsole/*.conf
