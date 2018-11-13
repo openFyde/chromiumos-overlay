@@ -25,6 +25,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/power_manager-client
 	chromeos-base/trunks
+	dev-libs/hidapi
 	"
 
 DEPEND="
