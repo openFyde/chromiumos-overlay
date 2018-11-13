@@ -221,6 +221,19 @@ _add_param() {
 	[[ -n "${value}" ]] && _append_var "${var}" "${flag}" "${value}"
 }
 
+# Add a string command-line flag with its file argument to an array.
+# If the file does not exists then this function does nothing.
+#  $1: Array variable to append to.
+#  $2: Flag (e.g. "-b").
+#  $3: File path (e.g. "bios.bin").
+_add_file_param() {
+	local var="$1"
+	local flag="$2"
+	local value="$3"
+
+	[[ -e "${value}" ]] && _append_var "${var}" "${flag}" "${value}"
+}
+
 # Add a boolean command-line flag to an array.
 # If the value is empty then this function does nothing, otherwise it
 # appends the flag.
@@ -236,57 +249,99 @@ _add_bool_param() {
 }
 
 cros-firmware_src_compile() {
+	# image_cmd will be reset when creating local updaters.
+	# ext_cmd will be reused when creating local updaters.
 	local image_cmd=() ext_cmd=()
 	local root="${SYSROOT%/}"
-	local output_file="updater.sh"
+	local output="${UPDATE_SCRIPT}"
 
 	# We need lddtree from chromite.
 	export PATH="${CHROMITE_BIN_DIR}:${PATH}"
 
 	# Prepare extra commands
 	ext_cmd+=(--root "${root}")
-	_add_param ext_cmd --script "${CROS_FIRMWARE_SCRIPT}"
 	if use unibuild; then
-		image_cmd+=(
-			-c "${SYSROOT}/${UNIBOARD_YAML_CONFIG}"
-			-i "${DISTDIR}"
-		)
-		einfo "Build ${BOARD_USE} firmware updater:" \
-			"${image_cmd[*]} ${ext_cmd[*]}"
-		./pack_firmware.py "${image_cmd[@]}" "${ext_cmd[@]}" \
-			-o "${UPDATE_SCRIPT}" ||
-			die "Cannot pack firmware."
+		_add_param ext_cmd -i "${DISTDIR}"
+		_add_param ext_cmd -c "${root}${UNIBOARD_YAML_CONFIG}"
 	else
-		# Prepare images for legacy mode (not unified builds)
+		ext_cmd+=(--legacy)
 		_add_param image_cmd -b "${FW_IMAGE_LOCATION}"
 		_add_param image_cmd -e "${EC_IMAGE_LOCATION}"
 		_add_param image_cmd -p "${PD_IMAGE_LOCATION}"
 		_add_param image_cmd -w "${FW_RW_IMAGE_LOCATION}"
-
-		# Prepare extra commands
 		_add_param ext_cmd --extra \
 			"$(IFS=:; echo "${EXTRA_LOCATIONS[*]}")"
 
-		# Pack firmware update script!
-		if [ ${#image_cmd[@]} -ne 0 ]; then
-			image_cmd+=( --legacy )
-			einfo "Build ${BOARD_USE} firmware updater:" \
-				"${image_cmd[*]} ${ext_cmd[*]}"
-			./pack_firmware.py "${image_cmd[@]}" "${ext_cmd[@]}" \
-				-o "${UPDATE_SCRIPT}" ||
-				die "Cannot pack firmware."
-		fi
 	fi
 
-	if [ ${#image_cmd[@]} -eq 0 ]; then
+	if [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
 		# Create an empty update script for the generic case
 		# (no need to update)
 		einfo "Building empty firmware update script"
-		echo -n > "${UPDATE_SCRIPT}"
+		echo -n >"${output}"
+	else
+		einfo "Build ${BOARD_USE} firmware updater to ${output}:" \
+			"${image_cmd[*]} ${ext_cmd[*]}"
+		./pack_firmware.py "${image_cmd[@]}" "${ext_cmd[@]}" \
+			-o "${output}" || die "Cannot pack firmware updater."
 	fi
+
+	if ! use bootimage; then
+		if use cros_ec; then
+			# TODO(hungte) Deal with a platform that has only EC and
+			# no BIOS, which is usually incorrect configuration.  We
+			# only warn here to allow for BCS based firmware to
+			# still generate a proper chromeos-firmwareupdate update
+			# script.
+			ewarn "WARNING: platform has no local BIOS."
+			ewarn "EC-only is not supported."
+			ewarn "Not generating a local updater script."
+		fi
+		return
+	fi
+
+	# Create local updaters. image_cmd is cleared and ext_cmd is kept.
+	image_cmd=()
+	output="updater.sh"
+	local local_root="${root}/firmware"
+	if use unibuild; then
+		ext_cmd+=(--local)
+		# Tell pack_firmware.py where to find the files.
+		# 'BUILD_TARGET' will be replaced with the build-targets config
+		# from the unified build config file. Since these path do not
+		# exist, we can't use _add_file_param.
+		_add_param image_cmd -b "${local_root}/image-BUILD_TARGET.bin"
+		local_root+="/BUILD_TARGET"
+		if use cros_ec; then
+			_add_param image_cmd -e "${local_root}/ec.bin"
+			_add_param image_cmd -p "${local_root}/pd.bin"
+		fi
+	else
+		_add_param image_cmd -b "${local_root}/image.bin"
+		_add_file_param image_cmd -e "${local_root}/ec.bin"
+		_add_file_param image_cmd -p "${local_root}/pd.bin"
+	fi
+
+	einfo "Build ${BOARD_USE} local firmware updater to ${output}:" \
+		"${image_cmd[*]} ${ext_cmd[*]}"
+	./pack_firmware.py -o "${output}" "${image_cmd[@]}" "${ext_cmd[@]}" ||
+		die "Cannot pack firmware updater."
+
+	if [[ ! -s "${UPDATE_SCRIPT}" ]]; then
+		# When no pre-built binaries are available,
+		# dupe local updater to system updater.
+		cp -f "${output}" "${UPDATE_SCRIPT}"
+	fi
+
 }
 
 cros-firmware_src_install() {
+	# install updaters for firmware-from-source archive.
+	if use bootimage; then
+		exeinto /firmware
+		doexe updater.sh
+	fi
+
 	# skip anything else if no main updater program.
 	if [[ ! -s "${UPDATE_SCRIPT}" ]]; then
 		return
