@@ -1,0 +1,260 @@
+commit e2c97df492eea565602dad091ce6ff187bbe30da
+Author: Alex Khouderchah <akhouderchah@google.com>
+Date:   Wed Nov 7 14:41:55 2018 -0800
+
+    [CMake] Allow for installing of header files
+    
+    This change modifies the CMake build system to allow for the
+    installation of absl header files. Note that both public and internal
+    header files are installed, as some public header files #include
+    internal header files (as opposed to only source files #including
+    internal header files).
+    
+    Upstream bug: https://github.com/abseil/abseil-cpp/issues/155
+    Upstream PR: https://github.com/abseil/abseil-cpp/pull/182
+
+diff --git a/CMake/AbseilHelpers.cmake b/CMake/AbseilHelpers.cmake
+index d487036..513abab 100644
+--- a/CMake/AbseilHelpers.cmake
++++ b/CMake/AbseilHelpers.cmake
+@@ -22,6 +22,12 @@ include(CMakeParseArguments)
+ # For example, Visual Studio supports folders.
+ set(ABSL_IDE_FOLDER Abseil)
+ 
++function(absl_headers dir HEADERS)
++    install(FILES ${HEADERS}
++      DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/absl/${dir}"
++    )
++endfunction()
++
+ #
+ # create a library in the absl namespace
+ #
+diff --git a/absl/algorithm/CMakeLists.txt b/absl/algorithm/CMakeLists.txt
+index fdf45c5..274d98d 100644
+--- a/absl/algorithm/CMakeLists.txt
++++ b/absl/algorithm/CMakeLists.txt
+@@ -19,6 +19,7 @@ list(APPEND ALGORITHM_PUBLIC_HEADERS
+   "container.h"
+ )
+ 
++absl_headers(algorithm "${ALGORITHM_PUBLIC_HEADERS}")
+ 
+ #
+ ## TESTS
+diff --git a/absl/base/CMakeLists.txt b/absl/base/CMakeLists.txt
+index d506bc4..57d3a80 100644
+--- a/absl/base/CMakeLists.txt
++++ b/absl/base/CMakeLists.txt
+@@ -28,6 +28,7 @@ list(APPEND BASE_PUBLIC_HEADERS
+   "thread_annotations.h"
+ )
+ 
++absl_headers(base "${BASE_PUBLIC_HEADERS}")
+ 
+ list(APPEND BASE_INTERNAL_HEADERS
+   "internal/atomic_hook.h"
+@@ -57,6 +58,7 @@ list(APPEND BASE_INTERNAL_HEADERS
+   "internal/unscaledcycleclock.h"
+ )
+ 
++absl_headers(base/internal "${BASE_INTERNAL_HEADERS}")
+ 
+ # absl_base main library
+ list(APPEND BASE_SRC
+diff --git a/absl/container/CMakeLists.txt b/absl/container/CMakeLists.txt
+index 72113e1..0aecd7d 100644
+--- a/absl/container/CMakeLists.txt
++++ b/absl/container/CMakeLists.txt
+@@ -24,6 +24,7 @@ list(APPEND CONTAINER_PUBLIC_HEADERS
+   "node_hash_set.h"
+ )
+ 
++absl_headers(container "${CONTAINER_PUBLIC_HEADERS}")
+ 
+ list(APPEND CONTAINER_INTERNAL_HEADERS
+   "internal/compressed_tuple.h"
+@@ -47,6 +48,7 @@ list(APPEND CONTAINER_INTERNAL_HEADERS
+   "internal/unordered_set_modifiers_test.h"
+ )
+ 
++absl_headers(container/internal "${CONTAINER_INTERNAL_HEADERS}")
+ 
+ absl_library(
+   TARGET
+diff --git a/absl/debugging/CMakeLists.txt b/absl/debugging/CMakeLists.txt
+index 266c2ca..3d2528e 100644
+--- a/absl/debugging/CMakeLists.txt
++++ b/absl/debugging/CMakeLists.txt
+@@ -19,8 +19,13 @@ list(APPEND DEBUGGING_PUBLIC_HEADERS
+   "leak_check.h"
+   "stacktrace.h"
+   "symbolize.h"
++  "symbolize_elf.inc"
++  "symbolize_unimplemented.inc"
++  "symbolize_win32.inc"
+ )
+ 
++absl_headers(debugging "${DEBUGGING_PUBLIC_HEADERS}")
++
+ # TODO(cohenjon) The below is all kinds of wrong.  Make this match what we do in
+ # Bazel
+ list(APPEND DEBUGGING_INTERNAL_HEADERS
+@@ -33,6 +38,8 @@ list(APPEND DEBUGGING_INTERNAL_HEADERS
+   "internal/vdso_support.h"
+ )
+ 
++absl_headers(debugging/internal "${DEBUGGING_INTERNAL_HEADERS}")
++
+ list(APPEND DEBUGGING_INTERNAL_SRC
+   "internal/address_is_readable.cc"
+   "internal/elf_mem_image.cc"
+@@ -49,9 +56,6 @@ list(APPEND STACKTRACE_SRC
+ 
+ list(APPEND SYMBOLIZE_SRC
+   "symbolize.cc"
+-  "symbolize_elf.inc"
+-  "symbolize_unimplemented.inc"
+-  "symbolize_win32.inc"
+   "internal/demangle.cc"
+   ${DEBUGGING_PUBLIC_HEADERS}
+   ${DEBUGGING_INTERNAL_HEADERS}
+diff --git a/absl/memory/CMakeLists.txt b/absl/memory/CMakeLists.txt
+index 8f9e731..589152d 100644
+--- a/absl/memory/CMakeLists.txt
++++ b/absl/memory/CMakeLists.txt
+@@ -18,6 +18,7 @@ list(APPEND MEMORY_PUBLIC_HEADERS
+   "memory.h"
+ )
+ 
++absl_headers(memory "${MEMORY_PUBLIC_HEADERS}")
+ 
+ absl_header_library(
+   TARGET
+diff --git a/absl/meta/CMakeLists.txt b/absl/meta/CMakeLists.txt
+index adb0ceb..bfc7878 100644
+--- a/absl/meta/CMakeLists.txt
++++ b/absl/meta/CMakeLists.txt
+@@ -18,6 +18,7 @@ list(APPEND META_PUBLIC_HEADERS
+   "type_traits.h"
+ )
+ 
++absl_headers(meta "${META_PUBLIC_HEADERS}")
+ 
+ #
+ ## TESTS
+diff --git a/absl/numeric/CMakeLists.txt b/absl/numeric/CMakeLists.txt
+index 3360b2e..0177c5f 100644
+--- a/absl/numeric/CMakeLists.txt
++++ b/absl/numeric/CMakeLists.txt
+@@ -16,8 +16,11 @@
+ 
+ list(APPEND NUMERIC_PUBLIC_HEADERS
+   "int128.h"
++  "int128_have_intrinsic.inc"
++  "int128_no_intrinsic.inc"
+ )
+ 
++absl_headers(numeric "${NUMERIC_PUBLIC_HEADERS}")
+ 
+ # library 128
+ list(APPEND INT128_SRC
+diff --git a/absl/strings/CMakeLists.txt b/absl/strings/CMakeLists.txt
+index dbb6ae6..1eb9fb5 100644
+--- a/absl/strings/CMakeLists.txt
++++ b/absl/strings/CMakeLists.txt
+@@ -30,6 +30,7 @@ list(APPEND STRINGS_PUBLIC_HEADERS
+   "substitute.h"
+ )
+ 
++absl_headers(strings "${STRINGS_PUBLIC_HEADERS}")
+ 
+ list(APPEND STRINGS_INTERNAL_HEADERS
+   "internal/char_map.h"
+@@ -45,6 +46,7 @@ list(APPEND STRINGS_INTERNAL_HEADERS
+ )
+ 
+ 
++absl_headers(strings/internal "${STRINGS_INTERNAL_HEADERS}")
+ 
+ # add string library
+ list(APPEND STRINGS_SRC
+diff --git a/absl/synchronization/CMakeLists.txt b/absl/synchronization/CMakeLists.txt
+index de0d7b7..c2ccabb 100644
+--- a/absl/synchronization/CMakeLists.txt
++++ b/absl/synchronization/CMakeLists.txt
+@@ -21,6 +21,7 @@ list(APPEND SYNCHRONIZATION_PUBLIC_HEADERS
+   "notification.h"
+ )
+ 
++absl_headers(synchronization "${SYNCHRONIZATION_PUBLIC_HEADERS}")
+ 
+ list(APPEND SYNCHRONIZATION_INTERNAL_HEADERS
+   "internal/create_thread_identity.h"
+@@ -32,6 +33,7 @@ list(APPEND SYNCHRONIZATION_INTERNAL_HEADERS
+ )
+ 
+ 
++absl_headers(synchronization/internal "${SYNCHRONIZATION_INTERNAL_HEADERS}")
+ 
+ # synchronization library
+ list(APPEND SYNCHRONIZATION_SRC
+diff --git a/absl/time/CMakeLists.txt b/absl/time/CMakeLists.txt
+index 53216cd..de20443 100644
+--- a/absl/time/CMakeLists.txt
++++ b/absl/time/CMakeLists.txt
+@@ -20,15 +20,22 @@ list(APPEND TIME_PUBLIC_HEADERS
+   "time.h"
+ )
+ 
++absl_headers(time "${TIME_PUBLIC_HEADERS}")
+ 
+ list(APPEND TIME_INTERNAL_HEADERS
+-  "internal/test_util.h"
+   "internal/cctz/include/cctz/civil_time.h"
+   "internal/cctz/include/cctz/civil_time_detail.h"
+   "internal/cctz/include/cctz/time_zone.h"
+   "internal/cctz/include/cctz/zone_info_source.h"
+ )
+ 
++absl_headers(time/internal "internal/test_util.h")
++absl_headers(time/internal/cctz/include/cctz "${TIME_INTERNAL_HEADERS}")
++
++list(APPEND TIME_INTERNAL_HEADERS
++  "internal/test_util.h"
++)
++
+ list(APPEND TIME_SRC
+   "civil_time.cc"
+   "time.cc"
+diff --git a/absl/types/CMakeLists.txt b/absl/types/CMakeLists.txt
+index bc6c39e..808f4b5 100644
+--- a/absl/types/CMakeLists.txt
++++ b/absl/types/CMakeLists.txt
+@@ -23,6 +23,13 @@ list(APPEND TYPES_PUBLIC_HEADERS
+   "variant.h"
+ )
+ 
++absl_headers(types "${TYPES_PUBLIC_HEADERS}")
++
++list(APPEND TYPES_INTERNAL_HEADERS
++  "internal/variant.h"
++)
++
++absl_headers(types/internal "${TYPES_INTERNAL_HEADERS}")
+ 
+ # any library
+ absl_header_library(
+diff --git a/absl/utility/CMakeLists.txt b/absl/utility/CMakeLists.txt
+index dc3a631..b89ae96 100644
+--- a/absl/utility/CMakeLists.txt
++++ b/absl/utility/CMakeLists.txt
+@@ -19,6 +19,8 @@ list(APPEND UTILITY_PUBLIC_HEADERS
+   "utility.h"
+ )
+ 
++absl_headers(utility "${UTILITY_PUBLIC_HEADERS}")
++
+ absl_header_library(
+   TARGET
+     absl_utility
