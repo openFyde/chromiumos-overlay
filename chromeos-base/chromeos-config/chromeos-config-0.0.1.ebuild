@@ -49,7 +49,7 @@ src_compile() {
 		done
 		cros_config_schema -o "${yaml}" -m "${input_yaml_files[@]}" \
 			|| die "cros_config_schema failed for build config."
-		cros_config_schema -c "${yaml}" -o "${json}" -g "${c_file}" -f "True" \
+		cros_config_schema -c "${yaml}" -o "${json}" -g "${WORKDIR}" -f "True" \
 			|| die "cros_config_schema failed for platform config."
 	else
 		einfo "Emitting empty c interface config for mosys."
@@ -65,6 +65,8 @@ src_install() {
 	fi
 	insinto "${UNIBOARD_YAML_DIR}"
 	doins config.c
+	doins ec_config.c
+	doins ec_config.h
 	if [[ -e "${WORKDIR}/config.yaml" ]]; then
 		doins config.yaml
 	fi
