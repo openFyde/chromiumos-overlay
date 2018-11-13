@@ -44,6 +44,7 @@ pkg_preinst() {
 src_install() {
 	dobin "${OUT}/diagnosticsd"
 	dobin "${OUT}/diagnostics_processor"
+	dobin "${OUT}/telem"
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
