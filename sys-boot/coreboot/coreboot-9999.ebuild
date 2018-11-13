@@ -115,6 +115,15 @@ create_config() {
 		if [[ -n "${SYSTEM_OEM}" ]]; then
 			echo "CONFIG_MAINBOARD_VENDOR=\"${SYSTEM_OEM}\"" >> "${CONFIG}"
 		fi
+		if [[ -n "${SYSTEM_OEM_VENDOR_ID}" ]]; then
+			echo "CONFIG_SUBSYSTEM_VENDOR_ID=${SYSTEM_OEM_VENDOR_ID}" >> "${CONFIG}"
+		fi
+		if [[ -n "${SYSTEM_OEM_DEVICE_ID}" ]]; then
+			echo "CONFIG_SUBSYSTEM_DEVICE_ID=${SYSTEM_OEM_DEVICE_ID}" >> "${CONFIG}"
+		fi
+		if [[ -n "${SYSTEM_OEM_ACPI_ID}" ]]; then
+			echo "CONFIG_ACPI_SUBSYSTEM_ID=\"${SYSTEM_OEM_ACPI_ID}\"" >> "${CONFIG}"
+		fi
 
 		# In case config comes from a symlink we are likely building
 		# for an overlay not matching this config name. Enable adding
