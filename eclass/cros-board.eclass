@@ -160,6 +160,7 @@ ALL_BOARDS=(
 	guado_moblab
 	guado_labstation
 	hana
+	hatch
 	heli
 	hsb
 	iclrvp

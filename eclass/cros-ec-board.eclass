@@ -63,6 +63,7 @@ EC_BOARD_NAMES=(
 	grunt
 	hadoken
 	hammer
+	hatch
 	hoho
 	host
 	jerry
