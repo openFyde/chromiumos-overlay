@@ -18,6 +18,7 @@ IUSE="
 	+display_backlight
 	+internal_mic
 	kvm_host
+	lxc
 	memd
 	ml_service
 	mocktpm
