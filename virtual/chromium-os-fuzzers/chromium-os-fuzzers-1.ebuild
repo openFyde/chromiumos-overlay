@@ -15,6 +15,7 @@ RDEPEND="
 	chromeos-base/chromeos-ec[fuzzer]
 	chromeos-base/crosdns[fuzzer]
 	chromeos-base/cryptohome[fuzzer]
+	chromeos-base/ghostscript-fuzz[fuzzer]
 	chromeos-base/imageloader[fuzzer]
 	chromeos-base/quipper[fuzzer]
 	chromeos-base/midis[fuzzer]
