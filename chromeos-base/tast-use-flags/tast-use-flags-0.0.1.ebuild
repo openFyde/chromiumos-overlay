@@ -18,6 +18,7 @@ IUSE="
 	+display_backlight
 	+internal_mic
 	kvm_host
+	memd
 	ml_service
 	mocktpm
 	rialto
