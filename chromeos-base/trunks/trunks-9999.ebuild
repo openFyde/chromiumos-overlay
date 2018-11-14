@@ -75,8 +75,8 @@ src_install() {
 		"${OUT}/lib" libtrunks /usr/include/trunks
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/lib/libtrunks.pc
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/creation_blob_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/key_blob_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_creation_blob_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_key_blob_fuzzer
 }
 
 platform_pkg_test() {
