@@ -3,7 +3,8 @@
 
 EAPI=6
 
-inherit autotools multilib versionator flag-o-matic toolchain-funcs
+inherit autotools cros-fuzzer cros-sanitizers multilib versionator \
+	flag-o-matic toolchain-funcs
 
 DESCRIPTION="Ghostscript is an interpreter for the PostScript language and for PDF"
 HOMEPAGE="https://ghostscript.com/"
@@ -21,7 +22,10 @@ SRC_URI="
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="cups dbus gtk idn internal linguas_de crosfonts static-libs tiff unicode X"
+IUSE="
+	asan cups dbus fuzzer gtk idn internal linguas_de crosfonts static-libs
+	tiff unicode X
+"
 
 # Google has a commercial license for ghostscript when distributed with Chrome OS (Not
 # Chromium OS).  So toggle the license to the required copyright when building for Chrome OS,
@@ -144,6 +148,8 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
+
 	local FONTPATH
 	for path in \
 		"${EPREFIX}"/usr/share/fonts/urw-fonts \
