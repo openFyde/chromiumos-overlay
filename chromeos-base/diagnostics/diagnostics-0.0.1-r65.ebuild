@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="da695bf12eeae39006f7157ba01bd46916b9d08e"
+CROS_WORKON_COMMIT="fa74f7233ead4fcf35761071ae440cd279745aac"
 CROS_WORKON_TREE=("c7c53e5e73240826942d7edceef245b060e54ac7" "eab6f0cda66b5bf7113f713f7f9915849701816d" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -46,6 +46,7 @@ pkg_preinst() {
 src_install() {
 	dobin "${OUT}/diagnosticsd"
 	dobin "${OUT}/diagnostics_processor"
+	dobin "${OUT}/telem"
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
