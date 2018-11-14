@@ -1,4 +1,4 @@
-From c607884c160fe85c7e93f6ac4e2b857e5fd0fe80 Mon Sep 17 00:00:00 2001
+From ee5976869cf8510aa2614bf404e23f98915c7220 Mon Sep 17 00:00:00 2001
 From: Frank Binns <frank.binns@imgtec.com>
 Date: Tue, 4 Sep 2018 13:40:00 +0100
 Subject: [PATCH] dri/pvr: Introduce PowerVR DRI driver.
@@ -11,7 +11,7 @@ Change-Id: I6c2f32d9d2afd6d6215c3b7224f1e0c1b7660c83
  src/mesa/drivers/dri/pvr/Makefile.sources |   35 +
  src/mesa/drivers/dri/pvr/mesa_context.c   |  260 +++++++
  src/mesa/drivers/dri/pvr/pvrdrawable.c    |  660 +++++++++++++++++
- src/mesa/drivers/dri/pvr/pvrdri.c         | 1139 +++++++++++++++++++++++++++++
+ src/mesa/drivers/dri/pvr/pvrdri.c         | 1173 +++++++++++++++++++++++++++++
  src/mesa/drivers/dri/pvr/pvrdri.h         |  293 ++++++++
  src/mesa/drivers/dri/pvr/pvrext.c         |  388 ++++++++++
  src/mesa/drivers/dri/pvr/pvrimage.c       | 1042 ++++++++++++++++++++++++++
@@ -19,7 +19,7 @@ Change-Id: I6c2f32d9d2afd6d6215c3b7224f1e0c1b7660c83
  src/mesa/drivers/dri/pvr/pvrmesa.h        |   41 ++
  src/mesa/drivers/dri/pvr/pvrqueue.h       |   74 ++
  src/mesa/drivers/dri/pvr/pvrutil.c        |  592 +++++++++++++++
- 14 files changed, 4676 insertions(+)
+ 14 files changed, 4710 insertions(+)
  create mode 100644 src/mesa/drivers/dri/pvr/Makefile.am
  create mode 100644 src/mesa/drivers/dri/pvr/Makefile.sources
  create mode 100644 src/mesa/drivers/dri/pvr/mesa_context.c
@@ -1116,10 +1116,10 @@ index 0000000..eea3a22
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrdri.c b/src/mesa/drivers/dri/pvr/pvrdri.c
 new file mode 100644
-index 0000000..0dc294e
+index 0000000..7091282
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrdri.c
-@@ -0,0 +1,1139 @@
+@@ -0,0 +1,1173 @@
 +/* -*- mode: c; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 +/* vi: set ts=8 sw=8 sts=8: */
 +/*
@@ -1697,11 +1697,6 @@ index 0000000..0dc294e
 +	PVRDRIConfigInfo sConfigInfo;
 +	bool bResult;
 +
-+	uFlags = psCtxConfig->flags;
-+	uMajorVersion = psCtxConfig->major_version;
-+	uMinorVersion = psCtxConfig->minor_version;
-+	notify_reset = psCtxConfig->reset_strategy;
-+
 +	psPVRContext = calloc(1, sizeof(*psPVRContext));
 +	if (psPVRContext == NULL)
 +	{
@@ -1711,14 +1706,53 @@ index 0000000..0dc294e
 +		return GL_FALSE;
 +	}
 +
-+	psPVRContext->psDRIContext = psDRIContext;
-+	psPVRContext->psPVRScreen = psPVRScreen;
++	if (!psCtxConfig)
++	{
++		__driUtilMessage("%s: No context config",
++				 __func__);
++		*puError = __DRI_CTX_ERROR_UNKNOWN_ATTRIBUTE;
++		return GL_FALSE;
++	}
++
++	uFlags = psCtxConfig->flags;
++	uMajorVersion = psCtxConfig->major_version;
++	uMinorVersion = psCtxConfig->minor_version;
++	notify_reset = false;
++
++	if (psCtxConfig->attribute_mask & __DRIVER_CONTEXT_ATTRIB_RESET_STRATEGY)
++	{
++		switch (psCtxConfig->reset_strategy)
++		{
++			case __DRI_CTX_RESET_LOSE_CONTEXT:
++				notify_reset = true;
++				break;
++			default:
++				__driUtilMessage("%s: Unsupported reset strategy: %d",
++						 __func__,
++						 (int)psCtxConfig->reset_strategy);
++				goto ErrorContextFree;
++		}
++	}
++
++	uPriority = PVRDRI_CONTEXT_PRIORITY_MEDIUM;
 +
 +#if defined(__DRI_PRIORITY)
-+	uPriority = psCtxConfig->priority;
-+#else
-+	uPriority = PVRDRI_CONTEXT_PRIORITY_MEDIUM;
++	if (psCtxConfig->attribute_mask & __DRIVER_CONTEXT_ATTRIB_PRIORITY)
++	{
++		switch (psCtxConfig->priority)
++		{
++			case __DRI_CTX_PRIORITY_LOW:
++				uPriority = PVRDRI_CONTEXT_PRIORITY_LOW;
++				break;
++			case __DRI_CTX_PRIORITY_HIGH:
++				uPriority = PVRDRI_CONTEXT_PRIORITY_HIGH;
++				break;
++		}
++	}
 +#endif
++
++	psPVRContext->psDRIContext = psDRIContext;
++	psPVRContext->psPVRScreen = psPVRScreen;
 +
 +	switch (eMesaAPI)
 +	{
