@@ -344,7 +344,7 @@ src_install() {
 	# Require gold for targets we know support gold, but auto-detect others.
 	local gold=false
 	case ${CTARGET} in
-	arm*|i?86-*|powerpc*|sparc*|x86_64-*)
+	aarch64-*|arm*|i?86-*|powerpc*|sparc*|x86_64-*)
 		gold=true
 		;;
 	*)
@@ -400,7 +400,7 @@ pkg_postinst() {
 	local config_gold=false
 	if is_cross; then
 		case ${CTARGET} in
-			armv7a-*|i?86-*|x86_64-*) config_gold=true;;
+			aarch64-*|armv7a-*|i?86-*|x86_64-*) config_gold=true;;
 			*) ;;
 		esac
 	fi
