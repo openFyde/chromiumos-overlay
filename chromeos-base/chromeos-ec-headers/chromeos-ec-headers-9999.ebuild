@@ -32,4 +32,8 @@ src_install() {
 	doins include/pinweaver_types.h
 	doins include/u2f.h
 	doins board/cr50/tpm2/virtual_nvmem.h
+	insinto /usr/include/chromeos/ec/
+	doins include/compile_time_macros.h
+	doins include/ec_commands.h
+	doins util/cros_ec_dev.h
 }
