@@ -140,6 +140,7 @@ src_prepare() {
 
 	cd "${S}/dist/src/${EGO_PN}"
 	eapply "${FILESDIR}/${P}-cert-ec384.patch" # crbug.com/837445
+	eapply "${FILESDIR}/${P}-pass-all-usb.patch" # crbug.com/831850
 	eapply_user
 
 	cd "${S}/dist/dqlite" || die "Can't cd to dqlite dir"
