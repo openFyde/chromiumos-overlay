@@ -75,6 +75,7 @@ src_compile() {
 
 	local packages=(
 		9s
+		qcow_utils
 		crosvm
 	)
 
