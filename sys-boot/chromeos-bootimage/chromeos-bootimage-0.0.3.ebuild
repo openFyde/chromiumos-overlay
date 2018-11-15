@@ -292,6 +292,8 @@ build_images() {
 	local ec_build_target="$5"
 	local outdir
 	local suffix
+	local file
+	local rom
 
 	local coreboot_file
 	local coreboot_config
