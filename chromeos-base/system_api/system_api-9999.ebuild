@@ -29,7 +29,7 @@ RDEPEND="chromeos-base/libmojo"
 DEPEND="${RDEPEND}
 	dev-go/protobuf
 	dev-libs/protobuf:=
-	cros_host? ( dev-libs/grpc )
+	cros_host? ( net-libs/grpc:= )
 "
 
 src_unpack() {

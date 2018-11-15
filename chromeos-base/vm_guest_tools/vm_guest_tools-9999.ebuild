@@ -32,7 +32,7 @@ RDEPEND="
 	!!chromeos-base/vm_tools
 	chromeos-base/libbrillo
 	chromeos-base/minijail
-	dev-libs/grpc
+	net-libs/grpc:=
 	dev-libs/protobuf:=
 	media-libs/mesa[gbm]
 	x11-base/xwayland

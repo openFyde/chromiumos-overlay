@@ -18,6 +18,7 @@ IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="
+	!dev-libs/grpc
 	>=dev-libs/openssl-1.0.2
 	>=dev-libs/protobuf-3:=
 	net-dns/c-ares

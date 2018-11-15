@@ -20,7 +20,7 @@ RDEPEND="
 "
 DEPEND="
 	chromeos-base/vm_guest_tools
-	dev-libs/grpc
+	net-libs/grpc:=
 	dev-libs/protobuf:=
 	media-libs/mesa
 	x11-apps/xkbcomp

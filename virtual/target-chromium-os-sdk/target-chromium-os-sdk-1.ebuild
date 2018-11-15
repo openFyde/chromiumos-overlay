@@ -161,7 +161,7 @@ RDEPEND="${RDEPEND}
 	dev-libs/dbus-c++
 	dev-libs/dbus-glib
 	>=dev-libs/glib-2.26.1
-	dev-libs/grpc
+	net-libs/grpc
 	dev-libs/libgcrypt
 	dev-libs/libxslt
 	dev-libs/libyaml

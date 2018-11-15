@@ -29,7 +29,7 @@ RDEPEND="
 	chromeos-base/crosvm
 	chromeos-base/libbrillo
 	chromeos-base/minijail
-	dev-libs/grpc
+	net-libs/grpc:=
 	dev-libs/protobuf:=
 "
 DEPEND="
