@@ -30,6 +30,7 @@ def main(argv):
   clang_flags = [
       '-Qunused-arguments',
       '-grecord-gcc-switches',
+      '-fno-addrsig',
   ]
 
   use_clang_tidy = os.environ.get('WITH_TIDY')
