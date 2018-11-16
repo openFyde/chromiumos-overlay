@@ -47,6 +47,10 @@ src_prepare() {
 	epatch "${FILESDIR}/0016-BACKPORT-FROMGIT-media-v4l2-ctrl-Add-control-for-VP9.patch"
 	epatch "${FILESDIR}/0017-BACKPORT-FROMLIST-media-v4l-Add-JPEG_RAW-format.patch"
 	epatch "${FILESDIR}/0018-BACKPORT-FROMLIST-v4l-Add-controls-for-jpeg-quantization-tables.patch"
+	epatch "${FILESDIR}/0019-BACKPORT-media-uapi-linux-media.h-add-request-API.patch"
+	epatch "${FILESDIR}/0020-BACKPORT-media-videodev2.h-add-request_fd-field-to-v.patch"
+	epatch "${FILESDIR}/0021-BACKPORT-media-videodev2.h-Add-request_fd-field-to-v.patch"
+	epatch "${FILESDIR}/0022-BACKPORT-media-videodev2.h-add-new-capabilities-for-.patch"
 }
 
 src_install() {
