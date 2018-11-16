@@ -45,6 +45,8 @@ src_install() {
 	doins imageloader-shutdown.conf
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_helper_process_receiver_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_manifest_fuzzer \
+		--dict "${S}"/fuzz/manifest.dict
 }
 
 platform_pkg_test() {
