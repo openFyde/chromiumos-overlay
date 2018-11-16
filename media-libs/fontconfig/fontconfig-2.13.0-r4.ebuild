@@ -41,6 +41,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-locale.patch #650332
 	"${FILESDIR}"/${P}-mtime.patch
 	"${FILESDIR}"/${P}-names.patch #650370
+	"${FILESDIR}"/${P}-fccache-sysroot.patch
 )
 
 # Checks that a passed-in fontconfig default symlink (e.g. "10-autohint.conf")
