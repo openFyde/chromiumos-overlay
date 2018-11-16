@@ -18,14 +18,14 @@ getopts-0.2.17
 libc-0.2.40
 log-0.4.1
 pkg-config-0.3.11
-proc-macro2-0.2.3
+proc-macro2-0.4.24
 protobuf-1.4.3
 protoc-1.4.3
 protoc-rust-1.4.3
-quote-0.4.2
+quote-0.6.10
 rand-0.3.20
 rand-0.4.2
-syn-0.12.15
+syn-0.15.21
 tempdir-0.3.5
 unicode-xid-0.1.0
 winapi-0.3.4
