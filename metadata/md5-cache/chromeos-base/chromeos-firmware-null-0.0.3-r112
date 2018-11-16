@@ -3,11 +3,11 @@ DEPEND=dev-vcs/git dev-vcs/git >=chromeos-base/vboot_reference-1.0-r230 chromeos
 DESCRIPTION=Chrome OS Firmware (Template - change to board name)
 EAPI=5
 HOMEPAGE=http://src.chromium.org
-IUSE=cros_host cros_workon_tree_b7aa750ff4b0972ea85de401712820c0a24ab963 cros_host cros_workon_tree_b7aa750ff4b0972ea85de401712820c0a24ab963 bootimage cros_ec unibuild
+IUSE=cros_host cros_workon_tree_53fd2d0505c013100ce23409fafb3cfb3ec1a5bf cros_host cros_workon_tree_53fd2d0505c013100ce23409fafb3cfb3ec1a5bf bootimage cros_ec unibuild
 KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=unibuild? ( chromeos-base/chromeos-config:= ) app-arch/gzip app-arch/sharutils app-arch/tar chromeos-base/vboot_reference sys-apps/util-linux
 RESTRICT=mirror
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-firmware	22fed87cdaffe2707fb5fc020e333ac6	cros-unibuild	ed0ab6fb99e1177998fb7089b2ab1b57	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
-_md5_=b4867b716f721e1ba57b2c88cf75769e
+_md5_=23118c3f807f301fa91df6ea1b891b32
