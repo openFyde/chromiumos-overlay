@@ -10,5 +10,5 @@ RDEPEND=dev-embedded/libftdi fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= )
 RESTRICT=binchecks
 SLOT=0
 SRC_URI=gs://chromeos-localmirror/distfiles/cr50.prod.ro.A.0.0.10 gs://chromeos-localmirror/distfiles/cr50.prod.ro.B.0.0.10
-_eclasses_=coreboot-sdk	765807e80f06002eb1b13d1cca40380d	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-ec-board	5c04337fcb2320a5a71f072511797c82	cros-unibuild	ed0ab6fb99e1177998fb7089b2ab1b57	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=coreboot-sdk	765807e80f06002eb1b13d1cca40380d	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-ec-board	5c04337fcb2320a5a71f072511797c82	cros-unibuild	ae488132fa8b223e2c3eb1133fccbd2b	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=8d89b48ac804369b0b8e16285092327f
