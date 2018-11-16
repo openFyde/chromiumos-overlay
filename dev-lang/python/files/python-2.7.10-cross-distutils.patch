@@ -15,11 +15,12 @@ respect the target's lib structure by getting the libdir name from Makefile.
          'headers': '$base/include/python$py_version_short/$dist_name',
          'scripts': '$base/bin',
          'data'   : '$base',
-@@ -289,6 +289,7 @@
+@@ -289,6 +289,8 @@
          # everything else.
          self.config_vars['base'] = self.install_base
          self.config_vars['platbase'] = self.install_platbase
-+        self.config_vars['libdirname'] = self.install_libdirname
++        if not self.user and self.home is None:
++            self.config_vars['libdirname'] = self.install_libdirname
  
          if DEBUG:
              from pprint import pprint
