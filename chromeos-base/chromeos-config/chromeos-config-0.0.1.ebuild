@@ -70,6 +70,49 @@ src_install() {
 	fi
 }
 
+# @FUNCTION: _verify_file_match
+# @USAGE: [expected_file] [actual_file]
+# @INTERNAL
+# @DESCRIPTION:
+# Verifies the expected file matches the actual file.
+#   $1: Filename of expected file contents
+#   $2: Filename of actual file contents
+_verify_file_match() {
+	local expected_file="$1"
+	local actual_file="$2"
+
+	einfo "Verifying ${expected_file} matches ${actual_file}"
+	local expected_cksum="$(cksum "${expected_file}" | cut -d ' ' -f 1)"
+	local actual_cksum="$(cksum "${actual_file}" | cut -d ' ' -f 1)"
+	if [[ "${expected_cksum}" -ne "${actual_cksum}" ]]; then
+		eerror "Generated file doesn't match expected file. \n" \
+			"Generated file is available at: ${actual_file}\n" \
+			"If this is an expected change, copy this change to the expected" \
+			"$(basename ${expected_file}) file and commit with your CL.\n"
+		die
+	fi
+	einfo "Successfully verified ${expected_file} matches ${actual_file}"
+}
+
+# @FUNCTION: _verify_file_dump
+# @USAGE: [file-suffix]
+# @INTERNAL
+# @DESCRIPTION:
+# Dumps the file list based on the script and verifies expected match.
+#   $1: Optional file suffix
+_verify_file_dump() {
+	local suffix="$1"
+
+	local expected_files="${SYSROOT}${CROS_CONFIG_TEST_DIR}/file_dump${suffix}.txt"
+	local file_dump_script="${SYSROOT}${CROS_CONFIG_TEST_DIR}/file_dump${suffix}.sh"
+	local actual_files="${WORKDIR}/file_dump${suffix}.txt"
+	if [[ -e "${expected_files}" ]]; then
+		("${file_dump_script}" > "${actual_files}")
+		_verify_file_match "${expected_files}" "${actual_files}"
+	fi
+
+}
+
 src_test() {
 	local expected_config="${SYSROOT}${CROS_CONFIG_TEST_DIR}/config_dump.json"
 	local actual_config="${WORKDIR}/config_dump.json"
@@ -78,17 +121,10 @@ src_test() {
 			cros_config_host -c "${WORKDIR}/config.yaml" dump-config > \
 				"${actual_config}"
 		fi
-		einfo "Verifying ${expected_config} matches ${actual_config}"
-		local expected_cksum="$(cksum "${expected_config}" | cut -d ' ' -f 1)"
-		local actual_cksum="$(cksum "${actual_config}" | cut -d ' ' -f 1)"
-		if [[ "${expected_cksum}" -ne "${actual_cksum}" ]]; then
-			eerror "Generated config doesn't match expected config. \n" \
-				"Generated config is available at: ${actual_config}\n" \
-				"If this is an expected change, copy this change to the expected" \
-				"config_dump.json file and commit with your CL.\n"
-			die
-		fi
-		einfo "Successfully verified ${expected_config} matches ${actual_config}"
+		_verify_file_match "${expected_config}" "${actual_config}"
 	fi
+
+	_verify_file_dump "" # No suffix for public files
+	_verify_file_dump "-private"
 }
 
