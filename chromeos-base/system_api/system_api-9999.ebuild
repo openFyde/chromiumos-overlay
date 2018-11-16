@@ -28,7 +28,7 @@ RDEPEND="chromeos-base/libmojo"
 
 DEPEND="${RDEPEND}
 	dev-go/protobuf
-	dev-libs/protobuf
+	dev-libs/protobuf:=
 	cros_host? ( dev-libs/grpc )
 "
 
