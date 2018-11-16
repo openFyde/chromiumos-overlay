@@ -46,22 +46,53 @@ CROS_CONFIG_TEST_DIR="/tmp/chromeos-config"
 #  the integrity of the config changes.
 CROS_CONFIG_BUILD_CONFIG_DUMP_FILE="config_dump.json"
 
-# @FUNCTION: _unibuild_find_configs
-# @USAGE: [directory] [extension]
+# @FUNCTION: _find_configs
+# @USAGE: <directory> <extension>
 # @INTERNAL
 # @DESCRIPTION:
-# Find .yaml files in a given directory tree.
+# Find .json/.yaml files in a given directory tree.
 # Args:
 #   $1: Directory to search.
-#   $2: Extension to search for (e.g. .yaml)
+#   $2: Extension to search for (.json or .yaml).
 # Returns:
 #   Exports a 'files' variable containing the array of files found.
-_unibuild_find_configs() {
+# TODO(gmeinke): rename this to something more generic.
+_find_configs() {
 	local file
 
 	while read -d $'\0' -r file; do
 		files+=( "${file}" )
 	done < <(find "$1" -name "*$2" -print0)
+}
+
+# @FUNCTION: _insert_config_files
+# @USAGE: <files array> <output directory>
+# @INTERNAL
+# @DESCRIPTION:
+# Do a newins to the output directory for each file in the input array.
+# Args:
+#   $1: Files array to insert.
+#   $2: Output directory to newins into.
+#   $3: prefix to prepend to filename.
+# Returns:
+#   None.
+_insert_config_files() {
+	[[ $# -eq 3 ]] || die "${FUNCNAME}: takes three arguments"
+	local ins_files=($1)
+	local output_dir="$2"
+	local prefix="$3"
+	if [[ "${#ins_files[@]}" -gt 0 ]]; then
+		einfo "Installing ${#ins_files[@]} files to ${output_dir}"
+		# Avoid polluting callers with our newins.
+		(
+			insinto "${output_dir}"
+			for f in "${ins_files[@]}"; do
+				local dest="${prefix}${f##*/}"
+				einfo "Copying ${f} -> ${dest}"
+				newins "${f}" "${dest}"
+			done
+		)
+	fi
 }
 
 # @FUNCTION: _install_model_files
@@ -79,23 +110,8 @@ _install_model_files() {
 	local files
 
 	files=()
-	_unibuild_find_configs "${FILESDIR}" ".yaml"
-
-	if [ -n "$files" ]; then
-		einfo "Installing ${#files[@]} files to ${UNIBOARD_YAML_DIR}"
-
-		# Avoid polluting callers with our newins.
-		(
-			insinto "${UNIBOARD_YAML_DIR}"
-			for file in "${files[@]}"; do
-				local dest="${file%/*}"
-				dest="${prefix}${dest##*/}.yaml"
-
-				einfo "Installing ${dest}"
-				newins "${file}" "${dest}"
-			done
-		)
-	fi
+	_find_configs "${FILESDIR}" ".yaml"
+	_insert_config_files "${files[*]}" "${UNIBOARD_YAML_DIR}" "${prefix}"
 }
 
 # @FUNCTION: install_private_model_files
