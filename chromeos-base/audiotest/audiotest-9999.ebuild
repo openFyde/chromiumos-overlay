@@ -34,5 +34,6 @@ src_install() {
 	dobin src/audiofuntest
 	dobin src/cras_api_test
 	dobin src/loopback_latency
+	dobin script/alsa_conformance_test.py
 	popd >/dev/null
 }
