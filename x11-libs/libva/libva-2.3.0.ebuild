@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -32,7 +32,7 @@ fi
 IUSE="+drm egl opengl vdpau wayland X utils"
 REQUIRED_USE="|| ( drm wayland X )"
 
-VIDEO_CARDS="amdgpu fglrx intel i965 nouveau nvidia"
+VIDEO_CARDS="amdgpu fglrx intel i965 iHD nouveau nvidia"
 for x in ${VIDEO_CARDS}; do
 	IUSE+=" video_cards_${x}"
 done
@@ -61,7 +61,8 @@ PDEPEND="video_cards_nvidia? ( >=x11-libs/libva-vdpau-driver-0.7.4-r1 )
 		|| ( >=x11-drivers/ati-drivers-14.12-r3
 			>=x11-libs/xvba-video-0.8.0-r1 )
 		)
-	video_cards_intel? ( ~x11-libs/libva-intel-driver-2.1.0 )
+	video_cards_iHD? ( ~x11-libs/libva-intel-media-driver-18.3.0 )
+	video_cards_intel? ( !video_cards_iHD? ( ~x11-libs/libva-intel-driver-2.1.0 ) )
 	video_cards_i965? ( ~x11-libs/libva-intel-driver-2.1.0 )
 	utils? ( media-video/libva-utils )"
 
@@ -79,6 +80,10 @@ MULTILIB_WRAPPED_HEADERS=(
 )
 
 src_prepare() {
+	# After this https://github.com/intel/libva/pull/245 is merged
+	# below patch will not be needed
+	use video_cards_iHD && epatch "${FILESDIR}"/0001-Replace-i965-with-iHD-driver.patch
+
 	autotools-utils_src_prepare
 }
 
