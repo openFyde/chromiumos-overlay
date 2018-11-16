@@ -70,7 +70,6 @@ IUSE=""
 DEPEND="
 	chromeos-base/system_api
 	dev-go/cdp
-	dev-go/cmp
 	dev-go/dbus
 	dev-go/gopsutil
 	dev-go/protobuf
