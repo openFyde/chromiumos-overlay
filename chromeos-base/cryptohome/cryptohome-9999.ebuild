@@ -43,8 +43,8 @@ RDEPEND="
 	chromeos-base/secure-erase-file
 	dev-libs/dbus-glib
 	dev-libs/glib
-	dev-libs/openssl
-	dev-libs/protobuf
+	dev-libs/openssl:=
+	dev-libs/protobuf:=
 	sys-apps/keyutils
 	sys-fs/e2fsprogs
 	sys-fs/ecryptfs-utils

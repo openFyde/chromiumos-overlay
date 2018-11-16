@@ -39,8 +39,8 @@ RDEPEND="
 	chromeos-base/metrics
 	!dev-db/leveldb
 	dev-libs/leveldb
-	dev-libs/openssl
-	dev-libs/protobuf
+	dev-libs/openssl:=
+	dev-libs/protobuf:=
 "
 
 DEPEND="${RDEPEND}

@@ -29,7 +29,7 @@ RDEPEND="
 		chromeos-base/libbrillo
 		chromeos-base/metrics
 		>=dev-libs/glib-2.30
-		dev-libs/protobuf
+		dev-libs/protobuf:=
 		virtual/gdmwimax
 	)
 "

@@ -24,7 +24,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	dev-libs/dbus-glib
 	dev-libs/libpcre
-	dev-libs/protobuf
+	dev-libs/protobuf:=
 	sys-apps/rootdev
 	"
 

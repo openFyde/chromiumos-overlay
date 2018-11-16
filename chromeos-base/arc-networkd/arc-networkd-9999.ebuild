@@ -22,7 +22,7 @@ KEYWORDS="~*"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo
-	dev-libs/protobuf
+	dev-libs/protobuf:=
 	net-libs/libndp
 "
 

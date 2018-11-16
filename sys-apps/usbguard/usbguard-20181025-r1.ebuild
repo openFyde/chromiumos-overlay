@@ -22,7 +22,7 @@ IUSE="cfm_enabled_device hammerd"
 COMMON_DEPEND="
 		dev-libs/dbus-glib
 		dev-libs/libgcrypt
-		dev-libs/protobuf
+		dev-libs/protobuf:=
 		sys-apps/dbus
 		sys-cluster/libqb
 		sys-libs/libcap-ng"

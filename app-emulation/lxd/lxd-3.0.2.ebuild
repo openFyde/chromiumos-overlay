@@ -56,7 +56,7 @@ DEPEND="
 	dev-lang/tcl
 	>=dev-lang/go-1.9.4
 	dev-libs/libuv
-	dev-libs/protobuf
+	dev-libs/protobuf:=
 	nls? ( sys-devel/gettext )
 	test? (
 		app-misc/jq
