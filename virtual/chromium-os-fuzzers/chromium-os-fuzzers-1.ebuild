@@ -17,6 +17,7 @@ RDEPEND="
 	chromeos-base/cros-disks[fuzzer]
 	chromeos-base/crosdns[fuzzer]
 	chromeos-base/cryptohome[fuzzer]
+	chromeos-base/cups-fuzz[fuzzer]
 	chromeos-base/dlcservice[fuzzer]
 	chromeos-base/ghostscript-fuzz[fuzzer]
 	chromeos-base/imageloader[fuzzer]

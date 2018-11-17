@@ -10,7 +10,7 @@ PYTHON_COMPAT=( python2_7 )
 
 inherit cros-workon autotools fdo-mime gnome2-utils flag-o-matic linux-info \
 	multilib multilib-minimal pam python-single-r1 user versionator \
-	java-pkg-opt-2 systemd toolchain-funcs
+	java-pkg-opt-2 systemd toolchain-funcs cros-fuzzer cros-sanitizers
 
 MY_P=${P/_rc/rc}
 MY_P=${MY_P/_beta/b}
@@ -29,7 +29,7 @@ IUSE="acl dbus debug java kerberos lprng-compat pam
 # TODO: 'IUSE=kernel_linux' should be handled implicitly (e.g., with
 # IUSE_IMPLICIT), but this doesn't work with 'cros deploy' right now. See
 # http://crbug.com/579661
-IUSE="${IUSE} kernel_linux"
+IUSE="${IUSE} kernel_linux asan fuzzer"
 
 LANGS="ca cs de es fr it ja ru"
 for X in ${LANGS} ; do
@@ -152,6 +152,8 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	sanitizers-setup-env
+
 	export DSOFLAGS="${LDFLAGS}"
 
 	einfo LANGS=\"${LANGS}\"
