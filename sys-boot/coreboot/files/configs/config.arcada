@@ -46,3 +46,9 @@ CONFIG_EC_BIN_PATH="3rdparty/blobs/mainboard/arcada-ec.bin"
 # GbE
 CONFIG_HAVE_GBE_BIN=y
 CONFIG_GBE_BIN_PATH="3rdparty/blobs/mainboard/sarien/gbe.bin"
+
+# Disable
+# CONFIG_UART_DEBUG is not set
+# CONFIG_CONSOLE_SERIAL is not set
+# CONFIG_CONSOLE_SERIAL_115200 is not set
+# CONFIG_DRIVERS_UART_8250IO is not set
