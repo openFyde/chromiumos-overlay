@@ -1,1 +1,0 @@
-pango-1.32.5.ebuild
