@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="1d8fa17db5739128f18d883061d146c230682e7d"
+CROS_WORKON_COMMIT="bc11e699c37073c11d044939a7a15ef093b6e664"
 CROS_WORKON_TREE=("5aa2bdc92600cbba67b37a455ef2bedb6334c1ad" "34955fe62000e4f3b32b8430a9f68a967a6223e8" "0c2081c780413b877b6cb8f0cd1418786a793c73" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -29,6 +29,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/chromeos-ec-headers
 	chromeos-base/system_api
 	"
 
