@@ -18,7 +18,7 @@ BOARDS="${BOARDS} lumpy lumpy64 mario meowth nasher nami nautilus nocturne"
 BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi rammus reef"
 BOARDS="${BOARDS} samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
-IUSE="${BOARDS} altfw seabios"
+IUSE="${BOARDS} altfw diag_payload seabios"
 IUSE="${IUSE} fsp fastboot unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 
 REQUIRED_USE="
@@ -168,9 +168,11 @@ build_image() {
 # based on USE flags. A list is written to an "altfw/list" file so that there
 # is a record of what is available.
 # Args:
-#   $1: coreboot file to add to (will add to this and the .serial version of it)
+#   $1: coreboot build target to use for prefix on target-specific payloads
+#   $2: coreboot file to add to (will add to this and the .serial version of it)
 setup_altfw() {
-	local coreboot_file="$1"
+	local target="$1"
+	local coreboot_file="$2"
 	local cbfs="altfw.cbfs"
 	local bl_list="altfw"
 
@@ -233,6 +235,22 @@ setup_altfw() {
 		done
 		echo "3;altfw/seabios;SeaBIOS;SeaBIOS bootloader" \
 			>> "${bl_list}"
+	fi
+
+	# Add Diagnostic Payload if enabled
+	if use diag_payload; then
+		einfo "- Adding Diagnostic Payload"
+
+		do_cbfstool "${cbfs}" add-payload -n altfw/diag -c lzma -f \
+			"${CROS_FIRMWARE_ROOT}/diag_payload/${target}-diag.bin"
+		echo "5;altfw/diag;Diagnostics;System Diagnostics" \
+			>> "${bl_list}"
+
+		# Use Diag as the default if tianocore is not enabled
+		if ! use tianocore; then
+			echo "0;altfw/diag;Diagnostics;System Diagnostics" \
+				>> "${bl_list}"
+		fi
 	fi
 
 	# Add the list
@@ -356,7 +374,7 @@ build_images() {
 	fi
 
 	if use altfw; then
-		setup_altfw "${coreboot_file}"
+		setup_altfw "${coreboot_build_target}" "${coreboot_file}"
 	fi
 
 	local depthcharge="${depthcharge_prefix}/depthcharge/depthcharge.elf"
