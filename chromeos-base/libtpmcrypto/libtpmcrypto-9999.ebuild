@@ -19,9 +19,13 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libtpm
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="tpm tpm2"
+REQUIRED_USE="^^ ( tpm tpm2 )"
 
 RDEPEND="
+	tpm2? (
+		chromeos-base/trunks
+	)
 	chromeos-base/libbrillo:=
 "
 
