@@ -67,6 +67,9 @@ src_prepare() {
 	# Fix appending -Wl,-rpath-link on non-Linux (-> FreeBSD).
 	eapply "${FILESDIR}"/6.0.9999/0001-cmake-Append-Wl-rpath-link-conditionally-to-GNULD.patch
 
+	# Don't install static libraries when not requested.
+	eapply "${FILESDIR}/arc-llvm-6.0.0-no-static-libraries.patch"
+
 	# disable use of SDK on OSX, bug #568758
 	sed -i -e 's/xcrun/false/' utils/lit/lit/util.py || die
 
@@ -131,6 +134,8 @@ multilib_src_configure() {
 		-DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS// /;}"
 		-DLLVM_BUILD_TESTS=$(usex test)
 		-DLLVM_BUILD_TOOLS=OFF
+		-DLLVM_BUILD_RUNTIMES=OFF
+		-DLLVM_TOOL_LTO_BUILD=OFF
 
 		-DLLVM_ENABLE_FFI=$(usex libffi)
 		-DLLVM_ENABLE_LIBEDIT=$(usex libedit)

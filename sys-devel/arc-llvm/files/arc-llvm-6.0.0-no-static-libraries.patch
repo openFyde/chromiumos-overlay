@@ -1,0 +1,23 @@
+Don't install static libraries if they're not requested.
+
+https://crbug.com/906078
+
+--- a/cmake/modules/AddLLVM.cmake
++++ b/cmake/modules/AddLLVM.cmake
+@@ -639,10 +639,12 @@
+         set_property(GLOBAL PROPERTY LLVM_HAS_EXPORTS True)
+       endif()
+ 
+-      install(TARGETS ${name}
+-              ${export_to_llvmexports}
+-              ${install_type} DESTINATION ${install_dir}
+-              COMPONENT ${name})
++      if(ARG_SHARED OR NOT LLVM_BUILD_LLVM_DYLIB)
++        install(TARGETS ${name}
++                ${export_to_llvmexports}
++                ${install_type} DESTINATION ${install_dir}
++                COMPONENT ${name})
++      endif()
+ 
+       if (NOT CMAKE_CONFIGURATION_TYPES)
+         add_llvm_install_targets(install-${name}
