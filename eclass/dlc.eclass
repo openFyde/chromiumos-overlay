@@ -78,8 +78,8 @@ dlc_src_install() {
 		die "ext4 unsupported, see https://crbug.com/890060"
 	fi
 
-	DLC_META_DIR="${D}/opt/google/dlc/dlc_id-${DLC_ID}"
-	DLC_IMG_DIR="${D}/build/rootfs/dlc/dlc_id-${DLC_ID}"
+	DLC_META_DIR="${D}/opt/google/dlc/${DLC_ID}"
+	DLC_IMG_DIR="${D}/build/rootfs/dlc/${DLC_ID}"
 
 	mkdir -p "${DLC_META_DIR}" "${DLC_IMG_DIR}" || die
 
