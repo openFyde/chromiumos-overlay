@@ -13,6 +13,8 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/crypto/nacl/box"
 	"golang.org/x/crypto/nacl/secretbox"
 	"golang.org/x/crypto/pbkdf2"
+	"golang.org/x/crypto/pkcs12"
+	"golang.org/x/crypto/pkcs12/internal/rc2"
 	"golang.org/x/crypto/poly1305"
 	"golang.org/x/crypto/salsa20/salsa"
 	"golang.org/x/crypto/scrypt"

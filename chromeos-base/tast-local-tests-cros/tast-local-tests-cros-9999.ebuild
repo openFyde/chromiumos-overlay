@@ -40,6 +40,7 @@ TAST_BUNDLE_EXTERNAL_DATA_URLS=(
 	"gs://chromiumos-test-assets-public/tast/cros/printer/printer_add_generic_printer_GenericPostScript_20181031.ppd.gz"
 	"gs://chromiumos-test-assets-public/tast/cros/printer/printer_add_generic_printer_golden_20181031.ps"
 	"gs://chromiumos-test-assets-public/tast/cros/printer/to_print_20181031.pdf"
+	"gs://chromiumos-test-assets-public/tast/cros/session/testcert_20181121.p12"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bali_640x360_P420_20181113.yuv"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_320x192_40frames_20181020.nv12.yuv"
 	"gs://chromiumos-test-assets-public/tast/cros/video/bear_320x192_40frames_20181020.yuv"
