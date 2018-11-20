@@ -17,6 +17,7 @@ RDEPEND="
 	chromeos-base/cryptohome[fuzzer]
 	chromeos-base/ghostscript-fuzz[fuzzer]
 	chromeos-base/imageloader[fuzzer]
+	chromeos-base/ippusb_manager[fuzzer]
 	chromeos-base/quipper[fuzzer]
 	chromeos-base/midis[fuzzer]
 	chromeos-base/permission_broker[fuzzer]

@@ -52,4 +52,8 @@ src_install() {
 	# Upstart script.
 	insinto /etc/init
 	doins etc/init/*.conf
+
+	# Install fuzzer
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/ippusb_manager_usb_fuzzer
 }
