@@ -194,7 +194,7 @@ ALL_BOARDS=(
 	lars
 	laser
 	lasilla-ground
-	lasilla-sky
+	#lasilla-sky
 	lassen
 	#lemmings
 	#lemmings_external
@@ -204,7 +204,7 @@ ALL_BOARDS=(
 	lulu
 	lulu-cheets
 	lumpy
-	macchiato-ground
+	#macchiato-ground
 	mappy
 	#mappy-envoy
 	mappy_flashstation
