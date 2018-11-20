@@ -36,6 +36,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-radeon-uvd-use-coded-number-for-symbols-of-Huffman-t.patch
 	epatch "${FILESDIR}"/18.2-winsys-one-amdgpu_winsys_bo-per-BO.patch
 	epatch "${FILESDIR}"/18.2-st-va-use-provided-sizes-and-coords-for-vlVaGetImage.patch
+	epatch "${FILESDIR}"/18.2-winsys-amdgpu-fix-a-buffer-leak-in-amdgpu_bo_from_handle.patch
+	epatch "${FILESDIR}"/18.2-winsys-amdgpu-fix-a-device-handle-leak-in-amdgpu_winsys_create.patch
 
 	eautoreconf
 }
