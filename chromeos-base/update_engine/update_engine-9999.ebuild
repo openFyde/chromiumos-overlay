@@ -141,4 +141,7 @@ src_install() {
 	# Install DBus configuration
 	insinto /etc/dbus-1/system.d
 	doins UpdateEngine.conf
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/update_engine_omaha_request_action_fuzzer \
+		--dict "${S}"/fuzz/xml.dict
 }
