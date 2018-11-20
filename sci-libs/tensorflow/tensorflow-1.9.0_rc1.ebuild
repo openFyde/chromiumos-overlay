@@ -363,6 +363,7 @@ get-tf-cpu-str() {
 	case "${arch}" in
 	amd64) echo "k8";;
 	arm) echo "arm";;
+	arm64) echo "arm";;
 	*) die "Unsupported architecture '${arch}'."
 	esac
 }
