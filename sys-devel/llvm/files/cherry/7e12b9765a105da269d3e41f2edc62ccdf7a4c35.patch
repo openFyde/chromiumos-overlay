@@ -1,0 +1,38 @@
+commit 7e12b9765a105da269d3e41f2edc62ccdf7a4c35
+Author: Peter Collingbourne <peter@pcc.me.uk>
+Date:   Fri Nov 9 17:54:49 2018 +0000
+
+    Driver: Make -fsanitize=shadow-call-stack compatible with -fsanitize-minimal-runtime.
+    
+    Differential Revision: https://reviews.llvm.org/D54330
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/cfe/trunk@346526 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Driver/SanitizerArgs.cpp b/lib/Driver/SanitizerArgs.cpp
+index 0300054464..135adb519b 100644
+--- a/lib/Driver/SanitizerArgs.cpp
++++ b/lib/Driver/SanitizerArgs.cpp
+@@ -47,7 +47,7 @@ enum : SanitizerMask {
+   TrappingDefault = CFI,
+   CFIClasses =
+       CFIVCall | CFINVCall | CFIMFCall | CFIDerivedCast | CFIUnrelatedCast,
+-  CompatibleWithMinimalRuntime = TrappingSupported | Scudo,
++  CompatibleWithMinimalRuntime = TrappingSupported | Scudo | ShadowCallStack,
+ };
+ 
+ enum CoverageFeature {
+diff --git a/test/Driver/fsanitize.c b/test/Driver/fsanitize.c
+index dd282d2b08..aeb0130e8c 100644
+--- a/test/Driver/fsanitize.c
++++ b/test/Driver/fsanitize.c
+@@ -767,6 +767,10 @@
+ // CHECK-CFI-NOICALL-MINIMAL: "-fsanitize-trap=cfi-derived-cast,cfi-mfcall,cfi-unrelated-cast,cfi-nvcall,cfi-vcall"
+ // CHECK-CFI-NOICALL-MINIMAL: "-fsanitize-minimal-runtime"
+ 
++// RUN: %clang -target x86_64-linux-gnu -fsanitize=shadow-call-stack -fsanitize-minimal-runtime %s -### 2>&1 | FileCheck %s --check-prefix=CHECK-SCS-MINIMAL
++// CHECK-SCS-MINIMAL: "-fsanitize=shadow-call-stack"
++// CHECK-SCS-MINIMAL: "-fsanitize-minimal-runtime"
++
+ // RUN: %clang -target aarch64-linux-gnu -fsanitize=scudo %s -### 2>&1 | FileCheck %s --check-prefix=CHECK-SCUDO
+ // RUN: %clang -target arm-linux-androideabi -fsanitize=scudo %s -### 2>&1 | FileCheck %s --check-prefix=CHECK-SCUDO
+ // RUN: %clang -target x86_64-linux-gnu -fsanitize=scudo %s -### 2>&1 | FileCheck %s --check-prefix=CHECK-SCUDO

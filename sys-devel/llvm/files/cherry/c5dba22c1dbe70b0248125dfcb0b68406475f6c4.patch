@@ -1,0 +1,111 @@
+commit c5dba22c1dbe70b0248125dfcb0b68406475f6c4
+Author: Nirav Dave <niravd@google.com>
+Date:   Mon Nov 12 14:05:40 2018 +0000
+
+    [DAGCombiner] Fix load-store forwarding of indexed loads.
+    
+    Summary:
+    Handle extra output from index loads in cases where we wish to
+    forward a load value directly from a preceeding store.
+    
+    Fixes PR39571.
+    
+    Reviewers: peter.smith, rengolin
+    
+    Subscribers: javed.absar, hiraditya, arphaman, llvm-commits
+    
+    Differential Revision: https://reviews.llvm.org/D54265
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@346654 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/CodeGen/SelectionDAG/DAGCombiner.cpp b/lib/CodeGen/SelectionDAG/DAGCombiner.cpp
+index b6d88ee6a9d..2b6d5286180 100644
+--- a/lib/CodeGen/SelectionDAG/DAGCombiner.cpp
++++ b/lib/CodeGen/SelectionDAG/DAGCombiner.cpp
+@@ -12866,6 +12866,20 @@ SDValue DAGCombiner::ForwardStoreValueToDirectLoad(LoadSDNode *LD) {
+   bool STCoversLD =
+       (Offset >= 0) &&
+       (Offset * 8 + LDMemType.getSizeInBits() <= STMemType.getSizeInBits());
++
++  auto ReplaceLd = [&](LoadSDNode *LD, SDValue Val, SDValue Chain) -> SDValue {
++    if (LD->isIndexed()) {
++      bool IsSub = (LD->getAddressingMode() == ISD::PRE_DEC ||
++                    LD->getAddressingMode() == ISD::POST_DEC);
++      unsigned Opc = IsSub ? ISD::SUB : ISD::ADD;
++      SDValue Idx = DAG.getNode(Opc, SDLoc(LD), LD->getOperand(1).getValueType(),
++                             LD->getOperand(1), LD->getOperand(2));
++      SDValue Ops[] = {Val, Idx, Chain};
++      return CombineTo(LD, Ops, 3);
++    }
++    return CombineTo(LD, Val, Chain);
++  };
++
+   if (!STCoversLD)
+     return SDValue();
+ 
+@@ -12873,7 +12887,7 @@ SDValue DAGCombiner::ForwardStoreValueToDirectLoad(LoadSDNode *LD) {
+   if (Offset == 0 && LDType == STType && STMemType == LDMemType) {
+     // Simple case: Direct non-truncating forwarding
+     if (LDType.getSizeInBits() == LDMemType.getSizeInBits())
+-      return CombineTo(LD, ST->getValue(), Chain);
++      return ReplaceLd(LD, ST->getValue(), Chain);
+     // Can we model the truncate and extension with an and mask?
+     if (STType.isInteger() && LDMemType.isInteger() && !STType.isVector() &&
+         !LDMemType.isVector() && LD->getExtensionType() != ISD::SEXTLOAD) {
+@@ -12883,7 +12897,7 @@ SDValue DAGCombiner::ForwardStoreValueToDirectLoad(LoadSDNode *LD) {
+                                                STMemType.getSizeInBits()),
+                           SDLoc(ST), STType);
+       auto Val = DAG.getNode(ISD::AND, SDLoc(LD), LDType, ST->getValue(), Mask);
+-      return CombineTo(LD, Val, Chain);
++      return ReplaceLd(LD, Val, Chain);
+     }
+   }
+ 
+@@ -12908,7 +12922,7 @@ SDValue DAGCombiner::ForwardStoreValueToDirectLoad(LoadSDNode *LD) {
+     }
+     if (!extendLoadedValueToExtension(LD, Val))
+       continue;
+-    return CombineTo(LD, Val, Chain);
++    return ReplaceLd(LD, Val, Chain);
+   } while (false);
+ 
+   // On failure, cleanup dead nodes we may have created.
+diff --git a/test/CodeGen/ARM/pr39571.ll b/test/CodeGen/ARM/pr39571.ll
+new file mode 100644
+index 00000000000..fbc910a557a
+--- /dev/null
++++ b/test/CodeGen/ARM/pr39571.ll
+@@ -0,0 +1,33 @@
++; RUN: llc < %s -mtriple armv4t-unknown-linux-gnueabi -mattr=+strict-align
++
++; Avoid crash from forwarding indexed-loads back to store.
++%struct.anon = type { %struct.ma*, %struct.mb }
++%struct.ma = type { i8 }
++%struct.mb = type { i8, i8 }
++%struct.anon.0 = type { %struct.anon.1 }
++%struct.anon.1 = type { %struct.ds }
++%struct.ds = type <{ i8, %union.ie }>
++%union.ie = type { %struct.ib }
++%struct.ib = type { i8, i8, i16 }
++
++@a = common dso_local local_unnamed_addr global %struct.anon* null, align 4
++@b = common dso_local local_unnamed_addr global %struct.anon.0 zeroinitializer, align 1
++
++; Function Attrs: norecurse nounwind
++define dso_local void @func() local_unnamed_addr {
++entry:
++  %0 = load %struct.anon*, %struct.anon** @a, align 4
++  %ad = getelementptr inbounds %struct.anon, %struct.anon* %0, i32 0, i32 0
++  %1 = load %struct.ma*, %struct.ma** %ad, align 4
++  %c.sroa.0.0..sroa_idx = getelementptr inbounds %struct.ma, %struct.ma* %1, i32 0, i32 0
++  %c.sroa.0.0.copyload = load i8, i8* %c.sroa.0.0..sroa_idx, align 1
++  %cb = getelementptr inbounds %struct.anon, %struct.anon* %0, i32 0, i32 1
++  %band = getelementptr inbounds %struct.anon, %struct.anon* %0, i32 0, i32 1, i32 1
++  store i8 %c.sroa.0.0.copyload, i8* %band, align 4
++  store i8 6, i8* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @b, i32 0, i32 0, i32 0, i32 1, i32 0, i32 0), align 1
++  store i8 2, i8* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @b, i32 0, i32 0, i32 0, i32 1, i32 0, i32 1), align 1
++  %2 = bitcast %struct.mb* %cb to i32*
++  %3 = load i32, i32* bitcast (i8* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @b, i32 0, i32 0, i32 0, i32 1, i32 0, i32 0) to i32*), align 1
++  store i32 %3, i32* %2, align 1
++  ret void
++}

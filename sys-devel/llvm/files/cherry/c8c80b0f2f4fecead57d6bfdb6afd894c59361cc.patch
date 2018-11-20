@@ -1,0 +1,227 @@
+commit c8c80b0f2f4fecead57d6bfdb6afd894c59361cc
+Author: Nirav Dave <niravd@google.com>
+Date:   Wed Nov 14 21:11:53 2018 +0000
+
+    Bias physical register immediate assignments
+    
+    The machine scheduler currently biases register copies to/from
+    physical registers to be closer to their point of use / def to
+    minimize their live ranges. This change extends this to also physical
+    register assignments from immediate values.
+    
+    This causes a reduction in reduction in overall register pressure and
+    minor reduction in spills and indirectly fixes an out-of-registers
+    assertion (PR39391).
+    
+    Most test changes are from minor instruction reorderings and register
+    name selection changes and direct consequences of that.
+    
+    Reviewers: MatzeB, qcolombet, myatsina, pcc
+    
+    Subscribers: nemanjai, jvesely, nhaehnle, eraman, hiraditya,
+      javed.absar, arphaman, jfb, jsji, llvm-commits
+    
+    Differential Revision: https://reviews.llvm.org/D54218
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@346894 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/include/llvm/CodeGen/MachineScheduler.h b/include/llvm/CodeGen/MachineScheduler.h
+index 50d50ebe9d7..4bc31ae7c61 100644
+--- a/include/llvm/CodeGen/MachineScheduler.h
++++ b/include/llvm/CodeGen/MachineScheduler.h
+@@ -794,7 +794,7 @@ public:
+   /// Represent the type of SchedCandidate found within a single queue.
+   /// pickNodeBidirectional depends on these listed by decreasing priority.
+   enum CandReason : uint8_t {
+-    NoCand, Only1, PhysRegCopy, RegExcess, RegCritical, Stall, Cluster, Weak,
++    NoCand, Only1, PhysReg, RegExcess, RegCritical, Stall, Cluster, Weak,
+     RegMax, ResourceReduce, ResourceDemand, BotHeightReduce, BotPathReduce,
+     TopDepthReduce, TopPathReduce, NextDefUse, NodeOrder};
+ 
+@@ -928,7 +928,7 @@ bool tryPressure(const PressureChange &TryP,
+                  const TargetRegisterInfo *TRI,
+                  const MachineFunction &MF);
+ unsigned getWeakLeft(const SUnit *SU, bool isTop);
+-int biasPhysRegCopy(const SUnit *SU, bool isTop);
++int biasPhysReg(const SUnit *SU, bool isTop);
+ 
+ /// GenericScheduler shrinks the unscheduled zone using heuristics to balance
+ /// the schedule.
+@@ -1006,7 +1006,7 @@ protected:
+                          const RegPressureTracker &RPTracker,
+                          SchedCandidate &Candidate);
+ 
+-  void reschedulePhysRegCopies(SUnit *SU, bool isTop);
++  void reschedulePhysReg(SUnit *SU, bool isTop);
+ };
+ 
+ /// PostGenericScheduler - Interface to the scheduling algorithm used by
+diff --git a/lib/CodeGen/MachineScheduler.cpp b/lib/CodeGen/MachineScheduler.cpp
+index d4b9f851599..3b163fa6340 100644
+--- a/lib/CodeGen/MachineScheduler.cpp
++++ b/lib/CodeGen/MachineScheduler.cpp
+@@ -2516,7 +2516,7 @@ const char *GenericSchedulerBase::getReasonStr(
+   switch (Reason) {
+   case NoCand:         return "NOCAND    ";
+   case Only1:          return "ONLY1     ";
+-  case PhysRegCopy:    return "PREG-COPY ";
++  case PhysReg:        return "PHYS-REG  ";
+   case RegExcess:      return "REG-EXCESS";
+   case RegCritical:    return "REG-CRIT  ";
+   case Stall:          return "STALL     ";
+@@ -2852,24 +2852,41 @@ unsigned getWeakLeft(const SUnit *SU, bool isTop) {
+ /// copies which can be prescheduled. The rest (e.g. x86 MUL) could be bundled
+ /// with the operation that produces or consumes the physreg. We'll do this when
+ /// regalloc has support for parallel copies.
+-int biasPhysRegCopy(const SUnit *SU, bool isTop) {
++int biasPhysReg(const SUnit *SU, bool isTop) {
+   const MachineInstr *MI = SU->getInstr();
+-  if (!MI->isCopy())
+-    return 0;
+ 
+-  unsigned ScheduledOper = isTop ? 1 : 0;
+-  unsigned UnscheduledOper = isTop ? 0 : 1;
+-  // If we have already scheduled the physreg produce/consumer, immediately
+-  // schedule the copy.
+-  if (TargetRegisterInfo::isPhysicalRegister(
+-        MI->getOperand(ScheduledOper).getReg()))
+-    return 1;
+-  // If the physreg is at the boundary, defer it. Otherwise schedule it
+-  // immediately to free the dependent. We can hoist the copy later.
+-  bool AtBoundary = isTop ? !SU->NumSuccsLeft : !SU->NumPredsLeft;
+-  if (TargetRegisterInfo::isPhysicalRegister(
+-        MI->getOperand(UnscheduledOper).getReg()))
+-    return AtBoundary ? -1 : 1;
++  if (MI->isCopy()) {
++    unsigned ScheduledOper = isTop ? 1 : 0;
++    unsigned UnscheduledOper = isTop ? 0 : 1;
++    // If we have already scheduled the physreg produce/consumer, immediately
++    // schedule the copy.
++    if (TargetRegisterInfo::isPhysicalRegister(
++            MI->getOperand(ScheduledOper).getReg()))
++      return 1;
++    // If the physreg is at the boundary, defer it. Otherwise schedule it
++    // immediately to free the dependent. We can hoist the copy later.
++    bool AtBoundary = isTop ? !SU->NumSuccsLeft : !SU->NumPredsLeft;
++    if (TargetRegisterInfo::isPhysicalRegister(
++            MI->getOperand(UnscheduledOper).getReg()))
++      return AtBoundary ? -1 : 1;
++  }
++
++  if (MI->isMoveImmediate()) {
++    // If we have a move immediate and all successors have been assigned, bias
++    // towards scheduling this later. Make sure all register defs are to
++    // physical registers.
++    bool DoBias = true;
++    for (const MachineOperand &Op : MI->defs()) {
++      if (Op.isReg() && !TargetRegisterInfo::isPhysicalRegister(Op.getReg())) {
++        DoBias = false;
++        break;
++      }
++    }
++
++    if (DoBias)
++      return isTop ? -1 : 1;
++  }
++
+   return 0;
+ }
+ } // end namespace llvm
+@@ -2930,9 +2947,9 @@ void GenericScheduler::tryCandidate(SchedCandidate &Cand,
+     return;
+   }
+ 
+-  if (tryGreater(biasPhysRegCopy(TryCand.SU, TryCand.AtTop),
+-                 biasPhysRegCopy(Cand.SU, Cand.AtTop),
+-                 TryCand, Cand, PhysRegCopy))
++  // Bias PhysReg Defs and copies to their uses and defined respectively.
++  if (tryGreater(biasPhysReg(TryCand.SU, TryCand.AtTop),
++                 biasPhysReg(Cand.SU, Cand.AtTop), TryCand, Cand, PhysReg))
+     return;
+ 
+   // Avoid exceeding the target's limit.
+@@ -3179,7 +3196,7 @@ SUnit *GenericScheduler::pickNode(bool &IsTopNode) {
+   return SU;
+ }
+ 
+-void GenericScheduler::reschedulePhysRegCopies(SUnit *SU, bool isTop) {
++void GenericScheduler::reschedulePhysReg(SUnit *SU, bool isTop) {
+   MachineBasicBlock::iterator InsertPos = SU->getInstr();
+   if (!isTop)
+     ++InsertPos;
+@@ -3194,7 +3211,7 @@ void GenericScheduler::reschedulePhysRegCopies(SUnit *SU, bool isTop) {
+     if (isTop ? DepSU->Succs.size() > 1 : DepSU->Preds.size() > 1)
+       continue;
+     MachineInstr *Copy = DepSU->getInstr();
+-    if (!Copy->isCopy())
++    if (!Copy->isCopy() && !Copy->isMoveImmediate())
+       continue;
+     LLVM_DEBUG(dbgs() << "  Rescheduling physreg copy ";
+                DAG->dumpNode(*Dep.getSUnit()));
+@@ -3208,18 +3225,18 @@ void GenericScheduler::reschedulePhysRegCopies(SUnit *SU, bool isTop) {
+ /// does.
+ ///
+ /// FIXME: Eventually, we may bundle physreg copies rather than rescheduling
+-/// them here. See comments in biasPhysRegCopy.
++/// them here. See comments in biasPhysReg.
+ void GenericScheduler::schedNode(SUnit *SU, bool IsTopNode) {
+   if (IsTopNode) {
+     SU->TopReadyCycle = std::max(SU->TopReadyCycle, Top.getCurrCycle());
+     Top.bumpNode(SU);
+     if (SU->hasPhysRegUses)
+-      reschedulePhysRegCopies(SU, true);
++      reschedulePhysReg(SU, true);
+   } else {
+     SU->BotReadyCycle = std::max(SU->BotReadyCycle, Bot.getCurrCycle());
+     Bot.bumpNode(SU);
+     if (SU->hasPhysRegDefs)
+-      reschedulePhysRegCopies(SU, false);
++      reschedulePhysReg(SU, false);
+   }
+ }
+ 
+diff --git a/lib/Target/X86/X86InstrCompiler.td b/lib/Target/X86/X86InstrCompiler.td
+index bc08147506c..df4e37927ab 100644
+--- a/lib/Target/X86/X86InstrCompiler.td
++++ b/lib/Target/X86/X86InstrCompiler.td
+@@ -143,7 +143,7 @@ def WIN_ALLOCA_64 : I<0, Pseudo, (outs), (ins GR64:$size),
+ // These instructions XOR the frame pointer into a GPR. They are used in some
+ // stack protection schemes. These are post-RA pseudos because we only know the
+ // frame register after register allocation.
+-let Constraints = "$src = $dst", isPseudo = 1, Defs = [EFLAGS] in {
++let Constraints = "$src = $dst", isMoveImm = 1, isPseudo = 1, Defs = [EFLAGS] in {
+   def XOR32_FP : I<0, Pseudo, (outs GR32:$dst), (ins GR32:$src),
+                   "xorl\t$$FP, $src", []>,
+                   Requires<[NotLP64]>, Sched<[WriteALU]>;
+@@ -270,7 +270,7 @@ def MORESTACK_RET_RESTORE_R10 : I<0, Pseudo, (outs), (ins), "", []>;
+ // Alias instruction mapping movr0 to xor.
+ // FIXME: remove when we can teach regalloc that xor reg, reg is ok.
+ let Defs = [EFLAGS], isReMaterializable = 1, isAsCheapAsAMove = 1,
+-    isPseudo = 1, AddedComplexity = 10 in
++    isPseudo = 1, isMoveImm = 1, AddedComplexity = 10 in
+ def MOV32r0  : I<0, Pseudo, (outs GR32:$dst), (ins), "",
+                  [(set GR32:$dst, 0)]>, Sched<[WriteZero]>;
+ 
+diff --git a/lib/Target/X86/X86InstrInfo.td b/lib/Target/X86/X86InstrInfo.td
+index 992e9543b33..5f528c91de5 100644
+--- a/lib/Target/X86/X86InstrInfo.td
++++ b/lib/Target/X86/X86InstrInfo.td
+@@ -1493,7 +1493,7 @@ def MOV64rr : RI<0x89, MRMDestReg, (outs GR64:$dst), (ins GR64:$src),
+                  "mov{q}\t{$src, $dst|$dst, $src}", []>;
+ }
+ 
+-let isReMaterializable = 1, isAsCheapAsAMove = 1 in {
++let isReMaterializable = 1, isAsCheapAsAMove = 1, isMoveImm = 1 in {
+ def MOV8ri  : Ii8 <0xB0, AddRegFrm, (outs GR8 :$dst), (ins i8imm :$src),
+                    "mov{b}\t{$src, $dst|$dst, $src}",
+                    [(set GR8:$dst, imm:$src)]>;
+@@ -1507,7 +1507,7 @@ def MOV64ri32 : RIi32S<0xC7, MRM0r, (outs GR64:$dst), (ins i64i32imm:$src),
+                        "mov{q}\t{$src, $dst|$dst, $src}",
+                        [(set GR64:$dst, i64immSExt32:$src)]>;
+ }
+-let isReMaterializable = 1 in {
++let isReMaterializable = 1, isMoveImm = 1 in {
+ def MOV64ri : RIi64<0xB8, AddRegFrm, (outs GR64:$dst), (ins i64imm:$src),
+                     "movabs{q}\t{$src, $dst|$dst, $src}",
+                     [(set GR64:$dst, relocImm:$src)]>;
+

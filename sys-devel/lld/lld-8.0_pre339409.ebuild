@@ -37,8 +37,6 @@ pick_cherries() {
 
 pick_next_cherries() {
 	CHERRIES=""
-	CHERRIES+=" fc72aa17367e33a63c9619ed351a06b3486f80f5" # r340802
-	CHERRIES+=" 78c2274fad7c6bf14e7067ce941f95009e3eda4f" # r341870
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -56,7 +54,7 @@ pkg_setup() {
 
 src_unpack() {
 	if use llvm-next && has_version --host-root 'sys-devel/llvm[llvm-next]'; then
-		export EGIT_COMMIT="e260fac81cb305498a823b059ba8279b520296cc" #r339371
+		export EGIT_COMMIT="4925db16408f6438a5dc275482b256ccf10e50e1" #r346431
 	fi
 
 	git-r3_fetch
@@ -69,10 +67,13 @@ src_prepare() {
 	else
 		pick_cherries
 	fi
-	epatch "${FILESDIR}"/lld-8.0-revert-r330869.patch
+	# Not needed with r346485.
+	use llvm-next || epatch "${FILESDIR}"/lld-8.0-revert-r330869.patch
+	# These 2 patches are still reverted in Android.
 	epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
 	epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
 	epatch "${FILESDIR}"/lld-8.0-reorder-hotsection.patch
+	# Allow .elf suffix in lld binary name.
 	epatch "${FILESDIR}/$PN-invoke-name.patch"
 }
 src_configure() {

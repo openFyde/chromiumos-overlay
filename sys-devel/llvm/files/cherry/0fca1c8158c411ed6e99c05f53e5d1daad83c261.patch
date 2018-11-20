@@ -1,0 +1,47 @@
+commit 0fca1c8158c411ed6e99c05f53e5d1daad83c261
+Author: Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed Dec 5 17:46:24 2018 +0000
+
+    [gold-plugin] allow function/data sections to be toggleable
+    
+    Summary:
+    r336838 allowed these to be toggleable.
+    r336858 reverted r336838.
+    r336943 made the generation of these sections conditional on LDPO_REL.
+    
+    This commit brings back the toggle-ability.  You can specify:
+    -plugin-opt=-function-sections
+    -plugin-opt=-data-sections
+    For your linker flags to disable the changes made in r336943.
+    
+    Without toggling r336943 off, arm64 linux kernels linked with gold-plugin
+    see significant boot time regressions, but with r336943 outright reverted
+    x86_64 linux kernels linked with gold-plugin fail to boot.
+    
+    Reviewers: pcc, void
+    
+    Reviewed By: pcc
+    
+    Subscribers: javed.absar, kristof.beyls, llvm-commits, srhines
+    
+    Differential Revision: https://reviews.llvm.org/D55291
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@348389 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/tools/gold/gold-plugin.cpp b/tools/gold/gold-plugin.cpp
+index 71e5b72a40c..8ffa5877ba6 100644
+--- a/tools/gold/gold-plugin.cpp
++++ b/tools/gold/gold-plugin.cpp
+@@ -833,8 +833,10 @@ static std::unique_ptr<LTO> createLTO(IndexWriteCallback OnIndexWrite,
+   Conf.Options.RelaxELFRelocations = false;
+ 
+   // Toggle function/data sections.
+-  Conf.Options.FunctionSections = SplitSections;
+-  Conf.Options.DataSections = SplitSections;
++  if (FunctionSections.getNumOccurrences() == 0)
++    Conf.Options.FunctionSections = SplitSections;
++  if (DataSections.getNumOccurrences() == 0)
++    Conf.Options.DataSections = SplitSections;
+ 
+   Conf.MAttrs = MAttrs;
+   Conf.RelocModel = RelocationModel;

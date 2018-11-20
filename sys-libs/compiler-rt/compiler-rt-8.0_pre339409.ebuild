@@ -28,8 +28,8 @@ fi
 
 src_unpack() {
 	if use llvm-next; then
-		# llvm:r339409 https://critique.corp.google.com/#review/209234450
-		export EGIT_COMMIT="4f7c361dfbe533e883737844251598152333f087" #r339408
+		# llvm:r345485 https://critique.corp.google.com/#review/221867085
+		export EGIT_COMMIT="3aa2b775d08f903f804246af10b80a439c16b436" # r346476
 	fi
 	git-2_src_unpack
 }
@@ -38,7 +38,7 @@ src_prepare() {
 	# Cherry-picks
 	local CHERRIES=""
 	if use llvm-next; then
-		CHERRIES+=" 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1" #r340758
+		CHERRIES=""
 	else
 		CHERRIES+=" 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1" #r340758
 	fi
@@ -115,12 +115,12 @@ src_install() {
 	rm -f "${ED}"${libdir}/clang/*/dfsan_abilist.txt || die
 	rm -f "${ED}"${libdir}/clang/*/*/dfsan_abilist.txt || die
 
-	# This section can be removed once prebuilds for 326829 have been created.
+	# Copy compiler-rt files to a new clang version to handle llvm updates gracefully.
 	local llvm_version=$(llvm-config --version)
 	local clang_version=${llvm_version%svn*}
 	clang_version=${clang_version%git*}
 	if [[ ${clang_version} == "8.0.0" ]] ; then
-		new_version="7.0.0"
+		new_version="9.0.0"
 	else
 		new_version="8.0.0"
 	fi

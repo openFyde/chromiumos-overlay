@@ -1,0 +1,56 @@
+commit 5f524f5f6513ccfb489f3a9d3874d767ad05d30b
+Author: Sam Parker <sam.parker@arm.com>
+Date:   Fri Nov 16 08:35:19 2018 +0000
+
+    [DAGCombine] Fix non-deterministic debug output
+    
+    PR37970 reported non-deterministic debug output, this was caused by
+    iterating through a set and not a a vector.
+    
+    bugzilla: https://bugs.llvm.org/show_bug.cgi?id=37970
+    
+    Differential Revision: https://reviews.llvm.org/D54570
+    
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@347037 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/CodeGen/SelectionDAG/DAGCombiner.cpp b/lib/CodeGen/SelectionDAG/DAGCombiner.cpp
+index 0603d8f4c48..b35c84f8da0 100644
+--- a/lib/CodeGen/SelectionDAG/DAGCombiner.cpp
++++ b/lib/CodeGen/SelectionDAG/DAGCombiner.cpp
+@@ -528,7 +528,7 @@ namespace {
+                            EVT &MemVT, unsigned ShAmt = 0);
+ 
+     /// Used by BackwardsPropagateMask to find suitable loads.
+-    bool SearchForAndLoads(SDNode *N, SmallPtrSetImpl<LoadSDNode*> &Loads,
++    bool SearchForAndLoads(SDNode *N, SmallVectorImpl<LoadSDNode*> &Loads,
+                            SmallPtrSetImpl<SDNode*> &NodesWithConsts,
+                            ConstantSDNode *Mask, SDNode *&NodeToMask);
+     /// Attempt to propagate a given AND node back to load leaves so that they
+@@ -4213,7 +4213,7 @@ bool DAGCombiner::isLegalNarrowLdSt(LSBaseSDNode *LDST,
+ }
+ 
+ bool DAGCombiner::SearchForAndLoads(SDNode *N,
+-                                    SmallPtrSetImpl<LoadSDNode*> &Loads,
++                                    SmallVectorImpl<LoadSDNode*> &Loads,
+                                     SmallPtrSetImpl<SDNode*> &NodesWithConsts,
+                                     ConstantSDNode *Mask,
+                                     SDNode *&NodeToMask) {
+@@ -4250,7 +4250,7 @@ bool DAGCombiner::SearchForAndLoads(SDNode *N,
+ 
+         // Use LE to convert equal sized loads to zext.
+         if (ExtVT.bitsLE(Load->getMemoryVT()))
+-          Loads.insert(Load);
++          Loads.push_back(Load);
+ 
+         continue;
+       }
+@@ -4315,7 +4315,7 @@ bool DAGCombiner::BackwardsPropagateMask(SDNode *N, SelectionDAG &DAG) {
+   if (isa<LoadSDNode>(N->getOperand(0)))
+     return false;
+ 
+-  SmallPtrSet<LoadSDNode*, 8> Loads;
++  SmallVector<LoadSDNode*, 8> Loads;
+   SmallPtrSet<SDNode*, 2> NodesWithConsts;
+   SDNode *FixupNode = nullptr;
+   if (SearchForAndLoads(N, Loads, NodesWithConsts, Mask, FixupNode)) {

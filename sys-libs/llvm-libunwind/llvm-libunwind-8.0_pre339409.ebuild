@@ -25,7 +25,7 @@ pkg_setup() {
 
 src_unpack() {
 	if use llvm-next; then
-		export EGIT_COMMIT="1e73ceedf467eebae88c3f560c680cee3c527f24" #r339259
+		export EGIT_COMMIT="94edd59b16d2084a62699290f9cfdf120d74eedf" #r343990
 	fi
 	git-2_src_unpack
 }
