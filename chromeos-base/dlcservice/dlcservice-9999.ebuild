@@ -24,7 +24,9 @@ IUSE=""
 RDEPEND="chromeos-base/libbrillo"
 
 DEPEND="${RDEPEND}
+	chromeos-base/dlcservice-client
 	chromeos-base/imageloader-client
+	chromeos-base/libbrillo
 	chromeos-base/system_api
 	chromeos-base/update_engine-client"
 
@@ -46,6 +48,9 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer \
 		--dict "${S}"/fuzz/path.dict
+
+	into /usr/local
+	dobin "${OUT}/dlcservice_util"
 }
 
 platform_pkg_test() {

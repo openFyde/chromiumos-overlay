@@ -28,10 +28,6 @@ DEPEND="
 	chromeos-base/libbrillo:=
 "
 
-RDEPEND="
-	chromeos-base/dlcservice
-"
-
 src_install() {
 	# Install DBus client library.
 	platform_install_dbus_client_lib "dlcservice"
