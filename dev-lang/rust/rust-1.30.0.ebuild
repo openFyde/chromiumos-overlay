@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -52,6 +52,7 @@ PATCHES=(
 	"${FILESDIR}"/0002-fix-unknown-vendors.patch
 	"${FILESDIR}"/0003-fix-rpath.patch
 	"${FILESDIR}"/0004-add-unknown-vendor-to-filesearch.patch
+	"${FILESDIR}"/0005-enable-sanitizers.patch
 )
 
 S="${WORKDIR}/${MY_P}-src"
@@ -151,6 +152,7 @@ python = "${EPYTHON}"
 vendor = true
 extended = true
 tools = ["rustfmt", "clippy", "cargofmt"]
+sanitizers = true
 
 [llvm]
 ninja = true

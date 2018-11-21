@@ -1,0 +1,80 @@
+Sanitizer runtimes are currently behind the `-Z` flag, which is only available
+on nightly builds of the compiler.  We would like to enable fuzzing on chrome
+os anyway so move the sanitizer option under `-C` instead since we don't build
+the toolchain in nightly mode.
+
+
+diff --git a/src/librustc/session/config.rs b/src/librustc/session/config.rs
+index da3d0d5ed3..32c1e306bf 100644
+--- a/src/librustc/session/config.rs
++++ b/src/librustc/session/config.rs
+@@ -1135,6 +1135,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
+         [TRACKED], "panic strategy to compile crate with"),
+     incremental: Option<String> = (None, parse_opt_string, [UNTRACKED],
+           "enable incremental compilation"),
++    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
++                                   "Use a sanitizer"),
+ }
+ 
+ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
+@@ -1294,8 +1296,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
+           "encode MIR of all functions into the crate metadata"),
+     osx_rpath_install_name: bool = (false, parse_bool, [TRACKED],
+           "pass `-install_name @rpath/...` to the macOS linker"),
+-    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
+-                                   "Use a sanitizer"),
+     linker_flavor: Option<LinkerFlavor> = (None, parse_linker_flavor, [UNTRACKED],
+                                            "Linker flavor"),
+     fuel: Option<(String, u64)> = (None, parse_optimization_fuel, [TRACKED],
+diff --git a/src/librustc_codegen_llvm/attributes.rs b/src/librustc_codegen_llvm/attributes.rs
+index 51380db5b2..283f85043a 100644
+--- a/src/librustc_codegen_llvm/attributes.rs
++++ b/src/librustc_codegen_llvm/attributes.rs
+@@ -94,7 +94,7 @@ pub fn set_probestack(cx: &CodegenCx<'ll, '_>, llfn: &'ll Value) {
+     // Currently stack probes seem somewhat incompatible with the address
+     // sanitizer. With asan we're already protected from stack overflow anyway
+     // so we don't really need stack probes regardless.
+-    match cx.sess().opts.debugging_opts.sanitizer {
++    match cx.sess().opts.cg.sanitizer {
+         Some(Sanitizer::Address) => return,
+         _ => {}
+     }
+diff --git a/src/librustc_codegen_llvm/back/write.rs b/src/librustc_codegen_llvm/back/write.rs
+index 7b78d4fb4f..9732cf743f 100644
+--- a/src/librustc_codegen_llvm/back/write.rs
++++ b/src/librustc_codegen_llvm/back/write.rs
+@@ -973,7 +973,7 @@ pub fn start_async_codegen(tcx: TyCtxt,
+     let mut metadata_config = ModuleConfig::new(vec![]);
+     let mut allocator_config = ModuleConfig::new(vec![]);
+ 
+-    if let Some(ref sanitizer) = sess.opts.debugging_opts.sanitizer {
++    if let Some(ref sanitizer) = sess.opts.cg.sanitizer {
+         match *sanitizer {
+             Sanitizer::Address => {
+                 modules_config.passes.push("asan".to_owned());
+diff --git a/src/librustc_codegen_llvm/declare.rs b/src/librustc_codegen_llvm/declare.rs
+index 5e743ac51b..1683b6db2e 100644
+--- a/src/librustc_codegen_llvm/declare.rs
++++ b/src/librustc_codegen_llvm/declare.rs
+@@ -74,7 +74,7 @@ fn declare_raw_fn(
+         llvm::Attribute::NoRedZone.apply_llfn(Function, llfn);
+     }
+ 
+-    if let Some(ref sanitizer) = cx.tcx.sess.opts.debugging_opts.sanitizer {
++    if let Some(ref sanitizer) = cx.tcx.sess.opts.cg.sanitizer {
+         match *sanitizer {
+             Sanitizer::Address => {
+                 llvm::Attribute::SanitizeAddress.apply_llfn(Function, llfn);
+diff --git a/src/librustc_metadata/creader.rs b/src/librustc_metadata/creader.rs
+index fa2debf2c0..a1c1370d90 100644
+--- a/src/librustc_metadata/creader.rs
++++ b/src/librustc_metadata/creader.rs
+@@ -730,7 +730,7 @@ impl<'a> CrateLoader<'a> {
+     }
+ 
+     fn inject_sanitizer_runtime(&mut self) {
+-        if let Some(ref sanitizer) = self.sess.opts.debugging_opts.sanitizer {
++        if let Some(ref sanitizer) = self.sess.opts.cg.sanitizer {
+             // Sanitizers can only be used on some tested platforms with
+             // executables linked to `std`
+             const ASAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu",
