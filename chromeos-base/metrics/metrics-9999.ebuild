@@ -18,7 +18,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="metrics_uploader +passive_metrics systemd"
+IUSE="fuzzer metrics_uploader +passive_metrics systemd"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -77,6 +77,8 @@ src_install() {
 	# Install the protobuf so that autotests can have access to it.
 	insinto /usr/include/metrics/proto
 	doins uploader/proto/*.proto
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/metrics_library_consent_id_fuzzer
 }
 
 platform_pkg_test() {

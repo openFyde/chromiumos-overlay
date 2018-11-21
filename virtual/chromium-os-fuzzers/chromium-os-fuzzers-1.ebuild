@@ -19,6 +19,7 @@ RDEPEND="
 	chromeos-base/imageloader[fuzzer]
 	chromeos-base/ippusb_manager[fuzzer]
 	chromeos-base/quipper[fuzzer]
+	chromeos-base/metrics[fuzzer]
 	chromeos-base/midis[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/shill[fuzzer]
