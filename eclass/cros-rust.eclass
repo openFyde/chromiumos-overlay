@@ -27,6 +27,9 @@ esac
 
 inherit toolchain-funcs cros-debug
 
+IUSE="asan lsan msan tsan"
+REQUIRED_USE="?? ( asan lsan msan tsan )"
+
 EXPORT_FUNCTIONS src_unpack src_install
 
 DEPEND="
@@ -128,6 +131,39 @@ ecargo() {
 # Call `cargo build` with the specified command line options.
 ecargo_build() {
 	ecargo build --target="${CHOST}" $(usex cros-debug "" --release) "$@"
+}
+
+# @FUNCTION: ecargo_build_fuzzer
+# @DESCRIPTION:
+# Call `cargo build` with fuzzing options enabled.
+ecargo_build_fuzzer() {
+	local fuzzer_libdir="$(dirname "$($(tc-getCC) -print-libgcc-file-name)")"
+	local fuzzer_arch="${ARCH}"
+	if [[ "${ARCH}" == "amd64" ]]; then
+		fuzzer_arch="x86_64"
+	fi
+
+	local fuzzer_flags=(
+		--cfg fuzzing
+		-Cpasses=sancov
+		-Cllvm-args=-sanitizer-coverage-level=4
+		-Cllvm-args=-sanitizer-coverage-trace-pc-guard
+		-Cllvm-args=-sanitizer-coverage-trace-compares
+		-Cllvm-args=-sanitizer-coverage-trace-divs
+		-Cllvm-args=-sanitizer-coverage-trace-geps
+		-Cllvm-args=-sanitizer-coverage-prune-blocks=0
+		-Clink-arg="-L${fuzzer_libdir}"
+		-Clink-arg="-lclang_rt.fuzzer-${fuzzer_arch}"
+		-Clink-arg="-lc++"
+	)
+	use asan && fuzzer_flags+=( -Csanitizer=address )
+	use lsan && fuzzer_flags+=( -Csanitizer=leak )
+	use msan && fuzzer_flags+=( -Csanitizer=memory )
+	use tsan && fuzzer_flags+=( -Csanitizer=thread )
+
+	export RUSTFLAGS="${fuzzer_flags[*]}"
+
+	ecargo build --target="${CHOST}" "$@"
 }
 
 # @FUNCTION: ecargo_test
