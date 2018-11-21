@@ -49,3 +49,7 @@ CONFIG_IFWI_FILE_NAME="3rdparty/blobs/baseboard-octopus/fitimage-meep.bin"
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard-octopus/ucode.bin"
 
 # CONFIG_CONSOLE_SERIAL is not set
+
+# WiFi SAR
+CONFIG_WIFI_SAR_CBFS=y
+CONFIG_WIFI_SAR_CBFS_FILEPATH="3rdparty/blobs/baseboard-octopus/wifi_sar/wifi_sar-meep.hex"
