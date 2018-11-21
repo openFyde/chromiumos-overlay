@@ -9,7 +9,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="vm_tools/p9"
 
-inherit cros-workon cros-rust
+inherit cros-fuzzer cros-sanitizers cros-workon cros-rust
 
 DESCRIPTION="Server implementation of the 9P file system protocol"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/p9/"
@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 LICENSE="BSD-Google"
 SLOT="${PV}/${PR}"
 KEYWORDS="~*"
-IUSE="test"
+IUSE="fuzzer test"
 
 DEPEND="
 	dev-rust/libc:=
@@ -38,8 +38,17 @@ src_unpack() {
 	cros-rust_src_unpack
 }
 
+src_configure() {
+	sanitizers-setup-env
+}
+
 src_compile() {
 	use test && ecargo_test --no-run
+
+	if use fuzzer; then
+		cd fuzz
+		ecargo_build_fuzzer
+	fi
 }
 
 src_test() {
@@ -58,4 +67,9 @@ src_install() {
 
 	version="$(get_crate_version .)"
 	cros-rust_publish p9 "${version}"
+
+	if use fuzzer; then
+		fuzzer_install "${S}/fuzz/OWNERS" \
+			"${CARGO_TARGET_DIR}/${CHOST}/debug/p9_tframe_decode_fuzzer"
+	fi
 }
