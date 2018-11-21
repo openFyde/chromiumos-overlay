@@ -746,16 +746,13 @@ src_prepare() {
 setup_test_lists() {
 	TEST_FILES=(
 		jpeg_decode_accelerator_unittest
+		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
 		video_decode_accelerator_unittest
 		video_encode_accelerator_unittest
 		wayland_client_perftests
 	)
-
-	if use vaapi; then
-		TEST_FILES+=( jpeg_encode_accelerator_unittest )
-	fi
 
 	TEST_FILES+=( ppapi/examples/video_decode )
 
