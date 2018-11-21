@@ -1,0 +1,25 @@
+From 8f74260776bd0c407f88e1f772a73afa04b8c7c3 Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Thu, 22 Nov 2018 05:32:01 +0900
+Subject: [PATCH] libmojo: Add buffer.cc
+
+BUG=chromium:907528
+TEST=Build locally.
+
+Change-Id: I465197fd900312dfb952fae7b8633725bd0efcf2
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index 9a9e1d6..44fc2b9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -108,6 +108,7 @@ CXX_OBJECTS := \
+ 	mojo/public/cpp/bindings/lib/validation_context.o \
+ 	mojo/public/cpp/bindings/lib/validation_errors.o \
+ 	mojo/public/cpp/bindings/lib/validation_util.o \
++	mojo/public/cpp/system/buffer.o \
+ 	mojo/public/cpp/system/platform_handle.o \
+ 	mojo/public/cpp/system/watcher.o
+ 
