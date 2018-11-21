@@ -26,6 +26,9 @@ RDEPEND="
 	tpm2? (
 		chromeos-base/trunks
 	)
+	!tpm2? (
+		app-crypt/trousers
+	)
 	chromeos-base/libbrillo:=
 "
 
