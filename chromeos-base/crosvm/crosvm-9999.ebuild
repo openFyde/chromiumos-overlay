@@ -15,7 +15,8 @@ DESCRIPTION="Utility for running Linux VMs on Chrome OS"
 LICENSE="BSD-Google BSD-2 Apache-2.0 MIT"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-tpm crosvm-usb"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-tpm
+	crosvm-usb crosvm-gpu-forward"
 
 RDEPEND="
 	sys-apps/dtc
@@ -40,6 +41,7 @@ DEPEND="${RDEPEND}
 	~dev-rust/proc-macro2-0.4.21:=
 	~dev-rust/quote-0.6.10:=
 	~dev-rust/syn-0.15.21:=
+	crosvm-gpu-forward? ( chromeos-base/rendernodehost:= )
 	crosvm-tpm? ( chromeos-base/tpm2:= )
 	media-sound/audio_streams:=
 	media-sound/libcras:=
@@ -65,6 +67,7 @@ src_compile() {
 		$(usex crosvm-plugin plugin "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex crosvm-tpm tpm "")
+		$(usex crosvm-gpu-forward gpu-forward "")
 	)
 
 	local packages=(
