@@ -1,37 +1,49 @@
-The custom memory allocator in //base/allocator should not be used
-together with address sanitizer.
-https://crbug.com/807685
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Thu, 22 Nov 2018 01:59:18 +0900
+Subject: [PATCH] libchrome: Disable memory allocator in asan builds.
 
-diff -Nuar old/libchrome-395517/base/allocator/allocator_shim_override_cpp_symbols.h new/libchrome-395517/base/allocator/allocator_shim_override_cpp_symbols.h
---- old/libchrome-395517/base/allocator/allocator_shim_override_cpp_symbols.h
-+++ new/libchrome-395517/base/allocator/allocator_shim_override_cpp_symbols.h
-@@ -13,7 +13,7 @@
- #include <new>
+Memory allocator in //base/allocator should not be used
+with address sanitizer. Otherwise, it breaks asan builds since
+many memory allocations will go to the base allocator instead
+of asan.
+
+BUG=chromium:807685
+TEST=Build.
+---
+ base/allocator/allocator_shim_override_cpp_symbols.h  | 2 ++
+ base/allocator/allocator_shim_override_libc_symbols.h | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/base/allocator/allocator_shim_override_cpp_symbols.h b/base/allocator/allocator_shim_override_cpp_symbols.h
+index 3313687..9f57025 100644
+--- a/base/allocator/allocator_shim_override_cpp_symbols.h
++++ b/base/allocator/allocator_shim_override_cpp_symbols.h
+@@ -15,6 +15,7 @@
  
  #include "base/allocator/allocator_shim_internals.h"
--
+ 
 +#if 0
- SHIM_ALWAYS_EXPORT void* operator new(size_t size)
-     SHIM_ALIAS_SYMBOL(ShimCppNew);
- 
-@@ -40,3 +40,4 @@
- SHIM_ALWAYS_EXPORT void operator delete[](void* p,
-                                           const std::nothrow_t&) __THROW
-     SHIM_ALIAS_SYMBOL(ShimCppDelete);
+ SHIM_ALWAYS_EXPORT void* operator new(size_t size) {
+   return ShimCppNew(size);
+ }
+@@ -49,3 +50,4 @@ SHIM_ALWAYS_EXPORT void operator delete[](void* p,
+                                           const std::nothrow_t&) __THROW {
+   ShimCppDelete(p);
+ }
 +#endif
-diff -Nuar old/libchrome-395517/base/allocator/allocator_shim_override_libc_symbols.h new/libchrome-395517/base/allocator/allocator_shim_override_libc_symbols.h
---- old/libchrome-395517/base/allocator/allocator_shim_override_libc_symbols.h
-+++ new/libchrome-395517/base/allocator/allocator_shim_override_libc_symbols.h
-@@ -13,7 +13,7 @@
- #include <malloc.h>
+diff --git a/base/allocator/allocator_shim_override_libc_symbols.h b/base/allocator/allocator_shim_override_libc_symbols.h
+index b77cbb1..c501c23 100644
+--- a/base/allocator/allocator_shim_override_libc_symbols.h
++++ b/base/allocator/allocator_shim_override_libc_symbols.h
+@@ -14,6 +14,7 @@
  
  #include "base/allocator/allocator_shim_internals.h"
--
+ 
 +#if 0
  extern "C" {
  
- SHIM_ALWAYS_EXPORT void* malloc(size_t size) __THROW
-@@ -52,3 +52,4 @@
+ SHIM_ALWAYS_EXPORT void* malloc(size_t size) __THROW {
+@@ -61,3 +62,4 @@ SHIM_ALWAYS_EXPORT int posix_memalign(void** r, size_t a, size_t s) __THROW {
  //   size_t malloc_usable_size(const void*);
  
  }  // extern "C"
