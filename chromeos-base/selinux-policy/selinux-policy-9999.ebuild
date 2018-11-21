@@ -121,8 +121,11 @@ gen_m4_flags() {
 	elif use android-container-nyc; then
 		arc_version="n"
 	fi
-	M4_COMMON_FLAGS+=("-Darc_version=${arc_version}")
-	einfo "m4 flags: ${M4_COMMON_FLAGS}"
+	M4_COMMON_FLAGS+=(
+		"-Darc_version=${arc_version}"
+		"-Duse_selinux_develop=$(usex selinux_develop y n)"
+	)
+	einfo "m4 flags: ${M4_COMMON_FLAGS[*]}"
 }
 
 # Build SELinux intermediate language files.
