@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="e6bdc02b0fb28f75832c012bcadd6c826c0c6a43"
+CROS_WORKON_COMMIT="7890ad7f2f73f125a95c58165acea196dce83486"
 CROS_WORKON_TREE=("1a4b7a7926e6533605c6bf09c5726f6d18045350" "16f9a99ed4c6b667f776e4b517b1417cf2902626" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -45,6 +45,9 @@ src_install() {
 	# D-Bus configuration
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.DlcService.conf
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer \
+		--dict "${S}"/fuzz/path.dict
 }
 
 platform_pkg_test() {
