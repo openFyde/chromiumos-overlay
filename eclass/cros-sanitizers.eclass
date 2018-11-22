@@ -12,7 +12,7 @@ _CROS_SANITIZER_ECLASS=1
 
 inherit flag-o-matic toolchain-funcs
 
-IUSE="asan coverage fuzzer msan ubsan"
+IUSE="asan coverage fuzzer msan tsan ubsan"
 
 # @FUNCTION: coverage-setup-env
 # @DESCRIPTION:
@@ -30,6 +30,15 @@ msan-setup-env() {
 	use msan || return 0
 	append-flags "-fsanitize=memory"
 	append-ldflags "-fsanitize=memory"
+}
+
+# @FUNCTION: tsan-setup-env
+# @DESCRIPTION:
+# Build a package with thread sanitizer flags.
+tsan-setup-env() {
+	use tsan || return 0
+	append-flags "-fsanitize=thread"
+	append-ldflags "-fsanitize=thread"
 }
 
 # @FUNCTION: ubsan-setup-env
@@ -57,6 +66,7 @@ sanitizers-setup-env() {
 		fuzzer-setup-env
 	fi
 	msan-setup-env
+	tsan-setup-env
 	ubsan-setup-env
 }
 
@@ -79,7 +89,7 @@ cros-rust-setup-sanitizers() {
 # Also returns a true/false value when passed as arguments.
 # Usage: use_sanitizers [trueVal] [falseVal]
 use_sanitizers() {
-	if use asan || use coverage || use fuzzer || use msan || use ubsan; then
+	if use asan || use coverage || use fuzzer || use msan || use tsan || use ubsan; then
 		[[ "$#" -eq 2 ]] && echo "$1"
 		return 0
 	fi
