@@ -54,6 +54,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
 	epatch "${FILESDIR}"/${P}-SequencedWorkerPool-allow-pools-of-one-thread.patch
 
+	# ASAN fix cherry-picked from upstream r534999.
+	epatch "${FILESDIR}"/${P}-Base-DirReader-Alignment.patch
+
 	# This no_destructor.h is taken from r599267.
 	# TODO(hidehiko): Remove this patch after libchrome is uprevved
 	# to >= r599267.
