@@ -23,7 +23,6 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-Add-type-aliases-for-backward-compatibility.patch"
 	epatch "${FILESDIR}/${P}-Add-pending_process_connection.o.patch"
 	epatch "${FILESDIR}/${P}-Define-MOJO_EDK_LEGACY_PROTOCOL.patch"
 	epatch "${FILESDIR}/${P}-Add-buffer.cc.patch"
