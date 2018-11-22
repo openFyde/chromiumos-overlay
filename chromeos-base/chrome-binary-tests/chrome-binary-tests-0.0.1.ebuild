@@ -20,6 +20,7 @@ src_install() {
 	# The binary tests in ${BINARY_DIR} are built by chrome-chrome.
 	BINARY_DIR="${SYSROOT}/usr/local/build/autotest/client/deps/chrome_test/test_src/out/Release"
 	doexe "${BINARY_DIR}/jpeg_decode_accelerator_unittest"
+	doexe "${BINARY_DIR}/jpeg_encode_accelerator_unittest"
 	doexe "${BINARY_DIR}/ozone_gl_unittests"
 	doexe "${BINARY_DIR}/sandbox_linux_unittests"
 	doexe "${BINARY_DIR}/video_decode_accelerator_unittest"
