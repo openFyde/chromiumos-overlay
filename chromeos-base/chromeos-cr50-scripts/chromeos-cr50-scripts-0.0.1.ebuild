@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit udev
+inherit udev user
 
 DESCRIPTION="Ebuild to support the Chrome OS Cr50 device."
 
@@ -17,6 +17,12 @@ RDEPEND="
 "
 
 S="${WORKDIR}"
+
+pkg_preinst() {
+	enewuser "rma_fw_keeper"
+	enewgroup "rma_fw_keeper"
+	enewgroup "suzy-q"
+}
 
 src_install() {
 	local files
