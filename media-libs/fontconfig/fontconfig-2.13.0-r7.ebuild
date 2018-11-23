@@ -42,6 +42,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-mtime.patch
 	"${FILESDIR}"/${P}-names.patch #650370
 	"${FILESDIR}"/${P}-fccache-sysroot.patch
+	"${FILESDIR}"/${P}-fc-cache-doesn-t-use-y-option.patch # crbug.com/907781
 )
 
 # Checks that a passed-in fontconfig default symlink (e.g. "10-autohint.conf")
