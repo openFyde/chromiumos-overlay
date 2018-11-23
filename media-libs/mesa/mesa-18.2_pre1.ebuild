@@ -137,6 +137,11 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-st-mesa-Also-check-for-PIPE_FORMAT_A8R8G8B8_SRGB-for.patch
 	epatch "${FILESDIR}"/18.3-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
 	epatch "${FILESDIR}"/18.2-gallium-winsys-kms-dont-unmap-what-wasnt-mapped.patch
+	epatch "${FILESDIR}"/18.2-st-mesa-only-define-GLSL-1.4-for-compat-if-driver-su.patch
+	epatch "${FILESDIR}"/18.2-gallium-add-PIPE_CAP_GLSL_FEATURE_LEVEL_COMPATIBILIT.patch
+	epatch "${FILESDIR}"/18.2-st-mesa-use-PIPE_CAP_GLSL_FEATURE_LEVEL_COMPATIBILIT.patch
+	epatch "${FILESDIR}"/18.2-mesa-add-ff-fragment-shader-support-for-geom-and-tes.patch
+	epatch "${FILESDIR}"/18.2-radeonsi-enable-OpenGL-3.3-compat-profile.patch
 
 	base_src_prepare
 
