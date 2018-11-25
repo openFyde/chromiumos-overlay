@@ -16,23 +16,53 @@ HOMEPAGE="http://www.denx.de/wiki/U-Boot"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="dev vboot +werror"
+IUSE="dev sandbox vboot werror"
 
-DEPEND=""
+DEPEND="sandbox? ( media-libs/libsdl )"
 
 RDEPEND="${DEPEND}
 	chromeos-base/u-boot-scripts
 	!!sys-boot/chromeos-u-boot
-	chromeos-base/chromeos-config
+	!sandbox? ( chromeos-base/chromeos-config )
 	"
 
 UB_BUILD_DIR="build"
+
+# To build for sandbox, check out the source:
+#
+#	cd src/third_party/u-boot/files
+#	git remote add dm git://git.denx.de/u-boot-dm.git
+#	git checkout dm/cros-working
+#
+# Then:
+#	cros_workon --host start u-boot
+#	USE="sandbox vboot" sudo -D emerge u-boot
+#	sudo chmod a+rw /firmware/image-u-boot.bin
+#	ln -s /firmware/image-u-boot.bin spi.bin
+#	/firmware/u-boot-tpl -d /firmware/u-boot.dtb.out \
+#		-L6 -c "host bind 0 $HOME/trunk/src/build/images/cheza/latest/chromiumos_image.bin; vboot go auto" -l
+#
+# See that it launches vboot (although without a functioning display) and
+# Ctrl-D attempts to boot the kernel.
+#
+# From outside the chroot:
+#
+#	ln -s  ${CROS}/chroot/firmware/image-u-boot.bin spi.bin
+#	${CROS}/chroot/firmware/u-boot-tpl -d \
+#		${CROS}/chroot/firmware/u-boot.dtb.out -L6 \
+#		-c "host bind 0 ${CROS}/src/build/images/cheza/latest/chromiumos_image.bin; vboot go auto" -l
+#
+# Outside the chroot the display and sound function correctly.
 
 # @FUNCTION: get_current_u_boot_config
 # @DESCRIPTION:
 # Finds the config for the current board by checking the master configuration.
 get_current_u_boot_config() {
-	cros_config_host get-firmware-build-targets u-boot || die
+	if use sandbox; then
+		echo chromeos_sandbox
+	else
+		cros_config_host get-firmware-build-targets u-boot || die
+	fi
 }
 
 umake() {
@@ -50,7 +80,7 @@ src_configure() {
 
 	# Firmware related binaries are compiled with 32-bit toolchain
 	# on 64-bit platforms
-	if [[ ${CHOST} == x86_64-* ]]; then
+	if ! use cros_host && [[ ${CHOST} == x86_64-* ]]; then
 		CROSS_PREFIX="i686-pc-linux-gnu-"
 	else
 		CROSS_PREFIX="${CHOST}-"
@@ -65,7 +95,6 @@ src_configure() {
 	)
 	if use vboot; then
 		COMMON_MAKE_FLAGS+=(
-			USE_STDINT=1
 			"VBOOT_SOURCE=${VBOOT_REFERENCE_DESTDIR}"
 			VBOOT_DEBUG=1
 		)
@@ -99,18 +128,40 @@ src_install() {
 	local inst_dir="/firmware"
 	local files_to_copy=(
 		System.map
-		u-boot
 		u-boot.bin
+		u-boot.dtb
+		u-boot.dtb.out
 		u-boot.img
+	)
+	local exec_to_copy=(
+		u-boot
+		spl/u-boot-spl
+		tpl/u-boot-tpl
 	)
 	local f
 
+	if ! use sandbox; then
+		files_to_copy+=( "${exec_to_copy[@]}" )
+		exec_to_copy=()
+	fi
+
 	insinto "${inst_dir}"
+	exeinto "${inst_dir}"
 
 	for f in "${files_to_copy[@]}"; do
 		[[ -f "${UB_BUILD_DIR}/${f}" ]] &&
 			doins "${f/#/${UB_BUILD_DIR}/}"
 	done
+
+	for f in "${exec_to_copy[@]}"; do
+		[[ -f "${UB_BUILD_DIR}/${f}" ]] &&
+			doexe "${f/#/${UB_BUILD_DIR}/}"
+	done
+
+	# Install the full image needed by sandbox.
+	if use vboot; then
+		newins "${UB_BUILD_DIR}/image.bin" image-u-boot.bin
+	fi
 
 	insinto "${inst_dir}/dtb"
 	doins "${UB_BUILD_DIR}/dts/"*.dtb
