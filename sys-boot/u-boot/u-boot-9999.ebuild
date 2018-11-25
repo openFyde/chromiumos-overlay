@@ -16,7 +16,7 @@ HOMEPAGE="http://www.denx.de/wiki/U-Boot"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="dev vboot"
+IUSE="dev vboot +werror"
 
 DEPEND=""
 
@@ -62,7 +62,6 @@ src_configure() {
 		"HOSTCC=${BUILD_CC}"
 		HOSTSTRIP=true
 		QEMU_ARCH=
-		WERROR=y
 	)
 	if use vboot; then
 		COMMON_MAKE_FLAGS+=(
@@ -82,6 +81,7 @@ src_configure() {
 			-k
 		)
 	fi
+	use werror && COMMON_MAKE_FLAGS+=( WERROR=y )
 
 	BUILD_FLAGS=(
 		"O=${UB_BUILD_DIR}"
