@@ -6,7 +6,8 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk portier .gn"
+# TODO(dverkamp): shill should be removed once https://crbug.com/809389 is fixed.
+CROS_WORKON_SUBTREE="common-mk portier shill .gn"
 
 PLATFORM_SUBDIR="portier"
 
