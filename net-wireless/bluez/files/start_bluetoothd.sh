@@ -3,7 +3,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-# Checks for a model specific configuration and if present, starts
+# Checks for a device specific configuration and if present, starts
 # bluetoothd with that config file; otherwise, starts bluetoothd with
 # the legacy board-specific configuration (main.conf) if the config file
 # is present.
@@ -13,7 +13,7 @@ bluetooth_dir="/etc/bluetooth"
 model_dir="${bluetooth_dir}/models"
 legacy_conf_file="${bluetooth_dir}/main.conf"
 
-# Check for a model specific configuration
+# TODO(shapiroc): Remove once all config migrated to cros_config
 if [ -d ${model_dir} ]; then
   model=$(mosys platform model)
   model_conf_file="${model_dir}/${model}.conf"
@@ -22,9 +22,14 @@ if [ -d ${model_dir} ]; then
   fi
 fi
 
+device_config_file="$(cros_config /bluetooth/config system-path)"
+if [ -z "${config_file_param}" ] && [ -e "${device_config_file}" ]; then
+  config_file_param="--configfile=${device_config_file}"
+fi
+
 # If the model specific configuration is not present, check for the
 # legacy board-specific configuration
-if [ -z ${config_file_param} ] && [ -e ${legacy_conf_file} ]; then
+if [ -z "${config_file_param}" ] && [ -e "${legacy_conf_file}" ]; then
   config_file_param="--configfile=${legacy_conf_file}"
 fi
 exec /sbin/minijail0 -u bluetooth -g bluetooth -G \
