@@ -26,6 +26,7 @@ RDEPEND="
 	chromeos-base/shill[fuzzer]
 	chromeos-base/smbprovider[fuzzer]
 	chromeos-base/trunks[fuzzer]
+	chromeos-base/update_engine[fuzzer]
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
 	media-libs/virglrenderer[fuzzer]
