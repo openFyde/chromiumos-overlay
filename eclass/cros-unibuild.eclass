@@ -268,3 +268,14 @@ unibuild_install_arc_files() {
 		chmod 755 "${D}/${dest}"
 	done
 }
+
+# @FUNCTION: unibuild_install_bluetooth_files
+# @USAGE:
+# @DESCRIPTION:
+# Install files related to bluetooth config.
+unibuild_install_bluetooth_files() {
+	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+
+	einfo "unibuild: Installing bluetooth files"
+	_unibuild_common_install get-bluetooth-files
+}
