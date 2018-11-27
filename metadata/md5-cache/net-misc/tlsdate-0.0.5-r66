@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install preinst prepare setup unpack
+DEPEND=dev-libs/openssl dev-libs/libevent dbus? ( sys-apps/dbus ) !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16.1:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 dev-vcs/git virtual/pkgconfig sys-apps/baselayout
+DESCRIPTION=Update local time over HTTPS
+EAPI=6
+HOMEPAGE=https://github.com/ioerror/tlsdate
+IUSE=-asan +dbus +seccomp systemd asan coverage fuzzer msan ubsan cros_host cros_workon_tree_2c3e6df661eadeaa43cde3cfca7ba419e6e51151 cros-debug
+KEYWORDS=*
+LICENSE=BSD
+RDEPEND=dev-libs/openssl dev-libs/libevent dbus? ( sys-apps/dbus ) chromeos-base/chromeos-ca-certificates sys-apps/baselayout
+SLOT=0
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-sanitizers	40275da665152fb71fee4b717a9c7de7	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	52d0e17251d04645ffaa61bfdd858944	multilib	97f470f374f2e94ccab04a2fb21d811e	systemd	8f5286f89e265842f5b5189666eae88b	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	user	77ad494d1257e3badef496e390973d6b
+_md5_=f9e2724249d28db7282cac0eb0d61873

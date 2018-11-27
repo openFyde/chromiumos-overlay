@@ -1,0 +1,12 @@
+DEFINED_PHASES=info install setup unpack
+DEPEND=dev-vcs/git
+DESCRIPTION=Container to run Android's removable-media daemon.
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/removable-media
+IUSE=cros_host cros_workon_tree_f686c2461d2a814ae8615206c7cd73f46fa51482_3b08fe268b3649f426a37f8e50c5d10aea542c3f_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=chromeos-base/mount-passthrough !<chromeos-base/chromeos-cheets-scripts-0.0.2-r470
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=f2b300c537c98ddd5159dac15a475765
