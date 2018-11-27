@@ -15,7 +15,10 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="virtual/chromeos-bsp-dev"
+DEPEND="
+	virtual/chromeos-bsp-test
+	chromeos-base/tast-local-tests-cros
+"
 RDEPEND="${DEPEND}"
 
 # There is no workon source directory, so use the work directory.
