@@ -94,6 +94,35 @@ _verify_file_match() {
 	einfo "Successfully verified ${expected_file} matches ${actual_file}"
 }
 
+# @FUNCTION: _verify_config_dump
+# @USAGE: [source-yaml] [expected-json]
+# @INTERNAL
+# @DESCRIPTION:
+# Dumps the cros_config_host contents and verifies expected file match.
+#   $1: Source YAML config file used to generate JSON dump.
+#   $2: Expected JSON output file that is verified against.
+_verify_config_dump() {
+	local source_yaml="$1"
+	local expected_json="$2"
+
+	local expected_path="${SYSROOT}${CROS_CONFIG_TEST_DIR}/${expected_json}"
+	local source_path="${SYSROOT}${UNIBOARD_YAML_DIR}/${source_yaml}"
+	local actual_path="${WORKDIR}/${expected_json}"
+	local merged_path="${WORKDIR}/${source_yaml}"
+	if [[ -e "${expected_path}" ]]; then
+		if [[ -e "${source_path}" ]]; then
+		  cros_config_schema -o "${merged_path}" -m "${source_path}" \
+			  || die "cros_config_schema failed for build config."
+			cros_config_host -c "${merged_path}" dump-config > "${actual_path}"
+			_verify_file_match "${expected_path}" "${actual_path}"
+		else
+			eerror "Source YAML ${source_path} doesn't exist for checking" \
+				"against expected JSON dump ${expected_path}"
+			die
+		fi
+	fi
+}
+
 # @FUNCTION: _verify_file_dump
 # @USAGE: [file-suffix]
 # @INTERNAL
@@ -110,19 +139,11 @@ _verify_file_dump() {
 		("${file_dump_script}" > "${actual_files}")
 		_verify_file_match "${expected_files}" "${actual_files}"
 	fi
-
 }
 
 src_test() {
-	local expected_config="${SYSROOT}${CROS_CONFIG_TEST_DIR}/config_dump.json"
-	local actual_config="${WORKDIR}/config_dump.json"
-	if [[ -e "${expected_config}" ]]; then
-		if [[ -e "${WORKDIR}/config.yaml" ]]; then
-			cros_config_host -c "${WORKDIR}/config.yaml" dump-config > \
-				"${actual_config}"
-		fi
-		_verify_file_match "${expected_config}" "${actual_config}"
-	fi
+	_verify_config_dump model.yaml config_dump.json
+	_verify_config_dump private-model.yaml config_dump-private.json
 
 	_verify_file_dump "" # No suffix for public files
 	_verify_file_dump "-private"
