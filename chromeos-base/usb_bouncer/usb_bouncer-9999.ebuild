@@ -37,6 +37,9 @@ src_install() {
 	cd "${OUT}"
 	dosbin usb_bouncer
 
+	insinto /etc/dbus-1/system.d
+	doins "${S}/UsbBouncer.conf"
+
 	local daemon_store="/etc/daemon-store/usb_bouncer"
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
