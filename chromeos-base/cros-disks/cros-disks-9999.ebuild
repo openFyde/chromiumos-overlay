@@ -18,7 +18,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="chromeless_tty +seccomp"
+IUSE="asan chromeless_tty fuzzer +seccomp"
 
 RDEPEND="
 	app-arch/unrar
@@ -86,6 +86,15 @@ src_install() {
 	# Install setuid restrictions file.
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/cros_disks_whitelist.txt
+
+	local fuzzers=(
+		mount_options_fuzzer
+	)
+
+	local fuzzer
+	for fuzzer in "${fuzzers[@]}"; do
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}/${PN}_${fuzzer}"
+	done
 }
 
 platform_pkg_test() {
