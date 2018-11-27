@@ -15,7 +15,7 @@ cfg-if-0.1.2
 fuchsia-zircon-0.3.3
 fuchsia-zircon-sys-0.3.3
 getopts-0.2.17
-libc-0.2.40
+libc-0.2.44
 log-0.4.1
 pkg-config-0.3.11
 proc-macro2-0.4.24
