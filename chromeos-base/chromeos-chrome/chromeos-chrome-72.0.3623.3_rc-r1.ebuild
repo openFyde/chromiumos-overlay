@@ -146,10 +146,10 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
 AFDO_FILE["benchmark"]="chromeos-chrome-amd64-72.0.3616.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R72-3602.0-1542625426.afdo"
-AFDO_FILE["airmont"]="R72-3593.0-1542627955.afdo"
-AFDO_FILE["haswell"]="R72-3593.0-1542627016.afdo"
-AFDO_FILE["broadwell"]="R72-3593.0-1542627196.afdo"
+AFDO_FILE["silvermont"]="R72-3609.3-1543230281.afdo"
+AFDO_FILE["airmont"]="R72-3609.3-1543230873.afdo"
+AFDO_FILE["haswell"]="R72-3593.0-1543232091.afdo"
+AFDO_FILE["broadwell"]="R72-3593.0-1543231887.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -746,16 +746,13 @@ src_prepare() {
 setup_test_lists() {
 	TEST_FILES=(
 		jpeg_decode_accelerator_unittest
+		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
 		video_decode_accelerator_unittest
 		video_encode_accelerator_unittest
 		wayland_client_perftests
 	)
-
-	if use vaapi; then
-		TEST_FILES+=( jpeg_encode_accelerator_unittest )
-	fi
 
 	TEST_FILES+=( ppapi/examples/video_decode )
 
