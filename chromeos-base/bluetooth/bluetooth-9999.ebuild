@@ -29,6 +29,7 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api"
 
 src_install() {
+	dobin init/scripts/bluetooth-setup.sh
 	dobin "${OUT}"/btdispatch
 	dobin "${OUT}"/newblued
 
@@ -37,6 +38,7 @@ src_install() {
 	doins dbus/org.chromium.Newblue.conf
 
 	insinto /etc/init
+	doins init/upstart/bluetooth-setup.conf
 	doins init/upstart/btdispatch.conf
 
 	if use seccomp; then
