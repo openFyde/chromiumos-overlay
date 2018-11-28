@@ -1,0 +1,2 @@
+slotmove =sys-devel/clang-8* 0 8
+slotmove =sys-devel/llvm-8* 0 8

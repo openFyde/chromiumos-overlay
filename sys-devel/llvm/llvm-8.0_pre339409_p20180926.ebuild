@@ -17,7 +17,7 @@ EGIT_REPO_URI="http://llvm.org/git/llvm.git
 	https://github.com/llvm-mirror/llvm.git"
 
 LICENSE="UoI-NCSA"
-SLOT="0/${PV%%_*}"
+SLOT="${PV%%.*}"
 KEYWORDS="-* amd64"
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi multitarget
 	ncurses ocaml python llvm-next llvm-tot test xml video_cards_radeon"

@@ -11,7 +11,7 @@ HOMEPAGE="http://clang.llvm.org/"
 SRC_URI=""
 
 LICENSE="UoI-NCSA"
-SLOT="0"
+SLOT="${PV%%.*}"
 KEYWORDS="-* amd64"
 IUSE="debug multitarget python"
 
