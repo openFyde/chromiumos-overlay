@@ -19,7 +19,7 @@ CONFIG_SPI_FLASH_SMM=y
 
 # SPI Descriptor
 CONFIG_HAVE_IFD_BIN=y
-CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/sarien/descriptor.bin"
+CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/sarien/descriptor-sarien.bin"
 
 # FSP blobs
 CONFIG_FSP_HEADER_PATH="3rdparty/blobs/mainboard/sarien/fsp/Include/"
