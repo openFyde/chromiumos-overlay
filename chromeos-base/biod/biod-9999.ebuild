@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk biod metrics .gn"
 
 PLATFORM_SUBDIR="biod"
 
-inherit cros-workon platform udev user
+inherit cros-fuzzer cros-sanitizers cros-workon platform udev user
 
 DESCRIPTION="Biometrics Daemon for Chromium OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
@@ -18,6 +18,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
+IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -59,6 +60,8 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
 	fowners biod:biod "${daemon_store}"
+
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/biod_storage_fuzzer
 }
 
 platform_pkg_test() {
