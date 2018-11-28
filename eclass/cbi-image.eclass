@@ -36,7 +36,7 @@ make_cbi() {
 	local oemid="$2"
 	local skuid="$3"
 
-	cbi-util create --file "${prefix}_${skuid}.bin" \
+	cbi-util create --file "${prefix}_${skuid%%:*}.bin" \
 		--size "${EEPROM_SIZE}" --board_version "${BOARD_VERSION}" \
 		--oem_id "${oemid}" --sku_id "${skuid}" \
 		|| die "Failed to create CBI image"
