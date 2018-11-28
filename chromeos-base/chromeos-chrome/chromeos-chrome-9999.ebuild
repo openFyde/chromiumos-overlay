@@ -1245,6 +1245,7 @@ install_telemetry_dep_resources() {
 			sed -e 's|^'${CHROME_ROOT}/src/'||'; assert)
 		install_test_resources "${test_dir}" "${DEPS_LIST}" \
 			chrome/test/data/image_decoding \
+			chrome/test/data/perf/tough_compositor_cases \
 			content/test/data/gpu \
 			content/test/data/media \
 			content/test/gpu \
