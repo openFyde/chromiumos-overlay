@@ -21,7 +21,8 @@ DESCRIPTION="The GNU Compiler Collection.  This builds and installs the libgcc, 
 LICENSE="GPL-3 LGPL-3 FDL-1.2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="go hardened hardfp mounted_gcc +thumb vtable_verify"
+IUSE="go hardened hardfp libatomic mounted_gcc +thumb vtable_verify"
+REQUIRED_USE="go? ( libatomic )"
 RESTRICT="strip"
 
 : ${CTARGET:=${CHOST}}
@@ -84,7 +85,7 @@ src_configure() {
 		--enable-linker-build-id
 		--disable-libstdcxx-pch
 		--enable-libgomp
-		$(use_enable go libatomic)
+		$(use_enable libatomic)
 
 		# Disable libs we do not care about.
 		--disable-libitm
@@ -210,6 +211,9 @@ src_install() {
 	cd "$(get_gcc_build_dir)"
 	emake -C "${CTARGET}"/libstdc++-v3/src DESTDIR="${D}" install
 	emake -C "${CTARGET}"/libgcc DESTDIR="${D}" install-shared
+	if use libatomic; then
+		emake -C "${CTARGET}"/libatomic DESTDIR="${D}" install
+	fi
 	if use go; then
 		emake -C "${CTARGET}"/libgo DESTDIR="${D}" install
 	fi
