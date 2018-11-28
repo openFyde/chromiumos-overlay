@@ -47,7 +47,7 @@ IUSE="
 	+debug_fission
 	evdev_gestures
 	+fonts
-	+gold
+	gold
 	goma
 	grunt_march
 	hardfp
@@ -55,7 +55,7 @@ IUSE="
 	internal_gles_conform
 	jumbo
 	+libcxx
-	lld
+	+lld
 	mojo
 	+nacl
 	neon
