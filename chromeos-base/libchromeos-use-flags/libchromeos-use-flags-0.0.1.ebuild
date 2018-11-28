@@ -22,6 +22,7 @@ IUSE="
 	arc_oobe_optin
 	arc_oobe_optin_no_skip
 	arc_transition_m_to_n
+	arcvm
 	asan
 	background_blur
 	big_little
