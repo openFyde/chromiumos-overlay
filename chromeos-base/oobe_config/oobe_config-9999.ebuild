@@ -20,7 +20,8 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/oobe_c
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="tpm tpm2"
+REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -49,6 +50,7 @@ src_install() {
 	dosbin "${OUT}"/rollback_finish_restore
 
 	dosbin "${OUT}"/finish_oobe_auto_config
+	dosbin "${OUT}"/store_usb_oobe_config
 
 	insinto /etc/init
 	doins etc/init/oobe_config_restore.conf
