@@ -102,6 +102,8 @@ src_prepare() {
 	epatch "${FILESDIR}/${P}-start-non-root.patch"
 	epatch "${FILESDIR}/${P}-stdint.patch"
 	epatch "${FILESDIR}/${P}-stroke-Ensure-a-minimum-message-length.patch"
+	epatch "${FILESDIR}/${P}-gmp-pkcs1-verify.patch"
+	epatch "${FILESDIR}/${P}-gmp-pkcs1-overflow.patch"
 	epatch_user
 }
 
