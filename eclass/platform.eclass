@@ -181,7 +181,7 @@ platform_src_test() {
 	[[ "${PLATFORM_NATIVE_TEST}" == "yes" ]] && ! platform_is_native &&
 		ewarn "Skipping unittests for non-x86: ${PN}" && return 0
 
-	platform_pkg_test
+	[[ "$(type -t platform_pkg_test)" == "function" ]] && platform_pkg_test
 	platform_test "post_test"
 }
 
