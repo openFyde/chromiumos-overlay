@@ -24,6 +24,7 @@ RDEPEND="
 	chromeos-base/ippusb_manager[fuzzer]
 	chromeos-base/metrics[fuzzer]
 	chromeos-base/midis[fuzzer]
+	chromeos-base/p2p[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/quipper[fuzzer]
 	chromeos-base/shill[fuzzer]

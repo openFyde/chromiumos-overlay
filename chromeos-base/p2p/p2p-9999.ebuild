@@ -21,6 +21,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
+IUSE="fuzzer"
 
 RDEPEND="chromeos-base/metrics
 	dev-libs/glib
@@ -57,4 +58,8 @@ src_install() {
 
 	insinto /etc/init
 	doins data/p2p.conf
+
+	# Install fuzzer
+	platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/p2p_http_server_fuzzer
 }
