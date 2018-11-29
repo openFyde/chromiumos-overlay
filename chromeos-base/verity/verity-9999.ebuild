@@ -32,6 +32,5 @@ src_install() {
 	doins -r linux asm asm-generic crypto
 	cd ..
 	into /
-	dobin "${OUT}"/verity-static
-	dosym verity-static bin/verity
+	dobin "${OUT}"/verity
 }
