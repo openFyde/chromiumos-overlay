@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT="aosp/platform/external/libchrome"
-CROS_WORKON_COMMIT="876a619fbd629f047eec163321fb770cad3e3ea5"
+CROS_WORKON_COMMIT="536f6cb9217032dfd1d4cdbfc35b5d1c316cec27"
 CROS_WORKON_LOCALNAME="aosp/external/libchrome"
 CROS_WORKON_BLACKLIST="1"
 
@@ -47,8 +47,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-dbus-Make-MockObjectManager-useful.patch
 	epatch "${FILESDIR}"/${P}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
 	epatch "${FILESDIR}"/${P}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
-	epatch "${FILESDIR}"/${P}-Add-FuzzedDataProvider.patch
-	epatch "${FILESDIR}"/${P}-Replace-usage-readdir_r.patch
 	epatch "${FILESDIR}"/${P}-dbus-Add-TryRegisterFallback.patch
 	epatch "${FILESDIR}"/${P}-dbus-Remove-LOG-ERROR-in-ObjectProxy.patch
 	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
