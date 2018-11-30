@@ -49,15 +49,23 @@ src_install() {
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
 	dosbin "${OUT}"/rollback_finish_restore
-
 	dosbin "${OUT}"/finish_oobe_auto_config
 	dosbin "${OUT}"/store_usb_oobe_config
 
-	insinto /etc/init
-	doins etc/init/oobe_config_restore.conf
-
 	insinto /etc/dbus-1/system.d
 	doins etc/dbus-1/org.chromium.OobeConfigRestore.conf
+
+	insinto /etc/init
+	doins etc/init/oobe_config_restore.conf
+	if use tpm2; then
+		sed -i 's/and started tcsd//' \
+			"${D}/etc/init/oobe_config_restore.conf" ||
+			die "Can't remove upstart dependency on tcsd"
+
+		sed -i 's/-b \/run\/tcsd//' \
+			"${D}/etc/init/oobe_config_restore.conf" ||
+			die "Can't remove /run/tcsd bind mount"
+	fi
 
 	insinto /usr/share/policy
 	newins seccomp_filters/oobe_config_restore-seccomp-"${ARCH}".policy \
