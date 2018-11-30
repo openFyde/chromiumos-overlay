@@ -95,6 +95,10 @@ src_compile() {
 	MESON_BUILD_ROOT="${BUILD_DIR}" cargo_src_compile
 }
 
+src_test() {
+	meson_src_test
+}
+
 src_install() {
 	# cargo doesn't know how to install cross-compiled binaries. Manually
 	# install mosys instead.
