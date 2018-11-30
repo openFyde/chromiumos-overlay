@@ -12,6 +12,7 @@ KEYWORDS="*"
 
 RDEPEND="
 	chromeos-base/authpolicy[fuzzer]
+	chromeos-base/biod[fuzzer]
 	chromeos-base/chromeos-ec[fuzzer]
 	chromeos-base/cros-disks[fuzzer]
 	chromeos-base/crosdns[fuzzer]
@@ -20,10 +21,10 @@ RDEPEND="
 	chromeos-base/ghostscript-fuzz[fuzzer]
 	chromeos-base/imageloader[fuzzer]
 	chromeos-base/ippusb_manager[fuzzer]
-	chromeos-base/quipper[fuzzer]
 	chromeos-base/metrics[fuzzer]
 	chromeos-base/midis[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
+	chromeos-base/quipper[fuzzer]
 	chromeos-base/shill[fuzzer]
 	chromeos-base/smbprovider[fuzzer]
 	chromeos-base/trunks[fuzzer]
