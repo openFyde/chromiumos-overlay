@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="ff6532b9bafea6c0b643a545303ef3b7e9352e1a"
+CROS_WORKON_COMMIT="fdd4e481c798c0e49c84b901533f835b6be24dba"
 CROS_WORKON_TREE=("310a710d6c1f02a93504b35b3d8371875f253b6a" "529d96d058a42fa53533ca441ba3ef0f9137a230" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,6 +35,10 @@ RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	!app-crypt/tpm-tools
+	fuzzer? (
+		dev-cpp/gmock
+		dev-cpp/gtest
+	)
 	"
 
 DEPEND="
