@@ -21,7 +21,7 @@ inherit toolchain-funcs
 
 EXPORT_FUNCTIONS src_unpack src_compile src_install
 
-IUSE="${IUSE} debug"
+IUSE="debug"
 
 CARGO_DEP=""
 [[ ${CATEGORY}/${PN} != dev-util/cargo ]] && CARGO_DEP=">=dev-util/cargo-0.13.0"
@@ -141,7 +141,8 @@ cargo_src_compile() {
 cargo_src_install() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	cargo install --root="${D}/usr" $(usex debug --debug "") \
+	cargo install --root="${D}/usr" --path . --target="${CHOST}" \
+		$(usex debug --debug "") \
 		|| die "cargo install failed"
 	rm -f "${D}/usr/.crates.toml"
 
