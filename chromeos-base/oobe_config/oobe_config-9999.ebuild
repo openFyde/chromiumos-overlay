@@ -59,7 +59,9 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins etc/dbus-1/org.chromium.OobeConfigRestore.conf
 
-	# TODO(zentaro): Add secomp filters once implemented.
+	insinto /usr/share/policy
+	newins seccomp_filters/oobe_config_restore-seccomp-"${ARCH}".policy \
+		oobe_config_restore-seccomp.policy
 }
 
 platform_pkg_test() {
