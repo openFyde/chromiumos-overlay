@@ -67,6 +67,7 @@ RDEPEND="unibuild? (
 		chromeos-base/chromeos-config
 		sys-apps/dtc
 	)
+	dev-util/cmocka
 	sys-apps/util-linux
 	>=sys-apps/flashmap-0.3-r4
 	chromeos-base/minijail"
