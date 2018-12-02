@@ -7,12 +7,15 @@
 
 EAPI="5"
 
-CROS_WORKON_PROJECT="aosp/platform/external/libchrome"
-CROS_WORKON_COMMIT="536f6cb9217032dfd1d4cdbfc35b5d1c316cec27"
-CROS_WORKON_LOCALNAME="aosp/external/libchrome"
+CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
+CROS_WORKON_COMMIT=("cf65e45c51a11ebd14f39daf0be997f5a0fd90ba" "37b6860c4fbd6235d09a76026b6456a5e9459b0d")
+CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 CROS_WORKON_BLACKLIST="1"
 
-inherit cros-fuzzer cros-sanitizers cros-workon cros-debug flag-o-matic toolchain-funcs scons-utils
+WANT_LIBCHROME="no"
+inherit cros-workon platform
 
 DESCRIPTION="Chrome base/ and dbus/ libraries extracted for use on Chrome OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/libchrome"
@@ -22,6 +25,8 @@ LICENSE="BSD-Google"
 SLOT="${PV}"
 KEYWORDS="*"
 IUSE="cros_host +crypto +dbus +timers"
+
+PLATFORM_SUBDIR="libchrome"
 
 # TODO(avakulenko): Put dev-libs/nss behind a USE flag to make sure NSS is
 # pulled only into the configurations that require it.
@@ -39,10 +44,10 @@ RDEPEND="dev-libs/glib:2=
 DEPEND="${RDEPEND}
 	dev-cpp/gtest
 	dev-cpp/gmock
-	cros_host? ( dev-util/scons )"
+"
 
 src_unpack() {
-	cros-workon_src_unpack
+	platform_src_unpack
 
 	# Upgrade base/json r456626 to r576297 to catch important security
 	# hardening work. The code is not vanilla r576297, but it has been
@@ -63,7 +68,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-dbus-Remove-LOG-ERROR-in-ObjectProxy.patch
 	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
 	epatch "${FILESDIR}"/${P}-SequencedWorkerPool-allow-pools-of-one-thread.patch
-	epatch "${FILESDIR}"/${P}-Support-C++14.patch
 
 	# ASAN fix cherry-picked from upstream r534999.
 	epatch "${FILESDIR}"/${P}-Base-DirReader-Alignment.patch
@@ -87,16 +91,6 @@ src_prepare() {
 
 	# TODO(sonnysasaka): Remove after libchrome uprev past r616020.
 	epatch "${FILESDIR}"/${P}-dbus-Support-UnexportMethod-from-an-exported-object.patch
-
-	# base/files/file_posix.cc expects 64-bit off_t, which requires
-	# enabling large file support.
-	append-lfs-flags
-}
-
-src_configure() {
-	sanitizers-setup-env
-	tc-export CC CXX AR RANLIB LD NM PKG_CONFIG
-	cros-debug-add-NDEBUG
 }
 
 src_compile() {
@@ -106,12 +100,12 @@ src_compile() {
 	USE_DBUS="$(usex dbus 1 0)" \
 	USE_CRYPTO="$(usex crypto 1 0)" \
 	USE_TIMERS="$(usex timers 1 0)" \
-	escons -k
+	platform_src_compile
 }
 
 src_install() {
-	dolib.so libbase*-${SLOT}.so
-	dolib.a libbase*-${SLOT}.a
+	dolib.so "${OUT}"/lib/libbase*-${SLOT}.so
+	dolib.a "${OUT}"/libbase*-${SLOT}.a
 
 	local d header_dirs=(
 		base
@@ -183,5 +177,5 @@ src_install() {
 	fi
 
 	insinto /usr/$(get_libdir)/pkgconfig
-	doins libchrome*-${SLOT}.pc
+	doins "${OUT}"/obj/libchrome/libchrome*-${SLOT}.pc
 }
