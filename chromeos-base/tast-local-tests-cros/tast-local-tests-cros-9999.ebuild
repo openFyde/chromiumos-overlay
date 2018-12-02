@@ -78,6 +78,8 @@ DEPEND="
 	chromeos-base/policy-go-proto
 	chromeos-base/system_api
 	dev-go/cdp
+	dev-go/cmp
+	dev-go/crypto
 	dev-go/dbus
 	dev-go/gopsutil
 	dev-go/protobuf
