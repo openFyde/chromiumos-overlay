@@ -50,3 +50,7 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.RuntimeProbe.service
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/unittest_runner"
+}
