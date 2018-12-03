@@ -95,8 +95,12 @@ pkg_setup() {
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.0.0-bash-completion.patch
 	"${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch # bug 558854
-	"${FILESDIR}"/${PN}-3.0.2-attach-shutdown.patch # crbug.com/884244
 )
+
+src_prepare() {
+	default
+	eautoreconf
+}
 
 src_configure() {
 	if use etcconfigdir ; then
