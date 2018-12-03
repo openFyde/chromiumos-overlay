@@ -1,0 +1,22 @@
+diff --git a/SConstruct b/SConstruct
+index 95314f1..3e1c02f 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -363,7 +363,7 @@ env['CCFLAGS'] += ['-DOS_CHROMEOS',
+                    '-I%s' % CHROME_INCLUDE_PATH]
+ 
+ env.Append(
+-  CXXFLAGS=['-std=c++11']
++  CXXFLAGS=['-std=c++14']
+ )
+ 
+ # Flags for clang taken from build/common.gypi in the clang==1 section.
+@@ -533,7 +533,7 @@ Requires:
+ Requires.private: @PRIVATE_PC@
+ Libs: -l@TARGET_LIB@
+ Libs.private: @BASE_LIBS@ @LIBS@
+-Cflags: -I${includedir}/@TARGET_LIB@ -Wno-c++11-extensions -Wno-unused-local-typedefs -DBASE_VER=${bslot}
++Cflags: -I${includedir}/@TARGET_LIB@ -Wno-unused-local-typedefs -DBASE_VER=${bslot}
+ """
+ 
+ # https://sourceware.org/binutils/docs/ld/Scripts.html

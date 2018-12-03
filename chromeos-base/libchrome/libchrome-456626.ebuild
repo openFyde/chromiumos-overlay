@@ -51,6 +51,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-dbus-Remove-LOG-ERROR-in-ObjectProxy.patch
 	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
 	epatch "${FILESDIR}"/${P}-SequencedWorkerPool-allow-pools-of-one-thread.patch
+	epatch "${FILESDIR}"/${P}-Support-C++14.patch
 
 	# ASAN fix cherry-picked from upstream r534999.
 	epatch "${FILESDIR}"/${P}-Base-DirReader-Alignment.patch
