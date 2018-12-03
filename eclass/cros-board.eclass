@@ -201,6 +201,7 @@ ALL_BOARDS=(
 	#lemmings_external
 	leon
 	link
+	littlejoe
 	loonix
 	lulu
 	lulu-cheets
