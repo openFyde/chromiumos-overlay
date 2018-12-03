@@ -53,9 +53,12 @@
 
 # @ECLASS-VARIABLE: CROS_GO_BINARIES
 # @DESCRIPTION:
-# Go executable binaries to build and install.
-# Each path must contain a package "main". The last component
-# of the package path will become the name of the executable.
+# Go programs to build and install.
+# Each program is specified by the path of a directory that
+# contains a package "main", or a single Go source file which
+# must also contain the package "main". For directories, the
+# last component of the package path becomes the name of the
+# executable.  For files, the ".go" suffix is also stripped.
 # The executable name can be overridden by appending a colon
 # to the package path, followed by an alternate name.
 # The install path for an executable can be overridden by
@@ -66,8 +69,41 @@
 #     "golang.org/x/tools/cmd/godoc"
 #     "golang.org/x/tools/cmd/guru:goguru"
 #     "golang.org/x/tools/cmd/stringer:/usr/local/bin/gostringer"
+#     "golang.org/x/tools/cmd/foo.go"
+#     "golang.org/x/tools/cmd/foo.go:gofoo"
 #   )
-# will build and install "godoc", "goguru", and "gostringer" binaries.
+# builds and installs "godoc", "goguru", "gostringer", "foo"
+# and "gofoo" binaries.
+
+# Helper function for path and names used in cros-go_src_{compile,install}.
+# Returns various views of the information in a CROS_GO_BINARIES entry (a
+# "specification" or "spec") separated by colons.
+parse_binspec() {
+	local spec="$1"
+	# Split spec at colon into source and override.
+	local source
+	local override
+	IFS=: read source override empty <<<"${spec}"
+	test -z "${empty}" || die "bad CROS_GO_BINARIES entry: \"${spec}\""
+	local target
+	local installdir
+	if [[ -z "${override}" ]] ; then
+		target="${spec##*/}"
+		# if there is no override, remove .go suffix (if any).
+		target="${target%%.go}"
+		installdir="/usr/bin"
+	else
+		# target is the last component of the override path
+		target="${override##*/}"
+		installdir="${override%/*}"
+	fi
+	# if the source is a single go file, use its full path name
+	if [[ "${source##*.}" == "go" ]]; then
+		source="${S}/src/${source}"
+	fi
+	# there is no colon in any variable, so colon is a safe separator
+	echo "${source}:${target}:${installdir}"
+}
 
 # @ECLASS-VARIABLE: CROS_GO_VERSION
 # @DESCRIPTION:
@@ -283,15 +319,16 @@ go_vet() {
 # Build CROS_GO_BINARIES.
 cros-go_src_compile() {
 	local bin
+	local source
+	local target
+	local installdir
 	for bin in "${CROS_GO_BINARIES[@]}" ; do
 		einfo "Building \"${bin}\""
-		local path="${bin#*:}"
-		local name="${path##*/}"
-		bin="${bin%:*}"
+		IFS=: read source target installdir <<<"$(parse_binspec "${bin}")"
 		cros_go build -v \
 			${CROS_GO_VERSION:+"-ldflags=-X main.Version=${CROS_GO_VERSION}"} \
-			-o "${name}" \
-			"${bin}"
+			-o "${target}" \
+			"${source}"
 	done
 
 	local pkg
@@ -315,19 +352,16 @@ cros-go_src_test() {
 cros-go_src_install() {
 	# Install the compiled binaries.
 	local bin
+	local source
+	local target
+	local installdir
 	for bin in "${CROS_GO_BINARIES[@]}" ; do
 		einfo "Installing \"${bin}\""
-		local path="${bin#*:}"
-		local name="${path##*/}"
-		if [[ "${bin}" == *:*/* ]] ; then
-			path="${path%/*}"
-		else
-			path="/usr/bin"
-		fi
+		IFS=: read source target installdir <<<"$(parse_binspec "${bin}")"
 		(
 			# Run in sub-shell so we do not modify env.
-			exeinto "${path}"
-			doexe "${name}"
+			exeinto "${installdir}"
+			doexe "${target}"
 		)
 	done
 
