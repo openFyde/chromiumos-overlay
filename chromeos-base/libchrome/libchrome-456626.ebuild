@@ -41,6 +41,18 @@ DEPEND="${RDEPEND}
 	dev-cpp/gmock
 	cros_host? ( dev-util/scons )"
 
+src_unpack() {
+	cros-workon_src_unpack
+
+	# Upgrade base/json r456626 to r576297 to catch important security
+	# hardening work. The code is not vanilla r576297, but it has been
+	# adjusted slightly to make it work with this libchrome version.
+	# TODO(crbug.com/860181): Remove src_unpack() again once libchrome is
+	# uprev'ed to r576297.
+	rm "${S}/base/json/"* || die
+	cp "${FILESDIR}/base_json_based_on_r576297/"* "${S}/base/json" || die
+}
+
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
 	epatch "${FILESDIR}"/${P}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
