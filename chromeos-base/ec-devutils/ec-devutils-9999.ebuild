@@ -57,7 +57,7 @@ src_install() {
 	dobin "build/${BOARD}/util/uartupdatetool"
 
 	dobin "util/flash_ec"
-	insinto /usr/bin/lib
+	insinto /usr/share/ec-devutils
 	doins util/openocd/*
 
 	distutils-r1_src_install
