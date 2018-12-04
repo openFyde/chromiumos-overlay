@@ -56,13 +56,9 @@ src_prepare() {
 }
 
 src_configure() {
-	econf --without-polkit --without-dbus \
-		--with-bundled-catch --with-bundled-pegtl --with-crypto-library=gcrypt \
-		CXXFLAGS="-fexceptions "
-}
-
-src_compile() {
-	emake CXXFLAGS="-fexceptions "
+	cros_enable_cxx_exceptions
+	econf --without-polkit --without-dbus --without-ldap \
+		--with-bundled-catch --with-bundled-pegtl --with-crypto-library=gcrypt
 }
 
 src_install() {
