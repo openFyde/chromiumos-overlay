@@ -1,0 +1,10 @@
+DEFINED_PHASES=compile install
+DESCRIPTION=Yet Another V4L2 Test Application
+EAPI=5
+HOMEPAGE=http://git.ideasonboard.org/yavta.git
+KEYWORDS=*
+LICENSE=GPL-2
+SLOT=0
+SRC_URI=http://storage.googleapis.com/chromeos-localmirror/distfiles/yavta-20181204.tar.gz
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=5f412fc7ad68b9169f2a9eb907f4bf1b
