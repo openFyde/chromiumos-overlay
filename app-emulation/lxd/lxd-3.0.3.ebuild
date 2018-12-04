@@ -136,7 +136,10 @@ src_unpack() {
 }
 
 src_prepare() {
-	default
+	cd "${S}/dist/src/${EGO_PN}"
+	eapply "${FILESDIR}/${P}-cert-ec384.patch" # crbug.com/837445
+	eapply_user
+
 	cd "${S}/dist/dqlite" || die "Can't cd to dqlite dir"
 	eautoreconf
 }
