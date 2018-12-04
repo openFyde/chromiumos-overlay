@@ -6,7 +6,7 @@ inherit toolchain-funcs
 
 DESCRIPTION="Yet Another V4L2 Test Application"
 HOMEPAGE="http://git.ideasonboard.org/yavta.git"
-SRC_URI="http://storage.googleapis.com/chromeos-localmirror/distfiles/yavta-20180702.tar.gz"
+SRC_URI="http://storage.googleapis.com/chromeos-localmirror/distfiles/yavta-20181204.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
