@@ -12,7 +12,17 @@ diff --git a/CorebootPayloadPkg/CorebootPayloadPkgIa32.dsc b/CorebootPayloadPkg/
 index 1d80fc4f5c..ce360c9e9e 100644
 --- a/CorebootPayloadPkg/CorebootPayloadPkgIa32.dsc
 +++ b/CorebootPayloadPkg/CorebootPayloadPkgIa32.dsc
-@@ -261,7 +261,7 @@
+@@ -182,8 +182,7 @@
+   #
+   TimerLib|CorebootPayloadPkg/Library/AcpiTimerLib/AcpiTimerLib.inf
+   ResetSystemLib|CorebootPayloadPkg/Library/ResetSystemLib/ResetSystemLib.inf
+-  SerialPortLib|CorebootModulePkg/Library/BaseSerialPortLib16550/BaseSerialPortLib16550.inf
+-  PlatformHookLib|CorebootPayloadPkg/Library/PlatformHookLib/PlatformHookLib.inf
++  SerialPortLib|MdePkg/Library/BaseSerialPortLibNull/BaseSerialPortLibNull.inf
+   PlatformBdsLib|CorebootModulePkg/Library/CorebootBdsLib/PlatformBds.inf
+   IoApicLib|PcAtChipsetPkg/Library/BaseIoApicLib/BaseIoApicLib.inf
+   CbPlatformSupportLib|CorebootModulePkg/Library/CbPlatformSupportLibNull/CbPlatformSupportLibNull.inf
+@@ -260,7 +260,7 @@
  #
  ################################################################################
  [PcdsFeatureFlag]
@@ -25,7 +35,17 @@ diff --git a/CorebootPayloadPkg/CorebootPayloadPkgIa32X64.dsc b/CorebootPayloadP
 index 52b26eb3d0..a27b0873a1 100644
 --- a/CorebootPayloadPkg/CorebootPayloadPkgIa32X64.dsc
 +++ b/CorebootPayloadPkg/CorebootPayloadPkgIa32X64.dsc
-@@ -261,7 +261,7 @@
+@@ -182,8 +182,7 @@
+   #
+   TimerLib|CorebootPayloadPkg/Library/AcpiTimerLib/AcpiTimerLib.inf
+   ResetSystemLib|CorebootPayloadPkg/Library/ResetSystemLib/ResetSystemLib.inf
+-  SerialPortLib|CorebootModulePkg/Library/BaseSerialPortLib16550/BaseSerialPortLib16550.inf
+-  PlatformHookLib|CorebootPayloadPkg/Library/PlatformHookLib/PlatformHookLib.inf
++  SerialPortLib|MdePkg/Library/BaseSerialPortLibNull/BaseSerialPortLibNull.inf
+   PlatformBdsLib|CorebootModulePkg/Library/CorebootBdsLib/PlatformBds.inf
+   IoApicLib|PcAtChipsetPkg/Library/BaseIoApicLib/BaseIoApicLib.inf
+   CbPlatformSupportLib|CorebootModulePkg/Library/CbPlatformSupportLibNull/CbPlatformSupportLibNull.inf
+@@ -260,7 +260,7 @@
  #
  ################################################################################
  [PcdsFeatureFlag]
@@ -34,6 +54,3 @@ index 52b26eb3d0..a27b0873a1 100644
    gEfiMdeModulePkgTokenSpaceGuid.PcdStatusCodeUseMemory|FALSE
    gEfiMdeModulePkgTokenSpaceGuid.PcdDxeIplSwitchToLongMode|TRUE
    gEfiMdeModulePkgTokenSpaceGuid.PcdConOutGopSupport|TRUE
--- 
-2.13.2.725.g09c95d1e9-goog
-
