@@ -316,9 +316,15 @@ src_install() {
 		exeinto /usr/libexec/fuzzers
 		for f in build/host/*_fuzz/*_fuzz.exe; do
 			local fuzzer="$(basename "${f}")"
+			local custom_owners="${S}/fuzz/${fuzzer%exe}owners"
 			fuzzer="ec_${fuzzer%_fuzz.exe}_fuzzer"
 			newexe "${f}" "${fuzzer}"
-			newins "${S}/OWNERS" "${f##*/}.owners"
+			einfo "CUSTOM OWNERS = '${custom_owners}'"
+			if [[ -f "${custom_owners}" ]]; then
+				newins "${custom_owners}" "${f##*/}.owners"
+			else
+				newins "${S}/OWNERS" "${f##*/}.owners"
+			fi
 		done
 	fi
 }
