@@ -13,6 +13,7 @@ KEYWORDS="*"
 IUSE="
 	android-container-pi
 	arc
+	asan
 	betty
 	chrome_internal
 	chromeless_tty
