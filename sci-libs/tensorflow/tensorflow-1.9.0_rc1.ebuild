@@ -369,7 +369,7 @@ get-tf-cpu-str() {
 }
 
 pkg_setup() {
-	JAVA_HOME=/etc/java-config-2/current-system-vm/
+	export JAVA_HOME=/etc/java-config-2/current-system-vm/
 }
 
 src_unpack() {
