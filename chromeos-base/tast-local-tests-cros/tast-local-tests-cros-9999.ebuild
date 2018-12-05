@@ -51,6 +51,7 @@ DEPEND="
 "
 RDEPEND="
 	!chromeos-base/tast-local-tests
+	chromeos-base/security_tests
 	dev-util/android-uiautomator-server
 "
 
