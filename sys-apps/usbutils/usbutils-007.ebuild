@@ -36,6 +36,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-007-lsusb-change-endianness-of-first-three-fields-when-p.patch
 	"${FILESDIR}"/${PN}-007-lsusb-remove-unused-variable-procbususb.patch
 	"${FILESDIR}"/${PN}-007-lsusb-print-WebUSB-platform-descriptor.patch
+	"${FILESDIR}"/${PN}-007-lsusb-Allocate-the-BOS-descriptor-buffer-dynamically.patch
 )
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
