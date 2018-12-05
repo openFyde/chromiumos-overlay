@@ -53,5 +53,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/btdispatch_test"
+	platform_test "run" "${OUT}/bluetooth_test"
 }
