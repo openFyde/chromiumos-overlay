@@ -68,3 +68,17 @@ net-misc/openssh bindist
 # Resolve circular dependency between libcap and pam.
 # http://crbug.com/508630 (see #8)
 sys-libs/libcap pam
+
+# These packages are required as test dependencies, but we don't want to
+# automatically run their tests even when built with the 'test' flag.
+# TODO(cjmcdonald): Remove these once we have EAPI 7 available and can mark
+# them as build-only dependencies with BDEPEND.
+app-arch/gzip test
+dev-python/pytest test
+sys-process/psmisc test
+
+# dev-python/py has a test dependency on a later version of pytest than we
+# provide. Upgrading pytest adds a dependency on dev-python/hypothesis, which
+# requires dev-lang/python to be built with SQLite, which is USE masked on all
+# boards.
+dev-python/py test
