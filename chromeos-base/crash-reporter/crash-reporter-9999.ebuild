@@ -30,6 +30,7 @@ RDEPEND="
 	dev-libs/libpcre
 	net-misc/curl
 	direncryption? ( sys-apps/keyutils )
+	test? ( app-arch/gzip )
 "
 DEPEND="
 	${RDEPEND}

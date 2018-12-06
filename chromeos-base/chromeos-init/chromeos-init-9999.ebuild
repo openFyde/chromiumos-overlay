@@ -53,6 +53,9 @@ RDEPEND="${DEPEND}
 	frecon? (
 		sys-apps/frecon
 	)
+	test? (
+		sys-process/psmisc
+	)
 "
 
 platform_pkg_test() {
