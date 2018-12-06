@@ -8,21 +8,21 @@ diff --git a/src/librustc/session/config.rs b/src/librustc/session/config.rs
 index da3d0d5ed3..32c1e306bf 100644
 --- a/src/librustc/session/config.rs
 +++ b/src/librustc/session/config.rs
-@@ -1135,6 +1135,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
-         [TRACKED], "panic strategy to compile crate with"),
-     incremental: Option<String> = (None, parse_opt_string, [UNTRACKED],
-           "enable incremental compilation"),
+@@ -1136,6 +1136,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
+         "enable incremental compilation"),
+     default_linker_libraries: Option<bool> = (None, parse_opt_bool, [UNTRACKED],
+         "allow the linker to link its default libraries"),
 +    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
 +                                   "Use a sanitizer"),
  }
  
  options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
-@@ -1294,8 +1296,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
-           "encode MIR of all functions into the crate metadata"),
+@@ -1295,8 +1297,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
+         "encode MIR of all functions into the crate metadata"),
      osx_rpath_install_name: bool = (false, parse_bool, [TRACKED],
-           "pass `-install_name @rpath/...` to the macOS linker"),
+         "pass `-install_name @rpath/...` to the macOS linker"),
 -    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
--                                   "Use a sanitizer"),
+-                                    "Use a sanitizer"),
      linker_flavor: Option<LinkerFlavor> = (None, parse_linker_flavor, [UNTRACKED],
                                             "Linker flavor"),
      fuel: Option<(String, u64)> = (None, parse_optimization_fuel, [TRACKED],
@@ -34,16 +34,16 @@ index 51380db5b2..283f85043a 100644
      // Currently stack probes seem somewhat incompatible with the address
      // sanitizer. With asan we're already protected from stack overflow anyway
      // so we don't really need stack probes regardless.
--    match cx.sess().opts.debugging_opts.sanitizer {
-+    match cx.sess().opts.cg.sanitizer {
-         Some(Sanitizer::Address) => return,
-         _ => {}
+-    if let Some(Sanitizer::Address) = cx.sess().opts.debugging_opts.sanitizer {
++    if let Some(Sanitizer::Address) = cx.sess().opts.cg.sanitizer {
+         return
      }
+ 
 diff --git a/src/librustc_codegen_llvm/back/write.rs b/src/librustc_codegen_llvm/back/write.rs
 index 7b78d4fb4f..9732cf743f 100644
 --- a/src/librustc_codegen_llvm/back/write.rs
 +++ b/src/librustc_codegen_llvm/back/write.rs
-@@ -973,7 +973,7 @@ pub fn start_async_codegen(tcx: TyCtxt,
+@@ -978,7 +978,7 @@ pub fn start_async_codegen(tcx: TyCtxt,
      let mut metadata_config = ModuleConfig::new(vec![]);
      let mut allocator_config = ModuleConfig::new(vec![]);
  

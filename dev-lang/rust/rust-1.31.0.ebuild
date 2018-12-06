@@ -4,7 +4,6 @@
 EAPI=5
 
 PYTHON_COMPAT=( python2_7 )
-
 inherit python-any-r1 versionator toolchain-funcs
 
 if [[ ${PV} = *beta* ]]; then
@@ -23,9 +22,9 @@ else
 fi
 
 
-STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).2"
+STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).0"
 STAGE0_VERSION_CARGO="0.$(($(get_version_component_range 2))).0"
-STAGE0_DATE="2018-10-12"
+STAGE0_DATE="2018-10-25"
 RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
@@ -98,6 +97,13 @@ src_prepare() {
 		.cargo-checksum.json
 	popd
 
+	# The miri tool is built because of 'extended = true' in cros-config.toml,
+	# but the build is busted. See the upstream issue: [https://github.com/rust-
+	# lang/rust/issues/56576]. Because miri isn't installed or needed, this sed
+	# script eradicates the command that builds it during the bootstrap script.
+	pushd src/bootstrap || die
+	sed -i 's@tool::Miri,@@g' builder.rs
+	popd
 
 	# Tsk. Tsk. The rust makefile for LLVM's compiler-rt uses -ffreestanding
 	# but one of the files includes <stdlib.h> causing occasional problems
