@@ -39,7 +39,7 @@ SRC_URI="${CR50_ROS[@]/#/${MIRROR_PATH}}"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec"
+IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan"
 
 RDEPEND="
 	dev-embedded/libftdi
@@ -176,7 +176,11 @@ src_compile() {
 	done
 
 	if use fuzzer ; then
-		emake buildfuzztests
+		local sanitizers=()
+		use asan && sanitizers+=( TEST_ASAN=y )
+		use msan && sanitizers+=( TEST_MSAN=y )
+		use ubsan && sanitizers+=( TEST_UBSAN=y )
+		emake buildfuzztests "${sanitizers[@]}"
 	fi
 }
 
