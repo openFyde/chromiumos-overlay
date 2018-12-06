@@ -17,7 +17,6 @@ KEYWORDS="*"
 IUSE="
 	allow_consumer_kiosk
 	arc
-	arc_always_start_with_no_play_store
 	arc_force_2x_scaling
 	arc_oobe_optin
 	arc_oobe_optin_no_skip
