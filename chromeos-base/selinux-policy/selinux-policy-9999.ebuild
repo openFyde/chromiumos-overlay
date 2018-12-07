@@ -14,7 +14,10 @@ DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="android-container-pi android-container-master-arc-dev android-container-nyc +combine_chromeos_policy selinux_audit_all selinux_develop"
+IUSE="
+	android-container-pi android-container-master-arc-dev android-container-nyc
+	+combine_chromeos_policy selinux_audit_all selinux_develop selinux_experimental
+"
 # When developers are doing something not Android. This required use is to let
 # the developer know, disabling combine_chromeos_policy flag doesn't change
 # anything.
@@ -282,7 +285,11 @@ src_install() {
 	doins file_contexts
 
 	insinto /etc/selinux
-	newins "${FILESDIR}/selinux_config" config
+	if use selinux_experimental; then
+		newins "${FILESDIR}/selinux_config_experimental" config
+	else
+		newins "${FILESDIR}/selinux_config" config
+	fi
 
 	insinto /etc/selinux/arc/policy
 	doins "${SEPOLICY_FILENAME}"
