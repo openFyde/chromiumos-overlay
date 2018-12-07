@@ -18,7 +18,7 @@ BOARDS="${BOARDS} lumpy lumpy64 mario meowth nasher nami nautilus nocturne"
 BOARDS="${BOARDS} octopus panther parrot peppy poppy pyro rambi rammus reef"
 BOARDS="${BOARDS} samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
-IUSE="${BOARDS} altfw diag_payload seabios"
+IUSE="${BOARDS} altfw diag_payload seabios wilco_ec"
 IUSE="${IUSE} fsp fastboot unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 
 REQUIRED_USE="
@@ -134,6 +134,12 @@ add_ec() {
 		-f "${ecroot}/ec.RW.bin" -n "${name}" -p "${pad}" || die
 	cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
 		-f "${ecroot}/ec.RW.hash" -n "${name}.hash" || die
+
+	# Add EC version file for Wilco EC
+	if use wilco_ec; then
+		cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
+			-f "${ecroot}/ec.RW.version" -n "${name}.version" || die
+	fi
 }
 
 # Add payloads and sign the image.
@@ -392,7 +398,7 @@ build_images() {
 		die "something is still using ${froot}/cbfs, which is deprecated."
 	fi
 
-	if use cros_ec; then
+	if use cros_ec || use wilco_ec; then
 		if use unibuild; then
 			einfo "Adding EC for ${ec_build_target}"
 			add_ec "${coreboot_config}" "${coreboot_file}" "ecrw" "${froot}/${ec_build_target}"
