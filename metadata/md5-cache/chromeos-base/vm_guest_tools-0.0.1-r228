@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure info install postinst preinst setup test unpack
+DEPEND=!!chromeos-base/vm_tools chromeos-base/libbrillo chromeos-base/minijail net-libs/grpc:= dev-libs/protobuf:= media-libs/mesa[gbm] x11-base/xwayland x11-libs/libxkbcommon x11-libs/pixman dev-go/grpc dev-go/protobuf >=sys-kernel/linux-headers-4.4-r16 dev-lang/go dev-vcs/git dev-vcs/git chromeos-base/libchrome:456626[cros-debug=] test? ( dev-cpp/gmock ) cros_host? ( dev-util/gn ) dev-cpp/gtest sys-apps/baselayout
+DESCRIPTION=VM guest tools for Chrome OS
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools
+IUSE=kvm_guest cros_host cros_workon_tree_710af790d9045be0e597b16d6ec2d72196fcc4ef_5f581ba336413d1537b07a3366b29307902b2bae_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug fuzzer asan coverage fuzzer msan ubsan cros_host cros_workon_tree_710af790d9045be0e597b16d6ec2d72196fcc4ef_5f581ba336413d1537b07a3366b29307902b2bae_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!!chromeos-base/vm_tools chromeos-base/libbrillo chromeos-base/minijail net-libs/grpc:= dev-libs/protobuf:= media-libs/mesa[gbm] x11-base/xwayland x11-libs/libxkbcommon x11-libs/pixman chromeos-base/libchrome:456626[cros-debug=] sys-apps/baselayout
+REQUIRED_USE=kvm_guest
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	ebc02f60bcf39df5297008f1b894323d	cros-go	47990ea62cf9f652cf078c5112424e5a	cros-sanitizers	40275da665152fb71fee4b717a9c7de7	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	6c3cb3673e41488792db8c1ff33f0c63	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	55dcc418d243a06d090114b97e5e60d2	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	user	77ad494d1257e3badef496e390973d6b
+_md5_=781113832403f7806d7ee8cc433a032f
