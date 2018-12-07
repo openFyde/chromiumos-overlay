@@ -21,14 +21,25 @@ RDEPEND="
 	sys-devel/binutils
 "
 
+install_driven_test() {
+	local tc_dir=$1
+	local test_dir=$2
+	local driver_script=$3
+
+	insinto "${tc_dir}"
+	doins -r "${test_dir}"
+
+	local dit_dir="${tc_dir}/${test_dir}"
+
+	fperms a+x "${dit_dir}/${driver_script}"
+
+	# Remove the directory and file extension.
+	local driver_base="$(basename "${driver_script}" | sed -E 's|\.[^.]+$||')"
+	dosym "${dit_dir}/${driver_script}" "/usr/bin/${driver_base}"
+}
+
 src_install() {
 	local tc_dir="/usr/$(get_libdir)/${PN}"
-	local dit_dir="${tc_dir}/debug_info_test"
-
-	insinto ${tc_dir}
-	doins -r debug_info_test
-
-	fperms a+x ${dit_dir}/debug_info_test.py
-
-	dosym ${dit_dir}/debug_info_test.py /usr/bin/debug_info_test
+	install_driven_test "${tc_dir}" "afdo_redaction" "redact_profile_test.py"
+	install_driven_test "${tc_dir}" "debug_info_test" "debug_info_test.py"
 }
