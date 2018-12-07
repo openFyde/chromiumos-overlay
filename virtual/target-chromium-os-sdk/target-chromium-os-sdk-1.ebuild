@@ -510,3 +510,7 @@ RDEPEND="${RDEPEND}
 # Needed to compile moblab mobmonitor ui
 RDEPEND="${RDEPEND}
 	net-libs/nodejs"
+
+# Needed to compile img-ddk
+RDEPEND="${RDEPEND}
+	dev-python/clang-python"
