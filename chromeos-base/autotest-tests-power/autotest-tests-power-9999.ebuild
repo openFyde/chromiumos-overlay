@@ -26,7 +26,6 @@ DEPEND="${RDEPEND}"
 # cros/power_suspend depends on shill-test-scripts.
 IUSE_TESTS="
 	+tests_hardware_Backlight
-	+tests_platform_CheckPowerdProcesses
 	+tests_power_ARMSettings
 	+tests_power_Backlight
 	+tests_power_BacklightControl

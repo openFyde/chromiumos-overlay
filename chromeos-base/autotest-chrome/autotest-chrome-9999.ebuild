@@ -190,7 +190,6 @@ IUSE_TESTS=(
 	+tests_power_VideoSuspend
 	+tests_power_WebGL
 	+tests_security_BundledExtensions
-	+tests_security_ProfilePermissions
 	+tests_security_SandboxLinuxUnittests
 	+tests_security_SandboxStatus
 	+tests_security_Usbguard
@@ -268,13 +267,11 @@ IUSE_TESTS_ARC="
 	android-container-pi? (
 		+tests_desktopui_ExitOnSupervisedUserCrash_P
 		+tests_graphics_Idle_P
-		+tests_security_NetworkListeners_P
 		+tests_telemetry_LoginTest_P
 	)
 	!android-container-pi? (
 		+tests_desktopui_ExitOnSupervisedUserCrash
 		+tests_graphics_Idle
-		+tests_security_NetworkListeners
 		+tests_telemetry_LoginTest
 	)
 "

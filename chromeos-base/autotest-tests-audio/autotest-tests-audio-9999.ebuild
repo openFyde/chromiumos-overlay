@@ -24,7 +24,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_sound_infrastructure
 	+tests_audio_Aconnect
 	+tests_audio_AlsaAPI
 	+tests_audio_AlsaLoopback

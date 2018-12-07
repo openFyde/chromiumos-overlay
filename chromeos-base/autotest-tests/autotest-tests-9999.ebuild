@@ -100,8 +100,6 @@ CLIENT_IUSE_TESTS="
 			+tests_desktopui_CrashyReboot
 			+tests_desktopui_FontCache
 			+tests_desktopui_HangDetector
-			+tests_desktopui_KillRestart
-			+tests_desktopui_Respawn
 			+tests_desktopui_SpeechSynthesisSemiAuto
 		)
 	)
@@ -194,9 +192,6 @@ CLIENT_IUSE_TESTS="
 		+tests_platform_BootPerf
 	)
 	+tests_platform_CheckErrorsInLog
-	+tests_platform_CheckCriticalProcesses
-	passive_metrics? ( +tests_platform_CheckMetricsProcesses )
-	network_time? ( +tests_platform_CheckTLSDateProcesses )
 	+tests_platform_CleanShutdown
 	+tests_platform_CompressedSwap
 	+tests_platform_CompressedSwapPerf
