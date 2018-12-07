@@ -426,6 +426,7 @@ CONFIG_KGDB_KDB=y
 # CONFIG_RANDOMIZE_BASE is not set
 # CONFIG_WATCHDOG is not set
 CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=1
+CONFIG_DEBUG_INFO_DWARF4=y
 """
 # kgdb over serial port depends on CONFIG_HW_CONSOLE which depends on CONFIG_VT
 REQUIRED_USE="${REQUIRED_USE} kgdb? ( vtconsole )"
