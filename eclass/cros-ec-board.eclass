@@ -56,6 +56,7 @@ EC_BOARD_NAMES=(
 	eve
 	eve_fp
 	fizz
+	flapjack
 	glados
 	glados_pd
 	glkrvp

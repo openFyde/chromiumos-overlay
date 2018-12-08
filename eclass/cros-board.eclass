@@ -137,6 +137,7 @@ ALL_BOARDS=(
 	fizz
 	fizz-accelerator
 	fizz-moblab
+	flapjack
 	foster
 	#fox
 	#fox_baskingridge
