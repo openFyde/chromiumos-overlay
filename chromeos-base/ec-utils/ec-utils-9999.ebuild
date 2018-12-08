@@ -23,7 +23,8 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-cr50_onboard -cr50_utils cros_host static unibuild -updater_utils"
+IUSE="-cr50_onboard -cr50_utils static unibuild -updater_utils"
+IUSE="${IUSE} cros_ec cros_host"
 
 DEPEND="dev-embedded/libftdi"
 RDEPEND="${DEPEND}"
@@ -82,7 +83,8 @@ src_compile() {
 		fi
 	done
 
-	if [[ ${some_board_built} == false ]]; then
+	# Allow no boards to build if cros_ec is not selected
+	if use cros_ec && [[ ${some_board_built} == false ]]; then
 		die "We were not able to find a board target to build from the \
 set '${EC_BOARDS[*]}'"
 	fi
@@ -106,7 +108,8 @@ src_install() {
 		fi
 	done
 
-	if [[ ${some_board_installed} == false ]]; then
+	# Allow no boards to install if cros_ec is not selected
+	if use cros_ec && [[ ${some_board_installed} == false ]]; then
 		die "We were not able to install at least one board from the \
 set '${EC_BOARDS[*]}'"
 	fi
