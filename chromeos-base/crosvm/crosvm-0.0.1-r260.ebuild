@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="1d4d44a8e229d63aa16d05615ed33100f949863e"
-CROS_WORKON_TREE="773bb9b2e6eb29b64d0d68e4985c6e2daf3bb7cc"
+CROS_WORKON_COMMIT="f97991985d6921375eb5a533c49fd7df5a75d2cd"
+CROS_WORKON_TREE="52278731797f91cb0d42b5c81ba545acaaae9b53"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -76,7 +76,6 @@ src_compile() {
 	)
 
 	local packages=(
-		9s
 		qcow_utils
 		crosvm
 	)
@@ -133,7 +132,6 @@ src_install() {
 	# crosvm instead.
 	local build_dir="${WORKDIR}/${CHOST}/$(usex debug debug release)"
 	dobin "${build_dir}/crosvm"
-	dobin "${build_dir}/9s"
 
 	# Install seccomp policy files.
 	local seccomp_path="${S}/seccomp/${seccomp_arch}"

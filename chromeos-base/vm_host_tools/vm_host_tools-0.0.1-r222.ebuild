@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="c3b9cef94b42c41acf8b1e5835440850559c4470"
-CROS_WORKON_TREE=("710af790d9045be0e597b16d6ec2d72196fcc4ef" "5f581ba336413d1537b07a3366b29307902b2bae" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="60b026b4ce02881b1c039adf558fda0d7846c074"
+CROS_WORKON_TREE=("710af790d9045be0e597b16d6ec2d72196fcc4ef" "8f52bc755904c52ea42c80af93f3789df8b38fda" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -33,6 +33,7 @@ RDEPEND="
 	chromeos-base/minijail
 	net-libs/grpc:=
 	dev-libs/protobuf:=
+	dev-rust/9s
 "
 DEPEND="
 	${RDEPEND}

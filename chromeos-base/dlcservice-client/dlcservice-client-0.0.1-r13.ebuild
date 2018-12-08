@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="c3b9cef94b42c41acf8b1e5835440850559c4470"
-CROS_WORKON_TREE=("710af790d9045be0e597b16d6ec2d72196fcc4ef" "0b4732b6f7de477d292a9ebb76ee96851b50bfb8" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="60b026b4ce02881b1c039adf558fda0d7846c074"
+CROS_WORKON_TREE=("710af790d9045be0e597b16d6ec2d72196fcc4ef" "6df5dd93976a8a346158df090e418c794ffc849a" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,10 +28,6 @@ KEYWORDS="*"
 DEPEND="
 	chromeos-base/chromeos-dbus-bindings
 	chromeos-base/libbrillo:=
-"
-
-RDEPEND="
-	chromeos-base/dlcservice
 "
 
 src_install() {
