@@ -1,0 +1,43 @@
+From f83aba3d02b02530ac84478fe2bc71a7e6eb4238 Mon Sep 17 00:00:00 2001
+From: Chris Morin <cmtm@google.com>
+Date: Wed, 12 Dec 2018 19:59:27 -0800
+Subject: [PATCH] journal: support forwarding to syslog without CAP_SETUID and
+ CAP_SETGID
+
+Journald can forward messages to syslog when CAP_SYS_ADMIN is missing,
+but not when CAP_SETUID or CAP_SETGID are missing. Prevent journald from
+forging UNIX credentials at all when the first forwarding attempt fails.
+This allows forwarding to work when journald has none of [CAP_SYS_ADMIN,
+CAP_SETUID, CAP_SETGID].
+---
+ src/journal/journald-syslog.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/src/journal/journald-syslog.c b/src/journal/journald-syslog.c
+index 9dea11672..ffad99432 100644
+--- a/src/journal/journald-syslog.c
++++ b/src/journal/journald-syslog.c
+@@ -75,15 +75,13 @@ static void forward_syslog_iovec(Server *s, const struct iovec *iovec, unsigned
+         }
+ 
+         if (ucred && IN_SET(errno, ESRCH, EPERM)) {
+-                struct ucred u;
+ 
+-                /* Hmm, presumably the sender process vanished
+-                 * by now, or we don't have CAP_SYS_AMDIN, so
+-                 * let's fix it as good as we can, and retry */
++                /* Hmm, presumably the sender process vanished by now, or we
++                 * don't have one of [CAP_SYS_AMDIN, CAP_SETUID, CAP_SETGID],
++                 * don't send any UNIX credentials */
+ 
+-                u = *ucred;
+-                u.pid = getpid_cached();
+-                memcpy(CMSG_DATA(cmsg), &u, sizeof(struct ucred));
++                msghdr.msg_control = NULL;
++                msghdr.msg_controllen = 0;
+ 
+                 if (sendmsg(s->syslog_fd, &msghdr, MSG_NOSIGNAL) >= 0)
+                         return;
+-- 
+2.20.0.405.gbc1bbc6f85-goog
+

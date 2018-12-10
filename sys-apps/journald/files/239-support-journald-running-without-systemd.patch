@@ -1,0 +1,33 @@
+From 586a3033f25df32f9a45bf4e3362eaa9131aca3b Mon Sep 17 00:00:00 2001
+From: Chris Morin <cmtm@google.com>
+Date: Mon, 3 Dec 2018 17:49:00 -0800
+Subject: [PATCH] support journald running without systemd
+
+
+diff --git a/src/journal/journald-server.c b/src/journal/journald-server.c
+index 4f1550ec5..d5f4406a1 100644
+--- a/src/journal/journald-server.c
++++ b/src/journal/journald-server.c
+@@ -1853,9 +1853,17 @@ int server_init(Server *s) {
+         if (!s->rate_limit)
+                 return -ENOMEM;
+ 
++
+         r = cg_get_root_path(&s->cgroup_root);
+-        if (r < 0)
+-                return r;
++        if (r < 0) {
++                log_notice("Running without systemd.");
++                // Set cgroup_root to an empty string. We won't be able to use
++                // it since we're running without systemd.
++                s->cgroup_root = strdup("");
++                if (!s->cgroup_root)
++                        return -ENOMEM;
++        }
++
+ 
+         server_cache_hostname(s);
+         server_cache_boot_id(s);
+-- 
+2.20.0.rc2.403.gdbc3b29805-goog
+

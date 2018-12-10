@@ -1,0 +1,48 @@
+From 788ea048ff0d6816a889979b425862d446cb8955 Mon Sep 17 00:00:00 2001
+From: Chris Morin <cmtm@google.com>
+Date: Fri, 7 Dec 2018 17:36:23 -0800
+Subject: [PATCH] don't rotate logs when hash table fills
+
+
+diff --git a/src/journal/journal-file.c b/src/journal/journal-file.c
+index 62e7f68a1..dc98c38c7 100644
+--- a/src/journal/journal-file.c
++++ b/src/journal/journal-file.c
+@@ -3847,33 +3847,7 @@ bool journal_file_rotate_suggested(JournalFile *f, usec_t max_file_usec) {
+                 return true;
+         }
+ 
+-        /* Let's check if the hash tables grew over a certain fill
+-         * level (75%, borrowing this value from Java's hash table
+-         * implementation), and if so suggest a rotation. To calculate
+-         * the fill level we need the n_data field, which only exists
+-         * in newer versions. */
+-
+-        if (JOURNAL_HEADER_CONTAINS(f->header, n_data))
+-                if (le64toh(f->header->n_data) * 4ULL > (le64toh(f->header->data_hash_table_size) / sizeof(HashItem)) * 3ULL) {
+-                        log_debug("Data hash table of %s has a fill level at %.1f (%"PRIu64" of %"PRIu64" items, %llu file size, %"PRIu64" bytes per hash table item), suggesting rotation.",
+-                                  f->path,
+-                                  100.0 * (double) le64toh(f->header->n_data) / ((double) (le64toh(f->header->data_hash_table_size) / sizeof(HashItem))),
+-                                  le64toh(f->header->n_data),
+-                                  le64toh(f->header->data_hash_table_size) / sizeof(HashItem),
+-                                  (unsigned long long) f->last_stat.st_size,
+-                                  f->last_stat.st_size / le64toh(f->header->n_data));
+-                        return true;
+-                }
+-
+-        if (JOURNAL_HEADER_CONTAINS(f->header, n_fields))
+-                if (le64toh(f->header->n_fields) * 4ULL > (le64toh(f->header->field_hash_table_size) / sizeof(HashItem)) * 3ULL) {
+-                        log_debug("Field hash table of %s has a fill level at %.1f (%"PRIu64" of %"PRIu64" items), suggesting rotation.",
+-                                  f->path,
+-                                  100.0 * (double) le64toh(f->header->n_fields) / ((double) (le64toh(f->header->field_hash_table_size) / sizeof(HashItem))),
+-                                  le64toh(f->header->n_fields),
+-                                  le64toh(f->header->field_hash_table_size) / sizeof(HashItem));
+-                        return true;
+-                }
++        /* Don't rotate logs when hash table fills up */
+ 
+         /* Are the data objects properly indexed by field objects? */
+         if (JOURNAL_HEADER_CONTAINS(f->header, n_data) &&
+-- 
+2.20.0.rc2.403.gdbc3b29805-goog
+
