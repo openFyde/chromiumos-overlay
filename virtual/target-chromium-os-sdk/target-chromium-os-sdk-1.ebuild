@@ -469,6 +469,12 @@ RDEPEND="${RDEPEND}
 	chromeos-base/ec-utils
 	"
 
+# Host dependencies for the chromeos-ec workflow
+RDEPEND="${RDEPEND}
+	dev-libs/libprotobuf-mutator
+	dev-libs/openssl
+	"
+
 # Host dependencies for virtualbox-guest-additions
 RDEPEND="${RDEPEND}
 	dev-util/kbuild
