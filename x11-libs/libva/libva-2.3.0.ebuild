@@ -62,8 +62,8 @@ PDEPEND="video_cards_nvidia? ( >=x11-libs/libva-vdpau-driver-0.7.4-r1 )
 			>=x11-libs/xvba-video-0.8.0-r1 )
 		)
 	video_cards_iHD? ( ~x11-libs/libva-intel-media-driver-18.3.0 )
-	video_cards_intel? ( !video_cards_iHD? ( ~x11-libs/libva-intel-driver-2.1.0 ) )
-	video_cards_i965? ( ~x11-libs/libva-intel-driver-2.1.0 )
+	video_cards_intel? ( !video_cards_iHD? ( ~x11-libs/libva-intel-driver-2.3.0 ) )
+	video_cards_i965? ( ~x11-libs/libva-intel-driver-2.3.0 )
 	utils? ( media-video/libva-utils )"
 
 REQUIRED_USE="|| ( drm wayland X )
