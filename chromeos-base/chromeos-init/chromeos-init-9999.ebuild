@@ -98,7 +98,7 @@ src_install_upstart() {
 		doins upstart/uinput.conf
 
 		if use syslog; then
-			doins upstart/log-rotate.conf upstart/syslog.conf
+			doins upstart/log-rotate.conf upstart/syslog.conf upstart/journald.conf
 		fi
 		if use !systemd; then
 			doins upstart/cgroups.conf

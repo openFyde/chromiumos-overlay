@@ -143,7 +143,7 @@ REQUIRED_USE="
 ################################################################################
 RDEPEND="
 	input_devices_evdev? ( app-misc/evtest )
-	syslog? ( app-admin/rsyslog )
+	syslog? ( app-admin/rsyslog sys-apps/journald )
 	biod? ( chromeos-base/biod )
 	compupdates? ( chromeos-base/imageloader )
 	dlc? ( chromeos-base/dlcservice )

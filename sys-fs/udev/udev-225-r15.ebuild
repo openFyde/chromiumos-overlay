@@ -330,6 +330,7 @@ multilib_src_install_all() {
 
 	# Install ChromeOS-specific rules
 	doins "${FILESDIR}"/91-chromeos-keyboard.rules
+	doins "${FILESDIR}"/91-kmsg-syslog-group.rules
 
 	# maintainer note: by not letting the upstream build-sys create the .so
 	# link, you also avoid a parallel make problem
