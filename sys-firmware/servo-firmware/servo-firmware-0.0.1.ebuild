@@ -8,6 +8,7 @@ HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 
 SERVO_MICRO_NAME="servo_micro-R70-11011.0.0"
 SERVO_V4_NAME="servo_v4-R70-11011.2.0"
+SWEETBERRY_NAME="sweetberry-R70-11011.4.0"
 UPDATER_PATH="/usr/share/servo_updater/firmware"
 
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
@@ -15,6 +16,7 @@ MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
 SRC_URI="
 	${MIRROR_PATH}/${SERVO_MICRO_NAME}.tar.gz
 	${MIRROR_PATH}/${SERVO_V4_NAME}.tar.gz
+	${MIRROR_PATH}/${SWEETBERRY_NAME}.tar.gz
 	"
 
 LICENSE="BSD-Google"
@@ -34,4 +36,7 @@ src_install() {
 
 	doins "${SERVO_V4_NAME}.bin"
 	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.bin"
+
+	doins "${SWEETBERRY_NAME}.bin"
+	dosym "${SWEETBERRY_NAME}.bin" "${UPDATER_PATH}/sweetberry.bin"
 }
