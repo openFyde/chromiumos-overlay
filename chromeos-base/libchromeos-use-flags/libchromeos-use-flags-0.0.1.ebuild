@@ -76,7 +76,6 @@ IUSE="
 	touch_centric_device
 	veyron_mickey
 	veyron_minnie
-	voice_interaction
 	+X
 "
 
