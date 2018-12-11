@@ -56,7 +56,7 @@ _get_external_data_paths_and_urls() {
 	local lines=$(command sed -e '/^\s*$/d' -e '/^\s*#/d' "${conf_file}")
 	local bad_lines=$(echo "${lines}" | command grep -E -v '^\s*\S+\s+\S+\s*$')
 	[[ -n "${bad_lines}" ]] && die "bad line(s) in ${conf_file}:\n${bad_lines}"
-	echo "${lines}"
+	echo -n "${lines}"
 }
 
 # Adds additional entries to SRC_URI for external test data files.
