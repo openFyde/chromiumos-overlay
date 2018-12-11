@@ -871,6 +871,9 @@ setup_compile_flags() {
 	# Workaround: Disable fatal linker warnings with asan/gold builds.
 	# See https://crbug.com/823936
 	use asan && use gold && append-ldflags "-Wl,--no-fatal-warnings"
+	# Workaround: Disable fatal linker warnings on arm64/lld.
+	# https://crbug.com/913071
+	use lld && use arm64 && append-ldflags "-Wl,--no-fatal-warnings"
 	use vtable_verify && append-ldflags -fvtable-verify=preinit
 
 	local flags
