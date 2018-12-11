@@ -59,7 +59,7 @@ RDEPEND="${DEPEND}
 "
 
 platform_pkg_test() {
-	local tests=(
+	local shell_tests=(
 		periodic_scheduler_unittest
 		killers_unittest
 		tests/chromeos-disk-metrics-test.sh
@@ -67,8 +67,16 @@ platform_pkg_test() {
 	)
 
 	local test_bin
-	for test_bin in "${tests[@]}"; do
+	for test_bin in "${shell_tests[@]}"; do
 		platform_test "run" "./${test_bin}"
+	done
+
+	local cpp_tests=(
+		clobber_state_unittest
+	)
+
+	for test_bin in "${cpp_tests[@]}"; do
+		platform_test "run" "${OUT}/${test_bin}"
 	done
 }
 
@@ -159,7 +167,11 @@ src_install() {
 
 	# Install startup/shutdown scripts.
 	dosbin chromeos_startup chromeos_shutdown
-	dosbin clobber-state
+
+	# C++ wrapper script for clobber-state.sh
+	dosbin "${OUT}"/clobber-state
+	dosbin clobber-state.sh
+
 	dosbin clobber-log
 	dosbin chromeos-boot-alert
 
