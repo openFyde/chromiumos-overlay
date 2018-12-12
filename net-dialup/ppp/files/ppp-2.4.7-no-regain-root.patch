@@ -1,0 +1,19 @@
+This patch prevents pppd from calling seteuid(0) when
+ALLOW_START_AS_NON_ROOT is defined, since we don't want pppd trying to
+regain root privileges in that case.
+
+diff --git a/pppd/tty.c b/pppd/tty.c
+index c9a0b33..d76b098 100644
+--- a/pppd/tty.c
++++ b/pppd/tty.c
+@@ -575,8 +575,10 @@ int connect_tty()
+ 			}
+ 			real_ttyfd = open(devnam, O_NONBLOCK | O_RDWR, 0);
+ 			err = errno;
++#ifndef ALLOW_START_AS_NON_ROOT
+ 			if (prio < OPRIO_ROOT && seteuid(0) == -1)
+ 				fatal("Unable to regain privileges");
++#endif
+ 			if (real_ttyfd >= 0)
+ 				break;
+ 			errno = err;

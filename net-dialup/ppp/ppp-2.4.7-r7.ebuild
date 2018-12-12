@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit linux-info multilib pam toolchain-funcs udev
+inherit linux-info multilib pam toolchain-funcs udev user
 
 PATCH_VER="6"
 DESCRIPTION="Point-to-Point Protocol (PPP)"
@@ -43,6 +43,7 @@ src_prepare() {
 	eapply "${FILESDIR}/${PN}-remove-ttyname.patch"
 	eapply "${FILESDIR}/${PN}-2.4.6-allow-non-root.patch"
 	eapply "${FILESDIR}/${PN}-2.4.6-specify-runtime-data-dir.patch"
+	eapply "${FILESDIR}/${PN}-2.4.7-no-regain-root.patch"
 
 	if use atm ; then
 		einfo "Enabling PPPoATM support"
@@ -138,11 +139,11 @@ src_install() {
 
 	dodir /etc/ppp/peers
 	insinto /etc/ppp
-	insopts -m0600
+	insopts -o shill -g shill -m0600
 	newins etc.ppp/pap-secrets pap-secrets.example
 	newins etc.ppp/chap-secrets chap-secrets.example
 
-	insopts -m0644
+	insopts -o shill -g shill -m0644
 	doins etc.ppp/options
 
 	pamd_mimic_system ppp auth account session
@@ -150,7 +151,7 @@ src_install() {
 	local PLUGINS_DIR="/usr/$(get_libdir)/pppd/${PV}"
 	# closing " for syntax coloring
 	insinto "${PLUGINS_DIR}"
-	insopts -m0755
+	insopts -o shill -g shill -m0755
 	doins pppd/plugins/minconn.so
 	doins pppd/plugins/passprompt.so
 	doins pppd/plugins/passwordfd.so
@@ -169,14 +170,14 @@ src_install() {
 
 		#Copy radiusclient configuration files (#92878)
 		insinto /etc/ppp/radius
-		insopts -m0644
+		insopts -o shill -g shill -m0644
 		doins pppd/plugins/radius/etc/{dictionary*,issue,port-id-map,radiusclient.conf,realms,servers}
 
 		doman pppd/plugins/radius/pppd-rad{ius,attr}.8
 	fi
 
 	insinto /etc/modprobe.d
-	insopts -m0644
+	insopts -o shill -g shill -m0644
 	newins "${FILESDIR}/modules.ppp" ppp.conf
 
 	dodoc PLUGINS README* SETUP Changes-2.3 FAQ
@@ -202,6 +203,11 @@ src_install() {
 		newsbin contrib/pppgetpass/pppgetpass.vt pppgetpass
 	fi
 	doman contrib/pppgetpass/pppgetpass.8
+}
+
+pkg_setup() {
+	enewuser shill
+	enewgroup shill
 }
 
 pkg_postinst() {
