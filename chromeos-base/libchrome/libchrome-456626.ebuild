@@ -73,6 +73,9 @@ src_prepare() {
 	# TODO(hidehiko): Remove this.
 	epatch "${FILESDIR}"/${P}-Add-backward-compatible-WaitableEvent-ctor.patch
 
+	# TODO(sonnysasaka): Remove after libchrome uprev past r616020.
+	epatch "${FILESDIR}"/${P}-dbus-Support-UnexportMethod-from-an-exported-object.patch
+
 	# base/files/file_posix.cc expects 64-bit off_t, which requires
 	# enabling large file support.
 	append-lfs-flags
