@@ -1,0 +1,93 @@
+From 4900ad2b856f2e7df35d8f2b44074de2307fa93a Mon Sep 17 00:00:00 2001
+From: Jingkui Wang <wjkcow@umich.edu>
+Date: Wed, 14 Nov 2018 23:35:46 -0500
+Subject: [PATCH] use empty usb vendorid to pass through all usb devices
+
+Sometimes I just want a stupid way to pass in everything.
+
+BUG: crbug/831850
+PR: https://github.com/lxc/lxd/pull/5280
+
+Signed-off-by: Jingkui Wang <jkwang@google.com>
+---
+ doc/containers.md    | 2 +-
+ lxd/container.go     | 4 +---
+ lxd/container_lxc.go | 6 +++---
+ lxd/devices.go       | 2 +-
+ 4 files changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/doc/containers.md b/doc/containers.md
+index 211c50fe..ad5005f2 100644
+--- a/doc/containers.md
++++ b/doc/containers.md
+@@ -406,7 +406,7 @@ The following properties exist:
+ 
+ Key         | Type      | Default           | Required  | Description
+ :--         | :--       | :--               | :--       | :--
+-vendorid    | string    | -                 | yes       | The vendor id of the USB device.
++vendorid    | string    | -                 | no        | The vendor id of the USB device.
+ productid   | string    | -                 | no        | The product id of the USB device.
+ uid         | int       | 0                 | no        | UID of the device owner in the container
+ gid         | int       | 0                 | no        | GID of the device owner in the container
+diff --git a/lxd/container.go b/lxd/container.go
+index 00b91404..5d169e4a 100644
+--- a/lxd/container.go
++++ b/lxd/container.go
+@@ -463,9 +463,7 @@ func containerValidDevices(cluster *db.Cluster, devices types.Devices, profile b
+ 				}
+ 			}
+ 		} else if m["type"] == "usb" {
+-			if m["vendorid"] == "" {
+-				return fmt.Errorf("Missing vendorid for USB device")
+-			}
++			// Nothing needed for usb.
+ 		} else if m["type"] == "gpu" {
+ 			if m["pci"] != "" && !shared.PathExists(fmt.Sprintf("/sys/bus/pci/devices/%s", m["pci"])) {
+ 				return fmt.Errorf("Invalid PCI address (no device found): %s", m["pci"])
+diff --git a/lxd/container_lxc.go b/lxd/container_lxc.go
+index 9819bda5..321188d0 100644
+--- a/lxd/container_lxc.go
++++ b/lxd/container_lxc.go
+@@ -2091,7 +2091,7 @@ func (c *containerLXC) startCommon() (string, error) {
+ 			}
+ 
+ 			for _, usb := range usbs {
+-				if usb.vendor != m["vendorid"] || (m["productid"] != "" && usb.product != m["productid"]) {
++				if (m["vendorid"] != "" && usb.vendor != m["vendorid"]) || (m["productid"] != "" && usb.product != m["productid"]) {
+ 					continue
+ 				}
+ 
+@@ -4484,7 +4484,7 @@ func (c *containerLXC) Update(args db.ContainerArgs, userRequested bool) error {
+ 
+ 				/* if the device isn't present, we don't need to remove it */
+ 				for _, usb := range usbs {
+-					if usb.vendor != m["vendorid"] || (m["productid"] != "" && usb.product != m["productid"]) {
++					if (m["vendorid"] != "" && usb.vendor != m["vendorid"]) || (m["productid"] != "" && usb.product != m["productid"]) {
+ 						continue
+ 					}
+ 
+@@ -4620,7 +4620,7 @@ func (c *containerLXC) Update(args db.ContainerArgs, userRequested bool) error {
+ 				}
+ 
+ 				for _, usb := range usbs {
+-					if usb.vendor != m["vendorid"] || (m["productid"] != "" && usb.product != m["productid"]) {
++					if (m["vendorid"] != "" && usb.vendor != m["vendorid"]) || (m["productid"] != "" && usb.product != m["productid"]) {
+ 						continue
+ 					}
+ 
+diff --git a/lxd/devices.go b/lxd/devices.go
+index c0ae53dc..f1e0053e 100644
+--- a/lxd/devices.go
++++ b/lxd/devices.go
+@@ -852,7 +852,7 @@ func deviceUSBEvent(s *state.State, usb usbDevice) {
+ 				continue
+ 			}
+ 
+-			if m["vendorid"] != usb.vendor || (m["productid"] != "" && m["productid"] != usb.product) {
++			if (m["vendorid"] != "" && m["vendorid"] != usb.vendor) || (m["productid"] != "" && m["productid"] != usb.product) {
+ 				continue
+ 			}
+ 
+-- 
+2.19.1.1215.g8438c0b245-goog
+

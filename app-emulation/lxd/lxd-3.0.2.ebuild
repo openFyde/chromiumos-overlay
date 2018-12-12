@@ -136,7 +136,13 @@ src_unpack() {
 }
 
 src_prepare() {
-	default
+	eapply "${FILESDIR}/${P}-dqlite-timeout.patch" # crbug.com/901108
+
+	cd "${S}/dist/src/${EGO_PN}"
+	eapply "${FILESDIR}/${P}-cert-ec384.patch" # crbug.com/837445
+	eapply "${FILESDIR}/${P}-pass-all-usb.patch" # crbug.com/831850
+	eapply_user
+
 	cd "${S}/dist/dqlite" || die "Can't cd to dqlite dir"
 	eautoreconf
 }

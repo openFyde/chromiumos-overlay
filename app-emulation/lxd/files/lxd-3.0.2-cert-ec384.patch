@@ -1,0 +1,115 @@
+Fixes slow cert generation on first LXD start.
+
+crbug.com/837445
+
+From b1e39f7d6b1f409724bb95f78a858ddfb4cb1ce5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>
+Date: Thu, 25 Oct 2018 14:39:18 -0600
+Subject: [PATCH] shared/cert: Switch default key to EC384
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This switches the key generation code to using an EC384 private key
+rather than RSA4096.
+
+This significantly speeds up key generation on some architectures.
+
+Note that existing installations will keep using whatever client or
+server key they have, this only affects certification generation on
+first use.
+
+If you want a newer installation to use RSA rather than EC, you can
+generate a normal x509 cert/key pair using RSA4096 with tools like
+openssl and put them in place.
+
+Signed-off-by: Stéphane Graber <stgraber@ubuntu.com>
+---
+ shared/cert.go      | 33 ++++++++++++++++++++++++++-------
+ shared/cert_test.go |  4 ++--
+ 2 files changed, 28 insertions(+), 9 deletions(-)
+
+diff --git a/shared/cert.go b/shared/cert.go
+index 4fb9364f..b38fa93a 100644
+--- a/shared/cert.go
++++ b/shared/cert.go
+@@ -6,6 +6,8 @@
+ package shared
+ 
+ import (
++	"crypto/ecdsa"
++	"crypto/elliptic"
+ 	"crypto/rand"
+ 	"crypto/rsa"
+ 	"crypto/sha256"
+@@ -103,12 +105,23 @@ func (c *CertInfo) PublicKey() []byte {
+ 
+ // PrivateKey is a convenience to encode the underlying private key.
+ func (c *CertInfo) PrivateKey() []byte {
+-	key, ok := c.KeyPair().PrivateKey.(*rsa.PrivateKey)
+-	if !ok {
+-		return nil
++	ecKey, ok := c.KeyPair().PrivateKey.(*ecdsa.PrivateKey)
++	if ok {
++		data, err := x509.MarshalECPrivateKey(ecKey)
++		if err != nil {
++			return nil
++		}
++
++		return pem.EncodeToMemory(&pem.Block{Type: "EC PRIVATE KEY", Bytes: data})
++	}
++
++	rsaKey, ok := c.KeyPair().PrivateKey.(*rsa.PrivateKey)
++	if ok {
++		data := x509.MarshalPKCS1PrivateKey(rsaKey)
++		return pem.EncodeToMemory(&pem.Block{Type: "RSA PRIVATE KEY", Bytes: data})
+ 	}
+-	data := x509.MarshalPKCS1PrivateKey(key)
+-	return pem.EncodeToMemory(&pem.Block{Type: "RSA PRIVATE KEY", Bytes: data})
++
++	return nil
+ }
+ 
+ // Fingerprint returns the fingerprint of the public key.
+@@ -250,7 +263,7 @@ func GenCert(certf string, keyf string, certtype bool) error {
+ // GenerateMemCert creates client or server certificate and key pair,
+ // returning them as byte arrays in memory.
+ func GenerateMemCert(client bool) ([]byte, []byte, error) {
+-	privk, err := rsa.GenerateKey(rand.Reader, 4096)
++	privk, err := ecdsa.GenerateKey(elliptic.P384(), rand.Reader)
+ 	if err != nil {
+ 		return nil, nil, fmt.Errorf("Failed to generate key: %v", err)
+ 	}
+@@ -319,8 +332,14 @@ func GenerateMemCert(client bool) ([]byte, []byte, error) {
+ 		return nil, nil, fmt.Errorf("Failed to create certificate: %v", err)
+ 	}
+ 
++	data, err := x509.MarshalECPrivateKey(privk)
++	if err != nil {
++		return nil, nil, err
++	}
++
+ 	cert := pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
+-	key := pem.EncodeToMemory(&pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(privk)})
++	key := pem.EncodeToMemory(&pem.Block{Type: "EC PRIVATE KEY", Bytes: data})
++
+ 	return cert, key, nil
+ }
+ 
+diff --git a/shared/cert_test.go b/shared/cert_test.go
+index ba06da33..92f34d25 100644
+--- a/shared/cert_test.go
++++ b/shared/cert_test.go
+@@ -81,7 +81,7 @@ func TestGenerateMemCert(t *testing.T) {
+ 	if len(rest) != 0 {
+ 		t.Errorf("GenerateMemCert returned a key with trailing content: %q", string(rest))
+ 	}
+-	if block.Type != "RSA PRIVATE KEY" {
+-		t.Errorf("GenerateMemCert returned a cert with Type %q not \"RSA PRIVATE KEY\"", block.Type)
++	if block.Type != "EC PRIVATE KEY" {
++		t.Errorf("GenerateMemCert returned a cert with Type %q not \"EC PRIVATE KEY\"", block.Type)
+ 	}
+ }
+-- 
+2.19.1.930.g4563a0d9d0-goog
+
