@@ -36,6 +36,7 @@ CROS_BOARDS=(
 	gnawty
 	grunt
 	guado
+	hatch
 	kalista
 	kevin
 	kip

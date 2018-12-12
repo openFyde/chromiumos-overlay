@@ -45,8 +45,8 @@ RESTRICT="strip"
 
 PER_BOARD_BOARDS=(
 	atlas bayleybay beltino bolt butterfly chell cyan daisy dragonegg eve
-	falco fizz fox glados glkrvp grunt kalista kunimitsu link lumpy nami
-	nocturne nyan octopus panther parrot peppy poppy rambi rammus samus
+	falco fizz fox glados glkrvp grunt hatch kalista kunimitsu link lumpy
+	nami nocturne nyan octopus panther parrot peppy poppy rambi rammus samus
 	sarien sklrvp slippy stout stout32 strago stumpy urara variant-peach-pit
 )
 
