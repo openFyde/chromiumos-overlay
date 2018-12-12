@@ -26,4 +26,5 @@ IUSE=""
 
 RDEPEND=""
 DEPEND="${RDEPEND}
-	dev-go/cli"
+	dev-go/cli
+	dev-go/net"
