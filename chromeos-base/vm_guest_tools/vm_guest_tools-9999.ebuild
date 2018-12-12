@@ -23,7 +23,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="kvm_guest"
+IUSE="kvm_guest vm-containers"
 
 # This ebuild should only be used on VM guest boards.
 REQUIRED_USE="kvm_guest"
@@ -51,14 +51,17 @@ src_configure() {
 }
 
 src_install() {
-	dobin "${OUT}"/garcon
-	dobin "${OUT}"/notificationd
-	dobin "${OUT}"/sommelier
-	dobin "${OUT}"/virtwl_guest_proxy
 	dobin "${OUT}"/vm_syslog
-	dobin "${OUT}"/wayland_demo
-	dobin "${OUT}"/x11_demo
 	dosbin "${OUT}"/vshd
+
+	if use vm-containers; then
+		dobin "${OUT}"/garcon
+		dobin "${OUT}"/notificationd
+		dobin "${OUT}"/sommelier
+		dobin "${OUT}"/virtwl_guest_proxy
+		dobin "${OUT}"/wayland_demo
+		dobin "${OUT}"/x11_demo
+	fi
 
 	into /
 	newsbin "${OUT}"/maitred init
@@ -71,14 +74,21 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
+		maitred_service_test
+		maitred_syslog_test
+	)
+
+	local container_tests=(
 		garcon_desktop_file_test
 		garcon_icon_index_file_test
 		garcon_icon_finder_test
 		garcon_mime_types_parser_test
-		maitred_service_test
-		maitred_syslog_test
 		notificationd_test
 	)
+
+	if use vm-containers; then
+		tests+=( "${container_tests[@]}" )
+	fi
 
 	local test_bin
 	for test_bin in "${tests[@]}"; do
