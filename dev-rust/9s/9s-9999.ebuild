@@ -50,6 +50,7 @@ src_test() {
 src_install() {
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/$(usex cros-debug debug release)/9s"
 
+	# We don't have a seccomp policy for arm64.
 	insinto /usr/share/policy
-	newins "seccomp/9s-seccomp-${ARCH}.policy" 9s-seccomp.policy
+	use arm64 || newins "seccomp/9s-seccomp-${ARCH}.policy" 9s-seccomp.policy
 }
