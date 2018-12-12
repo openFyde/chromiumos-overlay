@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="c0da001e3ae99ec8c6745c88d5f6f7bdcb308155"
+CROS_WORKON_COMMIT="ce127920505e411076c85250812cf0437893dc16"
 CROS_WORKON_TREE="b6a6b597b60e2e01914b92cb366fbd029527c250"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -16,7 +16,10 @@ DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="android-container-pi android-container-master-arc-dev android-container-nyc +combine_chromeos_policy selinux_audit_all selinux_develop"
+IUSE="
+	android-container-pi android-container-master-arc-dev android-container-nyc
+	+combine_chromeos_policy selinux_audit_all selinux_develop selinux_experimental
+"
 # When developers are doing something not Android. This required use is to let
 # the developer know, disabling combine_chromeos_policy flag doesn't change
 # anything.
@@ -284,7 +287,11 @@ src_install() {
 	doins file_contexts
 
 	insinto /etc/selinux
-	newins "${FILESDIR}/selinux_config" config
+	if use selinux_experimental; then
+		newins "${FILESDIR}/selinux_config_experimental" config
+	else
+		newins "${FILESDIR}/selinux_config" config
+	fi
 
 	insinto /etc/selinux/arc/policy
 	doins "${SEPOLICY_FILENAME}"
