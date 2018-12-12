@@ -3,25 +3,16 @@
 
 EAPI=5
 
-CROS_WORKON_PROJECT=(
-	"chromiumos/platform/arc-camera"
-	"chromiumos/platform2"
-)
-CROS_WORKON_LOCALNAME=(
-	"../platform/arc-camera"
-	"../platform2"
-)
-CROS_WORKON_DESTDIR=(
-	"${S}/platform/arc-camera"
-	"${S}/platform2"
-)
-CROS_WORKON_SUBTREE=(
-	"build common include mojo"
-	"common-mk"
-)
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="../platform2"
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk"
+CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_INCREMENTAL_BUILD="1"
+
+PLATFORM_SUBDIR="camera"
 PLATFORM_GYP_FILE="common/libcab.gyp"
 
-inherit cros-camera cros-workon
+inherit cros-camera cros-workon platform
 
 DESCRIPTION="Camera algorithm bridge library for proprietary camera algorithm
 isolation"
@@ -37,10 +28,6 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/libmojo
 	media-libs/cros-camera-libcamera_ipc"
-
-src_unpack() {
-	cros-camera_src_unpack
-}
 
 src_install() {
 	dobin "${OUT}/cros_camera_algo"

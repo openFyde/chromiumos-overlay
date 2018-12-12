@@ -3,25 +3,18 @@
 
 EAPI=5
 
-CROS_WORKON_PROJECT=(
-	"chromiumos/platform/arc-camera"
-	"chromiumos/platform2"
-)
-CROS_WORKON_LOCALNAME=(
-	"../platform/arc-camera"
-	"../platform2"
-)
-CROS_WORKON_DESTDIR=(
-	"${S}/platform/arc-camera"
-	"${S}/platform2"
-)
-CROS_WORKON_SUBTREE=(
-	"build common hal_adapter include mojo"
-	"common-mk"
-)
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="platform2"
+# TODO(crbug.com/914263): camera/hal is unnecessary for this build but is
+# workaround for unexpected sandbox behavior.
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal camera/hal_adapter camera/include camera/mojo common-mk"
+CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_INCREMENTAL_BUILD="1"
+
+PLATFORM_SUBDIR="camera"
 PLATFORM_GYP_FILE="hal_adapter/cros_camera_service.gyp"
 
-inherit cros-camera cros-constants cros-workon user
+inherit cros-camera cros-constants cros-workon platform user
 
 DESCRIPTION="Chrome OS camera service. The service is in charge of accessing
 camera device. It uses unix domain socket to build a synchronous channel."
@@ -49,10 +42,6 @@ DEPEND="${RDEPEND}
 	media-libs/minigbm
 	virtual/pkgconfig
 	x11-libs/libdrm"
-
-src_unpack() {
-	cros-camera_src_unpack
-}
 
 src_install() {
 	dobin "${OUT}/cros_camera_service"
