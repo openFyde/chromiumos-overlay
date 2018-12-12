@@ -64,6 +64,7 @@ IUSE="
 	opengles
 	ozone
 	passive_event_listeners
+	pita
 	pointer_events
 	rialto
 	rialto_enterprise_enrollment
