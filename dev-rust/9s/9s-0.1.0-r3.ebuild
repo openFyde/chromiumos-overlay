@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="1ad4dbe38a636b29abb9c94c74c0eb8a5fffeb9a"
+CROS_WORKON_COMMIT="773c08e60255c624b743f876b70ebfa05059dab8"
 CROS_WORKON_TREE="a01ac1a0766bfa7666346edef488ebd96e31eae5"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -52,6 +52,7 @@ src_test() {
 src_install() {
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/$(usex cros-debug debug release)/9s"
 
+	# We don't have a seccomp policy for arm64.
 	insinto /usr/share/policy
-	newins "seccomp/9s-seccomp-${ARCH}.policy" 9s-seccomp.policy
+	use arm64 || newins "seccomp/9s-seccomp-${ARCH}.policy" 9s-seccomp.policy
 }
