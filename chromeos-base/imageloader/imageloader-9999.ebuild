@@ -29,6 +29,14 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api"
 
 src_install() {
+	# Install manifest parsing libraries
+	dolib.so "${OUT}/lib/libimageloader-manifest.so"
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins libimageloader-manifest.pc
+
+	insinto "/usr/include/libimageloader"
+	doins manifest.h
+
 	# Install seccomp policy file.
 	insinto /usr/share/policy
 	newins "seccomp/imageloader-seccomp-${ARCH}.policy" imageloader-seccomp.policy
