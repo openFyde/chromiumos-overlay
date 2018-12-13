@@ -21,12 +21,13 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="chromeos-base/libbrillo"
+RDEPEND="
+	chromeos-base/libbrillo
+	chromeos-base/imageloader"
 
 DEPEND="${RDEPEND}
 	chromeos-base/dlcservice-client
 	chromeos-base/imageloader-client
-	chromeos-base/libbrillo
 	chromeos-base/system_api
 	chromeos-base/update_engine-client"
 
