@@ -1,0 +1,27 @@
+Disable GTEST_HAS_CXXABI_H_ macro at Android N
+
+Because the version of clang in Android N is too old, it does not
+contain cxxabi.
+
+b/118848258#comment13
+
+diff --git a/googletest/include/gtest/internal/gtest-port.h b/googletest/include/gtest/internal/gtest-port.h
+index 0094ed5..7ae0ed0 100644
+--- a/googletest/include/gtest/internal/gtest-port.h
++++ b/googletest/include/gtest/internal/gtest-port.h
+@@ -948,6 +948,14 @@ using ::std::tuple_size;
+ # define GTEST_HAS_CXXABI_H_ 0
+ #endif
+ 
++// Clang in Android N does not contain cxxabi library. (b/118848258)
++#if GTEST_OS_LINUX_ANDROID
++# if ANDROID_VERSION < 0x0800 // Android 8.0 (Oreo)
++#  undef GTEST_HAS_CXXABI_H_
++#  define GTEST_HAS_CXXABI_H_ 0
++# endif
++#endif
++
+ // A function level attribute to disable checking for use of uninitialized
+ // memory when built with MemorySanitizer.
+ #if defined(__clang__)
+

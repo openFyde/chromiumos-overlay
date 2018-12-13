@@ -28,6 +28,7 @@ PATCHES=(
 	"${FILESDIR}/configure-fix-pthread-linking.patch" #371647
 	"${FILESDIR}/${P}-makefile-am.patch"
 	"${FILESDIR}/${P}-threadlocal-api.patch"
+	"${FILESDIR}/${P}-GTEST_HAS_CXXABI_H_.patch"
 )
 
 src_prepare() {
