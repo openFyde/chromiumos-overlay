@@ -31,4 +31,6 @@ src_install() {
 	fperms a+x ${dit_dir}/debug_info_test.py
 
 	dosym ${dit_dir}/debug_info_test.py /usr/bin/debug_info_test
+
+	newbin afdo_redaction/redact_profile.py redact_textual_afdo_profile
 }
