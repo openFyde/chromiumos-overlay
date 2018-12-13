@@ -128,6 +128,7 @@ for (( a = 0; a < ${len}; ++a )); do
 		libhardware.so
 		liblog.so
 		libm.so
+		libmediandk.so
 		libstdc++.so
 		libsync.so
 		libui.so
@@ -187,7 +188,7 @@ for (( a = 0; a < ${len}; ++a )); do
 
 	### 3. Libcxx headers.
 	CXX_HEADERS_DIR="${arch_to_dir}/usr/include/c++/4.9"
-	runcmd cp -pPR \
+	runcmd cp -pLR \
 		"${ANDROID_TREE}/external/libcxx/include/"* \
 		"${CXX_HEADERS_DIR}/"
 
@@ -211,6 +212,7 @@ for (( a = 0; a < ${len}; ++a )); do
 
 	### 4.3a Other include directories
 	INCLUDE_DIRS=(
+		"frameworks/av/media/ndk/include/media"
 		"frameworks/native/include/android"
 		"frameworks/native/include/ui"
 		"frameworks/native/libs/arect/include/android"
@@ -237,7 +239,7 @@ for (( a = 0; a < ${len}; ++a )); do
 		basename="$(basename "${f}")"
 		todir="${arch_to_dir}/usr/include/${basename}"
 		runcmd mkdir -p "${todir}"
-		runcmd cp -pP "${ANDROID_TREE}/${f}"/*.h "${todir}/"
+		runcmd cp -pL "${ANDROID_TREE}/${f}"/*.h "${todir}/"
 	done
 
 	### 4.4 Expat includes

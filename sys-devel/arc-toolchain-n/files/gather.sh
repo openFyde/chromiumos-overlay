@@ -128,6 +128,7 @@ for (( a = 0; a < ${len}; ++a )); do
 		libhardware.so
 		liblog.so
 		libm.so
+		libmediandk.so
 		libstdc++.so
 		libsync.so
 		libui.so
@@ -189,7 +190,7 @@ for (( a = 0; a < ${len}; ++a )); do
 
 	### 3. Libcxx headers.
 	CXX_HEADERS_DIR="${arch_to_dir}/usr/include/c++/4.9"
-	runcmd cp -pPR \
+	runcmd cp -pLR \
 		"${ANDROID_TREE}/external/libcxx/include/"* \
 		"${CXX_HEADERS_DIR}/"
 
@@ -228,7 +229,7 @@ for (( a = 0; a < ${len}; ++a )); do
 		basename="$(basename "${f}")"
 		todir="${arch_to_dir}/usr/include/${basename}"
 		runcmd mkdir -p "${todir}"
-		runcmd cp -pP "${ANDROID_TREE}/${f}"/*.h "${todir}/"
+		runcmd cp -pL "${ANDROID_TREE}/${f}"/*.h "${todir}/"
 	done
 
 	### 4.3b Other include directories (arch-specific)
@@ -242,6 +243,12 @@ for (( a = 0; a < ${len}; ++a )); do
 		runcmd mkdir -p "${todir}"
 		runcmd cp -pP "${ANDROID_TREE}/${f}"/*.h "${todir}/"
 	done
+
+	### 4.3c include media NDK header
+        header_dir="frameworks/av/include/ndk"
+	todir="${arch_to_dir}/usr/include/media"
+	runcmd mkdir -p "${todir}"
+	runcmd cp -pL "${ANDROID_TREE}/${header_dir}"/*.h "${todir}/"
 
 	### 4.4 Expat includes
 
