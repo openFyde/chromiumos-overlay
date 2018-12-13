@@ -27,10 +27,6 @@ CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
 )
 
-# The URLs listed here must match those in files/external_data.conf.
-# TODO(crbug.com/900181): Delete this variable.
-TAST_BUNDLE_EXTERNAL_DATA_URLS=()
-
 inherit cros-workon tast-bundle
 
 DESCRIPTION="Bundle of local integration tests for Chrome OS"
