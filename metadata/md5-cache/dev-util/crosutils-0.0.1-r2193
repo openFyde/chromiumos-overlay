@@ -1,12 +1,11 @@
 DEFINED_PHASES=info install setup unpack
 DEPEND=dev-vcs/git
-DESCRIPTION=Compilation and runtime tests for toolchain
-EAPI=5
-HOMEPAGE=http://www.chromium.org/
-IUSE=cros_host cros_workon_tree_c09d9c46e80a6f362fb9ff8611d0e88ffa5dfcc1
+DESCRIPTION=Chromium OS build utilities
+EAPI=4
+HOMEPAGE=http://www.chromium.org/chromium-os
+IUSE=cros_host cros_workon_tree_8c33b74d08195ab0c2d3960f5bdc9613a0510149
 KEYWORDS=*
 LICENSE=BSD-Google
-RDEPEND=app-misc/pax-utils dev-lang/python sys-devel/binutils
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
-_md5_=824b420bf2e8c96446156b66786f9723
+_md5_=c1b40a4bc3a8d5676fd431ab869966d3
