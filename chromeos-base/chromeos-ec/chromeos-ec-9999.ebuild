@@ -39,7 +39,7 @@ SRC_URI="${CR50_ROS[@]/#/${MIRROR_PATH}}"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan"
+IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test"
 
 RDEPEND="
 	dev-embedded/libftdi
@@ -47,10 +47,15 @@ RDEPEND="
 		dev-libs/openssl:=
 		dev-libs/protobuf:=
 	)
+	test? (
+		dev-libs/openssl:=
+		dev-libs/protobuf:=
+	)
 "
 DEPEND="
 	${RDEPEND}
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
+	test? ( dev-libs/libprotobuf-mutator:= )
 	virtual/chromeos-ec-private-files
 	virtual/chromeos-ec-touch-firmware
 	unibuild? ( chromeos-base/chromeos-config )
