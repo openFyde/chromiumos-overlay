@@ -28,3 +28,12 @@ RDEPEND=""
 DEPEND="${RDEPEND}
 	dev-go/cli
 	dev-go/net"
+
+src_install() {
+	cros-go_src_install
+	local wprg_src="${S}/src/github.com/catapult-project/catapult/web_page_replay_go"
+	insinto "/usr/share/wpr"
+	doins "${wprg_src}/wpr_cert.pem"
+	doins "${wprg_src}/wpr_key.pem"
+	doins "${wprg_src}/deterministic.js"
+}
