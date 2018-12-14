@@ -72,6 +72,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/lld-8.0-revert-r330869.patch
 	epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
 	epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
+	epatch "${FILESDIR}"/lld-8.0-reorder-hotsection.patch
 	epatch "${FILESDIR}/$PN-invoke-name.patch"
 }
 src_configure() {

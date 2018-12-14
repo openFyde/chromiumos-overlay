@@ -63,6 +63,7 @@ IUSE="
 	oobe_config
 	opengl
 	opengles
+	+reorder_text_sections
 	+runhooks
 	+smbprovider
 	+thinlto
@@ -848,6 +849,10 @@ setup_compile_flags() {
 			EBUILD_LDFLAGS+=( -gsplit-dwarf )
 		fi
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
+	fi
+
+	if use reorder_text_sections; then
+		EBUILD_LDFLAGS+=( "-Wl,-z,keep-text-section-prefix" )
 	fi
 
 	# Enable std::vector []-operator bounds checking.
