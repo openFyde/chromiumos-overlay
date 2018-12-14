@@ -9,7 +9,9 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk arc/vm .gn"
 
-inherit cros-workon
+PLATFORM_SUBDIR="arc/vm"
+
+inherit cros-workon platform
 
 DESCRIPTION="A package to run arcvm."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm"
@@ -18,10 +20,23 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
+RDEPENDS="
+	chromeos-base/libbrillo
+	dev-libs/protobuf
+"
+
+DEPENDS="${RDEPENDS}"
+
 src_install() {
+	newbin ${OUT}/server_proxy arcvm_server_proxy
+
 	insinto /etc/init
-	doins arc/vm/init/arcvm.conf
-	doins arc/vm/init/arc-server-proxy.conf
+	doins init/arcvm.conf
+	doins init/arc-server-proxy.conf
 	insinto /etc/dbus-1/system.d
-	doins arc/vm/init/dbus-1/ArcVmUpstart.conf
+	doins init/dbus-1/ArcVmUpstart.conf
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/server_proxy_test"
 }
