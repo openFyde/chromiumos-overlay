@@ -52,3 +52,8 @@ pkg_preinst() {
 	enewuser arc-networkd
 	enewgroup arc-networkd
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/arc_network_testrunner"
+}
+
