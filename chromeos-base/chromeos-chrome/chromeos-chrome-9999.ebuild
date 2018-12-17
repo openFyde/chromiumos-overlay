@@ -856,7 +856,9 @@ setup_compile_flags() {
 	# option that is not yet implemented in the compiler version used
 	# by Chrome OS.
 	# Turns out this is only really supported by Clang. See crosbug.com/615466
+	# Add "-faddrsig" flag required to efficiently support "--icf=all".
 	if use clang; then
+		append-flags -faddrsig
 		append-flags -Wno-unknown-warning-option
 		export CXXFLAGS_host+=" -Wno-unknown-warning-option"
 		export CFLAGS_host+=" -Wno-unknown-warning-option"
