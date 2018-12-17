@@ -336,6 +336,9 @@ setup_altfw() {
 #       compressed-assets-rw/*   - files originally from cbfs-rw-compress/*,
 #                                  pre-compressed in src_compile
 #                                  used for vbt*.bin
+#       raw-assets-rw/* -          files originally from
+#                                  cbfs-rw-raw/*,
+#                                  used for extra wifi_sar files
 #   $2: Name to use when naming output files (see note above, can be empty)
 #
 #   $3: Name of target to build for coreboot (can be empty)
@@ -376,6 +379,7 @@ build_images() {
 	cp ${coreboot_file}.serial coreboot.rom.serial
 	coreboot_file=coreboot.rom
 
+	# TODO(teravest): Rewrite these loops with 'while read'
 	for file in $(find compressed-assets-ro -type f 2>/dev/null); do
 		for rom in ${coreboot_file}{,.serial}; do
 			do_cbfstool ${rom} add \
@@ -391,6 +395,14 @@ build_images() {
 				-r COREBOOT,FW_MAIN_A,FW_MAIN_B \
 				-f $file -n $(basename $file) -t raw \
 				-c precompression
+		done
+	done
+
+	for file in $(find "raw-assets-rw/${build_name}" -type f 2>/dev/null); do
+		for rom in "${coreboot_file}"{,.serial}; do
+			do_cbfstool "${rom}" add \
+				-r COREBOOT,FW_MAIN_A,FW_MAIN_B \
+				-f "${file}" -n "$(basename "${file}")" -t raw
 		done
 	done
 
@@ -462,6 +474,14 @@ build_images() {
 
 src_compile() {
 	local froot="${CROS_FIRMWARE_ROOT}"
+	einfo "Copying static rw assets"
+
+	if [[ -d "${froot}"/cbfs-rw-raw ]]; then
+		mkdir raw-assets-rw
+		cp -R "${froot}"/cbfs-rw-raw/* raw-assets-rw/ ||
+			die "unable to copy files cbfw-rw-raw files"
+	fi
+
 	einfo "Compressing static assets"
 
 	if [[ -d ${froot}/rocbfs ]]; then
