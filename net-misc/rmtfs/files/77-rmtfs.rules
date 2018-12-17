@@ -1,0 +1,1 @@
+ACTION=="add", KERNEL=="qcom_rmtfs_mem?", GROUP=="rmtfs", MODE="0660", RUN+="/sbin/initctl emit --no-wait qcom-rmtfs-added"

@@ -3,11 +3,11 @@
 
 EAPI="6"
 
-inherit cros-sanitizers
+inherit cros-sanitizers user
 
 DESCRIPTION="QMI Remote File System Server"
 HOMEPAGE="https://github.com/andersson/rmtfs"
-GIT_SHA1="b3ea7fdf7b33bf1d9b225db41dcfb2041dd76ae0"
+GIT_SHA1="cfb76ff6eecec15636f182009cda50ea0c654c60"
 SRC_URI="https://github.com/andersson/rmtfs/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
@@ -24,16 +24,8 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
-PATCHES=(
-	"${FILESDIR}/${PN}-configure-boot-directory.patch"
-)
-
 src_configure() {
 	sanitizers-setup-env
-}
-
-src_compile() {
-	emake RMTFS_DIR="/var/lib/rmtfs/boot"
 }
 
 src_install() {
@@ -41,4 +33,12 @@ src_install() {
 
 	insinto /etc/init
 	doins "${FILESDIR}/rmtfs.conf"
+	doins "${FILESDIR}/udev-trigger-rmtfs.conf"
+	insinto /lib/udev/rules.d
+	doins "${FILESDIR}/77-rmtfs.rules"
+}
+
+pkg_preinst() {
+	enewgroup "rmtfs"
+	enewuser "rmtfs"
 }
