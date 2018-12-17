@@ -17,8 +17,10 @@ GCC_FLAGS_TO_ADD = set(['-fno-reorder-blocks-and-partition',
 # Temporarily disable tautological-*-compare chromium:778316.
 # Temporarily add no-unknown-warning-option to deal with old clang versions.
 # Temporarily disable Wsection since kernel gets a bunch of these. chromium:778867
+# Disable "-faddrsig" since it produces object files that strip doesn't understand, chromium:915742.
 CLANG_FLAGS_TO_ADD = set(['-Qunused-arguments',
                           '-grecord-gcc-switches',
+                          '-fno-addrsig',
                           '-Wno-tautological-constant-compare',
                           '-Wno-tautological-unsigned-enum-zero-compare',
                           '-Wno-unknown-warning-option',
