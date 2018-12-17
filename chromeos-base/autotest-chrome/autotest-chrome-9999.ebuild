@@ -155,6 +155,7 @@ IUSE_TESTS=(
 	+tests_policy_DeviceTargetVersionPrefix
 	+tests_policy_DisableScreenshots
 	+tests_policy_EditBookmarksEnabled
+	+tests_policy_ExtensionPolicy
 	+tests_policy_ExternalStorageDisabled
 	+tests_policy_ExternalStorageReadOnly
 	+tests_policy_ForceGoogleSafeSearch
