@@ -27,7 +27,6 @@ CONFIG_FSP_M_FILE="3rdparty/blobs/mainboard/hatch/fsp/Fsp_M.fd"
 CONFIG_FSP_S_FILE="3rdparty/blobs/mainboard/hatch/fsp/Fsp_S.fd"
 CONFIG_ADD_FSP_BINARIES=y
 CONFIG_INTEL_GMA_ADD_VBT=y
-CONFIG_HAVE_FSP_GOP=y
 CONFIG_RUN_FSP_GOP=y
 CONFIG_FSP_M_XIP=y
 
@@ -38,14 +37,6 @@ CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/hatch/vbt.bin"
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
 CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/hatch/me.bin"
-
-# EC
-CONFIG_HAVE_EC_BIN=y
-CONFIG_EC_BIN_PATH="3rdparty/blobs/mainboard/hatch-ec.bin"
-
-# GbE
-CONFIG_HAVE_GBE_BIN=y
-CONFIG_GBE_BIN_PATH="3rdparty/blobs/mainboard/hatch/gbe.bin"
 
 # Disable
 # CONFIG_UART_DEBUG is not set
