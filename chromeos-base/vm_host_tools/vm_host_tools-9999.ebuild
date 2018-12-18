@@ -22,7 +22,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 # The crosvm-wl-dmabuf USE flag is used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf"
+IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer"
 REQUIRED_USE="kvm_host"
 
 RDEPEND="
@@ -39,6 +39,7 @@ DEPEND="
 	${RDEPEND}
 	chromeos-base/shill-client
 	>=chromeos-base/system_api-0.0.1-r3360
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 "
 
 src_unpack() {
@@ -57,6 +58,8 @@ src_install() {
 	dobin "${OUT}"/vm_concierge
 	dobin "${OUT}"/vmlog_forwarder
 	dobin "${OUT}"/vsh
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/cicerone_container_listener_fuzzer
 
 	insinto /etc/init
 	doins init/*.conf
