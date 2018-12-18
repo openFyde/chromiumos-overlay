@@ -21,7 +21,7 @@ SRC_URI="doc? ( https://sqlite.org/2018/${PN}-doc-${DOC_PV}.zip )
 LICENSE="public-domain"
 SLOT="3"
 KEYWORDS="*"
-IUSE="debug doc icu +readline secure-delete static-libs tcl test tools"
+IUSE="debug doc +extensions icu +readline secure-delete static-libs tcl test tools"
 
 RDEPEND="sys-libs/zlib:0=[${MULTILIB_USEDEP}]
 	icu? ( dev-libs/icu:0=[${MULTILIB_USEDEP}] )
@@ -83,7 +83,7 @@ multilib_src_configure() {
 	local CPPFLAGS="${CPPFLAGS}" CFLAGS="${CFLAGS}" options=()
 
 	options+=(
-		--enable-$(full_archive && echo load-extension || echo dynamic-extensions)
+		$(use_enable extensions $(full_archive && echo load-extension || echo dynamic-extensions))
 		--enable-threadsafe
 	)
 	if ! full_archive; then
