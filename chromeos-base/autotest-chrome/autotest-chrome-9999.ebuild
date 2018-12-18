@@ -160,6 +160,7 @@ IUSE_TESTS=(
 	+tests_policy_ExternalStorageReadOnly
 	+tests_policy_ForceGoogleSafeSearch
 	+tests_policy_ForceYouTubeSafetyMode
+	+tests_policy_HomepageLocation
 	+tests_policy_ImagesAllowedForUrls
 	+tests_policy_ImagesBlockedForUrls
 	+tests_policy_JavaScriptAllowedForUrls
