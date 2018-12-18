@@ -74,6 +74,7 @@ platform_pkg_test() {
 	local cpp_tests=(
 		clobber_state_unittest
 		file_attrs_cleaner_test
+		usermode-helper_test
 	)
 
 	for test_bin in "${cpp_tests[@]}"; do
@@ -166,6 +167,7 @@ src_install() {
 	dosbin "${OUT}"/static_node_tool
 	dosbin "${OUT}"/net_poll_tool
 	dosbin "${OUT}"/file_attrs_cleaner_tool
+	dosbin "${OUT}"/usermode-helper
 
 	# Install startup/shutdown scripts.
 	dosbin chromeos_startup chromeos_shutdown
