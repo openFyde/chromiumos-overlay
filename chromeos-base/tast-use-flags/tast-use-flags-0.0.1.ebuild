@@ -17,6 +17,7 @@ IUSE="
 	betty
 	chrome_internal
 	chromeless_tty
+	containers
 	cups
 	+display_backlight
 	+internal_mic
