@@ -22,9 +22,9 @@ CONFIG_HAVE_IFD_BIN=y
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/sarien/descriptor-sarien.bin"
 
 # FSP blobs
-CONFIG_FSP_HEADER_PATH="3rdparty/blobs/mainboard/sarien/fsp/Include/"
-CONFIG_FSP_M_FILE="3rdparty/blobs/mainboard/sarien/fsp/Fsp_M.fd"
-CONFIG_FSP_S_FILE="3rdparty/blobs/mainboard/sarien/fsp/Fsp_S.fd"
+CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/cfl/fsp/Include/"
+CONFIG_FSP_M_FILE="3rdparty/blobs/intel/cfl/fsp/Fsp_M.fd"
+CONFIG_FSP_S_FILE="3rdparty/blobs/intel/cfl/fsp/Fsp_S.fd"
 CONFIG_ADD_FSP_BINARIES=y
 CONFIG_INTEL_GMA_ADD_VBT=y
 CONFIG_HAVE_FSP_GOP=y
