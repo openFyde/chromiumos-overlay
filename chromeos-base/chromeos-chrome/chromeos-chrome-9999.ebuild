@@ -746,10 +746,15 @@ src_prepare() {
 
 setup_test_lists() {
 	TEST_FILES=(
+		capture_unittests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
+		# TODO(crbug.com/879065): After video_decode_accelerator_tests gets
+		# enough functionalities to replace video_decode_accelerator_unittest
+		# with, remove video_decode_accelerator_unittest.
+		video_decode_accelerator_tests
 		video_decode_accelerator_unittest
 		video_encode_accelerator_unittest
 		wayland_client_perftests
