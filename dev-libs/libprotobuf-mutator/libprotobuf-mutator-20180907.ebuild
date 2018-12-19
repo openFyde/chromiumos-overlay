@@ -14,6 +14,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
+RESTRICT="test"
 
 RDEPEND="dev-libs/protobuf:="
 DEPEND="${RDEPEND}"

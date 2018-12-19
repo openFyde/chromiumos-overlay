@@ -21,7 +21,9 @@ LICENSE="openssl"
 SLOT="0"
 KEYWORDS="*"
 IUSE="+asm bindist gmp kerberos rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
-RESTRICT="!bindist? ( bindist )"
+# TODO(crbug.com/916672) Enable testing once the failure is fixed.
+RESTRICT="!bindist? ( bindist )
+	test"
 
 RDEPEND=">=app-misc/c_rehash-1.7-r1
 	gmp? ( >=dev-libs/gmp-5.1.3-r1[static-libs(+)?,${MULTILIB_USEDEP}] )

@@ -19,6 +19,7 @@ LICENSE="BSD"
 SLOT="0/13"
 KEYWORDS="*"
 IUSE="emacs examples java python static-libs test zlib"
+RESTRICT="test"
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
