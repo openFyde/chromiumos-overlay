@@ -70,6 +70,6 @@ src_install() {
 
 	if use fuzzer; then
 		fuzzer_install "${S}/fuzz/OWNERS" \
-			"${CARGO_TARGET_DIR}/${CHOST}/debug/p9_tframe_decode_fuzzer"
+			"$(cros-rust_get_build_dir)/p9_tframe_decode_fuzzer"
 	fi
 }

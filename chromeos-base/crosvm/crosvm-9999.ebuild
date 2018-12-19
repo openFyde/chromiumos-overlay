@@ -127,7 +127,7 @@ src_install() {
 	# cargo doesn't know how to install cross-compiled binaries.  It will
 	# always install native binaries for the host system.  Manually install
 	# crosvm instead.
-	local build_dir="${WORKDIR}/${CHOST}/$(usex cros-debug debug release)"
+	local build_dir="$(cros-rust_get_build_dir)"
 	dobin "${build_dir}/crosvm"
 
 	# Install seccomp policy files.

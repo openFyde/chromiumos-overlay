@@ -49,7 +49,7 @@ src_test() {
 }
 
 src_install() {
-	dobin "${CARGO_TARGET_DIR}/${CHOST}/$(usex cros-debug debug release)/9s"
+	dobin "$(cros-rust_get_build_dir)/9s"
 
 	# We don't have a seccomp policy for arm64.
 	insinto /usr/share/policy

@@ -186,7 +186,7 @@ ecargo() {
 # @DESCRIPTION:
 # Call `cargo build` with the specified command line options.
 ecargo_build() {
-	ecargo build --target="${CHOST}" $(usex cros-debug "" --release) "$@"
+	ecargo build --target="${CHOST}" --release "$@"
 }
 
 # @FUNCTION: ecargo_build_fuzzer
@@ -217,7 +217,7 @@ ecargo_build_fuzzer() {
 
 	export RUSTFLAGS="${fuzzer_flags[*]} ${RUSTFLAGS}"
 
-	ecargo build --target="${CHOST}" "$@"
+	ecargo build --target="${CHOST}" --release "$@"
 }
 
 # @FUNCTION: ecargo_test
@@ -225,7 +225,7 @@ ecargo_build_fuzzer() {
 # @DESCRIPTION:
 # Call `cargo test` with the specified command line options.
 ecargo_test() {
-	ecargo test --target="${CHOST}" $(usex cros-debug "" --release) "$@"
+	ecargo test --target="${CHOST}" --release "$@"
 }
 
 # @FUNCTION: cros-rust_publish
@@ -284,6 +284,13 @@ cros-rust_publish() {
 
 	# We want the Cargo.toml.orig file to be world readable.
 	fperms 0644 "${CROS_RUST_REGISTRY_DIR}/${name}-${version}/Cargo.toml.orig"
+}
+
+# @FUNCTION: cros-rust_get_build_dir
+# @DESCRIPTION:
+# Return the path to the directory where build artifacts are available.
+cros-rust_get_build_dir() {
+	echo "${CARGO_TARGET_DIR}/${CHOST}/release"
 }
 
 cros-rust_src_install() {
