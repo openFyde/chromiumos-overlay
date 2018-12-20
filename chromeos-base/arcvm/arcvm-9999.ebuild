@@ -22,13 +22,13 @@ KEYWORDS="~*"
 
 RDEPENDS="
 	chromeos-base/libbrillo
-	dev-libs/protobuf
+	dev-libs/protobuf:=
 "
 
 DEPENDS="${RDEPENDS}"
 
 src_install() {
-	newbin ${OUT}/server_proxy arcvm_server_proxy
+	newbin "${OUT}"/server_proxy arcvm_server_proxy
 
 	insinto /etc/init
 	doins init/arcvm.conf
