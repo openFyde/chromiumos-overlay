@@ -127,18 +127,10 @@ generate_font_cache() {
 }
 
 src_compile() {
-	# We don't need to generate the font cache for the host because it
-	# will never be used.
-	if [[ "$(cros_target)" != "cros_host" ]]; then
-		generate_font_cache
-	else
-		einfo "Skipping font cache generation for cros_host."
-	fi
+	generate_font_cache
 }
 
 src_install() {
-	if [[ "$(cros_target)" != "cros_host" ]]; then
-		insinto /usr/share/cache/fontconfig
-		doins "${WORKDIR}"/out/*
-	fi
+	insinto /usr/share/cache/fontconfig
+	doins "${WORKDIR}"/out/*
 }
