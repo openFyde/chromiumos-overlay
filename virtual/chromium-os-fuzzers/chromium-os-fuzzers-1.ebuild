@@ -9,6 +9,7 @@ HOMEPAGE="http://dev.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
+IUSE="asan"
 
 RDEPEND="
 	chromeos-base/authpolicy[fuzzer]
@@ -32,7 +33,7 @@ RDEPEND="
 	chromeos-base/trunks[fuzzer]
 	chromeos-base/update_engine[fuzzer]
 	chromeos-base/usb_bouncer[fuzzer]
-	dev-rust/p9[fuzzer]
+	asan? ( dev-rust/p9[fuzzer] )
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
 	media-libs/virglrenderer[fuzzer]
