@@ -26,8 +26,10 @@ RDEPEND="
 	chromeos-base/libchrome
 	chromeos-base/system_api
 "
-DEPEND="${RDEPEND}
-"
+DEPEND="${RDEPEND}"
+
+# Add vboot_reference as build time dependency to read cros_debug status
+DEPEND+=" chromeos-base/vboot_reference "
 
 pkg_preinst() {
 	# Create user and group for runtime_probe
