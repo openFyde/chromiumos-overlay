@@ -32,6 +32,7 @@ IUSE="
 	skate
 	snow
 	spring
+	touchview
 	veyron_mickey
 	veyron_rialto
 "
