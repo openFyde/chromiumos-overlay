@@ -43,6 +43,9 @@ src_install() {
 	insinto /usr/share/policy
 	newins "${S}/seccomp/usb_bouncer-seccomp-${ARCH}.policy" usb_bouncer-seccomp.policy
 
+	insinto /etc/init
+	doins "${S}"/init/usb_bouncer.conf
+
 	local daemon_store="/etc/daemon-store/usb_bouncer"
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
