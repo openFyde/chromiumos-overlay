@@ -7,7 +7,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/network .gn"
+# TODO(garrick): Workaround for https://crbug.com/809389
+CROS_WORKON_SUBTREE="common-mk arc/network shill/net .gn"
 
 PLATFORM_SUBDIR="arc/network"
 PLATFORM_GYP_FILE="arc-network.gyp"
@@ -34,6 +35,7 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/shill
 	chromeos-base/shill-client
 	chromeos-base/system_api
 "
