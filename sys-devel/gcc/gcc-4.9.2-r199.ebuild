@@ -46,7 +46,7 @@ PDEPEND=">=sys-devel/gcc-config-1.7"
 RESTRICT="mirror strip"
 
 IUSE="gcc_repo gcj git_gcc go graphite gtk hardened hardfp mounted_gcc multilib
-	nls cxx openmp tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache
+	nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache
 	next_gcc prev_gcc"
 REQUIRED_USE="next_gcc? ( !prev_gcc )"
 
