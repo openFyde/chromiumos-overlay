@@ -29,6 +29,7 @@ XORG_CONFIGURE_OPTIONS=(
 	# do not check for runtime deps
 	--disable-runtime-deps
 	--with-xkb-rules-symlink=xorg
+	--disable-nls
 )
 
 PATCHES=(
