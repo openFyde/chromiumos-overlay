@@ -238,4 +238,15 @@ cros-rust_src_install() {
 	cros-rust_publish
 }
 
+# @FUNCTION: cros-rust_get_crate_version
+# @USAGE: <path to crate>
+# @DESCRIPTION:
+# Returns the version for a crate by finding the first 'version =' line in the
+# Cargo.toml in the crate.
+cros-rust_get_crate_version() {
+	local crate="${1:-${S}}"
+	[[ $# -gt 1 ]] && die "${FUNCNAME}: incorrect number of arguments"
+	awk '/^version = / { print $3 }' "${crate}/Cargo.toml" | head -n1 | tr -d '"'
+}
+
 fi
