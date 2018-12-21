@@ -62,7 +62,7 @@ _find_configs() {
 
 	while read -d $'\0' -r file; do
 		files+=( "${file}" )
-	done < <(find "$1" -name "*$2" -print0)
+	done < <(find -H "$1" -name "*$2" -print0)
 }
 
 # @FUNCTION: _insert_config_files
