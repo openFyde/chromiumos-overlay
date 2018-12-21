@@ -32,7 +32,7 @@ src_install() {
 
 	insinto /etc/init
 	doins init/arcvm.conf
-	doins init/arc-server-proxy.conf
+	doins init/arcvm-server-proxy.conf
 	insinto /etc/dbus-1/system.d
 	doins init/dbus-1/ArcVmUpstart.conf
 }
