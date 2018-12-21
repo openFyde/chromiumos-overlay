@@ -1,0 +1,188 @@
+From 89b71f8291a6cb0df88a7882a7595c9574e7f0c0 Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Fri, 21 Dec 2018 20:51:22 +0900
+Subject: [PATCH] libmojo: Update Makefile for r462023.
+
+Change-Id: Id4eb878d0f436652bc27dfaa7a08a1702ff61e00
+---
+ Makefile | 125 +++++++++++++++++++++++++++++++------------------------
+ 1 file changed, 70 insertions(+), 55 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index b554549..e3e3055 100644
+--- a/Makefile
++++ b/Makefile
+@@ -20,13 +20,11 @@ CXXFLAGS += -std=c++11 \
+ 	-Wno-char-subscripts \
+ 	-DOS_POSIX \
+ 	-DNO_TCMALLOC \
++	-DMOJO_EDK_LEGACY_PROTOCOL \
+ 
+ LDLIBS += $(PC_LIBS)
+ 
+ CXX_OBJECTS := \
+-	base/base_paths.o \
+-	base/path_service.o \
+-	base/unguessable_token.o \
+ 	ipc/ipc_message.o \
+ 	ipc/ipc_message_attachment.o \
+ 	ipc/ipc_message_attachment_set.o \
+@@ -35,86 +33,103 @@ CXX_OBJECTS := \
+ 	ipc/ipc_mojo_message_helper.o \
+ 	ipc/ipc_mojo_param_traits.o \
+ 	ipc/ipc_platform_file_attachment_posix.o \
+-	mojo/common/common_custom_types_struct_traits.o \
++	mojo/edk/embedder/platform_shared_buffer.o \
+ 	mojo/edk/embedder/connection_params.o \
+-	mojo/edk/embedder/embedder.o \
+ 	mojo/edk/embedder/entrypoints.o \
+ 	mojo/edk/embedder/platform_channel_pair.o \
+-	mojo/edk/embedder/platform_channel_pair_posix.o \
+-	mojo/edk/embedder/platform_channel_utils_posix.o \
+ 	mojo/edk/embedder/platform_handle.o \
++	mojo/edk/embedder/test_embedder.o \
++	mojo/edk/embedder/platform_channel_utils_posix.o \
++	mojo/edk/embedder/scoped_ipc_support.o \
++	mojo/edk/embedder/embedder.o \
++	mojo/edk/embedder/platform_channel_pair_posix.o \
+ 	mojo/edk/embedder/platform_handle_utils_posix.o \
+-	mojo/edk/embedder/platform_shared_buffer.o \
+-	mojo/edk/system/awakable_list.o \
+-	mojo/edk/system/broker_host.o \
+-	mojo/edk/system/broker_posix.o \
+-	mojo/edk/system/channel.o \
++	mojo/edk/embedder/named_platform_handle_utils_posix.o \
++	mojo/edk/embedder/pending_process_connection.o \
+ 	mojo/edk/system/channel_posix.o \
+-	mojo/edk/system/configuration.o \
+-	mojo/edk/system/core.o \
+-	mojo/edk/system/data_pipe_consumer_dispatcher.o \
+-	mojo/edk/system/data_pipe_control_message.o \
++	mojo/edk/system/platform_handle_dispatcher.o \
++	mojo/edk/system/channel.o \
++	mojo/edk/system/broker_posix.o \
+ 	mojo/edk/system/data_pipe_producer_dispatcher.o \
+-	mojo/edk/system/dispatcher.o \
+-	mojo/edk/system/handle_table.o \
+-	mojo/edk/system/mapping_table.o \
+-	mojo/edk/system/message_for_transit.o \
+-	mojo/edk/system/message_pipe_dispatcher.o \
++	mojo/edk/system/broker_host.o \
++	mojo/edk/system/ports_message.o \
++	mojo/edk/system/watcher_dispatcher.o \
++	mojo/edk/system/request_context.o \
++	mojo/edk/system/configuration.o \
+ 	mojo/edk/system/node_channel.o \
+-	mojo/edk/system/node_controller.o \
+-	mojo/edk/system/platform_handle_dispatcher.o \
++	mojo/edk/system/shared_buffer_dispatcher.o \
++	mojo/edk/system/watch.o \
++	mojo/edk/system/message_pipe_dispatcher.o \
++	mojo/edk/system/handle_table.o \
++	mojo/edk/system/core.o \
+ 	mojo/edk/system/ports/event.o \
+-	mojo/edk/system/ports/message.o \
+-	mojo/edk/system/ports/message_queue.o \
+ 	mojo/edk/system/ports/name.o \
+-	mojo/edk/system/ports/node.o \
+ 	mojo/edk/system/ports/port.o \
++	mojo/edk/system/ports/message_queue.o \
++	mojo/edk/system/ports/node.o \
++	mojo/edk/system/ports/message.o \
+ 	mojo/edk/system/ports/port_ref.o \
+-	mojo/edk/system/ports_message.o \
+-	mojo/edk/system/request_context.o \
+-	mojo/edk/system/shared_buffer_dispatcher.o \
+-	mojo/edk/system/wait_set_dispatcher.o \
+-	mojo/edk/system/waiter.o \
+-	mojo/edk/system/watcher.o \
++	mojo/edk/system/data_pipe_consumer_dispatcher.o \
++	mojo/edk/system/message_for_transit.o \
++	mojo/edk/system/node_controller.o \
+ 	mojo/edk/system/watcher_set.o \
++	mojo/edk/system/dispatcher.o \
++	mojo/edk/system/mapping_table.o \
++	mojo/edk/system/data_pipe_control_message.o \
++	mojo/common/values_struct_traits.o \
++	mojo/common/data_pipe_utils.o \
++	mojo/common/common_custom_types_struct_traits.o \
++	mojo/common/data_pipe_drainer.o \
+ 	mojo/public/c/system/thunks.o \
++	mojo/public/c/system/set_thunks_for_app.o \
++	mojo/public/cpp/bindings/lib/native_struct.o \
++	mojo/public/cpp/bindings/lib/serialization_context.o \
+ 	mojo/public/cpp/bindings/lib/array_internal.o \
+-	mojo/public/cpp/bindings/lib/associated_group.o \
+-	mojo/public/cpp/bindings/lib/associated_group_controller.o \
+-	mojo/public/cpp/bindings/lib/binding_state.o \
+-	mojo/public/cpp/bindings/lib/connector.o \
+-	mojo/public/cpp/bindings/lib/control_message_handler.o \
+-	mojo/public/cpp/bindings/lib/control_message_proxy.o \
+-	mojo/public/cpp/bindings/lib/filter_chain.o \
+-	mojo/public/cpp/bindings/lib/fixed_buffer.o \
+-	mojo/public/cpp/bindings/lib/interface_endpoint_client.o \
+-	mojo/public/cpp/bindings/lib/message.o \
+-	mojo/public/cpp/bindings/lib/message_buffer.o \
+-	mojo/public/cpp/bindings/lib/message_builder.o \
+-	mojo/public/cpp/bindings/lib/message_header_validator.o \
++	mojo/public/cpp/bindings/lib/string_traits_string16.o \
++	mojo/public/cpp/bindings/lib/sync_call_restrictions.o \
+ 	mojo/public/cpp/bindings/lib/multiplex_router.o \
+-	mojo/public/cpp/bindings/lib/native_struct.o \
++	mojo/public/cpp/bindings/lib/sync_handle_watcher.o \
++	mojo/public/cpp/bindings/lib/validation_errors.o \
+ 	mojo/public/cpp/bindings/lib/native_struct_data.o \
++	mojo/public/cpp/bindings/lib/scoped_interface_endpoint_handle.o \
++	mojo/public/cpp/bindings/lib/sync_event_watcher.o \
++	mojo/public/cpp/bindings/lib/validation_context.o \
++	mojo/public/cpp/bindings/lib/associated_group.o \
+ 	mojo/public/cpp/bindings/lib/native_struct_serialization.o \
++	mojo/public/cpp/bindings/lib/validation_util.o \
+ 	mojo/public/cpp/bindings/lib/pipe_control_message_handler.o \
++	mojo/public/cpp/bindings/lib/filter_chain.o \
++	mojo/public/cpp/bindings/lib/message.o \
+ 	mojo/public/cpp/bindings/lib/pipe_control_message_proxy.o \
+-	mojo/public/cpp/bindings/lib/scoped_interface_endpoint_handle.o \
+-	mojo/public/cpp/bindings/lib/serialization_context.o \
+-	mojo/public/cpp/bindings/lib/sync_call_restrictions.o \
++	mojo/public/cpp/bindings/lib/control_message_proxy.o \
++	mojo/public/cpp/bindings/lib/message_buffer.o \
++	mojo/public/cpp/bindings/lib/control_message_handler.o \
++	mojo/public/cpp/bindings/lib/message_builder.o \
++	mojo/public/cpp/bindings/lib/connector.o \
++	mojo/public/cpp/bindings/lib/interface_endpoint_client.o \
+ 	mojo/public/cpp/bindings/lib/sync_handle_registry.o \
+-	mojo/public/cpp/bindings/lib/sync_handle_watcher.o \
+-	mojo/public/cpp/bindings/lib/validation_context.o \
+-	mojo/public/cpp/bindings/lib/validation_errors.o \
+-	mojo/public/cpp/bindings/lib/validation_util.o \
++	mojo/public/cpp/bindings/lib/associated_binding.o \
++	mojo/public/cpp/bindings/lib/message_header_validator.o \
++	mojo/public/cpp/bindings/lib/associated_group_controller.o \
++	mojo/public/cpp/bindings/lib/associated_interface_ptr.o \
++	mojo/public/cpp/bindings/lib/fixed_buffer.o \
++	mojo/public/cpp/bindings/lib/binding_state.o \
++	mojo/public/cpp/system/buffer.o \
+ 	mojo/public/cpp/system/platform_handle.o \
+-	mojo/public/cpp/system/watcher.o
++	mojo/public/cpp/system/wait.o \
++	mojo/public/cpp/system/wait_set.o \
++	mojo/public/cpp/system/watcher.o \
++	mojo/public/cpp/system/simple_watcher.o \
+ 
+-MOJOM_FILES := ipc/ipc.mojom \
++MOJOM_FILES := \
++	ipc/ipc.mojom \
+ 	mojo/common/file.mojom \
++	mojo/common/file_path.mojom \
+ 	mojo/common/string16.mojom \
+ 	mojo/common/text_direction.mojom \
+ 	mojo/common/time.mojom \
+ 	mojo/common/unguessable_token.mojom \
++	mojo/common/values.mojom \
+ 	mojo/common/version.mojom \
+ 	mojo/public/interfaces/bindings/pipe_control_messages.mojom \
+ 	mojo/public/interfaces/bindings/interface_control_messages.mojom \
+-- 
+2.20.1.415.g653613c723-goog
+

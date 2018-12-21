@@ -4,7 +4,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT="aosp/platform/external/libmojo"
-CROS_WORKON_COMMIT="0371727a4782c43bbf96a7a579fa1d771083f3ea"
+CROS_WORKON_COMMIT="02d8c056c1f7396f54b5871f2d09e89be6244bb4"
 CROS_WORKON_LOCALNAME="aosp/external/libmojo"
 CROS_WORKON_BLACKLIST="1"
 
@@ -23,9 +23,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-Add-pending_process_connection.o.patch"
-	epatch "${FILESDIR}/${P}-Define-MOJO_EDK_LEGACY_PROTOCOL.patch"
-	epatch "${FILESDIR}/${P}-Add-buffer.cc.patch"
+	epatch "${FILESDIR}/${P}-Makefile.patch"
 }
 
 src_configure() {

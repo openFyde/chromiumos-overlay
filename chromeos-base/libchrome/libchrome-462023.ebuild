@@ -8,14 +8,14 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("cf65e45c51a11ebd14f39daf0be997f5a0fd90ba" "37b6860c4fbd6235d09a76026b6456a5e9459b0d")
+CROS_WORKON_COMMIT=("23b79133514ac2cd986bce21c398fb6658bda248" "780c6a9c0783e0a96830c563ab31ece48eba2374")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 CROS_WORKON_BLACKLIST="1"
 
 WANT_LIBCHROME="no"
-inherit cros-workon platform
+inherit cros-workon libchrome-version platform
 
 DESCRIPTION="Chrome base/ and dbus/ libraries extracted for use on Chrome OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/libchrome"
@@ -69,6 +69,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
 	epatch "${FILESDIR}"/${P}-SequencedWorkerPool-allow-pools-of-one-thread.patch
 
+	# Cherry-pick components/policy/core/common/policy_load_status.{cc,h}
+	# from upstream r469654.
+	epatch "${FILESDIR}"/${P}-Allow-PolicyLoadStatusSample-to-override-reporting-m.patch
+
 	# ASAN fix cherry-picked from upstream r534999.
 	epatch "${FILESDIR}"/${P}-Base-DirReader-Alignment.patch
 
@@ -93,16 +97,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-dbus-Support-UnexportMethod-from-an-exported-object.patch
 }
 
-src_compile() {
-	BASE_VER=${SLOT} \
-	CHROME_INCLUDE_PATH="${S}" \
-	USE_ASAN="$(use_sanitizers 1 0)" \
-	USE_DBUS="$(usex dbus 1 0)" \
-	USE_CRYPTO="$(usex crypto 1 0)" \
-	USE_TIMERS="$(usex timers 1 0)" \
-	platform_src_compile
-}
-
 src_install() {
 	dolib.so "${OUT}"/lib/libbase*-${SLOT}.so
 	dolib.a "${OUT}"/libbase*-${SLOT}.a
@@ -113,6 +107,7 @@ src_install() {
 		base/containers
 		base/debug
 		base/files
+		base/i18n
 		base/json
 		base/memory
 		base/message_loop
