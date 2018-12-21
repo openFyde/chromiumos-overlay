@@ -148,7 +148,7 @@ install_model_files() {
 cros_config_host_local() {
 	# This function is called before FILESDIR is set so figure it out from
 	# the ebuild filename.
-	local basedir="$(dirname "${EBUILD}")/.."
+	local basedir="${EBUILD%/*}"
 	local configdir="${basedir}/chromeos-config-bsp/files"
 	local files
 
