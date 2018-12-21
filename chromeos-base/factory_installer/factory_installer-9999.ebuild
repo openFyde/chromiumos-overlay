@@ -91,8 +91,6 @@ RDEPEND="$COMMON_DEPEND
 
 CROS_WORKON_LOCALNAME="factory_installer"
 
-FACTORY_SERVER="${FACTORY_SERVER:-$(hostname -f)}"
-
 src_configure() {
 	sanitizers-setup-env
 	cros-workon_src_configure
@@ -157,6 +155,8 @@ pkg_postinst() {
 
 	STATEFUL="${ROOT}/usr/local"
 	STATEFUL_LSB="${STATEFUL}/etc/lsb-factory"
+
+	: "${FACTORY_SERVER:=$(hostname -f)}"
 
 	mkdir -p "${STATEFUL}/etc"
 	sudo dd of="${STATEFUL_LSB}" <<EOF
