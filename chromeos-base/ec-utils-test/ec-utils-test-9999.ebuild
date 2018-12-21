@@ -6,7 +6,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-inherit cros-workon
+inherit cros-workon cros-ec-board
 
 DESCRIPTION="Chrome OS EC Utility Helper"
 
@@ -16,7 +16,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-cr50_onboard"
+IUSE="biod -cr50_onboard"
 
 RDEPEND="chromeos-base/ec-utils"
 
@@ -34,5 +34,17 @@ src_install() {
 
 	if use cr50_onboard; then
 		dobin "extra/rma_reset/rma_reset"
+	fi
+
+	if use biod; then
+		get_ec_boards
+
+		local target
+		for target in "${EC_BOARDS[@]}"; do
+			if [[ -f "board/${target}/flash_fp_mcu" ]]; then
+				einfo "Installing flash_fp_mcu for ${target}"
+				dobin "board/${target}/flash_fp_mcu"
+			fi
+		done
 	fi
 }
