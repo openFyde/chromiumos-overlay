@@ -14,7 +14,7 @@ HOMEPAGE="http://www.freedesktop.org/wiki/Software/XKeyboardConfig"
 [[ ${PV} == *9999* ]] || SRC_URI="${XORG_BASE_INDIVIDUAL_URI}/data/${PN}/${P}.tar.bz2"
 
 KEYWORDS="*"
-IUSE="cros_host parrot"
+IUSE="cros_host"
 
 LICENSE="MIT"
 SLOT="0"
@@ -47,8 +47,6 @@ PATCHES=(
 	"${FILESDIR}"/${P}-us-intl-pc.patch
 	"${FILESDIR}"/${P}-bg-101.patch
 )
-
-use parrot && PATCHES+=( "${FILESDIR}"/${P}-parrot-euro-sign.patch )
 
 src_prepare() {
 	xorg-2_src_prepare
