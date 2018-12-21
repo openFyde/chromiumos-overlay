@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-nyc android-container-pi +autotest +cellular -chromeless_tests -chromeless_tty cros_p2p debugd -moblab +power_management +readahead +tpm tpm2"
+IUSE="android-container android-container-nyc android-container-pi +autotest biod +cellular -chromeless_tests -chromeless_tty cros_p2p debugd -moblab +power_management +readahead +tpm tpm2"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
@@ -184,6 +184,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_FAFTSetup
 	+tests_firmware_FastbootErase
 	+tests_firmware_FastbootReboot
+	biod? ( +tests_firmware_FingerprintWriteProtect )
 	+tests_firmware_FMap
 	+tests_firmware_FWMPDisableCCD
 	+tests_firmware_FwScreenCloseLid
