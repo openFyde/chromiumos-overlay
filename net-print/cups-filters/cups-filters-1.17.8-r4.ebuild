@@ -65,7 +65,7 @@ src_prepare() {
 src_configure() {
 	local myeconfargs=(
 		--docdir="${EPREFIX}/usr/share/doc/${PF}"
-		--enable-imagefilters
+		--disable-imagefilters
 		--localstatedir="${EPREFIX}"/var
 		--with-browseremoteprotocols=DNSSD,CUPS
 		--with-cups-rundir="${EPREFIX}"/run/cups
@@ -73,6 +73,7 @@ src_configure() {
 		--with-pdftops=pdftops
 		--with-rcdir=no
 		--without-php
+		--disable-braille
 		$(use_enable dbus)
 		$(use_enable foomatic)
 		$(use_enable ipp_autosetup auto-setup-driverless)
@@ -80,7 +81,7 @@ src_configure() {
 		$(use_enable pclm)
 		$(use_enable pdf mutool)
 		$(use_enable postscript ghostscript)
-		$(use_enable postscript ijs)
+		--disable-ijs
 		$(use_enable static-libs static)
 		$(use_enable zeroconf avahi)
 		$(use_with jpeg)
