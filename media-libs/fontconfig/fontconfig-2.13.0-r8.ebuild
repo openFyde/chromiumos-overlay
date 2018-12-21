@@ -129,22 +129,24 @@ multilib_src_install_all() {
 	doins "${FILESDIR}"/local.conf
 	# Enable autohint by default
 	# match what we want to use.
-	dosym ../conf.avail/10-autohint.conf /etc/fonts/conf.d/
+	dosym ../conf.avail/10-autohint.conf /etc/fonts/conf.d/10-autohint.conf
 	check_fontconfig_default 10-autohint.conf
 
 	# Make sure that hinting-slight is on.
 	check_fontconfig_default 10-hinting-slight.conf
 
 	# Set sub-pixel mode to RGB
-	dosym ../conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d/
+	dosym ../conf.avail/10-sub-pixel-rgb.conf \
+		/etc/fonts/conf.d/10-sub-pixel-rgb.conf
 	check_fontconfig_default 10-sub-pixel-rgb.conf
 
 	# Use the default LCD filter
-	dosym ../conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d/
+	dosym ../conf.avail/11-lcdfilter-default.conf \
+		/etc/fonts/conf.d/11-lcdfilter-default.conf
 	check_fontconfig_default 11-lcdfilter-default.conf
 
 	# Enable antialiasing by default.
-	dosym ../conf.avail/10-antialias.conf /etc/fonts/conf.d/
+	dosym ../conf.avail/10-antialias.conf /etc/fonts/conf.d/10-antialias.conf
 	check_fontconfig_default 10-antialias.conf
 
 	# CrOS: Delete unnecessary configurtaion files
@@ -174,7 +176,8 @@ multilib_src_install_all() {
 	if ! use subpixel_rendering || use touchview || use cros_host; then
 		rm "${D}"/etc/fonts/conf.d/10-sub-pixel-rgb.conf
 		rm "${D}"/etc/fonts/conf.d/11-lcdfilter-default.conf
-		dosym ../conf.avail/10-no-sub-pixel.conf /etc/fonts/conf.d/
+		dosym ../conf.avail/10-no-sub-pixel.conf \
+			/etc/fonts/conf.d/10-no-sub-pixel.conf
 		check_fontconfig_default 10-no-sub-pixel.conf
 	fi
 
