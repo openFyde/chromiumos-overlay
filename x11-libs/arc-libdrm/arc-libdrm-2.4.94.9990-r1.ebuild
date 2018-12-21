@@ -40,14 +40,13 @@ DEPEND="${RDEPEND}"
 XORG_EAUTORECONF=yes
 
 src_prepare() {
-	DRMFILESDIR=${FILESDIR/arc-/}
-	epatch "${DRMFILESDIR}"/Add-Mediatek-proprietary-format.patch
-	epatch "${DRMFILESDIR}"/add-DRM_IOCTL_VGEM_MODE_MAP_DUMB-support.patch
-	epatch "${DRMFILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
-	epatch "${DRMFILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
-	epatch "${DRMFILESDIR}"/Add-Evdi-module-userspace-api-file.patch
-	epatch "${DRMFILESDIR}"/Add-Rockchip-AFBC-modifier.patch
-	epatch "${DRMFILESDIR}"/Add-back-VENDOR_NV-name.patch
+	epatch "${FILESDIR}"/Add-Mediatek-proprietary-format.patch
+	epatch "${FILESDIR}"/add-DRM_IOCTL_VGEM_MODE_MAP_DUMB-support.patch
+	epatch "${FILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
+	epatch "${FILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
+	epatch "${FILESDIR}"/Add-Evdi-module-userspace-api-file.patch
+	epatch "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
+	epatch "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
 
 	xorg-2_src_prepare
 }
