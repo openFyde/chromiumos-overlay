@@ -18,8 +18,14 @@ inherit cros-workon cros-unibuild cros-constants
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_BCS_OVERLAY
 # @DESCRIPTION: (Optional) Name of board overlay on Binary Component Server
-: ${CROS_FIRMWARE_BCS_OVERLAY:=\
-$(basename "$(dirname "$(dirname "$(dirname "${EBUILD}")")")")}
+: ${CROS_FIRMWARE_BCS_OVERLAY:=$(
+	# EBUILD will be the full path to the ebuild file.
+	IFS="/"
+	set -- ${EBUILD}
+	# Chop off the ebuild, the $PN dir, and the $CATEGORY dir.
+	n=$(( $# - 3 ))
+	echo "${!n}"
+)}
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_MAIN_IMAGE
 # @DESCRIPTION: (Optional) Location of system firmware (BIOS) image
@@ -398,7 +404,7 @@ cros-firmware_setup_source_unibuild() {
 cros-firmware_setup_source() {
 	# This function is called before FILESDIR is set so figure it out from
 	# the ebuild filename.
-	local basedir="$(dirname "${EBUILD}")"
+	local basedir="${EBUILD%/*}"
 	local files="${basedir}/files"
 	local i uris
 

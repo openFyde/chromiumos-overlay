@@ -27,8 +27,14 @@ fi
 # @ECLASS-VARIABLE: CROS_CPFE_BOARD_OVERLAY
 # @DESCRIPTION:
 # Name of current board overlay. Example: overlay-variant-peach-pit-private
-: ${CROS_CPFE_BOARD_OVERLAY:=\
-$(basename "$(dirname "$(dirname "$(dirname "${EBUILD}")")")")}
+: ${CROS_CPFE_BOARD_OVERLAY:=$(
+	# EBUILD will be the full path to the ebuild file.
+	IFS="/"
+	set -- ${EBUILD}
+	# Chop off the ebuild, the $PN dir, and the $CATEGORY dir.
+	n=$(( $# - 3 ))
+	echo "${!n}"
+)}
 
 # @ECLASS-VARIABLE: CROS_CPFE_OVERLAY_NAME
 # @DESCRIPTION:
