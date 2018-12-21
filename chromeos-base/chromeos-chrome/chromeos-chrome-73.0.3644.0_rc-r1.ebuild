@@ -21,10 +21,7 @@ DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
-LICENSE="BSD-Google"
-if use chrome_internal; then
-	LICENSE+=" ( Google-TOS )"
-fi
+LICENSE="BSD-Google chrome_internal? ( Google-TOS )"
 SLOT="0"
 KEYWORDS="*"
 IUSE="
