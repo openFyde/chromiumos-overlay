@@ -27,6 +27,7 @@ IUSE_TESTS="
 	+tests_platform_DebugDaemonGetModemStatus
 	+tests_platform_DebugDaemonGetNetworkStatus
 	+tests_platform_DebugDaemonGetPerfData
+	+tests_platform_DebugDaemonGetPerfOutputFd
 	+tests_platform_DebugDaemonGetRoutes
 	+tests_platform_DebugDaemonPerfDataInFeedbackLogs
 	+tests_platform_DebugDaemonPing
