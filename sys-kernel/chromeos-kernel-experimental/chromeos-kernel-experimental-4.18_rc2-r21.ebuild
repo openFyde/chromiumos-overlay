@@ -6,6 +6,7 @@ CROS_WORKON_COMMIT="adccdc52dd0f57494637c9274ca260eae2f9c6e0"
 CROS_WORKON_TREE="1e11905e9a7cd3f8925678d2dcc192026a35f442"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/experimental"
+CROS_WORKON_BLACKLIST="1"
 
 # This must be inherited *after* EGIT/CROS_WORKON variables defined
 inherit cros-workon cros-kernel2
