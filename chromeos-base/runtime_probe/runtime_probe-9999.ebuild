@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk runtime_probe .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config runtime_probe .gn"
 
 PLATFORM_SUBDIR="runtime_probe"
 
@@ -19,9 +19,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/runtim
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
-IUSE=""
+IUSE="unibuild"
 
 RDEPEND="
+	unibuild? ( chromeos-base/chromeos-config )
+	chromeos-base/chromeos-config-tools
 	chromeos-base/libbrillo
 	chromeos-base/libchrome
 	chromeos-base/system_api
