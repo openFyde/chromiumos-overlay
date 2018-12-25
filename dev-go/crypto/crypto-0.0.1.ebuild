@@ -3,13 +3,14 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="go.googlesource.com/crypto:golang.org/x/crypto 1a580b3eff7814fc9b40602fd35256c63b50f491"
+CROS_GO_SOURCE="go.googlesource.com/crypto:golang.org/x/crypto 505ab145d0a99da450461ae2c1a9f6cd10d1f447"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/crypto/ed25519"
 	"golang.org/x/crypto/ed25519/internal/edwards25519"
 	"golang.org/x/crypto/curve25519"
 	"golang.org/x/crypto/internal/chacha20"
+	"golang.org/x/crypto/internal/subtle"
 	"golang.org/x/crypto/nacl/box"
 	"golang.org/x/crypto/nacl/secretbox"
 	"golang.org/x/crypto/pbkdf2"
