@@ -45,6 +45,7 @@ DEPEND="
 	dev-go/crypto
 	dev-go/dbus
 	dev-go/gopsutil
+	dev-go/mdns
 	dev-go/protobuf
 	dev-go/selinux
 	dev-go/yaml
