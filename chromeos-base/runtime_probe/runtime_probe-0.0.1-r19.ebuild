@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="b16025cc841cb17808b6049885114a09f9bd5f2d"
+CROS_WORKON_COMMIT="97b3e9d016d5c87b404a4878a5f258a556df865a"
 CROS_WORKON_TREE=("9a76761fb376cc658f8589352df93fec6d285267" "76131ac31ca73d9a7f9634184df81ef98d2f3175" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -28,8 +28,10 @@ RDEPEND="
 	chromeos-base/libchrome
 	chromeos-base/system_api
 "
-DEPEND="${RDEPEND}
-"
+DEPEND="${RDEPEND}"
+
+# Add vboot_reference as build time dependency to read cros_debug status
+DEPEND+=" chromeos-base/vboot_reference "
 
 pkg_preinst() {
 	# Create user and group for runtime_probe
