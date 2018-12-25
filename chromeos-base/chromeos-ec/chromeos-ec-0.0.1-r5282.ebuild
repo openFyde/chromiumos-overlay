@@ -124,9 +124,6 @@ make_ec() {
 		extra_opts+=( TOUCHPAD_FW="${touchpad_fw}" )
 	fi
 	if [[ -n "${bootblock}" ]]; then
-		if [[ ! -f "${bootblock}" ]]; then
-			die "bootblock file not available: ${bootblock}"
-		fi
 		extra_opts+=( BOOTBLOCK="${bootblock}" )
 	fi
 
@@ -168,10 +165,14 @@ src_compile() {
 			local bootblock="${target_root}/coreboot/bootblock.bin"
 			local bootblock_serial="${target_root}/coreboot_serial/bootblock.bin"
 
-			# Since we are including AP bootblock, two sets of EC images need to
-			# be built -- one with serial console enabled, and one without.
-			make_ec "${target}" "${WORKDIR}/build_${target}_serial" \
-				"${touchpad_fw}" "${bootblock_serial}"
+			if [[ -f "$bootblock_serial" ]]; then
+				# Since we are including AP bootblock, two sets
+				# of EC images need to be built -- one with
+				# serial console enabled, and one without.
+				make_ec "${target}" \
+					"${WORKDIR}/build_${target}_serial" \
+					"${touchpad_fw}" "${bootblock_serial}"
+			fi
 		fi
 		make_ec "${target}" "${WORKDIR}/build_${target}" \
 			"${touchpad_fw}" "${bootblock}"
@@ -296,7 +297,8 @@ src_install() {
 		board_install "${target}" "${WORKDIR}/build_${target}" \
 			"/firmware/${target}" "" \
 			|| die "Couldn't install ${target}"
-		if use bootblock_in_ec; then
+		if use bootblock_in_ec && \
+		   [[ -d "${WORKDIR}/build_${target}_serial" ]]; then
 			board_install "${target}" "${WORKDIR}/build_${target}_serial" \
 				"/firmware/${target}" serial \
 				|| die "Couldn't install ${target} (serial)"
@@ -308,7 +310,8 @@ src_install() {
 		board_install "${target}" "${WORKDIR}/build_${target}" \
 			/firmware "" \
 			|| die "Couldn't install main firmware"
-		if use bootblock_in_ec; then
+		if use bootblock_in_ec && \
+		   [[ -d "${WORKDIR}/build_${target}_serial" ]]; then
 			board_install "${target}" "${WORKDIR}/build_${target}_serial" \
 				/firmware serial \
 				|| die "Couldn't install main firmware"
