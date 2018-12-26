@@ -29,6 +29,9 @@ src_install() {
 	into /usr/local
 	dobin gmerge stateful_update
 
+	insinto /usr/local/etc/portage/make.profile/
+	newins "${FILESDIR}/parent" parent
+
 	# Setup package.provided so that gmerge will know what packages to ignore.
 	# - $ROOT/etc/portage/profile/package.provided contains compiler tools and
 	#   and is setup by setup_board. We know that that file will be present in
