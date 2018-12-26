@@ -3,13 +3,13 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="172df342d28f761fbbdff6ddfdaa0ea1cf6abc37"
-CROS_WORKON_TREE=("9a76761fb376cc658f8589352df93fec6d285267" "48c9ac03032c61351fc14656f4cf95d5f856d822" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="286f69cd5983cc4b7a1c4ca54e2b162c8553e8be"
+CROS_WORKON_TREE=("9a76761fb376cc658f8589352df93fec6d285267" "02c8ed876a84f3aaac309ee5324dc5a511ab5268" "48c9ac03032c61351fc14656f4cf95d5f856d822" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk runtime_probe .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config runtime_probe .gn"
 
 PLATFORM_SUBDIR="runtime_probe"
 
@@ -21,9 +21,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/runtim
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="*"
-IUSE=""
+IUSE="unibuild"
 
 RDEPEND="
+	unibuild? ( chromeos-base/chromeos-config )
+	chromeos-base/chromeos-config-tools
 	chromeos-base/libbrillo
 	chromeos-base/libchrome
 	chromeos-base/system_api
