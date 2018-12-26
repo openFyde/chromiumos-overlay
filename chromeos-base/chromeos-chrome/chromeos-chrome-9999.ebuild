@@ -895,6 +895,8 @@ src_configure() {
 	export CC_host=$(usex clang "${CBUILD}-clang" "$(tc-getBUILD_CC)")
 	export CXX_host=$(usex clang "${CBUILD}-clang++" "$(tc-getBUILD_CXX)")
 	export NM_host=$(tc-getBUILD_NM)
+	export READELF="${CHOST}-readelf"
+	export READELF_host="${CBUILD}-readelf"
 
 	if use gold ; then
 		if [[ "${GOLD_SET}" != "yes" ]]; then
@@ -964,6 +966,7 @@ src_configure() {
 		v8_snapshot_toolchain="//build/toolchain/cros:v8_snapshot"
 		cros_target_ld="${LD}"
 		cros_target_nm="${NM}"
+		cros_target_readelf="${READELF}"
 		cros_target_extra_cflags="${CFLAGS} ${EBUILD_CFLAGS[*]}"
 		cros_target_extra_cppflags="${CPPFLAGS}"
 		cros_target_extra_cxxflags="${CXXFLAGS} ${EBUILD_CXXFLAGS[*]}"
@@ -973,6 +976,7 @@ src_configure() {
 		cros_host_ar="${AR_host}"
 		cros_host_ld="${LD_host}"
 		cros_host_nm="${NM_host}"
+		cros_host_readelf="${READELF_host}"
 		cros_host_extra_cflags="${CFLAGS_host}"
 		cros_host_extra_cxxflags="${CXXFLAGS_host}"
 		cros_host_extra_cppflags="${CPPFLAGS_host}"
@@ -982,6 +986,7 @@ src_configure() {
 		cros_v8_snapshot_ar="${AR_host}"
 		cros_v8_snapshot_ld="${LD_host}"
 		cros_v8_snapshot_nm="${NM_host}"
+		cros_v8_snapshot_readelf="${READELF_host}"
 		cros_v8_snapshot_extra_cflags="${CFLAGS_host}"
 		cros_v8_snapshot_extra_cxxflags="${CXXFLAGS_host}"
 		cros_v8_snapshot_extra_cppflags="${CPPFLAGS_host}"
