@@ -909,6 +909,9 @@ src_configure() {
 	# flow more easily. We might be able to remve the dependency on use
 	# clang because clang is the default compiler now.
 	if use clang ; then
+		# use nm from llvm, https://crbug.com/917193
+		export NM="llvm-nm"
+		export NM_host="llvm-nm"
 		export AR="llvm-ar"
 		# USE=thinlto affects host build, we need to set host AR to
 		# llvm-ar to make sure host package builds with thinlto.
