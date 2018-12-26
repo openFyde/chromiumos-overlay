@@ -115,10 +115,10 @@ generate_font_cache() {
 	# If we're running directly on the target (e.g. gmerge), we don't need to
 	# chroot or use qemu.
 	if [[ "${ROOT:-/}" == "/" ]]; then
-		sudo /usr/bin/fc-cache -f -v || die
+		sudo /usr/bin/fc-cache -r -v || die
 	elif [[ "${ARCH}" == "amd64" ]]; then
 		# Uses the host's fc-cache binary to build the font cache on the target
-		sudo /usr/bin/fc-cache --sysroot="${SYSROOT}" -f -v
+		sudo /usr/bin/fc-cache --sysroot="${SYSROOT}" -r -v
 	else
 		qemu_run /usr/bin/fc-cache -f -v
 	fi
