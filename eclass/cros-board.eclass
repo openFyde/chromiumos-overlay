@@ -359,6 +359,7 @@ ALL_BOARDS=(
 	veyron_tiger
 	#waluigi
 	whirlwind
+	whlrvp
 	winky
 	wizpig
 	wolf
