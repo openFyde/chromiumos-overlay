@@ -1,7 +1,7 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -40,9 +40,6 @@ src_unpack() {
 src_install() {
 	exeinto /usr/share/userfeedback/scripts
 	doexe scripts/*
-
-	insinto /usr/share/userfeedback/etc
-	doins etc/*
 
 	# Install init scripts.
 	if use systemd; then
