@@ -126,6 +126,21 @@ generate_font_cache() {
 	sudo umount "${ROOT}/usr/share/cache/fontconfig"
 }
 
+# TODO(cjmcdonald): crbug/913317 These .uuid files need to exist when fc-cache
+#                   is run otherwise fontconfig tries to write them to the font
+#                   directories and generates portage sandbox violations.
+#                   Additionally, the .uuid files need to be installed as part
+#                   of this package so that they exist when this package is
+#                   installed as a binpkg. Remove this section once fontconfig
+#                   no longer uses these .uuid files.
+pkg_setup() {
+	local fontdir fontdirs=( $(cd "${SYSROOT}"/usr/share/fonts; echo */) )
+	for fontdir in "${fontdirs[@]}"; do
+		uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontdir}" > \
+			"${SYSROOT}"/usr/share/fonts/"${fontdir}"/.uuid
+	done
+}
+
 src_compile() {
 	generate_font_cache
 }
@@ -133,4 +148,10 @@ src_compile() {
 src_install() {
 	insinto /usr/share/cache/fontconfig
 	doins "${WORKDIR}"/out/*
+
+	local fontdir fontdirs=( $(cd "${SYSROOT}"/usr/share/fonts; echo */) )
+	for fontdir in "${fontdirs[@]}"; do
+		insinto "/usr/share/fonts/${fontdir}"
+		uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontdir}" | newins - .uuid
+	done
 }
