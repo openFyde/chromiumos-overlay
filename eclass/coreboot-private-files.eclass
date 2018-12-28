@@ -18,7 +18,7 @@ coreboot-private-files_src_install() {
 	local file
 	while read -d $'\0' -r file; do
 		doins -r "${file}"
-	done < <(find "${srcdir}" -maxdepth 1 -mindepth 1 -print0)
+	done < <(find -H "${srcdir}" -maxdepth 1 -mindepth 1 -print0)
 }
 
 EXPORT_FUNCTIONS src_install
