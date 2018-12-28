@@ -180,6 +180,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	sys-apps/kbd
 	sys-apps/shadow
 	sys-devel/binutils
+	sys-process/iotop
 	sys-process/procps
 	sys-process/psmisc
 	sys-process/time
