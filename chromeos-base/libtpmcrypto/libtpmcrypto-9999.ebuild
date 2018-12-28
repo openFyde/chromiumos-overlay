@@ -23,6 +23,9 @@ KEYWORDS="~*"
 IUSE="tpm tpm2"
 REQUIRED_USE="tpm2? ( !tpm )"
 
+# This depends on protobuf because it uses protoc and needs to be rebuilt
+# whenever the protobuf library is updated since generated source files may be
+# incompatible across different versions of the protobuf library.
 RDEPEND="
 	tpm2? (
 		chromeos-base/trunks
@@ -31,6 +34,7 @@ RDEPEND="
 		app-crypt/trousers
 	)
 	chromeos-base/libbrillo:=
+	dev-libs/protobuf:=
 "
 
 DEPEND="
