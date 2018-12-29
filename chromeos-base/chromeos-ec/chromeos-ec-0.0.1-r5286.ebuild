@@ -12,8 +12,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("02983ae05319d71bf8b29e063bf40acfd53b1e02" "15260c8cd98eb10b4976d2161cd5cb9bc0c3adac" "6283eeeaf5ccebcca982d5318b36d49e7b32cb6d")
-CROS_WORKON_TREE=("55bc12bc44c793f4fc05eaf5291bfe2a5caeb23f" "bb73d7202b948ec63ff75876066eefd6a9c041fb" "cc44d33412e29b2c10a03bf8ac819f5630af57b2")
+CROS_WORKON_COMMIT=("860fe2962d40ee901369d1dc67f4aa7a7a42ba4d" "15260c8cd98eb10b4976d2161cd5cb9bc0c3adac" "6283eeeaf5ccebcca982d5318b36d49e7b32cb6d")
+CROS_WORKON_TREE=("f78bd92e4cf48389bce28299ad97dfc9884b0823" "bb73d7202b948ec63ff75876066eefd6a9c041fb" "cc44d33412e29b2c10a03bf8ac819f5630af57b2")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/tpm2"
@@ -41,7 +41,7 @@ SRC_URI="${CR50_ROS[@]/#/${MIRROR_PATH}}"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan"
+IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test"
 
 RDEPEND="
 	dev-embedded/libftdi
@@ -49,10 +49,15 @@ RDEPEND="
 		dev-libs/openssl:=
 		dev-libs/protobuf:=
 	)
+	test? (
+		dev-libs/openssl:=
+		dev-libs/protobuf:=
+	)
 "
 DEPEND="
 	${RDEPEND}
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
+	test? ( dev-libs/libprotobuf-mutator:= )
 	virtual/chromeos-ec-private-files
 	virtual/chromeos-ec-touch-firmware
 	unibuild? ( chromeos-base/chromeos-config )
