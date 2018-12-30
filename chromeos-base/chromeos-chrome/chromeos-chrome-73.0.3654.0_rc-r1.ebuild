@@ -60,6 +60,7 @@ IUSE="
 	oobe_config
 	opengl
 	opengles
+	+reorder_text_sections
 	+runhooks
 	+smbprovider
 	+thinlto
@@ -142,11 +143,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-73.0.3644.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R73-3609.3-1544441776.afdo"
-AFDO_FILE["airmont"]="R73-3623.3-1545044865.afdo"
-AFDO_FILE["haswell"]="R73-3593.0-1545047762.afdo"
-AFDO_FILE["broadwell"]="R73-3593.0-1545047160.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-73.0.3654.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R73-3609.3-1545650636.afdo"
+AFDO_FILE["airmont"]="R73-3623.3-1545651577.afdo"
+AFDO_FILE["haswell"]="R73-3593.0-1545650846.afdo"
+AFDO_FILE["broadwell"]="R73-3593.0-1545652184.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -742,10 +743,15 @@ src_prepare() {
 
 setup_test_lists() {
 	TEST_FILES=(
+		capture_unittests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
+		# TODO(crbug.com/879065): After video_decode_accelerator_tests gets
+		# enough functionalities to replace video_decode_accelerator_unittest
+		# with, remove video_decode_accelerator_unittest.
+		video_decode_accelerator_tests
 		video_decode_accelerator_unittest
 		video_encode_accelerator_unittest
 		wayland_client_perftests
@@ -847,6 +853,10 @@ setup_compile_flags() {
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
 	fi
 
+	if use reorder_text_sections; then
+		EBUILD_LDFLAGS+=( "-Wl,-z,keep-text-section-prefix" )
+	fi
+
 	# Enable std::vector []-operator bounds checking.
 	append-cxxflags -D__google_stl_debug_vector=1
 
@@ -885,6 +895,8 @@ src_configure() {
 	export CC_host=$(usex clang "${CBUILD}-clang" "$(tc-getBUILD_CC)")
 	export CXX_host=$(usex clang "${CBUILD}-clang++" "$(tc-getBUILD_CXX)")
 	export NM_host=$(tc-getBUILD_NM)
+	export READELF="${CHOST}-readelf"
+	export READELF_host="${CBUILD}-readelf"
 
 	if use gold ; then
 		if [[ "${GOLD_SET}" != "yes" ]]; then
@@ -954,6 +966,7 @@ src_configure() {
 		v8_snapshot_toolchain="//build/toolchain/cros:v8_snapshot"
 		cros_target_ld="${LD}"
 		cros_target_nm="${NM}"
+		cros_target_readelf="${READELF}"
 		cros_target_extra_cflags="${CFLAGS} ${EBUILD_CFLAGS[*]}"
 		cros_target_extra_cppflags="${CPPFLAGS}"
 		cros_target_extra_cxxflags="${CXXFLAGS} ${EBUILD_CXXFLAGS[*]}"
@@ -963,6 +976,7 @@ src_configure() {
 		cros_host_ar="${AR_host}"
 		cros_host_ld="${LD_host}"
 		cros_host_nm="${NM_host}"
+		cros_host_readelf="${READELF_host}"
 		cros_host_extra_cflags="${CFLAGS_host}"
 		cros_host_extra_cxxflags="${CXXFLAGS_host}"
 		cros_host_extra_cppflags="${CPPFLAGS_host}"
@@ -972,6 +986,7 @@ src_configure() {
 		cros_v8_snapshot_ar="${AR_host}"
 		cros_v8_snapshot_ld="${LD_host}"
 		cros_v8_snapshot_nm="${NM_host}"
+		cros_v8_snapshot_readelf="${READELF_host}"
 		cros_v8_snapshot_extra_cflags="${CFLAGS_host}"
 		cros_v8_snapshot_extra_cxxflags="${CXXFLAGS_host}"
 		cros_v8_snapshot_extra_cppflags="${CPPFLAGS_host}"
