@@ -4,8 +4,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("a14582f5b2ae17da4bbc7b5d887d601dbb407a2" "e80e2243950174015342af10a97cec3a84fec068")
-CROS_WORKON_TREE=("43f50f314fa9a22ac645b844e0e9f4abe31a4f4e" "7ef9eda9a39061de912ceca05c9e23fe48eb6c06")
+CROS_WORKON_COMMIT=("3b27a8d1335c4173d58db6ea12c24a5701f80f8b" "6bf987b1654a9f398f98f9553f751296d1ab8eda")
+CROS_WORKON_TREE=("a75cf8ab178e43077440418bb28923b3f03dcc5e" "1cb008bc3a7470c0da906443780db30826f8e8ed")
 inherit cros-constants
 
 # cros-workon expects the repo to be in src/third_party, but is in src/aosp.
