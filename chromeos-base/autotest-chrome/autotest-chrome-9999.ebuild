@@ -146,6 +146,8 @@ IUSE_TESTS=(
 	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
+	+tests_policy_AllowDinosaurEasterEgg
+	+tests_policy_AlternateErrorPages
 	+tests_policy_AudioOutputAllowed
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
@@ -155,6 +157,7 @@ IUSE_TESTS=(
 	+tests_policy_DeviceTargetVersionPrefix
 	+tests_policy_DisableScreenshots
 	+tests_policy_EditBookmarksEnabled
+	+tests_policy_DeviceEphemeralUsersEnabled
 	+tests_policy_ExtensionPolicy
 	+tests_policy_ExternalStorageDisabled
 	+tests_policy_ExternalStorageReadOnly
