@@ -21,12 +21,16 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="cr50_onboard fuzzer ftdi_tpm test tpm2_simulator"
 
+# This depends on protobuf because it uses protoc and needs to be rebuilt
+# whenever the protobuf library is updated since generated source files may be
+# incompatible across different versions of the protobuf library.
 COMMON_DEPEND="
 	chromeos-base/minijail
 	chromeos-base/libbrillo
 	chromeos-base/power_manager-client
 	ftdi_tpm? ( dev-embedded/libftdi )
 	tpm2_simulator? ( chromeos-base/tpm2 )
+	dev-libs/protobuf:=
 	"
 
 RDEPEND="
