@@ -2004,17 +2004,17 @@ index 411e7863d6..2098a36da4 100644
  
 -__fortify_function void
 -__NTH (bcopy (const void *__src, void *__dest, size_t __len))
-+#define __warn_len_too_large \
++#define __strings_warn_len_too_large \
 +  "function called with bigger length than the destination buffer"
 +
-+#define __size_too_small(dest, len) \
++#define __strings_size_too_small(dest, len) \
 +  (__bos0 (dest) != (size_t) -1 && __bos0 (dest) < len)
 +
 +__fortify_potential_overload void
 +__NTH (bcopy (const void *__src, void *const __clang_pass_object_size0 __dest,
 +	      size_t __len))
-+     __clang_warning_if (__size_too_small (__dest, __len),
-+			 __warn_len_too_large)
++     __clang_warning_if (__strings_size_too_small (__dest, __len),
++			 __strings_warn_len_too_large)
  {
    (void) __builtin___memmove_chk (__dest, __src, __len, __bos0 (__dest));
  }
@@ -2023,15 +2023,15 @@ index 411e7863d6..2098a36da4 100644
 -__NTH (bzero (void *__dest, size_t __len))
 +__fortify_potential_overload void
 +__NTH (bzero (void *const __clang_pass_object_size0 __dest, size_t __len))
-+     __clang_warning_if (__size_too_small (__dest, __len),
-+			 __warn_len_too_large)
++     __clang_warning_if (__strings_size_too_small (__dest, __len),
++			 __strings_warn_len_too_large)
  {
    (void) __builtin___memset_chk (__dest, '\0', __len, __bos0 (__dest));
  }
  
 +
-+#undef __size_too_small
-+#undef __warn_len_too_large
++#undef __strings_size_too_small
++#undef __strings_warn_len_too_large
  #endif
 diff --git a/wcsmbs/bits/wchar2.h b/wcsmbs/bits/wchar2.h
 index 4a461e6e29..7b9db7806e 100644
