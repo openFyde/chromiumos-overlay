@@ -25,7 +25,8 @@ pkg_setup() {
 
 src_unpack() {
 	if use llvm-next; then
-		export EGIT_COMMIT="94edd59b16d2084a62699290f9cfdf120d74eedf" #r343990
+		# llvm:r349610 https://critique.corp.google.com/#review/226534312
+		export EGIT_COMMIT="9defb52f575beff21b646e60e63f72ad1ac7cf54" #r349532
 	fi
 	git-2_src_unpack
 }

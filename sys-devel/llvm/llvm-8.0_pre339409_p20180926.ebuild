@@ -114,11 +114,11 @@ src_unpack() {
 		compiler_rt_hash="origin/master"
 		llvm_hash="origin/master"
 	elif use llvm-next; then
-		# llvm:r346485 https://critique.corp.google.com/#review/221867085
-		clang_hash="33834d33328b04607147a0352b67da76b85029bf" # EGIT_COMMIT r346485
-		clang_tidy_hash="06905a06d5269eab615f1f44a2d8070c48917823" # EGIT_COMMIT r346467
-		compiler_rt_hash="3aa2b775d08f903f804246af10b80a439c16b436" # EGIT_COMMIT r346477
-		llvm_hash="5e1b99cf3b50e2d013904a4ecc096cee77d91b86" # EGIT_COMMIT r346484
+		# llvm:r349610 https://critique.corp.google.com/#review/226534312
+		clang_hash="a1a49a7b666a6a9d9b55b52602f9773a9e00b4f5" # EGIT_COMMIT r349604
+		clang_tidy_hash="db53734aa26129bb55f510408c076e2e96b6d492" # EGIT_COMMIT r349502
+		compiler_rt_hash="c3cc767cfdcbd358536d7a730c9f4fd71e97dc18" # EGIT_COMMIT r349609
+		llvm_hash="331ffd31b3dd49b3f02a27556938b836b679f564" # EGIT_COMMIT r349610
 	else
 		# llvm:r339409 https://critique.corp.google.com/#review/199724125
 		clang_hash="6601c8f525499269dba75f75bbd1ee2671aaa262" # EGIT_COMMIT r339409
@@ -199,8 +199,6 @@ pick_cherries() {
 pick_next_cherries() {
 	# clang
 	local CHERRIES=""
-	CHERRIES+=" 7e12b9765a105da269d3e41f2edc62ccdf7a4c35" # r346526
-	CHERRIES+=" e7ed3c458ebaac2f62761c6c44ee044a75cad925" # r348515
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -209,13 +207,6 @@ pick_next_cherries() {
 
 	# llvm
 	CHERRIES=""
-	CHERRIES+=" c5dba22c1dbe70b0248125dfcb0b68406475f6c4" #r346654
-	CHERRIES+=" c8c80b0f2f4fecead57d6bfdb6afd894c59361cc" #r346894
-	CHERRIES+=" 5f524f5f6513ccfb489f3a9d3874d767ad05d30b" #r347037
-	CHERRIES+=" 87b8537d3eb21a2afa0ef8673de958ed46ca4af0" #r347089
-	CHERRIES+=" 3982fbc2ec44b6ba069d880e73db7bc248bbace4" #r348216
-	CHERRIES+=" 2e4508a5ad3bc515c11ac770da71239906dc88c0" #r348321
-	CHERRIES+=" 0fca1c8158c411ed6e99c05f53e5d1daad83c261" #r348389
 	CHERRIES+=" c3f9ab51440d34cbe3e113ae40c847f380a96845" #r349660
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
@@ -343,6 +334,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/clang-6.0-enable-libgcc-with-compiler-rt.patch
 
 	# Temporarily revert r332058 as it caused speedometer2 perf regression.
+	# Does not apply cleanly to llvm-next, will respin a new patch later.
 	# https://crbug.com/864781
 	use llvm-next || epatch_after 332058 "${FILESDIR}"/llvm-next-revert-afdo-hotness.patch
 
@@ -354,7 +346,8 @@ src_prepare() {
 	# Revert r335284, in clang since android also reverts it.
 	pushd "${S}"/tools/clang >/dev/null || die
 		use llvm-next || epatch "${FILESDIR}"/clang-8.0-revert-r335284.patch
-		use llvm-next && epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
+		# Does not apply cleanly to llvm-next, will respin a new patch later.
+		# use llvm-next && epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
 	popd >/dev/null || die
 
 	# https://crbug.com/915711

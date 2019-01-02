@@ -54,7 +54,8 @@ pkg_setup() {
 
 src_unpack() {
 	if use llvm-next && has_version --host-root 'sys-devel/llvm[llvm-next]'; then
-		export EGIT_COMMIT="4925db16408f6438a5dc275482b256ccf10e50e1" #r346431
+		# llvm:r349610 https://critique.corp.google.com/#review/226534312
+		export EGIT_COMMIT="796666e779e6b7152be890c8d8fb52d2df06d268" #r349581
 	fi
 
 	git-r3_fetch
@@ -63,16 +64,17 @@ src_unpack() {
 
 src_prepare() {
 	if use llvm-next  && has_version --host-root 'sys-devel/llvm[llvm-next]'; then
+		epatch "${FILESDIR}"/lld-8.0-reorder-hotsection-early.patch
 		pick_next_cherries
 	else
+		epatch "${FILESDIR}"/lld-8.0-reorder-hotsection.patch
 		pick_cherries
 	fi
-	# Not needed with r346485.
+	# Not needed with r349610.
 	use llvm-next || epatch "${FILESDIR}"/lld-8.0-revert-r330869.patch
 	# These 2 patches are still reverted in Android.
 	epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
 	epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
-	epatch "${FILESDIR}"/lld-8.0-reorder-hotsection.patch
 	# Allow .elf suffix in lld binary name.
 	epatch "${FILESDIR}/$PN-invoke-name.patch"
 }

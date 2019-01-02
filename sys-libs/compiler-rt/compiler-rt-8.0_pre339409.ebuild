@@ -28,8 +28,8 @@ fi
 
 src_unpack() {
 	if use llvm-next; then
-		# llvm:r345485 https://critique.corp.google.com/#review/221867085
-		export EGIT_COMMIT="3aa2b775d08f903f804246af10b80a439c16b436" # r346476
+		# llvm:r349610 https://critique.corp.google.com/#review/226534312
+		export EGIT_COMMIT="c3cc767cfdcbd358536d7a730c9f4fd71e97dc18" # r349609
 	fi
 	git-2_src_unpack
 }
