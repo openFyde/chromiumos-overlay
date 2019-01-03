@@ -21,4 +21,7 @@ Face Recognition; Gesture Recognition; Motion Tracking, Ego Motion, Motion Under
 	<flag name="tbb">Add support for the Intel threadingbuildingblocks library</flag>
 	<flag name="testprograms">Build and install programs for testing OpenCV (performance)</flag>
 </use>
+<upstream>
+	<remote-id type="cpe">cpe:/a:opencv:opencv</remote-id>
+</upstream>
 </pkgmetadata>
