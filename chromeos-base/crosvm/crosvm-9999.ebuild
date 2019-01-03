@@ -16,7 +16,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-tpm
-	crosvm-usb crosvm-gpu-forward"
+	+crosvm-usb crosvm-gpu-forward"
 
 RDEPEND="
 	sys-apps/dtc
@@ -80,6 +80,7 @@ src_compile() {
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex crosvm-tpm tpm "")
 		$(usex crosvm-gpu-forward gpu-forward "")
+		$(usex crosvm-usb sandboxed-libusb "")
 	)
 
 	local packages=(
