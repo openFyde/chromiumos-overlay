@@ -62,6 +62,7 @@ IUSE="
 	+reorder_text_sections
 	+runhooks
 	+smbprovider
+	strict_toolchain_checks
 	+thinlto
 	+v4l2_codec
 	v4lplugin
@@ -1510,6 +1511,15 @@ pkg_preinst() {
 	if use arm; then
 		local files=$(find "${ED}/usr/lib/debug${CHROME_DIR}" -size +$((4 * 1024 * 1024 * 1024 - 1))c)
 		[[ -n ${files} ]] && die "Debug files exceed 4GiB: ${files}"
+	fi
+
+	# Test .text.hot section comes before .text in Chrome.
+	# https://crbug.com/912781
+	if use strict_toolchain_checks && use afdo_use && use reorder_text_sections; then
+		if ! readelf -lW "${ED}/${CHROME_DIR}/chrome" | grep -qF ".text.hot .text"; then
+			readelf -l -W "${ED}/${CHROME_DIR}/chrome"
+			die ".text.hot does not come before .text"
+		fi
 	fi
 }
 
