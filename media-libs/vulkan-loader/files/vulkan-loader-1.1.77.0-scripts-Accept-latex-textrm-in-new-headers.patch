@@ -1,0 +1,56 @@
+From: Chad Versace <chadversary@chromium.org>
+Date: Fri Jan  4 11:47:19 PST 2019
+Subject: [CHROMIUM] scripts: Accept latex \textrm in new headers
+
+A workaround that allows vulkan-loader-1.1.77.0 to be built against
+vulkan-haders-1.1.92.1.
+
+diff --git a/scripts/helper_file_generator.py.orig b/scripts/helper_file_generator.py
+index c1b5176..e54acbc 100644
+--- a/scripts/helper_file_generator.py.orig
++++ b/scripts/helper_file_generator.py
+@@ -264,11 +264,10 @@ class HelperFileOutputGenerator(OutputGenerator):
+     def parseLateXMath(self, source):
+         name = 'ERROR'
+         decoratedName = 'ERROR'
+-        if 'mathit' in source:
+-            # Matches expressions similar to 'latexmath:[\lceil{\mathit{rasterizationSamples} \over 32}\rceil]'
+-            match = re.match(r'latexmath\s*\:\s*\[\s*\\l(\w+)\s*\{\s*\\mathit\s*\{\s*(\w+)\s*\}\s*\\over\s*(\d+)\s*\}\s*\\r(\w+)\s*\]', source)
+-            if not match or match.group(1) != match.group(4):
+-                raise 'Unrecognized latexmath expression'
++
++        # Matches expressions similar to 'latexmath:[\lceil{\mathit{rasterizationSamples} \over 32}\rceil]'
++        match = re.match(r'latexmath\s*\:\s*\[\s*\\l(\w+)\s*\{\s*\\mathit\s*\{\s*(\w+)\s*\}\s*\\over\s*(\d+)\s*\}\s*\\r\1\s*\]', source)
++        if match:
+             name = match.group(2)
+             # Need to add 1 for ceiling function; otherwise, the allocated packet
+             # size will be less than needed during capture for some title which use
+@@ -279,12 +278,24 @@ class HelperFileOutputGenerator(OutputGenerator):
+                 decoratedName = '{}/{} + 1'.format(*match.group(2, 3))
+             else:
+                 decoratedName = '{}/{}'.format(*match.group(2, 3))
+-        else:
+-            # Matches expressions similar to 'latexmath : [dataSize \over 4]'
+-            match = re.match(r'latexmath\s*\:\s*\[\s*(\w+)\s*\\over\s*(\d+)\s*\]', source)
++            return name, decoratedName
++
++        # Matches expressions similar to 'latexmath : [\textrm{dataSize} \over 4]'
++        match = re.match(r'latexmath\s*\:\s*\[\s*\\\w+\{\s*(\w+)\s*\}\s*\\over\s*(\d+)\s*\]', source)
++        if match:
++            name = match.group(1)
++            decoratedName = '{}/{}'.format(*match.group(1, 2))
++            return name, decoratedName
++
++        # Matches expressions similar to 'latexmath : [dataSize \over 4]'
++        match = re.match(r'latexmath\s*\:\s*\[\s*(\w+)\s*\\over\s*(\d+)\s*\]', source)
++        if match:
+             name = match.group(1)
+             decoratedName = '{}/{}'.format(*match.group(1, 2))
+-        return name, decoratedName
++            return name, decoratedName
++
++        raise Exception('Unrecognized latexmath expression: {!r}'.format(source))
++
+     #
+     # Retrieve the value of the len tag
+     def getLen(self, param):

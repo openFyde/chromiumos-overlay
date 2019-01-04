@@ -1,0 +1,19 @@
+From: Chad Versace <chadversary@chromium.org>
+Date: Fri Jan  4 11:46:19 PST 2019
+Subject: [CHROMIUM] scripts: Accept fuchsia platform in new headers
+
+A workaround that allows vulkan-loader-1.1.77.0 to be built against
+vulkan-haders-1.1.92.1.
+
+diff --git a/scripts/common_codegen.py.orig b/scripts/common_codegen.py
+index aea552c..37e0b29 100644
+--- a/scripts/common_codegen.py.orig
++++ b/scripts/common_codegen.py
+@@ -49,6 +49,7 @@ prefixStrings = [
+ 
+ platform_dict = {
+     'android' : 'VK_USE_PLATFORM_ANDROID_KHR',
++    'fuchsia' : 'VK_USE_PLATFORM_FUCHSIA',
+     'ios' : 'VK_USE_PLATFORM_IOS_MVK',
+     'macos' : 'VK_USE_PLATFORM_MACOS_MVK',
+     'mir' : 'VK_USE_PLATFORM_MIR_KHR',

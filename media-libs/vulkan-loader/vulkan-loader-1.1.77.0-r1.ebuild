@@ -32,7 +32,11 @@ DEPEND=">=dev-util/vulkan-headers-1.1.77.0-r1
 		x11-libs/libXrandr:=[${MULTILIB_USEDEP}]
 	)"
 
-PATCHES=( "${FILESDIR}"/vulkan-loader-1.1.77.0-loader-Rework-include-dependencies.patch )
+PATCHES=(
+	"${FILESDIR}"/vulkan-loader-1.1.77.0-loader-Rework-include-dependencies.patch
+	"${FILESDIR}"/vulkan-loader-1.1.77.0-scripts-Accept-fuchsia-platform-in-new-headers.patch
+	"${FILESDIR}"/vulkan-loader-1.1.77.0-scripts-Accept-latex-textrm-in-new-headers.patch
+)
 
 multilib_src_configure() {
 	local mycmakeargs=(
