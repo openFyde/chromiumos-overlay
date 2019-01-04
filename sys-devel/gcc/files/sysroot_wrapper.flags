@@ -8,6 +8,7 @@ FLAGS_TO_ADD = set([])
 GCC_FLAGS_TO_ADD = set(['-Wno-maybe-uninitialized',
                         '-Wno-unused-local-typedefs',
                         '-Wno-deprecated-declarations',
+                        '-Wtrampolines',
                        ])
 
 # Flags to be used only with the clang compiler.
