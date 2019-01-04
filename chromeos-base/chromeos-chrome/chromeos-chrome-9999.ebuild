@@ -540,6 +540,12 @@ sandboxless_ensure_directory() {
 }
 
 src_unpack() {
+	echo
+	ewarn "If you want to develop or hack on the browser itself, you should follow the"
+	ewarn "simple chrome workflow instead of using emerge:"
+	ewarn "https://chromium.googlesource.com/chromiumos/docs/+/master/simple_chrome_workflow.md"
+	echo
+
 	tc-export CC CXX
 	local WHOAMI=$(whoami)
 	export EGCLIENT="${EGCLIENT:-${DEPOT_TOOLS}/gclient}"
