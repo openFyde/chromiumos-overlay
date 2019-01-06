@@ -46,7 +46,6 @@ IUSE="
 	+fonts
 	gold
 	goma
-	grunt_march
 	hardfp
 	+highdpi
 	internal_gles_conform
@@ -143,11 +142,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-73.0.3654.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R73-3609.3-1545650636.afdo"
-AFDO_FILE["airmont"]="R73-3623.3-1545651577.afdo"
-AFDO_FILE["haswell"]="R73-3593.0-1545650846.afdo"
-AFDO_FILE["broadwell"]="R73-3593.0-1545652184.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-73.0.3662.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R73-3609.3-1546256936.afdo"
+AFDO_FILE["airmont"]="R73-3623.3-1546255886.afdo"
+AFDO_FILE["haswell"]="R73-3593.0-1546254252.afdo"
+AFDO_FILE["broadwell"]="R73-3593.0-1546256426.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -541,6 +540,12 @@ sandboxless_ensure_directory() {
 }
 
 src_unpack() {
+	echo
+	ewarn "If you want to develop or hack on the browser itself, you should follow the"
+	ewarn "simple chrome workflow instead of using emerge:"
+	ewarn "https://chromium.googlesource.com/chromiumos/docs/+/master/simple_chrome_workflow.md"
+	echo
+
 	tc-export CC CXX
 	local WHOAMI=$(whoami)
 	export EGCLIENT="${EGCLIENT:-${DEPOT_TOOLS}/gclient}"
@@ -790,14 +795,6 @@ setup_compile_flags() {
 	# nothing to do with USE=clang.
 	filter-flags -clang-syntax
 
-	# USE flag to enable upgrading the -march flags for Chrome only until
-	# we can enable these changes for the entire board.
-	# https://crbug.com/884613
-	if use grunt_march; then
-		filter-flags -march=*
-		append-flags -march=bdver4
-	fi
-
 	# Remove unsupported arm64 linker flag on arm32 builds.
 	# https://crbug.com/889079
 	use arm && filter-flags "-Wl,--fix-cortex-a53-843419"
@@ -865,7 +862,9 @@ setup_compile_flags() {
 	# option that is not yet implemented in the compiler version used
 	# by Chrome OS.
 	# Turns out this is only really supported by Clang. See crosbug.com/615466
+	# Add "-faddrsig" flag required to efficiently support "--icf=all".
 	if use clang; then
+		append-flags -faddrsig
 		append-flags -Wno-unknown-warning-option
 		export CXXFLAGS_host+=" -Wno-unknown-warning-option"
 		export CFLAGS_host+=" -Wno-unknown-warning-option"
@@ -918,6 +917,9 @@ src_configure() {
 	# flow more easily. We might be able to remve the dependency on use
 	# clang because clang is the default compiler now.
 	if use clang ; then
+		# use nm from llvm, https://crbug.com/917193
+		export NM="llvm-nm"
+		export NM_host="llvm-nm"
 		export AR="llvm-ar"
 		# USE=thinlto affects host build, we need to set host AR to
 		# llvm-ar to make sure host package builds with thinlto.
