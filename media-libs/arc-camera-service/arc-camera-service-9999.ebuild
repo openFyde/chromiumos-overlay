@@ -16,7 +16,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 )
 CROS_WORKON_SUBTREE=(
-	"hal/usb_v1 build"
+	"build hal/usb_v1 include"
 	"common-mk"
 )
 PLATFORM_GYP_FILE="hal/usb_v1/arc_camera_service.gyp"
@@ -32,7 +32,9 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="-asan"
 
-RDEPEND="!chromeos-base/arc-camera-service"
+RDEPEND="
+	!chromeos-base/arc-camera-service
+	media-libs/cros-camera-libcamera_timezone"
 
 DEPEND="${RDEPEND}
 	chromeos-base/libbrillo
