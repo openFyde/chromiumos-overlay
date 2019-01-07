@@ -20,6 +20,7 @@ IUSE="
 	containers
 	cups
 	+display_backlight
+	grunt
 	+internal_mic
 	kvm_host
 	lxc
