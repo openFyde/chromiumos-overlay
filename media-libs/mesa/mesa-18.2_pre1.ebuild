@@ -142,6 +142,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-st-mesa-use-PIPE_CAP_GLSL_FEATURE_LEVEL_COMPATIBILIT.patch
 	epatch "${FILESDIR}"/18.2-mesa-add-ff-fragment-shader-support-for-geom-and-tes.patch
 	epatch "${FILESDIR}"/18.2-radeonsi-enable-OpenGL-3.3-compat-profile.patch
+	epatch "${FILESDIR}"/18.2-radv-winsys-fix-creating-the-BO-list-for-virtual-buf.patch
 
 	base_src_prepare
 
