@@ -358,6 +358,7 @@ ALL_BOARDS=(
 	veyron_speedy-cheets
 	veyron_thea
 	veyron_tiger
+	viking
 	#waluigi
 	whirlwind
 	whlrvp
