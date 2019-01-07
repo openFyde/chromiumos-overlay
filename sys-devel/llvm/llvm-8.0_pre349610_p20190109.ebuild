@@ -120,11 +120,11 @@ src_unpack() {
 		compiler_rt_hash="c3cc767cfdcbd358536d7a730c9f4fd71e97dc18" # EGIT_COMMIT r349609
 		llvm_hash="331ffd31b3dd49b3f02a27556938b836b679f564" # EGIT_COMMIT r349610
 	else
-		# llvm:r339409 https://critique.corp.google.com/#review/199724125
-		clang_hash="6601c8f525499269dba75f75bbd1ee2671aaa262" # EGIT_COMMIT r339409
-		clang_tidy_hash="a32ea61ae09dc772fd7f688a89a0bd07c1bcc4f1" # EGIT_COMMIT r339401
-		compiler_rt_hash="4f7c361dfbe533e883737844251598152333f087" # EGIT_COMMIT r339408
-		llvm_hash="36f54002c931a026f490f9fb074c11d91e3487a2" # EGIT_COMMIT r339407
+		# llvm:r349610 https://critique.corp.google.com/#review/226534312
+		clang_hash="a1a49a7b666a6a9d9b55b52602f9773a9e00b4f5" # EGIT_COMMIT r349604
+		clang_tidy_hash="db53734aa26129bb55f510408c076e2e96b6d492" # EGIT_COMMIT r349502
+		compiler_rt_hash="c3cc767cfdcbd358536d7a730c9f4fd71e97dc18" # EGIT_COMMIT r349609
+		llvm_hash="331ffd31b3dd49b3f02a27556938b836b679f564" # EGIT_COMMIT r349610
 	fi
 
 	# non-local
@@ -161,9 +161,6 @@ src_unpack() {
 pick_cherries() {
 	# clang
 	local CHERRIES=""
-	CHERRIES+=" 24c973171788bbd2699e267a69aad6e24f26ac24" # r340101
-	CHERRIES+=" ca6d65812f8d6ba6093d0ea0d0bfd9cac518789d" # r342100
-	CHERRIES+=" 260dbbf3855227c827be14b15cac86126f1d22fe" # r342990
 	pushd "${S}"/tools/clang >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -172,14 +169,7 @@ pick_cherries() {
 
 	# llvm
 	CHERRIES=""
-	CHERRIES+=" 3e5777f3b95e846530d70ed76577abca1be4f5f5" # r339411
-	CHERRIES+=" 77a17afc92d543811e0f4f7913d4424aa630c117" # r340610
-	CHERRIES+=" ddf089299bbfec8b94a61ffd83b2360e061dc108" # r340642
-	CHERRIES+=" a4da437c1dec3fec9cf24e5d4b40bc77c2a6cec2" # r340654
-	CHERRIES+=" b9c9629e618b883df7f03dc92f0d23eeca38693f" # r341512
-	CHERRIES+=" 42eb082d63383b17c395e033e0095076efe4cb5e" # r341593
-	CHERRIES+=" 906fd9ab476d0fa9e221bec32009eac3f3af5c60" # r341706
-	CHERRIES+=" 75dc9f32d0b4f441d2e1b980445e9b7d2d74505c" # r342824
+	CHERRIES+=" c3f9ab51440d34cbe3e113ae40c847f380a96845" # r349660
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -188,7 +178,6 @@ pick_cherries() {
 
 	# compiler-rt
 	CHERRIES=""
-	CHERRIES+=" 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1" #r340758
 	pushd "${S}"/projects/compiler-rt >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch" 
@@ -207,7 +196,7 @@ pick_next_cherries() {
 
 	# llvm
 	CHERRIES=""
-	CHERRIES+=" c3f9ab51440d34cbe3e113ae40c847f380a96845" #r349660
+	CHERRIES+=" c3f9ab51440d34cbe3e113ae40c847f380a96845" # r349660
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -218,7 +207,7 @@ pick_next_cherries() {
 	CHERRIES=""
 	pushd "${S}"/projects/compiler-rt >/dev/null || die
 	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch" 
+		epatch "${FILESDIR}/cherry/${cherry}.patch"
 	done
 	popd >/dev/null || die
 }
@@ -321,8 +310,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/cmake/${PN}-3.8-allow_custom_cmake_build_types.patch
 
 	# crbug/591436
-	use llvm-next || epatch "${FILESDIR}"/clang-executable-detection.patch
-	use llvm-next && epatch "${FILESDIR}"/llvm-8.0-clang-executable-detection.patch
+	epatch "${FILESDIR}"/llvm-8.0-clang-executable-detection.patch
 
 	# crbug/606391
 	epatch "${FILESDIR}"/${PN}-3.8-invocation.patch
@@ -336,24 +324,21 @@ src_prepare() {
 	# Temporarily revert r332058 as it caused speedometer2 perf regression.
 	# Does not apply cleanly to llvm-next, will respin a new patch later.
 	# https://crbug.com/864781
-	use llvm-next || epatch_after 332058 "${FILESDIR}"/llvm-next-revert-afdo-hotness.patch
+	# epatch_after 332058 "${FILESDIR}"/llvm-next-revert-afdo-hotness.patch
 
-	# Revert r328973 and r335145
-	# 328973 has been fixed in 349660 (part of llvm-next).
-	epatch_between 328973 346480 "${FILESDIR}"/llvm-8.0-revert-r328973.patch
+	# Revert r335145
 	epatch_after 335145 "${FILESDIR}"/llvm-8.0-revert-r335145.patch
 
 	# Revert r335284, in clang since android also reverts it.
-	pushd "${S}"/tools/clang >/dev/null || die
-		use llvm-next || epatch "${FILESDIR}"/clang-8.0-revert-r335284.patch
+	# pushd "${S}"/tools/clang >/dev/null || die
 		# Does not apply cleanly to llvm-next, will respin a new patch later.
-		# use llvm-next && epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
-	popd >/dev/null || die
+		# epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
+	# popd >/dev/null || die
 
-	# https://crbug.com/915711
-	use llvm-next && epatch "${FILESDIR}"/llvm-8.0-revert-headers-as-sources.patch
-	# https://crbug.com/916740
-	use llvm-next && epatch "${FILESDIR}"/llvm-8.0-revert-asm-debug-info.patch
+	# revert r344218, https://crbug.com/915711
+	epatch "${FILESDIR}"/llvm-8.0-revert-headers-as-sources.patch
+	# revert r340839, https://crbug.com/916740
+	epatch "${FILESDIR}"/llvm-8.0-revert-asm-debug-info.patch
 	python_setup
 
 	# User patches

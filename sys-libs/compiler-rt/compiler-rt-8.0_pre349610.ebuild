@@ -8,8 +8,8 @@ inherit eutils toolchain-funcs cros-constants cmake-utils git-2 cros-llvm
 
 EGIT_REPO_URI=${CROS_GIT_HOST_URL}/chromiumos/third_party/compiler-rt.git
 
-# llvm:r339409 https://critique.corp.google.com/#review/209234450
-EGIT_COMMIT="4f7c361dfbe533e883737844251598152333f087" #r339408
+# llvm:r349610 https://critique.corp.google.com/#review/226534312
+export EGIT_COMMIT="c3cc767cfdcbd358536d7a730c9f4fd71e97dc18" # r349609
 
 DESCRIPTION="Compiler runtime library for clang"
 HOMEPAGE="http://compiler-rt.llvm.org/"
@@ -40,7 +40,7 @@ src_prepare() {
 	if use llvm-next; then
 		CHERRIES=""
 	else
-		CHERRIES+=" 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1" #r340758
+		CHERRIES=""
 	fi
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
