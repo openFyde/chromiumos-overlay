@@ -33,3 +33,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="dev-go/dns"
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	epatch "${FILESDIR}/gonet-arm64.patch"
+}
