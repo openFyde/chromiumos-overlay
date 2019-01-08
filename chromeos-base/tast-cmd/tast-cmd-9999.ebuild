@@ -32,6 +32,7 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	dev-go/cmp
 	dev-go/crypto
 	dev-go/golint
 	dev-go/subcommands
