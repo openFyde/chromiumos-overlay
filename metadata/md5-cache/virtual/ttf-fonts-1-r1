@@ -1,0 +1,8 @@
+DEFINED_PHASES=-
+DESCRIPTION=True and opentype fonts for Chromium OS
+EAPI=5
+HOMEPAGE=http://src.chromium.org
+KEYWORDS=*
+RDEPEND=chromeos-base/chromeos-fonts
+SLOT=0
+_md5_=65519a62db38853cb1482a121e649300
