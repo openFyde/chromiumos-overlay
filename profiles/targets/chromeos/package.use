@@ -33,6 +33,7 @@ dev-libs/libpcre	-bzip2 -readline -zlib
 dev-libs/leveldb	-tcmalloc
 dev-libs/nss		-utils
 dev-libs/opencryptoki	tpmtok
+dev-libs/opensc	-pcsc-lite ctapi
 dev-libs/openssl	pkcs11 -tls-heartbeat
 dev-python/matplotlib	-cairo
 dev-python/pyudev	pygobject
