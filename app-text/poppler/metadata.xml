@@ -11,4 +11,7 @@
 	<flag name='introspection'>Enable GObject introspection.</flag>
 	<flag name='utils'>Install command-line PDF converters and various utilities.</flag>
 </use>
+<upstream>
+	<remote-id type="cpe">cpe:/a:freedesktop:poppler</remote-id>
+</upstream>
 </pkgmetadata>
