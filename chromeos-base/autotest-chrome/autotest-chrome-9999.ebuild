@@ -153,6 +153,7 @@ IUSE_TESTS=(
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
 	+tests_policy_CookiesSessionOnlyForUrls
+        +tests_policy_DefaultJavaScriptSetting
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceTargetVersionPrefix
 	+tests_policy_DisableScreenshots
@@ -166,6 +167,7 @@ IUSE_TESTS=(
 	+tests_policy_HomepageLocation
 	+tests_policy_ImagesAllowedForUrls
 	+tests_policy_ImagesBlockedForUrls
+        +tests_policy_IncognitoModeAvailability
 	+tests_policy_JavaScriptAllowedForUrls
 	+tests_policy_JavaScriptBlockedForUrls
 	+tests_policy_KeyboardDefaultToFunctionKeys
