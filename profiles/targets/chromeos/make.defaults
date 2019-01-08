@@ -47,6 +47,9 @@ USE="${USE} xkbcommon"
 # Enable the freon console
 USE="${USE} frecon"
 
+# Enable udev support
+USE="${USE} udev"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 

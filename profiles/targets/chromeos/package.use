@@ -98,11 +98,12 @@ sys-apps/busybox	-pam -selinux
 sys-apps/baselayout	-auto_seed_etc_files
 sys-apps/coreutils	multicall
 sys-apps/dbus		-X
+sys-apps/fwupd		-gpg -man
 sys-apps/hwids		-net
 sys-apps/mawk		forced-sandbox
 sys-apps/sed		forced-sandbox
 sys-apps/smartmontools	minimal -daemon
-sys-apps/util-linux     -unicode
+sys-apps/util-linux     -unicode -udev
 # pam_unix: empty password is not OK
 sys-auth/pambase	-nullok
 sys-block/fio		aio

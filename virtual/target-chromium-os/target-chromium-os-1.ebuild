@@ -32,6 +32,7 @@ IUSE="
 	eclog
 	+fonts
 	fuzzer
+	fwupd
 	gobi
 	hammerd
 	ime
@@ -231,6 +232,7 @@ RDEPEND="
 	fuzzer? ( virtual/target-fuzzers )
 	!dev-python/socksipy
 	arc-camera3? ( chromeos-base/cros-camera )
+	fwupd? ( sys-apps/fwupd )
 "
 
 ################################################################################
