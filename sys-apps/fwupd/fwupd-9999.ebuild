@@ -1,11 +1,11 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
 
-PYTHON_COMPAT=( python2_7 python3_4 python3_5 python3_6 )
+PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
 inherit cros-workon meson python-single-r1 vala xdg-utils
 
@@ -13,88 +13,133 @@ DESCRIPTION="Aims to make updating firmware on Linux automatic, safe and reliabl
 HOMEPAGE="https://fwupd.org"
 #SRC_URI="https://github.com/hughsie/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
-LICENSE="GPL-2+"
+LICENSE="LGPL-2.1+"
 
 SLOT="0"
 KEYWORDS="~*"
-IUSE="colorhug consolekit dell doc gpg +man pkcs7 systemd test uefi uefi_labels"
+IUSE="colorhug daemon dell doc +gpg introspection +man nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
+	daemon? ( introspection )
+	dell? ( uefi )
 "
-# tbroch did this
-#	${PYTHON_DEPS}
-#	dev-python/pillow[${PYTHON_USEDEP}]
-#	dev-python/pycairo[${PYTHON_USEDEP}]
-#	dev-python/pygobject:3[cairo,${PYTHON_USEDEP}]
+
 RDEPEND="
+	app-arch/gcab
 	app-arch/libarchive:=
 	dev-db/sqlite
-	>=dev-libs/appstream-glib-0.6.13:=[introspection]
 	>=dev-libs/glib-2.45.8:2
+	dev-libs/json-glib
 	dev-libs/libgpg-error
 	dev-libs/libgudev:=
-	>=dev-libs/libgusb-0.2.9[introspection]
-	>=net-libs/libsoup-2.51.92:2.4[introspection]
-	>=sys-auth/polkit-0.103
+	>=dev-libs/libgusb-0.2.9[introspection?]
+	>=dev-libs/libxmlb-0.1.5
+	>=net-libs/libsoup-2.51.92:2.4[introspection?]
 	virtual/libelf:0=
 	colorhug? ( >=x11-misc/colord-1.2.12:0= )
+	daemon? (
+		>=sys-auth/consolekit-1.0.0
+		>=sys-auth/polkit-0.103
+	)
 	dell? (
 		sys-libs/efivar
-		>=sys-libs/libsmbios-2.3.3
+		>=sys-libs/libsmbios-2.4.0
 	)
 	gpg? (
 		app-crypt/gpgme
 		dev-libs/libgpg-error
 	)
-	pkcs7? ( net-libs/gnutls:= )
-	systemd? ( >=sys-apps/systemd-231 )
-	consolekit? ( >=sys-auth/consolekit-1.0.0 )
-	uefi? ( >=sys-apps/fwupdate-5 )
-	uefi_labels? (
-		x11-libs/pango
-		x11-libs/cairo
-		media-libs/freetype
+	nvme? ( sys-libs/efivar )
+	pkcs7? ( >=net-libs/gnutls-3.4.4.1:= )
+	redfish? (
+		sys-libs/efivar
+	)
+	systemd? ( >=sys-apps/systemd-211 )
+	uefi? (
+		${PYTHON_DEPS}
+		dev-python/pillow[${PYTHON_USEDEP}]
+		dev-python/pycairo[${PYTHON_USEDEP}]
+		dev-python/pygobject:3[cairo,${PYTHON_USEDEP}]
 		media-libs/fontconfig
-		media-fonts/dejavu
-		media-fonts/source-han-sans
+		media-libs/freetype
+		sys-boot/gnu-efi
+		>=sys-libs/efivar-33
+		x11-libs/cairo
 	)
 "
 DEPEND="
 	${RDEPEND}
-	app-arch/gcab
-	app-arch/libarchive
-	virtual/pkgconfig
 	$(vala_depend)
+	x11-libs/pango[introspection?]
 	doc? ( dev-util/gtk-doc )
 	man? ( app-text/docbook-sgml-utils )
+	nvme? ( >=sys-kernel/linux-headers-4.4 )
 	test? ( net-libs/gnutls[tools] )
 "
 
-REQUIRED_USE="dell? ( uefi )"
+BDEPEND="
+	>=dev-util/meson-0.44.1
+	virtual/pkgconfig
+"
+
+# required for fwupd daemon to run.
+# NOT a build time dependency. The build system does not check for dbus.
+PDEPEND="daemon? ( sys-apps/dbus )"
+
+PATCHES=(
+	# Temporarily drop >=meson-0.47 requirement
+	"${FILESDIR}"/${PN}-1.2.3-meson.patch
+)
 
 src_prepare() {
 	default
-	sed -i -e "s/'--create'/'--absolute-name', '--create'/" data/tests/builder/meson.build || die
+	sed -e "s/'--create'/'--absolute-name', '--create'/" \
+		-i data/tests/builder/meson.build || die
+	sed -e "/^gcab/s/^/#/" -i meson.build || die
 	vala_src_prepare
 }
 
 src_configure() {
 	xdg_environment_reset
 	local emesonargs=(
-		-Dconsolekit="$(usex consolekit true false)"
+		--localstatedir "${EPREFIX}"/var
+		-Dconsolekit="$(usex daemon true false)"
+		-Ddaemon="$(usex daemon true false)"
 		-Dgpg="$(usex gpg true false)"
 		-Dgtkdoc="$(usex doc true false)"
+		-Dintrospection="$(usex introspection true false)"
 		-Dman="$(usex man true false)"
 		-Dpkcs7="$(usex pkcs7 true false)"
-		-Dplugin_colorhug="$(usex colorhug true false)"
 		-Dplugin_dell="$(usex dell true false)"
-		-Dplugin_synaptics="$(usex dell true false)"
-		# requires libtbtfwu which is not packaged (yet?)
-		-Dplugin_thunderbolt=false
+		-Dplugin_nvme="$(usex nvme true false)"
+		-Dplugin_redfish="$(usex redfish true false)"
+		-Dplugin_synaptics="$(usex synaptics true false)"
+		-Dplugin_thunderbolt="$(usex thunderbolt true false)"
 		-Dplugin_uefi="$(usex uefi true false)"
-		-Dplugin_uefi-labels="$(usex uefi_labels true false)"
 		-Dsystemd="$(usex systemd true false)"
 		-Dtests="$(usex test true false)"
 	)
 	meson_src_configure
+}
+
+src_install() {
+	meson_src_install
+
+	if use daemon ; then
+		#doinitd "${FILESDIR}"/${PN}
+
+		if ! use systemd ; then
+			# Don't timeout when fwupd is running (#673140)
+			sed '/^IdleTimeout=/s@=[[:digit:]]\+@=0@' \
+				-i "${ED}"/etc/${PN}/daemon.conf || die
+		fi
+	fi
+}
+pkg_postinst() {
+	if use daemon ; then
+		elog "In case you are using openrc as init system"
+		elog "and you're upgrading from <fwupd-1.1.0, you"
+		elog "need to start the fwupd daemon via the openrc"
+		elog "init script that comes with this package."
+	fi
 }
