@@ -157,6 +157,7 @@ RDEPEND="
 	pam? ( virtual/chromeos-auth-config )
 	fonts? ( chromeos-base/chromeos-fonts )
 	chromeos-base/chromeos-installer
+	chromeos-base/dev-install
 	crash_reporting? ( chromeos-base/crash-reporter )
 	cellular? (
 		gobi? ( chromeos-base/cromo )
@@ -267,7 +268,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/chromeos-imageburner
 	chromeos-base/crosh
 	chromeos-base/crosh-extension
-	chromeos-base/dev-install
 	chromeos-base/inputcontrol
 	chromeos-base/mtpd
 	chromeos-base/permission_broker
