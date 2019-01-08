@@ -40,6 +40,7 @@ src_install() {
 	insinto /etc/init
 	doins init/upstart/bluetooth-setup.conf
 	doins init/upstart/btdispatch.conf
+	doins init/upstart/newblued.conf
 
 	if use seccomp; then
 		# Install seccomp policy files.
@@ -49,6 +50,7 @@ src_install() {
 	else
 		# Remove seccomp flags from minijail parameters.
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/btdispatch.conf || die
+		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/newblued.conf || die
 	fi
 }
 
