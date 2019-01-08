@@ -7,5 +7,6 @@
 	</maintainer>
 	<upstream>
 		<remote-id type="google-code">protobuf</remote-id>
+		<remote-id type="cpe">cpe:/a:google:protobuf</remote-id>
 	</upstream>
 </pkgmetadata>
