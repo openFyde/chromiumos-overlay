@@ -9,7 +9,7 @@ HOMEPAGE="http://dev.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="asan"
+IUSE="asan msan"
 
 RDEPEND="
 	chromeos-base/authpolicy[fuzzer]
@@ -36,5 +36,5 @@ RDEPEND="
 	asan? ( dev-rust/p9[fuzzer] )
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
-	media-libs/virglrenderer[fuzzer]
+	!msan? ( media-libs/virglrenderer[fuzzer] )
 "
