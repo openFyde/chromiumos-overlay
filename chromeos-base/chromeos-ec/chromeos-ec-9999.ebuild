@@ -75,7 +75,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	if ! [[ ${PV} = 9999* ]]; then
+	if ! [[ ${PV} == 9999* ]]; then
 		# Link the private sources in the private/ sub-directory if needed
 		ln -sf ${SYSROOT}/firmware/ec-private ${S}/private
 	fi
@@ -306,7 +306,7 @@ board_install() {
 	done
 	popd > /dev/null
 
-	if [[ "${board}" = "cr50" ]]; then
+	if [[ "${board}" == "cr50" ]]; then
 		install_cr50_signer_aid "${dest_dir}"
 	fi
 }
