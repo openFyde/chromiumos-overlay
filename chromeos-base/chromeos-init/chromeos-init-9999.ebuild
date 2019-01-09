@@ -27,20 +27,21 @@ IUSE="
 
 # shunit2 should be a dependency only if USE=test, but cros_run_unit_test
 # doesn't calculate dependencies when emerging packages.
+# secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
 DEPEND="chromeos-base/libbrillo
+	chromeos-base/secure-erase-file
+	chromeos-base/vboot_reference
 	dev-util/shunit2
+	sys-apps/rootdev
 "
-# vboot_reference for crossystem
+
 RDEPEND="${DEPEND}
 	app-arch/tar
 	app-misc/jq
 	chromeos-base/bootstat
 	!chromeos-base/chromeos-disableecho
 	chromeos-base/chromeos-common-script
-	chromeos-base/secure-erase-file
 	chromeos-base/tty
-	chromeos-base/vboot_reference
-	sys-apps/rootdev
 	sys-apps/upstart
 	sys-process/lsof
 	virtual/chromeos-bootcomplete
