@@ -43,23 +43,9 @@ IUSE="${IUSE} amd_cpu coreboot-sdk"
 # stripping the .debug symbols
 RESTRICT="strip"
 
-PER_BOARD_BOARDS=(
-	atlas bayleybay beltino bolt butterfly chell cyan daisy dragonegg eve
-	falco fizz fox glados glkrvp grunt hatch kalista kunimitsu link lumpy
-	nami nocturne nyan octopus panther parrot peppy poppy rambi rammus samus
-	sarien sklrvp slippy stout stout32 strago stumpy urara variant-peach-pit
-)
-
-DEPEND_BLOCKERS="${PER_BOARD_BOARDS[@]/#/!sys-boot/chromeos-coreboot-}"
-
-RDEPEND="
-	${DEPEND_BLOCKERS}
-	!virtual/chromeos-coreboot
-	"
-
+RDEPEND=""
 DEPEND="
 	mtc? ( sys-boot/mtc )
-	${DEPEND_BLOCKERS}
 	virtual/coreboot-private-files
 	bmpblk? ( sys-boot/chromeos-bmpblk )
 	intel_mrc? ( x86? ( sys-boot/chromeos-mrc )
