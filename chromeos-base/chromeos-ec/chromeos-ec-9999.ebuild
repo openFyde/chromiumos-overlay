@@ -66,6 +66,9 @@ DEPEND="
 # non-standard layout.
 RESTRICT="binchecks"
 
+# Cr50 signer manifest converted into proper json format.
+CR50_JSON='prod.json'
+
 src_unpack() {
 	cros-workon_src_unpack
 	S+="/platform/ec"
@@ -139,6 +142,20 @@ make_ec() {
 	mv build "${build_dir}"
 }
 
+#
+# Convert internal representation of the signer manifest into conventional
+# json.
+#
+prepare_cr50_signer_aid () {
+	local signer_manifest="util/signer/ec_RW-manifest-prod.json"
+
+	elog "Converting prod manifest into json format"
+
+	cr50-codesigner --convert-json -i "${signer_manifest}" \
+			-o "${S}/${CR50_JSON}" || \
+		die "failed to convert signer manifest ${signer_manifest}"
+}
+
 src_compile() {
 	set_build_env
 
@@ -179,6 +196,10 @@ src_compile() {
 		fi
 		make_ec "${target}" "${WORKDIR}/build_${target}" \
 			"${touchpad_fw}" "${bootblock}"
+
+		if [[ "${target}" == "cr50" ]]; then
+			prepare_cr50_signer_aid
+		fi
 	done
 
 	if use fuzzer ; then
@@ -205,7 +226,7 @@ install_cr50_signer_aid () {
 	newins "${DISTDIR}/cr50.prod.ro.A.0.0.10" "prod.ro.A"
 	newins "${DISTDIR}/cr50.prod.ro.B.0.0.10" "prod.ro.B"
 	doins "${S}/board/cr50/rma_key_blob".*.{prod,test}
-	doins "${S}/util/signer/ec_RW-manifest-prod.json"
+	doins "${S}/${CR50_JSON}"
 	doins "${S}/util/signer/fuses.xml"
 }
 
