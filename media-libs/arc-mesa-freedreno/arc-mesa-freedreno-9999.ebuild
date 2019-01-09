@@ -5,7 +5,7 @@
 EAPI=5
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="arc-mesa"
+CROS_WORKON_LOCALNAME="mesa-freedreno"
 
 inherit base autotools flag-o-matic toolchain-funcs cros-workon arc-build
 

@@ -4,10 +4,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="3e905052248a6e9c0e1ce6b7f32ad5aeff28a7c8"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="mesa"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_LOCALNAME="mesa-freedreno"
 
 if [[ ${PV} = 9999* ]]; then
 	EXPERIMENTAL="true"
