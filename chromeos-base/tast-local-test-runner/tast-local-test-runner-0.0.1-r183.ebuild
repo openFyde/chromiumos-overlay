@@ -1,21 +1,18 @@
-# Copyright 2017 The Chromium OS Authors. All rights reserved.
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="e2029580751fce0df3818710f499102c50e5f99c"
-CROS_WORKON_TREE="dc8f3830b463a7a61d80244acf75c0a0ceae0043"
+CROS_WORKON_COMMIT="d67f6956af134155f321e8643dfd068c02cf6eb9"
+CROS_WORKON_TREE="c06d4e9526db5206c84a8f41dbb24bf8369eb774"
 CROS_WORKON_PROJECT="chromiumos/platform/tast"
 CROS_WORKON_LOCALNAME="tast"
 
 CROS_GO_BINARIES=(
-	"chromiumos/cmd/remote_test_runner"
-	"chromiumos/cmd/tast"
+	"chromiumos/cmd/local_test_runner"
 )
 
-CROS_GO_VERSION="${PF}"
-
 CROS_GO_TEST=(
-	"chromiumos/cmd/tast/..."
+	"chromiumos/cmd/local_test_runner/..."
 	# Also test common code.
 	"chromiumos/tast/..."
 )
@@ -25,7 +22,7 @@ CROS_GO_VET=(
 
 inherit cros-go cros-workon
 
-DESCRIPTION="Host executables for running integration tests"
+DESCRIPTION="Runner for local integration tests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast/"
 
 LICENSE="BSD-Google"
@@ -35,14 +32,9 @@ IUSE=""
 
 DEPEND="
 	dev-go/crypto
-	dev-go/golint
-	dev-go/subcommands
 	dev-go/yaml
 "
 RDEPEND="
 	app-arch/tar
-	app-arch/xz-utils
-	chromeos-base/google-breakpad
-	net-misc/gsutil
 	!chromeos-base/tast-common
 "
