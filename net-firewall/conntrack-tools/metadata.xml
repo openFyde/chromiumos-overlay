@@ -10,4 +10,7 @@
 		the userspace command line interface, and conntrackd, the userspace
 		daemon.
 	</longdescription>
+	<upstream>
+		<remote-id type="cpe">cpe:/a:netfilter:conntrack-tools</remote-id>
+	</upstream>
 </pkgmetadata>
