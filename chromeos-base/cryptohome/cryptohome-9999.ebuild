@@ -22,7 +22,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-cert_provision -direncryption pinweaver systemd test tpm tpm2"
+IUSE="-cert_provision -direncryption pinweaver selinux systemd test tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
@@ -35,6 +35,9 @@ RDEPEND="
 		chromeos-base/trunks
 		chromeos-base/tpm_manager
 		chromeos-base/attestation
+	)
+	selinux? (
+		sys-libs/libselinux
 	)
 	chromeos-base/chaps
 	chromeos-base/libbrillo
