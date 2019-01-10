@@ -715,9 +715,31 @@ src_unpack() {
 
 		[[ -n ${PROFILE_FILE} ]] || die "Missing AFDO profile for ${AFDO_SRC}"
 		unpack "${PROFILE_FILE}${AFDO_COMPRESSOR_SUFFIX[${AFDO_SRC}]}"
+
+		local merged_profile_file="${PROFILE_FILE}"
+
+		if [[ "${AFDO_PROFILE_SOURCE}" != "benchmark" ]]; then
+			# Merge benchmark-based profile and CWP profiles
+			# http://crbug.com/920432
+			local benchmark_afdo_src="benchmark"
+			local benchmark_profile_file="${benchmark_afdo_src}_${AFDO_FILE[${benchmark_afdo_src}]}"
+
+			[[ -n ${benchmark_profile_file} ]] || die "Missing benchmark-based AFDO profile"
+			unpack "${benchmark_profile_file}${AFDO_COMPRESSOR_SUFFIX[${benchmark_afdo_src}]}"
+
+			# Merge the profiles with 75% CWP and 25% benchmark
+			merged_profile_file="${PROFILE_FILE}.merged"
+			local cwp_profile_weight="75"
+			local benchmark_profile_weight="25"
+			llvm-profdata merge -sample \
+				-weighted-input="${cwp_profile_weight},${PROFILE_FILE}" \
+				-weighted-input="${benchmark_profile_weight},${benchmark_profile_file}" \
+				-output "${merged_profile_file}" || die
+			einfo "${PROFILE_FILE} (${cwp_profile_weight}%) and ${benchmark_profile_file} (${benchmark_profile_weight}%) are merged into ${merged_profile_file}"
+		fi
 		popd > /dev/null
 
-		AFDO_PROFILE_LOC="${PROFILE_DIR}/${PROFILE_FILE}"
+		AFDO_PROFILE_LOC="${PROFILE_DIR}/${merged_profile_file}"
 		einfo "Using ${PROFILE_STATE} AFDO data from ${AFDO_PROFILE_LOC}"
 	fi
 }
