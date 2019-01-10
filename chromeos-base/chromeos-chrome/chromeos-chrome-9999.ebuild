@@ -274,7 +274,32 @@ use_goma_log() {
 		"${GLOG_log_dir}" == "${GOMA_TMP_DIR}"* ]]
 }
 
+# FIXME(https://crbug.com/917504): Remove this when lld can link
+# non-chrome_internal builds properly.
+determine_linker() {
+	# Since we complain from this, only run it once.
+	if [[ -n "${use_lld}" && -n "${use_gold}" ]]; then
+		return
+	fi
+
+	if use lld && use chrome_internal; then
+		use_lld=true
+		use_gold=false
+	else
+		use_lld=false
+		if use lld; then
+			ewarn "lld is forcibly disabled for non-chrome_internal builds;" \
+				"using gold instead (https://crbug.com/917504)."
+			use_gold=true
+		else
+			use_gold=$(usetf gold)
+		fi
+	fi
+}
+
 set_build_args() {
+	determine_linker
+
 	BUILD_ARGS=(
 		is_debug=false
 		"${EXTRA_GN_ARGS}"
@@ -314,7 +339,7 @@ set_build_args() {
 		cros_v8_snapshot_is_clang=$(usetf clang)
 		clang_use_chrome_plugins=false
 		use_thin_lto=$(usetf thinlto)
-		use_lld=$(usetf lld)
+		use_lld="${use_lld}"
 		is_cfi=$(usetf cfi)
 		use_cfi_cast=$(usetf cfi)
 	)
@@ -850,7 +875,7 @@ setup_compile_flags() {
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
 	fi
 
-	if use reorder_text_sections; then
+	if "${use_lld}" && use reorder_text_sections; then
 		EBUILD_LDFLAGS+=( "-Wl,-z,keep-text-section-prefix" )
 	fi
 
@@ -876,10 +901,10 @@ setup_compile_flags() {
 
 	# Workaround: Disable fatal linker warnings with asan/gold builds.
 	# See https://crbug.com/823936
-	use asan && use gold && append-ldflags "-Wl,--no-fatal-warnings"
+	use asan && "${use_gold}" && append-ldflags "-Wl,--no-fatal-warnings"
 	# Workaround: Disable fatal linker warnings on arm64/lld.
 	# https://crbug.com/913071
-	use lld && use arm64 && append-ldflags "-Wl,--no-fatal-warnings"
+	"${use_lld}" && use arm64 && append-ldflags "-Wl,--no-fatal-warnings"
 	use vtable_verify && append-ldflags -fvtable-verify=preinit
 
 	local flags
@@ -897,14 +922,16 @@ src_configure() {
 	export READELF="${CHOST}-readelf"
 	export READELF_host="${CBUILD}-readelf"
 
-	if use gold ; then
+	determine_linker
+
+	if "${use_gold}" ; then
 		if [[ "${GOLD_SET}" != "yes" ]]; then
 			export GOLD_SET="yes"
 			einfo "Using gold from the following location: $(get_binutils_path_gold)"
 			export CC="${CC} -B$(get_binutils_path_gold)"
 			export CXX="${CXX} -B$(get_binutils_path_gold)"
 		fi
-	elif ! use lld ; then
+	elif ! "${use_lld}" ; then
 		ewarn "gold and lld disabled. Using GNU ld."
 	fi
 
