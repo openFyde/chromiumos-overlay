@@ -30,6 +30,7 @@ IUSE="
 	rialto
 	rk3399
 	selinux
+	selinux_experimental
 	skate
 	snow
 	spring
