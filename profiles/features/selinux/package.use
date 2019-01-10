@@ -1,5 +1,6 @@
 virtual/target-chromium-os selinux
 chromeos-base/autotest-tests-security selinux
+chromeos-base/cryptohome selinux
 chromeos-base/tast-use-flags selinux
 sys-apps/upstart selinux
 sys-process/lsof selinux
