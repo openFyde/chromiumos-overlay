@@ -75,6 +75,7 @@ multilib_src_install() {
 	install_pc_file cutils.pc
 	install_pc_file expat.pc
 	install_pc_file hardware.pc
+	install_pc_file mediandk.pc
 	install_pc_file pthread-stubs.pc
 	install_pc_file sync.pc
 	install_pc_file zlib.pc
