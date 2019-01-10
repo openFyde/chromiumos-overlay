@@ -2,12 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE="camera/android/header_files"
-CROS_WORKON_OUTOFTREE_BUILD="1"
-CROS_WORKON_INCREMENTAL_BUILD="1"
+CROS_WORKON_PROJECT="chromiumos/platform/arc-camera"
+CROS_WORKON_LOCALNAME="../platform/arc-camera"
 
 inherit cros-workon
 
@@ -26,15 +22,13 @@ src_compile() {
 src_install() {
 	local INCLUDE_DIR="/usr/include/android"
 	local LIB_DIR="/usr/$(get_libdir)"
-	local PC_FILE_TEMPLATE="camera/android/header_files/cros-camera-android-headers.pc.template"
-	local PC_FILE="${WORKDIR}/${PC_FILE_TEMPLATE##*/}"
-	PC_FILE=${PC_FILE%%.template}
+	local PC_FILE="android/header_files/cros-camera-android-headers.pc"
 
 	insinto "${INCLUDE_DIR}"
-	doins -r camera/android/header_files/include/*
+	doins -r android/header_files/include/*
 
 	sed -e "s|@INCLUDE_DIR@|${INCLUDE_DIR}|" \
-		"${PC_FILE_TEMPLATE}" > "${PC_FILE}"
+		"${PC_FILE}.template" > "${PC_FILE}"
 	insinto "${LIB_DIR}/pkgconfig"
 	doins ${PC_FILE}
 }

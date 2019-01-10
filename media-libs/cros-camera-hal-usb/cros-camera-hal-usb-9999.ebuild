@@ -3,19 +3,28 @@
 
 EAPI=5
 
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/usb camera/include common-mk"
-CROS_WORKON_OUTOFTREE_BUILD="1"
-CROS_WORKON_INCREMENTAL_BUILD="1"
-
-PLATFORM_SUBDIR="camera"
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/arc-camera"
+	"chromiumos/platform2"
+)
+CROS_WORKON_LOCALNAME=(
+	"../platform/arc-camera"
+	"../platform2"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform/arc-camera"
+	"${S}/platform2"
+)
+CROS_WORKON_SUBTREE=(
+	"build common hal/usb include"
+	"common-mk"
+)
 PLATFORM_GYP_FILE="hal/usb/libcamera_hal.gyp"
 CROS_CAMERA_TESTS=(
 	"image_processor_unittest"
 )
 
-inherit cros-camera cros-workon platform
+inherit cros-camera cros-workon
 
 DESCRIPTION="Chrome OS USB camera HAL v3."
 
@@ -40,6 +49,10 @@ DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers
 	media-libs/libyuv
 	virtual/pkgconfig"
+
+src_unpack() {
+	cros-camera_src_unpack
+}
 
 src_install() {
 	cros-camera_dohal "${OUT}/lib/libcamera_hal.so" usb.so

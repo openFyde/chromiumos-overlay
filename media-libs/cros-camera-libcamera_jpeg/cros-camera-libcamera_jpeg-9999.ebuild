@@ -3,16 +3,25 @@
 
 EAPI=5
 
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk"
-CROS_WORKON_OUTOFTREE_BUILD="1"
-CROS_WORKON_INCREMENTAL_BUILD="1"
-
-PLATFORM_SUBDIR="camera"
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/arc-camera"
+	"chromiumos/platform2"
+)
+CROS_WORKON_LOCALNAME=(
+	"../platform/arc-camera"
+	"../platform2"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform/arc-camera"
+	"${S}/platform2"
+)
+CROS_WORKON_SUBTREE=(
+	"build common include mojo"
+	"common-mk"
+)
 PLATFORM_GYP_FILE="common/libcamera_jpeg.gyp"
 
-inherit cros-camera cros-workon platform
+inherit cros-camera cros-workon
 
 DESCRIPTION="Chrome OS camera HAL software JPEG compressor util."
 
@@ -30,6 +39,10 @@ DEPEND="${RDEPEND}
 	media-libs/cros-camera-libcamera_ipc
 	media-libs/libyuv
 	virtual/pkgconfig"
+
+src_unpack() {
+	cros-camera_src_unpack
+}
 
 src_install() {
 	dolib.so "${OUT}/lib/libcamera_jpeg.so"
