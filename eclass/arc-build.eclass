@@ -145,7 +145,8 @@ arc-build-select-clang() {
 
 	ARC_LLVM_BASE="${ARC_BASE}/arc-llvm/${ARC_LLVM_VERSION}"
 	export CC="${ARC_LLVM_BASE}/bin/clang --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST}"
-	export CXX="${ARC_LLVM_BASE}/bin/clang++ --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST}"
+	# TODO(crbug.com/922335): Remove "-stdlib=libc++" after bug resolved.
+	export CXX="${ARC_LLVM_BASE}/bin/clang++ --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST} -stdlib=libc++"
 
 	# Newer Clang versions properly include their C++ headers.
 	if [[ ${ARC_LLVM_VERSION} == "3.8" ]]; then
