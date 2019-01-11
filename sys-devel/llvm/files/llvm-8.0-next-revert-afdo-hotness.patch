@@ -45,10 +45,10 @@ index 3aef4be72d7..4a214402b52 100644
    uint64_t getHotCountThreshold() {
      return HotCountThreshold ? HotCountThreshold.getValue() : 0;
 diff --git a/lib/Analysis/ProfileSummaryInfo.cpp b/lib/Analysis/ProfileSummaryInfo.cpp
-index bd8459ddb82..29f8d4860b7 100644
+index 1d70c75f2e1..706048bbe17 100644
 --- a/lib/Analysis/ProfileSummaryInfo.cpp
 +++ b/lib/Analysis/ProfileSummaryInfo.cpp
-@@ -241,18 +241,6 @@ bool ProfileSummaryInfo::isColdCount(uint64_t C) {
+@@ -236,18 +236,6 @@ bool ProfileSummaryInfo::isColdCount(uint64_t C) {
    return ColdCountThreshold && C <= ColdCountThreshold.getValue();
  }
  
@@ -68,7 +68,7 @@ index bd8459ddb82..29f8d4860b7 100644
    auto Count = BFI->getBlockProfileCount(BB);
    return Count && isHotCount(*Count);
 diff --git a/lib/Transforms/IPO/SampleProfile.cpp b/lib/Transforms/IPO/SampleProfile.cpp
-index 37f1ea4a807..265003f4d87 100644
+index 06a1ce89827..2d531ccfc7f 100644
 --- a/lib/Transforms/IPO/SampleProfile.cpp
 +++ b/lib/Transforms/IPO/SampleProfile.cpp
 @@ -38,7 +38,6 @@
@@ -79,9 +79,9 @@ index 37f1ea4a807..265003f4d87 100644
  #include "llvm/Analysis/TargetTransformInfo.h"
  #include "llvm/IR/BasicBlock.h"
  #include "llvm/IR/CFG.h"
-@@ -123,6 +122,11 @@ static cl::opt<bool> NoWarnSampleUnused(
-     cl::desc("Use this option to turn off/on warnings about function with "
-              "samples but without debug information to use those samples. "));
+@@ -129,6 +128,11 @@ static cl::opt<bool> ProfileSampleAccurate(
+              "callsite and function as having 0 samples. Otherwise, treat "
+              "un-sampled callsites and functions conservatively as unknown. "));
  
 +static cl::opt<double> SampleProfileHotThreshold(
 +    "sample-profile-inline-hot-threshold", cl::init(0.1), cl::value_desc("N"),
@@ -91,7 +91,7 @@ index 37f1ea4a807..265003f4d87 100644
  namespace {
  
  using BlockWeightMap = DenseMap<const BasicBlock *, uint64_t>;
-@@ -139,13 +143,10 @@ public:
+@@ -145,13 +149,10 @@ public:
    bool markSamplesUsed(const FunctionSamples *FS, uint32_t LineOffset,
                         uint32_t Discriminator, uint64_t Samples);
    unsigned computeCoverage(unsigned Used, unsigned Total) const;
@@ -108,7 +108,7 @@ index 37f1ea4a807..265003f4d87 100644
  
    void clear() {
      SampleCoverage.clear();
-@@ -198,8 +199,7 @@ public:
+@@ -204,8 +205,7 @@ public:
          RemappingFilename(RemapName), IsThinLTOPreLink(IsThinLTOPreLink) {}
  
    bool doInitialization(Module &M);
@@ -118,7 +118,7 @@ index 37f1ea4a807..265003f4d87 100644
  
    void dump() { Reader->dump(); }
  
-@@ -301,9 +301,6 @@ protected:
+@@ -307,9 +307,6 @@ protected:
    /// Instead, we will mark GUIDs that needs to be annotated to the function.
    bool IsThinLTOPreLink;
  
@@ -128,7 +128,7 @@ index 37f1ea4a807..265003f4d87 100644
    /// Total number of samples collected in this profile.
    ///
    /// This is the sum of all the samples collected in all the functions executed
-@@ -345,7 +342,6 @@ public:
+@@ -351,7 +348,6 @@ public:
    void getAnalysisUsage(AnalysisUsage &AU) const override {
      AU.addRequired<AssumptionCacheTracker>();
      AU.addRequired<TargetTransformInfoWrapperPass>();
@@ -136,7 +136,7 @@ index 37f1ea4a807..265003f4d87 100644
    }
  
  private:
-@@ -356,7 +352,7 @@ private:
+@@ -362,7 +358,7 @@ private:
  
  } // end anonymous namespace
  
@@ -145,7 +145,7 @@ index 37f1ea4a807..265003f4d87 100644
  ///
  /// Functions that were inlined in the original binary will be represented
  /// in the inline stack in the sample profile. If the profile shows that
-@@ -364,17 +360,28 @@ private:
+@@ -370,17 +366,28 @@ private:
  /// frequently), then we will recreate the inline decision and apply the
  /// profile from the inlined callsite.
  ///
@@ -181,7 +181,7 @@ index 37f1ea4a807..265003f4d87 100644
  }
  
  /// Mark as used the sample record for the given function samples at
-@@ -397,8 +404,7 @@ bool SampleCoverageTracker::markSamplesUsed(const FunctionSamples *FS,
+@@ -403,8 +410,7 @@ bool SampleCoverageTracker::markSamplesUsed(const FunctionSamples *FS,
  ///
  /// This count does not include records from cold inlined callsites.
  unsigned
@@ -191,7 +191,7 @@ index 37f1ea4a807..265003f4d87 100644
    auto I = SampleCoverage.find(FS);
  
    // The size of the coverage map for FS represents the number of records
-@@ -411,8 +417,8 @@ SampleCoverageTracker::countUsedRecords(const FunctionSamples *FS,
+@@ -417,8 +423,8 @@ SampleCoverageTracker::countUsedRecords(const FunctionSamples *FS,
    for (const auto &I : FS->getCallsiteSamples())
      for (const auto &J : I.second) {
        const FunctionSamples *CalleeSamples = &J.second;
@@ -202,7 +202,7 @@ index 37f1ea4a807..265003f4d87 100644
      }
  
    return Count;
-@@ -422,16 +428,15 @@ SampleCoverageTracker::countUsedRecords(const FunctionSamples *FS,
+@@ -428,16 +434,15 @@ SampleCoverageTracker::countUsedRecords(const FunctionSamples *FS,
  ///
  /// This count does not include records from cold inlined callsites.
  unsigned
@@ -222,7 +222,7 @@ index 37f1ea4a807..265003f4d87 100644
      }
  
    return Count;
-@@ -441,8 +446,7 @@ SampleCoverageTracker::countBodyRecords(const FunctionSamples *FS,
+@@ -447,8 +452,7 @@ SampleCoverageTracker::countBodyRecords(const FunctionSamples *FS,
  ///
  /// This count does not include samples from cold inlined callsites.
  uint64_t
@@ -232,7 +232,7 @@ index 37f1ea4a807..265003f4d87 100644
    uint64_t Total = 0;
    for (const auto &I : FS->getBodySamples())
      Total += I.second.getSamples();
-@@ -451,8 +455,8 @@ SampleCoverageTracker::countBodySamples(const FunctionSamples *FS,
+@@ -457,8 +461,8 @@ SampleCoverageTracker::countBodySamples(const FunctionSamples *FS,
    for (const auto &I : FS->getCallsiteSamples())
      for (const auto &J : I.second) {
        const FunctionSamples *CalleeSamples = &J.second;
@@ -243,7 +243,7 @@ index 37f1ea4a807..265003f4d87 100644
      }
  
    return Total;
-@@ -782,7 +786,7 @@ bool SampleProfileLoader::inlineHotFunctions(
+@@ -788,7 +792,7 @@ bool SampleProfileLoader::inlineHotFunctions(
          if ((isa<CallInst>(I) || isa<InvokeInst>(I)) &&
              !isa<IntrinsicInst>(I) && (FS = findCalleeFunctionSamples(I))) {
            Candidates.push_back(&I);
@@ -252,7 +252,7 @@ index 37f1ea4a807..265003f4d87 100644
              Hot = true;
          }
        }
-@@ -802,7 +806,8 @@ bool SampleProfileLoader::inlineHotFunctions(
+@@ -808,7 +812,8 @@ bool SampleProfileLoader::inlineHotFunctions(
          for (const auto *FS : findIndirectCallFunctionSamples(*I, Sum)) {
            if (IsThinLTOPreLink) {
              FS->findInlinedFunctions(InlinedGUIDs, F.getParent(),
@@ -262,17 +262,16 @@ index 37f1ea4a807..265003f4d87 100644
              continue;
            }
            auto CalleeFunctionName = FS->getFuncNameInModule(F.getParent());
-@@ -841,7 +846,8 @@ bool SampleProfileLoader::inlineHotFunctions(
+@@ -847,7 +852,7 @@ bool SampleProfileLoader::inlineHotFunctions(
            LocalChanged = true;
        } else if (IsThinLTOPreLink) {
          findCalleeFunctionSamples(*I)->findInlinedFunctions(
 -            InlinedGUIDs, F.getParent(), PSI->getOrCompHotCountThreshold());
-+            InlinedGUIDs, F.getParent(), Samples->getTotalSamples() *
-+                                     SampleProfileHotThreshold / 100);
++            InlinedGUIDs, F.getParent(), Samples->getTotalSamples() * SampleProfileHotThreshold / 100);
        }
      }
      if (LocalChanged) {
-@@ -1478,8 +1484,8 @@ bool SampleProfileLoader::emitAnnotations(Function &F) {
+@@ -1484,8 +1489,8 @@ bool SampleProfileLoader::emitAnnotations(Function &F) {
  
    // If coverage checking was requested, compute it now.
    if (SampleProfileRecordCoverage) {
@@ -283,7 +282,7 @@ index 37f1ea4a807..265003f4d87 100644
      unsigned Coverage = CoverageTracker.computeCoverage(Used, Total);
      if (Coverage < SampleProfileRecordCoverage) {
        F.getContext().diagnose(DiagnosticInfoSampleProfile(
-@@ -1492,7 +1498,7 @@ bool SampleProfileLoader::emitAnnotations(Function &F) {
+@@ -1498,7 +1503,7 @@ bool SampleProfileLoader::emitAnnotations(Function &F) {
  
    if (SampleProfileSampleCoverage) {
      uint64_t Used = CoverageTracker.getTotalUsedSamples();
@@ -292,7 +291,7 @@ index 37f1ea4a807..265003f4d87 100644
      unsigned Coverage = CoverageTracker.computeCoverage(Used, Total);
      if (Coverage < SampleProfileSampleCoverage) {
        F.getContext().diagnose(DiagnosticInfoSampleProfile(
-@@ -1511,7 +1517,6 @@ INITIALIZE_PASS_BEGIN(SampleProfileLoaderLegacyPass, "sample-profile",
+@@ -1517,7 +1522,6 @@ INITIALIZE_PASS_BEGIN(SampleProfileLoaderLegacyPass, "sample-profile",
                        "Sample Profile loader", false, false)
  INITIALIZE_PASS_DEPENDENCY(AssumptionCacheTracker)
  INITIALIZE_PASS_DEPENDENCY(TargetTransformInfoWrapperPass)
@@ -300,7 +299,14 @@ index 37f1ea4a807..265003f4d87 100644
  INITIALIZE_PASS_END(SampleProfileLoaderLegacyPass, "sample-profile",
                      "Sample Profile loader", false, false)
  
-@@ -1558,10 +1563,6 @@ bool SampleProfileLoader::runOnModule(Module &M, ModuleAnalysisManager *AM,
+@@ -1558,16 +1562,11 @@ ModulePass *llvm::createSampleProfileLoaderPass(StringRef Name) {
+   return new SampleProfileLoaderLegacyPass(Name);
+ }
+ 
+-bool SampleProfileLoader::runOnModule(Module &M, ModuleAnalysisManager *AM,
+-                                      ProfileSummaryInfo *_PSI) {
++bool SampleProfileLoader::runOnModule(Module &M, ModuleAnalysisManager *AM) {
+   FunctionSamples::GUIDToFuncNameMapper Mapper(M);
    if (!ProfileIsValid)
      return false;
  
@@ -311,12 +317,13 @@ index 37f1ea4a807..265003f4d87 100644
    // Compute the total number of samples collected in this profile.
    for (const auto &I : Reader->getProfiles())
      TotalCollectedSamples += I.second.getTotalSamples();
-@@ -1592,15 +1593,15 @@ bool SampleProfileLoader::runOnModule(Module &M, ModuleAnalysisManager *AM,
+@@ -1598,15 +1597,16 @@ bool SampleProfileLoader::runOnModule(Module &M, ModuleAnalysisManager *AM,
        clearFunctionData();
        retval |= runOnFunction(F, AM);
      }
-+  if (M.getProfileSummary() == nullptr)
-+    M.setProfileSummary(Reader->getSummary().getMD(M.getContext()));
++    if (M.getProfileSummary() == nullptr)
++      M.setProfileSummary(Reader->getSummary().getMD(M.getContext()));
++
    return retval;
  }
  
@@ -330,7 +337,7 @@ index 37f1ea4a807..265003f4d87 100644
  }
  
  bool SampleProfileLoader::runOnFunction(Function &F, ModuleAnalysisManager *AM) {
-@@ -1644,8 +1645,7 @@ PreservedAnalyses SampleProfileLoaderPass::run(Module &M,
+@@ -1658,8 +1658,7 @@ PreservedAnalyses SampleProfileLoaderPass::run(Module &M,
  
    SampleLoader.doInitialization(M);
  

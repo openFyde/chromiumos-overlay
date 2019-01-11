@@ -322,18 +322,15 @@ src_prepare() {
 	epatch "${FILESDIR}"/clang-6.0-enable-libgcc-with-compiler-rt.patch
 
 	# Temporarily revert r332058 as it caused speedometer2 perf regression.
-	# Does not apply cleanly to llvm-next, will respin a new patch later.
 	# https://crbug.com/864781
-	# epatch_after 332058 "${FILESDIR}"/llvm-next-revert-afdo-hotness.patch
+	epatch_after 332058 "${FILESDIR}"/llvm-8.0-next-revert-afdo-hotness.patch
 
-	# Revert r335145
+	# Revert r335145 and r335284 since android reverts them.
+	# b/113573336
 	epatch_after 335145 "${FILESDIR}"/llvm-8.0-revert-r335145.patch
-
-	# Revert r335284, in clang since android also reverts it.
-	# pushd "${S}"/tools/clang >/dev/null || die
-		# Does not apply cleanly to llvm-next, will respin a new patch later.
-		# epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
-	# popd >/dev/null || die
+	pushd "${S}"/tools/clang >/dev/null || die
+		epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
+	popd >/dev/null || die
 
 	# revert r344218, https://crbug.com/915711
 	epatch "${FILESDIR}"/llvm-8.0-revert-headers-as-sources.patch

@@ -9,10 +9,10 @@ for crashes with LLVM r339409.  The actual commit that this reverts is here:
 This patch is intended to be temporary:  Once the bug is fixed this patch can
 be removed.
 
-diff --git a/include/clang/Frontend/CodeGenOptions.def b/include/clang/Frontend/CodeGenOptions.def
+diff --git a/include/clang/Basic/CodeGenOptions.def b/include/clang/Basic/CodeGenOptions.def
 index 952aa588b6..2339bc1472 100644
---- a/include/clang/Frontend/CodeGenOptions.def
-+++ b/include/clang/Frontend/CodeGenOptions.def
+--- a/include/clang/Basic/CodeGenOptions.def
++++ b/include/clang/Basic/CodeGenOptions.def
 @@ -112,7 +112,7 @@ CODEGENOPT(LessPreciseFPMAD  , 1, 0) ///< Enable less precise MAD instructions t
                                       ///< be generated.
  CODEGENOPT(PrepareForLTO     , 1, 0) ///< Set when -flto is enabled on the
@@ -23,10 +23,10 @@ index 952aa588b6..2339bc1472 100644
  CODEGENOPT(LTOUnit, 1, 0) ///< Emit IR to support LTO unit features (CFI, whole
                            ///< program vtable opt).
 diff --git a/lib/CodeGen/BackendUtil.cpp b/lib/CodeGen/BackendUtil.cpp
-index 38d9a52986..99f209c3f9 100644
+index 1311af9168..e5471cc57e 100644
 --- a/lib/CodeGen/BackendUtil.cpp
 +++ b/lib/CodeGen/BackendUtil.cpp
-@@ -542,7 +542,7 @@ void EmitAssemblyHelper::CreatePasses(legacy::PassManager &MPM,
+@@ -544,7 +544,7 @@ void EmitAssemblyHelper::CreatePasses(legacy::PassManager &MPM,
      PMBuilder.Inliner = createFunctionInliningPass(
          CodeGenOpts.OptimizationLevel, CodeGenOpts.OptimizeSize,
          (!CodeGenOpts.SampleProfileFile.empty() &&
@@ -35,7 +35,7 @@ index 38d9a52986..99f209c3f9 100644
    }
  
    PMBuilder.OptLevel = CodeGenOpts.OptimizationLevel;
-@@ -552,7 +552,7 @@ void EmitAssemblyHelper::CreatePasses(legacy::PassManager &MPM,
+@@ -554,7 +554,7 @@ void EmitAssemblyHelper::CreatePasses(legacy::PassManager &MPM,
  
    PMBuilder.DisableUnrollLoops = !CodeGenOpts.UnrollLoops;
    PMBuilder.MergeFunctions = CodeGenOpts.MergeFunctions;
@@ -44,7 +44,7 @@ index 38d9a52986..99f209c3f9 100644
    PMBuilder.PrepareForLTO = CodeGenOpts.PrepareForLTO;
    PMBuilder.RerollLoops = CodeGenOpts.RerollLoops;
  
-@@ -806,7 +806,7 @@ void EmitAssemblyHelper::EmitAssembly(BackendAction Action,
+@@ -808,7 +808,7 @@ void EmitAssemblyHelper::EmitAssembly(BackendAction Action,
      break;
  
    case Backend_EmitBC:
@@ -53,7 +53,7 @@ index 38d9a52986..99f209c3f9 100644
        if (!CodeGenOpts.ThinLinkBitcodeFile.empty()) {
          ThinLinkOS = openOutputFile(CodeGenOpts.ThinLinkBitcodeFile);
          if (!ThinLinkOS)
-@@ -814,21 +814,10 @@ void EmitAssemblyHelper::EmitAssembly(BackendAction Action,
+@@ -816,21 +816,10 @@ void EmitAssemblyHelper::EmitAssembly(BackendAction Action,
        }
        PerModulePasses.add(createWriteThinLTOBitcodePass(
            *OS, ThinLinkOS ? &ThinLinkOS->os() : nullptr));
@@ -78,7 +78,7 @@ index 38d9a52986..99f209c3f9 100644
      break;
  
    case Backend_EmitLL:
-@@ -980,7 +969,7 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
+@@ -982,7 +971,7 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
    ModulePassManager MPM(CodeGenOpts.DebugPassManager);
  
    if (!CodeGenOpts.DisableLLVMPasses) {
@@ -87,7 +87,7 @@ index 38d9a52986..99f209c3f9 100644
      bool IsLTO = CodeGenOpts.PrepareForLTO;
  
      if (CodeGenOpts.OptimizationLevel == 0) {
-@@ -1042,7 +1031,7 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
+@@ -1048,7 +1037,7 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
      break;
  
    case Backend_EmitBC:
@@ -96,7 +96,7 @@ index 38d9a52986..99f209c3f9 100644
        if (!CodeGenOpts.ThinLinkBitcodeFile.empty()) {
          ThinLinkOS = openOutputFile(CodeGenOpts.ThinLinkBitcodeFile);
          if (!ThinLinkOS)
-@@ -1051,18 +1040,9 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
+@@ -1057,18 +1046,9 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
        MPM.addPass(ThinLTOBitcodeWriterPass(*OS, ThinLinkOS ? &ThinLinkOS->os()
                                                             : nullptr));
      } else {
@@ -117,7 +117,7 @@ index 38d9a52986..99f209c3f9 100644
      }
      break;
  
-@@ -1079,10 +1059,7 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
+@@ -1085,10 +1065,7 @@ void EmitAssemblyHelper::EmitAssemblyWithNewPassManager(
      if (!CodeGenOpts.SplitDwarfFile.empty()) {
        DwoOS = openOutputFile(CodeGenOpts.SplitDwarfFile);
        if (!DwoOS)
@@ -130,23 +130,23 @@ index 38d9a52986..99f209c3f9 100644
        return;
      break;
 diff --git a/lib/CodeGen/CGDebugInfo.cpp b/lib/CodeGen/CGDebugInfo.cpp
-index c556996be0..c6e7c2bc3d 100644
+index f3a07a30eb..a4f0e218a3 100644
 --- a/lib/CodeGen/CGDebugInfo.cpp
 +++ b/lib/CodeGen/CGDebugInfo.cpp
-@@ -611,7 +611,7 @@ void CGDebugInfo::CreateCompileUnit() {
-                           remapDIPath(getCurrentDirname()), CSInfo,
-                           getSource(SM, SM.getMainFileID())),
-       CGOpts.EmitVersionIdentMetadata ? Producer : "",
+@@ -609,7 +609,7 @@ void CGDebugInfo::CreateCompileUnit() {
+   // Create new compile unit.
+   TheCU = DBuilder.createCompileUnit(
+       LangTag, CUFile, CGOpts.EmitVersionIdentMetadata ? Producer : "",
 -      LO.Optimize || CGOpts.PrepareForLTO || CGOpts.PrepareForThinLTO,
 +      LO.Optimize || CGOpts.PrepareForLTO || CGOpts.EmitSummaryIndex,
        CGOpts.DwarfDebugFlags, RuntimeVers,
        (CGOpts.getSplitDwarfMode() != CodeGenOptions::NoFission)
            ? ""
 diff --git a/lib/Frontend/CompilerInvocation.cpp b/lib/Frontend/CompilerInvocation.cpp
-index 827e9297a8..2deb35f3b2 100644
+index 04105f0980..4dd8612c5c 100644
 --- a/lib/Frontend/CompilerInvocation.cpp
 +++ b/lib/Frontend/CompilerInvocation.cpp
-@@ -896,11 +896,11 @@ static bool ParseCodeGenArgs(CodeGenOptions &Opts, ArgList &Args, InputKind IK,
+@@ -898,11 +898,11 @@ static bool ParseCodeGenArgs(CodeGenOptions &Opts, ArgList &Args, InputKind IK,
    Opts.ProfileSampleAccurate = Args.hasArg(OPT_fprofile_sample_accurate);
  
    Opts.PrepareForLTO = Args.hasArg(OPT_flto, OPT_flto_EQ);
@@ -183,3 +183,13 @@ index 6126410206..0000000000
 -// RUN: %clang_cc1 -flto -triple x86_64-pc-linux-gnu -emit-llvm-bc -x ir < %t.bc | llvm-bcanalyzer -dump | FileCheck --check-prefix=LTOINDEX %s
 -
 -int main() {}
+diff --git a/test/Misc/thinlto.c b/test/Misc/thinlto.c
+new file mode 100644
+index 0000000000..ec0f03f5a2
+--- /dev/null
++++ b/test/Misc/thinlto.c
+@@ -0,0 +1,4 @@
++// RUN: %clang_cc1 -flto=thin -emit-llvm-bc < %s | llvm-bcanalyzer -dump | FileCheck %s
++// ; Check that the -flto=thin option emits a summary
++// CHECK: <GLOBALVAL_SUMMARY_BLOCK
++int main() {}
