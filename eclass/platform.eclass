@@ -153,7 +153,7 @@ platform_test() {
 # @FUNCTION: platform_fuzzer_install
 # @DESCRIPTION:
 # Installs fuzzer targets in one common location for all fuzzing projects.
-# @USAGE: <owners file> <fuzzer binary> [--dict dict_file] [--seed_corpus corpus_path] \
+# @USAGE: <owners file> <fuzzer binary> [--dict dict_file] \
 #	[--options options_file] [extra files ...]
 platform_fuzzer_install() {
 	fuzzer_install "$@"

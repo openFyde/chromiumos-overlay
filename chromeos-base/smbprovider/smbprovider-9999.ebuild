@@ -56,8 +56,7 @@ src_install() {
 	insinto /usr/share/policy
 	newins seccomp_filters/smbprovider-seccomp-"${ARCH}".policy smbprovider-seccomp.policy
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/netbios_packet_fuzzer \
-					--seed_corpus "${S}"/test_data/netbios_packet_parser_seed_corpus.zip
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/netbios_packet_fuzzer
 }
 
 platform_pkg_test() {

@@ -81,8 +81,7 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/metrics_library_consent_id_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS \
-		"${OUT}"/metrics_serialization_utils_fuzzer \
-		--seed_corpus "${S}"/serialization/metrics_serialization_utils_fuzzer_seed_corpus.zip
+		"${OUT}"/metrics_serialization_utils_fuzzer
 }
 
 platform_pkg_test() {

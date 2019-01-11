@@ -38,6 +38,5 @@ src_compile() {
 }
 
 src_install() {
-	fuzzer_install "${S}"/OWNERS gstoraster_fuzzer \
-		--seed_corpus "${S}"/gstoraster_fuzzer_seed_corpus.zip
+	fuzzer_install "${S}"/OWNERS gstoraster_fuzzer
 }

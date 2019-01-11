@@ -71,7 +71,6 @@ src_install() {
 	fowners authpolicyd:authpolicyd "${daemon_store}"
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/preg_parser_fuzzer \
-		--seed_corpus "${S}"/policy/testdata/preg_parser_fuzzer_seed_corpus.zip \
 		--dict "${S}"/policy/testdata/preg_parser_fuzzer.dict
 }
 
