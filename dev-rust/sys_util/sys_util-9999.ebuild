@@ -5,9 +5,9 @@ EAPI="6"
 
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
-CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="sys_util"
+CROS_WORKON_SUBDIRS_TO_COPY="sys_util"
 
 inherit cros-workon cros-rust
 

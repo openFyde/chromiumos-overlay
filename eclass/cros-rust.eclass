@@ -30,7 +30,7 @@ inherit toolchain-funcs cros-debug
 IUSE="asan lsan msan tsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
-EXPORT_FUNCTIONS src_unpack src_install
+EXPORT_FUNCTIONS src_unpack src_prepare src_install
 
 DEPEND="
 	>=virtual/rust-1.28.0:=
@@ -96,6 +96,38 @@ cros-rust_src_unpack() {
 	[target.${CBUILD}]
 	linker = "$(tc-getBUILD_CC)"
 	EOF
+}
+
+cros-rust_src_prepare() {
+	if grep -q "# ignore in ebuild {" "${S}/Cargo.toml"; then
+		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" = 1 ]]; then
+			die 'CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using' \
+				'`ignore in ebuild`'
+		fi
+
+		# Strip away demarcated segments of Cargo.toml.
+		#
+		# We use this to discard parts of [patch.crates-io] which should apply
+		# to local developer builds but not to ebuilds. In particular, some
+		# crates contained within the crosvm repository have their own ebuild
+		# independent of the crosvm ebuild so that they are usable from outside
+		# of crosvm. When a developer is building these crates locally with
+		# Cargo, we would like to patch dependencies such that they point to
+		# sibling crates within the crosvm repository. But when building via
+		# ebuild, the patches must not exist because they violate our build
+		# sandbox.
+		#
+		# The sed command says: please delete any lines including and in
+		# between:
+		#
+		#     # ignore in ebuild {
+		#     ...
+		#     # }
+		#
+		sed -i '/^# ignore in ebuild {$/ , /^# }$/ d' "${S}/Cargo.toml"
+	fi
+
+	eapply_user
 }
 
 # @FUNCTION: ecargo
