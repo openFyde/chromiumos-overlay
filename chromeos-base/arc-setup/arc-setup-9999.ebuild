@@ -24,6 +24,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="
 	android-container-nyc
+	arcvm
 	esdfs
 	houdini
 	ndk_translation
@@ -59,17 +60,19 @@ src_install() {
 	dosbin "${OUT}"/arc-setup
 
 	insinto /etc/init
-	doins etc/arc-boot-continue.conf
+	if ! use arcvm; then
+		doins etc/arc-boot-continue.conf
+		doins etc/arc-kmsg-logger.conf
+		doins etc/arc-lifetime.conf
+		doins etc/arc-sensor.conf
+		doins etc/arc-update-restorecon-last.conf
+	fi
 	if use esdfs; then
 		doins etc/arc-sdcard.conf
 		doins etc/arc-sdcard-mount.conf
 	fi
-	doins etc/arc-kmsg-logger.conf
-	doins etc/arc-lifetime.conf
-	doins etc/arc-sensor.conf
 	doins etc/arc-sysctl.conf
 	doins etc/arc-system-mount.conf
-	doins etc/arc-update-restorecon-last.conf
 	doins etc/arc-ureadahead.conf
 	doins etc/arc-ureadahead-trace.conf
 
@@ -83,16 +86,18 @@ src_install() {
 		enable_esdfs "${D}/usr/share/arc-setup/config.json"
 	fi
 
-	insinto /opt/google/containers/arc-art
-	doins "${OUT}/dev-rootfs.squashfs"
+	if ! use arcvm; then
+		insinto /opt/google/containers/arc-art
+		doins "${OUT}/dev-rootfs.squashfs"
 
-	# container-root is where the root filesystem of the container in which
-	# patchoat and dex2oat runs is mounted. dev-rootfs is mount point
-	# for squashfs.
-	diropts --mode=0700 --owner=root --group=root
-	keepdir /opt/google/containers/arc-art/mountpoints/container-root
-	keepdir /opt/google/containers/arc-art/mountpoints/dev-rootfs
-	keepdir /opt/google/containers/arc-art/mountpoints/vendor
+		# container-root is where the root filesystem of the container in which
+		# patchoat and dex2oat runs is mounted. dev-rootfs is mount point
+		# for squashfs.
+		diropts --mode=0700 --owner=root --group=root
+		keepdir /opt/google/containers/arc-art/mountpoints/container-root
+		keepdir /opt/google/containers/arc-art/mountpoints/dev-rootfs
+		keepdir /opt/google/containers/arc-art/mountpoints/vendor
+	fi
 }
 
 platform_pkg_test() {
