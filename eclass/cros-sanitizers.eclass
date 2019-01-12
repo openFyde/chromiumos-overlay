@@ -60,6 +60,19 @@ sanitizers-setup-env() {
 	ubsan-setup-env
 }
 
+# @FUNCTION: cros-rust-setup-sanitizers
+# @DESCRIPTION:
+# Sets up sanitizer flags for rust.
+cros-rust-setup-sanitizers() {
+	local rust_san_flags=()
+	use asan && rust_san_flags+=( -Csanitizer=address )
+	use lsan && rust_san_flags+=( -Csanitizer=leak )
+	use msan && rust_san_flags+=( -Csanitizer=memory )
+	use tsan && rust_san_flags+=( -Csanitizer=thread )
+
+	export RUSTFLAGS="${rust_san_flags[*]}"
+}
+
 # @FUNCTION: use_sanitizers
 # @DESCRIPTION:
 # Checks whether sanitizers are being used.

@@ -25,7 +25,7 @@ esac
 # dev-dependencies or crates like winapi.
 : ${CROS_RUST_EMPTY_CRATE:=}
 
-inherit toolchain-funcs cros-debug
+inherit toolchain-funcs cros-debug cros-sanitizers
 
 IUSE="asan lsan msan tsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
@@ -180,6 +180,8 @@ ecargo_build_fuzzer() {
 		fuzzer_arch="x86_64"
 	fi
 
+	cros-rust-setup-sanitizers
+
 	local fuzzer_flags=(
 		--cfg fuzzing
 		-Cpasses=sancov
@@ -193,12 +195,8 @@ ecargo_build_fuzzer() {
 		-Clink-arg="-lclang_rt.fuzzer-${fuzzer_arch}"
 		-Clink-arg="-lc++"
 	)
-	use asan && fuzzer_flags+=( -Csanitizer=address )
-	use lsan && fuzzer_flags+=( -Csanitizer=leak )
-	use msan && fuzzer_flags+=( -Csanitizer=memory )
-	use tsan && fuzzer_flags+=( -Csanitizer=thread )
 
-	export RUSTFLAGS="${fuzzer_flags[*]}"
+	export RUSTFLAGS="${fuzzer_flags[*]} ${RUSTFLAGS}"
 
 	ecargo build --target="${CHOST}" "$@"
 }
