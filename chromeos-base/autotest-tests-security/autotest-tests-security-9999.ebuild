@@ -62,7 +62,6 @@ IUSE_TESTS="
 	+tests_security_RuntimeExecStack
 	+tests_security_SandboxedServices
 	selinux? ( +tests_security_SELinux )
-	+tests_security_StatefulPartitionHardening
 	+tests_security_SysVIPC
 	x86? ( +tests_security_x86Registers )
 	amd64? ( +tests_security_x86Registers )

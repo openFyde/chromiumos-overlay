@@ -142,7 +142,6 @@ IUSE_TESTS=(
 	+tests_platform_LowMemoryTest
 	+tests_platform_MemoryPressure
 	+tests_platform_MouseScrollTest
-	+tests_platform_OSLimits
 	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
@@ -198,7 +197,6 @@ IUSE_TESTS=(
 	+tests_power_WebGL
 	+tests_security_BundledExtensions
 	+tests_security_SandboxLinuxUnittests
-	+tests_security_SandboxStatus
 	+tests_security_Usbguard
 	+tests_telemetry_AFDOGenerateClient
 	+tests_telemetry_UnitTests
