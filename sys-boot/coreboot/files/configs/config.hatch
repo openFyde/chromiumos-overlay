@@ -32,6 +32,7 @@ CONFIG_FSP_M_XIP=y
 CONFIG_SPI_FLASH_SMM=y
 
 # Microcode
+CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard/hatch/ucode.bin"
 
 # Management Engine
