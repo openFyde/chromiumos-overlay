@@ -3,10 +3,10 @@ DEPEND=>=dev-rust/libc-0.2.44:= ~dev-rust/quote-0.6.10:= >=dev-rust/proc-macro2-
 DESCRIPTION=Small system utility modules for usage by other modules.
 EAPI=6
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sys_util
-IUSE=test cros_host cros_workon_tree_a5d65404e63fa6f15c15d922cdeee93ca8eefbaa cros-debug asan lsan msan tsan
+IUSE=test cros_host cros_workon_tree_59436af5c85972c7e4d6eed69bc164340b049d62 cros-debug asan lsan msan tsan
 KEYWORDS=*
 LICENSE=BSD-Google
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0.1.0/r3
+SLOT=0.1.0/r4
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	5f28ae4e32760c0f4ffe7de814b18c51	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
-_md5_=6774ed1a2caa9d03025c08094f9cf874
+_md5_=71b8dd0a0efca6503a783aa48f75732d
