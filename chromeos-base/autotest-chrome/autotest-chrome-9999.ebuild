@@ -146,13 +146,14 @@ IUSE_TESTS=(
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
 	+tests_policy_AllowDinosaurEasterEgg
+	+tests_policy_AllowScreenLock
 	+tests_policy_AlternateErrorPages
 	+tests_policy_AudioOutputAllowed
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
 	+tests_policy_CookiesSessionOnlyForUrls
-        +tests_policy_DefaultJavaScriptSetting
+	+tests_policy_DefaultJavaScriptSetting
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceTargetVersionPrefix
 	+tests_policy_DisableScreenshots
@@ -166,7 +167,7 @@ IUSE_TESTS=(
 	+tests_policy_HomepageLocation
 	+tests_policy_ImagesAllowedForUrls
 	+tests_policy_ImagesBlockedForUrls
-        +tests_policy_IncognitoModeAvailability
+	+tests_policy_IncognitoModeAvailability
 	+tests_policy_JavaScriptAllowedForUrls
 	+tests_policy_JavaScriptBlockedForUrls
 	+tests_policy_KeyboardDefaultToFunctionKeys
@@ -180,6 +181,7 @@ IUSE_TESTS=(
 	+tests_policy_PowerManagementIdleSettings
 	+tests_policy_ProxySettings
 	+tests_policy_RestoreOnStartupURLs
+	+tests_policy_ScreenBrightnessPercent
 	+tests_policy_URLBlacklist
 	+tests_policy_URLWhitelist
 	+tests_power_AudioDetector
