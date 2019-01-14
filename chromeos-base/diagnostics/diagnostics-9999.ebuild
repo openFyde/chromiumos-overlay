@@ -42,6 +42,7 @@ pkg_preinst() {
 }
 
 src_install() {
+	dobin "${OUT}/diag"
 	dobin "${OUT}/diagnosticsd"
 	dobin "${OUT}/diagnostics_processor"
 	dobin "${OUT}/telem"
@@ -66,6 +67,7 @@ src_install() {
 platform_pkg_test() {
 	local tests=(
 		diagnosticsd_test
+		libdiag_test
 		libgrpc_async_adapter_test
 		libtelem_test
 	)
