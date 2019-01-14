@@ -83,6 +83,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/cros-config-test
 	chromeos-base/cryptohome-dev-utils
 	chromeos-base/gmerge
+	chromeos-base/policy_utils
 	chromeos-base/protofiles
 	chromeos-base/screenshot
 	shill? ( chromeos-base/shill-test-scripts )

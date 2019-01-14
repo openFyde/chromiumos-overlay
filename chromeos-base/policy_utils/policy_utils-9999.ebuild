@@ -34,7 +34,7 @@ RDEPEND="
 "
 
 src_install() {
-	dolib.a "${OUT}/libmgmt.a"
+	dosbin "${OUT}/policy"
 }
 
 platform_pkg_test() {
