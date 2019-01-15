@@ -17,6 +17,7 @@ fuchsia-zircon-sys-0.3.3
 getopts-0.2.17
 libc-0.2.44
 log-0.4.1
+num_cpus-1.9.0
 pkg-config-0.3.11
 proc-macro2-0.4.24
 protobuf-1.4.3
