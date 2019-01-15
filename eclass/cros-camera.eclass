@@ -7,9 +7,9 @@
 # @BUGREPORTS:
 # Please report bugs via http://crbug.com/new (with label Build)
 # @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/eclass/@ECLASS@
-# @BLURB: helper eclass for building Chromium package in src/platform2/camera
+# @BLURB: helper eclass for building Chromium package in src/platform/arc-camera
 # @DESCRIPTION:
-# Packages in src/platform2/camera are in active development. We want builds
+# Packages in src/platform/arc-camera are in active development. We want builds
 # to be incremental and fast. This centralized the logic needed for this.
 
 # @ECLASS-VARIABLE: CROS_CAMERA_TESTS
@@ -17,7 +17,15 @@
 # An array of tests to run when FEATURES=test is set.
 : ${CROS_CAMERA_TESTS:=}
 
+PLATFORM_SUBDIR="arc-camera"
+
 inherit multilib platform
+
+cros-camera_src_unpack() {
+	local s="${S}"
+	platform_src_unpack
+	S="${s}/platform/${PLATFORM_SUBDIR}"
+}
 
 # @FUNCTION: cros-camera_doheader
 # @USAGE: <header files...>
@@ -56,8 +64,7 @@ cros-camera_dopc() {
 	[[ $# -eq 1 ]] || die "Usage: ${FUNCNAME} <pc file template>"
 
 	local in_pc_file=$1
-	local out_pc_file="${WORKDIR}/${in_pc_file##*/}"
-	out_pc_file="${out_pc_file%%.template}"
+	local out_pc_file=${in_pc_file%%.template}
 	local include_dir="/usr/include/cros-camera"
 	local lib_dir="/usr/$(get_libdir)"
 
@@ -76,3 +83,5 @@ platform_pkg_test() {
 		platform_test "run" "${OUT}/${test_bin}"
 	done
 }
+
+EXPORT_FUNCTIONS src_unpack

@@ -3,15 +3,22 @@
 
 EAPI="5"
 
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_LOCALNAME="../platform2"
-# TODO(crbug.com/914263): camera/hal/usb is unnecessary for this build but is
-# workaround for unexpected sandbox behavior.
-CROS_WORKON_SUBTREE=".gn camera/build camera/hal/usb camera/hal/usb_v1 camera/include common-mk"
-CROS_WORKON_OUTOFTREE_BUILD="1"
-CROS_WORKON_INCREMENTAL_BUILD="1"
-
-PLATFORM_SUBDIR="camera"
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/arc-camera"
+	"chromiumos/platform2"
+)
+CROS_WORKON_LOCALNAME=(
+	"../platform/arc-camera"
+	"../platform2"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform/arc-camera"
+	"${S}/platform2"
+)
+CROS_WORKON_SUBTREE=(
+	"build hal/usb_v1 include"
+	"common-mk"
+)
 PLATFORM_GYP_FILE="hal/usb_v1/arc_camera_service.gyp"
 
 inherit cros-workon platform user
@@ -33,6 +40,13 @@ DEPEND="${RDEPEND}
 	chromeos-base/libbrillo
 	chromeos-base/libmojo
 	virtual/pkgconfig"
+
+src_unpack() {
+	local s="${S}"
+	platform_src_unpack
+	# look in src/platform/arc-camera
+	S="${s}/platform/arc-camera"
+}
 
 src_install() {
 	dobin "${OUT}/arc_camera_service"

@@ -3,19 +3,28 @@
 
 EAPI=5
 
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include common-mk"
-CROS_WORKON_OUTOFTREE_BUILD="1"
-CROS_WORKON_INCREMENTAL_BUILD="1"
-
-PLATFORM_SUBDIR="camera"
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/arc-camera"
+	"chromiumos/platform2"
+)
+CROS_WORKON_LOCALNAME=(
+	"../platform/arc-camera"
+	"../platform2"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform/arc-camera"
+	"${S}/platform2"
+)
+CROS_WORKON_SUBTREE=(
+	"build common include"
+	"common-mk"
+)
 PLATFORM_GYP_FILE="common/libcamera_common.gyp"
 CROS_CAMERA_TESTS=(
 	"future_unittest"
 )
 
-inherit cros-camera cros-workon platform
+inherit cros-camera cros-workon
 
 DESCRIPTION="Chrome OS HAL common util."
 
@@ -29,6 +38,10 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
+
+src_unpack() {
+	cros-camera_src_unpack
+}
 
 src_install() {
 	dolib.so "${OUT}/lib/libcamera_common.so"
