@@ -148,10 +148,16 @@ make_ec() {
 #
 prepare_cr50_signer_aid () {
 	local signer_manifest="util/signer/ec_RW-manifest-prod.json"
+	local codesigner="cr50-codesigner"
 
 	elog "Converting prod manifest into json format"
 
-	cr50-codesigner --convert-json -i "${signer_manifest}" \
+	if ! type -P "${codesigner}" >/dev/null; then
+		ewarn "${codesigner} not available, not preparing ${CR50_JSON}"
+		return
+	fi
+
+	"${codesigner}" --convert-json -i "${signer_manifest}" \
 			-o "${S}/${CR50_JSON}" || \
 		die "failed to convert signer manifest ${signer_manifest}"
 }
@@ -218,6 +224,11 @@ src_compile() {
 #
 install_cr50_signer_aid () {
 	local dest_dir="${1}"
+
+	if [[ ! -f ${S}/${CR50_JSON} ]]; then
+		ewarn "Not installing Cr50 support files"
+		return
+	fi
 
 	elog "Installing Cr50 signer support files"
 
