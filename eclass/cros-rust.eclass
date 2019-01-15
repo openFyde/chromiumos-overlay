@@ -99,32 +99,37 @@ cros-rust_src_unpack() {
 }
 
 cros-rust_src_prepare() {
-	if grep -q "# ignore in ebuild {" "${S}/Cargo.toml"; then
+	if grep -q "# provided by ebuild" "${S}/Cargo.toml"; then
 		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" = 1 ]]; then
 			die 'CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using' \
-				'`ignore in ebuild`'
+				'`provided by ebuild`'
 		fi
 
-		# Strip away demarcated segments of Cargo.toml.
+		# Replace path dependencies with ones provided by their ebuild.
 		#
-		# We use this to discard parts of [patch.crates-io] which should apply
-		# to local developer builds but not to ebuilds. In particular, some
-		# crates contained within the crosvm repository have their own ebuild
-		# independent of the crosvm ebuild so that they are usable from outside
-		# of crosvm. When a developer is building these crates locally with
-		# Cargo, we would like to patch dependencies such that they point to
-		# sibling crates within the crosvm repository. But when building via
-		# ebuild, the patches must not exist because they violate our build
-		# sandbox.
+		# For local developer builds, we want Cargo.toml to contain path
+		# dependencies on sibling crates within the same repository or elsewhere
+		# in the Chrome OS source tree. This enables developers to run `cargo
+		# build` and have dependencies resolve correctly to their locally
+		# checked out code.
 		#
-		# The sed command says: please delete any lines including and in
-		# between:
+		# At the same time, some crates contained within the crosvm repository
+		# have their own ebuild independent of the crosvm ebuild so that they
+		# are usable from outside of crosvm. Ebuilds of downstream crates won't
+		# be able to depend on these crates by path dependency because that
+		# violates the build sandbox. We perform a sed replacement to eliminate
+		# the path dependency during ebuild of the downstream crates.
 		#
-		#     # ignore in ebuild {
-		#     ...
-		#     # }
+		# The sed command says: in any line containing `# provided by ebuild`,
+		# please replace `path = "..."` with `version = "*"`. The intended usage
+		# is like this:
 		#
-		sed -i '/^# ignore in ebuild {$/ , /^# }$/ d' "${S}/Cargo.toml"
+		#     [dependencies]
+		#     data_model = { path = "../data_model" }  # provided by ebuild
+		#
+		sed -i \
+			'/# provided by ebuild$/ s/path = "[^"]*"/version = "*"/' \
+			"${S}/Cargo.toml"
 	fi
 
 	eapply_user
