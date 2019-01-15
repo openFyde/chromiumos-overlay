@@ -33,4 +33,8 @@ src_install() {
 	# Add script that does the actual rescan and metrics logging
 	# and is called by the upstart .conf
 	dosbin "${FILESDIR}/pci-rescan-to-revive-wifi.sh"
+
+	# Set the iwlwifi module parameters.
+	insinto "/etc/modprobe.d"
+	doins "${FILESDIR}/modprobe.d/iwlwifi.conf"
 }
