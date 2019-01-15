@@ -18,7 +18,7 @@ inherit cros-workon platform
 
 DESCRIPTION="quipper: chromiumos wide profiling"
 HOMEPAGE="http://www.chromium.org/chromium-os/profiling-in-chromeos"
-GIT_SHA1="b3a6fe448ca5f4b84a33bbe36bafe281679c3c3f"
+GIT_SHA1="0a61af58974212f0ec3c40833b563fa587f9f9e3"
 SRC="quipper-${GIT_SHA1}.tar.gz"
 SRC_URI="gs://chromeos-localmirror/distfiles/${SRC}"
 SRC_DIR="src/${PN}"
@@ -48,10 +48,6 @@ src_unpack() {
 	unpack ${SRC}
 	mv "${SRC_DIR}"/{.[!.],}* ./ || die
 	epatch "${FILESDIR}"/quipper-disable-flaky-tests.patch
-	epatch "${FILESDIR}"/quipper-gyp.patch
-	epatch "${FILESDIR}"/quipper-build.patch
-	epatch "${FILESDIR}"/quipper-fuzzer.patch
-	epatch "${FILESDIR}"/quipper-owners.patch
 	popd >/dev/null
 }
 
