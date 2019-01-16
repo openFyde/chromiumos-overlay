@@ -170,6 +170,7 @@ pick_cherries() {
 	# llvm
 	CHERRIES=""
 	CHERRIES+=" c3f9ab51440d34cbe3e113ae40c847f380a96845" # r349660
+	CHERRIES+=" b2800c91d94c27c35d6f371819f6e4d6fb3e5404" # r351247
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -197,6 +198,7 @@ pick_next_cherries() {
 	# llvm
 	CHERRIES=""
 	CHERRIES+=" c3f9ab51440d34cbe3e113ae40c847f380a96845" # r349660
+	CHERRIES+=" b2800c91d94c27c35d6f371819f6e4d6fb3e5404" # r351247
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"

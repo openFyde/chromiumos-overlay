@@ -1,0 +1,79 @@
+commit b2800c91d94c27c35d6f371819f6e4d6fb3e5404
+Author: Matt Morehouse <mascasa@google.com>
+Date:   Tue Jan 15 21:21:01 2019 +0000
+
+    [SanitizerCoverage] Don't create comdat for interposable functions.
+    
+    Summary:
+    Comdat groups override weak symbol behavior, allowing the linker to keep
+    the comdats for weak symbols in favor of comdats for strong symbols.
+    
+    Fixes the issue described in:
+    https://bugs.chromium.org/p/chromium/issues/detail?id=918662
+    
+    Reviewers: eugenis, pcc, rnk
+    
+    Reviewed By: pcc, rnk
+    
+    Subscribers: smeenai, rnk, bd1976llvm, hiraditya, llvm-commits
+    
+    Differential Revision: https://reviews.llvm.org/D56516
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@351247 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/Transforms/Instrumentation/SanitizerCoverage.cpp b/lib/Transforms/Instrumentation/SanitizerCoverage.cpp
+index 729197fcefd..0ba8d5765e8 100644
+--- a/lib/Transforms/Instrumentation/SanitizerCoverage.cpp
++++ b/lib/Transforms/Instrumentation/SanitizerCoverage.cpp
+@@ -568,7 +568,7 @@ GlobalVariable *SanitizerCoverageModule::CreateFunctionLocalArrayInSection(
+       *CurModule, ArrayTy, false, GlobalVariable::PrivateLinkage,
+       Constant::getNullValue(ArrayTy), "__sancov_gen_");
+ 
+-  if (TargetTriple.supportsCOMDAT())
++  if (TargetTriple.supportsCOMDAT() && !F.isInterposable())
+     if (auto Comdat =
+             GetOrCreateFunctionComdat(F, TargetTriple, CurModuleUniqueId))
+       Array->setComdat(Comdat);
+diff --git a/test/Instrumentation/SanitizerCoverage/interposable-symbol-nocomdat.ll b/test/Instrumentation/SanitizerCoverage/interposable-symbol-nocomdat.ll
+new file mode 100644
+index 00000000000..c79a2fb5fff
+--- /dev/null
++++ b/test/Instrumentation/SanitizerCoverage/interposable-symbol-nocomdat.ll
+@@ -0,0 +1,37 @@
++; Test that interposable symbols do not get put in comdats.
++; RUN: opt < %s -sancov -sanitizer-coverage-level=3 -sanitizer-coverage-trace-pc-guard -mtriple x86_64-linux-gnu -S | FileCheck %s
++; RUN: opt < %s -sancov -sanitizer-coverage-level=3 -sanitizer-coverage-trace-pc-guard -mtriple x86_64-windows-msvc -S | FileCheck %s
++
++define void @Vanilla() {
++entry:
++  ret void
++}
++
++define linkonce void @LinkOnce() {
++entry:
++  ret void
++}
++
++define weak void @Weak() {
++entry:
++  ret void
++}
++
++declare extern_weak void @ExternWeak()
++
++define linkonce_odr void @LinkOnceOdr() {
++entry:
++  ret void
++}
++
++define weak_odr void @WeakOdr() {
++entry:
++  ret void
++}
++
++; CHECK: define void @Vanilla() comdat {
++; CHECK: define linkonce void @LinkOnce() {
++; CHECK: define weak void @Weak() {
++; CHECK: declare extern_weak void @ExternWeak()
++; CHECK: define linkonce_odr void @LinkOnceOdr() comdat {
++; CHECK: define weak_odr void @WeakOdr() comdat {
