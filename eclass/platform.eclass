@@ -31,6 +31,11 @@
 # Name of GYP file within PLATFORM_SUBDIR.
 : ${PLATFORM_GYP_FILE:="${PLATFORM_SUBDIR}.gyp"}
 
+# @ECLASS-VARIABLE: PLATFORM_ARC_BUILD
+# @DESCRIPTION:
+# Set to yes if the package is built by ARC toolchain.
+: ${PLATFORM_ARC_BUILD:="no"}
+
 inherit cros-debug cros-fuzzer cros-sanitizers cros-workon flag-o-matic toolchain-funcs multiprocessing
 
 [[ "${WANT_LIBCHROME}" == "yes" ]] && inherit libchrome
@@ -56,14 +61,21 @@ platform() {
 	local action="$1"
 	shift
 
+	local libdir="/usr/$(get_libdir)"
+	local cache_dir="$(cros-workon_get_build_dir)"
+	if [[ ${PLATFORM_ARC_BUILD} == "yes" ]]; then
+		export SYSROOT="${ARC_SYSROOT}"
+		libdir="/vendor/$(get_libdir)"
+		cache_dir="${BUILD_DIR}"
+	fi
 	local cmd=(
 		"${platform2_py}"
 		$(platform_get_target_args)
-		--libdir="/usr/$(get_libdir)"
+		--libdir="${libdir}"
 		--use_flags="${USE}"
 		--jobs=$(makeopts_jobs)
 		--action="${action}"
-		--cache_dir="$(cros-workon_get_build_dir)"
+		--cache_dir="${cache_dir}"
 		--platform_subdir="${PLATFORM_SUBDIR}"
 		"$@"
 	)
