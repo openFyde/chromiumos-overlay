@@ -35,6 +35,7 @@ IUSE="
 	snow
 	spring
 	touchview
+	transparent_hugepage
 	veyron_mickey
 	veyron_rialto
 "
