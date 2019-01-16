@@ -46,7 +46,7 @@ KEYWORDS="~*"
 IUSE="debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf"
 
 RDEPEND="
-	arm? ( sys-apps/dtc )
+	sys-apps/dtc
 	!chromeos-base/crosvm-bin
 	chromeos-base/minijail
 	crosvm-gpu? (
