@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("23b79133514ac2cd986bce21c398fb6658bda248" "780c6a9c0783e0a96830c563ab31ece48eba2374")
+CROS_WORKON_COMMIT=("cd5ac37fe204a96075df0b5a0b4a297c12096cdf" "ba151bd28eefa2309dd20069ae0d95b00543fc71")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
@@ -147,6 +147,8 @@ src_install() {
 		base/test/fuzzed_data_provider.h \
 		base/test/simple_test_clock.h \
 		base/test/simple_test_tick_clock.h \
+		base/test/test_mock_time_task_runner.h \
+		base/test/test_pending_task.h \
 
 	if use crypto; then
 		insinto /usr/include/base-${SLOT}/crypto
