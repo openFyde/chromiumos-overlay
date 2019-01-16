@@ -301,6 +301,11 @@ set_build_args() {
 	determine_linker
 
 	BUILD_ARGS=(
+		# is_official_build sometimes implies extra optimizations (e.g. it will allow
+		# ThinLTO to optimize more aggressively, if ThinLTO is enabled). Please note
+		# that, despite the name, it should be usable by external users.
+		is_official_build=true
+
 		is_debug=false
 		"${EXTRA_GN_ARGS}"
 		use_v4l2_codec=$(usetf v4l2_codec)
@@ -453,7 +458,7 @@ set_build_args() {
 
 	if use chrome_internal; then
 		# Adding chrome branding specific variables.
-		BUILD_ARGS+=( is_chrome_branded=true is_official_build=true )
+		BUILD_ARGS+=( is_chrome_branded=true )
 		# This test can only be build from internal sources.
 		BUILD_ARGS+=( internal_gles2_conform_tests=true )
 		export CHROMIUM_BUILD='_google_Chrome'
