@@ -1,0 +1,88 @@
+commit bb1399bcffdf5940bf6915affad8d2bd2744ba46
+Author: Peter Smith <peter.smith@linaro.org>
+Date:   Tue Jan 15 11:17:03 2019 +0000
+
+    [ELF][AArch64] Add missing PLT relocations to isStaticLinkTimeConstant
+    
+    r347650 fixed pr38074 for AArch64 for static linking. It added two new
+    RelExpr instances R_AARCH64_GOT_PAGE_PC_PLT and R_GOT_PLT. These need to be
+    added to isStaticLinkTimeConstant so that the address of an ifunc can be
+    taken when building a shared library.
+    
+    fixes pr40250
+    
+    Differential Revision: https://reviews.llvm.org/D56666
+    
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/lld/trunk@351186 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/ELF/Relocations.cpp b/ELF/Relocations.cpp
+index c10e56150..812468896 100644
+--- a/ELF/Relocations.cpp
++++ b/ELF/Relocations.cpp
+@@ -374,8 +374,8 @@ static bool isStaticLinkTimeConstant(RelExpr E, RelType Type, const Symbol &Sym,
+   if (isRelExprOneOf<R_GOT_FROM_END, R_GOT_OFF, R_HEXAGON_GOT, R_TLSLD_GOT_OFF,
+                      R_MIPS_GOT_LOCAL_PAGE, R_MIPS_GOTREL, R_MIPS_GOT_OFF,
+                      R_MIPS_GOT_OFF32, R_MIPS_GOT_GP_PC, R_MIPS_TLSGD,
+-                     R_AARCH64_GOT_PAGE_PC, R_GOT_PC, R_GOTONLY_PC,
+-                     R_GOTONLY_PC_FROM_END, R_PLT_PC, R_TLSGD_GOT,
++                     R_AARCH64_GOT_PAGE_PC, R_AARCH64_GOT_PAGE_PC_PLT, R_GOT_PC,
++                     R_GOTONLY_PC, R_GOTONLY_PC_FROM_END, R_PLT_PC, R_TLSGD_GOT,
+                      R_TLSGD_GOT_FROM_END, R_TLSGD_PC, R_PPC_CALL_PLT,
+                      R_TLSDESC_CALL, R_AARCH64_TLSDESC_PAGE, R_HINT,
+                      R_TLSLD_HINT, R_TLSIE_HINT>(E))
+@@ -383,7 +383,7 @@ static bool isStaticLinkTimeConstant(RelExpr E, RelType Type, const Symbol &Sym,
+ 
+   // These never do, except if the entire file is position dependent or if
+   // only the low bits are used.
+-  if (E == R_GOT || E == R_PLT || E == R_TLSDESC)
++  if (E == R_GOT || E == R_GOT_PLT || E == R_PLT || E == R_TLSDESC)
+     return Target->usesOnlyLowPageBits(Type) || !Config->Pic;
+ 
+   if (Sym.IsPreemptible)
+diff --git a/test/ELF/aarch64-gnu-ifunc-address.s b/test/ELF/aarch64-gnu-ifunc-address.s
+new file mode 100644
+index 000000000..9321fe35e
+--- /dev/null
++++ b/test/ELF/aarch64-gnu-ifunc-address.s
+@@ -0,0 +1,40 @@
++# REQUIRES: aarch64
++# RUN: llvm-mc -filetype=obj -triple=aarch64-none-linux-gnu %s -o %t.o
++# RUN: ld.lld -shared %t.o -o %tout
++# RUN: llvm-objdump -D %tout | FileCheck %s
++# RUN: llvm-readobj -r %tout | FileCheck %s --check-prefix=CHECK-RELOCS
++
++# Test that when we take the address of a preemptible ifunc in a shared object
++# we get R_AARCH64_GLOB_DAT to the symbol as it could be defined in another
++# link unit and preempt our definition.
++.text
++.globl myfunc
++.type myfunc,@gnu_indirect_function
++myfunc:
++ ret
++
++.text
++.globl main
++.type main,@function
++main:
++ adrp x8, :got:myfunc
++ ldr  x8, [x8, :got_lo12:myfunc]
++ ret
++# CHECK:   0000000000010004 main:
++# x8 = 0x30000
++# CHECK-NEXT:    10004: 08 01 00 90     adrp    x8, #131072
++# x8 = 0x300e0 = .got entry for myfunc with R_AARCH64_GLOB_DAT
++# CHECK-NEXT:    10008: 08 71 40 f9     ldr     x8, [x8, #224]
++# CHECK-NEXT:    1000c: c0 03 5f d6     ret
++
++# CHECK: Disassembly of section .got:
++# CHECK-NEXT: 00000000000300e0 .got:
++
++# CHECK-RELOCS: Relocations [
++# CHECK-RELOCS-NEXT:   Section {{.*}} .rela.dyn {
++# CHECK-RELOCS-NEXT:     0x300E0 R_AARCH64_GLOB_DAT myfunc 0x0
++# CHECK-RELOCS-NEXT:   }
++# CHECK-RELOCS-NEXT:   Section {{.*}} .rela.plt {
++# CHECK-RELOCS-NEXT:     0x20018 R_AARCH64_JUMP_SLOT myfunc 0x0
++# CHECK-RELOCS-NEXT:   }
++# CHECK-RELOCS-NEXT: ]
