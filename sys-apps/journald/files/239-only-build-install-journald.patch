@@ -1,11 +1,11 @@
-From eb470563692ccbda9759be1287afe1b718b75117 Mon Sep 17 00:00:00 2001
+From 323ac645b39da979c28ae05e9541ab4b73e3c3bc Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Mon, 3 Dec 2018 17:10:42 -0800
 Subject: [PATCH] only build/install journald
 
 
 diff --git a/meson.build b/meson.build
-index 04331dd41..391610919 100644
+index 04331dd41..ed8ace21f 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -1300,14 +1300,10 @@ includes = include_directories('src/basic',
@@ -23,7 +23,7 @@ index 04331dd41..391610919 100644
  
  libjournal_core = static_library(
          'journal-core',
-@@ -1370,119 +1366,9 @@ public_programs = []
+@@ -1370,119 +1366,10 @@ public_programs = []
  subdir('src/libudev')
  subdir('src/shared')
  subdir('src/core')
@@ -45,12 +45,12 @@ index 04331dd41..391610919 100644
 -subdir('src/timesync')
 -subdir('src/vconsole')
 -subdir('src/boot/efi')
--
--subdir('src/test')
+ 
+ subdir('src/test')
 -subdir('src/fuzz')
 -subdir('rules')
 -subdir('test')
- 
+-
  ############################################################
  
 -# only static linking apart from libdl, to make sure that the
@@ -143,7 +143,7 @@ index 04331dd41..391610919 100644
  executable('systemd-journald',
             systemd_journald_sources,
             include_directories : includes,
-@@ -1520,1261 +1406,7 @@ exe = executable('journalctl',
+@@ -1520,1030 +1407,6 @@ exe = executable('journalctl',
                   install_dir : rootbindir)
  public_programs += [exe]
  
@@ -1171,49 +1171,13 @@ index 04331dd41..391610919 100644
 -
 -############################################################
 -
--foreach tuple : tests
--        sources = tuple[0]
--        link_with = tuple[1].length() > 0 ? tuple[1] : [libshared]
--        dependencies = tuple[2]
--        condition = tuple.length() >= 4 ? tuple[3] : ''
--        type = tuple.length() >= 5 ? tuple[4] : ''
--        defs = tuple.length() >= 6 ? tuple[5] : []
--        incs = tuple.length() >= 7 ? tuple[6] : includes
--        timeout = 30
--
--        name = sources[0].split('/')[-1].split('.')[0]
--        if type.startswith('timeout=')
--                timeout = type.split('=')[1].to_int()
--                type = ''
--        endif
--        if want_tests == 'false'
--                message('Not compiling @0@ because tests is set to false'.format(name))
--        elif condition == '' or conf.get(condition) == 1
--                exe = executable(
--                        name,
--                        sources,
--                        include_directories : incs,
--                        link_with : link_with,
--                        dependencies : dependencies,
--                        c_args : defs,
--                        install_rpath : rootlibexecdir,
--                        install : install_tests,
--                        install_dir : join_paths(testsdir, type))
--
--                if type == 'manual'
--                        message('@0@ is a manual test'.format(name))
--                elif type == 'unsafe' and want_tests != 'unsafe'
--                        message('@0@ is an unsafe test'.format(name))
--                else
--                        test(name, exe,
--                             env : test_env,
--                             timeout : timeout)
--                endif
--        else
--                message('Not compiling @0@ because @1@ is not true'.format(name, condition))
--        endif
--endforeach
--
+ foreach tuple : tests
+         sources = tuple[0]
+         link_with = tuple[1].length() > 0 ? tuple[1] : [libshared]
+@@ -2587,194 +1450,7 @@ foreach tuple : tests
+         endif
+ endforeach
+ 
 -exe = executable(
 -        'test-libsystemd-sym',
 -        test_libsystemd_sym_c,
@@ -1405,7 +1369,7 @@ index 04331dd41..391610919 100644
  
  ############################################################
  
-@@ -2820,198 +1452,3 @@ if git.found()
+@@ -2820,198 +1496,3 @@ if git.found()
                             '--prefix', 'systemd-@0@/'.format(git_head),
                             'HEAD'])
  endif
@@ -1718,6 +1682,239 @@ index 5f84439a5..ab508c4bf 100644
  '''.split()
  
  # https://github.com/mesonbuild/meson/issues/1633
+diff --git a/src/test/meson.build b/src/test/meson.build
+index 7da7e3a22..3296bd979 100644
+--- a/src/test/meson.build
++++ b/src/test/meson.build
+@@ -12,8 +12,6 @@ test_include_dir = include_directories('.')
+ 
+ path = run_command('sh', ['-c', 'echo "$PATH"']).stdout()
+ test_env = environment()
+-test_env.set('SYSTEMD_KBD_MODEL_MAP', kbd_model_map)
+-test_env.set('SYSTEMD_LANGUAGE_FALLBACK_MAP', language_fallback_map)
+ test_env.set('PATH', path)
+ test_env.prepend('PATH', meson.build_root())
+ 
+@@ -28,13 +26,6 @@ test_libsystemd_sym_c = custom_target(
+         command : [generate_sym_test_py, libsystemd_sym_path] + systemd_headers,
+         capture : true)
+ 
+-test_libudev_sym_c = custom_target(
+-        'test-libudev-sym.c',
+-        input : [libudev_sym_path, libudev_h_path],
+-        output : 'test-libudev-sym.c',
+-        command : [generate_sym_test_py, '@INPUT0@', '@INPUT1@'],
+-        capture : true)
+-
+ test_dlopen_c = files('test-dlopen.c')
+ 
+ ############################################################
+@@ -48,17 +39,6 @@ tests += [
+          [],
+          []],
+ 
+-        [['src/test/test-engine.c',
+-          'src/test/test-helper.c'],
+-         [libcore,
+-          libudev,
+-          libshared],
+-         [threads,
+-          librt,
+-          libseccomp,
+-          libselinux,
+-          libmount,
+-          libblkid]],
+ 
+         [['src/test/test-job-type.c'],
+          [libcore,
+@@ -101,13 +81,6 @@ tests += [
+           libmount,
+           libblkid],
+          '', 'unsafe'],
+-
+-        [['src/test/test-dns-domain.c'],
+-         [libcore,
+-          libshared,
+-          libsystemd_network],
+-         []],
+-
+         [['src/test/test-boot-timestamps.c'],
+          [],
+          [],
+@@ -216,10 +189,6 @@ tests += [
+          [],
+          []],
+ 
+-        [['src/test/test-fs-util.c'],
+-         [],
+-         []],
+-
+         [['src/test/test-proc-cmdline.c'],
+          [],
+          []],
+@@ -412,24 +381,6 @@ tests += [
+          [],
+          []],
+ 
+-        [['src/test/test-tables.c',
+-          'src/shared/test-tables.h',
+-          'src/journal/journald-server.c',
+-          'src/journal/journald-server.h'],
+-         [libcore,
+-          libjournal_core,
+-          libudev_core,
+-          libudev_static,
+-          libsystemd_network,
+-          libshared],
+-         [threads,
+-          libseccomp,
+-          libmount,
+-          libxz,
+-          liblz4,
+-          libblkid],
+-         '', '', [], libudev_core_includes],
+-
+         [['src/test/test-prioq.c'],
+          [],
+          []],
+@@ -617,18 +568,6 @@ tests += [
+          [libshared],
+          []],
+ 
+-        [['src/test/test-udev.c'],
+-         [libudev_core,
+-          libudev_static,
+-          libsystemd_network,
+-          libshared],
+-         [threads,
+-          librt,
+-          libblkid,
+-          libkmod,
+-          libacl],
+-         '', 'manual'],
+-
+         [['src/test/test-id128.c'],
+          [],
+          []],
+@@ -751,14 +690,6 @@ tests += [
+           libxz,
+           liblz4]],
+ 
+-        [['src/journal/test-catalog.c'],
+-         [libjournal_core,
+-          libshared],
+-         [threads,
+-          libxz,
+-          liblz4],
+-         '', '', '-DCATALOG_DIR="@0@"'.format(build_catalog_dir)],
+-
+         [['src/journal/test-compress.c'],
+          [libjournal_core,
+           libshared],
+@@ -879,103 +810,3 @@ if cxx.found()
+                  []]
+         ]
+ endif
+-
+-############################################################
+-
+-tests += [
+-        [['src/libsystemd-network/test-dhcp-option.c',
+-          'src/libsystemd-network/dhcp-protocol.h',
+-          'src/libsystemd-network/dhcp-internal.h'],
+-         [libshared,
+-          libsystemd_network],
+-         []],
+-
+-        [['src/libsystemd-network/test-sd-dhcp-lease.c',
+-          'src/libsystemd-network/dhcp-lease-internal.h'],
+-         [libshared,
+-          libsystemd_network],
+-         []],
+-
+-        [['src/libsystemd-network/test-dhcp-client.c',
+-          'src/libsystemd-network/dhcp-protocol.h',
+-          'src/libsystemd-network/dhcp-internal.h',
+-          'src/systemd/sd-dhcp-client.h'],
+-         [libshared,
+-          libsystemd_network],
+-         []],
+-
+-        [['src/libsystemd-network/test-dhcp-server.c'],
+-         [libshared,
+-          libsystemd_network],
+-         []],
+-
+-        [['src/libsystemd-network/test-ipv4ll.c',
+-          'src/libsystemd-network/arp-util.h',
+-          'src/systemd/sd-ipv4ll.h'],
+-         [libshared,
+-          libsystemd_network],
+-         []],
+-
+-        [['src/libsystemd-network/test-ipv4ll-manual.c',
+-          'src/systemd/sd-ipv4ll.h'],
+-         [libshared,
+-          libsystemd_network],
+-         [],
+-         '', 'manual'],
+-
+-        [['src/libsystemd-network/test-acd.c',
+-          'src/systemd/sd-ipv4acd.h'],
+-         [libshared,
+-          libsystemd_network],
+-         [],
+-         '', 'manual'],
+-
+-        [['src/libsystemd-network/test-ndisc-rs.c',
+-          'src/libsystemd-network/dhcp-identifier.h',
+-          'src/libsystemd-network/dhcp-identifier.c',
+-          'src/libsystemd-network/icmp6-util.h',
+-          'src/systemd/sd-dhcp6-client.h',
+-          'src/systemd/sd-ndisc.h'],
+-         [libshared,
+-          libsystemd_network],
+-         []],
+-
+-        [['src/libsystemd-network/test-ndisc-ra.c',
+-          'src/libsystemd-network/icmp6-util.h',
+-          'src/systemd/sd-ndisc.h'],
+-         [libshared,
+-          libsystemd_network],
+-         []],
+-
+-        [['src/libsystemd-network/test-dhcp6-client.c',
+-          'src/libsystemd-network/dhcp-identifier.h',
+-          'src/libsystemd-network/dhcp-identifier.c',
+-          'src/libsystemd-network/dhcp6-internal.h',
+-          'src/systemd/sd-dhcp6-client.h'],
+-         [libshared,
+-          libsystemd_network],
+-         []],
+-
+-        [['src/libsystemd-network/test-lldp.c'],
+-         [libshared,
+-          libsystemd_network],
+-         []],
+-]
+-
+-############################################################
+-
+-tests += [
+-        [['src/login/test-login-shared.c'],
+-         [],
+-         []],
+-
+-        [['src/login/test-inhibit.c'],
+-         [],
+-         [],
+-         '', 'manual'],
+-
+-        [['src/login/test-login-tables.c'],
+-         [liblogind_core,
+-          libshared],
+-         [threads]],
+-]
 -- 
-2.20.0.rc2.403.gdbc3b29805-goog
+2.20.1.321.g9e740568ce-goog
 
