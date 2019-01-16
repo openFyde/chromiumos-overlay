@@ -54,5 +54,9 @@ CONFIG_GBE_BIN_PATH="3rdparty/blobs/mainboard/sarien/gbe.bin"
 # CONFIG_CONSOLE_SERIAL_115200 is not set
 # CONFIG_DRIVERS_UART_8250IO is not set
 
-#Codec
+# Codec
 CONFIG_HDA_CODEC_ID=0x8B8
+
+# Mainboard needs to be stay off after power failure to have consistent
+# results from the power state machine in the embedded controller.
+CONFIG_POWER_STATE_OFF_AFTER_FAILURE=y
