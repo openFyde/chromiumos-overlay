@@ -3,25 +3,16 @@
 
 EAPI=5
 
-CROS_WORKON_PROJECT=(
-	"chromiumos/platform/arc-camera"
-	"chromiumos/platform2"
-)
-CROS_WORKON_LOCALNAME=(
-	"../platform/arc-camera"
-	"../platform2"
-)
-CROS_WORKON_DESTDIR=(
-	"${S}/platform/arc-camera"
-	"${S}/platform2"
-)
-CROS_WORKON_SUBTREE=(
-	"build camera3_test common"
-	"common-mk"
-)
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="../platform2"
+CROS_WORKON_SUBTREE=".gn camera/build camera/camera3_test camera/common camera/include common-mk"
+CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_INCREMENTAL_BUILD="1"
+
+PLATFORM_SUBDIR="camera"
 PLATFORM_GYP_FILE="camera3_test/cros_camera_test.gyp"
 
-inherit cros-camera cros-workon
+inherit cros-camera cros-workon platform
 
 DESCRIPTION="Chrome OS camera HAL native test."
 
@@ -46,10 +37,6 @@ DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers
 	media-libs/libyuv
 	virtual/pkgconfig"
-
-src_unpack() {
-	cros-camera_src_unpack
-}
 
 src_install() {
 	dobin "${OUT}/cros_camera_test"
