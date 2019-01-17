@@ -52,6 +52,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-fix-rpath.patch
 	"${FILESDIR}"/0004-add-unknown-vendor-to-filesearch.patch
 	"${FILESDIR}"/0005-enable-sanitizers.patch
+	"${FILESDIR}"/0006-lsan-enable-in-fork.patch
 )
 
 S="${WORKDIR}/${MY_P}-src"
