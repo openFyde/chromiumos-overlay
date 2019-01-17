@@ -1,49 +1,20 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-CRATES="
-bitflags-1.0.1
-byteorder-1.1.0
-cc-1.0.15
-cfg-if-0.1.2
-fuchsia-zircon-0.3.3
-fuchsia-zircon-sys-0.3.3
-getopts-0.2.17
-libc-0.2.44
-log-0.4.1
-num_cpus-1.9.0
-pkg-config-0.3.11
-proc-macro2-0.4.24
-protobuf-1.4.3
-protoc-1.4.3
-protoc-rust-1.4.3
-quote-0.6.10
-rand-0.3.20
-rand-0.4.2
-syn-0.15.21
-tempdir-0.3.5
-unicode-xid-0.1.0
-winapi-0.3.4
-winapi-i686-pc-windows-gnu-0.4.0
-winapi-x86_64-pc-windows-gnu-0.4.0
-"
-
-inherit cargo cros-workon toolchain-funcs user
+inherit cros-rust cros-workon toolchain-funcs user
 
 DESCRIPTION="Utility for running Linux VMs on Chrome OS"
-
-SRC_URI="$(cargo_crate_uris ${CRATES})"
 
 LICENSE="BSD-Google BSD-2 Apache-2.0 MIT"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf"
 
 RDEPEND="
 	sys-apps/dtc
@@ -55,19 +26,27 @@ RDEPEND="
 	)
 	crosvm-wl-dmabuf? ( media-libs/minigbm )
 "
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	~dev-rust/byteorder-1.1.0:=
+	~dev-rust/cc-1.0.25:=
+	~dev-rust/getopts-0.2.18:=
+	~dev-rust/libc-0.2.44:=
+	~dev-rust/num_cpus-1.9.0:=
+	~dev-rust/pkg-config-0.3.11:=
+	~dev-rust/protoc-rust-1.4.3:=
+	~dev-rust/protobuf-1.4.3:=
+	~dev-rust/proc-macro2-0.4.21:=
+	~dev-rust/quote-0.6.10:=
+	~dev-rust/syn-0.15.21:=
+"
 
 src_unpack() {
 	# Unpack both the project and dependency source code
-	cargo_src_unpack
 	cros-workon_src_unpack
+	cros-rust_src_unpack
 }
 
 src_compile() {
-	export CARGO_HOME="${ECARGO_HOME}"
-	export TARGET_CC="$(tc-getCC)"
-	export CARGO_TARGET_DIR="${WORKDIR}"
-
 	local features=(
 		$(usex crosvm-gpu gpu "")
 		$(usex crosvm-plugin plugin "")
@@ -80,8 +59,7 @@ src_compile() {
 	)
 
 	for pkg in "${packages[@]}"; do
-		cargo build -v --target="${CHOST}" \
-			$(usex debug "" --release) \
+		ecargo_build -v \
 			--features="${features[*]}" \
 			-p "${pkg}" \
 			|| die "cargo build failed"
@@ -90,9 +68,6 @@ src_compile() {
 }
 
 src_test() {
-	export CARGO_HOME="${ECARGO_HOME}"
-	export TARGET_CC="$(tc-getCC)"
-	export CARGO_TARGET_DIR="${WORKDIR}"
 	export RUST_BACKTRACE=1
 
 	if ! use x86 && ! use amd64 ; then
@@ -100,7 +75,7 @@ src_test() {
 	else
 		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
 		# access because the bots don't support these.
-		cargo test --all \
+		ecargo_test --all \
 			--exclude kvm \
 			--exclude kvm_sys \
 			--exclude net_util -v \
@@ -109,11 +84,11 @@ src_test() {
 			--exclude gpu_buffer \
 			--exclude gpu_display \
 			--exclude gpu_renderer \
-			--target="${CHOST}" -- --test-threads=1 \
+			-- --test-threads=1 \
 			|| die "cargo test failed"
 		# Plugin tests all require /dev/kvm, but we want to make sure they build
 		# at least.
-		cargo test --no-run --features plugin --target="${CHOST}" \
+		ecargo_test --no-run --features plugin \
 			|| die "cargo build with plugin feature failed"
 	fi
 }
@@ -129,7 +104,7 @@ src_install() {
 	# cargo doesn't know how to install cross-compiled binaries.  It will
 	# always install native binaries for the host system.  Manually install
 	# crosvm instead.
-	local build_dir="${WORKDIR}/${CHOST}/$(usex debug debug release)"
+	local build_dir="${WORKDIR}/${CHOST}/$(usex cros-debug debug release)"
 	dobin "${build_dir}/crosvm"
 
 	# Install seccomp policy files.
