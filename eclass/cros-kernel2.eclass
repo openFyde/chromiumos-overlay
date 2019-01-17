@@ -170,6 +170,7 @@ CONFIG_FRAGMENTS=(
 	usb_gadget_acm
 	usb_gadget_audio
 	usb_gadget_ncm
+	usbip
 	vfat
 	virtio_balloon
 	vivid
@@ -710,6 +711,12 @@ CONFIG_USB_CONFIGFS_F_UAC2=y
 usb_gadget_ncm_desc="USB NCM gadget support"
 usb_gadget_ncm_config="
 CONFIG_USB_CONFIGFS_NCM=y
+"
+
+usbip_desc="Virtual USB support"
+usbip_config="
+CONFIG_USBIP_CORE=m
+CONFIG_USBIP_VHCI_HCD=m
 "
 
 virtio_balloon_desc="Balloon driver support kvm guests"
