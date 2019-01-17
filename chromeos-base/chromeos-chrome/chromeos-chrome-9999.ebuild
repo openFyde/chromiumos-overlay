@@ -282,7 +282,7 @@ determine_linker() {
 		return
 	fi
 
-	if use lld && use chrome_internal; then
+	if use lld && (use chrome_internal || use arm64); then
 		use_lld=true
 		use_gold=false
 	else
