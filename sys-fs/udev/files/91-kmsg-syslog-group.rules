@@ -2,4 +2,4 @@
 # Distributed under the terms of the GNU General Public License v2
 
 # Allow journald to write to /dev/kmsg
-SUBSYSTEM=="mem", KERNEL=="kmsg", GROUP="syslog", MODE="0664"'
+SUBSYSTEM=="mem", KERNEL=="kmsg", GROUP="syslog", MODE="0664"
