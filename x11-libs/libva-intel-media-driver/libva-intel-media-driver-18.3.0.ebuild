@@ -41,6 +41,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-Allow-I420-for-surface-creation.patch
 	"${FILESDIR}"/0004-Add-an-option-in-CMakeLists-to-include-exclude-cmrtl.patch
 	"${FILESDIR}"/0005-Add-X11-detect-support.patch
+	"${FILESDIR}"/0006-Fix-X11-detect-support.patch
 )
 
 src_configure() {

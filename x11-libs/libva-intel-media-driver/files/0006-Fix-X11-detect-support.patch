@@ -1,0 +1,32 @@
+From a5bcb295e28172653c0478e7d063f27634ca8e17 Mon Sep 17 00:00:00 2001
+From: Azhar Shaikh <azhar.shaikh@intel.com>
+Date: Wed, 16 Jan 2019 15:37:47 -0800
+Subject: [PATCH] Fix X11 detect support
+
+PR #494 set vaPutSurface as NULL, libva throws an error
+and iHD driver is not initialized.
+
+Signed-off-by: Azhar Shaikh <azhar.shaikh@intel.com>
+---
+ media_driver/linux/common/ddi/media_libva.cpp | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/media_driver/linux/common/ddi/media_libva.cpp b/media_driver/linux/common/ddi/media_libva.cpp
+index 5ce20cce8cfc..7762d65080d6 100755
+--- a/media_driver/linux/common/ddi/media_libva.cpp
++++ b/media_driver/linux/common/ddi/media_libva.cpp
+@@ -6072,11 +6072,7 @@ VAStatus __vaDriverInit(VADriverContextP ctx )
+     pVTable->vaQuerySurfaceStatus            = DdiMedia_QuerySurfaceStatus;
+     pVTable->vaQuerySurfaceError             = DdiMedia_QuerySurfaceError;
+     pVTable->vaQuerySurfaceAttributes        = DdiMedia_QuerySurfaceAttributes;
+-#if defined(X11_FOUND)
+     pVTable->vaPutSurface                    = DdiMedia_PutSurface;
+-#else
+-    pVTable->vaPutSurface                    = NULL;
+-#endif
+     pVTable->vaQueryImageFormats             = DdiMedia_QueryImageFormats;
+ 
+     pVTable->vaCreateImage                   = DdiMedia_CreateImage;
+-- 
+2.19.0
+
