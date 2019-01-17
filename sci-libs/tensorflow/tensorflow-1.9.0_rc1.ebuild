@@ -89,7 +89,11 @@ BUILD_DIR="${S}"
 
 DOCS=( AUTHORS CONTRIBUTING.md ISSUE_TEMPLATE.md README.md RELEASE.md )
 
-PATCHES=( "${FILESDIR}/tensorflow-1.9.0_rc1-lite-lib.patch" )
+PATCHES=(
+	"${FILESDIR}/tensorflow-1.9.0_rc1-lite-lib.patch"
+	"${FILESDIR}/tensorflow-1.9.0_rc1-nnapi-headers.patch"
+	"${FILESDIR}/tensorflow-1.9.0_rc1-nnapi.patch"
+)
 
 bazel_cc_config_dir="ebazel_cc_config"
 
@@ -444,6 +448,8 @@ src_compile() {
 		$(usex minimal '' '//tensorflow:libtensorflow_framework.so //tensorflow:libtensorflow.so //tensorflow:libtensorflow_cc.so') \
 		//tensorflow/contrib/lite:libtensorflow_lite.so
 
+	ebazel build //tensorflow/contrib/lite/kernels/internal:install_nnapi_extra_headers
+
 	do_compile() {
 		ebazel build \
 			$(usex cuda --config=cuda '') \
@@ -519,6 +525,10 @@ src_install() {
 		insinto /usr/include/${PN}/${i%/*}
 		doins ${i}
 	done
+
+	einfo "Installing NNAPI headers"
+	insinto /usr/include/${PN}/nnapi/
+	doins -r bazel-genfiles/tensorflow/contrib/lite/kernels/internal/include
 
 	# TODO(crbug.com/836100): remove this once we unbundle distfiles (i.e. use the system
 	#                         flatbuffers library and includes).
