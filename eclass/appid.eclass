@@ -35,18 +35,15 @@ CHROMEBIT, CHROMEBASE, CHROMEBOOK, CHROMEBOX, REFERENCE, OTHER (not $2)"
 	local appid=$1
 	local devicetype=$2
 
-	# Validate the UUID is formatted correctly.  Except for mario --
-	# it was created before we had strict rules, and so it violates :(.
-	if [[ ${appid} != '{87efface-864d-49a5-9bb3-4b050a7c227a}' ]] ; then
-		local uuid_regex='[{][0-9A-F]{8}-([0-9A-F]{4}-){3}[0-9A-F]{12}[}]'
-		local filtered_appid=$(echo "${appid}" | LC_ALL=C sed -r "s:${uuid_regex}::")
-		if [[ -n ${filtered_appid} ]] ; then
-			eerror "Invalid appid: ${appid} -> ${filtered_appid}"
-			eerror "  - must start with '{' and end with '}'"
-			eerror "  - must be all upper case"
-			eerror "  - be a valid UUID (8-4-4-4-12 hex digits)"
-			die "invalid appid: ${appid}"
-		fi
+	# Validate the UUID is formatted correctly.
+	local uuid_regex='[{][0-9A-F]{8}-([0-9A-F]{4}-){3}[0-9A-F]{12}[}]'
+	local filtered_appid=$(echo "${appid}" | LC_ALL=C sed -r "s:${uuid_regex}::")
+	if [[ -n ${filtered_appid} ]] ; then
+		eerror "Invalid appid: ${appid} -> ${filtered_appid}"
+		eerror "  - must start with '{' and end with '}'"
+		eerror "  - must be all upper case"
+		eerror "  - be a valid UUID (8-4-4-4-12 hex digits)"
+		die "invalid appid: ${appid}"
 	fi
 
 	dodir /etc
