@@ -23,7 +23,6 @@ IUSE="+seccomp"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
-	chromeos-base/libmojo
 	net-libs/grpc:=
 	dev-libs/protobuf:=
 "

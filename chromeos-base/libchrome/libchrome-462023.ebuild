@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("cd5ac37fe204a96075df0b5a0b4a297c12096cdf" "ba151bd28eefa2309dd20069ae0d95b00543fc71")
+CROS_WORKON_COMMIT=("ac65f07c0f5bfa07956a90357c0be73b5b2eada0" "c1e4543ae2b479a54fc4eff90fb388c70a428d52")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
@@ -24,7 +24,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="${PV}"
 KEYWORDS="*"
-IUSE="cros_host +crypto +dbus +timers"
+IUSE="cros_host +crypto +dbus +mojo +timers"
 
 PLATFORM_SUBDIR="libchrome"
 
@@ -40,11 +40,22 @@ RDEPEND="dev-libs/glib:2=
 	dbus? (
 		sys-apps/dbus:=
 		dev-libs/protobuf:=
-	)"
+	)
+"
 DEPEND="${RDEPEND}
 	dev-cpp/gtest
 	dev-cpp/gmock
 "
+
+# libmojo used to be in a separate package, which now conflicts with libchrome.
+# Add softblocker here, to resolve the conflict, in case building the package
+# on the environment where old libmojo is installed.
+# TODO(hidehiko): Clean up the blocker after certain period.
+RDEPEND="${RDEPEND}
+	!chromeos-base/libmojo"
+
+# libmojo depends on libbase-crypto.
+REQUIRED_USE="mojo? ( crypto )"
 
 src_unpack() {
 	platform_src_unpack
@@ -98,10 +109,11 @@ src_prepare() {
 }
 
 src_install() {
-	dolib.so "${OUT}"/lib/libbase*-${SLOT}.so
-	dolib.a "${OUT}"/libbase*-${SLOT}.a
+	dolib.so "${OUT}"/lib/libbase*-"${SLOT}".so
+	dolib.a "${OUT}"/libbase*-"${SLOT}".a
 
-	local d header_dirs=(
+	local gen_header_dirs=()
+	local header_dirs=(
 		base
 		base/allocator
 		base/containers
@@ -137,12 +149,7 @@ src_install() {
 	use dbus && header_dirs+=( dbus )
 	use timers && header_dirs+=( components/timers )
 
-	for d in "${header_dirs[@]}" ; do
-		insinto /usr/include/base-${SLOT}/${d}
-		doins ${d}/*.h
-	done
-
-	insinto /usr/include/base-${SLOT}/base/test
+	insinto /usr/include/base-"${SLOT}"/base/test
 	doins \
 		base/test/fuzzed_data_provider.h \
 		base/test/simple_test_clock.h \
@@ -174,5 +181,57 @@ src_install() {
 	fi
 
 	insinto /usr/$(get_libdir)/pkgconfig
-	doins "${OUT}"/obj/libchrome/libchrome*-${SLOT}.pc
+	doins "${OUT}"/obj/libchrome/libchrome*-"${SLOT}".pc
+
+	# Install libmojo.
+	if use mojo; then
+		# Install binary.
+		dolib.a "${OUT}"/libmojo-"${SLOT}".a
+
+		# Install headers.
+		header_dirs+=(
+			ipc
+			mojo/common
+			mojo/edk/embedder
+			mojo/edk/system
+			mojo/public/c/system
+			mojo/public/cpp/bindings
+			mojo/public/cpp/bindings/lib
+			mojo/public/cpp/system
+		)
+		gen_header_dirs+=(
+			mojo/common
+			mojo/public/interfaces/bindings
+		)
+
+		# Install libmojo.pc.
+		insinto /usr/$(get_libdir)/pkgconfig
+		doins "${OUT}"/obj/libchrome/libmojo-"${SLOT}".pc
+
+		# Install generate_mojom_bindings.
+		# TODO(hidehiko): Clean up tools' install directory.
+		insinto /usr/src/libmojo-"${SLOT}"/mojo
+		doins -r mojo/public/tools/bindings/*
+		doins build/gn_helpers.py
+		doins -r build/android/gyp/util
+		doins -r build/android/pylib
+		doins -r third_party/catapult/devil/devil
+
+		insinto /usr/src/libmojo-"${SLOT}"/third_party
+		doins -r third_party/catapult
+		doins -r third_party/jinja2
+		doins -r third_party/markupsafe
+		doins -r third_party/ply
+	fi
+
+	# Install header files.
+	local d
+	for d in "${header_dirs[@]}" ; do
+		insinto /usr/include/base-"${SLOT}"/"${d}"
+		doins "${d}"/*.h
+	done
+	for d in "${gen_header_dirs[@]}"; do
+		insinto /usr/include/base-"${SLOT}"/"${d}"
+		doins "${OUT}"/gen/include/"${d}"/*.h
+	done
 }

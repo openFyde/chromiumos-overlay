@@ -24,7 +24,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="cros_host"
 
-RDEPEND="chromeos-base/libmojo"
+RDEPEND=""
 
 DEPEND="${RDEPEND}
 	dev-go/protobuf

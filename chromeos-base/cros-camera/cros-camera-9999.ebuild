@@ -37,7 +37,6 @@ RDEPEND="
 	virtual/cros-camera-hal-configs"
 
 DEPEND="${RDEPEND}
-	chromeos-base/libmojo
 	media-libs/cros-camera-android-headers
 	media-libs/minigbm
 	virtual/pkgconfig

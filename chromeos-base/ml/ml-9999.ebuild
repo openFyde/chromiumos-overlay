@@ -35,7 +35,6 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
-	chromeos-base/libmojo
 	chromeos-base/system_api
 "
 

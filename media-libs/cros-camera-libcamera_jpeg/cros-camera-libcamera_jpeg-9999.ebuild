@@ -26,7 +26,6 @@ RDEPEND="
 	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}
-	chromeos-base/libmojo
 	media-libs/cros-camera-libcamera_ipc
 	media-libs/libyuv
 	virtual/pkgconfig"

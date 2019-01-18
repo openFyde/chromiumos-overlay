@@ -26,7 +26,6 @@ RDEPEND="
 	media-libs/cros-camera-libcamera_common"
 
 DEPEND="${RDEPEND}
-	chromeos-base/libmojo
 	media-libs/cros-camera-libcamera_ipc"
 
 src_install() {

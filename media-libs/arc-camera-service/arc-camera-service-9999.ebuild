@@ -31,7 +31,6 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	chromeos-base/libbrillo
-	chromeos-base/libmojo
 	virtual/pkgconfig"
 
 src_install() {
