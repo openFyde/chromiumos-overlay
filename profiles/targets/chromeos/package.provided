@@ -27,6 +27,9 @@ app-arch/zip-3.0
 # should all be compatible.
 app-doc/xmltoman-1.0
 
+# Needed for libtool.eclass.
+app-portage/elt-patches-20170815
+
 app-text/build-docbook-catalog-1.4
 app-text/docbook-xsl-stylesheets-1.75.2
 app-text/texi2html-5.0
