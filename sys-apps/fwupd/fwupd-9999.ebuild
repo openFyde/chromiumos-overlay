@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
 # Switched python-single-r1 with python-r1 to let python-wrapper use python3
 # even when python2_7 is in use.
-inherit cros-workon meson python-r1 vala xdg-utils
+inherit cros-workon meson python-r1 user vala xdg-utils
 
 DESCRIPTION="Aims to make updating firmware on Linux automatic, safe and reliable"
 HOMEPAGE="https://fwupd.org"
@@ -125,6 +125,10 @@ src_install() {
 	# Enable vendor-directory remote with local firmware
 	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
 
+	# Install upstart script for automatic firmware update on device plug-in.
+	insinto /etc/init
+	doins "${FILESDIR}"/fwupdtool-update.conf
+
 	if use daemon ; then
 		#doinitd "${FILESDIR}"/${PN}
 
@@ -135,6 +139,12 @@ src_install() {
 		fi
 	fi
 }
+
+pkg_preinst() {
+	enewuser fwupd
+	enewgroup fwupd
+}
+
 pkg_postinst() {
 	if use daemon ; then
 		elog "In case you are using openrc as init system"
