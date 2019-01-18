@@ -14,7 +14,7 @@
 # dev_install downloads and bootstraps emerge in base images without
 # modifying the root filesystem.
 
-EAPI="4"
+EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -41,6 +41,7 @@ RDEPEND="app-arch/tar
 	sys-apps/coreutils"
 
 src_prepare() {
+	default
 	SRCDIR="${S}/dev-install"
 	mkdir -p "$(cros-workon_get_build_dir)"
 }
