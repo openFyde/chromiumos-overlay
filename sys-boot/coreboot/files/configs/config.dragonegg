@@ -28,3 +28,4 @@ CONFIG_SPI_FLASH_SMM=y
 # Microcode
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard-dragonegg/ucode.bin"
 # CONFIG_CONSOLE_SERIAL is not set
+CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y

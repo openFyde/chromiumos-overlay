@@ -49,3 +49,4 @@ CONFIG_IFWI_FILE_NAME="3rdparty/blobs/baseboard-octopus/fitimage.bin"
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard-octopus/ucode.bin"
 
 # CONFIG_CONSOLE_SERIAL is not set
+CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
