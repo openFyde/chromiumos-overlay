@@ -1,1 +1,0 @@
-virglrenderer-0.7.0_p20180919.ebuild

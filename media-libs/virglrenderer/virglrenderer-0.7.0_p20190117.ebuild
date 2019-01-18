@@ -10,7 +10,7 @@ if [[ ${PV} == "9999" ]] ; then
 	KEYWORDS="~*"
 	inherit git-r3
 else
-	GIT_SHA1="9b91cc380fdd5bf993f64a9cd452dbc4c98872fa"
+	GIT_SHA1="f30b4ee37c7404b557d671745aa6fcd9c912994b"
 	SRC_URI="https://github.com/freedesktop/virglrenderer/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${GIT_SHA1}"
 	KEYWORDS="*"
