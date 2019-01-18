@@ -38,6 +38,7 @@ DEPEND="${RDEPEND}
 	~dev-rust/proc-macro2-0.4.21:=
 	~dev-rust/quote-0.6.10:=
 	~dev-rust/syn-0.15.21:=
+	media-sound/audio_streams:=
 "
 
 src_unpack() {
