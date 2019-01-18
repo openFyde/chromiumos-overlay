@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk hermes .gn"
 
 PLATFORM_SUBDIR="hermes"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="Chrome OS eSIM/EUICC integration"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hermes"
@@ -40,8 +40,25 @@ src_install() {
 	doins -r certs/*
 	c_rehash "${D}/${cert_dir}/prod" || die
 	c_rehash "${D}/${cert_dir}/test" || die
+
+	# Install upstart config.
+	insinto /etc/init
+	doins init/hermes.conf
+
+	# Install DBus config.
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.Hermes.conf
+
+	# Install DBus interface.
+	insinto /usr/share/dbus-1/interfaces
+	doins dbus_bindings/org.chromium.Hermes.xml
 }
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/hermes_test"
+}
+
+pkg_preinst() {
+	enewuser "hermes"
+	enewgroup "hermes"
 }
