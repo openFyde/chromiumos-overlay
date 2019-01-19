@@ -74,8 +74,8 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
-		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
-		# access because the bots don't support these.
+		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, libtpm2, or
+		# wayland access because the bots don't support these.
 		ecargo_test --all \
 			--exclude kvm \
 			--exclude kvm_sys \
@@ -85,6 +85,8 @@ src_test() {
 			--exclude gpu_buffer \
 			--exclude gpu_display \
 			--exclude gpu_renderer \
+			--exclude tpm2 \
+			--exclude tpm2-sys \
 			-- --test-threads=1 \
 			|| die "cargo test failed"
 		# Plugin tests all require /dev/kvm, but we want to make sure they build
