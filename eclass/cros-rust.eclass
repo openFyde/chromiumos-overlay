@@ -98,6 +98,12 @@ cros-rust_src_unpack() {
 	EOF
 }
 
+# @FUNCTION: cros-rust_src_prepare
+# @DESCRIPTION:
+# Prepares the src. This function supports "# provided by ebuild" macro for
+# replacing path dependencies with ones provided by their ebuild in Cargo.toml
+# and Cargo.toml will be modified in place. If the macro is used in
+# ${S}/Cargo.toml, CROS_WORKON_OUTOFTREE_BUILD can't be set to 1 in its ebuild.
 cros-rust_src_prepare() {
 	if grep -q "# provided by ebuild" "${S}/Cargo.toml"; then
 		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" = 1 ]]; then
