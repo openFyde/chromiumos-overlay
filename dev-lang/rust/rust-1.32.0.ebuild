@@ -22,9 +22,9 @@ else
 fi
 
 
-STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).0"
+STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).1"
 STAGE0_VERSION_CARGO="0.$(($(get_version_component_range 2))).0"
-STAGE0_DATE="2018-10-25"
+STAGE0_DATE="2018-12-20"
 RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
@@ -52,7 +52,6 @@ PATCHES=(
 	"${FILESDIR}"/0003-fix-rpath.patch
 	"${FILESDIR}"/0004-add-unknown-vendor-to-filesearch.patch
 	"${FILESDIR}"/0005-enable-sanitizers.patch
-	"${FILESDIR}"/0006-lsan-enable-in-fork.patch
 )
 
 S="${WORKDIR}/${MY_P}-src"
@@ -93,7 +92,7 @@ src_prepare() {
 
 	# One of the patches changes a vendored library, thereby changing the
 	# checksum.
-	pushd src/vendor/cc || die
+	pushd vendor/cc || die
 	sed -i 's:aac6033585ae8ae55369d25a511dba45d50d8196743f1d73f644db7678c223cd:0ad65fbe8f2fd35b95a53648d99e61f162996d9a0f54cf77ba93455aa945ebe0:g' \
 		.cargo-checksum.json
 	popd
@@ -170,7 +169,6 @@ libdir = "$(get_libdir)/rust"
 mandir = "share/man"
 
 [rust]
-use-jemalloc = false
 default-linker = "${CBUILD}-clang"
 channel = "${SLOT%%/*}"
 codegen-units = 0

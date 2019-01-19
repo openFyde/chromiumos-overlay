@@ -5,7 +5,7 @@ the toolchain in nightly mode.
 
 
 diff --git a/src/librustc/session/config.rs b/src/librustc/session/config.rs
-index da3d0d5ed3..32c1e306bf 100644
+index 480d4a8e48..4d3f7576b5 100644
 --- a/src/librustc/session/config.rs
 +++ b/src/librustc/session/config.rs
 @@ -1136,6 +1136,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
@@ -17,7 +17,7 @@ index da3d0d5ed3..32c1e306bf 100644
  }
  
  options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
-@@ -1295,8 +1297,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
+@@ -1290,8 +1292,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
          "encode MIR of all functions into the crate metadata"),
      osx_rpath_install_name: bool = (false, parse_bool, [TRACKED],
          "pass `-install_name @rpath/...` to the macOS linker"),
@@ -27,10 +27,10 @@ index da3d0d5ed3..32c1e306bf 100644
                                             "Linker flavor"),
      fuel: Option<(String, u64)> = (None, parse_optimization_fuel, [TRACKED],
 diff --git a/src/librustc_codegen_llvm/attributes.rs b/src/librustc_codegen_llvm/attributes.rs
-index 51380db5b2..283f85043a 100644
+index 38ab1302cf..09499c04c0 100644
 --- a/src/librustc_codegen_llvm/attributes.rs
 +++ b/src/librustc_codegen_llvm/attributes.rs
-@@ -94,7 +94,7 @@ pub fn set_probestack(cx: &CodegenCx<'ll, '_>, llfn: &'ll Value) {
+@@ -95,7 +95,7 @@ pub fn set_probestack(cx: &CodegenCx<'ll, '_>, llfn: &'ll Value) {
      // Currently stack probes seem somewhat incompatible with the address
      // sanitizer. With asan we're already protected from stack overflow anyway
      // so we don't really need stack probes regardless.
@@ -39,24 +39,24 @@ index 51380db5b2..283f85043a 100644
          return
      }
  
-diff --git a/src/librustc_codegen_llvm/back/write.rs b/src/librustc_codegen_llvm/back/write.rs
-index 7b78d4fb4f..9732cf743f 100644
---- a/src/librustc_codegen_llvm/back/write.rs
-+++ b/src/librustc_codegen_llvm/back/write.rs
-@@ -978,7 +978,7 @@ pub fn start_async_codegen(tcx: TyCtxt,
-     let mut metadata_config = ModuleConfig::new(vec![]);
-     let mut allocator_config = ModuleConfig::new(vec![]);
+diff --git a/src/librustc_codegen_llvm/back/link.rs b/src/librustc_codegen_llvm/back/link.rs
+index 68da14570e..5c3fffab54 100644
+--- a/src/librustc_codegen_llvm/back/link.rs
++++ b/src/librustc_codegen_llvm/back/link.rs
+@@ -492,7 +492,7 @@ fn link_natively(sess: &Session,
+     cmd.args(&sess.opts.debugging_opts.pre_link_arg);
  
--    if let Some(ref sanitizer) = sess.opts.debugging_opts.sanitizer {
-+    if let Some(ref sanitizer) = sess.opts.cg.sanitizer {
-         match *sanitizer {
-             Sanitizer::Address => {
-                 modules_config.passes.push("asan".to_owned());
+     if sess.target.target.options.is_like_fuchsia {
+-        let prefix = match sess.opts.debugging_opts.sanitizer {
++        let prefix = match sess.opts.cg.sanitizer {
+             Some(Sanitizer::Address) => "asan/",
+             _ => "",
+         };
 diff --git a/src/librustc_codegen_llvm/declare.rs b/src/librustc_codegen_llvm/declare.rs
-index 5e743ac51b..1683b6db2e 100644
+index c23aab409a..de2da98efd 100644
 --- a/src/librustc_codegen_llvm/declare.rs
 +++ b/src/librustc_codegen_llvm/declare.rs
-@@ -74,7 +74,7 @@ fn declare_raw_fn(
+@@ -60,7 +60,7 @@ fn declare_raw_fn(
          llvm::Attribute::NoRedZone.apply_llfn(Function, llfn);
      }
  
@@ -65,11 +65,24 @@ index 5e743ac51b..1683b6db2e 100644
          match *sanitizer {
              Sanitizer::Address => {
                  llvm::Attribute::SanitizeAddress.apply_llfn(Function, llfn);
+diff --git a/src/librustc_codegen_ssa/back/write.rs b/src/librustc_codegen_ssa/back/write.rs
+index 46aee5339b..209e0aea89 100644
+--- a/src/librustc_codegen_ssa/back/write.rs
++++ b/src/librustc_codegen_ssa/back/write.rs
+@@ -333,7 +333,7 @@ pub fn start_async_codegen<B: ExtraBackendMethods>(
+     let mut metadata_config = ModuleConfig::new(vec![]);
+     let mut allocator_config = ModuleConfig::new(vec![]);
+ 
+-    if let Some(ref sanitizer) = sess.opts.debugging_opts.sanitizer {
++    if let Some(ref sanitizer) = sess.opts.cg.sanitizer {
+         match *sanitizer {
+             Sanitizer::Address => {
+                 modules_config.passes.push("asan".to_owned());
 diff --git a/src/librustc_metadata/creader.rs b/src/librustc_metadata/creader.rs
-index fa2debf2c0..a1c1370d90 100644
+index 4ff29f5c04..b9617cee8b 100644
 --- a/src/librustc_metadata/creader.rs
 +++ b/src/librustc_metadata/creader.rs
-@@ -730,7 +730,7 @@ impl<'a> CrateLoader<'a> {
+@@ -714,7 +714,7 @@ impl<'a> CrateLoader<'a> {
      }
  
      fn inject_sanitizer_runtime(&mut self) {
