@@ -31,7 +31,10 @@ RDEPEND="
 	>=x11-libs/libdrm-2.4.50
 	x11-libs/libX11
 	media-libs/libepoxy
-	fuzzer? ( media-libs/mesa[gbm] )
+	fuzzer? (
+		media-libs/mesa
+		media-libs/minigbm
+	)
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
