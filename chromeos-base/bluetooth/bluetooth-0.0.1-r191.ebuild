@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="9abc77a5b517a3aa5edf178ec3887657a9960d6e"
+CROS_WORKON_COMMIT="c689d9b6f36775a86704d91c15e8a14fdab702ed"
 CROS_WORKON_TREE=("685ac64e26e21b14bc11ff4e62d61a23f47cbdf2" "f4f38664f28514c8a8d1529b21c89297d999d284" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -42,6 +42,7 @@ src_install() {
 	insinto /etc/init
 	doins init/upstart/bluetooth-setup.conf
 	doins init/upstart/btdispatch.conf
+	doins init/upstart/newblued.conf
 
 	if use seccomp; then
 		# Install seccomp policy files.
@@ -51,6 +52,7 @@ src_install() {
 	else
 		# Remove seccomp flags from minijail parameters.
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/btdispatch.conf || die
+		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/newblued.conf || die
 	fi
 }
 

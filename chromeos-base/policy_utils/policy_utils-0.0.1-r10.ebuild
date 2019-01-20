@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="b548b650267258f203514ed37b9d02dc85cd5dc7"
+CROS_WORKON_COMMIT="c689d9b6f36775a86704d91c15e8a14fdab702ed"
 CROS_WORKON_TREE=("685ac64e26e21b14bc11ff4e62d61a23f47cbdf2" "029bf404567a90f580f4ac8bac863e0924dbc02a" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,7 +36,7 @@ RDEPEND="
 "
 
 src_install() {
-	dolib.a "${OUT}/libmgmt.a"
+	dosbin "${OUT}/policy"
 }
 
 platform_pkg_test() {
