@@ -99,6 +99,16 @@ dev-python/certifi python_targets_python3_6
 dev-python/mako python_targets_python3_6
 dev-python/markupsafe python_targets_python3_6
 
+# Lock in old python versions on existing binary packages.
+<=sys-devel/gdb-8.0.1.20180820-r1	-python_targets_python3_6
+<=cross-aarch64-cros-linux-gnu/gdb-8.0.1.20180820-r1	-python_targets_python3_6
+<=cross-arm-none-eabi/gdb-8.0.1.20180820-r1	-python_targets_python3_6
+<=cross-armv6j-cros-linux-gnueabi/gdb-8.0.1.20180820-r1	-python_targets_python3_6
+<=cross-armv7a-cros-linux-gnueabihf/gdb-8.0.1.20180820-r1	-python_targets_python3_6
+<=cross-armv7m-cros-eabi/gdb-8.0.1.20180820-r1	-python_targets_python3_6
+<=cross-i686-pc-linux-gnu/gdb-8.0.1.20180820-r1	-python_targets_python3_6
+<=cross-x86_64-cros-linux-gnu/gdb-8.0.1.20180820-r1	-python_targets_python3_6
+
 # Enable building shellcheck statically so we can make it available to tricium
 # and developer workstations.
 dev-libs/gmp		static-libs
