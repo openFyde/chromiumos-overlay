@@ -27,7 +27,6 @@ RDEPEND="
 	chromeos-base/midis[fuzzer]
 	chromeos-base/p2p[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
-	chromeos-base/quipper[fuzzer]
 	chromeos-base/shill[fuzzer]
 	chromeos-base/smbprovider[fuzzer]
 	chromeos-base/trunks[fuzzer]

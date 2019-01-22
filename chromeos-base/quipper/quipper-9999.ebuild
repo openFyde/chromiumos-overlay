@@ -63,7 +63,6 @@ src_compile() {
 
 src_install() {
 	dobin "${OUT}"/quipper
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/quipper_perf_reader_read_fuzzer
 }
 
 platform_pkg_test() {
