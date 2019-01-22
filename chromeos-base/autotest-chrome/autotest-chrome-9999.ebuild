@@ -90,7 +90,6 @@ IUSE_TESTS=(
 	+tests_desktopui_MediaAudioFeedback
 	+tests_desktopui_ScreenLocker
 	+tests_desktopui_SimpleLogin
-	+tests_desktopui_SingleProcessMashLogin
 	+tests_desktopui_UrlFetchWithChromeDriver
 	+tests_display_ClientChameleonConnection
 	+tests_display_DisplayContainEdid
