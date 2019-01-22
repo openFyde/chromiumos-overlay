@@ -14,8 +14,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	~dev-rust/proc-macro2-0.2.3:=
-	~dev-rust/quote-0.4.2:=
+	>=dev-rust/proc-macro2-0.4.4:=
+	>=dev-rust/quote-0.6:=
 	>=dev-rust/rayon-1.0:=
 	>=dev-rust/unicode-xid-0.1:=
 	>=dev-rust/walkdir-2.1:=
