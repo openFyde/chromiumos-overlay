@@ -38,7 +38,7 @@ CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/sarien/vbt.bin"
 
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
-CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/sarien/me.bin"
+CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/sarien/me-sarien.bin"
 
 # EC
 CONFIG_HAVE_EC_BIN=y
