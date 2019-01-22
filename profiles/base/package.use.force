@@ -11,3 +11,12 @@ dev-libs/libpcre unicode
 # USE X needs to be always enabled to force virtualx
 # eclass usage for Xeconf.
 media-sound/rubyripper X
+
+# Michał Górny <mgorny@gentoo.org> (14 Oct 2012)
+# Force-enable all PYTHON_TARGETS for python-exec to avoid using private
+# API. Please remember to keep it in sync with python_targets.desc.
+dev-lang/python-exec python_targets_python2_7
+dev-lang/python-exec python_targets_python3_4
+dev-lang/python-exec python_targets_python3_5
+dev-lang/python-exec python_targets_python3_6
+dev-lang/python-exec python_targets_python3_7
