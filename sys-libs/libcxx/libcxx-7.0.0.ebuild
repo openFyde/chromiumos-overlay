@@ -11,7 +11,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit cros-constants
 
 CROS_WORKON_REPO=${CROS_GIT_AOSP_URL}
-CROS_WORKON_PROJECT="external/libcxx"
+CROS_WORKON_PROJECT="platform/external/libcxx"
 CROS_WORKON_LOCALNAME="../aosp/external/libcxx"
 CROS_WORKON_BLACKLIST="1"
 

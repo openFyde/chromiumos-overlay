@@ -8,8 +8,7 @@ inherit cros-constants
 CROS_WORKON_BLACKLIST=1
 CROS_WORKON_DESTDIR="${S}"
 CROS_WORKON_LOCALNAME="modp_b64"
-CROS_WORKON_PROJECT="platform/external/modp_b64"
-CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
+CROS_WORKON_PROJECT="aosp/platform/external/modp_b64"
 
 inherit cros-workon cros-common.mk
 

@@ -7,8 +7,7 @@ inherit cros-constants
 
 CROS_WORKON_COMMIT="f4f4387b6bf2387efbcfd1453af4892e8982faf6"
 CROS_WORKON_TREE="6735ede3571072051f02df69fdf53bb239ebe6bd"
-CROS_WORKON_REPO=${CROS_GIT_AOSP_URL}
-CROS_WORKON_PROJECT="libsync"
+CROS_WORKON_PROJECT="aosp/platform/system/core/libsync"
 CROS_WORKON_LOCALNAME="../aosp/system/libsync"
 CROS_WORKON_BLACKLIST="1"
 

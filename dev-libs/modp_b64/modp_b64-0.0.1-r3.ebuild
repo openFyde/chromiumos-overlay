@@ -9,8 +9,7 @@ CROS_WORKON_BLACKLIST=1
 CROS_WORKON_COMMIT="b1e6e2024f4b05e9747556c0937d6770da74ba13"
 CROS_WORKON_DESTDIR="${S}"
 CROS_WORKON_LOCALNAME="modp_b64"
-CROS_WORKON_PROJECT="platform/external/modp_b64"
-CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
+CROS_WORKON_PROJECT="aosp/platform/external/modp_b64"
 
 inherit cros-workon cros-common.mk
 

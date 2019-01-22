@@ -3,7 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_PROJECT="aosp/platform/external/libmojo"
+CROS_WORKON_PROJECT="platform/external/libmojo"
+CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
 CROS_WORKON_COMMIT="02d8c056c1f7396f54b5871f2d09e89be6244bb4"
 CROS_WORKON_LOCALNAME="aosp/external/libmojo"
 CROS_WORKON_BLACKLIST="1"
