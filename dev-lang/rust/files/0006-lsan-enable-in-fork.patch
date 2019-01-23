@@ -1,0 +1,46 @@
+commit 2de6c3ce4d95b84ebd01ee22cacb27064213b4e1
+Author: Vitaly Buka <vitalybuka@google.com>
+Date:   Mon Aug 27 17:26:28 2018 +0000
+
+    Revert "[lsan] Do not check for leaks in the forked process"
+    
+    Users need leak reports in forks.
+    
+    This reverts commit r334036.
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@340758 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/lsan/lsan_common.cc b/lib/lsan/lsan_common.cc
+index 012a673c3..eaa5cadc8 100644
+--- a/src/libcompiler_builtins/compiler-rt/lib/lsan/lsan_common.cc
++++ b/src/libcompiler_builtins/compiler-rt/lib/lsan/lsan_common.cc
+@@ -100,8 +100,6 @@ static SuppressionContext *GetSuppressionContext() {
+ 
+ static InternalMmapVector<RootRegion> *root_regions;
+ 
+-static uptr initialized_for_pid;
+-
+ InternalMmapVector<RootRegion> const *GetRootRegions() { return root_regions; }
+ 
+ void InitializeRootRegions() {
+@@ -115,7 +113,6 @@ const char *MaybeCallLsanDefaultOptions() {
+ }
+ 
+ void InitCommonLsan() {
+-  initialized_for_pid = internal_getpid();
+   InitializeRootRegions();
+   if (common_flags()->detect_leaks) {
+     // Initialization which can fail or print warnings should only be done if
+@@ -571,12 +568,6 @@ static void CheckForLeaksCallback(const SuspendedThreadsList &suspended_threads,
+ static bool CheckForLeaks() {
+   if (&__lsan_is_turned_off && __lsan_is_turned_off())
+       return false;
+-  if (initialized_for_pid != internal_getpid()) {
+-    // If process was forked and it had threads we fail to detect references
+-    // from other threads.
+-    Report("WARNING: LeakSanitizer is disabled in forked process.\n");
+-    return false;
+-  }
+   EnsureMainThreadIDIsCorrect();
+   CheckForLeaksParam param;
+   param.success = false;
