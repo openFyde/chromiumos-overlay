@@ -16,6 +16,8 @@
 if [[ -z "${_ECLASS_DLC}" ]]; then
 _ECLASS_DLC="1"
 
+inherit cros-constants
+
 # Check for EAPI 6+.
 case "${EAPI:-0}" in
 [012345]) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
@@ -74,20 +76,9 @@ dlc_src_install() {
 	[[ -z "${DLC_PREALLOC_BLOCKS}" ]] && die "DLC_PREALLOC_BLOCKS undefined"
 	[[ -z "${DLC_ARTIFACT_DIR}" ]] && die "DLC_ARTIFACT_DIR undefined"
 
-	if [[ "${DLC_FS_TYPE}" == "ext4" ]]; then
-		die "ext4 unsupported, see https://crbug.com/890060"
-	fi
-
-	DLC_META_DIR="${D}/opt/google/dlc/${DLC_ID}"
-	DLC_IMG_DIR="${D}/build/rootfs/dlc/${DLC_ID}"
-
-	mkdir -p "${DLC_META_DIR}" "${DLC_IMG_DIR}" || die
-
-	# TODO(crbug.com/890060): support ext4, we currently get sandbox violations
 	"${CHROMITE_BIN_DIR}"/build_dlc \
-		--img-dir="${DLC_IMG_DIR}" \
-		--meta-dir="${DLC_META_DIR}" \
 		--src-dir="${DLC_ARTIFACT_DIR}" \
+		--install-root-dir="${D}" \
 		--fs-type="${DLC_FS_TYPE}" \
 		--pre-allocated-blocks="${DLC_PREALLOC_BLOCKS}" \
 		--version="${DLC_VERSION}" \
