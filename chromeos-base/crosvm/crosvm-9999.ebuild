@@ -40,6 +40,7 @@ DEPEND="${RDEPEND}
 	~dev-rust/quote-0.6.10:=
 	~dev-rust/syn-0.15.21:=
 	media-sound/audio_streams:=
+	media-sound/libcras:=
 "
 
 src_unpack() {
