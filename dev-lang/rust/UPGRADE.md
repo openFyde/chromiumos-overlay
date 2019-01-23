@@ -16,6 +16,7 @@ Follow these steps to upgrade the rust ebuild.
 8. `ebuild rust-<new version>.ebuild compile`
 9. `sudo ebuild rust-<new version>.ebuild merge`
 10. Upload change for review. CC reviewers from previous upgrade.
+11. Kick off try-job `cros tryjob -g <cl number> chromiumos-sdk-tryjob`.
 
 > Before sending to CQ, ensure every file in the `Manifest` is in localmirror
 > or gentoo mirror. First check for the file in
