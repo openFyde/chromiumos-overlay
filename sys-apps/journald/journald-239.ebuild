@@ -117,7 +117,11 @@ multilib_src_configure() {
 		-Dbashcompletiondir="$(get_bashcompdir)"
 		# make sure we get /bin:/sbin in PATH
 		-Dsplit-usr=$(usex split-usr true false)
-		-Drootprefix="$(usex split-usr "${EPREFIX:-/}" "${EPREFIX}/usr")"
+		# The original gentoo systemd ebuild used the split-usr use flag
+		# to control both the rootprefix and the split-usr config
+		# options. Chrome OS is a split-usr system, but we want journald
+		# to be installed in /usr/.
+		-Drootprefix="${EPREFIX}/usr"
 		-Defi=false
 		-Dima=false
 		# Optional components/dependencies
