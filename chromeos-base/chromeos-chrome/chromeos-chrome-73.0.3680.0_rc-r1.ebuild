@@ -142,11 +142,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-73.0.3673.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R73-3626.49-1547466164.afdo"
-AFDO_FILE["airmont"]="R73-3626.30-1547464774.afdo"
-AFDO_FILE["haswell"]="R73-3626.30-1546861528.afdo"
-AFDO_FILE["broadwell"]="R73-3593.0-1546860740.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-73.0.3680.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R73-3626.59-1548068920.afdo"
+AFDO_FILE["airmont"]="R73-3626.49-1548070662.afdo"
+AFDO_FILE["haswell"]="R73-3626.49-1548069984.afdo"
+AFDO_FILE["broadwell"]="R73-3626.49-1548071842.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -282,7 +282,7 @@ determine_linker() {
 		return
 	fi
 
-	if use lld && use chrome_internal; then
+	if use lld && (use chrome_internal || use arm64); then
 		use_lld=true
 		use_gold=false
 	else
@@ -301,6 +301,11 @@ set_build_args() {
 	determine_linker
 
 	BUILD_ARGS=(
+		# is_official_build sometimes implies extra optimizations (e.g. it will allow
+		# ThinLTO to optimize more aggressively, if ThinLTO is enabled). Please note
+		# that, despite the name, it should be usable by external users.
+		is_official_build=true
+
 		is_debug=false
 		"${EXTRA_GN_ARGS}"
 		use_v4l2_codec=$(usetf v4l2_codec)
@@ -453,7 +458,7 @@ set_build_args() {
 
 	if use chrome_internal; then
 		# Adding chrome branding specific variables.
-		BUILD_ARGS+=( is_chrome_branded=true is_official_build=true )
+		BUILD_ARGS+=( is_chrome_branded=true )
 		# This test can only be build from internal sources.
 		BUILD_ARGS+=( internal_gles2_conform_tests=true )
 		export CHROMIUM_BUILD='_google_Chrome'
@@ -710,9 +715,31 @@ src_unpack() {
 
 		[[ -n ${PROFILE_FILE} ]] || die "Missing AFDO profile for ${AFDO_SRC}"
 		unpack "${PROFILE_FILE}${AFDO_COMPRESSOR_SUFFIX[${AFDO_SRC}]}"
+
+		local merged_profile_file="${PROFILE_FILE}"
+
+		if [[ "${AFDO_PROFILE_SOURCE}" != "benchmark" ]]; then
+			# Merge benchmark-based profile and CWP profiles
+			# http://crbug.com/920432
+			local benchmark_afdo_src="benchmark"
+			local benchmark_profile_file="${benchmark_afdo_src}_${AFDO_FILE[${benchmark_afdo_src}]}"
+
+			[[ -n ${benchmark_profile_file} ]] || die "Missing benchmark-based AFDO profile"
+			unpack "${benchmark_profile_file}${AFDO_COMPRESSOR_SUFFIX[${benchmark_afdo_src}]}"
+
+			# Merge the profiles with 75% CWP and 25% benchmark
+			merged_profile_file="${PROFILE_FILE}.merged"
+			local cwp_profile_weight="75"
+			local benchmark_profile_weight="25"
+			llvm-profdata merge -sample \
+				-weighted-input="${cwp_profile_weight},${PROFILE_FILE}" \
+				-weighted-input="${benchmark_profile_weight},${benchmark_profile_file}" \
+				-output "${merged_profile_file}" || die
+			einfo "${PROFILE_FILE} (${cwp_profile_weight}%) and ${benchmark_profile_file} (${benchmark_profile_weight}%) are merged into ${merged_profile_file}"
+		fi
 		popd > /dev/null
 
-		AFDO_PROFILE_LOC="${PROFILE_DIR}/${PROFILE_FILE}"
+		AFDO_PROFILE_LOC="${PROFILE_DIR}/${merged_profile_file}"
 		einfo "Using ${PROFILE_STATE} AFDO data from ${AFDO_PROFILE_LOC}"
 	fi
 }
