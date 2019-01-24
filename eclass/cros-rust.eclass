@@ -100,13 +100,14 @@ cros-rust_src_unpack() {
 
 # @FUNCTION: cros-rust_src_prepare
 # @DESCRIPTION:
-# Prepares the src. This function supports "# provided by ebuild" macro for
-# replacing path dependencies with ones provided by their ebuild in Cargo.toml
+# Prepares the src. This function supports "# provided by ebuild" macro and
+# "# ignored by ebuild" macro for replacing and removing path dependencies
+# with ones provided by their ebuild in Cargo.toml
 # and Cargo.toml will be modified in place. If the macro is used in
 # ${S}/Cargo.toml, CROS_WORKON_OUTOFTREE_BUILD can't be set to 1 in its ebuild.
 cros-rust_src_prepare() {
 	if grep -q "# provided by ebuild" "${S}/Cargo.toml"; then
-		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" = 1 ]]; then
+		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" == 1 ]]; then
 			die 'CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using' \
 				'`provided by ebuild`'
 		fi
@@ -135,7 +136,19 @@ cros-rust_src_prepare() {
 		#
 		sed -i \
 			'/# provided by ebuild$/ s/path = "[^"]*"/version = "*"/' \
-			"${S}/Cargo.toml"
+			"${S}/Cargo.toml" || die
+	fi
+
+	if grep -q "# ignored by ebuild" "${S}/Cargo.toml"; then
+		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" == 1 ]]; then
+			die 'CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using' \
+				'`ignored by ebuild`'
+		fi
+		# Emerge ignores "out-of-sandbox" [patch.crates-io] lines in
+		# Cargo.toml.
+		sed -i \
+			'/# ignored by ebuild/d' \
+			"${S}/Cargo.toml" || die
 	fi
 
 	eapply_user
