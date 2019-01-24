@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="448e20b2b0a8f25755234df634dc84e49d56100a"
-CROS_WORKON_TREE="9b09239656538347c451feb36514c76d73889171"
+CROS_WORKON_COMMIT="230b0cdacf6c8fa48f0d20bc52a46f1d6a972d29"
+CROS_WORKON_TREE="a7aa2b9708c438adb53d4169306e9f5948eca8c5"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -76,8 +76,8 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
-		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
-		# access because the bots don't support these.
+		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, libtpm2, or
+		# wayland access because the bots don't support these.
 		ecargo_test --all \
 			--exclude kvm \
 			--exclude kvm_sys \
@@ -87,6 +87,8 @@ src_test() {
 			--exclude gpu_buffer \
 			--exclude gpu_display \
 			--exclude gpu_renderer \
+			--exclude tpm2 \
+			--exclude tpm2-sys \
 			-- --test-threads=1 \
 			|| die "cargo test failed"
 		# Plugin tests all require /dev/kvm, but we want to make sure they build
