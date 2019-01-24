@@ -6,7 +6,8 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk vm_tools .gn"
+# TODO(crbug.com/809389): Remove arc/network from this list.
+CROS_WORKON_SUBTREE="arc/network common-mk vm_tools .gn"
 
 PLATFORM_SUBDIR="vm_tools"
 
@@ -26,6 +27,7 @@ REQUIRED_USE="kvm_host"
 
 RDEPEND="
 	!!chromeos-base/vm_tools
+	chromeos-base/arc-networkd
 	chromeos-base/crosvm
 	chromeos-base/libbrillo
 	chromeos-base/minijail

@@ -44,6 +44,18 @@ src_install() {
 	# Main binary.
 	dobin "${OUT}"/arc-networkd
 
+	# Utility library.
+	dolib.so "${OUT}"/lib/libarcnetwork-util.so
+
+	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${OUT}"/libarcnetwork-util.pc
+
+	insinto /usr/include/arc/network/
+	doins mac_address_generator.h
+	doins subnet.h
+	doins subnet_pool.h
+
 	insinto /etc/init
 	doins "${S}"/init/arc-network.conf
 	doins "${S}"/init/arc-network-bridge.conf
