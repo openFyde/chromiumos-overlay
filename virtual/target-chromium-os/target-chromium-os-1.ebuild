@@ -11,6 +11,7 @@ SLOT="0"
 KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os instead.
 IUSE="
+	arc-camera1
 	arc-camera3
 	biod
 	bluetooth
@@ -231,6 +232,7 @@ RDEPEND="
 	)
 	fuzzer? ( virtual/target-fuzzers )
 	!dev-python/socksipy
+	arc-camera1? ( chromeos-base/cros-camera )
 	arc-camera3? ( chromeos-base/cros-camera )
 	fwupd? ( sys-apps/fwupd )
 "
