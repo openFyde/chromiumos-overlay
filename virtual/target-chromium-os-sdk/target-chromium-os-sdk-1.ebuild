@@ -396,11 +396,6 @@ RDEPEND="${RDEPEND}
 	dev-util/lcov
 	"
 
-# Host dependencies for touchpad firmware tools
-RDEPEND="${RDEPEND}
-	chromeos-base/cypress-tools
-	"
-
 # Host dependencies for building Platform2
 RDEPEND="${RDEPEND}
 	chromeos-base/chromeos-dbus-bindings
