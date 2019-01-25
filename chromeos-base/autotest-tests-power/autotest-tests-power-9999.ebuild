@@ -49,7 +49,10 @@ IUSE_TESTS="
 	+tests_power_StatsCPUIdle
 	+tests_power_StatsUSB
 	+tests_power_Status
-	shill? ( +tests_power_SuspendStress )
+	shill? (
+		+tests_power_SuspendStress
+		+tests_power_SuspendToIdle
+	)
 	+tests_power_WakeupRTC
 "
 
