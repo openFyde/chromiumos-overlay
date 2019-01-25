@@ -43,7 +43,8 @@ src_configure() {
 multilib_src_configure() {
 	ECONF_SOURCE="${S}" econf \
 		--prefix="${ARC_PREFIX}/vendor" \
-		--datadir="${ARC_PREFIX}/vendor/share"
+		--datadir="${ARC_PREFIX}/vendor/share" \
+		--enable-shared=no
 }
 
 multilib_src_install() {
