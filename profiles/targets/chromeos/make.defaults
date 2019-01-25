@@ -22,6 +22,7 @@ USE="${USE} memd"
 USE="${USE} ml_service"
 USE="${USE} pinweaver"
 USE="${USE} smbprovider"
+USE="${USE} usb_bouncer"
 USE="${USE} usbguard"
 
 # All chromeos-based boards created after 2019-01 must be unibuild-enabled. See
