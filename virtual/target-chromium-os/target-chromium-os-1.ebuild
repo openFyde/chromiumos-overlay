@@ -65,6 +65,7 @@ IUSE="
 	+tpm
 	-tpm2
 	+trim_supported
+	usb_bouncer
 	usbguard
 	+vpn
 	watchdog
@@ -187,6 +188,7 @@ RDEPEND="
 	profile? ( chromeos-base/quipper )
 	selinux? ( chromeos-base/selinux-policy )
 	shill? ( chromeos-base/shill )
+	usb_bouncer? ( chromeos-base/usb_bouncer )
 	chromeos-base/update_engine
 	vpn? ( chromeos-base/vpn-manager )
 	wimax? ( chromeos-base/wimax_manager )
