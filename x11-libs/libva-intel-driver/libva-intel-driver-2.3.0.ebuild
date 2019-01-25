@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -48,10 +48,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/Avoid-GPU-crash-with-malformed-streams.patch
 	epatch "${FILESDIR}"/set_multisample_state_for_gen6.patch
 	epatch "${FILESDIR}"/Disable-VP8-decoder-on-BDW.patch
-	epatch "${FILESDIR}"/FROMGIT-i965_pciids-add-kbl-y-refresh-PCI-ID.patch
-	epatch "${FILESDIR}"/UPSTREAM-Always-set-pre-post-deblocking-output-buffe.patch
-	epatch "${FILESDIR}"/UPSTREAM-avc-enc-fix-bitrate-reset.patch
-	epatch "${FILESDIR}"/UPSTREAM-vp8-enc-avoid-out-of-boundary-mvs.patch
+	epatch "${FILESDIR}"/Revert-VPP-clear-a-surface-using-media-pipeline-on-G.patch
 
 	sed -e 's/intel-gen4asm/\0diSaBlEd/g' -i configure.ac || die
 	autotools-multilib_src_prepare
