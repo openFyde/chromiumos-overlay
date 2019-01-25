@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} pypy )
 
@@ -20,7 +20,7 @@ RDEPEND="dev-python/futures[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/google-auth[${PYTHON_USEDEP}]
-	dev-libs/protobuf[${PYTHON_USEDEP}]
-	dev-python/googleapis-common-protos[${PYTHON_USEDEP}]"
+	dev-python/googleapis-common-protos[${PYTHON_USEDEP}]
+	dev-libs/protobuf"
 DEPEND="${RDEPEND}
 	dev-python/setuptools"
