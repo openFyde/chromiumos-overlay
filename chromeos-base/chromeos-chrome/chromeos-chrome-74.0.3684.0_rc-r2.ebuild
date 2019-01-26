@@ -304,7 +304,9 @@ set_build_args() {
 		# is_official_build sometimes implies extra optimizations (e.g. it will allow
 		# ThinLTO to optimize more aggressively, if ThinLTO is enabled). Please note
 		# that, despite the name, it should be usable by external users.
-		is_official_build=true
+		#
+		# Sanitizers don't like official builds.
+		is_official_build=$(usex asan false true)
 
 		is_debug=false
 		"${EXTRA_GN_ARGS}"
