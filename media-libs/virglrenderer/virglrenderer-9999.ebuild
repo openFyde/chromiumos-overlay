@@ -3,21 +3,16 @@
 
 EAPI="6"
 
-inherit autotools cros-fuzzer cros-sanitizers eutils flag-o-matic toolchain-funcs
+CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
-if [[ ${PV} == "9999" ]] ; then
-	EGIT_REPO_URI="https://anongit.freedesktop.org/git/virglrenderer.git"
-	inherit git-r3
-else
-	SRC_URI="mirror://gentoo/${P}.tar.xz"
-	KEYWORDS="*"
-fi
+inherit autotools cros-fuzzer cros-sanitizers eutils flag-o-matic toolchain-funcs cros-workon
 
 DESCRIPTION="library used implement a virtual 3D GPU used by qemu"
 HOMEPAGE="https://virgil3d.github.io/"
 
 LICENSE="MIT"
 SLOT="0"
+KEYWORDS="~*"
 IUSE="fuzzer profiling static-libs test"
 
 RDEPEND="
