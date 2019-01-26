@@ -2,12 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="1f909a21ba90197500ccfc17608acdd6ea2c799a"
-CROS_WORKON_TREE="3b23edacc112516c090df293c2f983885c583057"
+CROS_WORKON_COMMIT="3082e8e48d73a4cf98b33052247d0ddb0d411111"
+CROS_WORKON_TREE="2c1d48e64e83e29a7c4ee0c06a13d5a9ae8019ee"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_OUTOFTREE_BUILD=1
+# We don't use CROS_WORKON_OUTOFTREE_BUILD here since crosvm/Cargo.toml is
+# using "# ignored by ebuild" macro which supported by cros-rust.
 
 inherit cros-rust cros-workon toolchain-funcs user
 
@@ -41,6 +42,7 @@ DEPEND="${RDEPEND}
 	~dev-rust/quote-0.6.10:=
 	~dev-rust/syn-0.15.21:=
 	media-sound/audio_streams:=
+	media-sound/libcras:=
 "
 
 src_unpack() {
