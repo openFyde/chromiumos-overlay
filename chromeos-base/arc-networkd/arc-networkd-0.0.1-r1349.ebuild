@@ -3,13 +3,14 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="a27c2e84964615fded123086a7d9b139b6e9e1b4"
-CROS_WORKON_TREE=("6f3abf0e1487e52593fe1b4fc780df5844fa9cc1" "1422c6782959f6e05a53f6167cada57fa878af2d" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="b4a0b153a4c2f2413e5340dfa8e4584fbd132d46"
+CROS_WORKON_TREE=("6f3abf0e1487e52593fe1b4fc780df5844fa9cc1" "1422c6782959f6e05a53f6167cada57fa878af2d" "827abdc5b571ad71a4899a8febc50161ff936083" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/network .gn"
+# TODO(garrick): Workaround for https://crbug.com/809389
+CROS_WORKON_SUBTREE="common-mk arc/network shill/net .gn"
 
 PLATFORM_SUBDIR="arc/network"
 PLATFORM_GYP_FILE="arc-network.gyp"
@@ -36,6 +37,7 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/shill
 	chromeos-base/shill-client
 	chromeos-base/system_api
 "
@@ -54,3 +56,8 @@ pkg_preinst() {
 	enewuser arc-networkd
 	enewgroup arc-networkd
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/arc_network_testrunner"
+}
+
