@@ -51,7 +51,6 @@ DEPEND="
 	dev-go/yaml
 "
 RDEPEND="
-	!chromeos-base/tast-local-tests
 	chromeos-base/security_tests
 	dev-util/android-uiautomator-server
 	usbip? ( chromeos-base/virtual-usb-printer )
