@@ -42,7 +42,9 @@ src_compile() {
 
 src_test() {
 	if use x86 || use amd64; then
-		ecargo_test
+		# Some tests must be run single threaded to ensure correctness,
+		# since they rely on wait()ing on threads spawned by the test.
+		ecargo_test -- --test-threads=1
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
