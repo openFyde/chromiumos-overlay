@@ -14,6 +14,15 @@
 # The bundle name (e.g. "cros") and type ("local" or "remote") are derived from
 # the package name, which should be of the form "tast-<type>-tests-<name>".
 
+# @ECLASS-VARIABLE: TAST_BUNDLE_PRIVATE
+# @DESCRIPTION:
+# If set to "1", this test bundle is not installed to images, but is downloaded
+# at run time by local_test_runner. Otherwise this test bundle is installed to
+# images.
+# Only local tests can be marked private; remote test bundles are always
+# installed to the chroot.
+: ${TAST_BUNDLE_PRIVATE:=0}
+
 inherit cros-go
 
 DEPEND="dev-go/crypto"
@@ -35,12 +44,21 @@ tast-bundle_pkg_setup() {
 	# Strip off everything preceding the bundle name.
 	TAST_BUNDLE_NAME=${PN#tast-*-tests-}
 
+	# Decide if this is a private bundle.
+	TAST_BUNDLE_PREFIX=/usr
+	if [[ "${TAST_BUNDLE_PRIVATE}" = 1 ]]; then
+		if [[ "${TAST_BUNDLE_TYPE}" != local ]]; then
+			die "Remote test bundles can not be marked private"
+		fi
+		TAST_BUNDLE_PREFIX=/build
+	fi
+
 	# The path to the test bundle code relative to the src/ directory.
 	TAST_BUNDLE_PATH="chromiumos/tast/${TAST_BUNDLE_TYPE}/bundles/${TAST_BUNDLE_NAME}"
 
-	# Install the bundle under /usr/libexec/tast/bundles/<type>.
+	# Install the bundle under /{usr|build}/libexec/tast/bundles/<type>.
 	CROS_GO_BINARIES=(
-		"chromiumos/tast/${TAST_BUNDLE_TYPE}/bundles/${TAST_BUNDLE_NAME}:/usr/libexec/tast/bundles/${TAST_BUNDLE_TYPE}/${TAST_BUNDLE_NAME}"
+		"chromiumos/tast/${TAST_BUNDLE_TYPE}/bundles/${TAST_BUNDLE_NAME}:${TAST_BUNDLE_PREFIX}/libexec/tast/bundles/${TAST_BUNDLE_TYPE}/${TAST_BUNDLE_NAME}"
 	)
 
 	CROS_GO_VET_FLAGS=(
@@ -56,7 +74,7 @@ tast-bundle_src_install() {
 	cros-go_src_install
 
 	# The base directory where test data files are installed.
-	local basedatadir=/usr/share/tast/data
+	local basedatadir="${TAST_BUNDLE_PREFIX}/share/tast/data"
 
 	# Install each test category's data dir.
 	pushd src >/dev/null || die "failed to pushd src"
