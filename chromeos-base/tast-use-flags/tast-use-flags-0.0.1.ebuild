@@ -13,6 +13,7 @@ KEYWORDS="*"
 IUSE="
 	android-container-pi
 	arc
+	arcvm
 	asan
 	betty
 	chrome_internal
