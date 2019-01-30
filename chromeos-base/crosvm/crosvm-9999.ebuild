@@ -15,7 +15,7 @@ DESCRIPTION="Utility for running Linux VMs on Chrome OS"
 LICENSE="BSD-Google BSD-2 Apache-2.0 MIT"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-usb"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-tpm crosvm-usb"
 
 RDEPEND="
 	sys-apps/dtc
@@ -40,6 +40,7 @@ DEPEND="${RDEPEND}
 	~dev-rust/proc-macro2-0.4.21:=
 	~dev-rust/quote-0.6.10:=
 	~dev-rust/syn-0.15.21:=
+	crosvm-tpm? ( chromeos-base/tpm2:= )
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "
@@ -55,6 +56,7 @@ src_compile() {
 		$(usex crosvm-gpu gpu "")
 		$(usex crosvm-plugin plugin "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
+		$(usex crosvm-tpm tpm "")
 	)
 
 	local packages=(
@@ -78,14 +80,20 @@ src_test() {
 		elog "Skipping unit tests on non-x86 platform"
 	else
 		local feature_excludes=()
+		if ! use crosvm-tpm; then
+			feature_excludes+=(
+				--exclude tpm2
+				--exclude tpm2-sys
+			)
+		fi
 		if ! use crosvm-usb; then
 			feature_excludes+=(
 				--exclude usb_util
 			)
 		fi
 
-		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, libtpm2, or
-		# wayland access because the bots don't support these.
+		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
+		# access because the bots don't support these.
 		ecargo_test --all \
 			--exclude kvm \
 			--exclude kvm_sys \
@@ -95,8 +103,6 @@ src_test() {
 			--exclude gpu_buffer \
 			--exclude gpu_display \
 			--exclude gpu_renderer \
-			--exclude tpm2 \
-			--exclude tpm2-sys \
 			"${feature_excludes[@]}" \
 			-- --test-threads=1 \
 			|| die "cargo test failed"
