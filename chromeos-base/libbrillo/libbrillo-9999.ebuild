@@ -10,7 +10,6 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk libbrillo .gn"
 
 PLATFORM_SUBDIR="libbrillo"
-PLATFORM_NATIVE_TEST="yes"
 
 inherit cros-workon multilib platform
 
