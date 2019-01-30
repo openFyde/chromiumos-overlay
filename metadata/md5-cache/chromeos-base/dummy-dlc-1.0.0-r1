@@ -1,0 +1,9 @@
+DEFINED_PHASES=install unpack
+DESCRIPTION=A dummy DLC
+EAPI=6
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/dlcservice
+KEYWORDS=*
+LICENSE=BSD-Google
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	c7d75c0d879c685d74794864473fde94
+_md5_=5a417ea195374a76e2dea643f1003458
