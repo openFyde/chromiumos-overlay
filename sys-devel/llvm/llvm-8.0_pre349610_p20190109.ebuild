@@ -301,7 +301,6 @@ src_prepare() {
 		use llvm-next || pick_cherries
 		use llvm-next && pick_next_cherries
 	fi
-	epatch "${FILESDIR}"/llvm-6.0-gnueabihf.patch
 	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
 	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
 

@@ -377,14 +377,6 @@ def main():
     else:
       clang_cmdline += ['-target', arch]
 
-    # All armv7a systems are built with hardfp, unlike gcc, which has
-    # "-mfloat-abi" baked in compiler binaries in configuration phase, for
-    # clang,  we share the same binary for all backends, so here we enforce
-    # hardfp via command line.
-    tuple = arch.split('-')
-    if tuple[0] == 'armv7a' and tuple[2] == 'linux':
-      clang_cmdline.insert(0, '-mfloat-abi=hard')
-
     if not clang_codegen:
       clang_cmdline.append('-fsyntax-only')
       # Enforce use of libstdc++ if clang is used only for syntax checks.
