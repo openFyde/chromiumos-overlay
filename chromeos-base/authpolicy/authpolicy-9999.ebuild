@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="authpolicy"
 inherit cros-workon platform user
 
 DESCRIPTION="Provides authentication to LDAP and fetching device/user policies"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/authpolicy/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -24,7 +24,7 @@ IUSE="+samba asan fuzzer"
 
 RDEPEND="
 	app-crypt/mit-krb5
-	chromeos-base/libbrillo[asan?,fuzzer?]
+	chromeos-base/libbrillo:=[asan?,fuzzer?]
 	chromeos-base/metrics
 	>=chromeos-base/minijail-0.0.1-r1477
 	dev-libs/protobuf:=
@@ -38,10 +38,12 @@ DEPEND="
 	chromeos-base/cryptohome-client
 	chromeos-base/protofiles:=
 	chromeos-base/session_manager-client
-	chromeos-base/system_api
+	chromeos-base/system_api:=
 "
 
 pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs authpolicyd.
 	enewuser "authpolicyd"
 	enewgroup "authpolicyd"
 	enewuser "authpolicyd-exec"
