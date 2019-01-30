@@ -31,6 +31,7 @@ IUSE="
 	dlc
 	dptf
 	eclog
+	esim
 	+fonts
 	fuzzer
 	fwupd
@@ -179,6 +180,7 @@ RDEPEND="
 	ml_service? ( chromeos-base/ml )
 	peerd? ( chromeos-base/peerd )
 	hammerd? ( chromeos-base/hammerd )
+	esim? ( chromeos-base/hermes )
 	memd? ( chromeos-base/memd )
 	power_management? ( chromeos-base/power_manager )
 	!chromeos-base/platform2
