@@ -29,6 +29,7 @@ IUSE="
 	+debugd
 	diagnostics
 	dlc
+	dlc_test
 	dptf
 	eclog
 	esim
@@ -152,6 +153,7 @@ RDEPEND="
 	biod? ( chromeos-base/biod )
 	compupdates? ( chromeos-base/imageloader )
 	dlc? ( chromeos-base/dlcservice )
+	dlc_test? ( chromeos-base/dummy-dlc )
 	bluetooth? ( chromeos-base/bluetooth )
 	bootchart? ( app-benchmarks/bootchart )
 	tpm? (
