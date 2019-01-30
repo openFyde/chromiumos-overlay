@@ -39,7 +39,6 @@ COMMON_DEPEND="
 	app-text/libpaper
 	media-libs/fontconfig
 	>=media-libs/freetype-2.4.9:2=
-	media-libs/jbig2dec
 	>=media-libs/lcms-2.6:2
 	>=media-libs/libpng-1.6.2:0=
 	>=sys-libs/zlib-1.2.7:=
@@ -50,6 +49,7 @@ COMMON_DEPEND="
 	idn? ( net-dns/libidn )
 	tiff? ( >=media-libs/tiff-4.0.1:0= )
 	X? ( x11-libs/libXt x11-libs/libXext )
+	!!media-libs/jbig2dec
 "
 
 DEPEND="${COMMON_DEPEND}
@@ -82,7 +82,6 @@ src_prepare() {
 	rm -rf "${S}"/cups/libs || die
 	rm -rf "${S}"/expat || die
 	rm -rf "${S}"/freetype || die
-	rm -rf "${S}"/jbig2dec || die
 	rm -rf "${S}"/jpeg{,xr} || die
 	rm -rf "${S}"/lcms{,2} || die
 	rm -rf "${S}"/libpng || die
