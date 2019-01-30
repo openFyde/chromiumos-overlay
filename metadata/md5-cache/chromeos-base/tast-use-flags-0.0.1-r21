@@ -1,8 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Text file listing USE flags for Tast test dependencies
-EAPI=5
-IUSE=android-container-pi arc asan betty chrome_internal chromeless_tty containers cups +display_backlight grunt +internal_mic kvm_host lxc memd ml_service mocktpm rialto rk3399 selinux selinux_experimental skate snow spring touchview transparent_hugepage veyron_mickey veyron_rialto
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0
-_md5_=adfcf4ccfbe927d4b9bf1540a9eb49c9
