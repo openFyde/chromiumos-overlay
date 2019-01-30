@@ -15,7 +15,7 @@ DESCRIPTION="Utility for running Linux VMs on Chrome OS"
 LICENSE="BSD-Google BSD-2 Apache-2.0 MIT"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-usb"
 
 RDEPEND="
 	sys-apps/dtc
@@ -26,6 +26,7 @@ RDEPEND="
 		media-libs/virglrenderer
 	)
 	crosvm-wl-dmabuf? ( media-libs/minigbm )
+	crosvm-usb? ( virtual/libusb:1= )
 "
 DEPEND="${RDEPEND}
 	~dev-rust/byteorder-1.1.0:=
@@ -76,6 +77,13 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
+		local feature_excludes=()
+		if ! use crosvm-usb; then
+			feature_excludes+=(
+				--exclude usb_util
+			)
+		fi
+
 		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, libtpm2, or
 		# wayland access because the bots don't support these.
 		ecargo_test --all \
@@ -89,6 +97,7 @@ src_test() {
 			--exclude gpu_renderer \
 			--exclude tpm2 \
 			--exclude tpm2-sys \
+			"${feature_excludes[@]}" \
 			-- --test-threads=1 \
 			|| die "cargo test failed"
 		# Plugin tests all require /dev/kvm, but we want to make sure they build
