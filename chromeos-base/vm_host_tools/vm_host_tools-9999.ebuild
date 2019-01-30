@@ -105,4 +105,6 @@ pkg_preinst() {
 	enewgroup seneschal
 	enewuser seneschal-dbus
 	enewgroup seneschal-dbus
+
+	enewgroup cicerone-client
 }
