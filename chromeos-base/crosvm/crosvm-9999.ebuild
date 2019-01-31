@@ -106,10 +106,13 @@ src_test() {
 			"${feature_excludes[@]}" \
 			-- --test-threads=1 \
 			|| die "cargo test failed"
+
 		# Plugin tests all require /dev/kvm, but we want to make sure they build
 		# at least.
-		ecargo_test --no-run --features plugin \
-			|| die "cargo build with plugin feature failed"
+		if use crosvm-plugin; then
+			ecargo_test --no-run --features plugin \
+				|| die "cargo build with plugin feature failed"
+		fi
 	fi
 }
 
