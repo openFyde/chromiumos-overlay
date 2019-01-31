@@ -6,7 +6,7 @@ inherit flag-o-matic toolchain-funcs
 
 DESCRIPTION="Block tests suite"
 HOMEPAGE="https://github.com/osandov/blktests"
-GIT_REV="0d373624a05f1a86d84cd40871b34c3d5e90d06a"
+GIT_REV="a58b9745fa4604b6aa9c2694dd25ddb39f46d0d8"
 SRC_URI="https://github.com/osandov/blktests/archive/${GIT_REV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
