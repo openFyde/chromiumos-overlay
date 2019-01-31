@@ -205,7 +205,6 @@ CLIENT_IUSE_TESTS="
 	+tests_platform_ExternalUSBBootStress
 	+tests_platform_ExternalUSBStress
 	+tests_platform_FileNum
-	+tests_platform_FilePerms
 	+tests_platform_FileSize
 	+tests_platform_Firewall
 	+tests_platform_FullyChargedPowerStatus
