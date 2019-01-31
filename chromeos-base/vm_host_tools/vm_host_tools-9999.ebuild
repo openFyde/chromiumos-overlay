@@ -102,11 +102,11 @@ pkg_preinst() {
 
 	enewuser vm_cicerone
 	enewgroup vm_cicerone
+	enewgroup cicerone-client
 
 	enewuser seneschal
 	enewgroup seneschal
 	enewuser seneschal-dbus
 	enewgroup seneschal-dbus
-
-	enewgroup cicerone-client
+	enewgroup seneschal-client
 }
