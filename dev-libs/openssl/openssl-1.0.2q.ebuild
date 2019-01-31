@@ -1,10 +1,13 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
 
 inherit eutils flag-o-matic toolchain-funcs multilib multilib-minimal
 
+# openssl-1.0.2-patches-1.6 contain additional CVE patches
+# which got fixed with this release.
+# Please use 1.7 version number when rolling a new tarball!
 PATCH_SET="openssl-1.0.2-patches-1.5"
 MY_P=${P/_/-}
 DESCRIPTION="full-strength general purpose cryptography library (including SSL and TLS)"
@@ -79,7 +82,7 @@ src_prepare() {
 		for i in "${FEDORA_PATCH[@]}" ; do
 			epatch "${DISTDIR}"/"${i}"
 		done
-		epatch "${FILESDIR}"/openssl-1.0.2o-hobble-ecc.patch
+		epatch "${FILESDIR}"/openssl-1.0.2p-hobble-ecc.patch
 		# Also see the configure parts below:
 		# enable-ec \
 		# $(use_ssl !bindist ec2m) \
@@ -118,7 +121,7 @@ src_prepare() {
 		-e '/^MAKEDEPPROG/s:=.*:=$(CC):' \
 		-e $(has noman FEATURES \
 			&& echo '/^install:/s:install_docs::' \
-			|| echo '/^MANDIR=/s:=.*:='${EPREFIX}'/usr/share/man:') \
+			|| echo '/^MANDIR=/s:=.*:='${EPREFIX%/}'/usr/share/man:') \
 		Makefile.org \
 		|| die
 	# show the actual commands in the log
@@ -143,7 +146,7 @@ src_prepare() {
 	append-flags $(test-flags-CC -Wa,--noexecstack)
 	append-cppflags -DOPENSSL_NO_BUF_FREELISTS
 
-	sed -i '1s,^:$,#!'${EPREFIX}'/usr/bin/perl,' Configure #141906
+	sed -i '1s,^:$,#!'${EPREFIX%/}'/usr/bin/perl,' Configure #141906
 	# The config script does stupid stuff to prompt the user.  Kill it.
 	sed -i '/stty -icanon min 0 time 50; read waste/d' config || die
 	./config --test-sanity || die "I AM NOT SANE"
@@ -215,8 +218,8 @@ multilib_src_configure() {
 		$(use_ssl sslv3 ssl3) \
 		$(use_ssl tls-heartbeat heartbeats) \
 		$(use_ssl zlib) \
-		--prefix="${EPREFIX}"/usr \
-		--openssldir="${EPREFIX}"${SSL_CNF_DIR} \
+		--prefix="${EPREFIX%/}"/usr \
+		--openssldir="${EPREFIX%/}"${SSL_CNF_DIR} \
 		--libdir=$(get_libdir) \
 		shared threads \
 		|| die
@@ -251,13 +254,19 @@ multilib_src_test() {
 }
 
 multilib_src_install() {
-	emake INSTALL_PREFIX="${D}" install
+	# We need to create $ED/usr on our own to avoid a race condition #665130
+	if [[ ! -d "${ED%/}/usr" ]]; then
+		# We can only create this directory once
+		mkdir "${ED%/}"/usr || die
+	fi
+
+	emake INSTALL_PREFIX="${D%/}" install
 }
 
 multilib_src_install_all() {
 	# openssl installs perl version of c_rehash by default, but
 	# we provide a shell version via app-misc/c_rehash
-	rm "${ED}"/usr/bin/c_rehash || die
+	rm "${ED%/}"/usr/bin/c_rehash || die
 
 	local -a DOCS=( CHANGES* FAQ NEWS README doc/*.txt doc/c-indentation.el )
 	einstalldocs
