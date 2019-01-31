@@ -7,7 +7,9 @@ CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
-inherit cros-workon meson python-single-r1 vala xdg-utils
+# Switched python-single-r1 with python-r1 to let python-wrapper use python3
+# even when python2_7 is in use.
+inherit cros-workon meson python-r1 vala xdg-utils
 
 DESCRIPTION="Aims to make updating firmware on Linux automatic, safe and reliable"
 HOMEPAGE="https://fwupd.org"
@@ -86,11 +88,6 @@ BDEPEND="
 # NOT a build time dependency. The build system does not check for dbus.
 PDEPEND="daemon? ( sys-apps/dbus )"
 
-PATCHES=(
-	# Temporarily drop >=meson-0.47 requirement
-	"${FILESDIR}"/${PN}-1.2.3-meson.patch
-)
-
 src_prepare() {
 	default
 	sed -e "s/'--create'/'--absolute-name', '--create'/" \
@@ -124,6 +121,9 @@ src_configure() {
 
 src_install() {
 	meson_src_install
+
+	# Enable vendor-directory remote with local firmware
+	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
 
 	if use daemon ; then
 		#doinitd "${FILESDIR}"/${PN}
