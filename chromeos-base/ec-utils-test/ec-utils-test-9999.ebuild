@@ -18,7 +18,8 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="biod -cr50_onboard"
 
-RDEPEND="chromeos-base/ec-utils"
+RDEPEND="chromeos-base/ec-utils
+	dev-util/shflags"
 
 src_compile() {
 	tc-export CC
@@ -44,6 +45,8 @@ src_install() {
 			if [[ -f "board/${target}/flash_fp_mcu" ]]; then
 				einfo "Installing flash_fp_mcu for ${target}"
 				dobin "board/${target}/flash_fp_mcu"
+				insinto /usr/share/flash_fp_mcu
+				doins "util/flash_fp_mcu_common.sh"
 			fi
 		done
 	fi
