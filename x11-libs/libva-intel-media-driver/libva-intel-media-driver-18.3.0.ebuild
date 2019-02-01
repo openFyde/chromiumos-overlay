@@ -42,6 +42,7 @@ PATCHES=(
 	"${FILESDIR}"/0004-Add-an-option-in-CMakeLists-to-include-exclude-cmrtl.patch
 	"${FILESDIR}"/0005-Add-X11-detect-support.patch
 	"${FILESDIR}"/0006-Fix-X11-detect-support.patch
+	"${FILESDIR}"/0007-Add-I420-to-supported-Image-formats.patch
 )
 
 src_configure() {
