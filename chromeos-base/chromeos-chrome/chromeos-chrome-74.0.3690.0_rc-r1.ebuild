@@ -62,6 +62,7 @@ IUSE="
 	+reorder_text_sections
 	+runhooks
 	+smbprovider
+	strict_toolchain_checks
 	+thinlto
 	+v4l2_codec
 	v4lplugin
@@ -142,7 +143,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3687.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3690.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R74-3626.59-1548677550.afdo"
 AFDO_FILE["airmont"]="R74-3626.59-1548674143.afdo"
 AFDO_FILE["haswell"]="R74-3626.59-1548675801.afdo"
@@ -1510,6 +1511,15 @@ pkg_preinst() {
 	if use arm; then
 		local files=$(find "${ED}/usr/lib/debug${CHROME_DIR}" -size +$((4 * 1024 * 1024 * 1024 - 1))c)
 		[[ -n ${files} ]] && die "Debug files exceed 4GiB: ${files}"
+	fi
+
+	# Test .text.hot section comes before .text in Chrome.
+	# https://crbug.com/912781
+	if use strict_toolchain_checks && use afdo_use && use reorder_text_sections; then
+		if ! readelf -lW "${ED}/${CHROME_DIR}/chrome" | grep -qF ".text.hot .text"; then
+			readelf -l -W "${ED}/${CHROME_DIR}/chrome"
+			die ".text.hot does not come before .text"
+		fi
 	fi
 }
 
