@@ -23,6 +23,8 @@ case "${EAPI:-0}" in
 [012345]) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
+DEPEND="chromeos-base/update_engine"
+
 # @ECLASS-VARIABLE: DLC_ID
 # @REQUIRED
 # @DEFAULT UNSET
@@ -78,6 +80,7 @@ dlc_src_install() {
 
 	"${CHROMITE_BIN_DIR}"/build_dlc \
 		--src-dir="${DLC_ARTIFACT_DIR}" \
+		--build-root-dir="${SYSROOT}" \
 		--install-root-dir="${D}" \
 		--fs-type="${DLC_FS_TYPE}" \
 		--pre-allocated-blocks="${DLC_PREALLOC_BLOCKS}" \
