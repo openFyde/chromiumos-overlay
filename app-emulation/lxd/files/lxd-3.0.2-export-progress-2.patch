@@ -1,0 +1,30 @@
+From 0aac332ad4de81b38a0601dccc21f9134da99e39 Mon Sep 17 00:00:00 2001
+From: Joel Hockey <joelhockey@chromium.org>
+Date: Tue, 29 Jan 2019 22:18:09 -0800
+Subject: [PATCH 2/7] lxd: Send metadata in CreateImage error importing image
+
+When importing a packed image, send 'fingerprint' and 'size'
+in metadata when an error occurs because the image already
+exists.
+
+Signed-off-by: Joel Hockey <joelhockey@chromium.org>
+---
+ lxd/images.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lxd/images.go b/lxd/images.go
+index 06acc335..7df11c09 100644
+--- a/lxd/images.go
++++ b/lxd/images.go
+@@ -568,7 +568,7 @@ func getImgPostInfo(d *Daemon, r *http.Request, builddir string, post *os.File)
+ 		return nil, err
+ 	}
+ 	if exists {
+-		return nil, fmt.Errorf("Image with same fingerprint already exists")
++		return &info, fmt.Errorf("Image with same fingerprint already exists")
+ 	}
+ 	// Create the database entry
+ 	err = d.cluster.ImageInsert(info.Fingerprint, info.Filename, info.Size, info.Public, info.AutoUpdate, info.Architecture, info.CreatedAt, info.ExpiresAt, info.Properties)
+-- 
+2.20.1.611.gfbb209baf1-goog
+

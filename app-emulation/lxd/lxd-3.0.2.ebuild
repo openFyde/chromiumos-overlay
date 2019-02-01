@@ -141,6 +141,13 @@ src_prepare() {
 	cd "${S}/dist/src/${EGO_PN}"
 	eapply "${FILESDIR}/${P}-cert-ec384.patch" # crbug.com/837445
 	eapply "${FILESDIR}/${P}-pass-all-usb.patch" # crbug.com/831850
+	eapply "${FILESDIR}/${P}-export-progress-1.patch" # crbug.com/927550
+	eapply "${FILESDIR}/${P}-export-progress-2.patch" # crbug.com/927550
+	eapply "${FILESDIR}/${P}-export-progress-3.patch" # crbug.com/927550
+	eapply "${FILESDIR}/${P}-export-progress-4.patch" # crbug.com/927550
+	eapply "${FILESDIR}/${P}-export-progress-5.patch" # crbug.com/927550
+	eapply "${FILESDIR}/${P}-export-progress-6.patch" # crbug.com/927550
+	eapply "${FILESDIR}/${P}-export-progress-7.patch" # crbug.com/927550
 	eapply_user
 
 	cd "${S}/dist/dqlite" || die "Can't cd to dqlite dir"
