@@ -159,6 +159,9 @@ src_install() {
 	insinto /usr/share/cros
 	doins *_utils.sh
 
+	exeinto /usr/share/cros/init
+	doexe is_feature_enabled.sh
+
 	into /	# We want /sbin, not /usr/sbin, etc.
 
 	# Install various utility files.
