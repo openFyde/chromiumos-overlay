@@ -42,5 +42,7 @@ platform_pkg_test() {
 src_install() {
 	dobin "${OUT}"/virtual-usb-printer
 	insinto /etc/virtual-usb-printer
+	doins config/ipp_attributes.json
+	doins config/ippusb_printer.json
 	doins config/usb_printer.json
 }
