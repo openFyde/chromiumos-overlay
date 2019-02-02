@@ -22,6 +22,7 @@ IUSE="input_devices_synaptics
 	input_devices_weida
 	input_devices_goodix
 	input_devices_sis
+	input_devices_pixart
 "
 
 RDEPEND="
@@ -31,6 +32,7 @@ RDEPEND="
 	input_devices_weida? ( chromeos-base/weida_wdt_util )
 	input_devices_goodix? ( chromeos-base/gdix_hid_firmware_update )
 	input_devices_sis? ( chromeos-base/sisConsoletool )
+	input_devices_pixart? ( chromeos-base/pixart_tpfwup )
 	sys-apps/mosys
 "
 
@@ -38,6 +40,10 @@ pkg_preinst() {
 	if use input_devices_sis; then
 		enewgroup sisfwupdate
 		enewuser sisfwupdate
+	fi
+	if use input_devices_pixart; then
+		enewgroup pixfwupdate
+		enewuser pixfwupdate
 	fi
 }
 
