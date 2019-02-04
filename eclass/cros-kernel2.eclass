@@ -417,6 +417,7 @@ kgdb_config="
 CONFIG_DEBUG_KERNEL=y
 CONFIG_DEBUG_INFO=y
 CONFIG_FRAME_POINTER=y
+CONFIG_GDB_SCRIPTS=y
 CONFIG_KGDB=y
 CONFIG_KGDB_KDB=y
 CONFIG_PANIC_TIMEOUT=0
@@ -1675,6 +1676,13 @@ cros-kernel2_src_install() {
 	# Install uncompressed kernel for debugging purposes.
 	insinto /usr/lib/debug/boot
 	doins "$(cros-workon_get_build_dir)/vmlinux"
+	if use kgdb && [[ -d "$(cros-workon_get_build_dir)/scripts/gdb" ]]; then
+		cp "$(cros-workon_get_build_dir)/vmlinux-gdb.py" "${D}"/usr/lib/debug/boot/ || die
+		mkdir "${D}"/usr/lib/debug/boot/scripts || die
+		rsync -rKL \
+			--include='*/' --include='*.py' --exclude='*' \
+			"$(cros-workon_get_build_dir)/scripts/gdb/" "${D}"/usr/lib/debug/boot/scripts/gdb || die
+	fi
 
 	# Also install the vdso shared ELFs for crash reporting.
 	# We use slightly funky filenames so as to better integrate with
