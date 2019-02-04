@@ -94,6 +94,7 @@ ALL_BOARDS=(
 	#chronos
 	cid
 	clapper
+	cmlrvp
 	cnlrvp
 	cobblepot
 	coral
