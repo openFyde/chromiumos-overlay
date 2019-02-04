@@ -4,5 +4,5 @@
 
 cros_pre_src_prepare_dbus-glib_patches() {
 	# TODO(benchan): Remove this patch once upstream gentoo picks up the patch.
-	patch -p1 < "${BASHRC_FILESDIR}/${P}-unused-function.patch" || die
+	patch -p1 < "${BASHRC_FILESDIR}/${PN}-0.108-unused-function.patch" || die
 }
