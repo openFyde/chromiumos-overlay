@@ -30,6 +30,8 @@ DEPEND="sys-apps/acl
 "
 
 src_prepare() {
+	# TODO(derat): Remove once https://crbug.com/928176 is fixed.
+	elog "\"uname -a\" prints \"$(uname -a)\""
 	cros-workon_src_prepare
 	eautoreconf
 }
