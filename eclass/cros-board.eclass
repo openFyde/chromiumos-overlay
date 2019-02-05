@@ -136,6 +136,7 @@ ALL_BOARDS=(
 	fb1
 	fizz
 	fizz-accelerator
+	fizz-labstation
 	fizz-moblab
 	flapjack
 	foster
