@@ -37,5 +37,6 @@ src_prepare() {
 }
 
 src_configure() {
+	export PLATFORM=linux
 	cros-workon_src_configure
 }
