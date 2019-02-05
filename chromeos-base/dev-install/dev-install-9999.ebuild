@@ -34,6 +34,7 @@ DEPEND="app-arch/tar
 	sys-apps/grep
 	sys-apps/portage
 	sys-apps/sed"
+
 # TODO(arkaitzr): remove dependency on tar if it's gonna be removed from the
 # base image. Also modify dev_install.
 RDEPEND="app-arch/tar

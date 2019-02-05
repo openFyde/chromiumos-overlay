@@ -8,7 +8,7 @@
 # Otherwise, incremental builds will break.  See crbug.com/489895.
 # ******************************************************************************
 
-EAPI="4"
+EAPI="5"
 WANT_LIBTOOL="none"
 
 inherit autotools eutils flag-o-matic multilib pax-utils python-utils-r1 toolchain-funcs multiprocessing
@@ -18,13 +18,28 @@ PATCHSET_VERSION="2.7.10-0"
 
 DESCRIPTION="An interpreted, interactive, object-oriented programming language"
 HOMEPAGE="http://www.python.org/"
+
+# The version of Python our PGO profile was generated with. Using ${PV} makes
+# updates difficult, and we have tricks below to catch a mismatched profile
+# version.
+PROF_VERSION="2.7.10"
+
 SRC_URI="http://www.python.org/ftp/python/${PV}/${MY_P}.tar.xz
-	http://dev.gentoo.org/~floppym/python/python-gentoo-patches-${PATCHSET_VERSION}.tar.xz"
+	http://dev.gentoo.org/~floppym/python/python-gentoo-patches-${PATCHSET_VERSION}.tar.xz
+	pgo_use? ( gs://chromeos-localmirror/distfiles/python-${PROF_VERSION}-pgo-prof.profdata.tar.xz )"
 
 LICENSE="PSF-2"
 SLOT="2.7"
 KEYWORDS="*"
-IUSE="-berkdb build doc elibc_uclibc examples gdbm hardened ipv6 +ncurses +readline sqlite +ssl +threads tk +wide-unicode wininst +xml"
+IUSE="-berkdb build doc elibc_uclibc examples gdbm hardened ipv6 pgo_generate +pgo_use +ncurses +readline sqlite +ssl +threads tk +wide-unicode wininst +xml"
+
+REQUIRED_USE="pgo_generate? ( !pgo_use )"
+
+# Workaround: re-emerging this after emerging a `pgo_generate` Python gives us
+# a really bad time, since we'll try to write to profiles in "restricted"
+# places somehow. Specifying this profile file has LLVM write profiles to
+# /dev/null, which is always available.
+export LLVM_PROFILE_FILE="/dev/null"
 
 # Do not add a dependency on dev-lang/python to this ebuild.
 # If you need to apply a patch which requires python for bootstrapping, please
@@ -129,6 +144,10 @@ src_prepare() {
 
 	sed -i -e "s:sys.exec_prefix]:sys.exec_prefix, '/usr/local']:g" \
 		Lib/site.py || die "sed failed to add /usr/local to prefixes"
+
+	# Enable stealthy profile application; with this, `sysconfig` won't
+	# report on any CFLAGS in EXTRA_CFLAGS
+	epatch "${FILESDIR}"/python-2.7-clear-extra-cflags.patch
 	#
 	# END: ChromiumOS specific changes
 	#
@@ -151,6 +170,43 @@ src_prepare() {
 	epatch_user
 
 	eautoreconf
+}
+
+# There's a sad story behind this. When we've built our `python` and
+# `libpython.so` objects, we'll go to build all of our Python modules. This is
+# done with LD_LIBRARY_PATH set to our workdir, and is generally
+# well-sandboxed. Sadly, the compiler is a wrapper written in Python and
+# invoked via #!/usr/bin/python2, so **the compiler invocations will link to
+# the new, not-yet-installed libpython.so**.
+#
+# Usually, this isn't much of a problem. However, when we're building Python
+# with instrumentation enabled, libpython.so is where some of the key
+# instrumentation functions end up. Since everything links to libpython.so, and
+# since libpython.so shows up in link lines before libclang_rt.profile (where
+# these "key instrumentation functions" come from), the only binary we built
+# with USE=pgo_generate that has an actual definition for these functions is
+# libpython.so.
+#
+# Hence, the old python invoked by the wrapper looks for its profiling symbols
+# in the *new* libpython.so, doesn't find them, and gets sad.
+#
+# This can all be fixed by moving libclang_rt.profiles up before -lpython2.7 in
+# the commandline, which is easily doable. Doing so puts these profiling
+# symbols in every binary we produce, but only in pgo_generate builds. They're
+# all dynamic symbols, so keeping multiple definitions around should be OK.
+#
+# Clang is good about moving libclangrt_profile around, so we just parse its
+# output to determine where this static lib is located today.
+detect_libprofile_rt_location() {
+	local result
+	# Clang always gives quoted output. We're picking out the single arg
+	# with libclang_rt.profile from it, and discarding the quotes.
+	result=$(echo | \
+			$(tc-getCC) -### -fprofile-generate -x c - |& \
+			grep -oE '"[^"]+libclang_rt.profile[^"]+"' | \
+			tr -d '"')
+	[[ -n "${result}" ]] || die "libclangrt detection failed"
+	echo "${result}"
 }
 
 src_configure() {
@@ -215,6 +271,36 @@ src_configure() {
 	# Please query BSD team before removing this!
 	append-ldflags "-L."
 
+	tc-export CC
+	if use pgo_generate; then
+		tc-is-clang || die "Instrumentation is only supported when using clang"
+		# tc_extra_flags is an invention used to make cflags apply
+		# equally to Python's C modules and Python itself. This also
+		# prevents duplication between CFLAGS and LDFLAGS, which is a
+		# build error with -mllvm -options.
+		#
+		# This is a functional change in Python that breaks subversion
+		# (SWIG Python bindings rely on distutils.sysconfigs' ${CC}),
+		# so you should consider re-emerge'ing before trying to emerge
+		# anything else.
+		#
+		# We explicitly use /tmp here because this path is *baked into
+		# Python* as the place where profiles should go when Python is
+		# run. Hence, it has to be a well-known place that lives after
+		# `emerge`.
+		CC+=" -fprofile-generate=/tmp/python_profiles"
+
+		# LLVM intentionally low-balls vp-counters-per-site to save some
+		# binary size. If left to its default of 1, we get a diagnostic
+		# asking for it to be raised. Instead of tweaking it and having
+		# the issue silently appear again in the future, force dynamic
+		# allocation of counters. It's marginally slower, but less
+		# error-prone.
+		CC+=" -mllvm -vp-static-alloc=false"
+
+		append-ldflags "$(detect_libprofile_rt_location)"
+	fi
+
 	local dbmliborder
 	if use gdbm; then
 		dbmliborder+="${dbmliborder:+:}gdbm"
@@ -254,8 +340,31 @@ src_compile() {
 	# Avoid invoking pgen for cross-compiles.
 	touch Include/graminit.h Python/graminit.c
 
+	# CFLAGS specified in configure get baked into the `sysconfig` module,
+	# which is consulted when building e.g. SWIG bindings for subversion.
+	# OPT, which we wiped out during configuration time anyway, allows us
+	# to pass flags that `sysconfig` doesn't see.
+	local extra_cflags=()
+	if use pgo_use && tc-is-clang; then
+		# If you're upgrading Python, please also run
+		# ./files/python2_gen_pgo.sh to build a new PGO profile.
+		if [[ "${PV}" != "${PROF_VERSION}" ]]; then
+			die "Please generate a new profile. Details in comments."
+		fi
+
+		extra_cflags=(
+			"-fprofile-use=${WORKDIR}/python-${PROF_VERSION}-pgo-prof.profdata"
+			"-Wno-backend-plugin"
+		)
+
+		# LTO only buys us ~2%, it increases binary size around 750KB,
+		# and it's entirely broken on aarch64 (LTO prompts clang to use
+		# its built-in assembler, which has issues with inline assembly
+		# in Python, apparently.)
+	fi
+
 	cd "${BUILD_DIR}" || die
-	emake
+	EXTRA_CFLAGS="${extra_cflags[*]}" emake
 
 	# Work around bug 329499. See also bug 413751 and 457194.
 	if has_version dev-libs/libffi[pax_kernel]; then
