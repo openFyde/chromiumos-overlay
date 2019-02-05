@@ -198,7 +198,6 @@ IUSE_TESTS=(
 	+tests_power_WebGL
 	+tests_security_BundledExtensions
 	+tests_security_SandboxLinuxUnittests
-	+tests_security_Usbguard
 	+tests_telemetry_AFDOGenerateClient
 	+tests_telemetry_UnitTests
 	+tests_telemetry_UnitTestsServer
