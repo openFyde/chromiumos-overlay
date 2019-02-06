@@ -20,9 +20,12 @@ LICENSE="GPL-2"
 SLOT=0
 KEYWORDS="~*"
 
+IUSE="usbip"
+
 RDEPEND="
 	chromeos-base/libbrillo:=
 	net-print/cups
+	usbip? ( net-misc/usbip )
 "
 
 DEPEND="${RDEPEND}"

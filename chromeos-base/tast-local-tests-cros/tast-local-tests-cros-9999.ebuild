@@ -35,7 +35,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
 LICENSE="Apache-2.0 BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="usbip"
 
 DEPEND="
 	chromeos-base/policy-go-proto
@@ -54,6 +54,7 @@ RDEPEND="
 	!chromeos-base/tast-local-tests
 	chromeos-base/security_tests
 	dev-util/android-uiautomator-server
+	usbip? ( chromeos-base/virtual-usb-printer )
 "
 
 # Permit files/external_data.conf to pull in files that are located in
