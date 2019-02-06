@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="5"
 WANT_LIBTOOL="none"
 
 inherit autotools flag-o-matic pax-utils python-utils-r1 toolchain-funcs
@@ -16,7 +16,7 @@ SRC_URI="https://www.python.org/ftp/python/${PV}/${MY_P}.tar.xz
 
 LICENSE="PSF-2"
 SLOT="3.6/3.6m"
-KEYWORDS="alpha amd64 arm arm64 hppa ia64 m68k ~mips ppc ppc64 s390 sh sparc x86 ~amd64-fbsd ~x86-fbsd"
+KEYWORDS="*"
 IUSE="build examples gdbm hardened ipv6 libressl +ncurses +readline sqlite +ssl test +threads tk wininst +xml"
 RESTRICT="!test? ( test )"
 
@@ -67,15 +67,13 @@ src_prepare() {
 		local EPATCH_EXCLUDE="*_regenerate_platform-specific_modules.patch"
 	fi
 
-	local PATCHES=(
-		"${WORKDIR}/patches"
-		"${FILESDIR}/${PN}-3.5-distutils-OO-build.patch"
-		"${FILESDIR}/3.6.5-disable-nis.patch"
-		"${FILESDIR}/python-3.6.5-libressl-compatibility.patch"
-		"${FILESDIR}/python-3.6.5-hash-unaligned.patch"
-	)
+	EPATCH_SUFFIX="patch" EPATCH_FORCE="yes" epatch "${WORKDIR}/patches"
+	epatch "${FILESDIR}/${PN}-3.5-distutils-OO-build.patch"
+	epatch "${FILESDIR}/3.6.5-disable-nis.patch"
+	epatch "${FILESDIR}/python-3.6.5-libressl-compatibility.patch"
+	epatch "${FILESDIR}/python-3.6.5-hash-unaligned.patch"
 
-	default
+	epatch_user
 
 	# START: Chromium OS
 	epatch "${FILESDIR}"/python-3.6.5-ldshared.patch
