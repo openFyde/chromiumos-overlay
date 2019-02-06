@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="20fdf0bfc48ae67e99bbae08e2bc2c1c373e3826"
-CROS_WORKON_TREE=("156ede2dc2058512f506da607ee98229de39e4b5" "a64bfbc4fa4db53c3555a9ce1087cc1ac758bb71" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="49d4db7b2b7f678c65546cacc2bb792823de45d3"
+CROS_WORKON_TREE=("156ede2dc2058512f506da607ee98229de39e4b5" "354d91aea9c01d94dbdef494266e8d40ce378da6" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -160,6 +160,9 @@ src_install() {
 
 	insinto /usr/share/cros
 	doins *_utils.sh
+
+	exeinto /usr/share/cros/init
+	doexe is_feature_enabled.sh
 
 	into /	# We want /sbin, not /usr/sbin, etc.
 
