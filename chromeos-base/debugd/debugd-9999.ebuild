@@ -80,6 +80,16 @@ src_install() {
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
 
+	# Install scheduler configuration helper and seccomp policy.
+	if use amd64 ; then
+		exeinto /usr/libexec/debugd/helpers
+		doexe "${OUT}"/scheduler_configuration_helper
+
+		insinto /usr/share/policy
+		newins "src/helpers/seccomp/scheduler-configuration-helper-${ARCH}.policy" scheduler-configuration-helper.policy
+	fi
+
+
 	# Install DBus configuration.
 	insinto /etc/dbus-1/system.d
 	doins share/org.chromium.debugd.conf
