@@ -70,6 +70,8 @@ src_install() {
 	insinto /usr/share/policy
 	newins seccomp_filters/oobe_config_restore-seccomp-"${ARCH}".policy \
 		oobe_config_restore-seccomp.policy
+	newins seccomp_filters/oobe_config_save-seccomp-"${ARCH}".policy \
+		oobe_config_save-seccomp.policy
 }
 
 platform_pkg_test() {
