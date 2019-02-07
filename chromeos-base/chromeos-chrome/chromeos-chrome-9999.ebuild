@@ -1112,10 +1112,7 @@ src_compile() {
 
 	cd "${CHROME_ROOT}"/src || die "Cannot chdir to ${CHROME_ROOT}/src"
 
-	local chrome_targets=(
-		chrome_sandbox
-		$(usex mojo "mojo_shell" "")
-	)
+	local chrome_targets=( $(usex mojo "mojo_shell" "") )
 	if use app_shell; then
 		chrome_targets+=( app_shell )
 	else
@@ -1222,8 +1219,7 @@ install_chrome_test_resources() {
 	# directory.
 	TEST_INSTALL_TARGETS=(
 		"${TEST_FILES[@]}"
-		"libppapi_tests.so"
-		"chrome_sandbox" )
+		"libppapi_tests.so" )
 
 	einfo "Installing test targets: ${TEST_INSTALL_TARGETS[@]}"
 	test_strip_install "${from}" "${dest}" "${TEST_INSTALL_TARGETS[@]}"
@@ -1480,11 +1476,6 @@ src_install() {
 				continue
 			fi
 			source="${i}"
-			# The chrome_sandbox is renamed to chrome_sandbox.
-			# Use the original file to generate the .dwp file.
-			if [[ ${source} == "./chrome-sandbox" ]] ; then
-				source="chrome_sandbox"
-			fi
 			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp" || die
 		done < <(scanelf -BRyF '%F' ".")
 	fi
