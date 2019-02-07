@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="e411cb7a70b25455d4f487de78e5dca100de9bf9"
-CROS_WORKON_TREE="44cf27e0ff00e9e60d297d3301d48bad2bbd4c9f"
+CROS_WORKON_COMMIT="4dfbfc9f0092312613aaa5d932b5e74d21a74069"
+CROS_WORKON_TREE="17588d94c54501ef10d37aea97396c24de8ef95a"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -20,7 +20,8 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="biod -cr50_onboard"
 
-RDEPEND="chromeos-base/ec-utils"
+RDEPEND="chromeos-base/ec-utils
+	dev-util/shflags"
 
 src_compile() {
 	tc-export CC
@@ -46,6 +47,8 @@ src_install() {
 			if [[ -f "board/${target}/flash_fp_mcu" ]]; then
 				einfo "Installing flash_fp_mcu for ${target}"
 				dobin "board/${target}/flash_fp_mcu"
+				insinto /usr/share/flash_fp_mcu
+				doins "util/flash_fp_mcu_common.sh"
 			fi
 		done
 	fi
