@@ -162,6 +162,7 @@ IUSE_TESTS=(
 	+tests_policy_ExternalStorageDisabled
 	+tests_policy_ExternalStorageReadOnly
 	+tests_policy_ForceGoogleSafeSearch
+	+tests_policy_ForceYouTubeRestrict
 	+tests_policy_ForceYouTubeSafetyMode
 	+tests_policy_HomepageLocation
 	+tests_policy_ImagesAllowedForUrls
@@ -180,6 +181,7 @@ IUSE_TESTS=(
 	+tests_policy_PowerManagementIdleSettings
 	+tests_policy_ProxySettings
 	+tests_policy_RestoreOnStartupURLs
+	+tests_policy_SafeBrowsingEnabled
 	+tests_policy_ScreenBrightnessPercent
 	+tests_policy_URLBlacklist
 	+tests_policy_URLWhitelist
