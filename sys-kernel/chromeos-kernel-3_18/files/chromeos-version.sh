@@ -12,16 +12,13 @@
 GLOB="v[2-9].*[0-9]"
 PATTERN="^v[2-9](\.[0-9]+)+(-rc[0-9]+)?$"
 
-if [ ! -d "$1" ] ; then
-    exit
-fi
-
-cd "$1" || exit
-
 # If the script runs from a board overlay, add "_p1" to returned kernel version.
 SCRIPT=$(realpath "$0")
 OVERLAY_ROOT="$(dirname "${SCRIPT}")/../../.."
 OVERLAY_NAME=$(sed -n '/^repo-name *=/s:[^=]*= *::p' "${OVERLAY_ROOT}"/metadata/layout.conf)
+
+# Only after we've parsed $0 change directory in case $0 is relative.
+cd "$1" || exit
 
 suffix=""
 if [[ "${OVERLAY_NAME}" != "chromiumos" ]]; then
