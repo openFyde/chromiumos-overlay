@@ -13,7 +13,7 @@ SRC_URI="https://github.com/andersson/rmtfs/archive/${GIT_SHA1}.tar.gz -> ${P}.t
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
-IUSE="asan"
+IUSE="asan +seccomp"
 
 DEPEND="
 	net-libs/libqrtr
@@ -36,6 +36,10 @@ src_install() {
 	doins "${FILESDIR}/udev-trigger-rmtfs.conf"
 	insinto /lib/udev/rules.d
 	doins "${FILESDIR}/77-rmtfs.rules"
+
+	# Install seccomp policy file.
+	insinto /usr/share/policy
+	use seccomp && newins "${FILESDIR}/rmtfs-seccomp-${ARCH}.policy" rmtfs-seccomp.policy
 }
 
 pkg_preinst() {
