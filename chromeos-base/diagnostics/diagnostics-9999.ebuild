@@ -61,6 +61,10 @@ src_install() {
 	insinto /etc/init
 	doins init/wilco_dtc_supportd.conf
 	doins init/wilco_dtc.conf
+
+	# Install the diagnostic routine executables.
+	exeinto /usr/libexec/diagnostics
+	doexe "${OUT}/urandom"
 }
 
 platform_pkg_test() {
@@ -68,6 +72,7 @@ platform_pkg_test() {
 		libdiag_test
 		libgrpc_async_adapter_test
 		libtelem_test
+		routine_test
 		wilco_dtc_supportd_test
 	)
 
