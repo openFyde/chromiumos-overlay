@@ -22,9 +22,12 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-cert_provision -direncryption pinweaver selinux systemd test tpm tpm2"
+IUSE="-cert_provision +device_mapper -direncryption pinweaver selinux systemd test tpm tpm2"
 
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="
+	device_mapper
+	tpm2? ( !tpm )
+"
 
 RDEPEND="
 	!chromeos-base/chromeos-cryptohome
