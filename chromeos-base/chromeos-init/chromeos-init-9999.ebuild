@@ -176,9 +176,7 @@ src_install() {
 	# Install startup/shutdown scripts.
 	dosbin chromeos_startup chromeos_shutdown
 
-	# C++ wrapper script for clobber-state.sh
 	dosbin "${OUT}"/clobber-state
-	dosbin clobber-state.sh
 
 	dosbin clobber-log
 	dosbin chromeos-boot-alert
