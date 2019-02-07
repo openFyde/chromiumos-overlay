@@ -19,6 +19,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
+RDEPEND="!<chromeos-base/crosvm-0.0.1-r260"
 DEPEND="
 	dev-rust/getopts:=
 	dev-rust/libc:=
