@@ -11,6 +11,7 @@ KEYWORDS="*"
 
 # NB: Flags listed here are off by default unless prefixed with a '+'.
 IUSE="
+	amd64
 	android-container-pi
 	arc
 	arcvm
