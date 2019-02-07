@@ -275,6 +275,7 @@ SERVER_IUSE_TESTS="
 	+tests_policy_DeviceServer
 	+tests_policy_ExternalStorageServer
 	+tests_policy_WiFiAutoconnectServer
+	+tests_policy_WiFiPrecedenceServer
 	+tests_policy_WiFiTypesServer
 	+tests_power_BrightnessResetAfterReboot
 	+tests_power_ChargeControlWrapper

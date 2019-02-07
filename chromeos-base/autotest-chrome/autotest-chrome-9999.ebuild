@@ -258,6 +258,7 @@ IUSE_TESTS_SHILL="
 		+tests_network_RoamWifiEndToEnd
 		+tests_network_RoamSuspendEndToEnd
 		+tests_policy_WiFiAutoconnect
+		+tests_policy_WiFiPrecedence
 		+tests_policy_WiFiTypes
 	)
 "
