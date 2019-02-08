@@ -19,7 +19,7 @@ LICENSE="LGPL-2.1+"
 
 SLOT="0"
 KEYWORDS="~*"
-IUSE="colorhug daemon dell doc +gpg introspection +man nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
+IUSE="colorhug daemon dell doc firmware-packager +gpg introspection +man nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	daemon? ( introspection )
@@ -102,6 +102,7 @@ src_configure() {
 		--localstatedir "${EPREFIX}"/var
 		-Dconsolekit="$(usex daemon true false)"
 		-Ddaemon="$(usex daemon true false)"
+		-Dfirmware-packager="$(usex firmware-packager true false)"
 		-Dgpg="$(usex gpg true false)"
 		-Dgtkdoc="$(usex doc true false)"
 		-Dintrospection="$(usex introspection true false)"
