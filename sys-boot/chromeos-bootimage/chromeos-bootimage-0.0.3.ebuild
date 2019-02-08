@@ -172,7 +172,7 @@ build_image() {
 # Loads the payload from $altfw_cbfs under:
 #   altfw/<name>
 # Stores the hash into $coreboot_file on RW-A and RW-B as:
-#   altfw_hash/<name>.sha256
+#   altfw/<name>.sha256
 # Args:
 #   $1: altfw CBFS file where the payload can be found
 #   $2: coreboot file to add to (will add to this and the .serial version of it)
@@ -182,7 +182,7 @@ hash_altfw_payload() {
 	local coreboot_file="$2"
 	local name="$3"
 	local payload_file="altfw/${name}"
-	local hash_file="altfw_hash/${name}.sha256"
+	local hash_file="${payload_file}.sha256"
 	local tmpfile="$(mktemp)"
 	local tmphash="$(mktemp)"
 	local rom
@@ -259,6 +259,7 @@ setup_altfw() {
 
 		do_cbfstool "${cbfs}" add-payload -n altfw/seabios -c lzma \
 			-f "${root}/seabios.elf"
+		hash_altfw_payload "${cbfs}" "${coreboot_file}" seabios
 		for f in "${root}oprom/"*; do
 			if [[ -f "${f}" ]]; then
 				do_cbfstool ${cbfs} add -f "${f}" \
@@ -284,6 +285,7 @@ setup_altfw() {
 
 		do_cbfstool "${cbfs}" add-payload -n altfw/diag -c lzma -f \
 			"${CROS_FIRMWARE_ROOT}/diag_payload/${target}-diag.bin"
+		hash_altfw_payload "${cbfs}" "${coreboot_file}" diag
 		echo "5;altfw/diag;Diagnostics;System Diagnostics" \
 			>> "${bl_list}"
 
