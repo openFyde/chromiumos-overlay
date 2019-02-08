@@ -22,6 +22,7 @@ IUSE="fuzzer"
 fuzzer-setup-env() {
 	use fuzzer || return 0
 	append-flags "-fsanitize=fuzzer-no-link"
+	append-cppflags -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 }
 
 # @FUNCTION: fuzzer-setup-binary
