@@ -36,6 +36,7 @@ S="${WORKDIR}/usbguard-${GIT_REV}/"
 PATCHES=(
 	"${FILESDIR}/daemon_conf.patch"
 	"${FILESDIR}/devpath.patch"
+	"${FILESDIR}/connect_type.patch"
 )
 
 if [[ ${ARCH} = "amd64" ]]; then

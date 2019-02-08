@@ -1,0 +1,491 @@
+From: Georges Winkenbach <gwink@chromium.org>
+
+https://github.com/USBGuard/usbguard/pull/274
+Add with-connect-type rule attribute to filter and control devices through
+the portX/connect_type flag. This flag is getting more commonly setup
+and is useful, for instance, to distinguish between internal
+("hardwired") and external ("hotplug") ports.
+
+This patch should be removed once the pull request lands upstream.
+
+diff --git a/doc/man/usbguard-rules.conf.5.adoc b/doc/man/usbguard-rules.conf.5.adoc
+index 44f399c..8724550 100644
+--- a/doc/man/usbguard-rules.conf.5.adoc
++++ b/doc/man/usbguard-rules.conf.5.adoc
+@@ -143,6 +143,12 @@ If the operator is not specified it is set to *equals*.
+ *with-interface* [operator] { interface-type ... }::
+     Match a set of interface types against the set of interfaces that the USB device provides.
+
++*with-connect-type* "connect-type"::
++    Match the USB port/connect_type device attribute.
++
++*with-connect-type* [operator] { "connect-type" ... }::
++    Match a set of USB port/connect_type device attributes.
++
+ The 'usb-device-id' is a colon delimited pair in the form 'vendor_id:product_id'.
+ All USB devices have this ID assigned by the manufacturer and it should uniquely identify a USB product type.
+ Both 'vendor_id' and 'product_id' are 16-bit numbers represented in hexadecimal base.
+diff --git a/src/Library/DevicePrivate.cpp b/src/Library/DevicePrivate.cpp
+index 5abe25c..ef09abc 100644
+--- a/src/Library/DevicePrivate.cpp
++++ b/src/Library/DevicePrivate.cpp
+@@ -93,6 +93,7 @@ namespace usbguard
+
+     device_rule->setDeviceID(_device_id);
+     device_rule->setSerial(_serial_number);
++    device_rule->setWithConnectType(_connect_type);
+
+     if (with_port) {
+       device_rule->setViaPort(_port);
+@@ -274,6 +275,20 @@ namespace usbguard
+     return _serial_number;
+   }
+
++  void DevicePrivate::setConnectType(const std::string& connect_type)
++  {
++    if (connect_type.size() > USB_GENERIC_STRING_MAX_LENGTH) {
++      throw std::runtime_error("device connect-type string size out of range");
++    }
++
++    _connect_type = connect_type;
++  }
++
++  const std::string& DevicePrivate::getConnectType() const
++  {
++    return _connect_type;
++  }
++
+   std::vector<USBInterfaceType>& DevicePrivate::refMutableInterfaceTypes()
+   {
+     return _interface_types;
+diff --git a/src/Library/DevicePrivate.hpp b/src/Library/DevicePrivate.hpp
+index 65a80fd..c77fe66 100644
+--- a/src/Library/DevicePrivate.hpp
++++ b/src/Library/DevicePrivate.hpp
+@@ -79,6 +79,9 @@ namespace usbguard
+     void setSerial(const std::string& serial_number);
+     const std::string& getSerial() const;
+
++    void setConnectType(const std::string& connect_type);
++    const std::string& getConnectType() const;
++
+     std::vector<USBInterfaceType>& refMutableInterfaceTypes();
+     const std::vector<USBInterfaceType>& getInterfaceTypes() const;
+
+@@ -99,6 +102,7 @@ namespace usbguard
+     USBDeviceID _device_id;
+     std::string _serial_number;
+     std::string _port;
++    std::string _connect_type;
+     std::vector<USBInterfaceType> _interface_types;
+     std::string _hash_base64;
+     Hash _hash;
+diff --git a/src/Library/LinuxDeviceManagerBase.cpp b/src/Library/LinuxDeviceManagerBase.cpp
+index cc05048..2178fe1 100644
+--- a/src/Library/LinuxDeviceManagerBase.cpp
++++ b/src/Library/LinuxDeviceManagerBase.cpp
+@@ -105,6 +105,10 @@ namespace usbguard
+        */
+       setTarget(Rule::Target::Block);
+     }
++    /*
++     * Set connect type
++     */
++    setConnectType(sysfs_device.readAttribute("port/connect_type", /*strip_last_null=*/true, /*optional=*/true));
+
+     /*
+      * Process USB descriptor data.
+diff --git a/src/Library/RuleParser/Actions.hpp b/src/Library/RuleParser/Actions.hpp
+index db16f4c..c3045d0 100644
+--- a/src/Library/RuleParser/Actions.hpp
++++ b/src/Library/RuleParser/Actions.hpp
+@@ -45,6 +45,7 @@ namespace usbguard
+     struct str_id;
+     struct str_via_port;
+     struct str_with_interface;
++    struct str_with_connect_type;
+     struct str_if;
+
+     template<typename Rule>
+@@ -310,6 +311,48 @@ namespace usbguard
+       }
+     };
+
++    template <typename Rule>
++    struct with_connect_type_actions : tao::pegtl::nothing<Rule> {};
++
++    template <>
++    struct with_connect_type_actions<str_with_connect_type> {
++      template <typename Input>
++      static void apply(const Input& in, Rule& rule)
++      {
++        if (!rule.attributeWithConnectType().empty()) {
++          throw tao::pegtl::parse_error(
++              "with-connect-type attribute already defined", in);
++        }
++      }
++    };
++
++    template <>
++    struct with_connect_type_actions<string_value> {
++      template <typename Input>
++      static void apply(const Input& in, Rule& rule)
++      {
++        try {
++          rule.attributeWithConnectType().append(stringValueFromRule(in.string()));
++        } catch (const std::exception& ex) {
++          throw tao::pegtl::parse_error(ex.what(), in);
++        }
++      }
++    };
++
++    template <>
++    struct with_connect_type_actions<multiset_operator> {
++      template <typename Input>
++      static void apply(const Input& in, Rule& rule)
++      {
++        try {
++          rule.attributeWithConnectType().setSetOperator(
++              Rule::setOperatorFromString(in.string()));
++        } catch (const std::exception& ex) {
++          throw tao::pegtl::parse_error(ex.what(), in);
++        }
++      }
++    };
++
+     template<typename Rule>
+     struct via_port_actions : tao::pegtl::nothing<Rule> {};
+
+diff --git a/src/Library/RuleParser/Grammar.hpp b/src/Library/RuleParser/Grammar.hpp
+index 3d9f493..d0226df 100644
+--- a/src/Library/RuleParser/Grammar.hpp
++++ b/src/Library/RuleParser/Grammar.hpp
+@@ -44,6 +44,7 @@ namespace usbguard
+     struct str_parent_hash : TAOCPP_PEGTL_STRING("parent-hash") {};
+     struct str_via_port : TAOCPP_PEGTL_STRING("via-port") {};
+     struct str_with_interface : TAOCPP_PEGTL_STRING("with-interface") {};
++    struct str_with_connect_type : TAOCPP_PEGTL_STRING("with-connect-type") {};
+     struct str_serial : TAOCPP_PEGTL_STRING("serial") {};
+     struct str_if : TAOCPP_PEGTL_STRING("if") {};
+     struct str_id : TAOCPP_PEGTL_STRING("id") {};
+@@ -163,6 +164,9 @@ namespace usbguard
+     struct serial_attribute
+       : action<serial_actions, rule_attribute<str_serial, string_value>> {};
+
++    struct with_connect_type_attribute
++      : action<with_connect_type_actions, rule_attribute<str_with_connect_type, string_value>> {};
++
+     struct via_port_attribute
+       : action<via_port_actions, rule_attribute<str_via_port, string_value>> {};
+
+@@ -180,6 +184,7 @@ namespace usbguard
+         serial_attribute,
+         via_port_attribute,
+         with_interface_attribute,
++        with_connect_type_attribute,
+         condition_attribute> {};
+
+     /*
+diff --git a/src/Library/RulePrivate.cpp b/src/Library/RulePrivate.cpp
+index 0fac43a..983cc57 100644
+--- a/src/Library/RulePrivate.cpp
++++ b/src/Library/RulePrivate.cpp
+@@ -32,6 +32,7 @@ namespace usbguard
+     : //_p_instance(p_instance),
+       _device_id("id"),
+       _serial("serial"),
++      _with_connect_type("with-connect-type"),
+       _name("name"),
+       _hash("hash"),
+       _parent_hash("parent-hash"),
+@@ -49,6 +50,7 @@ namespace usbguard
+     : //_p_instance(p_instance),
+       _device_id("id"),
+       _serial("serial"),
++      _with_connect_type("with-connect-type"),
+       _name("name"),
+       _hash("hash"),
+       _parent_hash("parent-hash"),
+@@ -67,6 +69,7 @@ namespace usbguard
+     _target = rhs._target;
+     _device_id = rhs._device_id;
+     _serial = rhs._serial;
++    _with_connect_type = rhs._with_connect_type;
+     _name = rhs._name;
+     _hash = rhs._hash;
+     _parent_hash = rhs._parent_hash;
+@@ -116,6 +119,7 @@ namespace usbguard
+
+     if (!_device_id.appliesTo(rhs.internal()->_device_id) ||
+       !_serial.appliesTo(rhs.internal()->_serial) ||
++      !_with_connect_type.appliesTo(rhs.internal()->_with_connect_type) ||
+       !_name.appliesTo(rhs.internal()->_name) ||
+       !_hash.appliesTo(rhs.internal()->_hash) ||
+       !(parent_insensitive || _parent_hash.appliesTo(rhs.internal()->_parent_hash)) ||
+@@ -308,6 +312,26 @@ namespace usbguard
+     return _serial;
+   }
+
++  void RulePrivate::setWithConnectType(const std::string& value)
++  {
++    _with_connect_type.set(value);
++  }
++
++  const std::string& RulePrivate::getWithConnectType() const
++  {
++    return _with_connect_type.get();
++  }
++
++  const Rule::Attribute<std::string>& RulePrivate::attributeWithConnectType() const
++  {
++    return _with_connect_type;
++  }
++
++  Rule::Attribute<std::string>& RulePrivate::attributeWithConnectType()
++  {
++    return _with_connect_type;
++  }
++
+   void RulePrivate::setName(const std::string& value)
+   {
+     _name.set(value);
+@@ -452,6 +476,7 @@ namespace usbguard
+     toString_appendNonEmptyAttribute(rule_string, _via_port);
+     toString_appendNonEmptyAttribute(rule_string, _with_interface);
+     toString_appendNonEmptyAttribute(rule_string, _conditions);
++    toString_appendNonEmptyAttribute(rule_string, _with_connect_type);
+     return rule_string;
+   }
+
+diff --git a/src/Library/RulePrivate.hpp b/src/Library/RulePrivate.hpp
+index b0bb98d..9d3920b 100644
+--- a/src/Library/RulePrivate.hpp
++++ b/src/Library/RulePrivate.hpp
+@@ -89,6 +89,11 @@ namespace usbguard
+     const Rule::Attribute<std::string>& attributeSerial() const;
+     Rule::Attribute<std::string>& attributeSerial();
+
++    void setWithConnectType(const std::string& value);
++    const std::string& getWithConnectType() const;
++    const Rule::Attribute<std::string>& attributeWithConnectType() const;
++    Rule::Attribute<std::string>& attributeWithConnectType();
++
+     void setName(const std::string& value);
+     const std::string& getName() const;
+     const Rule::Attribute<std::string>& attributeName() const;
+@@ -137,6 +142,7 @@ namespace usbguard
+     Rule::Target _target;
+     Rule::Attribute<USBDeviceID> _device_id;
+     Rule::Attribute<std::string> _serial;
++    Rule::Attribute<std::string> _with_connect_type;
+     Rule::Attribute<std::string> _name;
+     Rule::Attribute<std::string> _hash;
+     Rule::Attribute<std::string> _parent_hash;
+diff --git a/src/Library/UEventDeviceManager.cpp b/src/Library/UEventDeviceManager.cpp
+index 5078ad6..42f9702 100644
+--- a/src/Library/UEventDeviceManager.cpp
++++ b/src/Library/UEventDeviceManager.cpp
+@@ -102,6 +102,10 @@ namespace usbguard
+        */
+       setTarget(Rule::Target::Block);
+     }
++    /*
++     * Set connect type
++     */
++    setConnectType(sysfs_device.readAttribute("port/connect_type", /*strip_last_null=*/true, /*optional=*/true));
+
+     /*
+      * Process USB descriptor data.
+diff --git a/src/Library/public/usbguard/Device.cpp b/src/Library/public/usbguard/Device.cpp
+index da89bec..92598d1 100644
+--- a/src/Library/public/usbguard/Device.cpp
++++ b/src/Library/public/usbguard/Device.cpp
+@@ -163,6 +163,16 @@ namespace usbguard
+     return d_pointer->getSerial();
+   }
+
++  void Device::setConnectType(const std::string& connect_type)
++  {
++    d_pointer->setConnectType(connect_type);
++  }
++
++  const std::string& Device::getConnectType() const
++  {
++    return d_pointer->getConnectType();
++  }
++
+   std::vector<USBInterfaceType>& Device::refMutableInterfaceTypes()
+   {
+     return d_pointer->refMutableInterfaceTypes();
+diff --git a/src/Library/public/usbguard/Device.hpp b/src/Library/public/usbguard/Device.hpp
+index 3ca34c6..3974cd9 100644
+--- a/src/Library/public/usbguard/Device.hpp
++++ b/src/Library/public/usbguard/Device.hpp
+@@ -76,6 +76,9 @@ namespace usbguard
+     void setSerial(const std::string& serial_number);
+     const std::string& getSerial() const;
+
++    void setConnectType(const std::string& connect_type);
++    const std::string& getConnectType() const;
++
+     std::vector<USBInterfaceType>& refMutableInterfaceTypes();
+     const std::vector<USBInterfaceType>& getInterfaceTypes() const;
+
+diff --git a/src/Library/public/usbguard/Rule.cpp b/src/Library/public/usbguard/Rule.cpp
+index 89e696e..6f21d8e 100644
+--- a/src/Library/public/usbguard/Rule.cpp
++++ b/src/Library/public/usbguard/Rule.cpp
+@@ -115,6 +115,26 @@ namespace usbguard
+     return d_pointer->attributeSerial();
+   }
+
++  void Rule::setWithConnectType(const std::string& value)
++  {
++    d_pointer->setWithConnectType(value);
++  }
++
++  const std::string& Rule::getWithConnectType() const
++  {
++    return d_pointer->getWithConnectType();
++  }
++
++  const Rule::Attribute<std::string>& Rule::attributeWithConnectType() const
++  {
++    return d_pointer->attributeWithConnectType();
++  }
++
++  Rule::Attribute<std::string>& Rule::attributeWithConnectType()
++  {
++    return d_pointer->attributeWithConnectType();
++  }
++
+   void Rule::setName(const std::string& value)
+   {
+     d_pointer->setName(value);
+diff --git a/src/Library/public/usbguard/Rule.hpp b/src/Library/public/usbguard/Rule.hpp
+index f7f9bc3..4f986a7 100644
+--- a/src/Library/public/usbguard/Rule.hpp
++++ b/src/Library/public/usbguard/Rule.hpp
+@@ -447,6 +447,11 @@ namespace usbguard
+     const Attribute<std::string>& attributeSerial() const;
+     Attribute<std::string>& attributeSerial();
+
++    void setWithConnectType(const std::string& value);
++    const std::string& getWithConnectType() const;
++    const Attribute<std::string>& attributeWithConnectType() const;
++    Attribute<std::string>& attributeWithConnectType();
++
+     void setName(const std::string& value);
+     const std::string& getName() const;
+     const Attribute<std::string>& attributeName() const;
+diff --git a/src/Tests/Rules/test-rules.bad b/src/Tests/Rules/test-rules.bad
+index c82d5c9..2f1b354 100644
+--- a/src/Tests/Rules/test-rules.bad
++++ b/src/Tests/Rules/test-rules.bad
+@@ -71,3 +71,5 @@ allow with-interface 12:34:56 with-interface 12:34:56
+ allow with-interface one-of { 12:12:23 } with-interface 12:11:11
+ allow if allowed-matches(fooo)
+ allow if !allowed-matches(aaaa)
++allow with-connect-type "hardwired" with-connect-type "hotplug"
++allow with-connect-type one-of { "hardwired" } with-connect-type "hardwired"
+diff --git a/src/Tests/Rules/test-rules.good b/src/Tests/Rules/test-rules.good
+index 53c0f12..595fe49 100644
+--- a/src/Tests/Rules/test-rules.good
++++ b/src/Tests/Rules/test-rules.good
+@@ -261,6 +261,16 @@ allow with-interface one-of { 46:C4:FB } id { 917b:* B92b:* 7a2D:B4c5 } name { "
+ allow with-interface one-of { A1:*:* DF:3E:e9 AA:*:* D3:d0:B2 7D:*:* Af:*:* } serial one-of { "6n%M`N$E" "9/,dG;Ur" "bI-NjCOw" "7XxBE}pR" "s=x~XEj5" "i}0R#%;V" } parent-hash equals-ordered { ">QOe0;Y]" "o`=]c:|$" "MSMcbHJA" "^`.4!7w7" } id eEb2:* hash "5-0v1wDe" via-port "Pao*1:w/"
+ allow with-interface one-of { Aa:A5:fF a2:b0:4c Bc:cD:Ab Ea:B2:B8 Bf:*:* d5:B8:dB } hash equals { "'=GN}0o=" "E]cGge^s" } name "!qCiGB,J" parent-hash "yneIkx'u"
+ allow with-interface one-of { c3:5A:cD A8:af:* } id a1fe:* via-port "Qh5Fl.$9" parent-hash "GYqxZ?a["
++allow with-connect-type "hotplug"  if rule-evaluated
++allow with-connect-type { "hardwired" "unknown" } id 38D7:C5a3 name "otYR$=X2" with-interface { Fb:bc:b8 Be:*:* DD:*:* Ac:*:* 11:49:* 00:*:* 9d:*:* }
++allow with-connect-type "hardwired"
++allow with-connect-type "hotplug" id AfA2:9aAA parent-hash "Jc{r^WNm"  if rule-applied
++allow with-connect-type { "hardwired" "hotplug" "unknown" } via-port equals-ordered { "]/EQL?a2" "Imk7@r=E" ":,a-OO{l" "JW/|jwu3" "WDNq;;7?" "WJ;x@6@6" } parent-hash "i&mhTu/!"  if !localtime(2:00)
++allow with-connect-type "hardwired" with-interface { 0C:08:97 Aa:e0:* } via-port { "MU;,4G[h" "]v$$XKFh" ";,MZT'Dh" "g00{lD%j" "wRUZ*``0" "8#!J{gQ@" "`Z?3p92&" } hash "KYHTnNgP" id one-of { C60C:* d2EE:aDe8 ead7:214B 75Bc:59a6 3129:* AE7E:d25d ee2e:* A21D:* } name "n0CKUNor"
++allow with-connect-type { "hardwired" } with-interface { 14:E1:ee a9:ef:1e } name "$T[<!1Op" via-port "h?/.,fRv" hash one-of { "dx1ciKB/" "^v%3PS_<" "jOTYF-_x" "8JQe^A{]" "0J=;i6Cy" "aRr7J7Eh" }  if !true
++allow with-connect-type one-of { "hotplug" "hardwired" } parent-hash "~5dLGqYl" serial "ti'eurG]"  if false
++allow with-connect-type equals { "unknown" "hotplug" } parent-hash { "W`G.6Y:v" "l',6M , " ".!/r5}Dz" "9HOHPNuk" "k}{N*X%m" "gsr?KNZ8" "OypL42xt" } serial { "dTNG+F-L" "cqomCC/r" "oI7P_=D2" "z~:y^Sgb" } id { 0397:4c5d 0f9d:* } name "{?N|IzD," hash { "$$e]1W6`" }
++allow with-connect-type none-of { "unknown" "hotplug" "not used" } via-port ".sZAu,K#" parent-hash "lR-:Z~S*"
+ block
+ block hash "7k9=0w;>" via-port equals { "uAn$>}g'" " Idtdm=Z" "L5+~$p9G" ".<2^/*_#" } name all-of { "CH'-JLED" "A!a^flj}" "VZB4bM29" "zQibW[lk" "~.O];jOw" } id b96e:* with-interface none-of { b8:*:* 1a:fA:* 7e:B6:97 57:*:* 8D:d8:* } serial "&02OlmQ." parent-hash "Y{cAzv[U"
+ block hash "8$^jgkWg"
+@@ -505,6 +515,16 @@ block with-interface equals-ordered { 78:e6:0c 6C:3C:1D 3d:*:* 6A:25:* F9:04:Ad
+ block with-interface fA:3e:* hash "AmTqP5 p" serial "[|toucRl" id 1C5e:363f name "05Q9Xl3c" parent-hash none-of { "ATrZW!5r" "V<cH&/i-" "hZ{B 4}|" }
+ block with-interface one-of { c7:fD:A6 } name "UBgB@;fY" serial "Or[l$ijN" id { FDA3:* aC06:4a7A 54D5:* } parent-hash "_lcXaSi}" hash one-of { "5/5bBZMt" }  if !localtime(2:00)
+ block with-interface one-of { d2:A7:4A Bb:*:* eA:CC:* 41:7D:* d1:38:* } name "*5-sgN>^" via-port "t72rZLXt"
++block with-connect-type "hotplug"  if rule-evaluated
++block with-connect-type { "hardwired" "unknown" } id 38D7:C5a3 name "otYR$=X2" with-interface { Fb:bc:b8 Be:*:* DD:*:* Ac:*:* 11:49:* 00:*:* 9d:*:* }
++block with-connect-type "hardwired"
++block with-connect-type "hotplug" id AfA2:9aAA parent-hash "Jc{r^WNm"  if rule-applied
++block with-connect-type { "hardwired" "hotplug" "unknown" } via-port equals-ordered { "]/EQL?a2" "Imk7@r=E" ":,a-OO{l" "JW/|jwu3" "WDNq;;7?" "WJ;x@6@6" } parent-hash "i&mhTu/!"  if !localtime(2:00)
++block with-connect-type "hardwired" with-interface { 0C:08:97 Aa:e0:* } via-port { "MU;,4G[h" "]v$$XKFh" ";,MZT'Dh" "g00{lD%j" "wRUZ*``0" "8#!J{gQ@" "`Z?3p92&" } hash "KYHTnNgP" id one-of { C60C:* d2EE:aDe8 ead7:214B 75Bc:59a6 3129:* AE7E:d25d ee2e:* A21D:* } name "n0CKUNor"
++block with-connect-type { "hardwired" } with-interface { 14:E1:ee a9:ef:1e } name "$T[<!1Op" via-port "h?/.,fRv" hash one-of { "dx1ciKB/" "^v%3PS_<" "jOTYF-_x" "8JQe^A{]" "0J=;i6Cy" "aRr7J7Eh" }  if !true
++block with-connect-type one-of { "hotplug" "hardwired" } parent-hash "~5dLGqYl" serial "ti'eurG]"  if false
++block with-connect-type equals { "unknown" "hotplug" } parent-hash { "W`G.6Y:v" "l',6M , " ".!/r5}Dz" "9HOHPNuk" "k}{N*X%m" "gsr?KNZ8" "OypL42xt" } serial { "dTNG+F-L" "cqomCC/r" "oI7P_=D2" "z~:y^Sgb" } id { 0397:4c5d 0f9d:* } name "{?N|IzD," hash { "$$e]1W6`" }
++block with-connect-type none-of { "unknown" "hotplug" "not used" } via-port ".sZAu,K#" parent-hash "lR-:Z~S*"
+ reject
+ reject
+ reject hash "[0D4_&K2" parent-hash { "P0L~#5M6" }
+@@ -733,6 +753,16 @@ reject with-interface equals { 6F:dD:1b 83:dB:96 b4:*:* } parent-hash equals { "
+ reject with-interface equals { E6:4c:* 4F:8F:24 A8:c1:C8 5e:eB:Fb ED:*:* A1:3d:* fA:*:* } hash "rJjT-`yo" id 26a5:0e6F
+ reject with-interface none-of { C8:3C:* 4b:*:* 5c:2e:4c 7f:*:* BA:F7:* d3:4D:cb } parent-hash none-of { ":m_H'h`:" } id all-of { ADc6:* 332d:* } via-port equals-ordered { "vHE?ZN;x" "Ga:kiC`N" "PlOjBwj0" } name "GQu<K$g:"  if !true
+ reject with-interface one-of { e5:*:* 2A:*:* AC:c7:* 4B:*:* f2:*:* }  if equals-ordered { true false !true false }
++reject with-connect-type "hotplug"  if rule-evaluated
++reject with-connect-type { "hardwired" "unknown" } id 38D7:C5a3 name "otYR$=X2" with-interface { Fb:bc:b8 Be:*:* DD:*:* Ac:*:* 11:49:* 00:*:* 9d:*:* }
++reject with-connect-type "hardwired"
++reject with-connect-type "hotplug" id AfA2:9aAA parent-hash "Jc{r^WNm"  if rule-applied
++reject with-connect-type { "hardwired" "hotplug" "unknown" } via-port equals-ordered { "]/EQL?a2" "Imk7@r=E" ":,a-OO{l" "JW/|jwu3" "WDNq;;7?" "WJ;x@6@6" } parent-hash "i&mhTu/!"  if !localtime(2:00)
++reject with-connect-type "hardwired" with-interface { 0C:08:97 Aa:e0:* } via-port { "MU;,4G[h" "]v$$XKFh" ";,MZT'Dh" "g00{lD%j" "wRUZ*``0" "8#!J{gQ@" "`Z?3p92&" } hash "KYHTnNgP" id one-of { C60C:* d2EE:aDe8 ead7:214B 75Bc:59a6 3129:* AE7E:d25d ee2e:* A21D:* } name "n0CKUNor"
++reject with-connect-type { "hardwired" } with-interface { 14:E1:ee a9:ef:1e } name "$T[<!1Op" via-port "h?/.,fRv" hash one-of { "dx1ciKB/" "^v%3PS_<" "jOTYF-_x" "8JQe^A{]" "0J=;i6Cy" "aRr7J7Eh" }  if !true
++reject with-connect-type one-of { "hotplug" "hardwired" } parent-hash "~5dLGqYl" serial "ti'eurG]"  if false
++reject with-connect-type equals { "unknown" "hotplug" } parent-hash { "W`G.6Y:v" "l',6M , " ".!/r5}Dz" "9HOHPNuk" "k}{N*X%m" "gsr?KNZ8" "OypL42xt" } serial { "dTNG+F-L" "cqomCC/r" "oI7P_=D2" "z~:y^Sgb" } id { 0397:4c5d 0f9d:* } name "{?N|IzD," hash { "$$e]1W6`" }
++reject with-connect-type none-of { "unknown" "hotplug" "not used" } via-port ".sZAu,K#" parent-hash "lR-:Z~S*"
+ #
+ # this is a comment
+ reject with-interface one-of { e6:*:* } # comment about this rule
+diff --git a/src/Tests/Unit/test_RuleParser.cpp b/src/Tests/Unit/test_RuleParser.cpp
+index 9ee7f86..44265c5 100644
+--- a/src/Tests/Unit/test_RuleParser.cpp
++++ b/src/Tests/Unit/test_RuleParser.cpp
+@@ -94,6 +94,22 @@ TEST_CASE("Non-printable characters in a rule string", "[RuleParser]")
+     REQUIRE(rule_from.appliesTo(rule));
+     REQUIRE(rule_from.getTarget() == Rule::Target::Allow);
+   }
++  SECTION("to/from string: allow with-connect-type \"<non printable>\"") {
++    rule.setTarget(Rule::Target::Allow);
++    rule.setWithConnectType(non_printable_string);
++    REQUIRE_NOTHROW(rule_string = rule.toString());
++    REQUIRE(
++        rule_string ==
++        "allow with-connect-type \"\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\xaa\\xbb\\xff\"");
++    REQUIRE_NOTHROW(rule_from = Rule::fromString(rule_string));
++    REQUIRE_NOTHROW(rule_string = rule_from.toString());
++    REQUIRE(
++        rule_string ==
++        "allow with-connect-type \"\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\xaa\\xbb\\xff\"");
++    REQUIRE(rule.appliesTo(rule_from));
++    REQUIRE(rule_from.appliesTo(rule));
++    REQUIRE(rule_from.getTarget() == Rule::Target::Allow);
++  }
+ }
+
+ TEST_CASE("Double quote and backslash characters in a rule string", "[RuleParser]")
+@@ -164,6 +180,18 @@ TEST_CASE("Double quote and backslash characters in a rule string", "[RuleParser
+     REQUIRE(rule_from.appliesTo(rule));
+     REQUIRE(rule_from.getTarget() == Rule::Target::Allow);
+   }
++  SECTION("to/from string: allow with-connect-type \"<double quote and backslash>\"") {
++    rule.setTarget(Rule::Target::Allow);
++    rule.setWithConnectType(dqb_string);
++    REQUIRE_NOTHROW(rule_string = rule.toString());
++    REQUIRE(rule_string == "allow with-connect-type \"" + dqb_string_escaped + "\"");
++    REQUIRE_NOTHROW(rule_from = Rule::fromString(rule_string));
++    REQUIRE_NOTHROW(rule_string = rule_from.toString());
++    REQUIRE(rule_string == "allow with-connect-type \"" + dqb_string_escaped + "\"");
++    REQUIRE(rule.appliesTo(rule_from));
++    REQUIRE(rule_from.appliesTo(rule));
++    REQUIRE(rule_from.getTarget() == Rule::Target::Allow);
++  }
+ }
+
+ /* vim: set ts=2 sw=2 et */
