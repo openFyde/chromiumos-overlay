@@ -7,7 +7,7 @@ inherit autotools eutils user
 
 DESCRIPTION="The USBGuard software framework helps to protect your computer against rogue USB devices (a.k.a. BadUSB) by implementing basic whitelisting and blacklisting capabilities based on device attributes."
 HOMEPAGE="https://usbguard.github.io/"
-GIT_REV="d5faec385c6aee0e99268305e9a0ac4c4fe5332b"
+GIT_REV="be989e938f8538aa1abeda1aef7fb48b6e92eec9"
 CATCH_REV="35f510545d55a831372d3113747bf1314ff4f2ef"
 PEGTL_REV="4a41a7aec66deb99764246c5ce7d59f45489c175"
 SRC_URI="https://github.com/USBGuard/usbguard/archive/${GIT_REV}.tar.gz -> ${P}.tar.gz
@@ -35,8 +35,6 @@ S="${WORKDIR}/usbguard-${GIT_REV}/"
 
 PATCHES=(
 	"${FILESDIR}/daemon_conf.patch"
-	"${FILESDIR}/devpath.patch"
-	"${FILESDIR}/connect_type.patch"
 )
 
 if [[ ${ARCH} = "amd64" ]]; then
