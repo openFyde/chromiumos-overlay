@@ -30,26 +30,26 @@ SLOT="0"
 IUSE=""
 
 DEPEND=">=media-libs/gmmlib-${PV}
-	>=x11-libs/libva-2.3.0
+	>=x11-libs/libva-2.4.0
 	>=x11-libs/libpciaccess-0.10
 "
 RDEPEND="${DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}"/0001-Adjust-compile-flags-for-clang.patch
+	"${FILESDIR}"/0002-Decode-Align-the-height-for-external-surfaces.patch
 	"${FILESDIR}"/0003-Allow-I420-for-surface-creation.patch
-	"${FILESDIR}"/0004-Add-an-option-in-CMakeLists-to-include-exclude-cmrtl.patch
-	"${FILESDIR}"/0005-Add-X11-detect-support.patch
-	"${FILESDIR}"/0006-Fix-X11-detect-support.patch
-	"${FILESDIR}"/0007-Add-I420-to-supported-Image-formats.patch
-	"${FILESDIR}"/0008-VP-Add-VAProfileVP9Profile2-support-for-VA_RT_FORMAT.patch
-	"${FILESDIR}"/0009-Decode-Align-the-height-for-external-surfaces.patch
-	"${FILESDIR}"/0010-Decode-Fix-partition-lengths-for-MFD_VP8_BSD_OBJECT.patch
+	"${FILESDIR}"/0004-Don-t-look-for-X-package.patch
+	"${FILESDIR}"/0005-Add-I420-to-supported-Image-formats.patch
+	"${FILESDIR}"/0006-VP-Add-VAProfileVP9Profile2-support-for-VA_RT_FORMAT.patch
+	"${FILESDIR}"/0007-register-reconstruct-surfaces.patch
+	"${FILESDIR}"/0008-Decode-Fix-partition-lengths-for-MFD_VP8_BSD_OBJECT.patch
+	"${FILESDIR}"/0009-Add-X11_FOUND-flag.patch
 )
 
 src_configure() {
 	local mycmakeargs=(
-		-DMEDIA_VERSION="18.3.0"
+		-DMEDIA_VERSION="18.4.1"
 		-DMEDIA_RUN_TEST_SUITE=OFF
 		-DINSTALL_DRIVER_SYSCONF=OFF
 		-DBUILD_CMRTLIB=OFF
