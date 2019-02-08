@@ -41,6 +41,7 @@ IUSE="
 	touchview
 	transparent_hugepage
 	usbguard
+	usbip
 	veyron_mickey
 	veyron_rialto
 "
