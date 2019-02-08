@@ -15,10 +15,11 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
 # Enable autotest by default.
-IUSE="+autotest"
+IUSE="+autotest tpm2"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
+	tpm2? ( chromeos-base/g2f_tools )
 "
 DEPEND="${RDEPEND}"
 
