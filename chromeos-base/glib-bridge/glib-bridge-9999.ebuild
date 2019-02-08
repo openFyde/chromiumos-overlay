@@ -27,7 +27,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
-	dolib.a "${OUT}"/libglib-bridge.a
+	dolib.a "${OUT}"/libglib_bridge.a
 }
 
 
