@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="ac65f07c0f5bfa07956a90357c0be73b5b2eada0"
-CROS_WORKON_TREE=("aa92b41330c5ee79fcd1757aa67b3bda7eec4ea2" "2eb3d6cc1ac0c1bee47a3732c0f79a8785f4e337" "827abdc5b571ad71a4899a8febc50161ff936083" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="df53828b85991da99c8cc2230dbfcf599cc1c095"
+CROS_WORKON_TREE=("aa92b41330c5ee79fcd1757aa67b3bda7eec4ea2" "bbaa19a68e375917bf441d36cb02cd8dcdbd804b" "827abdc5b571ad71a4899a8febc50161ff936083" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -45,18 +45,6 @@ DEPEND="
 src_install() {
 	# Main binary.
 	dobin "${OUT}"/arc-networkd
-
-	# Utility library.
-	dolib.so "${OUT}"/lib/libarcnetwork-util.so
-
-	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
-	insinto "/usr/$(get_libdir)/pkgconfig"
-	doins "${OUT}"/libarcnetwork-util.pc
-
-	insinto /usr/include/arc/network/
-	doins mac_address_generator.h
-	doins subnet.h
-	doins subnet_pool.h
 
 	insinto /etc/init
 	doins "${S}"/init/arc-network.conf

@@ -2,14 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="b0207e77fb41efae0cfd4e264dc46d6827860749"
-CROS_WORKON_TREE=("2eb3d6cc1ac0c1bee47a3732c0f79a8785f4e337" "aa92b41330c5ee79fcd1757aa67b3bda7eec4ea2" "7666e9d0df03aebfced4b09b59ba7f2025ecf77a" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="df53828b85991da99c8cc2230dbfcf599cc1c095"
+CROS_WORKON_TREE=("aa92b41330c5ee79fcd1757aa67b3bda7eec4ea2" "f4a6eb9676ef251a368e57610305dd06a6b81398" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-# TODO(crbug.com/809389): Remove arc/network from this list.
-CROS_WORKON_SUBTREE="arc/network common-mk vm_tools .gn"
+CROS_WORKON_SUBTREE="common-mk vm_tools .gn"
 
 PLATFORM_SUBDIR="vm_tools"
 
@@ -38,7 +37,6 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	chromeos-base/arc-networkd
 	chromeos-base/shill-client
 	>=chromeos-base/system_api-0.0.1-r3360
 "
