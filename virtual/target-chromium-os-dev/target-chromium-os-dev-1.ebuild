@@ -11,7 +11,7 @@ SLOT="0"
 KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
 IUSE="cras nvme pam opengl +power_management +profile
-	+shill tpm usb vaapi video_cards_intel"
+	+shill tpm tpm2 usb vaapi video_cards_intel"
 
 # The dependencies here are meant to capture "all the packages
 # developers want to use for development, test, or debug".  This
@@ -82,6 +82,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/chromeos-dev-root
 	chromeos-base/cros-config-test
 	chromeos-base/cryptohome-dev-utils
+	tpm2? ( chromeos-base/g2f_tools )
 	chromeos-base/gmerge
 	chromeos-base/policy_utils
 	chromeos-base/protofiles
