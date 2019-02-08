@@ -53,12 +53,14 @@ AT_SYS_M4DIR="\${SYSROOT}/usr/share/aclocal"
 # Remove logrotate.d files since we don't use logrotate.
 # Remove sandbox files since we don't use that in the sysroot.
 # Remove bash-completion files as we don't install bash-completion.
+# Remove locale files as we don't use them.
 INSTALL_MASK="
   /usr/lib*/*.la
   /etc/init.d /etc/conf.d
   /etc/logrotate.d
   /etc/sandbox.d
   /usr/share/bash-completion
+  /usr/share/locale
 "
 PKG_INSTALL_MASK="${INSTALL_MASK}"
 
