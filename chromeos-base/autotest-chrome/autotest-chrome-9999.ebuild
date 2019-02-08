@@ -182,6 +182,7 @@ IUSE_TESTS=(
 	+tests_policy_ProxySettings
 	+tests_policy_RestoreOnStartupURLs
 	+tests_policy_SafeBrowsingEnabled
+	+tests_policy_SavingBrowserHistoryDisabled
 	+tests_policy_ScreenBrightnessPercent
 	+tests_policy_URLBlacklist
 	+tests_policy_URLWhitelist
