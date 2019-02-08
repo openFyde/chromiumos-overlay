@@ -49,6 +49,8 @@ REQUIRED_USE="|| ( drm wayland X )"
 DOCS=( CONTRIBUTING.md README.md )
 
 src_prepare() {
+	epatch "${FILESDIR}"/0001-Add-a-flag-to-build-vendor.patch
+
 	sed -e 's/-Werror//' -i test/Makefile.am || die
 	autotools-utils_src_prepare
 }
@@ -59,6 +61,7 @@ src_configure() {
 		$(use_enable wayland)
 		$(use_enable drm)
 		$(use_enable test tests)
+		$(use_enable test vendor_intel)
 	)
 	autotools-utils_src_configure
 }
