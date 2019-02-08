@@ -1,0 +1,644 @@
+From 6149ed9e9dd53ae7920f269eaa2d8fceaf72f0b5 Mon Sep 17 00:00:00 2001
+From: Chris Morin <cmtm@google.com>
+Date: Mon, 14 Jan 2019 20:12:00 -0800
+Subject: [PATCH] journalctl: add ability to filter known log messages
+
+Known log messages can be filtered out by passing journalctl the
+'--filter-known/-i' flag. journalctl will look for the database of known log
+message at the specified path (defaults to /var/log/known-messages.bin when
+none is provided). This is intended to make it easier for developers to find
+interesting log messages.
+---
+ shell-completion/bash/journalctl |   3 +-
+ src/journal/filter-known.c       | 318 +++++++++++++++++++++++++++++++
+ src/journal/filter-known.h       |  58 ++++++
+ src/journal/journalctl.c         |  47 ++++-
+ src/journal/meson.build          |   2 +
+ src/test/meson.build             |   6 +
+ src/test/test-filter-known.c     |  66 +++++++
+ 7 files changed, 498 insertions(+), 2 deletions(-)
+ create mode 100644 src/journal/filter-known.c
+ create mode 100644 src/journal/filter-known.h
+ create mode 100644 src/test/test-filter-known.c
+
+diff --git a/shell-completion/bash/journalctl b/shell-completion/bash/journalctl
+index 48781ee7c..eca0829f8 100644
+--- a/shell-completion/bash/journalctl
++++ b/shell-completion/bash/journalctl
+@@ -49,6 +49,7 @@ _journalctl() {
+                               --root'
+                 [ARGUNKNOWN]='-c --cursor --interval -n --lines -S --since -U --until
+                               --after-cursor --verify-key
++                              -i --filter-known
+                               --vacuum-size --vacuum-time --vacuum-files --output-fields'
+         )
+ 
+@@ -61,7 +62,7 @@ _journalctl() {
+                                 comps=$(compgen -d -- "$cur")
+                                 compopt -o filenames
+                         ;;
+-                        --file)
++                        --file|--filter-known)
+                                 comps=$(compgen -f -- "$cur")
+                                 compopt -o filenames
+                         ;;
+diff --git a/src/journal/filter-known.c b/src/journal/filter-known.c
+new file mode 100644
+index 000000000..f549ce3f3
+--- /dev/null
++++ b/src/journal/filter-known.c
+@@ -0,0 +1,318 @@
++#include <ctype.h>
++#include <errno.h>
++#include <string.h>
++#include <sys/mman.h>
++
++#include "alloc-util.h"
++#include "fd-util.h"
++#include "fileio.h"
++#include "filter-known.h"
++#include "hashmap.h"
++#include "set.h"
++#include "siphash24.h"
++#include "string-util.h"
++#include "strv.h"
++#include "utf8.h"
++
++/*
++ * The known_messages table is implemented as a hashtable mapping
++ * string-vectors (strv) to sets of string vectors. The map key is known as the
++ * 'basal form', while the value is the set of templates associated with that
++ * basal form. Grouping templates by basal form allows us to make the
++ * |is_message_known| function fast. A message and a template that match both
++ * map to the same basal form. By grouping templates by their basal form,
++ * determining whether a message is known can be done quickly by determining
++ * it's basal form and only comparing it to templates with that basal form.
++ *
++ * For example, given the template:
++ * ["myprog", "error 1 from pid ", ", aborting"]
++ * We'd store the template in the set with basal form:
++ * ["myprog", "error ", " from pid ", ", aborting"]
++ *
++ * We call |is_message_known| on the log message with syslog_id "myprog":
++ * "error 1 from pid 321, aborting"
++ *
++ * Computing the log message's basal form yeilds:
++ * ["myprog", "error ", " from pid ", ", aborting"]
++ * This is the same as the template's basal form (notice we prepended the
++ * syslog identifier).
++ *
++ * Since most sets will be very small (in fact, almost all sets will be of size
++ * 1 due to how we generate them), a |is_message_known| can be evaluated in
++ * constant time.
++ */
++
++static void strv_hash_func(const void *p, struct siphash *state) {
++        char **s = NULL;
++        STRV_FOREACH(s, (char**) p) {
++                siphash24_compress(*s, strlen(*s) + 1, state);
++        }
++}
++
++/* The compare function is only used to check for equality, not for sorting. */
++static int strv_compare_func(const void *a, const void *b) {
++        return !strv_equal((char**) a, (char**) b);
++}
++
++static const struct hash_ops strv_hash_ops = {
++        .hash = strv_hash_func,
++        .compare = strv_compare_func
++};
++
++bool message_matches_template(const char *syslog_identifier, const char *message, char **template) {
++        assert(syslog_identifier);
++        assert(message);
++        assert(template);
++
++        /* The first substring is always the syslog identifier */
++        if (!streq(*template, syslog_identifier))
++                return false;
++
++        /* Ensure there's a string after the syslog_identifier */
++        if (!*(++template))
++                return false;
++
++        /* Check every string except the last */
++        for(; *(template + 1); template++) {
++                message = startswith(message, *template);
++                if (!message)
++                        return false;
++                size_t numberword_length = strspn(message, ALPHANUMERICAL);
++                if (numberword_length == 0)
++                        return false;
++                message += numberword_length;
++        }
++        /* Check the last string */
++        message = startswith(message, *template);
++        return message && *message == '\0';
++}
++
++/* Split a string on numberwords. Numberwords are defined as a substring
++ * containing only alphanumeric characters.
++ * For example, it would apply the following transformation:
++ * "foo 45 foo bar4 6" → ["foo ", " foo ", " ", ""]
++ */
++char **basal_form(const char *s) {
++        _cleanup_strv_free_ char **basal = NULL;
++        const char *word_start = NULL;
++        char *substring;
++        const char *i = s;
++        bool is_numberword = false;
++
++        assert(s);
++
++        do {
++                if (isalnum(*i)) {
++                        if (!word_start)
++                                word_start = i;
++                        if (isdigit(*i))
++                                is_numberword = true;
++                } else {
++                        if (word_start && is_numberword) {
++                                /* We've reached the end of a number word. We
++                                 * need to exclude the numberwords from the
++                                 * result, so |substring| is set to contain
++                                 * what's before the numberword */
++                                substring = newdup_suffix0(char, s, word_start - s);
++                                if (!substring)
++                                        return NULL;
++                                if (strv_consume(&basal, substring) < 0)
++                                        return NULL;
++                                s = i;
++                        }
++                        word_start = NULL;
++                        is_numberword = false;
++                }
++        } while (*(i++) != '\0');
++
++        /* Add the last substring. There will always be a last substring to add.
++         * If |s| ends in a number word, the empty string is added. */
++        substring = newdup(char, s, i - s);
++        if (!substring)
++                return NULL;
++        if (strv_consume(&basal, substring) < 0)
++                return NULL;
++
++        return TAKE_PTR(basal);
++}
++
++char **template_basal_form(char **template) {
++        _cleanup_strv_free_ char **basal = NULL;
++
++        /* The syslog identifier might have numberwords in it, but we don't want to
++         * split on them */
++        basal = strv_new(*(template++), NULL);
++        if (!basal)
++                return NULL;
++
++        for (; *template; template++) {
++                _cleanup_strv_free_ char **basal_substring;
++                basal_substring = basal_form(*template);
++                if (!basal_substring)
++                        return NULL;
++                int r = strv_extend_strv(&basal, basal_substring, false);
++                if (r < 0)
++                        return NULL;
++        }
++        return TAKE_PTR(basal);
++}
++
++/* Returns:
++ *
++ * 1       → message was found in known_messages
++ * 0       → message wasn't found in known_messages
++ * -ENOMEM → failed to allocate enough memory
++ * -EINVAL → was passed null pointer
++ */
++int is_message_known(Hashmap *known_messages, const char *syslog_identifier, const char *message) {
++        if (!known_messages || !syslog_identifier || !message)
++            return -EINVAL;
++
++        _cleanup_strv_free_ char **basal = basal_form(message);
++        if (!basal)
++                return -ENOMEM;
++
++        int r = strv_extend_front(&basal, syslog_identifier);
++        if (r < 0)
++                return r;
++
++        Set *templates_group = hashmap_get(known_messages, basal);
++        if (!templates_group)
++                return 0;
++
++
++        Iterator i;
++        char **template;
++        SET_FOREACH(template, templates_group, i) {
++                if (message_matches_template(syslog_identifier, message, template))
++                        return 1;
++        }
++
++        return 0;
++}
++
++/* Returns 1 on successful insertion, 0 on if the template already existed in
++ * the map and so wasn't inserted, < 0 on error.
++ */
++static int known_messages_consume_template(Hashmap *known_messages, char **template) {
++        _cleanup_strv_free_ char **template_basal;
++        _cleanup_strv_free_ char **scoped_template = template;
++
++        template_basal = template_basal_form(template);
++        if (!template_basal)
++                return -ENOMEM;
++        Set *templates_group = hashmap_get(known_messages, template_basal);
++        if (!templates_group) {
++                _cleanup_set_free_free_ Set *new_templates_group;
++                int r;
++                new_templates_group = set_new(&strv_hash_ops);
++                if (!new_templates_group)
++                        return -ENOMEM;
++                r = set_consume(new_templates_group, TAKE_PTR(scoped_template));
++                if (r < 0)
++                        return r;
++                r = hashmap_put(known_messages, template_basal, new_templates_group);
++                if (r < 0)
++                        return r;
++                template_basal = NULL;
++                new_templates_group = NULL;
++                return 1;
++        } else {
++                return set_consume(templates_group, TAKE_PTR(scoped_template));
++        }
++}
++
++#define UNIT_SEPARATOR '\x1F'
++/* Returns 1 on success, 0 on misformatted input file, < 0 on error. */
++int known_messages_get_from_file(const char *path, Hashmap **ret) {
++        _cleanup_fclose_ FILE *f = NULL;
++        _cleanup_known_messages_free_ Hashmap *known_messages = NULL;
++        _cleanup_strv_free_ char **template = NULL;
++        int r, peek;
++
++        f = fopen(path, "re");
++
++        if (!f)
++                return -errno;
++
++        known_messages = hashmap_new(&strv_hash_ops);
++        if (!known_messages)
++                return -ENOMEM;
++
++        while ((peek = fgetc(f)) != EOF) {
++                if (peek == UNIT_SEPARATOR) {
++                        if (!template) {
++                                log_error("known-messages file (%s) has a unit separator before any strings", path);
++                                return 0;
++                        }
++                        r = known_messages_consume_template(known_messages, TAKE_PTR(template));
++                        if (r < 0)
++                                return r;
++                } else {
++                        char *substring;
++                        ungetc(peek, f);
++                        r = read_nul_string(f, &substring);
++                        if (r < 0)
++                                return r;
++                        r = strv_consume(&template, substring);
++                        if (r < 0)
++                                return r;
++                }
++        }
++        if (template) {
++                log_error("known-messages file (%s) isn't terminated by '\\0\\x1F'", path);
++                return 0;
++        }
++        *ret = TAKE_PTR(known_messages);
++        return 1;
++}
++
++void known_messages_free(Hashmap *known_messages) {
++        char **basal;
++        Set *templates_for_basal;
++
++        Iterator i;
++        HASHMAP_FOREACH_KEY(templates_for_basal, basal, known_messages, i) {
++                strv_free(basal);
++                set_free_with_destructor(templates_for_basal, strv_free);
++        }
++        hashmap_free(known_messages);
++}
++
++char *get_value_for_field(sd_journal *j, const char *field) {
++        int r;
++        const char *data;
++        size_t length;
++
++        r = sd_journal_get_data(j, field, (const void**) &data, &length);
++
++        if (r < 0) {
++                if (r != -ENOENT) {
++                        log_error_errno(r, "Failed to get value for %s field: %m", field);
++                }
++                return NULL;
++        }
++
++        if (!utf8_is_printable(data, length)) {
++                /* Don't try to match against unprintable strings. They'll be marked as
++                 * [blob data] by most journal output modes. */
++                return NULL;
++        }
++
++        _cleanup_free_ char *prefix = NULL;
++        prefix = strappend(field, "=");
++        if (!prefix) {
++                log_oom();
++                return NULL;
++        }
++
++        data += strlen(prefix);
++        length -= strlen(prefix);
++
++        /* It being utf8 printable implies there are no null characters.
++         * We can therefore convert it to a null terminated string. */
++        char *value = newdup_suffix0(char, data, length);
++        if (!value)
++                log_oom();
++        return value;
++}
+diff --git a/src/journal/filter-known.h b/src/journal/filter-known.h
+new file mode 100644
+index 000000000..9e0e78548
+--- /dev/null
++++ b/src/journal/filter-known.h
+@@ -0,0 +1,58 @@
++#pragma once
++
++#include <stdbool.h>
++
++#include "hashmap.h"
++#include "sd-journal.h"
++
++/*
++ * Provide functionality to determine whether a message is known to occur
++ * during normal operation. This is intended to aid in root causing aberrant
++ * behavior.By filtering out all known log messages, any messages that are
++ * produced during the aberrant behavior will be easier to find.
++ *
++ * This is to be used by first calling |known_messages_get_from_file| in order
++ * to construct the table of known log entries, then calling |is_message_known|
++ * to query whether a given log message is known. |get_value_for_field| can be
++ * used to aid in retrieving the syslog_identifier and message fields.
++ *
++ * The known-messages file consists of a list of templates. A template is a
++ * list of strings that can be matched against log messages. These strings
++ * represent the parts of the messages that are constant. A message is known
++ * if, by splitting it on a subset if it's words and prepending it with it's
++ * syslog identifier, you can create a list of strings equal to one of the
++ * templates.
++ *
++ * For example, the log message "error 1 from pid 231" with syslog id "myprog"
++ * would match against the template: ["myprog", "error 1 from pid ", ""]
++ * since we can split it on the word "231" to get the template.
++ *
++ * The known-messages file format is as follows:
++ * <known-messages> ::= <template>*
++ * <template>       ::= <syslog_id> <substring>+ '\x1F'
++ * <syslog_id>      ::= <character>* '\0'
++ * <substring>      ::= <character>* '\0'
++ *
++ * <character> is any printable character. Notice that the syslog_id and
++ * substring are just c-strings.
++ */
++
++/* Returns whether a log message is known. Return false on errors. */
++int is_message_known(Hashmap *known_messages, const char *syslog_identifier, const char *message);
++
++/* Create known_messages table from file at |path|. */
++int known_messages_get_from_file(const char *path, Hashmap **ret);
++
++/* Free known_messages table created with |known_messages_get_from_file| */
++void known_messages_free(Hashmap *known_messages);
++DEFINE_TRIVIAL_CLEANUP_FUNC(Hashmap*, known_messages_free);
++#define _cleanup_known_messages_free_ _cleanup_(known_messages_freep)
++
++/* Get the value of of a given field for the current journal entry as a null terminated string */
++char *get_value_for_field(sd_journal *j, const char *field);
++
++/* Below functions aren't given internal linkage so they can be tested */
++
++bool message_matches_template(const char *syslog_identifier, const char *message, char **template);
++char **basal_form(const char *s);
++char **template_basal_form(char **template);
+diff --git a/src/journal/journalctl.c b/src/journal/journalctl.c
+index 56b1be530..cddceaff1 100644
+--- a/src/journal/journalctl.c
++++ b/src/journal/journalctl.c
+@@ -32,6 +32,7 @@
+ #include "chattr-util.h"
+ #include "fd-util.h"
+ #include "fileio.h"
++#include "filter-known.h"
+ #include "fs-util.h"
+ #include "fsprg.h"
+ #include "glob-util.h"
+@@ -138,6 +139,7 @@ static bool arg_catalog = false;
+ static bool arg_reverse = false;
+ static int arg_journal_type = 0;
+ static char *arg_root = NULL;
++static Hashmap *arg_known_messages = NULL;
+ static const char *arg_machine = NULL;
+ static uint64_t arg_vacuum_size = 0;
+ static uint64_t arg_vacuum_n_files = 0;
+@@ -321,6 +323,9 @@ static void help(void) {
+                "  -p --priority=RANGE        Show entries with the specified priority\n"
+                "  -g --grep=PATTERN          Show entries with MESSAGE matching PATTERN\n"
+                "     --case-sensitive[=BOOL] Force case sensitive or insenstive matching\n"
++               "  -i --filter-known[=PATH]   Ignore known messages. /var/log/known-messages.bin\n"
++               "                             or the specified path is used as the known messages\n"
++               "                             database\n"
+                "  -e --pager-end             Immediately jump to the end in the pager\n"
+                "  -f --follow                Follow the journal\n"
+                "  -n --lines[=INTEGER]       Number of journal entries to show\n"
+@@ -437,6 +442,7 @@ static int parse_argv(int argc, char *argv[]) {
+                 { "root",           required_argument, NULL, ARG_ROOT           },
+                 { "header",         no_argument,       NULL, ARG_HEADER         },
+                 { "identifier",     required_argument, NULL, 't'                },
++                { "filter-known",   optional_argument, NULL, 'i'                },
+                 { "priority",       required_argument, NULL, 'p'                },
+                 { "grep",           required_argument, NULL, 'g'                },
+                 { "case-sensitive", optional_argument, NULL, ARG_CASE_SENSITIVE },
+@@ -477,7 +483,7 @@ static int parse_argv(int argc, char *argv[]) {
+         assert(argc >= 0);
+         assert(argv);
+ 
+-        while ((c = getopt_long(argc, argv, "hefo:aln::qmb::kD:p:g:c:S:U:t:u:NF:xrM:", options, NULL)) >= 0)
++        while ((c = getopt_long(argc, argv, "hefo:aln::qmb::kD:p:g:c:S:U:t:i::u:NF:xrM:", options, NULL)) >= 0)
+ 
+                 switch (c) {
+ 
+@@ -840,6 +846,24 @@ static int parse_argv(int argc, char *argv[]) {
+                                 return log_oom();
+                         break;
+ 
++                case 'i': {
++                        _cleanup_free_ const char *known_messages_path = NULL;
++                        if (optarg) {
++                                r = parse_path_argument_and_warn(optarg, true, (char**) &known_messages_path);
++                                if (r < 0) {
++                                        log_error("Failed to parse path to templates file '%s'", optarg);
++                                        return -EINVAL;
++                                }
++                        }
++                        r = known_messages_get_from_file(known_messages_path ?: "/var/log/known-messages.bin",
++                                                         &arg_known_messages);
++                        if (r < 0) {
++                                log_error("Failed to load known messages file: %s", known_messages_path);
++                                return -EINVAL;
++                        }
++                        break;
++                }
++
+                 case 'u':
+                         r = strv_extend(&arg_system_units, optarg);
+                         if (r < 0)
+@@ -2608,6 +2632,25 @@ int main(int argc, char *argv[]) {
+                         }
+ #endif
+ 
++                        if (arg_known_messages) {
++                                _cleanup_free_ char* syslog_identifier;
++                                _cleanup_free_ char* message;
++
++                                syslog_identifier = get_value_for_field(j, "SYSLOG_IDENTIFIER");
++                                message = get_value_for_field(j, "MESSAGE");
++
++                                if (syslog_identifier && message) {
++                                        r = is_message_known(arg_known_messages, syslog_identifier, message);
++                                        if (r < 0) {
++                                                log_error_errno(r, "Failed to lookup message in known messages: %m");
++                                                goto finish;
++                                        } else if (r > 0) {
++                                                need_seek = true;
++                                                continue;
++                                        }
++                                }
++                        }
++
+                         flags =
+                                 arg_all * OUTPUT_SHOW_ALL |
+                                 arg_full * OUTPUT_FULL_WIDTH |
+@@ -2686,6 +2729,8 @@ finish:
+         if (arg_compiled_pattern)
+                 pcre2_code_free(arg_compiled_pattern);
+ #endif
++        if (arg_known_messages)
++                known_messages_free(arg_known_messages);
+ 
+         return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
+ }
+diff --git a/src/journal/meson.build b/src/journal/meson.build
+index 807dece54..bc5fb4183 100644
+--- a/src/journal/meson.build
++++ b/src/journal/meson.build
+@@ -103,6 +103,8 @@ systemd_cat_sources = files('cat.c')
+ 
+ journalctl_sources = files('journalctl.c')
+ 
++journalctl_sources += files('filter-known.c', 'filter-known.h')
++
+ if conf.get('HAVE_QRENCODE') == 1
+         journalctl_sources += files('journal-qrcode.c',
+                                     'journal-qrcode.h')
+diff --git a/src/test/meson.build b/src/test/meson.build
+index 3296bd979..5624907b7 100644
+--- a/src/test/meson.build
++++ b/src/test/meson.build
+@@ -564,6 +564,12 @@ tests += [
+          [],
+          []],
+ 
++        [['src/test/test-filter-known.c',
++          'src/journal/filter-known.c',
++          'src/journal/filter-known.h'],
++         [],
++         []],
++
+         [['src/test/test-libudev.c'],
+          [libshared],
+          []],
+diff --git a/src/test/test-filter-known.c b/src/test/test-filter-known.c
+new file mode 100644
+index 000000000..0d92d7261
+--- /dev/null
++++ b/src/test/test-filter-known.c
+@@ -0,0 +1,66 @@
++#include "filter-known.h"
++#include "macro.h"
++#include "strv.h"
++#include "util.h"
++
++static void test_entry_matches_template(void) {
++        assert_se(message_matches_template("", "", STRV_MAKE("", "")));
++        assert_se(!message_matches_template("", "", STRV_MAKE("")));
++        assert_se(!message_matches_template("", "", STRV_MAKE("", "", "")));
++
++        assert_se(message_matches_template("", "message", STRV_MAKE("", "message")));
++        assert_se(message_matches_template("id", "message", STRV_MAKE("id", "message")));
++        assert_se(message_matches_template("id", "", STRV_MAKE("id", "")));
++        assert_se(!message_matches_template("", "message", STRV_MAKE("", "other message")));
++        assert_se(!message_matches_template("id", "message", STRV_MAKE("other_id", "message")));
++        assert_se(!message_matches_template("id", "message", STRV_MAKE("id", "message", "more")));
++        assert_se(!message_matches_template("id", "", STRV_MAKE("", "id")));
++
++        char** t0 =             STRV_MAKE("foo", "message with 1 numberword");
++        assert_se(message_matches_template("foo", "message with 1 numberword", t0));
++        assert_se(!message_matches_template("foo", "message with 2 numberword", t0));
++
++        char** t1 =             STRV_MAKE("foo bar", "part one ", " part two");
++        assert_se(message_matches_template("foo bar", "part one 1 part two", t1));
++        assert_se(message_matches_template("foo bar", "part one word part two", t1));
++        assert_se(message_matches_template("foo bar", "part one 0x324234 part two", t1));
++        assert_se(!message_matches_template("foo bar", "part one part two", t1));
++
++        char **t2 =             STRV_MAKE("id", "p1\t ", "\n\np2\n", " p3");
++        assert_se(message_matches_template("id", "p1\t w0rd\n\np2\nnumb3r p3", t2));
++        assert_se(!message_matches_template("id", "p1\t w0rd\n p2\nnumb3r p3", t2));
++        assert_se(!message_matches_template("id", "p1\t w0rd w0rd\n\np2\nnumb3r p3", t2));
++
++        char **t3 =             STRV_MAKE("id", "", "|p1-", "?p2;", "[p3]", "");
++        assert_se(message_matches_template("id", "1|p1-0x22?p2;55[p3]44", t3));
++        assert_se(!message_matches_template("id", "|p1-0x22?p2;55[p3]44", t3));
++        assert_se(!message_matches_template("id", "1|p1-0x22?p2;55[p3]", t3));
++        assert_se(!message_matches_template("id", "1|p1-0x22?p2;55[p3]44+", t3));
++}
++
++static void test_basal_form(void) {
++        assert_se(strv_equal(basal_form(""), STRV_MAKE("")));
++
++        assert_se(strv_equal(basal_form("3"), STRV_MAKE("","")));
++
++        assert_se(strv_equal(basal_form("0x33"), STRV_MAKE("","")));
++
++        char** b0 = STRV_MAKE("string with no numberwords");
++        assert_se(strv_equal(basal_form("string with no numberwords"), b0));
++
++        char** b1 = STRV_MAKE("string with ", " numberword");
++        assert_se(strv_equal(basal_form("string with 1 numberword"), b1));
++
++        char** b2 = STRV_MAKE("", " more, stuff -- ");
++        assert_se(strv_equal(basal_form("0x333 more, stuff -- "), b2));
++
++        char** b3 = STRV_MAKE("", " more, stuff -- ", "");
++        assert_se(strv_equal(basal_form("0x333 more, stuff -- 86"), b3));
++}
++
++int main(int argc, char *argv[]) {
++        test_entry_matches_template();
++        test_basal_form();
++
++        return 0;
++}
+-- 
+2.21.0.rc0.258.g878e2cd30e-goog
+
