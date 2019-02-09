@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="f87138c42ac831a1e6d85d85e2a9a7b3820338fc"
-CROS_WORKON_TREE="99e17fa0102f78b5a5ec32872534463ecbd0a526"
+CROS_WORKON_COMMIT="b78a55b7af6794973b30b51a46e4d0ba3edef509"
+CROS_WORKON_TREE="884f24350cbfc2219eac521ec920df4b0fb234c2"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
@@ -21,7 +21,7 @@ LICENSE="LGPL-2.1+"
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="colorhug daemon dell doc +gpg introspection +man nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
+IUSE="colorhug daemon dell doc firmware-packager +gpg introspection +man nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	daemon? ( introspection )
@@ -104,6 +104,7 @@ src_configure() {
 		--localstatedir "${EPREFIX}"/var
 		-Dconsolekit="$(usex daemon true false)"
 		-Ddaemon="$(usex daemon true false)"
+		-Dfirmware-packager="$(usex firmware-packager true false)"
 		-Dgpg="$(usex gpg true false)"
 		-Dgtkdoc="$(usex doc true false)"
 		-Dintrospection="$(usex introspection true false)"
