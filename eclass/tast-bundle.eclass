@@ -78,10 +78,15 @@ tast-bundle_src_install() {
 
 	# Install each test category's data dir.
 	pushd src >/dev/null || die "failed to pushd src"
-	local datadir
+	local datadir dest
 	for datadir in "${TAST_BUNDLE_PATH}"/*/data; do
 		[[ -e "${datadir}" ]] || break
-		(insinto "${basedatadir}/${datadir%/*}" && doins -r "${datadir}")
+
+		# Dereference symlinks to support shared files: https://crbug.com/927424
+		dest=${ED%/}/${basedatadir#/}/${datadir%/*}
+		mkdir -p "${dest}" || die "Failed to create ${dest}"
+		cp --preserve=mode --dereference -R "${datadir}" "${dest}" || \
+			die "Failed to copy ${datadir} to ${dest}"
 	done
 	popd >/dev/null
 }
