@@ -28,7 +28,7 @@ RDEPEND="
 	chromeos-base/ec-utils
 	chromeos-base/metrics
 	dev-libs/libnl
-	dev-libs/protobuf
+	dev-libs/protobuf:=
 	cras? ( media-sound/adhd )
 	virtual/udev"
 
