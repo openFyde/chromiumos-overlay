@@ -158,6 +158,50 @@
   },
   {
     "compat_id": {
+      "arch": "arm64",
+      "cflags": [
+        "-O2",
+        "-pipe",
+        "-g",
+        "-fno-exceptions",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables"
+      ],
+      "useflags": [
+        "accessibility",
+        "autotest",
+        "build_tests",
+        "buildcheck",
+        "cfi",
+        "chrome_debug",
+        "chrome_remoting",
+        "clang",
+        "cups",
+        "debug_fission",
+        "evdev_gestures",
+        "fonts",
+        "highdpi",
+        "libcxx",
+        "lld",
+        "opengles",
+        "ozone_platform_default_gbm",
+        "ozone_platform_gbm",
+        "reorder_text_sections",
+        "runhooks",
+        "thinlto",
+        "v4l2_codec",
+        "xkbcommon"
+      ]
+    },
+    "key": {
+      "board": "arm64-generic",
+      "useflags": [
+        "-chrome_internal"
+      ]
+    }
+  },
+  {
+    "compat_id": {
       "arch": "amd64",
       "cflags": [
         "-O2",
