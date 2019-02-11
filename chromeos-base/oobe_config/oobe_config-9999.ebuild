@@ -57,6 +57,7 @@ src_install() {
 
 	insinto /etc/init
 	doins etc/init/oobe_config_restore.conf
+	doins etc/init/oobe_config_save.conf
 	if use tpm2; then
 		sed -i 's/and started tcsd//' \
 			"${D}/etc/init/oobe_config_restore.conf" ||
@@ -64,6 +65,10 @@ src_install() {
 
 		sed -i 's/-b \/run\/tcsd//' \
 			"${D}/etc/init/oobe_config_restore.conf" ||
+			die "Can't remove /run/tcsd bind mount"
+
+		sed -i 's/-b \/run\/tcsd//' \
+			"${D}/etc/init/oobe_config_save.conf" ||
 			die "Can't remove /run/tcsd bind mount"
 	fi
 
