@@ -65,11 +65,20 @@ SRC_URI+=" bindist? ( ${FEDORA_SRC_URI[@]} )"
 
 S="${WORKDIR}/${MY_P}"
 
+HEADER_TAINT="#ifdef CHROMEOS_OPENSSL_IS_BORINGSSL
+#error \"Do not mix OpenSSL and BoringSSL headers.\"
+#endif
+#define CHROMEOS_OPENSSL_IS_OPENSSL\n"
+
 MULTILIB_WRAPPED_HEADERS=(
 	usr/include/openssl/opensslconf.h
 )
 
 src_prepare() {
+	# Taint OpenSSL headers so they don't silently mix with BoringSSL.
+	find . -name "*.h" -exec awk -i inplace -v "taint=${HEADER_TAINT}" \
+		'NR == 1 {print taint} {print}' {} \;
+
 	if use bindist; then
 		# This just removes the prefix, and puts it into WORKDIR like the RPM.
 		for i in "${FEDORA_SOURCE[@]}" ; do

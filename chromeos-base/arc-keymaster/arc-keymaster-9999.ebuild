@@ -39,9 +39,17 @@ RDEPEND="
 
 DEPEND="${RDEPEND}"
 
+HEADER_TAINT="#ifdef CHROMEOS_OPENSSL_IS_OPENSSL
+#error \"Do not mix OpenSSL and BoringSSL headers.\"
+#endif
+#define CHROMEOS_OPENSSL_IS_BORINGSSL\n"
+
 src_unpack() {
 	platform_src_unpack
 	unpack "${BORINGSSL_P}.tar.gz"
+	# Taint BoringSSL headers so they don't silently mix with OpenSSL.
+	find "${BORINGSSL_P}/include/openssl" -type f -exec awk -i inplace -v \
+		"taint=${HEADER_TAINT}" 'NR == 1 {print taint} {print}' {} \;
 }
 
 src_prepare() {
