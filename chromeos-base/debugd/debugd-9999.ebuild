@@ -30,7 +30,7 @@ COMMON_DEPEND="
 	!chromeos-base/workarounds
 	dev-libs/dbus-c++
 	dev-libs/libpcre
-	dev-libs/protobuf
+	dev-libs/protobuf:=
 	net-libs/libpcap
 	net-wireless/iw
 	sys-apps/iproute2
