@@ -153,7 +153,10 @@ RDEPEND="
 	biod? ( chromeos-base/biod )
 	compupdates? ( chromeos-base/imageloader )
 	dlc? ( chromeos-base/dlcservice )
-	dlc_test? ( chromeos-base/dummy-dlc )
+	dlc_test? (
+		chromeos-base/dummy-dlc
+		chromeos-base/test-dlc
+	)
 	bluetooth? ( chromeos-base/bluetooth )
 	bootchart? ( app-benchmarks/bootchart )
 	tpm? (
