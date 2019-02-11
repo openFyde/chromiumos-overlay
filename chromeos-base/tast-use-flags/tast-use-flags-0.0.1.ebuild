@@ -40,6 +40,7 @@ IUSE="
 	tegra
 	touchview
 	transparent_hugepage
+	usbguard
 	veyron_mickey
 	veyron_rialto
 "
