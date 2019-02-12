@@ -79,6 +79,7 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins etc/Cryptohome.conf
+	doins etc/org.chromium.UserDataAuth.conf
 	if use tpm2; then
 		doins etc/BootLockbox.conf
 	fi
