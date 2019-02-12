@@ -14,6 +14,7 @@ KEYWORDS="*"
 IUSE="
 	arc-camera3
 	-chromeless_tests
+	cheets
 	chromeless_tty
 	cr50_onboard
 	cros_ec
@@ -171,6 +172,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	media-gfx/imagemagick[png]
 	media-gfx/perceptualdiff
 	media-gfx/zbar
+	cheets? ( media-libs/arc-codec-test )
 	arc-camera3? ( media-libs/cros-camera-test )
 	media-libs/libexif
 	media-libs/libvpx
