@@ -60,7 +60,7 @@ multilib_src_compile() {
 
 multilib_src_install() {
 	OUT="${BUILD_DIR}/out/Default"
-	into "${ARC_PREFIX}/vendor/"
+	exeinto "/usr/libexec/arc-binary-tests"
 
-	newbin "${OUT}/arcvideoencoder_test" "arcvideoencoder_test_${ABI}"
+	newexe "${OUT}/arcvideoencoder_test" "arcvideoencoder_test_${ABI}"
 }
