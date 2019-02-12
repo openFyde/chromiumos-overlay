@@ -19,7 +19,7 @@ LICENSE="LGPL-2.1+"
 
 SLOT="0"
 KEYWORDS="~*"
-IUSE="colorhug daemon dell doc firmware-packager +gpg introspection +man nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
+IUSE="colorhug daemon dell doc firmware-packager +gpg introspection +man nls nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	daemon? ( introspection )
@@ -93,6 +93,9 @@ src_prepare() {
 	sed -e "s/'--create'/'--absolute-name', '--create'/" \
 		-i data/tests/builder/meson.build || die
 	sed -e "/^gcab/s/^/#/" -i meson.build || die
+	if ! use nls ; then
+		echo > po/LINGUAS || die
+	fi
 	vala_src_prepare
 }
 
