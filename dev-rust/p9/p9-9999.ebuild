@@ -40,6 +40,7 @@ src_unpack() {
 
 src_configure() {
 	sanitizers-setup-env
+	cros-rust_src_configure
 }
 
 src_compile() {

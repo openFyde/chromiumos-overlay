@@ -51,6 +51,10 @@ src_unpack() {
 	cros-rust_src_unpack
 }
 
+src_configure() {
+	cros-rust_src_configure
+}
+
 src_compile() {
 	local features=(
 		$(usex crosvm-gpu gpu "")

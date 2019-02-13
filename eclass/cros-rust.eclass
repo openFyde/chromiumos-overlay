@@ -25,12 +25,20 @@ esac
 # dev-dependencies or crates like winapi.
 : ${CROS_RUST_EMPTY_CRATE:=}
 
-inherit toolchain-funcs cros-debug cros-sanitizers
+# @ECLASS-VARIABLE: CROS_RUST_OVERFLOW_CHECKS
+# @PRE_INHERIT
+# @DESCRIPTION:
+# Enable integer overflow checks for this package.  Packages that wish to
+# disable integer overflow checks should set this value to 0.  Integer overflow
+# checks are always enabled when the cros-debug flag is set.
+: ${CROS_RUST_OVERFLOW_CHECKS:=1}
 
-IUSE="asan lsan msan tsan"
+inherit toolchain-funcs cros-debug
+
+IUSE="asan fuzzer lsan msan test tsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
-EXPORT_FUNCTIONS src_unpack src_prepare src_install
+EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_install
 
 DEPEND="
 	>=virtual/rust-1.28.0:=
@@ -39,6 +47,10 @@ DEPEND="
 
 ECARGO_HOME="${WORKDIR}/cargo_home"
 CROS_RUST_REGISTRY_DIR="/usr/lib/cros_rust_registry"
+
+# Ignore odr violations in unit tests in asan builds
+# (https://github.com/rust-lang/rust/issues/41807).
+ASAN_OPTIONS="detect_odr_violation=0"
 
 # @FUNCTION: cargo_src_unpack
 # @DESCRIPTION:
@@ -154,19 +166,61 @@ cros-rust_src_prepare() {
 	eapply_user
 }
 
-# @FUNCTION: ecargo
-# @USAGE: <args to cargo>
+# @FUNCTION: cros-rust_src_configure
 # @DESCRIPTION:
-# Call cargo with the specified command line options.
-ecargo() {
-	debug-print-function ${FUNCNAME} "$@"
-
+# Configures the source and exports any environment variables needed during the
+# build.
+cros-rust_src_configure() {
 	export CARGO_TARGET_DIR="${WORKDIR}"
 	export CARGO_HOME="${ECARGO_HOME}"
 	export HOST="${CBUILD}"
 	export HOST_CC="$(tc-getBUILD_CC)"
 	export TARGET="${CHOST}"
 	export TARGET_CC="$(tc-getCC)"
+
+	# We want debug info even in release builds.
+	local rustflags=(
+		-Cdebuginfo=2
+		-Copt-level=3
+		-Clto
+	)
+
+	# We don't want to abort during tests.
+	use test || rustflags+=( -Cpanic=abort )
+
+	if use cros-debug || [[ "${CROS_RUST_OVERFLOW_CHECKS}" == "1" ]]; then
+		rustflags+=( -Coverflow-checks=on )
+	fi
+
+	use cros-debug && rustflags+=( -Cdebug-assertions=on )
+
+	use asan && rustflags+=( -Csanitizer=address )
+	use lsan && rustflags+=( -Csanitizer=leak )
+	use msan && rustflags+=( -Csanitizer=memory )
+	use tsan && rustflags+=( -Csanitizer=thread )
+
+	if use fuzzer; then
+		rustflags+=(
+			--cfg fuzzing
+			-Cpasses=sancov
+			-Cllvm-args=-sanitizer-coverage-level=4
+			-Cllvm-args=-sanitizer-coverage-trace-pc-guard
+			-Cllvm-args=-sanitizer-coverage-trace-compares
+			-Cllvm-args=-sanitizer-coverage-trace-divs
+			-Cllvm-args=-sanitizer-coverage-trace-geps
+			-Cllvm-args=-sanitizer-coverage-prune-blocks=0
+		)
+	fi
+
+	export RUSTFLAGS="${rustflags[*]}"
+}
+
+# @FUNCTION: ecargo
+# @USAGE: <args to cargo>
+# @DESCRIPTION:
+# Call cargo with the specified command line options.
+ecargo() {
+	debug-print-function ${FUNCNAME} "$@"
 
 	# The cargo developers have decided to make it as painful as possible to
 	# use cargo inside another build system.  So there is no way to tell
@@ -199,25 +253,17 @@ ecargo_build_fuzzer() {
 		fuzzer_arch="x86_64"
 	fi
 
-	cros-rust-setup-sanitizers
-
-	local fuzzer_flags=(
-		--cfg fuzzing
-		-Cpasses=sancov
-		-Cllvm-args=-sanitizer-coverage-level=4
-		-Cllvm-args=-sanitizer-coverage-trace-pc-guard
-		-Cllvm-args=-sanitizer-coverage-trace-compares
-		-Cllvm-args=-sanitizer-coverage-trace-divs
-		-Cllvm-args=-sanitizer-coverage-trace-geps
-		-Cllvm-args=-sanitizer-coverage-prune-blocks=0
+	local link_args=(
 		-Clink-arg="-L${fuzzer_libdir}"
 		-Clink-arg="-lclang_rt.fuzzer-${fuzzer_arch}"
 		-Clink-arg="-lc++"
 	)
 
-	export RUSTFLAGS="${fuzzer_flags[*]} ${RUSTFLAGS}"
-
-	ecargo build --target="${CHOST}" --release "$@"
+	# The `rustc` subcommand for cargo allows us to set some extra flags for
+	# the current package without setting them for all `rustc` invocations.
+	# On the other hand the flags in the RUSTFLAGS environment variable are set
+	# for all `rustc` invocations.
+	ecargo rustc --target="${CHOST}" --release "$@" -- "${link_args[@]}"
 }
 
 # @FUNCTION: ecargo_test
