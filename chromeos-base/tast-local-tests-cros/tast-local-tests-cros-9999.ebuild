@@ -52,7 +52,9 @@ DEPEND="
 "
 RDEPEND="
 	chromeos-base/security_tests
+	dev-libs/openssl
 	dev-util/android-uiautomator-server
+	net-misc/curl
 	usbip? ( chromeos-base/virtual-usb-printer )
 "
 
