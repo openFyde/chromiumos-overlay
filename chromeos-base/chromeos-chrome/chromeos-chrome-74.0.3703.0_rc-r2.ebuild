@@ -46,7 +46,6 @@ IUSE="
 	+fonts
 	gold
 	goma
-	hardfp
 	+highdpi
 	internal_gles_conform
 	jumbo
@@ -402,7 +401,7 @@ set_build_args() {
 		)
 		BUILD_STRING_ARGS+=(
 			target_cpu=arm
-			arm_float_abi=$(usex hardfp hard softfp)
+			arm_float_abi=hard
 		)
 		local arm_arch=$(get-flag march)
 		local arm_cpu=$(get-flag mcpu)
