@@ -1,7 +1,7 @@
-From 4e34f2a43683cbb3a001712867c420f26ab54286 Mon Sep 17 00:00:00 2001
+From ed2627e052dd82b045d8b167b2e61d89cfa42414 Mon Sep 17 00:00:00 2001
 From: Joel Hockey <joelhockey@chromium.org>
 Date: Thu, 31 Jan 2019 20:09:48 -0800
-Subject: [PATCH 7/7] lxd: Send progress info for export and import operations
+Subject: [PATCH 7/9] lxd: Send progress info for export and import operations
 
 This is part 5 of a series of patches to add better progress
 tracking support for export and import.
@@ -26,7 +26,7 @@ Signed-off-by: Joel Hockey <joelhockey@chromium.org>
  3 files changed, 65 insertions(+), 6 deletions(-)
 
 diff --git a/lxd/containers_post.go b/lxd/containers_post.go
-index b5ea648b..5b2cff48 100644
+index 3c8e95fa..e6d8140a 100644
 --- a/lxd/containers_post.go
 +++ b/lxd/containers_post.go
 @@ -17,6 +17,7 @@ import (
@@ -52,7 +52,7 @@ index b5ea648b..5b2cff48 100644
  	}
  
 diff --git a/lxd/images.go b/lxd/images.go
-index 90fcb025..378b2c2b 100644
+index 88715c6f..68110fb1 100644
 --- a/lxd/images.go
 +++ b/lxd/images.go
 @@ -149,7 +149,7 @@ func compressFile(compress string, infile io.Reader, outfile io.Writer) error {
@@ -134,7 +134,7 @@ index 90fcb025..378b2c2b 100644
  		compressedPath = tarfile.Name() + ".compressed"
  
  		compressed, err := os.Create(compressedPath)
-@@ -241,7 +285,7 @@ func imgPostContInfo(d *Daemon, r *http.Request, req api.ImagesPost, builddir st
+@@ -240,7 +284,7 @@ func imgPostContInfo(d *Daemon, r *http.Request, req api.ImagesPost, builddir st
  		// Calculate sha256 as we compress
  		writer := io.MultiWriter(compressed, sha256)
  
@@ -143,7 +143,7 @@ index 90fcb025..378b2c2b 100644
  		if err != nil {
  			return nil, err
  		}
-@@ -701,7 +745,7 @@ func imagesPost(d *Daemon, r *http.Request) Response {
+@@ -709,7 +753,7 @@ func imagesPost(d *Daemon, r *http.Request) Response {
  			} else {
  				/* Processing image creation from container */
  				imagePublishLock.Lock()
@@ -153,11 +153,11 @@ index 90fcb025..378b2c2b 100644
  			}
  		}
 diff --git a/shared/util.go b/shared/util.go
-index 85706702..7afb9e6e 100644
+index 85706702..ed4bf5bd 100644
 --- a/shared/util.go
 +++ b/shared/util.go
-@@ -1008,6 +1008,15 @@ func EscapePathFstab(path string) string {
- 	return r.Replace(path)
+@@ -1016,6 +1016,15 @@ func DownloadFileSha512(httpClient *http.Client, useragent string, progress func
+ 	return downloadFileSha(httpClient, useragent, progress, canceler, filename, url, hash, sha512.New(), target)
  }
  
 +func SetProgressMetadata(metadata map[string]string, stage, displayPrefix string, percent, speed int64) {
@@ -169,9 +169,9 @@ index 85706702..7afb9e6e 100644
 +	metadata[stage+"_progress"] = fmt.Sprintf("%s: %d%% (%s/s)", displayPrefix, percent, GetByteSizeString(speed, 2))
 +}
 +
- func DownloadFileSha256(httpClient *http.Client, useragent string, progress func(progress ioprogress.ProgressData), canceler *cancel.Canceler, filename string, url string, hash string, target io.WriteSeeker) (int64, error) {
- 	return downloadFileSha(httpClient, useragent, progress, canceler, filename, url, hash, sha256.New(), target)
- }
+ func downloadFileSha(httpClient *http.Client, useragent string, progress func(progress ioprogress.ProgressData), canceler *cancel.Canceler, filename string, url string, hash string, sha hash.Hash, target io.WriteSeeker) (int64, error) {
+ 	// Always seek to the beginning
+ 	target.Seek(0, 0)
 -- 
-2.20.1.611.gfbb209baf1-goog
+2.20.1.791.gb4d0f1c61a-goog
 

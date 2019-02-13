@@ -1,7 +1,7 @@
-From 617864e9703de4f8bfe8766106e17a7ed79bee8f Mon Sep 17 00:00:00 2001
+From 36881a947b2fbd4c523cde7a946f6a6f86d7afb5 Mon Sep 17 00:00:00 2001
 From: Joel Hockey <joelhockey@chromium.org>
 Date: Thu, 31 Jan 2019 19:15:25 -0800
-Subject: [PATCH 5/7] shared.Unpack: Add support for a ProgressTracker during
+Subject: [PATCH 5/9] shared.Unpack: Add support for a ProgressTracker during
  unpack
 
 This is part 3 of a series of patches to add better progress
@@ -16,11 +16,11 @@ Signed-off-by: Joel Hockey <joelhockey@chromium.org>
  lxd/storage_lvm.go       |  2 +-
  lxd/storage_lvm_utils.go |  2 +-
  lxd/storage_zfs.go       |  2 +-
- shared/archive_linux.go  | 42 ++++++++++++++++++++++++++++++----------
- 8 files changed, 42 insertions(+), 19 deletions(-)
+ shared/archive_linux.go  | 41 ++++++++++++++++++++++++++++++----------
+ 8 files changed, 41 insertions(+), 19 deletions(-)
 
 diff --git a/lxd/images.go b/lxd/images.go
-index 8fa04e59..7a058976 100644
+index fc7c2c87..60647725 100644
 --- a/lxd/images.go
 +++ b/lxd/images.go
 @@ -32,6 +32,7 @@ import (
@@ -58,10 +58,10 @@ index 8fa04e59..7a058976 100644
  			return err
  		}
 diff --git a/lxd/storage_btrfs.go b/lxd/storage_btrfs.go
-index 42350adc..41d72bfb 100644
+index 6c781e8e..853722d3 100644
 --- a/lxd/storage_btrfs.go
 +++ b/lxd/storage_btrfs.go
-@@ -1468,7 +1468,7 @@ func (s *storageBtrfs) ImageCreate(fingerprint string) error {
+@@ -1469,7 +1469,7 @@ func (s *storageBtrfs) ImageCreate(fingerprint string) error {
  
  	// Unpack the image in imageMntPoint.
  	imagePath := shared.VarPath("images", fingerprint)
@@ -71,10 +71,10 @@ index 42350adc..41d72bfb 100644
  		return err
  	}
 diff --git a/lxd/storage_ceph.go b/lxd/storage_ceph.go
-index 90f197b5..3b793238 100644
+index c61ba839..255c5b09 100644
 --- a/lxd/storage_ceph.go
 +++ b/lxd/storage_ceph.go
-@@ -1891,7 +1891,7 @@ func (s *storageCeph) ImageCreate(fingerprint string) error {
+@@ -1899,7 +1899,7 @@ func (s *storageCeph) ImageCreate(fingerprint string) error {
  
  		// rsync contents into image
  		imagePath := shared.VarPath("images", fingerprint)
@@ -84,7 +84,7 @@ index 90f197b5..3b793238 100644
  			logger.Errorf(`Failed to unpack image for RBD storage volume for image "%s" on storage pool "%s": %s`, fingerprint, s.pool.Name, err)
  
 diff --git a/lxd/storage_dir.go b/lxd/storage_dir.go
-index e6739edd..cbf09f50 100644
+index faa4a731..f2814e6d 100644
 --- a/lxd/storage_dir.go
 +++ b/lxd/storage_dir.go
 @@ -508,7 +508,7 @@ func (s *storageDir) ContainerCreateFromImage(container container, imageFingerpr
@@ -97,10 +97,10 @@ index e6739edd..cbf09f50 100644
  		return err
  	}
 diff --git a/lxd/storage_lvm.go b/lxd/storage_lvm.go
-index 9e62b576..971387e7 100644
+index 0e58853a..944bf947 100644
 --- a/lxd/storage_lvm.go
 +++ b/lxd/storage_lvm.go
-@@ -1618,7 +1618,7 @@ func (s *storageLvm) ImageCreate(fingerprint string) error {
+@@ -1623,7 +1623,7 @@ func (s *storageLvm) ImageCreate(fingerprint string) error {
  		}
  
  		imagePath := shared.VarPath("images", fingerprint)
@@ -110,7 +110,7 @@ index 9e62b576..971387e7 100644
  			return err
  		}
 diff --git a/lxd/storage_lvm_utils.go b/lxd/storage_lvm_utils.go
-index 565ac58d..f6b24c6d 100644
+index c103f8ff..6370fd3c 100644
 --- a/lxd/storage_lvm_utils.go
 +++ b/lxd/storage_lvm_utils.go
 @@ -458,7 +458,7 @@ func (s *storageLvm) containerCreateFromImageLv(c container, fp string) error {
@@ -123,10 +123,10 @@ index 565ac58d..f6b24c6d 100644
  		logger.Errorf(`Failed to unpack image "%s" into non-thinpool LVM storage volume "%s" for container "%s" on storage pool "%s": %s`, imagePath, containerMntPoint, containerName, s.pool.Name, err)
  		return err
 diff --git a/lxd/storage_zfs.go b/lxd/storage_zfs.go
-index d97088e5..1a6e18ee 100644
+index e6282e14..f49c1fcc 100644
 --- a/lxd/storage_zfs.go
 +++ b/lxd/storage_zfs.go
-@@ -1787,7 +1787,7 @@ func (s *storageZfs) ImageCreate(fingerprint string) error {
+@@ -1791,7 +1791,7 @@ func (s *storageZfs) ImageCreate(fingerprint string) error {
  	}
  
  	// Unpack the image into the temporary mountpoint.
@@ -136,15 +136,10 @@ index d97088e5..1a6e18ee 100644
  		return err
  	}
 diff --git a/shared/archive_linux.go b/shared/archive_linux.go
-index bc3ebe00..8c6a4414 100644
+index ca359763..c1419363 100644
 --- a/shared/archive_linux.go
 +++ b/shared/archive_linux.go
-@@ -3,10 +3,12 @@ package shared
- import (
- 	"bytes"
- 	"fmt"
-+	"io"
- 	"os"
+@@ -8,6 +8,7 @@ import (
  	"strings"
  	"syscall"
  
@@ -152,16 +147,16 @@ index bc3ebe00..8c6a4414 100644
  	"github.com/lxc/lxd/shared/logger"
  )
  
-@@ -50,7 +52,7 @@ func DetectCompression(fname string) ([]string, string, error) {
- 
+@@ -54,7 +55,7 @@ func DetectCompressionFile(f io.ReadSeeker) ([]string, string, []string, error)
+ 	}
  }
  
 -func Unpack(file string, path string, blockBackend bool, runningInUserns bool) error {
 +func Unpack(file string, path string, blockBackend bool, runningInUserns bool, tracker *ioprogress.ProgressTracker) error {
- 	extractArgs, extension, err := DetectCompression(file)
+ 	extractArgs, extension, _, err := DetectCompression(file)
  	if err != nil {
  		return err
-@@ -58,6 +60,7 @@ func Unpack(file string, path string, blockBackend bool, runningInUserns bool) e
+@@ -62,6 +63,7 @@ func Unpack(file string, path string, blockBackend bool, runningInUserns bool) e
  
  	command := ""
  	args := []string{}
@@ -169,7 +164,7 @@ index bc3ebe00..8c6a4414 100644
  	if strings.HasPrefix(extension, ".tar") {
  		command = "tar"
  		if runningInUserns {
-@@ -69,8 +72,32 @@ func Unpack(file string, path string, blockBackend bool, runningInUserns bool) e
+@@ -73,8 +75,32 @@ func Unpack(file string, path string, blockBackend bool, runningInUserns bool) e
  		}
  		args = append(args, "-C", path, "--numeric-owner", "--xattrs-include=*")
  		args = append(args, extractArgs...)
@@ -203,7 +198,7 @@ index bc3ebe00..8c6a4414 100644
  		command = "unsquashfs"
  		args = append(args, "-f", "-d", path, "-n")
  
-@@ -87,7 +114,7 @@ func Unpack(file string, path string, blockBackend bool, runningInUserns bool) e
+@@ -91,7 +117,7 @@ func Unpack(file string, path string, blockBackend bool, runningInUserns bool) e
  		return fmt.Errorf("Unsupported image format: %s", extension)
  	}
  
@@ -212,7 +207,7 @@ index bc3ebe00..8c6a4414 100644
  	if err != nil {
  		// Check if we ran out of space
  		fs := syscall.Statfs_t{}
-@@ -106,14 +133,9 @@ func Unpack(file string, path string, blockBackend bool, runningInUserns bool) e
+@@ -110,14 +136,9 @@ func Unpack(file string, path string, blockBackend bool, runningInUserns bool) e
  			}
  		}
  
@@ -230,5 +225,5 @@ index bc3ebe00..8c6a4414 100644
  
  	return nil
 -- 
-2.20.1.611.gfbb209baf1-goog
+2.20.1.791.gb4d0f1c61a-goog
 

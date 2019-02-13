@@ -136,11 +136,10 @@ src_unpack() {
 }
 
 src_prepare() {
-	eapply "${FILESDIR}/${P}-dqlite-timeout.patch" # crbug.com/901108
-
 	cd "${S}/dist/src/${EGO_PN}"
 	eapply "${FILESDIR}/${P}-cert-ec384.patch" # crbug.com/837445
-	eapply "${FILESDIR}/${P}-pass-all-usb.patch" # crbug.com/831850
+	eapply "${FILESDIR}/${P}-goroutine-leak.patch" # crbug.com/912189
+	eapply "${FILESDIR}/${P}-reset-listener.patch" # crbug.com/912189
 	eapply "${FILESDIR}/${P}-export-progress-1.patch" # crbug.com/927550
 	eapply "${FILESDIR}/${P}-export-progress-2.patch" # crbug.com/927550
 	eapply "${FILESDIR}/${P}-export-progress-3.patch" # crbug.com/927550

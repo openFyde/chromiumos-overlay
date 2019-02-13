@@ -1,7 +1,7 @@
-From 35be040a15974702a1685a980e433c44d9cb4e34 Mon Sep 17 00:00:00 2001
+From b9aef76fb53a04fb979d7db89fbeee6de0bb07e9 Mon Sep 17 00:00:00 2001
 From: Joel Hockey <joelhockey@chromium.org>
 Date: Thu, 31 Jan 2019 18:52:24 -0800
-Subject: [PATCH 3/7] lxd/images: change compressFile to take io.Reader and
+Subject: [PATCH 3/9] lxd/images: change compressFile to take io.Reader and
  io.Writer
 
 This is part 1 of a series of patches to add better progress
@@ -16,7 +16,7 @@ Signed-off-by: Joel Hockey <joelhockey@chromium.org>
  1 file changed, 18 insertions(+), 17 deletions(-)
 
 diff --git a/lxd/images.go b/lxd/images.go
-index 7df11c09..1fac5e60 100644
+index e47972c8..67eb0d73 100644
 --- a/lxd/images.go
 +++ b/lxd/images.go
 @@ -129,7 +129,7 @@ func unpackImage(imagefname string, destpath string, sType storageType, runningI
@@ -79,5 +79,5 @@ index 7df11c09..1fac5e60 100644
  			return nil, err
  		}
 -- 
-2.20.1.611.gfbb209baf1-goog
+2.20.1.791.gb4d0f1c61a-goog
 
