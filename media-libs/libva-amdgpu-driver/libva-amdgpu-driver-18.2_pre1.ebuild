@@ -38,6 +38,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-st-va-use-provided-sizes-and-coords-for-vlVaGetImage.patch
 	epatch "${FILESDIR}"/18.2-winsys-amdgpu-fix-a-buffer-leak-in-amdgpu_bo_from_handle.patch
 	epatch "${FILESDIR}"/18.2-winsys-amdgpu-fix-a-device-handle-leak-in-amdgpu_winsys_create.patch
+	epatch "${FILESDIR}"/19.1-st-va-Add-support-for-indirect-manner-by-returning-VA_STATUS_ERROR_OPERATION_FAILED.patch
 
 	eautoreconf
 }
