@@ -20,7 +20,11 @@ inherit cros-go cros-workon toolchain-funcs platform
 DESCRIPTION="Chrome OS system API (D-Bus service names, etc.)"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
+# The subslot should be manually bumped any time protobuf is upgraded
+# to a newer version whose libraries are incompatible with the
+# generated sources of the previous version. As a rule of thumb if the
+# minor version of protobuf has changed, the subslot should be incremented.
+SLOT="0/1"
 KEYWORDS="~*"
 IUSE="cros_host"
 

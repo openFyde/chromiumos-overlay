@@ -27,7 +27,7 @@ DEPEND="
 	mtd? ( dev-embedded/android_mtdutils )
 	!cros_host? (
 		chromeos-base/vboot_reference
-		dev-libs/openssl
+		dev-libs/openssl:=
 	)"
 RDEPEND="
 	pam? ( app-admin/sudo )

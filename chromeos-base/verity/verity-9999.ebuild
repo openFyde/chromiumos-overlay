@@ -19,8 +19,8 @@ IUSE="test"
 RDEPEND=""
 DEPEND="${RDEPEND}
 	test? (
-		dev-cpp/gmock
-		dev-cpp/gtest
+		dev-cpp/gmock:=
+		dev-cpp/gtest:=
 	)"
 
 src_install() {

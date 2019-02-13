@@ -24,7 +24,7 @@ IUSE="cros_host +dbus"
 COMMON_DEPEND="
 	chromeos-base/minijail
 	dbus? ( dev-libs/dbus-glib )
-	dev-libs/openssl
+	dev-libs/openssl:=
 	dev-libs/protobuf:=
 	net-misc/curl
 	sys-apps/rootdev
@@ -38,7 +38,7 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/protofiles
-	dbus? ( chromeos-base/system_api )
+	dbus? ( chromeos-base/system_api:= )
 	dev-libs/modp_b64
 "
 
