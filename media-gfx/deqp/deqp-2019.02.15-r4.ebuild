@@ -11,7 +11,7 @@ DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
 HOMEPAGE="https://android.googlesource.com/platform/external/deqp"
 
 # This corresponds to a commit near ToT.
-MY_DEQP_COMMIT='b57a8fe92b4d76ededea70b4a838b885abfb8e72'
+MY_DEQP_COMMIT='18fef9d688debbaa63234084a0e9baab0f11e60f'
 
 # To uprev deqp, follow these commands:
 # wget https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz
@@ -21,14 +21,16 @@ MY_DEQP_COMMIT='b57a8fe92b4d76ededea70b4a838b885abfb8e72'
 # dependencies be unpacked into the source tree. See ${S}/external/fetch_sources.py
 # in the dEQP for the required dependencies. Upload these tarballs to the ChromeOS mirror too and
 # update the manifest.
-MY_GLSLANG_COMMIT='ac3707921ed313eaba1c206e8113b85fef054c34'
-MY_SPIRV_TOOLS_COMMIT='dc938c27b34dee5492c29c4e92b49bd0c32e604f'
-MY_SPIRV_HEADERS_COMMIT='854b5dda6149c481d6faf0b9c760c311ab45b05d'
+MY_GLSLANG_COMMIT='2898223375d57fb3974f24e1e944bb624f67cb73'
+MY_SPIRV_TOOLS_COMMIT='e0292c269d6f5c8481afb9f2d043c74ee11ca24f'
+MY_SPIRV_HEADERS_COMMIT='17da9f8231f78cf519b4958c2229463a63ead9e2'
+MY_VKRUNNER_COMMIT="2787f7ceaa96de8ad0c352629a4ed297da068872"
 
 SRC_URI="https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz -> deqp-${MY_DEQP_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/glslang/archive/${MY_GLSLANG_COMMIT}.tar.gz -> glslang-${MY_GLSLANG_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/SPIRV-Tools/archive/${MY_SPIRV_TOOLS_COMMIT}.tar.gz -> SPIRV-Tools-${MY_SPIRV_TOOLS_COMMIT}.tar.gz
-	https://github.com/KhronosGroup/SPIRV-Headers/archive/${MY_SPIRV_HEADERS_COMMIT}.tar.gz -> SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}.tar.gz"
+	https://github.com/KhronosGroup/SPIRV-Headers/archive/${MY_SPIRV_HEADERS_COMMIT}.tar.gz -> SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}.tar.gz
+	https://github.com/Igalia/vkrunner/archive/${MY_VKRUNNER_COMMIT}.tar.gz -> vkrunner-${MY_VKRUNNER_COMMIT}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -52,12 +54,18 @@ S="${WORKDIR}"
 src_unpack() {
 	default_src_unpack || die
 
-	if use vulkan; then
-		mkdir -p external/glslang external/spirv-tools external/spirv-headers
-		mv "glslang-${MY_GLSLANG_COMMIT}" external/glslang/src || die
-		mv "SPIRV-Tools-${MY_SPIRV_TOOLS_COMMIT}" external/spirv-tools/src || die
-		mv "SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}" external/spirv-headers/src || die
-	fi
+	mkdir -p external/renderdoc/src
+	cp "${FILESDIR}"/renderdoc_app.h external/renderdoc/src || die
+
+	mkdir -p external/{glslang,spirv-tools,spirv-headers,vkrunner}
+	mv "glslang-${MY_GLSLANG_COMMIT}" external/glslang/src || die
+	mv "SPIRV-Tools-${MY_SPIRV_TOOLS_COMMIT}" external/spirv-tools/src || die
+	mv "SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}" external/spirv-headers/src || die
+	mv "vkrunner-${MY_VKRUNNER_COMMIT}" external/vkrunner/src || die
+}
+
+src_prepare() {
+	epatch "${FILESDIR}"/null-platform-fixes.patch
 }
 
 src_configure() {
