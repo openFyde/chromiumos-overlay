@@ -74,19 +74,24 @@ dlc_src_install() {
 	[[ -z "${DLC_ID}" ]] && die "DLC_ID undefined"
 	[[ -z "${DLC_NAME}" ]] && die "DLC_NAME undefined"
 	[[ -z "${DLC_VERSION}" ]] && die "DLC_VERSION undefined"
-	[[ -z "${DLC_FS_TYPE}" ]] && die "DLC_FS_TYPE undefined"
 	[[ -z "${DLC_PREALLOC_BLOCKS}" ]] && die "DLC_PREALLOC_BLOCKS undefined"
 	[[ -z "${DLC_ARTIFACT_DIR}" ]] && die "DLC_ARTIFACT_DIR undefined"
 
-	"${CHROMITE_BIN_DIR}"/build_dlc \
-		--src-dir="${DLC_ARTIFACT_DIR}" \
-		--build-root-dir="${SYSROOT}" \
-		--install-root-dir="${D}" \
-		--fs-type="${DLC_FS_TYPE}" \
-		--pre-allocated-blocks="${DLC_PREALLOC_BLOCKS}" \
-		--version="${DLC_VERSION}" \
-		--id="${DLC_ID}" \
-		--name="${DLC_NAME}" \
+	local args=(
+		--src-dir="${DLC_ARTIFACT_DIR}"
+		--sysroot="${SYSROOT}"
+		--install-root-dir="${D}"
+		--pre-allocated-blocks="${DLC_PREALLOC_BLOCKS}"
+		--version="${DLC_VERSION}"
+		--id="${DLC_ID}"
+		--name="${DLC_NAME}"
+	)
+
+	if [[ -n "${DLC_FS_TYPE}" ]]; then
+		args+=( --fs-type="${DLC_FS_TYPE}" )
+	fi
+
+	"${CHROMITE_BIN_DIR}"/build_dlc "${args[@]}" \
 		|| die "build_dlc failed to generate DLC image and metadata"
 }
 

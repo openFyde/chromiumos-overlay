@@ -20,7 +20,6 @@ REQUIRED_USE="dlc"
 
 DLC_NAME="A dummy DLC"
 DLC_VERSION="${PV}"
-DLC_FS_TYPE="squashfs"
 DLC_PREALLOC_BLOCKS="1024"
 DLC_ID="dummy-dlc"
 DLC_ARTIFACT_DIR="${T}/artifacts"
