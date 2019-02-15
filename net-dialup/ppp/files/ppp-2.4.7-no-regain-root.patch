@@ -1,7 +1,23 @@
-This patch prevents pppd from calling seteuid(0) when
-ALLOW_START_AS_NON_ROOT is defined, since we don't want pppd trying to
-regain root privileges in that case.
+When ALLOW_START_AS_NON_ROOT is defined, this patch prevents pppd from:
+   a) calling seteuid(0) in connect_tty
+   b) calling setuid(0) in run_program (for running scripts in /etc/ppp)
+We don't want pppd trying to regain root privileges in either of these
+cases.
 
+diff --git a/pppd/main.c b/pppd/main.c
+index 212540a..8217d80 100644
+--- a/pppd/main.c
++++ b/pppd/main.c
+@@ -1830,7 +1830,9 @@ run_program(prog, args, must_exist, done, arg, wait)
+     (void) setsid();	/* No controlling tty. */
+     (void) umask (S_IRWXG|S_IRWXO);
+     (void) chdir ("/");	/* no current directory. */
++#ifndef ALLOW_START_AS_NON_ROOT
+     setuid(0);		/* set real UID = root */
++#endif
+     setgid(getegid());
+ 
+ #ifdef BSD
 diff --git a/pppd/tty.c b/pppd/tty.c
 index c9a0b33..d76b098 100644
 --- a/pppd/tty.c
