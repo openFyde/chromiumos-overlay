@@ -3,10 +3,10 @@ DEPEND=dev-rust/libc:= ~dev-rust/proc-macro2-0.2.3:= ~dev-rust/quote-0.4.2:= ~de
 DESCRIPTION=Server implementation of the 9P file system protocol
 EAPI=6
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/p9/
-IUSE=fuzzer test fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_ cros-debug asan lsan msan tsan
+IUSE=fuzzer test fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_ cros-debug asan fuzzer lsan msan test tsan
 KEYWORDS=~*
 LICENSE=BSD-Google
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=9999/r0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	2fa6432a4ba2e8e573042b09fbe38eae	cros-rust	a42a9d8dd8430b70190db0c55c9b4dfa	cros-sanitizers	dc40d713077337d5ea46e415f9b955c6	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
-_md5_=333ef4edeacd200cde3efa6b4c45848d
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	2fa6432a4ba2e8e573042b09fbe38eae	cros-rust	f88ee6e8f4473add059f48906c00a7c5	cros-sanitizers	dc40d713077337d5ea46e415f9b955c6	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=6404fe3f88e2960321b142c8f4399272

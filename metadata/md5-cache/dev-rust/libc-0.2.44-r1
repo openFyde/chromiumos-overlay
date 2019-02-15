@@ -1,13 +1,13 @@
-DEFINED_PHASES=install prepare unpack
+DEFINED_PHASES=configure install prepare unpack
 DEPEND=>=dev-rust/rustc-std-workspace-core-1.0.0:= >=virtual/rust-1.28.0:= >=dev-util/cargo-0.29.0
 DESCRIPTION=A Rust library with native bindings to the types and functions commonly found on various systems, including libc
 EAPI=6
 HOMEPAGE=https://github.com/rust-lang/libc
-IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan lsan msan tsan
+IUSE=cros-debug asan fuzzer lsan msan test tsan
 KEYWORDS=*
 LICENSE=|| ( MIT Apache-2.0 )
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0.2.44/r1
 SRC_URI=https://crates.io/api/v1/crates/libc/0.2.44/download -> libc-0.2.44.crate
-_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	a42a9d8dd8430b70190db0c55c9b4dfa	cros-sanitizers	dc40d713077337d5ea46e415f9b955c6	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	f88ee6e8f4473add059f48906c00a7c5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=6c08d3324cd1eeeb95db215f5baab5ac
