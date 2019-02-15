@@ -79,6 +79,7 @@ src_configure() {
 		--sysconfdir=/system/vendor/etc \
 		\
 		$(use_enable debug) \
+		--enable-autotools \
 		--enable-sysfs \
 		--enable-cross_compiling \
 		--disable-option-checking \
