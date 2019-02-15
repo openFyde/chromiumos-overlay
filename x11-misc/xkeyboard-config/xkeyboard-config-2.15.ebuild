@@ -38,7 +38,6 @@ PATCHES=(
 	"${FILESDIR}"/${P}-remap-capslock.patch
 	"${FILESDIR}"/${P}-add-f19-24.patch
 	"${FILESDIR}"/${P}-gb-extd-deadkey.patch
-	"${FILESDIR}"/${P}-remap-f15-as-mod2mask.patch
 	"${FILESDIR}"/${P}-canadian-french-international-backslash-fix.patch
 	"${FILESDIR}"/${P}-ch-brokenbar.patch
 	"${FILESDIR}"/${P}-br-euro-degree.patch
