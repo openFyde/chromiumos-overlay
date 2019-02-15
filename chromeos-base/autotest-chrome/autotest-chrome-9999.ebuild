@@ -99,6 +99,7 @@ IUSE_TESTS=(
 	+tests_enterprise_CFM_VolumeChangeClient
 	+tests_enterprise_FakeEnrollment
 	+tests_enterprise_KioskEnrollment
+	+tests_enterprise_OnlineDemoModeEnrollment
 	+tests_enterprise_PowerManagement
 	+tests_enterprise_RemoraRequisition
 	+tests_enterprise_RemoraRequisitionDisplayUsage

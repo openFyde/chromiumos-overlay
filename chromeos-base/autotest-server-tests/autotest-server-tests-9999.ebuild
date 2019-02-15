@@ -115,6 +115,7 @@ SERVER_IUSE_TESTS="
 	+tests_enterprise_ClearTPM
 	+tests_enterprise_KioskEnrollmentServer
 	+tests_enterprise_LongevityTrackerServer
+	+tests_enterprise_OnlineDemoMode
 	+tests_enterprise_RemoraRequisitionServer
 	+tests_enterprise_RemoraRequisitionDisplayUsageServer
 	+tests_factory_Basic
