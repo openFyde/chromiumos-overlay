@@ -68,6 +68,7 @@ src_configure() {
 	append-flags "-UENABLE_SHADER_CACHE"
 
 	econf \
+		--enable-autotools \
 		--disable-option-checking \
 		--enable-texture-float \
 		--disable-dri3 \
