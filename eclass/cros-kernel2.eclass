@@ -178,6 +178,7 @@ CONFIG_FRAGMENTS=(
 	vtconsole
 	wifi_testbed_ap
 	wifi_diag
+	wilco_ec
 	wireless34
 	x32
 )
@@ -253,6 +254,16 @@ cros_ec_mec_desc="LPC Support for Microchip Embedded Controller"
 cros_ec_mec_config="
 CONFIG_MFD_CROS_EC_LPC_MEC=y
 CONFIG_CROS_EC_LPC_MEC=y
+"
+
+wilco_ec_desc="Communication with Wilco Embedded Controller"
+wilco_ec_config="
+CONFIG_MFD_CROS_EC_LPC_MEC=y
+CONFIG_CROS_EC_LPC_MEC=y
+CONFIG_WILCO_EC=m
+CONFIG_WILCO_EC_DEBUGFS=m
+CONFIG_WILCO_EC_EVENTS=m
+CONFIG_WILCO_EC_TELEMETRY=m
 "
 
 debugobjects_desc="Enable kernel debug objects debugging"
