@@ -52,6 +52,7 @@ DEPEND="
 "
 RDEPEND="
 	chromeos-base/security_tests
+	chromeos-base/wprgo
 	dev-libs/openssl
 	dev-util/android-uiautomator-server
 	net-misc/curl
