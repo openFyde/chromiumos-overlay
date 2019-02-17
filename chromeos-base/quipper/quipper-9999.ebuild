@@ -31,6 +31,8 @@ IUSE=""
 RDEPEND="
 	>=dev-cpp/gflags-2.0
 	>=dev-libs/glib-2.30
+	dev-libs/openssl:=
+	dev-libs/protobuf:=
 	dev-libs/re2
 	dev-util/perf
 "
