@@ -24,6 +24,7 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/libbrillo
+	dev-libs/protobuf:=
 	>=net-fs/samba-4.5.3-r6
 	sys-apps/dbus
 "
