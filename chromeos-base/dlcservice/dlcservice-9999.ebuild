@@ -23,7 +23,8 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/libbrillo
-	chromeos-base/imageloader"
+	chromeos-base/imageloader
+	dev-libs/protobuf:="
 
 DEPEND="${RDEPEND}
 	chromeos-base/dlcservice-client
