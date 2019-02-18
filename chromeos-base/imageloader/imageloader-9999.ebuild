@@ -22,7 +22,8 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="chromeos-base/libbrillo
-	dev-libs/openssl
+	dev-libs/openssl:=
+	dev-libs/protobuf:=
 	sys-fs/lvm2"
 
 DEPEND="${RDEPEND}
