@@ -43,6 +43,7 @@ PATCHES=(
 	"${FILESDIR}"/0005-Add-X11-detect-support.patch
 	"${FILESDIR}"/0006-Fix-X11-detect-support.patch
 	"${FILESDIR}"/0007-Add-I420-to-supported-Image-formats.patch
+	"${FILESDIR}"/0008-VP-Add-VAProfileVP9Profile2-support-for-VA_RT_FORMAT.patch
 )
 
 src_configure() {
