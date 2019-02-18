@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="3db4e8c7903abfd3f0d5c4f0804b16cff8ea0054"
+CROS_WORKON_COMMIT="cc110be7e30f0da6ef54aef57902fc0f8c1aa055"
 CROS_WORKON_TREE=("720cf19b24f85b5cb772bba081aeb033fd4318b4" "20fa3d4cff2149609b828c163dc35d69c39645bd" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,7 +25,8 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/libbrillo
-	chromeos-base/imageloader"
+	chromeos-base/imageloader
+	dev-libs/protobuf:="
 
 DEPEND="${RDEPEND}
 	chromeos-base/dlcservice-client

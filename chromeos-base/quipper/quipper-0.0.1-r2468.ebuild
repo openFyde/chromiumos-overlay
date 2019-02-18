@@ -4,7 +4,7 @@
 # Don't use Makefile.external here as it fetches from the network.
 EAPI="5"
 
-CROS_WORKON_COMMIT="33b32a5d3992fe35547fdb9539d5b7632405ba71"
+CROS_WORKON_COMMIT="cc110be7e30f0da6ef54aef57902fc0f8c1aa055"
 CROS_WORKON_TREE="720cf19b24f85b5cb772bba081aeb033fd4318b4"
 CROS_WORKON_INCREMENTAL_BUILD=1
 
@@ -33,6 +33,8 @@ IUSE=""
 RDEPEND="
 	>=dev-cpp/gflags-2.0
 	>=dev-libs/glib-2.30
+	dev-libs/openssl:=
+	dev-libs/protobuf:=
 	dev-libs/re2
 	dev-util/perf
 "

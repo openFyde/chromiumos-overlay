@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="33b32a5d3992fe35547fdb9539d5b7632405ba71"
+CROS_WORKON_COMMIT="cc110be7e30f0da6ef54aef57902fc0f8c1aa055"
 CROS_WORKON_TREE=("720cf19b24f85b5cb772bba081aeb033fd4318b4" "7e36566109b9f0bcaa65fd383239b3a2b7cc2e0b" "c16e115ecefe4c345f714e78865b29d223ef5966" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/libbrillo
+	dev-libs/protobuf:=
 	>=net-fs/samba-4.5.3-r6
 	sys-apps/dbus
 "
