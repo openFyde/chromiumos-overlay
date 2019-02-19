@@ -360,7 +360,7 @@ enable_asserts() {
 multilib_src_configure() {
 	local targets
 	if use multitarget; then
-		targets=all
+		targets='host;X86;ARM;AArch64'
 	else
 		targets='host;CppBackend'
 		use video_cards_radeon && targets+=';AMDGPU'
@@ -378,7 +378,9 @@ multilib_src_configure() {
 		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
 
 		-DLLVM_BUILD_LLVM_DYLIB=ON
-		-DLLVM_LINK_LLVM_DYLIB=ON
+		# Link LLVM statically
+		-DLLVM_LINK_LLVM_DYLIB=OFF
+
 		-DLLVM_ENABLE_TIMESTAMPS=OFF
 		-DLLVM_TARGETS_TO_BUILD="${targets}"
 		-DLLVM_BUILD_TESTS=$(usex test)
