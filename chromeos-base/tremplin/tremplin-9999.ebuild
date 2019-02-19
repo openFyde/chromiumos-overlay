@@ -6,6 +6,13 @@ CROS_WORKON_PROJECT="chromiumos/platform/tremplin"
 CROS_WORKON_LOCALNAME="tremplin"
 CROS_GO_BINARIES="chromiumos/tremplin"
 
+CROS_GO_TEST=(
+	"chromiumos/tremplin/..."
+)
+CROS_GO_VET=(
+	"${CROS_GO_TEST[@]}"
+)
+
 inherit cros-workon cros-go
 
 DESCRIPTION="Tremplin LXD client with gRPC support"
