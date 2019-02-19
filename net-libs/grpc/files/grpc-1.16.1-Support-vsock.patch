@@ -174,7 +174,7 @@ index 22fcaf5..e62b9ef 100644
 +      gpr_malloc(sizeof(grpc_resolved_addresses)));
 +  (*addrs)->naddrs = 1;
 +  (*addrs)->addrs = static_cast<grpc_resolved_address*>(
-+      gpr_malloc(sizeof(grpc_resolved_address)));
++      gpr_zalloc(sizeof(grpc_resolved_address)));
 +  vm = (struct sockaddr_vm *)(*addrs)->addrs->addr;
 +  vm->svm_family = AF_VSOCK;
 +  vm->svm_cid = cid;
