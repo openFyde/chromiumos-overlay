@@ -12,10 +12,21 @@ CROS_WORKON_SUBTREE="common-mk arc/keymaster .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/keymaster"
 
-inherit cros-workon platform user
+# This BoringSSL integration follows go/boringssl-cros.
+# DO NOT COPY TO OTHER PACKAGES WITHOUT CONSULTING SECURITY TEAM.
+BORINGSSL_PN="boringssl"
+BORINGSSL_PV="3359"
+BORINGSSL_P="${BORINGSSL_PN}-${BORINGSSL_PV}"
+BORINGSSL_OUTDIR="${WORKDIR}/boringssl_outputs/"
+
+CMAKE_USE_DIR="${WORKDIR}/${BORINGSSL_P}"
+BUILD_DIR="${WORKDIR}/${BORINGSSL_P}_build"
+
+inherit flag-o-matic cmake-utils multilib cros-workon platform user
 
 DESCRIPTION="Android keymaster service in Chrome OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/keymaster"
+SRC_URI="https://github.com/google/${BORINGSSL_PN}/archive/${BORINGSSL_PV}.tar.gz -> ${BORINGSSL_P}.tar.gz"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -27,6 +38,35 @@ RDEPEND="
 	chromeos-base/minijail"
 
 DEPEND="${RDEPEND}"
+
+src_unpack() {
+	platform_src_unpack
+	unpack "${BORINGSSL_P}.tar.gz"
+}
+
+src_prepare() {
+	cmake-utils_src_prepare
+	# Expose BoringSSL headers and outputs.
+	append-cxxflags "-I${WORKDIR}/${BORINGSSL_P}/include"
+	append-ldflags "-L${BORINGSSL_OUTDIR}"
+}
+
+src_configure() {
+	local mycmakeargs=(
+		-DCMAKE_BUILD_TYPE=Release
+	)
+	cmake-utils_src_configure
+	platform_src_configure
+}
+
+src_compile() {
+	# Compile BoringSSL and expose libcrypto.a.
+	cmake-utils_src_compile
+	mkdir -p "${BORINGSSL_OUTDIR}" || die
+	cp -p "${BUILD_DIR}/crypto/libcrypto.a" "${BORINGSSL_OUTDIR}/libboringcrypto.a" || die
+
+	platform_src_compile
+}
 
 src_install() {
 	insinto /etc/init
