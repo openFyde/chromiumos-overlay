@@ -54,6 +54,10 @@ src_unpack() {
 
 src_prepare() {
 	cmake-utils_src_prepare
+	# Expose libhardware headers from arc-toolchain-p.
+	mkdir -p "${WORKDIR}/libhardware/include" || die
+	cp -rfp "/opt/android-p/${ARCH}/usr/include/hardware" "${WORKDIR}/libhardware/include" || die
+	append-cxxflags "-I${WORKDIR}/libhardware/include"
 	# Expose BoringSSL headers and outputs.
 	append-cxxflags "-I${WORKDIR}/${BORINGSSL_P}/include"
 	append-ldflags "-L${BORINGSSL_OUTDIR}"
@@ -90,6 +94,9 @@ src_install() {
 		"seccomp/arc-keymasterd-seccomp-${ARCH}.policy" \
 		arc-keymasterd-seccomp.policy
 
+	# Install shared libs and binary.
+	dolib.so "${OUT}/lib/libarckeymaster_context.so"
+	dolib.so "${OUT}/lib/libkeymaster.so"
 	dosbin "${OUT}/arc-keymasterd"
 }
 
