@@ -24,6 +24,7 @@ IUSE="
 	cups
 	+display_backlight
 	dlc
+	drm_atomic
 	grunt
 	internal
 	+internal_mic
