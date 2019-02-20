@@ -11,15 +11,6 @@ index 0693a1d..f2d806b 100644
  
  #
  # Implicit policy target.
-@@ -34,7 +34,7 @@ ImplicitPolicyTarget=block
- # * apply-policy - evaluate the ruleset for every present
- #                  device
- #
--PresentDevicePolicy=apply-policy
-+PresentDevicePolicy=keep
- 
- #
- # Present controller policy.
 @@ -169,5 +169,7 @@ AuditBackend=FileAudit
  #
  # USBGuard audit events log file path.
