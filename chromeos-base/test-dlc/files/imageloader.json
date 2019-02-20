@@ -1,0 +1,1 @@
+{"fs-type": "squashfs", "pre-allocated-size": 3, "id": "test-dlc", "size": 12288, "table-sha256-hash": "b5e05743bf9609d0a639de35564f0e100b550d246b4b1569e6b0ea534afa5117", "name": "test-dlc", "image-sha256-hash": "e849b81a7190f10939f6c90c1217fb68d3b775d593dc18dfb0f1679c89e2c0f8", "image-type": "dlc", "version": "1.0.0", "is-removable": true, "manifest-version": 1}
