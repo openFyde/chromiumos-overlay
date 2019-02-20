@@ -21,9 +21,9 @@ IUSE="fuzzer test"
 
 DEPEND="
 	dev-rust/libc:=
-	~dev-rust/proc-macro2-0.2.3:=
-	~dev-rust/quote-0.4.2:=
-	~dev-rust/syn-0.12.15:=
+	~dev-rust/proc-macro2-0.4.21:=
+	~dev-rust/quote-0.6.10:=
+	~dev-rust/syn-0.15.21:=
 "
 
 get_crate_version() {
