@@ -35,7 +35,7 @@ esac
 
 inherit toolchain-funcs cros-debug
 
-IUSE="asan fuzzer lsan msan test tsan"
+IUSE="asan fuzzer lsan +lto msan test tsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
 EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_install
@@ -182,8 +182,9 @@ cros-rust_src_configure() {
 	local rustflags=(
 		-Cdebuginfo=2
 		-Copt-level=3
-		-Clto
 	)
+
+	use lto && rustflags+=( -Clto )
 
 	# We don't want to abort during tests.
 	use test || rustflags+=( -Cpanic=abort )
