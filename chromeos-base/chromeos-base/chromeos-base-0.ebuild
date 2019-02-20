@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 
 inherit user udev
 
@@ -123,7 +123,7 @@ pkg_preinst() {
 	# Some default directories. These are created here rather than at
 	# install because some of them may already exist and have mounts.
 	local x
-	for x in /dev /home /media /run \
+	for x in /dev /home /media /run /mnt/empty \
 		/mnt/stateful_partition /proc /root /sys /var/lock; do
 		[[ -d "${ROOT}/${x}" ]] && continue
 		install -d --mode=0755 --owner=root --group=root "${ROOT}/${x}"
