@@ -20,12 +20,12 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-RDEPENDS="
+RDEPEND="
 	chromeos-base/libbrillo
 	dev-libs/protobuf:=
 "
 
-DEPENDS="${RDEPENDS}"
+DEPEND="${RDEPEND}"
 
 src_install() {
 	newbin "${OUT}"/server_proxy arcvm_server_proxy
