@@ -20,4 +20,5 @@ RDEPEND="
 	dev-lang/rust
 	dev-util/cargo
 	sys-apps/mosys
+	dev-embedded/coreboot-sdk
 "
