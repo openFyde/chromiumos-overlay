@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="cdf2c6dab41cb6d7e9fa8a9c226c3d3f16183ffc"
-CROS_WORKON_TREE="85e8afb3b6c934d855d48e29a9804217edb03f97"
+CROS_WORKON_COMMIT="ee876076d8e943321019217709cb7a9b57233183"
+CROS_WORKON_TREE="946e4adc72b5628d452337f62fafadf46f989e71"
 CROS_WORKON_BLACKLIST=1
 CROS_WORKON_LOCALNAME="aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
@@ -38,6 +38,7 @@ src_configure() {
 	export USE_seccomp=$(usex seccomp)
 	export ALLOW_DEBUG_LOGGING=$(usex cros-debug)
 	export USE_SYSTEM_GTEST=yes
+	export DEFAULT_PIVOT_ROOT=/mnt/empty
 }
 
 src_install() {

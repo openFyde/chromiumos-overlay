@@ -36,6 +36,7 @@ src_configure() {
 	export USE_seccomp=$(usex seccomp)
 	export ALLOW_DEBUG_LOGGING=$(usex cros-debug)
 	export USE_SYSTEM_GTEST=yes
+	export DEFAULT_PIVOT_ROOT=/mnt/empty
 }
 
 src_install() {
