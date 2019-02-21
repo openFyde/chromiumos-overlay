@@ -3,10 +3,10 @@ DEPEND=dev-rust/assertions:= dev-vcs/git >=virtual/rust-1.28.0:= >=dev-util/carg
 DESCRIPTION=Crates includes traits and types for safe interaction with raw memory.
 EAPI=6
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/data_model
-IUSE=test cros_host cros_workon_tree_ cros-debug asan fuzzer lsan msan test tsan
+IUSE=test cros_host cros_workon_tree_ cros-debug asan fuzzer lsan +lto msan test tsan
 KEYWORDS=~*
 LICENSE=BSD-Google
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=9999/r0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	f88ee6e8f4473add059f48906c00a7c5	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	2bae89e22f8e30e762b2ae31227dd263	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=4f60b8d9dd179bb18289ad114d38c1cf

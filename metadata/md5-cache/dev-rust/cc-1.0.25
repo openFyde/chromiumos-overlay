@@ -3,11 +3,11 @@ DEPEND=>=dev-rust/rayon-1.0.2:= >=dev-rust/tempdir-0.3.7:= >=virtual/rust-1.28.0
 DESCRIPTION=A library to compile C/C++/assembly into a Rust library/application
 EAPI=6
 HOMEPAGE=https://github.com/alexcrichton/cc-rs
-IUSE=cros-debug asan fuzzer lsan msan test tsan
+IUSE=cros-debug asan fuzzer lsan +lto msan test tsan
 KEYWORDS=*
 LICENSE=|| ( MIT Apache-2.0 )
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=1.0.25/r0
 SRC_URI=https://crates.io/api/v1/crates/cc/1.0.25/download -> cc-1.0.25.crate
-_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	f88ee6e8f4473add059f48906c00a7c5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	2bae89e22f8e30e762b2ae31227dd263	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=8b68286805c939680030a09ef7e1aca4
