@@ -1,0 +1,8 @@
+DEFINED_PHASES=install unpack
+DESCRIPTION=A test Downloadable Content (DLC) module for DLC tast tests
+EAPI=6
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/dlcservice
+KEYWORDS=*
+LICENSE=BSD-Google
+SLOT=0
+_md5_=176ec017837404062a8e227ea57c2acc
