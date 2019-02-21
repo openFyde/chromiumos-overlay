@@ -105,7 +105,6 @@ src_prepare() {
 	fi
 
 	epatch "${FILESDIR}"/8.1-array-overflow.patch
-	epatch "${FILESDIR}"/17.0-glcpp-Hack-to-handle-expressions-in-line-di.patch
 	epatch "${FILESDIR}"/18.1-radeonsi-fix-occlusion-queries.patch
 	epatch "${FILESDIR}"/18.1-glsl-cache-save-restore-ExternalSamplersUsed.patch
 	epatch "${FILESDIR}"/18.1-virgl-Fix-flush-in-virgl_encoder_inline_write.patch
