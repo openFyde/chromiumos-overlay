@@ -1590,6 +1590,10 @@ cros-kernel2_src_install() {
 	# Install modules w/out debug stripping.
 	if cros_chkconfig_present MODULES; then
 		kmake INSTALL_MOD_PATH="${D}/usr/lib/debug" modules_install
+		# Prune files unrelated to debugging.  Like the build symlinks and the
+		# module dep files.
+		# https://crbug.com/924355
+		find "${D}"/usr/lib/debug/lib/modules/*/ -maxdepth 1 '!' -type d -delete
 	fi
 
 	local version=$(kernelrelease)
