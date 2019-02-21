@@ -20,6 +20,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-open-fd.patch" # crbug/831850
+	epatch "${FILESDIR}/${P}-jailed.patch" # crbug/831850
 }
 
 multilib_src_configure() {
