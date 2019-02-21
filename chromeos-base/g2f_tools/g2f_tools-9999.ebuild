@@ -28,6 +28,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/chromeos-ec-headers
+	chromeos-base/u2fd
 	"
 
 src_install() {
