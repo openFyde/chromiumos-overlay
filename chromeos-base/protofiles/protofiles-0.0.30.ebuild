@@ -61,12 +61,6 @@ src_unpack() {
 	done
 }
 
-src_prepare() {
-	# TODO(https://crbug.com/895457): Remove this patch when protobuf has
-	# been upgraded to >=3.5.0 and supports reserved enum values.
-	epatch "${FILESDIR}/${PN}-0.0.25-reserved-enum-values.patch"
-}
-
 src_install() {
 	insinto /usr/include/proto
 	doins "${S}"/cloud/policy/proto/*.proto
