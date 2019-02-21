@@ -142,7 +142,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3705.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3712.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R74-3626.74-1549278723.afdo"
 AFDO_FILE["airmont"]="R74-3626.74-1549281179.afdo"
 AFDO_FILE["haswell"]="R74-3626.85-1549885254.afdo"
@@ -1112,10 +1112,7 @@ src_compile() {
 
 	cd "${CHROME_ROOT}"/src || die "Cannot chdir to ${CHROME_ROOT}/src"
 
-	local chrome_targets=(
-		chrome_sandbox
-		$(usex mojo "mojo_shell" "")
-	)
+	local chrome_targets=( $(usex mojo "mojo_shell" "") )
 	if use app_shell; then
 		chrome_targets+=( app_shell )
 	else
@@ -1222,8 +1219,7 @@ install_chrome_test_resources() {
 	# directory.
 	TEST_INSTALL_TARGETS=(
 		"${TEST_FILES[@]}"
-		"libppapi_tests.so"
-		"chrome_sandbox" )
+		"libppapi_tests.so" )
 
 	einfo "Installing test targets: ${TEST_INSTALL_TARGETS[@]}"
 	test_strip_install "${from}" "${dest}" "${TEST_INSTALL_TARGETS[@]}"
@@ -1480,11 +1476,6 @@ src_install() {
 				continue
 			fi
 			source="${i}"
-			# The chrome_sandbox is renamed to chrome_sandbox.
-			# Use the original file to generate the .dwp file.
-			if [[ ${source} == "./chrome-sandbox" ]] ; then
-				source="chrome_sandbox"
-			fi
 			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp" || die
 		done < <(scanelf -BRyF '%F' ".")
 	fi
