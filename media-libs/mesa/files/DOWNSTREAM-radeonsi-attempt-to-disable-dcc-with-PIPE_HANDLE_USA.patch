@@ -1,0 +1,32 @@
+From e6e3afe699acc1a6134a6a1fa858253abfe26cbe Mon Sep 17 00:00:00 2001
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Tue, 12 Mar 2019 11:03:25 -0700
+Subject: [PATCH] radeonsi: attempt to disable dcc with
+ PIPE_HANDLE_USAGE_FRAMEBUFFER_WRITE too
+
+Previously, we attempted to disable dcc anytime PIPE_HANDLE_USAGE_WRITE
+was set.  That recently changed, and that caused some gbm map
+tests to regress on CrOS.
+
+Fixes: 8ad12c ("gallium: rework PIPE_HANDLE_USAGE_* flags")
+---
+ src/gallium/drivers/radeonsi/si_texture.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/gallium/drivers/radeonsi/si_texture.c b/src/gallium/drivers/radeonsi/si_texture.c
+index 581f90a7b2f..1176fe0183e 100644
+--- a/src/gallium/drivers/radeonsi/si_texture.c
++++ b/src/gallium/drivers/radeonsi/si_texture.c
+@@ -759,7 +759,8 @@ static boolean si_texture_get_handle(struct pipe_screen* screen,
+ 		 * disable it for external clients that want write
+ 		 * access.
+ 		 */
+-		if (usage & PIPE_HANDLE_USAGE_SHADER_WRITE && tex->dcc_offset) {
++		if ((usage & (PIPE_HANDLE_USAGE_SHADER_WRITE | PIPE_HANDLE_USAGE_FRAMEBUFFER_WRITE))
++		    && tex->dcc_offset) {
+ 			if (si_texture_disable_dcc(sctx, tex)) {
+ 				update_metadata = true;
+ 				/* si_texture_disable_dcc flushes the context */
+-- 
+2.20.1
+

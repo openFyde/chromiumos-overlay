@@ -1,10 +1,10 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
 EAPI=5
 
-CROS_WORKON_COMMIT="0f959215c340150cb6075f5c2d3ccfc5d109558f"
+CROS_WORKON_COMMIT="b43b55d4619489e603780adf3c92a36dadcc362b"
 CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
@@ -65,6 +65,7 @@ RDEPEND="
 		>=x11-libs/libX11-1.3.99.901
 		x11-libs/libXdamage
 		x11-libs/libXext
+		x11-libs/libXrandr
 		x11-libs/libXxf86vm
 	)
 	llvm? ( virtual/libelf )
@@ -107,41 +108,8 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	epatch "${FILESDIR}"/18.1-radeonsi-fix-occlusion-queries.patch
-	epatch "${FILESDIR}"/18.1-glsl-cache-save-restore-ExternalSamplersUsed.patch
-	epatch "${FILESDIR}"/18.1-virgl-Fix-flush-in-virgl_encoder_inline_write.patch
-	epatch "${FILESDIR}"/18.1-util-disk_cache-Fix-disk_cache_get_function_timestamp-with-disabled-cache.patch
-	epatch "${FILESDIR}"/18.1-radv-Still-enable-inmemory-API-level-caching-if-disk.patch
-	epatch "${FILESDIR}"/18.2-mesa-GL_MESA_framebuffer_flip_y-extension-v4.patch
-	epatch "${FILESDIR}"/18.2-i965-implement-GL_MESA_framebuffer_flip_y-v3.patch
-	epatch "${FILESDIR}"/18.1-egl-surfaceless-swrastloader.patch
-	epatch "${FILESDIR}"/18.1-egl-surfaceless-drmless.patch
-	epatch "${FILESDIR}"/18.2-radv-Make-fs-key-exemplars-ordered-to-be-a-reverse-f.patch
-	epatch "${FILESDIR}"/18.2-radv-Refactor-blit-pipeline-creation.patch
-	epatch "${FILESDIR}"/18.2-radv-Add-on-demand-compilation-of-built-in-shaders.patch
-	epatch "${FILESDIR}"/18.3-glapi-actually-implement-GL_EXT_robustness.patch
-	epatch "${FILESDIR}"/18.3-i965-Replace-checks-for-rb-Name-with-FlipY.patch
-	epatch "${FILESDIR}"/18.2-egl-rewire-the-build-systems-to-use-libwayland-egl.patch
-	epatch "${FILESDIR}"/18.2-egl-remove-wayland-egl-now-that-we-re-using-libwayla.patch
-	epatch "${FILESDIR}"/18.2-mesa-Additional-FlipY-applications.patch
-	epatch "${FILESDIR}"/18.2-ac-move-all-LLVM-module-initialization-into.patch
-	epatch "${FILESDIR}"/18.2-ac-radeonsi-refactor-out-pass-manager-init-to-common.patch
-	epatch "${FILESDIR}"/18.2-ac-add-target-library-info-helpers.patch
-	epatch "${FILESDIR}"/18.2-radeonsi-rename-si_compiler-ac_llvm_compiler.patch
-	epatch "${FILESDIR}"/18.2-ac-radeonsi-port-compiler-init-destroy-out-of-radeon.patch
-	epatch "${FILESDIR}"/18.2-ac-add-reusable-helpers-for-direct-LLVM-compilation.patch
-	epatch "${FILESDIR}"/18.2-radeonsi-use-ac_compile_module_to_binary-to-reduce-c.patch
-	epatch "${FILESDIR}"/18.2-ac-radeonsi-reduce-optimizations-for-complex-compute.patch
-	epatch "${FILESDIR}"/18.2-st-mesa-Also-check-for-PIPE_FORMAT_A8R8G8B8_SRGB-for.patch
 	epatch "${FILESDIR}"/18.3-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
-	epatch "${FILESDIR}"/18.2-gallium-winsys-kms-dont-unmap-what-wasnt-mapped.patch
-	epatch "${FILESDIR}"/18.2-st-mesa-only-define-GLSL-1.4-for-compat-if-driver-su.patch
-	epatch "${FILESDIR}"/18.2-gallium-add-PIPE_CAP_GLSL_FEATURE_LEVEL_COMPATIBILIT.patch
-	epatch "${FILESDIR}"/18.2-st-mesa-use-PIPE_CAP_GLSL_FEATURE_LEVEL_COMPATIBILIT.patch
-	epatch "${FILESDIR}"/18.2-mesa-add-ff-fragment-shader-support-for-geom-and-tes.patch
-	epatch "${FILESDIR}"/18.2-radeonsi-enable-OpenGL-3.3-compat-profile.patch
-	epatch "${FILESDIR}"/18.2-radv-winsys-fix-creating-the-BO-list-for-virtual-buf.patch
-	epatch "${FILESDIR}"/18.2-radv-fix-VK_EXT_descriptor_indexing.patch
+	epatch "${FILESDIR}"/DOWNSTREAM-radeonsi-attempt-to-disable-dcc-with-PIPE_HANDLE_USA.patch
 
 	base_src_prepare
 
@@ -224,6 +192,7 @@ src_configure() {
 
 	# --with-driver=dri|xlib|osmesa || do we need osmesa?
 	econf \
+		--enable-autotools \
 		--disable-option-checking \
 		--with-driver=dri \
 		--disable-glu \
@@ -261,25 +230,6 @@ src_install() {
 
 	# Remove redundant GLES headers
 	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
-
-	# Move libGL and others from /usr/lib to /usr/lib/opengl/blah/lib
-	# because user can eselect desired GL provider.
-	ebegin "Moving libGL and friends for dynamic switching"
-		dodir /usr/$(get_libdir)/opengl/${OPENGL_DIR}/{lib,extensions,include}
-		local x
-		for x in "${D}"/usr/$(get_libdir)/libGL.{la,a,so*}; do
-			if [ -f ${x} -o -L ${x} ]; then
-				mv -f "${x}" "${D}"/usr/$(get_libdir)/opengl/${OPENGL_DIR}/lib \
-					|| die "Failed to move ${x}"
-			fi
-		done
-		for x in "${D}"/usr/include/GL/{gl.h,glx.h,glext.h,glxext.h}; do
-			if [ -f ${x} -o -L ${x} ]; then
-				mv -f "${x}" "${D}"/usr/$(get_libdir)/opengl/${OPENGL_DIR}/include \
-					|| die "Failed to move ${x}"
-			fi
-		done
-	eend $?
 
 	dodir /usr/$(get_libdir)/dri
 	insinto "/usr/$(get_libdir)/dri/"
