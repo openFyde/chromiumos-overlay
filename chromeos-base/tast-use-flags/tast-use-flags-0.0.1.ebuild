@@ -14,6 +14,7 @@ IUSE="
 	amd64
 	android-container-pi
 	arc
+	arc-camera3
 	arcvm
 	asan
 	betty
