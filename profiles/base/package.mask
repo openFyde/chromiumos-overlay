@@ -3,6 +3,3 @@
 sys-firmware/analogix-anx3429-firmware
 sys-firmware/parade-ps8751a3-firmware
 sys-firmware/parade-ps8751a3-firmware-canary
-# Temporarily mask libc++ >= 349610 on arm64, https://crbug.com/934016.
->=cross-aarch64-cros-linux-gnu/libcxxabi-8.0_pre349610
->=cross-aarch64-cros-linux-gnu/libcxx-8.0_pre349610
