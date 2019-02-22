@@ -26,7 +26,9 @@ IUSE=""
 DEPEND="
 	app-emulation/lxd
 	chromeos-base/vm_guest_tools
+	dev-go/go-libaudit
 	dev-go/grpc
+	dev-go/netlink
 	dev-go/vsock
 "
 
