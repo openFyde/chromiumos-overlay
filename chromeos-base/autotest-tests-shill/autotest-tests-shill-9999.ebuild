@@ -25,6 +25,7 @@ DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
 	+tests_network_BasicProfileProperties
+	+tests_network_ConfigureEthernetServiceForProfile
 	+tests_network_DefaultProfileServices
 	+tests_network_DhcpClasslessStaticRoute
 	+tests_network_DhcpFailureWithStaticIP
