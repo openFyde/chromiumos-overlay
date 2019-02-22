@@ -36,22 +36,22 @@ RDEPEND="
 "
 
 pkg_preinst() {
-	enewuser diagnostics
-	enewgroup diagnostics
+	enewuser wilco_dtc
+	enewgroup wilco_dtc
 }
 
 src_install() {
 	dobin "${OUT}/diag"
-	dobin "${OUT}/diagnosticsd"
-	dobin "${OUT}/diagnostics_processor"
 	dobin "${OUT}/telem"
+	dobin "${OUT}/wilco_dtc"
+	dobin "${OUT}/wilco_dtc_supportd"
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
-	use seccomp && newins "init/diagnosticsd-seccomp-${ARCH}.policy" \
-		diagnosticsd-seccomp.policy
-	use seccomp && newins "init/diagnostics_processor-seccomp-${ARCH}.policy" \
-		diagnostics_processor-seccomp.policy
+	use seccomp && newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
+		wilco_dtc_supportd-seccomp.policy
+	use seccomp && newins "init/wilco_dtc-seccomp-${ARCH}.policy" \
+		wilco_dtc-seccomp.policy
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
@@ -59,16 +59,16 @@ src_install() {
 
 	# Install the init scripts.
 	insinto /etc/init
-	doins init/diagnosticsd.conf
-	doins init/diagnostics_processor.conf
+	doins init/wilco_dtc_supportd.conf
+	doins init/wilco_dtc.conf
 }
 
 platform_pkg_test() {
 	local tests=(
-		diagnosticsd_test
 		libdiag_test
 		libgrpc_async_adapter_test
 		libtelem_test
+		wilco_dtc_supportd_test
 	)
 
 	local test_bin
