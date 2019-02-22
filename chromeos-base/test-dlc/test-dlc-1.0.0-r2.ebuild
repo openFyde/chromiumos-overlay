@@ -10,7 +10,8 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="dlc"
+REQUIRED_USE="dlc"
 
 src_unpack() {
 	# Makes emerge pass.
