@@ -53,6 +53,10 @@ src_unpack() {
 
 src_configure() {
 	cros-rust_src_configure
+
+	# Change the path used for the minijail pivot root from /var/empty.
+	# See: https://crbug.com/934513
+	export DEFAULT_PIVOT_ROOT="/mnt/empty"
 }
 
 src_compile() {
