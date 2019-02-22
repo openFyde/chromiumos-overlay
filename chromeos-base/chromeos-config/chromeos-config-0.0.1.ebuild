@@ -52,8 +52,10 @@ src_compile() {
 		cros_config_schema -c "${yaml}" -o "${json}" -g "${WORKDIR}" -f "True" \
 			|| die "cros_config_schema failed for platform config."
 	else
-		einfo "Emitting empty c interface config for mosys."
+		einfo "Emitting empty c interface config for mosys and ec."
 		cp "${FILESDIR}/empty_config.c" "${c_file}"
+		cp "${FILESDIR}/empty_ec_config.c" "${WORKDIR}/ec_config.c"
+		cp "${FILESDIR}/empty_ec_config.h" "${WORKDIR}/ec_config.h"
 	fi
 }
 
