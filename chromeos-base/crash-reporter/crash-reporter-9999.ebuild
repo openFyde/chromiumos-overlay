@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cheets cros_embedded -direncryption systemd"
+IUSE="cheets chromeless_tty cros_embedded -direncryption systemd"
 
 RDEPEND="
 	chromeos-base/minijail
