@@ -10,7 +10,7 @@ inherit cros-sanitizers cros-workon cros-common.mk cros-constants cros-debug
 DESCRIPTION="Chromium OS multitouch utilities"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/mttools"
 
-LICENSE="BSD"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="-asan"
