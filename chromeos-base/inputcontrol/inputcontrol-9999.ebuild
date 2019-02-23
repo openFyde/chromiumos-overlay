@@ -10,7 +10,7 @@ inherit cros-workon
 DESCRIPTION="A collection of utilities for configuring input devices"
 HOMEPAGE="http://www.chromium.org/"
 
-LICENSE="BSD"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE=""
