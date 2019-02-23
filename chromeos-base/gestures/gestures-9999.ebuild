@@ -11,7 +11,7 @@ DESCRIPTION="Gesture recognizer library"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
-LICENSE="BSD"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="-asan +X"
