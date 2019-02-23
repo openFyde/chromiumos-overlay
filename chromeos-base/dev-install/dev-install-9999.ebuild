@@ -136,7 +136,7 @@ src_install() {
 	doins "${build_dir}"/bootstrap.packages
 
 	insinto /usr/share/${PN}/portage/make.profile
-	doins make.{conf,defaults}
+	doins make.defaults
 
 	fixup_make_defaults "${ED}"/usr/share/${PN}/portage/make.profile/make.defaults
 
