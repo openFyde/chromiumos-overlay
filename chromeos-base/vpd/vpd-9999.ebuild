@@ -10,7 +10,7 @@ DESCRIPTION="ChromeOS vital product data utilities"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
-LICENSE="BSD"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="static systemd"
