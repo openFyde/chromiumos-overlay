@@ -105,9 +105,6 @@ src_compile() {
 
 	python "${FILESDIR}"/filter.py || die
 
-	# Add the board specific binhost repository.
-	sed -e "s|BOARD|${BOARD}|g" "${SRCDIR}/repository.conf" > repository.conf
-
 	# Add dhcp to the list of packages installed since its installation will not
 	# complete (can not add dhcp group since /etc is not writeable). Bootstrap it
 	# instead.
@@ -135,7 +132,7 @@ src_install() {
 	dobin dev_install
 
 	insinto /usr/share/${PN}/portage
-	doins "${build_dir}"/{bootstrap.packages,repository.conf}
+	doins "${build_dir}"/bootstrap.packages
 
 	insinto /usr/share/${PN}/portage/make.profile
 	doins "${build_dir}"/package.installable make.{conf,defaults}
