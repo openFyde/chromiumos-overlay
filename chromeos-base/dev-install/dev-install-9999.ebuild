@@ -166,11 +166,6 @@ pkg_preinst() {
 		# dir because we need different settings at build time vs what
 		# we want at runtime in release images.  Thus, install the files
 		# into /usr/share but symlink them into /etc for the images.
-		local f srcdir="/usr/share/${PN}"
-		pushd "${ED}/${srcdir}" >/dev/null
-		for f in $(find -type f -printf '%P '); do
-			dosym "${srcdir}/${f}" "/etc/${f}"
-		done
-		popd >/dev/null
+		dosym "/usr/share/${PN}/portage" /etc/portage
 	fi
 }
