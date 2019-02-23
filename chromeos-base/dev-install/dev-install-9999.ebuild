@@ -12,6 +12,7 @@ EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_SUBTREE="dev-install"
 
 inherit cros-workon
 
