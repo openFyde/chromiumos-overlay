@@ -13,7 +13,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 
-inherit cros-workon cros-board multiprocessing
+inherit cros-workon
 
 DESCRIPTION="Chromium OS Developer Packages installer"
 HOMEPAGE="http://dev.chromium.org/chromium-os/how-tos-and-troubleshooting/install-software-on-base-images"
@@ -21,7 +21,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/how-tos-and-troubleshooting/instal
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros-debug"
+IUSE=""
 
 DEPEND="app-arch/tar
 	sys-apps/coreutils
@@ -34,68 +34,6 @@ DEPEND="app-arch/tar
 RDEPEND="app-arch/tar
 	net-misc/curl
 	sys-apps/coreutils"
-
-src_prepare() {
-	default
-	SRCDIR="${S}/dev-install"
-	mkdir -p "$(cros-workon_get_build_dir)"
-}
-
-src_compile() {
-	cd "$(cros-workon_get_build_dir)"
-
-	local useflags pkg pkgs
-	local BOARD=$(get_current_board_with_variant "error")
-
-	if [[ "${BOARD:-error}" == "error" ]]; then
-		die "Could not determine the current board using cros-board.eclass."
-	fi
-
-	# We need to pass down cros-debug automatically because this is often
-	# times toggled at the ./build_packages level.  This is a hack of sorts,
-	# but covers the most common case.
-	useflags="${USE}"
-	use cros-debug || useflags+=" -cros-debug"
-
-	pkgs=(
-		# Generate a list of packages that go into the base image. These
-		# packages will be assumed to be installed by emerge in the target.
-		virtual/target-os
-
-		# Get the list of the packages needed to bootstrap emerge.
-		portage
-	)
-	ebegin "Building depgraphs for: ${pkgs[*]}"
-	multijob_init
-	for pkg in ${pkgs[@]} ; do
-		# The ebuild env will modify certain variables in ways that we
-		# do not care for.  For example, PORTDIR_OVERLAY is modified to
-		# only point to the current tree which screws up the search of
-		# the board-specific overlays.
-		(
-		multijob_child_init
-		env -i PATH="${PATH}" PORTAGE_USERNAME="${PORTAGE_USERNAME}" USE="${useflags}" \
-		emerge-${BOARD} \
-			--root "${T}" --buildpkg=n \
-			--pretend --quiet --emptytree --ignore-default-opts \
-			--root-deps=rdeps ${pkg} | \
-			egrep -o ' [[:alnum:]-]+/[^[:space:]/]+\b' | \
-			tr -d ' ' | \
-			sort > ${pkg##*/}.packages
-		_pipestatus=${PIPESTATUS[*]}
-		[[ ${_pipestatus// } -eq 0 ]] || die "\`USE=\"${useflags}\" emerge-${BOARD} ${pkg}\` failed"
-		) &
-		multijob_post_fork
-	done
-	multijob_finish
-	eend
-	# No virtual packages in package.provided. We store packages for
-	# package.provided in file chromeos-base.packages as package.provided is a
-	# directory.
-	grep -v "virtual/" target-os.packages > chromeos-base.packages
-
-	python "${FILESDIR}"/filter.py || die
-}
 
 fixup_make_defaults() {
 	local file=$1
@@ -110,19 +48,17 @@ fixup_make_defaults() {
 		${file} || die
 }
 
-src_install() {
-	local build_dir=$(cros-workon_get_build_dir)
+# Nothing to compile.
+src_compile() { :; }
 
-	cd "${SRCDIR}"
+src_install() {
+	cd "${S}/dev-install"
 	dobin dev_install
 
 	insinto /usr/share/${PN}/portage/make.profile
 	doins make.defaults
 
 	fixup_make_defaults "${ED}"/usr/share/${PN}/portage/make.profile/make.defaults
-
-	insinto /usr/share/${PN}/portage/make.profile/package.provided
-	doins "${build_dir}"/chromeos-base.packages
 
 	insinto /etc/bash/bashrc.d/
 	newins bashrc ${PN}.sh
