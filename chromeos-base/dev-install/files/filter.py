@@ -8,9 +8,6 @@ cros_pkgs = set(open('target-os.packages', 'r').readlines())
 port_pkgs = set(open('portage.packages', 'r').readlines())
 
 boot_pkgs = port_pkgs - cros_pkgs
-f = open('bootstrap.packages', 'w')
-f.write(''.join(boot_pkgs))
-f.close()
 
 # After bootstrapping the package will be assumed
 # to be installed by emerge.

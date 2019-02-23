@@ -2,12 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-lang/python/python-2.7.10.ebuild,v 1.2 2015/06/29 17:26:27 floppym Exp $
 
-# ******************************* README ***************************************
-# WARNING! ANY CHANGE TO THIS FILE *MUST* BE ACCOMPANIED BY A CHANGE TO
-# chromeos-base/dev-install's ebuild, which depends on python indirectly.
-# Otherwise, incremental builds will break.  See crbug.com/489895.
-# ******************************************************************************
-
 EAPI="5"
 WANT_LIBTOOL="none"
 

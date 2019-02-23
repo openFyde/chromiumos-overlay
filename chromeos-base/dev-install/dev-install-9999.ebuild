@@ -1,12 +1,6 @@
 # Copyright 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-# TODO(phobbs) the output of this ebuild depends on what virtual/target-os-dev
-# depends on (except what is in virtual/target-os), but does NOT explicitly
-# depend on those packages. Therefore any change to the dependencies of
-# virtual/target-os-dev will result in a stale output of dev-install, breaking
-# incremental builds.  See crbug.com/489895.
-
 # This ebuild file installs the developer installer package. It:
 #  + Copies dev_install.
 #  + Copies some config files for emerge: make.defaults and make.conf.
@@ -70,10 +64,6 @@ src_compile() {
 
 		# Get the list of the packages needed to bootstrap emerge.
 		portage
-
-		# Get the list of dev and test packages.
-		virtual/target-os-dev
-		virtual/target-os-test
 	)
 	ebegin "Building depgraphs for: ${pkgs[*]}"
 	multijob_init
@@ -105,12 +95,6 @@ src_compile() {
 	grep -v "virtual/" target-os.packages > chromeos-base.packages
 
 	python "${FILESDIR}"/filter.py || die
-
-	# Add dhcp to the list of packages installed since its installation will not
-	# complete (can not add dhcp group since /etc is not writeable). Bootstrap it
-	# instead.
-	grep "net-misc/dhcp-" target-os-dev.packages >> chromeos-base.packages
-	grep "net-misc/dhcp-" target-os-dev.packages >> bootstrap.packages
 }
 
 fixup_make_defaults() {
@@ -131,9 +115,6 @@ src_install() {
 
 	cd "${SRCDIR}"
 	dobin dev_install
-
-	insinto /usr/share/${PN}/portage
-	doins "${build_dir}"/bootstrap.packages
 
 	insinto /usr/share/${PN}/portage/make.profile
 	doins make.defaults
