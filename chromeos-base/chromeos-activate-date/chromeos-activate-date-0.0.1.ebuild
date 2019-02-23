@@ -7,7 +7,7 @@ inherit systemd
 
 DESCRIPTION="Chrome OS activate date mechanism"
 
-LICENSE="BSD"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 IUSE="systemd"
