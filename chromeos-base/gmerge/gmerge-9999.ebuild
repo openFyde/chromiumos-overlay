@@ -19,8 +19,6 @@ RDEPEND="app-arch/tar
 	dev-util/shflags
 	net-misc/curl"
 
-CHROMEOS_PROFILE="/usr/local/portage/chromiumos/profiles/targets/chromeos"
-
 src_install() {
 	# Install tools from platform/dev into /usr/local/bin
 	into /usr/local
@@ -28,10 +26,4 @@ src_install() {
 
 	insinto /usr/local/etc/portage/make.profile/
 	newins "${FILESDIR}/parent" parent
-
-	# Setup package.provided so that gmerge will know what packages to ignore.
-	# - $CHROMEOS_PROFILE/package.provided contains packages that we don't
-	#   want to install to the device.
-	insinto /usr/local/etc/portage/make.profile/package.provided
-	newins "${CHROMEOS_PROFILE}"/package.provided chromeos
 }
