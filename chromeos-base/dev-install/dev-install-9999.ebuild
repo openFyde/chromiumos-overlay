@@ -24,17 +24,11 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND="app-arch/tar
-	sys-apps/coreutils
-	sys-apps/grep
-	sys-apps/portage
-	sys-apps/sed"
-
-# TODO(arkaitzr): remove dependency on tar if it's gonna be removed from the
-# base image. Also modify dev_install.
-RDEPEND="app-arch/tar
-	net-misc/curl
-	sys-apps/coreutils"
+DEPEND=""
+RDEPEND="${DEPEND}
+	app-arch/bzip2
+	app-arch/tar
+	net-misc/curl"
 
 fixup_make_defaults() {
 	local file=$1
