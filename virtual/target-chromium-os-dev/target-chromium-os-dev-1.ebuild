@@ -74,6 +74,7 @@ RDEPEND="${RDEPEND}
 	app-misc/screen
 	app-portage/portage-utils
 	app-shells/bash
+	app-text/tree
 	cras? (
 		chromeos-base/audiotest
 		media-sound/sox
