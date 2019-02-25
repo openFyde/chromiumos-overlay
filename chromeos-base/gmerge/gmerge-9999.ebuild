@@ -15,19 +15,16 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="app-shells/bash
-	dev-lang/python
+RDEPEND="app-arch/tar
 	dev-util/shflags
-	net-misc/curl
-	sys-apps/portage"
-DEPEND="${RDEPEND}"
+	net-misc/curl"
 
 CHROMEOS_PROFILE="/usr/local/portage/chromiumos/profiles/targets/chromeos"
 
 src_install() {
 	# Install tools from platform/dev into /usr/local/bin
 	into /usr/local
-	dobin gmerge stateful_update
+	dobin stateful_update
 
 	insinto /usr/local/etc/portage/make.profile/
 	newins "${FILESDIR}/parent" parent
