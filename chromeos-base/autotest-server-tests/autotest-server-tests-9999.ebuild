@@ -140,6 +140,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50CheckCap
 	+tests_firmware_Cr50ConsoleCommands
 	+tests_firmware_Cr50DeepSleepStress
+	+tests_firmware_Cr50DeferredECReset
 	+tests_firmware_Cr50DeviceState
 	+tests_firmware_Cr50DevMode
 	+tests_firmware_Cr50ECReset
