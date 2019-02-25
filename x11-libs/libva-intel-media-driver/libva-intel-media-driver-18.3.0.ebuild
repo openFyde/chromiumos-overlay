@@ -37,13 +37,13 @@ RDEPEND="${DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}"/0001-Adjust-compile-flags-for-clang.patch
-	"${FILESDIR}"/0002-add-check-for-external-surface-alignments.patch
 	"${FILESDIR}"/0003-Allow-I420-for-surface-creation.patch
 	"${FILESDIR}"/0004-Add-an-option-in-CMakeLists-to-include-exclude-cmrtl.patch
 	"${FILESDIR}"/0005-Add-X11-detect-support.patch
 	"${FILESDIR}"/0006-Fix-X11-detect-support.patch
 	"${FILESDIR}"/0007-Add-I420-to-supported-Image-formats.patch
 	"${FILESDIR}"/0008-VP-Add-VAProfileVP9Profile2-support-for-VA_RT_FORMAT.patch
+	"${FILESDIR}"/0009-Decode-Align-the-height-for-external-surfaces.patch
 )
 
 src_configure() {
