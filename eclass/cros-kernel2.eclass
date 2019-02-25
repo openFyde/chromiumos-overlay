@@ -853,6 +853,8 @@ FIRMWARE_BINARIES=(
 	builtin_fw_t210_xusb
 	builtin_fw_t210_nouveau
 	builtin_fw_t210_bpmp
+	builtin_fw_guc_g9
+	builtin_fw_huc_g9
 )
 
 builtin_fw_amdgpu_desc="Firmware for AMD GPU"
@@ -909,6 +911,16 @@ builtin_fw_t210_nouveau_files=(
 builtin_fw_t210_bpmp_desc="Tegra210 BPMP"
 builtin_fw_t210_bpmp_files=(
 	nvidia/tegra210/bpmp.bin
+)
+
+builtin_fw_guc_g9_desc="GuC Firmware for Gen9"
+builtin_fw_guc_g9_files=(
+	i915/kbl_guc_ver9_39.bin
+)
+
+builtin_fw_huc_g9_desc="HuC Firmware for Gen9"
+builtin_fw_huc_g9_files=(
+	i915/kbl_huc_ver02_00_1810.bin
 )
 
 extra_fw_config="
