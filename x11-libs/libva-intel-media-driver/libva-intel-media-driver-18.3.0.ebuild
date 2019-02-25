@@ -44,6 +44,7 @@ PATCHES=(
 	"${FILESDIR}"/0007-Add-I420-to-supported-Image-formats.patch
 	"${FILESDIR}"/0008-VP-Add-VAProfileVP9Profile2-support-for-VA_RT_FORMAT.patch
 	"${FILESDIR}"/0009-Decode-Align-the-height-for-external-surfaces.patch
+	"${FILESDIR}"/0010-Decode-Fix-partition-lengths-for-MFD_VP8_BSD_OBJECT.patch
 )
 
 src_configure() {
