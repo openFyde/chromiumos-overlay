@@ -23,7 +23,4 @@ src_install() {
 	# Install tools from platform/dev into /usr/local/bin
 	into /usr/local
 	dobin stateful_update
-
-	insinto /usr/local/etc/portage/make.profile/
-	newins "${FILESDIR}/parent" parent
 }
