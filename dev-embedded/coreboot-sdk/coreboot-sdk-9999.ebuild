@@ -79,7 +79,6 @@ src_compile() {
 		x86_64-elf
 		arm-eabi
 		aarch64-elf
-		mipsel-elf
 		nds32le-elf
 		riscv-elf
 	)
