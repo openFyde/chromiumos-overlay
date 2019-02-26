@@ -66,6 +66,9 @@ src_install() {
 	into /
 	newsbin "${OUT}"/maitred init
 
+	# Create a folder for process configs to be launched at VM startup.
+	dodir /etc/maitred/
+
 	dosym /run/resolv.conf /etc/resolv.conf
 
 	CROS_GO_WORKSPACE="${OUT}/gen/go"
