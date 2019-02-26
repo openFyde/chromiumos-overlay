@@ -25,6 +25,7 @@ IUSE="
 	+display_backlight
 	dlc
 	grunt
+	internal
 	+internal_mic
 	kvm_host
 	lxc
