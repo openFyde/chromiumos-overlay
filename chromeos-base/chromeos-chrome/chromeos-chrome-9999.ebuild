@@ -1395,14 +1395,19 @@ src_install() {
 		autotest-deponly_src_install
 		#env -uRESTRICT prepstrip "${D}${AUTOTEST_BASE}"
 
-		# Copy input_methods.txt for auto-test.
-		insinto /usr/share/chromeos-assets/input_methods
-		doins "${CHROME_ROOT}"/src/chromeos/ime/input_methods.txt
-
 		# Copy generated cloud_policy.proto. We can't do this in the
 		# protofiles ebuild since this is a generated proto.
 		insinto /usr/share/protofiles
 		doins "${FROM}"/gen/components/policy/proto/cloud_policy.proto
+	fi
+
+	# Copy input_methods.txt for XkbToKcmConverter & auto-test.
+	if [[ "${CHROME_ORIGIN}" == "LOCAL_SOURCE" ||
+			"${CHROME_ORIGIN}" == "SERVER_SOURCE" ]]; then
+		insinto /usr/share/chromeos-assets/input_methods
+		sed -E -e '/^#/d' -e '/^$/d' -e 's:  +: :g' \
+			"${CHROME_ROOT}"/src/chromeos/ime/input_methods.txt > "${T}/input_methods.txt" || die
+		doins "${T}/input_methods.txt"
 	fi
 
 	# Fix some perms.
