@@ -132,6 +132,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-st-mesa-Also-check-for-PIPE_FORMAT_A8R8G8B8_SRGB-for.patch
 	epatch "${FILESDIR}"/18.3-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
 	epatch "${FILESDIR}"/18.2-gallium-winsys-kms-dont-unmap-what-wasnt-mapped.patch
+	epatch "${FILESDIR}"/18.2-radv-fix-VK_EXT_descriptor_indexing.patch
 
 	base_src_prepare
 

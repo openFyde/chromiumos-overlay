@@ -141,6 +141,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/18.2-mesa-add-ff-fragment-shader-support-for-geom-and-tes.patch
 	epatch "${FILESDIR}"/18.2-radeonsi-enable-OpenGL-3.3-compat-profile.patch
 	epatch "${FILESDIR}"/18.2-radv-winsys-fix-creating-the-BO-list-for-virtual-buf.patch
+	epatch "${FILESDIR}"/18.2-radv-fix-VK_EXT_descriptor_indexing.patch
 
 	base_src_prepare
 
