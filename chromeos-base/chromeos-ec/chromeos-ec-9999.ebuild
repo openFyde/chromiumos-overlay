@@ -270,6 +270,7 @@ board_install() {
 
 	openssl dgst -sha256 -binary RO/ec.RO.flat > RO/ec.RO.hash
 	newins ec.bin "ec${file_suffix}.bin"
+	newins ec.obj "ec${file_suffix}.obj"
 	if grep -q '^CONFIG_VBOOT_EFS=y' .config; then
 		# This extracts EC_RW.bin (= RW_A region image) from ec.bin.
 		futility sign --type rwsig ec.bin || die
