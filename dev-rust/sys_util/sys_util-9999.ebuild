@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/
 LICENSE="BSD-Google"
 SLOT="${PV}/${PR}"
 KEYWORDS="~*"
-IUSE="test"
+IUSE="asan test"
 
 DEPEND="
 	>=dev-rust/libc-0.2.44:=
@@ -41,10 +41,18 @@ src_compile() {
 }
 
 src_test() {
+	local skip_tests=()
+
+	# These tests directly make a clone(2) syscall, which makes ASAN very
+	# unhappy since it sees memory allocated in the child process that is not
+	# freed (because it is owned by some other thread created by the test runner
+	# in the parent process).
+	use asan && skip_tests+=( --skip "fork::tests" )
+
 	if use x86 || use amd64; then
 		# Some tests must be run single threaded to ensure correctness,
 		# since they rely on wait()ing on threads spawned by the test.
-		ecargo_test -- --test-threads=1
+		ecargo_test -- --test-threads=1 "${skip_tests[@]}"
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
