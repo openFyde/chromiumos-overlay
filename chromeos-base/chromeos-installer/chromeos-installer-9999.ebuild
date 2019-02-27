@@ -35,7 +35,6 @@ RDEPEND="
 	chromeos-base/libbrillo
 	!cros_host? (
 		oobe_config? ( chromeos-base/oobe_config )
-		chromeos-base/secure-erase-file
 		dev-libs/openssl
 	)
 	chromeos-base/vboot_reference
@@ -59,8 +58,6 @@ src_install() {
 			dobin "${OUT}"/nand_partition
 		fi
 		dosbin chromeos-* encrypted_import "${OUT}"/evwaitkey
-		# Scrubbing has to be available from non-root processes.
-		mv "${D}"/usr/sbin/chromeos-saferemove "${D}"/usr/bin/ || die
 		dosym usr/sbin/chromeos-postinst /postinst
 
 		# Install init scripts.
