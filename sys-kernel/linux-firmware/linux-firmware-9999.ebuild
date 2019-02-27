@@ -75,7 +75,7 @@ IUSE_LINUX_FIRMWARE=(
 	marvell-pcie8897
 	marvell-pcie8997
 	nvidia-xusb
-	qca-bt
+	qca6174a-5-bt
 	rockchip-dptx
 	rt2870
 	rtl8168g-1
@@ -116,7 +116,7 @@ LICENSE="
 	linux_firmware_marvell-pcie8897? ( LICENCE.Marvell )
 	linux_firmware_marvell-pcie8997? ( LICENCE.Marvell )
 	linux_firmware_nvidia-xusb? ( LICENCE.nvidia )
-	linux_firmware_qca-bt? ( LICENCE.atheros_firmware )
+	linux_firmware_qca6174a-5-bt? ( LICENCE.atheros_firmware )
 	linux_firmware_rockchip-dptx? ( LICENCE.rockchip )
 	linux_firmware_rt2870? ( LICENCE.ralink-firmware.txt LICENCE.ralink_a_mediatek_company_firmware )
 	linux_firmware_rtl8168g-1? ( LICENCE.rtl_nic )
@@ -206,7 +206,7 @@ src_install() {
 	use_fw marvell-pcie8897 && doins_subdir mrvl/pcie8897_uapsta.bin
 	use_fw marvell-pcie8997 && doins_subdir mrvl/pcieusb8997_combo_v4.bin
 	use_fw nvidia-xusb && doins_subdir nvidia/tegra*/xusb.bin
-	use_fw qca-bt && doins_subdir qca/*
+	use_fw qca6174a-5-bt && doins_subdir qca/{nvm,rampatch}_usb_*.bin
 	use_fw rockchip-dptx && doins_subdir rockchip/dptx.bin
 	use_fw rtl8168g-1 && doins_subdir rtl_nic/rtl8168g-1.fw
 	use_fw rtl8168g-2 && doins_subdir rtl_nic/rtl8168g-2.fw

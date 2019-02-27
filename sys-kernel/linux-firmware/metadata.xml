@@ -62,8 +62,8 @@
 	<flag name='linux_firmware_ath10k'>
 		Install all firmware files for ath10k driver
 	</flag>
-	<flag name='linux_firmware_qca-bt'>
-		Install all QCA firmware files for BT driver
+	<flag name='linux_firmware_qca6174a-5-bt'>
+		Install all firmware files for the QCA6174A-5 Bluetooth controller
 	</flag>
 	<flag name='linux_firmware_venus-52'>
 		Install Venus 5.2 codec firmware files
