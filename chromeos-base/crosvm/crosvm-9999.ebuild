@@ -48,6 +48,17 @@ DEPEND="${RDEPEND}
 	media-sound/libcras:=
 "
 
+get_seccomp_path() {
+	local seccomp_arch="unknown"
+	case ${ARCH} in
+		amd64) seccomp_arch=x86_64;;
+		arm) seccomp_arch=arm;;
+		arm64) seccomp_arch=aarch64;;
+	esac
+
+	echo "seccomp/${seccomp_arch}"
+}
+
 src_unpack() {
 	# Unpack both the project and dependency source code
 	cros-workon_src_unpack
@@ -89,6 +100,16 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
+		# The parse_seccomp_policy file that is installed in the chroot can only
+		# be used to check x86 seccomp policies.
+		local seccomp_path="$(get_seccomp_path)"
+		local policy
+		for policy in "${seccomp_path}"/*.policy; do
+			sed "s:/usr/share/policy/crosvm:./${seccomp_path}:g" "${policy}" \
+				| parse_seccomp_policy >/dev/null \
+				|| die "failed to compile seccomp policy ${policy}"
+		done
+
 		local feature_excludes=()
 		use crosvm-tpm || feature_excludes+=( --exclude tpm2 --exclude tpm2-sys )
 		use crosvm-usb || feature_excludes+=( --exclude usb_util )
@@ -125,13 +146,6 @@ src_test() {
 }
 
 src_install() {
-	local seccomp_arch="unknown"
-	case ${ARCH} in
-		amd64) seccomp_arch=x86_64;;
-		arm) seccomp_arch=arm;;
-		arm64) seccomp_arch=aarch64;;
-	esac
-
 	# cargo doesn't know how to install cross-compiled binaries.  It will
 	# always install native binaries for the host system.  Manually install
 	# crosvm instead.
@@ -139,7 +153,7 @@ src_install() {
 	dobin "${build_dir}/crosvm"
 
 	# Install seccomp policy files.
-	local seccomp_path="${S}/seccomp/${seccomp_arch}"
+	local seccomp_path="${S}/$(get_seccomp_path)"
 	if [[ -d "${seccomp_path}" ]] ; then
 		insinto /usr/share/policy/crosvm
 		doins "${seccomp_path}"/*.policy
