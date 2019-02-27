@@ -30,7 +30,7 @@ DEPEND="${COMMON_DEPEND}
 pkg_setup() {
 	# New user/group for the daemon
 	enewgroup tss
-	enewuser tss -1 -1 /var/lib/tpm tss
+	enewuser tss
 }
 
 src_prepare() {

@@ -40,7 +40,7 @@ RDEPEND="${DEPEND}"
 
 pkg_setup() {
 	enewgroup ${PN}
-	enewuser ${PN} -1 -1 /var/lib/${PN} "${PN}"
+	enewuser ${PN}
 }
 
 src_prepare() {

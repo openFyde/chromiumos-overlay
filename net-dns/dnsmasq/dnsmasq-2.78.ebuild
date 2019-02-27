@@ -88,7 +88,7 @@ pkg_pretend() {
 
 pkg_setup() {
 	enewgroup dnsmasq
-	enewuser dnsmasq -1 -1 /dev/null dnsmasq
+	enewuser dnsmasq
 }
 
 src_prepare() {
