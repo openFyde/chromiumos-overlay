@@ -1,0 +1,40 @@
+commit 2ae4f16e7a3c5b6493b5eddbd76f231f3923eee0
+Author: Petr Hosek <phosek@chromium.org>
+Date:   Thu Feb 28 21:38:59 2019 +0000
+
+    [CMake][libunwind] Define add_target_flags which is missing
+    
+    It's use was introduced in r353084 but its definition is missing.
+    
+    Differential Revision: https://reviews.llvm.org/D58745
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/libunwind/trunk@355142 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 27d8bc5..debc847 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -214,12 +214,18 @@ macro(unwind_append_if list condition var)
+   endif()
+ endmacro()
+ 
+-macro(add_target_flags_if condition var)
++macro(add_target_flags)
++  foreach(value ${ARGN})
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${value}")
++    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${value}")
++    list(APPEND LIBUNWIND_COMPILE_FLAGS ${value})
++    list(APPEND LIBUNWIND_LINK_FLAGS ${value})
++  endforeach()
++endmacro()
++
++macro(add_target_flags_if condition)
+   if (${condition})
+-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${var}")
+-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${var}")
+-    list(APPEND LIBUNWIND_COMPILE_FLAGS ${var})
+-    list(APPEND LIBUNWIND_LINK_FLAGS ${var})
++    add_target_flags(${ARGN})
+   endif()
+ endmacro()
+ 
