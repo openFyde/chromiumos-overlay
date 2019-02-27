@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="18ce5713e6cb99c40aafec52b67c28ba12a44f31"
-CROS_WORKON_TREE="12e5e21344a2b942edf9de4cc7a234a6efc84b0a"
+CROS_WORKON_COMMIT="deb0891b9c0cb0157d545e0479906653c9ccbb1e"
+CROS_WORKON_TREE="9808d44b366fee67602bdde9b9a5f26a20ca06a6"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -55,6 +55,10 @@ src_unpack() {
 
 src_configure() {
 	cros-rust_src_configure
+
+	# Change the path used for the minijail pivot root from /var/empty.
+	# See: https://crbug.com/934513
+	export DEFAULT_PIVOT_ROOT="/mnt/empty"
 }
 
 src_compile() {
