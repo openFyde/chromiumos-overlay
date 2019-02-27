@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -33,12 +33,13 @@ LICENSE="UoI-NCSA rc BSD public-domain
 	llvm_targets_ARM? ( LLVM-Grant )"
 SLOT="$(get_major_version)"
 KEYWORDS="*"
-IUSE="debug doc gold libedit +libffi ncurses test tools xar xml
+IUSE="debug doc exegesis gold libedit +libffi ncurses test tools xar xml
 	kernel_Darwin ${ALL_LLVM_TARGETS[*]}"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
 	sys-libs/zlib:0=
+	exegesis? ( dev-libs/libpfm:= )
 	gold? ( >=sys-devel/binutils-2.22:*[cxx] )
 	libedit? ( dev-libs/libedit:0=[${MULTILIB_USEDEP}] )
 	libffi? ( >=virtual/libffi-3.0.13-r1:0=[${MULTILIB_USEDEP}] )
@@ -67,7 +68,7 @@ RDEPEND="${RDEPEND}
 # Remove previous version of llvm to avoid file collisions, since all slots end
 # up in the same install directory.
 RDEPEND="${RDEPEND}
-	!sys-devel/llvm:5"
+	!sys-devel/llvm:6"
 PDEPEND="sys-devel/llvm-common
 	gold? ( sys-devel/llvmgold )"
 
@@ -84,10 +85,7 @@ CMAKE_BUILD_TYPE=RelWithDebInfo
 src_prepare() {
 	# Fix llvm-config for shared linking and sane flags
 	# https://bugs.gentoo.org/show_bug.cgi?id=565358
-	eapply "${FILESDIR}"/9999/0007-llvm-config-Clean-up-exported-values-update-for-shar.patch
-
-	# Fix appending -Wl,-rpath-link on non-Linux (-> FreeBSD).
-	eapply "${FILESDIR}"/6.0.9999/0001-cmake-Append-Wl-rpath-link-conditionally-to-GNULD.patch
+	eapply "${FILESDIR}"/7.0.9999/0007-llvm-config-Clean-up-exported-values-update-for-shar.patch
 
 	# disable use of SDK on OSX, bug #568758
 	sed -i -e 's/xcrun/false/' utils/lit/lit/util.py || die
@@ -136,6 +134,7 @@ multilib_src_configure() {
 		-DLLVM_ENABLE_TERMINFO=$(usex ncurses)
 		-DLLVM_ENABLE_LIBXML2=$(usex xml)
 		-DLLVM_ENABLE_ASSERTIONS=$(usex debug)
+		-DLLVM_ENABLE_LIBPFM=$(usex exegesis)
 		-DLLVM_ENABLE_EH=ON
 		-DLLVM_ENABLE_RTTI=ON
 
@@ -248,12 +247,11 @@ src_install() {
 
 	# move wrapped headers back
 	mv "${ED%/}"/usr/include "${ED%/}"/usr/lib/llvm/include || die
-
 	# llvm-config --includedir and --libdir print output based on where
 	# llvm-config itself is located. So to get an includedir of
 	# .../usr/lib/llvm/include, llvm-config needs to be in
 	# .../usr/lib/llvm/bin.
-	mv "${HOST_DIR}"/bin/llvm-config "${ED%/}"/usr/lib/llvm/bin/llvm-config-host || die
+        mv "${HOST_DIR}"/bin/llvm-config "${ED%/}"/usr/lib/llvm/bin/llvm-config-host || die
 }
 
 multilib_src_install() {
@@ -268,14 +266,13 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	local revord=$(( 9999 - ${SLOT} ))
-	cat <<-_EOF_ > "${T}/10llvm-${revord}" || die
+	newenvd - "10llvm-${revord}" <<-_EOF_
 		PATH="${EPREFIX}/usr/lib/llvm/bin"
 		# we need to duplicate it in ROOTPATH for Portage to respect...
 		ROOTPATH="${EPREFIX}/usr/lib/llvm/bin"
 		MANPATH="${EPREFIX}/usr/lib/llvm/share/man"
 		LDPATH="$( IFS=:; echo "${LLVM_LDPATHS[*]}" )"
-_EOF_
-	doenvd "${T}/10llvm-${revord}"
+	_EOF_
 
 	# install pre-generated manpages
 	if ! use doc; then
