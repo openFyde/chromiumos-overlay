@@ -59,7 +59,7 @@ cros-common.mk_src_configure() {
 }
 
 cros-common.mk_src_compile() {
-	emake ${CROS_WORKON_MAKE_COMPILE_ARGS}
+	emake ${CROS_WORKON_MAKE_COMPILE_ARGS} "$@"
 }
 
 cros-common.mk_src_test() {

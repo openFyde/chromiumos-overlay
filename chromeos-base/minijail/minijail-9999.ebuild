@@ -39,10 +39,15 @@ src_configure() {
 	export DEFAULT_PIVOT_ROOT=/mnt/empty
 }
 
+src_compile() {
+	cros-common.mk_src_compile all $(usex cros_host parse_seccomp_policy '')
+}
+
 src_install() {
 	into /
 	dosbin "${OUT}"/minijail0
 	dolib.so "${OUT}"/libminijail{,preload}.so
+	use cros_host && dobin "${OUT}"/parse_seccomp_policy
 
 	doman minijail0.[15]
 
