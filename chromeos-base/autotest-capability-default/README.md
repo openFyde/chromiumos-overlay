@@ -62,8 +62,9 @@ We list all the the managed capabilities line by line in
 - hw_dec_h264_2160_30 # Decode h264 2160p 30fps videos in hardware.
 - hw_enc_vp8_1080_30  # Encode vp8 1080p 30fps videos in hardware.
 - hw_dec_jpeg         # Decode mjpeg in hardware.
-- usb_camera          # There is a built-in USB camera on DUT.
-
+- builtin_camera      # There is a built-in camera on DUT.
+- usb_camera          # The built-in camera is a USB camera.
+- no mipi_camera      # The built-in camera is not a MIPI camera.
 ```
 
 An unlisted capability will be treated as unknown capabilities, and will raise
@@ -76,18 +77,21 @@ in 15-chipset-bsw-capabilities.yaml,
 
 ```
 - hw_dec_h264_1080_60
+- builtin_camera
 - usb_camera
+- no mipi_camera
 ```
 
 
 It defines common capabilities for all chipset-bsw platforms.
 We may override those settings in baseboard and board specific settings,
-for example, removing "usb_camera" and adding "hw\_dec\_h264\_2160\_30" in
+for example, removing camera capabilities and adding "hw\_dec\_h264\_2160\_30" in
 "18-baseboard-jecht-capabilities.yaml".
 
 
 ```
 - hw_dec_h264_2160_30
+- no builtin_camera
 - no usb_camera
 ```
 

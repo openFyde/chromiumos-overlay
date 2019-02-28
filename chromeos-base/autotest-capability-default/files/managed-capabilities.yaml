@@ -54,5 +54,10 @@
 
 
 # camera
-## usb_camra is marked if a device equips a USB camera.
+## builtin_camera is marked if a device equips a builtin camera.
+## When we mark usb_camera or mipi_camera, we must mark builtin_camera as well.
+- builtin_camera
+## usb_camera is marked if a device equips a builtin USB camera.
 - usb_camera
+## mipi_camera is marked if a device equips a builtin MIPI camera.
+- mipi_camera
