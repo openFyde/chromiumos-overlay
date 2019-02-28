@@ -23,7 +23,7 @@ IUSE="
 	containers
 	cups
 	+display_backlight
-	dlc
+	dlc_test
 	drm_atomic
 	grunt
 	internal
