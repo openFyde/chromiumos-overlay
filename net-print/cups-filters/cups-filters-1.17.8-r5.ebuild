@@ -51,6 +51,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}/${PN}-1.17.8-pdftops-path.patch"
+	"${FILESDIR}/${PN}-1.17.8-gstoraster-tmpfile.patch"
 )
 
 src_prepare() {
