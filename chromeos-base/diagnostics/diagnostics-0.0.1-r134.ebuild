@@ -1,0 +1,80 @@
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=6
+
+CROS_WORKON_COMMIT="2779be40022b1d5dfb4c23f5b414f6231427a68b"
+CROS_WORKON_TREE=("8fafe4805a3e397e87abc5fd68bec0a9d23fde07" "fc4f19e199352633afe400e5414d171079c62023" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_SUBTREE="common-mk diagnostics .gn"
+
+PLATFORM_SUBDIR="diagnostics"
+
+inherit cros-workon platform user
+
+DESCRIPTION="Device telemetry and diagnostics for Chrome OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics"
+
+LICENSE="BSD-Google"
+SLOT="0"
+KEYWORDS="*"
+IUSE="+seccomp"
+
+COMMON_DEPEND="
+	chromeos-base/libbrillo:=
+	net-libs/grpc:=
+	dev-libs/protobuf:=
+"
+DEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/system_api
+"
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/minijail
+"
+
+pkg_preinst() {
+	enewuser diagnostics
+	enewgroup diagnostics
+}
+
+src_install() {
+	dobin "${OUT}/diag"
+	dobin "${OUT}/diagnosticsd"
+	dobin "${OUT}/diagnostics_processor"
+	dobin "${OUT}/telem"
+
+	# Install seccomp policy files.
+	insinto /usr/share/policy
+	use seccomp && newins "init/diagnosticsd-seccomp-${ARCH}.policy" \
+		diagnosticsd-seccomp.policy
+	use seccomp && newins "init/diagnostics_processor-seccomp-${ARCH}.policy" \
+		diagnostics_processor-seccomp.policy
+
+	# Install D-Bus configuration file.
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.Diagnosticsd.conf
+
+	# Install the init scripts.
+	insinto /etc/init
+	doins init/diagnosticsd.conf
+	doins init/diagnostics_processor.conf
+}
+
+platform_pkg_test() {
+	local tests=(
+		diagnosticsd_test
+		libdiag_test
+		libgrpc_async_adapter_test
+		libtelem_test
+	)
+
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test "run" "${OUT}/${test_bin}"
+	done
+}
