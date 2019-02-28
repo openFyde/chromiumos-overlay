@@ -116,7 +116,7 @@ LICENSE="
 	linux_firmware_marvell-pcie8897? ( LICENCE.Marvell )
 	linux_firmware_marvell-pcie8997? ( LICENCE.Marvell )
 	linux_firmware_nvidia-xusb? ( LICENCE.nvidia )
-	linux_firmware_qca6174a-5-bt? ( LICENCE.atheros_firmware )
+	linux_firmware_qca6174a-5-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_rockchip-dptx? ( LICENCE.rockchip )
 	linux_firmware_rt2870? ( LICENCE.ralink-firmware.txt LICENCE.ralink_a_mediatek_company_firmware )
 	linux_firmware_rtl8168g-1? ( LICENCE.rtl_nic )
