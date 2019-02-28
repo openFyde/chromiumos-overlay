@@ -12,6 +12,7 @@ KEYWORDS="*"
 # NB: Flags listed here are off by default unless prefixed with a '+'.
 IUSE="
 	amd64
+	android-container-master-arc-dev
 	android-container-pi
 	arc
 	arc-camera3
