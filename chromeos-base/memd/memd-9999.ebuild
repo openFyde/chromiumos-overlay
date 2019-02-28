@@ -42,9 +42,6 @@ src_unpack() {
 }
 
 src_compile() {
-	# pkg-config won't work properly since we're cross-compiling
-	# and we're taking care of library dependencies ourselves.
-	export PKG_CONFIG_ALLOW_CROSS=1
 	ecargo_build
 	use test && ecargo_test --no-run
 }

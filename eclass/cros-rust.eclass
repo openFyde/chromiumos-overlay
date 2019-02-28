@@ -177,6 +177,8 @@ cros-rust_src_configure() {
 	export CARGO_HOME="${ECARGO_HOME}"
 	export HOST="${CBUILD}"
 	export HOST_CC="$(tc-getBUILD_CC)"
+	# https://github.com/rust-lang/pkg-config-rs/issues/41
+	tc-is-cross-compiler && export PKG_CONFIG_ALLOW_CROSS=1
 	export TARGET="${CHOST}"
 	export TARGET_CC="$(tc-getCC)"
 
