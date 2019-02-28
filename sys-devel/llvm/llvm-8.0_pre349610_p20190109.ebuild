@@ -20,7 +20,8 @@ LICENSE="UoI-NCSA"
 SLOT="${PV%%.*}"
 KEYWORDS="-* amd64"
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi multitarget
-	ncurses ocaml python llvm-next llvm-tot test xml video_cards_radeon"
+	ncurses ocaml python llvm-next llvm-tot test xml video_cards_radeon
+	pgo_generate"
 
 COMMON_DEPEND="
 	sys-libs/zlib:0=
@@ -406,6 +407,14 @@ multilib_src_configure() {
 		-DCLANG_DEFAULT_CXX_STDLIB=$(usex default-libcxx libc++ "")
 		-DCLANG_DEFAULT_RTLIB=$(usex default-compiler-rt compiler-rt "")
 	)
+
+	if use pgo_generate; then
+		mycmakeargs+=(
+			-DLLVM_BUILD_INSTRUMENTED=IR
+			# To link instrumented compiler-rt, lld is needed.
+			-DLLVM_USE_LINKER=lld
+		)
+	fi
 
 	if ! multilib_is_native_abi || ! use ocaml; then
 		mycmakeargs+=(
