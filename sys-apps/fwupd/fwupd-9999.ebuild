@@ -129,8 +129,10 @@ src_install() {
 	# Enable vendor-directory remote with local firmware
 	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
 
-	# Install upstart script for automatic firmware update on device plug-in.
 	insinto /etc/init
+	# Install upstart script for activating firmware update on logout/shutdown.
+	doins "${FILESDIR}"/fwupdtool-activate.conf
+	# Install upstart script for automatic firmware update on device plug-in.
 	doins "${FILESDIR}"/fwupdtool-update.conf
 
 	if use daemon ; then
