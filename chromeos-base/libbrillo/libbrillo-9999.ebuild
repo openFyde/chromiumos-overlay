@@ -47,10 +47,9 @@ src_install() {
 	local v
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	for v in "${LIBCHROME_VERS[@]}"; do
-		./platform2_preinstall.sh "${OUT}" "${v}"
 		dolib.so "${OUT}"/lib/lib{brillo,installattributes,policy}*-"${v}".so
 		dolib.a "${OUT}"/libbrillo*-"${v}".a
-		doins "${OUT}"/lib/libbrillo*-"${v}".pc
+		doins "${OUT}"/obj/libbrillo/libbrillo*-"${v}".pc
 	done
 
 	# Install all the header files from libbrillo/brillo/*.h into
