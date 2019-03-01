@@ -112,4 +112,7 @@ pkg_preinst() {
 	enewuser seneschal-dbus
 	enewgroup seneschal-dbus
 	enewgroup seneschal-client
+
+	enewuser pluginvm
+	enewgroup pluginvm
 }
