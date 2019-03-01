@@ -37,8 +37,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}"/daemon_test
-	platform_test "run" "${OUT}"/ipsec_manager_test
-	platform_test "run" "${OUT}"/l2tp_manager_test
-	platform_test "run" "${OUT}"/service_manager_test
+	platform_test "run" "${OUT}"/vpn_manager_test
 }
