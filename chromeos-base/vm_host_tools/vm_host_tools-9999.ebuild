@@ -115,4 +115,6 @@ pkg_preinst() {
 
 	enewuser pluginvm
 	enewgroup pluginvm
+
+	enewgroup virtaccess
 }
