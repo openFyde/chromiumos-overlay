@@ -16,7 +16,7 @@ LICENSE="BSD-Google BSD-2 Apache-2.0 MIT"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-tpm
-	crosvm-usb crosvm-gpu-forward"
+	crosvm-usb crosvm-gpu-forward asan"
 
 RDEPEND="
 	sys-apps/dtc
@@ -102,6 +102,10 @@ src_test() {
 				--exclude usb_util
 			)
 		fi
+
+		# io_jail tests fork the process, which cause memory leak errors when
+		# run under ASAN.
+		use asan && feature_excludes+=( --exclude io_jail )
 
 		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
 		# access because the bots don't support these.  Also exclude sys_util
