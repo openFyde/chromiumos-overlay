@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="0f959215c340150cb6075f5c2d3ccfc5d109558f"
+CROS_WORKON_COMMIT="b43b55d4619489e603780adf3c92a36dadcc362b"
 CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_BLACKLIST="1"
@@ -33,13 +33,6 @@ VA_INSTALL="src/gallium/targets/va/"
 
 src_prepare() {
 	epatch "${FILESDIR}"/17.2.3-config-make-error-as-warning-for-drm.patch
-	epatch "${FILESDIR}"/18.2-radeon-uvd-use-coded-number-for-symbols-of-Huffman-t.patch
-	epatch "${FILESDIR}"/18.2-winsys-one-amdgpu_winsys_bo-per-BO.patch
-	epatch "${FILESDIR}"/18.2-st-va-use-provided-sizes-and-coords-for-vlVaGetImage.patch
-	epatch "${FILESDIR}"/18.2-winsys-amdgpu-fix-a-buffer-leak-in-amdgpu_bo_from_handle.patch
-	epatch "${FILESDIR}"/18.2-winsys-amdgpu-fix-a-device-handle-leak-in-amdgpu_winsys_create.patch
-	epatch "${FILESDIR}"/19.1-st-va-Add-support-for-indirect-manner-by-returning-VA_STATUS_ERROR_OPERATION_FAILED.patch
-
 	eautoreconf
 }
 
@@ -47,6 +40,7 @@ src_configure() {
 	export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
 
 	econf \
+		--enable-autotools \
 		--disable-option-checking \
 		--disable-glu \
 		--disable-glut \
