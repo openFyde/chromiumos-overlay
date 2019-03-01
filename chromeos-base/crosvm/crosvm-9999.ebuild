@@ -104,7 +104,8 @@ src_test() {
 		fi
 
 		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
-		# access because the bots don't support these.
+		# access because the bots don't support these.  Also exclude sys_util
+		# since they already run as part of the dev-rust/sys_util package.
 		ecargo_test --all \
 			--exclude kvm \
 			--exclude kvm_sys \
@@ -114,6 +115,7 @@ src_test() {
 			--exclude gpu_buffer \
 			--exclude gpu_display \
 			--exclude gpu_renderer \
+			--exclude sys_util \
 			"${feature_excludes[@]}" \
 			-- --test-threads=1 \
 			|| die "cargo test failed"
