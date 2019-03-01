@@ -13,5 +13,6 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/wincolor-0.1.6:=
+DEPEND="
+	~dev-rust/wincolor-0.1.6:=
 "

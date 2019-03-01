@@ -13,8 +13,9 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/quick-error-1.0.0:=
-	>=dev-rust/chrono-0.4.0:=
-	>=dev-rust/rand-0.4.2:=
+DEPEND="
+	=dev-rust/quick-error-1*:=
+	=dev-rust/chrono-0.4*:=
+	=dev-rust/rand-0.4*:=
 	>=dev-rust/time-0.1.39:=
 "

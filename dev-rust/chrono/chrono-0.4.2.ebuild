@@ -14,12 +14,12 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND=">=dev-rust/num-integer-0.1.36:=
-	>=dev-rust/num-traits-0.2.0:=
+	=dev-rust/num-traits-0.2*:=
 	>=dev-rust/num-iter-0.1.35:=
 	>=dev-rust/rustc-serialize-0.3.20:=
-	>=dev-rust/serde-1.0.0:=
-	>=dev-rust/serde_derive-1.0.0:=
-	>=dev-rust/serde_json-1.0.0:=
+	=dev-rust/serde-1*:=
+	=dev-rust/serde_derive-1*:=
+	=dev-rust/serde_json-1*:=
 	>=dev-rust/time-0.1.39:=
-	>=dev-rust/bincode-0.8.0:=
+	=dev-rust/bincode-0.8*:=
 "

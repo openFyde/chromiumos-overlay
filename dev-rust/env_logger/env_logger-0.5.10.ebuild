@@ -13,9 +13,10 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/log-0.4.0:=
+DEPEND="
+	>=dev-rust/log-0.4.0:=
 	>=dev-rust/atty-0.2.0:=
 	>=dev-rust/humantime-1.1.0:=
 	>=dev-rust/regex-1.0.0:=
-	>=dev-rust/termcolor-0.3.0:=
+	=dev-rust/termcolor-0.3*:=
 "
