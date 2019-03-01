@@ -23,7 +23,6 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="
-	android-container-nyc
 	arcvm
 	esdfs
 	houdini
