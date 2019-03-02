@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="76f0266e21db2b377b161688df0b6d47d9602886"
+CROS_WORKON_COMMIT="130a6dbcd908dca30668e57cf985624bc2634053"
 CROS_WORKON_TREE=("57dfde80cd9f02d1458f2be5175afdede0120a2c" "8fafe4805a3e397e87abc5fd68bec0a9d23fde07" "59e2504142107f6b49d586dca7d650fce75386ec" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -114,4 +114,7 @@ pkg_preinst() {
 	enewuser seneschal-dbus
 	enewgroup seneschal-dbus
 	enewgroup seneschal-client
+
+	enewuser pluginvm
+	enewgroup pluginvm
 }
