@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="2779be40022b1d5dfb4c23f5b414f6231427a68b"
-CROS_WORKON_TREE=("8fafe4805a3e397e87abc5fd68bec0a9d23fde07" "0c7500aeb966eba6beeda7b54ce8cf2d9f4f6d55" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="a39a9684f12010c0d01f23976b512690852271be"
+CROS_WORKON_TREE=("8fafe4805a3e397e87abc5fd68bec0a9d23fde07" "d5c68532ce72422e15c9372af85d184145e4e3a5" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -39,8 +39,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}"/daemon_test
-	platform_test "run" "${OUT}"/ipsec_manager_test
-	platform_test "run" "${OUT}"/l2tp_manager_test
-	platform_test "run" "${OUT}"/service_manager_test
+	platform_test "run" "${OUT}"/vpn_manager_test
 }

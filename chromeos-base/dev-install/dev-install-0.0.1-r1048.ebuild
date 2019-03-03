@@ -15,8 +15,8 @@
 # modifying the root filesystem.
 
 EAPI="6"
-CROS_WORKON_COMMIT="2a3c64eb61a2fad7f034259bf1d785548ff05a92"
-CROS_WORKON_TREE="f4223108d360feeba452ab4a9ee4c61dc850b9e1"
+CROS_WORKON_COMMIT="fbae7a04aa0160ac18410752db37337ff1667a59"
+CROS_WORKON_TREE="cd1a46a0e6177aa0a3c37a933828975e7844e8c4"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -138,7 +138,7 @@ src_install() {
 	doins "${build_dir}"/bootstrap.packages
 
 	insinto /usr/share/${PN}/portage/make.profile
-	doins make.{conf,defaults}
+	doins make.defaults
 
 	fixup_make_defaults "${ED}"/usr/share/${PN}/portage/make.profile/make.defaults
 
