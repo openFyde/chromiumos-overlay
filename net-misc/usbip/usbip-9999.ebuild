@@ -2,17 +2,19 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-ETYPE="sources"
-K_NOUSENAME=1
-inherit autotools eutils kernel-2
+
+CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
+CROS_WORKON_LOCALNAME="kernel/v4.19"
+CROS_WORKON_SUBTREE="tools/usb/usbip"
+
+inherit autotools cros-workon eutils
 
 DESCRIPTION="Userspace utilities for a general USB device sharing system over IP networks"
 HOMEPAGE="https://www.kernel.org/"
-SRC_URI="${KERNEL_URI}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE="static-libs tcpd"
 RESTRICT=""
 
@@ -29,7 +31,8 @@ DOCS="AUTHORS README"
 S=${WORKDIR}/linux-${PV}/tools/usb/${PN}
 
 src_unpack() {
-	tar xJf "${DISTDIR}"/${A} linux-${PV}/tools/usb/${PN} || die
+	cros-workon_src_unpack
+	S+="/tools/usb/usbip"
 }
 
 src_prepare() {
