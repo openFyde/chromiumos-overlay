@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/mafredri/cdp 253ba5601ff3322f46391d41f052e107905fb5a4"
+CROS_GO_SOURCE="github.com/mafredri/cdp d92fe56cfe764d3b2523633cc23f6525dd5fe128"
 
 CROS_GO_PACKAGES=(
 	"github.com/mafredri/cdp"
@@ -14,7 +14,12 @@ CROS_GO_PACKAGES=(
 )
 
 CROS_GO_TEST=(
-	"${CROS_GO_PACKAGES[@]}"
+	# Exclude the main cdp package, as Example_incognito is failing with
+	# "... dial tcp [::1]:9222: connect: connection refused"
+	"github.com/mafredri/cdp/devtool"
+	"github.com/mafredri/cdp/internal/..."
+	"github.com/mafredri/cdp/protocol/..."
+	"github.com/mafredri/cdp/rpcc"
 )
 
 inherit cros-go
