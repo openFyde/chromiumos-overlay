@@ -3,9 +3,23 @@
 
 EAPI="5"
 
-CROS_WORKON_PROJECT="chromiumos/platform/mosys"
-CROS_WORKON_LOCALNAME="../platform/mosys"
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform2"
+	"chromiumos/platform/mosys"
+)
+CROS_WORKON_LOCALNAME=(
+	"../platform2"
+	"../platform/mosys"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform2"
+	"${S}/platform/mosys"
+)
 CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_SUBTREE=(
+	"common-mk"
+	""
+)
 
 MESON_AUTO_DEPEND=no
 
@@ -50,7 +64,7 @@ winapi-0.2.8
 winapi-build-0.1.1
 "
 
-inherit cargo flag-o-matic meson toolchain-funcs cros-unibuild cros-workon
+inherit cargo flag-o-matic meson toolchain-funcs cros-unibuild cros-workon platform
 
 DESCRIPTION="Utility for obtaining various bits of low-level system info"
 HOMEPAGE="http://mosys.googlecode.com/"
@@ -76,6 +90,8 @@ DEPEND="${RDEPEND}"
 src_unpack() {
 	cargo_src_unpack
 	cros-workon_src_unpack
+	PLATFORM_TOOLDIR="${S}/platform2/common-mk"
+	S+="/platform/mosys"
 }
 
 src_configure() {
@@ -93,11 +109,21 @@ src_configure() {
 
 src_compile() {
 	meson_src_compile
+	cd ${S}/platform/mosys
 	MESON_BUILD_ROOT="${BUILD_DIR}" cargo_src_compile
 }
 
-src_test() {
-	meson_src_test
+platform_pkg_test() {
+	local tests=(
+		file_unittest
+		io_unittest
+		math_unittest
+	)
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test "run" \
+			"${BUILD_DIR}/unittests/${test_bin}"
+	done
 }
 
 src_install() {
