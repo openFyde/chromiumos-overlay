@@ -2,10 +2,10 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-# The tarball contains the arc-cache-builder.jar. It is compiled in ARC NYC by
+# The tarball contains the arc-cache-builder.jar. It is compiled in ARC Pi by
 # mmma vendor/google_arc/tools/ArcCacheBuilder/
-# Current version 0.4.5 is built from commit
-# 9a0f491b4829d4ad61b9141c5980fc8e9bc2dfc3
+# Current version 0.4.8 is built from commit
+# ce7083656c3fdb454e28292e4d9af76aff37796f
 
 EAPI="5"
 
