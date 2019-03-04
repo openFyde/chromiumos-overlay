@@ -22,7 +22,10 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-cert_provision +device_mapper -direncryption pinweaver selinux systemd test tpm tpm2"
+# The flag distributed_cryptohome is for turning on tpm_manager and
+# attestation for 1.2 devices.
+IUSE="-cert_provision +device_mapper -direncryption distributed_cryptohome
+	pinweaver selinux systemd test tpm tpm2"
 
 REQUIRED_USE="
 	device_mapper
@@ -35,9 +38,13 @@ RDEPEND="
 		app-crypt/trousers
 	)
 	tpm2? (
-		chromeos-base/trunks
-		chromeos-base/tpm_manager
 		chromeos-base/attestation
+		chromeos-base/tpm_manager
+		chromeos-base/trunks
+	)
+	distributed_cryptohome? (
+		chromeos-base/attestation
+		chromeos-base/tpm_manager
 	)
 	selinux? (
 		sys-libs/libselinux
