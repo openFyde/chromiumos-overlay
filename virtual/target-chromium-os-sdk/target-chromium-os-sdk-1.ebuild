@@ -509,3 +509,7 @@ RDEPEND="${RDEPEND}
 # Needed to compile img-ddk
 RDEPEND="${RDEPEND}
 	dev-python/clang-python"
+
+# Moblab's new RPC server backend will use grpc
+RDEPEND="${RDEPEND}
+	dev-python/grpcio-tools"
