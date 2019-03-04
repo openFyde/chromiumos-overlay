@@ -49,7 +49,7 @@ fi
 
 retries=0
 while true; do
-  output="$(${UPDATER} -p "${CR50_IMAGE}" 2>&1)"
+  output="$(${UPDATER} -u "${CR50_IMAGE}" 2>&1)"
   exit_status="$?"
   if [ "${exit_status}" -le 2 ]; then
     # Exit status values 2 or below indicate successful update, nonzero
