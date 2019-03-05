@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="asan cellular dhcpv6 fuzzer json_store kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn wake_on_wifi +wifi wimax +wired_8021x"
+IUSE="asan cellular dhcpv6 fuzzer kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn wake_on_wifi +wifi wimax +wired_8021x"
 
 # Sorted by the package we depend on. (Not by use flag!)
 RDEPEND="
