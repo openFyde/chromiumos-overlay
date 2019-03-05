@@ -107,7 +107,7 @@ CROS_COMMON_RDEPEND+="
 CROS_X86_RDEPEND="
 	app-benchmarks/sysbench
 	sys-apps/pciutils
-	vaapi? ( media-video/libva-utils )
+	vaapi? ( media-gfx/vadumpcaps media-video/libva-utils )
 	x11-misc/read-edid
 "
 
