@@ -22,8 +22,7 @@ KEYWORDS="~*"
 
 RDEPEND="
 	dev-cpp/gtest
-	media-libs/cros-camera-libcamera_exif
-	media-libs/cros-camera-libcamera_jpeg"
+	media-libs/cros-camera-libcamera_exif"
 
 src_install() {
 	dobin "${OUT}/libjea_test"
