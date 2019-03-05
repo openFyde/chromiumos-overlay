@@ -122,6 +122,7 @@ CONFIG_FRAGMENTS=(
 	dmadebug
 	dm_snapshot
 	dp_cec
+	drm_dp_aux_chardev
 	dwc2_dual_role
 	dyndebug
 	eve_bt_hacks
@@ -316,6 +317,11 @@ CONFIG_DM_SNAPSHOT=m
 dp_cec_desc="DisplayPort CEC-Tunneling-over-AUX support"
 dp_cec_config="
 CONFIG_DRM_DP_CEC=y
+"
+
+drm_dp_aux_chardev_desc="DisplayPort DP AUX driver support"
+drm_dp_aux_chardev_config="
+CONFIG_DRM_DP_AUX_CHARDEV=y
 "
 
 dwc2_dual_role_desc="Dual Role support for DesignWare USB2.0 controller"
