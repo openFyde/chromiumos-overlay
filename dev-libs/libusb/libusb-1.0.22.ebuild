@@ -1,11 +1,11 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-inherit eutils toolchain-funcs multilib-minimal
+inherit eutils ltprune toolchain-funcs multilib-minimal
 
 DESCRIPTION="Userspace access to USB devices"
-HOMEPAGE="http://libusb.info/ https://github.com/libusb/libusb"
+HOMEPAGE="https://libusb.info/ https://github.com/libusb/libusb"
 SRC_URI="https://github.com/${PN}/${PN}/releases/download/v${PV}/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1"
@@ -53,7 +53,7 @@ multilib_src_install() {
 	if multilib_is_native_abi; then
 		gen_usr_ldscript -a usb-1.0
 
-		use doc && dohtml doc/html/*
+		use doc && dodoc -r doc/html
 	fi
 }
 
