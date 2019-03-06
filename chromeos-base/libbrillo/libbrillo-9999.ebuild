@@ -81,7 +81,8 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/libbrillo_tests"
+	local gtest_filter_qemu="-*DeathTest*"
+	platform_test "run" "${OUT}/libbrillo_tests" "" "" "${gtest_filter_qemu}"
 	platform_test "run" "${OUT}/libinstallattributes_tests"
 	platform_test "run" "${OUT}/libpolicy_tests"
 }
