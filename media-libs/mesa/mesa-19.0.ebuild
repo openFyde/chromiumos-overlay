@@ -2,7 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI=5
+EAPI=6
+
+MESON_AUTO_DEPEND=no
 
 CROS_WORKON_COMMIT="b43b55d4619489e603780adf3c92a36dadcc362b"
 CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
@@ -16,9 +18,7 @@ if [[ ${PV} = 9999* ]]; then
 	EXPERIMENTAL="true"
 fi
 
-inherit base autotools multilib flag-o-matic python toolchain-funcs ${GIT_ECLASS} cros-workon
-
-OPENGL_DIR="xorg-x11"
+inherit base multilib flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
 
 FOLDER="${PV/_rc*/}"
 [[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
@@ -86,12 +86,10 @@ DEPEND="${RDEPEND}
 	llvm? ( sys-devel/llvm )
 "
 
-# It is slow without texrels, if someone wants slow
-# mesa without texrels +pic use is worth the shot
-QA_EXECSTACK="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
-QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
-
-# Think about: ggi, fbcon, no-X configs
+driver_list() {
+	local drivers="$(sort -u <<< "${1// /$'\n'}")"
+	echo "${drivers//$'\n'/,}"
+}
 
 src_prepare() {
 	# apply patches
@@ -112,9 +110,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/DOWNSTREAM-radeonsi-attempt-to-disable-dcc-with-PIPE_HANDLE_USA.patch
 	epatch "${FILESDIR}"/DOWNSTREAM-i965-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8-B8.patch
 
-	base_src_prepare
-
-	eautoreconf
+	default
 }
 
 src_configure() {
@@ -136,45 +132,42 @@ src_configure() {
 	if use classic; then
 	# Configurable DRI drivers
 		# Intel code
-		driver_enable video_cards_intel i965
+		dri_driver_enable video_cards_intel i965
 	fi
 
 	if use gallium; then
 	# Configurable gallium drivers
-		gallium_driver_enable video_cards_llvmpipe swrast
-		gallium_driver_enable video_cards_softpipe swrast
+		gallium_enable video_cards_llvmpipe swrast
+		gallium_enable video_cards_softpipe swrast
 
 		# Nouveau code
-		gallium_driver_enable video_cards_nouveau nouveau
+		gallium_enable video_cards_nouveau nouveau
 
 		# ATI code
-		gallium_driver_enable video_cards_radeon r300 r600
-		gallium_driver_enable video_cards_amdgpu radeonsi
+		gallium_enable video_cards_radeon r300 r600
+		gallium_enable video_cards_amdgpu radeonsi
 
 		# Freedreno code
-		gallium_driver_enable video_cards_freedreno freedreno
+		gallium_enable video_cards_freedreno freedreno
 
-		gallium_driver_enable video_cards_virgl virgl
+		gallium_enable video_cards_virgl virgl
 	fi
 
 	if use vulkan; then
-		if use video_cards_intel; then
-			VULKAN_DRIVERS+=",intel"
-		fi
-		if use video_cards_amdgpu; then
-			VULKAN_DRIVERS+=",radeon"
-		fi
+		vulkan_enable video_cards_intel intel
+		vulkan_enable video_cards_amdgpu amd
 	fi
 
-	LLVM_ENABLE="--disable-llvm"
+	LLVM_ENABLE=false
 	if use llvm && use !video_cards_softpipe; then
+		emesonargs+=( -Dshared-llvm=false )
 		export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
-		LLVM_ENABLE="--enable-llvm"
+		LLVM_ENABLE=true
 	fi
 
 	local egl_platforms=""
 	if use egl; then
-		egl_platforms="--with-platforms=surfaceless"
+		egl_platforms="surfaceless"
 
 		if use drm; then
 			egl_platforms="${egl_platforms},drm"
@@ -189,44 +182,35 @@ src_configure() {
 		fi
 	fi
 
+	if use X; then
+		glx="dri"
+	else
+		glx="disabled"
+	fi
+
 	append-flags "-UENABLE_SHADER_CACHE"
 
-	# --with-driver=dri|xlib|osmesa || do we need osmesa?
-	econf \
-		--enable-autotools \
-		--disable-option-checking \
-		--with-driver=dri \
-		--disable-glu \
-		--disable-glut \
-		--disable-omx-bellagio \
-		--disable-va \
-		--disable-vdpau \
-		--disable-xvmc \
-		--without-demos \
-		--enable-texture-float \
-		--disable-dri3 \
-		--disable-llvm-shared-libs \
-		$(use_enable X glx) \
-		$(use_enable egl) \
-		$(use_enable gbm) \
-		$(use_enable gles1) \
-		$(use_enable gles2) \
-		$(use_enable shared-glapi) \
-		$(use_enable gallium) \
-		$(use_enable debug) \
-		$(use_enable nptl glx-tls) \
-		$(use_enable !pic asm) \
-		$(use_enable xlib-glx) \
-		$(use_enable !xlib-glx dri) \
-		--with-dri-drivers=${DRI_DRIVERS} \
-		--with-gallium-drivers=${GALLIUM_DRIVERS} \
-		--with-vulkan-drivers=${VULKAN_DRIVERS} \
-		${LLVM_ENABLE} \
-		"${egl_platforms}"
+	emesonargs+=(
+		-Dglx="${glx}"
+		-Dllvm="${LLVM_ENABLE}"
+		-Dplatforms="${egl_platforms}"
+		$(meson_use egl)
+		$(meson_use gbm)
+		$(meson_use X gl)
+		$(meson_use gles1)
+		$(meson_use gles2)
+		$(meson_use selinux)
+		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
+		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
+		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
+		--buildtype $(usex debug debug plain)
+	)
+
+	meson_src_configure
 }
 
 src_install() {
-	base_src_install
+	meson_src_install
 
 	# Remove redundant GLES headers
 	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
@@ -255,46 +239,25 @@ src_install() {
 	doins "${FILESDIR}"/drirc
 }
 
-pkg_postinst() {
-	# Switch to the xorg implementation.
-	echo
-	eselect opengl set --use-old ${OPENGL_DIR}
+# $1 - VIDEO_CARDS flag (check skipped for "--")
+# other args - names of DRI drivers to enable
+dri_driver_enable() {
+	if [[ $1 == -- ]] || use $1; then
+		shift
+		DRI_DRIVERS+=("$@")
+	fi
 }
 
-# $1 - VIDEO_CARDS flag
-# other args - names of DRI drivers to enable
-driver_enable() {
-	case $# in
-		# for enabling unconditionally
-		1)
-			DRI_DRIVERS+=",$1"
-			;;
-		*)
-			if use $1; then
-				shift
-				for i in $@; do
-					DRI_DRIVERS+=",${i}"
-				done
-			fi
-			;;
-	esac
+gallium_enable() {
+	if [[ $1 == -- ]] || use $1; then
+		shift
+		GALLIUM_DRIVERS+=("$@")
+	fi
 }
 
-# $1 - VIDEO_CARDS flag
-# other args - names of DRI drivers to enable
-gallium_driver_enable() {
-	case $# in
-		# for enabling unconditionally
-		1)
-			GALLIUM_DRIVERS+=",$1"
-			;;
-		*)
-			if use $1; then
-				shift
-				for i in $@; do
-					GALLIUM_DRIVERS+=",${i}"
-				done
-			fi
-			;;
-	esac
+vulkan_enable() {
+	if [[ $1 == -- ]] || use $1; then
+		shift
+		VULKAN_DRIVERS+=("$@")
+	fi
 }
