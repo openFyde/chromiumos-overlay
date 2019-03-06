@@ -100,6 +100,10 @@ src_prepare() {
 	# https://crbug.com/807685
 	use_sanitizers && epatch "${FILESDIR}"/${P}-Disable-memory-allocator.patch
 
+	# Disable object lifetime tracking since it cuases memory leaks in
+	# sanitizer builds, https://crbug.com/908138
+	epatch "${FILESDIR}"/${P}-Disable-object-tracking.patch
+
 	# Introduce backward compatible ctor for quipper only.
 	# TODO(hidehiko): Remove this.
 	epatch "${FILESDIR}"/${P}-Add-backward-compatible-WaitableEvent-ctor.patch
