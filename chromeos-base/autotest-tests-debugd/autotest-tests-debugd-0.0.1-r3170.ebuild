@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
-CROS_WORKON_COMMIT="b0bd89b3409f73c0fb26043d35203dc5d7cbba8e"
-CROS_WORKON_TREE="bccba0b3184d850b4e3f6c5cb754a010488e3a3c"
+EAPI=5
+CROS_WORKON_COMMIT="df334ac2354a14ccdb16983f40141d5bc37cdcb2"
+CROS_WORKON_TREE="8283ca177e145bf2b1539ce7056fb76bed16c15b"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -30,6 +30,7 @@ IUSE_TESTS="
 	+tests_platform_DebugDaemonGetNetworkStatus
 	+tests_platform_DebugDaemonGetPerfData
 	+tests_platform_DebugDaemonGetRoutes
+	+tests_platform_DebugDaemonPerfDataInFeedbackLogs
 	+tests_platform_DebugDaemonPing
 	+tests_platform_DebugDaemonTracePath
 "
