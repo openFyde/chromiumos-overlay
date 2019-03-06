@@ -142,11 +142,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3720.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3725.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R74-3626.74-1549278723.afdo"
-AFDO_FILE["airmont"]="R74-3626.74-1549281179.afdo"
-AFDO_FILE["haswell"]="R74-3626.85-1549885254.afdo"
-AFDO_FILE["broadwell"]="R74-3626.74-1549280131.afdo"
+AFDO_FILE["airmont"]="R74-3626.74-1551698947.afdo"
+AFDO_FILE["haswell"]="R74-3626.85-1551698947.afdo"
+AFDO_FILE["broadwell"]="R74-3626.74-1551698947.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -1395,14 +1395,19 @@ src_install() {
 		autotest-deponly_src_install
 		#env -uRESTRICT prepstrip "${D}${AUTOTEST_BASE}"
 
-		# Copy input_methods.txt for auto-test.
-		insinto /usr/share/chromeos-assets/input_methods
-		doins "${CHROME_ROOT}"/src/chromeos/ime/input_methods.txt
-
 		# Copy generated cloud_policy.proto. We can't do this in the
 		# protofiles ebuild since this is a generated proto.
 		insinto /usr/share/protofiles
 		doins "${FROM}"/gen/components/policy/proto/cloud_policy.proto
+	fi
+
+	# Copy input_methods.txt for XkbToKcmConverter & auto-test.
+	if [[ "${CHROME_ORIGIN}" == "LOCAL_SOURCE" ||
+			"${CHROME_ORIGIN}" == "SERVER_SOURCE" ]]; then
+		insinto /usr/share/chromeos-assets/input_methods
+		sed -E -e '/^#/d' -e '/^$/d' -e 's:  +: :g' \
+			"${CHROME_ROOT}"/src/chromeos/ime/input_methods.txt > "${T}/input_methods.txt" || die
+		doins "${T}/input_methods.txt"
 	fi
 
 	# Fix some perms.
