@@ -110,6 +110,7 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/18.3-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
 	epatch "${FILESDIR}"/DOWNSTREAM-radeonsi-attempt-to-disable-dcc-with-PIPE_HANDLE_USA.patch
+	epatch "${FILESDIR}"/DOWNSTREAM-i965-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8-B8.patch
 
 	base_src_prepare
 
