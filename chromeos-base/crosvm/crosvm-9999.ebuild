@@ -12,7 +12,7 @@ inherit cros-rust cros-workon toolchain-funcs user
 
 DESCRIPTION="Utility for running Linux VMs on Chrome OS"
 
-LICENSE="BSD-Google BSD-2 Apache-2.0 MIT"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-tpm
