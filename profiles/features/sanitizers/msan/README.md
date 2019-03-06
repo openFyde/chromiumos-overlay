@@ -11,7 +11,7 @@ example, to add an msan profile for eve:
 
 ```bash
 $ mkdir -p overlays/overlay-eve/profiles/msan
-$ printf "../base\nchromiumos:msan/amd64\n" > \
+$ printf "../base\nchromiumos:features/sanitizers/msan/amd64\n" > \
     overlays/overlay-eve/profiles/msan/parent
 ```
 

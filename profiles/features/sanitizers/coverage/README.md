@@ -11,7 +11,7 @@ example, to add an coverage profile for eve:
 
 ```bash
 $ mkdir -p overlays/overlay-eve/profiles/coverage
-$ printf "../base\nchromiumos:coverage/amd64\n" > \
+$ printf "../base\nchromiumos:features/sanitizers/coverage/amd64\n" > \
     overlays/overlay-eve/profiles/coverage/parent
 ```
 

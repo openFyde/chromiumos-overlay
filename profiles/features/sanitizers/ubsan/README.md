@@ -11,7 +11,7 @@ example, to add an ubsan profile for eve:
 
 ```bash
 $ mkdir -p overlays/overlay-eve/profiles/ubsan
-$ printf "../base\nchromiumos:ubsan/amd64\n" > \
+$ printf "../base\nchromiumos:features/sanitizers/ubsan/amd64\n" > \
     overlays/overlay-eve/profiles/ubsan/parent
 ```
 

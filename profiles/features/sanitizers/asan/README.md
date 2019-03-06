@@ -11,7 +11,7 @@ example, to add an asan profile for eve:
 
 ```bash
 $ mkdir -p overlays/overlay-eve/profiles/asan
-$ printf "../base\nchromiumos:asan/amd64\n" > \
+$ printf "../base\nchromiumos:features/sanitizers/asan/amd64\n" > \
     overlays/overlay-eve/profiles/asan/parent
 ```
 

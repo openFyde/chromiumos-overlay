@@ -11,7 +11,7 @@ example, to add an tsan profile for eve:
 
 ```bash
 $ mkdir -p overlays/overlay-eve/profiles/tsan
-$ printf "../base\nchromiumos:tsan/amd64\n" > \
+$ printf "../base\nchromiumos:features/sanitizers/tsan/amd64\n" > \
     overlays/overlay-eve/profiles/tsan/parent
 ```
 
