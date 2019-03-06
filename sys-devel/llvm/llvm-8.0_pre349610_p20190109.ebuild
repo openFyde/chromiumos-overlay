@@ -408,6 +408,14 @@ multilib_src_configure() {
 		-DCLANG_DEFAULT_RTLIB=$(usex default-compiler-rt compiler-rt "")
 	)
 
+	if use llvm-next; then
+		# Update LLVM to next version will cause LLVM to complain GCC
+		# version is < 5.1. Add this flag to suppress the error.
+		mycmakeargs+=(
+			-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
+		)
+	fi
+
 	if use pgo_generate; then
 		mycmakeargs+=(
 			-DLLVM_BUILD_INSTRUMENTED=IR

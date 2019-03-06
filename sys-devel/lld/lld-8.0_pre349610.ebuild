@@ -96,6 +96,13 @@ src_configure() {
 		# TODO: fix detecting pthread upstream in stand-alone build
 		-DPTHREAD_LIB='-lpthread'
 	)
+	if use llvm-next; then
+		# Update LLD to next version will cause LLD to complain GCC
+		# version is < 5.1. Add this flag to suppress the error.
+		mycmakeargs+=(
+			-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
+		)
+	fi
 	cmake-utils_src_configure
 }
 
