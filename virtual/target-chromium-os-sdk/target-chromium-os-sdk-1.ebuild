@@ -512,4 +512,5 @@ RDEPEND="${RDEPEND}
 
 # Moblab's new RPC server backend will use grpc
 RDEPEND="${RDEPEND}
-	dev-python/grpcio-tools"
+	dev-python/grpcio-tools
+	net-libs/grpc-web"
