@@ -23,7 +23,7 @@ LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 
 # keep correct libdrm and libva
 RDEPEND="${LIBDRM_DEPSTRING}
-	>=x11-libs/libva-1.8.3"
+	>=x11-libs/libva-2.4.0"
 
 DEPEND="${RDEPEND}
 	sys-devel/llvm
