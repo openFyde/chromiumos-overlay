@@ -41,7 +41,6 @@ IUSE="
 	gpu_sandbox_failures_not_fatal
 	gpu_sandbox_start_after_initialization
 	gpu_sandbox_start_early
-	has_diamond_key
 	has_hdd
 	highdpi
 	instant_tethering
