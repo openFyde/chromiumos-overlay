@@ -189,8 +189,7 @@ fi
 COMMON_DEPEND="sys-libs/zlib
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )
-	net-libs/libssh2
-	net-libs/http-parser:="
+	net-libs/libssh2"
 RDEPEND="${COMMON_DEPEND}
 	!dev-util/cargo-bin
 	net-misc/curl[ssl]"
