@@ -101,13 +101,6 @@ def main(argv):
   argv0 = clang_comp
   execargs += [clang_comp] + clang_cmdline
 
-  # We'll sometimes pull in a new compiler (or similar) and want a good way of
-  # vetting it. New warnings are useful, but actively block the potentially more
-  # interesting things (actually building the world, testing, etc). This is our
-  # escape hatch.
-  if os.getenv('FORCE_DISABLE_WERROR'):
-    cmdline.append('-Wno-error')
-
   if use_clang_tidy:
     import subprocess
     tidy_execargs = []
@@ -135,6 +128,13 @@ def main(argv):
     print('[%s] %s' % (argv0, ' '.join(execargs)))
 
   sys.stdout.flush()
+
+  # We'll sometimes pull in a new compiler (or similar) and want a good way of
+  # vetting it. New warnings are useful, but actively block the potentially more
+  # interesting things (actually building the world, testing, etc). This is our
+  # escape hatch.
+  if os.getenv('FORCE_DISABLE_WERROR'):
+    sys.exit(double_build_with_wno_error(execargs))
 
   if not bisect_stage:
     try:

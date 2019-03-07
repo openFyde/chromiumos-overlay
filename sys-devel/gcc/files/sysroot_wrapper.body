@@ -288,13 +288,6 @@ def main():
 
   sysroot_set = False
 
-  # We'll sometimes pull in a new compiler (or similar) and want a good way of
-  # vetting it. New warnings are useful, but actively block the potentially more
-  # interesting things (actually building the world, testing, etc). This is our
-  # escape hatch.
-  if os.getenv('FORCE_DISABLE_WERROR'):
-    cmdline.append('-Wno-error')
-
   if not invoke_clang:
     gcc_cmdline = [x for x in cmdline if x not in GCC_UNSUPPORTED]
   else:
@@ -450,6 +443,13 @@ def main():
 
   if getrusage:
     log_rusage(getrusage, argv0, execargs)
+
+  # We'll sometimes pull in a new compiler (or similar) and want a good way of
+  # vetting it. New warnings are useful, but actively block the potentially more
+  # interesting things (actually building the world, testing, etc). This is our
+  # escape hatch.
+  if os.getenv('FORCE_DISABLE_WERROR'):
+    sys.exit(double_build_with_wno_error(execargs))
 
   if not bisect_stage:
     try:

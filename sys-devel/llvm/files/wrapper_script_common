@@ -97,3 +97,80 @@ def find_source_file(arg_list):
 
   return ''
 
+def double_build_with_wno_error(cmd,
+                                new_warnings_dir='/tmp/fatal_clang_warnings'):
+  import subprocess
+
+  def run_clang(extra_args):
+    p = subprocess.Popen(
+        cmd + extra_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = p.communicate()
+    exit_code = p.wait()
+    return exit_code, stdout, stderr
+
+  # Note that some tools depend on output appearing on the right std stream
+  # (e.g. `go vet`).
+  #
+  # FIXME: Interleaving as clang does would be nice, but it appears that all
+  # diags/complaints appear on stderr before anything can appear on stdout, and
+  # trying to do that might be somewhat race-prone.
+  original_exit_code, original_stdout, original_stderr = run_clang([])
+  stdout_to_dump, stderr_to_dump = original_stdout, original_stderr
+  try:
+    # The only way we can do anything useful is if it looks like the failure
+    # was -Werror-related.
+    if not (original_exit_code and '-Werror' in original_stderr):
+      return original_exit_code
+
+    retry_exit_code, retry_stdout, retry_stderr = run_clang(['-Wno-error'])
+
+    # If -Wno-error fixed us, pretend that we never ran without -Wno-error.
+    # Otherwise, pretend that we never ran the second invocation. Since -Werror
+    # is an issue, log in either case.
+    if not retry_exit_code:
+      stdout_to_dump, stderr_to_dump = retry_stdout, retry_stderr
+  finally:
+    sys.stdout.write(stdout_to_dump)
+    sys.stderr.write(stderr_to_dump)
+
+  import errno
+  import json
+  import tempfile
+
+  # All of the below is basically logging. If we fail at any point, it's
+  # reasonable for that to fail the build. This is all meant for FYI-like
+  # builders in the first place.
+  try:
+    # Allow root and regular users to write to this without issue.
+    os.makedirs(new_warnings_dir, mode=0o777)
+  except OSError as e:
+    if e.errno != errno.EEXIST:
+      raise
+
+  # Have some tag to show that files aren't fully written. It would be sad if
+  # an interrupted build (or out of disk space, or similar) caused tools to
+  # have to be overly-defensive.
+  incomplete_suffix = '.incomplete'
+
+  # Coming up with a consistent name for this is difficult (compiler command's
+  # SHA can clash in the case of identically named files in different
+  # directories, or similar); let's use a random one.
+  file_handle, file_name = tempfile.mkstemp(
+      prefix='warnings_report',
+      suffix='.json' + incomplete_suffix,
+      dir=new_warnings_dir,
+      text=True)
+
+  output_to_log = '\n'.join(
+      piece for piece in [original_stderr, original_stdout] if piece)
+
+  with os.fdopen(file_handle, 'w') as report_file:
+    json_data = {
+        'cwd': os.getcwd(),
+        'command': cmd,
+        'stdout': output_to_log,
+    }
+    json.dump(json_data, report_file)
+
+  os.rename(file_name, file_name[:-len(incomplete_suffix)])
+  return retry_exit_code
