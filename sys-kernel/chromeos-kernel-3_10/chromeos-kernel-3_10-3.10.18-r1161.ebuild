@@ -1,26 +1,19 @@
-# Copyright 2017 The Chromium OS Authors. All rights reserved.
+# Copyright (c) 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="94341e1c244dfe13c1037acd72e04579e029f1c4"
-CROS_WORKON_TREE="a29b33e56de0958bcedf0f7a8906a0feb0d02630"
+CROS_WORKON_COMMIT="8d38ee940f4d8d52686c6bfc17fb96ac11197872"
+CROS_WORKON_TREE="886d10624ad4a131c77454ef7368ad9a60692f1c"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
-CROS_WORKON_LOCALNAME="kernel/v3.18"
-
-# AFDO_PROFILE_VERSION is the build on which the profile is collected.
-# This is required by kernel_afdo.
-#
-# TODO: Allow different versions for different CHROMEOS_KERNEL_SPLITCONFIGs
-AFDO_PROFILE_VERSION="R74-11803.0-1551697353"
+CROS_WORKON_LOCALNAME="kernel/v3.10"
 
 # This must be inherited *after* EGIT/CROS_WORKON variables defined
 inherit cros-workon cros-kernel2
 
 HOMEPAGE="https://www.chromium.org/chromium-os/chromiumos-design-docs/chromium-os-kernel"
-DESCRIPTION="Chrome OS Linux Kernel 3.18"
+DESCRIPTION="Chrome OS Linux Kernel 3.10"
 KEYWORDS="*"
-
-RDEPEND="!!sys-kernel/gale-kernel-3_18"
+RDEPEND="!sys-kernel/kernel-freon"
 
 # Change the following (commented out) number to the next prime number
 # when you change "cros-kernel2.eclass" to work around http://crbug.com/220902
