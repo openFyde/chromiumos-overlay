@@ -10,7 +10,7 @@ esac
 # Since we use CHROMEOS_KERNEL_CONFIG and CHROMEOS_KERNEL_SPLITCONFIG here,
 # it is not safe to reuse the kernel prebuilts across different boards. Inherit
 # the cros-board eclass to make sure that doesn't happen.
-inherit binutils-funcs cros-board linux-info toolchain-funcs versionator
+inherit binutils-funcs cros-board toolchain-funcs versionator
 
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
@@ -1071,7 +1071,6 @@ cros-kernel2_pkg_setup() {
 	# `make check` would have nothing left to build.
 	use test && export CROS_WORKON_INCREMENTAL_BUILD=0
 	cros-workon_pkg_setup
-	linux-info_pkg_setup
 }
 
 # @FUNCTION: get_fit_compression_kernel
