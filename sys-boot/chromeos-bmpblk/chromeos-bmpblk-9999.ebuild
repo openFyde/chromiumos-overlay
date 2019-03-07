@@ -31,6 +31,7 @@ CROS_BOARDS=(
 	eve
 	falco
 	fizz
+	flapjack
 	glados
 	glimmer
 	gnawty
