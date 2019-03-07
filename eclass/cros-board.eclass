@@ -368,6 +368,7 @@ ALL_BOARDS=(
 	wizpig
 	wolf
 	wooten
+	wristpin
 	wsb
 	x30evb
 	x32-generic
