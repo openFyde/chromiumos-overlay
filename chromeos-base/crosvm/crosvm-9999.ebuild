@@ -15,8 +15,8 @@ DESCRIPTION="Utility for running Linux VMs on Chrome OS"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-tpm
-	+crosvm-usb crosvm-gpu-forward fuzzer"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf
+	+crosvm-usb crosvm-gpu-forward fuzzer tpm2"
 
 RDEPEND="
 	sys-apps/dtc
@@ -44,7 +44,7 @@ DEPEND="${RDEPEND}
 	dev-rust/remain:=
 	=dev-rust/syn-0.15*:=
 	crosvm-gpu-forward? ( chromeos-base/rendernodehost:= )
-	crosvm-tpm? (
+	tpm2? (
 		chromeos-base/tpm2:=
 		chromeos-base/trunks:=
 		=dev-rust/dbus-0.6*:=
@@ -89,7 +89,7 @@ src_compile() {
 		$(usex crosvm-gpu gpu "")
 		$(usex crosvm-plugin plugin "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
-		$(usex crosvm-tpm tpm "")
+		$(usex tpm2 tpm "")
 		$(usex crosvm-gpu-forward gpu-forward "")
 		$(usex crosvm-usb sandboxed-libusb "")
 	)
@@ -130,7 +130,7 @@ src_test() {
 		done
 
 		local feature_excludes=()
-		use crosvm-tpm || feature_excludes+=( --exclude tpm2 --exclude tpm2-sys )
+		use tpm2 || feature_excludes+=( --exclude tpm2 --exclude tpm2-sys )
 		use crosvm-usb || feature_excludes+=( --exclude usb_util )
 		use crosvm-gpu-forward || feature_excludes+=( --exclude render_node_forward )
 
