@@ -1225,7 +1225,6 @@ kmake() {
 	esac
 
 	if [[ "${CHOST}" != "${cross}" ]]; then
-		ewarn "Resetting CC CXX LD STRIP OBJCOPY."
 		unset CC CXX LD STRIP OBJCOPY
 	fi
 
