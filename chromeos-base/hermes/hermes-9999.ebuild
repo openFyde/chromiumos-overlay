@@ -21,8 +21,15 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="
+	chromeos-base/libbrillo:=
+	"
+
+DEPEND="
+	${RDEPEND}
+	chromeos-base/google-lpa:=
+	chromeos-base/system_api:=
+	"
 
 src_install() {
 	dobin "${OUT}"/hermes
