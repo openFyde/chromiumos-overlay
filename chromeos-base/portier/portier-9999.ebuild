@@ -40,3 +40,8 @@ platform_pkg_test() {
 		platform_test "run" "${OUT}/${test_bin}"
 	done
 }
+
+src_install() {
+	dobin "${OUT}"/portier_cli
+	dobin "${OUT}"/portierd
+}
