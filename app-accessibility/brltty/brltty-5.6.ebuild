@@ -85,6 +85,7 @@ src_configure() {
 		$(use_enable iconv)
 		$(use_enable icu)
 		$(use_enable java java-bindings)
+		$(use_enable python python-bindings)
 		$(use_with midi midi-package)
 		$(use_enable nls i18n)
 		$(use_enable ocaml ocaml-bindings)
