@@ -6,7 +6,8 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk init .gn"
+# TODO(crbug.com/809389): Avoid #include-ing platform2 headers directly.
+CROS_WORKON_SUBTREE="common-mk init metrics .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="init"
@@ -29,6 +30,7 @@ IUSE="
 # doesn't calculate dependencies when emerging packages.
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
 DEPEND="chromeos-base/libbrillo
+	chromeos-base/metrics
 	chromeos-base/secure-erase-file
 	chromeos-base/vboot_reference
 	dev-util/shunit2
