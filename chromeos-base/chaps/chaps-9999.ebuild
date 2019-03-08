@@ -82,7 +82,6 @@ src_install() {
 		fi
 	fi
 	exeinto /usr/share/cros/init
-	doexe init/chapsd.sh
 
 	# Install headers for use by clients.
 	insinto /usr/include/chaps
