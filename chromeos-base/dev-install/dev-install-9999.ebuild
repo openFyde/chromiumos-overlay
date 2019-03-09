@@ -79,5 +79,11 @@ pkg_preinst() {
 		# we want at runtime in release images.  Thus, install the files
 		# into /usr/share but symlink them into /etc for the images.
 		dosym "/usr/share/${PN}/portage" /etc/portage
+
+		# The parent file content needs to be kept in sync with the
+		# dev_install code.
+		dodir /usr/local/etc/portage/make.profile
+		echo /etc/portage/make.profile \
+			>"${D}"/usr/local/etc/portage/make.profile/parent || die
 	fi
 }
