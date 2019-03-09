@@ -7,6 +7,31 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
 
+# Note: Do *NOT* add any more boards to this list.  Files should be installed
+# via bsp packages now, or configured via unibuild config settings.
+CROS_BOARDS=(
+	auron
+	auron_paine
+	auron_yuna
+	cid
+	falco
+	gandof
+	guado
+	jecht
+	leon
+	lulu
+	mccloud
+	monroe
+	peppy
+	rikku
+	stout
+	stout32
+	tidus
+	tricky
+	wolf
+	zako
+)
+
 inherit toolchain-funcs autotools cros-sanitizers cros-workon cros-board systemd user libchrome-version
 
 DESCRIPTION="Google A/V Daemon"
