@@ -76,6 +76,7 @@ IUSE_LINUX_FIRMWARE=(
 	marvell-pcie8897
 	marvell-pcie8997
 	nvidia-xusb
+	qca6174a-3-bt
 	qca6174a-5-bt
 	qca-wcn3990-bt
 	rockchip-dptx
@@ -119,6 +120,7 @@ LICENSE="
 	linux_firmware_marvell-pcie8897? ( LICENCE.Marvell )
 	linux_firmware_marvell-pcie8997? ( LICENCE.Marvell )
 	linux_firmware_nvidia-xusb? ( LICENCE.nvidia )
+	linux_firmware_qca6174a-3-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_qca6174a-5-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_qca-wcn3990-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_rockchip-dptx? ( LICENCE.rockchip )
@@ -211,6 +213,7 @@ src_install() {
 	use_fw marvell-pcie8897 && doins_subdir mrvl/pcie8897_uapsta.bin
 	use_fw marvell-pcie8997 && doins_subdir mrvl/pcieusb8997_combo_v4.bin
 	use_fw nvidia-xusb && doins_subdir nvidia/tegra*/xusb.bin
+	use_fw qca6174a-3-bt && doins_subdir qca/{nvm,rampatch}_0044*.bin
 	use_fw qca6174a-5-bt && doins_subdir qca/{nvm,rampatch}_usb_*.bin
 	use_fw qca-wcn3990-bt && doins_subdir qca/{crbtfw21.tlv,crnv21.bin}
 	use_fw rockchip-dptx && doins_subdir rockchip/dptx.bin
