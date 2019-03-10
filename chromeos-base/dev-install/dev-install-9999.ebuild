@@ -61,15 +61,6 @@ src_install() {
 	insinto /etc/env.d
 	doins 99devinstall
 	sed -i "s:@LIBDIR@:$(get_libdir):g" "${ED}"/etc/env.d/99devinstall
-
-	# Python will be installed in /usr/local after running dev_install.
-	# Ideally this should always work.  There's a minor bug that sometimes
-	# shows up https://bugs.gentoo.org/380569 so work around it if need be.
-	local pyver=$(eselect python show --ABI)
-	if [[ -z ${pyver} ]]; then
-		pyver=$(readlink "${SYSROOT}"/usr/bin/python2 | sed s:python::)
-	fi
-	dosym "/usr/local/bin/python${pyver}" "/usr/bin/python"
 }
 
 pkg_preinst() {
