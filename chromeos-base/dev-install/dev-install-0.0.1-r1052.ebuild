@@ -9,8 +9,8 @@
 # modifying the root filesystem.
 
 EAPI="6"
-CROS_WORKON_COMMIT="91cc257e80fd24257a0709d54aa082cdd612d00d"
-CROS_WORKON_TREE="3215f17f1e7ef8309380eb0e087b9303b4fb9385"
+CROS_WORKON_COMMIT="67dcd127b9111b4fdf19d48670f09099deef364b"
+CROS_WORKON_TREE="2ec274a5e99989c532402a4650bea0da34690867"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -26,17 +26,11 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="app-arch/tar
-	sys-apps/coreutils
-	sys-apps/grep
-	sys-apps/portage
-	sys-apps/sed"
-
-# TODO(arkaitzr): remove dependency on tar if it's gonna be removed from the
-# base image. Also modify dev_install.
-RDEPEND="app-arch/tar
-	net-misc/curl
-	sys-apps/coreutils"
+DEPEND=""
+RDEPEND="${DEPEND}
+	app-arch/bzip2
+	app-arch/tar
+	net-misc/curl"
 
 fixup_make_defaults() {
 	local file=$1
