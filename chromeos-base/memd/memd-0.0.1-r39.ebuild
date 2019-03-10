@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="2779be40022b1d5dfb4c23f5b414f6231427a68b"
+CROS_WORKON_COMMIT="6cb32d3f22de78d95e6a045c8406ae219c8cf748"
 CROS_WORKON_TREE="02f090e4720f1a89357c21b94432d79db2c3e29e"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,16 +21,16 @@ IUSE="+seccomp"
 
 DEPEND="chromeos-base/system_api
 	sys-apps/dbus
-	>=dev-rust/chrono-0.4.2:=
-	>=dev-rust/dbus-0.6.1:=
-	>=dev-rust/env_logger-0.5.10:=
-	>=dev-rust/libc-0.2.40:=
-	>=dev-rust/log-0.4.1:=
-	>=dev-rust/protobuf-1.4.3:=
-	>=dev-rust/protoc-rust-1.4.3:=
-	>=dev-rust/syslog-4.0.0:=
-	>=dev-rust/time-0.1.40:=
-	>=dev-rust/tempdir-0.3.5:=
+	~dev-rust/chrono-0.4.2:=
+	~dev-rust/dbus-0.6.1:=
+	~dev-rust/env_logger-0.5.10:=
+	~dev-rust/libc-0.2.44:=
+	~dev-rust/log-0.4.5:=
+	~dev-rust/protobuf-1.4.3:=
+	~dev-rust/protoc-rust-1.4.3:=
+	~dev-rust/syslog-4.0.0:=
+	~dev-rust/time-0.1.40:=
+	~dev-rust/tempdir-0.3.7:=
 	"
 
 src_unpack() {
