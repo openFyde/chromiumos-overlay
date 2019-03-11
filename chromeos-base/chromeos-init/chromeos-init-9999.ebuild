@@ -73,7 +73,7 @@ platform_pkg_test() {
 	done
 
 	local cpp_tests=(
-		clobber_state_unittest
+		clobber_state_test
 		file_attrs_cleaner_test
 		usermode-helper_test
 	)
