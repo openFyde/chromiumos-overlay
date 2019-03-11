@@ -153,7 +153,9 @@ IUSE_TESTS=(
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
 	+tests_policy_CookiesSessionOnlyForUrls
+	+tests_policy_DefaultGeolocationSetting
 	+tests_policy_DefaultJavaScriptSetting
+	+tests_policy_DefaultNotificationsSetting
 	+tests_policy_DeveloperToolsAvailability
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceTargetVersionPrefix
@@ -173,14 +175,18 @@ IUSE_TESTS=(
 	+tests_policy_JavaScriptAllowedForUrls
 	+tests_policy_JavaScriptBlockedForUrls
 	+tests_policy_KeyboardDefaultToFunctionKeys
+	+tests_policy_KioskModeEnabled
 	+tests_policy_ManagedBookmarks
+	+tests_policy_NewTabPageLocation
 	+tests_policy_NotificationsAllowedForUrls
 	+tests_policy_NotificationsBlockedForUrls
 	+tests_policy_PluginsAllowedForUrls
 	+tests_policy_PluginsBlockedForUrls
+	+tests_policy_PolicyRefreshRate
 	+tests_policy_PopupsAllowedForUrls
 	+tests_policy_PopupsBlockedForUrls
 	+tests_policy_PowerManagementIdleSettings
+	+tests_policy_PromptForDownloadLocation
 	+tests_policy_ProxySettings
 	+tests_policy_ReportUploadFrequency
 	+tests_policy_RestoreOnStartupURLs
