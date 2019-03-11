@@ -323,6 +323,8 @@ multilib_src_install_all() {
 		doins "${FILESDIR}"/init/cups-post-upstart-socket-bridge.conf
 		doins "${FILESDIR}"/init/cupsd.conf
 		doins "${FILESDIR}"/init/cups-clear-state.conf
+		exeinto /usr/share/cros/init
+		doexe "${FILESDIR}"/init/cups-clear-state.sh
 	fi
 
 	# CUPS wants the daemon user to own these
