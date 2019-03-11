@@ -13,6 +13,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/rand-0.4.0:=
-	>=dev-rust/remove_dir_all-0.5.0:=
+DEPEND="
+	=dev-rust/rand-0.4*:=
+	=dev-rust/remove_dir_all-0.5*:=
 "
