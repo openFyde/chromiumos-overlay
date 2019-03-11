@@ -1399,16 +1399,6 @@ cros-kernel2_src_configure() {
 
 	elog "Using kernel config: ${config}"
 
-	# Keep a handle on the old .config in case it hasn't changed.  This way
-	# we can keep the old timestamp which will avoid regenerating stuff that
-	# hasn't actually changed.
-	local temp_config="${T}/old-kernel-config"
-	if [[ -e $(get_build_cfg) ]] ; then
-		cp -a "$(get_build_cfg)" "${temp_config}"
-	else
-		rm -f "${temp_config}"
-	fi
-
 	if [ -n "${CHROMEOS_KERNEL_CONFIG}" ]; then
 		cp -f "${config}" "$(get_build_cfg)" || die
 	else
@@ -1476,12 +1466,28 @@ cros-kernel2_src_configure() {
 			>> "$(get_build_cfg)" || die
 	fi
 
-	# Use default for any options not explitly set in splitconfig
-	kmake olddefconfig
+	# If the old config is unchanged restore it.  This allows us to keep
+	# the old timestamp which will avoid regenerating stuff that hasn't
+	# actually changed.  Note that we compare against the non-normalized
+	# config to avoid an extra call to "kmake olddefconfig" in the common
+	# case.
+	#
+	# If the old config changed, we'll normalize the new one and stash
+	# both the non-normalized and normalized versions for next time.
 
-	# Restore the old config if it is unchanged.
-	if cmp -s "$(get_build_cfg)" "${temp_config}" ; then
-		touch -r "${temp_config}" "$(get_build_cfg)"
+	local old_config="$(cros-workon_get_build_dir)/cros-old-config"
+	local old_defconfig="$(cros-workon_get_build_dir)/cros-old-defconfig"
+
+	if [[ -e "${old_config}" ]] && \
+		cmp -s "$(get_build_cfg)" "${old_config}"; then
+		cp -a "${old_defconfig}" "$(get_build_cfg)" || die
+	else
+		cp -a "$(get_build_cfg)" "${old_config}" || die
+
+		# Use default for options not explicitly set in splitconfig.
+		kmake olddefconfig
+
+		cp -a "$(get_build_cfg)" "${old_defconfig}" || die
 	fi
 
 	# Create .scmversion file so that kernel release version
@@ -1502,7 +1508,7 @@ get_dtb_name() {
 	find ${dtb_dir} -name "*.dtb" | LC_COLLATE=C sort
 }
 
-cros-kernel2_src_compile() {
+_cros-kernel2_compile() {
 	local build_targets=()  # use make default target
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 	case ${kernel_arch} in
@@ -1546,6 +1552,63 @@ cros-kernel2_src_compile() {
 			tee "${SMATCH_LOG_FILE}"
 	else
 		kmake -k ${build_targets[@]}
+	fi
+}
+
+cros-kernel2_src_compile() {
+	local old_config="$(cros-workon_get_build_dir)/cros-old-config"
+	local old_defconfig="$(cros-workon_get_build_dir)/cros-old-defconfig"
+
+	# Some users of cros-kernel2 touch the config after
+	# cros-kernel2_src_configure finishes.  Detect that and remove
+	# the old configs we were saving to speed up the next
+	# incremental build.  These users of cros-kernel2 will be
+	# slower but they will still work OK.
+	if ! cmp -s "$(get_build_cfg)" "${old_defconfig}"; then
+		ewarn "Slowing build speed because ebuild touched config."
+		rm "${old_config}" "${old_defconfig}" || die
+	fi
+
+	_cros-kernel2_compile
+
+	# If Kconfig files have changed since we last did a compile then the
+	# .config file that we passed in the kernel might not have been in
+	# perfect form.  In general we only generate / make defconfig in
+	# cros-kernel2_src_configure() if we see that our config changed (we
+	# don't detect Kconfig changes).
+	#
+	# It's _probably_ fine that we just built the kernel like this because
+	# the kernel detects this case, falls into a slow path, and then
+	# noisily does a defconfig.  However, there is a very small chance that
+	# the results here will be unexpected.  Specifically if you're jumping
+	# between very different kernels and you're using an underspecified
+	# config (like the fallback config), it's possible the results will be
+	# wrong.  AKA if you start with the raw config, then make a defconfig
+	# with kernel A, then use that defconfig w/ kernel B to generate a new
+	# defconfig, you could end up with a different result than if you
+	# sent the raw config straight to kernel B.
+	#
+	# Let's be paranoid and keep things safe.  We'll detect if we got
+	# it wrong and in that case compile the kernel a 2nd time.
+
+	# Check if defconfig is different after the kernel build finished.
+	if [[ -e "${old_defconfig}" ]] && \
+		! cmp -s "$(get_build_cfg)" "${old_defconfig}"; then
+		# We'll stash what the kernel came up with as a defconfig.
+		cp -a "$(get_build_cfg)" "${old_defconfig}" || die
+
+		# Re-create a new defconfig from the stashed raw config.
+		cp -a "${old_config}" "$(get_build_cfg)" || die
+		kmake olddefconfig
+
+		# If the newly generated defconfig is different from what
+		# the kernel came up with then do a recompile.
+		if ! cmp -s "$(get_build_cfg)" "${old_defconfig}"; then
+			ewarn "Detected Kconfig change; redo with olddefconfig"
+
+			cp -a "$(get_build_cfg)" "${old_defconfig}" || die
+			_cros-kernel2_compile
+		fi
 	fi
 }
 
