@@ -31,7 +31,6 @@ DEPEND="${RDEPEND}
 	test? ( >=dev-libs/check-0.9.4 )"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.7.0-libdrm.patch
 )
 
 src_prepare() {
