@@ -49,7 +49,8 @@ DEPEND="${COMMON_DEPEND}
 	${PYTHON_DEPS}"
 RDEPEND="${COMMON_DEPEND}
 	abi_x86_32? ( !<=app-emulation/emul-linux-x86-baselibs-20130224-r2
-		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32(-)] )"
+		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32(-)] )
+	!<=sys-devel/lld-8.0_pre349610-r5"
 
 # pypy gives me around 1700 unresolved tests due to open file limit
 # being exceeded. probably GC does not close them fast enough.
@@ -107,25 +108,28 @@ pkg_setup() {
 }
 
 src_unpack() {
-	local clang_hash clang_tidy_hash compiler_rt_hash llvm_hash
+	local clang_hash clang_tidy_hash compiler_rt_hash llvm_hash lld_hash
 
 	if use llvm-tot; then
 		clang_hash="origin/master"
 		clang_tidy_hash="origin/master"
 		compiler_rt_hash="origin/master"
 		llvm_hash="origin/master"
+		lld_hash="origin/master"
 	elif use llvm-next; then
 		# llvm:353983 https://critique.corp.google.com/#review/233864070
 		clang_hash="171531e31716e2db2c372cf8b57220ddf9e721d8" # EGIT_COMMIT r353983
 		clang_tidy_hash="80b6bd266d30d1fbc12b8cf16db684365492c0e6" # EGIT_COMMIT r353926
 		compiler_rt_hash="00d38a06e40df0bb8fbc1d3e4e6a3cc35bddbd74" # EGIT_COMMIT r353947
 		llvm_hash="5077597e0d5b86d9f9c27286d8b28f8b3645a74c" # EGIT_COMMIT r353983
+		lld_hash="14aa57da0f92683f0b8bdac0acda485a6f73edc7" # EGIT_COMMIT r353981
 	else
 		# llvm:r349610 https://critique.corp.google.com/#review/226534312
 		clang_hash="a1a49a7b666a6a9d9b55b52602f9773a9e00b4f5" # EGIT_COMMIT r349604
 		clang_tidy_hash="db53734aa26129bb55f510408c076e2e96b6d492" # EGIT_COMMIT r349502
 		compiler_rt_hash="c3cc767cfdcbd358536d7a730c9f4fd71e97dc18" # EGIT_COMMIT r349609
 		llvm_hash="331ffd31b3dd49b3f02a27556938b836b679f564" # EGIT_COMMIT r349610
+		lld_hash="796666e779e6b7152be890c8d8fb52d2df06d268" #EGIT_COMMIT r349581
 	fi
 
 	# non-local
@@ -146,6 +150,10 @@ src_unpack() {
 			"tools/clang/tools/extra"
 			"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm-clang-tools-extra.git"
 			"$clang_tidy_hash"
+		"lld"
+			"tools/lld"
+			"${CROS_GIT_HOST_URL}/external/llvm.org/lld"
+			"$lld_hash"
 	)
 
 	set -- "${EGIT_REPO_URIS[@]}"
@@ -183,7 +191,16 @@ pick_cherries() {
 	CHERRIES=""
 	pushd "${S}"/projects/compiler-rt >/dev/null || die
 	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch" 
+		epatch "${FILESDIR}/cherry/${cherry}.patch"
+	done
+	popd >/dev/null || die
+
+	# lld
+	CHERRIES=""
+	CHERRIES+=" bb1399bcffdf5940bf6915affad8d2bd2744ba46" #r351186
+	pushd "${S}"/tools/lld >/dev/null || die
+	for cherry in ${CHERRIES}; do
+		epatch "${FILESDIR}/cherry/${cherry}.patch"
 	done
 	popd >/dev/null || die
 }
@@ -208,6 +225,14 @@ pick_next_cherries() {
 	# compiler-rt
 	CHERRIES=""
 	pushd "${S}"/projects/compiler-rt >/dev/null || die
+	for cherry in ${CHERRIES}; do
+		epatch "${FILESDIR}/cherry/${cherry}.patch"
+	done
+	popd >/dev/null || die
+
+	#lld
+	CHERRIES=""
+	pushd "${S}"/tools/lld >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
 	done
@@ -344,6 +369,17 @@ src_prepare() {
 
 	# User patches
 	epatch_user
+
+	# lld patches
+	pushd "${S}"/tools/lld >/dev/null || die
+		# These 2 patches are still reverted in Android.
+		epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
+		epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
+		# Allow .elf suffix in lld binary name.
+		epatch "${FILESDIR}/lld-invoke-name.patch"
+		# Put .text.hot section before .text section.
+		epatch "${FILESDIR}"/lld-8.0-reorder-hotsection-early.patch
+	popd >/dev/null || die
 
 	# Native libdir is used to hold LLVMgold.so
 	NATIVE_LIBDIR=$(get_libdir)
@@ -503,6 +539,8 @@ multilib_src_install() {
 	exeinto "/usr/bin"
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang"
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang++"
+	mv "${D}/usr/bin/lld" "${D}/usr/bin/lld.real" || die
+	newexe "${FILESDIR}/ldwrapper" "lld" || die
 }
 
 multilib_src_install_all() {
