@@ -3,18 +3,22 @@
 
 EAPI=6
 
+MY_PN=llvm
+MY_P=${MY_PN}-${PV}
+S="${WORKDIR}/${P}"
+
 : ${CMAKE_MAKEFILE_GENERATOR:=ninja}
 # (needed due to CMAKE_BUILD_TYPE != Gentoo)
 CMAKE_MIN_VERSION=3.7.0-r1
 PYTHON_COMPAT=( python2_7 )
 
 inherit cmake-utils flag-o-matic multilib-minimal \
-	multiprocessing pax-utils python-any-r1 toolchain-funcs
+	multiprocessing pax-utils python-any-r1 toolchain-funcs arc-build
 
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="https://llvm.org/"
-SRC_URI="https://releases.llvm.org/${PV/_//}/${P/_/}.src.tar.xz
-	!doc? ( https://dev.gentoo.org/~mgorny/dist/llvm/${P}-manpages.tar.bz2 )"
+SRC_URI="https://releases.llvm.org/${PV/_//}/${MY_P/_/}.src.tar.xz
+	!doc? ( https://dev.gentoo.org/~mgorny/dist/llvm/${MY_P}-manpages.tar.bz2 )"
 
 # Keep in sync with CMakeLists.txt
 ALL_LLVM_TARGETS=( AArch64 AMDGPU ARM BPF Hexagon Lanai Mips MSP430
@@ -33,49 +37,22 @@ LICENSE="UoI-NCSA rc BSD public-domain
 	llvm_targets_ARM? ( LLVM-Grant )"
 SLOT="$(get_major_version)"
 KEYWORDS="*"
-IUSE="debug doc exegesis gold libedit +libffi ncurses test tools xar xml
+IUSE="debug doc exegesis libedit libffi ncurses test xar xml
 	kernel_Darwin ${ALL_LLVM_TARGETS[*]}"
 RESTRICT="!test? ( test )"
 
-RDEPEND="
-	sys-libs/zlib:0=
-	exegesis? ( dev-libs/libpfm:= )
-	gold? ( >=sys-devel/binutils-2.22:*[cxx] )
-	libedit? ( dev-libs/libedit:0=[${MULTILIB_USEDEP}] )
-	libffi? ( >=virtual/libffi-3.0.13-r1:0=[${MULTILIB_USEDEP}] )
-	ncurses? ( >=sys-libs/ncurses-5.9-r3:0=[${MULTILIB_USEDEP}] )
-	xar? ( app-arch/xar )
-	xml? ( dev-libs/libxml2:2=[${MULTILIB_USEDEP}] )"
-# configparser-3.2 breaks the build (3.3 or none at all are fine)
-DEPEND="${RDEPEND}
-	dev-lang/perl
-	|| ( >=sys-devel/gcc-3.0 >=sys-devel/llvm-3.5
-		( >=sys-freebsd/freebsd-lib-9.1-r10 sys-libs/libcxx )
-	)
-	kernel_Darwin? (
-		<sys-libs/libcxx-$(get_version_component_range 1-3).9999
-		>=sys-devel/binutils-apple-5.1
-	)
-	doc? ( dev-python/sphinx )
-	gold? ( sys-libs/binutils-libs )
-	libffi? ( virtual/pkgconfig )
-	!!<dev-python/configparser-3.3.0.2
-	${PYTHON_DEPS}"
 # There are no file collisions between these versions but having :0
 # installed means llvm-config there will take precedence.
-RDEPEND="${RDEPEND}
-	!sys-devel/llvm:0"
+RDEPEND="!sys-devel/arc-llvm:0"
 # Remove previous version of llvm to avoid file collisions, since all slots end
 # up in the same install directory.
 RDEPEND="${RDEPEND}
-	!sys-devel/llvm:6"
-PDEPEND="sys-devel/llvm-common
-	gold? ( sys-devel/llvmgold )"
+	!sys-devel/arc-llvm:6"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	|| ( ${ALL_LLVM_TARGETS[*]} )"
 
-S=${WORKDIR}/${P/_/}.src
+S=${WORKDIR}/${MY_P/_/}.src
 
 HOST_DIR="${WORKDIR}/${PF}-${CBUILD}"
 
@@ -85,7 +62,10 @@ CMAKE_BUILD_TYPE=RelWithDebInfo
 src_prepare() {
 	# Fix llvm-config for shared linking and sane flags
 	# https://bugs.gentoo.org/show_bug.cgi?id=565358
-	eapply "${FILESDIR}"/7.0.9999/0007-llvm-config-Clean-up-exported-values-update-for-shar.patch
+	eapply "${FILESDIR}"/9999/0007-llvm-config-Clean-up-exported-values-update-for-shar.patch
+
+	# Don't install static libraries when not requested
+	eapply "${FILESDIR}/arc-llvm-6.0.0-no-static-libraries.patch"
 
 	# disable use of SDK on OSX, bug #568758
 	sed -i -e 's/xcrun/false/' utils/lit/lit/util.py || die
@@ -94,7 +74,8 @@ src_prepare() {
 	eapply_user
 }
 
-build_host_tools() {
+build_host_tool() {
+	local tool="$1"
 	# Use host toolchain when building for the host.
 	local CC=clang
 	local CXX=clang++
@@ -103,11 +84,31 @@ build_host_tools() {
 	local LDFLAGS=''
 	mkdir -p "${HOST_DIR}" || die
 	cd "${HOST_DIR}" || die
-	cmake "${@}" -G "Unix Makefiles" "${S}" || die
-	cd "${HOST_DIR}/utils/TableGen" || die
+	local libdir=$(get_libdir)
+	cmake -DLLVM_LIBDIR_SUFFIX=${libdir#lib} \
+		-DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS// /;}" \
+		-G "Unix Makefiles" ${S}
+	# We don't build shared libraries on the host, but we want
+	# llvm-config's output to match the target behavior, so override
+	# the config embedded into the binary.
+	sed -i -E '/LLVM_(LINK|ENABLE)_DYLIB 0/s:0:1:' \
+		"${HOST_DIR}/${tool}/BuildVariables.inc"
+	cd "${HOST_DIR}/${tool}" || die
 	emake
-	cd "${HOST_DIR}/tools/llvm-config" || die
-	emake
+}
+
+build_host_tblgen() {
+	build_host_tool "utils/TableGen"
+}
+
+build_host_config() {
+	build_host_tool "tools/llvm-config"
+	mv "${HOST_DIR}/bin/llvm-config" "${HOST_DIR}/bin/llvm-config-${ABI}"
+}
+
+src_configure() {
+	arc-build-select-clang
+	multilib-minimal_src_configure
 }
 
 multilib_src_configure() {
@@ -122,12 +123,16 @@ multilib_src_configure() {
 		# disable appending VCS revision to the version to improve
 		# direct cache hit ratio
 		-DLLVM_APPEND_VC_REV=OFF
-		-DCMAKE_INSTALL_PREFIX="${EPREFIX}/usr/lib/llvm"
+		-DCMAKE_INSTALL_PREFIX="${ARC_PREFIX}/build"
 		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
+		
+		-DLLVM_BUILD_LLVM_DYLIB=ON
 
 		-DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS// /;}"
 		-DLLVM_BUILD_TESTS=$(usex test)
-		-DLLVM_BUILD_TOOLS=$(usex tools)
+		-DLLVM_BUILD_TOOLS=OFF
+		-DLLVM_BUILD_RUNTIMES=OFF
+		-DLLVM_TOOL_LTO_BUILD=OFF
 
 		-DLLVM_ENABLE_FFI=$(usex libffi)
 		-DLLVM_ENABLE_LIBEDIT=$(usex libedit)
@@ -171,20 +176,12 @@ multilib_src_configure() {
 			-DLLVM_ENABLE_DOXYGEN=OFF
 			-DLLVM_INSTALL_UTILS=ON
 		)
-		use doc && mycmakeargs+=(
-			-DCMAKE_INSTALL_MANDIR="${EPREFIX}/usr/lib/llvm/share/man"
-			-DLLVM_INSTALL_SPHINX_HTML_DIR="${EPREFIX}/usr/share/doc/${PF}/html"
-			-DSPHINX_WARNINGS_AS_ERRORS=OFF
-		)
-		use gold && mycmakeargs+=(
-			-DLLVM_BINUTILS_INCDIR="${EPREFIX}"/usr/include
-		)
 	fi
 
 	if tc-is-cross-compiler; then
 		# Force LLVM_BUILD_TOOLS=ON to ensure build_host_tools builds
 		# llvm-config
-		build_host_tools "${mycmakeargs[@]}" -DLLVM_BUILD_TOOLS=ON
+		build_host_tblgen
 		# die early if the build tools are not installed
 		[[ -x "${HOST_DIR}/bin/llvm-tblgen" ]] \
 			|| die "${HOST_DIR}/bin/llvm-tblgen not found or usable"
@@ -221,6 +218,8 @@ multilib_src_compile() {
 		pax-mark m "${BUILD_DIR}"/unittests/ExecutionEngine/MCJIT/MCJITTests
 		pax-mark m "${BUILD_DIR}"/unittests/Support/SupportTests
 	fi
+	
+	build_host_config
 }
 
 multilib_src_test() {
@@ -230,65 +229,40 @@ multilib_src_test() {
 }
 
 src_install() {
-	local MULTILIB_CHOST_TOOLS=()
-
-	if use tools; then
-		MULTILIB_CHOST_TOOLS+=(
-			/usr/lib/llvm/bin/llvm-config
-		)
-	fi
-
-	local MULTILIB_WRAPPED_HEADERS=(
-		/usr/include/llvm/Config/llvm-config.h
-	)
-
 	local LLVM_LDPATHS=()
 	multilib-minimal_src_install
-
-	# move wrapped headers back
-	mv "${ED%/}"/usr/include "${ED%/}"/usr/lib/llvm/include || die
-	# llvm-config --includedir and --libdir print output based on where
-	# llvm-config itself is located. So to get an includedir of
-	# .../usr/lib/llvm/include, llvm-config needs to be in
-	# .../usr/lib/llvm/bin.
-        mv "${HOST_DIR}"/bin/llvm-config "${ED%/}"/usr/lib/llvm/bin/llvm-config-host || die
 }
 
 multilib_src_install() {
 	cmake-utils_src_install
 
-	# move headers to /usr/include for wrapping
-	rm -rf "${ED%/}"/usr/include || die
-	mv "${ED%/}"/usr/lib/llvm/include "${ED%/}"/usr/include || die
+	into ${ARC_PREFIX}/build
+	newbin "${HOST_DIR}/bin/llvm-config-${ABI}" "llvm-config-host-${ABI}"
 
-	LLVM_LDPATHS+=( "${EPREFIX}/usr/lib/llvm/$(get_libdir)" )
+	# Manually copy libLLVM-7.0.1.so into the android container.
+	# TODO(b/112313068): Statically link with this instead of installing
+	# this shared library.
+	into "${ARC_PREFIX}/vendor"
+	dolib $(get_libdir)/libLLVM-7.so
+
+	# Then replace the copy in the build directory with a symlink to the
+	# vendor image copy.
+	dosym ../../vendor/$(get_libdir)/libLLVM-7.so "${ARC_PREFIX}/build/$(get_libdir)/libLLVM-7.so"
 }
 
 multilib_src_install_all() {
-	local revord=$(( 9999 - ${SLOT} ))
-	newenvd - "10llvm-${revord}" <<-_EOF_
-		PATH="${EPREFIX}/usr/lib/llvm/bin"
-		# we need to duplicate it in ROOTPATH for Portage to respect...
-		ROOTPATH="${EPREFIX}/usr/lib/llvm/bin"
-		MANPATH="${EPREFIX}/usr/lib/llvm/share/man"
-		LDPATH="$( IFS=:; echo "${LLVM_LDPATHS[*]}" )"
-	_EOF_
+	local LLVM_CONFIG_HOST="${D}/${ARC_PREFIX}/build/bin/llvm-config-host"
+	cat > "${LLVM_CONFIG_HOST}" <<EOF
+#!/bin/bash
 
-	# install pre-generated manpages
-	if ! use doc; then
-		# (doman does not support custom paths)
-		insinto "/usr/lib/llvm/share/man/man1"
-		doins "${WORKDIR}/${P}-manpages/llvm"/*.1
-	fi
+ABI_BIN="\$(dirname ""\$0"")/llvm-config-host-\${ABI}"
 
-	docompress "/usr/lib/llvm/share/man"
-}
-
-pkg_postinst() {
-	elog "You can find additional opt-viewer utility scripts in:"
-	elog "  ${EROOT}/usr/lib/llvm/share/opt-viewer"
-	elog "To use these scripts, you will need Python 2.7 along with the following"
-	elog "packages:"
-	elog "  dev-python/pygments (for opt-viewer)"
-	elog "  dev-python/pyyaml (for all of them)"
+if [[ -e "\${ABI_BIN}" ]]; then
+	exec "\${ABI_BIN}" "\$@"
+else
+	echo "\$0: Unsupported ABI: \${ABI}"
+	exit 1
+fi
+EOF
+	chmod a+rx "${LLVM_CONFIG_HOST}" || die
 }
