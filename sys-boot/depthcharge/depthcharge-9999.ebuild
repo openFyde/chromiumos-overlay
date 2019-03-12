@@ -12,7 +12,8 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="detachable_ui fastboot fwconsole mocktpm pd_sync unibuild verbose debug"
+IUSE="detachable_ui diag_payload fastboot fwconsole mocktpm pd_sync unibuild
+	verbose debug"
 
 DEPEND="
 	chromeos-base/vboot_reference
@@ -100,6 +101,10 @@ make_depthcharge() {
 	fi
 	if use detachable_ui ; then
 		echo "CONFIG_DETACHABLE_UI=y" >> "board/${board}/defconfig"
+	fi
+	# Using diagnostic payload implies enabling UI to run it
+	if use diag_payload ; then
+		echo "CONFIG_DIAGNOSTIC_UI=y" >> "board/${board}/defconfig"
 	fi
 
 	[[ ${PV} == "9999" ]] && dc_make distclean "${builddir}" libpayload

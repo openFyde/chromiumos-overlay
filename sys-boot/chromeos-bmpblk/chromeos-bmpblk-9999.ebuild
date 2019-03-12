@@ -98,7 +98,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="detachable_ui"
+IUSE="detachable_ui diag_payload"
 
 DEPEND="virtual/chromeos-vendor-strings"
 
@@ -132,6 +132,10 @@ src_compile() {
 	local vendor_strings_dir="${SYSROOT}/firmware/vendor-strings"
 	if use detachable_ui ; then
 		export DETACHABLE_UI=1
+	fi
+	# Using diagnostic payload implies enabling UI to run it
+	if use diag_payload ; then
+		export DIAGNOSTIC_UI=1
 	fi
 	if [[ -f "${vendor_strings_dir}/vendor_format.yaml" ]] ; then
 		export VENDOR_STRINGS_DIR="${vendor_strings_dir}"
