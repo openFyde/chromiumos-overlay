@@ -51,6 +51,7 @@ DEPEND="
 	dev-go/yaml
 "
 RDEPEND="
+	chromeos-base/graphics_tests
 	chromeos-base/security_tests
 	chromeos-base/wprgo
 	dev-libs/openssl
