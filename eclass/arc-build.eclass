@@ -138,9 +138,6 @@ arc-build-select-gcc() {
 arc-build-select-clang() {
 	_arc-build-select-common
 
-	# TODO(b/73520402): Remove this once arc-llvm stops ignoring flags in CC and CXX
-	append-flags "--gcc-toolchain=${ARC_GCC_BASE}"
-	append-flags -target "${CHOST}"
 	append-cxxflags -stdlib=libc++
 
 	ARC_LLVM_BASE="${ARC_BASE}/arc-llvm/${ARC_LLVM_VERSION}"
