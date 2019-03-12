@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/
 LICENSE="BSD-Google"
 SLOT="${PV}/${PR}"
 KEYWORDS="~*"
-IUSE="asan test"
+IUSE="test"
 
 DEPEND="
 	>=dev-rust/libc-0.2.44:=
@@ -43,11 +43,11 @@ src_compile() {
 src_test() {
 	local skip_tests=()
 
-	# These tests directly make a clone(2) syscall, which makes ASAN very
-	# unhappy since it sees memory allocated in the child process that is not
+	# These tests directly make a clone(2) syscall, which makes sanitizers very
+	# unhappy since they see memory allocated in the child process that is not
 	# freed (because it is owned by some other thread created by the test runner
 	# in the parent process).
-	use asan && skip_tests+=( --skip "fork::tests" )
+	cros-rust_use_sanitizers && skip_tests+=( --skip "fork::tests" )
 
 	if use x86 || use amd64; then
 		# Some tests must be run single threaded to ensure correctness,

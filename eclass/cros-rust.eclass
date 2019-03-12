@@ -33,7 +33,7 @@ esac
 # checks are always enabled when the cros-debug flag is set.
 : ${CROS_RUST_OVERFLOW_CHECKS:=1}
 
-inherit toolchain-funcs cros-debug
+inherit toolchain-funcs cros-debug cros-sanitizers
 
 IUSE="asan fuzzer lsan +lto msan test tsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
@@ -171,6 +171,8 @@ cros-rust_src_prepare() {
 # Configures the source and exports any environment variables needed during the
 # build.
 cros-rust_src_configure() {
+	sanitizers-setup-env
+
 	export CARGO_TARGET_DIR="${WORKDIR}"
 	export CARGO_HOME="${ECARGO_HOME}"
 	export HOST="${CBUILD}"
@@ -214,6 +216,13 @@ cros-rust_src_configure() {
 	fi
 
 	export RUSTFLAGS="${rustflags[*]}"
+}
+
+# @FUNCTION: cros-rust_use_sanitizers
+# @DESCRIPTION:
+# Checks whether sanitizers are being used.
+cros-rust_use_sanitizers() {
+	use_sanitizers || use lsan
 }
 
 # @FUNCTION: ecargo

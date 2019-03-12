@@ -9,7 +9,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="vm_tools/p9"
 
-inherit cros-fuzzer cros-sanitizers cros-workon cros-rust
+inherit cros-fuzzer cros-workon cros-rust
 
 DESCRIPTION="Server implementation of the 9P file system protocol"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/p9/"
@@ -36,11 +36,6 @@ src_unpack() {
 	S+="/vm_tools/p9"
 
 	cros-rust_src_unpack
-}
-
-src_configure() {
-	sanitizers-setup-env
-	cros-rust_src_configure
 }
 
 src_compile() {
