@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=vaapi? ( x11-libs/libva ) dev-vcs/git
+DESCRIPTION=Autotest label detector for audio/video/camera
+EAPI=6
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/avtest_label_detect
+IUSE=-asan vaapi asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_e220eed9c62e23a855f6b5ebce2310a69a9309a5_0f9ca136be8e2948753d5e360f729ccb34b1bfa6_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=vaapi? ( x11-libs/libva )
+SLOT=0
+_eclasses_=cros-common.mk	fe20d64d9af13a46447e01206e2b3b6a	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-sanitizers	dc40d713077337d5ea46e415f9b955c6	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=6298ba5a0dd25b90363880bd49a6d179
