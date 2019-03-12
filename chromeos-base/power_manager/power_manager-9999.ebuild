@@ -110,7 +110,7 @@ src_install() {
 		udev_dorules "${T}"/98-autosuspend.rules
 		udev_dorules udev/optional/98-powerknobs.rules
 		dobin udev/optional/set_blkdev_pm
-		dobin udev/optional/set_sata_link_pm
+		dobin udev/optional/allow_sata_min_power
 	fi
 	if use keyboard_includes_side_buttons; then
 		udev_dorules udev/optional/93-powerd-tags-keyboard-side-buttons.rules
