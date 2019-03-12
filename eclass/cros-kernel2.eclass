@@ -1091,13 +1091,19 @@ cros-kernel2_pkg_setup() {
 	cros-workon_pkg_setup
 }
 
-# @FUNCTION: get_fit_compression_kernel
+# @FUNCTION: _cros-kernel2_get_fit_compression
 # @USAGE:
 # @DESCRIPTION:
-# Returns what compression algorithm the kernel uses in the FIT image. Currently
-# only applicable for arm64.
-get_fit_compression_kernel() {
-	if use fit_compression_kernel_lz4; then
+# Returns what compression algorithm the kernel uses in the FIT
+# image. Currently only applicable for arm64 since on all other
+# kernels we use the zImage which is created/compressed by the kernel
+# build itself; returns "none" when not applicable.
+_cros-kernel2_get_fit_compression() {
+	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
+
+	if [[ "${kernel_arch}" != "arm64" ]]; then
+		echo none
+	elif use fit_compression_kernel_lz4; then
 		echo lz4
 	elif use fit_compression_kernel_lzma; then
 		echo lzma
@@ -1106,59 +1112,83 @@ get_fit_compression_kernel() {
 	fi
 }
 
-# @FUNCTION: compress_kernel
-# @USAGE: <kernel_path> <image_name>
+# @FUNCTION: _cros-kernel2_get_fit_kernel_path
+# @USAGE:
 # @DESCRIPTION:
-# Compresses the kernel with the algorithm selected by current USE flags and
-# returns the name of the compressed kernel image. If no compression algorithm
-# is is selected, no compression is performed and the uncompressed kernel image
-# name is returned.
-compress_kernel() {
-	local kernel_path=$1
-	local image_name=$2
+# Returns the releative path to the (uncompressed) kernel we'll put in the fit
+# image.
+_cros-kernel2_get_fit_kernel_path() {
+	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 
-	if use fit_compression_kernel_lz4; then
-		lz4 -20 -z -f "${kernel_path}/${image_name}" \
-			"${kernel_path}/${image_name}.lz4" || die
-		echo "${image_name}.lz4"
-	elif use fit_compression_kernel_lzma; then
-		lzma -9 -z -f -k "${kernel_path}/${image_name}" || die
-		echo "${image_name}.lzma"
+	case ${kernel_arch} in
+		arm64)
+			echo "arch/${kernel_arch}/boot/Image"
+			;;
+		mips)
+			echo "vmlinuz.bin"
+			;;
+		*)
+			echo "arch/${kernel_arch}/boot/zImage"
+			;;
+	esac
+}
+
+# @FUNCTION: _cros-kernel2_get_fit_compressed_kernel_path
+# @USAGE:
+# @DESCRIPTION:
+# Returns the releative path to the compressed kernel we'll put in the fit
+# image; if we're using a compression of "none" this will just return the
+# path of the uncompressed kernel.
+_cros-kernel2_get_compressed_path() {
+	local uncompressed_path="$(_cros-kernel2_get_fit_kernel_path)"
+	local compression="$(_cros-kernel2_get_fit_compression)"
+
+	if [[ "${compression}" == "none" ]]; then
+		echo "${uncompressed_path}"
 	else
-		echo "${image_name}"
+		echo "${uncompressed_path}.${compression}"
 	fi
 }
 
-# @FUNCTION: emit_its_script
+# @FUNCTION: _cros-kernel2_compress_fit_kernel
+# @USAGE: <kernel_dir>
+# @DESCRIPTION:
+# Compresses the kernel with the algorithm selected by current USE flags. If
+# no compression algorithm this does nothing.
+_cros-kernel2_compress_fit_kernel() {
+	local kernel_dir=${1}
+	local kernel_path="${kernel_dir}/$(_cros-kernel2_get_fit_kernel_path)"
+	local compr_path="${kernel_dir}/$(_cros-kernel2_get_compressed_path)"
+	local compression="$(_cros-kernel2_get_fit_compression)"
+
+	case "${compression}" in
+		lz4)
+			lz4 -20 -z -f "${kernel_path}" "${compr_path}" || die
+			;;
+		lzma)
+			lzma -9 -z -f -k "${kernel_path}" || die
+			;;
+	esac
+}
+
+# @FUNCTION: _cros-kernel2_emit_its_script
 # @USAGE: <output file> <kernel_dir> <device trees>
 # @DESCRIPTION:
 # Emits the its script used to build the u-boot fitImage kernel binary
 # that contains the kernel as well as device trees used when booting
 # it.
-
-emit_its_script() {
+_cros-kernel2_emit_its_script() {
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
-	local fit_compression_kernel="none"
-	local image_name
+	local fit_compression_kernel
+	local kernel_bin_path
 	local iter=1
 	local its_out=${1}
 	shift
-	local kernel_path=${1}
+	local kernel_dir=${1}
 	shift
 
-	case ${kernel_arch} in
-		arm64)
-			image_name="arch/${kernel_arch}/boot/Image"
-			image_name=$(compress_kernel "${kernel_path}" "${image_name}")
-			fit_compression_kernel=$(get_fit_compression_kernel)
-			;;
-		mips)
-			image_name="vmlinuz.bin"
-			;;
-		*)
-			image_name="arch/${kernel_arch}/boot/zImage"
-			;;
-	esac
+	fit_compression_kernel="$(_cros-kernel2_get_fit_compression)"
+	kernel_bin_path="${kernel_dir}/$(_cros-kernel2_get_compressed_path)"
 
 	cat > "${its_out}" <<-EOF || die
 	/dts-v1/;
@@ -1169,7 +1199,7 @@ emit_its_script() {
 
 		images {
 			kernel@1 {
-				data = /incbin/("${kernel_path}/${image_name}");
+				data = /incbin/("${kernel_bin_path}");
 				type = "kernel_noload";
 				arch = "${kernel_arch}";
 				os = "linux";
@@ -1666,18 +1696,20 @@ cros-kernel2_src_install() {
 		return 0
 	fi
 
-	local build_targets=(
-		install
-		$(cros_chkconfig_present MODULES && echo "modules_install")
-	)
-
 	dodir /boot
-	kmake INSTALL_PATH="${D}/boot" INSTALL_MOD_PATH="${D}" \
-		INSTALL_MOD_STRIP=1 "${build_targets[@]}"
+	kmake INSTALL_PATH="${D}/boot" install
 
-	# Install modules w/out debug stripping.
+	if use device_tree; then
+		_cros-kernel2_compress_fit_kernel \
+			"$(cros-workon_get_build_dir)" &
+	fi
+
 	if cros_chkconfig_present MODULES; then
+		kmake INSTALL_MOD_PATH="${D}" INSTALL_MOD_STRIP=1 modules_install
+
+		# Install modules w/out debug stripping.
 		kmake INSTALL_MOD_PATH="${D}/usr/lib/debug" modules_install
+
 		# Prune files unrelated to debugging.  Like the build symlinks and the
 		# module dep files.
 		# https://crbug.com/924355
@@ -1687,6 +1719,10 @@ cros-kernel2_src_install() {
 	local version=$(kernelrelease)
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 	local kernel_bin="${D}/boot/vmlinuz-${version}"
+
+	# We might have compressed in background; wait for it now.
+	wait
+
 	if use arm || use arm64 || use mips; then
 		local kernel_dir="$(cros-workon_get_build_dir)"
 		local boot_dir="${kernel_dir}/arch/${kernel_arch}/boot"
@@ -1704,9 +1740,10 @@ cros-kernel2_src_install() {
 
 		if use device_tree; then
 			local its_script="${kernel_dir}/its_script"
-			emit_its_script "${its_script}" "${kernel_dir}" \
-				$(get_dtb_name "${dtb_dir}")
-			mkimage -D "-I dts -O dtb -p 2048" -f "${its_script}" "${kernel_bin}" || die
+			_cros-kernel2_emit_its_script "${its_script}" \
+				"${kernel_dir}" $(get_dtb_name "${dtb_dir}")
+			mkimage -D "-I dts -O dtb -p 2048" -f "${its_script}" \
+				"${kernel_bin}" || die
 		elif [[ "${kernel_arch}" == "arm" ]]; then
 			cp "${boot_dir}/uImage" "${kernel_bin}" || die
 			if use boot_dts_device_tree; then
