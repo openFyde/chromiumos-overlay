@@ -11,6 +11,7 @@ CROS_GO_PACKAGES=(
 	"github.com/mafredri/cdp/internal/..."
 	"github.com/mafredri/cdp/protocol/..."
 	"github.com/mafredri/cdp/rpcc"
+	"github.com/mafredri/cdp/session"
 )
 
 CROS_GO_TEST=(
@@ -20,6 +21,7 @@ CROS_GO_TEST=(
 	"github.com/mafredri/cdp/internal/..."
 	"github.com/mafredri/cdp/protocol/..."
 	"github.com/mafredri/cdp/rpcc"
+	"github.com/mafredri/cdp/session"
 )
 
 inherit cros-go
