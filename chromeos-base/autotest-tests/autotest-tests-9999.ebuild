@@ -35,9 +35,6 @@ RDEPEND="
 
 RDEPEND="${RDEPEND}
 	tests_dbench? ( dev-libs/libaio )
-	cups? (
-		tests_platform_CUPSDaemon? ( net-print/cups )
-	)
 	tests_platform_MetricsUploader? (
 		chromeos-base/metrics
 		dev-python/protobuf-python
@@ -194,7 +191,6 @@ CLIENT_IUSE_TESTS="
 	+tests_platform_CompressedSwapPerf
 	+tests_platform_Crossystem
 	+tests_platform_Crouton
-	cups? ( +tests_platform_CUPSDaemon )
 	+tests_platform_DaemonsRespawn
 	+tests_platform_DBusMachineIdRotation
 	+tests_platform_DMVerityBitCorruption
