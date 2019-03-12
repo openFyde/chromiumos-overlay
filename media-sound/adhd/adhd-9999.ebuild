@@ -13,21 +13,32 @@ CROS_BOARDS=(
 	auron
 	auron_paine
 	auron_yuna
+	bolt
+	chell
 	cid
+	cyan
+	daisy
+	daisy_skate
+	daisy_spring
 	falco
 	gandof
+	glados
 	guado
 	jecht
 	leon
+	link
 	lulu
 	mccloud
 	monroe
+	panther
 	peppy
 	rikku
 	stout
-	stout32
+	strago
 	tidus
 	tricky
+	veyron_{jaq,jerry,mighty,minnie,speedy}
+	whirlwind
 	wolf
 	zako
 )
@@ -90,21 +101,13 @@ src_test() {
 
 src_install() {
 	local board=$(get_current_board_with_variant)
-	# Freon boards have "-freon" or "_freon" in their full names.
-	# Remove that substring to get the name without freon. E.g.
-	# get daisy_spring from daisy_spring-freon,
-	# get daisy from daisy_freon,
-	# get arm-generic from arm-generic_freon
-	local board_no_freon=$(echo $board | sed 's/[-_]freon//g')
 	# Get board name without variant E.g.
 	# get daisy from daisy_spring,
-	# get daisy from daisy_spring-freon
-	# get arm-generic from arm-generic_freon
 	local board_no_variant=$(get_current_board_no_variant)
 	# Search the boards that are relevant to this board. E.g.
-	# for daisy_spring-freon, search in this order:
-	# daisy_spring-freon, daisy_spring, daisy to find the files.
-	local board_all=( ${board} ${board_no_freon} ${board_no_variant} )
+	# for daisy_spring, search in this order:
+	# daisy_spring, daisy to find the files.
+	local board_all=( ${board} ${board_no_variant} )
 	emake BOARD=${board} DESTDIR="${D}" SYSTEMD=$(usex systemd) install
 
 	# install alsa config files
