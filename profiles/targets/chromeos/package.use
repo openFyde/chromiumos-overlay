@@ -14,6 +14,7 @@ app-editors/vim		-X minimal
 app-shells/bash		-net
 # Drop this once we audit code to make sure we aren't using `echo -n` or `echo -e`.
 app-shells/dash	vanilla
+app-text/poppler	cairo
 dev-cpp/glog		gflags
 dev-db/sqlite		-extensions
 # Disable Segger J-Link for building openocd-0.10.0. We currently
@@ -35,7 +36,7 @@ dev-libs/nss		-utils
 dev-libs/opencryptoki	tpmtok
 dev-libs/opensc	-pcsc-lite ctapi
 dev-libs/openssl	pkcs11 -tls-heartbeat
-dev-python/matplotlib	-cairo
+dev-python/pygobject	cairo
 dev-python/pyudev	pygobject
 dev-util/dialog		-unicode minimal
 dev-util/perf		-audit -doc -demangle -tui -ncurses -perl -python -slang -unwind
@@ -92,8 +93,6 @@ net-wireless/wpa_supplicant	dbus debug -readline smartcard ssl
 sci-geosciences/gpsd	-python -ntp -X dbus garmin minimal ocean tntc usb -sockets
 # Build only TF lite to save disk space.
 sci-libs/tensorflow	-python minimal
-# Prevent gnuplot from indirectly requiring harfbuzz to be bilt with glib.
-sci-visualization/gnuplot	-cairo
 sys-apps/busybox	-pam -selinux
 sys-apps/baselayout	-auto_seed_etc_files
 sys-apps/coreutils	multicall
