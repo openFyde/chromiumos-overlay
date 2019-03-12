@@ -53,7 +53,6 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
-		export RUST_BACKTRACE=1
 		ecargo_test --all || die "memd test failed"
 	fi
 }

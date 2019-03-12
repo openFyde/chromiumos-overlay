@@ -180,6 +180,10 @@ cros-rust_src_configure() {
 	export TARGET="${CHOST}"
 	export TARGET_CC="$(tc-getCC)"
 
+	# There is a memory leak in libbacktrace:
+	# https://github.com/rust-lang/rust/issues/59125
+	cros-rust_use_sanitizers || export RUST_BACKTRACE=1
+
 	# We want debug info even in release builds.
 	local rustflags=(
 		-Cdebuginfo=2
