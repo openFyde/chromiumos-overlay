@@ -1657,6 +1657,10 @@ cros-kernel2_src_test() {
 }
 
 cros-kernel2_src_install() {
+	if use firmware_install; then
+		die "The firmware_install USE flag is dead."
+	fi
+
 	if use buildtest ; then
 		ewarn "Skipping install for buildtest"
 		return 0
@@ -1664,7 +1668,6 @@ cros-kernel2_src_install() {
 
 	local build_targets=(
 		install
-		$(usev firmware_install)
 		$(cros_chkconfig_present MODULES && echo "modules_install")
 	)
 
