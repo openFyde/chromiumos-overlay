@@ -135,6 +135,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_CorruptFwSigB
 	+tests_firmware_CorruptKernelA
 	+tests_firmware_CorruptKernelB
+	+tests_firmware_CorruptRecoveryCache
 	+tests_firmware_Cr50BID
 	+tests_firmware_Cr50CCDServoCap
 	+tests_firmware_Cr50CheckCap
@@ -198,6 +199,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_LegacyRecovery
 	+tests_firmware_Mosys
 	+tests_firmware_RecoveryButton
+	+tests_firmware_RecoveryCacheBootKeys
 	+tests_firmware_RollbackFirmware
 	+tests_firmware_RollbackKernel
 	+tests_firmware_RONormalBoot
