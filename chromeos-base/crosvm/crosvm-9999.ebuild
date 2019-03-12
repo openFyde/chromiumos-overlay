@@ -20,6 +20,7 @@ IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-tpm
 
 RDEPEND="
 	sys-apps/dtc
+	sys-libs/libcap:=
 	!chromeos-base/crosvm-bin
 	chromeos-base/minijail
 	crosvm-gpu? (

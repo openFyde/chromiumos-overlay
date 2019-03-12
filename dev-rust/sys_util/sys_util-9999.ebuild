@@ -19,7 +19,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
+RDEPEND="
+	sys-libs/libcap:=
+"
 DEPEND="
+	${RDEPEND}
 	>=dev-rust/libc-0.2.44:=
 	~dev-rust/quote-0.6.10:=
 	>=dev-rust/proc-macro2-0.4:=
