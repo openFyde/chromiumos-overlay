@@ -15,8 +15,8 @@ IUSE="bootimage cros_ec cros_ish"
 RDEPEND="!bootimage? ( chromeos-base/chromeos-firmware-null )
 	bootimage? ( sys-boot/chromeos-bootimage )
 	cros_ec? ( chromeos-base/chromeos-ec )
-	cros_ish? ( chromeos-base/cromeos-ish )"
+	cros_ish? ( chromeos-base/chromeos-ish )"
 
 DEPEND="bootimage? ( sys-boot/chromeos-bootimage )
 	cros_ec? ( chromeos-base/chromeos-ec )
-	cros_ish? ( chromeos-base/cromeos-ish )"
+	cros_ish? ( chromeos-base/chromeos-ish )"
