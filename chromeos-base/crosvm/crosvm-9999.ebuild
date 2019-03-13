@@ -90,17 +90,9 @@ src_test() {
 		elog "Skipping unit tests on non-x86 platform"
 	else
 		local feature_excludes=()
-		if ! use crosvm-tpm; then
-			feature_excludes+=(
-				--exclude tpm2
-				--exclude tpm2-sys
-			)
-		fi
-		if ! use crosvm-usb; then
-			feature_excludes+=(
-				--exclude usb_util
-			)
-		fi
+		use crosvm-tpm || feature_excludes+=( --exclude tpm2 --exclude tpm2-sys )
+		use crosvm-usb || feature_excludes+=( --exclude usb_util )
+		use crosvm-gpu-forward || feature_excludes+=( --exclude render_node_forward )
 
 		# io_jail tests fork the process, which cause memory leak errors when
 		# run under sanitizers.
