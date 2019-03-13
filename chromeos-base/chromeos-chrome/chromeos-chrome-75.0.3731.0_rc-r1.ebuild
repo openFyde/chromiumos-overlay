@@ -142,7 +142,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3725.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3729.7_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R74-3626.74-1549278723.afdo"
 AFDO_FILE["airmont"]="R74-3626.74-1551698947.afdo"
 AFDO_FILE["haswell"]="R74-3626.85-1551698947.afdo"
@@ -807,9 +807,10 @@ setup_test_lists() {
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
-		# TODO(crbug.com/879065): After video_decode_accelerator_tests gets
-		# enough functionalities to replace video_decode_accelerator_unittest
-		# with, remove video_decode_accelerator_unittest.
+		# TODO(crbug.com/879065): Remove video_decode_accelerator_unittest
+		# after all functionality has moved to video_decode_accelerator_tests
+		# and video_decode_accelerator_perf_tests.
+		video_decode_accelerator_perf_tests
 		video_decode_accelerator_tests
 		video_decode_accelerator_unittest
 		video_encode_accelerator_unittest
