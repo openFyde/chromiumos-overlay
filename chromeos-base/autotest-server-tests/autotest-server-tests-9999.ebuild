@@ -44,6 +44,7 @@ SERVER_IUSE_TESTS="
 	+tests_audio_AudioBasicUSBRecord
 	+tests_audio_AudioBluetoothConnectionStability
 	+tests_audio_AudioNodeSwitch
+	+tests_audio_AudioPinnedStream
 	+tests_audio_AudioQualityAfterSuspend
 	+tests_audio_AudioVolume
 	+tests_audio_AudioWebRTCLoopback
