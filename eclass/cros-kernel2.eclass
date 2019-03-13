@@ -955,7 +955,7 @@ REQUIRED_USE="${REQUIRED_USE}
 # eclass/ dir, but this eclass is still in the main chromiumos tree.  So
 # add a check to locate the cros-kernel/ regardless of what's going on.
 ECLASSDIR_LOCAL=${BASH_SOURCE[0]%/*}
-defconfig_dir() {
+eclass_dir() {
 	local d="${ECLASSDIR}/cros-kernel"
 	if [[ ! -d ${d} ]] ; then
 		d="${ECLASSDIR_LOCAL}/cros-kernel"
@@ -1481,7 +1481,7 @@ cros-kernel2_src_configure() {
 			chromeos/scripts/prepareconfig ${config} \
 				"${build_cfg}" || die
 		else
-			config="$(defconfig_dir)/${cfgarch}_defconfig"
+			config="$(eclass_dir)/${cfgarch}_defconfig"
 			ewarn "Can't prepareconfig, falling back to default " \
 				"${config}"
 			cp "${config}" "${build_cfg}" || die
@@ -1751,15 +1751,9 @@ cros-kernel2_src_install() {
 	fi
 
 	if cros_chkconfig_present MODULES; then
-		kmake INSTALL_MOD_PATH="${D}" INSTALL_MOD_STRIP=1 modules_install
-
-		# Install modules w/out debug stripping.
-		kmake INSTALL_MOD_PATH="${D}/usr/lib/debug" modules_install
-
-		# Prune files unrelated to debugging.  Like the build symlinks and the
-		# module dep files.
-		# https://crbug.com/924355
-		find "${D}"/usr/lib/debug/lib/modules/*/ -maxdepth 1 '!' -type d -delete
+		kmake INSTALL_MOD_PATH="${D}" INSTALL_MOD_STRIP="magic" \
+			STRIP="$(eclass_dir)/strip_splitdebug" \
+			modules_install
 	fi
 
 	local version=$(kernelrelease)
