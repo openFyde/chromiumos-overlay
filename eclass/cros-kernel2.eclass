@@ -966,7 +966,29 @@ defconfig_dir() {
 # Returns the current compiled kernel version.
 # Note: Only valid after src_configure has finished running.
 kernelrelease() {
-	kmake -s --no-print-directory kernelrelease
+	# Try to fastpath figure out the kernel release since calling
+	# kmake is slow.  The idea here is that if we happen to be
+	# running this function at the end of the install phase then
+	# there will be a binary that was created with the kernel
+	# version as a suffix.  We can look at that to figure out the
+	# version.
+	#
+	# NOTE: it's safe to always call this function because ${D}
+	# isn't something that is kept between incremental builds, IOW
+	# it's not like $(cros-workon_get_build_dir).  That means that
+	# if ${D}/boot/vmlinuz-* exists it must be the right one.
+
+	local kernel_bins=("${D}"/boot/vmlinuz-*)
+	local version
+
+	if [[ ${#kernel_bins[@]} -eq 1 ]]; then
+		version="${kernel_bins[0]##${D}/boot/vmlinuz-}"
+	fi
+	if [[ -z "${version}" || "${version}" == '*' ]]; then
+		version="$(kmake -s --no-print-directory kernelrelease)"
+	fi
+
+	echo "${version}"
 }
 
 # @FUNCTION: cc_option
