@@ -8,7 +8,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since crosvm/Cargo.toml is
 # using "# ignored by ebuild" macro which supported by cros-rust.
 
-inherit cros-rust cros-workon toolchain-funcs user
+inherit cros-fuzzer cros-rust cros-workon toolchain-funcs user
 
 DESCRIPTION="Utility for running Linux VMs on Chrome OS"
 
@@ -16,7 +16,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf crosvm-tpm
-	+crosvm-usb crosvm-gpu-forward"
+	+crosvm-usb crosvm-gpu-forward fuzzer"
 
 RDEPEND="
 	sys-apps/dtc
@@ -59,6 +59,12 @@ get_seccomp_path() {
 	echo "seccomp/${seccomp_arch}"
 }
 
+FUZZERS=(
+	crosvm_block_fuzzer
+	crosvm_qcow_fuzzer
+	crosvm_zimage_fuzzer
+)
+
 src_unpack() {
 	# Unpack both the project and dependency source code
 	cros-workon_src_unpack
@@ -95,6 +101,13 @@ src_compile() {
 			|| die "cargo build failed"
 	done
 
+	if use fuzzer; then
+		cd fuzz
+		local f
+		for f in "${FUZZERS[@]}"; do
+			ecargo_build_fuzzer --bin "${f}"
+		done
+	fi
 }
 
 src_test() {
@@ -178,6 +191,15 @@ src_install() {
 		insinto "${include_dir}"
 		doins "${S}/crosvm_plugin/crosvm.h"
 		dolib.so "${build_dir}/deps/libcrosvm_plugin.so"
+	fi
+
+	if use fuzzer; then
+		cd fuzz
+		local f
+		for f in "${FUZZERS[@]}"; do
+			fuzzer_install "${S}/fuzz/OWNERS" \
+				"${build_dir}/${f}"
+		done
 	fi
 }
 
