@@ -1,14 +1,13 @@
-From 5910a50ee42ab711b22c5b9c327f61d87c72e981 Mon Sep 17 00:00:00 2001
+From ecdc078459959a9ded7e06817589a346682635d0 Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Wed, 5 Dec 2018 16:59:57 -0800
 Subject: [PATCH] set values in journald.conf
 
-
 diff --git a/src/journal/journald.conf b/src/journal/journald.conf
-index 94d5c678a..4706b733a 100644
+index 94d5c678aa..d35542297f 100644
 --- a/src/journal/journald.conf
 +++ b/src/journal/journald.conf
-@@ -12,16 +12,16 @@
+@@ -12,24 +12,24 @@
  # See journald.conf(5) for details.
  
  [Journal]
@@ -31,15 +30,16 @@ index 94d5c678a..4706b733a 100644
  #SystemMaxFiles=100
  #RuntimeMaxUse=
  #RuntimeKeepFree=
-@@ -29,7 +29,7 @@
+ #RuntimeMaxFileSize=
  #RuntimeMaxFiles=100
  #MaxRetentionSec=
- #MaxFileSec=1month
+-#MaxFileSec=1month
 -#ForwardToSyslog=no
++MaxFileSec=0
 +ForwardToSyslog=yes
  #ForwardToKMsg=no
  #ForwardToConsole=no
  #ForwardToWall=yes
 -- 
-2.20.0.rc2.403.gdbc3b29805-goog
+2.21.0.360.g471c308f928-goog
 
