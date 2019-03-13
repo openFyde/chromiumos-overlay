@@ -43,6 +43,7 @@ src_install() {
 	exeinto /usr/share/cros
 	files=(
 		cr50-get-name.sh
+		cr50-read-rma-sn-bits.sh
 		cr50-reset.sh
 		cr50-set-board-id.sh
 		cr50-update.sh
