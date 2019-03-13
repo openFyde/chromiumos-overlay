@@ -18,7 +18,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="fuzzer unibuild"
+IUSE="fuzzer unibuild fp_on_power_button"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config )
