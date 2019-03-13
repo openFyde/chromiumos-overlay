@@ -4,8 +4,10 @@
 
 EAPI="5"
 
+EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="arc-mesa"
+CROS_WORKON_LOCALNAME="mesa"
+CROS_WORKON_BLACKLIST="1"
 
 inherit base autotools multilib-minimal flag-o-matic python toolchain-funcs cros-workon arc-build
 
@@ -117,6 +119,34 @@ src_prepare() {
 		einfo "Limiting android to gles2."
 		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
+
+	epatch "${FILESDIR}"/19.0-util-Don-t-block-SIGSYS-for-new-threads.patch
+	epatch "${FILESDIR}"/CHROMIUM-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
+
+	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson.build-Add-optio.patch
+	epatch "${FILESDIR}"/CHROMIUM-configure.ac-depend-on-libnativewindow-when-appropri.patch
+	epatch "${FILESDIR}"/CHROMIUM-egl-android-plumb-swrast-option.patch
+	epatch "${FILESDIR}"/CHROMIUM-egl-android-use-swrast-option-in-droid_load_driver.patch
+	epatch "${FILESDIR}"/CHROMIUM-egl-android-fallback-to-software-rendering.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-anv-Reject-unsupported-instance-versions-on.patch
+	epatch "${FILESDIR}"/CHROMIUM-anv-move-anv_GetMemoryAndroidHardwareBufferANDROID-u.patch
+	epatch "${FILESDIR}"/CHROMIUM-anv-fix-build-on-Nougat.patch
+	epatch "${FILESDIR}"/CHROMIUM-remove-unknown-android-extensions.patch
+	epatch "${FILESDIR}"/CHROMIUM-disable-unknown-device-extensions.patch
+	epatch "${FILESDIR}"/CHROMIUM-disable-VK_KHR_draw_indirect_count.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
+
+	epatch "${FILESDIR}"/FROMLIST-egl-fix-KHR_partial_update-without-EXT_buff.patch
+	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
+	epatch "${FILESDIR}"/CHROMIUM-Disable-EGL_KHR_partial_update.patch
+
+	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
+	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
+
+	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
+	epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
 
 	base_src_prepare
 
@@ -250,6 +280,8 @@ multilib_src_configure() {
 		--with-vulkan-drivers=${VULKAN_DRIVERS} \
 		--with-egl-lib-suffix=_mesa \
 		--with-gles-lib-suffix=_mesa \
+		--with-platform-sdk-version=${ARC_PLATFORM_SDK_VERSION} \
+		--enable-autotools \
 		$(use egl && echo "--with-platforms=${EGL_PLATFORM}")
 }
 

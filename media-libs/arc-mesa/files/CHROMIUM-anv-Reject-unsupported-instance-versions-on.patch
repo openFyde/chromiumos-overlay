@@ -1,0 +1,66 @@
+From 7918ae84678eb59d067e48fda62288bfbf7e118a Mon Sep 17 00:00:00 2001
+From: Chad Versace <chadversary@chromium.org>
+Date: Fri, 5 Oct 2018 12:44:19 -0700
+Subject: [PATCH] CHROMIUM: anv: Reject unsupported instance versions on Nougat
+
+The Vulkan loader and Vulkan CTS in Nougat expect vkCreateInstance's
+behavior regarding VkApplicationInfo::apiVersion to conform to the
+Vulkan 1.0 spec, not the Vulkan 1.1 spec. We assume that applications
+that target Nougat have the same expectation.
+
+Specifically, the Vulkan loader in Nougat does not have
+vkEnumerateInstanceVersion. Therefore, the driver must reject
+unsupported instance versions with VK_ERROR_INCOMPATIBLE_DRIVER.
+
+BUG=b:113541746
+TEST=On eve, dEQP-VK.api.device_init.create_instance_invalid_api_version
+
+Change-Id: I9f0ff0dcbf76b61c99d516319f2f3a92df349e31
+Reviewed-on: https://chromium-review.googlesource.com/1265185
+Commit-Ready: Chad Versace <chadversary@chromium.org>
+Tested-by: Chad Versace <chadversary@chromium.org>
+Reviewed-by: Ilja H. Friedel <ihf@chromium.org>
+(cherry picked from commit 92185a7456cc3d5add3042e0d2c1b8bcc3bed564)
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+---
+ src/intel/vulkan/anv_device.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/src/intel/vulkan/anv_device.c b/src/intel/vulkan/anv_device.c
+index f44b046cf5da..7b63061d84ba 100644
+--- a/src/intel/vulkan/anv_device.c
++++ b/src/intel/vulkan/anv_device.c
+@@ -617,6 +617,30 @@ VkResult anv_CreateInstance(
+    if (pCreateInfo->pApplicationInfo) {
+       const VkApplicationInfo *app = pCreateInfo->pApplicationInfo;
+ 
++#if defined(ANDROID) && ANDROID_API_LEVEL <= 25
++      if (app->apiVersion != 0) {
++         /* Workaround for Android Nougat.
++          *
++          * The Vulkan loader and Vulkan CTS in Nougat expect vkCreateInstance's
++          * behavior regarding VkApplicationInfo::apiVersion to conform to the
++          * Vulkan 1.0 spec, not the Vulkan 1.1 spec. We assume that applications
++          * that target Nougat have the same expectation.
++          *
++          * Specifically, the Vulkan loader in Nougat does not have
++          * vkEnumerateInstanceVersion.
++          */
++         uint32_t max_instance_version, app_no_patch, max_no_patch;
++
++         anv_EnumerateInstanceVersion(&max_instance_version);
++         app_no_patch = app->apiVersion & 0xfffff000;
++         max_no_patch = max_instance_version & 0xfffff000;
++         if (app_no_patch < VK_MAKE_VERSION(1, 0, 0) ||
++             app_no_patch > max_no_patch) {
++            return vk_error(VK_ERROR_INCOMPATIBLE_DRIVER);
++         }
++      }
++#endif
++
+       instance->app_info.app_name =
+          vk_strdup(&instance->alloc, app->pApplicationName,
+                    VK_SYSTEM_ALLOCATION_SCOPE_INSTANCE);
+-- 
+2.20.1
+
