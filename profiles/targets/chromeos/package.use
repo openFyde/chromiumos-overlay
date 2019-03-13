@@ -129,6 +129,7 @@ sys-libs/tdb		-python
 sys-libs/tevent		-python
 sys-libs/zlib		static-libs
 sys-power/powertop	-unicode
+sys-process/htop	-unicode
 sys-process/procps	-unicode
 x11-apps/intel-gpu-tools	-python
 x11-apps/xinit		minimal
