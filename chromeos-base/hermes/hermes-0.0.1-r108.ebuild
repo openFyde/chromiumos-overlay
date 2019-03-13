@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="ea4848dddea32f8b28e02d8d4fea34cad3ae6d45"
+CROS_WORKON_COMMIT="ea0bc407795ec7363de0eb193001b2e16be91e4d"
 CROS_WORKON_TREE=("e220eed9c62e23a855f6b5ebce2310a69a9309a5" "72cc639a9f94967a807e0417db4e3130ba5fab40" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,8 +23,15 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="
+	chromeos-base/libbrillo:=
+	"
+
+DEPEND="
+	${RDEPEND}
+	chromeos-base/google-lpa:=
+	chromeos-base/system_api:=
+	"
 
 src_install() {
 	dobin "${OUT}"/hermes
