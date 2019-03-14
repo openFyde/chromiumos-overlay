@@ -82,7 +82,7 @@ net-vpn/openvpn		pkcs11
 net-vpn/strongswan	cisco nat-transport -strongswan_plugins_unity pkcs11
 net-nds/openldap	minimal -cxx
 net-print/cups		-dbus zeroconf upstart
-net-print/cups-filters	-dbus -pclm -pdf zeroconf
+net-print/cups-filters	-dbus -pclm -pdf -zeroconf
 net-print/hplip		minimal
 # squid requires gnutls 3.1.5 for ssl, default it to off until newer gnutls is available
 net-proxy/squid		-ssl
