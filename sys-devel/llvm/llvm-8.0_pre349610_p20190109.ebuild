@@ -361,7 +361,7 @@ enable_asserts() {
 multilib_src_configure() {
 	local targets
 	if use multitarget; then
-		targets='host;X86;ARM;AArch64'
+		targets='host;X86;ARM;AArch64;NVPTX'
 	else
 		targets='host;CppBackend'
 		use video_cards_radeon && targets+=';AMDGPU'
