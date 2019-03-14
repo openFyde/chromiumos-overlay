@@ -25,6 +25,7 @@ RDEPEND="
 		tests_graphics_Drm? ( chromeos-base/drm-tests )
 		tests_graphics_Gbm? ( media-libs/minigbm )
 	)
+	tests_graphics_GLBench? ( chromeos-base/glbench )
 	tests_graphics_GLMark2? ( chromeos-base/autotest-deps-glmark2 )
 	tests_graphics_SanAngeles? ( media-libs/waffle )
 "
