@@ -24,6 +24,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/libchrome
 	chromeos-base/metrics
+	sys-apps/flashrom
 	"
 
 DEPEND="
@@ -42,6 +43,8 @@ src_install() {
 
 	dobin "${OUT}"/bio_crypto_init
 	dobin "${OUT}"/bio_wash
+
+	dosbin "${OUT}"/bio_fw_updater
 
 	into /usr/local
 	dobin "${OUT}"/biod_client_tool
