@@ -1,0 +1,9 @@
+DEFINED_PHASES=-
+DEPEND=sys-boot/chromeos-vendor-strings-null
+DESCRIPTION=Vendor firmware strings virtual package
+EAPI=5
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=sys-boot/chromeos-vendor-strings-null
+SLOT=0
+_md5_=e9d6d0fe23565ab1636db12f8a01deff

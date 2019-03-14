@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="6afc8605cc231cea920d1d1d524a780dcc093508"
-CROS_WORKON_TREE="08712bb6de07323e7b0bb669820526fff08963ea"
+CROS_WORKON_COMMIT="0b169c5e00107d56e374cfbc9991f174c75dd144"
+CROS_WORKON_TREE="19e96d51756bb290a8802d85d6a4bca55a2b637d"
 CROS_WORKON_PROJECT="chromiumos/third_party/libqmi"
 
 inherit autotools cros-sanitizers cros-workon

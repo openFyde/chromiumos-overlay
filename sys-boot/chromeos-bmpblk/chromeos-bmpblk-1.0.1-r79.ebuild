@@ -102,6 +102,8 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="detachable_ui"
 
+DEPEND="virtual/chromeos-vendor-strings"
+
 src_prepare() {
 	export BOARD="$(get_current_board_with_variant "${ARCH}-generic")"
 	export VCSID
@@ -129,8 +131,12 @@ src_prepare() {
 }
 
 src_compile() {
+	local vendor_strings_dir="${SYSROOT}/firmware/vendor-strings"
 	if use detachable_ui ; then
 		export DETACHABLE_UI=1
+	fi
+	if [[ -f "${vendor_strings_dir}/vendor_format.yaml" ]] ; then
+		export VENDOR_STRINGS_DIR="${vendor_strings_dir}"
 	fi
 	emake OUTPUT="${WORKDIR}" "${BOARD}"
 	emake OUTPUT="${WORKDIR}/${BOARD}" ARCHIVER="/usr/bin/archive" archive
