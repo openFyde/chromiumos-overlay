@@ -80,6 +80,10 @@ multilib_src_install() {
 	install_pc_file sync.pc
 	install_pc_file zlib.pc
 
+	if use !android-container-nyc; then
+		install_pc_file nativewindow.pc
+	fi
+
 	exeinto "${BIN_DIR}"
 	doexe pkg-config
 
