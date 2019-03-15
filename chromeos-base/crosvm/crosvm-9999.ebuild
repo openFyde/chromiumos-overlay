@@ -41,7 +41,8 @@ DEPEND="${RDEPEND}
 	~dev-rust/protobuf-1.4.3:=
 	~dev-rust/proc-macro2-0.4.21:=
 	~dev-rust/quote-0.6.10:=
-	~dev-rust/syn-0.15.21:=
+	dev-rust/remain:=
+	=dev-rust/syn-0.15*:=
 	crosvm-gpu-forward? ( chromeos-base/rendernodehost:= )
 	crosvm-tpm? ( chromeos-base/tpm2:= )
 	media-sound/audio_streams:=
