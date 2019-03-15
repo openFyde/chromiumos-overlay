@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 2008-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
@@ -10,20 +10,21 @@ HOMEPAGE="https://developers.google.com/protocol-buffers/ https://github.com/pro
 SRC_URI="https://github.com/protocolbuffers/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
-SLOT="0/17"
+SLOT="0/18"
 KEYWORDS="*"
 IUSE="emacs examples static-libs test zlib"
+RESTRICT="!test? ( test )"
 
+DEPEND="emacs? ( virtual/emacs )
+	test? ( >=dev-cpp/gtest-1.8.0[${MULTILIB_USEDEP}] )
+	zlib? ( sys-libs/zlib[${MULTILIB_USEDEP}] )"
 RDEPEND="emacs? ( virtual/emacs )
 	zlib? ( sys-libs/zlib[${MULTILIB_USEDEP}] )"
-DEPEND="${RDEPEND}
-	test? ( >=dev-cpp/gtest-1.8.0[${MULTILIB_USEDEP}] )"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-3.6.0-disable_no-warning-test.patch"
-	"${FILESDIR}/${PN}-3.6.0-system_libraries.patch"
-	"${FILESDIR}/${PN}-3.6.0-protoc_input_output_files.patch"
-	"${FILESDIR}/${PN}-3.6.1-libatomic_linking.patch"
+	"${FILESDIR}/${PN}-3.7.0-system_libraries.patch"
+	"${FILESDIR}/${PN}-3.7.0-protoc_input_output_files.patch"
 )
 
 DOCS=(CHANGES.txt CONTRIBUTORS.txt README.md)
@@ -35,6 +36,7 @@ src_prepare() {
 
 src_configure() {
 	append-cppflags -DGOOGLE_PROTOBUF_NO_RTTI
+	tc-ld-disable-gold
 	multilib-minimal_src_configure
 }
 
