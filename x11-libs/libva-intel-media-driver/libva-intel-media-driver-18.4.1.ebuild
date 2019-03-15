@@ -45,6 +45,7 @@ PATCHES=(
 	"${FILESDIR}"/0007-register-reconstruct-surfaces.patch
 	"${FILESDIR}"/0008-Decode-Fix-partition-lengths-for-MFD_VP8_BSD_OBJECT.patch
 	"${FILESDIR}"/0009-Add-X11_FOUND-flag.patch
+	"${FILESDIR}"/0010-Keep-the-right-slice-number-for-bitstream-buffer.patch
 )
 
 src_configure() {
