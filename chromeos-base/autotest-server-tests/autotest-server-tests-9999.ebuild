@@ -100,24 +100,10 @@ SERVER_IUSE_TESTS="
 	+tests_dummy_PassServer
 	+tests_dummy_FailServer
 	+tests_dummy_FlakyTestServer
-	+tests_enterprise_CFM_AutotestSmokeTest
-	+tests_enterprise_CFM_AutoZoomSanity
-	+tests_enterprise_CFM_ConfigurableCfmTestSanity
-	+tests_enterprise_CFM_LowLevelPeripheralTest
-	+tests_enterprise_CFM_MeetAppSanity
-	+tests_enterprise_CFM_MeetingRoomScenario
-	+tests_enterprise_CFM_MimoSanity
-	+tests_enterprise_CFM_Perf
-	+tests_enterprise_CFM_PTZStress
-	+tests_enterprise_CFM_RebootStress
-	+tests_enterprise_CFM_Sanity
-	+tests_enterprise_CFM_VolumeChange
 	+tests_enterprise_ClearTPM
 	+tests_enterprise_KioskEnrollmentServer
 	+tests_enterprise_LongevityTrackerServer
 	+tests_enterprise_OnlineDemoMode
-	+tests_enterprise_RemoraRequisitionServer
-	+tests_enterprise_RemoraRequisitionDisplayUsageServer
 	+tests_factory_Basic
 	+tests_firmware_Bmpblk
 	+tests_firmware_CgptStress

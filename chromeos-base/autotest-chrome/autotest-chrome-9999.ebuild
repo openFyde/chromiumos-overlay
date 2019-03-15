@@ -67,7 +67,6 @@ IUSE_TESTS=(
 	+tests_audio_CrasSanity
 	+tests_audio_PlaybackPower
 	+tests_audio_SeekAudioFeedback
-	+tests_audio_WebRtcAudioLoopback
 	+tests_autoupdate_CrashBrowserAfterUpdate
 	+tests_autoupdate_EOL
 	+tests_autoupdate_LoginStartUpdateLogout
@@ -78,7 +77,6 @@ IUSE_TESTS=(
 	+tests_bluetooth_IDCheck
 	+tests_bluetooth_RegressionClient
 	+tests_bluetooth_TurnOnOffUI
-	+tests_cfm_AutotestSmokeTest
 	+tests_cheets_AppCompatTest
 	+tests_desktopui_AudioFeedback
 	tests_desktopui_CameraApp
@@ -94,15 +92,11 @@ IUSE_TESTS=(
 	+tests_display_ClientChameleonConnection
 	+tests_display_DisplayContainEdid
 	+tests_dummy_IdleSuspend
-	+tests_enterprise_CFM_AtrusUpdaterStress
-	+tests_enterprise_CFM_USBPeripheralDetect
-	+tests_enterprise_CFM_VolumeChangeClient
 	+tests_enterprise_FakeEnrollment
 	+tests_enterprise_KioskEnrollment
 	+tests_enterprise_OnlineDemoModeEnrollment
 	+tests_enterprise_PowerManagement
 	+tests_enterprise_RemoraRequisition
-	+tests_enterprise_RemoraRequisitionDisplayUsage
 	+tests_graphics_Chrome
 	+tests_graphics_HwOverlays
 	+tests_graphics_Sanity
@@ -239,15 +233,12 @@ IUSE_TESTS=(
 	+tests_video_VideoSanity
 	+tests_video_VideoSeek
 	+tests_video_WebRtcCamera
-	+tests_video_WebRtcMainFeedSwitching
 	+tests_video_WebRtcMediaRecorder
 	+tests_video_WebRtcPerf
 	+tests_video_WebRtcPeerConnectionWithCamera
-	+tests_video_WebRtcResolutionSwitching
 	+tests_video_YouTubeHTML5
 	+tests_video_YouTubeMseEme
 	+tests_video_YouTubePage
-	+tests_webrtc_PausePlayPeerConnections
 )
 
 IUSE_TESTS_CELLULAR="
