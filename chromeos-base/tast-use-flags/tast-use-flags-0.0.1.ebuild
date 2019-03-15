@@ -26,6 +26,7 @@ IUSE="
 	+display_backlight
 	dlc_test
 	drm_atomic
+	fizz
 	grunt
 	internal
 	+internal_mic
@@ -33,6 +34,7 @@ IUSE="
 	lxc
 	memd
 	ml_service
+	moblab
 	mocktpm
 	rialto
 	rk3399
