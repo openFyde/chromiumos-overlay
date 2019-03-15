@@ -129,6 +129,7 @@ for (( a = 0; a < ${len}; ++a )); do
 		liblog.so
 		libm.so
 		libmediandk.so
+		libnativewindow.so
 		libstdc++.so
 		libsync.so
 		libui.so
