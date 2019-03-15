@@ -50,9 +50,12 @@ DEPEND="
 	dev-go/selinux
 	dev-go/yaml
 "
+# TODO(derat): Remove graphics_tests and security_tests after all tests have
+# been updated to use files installed by tast-local-helpers-cros instead.
 RDEPEND="
 	chromeos-base/graphics_tests
 	chromeos-base/security_tests
+	chromeos-base/tast-local-helpers-cros
 	chromeos-base/wprgo
 	dev-libs/openssl
 	dev-util/android-uiautomator-server

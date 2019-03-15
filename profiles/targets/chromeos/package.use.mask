@@ -35,5 +35,6 @@ chromeos-base/gestures asan
 chromeos-base/minijail asan
 # Disable ubsan on minijail (https://crbug.com/877846).
 chromeos-base/minijail ubsan
-# security_tests builds a static binary (https://crbug.com/941517).
+# These packages build a static binary (https://crbug.com/941517).
+chromeos-base/tast-local-helpers-cros asan
 chromeos-base/security_tests asan
