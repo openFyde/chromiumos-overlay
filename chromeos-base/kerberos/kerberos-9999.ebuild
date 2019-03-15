@@ -35,9 +35,12 @@ DEPEND="
 	chromeos-base/system_api:=
 "
 
-pkg_preinst() {
-	enewuser "kerberosd"
-	enewgroup "kerberosd"
+pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs kerberosd.
+	enewuser kerberosd
+	enewgroup kerberosd
+	cros-workon_pkg_setup
 }
 
 src_install() {
@@ -46,6 +49,13 @@ src_install() {
 	doins etc/dbus-1/org.chromium.Kerberos.conf
 	insinto /etc/init
 	doins etc/init/kerberosd.conf
+
+	# Create daemon store folder prototype, see
+	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
+	local daemon_store="/etc/daemon-store/kerberosd"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners kerberosd:kerberosd "${daemon_store}"
 }
 
 platform_pkg_test() {
