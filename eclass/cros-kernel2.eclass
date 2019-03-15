@@ -1422,6 +1422,7 @@ cros-kernel2_src_configure() {
 	# to the root of the kernel source tree.
 	local config
 	local cfgarch="$(get_build_arch)"
+	local build_cfg="$(get_build_cfg)"
 
 	if use buildtest; then
 		local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
@@ -1430,7 +1431,7 @@ cros-kernel2_src_configure() {
 			arm)
 				# Big endian builds fail with endianness mismatch errors.
 				# See crbug.com/772028 for details.
-				sed -i -e 's/CONFIG_CPU_BIG_ENDIAN=y/# CONFIG_CPU_BIG_ENDIAN is not set/' "$(get_build_cfg)"
+				sed -i -e 's/CONFIG_CPU_BIG_ENDIAN=y/# CONFIG_CPU_BIG_ENDIAN is not set/' "${build_cfg}"
 				;;
 		esac
 		kmake olddefconfig
@@ -1453,16 +1454,16 @@ cros-kernel2_src_configure() {
 	elog "Using kernel config: ${config}"
 
 	if [ -n "${CHROMEOS_KERNEL_CONFIG}" ]; then
-		cp -f "${config}" "$(get_build_cfg)" || die
+		cp -f "${config}" "${build_cfg}" || die
 	else
 		if [ -e chromeos/scripts/prepareconfig ] ; then
 			chromeos/scripts/prepareconfig ${config} \
-				"$(get_build_cfg)" || die
+				"${build_cfg}" || die
 		else
 			config="$(defconfig_dir)/${cfgarch}_defconfig"
 			ewarn "Can't prepareconfig, falling back to default " \
 				"${config}"
-			cp "${config}" "$(get_build_cfg)" || die
+			cp "${config}" "${build_cfg}" || die
 		fi
 	fi
 
@@ -1495,7 +1496,7 @@ cros-kernel2_src_configure() {
 
 		echo "${!config}" | \
 			sed -e "s|%ROOT%|${ROOT}|g" \
-			>> "$(get_build_cfg)" || die
+			>> "${build_cfg}" || die
 	done
 
 	local -a builtin_fw
@@ -1516,7 +1517,7 @@ cros-kernel2_src_configure() {
 	if [[ ${#builtin_fw[@]} -gt 0 ]]; then
 		echo "${extra_fw_config}" | \
 			sed -e "s|%ROOT%|${ROOT}|g" -e "s|%FW%|${builtin_fw[*]}|g" \
-			>> "$(get_build_cfg)" || die
+			>> "${build_cfg}" || die
 	fi
 
 	# If the old config is unchanged restore it.  This allows us to keep
@@ -1532,15 +1533,15 @@ cros-kernel2_src_configure() {
 	local old_defconfig="$(cros-workon_get_build_dir)/cros-old-defconfig"
 
 	if [[ -e "${old_config}" ]] && \
-		cmp -s "$(get_build_cfg)" "${old_config}"; then
-		cp -a "${old_defconfig}" "$(get_build_cfg)" || die
+		cmp -s "${build_cfg}" "${old_config}"; then
+		cp -a "${old_defconfig}" "${build_cfg}" || die
 	else
-		cp -a "$(get_build_cfg)" "${old_config}" || die
+		cp -a "${build_cfg}" "${old_config}" || die
 
 		# Use default for options not explicitly set in splitconfig.
 		kmake olddefconfig
 
-		cp -a "$(get_build_cfg)" "${old_defconfig}" || die
+		cp -a "${build_cfg}" "${old_defconfig}" || die
 	fi
 
 	# Create .scmversion file so that kernel release version
@@ -1611,13 +1612,14 @@ _cros-kernel2_compile() {
 cros-kernel2_src_compile() {
 	local old_config="$(cros-workon_get_build_dir)/cros-old-config"
 	local old_defconfig="$(cros-workon_get_build_dir)/cros-old-defconfig"
+	local build_cfg="$(get_build_cfg)"
 
 	# Some users of cros-kernel2 touch the config after
 	# cros-kernel2_src_configure finishes.  Detect that and remove
 	# the old configs we were saving to speed up the next
 	# incremental build.  These users of cros-kernel2 will be
 	# slower but they will still work OK.
-	if ! cmp -s "$(get_build_cfg)" "${old_defconfig}"; then
+	if ! cmp -s "${build_cfg}" "${old_defconfig}"; then
 		ewarn "Slowing build speed because ebuild touched config."
 		rm "${old_config}" "${old_defconfig}" || die
 	fi
@@ -1646,20 +1648,20 @@ cros-kernel2_src_compile() {
 
 	# Check if defconfig is different after the kernel build finished.
 	if [[ -e "${old_defconfig}" ]] && \
-		! cmp -s "$(get_build_cfg)" "${old_defconfig}"; then
+		! cmp -s "${build_cfg}" "${old_defconfig}"; then
 		# We'll stash what the kernel came up with as a defconfig.
-		cp -a "$(get_build_cfg)" "${old_defconfig}" || die
+		cp -a "${build_cfg}" "${old_defconfig}" || die
 
 		# Re-create a new defconfig from the stashed raw config.
-		cp -a "${old_config}" "$(get_build_cfg)" || die
+		cp -a "${old_config}" "${build_cfg}" || die
 		kmake olddefconfig
 
 		# If the newly generated defconfig is different from what
 		# the kernel came up with then do a recompile.
-		if ! cmp -s "$(get_build_cfg)" "${old_defconfig}"; then
+		if ! cmp -s "${build_cfg}" "${old_defconfig}"; then
 			ewarn "Detected Kconfig change; redo with olddefconfig"
 
-			cp -a "$(get_build_cfg)" "${old_defconfig}" || die
+			cp -a "${build_cfg}" "${old_defconfig}" || die
 			_cros-kernel2_compile
 		fi
 	fi
