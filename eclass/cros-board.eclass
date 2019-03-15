@@ -190,10 +190,11 @@ ALL_BOARDS=(
 	kunimitsu
 	lakitu
 	lakitu-gpu
-	lakitu-st
 	lakitu_mobbuild
 	lakitu-nc
 	lakitu_next
+	lakitu-slice
+	lakitu-st
 	lars
 	laser
 	lasilla-ground
