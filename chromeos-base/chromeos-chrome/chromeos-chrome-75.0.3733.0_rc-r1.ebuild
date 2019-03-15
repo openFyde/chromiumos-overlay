@@ -142,7 +142,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3729.10_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-74.0.3729.15_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R74-3626.74-1549278723.afdo"
 AFDO_FILE["airmont"]="R74-3626.74-1551698947.afdo"
 AFDO_FILE["haswell"]="R74-3626.85-1551698947.afdo"
@@ -739,9 +739,20 @@ src_unpack() {
 				-output "${merged_profile_file}" || die
 			einfo "${PROFILE_FILE} (${cwp_profile_weight}%) and ${benchmark_profile_file} (${benchmark_profile_weight}%) are merged into ${merged_profile_file}"
 		fi
+
+		# Redact ICF symbols in the profile. First convert the AFDO profile into text profile.
+		# Then use the redact script to redact the ICF symbols. http://crbug.com/916024.
+		# Then convert it back to binary profile.
+		local redacted_profile_file="${merged_profile_file}.redacted"
+		llvm-profdata merge -sample -text "${merged_profile_file}" -output "${T}/afdo.text.temp" || die
+		redact_textual_afdo_profile < "${T}/afdo.text.temp" > "${T}/afdo.text.redacted.temp" || die
+		llvm-profdata merge -sample "${T}/afdo.text.redacted.temp" -output "${redacted_profile_file}" || die
+
+		einfo "ICF symbols in ${PROFILE_FILE} are redacted and renamed into ${redacted_profile_file}."
+
 		popd > /dev/null
 
-		AFDO_PROFILE_LOC="${PROFILE_DIR}/${merged_profile_file}"
+		AFDO_PROFILE_LOC="${PROFILE_DIR}/${redacted_profile_file}"
 		einfo "Using ${PROFILE_STATE} AFDO data from ${AFDO_PROFILE_LOC}"
 	fi
 }
