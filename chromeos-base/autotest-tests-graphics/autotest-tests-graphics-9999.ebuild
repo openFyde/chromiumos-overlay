@@ -19,7 +19,6 @@ IUSE="+autotest ozone"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
-	chromeos-base/autotest-deps-glbench
 	chromeos-base/autotest-deps-graphics
 	ozone? (
 		tests_graphics_Drm? ( chromeos-base/drm-tests )
