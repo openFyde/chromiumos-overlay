@@ -3,7 +3,7 @@
 
 # Change this version number when any change is made to configs/files under
 # libpayload and an auto-revbump is required.
-# VERSION=REVBUMP-0.0.15
+# VERSION=REVBUMP-0.0.16
 
 EAPI=5
 CROS_WORKON_COMMIT="111d0dfb9ab7fdfbe6ece5f96cee6d01aa036676"
