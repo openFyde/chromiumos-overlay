@@ -164,7 +164,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_DevMode
 	+tests_firmware_DevModeStress
 	+tests_firmware_DevScreenTimeout
-	+tests_firmware_DevTriggerRecovery
 	+tests_firmware_ECBattery
 	+tests_firmware_ECBootTime
 	+tests_firmware_ECCharging
