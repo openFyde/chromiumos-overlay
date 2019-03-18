@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagno
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+seccomp"
+IUSE="+seccomp wilco"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
@@ -36,31 +36,40 @@ RDEPEND="
 "
 
 pkg_preinst() {
-	enewuser wilco_dtc
-	enewgroup wilco_dtc
+	enewuser cros_healthd
+	enewgroup cros_healthd
+
+	if use wilco; then
+		enewuser wilco_dtc
+		enewgroup wilco_dtc
+	fi
 }
 
 src_install() {
+	dobin "${OUT}/cros_healthd"
 	dobin "${OUT}/diag"
 	dobin "${OUT}/telem"
-	dobin "${OUT}/wilco_dtc"
-	dobin "${OUT}/wilco_dtc_supportd"
 
-	# Install seccomp policy files.
-	insinto /usr/share/policy
-	use seccomp && newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
-		wilco_dtc_supportd-seccomp.policy
-	use seccomp && newins "init/wilco_dtc-seccomp-${ARCH}.policy" \
-		wilco_dtc-seccomp.policy
+	if use wilco; then
+		dobin "${OUT}/wilco_dtc"
+		dobin "${OUT}/wilco_dtc_supportd"
 
-	# Install D-Bus configuration file.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Diagnosticsd.conf
+		# Install seccomp policy files.
+		insinto /usr/share/policy
+		use seccomp && newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
+			wilco_dtc_supportd-seccomp.policy
+		use seccomp && newins "init/wilco_dtc-seccomp-${ARCH}.policy" \
+			wilco_dtc-seccomp.policy
 
-	# Install the init scripts.
-	insinto /etc/init
-	doins init/wilco_dtc_supportd.conf
-	doins init/wilco_dtc.conf
+		# Install D-Bus configuration file.
+		insinto /etc/dbus-1/system.d
+		doins dbus/org.chromium.Diagnosticsd.conf
+
+		# Install the init scripts.
+		insinto /etc/init
+		doins init/wilco_dtc_supportd.conf
+		doins init/wilco_dtc.conf
+	fi
 
 	# Install the diagnostic routine executables.
 	exeinto /usr/libexec/diagnostics
@@ -73,8 +82,10 @@ platform_pkg_test() {
 		libgrpc_async_adapter_test
 		libtelem_test
 		routine_test
-		wilco_dtc_supportd_test
 	)
+	if use wilco; then
+		tests+=( wilco_dtc_supportd_test )
+	fi
 
 	local test_bin
 	for test_bin in "${tests[@]}"; do
