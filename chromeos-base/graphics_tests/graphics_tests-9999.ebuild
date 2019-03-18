@@ -20,6 +20,16 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
+RDEPEND="
+    media-libs/minigbm:=
+    x11-libs/libdrm:=
+"
+
+DEPEND="
+    ${RDEPEND}
+    dev-cpp/gtest:=
+"
+
 src_install() {
 	# Executable files' names take the form graphics.<TestName>.<bin_name>.
 	exeinto /usr/libexec/graphics_tests
