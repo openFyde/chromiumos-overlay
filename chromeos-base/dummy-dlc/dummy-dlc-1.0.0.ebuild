@@ -22,6 +22,7 @@ DLC_NAME="A dummy DLC"
 DLC_VERSION="${PV}"
 DLC_PREALLOC_BLOCKS="1024"
 DLC_ID="dummy-dlc"
+DLC_PACKAGE="dummy-package"
 DLC_ARTIFACT_DIR="${T}/artifacts"
 
 src_unpack() {

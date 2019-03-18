@@ -29,8 +29,17 @@ DEPEND="chromeos-base/update_engine"
 # @REQUIRED
 # @DEFAULT UNSET
 # @DESCRIPTION:
-# Unique ID for the DLC. Needed to generate metadata for imageloader. Used in
-# creating directories for the image file and metadata.
+# Unique ID for the DLC among all DLCs. Needed to generate metadata for
+# imageloader. Used in creating directories for the image file and metadata. It
+# cannot contain '_' or '/'.
+
+# @ECLASS-VARIABLE: DLC_PACKAGE
+# @REQUIRED
+# @DEFAULT UNSET
+# @DESCRIPTION:
+# Unique ID for the package in the DLC. Each DLC can have multiple
+# packages. Needed to generate metadata for imageloader. Used in creating
+# directories for the image file and metadata. It cannot contain '_' or '/'.
 
 # @ECLASS-VARIABLE: DLC_NAME
 # @REQUIRED
@@ -72,6 +81,7 @@ DEPEND="chromeos-base/update_engine"
 # images are moved to a temporary directory at /build/rootfs/dlc/${DLC_ID}.
 dlc_src_install() {
 	[[ -z "${DLC_ID}" ]] && die "DLC_ID undefined"
+	[[ -z "${DLC_PACKAGE}" ]] && die "DLC_PACKAGE undefined"
 	[[ -z "${DLC_NAME}" ]] && die "DLC_NAME undefined"
 	[[ -z "${DLC_VERSION}" ]] && die "DLC_VERSION undefined"
 	[[ -z "${DLC_PREALLOC_BLOCKS}" ]] && die "DLC_PREALLOC_BLOCKS undefined"
@@ -84,6 +94,7 @@ dlc_src_install() {
 		--pre-allocated-blocks="${DLC_PREALLOC_BLOCKS}"
 		--version="${DLC_VERSION}"
 		--id="${DLC_ID}"
+		--package="${DLC_PACKAGE}"
 		--name="${DLC_NAME}"
 	)
 
