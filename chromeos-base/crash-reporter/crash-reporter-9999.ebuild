@@ -61,7 +61,7 @@ src_install() {
 
 	into /usr
 	use cros_embedded || dobin "${OUT}"/list_proxies
-	use cros_embedded || dobin "${OUT}"/anomaly_collector
+	use cros_embedded || dobin "${OUT}"/anomaly_detector
 	dosbin kernel_log_collector.sh
 
 	if use cheets; then
@@ -79,15 +79,15 @@ src_install() {
 		systemd_dounit init/crash-sender.timer
 		systemd_enable_service timers.target crash-sender.timer
 		if ! use cros_embedded; then
-			systemd_dounit init/anomaly-collector.service
-			systemd_enable_service multi-user.target anomaly-collector.service
+			systemd_dounit init/anomaly-detector.service
+			systemd_enable_service multi-user.target anomaly-detector.service
 		fi
 	else
 		insinto /etc/init
 		doins init/crash-reporter.conf
 		doins init/crash-boot-collect.conf
 		doins init/crash-sender.conf
-		use cros_embedded || doins init/anomaly-collector.conf
+		use cros_embedded || doins init/anomaly-detector.conf
 	fi
 
 	insinto /etc
@@ -98,5 +98,5 @@ src_install() {
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/crash_reporter_test"
-	platform_test "run" "${OUT}/anomaly_collector_test.sh"
+	platform_test "run" "${OUT}/anomaly_detector_test.sh"
 }
