@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk diagnostics .gn"
 
 PLATFORM_SUBDIR="diagnostics"
 
-inherit cros-workon platform user
+inherit cros-workon platform udev user
 
 DESCRIPTION="Device telemetry and diagnostics for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics"
@@ -74,6 +74,9 @@ src_install() {
 	# Install the diagnostic routine executables.
 	exeinto /usr/libexec/diagnostics
 	doexe "${OUT}/urandom"
+
+	# Install udev rules.
+	udev_dorules udev/*.rules
 }
 
 platform_pkg_test() {
