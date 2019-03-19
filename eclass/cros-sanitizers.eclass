@@ -46,11 +46,21 @@ tsan-setup-env() {
 # Build a package with undefined behavior sanitizer flags.
 ubsan-setup-env() {
 	use ubsan || return 0
+	# Flags for normal ubsan builds.
+	# TODO: Use same flags as fuzzer builds.
 	local flags=(
 		-fsanitize=alignment,array-bounds,shift,vla-bound
 		-fno-sanitize=vptr
 		-fno-sanitize-recover=all
 	)
+	# Use different flags for fuzzer ubsan builds.
+	if use fuzzer; then
+		flags=(
+			-fsanitize=alignment,array-bounds,function,pointer-overflow
+			-fsanitize=signed-integer-overflow,shift,vla-bound,vptr
+			-fno-sanitize-recover=all
+		)
+	fi
 	append-flags "${flags[@]}"
 	append-ldflags "${flags[@]}"
 }
