@@ -7,7 +7,7 @@ cros_pre_src_prepare_cross() {
 		"amd64")
 			# No need to cross compile for this case.
 			;;
-		"arm")
+		"arm" | "arm64")
 			local waf="${T}/waf"
 			cat<<EOF>"${waf}"
 			#!/bin/sh
