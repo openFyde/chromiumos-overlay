@@ -17,12 +17,14 @@ RDEPEND=">=net-dns/avahi-0.6.31-r2[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}
 	test? ( >=dev-libs/check-0.11[${MULTILIB_USEDEP}] )"
 
-multilib_src_configure() {
-	local myconf=(
-		# $(localstatedir)/run/... is used to locate avahi-daemon socket
-		--localstatedir=/var
-	)
+src_prepare() {
+	# Remove use of /var/ path by deleting localstatedir variable.
+	sed -i '/AVAHI_SOCKET=/s:$(localstatedir)::' \
+		"${S}"/src/Makefile.in || die
+	default
+}
 
+multilib_src_configure() {
 	ECONF_SOURCE=${S} \
 	econf "${myconf[@]}"
 }
