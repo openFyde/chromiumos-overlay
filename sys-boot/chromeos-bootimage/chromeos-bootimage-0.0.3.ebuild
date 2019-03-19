@@ -169,18 +169,16 @@ build_image() {
 }
 
 # Hash the payload of an altfw alternative bootloader
-# Loads the payload from $altfw_cbfs under:
+# Loads the payload from $rom on RW_LEGACY under:
 #   altfw/<name>
-# Stores the hash into $coreboot_file on RW-A and RW-B as:
+# Stores the hash into $rom on RW-A and RW-B as:
 #   altfw/<name>.sha256
 # Args:
-#   $1: altfw CBFS file where the payload can be found
-#   $2: coreboot file to add to (will add to this and the .serial version of it)
-#   $3: name of the alternative bootloader
+#   $1: rom file where the payload can be found
+#   $2: name of the alternative bootloader
 hash_altfw_payload() {
-	local altfw_cbfs="$1"
-	local coreboot_file="$2"
-	local name="$3"
+	local rom="$1"
+	local name="$2"
 	local payload_file="altfw/${name}"
 	local hash_file="${payload_file}.sha256"
 	local tmpfile="$(mktemp)"
@@ -190,15 +188,13 @@ hash_altfw_payload() {
 	einfo "  Hashing ${payload_file}"
 
 	# Grab the raw uncompressed payload (-U) and hash it into $tmphash.
-	do_cbfstool "${altfw_cbfs}" extract -n "${payload_file}" \
+	do_cbfstool "${rom}" extract -r RW_LEGACY -n "${payload_file}" \
 		-f "${tmpfile}" -U >/dev/null
 	openssl dgst -sha256 -binary "${tmpfile}" > "${tmphash}"
 
 	# Copy $tmphash into RW-A and RW-B.
-	for rom in ${coreboot_file}{,.serial}; do
-		do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B \
-			-f "${tmphash}" -n "${hash_file}" -t raw
-	done
+	do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B \
+		-f "${tmphash}" -n "${hash_file}" -t raw
 }
 
 # Set up alternative bootloaders
@@ -208,32 +204,30 @@ hash_altfw_payload() {
 # is a record of what is available.
 # Args:
 #   $1: coreboot build target to use for prefix on target-specific payloads
-#   $2: coreboot file to add to (will add to this and the .serial version of it)
+#   $2: coreboot file to add alternative bootloaders to
 setup_altfw() {
 	local target="$1"
-	local coreboot_file="$2"
-	local cbfs="altfw.cbfs"
+	local rom="$2"
 	local bl_list="${T}/altfw"
 
 	einfo "Adding alternative firmware"
-	# Input: "'RW_LEGACY' (size 7864320, offset 4718592)"
-	# Output: "7864320"
-	local cbfs_size="$(do_cbfstool "${coreboot_file}" layout | \
-		sed -e "/^'RW_LEGACY'/ {s|.*size \([0-9]*\)[^0-9].*$|\1|; q}; d" )"
 
-	# Create a new, empty CBFS file
-	# Suppress message "Created CBFS (capacity = 7864216 bytes)"
-	do_cbfstool "${cbfs}" create -s "${cbfs_size}" -m x86 >/dev/null
+	# Add master header to the RW_LEGACY section
+	printf "ptr_" > "${T}/ptr"
+	do_cbfstool "${rom}" add -r RW_LEGACY -f "${T}/ptr" -n "header pointer" \
+		-t "cbfs header" -b -4
+	do_cbfstool "${rom}" add-master-header -r RW_LEGACY
+	rm "${T}/ptr"
 	> "${bl_list}"
 
 	# Add U-Boot if enabled
 	if use u-boot; then
 		einfo "- Adding U-Boot"
 
-		do_cbfstool "${cbfs}" add-flat-binary -n altfw/u-boot \
+		do_cbfstool "${rom}" add-flat-binary -r RW_LEGACY -n altfw/u-boot \
 			-c lzma -l 0x1110000 -e 0x1110000 \
 			-f "${CROS_FIRMWARE_ROOT}/u-boot.bin"
-		hash_altfw_payload "${cbfs}" "${coreboot_file}" u-boot
+		hash_altfw_payload "${rom}" u-boot
 		echo "1;altfw/u-boot;U-Boot;U-Boot bootloader" >> "${bl_list}"
 	fi
 
@@ -241,9 +235,9 @@ setup_altfw() {
 	if use tianocore; then
 		einfo "- Adding TianoCore"
 
-		do_cbfstool "${cbfs}" add-payload -n altfw/tianocore -c lzma \
-			-f "${CROS_FIRMWARE_ROOT}/tianocore/UEFIPAYLOAD.fd"
-		hash_altfw_payload "${cbfs}" "${coreboot_file}" tianocore
+		do_cbfstool "${rom}" add-payload -r RW_LEGACY -n altfw/tianocore -c \
+			lzma -f "${CROS_FIRMWARE_ROOT}/tianocore/UEFIPAYLOAD.fd"
+		hash_altfw_payload "${rom}" tianocore
 		echo "2;altfw/tianocore;TianoCore;TianoCore bootloader" \
 			>> "${bl_list}"
 
@@ -257,23 +251,24 @@ setup_altfw() {
 		local root="${CROS_FIRMWARE_ROOT}/seabios/"
 		einfo "- Adding SeaBIOS"
 
-		do_cbfstool "${cbfs}" add-payload -n altfw/seabios -c lzma \
+		do_cbfstool "${rom}" add-payload -r RW_LEGACY -n altfw/seabios -c lzma \
 			-f "${root}/seabios.elf"
-		hash_altfw_payload "${cbfs}" "${coreboot_file}" seabios
+		hash_altfw_payload "${rom}" seabios
 		for f in "${root}oprom/"*; do
 			if [[ -f "${f}" ]]; then
-				do_cbfstool ${cbfs} add -f "${f}" \
+				do_cbfstool "${rom}" add -r RW_LEGACY -f "${f}" \
 					-n "${f#${root}oprom/}" -t optionrom
 			fi
 		done
 		for f in "${root}cbfs/"*; do
 			if [[ -f "${f}" ]]; then
-				do_cbfstool ${cbfs} add -f "${f}" \
+				do_cbfstool "${rom}" add -r RW_LEGACY -f "${f}" \
 					-n "${f#${root}cbfs/}" -t raw
 			fi
 		done
 		for f in "${root}"etc/*; do
-			do_cbfstool ${cbfs} add -f "${f}" -n "${f#$root}" -t raw
+			do_cbfstool "${rom}" add -r RW_LEGACY -f "${f}" \
+				-n "${f#$root}" -t raw
 		done
 		echo "3;altfw/seabios;SeaBIOS;SeaBIOS bootloader" \
 			>> "${bl_list}"
@@ -283,9 +278,9 @@ setup_altfw() {
 	if use diag_payload; then
 		einfo "- Adding Diagnostic Payload"
 
-		do_cbfstool "${cbfs}" add-payload -n altfw/diag -c lzma -f \
+		do_cbfstool "${rom}" add-payload -r RW_LEGACY -n altfw/diag -c lzma -f \
 			"${CROS_FIRMWARE_ROOT}/diag_payload/${target}-diag.bin"
-		hash_altfw_payload "${cbfs}" "${coreboot_file}" diag
+		hash_altfw_payload "${rom}" diag
 		echo "5;altfw/diag;Diagnostics;System Diagnostics" \
 			>> "${bl_list}"
 
@@ -298,17 +293,12 @@ setup_altfw() {
 
 	# Add the list
 	einfo "- adding firmware list"
-	do_cbfstool "${cbfs}" add -n altfw/list -t raw -f "${bl_list}"
+	do_cbfstool "${rom}" add -r RW_LEGACY -n altfw/list -t raw -f "${bl_list}"
 
 	# Add the tag for silent updating.
-	do_cbfstool "${cbfs}" add-int -i 1 -n "cros_allow_auto_update"
+	do_cbfstool "${rom}" add-int -r RW_LEGACY -i 1 -n "cros_allow_auto_update"
 
 	# TODO(kitching): Get hash and sign.
-
-	# Write this CBFS file into the RW_LEGACY region
-	do_cbfstool "${coreboot_file}" write -f "${cbfs}" -r RW_LEGACY --force -i 255
-	do_cbfstool "${coreboot_file}.serial" write -f "${cbfs}" -r RW_LEGACY \
-		--force -i 255
 }
 
 # Build firmware images for a given board
@@ -430,6 +420,7 @@ build_images() {
 
 	if use altfw; then
 		setup_altfw "${coreboot_build_target}" "${coreboot_file}"
+		setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
 	fi
 
 	local depthcharge="${depthcharge_prefix}/depthcharge/depthcharge.elf"
