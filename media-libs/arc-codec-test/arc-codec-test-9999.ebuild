@@ -38,7 +38,6 @@ _export_build_variables() {
 src_configure() {
 	# Use arc-build base class to select the right compiler.
 	arc-build-select-clang
-	append-lfs-flags
 	BUILD_DIR="$(cros-workon_get_build_dir)"
 
 	multilib-minimal_src_configure
