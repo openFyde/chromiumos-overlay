@@ -16,7 +16,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/init/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="X"
+IUSE=""
 
 src_unpack() {
 	cros-workon_src_unpack
@@ -30,7 +30,4 @@ src_install() {
 
 	insinto /usr/share/cros
 	doins upstart/test-init/*_utils.sh
-
-	use X || rm -f "${D}"/etc/init/vnc.conf
 }
-
