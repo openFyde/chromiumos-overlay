@@ -13,7 +13,7 @@ EAPI=5
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 
-inherit cros-workon cros-ec-board
+inherit cros-workon cros-ec-board user
 
 DESCRIPTION="Chrome OS EC Utility"
 
@@ -28,6 +28,10 @@ IUSE="${IUSE} cros_host +cros_ec_utils"
 
 DEPEND="dev-embedded/libftdi"
 RDEPEND="${DEPEND}"
+
+pkg_preinst() {
+	enewgroup "dialout"
+}
 
 src_configure() {
 	cros-workon_src_configure
@@ -141,5 +145,13 @@ src_install() {
 	if [[ -d "board/${BOARD}/userspace/usr/share/ec" ]] ; then
 		insinto /usr/share/ec
 		doins board/${BOARD}/userspace/usr/share/ec/*
+	fi
+}
+
+pkg_postinst() {
+	if ! $(id -Gn "$(logname)" | grep -qw "dialout") ; then
+		usermod -a -G "dialout" "$(logname)"
+		einfo "A new group, dialout is added." \
+			"Please re-login to apply this change."
 	fi
 }
