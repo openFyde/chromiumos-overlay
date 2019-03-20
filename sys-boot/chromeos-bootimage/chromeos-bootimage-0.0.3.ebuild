@@ -116,19 +116,19 @@ add_payloads() {
 
 # Returns true if EC supports EFS.
 is_ec_efs_enabled() {
-	local coreboot_config="$1"
+	local depthcharge_config="$1"
 
-	grep -q "^CONFIG_VBOOT_EC_EFS=y$" "${coreboot_config}"
+	grep -q "^CONFIG_EC_EFS=y$" "${depthcharge_config}"
 }
 
 add_ec() {
-	local coreboot_config="$1"
+	local depthcharge_config="$1"
 	local rom="$2"
 	local name="$3"
 	local ecroot="$4"
 	local pad="0"
 
-	is_ec_efs_enabled "${coreboot_config}" && pad="128"
+	is_ec_efs_enabled "${depthcharge_config}" && pad="128"
 	einfo "Padding ecrw ${pad} byte."
 	cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c lzma \
 		-f "${ecroot}/ec.RW.bin" -n "${name}" -p "${pad}" || die
@@ -322,6 +322,7 @@ setup_altfw() {
 #       depthcharge/dev.elf      - developer version of depthcharge
 #       depthcharge/netboot.elf  - netboot version of depthcharge
 #       depthcharge/fastboot.elf - fastboot version of depthcharge
+#       depthcharge/depthcharge.config - configuration used to build depthcharge image
 #       compressed-assets-ro/*   - fonts, images and screens for recovery mode
 #                                  originally from cbfs-ro-compress/*,
 #                                  pre-compressed in src_compile
@@ -352,6 +353,7 @@ build_images() {
 	local coreboot_file
 	local coreboot_config
 	local depthcharge_prefix
+	local depthcharge_config
 
 	if [ -n "${build_name}" ]; then
 		einfo "Building firmware images for ${build_name}"
@@ -370,6 +372,7 @@ build_images() {
 	cp ${coreboot_file} coreboot.rom
 	cp ${coreboot_file}.serial coreboot.rom.serial
 	coreboot_file=coreboot.rom
+	depthcharge_config="${depthcharge_prefix}/depthcharge/depthcharge.config"
 
 	# TODO(teravest): Rewrite these loops with 'while read'
 	for file in $(find compressed-assets-ro -type f 2>/dev/null); do
@@ -405,17 +408,17 @@ build_images() {
 	if use cros_ec || use wilco_ec; then
 		if use unibuild; then
 			einfo "Adding EC for ${ec_build_target}"
-			add_ec "${coreboot_config}" "${coreboot_file}" "ecrw" "${froot}/${ec_build_target}"
-			add_ec "${coreboot_config}" "${coreboot_file}.serial" "ecrw" "${froot}/${ec_build_target}"
+			add_ec "${depthcharge_config}" "${coreboot_file}" "ecrw" "${froot}/${ec_build_target}"
+			add_ec "${depthcharge_config}" "${coreboot_file}.serial" "ecrw" "${froot}/${ec_build_target}"
 		else
-			add_ec "${coreboot_config}" "${coreboot_file}" "ecrw" "${froot}"
-			add_ec "${coreboot_config}" "${coreboot_file}.serial" "ecrw" "${froot}"
+			add_ec "${depthcharge_config}" "${coreboot_file}" "ecrw" "${froot}"
+			add_ec "${depthcharge_config}" "${coreboot_file}.serial" "ecrw" "${froot}"
 		fi
 	fi
 
 	if use pd_sync; then
-		add_ec "${coreboot_config}" "${coreboot_file}" "pdrw" "${froot}/${PD_FIRMWARE}"
-		add_ec "${coreboot_config}" "${coreboot_file}.serial" "pdrw" "${froot}/${PD_FIRMWARE}"
+		add_ec "${depthcharge_config}" "${coreboot_file}" "pdrw" "${froot}/${PD_FIRMWARE}"
+		add_ec "${depthcharge_config}" "${coreboot_file}.serial" "pdrw" "${froot}/${PD_FIRMWARE}"
 	fi
 
 	if use altfw; then
