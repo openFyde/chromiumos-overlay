@@ -350,29 +350,30 @@ build_images() {
 	local file
 	local rom
 
-	local coreboot_file
-	local coreboot_config
+	local coreboot_orig
 	local depthcharge_prefix
-	local depthcharge_config
 
 	if [ -n "${build_name}" ]; then
 		einfo "Building firmware images for ${build_name}"
 		outdir="${build_name}/"
 		mkdir "${outdir}"
 		suffix="-${build_name}"
-		coreboot_file="${froot}/${coreboot_build_target}/coreboot.rom"
-		coreboot_config="${froot}/${coreboot_build_target}/coreboot.config"
-		depthcharge_prefix="${froot}/${depthcharge_build_target}"
+		coreboot_orig="${froot}/${coreboot_build_target}/coreboot.rom"
+		depthcharge_prefix="${froot}/${depthcharge_build_target}/depthcharge"
 	else
-		coreboot_file="${froot}/coreboot.rom"
-		coreboot_config="${froot}/coreboot.config"
-		depthcharge_prefix="${froot}"
+		coreboot_orig="${froot}/coreboot.rom"
+		depthcharge_prefix="${froot}/depthcharge"
 	fi
 
-	cp ${coreboot_file} coreboot.rom
-	cp ${coreboot_file}.serial coreboot.rom.serial
-	coreboot_file=coreboot.rom
-	depthcharge_config="${depthcharge_prefix}/depthcharge/depthcharge.config"
+	local coreboot_file="coreboot.rom"
+	cp "${coreboot_orig}" "${coreboot_file}"
+	cp "${coreboot_orig}.serial" "${coreboot_file}.serial"
+
+	local depthcharge="${depthcharge_prefix}/depthcharge.elf"
+	local depthcharge_dev="${depthcharge_prefix}/dev.elf"
+	local netboot="${depthcharge_prefix}/netboot.elf"
+	local fastboot="${depthcharge_prefix}/fastboot.elf"
+	local depthcharge_config="${depthcharge_prefix}/depthcharge.config"
 
 	# TODO(teravest): Rewrite these loops with 'while read'
 	for file in $(find compressed-assets-ro -type f 2>/dev/null); do
@@ -425,11 +426,6 @@ build_images() {
 		setup_altfw "${coreboot_build_target}" "${coreboot_file}"
 		setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
 	fi
-
-	local depthcharge="${depthcharge_prefix}/depthcharge/depthcharge.elf"
-	local depthcharge_dev="${depthcharge_prefix}/depthcharge/dev.elf"
-	local netboot="${depthcharge_prefix}/depthcharge/netboot.elf"
-	local fastboot="${depthcharge_prefix}/depthcharge/fastboot.elf"
 
 	build_image "" "${coreboot_file}" "${depthcharge}" "${depthcharge}"
 
