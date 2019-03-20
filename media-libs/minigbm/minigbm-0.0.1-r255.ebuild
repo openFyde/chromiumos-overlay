@@ -33,7 +33,10 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	video_cards_amdgpu? ( media-libs/mesa )"
+	video_cards_amdgpu? (
+		media-libs/mesa
+		x11-drivers/opengles-headers
+	)"
 
 src_prepare() {
 	default
