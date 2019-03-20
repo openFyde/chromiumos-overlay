@@ -20,7 +20,7 @@ src_unpack() {
 
 src_install() {
 	# Installs test DLC module.
-	insinto /opt/google/dlc/test-dlc/
+	insinto /opt/google/dlc/test-dlc/test-package
 	doins "${FILESDIR}/table"
 	doins "${FILESDIR}/imageloader.json"
 	insinto /usr/local/dlc/
