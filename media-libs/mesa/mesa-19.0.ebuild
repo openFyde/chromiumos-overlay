@@ -223,7 +223,6 @@ src_configure() {
 		--with-vulkan-drivers=${VULKAN_DRIVERS} \
 		${LLVM_ENABLE} \
 		"${egl_platforms}"
-
 }
 
 src_install() {
