@@ -52,6 +52,7 @@ dev-util/ctags-5.7
 dev-util/gperf-3.0.3
 dev-util/gtk-doc-1.13-r3
 dev-util/gtk-doc-am-1.13-r2
+dev-util/ninja-1.8.2
 dev-util/pkgconfig-0.23
 
 perl-core/digest-base-1.16
