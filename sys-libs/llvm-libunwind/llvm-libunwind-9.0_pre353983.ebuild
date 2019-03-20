@@ -10,8 +10,8 @@ HOMEPAGE="https://github.com/llvm-mirror/libunwind"
 SRC_URI=""
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/llvm.org/libunwind"
 
-# llvm:r349610 https://critique.corp.google.com/#review/226534312
-EGIT_COMMIT="9defb52f575beff21b646e60e63f72ad1ac7cf54" #r349532
+# llvm:353983 https://critique.corp.google.com/#review/233864070
+export EGIT_COMMIT="317087cfd8e608bd24e53934d59b5b85e0a9ded6" #r353208
 
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
@@ -32,6 +32,16 @@ src_unpack() {
 	git-2_src_unpack
 }
 
+pick_cherries() {
+	local CHERRIES=""
+	CHERRIES+="2ae4f16e7a3c5b6493b5eddbd76f231f3923eee0"
+	pushd "${S}" >/dev/null || die
+	for cherry in ${CHERRIES}; do
+		epatch "${FILESDIR}/cherry/${cherry}.patch"
+	done
+	popd >/dev/null || die
+}
+
 pick_next_cherries() {
 	local CHERRIES=""
 	CHERRIES+="2ae4f16e7a3c5b6493b5eddbd76f231f3923eee0"
@@ -43,6 +53,7 @@ pick_next_cherries() {
 }
 
 src_prepare() {
+	use llvm-next || pick_cherries
 	use llvm-next && pick_next_cherries
 }
 

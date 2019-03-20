@@ -3,31 +3,31 @@ Author: Manoj Gupta <manojgupta@google.com>
 Date:   Thu Dec 20 18:07:41 2018 -0800
 
     Revert "[debuginfo] generate debug info with asm+.file"
-    
+
     This reverts commit 3b38b07fc66936279b29230042bb2b0ab9ec6826.
-    
+
     commit 3b38b07fc66936279b29230042bb2b0ab9ec6826
     Author:     Brian Cain <bcain@codeaurora.org>
     AuthorDate: Tue Aug 28 16:23:39 2018 +0000
     Commit:     Brian Cain <bcain@codeaurora.org>
     CommitDate: Tue Aug 28 16:23:39 2018 +0000
-    
+
         [debuginfo] generate debug info with asm+.file
-    
-        Summary:
+
+	Summary:
         For assembly input files, generate debug info even when the .file
         directive is present, provided it does not include a file-number
         argument.  Fixes PR38695.
-    
-        Reviewers: probinson, sidneym
-    
-        Subscribers: aprantl, hiraditya, JDevlieghere, llvm-commits
+
+	Reviewers: probinson, sidneym
+
+	Subscribers: aprantl, hiraditya, JDevlieghere, llvm-commits
 
 diff --git a/lib/MC/MCParser/AsmParser.cpp b/lib/MC/MCParser/AsmParser.cpp
-index aa07eee4491..741a463482e 100644
+index a66a4eb29af..e856a7e0287 100644
 --- a/lib/MC/MCParser/AsmParser.cpp
 +++ b/lib/MC/MCParser/AsmParser.cpp
-@@ -3359,17 +3359,17 @@ bool AsmParser::parseDirectiveFile(SMLoc DirectiveLoc) {
+@@ -3369,6 +3369,14 @@ bool AsmParser::parseDirectiveFile(SMLoc DirectiveLoc) {
      }
    }
  
@@ -39,9 +39,13 @@ index aa07eee4491..741a463482e 100644
 +    Ctx.setGenDwarfForAssembly(false);
 +  }
 +
-   if (FileNumber == -1)
-     getStreamer().EmitFileDirective(Filename);
-   else {
+   if (FileNumber == -1) {
+     // Ignore the directive if there is no number and the target doesn't support
+     // numberless .file directives. This allows some portability of assembler
+@@ -3376,14 +3384,6 @@ bool AsmParser::parseDirectiveFile(SMLoc DirectiveLoc) {
+     if (getContext().getAsmInfo()->hasSingleParameterDotFile())
+       getStreamer().EmitFileDirective(Filename);
+   } else {
 -    // In case there is a -g option as well as debug info from directive .file,
 -    // we turn off the -g option, directly use the existing debug info instead.
 -    // Also reset any implicit ".file 0" for the assembler source.

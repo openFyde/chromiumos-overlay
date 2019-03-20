@@ -26,7 +26,7 @@ EGIT_REPO_URIS=(
 	"libunwind_llvm"
 		"libunwind_llvm"
 		"${CROS_GIT_HOST_URL}/external/llvm.org/libunwind"
-		"9defb52f575beff21b646e60e63f72ad1ac7cf54" #r349532
+		"317087cfd8e608bd24e53934d59b5b85e0a9ded6" #r353208
 )
 
 LICENSE="|| ( UoI-NCSA MIT )"
@@ -113,14 +113,12 @@ multilib_src_configure() {
 		-DLIBCXXABI_USE_COMPILER_RT=$(usex compiler-rt)
 	)
 
-	if use llvm-next; then
-		# Update LLVM to next version will cause LLVM to complain
-		# libstdc++ version is old. Add this flag as suggested in the error
-		# message.
-		mycmakeargs+=(
-			-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
-		)
-	fi
+	# Update LLVM to 9.0 will cause LLVM to complain
+	# libstdc++ version is old. Add this flag as suggested in the error
+	# message.
+	mycmakeargs+=(
+		-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
+	)
 
 	if use msan; then
 		mycmakeargs+=(

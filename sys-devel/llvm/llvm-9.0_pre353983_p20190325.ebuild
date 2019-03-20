@@ -17,7 +17,7 @@ EGIT_REPO_URI="http://llvm.org/git/llvm.git
 	https://github.com/llvm-mirror/llvm.git"
 
 LICENSE="UoI-NCSA"
-SLOT="${PV%%.*}"
+SLOT="8"
 KEYWORDS="-* amd64"
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi multitarget
 	ncurses ocaml python llvm-next llvm-tot test xml video_cards_radeon
@@ -124,12 +124,12 @@ src_unpack() {
 		llvm_hash="5077597e0d5b86d9f9c27286d8b28f8b3645a74c" # EGIT_COMMIT r353983
 		lld_hash="14aa57da0f92683f0b8bdac0acda485a6f73edc7" # EGIT_COMMIT r353981
 	else
-		# llvm:r349610 https://critique.corp.google.com/#review/226534312
-		clang_hash="a1a49a7b666a6a9d9b55b52602f9773a9e00b4f5" # EGIT_COMMIT r349604
-		clang_tidy_hash="db53734aa26129bb55f510408c076e2e96b6d492" # EGIT_COMMIT r349502
-		compiler_rt_hash="c3cc767cfdcbd358536d7a730c9f4fd71e97dc18" # EGIT_COMMIT r349609
-		llvm_hash="331ffd31b3dd49b3f02a27556938b836b679f564" # EGIT_COMMIT r349610
-		lld_hash="796666e779e6b7152be890c8d8fb52d2df06d268" #EGIT_COMMIT r349581
+		# llvm:353983 https://critique.corp.google.com/#review/233864070
+		clang_hash="171531e31716e2db2c372cf8b57220ddf9e721d8" # EGIT_COMMIT r353983
+		clang_tidy_hash="80b6bd266d30d1fbc12b8cf16db684365492c0e6" # EGIT_COMMIT r353926
+		compiler_rt_hash="00d38a06e40df0bb8fbc1d3e4e6a3cc35bddbd74" # EGIT_COMMIT r353947
+		llvm_hash="5077597e0d5b86d9f9c27286d8b28f8b3645a74c" # EGIT_COMMIT r353983
+		lld_hash="14aa57da0f92683f0b8bdac0acda485a6f73edc7" # EGIT_COMMIT r353981
 	fi
 
 	# non-local
@@ -178,9 +178,6 @@ pick_cherries() {
 
 	# llvm
 	CHERRIES=""
-	CHERRIES+=" c3f9ab51440d34cbe3e113ae40c847f380a96845" # r349660
-	CHERRIES+=" ac0962643bb017e9bbd773a62dcc1a8716d9fc28" # r349693
-	CHERRIES+=" b2800c91d94c27c35d6f371819f6e4d6fb3e5404" # r351247
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -197,7 +194,6 @@ pick_cherries() {
 
 	# lld
 	CHERRIES=""
-	CHERRIES+=" bb1399bcffdf5940bf6915affad8d2bd2744ba46" #r351186
 	pushd "${S}"/tools/lld >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -349,22 +345,19 @@ src_prepare() {
 
 	# Temporarily revert r332058 as it caused speedometer2 perf regression.
 	# https://crbug.com/864781
-	use llvm-next || epatch_after 332058 "${FILESDIR}"/llvm-8.0-next-revert-afdo-hotness.patch
-	use llvm-next && epatch_after 332058 "${FILESDIR}"/llvm-8.0-next-revert-afdo-hotness-llvm-next.patch
+	epatch_after 332058 "${FILESDIR}"/llvm-8.0-next-revert-afdo-hotness.patch
 
 	# Revert r335145 and r335284 since android reverts them.
 	# b/113573336
 	epatch_after 335145 "${FILESDIR}"/llvm-8.0-revert-r335145.patch
 	pushd "${S}"/tools/clang >/dev/null || die
-		use llvm-next || epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
-		use llvm-next && epatch "${FILESDIR}"/clang-next-8.0-revert-r335284-llvm-next.patch
+	epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
 	popd >/dev/null || die
 
 	# revert r344218, https://crbug.com/915711
 	epatch "${FILESDIR}"/llvm-8.0-revert-headers-as-sources.patch
 	# revert r340839, https://crbug.com/916740
-	use llvm-next || epatch "${FILESDIR}"/llvm-8.0-revert-asm-debug-info.patch
-	use llvm-next && epatch "${FILESDIR}"/llvm-8.0-revert-asm-debug-info-llvm-next.patch
+	epatch "${FILESDIR}"/llvm-8.0-revert-asm-debug-info.patch
 	python_setup
 
 	# User patches
@@ -444,13 +437,11 @@ multilib_src_configure() {
 		-DCLANG_DEFAULT_RTLIB=$(usex default-compiler-rt compiler-rt "")
 	)
 
-	if use llvm-next; then
-		# Update LLVM to next version will cause LLVM to complain GCC
-		# version is < 5.1. Add this flag to suppress the error.
-		mycmakeargs+=(
-			-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
-		)
-	fi
+	# Update LLVM to 9.0 will cause LLVM to complain GCC
+	# version is < 5.1. Add this flag to suppress the error.
+	mycmakeargs+=(
+		-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
+	)
 
 	if use pgo_generate; then
 		mycmakeargs+=(
