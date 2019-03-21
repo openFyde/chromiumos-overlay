@@ -9,9 +9,9 @@ index 480d4a8e48..4d3f7576b5 100644
 --- a/src/librustc/session/config.rs
 +++ b/src/librustc/session/config.rs
 @@ -1136,6 +1136,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
-         "enable incremental compilation"),
-     default_linker_libraries: Option<bool> = (None, parse_opt_bool, [UNTRACKED],
          "allow the linker to link its default libraries"),
+     linker_flavor: Option<LinkerFlavor> = (None, parse_linker_flavor, [UNTRACKED],
+                                            "Linker flavor"),
 +    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
 +                                   "Use a sanitizer"),
  }
@@ -23,9 +23,9 @@ index 480d4a8e48..4d3f7576b5 100644
          "pass `-install_name @rpath/...` to the macOS linker"),
 -    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
 -                                    "Use a sanitizer"),
-     linker_flavor: Option<LinkerFlavor> = (None, parse_linker_flavor, [UNTRACKED],
-                                            "Linker flavor"),
      fuel: Option<(String, u64)> = (None, parse_optimization_fuel, [TRACKED],
+         "set the optimization fuel quota for a crate"),
+     print_fuel: Option<String> = (None, parse_opt_string, [TRACKED],
 diff --git a/src/librustc_codegen_llvm/attributes.rs b/src/librustc_codegen_llvm/attributes.rs
 index 38ab1302cf..09499c04c0 100644
 --- a/src/librustc_codegen_llvm/attributes.rs
@@ -82,7 +82,7 @@ diff --git a/src/librustc_metadata/creader.rs b/src/librustc_metadata/creader.rs
 index 4ff29f5c04..b9617cee8b 100644
 --- a/src/librustc_metadata/creader.rs
 +++ b/src/librustc_metadata/creader.rs
-@@ -714,7 +714,7 @@ impl<'a> CrateLoader<'a> {
+@@ -704,15 +704,23 @@
      }
  
      fn inject_sanitizer_runtime(&mut self) {
@@ -91,3 +91,30 @@ index 4ff29f5c04..b9617cee8b 100644
              // Sanitizers can only be used on some tested platforms with
              // executables linked to `std`
              const ASAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu",
++                                                      "x86_64-cros-linux-gnu",
++                                                      "x86_64-pc-linux-gnu",
+                                                       "x86_64-apple-darwin"];
+             const TSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu",
++                                                      "x86_64-cros-linux-gnu",
++                                                      "x86_64-pc-linux-gnu",
+                                                       "x86_64-apple-darwin"];
+-            const LSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu"];
+-            const MSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu"];
++            const LSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu",
++                                                      "x86_64-cros-linux-gnu",
++                                                      "x86_64-pc-linux-gnu"];
++            const MSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu",
++                                                      "x86_64-cros-linux-gnu",
++                                                      "x86_64-pc-linux-gnu"];
+ 
+             let supported_targets = match *sanitizer {
+                 Sanitizer::Address => ASAN_SUPPORTED_TARGETS,
+@@ -731,7 +739,7 @@
+             // firstyear 2017 - during testing I was unable to access an OSX machine
+             // to make this work on different crate types. As a result, today I have
+             // only been able to test and support linux as a target.
+-            if self.sess.target.target.llvm_target == "x86_64-unknown-linux-gnu" {
++            if self.sess.target.target.llvm_target != "x86_64-apple-darwin" {
+                 if !self.sess.crate_types.borrow().iter().all(|ct| {
+                     match *ct {
+                         // Link the runtime
