@@ -28,5 +28,6 @@ DEPEND="
 	dev-go/luci-tsmon
 	dev-go/opencensus
 	dev-go/subcommands
+	dev-go/xerrors
 "
 RDEPEND=""
