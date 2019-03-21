@@ -746,8 +746,13 @@ src_unpack() {
 		local redacted_profile_file="${merged_profile_file}.redacted"
 		llvm-profdata merge -sample -text "${merged_profile_file}" -output "${T}/afdo.text.temp" || die
 		redact_textual_afdo_profile < "${T}/afdo.text.temp" > "${T}/afdo.text.redacted.temp" || die
-		llvm-profdata merge -sample "${T}/afdo.text.redacted.temp" -output "${redacted_profile_file}" || die
 
+		# Using `compbinary` profiles saves us hundreds of MB of RAM per compilation, since
+		# it allows profiles to be lazily loaded.
+		llvm-profdata merge -sample \
+			-compbinary \
+			"${T}/afdo.text.redacted.temp" \
+			-output "${redacted_profile_file}" || die
 		einfo "ICF symbols in ${PROFILE_FILE} are redacted and renamed into ${redacted_profile_file}."
 
 		popd > /dev/null
