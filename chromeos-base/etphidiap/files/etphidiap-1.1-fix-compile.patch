@@ -1,0 +1,112 @@
+The etphidiap-1.1 Makefile forces CC=gcc and does not specify a C standard.  As
+of 2019-03 the Chromium OS chroot environment uses gcc 4.9.2 which has a default
+of -std=gnu90.  This patch makes etphid_updater compile in that environment.
+
+Notable changes applied by this patch:
+1) Makefile: Allow inheriting CC.
+2) Makefile: Clean up CFLAGS.
+3) etphid_updater.c: Fix all warnings.
+
+The Chromium OS team has asked ELAN Microelectronics to apply these changes
+upstream and make a new etphidiap release.
+
+diff -u -r a/Makefile b/Makefile
+--- a/Makefile	2018-08-22 03:35:36.000000000 -0700
++++ b/Makefile	2019-03-22 14:39:55.601933274 -0700
+@@ -1,7 +1,8 @@
+ #elan touchpad updater Makefile
+-CC = gcc
+ 
+-CFLAGS += -g -Wall -fexceptions
++CC ?= gcc
++
++CFLAGS += -Wall -Werror
+ 
+ main: etphid_updater.o 
+ 	${CC} ${CFLAGS} ${LDFLAGS} etphid_updater.o -o etphid_updater
+@@ -10,5 +11,4 @@
+ 	${CC} ${CFLAGS} ${CPPFLAGS} etphid_updater.c -c
+ 
+ clean:
+-	rm -rf etphid_updater.o
+-	
++	rm -rf etphid_updater.o etphid_updater
+diff -u -r a/etphid_updater.c b/etphid_updater.c
+--- a/etphid_updater.c	2018-08-22 03:35:36.000000000 -0700
++++ b/etphid_updater.c	2019-03-22 14:39:26.593623396 -0700
+@@ -204,7 +204,7 @@
+ static int dev_fd;
+ static int bus_type = -1;
+ static int interface_type = -1;
+-static char raw_name[255];
++static char raw_name[256];
+ static int is_new_pattern=0;
+ static int scan_i2c()
+ {
+@@ -225,7 +225,7 @@
+             continue;
+         }
+ 
+-        char dev_name[255];
++        char dev_name[sizeof(LINUX_DEV_PATH) + sizeof(in_file->d_name)];
+         sprintf(dev_name, "%s%s", (char*)LINUX_DEV_PATH,in_file->d_name);
+ 	if(extended_i2c_exercise)
+ 		printf("search i2c device name = %s\n",dev_name);
+@@ -289,7 +289,7 @@
+             continue;
+         }
+ 
+-        char dev_name[255];
++        char dev_name[sizeof(LINUX_DEV_PATH) + sizeof(in_file->d_name)];
+         sprintf(dev_name, "%s%s", (char*)LINUX_DEV_PATH,in_file->d_name);
+ 
+ 
+@@ -298,7 +298,7 @@
+         }
+ 
+         /* Get Raw Name */
+-        res = ioctl(tmp_fd, HIDIOCGRAWNAME(256), raw_name);
++        res = ioctl(tmp_fd, HIDIOCGRAWNAME(sizeof(raw_name)), raw_name);
+         /*if (res < 0)
+             //elan_log->WriteLine((char*)"Error: HIDIOCGRAWNAME");
+         else*/
+@@ -335,7 +335,7 @@
+ }
+ static int assign_hidraw()
+ {
+-        char dev_name[255];
++        char dev_name[sizeof(LINUX_DEV_PATH) + sizeof(HID_RAW_NAME) + 20];
+         sprintf(dev_name, "%s%s%d", (char*)LINUX_DEV_PATH, 
+ 			(char*)HID_RAW_NAME, hidraw_num);
+ 	//printf("dev_name = %s\n", dev_name);
+@@ -350,7 +350,7 @@
+ }
+ static int assign_i2c()
+ {
+-	char dev_name[255];
++	char dev_name[sizeof(LINUX_DEV_PATH) + sizeof(I2C_NAME) + 20];
+         sprintf(dev_name, "%s%s%d", (char*)LINUX_DEV_PATH, 
+ 			(char*)I2C_NAME, i2c_num);
+ 
+@@ -736,7 +736,8 @@
+ static uint16_t elan_calc_checksum(uint8_t *data, int length)
+ {
+ 	uint16_t checksum = 0;
+-	for (int i = 0; i < length; i += 2)
++	int i;
++	for (i = 0; i < length; i += 2)
+ 		checksum += ((uint16_t)(data[i+1]) << 8) | (data[i]);
+ 	return checksum;
+ }
+@@ -810,9 +811,9 @@
+ static uint16_t elan_update_firmware(void)
+ {
+ 	uint16_t checksum = 0, block_checksum;
+-	int rv;
++	int rv, i;
+ 
+-	for (int i = elan_get_iap_addr(); i < fw_size; i += FW_PAGE_SIZE) {
++	for (i = elan_get_iap_addr(); i < fw_size; i += FW_PAGE_SIZE) {
+ 		block_checksum = elan_calc_checksum(fw_data + i, FW_PAGE_SIZE);
+ 		rv = elan_write_fw_block(fw_data + i, block_checksum);
+ 		checksum += block_checksum;

@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 inherit toolchain-funcs
 
@@ -13,6 +13,10 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
+
+PATCHES=(
+	"${FILESDIR}/${P}-fix-compile.patch"
+)
 
 src_configure() {
 	tc-export CC
