@@ -142,7 +142,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3739.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3740.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R75-3713.0-1552669264.afdo"
 AFDO_FILE["airmont"]="R75-3713.0-1552671969.afdo"
 AFDO_FILE["haswell"]="R75-3683.67-1552674329.afdo"
@@ -962,6 +962,10 @@ src_configure() {
 	export NM_host=$(tc-getBUILD_NM)
 	export READELF="${CHOST}-readelf"
 	export READELF_host="${CBUILD}-readelf"
+	# Temporarily use llvm-objcopy to generate split-debug file with non-debug
+	# sections preserved, b/127337806. This workaround only works because
+	# llvm-objcopy currently does not support "--only-keep-debug" flag.
+	export OBJCOPY=llvm-objcopy
 
 	determine_linker
 
