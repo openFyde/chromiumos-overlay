@@ -15,6 +15,7 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="dev-libs/protobuf"
+RDEPEND="${DEPEND}"
 
 src_prepare() {
 	# The makefile specifies the compiler to be g++, remove so we can use the default.
