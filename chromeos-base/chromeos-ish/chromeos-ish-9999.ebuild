@@ -18,6 +18,9 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="quiet verbose coreboot-sdk unibuild"
 
+# EC build requires libftdi, but not used for runtime (b:129129436)
+DEPEND="dev-embedded/libftdi:1="
+
 src_unpack() {
 	cros-workon_src_unpack
 	S+="/platform/ec"

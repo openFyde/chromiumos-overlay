@@ -42,7 +42,6 @@ KEYWORDS="~*"
 IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test"
 
 RDEPEND="
-	dev-embedded/libftdi
 	fuzzer? (
 		dev-libs/openssl:=
 		dev-libs/protobuf:=
@@ -52,8 +51,11 @@ RDEPEND="
 		dev-libs/protobuf:=
 	)
 "
+
+# EC build requires libftdi, but not used for runtime (b:129129436)
 DEPEND="
 	${RDEPEND}
+	dev-embedded/libftdi:1=
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 	test? ( dev-libs/libprotobuf-mutator:= )
 	virtual/chromeos-ec-private-files
