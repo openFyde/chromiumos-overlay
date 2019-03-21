@@ -51,15 +51,12 @@ src_install() {
 	dobin "${OUT}/telem"
 
 	if use wilco; then
-		dobin "${OUT}/wilco_dtc"
 		dobin "${OUT}/wilco_dtc_supportd"
 
 		# Install seccomp policy files.
 		insinto /usr/share/policy
 		use seccomp && newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
 			wilco_dtc_supportd-seccomp.policy
-		use seccomp && newins "init/wilco_dtc-seccomp-${ARCH}.policy" \
-			wilco_dtc-seccomp.policy
 
 		# Install D-Bus configuration file.
 		insinto /etc/dbus-1/system.d
