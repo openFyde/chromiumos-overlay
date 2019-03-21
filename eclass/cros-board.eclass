@@ -48,6 +48,7 @@ ALL_BOARDS=(
 	arm64-llvmpipe
 	asuka
 	atlas
+	atlas-kvm
 	auron
 	auron_paine
 	auron_pearlvalley
