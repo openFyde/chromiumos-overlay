@@ -89,7 +89,7 @@ sign_region() {
 		--kernelkey ${keydir}/kernel_subkey.vbpubk \
 		--flags 0
 
-	do_cbfstool ${fw_image} write -u -i 0 -r ${vblock} -f ${tmpfile}.out
+	do_cbfstool ${fw_image} write -u -i 255 -r ${vblock} -f ${tmpfile}.out
 
 	rm -f ${tmpfile} ${tmpfile}.out
 }
@@ -306,9 +306,9 @@ setup_altfw() {
 	# TODO(kitching): Get hash and sign.
 
 	# Write this CBFS file into the RW_LEGACY region
-	do_cbfstool "${coreboot_file}" write -f "${cbfs}" -r RW_LEGACY --force
+	do_cbfstool "${coreboot_file}" write -f "${cbfs}" -r RW_LEGACY --force -i 255
 	do_cbfstool "${coreboot_file}.serial" write -f "${cbfs}" -r RW_LEGACY \
-		--force
+		--force -i 255
 }
 
 # Build firmware images for a given board
