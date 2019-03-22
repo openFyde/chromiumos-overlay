@@ -15,7 +15,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="alex butterfly elan mario stout"
+IUSE="elan"
 
 RDEPEND="!chromeos-base/touchpad-linearity
 	!<=chromeos-base/xorg-conf-0.0.6-r128"
@@ -48,18 +48,6 @@ src_install() {
 	doins 40-touchpad-cmt.conf
 	if use elan; then
 		doins 50-touchpad-cmt-elan.conf
-	elif use alex; then
-		doins 50-touchpad-cmt-alex.conf
-	elif use butterfly; then
-		doins 50-touchpad-cmt-butterfly.conf
-	elif use stout; then
-		doins 50-touchpad-cmt-stout.conf
-	elif use mario; then
-		doins 50-touchpad-cmt-mario.conf
-	elif [[ "${board}" = "x86-zgb" ]]; then
-		doins 50-touchpad-cmt-zgb.conf
-	elif [[ "${board}" = "lumpy" ]]; then
-		doins 50-touchpad-cmt-lumpy.conf
 	elif [[ "${board}" = "daisy" && "${board_variant}" = "${board}" ]]; then
 		doins 50-touchpad-cmt-daisy.conf
 		doins 50-touchpad-cmt-pit.conf # Some Lucas's use Pit Touchpad module
@@ -81,8 +69,6 @@ src_install() {
 
 	insinto "/usr/share/gestures"
 	case ${board} in
-	lumpy)
-		doins "files/lumpy_linearity.dat" ;;
 	daisy)
 		doins "files/daisy_linearity.dat" ;;
 	esac
