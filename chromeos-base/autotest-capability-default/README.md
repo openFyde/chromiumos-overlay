@@ -58,13 +58,15 @@ We list all the the managed capabilities line by line in
 ```
 # This file list all the managed capabilities. These capabilities
 # indicate the capabilities of the DUT.
-- hw_dec_h264_1080_60 # Decode h264 1080p 60fps videos in hardware.
-- hw_dec_h264_2160_30 # Decode h264 2160p 30fps videos in hardware.
-- hw_enc_vp8_1080_30  # Encode vp8 1080p 30fps videos in hardware.
-- hw_dec_jpeg         # Decode mjpeg in hardware.
-- builtin_camera      # There is a built-in camera on DUT.
-- usb_camera          # The built-in camera is a USB camera.
-- no mipi_camera      # The built-in camera is not a MIPI camera.
+- hw_dec_h264_1080_60     # Decode h264 1080p 60fps videos in hardware.
+- hw_dec_h264_2160_30     # Decode h264 2160p 30fps videos in hardware.
+- hw_enc_vp8_1080_30      # Encode vp8 1080p 30fps videos in hardware.
+- hw_dec_jpeg             # Decode mjpeg in hardware.
+- builtin_usb_camera      # DUT has a built-in USB camera.
+- no builtin_mipi_camera  # DUT doesn't have a built-in MIPI camera.
+- no vivid_camera         # vivid is not available on DUT.
+- builtin_camera
+- builtin_or_vivid_camera
 ```
 
 An unlisted capability will be treated as unknown capabilities, and will raise
@@ -77,9 +79,11 @@ in 15-chipset-bsw-capabilities.yaml,
 
 ```
 - hw_dec_h264_1080_60
+- builtin_usb_camera
+- no builtin_mipi_camera
+- no vivid_camera
 - builtin_camera
-- usb_camera
-- no mipi_camera
+- builtin_or_vivid_camera
 ```
 
 
@@ -91,8 +95,9 @@ for example, removing camera capabilities and adding "hw\_dec\_h264\_2160\_30" i
 
 ```
 - hw_dec_h264_2160_30
+- no builtin_or_vivid_camera
 - no builtin_camera
-- no usb_camera
+- no builtin_usb_camera
 ```
 
 

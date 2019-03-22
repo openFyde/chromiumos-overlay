@@ -32,7 +32,7 @@
 
 
 ## JPEG
-## hw_dec_jepg is marked if a device supports JPEG HW decoding.
+## hw_dec_jpeg is marked if a device supports JPEG HW decoding.
 - hw_dec_jpeg
 
 
@@ -54,15 +54,40 @@
 - hw_enc_vp9_2160_30
 
 ## JPEG
-## hw_enc_jepg is marked if a device supports JPEG HW encoding.
+## hw_enc_jpeg is marked if a device supports JPEG HW encoding.
 - hw_enc_jpeg
 
 
-# camera
-## builtin_camera is marked if a device equips a builtin camera.
-## When we mark usb_camera or mipi_camera, we must mark builtin_camera as well.
+# Camera
+
+## USB camera
+## builtin_usb_camera is marked if a device equips a built-in USB camera.
+## When this label is marked, builtin_camera and builtin_or_vivid_camera must
+## be marked as well.
+- builtin_usb_camera
+
+## MIPI camera
+## builtin_mipi_camera is marked if a device equips a built-in MIPI camera.
+## When this label is marked, builtin_camera and builtin_or_vivid_camera must
+## be marked as well.
+- builtin_mipi_camera
+
+## Vivid
+## vivid_camera is marked if vivid is available on the board.
+## Vivid is a virtual video device and used for tests on VM boards.
+## When this label is marked, builtin_or_vivid_camera must be marked as well.
+- vivid_camera
+
+# Additional labels
+## Since Tast doesn't support "or" operation over autotest-capability labels,
+## we define addional labels which mean conjunctions of above labels.
+
+## builtin_camera is marked if a device equips a built-in USB camera or a
+## built-in MIPI camera.
+## i.e., "builtin_usb_camera || builtin_mipi_camera"
 - builtin_camera
-## usb_camera is marked if a device equips a builtin USB camera.
-- usb_camera
-## mipi_camera is marked if a device equips a builtin MIPI camera.
-- mipi_camera
+
+## builtin_or_vivid_camera is marked if at least one of a built-in USB camera, a
+## built-in MIPI camera, and vivid is available.
+## i.e., "builtin_usb_camera || builtin_mipi_camera || vivid_camera"
+- builtin_or_vivid_camera
