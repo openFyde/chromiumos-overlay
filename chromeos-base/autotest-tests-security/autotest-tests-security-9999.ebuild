@@ -19,7 +19,6 @@ IUSE="+autotest -chromeless_tests -chromeless_tty containers +seccomp selinux"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
-	tests_security_Minijail0? ( sys-apps/keyutils )
 	containers? (
 		tests_security_Libcontainer? (
 			chromeos-base/minijail
@@ -37,11 +36,9 @@ IUSE_TESTS="
 		)
 	)
 	seccomp? (
-		+tests_security_Minijail_seccomp
 		+tests_security_SeccompSyscallFilters
 	)
 	+tests_security_AltSyscall
-	+tests_security_ASLR
 	+tests_security_CpuVulnerabilities
 	containers? (
 		+tests_security_DeviceJail_AllowDeny
@@ -50,15 +47,11 @@ IUSE_TESTS="
 		+tests_security_DeviceJail_Lockdown
 	)
 	containers? ( +tests_security_Libcontainer )
-	+tests_security_Minijail0
 	+tests_security_NosymfollowMountOption
 	+tests_security_OpenFDs
 	+tests_security_ProcessManagementPolicy
 	+tests_security_ptraceRestrictions
-	+tests_security_RootCA
 	+tests_security_RootfsOwners
-	containers? ( +tests_security_RunOci )
-	+tests_security_RuntimeExecStack
 	+tests_security_SandboxedServices
 	selinux? ( +tests_security_SELinux )
 	+tests_security_SysVIPC
