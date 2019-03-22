@@ -303,7 +303,7 @@ cros-rust_publish() {
 	local version="${2:-${PV}}"
 
 	# Create the .crate file.
-	ecargo package --allow-dirty --no-metadata --no-verify --no-vcs || die
+	ecargo package --allow-dirty --no-metadata --no-verify || die
 
 	# Unpack the crate we just created into the directory registry.
 	local crate="${CARGO_TARGET_DIR}/package/${name}-${version}.crate"
