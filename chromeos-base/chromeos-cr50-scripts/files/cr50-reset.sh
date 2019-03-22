@@ -68,8 +68,8 @@ cr50_reset() {
   echo "Challenge:"
   echo "${ch}"
 
-  # Remove whitespace from challenge.
-  ch="$(echo "${ch}" | sed -e 's/ //g')"
+  # Remove whitespace and newline from challenge.
+  ch="$(echo "${ch}" | tr -d '[:space:]')"
 
   # Calculate challenge string.
   local chstr="${RMA_SERVER}${ch}&hwid=${hwid}"
