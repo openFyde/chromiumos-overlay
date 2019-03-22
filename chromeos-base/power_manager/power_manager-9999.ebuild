@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk buffet chromeos-config metrics power_manager .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="power_manager"
 
-inherit cros-board cros-workon platform systemd udev user
+inherit cros-workon platform systemd udev user
 
 DESCRIPTION="Power Manager for Chromium OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
