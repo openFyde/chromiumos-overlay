@@ -76,6 +76,7 @@ src_install() {
 	# Install the diagnostic routine executables.
 	exeinto /usr/libexec/diagnostics
 	doexe "${OUT}/urandom"
+	doexe "${OUT}/smartctl-check"
 
 	# Install udev rules.
 	udev_dorules udev/*.rules
