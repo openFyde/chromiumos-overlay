@@ -15,7 +15,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="alex butterfly elan mario stout ozone"
+IUSE="alex butterfly elan mario stout"
 
 RDEPEND="!chromeos-base/touchpad-linearity
 	!<=chromeos-base/xorg-conf-0.0.6-r128"
@@ -25,14 +25,7 @@ src_install() {
 	local board=$(get_current_board_no_variant)
 	local board_variant=$(get_current_board_with_variant)
 
-	# Install to different directories depending on whether this is a
-	# freon build or not. We use the same gesture library conf files
-	# for freon builds so they are still needed there.
-	if ! use ozone; then
-		insinto /etc/X11/xorg.conf.d
-	else
-		insinto /etc/gesture
-	fi
+	insinto /etc/gesture
 
 	# -cheets, -arcnext, -campfire, and -kernelnext variants are running on
 	# the same hardware as their non-cheets, non-arcnext, non-campfire, and
