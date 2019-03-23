@@ -12,3 +12,12 @@ if [[ $(cros_target) != "cros_host" ]]; then
   INSTALL_MASK+=" ${protobuf_mask}"
   unset protobuf_mask
 fi
+
+if [[ $(cros_target) == "target_image" ]]; then
+  protobuf_mask="
+    /usr/include/google/protobuf/*.inc
+  "
+  PKG_INSTALL_MASK+=" ${protobuf_mask}"
+  INSTALL_MASK+=" ${protobuf_mask}"
+  unset protobuf_mask
+fi
