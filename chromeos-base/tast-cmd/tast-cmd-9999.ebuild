@@ -35,6 +35,7 @@ DEPEND="
 	dev-go/cmp
 	dev-go/crypto
 	dev-go/golint
+	dev-go/gopsutil
 	dev-go/subcommands
 	dev-go/yaml
 "
