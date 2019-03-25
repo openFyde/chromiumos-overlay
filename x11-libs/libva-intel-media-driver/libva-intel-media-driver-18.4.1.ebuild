@@ -46,6 +46,7 @@ PATCHES=(
 	"${FILESDIR}"/0008-Decode-Fix-partition-lengths-for-MFD_VP8_BSD_OBJECT.patch
 	"${FILESDIR}"/0009-Add-X11_FOUND-flag.patch
 	"${FILESDIR}"/0010-Keep-the-right-slice-number-for-bitstream-buffer.patch
+	"${FILESDIR}"/0011-Encode-Add-some-device-IDs-for-CML.patch
 )
 
 src_configure() {
