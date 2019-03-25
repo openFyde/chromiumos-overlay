@@ -148,6 +148,8 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.8.0-readdirplus_3_add_dirplus.patch"
 	"${FILESDIR}/${PN}-4.8.0-readdirplus_4_update_abi.patch"
 	"${FILESDIR}/${PN}-4.8.0-readdirplus_5_cleanup_close.patch"
+	"${FILESDIR}/${PN}-4.8.0-disable_perl.patch"
+	"${FILESDIR}/${PN}-4.8.0-disable_third_party_python.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
@@ -228,6 +230,7 @@ multilib_src_configure() {
 		$(multilib_native_use_with syslog)
 		$(multilib_native_use_with systemd)
 		$(multilib_native_use_with winbind)
+		$(multilib_native_usex perl '' '--disable-perl')
 		$(multilib_native_usex python '' '--disable-python')
 		$(multilib_native_use_enable zeroconf avahi)
 		$(multilib_native_usex test '--enable-selftest' '')
@@ -289,13 +292,6 @@ multilib_src_install() {
 		systemd_dounit "${FILESDIR}"/samba.service
 	fi
 
-	# Hack to unbreak crbug.com/877675
-	if ! use perl; then
-		rm -rf "${D}"/usr/lib*/perl*
-	fi
-	if ! use python; then
-		rm -rf "${D}"/usr/lib*/python*
-	fi
 	# Prune empty dirs to avoid tripping multilib checks.
 	rmdir "${D}"/usr/lib* 2>/dev/null
 }
