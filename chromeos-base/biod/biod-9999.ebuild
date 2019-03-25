@@ -18,7 +18,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+seccomp fuzzer"
+IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -47,15 +47,13 @@ src_install() {
 	dobin "${OUT}"/biod_client_tool
 
 	insinto /usr/share/policy
-	if use seccomp ; then
-		local seccomp_src_dir="init/seccomp"
+	local seccomp_src_dir="init/seccomp"
 
-		newins "${seccomp_src_dir}/biod-seccomp-${ARCH}.policy" \
-			biod-seccomp.policy
+	newins "${seccomp_src_dir}/biod-seccomp-${ARCH}.policy" \
+		biod-seccomp.policy
 
-		newins "${seccomp_src_dir}/bio-crypto-init-seccomp-${ARCH}.policy" \
-			bio-crypto-init-seccomp.policy
-	fi
+	newins "${seccomp_src_dir}/bio-crypto-init-seccomp-${ARCH}.policy" \
+		bio-crypto-init-seccomp.policy
 
 	insinto /etc/init
 	doins init/*.conf
