@@ -108,6 +108,7 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/18.3-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
 	epatch "${FILESDIR}"/DOWNSTREAM-i965-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8-B8.patch
+	epatch "${FILESDIR}"/intel-Add-support-for-Comet-Lake.patch
 
 	default
 }
