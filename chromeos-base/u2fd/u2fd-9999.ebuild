@@ -33,8 +33,12 @@ DEPEND="
 	chromeos-base/system_api
 	"
 
-pkg_preinst() {
-	enewuser u2f
+pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs the u2f user and group.
+	enewuser "u2f"
+	enewgroup "u2f"
+	cros-workon_pkg_setup
 }
 
 src_install() {
@@ -42,4 +46,9 @@ src_install() {
 
 	insinto /etc/init
 	doins init/*.conf
+
+	local daemon_store="/etc/daemon-store/u2f"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners u2f:u2f "${daemon_store}"
 }
