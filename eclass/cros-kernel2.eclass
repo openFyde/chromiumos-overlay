@@ -1532,7 +1532,7 @@ cros-kernel2_src_configure() {
 	local old_config="$(cros-workon_get_build_dir)/cros-old-config"
 	local old_defconfig="$(cros-workon_get_build_dir)/cros-old-defconfig"
 
-	if [[ -e "${old_config}" ]] && \
+	if [[ -e "${old_config}" && -e "${old_defconfig}" ]] && \
 		cmp -s "${build_cfg}" "${old_config}"; then
 		cp -a "${old_defconfig}" "${build_cfg}" || die
 	else
