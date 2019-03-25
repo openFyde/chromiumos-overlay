@@ -15,4 +15,5 @@ evdev:input:b0003v18D1p5030e*-*m4*
 evdev:input:b0005v03F6pA001e*-*m4*
 evdev:input:b0005v3175p9000e*-*m4*
 evdev:input:b0005v3175p9100e*-*m4*
+evdev:input:b0003v3175p9100e*-*m4*
  KEYBOARD_KEY_ffd10018=assistant
