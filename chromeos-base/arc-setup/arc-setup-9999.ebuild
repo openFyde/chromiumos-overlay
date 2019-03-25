@@ -26,6 +26,7 @@ IUSE="
 	arcvm
 	esdfs
 	houdini
+	houdini64
 	ndk_translation
 	unibuild"
 
