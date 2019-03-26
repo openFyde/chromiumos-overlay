@@ -113,8 +113,14 @@ check_lld_works() {
 	$(tc-getCXX) -fuse-ld=lld -std=c++11 -o /dev/null "${T}"/lld.cxx
 }
 
+# Build libfuzzer with libc++ only if clang is compiler.
+build_libfuzzer_with_libcxx() {
+	tc-is-clang
+}
+
 src_unpack() {
 	local clang_hash clang_tidy_hash compiler_rt_hash llvm_hash lld_hash
+	local libcxxabi_hash libcxx_hash
 
 	if use llvm-tot; then
 		clang_hash="origin/master"
@@ -122,6 +128,8 @@ src_unpack() {
 		compiler_rt_hash="origin/master"
 		llvm_hash="origin/master"
 		lld_hash="origin/master"
+		libcxxabi_hash="origin/master"
+		libcxx_hash="origin/master"
 	elif use llvm-next; then
 		# llvm:353983 https://critique.corp.google.com/#review/233864070
 		clang_hash="171531e31716e2db2c372cf8b57220ddf9e721d8" # EGIT_COMMIT r353983
@@ -129,6 +137,8 @@ src_unpack() {
 		compiler_rt_hash="00d38a06e40df0bb8fbc1d3e4e6a3cc35bddbd74" # EGIT_COMMIT r353947
 		llvm_hash="5077597e0d5b86d9f9c27286d8b28f8b3645a74c" # EGIT_COMMIT r353983
 		lld_hash="14aa57da0f92683f0b8bdac0acda485a6f73edc7" # EGIT_COMMIT r353981
+		libcxxabi_hash="307bb62985575b2e3216a8cfd7e122e0574f33a9" #EGIT_COMMIT r347903
+		libcxx_hash="9ff404deecb2b3d02b219f3e841aa8837a1f654e" #EGIT_COMMIT r349566
 	else
 		# llvm:353983 https://critique.corp.google.com/#review/233864070
 		clang_hash="171531e31716e2db2c372cf8b57220ddf9e721d8" # EGIT_COMMIT r353983
@@ -136,6 +146,8 @@ src_unpack() {
 		compiler_rt_hash="00d38a06e40df0bb8fbc1d3e4e6a3cc35bddbd74" # EGIT_COMMIT r353947
 		llvm_hash="5077597e0d5b86d9f9c27286d8b28f8b3645a74c" # EGIT_COMMIT r353983
 		lld_hash="14aa57da0f92683f0b8bdac0acda485a6f73edc7" # EGIT_COMMIT r353981
+		libcxxabi_hash="307bb62985575b2e3216a8cfd7e122e0574f33a9" #EGIT_COMMIT r347903
+		libcxx_hash="9ff404deecb2b3d02b219f3e841aa8837a1f654e" #EGIT_COMMIT r349566
 	fi
 
 	# non-local
@@ -162,6 +174,23 @@ src_unpack() {
 			"$lld_hash"
 	)
 
+	# libc++/libc++abi are unpacked in a custom location for libfuzzer usage and
+	# are not built with llvm ebuild. Remove after moving to monorepo.
+	export libcxxabi_dir="${T}/custom_libcxx/libcxxabi"
+	export libcxx_dir="${T}/custom_libcxx/libcxx"
+
+	LIBCXX_URIS=(
+		"libcxx"
+			"${libcxx_dir}"
+			"${CROS_GIT_HOST_URL}/external/llvm.org/libcxx.git"
+			"$libcxx_hash"
+		"libcxxabi"
+			"${libcxxabi_dir}"
+			"${CROS_GIT_HOST_URL}/external/llvm.org/libcxxabi.git"
+			"$libcxxabi_hash"
+		)
+
+	# Unpack llvm, clang, lld, compiler-rt, clang-tools-extra
 	set -- "${EGIT_REPO_URIS[@]}"
 		while [[ $# -gt 0 ]]; do
 			ESVN_PROJECT=$1 \
@@ -171,6 +200,19 @@ src_unpack() {
 			git-2_src_unpack
 			shift 4
 		done
+
+	if build_libfuzzer_with_libcxx; then
+		# Unpack libc++, remove after moving to monorepo.
+		set -- "${LIBCXX_URIS[@]}"
+			while [[ $# -gt 0 ]]; do
+				ESVN_PROJECT=$1 \
+				EGIT_SOURCEDIR="$2" \
+				EGIT_REPO_URI=$3 \
+				EGIT_COMMIT=$4 \
+				git-2_src_unpack
+				shift 4
+			done
+	fi
 }
 
 pick_cherries() {
@@ -509,6 +551,15 @@ multilib_src_configure() {
 			-DLLVM_INSTALL_HTML="${EPREFIX}/usr/share/doc/${PF}/html"
 			-DSPHINX_WARNINGS_AS_ERRORS=OFF
 			-DLLVM_INSTALL_UTILS=ON
+		)
+	fi
+
+	# Build libfuzzer with an internal copy of libc++.
+	# Remove after moving to monorepo.
+	if build_libfuzzer_with_libcxx; then
+		mycmakeargs+=(
+			-DCOMPILER_RT_LIBCXXABI_PATH=${libcxxabi_dir}
+			-DCOMPILER_RT_LIBCXX_PATH=${libcxx_dir}
 		)
 	fi
 	cmake-utils_src_configure
