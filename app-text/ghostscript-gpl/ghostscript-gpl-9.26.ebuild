@@ -3,10 +3,11 @@
 
 EAPI=6
 
-inherit autotools cros-fuzzer cros-sanitizers multilib versionator \
-	flag-o-matic toolchain-funcs
+inherit autotools cros-fuzzer cros-sanitizers flag-o-matic multilib \
+				toolchain-funcs versionator
 
-DESCRIPTION="Ghostscript is an interpreter for the PostScript language and for PDF"
+
+DESCRIPTION="Interpreter for the PostScript language and PDF"
 HOMEPAGE="https://ghostscript.com/"
 
 MY_P=${P/-gpl}
@@ -20,6 +21,14 @@ SRC_URI="
 	https://dev.gentoo.org/~dilfridge/distfiles/${P}-patchset-${MY_PATCHSET}.tar.xz
 "
 
+# Google has a commercial license for ghostscript when distributed with
+# Chrome OS (not Chromium OS). So toggle the license to the required
+# copyright when building for Chrome OS, and use the open source licensing
+# text otherwise.
+LICENSE="
+	internal? ( LICENSE.artifex_commercial )
+	!internal? ( AGPL-3 CPL-1.0 )
+"
 SLOT="0"
 KEYWORDS="*"
 IUSE="
@@ -27,13 +36,10 @@ IUSE="
 	tiff unicode X
 "
 
-# Google has a commercial license for ghostscript when distributed with Chrome OS (Not
-# Chromium OS).  So toggle the license to the required copyright when building for Chrome OS,
-# and use the open source licensing text otherwise.
-LICENSE="
-	internal? ( LICENSE.artifex_commercial )
-	!internal? ( AGPL-3 CPL-1.0 )
-"
+LANGS="ja ko zh_CN zh_TW"
+for X in ${LANGS} ; do
+	IUSE="${IUSE} linguas_${X}"
+done
 
 COMMON_DEPEND="
 	app-text/libpaper
@@ -41,7 +47,7 @@ COMMON_DEPEND="
 	>=media-libs/freetype-2.4.9:2=
 	>=media-libs/lcms-2.6:2
 	>=media-libs/libpng-1.6.2:0=
-	>=sys-libs/zlib-1.2.7:=
+	>=sys-libs/zlib-1.2.7
 	virtual/jpeg:0
 	cups? ( >=net-print/cups-1.3.8 )
 	dbus? ( sys-apps/dbus )
@@ -57,60 +63,56 @@ DEPEND="${COMMON_DEPEND}
 "
 
 RDEPEND="${COMMON_DEPEND}
-	!crosfonts? ( >=app-text/poppler-data-0.4.5-r1 )
+	!crosfonts? ( >=app-text/poppler-data-0.4.7 )
 	!crosfonts? ( >=media-fonts/urw-fonts-2.4.9 )
 	linguas_ja? ( media-fonts/kochi-substitute )
 	linguas_ko? ( media-fonts/baekmuk-fonts )
 	linguas_zh_CN? ( media-fonts/arphicfonts )
 	linguas_zh_TW? ( media-fonts/arphicfonts )
-	!!media-fonts/gnu-gs-fonts-std
-	!!media-fonts/gnu-gs-fonts-other
-	!<net-print/cups-filters-1.0.36-r2
 "
 
 S="${WORKDIR}/${MY_P}"
 
-LANGS="ja ko zh_CN zh_TW"
-for X in ${LANGS} ; do
-	IUSE="${IUSE} linguas_${X}"
-done
+PATCHES=(
+	"${WORKDIR}/patches/"
+	"${FILESDIR}/"
+)
 
 src_prepare() {
+	# apply various patches, many borrowed from Fedora
+	# http://pkgs.fedoraproject.org/cgit/ghostscript.git
+	# in the same breath, apply patches specific to Chrome OS
 	default
 
 	# remove internal copies of various libraries
-	rm -rf "${S}"/cups/libs || die
-	rm -rf "${S}"/expat || die
-	rm -rf "${S}"/freetype || die
-	rm -rf "${S}"/jpeg{,xr} || die
-	rm -rf "${S}"/lcms{,2} || die
-	rm -rf "${S}"/libpng || die
-	rm -rf "${S}"/tiff || die
-	rm -rf "${S}"/zlib || die
+	rm -r "${S}"/cups/libs || die
+	rm -r "${S}"/freetype || die
+	rm -r "${S}"/lcms2mt || die
+	rm -r "${S}"/libpng || die
+	rm -r "${S}"/tiff || die
+	rm -r "${S}"/zlib || die
 	# remove internal CMaps (CMaps from poppler-data are used instead)
-	rm -rf "${S}"/Resource/CMap || die
-
-	# apply various patches, many borrowed from Fedora
-	# http://pkgs.fedoraproject.org/cgit/ghostscript.git
-	eapply "${FILESDIR}/"*.patch
-
-	# remove files pruned in the patch ghostscript-*-prune-contrib-directory
-	rm -rf "${S}"/contrib/epson740
-	rm -rf "${S}"/contrib/gdevgdi.c
-	rm -rf "${S}"/contrib/gdevln03.c
-	rm -rf "${S}"/contrib/gdevlx7.c
-	rm -rf "${S}"/contrib/gdevmd2k.c
-	rm -rf "${S}"/contrib/gdevop4w.c
-	rm -rf "${S}"/contrib/gdevxes.c
-	rm -rf "${S}"/contrib/japanese
-	rm -rf "${S}"/contrib/md2k_md5k
-	rm -rf "${S}"/contrib/pscolor
-	rm -rf "${S}"/contrib/uniprint
+	rm -r "${S}"/Resource/CMap || die
+	
+	# Enable compilation of select contributed drivers,
+	# but prune ones with incompatible or unclear licenses
+	# (c.f. commit 0334118d6279640cb860f2f4a9af64b0fd008b49).
+	rm -r "${S}"/contrib/epson740/ || die
+	rm -r "${S}"/contrib/japanese || die
+	rm -r "${S}"/contrib/md2k_md5k/ || die
+	rm -r "${S}"/contrib/pscolor || die
+	rm -r "${S}"/contrib/uniprint || die
+	rm "${S}"/contrib/gdevgdi.c || die
+	rm "${S}"/contrib/gdevln03.c || die
+	rm "${S}"/contrib/gdevlx7.c || die
+	rm "${S}"/contrib/gdevmd2k.c || die
+	rm "${S}"/contrib/gdevop4w.c || die
+	rm "${S}"/contrib/gdevxes.c || die
 
 	if ! use gtk ; then
-		sed -i -e "s:\$(GSSOX)::" \
+		sed -e "s:\$(GSSOX)::" \
 			-e "s:.*\$(GSSOX_XENAME)$::" \
-			"${S}"/base/unix-dll.mak || die "sed failed"
+			-i "${S}"/base/unix-dll.mak || die "sed failed"
 	fi
 
 	if use crosfonts ; then
@@ -119,30 +121,29 @@ src_prepare() {
 	fi
 
 	# Force the include dirs to a neutral location.
-	sed -i \
-		-e "/^ZLIBDIR=/s:=.*:=${T}:" \
-		configure.ac || die
+	sed -e "/^ZLIBDIR=/s:=.*:=${T}:" \
+		-i "${S}"/configure.ac || die
 	# Some files depend on zlib.h directly.  Redirect them. #573248
 	# Also make sure to not define OPJ_STATIC to avoid linker errors due to
 	# hidden symbols (https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=203327#c1)
-	sed -i \
-		-e '/^zlib_h/s:=.*:=:' \
+	sed -e '/^zlib_h/s:=.*:=:' \
 		-e 's|-DOPJ_STATIC ||' \
-		base/lib.mak || die
+		-i "${S}"/base/lib.mak || die
 
 	# search path fix
 	# put LDFLAGS after BINDIR, bug #383447
-	sed -i -e "s:\$\(gsdatadir\)/lib:/usr/share/ghostscript/${PVM}/$(get_libdir):" \
-		-e "s:exdir=.*:exdir=/usr/share/doc/${PF}/examples:" \
-		-e "s:docdir=.*:docdir=/usr/share/doc/${PF}/html:" \
-		-e "s:GS_DOCDIR=.*:GS_DOCDIR=/usr/share/doc/${PF}/html:" \
+	sed -e "s:\$\(gsdatadir\)/lib:@datarootdir@/ghostscript/${PVM}/$(get_libdir):" \
+		-e "s:exdir=.*:exdir=@datarootdir@/doc/${PF}/examples:" \
+		-e "s:docdir=.*:docdir=@datarootdir@/doc/${PF}/html:" \
+		-e "s:GS_DOCDIR=.*:GS_DOCDIR=@datarootdir@/doc/${PF}/html:" \
 		-e 's:-L$(BINDIR):& $(LDFLAGS):g' \
-		"${S}"/Makefile.in "${S}"/base/*.mak || die "sed failed"
+		-i "${S}"/Makefile.in "${S}"/base/*.mak || die "sed failed"
 
-	cd "${S}" || die
+	# remove incorrect symlink, bug 590384
+	rm ijs/ltmain.sh || die
 	eautoreconf
 
-	cd "${S}/ijs" || die
+	cd "${S}"/ijs || die
 	eautoreconf
 }
 
@@ -218,7 +219,7 @@ src_configure() {
 src_compile() {
 	emake -j1 so all
 
-	cd "${S}/ijs" || die
+	cd "${S}"/ijs || die
 	emake
 }
 
@@ -248,10 +249,12 @@ src_install() {
 
 	# install the CMaps from poppler-data properly, bug #409361
 	if ! use crosfonts; then
-		dosym /usr/share/poppler/cMaps /usr/share/ghostscript/${PVM}/Resource/CMap
+		dosym ../../../poppler/cMaps "/usr/share/ghostscript/${PVM}/Resource/CMap"
 	fi
 
-	use static-libs || find "${ED}" -name '*.la' -delete
+	if ! use static-libs; then
+		find "${ED}" -name '*.la' -delete || die
+	fi
 
 	if ! use linguas_de; then
 		rm -r "${ED}"/usr/share/man/de || die
