@@ -32,14 +32,14 @@ cros-common.mk_src_prepare() {
 	# Run any portage-supplied defaults (e.g. eapply).
 	default
 
-	# Require cros-workon.  We don't have any common.mk users otherwise.
-	export OUT="$(cros-workon_get_build_dir)"
-	if [[ -z "${OUT}" ]]; then
-		die "common.mk only works with cros-workon ebuilds."
-	fi
+	# Get the OUT dir from cros-workon if available.  We have some external
+	# partners who are using this build system now.
+	if [[ $(type -t cros-workon_get_build_dir) == "function" ]]; then
+		export OUT="$(cros-workon_get_build_dir)"
 
-	# Make sure the dir always exists.
-	mkdir -p "${OUT}"
+		# Make sure the dir always exists.
+		mkdir -p "${OUT}"
+	fi
 }
 
 cros-common.mk_src_configure() {
