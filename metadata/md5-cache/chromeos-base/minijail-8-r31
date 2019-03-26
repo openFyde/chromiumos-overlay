@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=sys-libs/libcap !<chromeos-base/chromeos-minijail-1 test? ( dev-cpp/gtest dev-cpp/gmock ) dev-vcs/git
+DESCRIPTION=helper binary and library for sandboxing & restricting privs of services
+EAPI=6
+HOMEPAGE=https://android.googlesource.com/platform/external/minijail
+IUSE=asan cros-debug +seccomp test cros-debug asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_5d1a7a75572f2f982f5e6851a1b72db9fb1b2143
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=sys-libs/libcap !<chromeos-base/chromeos-minijail-1
+SLOT=0
+_eclasses_=cros-common.mk	fe20d64d9af13a46447e01206e2b3b6a	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-sanitizers	dc40d713077337d5ea46e415f9b955c6	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_md5_=89cfa7368893036304af8769a5a990eb
