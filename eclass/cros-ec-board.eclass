@@ -89,7 +89,6 @@ EC_BOARD_NAMES=(
 	poppy
 	rammus
 	reef
-	rowan
 	ryu
 	ryu_p4p5
 	ryu_sh
