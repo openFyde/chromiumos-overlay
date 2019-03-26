@@ -123,10 +123,17 @@ cros-rust_src_unpack() {
 
 	[target.${CHOST}]
 	linker = "$(tc-getCC)"
-
-	[target.${CBUILD}]
-	linker = "$(tc-getBUILD_CC)"
 	EOF
+
+	# When the target environment is different from the host environment,
+	# add a setting for the target environment.
+	if tc-is-cross-compiler; then
+		cat <<- EOF >> "${ECARGO_HOME}/config"
+
+		[target.${CBUILD}]
+		linker = "$(tc-getBUILD_CC)"
+		EOF
+	fi
 }
 
 # @FUNCTION: cros-rust_src_prepare
