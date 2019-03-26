@@ -50,6 +50,7 @@ IUSE="
 	usbip
 	veyron_mickey
 	veyron_rialto
+	vulkan
 "
 
 S=${WORKDIR}
