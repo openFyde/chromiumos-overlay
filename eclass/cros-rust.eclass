@@ -35,7 +35,7 @@ esac
 
 inherit toolchain-funcs cros-debug cros-sanitizers
 
-IUSE="asan fuzzer lsan +lto msan test tsan"
+IUSE="asan fuzzer lsan +lto msan test tsan ubsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
 EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_install
@@ -207,6 +207,7 @@ cros-rust_src_configure() {
 	use lsan && rustflags+=( -Csanitizer=leak )
 	use msan && rustflags+=( -Csanitizer=memory )
 	use tsan && rustflags+=( -Csanitizer=thread )
+	use ubsan && rustflags+=( -Clink-arg=-fsanitize=undefined )
 
 	if use fuzzer; then
 		rustflags+=(
