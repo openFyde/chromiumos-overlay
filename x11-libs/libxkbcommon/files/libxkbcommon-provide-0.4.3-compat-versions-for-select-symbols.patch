@@ -1,0 +1,228 @@
+From a3ead155cca3fac2ce4bf6da10ef7733c6d8433c Mon Sep 17 00:00:00 2001
+From: Dmitry Torokhov <dtor@chromium.org>
+Date: Tue, 26 Mar 2019 09:53:05 -0700
+Subject: [PATCH] Provide 0.4.3 compat versions for select symbols
+
+0.5.0 release broke ABI by needlessly changing symbol table version.
+Unfortunately as our process of building Chrome OS release is 2-step,
+with Chrome built separately against SDK and then being dropped into the
+final image, and SDK being uprevved when new version lands in Chrome, we
+need to provide an upgrade path. Because ABI on the API itself was not
+broken, only versioning was, we provide aliases for symbols needed by
+Chrome and let it load on image with newer library.
+
+Signed-off-by: Dmitry Torokhov <dtor@chromium.org>
+---
+ src/context.c    | 4 ++++
+ src/keymap.c     | 8 ++++++++
+ src/keysym-utf.c | 1 +
+ src/state.c      | 9 +++++++++
+ xkbcommon.map    | 3 +++
+ 5 files changed, 25 insertions(+)
+
+diff --git a/src/context.c b/src/context.c
+index 50993e1..14af7ae 100644
+--- a/src/context.c
++++ b/src/context.c
+@@ -68,6 +68,7 @@ err:
+     darray_append(ctx->failed_includes, tmp);
+     return 0;
+ }
++__asm__(".symver xkb_context_include_path_append,xkb_context_include_path_append@V_0.4.3");
+ 
+ /**
+  * Append the default include directories to the context.
+@@ -156,6 +157,7 @@ xkb_context_ref(struct xkb_context *ctx)
+     ctx->refcnt++;
+     return ctx;
+ }
++__asm__(".symver xkb_context_ref,xkb_context_ref@V_0.4.3");
+ 
+ /**
+  * Drop an existing reference on the context, and free it if the refcnt is
+@@ -171,6 +173,7 @@ xkb_context_unref(struct xkb_context *ctx)
+     atom_table_free(ctx->atom_table);
+     free(ctx);
+ }
++__asm__(".symver xkb_context_unref,xkb_context_unref@V_0.4.3");
+ 
+ static const char *
+ log_level_to_prefix(enum xkb_log_level level)
+@@ -282,6 +285,7 @@ xkb_context_new(enum xkb_context_flags flags)
+ 
+     return ctx;
+ }
++__asm__(".symver xkb_context_new,xkb_context_new@V_0.4.3");
+ 
+ XKB_EXPORT void
+ xkb_context_set_log_fn(struct xkb_context *ctx,
+diff --git a/src/keymap.c b/src/keymap.c
+index 859c64a..e900acb 100644
+--- a/src/keymap.c
++++ b/src/keymap.c
+@@ -59,6 +59,7 @@ xkb_keymap_ref(struct xkb_keymap *keymap)
+     keymap->refcnt++;
+     return keymap;
+ }
++__asm__(".symver xkb_keymap_ref,xkb_keymap_ref@V_0.4.3");
+ 
+ XKB_EXPORT void
+ xkb_keymap_unref(struct xkb_keymap *keymap)
+@@ -100,6 +101,7 @@ xkb_keymap_unref(struct xkb_keymap *keymap)
+     xkb_context_unref(keymap->ctx);
+     free(keymap);
+ }
++__asm__(".symver xkb_keymap_unref,xkb_keymap_unref@V_0.4.3");
+ 
+ static const struct xkb_keymap_format_ops *
+ get_keymap_format_ops(enum xkb_keymap_format format)
+@@ -152,6 +154,7 @@ xkb_keymap_new_from_names(struct xkb_context *ctx,
+ 
+     return keymap;
+ }
++__asm__(".symver xkb_keymap_new_from_names,xkb_keymap_new_from_names@V_0.4.3");
+ 
+ XKB_EXPORT struct xkb_keymap *
+ xkb_keymap_new_from_string(struct xkb_context *ctx,
+@@ -162,6 +165,7 @@ xkb_keymap_new_from_string(struct xkb_context *ctx,
+     return xkb_keymap_new_from_buffer(ctx, string, strlen(string),
+                                       format, flags);
+ }
++__asm__(".symver xkb_keymap_new_from_string,xkb_keymap_new_from_string@V_0.4.3");
+ 
+ XKB_EXPORT struct xkb_keymap *
+ xkb_keymap_new_from_buffer(struct xkb_context *ctx,
+@@ -199,6 +203,7 @@ xkb_keymap_new_from_buffer(struct xkb_context *ctx,
+ 
+     return keymap;
+ }
++__asm__(".symver xkb_keymap_new_from_buffer,xkb_keymap_new_from_buffer@V_0.4.3");
+ 
+ XKB_EXPORT struct xkb_keymap *
+ xkb_keymap_new_from_file(struct xkb_context *ctx,
+@@ -254,6 +259,7 @@ xkb_keymap_get_as_string(struct xkb_keymap *keymap,
+ 
+     return ops->keymap_get_as_string(keymap);
+ }
++__asm__(".symver xkb_keymap_get_as_string,xkb_keymap_get_as_string@V_0.4.3");
+ 
+ /**
+  * Returns the total number of modifiers active in the keymap.
+@@ -290,6 +296,7 @@ xkb_keymap_mod_get_index(struct xkb_keymap *keymap, const char *name)
+ 
+     return XkbModNameToIndex(&keymap->mods, atom, MOD_BOTH);
+ }
++__asm__(".symver xkb_keymap_mod_get_index,xkb_keymap_mod_get_index@V_0.4.3");
+ 
+ /**
+  * Return the total number of active groups in the keymap.
+@@ -517,3 +524,4 @@ xkb_keymap_key_repeats(struct xkb_keymap *keymap, xkb_keycode_t kc)
+ 
+     return key->repeats;
+ }
++__asm__(".symver xkb_keymap_key_repeats,xkb_keymap_key_repeats@V_0.4.3");
+diff --git a/src/keysym-utf.c b/src/keysym-utf.c
+index c0e76f5..cc32e44 100644
+--- a/src/keysym-utf.c
++++ b/src/keysym-utf.c
+@@ -894,6 +894,7 @@ xkb_keysym_to_utf32(xkb_keysym_t keysym)
+     /* search main table */
+     return bin_search(keysymtab, ARRAY_SIZE(keysymtab) - 1, keysym);
+ }
++__asm__(".symver xkb_keysym_to_utf32,xkb_keysym_to_utf32@V_0.4.3");
+ 
+ /*
+  * Copyright © 2012 Intel Corporation
+diff --git a/src/state.c b/src/state.c
+index 16a4caa..5c77a6f 100644
+--- a/src/state.c
++++ b/src/state.c
+@@ -604,6 +604,7 @@ xkb_state_new(struct xkb_keymap *keymap)
+ 
+     return ret;
+ }
++__asm__(".symver xkb_state_new,xkb_state_new@V_0.4.3");
+ 
+ XKB_EXPORT struct xkb_state *
+ xkb_state_ref(struct xkb_state *state)
+@@ -611,6 +612,7 @@ xkb_state_ref(struct xkb_state *state)
+     state->refcnt++;
+     return state;
+ }
++__asm__(".symver xkb_state_ref,xkb_state_ref@V_0.4.3");
+ 
+ XKB_EXPORT void
+ xkb_state_unref(struct xkb_state *state)
+@@ -622,6 +624,7 @@ xkb_state_unref(struct xkb_state *state)
+     darray_free(state->filters);
+     free(state);
+ }
++__asm__(".symver xkb_state_unref,xkb_state_unref@V_0.4.3");
+ 
+ XKB_EXPORT struct xkb_keymap *
+ xkb_state_get_keymap(struct xkb_state *state)
+@@ -847,6 +850,7 @@ xkb_state_update_mask(struct xkb_state *state,
+ 
+     return get_state_component_changes(&prev_components, &state->components);
+ }
++__asm__(".symver xkb_state_update_mask,xkb_state_update_mask@V_0.4.3");
+ 
+ /**
+  * Provides the symbols to use for the given key and state.  Returns the
+@@ -943,6 +947,7 @@ xkb_state_key_get_one_sym(struct xkb_state *state, xkb_keycode_t kc)
+ 
+     return sym;
+ }
++__asm__(".symver xkb_state_key_get_one_sym,xkb_state_key_get_one_sym@V_0.4.3");
+ 
+ /*
+  * The caps and ctrl transformations require some special handling,
+@@ -1066,6 +1071,7 @@ xkb_state_key_get_utf32(struct xkb_state *state, xkb_keycode_t kc)
+ 
+     return cp;
+ }
++__asm__(".symver xkb_state_key_get_utf32,xkb_state_key_get_utf32@V_0.4.3");
+ 
+ /**
+  * Serialises the requested modifier state into an xkb_mod_mask_t, with all
+@@ -1089,6 +1095,7 @@ xkb_state_serialize_mods(struct xkb_state *state,
+ 
+     return ret;
+ }
++__asm__(".symver xkb_state_serialize_mods,xkb_state_serialize_mods@V_0.4.3");
+ 
+ /**
+  * Serialises the requested group state, with all the same disclaimers as
+@@ -1112,6 +1119,7 @@ xkb_state_serialize_layout(struct xkb_state *state,
+ 
+     return ret;
+ }
++__asm__(".symver xkb_state_serialize_layout,xkb_state_serialize_layout@V_0.4.3");
+ 
+ /**
+  * Gets a modifier mask and returns the resolved effective mask; this
+@@ -1220,6 +1228,7 @@ xkb_state_mod_name_is_active(struct xkb_state *state, const char *name,
+ 
+     return xkb_state_mod_index_is_active(state, idx, type);
+ }
++__asm__(".symver xkb_state_mod_name_is_active,xkb_state_mod_name_is_active@V_0.4.3");
+ 
+ /**
+  * Returns 1 if the modifiers are active with the specified type(s), 0 if
+diff --git a/xkbcommon.map b/xkbcommon.map
+index f28f68f..5a4eea9 100644
+--- a/xkbcommon.map
++++ b/xkbcommon.map
+@@ -86,6 +86,9 @@ local:
+ 	*;
+ };
+ 
++V_0.4.3 {
++} V_0.5.0;
++
+ V_0.6.0 {
+ global:
+ 	xkb_keymap_key_get_name;
+-- 
+2.21.0.392.gf8f6787159e-goog
+
