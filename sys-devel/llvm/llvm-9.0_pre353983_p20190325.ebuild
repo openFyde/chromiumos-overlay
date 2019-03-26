@@ -21,7 +21,7 @@ SLOT="8"
 KEYWORDS="-* amd64"
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi multitarget
 	ncurses ocaml python llvm-next llvm-tot test xml video_cards_radeon
-	pgo_generate"
+	+thinlto pgo_generate"
 
 COMMON_DEPEND="
 	sys-libs/zlib:0=
@@ -105,6 +105,12 @@ pkg_pretend() {
 
 pkg_setup() {
 	pkg_pretend
+}
+
+check_lld_works() {
+	echo 'int main() {return 0;}' > "${T}"/lld.cxx || die
+	echo "Trying to link program with lld"
+	$(tc-getCXX) -fuse-ld=lld -std=c++11 -o /dev/null "${T}"/lld.cxx
 }
 
 src_unpack() {
@@ -442,6 +448,19 @@ multilib_src_configure() {
 	mycmakeargs+=(
 		-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
 	)
+
+	if use thinlto; then
+		if check_lld_works; then
+			mycmakeargs+=(
+				-DLLVM_ENABLE_LTO=thin
+				# Gold has issue with no index for archive, using lld to link
+				-DLLVM_USE_LINKER=lld
+				# The standalone toolchain may be run at places not supporting
+				# smallPIE, disabling it for lld
+				append-ldflags "-Wl,--pack-dyn-relocs=none"
+			)
+		fi
+	fi
 
 	if use pgo_generate; then
 		mycmakeargs+=(
