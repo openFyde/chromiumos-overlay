@@ -129,6 +129,13 @@ src_install() {
 		doins cert_provision.h
 	fi
 
+	# Install the configuration file and utility for detecting if the new
+	# (UserDataAuth) or old interface is used.
+	insinto /etc/
+	doins cryptohome_userdataauth_interface.conf
+	exeinto /usr/libexec/cryptohome
+	doexe shall-use-userdataauth.sh
+
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
 		--seed_corpus "${S}"/fuzzers/cryptolib_rsa_oaep_decrypt_corpus
