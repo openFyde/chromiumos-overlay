@@ -1,0 +1,27 @@
+commit 599d8c50c575e3e4cd774a7fc5636df87b493388
+Author: Evgeniy Stepanov <eugeni.stepanov@gmail.com>
+Date:   Thu Feb 28 01:54:55 2019 +0000
+
+    [sanitizer] Got rid of text relocations in i386 vfork interceptor.
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@355064 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+index f130b7250..d693aa3e0 100644
+--- a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
++++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+@@ -13,8 +13,12 @@ ASM_WRAPPER_NAME(vfork):
+         mov     %ecx, (%eax)
+         add     $16, %esp
+ 
+-
+-        call    *_ZN14__interception10real_vforkE
++        call    .L0$pb
++.L0$pb:
++        pop     %eax
++.Ltmp0:
++        add     $_GLOBAL_OFFSET_TABLE_+(.Ltmp0-.L0$pb), %eax
++        call    *_ZN14__interception10real_vforkE@GOTOFF(%eax)
+ 
+         // Restore return address from the spill area.
+         sub     $16, %esp

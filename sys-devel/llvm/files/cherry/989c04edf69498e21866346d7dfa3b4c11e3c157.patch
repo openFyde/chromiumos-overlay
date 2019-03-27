@@ -1,0 +1,47 @@
+commit 989c04edf69498e21866346d7dfa3b4c11e3c157
+Author: Sterling Augustine <saugustine@google.com>
+Date:   Wed Mar 20 17:37:23 2019 +0000
+
+    Make __cpu_model a hidden symbol, to match libgcc.
+    Also hide __cpu_inicator_init and __cpu_features2
+    for similar reasons.
+    
+    Summary: Make __cpu_model a hidden symbol, to match libgcc.
+    
+    Subscribers: llvm-commits
+    
+    Tags: #llvm
+    
+    Differential Revision: https://reviews.llvm.org/D59561
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@356581 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/builtins/cpu_model.c b/lib/builtins/cpu_model.c
+index fc5782030..5bcc386f4 100644
+--- a/lib/builtins/cpu_model.c
++++ b/lib/builtins/cpu_model.c
+@@ -592,14 +592,24 @@ static void getAvailableFeatures(unsigned ECX, unsigned EDX, unsigned MaxLeaf,
+ #define CONSTRUCTOR_ATTRIBUTE
+ #endif
+ 
++#ifndef _WIN32
++__attribute__((visibility("hidden")))
++#endif
+ int __cpu_indicator_init(void) CONSTRUCTOR_ATTRIBUTE;
+ 
++#ifndef _WIN32
++__attribute__((visibility("hidden")))
++#endif
+ struct __processor_model {
+   unsigned int __cpu_vendor;
+   unsigned int __cpu_type;
+   unsigned int __cpu_subtype;
+   unsigned int __cpu_features[1];
+ } __cpu_model = {0, 0, 0, {0}};
++
++#ifndef _WIN32
++__attribute__((visibility("hidden")))
++#endif
+ unsigned int __cpu_features2;
+ 
+ /* A constructor function that is sets __cpu_model and __cpu_features2 with

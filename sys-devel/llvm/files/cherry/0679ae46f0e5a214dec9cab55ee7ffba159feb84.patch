@@ -1,0 +1,91 @@
+commit 0679ae46f0e5a214dec9cab55ee7ffba159feb84
+Author: Evgeniy Stepanov <eugeni.stepanov@gmail.com>
+Date:   Wed Feb 27 22:23:51 2019 +0000
+
+    [sanitizer] Fix compilation errors in r355030.
+    
+    Disable hwasan interceptor on non-linux, non-x86-or-arm platforms.
+    Add @plt to the asm call that clang intergrated-as infers but gcc does
+    not.
+    
+    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@355041 91177308-0d34-0410-b5e6-96231b3b80d8
+
+diff --git a/lib/asan/CMakeLists.txt b/lib/asan/CMakeLists.txt
+index 3fbd7204c..3c4434690 100644
+--- a/lib/asan/CMakeLists.txt
++++ b/lib/asan/CMakeLists.txt
+@@ -32,7 +32,7 @@ set(ASAN_SOURCES
+   asan_thread.cc
+   asan_win.cc)
+ 
+-if (NOT WIN32)
++if (NOT WIN32 AND NOT APPLE)
+   list(APPEND ASAN_SOURCES asan_interceptors_vfork.S)
+ endif()
+ 
+diff --git a/lib/asan/asan_interceptors.cc b/lib/asan/asan_interceptors.cc
+index 5622f1da3..234cabce1 100644
+--- a/lib/asan/asan_interceptors.cc
++++ b/lib/asan/asan_interceptors.cc
+@@ -579,7 +579,7 @@ INTERCEPTOR(int, __cxa_atexit, void (*func)(void *), void *arg,
+ }
+ #endif  // ASAN_INTERCEPT___CXA_ATEXIT
+ 
+-#if defined(__linux__)
++#if ASAN_INTERCEPT_VFORK
+ DEFINE_REAL(int, vfork);
+ DECLARE_EXTERN_INTERCEPTOR_AND_WRAPPER(int, vfork);
+ #endif
+@@ -661,7 +661,7 @@ void InitializeAsanInterceptors() {
+   ASAN_INTERCEPT_FUNC(__cxa_atexit);
+ #endif
+ 
+-#if defined(__linux__)
++#if ASAN_INTERCEPT_VFORK
+   ASAN_INTERCEPT_FUNC(vfork);
+ #endif
+ 
+diff --git a/lib/asan/asan_interceptors.h b/lib/asan/asan_interceptors.h
+index 271f373cd..903ab5991 100644
+--- a/lib/asan/asan_interceptors.h
++++ b/lib/asan/asan_interceptors.h
+@@ -105,6 +105,13 @@ void InitializePlatformInterceptors();
+ # define ASAN_INTERCEPT___STRDUP 0
+ #endif
+ 
++#if SANITIZER_LINUX && (defined(__arm__) || defined(__aarch64__) || \
++                        defined(__i386__) || defined(__x86_64__))
++# define ASAN_INTERCEPT_VFORK 1
++#else
++# define ASAN_INTERCEPT_VFORK 0
++#endif
++
+ DECLARE_REAL(int, memcmp, const void *a1, const void *a2, uptr size)
+ DECLARE_REAL(char*, strchr, const char *str, int c)
+ DECLARE_REAL(SIZE_T, strlen, const char *s)
+diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+index 5207264c8..f130b7250 100644
+--- a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
++++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+@@ -31,7 +31,7 @@ ASM_WRAPPER_NAME(vfork):
+ 
+         lea     16(%esp), %ecx
+         mov     %ecx, (%esp)
+-        call    COMMON_INTERCEPTOR_HANDLE_VFORK
++        call    COMMON_INTERCEPTOR_HANDLE_VFORK@PLT
+ 
+ .L_exit:
+         mov     4(%esp), %eax
+diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
+index 254a1759c..8147cdd09 100644
+--- a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
++++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
+@@ -28,7 +28,7 @@ ASM_WRAPPER_NAME(vfork):
+         je      .L_exit
+ 
+         lea     16(%rsp), %rdi
+-        call    COMMON_INTERCEPTOR_HANDLE_VFORK
++        call    COMMON_INTERCEPTOR_HANDLE_VFORK@PLT
+ 
+ .L_exit:
+         pop     %rax

@@ -42,6 +42,15 @@ src_prepare() {
 	else
 		CHERRIES=""
 	fi
+	# Cherry-pick for both llvm and llvm-next
+	CHERRIES+=" f5c0c1f1e1abe66650443d39f34fc205c2bc3175" #r354632
+	CHERRIES+=" 4efb43207cb1f36870a79350d870ae47717af755" #r354989, needed to pick r355030
+	CHERRIES+=" 9cde2249660f19f4ffa6d7703cecfdced27f9917" #r355030
+	CHERRIES+=" 0679ae46f0e5a214dec9cab55ee7ffba159feb84" #r355041
+	CHERRIES+=" 599d8c50c575e3e4cd774a7fc5636df87b493388" #r355064
+	CHERRIES+=" 0f079fab83fb2af94e2fe9e4e44e8f47661a7ded" #r355125
+	CHERRIES+=" 989c04edf69498e21866346d7dfa3b4c11e3c157" #r356581
+
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
 	done
