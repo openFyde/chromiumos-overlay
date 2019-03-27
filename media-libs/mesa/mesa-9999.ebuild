@@ -104,7 +104,6 @@ src_prepare() {
 	fi
 
 	epatch "${FILESDIR}"/18.3-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
-	epatch "${FILESDIR}"/DOWNSTREAM-radeonsi-attempt-to-disable-dcc-with-PIPE_HANDLE_USA.patch
 	epatch "${FILESDIR}"/DOWNSTREAM-i965-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8-B8.patch
 
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
