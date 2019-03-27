@@ -17,6 +17,7 @@ KEYWORDS="~*"
 IUSE="
 	android-container-pi android-container-master-arc-dev android-container-nyc
 	+combine_chromeos_policy selinux_audit_all selinux_develop selinux_experimental
+	nocheck
 "
 # When developers are doing something not Android. This required use is to let
 # the developer know, disabling combine_chromeos_policy flag doesn't change
@@ -75,6 +76,13 @@ SECILC_ARGS=(
 	-M true -G -N -m
 	-c "${SELINUX_VERSION}"
 	-o "${SEPOLICY_FILENAME}"
+	-f /dev/null
+)
+
+SECILC_ARGS_CHECK_NEVERALLOW=(
+	-M true -G -m
+	-c "${SELINUX_VERSION}"
+	-o /dev/null
 	-f /dev/null
 )
 
@@ -170,6 +178,8 @@ build_chromeos_policy() {
 
 	build_cil cros "chromeos.raw.cil" "sepolicy/policy/base/" "sepolicy/policy/chromeos_base" "sepolicy/policy/chromeos/"
 	version_cil < chromeos.raw.cil > chromeos.raw.versioned.cil
+	secilc "${SECILC_ARGS_CHECK_NEVERALLOW[@]}" chromeos.raw.cil ||
+		die "some Chrome OS neverallows are not satisfied"
 	filter_file_line_by_line android_reqd.cil < chromeos.raw.versioned.cil > chromeos.cil ||
 		die "failed to convert raw cil to filtered cil"
 }
@@ -215,6 +225,39 @@ check_filetrans_defined_in_file_contexts() {
 	' | sort -u | xargs -d'\n' -n 1 sh -c 'grep $0 file_contexts >/dev/null || echo $0' | _is_empty
 }
 
+# cat cil-file | get_attributed_type(attribute) => types separated by spaces
+get_attributed_type() {
+	local attr="$1"
+	grep "(typeattributeset ${attr} (" | sed -e "s/^(typeattributeset ${attr} (//g" | sed -e 's/ ))$//g'
+}
+
+# check_attribute_include attr subattr1 subattr2 subattr3 ... excluded_type1 excluded_type2 ...
+check_attribute_include() {
+	local poolname="$1"
+	shift 1
+	einfo "Checking type set (attribute ${poolname}) equals to union of type sets of (attribute $@)"
+	local pool="$(cat chromeos.cil | get_attributed_type "${poolname}" | tr ' ' '\n')"
+	local remaining_types="$pool"
+	for attr in $@; do
+		remaining_types="$(echo "$remaining_types" | egrep -v "^$attr$")"
+		for t in `cat chromeos.cil | get_attributed_type "${attr}"`; do
+			if ! grep "$t" <(echo "$pool") >/dev/null; then
+				die "${t} type should have attribute ${poolname} to have attribute ${attr}"
+			fi
+			remaining_types="$(echo "$remaining_types" | egrep -v "^$t$")"
+		done
+	done
+	if ! [[ -z "$remaining_types" ]]; then
+		die "Types with attribute $poolname should have at least one of $@, but these doesn't: \n$(echo "${remaining_types}" | tr '\n' ' ')"
+	fi
+}
+
+check_file_type_and_attribute() {
+	einfo "Checking file types and their attributes"
+	check_attribute_include file_type cros_file_type unlabeled system_data_file
+	check_attribute_include cros_file_type cros_system_file_type cros_tmpfile_type cros_home_file_type cros_var_file_type cros_run_file_type cros_uncategorized_file_type
+}
+
 src_compile() {
 	gen_m4_flags
 
@@ -234,7 +277,7 @@ src_compile() {
 
 	if has_arc; then
 		if use combine_chromeos_policy; then
-			einfo "combining Chrome OS and Android SELinux policy"
+			einfo "Combining Chrome OS and Android SELinux policy"
 
 			if use android-container-nyc; then
 				secilc "${SECILC_ARGS[@]}" "${cilpath}/sepolicy.cil" \
@@ -278,6 +321,13 @@ src_compile() {
 
 	check_filetrans_defined_in_file_contexts \
 		|| die "failed to check consistency between filetrans_pattern and file_contexts"
+
+	if use nocheck; then
+		ewarn "Some post-compile checks are skipped. Please remove nocheck from your USE flag"
+	else
+		einfo 'Use USE="$USE nocheck" emerge-$BOARD selinux-policy to speed up emerge for development purpose'.
+		check_file_type_and_attribute
+	fi
 }
 
 src_install() {
