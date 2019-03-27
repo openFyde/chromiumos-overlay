@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="sepolicy"
 
-inherit cros-workon
+inherit cros-workon udev
 
 DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
@@ -356,4 +356,6 @@ src_install() {
 		insinto /etc/selinux/intermediates.raw/
 		doins chromeos.cil
 	fi
+
+	udev_dorules "${FILESDIR}/50-selinux.rules"
 }
