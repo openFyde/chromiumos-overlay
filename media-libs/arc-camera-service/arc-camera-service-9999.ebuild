@@ -36,6 +36,9 @@ DEPEND="${RDEPEND}
 src_install() {
 	dobin "${OUT}/arc_camera_service"
 
+	insinto /etc/dbus-1/system.d
+	doins hal/usb_v1/org.chromium.ArcCamera.conf
+
 	insinto /etc/init
 	doins hal/usb_v1/init/arc-camera.conf
 }
