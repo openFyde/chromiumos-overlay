@@ -85,6 +85,7 @@ src_install() {
 	else
 		insinto /etc/init
 		doins init/crash-reporter.conf
+		doins init/crash-reporter-early-init.conf
 		doins init/crash-boot-collect.conf
 		doins init/crash-sender.conf
 		use cros_embedded || doins init/anomaly-detector.conf
