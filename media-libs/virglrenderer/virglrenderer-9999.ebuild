@@ -17,7 +17,6 @@ IUSE="fuzzer profiling static-libs test"
 
 RDEPEND="
 	>=x11-libs/libdrm-2.4.50
-	x11-libs/libX11
 	media-libs/libepoxy
 	fuzzer? (
 		media-libs/mesa
@@ -27,7 +26,6 @@ RDEPEND="
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
 	sys-devel/autoconf-archive
-	>=x11-misc/util-macros-1.8
 	test? ( >=dev-libs/check-0.9.4 )"
 
 PATCHES=(
@@ -46,6 +44,7 @@ src_configure() {
 		append-ldflags -fprofile-instr-generate -fcoverage-mapping
 	fi
 	econf \
+		--disable-glx \
 		$(use_enable static-libs static) \
 		$(use_enable test tests) \
 		$(use_enable fuzzer)
