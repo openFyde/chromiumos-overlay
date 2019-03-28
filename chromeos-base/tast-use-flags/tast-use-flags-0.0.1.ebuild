@@ -23,6 +23,7 @@ IUSE="
 	chromeless_tty
 	containers
 	cups
+	diagnostics
 	+display_backlight
 	dlc_test
 	drm_atomic
