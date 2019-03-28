@@ -39,22 +39,18 @@ RDEPEND="
 		app-crypt/trousers
 	)
 	tpm2? (
-		chromeos-base/attestation
-		chromeos-base/tpm_manager
 		chromeos-base/trunks
-	)
-	distributed_cryptohome? (
-		chromeos-base/attestation
-		chromeos-base/tpm_manager
 	)
 	selinux? (
 		sys-libs/libselinux
 	)
+	chromeos-base/attestation
 	chromeos-base/chaps
 	chromeos-base/libbrillo
 	chromeos-base/libscrypt
 	chromeos-base/metrics
 	chromeos-base/secure-erase-file
+	chromeos-base/tpm_manager
 	dev-libs/dbus-glib
 	dev-libs/glib
 	dev-libs/openssl:=

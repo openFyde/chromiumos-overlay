@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_ma
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="test tpm tpm2"
+IUSE="distributed_cryptohome test tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
@@ -44,27 +44,31 @@ pkg_preinst() {
 
 src_install() {
 	# Install D-Bus configuration file.
-	insinto /etc/dbus-1/system.d
-	doins server/org.chromium.TpmManager.conf
+	if use tpm2 || use distributed_cryptohome; then
+		insinto /etc/dbus-1/system.d
+		doins server/org.chromium.TpmManager.conf
 
-	# Install upstart config file.
-	insinto /etc/init
-	doins server/tpm_managerd.conf
-	if use tpm2; then
-		sed -i 's/started tcsd/started trunksd/' \
-			"${D}/etc/init/tpm_managerd.conf" ||
-			die "Can't replace tcsd with trunksd in tpm_managerd.conf"
+		# Install upstart config file.
+		insinto /etc/init
+		doins server/tpm_managerd.conf
+		if use tpm2; then
+			sed -i 's/started tcsd/started trunksd/' \
+				"${D}/etc/init/tpm_managerd.conf" ||
+				die "Can't replace tcsd with trunksd in tpm_managerd.conf"
+		fi
+
+		# Install the executables provided by TpmManager
+		dosbin "${OUT}"/tpm_managerd
+		dobin "${OUT}"/tpm_manager_client
+
+		# Install seccomp policy files.
+		insinto /usr/share/policy
+		newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
 	fi
 
-	# Install the executables provided by TpmManager
-	dosbin "${OUT}"/tpm_managerd
-	dobin "${OUT}"/tpm_manager_client
 	dolib.so "${OUT}"/lib/libtpm_manager.so
 	dolib.a "${OUT}"/libtpm_manager_test.a
 
-	# Install seccomp policy files.
-	insinto /usr/share/policy
-	newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
 
 	# Install header files.
 	insinto /usr/include/tpm_manager/client

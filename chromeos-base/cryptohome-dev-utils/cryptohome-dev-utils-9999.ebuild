@@ -30,13 +30,13 @@ RDEPEND="
 	)
 	tpm2? (
 		chromeos-base/trunks
-		chromeos-base/tpm_manager
-		chromeos-base/attestation
 	)
+	chromeos-base/attestation
 	chromeos-base/chaps
 	chromeos-base/libbrillo:=
 	chromeos-base/libscrypt
 	chromeos-base/metrics
+	chromeos-base/tpm_manager
 	chromeos-base/secure-erase-file
 	dev-libs/glib
 	dev-libs/openssl:=
