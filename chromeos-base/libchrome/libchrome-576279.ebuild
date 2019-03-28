@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("e16fde2503008bcf88993c8e17572589b99ce316" "fd0c4e3a5548c31368bf253b27748dccd5fd1361")
+CROS_WORKON_COMMIT=("e9a60fb73d814844e3a985dd48302a03a06cca57" "1cedaefedb63833985136e3e6fabfe4326c39657")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
@@ -41,6 +41,7 @@ RDEPEND="dev-libs/glib:2=
 		sys-apps/dbus:=
 		dev-libs/protobuf:=
 	)
+	dev-libs/re2:=
 "
 DEPEND="${RDEPEND}
 	dev-cpp/gtest:=
@@ -56,52 +57,50 @@ RDEPEND="${RDEPEND}
 # libmojo depends on libbase-crypto.
 REQUIRED_USE="mojo? ( crypto )"
 
-src_unpack() {
-	platform_src_unpack
-
-	# Upgrade base/json r456626 to r576279 to catch important security
-	# hardening work. The code is not vanilla r576279, but it has been
-	# adjusted slightly to make it work with this libchrome version.
-	# TODO(crbug.com/860181): Remove src_unpack() again once libchrome is
-	# uprev'ed to r576279.
-	rm "${S}/base/json/"* || die
-	cp "${FILESDIR}/base_json_based_on_r576279/"* "${S}/base/json" || die
-}
-
 src_prepare() {
-	cros_optimize_package_for_speed
+	# epatch "${FILESDIR}"/${P}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
+	# epatch "${FILESDIR}"/${P}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
+	# epatch "${FILESDIR}"/${P}-dbus-Make-MockObjectManager-useful.patch
+	# epatch "${FILESDIR}"/${P}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
+	# epatch "${FILESDIR}"/${P}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
 
-	# TODO(hidehiko): Drop this on next uprev once code with implicit fallthroughs
-	# are fixed (e.g. json_parser).
-	append-flags -Wno-implicit-fallthrough
-	# TODO(crbug.com/1041757): Verify the warning when libchrome got upgraded.
-	append-flags -Wno-range-loop-analysis
-
-	epatch "${FILESDIR}"/${P}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
-	epatch "${FILESDIR}"/${P}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
-	epatch "${FILESDIR}"/${P}-dbus-Make-MockObjectManager-useful.patch
-	epatch "${FILESDIR}"/${P}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
-	epatch "${FILESDIR}"/${P}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
+	# Cherry pick CLs from upstream.
+	# Remove these when the libchrome gets enough new.
+	# r576565.
 	epatch "${FILESDIR}"/${P}-dbus-Add-TryRegisterFallback.patch
+
+	# r581937.
 	epatch "${FILESDIR}"/${P}-dbus-Remove-LOG-ERROR-in-ObjectProxy.patch
+
+	# r582324
+	epatch "${FILESDIR}"/${P}-Fix-Wdefaulted-function-deleted-warning-in-MessageLo.patch
+
+	# r583543.
 	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
-	epatch "${FILESDIR}"/${P}-SequencedWorkerPool-allow-pools-of-one-thread.patch
-
-	# Cherry-pick components/policy/core/common/policy_load_status.{cc,h}
-	# from upstream r469654.
-	epatch "${FILESDIR}"/${P}-Allow-PolicyLoadStatusSample-to-override-reporting-m.patch
-
-	# ASAN fix cherry-picked from upstream r534999.
-	epatch "${FILESDIR}"/${P}-Base-DirReader-Alignment.patch
 
 	# This no_destructor.h is taken from r599267.
-	# TODO(hidehiko): Remove this patch after libchrome is uprevved
-	# to >= r599267.
 	epatch "${FILESDIR}"/${P}-Add-base-NoDestructor-T.patch
+
+	# r616020.
+	epatch "${FILESDIR}"/${P}-dbus-Support-UnexportMethod-from-an-exported-object.patch
+
+	# r617572 and r626151
+	epatch "${FILESDIR}"/${P}-components-timers-fix-fd-leak-in-AlarmTimer.patch
+	# epatch "${FILESDIR}"/${P}-Refactor-AlarmTimer-to-report-error-to-the-caller.patch
 
 	# TODO(hidehiko): Remove this patch after libchrome is uprevved
 	# to >= r463684.
 	epatch "${FILESDIR}"/${P}-Introduce-ValueReferenceAdapter-for-gracef.patch
+
+	# For backward compatibility.
+	# TODO(crbug.com/909719): Remove this patch after clients are updated.
+	epatch "${FILESDIR}"/${P}-libchrome-Add-EmptyResponseCallback-for-backward-com.patch
+
+	# Undo gn_helper sys.path update.
+	epatch "${FILESDIR}"/${P}-libchrome-Unpatch-sys.path-update.patch
+
+	# Introduce stub ConvertableToTraceFormat for task_scheduler.
+	epatch "${FILESDIR}"/${P}-libchrome-Introduce-stub-ConvertableToTraceFormat.patch
 
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685
@@ -109,52 +108,18 @@ src_prepare() {
 
 	# Disable object lifetime tracking since it cuases memory leaks in
 	# sanitizer builds, https://crbug.com/908138
-	epatch "${FILESDIR}"/${P}-Disable-object-tracking.patch
-
-	# TODO(sonnysasaka): Remove after libchrome uprev past r616020.
-	epatch "${FILESDIR}"/${P}-dbus-Support-UnexportMethod-from-an-exported-object.patch
-
-	# Remove this patch after libchrome uprev past r531975.
-	epatch "${FILESDIR}"/${P}-Add-implicit-fallthrough-warning.patch
-
-	# Patch for the r576279 uprev compatibility.
-	# TODO(crbug.com/909719): Remove on uprev.
-	epatch "${FILESDIR}"/${P}-libchrome-add-alias-from-base-Location-base-GetProgr.patch
+	# TODO
+	# epatch "${FILESDIR}"/${P}-Disable-object-tracking.patch
 
 	# Remove this patch after libchrome uprev past r626151.
-	epatch "${FILESDIR}"/${P}-components-timers-fix-fd-leak-in-AlarmTimer.patch
-
-	# Remove glib dependency.
-	# TODO(hidehiko): Fix the config in AOSP libchrome.
-	epatch "${FILESDIR}"/${P}-libchrome-Remove-glib-dependency.patch
-
-	# Add RingBuffer from libchrome.
-	# # TODO(lnishan): Remove after libchrome uprev past r574656
-	epatch "${FILESDIR}"/${P}-Add-base-containers-RingBuffer.patch
 
 	# Fix timing issue with dbus::ObjectManager.
 	# # TODO(bingxue): Remove after libchrome uprev past r684392.
 	epatch "${FILESDIR}"/${P}-Connect-to-NameOwnerChanged-signal-when-setting-call.patch
 
-	# Cherry-pick base::data for r576279 uprev.
-	epatch "${FILESDIR}"/${P}-Reland-base-Implement-std-size-std-empty-and-std-dat.patch
-
-	# Forward compatibility for r576279.
-	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-1.patch
-	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-2.patch
-	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-3.patch
-	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-4.patch
-	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-5.patch
-	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-6.patch
-	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-7.patch
-	# Fix -Wimplicit-int-float-converion warnings.  Based on
-	# https://chromium-review.googlesource.com/c/chromium/src/+/1830114
-	# This patch can be removed after libchrome r701704.
-	epatch "${FILESDIR}"/${P}-fix-implicit-conversion-warning.patch
-
-	# Don't crash for mismatched histogram parms.
-	# # TODO(weidonglin): Remove after libchrome uprev past r552089.
-	epatch "${FILESDIR}"/${P}-libchrome-Don-t-crash-for-mismatched-histogram-parms.patch
+	# Remove glib dependency.
+	# TODO(hidehiko): Fix the config in AOSP libchrome.
+	epatch "${FILESDIR}"/${P}-libchrome-Remove-glib-dependency.patch
 
 	# Fix FileDescriptorWatcher leak
 	# TODO(fqj): Remove after libchrome past r627021.
@@ -163,6 +128,18 @@ src_prepare() {
 	# Use correct shebang for these python2-only scripts.
 	find "${S}"/mojo/ -name '*.py' \
 		-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
+
+	# Misc fix to build older crypto library.
+	epatch "${FILESDIR}"/${P}-libchrome-Update-crypto.patch
+
+	# Enable location source to add function_name
+	epatch "${FILESDIR}"/${P}-enable-location-source.patch
+
+	# Backward compatibility (remove all when uprev is done)
+	epatch "${FILESDIR}"/${P}-r462023-backward-compatibility.patch
+
+	# Add WaitForServiceToBeAvailable back for MockObjectProxy
+	epatch "${FILESDIR}"/${P}-WaitForServiceToBeAvailable.patch
 }
 
 src_install() {
@@ -183,7 +160,6 @@ src_install() {
 		base/metrics
 		base/numerics
 		base/posix
-		base/profiler
 		base/process
 		base/strings
 		base/synchronization
@@ -248,20 +224,16 @@ src_install() {
 		# Install headers.
 		header_dirs+=(
 			ipc
-			mojo/common
-			mojo/core
+			mojo/core/
 			mojo/core/embedder
-			mojo/edk/embedder
-			mojo/edk/system
-			mojo/edk/system/ports
+			mojo/core/ports
 			mojo/public/c/system
 			mojo/public/cpp/bindings
 			mojo/public/cpp/bindings/lib
-			mojo/public/cpp/system
 			mojo/public/cpp/platform
+			mojo/public/cpp/system
 		)
 		gen_header_dirs+=(
-			mojo/common
 			mojo/public/interfaces/bindings
 		)
 
@@ -276,10 +248,8 @@ src_install() {
 		doins build/gn_helpers.py
 		doins -r build/android/gyp/util
 		doins -r build/android/pylib
-		doins -r third_party/catapult/devil/devil
 
 		insinto /usr/src/libmojo-"${SLOT}"/third_party
-		doins -r third_party/catapult
 		doins -r third_party/jinja2
 		doins -r third_party/markupsafe
 		doins -r third_party/ply

@@ -1,0 +1,82 @@
+From b658d8d7c0c29ca54033f51da547cefec7398ad5 Mon Sep 17 00:00:00 2001
+From: Qijiang Fan <fqj@chromium.org>
+Date: Tue, 17 Dec 2019 14:19:51 +0900
+Subject: [PATCH 2/5] backward compatibiliy patch
+
+Change-Id: Id5b8e818bbd6a22874a422379c2079d731a6a58e
+---
+ base/stl_util.h          |  5 +++++
+ base/values.cc           |  4 ++++
+ base/values.h            |  3 +++
+ dbus/mock_object_proxy.h | 10 ++++++++++
+ 4 files changed, 22 insertions(+)
+
+diff --git a/base/stl_util.h b/base/stl_util.h
+index 6d521cc..db8aa2d 100644
+--- a/base/stl_util.h
++++ b/base/stl_util.h
+@@ -77,6 +77,11 @@ constexpr auto data(Container& c) -> decltype(c.data()) {
+   return c.data();
+ }
+ 
++inline char* string_as_array(std::string* str) {
++  // DO NOT USE const_cast<char*>(str->data())
++  return str->empty() ? NULL : &*str->begin();
++}
++
+ // std::basic_string::data() had no mutable overload prior to C++17 [1].
+ // Hence this overload is provided.
+ // Note: str[0] is safe even for empty strings, as they are guaranteed to be
+diff --git a/base/values.cc b/base/values.cc
+index a48af5e..a31b1ed 100644
+--- a/base/values.cc
++++ b/base/values.cc
+@@ -187,6 +187,10 @@ Value& Value::operator=(Value&& that) noexcept {
+   return *this;
+ }
+ 
++Value* Value::operator->() const {
++  return (base::Value*) this;
++}
++
+ Value Value::Clone() const {
+   switch (type_) {
+     case Type::NONE:
+diff --git a/base/values.h b/base/values.h
+index 85113d9..08fbc68 100644
+--- a/base/values.h
++++ b/base/values.h
+@@ -141,6 +141,9 @@ class BASE_EXPORT Value {
+ 
+   Value& operator=(Value&& that) noexcept;
+ 
++  // Backward compatibility when ListValue has element to be unique_ptr<Value>
++  Value* operator->() const;
++
+   ~Value();
+ 
+   // Returns the name for a given |type|.
+diff --git a/dbus/mock_object_proxy.h b/dbus/mock_object_proxy.h
+index 009d9b7..7bc2376 100644
+--- a/dbus/mock_object_proxy.h
++++ b/dbus/mock_object_proxy.h
+@@ -13,6 +13,16 @@
+ #include "dbus/object_proxy.h"
+ #include "testing/gmock/include/gmock/gmock.h"
+ 
++#define MIGRATE_MockCallMethodAndBlockWithErrorDetails CallMethodAndBlockWithErrorDetails
++#define MIGRATE_MockCallMethodAndBlock CallMethodAndBlock
++#define MIGRATE_ConnectToSignal DoConnectToSignal
++#define MIGRATE_CallMethod DoCallMethod
++#define MIGRATE_CallMethodWithErrorCallback DoCallMethodWithErrorCallback
++#define MIGRATE_WrapObjectProxyCallback(x) (*(x))
++#define MIGRATE_WrapObjectProxyResponseType(x) std::unique_ptr<x>
++#define MIGRATE_WrapObjectProxyResponseConversion(x) (x)
++#define MIGRATE_WrapObjectProxyResponseEmpty std::unique_ptr<dbus::Response>()
++
+ namespace dbus {
+ 
+ // Mock for ObjectProxy.
+-- 
+2.24.1.735.g03f4e72817-goog
+

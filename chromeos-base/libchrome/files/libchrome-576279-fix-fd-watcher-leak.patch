@@ -1,21 +1,21 @@
-From 0633517373d6031040cfa43440506031d4463d35 Mon Sep 17 00:00:00 2001
+From 9ae1384af2cdd16539e9caaed69b095737e2c272 Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
-Date: Fri, 13 Dec 2019 13:57:01 +0900
+Date: Tue, 17 Dec 2019 17:32:35 +0900
 Subject: [PATCH] backport upstream patch to fix watcher leak.
 
 https://chromium-review.googlesource.com/c/chromium/src/+/695914
 
-Change-Id: I5bbc67bbc229c4c6800adb31fbeb263e31af72d7
+Change-Id: I91928fc00e9845ff75c49c272ff774ff9810f4eb
 ---
- base/files/file_descriptor_watcher_posix.cc | 106 +++++++++++++++-----
+ base/files/file_descriptor_watcher_posix.cc | 104 +++++++++++++++-----
  base/threading/thread_restrictions.h        |   4 +
- 2 files changed, 84 insertions(+), 26 deletions(-)
+ 2 files changed, 82 insertions(+), 26 deletions(-)
 
 diff --git a/base/files/file_descriptor_watcher_posix.cc b/base/files/file_descriptor_watcher_posix.cc
-index 9746e35..fcacd8f 100644
+index b26bf6c..98d2cec 100644
 --- a/base/files/file_descriptor_watcher_posix.cc
 +++ b/base/files/file_descriptor_watcher_posix.cc
-@@ -5,14 +5,17 @@
+@@ -5,6 +5,7 @@
  #include "base/files/file_descriptor_watcher_posix.h"
  
  #include "base/bind.h"
@@ -23,17 +23,15 @@ index 9746e35..fcacd8f 100644
  #include "base/lazy_instance.h"
  #include "base/logging.h"
  #include "base/memory/ptr_util.h"
+@@ -12,6 +13,7 @@
+ #include "base/message_loop/message_pump_for_io.h"
  #include "base/sequenced_task_runner.h"
  #include "base/single_thread_task_runner.h"
 +#include "base/synchronization/waitable_event.h"
  #include "base/threading/sequenced_task_runner_handle.h"
  #include "base/threading/thread_checker.h"
  #include "base/threading/thread_local.h"
-+#include "base/threading/thread_restrictions.h"
- 
- namespace base {
- 
-@@ -25,21 +28,7 @@ LazyInstance<ThreadLocalPointer<MessageLoopForIO>>::Leaky
+@@ -27,21 +29,7 @@ LazyInstance<ThreadLocalPointer<MessageLoopForIO>>::Leaky
  
  }  // namespace
  
@@ -54,9 +52,9 @@ index 9746e35..fcacd8f 100644
 -
 +// Move watcher above to prevent delete incomplete type at delete watcher later.
  class FileDescriptorWatcher::Controller::Watcher
-     : public MessageLoopForIO::Watcher,
-       public MessageLoop::DestructionObserver {
-@@ -88,6 +77,58 @@ class FileDescriptorWatcher::Controller::Watcher
+     : public MessagePumpForIO::FdWatcher,
+       public MessageLoopCurrent::DestructionObserver {
+@@ -90,6 +78,58 @@ class FileDescriptorWatcher::Controller::Watcher
    DISALLOW_COPY_AND_ASSIGN(Watcher);
  };
  
@@ -114,8 +112,8 @@ index 9746e35..fcacd8f 100644
 +
  FileDescriptorWatcher::Controller::Watcher::Watcher(
      WeakPtr<Controller> controller,
-     MessageLoopForIO::Mode mode,
-@@ -143,11 +184,20 @@ void FileDescriptorWatcher::Controller::Watcher::
+     MessagePumpForIO::Mode mode,
+@@ -150,11 +190,19 @@ void FileDescriptorWatcher::Controller::Watcher::
      WillDestroyCurrentMessageLoop() {
    DCHECK(thread_checker_.CalledOnValidThread());
  
@@ -124,8 +122,7 @@ index 9746e35..fcacd8f 100644
 -  // MessageLoopForIO. If the MessageLoopForIO is deleted before the delete task
 -  // runs, the following line takes care of deleting the Watcher.
 -  delete this;
-+  // TODO(fqj): RunsTasksInCurrentSequence will replace RunsTasksOnCurrentThread
-+  if (callback_task_runner_->RunsTasksOnCurrentThread()) {
++  if (callback_task_runner_->RunsTasksInCurrentSequence()) {
 +    // |controller_| can be accessed directly when Watcher runs on the same
 +    // thread.
 +    controller_->watcher_.reset();
@@ -140,8 +137,8 @@ index 9746e35..fcacd8f 100644
 +  }
  }
  
- FileDescriptorWatcher::Controller::Controller(MessageLoopForIO::Mode mode,
-@@ -165,12 +215,16 @@ FileDescriptorWatcher::Controller::Controller(MessageLoopForIO::Mode mode,
+ FileDescriptorWatcher::Controller::Controller(MessagePumpForIO::Mode mode,
+@@ -172,12 +220,16 @@ FileDescriptorWatcher::Controller::Controller(MessagePumpForIO::Mode mode,
  
  void FileDescriptorWatcher::Controller::StartWatching() {
    DCHECK(sequence_checker_.CalledOnValidSequence());
@@ -150,7 +147,7 @@ index 9746e35..fcacd8f 100644
 -  // Controller's destructor. Since this delete task hasn't been posted yet, it
 -  // can't run before the task posted below.
 -  message_loop_for_io_task_runner_->PostTask(
--      FROM_HERE, Bind(&Watcher::StartWatching, Unretained(watcher_.get())));
+-      FROM_HERE, BindOnce(&Watcher::StartWatching, Unretained(watcher_.get())));
 +  if (message_loop_for_io_task_runner_->BelongsToCurrentThread()) {
 +    watcher_->StartWatching();
 +  } else {
@@ -165,18 +162,18 @@ index 9746e35..fcacd8f 100644
  
  void FileDescriptorWatcher::Controller::RunCallback() {
 diff --git a/base/threading/thread_restrictions.h b/base/threading/thread_restrictions.h
-index 8f3beb1..86ca274 100644
+index 705ba4d..7532f85 100644
 --- a/base/threading/thread_restrictions.h
 +++ b/base/threading/thread_restrictions.h
-@@ -90,6 +90,7 @@ namespace internal {
+@@ -147,6 +147,7 @@ namespace internal {
  class TaskTracker;
  }
  
 +class FileDescriptorWatcher;
- class SequencedWorkerPool;
+ class GetAppOutputScopedAllowBaseSyncPrimitives;
  class SimpleThread;
- class Thread;
-@@ -201,6 +202,9 @@ class BASE_EXPORT ThreadRestrictions {
+ class StackSamplingProfiler;
+@@ -479,6 +480,9 @@ class BASE_EXPORT ThreadRestrictions {
    friend class ui::CommandBufferLocal;
    friend class ui::GpuState;
  

@@ -1,22 +1,21 @@
-From 19555b4a09ae5e286d3aa951d37f07dec7442523 Mon Sep 17 00:00:00 2001
+From 56efb7f9ec1129308063317f31846ec6229d1be8 Mon Sep 17 00:00:00 2001
 From: Hidehiko Abe <hidehiko@chromium.org>
-Date: Tue, 11 Sep 2018 23:31:57 +0900
+Date: Thu, 13 Jun 2019 19:53:59 +0900
 Subject: [PATCH] libchrome: Introduce ValueReferenceAdapter for graceful
  migration.
 
 BUG=b:37434548
 
-Change-Id: I7c4c61e6b88e1fa12e8d20327317bc9cea75b18c
 ---
  base/values.h | 44 ++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 44 insertions(+)
 
 diff --git a/base/values.h b/base/values.h
-index e2506cc..9cdd835 100644
+index 85113d9..6cb4545 100644
 --- a/base/values.h
 +++ b/base/values.h
-@@ -513,6 +513,50 @@ class BASE_EXPORT ListValue : public Value {
-   DISALLOW_COPY_AND_ASSIGN(ListValue);
+@@ -732,6 +732,50 @@ class BASE_EXPORT ListValue : public Value {
+   std::unique_ptr<ListValue> CreateDeepCopy() const;
  };
  
 +// Adapter for the ListValue::const_iterator to return "const Value&", for
@@ -32,8 +31,8 @@ index e2506cc..9cdd835 100644
 +    using iterator_category = std::input_iterator_tag;
 +
 +    explicit Iterator(ListValue::const_iterator iter) : iter_(iter) {}
-+    const Value& operator*() const { return **iter_; }
-+    const Value* operator->() const { return iter_->get(); }
++    const Value& operator*() const { return *iter_; }
++    const Value* operator->() const { return &*iter_; }
 +    Iterator& operator++() {
 +      ++iter_;
 +      return *this;
@@ -67,5 +66,5 @@ index e2506cc..9cdd835 100644
  // Value objects.
  class BASE_EXPORT ValueSerializer {
 -- 
-2.19.0.rc2.392.g5ba43deb5a-goog
+2.22.0.rc2.383.gf4fbbf30c2-goog
 
