@@ -43,6 +43,7 @@ src_install() {
 	# These libraries are dlopen()'d so lddtree doesn't know about them.
 	local dlopen_libs=(
 		$("${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --list \
+			"/usr/$(get_libdir)/dri/i965_dri.so" \
 			"/usr/$(get_libdir)/dri/swrast_dri.so" \
 			"/usr/$(get_libdir)/dri/virtio_gpu_dri.so" \
 			"/usr/$(get_libdir)/libwayland-egl.so.1" \
