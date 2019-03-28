@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="16e8902570a5509cdcce356f625402e80253528f"
+CROS_WORKON_COMMIT="393f52128d9b695cfd1c804dc76a2aaa909685a1"
 CROS_WORKON_TREE=("13228e56ac75327ed92fe81d6a0ed4f5c11c2a6a" "acf37faaac9e778303cadcfa151af1817f15ac38" "a928637a9d5a150dcd389348ec204c534de6819f" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,7 +20,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+seccomp fuzzer"
+IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -49,15 +49,13 @@ src_install() {
 	dobin "${OUT}"/biod_client_tool
 
 	insinto /usr/share/policy
-	if use seccomp ; then
-		local seccomp_src_dir="init/seccomp"
+	local seccomp_src_dir="init/seccomp"
 
-		newins "${seccomp_src_dir}/biod-seccomp-${ARCH}.policy" \
-			biod-seccomp.policy
+	newins "${seccomp_src_dir}/biod-seccomp-${ARCH}.policy" \
+		biod-seccomp.policy
 
-		newins "${seccomp_src_dir}/bio-crypto-init-seccomp-${ARCH}.policy" \
-			bio-crypto-init-seccomp.policy
-	fi
+	newins "${seccomp_src_dir}/bio-crypto-init-seccomp-${ARCH}.policy" \
+		bio-crypto-init-seccomp.policy
 
 	insinto /etc/init
 	doins init/*.conf
