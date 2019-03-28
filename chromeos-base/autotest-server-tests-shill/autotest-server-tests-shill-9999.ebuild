@@ -45,6 +45,7 @@ SERVER_IUSE_TESTS="
 		)
 	)
 	+tests_network_WiFi_ConnectionIdentifier
+	+tests_network_WiFi_CSA
 	+tests_network_WiFi_CSADisconnect
 	+tests_network_WiFi_DarkResumeActiveScans
 	+tests_network_WiFi_DisableEnable
@@ -75,7 +76,6 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_RateControl
 	+tests_network_WiFi_Reassociate
 	+tests_network_WiFi_ReconnectInDarkResume
-	+tests_network_WiFi_Regulatory
 	+tests_network_WiFi_RegDomain
 	+tests_network_WiFi_Reset
 	+tests_network_WiFi_Roam
