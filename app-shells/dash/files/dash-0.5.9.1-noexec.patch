@@ -54,6 +54,7 @@ There are some compile-time knobs provided:
   only emit warnings to stderr.
 
 URL: https://crbug.com/569168
+URL: https://chromium.googlesource.com/chromiumos/docs/+/master/security/noexec_shell_scripts.md
 ---
  src/input.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++++
  src/input.h |  6 ++++++
@@ -83,7 +84,7 @@ index 06c08d49b3d7..1781c419e56f 100644
  	if (fd < 10)
  		fd = savefd(fd, fd);
  	setinputfd(fd, flags & INPUT_PUSH_FILE);
-@@ -502,3 +507,59 @@ closescript(void)
+@@ -502,3 +507,60 @@ closescript(void)
  		parsefile->fd = 0;
  	}
  }
@@ -129,15 +130,16 @@ index 06c08d49b3d7..1781c419e56f 100644
 +	}
 +
 +	if (stvfs.f_flag & ST_NOEXEC) {
++		const char docs[] = "https://chromium.googlesource.com/chromiumos/docs/+/master/security/noexec_shell_scripts.md";
 +		maybe_generate_crash_report();
 +
 +# ifdef SHELL_NOEXEC_REPORT_ONLY
-+		sh_warnx("%s: warning: script from noexec mount", source);
++		sh_warnx("%s: warning: script from noexec mount; see %s", source, docs);
 +# else
 +		close(fd);
 +		errno = EACCES;
 +		exitstatus = 127;
-+		exerror(EXERROR, "Refusing to exec %s from noexec mount", source);
++		exerror(EXERROR, "Refusing to exec %s from noexec mount; see %s", source, docs);
 +# endif
 +	}
 +}
