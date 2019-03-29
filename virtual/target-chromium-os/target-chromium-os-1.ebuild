@@ -59,6 +59,7 @@ IUSE="
 	scanner
 	selinux
 	+shill
+	smbprovider
 	+syslog
 	+system_locales
 	systemd
@@ -246,6 +247,7 @@ RDEPEND="
 	arc-camera1? ( chromeos-base/cros-camera )
 	arc-camera3? ( chromeos-base/cros-camera )
 	fwupd? ( sys-apps/fwupd )
+	smbprovider? ( chromeos-base/smbprovider )
 "
 
 ################################################################################

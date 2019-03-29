@@ -16,5 +16,6 @@
 	<flag name='bootchart'>Enables bootchart.</flag>
 	<flag name='opengles'>Enables OpenGL ES.</flag>
 	<flag name='compupdates'>Enable component updates.</flag>
+	<flag name='smbprovider'>Enable SMB file share service.</flag>
 </use>
 </pkgmetadata>

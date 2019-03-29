@@ -60,7 +60,6 @@ IUSE="
 	opengles
 	+reorder_text_sections
 	+runhooks
-	+smbprovider
 	strict_toolchain_checks
 	+thinlto
 	+v4l2_codec
@@ -223,7 +222,6 @@ RDEPEND="${RDEPEND}
 		sys-libs/libcxx
 	)
 	oobe_config? ( chromeos-base/oobe_config )
-	smbprovider? ( chromeos-base/smbprovider )
 	"
 
 DEPEND="${DEPEND}
