@@ -21,7 +21,7 @@ SLOT="8"
 KEYWORDS="-* amd64"
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi multitarget
 	ncurses ocaml python llvm-next llvm-tot test xml video_cards_radeon
-	+thinlto pgo_generate"
+	+thinlto llvm_pgo_generate"
 
 COMMON_DEPEND="
 	sys-libs/zlib:0=
@@ -480,7 +480,7 @@ multilib_src_configure() {
 		fi
 	fi
 
-	if use pgo_generate; then
+	if use llvm_pgo_generate; then
 		mycmakeargs+=(
 			-DLLVM_BUILD_INSTRUMENTED=IR
 			# To link instrumented compiler-rt, lld is needed.
