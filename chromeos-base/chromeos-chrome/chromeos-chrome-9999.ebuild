@@ -1514,7 +1514,10 @@ pkg_preinst() {
 	einfo "CHROME_DIR after installation\n${LS}"
 	CHROME_SIZE=$(stat --printf="%s" ${ED}/${CHROME_DIR}/chrome)
 	einfo "CHROME_SIZE = ${CHROME_SIZE}"
-	if [[ ${CHROME_SIZE} -ge 200000000 && -z "${KEEP_CHROME_DEBUG_SYMBOLS}" ]]; then
+
+	# Non-internal builds come with >10MB of unwinding info built-in. Size
+	# checks on those are less profitable.
+	if [[ ${CHROME_SIZE} -ge 250000000 && -z "${KEEP_CHROME_DEBUG_SYMBOLS}" ]] && use chrome_internal; then
 		die "Installed chrome binary got suspiciously large (size=${CHROME_SIZE})."
 	fi
 	if use arm; then
