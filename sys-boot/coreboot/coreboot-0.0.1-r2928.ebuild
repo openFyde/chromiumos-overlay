@@ -276,9 +276,16 @@ make_coreboot() {
 	local blob
 	local cbname
 	for blob in ${FW_BLOBS}; do
+		local blobfile="${fblobroot}/${blob}"
+
+		# Use per-board blob if available
+		if use unibuild && [[ -e "${froot}/${blob}" ]]; then
+			blobfile="${froot}/${blob}"
+		fi
+
 		cbname=$(basename "${blob}")
 		add_fw_blob "${builddir}/coreboot.rom" "${cbname}" \
-			"${fblobroot}/${blob}" || die
+			"${blobfile}" || die
 	done
 
 	if [ -d ${froot}/cbfs ]; then
