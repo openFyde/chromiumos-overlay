@@ -289,7 +289,14 @@ def main():
   sysroot_set = False
 
   if not invoke_clang:
-    gcc_cmdline = [x for x in cmdline if x not in GCC_UNSUPPORTED]
+    # Create gcc command line filtering/converting the flags not supported
+    # by gcc.
+    gcc_cmdline = []
+    for flag in cmdline:
+      if flag in CLANG_TO_GCC.keys():
+        gcc_cmdline.append(CLANG_TO_GCC[flag])
+      elif flag not in GCC_UNSUPPORTED:
+        gcc_cmdline.append(flag)
   else:
 
     # If these options are specified, do not run clang, even if -clang-syntax is
@@ -340,7 +347,10 @@ def main():
           tuple = arch.split('-')
           if not (tuple[0] == 'armv7a' and tuple[2] == 'linux'):
             clang_cmdline.append(flag)
-      if flag not in GCC_UNSUPPORTED:
+      # Create gcc command line filtering unsupported flags.
+      if flag in CLANG_TO_GCC.keys():
+        gcc_cmdline.append(CLANG_TO_GCC[flag])
+      elif flag not in GCC_UNSUPPORTED:
         gcc_cmdline.append(flag)
 
   sysroot = os.environ.pop('SYSROOT', '')

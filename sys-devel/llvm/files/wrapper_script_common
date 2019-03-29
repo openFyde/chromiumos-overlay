@@ -52,6 +52,13 @@ CLANG_UNSUPPORTED_PREFIXES = ('-Wstrict-aliasing=', '-finline-limit=')
 # bug chromium:503229.
 CLANG_ARM_OPTIONS_TO_BE_DISCARDED = set(['-ftrapv'])
 
+# Conversion for flags supported by clang but not gcc.
+CLANG_TO_GCC = {
+    '-march=goldmont': '-march=silvermont',
+    '-march=goldmont-plus': '-march=silvermont',
+    '-march=skylake': '-march=corei7',
+}
+
 # Clang may use different options for the same or similar functionality.
 GCC_TO_CLANG = {
     '-Wno-error=unused-but-set-variable': '-Wno-error=unused-variable',
