@@ -42,6 +42,7 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}/runtime_probe"
+	dobin "${OUT}/runtime_probe_helper"
 
 	# Install upstart configs and scripts.
 	insinto /etc/init
@@ -54,6 +55,12 @@ src_install() {
 	# Install D-Bus service activation configuration.
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.RuntimeProbe.service
+
+
+	# Install sandbox information.
+	insinto /etc/runtime_probe/sandbox
+	doins sandbox/*.args
+	doins sandbox/"${ARCH}"/*-seccomp.policy
 
 	# Install seccomp policy file.
 	insinto /usr/share/policy
