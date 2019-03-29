@@ -11,9 +11,18 @@ LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
 
+S=${WORKDIR}
+
+src_compile() {
+	"${FILESDIR}/split-root-certs.py"		\
+		--extract-to "${S}"			\
+		--roots-pem "${FILESDIR}/roots.pem"	\
+		|| die "Couldn't extract certs from roots.pem"
+}
+
 src_install() {
 	CA_CERT_DIR=/usr/share/chromeos-ca-certificates
 	insinto "${CA_CERT_DIR}"
-	doins "${FILESDIR}"/*.pem
+	doins "${S}"/*.pem
 	c_rehash "${D}/${CA_CERT_DIR}"
 }
