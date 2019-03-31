@@ -403,8 +403,8 @@ src_prepare() {
 }
 
 enable_asserts() {
-	# Enable assertions for llvm-next build
-	if use llvm-next || use llvm-tot; then
+	# keep asserts enabled for llvm-tot
+	if use llvm-tot; then
 		echo yes
 	else
 		usex debug
