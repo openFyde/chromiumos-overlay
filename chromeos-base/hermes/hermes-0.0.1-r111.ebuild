@@ -35,6 +35,13 @@ DEPEND="
 
 src_install() {
 	dobin "${OUT}"/hermes
+
+	# Install CA certs.
+	local cert_dir=/usr/share/hermes-ca-certificates
+	insinto "${cert_dir}"
+	doins -r certs/*
+	c_rehash "${D}/${cert_dir}/prod" || die
+	c_rehash "${D}/${cert_dir}/test" || die
 }
 
 platform_pkg_test() {
