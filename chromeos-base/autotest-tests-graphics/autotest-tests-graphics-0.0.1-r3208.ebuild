@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="086fcdcd7910bf6b0a9bc737c4a731714551844b"
-CROS_WORKON_TREE="051452fe477c97c6776e70888b25d3453cb44611"
+CROS_WORKON_COMMIT="0893d220f228b79f951872af003b8728ca80cbb0"
+CROS_WORKON_TREE="a9a8e47b414b9acba49b06f5a878aa89dbaef8cd"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -27,6 +27,7 @@ RDEPEND="
 		tests_graphics_Drm? ( chromeos-base/drm-tests )
 		tests_graphics_Gbm? ( media-libs/minigbm )
 	)
+	tests_graphics_GLBench? ( chromeos-base/glbench )
 	tests_graphics_GLMark2? ( chromeos-base/autotest-deps-glmark2 )
 	tests_graphics_SanAngeles? ( media-libs/waffle )
 "

@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
 CROS_WORKON_COMMIT="3ac8af5cc26da99eb716c7a93c73e652c2c0648a"
 CROS_WORKON_TREE="ab93d95c82e075a5b7e799f04ff0a8b989a76a8e"
 CROS_WORKON_PROJECT="chromiumos/platform/touch_updater"
@@ -18,6 +18,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="input_devices_synaptics
 	input_devices_wacom
+	input_devices_etphidiap
 	input_devices_st
 	input_devices_weida
 	input_devices_goodix
@@ -29,6 +30,7 @@ IUSE="input_devices_synaptics
 RDEPEND="
 	input_devices_synaptics? ( chromeos-base/rmi4utils )
 	input_devices_wacom? ( chromeos-base/wacom_fw_flash )
+	input_devices_etphidiap? ( chromeos-base/etphidiap )
 	input_devices_st? ( chromeos-base/st_flash )
 	input_devices_weida? ( chromeos-base/weida_wdt_util )
 	input_devices_goodix? ( chromeos-base/gdix_hid_firmware_update )
@@ -39,6 +41,10 @@ RDEPEND="
 "
 
 pkg_preinst() {
+	if use input_devices_etphidiap; then
+		enewgroup fwupdate-i2c
+		enewuser fwupdate-i2c
+	fi
 	if use input_devices_sis; then
 		enewgroup sisfwupdate
 		enewuser sisfwupdate
