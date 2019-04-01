@@ -16,8 +16,11 @@ export EGIT_COMMIT="317087cfd8e608bd24e53934d59b5b85e0a9ded6" #r353208
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="debug llvm-next +static-libs +shared-libs"
+IUSE="cros_host debug llvm-next +static-libs +shared-libs"
 RDEPEND="!${CATEGORY}/libunwind"
+
+DEPEND="${RDEPEND}
+	cros_host? ( sys-devel/llvm )"
 
 pkg_setup() {
 	# Setup llvm toolchain for cross-compilation
@@ -74,6 +77,8 @@ multilib_src_configure() {
 		-DLIBUNWIND_ENABLE_THREADS=OFF
 		-DLIBUNWIND_ENABLE_CROSS_UNWINDING=ON
 		-DCMAKE_INSTALL_PREFIX=${PREFIX}
+		# Avoid old libstdc++ errors when bootstrapping.
+		-DLLVM_ENABLE_LIBCXX=ON
 	)
 
 	cmake-utils_src_configure
