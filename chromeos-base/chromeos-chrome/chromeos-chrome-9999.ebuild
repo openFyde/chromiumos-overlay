@@ -1529,7 +1529,7 @@ pkg_preinst() {
 
 	# Test .text.hot section comes before .text in Chrome.
 	# https://crbug.com/912781
-	if use strict_toolchain_checks && use afdo_use && use reorder_text_sections; then
+	if use strict_toolchain_checks && "${use_lld}" && use afdo_use && use reorder_text_sections; then
 		if ! readelf -lW "${ED}/${CHROME_DIR}/chrome" | grep -qF ".text.hot .text"; then
 			readelf -l -W "${ED}/${CHROME_DIR}/chrome"
 			die ".text.hot does not come before .text"
