@@ -50,7 +50,6 @@ IUSE_TESTS="
 	+tests_security_NosymfollowMountOption
 	+tests_security_OpenFDs
 	+tests_security_ProcessManagementPolicy
-	+tests_security_ptraceRestrictions
 	+tests_security_RootfsOwners
 	+tests_security_SandboxedServices
 	selinux? ( +tests_security_SELinux )

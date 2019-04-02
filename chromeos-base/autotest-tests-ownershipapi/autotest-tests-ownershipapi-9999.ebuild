@@ -31,7 +31,6 @@ DEPEND="${RDEPEND}"
 # The telemetry dependency comes from the chrome.py import in some of the tests.
 IUSE_TESTS="
 	+tests_login_CryptohomeOwnerQuery
-	+tests_login_GuestAndActualSession
 	+tests_login_MultipleSessions
 	+tests_login_MultiUserPolicy
 	+tests_login_OwnershipApi

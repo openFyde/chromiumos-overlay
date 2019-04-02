@@ -172,7 +172,6 @@ CLIENT_IUSE_TESTS="
 	)
 	!chromeless_tty? (
 		+tests_login_RetrieveActiveSessions
-		+tests_login_SameSessionTwice
 	)
 	+tests_network_EthCaps
 	+tests_network_EthernetStressPlug
