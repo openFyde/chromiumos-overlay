@@ -1,150 +1,6 @@
 [
   {
     "compat_id": {
-      "arch": "arm64",
-      "cflags": [
-        "-O2",
-        "-pipe",
-        "-g",
-        "-fno-exceptions",
-        "-fno-unwind-tables",
-        "-fno-asynchronous-unwind-tables"
-      ],
-      "useflags": [
-        "accessibility",
-        "autotest",
-        "build_tests",
-        "buildcheck",
-        "cfi",
-        "chrome_debug",
-        "chrome_remoting",
-        "clang",
-        "cups",
-        "debug_fission",
-        "evdev_gestures",
-        "fonts",
-        "highdpi",
-        "libcxx",
-        "lld",
-        "opengles",
-        "ozone_platform_default_gbm",
-        "ozone_platform_gbm",
-        "reorder_text_sections",
-        "runhooks",
-        "thinlto",
-        "v4l2_codec",
-        "xkbcommon"
-      ]
-    },
-    "key": {
-      "board": "arm64-generic",
-      "useflags": [
-        "-chrome_internal"
-      ]
-    }
-  },
-  {
-    "compat_id": {
-      "arch": "amd64",
-      "cflags": [
-        "-O2",
-        "-pipe",
-        "-march=x86-64",
-        "-msse3",
-        "-g",
-        "-fno-exceptions",
-        "-fno-unwind-tables",
-        "-fno-asynchronous-unwind-tables"
-      ],
-      "useflags": [
-        "accessibility",
-        "authpolicy",
-        "autotest",
-        "build_tests",
-        "buildcheck",
-        "cfi",
-        "chrome_debug",
-        "chrome_remoting",
-        "clang",
-        "cups",
-        "debug_fission",
-        "evdev_gestures",
-        "fonts",
-        "highdpi",
-        "libcxx",
-        "lld",
-        "nacl",
-        "opengles",
-        "ozone_platform_default_gbm",
-        "ozone_platform_gbm",
-        "reorder_text_sections",
-        "runhooks",
-        "smbprovider",
-        "thinlto",
-        "v4l2_codec",
-        "vaapi",
-        "xkbcommon"
-      ]
-    },
-    "key": {
-      "board": "amd64-generic",
-      "useflags": []
-    }
-  },
-  {
-    "compat_id": {
-      "arch": "arm",
-      "cflags": [
-        "-O2",
-        "-pipe",
-        "-mcpu=cortex-a12",
-        "-mtune=cortex-a12",
-        "-mfpu=neon",
-        "-mfloat-abi=hard",
-        "-g",
-        "-fno-exceptions",
-        "-fno-unwind-tables",
-        "-fno-asynchronous-unwind-tables"
-      ],
-      "useflags": [
-        "accessibility",
-        "autotest",
-        "build_tests",
-        "buildcheck",
-        "cfi",
-        "chrome_debug",
-        "chrome_remoting",
-        "clang",
-        "cups",
-        "debug_fission",
-        "evdev_gestures",
-        "fonts",
-        "highdpi",
-        "libcxx",
-        "lld",
-        "nacl",
-        "neon",
-        "opengles",
-        "ozone_platform_default_gbm",
-        "ozone_platform_gbm",
-        "reorder_text_sections",
-        "runhooks",
-        "smbprovider",
-        "thinlto",
-        "v4l2_codec",
-        "v4lplugin",
-        "xkbcommon"
-      ]
-    },
-    "key": {
-      "board": "veyron_jerry",
-      "useflags": [
-        "-chrome_internal"
-      ]
-    }
-  },
-  {
-    "compat_id": {
       "arch": "arm",
       "cflags": [
         "-O2",
@@ -181,7 +37,6 @@
         "ozone_platform_gbm",
         "reorder_text_sections",
         "runhooks",
-        "smbprovider",
         "thinlto",
         "v4l2_codec",
         "xkbcommon"
@@ -232,7 +87,6 @@
         "ozone_platform_gbm",
         "reorder_text_sections",
         "runhooks",
-        "smbprovider",
         "thinlto",
         "v4l2_codec",
         "xkbcommon"
@@ -243,6 +97,148 @@
       "useflags": [
         "-chrome_internal"
       ]
+    }
+  },
+  {
+    "compat_id": {
+      "arch": "arm64",
+      "cflags": [
+        "-O2",
+        "-pipe",
+        "-g",
+        "-fno-exceptions",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables"
+      ],
+      "useflags": [
+        "accessibility",
+        "autotest",
+        "build_tests",
+        "buildcheck",
+        "cfi",
+        "chrome_debug",
+        "chrome_remoting",
+        "clang",
+        "cups",
+        "debug_fission",
+        "evdev_gestures",
+        "fonts",
+        "highdpi",
+        "libcxx",
+        "lld",
+        "opengles",
+        "ozone_platform_default_gbm",
+        "ozone_platform_gbm",
+        "reorder_text_sections",
+        "runhooks",
+        "thinlto",
+        "v4l2_codec",
+        "xkbcommon"
+      ]
+    },
+    "key": {
+      "board": "arm64-generic",
+      "useflags": [
+        "-chrome_internal"
+      ]
+    }
+  },
+  {
+    "compat_id": {
+      "arch": "arm",
+      "cflags": [
+        "-O2",
+        "-pipe",
+        "-mcpu=cortex-a12",
+        "-mtune=cortex-a12",
+        "-mfpu=neon",
+        "-mfloat-abi=hard",
+        "-g",
+        "-fno-exceptions",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables"
+      ],
+      "useflags": [
+        "accessibility",
+        "autotest",
+        "build_tests",
+        "buildcheck",
+        "cfi",
+        "chrome_debug",
+        "chrome_remoting",
+        "clang",
+        "cups",
+        "debug_fission",
+        "evdev_gestures",
+        "fonts",
+        "highdpi",
+        "libcxx",
+        "lld",
+        "nacl",
+        "neon",
+        "opengles",
+        "ozone_platform_default_gbm",
+        "ozone_platform_gbm",
+        "reorder_text_sections",
+        "runhooks",
+        "thinlto",
+        "v4l2_codec",
+        "v4lplugin",
+        "xkbcommon"
+      ]
+    },
+    "key": {
+      "board": "veyron_jerry",
+      "useflags": [
+        "-chrome_internal"
+      ]
+    }
+  },
+  {
+    "compat_id": {
+      "arch": "amd64",
+      "cflags": [
+        "-O2",
+        "-pipe",
+        "-march=x86-64",
+        "-msse3",
+        "-g",
+        "-fno-exceptions",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables"
+      ],
+      "useflags": [
+        "accessibility",
+        "authpolicy",
+        "autotest",
+        "build_tests",
+        "buildcheck",
+        "cfi",
+        "chrome_debug",
+        "chrome_remoting",
+        "clang",
+        "cups",
+        "debug_fission",
+        "evdev_gestures",
+        "fonts",
+        "highdpi",
+        "libcxx",
+        "lld",
+        "nacl",
+        "opengles",
+        "ozone_platform_default_gbm",
+        "ozone_platform_gbm",
+        "reorder_text_sections",
+        "runhooks",
+        "thinlto",
+        "v4l2_codec",
+        "vaapi",
+        "xkbcommon"
+      ]
+    },
+    "key": {
+      "board": "amd64-generic",
+      "useflags": []
     }
   }
 ]

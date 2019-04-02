@@ -60,7 +60,6 @@ IUSE="
 	opengles
 	+reorder_text_sections
 	+runhooks
-	+smbprovider
 	strict_toolchain_checks
 	+thinlto
 	+v4l2_codec
@@ -142,11 +141,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3749.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R75-3729.0-1553510273.afdo"
-AFDO_FILE["airmont"]="R75-3729.0-1553509604.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3753.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R75-3729.0-1554113578.afdo"
+AFDO_FILE["airmont"]="R75-3729.0-1554117193.afdo"
 AFDO_FILE["haswell"]="R75-3726.0-1553511855.afdo"
-AFDO_FILE["broadwell"]="R75-3683.57-1553509076.afdo"
+AFDO_FILE["broadwell"]="R75-3683.88-1554116860.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -223,7 +222,6 @@ RDEPEND="${RDEPEND}
 		sys-libs/libcxx
 	)
 	oobe_config? ( chromeos-base/oobe_config )
-	smbprovider? ( chromeos-base/smbprovider )
 	"
 
 DEPEND="${DEPEND}
@@ -746,8 +744,13 @@ src_unpack() {
 		local redacted_profile_file="${merged_profile_file}.redacted"
 		llvm-profdata merge -sample -text "${merged_profile_file}" -output "${T}/afdo.text.temp" || die
 		redact_textual_afdo_profile < "${T}/afdo.text.temp" > "${T}/afdo.text.redacted.temp" || die
-		llvm-profdata merge -sample "${T}/afdo.text.redacted.temp" -output "${redacted_profile_file}" || die
 
+		# Using `compbinary` profiles saves us hundreds of MB of RAM per compilation, since
+		# it allows profiles to be lazily loaded.
+		llvm-profdata merge -sample \
+			-compbinary \
+			"${T}/afdo.text.redacted.temp" \
+			-output "${redacted_profile_file}" || die
 		einfo "ICF symbols in ${PROFILE_FILE} are redacted and renamed into ${redacted_profile_file}."
 
 		popd > /dev/null
