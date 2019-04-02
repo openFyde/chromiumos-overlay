@@ -27,11 +27,11 @@ src_install() {
 
 	insinto /etc/gesture
 
-	# -cheets, -arcnext, -campfire, and -kernelnext variants are running on
+	# -cheets, -arcnext, -campfire, -kvm, and -kernelnext variants are running on
 	# the same hardware as their non-cheets, non-arcnext, non-campfire, and
 	# non-kernelnext counterpart. Strip the suffix to re-use the config.
 	local suffix
-	for suffix in cheets arcnext campfire kernelnext; do
+	for suffix in cheets arcnext campfire kvm kernelnext; do
 		board_variant=${board_variant%-${suffix}}
 		board=${board%-${suffix}}
 	done
