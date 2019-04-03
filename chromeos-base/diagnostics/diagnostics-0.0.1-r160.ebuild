@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="6a4fe382c1a1401d96dd9bad28c62ae63394732f"
-CROS_WORKON_TREE=("4e679a0b9a8f37e5b43b8fb759321d5f9ff803ed" "695544f8103bd198ec70f4d91345d3d28568707f" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="50f33f4b6c8e6b0e2263a2578f80abc8e73d531f"
+CROS_WORKON_TREE=("4e679a0b9a8f37e5b43b8fb759321d5f9ff803ed" "3b6ba49be0174b1cb1930b63a0a789b818a4ff14" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -53,15 +53,12 @@ src_install() {
 	dobin "${OUT}/telem"
 
 	if use wilco; then
-		dobin "${OUT}/wilco_dtc"
 		dobin "${OUT}/wilco_dtc_supportd"
 
 		# Install seccomp policy files.
 		insinto /usr/share/policy
 		use seccomp && newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
 			wilco_dtc_supportd-seccomp.policy
-		use seccomp && newins "init/wilco_dtc-seccomp-${ARCH}.policy" \
-			wilco_dtc-seccomp.policy
 
 		# Install D-Bus configuration file.
 		insinto /etc/dbus-1/system.d
