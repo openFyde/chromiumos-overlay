@@ -76,6 +76,7 @@ KERNEL_VERSION="${KERNEL_VERSION/_/.}"
 if [[ -n "${AFDO_PROFILE_VERSION}" ]]; then
 	AFDO_LOCATION="gs://chromeos-prebuilt/afdo-job/cwp/kernel/${KERNEL_VERSION}"
 	AFDO_GCOV="${PN}-${AFDO_PROFILE_VERSION}.gcov"
+	AFDO_GCOV_COMPBINARY="${AFDO_GCOV}.compbinary.afdo"
 	SRC_URI+="
 		kernel_afdo? ( ${AFDO_LOCATION}/${AFDO_PROFILE_VERSION}.gcov.xz -> ${AFDO_GCOV}.xz )
 	"
@@ -1314,10 +1315,16 @@ kmake() {
 		HOSTCXX="${BUILD_CXX}" \
 		"$@"
 
-	local AFDO_FILENAME="${WORKDIR}/${AFDO_GCOV}"
 	local kcflags="${KCFLAGS}"
-	local afto_option=$(usex clang 'profile-sample-use' 'auto-profile')
-	use kernel_afdo && kcflags+=" -f${afto_option}=${AFDO_FILENAME}"
+	local afdo_filename afdo_option
+	if use clang; then
+		afdo_filename="${WORKDIR}/${AFDO_GCOV_COMPBINARY}"
+		afdo_option="profile-sample-use"
+	else
+		afdo_filename="${WORKDIR}/${AFDO_GCOV}"
+		afdo_option="auto-profile"
+	fi
+	use kernel_afdo && kcflags+=" -f${afdo_option}=${afdo_filename}"
 
 	local indirect_branch_options_v1=(
 		"-mindirect-branch=thunk"
@@ -1401,8 +1408,22 @@ cros-kernel2_src_unpack() {
 		eerror "AFDO_PROFILE_VERSION is required in .ebuild by kernel_afdo."
 		die
 	fi
+
 	pushd "${WORKDIR}" > /dev/null
-	use kernel_afdo && unpack "${AFDO_GCOV}.xz"
+	if use kernel_afdo; then
+		unpack "${AFDO_GCOV}.xz"
+
+		# Compressed binary profiles are lazily loaded, so they save a
+		# meaningful amount of CPU and memory per clang invocation. They're
+		# only available with clang.
+		if use clang; then
+			llvm-profdata merge \
+				-sample \
+				-compbinary \
+				-output="${AFDO_GCOV_COMPBINARY}" \
+				"${AFDO_GCOV}" || die
+		fi
+	fi
 	popd > /dev/null
 }
 
