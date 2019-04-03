@@ -27,7 +27,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_cellular_ActivateCDMA
 	+tests_cellular_ActivateLTE
 	+tests_cellular_ConnectFailure
 	+tests_cellular_DeferredRegistration
