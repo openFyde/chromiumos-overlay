@@ -31,6 +31,8 @@ IUSE="
 	grunt
 	internal
 	+internal_mic
+	kernel-3_8
+	kernel-3_10
 	kvm_host
 	lxc
 	memd
