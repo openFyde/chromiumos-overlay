@@ -46,10 +46,6 @@ DEPEND="
 	>=sys-kernel/linux-headers-4.4-r16
 "
 
-src_configure() {
-	platform_src_configure "vm_tools/sommelier/sommelier.gyp"
-}
-
 src_install() {
 	dobin "${OUT}"/vm_syslog
 	dosbin "${OUT}"/vshd
