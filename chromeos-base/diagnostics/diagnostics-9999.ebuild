@@ -35,6 +35,7 @@ RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/minijail
 	wilco? ( chromeos-base/chromeos-dtc-vm-sarien-private )
+	wilco? ( chromeos-base/vpd )
 "
 
 pkg_preinst() {
