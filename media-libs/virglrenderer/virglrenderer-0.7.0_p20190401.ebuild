@@ -66,7 +66,7 @@ src_install() {
 	default
 
 	local f="tests/fuzzer/.libs/virgl_fuzzer"
-	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" "${f}"
+	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" "${f}" --options="${FILESDIR}/fuzzer.options"
 
 	find "${ED}"/usr -name 'lib*.la' -delete
 }
