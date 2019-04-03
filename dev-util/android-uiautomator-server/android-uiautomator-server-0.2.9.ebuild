@@ -4,9 +4,9 @@
 EAPI="5"
 
 DESCRIPTION="Android app to allow using UIAutomator remotely."
-HOMEPAGE="https://github.com/xiaocong/android-uiautomator-server"
+HOMEPAGE="https://github.com/lnishan/android-uiautomator-server"
 # Use prebuilt binaries from python uiautomator lib.
-SRC_URI="https://github.com/xiaocong/uiautomator/archive/${PV}.zip -> ${P}.zip"
+SRC_URI="https://github.com/lnishan/uiautomator/archive/${PV}.zip -> ${P}.zip"
 
 LICENSE="MIT"
 SLOT="0"
