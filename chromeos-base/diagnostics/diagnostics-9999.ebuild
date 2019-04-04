@@ -25,6 +25,7 @@ COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
+	dev-libs/re2:=
 "
 DEPEND="
 	${COMMON_DEPEND}
