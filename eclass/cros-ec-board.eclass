@@ -65,6 +65,7 @@ EC_BOARD_NAMES=(
 	hadoken
 	hammer
 	hatch
+	hatch_fp
 	hoho
 	host
 	jerry
