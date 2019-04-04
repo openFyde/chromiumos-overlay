@@ -141,7 +141,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3753.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3755.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R75-3729.0-1554113578.afdo"
 AFDO_FILE["airmont"]="R75-3729.0-1554117193.afdo"
 AFDO_FILE["haswell"]="R75-3726.0-1553511855.afdo"
@@ -1529,7 +1529,7 @@ pkg_preinst() {
 
 	# Test .text.hot section comes before .text in Chrome.
 	# https://crbug.com/912781
-	if use strict_toolchain_checks && use afdo_use && use reorder_text_sections; then
+	if use strict_toolchain_checks && "${use_lld}" && use afdo_use && use reorder_text_sections; then
 		if ! readelf -lW "${ED}/${CHROME_DIR}/chrome" | grep -qF ".text.hot .text"; then
 			readelf -l -W "${ED}/${CHROME_DIR}/chrome"
 			die ".text.hot does not come before .text"
