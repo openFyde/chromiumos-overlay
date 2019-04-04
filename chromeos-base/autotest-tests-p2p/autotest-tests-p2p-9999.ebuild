@@ -25,8 +25,6 @@ DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
 	+tests_p2p_ConsumeFiles
-	+tests_p2p_ServeFiles
-	+tests_p2p_ShareFiles
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
