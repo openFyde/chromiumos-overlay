@@ -60,6 +60,7 @@ RDEPEND="
 	dev-libs/openssl
 	dev-util/android-uiautomator-server
 	net-misc/curl
+	sys-apps/memtester
 	usbip? ( chromeos-base/virtual-usb-printer )
 "
 
