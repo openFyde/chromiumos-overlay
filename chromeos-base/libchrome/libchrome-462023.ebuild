@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("ac65f07c0f5bfa07956a90357c0be73b5b2eada0" "c1e4543ae2b479a54fc4eff90fb388c70a428d52")
+CROS_WORKON_COMMIT=("62f1789e19f791c14b337ee9e7f61e025c3cd10f" "084fa8eb1895be216dbc4170886922ec99612381")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
