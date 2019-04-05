@@ -30,9 +30,6 @@ src_prepare() {
 src_configure() {
 	sanitizers-setup-env
 
-	# Disable the unused function check as libmbim has auto-generated
-	# functions that may not be used.
-	append-flags -Xclang-only=-Wno-unused-function
 	econf \
 		--enable-mbim-username='modem' \
 		$(use_enable static{-libs,}) \
