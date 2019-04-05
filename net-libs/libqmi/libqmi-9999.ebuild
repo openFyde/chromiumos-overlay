@@ -29,9 +29,6 @@ src_prepare() {
 src_configure() {
 	sanitizers-setup-env
 
-	# Disable the unused function check as libqmi has auto-generated
-	# functions that may not be used.
-	append-flags -Xclang-only=-Wno-unused-function
 	econf \
 		--enable-qmi-username='modem' \
 		$(use_enable mbim mbim-qmux) \
