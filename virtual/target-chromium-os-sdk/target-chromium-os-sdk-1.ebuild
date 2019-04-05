@@ -515,3 +515,7 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	dev-python/grpcio-tools
 	net-libs/grpc-web"
+
+# Autotest's new RPC server will use grpc
+RDEPEND="${RDEPEND}
+	dev-python/grpcio"
