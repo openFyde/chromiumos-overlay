@@ -79,6 +79,9 @@ src_install() {
 	insinto /usr/include/proto
 	doins "${S}"/pinweaver.proto
 
+	insinto /usr/include/chromeos/dbus/trunks
+	doins "${S}"/interface.proto
+
 	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
 		"${OUT}/lib" libtrunks /usr/include/trunks
 	insinto "/usr/$(get_libdir)/pkgconfig"
