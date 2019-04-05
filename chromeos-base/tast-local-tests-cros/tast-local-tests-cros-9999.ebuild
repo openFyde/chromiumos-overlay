@@ -35,7 +35,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
 LICENSE="Apache-2.0 BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="usbip"
+IUSE="arc usbip"
 
 DEPEND="
 	chromeos-base/policy-go-proto
@@ -56,6 +56,7 @@ RDEPEND="
 	chromeos-base/tast-local-helpers-cros
 	chromeos-base/wprgo
 	dev-libs/openssl
+	arc? ( dev-util/android-tools )
 	dev-util/android-uiautomator-server
 	net-misc/curl
 	sys-apps/memtester
