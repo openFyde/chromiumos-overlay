@@ -55,6 +55,7 @@ src_install() {
 	local dir dirs=(
 		biod
 		cros-disks
+		cros_healthd
 		cryptohome
 		debugd
 		diagnosticsd
