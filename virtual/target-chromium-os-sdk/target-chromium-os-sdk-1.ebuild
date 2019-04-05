@@ -176,6 +176,7 @@ RDEPEND="${RDEPEND}
 	dev-python/dbus-python
 	dev-python/dpkt
 	dev-python/ecdsa
+	dev-python/future
 	dev-python/imaging
 	dev-python/intelhex
 	dev-python/m2crypto
