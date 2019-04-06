@@ -252,6 +252,7 @@ pick_cherries() {
 	# lld
 	CHERRIES=""
 	CHERRIES+=" 56ce622afb25202f5997b4747bdc4690d7879c37" #r357133
+	CHERRIES+=" 573bf048f88354e475eb646db94255166cf10069" #r357160
 	pushd "${S}"/tools/lld >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -296,6 +297,7 @@ pick_next_cherries() {
 	#lld
 	CHERRIES=""
 	CHERRIES+=" 56ce622afb25202f5997b4747bdc4690d7879c37" #r357133
+	CHERRIES+=" 573bf048f88354e475eb646db94255166cf10069" #r357160
 	pushd "${S}"/tools/lld >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
