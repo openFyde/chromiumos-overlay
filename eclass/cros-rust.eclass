@@ -25,6 +25,15 @@ esac
 # dev-dependencies or crates like winapi.
 : ${CROS_RUST_EMPTY_CRATE:=}
 
+# @ECLASS-VARIABLE: CROS_RUST_EMPTY_CRATE_FEATURES
+# @PRE_INHERIT
+# @DESCRIPTION:
+# Array of Cargo features emitted into the Cargo.toml of an empty crate. Allows
+# downstream crates to depend on this crate with the given features enabled.
+if [[ ! -v CROS_RUST_EMPTY_CRATE_FEATURES ]]; then
+	CROS_RUST_EMPTY_CRATE_FEATURES=()
+fi
+
 # @ECLASS-VARIABLE: CROS_RUST_OVERFLOW_CHECKS
 # @PRE_INHERIT
 # @DESCRIPTION:
@@ -85,8 +94,18 @@ cros-rust_src_unpack() {
 		version = "${PV}"
 		authors = ["The Chromium OS Authors"]
 
-		[dependencies]
+		[features]
 		EOF
+
+		if [[ "$(declare -p CROS_RUST_EMPTY_CRATE_FEATURES 2> /dev/null)" != "declare -a"* ]]; then
+			eerror "CROS_RUST_EMPTY_CRATE_FEATURES must be an array"
+			die
+		fi
+
+		local feature
+		for feature in "${CROS_RUST_EMPTY_CRATE_FEATURES[@]}"; do
+			echo "${feature} = []" >> "${S}/Cargo.toml"
+		done
 
 		touch "${S}/src/lib.rs"
 	fi
