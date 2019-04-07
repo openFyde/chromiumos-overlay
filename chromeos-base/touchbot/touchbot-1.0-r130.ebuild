@@ -1,0 +1,19 @@
+# Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=5
+CROS_WORKON_COMMIT="9546ffbb37d5fef191ad1607eeb0b76a6f3a9872"
+CROS_WORKON_TREE="9b9f2498e9afdf7d303e8c60a5b19997ea667795"
+PYTHON_COMPAT=( python2_7 )
+
+CROS_WORKON_PROJECT="chromiumos/platform/touchbot"
+CROS_WORKON_LOCALNAME="touchbot"
+
+inherit cros-workon distutils-r1
+
+DESCRIPTION="Suite of control scripts for the Touchbot"
+HOMEPAGE="http://www.chromium.org/"
+
+LICENSE="GPL-2"
+SLOT="0"
+KEYWORDS="*"
