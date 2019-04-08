@@ -75,7 +75,6 @@ src_install() {
 	doins client/*.h
 	insinto /usr/include/tpm_manager/common
 	doins common/*.h
-	doins "${OUT}"/gen/include/tpm_manager/common/*.h
 }
 
 platform_pkg_test() {

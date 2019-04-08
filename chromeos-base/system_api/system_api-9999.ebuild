@@ -68,6 +68,7 @@ src_install() {
 		power_manager
 		shill
 		smbprovider
+		tpm_manager
 		update_engine
 		wilco_dtc_supportd
 	)
