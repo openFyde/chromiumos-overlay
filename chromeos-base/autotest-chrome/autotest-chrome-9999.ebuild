@@ -123,7 +123,6 @@ IUSE_TESTS=(
 	+tests_network_CastTDLS
 	+tests_network_ChromeWifiConfigure
 	+tests_network_ChromeWifiTDLS
-	+tests_performance_InboxInputLatency
 	+tests_platform_AddPrinter
 	+tests_platform_ChromeCgroups
 	+tests_platform_InitLoginPerf
