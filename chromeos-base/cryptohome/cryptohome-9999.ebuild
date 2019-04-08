@@ -24,8 +24,9 @@ SLOT="0"
 KEYWORDS="~*"
 # The flag distributed_cryptohome is for turning on tpm_manager and
 # attestation for 1.2 devices.
-IUSE="-cert_provision +device_mapper -direncryption distributed_cryptohome
-	pinweaver selinux systemd test tpm tpm2"
+IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
+	-direncryption distributed_cryptohome pinweaver selinux systemd test
+	tpm tpm2"
 
 REQUIRED_USE="
 	device_mapper
