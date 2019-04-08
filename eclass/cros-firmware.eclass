@@ -82,6 +82,7 @@ RDEPEND+="
 	chromeos-base/vpd
 	sys-apps/flashrom
 	sys-apps/mosys
+	cros_ish? ( chromeos-base/chromeos-ish )
 	"
 # Maintenance note:  The factory install shim downloads and executes
 # the firmware updater.  Consequently, run time dependencies for the
@@ -96,7 +97,6 @@ RDEPEND+="
 DEPEND+="
 	bootimage? ( sys-boot/chromeos-bootimage )
 	cros_ec? ( chromeos-base/chromeos-ec )
-	cros_ish? ( chromeos-base/chromeos-ish )
 	"
 
 RESTRICT="mirror"
