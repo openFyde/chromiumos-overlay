@@ -272,26 +272,15 @@ use_goma_log() {
 		"${GLOG_log_dir}" == "${GOMA_TMP_DIR}"* ]]
 }
 
-# FIXME(https://crbug.com/917504): Remove this when lld can link
-# non-chrome_internal builds properly.
+# FIXME(gbiv): Remove this and all other non-lld cruft when we're confident
+# that the fixes for https://crbug.com/917504 have stuck.
 determine_linker() {
-	# Since we complain from this, only run it once.
-	if [[ -n "${use_lld}" && -n "${use_gold}" ]]; then
-		return
-	fi
-
-	if use lld && (use chrome_internal || use arm64); then
+	if use lld; then
 		use_lld=true
 		use_gold=false
 	else
 		use_lld=false
-		if use lld; then
-			ewarn "lld is forcibly disabled for non-chrome_internal builds;" \
-				"using gold instead (https://crbug.com/917504)."
-			use_gold=true
-		else
-			use_gold=$(usetf gold)
-		fi
+		use_gold=$(usetf gold)
 	fi
 }
 
