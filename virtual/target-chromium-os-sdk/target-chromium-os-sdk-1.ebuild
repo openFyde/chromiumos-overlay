@@ -468,6 +468,7 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	dev-libs/libprotobuf-mutator
 	dev-libs/openssl
+	dev-util/unifdef
 	"
 
 # Host dependencies for virtualbox-guest-additions
