@@ -275,13 +275,13 @@ use_goma_log() {
 # FIXME(gbiv): Remove this and all other non-lld cruft when we're confident
 # that the fixes for https://crbug.com/917504 have stuck.
 determine_linker() {
-	if use lld; then
-		use_lld=true
-		use_gold=false
-	else
-		use_lld=false
-		use_gold=$(usetf gold)
-	fi
+	use gold && die "Gold is now unsupported. Please un-USE it."
+	# It looks like this has been unsupported for a while, but it's
+	# technically a valid combination of flags with a small conditional in
+	# the ebuild. If we're deprecating things 'gracefully' anyway...
+	! use lld && die "GNU ld is unsupported. Please USE lld."
+	use_lld=true
+	use_gold=false
 }
 
 set_build_args() {
