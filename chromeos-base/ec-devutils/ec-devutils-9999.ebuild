@@ -55,6 +55,7 @@ src_install() {
 	dobin "build/${BOARD}/util/stm32mon"
 	dobin "build/${BOARD}/util/ec_parse_panicinfo"
 	dobin "build/${BOARD}/util/uartupdatetool"
+	dobin "build/${BOARD}/util/iteflash"
 
 	dobin "util/flash_ec"
 	insinto /usr/share/ec-devutils
