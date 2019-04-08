@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="62f1789e19f791c14b337ee9e7f61e025c3cd10f"
-CROS_WORKON_TREE=("4a87f2acd60231694d51adc7faab7765b0a1867b" "841916303fa405291da5d441ead256308fcb37bd" "51a258a64c91f7d9302cb4ad0f658627caa0d662" "5660ab61a6f3e044386aadebec1e7e3b59a2ac3f" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="2870d11c4f2ec0d85f987331fd22fead4dbf8e84"
+CROS_WORKON_TREE=("4a87f2acd60231694d51adc7faab7765b0a1867b" "e598fdbb81f383af306e950764106838798ed218" "51a258a64c91f7d9302cb4ad0f658627caa0d662" "5660ab61a6f3e044386aadebec1e7e3b59a2ac3f" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -59,6 +59,7 @@ src_install() {
 
 	insinto /etc/init
 	doins etc/init/oobe_config_restore.conf
+	doins etc/init/oobe_config_save.conf
 	if use tpm2; then
 		sed -i 's/and started tcsd//' \
 			"${D}/etc/init/oobe_config_restore.conf" ||
@@ -66,6 +67,10 @@ src_install() {
 
 		sed -i 's/-b \/run\/tcsd//' \
 			"${D}/etc/init/oobe_config_restore.conf" ||
+			die "Can't remove /run/tcsd bind mount"
+
+		sed -i 's/-b \/run\/tcsd//' \
+			"${D}/etc/init/oobe_config_save.conf" ||
 			die "Can't remove /run/tcsd bind mount"
 	fi
 
