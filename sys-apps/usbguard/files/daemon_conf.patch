@@ -1,5 +1,5 @@
 diff --git a/usbguard-daemon.conf.in b/usbguard-daemon.conf.in
-index 0693a1d..f2d806b 100644
+index 9b62b8e..ae6fabe 100644
 --- a/usbguard-daemon.conf.in
 +++ b/usbguard-daemon.conf.in
 @@ -7,7 +7,7 @@
@@ -11,7 +11,16 @@ index 0693a1d..f2d806b 100644
  
  #
  # Implicit policy target.
-@@ -169,5 +169,7 @@ AuditBackend=FileAudit
+@@ -80,7 +80,7 @@ InsertedDevicePolicy=apply-policy
+ #                  out deauthorized (this requires the ACPI tables to properly
+ #                  label internal devices, and kernel support)
+ #
+-AuthorizedDefault=none
++AuthorizedDefault=internal
+ 
+ #
+ # Restore controller device state.
+@@ -187,5 +187,7 @@ AuditBackend=FileAudit
  #
  # USBGuard audit events log file path.
  #

@@ -7,7 +7,7 @@ inherit autotools eutils user
 
 DESCRIPTION="The USBGuard software framework helps to protect your computer against rogue USB devices (a.k.a. BadUSB) by implementing basic whitelisting and blacklisting capabilities based on device attributes."
 HOMEPAGE="https://usbguard.github.io/"
-GIT_REV="be989e938f8538aa1abeda1aef7fb48b6e92eec9"
+GIT_REV="db5553d12ed3db63019fa7b640b32ab93554d035"
 CATCH_REV="35f510545d55a831372d3113747bf1314ff4f2ef"
 PEGTL_REV="4a41a7aec66deb99764246c5ce7d59f45489c175"
 SRC_URI="https://github.com/USBGuard/usbguard/archive/${GIT_REV}.tar.gz -> ${P}.tar.gz
@@ -20,12 +20,12 @@ KEYWORDS="*"
 IUSE="cfm_enabled_device hammerd"
 
 COMMON_DEPEND="
-		dev-libs/dbus-glib
-		dev-libs/libgcrypt
-		dev-libs/protobuf:=
-		sys-apps/dbus
-		sys-cluster/libqb
-		sys-libs/libcap-ng"
+	dev-libs/dbus-glib
+	dev-libs/libgcrypt
+	dev-libs/protobuf:=
+	sys-apps/dbus
+	sys-cluster/libqb
+	sys-libs/libcap-ng"
 
 DEPEND="${COMMON_DEPEND}"
 
@@ -36,12 +36,6 @@ S="${WORKDIR}/usbguard-${GIT_REV}/"
 PATCHES=(
 	"${FILESDIR}/daemon_conf.patch"
 )
-
-if [[ ${ARCH} = "amd64" ]]; then
-	LIB_DIR=${EROOT}usr/lib64
-else
-	LIB_DIR=${EROOT}usr/lib
-fi
 
 src_prepare() {
 	rm -rf "${S}/src/ThirdParty/Catch"
@@ -56,8 +50,13 @@ src_prepare() {
 
 src_configure() {
 	cros_enable_cxx_exceptions
-	econf --without-polkit --without-dbus --without-ldap \
-		--with-bundled-catch --with-bundled-pegtl --with-crypto-library=gcrypt
+	econf \
+		--without-polkit \
+		--without-dbus \
+		--without-ldap \
+		--with-bundled-catch \
+		--with-bundled-pegtl \
+		--with-crypto-library=gcrypt
 }
 
 src_install() {
