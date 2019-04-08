@@ -47,6 +47,7 @@ PATCHES=(
 	"${FILESDIR}"/0009-Add-X11_FOUND-flag.patch
 	"${FILESDIR}"/0010-Keep-the-right-slice-number-for-bitstream-buffer.patch
 	"${FILESDIR}"/0011-Encode-Add-some-device-IDs-for-CML.patch
+	"${FILESDIR}"/0012-set-vp8-encode-max-resolution-to-4k.patch
 )
 
 src_configure() {
