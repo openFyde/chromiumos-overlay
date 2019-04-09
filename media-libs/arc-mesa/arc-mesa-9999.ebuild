@@ -7,7 +7,7 @@ EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="arc-mesa"
 
-inherit base autotools multilib-minimal flag-o-matic python toolchain-funcs cros-workon arc-build
+inherit base autotools multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
 OPENGL_DIR="xorg-x11"
 
