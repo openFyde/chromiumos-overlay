@@ -19,6 +19,11 @@ DEPEND="
 	virtual/pkgconfig
 "
 
+src_prepare() {
+	default
+	sed -i "/^libdir/s:/lib:/$(get_libdir):" Makefile || die
+}
+
 src_configure() {
 	sanitizers-setup-env
 }
