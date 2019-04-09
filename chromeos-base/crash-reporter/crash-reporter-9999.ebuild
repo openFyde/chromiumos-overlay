@@ -60,7 +60,6 @@ src_install() {
 	dosbin crash_sender.sh
 
 	into /usr
-	use cros_embedded || dobin "${OUT}"/list_proxies
 	use cros_embedded || dobin "${OUT}"/anomaly_detector
 	dosbin kernel_log_collector.sh
 
