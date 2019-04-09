@@ -141,11 +141,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3756.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R75-3729.0-1554113578.afdo"
-AFDO_FILE["airmont"]="R75-3729.0-1554117193.afdo"
-AFDO_FILE["haswell"]="R75-3726.0-1553511855.afdo"
-AFDO_FILE["broadwell"]="R75-3683.88-1554116860.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3757.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R75-3729.38-1554716539.afdo"
+AFDO_FILE["airmont"]="R75-3729.38-1554718924.afdo"
+AFDO_FILE["haswell"]="R75-3729.38-1554718589.afdo"
+AFDO_FILE["broadwell"]="R75-3729.38-1554717124.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -1093,11 +1093,6 @@ chrome_make() {
 	if use_goma; then
 		local num_parallel=$(($(nproc) * 10))
 		local j_limit=200
-		# If AFDO is used, each compile gets heavier, so goma server
-		# can be overloaded. So, set lower limit. (crbug.com/733489)
-		if use afdo_use; then
-			j_limit=60
-		fi
 		set -- -j $((num_parallel < j_limit ? num_parallel : j_limit)) "$@"
 	fi
 	local command=(
