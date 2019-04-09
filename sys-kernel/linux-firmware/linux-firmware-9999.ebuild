@@ -221,7 +221,7 @@ src_install() {
 	use_fw rtl8168g-2 && doins_subdir rtl_nic/rtl8168g-2.fw
 	use_fw venus-52 && doins_subdir qcom/venus-5.2/*
 	use video_cards_radeon && doins_subdir radeon/*
-	use video_cards_amdgpu && doins_subdir amdgpu/{carrizo,stoney}*
+	use video_cards_amdgpu && doins_subdir amdgpu/{carrizo,stoney,picasso}*
 
 	# The extra file rt3070.bin is a symlink.
 	use_fw rt2870 && doins rt2870.bin rt3070.bin

@@ -889,6 +889,17 @@ builtin_fw_amdgpu_files=(
 	amdgpu/stoney_sdma.bin
 	amdgpu/stoney_uvd.bin
 	amdgpu/stoney_vce.bin
+	amdgpu/picasso_asd.bin
+	amdgpu/picasso_ce.bin
+	amdgpu/picasso_gpu_info.bin
+	amdgpu/picasso_me.bin
+	amdgpu/picasso_mec2.bin
+	amdgpu/picasso_mec.bin
+	amdgpu/picasso_pfp.bin
+	amdgpu/picasso_rlc_am4.bin
+	amdgpu/picasso_rlc.bin
+	amdgpu/picasso_sdma.bin
+	amdgpu/picasso_vcn.bin
 )
 
 builtin_fw_t124_xusb_desc="Tegra124 XHCI controller"
