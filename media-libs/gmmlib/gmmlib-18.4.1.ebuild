@@ -37,10 +37,9 @@ PATCHES=(
 )
 
 src_configure() {
-# once upstream makes this optional
-#	local mycmakeargs=(
-#		-DRUN_TEST_SUITE=OFF
-#	)
+	local mycmakeargs=(
+		-DRUN_TEST_SUITE=OFF
+	)
 
 	cmake-utils_src_configure
 }
