@@ -25,6 +25,11 @@ src_compile() {
 
 src_install() {
 	dolib.a build/libtpm2.a
+
+	"${S}"/thirdparty_preinstall.sh "${PV}" "$(cros-workon_get_build_dir)"
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "$(cros-workon_get_build_dir)/libtpm2.pc"
+
 	insinto /usr/include/tpm2
 	doins BaseTypes.h
 	doins Capabilities.h
