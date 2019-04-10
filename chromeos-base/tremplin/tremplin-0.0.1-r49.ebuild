@@ -32,6 +32,7 @@ DEPEND="
 	dev-go/grpc
 	dev-go/netlink
 	dev-go/vsock
+	dev-go/yaml
 "
 
 RDEPEND="app-emulation/lxd"
