@@ -20,8 +20,6 @@ CONFIG_FSP_M_FILE="3rdparty/blobs/baseboard-zoombini/fsp/fspm.bin"
 CONFIG_FSP_S_FILE="3rdparty/blobs/baseboard-zoombini/fsp/fsps.bin"
 CONFIG_FSP_HEADER_PATH="3rdparty/blobs/baseboard-zoombini/fsp/Include/"
 
-CONFIG_FSP_M_XIP=y
-
 CONFIG_SPI_FLASH_SMM=y
 
 # SPI Descriptor
