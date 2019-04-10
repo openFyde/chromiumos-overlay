@@ -12,14 +12,14 @@ accept: 1
 clone: 1
 exit_group: 1
 # We only want to allow AF_INET, AF_INET6, AF_UNIX, and SOCK_STREAM.
-socket: arg0 == 10 && arg1 == 1 && arg2 == 0 || arg0 == 2 && arg1 == 1 && arg2 == 0 || arg0 == 1 && arg1 & 0xfffffff2 && arg2 == 0
+socket: arg0 == AF_INET6 && arg1 == SOCK_STREAM && arg2 == 0 || arg0 == AF_INET && arg1 == SOCK_STREAM && arg2 == 0 || arg0 == AF_UNIX && arg1 & 0xfffffff2 && arg2 == 0
 connect: 1
 open: 1
 openat: 1
 stat: 1
-mmap: arg2 & 0xfffffffb || arg2 == 0
+mmap: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 fstat: 1
-mprotect: arg2 & 0xfffffffb || arg2 == 0
+mprotect: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 rt_sigaction: 1
 brk: 1
 munmap: 1
@@ -39,6 +39,6 @@ wait4: 1
 bind: 1
 uname: 1
 # Allow SIOCGIFNAME.
-ioctl: arg1 == 0x8910
+ioctl: arg1 == SIOCGIFNAME
 # When we catch a SIGTERM, we kill children with SIGTERM too.
 kill: 1
