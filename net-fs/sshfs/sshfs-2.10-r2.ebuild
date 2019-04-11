@@ -17,3 +17,8 @@ RDEPEND="${CDEPEND}
 	>=net-misc/openssh-4.4"
 DEPEND="${CDEPEND}
 	virtual/pkgconfig"
+
+src_prepare() {
+	eapply "${FILESDIR}"/sshfs-2.10-mount-mode.patch
+	eapply_user
+}
