@@ -7,7 +7,7 @@ DESCRIPTION="Firmware for tools based on Chromium OS EC"
 HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 
 SERVO_MICRO_NAME="servo_micro-R70-11011.10.0"
-SERVO_V4_NAME="servo_v4-R70-11011.2.0"
+SERVO_V4_NAME="servo_v4-R70-11011.11.0"
 SWEETBERRY_NAME="sweetberry-R70-11011.4.0"
 UPDATER_PATH="/usr/share/servo_updater/firmware"
 
