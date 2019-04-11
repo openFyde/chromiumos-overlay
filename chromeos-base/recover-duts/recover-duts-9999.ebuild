@@ -1,7 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI=6
 CROS_WORKON_PROJECT="chromiumos/platform/crostestutils"
 CROS_WORKON_LOCALNAME="crostestutils"
 
@@ -15,6 +15,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
+!<chromeos-base/shill-0.0.4
 chromeos-base/chromeos-init
 dev-lang/python
 "
@@ -27,6 +28,7 @@ DEPEND=""
 src_install() {
 	pushd "${S}/recover_duts" || die
 	newbin recover_duts.sh recover_duts
+	dosbin reload_network_device
 
 	pushd "hooks" || die
 	dodir /usr/bin/hooks
