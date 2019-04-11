@@ -127,6 +127,7 @@ get_ec_boards()
 	local ec_board
 	if use unibuild; then
 		EC_BOARDS+=($(cros_config_host get-firmware-build-targets ec))
+		EC_BOARDS+=($(cros_config_host get-firmware-build-targets ish))
 	else
 		for ec_board in ${IUSE_FIRMWARES}; do
 			use ${ec_board} && EC_BOARDS+=(${ec_board#${EC_BOARD_USE_PREFIX}})
