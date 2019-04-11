@@ -104,3 +104,7 @@ dev-util/meson-0.44.1
 # needs this facility on systems using SELinux. Provide a non-virtual package
 # to avoid confusing warnings.
 sys-apps/opentmpfiles-0.2
+
+# Test suites are executed on the SDK's python interpreter, so boards don't need
+# their own copy of pytest.
+dev-python/pytest-4.4
