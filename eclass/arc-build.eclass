@@ -73,7 +73,6 @@ _arc-build-select-common() {
 	arm)
 		ARC_GCC_TUPLE=arm-linux-androideabi
 		ARC_GCC_BASE="${ARC_BASE}/arc-gcc/arm/${ARC_GCC_TUPLE}-4.9"
-		ARC_GCC_LIBDIR="${ARC_BASE}/lib/gcc/${ARC_GCC_TUPLE}/4.9"
 
 		export CHOST="${ARC_GCC_TUPLE}"
 		append-cppflags -I"${ARC_SYSROOT}/usr/include/arch-arm/include/"
@@ -85,7 +84,6 @@ _arc-build-select-common() {
 	amd64)
 		ARC_GCC_TUPLE=x86_64-linux-android
 		ARC_GCC_BASE="${ARC_BASE}/arc-gcc/x86_64/${ARC_GCC_TUPLE}-4.9"
-		ARC_GCC_LIBDIR="${ARC_BASE}/lib/gcc/${ARC_GCC_TUPLE}/4.9"
 
 		# multilib.eclass does not use CFLAGS_${DEFAULT_ABI}, but
 		# we need to add some flags valid only for amd64, so we trick
