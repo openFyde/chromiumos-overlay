@@ -12,16 +12,17 @@ inherit  cros-constants check-reqs cmake-utils eutils flag-o-matic git-2 git-r3 
 
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="http://llvm.org/"
-SRC_URI=""
+PROFDATA_FILE="llvm-profdata-20190412.tar.xz"
+SRC_URI="llvm_pgo_use? ( gs://chromeos-localmirror/distfiles/${PROFDATA_FILE} )"
 EGIT_REPO_URI="http://llvm.org/git/llvm.git
 	https://github.com/llvm-mirror/llvm.git"
 
 LICENSE="UoI-NCSA"
 SLOT="8"
 KEYWORDS="-* amd64"
-IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi multitarget
-	ncurses ocaml python llvm-next llvm-tot test xml video_cards_radeon
-	+thinlto llvm_pgo_generate"
+IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi llvm-next
+	llvm_pgo_generate +llvm_pgo_use llvm-tot multitarget ncurses ocaml python
+	test +thinlto xml video_cards_radeon"
 
 COMMON_DEPEND="
 	sys-libs/zlib:0=
@@ -54,7 +55,9 @@ RDEPEND="${COMMON_DEPEND}
 
 # pypy gives me around 1700 unresolved tests due to open file limit
 # being exceeded. probably GC does not close them fast enough.
-REQUIRED_USE="${PYTHON_REQUIRED_USE}"
+REQUIRED_USE="
+	${PYTHON_REQUIRED_USE}
+	llvm_pgo_generate? ( !llvm_pgo_use )"
 
 pkg_pretend() {
 	# in megs
@@ -189,7 +192,8 @@ src_unpack() {
 			"${CROS_GIT_HOST_URL}/external/llvm.org/libcxxabi.git"
 			"$libcxxabi_hash"
 		)
-
+	# Don't unpack profdata file when calling git-2_src_unpack.
+	EGIT_NOUNPACK=1
 	# Unpack llvm, clang, lld, compiler-rt, clang-tools-extra
 	set -- "${EGIT_REPO_URIS[@]}"
 		while [[ $# -gt 0 ]]; do
@@ -213,6 +217,12 @@ src_unpack() {
 				shift 4
 			done
 	fi
+
+	if use llvm_pgo_use; then
+		cd ${WORKDIR}
+		unpack ${PROFDATA_FILE}
+	fi
+	EGIT_NOUNPACK=
 }
 
 pick_cherries() {
@@ -513,25 +523,38 @@ multilib_src_configure() {
 		-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
 	)
 
-	if use thinlto; then
-		if check_lld_works; then
-			mycmakeargs+=(
-				-DLLVM_ENABLE_LTO=thin
-				# Gold has issue with no index for archive, using lld to link
-				-DLLVM_USE_LINKER=lld
-				# The standalone toolchain may be run at places not supporting
-				# smallPIE, disabling it for lld
-				append-ldflags "-Wl,--pack-dyn-relocs=none"
-			)
-		fi
-	fi
-
-	if use llvm_pgo_generate; then
+	if check_lld_works; then
 		mycmakeargs+=(
-			-DLLVM_BUILD_INSTRUMENTED=IR
-			# To link instrumented compiler-rt, lld is needed.
+			# We use lld to link llvm, because:
+			# 1) Gold has issue with no index for archive,
+			# 2) Gold doesn't support instrumented compiler-rt well.
 			-DLLVM_USE_LINKER=lld
 		)
+		# The standalone toolchain may be run at places not supporting
+		# smallPIE, disabling it for lld.
+		# Pass -fuse-ld=lld to make cmake happy.
+		append-ldflags "-fuse-ld=lld -Wl,--pack-dyn-relocs=none"
+		# Disable warning about profile not matching.
+		append-flags "-Wno-backend-plugin"
+
+		if use thinlto; then
+			mycmakeargs+=(
+				-DLLVM_ENABLE_LTO=thin
+			)
+		fi
+
+		# TODO: specify different profdata for llvm-next.
+		if use llvm_pgo_use; then
+			mycmakeargs+=(
+				-DLLVM_PROFDATA_FILE="${WORKDIR}/llvm.profdata"
+			)
+		fi
+
+		if use llvm_pgo_generate; then
+			mycmakeargs+=(
+				-DLLVM_BUILD_INSTRUMENTED=IR
+			)
+		fi
 	fi
 
 	if ! multilib_is_native_abi || ! use ocaml; then
