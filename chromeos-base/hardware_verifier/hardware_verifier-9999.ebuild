@@ -26,6 +26,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api
+	chromeos-base/vboot_reference
 "
 
 src_install() {
