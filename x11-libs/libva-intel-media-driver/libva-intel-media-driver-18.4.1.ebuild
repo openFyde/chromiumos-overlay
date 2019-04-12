@@ -48,6 +48,7 @@ PATCHES=(
 	"${FILESDIR}"/0010-Keep-the-right-slice-number-for-bitstream-buffer.patch
 	"${FILESDIR}"/0011-Encode-Add-some-device-IDs-for-CML.patch
 	"${FILESDIR}"/0012-set-vp8-encode-max-resolution-to-4k.patch
+	"${FILESDIR}"/0013-reset-BRC-when-the-target-bitrate-or-max-bitrate-changed.patch
 )
 
 src_configure() {
