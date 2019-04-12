@@ -4,10 +4,13 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="12ce2ed245ac6cb04b60243282fe69ca1e1fb1ff"
-CROS_WORKON_TREE="6d3e6d339f825fda0635ee7ffeed0f90ea90bc43"
+CROS_WORKON_COMMIT="2e7833ad916c493969d00871cdf56db4407b80eb"
+CROS_WORKON_TREE="040a39591a38d3dc778725575c72dcdc1b07e032"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="arc-mesa"
+CROS_WORKON_BLACKLIST="1"
+
+EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 
 inherit base autotools multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
@@ -120,8 +123,36 @@ src_prepare() {
 		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
 
-	base_src_prepare
+	epatch "${FILESDIR}"/19.0-util-Don-t-block-SIGSYS-for-new-threads.patch
+	epatch "${FILESDIR}"/CHROMIUM-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
 
+	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson.build-Add-optio.patch
+	epatch "${FILESDIR}"/CHROMIUM-configure.ac-depend-on-libnativewindow-when-appropri.patch
+	epatch "${FILESDIR}"/CHROMIUM-egl-android-plumb-swrast-option.patch
+	epatch "${FILESDIR}"/CHROMIUM-egl-android-use-swrast-option-in-droid_load_driver.patch
+	epatch "${FILESDIR}"/CHROMIUM-egl-android-fallback-to-software-rendering.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-anv-Reject-unsupported-instance-versions-on.patch
+	epatch "${FILESDIR}"/CHROMIUM-anv-move-anv_GetMemoryAndroidHardwareBufferANDROID-u.patch
+	epatch "${FILESDIR}"/CHROMIUM-anv-fix-build-on-Nougat.patch
+	epatch "${FILESDIR}"/CHROMIUM-remove-unknown-android-extensions.patch
+	epatch "${FILESDIR}"/CHROMIUM-disable-unknown-device-extensions.patch
+	epatch "${FILESDIR}"/CHROMIUM-disable-VK_KHR_draw_indirect_count.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
+
+	epatch "${FILESDIR}"/FROMLIST-egl-fix-KHR_partial_update-without-EXT_buff.patch
+	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
+	epatch "${FILESDIR}"/CHROMIUM-Disable-EGL_KHR_partial_update.patch
+
+	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
+	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
+
+	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
+	epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
+	epatch "${FILESDIR}"/CHROMIUM-don-t-parse-sysfs-for-software-fallback.patch
+
+	base_src_prepare
 	eautoreconf
 }
 
@@ -184,6 +215,7 @@ multilib_src_configure() {
 	export LLVM_CONFIG=${SYSROOT}/usr/bin/llvm-config-host
 	EGL_PLATFORM="surfaceless"
 
+	MESA_PLATFORM_SDK_VERSION=${ARC_PLATFORM_SDK_VERSION}
 	if use cheets; then
 		#
 		# cheets-specific overrides
@@ -207,7 +239,14 @@ multilib_src_configure() {
 		# PLATFORM_SDK_VERSION, and Mesa's Android.mk files use it to
 		# define the macro ANDROID_API_LEVEL. Arc emulates that here.
 		if [[ -n "${ARC_PLATFORM_SDK_VERSION}" ]]; then
-			CPPFLAGS+=" -DANDROID_API_LEVEL=${ARC_PLATFORM_SDK_VERSION}"
+			# Hack to workaround b:130213457
+			if [[ ${ARC_BASE} == "/opt/android-master" ]]; then
+				CPPFLAGS+=" -DANDROID_API_LEVEL=25"
+				MESA_PLATFORM_SDK_VERSION=25
+				VULKAN_DRIVERS=""
+			else
+				CPPFLAGS+=" -DANDROID_API_LEVEL=${ARC_PLATFORM_SDK_VERSION}"
+			fi
 		fi
 
 		#
@@ -252,6 +291,8 @@ multilib_src_configure() {
 		--with-vulkan-drivers=${VULKAN_DRIVERS} \
 		--with-egl-lib-suffix=_mesa \
 		--with-gles-lib-suffix=_mesa \
+		--with-platform-sdk-version=${MESA_PLATFORM_SDK_VERSION} \
+		--enable-autotools \
 		$(use egl && echo "--with-platforms=${EGL_PLATFORM}")
 }
 
@@ -278,6 +319,10 @@ multilib_src_install_cheets() {
 		if use video_cards_virgl; then
 			newexe $(get_libdir)/gallium/virtio_gpu_dri.so virtio_gpu_dri.so
 		fi
+	fi
+
+	if [[ ${ARC_BASE} == "/opt/android-master" ]]; then
+		return
 	fi
 
 	if use vulkan; then

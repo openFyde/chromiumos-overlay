@@ -1,0 +1,60 @@
+From 3a27c369a0b47c1b19cb3ab172218a55f8300904 Mon Sep 17 00:00:00 2001
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Fri, 12 Apr 2019 10:27:04 -0700
+Subject: [PATCH] HACK: don't parse sysfs for software fallback
+
+Change-Id: Idbbb380fb13e21c7aa09f07cadd7440be373d6c4
+---
+ src/egl/drivers/dri2/platform_android.c | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
+
+diff --git a/src/egl/drivers/dri2/platform_android.c b/src/egl/drivers/dri2/platform_android.c
+index 1c7f2230dbdd..1e8388284ec9 100644
+--- a/src/egl/drivers/dri2/platform_android.c
++++ b/src/egl/drivers/dri2/platform_android.c
+@@ -1373,18 +1373,10 @@ droid_load_driver(_EGLDisplay *disp, bool swrast)
+    struct dri2_egl_display *dri2_dpy = disp->DriverData;
+    const char *err;
+ 
+-   dri2_dpy->driver_name = loader_get_driver_for_fd(dri2_dpy->fd);
+    char *driver_name = loader_get_driver_for_fd(dri2_dpy->fd);
+    if (swrast) {
+-         /* Use kms swrast only with vgem / virtio_gpu.
+-          * virtio-gpu fallbacks to software rendering when 3D features
+-          * are unavailable since 6c5ab, and kms_swrast is more
+-          * feature complete than swrast.
+-          */
+-         if (strcmp(driver_name, "vgem") == 0 ||
+-             strcmp(driver_name, "virtio_gpu") == 0)
+-            dri2_dpy->driver_name = strdup("kms_swrast");
+-         free(driver_name);
++        dri2_dpy->driver_name = strdup("kms_swrast");
++	free(driver_name);
+    } else {
+          /* Use the given hardware driver */
+          dri2_dpy->driver_name = driver_name;
+@@ -1488,6 +1480,11 @@ droid_open_device(_EGLDisplay *disp, bool swrast)
+    if (num_devices < 0)
+       return EGL_FALSE;
+ 
++   if (num_devices == 0 && swrast) {
++      dri2_dpy->fd = loader_open_device("/dev/dri/renderD128");
++      return droid_probe_device(disp, swrast);
++   }
++
+    for (int i = 0; i < num_devices; i++) {
+       device = devices[i];
+ 
+@@ -1576,7 +1573,8 @@ dri2_initialize_android(_EGLDriver *drv, _EGLDisplay *disp)
+       goto cleanup;
+    }
+ 
+-   dev = _eglAddDevice(dri2_dpy->fd, false);
++   bool swrast = (strcmp(dri2_dpy->driver_name, "kms_swrast") == 0) ? true : false;
++   dev = _eglAddDevice(dri2_dpy->fd, swrast);
+    if (!dev) {
+       err = "DRI2: failed to find EGLDevice";
+       goto cleanup;
+-- 
+2.20.1
+
