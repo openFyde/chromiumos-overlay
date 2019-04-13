@@ -9,12 +9,12 @@ HOMEPAGE="http://dev.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="asan msan ubsan"
+IUSE="asan msan"
 
 RDEPEND="
 	chromeos-base/authpolicy[fuzzer]
 	chromeos-base/biod[fuzzer]
-	!ubsan? ( chromeos-base/chromeos-ec[fuzzer] )
+	chromeos-base/chromeos-ec[fuzzer]
 	chromeos-base/cros-disks[fuzzer]
 	chromeos-base/crosdns[fuzzer]
 	chromeos-base/cryptohome[fuzzer]
