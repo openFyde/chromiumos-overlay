@@ -7,5 +7,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0.3.24/r0
-_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	c4a56044c59c9a4a260709db8844de58	cros-sanitizers	dc2241d4d51ab2312b2e494bd1725bfa	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	04fe01b9e4ff34ec06e80627f01339b2	cros-sanitizers	dc2241d4d51ab2312b2e494bd1725bfa	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
 _md5_=b459f025504105b3b301bb8096b60267
