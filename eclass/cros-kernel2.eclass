@@ -23,6 +23,7 @@ DEPEND="sys-apps/debianutils
 	recovery_ramfs? ( chromeos-base/chromeos-initramfs[recovery_ramfs] )
 	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
+	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
 "
 
 WIRELESS_VERSIONS=( 3.4 3.8 3.18 4.2 )
@@ -863,6 +864,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_t210_bpmp
 	builtin_fw_guc_g9
 	builtin_fw_huc_g9
+	builtin_fw_x86_aml_ucode
 )
 
 builtin_fw_amdgpu_desc="Firmware for AMD GPU"
@@ -929,6 +931,12 @@ builtin_fw_guc_g9_files=(
 builtin_fw_huc_g9_desc="HuC Firmware for Gen9"
 builtin_fw_huc_g9_files=(
 	i915/kbl_huc_ver02_00_1810.bin
+)
+
+builtin_fw_x86_aml_ucode_desc="Intel ucode for AML"
+builtin_fw_x86_aml_ucode_files=(
+	intel-ucode/06-8e-09
+	intel-ucode/06-8e-0c
 )
 
 extra_fw_config="
