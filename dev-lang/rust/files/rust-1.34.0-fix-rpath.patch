@@ -1,0 +1,17 @@
+Around the line of code this patches there is a long explanation of the rpath
+but the gist of it was that better handling of the rpath would be done in the
+future. For now, we just add the proper rpath.
+
+diff --git a/src/bootstrap/bin/rustc.rs b/src/bootstrap/bin/rustc.rs
+index a996240..da67f06 100644
+--- a/src/bootstrap/bin/rustc.rs
++++ b/src/bootstrap/bin/rustc.rs
+@@ -237,7 +237,7 @@ fn main() {
+             } else if !target.contains("windows") &&
+                       !target.contains("wasm32") &&
+                       !target.contains("fuchsia") {
+-                Some("-Wl,-rpath,$ORIGIN/../lib")
++                Some("-Wl,-rpath,$ORIGIN/../lib:/usr/lib64/rust/rustlib/x86_64-unknown-linux-gnu/lib")
+             } else {
+                 None
+             };
