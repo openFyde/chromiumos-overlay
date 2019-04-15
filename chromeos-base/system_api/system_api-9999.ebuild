@@ -70,6 +70,7 @@ src_install() {
 		shill
 		smbprovider
 		update_engine
+		wilco_dtc_supportd
 	)
 	for dir in "${dirs[@]}"; do
 		insinto /usr/include/"${dir}"-client/"${dir}"
