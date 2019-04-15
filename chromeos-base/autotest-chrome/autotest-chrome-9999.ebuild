@@ -138,10 +138,14 @@ IUSE_TESTS=(
 	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
+	+tests_policy_AllowDeletingBrowserHistory
 	+tests_policy_AllowDinosaurEasterEgg
 	+tests_policy_AllowScreenLock
 	+tests_policy_AlternateErrorPages
+	+tests_policy_ArcAudioCaptureAllowed
 	+tests_policy_AudioOutputAllowed
+	+tests_policy_ArcExternalStorageDisabled
+	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
@@ -179,6 +183,7 @@ IUSE_TESTS=(
 	+tests_policy_PopupsAllowedForUrls
 	+tests_policy_PopupsBlockedForUrls
 	+tests_policy_PowerManagementIdleSettings
+	+tests_policy_PrintingEnabled
 	+tests_policy_PromptForDownloadLocation
 	+tests_policy_ProxySettings
 	+tests_policy_ReportUploadFrequency
