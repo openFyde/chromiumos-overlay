@@ -17,6 +17,7 @@ bitflags-1.0.4
 bufstream-0.1.4
 build_const-0.2.1
 byteorder-1.3.1
+bytes-0.4.12
 bytesize-1.0.0
 cc-1.0.31
 cfg-if-0.1.7
@@ -51,10 +52,12 @@ glob-0.2.11
 globset-0.4.2
 hex-0.3.2
 home-0.3.4
+http-0.1.17
 humantime-1.2.0
 idna-0.1.5
 ignore-0.4.6
 im-rc-12.3.3
+iovec-0.1.2
 itoa-0.4.3
 jobserver-0.1.13
 kernel32-sys-0.2.2
