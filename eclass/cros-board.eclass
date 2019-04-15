@@ -64,6 +64,9 @@ ALL_BOARDS=(
 	betty-arc64
 	betty-arcmaster
 	betty-arcnext
+	betty-nyc-arc
+	betty-pi-arc
+	betty-qt-arc
 	#bettyvirgl
 	blackwall
 	bob
