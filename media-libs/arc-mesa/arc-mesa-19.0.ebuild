@@ -149,8 +149,12 @@ src_prepare() {
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
 
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
-	epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
 	epatch "${FILESDIR}"/CHROMIUM-don-t-parse-sysfs-for-software-fallback.patch
+
+	if use android-container-nyc; then
+		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
+		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
+	fi
 
 	base_src_prepare
 	eautoreconf
