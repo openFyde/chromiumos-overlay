@@ -55,6 +55,11 @@ pkg_preinst() {
 		enewgroup g2touch
 		enewuser g2touch
 	fi
+	if use input_devices_goodix; then
+		enewgroup goodixfwupdate
+		enewuser goodixfwupdate
+	fi
+
 }
 
 src_install() {
