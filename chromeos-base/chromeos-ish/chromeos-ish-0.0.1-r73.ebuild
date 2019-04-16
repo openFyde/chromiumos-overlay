@@ -37,12 +37,8 @@ src_configure() {
 }
 
 set_build_env() {
-	if ! use coreboot-sdk; then
-		export CROSS_COMPILE_i386=i686-pc-linux-gnu-
-	else
-		export CROSS_COMPILE_i386=${COREBOOT_SDK_PREFIX_x86_32}
-	fi
-
+	# always use coreboot-sdk to build ISH
+	export CROSS_COMPILE_i386=${COREBOOT_SDK_PREFIX_x86_32}
 	export CROSS_COMPILE_coreboot_sdk_i386=${COREBOOT_SDK_PREFIX_x86_32}
 
 	tc-export CC BUILD_CC
