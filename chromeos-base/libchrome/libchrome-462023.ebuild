@@ -104,10 +104,6 @@ src_prepare() {
 	# sanitizer builds, https://crbug.com/908138
 	epatch "${FILESDIR}"/${P}-Disable-object-tracking.patch
 
-	# Introduce backward compatible ctor for quipper only.
-	# TODO(hidehiko): Remove this.
-	epatch "${FILESDIR}"/${P}-Add-backward-compatible-WaitableEvent-ctor.patch
-
 	# TODO(sonnysasaka): Remove after libchrome uprev past r616020.
 	epatch "${FILESDIR}"/${P}-dbus-Support-UnexportMethod-from-an-exported-object.patch
 
