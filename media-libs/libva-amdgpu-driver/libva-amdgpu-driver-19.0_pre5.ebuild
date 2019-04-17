@@ -33,6 +33,9 @@ VA_INSTALL="src/gallium/targets/va/"
 
 src_prepare() {
 	epatch "${FILESDIR}"/17.2.3-config-make-error-as-warning-for-drm.patch
+	epatch "${FILESDIR}"/19.0-vl-Add-cropping-flags-for-H264.patch
+	epatch "${FILESDIR}"/19.0-radeon-vce-Add-support-for-frame_cropping_flag-of-VA.patch
+	epatch "${FILESDIR}"/19.0-st-va-enc-Add-support-for-frame_cropping_flag-of-VAE.patch
 	eautoreconf
 }
 
