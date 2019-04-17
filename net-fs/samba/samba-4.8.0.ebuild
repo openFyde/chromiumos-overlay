@@ -150,6 +150,10 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.8.0-readdirplus_5_cleanup_close.patch"
 	"${FILESDIR}/${PN}-4.8.0-disable_perl.patch"
 	"${FILESDIR}/${PN}-4.8.0-disable_third_party_python.patch"
+
+	# Temporary workaround until we fix Samba/OpenLDAP issues (see
+	# https://crbug.com/953613).
+	"${FILESDIR}/${PN}-4.8.0-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
