@@ -2,10 +2,12 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+faccessat: 1
 bind: 1
 brk: 1
 close: 1
 fstat: 1
+newfstatat: 1
 getpid: 1
 # Filter arg2 to disallow GRND_RANDOM (2).
 getrandom: arg2 in 0xfffffffd
