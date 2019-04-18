@@ -32,6 +32,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/chromeos-ec-headers
+	chromeos-base/power_manager-client
 	chromeos-base/system_api
 	dev-libs/openssl:=
 	"
