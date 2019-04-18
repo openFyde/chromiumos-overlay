@@ -30,8 +30,7 @@ DEPEND="
 "
 
 src_install() {
-	# TODO(yhong): Install the bin file to the rootfs when it's ready.
-	return
+	dobin "${OUT}/hardware_verifier"
 }
 
 platform_pkg_test() {
