@@ -35,6 +35,7 @@ DEPEND="
 RDEPEND="
 	${DEPEND}
 	sys-apps/restorecon
+	sys-process/audit
 "
 
 SELINUX_VERSION="30"
