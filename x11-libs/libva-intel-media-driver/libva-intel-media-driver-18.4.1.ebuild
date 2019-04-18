@@ -50,6 +50,7 @@ PATCHES=(
 	"${FILESDIR}"/0012-set-vp8-encode-max-resolution-to-4k.patch
 	"${FILESDIR}"/0013-reset-BRC-when-the-target-bitrate-or-max-bitrate-changed.patch
 	"${FILESDIR}"/0014-Encode-Fix-the-num_token_partitions-for-VP8-encode.patch
+	"${FILESDIR}"/0015-ignore-error-status-value-for-jpeg-decode.patch
 )
 
 src_configure() {
