@@ -283,7 +283,7 @@ IUSE_TESTS_ARC="
 		+tests_graphics_Idle_P
 		+tests_telemetry_LoginTest_P
 	)
-	!android-container-pi? (
+	android-container-nyc? (
 		+tests_desktopui_ExitOnSupervisedUserCrash
 		+tests_graphics_Idle
 		+tests_telemetry_LoginTest
