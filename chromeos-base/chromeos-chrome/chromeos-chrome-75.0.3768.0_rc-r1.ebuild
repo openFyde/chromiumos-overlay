@@ -141,11 +141,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3757.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R75-3729.38-1554716539.afdo"
-AFDO_FILE["airmont"]="R75-3729.38-1554718924.afdo"
-AFDO_FILE["haswell"]="R75-3729.38-1554718589.afdo"
-AFDO_FILE["broadwell"]="R75-3729.38-1554717124.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3768.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R75-3729.68-1555321468.afdo"
+AFDO_FILE["airmont"]="R75-3729.68-1555322943.afdo"
+AFDO_FILE["haswell"]="R75-3729.68-1555325249.afdo"
+AFDO_FILE["broadwell"]="R75-3729.38-1555322062.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -1514,7 +1514,10 @@ pkg_preinst() {
 	einfo "CHROME_DIR after installation\n${LS}"
 	CHROME_SIZE=$(stat --printf="%s" ${ED}/${CHROME_DIR}/chrome)
 	einfo "CHROME_SIZE = ${CHROME_SIZE}"
-	if [[ ${CHROME_SIZE} -ge 200000000 && -z "${KEEP_CHROME_DEBUG_SYMBOLS}" ]]; then
+
+	# Non-internal builds come with >10MB of unwinding info built-in. Size
+	# checks on those are less profitable.
+	if [[ ${CHROME_SIZE} -ge 250000000 && -z "${KEEP_CHROME_DEBUG_SYMBOLS}" ]] && use chrome_internal; then
 		die "Installed chrome binary got suspiciously large (size=${CHROME_SIZE})."
 	fi
 	if use arm; then
