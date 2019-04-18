@@ -2,8 +2,8 @@ LLD uses the argv[0] to get the host system information.
 We created a wrapper of LLD and the real lld becomes
 lld.elf, so the LLD cannot get the host system informaction
 and dies. see crbug.com/701659
---- tools/lld/lld.cpp
-+++ tools/lld/lld.cpp
+--- a/lld/tools/lld/lld.cpp
++++ b/lld/tools/lld/lld.cpp
 @@ -39,17 +39,18 @@ enum Flavor {
  
  LLVM_ATTRIBUTE_NORETURN static void die(const Twine &S) {

@@ -19,8 +19,8 @@ Date:   Tue Feb 27 20:31:22 2018 +0000
 
 diff --git a/ELF/Driver.cpp b/ELF/Driver.cpp
 index 26fc015..b25d97e 100644
---- a/ELF/Driver.cpp
-+++ b/ELF/Driver.cpp
+--- a/lld/ELF/Driver.cpp
++++ b/lld/ELF/Driver.cpp
 @@ -1420,6 +1420,10 @@ template <class ELFT> void LinkerDriver::link(opt::InputArgList &Args) {
    // They also might be exported if referenced by DSOs.
    Script->declareSymbols();
@@ -34,8 +34,8 @@ index 26fc015..b25d97e 100644
      excludeLibs<ELFT>(Args);
 diff --git a/ELF/InputFiles.cpp b/ELF/InputFiles.cpp
 index e4a32be..84cd276 100644
---- a/ELF/InputFiles.cpp
-+++ b/ELF/InputFiles.cpp
+--- a/lld/ELF/InputFiles.cpp
++++ b/lld/ELF/InputFiles.cpp
 @@ -994,10 +994,7 @@ template <class ELFT> void SharedFile<ELFT>::parseRest() {
  
      StringRef Name = CHECK(Sym.getName(this->StringTable), this);
@@ -50,8 +50,8 @@ index e4a32be..84cd276 100644
  
 diff --git a/ELF/InputFiles.h b/ELF/InputFiles.h
 index 0db3203..423b082 100644
---- a/ELF/InputFiles.h
-+++ b/ELF/InputFiles.h
+--- a/lld/ELF/InputFiles.h
++++ b/lld/ELF/InputFiles.h
 @@ -92,6 +92,13 @@ public:
      return Symbols;
    }
@@ -76,8 +76,8 @@ index 0db3203..423b082 100644
    const Kind FileKind;
 diff --git a/ELF/LinkerScript.cpp b/ELF/LinkerScript.cpp
 index c865e9b..08bec1e 100644
---- a/ELF/LinkerScript.cpp
-+++ b/ELF/LinkerScript.cpp
+--- a/lld/ELF/LinkerScript.cpp
++++ b/lld/ELF/LinkerScript.cpp
 @@ -157,6 +157,10 @@ static bool shouldDefineSym(SymbolAssignment *Cmd) {
    Symbol *B = Symtab->find(Cmd->Name);
    if (B && !B->isDefined())
@@ -91,8 +91,8 @@ index c865e9b..08bec1e 100644
  
 diff --git a/ELF/SymbolTable.cpp b/ELF/SymbolTable.cpp
 index 1f5a84e..0b4c6a4 100644
---- a/ELF/SymbolTable.cpp
-+++ b/ELF/SymbolTable.cpp
+--- a/lld/ELF/SymbolTable.cpp
++++ b/lld/ELF/SymbolTable.cpp
 @@ -656,6 +656,29 @@ template <class ELFT> void SymbolTable::fetchLazy(Symbol *Sym) {
      addFile<ELFT>(File);
  }
@@ -137,8 +137,8 @@ index 1f5a84e..0b4c6a4 100644
                                                uint32_t Alignment, uint32_t);
 diff --git a/ELF/SymbolTable.h b/ELF/SymbolTable.h
 index 5e6d44d..b40d5d4 100644
---- a/ELF/SymbolTable.h
-+++ b/ELF/SymbolTable.h
+--- a/lld/ELF/SymbolTable.h
++++ b/lld/ELF/SymbolTable.h
 @@ -78,7 +78,7 @@ public:
                                     InputFile *File);
  

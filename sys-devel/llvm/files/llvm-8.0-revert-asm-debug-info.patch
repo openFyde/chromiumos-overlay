@@ -25,8 +25,8 @@ Date:   Thu Dec 20 18:07:41 2018 -0800
 
 diff --git a/lib/MC/MCParser/AsmParser.cpp b/lib/MC/MCParser/AsmParser.cpp
 index a66a4eb29af..e856a7e0287 100644
---- a/lib/MC/MCParser/AsmParser.cpp
-+++ b/lib/MC/MCParser/AsmParser.cpp
+--- a/llvm/lib/MC/MCParser/AsmParser.cpp
++++ b/llvm/lib/MC/MCParser/AsmParser.cpp
 @@ -3369,6 +3369,14 @@ bool AsmParser::parseDirectiveFile(SMLoc DirectiveLoc) {
      }
    }
@@ -60,7 +60,7 @@ index a66a4eb29af..e856a7e0287 100644
 diff --git a/test/MC/AsmParser/directive_file-3.s b/test/MC/AsmParser/directive_file-3.s
 deleted file mode 100644
 index c3bdaede270..00000000000
---- a/test/MC/AsmParser/directive_file-3.s
+--- a/llvm/test/MC/AsmParser/directive_file-3.s
 +++ /dev/null
 @@ -1,24 +0,0 @@
 -// RUN: llvm-mc -g -triple i386-unknown-unknown  %s | FileCheck -check-prefix=CHECK-DEFAULT %s

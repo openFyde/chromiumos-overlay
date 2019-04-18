@@ -31,8 +31,8 @@ Date:   Fri Feb 23 01:16:57 2018 +0000
     
 diff --git a/ELF/SymbolTable.cpp.orig b/ELF/SymbolTable.cpp
 index 0b4c6a4..ab66967 100644
---- a/ELF/SymbolTable.cpp.orig
-+++ b/ELF/SymbolTable.cpp
+--- a/lld/ELF/SymbolTable.cpp.orig
++++ b/lld/ELF/SymbolTable.cpp
 @@ -667,14 +667,9 @@ template <class ELFT> void SymbolTable::scanShlibUndefined() {
    for (InputFile *F : SharedFiles) {
      for (StringRef U : F->getUndefinedSymbols()) {

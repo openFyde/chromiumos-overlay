@@ -1,5 +1,5 @@
---- a/CMakeLists.txt	2015-08-12 20:04:55.397881480 +0200
-+++ b/CMakeLists.txt	2015-08-12 20:05:06.625741113 +0200
+--- a/llvm/CMakeLists.txt	2015-08-12 20:04:55.397881480 +0200
++++ b/llvm/CMakeLists.txt	2015-08-12 20:05:06.625741113 +0200
 @@ -152,11 +152,6 @@
  
  string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)

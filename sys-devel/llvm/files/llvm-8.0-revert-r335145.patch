@@ -11,8 +11,8 @@ be removed.
 
 diff --git a/lib/Linker/IRMover.cpp b/lib/Linker/IRMover.cpp
 index 738dec8e1f2..6dc264a0757 100644
---- a/lib/Linker/IRMover.cpp
-+++ b/lib/Linker/IRMover.cpp
+--- a/llvm/lib/Linker/IRMover.cpp
++++ b/llvm/lib/Linker/IRMover.cpp
 @@ -240,27 +240,18 @@ Type *TypeMapTy::get(Type *Ty, SmallPtrSet<StructType *, 8> &Visited) {
    // These are types that LLVM itself will unique.
    bool IsUniqued = !isa<StructType>(Ty) || cast<StructType>(Ty)->isLiteral();

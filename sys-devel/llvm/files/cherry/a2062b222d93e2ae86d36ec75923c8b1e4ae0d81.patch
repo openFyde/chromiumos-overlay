@@ -1,15 +1,15 @@
-commit f5c0c1f1e1abe66650443d39f34fc205c2bc3175
+commit a2062b222d93e2ae86d36ec75923c8b1e4ae0d81
 Author: Evgeniy Stepanov <eugeni.stepanov@gmail.com>
 Date:   Thu Feb 21 22:59:29 2019 +0000
 
     [sanitizer] Common macro for .note.GNU-stack directives (NFC)
     
-    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@354632 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 354632
 
-diff --git a/lib/sanitizer_common/sanitizer_asm.h b/lib/sanitizer_common/sanitizer_asm.h
-index 5aa36d19c..baf295bfc 100644
---- a/lib/sanitizer_common/sanitizer_asm.h
-+++ b/lib/sanitizer_common/sanitizer_asm.h
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_asm.h b/compiler-rt/lib/sanitizer_common/sanitizer_asm.h
+index 5aa36d19c74..baf295bfc43 100644
+--- a/compiler-rt/lib/sanitizer_common/sanitizer_asm.h
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_asm.h
 @@ -55,3 +55,10 @@
  # define ASM_SYMBOL(symbol) _##symbol
  # define ASM_SYMBOL_INTERCEPTOR(symbol) _wrap_##symbol
@@ -21,10 +21,10 @@ index 5aa36d19c..baf295bfc 100644
 +#else
 +#define NO_EXEC_STACK_DIRECTIVE
 +#endif
-diff --git a/lib/sanitizer_common/sanitizer_linux_mips64.S b/lib/sanitizer_common/sanitizer_linux_mips64.S
-index a63b7d1f4..ac6ff22e7 100644
---- a/lib/sanitizer_common/sanitizer_linux_mips64.S
-+++ b/lib/sanitizer_common/sanitizer_linux_mips64.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_linux_mips64.S b/compiler-rt/lib/sanitizer_common/sanitizer_linux_mips64.S
+index a63b7d1f4dd..ac6ff22e71c 100644
+--- a/compiler-rt/lib/sanitizer_common/sanitizer_linux_mips64.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_linux_mips64.S
 @@ -2,10 +2,10 @@
  // See https://llvm.org/LICENSE.txt for license information.
  // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
@@ -39,10 +39,10 @@ index a63b7d1f4..ac6ff22e7 100644
  
  // Further contents are mips64 only:
  #if defined(__linux__) && defined(__mips64)
-diff --git a/lib/sanitizer_common/sanitizer_linux_x86_64.S b/lib/sanitizer_common/sanitizer_linux_x86_64.S
-index 2a4f2e4d9..d22d6d1c2 100644
---- a/lib/sanitizer_common/sanitizer_linux_x86_64.S
-+++ b/lib/sanitizer_common/sanitizer_linux_x86_64.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_linux_x86_64.S b/compiler-rt/lib/sanitizer_common/sanitizer_linux_x86_64.S
+index 2a4f2e4d982..d22d6d1c24f 100644
+--- a/compiler-rt/lib/sanitizer_common/sanitizer_linux_x86_64.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_linux_x86_64.S
 @@ -2,10 +2,10 @@
  // See https://llvm.org/LICENSE.txt for license information.
  // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
@@ -57,10 +57,10 @@ index 2a4f2e4d9..d22d6d1c2 100644
  
  // Further contents are x86_64-only:
  #if defined(__linux__) && defined(__x86_64__)
-diff --git a/lib/tsan/rtl/tsan_rtl_aarch64.S b/lib/tsan/rtl/tsan_rtl_aarch64.S
-index 3d02bf22f..7c3ce13e4 100644
---- a/lib/tsan/rtl/tsan_rtl_aarch64.S
-+++ b/lib/tsan/rtl/tsan_rtl_aarch64.S
+diff --git a/compiler-rt/lib/tsan/rtl/tsan_rtl_aarch64.S b/compiler-rt/lib/tsan/rtl/tsan_rtl_aarch64.S
+index 3d02bf22f8a..7c3ce13e4fb 100644
+--- a/compiler-rt/lib/tsan/rtl/tsan_rtl_aarch64.S
++++ b/compiler-rt/lib/tsan/rtl/tsan_rtl_aarch64.S
 @@ -335,9 +335,6 @@ ASM_SYMBOL_INTERCEPTOR(__sigsetjmp):
  ASM_SIZE(ASM_SYMBOL_INTERCEPTOR(__sigsetjmp))
  #endif
@@ -72,10 +72,10 @@ index 3d02bf22f..7c3ce13e4 100644
 +NO_EXEC_STACK_DIRECTIVE
  
  #endif
-diff --git a/lib/tsan/rtl/tsan_rtl_amd64.S b/lib/tsan/rtl/tsan_rtl_amd64.S
-index 34ef51c2a..b5c8cb7bf 100644
---- a/lib/tsan/rtl/tsan_rtl_amd64.S
-+++ b/lib/tsan/rtl/tsan_rtl_amd64.S
+diff --git a/compiler-rt/lib/tsan/rtl/tsan_rtl_amd64.S b/compiler-rt/lib/tsan/rtl/tsan_rtl_amd64.S
+index 34ef51c2a72..b5c8cb7bfa1 100644
+--- a/compiler-rt/lib/tsan/rtl/tsan_rtl_amd64.S
++++ b/compiler-rt/lib/tsan/rtl/tsan_rtl_amd64.S
 @@ -389,10 +389,6 @@ ASM_SYMBOL_INTERCEPTOR(__sigsetjmp):
  ASM_SIZE(ASM_SYMBOL_INTERCEPTOR(__sigsetjmp))
  #endif  // !defined(__APPLE__) && !defined(__NetBSD__)

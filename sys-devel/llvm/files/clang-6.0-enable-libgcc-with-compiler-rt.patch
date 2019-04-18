@@ -3,8 +3,8 @@ This patch links libgcc_eh when rtlib=compiler-rt.
 -https://llvm.org/bugs/show_bug.cgi?id=28681
 diff --git a/lib/Driver/ToolChains/CommonArgs.cpp b/lib/Driver/ToolChains/CommonArgs.cpp
 index 5e360f62e2..2b53bde32f 100644
---- a/tools/clang/lib/Driver/ToolChains/CommonArgs.cpp
-+++ b/tools/clang/lib/Driver/ToolChains/CommonArgs.cpp
+--- a/clang/lib/Driver/ToolChains/CommonArgs.cpp
++++ b/clang/lib/Driver/ToolChains/CommonArgs.cpp
 @@ -1028,6 +1028,8 @@ void tools::AddRunTimeLibs(const ToolChain &TC, const Driver &D,
    switch (RLT) {
    case ToolChain::RLT_CompilerRT:

@@ -20,8 +20,8 @@ which should test the patch.
 
 diff --git a/ELF/Writer.cpp b/ELF/Writer.cpp
 index 37a53a1e7..786dbca01 100644
---- a/ELF/Writer.cpp
-+++ b/ELF/Writer.cpp
+--- a/lld/ELF/Writer.cpp
++++ b/lld/ELF/Writer.cpp
 @@ -729,13 +729,14 @@ static bool isRelroSection(const OutputSection *Sec) {
  // * It is easy to check if a give branch was taken.
  // * It is easy two see how similar two ranks are (see getRankProximity).
@@ -61,8 +61,8 @@ index 37a53a1e7..786dbca01 100644
    } else if (Sec->Type == SHT_PROGBITS) {
 diff --git a/test/ELF/text-section-prefix.s b/test/ELF/text-section-prefix.s
 index e39536da3..a0c776525 100644
---- a/test/ELF/text-section-prefix.s
-+++ b/test/ELF/text-section-prefix.s
+--- a/lld/test/ELF/text-section-prefix.s
++++ b/lld/test/ELF/text-section-prefix.s
 @@ -7,8 +7,8 @@
  # RUN: ld.lld -z nokeep-text-section-prefix %t -o %t4
  # RUN: llvm-readelf -l %t4 | FileCheck --check-prefix=CHECKNO %s

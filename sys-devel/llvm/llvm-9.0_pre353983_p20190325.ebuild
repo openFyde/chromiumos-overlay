@@ -14,8 +14,7 @@ DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="http://llvm.org/"
 PROFDATA_FILE="llvm-profdata-20190412.tar.xz"
 SRC_URI="llvm_pgo_use? ( gs://chromeos-localmirror/distfiles/${PROFDATA_FILE} )"
-EGIT_REPO_URI="http://llvm.org/git/llvm.git
-	https://github.com/llvm-mirror/llvm.git"
+EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 LICENSE="UoI-NCSA"
 SLOT="8"
@@ -108,6 +107,7 @@ pkg_pretend() {
 
 pkg_setup() {
 	pkg_pretend
+	export CMAKE_USE_DIR="${S}/llvm"
 }
 
 check_lld_works() {
@@ -116,107 +116,26 @@ check_lld_works() {
 	$(tc-getCXX) -fuse-ld=lld -std=c++11 -o /dev/null "${T}"/lld.cxx
 }
 
-# Build libfuzzer with libc++ only if clang is compiler.
-build_libfuzzer_with_libcxx() {
-	tc-is-clang
-}
-
 src_unpack() {
-	local clang_hash clang_tidy_hash compiler_rt_hash llvm_hash lld_hash
-	local libcxxabi_hash libcxx_hash
+	local llvm_hash
 
 	if use llvm-tot; then
-		clang_hash="origin/master"
-		clang_tidy_hash="origin/master"
-		compiler_rt_hash="origin/master"
 		llvm_hash="origin/master"
-		lld_hash="origin/master"
-		libcxxabi_hash="origin/master"
-		libcxx_hash="origin/master"
 	elif use llvm-next; then
 		# llvm:353983 https://critique.corp.google.com/#review/233864070
-		clang_hash="171531e31716e2db2c372cf8b57220ddf9e721d8" # EGIT_COMMIT r353983
-		clang_tidy_hash="80b6bd266d30d1fbc12b8cf16db684365492c0e6" # EGIT_COMMIT r353926
-		compiler_rt_hash="00d38a06e40df0bb8fbc1d3e4e6a3cc35bddbd74" # EGIT_COMMIT r353947
-		llvm_hash="5077597e0d5b86d9f9c27286d8b28f8b3645a74c" # EGIT_COMMIT r353983
-		lld_hash="14aa57da0f92683f0b8bdac0acda485a6f73edc7" # EGIT_COMMIT r353981
-		libcxxabi_hash="307bb62985575b2e3216a8cfd7e122e0574f33a9" #EGIT_COMMIT r347903
-		libcxx_hash="9ff404deecb2b3d02b219f3e841aa8837a1f654e" #EGIT_COMMIT r349566
+		llvm_hash="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # EGIT_COMMIT r353983
 	else
 		# llvm:353983 https://critique.corp.google.com/#review/233864070
-		clang_hash="171531e31716e2db2c372cf8b57220ddf9e721d8" # EGIT_COMMIT r353983
-		clang_tidy_hash="80b6bd266d30d1fbc12b8cf16db684365492c0e6" # EGIT_COMMIT r353926
-		compiler_rt_hash="00d38a06e40df0bb8fbc1d3e4e6a3cc35bddbd74" # EGIT_COMMIT r353947
-		llvm_hash="5077597e0d5b86d9f9c27286d8b28f8b3645a74c" # EGIT_COMMIT r353983
-		lld_hash="14aa57da0f92683f0b8bdac0acda485a6f73edc7" # EGIT_COMMIT r353981
-		libcxxabi_hash="307bb62985575b2e3216a8cfd7e122e0574f33a9" #EGIT_COMMIT r347903
-		libcxx_hash="9ff404deecb2b3d02b219f3e841aa8837a1f654e" #EGIT_COMMIT r349566
+		llvm_hash="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # EGIT_COMMIT r353983
 	fi
 
-	# non-local
-	EGIT_REPO_URIS=(
-		"llvm"
-			""
-			"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm.git"
-			"$llvm_hash"
-		"compiler-rt"
-			"projects/compiler-rt"
-			"${CROS_GIT_HOST_URL}/chromiumos/third_party/compiler-rt.git"
-			"$compiler_rt_hash"
-		"clang"
-			"tools/clang"
-			"${CROS_GIT_HOST_URL}/chromiumos/third_party/clang.git"
-			"$clang_hash"
-		"clang-tidy"
-			"tools/clang/tools/extra"
-			"${CROS_GIT_HOST_URL}/chromiumos/third_party/llvm-clang-tools-extra.git"
-			"$clang_tidy_hash"
-		"lld"
-			"tools/lld"
-			"${CROS_GIT_HOST_URL}/external/llvm.org/lld"
-			"$lld_hash"
-	)
-
-	# libc++/libc++abi are unpacked in a custom location for libfuzzer usage and
-	# are not built with llvm ebuild. Remove after moving to monorepo.
-	export libcxxabi_dir="${T}/custom_libcxx/libcxxabi"
-	export libcxx_dir="${T}/custom_libcxx/libcxx"
-
-	LIBCXX_URIS=(
-		"libcxx"
-			"${libcxx_dir}"
-			"${CROS_GIT_HOST_URL}/external/llvm.org/libcxx.git"
-			"$libcxx_hash"
-		"libcxxabi"
-			"${libcxxabi_dir}"
-			"${CROS_GIT_HOST_URL}/external/llvm.org/libcxxabi.git"
-			"$libcxxabi_hash"
-		)
 	# Don't unpack profdata file when calling git-2_src_unpack.
 	EGIT_NOUNPACK=1
-	# Unpack llvm, clang, lld, compiler-rt, clang-tools-extra
-	set -- "${EGIT_REPO_URIS[@]}"
-		while [[ $# -gt 0 ]]; do
-			ESVN_PROJECT=$1 \
-			EGIT_SOURCEDIR="${S}/$2" \
-			EGIT_REPO_URI=$3 \
-			EGIT_COMMIT=$4 \
-			git-2_src_unpack
-			shift 4
-		done
 
-	if build_libfuzzer_with_libcxx; then
-		# Unpack libc++, remove after moving to monorepo.
-		set -- "${LIBCXX_URIS[@]}"
-			while [[ $# -gt 0 ]]; do
-				ESVN_PROJECT=$1 \
-				EGIT_SOURCEDIR="$2" \
-				EGIT_REPO_URI=$3 \
-				EGIT_COMMIT=$4 \
-				git-2_src_unpack
-				shift 4
-			done
-	fi
+	# Unpack llvm
+	ESVN_PROJECT="llvm"
+	EGIT_COMMIT="${llvm_hash}"
+	git-2_src_unpack
 
 	if use llvm_pgo_use; then
 		cd ${WORKDIR}
@@ -226,142 +145,83 @@ src_unpack() {
 }
 
 pick_cherries() {
-	# clang
 	local CHERRIES=""
-	pushd "${S}"/tools/clang >/dev/null || die
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-	popd >/dev/null || die
+	# clang
 
 	# llvm
-	CHERRIES=""
-	CHERRIES+=" c41523717766c9926ca9ec003f20d03e67577d87" #r354062
-	CHERRIES+=" 6bb5006d9eb1a12ab251a3c53d0a9f55fc051fa7" #r356988
-	pushd "${S}" >/dev/null || die
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-	popd >/dev/null || die
+	CHERRIES+=" d0b1f30b32bda78267a48f1812adabcfe872fe43" #r354062
+	CHERRIES+=" 74b874ac4c6c079f85edd1f2957b1d96e0127ea5" #r356988
 
 	# compiler-rt
-	CHERRIES=""
-	CHERRIES+=" f5c0c1f1e1abe66650443d39f34fc205c2bc3175" #r354632
-	CHERRIES+=" 4efb43207cb1f36870a79350d870ae47717af755" #r354989, needed to pick r355030
-	CHERRIES+=" 9cde2249660f19f4ffa6d7703cecfdced27f9917" #r355030
-	CHERRIES+=" 0679ae46f0e5a214dec9cab55ee7ffba159feb84" #r355041
-	CHERRIES+=" 599d8c50c575e3e4cd774a7fc5636df87b493388" #r355064
-	CHERRIES+=" 0f079fab83fb2af94e2fe9e4e44e8f47661a7ded" #r355125
-	CHERRIES+=" 989c04edf69498e21866346d7dfa3b4c11e3c157" #r356581
-	pushd "${S}"/projects/compiler-rt >/dev/null || die
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-	popd >/dev/null || die
+	CHERRIES+=" a2062b222d93e2ae86d36ec75923c8b1e4ae0d81" #r354632
+	CHERRIES+=" e3b6d11038f3927fd02ec6d5459cfd0ffbe6b2fe" #r354989, needed to pick r355030
+	CHERRIES+=" f46a52b5363d22bba6cc6081da295ece181977f2" #r355030
+	CHERRIES+=" f6b0a14bff33f85087e9cc5c3b1bb00f58ed8b8b" #r355041
+	CHERRIES+=" d4b4e17d2c70c8d498ad33422cf847d659b5b0cf" #r355064
+	CHERRIES+=" 37ce064082c6c8283829f206af55ff6a28e95544" #r355125
+	CHERRIES+=" 86724e40bfa544a5024a2a3d522934aef6914cc7" #r356581
 
 	# lld
-	CHERRIES=""
-	CHERRIES+=" 56ce622afb25202f5997b4747bdc4690d7879c37" #r357133
-	CHERRIES+=" 573bf048f88354e475eb646db94255166cf10069" #r357160
-	pushd "${S}"/tools/lld >/dev/null || die
+	CHERRIES+=" 432030e843bf124b4d285874362b6fd00446dd56" #r357133
+	CHERRIES+=" 3ce9af9370d091b7d959902216482f3015e965fc" #r357160
+
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
 	done
-	popd >/dev/null || die
 }
 
 pick_next_cherries() {
-	# clang
 	local CHERRIES=""
-	pushd "${S}"/tools/clang >/dev/null || die
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-	popd >/dev/null || die
+
+	# clang
 
 	# llvm
-	CHERRIES=""
-	CHERRIES+=" c41523717766c9926ca9ec003f20d03e67577d87" #r354062
-	CHERRIES+=" 6bb5006d9eb1a12ab251a3c53d0a9f55fc051fa7" #r356988
-	pushd "${S}" >/dev/null || die
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-	popd >/dev/null || die
+	CHERRIES+=" d0b1f30b32bda78267a48f1812adabcfe872fe43" #r354062
+	CHERRIES+=" 74b874ac4c6c079f85edd1f2957b1d96e0127ea5" #r356988
 
 	# compiler-rt
-	CHERRIES=""
-	CHERRIES+=" f5c0c1f1e1abe66650443d39f34fc205c2bc3175" #r354632
-	CHERRIES+=" 4efb43207cb1f36870a79350d870ae47717af755" #r354989, needed to pick r355030
-	CHERRIES+=" 9cde2249660f19f4ffa6d7703cecfdced27f9917" #r355030
-	CHERRIES+=" 0679ae46f0e5a214dec9cab55ee7ffba159feb84" #r355041
-	CHERRIES+=" 599d8c50c575e3e4cd774a7fc5636df87b493388" #r355064
-	CHERRIES+=" 0f079fab83fb2af94e2fe9e4e44e8f47661a7ded" #r355125
-	CHERRIES+=" 989c04edf69498e21866346d7dfa3b4c11e3c157" #r356581
-	pushd "${S}"/projects/compiler-rt >/dev/null || die
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-	popd >/dev/null || die
+	CHERRIES+=" a2062b222d93e2ae86d36ec75923c8b1e4ae0d81" #r354632
+	CHERRIES+=" e3b6d11038f3927fd02ec6d5459cfd0ffbe6b2fe" #r354989, needed to pick r355030
+	CHERRIES+=" f46a52b5363d22bba6cc6081da295ece181977f2" #r355030
+	CHERRIES+=" f6b0a14bff33f85087e9cc5c3b1bb00f58ed8b8b" #r355041
+	CHERRIES+=" d4b4e17d2c70c8d498ad33422cf847d659b5b0cf" #r355064
+	CHERRIES+=" 37ce064082c6c8283829f206af55ff6a28e95544" #r355125
+	CHERRIES+=" 86724e40bfa544a5024a2a3d522934aef6914cc7" #r356581
 
 	#lld
-	CHERRIES=""
-	CHERRIES+=" 56ce622afb25202f5997b4747bdc4690d7879c37" #r357133
-	CHERRIES+=" 573bf048f88354e475eb646db94255166cf10069" #r357160
-	pushd "${S}"/tools/lld >/dev/null || die
+	CHERRIES+=" 432030e843bf124b4d285874362b6fd00446dd56" #r357133
+	CHERRIES+=" 3ce9af9370d091b7d959902216482f3015e965fc" #r357160
+
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
 	done
-	popd >/dev/null || die
 }
 
-get_most_recent_revision_for_dir() {
-	local subdir="$1"
+get_most_recent_revision() {
+	local subdir="${S}/llvm"
 
-	# Tries to parse the last git-svn-id present in the most recent commit
-	# with a git-svn-id attached. We can't simply `grep -m 1 git-svn-id`,
-	# since it's reasonable for a revert message to include the git-svn-id
-	# of the commit it's reverting.
+	# Tries to parse the last revision ID present in the most recent commit
+	# with a revision ID attached. We can't simply `grep -m 1`, since it's
+	# reasonable for a revert message to include the git-svn-id of the
+	# commit it's reverting.
 	#
-	# Thankfully, LLVM's machinery always makes this git-svn-id the last
-	# line of each upstream commit, so we just need to search for
-	# /git-svn-id/, with /^commit/ two lines later.
+	# Thankfully, LLVM's machinery always makes this ID the last line of
+	# each upstream commit, so we just need to search for it, with commit
+	# two lines later.
 	#
-	# Example of git-svn-id line:
-	# git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@344884 [etc]
+	# Example of revision ID line:
+	# llvm-svn: 358929
 	#
-	# Where:
-	#   - The URL isn't the same across clang, llvm, compiler-rt, etc.
-	#   - The revision is r344884
-	#   - [etc] is trailing stuff we don't need to care about.
-	git -C "$subdir" log | \
-		sed -En ':x
-			/^\s+git-svn-id:/!b
-			h
-			n
-			/^$/!bx
-			n
-			/^commit/!bx
-			g
-			s/[^@]+@([0-9]+) .*/\1/
-			p
-			q'
-}
-
-get_uncached_most_recent_revision() {
-	set -- "${EGIT_REPO_URIS[@]}"
-	local max=0
-	while [[ $# -gt 0 ]]; do
-		local dir_name="${S}/$2"
-		local subdir_rev=$(get_most_recent_revision_for_dir "$dir_name")
-
-		if test "$max" -lt "$subdir_rev"; then
-			max="$subdir_rev"
-		fi
-		shift 4
-	done
-
-	echo "$max"
+	# Where 358929 is the revision.
+	git -C "${subdir}" log | \
+		awk '
+			/^commit/ {
+				if (most_recent_id != "") {
+					print most_recent_id
+					exit
+				}
+			}
+			/^\s+llvm-svn: [0-9]+$/ { most_recent_id = $2 }'
 }
 
 # This cache is a bit awkward, since the most natural way to do this is "make a
@@ -371,7 +231,7 @@ most_recent_revision=
 
 ensure_most_recent_revision_set() {
 	if test -z "$most_recent_revision"; then
-		most_recent_revision="$(get_uncached_most_recent_revision)"
+		most_recent_revision="$(get_most_recent_revision)"
 	fi
 }
 
@@ -381,10 +241,12 @@ epatch_between() {
 	local patch="$3"
 
 	ensure_most_recent_revision_set
+
 	if test "$min_revision" -le "$most_recent_revision" -a \
 			"$max_revision" -ge "$most_recent_revision"; then
 		epatch "$patch"
 	else
+		einfo "Patch $3 not applied"
 		return 1
 	fi
 }
@@ -402,26 +264,22 @@ src_prepare() {
 		use llvm-next || pick_cherries
 		use llvm-next && pick_next_cherries
 	fi
+
+	# compiler-rt patches
 	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
 	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
 
 	# Make ocaml warnings non-fatal, bug #537308
-	sed -e "/RUN/s/-warn-error A//" -i test/Bindings/OCaml/*ml  || die
+	sed -e "/RUN/s/-warn-error A//" -i llvm/test/Bindings/OCaml/*ml  || die
 
+	# llvm patches
 	# Allow custom cmake build types (like 'Gentoo')
 	epatch "${FILESDIR}"/cmake/${PN}-3.8-allow_custom_cmake_build_types.patch
 
 	# crbug/591436
 	epatch "${FILESDIR}"/llvm-8.0-clang-executable-detection.patch
 
-	# crbug/606391
-	epatch "${FILESDIR}"/${PN}-3.8-invocation.patch
-
 	epatch "${FILESDIR}"/llvm-3.9-dwarf-version.patch
-
-	# Link libgcc_eh when using compiler-rt as default rtlib.
-	# https://llvm.org/bugs/show_bug.cgi?id=28681
-	epatch "${FILESDIR}"/clang-6.0-enable-libgcc-with-compiler-rt.patch
 
 	# Temporarily revert r332058 as it caused speedometer2 perf regression.
 	# https://crbug.com/864781
@@ -430,29 +288,35 @@ src_prepare() {
 	# Revert r335145 and r335284 since android reverts them.
 	# b/113573336
 	epatch_after 335145 "${FILESDIR}"/llvm-8.0-revert-r335145.patch
-	pushd "${S}"/tools/clang >/dev/null || die
+
+	# clang patches
+	# clang: crbug/606391
+	epatch "${FILESDIR}"/${PN}-3.8-invocation.patch
+
+	# Link libgcc_eh when using compiler-rt as default rtlib.
+	# https://llvm.org/bugs/show_bug.cgi?id=28681
+	epatch "${FILESDIR}"/clang-6.0-enable-libgcc-with-compiler-rt.patch
+
 	epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
-	popd >/dev/null || die
 
 	# revert r344218, https://crbug.com/915711
 	epatch "${FILESDIR}"/llvm-8.0-revert-headers-as-sources.patch
 	# revert r340839, https://crbug.com/916740
 	epatch "${FILESDIR}"/llvm-8.0-revert-asm-debug-info.patch
+
+	# lld patches
+	# These 2 patches are still reverted in Android.
+	epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
+	epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
+	# Allow .elf suffix in lld binary name.
+	epatch "${FILESDIR}/lld-invoke-name.patch"
+	# Put .text.hot section before .text section.
+	epatch "${FILESDIR}"/lld-8.0-reorder-hotsection-early.patch
+
 	python_setup
 
 	# User patches
 	epatch_user
-
-	# lld patches
-	pushd "${S}"/tools/lld >/dev/null || die
-		# These 2 patches are still reverted in Android.
-		epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
-		epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
-		# Allow .elf suffix in lld binary name.
-		epatch "${FILESDIR}/lld-invoke-name.patch"
-		# Put .text.hot section before .text section.
-		epatch "${FILESDIR}"/lld-8.0-reorder-hotsection-early.patch
-	popd >/dev/null || die
 
 	# Native libdir is used to hold LLVMgold.so
 	NATIVE_LIBDIR=$(get_libdir)
@@ -485,6 +349,7 @@ multilib_src_configure() {
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		"${mycmakeargs[@]}"
+		-DLLVM_ENABLE_PROJECTS="llvm;clang;lld;compiler-rt;clang-tools-extra"
 		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
 
 		-DLLVM_BUILD_LLVM_DYLIB=ON
@@ -581,14 +446,6 @@ multilib_src_configure() {
 		)
 	fi
 
-	# Build libfuzzer with an internal copy of libc++.
-	# Remove after moving to monorepo.
-	if build_libfuzzer_with_libcxx; then
-		mycmakeargs+=(
-			-DCOMPILER_RT_LIBCXXABI_PATH=${libcxxabi_dir}
-			-DCOMPILER_RT_LIBCXX_PATH=${libcxx_dir}
-		)
-	fi
 	cmake-utils_src_configure
 }
 
@@ -651,8 +508,8 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	insinto /usr/share/vim/vimfiles
-	doins -r utils/vim/*/.
+	doins -r llvm/utils/vim/*/.
 	# some users may find it useful
-	dodoc utils/vim/vimrc
-	dobin "${S}/projects/compiler-rt/lib/asan/scripts/asan_symbolize.py"
+	dodoc llvm/utils/vim/vimrc
+	dobin "${S}/compiler-rt/lib/asan/scripts/asan_symbolize.py"
 }

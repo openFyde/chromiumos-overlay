@@ -1,4 +1,4 @@
-commit c41523717766c9926ca9ec003f20d03e67577d87
+commit d0b1f30b32bda78267a48f1812adabcfe872fe43
 Author: Teresa Johnson <tejohnson@google.com>
 Date:   Thu Feb 14 21:22:50 2019 +0000
 
@@ -24,12 +24,12 @@ Date:   Thu Feb 14 21:22:50 2019 +0000
     
     Differential Revision: https://reviews.llvm.org/D57561
     
-    git-svn-id: https://llvm.org/svn/llvm-project/llvm/trunk@354062 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 354062
 
-diff --git a/include/llvm/LTO/LTO.h b/include/llvm/LTO/LTO.h
+diff --git a/llvm/include/llvm/LTO/LTO.h b/llvm/include/llvm/LTO/LTO.h
 index d3949aa33b2..1f9d764f068 100644
---- a/include/llvm/LTO/LTO.h
-+++ b/include/llvm/LTO/LTO.h
+--- a/llvm/include/llvm/LTO/LTO.h
++++ b/llvm/include/llvm/LTO/LTO.h
 @@ -398,6 +398,8 @@ private:
    Error runRegularLTO(AddStreamFn AddStream);
    Error runThinLTO(AddStreamFn AddStream, NativeObjectCache Cache);
@@ -39,10 +39,10 @@ index d3949aa33b2..1f9d764f068 100644
    mutable bool CalledGetMaxTasks = false;
  
    // Use Optional to distinguish false from not yet initialized.
-diff --git a/lib/LTO/LTO.cpp b/lib/LTO/LTO.cpp
+diff --git a/llvm/lib/LTO/LTO.cpp b/llvm/lib/LTO/LTO.cpp
 index 23a4a4011f7..8e0d532fa7e 100644
---- a/lib/LTO/LTO.cpp
-+++ b/lib/LTO/LTO.cpp
+--- a/llvm/lib/LTO/LTO.cpp
++++ b/llvm/lib/LTO/LTO.cpp
 @@ -20,6 +20,7 @@
  #include "llvm/Config/llvm-config.h"
  #include "llvm/IR/AutoUpgrade.h"
@@ -127,10 +127,10 @@ index 23a4a4011f7..8e0d532fa7e 100644
    // Make sure commons have the right size/alignment: we kept the largest from
    // all the prevailing when adding the inputs, and we apply it here.
    const DataLayout &DL = RegularLTO.CombinedModule->getDataLayout();
-diff --git a/lib/Transforms/IPO/LowerTypeTests.cpp b/lib/Transforms/IPO/LowerTypeTests.cpp
+diff --git a/llvm/lib/Transforms/IPO/LowerTypeTests.cpp b/llvm/lib/Transforms/IPO/LowerTypeTests.cpp
 index 2f8a96be875..398005d2234 100644
---- a/lib/Transforms/IPO/LowerTypeTests.cpp
-+++ b/lib/Transforms/IPO/LowerTypeTests.cpp
+--- a/llvm/lib/Transforms/IPO/LowerTypeTests.cpp
++++ b/llvm/lib/Transforms/IPO/LowerTypeTests.cpp
 @@ -1692,6 +1692,14 @@ void LowerTypeTestsModule::replaceDirectCalls(Value *Old, Value *New) {
  }
  
@@ -160,10 +160,10 @@ index 2f8a96be875..398005d2234 100644
    if (ImportSummary) {
      if (TypeTestFunc) {
        for (auto UI = TypeTestFunc->use_begin(), UE = TypeTestFunc->use_end();
-diff --git a/lib/Transforms/IPO/WholeProgramDevirt.cpp b/lib/Transforms/IPO/WholeProgramDevirt.cpp
+diff --git a/llvm/lib/Transforms/IPO/WholeProgramDevirt.cpp b/llvm/lib/Transforms/IPO/WholeProgramDevirt.cpp
 index ab6f0eb660f..6b6dd6194e1 100644
---- a/lib/Transforms/IPO/WholeProgramDevirt.cpp
-+++ b/lib/Transforms/IPO/WholeProgramDevirt.cpp
+--- a/llvm/lib/Transforms/IPO/WholeProgramDevirt.cpp
++++ b/llvm/lib/Transforms/IPO/WholeProgramDevirt.cpp
 @@ -1563,23 +1563,20 @@ void DevirtModule::removeRedundantTypeTests() {
  }
  
@@ -196,10 +196,10 @@ index ab6f0eb660f..6b6dd6194e1 100644
    // Normally if there are no users of the devirtualization intrinsics in the
    // module, this pass has nothing to do. But if we are exporting, we also need
    // to handle any users that appear only in the function summaries.
-diff --git a/test/ThinLTO/X86/cfi-devirt.ll b/test/ThinLTO/X86/cfi-devirt.ll
+diff --git a/llvm/test/ThinLTO/X86/cfi-devirt.ll b/llvm/test/ThinLTO/X86/cfi-devirt.ll
 index 3fd0486c7e8..2ea6fc4cac0 100644
---- a/test/ThinLTO/X86/cfi-devirt.ll
-+++ b/test/ThinLTO/X86/cfi-devirt.ll
+--- a/llvm/test/ThinLTO/X86/cfi-devirt.ll
++++ b/llvm/test/ThinLTO/X86/cfi-devirt.ll
 @@ -20,8 +20,8 @@
  ; RUN:   -r=%t.o,_ZN1B1fEi, \
  ; RUN:   -r=%t.o,_ZN1C1fEi, \

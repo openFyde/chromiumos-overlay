@@ -6,8 +6,8 @@ instead of clang.elf binary.
 
 diff --git a/tools/clang/tools/driver/driver.cpp b/tools/clang/tools/driver/driver.cpp
 index ea218d5..561f44f 100644
---- a/tools/clang/tools/driver/driver.cpp
-+++ b/tools/clang/tools/driver/driver.cpp
+--- a/clang/tools/driver/driver.cpp
++++ b/clang/tools/driver/driver.cpp
 @@ -409,6 +409,9 @@ int main(int argc_, const char **argv_) {
    }
  

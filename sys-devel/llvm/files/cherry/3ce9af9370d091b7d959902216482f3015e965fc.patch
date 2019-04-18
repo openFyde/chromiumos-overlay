@@ -1,4 +1,4 @@
-commit 573bf048f88354e475eb646db94255166cf10069
+commit 3ce9af9370d091b7d959902216482f3015e965fc
 Author: Peter Smith <peter.smith@linaro.org>
 Date:   Thu Mar 28 11:10:20 2019 +0000
 
@@ -22,14 +22,12 @@ Date:   Thu Mar 28 11:10:20 2019 +0000
     
     Differential Revision: https://reviews.llvm.org/D59216
     
-    
-    
-    git-svn-id: https://llvm.org/svn/llvm-project/lld/trunk@357160 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 357160
 
-diff --git a/ELF/OutputSections.cpp b/ELF/OutputSections.cpp
-index a7f35ebfc..4cb5a3cdc 100644
---- a/ELF/OutputSections.cpp
-+++ b/ELF/OutputSections.cpp
+diff --git a/lld/ELF/OutputSections.cpp b/lld/ELF/OutputSections.cpp
+index a7f35ebfc57..4cb5a3cdc59 100644
+--- a/lld/ELF/OutputSections.cpp
++++ b/lld/ELF/OutputSections.cpp
 @@ -289,7 +289,9 @@ void OutputSection::finalize() {
      // SHF_LINK_ORDER flag. The dependency is indicated by the sh_link field. We
      // need to translate the InputSection sh_link to the OutputSection sh_link,
@@ -41,10 +39,10 @@ index a7f35ebfc..4cb5a3cdc 100644
        Link = D->getParent()->SectionIndex;
    }
  
-diff --git a/ELF/SyntheticSections.cpp b/ELF/SyntheticSections.cpp
-index 5e67610cb..142caaa12 100644
---- a/ELF/SyntheticSections.cpp
-+++ b/ELF/SyntheticSections.cpp
+diff --git a/lld/ELF/SyntheticSections.cpp b/lld/ELF/SyntheticSections.cpp
+index 5e67610cbd3..142caaa1250 100644
+--- a/lld/ELF/SyntheticSections.cpp
++++ b/lld/ELF/SyntheticSections.cpp
 @@ -3039,33 +3039,194 @@ MipsRldMapSection::MipsRldMapSection()
      : SyntheticSection(SHF_ALLOC | SHF_WRITE, SHT_PROGBITS, Config->Wordsize,
                         ".rld_map") {}
@@ -262,10 +260,10 @@ index 5e67610cb..142caaa12 100644
    return D->kind() == InputSectionBase::Synthetic && D->Type == SHT_ARM_EXIDX;
  }
  
-diff --git a/ELF/SyntheticSections.h b/ELF/SyntheticSections.h
-index 371be2eba..7923435d8 100644
---- a/ELF/SyntheticSections.h
-+++ b/ELF/SyntheticSections.h
+diff --git a/lld/ELF/SyntheticSections.h b/lld/ELF/SyntheticSections.h
+index 371be2ebada..7923435d816 100644
+--- a/lld/ELF/SyntheticSections.h
++++ b/lld/ELF/SyntheticSections.h
 @@ -938,19 +938,76 @@ public:
    void writeTo(uint8_t *Buf) override {}
  };
@@ -359,10 +357,10 @@ index 371be2eba..7923435d8 100644
    BssSection *Bss;
    BssSection *BssRelRo;
    BuildIdSection *BuildId;
-diff --git a/ELF/Writer.cpp b/ELF/Writer.cpp
-index 3ba80274a..5d899c016 100644
---- a/ELF/Writer.cpp
-+++ b/ELF/Writer.cpp
+diff --git a/lld/ELF/Writer.cpp b/lld/ELF/Writer.cpp
+index 3ba80274a63..5d899c016fb 100644
+--- a/lld/ELF/Writer.cpp
++++ b/lld/ELF/Writer.cpp
 @@ -444,10 +444,12 @@ template <class ELFT> static void createSyntheticSections() {
    if (In.StrTab)
      Add(In.StrTab);
@@ -527,3 +525,422 @@ index 3ba80274a..5d899c016 100644
    resolveShfLinkOrder();
  
    // Jump instructions in many ISAs have small displacements, and therefore they
+diff --git a/lld/test/ELF/arm-data-prel.s b/lld/test/ELF/arm-data-prel.s
+index 78b42818609..e5bb6fa5759 100644
+--- a/lld/test/ELF/arm-data-prel.s
++++ b/lld/test/ELF/arm-data-prel.s
+@@ -1,9 +1,8 @@
+ // REQUIRES: arm
+-// RUN: llvm-mc %s -triple=armv7-unknown-linux-gnueabi -filetype=obj -o %t.o
++// RUN: llvm-mc %s -triple=armv7-unknown-linux-gnueabi -filetype=obj --arm-add-build-attributes -o %t.o
+ // RUN: echo "SECTIONS { \
+ // RUN:          .text : { *(.text) } \
+ // RUN:          .prel.test : { *(.ARM.exidx) } \
+-// RUN:          .prel.test.TEST1 : { *(.ARM.exidx.TEST1) } \
+ // RUN:          .TEST1 : { *(.TEST1) } } " > %t.script
+ // RUN: ld.lld --script %t.script %t.o -o %t
+ // RUN: llvm-readobj -s -sd %t | FileCheck --check-prefix=CHECK %s
+@@ -47,17 +46,14 @@ __aeabi_unwind_cpp_pr0:
+ // The expected value of the exception table is
+ // Word0 0 in bit 31, -4 encoded in 31-bit signed offset
+ // Word1 Inline table entry EHT Inline Personality Routine #0
+-// CHECK:  Name: .prel.test
+-// CHECK:  SectionData (
+-// CHECK:     0000: FCFFFF7F B0B0B080
+-// CHECK:  )
+-
+-// The expected value of the exception table is
+-// Word0 0 in bit 31, +8 encoded in 31-bit signed offset
+-// Word1 Inline table entry EHT Inline Personality Routine #0
++// Word3 0 in bit 31, +10 encoded in 31-bit signed offset
++// Word4 Inline table entry EHT Inline Personality Routine #0
+ // set vsp = r11
+ // pop r11, r14
+-// CHECK:  Name: .prel.test.TEST1
++// Word5 Sentinel +18 EXIDX_CANTUNWIND
++
++// CHECK:  Name: .prel.test
+ // CHECK:  SectionData (
+-// CHECK:     0000: 08000000 80849B80
++// CHECK:     0000: FCFFFF7F B0B0B080 10000000 80849B80
++// CHECK:     0010: 18000000 01000000
+ // CHECK:  )
+diff --git a/lld/test/ELF/arm-exidx-add-missing.s b/lld/test/ELF/arm-exidx-add-missing.s
+new file mode 100644
+index 00000000000..7e452c6b439
+--- /dev/null
++++ b/lld/test/ELF/arm-exidx-add-missing.s
+@@ -0,0 +1,66 @@
++// REQUIRES: arm
++// RUN: llvm-mc -filetype=obj -triple=armv7a-none-linux-gnueabi --arm-add-build-attributes %s -o %t
++// RUN: ld-lld %t --no-merge-exidx-entries -o %t2
++// RUN: llvm-objdump -s %t2 | FileCheck %s
++// RUN: ld-lld %t -o %t3
++// RUN: llvm-objdump -s %t3 | FileCheck %s -check-prefix=CHECK-MERGE
++
++// The ARM.exidx section is a table of 8-byte entries of the form:
++// | PREL31 Relocation to start of function | Unwinding information |
++// The range of addresses covered by the table entry is terminated by the
++// next table entry. This means that an executable section without a .ARM.exidx
++// section does not terminate the range of addresses. To fix this the linker
++// synthesises an EXIDX_CANTUNWIND entry for each section wihout a .ARM.exidx
++// section.
++
++        .syntax unified
++
++        // Expect inline unwind instructions
++        .section .text.01, "ax", %progbits
++        .global f1
++f1:
++        .fnstart
++        bx lr
++        .save {r7, lr}
++        .setfp r7, sp, #0
++        .fnend
++
++        // Expect no unwind information from assembler. The linker must
++        // synthesise an EXIDX_CANTUNWIND entry to prevent an exception
++        // thrown through f2 from matching against the unwind instructions
++        // for f1.
++        .section .text.02, "ax", %progbits
++        .global f2
++f2:
++        bx lr
++
++
++        // Expect 1 EXIDX_CANTUNWIND entry that can be merged into the linker
++        // generated EXIDX_CANTUNWIND as if the assembler had generated it.
++        .section .text.03, "ax",%progbits
++        .global f3
++f3:
++        .fnstart
++        bx lr
++        .cantunwind
++        .fnend
++
++        // Dummy implementation of personality routines to satisfy reference
++        // from exception tables, linker will generate EXIDX_CANTUNWIND.
++        .section .text.__aeabi_unwind_cpp_pr0, "ax", %progbits
++        .global __aeabi_unwind_cpp_pr0
++__aeabi_unwind_cpp_pr0:
++        bx lr
++
++// f1, f2
++// CHECK:      100d4 2c0f0000 08849780 280f0000 01000000
++// f3, __aeabi_unwind_cpp_pr0
++// CHECK-NEXT: 100e4 240f0000 01000000 200f0000 01000000
++// sentinel
++// CHECK-NEXT: 100f4 1c0f0000 01000000
++
++// f1, (f2, f3, __aeabi_unwind_cpp_pr0)
++// CHECK-MERGE:      100d4 2c0f0000 08849780 280f0000 01000000
++// sentinel
++// CHECK-MERGE-NEXT: 100e4 2c0f0000 01000000
++
+diff --git a/lld/test/ELF/arm-exidx-canunwind.s b/lld/test/ELF/arm-exidx-canunwind.s
+index df89d0082fc..cb158860646 100644
+--- a/lld/test/ELF/arm-exidx-canunwind.s
++++ b/lld/test/ELF/arm-exidx-canunwind.s
+@@ -1,6 +1,6 @@
+ // REQUIRES: arm
+-// RUN: llvm-mc -filetype=obj -triple=armv7a-none-linux-gnueabi %s -o %t
+-// RUN: ld.lld %t -o %t2 2>&1
++// RUN: llvm-mc -filetype=obj --arm-add-build-attributes -triple=armv7a-none-linux-gnueabi %s -o %t
++// RUN: ld.lld %t -o %t2
+ // RUN: llvm-objdump -d -triple=armv7a-none-linux-gnueabi %t2 | FileCheck %s
+ // RUN: llvm-objdump -s -triple=armv7a-none-linux-gnueabi %t2 | FileCheck -check-prefix=CHECK-EXIDX %s
+ // RUN: llvm-readobj --program-headers --sections %t2 | FileCheck -check-prefix=CHECK-PT %s
+@@ -66,15 +66,14 @@ _start:
+ // CHECK:      __aeabi_unwind_cpp_pr0:
+ // CHECK-NEXT:    11018:       1e ff 2f e1     bx      lr
+ 
+-// CHECK-EXIDX: Contents of section .ARM.exidx:
+-// 100d4 + f38 = 1100c = func1 (inline unwinding data)
+-// 100dc + f34 = 11010 = func2 (100e0 + c = 100ec = .ARM.extab entry)
+-// CHECK-EXIDX-NEXT: 100d4 380f0000 08849780 340f0000 0c000000
+-// 100e4 + f30 = 11014 = terminate = func2 + sizeof(func2)
+-// CHECK-EXIDX-NEXT: 100e4 300f0000 01000000
+-// CHECK-EXIDX-NEXT: Contents of section .ARM.extab:
+-// 100ec + f28 = 11014 = __gxx_personality_v0
+-// CHECK-EXIDX-NEXT: 100ec 280f0000 b0b0b000 00000000
++// 100d4 + f2c = 11000 = main (linker generated cantunwind)
++// 100dc + f30 = 1100c = func1 (inline unwinding data)
++// CHECK-EXIDX:      100d4 2c0f0000 01000000 300f0000 08849780
++// 100e4 + f2c = 11010 = func2 (100e8 + 14 = 100fc = .ARM.extab entry)
++// 100ec + f28 = 11014 = __gcc_personality_v0 (linker generated cantunwind)
++// CHECK-EXIDX-NEXT: 100e4 2c0f0000 14000000 280f0000 01000000
++// 100f4 + f28 = 1101c = sentinel
++// CHECK-EXIDX-NEXT: 100f4 280f0000 01000000
+ 
+ // CHECK-PT:          Name: .ARM.exidx
+ // CHECK-PT-NEXT:     Type: SHT_ARM_EXIDX (0x70000001)
+@@ -84,14 +83,14 @@ _start:
+ // CHECK-PT-NEXT:     ]
+ // CHECK-PT-NEXT:     Address: 0x100D4
+ // CHECK-PT-NEXT:     Offset: 0xD4
+-// CHECK-PT-NEXT:     Size: 24
++// CHECK-PT-NEXT:     Size: 40
+ 
+ // CHECK-PT:          Type: PT_ARM_EXIDX (0x70000001)
+ // CHECK-PT-NEXT:     Offset: 0xD4
+ // CHECK-PT-NEXT:     VirtualAddress: 0x100D4
+ // CHECK-PT-NEXT:     PhysicalAddress: 0x100D4
+-// CHECK-PT-NEXT:     FileSize: 24
+-// CHECK-PT-NEXT:     MemSize: 24
++// CHECK-PT-NEXT:     FileSize: 40
++// CHECK-PT-NEXT:     MemSize: 40
+ // CHECK-PT-NEXT:     Flags [ (0x4)
+ // CHECK-PT-NEXT:       PF_R (0x4)
+ // CHECK-PT-NEXT:     ]
+diff --git a/lld/test/ELF/arm-exidx-dedup.s b/lld/test/ELF/arm-exidx-dedup.s
+index 49d4c2cd1ec..d9164188617 100644
+--- a/lld/test/ELF/arm-exidx-dedup.s
++++ b/lld/test/ELF/arm-exidx-dedup.s
+@@ -1,27 +1,29 @@
+ // REQUIRES: arm
+-// RUN: llvm-mc -filetype=obj -triple=armv7a-none-linux-gnueabi %s -o %t
++// RUN: llvm-mc -filetype=obj --arm-add-build-attributes -triple=armv7a-none-linux-gnueabi %s -o %t
+ // RUN: ld.lld %t --no-merge-exidx-entries -o %t2
+ // RUN: llvm-objdump -s %t2 | FileCheck --check-prefix CHECK-DUPS %s
+ // RUN: ld.lld %t -o %t3
+ // RUN: llvm-objdump -s %t3 | FileCheck %s
++
+ // Test that lld can at least remove duplicate .ARM.exidx sections. A more
+ // fine grained implementation will be able to remove duplicate entries within
+ // a .ARM.exidx section.
+ 
+ // With duplicate entries
+ // CHECK-DUPS: Contents of section .ARM.exidx:
+-// CHECK-DUPS-NEXT:  100d4 2c0f0000 01000000 280f0000 01000000
+-// CHECK-DUPS-NEXT:  100e4 240f0000 01000000 200f0000 01000000
+-// CHECK-DUPS-NEXT:  100f4 1c0f0000 08849780 180f0000 08849780
+-// CHECK-DUPS-NEXT:  10104 140f0000 08849780 100f0000 14000000
+-// CHECK-DUPS-NEXT:  10114 0c0f0000 18000000 080f0000 01000000
++// CHECK-DUPS-NEXT: 100d4 2c0f0000 01000000 280f0000 01000000
++// CHECK-DUPS-NEXT: 100e4 240f0000 01000000 200f0000 01000000
++// CHECK-DUPS-NEXT: 100f4 1c0f0000 08849780 180f0000 08849780
++// CHECK-DUPS-NEXT: 10104 140f0000 08849780 100f0000 24000000
++// CHECK-DUPS-NEXT: 10114 0c0f0000 28000000 080f0000 01000000
++// CHECK-DUPS-NEXT: 10124 040f0000 01000000 000f0000 01000000
+ // CHECK-DUPS-NEXT: Contents of section .ARM.extab:
+ 
+ // After duplicate entry removal
+ // CHECK: Contents of section .ARM.exidx:
+-// CHECK-NEXT:  100d4 2c0f0000 01000000 340f0000 08849780
+-// CHECK-NEXT:  100e4 380f0000 14000000 340f0000 18000000
+-// CHECK-NEXT:  100f4 300f0000 01000000
++// CHECK-NEXT: 100d4 2c0f0000 01000000 340f0000 08849780
++// CHECK-NEXT: 100e4 380f0000 1c000000 340f0000 20000000
++// CHECK-NEXT: 100f4 300f0000 01000000 300f0000 01000000
+ // CHECK-NEXT: Contents of section .ARM.extab:
+         .syntax unified
+ 
+@@ -113,8 +115,9 @@ f8:
+         .long 0
+         .fnend
+ 
+- // Dummy implementation of personality routines to satisfy reference from
+- // exception tables
++// Dummy implementation of personality routines to satisfy reference from
++// exception tables
++// Expect Linker generated EXIDX_CANTUNWIND tables
+         .section .text.__gcc_personality_v0, "ax", %progbits
+         .global __gxx_personality_v0
+ __gxx_personality_v0:
+diff --git a/lld/test/ELF/arm-exidx-discard.s b/lld/test/ELF/arm-exidx-discard.s
+index 2a204a04cd1..6b5579d58ab 100644
+--- a/lld/test/ELF/arm-exidx-discard.s
++++ b/lld/test/ELF/arm-exidx-discard.s
+@@ -6,8 +6,11 @@
+ 
+ .globl  __entrypoint
+ __entrypoint:
++.fnstart
+     bx  lr
+-
++ .save {r7, lr}
++ .setfp r7, sp, #0
++ .fnend
+ // Check that .ARM.exidx/.gnu.linkonce.armexidx
+ // are correctly removed if they were added.
+ // CHECK-NOT: .ARM.exidx
+diff --git a/lld/test/ELF/arm-exidx-emit-relocs.s b/lld/test/ELF/arm-exidx-emit-relocs.s
+new file mode 100644
+index 00000000000..e7dff5bbdfb
+--- /dev/null
++++ b/lld/test/ELF/arm-exidx-emit-relocs.s
+@@ -0,0 +1,71 @@
++// REQUIRES: arm
++// RUN: llvm-mc -filetype=obj --arm-add-build-attributes -triple=armv7a-none-linux-gnueabi %s -o %t
++// RUN: ld.lld --emit-relocs %t -o %t2
++// RUN: llvm-objdump -s -triple=armv7a-none-linux-gnueabi %t2 | FileCheck %s
++// RUN: llvm-readelf --relocs %t2 | FileCheck -check-prefix=CHECK-RELOCS %s
++
++// LLD does not support --emit-relocs for .ARM.exidx sections as the relocations
++// from synthetic table entries won't be represented. Given the known use cases
++// of --emit-relocs, relocating kernels, and binary analysis, the former doesn't
++// use exceptions and the latter can derive the relocations from the table if
++// they need them.
++ .syntax unified
++ // Will produce an ARM.exidx entry with inline unwinding instructions
++ .section .text.func1, "ax",%progbits
++ .global func1
++func1:
++ .fnstart
++ bx lr
++ .save {r7, lr}
++ .setfp r7, sp, #0
++ .fnend
++
++ .syntax unified
++ .section .text.func2, "ax",%progbits
++// A function with the same inline unwinding instructions, expect merge.
++ .global func2
++func2:
++ .fnstart
++ bx lr
++ .save {r7, lr}
++ .setfp r7, sp, #0
++ .fnend
++
++ .section .text.25, "ax", %progbits
++ .global func25
++func25:
++        .fnstart
++        bx lr
++        .cantunwind
++        .fnend
++
++ .section .text.26, "ax", %progbits
++ .global func26
++func26:
++        .fnstart
++        bx lr
++        .cantunwind
++        .fnend
++
++ .syntax unified
++ .section .text.func3, "ax",%progbits
++// A function with the same inline unwinding instructions, expect merge.
++ .global func3
++func3:
++ .fnstart
++ bx lr
++ .save {r7, lr}
++ .setfp r7, sp, #0
++ .fnend
++
++ .section .text.__aeabi_unwind_cpp_pr0, "ax", %progbits
++ .global __aeabi_unwind_cpp_pr0
++__aeabi_unwind_cpp_pr0:
++ bx lr
++
++// CHECK: Contents of section .ARM.exidx:
++// CHECK-NEXT:  100d4 2c0f0000 08849780 2c0f0000 01000000
++// CHECK-NEXT:  100e4 2c0f0000 08849780 280f0000 01000000
++// CHECK-NEXT:  100f4 240f0000 01000000
++
++// CHECK-RELOCS-NOT: Relocation section '.rel.ARM.exidx'
+diff --git a/lld/test/ELF/arm-exidx-gc.s b/lld/test/ELF/arm-exidx-gc.s
+index 50c8616ae77..b5431cbc0ec 100644
+--- a/lld/test/ELF/arm-exidx-gc.s
++++ b/lld/test/ELF/arm-exidx-gc.s
+@@ -1,5 +1,5 @@
+ // REQUIRES: arm
+-// RUN: llvm-mc -filetype=obj -triple=armv7a-none-linux-gnueabi %s -o %t
++// RUN: llvm-mc -filetype=obj --arm-add-build-attributes -triple=armv7a-none-linux-gnueabi %s -o %t
+ // RUN: ld.lld %t --no-merge-exidx-entries -o %t2 --gc-sections 2>&1
+ // RUN: llvm-objdump -d -triple=armv7a-none-linux-gnueabi %t2 | FileCheck %s
+ // RUN: llvm-objdump -s -triple=armv7a-none-linux-gnueabi %t2 | FileCheck -check-prefix=CHECK-EXIDX %s
+@@ -111,14 +111,15 @@ _start:
+ // CHECK-NOT: __gxx_personality_v1
+ 
+ // CHECK-EXIDX: Contents of section .ARM.exidx:
+-// 100d4 + f38 = 1100c = func1
+-// 100dc + f34 = 11010 = func2 (100e0 + 1c = 100fc = .ARM.extab)
+-// CHECK-EXIDX-NEXT: 100d4 380f0000 08849780 340f0000 1c000000
+-// 100e4 + f30 = 11014 = __gxx_personality_v0
+-// 100ec + f2c = 11018 = __aeabi_unwind_cpp_pr0
+-// CHECK-EXIDX-NEXT: 100e4 300f0000 01000000 2c0f0000 01000000
+-// 100f4 + f28 = 1101c = __aeabi_unwind_cpp_pr0 + sizeof(__aeabi_unwind_cpp_pr0)
+-// CHECK-EXIDX-NEXT: 100f4 280f0000 01000000
++// 100d4 + f2c = 11000
++// 100dc + f30 = 1100c = func1
++// CHECK-EXIDX-NEXT: 100d4 2c0f0000 01000000 300f0000 08849780
++// 100e4 + f2c = 11010 = func2 (100e8 + 1c = 10104 = .ARM.extab)
++// 100ec + f28 = 11014 = __gxx_personality_v0
++// CHECK-EXIDX-NEXT: 100e4 2c0f0000 1c000000 280f0000 01000000
++// 100f4 + f24 = 11018 = __aeabi_unwind_cpp_pr0
++// 100fc + f20 = 1101c = __aeabi_unwind_cpp_pr0 + sizeof(__aeabi_unwind_cpp_pr0)
++// CHECK-EXIDX-NEXT: 100f4 240f0000 01000000 200f0000 01000000
+ // CHECK-EXIDX-NEXT: Contents of section .ARM.extab:
+-// 100fc + f18 = 11014 = __gxx_personality_v0
+-// CHECK-EXIDX-NEXT: 100fc 180f0000 b0b0b000
++// 10104 + f10 = 11014 = __gxx_personality_v0
++// CHECK-EXIDX-NEXT: 10104 100f0000 b0b0b000
+diff --git a/lld/test/ELF/arm-exidx-shared.s b/lld/test/ELF/arm-exidx-shared.s
+index 9b7a246a13b..7987035046d 100644
+--- a/lld/test/ELF/arm-exidx-shared.s
++++ b/lld/test/ELF/arm-exidx-shared.s
+@@ -1,8 +1,8 @@
+ // REQUIRES: arm
+-// RUN: llvm-mc -filetype=obj -triple=armv7a-none-linux-gnueabi %s -o %t
++// RUN: llvm-mc -filetype=obj -arm-add-build-attributes -triple=armv7a-none-linux-gnueabi %s -o %t
+ // RUN: ld.lld --hash-style=sysv %t --shared -o %t2 2>&1
+ // RUN: llvm-readobj --relocations %t2 | FileCheck %s
+-// RUN: llvm-objdump -s -triple=armv7a-none-linux-gnueabi %t2 | FileCheck -check-prefix=CHECK-EXTAB %s
++// RUN: llvm-objdump -s -triple=armv7a-none-linux-gnueabi %t2 | FileCheck --check-prefix=CHECK-EXTAB-NEXT %s
+ 
+ // Check that the relative R_ARM_PREL31 relocation can access a PLT entry
+ // for when the personality routine is referenced from a shared library.
+@@ -41,5 +41,5 @@ __aeabi_unwind_cpp_pr0:
+ // CHECK-NEXT:     0x200C R_ARM_JUMP_SLOT __gxx_personality_v0
+ 
+ // CHECK-EXTAB: Contents of section .ARM.extab:
+-// 0x0210 + 0x0e20 = 0x1030 = __gxx_personality_v0(PLT)
+-// CHECK-EXTAB-NEXT:  0210 200e0000 b0b0b000 00000000
++// 0x0238 + 0xdf8 = 0x1030 = __gxx_personality_v0(PLT)      
++// CHECK-EXTAB-NEXT: 0238 f80d0000 b0b0b000 00000000 
+diff --git a/lld/test/ELF/arm-exidx-synthetic-link.s b/lld/test/ELF/arm-exidx-synthetic-link.s
+new file mode 100644
+index 00000000000..c308bee0dbe
+--- /dev/null
++++ b/lld/test/ELF/arm-exidx-synthetic-link.s
+@@ -0,0 +1,37 @@
++// REQUIRES: arm
++// RUN: llvm-mc -filetype=obj  -arm-add-build-attributes -triple=armv7a-none-linux-gnueabi %s -o %t.o
++// RUN: ld.lld %t.o -o %t.so -shared
++// RUN: llvm-readobj -s %t.so | FileCheck %s
++
++// Test that when all the .ARM.exidx sections are merged into a single
++// synthetic EXIDX_CANTUNWIND entry we can still set the SHF_LINK_ORDER
++// link.
++ .syntax unified
++ .section .text.1, "ax", %progbits
++ .globl f1
++ .type f1, %function
++f1:
++ bx lr
++
++ .section .text.2, "ax", %progbits
++ .globl f2
++ .type f2, %function
++f2:
++ .fnstart
++ bx lr
++ .cantunwind
++ .fnend
++
++// CHECK:      Name: .ARM.exidx
++// CHECK-NEXT: Type: SHT_ARM_EXIDX
++// CHECK-NEXT: Flags [
++// CHECK-NEXT:   SHF_ALLOC
++// CHECK-NEXT:   SHF_LINK_ORDER
++// CHECK-NEXT: ]
++// CHECK-NEXT: Address:
++// CHECK-NEXT: Offset:
++// CHECK-NEXT: Size:
++// CHECK-NEXT: Link: [[INDEX:.*]]
++
++// CHECK:      Index: [[INDEX]]
++// CHECK-NEXT: Name: .text
