@@ -12,6 +12,7 @@ KEYWORDS="*"
 
 IUSE="
 	cr50_onboard
+	+network_time
 	tpm_slb9645
 	tpm_slb9655
 	tpm_slb9655_v4_31
@@ -51,7 +52,7 @@ RDEPEND="
 	chromeos-base/vboot_reference
 	cr50_onboard? ( media-gfx/qrencode )
 	net-firewall/iptables
-	net-misc/tlsdate
+	network_time? ( net-misc/tlsdate )
 	>=sys-apps/baselayout-2.0.0
 	sys-apps/coreutils
 	sys-apps/dbus
