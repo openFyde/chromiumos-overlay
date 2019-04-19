@@ -4,8 +4,8 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 #
-# This script creates a tarball that contains toolchains for android N.
-# Before running it, please modify the following 4 variables
+# This script creates a tarball that contains toolchains for android
+# master-arc-dev. Before running it, please modify the following 4 variables
 #   - ANDROID_TREE
 #   - ARTIFACTS_DIR_ARM
 #   - ARTIFACTS_DIR_X86_64
@@ -39,7 +39,7 @@
 
 set -e
 
-# 1. Location of the android nyc-arc branch tree.
+# 1. Location of the android master-arc-dev branch tree.
 : "${ANDROID_TREE:="${HOME}/android"}"
 
 # ARCH names used in sysroot.
@@ -129,6 +129,7 @@ for (( a = 0; a < ${len}; ++a )); do
 		liblog.so
 		libm.so
 		libmediandk.so
+		libnativewindow.so
 		libstdc++.so
 		libsync.so
 		libui.so
@@ -137,15 +138,19 @@ for (( a = 0; a < ${len}; ++a )); do
 	)
 
 	lib="${ARC_ARCH_LIB_DIR[${a}]}"
-	artifacts_system_dir="${ARTIFACTS_DIR_ARRAY[${a}]}/SYSTEM/${lib}"
-	if [[ ! -d "${artifacts_system_dir}" ]]; then
-		echo "${artifacts_system_dir} not found, continuing."
+	artifacts_system_dir="${ARTIFACTS_DIR_ARRAY[${a}]}/SYSTEM"
+	if [[ ! -d "${artifacts_system_dir}/${lib}" ]]; then
+		echo "${artifacts_system_dir}/${lib} not found, continuing."
 		continue
 	fi
 	runcmd mkdir -p "${arch_to_dir}/usr/${lib}/"
 
 	for f in "${BINARY_FILES[@]}"; do
-		file=$(find "${artifacts_system_dir}" -name "${f}" 2>/dev/null)
+		# For some core libraries, e.g. libc and libm, there are two versions.
+		# Filter out the "bootstrap" ones since those are supposed to be used by
+		# apexd.
+		file=$(find "${artifacts_system_dir}/${lib}" -name "${f}" 2>/dev/null \
+			| grep -v /bootstrap/)
 		case $(echo "${file}" | wc -l) in
 		0)
 			echo "${f} not found, aborted."
@@ -159,6 +164,15 @@ for (( a = 0; a < ${len}; ++a )); do
 			;;
 		esac
 
+		# Resolve symlink if not exists
+		if [ -L "${file}" -a ! -f "${file}" ]; then
+			file="${artifacts_system_dir}$(readlink $file)"
+			# Special case: ART mainline module has different package name on
+			# debuggable build.
+			if [ ! -f "${file}" ]; then
+				file="${file/com.android.runtime/com.android.runtime.debug}"
+			fi
+		fi
 		runcmd cp -p "${file}" "${arch_to_dir}/usr/${lib}/"
 	done
 
@@ -186,12 +200,16 @@ for (( a = 0; a < ${len}; ++a )); do
 		"${arch_to_dir}/usr/include/"
 
 
-	### 3. Libcxx headers.
+	### 3. Libcxx and Libcxxabi headers.
 	CXX_HEADERS_DIR="${arch_to_dir}/usr/include/c++/4.9"
 	runcmd cp -pLR \
 		"${ANDROID_TREE}/external/libcxx/include/"* \
 		"${CXX_HEADERS_DIR}/"
 
+	# This currently has a duplicate (__cxxabi_config.h) but the content is same.
+	runcmd cp -pLR \
+		"${ANDROID_TREE}/external/libcxxabi/include/"* \
+		"${CXX_HEADERS_DIR}/"
 
 	### 4.1 Linux headers.
 	for f in linux asm-generic drm misc mtd rdma scsi sound video xen; do
@@ -270,10 +288,10 @@ done
 ### 5. Copy compiler over.
 
 ### 5.1 clang.
-runcmd mkdir -p "${TO_DIR_BASE}/arc-llvm/5.0"
+runcmd mkdir -p "${TO_DIR_BASE}/arc-llvm/9.0.3"
 runcmd cp -pPr \
-	"${ANDROID_TREE}/prebuilts/clang/host/linux-x86/clang-4053586"/* \
-	"${TO_DIR_BASE}/arc-llvm/5.0"
+	"${ANDROID_TREE}/prebuilts/clang/host/linux-x86/clang-r353983c"/* \
+	"${TO_DIR_BASE}/arc-llvm/9.0.3" || echo "Please update clang version manually"
 
 ### 5.2 gcc.
 runcmd mkdir -p "${TO_DIR_BASE}/arc-gcc"
@@ -314,7 +332,7 @@ TARBALL="${TO_DIR_BASE}/../arc-toolchain-master-${PACKET_VERSION}.tar.gz"
 runcmd tar zcf "${TARBALL}" --owner=root --group=root -C "${TO_DIR_BASE}" .
 
 ### 7. Manually upload
-### Or you try this command: gsutil cp -a public-read arc-toolchain-* gs://chromeos-localmirror/distfiles/
 echo "Done! Please upload ${TARBALL} manually to: " \
 	"https://pantheon.corp.google.com/storage/browser/chromeos-localmirror/distfiles/?debugUI=DEVELOPERS"
+echo "Or you try this command: gsutil cp -a public-read arc-toolchain-* gs://chromeos-localmirror/distfiles/"
 echo "If this is based on the same Bionic HEAD of a previous tarball bump up _p0 to the latest step number."

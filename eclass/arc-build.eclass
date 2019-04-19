@@ -137,16 +137,32 @@ arc-build-select-gcc() {
 arc-build-select-clang() {
 	_arc-build-select-common
 
-	append-cxxflags -stdlib=libc++
-
 	ARC_LLVM_BASE="${ARC_BASE}/arc-llvm/${ARC_LLVM_VERSION}"
 	export CC="${ARC_LLVM_BASE}/bin/clang --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST}"
-	# TODO(crbug.com/922335): Remove "-stdlib=libc++" after bug resolved.
-	export CXX="${ARC_LLVM_BASE}/bin/clang++ --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST} -stdlib=libc++"
+	export CXX="${ARC_LLVM_BASE}/bin/clang++ --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST}"
 
-	# Newer Clang versions properly include their C++ headers.
-	if [[ ${ARC_LLVM_VERSION} == "3.8" ]]; then
-		append-cxxflags -I${ARC_SYSROOT}/usr/include/c++/4.9
+	# Allow unused arguments since ARC often uses flags from Chrome OS but
+	# with older clang.
+	append-cflags -Qunused-arguments -Wno-unknown-warning-option
+	append-cxxflags -Qunused-arguments -Wno-unknown-warning-option
+
+	if (( ${ARC_VERSION_MAJOR} == 7 )); then
+		# TODO(crbug.com/922335): Remove "-stdlib=libc++" after bug resolved.
+		export CXX="${CXX} -stdlib=libc++"
+		append-cxxflags -stdlib=libc++
+		# Clang 3.8 does not properly include their C++ headers.
+		if [[ ${ARC_LLVM_VERSION} == "3.8" ]]; then
+			append-cxxflags -I${ARC_SYSROOT}/usr/include/c++/4.9
+		fi
+	elif (( ${ARC_VERSION_MAJOR} == 9 )); then
+		# TODO(crbug.com/922335): Remove "-stdlib=libc++" after bug resolved.
+		export CXX="${CXX} -stdlib=libc++"
+		append-cxxflags -stdlib=libc++
+	else
+		if [[ ${ARC_BASE} != *master* ]]; then
+			die "Expecting path for master branch but got ${ARC_BASE}"
+		fi
+		append-cxxflags -nostdinc++ -I${ARC_SYSROOT}/usr/include/c++/4.9
 	fi
 }
 
