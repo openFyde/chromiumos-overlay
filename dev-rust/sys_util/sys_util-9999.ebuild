@@ -31,6 +31,7 @@ DEPEND="
 	dev-rust/data_model:=
 	dev-rust/sync:=
 	dev-rust/syscall_defines:=
+	dev-rust/tempfile:=
 "
 
 src_unpack() {
