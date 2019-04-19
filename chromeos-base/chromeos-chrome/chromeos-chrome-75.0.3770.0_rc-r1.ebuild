@@ -141,7 +141,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3768.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-75.0.3770.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R75-3729.68-1555321468.afdo"
 AFDO_FILE["airmont"]="R75-3729.68-1555322943.afdo"
 AFDO_FILE["haswell"]="R75-3729.68-1555325249.afdo"
@@ -1087,6 +1087,14 @@ src_configure() {
 }
 
 chrome_make() {
+	local build_dir="${BUILD_OUT_SYM}/${BUILDTYPE}"
+
+	# If ThinLTO is enabled, we may have a cache from a previous link. Due
+	# to fears about lack of reproducibility, we don't allow cache reuse
+	# across rebuilds. The cache is still useful for artifacts shared
+	# between multiple links done by this build (e.g. tests).
+	use thinlto && rm -rf "${build_dir}/thinlto-cache"
+
 	# If goma is enabled, increase the number of parallel run to
 	# 10 * {number of processors}. Though, if it is too large the
 	# performance gets slow down, so limit by 200 heuristically.
@@ -1098,7 +1106,7 @@ chrome_make() {
 	local command=(
 		${ENINJA}
 		${MAKEOPTS}
-		-C "${BUILD_OUT_SYM}/${BUILDTYPE}"
+		-C "${build_dir}"
 		$(usex verbose -v "")
 		"$@"
 	)
