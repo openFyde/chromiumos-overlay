@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="9a5b8bf8a2e24fbe663df5eedc8e88c32580d9f6"
-CROS_WORKON_TREE=("7c2672e7fd88678931ee5c3ebbcc5e20699264c1" "aac63485be8a134e5a6c0f941546ee952b775ecc" "253458d342eba6b6a88941081b905668d8921128" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="7e9bbd7175d09a9e4a2a23a081feec6d1a33532a"
+CROS_WORKON_TREE=("7c2672e7fd88678931ee5c3ebbcc5e20699264c1" "db686869071f25154ae47a3879e20132a92bc0b8" "253458d342eba6b6a88941081b905668d8921128" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -26,6 +26,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/libchrome
 	chromeos-base/metrics
+	sys-apps/flashrom
 	"
 
 DEPEND="
@@ -44,6 +45,8 @@ src_install() {
 
 	dobin "${OUT}"/bio_crypto_init
 	dobin "${OUT}"/bio_wash
+
+	dosbin "${OUT}"/bio_fw_updater
 
 	into /usr/local
 	dobin "${OUT}"/biod_client_tool
