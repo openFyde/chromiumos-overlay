@@ -24,6 +24,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/libchrome
 	chromeos-base/metrics
+	sys-apps/flashmap
 	sys-apps/flashrom
 	"
 
