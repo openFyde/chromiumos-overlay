@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="7e9bbd7175d09a9e4a2a23a081feec6d1a33532a"
+CROS_WORKON_COMMIT="2817d011b68f88f4204567962e339b38462e254d"
 CROS_WORKON_TREE=("7c2672e7fd88678931ee5c3ebbcc5e20699264c1" "db686869071f25154ae47a3879e20132a92bc0b8" "253458d342eba6b6a88941081b905668d8921128" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/libchrome
 	chromeos-base/metrics
+	sys-apps/flashmap
 	sys-apps/flashrom
 	"
 
