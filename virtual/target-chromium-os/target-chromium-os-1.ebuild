@@ -36,7 +36,6 @@ IUSE="
 	+fonts
 	fuzzer
 	fwupd
-	gobi
 	hammerd
 	ime
 	input_devices_evdev
@@ -170,9 +169,6 @@ RDEPEND="
 	chromeos-base/chromeos-installer
 	chromeos-base/dev-install
 	crash_reporting? ( chromeos-base/crash-reporter )
-	cellular? (
-		gobi? ( chromeos-base/cromo )
-	)
 	mist? ( chromeos-base/mist )
 	modemfwd? ( chromeos-base/modemfwd )
 	buffet? ( chromeos-base/buffet )
