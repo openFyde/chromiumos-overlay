@@ -32,12 +32,6 @@ IUSE_TESTS="
 	+tests_cellular_DeferredRegistration
 	+tests_cellular_DisableWhileConnecting
 	+tests_cellular_DisconnectFailure
-	+tests_cellular_GobiDisableGobiWhileConnecting
-	+tests_cellular_GobiDormancyDance
-	+tests_cellular_GobiPorts
-	+tests_cellular_GobiRecoverFromDesync
-	+tests_cellular_GobiSwitchCarrier
-	+tests_cellular_GobiUncleanDisconnect
 	+tests_cellular_Identifiers
 	+tests_cellular_OutOfCreditsSubscriptionState
 	+tests_cellular_SIMLocking
