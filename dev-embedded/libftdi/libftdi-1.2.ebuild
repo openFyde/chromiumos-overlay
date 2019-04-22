@@ -1,15 +1,15 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-PYTHON_COMPAT=( python2_7 python3_4 python3_5 )
+PYTHON_COMPAT=( python2_7 python3_4 python3_5 python3_6 )
 inherit cmake-utils python-single-r1
 
 MY_P="${PN}1-${PV}"
 if [[ ${PV} == 9999* ]] ; then
+	inherit git-r3
 	EGIT_REPO_URI="git://developer.intra2net.com/${PN}"
-	inherit git-2
 else
 	SRC_URI="http://www.intra2net.com/en/developer/${PN}/download/${MY_P}.tar.bz2"
 	KEYWORDS="*"
@@ -21,9 +21,9 @@ HOMEPAGE="http://www.intra2net.com/en/developer/libftdi/"
 LICENSE="LGPL-2"
 SLOT="1"
 IUSE="cxx doc examples python static-libs test tools"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND="virtual/libusb:1
-	!>=dev-embedded/libftdi-1.0:0
 	cxx? ( dev-libs/boost )
 	python? ( ${PYTHON_DEPS} )
 	tools? (
@@ -34,20 +34,16 @@ DEPEND="${RDEPEND}
 	python? ( dev-lang/swig )
 	doc? ( app-doc/doxygen )"
 
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
-
 pkg_setup() {
 	use python && python-single-r1_pkg_setup
 }
 
 S=${WORKDIR}/${MY_P}
 
-src_prepare() {
-	epatch "${FILESDIR}"/${PN}-1.2-getopts.patch
-}
+PATCHES=( "${FILESDIR}/${PN}-1.2-getopts.patch" )
 
 src_configure() {
-	mycmakeargs=(
+	local mycmakeargs=(
 		-DFTDIPP=$(usex cxx)
 		-DDOCUMENTATION=$(usex doc)
 		-DEXAMPLES=$(usex examples)
