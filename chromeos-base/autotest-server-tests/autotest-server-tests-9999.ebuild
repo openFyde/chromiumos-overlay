@@ -268,6 +268,7 @@ SERVER_IUSE_TESTS="
 	+tests_policy_AUServer
 	+tests_policy_DeviceServer
 	+tests_policy_ExternalStorageServer
+	+tests_policy_GlobalNetworkSettingsServer
 	+tests_policy_WiFiAutoconnectServer
 	+tests_policy_WiFiPrecedenceServer
 	+tests_policy_WiFiTypesServer
