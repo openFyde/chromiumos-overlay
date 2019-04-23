@@ -74,6 +74,13 @@ multilib_src_compile() {
 
 multilib_src_install() {
 	emake DESTDIR="${D}" install
+
+	# We'll be providing our own VEYRON-I2S config files, so delete
+	# this one.  This is needed because there's no upstream solution
+	# for handling different SKUs (some veyron variants have slightly
+	# different config but they all claim to be "VEYRON-I2S")
+	rm -r "${D}/usr/share/alsa/ucm/VEYRON-I2S"
+
 	if multilib_is_native_abi && use doc; then
 		docinto html
 		dodoc -r doc/doxygen/html/.
