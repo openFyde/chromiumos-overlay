@@ -56,6 +56,7 @@ CHROME_POLICY_FILES_PATTERN=(
 	mls_macros
 	mls_decl
 	mls
+	policy_capabilities
 	te_macros
 	attributes
 	ioctl_defines
@@ -284,8 +285,10 @@ src_compile() {
 
 	if has_arc; then
 		if use combine_chromeos_policy; then
-			einfo "Combining Chrome OS and Android SELinux policy"
+			einfo "Removing duplicate nnp_nosuid_transition policycap from Android cil"
+			sed -i '/^(policycap nnp_nosuid_transition)$/d' "${cilpath}"/*.cil || die
 
+			einfo "Combining Chrome OS and Android SELinux policy"
 			if use android-container-nyc; then
 				secilc "${SECILC_ARGS[@]}" "${cilpath}/sepolicy.cil" \
 					chromeos.cil || die "fail to build sepolicy"
