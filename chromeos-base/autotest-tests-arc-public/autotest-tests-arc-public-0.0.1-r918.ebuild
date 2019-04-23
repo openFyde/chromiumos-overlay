@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="48424ebc58d39056478ff2df9206616e13d9e58e"
-CROS_WORKON_TREE="b37a3c7575b0750216b9aa63572b031e29ea58be"
+CROS_WORKON_COMMIT="07224489123c9c90784a3425827eef5a4762e449"
+CROS_WORKON_TREE="0ff96a554ebc09e43150dffe0f10415439c3e7c9"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -17,13 +17,9 @@ SLOT="0"
 KEYWORDS="*"
 
 CLIENT_TESTS="
-	android-container-nyc? (
+	!android-container-master-arc-dev? (
 		+tests_cheets_Midis
 		+tests_cheets_StartAndroid
-	)
-	android-container-pi? (
-		+tests_cheets_Midis_P
-		+tests_cheets_StartAndroid_P
 	)
 	+tests_graphics_Gralloc
 "
@@ -40,8 +36,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE="
-	android-container-nyc
-	android-container-pi
+	android-container-master-arc-dev
 	+autotest
 	${IUSE_TESTS}
 "
