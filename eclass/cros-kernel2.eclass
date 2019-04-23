@@ -24,6 +24,7 @@ DEPEND="sys-apps/debianutils
 	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
+	builtin_fw_x86_apl_ucode? ( chromeos-base/apl-ucode-firmware-private )
 	builtin_fw_x86_kbl_ucode? ( chromeos-base/kbl-ucode-firmware-private )
 "
 
@@ -852,6 +853,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_guc_g9
 	builtin_fw_huc_g9
 	builtin_fw_x86_aml_ucode
+	builtin_fw_x86_apl_ucode
 	builtin_fw_x86_kbl_ucode
 )
 
@@ -936,6 +938,11 @@ builtin_fw_x86_aml_ucode_desc="Intel ucode for AML"
 builtin_fw_x86_aml_ucode_files=(
 	intel-ucode/06-8e-09
 	intel-ucode/06-8e-0c
+)
+
+builtin_fw_x86_apl_ucode_desc="Intel ucode for APL"
+builtin_fw_x86_apl_ucode_files=(
+	intel-ucode/06-5c-09
 )
 
 builtin_fw_x86_kbl_ucode_desc="Intel ucode for KBL"
