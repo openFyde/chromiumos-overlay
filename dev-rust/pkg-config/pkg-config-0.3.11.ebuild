@@ -17,3 +17,7 @@ KEYWORDS="*"
 DEPEND="
 	~dev-rust/lazy_static-1.2.0:=
 "
+
+PATCHES=(
+	"${FILESDIR}/${P}-0001-Allow-overriding-system-root.patch"
+)
