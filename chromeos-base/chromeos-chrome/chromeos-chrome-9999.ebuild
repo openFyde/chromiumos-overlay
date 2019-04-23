@@ -57,6 +57,7 @@ IUSE="
 	oobe_config
 	opengl
 	opengles
+	orderfile_generate
 	+reorder_text_sections
 	+runhooks
 	strict_toolchain_checks
@@ -892,8 +893,15 @@ setup_compile_flags() {
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
 	fi
 
-	if use reorder_text_sections; then
+	# The logic to avoid using these two flags together here is to
+	# support temporary transition before orderfile is being used.
+	if use reorder_text_sections && ! use orderfile_generate; then
 		EBUILD_LDFLAGS+=( "-Wl,-z,keep-text-section-prefix" )
+	fi
+
+	if use orderfile_generate; then
+		local chrome_outdir="${CHROME_CACHE_DIR}/src/${BUILD_OUT}/${BUILDTYPE}"
+		BUILD_STRING_ARGS+=( dump_call_chain_clustering_order="${chrome_outdir}/chrome.orderfile.txt" )
 	fi
 
 	# Enable std::vector []-operator bounds checking.
@@ -1423,6 +1431,12 @@ src_install() {
 	if [[ -n "${CHROMEOS_LOCAL_ACCOUNT}" ]]; then
 		echo "${CHROMEOS_LOCAL_ACCOUNT}" > "${T}/localaccount"
 		doins "${T}/localaccount"
+	fi
+
+	# Install the orderfile into the chrome directory
+	if use orderfile_generate; then
+		[[ -f "${FROM}/chrome.orderfile.txt" ]] || die "No orderfile generated."
+		doins "${FROM}/chrome.orderfile.txt"
 	fi
 
 	# Use the deploy_chrome from the *Chrome* checkout.  The benefit of
