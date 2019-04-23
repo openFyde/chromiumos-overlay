@@ -54,6 +54,7 @@ KEYWORDS="~*"
 IUSE="asan +cras-apm selinux systemd unibuild"
 
 RDEPEND=">=media-libs/alsa-lib-1.0.27
+	!<media-libs/alsa-lib-1.1.6-r3
 	media-sound/alsa-utils
 	media-plugins/alsa-plugins
 	media-libs/sbc
