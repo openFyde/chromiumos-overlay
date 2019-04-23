@@ -26,6 +26,7 @@ DEPEND="sys-apps/debianutils
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
 	builtin_fw_x86_apl_ucode? ( chromeos-base/apl-ucode-firmware-private )
 	builtin_fw_x86_kbl_ucode? ( chromeos-base/kbl-ucode-firmware-private )
+	builtin_fw_x86_skl_ucode? ( chromeos-base/skl-ucode-firmware-private )
 "
 
 WIRELESS_VERSIONS=( 3.4 3.8 3.18 4.2 )
@@ -855,6 +856,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_aml_ucode
 	builtin_fw_x86_apl_ucode
 	builtin_fw_x86_kbl_ucode
+	builtin_fw_x86_skl_ucode
 )
 
 builtin_fw_amdgpu_desc="Firmware for AMD GPU"
@@ -949,6 +951,11 @@ builtin_fw_x86_kbl_ucode_desc="Intel ucode for KBL"
 builtin_fw_x86_kbl_ucode_files=(
 	intel-ucode/06-8e-09
 	intel-ucode/06-8e-0a
+)
+
+builtin_fw_x86_skl_ucode_desc="Intel ucode for SKL"
+builtin_fw_x86_skl_ucode_files=(
+	intel-ucode/06-4e-03
 )
 
 extra_fw_config="
