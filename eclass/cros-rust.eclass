@@ -189,7 +189,7 @@ cros-rust_src_prepare() {
 			"${S}/Cargo.toml" || die
 	fi
 
-	eapply_user
+	default
 }
 
 # @FUNCTION: cros-rust_src_configure
