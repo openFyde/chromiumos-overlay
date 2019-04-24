@@ -17,7 +17,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="iwlwifi_dump tpm wimax"
+IUSE="iwlwifi_dump tpm"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login
@@ -74,7 +74,6 @@ src_install() {
 	doexe "${OUT}"/icmp
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
-	use wimax && doexe "${OUT}"/wimax_status
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
 
