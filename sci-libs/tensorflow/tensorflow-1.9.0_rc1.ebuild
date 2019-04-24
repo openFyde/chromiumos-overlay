@@ -26,7 +26,7 @@ done
 bazel_external_uris="
 	https://github.com/google/flatbuffers/archive/971a68110e4fc1bace10fcb6deeb189e7e1a34ce.tar.gz -> flatbuffers-971a68110e4fc1bace10fcb6deeb189e7e1a34ce.tar.gz
 	https://github.com/intel/ARM_NEON_2_x86_SSE/archive/0f77d9d182265259b135dad949230ecbf1a2633d.tar.gz -> ARM_NEON_2_x86_SSE-0f77d9d182265259b135dad949230ecbf1a2633d.tar.gz
-	https://github.com/bazelbuild/rules_closure/archive/dbb96841cc0a5fb2664c37822803b06dab20c7d1.tar.gz -> bazelbuild-rules_closure-dbb96841cc0a5fb2664c37822803b06dab20c7d1.tar.gz
+	http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/tensorflow-1.9.0_rc1-rules_closure-patched.tar.gz
 	https://github.com/google/protobuf/archive/396336eb961b75f03b25824fe86cf6490fb75e3a.tar.gz -> protobuf-396336eb961b75f03b25824fe86cf6490fb75e3a.tar.gz
 	https://github.com/google/gemmlowp/archive/38ebac7b059e84692f53e5938f97a9943c120d98.zip -> gemmlowp-38ebac7b059e84692f53e5938f97a9943c120d98.zip
 	https://bitbucket.org/eigen/eigen/get/6913f0cf7d06.tar.gz -> eigen-6913f0cf7d06.tar.gz
@@ -90,6 +90,7 @@ BUILD_DIR="${S}"
 DOCS=( AUTHORS CONTRIBUTING.md ISSUE_TEMPLATE.md README.md RELEASE.md )
 
 PATCHES=(
+	"${FILESDIR}/tensorflow-1.9.0_rc1-http-archive.patch"
 	"${FILESDIR}/tensorflow-1.9.0_rc1-lite-lib.patch"
 	"${FILESDIR}/tensorflow-1.9.0_rc1-nnapi-headers.patch"
 	"${FILESDIR}/tensorflow-1.9.0_rc1-nnapi.patch"
@@ -280,7 +281,7 @@ setup_bazel_crosstool() {
 	cat > "${project_dir}/${bazel_cc_config_dir}/bazelrc" <<-EOF
 	# Make Bazel respect Portage C/C++ configuration.
 	build --host_crosstool_top="//${bazel_cc_config_dir}/host:toolchain" --crosstool_top="//${bazel_cc_config_dir}/target:toolchain"
-	build --host_cpu="${host_cpu_str}" --cpu="${target_cpu_str}"
+	build --host_cpu="${host_cpu_str}" --cpu="${target_cpu_str}" --compiler=local --host_compiler=local
 
 	# Some compiler scripts require SYSROOT defined.
 	build --action_env SYSROOT="${PORTAGE_CONFIGROOT}"
@@ -320,6 +321,9 @@ setup_bazelrc() {
 	# make bazel only fetch distfiles from the cache
 	fetch --repository_cache=${T}/bazel-cache/ --experimental_distdir=${T}/bazel-distdir/
 	build --repository_cache=${T}/bazel-cache/ --experimental_distdir=${T}/bazel-distdir/
+
+	# Temporary workaround to allow building with newer Bazel versions.
+	build --incompatible_disallow_filetype=false --incompatible_disallow_data_transition=false
 	EOF
 }
 
