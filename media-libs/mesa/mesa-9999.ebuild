@@ -108,8 +108,10 @@ src_prepare() {
 	# internal format for GL context.
 	if use !video_cards_virgl ; then
 		epatch "${FILESDIR}"/DOWNSTREAM-i965-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8-B8.patch
+		epatch "${FILESDIR}"/CHROMIUM-st-mesa-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8.patch
 	fi
 	epatch "${FILESDIR}"/intel-Add-support-for-Comet-Lake.patch
+
 
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
 	echo '#define MESA_GIT_SHA1 "git-0000000"' > src/git_sha1.h
