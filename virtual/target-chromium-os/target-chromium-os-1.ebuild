@@ -70,7 +70,6 @@ IUSE="
 	usbguard
 	+vpn
 	watchdog
-	wimax
 "
 
 REQUIRED_USE="
@@ -193,7 +192,6 @@ RDEPEND="
 	usb_bouncer? ( chromeos-base/usb_bouncer )
 	chromeos-base/update_engine
 	vpn? ( chromeos-base/vpn-manager )
-	wimax? ( chromeos-base/wimax_manager )
 	cras? ( chromeos-base/audioconfig media-sound/adhd )
 	trim_supported? ( chromeos-base/chromeos-trim )
 	network_time? ( net-misc/tlsdate )
