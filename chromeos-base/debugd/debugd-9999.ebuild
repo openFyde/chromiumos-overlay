@@ -17,7 +17,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cellular iwlwifi_dump tpm wimax"
+IUSE="iwlwifi_dump tpm wimax"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login
@@ -37,7 +37,6 @@ COMMON_DEPEND="
 	sys-apps/memtester
 	sys-apps/rootdev
 	sys-apps/smartmontools
-	cellular? ( virtual/modemmanager )
 "
 RDEPEND="${COMMON_DEPEND}
 	iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump )
@@ -75,7 +74,6 @@ src_install() {
 	doexe "${OUT}"/icmp
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
-	use cellular && doexe "${OUT}"/modem_status
 	use wimax && doexe "${OUT}"/wimax_status
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
