@@ -134,7 +134,6 @@ CONFIG_FRAGMENTS=(
 	fbconsole
 	factory_netboot_ramfs
 	factory_shim_ramfs
-	gdmwimax
 	goldfish
 	highmem
 	i2cdev
@@ -359,13 +358,6 @@ CONFIG_FRAMEBUFFER_CONSOLE=y
 "
 fbconsole_config_disable="
 # CONFIG_FRAMEBUFFER_CONSOLE is not set
-"
-
-gdmwimax_desc="GCT GDM72xx WiMAX support"
-gdmwimax_config="
-CONFIG_WIMAX_GDM72XX=m
-CONFIG_WIMAX_GDM72XX_USB=y
-CONFIG_WIMAX_GDM72XX_USB_PM=y
 "
 
 goldfish_dec="Goldfish virtual hardware platform"
