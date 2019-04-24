@@ -98,3 +98,8 @@ dev-python/setuptools python_targets_python3_6
 dev-python/certifi python_targets_python3_6
 dev-python/mako python_targets_python3_6
 dev-python/markupsafe python_targets_python3_6
+
+# Enable building shellcheck statically so we can make it available to tricium
+# and developer workstations.
+dev-libs/gmp		static-libs
+dev-libs/libffi		static-libs
