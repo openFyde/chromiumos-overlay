@@ -189,6 +189,7 @@ ALL_BOARDS=(
 	kip
 	klang
 	kukui
+	kumo
 	kunimitsu
 	lakitu
 	lakitu-gpu
