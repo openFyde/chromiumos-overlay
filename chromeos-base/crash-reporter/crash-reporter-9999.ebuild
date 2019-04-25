@@ -37,6 +37,7 @@ DEPEND="
 	chromeos-base/debugd-client
 	chromeos-base/session_manager-client
 	chromeos-base/system_api
+	chromeos-base/vboot_reference
 	sys-devel/flex
 "
 RDEPEND+="
@@ -57,7 +58,6 @@ src_install() {
 	into /
 	dosbin "${OUT}"/crash_reporter
 	dosbin "${OUT}"/crash_sender
-	dosbin crash_sender.sh
 
 	into /usr
 	use cros_embedded || dobin "${OUT}"/anomaly_detector
