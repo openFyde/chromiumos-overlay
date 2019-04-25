@@ -26,6 +26,7 @@ IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer workaround_crbug_909793"
 REQUIRED_USE="kvm_host"
 
 RDEPEND="
+	app-arch/libarchive
 	!!chromeos-base/vm_tools
 	chromeos-base/arc-networkd
 	chromeos-base/crosvm
