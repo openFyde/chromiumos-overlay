@@ -6,6 +6,7 @@ CROS_WORKON_COMMIT="fa964e6f076d1f7bbb421ef13d9d9d78452dfd62"
 CROS_WORKON_TREE="055498cb5db16ac86d925ac1836e595364c15215"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
+CROS_WORKON_BLACKLIST=1
 
 inherit cros-workon autotest-deponly cros-debug
 
