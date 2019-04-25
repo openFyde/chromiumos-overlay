@@ -25,7 +25,7 @@ IUSE="distributed_cryptohome test tpm tpm2"
 REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="
-	tpm? ( app-crypt/trousers )
+	!tpm2? ( app-crypt/trousers )
 	tpm2? (
 		chromeos-base/trunks
 	)
