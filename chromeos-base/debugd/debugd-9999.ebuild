@@ -45,8 +45,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-login
 	chromeos-base/debugd-client
 	chromeos-base/system_api
-	sys-apps/dbus
-	virtual/modemmanager"
+	sys-apps/dbus"
 
 pkg_preinst() {
 	enewuser "debugd"
