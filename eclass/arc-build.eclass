@@ -46,7 +46,7 @@ case "${EAPI:-0}" in
 *) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
-inherit multilib-build flag-o-matic cros-constants
+inherit multilib-build flag-o-matic cros-constants arc-build-constants
 
 DEPEND="sys-devel/arc-build[${MULTILIB_USEDEP}]"
 
@@ -64,6 +64,7 @@ _arc-build-select-common() {
 		die "arc-build must be initialized only once. Please fix your ebuild."
 	fi
 
+	arc-build-constants-configure
 	arc-build-check-arch
 
 	export ARC_SYSROOT="${SYSROOT}${ARC_PREFIX}"

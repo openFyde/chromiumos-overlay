@@ -218,11 +218,12 @@ multilib_src_configure() {
 	export LLVM_CONFIG=${SYSROOT}/usr/bin/llvm-config-host
 	EGL_PLATFORM="surfaceless"
 
-	MESA_PLATFORM_SDK_VERSION=${ARC_PLATFORM_SDK_VERSION}
 	if use cheets; then
 		#
 		# cheets-specific overrides
 		#
+
+		MESA_PLATFORM_SDK_VERSION=${ARC_PLATFORM_SDK_VERSION}
 
 		# Use llvm-config coming from ARC++ build.
 		export LLVM_CONFIG="${ARC_SYSROOT}/build/bin/llvm-config-host"

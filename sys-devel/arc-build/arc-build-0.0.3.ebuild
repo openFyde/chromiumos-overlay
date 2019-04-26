@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-inherit multilib-minimal cros-constants
+inherit multilib-minimal arc-build-constants
 
 DESCRIPTION="Ebuild for per-sysroot arc-build components."
 
@@ -20,12 +20,11 @@ RDEPEND="!!chromeos-base/arc-build-master
 DEPEND=""
 
 S=${WORKDIR}
-INSTALL_DIR="/opt/google/containers/android"
-BIN_DIR="${INSTALL_DIR}/build/bin"
-PREBUILT_DIR="${INSTALL_DIR}/usr"
 PREBUILT_SRC="${ARC_BASE}/${ARCH}/usr"
 
 multilib_src_compile() {
+	arc-build-constants-configure
+
 	cat > pkg-config <<EOF
 #!/bin/bash
 case \${ABI} in
@@ -41,7 +40,7 @@ arm|x86)
 	;;
 esac
 
-PKG_CONFIG_LIBDIR="${SYSROOT}${INSTALL_DIR}/vendor/\${libdir}/pkgconfig"
+PKG_CONFIG_LIBDIR="${SYSROOT}${ARC_PREFIX}/vendor/\${libdir}/pkgconfig"
 export PKG_CONFIG_LIBDIR
 
 export PKG_CONFIG_SYSROOT_DIR="${SYSROOT}"
@@ -64,6 +63,9 @@ install_pc_file() {
 }
 
 multilib_src_install() {
+	local bin_dir="${ARC_PREFIX}/build/bin"
+	local prebuilt_dir="${ARC_PREFIX}/usr"
+
 	if use android-container-nyc; then
 		PC_SRC_DIR="${FILESDIR}/nyc"
 	elif use android-container-pi; then
@@ -76,7 +78,7 @@ multilib_src_install() {
 		PC_SRC_DIR="${FILESDIR}/pi"
 	fi
 
-	insinto "${INSTALL_DIR}/vendor/$(get_libdir)/pkgconfig"
+	insinto "${ARC_PREFIX}/vendor/$(get_libdir)/pkgconfig"
 	install_pc_file backtrace.pc
 	install_pc_file cutils.pc
 	install_pc_file expat.pc
@@ -90,8 +92,8 @@ multilib_src_install() {
 		install_pc_file nativewindow.pc
 	fi
 
-	exeinto "${BIN_DIR}"
+	exeinto "${bin_dir}"
 	doexe pkg-config
 
-	dosym "${PREBUILT_SRC}" "${PREBUILT_DIR}"
+	dosym "${PREBUILT_SRC}" "${prebuilt_dir}"
 }
