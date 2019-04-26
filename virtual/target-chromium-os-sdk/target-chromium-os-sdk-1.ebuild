@@ -486,6 +486,7 @@ RDEPEND="${RDEPEND}
 
 # Host dependency for managing SELinux
 RDEPEND="${RDEPEND}
+	chromeos-base/sepolicy-analyze
 	sys-apps/checkpolicy
 	sys-apps/restorecon
 	sys-apps/secilc"
