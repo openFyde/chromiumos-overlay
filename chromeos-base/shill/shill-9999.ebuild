@@ -46,7 +46,7 @@ RDEPEND="
 	wifi? ( net-wireless/wpa_supplicant[dbus] )
 	wired_8021x? ( net-wireless/wpa_supplicant[dbus] )
 	sys-apps/rootdev
-	cellular? ( virtual/modemmanager )
+	cellular? ( net-misc/modemmanager-next )
 	!kernel-3_10? ( !kernel-3_8? ( net-firewall/conntrack-tools ) )
 "
 
