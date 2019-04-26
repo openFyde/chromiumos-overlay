@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="2c29acc5ec9d0d64df7906064fc3ee7b67581220"
-CROS_WORKON_TREE=("588664a20657ea966fedd74358b3cc2ba5addd47" "2d1c05d93a353e18a96aef20a4b9248ef4fde904" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="b8d5132075f9f58b3e399b49acc8798b41e586ec"
+CROS_WORKON_TREE=("588664a20657ea966fedd74358b3cc2ba5addd47" "2588fd72c41cb99921dcc26653ec4923c7845b69" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,7 +19,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cellular iwlwifi_dump tpm wimax"
+IUSE="iwlwifi_dump tpm"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login
@@ -39,7 +39,6 @@ COMMON_DEPEND="
 	sys-apps/memtester
 	sys-apps/rootdev
 	sys-apps/smartmontools
-	cellular? ( virtual/modemmanager )
 "
 RDEPEND="${COMMON_DEPEND}
 	iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump )
@@ -77,8 +76,6 @@ src_install() {
 	doexe "${OUT}"/icmp
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
-	use cellular && doexe "${OUT}"/modem_status
-	use wimax && doexe "${OUT}"/wimax_status
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
 
