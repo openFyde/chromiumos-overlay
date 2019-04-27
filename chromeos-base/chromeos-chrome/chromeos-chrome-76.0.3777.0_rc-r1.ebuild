@@ -141,7 +141,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-76.0.3775.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-76.0.3777.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R76-3759.4-1555926573.afdo"
 AFDO_FILE["airmont"]="R76-3759.4-1555928661.afdo"
 AFDO_FILE["haswell"]="R76-3759.4-1555927240.afdo"
@@ -1113,6 +1113,16 @@ chrome_make() {
 		cp -p "${BUILD_OUT_SYM}/${BUILDTYPE}/.ninja_log" "${GLOG_log_dir}/ninja_log"
 	fi
 	[[ "${ret}" -eq 0 ]] || die
+
+	# Ensure that all of Chrome's Builtins_ functions appear in the first
+	# 30MB of its binary. This needs to be performed on an unstripped
+	# binary.
+	#
+	# FIXME(gbiv): This is ugly; remove once we have orderfiles properly
+	# set up.
+	if use strict_toolchain_checks && "${use_lld}" && use reorder_text_sections; then
+		"${FILESDIR}/check_symbol_ordering.py" "${build_dir}/chrome" || die
+	fi
 }
 
 src_compile() {
