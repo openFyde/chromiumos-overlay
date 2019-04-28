@@ -111,7 +111,6 @@ IUSE_TESTS=(
 	+tests_login_ChromeProfileSanitary
 	+tests_login_Cryptohome
 	+tests_login_CryptohomeDataLeak
-	+tests_login_CryptohomeIncognito
 	+tests_login_GaiaLogin
 	+tests_login_LoginSuccess
 	+tests_login_LogoutProcessCleanup
@@ -208,7 +207,6 @@ IUSE_TESTS=(
 	+tests_power_VideoSuspend
 	+tests_power_WebGL
 	+tests_security_BundledExtensions
-	+tests_security_SandboxLinuxUnittests
 	+tests_telemetry_AFDOGenerateClient
 	+tests_telemetry_UnitTests
 	+tests_telemetry_UnitTestsServer
@@ -280,14 +278,10 @@ IUSE_TESTS_TPM="
 # TODO(ihf): unify N and P tests once they pass reliably.
 IUSE_TESTS_ARC="
 	android-container-pi? (
-		+tests_desktopui_ExitOnSupervisedUserCrash_P
 		+tests_graphics_Idle_P
-		+tests_telemetry_LoginTest_P
 	)
 	android-container-nyc? (
-		+tests_desktopui_ExitOnSupervisedUserCrash
 		+tests_graphics_Idle
-		+tests_telemetry_LoginTest
 	)
 "
 
