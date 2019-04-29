@@ -20,7 +20,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-als buffet +cras cros_embedded +display_backlight -has_keyboard_backlight -keyboard_includes_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild"
+IUSE="-als buffet +cras cros_embedded +display_backlight -has_keyboard_backlight -keyboard_includes_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config )
@@ -122,6 +122,9 @@ src_install() {
 	fi
 	if use touchscreen_wakeup; then
 		udev_dorules udev/optional/93-powerd-tags-touchscreen-wakeup.rules
+	fi
+	if use wilco; then
+		udev_dorules udev/optional/93-powerd-wilco-ec-files.rules
 	fi
 
 	# Init scripts
