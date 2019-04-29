@@ -152,11 +152,13 @@ IUSE_TESTS=(
 	+tests_policy_DefaultJavaScriptSetting
 	+tests_policy_DefaultNotificationsSetting
 	+tests_policy_DeveloperToolsAvailability
+	+tests_policy_DeviceAllowBluetooth
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceTargetVersionPrefix
 	+tests_policy_DisableScreenshots
 	+tests_policy_EditBookmarksEnabled
 	+tests_policy_DeviceEphemeralUsersEnabled
+	+tests_policy_EnrollmentRetainment
 	+tests_policy_ExtensionPolicy
 	+tests_policy_ExternalStorageDisabled
 	+tests_policy_ExternalStorageReadOnly
@@ -189,6 +191,7 @@ IUSE_TESTS=(
 	+tests_policy_SafeBrowsingEnabled
 	+tests_policy_SavingBrowserHistoryDisabled
 	+tests_policy_ScreenBrightnessPercent
+	+tests_policy_SecondaryGoogleAccountSigninAllowed
 	+tests_policy_SystemTimezone
 	+tests_policy_URLBlacklist
 	+tests_policy_URLWhitelist

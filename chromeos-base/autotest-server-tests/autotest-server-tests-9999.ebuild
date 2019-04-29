@@ -284,6 +284,7 @@ SERVER_IUSE_TESTS="
 	+tests_sequences
 	+tests_servohost_Reboot
 	+tests_stress_ClientTestReboot
+	+tests_stress_EnrollmentRetainment
 	+tests_video_PowerConsumption
 "
 
