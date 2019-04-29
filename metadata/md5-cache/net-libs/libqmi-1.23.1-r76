@@ -3,10 +3,10 @@ DEPEND=>=dev-libs/glib-2.36 mbim? ( >=net-libs/libmbim-1.14.0 ) doc? ( dev-util/
 DESCRIPTION=QMI modem protocol helper library
 EAPI=6
 HOMEPAGE=http://cgit.freedesktop.org/libqmi/
-IUSE=-asan doc mbim static-libs asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_860343bad2fec6a09f11c6fc274b6d59837fe3ae
+IUSE=-asan doc mbim static-libs asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_9dfc456e878bbe1b28df6d89121d8035c26f8548
 KEYWORDS=*
 LICENSE=GPL-2
 RDEPEND=>=dev-libs/glib-2.36 mbim? ( >=net-libs/libmbim-1.14.0 )
 SLOT=0
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-sanitizers	dc2241d4d51ab2312b2e494bd1725bfa	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
-_md5_=32f317563f5e1e1069430b9021931e32
+_md5_=33ca31be08b490769745b0a75bb185bc
