@@ -28,6 +28,8 @@ coverage-setup-env() {
 # Build a package with memory sanitizer flags.
 msan-setup-env() {
 	use msan || return 0
+	# msan does not work with FORTIFY enabled.
+	append-cppflags "-U_FORTIFY_SOURCE"
 	append-flags "-fsanitize=memory"
 	append-ldflags "-fsanitize=memory"
 }
