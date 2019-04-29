@@ -24,6 +24,7 @@ IUSE="
 	android-container-master-arc-dev
 	android-container-nyc
 	android-container-pi
+	android-container-qt
 	"
 
 RDEPEND="!<chromeos-base/chromeos-cheets-scripts-0.0.3"
@@ -35,6 +36,8 @@ src_install() {
 	insinto /opt/google/containers/android
 	if use android-container-master-arc-dev; then
 		doins arc/container-bundle/master/config.json
+	elif use android-container-qt; then
+		doins arc/container-bundle/qt/config.json
 	elif use android-container-pi; then
 		doins arc/container-bundle/pi/config.json
 	elif use android-container-nyc; then
