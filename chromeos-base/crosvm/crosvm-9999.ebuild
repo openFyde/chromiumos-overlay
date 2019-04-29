@@ -46,6 +46,7 @@ DEPEND="${RDEPEND}
 	crosvm-gpu-forward? ( chromeos-base/rendernodehost:= )
 	crosvm-tpm? (
 		chromeos-base/tpm2:=
+		chromeos-base/trunks:=
 		=dev-rust/dbus-0.6*:=
 	)
 	media-sound/audio_streams:=
