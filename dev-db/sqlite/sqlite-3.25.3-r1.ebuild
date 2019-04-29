@@ -1,16 +1,17 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2018 Arfrever Frehtes Taifersar Arahesis and others
 # Distributed under the terms of the GNU General Public License v2
 
-# Needs to be 5 for bootstraping SDK.
+# chromium: Needs to be 5 for bootstraping SDK.
 EAPI="5"
 
-inherit autotools eutils flag-o-matic multilib multilib-minimal toolchain-funcs versionator
+# chromium: Inherit eapi7-ver for using ver_rs in EAPI 5.
+inherit autotools eapi7-ver flag-o-matic multilib-minimal toolchain-funcs
 
-SRC_PV="$(printf "%u%02u%02u%02u" $(get_version_components))"
+SRC_PV="$(printf "%u%02u%02u%02u" $(ver_rs 1- " "))"
 DOC_PV="${SRC_PV}"
-# DOC_PV="$(printf "%u%02u%02u00" $(get_version_components $(get_version_component_range 1-3)))"
+# DOC_PV="$(printf "%u%02u%02u00" $(ver_rs 1-3 " "))"
 
-DESCRIPTION="A SQL Database Engine in a C Library"
+DESCRIPTION="SQL database engine"
 HOMEPAGE="https://sqlite.org/"
 SRC_URI="doc? ( https://sqlite.org/2018/${PN}-doc-${DOC_PV}.zip )
 	tcl? ( https://sqlite.org/2018/${PN}-src-${SRC_PV}.zip )
@@ -21,8 +22,11 @@ SRC_URI="doc? ( https://sqlite.org/2018/${PN}-doc-${DOC_PV}.zip )
 LICENSE="public-domain"
 SLOT="3"
 KEYWORDS="*"
+# chromium: Enable/disable extension support per USE=extensions (crrev/c/1382441)
 IUSE="debug doc +extensions icu +readline secure-delete static-libs tcl test tools"
+RESTRICT="!test? ( test )"
 
+# chromium: Move BDEPEND into DEPEND for EAPI 5.
 RDEPEND="sys-libs/zlib:0=[${MULTILIB_USEDEP}]
 	icu? ( dev-libs/icu:0=[${MULTILIB_USEDEP}] )
 	readline? ( sys-libs/readline:0=[${MULTILIB_USEDEP}] )
@@ -30,12 +34,19 @@ RDEPEND="sys-libs/zlib:0=[${MULTILIB_USEDEP}]
 	tools? ( dev-lang/tcl:0=[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
 	doc? ( app-arch/unzip )
-	tcl? ( app-arch/unzip )
+	tcl? (
+		app-arch/unzip
+		>=dev-lang/tcl-8.6:0
+	)
 	test? (
 		app-arch/unzip
-		dev-lang/tcl:0[${MULTILIB_USEDEP}]
+		>=dev-lang/tcl-8.6:0
 	)
-	tools? ( app-arch/unzip )"
+	tools? (
+		app-arch/unzip
+		>=dev-lang/tcl-8.6:0
+	)
+	test? ( >=dev-lang/tcl-8.6:0[${MULTILIB_USEDEP}] )"
 
 full_archive() {
 	use tcl || use test || use tools
@@ -50,10 +61,10 @@ pkg_setup() {
 }
 
 src_prepare() {
+	# chromium: changes all eapply to epatch for EAPI5.
 	if full_archive; then
-		epatch "${FILESDIR}/${PN}-3.23.0-full_archive-build.patch"
-		epatch "${FILESDIR}/${PN}-3.23.1-full_archive-prohibit_bound_parameters_in_arguments_to_table-valued_functions_within_triggers.patch"
-		epatch "${FILESDIR}/${PN}-3.23.1-full_archive-tests.patch"
+		epatch "${FILESDIR}/${PN}-3.25.0-full_archive-build.patch"
+		epatch "${FILESDIR}/${PN}-3.25.2-full_archive-tests.patch"
 
 		epatch_user
 
@@ -61,8 +72,7 @@ src_prepare() {
 		# https://mailinglists.sqlite.org/cgi-bin/mailman/private/sqlite-dev/2016-March/002762.html
 		sed -e "s/AC_CHECK_FUNCS(.*)/AC_CHECK_FUNCS([fdatasync fullfsync gmtime_r isnan localtime_r localtime_s malloc_usable_size posix_fallocate pread pread64 pwrite pwrite64 strchrnul usleep utime])/" -i configure.ac || die "sed failed"
 	else
-		epatch "${FILESDIR}/${PN}-3.21.0-nonfull_archive-build.patch"
-		epatch "${FILESDIR}/${PN}-3.23.1-nonfull_archive-prohibit_bound_parameters_in_arguments_to_table-valued_functions_within_triggers.patch"
+		epatch "${FILESDIR}/${PN}-3.25.0-nonfull_archive-build.patch"
 
 		epatch_user
 
@@ -82,6 +92,7 @@ src_prepare() {
 multilib_src_configure() {
 	local CPPFLAGS="${CPPFLAGS}" CFLAGS="${CFLAGS}" options=()
 
+	# chromium: Enable/disable extension support per USE=extensions (crrev/c/1382441)
 	options+=(
 		$(use_enable extensions $(full_archive && echo load-extension || echo dynamic-extensions))
 		--enable-threadsafe
@@ -147,7 +158,8 @@ multilib_src_configure() {
 
 	# Support R*Trees.
 	# https://sqlite.org/rtree.html
-	append-cppflags -DSQLITE_ENABLE_RTREE
+	# https://sqlite.org/geopoly.html
+	append-cppflags -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_GEOPOLY
 
 	# Support scan status functions.
 	# https://sqlite.org/c3ref/stmt_scanstatus.html
@@ -183,6 +195,10 @@ multilib_src_configure() {
 	# Support soundex() function.
 	# https://sqlite.org/lang_corefunc.html#soundex
 	append-cppflags -DSQLITE_SOUNDEX
+
+	# Support URI filenames.
+	# https://sqlite.org/uri.html
+	append-cppflags -DSQLITE_USE_URI
 
 	# debug USE flag.
 	if full_archive; then
@@ -296,7 +312,7 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	prune_libtool_files
+	find "${D}" -name "*.la" -delete || die
 
 	doman sqlite3.1
 
