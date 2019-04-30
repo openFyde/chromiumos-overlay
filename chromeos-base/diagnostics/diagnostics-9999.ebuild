@@ -63,7 +63,7 @@ src_install() {
 
 		# Install D-Bus configuration file.
 		insinto /etc/dbus-1/system.d
-		doins dbus/org.chromium.WilcoDtcSupportd.conf
+		doins dbus/org.chromium.Diagnosticsd.conf
 		doins dbus/WilcoDtcUpstart.conf
 
 		# Install the init scripts.

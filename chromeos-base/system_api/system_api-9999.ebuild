@@ -59,6 +59,7 @@ src_install() {
 		cros_healthd
 		cryptohome
 		debugd
+		diagnosticsd
 		dlcservice
 		login_manager
 		lorgnette
@@ -69,7 +70,6 @@ src_install() {
 		shill
 		smbprovider
 		update_engine
-		wilco_dtc_supportd
 	)
 	for dir in "${dirs[@]}"; do
 		insinto /usr/include/"${dir}"-client/"${dir}"
