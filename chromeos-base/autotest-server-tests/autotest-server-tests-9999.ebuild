@@ -179,6 +179,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECWriteProtect
 	+tests_firmware_EventLog
 	+tests_firmware_FAFTPrepare
+	+tests_firmware_FAFTRPC
 	+tests_firmware_FAFTSetup
 	+tests_firmware_FastbootErase
 	+tests_firmware_FastbootReboot
