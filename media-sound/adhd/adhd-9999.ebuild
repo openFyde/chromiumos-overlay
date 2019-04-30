@@ -71,20 +71,24 @@ RDEPEND=">=media-libs/alsa-lib-1.0.27
 DEPEND="${RDEPEND}
 	media-libs/ladspa-sdk"
 
-check_format_error(){
-	local file="" files_need_format=() target_dirs=( \
+check_format_error() {
+	local dir
+	local file
+	local files_need_format=()
+	local target_dirs=(
 		"cras/examples"
 		"cras/src/libcras"
 	)
-	for dir in ${target_dirs[@]}; do
-		for file in $(find $dir -regex '.*/.*\.\(c\|cc\|h\)$'); do
-			(clang-format -style=file ${file} | cmp -s ${file}) \
-			|| files_need_format+=(${file})
+	for dir in "${target_dirs[@]}"; do
+		for file in "${dir}"/*.{c,cc,h}; do
+			[[ -e "${file}" ]] || continue
+			clang-format -style=file "${file}" | cmp -s "${file}"
+			[[ $? == 0 ]] || files_need_format+=( "${file}" )
 		done
 	done
-	if [ ${#files_need_format[@]} -ne 0 ]; then
-		ewarn "The following files have formmating errors:\n" \
-			"${files_need_format[*]}"
+	if [[ "${#files_need_format[@]}" != "0" ]]; then
+		ewarn "The following files have formmating errors:"
+		ewarn "${files_need_format[*]}"
 		return 1
 	fi
 	return 0
