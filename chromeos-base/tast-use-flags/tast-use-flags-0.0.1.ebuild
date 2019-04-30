@@ -46,7 +46,6 @@ IUSE="
 	skate
 	snow
 	spring
-	tegra
 	touchview
 	transparent_hugepage
 	usbguard
