@@ -36,6 +36,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/19.0-vl-Add-cropping-flags-for-H264.patch
 	epatch "${FILESDIR}"/19.0-radeon-vce-Add-support-for-frame_cropping_flag-of-VA.patch
 	epatch "${FILESDIR}"/19.0-st-va-enc-Add-support-for-frame_cropping_flag-of-VAE.patch
+	epatch "${FILESDIR}"/19.0-winsys-amdgpu-Restrict-allocation-to-GTT-for-small-v.patch
 	eautoreconf
 }
 
