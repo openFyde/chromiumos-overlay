@@ -141,11 +141,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-76.0.3777.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R76-3759.4-1555926573.afdo"
-AFDO_FILE["airmont"]="R76-3759.4-1555928661.afdo"
-AFDO_FILE["haswell"]="R76-3759.4-1555927240.afdo"
-AFDO_FILE["broadwell"]="R76-3729.68-1555926798.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-76.0.3781.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R76-3761.0-1556535679.afdo"
+AFDO_FILE["airmont"]="R76-3761.0-1556530722.afdo"
+AFDO_FILE["haswell"]="R76-3761.0-1556533014.afdo"
+AFDO_FILE["broadwell"]="R76-3729.90-1556530433.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -275,13 +275,13 @@ use_goma_log() {
 # FIXME(gbiv): Remove this and all other non-lld cruft when we're confident
 # that the fixes for https://crbug.com/917504 have stuck.
 determine_linker() {
-	if use lld; then
-		use_lld=true
-		use_gold=false
-	else
-		use_lld=false
-		use_gold=$(usetf gold)
-	fi
+	use gold && die "Gold is now unsupported. Please un-USE it."
+	# It looks like this has been unsupported for a while, but it's
+	# technically a valid combination of flags with a small conditional in
+	# the ebuild. If we're deprecating things 'gracefully' anyway...
+	! use lld && die "GNU ld is unsupported. Please USE lld."
+	use_lld=true
+	use_gold=false
 }
 
 set_build_args() {
