@@ -38,9 +38,11 @@ CLANG_UNSUPPORTED = set((
 GCC_UNSUPPORTED = set(['-Xcompiler'])
 
 # Flags not supported by sanitizers (ASan etc.)
-LINKER_UNSUPPORTED_ASAN_FLAGS = set((
+UNSUPPORTED_ASAN_FLAGS = set((
     '-Wl,--no-undefined',
     '-Wl,-z,defs',
+    '-D_FORTIFY_SOURCE=1',
+    '-D_FORTIFY_SOURCE=2',
 ))
 
 CLANG_UNSUPPORTED_PREFIXES = ('-Wstrict-aliasing=', '-finline-limit=')

@@ -56,7 +56,8 @@ def main(argv):
   cmdline = [x for x in myargs if x not in WRAPPER_ONLY_OPTIONS]
 
   if filter_unsupported_asan_flags:
-    cmdline = [x for x in cmdline if x not in LINKER_UNSUPPORTED_ASAN_FLAGS]
+    cmdline = [x for x in cmdline if x not in UNSUPPORTED_ASAN_FLAGS]
+    clang_cmdline = [x for x in clang_cmdline if x not in UNSUPPORTED_ASAN_FLAGS]
 
   prog_base = os.path.basename(sys.argv[0])
   if prog_base.startswith('x86_64') or startswith_i86(prog_base):
