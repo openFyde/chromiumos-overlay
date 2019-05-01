@@ -86,7 +86,7 @@ RDEPEND="${COMMON_DEPEND}
 
 if [[ ${CATEGORY} == cross-* ]] ; then
 	DEPEND+=" !headers-only? (
-		  !crosscompile_opts_headers-only? (
+			!crosscompile_opts_headers-only? (
 			>=${CATEGORY}/binutils-2.24
 			>=${CATEGORY}/gcc-4.9
 			)
@@ -619,9 +619,9 @@ sanity_prechecks() {
 
 	# Prevent native builds from downgrading
 	if [[ ${MERGE_TYPE} != "buildonly" ]] && \
-	   [[ ${ROOT} == "/" ]] && \
-	   [[ ${CBUILD} == ${CHOST} ]] && \
-	   [[ ${CHOST} == ${CTARGET} ]] ; then
+		[[ ${ROOT} == "/" ]] && \
+		[[ ${CBUILD} == ${CHOST} ]] && \
+		[[ ${CHOST} == ${CTARGET} ]] ; then
 
 		# The high rev # is to allow people to downgrade between -r#
 		# versions. We want to block 2.20->2.19, but 2.20-r3->2.20-r2
