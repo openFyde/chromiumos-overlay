@@ -38,7 +38,6 @@ IUSE_TESTS="
 	seccomp? (
 		+tests_security_SeccompSyscallFilters
 	)
-	+tests_security_AltSyscall
 	+tests_security_CpuVulnerabilities
 	containers? (
 		+tests_security_DeviceJail_AllowDeny
