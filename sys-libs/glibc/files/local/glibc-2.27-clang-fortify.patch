@@ -5,12 +5,12 @@ Author: George Burgess IV <gbiv@google.com>
 Date:   Sun Sep 10 20:51:51 2017 -0700
 
     Refactor FORTIFY in glibc.
-    
+
     This is intended to be a preview.  ChangeLog entry + sane commit
     messages will be added.
 
 diff --git a/io/bits/fcntl2.h b/io/bits/fcntl2.h
-index 4109ead9a8..0e08f51c2d 100644
+index 38a18b27a1..1aaaf9ab79 100644
 --- a/io/bits/fcntl2.h
 +++ b/io/bits/fcntl2.h
 @@ -32,10 +32,28 @@ extern int __REDIRECT (__open_2, (const char *__path, int __oflag),
@@ -194,7 +194,7 @@ index 4109ead9a8..0e08f51c2d 100644
  # endif
  #endif
 diff --git a/io/bits/poll2.h b/io/bits/poll2.h
-index 0fbba4f325..0f7ced5ff3 100644
+index 7e8406b87d..cc420dfedd 100644
 --- a/io/bits/poll2.h
 +++ b/io/bits/poll2.h
 @@ -27,25 +27,20 @@ extern int __REDIRECT (__poll_alias, (struct pollfd *__fds, nfds_t __nfds,
@@ -274,7 +274,7 @@ index 0fbba4f325..0f7ced5ff3 100644
  
  __END_DECLS
 diff --git a/io/fcntl.h b/io/fcntl.h
-index a6ccb90a15..ce712a5c4c 100644
+index 69a4394191..70b543dade 100644
 --- a/io/fcntl.h
 +++ b/io/fcntl.h
 @@ -309,7 +309,7 @@ extern int posix_fallocate64 (int __fd, off64_t __offset, off64_t __len);
@@ -287,7 +287,7 @@ index a6ccb90a15..ce712a5c4c 100644
  #endif
  
 diff --git a/libio/bits/stdio2.h b/libio/bits/stdio2.h
-index e9f9d6952b..05e2f0177c 100644
+index 55302e91d0..513d60a8c4 100644
 --- a/libio/bits/stdio2.h
 +++ b/libio/bits/stdio2.h
 @@ -26,12 +26,23 @@ extern int __vsprintf_chk (char *__restrict __s, int __flag, size_t __slen,
@@ -341,7 +341,7 @@ index e9f9d6952b..05e2f0177c 100644
 -__NTH (snprintf (char *__restrict __s, size_t __n,
 -		 const char *__restrict __fmt, ...))
 +# ifdef __FORTIFY_ARG_PACK_OK
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 3, 4))) int
 +__NTH (snprintf (char *__restrict const __clang_pass_object_size __s,
 +		 size_t __n, const char *__restrict __fmt, ...))
 +     /* GCC's builtin will catch this, so we just need to cover clang here.  */
@@ -367,7 +367,7 @@ index e9f9d6952b..05e2f0177c 100644
 -__fortify_function int
 -__NTH (vsnprintf (char *__restrict __s, size_t __n,
 -		  const char *__restrict __fmt, _G_va_list __ap))
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 3, 0))) int
 +__NTH (vsnprintf (char *__restrict const __clang_pass_object_size __s,
 +		  size_t __n, const char *__restrict __fmt, _G_va_list __ap))
 +     __clang_warning_if (__bos_static_lt (__n, __s),
@@ -384,7 +384,7 @@ index e9f9d6952b..05e2f0177c 100644
 -__fortify_function int
 -fprintf (FILE *__restrict __stream, const char *__restrict __fmt, ...)
 +# ifdef __FORTIFY_ARG_PACK_OK
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 3))) int
 +fprintf (FILE *__restrict const __clang_pass_object_size __stream,
 +	 const char *__restrict __fmt, ...)
  {
@@ -400,7 +400,7 @@ index e9f9d6952b..05e2f0177c 100644
  
 -__fortify_function int
 -printf (const char *__restrict __fmt, ...)
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 1, 2))) int
 +printf (const char *__restrict const __clang_pass_object_size __fmt, ...)
  {
 -  return __printf_chk (__USE_FORTIFY_LEVEL - 1, __fmt, __va_arg_pack ());
@@ -418,7 +418,7 @@ index e9f9d6952b..05e2f0177c 100644
  
 -__fortify_function int
 -vprintf (const char *__restrict __fmt, _G_va_list __ap)
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 1, 0))) int
 +vprintf (const char *__restrict const __clang_pass_object_size __fmt,
 +	 _G_va_list __ap)
  {
@@ -434,7 +434,7 @@ index e9f9d6952b..05e2f0177c 100644
  
 -__fortify_function int
 -vfprintf (FILE *__restrict __stream,
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 0))) int
 +vfprintf (FILE *__restrict const __clang_pass_object_size __stream,
  	  const char *__restrict __fmt, _G_va_list __ap)
  {
@@ -447,7 +447,7 @@ index e9f9d6952b..05e2f0177c 100644
 -__fortify_function int
 -dprintf (int __fd, const char *__restrict __fmt, ...)
 +#  ifdef __FORTIFY_ARG_PACK_OK
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 3))) int
 +dprintf (int __fd, const char *__restrict const __clang_pass_object_size __fmt,
 +	 ...)
  {
@@ -466,14 +466,14 @@ index e9f9d6952b..05e2f0177c 100644
  
 -__fortify_function int
 -vdprintf (int __fd, const char *__restrict __fmt, _G_va_list __ap)
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 0))) int
 +vdprintf (int __fd,
 +	  const char *__restrict const __clang_pass_object_size __fmt,
 +	  _G_va_list __ap)
  {
    return __vdprintf_chk (__fd, __USE_FORTIFY_LEVEL - 1, __fmt, __ap);
  }
-@@ -171,28 +209,47 @@ extern int __obstack_vprintf_chk (struct obstack *__restrict __obstack,
+@@ -171,28 +209,49 @@ extern int __obstack_vprintf_chk (struct obstack *__restrict __obstack,
  				  _G_va_list __args)
       __THROW __attribute__ ((__format__ (__printf__, 3, 0)));
  
@@ -481,7 +481,8 @@ index e9f9d6952b..05e2f0177c 100644
 -__fortify_function int
 -__NTH (asprintf (char **__restrict __ptr, const char *__restrict __fmt, ...))
 +#  ifdef __FORTIFY_ARG_PACK_OK
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 3)))
++__wur int
 +__NTH (asprintf (char **__restrict const __clang_pass_object_size __ptr,
 +		 const char *__restrict __fmt, ...))
  {
@@ -498,7 +499,8 @@ index e9f9d6952b..05e2f0177c 100644
 -__fortify_function int
 -__NTH (__asprintf (char **__restrict __ptr, const char *__restrict __fmt,
 -		   ...))
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 3)))
++__wur int
 +__NTH (__asprintf (char **__restrict const __clang_pass_object_size __ptr,
 +		   const char *__restrict __fmt, ...))
  {
@@ -514,7 +516,7 @@ index e9f9d6952b..05e2f0177c 100644
  
 -__fortify_function int
 -__NTH (obstack_printf (struct obstack *__restrict __obstack,
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 3))) int
 +__NTH (obstack_printf (struct obstack *
 +			 __restrict const __clang_pass_object_size __obstack,
  		       const char *__restrict __fmt, ...))
@@ -535,14 +537,15 @@ index e9f9d6952b..05e2f0177c 100644
  }
  #  elif !defined __cplusplus
  #   define asprintf(ptr, ...) \
-@@ -203,15 +260,16 @@ __NTH (obstack_printf (struct obstack *__restrict __obstack,
+@@ -203,15 +262,17 @@ __NTH (obstack_printf (struct obstack *__restrict __obstack,
    __obstack_printf_chk (obstack, __USE_FORTIFY_LEVEL - 1, __VA_ARGS__)
  #  endif
  
 -__fortify_function int
 -__NTH (vasprintf (char **__restrict __ptr, const char *__restrict __fmt,
 -		  _G_va_list __ap))
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 0)))
++__wur int
 +__NTH (vasprintf (char **__restrict const __clang_pass_object_size __ptr,
 +		  const char *__restrict __fmt, _G_va_list __ap))
  {
@@ -551,13 +554,13 @@ index e9f9d6952b..05e2f0177c 100644
  
 -__fortify_function int
 -__NTH (obstack_vprintf (struct obstack *__restrict __obstack,
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 0))) int
 +__NTH (obstack_vprintf (struct obstack *
 +			  __restrict const __clang_pass_object_size __obstack,
  			const char *__restrict __fmt, _G_va_list __ap))
  {
    return __obstack_vprintf_chk (__obstack, __USE_FORTIFY_LEVEL - 1, __fmt,
-@@ -224,17 +282,20 @@ __NTH (obstack_vprintf (struct obstack *__restrict __obstack,
+@@ -224,17 +285,20 @@ __NTH (obstack_vprintf (struct obstack *__restrict __obstack,
  
  #if __GLIBC_USE (DEPRECATED_GETS)
  extern char *__gets_chk (char *__str, size_t) __wur;
@@ -585,7 +588,7 @@ index e9f9d6952b..05e2f0177c 100644
  #endif
  
  extern char *__fgets_chk (char *__restrict __s, size_t __size, int __n,
-@@ -242,25 +303,20 @@ extern char *__fgets_chk (char *__restrict __s, size_t __size, int __n,
+@@ -242,25 +306,20 @@ extern char *__fgets_chk (char *__restrict __s, size_t __size, int __n,
  extern char *__REDIRECT (__fgets_alias,
  			 (char *__restrict __s, int __n,
  			  FILE *__restrict __stream), fgets) __wur;
@@ -621,7 +624,7 @@ index e9f9d6952b..05e2f0177c 100644
  
  extern size_t __fread_chk (void *__restrict __ptr, size_t __ptrlen,
  			   size_t __size, size_t __n,
-@@ -269,30 +325,21 @@ extern size_t __REDIRECT (__fread_alias,
+@@ -269,30 +328,21 @@ extern size_t __REDIRECT (__fread_alias,
  			  (void *__restrict __ptr, size_t __size,
  			   size_t __n, FILE *__restrict __stream),
  			  fread) __wur;
@@ -662,7 +665,7 @@ index e9f9d6952b..05e2f0177c 100644
  
  #ifdef __USE_GNU
  extern char *__fgets_unlocked_chk (char *__restrict __s, size_t __size,
-@@ -300,25 +347,21 @@ extern char *__fgets_unlocked_chk (char *__restrict __s, size_t __size,
+@@ -300,25 +350,21 @@ extern char *__fgets_unlocked_chk (char *__restrict __s, size_t __size,
  extern char *__REDIRECT (__fgets_unlocked_alias,
  			 (char *__restrict __s, int __n,
  			  FILE *__restrict __stream), fgets_unlocked) __wur;
@@ -699,7 +702,7 @@ index e9f9d6952b..05e2f0177c 100644
  #endif
  
  #ifdef __USE_MISC
-@@ -330,30 +373,19 @@ extern size_t __REDIRECT (__fread_unlocked_alias,
+@@ -330,30 +376,19 @@ extern size_t __REDIRECT (__fread_unlocked_alias,
  			  (void *__restrict __ptr, size_t __size,
  			   size_t __n, FILE *__restrict __stream),
  			  fread_unlocked) __wur;
@@ -740,7 +743,7 @@ index e9f9d6952b..05e2f0177c 100644
  
  # ifdef __USE_EXTERN_INLINES
    if (__builtin_constant_p (__size)
-@@ -378,4 +410,6 @@ fread_unlocked (void *__restrict __ptr, size_t __size, size_t __n,
+@@ -378,4 +413,6 @@ fread_unlocked (void *__restrict __ptr, size_t __size, size_t __n,
  # endif
    return __fread_unlocked_alias (__ptr, __size, __n, __stream);
  }
@@ -748,7 +751,7 @@ index e9f9d6952b..05e2f0177c 100644
  #endif
 +#undef __mul_may_overflow
 diff --git a/misc/bits/syslog.h b/misc/bits/syslog.h
-index 0b6c913516..8618bf1a56 100644
+index 6719fbe795..ef58020f40 100644
 --- a/misc/bits/syslog.h
 +++ b/misc/bits/syslog.h
 @@ -20,11 +20,34 @@
@@ -760,7 +763,7 @@ index 0b6c913516..8618bf1a56 100644
 +			   __gnuc_va_list __ap)
 +     __attribute__ ((__format__ (__printf__, 3, 0)));
 +
-+__fortify_potential_overload void
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 0))) void
 +vsyslog (int __pri, const char *const __clang_pass_object_size __fmt,
 +	 __gnuc_va_list __ap)
 +{
@@ -775,7 +778,7 @@ index 0b6c913516..8618bf1a56 100644
 +#if defined __use_clang_fortify && __USE_MISC
 +/* clang doesn't support __va_arg_pack, so this is only possible if we have
 +   vsyslog.  */
-+__fortify_overload void
++__fortify_overload __attribute__ ((__format__ (__printf__, 2, 3))) void
 +syslog (int __pri, const char *const __clang_pass_object_size __fmt, ...)
 +{
 +  __gnuc_va_list __ap;
@@ -805,7 +808,7 @@ index 0b6c913516..8618bf1a56 100644
 -}
 -#endif
 diff --git a/misc/sys/cdefs.h b/misc/sys/cdefs.h
-index cfd39d5302..eb45839110 100644
+index af103fdb8a..8cff5ac9f3 100644
 --- a/misc/sys/cdefs.h
 +++ b/misc/sys/cdefs.h
 @@ -113,11 +113,150 @@
@@ -991,7 +994,7 @@ index cfd39d5302..eb45839110 100644
     run in pedantic mode if the uses are carefully marked using the
     `__extension__' keyword.  But this is not generally available before
 diff --git a/posix/bits/unistd.h b/posix/bits/unistd.h
-index 4e4153c94f..3bd4c8de75 100644
+index 9a749dccf8..4304966812 100644
 --- a/posix/bits/unistd.h
 +++ b/posix/bits/unistd.h
 @@ -24,25 +24,19 @@ extern ssize_t __read_chk (int __fd, void *__buf, size_t __nbytes,
@@ -1486,7 +1489,7 @@ index 4e4153c94f..3bd4c8de75 100644
 +__FORTIFY_FUNCTION_END
  #endif
 diff --git a/rt/bits/mqueue2.h b/rt/bits/mqueue2.h
-index 70ac65550e..886749cb9b 100644
+index 7d84bda6af..95bf8d2c59 100644
 --- a/rt/bits/mqueue2.h
 +++ b/rt/bits/mqueue2.h
 @@ -29,10 +29,47 @@ extern mqd_t __mq_open_2 (const char *__name, int __oflag)
@@ -1547,7 +1550,7 @@ index 70ac65550e..886749cb9b 100644
 +#undef __warn_mq_open_wrong_number_of_args
 +#undef __warn_mq_open_missing_mode_and_attr
 diff --git a/rt/mqueue.h b/rt/mqueue.h
-index c79aa53b94..4b77cda71f 100644
+index 5f354b4d76..ecac01c407 100644
 --- a/rt/mqueue.h
 +++ b/rt/mqueue.h
 @@ -89,7 +89,7 @@ extern int mq_timedsend (mqd_t __mqdes, const char *__msg_ptr,
@@ -1560,7 +1563,7 @@ index c79aa53b94..4b77cda71f 100644
  #endif
  
 diff --git a/socket/bits/socket2.h b/socket/bits/socket2.h
-index 4f520d727f..5443ab08a5 100644
+index a129e69735..f2063dd6d2 100644
 --- a/socket/bits/socket2.h
 +++ b/socket/bits/socket2.h
 @@ -24,25 +24,20 @@ extern ssize_t __recv_chk (int __fd, void *__buf, size_t __n, size_t __buflen,
@@ -1639,7 +1642,7 @@ index 4f520d727f..5443ab08a5 100644
  }
 +__FORTIFY_FUNCTION_END
 diff --git a/stdlib/bits/stdlib.h b/stdlib/bits/stdlib.h
-index 864284fc74..487fdc391b 100644
+index 53c379b99a..3c54273171 100644
 --- a/stdlib/bits/stdlib.h
 +++ b/stdlib/bits/stdlib.h
 @@ -26,27 +26,27 @@ extern char *__realpath_chk (const char *__restrict __name,
@@ -1808,7 +1811,7 @@ index 864284fc74..487fdc391b 100644
  }
 +__FORTIFY_FUNCTION_END
 diff --git a/string/bits/string_fortified.h b/string/bits/string_fortified.h
-index a89e757c9d..199cec7ad2 100644
+index a07ab0dbc8..63aa856a0c 100644
 --- a/string/bits/string_fortified.h
 +++ b/string/bits/string_fortified.h
 @@ -22,45 +22,70 @@
@@ -1995,7 +1998,7 @@ index a89e757c9d..199cec7ad2 100644
 +#undef __warn_if_src_too_large
  #endif /* bits/string_fortified.h */
 diff --git a/string/bits/strings_fortified.h b/string/bits/strings_fortified.h
-index 411e7863d6..2098a36da4 100644
+index d9b2804525..6939c64d5f 100644
 --- a/string/bits/strings_fortified.h
 +++ b/string/bits/strings_fortified.h
 @@ -19,16 +19,30 @@
@@ -2034,7 +2037,7 @@ index 411e7863d6..2098a36da4 100644
 +#undef __strings_warn_len_too_large
  #endif
 diff --git a/wcsmbs/bits/wchar2.h b/wcsmbs/bits/wchar2.h
-index 4a461e6e29..7b9db7806e 100644
+index d62b86de3e..d1d9ecc6a8 100644
 --- a/wcsmbs/bits/wchar2.h
 +++ b/wcsmbs/bits/wchar2.h
 @@ -20,7 +20,6 @@
