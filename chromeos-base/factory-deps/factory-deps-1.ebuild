@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
 
 DESCRIPTION="List of packages that are needed for Chrome OS factory software."
 HOMEPAGE="http://dev.chromium.org/"
@@ -47,10 +47,10 @@ FACTORY_TEST_RDEPEND="
 	app-arch/pigz
 	app-arch/xz-utils
 	chromeos-base/cryptohome
-	dev-python/gnupg
 	dev-python/numpy
 	dev-python/pyserial
 	dev-python/python-evdev
+	dev-python/python-gnupg
 	dev-python/pyudev
 	dev-python/requests
 	dev-util/stressapptest
