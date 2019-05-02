@@ -283,6 +283,7 @@ SERVER_IUSE_TESTS="
 	+tests_power_ChargeControlWrapper
 	+tests_power_PowerlogWrapper
 	+tests_power_RPMTest
+	+tests_power_ServoChargeStress
 	+tests_power_ServodWrapper
 	+tests_provision_AutoUpdate
 	+tests_rlz_CheckPing
