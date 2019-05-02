@@ -46,9 +46,11 @@ pkg_setup() {
 src_install() {
 	dosbin "${OUT}"/kerberosd
 	insinto /etc/dbus-1/system.d
-	doins etc/dbus-1/org.chromium.Kerberos.conf
+	doins dbus/org.chromium.Kerberos.conf
+	insinto /usr/share/dbus-1/system-services
+	doins dbus/org.chromium.Kerberos.service
 	insinto /etc/init
-	doins etc/init/kerberosd.conf
+	doins init/kerberosd.conf
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
