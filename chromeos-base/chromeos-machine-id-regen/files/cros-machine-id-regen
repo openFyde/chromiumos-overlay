@@ -35,7 +35,7 @@ emit_metrics() {
 
   local reason_enum_value=0
   local reason_pretty="Unknown"
-  case ${reason} in
+  case "${reason}" in
   network)
     reason_enum_value=1
     reason_pretty="Network"
@@ -64,7 +64,7 @@ regen() {
   uptime_seconds=$(printf %.0f $(cut -d' ' -f1 /proc/uptime))
 
   # Figure out path to timestamp file.
-  timestamp_path=${STATE_DIR}/timestamp$(echo $machine_id_file | tr / _)
+  timestamp_path=${STATE_DIR}/timestamp$(echo "${machine_id_file}" | tr / _)
 
   # Read last update and calculate how long since last time.
   local last_update=0
@@ -134,13 +134,13 @@ main() {
       exit 0
       ;;
     t)
-      minimum_age_seconds=${OPTARG}
+      minimum_age_seconds="${OPTARG}"
       ;;
     r)
-      reason=${OPTARG}
+      reason="${OPTARG}"
       ;;
     p)
-      machine_id_file=${OPTARG}
+      machine_id_file="${OPTARG}"
       ;;
     esac
   done
