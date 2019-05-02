@@ -85,6 +85,10 @@ CLIENT_IUSE_TESTS="
 	+tests_autoupdate_CannedOmahaUpdate
 	+tests_autoupdate_DisconnectReconnectNetwork
 	+tests_autoupdate_UrlSwitch
+	+tests_blktestsSuiteAll
+	+tests_blktestsSuiteLoopOverBlk
+	+tests_blktestsSuiteLoopOverFile
+	+tests_blktestsSuiteRealBlk
 	+tests_camera_V4L2
 	arc-camera3? (
 		+tests_camera_HAL3
