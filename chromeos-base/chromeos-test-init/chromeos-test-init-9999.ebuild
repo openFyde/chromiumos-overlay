@@ -26,7 +26,6 @@ src_unpack() {
 src_install() {
 	insinto /etc/init
 	doins upstart/test-init/*.conf
-	dosbin upstart/test-init/job-filter
 
 	insinto /usr/share/cros
 	doins upstart/test-init/*_utils.sh
