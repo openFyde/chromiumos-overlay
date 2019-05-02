@@ -20,9 +20,6 @@ app-admin/eselect-vi-1.1.5
 app-arch/cabextract-1.2-r1
 app-arch/rpm2targz-9.0.0.3g
 
-# Needed for building Icedtea
-app-arch/zip-3.0
-
 # We don't need xmltoman in the sysroot, so pick a large version as they
 # should all be compatible.
 app-doc/xmltoman-1.0
