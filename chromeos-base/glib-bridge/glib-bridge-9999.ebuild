@@ -28,6 +28,10 @@ DEPEND="${RDEPEND}"
 
 src_install() {
 	dolib.a "${OUT}"/libglib_bridge.a
+
+	# Install headers.
+	insinto /usr/include/glib_bridge
+	doins *.h
 }
 
 
