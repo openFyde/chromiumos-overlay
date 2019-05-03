@@ -49,6 +49,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/set_multisample_state_for_gen6.patch
 	epatch "${FILESDIR}"/Disable-VP8-decoder-on-BDW.patch
 	epatch "${FILESDIR}"/Revert-VPP-clear-a-surface-using-media-pipeline-on-G.patch
+	epatch "${FILESDIR}"/UPSTREAM-dont-reset-the-current-target-buffer-fullness-after-initialization.patch
+	epatch "${FILESDIR}"/UPSTREAM-use-the-right-buffer-for-the-2nd-level-batchbuffer.patch
+	epatch "${FILESDIR}"/UPSTREAM-update-avc-media-kernel-for-bdw-bsw.patch
 
 	sed -e 's/intel-gen4asm/\0diSaBlEd/g' -i configure.ac || die
 	autotools-multilib_src_prepare

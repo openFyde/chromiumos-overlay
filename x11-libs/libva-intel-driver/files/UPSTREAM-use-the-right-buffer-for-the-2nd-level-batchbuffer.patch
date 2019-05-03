@@ -1,0 +1,23 @@
+From 4eeb35a81b2c716a47fb37286e19059d67cf69b0 Mon Sep 17 00:00:00 2001
+From: Haihao Xiang <haihao.xiang@intel.com>
+Date: Wed, 24 Apr 2019 15:42:48 +0800
+Subject: [PATCH] Use the right buffer for the 2nd level batchbuffer
+
+Signed-off-by: Haihao Xiang <haihao.xiang@intel.com>
+---
+ src/i965_avc_encoder.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/i965_avc_encoder.c b/src/i965_avc_encoder.c
+index 74e6dfce..8a24e30d 100644
+--- a/src/i965_avc_encoder.c
++++ b/src/i965_avc_encoder.c
+@@ -10310,7 +10310,7 @@ gen9_avc_pak_picture_level(VADriverContextP ctx,
+             second_level_batch.offset = generic_state->curr_pak_pass * INTEL_AVC_IMAGE_STATE_CMD_SIZE;
+         }
+         second_level_batch.is_second_level = 1;
+-        second_level_batch.bo = avc_ctx->res_brc_image_state_read_buffer.bo;
++        second_level_batch.bo = avc_ctx->res_brc_image_state_write_buffer.bo;
+         gpe->mi_batch_buffer_start(ctx, batch, &second_level_batch);
+     } else {
+         /*generate a new image state */
