@@ -4,6 +4,6 @@
 
 # Compiler flags to build all packages with msan.
 CPPFLAGS=" -U_FORTIFY_SOURCE"
-CFLAGS=" -fsanitize=memory,fuzzer-no-link"
-CXXFLAGS=" -fsanitize=memory,fuzzer-no-link"
+CFLAGS=" -fsanitize=memory,fuzzer-no-link -fsanitize-memory-track-origins"
+CXXFLAGS=" -fsanitize=memory,fuzzer-no-link -fsanitize-memory-track-origins"
 LDFLAGS=" -Xcompiler -fsanitize=memory,fuzzer-no-link"
