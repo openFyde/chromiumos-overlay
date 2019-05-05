@@ -71,6 +71,7 @@ ALL_BOARDS=(
 	bolt
 	bruteus
 	buddy
+	buddy-cfm
 	#buranku
 	butterfly
 	bwtm2
@@ -139,6 +140,7 @@ ALL_BOARDS=(
 	fb1
 	fizz
 	fizz-accelerator
+	fizz-cfm
 	fizz-labstation
 	fizz-moblab
 	flapjack
@@ -161,6 +163,7 @@ ALL_BOARDS=(
 	grunt
 	guado
 	guado-accelerator
+	guado-cfm
 	guado-macrophage
 	guado_moblab
 	guado_labstation
