@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/914263): camera/hal is unnecessary for this build but is
 # workaround for unexpected sandbox behavior.
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal camera/hal_adapter camera/include camera/mojo common-mk"
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal camera/hal_adapter camera/include camera/mojo common-mk metrics"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -37,6 +37,7 @@ RDEPEND="
 	virtual/cros-camera-hal-configs"
 
 DEPEND="${RDEPEND}
+	chromeos-base/metrics
 	media-libs/cros-camera-android-headers
 	media-libs/minigbm
 	virtual/pkgconfig
