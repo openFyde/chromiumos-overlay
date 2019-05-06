@@ -121,6 +121,8 @@ src_prepare() {
 	fi
 
 	epatch "${FILESDIR}"/19.0-util-Don-t-block-SIGSYS-for-new-threads.patch
+	epatch "${FILESDIR}"/19.0-radv-Use-given-stride-for-images-imported-from-Andro.patch
+
 	epatch "${FILESDIR}"/CHROMIUM-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
 
 	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson.build-Add-optio.patch
