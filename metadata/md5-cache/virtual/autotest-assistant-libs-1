@@ -1,0 +1,7 @@
+DEFINED_PHASES=-
+DESCRIPTION=This package can be overriden to bring in additional assistant autotest libraries
+EAPI=6
+KEYWORDS=*
+LICENSE=BSD-Google
+SLOT=0
+_md5_=80af68d49df722131c2281f308e57ff3
