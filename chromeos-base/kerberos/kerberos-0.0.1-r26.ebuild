@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="7e68984bb24691d7c3459f89125c0a268a82546e"
-CROS_WORKON_TREE=("e0a35eb05c0aac44ce4b3939e405a8d7d9958e5e" "8daab92b97db1a816692b9519352410d77be9aba" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="a02e7e3c387d6298c2a41f9a08fc6b586c22d176"
+CROS_WORKON_TREE=("e0a35eb05c0aac44ce4b3939e405a8d7d9958e5e" "8930e24584319a3f6b8d1f3c38caaeda57cb19ed" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -48,9 +48,11 @@ pkg_setup() {
 src_install() {
 	dosbin "${OUT}"/kerberosd
 	insinto /etc/dbus-1/system.d
-	doins etc/dbus-1/org.chromium.Kerberos.conf
+	doins dbus/org.chromium.Kerberos.conf
+	insinto /usr/share/dbus-1/system-services
+	doins dbus/org.chromium.Kerberos.service
 	insinto /etc/init
-	doins etc/init/kerberosd.conf
+	doins init/kerberosd.conf
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
