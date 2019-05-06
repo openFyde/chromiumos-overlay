@@ -59,7 +59,6 @@ src_install() {
 		cros_healthd
 		cryptohome
 		debugd
-		diagnosticsd
 		dlcservice
 		login_manager
 		lorgnette
