@@ -23,7 +23,7 @@ SRC_URI="mirror://openssl/source/${MY_P}.tar.gz
 LICENSE="openssl"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+asm bindist gmp kerberos rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
+IUSE="+asm bindist gmp kerberos msan rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
 # TODO(crbug.com/916672) Enable testing once the failure is fixed.
 RESTRICT="!bindist? ( bindist )
 	test"
@@ -154,6 +154,9 @@ src_prepare() {
 	append-flags -fno-strict-aliasing
 	append-flags $(test-flags-CC -Wa,--noexecstack)
 	append-cppflags -DOPENSSL_NO_BUF_FREELISTS
+
+	# Add PURIFY=1 for msan builds, https://crbug.com/960520
+	use msan && append-cppflags "-DPURIFY=1"
 
 	sed -i '1s,^:$,#!'${EPREFIX%/}'/usr/bin/perl,' Configure #141906
 	# The config script does stupid stuff to prompt the user.  Kill it.
