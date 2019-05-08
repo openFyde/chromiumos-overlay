@@ -48,6 +48,7 @@ IUSE="
 	spring
 	touchview
 	transparent_hugepage
+	unibuild
 	usbguard
 	usbip
 	veyron_mickey
