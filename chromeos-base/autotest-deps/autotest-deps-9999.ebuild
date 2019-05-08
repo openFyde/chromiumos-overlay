@@ -37,6 +37,11 @@ RDEPEND="${RDEPEND}
 	dev-libs/libnl:0
 "
 
+# deps/grpcio
+RDEPEND="${RDEPEND}
+	>=dev-python/grpcio-1.19
+"
+
 RDEPEND="${RDEPEND}
 	sys-devel/binutils
 "

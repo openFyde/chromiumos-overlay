@@ -28,6 +28,10 @@ DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
 "
 
+PATCHES=(
+	"${FILESDIR}"/use-sysroot-env-var.patch
+)
+
 python_prepare_all() {
 	export GRPC_PYTHON_CFLAGS="${CFLAGS}"
 	export GRPC_PYTHON_LDFLAGS="${LDFLAGS}"
