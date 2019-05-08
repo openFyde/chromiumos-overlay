@@ -1,4 +1,4 @@
-commit 4efb43207cb1f36870a79350d870ae47717af755
+commit e3b6d11038f3927fd02ec6d5459cfd0ffbe6b2fe
 Author: Nico Weber <nicolasweber@gmx.de>
 Date:   Wed Feb 27 15:44:03 2019 +0000
 
@@ -19,13 +19,12 @@ Date:   Wed Feb 27 15:44:03 2019 +0000
     
     Differential Revision: https://reviews.llvm.org/D58620
     
-    
-    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@354989 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 354989
 
-diff --git a/lib/hwasan/CMakeLists.txt b/lib/hwasan/CMakeLists.txt
-index 7460abc54..832335825 100644
---- a/lib/hwasan/CMakeLists.txt
-+++ b/lib/hwasan/CMakeLists.txt
+diff --git a/compiler-rt/lib/hwasan/CMakeLists.txt b/compiler-rt/lib/hwasan/CMakeLists.txt
+index 7460abc54bd..83233582548 100644
+--- a/compiler-rt/lib/hwasan/CMakeLists.txt
++++ b/compiler-rt/lib/hwasan/CMakeLists.txt
 @@ -2,20 +2,21 @@ include_directories(..)
  
  # Runtime library sources and build flags.
@@ -59,128 +58,128 @@ index 7460abc54..832335825 100644
  
  set(HWASAN_RTL_HEADERS
    hwasan.h
-diff --git a/lib/hwasan/hwasan.cc b/lib/hwasan/hwasan.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan.cc b/compiler-rt/lib/hwasan/hwasan.cpp
 similarity index 99%
-rename from lib/hwasan/hwasan.cc
-rename to lib/hwasan/hwasan.cpp
-index 9c83f73bd..5ac53f2b3 100644
---- a/lib/hwasan/hwasan.cc
-+++ b/lib/hwasan/hwasan.cpp
+rename from compiler-rt/lib/hwasan/hwasan.cc
+rename to compiler-rt/lib/hwasan/hwasan.cpp
+index 9c83f73bd98..5ac53f2b308 100644
+--- a/compiler-rt/lib/hwasan/hwasan.cc
++++ b/compiler-rt/lib/hwasan/hwasan.cpp
 @@ -1,4 +1,4 @@
 -//===-- hwasan.cc ---------------------------------------------------------===//
 +//===-- hwasan.cpp --------------------------------------------------------===//
  //
  // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
  // See https://llvm.org/LICENSE.txt for license information.
-diff --git a/lib/hwasan/hwasan_allocator.cc b/lib/hwasan/hwasan_allocator.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_allocator.cc b/compiler-rt/lib/hwasan/hwasan_allocator.cpp
 similarity index 99%
-rename from lib/hwasan/hwasan_allocator.cc
-rename to lib/hwasan/hwasan_allocator.cpp
-index 09f1ab94e..19f1bafeb 100644
---- a/lib/hwasan/hwasan_allocator.cc
-+++ b/lib/hwasan/hwasan_allocator.cpp
+rename from compiler-rt/lib/hwasan/hwasan_allocator.cc
+rename to compiler-rt/lib/hwasan/hwasan_allocator.cpp
+index 09f1ab94e4b..19f1bafeb77 100644
+--- a/compiler-rt/lib/hwasan/hwasan_allocator.cc
++++ b/compiler-rt/lib/hwasan/hwasan_allocator.cpp
 @@ -1,4 +1,4 @@
 -//===-- hwasan_allocator.cc ------------------------- ---------------------===//
 +//===-- hwasan_allocator.cpp ------------------------ ---------------------===//
  //
  // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
  // See https://llvm.org/LICENSE.txt for license information.
-diff --git a/lib/hwasan/hwasan_dynamic_shadow.cc b/lib/hwasan/hwasan_dynamic_shadow.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_dynamic_shadow.cc b/compiler-rt/lib/hwasan/hwasan_dynamic_shadow.cpp
 similarity index 98%
-rename from lib/hwasan/hwasan_dynamic_shadow.cc
-rename to lib/hwasan/hwasan_dynamic_shadow.cpp
-index e2dbe0565..a04751f44 100644
---- a/lib/hwasan/hwasan_dynamic_shadow.cc
-+++ b/lib/hwasan/hwasan_dynamic_shadow.cpp
+rename from compiler-rt/lib/hwasan/hwasan_dynamic_shadow.cc
+rename to compiler-rt/lib/hwasan/hwasan_dynamic_shadow.cpp
+index e2dbe056559..a04751f44a3 100644
+--- a/compiler-rt/lib/hwasan/hwasan_dynamic_shadow.cc
++++ b/compiler-rt/lib/hwasan/hwasan_dynamic_shadow.cpp
 @@ -1,4 +1,4 @@
 -//===-- hwasan_dynamic_shadow.cc --------------------------------*- C++ -*-===//
 +//===-- hwasan_dynamic_shadow.cpp -------------------------------*- C++ -*-===//
  //
  // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
  // See https://llvm.org/LICENSE.txt for license information.
-diff --git a/lib/hwasan/hwasan_interceptors.cc b/lib/hwasan/hwasan_interceptors.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_interceptors.cc b/compiler-rt/lib/hwasan/hwasan_interceptors.cpp
 similarity index 99%
-rename from lib/hwasan/hwasan_interceptors.cc
-rename to lib/hwasan/hwasan_interceptors.cpp
-index baecb1e03..3b087e157 100644
---- a/lib/hwasan/hwasan_interceptors.cc
-+++ b/lib/hwasan/hwasan_interceptors.cpp
+rename from compiler-rt/lib/hwasan/hwasan_interceptors.cc
+rename to compiler-rt/lib/hwasan/hwasan_interceptors.cpp
+index baecb1e0334..3b087e157b0 100644
+--- a/compiler-rt/lib/hwasan/hwasan_interceptors.cc
++++ b/compiler-rt/lib/hwasan/hwasan_interceptors.cpp
 @@ -1,4 +1,4 @@
 -//===-- hwasan_interceptors.cc --------------------------------------------===//
 +//===-- hwasan_interceptors.cpp -------------------------------------------===//
  //
  // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
  // See https://llvm.org/LICENSE.txt for license information.
-diff --git a/lib/hwasan/hwasan_linux.cc b/lib/hwasan/hwasan_linux.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_linux.cc b/compiler-rt/lib/hwasan/hwasan_linux.cpp
 similarity index 99%
-rename from lib/hwasan/hwasan_linux.cc
-rename to lib/hwasan/hwasan_linux.cpp
-index c922c1110..4ab7c323d 100644
---- a/lib/hwasan/hwasan_linux.cc
-+++ b/lib/hwasan/hwasan_linux.cpp
+rename from compiler-rt/lib/hwasan/hwasan_linux.cc
+rename to compiler-rt/lib/hwasan/hwasan_linux.cpp
+index c922c1110e5..4ab7c323d1f 100644
+--- a/compiler-rt/lib/hwasan/hwasan_linux.cc
++++ b/compiler-rt/lib/hwasan/hwasan_linux.cpp
 @@ -1,4 +1,4 @@
 -//===-- hwasan_linux.cc -----------------------------------------*- C++ -*-===//
 +//===-- hwasan_linux.cpp ----------------------------------------*- C++ -*-===//
  //
  // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
  // See https://llvm.org/LICENSE.txt for license information.
-diff --git a/lib/hwasan/hwasan_memintrinsics.cc b/lib/hwasan/hwasan_memintrinsics.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_memintrinsics.cc b/compiler-rt/lib/hwasan/hwasan_memintrinsics.cpp
 similarity index 96%
-rename from lib/hwasan/hwasan_memintrinsics.cc
-rename to lib/hwasan/hwasan_memintrinsics.cpp
-index 1bfc6c3fa..e82d77a1b 100644
---- a/lib/hwasan/hwasan_memintrinsics.cc
-+++ b/lib/hwasan/hwasan_memintrinsics.cpp
+rename from compiler-rt/lib/hwasan/hwasan_memintrinsics.cc
+rename to compiler-rt/lib/hwasan/hwasan_memintrinsics.cpp
+index 1bfc6c3fa68..e82d77a1bc1 100644
+--- a/compiler-rt/lib/hwasan/hwasan_memintrinsics.cc
++++ b/compiler-rt/lib/hwasan/hwasan_memintrinsics.cpp
 @@ -1,4 +1,4 @@
 -//===-- hwasan_memintrinsics.cc ---------------------------------*- C++ -*-===//
 +//===-- hwasan_memintrinsics.cpp --------------------------------*- C++ -*-===//
  //
  // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
  // See https://llvm.org/LICENSE.txt for license information.
-diff --git a/lib/hwasan/hwasan_new_delete.cc b/lib/hwasan/hwasan_new_delete.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_new_delete.cc b/compiler-rt/lib/hwasan/hwasan_new_delete.cpp
 similarity index 97%
-rename from lib/hwasan/hwasan_new_delete.cc
-rename to lib/hwasan/hwasan_new_delete.cpp
-index 9ecc35018..438a3699a 100644
---- a/lib/hwasan/hwasan_new_delete.cc
-+++ b/lib/hwasan/hwasan_new_delete.cpp
+rename from compiler-rt/lib/hwasan/hwasan_new_delete.cc
+rename to compiler-rt/lib/hwasan/hwasan_new_delete.cpp
+index 9ecc35018d8..438a3699a92 100644
+--- a/compiler-rt/lib/hwasan/hwasan_new_delete.cc
++++ b/compiler-rt/lib/hwasan/hwasan_new_delete.cpp
 @@ -1,4 +1,4 @@
 -//===-- hwasan_new_delete.cc ----------------------------------------------===//
 +//===-- hwasan_new_delete.cpp ---------------------------------------------===//
  //
  // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
  // See https://llvm.org/LICENSE.txt for license information.
-diff --git a/lib/hwasan/hwasan_poisoning.cc b/lib/hwasan/hwasan_poisoning.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_poisoning.cc b/compiler-rt/lib/hwasan/hwasan_poisoning.cpp
 similarity index 96%
-rename from lib/hwasan/hwasan_poisoning.cc
-rename to lib/hwasan/hwasan_poisoning.cpp
-index 9404c52fe..2a0816428 100644
---- a/lib/hwasan/hwasan_poisoning.cc
-+++ b/lib/hwasan/hwasan_poisoning.cpp
+rename from compiler-rt/lib/hwasan/hwasan_poisoning.cc
+rename to compiler-rt/lib/hwasan/hwasan_poisoning.cpp
+index 9404c52feab..2a0816428e7 100644
+--- a/compiler-rt/lib/hwasan/hwasan_poisoning.cc
++++ b/compiler-rt/lib/hwasan/hwasan_poisoning.cpp
 @@ -1,4 +1,4 @@
 -//===-- hwasan_poisoning.cc -------------------------------------*- C++ -*-===//
 +//===-- hwasan_poisoning.cpp ------------------------------------*- C++ -*-===//
  //
  // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
  // See https://llvm.org/LICENSE.txt for license information.
-diff --git a/lib/hwasan/hwasan_report.cc b/lib/hwasan/hwasan_report.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_report.cc b/compiler-rt/lib/hwasan/hwasan_report.cpp
 similarity index 99%
-rename from lib/hwasan/hwasan_report.cc
-rename to lib/hwasan/hwasan_report.cpp
-index 762171362..b1002c546 100644
---- a/lib/hwasan/hwasan_report.cc
-+++ b/lib/hwasan/hwasan_report.cpp
+rename from compiler-rt/lib/hwasan/hwasan_report.cc
+rename to compiler-rt/lib/hwasan/hwasan_report.cpp
+index 76217136250..b1002c546f8 100644
+--- a/compiler-rt/lib/hwasan/hwasan_report.cc
++++ b/compiler-rt/lib/hwasan/hwasan_report.cpp
 @@ -1,4 +1,4 @@
 -//===-- hwasan_report.cc --------------------------------------------------===//
 +//===-- hwasan_report.cpp -------------------------------------------------===//
  //
  // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
  // See https://llvm.org/LICENSE.txt for license information.
-diff --git a/lib/hwasan/hwasan_thread.cc b/lib/hwasan/hwasan_thread.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_thread.cc b/compiler-rt/lib/hwasan/hwasan_thread.cpp
 similarity index 100%
-rename from lib/hwasan/hwasan_thread.cc
-rename to lib/hwasan/hwasan_thread.cpp
-diff --git a/lib/hwasan/hwasan_thread_list.cc b/lib/hwasan/hwasan_thread_list.cpp
+rename from compiler-rt/lib/hwasan/hwasan_thread.cc
+rename to compiler-rt/lib/hwasan/hwasan_thread.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_thread_list.cc b/compiler-rt/lib/hwasan/hwasan_thread_list.cpp
 similarity index 100%
-rename from lib/hwasan/hwasan_thread_list.cc
-rename to lib/hwasan/hwasan_thread_list.cpp
+rename from compiler-rt/lib/hwasan/hwasan_thread_list.cc
+rename to compiler-rt/lib/hwasan/hwasan_thread_list.cpp

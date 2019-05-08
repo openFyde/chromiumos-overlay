@@ -6,10 +6,10 @@ EAPI=5
 
 inherit eutils toolchain-funcs cros-constants cmake-utils git-2 cros-llvm
 
-EGIT_REPO_URI=${CROS_GIT_HOST_URL}/chromiumos/third_party/compiler-rt.git
+EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 # llvm:353983 https://critique.corp.google.com/#review/233864070
-export EGIT_COMMIT="00d38a06e40df0bb8fbc1d3e4e6a3cc35bddbd74" # r353947
+export EGIT_COMMIT="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # r353983
 
 DESCRIPTION="Compiler runtime library for clang"
 HOMEPAGE="http://compiler-rt.llvm.org/"
@@ -26,10 +26,14 @@ if [[ ${CATEGORY} == cross-* ]] ; then
 		"
 fi
 
+pkg_setup() {
+	export CMAKE_USE_DIR="${S}/compiler-rt"
+}
+
 src_unpack() {
 	if use llvm-next; then
 		# llvm:353983 https://critique.corp.google.com/#review/233864070
-		export EGIT_COMMIT="00d38a06e40df0bb8fbc1d3e4e6a3cc35bddbd74" # r353947
+		export EGIT_COMMIT="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # r353983
 	fi
 	git-2_src_unpack
 }
@@ -43,13 +47,13 @@ src_prepare() {
 		CHERRIES=""
 	fi
 	# Cherry-pick for both llvm and llvm-next
-	CHERRIES+=" f5c0c1f1e1abe66650443d39f34fc205c2bc3175" #r354632
-	CHERRIES+=" 4efb43207cb1f36870a79350d870ae47717af755" #r354989, needed to pick r355030
-	CHERRIES+=" 9cde2249660f19f4ffa6d7703cecfdced27f9917" #r355030
-	CHERRIES+=" 0679ae46f0e5a214dec9cab55ee7ffba159feb84" #r355041
-	CHERRIES+=" 599d8c50c575e3e4cd774a7fc5636df87b493388" #r355064
-	CHERRIES+=" 0f079fab83fb2af94e2fe9e4e44e8f47661a7ded" #r355125
-	CHERRIES+=" 989c04edf69498e21866346d7dfa3b4c11e3c157" #r356581
+	CHERRIES+=" a2062b222d93e2ae86d36ec75923c8b1e4ae0d81" #r354632
+	CHERRIES+=" e3b6d11038f3927fd02ec6d5459cfd0ffbe6b2fe" #r354989, needed to pick r355030
+	CHERRIES+=" f46a52b5363d22bba6cc6081da295ece181977f2" #r355030
+	CHERRIES+=" f6b0a14bff33f85087e9cc5c3b1bb00f58ed8b8b" #r355041
+	CHERRIES+=" d4b4e17d2c70c8d498ad33422cf847d659b5b0cf" #r355064
+	CHERRIES+=" 37ce064082c6c8283829f206af55ff6a28e95544" #r355125
+	CHERRIES+=" 86724e40bfa544a5024a2a3d522934aef6914cc7" #r356581
 
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -85,7 +89,10 @@ src_configure() {
 	fi
 	BUILD_DIR=${WORKDIR}/${P}_build
 
-	local mycmakeargs=()
+	local mycmakeargs=(
+		-DLLVM_ENABLE_PROJECTS="compiler-rt"
+	)
+
 	if [[ ${CTARGET} == *-eabi ]]; then
 		mycmakeargs+=(
 			-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY

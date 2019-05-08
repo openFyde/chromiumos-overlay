@@ -1,4 +1,4 @@
-commit 0f079fab83fb2af94e2fe9e4e44e8f47661a7ded
+commit 37ce064082c6c8283829f206af55ff6a28e95544
 Author: Evgeniy Stepanov <eugeni.stepanov@gmail.com>
 Date:   Thu Feb 28 19:21:25 2019 +0000
 
@@ -8,12 +8,12 @@ Date:   Thu Feb 28 19:21:25 2019 +0000
     This call does not need to go through PLT strictly speaking, but I'd
     rather avoid future surprises and implement the most general case.
     
-    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@355125 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 355125
 
-diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
-index d693aa3e0..ed693819c 100644
---- a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
-+++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+index d693aa3e050..ed693819c6d 100644
+--- a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
 @@ -20,15 +20,28 @@ ASM_WRAPPER_NAME(vfork):
          add     $_GLOBAL_OFFSET_TABLE_+(.Ltmp0-.L0$pb), %eax
          call    *_ZN14__interception10real_vforkE@GOTOFF(%eax)

@@ -1,15 +1,15 @@
-commit 599d8c50c575e3e4cd774a7fc5636df87b493388
+commit d4b4e17d2c70c8d498ad33422cf847d659b5b0cf
 Author: Evgeniy Stepanov <eugeni.stepanov@gmail.com>
 Date:   Thu Feb 28 01:54:55 2019 +0000
 
     [sanitizer] Got rid of text relocations in i386 vfork interceptor.
     
-    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@355064 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 355064
 
-diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
-index f130b7250..d693aa3e0 100644
---- a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
-+++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+index f130b7250ce..d693aa3e050 100644
+--- a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
 @@ -13,8 +13,12 @@ ASM_WRAPPER_NAME(vfork):
          mov     %ecx, (%eax)
          add     $16, %esp

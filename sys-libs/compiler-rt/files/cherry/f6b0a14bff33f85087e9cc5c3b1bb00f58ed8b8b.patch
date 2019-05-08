@@ -1,4 +1,4 @@
-commit 0679ae46f0e5a214dec9cab55ee7ffba159feb84
+commit f6b0a14bff33f85087e9cc5c3b1bb00f58ed8b8b
 Author: Evgeniy Stepanov <eugeni.stepanov@gmail.com>
 Date:   Wed Feb 27 22:23:51 2019 +0000
 
@@ -8,12 +8,12 @@ Date:   Wed Feb 27 22:23:51 2019 +0000
     Add @plt to the asm call that clang intergrated-as infers but gcc does
     not.
     
-    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@355041 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 355041
 
-diff --git a/lib/asan/CMakeLists.txt b/lib/asan/CMakeLists.txt
-index 3fbd7204c..3c4434690 100644
---- a/lib/asan/CMakeLists.txt
-+++ b/lib/asan/CMakeLists.txt
+diff --git a/compiler-rt/lib/asan/CMakeLists.txt b/compiler-rt/lib/asan/CMakeLists.txt
+index 3fbd7204c15..3c443469031 100644
+--- a/compiler-rt/lib/asan/CMakeLists.txt
++++ b/compiler-rt/lib/asan/CMakeLists.txt
 @@ -32,7 +32,7 @@ set(ASAN_SOURCES
    asan_thread.cc
    asan_win.cc)
@@ -23,10 +23,10 @@ index 3fbd7204c..3c4434690 100644
    list(APPEND ASAN_SOURCES asan_interceptors_vfork.S)
  endif()
  
-diff --git a/lib/asan/asan_interceptors.cc b/lib/asan/asan_interceptors.cc
-index 5622f1da3..234cabce1 100644
---- a/lib/asan/asan_interceptors.cc
-+++ b/lib/asan/asan_interceptors.cc
+diff --git a/compiler-rt/lib/asan/asan_interceptors.cc b/compiler-rt/lib/asan/asan_interceptors.cc
+index 5622f1da36e..234cabce1f0 100644
+--- a/compiler-rt/lib/asan/asan_interceptors.cc
++++ b/compiler-rt/lib/asan/asan_interceptors.cc
 @@ -579,7 +579,7 @@ INTERCEPTOR(int, __cxa_atexit, void (*func)(void *), void *arg,
  }
  #endif  // ASAN_INTERCEPT___CXA_ATEXIT
@@ -45,10 +45,10 @@ index 5622f1da3..234cabce1 100644
    ASAN_INTERCEPT_FUNC(vfork);
  #endif
  
-diff --git a/lib/asan/asan_interceptors.h b/lib/asan/asan_interceptors.h
-index 271f373cd..903ab5991 100644
---- a/lib/asan/asan_interceptors.h
-+++ b/lib/asan/asan_interceptors.h
+diff --git a/compiler-rt/lib/asan/asan_interceptors.h b/compiler-rt/lib/asan/asan_interceptors.h
+index 271f373cd2b..903ab5991e9 100644
+--- a/compiler-rt/lib/asan/asan_interceptors.h
++++ b/compiler-rt/lib/asan/asan_interceptors.h
 @@ -105,6 +105,13 @@ void InitializePlatformInterceptors();
  # define ASAN_INTERCEPT___STRDUP 0
  #endif
@@ -63,10 +63,10 @@ index 271f373cd..903ab5991 100644
  DECLARE_REAL(int, memcmp, const void *a1, const void *a2, uptr size)
  DECLARE_REAL(char*, strchr, const char *str, int c)
  DECLARE_REAL(SIZE_T, strlen, const char *s)
-diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
-index 5207264c8..f130b7250 100644
---- a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
-+++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+index 5207264c83f..f130b7250ce 100644
+--- a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
 @@ -31,7 +31,7 @@ ASM_WRAPPER_NAME(vfork):
  
          lea     16(%esp), %ecx
@@ -76,10 +76,10 @@ index 5207264c8..f130b7250 100644
  
  .L_exit:
          mov     4(%esp), %eax
-diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
-index 254a1759c..8147cdd09 100644
---- a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
-+++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
+index 254a1759cc1..8147cdd0924 100644
+--- a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
 @@ -28,7 +28,7 @@ ASM_WRAPPER_NAME(vfork):
          je      .L_exit
  

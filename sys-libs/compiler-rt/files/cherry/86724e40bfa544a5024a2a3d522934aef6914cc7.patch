@@ -1,4 +1,4 @@
-commit 989c04edf69498e21866346d7dfa3b4c11e3c157
+commit 86724e40bfa544a5024a2a3d522934aef6914cc7
 Author: Sterling Augustine <saugustine@google.com>
 Date:   Wed Mar 20 17:37:23 2019 +0000
 
@@ -14,12 +14,12 @@ Date:   Wed Mar 20 17:37:23 2019 +0000
     
     Differential Revision: https://reviews.llvm.org/D59561
     
-    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@356581 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 356581
 
-diff --git a/lib/builtins/cpu_model.c b/lib/builtins/cpu_model.c
-index fc5782030..5bcc386f4 100644
---- a/lib/builtins/cpu_model.c
-+++ b/lib/builtins/cpu_model.c
+diff --git a/compiler-rt/lib/builtins/cpu_model.c b/compiler-rt/lib/builtins/cpu_model.c
+index fc578203097..5bcc386f4cd 100644
+--- a/compiler-rt/lib/builtins/cpu_model.c
++++ b/compiler-rt/lib/builtins/cpu_model.c
 @@ -592,14 +592,24 @@ static void getAvailableFeatures(unsigned ECX, unsigned EDX, unsigned MaxLeaf,
  #define CONSTRUCTOR_ATTRIBUTE
  #endif

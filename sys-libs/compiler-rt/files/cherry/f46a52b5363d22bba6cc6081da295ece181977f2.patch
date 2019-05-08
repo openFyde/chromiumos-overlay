@@ -1,4 +1,4 @@
-commit 9cde2249660f19f4ffa6d7703cecfdced27f9917
+commit f46a52b5363d22bba6cc6081da295ece181977f2
 Author: Evgeniy Stepanov <eugeni.stepanov@gmail.com>
 Date:   Wed Feb 27 21:11:50 2019 +0000
 
@@ -15,12 +15,12 @@ Date:   Wed Feb 27 21:11:50 2019 +0000
     
     Differential Revision: https://reviews.llvm.org/D58533
     
-    git-svn-id: https://llvm.org/svn/llvm-project/compiler-rt/trunk@355030 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 355030
 
-diff --git a/include/sanitizer/hwasan_interface.h b/include/sanitizer/hwasan_interface.h
-index 731ffc401..104af4caa 100644
---- a/include/sanitizer/hwasan_interface.h
-+++ b/include/sanitizer/hwasan_interface.h
+diff --git a/compiler-rt/include/sanitizer/hwasan_interface.h b/compiler-rt/include/sanitizer/hwasan_interface.h
+index 731ffc4014a..104af4caa3d 100644
+--- a/compiler-rt/include/sanitizer/hwasan_interface.h
++++ b/compiler-rt/include/sanitizer/hwasan_interface.h
 @@ -50,6 +50,10 @@ extern "C" {
    // does would cause false reports.
    void __hwasan_handle_longjmp(const void *sp_dst);
@@ -43,10 +43,10 @@ index 731ffc401..104af4caa 100644
    int __sanitizer_posix_memalign(void **memptr, size_t alignment, size_t size);
    void * __sanitizer_memalign(size_t alignment, size_t size);
    void * __sanitizer_aligned_alloc(size_t alignment, size_t size);
-diff --git a/lib/asan/CMakeLists.txt b/lib/asan/CMakeLists.txt
-index 51bda0524..3fbd7204c 100644
---- a/lib/asan/CMakeLists.txt
-+++ b/lib/asan/CMakeLists.txt
+diff --git a/compiler-rt/lib/asan/CMakeLists.txt b/compiler-rt/lib/asan/CMakeLists.txt
+index 51bda052436..3fbd7204c15 100644
+--- a/compiler-rt/lib/asan/CMakeLists.txt
++++ b/compiler-rt/lib/asan/CMakeLists.txt
 @@ -32,6 +32,10 @@ set(ASAN_SOURCES
    asan_thread.cc
    asan_win.cc)
@@ -58,10 +58,10 @@ index 51bda0524..3fbd7204c 100644
  set(ASAN_CXX_SOURCES
    asan_new_delete.cc)
  
-diff --git a/lib/asan/asan_interceptors.cc b/lib/asan/asan_interceptors.cc
-index 7f2660df4..5622f1da3 100644
---- a/lib/asan/asan_interceptors.cc
-+++ b/lib/asan/asan_interceptors.cc
+diff --git a/compiler-rt/lib/asan/asan_interceptors.cc b/compiler-rt/lib/asan/asan_interceptors.cc
+index 7f2660df4cb..5622f1da36e 100644
+--- a/compiler-rt/lib/asan/asan_interceptors.cc
++++ b/compiler-rt/lib/asan/asan_interceptors.cc
 @@ -579,6 +579,11 @@ INTERCEPTOR(int, __cxa_atexit, void (*func)(void *), void *arg,
  }
  #endif  // ASAN_INTERCEPT___CXA_ATEXIT
@@ -85,11 +85,11 @@ index 7f2660df4..5622f1da3 100644
    InitializePlatformInterceptors();
  
    VReport(1, "AddressSanitizer: libc interceptors initialized\n");
-diff --git a/lib/asan/asan_interceptors_vfork.S b/lib/asan/asan_interceptors_vfork.S
+diff --git a/compiler-rt/lib/asan/asan_interceptors_vfork.S b/compiler-rt/lib/asan/asan_interceptors_vfork.S
 new file mode 100644
-index 000000000..90a169d4b
+index 00000000000..90a169d4b60
 --- /dev/null
-+++ b/lib/asan/asan_interceptors_vfork.S
++++ b/compiler-rt/lib/asan/asan_interceptors_vfork.S
 @@ -0,0 +1,12 @@
 +#include "sanitizer_common/sanitizer_asm.h"
 +
@@ -103,10 +103,10 @@ index 000000000..90a169d4b
 +#endif
 +
 +NO_EXEC_STACK_DIRECTIVE
-diff --git a/lib/asan/asan_interface.inc b/lib/asan/asan_interface.inc
-index 1dd9c6301..7c341f22e 100644
---- a/lib/asan/asan_interface.inc
-+++ b/lib/asan/asan_interface.inc
+diff --git a/compiler-rt/lib/asan/asan_interface.inc b/compiler-rt/lib/asan/asan_interface.inc
+index 1dd9c630112..7c341f22e15 100644
+--- a/compiler-rt/lib/asan/asan_interface.inc
++++ b/compiler-rt/lib/asan/asan_interface.inc
 @@ -38,6 +38,7 @@ INTERFACE_FUNCTION(__asan_get_report_pc)
  INTERFACE_FUNCTION(__asan_get_report_sp)
  INTERFACE_FUNCTION(__asan_get_shadow_mapping)
@@ -115,10 +115,10 @@ index 1dd9c6301..7c341f22e 100644
  INTERFACE_FUNCTION(__asan_init)
  INTERFACE_FUNCTION(__asan_load_cxx_array_cookie)
  INTERFACE_FUNCTION(__asan_load1)
-diff --git a/lib/asan/asan_interface_internal.h b/lib/asan/asan_interface_internal.h
-index ea8750e90..c83aa11d7 100644
---- a/lib/asan/asan_interface_internal.h
-+++ b/lib/asan/asan_interface_internal.h
+diff --git a/compiler-rt/lib/asan/asan_interface_internal.h b/compiler-rt/lib/asan/asan_interface_internal.h
+index ea8750e9059..c83aa11d741 100644
+--- a/compiler-rt/lib/asan/asan_interface_internal.h
++++ b/compiler-rt/lib/asan/asan_interface_internal.h
 @@ -249,6 +249,8 @@ extern "C" {
  
    SANITIZER_INTERFACE_ATTRIBUTE SANITIZER_WEAK_ATTRIBUTE
@@ -128,10 +128,10 @@ index ea8750e90..c83aa11d7 100644
  }  // extern "C"
  
  #endif  // ASAN_INTERFACE_INTERNAL_H
-diff --git a/lib/asan/asan_rtl.cc b/lib/asan/asan_rtl.cc
-index 67eb1a783..db8dcd068 100644
---- a/lib/asan/asan_rtl.cc
-+++ b/lib/asan/asan_rtl.cc
+diff --git a/compiler-rt/lib/asan/asan_rtl.cc b/compiler-rt/lib/asan/asan_rtl.cc
+index 67eb1a7832c..db8dcd0689a 100644
+--- a/compiler-rt/lib/asan/asan_rtl.cc
++++ b/compiler-rt/lib/asan/asan_rtl.cc
 @@ -597,6 +597,19 @@ void NOINLINE __asan_handle_no_return() {
      curr_thread->fake_stack()->HandleNoReturn();
  }
@@ -152,10 +152,10 @@ index 67eb1a783..db8dcd068 100644
  void NOINLINE __asan_set_death_callback(void (*callback)(void)) {
    SetUserDieCallback(callback);
  }
-diff --git a/lib/asan/asan_thread.h b/lib/asan/asan_thread.h
-index 1e08d5771..5a6010e85 100644
---- a/lib/asan/asan_thread.h
-+++ b/lib/asan/asan_thread.h
+diff --git a/compiler-rt/lib/asan/asan_thread.h b/compiler-rt/lib/asan/asan_thread.h
+index 1e08d577123..5a6010e855f 100644
+--- a/compiler-rt/lib/asan/asan_thread.h
++++ b/compiler-rt/lib/asan/asan_thread.h
 @@ -130,6 +130,8 @@ class AsanThread {
    AsanThreadLocalMallocStorage &malloc_storage() { return malloc_storage_; }
    AsanStats &stats() { return stats_; }
@@ -173,10 +173,10 @@ index 1e08d5771..5a6010e85 100644
  };
  
  // ScopedUnwinding is a scope for stacktracing member of a context
-diff --git a/lib/hwasan/CMakeLists.txt b/lib/hwasan/CMakeLists.txt
-index 832335825..1eb16e7e5 100644
---- a/lib/hwasan/CMakeLists.txt
-+++ b/lib/hwasan/CMakeLists.txt
+diff --git a/compiler-rt/lib/hwasan/CMakeLists.txt b/compiler-rt/lib/hwasan/CMakeLists.txt
+index 83233582548..1eb16e7e5cd 100644
+--- a/compiler-rt/lib/hwasan/CMakeLists.txt
++++ b/compiler-rt/lib/hwasan/CMakeLists.txt
 @@ -6,6 +6,7 @@ set(HWASAN_RTL_SOURCES
    hwasan_allocator.cpp
    hwasan_dynamic_shadow.cpp
@@ -185,10 +185,10 @@ index 832335825..1eb16e7e5 100644
    hwasan_linux.cpp
    hwasan_memintrinsics.cpp
    hwasan_poisoning.cpp
-diff --git a/lib/hwasan/hwasan.cpp b/lib/hwasan/hwasan.cpp
-index 9978ecef4..03aa6c180 100644
---- a/lib/hwasan/hwasan.cpp
-+++ b/lib/hwasan/hwasan.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan.cpp b/compiler-rt/lib/hwasan/hwasan.cpp
+index 9978ecef444..03aa6c18078 100644
+--- a/compiler-rt/lib/hwasan/hwasan.cpp
++++ b/compiler-rt/lib/hwasan/hwasan.cpp
 @@ -480,6 +480,30 @@ void __hwasan_handle_longjmp(const void *sp_dst) {
    TagMemory(sp, dst - sp, 0);
  }
@@ -220,10 +220,10 @@ index 9978ecef4..03aa6c180 100644
  void __hwasan_print_memory_usage() {
    InternalScopedString s(kMemoryUsageBufferSize);
    HwasanFormatMemoryUsage(s);
-diff --git a/lib/hwasan/hwasan_interceptors.cpp b/lib/hwasan/hwasan_interceptors.cpp
-index 3b087e157..326309751 100644
---- a/lib/hwasan/hwasan_interceptors.cpp
-+++ b/lib/hwasan/hwasan_interceptors.cpp
+diff --git a/compiler-rt/lib/hwasan/hwasan_interceptors.cpp b/compiler-rt/lib/hwasan/hwasan_interceptors.cpp
+index 3b087e157b0..3263097516e 100644
+--- a/compiler-rt/lib/hwasan/hwasan_interceptors.cpp
++++ b/compiler-rt/lib/hwasan/hwasan_interceptors.cpp
 @@ -227,6 +227,11 @@ INTERCEPTOR(int, pthread_create, void *th, void *attr,
  }
  #endif
@@ -250,11 +250,11 @@ index 3b087e157..326309751 100644
    INTERCEPT_FUNCTION(realloc);
    INTERCEPT_FUNCTION(free);
  #endif
-diff --git a/lib/hwasan/hwasan_interceptors_vfork.S b/lib/hwasan/hwasan_interceptors_vfork.S
+diff --git a/compiler-rt/lib/hwasan/hwasan_interceptors_vfork.S b/compiler-rt/lib/hwasan/hwasan_interceptors_vfork.S
 new file mode 100644
-index 000000000..a980fbd01
+index 00000000000..a980fbd01f3
 --- /dev/null
-+++ b/lib/hwasan/hwasan_interceptors_vfork.S
++++ b/compiler-rt/lib/hwasan/hwasan_interceptors_vfork.S
 @@ -0,0 +1,10 @@
 +#include "sanitizer_common/sanitizer_asm.h"
 +
@@ -266,10 +266,10 @@ index 000000000..a980fbd01
 +#endif
 +
 +NO_EXEC_STACK_DIRECTIVE
-diff --git a/lib/hwasan/hwasan_interface_internal.h b/lib/hwasan/hwasan_interface_internal.h
-index c2ae66653..315b0daef 100644
---- a/lib/hwasan/hwasan_interface_internal.h
-+++ b/lib/hwasan/hwasan_interface_internal.h
+diff --git a/compiler-rt/lib/hwasan/hwasan_interface_internal.h b/compiler-rt/lib/hwasan/hwasan_interface_internal.h
+index c2ae666533a..315b0daef5c 100644
+--- a/compiler-rt/lib/hwasan/hwasan_interface_internal.h
++++ b/compiler-rt/lib/hwasan/hwasan_interface_internal.h
 @@ -116,6 +116,9 @@ void __hwasan_print_shadow(const void *x, uptr size);
  SANITIZER_INTERFACE_ATTRIBUTE
  void __hwasan_handle_longjmp(const void *sp_dst);
@@ -280,10 +280,10 @@ index c2ae66653..315b0daef 100644
  SANITIZER_INTERFACE_ATTRIBUTE
  u16 __sanitizer_unaligned_load16(const uu16 *p);
  
-diff --git a/lib/hwasan/hwasan_thread.h b/lib/hwasan/hwasan_thread.h
-index 9c45adec1..6fa592bfa 100644
---- a/lib/hwasan/hwasan_thread.h
-+++ b/lib/hwasan/hwasan_thread.h
+diff --git a/compiler-rt/lib/hwasan/hwasan_thread.h b/compiler-rt/lib/hwasan/hwasan_thread.h
+index 9c45adec1b1..6fa592bfac6 100644
+--- a/compiler-rt/lib/hwasan/hwasan_thread.h
++++ b/compiler-rt/lib/hwasan/hwasan_thread.h
 @@ -67,11 +67,14 @@ class Thread {
      Print("Thread: ");
    }
@@ -299,10 +299,10 @@ index 9c45adec1..6fa592bfa 100644
    uptr stack_top_;
    uptr stack_bottom_;
    uptr tls_begin_;
-diff --git a/lib/interception/interception.h b/lib/interception/interception.h
-index 804801536..dacfa5ede 100644
---- a/lib/interception/interception.h
-+++ b/lib/interception/interception.h
+diff --git a/compiler-rt/lib/interception/interception.h b/compiler-rt/lib/interception/interception.h
+index 804801536c6..dacfa5ede28 100644
+--- a/compiler-rt/lib/interception/interception.h
++++ b/compiler-rt/lib/interception/interception.h
 @@ -185,11 +185,17 @@ const interpose_substitution substitution_##func_name[] \
  #endif  // SANITIZER_MAC
  
@@ -323,10 +323,10 @@ index 804801536..dacfa5ede 100644
  #endif
  
  // Generally, you don't need to use DEFINE_REAL by itself, as INTERCEPTOR
-diff --git a/lib/sanitizer_common/CMakeLists.txt b/lib/sanitizer_common/CMakeLists.txt
-index 4d331ec5e..d37804572 100644
---- a/lib/sanitizer_common/CMakeLists.txt
-+++ b/lib/sanitizer_common/CMakeLists.txt
+diff --git a/compiler-rt/lib/sanitizer_common/CMakeLists.txt b/compiler-rt/lib/sanitizer_common/CMakeLists.txt
+index 4d331ec5e6c..d3780457206 100644
+--- a/compiler-rt/lib/sanitizer_common/CMakeLists.txt
++++ b/compiler-rt/lib/sanitizer_common/CMakeLists.txt
 @@ -126,6 +126,7 @@ set(SANITIZER_IMPL_HEADERS
    sanitizer_common_interceptors.inc
    sanitizer_common_interceptors_format.inc
@@ -335,10 +335,10 @@ index 4d331ec5e..d37804572 100644
    sanitizer_common_interface.inc
    sanitizer_common_interface_posix.inc
    sanitizer_common_syscalls.inc
-diff --git a/lib/sanitizer_common/sanitizer_asm.h b/lib/sanitizer_common/sanitizer_asm.h
-index baf295bfc..184d118d9 100644
---- a/lib/sanitizer_common/sanitizer_asm.h
-+++ b/lib/sanitizer_common/sanitizer_asm.h
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_asm.h b/compiler-rt/lib/sanitizer_common/sanitizer_asm.h
+index baf295bfc43..184d118d97d 100644
+--- a/compiler-rt/lib/sanitizer_common/sanitizer_asm.h
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_asm.h
 @@ -44,16 +44,18 @@
  
  #if !defined(__APPLE__)
@@ -359,11 +359,11 @@ index baf295bfc..184d118d9 100644
  #endif
  
  #if defined(__ELF__) && (defined(__GNU__) || defined(__FreeBSD__) || \
-diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_aarch64.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_aarch64.inc.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_aarch64.inc.S b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_aarch64.inc.S
 new file mode 100644
-index 000000000..20f42f1ea
+index 00000000000..20f42f1ea94
 --- /dev/null
-+++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_aarch64.inc.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_aarch64.inc.S
 @@ -0,0 +1,43 @@
 +#if defined(__aarch64__) && defined(__linux__)
 +
@@ -408,11 +408,11 @@ index 000000000..20f42f1ea
 +.set vfork, ASM_WRAPPER_NAME(vfork)
 +
 +#endif
-diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_arm.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_arm.inc.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_arm.inc.S b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_arm.inc.S
 new file mode 100644
-index 000000000..780a9d46e
+index 00000000000..780a9d46e26
 --- /dev/null
-+++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_arm.inc.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_arm.inc.S
 @@ -0,0 +1,49 @@
 +#if defined(__arm__) && defined(__linux__)
 +
@@ -463,11 +463,11 @@ index 000000000..780a9d46e
 +.set vfork, ASM_WRAPPER_NAME(vfork)
 +
 +#endif
-diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
 new file mode 100644
-index 000000000..5207264c8
+index 00000000000..5207264c83f
 --- /dev/null
-+++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_i386.inc.S
 @@ -0,0 +1,45 @@
 +#if defined(__i386__) && defined(__linux__)
 +
@@ -514,11 +514,11 @@ index 000000000..5207264c8
 +.set vfork, ASM_WRAPPER_NAME(vfork)
 +
 +#endif
-diff --git a/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
+diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
 new file mode 100644
-index 000000000..254a1759c
+index 00000000000..254a1759cc1
 --- /dev/null
-+++ b/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
++++ b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_vfork_x86_64.inc.S
 @@ -0,0 +1,41 @@
 +#if defined(__x86_64__) && defined(__linux__)
 +
@@ -561,11 +561,11 @@ index 000000000..254a1759c
 +.set vfork, ASM_WRAPPER_NAME(vfork)
 +
 +#endif
-diff --git a/test/asan/TestCases/Linux/vfork.cc b/test/asan/TestCases/Linux/vfork.cc
+diff --git a/compiler-rt/test/asan/TestCases/Linux/vfork.cc b/compiler-rt/test/asan/TestCases/Linux/vfork.cc
 new file mode 100644
-index 000000000..31a32dc56
+index 00000000000..31a32dc56cd
 --- /dev/null
-+++ b/test/asan/TestCases/Linux/vfork.cc
++++ b/compiler-rt/test/asan/TestCases/Linux/vfork.cc
 @@ -0,0 +1,31 @@
 +// https://github.com/google/sanitizers/issues/925
 +// RUN: %clang_asan -O0 %s -o %t && %run %t 2>&1
@@ -598,11 +598,11 @@ index 000000000..31a32dc56
 +
 +  return 0;
 +}
-diff --git a/test/hwasan/TestCases/Linux/vfork.c b/test/hwasan/TestCases/Linux/vfork.c
+diff --git a/compiler-rt/test/hwasan/TestCases/Linux/vfork.c b/compiler-rt/test/hwasan/TestCases/Linux/vfork.c
 new file mode 100644
-index 000000000..84e960279
+index 00000000000..84e96027967
 --- /dev/null
-+++ b/test/hwasan/TestCases/Linux/vfork.c
++++ b/compiler-rt/test/hwasan/TestCases/Linux/vfork.c
 @@ -0,0 +1,32 @@
 +// https://github.com/google/sanitizers/issues/925
 +// RUN: %clang_hwasan -O0 %s -o %t && %run %t 2>&1
