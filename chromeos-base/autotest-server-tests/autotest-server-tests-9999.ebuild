@@ -154,6 +154,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50Update
 	+tests_firmware_Cr50UpdateScriptStress
 	+tests_firmware_Cr50USB
+	+tests_firmware_Cr50WilcoEcrst
 	+tests_firmware_DevBootUSB
 	+tests_firmware_DevMode
 	+tests_firmware_DevModeStress
