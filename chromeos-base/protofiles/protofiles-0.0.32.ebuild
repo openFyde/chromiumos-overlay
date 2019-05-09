@@ -21,7 +21,7 @@ inherit cros-constants eutils git-2
 EGIT_REPO_URIS=(
 	"cloud/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"34be05bfa5064d54a0edab43ff1ac8e174587589"
+	"3a34e9d3c22f20c0e29488ecc28a859788c476b8"
 
 	# If you uprev these repos, please also:
 	# - Update files/VERSION to the corresponding revision of
