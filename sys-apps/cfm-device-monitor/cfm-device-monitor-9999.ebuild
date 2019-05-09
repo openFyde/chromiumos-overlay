@@ -8,9 +8,9 @@ inherit cros-constants
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/cfm-device-monitor")
 CROS_WORKON_LOCALNAME=("../platform2" "../platform/cfm-device-monitor")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform/cfm-device-monitor")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/cfm-device-monitor")
 CROS_WORKON_REPO=("${CROS_GIT_HOST_URL}" "${CROS_GIT_HOST_URL}")
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="cfm-device-monitor"
 
@@ -35,12 +35,6 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/system_api
 "
-
-src_unpack() {
-	local s="${S}"
-	platform_src_unpack
-	S="${s}/platform/cfm-device-monitor"
-}
 
 src_install() {
 	dosbin "${OUT}"/huddly-monitor
