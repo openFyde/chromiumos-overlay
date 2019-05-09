@@ -66,6 +66,7 @@ DEPEND="${RDEPEND}
 	chromeos-base/bootlockbox-client
 	chromeos-base/protofiles:=
 	chromeos-base/system_api
+	chromeos-base/tpm_manager-client
 	chromeos-base/vboot_reference
 "
 
