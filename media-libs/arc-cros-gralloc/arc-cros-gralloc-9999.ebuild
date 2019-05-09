@@ -45,6 +45,10 @@ src_configure() {
 	fi
 
 	if use video_cards_mediatek; then
+		if [[ "${MTK_MINIGBM_PLATFORM}" == "MT8183" ]] ; then
+			export MTK_MT8183=1
+			append-cppflags -DMTK_MT8183
+		fi
 		export DRV_MEDIATEK=1
 		append-cppflags -DDRV_MEDIATEK
 	fi
