@@ -15,7 +15,8 @@ SLOT="0"
 KEYWORDS="~*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-nyc android-container-pi android-container-master-arc-dev +autotest biod +cellular -chromeless_tests -chromeless_tty cros_p2p debugd -moblab +power_management +readahead +tpm tpm2"
+IUSE="android-container android-container-nyc android-container-pi android-container-master-arc-dev +autotest biod +cellular -chromeless_tests -chromeless_tty cros_p2p debugd has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
+REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
@@ -64,6 +65,8 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_OmahaResponse
 	+tests_autoupdate_P2P
 	+tests_autoupdate_Rollback
+	has-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
+	is-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
 	+tests_bluetooth_AdapterHIDReports
 	+tests_bluetooth_AdapterLEAdvertising
 	+tests_bluetooth_AdapterPairing
