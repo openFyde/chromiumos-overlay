@@ -47,8 +47,6 @@ src_install() {
 	# D-Bus configuration
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.DlcService.conf
-	insinto /usr/share/dbus-1/system-services
-	doins org.chromium.DlcService.service
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer \
 		--dict "${S}"/fuzz/path.dict
