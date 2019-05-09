@@ -60,6 +60,7 @@ src_install() {
 
 		# Install the executables provided by TpmManager
 		dosbin "${OUT}"/tpm_managerd
+		dosbin "${OUT}"/local_data_migration
 		dobin "${OUT}"/tpm_manager_client
 
 		# Install seccomp policy files.
