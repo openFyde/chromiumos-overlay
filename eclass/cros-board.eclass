@@ -169,6 +169,7 @@ ALL_BOARDS=(
 	guado-cfm
 	guado-macrophage
 	guado_moblab
+	guado-kernelnext
 	guado_labstation
 	hana
 	hatch
