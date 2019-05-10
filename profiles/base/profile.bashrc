@@ -161,7 +161,9 @@ cros_post_pkg_setup_python_eclass_hack() {
 # (packages which live in the platform2 repo) can do so before we do work.
 cros_post_src_unpack_asan_init() {
 	local log_path="${T}/asan_logs/asan"
+	local coverage_path="${T}/coverage_logs"
 	mkdir -p "${log_path%/*}"
+	mkdir -p "${coverage_path%/*}"
 
 	local strip_sysroot
 	if [[ -n "${PLATFORM_GYP_FILE}" ]]; then
@@ -177,6 +179,8 @@ cros_post_src_unpack_asan_init() {
 	export UBSAN_OPTIONS+=" log_path=${log_path#${strip_sysroot}}"
 	# symbolize ubsan crashes.
 	export UBSAN_OPTIONS+=":symbolize=1:print_stacktrace=1"
+	# Clang coverage file generation location.
+	export LLVM_PROFILE_FILE="${coverage_path#${strip_sysroot}}/${PN}_%9m.profraw"
 
 	local lsan_suppression="${S}/lsan_suppressions"
 	local lsan_suppression_ebuild="${FILESDIR}/lsan_suppressions"
@@ -206,8 +210,47 @@ asan_death_hook() {
 
 # Check for any ASAN failures that were missed while testing.
 cros_post_src_test_asan_check() {
+	# Remove the temporary directories created previously in asan_init.
+	# Die if ASAN failures were reported.
 	rmdir "${T}/asan_logs" 2>/dev/null || die "asan error not caught"
+	# Recreate directories for incremental cros_workon-make --test usage.
 	mkdir -p "${T}/asan_logs"
+}
+
+cros_post_src_install_coverage_logs() {
+	# Generate coverage reports for the package.
+	local coverage_path="${T}/coverage_logs"
+	if [[ -n "$(ls -A "${coverage_path}")" ]]; then
+		local rel_cov_dir="build/coverage_data/${CATEGORY}/${PN}"
+		local cov_dir="${D}/${rel_cov_dir}"
+		mkdir -p "${cov_dir}/raw_profiles"
+		cp "${coverage_path}"/*.profraw "${cov_dir}/raw_profiles" || die
+		local cov_files=( "${coverage_path}"/*.profraw )
+
+		# Create the indexed profile file from raw profiles.
+		llvm-profdata merge -sparse "${cov_files[@]}" \
+			-output="${cov_dir}/${PN}.profdata" || die
+
+		# Find all elf binaries built in this package that have
+		# coverage instrumentation enabled and add "-object option" to
+		# be used later in llvm-cov.
+		# TODO: Find more directories other than ${OUT} and ${WORKDIR}
+		# that the package may use for producing binaries.
+		local cov_args
+		readarray -t cov_args < <(scanelf -qRy -k__llvm_covmap \
+			-F$'-object\n#k%F' "${OUT}" "${WORKDIR}")
+		# Return if there are no elf files with coverage data.
+		[[ "${#cov_args[@]}" -eq 0 ]] && return
+
+		# Generate html format coverage report.
+		llvm-cov show "${cov_args[@]}" -format=html \
+			-instr-profile="${cov_dir}/${PN}.profdata" \
+			-output-dir="${cov_dir}" || die
+		# Make coverage data readable for all users.
+		chmod -R a+rX "${cov_dir}" || die "Could not make ${cov_dir} readable"
+		local report_path="${EXTERNAL_TRUNK_PATH}/chroot${SYSROOT}/${rel_cov_dir}/index.html"
+		elog "Coverage report for ${PN} generated at file://${report_path}"
+	fi
 }
 
 # Enables C++ exceptions. We normally disable these by default in
