@@ -8,10 +8,10 @@ inherit cros-constants cmake-multilib cmake-utils git-2 cros-llvm
 DESCRIPTION="C++ runtime stack unwinder from LLVM"
 HOMEPAGE="https://github.com/llvm-mirror/libunwind"
 SRC_URI=""
-EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/llvm.org/libunwind"
+EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 # llvm:353983 https://critique.corp.google.com/#review/233864070
-export EGIT_COMMIT="317087cfd8e608bd24e53934d59b5b85e0a9ded6" #r353208
+export EGIT_COMMIT="de7a0a152648d1a74cf4319920b1848aa00d1ca3" #r353983
 
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
@@ -25,19 +25,20 @@ DEPEND="${RDEPEND}
 pkg_setup() {
 	# Setup llvm toolchain for cross-compilation
 	setup_cross_toolchain
+	export CMAKE_USE_DIR="${S}/libunwind"
 }
 
 src_unpack() {
 	if use llvm-next; then
 		# llvm:353983 https://critique.corp.google.com/#review/233864070
-		export EGIT_COMMIT="317087cfd8e608bd24e53934d59b5b85e0a9ded6" #r353208
+		export EGIT_COMMIT="de7a0a152648d1a74cf4319920b1848aa00d1ca3" #r353983
 	fi
 	git-2_src_unpack
 }
 
 pick_cherries() {
 	local CHERRIES=""
-	CHERRIES+="2ae4f16e7a3c5b6493b5eddbd76f231f3923eee0"
+	CHERRIES+="dc1b8e9f4478c838c8704295d97f5e514edb9cd0" #r355142
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -47,7 +48,7 @@ pick_cherries() {
 
 pick_next_cherries() {
 	local CHERRIES=""
-	CHERRIES+="2ae4f16e7a3c5b6493b5eddbd76f231f3923eee0"
+	CHERRIES+="dc1b8e9f4478c838c8704295d97f5e514edb9cd0" #r355142
 	pushd "${S}" >/dev/null || die
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -68,6 +69,7 @@ multilib_src_configure() {
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		"${mycmakeargs[@]}"
+		-DLLVM_ENABLE_PROJECTS="libunwind"
 		-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
 		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
 		-DLIBUNWIND_ENABLE_ASSERTIONS=$(usex debug)
@@ -84,9 +86,14 @@ multilib_src_configure() {
 	cmake-utils_src_configure
 }
 
-multilib_src_install() {
-	cmake-utils_src_install
+multilib_src_install_all() {
+	# Remove files that are installed by sys-libs/llvm-libunwind
+	# to avoid collision when installing cross-${TARGET}/llvm-libunwind.
+	if [[ ${CATEGORY} == cross-* ]]; then
+		rm -rf "${ED}"usr/share || die
+	fi
+
 	# Install headers.
 	insinto "${PREFIX}"/include
-	doins -r "${S}"/include/.
+	doins -r "${S}"/libunwind/include/.
 }

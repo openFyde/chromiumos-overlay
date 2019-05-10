@@ -1,4 +1,4 @@
-commit 2ae4f16e7a3c5b6493b5eddbd76f231f3923eee0
+commit dc1b8e9f4478c838c8704295d97f5e514edb9cd0
 Author: Petr Hosek <phosek@chromium.org>
 Date:   Thu Feb 28 21:38:59 2019 +0000
 
@@ -8,12 +8,12 @@ Date:   Thu Feb 28 21:38:59 2019 +0000
     
     Differential Revision: https://reviews.llvm.org/D58745
     
-    git-svn-id: https://llvm.org/svn/llvm-project/libunwind/trunk@355142 91177308-0d34-0410-b5e6-96231b3b80d8
+    llvm-svn: 355142
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 27d8bc5..debc847 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+diff --git a/libunwind/CMakeLists.txt b/libunwind/CMakeLists.txt
+index 27d8bc5bdae..debc8478691 100644
+--- a/libunwind/CMakeLists.txt
++++ b/libunwind/CMakeLists.txt
 @@ -214,12 +214,18 @@ macro(unwind_append_if list condition var)
    endif()
  endmacro()
