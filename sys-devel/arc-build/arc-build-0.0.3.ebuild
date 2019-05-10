@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-inherit multilib-minimal
+inherit multilib-minimal cros-constants
 
 DESCRIPTION="Ebuild for per-sysroot arc-build components."
 
@@ -55,7 +55,11 @@ EOF
 }
 
 install_pc_file() {
-	sed "/^libdir=/s:/lib:/$(get_libdir):" "${PC_SRC_DIR}"/"$1" > "$1" || die
+	prefix="${ARC_PREFIX}/usr"
+	sed \
+		-e "s|@lib@|$(get_libdir)|g" \
+		-e "s|@prefix@|${prefix}|g" \
+		"${PC_SRC_DIR}"/"$1" > "$1" || die
 	doins "$1"
 }
 

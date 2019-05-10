@@ -1,6 +1,6 @@
-prefix=/opt/google/containers/android/usr
+prefix=@prefix@
 exec_prefix=${prefix}
-libdir=${prefix}/lib
+libdir=${prefix}/@lib@
 includedir=${prefix}/include
 
 Name: zlib
