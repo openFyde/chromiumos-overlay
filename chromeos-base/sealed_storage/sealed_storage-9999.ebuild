@@ -36,6 +36,7 @@ DEPEND="${RDEPEND}
 src_install() {
 	dosbin "${OUT}"/sealed_storage_tool
 	dolib.a "${OUT}"/libsealed_storage.a
+	dolib.so "${OUT}"/lib/libsealed_storage_wrapper.so
 }
 
 platform_pkg_test() {
