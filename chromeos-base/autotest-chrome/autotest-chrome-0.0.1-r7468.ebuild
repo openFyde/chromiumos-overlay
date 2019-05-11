@@ -104,7 +104,6 @@ IUSE_TESTS=(
 	+tests_graphics_VTSwitch
 	+tests_graphics_WebGLAquarium
 	+tests_graphics_WebGLManyPlanetsDeep
-	+tests_graphics_WebGLPerformance
 	tests_logging_AsanCrash
 	+tests_logging_CrashServices
 	+tests_logging_FeedbackReport
