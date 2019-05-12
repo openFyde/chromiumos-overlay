@@ -47,10 +47,8 @@ IUSE_TESTS="
 	)
 	containers? ( +tests_security_Libcontainer )
 	+tests_security_NosymfollowMountOption
-	+tests_security_OpenFDs
 	+tests_security_ProcessManagementPolicy
 	+tests_security_RootfsOwners
-	+tests_security_SandboxedServices
 	selinux? ( +tests_security_SELinux )
 	+tests_security_SysVIPC
 	x86? ( +tests_security_x86Registers )
