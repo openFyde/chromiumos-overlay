@@ -111,6 +111,7 @@ src_prepare() {
 		epatch "${FILESDIR}"/CHROMIUM-st-mesa-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8.patch
 	fi
 	epatch "${FILESDIR}"/intel-Add-support-for-Comet-Lake.patch
+	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
 
 
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
