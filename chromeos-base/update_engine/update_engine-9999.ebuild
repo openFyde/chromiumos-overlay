@@ -5,10 +5,10 @@ EAPI="5"
 
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/update_engine")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/update_engine")
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="update_engine"
 # Some unittests crash when run through qemu/arm.  Should figure this out.
@@ -74,12 +74,6 @@ RDEPEND="
 	power_management? ( chromeos-base/power_manager )
 	virtual/update-policy
 "
-
-src_unpack() {
-	local s="${S}"
-	platform_src_unpack
-	S="${s}/aosp/system/update_engine"
-}
 
 platform_pkg_test() {
 	local unittests_binary="${OUT}"/update_engine_unittests
