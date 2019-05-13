@@ -6,8 +6,8 @@ https://crbug.com/747113
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index efbea67..e39335f 100644
---- a/src/CMakeLists.txt
-+++ b/src/CMakeLists.txt
+--- a/libcxxabi/src/CMakeLists.txt
++++ b/libcxxabi/src/CMakeLists.txt
 @@ -68,8 +68,10 @@
    else()
      list(APPEND LIBCXXABI_LIBRARIES unwind)

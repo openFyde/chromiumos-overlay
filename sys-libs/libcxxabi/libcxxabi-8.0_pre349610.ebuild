@@ -12,22 +12,8 @@ DESCRIPTION="Low level support for a standard C++ library"
 HOMEPAGE="http://libcxxabi.llvm.org/"
 
 SRC_URI=""
-EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/llvm.org/libcxxabi"
-
-EGIT_REPO_URIS=(
-	"libcxxabi"
-		""
-		"${CROS_GIT_HOST_URL}/external/llvm.org/libcxxabi"
-		"307bb62985575b2e3216a8cfd7e122e0574f33a9" #r347903
-	"libcxx"
-		"libcxx"
-		"${CROS_GIT_HOST_URL}/external/llvm.org/libcxx"
-		"9ff404deecb2b3d02b219f3e841aa8837a1f654e" #r349566
-	"libunwind_llvm"
-		"libunwind_llvm"
-		"${CROS_GIT_HOST_URL}/external/llvm.org/libunwind"
-		"317087cfd8e608bd24e53934d59b5b85e0a9ded6" #r353208
-)
+EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
+EGIT_COMMIT="6c35a1e5afb8a5c0c02a77b46226ea6daccd1be4" #r349610
 
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
@@ -57,34 +43,14 @@ pkg_setup() {
 	setup_cross_toolchain
 	llvm_pkg_setup
 	use test && python-any-r1_pkg_setup
+	export CMAKE_USE_DIR="${S}/libcxxabi"
 }
 
 src_unpack() {
 	if use llvm-next; then
-		EGIT_REPO_URIS=(
-		"libcxxabi"
-			""
-			"${CROS_GIT_HOST_URL}/external/llvm.org/libcxxabi"
-			"307bb62985575b2e3216a8cfd7e122e0574f33a9" #r347903
-		"libcxx"
-			"libcxx"
-			"${CROS_GIT_HOST_URL}/external/llvm.org/libcxx"
-			"9ff404deecb2b3d02b219f3e841aa8837a1f654e" #r349566
-		"libunwind_llvm"
-			"libunwind_llvm"
-			"${CROS_GIT_HOST_URL}/external/llvm.org/libunwind"
-			"317087cfd8e608bd24e53934d59b5b85e0a9ded6" #r353208
-		)
+		EGIT_COMMIT="6c35a1e5afb8a5c0c02a77b46226ea6daccd1be4" #r349610
 	fi
-	set -- "${EGIT_REPO_URIS[@]}"
-	while [[ $# -gt 0 ]]; do
-		ESVN_PROJECT=$1 \
-		EGIT_SOURCEDIR="${S}/$2" \
-		EGIT_REPO_URI=$3 \
-		EGIT_COMMIT=$4 \
-		git-2_src_unpack
-		shift 4
-	done
+	git-2_src_unpack
 }
 
 src_prepare() {
@@ -99,10 +65,11 @@ multilib_src_configure() {
 	if [[ $(tc-arch) == "arm" ]] ; then
 		append-flags -mfpu=vfpv3
 	fi
-	append-flags -I"${S}/libunwind_llvm/include"
+	append-flags -I"${S}/libunwind/include"
 	append-flags "-stdlib=libstdc++"
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
+		-DLLVM_ENABLE_PROJECTS="libcxxabi"
 		-DLIBCXXABI_LIBDIR_SUFFIX=${libdir#lib}
 		-DLIBCXXABI_ENABLE_SHARED=ON
 		-DLIBCXXABI_ENABLE_STATIC=$(usex static-libs)
@@ -148,5 +115,5 @@ multilib_src_install_all() {
 		rm -r "${ED}/usr/share/doc"
 	fi
 	insinto "${PREFIX}"/include/libcxxabi
-	doins -r include/.
+	doins -r "${S}"/libcxxabi/include/.
 }
