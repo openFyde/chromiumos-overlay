@@ -1,7 +1,7 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index d618e83..0e76525 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+--- a/libcxx/CMakeLists.txt
++++ b/libcxx/CMakeLists.txt
 @@ -293,6 +293,18 @@ remove_flags(-DNDEBUG -UNDEBUG -D_DEBUG
  # so they don't get transformed into -Wno and -errors respectivly.
  remove_flags(-Wno-pedantic -pedantic-errors -pedantic)

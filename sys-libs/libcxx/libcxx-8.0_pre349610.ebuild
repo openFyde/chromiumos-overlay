@@ -13,9 +13,10 @@ inherit cmake-multilib cros-constants cros-llvm git-2 llvm python-any-r1 toolcha
 DESCRIPTION="New implementation of the C++ standard library, targeting C++11"
 HOMEPAGE="http://libcxx.llvm.org/"
 SRC_URI=""
-EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/llvm.org/libcxx"
 
-EGIT_COMMIT="9ff404deecb2b3d02b219f3e841aa8837a1f654e" #r349566
+EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
+
+EGIT_COMMIT="6c35a1e5afb8a5c0c02a77b46226ea6daccd1be4" #r349610 (Latest libcxx is r349566)
 
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
@@ -49,7 +50,7 @@ python_check_deps() {
 
 src_unpack() {
 	if use llvm-next; then
-		EGIT_COMMIT="9ff404deecb2b3d02b219f3e841aa8837a1f654e" #r349566
+		EGIT_COMMIT="6c35a1e5afb8a5c0c02a77b46226ea6daccd1be4" #r349610 (Latest libcxx is r349566)
 	fi
 	git-2_src_unpack
 }
@@ -79,6 +80,7 @@ pkg_setup() {
 		eerror "gcc-4.7 or later version."
 		die
 	fi
+	export CMAKE_USE_DIR="${S}/libcxx"
 }
 
 multilib_src_configure() {
@@ -127,6 +129,7 @@ multilib_src_configure() {
 	append-flags "-stdlib=libstdc++"
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
+		-DLLVM_ENABLE_PROJECTS="libcxx"
 		-DLIBCXX_LIBDIR_SUFFIX=${libdir#lib}
 		-DLIBCXX_ENABLE_SHARED=ON
 		-DLIBCXX_ENABLE_STATIC=$(usex static-libs)
