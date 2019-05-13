@@ -141,21 +141,27 @@ IUSE_TESTS=(
 	+tests_policy_ArcAudioCaptureAllowed
 	+tests_policy_AudioOutputAllowed
 	+tests_policy_ArcVideoCaptureAllowed
+	+tests_policy_ArcDisableScreenshots
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
 	+tests_policy_CookiesSessionOnlyForUrls
 	+tests_policy_DefaultGeolocationSetting
+	+tests_policy_DefaultImagesSetting
 	+tests_policy_DefaultJavaScriptSetting
 	+tests_policy_DefaultNotificationsSetting
+	+tests_policy_DefaultSearchProvider
 	+tests_policy_DeveloperToolsAvailability
 	+tests_policy_DeviceAllowBluetooth
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceTargetVersionPrefix
 	+tests_policy_DisableScreenshots
+	+tests_policy_DriveDisabled
 	+tests_policy_EditBookmarksEnabled
 	+tests_policy_DeviceEphemeralUsersEnabled
 	+tests_policy_EnrollmentRetainment
+	+tests_policy_EnterpriseForceInstallCustom
+	+tests_policy_ExtensionAllowedTypes
 	+tests_policy_ExtensionPolicy
 	+tests_policy_ExternalStorageDisabled
 	+tests_policy_ExternalStorageReadOnly
@@ -169,11 +175,13 @@ IUSE_TESTS=(
 	+tests_policy_JavaScriptAllowedForUrls
 	+tests_policy_JavaScriptBlockedForUrls
 	+tests_policy_KeyboardDefaultToFunctionKeys
+	+tests_policy_KeyPermissions
 	+tests_policy_KioskModeEnabled
 	+tests_policy_ManagedBookmarks
 	+tests_policy_NewTabPageLocation
 	+tests_policy_NotificationsAllowedForUrls
 	+tests_policy_NotificationsBlockedForUrls
+	+tests_policy_PinnedLauncherApps
 	+tests_policy_PluginsAllowedForUrls
 	+tests_policy_PluginsBlockedForUrls
 	+tests_policy_PolicyRefreshRate
@@ -189,9 +197,12 @@ IUSE_TESTS=(
 	+tests_policy_SavingBrowserHistoryDisabled
 	+tests_policy_ScreenBrightnessPercent
 	+tests_policy_SecondaryGoogleAccountSigninAllowed
+	+tests_policy_ShowLogoutButtonInTray
+	+tests_policy_ShowHomeButton
 	+tests_policy_SystemTimezone
 	+tests_policy_URLBlacklist
 	+tests_policy_URLWhitelist
+	+tests_policy_UserNativePrintersAllowed
 	+tests_power_AudioDetector
 	+tests_power_Consumption
 	+tests_power_Display
