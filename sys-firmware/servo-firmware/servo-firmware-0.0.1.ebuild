@@ -6,9 +6,9 @@ EAPI="5"
 DESCRIPTION="Firmware for tools based on Chromium OS EC"
 HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 
-SERVO_MICRO_NAME="servo_micro-R70-11011.10.0"
-SERVO_V4_NAME="servo_v4-R70-11011.11.0"
-SWEETBERRY_NAME="sweetberry-R70-11011.4.0"
+SERVO_MICRO_NAME="servo_micro_v2.3.7-096c7ee84" # servo-firmware-R70-11011.14.0
+SERVO_V4_NAME="servo_v4_v2.3.7-096c7ee84"       # servo-firmware-R70-11011.14.0
+SWEETBERRY_NAME="sweetberry_v2.3.7-096c7ee84"   # servo-firmware-R70-11011.14.0
 UPDATER_PATH="/usr/share/servo_updater/firmware"
 
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
