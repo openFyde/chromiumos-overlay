@@ -2,12 +2,12 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=5
+EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-freedreno"
 
-inherit base autotools flag-o-matic toolchain-funcs cros-workon arc-build
+inherit base meson flag-o-matic toolchain-funcs cros-workon arc-build
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -54,8 +54,7 @@ src_prepare() {
 		echo "#define MESA_GIT_SHA1 \"git-deadbeef\"" > src/git_sha1.h
 	fi
 
-	base_src_prepare
-	eautoreconf
+	default
 }
 
 src_configure() {
@@ -74,42 +73,58 @@ src_configure() {
 	append-cxxflags "-std=gnu++11"
 	append-cppflags "-UENABLE_SHADER_CACHE"
 
-	econf \
-		--prefix="${ARC_PREFIX}/vendor" \
-		--sysconfdir=/system/vendor/etc \
-		\
-		$(use_enable debug) \
-		--enable-autotools \
-		--enable-sysfs \
-		--enable-cross_compiling \
-		--disable-option-checking \
-		--enable-texture-float \
-		--disable-dri3 \
-		--disable-glx \
-		--disable-gbm \
-		--enable-gles1 \
-		--enable-gles2 \
-		--enable-shared-glapi \
-		--with-vulkan-drivers= \
-		--with-egl-platforms=android \
-		--with-dri-searchpath="/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri" \
-		--with-dri-drivers= \
-		--with-gallium-drivers=freedreno \
-		--with-egl-lib-suffix=_mesa \
-		--with-gles-lib-suffix=_mesa
+	if use debug; then
+		emesonargs+=( -Dbuildtype=debug)
+	fi
+
+	emesonargs+=(
+		--prefix="${ARC_PREFIX}/vendor"
+		--sysconfdir="/system/vendor/etc"
+		-Ddri-search-path="/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri"
+		-Dllvm=false
+		-Ddri3=false
+		-Dglx=disabled
+		-Degl=true
+		-Dgbm=false
+		-Dgles1=true
+		-Dgles2=true
+		-Dshared-glapi=true
+		-Ddri-drivers=
+		-Dgallium-drivers=freedreno
+		-Dgallium-vdpau=false
+		-Dgallium-xa=false
+		-Dplatforms=android
+		-Degl-lib-suffix=_mesa
+		-Dgles-lib-suffix=_mesa
+	)
+
+	if use vulkan; then
+		emesonargs+=( -Dvulkan-drivers=freedreno )
+	else
+		emesonargs+=( -Dvulkan-drivers= )
+	fi
+
+	meson_src_configure
 }
 
 src_install() {
+	build_dir="${WORKDIR}/arc-mesa-freedreno-${PV}-build"
+	install_dir="${WORKDIR}/arc-mesa-freedreno-${PV}-install"
+	DESTDIR=${install_dir} ninja -C ${build_dir} install
+	vendor_dir="${install_dir}/opt/google/containers/android/vendor"
+
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)"
-	newexe $(get_libdir)/libglapi.so libglapi.so
+	newexe ${vendor_dir}/lib/libglapi.so.0.0.0 libglapi.so.0.0.0
+	dosym libglapi.so.0.0.0 "${ARC_PREFIX}/vendor/$(get_libdir)"/libglapi.so.0 
+	dosym libglapi.so.0 "${ARC_PREFIX}/vendor/$(get_libdir)"/libglapi.so
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/egl"
-	newexe $(get_libdir)/libEGL.so libEGL_mesa.so
-	newexe $(get_libdir)/libGLESv1_CM.so libGLESv1_CM_mesa.so
-	newexe $(get_libdir)/libGLESv2.so libGLESv2_mesa.so
+	newexe ${vendor_dir}/lib/libEGL_mesa.so libEGL_mesa.so
+	newexe ${vendor_dir}/lib/libGLESv1_CM_mesa.so libGLESv1_CM_mesa.so
+	newexe ${vendor_dir}/lib/libGLESv2_mesa.so libGLESv2_mesa.so
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/dri"
-	newexe $(get_libdir)/gallium/msm_dri.so msm_dri.so
+	newexe ${vendor_dir}/lib/dri/msm_dri.so msm_dri.so
 
 	# For documentation on the feature set represented by each XML file
 	# installed into /vendor/etc/permissions, see
@@ -123,5 +138,5 @@ src_install() {
 
 	# Install the dri header for arc-cros-gralloc
 	insinto "${ARC_PREFIX}/vendor/include/GL"
-	doins -r "${S}/include/GL/internal"
+	doins -r "${vendor_dir}/include/GL/internal"
 }
