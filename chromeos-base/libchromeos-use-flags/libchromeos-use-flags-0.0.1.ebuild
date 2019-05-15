@@ -75,6 +75,7 @@ IUSE="
 	touch_centric_device
 	veyron_mickey
 	veyron_minnie
+	wilco
 	+X
 "
 
