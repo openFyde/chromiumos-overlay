@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="go.googlesource.com/sys:golang.org/x/sys 7c87d13f8e835d2fb3a70a2912c811ed0c1d241b"
+CROS_GO_SOURCE="go.googlesource.com/sys:golang.org/x/sys 3a4b5fb9f71f5874b2374ae059bc0e0bcb52e145"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/sys/unix"
