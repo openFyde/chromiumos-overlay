@@ -26,6 +26,7 @@ RDEPEND="
 DEPEND="
 	dev-rust/getopts:=
 	dev-rust/libc:=
+	dev-rust/libchromeos:=
 	dev-rust/log:=
 	dev-rust/p9:=
 "
