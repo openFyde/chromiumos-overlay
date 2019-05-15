@@ -14,6 +14,52 @@ inherit flag-o-matic toolchain-funcs
 
 IUSE="asan coverage fuzzer msan tsan ubsan"
 
+# @FUNCTION: sanitizer-add-blocklist
+# @DESCRIPTION:
+# Add blocklist files to the sanitizer build flags.
+sanitizer-add-blocklist() {
+	if [[ $# -gt 1 ]]; then
+		die "More than one argument passed."
+	fi
+
+	# Search blocklist files in source and files directories.
+	local files_list=(
+		"${FILESDIR}/sanitizer_blocklist.txt"
+		"${S}/sanitizer_blocklist.txt"
+	)
+	# If a sanitizer name is passed, then search ${sanitizer}_blocklist.txt.
+	if [[ $# -eq 1 ]]; then
+		files_list+=(
+			"${FILESDIR}/$1_blocklist.txt"
+			"${S}/$1_blocklist.txt"
+		)
+	fi
+
+	for blocklist_file in "${files_list[@]}"; do
+		if [[ -f "${blocklist_file}" ]]; then
+			append-flags "-fsanitize-blacklist=${blocklist_file}"
+		fi
+	done
+}
+
+# @FUNCTION: asan-setup-env
+# @DESCRIPTION:
+# Build a package with address sanitizer flags.
+asan-setup-env() {
+	use asan || return 0
+	if ! tc-is-clang; then
+		die "ASAN is only supported for clang"
+	fi
+	local asan_flags=(
+		-fsanitize=address
+		-fsanitize=alignment
+		-fsanitize=shift
+	)
+	append-flags "${asan_flags[@]}"
+	append-ldflags "${asan_flags[@]}"
+	sanitizer-add-blocklist "asan"
+}
+
 # @FUNCTION: coverage-setup-env
 # @DESCRIPTION:
 # Build a package with coverage flags.
@@ -32,6 +78,7 @@ msan-setup-env() {
 	append-cppflags "-U_FORTIFY_SOURCE"
 	append-flags "-fsanitize=memory"
 	append-ldflags "-fsanitize=memory"
+	sanitizer-add-blocklist "msan"
 }
 
 # @FUNCTION: tsan-setup-env
@@ -41,6 +88,7 @@ tsan-setup-env() {
 	use tsan || return 0
 	append-flags "-fsanitize=thread"
 	append-ldflags "-fsanitize=thread"
+	sanitizer-add-blocklist "tsan"
 }
 
 # @FUNCTION: ubsan-setup-env
@@ -66,6 +114,7 @@ ubsan-setup-env() {
 	fi
 	append-flags "${flags[@]}"
 	append-ldflags "${flags[@]}"
+	sanitizer-add-blocklist "ubsan"
 }
 
 # @FUNCTION: sanitizers-setup-env
