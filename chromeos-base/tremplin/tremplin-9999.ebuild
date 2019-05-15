@@ -28,6 +28,7 @@ DEPEND="
 	chromeos-base/vm_guest_tools
 	dev-go/go-libaudit
 	dev-go/grpc
+	dev-go/kobject
 	dev-go/netlink
 	dev-go/vsock
 	dev-go/yaml
