@@ -50,6 +50,10 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins dbus_permissions/org.chromium.Midis.conf
 
+	# Install D-Bus service activation configuration.
+	insinto /usr/share/dbus-1/system-services
+	doins dbus_permissions/org.chromium.Midis.service
+
 	# Install seccomp policy file.
 	insinto /usr/share/policy
 	use seccomp && newins "seccomp/midis-seccomp-${ARCH}.policy" midis-seccomp.policy
