@@ -89,7 +89,8 @@ platform_pkg_test() {
 		cumulative_metrics_test
 		metrics_library_test
 		$(usex passive_metrics 'metrics_daemon_test' '')
-                persistent_integer_test
+		persistent_integer_test
+		process_meter_test
 		timer_test
 		upload_service_test
 	)
