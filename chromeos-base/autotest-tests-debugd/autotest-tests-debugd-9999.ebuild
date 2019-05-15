@@ -23,7 +23,6 @@ RDEPEND="
 
 IUSE_TESTS="
 	+tests_platform_TraceClockMonotonic
-	+tests_platform_DebugDaemonCupsAddPrinters
 	+tests_platform_DebugDaemonGetNetworkStatus
 	+tests_platform_DebugDaemonGetPerfData
 	+tests_platform_DebugDaemonGetPerfOutputFd

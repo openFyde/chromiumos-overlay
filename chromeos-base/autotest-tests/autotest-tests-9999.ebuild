@@ -126,7 +126,6 @@ CLIENT_IUSE_TESTS="
 	+tests_hardware_MemoryZRAMThroughput
 	+tests_hardware_Memtester
 	+tests_hardware_MultiReader
-	+tests_hardware_PerfCallgraphVerification
 	+tests_hardware_ProbeComponents
 	+tests_hardware_RamFio
 	+tests_hardware_RealtekCardReader
@@ -161,7 +160,6 @@ CLIENT_IUSE_TESTS="
 	+tests_kernel_Memory_Ramoop
 	profile? ( +tests_kernel_PerfEventRename )
 	+tests_kernel_SchedBandwith
-	+tests_kernel_SchedCgroups
 	+tests_kernel_VbootContextEC
 	crash_reporting? (
 		+tests_logging_CrashSender
@@ -213,7 +211,6 @@ CLIENT_IUSE_TESTS="
 	chromeless_tty? ( +tests_platform_MetricsUploader )
 	+tests_platform_NetParms
 	+tests_platform_OpenSSLActual
-	+tests_platform_PartitionCheck
 	profile? (
 		+tests_platform_Perf
 		+tests_platform_Quipper
