@@ -68,6 +68,7 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api
 	chromeos-base/tpm_manager-client
 	chromeos-base/vboot_reference
+	chromeos-base/libhwsec
 "
 
 src_install() {
