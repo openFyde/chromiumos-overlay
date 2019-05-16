@@ -26,6 +26,7 @@ DEPEND="sys-apps/debianutils
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
 	builtin_fw_x86_apl_ucode? ( chromeos-base/apl-ucode-firmware-private )
 	builtin_fw_x86_bdw_ucode? ( chromeos-base/bdw-ucode-firmware-private )
+	builtin_fw_x86_bsw_ucode? ( chromeos-base/bsw-ucode-firmware-private )
 	builtin_fw_x86_byt_ucode? ( chromeos-base/byt-ucode-firmware-private )
 	builtin_fw_x86_kbl_ucode? ( chromeos-base/kbl-ucode-firmware-private )
 	builtin_fw_x86_skl_ucode? ( chromeos-base/skl-ucode-firmware-private )
@@ -859,6 +860,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_aml_ucode
 	builtin_fw_x86_apl_ucode
 	builtin_fw_x86_bdw_ucode
+	builtin_fw_x86_bsw_ucode
 	builtin_fw_x86_byt_ucode
 	builtin_fw_x86_kbl_ucode
 	builtin_fw_x86_skl_ucode
@@ -955,6 +957,12 @@ builtin_fw_x86_apl_ucode_files=(
 builtin_fw_x86_bdw_ucode_desc="Intel ucode for BDW"
 builtin_fw_x86_bdw_ucode_files=(
 	intel-ucode/06-3d-04
+)
+
+builtin_fw_x86_bsw_ucode_desc="Intel ucode for BSW"
+builtin_fw_x86_bsw_ucode_files=(
+	intel-ucode/06-4c-03
+	intel-ucode/06-4c-04
 )
 
 builtin_fw_x86_byt_ucode_desc="Intel ucode for BYT"
