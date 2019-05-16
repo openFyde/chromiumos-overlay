@@ -18,7 +18,7 @@ HOMEPAGE="https://www.freedesktop.org/wiki/Software/systemd"
 
 LICENSE="GPL-2 LGPL-2.1 public-domain"
 SLOT="0/2"
-IUSE="-acl -gcrypt gnutls -http -lzma +pcre -qrcode -seccomp -selinux +split-usr ssl"
+IUSE="-acl -gcrypt -http -lzma +pcre -qrcode -seccomp -selinux +split-usr"
 
 S="$WORKDIR/systemd-${PV}"
 
@@ -31,7 +31,6 @@ COMMON_DEPEND=">=sys-apps/util-linux-2.30:0=[${MULTILIB_USEDEP}]
 	gcrypt? ( >=dev-libs/libgcrypt-1.4.5:0=[${MULTILIB_USEDEP}] )
 	http? (
 		>=net-libs/libmicrohttpd-0.9.33:0=
-		ssl? ( >=net-libs/gnutls-3.1.4:0= )
 	)
 	lzma? ( >=app-arch/xz-utils-5.0.5-r1:0=[${MULTILIB_USEDEP}] )
 	pcre? ( dev-libs/libpcre2 )
@@ -138,7 +137,7 @@ multilib_src_configure() {
 		-Dlibcurl=false
 		-Delfutils=false
 		-Dgcrypt=$(meson_use gcrypt)
-		-Dgnutls=$(meson_multilib_native_use gnutls)
+		-Dgnutls=false
 		-Dgnu-efi=false
 		-Dmicrohttpd=$(meson_multilib_native_use http)
 		-Dlz4=false
