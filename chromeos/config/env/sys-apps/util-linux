@@ -28,10 +28,6 @@ util_linux_mask+="
   /usr/sbin/tunelp
 "
 
-if [[ $(cros_target) != "cros_host" ]]; then
-	util_linux_mask+=" /usr/bin/unshare"
-fi
-
 PKG_INSTALL_MASK+=" ${util_linux_mask}"
 INSTALL_MASK+=" ${util_linux_mask}"
 unset util_linux_mask
