@@ -1,10 +1,14 @@
-From ecdc078459959a9ded7e06817589a346682635d0 Mon Sep 17 00:00:00 2001
+From e52b208c76625da434f7f123679dfdbc78d11110 Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Wed, 5 Dec 2018 16:59:57 -0800
 Subject: [PATCH] set values in journald.conf
 
+---
+ src/journal/journald.conf | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
 diff --git a/src/journal/journald.conf b/src/journal/journald.conf
-index 94d5c678aa..d35542297f 100644
+index 2f1c661153..ae09170302 100644
 --- a/src/journal/journald.conf
 +++ b/src/journal/journald.conf
 @@ -12,24 +12,24 @@
@@ -41,5 +45,5 @@ index 94d5c678aa..d35542297f 100644
  #ForwardToConsole=no
  #ForwardToWall=yes
 -- 
-2.21.0.360.g471c308f928-goog
+2.21.0.1020.gf2820cf01a-goog
 

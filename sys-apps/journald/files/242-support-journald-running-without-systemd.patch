@@ -1,14 +1,17 @@
-From 586a3033f25df32f9a45bf4e3362eaa9131aca3b Mon Sep 17 00:00:00 2001
+From ca2e7142b50e5ae4a7139e3cb2d81701bf437c11 Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Mon, 3 Dec 2018 17:49:00 -0800
 Subject: [PATCH] support journald running without systemd
 
+---
+ src/journal/journald-server.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/src/journal/journald-server.c b/src/journal/journald-server.c
-index 4f1550ec5..d5f4406a1 100644
+index 2a960ebb3e..4850252897 100644
 --- a/src/journal/journald-server.c
 +++ b/src/journal/journald-server.c
-@@ -1853,9 +1853,17 @@ int server_init(Server *s) {
+@@ -1988,9 +1988,17 @@ int server_init(Server *s) {
          if (!s->rate_limit)
                  return -ENOMEM;
  
@@ -29,5 +32,5 @@ index 4f1550ec5..d5f4406a1 100644
          server_cache_hostname(s);
          server_cache_boot_id(s);
 -- 
-2.20.0.rc2.403.gdbc3b29805-goog
+2.21.0.1020.gf2820cf01a-goog
 

@@ -1,18 +1,18 @@
-From 98dcf277bd614be429e0cc29762fcd4e5b0e32d8 Mon Sep 17 00:00:00 2001
+From dbf41699c4e6135ce1764298793ab57573f21dbf Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Mon, 25 Feb 2019 11:28:29 -0800
-Subject: [PATCH 2/2] journal: allow setting maximum log level by PID instead
- of unit
+Subject: [PATCH] journal: allow setting maximum log level by PID instead of
+ unit
 
 ---
  src/journal/journald-context.c | 9 ++++-----
  1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/src/journal/journald-context.c b/src/journal/journald-context.c
-index ce07de1bfb..4ce13ce997 100644
+index 7c51f2f633..3d30b797ef 100644
 --- a/src/journal/journald-context.c
 +++ b/src/journal/journald-context.c
-@@ -320,13 +320,12 @@ static int client_context_read_log_level_max(
+@@ -353,13 +353,12 @@ static int client_context_read_log_level_max(
                  ClientContext *c) {
  
          _cleanup_free_ char *value = NULL;
@@ -31,5 +31,5 @@ index ce07de1bfb..4ce13ce997 100644
          if (r < 0)
                  return r;
 -- 
-2.21.0.392.gf8f6787159e-goog
+2.21.0.1020.gf2820cf01a-goog
 

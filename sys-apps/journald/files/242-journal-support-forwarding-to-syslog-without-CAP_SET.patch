@@ -1,4 +1,4 @@
-From f83aba3d02b02530ac84478fe2bc71a7e6eb4238 Mon Sep 17 00:00:00 2001
+From 986d572418b1abec267571087f18b3433af47071 Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Wed, 12 Dec 2018 19:59:27 -0800
 Subject: [PATCH] journal: support forwarding to syslog without CAP_SETUID and
@@ -14,7 +14,7 @@ CAP_SETUID, CAP_SETGID].
  1 file changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/src/journal/journald-syslog.c b/src/journal/journald-syslog.c
-index 9dea11672..ffad99432 100644
+index a60a259bc4..e8b6915335 100644
 --- a/src/journal/journald-syslog.c
 +++ b/src/journal/journald-syslog.c
 @@ -75,15 +75,13 @@ static void forward_syslog_iovec(Server *s, const struct iovec *iovec, unsigned
@@ -39,5 +39,5 @@ index 9dea11672..ffad99432 100644
                  if (sendmsg(s->syslog_fd, &msghdr, MSG_NOSIGNAL) >= 0)
                          return;
 -- 
-2.20.0.405.gbc1bbc6f85-goog
+2.21.0.1020.gf2820cf01a-goog
 

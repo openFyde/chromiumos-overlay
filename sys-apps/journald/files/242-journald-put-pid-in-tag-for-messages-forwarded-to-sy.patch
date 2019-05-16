@@ -1,4 +1,4 @@
-From 3269e8bd251e590039ec0b7c27c6f18abf27edcd Mon Sep 17 00:00:00 2001
+From 60bae9664fac03b3cc32eb8775e7b9ff34079f38 Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Mon, 11 Feb 2019 14:49:33 -0800
 Subject: [PATCH] journald: put pid in tag for messages forwarded to syslog
@@ -8,33 +8,27 @@ forwarding logs to syslog. journald hasn't been granted CAP_SYS_ADMIN due to
 security concerns. Have journald always write the logging source's PID in the
 log tag.
 ---
- src/journal/journald-syslog.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ src/journal/journald-syslog.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/src/journal/journald-syslog.c b/src/journal/journald-syslog.c
-index ffad99432..e40b6e84f 100644
+index e8b6915335..45e64c4892 100644
 --- a/src/journal/journald-syslog.c
 +++ b/src/journal/journald-syslog.c
-@@ -334,12 +334,16 @@ void server_process_syslog_message(
-         if (!client_context_test_priority(context, priority))
-                 return;
+@@ -369,8 +369,12 @@ void server_process_syslog_message(
  
--        if (s->forward_to_syslog)
--                forward_syslog_raw(s, priority, buf, buf_len, ucred, tv);
--
-         syslog_skip_date(&msg);
-         syslog_parse_identifier((const char**)&msg, &identifier, &pid);
+         syslog_parse_identifier(&msg, &identifier, &pid);
  
 +        /* journald can't forge SCM_CREDENTIALS on Chrome OS, so add them to
 +         * the syslog tag for rsyslogd */
 +        (void)forward_syslog_raw;
 +
-+        if (s->forward_to_syslog)
+         if (s->forward_to_syslog)
+-                forward_syslog_raw(s, priority, buf, raw_len, ucred, tv);
 +                server_forward_syslog(s, priority, identifier, msg, ucred, tv);
-+
+ 
          if (s->forward_to_kmsg)
                  server_forward_kmsg(s, priority, identifier, msg, ucred);
- 
 -- 
-2.20.1.791.gb4d0f1c61a-goog
+2.21.0.1020.gf2820cf01a-goog
 

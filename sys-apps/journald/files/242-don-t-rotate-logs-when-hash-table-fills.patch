@@ -1,14 +1,17 @@
-From 788ea048ff0d6816a889979b425862d446cb8955 Mon Sep 17 00:00:00 2001
+From 17c6b216af7a9ecd72b9ffcf25ad37d46af2c51f Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Fri, 7 Dec 2018 17:36:23 -0800
 Subject: [PATCH] don't rotate logs when hash table fills
 
+---
+ src/journal/journal-file.c | 28 +---------------------------
+ 1 file changed, 1 insertion(+), 27 deletions(-)
 
 diff --git a/src/journal/journal-file.c b/src/journal/journal-file.c
-index 62e7f68a1..dc98c38c7 100644
+index 91d1c2921a..6751666108 100644
 --- a/src/journal/journal-file.c
 +++ b/src/journal/journal-file.c
-@@ -3847,33 +3847,7 @@ bool journal_file_rotate_suggested(JournalFile *f, usec_t max_file_usec) {
+@@ -3866,33 +3866,7 @@ bool journal_file_rotate_suggested(JournalFile *f, usec_t max_file_usec) {
                  return true;
          }
  
@@ -44,5 +47,5 @@ index 62e7f68a1..dc98c38c7 100644
          /* Are the data objects properly indexed by field objects? */
          if (JOURNAL_HEADER_CONTAINS(f->header, n_data) &&
 -- 
-2.20.0.rc2.403.gdbc3b29805-goog
+2.21.0.1020.gf2820cf01a-goog
 

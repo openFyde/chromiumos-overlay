@@ -1,4 +1,4 @@
-From 05f328b4ec4ad202df1a662d4770e04c5e45c0a0 Mon Sep 17 00:00:00 2001
+From 53c8c71396b6e29b665996bc90d2a1853693466b Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Tue, 4 Dec 2018 16:45:59 -0800
 Subject: [PATCH] don't listen on audit socket
@@ -11,10 +11,10 @@ in duplicate messages showing up in the logs.
  1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/src/journal/journald-server.c b/src/journal/journald-server.c
-index d5f4406a1..6a241b93f 100644
+index 4850252897..a2a2e36f12 100644
 --- a/src/journal/journald-server.c
 +++ b/src/journal/journald-server.c
-@@ -1826,12 +1826,8 @@ int server_init(Server *s) {
+@@ -1965,12 +1965,8 @@ int server_init(Server *s) {
          if (r < 0)
                  return r;
  
@@ -30,5 +30,5 @@ index d5f4406a1..6a241b93f 100644
          r = server_open_kernel_seqnum(s);
          if (r < 0)
 -- 
-2.20.0.405.gbc1bbc6f85-goog
+2.21.0.1020.gf2820cf01a-goog
 

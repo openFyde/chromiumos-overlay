@@ -1,4 +1,4 @@
-From 6149ed9e9dd53ae7920f269eaa2d8fceaf72f0b5 Mon Sep 17 00:00:00 2001
+From d9710b7a4e924d6c4397e85a9094eab2d09015ef Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Mon, 14 Jan 2019 20:12:00 -0800
 Subject: [PATCH] journalctl: add ability to filter known log messages
@@ -14,26 +14,26 @@ interesting log messages.
  src/journal/filter-known.h       |  58 ++++++
  src/journal/journalctl.c         |  47 ++++-
  src/journal/meson.build          |   2 +
- src/test/meson.build             |   6 +
+ src/test/meson.build             |   7 +
  src/test/test-filter-known.c     |  66 +++++++
- 7 files changed, 498 insertions(+), 2 deletions(-)
+ 7 files changed, 499 insertions(+), 2 deletions(-)
  create mode 100644 src/journal/filter-known.c
  create mode 100644 src/journal/filter-known.h
  create mode 100644 src/test/test-filter-known.c
 
 diff --git a/shell-completion/bash/journalctl b/shell-completion/bash/journalctl
-index 48781ee7c..eca0829f8 100644
+index 3beb347e1b..8151c5adff 100644
 --- a/shell-completion/bash/journalctl
 +++ b/shell-completion/bash/journalctl
 @@ -49,6 +49,7 @@ _journalctl() {
-                               --root'
+                               --root --case-sensitive'
                  [ARGUNKNOWN]='-c --cursor --interval -n --lines -S --since -U --until
-                               --after-cursor --verify-key
+                               --after-cursor --cursor-file --verify-key -g --grep
 +                              -i --filter-known
                                --vacuum-size --vacuum-time --vacuum-files --output-fields'
          )
  
-@@ -61,7 +62,7 @@ _journalctl() {
+@@ -68,7 +69,7 @@ _journalctl() {
                                  comps=$(compgen -d -- "$cur")
                                  compopt -o filenames
                          ;;
@@ -44,7 +44,7 @@ index 48781ee7c..eca0829f8 100644
                          ;;
 diff --git a/src/journal/filter-known.c b/src/journal/filter-known.c
 new file mode 100644
-index 000000000..f549ce3f3
+index 0000000000..6a0161b89e
 --- /dev/null
 +++ b/src/journal/filter-known.c
 @@ -0,0 +1,318 @@
@@ -301,7 +301,7 @@ index 000000000..f549ce3f3
 +                } else {
 +                        char *substring;
 +                        ungetc(peek, f);
-+                        r = read_nul_string(f, &substring);
++                        r = read_nul_string(f, LONG_LINE_MAX, &substring);
 +                        if (r < 0)
 +                                return r;
 +                        r = strv_consume(&template, substring);
@@ -368,7 +368,7 @@ index 000000000..f549ce3f3
 +}
 diff --git a/src/journal/filter-known.h b/src/journal/filter-known.h
 new file mode 100644
-index 000000000..9e0e78548
+index 0000000000..9e0e785485
 --- /dev/null
 +++ b/src/journal/filter-known.h
 @@ -0,0 +1,58 @@
@@ -431,18 +431,18 @@ index 000000000..9e0e78548
 +char **basal_form(const char *s);
 +char **template_basal_form(char **template);
 diff --git a/src/journal/journalctl.c b/src/journal/journalctl.c
-index 56b1be530..cddceaff1 100644
+index 00489098ee..8df6b4c8cd 100644
 --- a/src/journal/journalctl.c
 +++ b/src/journal/journalctl.c
-@@ -32,6 +32,7 @@
- #include "chattr-util.h"
+@@ -35,6 +35,7 @@
+ #include "device-private.h"
  #include "fd-util.h"
  #include "fileio.h"
 +#include "filter-known.h"
  #include "fs-util.h"
  #include "fsprg.h"
  #include "glob-util.h"
-@@ -138,6 +139,7 @@ static bool arg_catalog = false;
+@@ -143,6 +144,7 @@ static bool arg_catalog = false;
  static bool arg_reverse = false;
  static int arg_journal_type = 0;
  static char *arg_root = NULL;
@@ -450,7 +450,7 @@ index 56b1be530..cddceaff1 100644
  static const char *arg_machine = NULL;
  static uint64_t arg_vacuum_size = 0;
  static uint64_t arg_vacuum_n_files = 0;
-@@ -321,6 +323,9 @@ static void help(void) {
+@@ -332,6 +334,9 @@ static int help(void) {
                 "  -p --priority=RANGE        Show entries with the specified priority\n"
                 "  -g --grep=PATTERN          Show entries with MESSAGE matching PATTERN\n"
                 "     --case-sensitive[=BOOL] Force case sensitive or insenstive matching\n"
@@ -460,7 +460,7 @@ index 56b1be530..cddceaff1 100644
                 "  -e --pager-end             Immediately jump to the end in the pager\n"
                 "  -f --follow                Follow the journal\n"
                 "  -n --lines[=INTEGER]       Number of journal entries to show\n"
-@@ -437,6 +442,7 @@ static int parse_argv(int argc, char *argv[]) {
+@@ -450,6 +455,7 @@ static int parse_argv(int argc, char *argv[]) {
                  { "root",           required_argument, NULL, ARG_ROOT           },
                  { "header",         no_argument,       NULL, ARG_HEADER         },
                  { "identifier",     required_argument, NULL, 't'                },
@@ -468,7 +468,7 @@ index 56b1be530..cddceaff1 100644
                  { "priority",       required_argument, NULL, 'p'                },
                  { "grep",           required_argument, NULL, 'g'                },
                  { "case-sensitive", optional_argument, NULL, ARG_CASE_SENSITIVE },
-@@ -477,7 +483,7 @@ static int parse_argv(int argc, char *argv[]) {
+@@ -491,7 +497,7 @@ static int parse_argv(int argc, char *argv[]) {
          assert(argc >= 0);
          assert(argv);
  
@@ -477,7 +477,7 @@ index 56b1be530..cddceaff1 100644
  
                  switch (c) {
  
-@@ -840,6 +846,24 @@ static int parse_argv(int argc, char *argv[]) {
+@@ -861,6 +867,24 @@ static int parse_argv(int argc, char *argv[]) {
                                  return log_oom();
                          break;
  
@@ -502,7 +502,7 @@ index 56b1be530..cddceaff1 100644
                  case 'u':
                          r = strv_extend(&arg_system_units, optarg);
                          if (r < 0)
-@@ -2608,6 +2632,25 @@ int main(int argc, char *argv[]) {
+@@ -2664,6 +2688,25 @@ int main(int argc, char *argv[]) {
                          }
  #endif
  
@@ -528,7 +528,7 @@ index 56b1be530..cddceaff1 100644
                          flags =
                                  arg_all * OUTPUT_SHOW_ALL |
                                  arg_full * OUTPUT_FULL_WIDTH |
-@@ -2686,6 +2729,8 @@ finish:
+@@ -2753,6 +2796,8 @@ finish:
          if (arg_compiled_pattern)
                  pcre2_code_free(arg_compiled_pattern);
  #endif
@@ -538,7 +538,7 @@ index 56b1be530..cddceaff1 100644
          return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
  }
 diff --git a/src/journal/meson.build b/src/journal/meson.build
-index 807dece54..bc5fb4183 100644
+index e03d6dc232..e8c6f7ade2 100644
 --- a/src/journal/meson.build
 +++ b/src/journal/meson.build
 @@ -103,6 +103,8 @@ systemd_cat_sources = files('cat.c')
@@ -551,12 +551,12 @@ index 807dece54..bc5fb4183 100644
          journalctl_sources += files('journal-qrcode.c',
                                      'journal-qrcode.h')
 diff --git a/src/test/meson.build b/src/test/meson.build
-index 3296bd979..5624907b7 100644
+index 5858145b1a..ab512b5f7f 100644
 --- a/src/test/meson.build
 +++ b/src/test/meson.build
-@@ -564,6 +564,12 @@ tests += [
-          [],
-          []],
+@@ -712,6 +712,13 @@ tests += [
+           libxz,
+           liblz4]],
  
 +        [['src/test/test-filter-known.c',
 +          'src/journal/filter-known.c',
@@ -564,12 +564,13 @@ index 3296bd979..5624907b7 100644
 +         [],
 +         []],
 +
-         [['src/test/test-libudev.c'],
-          [libshared],
-          []],
++
+         [['src/journal/test-mmap-cache.c'],
+          [libjournal_core,
+           libshared],
 diff --git a/src/test/test-filter-known.c b/src/test/test-filter-known.c
 new file mode 100644
-index 000000000..0d92d7261
+index 0000000000..0d92d72611
 --- /dev/null
 +++ b/src/test/test-filter-known.c
 @@ -0,0 +1,66 @@
@@ -640,5 +641,5 @@ index 000000000..0d92d7261
 +        return 0;
 +}
 -- 
-2.21.0.rc0.258.g878e2cd30e-goog
+2.21.0.1020.gf2820cf01a-goog
 

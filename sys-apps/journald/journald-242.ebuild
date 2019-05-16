@@ -18,7 +18,7 @@ HOMEPAGE="https://www.freedesktop.org/wiki/Software/systemd"
 
 LICENSE="GPL-2 LGPL-2.1 public-domain"
 SLOT="0/2"
-IUSE="-acl -gcrypt -http -lzma +pcre -qrcode -seccomp -selinux +split-usr ssl"
+IUSE="-acl -gcrypt gnutls -http -lzma +pcre -qrcode -seccomp -selinux +split-usr ssl"
 
 S="$WORKDIR/systemd-${PV}"
 
@@ -43,9 +43,15 @@ RDEPEND="${COMMON_DEPEND}
 	>=sys-apps/baselayout-2.2
 	!sys-apps/systemd"
 
+DEPEND="
+	>=sys-kernel/linux-headers-${MINKV}
+"
+
 # Newer linux-headers needed by ia64, bug #480218
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
+	${COMMON_DEPEND}
 	app-arch/xz-utils:0
+	>=dev-util/meson-0.46
 	dev-util/gperf
 	>=dev-util/intltool-0.50
 	>=sys-apps/coreutils-8.16
@@ -132,9 +138,9 @@ multilib_src_configure() {
 		-Dlibcurl=false
 		-Delfutils=false
 		-Dgcrypt=$(meson_use gcrypt)
+		-Dgnutls=$(meson_multilib_native_use gnutls)
 		-Dgnu-efi=false
 		-Dmicrohttpd=$(meson_multilib_native_use http)
-		$(usex http -Dgnutls=$(meson_multilib_native_use ssl) -Dgnutls=false)
 		-Dlz4=false
 		-Dxz=$(meson_use lzma)
 		-Dlibiptc=false

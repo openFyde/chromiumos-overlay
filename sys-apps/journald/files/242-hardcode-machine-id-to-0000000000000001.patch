@@ -1,14 +1,17 @@
-From f008ab5a5e9820c0d0ab433d9e30dcee924015fa Mon Sep 17 00:00:00 2001
+From 0516b7a4c8d5686c946944c86f797707ab773a95 Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Mon, 3 Dec 2018 17:27:25 -0800
 Subject: [PATCH] hardcode machine-id to 0000000000000001
 
+---
+ src/libsystemd/sd-id128/sd-id128.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/src/libsystemd/sd-id128/sd-id128.c b/src/libsystemd/sd-id128/sd-id128.c
-index b7123280f..146f24a4e 100644
+index e5f82b8863..fa8f5d429c 100644
 --- a/src/libsystemd/sd-id128/sd-id128.c
 +++ b/src/libsystemd/sd-id128/sd-id128.c
-@@ -85,17 +85,13 @@ _public_ int sd_id128_from_string(const char s[], sd_id128_t *ret) {
+@@ -83,17 +83,13 @@ _public_ int sd_id128_from_string(const char s[], sd_id128_t *ret) {
  
  _public_ int sd_id128_get_machine(sd_id128_t *ret) {
          static thread_local sd_id128_t saved_machine_id = {};
@@ -30,5 +33,5 @@ index b7123280f..146f24a4e 100644
  
          *ret = saved_machine_id;
 -- 
-2.20.0.rc2.403.gdbc3b29805-goog
+2.21.0.1020.gf2820cf01a-goog
 

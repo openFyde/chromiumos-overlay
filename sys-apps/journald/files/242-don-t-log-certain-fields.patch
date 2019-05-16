@@ -1,16 +1,19 @@
-From b1b91081c0c5c44ffe6e30e9d3b4a4534f3c4ce3 Mon Sep 17 00:00:00 2001
+From f59c280ad5de852448df73bb8c22ec431562eeab Mon Sep 17 00:00:00 2001
 From: Chris Morin <cmtm@google.com>
 Date: Fri, 7 Dec 2018 18:08:05 -0800
 Subject: [PATCH] don't log certain fields
 
 The machine-id and hostname are the same on all Chrome OS devices, so
 there's no need to log them.
+---
+ src/journal/journald-server.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/src/journal/journald-server.c b/src/journal/journald-server.c
-index 6a241b93f..8c418569f 100644
+index a2a2e36f12..d22d690a81 100644
 --- a/src/journal/journald-server.c
 +++ b/src/journal/journald-server.c
-@@ -837,11 +837,9 @@ static void dispatch_message_real(
+@@ -994,11 +994,9 @@ static void dispatch_message_real(
          if (!isempty(s->boot_id_field))
                  iovec[n++] = IOVEC_MAKE_STRING(s->boot_id_field);
  
@@ -25,5 +28,5 @@ index 6a241b93f..8c418569f 100644
          assert(n <= m);
  
 -- 
-2.20.0.rc2.403.gdbc3b29805-goog
+2.21.0.1020.gf2820cf01a-goog
 
