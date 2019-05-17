@@ -81,6 +81,7 @@ IUSE_TESTS=(
 	+tests_desktopui_CheckRlzPingSent
 	+tests_desktopui_ChromeSanity
 	tests_desktopui_ConnectivityDiagnostics
+	+tests_desktopui_FilesApp
 	+tests_desktopui_FlashSanityCheck
 	+tests_desktopui_MediaAudioFeedback
 	+tests_desktopui_ScreenLocker
