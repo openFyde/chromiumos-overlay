@@ -8,8 +8,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 # Narrow the workon scope to just files referenced by the turbostat
 # Makefile:
-# https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-4.14/tools/power/x86/turbostat/Makefile#13
-CROS_WORKON_SUBTREE="arch/x86/include/asm tools/power/x86/turbostat"
+# https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-4.14/tools/power/x86/turbostat/Makefile#12
+CROS_WORKON_SUBTREE="arch/x86/include/asm tools/include tools/power/x86/turbostat"
 
 inherit cros-sanitizers cros-workon toolchain-funcs
 
