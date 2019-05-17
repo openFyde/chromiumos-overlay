@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/blueto
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="seccomp"
+IUSE="seccomp +bluetooth_suspend_management"
 
 RDEPEND="
 	chromeos-base/libbrillo
