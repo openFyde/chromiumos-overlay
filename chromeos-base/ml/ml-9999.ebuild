@@ -18,7 +18,8 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 # Clients of the ML service should place the URIs of their model files into
 # this variable.
 models="gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite"
+	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite
+	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite"
 
 SRC_URI="${models}"
 
