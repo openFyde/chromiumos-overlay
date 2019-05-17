@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk crash-reporter metrics .gn"
 
 PLATFORM_SUBDIR="crash-reporter"
 
-inherit cros-i686 cros-workon platform systemd udev
+inherit cros-i686 cros-workon platform systemd udev user
 
 DESCRIPTION="Crash reporting service that uploads crash reports with debug information"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/"
@@ -53,6 +53,17 @@ src_configure() {
 src_compile() {
 	platform_src_compile
 	use cheets && use_i686 && platform_src_compile_i686 "core_collector"
+}
+
+pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() will need the crash user and group.
+	enewuser "crash"
+	enewgroup "crash"
+	# A group to manage file permissions for files that crash reporter
+	# components need to access.
+	enewgroup "crash-access"
+	cros-workon_pkg_setup
 }
 
 src_install() {
