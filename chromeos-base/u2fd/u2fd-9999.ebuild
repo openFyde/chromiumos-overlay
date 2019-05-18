@@ -47,6 +47,9 @@ src_install() {
 	insinto /etc/init
 	doins init/*.conf
 
+	insinto /etc/dbus-1/system.d
+	doins org.chromium.U2F.conf
+
 	local daemon_store="/etc/daemon-store/u2f"
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
