@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure install prepare pretend setup test unpack
+DEPEND=>=sys-kernel/linux-headers-3.10 >=dev-util/meson-0.40.0 >=dev-util/ninja-1.7.2 virtual/pkgconfig virtual/pkgconfig sys-apps/baselayout
+DESCRIPTION=System and service manager for Linux
+EAPI=6
+HOMEPAGE=https://www.freedesktop.org/wiki/Software/systemd
+IUSE=-acl -gcrypt gnutls -http -lzma +pcre -qrcode -seccomp -selinux +split-usr ssl abi_x86_32 abi_x86_64 abi_x86_x32 abi_mips_n32 abi_mips_n64 abi_mips_o32 abi_ppc_32 abi_ppc_64 abi_s390_32 abi_s390_64
+KEYWORDS=*
+LICENSE=GPL-2 LGPL-2.1 public-domain
+RDEPEND=>=sys-apps/util-linux-2.30:0=[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?] sys-libs/libcap:0=[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?] !<sys-libs/glibc-2.16 acl? ( sys-apps/acl:0= ) gcrypt? ( >=dev-libs/libgcrypt-1.4.5:0=[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?] ) http? ( >=net-libs/libmicrohttpd-0.9.33:0= ssl? ( >=net-libs/gnutls-3.1.4:0= ) ) lzma? ( >=app-arch/xz-utils-5.0.5-r1:0=[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?] ) pcre? ( dev-libs/libpcre2 ) qrcode? ( media-gfx/qrencode:0= ) selinux? ( sys-libs/libselinux:0= ) >=sys-apps/baselayout-2.2 !sys-apps/systemd sys-apps/baselayout
+SLOT=0/2
+SRC_URI=https://github.com/systemd/systemd/archive/v242/journald-242.tar.gz -> systemd-242.tar.gz
+_eclasses_=bash-completion-r1	47a7402d95930413ce25ba8d857339bb	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	linux-info	e60da1ae009f60d1c79c5af918dfd844	meson	bb03fba89211ada65fb543d1f8343100	multibuild	40fe59465edacd730c644ec2bc197809	multilib	b2f01ad412baf81650c23fcf0975fa33	multilib-build	b42436dc1260f475af229754c165cb6b	multilib-minimal	8bddda43703ba94d8341f4e247f97566	multiprocessing	e32940a7b2a9992ad217eccddb84d548	ninja-utils	ebb2eaddc6331c4fa000b8eb8f6fe074	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	systemd	8f5286f89e265842f5b5189666eae88b	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	udev	d91cac2c73b94629cad2daea66e0d182	user	059bd54dd6b0acf0eb8961c4ec0c2b64	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
+_md5_=94b0b5ede22e483d75de79aa2fc85058
