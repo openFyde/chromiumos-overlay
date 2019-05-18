@@ -151,6 +151,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
 
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
+	epatch "${FILESDIR}"/UPSTREAM-intel-Add-support-for-Comet-Lake.patch
 
 	if use android-container-nyc; then
 		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
