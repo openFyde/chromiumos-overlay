@@ -19,6 +19,12 @@ SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
+DEPEND="
+	=dev-rust/proc-macro2-0.4*
+	=dev-rust/quote-0.6*
+	=dev-rust/syn-0.15*
+"
+
 src_unpack() {
 	cros-workon_src_unpack
 	S+="/enumn"
