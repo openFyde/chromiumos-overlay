@@ -6,11 +6,10 @@ EAPI="5"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME=("platform2" "weave/libweave")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "weave/libweave")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/weave/libweave")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libweave")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="libweave"
-PLATFORM_GYP_FILE="libweave.gyp"
 
 inherit cros-workon libchrome platform
 
@@ -23,12 +22,6 @@ KEYWORDS="~*"
 # libweave-test, which depends on gmock, is built unconditionally, so the gmock
 # dependency is always needed.
 DEPEND="dev-cpp/gtest:="
-
-src_unpack() {
-	local s="${S}"
-	platform_src_unpack
-	S="${s}/weave/libweave/"
-}
 
 src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
