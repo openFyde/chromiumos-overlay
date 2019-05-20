@@ -76,6 +76,19 @@ src_install() {
 		doins init/wilco_dtc.conf
 	fi
 
+	# Install seccomp policy files.
+	insinto /usr/share/policy
+	newins "init/cros_healthd-seccomp-${ARCH}.policy" \
+		cros_healthd-seccomp.policy
+
+	# Install D-Bus configuration file.
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.CrosHealthd.conf
+
+	# Install the init scripts.
+	insinto /etc/init
+	doins init/cros_healthd.conf
+
 	# Install the diagnostic routine executables.
 	exeinto /usr/libexec/diagnostics
 	doexe "${OUT}/urandom"
