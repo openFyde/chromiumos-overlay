@@ -51,7 +51,8 @@ ubsan-setup-env() {
 	# Flags for normal ubsan builds.
 	# TODO: Use same flags as fuzzer builds.
 	local flags=(
-		-fsanitize=alignment,array-bounds,shift,vla-bound
+		-fsanitize=alignment,array-bounds,pointer-overflow,shift
+		-fsanitize=signed-integer-overflow,vla-bound
 		-fno-sanitize=vptr
 		-fno-sanitize-recover=all
 	)
