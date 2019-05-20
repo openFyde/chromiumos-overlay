@@ -131,6 +131,7 @@ ALL_BOARDS=(
 	eve
 	eve-arcnext
 	eve-arcvm
+	eve-arm64
 	#eve-bertha
 	eve-campfire
 	eve-kvm
