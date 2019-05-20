@@ -12,7 +12,7 @@ inherit  cros-constants check-reqs cmake-utils eutils flag-o-matic git-2 git-r3 
 
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="http://llvm.org/"
-PROFDATA_FILE="llvm-profdata-20190412.tar.xz"
+PROFDATA_FILE="llvm-profdata-20190520.tar.xz"
 SRC_URI="llvm_pgo_use? ( gs://chromeos-localmirror/distfiles/${PROFDATA_FILE} )"
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
