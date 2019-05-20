@@ -37,6 +37,7 @@ DEPEND="
 
 src_install() {
 	dobin "${OUT}"/metrics_client
+	dobin "${OUT}"/chromeos-pgmem
 
 	if use passive_metrics; then
 		dobin "${OUT}"/metrics_daemon
