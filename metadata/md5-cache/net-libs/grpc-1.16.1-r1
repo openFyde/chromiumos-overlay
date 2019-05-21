@@ -9,5 +9,5 @@ LICENSE=Apache-2.0
 RDEPEND=>=dev-libs/openssl-1.0.2:0=[-bindist] !dev-libs/grpc dev-libs/protobuf:= net-dns/c-ares:= sys-libs/zlib:= systemtap? ( dev-util/systemtap )
 SLOT=0
 SRC_URI=https://github.com/grpc/grpc/archive/v1.16.1.tar.gz -> grpc-1.16.1.tar.gz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
 _md5_=9a133790020335d1b5b2c5f9bf5f8b90

@@ -9,5 +9,5 @@ LICENSE=BSD
 RDEPEND=net-libs/libqrtr
 SLOT=0
 SRC_URI=https://github.com/andersson/qmi-ping/archive/36799ff5464a7ee384dcf3ad3a8f1d2b107f062e.tar.gz -> qmi-ping-0.1_p20180606.tar.gz
-_eclasses_=cros-sanitizers	63364d65cbda396659c88700d59b111a	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=cros-sanitizers	20550739c4a52223d16e01bc671bdb77	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
 _md5_=c730f8df5ef21317605719ec15821265

@@ -6,5 +6,5 @@ KEYWORDS=*
 LICENSE=BSD
 SLOT=0
 SRC_URI=https://github.com/stmicroelectronics-acp/st-touch-fw-updater/archive/v0.0.1.002.tar.gz -> st-touch-fw-updater-0.0.1.002.tar.gz
-_eclasses_=cros-common.mk	0d2a9d7d20c4d4ab08fc94b6ca128a88	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=cros-common.mk	0d2a9d7d20c4d4ab08fc94b6ca128a88	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
 _md5_=fd7887f14bdf11da5dd384d27b4e3242

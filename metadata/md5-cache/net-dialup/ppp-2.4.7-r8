@@ -10,5 +10,5 @@ PDEPEND=net-dialup/ppp-scripts
 RDEPEND=activefilter? ( net-libs/libpcap ) atm? ( net-dialup/linux-atm ) pam? ( virtual/pam ) gtk? ( x11-libs/gtk+:2 ) eap-tls? ( !libressl? ( dev-libs/openssl:0= ) libressl? ( dev-libs/libressl:= ) ) sys-apps/baselayout
 SLOT=0/2.4.7
 SRC_URI=https://download.samba.org/pub/ppp/ppp-2.4.7.tar.gz https://dev.gentoo.org/~polynomial-c/ppp-2.4.7-patches-6.tar.xz http://www.netservers.net.uk/gpl/ppp-dhcpc.tgz
-_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	linux-info	e60da1ae009f60d1c79c5af918dfd844	multilib	b2f01ad412baf81650c23fcf0975fa33	pam	3f746974e1cc47cabe3bd488c08cdc8e	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	udev	d91cac2c73b94629cad2daea66e0d182	user	059bd54dd6b0acf0eb8961c4ec0c2b64	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
+_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	linux-info	e60da1ae009f60d1c79c5af918dfd844	multilib	b2f01ad412baf81650c23fcf0975fa33	pam	3f746974e1cc47cabe3bd488c08cdc8e	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e	udev	d91cac2c73b94629cad2daea66e0d182	user	059bd54dd6b0acf0eb8961c4ec0c2b64	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
 _md5_=f3129482e0624d535d70366488fab45a

@@ -10,5 +10,5 @@ RDEPEND=python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/
 REQUIRED_USE=python_targets_python2_7
 SLOT=0
 SRC_URI=gs://chromeos-localmirror/distfiles/grit-i18n-9042916f9da0493c759bff0b644a6eb11b385fb1.tar.gz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	python-single-r1	3a0fc81f484bfdbd9c2b7448015a36e4	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	python-single-r1	3a0fc81f484bfdbd9c2b7448015a36e4	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
 _md5_=0740ca578ae2aaea0d4c5024a1da105a

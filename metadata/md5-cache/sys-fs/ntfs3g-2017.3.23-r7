@@ -9,5 +9,5 @@ LICENSE=GPL-2
 RDEPEND=!<sys-apps/util-linux-2.20.1-r2 !sys-fs/ntfsprogs ntfsdecrypt? ( >=dev-libs/libgcrypt-1.2.2:0 >=net-libs/gnutls-1.4.4 ) external-fuse? ( >=sys-fs/fuse-2.8.0 <sys-fs/fuse-3.0.0_pre )
 SLOT=0/87
 SRC_URI=http://tuxera.com/opensource/ntfs-3g_ntfsprogs-2017.3.23.tgz
-_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	linux-info	e60da1ae009f60d1c79c5af918dfd844	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	udev	d91cac2c73b94629cad2daea66e0d182	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
+_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	linux-info	e60da1ae009f60d1c79c5af918dfd844	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e	udev	d91cac2c73b94629cad2daea66e0d182	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
 _md5_=68af8d88238f6152de50f1c33837148d

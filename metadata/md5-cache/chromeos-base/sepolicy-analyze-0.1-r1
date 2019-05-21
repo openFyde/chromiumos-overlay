@@ -7,5 +7,5 @@ KEYWORDS=*
 LICENSE=Apache-2.0
 SLOT=0
 SRC_URI=https://android.googlesource.com/platform/system/sepolicy/+archive/refs/tags/android-cts-9.0_r7/tools/sepolicy-analyze.tar.gz -> sepolicy-analyze-0.1.tar.gz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	ff3698c695a0f23eeee44c139183118d
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
 _md5_=f4fbf09808bc64c5303a32c4105f7929
