@@ -5,9 +5,9 @@ EAPI=5
 
 CROS_WORKON_LOCALNAME=("platform2" "third_party/atrusctl")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/atrusctl")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/third_party/atrusctl")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/atrusctl")
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="atrusctl"
 
@@ -30,12 +30,6 @@ RDEPEND="
 	${DEPEND}
 	!sys-apps/atrusctl
 "
-
-src_unpack() {
-	local s="${S}"
-	platform_src_unpack
-	S="${s}/third_party/atrusctl"
-}
 
 src_install() {
 	dosbin "${OUT}/atrusd"
