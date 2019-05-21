@@ -45,7 +45,6 @@ RDEPEND="app-arch/bzip2
 	virtual/libffi
 	virtual/libintl
 	xml? ( >=dev-libs/expat-2.1 )
-	!build? (
 		berkdb? ( || (
 			sys-libs/db:5.3
 			sys-libs/db:5.2
@@ -71,7 +70,6 @@ RDEPEND="app-arch/bzip2
 			dev-tcltk/blt
 			dev-tcltk/tix
 		)
-	)
 	!!<sys-apps/portage-2.1.9"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
@@ -204,11 +202,6 @@ detect_libprofile_rt_location() {
 }
 
 src_configure() {
-	if use build; then
-		# Disable extraneous modules with extra dependencies.
-		export PYTHON_DISABLE_MODULES="dbm _bsddb gdbm _curses _curses_panel readline _sqlite3 _tkinter"
-		export PYTHON_DISABLE_SSL="1"
-	else
 		# dbm module can be linked against berkdb or gdbm.
 		# Defaults to gdbm when both are enabled, #204343.
 		local disable
@@ -228,7 +221,6 @@ src_configure() {
 			ewarn "This is NOT a recommended configuration as you"
 			ewarn "may face problems parsing any XML documents."
 		fi
-	fi
 
 	if [[ -n "${PYTHON_DISABLE_MODULES}" ]]; then
 		einfo "Disabled modules: ${PYTHON_DISABLE_MODULES}"
@@ -427,14 +419,10 @@ src_install() {
 
 	local abiver="python2.7"
 
-	if use build; then
-		rm -fr "${ED}usr/bin/idle${SLOT}" "${libdir}/"{bsddb,dbhash.py,idlelib,lib-tk,sqlite3,test}
-	else
 		use berkdb || rm -r "${libdir}/"{bsddb,dbhash.py,test/test_bsddb*} || die
 		use sqlite || rm -r "${libdir}/"{sqlite3,test/test_sqlite*} || die
 		use tk || rm -r "${ED}usr/bin/idle${SLOT}" "${libdir}/"{idlelib,lib-tk} || die
 		use elibc_uclibc && rm -fr "${libdir}/"{bsddb/test,test}
-	fi
 
 	use threads || rm -r "${libdir}/multiprocessing" || die
 	use wininst || rm -r "${libdir}/distutils/command/"wininst-*.exe || die
