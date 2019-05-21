@@ -448,16 +448,18 @@ src_install() {
 		-i "${ED}etc/conf.d/pydoc-${SLOT}" "${ED}etc/init.d/pydoc-${SLOT}" || die "sed failed"
 
 	# for python-exec
-	python_export python${SLOT} EPYTHON PYTHON PYTHON_SCRIPTDIR
-	export PYTHON_SITEDIR="${EPREFIX}/usr/$(get_libdir)/python${SLOT}/site-packages"
+	local vars=( EPYTHON PYTHON_SITEDIR PYTHON_SCRIPTDIR )
 
 	# if not using a cross-compiler, use the fresh binary
 	if ! tc-is-cross-compiler; then
-		local PYTHON=./python
+		local -x PYTHON=./python
 		local -x LD_LIBRARY_PATH=${LD_LIBRARY_PATH+${LD_LIBRARY_PATH}:}.
+	else
+		vars=( PYTHON "${vars[@]}" )
 	fi
 
-	echo "EPYTHON='${EPYTHON}'" > epython.py
+	python_export "python${PYVER}" "${vars[@]}"
+	echo "EPYTHON='${EPYTHON}'" > epython.py || die
 	python_domodule epython.py
 
 	# python-exec wrapping support
