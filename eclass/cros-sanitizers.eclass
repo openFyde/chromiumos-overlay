@@ -100,6 +100,7 @@ ubsan-setup-env() {
 	# TODO: Use same flags as fuzzer builds.
 	local flags=(
 		-fsanitize=alignment,array-bounds,pointer-overflow,shift
+		-fsanitize=integer-divide-by-zero,float-divide-by-zero
 		-fsanitize=signed-integer-overflow,vla-bound
 		-fno-sanitize=vptr
 		-fno-sanitize-recover=all
@@ -108,6 +109,7 @@ ubsan-setup-env() {
 	if use fuzzer; then
 		flags=(
 			-fsanitize=alignment,array-bounds,function,pointer-overflow
+			-fsanitize=integer-divide-by-zero,float-divide-by-zero
 			-fsanitize=signed-integer-overflow,shift,vla-bound,vptr
 			-fno-sanitize-recover=all
 		)
