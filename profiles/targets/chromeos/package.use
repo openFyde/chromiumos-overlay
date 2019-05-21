@@ -120,7 +120,6 @@ sys-kernel/chromeos-kernel-3_10 -clang
 sys-kernel/chromeos-kernel-3_14 -clang
 sys-kernel/chromeos-kernel-3_18 -clang
 sys-kernel/linux-firmware	linux_firmware_keyspan_usb
-sys-libs/gdbm		-berkdb
 sys-libs/ldb		-python
 sys-libs/ncurses	-cxx -unicode minimal tinfo
 sys-libs/pam		-berkdb
