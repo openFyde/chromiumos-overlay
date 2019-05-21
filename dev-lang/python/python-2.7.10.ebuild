@@ -419,8 +419,6 @@ src_install() {
 	mv "${ED}usr/bin/idle" "${ED}usr/bin/idle${SLOT}"
 	rm -f "${ED}usr/bin/smtpd.py"
 
-	local abiver="python2.7"
-
 		use berkdb || rm -r "${libdir}/"{bsddb,dbhash.py,test/test_bsddb*} || die
 		use sqlite || rm -r "${libdir}/"{sqlite3,test/test_sqlite*} || die
 		use tk || rm -r "${ED}usr/bin/idle${SLOT}" "${libdir}/"{idlelib,lib-tk} || die
@@ -465,33 +463,21 @@ src_install() {
 	# python-exec wrapping support
 	local pymajor=${SLOT%.*}
 	mkdir -p "${D}${PYTHON_SCRIPTDIR}" || die
-
-	# python-exec: python, pythonX
-	dosym "../../../bin/${abiver}" \
-		"${PYTHON_SCRIPTDIR}/python${pymajor}"
-	dosym "python${pymajor}" "${PYTHON_SCRIPTDIR}/python"
-
-	# python-exec: python-config, python-configX
-	#
-	# Note: we need to create a wrapper rather than symlinking it due
-	# to some random dirname(argv[0]) magic performed by python-config.
-	cat > "${D}${PYTHON_SCRIPTDIR}/python${pymajor}-config" <<-EOF || die
-		#!/bin/sh
-		exec "${abiver}-config" "\${@}"
-	EOF
-	# Must strip EPREFIX because fperms prepends ED.
-	fperms 755 "${PYTHON_SCRIPTDIR#$EPREFIX}/python${pymajor}-config"
-	dosym "python${pymajor}-config" \
-		"${PYTHON_SCRIPTDIR}/python-config"
-
-	# python-exec: pydoc, pydocX
-	dosym "../../../bin/pydoc${SLOT}" \
-		"${PYTHON_SCRIPTDIR}/pydoc${pymajor}"
-	dosym "pydoc${pymajor}" "${PYTHON_SCRIPTDIR}/pydoc"
-
-	# python-exec: 2to3
-	dosym "../../../bin/2to3-${SLOT}" \
-		"${PYTHON_SCRIPTDIR}/2to3"
+	# python and pythonX
+	ln -s "../../../bin/python${SLOT}" \
+		"${D}${PYTHON_SCRIPTDIR}/python${pymajor}" || die
+	ln -s "python${pymajor}" \
+		"${D}${PYTHON_SCRIPTDIR}/python" || die
+	# python-config and pythonX-config
+	ln -s "../../../bin/python${SLOT}-config" \
+		"${D}${PYTHON_SCRIPTDIR}/python${pymajor}-config" || die
+	ln -s "python${pymajor}-config" \
+		"${D}${PYTHON_SCRIPTDIR}/python-config" || die
+	# 2to3, pydoc, pyvenv
+	ln -s "../../../bin/2to3-${SLOT}" \
+		"${D}${PYTHON_SCRIPTDIR}/2to3" || die
+	ln -s "../../../bin/pydoc${SLOT}" \
+		"${D}${PYTHON_SCRIPTDIR}/pydoc" || die
 
 	# The sysconfig module will actually read the pyconfig.h at runtime to see what kind
 	# of functionality is enabled in the build.  Deploy it behind the back of portage as
