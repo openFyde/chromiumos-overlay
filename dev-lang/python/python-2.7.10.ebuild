@@ -448,7 +448,8 @@ src_install() {
 		-i "${ED}etc/conf.d/pydoc-${SLOT}" "${ED}etc/init.d/pydoc-${SLOT}" || die "sed failed"
 
 	# for python-exec
-	python_export python${SLOT} EPYTHON PYTHON PYTHON_SITEDIR PYTHON_SCRIPTDIR
+	python_export python${SLOT} EPYTHON PYTHON PYTHON_SCRIPTDIR
+	export PYTHON_SITEDIR="${EPREFIX}/usr/$(get_libdir)/python${SLOT}/site-packages"
 
 	# if not using a cross-compiler, use the fresh binary
 	if ! tc-is-cross-compiler; then
