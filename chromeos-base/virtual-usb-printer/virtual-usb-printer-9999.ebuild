@@ -5,11 +5,11 @@ EAPI=6
 
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/third_party/virtual-usb-printer")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/virtual-usb-printer")
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
-PLATFORM_SUBDIR="virtual_usb_printer"
+PLATFORM_SUBDIR="virtual-usb-printer"
 
 inherit cros-workon platform
 
@@ -28,12 +28,6 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}"
-
-src_unpack() {
-	local s="${S}"
-	platform_src_unpack
-	S="${s}/third_party/virtual-usb-printer"
-}
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/ipp-util-testrunner"
