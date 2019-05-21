@@ -58,7 +58,7 @@ RDEPEND="app-arch/bzip2
 			sys-libs/db:4.3
 			sys-libs/db:4.2
 		) )
-		gdbm? ( sys-libs/gdbm )
+		gdbm? ( sys-libs/gdbm[berkdb] )
 		ncurses? (
 			>=sys-libs/ncurses-5.2
 			readline? ( >=sys-libs/readline-4.1 )
