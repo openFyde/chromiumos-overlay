@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=>=dev-embedded/libftdi-0.18 dev-python/numpy >=dev-python/pexpect-3.0 dev-python/pyserial test? ( dev-python/pytest ) dev-python/pyusb virtual/libusb:1 app-misc/screen chromeos-base/ec-devutils app-text/htmltidy dev-vcs/git python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,-python_single_target_python2_7(-)] virtual/pkgconfig
+DESCRIPTION=Software to communicate with servo/miniservo debug boards
+EAPI=5
+HOMEPAGE=https://www.chromium.org/chromium-os/servo
+IUSE=cros_host test cros_host cros_workon_tree_3448835ddf8af1d0fda988b3561a94a5a5575e19 python_targets_python2_7
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=>=dev-embedded/libftdi-0.18 dev-python/numpy >=dev-python/pexpect-3.0 dev-python/pyserial test? ( dev-python/pytest ) dev-python/pyusb virtual/libusb:1 app-misc/screen chromeos-base/ec-devutils python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,-python_single_target_python2_7(-)]
+REQUIRED_USE=|| ( python_targets_python2_7 )
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	distutils-r1	71a5ee567fb298e553ce8d1319279151	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multibuild	40fe59465edacd730c644ec2bc197809	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	python-r1	ce1cd23cfdc1848e8e32743efe34f299	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	ff3698c695a0f23eeee44c139183118d	udev	d91cac2c73b94629cad2daea66e0d182	xdg-utils	f2c8335407f0b935b0a96d4adf23ef25
+_md5_=9edeee305a57ba91830511f236e36969
