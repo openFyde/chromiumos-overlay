@@ -43,8 +43,8 @@ RDEPEND="
 	net-misc/dhcpcd
 	dhcpv6? ( net-misc/dhcpcd[ipv6] )
 	vpn? ( net-vpn/openvpn )
-	wifi? ( net-wireless/wpa_supplicant[dbus] )
-	wired_8021x? ( net-wireless/wpa_supplicant[dbus] )
+	wifi? ( virtual/wpa_supplicant )
+	wired_8021x? ( virtual/wpa_supplicant )
 	sys-apps/rootdev
 	cellular? ( net-misc/modemmanager-next )
 	!kernel-3_10? ( !kernel-3_8? ( net-firewall/conntrack-tools ) )
