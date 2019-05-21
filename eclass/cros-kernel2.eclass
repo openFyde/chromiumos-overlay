@@ -42,6 +42,7 @@ IUSE="
 	buildtest
 	+clang
 	-device_tree
+	+dt_compression
 	+fit_compression_kernel_lz4
 	fit_compression_kernel_lzma
 	firmware_install
@@ -1263,6 +1264,22 @@ _cros-kernel2_compress_fit_kernel() {
 	esac
 }
 
+# @FUNCTION: _cros-kernel2_get_compat
+# @USAGE: <dtb file>
+# @DESCRIPTION:
+# Returns the list of compatible strings extracted from a given .dtb file, in
+# the format required to re-insert it in a new property of an its-script.
+_cros-kernel2_get_compat() {
+	local dtb="${1}"
+	local result=""
+
+	for s in $(fdtget "${dtb}" / compatible); do
+		result+="\"${s}\","
+	done
+
+	printf "${result%,}"
+}
+
 # @FUNCTION: _cros-kernel2_emit_its_script
 # @USAGE: <output file> <kernel_dir> <device trees>
 # @DESCRIPTION:
@@ -1270,7 +1287,9 @@ _cros-kernel2_compress_fit_kernel() {
 # that contains the kernel as well as device trees used when booting
 # it.
 _cros-kernel2_emit_its_script() {
+	local compat=( )
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
+	local fit_compression_fdt="none"
 	local fit_compression_kernel
 	local kernel_bin_path
 	local iter=1
@@ -1303,13 +1322,20 @@ _cros-kernel2_emit_its_script() {
 
 	local dtb
 	for dtb in "$@" ; do
+		compat[${iter}]=$(_cros-kernel2_get_compat "${dtb}")
+		if use dt_compression; then
+			# Compress all DTBs in parallel (only needed after this function).
+			lz4 -20 -z -f "${dtb}" "${dtb}.lz4" || die &
+			dtb="${dtb}.lz4"
+			fit_compression_fdt="lz4"
+		fi
 		cat >> "${its_out}" <<-EOF || die
 			fdt@${iter} {
 				description = "$(basename ${dtb})";
 				data = /incbin/("${dtb}");
 				type = "flat_dt";
 				arch = "${kernel_arch}";
-				compression = "none";
+				compression = "${fit_compression_fdt}";
 				hash@1 {
 					algo = "sha1";
 				};
@@ -1330,12 +1356,16 @@ _cros-kernel2_emit_its_script() {
 			conf@${i} {
 				kernel = "kernel@1";
 				fdt = "fdt@${i}";
+				compatible = ${compat[${i}]};
 			};
 		EOF
 	done
 
 	echo "	};" >> "${its_out}"
 	echo "};" >> "${its_out}"
+
+	# Wait for DTB compression to finish.
+	wait
 }
 
 kmake() {
