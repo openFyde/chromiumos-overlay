@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-inherit cros-common.mk
+inherit cros-common.mk flag-o-matic
 
 DESCRIPTION="STMicroelectronics touchscreen controller firmware updater"
 HOMEPAGE="https://github.com/stmicroelectronics-acp/st-touch-fw-updater"
@@ -12,6 +12,13 @@ SRC_URI="https://github.com/stmicroelectronics-acp/st-touch-fw-updater/archive/v
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
+
+src_compile() {
+	# FIXME(crbug.com/965691): Remove this when upstream fixes their format
+	# strings.
+	append-cppflags -Wno-error=format
+	emake
+}
 
 src_install() {
 	dosbin st-touch-fw-updater
