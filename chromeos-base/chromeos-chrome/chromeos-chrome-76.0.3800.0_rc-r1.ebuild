@@ -44,14 +44,12 @@ IUSE="
 	+debug_fission
 	evdev_gestures
 	+fonts
-	gold
 	goma
 	+highdpi
 	internal_gles_conform
 	jumbo
 	kiosk_next
 	+libcxx
-	+lld
 	mojo
 	+nacl
 	neon
@@ -72,11 +70,10 @@ IUSE="
 	"
 REQUIRED_USE="
 	asan? ( clang )
-	?? ( gold lld )
 	cfi? ( thinlto )
 	clang_tidy? ( clang )
 	libcxx? ( clang )
-	thinlto? ( clang || ( gold lld ) )
+	thinlto? ( clang )
 	afdo_use? ( clang )
 	"
 
@@ -142,11 +139,11 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-76.0.3783.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R76-3770.24-1557745225.afdo"
-AFDO_FILE["airmont"]="R76-3770.19-1557740571.afdo"
-AFDO_FILE["haswell"]="R76-3770.19-1557742747.afdo"
-AFDO_FILE["broadwell"]="R76-3770.10-1557743038.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-76.0.3798.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R76-3770.24-1558348136.afdo"
+AFDO_FILE["airmont"]="R76-3770.24-1558346441.afdo"
+AFDO_FILE["haswell"]="R76-3770.24-1558348412.afdo"
+AFDO_FILE["broadwell"]="R76-3770.10-1558347520.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 
 # This dictionary can be used to manually override the setting for the
@@ -273,21 +270,7 @@ use_goma_log() {
 		"${GLOG_log_dir}" == "${GOMA_TMP_DIR}"* ]]
 }
 
-# FIXME(gbiv): Remove this and all other non-lld cruft when we're confident
-# that the fixes for https://crbug.com/917504 have stuck.
-determine_linker() {
-	use gold && die "Gold is now unsupported. Please un-USE it."
-	# It looks like this has been unsupported for a while, but it's
-	# technically a valid combination of flags with a small conditional in
-	# the ebuild. If we're deprecating things 'gracefully' anyway...
-	! use lld && die "GNU ld is unsupported. Please USE lld."
-	use_lld=true
-	use_gold=false
-}
-
 set_build_args() {
-	determine_linker
-
 	BUILD_ARGS=(
 		# is_official_build sometimes implies extra optimizations (e.g. it will allow
 		# ThinLTO to optimize more aggressively, if ThinLTO is enabled). Please note
@@ -335,7 +318,6 @@ set_build_args() {
 		cros_v8_snapshot_is_clang=$(usetf clang)
 		clang_use_chrome_plugins=false
 		use_thin_lto=$(usetf thinlto)
-		use_lld="${use_lld}"
 		is_cfi=$(usetf cfi)
 		use_cfi_cast=$(usetf cfi)
 	)
@@ -910,7 +892,7 @@ setup_compile_flags() {
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
 	fi
 
-	if "${use_lld}" && use reorder_text_sections; then
+	if use reorder_text_sections; then
 		EBUILD_LDFLAGS+=( "-Wl,-z,keep-text-section-prefix" )
 	fi
 
@@ -934,12 +916,9 @@ setup_compile_flags() {
 		fi
 	fi
 
-	# Workaround: Disable fatal linker warnings with asan/gold builds.
-	# See https://crbug.com/823936
-	use asan && "${use_gold}" && append-ldflags "-Wl,--no-fatal-warnings"
 	# Workaround: Disable fatal linker warnings on arm64/lld.
 	# https://crbug.com/913071
-	"${use_lld}" && use arm64 && append-ldflags "-Wl,--no-fatal-warnings"
+	use arm64 && append-ldflags "-Wl,--no-fatal-warnings"
 	use vtable_verify && append-ldflags -fvtable-verify=preinit
 
 	local flags
@@ -960,19 +939,6 @@ src_configure() {
 	# sections preserved, b/127337806. This workaround only works because
 	# llvm-objcopy currently does not support "--only-keep-debug" flag.
 	export OBJCOPY=llvm-objcopy
-
-	determine_linker
-
-	if "${use_gold}" ; then
-		if [[ "${GOLD_SET}" != "yes" ]]; then
-			export GOLD_SET="yes"
-			einfo "Using gold from the following location: $(get_binutils_path_gold)"
-			export CC="${CC} -B$(get_binutils_path_gold)"
-			export CXX="${CXX} -B$(get_binutils_path_gold)"
-		fi
-	elif ! "${use_lld}" ; then
-		ewarn "gold and lld disabled. Using GNU ld."
-	fi
 
 	# Use g++ as the linker driver.
 	export LD="${CXX}"
@@ -1536,7 +1502,7 @@ pkg_preinst() {
 
 	# Test .text.hot section comes before .text in Chrome.
 	# https://crbug.com/912781
-	if use strict_toolchain_checks && "${use_lld}" && use afdo_use && use reorder_text_sections; then
+	if use strict_toolchain_checks && use afdo_use && use reorder_text_sections; then
 		if ! readelf -lW "${ED}/${CHROME_DIR}/chrome" | grep -qF ".text.hot .text"; then
 			readelf -l -W "${ED}/${CHROME_DIR}/chrome"
 			die ".text.hot does not come before .text"
