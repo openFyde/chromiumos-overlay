@@ -25,7 +25,7 @@ SRC_URI="http://www.python.org/ftp/python/${PV}/${MY_P}.tar.xz
 LICENSE="PSF-2"
 SLOT="2.7"
 KEYWORDS="*"
-IUSE="-berkdb build doc elibc_uclibc examples gdbm hardened ipv6 pgo_generate +pgo_use +ncurses +readline sqlite +ssl +threads tk +wide-unicode wininst +xml"
+IUSE="-berkdb build doc elibc_uclibc examples gdbm hardened ipv6 pgo_generate +pgo_use libressl +ncurses +readline sqlite +ssl +threads tk +wide-unicode wininst +xml"
 
 REQUIRED_USE="pgo_generate? ( !pgo_use )"
 
@@ -64,7 +64,10 @@ RDEPEND="app-arch/bzip2
 			readline? ( >=sys-libs/readline-4.1 )
 		)
 		sqlite? ( >=dev-db/sqlite-3.3.8:3 )
-		ssl? ( dev-libs/openssl )
+		ssl? (
+			!libressl? ( dev-libs/openssl:0 )
+			libressl? ( dev-libs/libressl )
+		)
 		tk? (
 			>=dev-lang/tk-8.0
 			dev-tcltk/blt
