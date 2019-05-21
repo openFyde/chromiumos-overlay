@@ -136,9 +136,10 @@ CONFIG_FRAGMENTS=(
 	dyndebug
 	eve_bt_hacks
 	eve_wifi_etsi
-	fbconsole
 	factory_netboot_ramfs
 	factory_shim_ramfs
+	failslab
+	fbconsole
 	goldfish
 	highmem
 	i2cdev
@@ -356,6 +357,13 @@ CONFIG_BT_EVE_HACKS=y
 eve_wifi_etsi_desc="Eve-specific workaround for ETSI"
 eve_wifi_etsi_config="
 CONFIG_EVE_ETSI_WORKAROUND=y
+"
+
+failslab_desc="Enable fault injection"
+failslab_config="
+CONFIG_FAILSLAB=y
+CONFIG_FAULT_INJECTION=y
+CONFIG_FAULT_INJECTION_DEBUG_FS=y
 "
 
 fbconsole_desc="framebuffer console"
