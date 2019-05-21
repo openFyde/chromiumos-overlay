@@ -19,7 +19,7 @@ HOMEPAGE="http://www.python.org/"
 PROF_VERSION="2.7.10"
 
 SRC_URI="http://www.python.org/ftp/python/${PV}/${MY_P}.tar.xz
-	http://dev.gentoo.org/~floppym/python/python-gentoo-patches-${PATCHSET_VERSION}.tar.xz
+	https://dev.gentoo.org/~floppym/python/python-gentoo-patches-${PATCHSET_VERSION}.tar.xz
 	pgo_use? ( gs://chromeos-localmirror/distfiles/python-${PROF_VERSION}-pgo-prof.profdata.tar.xz )"
 
 LICENSE="PSF-2"
