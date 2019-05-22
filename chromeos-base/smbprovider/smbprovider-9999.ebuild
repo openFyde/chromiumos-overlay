@@ -36,9 +36,12 @@ DEPEND="
 	chromeos-base/libpasswordprovider
 "
 
-pkg_preinst() {
+pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs smbproviderd:smbproviderd.
 	enewuser "smbproviderd"
 	enewgroup "smbproviderd"
+	cros-workon_pkg_setup
 }
 
 src_install() {
@@ -57,6 +60,11 @@ src_install() {
 	newins seccomp_filters/smbprovider-seccomp-"${ARCH}".policy smbprovider-seccomp.policy
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/netbios_packet_fuzzer
+
+	local daemon_store="/etc/daemon-store/smbproviderd"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners smbproviderd:smbproviderd "${daemon_store}"
 }
 
 platform_pkg_test() {
