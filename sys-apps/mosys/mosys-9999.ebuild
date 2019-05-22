@@ -95,15 +95,17 @@ src_unpack() {
 }
 
 src_configure() {
-	if use unibuild; then
-		cp "${SYSROOT}${UNIBOARD_C_CONFIG}" \
-			lib/cros_config/cros_config_data.c
-	fi
-
 	local emesonargs=(
 		$(meson_use unibuild use_cros_config)
 		-Darch=$(tc-arch)
 	)
+
+	if use unibuild; then
+		emesonargs+=(
+			"-Dcros_config_data_src=${SYSROOT}${UNIBOARD_C_CONFIG}"
+		)
+	fi
+
 	meson_src_configure
 }
 
