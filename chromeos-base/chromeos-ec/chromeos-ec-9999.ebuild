@@ -368,9 +368,9 @@ src_install() {
 			newexe "${f}" "${fuzzer}"
 			einfo "CUSTOM OWNERS = '${custom_owners}'"
 			if [[ -f "${custom_owners}" ]]; then
-				newins "${custom_owners}" "${f##*/}.owners"
+				newins "${custom_owners}" "${fuzzer}.owners"
 			else
-				newins "${S}/OWNERS" "${f##*/}.owners"
+				newins "${S}/OWNERS" "${fuzzer}.owners"
 			fi
 		done
 	fi
