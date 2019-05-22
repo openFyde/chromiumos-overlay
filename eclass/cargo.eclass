@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: cargo.eclass
@@ -131,7 +131,7 @@ cargo_src_compile() {
 	export TARGET_CC="$(tc-getCC)"
 	export CARGO_TARGET_DIR="${WORKDIR}"
 
-	cargo build -v $(usex debug "" --release) --target="${CHOST}" \
+	cargo build -v $(usex debug "" --release) --target="${CHOST}" "$@" \
 		|| die "cargo build failed"
 }
 
@@ -142,7 +142,7 @@ cargo_src_install() {
 	debug-print-function ${FUNCNAME} "$@"
 
 	cargo install --root="${D}/usr" --path . --target="${CHOST}" \
-		$(usex debug --debug "") \
+		$(usex debug --debug "") "$@" \
 		|| die "cargo install failed"
 	rm -f "${D}/usr/.crates.toml"
 
