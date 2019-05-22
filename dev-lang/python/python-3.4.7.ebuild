@@ -27,7 +27,7 @@ IUSE="build elibc_uclibc examples gdbm hardened ipv6 libressl +ncurses +readline
 RDEPEND="app-arch/bzip2:0=
 	app-arch/xz-utils:0=
 	>=sys-libs/zlib-1.1.3:0=
-	virtual/libffi
+	virtual/libffi:=
 	virtual/libintl
 	gdbm? ( sys-libs/gdbm:0=[berkdb] )
 	ncurses? (
