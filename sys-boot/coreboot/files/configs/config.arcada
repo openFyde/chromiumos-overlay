@@ -33,7 +33,7 @@ CONFIG_RUN_FSP_GOP=y
 # Microcode
 CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/sarien/ucode.bin"
-CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/sarien/vbt.bin"
+CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/sarien/vbt-arcada.bin"
 
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
