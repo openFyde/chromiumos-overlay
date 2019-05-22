@@ -87,6 +87,8 @@ RDEPEND="unibuild? (
 	chromeos-base/minijail"
 DEPEND="${RDEPEND}"
 
+: ${CROS_WORKON_INCREMENTAL_BUILD:=1}
+
 src_unpack() {
 	cargo_src_unpack
 	cros-workon_src_unpack
@@ -97,7 +99,7 @@ src_unpack() {
 src_configure() {
 	local emesonargs=(
 		$(meson_use unibuild use_cros_config)
-		-Darch=$(tc-arch)
+		"-Darch=$(tc-arch)"
 	)
 
 	if use unibuild; then
@@ -106,13 +108,15 @@ src_configure() {
 		)
 	fi
 
+	BUILD_DIR="$(cros-workon_get_build_dir)/meson"
 	meson_src_configure
 }
 
 src_compile() {
 	meson_src_compile
-	cd ${S}/platform/mosys
-	MESON_BUILD_ROOT="${BUILD_DIR}" cargo_src_compile
+
+	MESON_BUILD_ROOT="${BUILD_DIR}" cargo_src_compile \
+		--target-dir "$(cros-workon_get_build_dir)/cargo"
 }
 
 platform_pkg_test() {
@@ -131,7 +135,8 @@ platform_pkg_test() {
 src_install() {
 	# cargo doesn't know how to install cross-compiled binaries. Manually
 	# install mosys instead.
-	local build_dir="${WORKDIR}/${CHOST}/$(usex debug debug release)"
+	local build_dir
+	build_dir="$(cros-workon_get_build_dir)/cargo/${CHOST}/$(usex debug debug release)"
 	dosbin "${build_dir}/mosys"
 
 	insinto /usr/share/policy
