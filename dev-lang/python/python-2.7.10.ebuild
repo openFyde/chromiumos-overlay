@@ -25,7 +25,7 @@ SRC_URI="https://www.python.org/ftp/python/${PV}/${MY_P}.tar.xz
 LICENSE="PSF-2"
 SLOT="2.7"
 KEYWORDS="*"
-IUSE="-berkdb build doc elibc_uclibc examples gdbm hardened ipv6 pgo_generate +pgo_use libressl +ncurses +readline sqlite +ssl +threads tk +wide-unicode wininst +xml"
+IUSE="-berkdb bluetooth build doc elibc_uclibc examples gdbm hardened ipv6 pgo_generate +pgo_use libressl +ncurses +readline sqlite +ssl +threads tk +wide-unicode wininst +xml"
 
 REQUIRED_USE="pgo_generate? ( !pgo_use )"
 
@@ -73,7 +73,9 @@ RDEPEND="app-arch/bzip2:0=
 	)
 	xml? ( >=dev-libs/expat-2.1 )
 	!!<sys-apps/portage-2.1.9"
+# bluetooth requires headers from bluez
 DEPEND="${RDEPEND}
+	bluetooth? ( net-wireless/bluez )
 	virtual/pkgconfig
 	>=sys-devel/autoconf-2.65
 	!sys-devel/gcc[libffi(-)]"
@@ -210,6 +212,8 @@ src_configure() {
 		local disable
 		use berkdb   || use gdbm || disable+=" dbm"
 		use berkdb   || disable+=" _bsddb"
+		# disable automagic bluetooth headers detection
+		use bluetooth || export ac_cv_header_bluetooth_bluetooth_h=no
 		use gdbm     || disable+=" gdbm"
 		use ncurses  || disable+=" _curses _curses_panel"
 		use readline || disable+=" readline"
