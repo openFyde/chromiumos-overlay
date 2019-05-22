@@ -479,6 +479,11 @@ src_install() {
 		"${D}${PYTHON_SCRIPTDIR}/2to3" || die
 	ln -s "../../../bin/pydoc${SLOT}" \
 		"${D}${PYTHON_SCRIPTDIR}/pydoc" || die
+	# idle
+	if use tk; then
+		ln -s "../../../bin/idle${SLOT}" \
+			"${D}${PYTHON_SCRIPTDIR}/idle" || die
+	fi
 
 	# The sysconfig module will actually read the pyconfig.h at runtime to see what kind
 	# of functionality is enabled in the build.  Deploy it behind the back of portage as
