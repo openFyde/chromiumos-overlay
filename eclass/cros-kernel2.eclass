@@ -80,12 +80,14 @@ KERNEL_VERSION="${PN#chromeos-kernel-}"
 KERNEL_VERSION="${KERNEL_VERSION/_/.}"
 
 # Specifying AutoFDO profiles in SRC_URI and let ebuild fetch it for us.
-if [[ -n "${AFDO_PROFILE_VERSION}" ]]; then
+# Prefer the frozen version of afdo profiles if set.
+AFDO_VERSION=${AFDO_FROZEN_PROFILE_VERSION:-$AFDO_PROFILE_VERSION}
+if [[ -n "${AFDO_VERSION}" ]]; then
 	AFDO_LOCATION="gs://chromeos-prebuilt/afdo-job/cwp/kernel/${KERNEL_VERSION}"
-	AFDO_GCOV="${PN}-${AFDO_PROFILE_VERSION}.gcov"
+	AFDO_GCOV="${PN}-${AFDO_VERSION}.gcov"
 	AFDO_GCOV_COMPBINARY="${AFDO_GCOV}.compbinary.afdo"
 	SRC_URI+="
-		kernel_afdo? ( ${AFDO_LOCATION}/${AFDO_PROFILE_VERSION}.gcov.xz -> ${AFDO_GCOV}.xz )
+		kernel_afdo? ( ${AFDO_LOCATION}/${AFDO_VERSION}.gcov.xz -> ${AFDO_GCOV}.xz )
 	"
 fi
 
@@ -1462,7 +1464,7 @@ cros-kernel2_src_unpack() {
 	esac
 
 	cros-workon_src_unpack
-	if use kernel_afdo && [[ -z "${AFDO_PROFILE_VERSION}" ]]; then
+	if use kernel_afdo && [[ -z "${AFDO_VERSION}" ]]; then
 		eerror "AFDO_PROFILE_VERSION is required in .ebuild by kernel_afdo."
 		die
 	fi
