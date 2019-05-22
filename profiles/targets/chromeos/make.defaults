@@ -60,6 +60,9 @@ USE="${USE} frecon"
 # Enable udev support
 USE="${USE} udev"
 
+# Enable fwupd support
+USE="${USE} fwupd"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
