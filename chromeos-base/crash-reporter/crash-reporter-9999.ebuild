@@ -29,6 +29,7 @@ RDEPEND="
 	chromeos-base/metrics
 	dev-libs/libpcre
 	net-misc/curl
+	sys-libs/zlib
 	direncryption? ( sys-apps/keyutils )
 	test? ( app-arch/gzip )
 "
