@@ -11,14 +11,14 @@ MY_P="Python-${PV}"
 PATCHSET_VERSION="2.7.10-0"
 
 DESCRIPTION="An interpreted, interactive, object-oriented programming language"
-HOMEPAGE="http://www.python.org/"
+HOMEPAGE="https://www.python.org/"
 
 # The version of Python our PGO profile was generated with. Using ${PV} makes
 # updates difficult, and we have tricks below to catch a mismatched profile
 # version.
 PROF_VERSION="2.7.10"
 
-SRC_URI="http://www.python.org/ftp/python/${PV}/${MY_P}.tar.xz
+SRC_URI="https://www.python.org/ftp/python/${PV}/${MY_P}.tar.xz
 	https://dev.gentoo.org/~floppym/python/python-gentoo-patches-${PATCHSET_VERSION}.tar.xz
 	pgo_use? ( gs://chromeos-localmirror/distfiles/python-${PROF_VERSION}-pgo-prof.profdata.tar.xz )"
 
