@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-lang/python/python-2.7.10.ebuild,v 1.2 2015/06/29 17:26:27 floppym Exp $
 
@@ -8,7 +8,7 @@ WANT_LIBTOOL="none"
 inherit autotools eutils flag-o-matic multilib pax-utils python-utils-r1 toolchain-funcs multiprocessing
 
 MY_P="Python-${PV}"
-PATCHSET_VERSION="2.7.10-0"
+PATCHSET_VERSION="2.7.15"
 
 DESCRIPTION="An interpreted, interactive, object-oriented programming language"
 HOMEPAGE="https://www.python.org/"
@@ -16,7 +16,7 @@ HOMEPAGE="https://www.python.org/"
 # The version of Python our PGO profile was generated with. Using ${PV} makes
 # updates difficult, and we have tricks below to catch a mismatched profile
 # version.
-PROF_VERSION="2.7.10"
+PROF_VERSION="2.7.15"
 
 SRC_URI="https://www.python.org/ftp/python/${PV}/${MY_P}.tar.xz
 	https://dev.gentoo.org/~floppym/python/python-gentoo-patches-${PATCHSET_VERSION}.tar.xz
@@ -61,7 +61,7 @@ RDEPEND="app-arch/bzip2:0=
 	sqlite? ( >=dev-db/sqlite-3.3.8:3= )
 	ssl? (
 		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl:= )
+		libressl? ( dev-libs/libressl:0= )
 	)
 	tk? (
 		>=dev-lang/tcl-8.0:0=
@@ -110,10 +110,10 @@ src_prepare() {
 	rm -r Modules/zlib || die
 
 	if tc-is-cross-compiler; then
-		local EPATCH_EXCLUDE="*_regenerate_platform-specific_modules.patch"
+		local EPATCH_EXCLUDE="*-Regenerate-platform-specific-modules.patch"
 	fi
 
-	EPATCH_SUFFIX="patch" epatch "${WORKDIR}/patches"
+	EPATCH_SUFFIX="patch" EPATCH_FORCE="yes" epatch "${WORKDIR}/patches"
 
 	#
 	# START: ChromiumOS specific changes
@@ -125,9 +125,7 @@ src_prepare() {
 	fi
 	epatch "${FILESDIR}"/python-2.7.10-cross-setup-sysroot.patch
 	epatch "${FILESDIR}"/python-2.7.10-cross-distutils.patch
-	epatch "${FILESDIR}"/python-2.7.3-unique-semaphore-name.patch
 	epatch "${FILESDIR}"/python-2.7.10-ldshared.patch
-	epatch "${FILESDIR}"/python-2.7.17-getentropy.patch
 	# Undo the @libdir@ change for portage's pym folder as it is always
 	# installed into /usr/lib/ and not the abi libdir.
 	sed -i \
@@ -149,7 +147,6 @@ src_prepare() {
 	epatch "${FILESDIR}/python-2.7.9-ncurses-pkg-config.patch"
 	epatch "${FILESDIR}/python-2.7.10-cross-compile-warn-test.patch"
 	epatch "${FILESDIR}/python-2.7.10-system-libffi.patch"
-	epatch "${FILESDIR}/2.7-disable-nis.patch"
 
 	epatch_user
 
@@ -311,6 +308,7 @@ src_configure() {
 		$(use wide-unicode && echo "--enable-unicode=ucs4" || echo "--enable-unicode=ucs2") \
 		--infodir='${prefix}/share/info' \
 		--mandir='${prefix}/share/man' \
+		--with-computed-gotos \
 		--with-dbmliborder="${dbmliborder}" \
 		--with-libc="" \
 		--enable-loadable-sqlite-extensions \
@@ -467,24 +465,17 @@ src_install() {
 	local pymajor=${SLOT%.*}
 	mkdir -p "${D}${PYTHON_SCRIPTDIR}" || die
 	# python and pythonX
-	ln -s "../../../bin/python${SLOT}" \
-		"${D}${PYTHON_SCRIPTDIR}/python${pymajor}" || die
-	ln -s "python${pymajor}" \
-		"${D}${PYTHON_SCRIPTDIR}/python" || die
+	ln -s "../../../bin/python${SLOT}" "${D}${PYTHON_SCRIPTDIR}/python${pymajor}" || die
+	ln -s "python${pymajor}" "${D}${PYTHON_SCRIPTDIR}/python" || die
 	# python-config and pythonX-config
-	ln -s "../../../bin/python${SLOT}-config" \
-		"${D}${PYTHON_SCRIPTDIR}/python${pymajor}-config" || die
-	ln -s "python${pymajor}-config" \
-		"${D}${PYTHON_SCRIPTDIR}/python-config" || die
+	ln -s "../../../bin/python${SLOT}-config" "${D}${PYTHON_SCRIPTDIR}/python${pymajor}-config" || die
+	ln -s "python${pymajor}-config" "${D}${PYTHON_SCRIPTDIR}/python-config" || die
 	# 2to3, pydoc, pyvenv
-	ln -s "../../../bin/2to3-${SLOT}" \
-		"${D}${PYTHON_SCRIPTDIR}/2to3" || die
-	ln -s "../../../bin/pydoc${SLOT}" \
-		"${D}${PYTHON_SCRIPTDIR}/pydoc" || die
+	ln -s "../../../bin/2to3-${SLOT}" "${D}${PYTHON_SCRIPTDIR}/2to3" || die
+	ln -s "../../../bin/pydoc${SLOT}" "${D}${PYTHON_SCRIPTDIR}/pydoc" || die
 	# idle
 	if use tk; then
-		ln -s "../../../bin/idle${SLOT}" \
-			"${D}${PYTHON_SCRIPTDIR}/idle" || die
+		ln -s "../../../bin/idle${SLOT}" "${D}${PYTHON_SCRIPTDIR}/idle" || die
 	fi
 
 	# The sysconfig module will actually read the pyconfig.h at runtime to see what kind
