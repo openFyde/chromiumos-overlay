@@ -17,6 +17,7 @@ KEYWORDS="~*"
 IUSE="
 	android-container-pi android-container-master-arc-dev android-container-nyc
 	+combine_chromeos_policy selinux_audit_all selinux_develop selinux_experimental
+	arc_first_release_n
 	nocheck
 "
 # When developers are doing something not Android. This required use is to let
@@ -136,6 +137,7 @@ gen_m4_flags() {
 	M4_COMMON_FLAGS+=(
 		"-Darc_version=${arc_version}"
 		"-Duse_selinux_develop=$(usex selinux_develop y n)"
+		"-Duse_arc_first_release_n=$(usex arc_first_release_n y n)"
 	)
 	einfo "m4 flags: ${M4_COMMON_FLAGS[*]}"
 }
@@ -255,7 +257,7 @@ check_attribute_include() {
 
 check_file_type_and_attribute() {
 	einfo "Checking file types and their attributes"
-	check_attribute_include file_type cros_file_type unlabeled system_data_file
+	check_attribute_include file_type cros_file_type unlabeled system_data_file media_data_file
 	check_attribute_include cros_file_type cros_system_file_type cros_tmpfile_type cros_home_file_type cros_var_file_type cros_run_file_type cros_uncategorized_file_type
 }
 
