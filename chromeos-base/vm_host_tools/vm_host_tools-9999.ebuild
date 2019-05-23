@@ -62,6 +62,10 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/cicerone_container_listener_fuzzer
 
+	# Install header for passing USB devices to plugin VMs.
+	insinto /usr/include/vm_concierge
+	doins concierge/plugin_vm_usb.h
+
 	insinto /etc/init
 	doins init/*.conf
 
