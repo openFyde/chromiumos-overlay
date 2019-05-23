@@ -28,6 +28,7 @@ DEPEND="sys-apps/debianutils
 	builtin_fw_x86_bdw_ucode? ( chromeos-base/bdw-ucode-firmware-private )
 	builtin_fw_x86_bsw_ucode? ( chromeos-base/bsw-ucode-firmware-private )
 	builtin_fw_x86_byt_ucode? ( chromeos-base/byt-ucode-firmware-private )
+	builtin_fw_x86_glk_ucode? ( chromeos-base/glk-ucode-firmware-private )
 	builtin_fw_x86_kbl_ucode? ( chromeos-base/kbl-ucode-firmware-private )
 	builtin_fw_x86_skl_ucode? ( chromeos-base/skl-ucode-firmware-private )
 "
@@ -872,6 +873,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_bdw_ucode
 	builtin_fw_x86_bsw_ucode
 	builtin_fw_x86_byt_ucode
+	builtin_fw_x86_glk_ucode
 	builtin_fw_x86_kbl_ucode
 	builtin_fw_x86_skl_ucode
 )
@@ -978,6 +980,11 @@ builtin_fw_x86_bsw_ucode_files=(
 builtin_fw_x86_byt_ucode_desc="Intel ucode for BYT"
 builtin_fw_x86_byt_ucode_files=(
 	intel-ucode/06-37-08
+)
+
+builtin_fw_x86_glk_ucode_desc="Intel ucode for GLK"
+builtin_fw_x86_glk_ucode_files=(
+	intel-ucode/06-7a-01
 )
 
 builtin_fw_x86_kbl_ucode_desc="Intel ucode for KBL"
