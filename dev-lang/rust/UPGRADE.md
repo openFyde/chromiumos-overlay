@@ -6,19 +6,57 @@
 
 Follow these steps to upgrade the rust ebuild.
 
-1. `git mv rust-<old version>.ebuild rust-<new version>.ebuild`
-2. Add mirror to the `RESTRICT` variable.
-3. Set `STAGE0_DATE` to date from `https://github.com/rust-lang/rust/blob/<new version>/src/stage0.txt`.
-4. `ebuild rust-<new version>.ebuild manifest`
-5. Remove mirror from `RESTRICT` variable.
-6. `ebuild rust-<new version>.ebuild compile`
-7. Update vendored library checksums.
-8. `ebuild rust-<new version>.ebuild compile`
-9. `sudo ebuild rust-<new version>.ebuild merge`
-10. Upgrade rust package in `profiles/targets/chromeos/package.provided`
-11. `git mv virtual/rust/rust-<old version>.ebuild virtual/rust/rust-<new version>.ebuild`
-12. Upload change for review. CC reviewers from previous upgrade.
-13. Kick off try-job `cros tryjob -g <cl number> chromiumos-sdk-tryjob`.
+```
+DEL_VERSION=1.33.0 # Previous version (to be deleted)
+OLD_VERSION=1.34.0 # Current version
+NEW_VERSION=1.35.0 # New version
+
+# Copy ebuild for the new version.
+cp rust-${OLD_VERSION}.ebuild rust-${NEW_VERSION}.ebuild
+git add rust-${NEW_VERSION}.ebuild
+git rm rust-${DEL_VERSION}.ebuild
+
+# Copy patches for the new version.
+for x in files/rust-${OLD_VERSION}-*.patch; do cp $x ${x//${OLD_VERSION}/${NEW_VERSION}}; done
+git add files/rust-${NEW_VERSION}-*.patch
+
+# Add mirror to the `RESTRICT` variable.
+sed -i -e 's/RESTRICT="\(.*\)"/RESTRICT="\1 mirror"/' rust-${NEW_VERSION}.ebuild
+
+# Set `STAGE0_DATE` to date from `https://github.com/rust-lang/rust/blob/${NEW_VERSION}/src/stage0.txt`.
+STAGE0_DATE=$(curl https://raw.githubusercontent.com/rust-lang/rust/${NEW_VERSION}/src/stage0.txt | \
+  grep date: | sed -e 's/date: //')
+sed -i -e 's/STAGE0_DATE=.*/STAGE0_DATE="'${STAGE0_DATE}'"/' rust-${NEW_VERSION}.ebuild
+
+# Update manifest checksums.
+ebuild rust-${NEW_VERSION}.ebuild manifest
+
+# Remove mirror from `RESTRICT` variable.
+sed -i -e 's/RESTRICT="\(.*\) mirror"/RESTRICT="\1"/' rust-${NEW_VERSION}.ebuild
+
+# Build the new compiler.
+ebuild rust-${NEW_VERSION}.ebuild compile
+
+# Update vendored library checksums as needed.
+
+# Build the new compiler again with the udpated checksums.
+ebuild rust-${NEW_VERSION}.ebuild compile
+
+# Install the compiler in the chroot.
+sudo ebuild rust-${NEW_VERSION}.ebuild merge
+
+# Upgrade rust package in `profiles/targets/chromeos/package.provided`
+sed -i -e "s#dev-lang/rust-${DEL_VERSION}#dev-lang/rust-${NEW_VERSION}#" \
+  ../../profiles/targets/chromeos/package.provided
+
+# Add a virtual/rust ebuild for the new version.
+cp virtual/rust/rust-${OLD_VERSION}.ebuild virtual/rust/rust-${NEW_VERSION}.ebuild
+git add virtual/rust/rust-${NEW_VERSION}.ebuild
+git rm virtual/rust/rust-${DEL_VERSION}.ebuild
+```
+
+- Upload change for review. CC reviewers from previous upgrade.
+- Kick off try-job: `cros tryjob -g <cl number> chromiumos-sdk-tryjob`.
 
 > Before sending to CQ, ensure every file in the `Manifest` is in localmirror
 > or gentoo mirror. First check for the file in
