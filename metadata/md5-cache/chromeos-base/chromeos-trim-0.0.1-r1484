@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=dev-vcs/git dev-vcs/git chromeos-base/libchrome:462023[cros-debug=] test? ( dev-cpp/gmock ) cros_host? ( dev-util/gn ) dev-cpp/gtest
+DESCRIPTION=Stateful partition periodic trimmer
+EAPI=5
+HOMEPAGE=http://www.chromium.org/
+IUSE=cros_host cros_workon_tree_11f584bb7dd3244e1eec145f7e377b32b68e8b3b_a1fe73d0411a7b197d9434d702f88969762c779c_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_11f584bb7dd3244e1eec145f7e377b32b68e8b3b_a1fe73d0411a7b197d9434d702f88969762c779c_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=chromeos-base/chromeos-common-script chromeos-base/chromeos-init sys-apps/util-linux chromeos-base/libchrome:462023[cros-debug=]
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	2fa6432a4ba2e8e573042b09fbe38eae	cros-sanitizers	73918ed8402b8f8768b6a0b2f08dd98d	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	3c23591b59faf183d844cfca8632e911	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	c413e63eea8ed383c88411b46101580d	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
+_md5_=5187f0086b53556d48c4304cb484ad82

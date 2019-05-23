@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure info install preinst setup test unpack
+DEPEND=chromeos-base/libbrillo chromeos-base/metrics sci-libs/tensorflow chromeos-base/system_api dev-vcs/git dev-vcs/git chromeos-base/libchrome:462023[cros-debug=] test? ( dev-cpp/gmock ) cros_host? ( dev-util/gn ) dev-cpp/gtest sys-apps/baselayout
+DESCRIPTION=Machine learning service for Chromium OS
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/ml
+IUSE=cros_host cros_workon_tree_11f584bb7dd3244e1eec145f7e377b32b68e8b3b_bd12cde6b2db92a03762d81211a446451f7c8c34_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_11f584bb7dd3244e1eec145f7e377b32b68e8b3b_bd12cde6b2db92a03762d81211a446451f7c8c34_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=chromeos-base/libbrillo chromeos-base/metrics sci-libs/tensorflow chromeos-base/libchrome:462023[cros-debug=] sys-apps/baselayout
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	2fa6432a4ba2e8e573042b09fbe38eae	cros-sanitizers	73918ed8402b8f8768b6a0b2f08dd98d	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	3c23591b59faf183d844cfca8632e911	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	c413e63eea8ed383c88411b46101580d	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e	user	059bd54dd6b0acf0eb8961c4ec0c2b64
+_md5_=02fb5b896922abbb183a57d52914acf7
