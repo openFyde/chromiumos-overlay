@@ -32,6 +32,7 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_BluetoothStreamPerf
 	+tests_network_WiFi_BSSTMReq
 	+tests_network_WiFi_BT_AntennaCoex
+	+tests_network_WiFi_ChannelHop
 	+tests_network_WiFi_ChannelScanDwellTime
 	+tests_network_WiFi_ChaosConfigFailure
 	+tests_network_WiFi_ChaosConnectDisconnect
@@ -86,6 +87,7 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_SecChange
 	+tests_network_WiFi_SetOptionalDhcpProperties
 	+tests_network_WiFi_SimpleConnect
+	+tests_network_WiFi_SSIDSwitchBack
 	+tests_network_WiFi_SuspendStress
 	+tests_network_WiFi_StressTest
 	+tests_network_WiFi_TDLSPing
