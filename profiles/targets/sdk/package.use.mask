@@ -7,3 +7,6 @@ sys-devel/llvm clang
 
 # We don't need multilib support here, so force it off.
 dev-java/icedtea-bin multilib
+
+# Don't require python to depend on bluez
+dev-lang/python bluetooth

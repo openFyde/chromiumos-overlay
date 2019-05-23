@@ -38,3 +38,6 @@ chromeos-base/minijail ubsan
 # These packages build a static binary (https://crbug.com/941517).
 chromeos-base/tast-local-helpers-cros asan
 chromeos-base/security_tests asan
+
+# Don't require python to depend on bluez.
+dev-lang/python bluetooth
