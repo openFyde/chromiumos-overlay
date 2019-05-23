@@ -1,0 +1,12 @@
+DEFINED_PHASES=info install setup test unpack
+DEPEND=dev-python/psutil dev-vcs/git
+DESCRIPTION=Server to cache Chromium OS build artifacts from Google Storage.
+EAPI=4
+HOMEPAGE=http://dev.chromium.org/chromium-os/how-tos-and-troubleshooting/using-the-dev-server
+IUSE=cros_host cros_workon_tree_ea7126e20287e8060fdabf68800bdab16362422f
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!<chromeos-base/cros-devutils-0.0.4 chromeos-base/devserver-deps
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
+_md5_=b72c553edea5a62b8037bd7b7a50b6cd
