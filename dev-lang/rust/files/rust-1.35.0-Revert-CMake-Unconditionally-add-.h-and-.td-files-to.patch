@@ -16,8 +16,8 @@ TEST=cros tryjob chromiumos-sdk-tryjob
 
 diff --git a/src/llvm/cmake/modules/LLVMProcessSources.cmake b/src/llvm/cmake/modules/LLVMProcessSources.cmake
 index 7cbd2863500..f65f31d797c 100644
---- a/src/llvm/cmake/modules/LLVMProcessSources.cmake
-+++ b/src/llvm/cmake/modules/LLVMProcessSources.cmake
+--- a/src/llvm-project/llvm/cmake/modules/LLVMProcessSources.cmake
++++ b/src/llvm-project/llvm/cmake/modules/LLVMProcessSources.cmake
 @@ -52,15 +52,16 @@ function(llvm_process_sources OUT_VAR)
    cmake_parse_arguments(ARG "" "" "ADDITIONAL_HEADERS;ADDITIONAL_HEADER_DIRS" ${ARGN})
    set(sources ${ARG_UNPARSED_ARGUMENTS})
