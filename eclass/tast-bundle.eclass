@@ -87,6 +87,7 @@ tast-bundle_src_install() {
 		mkdir -p "${dest}" || die "Failed to create ${dest}"
 		cp --preserve=mode --dereference -R "${datadir}" "${dest}" || \
 			die "Failed to copy ${datadir} to ${dest}"
+		chmod -R u=rwX,go=rX "${dest}" || die "Failed to chmod ${dest}"
 	done
 	popd >/dev/null
 }
