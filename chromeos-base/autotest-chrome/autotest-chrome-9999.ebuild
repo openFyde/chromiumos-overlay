@@ -138,9 +138,10 @@ IUSE_TESTS=(
 	+tests_policy_AllowScreenLock
 	+tests_policy_AlternateErrorPages
 	+tests_policy_ArcAudioCaptureAllowed
-	+tests_policy_AudioOutputAllowed
+	+tests_policy_ArcExternalStorageDisabled
 	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ArcDisableScreenshots
+	+tests_policy_AudioOutputAllowed
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
