@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile configure info install prepare setup test unpack
-DEPEND=dev-rust/getopts:= dev-rust/libc:= dev-rust/log:= dev-rust/p9:= dev-vcs/git >=virtual/rust-1.28.0:= >=dev-util/cargo-0.29.0
+DEPEND=dev-rust/getopts:= dev-rust/libc:= dev-rust/libchromeos:= dev-rust/log:= dev-rust/p9:= dev-vcs/git >=virtual/rust-1.28.0:= >=dev-util/cargo-0.29.0
 DESCRIPTION=Server binary for the 9P file system protocol
 EAPI=6
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/9s/
@@ -10,4 +10,4 @@ RDEPEND=!<chromeos-base/crosvm-0.0.1-r260 !dev-rust/9s:0.1.0
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	66ebd81852ba070370584299a8a8e217	cros-sanitizers	73918ed8402b8f8768b6a0b2f08dd98d	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
-_md5_=3deb78b28c31577e7dfce8f2152075ab
+_md5_=587353d7a933777985fc4a87aee5f86f

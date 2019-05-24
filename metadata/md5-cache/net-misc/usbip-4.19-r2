@@ -1,0 +1,12 @@
+DEFINED_PHASES=configure info install postinst prepare setup unpack
+DEPEND=>=dev-libs/glib-2.6 sys-apps/hwids >=sys-kernel/linux-headers-3.17 virtual/libudev tcpd? ( sys-apps/tcp-wrappers ) virtual/pkgconfig >=app-portage/elt-patches-20170815 !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16.1:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 dev-vcs/git
+DESCRIPTION=Userspace utilities for a general USB device sharing system over IP networks
+EAPI=6
+HOMEPAGE=https://www.kernel.org/
+IUSE=static-libs tcpd cros_host cros_workon_tree_984ccd3a918d28f9d43408d8805777c42dc28a0d
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=>=dev-libs/glib-2.6 sys-apps/hwids >=sys-kernel/linux-headers-3.17 virtual/libudev tcpd? ( sys-apps/tcp-wrappers )
+SLOT=0
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
+_md5_=e71d629e66df137c1bdcf4d045b9fb99
