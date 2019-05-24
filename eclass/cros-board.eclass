@@ -101,7 +101,7 @@ ALL_BOARDS=(
 	cid
 	clapper
 	cmlrvp
-	cnlrvp
+	#cnlrvp
 	cobblepot
 	coral
 	cosmos
@@ -120,7 +120,7 @@ ALL_BOARDS=(
 	danger
 	danger_embedded
 	#derwent
-	dragonegg
+	#dragonegg
 	duck
 	edgar
 	elm
@@ -176,9 +176,9 @@ ALL_BOARDS=(
 	hatch
 	heli
 	hsb
-	iclrvp
+	#iclrvp
 	ironhide
-	jadeite
+	#jadeite
 	#jaguar
 	jecht
 	#kahlee
@@ -227,7 +227,7 @@ ALL_BOARDS=(
 	mappy_flashstation
 	marble
 	mccloud
-	meowth
+	#meowth
 	metis
 	minnowboard
 	mipseb-n32-generic
@@ -242,7 +242,7 @@ ALL_BOARDS=(
 	moose
 	nami
 	nautilus
-	nefario
+	#nefario
 	#newbie
 	ninja
 	nocturne
@@ -271,7 +271,7 @@ ALL_BOARDS=(
 	parrot64
 	parrot_ivb
 	#parry
-	pbody
+	#pbody
 	peach
 	peach_kirby
 	peach_pi
@@ -295,7 +295,7 @@ ALL_BOARDS=(
 	reef
 	relm
 	reks
-	reptile
+	#reptile
 	#ricochet
 	rikku
 	rizer
@@ -316,7 +316,7 @@ ALL_BOARDS=(
 	setzer
 	shogun
 	sklrvp
-	slippy
+	#slippy
 	smaug
 	smaug-cheets
 	smaug-kasan
