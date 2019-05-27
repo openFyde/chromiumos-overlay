@@ -143,7 +143,13 @@ src_test() {
 		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
 		# access because the bots don't support these.  Also exclude sys_util
 		# since they already run as part of the dev-rust/sys_util package.
+		# TODO(dverkamp): re-enable proc_macro tests (https://crbug.com/967436)
 		ecargo_test --all \
+			--exclude bit_field_derive \
+			--exclude enumn \
+			--exclude msg_on_socket_derive \
+			--exclude wire_format_derive \
+			--exclude poll_token_derive \
 			--exclude kvm \
 			--exclude kvm_sys \
 			--exclude net_util -v \
