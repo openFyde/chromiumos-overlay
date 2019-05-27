@@ -110,6 +110,13 @@ _arc-build-select-common() {
 	local android_version=$(printf "0x%04x" \
 		$(((ARC_VERSION_MAJOR << 8) + ARC_VERSION_MINOR)))
 	append-cppflags -DANDROID -DANDROID_VERSION=${android_version}
+
+	# By default Chrome OS build system adds the CFLAGS/CXXFLAGS as below:
+	# -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-table
+	# They prevent Android from showing the backtrace.
+	# By calling 'cros_enable_cxx_exceptions' we can filter out these flags.
+	# Call it here to make sure that any Android packages are compiled this way.
+	cros_enable_cxx_exceptions
 }
 
 # DEPRECATED. Do not use unless you have a really good reason.
