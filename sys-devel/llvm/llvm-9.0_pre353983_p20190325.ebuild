@@ -10,18 +10,27 @@ PYTHON_COMPAT=( python2_7 )
 inherit  cros-constants check-reqs cmake-utils eutils flag-o-matic git-2 git-r3 \
 	multilib multilib-minimal python-single-r1 toolchain-funcs pax-utils
 
+# llvm:353983 https://critique.corp.google.com/#review/233864070
+LLVM_HASH="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # EGIT_COMMIT r353983
+# llvm:353983 https://critique.corp.google.com/#review/233864070
+LLVM_NEXT_HASH="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # EGIT_COMMIT r353983
+
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="http://llvm.org/"
-PROFDATA_FILE="llvm-profdata-20190520.tar.xz"
-SRC_URI="llvm_pgo_use? ( gs://chromeos-localmirror/distfiles/${PROFDATA_FILE} )"
+SRC_URI="
+	!llvm-tot? (
+		!llvm-next? ( llvm_pgo_use? ( gs://chromeos-localmirror/distfiles/llvm-profdata-${LLVM_HASH}.tar.xz ) )
+		llvm-next? ( llvm-next_pgo_use? ( gs://chromeos-localmirror/distfiles/llvm-profdata-${LLVM_NEXT_HASH}.tar.xz ) )
+	)
+"
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 LICENSE="UoI-NCSA"
 SLOT="8"
 KEYWORDS="-* amd64"
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi llvm-next
-	llvm_pgo_generate +llvm_pgo_use llvm-tot multitarget ncurses ocaml python
-	test +thinlto xml video_cards_radeon"
+	llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot multitarget
+	ncurses ocaml python test +thinlto xml video_cards_radeon"
 
 COMMON_DEPEND="
 	sys-libs/zlib:0=
@@ -116,17 +125,21 @@ check_lld_works() {
 	$(tc-getCXX) -fuse-ld=lld -std=c++11 -o /dev/null "${T}"/lld.cxx
 }
 
+apply_pgo_profile() {
+	! use llvm-tot && ( \
+		( use llvm-next && use llvm-next_pgo_use ) ||
+		( ! use llvm-next && use llvm_pgo_use ) )
+}
+
 src_unpack() {
 	local llvm_hash
 
 	if use llvm-tot; then
 		llvm_hash="origin/master"
 	elif use llvm-next; then
-		# llvm:353983 https://critique.corp.google.com/#review/233864070
-		llvm_hash="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # EGIT_COMMIT r353983
+		llvm_hash="${LLVM_NEXT_HASH}"
 	else
-		# llvm:353983 https://critique.corp.google.com/#review/233864070
-		llvm_hash="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # EGIT_COMMIT r353983
+		llvm_hash="${LLVM_HASH}"
 	fi
 
 	# Don't unpack profdata file when calling git-2_src_unpack.
@@ -137,9 +150,15 @@ src_unpack() {
 	EGIT_COMMIT="${llvm_hash}"
 	git-2_src_unpack
 
-	if use llvm_pgo_use; then
-		cd ${WORKDIR}
-		unpack ${PROFDATA_FILE}
+	if apply_pgo_profile; then
+		cd "${WORKDIR}"
+		local profile_hash
+		if use llvm-next; then
+			profile_hash="${LLVM_NEXT_HASH}"
+		else
+			profile_hash="${LLVM_HASH}"
+		fi
+		unpack "llvm-profdata-${profile_hash}.tar.xz"
 	fi
 	EGIT_NOUNPACK=
 }
@@ -408,8 +427,7 @@ multilib_src_configure() {
 			)
 		fi
 
-		# TODO: specify different profdata for llvm-next.
-		if use llvm_pgo_use; then
+		if apply_pgo_profile; then
 			mycmakeargs+=(
 				-DLLVM_PROFDATA_FILE="${WORKDIR}/llvm.profdata"
 			)
