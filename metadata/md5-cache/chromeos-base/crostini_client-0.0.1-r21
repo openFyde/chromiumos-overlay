@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=chromeos-base/system_api =dev-rust/dbus-0.6*:= =dev-rust/getopts-0.2*:= =dev-rust/lazy_static-1.2*:= >=dev-rust/libc-0.2.44:= !>=dev-rust/libc-0.3 >=dev-rust/protobuf-2.3:= !>=dev-rust/protobuf-3 >=dev-rust/protoc-rust-2.3:= !>=dev-rust/protoc-rust-3 dev-vcs/git >=virtual/rust-1.28.0:= >=dev-util/cargo-0.29.0
+DESCRIPTION=Command-line client for controlling crostini
+EAPI=6
+IUSE=cros_host cros_workon_tree_4c11148c731adf59b0df4c93a3f4a50421905207 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
+LICENSE=BSD-Google
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	66ebd81852ba070370584299a8a8e217	cros-sanitizers	73918ed8402b8f8768b6a0b2f08dd98d	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
+_md5_=be9fe056d67c5d2c195776aba874a673
