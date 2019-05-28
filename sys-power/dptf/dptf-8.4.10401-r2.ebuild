@@ -8,7 +8,7 @@ inherit cmake-utils toolchain-funcs
 
 DESCRIPTION="Intel(R) Dynamic Platform & Thermal Framework"
 HOMEPAGE="https://01.org/dptf/"
-SRC_URI="https://github.com/01org/dptf/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/intel/dptf/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0 GPL-2 BSD"
 SLOT="0"
