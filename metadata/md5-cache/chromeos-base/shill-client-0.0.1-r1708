@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=cros_host? ( >=chromeos-base/chromeos-dbus-bindings-0.0.1-r1058 ) >=chromeos-base/libbrillo-0.0.1-r1 dev-vcs/git dev-vcs/git chromeos-base/libchrome:462023[cros-debug=] test? ( dev-cpp/gmock ) cros_host? ( dev-util/gn ) dev-cpp/gtest
+DESCRIPTION=Shill DBus client library for Chromium OS
+EAPI=6
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
+IUSE=cros_host cros_host cros_workon_tree_b6d5f3b4668764bf453c7f46c4240583d97c31fd_e422310d0b6e7740f0cce40a5676cde3835eae36_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_b6d5f3b4668764bf453c7f46c4240583d97c31fd_e422310d0b6e7740f0cce40a5676cde3835eae36_dc1506ef7c8cfd2c5ffd1809dac05596ec18773c cros-debug cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!<chromeos-base/shill-0.0.2 chromeos-base/libchrome:462023[cros-debug=]
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	2fa6432a4ba2e8e573042b09fbe38eae	cros-sanitizers	73918ed8402b8f8768b6a0b2f08dd98d	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	3c23591b59faf183d844cfca8632e911	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	c413e63eea8ed383c88411b46101580d	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
+_md5_=50cd440bbef13dba309211982bb5f525
