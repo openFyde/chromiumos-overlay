@@ -51,6 +51,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}/${PN}-1.17.8-gstoraster-tmpfile.patch"
+	"${FILESDIR}/${PN}-1.23.0-pdftops-monochrome.patch"
 )
 
 src_prepare() {
