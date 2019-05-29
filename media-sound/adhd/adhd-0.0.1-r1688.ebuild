@@ -25,7 +25,6 @@ CROS_BOARDS=(
 	falco
 	gandof
 	glados
-	guado
 	jecht
 	leon
 	link
