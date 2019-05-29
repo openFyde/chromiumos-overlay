@@ -1,12 +1,12 @@
 DEFINED_PHASES=compile info install postinst prepare setup unpack
 DEPEND=dev-vcs/git
-DESCRIPTION=tpm check test
+DESCRIPTION=vboot tests
 EAPI=2
 HOMEPAGE=http://www.chromium.org/
-IUSE=+autotest +tests_hardware_TPMCheck cros_host cros_workon_tree_d41b0d4c990d5b5b0f3817e03ccd66502a4cb3b1 +buildcheck autotest opengles
+IUSE=+autotest +tests_firmware_VbootCrypto cros_host cros_workon_tree_8a60ec39f76fe79fd51c774978aab1ab0443c12f +buildcheck autotest opengles
 KEYWORDS=x86 arm amd64
 LICENSE=GPL-2
 RDEPEND=( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )
 SLOT=0
 _eclasses_=autotest	dab5e9c4c56400e64334c094393ae194	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
-_md5_=23e8ee71ec21a411a00f725c1114e5ff
+_md5_=429180af071439bfdc835eae16b09302
