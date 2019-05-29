@@ -163,7 +163,7 @@ ninja = true
 
 [install]
 prefix = "${ED}usr"
-libdir = "$(get_libdir)/rust"
+libdir = "$(get_libdir)"
 mandir = "share/man"
 
 [rust]
