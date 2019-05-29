@@ -35,7 +35,6 @@ REQUIRED_USE="
 "
 
 DEPEND="
-	>=sys-devel/arc-build-0.0.2
 	>=x11-libs/arc-libdrm-2.4.82[video_cards_freedreno,${MULTILIB_USEDEP}]
 	video_cards_freedreno? (
 		dev-libs/arc-libelf[${MULTILIB_USEDEP}]
