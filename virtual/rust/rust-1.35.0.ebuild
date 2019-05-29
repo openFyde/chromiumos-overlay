@@ -15,5 +15,5 @@ SLOT="0/${ABI_VER}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-lang/rust-${PV}:=
+	~dev-lang/rust-${PV}:=
 "
