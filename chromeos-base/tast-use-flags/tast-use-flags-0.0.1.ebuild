@@ -54,6 +54,7 @@ IUSE="
 	veyron_mickey
 	veyron_rialto
 	vulkan
+	wilco
 "
 
 S=${WORKDIR}
