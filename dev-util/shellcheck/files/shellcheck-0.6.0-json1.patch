@@ -1,0 +1,309 @@
+From 401c3a4b94a57ddf23b6f5a862a3dc3b7087e26a Mon Sep 17 00:00:00 2001
+From: Benjamin Gordon <bmgordon@chromium.org>
+Date: Tue, 7 May 2019 15:49:34 -0600
+Subject: [PATCH] Add json1 format that ignores tabs
+
+The new json1 format works just like json except that it treats tabs as
+single characters instead of 8-character tabstops.
+
+The main use case is to allow editors to pass -fjson1 so that they can
+consume the json output in a character-oriented way without breaking
+backwards compatibility.
+
+Also addresses #1048.
+---
+ ShellCheck.cabal                   |   2 +
+ shellcheck.1.md                    |   8 +-
+ shellcheck.hs                      |   3 +-
+ src/ShellCheck/Fixer.hs            | 136 +++++++++++++++++++++++++++++
+ src/ShellCheck/Formatter/Format.hs |  24 ++---
+ src/ShellCheck/Formatter/JSON.hs   |  21 ++++-
+ 6 files changed, 170 insertions(+), 24 deletions(-)
+ create mode 100644 src/ShellCheck/Fixer.hs
+
+diff --git a/ShellCheck.cabal b/ShellCheck.cabal
+index 8a46661..dee9fe0 100644
+--- a/ShellCheck.cabal
++++ b/ShellCheck.cabal
+@@ -52,6 +52,7 @@ library
+       -- GHC 7.6.3 (base 4.6.0.1) is buggy (#1131, #1119) in optimized mode.
+       -- Just disable that version entirely to fail fast.
+       aeson,
++      array,
+       base > 4.6.0.1 && < 5,
+       bytestring,
+       containers >= 0.5,
+@@ -72,6 +73,7 @@ library
+       ShellCheck.Checks.Commands
+       ShellCheck.Checks.ShellSupport
+       ShellCheck.Data
++      ShellCheck.Fixer
+       ShellCheck.Formatter.Format
+       ShellCheck.Formatter.CheckStyle
+       ShellCheck.Formatter.GCC
+diff --git a/shellcheck.1.md b/shellcheck.1.md
+index 6600613..661c9a2 100644
+--- a/shellcheck.1.md
++++ b/shellcheck.1.md
+@@ -123,7 +123,7 @@ not warn at all, as `ksh` supports decimals in arithmetic contexts.
+ 
+ :   Json is a popular serialization format that is more suitable for web
+     applications. ShellCheck's json is compact and contains only the bare
+-    minimum.
++    minimum.  Tabs are 8 characters.
+ 
+         [
+           {
+@@ -137,6 +137,12 @@ not warn at all, as `ksh` supports decimals in arithmetic contexts.
+           ...
+         ]
+ 
++**json1**
++
++:   This is the same as shellcheck's json format, but tabs are treated as
++    single characters instead of 8-character tabstops.
++
++
+ # DIRECTIVES
+ ShellCheck directives can be specified as comments in the shell script
+ before a command or block:
+diff --git a/shellcheck.hs b/shellcheck.hs
+index 6b9047c..cdc6c5a 100644
+--- a/shellcheck.hs
++++ b/shellcheck.hs
+@@ -121,7 +121,8 @@ formats :: FormatterOptions -> Map.Map String (IO Formatter)
+ formats options = Map.fromList [
+     ("checkstyle", ShellCheck.Formatter.CheckStyle.format),
+     ("gcc",  ShellCheck.Formatter.GCC.format),
+-    ("json", ShellCheck.Formatter.JSON.format),
++    ("json", ShellCheck.Formatter.JSON.format False),  -- JSON with 8-char tabs
++    ("json1", ShellCheck.Formatter.JSON.format True), -- JSON with 1-char tabs
+     ("tty",  ShellCheck.Formatter.TTY.format options)
+     ]
+ 
+diff --git a/src/ShellCheck/Fixer.hs b/src/ShellCheck/Fixer.hs
+new file mode 100644
+index 0000000..592a5bf
+--- /dev/null
++++ b/src/ShellCheck/Fixer.hs
+@@ -0,0 +1,136 @@
++{-
++    Copyright 2018-2019 Vidar Holen, Ng Zhi An
++
++    This file is part of ShellCheck.
++    https://www.shellcheck.net
++
++    ShellCheck is free software: you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation, either version 3 of the License, or
++    (at your option) any later version.
++
++    ShellCheck is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++
++    You should have received a copy of the GNU General Public License
++    along with this program.  If not, see <https://www.gnu.org/licenses/>.
++-}
++
++{-# LANGUAGE TemplateHaskell #-}
++module ShellCheck.Fixer (removeTabStops, Ranged(..), runTests) where
++
++import ShellCheck.Interface
++import Control.Monad.State
++import Data.Array
++import Data.List
++import Data.Semigroup
++import GHC.Exts (sortWith)
++import Test.QuickCheck
++
++-- The Ranged class is used for types that has a start and end position.
++class Ranged a where
++    start   :: a -> Position
++    end     :: a -> Position
++    -- Set a new start and end position on a Ranged
++    setRange :: (Position, Position) -> a -> a
++
++
++instance Ranged PositionedComment where
++    start = pcStartPos
++    end = pcEndPos
++    setRange (s, e) pc = pc {
++        pcStartPos = s,
++        pcEndPos = e
++    }
++
++-- Rewrite a Ranged from a tabstop of 8 to 1
++removeTabStops :: Ranged a => a -> Array Int String -> a
++removeTabStops range ls =
++    let startColumn = realignColumn lineNo colNo range
++        endColumn = realignColumn endLineNo endColNo range
++        startPosition = (start range) { posColumn = startColumn }
++        endPosition = (end range) { posColumn = endColumn } in
++    setRange (startPosition, endPosition) range
++  where
++    realignColumn lineNo colNo c =
++      if lineNo c > 0 && lineNo c <= fromIntegral (length ls)
++      then real (ls ! fromIntegral (lineNo c)) 0 0 (colNo c)
++      else colNo c
++    real _ r v target | target <= v = r
++    -- hit this case at the end of line, and if we don't hit the target
++    -- return real + (target - v)
++    real [] r v target = r + (target - v)
++    real ('\t':rest) r v target = real rest (r+1) (v + 8 - (v `mod` 8)) target
++    real (_:rest) r v target = real rest (r+1) (v+1) target
++    lineNo = posLine . start
++    endLineNo = posLine . end
++    colNo = posColumn . start
++    endColNo = posColumn . end
++
++
++-- start and end comes from pos, which is 1 based
++prop_doReplace1 = doReplace 0 0 "1234" "A" == "A1234" -- technically not valid
++prop_doReplace2 = doReplace 1 1 "1234" "A" == "A1234"
++prop_doReplace3 = doReplace 1 2 "1234" "A" == "A234"
++prop_doReplace4 = doReplace 3 3 "1234" "A" == "12A34"
++prop_doReplace5 = doReplace 4 4 "1234" "A" == "123A4"
++prop_doReplace6 = doReplace 5 5 "1234" "A" == "1234A"
++doReplace start end o r =
++    let si = fromIntegral (start-1)
++        ei = fromIntegral (end-1)
++        (x, xs) = splitAt si o
++        (y, z) = splitAt (ei - si) xs
++    in
++    x ++ r ++ z
++
++-- A Prefix Sum Tree that lets you look up the sum of values at and below an index.
++-- It's implemented essentially as a Fenwick tree without the bit-based balancing.
++-- The last Num is the sum of the left branch plus current element.
++data PSTree n = PSBranch n (PSTree n) (PSTree n) n | PSLeaf
++    deriving (Show)
++
++newPSTree :: Num n => PSTree n
++newPSTree = PSLeaf
++
++-- Get the sum of values whose keys are <= 'target'
++getPrefixSum :: (Ord n, Num n) => n -> PSTree n -> n
++getPrefixSum = f 0
++  where
++    f sum _ PSLeaf = sum
++    f sum target (PSBranch pivot left right cumulative) =
++        case () of
++            _ | target < pivot -> f sum target left
++            _ | target > pivot -> f (sum+cumulative) target right
++            _ -> sum+cumulative
++
++-- Add a value to the Prefix Sum tree at the given index.
++-- Values accumulate: addPSValue 42 2 . addPSValue 42 3 == addPSValue 42 5
++addPSValue :: (Ord n, Num n) => n -> n -> PSTree n -> PSTree n
++addPSValue key value tree = if value == 0 then tree else f tree
++  where
++    f PSLeaf = PSBranch key PSLeaf PSLeaf value
++    f (PSBranch pivot left right sum) =
++        case () of
++            _ | key < pivot -> PSBranch pivot (f left) right (sum + value)
++            _ | key > pivot -> PSBranch pivot left (f right) sum
++            _ -> PSBranch pivot left right (sum + value)
++
++prop_pstreeSumsCorrectly kvs targets =
++  let
++    -- Trivial O(n * m) implementation
++    dumbPrefixSums :: [(Int, Int)] -> [Int] -> [Int]
++    dumbPrefixSums kvs targets =
++        let prefixSum target = sum . map snd . filter (\(k,v) -> k <= target) $ kvs
++        in map prefixSum targets
++    -- PSTree O(n * log m) implementation
++    smartPrefixSums :: [(Int, Int)] -> [Int] -> [Int]
++    smartPrefixSums kvs targets =
++        let tree = foldl (\tree (pos, shift) -> addPSValue pos shift tree) PSLeaf kvs
++        in map (\x -> getPrefixSum x tree) targets
++  in smartPrefixSums kvs targets == dumbPrefixSums kvs targets
++
++
++return []
++runTests = $quickCheckAll
+diff --git a/src/ShellCheck/Formatter/Format.hs b/src/ShellCheck/Formatter/Format.hs
+index 5e46713..9847cb9 100644
+--- a/src/ShellCheck/Formatter/Format.hs
++++ b/src/ShellCheck/Formatter/Format.hs
+@@ -21,6 +21,9 @@ module ShellCheck.Formatter.Format where
+ 
+ import ShellCheck.Data
+ import ShellCheck.Interface
++import ShellCheck.Fixer
++import Control.Monad
++import Data.Array
+ 
+ -- A formatter that carries along an arbitrary piece of data
+ data Formatter = Formatter {
+@@ -50,21 +53,6 @@ severityText pc =
+ makeNonVirtual comments contents =
+     map fix comments
+   where
+-    ls = lines contents
+-    fix c = c {
+-        pcStartPos = (pcStartPos c) {
+-            posColumn = realignColumn lineNo colNo c
+-        }
+-      , pcEndPos = (pcEndPos c) {
+-            posColumn = realignColumn endLineNo endColNo c
+-        }
+-    }
+-    realignColumn lineNo colNo c =
+-      if lineNo c > 0 && lineNo c <= fromIntegral (length ls)
+-      then real (ls !! fromIntegral (lineNo c - 1)) 0 0 (colNo c)
+-      else colNo c
+-    real _ r v target | target <= v = r
+-    real [] r v _ = r -- should never happen
+-    real ('\t':rest) r v target =
+-        real rest (r+1) (v + 8 - (v `mod` 8)) target
+-    real (_:rest) r v target = real rest (r+1) (v+1) target
++    list = lines contents
++    arr = listArray (1, length list) list
++    fix c = removeTabStops c arr
+diff --git a/src/ShellCheck/Formatter/JSON.hs b/src/ShellCheck/Formatter/JSON.hs
+index aac4d20..6ab99cd 100644
+--- a/src/ShellCheck/Formatter/JSON.hs
++++ b/src/ShellCheck/Formatter/JSON.hs
+@@ -30,11 +30,12 @@ import GHC.Exts
+ import System.IO
+ import qualified Data.ByteString.Lazy.Char8 as BL
+ 
+-format = do
++format :: Bool -> IO Formatter
++format removeTabs = do
+     ref <- newIORef []
+     return Formatter {
+         header = return (),
+-        onResult = collectResult ref,
++        onResult = collectResult removeTabs ref,
+         onFailure = outputError,
+         footer = finish ref
+     }
+@@ -71,8 +72,20 @@ instance ToJSON (PositionedComment) where
+     )
+ 
+ outputError file msg = hPutStrLn stderr $ file ++ ": " ++ msg
+-collectResult ref result _ =
+-    modifyIORef ref (\x -> crComments result ++ x)
++
++collectResult removeTabs ref cr sys = mapM_ f groups
++  where
++    comments = crComments cr
++    groups = groupWith sourceFile comments
++    f :: [PositionedComment] -> IO ()
++    f group = do
++        let filename = sourceFile (head group)
++        result <- siReadFile sys filename
++        let contents = either (const "") id result
++        let comments' = if removeTabs
++                        then makeNonVirtual comments contents
++                        else comments
++        modifyIORef ref (\x -> comments' ++ x)
+ 
+ finish ref = do
+     list <- readIORef ref
+-- 
+2.22.0.rc1.257.g3120a18244-goog
+

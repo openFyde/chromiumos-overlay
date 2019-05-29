@@ -41,7 +41,7 @@ S="${WORKDIR}/${MY_P}"
 PATCHES=(
 	"${FILESDIR}/${PN}-0.6.0-allowlocal.patch"
 	"${FILESDIR}/${PN}-0.6.0-ebuild-vars.patch"
-	"${FILESDIR}/${PN}-0.6.0-tabstops.patch"
+	"${FILESDIR}/${PN}-0.6.0-json1.patch"
 )
 
 src_install() {
