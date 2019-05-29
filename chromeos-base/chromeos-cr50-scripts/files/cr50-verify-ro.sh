@@ -228,7 +228,7 @@ main() {
   #
   # RW_A and RW_B versions are expected to match for the purposes of this
   # script.
-  image_rw_version="$(${GSCTOOL} -b ${new_image} | awk '
+  image_rw_version="$(${GSCTOOL} -b "${new_image}" | awk '
     /^RO_A/ {
       match($2, /:.*\[/);
       print substr($2, RSTART + 1, RLENGTH - 2)
