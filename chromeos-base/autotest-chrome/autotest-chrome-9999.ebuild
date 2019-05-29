@@ -156,6 +156,7 @@ IUSE_TESTS=(
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceTargetVersionPrefix
 	+tests_policy_DisableScreenshots
+	+tests_policy_DownloadDirectory
 	+tests_policy_DriveDisabled
 	+tests_policy_EditBookmarksEnabled
 	+tests_policy_DeviceEphemeralUsersEnabled
@@ -181,6 +182,7 @@ IUSE_TESTS=(
 	+tests_policy_NewTabPageLocation
 	+tests_policy_NotificationsAllowedForUrls
 	+tests_policy_NotificationsBlockedForUrls
+	+tests_policy_PasswordManager
 	+tests_policy_PinnedLauncherApps
 	+tests_policy_PluginsAllowedForUrls
 	+tests_policy_PluginsBlockedForUrls
@@ -196,6 +198,7 @@ IUSE_TESTS=(
 	+tests_policy_SafeBrowsingEnabled
 	+tests_policy_SavingBrowserHistoryDisabled
 	+tests_policy_ScreenBrightnessPercent
+	+tests_policy_SearchSuggestEnabled
 	+tests_policy_SecondaryGoogleAccountSigninAllowed
 	+tests_policy_ShowLogoutButtonInTray
 	+tests_policy_ShowHomeButton
