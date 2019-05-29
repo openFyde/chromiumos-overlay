@@ -5,14 +5,13 @@ EAPI=6
 
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/update_engine")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/update_engine")
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk" "")
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="${PN%-client}"
-PLATFORM_GYP_FILE="${PN}.gyp"
+PLATFORM_SUBDIR="update_engine/client-headers"
 
 inherit cros-debug cros-workon platform
 
@@ -39,12 +38,6 @@ DEPEND="
 RDEPEND="
 	!<chromeos-base/update_engine-0.0.3
 "
-
-src_unpack() {
-	local s="${S}"
-	platform_src_unpack
-	S="${s}/aosp/system/update_engine"
-}
 
 src_install() {
 	# Install DBus client library.
