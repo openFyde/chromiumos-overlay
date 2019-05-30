@@ -36,6 +36,7 @@ RDEPEND="
 	chromeos-base/kerberos[fuzzer]
 	chromeos-base/libbrillo[fuzzer]
 	chromeos-base/libipp[fuzzer]
+	asan? ( chromeos-base/libvda[fuzzer] )
 	chromeos-base/metrics[fuzzer]
 	chromeos-base/modemfwd[fuzzer]
 	chromeos-base/p2p[fuzzer]

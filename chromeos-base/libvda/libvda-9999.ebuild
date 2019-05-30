@@ -35,8 +35,12 @@ src_install() {
 	dolib.so "${OUT}"/lib/libvda.so
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/arc/vm/libvda/libvda.pc
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libvda_fuzzer
 }
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/libvda_fake_unittest"
+
+	platform_fuzzer_test "${OUT}"/libvda_fuzzer
 }
