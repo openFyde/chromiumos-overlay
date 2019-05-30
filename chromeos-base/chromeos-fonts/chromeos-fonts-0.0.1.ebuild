@@ -100,25 +100,25 @@ qemu_run() {
 	# All of which is to say: don't use sudo in your ebuild.  You have been
 	# warned.  -- chirantan
 
-	cp "/usr/bin/${qemu[0]}" "${ROOT}/tmp" || die
-	sudo chroot "${ROOT}" "/tmp/${qemu[0]}" "${qemu[@]:1}" "$@" || die
-	rm "${ROOT}/tmp/${qemu[0]}" || die
+	cp "/usr/bin/${qemu[0]}" "${SYSROOT}/tmp" || die
+	sudo chroot "${SYSROOT}" "/tmp/${qemu[0]}" "${qemu[@]:1}" "$@" || die
+	rm "${SYSROOT}/tmp/${qemu[0]}" || die
 }
 
 generate_font_cache() {
 	# Bind mount over the cache directory so that we don't scribble over the
 	# $SYSROOT.  Same warning as above applies: don't use sudo in your ebuild.
 	mkdir -p "${WORKDIR}/out"
-	if grep -q "${ROOT}/usr/share/cache/fontconfig" /proc/mounts; then
-		sudo umount "${ROOT}/usr/share/cache/fontconfig"
+	if grep -q "${SYSROOT}/usr/share/cache/fontconfig" /proc/mounts; then
+		sudo umount "${SYSROOT}/usr/share/cache/fontconfig"
 	fi
-	sudo mount --bind "${WORKDIR}/out" "${ROOT}/usr/share/cache/fontconfig"
+	sudo mount --bind "${WORKDIR}/out" "${SYSROOT}/usr/share/cache/fontconfig"
 
 	# If we're running directly on the target (e.g. gmerge), we don't need
 	# to chroot or use qemu.  Run in a subshell so that we can clean up
 	# the bind mount even if fc-cache fails.
 	(
-		if [[ "${ROOT:-/}" == "/" ]]; then
+		if [[ "${SYSROOT:-/}" == "/" ]]; then
 			sudo /usr/bin/fc-cache -f -v || die
 		elif [[ "${ARCH}" == "amd64" ]]; then
 			# Uses the host's fc-cache binary to build the font
@@ -130,7 +130,7 @@ generate_font_cache() {
 	)
 	local retval=$?
 
-	sudo umount "${ROOT}/usr/share/cache/fontconfig"
+	sudo umount "${SYSROOT}/usr/share/cache/fontconfig"
 	[[ ${retval} == 0 ]] || die "fc-cache failed"
 }
 
@@ -142,10 +142,14 @@ generate_font_cache() {
 #                   installed as a binpkg. Remove this section once fontconfig
 #                   no longer uses these .uuid files.
 pkg_setup() {
-	local fontdir fontdirs=( $(cd "${SYSROOT}"/usr/share/fonts; echo */) )
+	# Don't pre-populate .uuid files if we're installing from a binary.
+	[[ "${MERGE_TYPE}" == "binary" ]] && return
+
+	mapfile -t fontdirs < \
+		<(find "${ROOT}/usr/share/fonts" -mindepth 1 -maxdepth 2 -type d)
 	for fontdir in "${fontdirs[@]}"; do
-		uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontdir}" > \
-			"${SYSROOT}"/usr/share/fonts/"${fontdir}"/.uuid
+		uuidgen --sha1 -n @dns -N "${fontdir}" > \
+			"${fontdir}"/.uuid
 	done
 }
 
@@ -157,9 +161,20 @@ src_install() {
 	insinto /usr/share/cache/fontconfig
 	doins "${WORKDIR}"/out/*
 
-	local fontdir fontdirs=( $(cd "${SYSROOT}"/usr/share/fonts; echo */) )
+	mapfile -t fontdirs < \
+		<(find "${ROOT}/usr/share/fonts" -mindepth 1 -maxdepth 2 -type d)
 	for fontdir in "${fontdirs[@]}"; do
-		insinto "/usr/share/fonts/${fontdir}"
-		uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontdir}" | newins - .uuid
+		# Trim SYSROOT from fontdir, since we will be installing to SYSROOT.
+		insinto /"${fontdir##"${SYSROOT}"}"
+		uuidgen --sha1 -n @dns -N "${fontdir}" | newins - .uuid
 	done
+}
+
+pkg_preinst() {
+	# We didn't generate any .uuid files if we're installing from a binary
+	# so no need to clean them up in that case.
+	[[ "${MERGE_TYPE}" == "binary" ]] && return
+	# Delete the .uuid files in ROOT that we generated to avoid causing
+	# file collision warnings when we install them.
+	find "${ROOT}/usr/share/fonts/" -name .uuid -delete
 }
