@@ -103,3 +103,6 @@ dev-python/markupsafe python_targets_python3_6
 # and developer workstations.
 dev-libs/gmp		static-libs
 dev-libs/libffi		static-libs
+
+# MariaDB connector must run in MySQL compatible mode in the SDK for autotest
+dev-db/mariadb-connector-c  mysqlcompat

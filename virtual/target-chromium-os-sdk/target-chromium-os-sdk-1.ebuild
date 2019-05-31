@@ -300,7 +300,7 @@ RDEPEND="${RDEPEND}
 
 # Host dependencies used by chromite on build servers
 RDEPEND="${RDEPEND}
-	dev-python/mysql-python
+	dev-python/mysqlclient
 	dev-python/sqlalchemy
 	dev-python/pyparsing
 	dev-python/python-statsd
