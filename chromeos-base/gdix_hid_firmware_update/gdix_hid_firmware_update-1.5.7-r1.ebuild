@@ -1,0 +1,1 @@
+gdix_hid_firmware_update-1.5.7.ebuild
