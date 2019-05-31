@@ -245,14 +245,7 @@ multilib_src_configure() {
 		# PLATFORM_SDK_VERSION, and Mesa's Android.mk files use it to
 		# define the macro ANDROID_API_LEVEL. Arc emulates that here.
 		if [[ -n "${ARC_PLATFORM_SDK_VERSION}" ]]; then
-			# Hack to workaround b:130213457
-			if [[ ${ARC_BASE} == "/opt/android-master" ]]; then
-				CPPFLAGS+=" -DANDROID_API_LEVEL=25"
-				MESA_PLATFORM_SDK_VERSION=25
-				VULKAN_DRIVERS=""
-			else
-				CPPFLAGS+=" -DANDROID_API_LEVEL=${ARC_PLATFORM_SDK_VERSION}"
-			fi
+			CPPFLAGS+=" -DANDROID_API_LEVEL=${ARC_PLATFORM_SDK_VERSION}"
 		fi
 
 		#
@@ -325,10 +318,6 @@ multilib_src_install_cheets() {
 		if use video_cards_virgl; then
 			newexe $(get_libdir)/gallium/virtio_gpu_dri.so virtio_gpu_dri.so
 		fi
-	fi
-
-	if [[ ${ARC_BASE} == "/opt/android-master" ]]; then
-		return
 	fi
 
 	if use vulkan; then
