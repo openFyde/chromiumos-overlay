@@ -58,8 +58,6 @@ src_install() {
 	insinto /etc/rsyslog.d
 	doins arc/scripts/rsyslog.arc.conf
 
-	dosbin arc/scripts/android-sh
-
 	# Install exception file for FIFO blocking policy on stateful partition.
 	insinto /usr/share/cros/startup/fifo_exceptions
 	doins arc/container-bundle/arc-fifo-exceptions.txt
