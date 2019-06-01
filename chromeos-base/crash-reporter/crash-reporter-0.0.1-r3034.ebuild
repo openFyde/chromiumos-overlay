@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="350a97b1d285275f428ce0f6d6a0cd3dea13525c"
-CROS_WORKON_TREE=("f354d140e04d861ac5457214dd14961f6c512112" "10a9e81ff6bd2e8d0e029a7f991123dd54c5c492" "c1f42c15db13cb19dc9e96ca4f11231dcb21fde2" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="8f5b2881ed6e9bd6e884bf212c9417ea9acd5e05"
+CROS_WORKON_TREE=("f354d140e04d861ac5457214dd14961f6c512112" "d789278d25bcfef373e4de5fbc3e78ae9b32b1cf" "c1f42c15db13cb19dc9e96ca4f11231dcb21fde2" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -31,6 +31,7 @@ RDEPEND="
 	chromeos-base/metrics
 	dev-libs/libpcre
 	net-misc/curl
+	sys-libs/zlib
 	direncryption? ( sys-apps/keyutils )
 	test? ( app-arch/gzip )
 "
