@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="51d50c884c91913409ba1609ae4e0bd60ea6a60d"
-CROS_WORKON_TREE=("f354d140e04d861ac5457214dd14961f6c512112" "30e1761d847295f37de97e29cbeb01423faa738f" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="8245285065ee5b8485f8f62439e1b69ce0e4ae21"
+CROS_WORKON_TREE=("f354d140e04d861ac5457214dd14961f6c512112" "8d112cc851771a43cb16ca533dd4b2860911e5cc" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -13,15 +13,15 @@ CROS_WORKON_SUBTREE="common-mk arc/vm/libvda .gn"
 
 PLATFORM_SUBDIR="arc/vm/libvda"
 
-inherit cros-workon multilib platform
+inherit cros-workon platform
 
-DESCRIPTION="libvda CrOS video decoding library"
+DESCRIPTION="libvda Chrome GPU tests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/libvda"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="libvda_test"
+IUSE=""
 
 RDEPEND="
 	chromeos-base/libbrillo:=
@@ -33,12 +33,11 @@ DEPEND="
 	chromeos-base/system_api:=
 "
 
-src_install() {
-	dolib.so "${OUT}"/lib/libvda.so
-	insinto "/usr/$(get_libdir)/pkgconfig"
-	doins "${OUT}"/obj/arc/vm/libvda/libvda.pc
+src_compile() {
+	platform "compile" "libvda_gpu_unittest"
 }
 
-platform_pkg_test() {
-	platform_test "run" "${OUT}/libvda_fake_unittest"
+src_install() {
+	exeinto /usr/libexec/libvda-gpu-tests
+	doexe "${OUT}/libvda_gpu_unittest"
 }

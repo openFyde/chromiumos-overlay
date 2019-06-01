@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="6aaa81be9e59995c1d0a1a94882cb6d56ff5d497"
-CROS_WORKON_TREE="80260666828c46bced327517d3d33365fbbbd057"
+CROS_WORKON_COMMIT="7cc448cb28811c34cb6ca590f8e1588c83ed2188"
+CROS_WORKON_TREE="045aa846c37a0d2d95b00693f6869bbcf1012637"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -158,6 +158,7 @@ IUSE_TESTS=(
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceTargetVersionPrefix
 	+tests_policy_DisableScreenshots
+	+tests_policy_DownloadDirectory
 	+tests_policy_DriveDisabled
 	+tests_policy_EditBookmarksEnabled
 	+tests_policy_DeviceEphemeralUsersEnabled
@@ -183,6 +184,7 @@ IUSE_TESTS=(
 	+tests_policy_NewTabPageLocation
 	+tests_policy_NotificationsAllowedForUrls
 	+tests_policy_NotificationsBlockedForUrls
+	+tests_policy_PasswordManager
 	+tests_policy_PinnedLauncherApps
 	+tests_policy_PluginsAllowedForUrls
 	+tests_policy_PluginsBlockedForUrls
@@ -198,6 +200,7 @@ IUSE_TESTS=(
 	+tests_policy_SafeBrowsingEnabled
 	+tests_policy_SavingBrowserHistoryDisabled
 	+tests_policy_ScreenBrightnessPercent
+	+tests_policy_SearchSuggestEnabled
 	+tests_policy_SecondaryGoogleAccountSigninAllowed
 	+tests_policy_ShowLogoutButtonInTray
 	+tests_policy_ShowHomeButton
