@@ -24,6 +24,7 @@ IUSE="input_devices_synaptics
 	input_devices_sis
 	input_devices_pixart
 	input_devices_g2touch
+	input_devices_cirque
 "
 
 RDEPEND="
@@ -37,6 +38,7 @@ RDEPEND="
 	input_devices_sis? ( chromeos-base/sisConsoletool )
 	input_devices_pixart? ( chromeos-base/pixart_tpfwup )
 	input_devices_g2touch? ( chromeos-base/g2update_tool )
+	input_devices_cirque? ( chromeos-base/cirque_fw_update )
 	sys-apps/mosys
 "
 
@@ -61,7 +63,10 @@ pkg_preinst() {
 		enewgroup goodixfwupdate
 		enewuser goodixfwupdate
 	fi
-
+	if use input_devices_cirque; then
+		enewgroup cirque
+		enewuser cirque
+	fi
 }
 
 src_install() {
