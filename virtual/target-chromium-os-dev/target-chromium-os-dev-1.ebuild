@@ -125,6 +125,7 @@ RDEPEND="${RDEPEND}
 	sys-apps/less
 	sys-apps/mmc-utils
 	nvme? ( sys-apps/nvme-cli )
+	sys-apps/portage
 	sys-apps/smartmontools
 	usb? ( sys-apps/usbutils )
 	sys-apps/which
