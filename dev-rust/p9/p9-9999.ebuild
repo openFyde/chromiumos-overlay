@@ -24,6 +24,7 @@ DEPEND="
 	~dev-rust/proc-macro2-0.4.21:=
 	~dev-rust/quote-0.6.10:=
 	~dev-rust/syn-0.15.21:=
+	fuzzer? ( dev-rust/cros_fuzz:= )
 "
 
 get_crate_version() {
