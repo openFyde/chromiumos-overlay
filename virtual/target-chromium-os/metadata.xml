@@ -10,12 +10,13 @@
 <use>
 	<flag name='X'>Enables dependencies on X.</flag>
 	<flag name='bluetooth'>Enables bluetooth dependencies.</flag>
+	<flag name='bootchart'>Enables bootchart.</flag>
 	<flag name='bootimage'>Enables firmware bootimage dependencies.</flag>
+	<flag name='compupdates'>Enable component updates.</flag>
 	<flag name='cros_ec'>Enables CrOS Embedded Controller.</flag>
 	<flag name='gdmwimax'>Enables WiMax dependencies.</flag>
-	<flag name='bootchart'>Enables bootchart.</flag>
+	<flag name='kerberos_daemon'>Enable Chrome OS Kerberos system daemon</flag>
 	<flag name='opengles'>Enables OpenGL ES.</flag>
-	<flag name='compupdates'>Enable component updates.</flag>
 	<flag name='smbprovider'>Enable SMB file share service.</flag>
 </use>
 </pkgmetadata>

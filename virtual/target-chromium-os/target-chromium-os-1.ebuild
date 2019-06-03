@@ -41,6 +41,7 @@ IUSE="
 	input_devices_evdev
 	intel_lpe
 	iwlwifi_rescan
+	kerberos_daemon
 	kvm_host
 	memd
 	mist
@@ -178,6 +179,7 @@ RDEPEND="
 	cros_disks? ( chromeos-base/cros-disks )
 	debugd? ( chromeos-base/debugd )
 	diagnostics? ( chromeos-base/diagnostics )
+	kerberos_daemon? ( chromeos-base/kerberos )
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
 	peerd? ( chromeos-base/peerd )
