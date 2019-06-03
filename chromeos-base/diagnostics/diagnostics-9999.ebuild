@@ -23,9 +23,10 @@ IUSE="+seccomp wilco"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
-	net-libs/grpc:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
+	net-libs/grpc:=
+	virtual/libudev:=
 "
 DEPEND="
 	${COMMON_DEPEND}
