@@ -1274,8 +1274,9 @@ _cros-kernel2_compress_fit_kernel() {
 # Returns the list of compatible strings extracted from a given .dtb file, in
 # the format required to re-insert it in a new property of an its-script.
 _cros-kernel2_get_compat() {
-	local dtb="${1}"
+	local dtb="$1"
 	local result=""
+	local s
 
 	for s in $(fdtget "${dtb}" / compatible); do
 		result+="\"${s}\","
@@ -1291,7 +1292,7 @@ _cros-kernel2_get_compat() {
 # that contains the kernel as well as device trees used when booting
 # it.
 _cros-kernel2_emit_its_script() {
-	local compat=( )
+	local compat=()
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 	local fit_compression_fdt="none"
 	local fit_compression_kernel
