@@ -9,3 +9,16 @@
 # clang-specific version.
 
 export CPPFLAGS+=' -D_CLANG_FORTIFY_DISABLE '
+
+cros_pre_src_configure_curl_flags() {
+	# Disable unused protocols to minimize unnecessary attack surface:
+	EXTRA_ECONF+="
+		--disable-gopher
+		--disable-imap
+		--disable-pop3
+		--disable-rtsp
+		--disable-smtp
+		--disable-telnet
+		--disable-tftp
+	"
+}
