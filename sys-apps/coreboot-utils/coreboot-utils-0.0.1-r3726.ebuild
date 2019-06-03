@@ -3,8 +3,8 @@
 # $Header:
 
 EAPI="4"
-CROS_WORKON_COMMIT=("e62d5bb7b2d6fad0305e5844bcee013556c9b123" "b00d3fd7adab63fb6372fb4c9e363615eda994d1")
-CROS_WORKON_TREE=("20a2e118d418d8d0c7abdd22aa32098afb22be84" "8a60ec39f76fe79fd51c774978aab1ab0443c12f")
+CROS_WORKON_COMMIT=("e7527bb37741188ea1fcf13777e6047aaa14807d" "b00d3fd7adab63fb6372fb4c9e363615eda994d1")
+CROS_WORKON_TREE=("e90041a6abadbaefda90f49d98318cb5911a428e" "8a60ec39f76fe79fd51c774978aab1ab0443c12f")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
 	"chromiumos/platform/vboot_reference"
