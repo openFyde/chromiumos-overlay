@@ -27,8 +27,8 @@ IUSE="
 	big_little
 	biod
 	caroline
-	cheets
 	cfm_enabled_device
+	cheets
 	compupdates
 	cros-debug
 	disable_flash_hw_video_decode
@@ -47,6 +47,7 @@ IUSE="
 	internal_stylus
 	kevin
 	kvm_host
+	kvm_transition
 	legacy_keyboard
 	legacy_power_button
 	link
@@ -70,9 +71,9 @@ IUSE="
 	screenshare_sw_codec
 	stylus
 	test
+	touch_centric_device
 	touchscreen_wakeup
 	touchview
-	touch_centric_device
 	veyron_mickey
 	veyron_minnie
 	wilco
