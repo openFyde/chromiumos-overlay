@@ -71,6 +71,7 @@ RDEPEND="${RDEPEND}
 	app-editors/vim
 	app-misc/edid-decode
 	app-misc/evtest
+	app-misc/pax-utils
 	app-misc/screen
 	app-portage/portage-utils
 	app-shells/bash
