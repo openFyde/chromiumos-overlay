@@ -420,11 +420,12 @@ multilib_src_install_all_cheets() {
 		doins "${FILESDIR}/vulkan.rc"
 
 		insinto "${ARC_PREFIX}/vendor/etc/permissions"
-		doins "${FILESDIR}/android.hardware.vulkan.version-1_0_3.xml"
 		if use video_cards_intel; then
 			doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
+			doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
 		else
 			doins "${FILESDIR}/android.hardware.vulkan.level-0.xml"
+			doins "${FILESDIR}/android.hardware.vulkan.version-1_0_3.xml"
 		fi
 	fi
 
