@@ -65,6 +65,7 @@ src_install() {
 
 	exeinto /usr/libexec/debugd/helpers
 	doexe "${OUT}"/capture_packets
+	doexe "${OUT}"/cups_uri_helper
 	doexe "${OUT}"/dev_features_chrome_remote_debugging
 	doexe "${OUT}"/dev_features_password
 	doexe "${OUT}"/dev_features_rootfs_verification
@@ -76,14 +77,21 @@ src_install() {
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
 
+	local debugd_seccomp_dir="src/helpers/seccomp"
+
 	# Install scheduler configuration helper and seccomp policy.
 	if use amd64 ; then
 		exeinto /usr/libexec/debugd/helpers
 		doexe "${OUT}"/scheduler_configuration_helper
 
 		insinto /usr/share/policy
-		newins "src/helpers/seccomp/scheduler-configuration-helper-${ARCH}.policy" scheduler-configuration-helper.policy
+		newins "${debugd_seccomp_dir}/scheduler-configuration-helper-${ARCH}.policy" scheduler-configuration-helper.policy
 	fi
+
+	# Install seccomp policy for the CUPS URI helper.
+	insinto /usr/share/policy
+	newins "${debugd_seccomp_dir}/cups-uri-helper-${ARCH}.policy" \
+		cups-uri-helper.policy
 
 
 	# Install DBus configuration.
