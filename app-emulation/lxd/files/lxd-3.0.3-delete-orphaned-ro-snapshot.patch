@@ -1,0 +1,41 @@
+From ecd4fd5105ce779a02f7e7d11dd69806db68f7fe Mon Sep 17 00:00:00 2001
+From: Joel Hockey <joelhockey@chromium.org>
+Date: Tue, 4 Jun 2019 03:51:53 -0700
+Subject: [PATCH] lxd/storage/btrfs: Delete any orphaned *.ro snapshots See
+ #5763 During a publish, a *.ro subvolume snapshot copy is made whilst the
+ original snapshot is set read-write. If lxd is killed before publish
+ finishes, the *.ro copy can be left orphaned, and should be deleted when the
+ associated snapshot is deleted.
+
+Signed-off-by: Joel Hockey <joelhockey@chromium.org>
+---
+ lxd/storage_btrfs.go | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/lxd/storage_btrfs.go b/lxd/storage_btrfs.go
+index 8fad0507..63db8534 100644
+--- a/lxd/storage_btrfs.go
++++ b/lxd/storage_btrfs.go
+@@ -1255,10 +1255,15 @@ func (s *storageBtrfs) ContainerSnapshotCreate(snapshotContainer container, sour
+ 
+ func btrfsSnapshotDeleteInternal(poolName string, snapshotName string) error {
+ 	snapshotSubvolumeName := getSnapshotMountPoint(poolName, snapshotName)
+-	if shared.PathExists(snapshotSubvolumeName) && isBtrfsSubVolume(snapshotSubvolumeName) {
+-		err := btrfsSubVolumesDelete(snapshotSubvolumeName)
+-		if err != nil {
+-			return err
++	// Also delete any leftover .ro snapshot.
++	roSnapshotSubvolumeName := fmt.Sprintf("%s.ro", snapshotSubvolumeName)
++	names := []string{snapshotSubvolumeName, roSnapshotSubvolumeName}
++	for _, name := range names {
++		if shared.PathExists(name) && isBtrfsSubVolume(name) {
++			err := btrfsSubVolumesDelete(name)
++			if err != nil {
++				return err
++			}
+ 		}
+ 	}
+ 
+-- 
+2.22.0.rc1.311.g5d7573a151-goog
+
