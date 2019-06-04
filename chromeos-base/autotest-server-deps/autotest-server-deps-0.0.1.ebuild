@@ -1,7 +1,7 @@
 # Copyright (c) 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
 
 DESCRIPTION="Autotest Server Codebase Dependencies. Thse packages are required
 to run the web frontend, database and other tools supplied by the Autotest
@@ -20,7 +20,7 @@ RDEPEND="
 	app-arch/xz-utils
 	dev-db/mariadb
 	dev-python/imaging
-	dev-python/mysql-python
+	dev-python/mysqlclient
 	dev-python/netifaces
 	dev-python/pycrypto
 	dev-python/setuptools
