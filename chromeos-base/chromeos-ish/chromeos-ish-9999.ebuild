@@ -16,10 +16,22 @@ HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="quiet verbose coreboot-sdk unibuild"
+IUSE="quiet verbose coreboot-sdk unibuild test"
+REQUIRED_USE="unibuild"
+
+RDEPEND="
+	test? (
+		dev-libs/openssl:=
+		dev-libs/protobuf:=
+	)
+"
 
 # EC build requires libftdi, but not used for runtime (b:129129436)
-DEPEND="dev-embedded/libftdi:1="
+DEPEND="
+	dev-embedded/libftdi:1=
+	chromeos-base/chromeos-config
+	test? ( dev-libs/libprotobuf-mutator:= )
+"
 
 src_unpack() {
 	cros-workon_src_unpack
@@ -64,10 +76,7 @@ src_compile() {
 src_test() {
 	set_build_env
 
-	local target
-	for target in "${ish_targets[@]}"; do
-		BOARD="${target}" emake "${EC_OPTS[@]}" tests
-	done
+	emake "${EC_OPTS[@]}" runhosttests
 }
 
 src_install() {
