@@ -110,6 +110,9 @@ src_prepare() {
 
 	# TODO(sonnysasaka): Remove after libchrome uprev past r616020.
 	epatch "${FILESDIR}"/${P}-dbus-Support-UnexportMethod-from-an-exported-object.patch
+
+	# Remove this patch after libchrome uprev past r531975.
+	epatch "${FILESDIR}"/${P}-Add-implicit-fallthrough-warning.patch
 }
 
 src_install() {
