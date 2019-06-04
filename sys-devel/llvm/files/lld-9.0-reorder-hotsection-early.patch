@@ -1,0 +1,75 @@
+This patch achieves the functionality of reordering .text.hot sections before
+.text section.
+
+In lld, the sections are ordered by an integer Rank. The Rank is calculated
+in getSectionRank(), which returns an integer depending on the input Section
+type. lld, instead of using simple numbers (0, 1, 2, ...), it uses a series
+of flags by setting bits of the returning Rank. The smaller a Rank is, the
+section will be put more towards the front.
+
+In order to put hot symbols in front of text section, we need lld is used
+with -z keep-text-section-prefix. With the flag set, the section prefix (.hot)
+will be preserved when the function getSectionRank() is called. In the function,
+we check if the section has a .hot prefix. If so, we need to set 'RF_EXEC_HOT'
+flag to the return Rank. Otherwise, we set 'RF_EXEC' (which is normal .text
+section). We set 'RF_EXEC_HOT' to be 1<<13 and 'RF_EXEC' to be 1<<14, so sections
+with '.hot' prefix is smaller in Rank than other text sections.
+
+In the test, we reorder the .text.hot and .text in the orignal text-section-prefix.s,
+which should test the patch.
+
+diff --git a/lld/ELF/Writer.cpp b/lld/ELF/Writer.cpp
+index b6a70a46327..d4b3e216860 100644
+--- a/lld/ELF/Writer.cpp
++++ b/lld/ELF/Writer.cpp
+@@ -758,13 +758,14 @@ static bool isRelroSection(const OutputSection *Sec) {
+ // * It is easy to check if a give branch was taken.
+ // * It is easy two see how similar two ranks are (see getRankProximity).
+ enum RankFlags {
+-  RF_NOT_ADDR_SET = 1 << 17,
+-  RF_NOT_ALLOC = 1 << 16,
+-  RF_NOT_INTERP = 1 << 15,
+-  RF_NOT_NOTE = 1 << 14,
+-  RF_WRITE = 1 << 13,
+-  RF_EXEC_WRITE = 1 << 12,
+-  RF_EXEC = 1 << 11,
++  RF_NOT_ADDR_SET = 1 << 18,
++  RF_NOT_ALLOC = 1 << 17,
++  RF_NOT_INTERP = 1 << 16,
++  RF_NOT_NOTE = 1 << 15,
++  RF_WRITE = 1 << 14,
++  RF_EXEC_WRITE = 1 << 13,
++  RF_EXEC = 1 << 12,
++  RF_EXEC_HOT = 1 << 11,
+   RF_RODATA = 1 << 10,
+   RF_NOT_RELRO = 1 << 9,
+   RF_NOT_TLS = 1 << 8,
+@@ -823,8 +824,12 @@ static unsigned getSectionRank(const OutputSection *Sec) {
+   if (IsExec) {
+     if (IsWrite)
+       Rank |= RF_EXEC_WRITE;
+-    else
+-      Rank |= RF_EXEC;
++    else {
++      if (isSectionPrefix(".text.hot.", Sec->Name))
++        Rank |= RF_EXEC_HOT;
++      else
++        Rank |= RF_EXEC;
++    }
+   } else if (IsWrite) {
+     Rank |= RF_WRITE;
+   } else if (Sec->Type == SHT_PROGBITS) {
+diff --git a/lld/test/ELF/text-section-prefix.s b/lld/test/ELF/text-section-prefix.s
+index e39536da387..a0c77652511 100644
+--- a/lld/test/ELF/text-section-prefix.s
++++ b/lld/test/ELF/text-section-prefix.s
+@@ -7,8 +7,8 @@
+ # RUN: ld.lld -z nokeep-text-section-prefix %t -o %t4
+ # RUN: llvm-readelf -l %t4 | FileCheck --check-prefix=CHECKNO %s
+ 
+-# CHECK: .text
+ # CHECK: .text.hot
++# CHECK: .text
+ # CHECK: .text.startup
+ # CHECK: .text.exit
+ # CHECK: .text.unlikely

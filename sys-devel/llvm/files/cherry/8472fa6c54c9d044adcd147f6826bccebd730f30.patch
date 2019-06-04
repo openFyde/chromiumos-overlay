@@ -1,0 +1,132 @@
+commit 8472fa6c54c9d044adcd147f6826bccebd730f30
+Author: David Blaikie <dblaikie@gmail.com>
+Date:   Sat Jun 8 00:01:21 2019 +0000
+
+    DebugInfo: Add support for 'nodebug' attribute on typedefs and alias templates
+    
+    Seems like a logical extension to me - and of interest because it might
+    help reduce the debug info size of libc++ by applying this attribute to
+    type traits that have a disproportionate debug info cost compared to the
+    benefit (& possibly harm/confusion) they cause users.
+    
+    llvm-svn: 362856
+
+diff --git a/clang/include/clang/Basic/Attr.td b/clang/include/clang/Basic/Attr.td
+index c20a56532d5..9e2d5c63fbb 100644
+--- a/clang/include/clang/Basic/Attr.td
++++ b/clang/include/clang/Basic/Attr.td
+@@ -1434,7 +1434,7 @@ def NoCommon : InheritableAttr {
+ 
+ def NoDebug : InheritableAttr {
+   let Spellings = [GCC<"nodebug">];
+-  let Subjects = SubjectList<[FunctionLike, ObjCMethod, NonParmVar]>;
++  let Subjects = SubjectList<[TypedefName, FunctionLike, ObjCMethod, NonParmVar]>;
+   let Documentation = [NoDebugDocs];
+ }
+ 
+diff --git a/clang/lib/CodeGen/CGDebugInfo.cpp b/clang/lib/CodeGen/CGDebugInfo.cpp
+index a297025547e..549056dad42 100644
+--- a/clang/lib/CodeGen/CGDebugInfo.cpp
++++ b/clang/lib/CodeGen/CGDebugInfo.cpp
+@@ -1091,15 +1091,18 @@ llvm::DIType *CGDebugInfo::CreateType(const TemplateSpecializationType *Ty,
+   assert(Ty->isTypeAlias());
+   llvm::DIType *Src = getOrCreateType(Ty->getAliasedType(), Unit);
+ 
++  auto *AliasDecl =
++      cast<TypeAliasTemplateDecl>(Ty->getTemplateName().getAsTemplateDecl())
++          ->getTemplatedDecl();
++
++  if (AliasDecl->hasAttr<NoDebugAttr>())
++    return Src;
++
+   SmallString<128> NS;
+   llvm::raw_svector_ostream OS(NS);
+   Ty->getTemplateName().print(OS, getPrintingPolicy(), /*qualified*/ false);
+   printTemplateArgumentList(OS, Ty->template_arguments(), getPrintingPolicy());
+ 
+-  auto *AliasDecl =
+-      cast<TypeAliasTemplateDecl>(Ty->getTemplateName().getAsTemplateDecl())
+-          ->getTemplatedDecl();
+-
+   SourceLocation Loc = AliasDecl->getLocation();
+   return DBuilder.createTypedef(Src, OS.str(), getOrCreateFile(Loc),
+                                 getLineNumber(Loc),
+@@ -1108,15 +1111,20 @@ llvm::DIType *CGDebugInfo::CreateType(const TemplateSpecializationType *Ty,
+ 
+ llvm::DIType *CGDebugInfo::CreateType(const TypedefType *Ty,
+                                       llvm::DIFile *Unit) {
++  llvm::DIType *Underlying =
++      getOrCreateType(Ty->getDecl()->getUnderlyingType(), Unit);
++
++  if (Ty->getDecl()->hasAttr<NoDebugAttr>())
++    return Underlying;
++
+   // We don't set size information, but do specify where the typedef was
+   // declared.
+   SourceLocation Loc = Ty->getDecl()->getLocation();
+ 
+   // Typedefs are derived from some other type.
+-  return DBuilder.createTypedef(
+-      getOrCreateType(Ty->getDecl()->getUnderlyingType(), Unit),
+-      Ty->getDecl()->getName(), getOrCreateFile(Loc), getLineNumber(Loc),
+-      getDeclContextDescriptor(Ty->getDecl()));
++  return DBuilder.createTypedef(Underlying, Ty->getDecl()->getName(),
++                                getOrCreateFile(Loc), getLineNumber(Loc),
++                                getDeclContextDescriptor(Ty->getDecl()));
+ }
+ 
+ static unsigned getDwarfCC(CallingConv CC) {
+diff --git a/clang/test/CodeGenCXX/debug-info-nodebug.cpp b/clang/test/CodeGenCXX/debug-info-nodebug.cpp
+index 9f140efaed6..1962b8cf574 100644
+--- a/clang/test/CodeGenCXX/debug-info-nodebug.cpp
++++ b/clang/test/CodeGenCXX/debug-info-nodebug.cpp
+@@ -1,5 +1,5 @@
+-// RUN: %clang_cc1 -DSETNODEBUG=0 -emit-llvm -debug-info-kind=limited %s -o - | FileCheck %s --check-prefix=YESINFO
+-// RUN: %clang_cc1 -DSETNODEBUG=1 -emit-llvm -debug-info-kind=limited %s -o - | FileCheck %s --check-prefix=NOINFO
++// RUN: %clang_cc1 -DSETNODEBUG=0 -emit-llvm -std=c++14 -debug-info-kind=limited %s -o - | FileCheck %s --check-prefix=YESINFO
++// RUN: %clang_cc1 -DSETNODEBUG=1 -emit-llvm -std=c++14 -debug-info-kind=limited %s -o - | FileCheck %s --check-prefix=NOINFO
+ 
+ #if SETNODEBUG
+ #define NODEBUG __attribute__((nodebug))
+@@ -53,3 +53,15 @@ void func4() {
+ // NOINFO-NOT:  !DIGlobalVariable(name: "static_local"
+ // YESINFO-DAG: !DILocalVariable(name: "normal_local"
+ // NOINFO-NOT:  !DILocalVariable(name: "normal_local"
++
++template <typename T>
++using y NODEBUG = int;
++void func5() {
++  NODEBUG typedef int x;
++  x a;
++  y<int> b;
++}
++// YESINFO-DAG: !DIDerivedType(tag: DW_TAG_typedef, name: "x"
++// NOINFO-NOT:  !DIDerivedType(tag: DW_TAG_typedef, name: "x"
++// YESINFO-DAG: !DIDerivedType(tag: DW_TAG_typedef, name: "y<int>"
++// NOINFO-NOT:  !DIDerivedType(tag: DW_TAG_typedef, name: "y<int>"
+diff --git a/clang/test/Misc/pragma-attribute-supported-attributes-list.test b/clang/test/Misc/pragma-attribute-supported-attributes-list.test
+index 6e07e8e8111..aa71e0bc8f5 100644
+--- a/clang/test/Misc/pragma-attribute-supported-attributes-list.test
++++ b/clang/test/Misc/pragma-attribute-supported-attributes-list.test
+@@ -72,7 +72,7 @@
+ // CHECK-NEXT: NSConsumesSelf (SubjectMatchRule_objc_method)
+ // CHECK-NEXT: Naked (SubjectMatchRule_function)
+ // CHECK-NEXT: NoCommon (SubjectMatchRule_variable)
+-// CHECK-NEXT: NoDebug (SubjectMatchRule_hasType_functionType, SubjectMatchRule_objc_method, SubjectMatchRule_variable_not_is_parameter)
++// CHECK-NEXT: NoDebug (SubjectMatchRule_type_alias, SubjectMatchRule_hasType_functionType, SubjectMatchRule_objc_method, SubjectMatchRule_variable_not_is_parameter)
+ // CHECK-NEXT: NoDestroy (SubjectMatchRule_variable)
+ // CHECK-NEXT: NoDuplicate (SubjectMatchRule_function)
+ // CHECK-NEXT: NoEscape (SubjectMatchRule_variable_is_parameter)
+diff --git a/clang/test/Sema/attr-nodebug.c b/clang/test/Sema/attr-nodebug.c
+index 355778411d3..3ae894a8d0a 100644
+--- a/clang/test/Sema/attr-nodebug.c
++++ b/clang/test/Sema/attr-nodebug.c
+@@ -2,7 +2,7 @@
+ 
+ int a __attribute__((nodebug));
+ 
+-void b(int p __attribute__((nodebug))) { // expected-warning {{'nodebug' attribute only applies to functions, function pointers, Objective-C methods, and variables}}
++void b(int p __attribute__((nodebug))) { // expected-warning {{'nodebug' attribute only applies to typedefs, functions, function pointers, Objective-C methods, and variables}}
+   int b __attribute__((nodebug));
+ }
+ 

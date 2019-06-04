@@ -1,0 +1,98 @@
+commit 26cc5bcb1a392c9e352be35c50f18e1404d91159
+Author: Paul Robinson <paul.robinson@sony.com>
+Date:   Fri Jun 21 13:10:19 2019 +0000
+
+    Fix a crash with assembler source and -g.
+    
+    llvm-mc or clang with -g normally produces debug info describing the
+    assembler source itself; however, if that source already contains some
+    .file/.loc directives, we should instead emit the debug info described
+    by those directives.  For certain assembler sources seen in the wild
+    (particularly in the Chrome build) this was causing a crash due to
+    incorrect assumptions about legal sequences of assembler source text.
+    
+    Fixes PR38994.
+    
+    Differential Revision: https://reviews.llvm.org/D63573
+    
+    llvm-svn: 364039
+
+diff --git a/llvm/include/llvm/MC/MCDwarf.h b/llvm/include/llvm/MC/MCDwarf.h
+index 2a24347075a..1a37aafd065 100644
+--- a/llvm/include/llvm/MC/MCDwarf.h
++++ b/llvm/include/llvm/MC/MCDwarf.h
+@@ -261,6 +261,14 @@ public:
+     HasSource = Source.hasValue();
+   }
+ 
++  void resetFileTable() {
++    MCDwarfDirs.clear();
++    MCDwarfFiles.clear();
++    RootFile.Name.clear();
++    resetMD5Usage();
++    HasSource = false;
++  }
++
+ private:
+   void emitV2FileDirTables(MCStreamer *MCOS) const;
+   void emitV5FileDirTables(MCStreamer *MCOS, Optional<MCDwarfLineStr> &LineStr) const;
+@@ -326,12 +334,7 @@ public:
+     Header.HasSource = Source.hasValue();
+   }
+ 
+-  void resetRootFile() {
+-    assert(Header.MCDwarfFiles.empty());
+-    Header.RootFile.Name.clear();
+-    Header.resetMD5Usage();
+-    Header.HasSource = false;
+-  }
++  void resetFileTable() { Header.resetFileTable(); }
+ 
+   bool hasRootFile() const { return !Header.RootFile.Name.empty(); }
+ 
+diff --git a/llvm/lib/MC/MCParser/AsmParser.cpp b/llvm/lib/MC/MCParser/AsmParser.cpp
+index f0d78a43190..694845e74f5 100644
+--- a/llvm/lib/MC/MCParser/AsmParser.cpp
++++ b/llvm/lib/MC/MCParser/AsmParser.cpp
+@@ -3395,9 +3395,9 @@ bool AsmParser::parseDirectiveFile(SMLoc DirectiveLoc) {
+   } else {
+     // In case there is a -g option as well as debug info from directive .file,
+     // we turn off the -g option, directly use the existing debug info instead.
+-    // Also reset any implicit ".file 0" for the assembler source.
++    // Throw away any implicit file table for the assembler source.
+     if (Ctx.getGenDwarfForAssembly()) {
+-      Ctx.getMCDwarfLineTable(0).resetRootFile();
++      Ctx.getMCDwarfLineTable(0).resetFileTable();
+       Ctx.setGenDwarfForAssembly(false);
+     }
+ 
+diff --git a/llvm/test/MC/AsmParser/directive_file-g.s b/llvm/test/MC/AsmParser/directive_file-g.s
+new file mode 100644
+index 00000000000..3b769f12626
+--- /dev/null
++++ b/llvm/test/MC/AsmParser/directive_file-g.s
+@@ -0,0 +1,24 @@
++## Make sure that using -g (or equivalent) on an asm file that already has
++## debug-info directives in it will correctly ignore the -g and produce
++## debug info corresponding to the directives in the source.
++## Note gcc accepts ".file 1" after a label, although not after an opcode.
++## If no other directives appear, gcc emits no debug info at all.
++
++# RUN: llvm-mc -g -triple i386-unknown-unknown -filetype=obj %s -o %t
++# RUN: llvm-dwarfdump -debug-info -debug-line %t | FileCheck %s
++
++foo:
++        .file 1 "a.c"
++        .loc 1 1 1
++        nop
++
++# CHECK: .debug_info
++## gcc does generate a DW_TAG_compile_unit in this case, with or without
++## -g on the command line, but we do not.
++# CHECK-EMPTY:
++# CHECK_NEXT: .debug_line
++# CHECK: file_names[ 1]:
++# CHECK-NEXT: name: "a.c"
++# CHECK-NEXT: dir_index: 0
++# CHECK: 0x{{0+}}0 1 1 1 0 0 is_stmt
++# CHECK: 0x{{0+}}1 1 1 1 0 0 is_stmt end_sequence

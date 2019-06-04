@@ -12,8 +12,9 @@ inherit  cros-constants check-reqs cmake-utils eutils flag-o-matic git-2 git-r3 
 
 # llvm:353983 https://critique.corp.google.com/#review/233864070
 LLVM_HASH="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # EGIT_COMMIT r353983
-# llvm:353983 https://critique.corp.google.com/#review/233864070
-LLVM_NEXT_HASH="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # EGIT_COMMIT r353983
+# llvm:361749 https://critique.corp.google.com/#review/252092293
+# Master bug: crbug/972454
+LLVM_NEXT_HASH="c11de5eada2decd0a495ea02676b6f4838cd54fb" # r361749
 
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="http://llvm.org/"
@@ -193,23 +194,20 @@ pick_next_cherries() {
 	local CHERRIES=""
 
 	# clang
+	# Next two for: crbug/977282
+	CHERRIES+=" 7e48b406ef5ef2208c75874f7751a786e748706f" #r361885
+	CHERRIES+=" 37b753368238cd25868632960f477d25f973b977" #r363548
 
 	# llvm
-	CHERRIES+=" d0b1f30b32bda78267a48f1812adabcfe872fe43" #r354062
-	CHERRIES+=" 74b874ac4c6c079f85edd1f2957b1d96e0127ea5" #r356988
+	# Next two from google3 cherries for r361749
+	CHERRIES+=" 8472fa6c54c9d044adcd147f6826bccebd730f30" #r362856
+	CHERRIES+=" ca84c4be4b443df7e49202bb6ca42f831b524245" #r361781
+	# crbug.com/916740.
+	CHERRIES+=" 26cc5bcb1a392c9e352be35c50f18e1404d91159" #r364039
 
 	# compiler-rt
-	CHERRIES+=" a2062b222d93e2ae86d36ec75923c8b1e4ae0d81" #r354632
-	CHERRIES+=" e3b6d11038f3927fd02ec6d5459cfd0ffbe6b2fe" #r354989, needed to pick r355030
-	CHERRIES+=" f46a52b5363d22bba6cc6081da295ece181977f2" #r355030
-	CHERRIES+=" f6b0a14bff33f85087e9cc5c3b1bb00f58ed8b8b" #r355041
-	CHERRIES+=" d4b4e17d2c70c8d498ad33422cf847d659b5b0cf" #r355064
-	CHERRIES+=" 37ce064082c6c8283829f206af55ff6a28e95544" #r355125
-	CHERRIES+=" 86724e40bfa544a5024a2a3d522934aef6914cc7" #r356581
 
-	#lld
-	CHERRIES+=" 432030e843bf124b4d285874362b6fd00446dd56" #r357133
-	CHERRIES+=" 3ce9af9370d091b7d959902216482f3015e965fc" #r357160
+	# lld
 
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -287,6 +285,8 @@ src_prepare() {
 	# compiler-rt patches
 	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
 	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
+	use llvm-next && epatch "${FILESDIR}"/compiler-rt-9.0-force-fPIC.patch
+
 
 	# new pass manager patches
 	# crbug/958867
@@ -307,9 +307,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/llvm-3.9-dwarf-version.patch
 
 	# Temporarily revert r332058 as it caused speedometer2 perf regression.
-	# https://crbug.com/864781
-	epatch_after 332058 "${FILESDIR}"/llvm-8.0-next-revert-afdo-hotness.patch
-
+	# crbug.com/864781
+	use llvm-next || epatch_after 332058 "${FILESDIR}"/llvm-8.0-next-revert-afdo-hotness.patch
 	# Revert r335145 and r335284 since android reverts them.
 	# b/113573336
 	epatch_after 335145 "${FILESDIR}"/llvm-8.0-revert-r335145.patch
@@ -320,21 +319,25 @@ src_prepare() {
 
 	# Link libgcc_eh when using compiler-rt as default rtlib.
 	# https://llvm.org/bugs/show_bug.cgi?id=28681
-	epatch "${FILESDIR}"/clang-6.0-enable-libgcc-with-compiler-rt.patch
+	use llvm-next || epatch "${FILESDIR}"/clang-6.0-enable-libgcc-with-compiler-rt.patch
 
 	epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
 
-	# revert r340839, https://crbug.com/916740
-	epatch "${FILESDIR}"/llvm-8.0-revert-asm-debug-info.patch
+	# revert r340839, crbug.com/916740.
+	# For llvm-next, we now have a cherry for r364039.
+	use llvm-next || epatch "${FILESDIR}"/llvm-8.0-revert-asm-debug-info.patch
 
 	# lld patches
 	# These 2 patches are still reverted in Android.
-	epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
-	epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
+	# This one was fixed in r343745
+	use llvm-next || epatch "${FILESDIR}"/lld-8.0-revert-r326242.patch
+	# Get rid of this patch. Android specific.
+	use llvm-next || epatch "${FILESDIR}"/lld-8.0-revert-r325849.patch
 	# Allow .elf suffix in lld binary name.
 	epatch "${FILESDIR}/lld-invoke-name.patch"
 	# Put .text.hot section before .text section.
-	epatch "${FILESDIR}"/lld-8.0-reorder-hotsection-early.patch
+	use llvm-next || epatch "${FILESDIR}"/lld-8.0-reorder-hotsection-early.patch
+	use llvm-next && epatch "${FILESDIR}"/lld-9.0-reorder-hotsection-early.patch
 
 	python_setup
 
@@ -406,6 +409,12 @@ multilib_src_configure() {
 
 		# Turn on new pass manager for LLVM
 		-DENABLE_EXPERIMENTAL_NEW_PASS_MANAGER=ON
+
+		# crbug/855759
+		-DCOMPILER_RT_BUILD_CRT=OFF
+
+		-DCMAKE_POSITION_INDEPENDENT_CODE=ON
+		-DCLANG_DEFAULT_UNWINDLIB=libgcc
 	)
 
 	# Update LLVM to 9.0 will cause LLVM to complain GCC

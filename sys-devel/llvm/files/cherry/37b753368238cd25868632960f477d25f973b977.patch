@@ -1,0 +1,119 @@
+commit 37b753368238cd25868632960f477d25f973b977
+Author: Nico Weber <nicolasweber@gmx.de>
+Date:   Mon Jun 17 12:10:40 2019 +0000
+
+    Promote -fdebug-compilation-dir from a cc1 flag to clang and clang-cl driver flags
+    
+    The flag is useful when wanting to create .o files that are independent
+    from the absolute path to the build directory. -fdebug-prefix-map= can
+    be used to the same effect, but it requires putting the absolute path
+    to the build directory on the build command line, so it still requires
+    the build command line to be dependent on the absolute path of the build
+    directory. With this flag, "-fdebug-compilation-dir ." makes it so that
+    both debug info and the compile command itself are independent of the
+    absolute path of the build directory, which is good for build
+    determinism (in the sense that the build is independent of which
+    directory it happens in) and for caching compile results.
+    (The tradeoff is that the debugger needs explicit configuration to know
+    the build directory. See also http://dwarfstd.org/ShowIssue.php?issue=171130.2)
+    
+    Differential Revision: https://reviews.llvm.org/D63387
+    
+    llvm-svn: 363548
+
+diff --git a/clang/include/clang/Driver/CC1Options.td b/clang/include/clang/Driver/CC1Options.td
+index 526688116a9..1d96f1e1ee1 100644
+--- a/clang/include/clang/Driver/CC1Options.td
++++ b/clang/include/clang/Driver/CC1Options.td
+@@ -190,8 +190,6 @@ def default_function_attr : Separate<["-"], "default-function-attr">,
+   HelpText<"Apply given attribute to all functions">;
+ def dwarf_version_EQ : Joined<["-"], "dwarf-version=">;
+ def debugger_tuning_EQ : Joined<["-"], "debugger-tuning=">;
+-def fdebug_compilation_dir : Separate<["-"], "fdebug-compilation-dir">,
+-  HelpText<"The compilation directory to embed in the debug info.">;
+ def dwarf_debug_flags : Separate<["-"], "dwarf-debug-flags">,
+   HelpText<"The string to embed in the Dwarf debug flags record.">;
+ def record_command_line : Separate<["-"], "record-command-line">,
+diff --git a/clang/include/clang/Driver/Options.td b/clang/include/clang/Driver/Options.td
+index 07d1c220c79..c9c9984ffa4 100644
+--- a/clang/include/clang/Driver/Options.td
++++ b/clang/include/clang/Driver/Options.td
+@@ -713,11 +713,14 @@ def fauto_profile_accurate : Flag<["-"], "fauto-profile-accurate">,
+     Group<f_Group>, Alias<fprofile_sample_accurate>;
+ def fno_auto_profile_accurate : Flag<["-"], "fno-auto-profile-accurate">,
+     Group<f_Group>, Alias<fno_profile_sample_accurate>;
+-def fdebug_info_for_profiling : Flag<["-"], "fdebug-info-for-profiling">, Group<f_Group>,
+-    Flags<[CC1Option]>,
++def fdebug_compilation_dir : Separate<["-"], "fdebug-compilation-dir">,
++    Group<f_Group>, Flags<[CC1Option, CC1AsOption, CoreOption]>,
++    HelpText<"The compilation directory to embed in the debug info.">;
++def fdebug_info_for_profiling : Flag<["-"], "fdebug-info-for-profiling">,
++    Group<f_Group>, Flags<[CC1Option]>,
+     HelpText<"Emit extra debug info to make sample profile more accurate.">;
+-def fno_debug_info_for_profiling : Flag<["-"], "fno-debug-info-for-profiling">, Group<f_Group>,
+-    Flags<[DriverOption]>,
++def fno_debug_info_for_profiling : Flag<["-"], "fno-debug-info-for-profiling">,
++    Group<f_Group>, Flags<[DriverOption]>,
+     HelpText<"Do not emit extra debug info for sample profiler.">;
+ def fprofile_instr_generate : Flag<["-"], "fprofile-instr-generate">,
+     Group<f_Group>, Flags<[CoreOption]>,
+diff --git a/clang/lib/Driver/ToolChains/Clang.cpp b/clang/lib/Driver/ToolChains/Clang.cpp
+index e75c5d1a92e..91993a44007 100644
+--- a/clang/lib/Driver/ToolChains/Clang.cpp
++++ b/clang/lib/Driver/ToolChains/Clang.cpp
+@@ -618,7 +618,11 @@ static bool shouldUseLeafFramePointer(const ArgList &Args,
+ /// Add a CC1 option to specify the debug compilation directory.
+ static void addDebugCompDirArg(const ArgList &Args, ArgStringList &CmdArgs,
+                                const llvm::vfs::FileSystem &VFS) {
+-  if (llvm::ErrorOr<std::string> CWD = VFS.getCurrentWorkingDirectory()) {
++  if (Arg *A = Args.getLastArg(options::OPT_fdebug_compilation_dir)) {
++    CmdArgs.push_back("-fdebug-compilation-dir");
++    CmdArgs.push_back(A->getValue());
++  } else if (llvm::ErrorOr<std::string> CWD =
++                 VFS.getCurrentWorkingDirectory()) {
+     CmdArgs.push_back("-fdebug-compilation-dir");
+     CmdArgs.push_back(Args.MakeArgString(*CWD));
+   }
+@@ -637,7 +641,8 @@ static void addDebugPrefixMapArg(const Driver &D, const ArgList &Args, ArgString
+ }
+ 
+ /// Vectorize at all optimization levels greater than 1 except for -Oz.
+-/// For -Oz the loop vectorizer is disable, while the slp vectorizer is enabled.
++/// For -Oz the loop vectorizer is disabled, while the slp vectorizer is
++/// enabled.
+ static bool shouldEnableVectorizerAtOLevel(const ArgList &Args, bool isSlpVec) {
+   if (Arg *A = Args.getLastArg(options::OPT_O_Group)) {
+     if (A->getOption().matches(options::OPT_O4) ||
+diff --git a/clang/test/Driver/cl-options.c b/clang/test/Driver/cl-options.c
+index 4b41720441a..2b71bd044b6 100644
+--- a/clang/test/Driver/cl-options.c
++++ b/clang/test/Driver/cl-options.c
+@@ -619,6 +619,7 @@
+ // RUN:     -fno-coverage-mapping \
+ // RUN:     -fdiagnostics-color \
+ // RUN:     -fno-diagnostics-color \
++// RUN:     -fdebug-compilation-dir . \
+ // RUN:     -fdiagnostics-parseable-fixits \
+ // RUN:     -fdiagnostics-absolute-paths \
+ // RUN:     -ferror-limit=10 \
+diff --git a/clang/test/Driver/clang_f_opts.c b/clang/test/Driver/clang_f_opts.c
+index 5431e7a2123..d3d80fdec41 100644
+--- a/clang/test/Driver/clang_f_opts.c
++++ b/clang/test/Driver/clang_f_opts.c
+@@ -525,11 +525,15 @@
+ // CHECK-CF-PROTECTION-BRANCH: -fcf-protection=branch
+ // CHECK-NO-CF-PROTECTION-BRANCH-NOT: -fcf-protection=branch
+ 
++// RUN: %clang -### -S -fdebug-compilation-dir . %s 2>&1 | FileCheck -check-prefix=CHECK-DEBUG-COMPILATION-DIR %s
++// RUN: %clang -### -fdebug-compilation-dir . -x assembler %s 2>&1 | FileCheck -check-prefix=CHECK-DEBUG-COMPILATION-DIR %s
++// CHECK-DEBUG-COMPILATION-DIR: "-fdebug-compilation-dir" "."
++
+ // RUN: %clang -### -S -fdiscard-value-names %s 2>&1 | FileCheck -check-prefix=CHECK-DISCARD-NAMES %s
+ // RUN: %clang -### -S -fno-discard-value-names %s 2>&1 | FileCheck -check-prefix=CHECK-NO-DISCARD-NAMES %s
+ // CHECK-DISCARD-NAMES: "-discard-value-names"
+ // CHECK-NO-DISCARD-NAMES-NOT: "-discard-value-names"
+-//
++
+ // RUN: %clang -### -S -fmerge-all-constants %s 2>&1 | FileCheck -check-prefix=CHECK-MERGE-ALL-CONSTANTS %s
+ // RUN: %clang -### -S -fno-merge-all-constants %s 2>&1 | FileCheck -check-prefix=CHECK-NO-MERGE-ALL-CONSTANTS %s
+ // RUN: %clang -### -S -fmerge-all-constants -fno-merge-all-constants %s 2>&1 | FileCheck -check-prefix=CHECK-NO-MERGE-ALL-CONSTANTS %s

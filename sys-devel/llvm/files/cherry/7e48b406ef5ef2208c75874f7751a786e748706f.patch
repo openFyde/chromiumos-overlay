@@ -1,0 +1,167 @@
+commit 7e48b406ef5ef2208c75874f7751a786e748706f
+Author: Michael J. Spencer <bigcheesegs@gmail.com>
+Date:   Tue May 28 22:21:47 2019 +0000
+
+    [Driver] Fix -working-directory issues
+    
+    Currently the `-working-directory` option does not actually impact the working
+    directory for all of the clang driver, it only impacts how files are looked up
+    to make sure they exist.  This means that that clang passes the wrong paths
+    to -fdebug-compilation-dir and -coverage-notes-file.
+    
+    This patch fixes that by changing all the places in the driver where we convert
+    to absolute paths to use the VFS, and then calling setCurrentWorkingDirectory on
+    the VFS.  This also changes the default VFS for `Driver` to use a virtualized
+    working directory, instead of changing the process's working directory.
+    
+    Differential Revision: https://reviews.llvm.org/D62271
+    
+    llvm-svn: 361885
+
+diff --git a/clang/include/clang/Basic/DiagnosticDriverKinds.td b/clang/include/clang/Basic/DiagnosticDriverKinds.td
+index 2ece1f0f578..ffecccba16a 100644
+--- a/clang/include/clang/Basic/DiagnosticDriverKinds.td
++++ b/clang/include/clang/Basic/DiagnosticDriverKinds.td
+@@ -91,6 +91,8 @@ def err_no_external_assembler : Error<
+   "there is no external assembler that can be used on this platform">;
+ def err_drv_unable_to_remove_file : Error<
+   "unable to remove file: %0">;
++def err_drv_unable_to_set_working_directory : Error <
++  "unable to set working directory: %0">;
+ def err_drv_command_failure : Error<
+   "unable to execute command: %0">;
+ def err_drv_invalid_darwin_version : Error<
+diff --git a/clang/lib/Driver/Driver.cpp b/clang/lib/Driver/Driver.cpp
+index 0f7bbb6eb0f..4c153bf3348 100644
+--- a/clang/lib/Driver/Driver.cpp
++++ b/clang/lib/Driver/Driver.cpp
+@@ -133,7 +133,7 @@ Driver::Driver(StringRef ClangExecutable, StringRef TargetTriple,
+ 
+   // Provide a sane fallback if no VFS is specified.
+   if (!this->VFS)
+-    this->VFS = llvm::vfs::getRealFileSystem();
++    this->VFS = llvm::vfs::createPhysicalFileSystem().release();
+ 
+   Name = llvm::sys::path::filename(ClangExecutable);
+   Dir = llvm::sys::path::parent_path(ClangExecutable);
+@@ -1005,6 +1005,11 @@ Compilation *Driver::BuildCompilation(ArrayRef<const char *> ArgList) {
+     }
+   }
+ 
++  // Check for working directory option before accessing any files
++  if (Arg *WD = Args.getLastArg(options::OPT_working_directory))
++    if (std::error_code EC = VFS->setCurrentWorkingDirectory(WD->getValue()))
++      Diag(diag::err_drv_unable_to_set_working_directory) << WD->getValue();
++
+   // FIXME: This stuff needs to go into the Compilation, not the driver.
+   bool CCCPrintPhases;
+ 
+@@ -1984,20 +1989,11 @@ bool Driver::DiagnoseInputExistence(const DerivedArgList &Args, StringRef Value,
+   if (Value == "-")
+     return true;
+ 
+-  SmallString<64> Path(Value);
+-  if (Arg *WorkDir = Args.getLastArg(options::OPT_working_directory)) {
+-    if (!llvm::sys::path::is_absolute(Path)) {
+-      SmallString<64> Directory(WorkDir->getValue());
+-      llvm::sys::path::append(Directory, Value);
+-      Path.assign(Directory);
+-    }
+-  }
+-
+-  if (getVFS().exists(Path))
++  if (getVFS().exists(Value))
+     return true;
+ 
+   if (IsCLMode()) {
+-    if (!llvm::sys::path::is_absolute(Twine(Path)) &&
++    if (!llvm::sys::path::is_absolute(Twine(Value)) &&
+         llvm::sys::Process::FindInEnvPath("LIB", Value))
+       return true;
+ 
+@@ -2023,12 +2019,12 @@ bool Driver::DiagnoseInputExistence(const DerivedArgList &Args, StringRef Value,
+     if (getOpts().findNearest(Value, Nearest, IncludedFlagsBitmask,
+                               ExcludedFlagsBitmask) <= 1) {
+       Diag(clang::diag::err_drv_no_such_file_with_suggestion)
+-          << Path << Nearest;
++          << Value << Nearest;
+       return false;
+     }
+   }
+ 
+-  Diag(clang::diag::err_drv_no_such_file) << Path;
++  Diag(clang::diag::err_drv_no_such_file) << Value;
+   return false;
+ }
+ 
+diff --git a/clang/lib/Driver/ToolChains/Clang.cpp b/clang/lib/Driver/ToolChains/Clang.cpp
+index d76e1759598..3009bc8d292 100644
+--- a/clang/lib/Driver/ToolChains/Clang.cpp
++++ b/clang/lib/Driver/ToolChains/Clang.cpp
+@@ -616,11 +616,11 @@ static bool shouldUseLeafFramePointer(const ArgList &Args,
+ }
+ 
+ /// Add a CC1 option to specify the debug compilation directory.
+-static void addDebugCompDirArg(const ArgList &Args, ArgStringList &CmdArgs) {
+-  SmallString<128> cwd;
+-  if (!llvm::sys::fs::current_path(cwd)) {
++static void addDebugCompDirArg(const ArgList &Args, ArgStringList &CmdArgs,
++                               const llvm::vfs::FileSystem &VFS) {
++  if (llvm::ErrorOr<std::string> CWD = VFS.getCurrentWorkingDirectory()) {
+     CmdArgs.push_back("-fdebug-compilation-dir");
+-    CmdArgs.push_back(Args.MakeArgString(cwd));
++    CmdArgs.push_back(Args.MakeArgString(*CWD));
+   }
+ }
+ 
+@@ -885,13 +885,8 @@ static void addPGOAndCoverageFlags(const ToolChain &TC, Compilation &C,
+       else
+         OutputFilename = llvm::sys::path::filename(Output.getBaseInput());
+       SmallString<128> CoverageFilename = OutputFilename;
+-      if (llvm::sys::path::is_relative(CoverageFilename)) {
+-        SmallString<128> Pwd;
+-        if (!llvm::sys::fs::current_path(Pwd)) {
+-          llvm::sys::path::append(Pwd, CoverageFilename);
+-          CoverageFilename.swap(Pwd);
+-        }
+-      }
++      if (llvm::sys::path::is_relative(CoverageFilename))
++        (void)D.getVFS().makeAbsolute(CoverageFilename);
+       llvm::sys::path::replace_extension(CoverageFilename, "gcno");
+       CmdArgs.push_back(Args.MakeArgString(CoverageFilename));
+ 
+@@ -4354,7 +4349,7 @@ void Clang::ConstructJob(Compilation &C, const JobAction &JA,
+     CmdArgs.push_back("-fno-autolink");
+ 
+   // Add in -fdebug-compilation-dir if necessary.
+-  addDebugCompDirArg(Args, CmdArgs);
++  addDebugCompDirArg(Args, CmdArgs, D.getVFS());
+ 
+   addDebugPrefixMapArg(D, Args, CmdArgs);
+ 
+@@ -6065,7 +6060,7 @@ void ClangAs::ConstructJob(Compilation &C, const JobAction &JA,
+     DebugInfoKind = (WantDebug ? codegenoptions::LimitedDebugInfo
+                                : codegenoptions::NoDebugInfo);
+     // Add the -fdebug-compilation-dir flag if needed.
+-    addDebugCompDirArg(Args, CmdArgs);
++    addDebugCompDirArg(Args, CmdArgs, C.getDriver().getVFS());
+ 
+     addDebugPrefixMapArg(getToolChain().getDriver(), Args, CmdArgs);
+ 
+diff --git a/clang/test/Driver/working-directory.c b/clang/test/Driver/working-directory.c
+index 15ba8f00bd1..fbd4ed4f9e1 100644
+--- a/clang/test/Driver/working-directory.c
++++ b/clang/test/Driver/working-directory.c
+@@ -1,3 +1,11 @@
+ // RUN: %clang -### -working-directory /no/such/dir/ input 2>&1 | FileCheck %s
++// RUN: %clang -### -working-directory %p/Inputs no_such_file.cpp -c 2>&1 | FileCheck %s --check-prefix=CHECK_NO_FILE
++// RUN: %clang -### -working-directory %p/Inputs pchfile.cpp -c 2>&1 | FileCheck %s --check-prefix=CHECK_WORKS
+ 
+-//CHECK: no such file or directory: '/no/such/dir/input'
++// CHECK: unable to set working directory: /no/such/dir/
++
++// CHECK_NO_FILE: no such file or directory: 'no_such_file.cpp'
++
++// CHECK_WORKS: "-coverage-notes-file" "{{[^"]+}}test{{/|\\\\}}Driver{{/|\\\\}}Inputs{{/|\\\\}}pchfile.gcno"
++// CHECK_WORKS: "-working-directory" "{{[^"]+}}test{{/|\\\\}}Driver{{/|\\\\}}Inputs"
++// CHECK_WORKS: "-fdebug-compilation-dir" "{{[^"]+}}test{{/|\\\\}}Driver{{/|\\\\}}Inputs"

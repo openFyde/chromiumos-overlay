@@ -25,5 +25,6 @@ CLANG_FLAGS_TO_ADD = set(['-Qunused-arguments',
                           '-Wno-tautological-unsigned-enum-zero-compare',
                           '-Wno-unknown-warning-option',
                           '-Wno-section',
+                          '-static-libgcc',
                          ])
 
