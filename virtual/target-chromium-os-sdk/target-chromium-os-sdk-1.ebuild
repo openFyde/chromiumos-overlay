@@ -81,7 +81,7 @@ RDEPEND="${RDEPEND}
 	app-arch/pixz
 	app-admin/sudo
 	app-crypt/efitools
-	app-crypt/sbsigntool
+	app-crypt/sbsigntools
 	dev-embedded/cbootimage
 	dev-embedded/tegrarcm
 	dev-embedded/u-boot-tools
