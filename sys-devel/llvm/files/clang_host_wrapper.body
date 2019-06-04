@@ -105,12 +105,20 @@ def main(argv):
   if use_clang_tidy:
     import subprocess
     tidy_execargs = []
-    default_tidy_checks = ('-checks=*,google*,-google-build-using-namespace,'
-                           '-google-default-arguments,-readability-*,'
-                           '-cppcoreguidelines-*,-modernize-*,'
-                           '-google-explicit-constructor,-google-readability*,'
-                           '-google-runtime-int,-google-runtime-references')
-    tidy_args = [default_tidy_checks]
+    default_tidy_checks = ','.join([
+        '*',
+        'google*',
+        '-cppcoreguidelines-*',
+        '-google-build-using-namespace',
+        '-google-default-arguments',
+        '-google-explicit-constructor',
+        '-google-readability*',
+        '-google-runtime-int',
+        '-google-runtime-references',
+        '-modernize-*',
+        '-readability-*',
+    ])
+    tidy_args = ['-checks=' + default_tidy_checks]
     resource_path = subprocess.check_output([clang_comp,
                                              '--print-resource-dir'])
     resource_dir_arg = ['-resource-dir=%s' % resource_path.strip()]
