@@ -304,6 +304,7 @@ ecargo_build_fuzzer() {
 		-Clink-arg="-L${fuzzer_libdir}"
 		-Clink-arg="-lclang_rt.fuzzer-${fuzzer_arch}"
 		-Clink-arg="-lc++"
+		-Clink-arg="-Wl,-export-dynamic"
 	)
 
 	# The `rustc` subcommand for cargo allows us to set some extra flags for
