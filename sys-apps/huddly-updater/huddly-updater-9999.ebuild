@@ -36,6 +36,7 @@ src_test() {
 
 src_install() {
 	dosbin huddly-updater
+	dosbin huddly-hpk-updater
 	udev_dorules conf/99-huddly.rules
 }
 
