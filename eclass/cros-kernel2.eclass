@@ -1492,16 +1492,6 @@ cros-kernel2_src_unpack() {
 		CROS_WORKON_OUTOFTREE_BUILD=0
 	fi
 
-	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
-	case ${kernel_arch} in
-		arm)
-			if use clang; then
-				# https://crbug.com/819808
-				die "Building a 32-bit ARM kernel with clang is not supported."
-			fi
-			;;
-	esac
-
 	cros-workon_src_unpack
 	if use kernel_afdo && [[ -z "${AFDO_VERSION}" ]]; then
 		eerror "AFDO_PROFILE_VERSION is required in .ebuild by kernel_afdo."
