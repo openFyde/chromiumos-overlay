@@ -19,6 +19,7 @@ IUSE="
 	arcvm
 	asan
 	betty
+	biod
 	chrome_internal
 	chromeless_tty
 	containers
