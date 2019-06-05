@@ -183,6 +183,7 @@ ALL_BOARDS=(
 	jecht
 	#kahlee
 	kalista
+	kalista-cfm
 	kayle
 	kblrvp
 	kefka
@@ -298,6 +299,7 @@ ALL_BOARDS=(
 	#reptile
 	#ricochet
 	rikku
+	rikku-cfm
 	rizer
 	romer
 	rotor
