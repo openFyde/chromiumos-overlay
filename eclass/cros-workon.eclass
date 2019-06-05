@@ -339,7 +339,10 @@ symlink_in_place() {
 		ewarn "Set SANDBOX_WRITE=${CROS_WORKON_SRCROOT} in your env."
 	fi
 	mkdir -p "${dst%/*}"
-	ln -sfT "${src}" "${dst}" || die "ln -sfT ${src} ${dst}"
+
+	if [[ "$(realpath "${src}")" != "$(realpath "${dst}")" ]]; then
+		ln -sfT "${src}" "${dst}" || die "ln -sfT ${src} ${dst}"
+	fi
 }
 
 local_copy() {
