@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="d86d31f4c43703835ac24c602e7684fc72d7ea98"
-CROS_WORKON_TREE=("f354d140e04d861ac5457214dd14961f6c512112" "08334ad5a8e21ac2d471d2052b1d0a4fa5cc3b0a" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="a0823de57bfa3ec88764f0820942cb18fe18a37d"
+CROS_WORKON_TREE=("f354d140e04d861ac5457214dd14961f6c512112" "be8b616d10750859253218b58222e86c2bd29595" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_GO_PACKAGES=(
 	"chromiumos/vm_tools/tremplin_proto"
 )
@@ -47,10 +47,6 @@ DEPEND="
 	dev-go/protobuf
 	>=sys-kernel/linux-headers-4.4-r16
 "
-
-src_configure() {
-	platform_src_configure "vm_tools/sommelier/sommelier.gyp"
-}
 
 src_install() {
 	dobin "${OUT}"/vm_syslog
