@@ -54,6 +54,7 @@ src_prepare() {
 	epatch "${FILESDIR}/0023-FROMGIT-media-videodev2.h-add-v4l2_timeval_to_ns-inl.patch"
 	epatch "${FILESDIR}/0024-UPSTREAM-nl80211-mac80211-mesh-add-hop-count-to-mpath.patch"
 	epatch "${FILESDIR}/0025-UPSTREAM-nl80211-mac80211-mesh-add-mesh-path-change-c.patch"
+	epatch "${FILESDIR}/0026-FROMLIST-Input_add_KEY_KBD_LAYOUT_NEXT.patch"
 }
 
 src_install() {
