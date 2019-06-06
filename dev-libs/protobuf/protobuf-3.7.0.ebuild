@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-inherit autotools elisp-common flag-o-matic multilib-minimal toolchain-funcs
+inherit autotools elisp-common flag-o-matic multilib-minimal toolchain-funcs cros-sanitizers
 
 DESCRIPTION="Google's Protocol Buffers - Extensible mechanism for serializing structured data"
 HOMEPAGE="https://developers.google.com/protocol-buffers/ https://github.com/protocolbuffers/protobuf"
@@ -37,6 +37,7 @@ src_prepare() {
 src_configure() {
 	append-cppflags -DGOOGLE_PROTOBUF_NO_RTTI
 	tc-ld-disable-gold
+	sanitizers-setup-env
 	multilib-minimal_src_configure
 }
 
