@@ -5,15 +5,16 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="This is a helper for finding native MSVC ABI libraries in a Vcpkg installation from cargo build scripts."
-HOMEPAGE="https://github.com/mcgoo/vcpkg-rs"
+DESCRIPTION="built provides a crate with information from the time it was built."
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	=dev-rust/lazy_static-1*:=
-	>=dev-rust/tempdir-0.3.7:=
+DEPEND=">=dev-rust/toml-0.5:=
+	=dev-rust/chrono-0.4*:=
+	=dev-rust/git2-0.9*:=
+	>=dev-rust/semver-0.9:=
+	=dev-rust/tempdir-0.3*:=
 "

@@ -5,8 +5,8 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="This is a helper for finding native MSVC ABI libraries in a Vcpkg installation from cargo build scripts."
-HOMEPAGE="https://github.com/mcgoo/vcpkg-rs"
+DESCRIPTION="Implements a logger that can be configured via environment variables."
+HOMEPAGE="https://github.com/sebasmagri/env_logger/"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -14,6 +14,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/lazy_static-1*:=
-	>=dev-rust/tempdir-0.3.7:=
+	=dev-rust/log-0.4*:=
+	>=dev-rust/atty-0.2.5:=
+	=dev-rust/humantime-1.1*:=
+	>=dev-rust/regex-1.0.3:=
+	>=dev-rust/termcolor-1.0.2:=
 "
