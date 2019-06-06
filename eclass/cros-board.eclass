@@ -215,7 +215,6 @@ ALL_BOARDS=(
 	lakitu_next
 	lakitu-slice
 	lakitu-st
-	lakitu-vca
 	lars
 	laser
 	lasilla-ground
