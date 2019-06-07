@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=6
 
 inherit eutils flag-o-matic multilib toolchain-funcs multilib-minimal
 
@@ -20,7 +20,7 @@ SRC_URI="https://archive.mozilla.org/pub/security/nss/releases/${RTM_NAME}/src/$
 LICENSE="|| ( MPL-2.0 GPL-2 LGPL-2.1 )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cacert +nss-pem utils"
+IUSE="cacert cros_host +nss-pem utils"
 CDEPEND=">=dev-db/sqlite-3.8.2[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]"
 DEPEND=">=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
@@ -28,7 +28,7 @@ DEPEND=">=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
 	${CDEPEND}"
 RDEPEND=">=dev-libs/nspr-${NSPR_VER}[${MULTILIB_USEDEP}]
 	${CDEPEND}
-"
+	!<app-crypt/nss-${PV}[${MULTILIB_USEDEP}]"
 
 RESTRICT="test"
 
@@ -61,6 +61,12 @@ src_prepare() {
 	if use cacert ; then #521462
 		PATCHES+=(
 			"${DISTDIR}/${PN}-cacert-class1-class3.patch"
+		)
+	fi
+	# use host shlibsign if need be crbug.com/884946
+	if tc-is-cross-compiler ; then
+		PATCHES+=(
+			"${FILESDIR}/${PN}-3.38-shlibsign-path-pollution.patch"
 		)
 	fi
 
@@ -102,6 +108,11 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# Workaround the bug in crbug.com/817911
+	# With BFD linker, the libsmime3.so contains two NSS_3.10 symbols, one is
+	# global, the other is local and this makes LLD cry.
+	use cros_host && append-ldflags -fuse-ld=gold
+
 	# Ensure we stay multilib aware
 	sed -i -e "/@libdir@/ s:lib64:$(get_libdir):" config/Makefile || die
 }

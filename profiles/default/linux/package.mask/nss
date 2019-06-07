@@ -1,6 +1,0 @@
-# Copyright 2019 The Chromium OS Authors. All rights reserved.
-# Distributed under the terms of the GNU General Public License v2
-
-# Masked off while upreving
->=dev-libs/nss-3.44
->=app-crypt/nss-3.44
