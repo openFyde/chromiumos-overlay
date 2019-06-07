@@ -25,6 +25,7 @@ IUSE="input_devices_synaptics
 	input_devices_pixart
 	input_devices_g2touch
 	input_devices_cirque
+	input_devices_elan_i2chid
 "
 
 RDEPEND="
@@ -39,6 +40,7 @@ RDEPEND="
 	input_devices_pixart? ( chromeos-base/pixart_tpfwup )
 	input_devices_g2touch? ( chromeos-base/g2update_tool )
 	input_devices_cirque? ( chromeos-base/cirque_fw_update )
+	input_devices_elan_i2chid? ( chromeos-base/elan_i2chid_tools )
 	sys-apps/mosys
 "
 
@@ -46,6 +48,10 @@ pkg_preinst() {
 	if use input_devices_etphidiap || use input_devices_st_touchscreen; then
 		enewgroup fwupdate-i2c
 		enewuser fwupdate-i2c
+	fi
+	if use input_devices_elan_i2chid; then
+		enewgroup fwupdate-hidraw
+		enewuser fwupdate-hidraw
 	fi
 	if use input_devices_sis; then
 		enewgroup sisfwupdate
