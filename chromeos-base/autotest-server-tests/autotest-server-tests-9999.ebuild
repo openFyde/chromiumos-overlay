@@ -162,6 +162,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_DevScreenTimeout
 	+tests_firmware_ECBattery
 	+tests_firmware_ECBootTime
+	+tests_firmware_ECCbiEeprom
 	+tests_firmware_ECCharging
 	+tests_firmware_ECHash
 	+tests_firmware_ECKeyboard
@@ -203,6 +204,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_SetSerialNumber
 	+tests_firmware_SoftwareSync
 	+tests_firmware_StandbyPowerConsumption
+	+tests_firmware_TPMNotCorruptedDevMode
 	tpm? ( +tests_firmware_TPMExtend )
 	tpm? ( +tests_firmware_TPMVersionCheck )
 	tpm? ( +tests_firmware_TPMKernelVersion )
