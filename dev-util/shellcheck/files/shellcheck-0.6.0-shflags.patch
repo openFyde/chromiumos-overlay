@@ -1,0 +1,341 @@
+From f7ca0fc03145e06a1f82e93a42aec5774c87863d Mon Sep 17 00:00:00 2001
+From: Benjamin Gordon <bmgordon@chromium.org>
+Date: Fri, 31 May 2019 10:42:53 -0600
+Subject: [PATCH] Add support for basic shflags semantics
+
+The shflags command-line flags library creates variables at runtime
+with a few well-defined functions.  This causes shellcheck to spit out
+lots of warnings about unassigned variables, as well as miss warnings
+about unused flag variables.
+
+We can address this with two parts:
+
+1. Pretend that the shflags global variables are predefined like other
+   shell variables so that shellcheck doesn't expect users to set them.
+2. Treat DEFINE_string, DEFINE_int, etc. as new commands that create
+   variables, similar to the existing read, local, mapfile, etc.
+
+Part 1 can be addresssed without this by following sourced files, but
+that doesn't help if people are otherwise not following external
+sources.
+
+The new behavior is turned on by a new --uses-shflags command-line
+parameter.
+
+Addresses #1597
+---
+ shellcheck.1.md               |  6 ++++++
+ shellcheck.hs                 |  9 +++++++++
+ src/ShellCheck/Analytics.hs   | 14 ++++++++++----
+ src/ShellCheck/AnalyzerLib.hs | 35 +++++++++++++++++++++++++----------
+ src/ShellCheck/Checker.hs     |  3 ++-
+ src/ShellCheck/Data.hs        | 10 ++++++++++
+ src/ShellCheck/Interface.hs   | 16 ++++++++++------
+ 7 files changed, 72 insertions(+), 21 deletions(-)
+
+diff --git a/shellcheck.1.md b/shellcheck.1.md
+index 661c9a2..f0413f6 100644
+--- a/shellcheck.1.md
++++ b/shellcheck.1.md
+@@ -67,6 +67,12 @@ not warn at all, as `ksh` supports decimals in arithmetic contexts.
+     The default is to use the file's shebang, or *bash* if the target shell
+     can't be determined.
+ 
++**--uses-shflags**
++
++:   Enable shflags semantics, such as recognizing the global shflags variables
++    (FLAGS_TRUE, FLAGS_FALSE, etc.) and the creation of FLAGS_nnn variables from
++    calls to DEFINE_string, DEFINE_boolean, etc.
++
+ **-V**,\ **--version**
+ 
+ :   Print version information and exit.
+diff --git a/shellcheck.hs b/shellcheck.hs
+index cdc6c5a..86e4cdf 100644
+--- a/shellcheck.hs
++++ b/shellcheck.hs
+@@ -98,6 +98,8 @@ options = [
+     Option "S" ["severity"]
+         (ReqArg (Flag "severity") "SEVERITY")
+         "Minimum severity of errors to consider (error, warning, info, style)",
++    Option "" ["uses-shflags"]
++        (NoArg $ Flag "uses-shflags" "false") "Recognize shflags behavior",
+     Option "V" ["version"]
+         (NoArg $ Flag "version" "true") "Print version information",
+     Option "W" ["wiki-link-count"]
+@@ -277,6 +279,13 @@ parseOption flag options =
+                 externalSources = True
+             }
+ 
++        Flag "uses-shflags" _ ->
++            return options {
++                checkSpec = (checkSpec options) {
++                    csUsesShflags = True
++                }
++            }
++
+         Flag "color" color -> do
+             option <- parseColorOption color
+             return options {
+diff --git a/src/ShellCheck/Analytics.hs b/src/ShellCheck/Analytics.hs
+index 3002e3e..fc3449f 100644
+--- a/src/ShellCheck/Analytics.hs
++++ b/src/ShellCheck/Analytics.hs
+@@ -1615,7 +1615,9 @@ prop_checkSpacefulness36= verifyNotTree checkSpacefulness "arg=$#; echo $arg"
+ checkSpacefulness params t =
+     doVariableFlowAnalysis readF writeF (Map.fromList defaults) (variableFlow params)
+   where
+-    defaults = zip variablesWithoutSpaces (repeat False)
++    allVarsWithoutSpaces = variablesWithoutSpaces ++
++        if usesShflags params then shflagsVariablesWithoutSpaces else []
++    defaults = zip allVarsWithoutSpaces (repeat False)
+ 
+     hasSpaces name = do
+         map <- get
+@@ -1855,7 +1857,8 @@ checkUnusedAssignments params t = execWriter (mapM_ warnFor unused)
+             name ++ " appears unused. Verify use (or export if used externally)."
+ 
+     stripSuffix = takeWhile isVariableChar
+-    defaultMap = Map.fromList $ zip internalVariables $ repeat ()
++    predefinedVars = internalVariables ++ if usesShflags params then shflagsVariables else []
++    defaultMap = Map.fromList $ zip predefinedVars $ repeat ()
+ 
+ prop_checkUnassignedReferences1 = verifyTree checkUnassignedReferences "echo $foo"
+ prop_checkUnassignedReferences2 = verifyNotTree checkUnassignedReferences "foo=hello; echo $foo"
+@@ -1896,7 +1899,8 @@ prop_checkUnassignedReferences36= verifyNotTree checkUnassignedReferences "read
+ checkUnassignedReferences params t = warnings
+   where
+     (readMap, writeMap) = execState (mapM tally $ variableFlow params) (Map.empty, Map.empty)
+-    defaultAssigned = Map.fromList $ map (\a -> (a, ())) $ filter (not . null) internalVariables
++    predefinedVars = internalVariables ++ if usesShflags params then shflagsVariables else []
++    defaultAssigned = Map.fromList $ map (\a -> (a, ())) $ filter (not . null) predefinedVars
+ 
+     tally (Assignment (_, _, name, _))  =
+         modify (\(read, written) -> (read, Map.insert name () written))
+@@ -2798,6 +2802,8 @@ checkSplittingInArrays params t =
+         T_Array _ elements -> mapM_ check elements
+         _ -> return ()
+   where
++    allVarsWithoutSpaces = variablesWithoutSpaces ++
++        if usesShflags params then shflagsVariables else []
+     check word = case word of
+         T_NormalWord _ parts -> mapM_ checkPart parts
+         _ -> return ()
+@@ -2808,7 +2814,7 @@ checkSplittingInArrays params t =
+         T_DollarBraced id str |
+             not (isCountingReference part)
+             && not (isQuotedAlternativeReference part)
+-            && not (getBracedReference (bracedString part) `elem` variablesWithoutSpaces)
++            && not (getBracedReference (bracedString part) `elem` allVarsWithoutSpaces)
+             -> warn id 2206 $
+                 if shellType params == Ksh
+                 then "Quote to prevent word splitting, or split robustly with read -A or while read."
+diff --git a/src/ShellCheck/AnalyzerLib.hs b/src/ShellCheck/AnalyzerLib.hs
+index de3498d..d7a03ff 100644
+--- a/src/ShellCheck/AnalyzerLib.hs
++++ b/src/ShellCheck/AnalyzerLib.hs
+@@ -81,7 +81,8 @@ data Parameters = Parameters {
+     parentMap          :: Map.Map Id Token, -- A map from Id to parent Token
+     shellType          :: Shell,            -- The shell type, such as Bash or Ksh
+     shellTypeSpecified :: Bool,    -- True if shell type was forced via flags
+-    rootNode           :: Token              -- The root node of the AST
++    rootNode           :: Token,             -- The root node of the AST
++    usesShflags        :: Bool               -- Support shflags DEFINE_ semantics and globals
+     }
+ 
+ -- TODO: Cache results of common AST ops here
+@@ -164,7 +165,8 @@ makeParameters spec =
+ 
+         shellTypeSpecified = isJust $ asShellType spec,
+         parentMap = getParentTree root,
+-        variableFlow = getVariableFlow params root
++        variableFlow = getVariableFlow params root,
++        usesShflags = asUsesShflags spec
+     } in params
+   where root = asScript spec
+ 
+@@ -393,13 +395,13 @@ getVariableFlow params t =
+         let scopeType = leadType params t
+         in do
+             when (scopeType /= NoneScope) $ modify (StackScope scopeType:)
+-            when (assignFirst t) $ setWritten t
++            when (assignFirst t) $ setWritten params t
+ 
+     endScope t =
+         let scopeType = leadType params t
+         in do
+             setRead t
+-            unless (assignFirst t) $ setWritten t
++            unless (assignFirst t) $ setWritten params t
+             when (scopeType /= NoneScope) $ modify (StackScopeEnd:)
+ 
+     assignFirst T_ForIn {}    = True
+@@ -410,8 +412,8 @@ getVariableFlow params t =
+         let read    = getReferencedVariables (parentMap params) t
+         in mapM_ (\v -> modify (Reference v:)) read
+ 
+-    setWritten t =
+-        let written = getModifiedVariables t
++    setWritten params t =
++        let written = getModifiedVariables params t
+         in mapM_ (\v -> modify (Assignment v:)) written
+ 
+ 
+@@ -442,7 +444,7 @@ leadType params t =
+                 then return True
+                 else return . not $ (getId . head $ reverse list) == getId t
+ 
+-getModifiedVariables t =
++getModifiedVariables params t =
+     case t of
+         T_SimpleCommand _ vars [] ->
+             concatMap (\x -> case x of
+@@ -451,7 +453,7 @@ getModifiedVariables t =
+                                 _ -> []
+                       ) vars
+         c@T_SimpleCommand {} ->
+-            getModifiedVariableCommand c
++            getModifiedVariableCommand params c
+ 
+         TA_Unary _ "++|" v@(TA_Variable _ name _)  ->
+             [(t, v, name, DataString $ SourceFrom [v])]
+@@ -534,7 +536,7 @@ getReferencedVariableCommand _ = []
+ --   VariableName :: String,   -- The variable name, i.e. foo
+ --   VariableValue :: DataType -- A description of the value being assigned, i.e. "Literal string with value foo"
+ -- )
+-getModifiedVariableCommand base@(T_SimpleCommand _ _ (T_NormalWord _ (T_Literal _ x:_):rest)) =
++getModifiedVariableCommand params base@(T_SimpleCommand _ _ (T_NormalWord _ (T_Literal _ x:_):rest)) =
+    filter (\(_,_,s,_) -> not ("-" `isPrefixOf` s)) $
+     case x of
+         "read" ->
+@@ -569,6 +571,11 @@ getModifiedVariableCommand base@(T_SimpleCommand _ _ (T_NormalWord _ (T_Literal
+         "mapfile" -> maybeToList $ getMapfileArray base rest
+         "readarray" -> maybeToList $ getMapfileArray base rest
+ 
++        "DEFINE_boolean" -> maybeToList $ getFlagVariable params rest
++        "DEFINE_float" -> maybeToList $ getFlagVariable params rest
++        "DEFINE_int" -> maybeToList $ getFlagVariable params rest
++        "DEFINE_string" -> maybeToList $ getFlagVariable params rest
++
+         _ -> []
+   where
+     flags = map snd $ getAllFlags base
+@@ -638,7 +645,15 @@ getModifiedVariableCommand base@(T_SimpleCommand _ _ (T_NormalWord _ (T_Literal
+         map (getLiteralArray . snd)
+             (filter (\(x,_) -> getLiteralString x == Just "-a") (zip (args) (tail args)))
+ 
+-getModifiedVariableCommand _ = []
++    -- get the FLAGS_ variable created by a shflags DEFINE_ call
++    getFlagVariable params (n:v:_) = do
++        guard (usesShflags params)
++        return (base, n, flagName n, DataString $ SourceFrom [v])
++      where
++        flagName varName@(T_NormalWord _ _) = "FLAGS_" ++ (onlyLiteralString varName)
++    getFlagVariable _ _ = fail "Invalid flag definition"
++
++getModifiedVariableCommand _ _ = []
+ 
+ getIndexReferences s = fromMaybe [] $ do
+     match <- matchRegex re s
+diff --git a/src/ShellCheck/Checker.hs b/src/ShellCheck/Checker.hs
+index ac58876..1a461af 100644
+--- a/src/ShellCheck/Checker.hs
++++ b/src/ShellCheck/Checker.hs
+@@ -95,7 +95,8 @@ checkScript sys spec = do
+             asScript = root,
+             asShellType = csShellTypeOverride spec,
+             asCheckSourced = csCheckSourced spec,
+-            asExecutionMode = Executed
++            asExecutionMode = Executed,
++            asUsesShflags = csUsesShflags spec
+          } where as = newAnalysisSpec root
+ 
+ getErrors sys spec =
+diff --git a/src/ShellCheck/Data.hs b/src/ShellCheck/Data.hs
+index 5b201c1..431f089 100644
+--- a/src/ShellCheck/Data.hs
++++ b/src/ShellCheck/Data.hs
+@@ -599,6 +599,12 @@ internalVariables = [
+     "RESTRICT_PYTHON_ABIS", "PYTHON_MODNAME"
+   ]
+ 
++shflagsVariables = [
++    "FLAGS_ARGC", "FLAGS_ARGV", "FLAGS_ERROR", "FLAGS_FALSE", "FLAGS_HELP",
++    "FLAGS_PARENT", "FLAGS_RESERVED", "FLAGS_TRUE", "FLAGS_VERSION",
++    "flags_error", "flags_return"
++  ]
++
+ variablesWithoutSpaces = [
+     "$", "-", "?", "!", "#",
+     "BASHPID", "BASH_ARGC", "BASH_LINENO", "BASH_SUBSHELL", "EUID", "LINENO",
+@@ -609,6 +615,10 @@ variablesWithoutSpaces = [
+     "P", "PN", "PV", "PR", "PVR", "PF", "EAPI", "SLOT"
+   ]
+ 
++shflagsVariablesWithoutSpaces = [
++    "FLAGS_ERROR", "FLAGS_FALSE", "FLAGS_TRUE"
++  ]
++
+ arrayVariables = [
+     "BASH_ALIASES", "BASH_ARGC", "BASH_ARGV", "BASH_CMDS", "BASH_LINENO",
+     "BASH_REMATCH", "BASH_SOURCE", "BASH_VERSINFO", "COMP_WORDS", "COPROC",
+diff --git a/src/ShellCheck/Interface.hs b/src/ShellCheck/Interface.hs
+index f20874f..564baf8 100644
+--- a/src/ShellCheck/Interface.hs
++++ b/src/ShellCheck/Interface.hs
+@@ -20,11 +20,11 @@
+ module ShellCheck.Interface
+     (
+     SystemInterface(..)
+-    , CheckSpec(csFilename, csScript, csCheckSourced, csExcludedWarnings, csShellTypeOverride, csMinSeverity)
++    , CheckSpec(csFilename, csScript, csCheckSourced, csExcludedWarnings, csShellTypeOverride, csMinSeverity, csUsesShflags)
+     , CheckResult(crFilename, crComments)
+     , ParseSpec(psFilename, psScript, psCheckSourced, psShellTypeOverride)
+     , ParseResult(prComments, prTokenPositions, prRoot)
+-    , AnalysisSpec(asScript, asShellType, asExecutionMode, asCheckSourced)
++    , AnalysisSpec(asScript, asShellType, asExecutionMode, asCheckSourced, asUsesShflags)
+     , AnalysisResult(arComments)
+     , FormatterOptions(foColorOption, foWikiLinkCount)
+     , Shell(Ksh, Sh, Bash, Dash)
+@@ -68,7 +68,8 @@ data CheckSpec = CheckSpec {
+     csCheckSourced :: Bool,
+     csExcludedWarnings :: [Integer],
+     csShellTypeOverride :: Maybe Shell,
+-    csMinSeverity :: Severity
++    csMinSeverity :: Severity,
++    csUsesShflags :: Bool
+ } deriving (Show, Eq)
+ 
+ data CheckResult = CheckResult {
+@@ -89,7 +90,8 @@ emptyCheckSpec = CheckSpec {
+     csCheckSourced = False,
+     csExcludedWarnings = [],
+     csShellTypeOverride = Nothing,
+-    csMinSeverity = StyleC
++    csMinSeverity = StyleC,
++    csUsesShflags = False
+ }
+ 
+ newParseSpec :: ParseSpec
+@@ -126,14 +128,16 @@ data AnalysisSpec = AnalysisSpec {
+     asScript :: Token,
+     asShellType :: Maybe Shell,
+     asExecutionMode :: ExecutionMode,
+-    asCheckSourced :: Bool
++    asCheckSourced :: Bool,
++    asUsesShflags :: Bool
+ }
+ 
+ newAnalysisSpec token = AnalysisSpec {
+     asScript = token,
+     asShellType = Nothing,
+     asExecutionMode = Executed,
+-    asCheckSourced = False
++    asCheckSourced = False,
++    asUsesShflags = False
+ }
+ 
+ newtype AnalysisResult = AnalysisResult {
+-- 
+2.22.0.rc2.383.gf4fbbf30c2-goog
+
