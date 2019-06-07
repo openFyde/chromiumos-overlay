@@ -13,13 +13,15 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="
 	android-container-pi
+	android-container-qt
 	android-container-master-arc-dev
 "
 
-REQUIRED_USE="^^ ( android-container-pi android-container-master-arc-dev )"
+REQUIRED_USE="^^ ( android-container-pi android-container-qt android-container-master-arc-dev )"
 
 DEPEND="
 	android-container-pi? ( chromeos-base/android-container-pi )
+	android-container-qt? ( chromeos-base/android-container-qt )
 	android-container-master-arc-dev? ( chromeos-base/android-container-master-arc-dev )
 	chromeos-base/chromeos-chrome
 	x11-misc/xkeyboard-config
