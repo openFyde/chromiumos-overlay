@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("c1de9b0adf2268dc0e9117d018e92384db5c6b94" "4e3579884384348e1bc168397b49f0ac18e12546")
+CROS_WORKON_COMMIT=("efd54be7afb147f2190a446eadd512bfc9315d11" "4e3579884384348e1bc168397b49f0ac18e12546")
 CROS_WORKON_TREE=("f354d140e04d861ac5457214dd14961f6c512112" "1aeed62fc2079f03fa065aff3c3f14d0eaeff433")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -97,15 +97,17 @@ src_unpack() {
 }
 
 src_configure() {
-	if use unibuild; then
-		cp "${SYSROOT}${UNIBOARD_C_CONFIG}" \
-			lib/cros_config/cros_config_data.c
-	fi
-
 	local emesonargs=(
 		$(meson_use unibuild use_cros_config)
 		-Darch=$(tc-arch)
 	)
+
+	if use unibuild; then
+		emesonargs+=(
+			"-Dcros_config_data_src=${SYSROOT}${UNIBOARD_C_CONFIG}"
+		)
+	fi
+
 	meson_src_configure
 }
 
