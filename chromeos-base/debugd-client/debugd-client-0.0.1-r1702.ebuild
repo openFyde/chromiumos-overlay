@@ -1,22 +1,24 @@
-# Copyright 2017 The Chromium OS Authors. All rights reserved.
+# Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=6
 
-CROS_WORKON_COMMIT="c1de9b0adf2268dc0e9117d018e92384db5c6b94"
-CROS_WORKON_TREE=("f354d140e04d861ac5457214dd14961f6c512112" "6aec99e928ae3db2d2572240054e1e9607ec0030" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="80dd23d707d2664ef597cc78bed5383eabdc66e5"
+CROS_WORKON_TREE=("f354d140e04d861ac5457214dd14961f6c512112" "79a349a9a33d0eab7a2f02cfa613db8bddaa5169" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk cryptohome .gn"
+CROS_WORKON_SUBTREE="common-mk debugd .gn"
 
-PLATFORM_SUBDIR="cryptohome/client"
+PLATFORM_NATIVE_TEST="yes"
+PLATFORM_SUBDIR="debugd/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="Cryptohome D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome"
+DESCRIPTION="Chrome OS debugd client library"
+HOMEPAGE="http://www.chromium.org/"
+SRC_URI=""
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -34,11 +36,7 @@ DEPEND="
 	>=chromeos-base/libbrillo-0.0.1-r1
 "
 
-RDEPEND="
-	!<chromeos-base/cryptohome-0.0.1
-"
-
 src_install() {
-	# Install D-Bus client library.
-	platform_install_dbus_client_lib "cryptohome"
+  # Install DBus client library.
+  platform_install_dbus_client_lib "debugd"
 }
