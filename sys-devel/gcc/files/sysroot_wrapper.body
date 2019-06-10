@@ -8,6 +8,9 @@ PIE = set(['-D__KERNEL__', '-A', '-fno-PIC', '-fno-PIE', '-fno-pic', '-fno-pie',
            '-shared', '-static'])
 SSE = set(['-msse3', '-mssse3', '-msse4.1', '-msse4.2', '-msse4', '-msse4a'])
 
+# Location of the root dir relative to this file
+ROOT_REL_PATH = "../../../../.."
+
 def update_flags(arch, myargs):
   # ARM32 specfic:
   # 1. Generate thumb codes by default.  GCC is configured with
@@ -19,14 +22,14 @@ def update_flags(arch, myargs):
     return
   if arch[:5] in ('armv7', 'armv8'):
     FLAGS_TO_ADD.add('-mthumb')
-    FLAGS_TO_ADD.remove('-fno-omit-frame-pointer')
+    FLAGS_TO_ADD.discard('-fno-omit-frame-pointer')
   if FSTACK.intersection(myargs):
-    FLAGS_TO_ADD.remove('-fstack-protector-strong')
+    FLAGS_TO_ADD.discard('-fstack-protector-strong')
     FLAGS_TO_ADD.add('-fno-stack-protector')
   if FPIE.intersection(myargs):
-    FLAGS_TO_ADD.remove('-fPIE')
+    FLAGS_TO_ADD.discard('-fPIE')
   if PIE.intersection(myargs):
-    FLAGS_TO_ADD.remove('-pie')
+    FLAGS_TO_ADD.discard('-pie')
 
 def get_proc_cmdline(pid):
   with open('/proc/%i/cmdline' % pid) as fp:
@@ -80,8 +83,8 @@ def get_linker_path(cmd):
   # ${SDK_LOCATION}/bin is not necessarily in the ${PATH}. To fix this, we
   # provide the directory that contains the cross linker wrapper to clang.
   # Outside chroot, it is the top bin directory form the sdk tarball.
-  sdk_bin_dir = os.path.join(os.path.dirname(os.path.normpath(__file__)),
-                             '../../../../../bin')
+  sdk_bin_dir = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
+                             ROOT_REL_PATH, 'bin')
   return os.path.abspath(sdk_bin_dir)
 
 
@@ -213,10 +216,9 @@ def ccache_env_init(sysroot, use_clang):
 
 def get_relocatable_root():
   """Get the root dir location relative to this wrapper's install dir."""
-  install_dir = os.path.dirname(os.path.realpath(__file__))
-  root_dir = os.path.join(install_dir, '../../../../..')
+  install_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
+  root_dir = os.path.join(install_dir, ROOT_REL_PATH)
   return os.path.normpath(root_dir)
-
 
 def main():
   gcc_flags = list(GCC_FLAGS_TO_ADD)
@@ -268,7 +270,8 @@ def main():
 
   clang_cmdline = clang_flags + list(FLAGS_TO_ADD)
 
-  gcc_flags += list(FLAGS_TO_ADD)
+  gcc_cmdline = gcc_flags + list(FLAGS_TO_ADD)
+
   clang_codegen = sys.argv[0].split('-')[-1] in ('clang', 'clang++')
 
   if '-fstack-check' in myargs:
@@ -287,12 +290,9 @@ def main():
   if gcc_comp.startswith('x86_64') or startswith_i86(gcc_comp):
     cmdline.extend(X86_DISABLE_FLAGS)
 
-  sysroot_set = False
-
   if not invoke_clang:
     # Create gcc command line filtering/converting the flags not supported
     # by gcc.
-    gcc_cmdline = []
     for flag in cmdline:
       if flag in CLANG_TO_GCC.keys():
         gcc_cmdline.append(CLANG_TO_GCC[flag])
@@ -308,7 +308,6 @@ def main():
 
     # Reset gcc cmdline too. Only change is to remove -Xclang-only
     # options if specified.
-    gcc_cmdline = []
 
     skip_clang = False
     for flag in cmdline:
@@ -337,9 +336,6 @@ def main():
           clang_path = flag.partition('=')[2]
           clang_bin = os.path.join(clang_path, 'clang')
           continue
-        elif flag.startswith('--sysroot'):
-          sysroot_set = True
-          clang_cmdline.append(flag)
         elif flag in GCC_TO_CLANG.keys():
           clang_cmdline.append(GCC_TO_CLANG[flag])
         elif flag not in CLANG_ARM_OPTIONS_TO_BE_DISCARDED:
@@ -360,6 +356,7 @@ def main():
     sysroot = os.path.join(get_relocatable_root(), 'usr', arch)
 
   # Pass sysroot if --sysroot flag is not set.
+  sysroot_set = any(flag.startswith('--sysroot') for flag in cmdline)
   if not sysroot_set:
     clang_cmdline.insert(0, '--sysroot=%s' % sysroot)
     gcc_cmdline.insert(0, '--sysroot=%s' % sysroot)
@@ -413,7 +410,7 @@ def main():
   if clang_codegen:
     execargs += [clang_comp] + clang_cmdline
   else:
-    execargs += [real_gcc] + gcc_flags + gcc_cmdline
+    execargs += [real_gcc] + gcc_cmdline
 
   if not clang_codegen:
     use_clang_tidy = False
