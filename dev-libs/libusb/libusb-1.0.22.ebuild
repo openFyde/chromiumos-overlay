@@ -19,8 +19,17 @@ DEPEND="${RDEPEND}
 	!udev? ( virtual/os-headers )"
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-open-fd.patch" # crbug/831850
-	epatch "${FILESDIR}/${P}-jailed.patch" # crbug/831850
+	epatch "${FILESDIR}/0001-UPSTREAM-linux_usbfs-Fallback-to-usbfs-if-device-has.patch"
+	epatch "${FILESDIR}/0002-UPSTREAM-linux_usbfs-Extract-device-handle-initializ.patch"
+	epatch "${FILESDIR}/0003-UPSTREAM-linux_usbfs-Get-device-address-from-file-de.patch"
+	epatch "${FILESDIR}/0004-UPSTREAM-core-Add-libusb_wrap_sys_device-API.patch"
+	epatch "${FILESDIR}/0005-UPSTREAM-linux_usbfs-Implement-libusb_wrap_sys_devic.patch"
+	epatch "${FILESDIR}/0006-CHROMIUM-linux_usbfs-tease-apart-linux_device_addres.patch"
+	epatch "${FILESDIR}/0007-CHROMIUM-linux_usbfs-split-initialize_device.patch"
+	epatch "${FILESDIR}/0008-CHROMIUM-linux_usbfs-wire-up-IOCTL_USBFS_CONNINFO_EX.patch"
+	epatch "${FILESDIR}/0009-CHROMIUM-linux_usbfs-make-use-of-port-data-from-USBF.patch"
+	epatch "${FILESDIR}/0010-CHROMIUM-linux_usbfs-parse-devpath-in-sysfs-to-get-p.patch"
+	epatch "${FILESDIR}/0011-CHROMIUM-temporarily-add-back-chrome-specific-APIs.patch"
 }
 
 multilib_src_configure() {
