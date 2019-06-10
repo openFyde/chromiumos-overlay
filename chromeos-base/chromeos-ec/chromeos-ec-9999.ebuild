@@ -137,7 +137,6 @@ make_ec() {
 
 	BOARD=${target} emake "${EC_OPTS[@]}" clean
 	BOARD=${target} emake "${EC_OPTS[@]}" "${extra_opts[@]}" all
-	BOARD=${target} emake "${EC_OPTS[@]}" tests
 	# Since the ec codebase does not allow specifying a target build
 	# directory, move its build directory to the requested location.
 	rm -rf "${build_dir}"
@@ -311,13 +310,6 @@ board_install() {
 	if [[ -f chip/npcx/spiflashfw/npcx_monitor.bin ]]; then
 		doins chip/npcx/spiflashfw/npcx_monitor.bin
 	fi
-
-	# EC test binaries
-	stat -t test-*.bin >/dev/null || ewarn "No test binaries found"
-	for f in test-*.bin; do
-		local name="${f%.bin}"
-		nonfatal newins "${f}" "${name}${file_suffix}.bin"
-	done
 	popd > /dev/null
 
 	if [[ "${board}" == "cr50" ]]; then
