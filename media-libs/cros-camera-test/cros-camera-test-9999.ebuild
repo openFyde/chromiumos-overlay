@@ -40,7 +40,4 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	dobin "${OUT}/cros_camera_test"
-
-	insinto /etc/dbus-1/system.d
-	doins camera3_test/CrosCameraTest.conf
 }

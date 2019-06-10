@@ -41,6 +41,9 @@ src_install() {
 	insinto /etc/init
 	doins common/init/cros-camera-algo.conf
 
+	insinto /etc/dbus-1/system.d
+	doins common/dbus/CrosCameraAlgo.conf
+
 	insinto "/usr/share/policy"
 	newins "common/cros-camera-algo-${ARCH}.policy" cros-camera-algo.policy
 }
