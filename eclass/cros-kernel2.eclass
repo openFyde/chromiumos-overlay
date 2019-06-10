@@ -1693,6 +1693,12 @@ _cros-kernel2_compile() {
 				$(cros_chkconfig_present MODULES && echo "modules")
 			)
 			;;
+		arm64)
+			build_targets=(
+				Image dtbs
+				$(cros_chkconfig_present MODULES && echo "modules")
+			)
+			;;
 		mips)
 			build_targets=(
 				vmlinuz.bin
@@ -1916,9 +1922,11 @@ cros-kernel2_src_install() {
 		# image name.
 		pushd "$(dirname "${kernel_bin}")" > /dev/null
 		ln -sf $(basename "${kernel_bin}") vmlinux.uimg || die
-		if use arm; then
-			ln -sf $(basename "${zimage_bin}") zImage || die
-		fi
+		case ${kernel_arch} in
+			arm)
+				ln -sf $(basename "${zimage_bin}") zImage || die
+				;;
+		esac
 		popd > /dev/null
 	fi
 	if [ ! -e "${D}/boot/vmlinuz" ]; then
