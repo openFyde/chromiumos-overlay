@@ -15,6 +15,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="
+	android-container-qt
 	android-container-pi android-container-master-arc-dev android-container-nyc
 	+combine_chromeos_policy selinux_audit_all selinux_develop selinux_experimental
 	arc_first_release_n
@@ -24,10 +25,11 @@ IUSE="
 # the developer know, disabling combine_chromeos_policy flag doesn't change
 # anything.
 REQUIRED_USE="
-	!combine_chromeos_policy? ( ^^ ( android-container-pi android-container-master-arc-dev android-container-nyc ) )
+	!combine_chromeos_policy? ( ^^ ( android-container-qt android-container-pi android-container-master-arc-dev android-container-nyc ) )
 "
 
 DEPEND="
+	android-container-qt? ( chromeos-base/android-container-qt:0= )
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
 	android-container-master-arc-dev? ( chromeos-base/android-container-master-arc-dev:0= )
 	android-container-nyc? ( chromeos-base/android-container-nyc:0= )
@@ -121,13 +123,15 @@ version_cil() {
 }
 
 has_arc() {
-	use android-container-pi || use android-container-master-arc-dev || use android-container-nyc
+	use android-container-qt || use android-container-pi || use android-container-master-arc-dev || use android-container-nyc
 }
 
 gen_m4_flags() {
 	M4_COMMON_FLAGS=()
 	local arc_version="none"
-	if use android-container-pi; then
+	if use android-container-qt; then
+		arc_version="q"
+	elif use android-container-pi; then
 		arc_version="p"
 	elif use android-container-master-arc-dev; then
 		arc_version="master"
