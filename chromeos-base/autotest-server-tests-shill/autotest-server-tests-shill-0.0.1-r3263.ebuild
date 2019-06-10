@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="4"
-CROS_WORKON_COMMIT="0fa901f2fe4de0010365161457946ae9367583fe"
-CROS_WORKON_TREE="957dbeedc6232f750bab133e9e100cd7685a97b3"
+CROS_WORKON_COMMIT="3ff468a21f44ed5fca4d3fb1e6904a8604b3ee00"
+CROS_WORKON_TREE="66ee5c5770da91a2d8116e65569cd4701d78d29b"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -61,7 +61,6 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_HiddenRemains
 	+tests_network_WiFi_HiddenScan
 	+tests_network_WiFi_LinkMonitorFailure
-	+tests_network_WiFi_LowInitialBitrates
 	+tests_network_WiFi_MalformedProbeResp
 	+tests_network_WiFi_MaskedBSSID
 	+tests_network_WiFi_MissingBeacons
