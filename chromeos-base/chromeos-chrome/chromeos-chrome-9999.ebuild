@@ -790,6 +790,7 @@ src_prepare() {
 setup_test_lists() {
 	TEST_FILES=(
 		capture_unittests
+		interactive_ui_tests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
