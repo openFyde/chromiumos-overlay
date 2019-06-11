@@ -21,14 +21,12 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
+	dev-cpp/gtest:=
 	media-libs/minigbm:=
 	x11-libs/libdrm:=
 "
 
-DEPEND="
-	${RDEPEND}
-	dev-cpp/gtest:=
-"
+DEPEND="${RDEPEND}"
 
 src_install() {
 	# Executable files' names take the form <category>.<TestName>.<bin_name>.
