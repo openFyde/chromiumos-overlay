@@ -47,6 +47,7 @@ PATCHES=(
 	"${FILESDIR}/libpng-1.6.patch"
 	"${FILESDIR}/glmark2-libcxx.patch"
 	"${FILESDIR}/deprecated-auto-ptr.patch"
+	"${FILESDIR}/fix-out-of-bounds-pointer-write.patch"
 )
 
 pkg_setup() {
