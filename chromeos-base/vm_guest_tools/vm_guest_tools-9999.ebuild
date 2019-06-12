@@ -3,10 +3,6 @@
 
 EAPI=5
 
-CROS_GO_PACKAGES=(
-	"chromiumos/vm_tools/tremplin_proto"
-)
-
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -44,6 +40,7 @@ DEPEND="
 	dev-go/grpc
 	dev-go/protobuf
 	>=sys-kernel/linux-headers-4.4-r16
+	chromeos-base/vm_protos
 "
 
 src_install() {
