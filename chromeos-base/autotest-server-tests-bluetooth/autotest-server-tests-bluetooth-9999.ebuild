@@ -25,6 +25,9 @@ DEPEND="${RDEPEND}
 SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterAudioLink
 	+tests_bluetooth_AdapterLEHIDSanity
+	+tests_bluetooth_AdapterLESanity
+	+tests_bluetooth_AdapterQuickSanity
+	+tests_bluetooth_AdapterSASanity
 	+tests_bluetooth_Sanity_AdapterPresent
 	+tests_bluetooth_Sanity_DefaultState
 	+tests_bluetooth_Sanity_Discoverable
