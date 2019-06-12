@@ -41,6 +41,8 @@ pkg_setup() {
 	# src_install() needs kerberosd.
 	enewuser kerberosd
 	enewgroup kerberosd
+	enewuser kerberosd-exec
+	enewgroup kerberosd-exec
 	cros-workon_pkg_setup
 }
 
