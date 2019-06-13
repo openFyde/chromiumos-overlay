@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="67a3979da43c5ecb0262794e51ba3d37eed99d96"
+CROS_WORKON_COMMIT="b3731448b588492e5a6490c3d6232a03b497ef54"
 CROS_WORKON_TREE=("101900c2b48b3a1e97069bd81150e6af6ff9e680" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "2654b341562fc7228014b6110e1e2513f7a2353f" "5d783897236e9937d801f69f87a25da8f9719606" "b3bd3729e5d871782d7df48f9e4af9e160d50c6e" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -45,8 +45,8 @@ RDEPEND="
 	net-misc/dhcpcd
 	dhcpv6? ( net-misc/dhcpcd[ipv6] )
 	vpn? ( net-vpn/openvpn )
-	wifi? ( net-wireless/wpa_supplicant[dbus] )
-	wired_8021x? ( net-wireless/wpa_supplicant[dbus] )
+	wifi? ( virtual/wpa_supplicant )
+	wired_8021x? ( virtual/wpa_supplicant )
 	sys-apps/rootdev
 	cellular? ( net-misc/modemmanager-next )
 	!kernel-3_10? ( !kernel-3_8? ( net-firewall/conntrack-tools ) )

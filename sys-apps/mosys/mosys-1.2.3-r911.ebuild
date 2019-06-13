@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("13938c4e61449924954f5c1bc02a404d787d3cdf" "74b96e195d1c8a8f35bc9b183e8ea32f9776a3d8")
+CROS_WORKON_COMMIT=("b3731448b588492e5a6490c3d6232a03b497ef54" "74b96e195d1c8a8f35bc9b183e8ea32f9776a3d8")
 CROS_WORKON_TREE=("101900c2b48b3a1e97069bd81150e6af6ff9e680" "36e1957b225897d3aebef0b5b806dbba704706c2")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -89,8 +89,6 @@ RDEPEND="unibuild? (
 	chromeos-base/minijail"
 DEPEND="${RDEPEND}"
 
-: ${CROS_WORKON_INCREMENTAL_BUILD:=1}
-
 src_unpack() {
 	cargo_src_unpack
 	cros-workon_src_unpack
@@ -101,7 +99,7 @@ src_unpack() {
 src_configure() {
 	local emesonargs=(
 		$(meson_use unibuild use_cros_config)
-		"-Darch=$(tc-arch)"
+		-Darch=$(tc-arch)
 	)
 
 	if use unibuild; then
@@ -110,15 +108,13 @@ src_configure() {
 		)
 	fi
 
-	BUILD_DIR="$(cros-workon_get_build_dir)/meson"
 	meson_src_configure
 }
 
 src_compile() {
 	meson_src_compile
-
-	MESON_BUILD_ROOT="${BUILD_DIR}" cargo_src_compile \
-		--target-dir "$(cros-workon_get_build_dir)/cargo"
+	cd ${S}/platform/mosys
+	MESON_BUILD_ROOT="${BUILD_DIR}" cargo_src_compile
 }
 
 platform_pkg_test() {
@@ -137,8 +133,7 @@ platform_pkg_test() {
 src_install() {
 	# cargo doesn't know how to install cross-compiled binaries. Manually
 	# install mosys instead.
-	local build_dir
-	build_dir="$(cros-workon_get_build_dir)/cargo/${CHOST}/$(usex debug debug release)"
+	local build_dir="${WORKDIR}/${CHOST}/$(usex debug debug release)"
 	dosbin "${build_dir}/mosys"
 
 	insinto /usr/share/policy
