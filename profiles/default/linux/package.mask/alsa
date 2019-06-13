@@ -1,0 +1,7 @@
+# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file
+
+# TODO(cujomalainey): Masked for testing!
+=media-libs/alsa-lib-1.1.8
+=media-sound/alsa-utils-1.1.8
