@@ -28,7 +28,7 @@ DEPEND="chromeos-base/system_api
 	=dev-rust/protoc-rust-2.3*:=
 	~dev-rust/syslog-4.0.0:=
 	~dev-rust/time-0.1.40:=
-	~dev-rust/tempdir-0.3.7:=
+	=dev-rust/tempfile-3*:=
 	"
 
 src_unpack() {
