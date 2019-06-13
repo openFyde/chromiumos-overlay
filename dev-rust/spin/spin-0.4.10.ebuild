@@ -5,14 +5,10 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="A macro for declaring lazily evaluated statics in Rust."
-HOMEPAGE="https://github.com/rust-lang-nursery/lazy-static.rs"
+DESCRIPTION="Synchronization primitives based on spinning."
+HOMEPAGE="https://github.com/mvdnes/spin-rs"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
-
-DEPEND="
-	>=dev-rust/spin-0.4.10:=
-"
