@@ -195,7 +195,7 @@ RDEPEND="
 	usb_bouncer? ( chromeos-base/usb_bouncer )
 	chromeos-base/update_engine
 	vpn? ( chromeos-base/vpn-manager )
-	cras? ( chromeos-base/audioconfig media-sound/adhd )
+	cras? ( media-sound/adhd )
 	trim_supported? ( chromeos-base/chromeos-trim )
 	network_time? ( net-misc/tlsdate )
 	iwlwifi_rescan? ( net-wireless/iwlwifi_rescan )

@@ -64,6 +64,7 @@ RDEPEND=">=media-libs/alsa-lib-1.0.27
 	dev-libs/libpthread-stubs
 	virtual/udev
 	unibuild? ( chromeos-base/chromeos-config )
+	!<=chromeos-base/audioconfig-0.0.1-r1
 	chromeos-base/chromeos-config-tools
 	chromeos-base/metrics
 	selinux? ( sys-libs/libselinux )"
@@ -185,6 +186,10 @@ src_install() {
 	# Install seccomp policy file.
 	insinto /usr/share/policy
 	newins "seccomp/cras-seccomp-${ARCH}.policy" cras-seccomp.policy
+
+	# Install asound.conf for CRAS alsa plugin
+	insinto /etc
+	doins "${FILESDIR}"/asound.conf
 }
 
 pkg_preinst() {
