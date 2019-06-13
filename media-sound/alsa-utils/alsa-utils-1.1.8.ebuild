@@ -25,6 +25,7 @@ BDEPEND="virtual/pkgconfig"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.8-missing_header.patch
+	"${FILESDIR}/0001-seq-arecordmidi-Add-num-events-option.patch"
 )
 
 src_configure() {

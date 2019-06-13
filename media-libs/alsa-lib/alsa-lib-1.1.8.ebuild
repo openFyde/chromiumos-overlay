@@ -24,6 +24,8 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-1.1.6-missing_files.patch" #652422
+	"${FILESDIR}/0001-Force-ucm-back-to-CRAS-version.patch"
+	"${FILESDIR}/0001-conf-ucm-delete-conflicting-ucm.patch"
 )
 
 pkg_setup() {

@@ -1,0 +1,370 @@
+From 8b7dddfced113715108cc0c3af12d7139cd8c2aa Mon Sep 17 00:00:00 2001
+From: Curtis Malainey <cujomalainey@chromium.org>
+Date: Wed, 4 Sep 2019 15:50:04 -0700
+Subject: [PATCH] conf/ucm: delete conflicting ucm
+
+Currently Chromeos has no way to handle non-unibuild ucm conflicts other
+than to mask them out of ALSA. Therefore until a long term solution is
+in place we will be simply masking them out with a patch.
+
+BUG=chromium:997849
+
+Signed-off-by: Curtis Malainey <cujomalainey@chromium.org>
+---
+ src/conf/ucm/Makefile.am                |   4 +-
+ src/conf/ucm/VEYRON-I2S/HiFi.conf       | 132 -----------------------
+ src/conf/ucm/VEYRON-I2S/Makefile.am     |   4 -
+ src/conf/ucm/VEYRON-I2S/VEYRON-I2S.conf |   6 --
+ src/conf/ucm/chtrt5650/HiFi.conf        | 133 ------------------------
+ src/conf/ucm/chtrt5650/Makefile.am      |   4 -
+ src/conf/ucm/chtrt5650/chtrt5650.conf   |   5 -
+ 7 files changed, 1 insertion(+), 287 deletions(-)
+ delete mode 100644 src/conf/ucm/VEYRON-I2S/HiFi.conf
+ delete mode 100644 src/conf/ucm/VEYRON-I2S/Makefile.am
+ delete mode 100644 src/conf/ucm/VEYRON-I2S/VEYRON-I2S.conf
+ delete mode 100644 src/conf/ucm/chtrt5650/HiFi.conf
+ delete mode 100644 src/conf/ucm/chtrt5650/Makefile.am
+ delete mode 100644 src/conf/ucm/chtrt5650/chtrt5650.conf
+
+diff --git a/src/conf/ucm/Makefile.am b/src/conf/ucm/Makefile.am
+index ee850ee6..40c51871 100644
+--- a/src/conf/ucm/Makefile.am
++++ b/src/conf/ucm/Makefile.am
+@@ -27,7 +27,6 @@ bytcr-rt5651-stereo-spk-in12-mic \
+ chtnau8824 \
+ chtrt5645 \
+ chtrt5645-mono-speaker-analog-mic \
+-chtrt5650 \
+ cube-i1_TF-Defaultstring-CherryTrailCR \
+ DAISY-I2S \
+ DB410c \
+@@ -45,5 +44,4 @@ PIPO-W2S-Defaultstring-CherryTrailCR \
+ SDP4430 \
+ skylake-rt286 \
+ TECLAST-X80Pro-Defaultstring-CherryTrailCR \
+-tegraalc5632 \
+-VEYRON-I2S
++tegraalc5632
+diff --git a/src/conf/ucm/VEYRON-I2S/HiFi.conf b/src/conf/ucm/VEYRON-I2S/HiFi.conf
+deleted file mode 100644
+index 6dddf9af..00000000
+--- a/src/conf/ucm/VEYRON-I2S/HiFi.conf
++++ /dev/null
+@@ -1,132 +0,0 @@
+-SectionVerb {
+-	Value {
+-		OutputDspName "speaker_eq"
+-		MinBufferLevel "512"
+-	}
+-
+-	EnableSequence [
+-		cdev "hw:VEYRONI2S"
+-
+-		cset "name='Left Speaker Mixer Left DAC Switch' on"
+-		cset "name='Right Speaker Mixer Right DAC Switch' on"
+-		cset "name='Headphone Left Switch' off"
+-		cset "name='Headphone Right Switch' off"
+-		cset "name='Digital EQ 3 Band Switch' off"
+-		cset "name='Digital EQ 5 Band Switch' off"
+-		cset "name='Digital EQ 7 Band Switch' off"
+-		cset "name='Biquad Switch' off"
+-		cset "name='Filter Mode' Music"
+-		cset "name='ADC Oversampling Rate' 0"
+-
+-		cset "name='DMIC Mux' DMIC"
+-		cset "name='MIC2 Mux' IN34"
+-		cset "name='Right ADC Mixer MIC2 Switch' on"
+-		cset "name='Left ADC Mixer MIC2 Switch' on"
+-		cset "name='MIC2 Volume' 20"
+-		cset "name='Headset Mic Switch' off"
+-		cset "name='Int Mic Switch' on"
+-
+-		cset "name='ADCR Boost Volume' 4"
+-		cset "name='ADCL Boost Volume' 4"
+-		cset "name='ADCR Volume' 11"
+-		cset "name='ADCL Volume' 11"
+-
+-		cset "name='Left Speaker Mixer Left DAC Switch' on"
+-		cset "name='Right Speaker Mixer Right DAC Switch' on"
+-		cset "name='Speaker Left Mixer Volume' 2"
+-		cset "name='Speaker Right Mixer Volume' 2"
+-		cset "name='Record Path DC Blocking' on"
+-		cset "name='Playback Path DC Blocking' on"
+-
+-		cset "name='Speaker Left Switch' on"
+-		cset "name='Speaker Right Switch' on"
+-		cset "name='Speaker Switch' on"
+-	]
+-
+-	DisableSequence [
+-	]
+-}
+-
+-SectionDevice."Speaker".0 {
+-	Comment "Speaker"
+-	Value {
+-		PlaybackPCM "hw:VEYRONI2S,0"
+-	}
+-	EnableSequence [
+-		cdev "hw:VEYRONI2S"
+-
+-		cset "name='Speaker Switch' on"
+-	]
+-	DisableSequence [
+-		cdev "hw:VEYRONI2S"
+-
+-		cset "name='Speaker Switch' off"
+-	]
+-}
+-
+-SectionDevice."Internal Mic".0 {
+-	Comment "Int Mic"
+-	Value {
+-		CapturePCM "hw:VEYRONI2S,0"
+-	}
+-	EnableSequence [
+-		cdev "hw:VEYRONI2S"
+-
+-		cset "name='Int Mic Switch' on"
+-	]
+-	DisableSequence [
+-		cdev "hw:VEYRONI2S"
+-
+-		cset "name='Int Mic Switch' off"
+-	]
+-}
+-
+-SectionDevice."Headphone".0 {
+-	Comment "Headphone"
+-	Value {
+-		JackName "VEYRON-I2S Headset Jack"
+-		PlaybackPCM "hw:VEYRONI2S,0"
+-		OutputDspName ""
+-	}
+-
+-	EnableSequence [
+-		cdev "hw:VEYRONI2S"
+-
+-		cset "name='Speaker Switch' off"
+-		cset "name='Headphone Left Switch' on"
+-		cset "name='Headphone Right Switch' on"
+-	]
+-	DisableSequence [
+-		cdev "hw:VEYRONI2S"
+-
+-		cset "name='Headphone Left Switch' off"
+-		cset "name='Headphone Right Switch' off"
+-		cset "name='Speaker Switch' on"
+-	]
+-}
+-
+-SectionDevice."Mic".0 {
+-	Comment "Headset Mic"
+-	Value {
+-		JackName "VEYRON-I2S Headset Jack"
+-		CapturePCM "hw:VEYRONI2S,0"
+-	}
+-
+-	EnableSequence [
+-		cdev "hw:VEYRONI2S"
+-
+-		cset "name='Int Mic Switch' off"
+-		cset "name='DMIC Mux' ADC"
+-		cset "name='Headset Mic Switch' on"
+-		cset "name='Record Path DC Blocking' on"
+-	]
+-
+-	DisableSequence [
+-		cdev "hw:VEYRONI2S"
+-
+-		cset "name='Headset Mic Switch' off"
+-		cset "name='DMIC Mux' DMIC"
+-		cset "name='Int Mic Switch' on"
+-		cset "name='Record Path DC Blocking' off"
+-	]
+-}
+diff --git a/src/conf/ucm/VEYRON-I2S/Makefile.am b/src/conf/ucm/VEYRON-I2S/Makefile.am
+deleted file mode 100644
+index 2bb628e2..00000000
+--- a/src/conf/ucm/VEYRON-I2S/Makefile.am
++++ /dev/null
+@@ -1,4 +0,0 @@
+-alsaconfigdir = @ALSA_CONFIG_DIR@
+-ucmdir = $(alsaconfigdir)/ucm/VEYRON-I2S
+-ucm_DATA = VEYRON-I2S.conf HiFi.conf
+-EXTRA_DIST = $(ucm_DATA)
+diff --git a/src/conf/ucm/VEYRON-I2S/VEYRON-I2S.conf b/src/conf/ucm/VEYRON-I2S/VEYRON-I2S.conf
+deleted file mode 100644
+index 2a92b6f5..00000000
+--- a/src/conf/ucm/VEYRON-I2S/VEYRON-I2S.conf
++++ /dev/null
+@@ -1,6 +0,0 @@
+-Comment "Rockchip Veyron card"
+-
+-SectionUseCase."HiFi" {
+-	File "HiFi.conf"
+-	Comment "Default"
+-}
+diff --git a/src/conf/ucm/chtrt5650/HiFi.conf b/src/conf/ucm/chtrt5650/HiFi.conf
+deleted file mode 100644
+index 71df1f84..00000000
+--- a/src/conf/ucm/chtrt5650/HiFi.conf
++++ /dev/null
+@@ -1,133 +0,0 @@
+-
+-SectionVerb {
+-	# ALSA PCM
+-	Value {
+-		TQ "HiFi"
+-
+-		# ALSA PCM device for HiFi
+-		PlaybackPCM "hw:chtrt5650"
+-		CapturePCM "hw:chtrt5650"
+-	}
+-
+-	EnableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		<platforms/bytcr/PlatformEnableSeq.conf>
+-		<codecs/rt5645/EnableSeq.conf>
+-
+-		cset "name='Speaker HWEQ' 1,164,237,135,1,165,0,0,1,166,237,135,1,167,0,0,1,192,30,196,1,193,0,0,1,194,30,196,1,195,0,0,1,196,31,180,1,197,0,75,1,198,31,180,1,199,31,180,1,200,0,75,1,201,31,180,0,177,51,224"
+-		cset "name='DAC1 Playback Volume' 77,77"
+-		cset "name='Speaker ClassD Playback Volume' 4"
+-		cset "name='I2S2 Func Switch' off"
+-		cset "name='RT5650 IF1 ADC Mux' 0"
+-	]
+-
+-	DisableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		<codecs/rt5645/DisableSeq.conf>
+-	]
+-}
+-
+-SectionDevice."Speaker" {
+-	Comment "Speaker"
+-
+-	Value {
+-		PlaybackChannels "2"
+-	}
+-
+-	ConflictingDevice [
+-		"Headphones"
+-	]
+-
+-	EnableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		<codecs/rt5645/SpeakerEnableSeq.conf>
+-	]
+-
+-	DisableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		cset "name='Ext Spk Switch' off"
+-		cset "name='Speaker Channel Switch' off"
+-	]
+-}
+-
+-SectionDevice."Headphones" {
+-	Comment "Headphones"
+-
+-	Value {
+-		PlaybackChannels "2"
+-		JackControl "Headphone Jack"
+-		JackHWMute "Speaker"
+-	}
+-
+-	ConflictingDevice [
+-		"Speaker"
+-	]
+-
+-	EnableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		<codecs/rt5645/HeadphonesEnableSeq.conf>
+-	]
+-
+-	DisableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		cset "name='Headphone Switch' off"
+-		cset "name='Headphone Channel Switch' off"
+-	]
+-}
+-
+-SectionDevice."Mic".0 {
+-	Comment "Internal Microphone"
+-
+-	Value {
+-		CaptureChannels "2"
+-		CapturePriority "150"
+-	}
+-
+-	EnableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		cset "name='Int Mic Switch' on"
+-		cset "name='Sto1 ADC MIXL ADC2 Switch' on"
+-		cset "name='Sto1 ADC MIXR ADC2 Switch' on"
+-	]
+-
+-	DisableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		cset "name='Sto1 ADC MIXL ADC2 Switch' off"
+-		cset "name='Sto1 ADC MIXR ADC2 Switch' off"
+-		cset "name='Int Mic Switch' off"
+-	]
+-}
+-
+-SectionDevice."HSMic".0 {
+-	Comment "Headset Microphone"
+-
+-	Value {
+-		CaptureChannels "2"
+-		JackControl "Headset Mic Jack"
+-		JackHWMute "Mic"
+-	}
+-
+-	EnableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		<codecs/rt5645/HSMicEnableSeq.conf>
+-
+-		cset "name='IN1 Boost' 1"
+-	]
+-
+-	DisableSequence [
+-		cdev "hw:chtrt5650"
+-
+-		<codecs/rt5645/HSMicDisableSeq.conf>
+-
+-		cset "name='IN1 Boost' 0"
+-	]
+-}
+diff --git a/src/conf/ucm/chtrt5650/Makefile.am b/src/conf/ucm/chtrt5650/Makefile.am
+deleted file mode 100644
+index f506cd77..00000000
+--- a/src/conf/ucm/chtrt5650/Makefile.am
++++ /dev/null
+@@ -1,4 +0,0 @@
+-alsaconfigdir = @ALSA_CONFIG_DIR@
+-ucmdir = $(alsaconfigdir)/ucm/chtrt5650
+-ucm_DATA = chtrt5650.conf HiFi.conf
+-EXTRA_DIST = $(ucm_DATA)
+diff --git a/src/conf/ucm/chtrt5650/chtrt5650.conf b/src/conf/ucm/chtrt5650/chtrt5650.conf
+deleted file mode 100644
+index dfc36c89..00000000
+--- a/src/conf/ucm/chtrt5650/chtrt5650.conf
++++ /dev/null
+@@ -1,5 +0,0 @@
+-Comment "Intel SoC Audio Device"
+-SectionUseCase."HiFi" {
+-	File "HiFi.conf"
+-	Comment "Default"
+-}
+-- 
+2.23.0.187.g17f5b7556c-goog
+

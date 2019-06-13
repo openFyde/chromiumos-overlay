@@ -1,0 +1,70 @@
+From ce82e7161fc51826acbe21d8f4275e7beabc2dee Mon Sep 17 00:00:00 2001
+From: Curtis Malainey <cujomalainey@chromium.org>
+Date: Wed, 12 Jun 2019 16:35:15 -0700
+Subject: [PATCH] Force ucm back to CRAS' version
+
+Upstream has started their own UCM for dell docks, lets use theirs and
+patch accordingly while sending patches upstream.
+---
+ src/conf/ucm/Dell-WD15-Dock/HiFi.conf | 33 ++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 8 deletions(-)
+
+diff --git a/src/conf/ucm/Dell-WD15-Dock/HiFi.conf b/src/conf/ucm/Dell-WD15-Dock/HiFi.conf
+index 1b6bd212..9b122582 100644
+--- a/src/conf/ucm/Dell-WD15-Dock/HiFi.conf
++++ b/src/conf/ucm/Dell-WD15-Dock/HiFi.conf
+@@ -1,26 +1,43 @@
+-SectionDevice."Headphone" {
++SectionVerb {
++	Value {
++		FullySpecifiedUCM "1"
++	}
++	EnableSequence [
++		cdev "hw:Dock"
++	]
++	DisableSequence [
++	]
++}
++
++SectionDevice."Dock Headphone".0 {
+ 	Comment "Headphone"
+ 
+ 	Value {
+-		PlaybackChannels "2"
+ 		PlaybackPCM "hw:Dock,0"
++		JackType "always"
+ 	}
+ }
+ 
+-SectionDevice."LineOut" {
+-	Comment "Line Out"
+-
++SectionDevice."Dock Line Out".0 {
+ 	Value {
+-		PlaybackChannels "2"
+ 		PlaybackPCM "hw:Dock,1"
++		JackType "always"
+ 	}
++	EnableSequence [
++		cdev "hw:Dock"
++		cset "name='Line Playback Switch' on"
++	]
++	DisableSequence [
++		cdev "hw:Dock"
++		cset "name='Line Playback Switch' off"
++	]
+ }
+ 
+-SectionDevice."Mic" {
++SectionDevice."Dock Microphone".0 {
+ 	Comment "Microphone"
+ 
+ 	Value {
+-		CaptureChannels "2"
+ 		CapturePCM "hw:Dock,0"
++		JackType "always"
+ 	}
+ }
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
