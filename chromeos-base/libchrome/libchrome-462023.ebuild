@@ -115,6 +115,10 @@ src_prepare() {
 
 	# Remove this patch after libchrome uprev past r626151.
 	epatch "${FILESDIR}"/${P}-components-timers-fix-fd-leak-in-AlarmTimer.patch
+
+	# Remove glib dependency.
+	# TODO(hidehiko): Fix the config in AOSP libchrome.
+	epatch "${FILESDIR}"/${P}-libchrome-Remove-glib-dependency.patch
 }
 
 src_install() {
