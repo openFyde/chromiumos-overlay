@@ -17,5 +17,5 @@ DEPEND="
 	~dev-rust/protobuf-2.3.0:=
 	~dev-rust/protobuf-codegen-2.3.0:=
 	~dev-rust/protoc-2.3.0:=
-	=dev-rust/tempfile-3*:=
+	dev-rust/tempfile:=
 "
