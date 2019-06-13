@@ -22,6 +22,8 @@ DESCRIPTION="Chrome OS USB camera HAL v3."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
+IUSE="usb_camera_monocle"
+
 RDEPEND="
 	chromeos-base/libbrillo
 	dev-libs/re2
@@ -30,6 +32,7 @@ RDEPEND="
 	media-libs/cros-camera-libcamera_common
 	media-libs/cros-camera-libcamera_exif
 	media-libs/cros-camera-libcamera_metadata
+	usb_camera_monocle? ( media-libs/librealtek-sdk )
 	media-libs/cros-camera-libcamera_timezone
 	media-libs/cros-camera-libcbm
 	media-libs/cros-camera-libjda
