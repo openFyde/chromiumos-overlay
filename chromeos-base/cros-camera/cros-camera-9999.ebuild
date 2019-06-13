@@ -11,8 +11,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal camera/hal_adapte
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="hal_adapter/cros_camera_service.gyp"
+PLATFORM_SUBDIR="camera/hal_adapter"
 
 inherit cros-camera cros-constants cros-workon platform user
 
@@ -47,15 +46,15 @@ src_install() {
 	dobin "${OUT}/cros_camera_service"
 
 	insinto /etc/init
-	doins hal_adapter/init/cros-camera.conf
+	doins init/cros-camera.conf
 
 	# Install seccomp policy file.
 	insinto /usr/share/policy
-	newins "hal_adapter/seccomp_filter/cros-camera-${ARCH}.policy" cros-camera.policy
+	newins "seccomp_filter/cros-camera-${ARCH}.policy" cros-camera.policy
 
 	if use cheets && ! use arc-camera1; then
 		insinto "${ARC_VENDOR_DIR}/etc/init"
-		doins hal_adapter/init/init.camera.rc
+		doins init/init.camera.rc
 	fi
 }
 
