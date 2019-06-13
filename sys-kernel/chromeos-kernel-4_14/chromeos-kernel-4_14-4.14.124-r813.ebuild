@@ -3,16 +3,16 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="60d314555684c19a99d13b0ab466472842f7cd8e"
-CROS_WORKON_TREE="f7d0d8d8eb42659825bc868437ed5deb52e770d0"
+CROS_WORKON_COMMIT="b65ce54943d03df0bd1a15d4867f3659ab7950ff"
+CROS_WORKON_TREE="f3417641caadf3c88f2070be088ee7b0d2707546"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
-CROS_WORKON_LOCALNAME="kernel/v4.19"
+CROS_WORKON_LOCALNAME="kernel/v4.14"
 
 # This must be inherited *after* EGIT/CROS_WORKON variables defined
 inherit cros-workon cros-kernel2
 
 HOMEPAGE="https://www.chromium.org/chromium-os/chromiumos-design-docs/chromium-os-kernel"
-DESCRIPTION="Chrome OS Linux Kernel 4.19"
+DESCRIPTION="Chrome OS Linux Kernel 4.14"
 KEYWORDS="*"
 
 # Change the following (commented out) number to the next prime number
