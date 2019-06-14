@@ -149,6 +149,7 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
+	append-cflags -fno-sanitize=shift
 
 	local FONTPATH
 	for path in \
