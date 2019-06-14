@@ -36,6 +36,36 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	find "${S}" -type f -exec touch -r "${S}"/configure {} +
+
+	# Can be dropped once crrev.com/c/1660893 is merged upstream:
+	cat > "${S}/gmock-config" <<EOF
+#!/bin/sh
+case "\$@" in
+	"--cppflags --cxxflags")
+		echo "-pthread"
+		break
+		;;
+	"--ldflags --libs")
+		echo "-lgmock -lgtest -pthread -lpthread"
+		break
+		;;
+esac
+EOF
+	cat > "${S}/gtest-config" <<EOF
+#!/bin/sh
+case "\$@" in
+	"--cppflags --cxxflags")
+		echo "-pthread"
+		break
+		;;
+	"--ldflags --libs")
+		echo "-lgtest -pthread -lpthread"
+		break
+		;;
+esac
+EOF
+	chmod +x "${S}/gmock-config"
+	chmod +x "${S}/gtest-config"
 }
 
 src_configure() {
@@ -49,6 +79,10 @@ src_configure() {
 	tc-export CC CXX LD PKG_CONFIG
 
 	multijob_init
+
+	# Can be dropped once crrev.com/c/1660893 is merged upstream:
+	export GMOCK_CONFIG="${S}/gmock-config"
+	export GTEST_CONFIG="${S}/gtest-config"
 
 	mkdir build
 	pushd build >/dev/null
