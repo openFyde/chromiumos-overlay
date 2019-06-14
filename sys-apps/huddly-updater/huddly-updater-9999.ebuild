@@ -16,6 +16,7 @@ IUSE="test"
 
 DEPEND="
 	chromeos-base/libbrillo
+	dev-libs/msgpack
 	test? ( dev-cpp/gtest )
 	virtual/libusb:1
 	virtual/libudev:0="
