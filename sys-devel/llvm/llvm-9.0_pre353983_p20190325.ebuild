@@ -318,8 +318,6 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
 
-	# revert r344218, https://crbug.com/915711
-	epatch "${FILESDIR}"/llvm-8.0-revert-headers-as-sources.patch
 	# revert r340839, https://crbug.com/916740
 	epatch "${FILESDIR}"/llvm-8.0-revert-asm-debug-info.patch
 
