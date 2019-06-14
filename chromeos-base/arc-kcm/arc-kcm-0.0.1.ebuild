@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit cros-constants
+inherit arc-build-constants
 
 DESCRIPTION="Generate KCM files for ARC++ from xkeyboard-config"
 HOMEPAGE="http://www.chromium.org/"
@@ -11,18 +11,19 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="
-	android-container-pi
-	android-container-qt
-	android-container-master-arc-dev
-"
+DEPEND="x11-misc/xkeyboard-config"
+IUSE="cheets"
+REQUIRED_USE="cheets"
 
-REQUIRED_USE="^^ ( android-container-pi android-container-qt android-container-master-arc-dev )"
-
+# one of chromeos-base/android-container-* for XkbToKcmConverter binary.
+# chromeos-base/chromeos-chrome for /usr/share/chromeos-assets/input_methods/input_methods.txt.
+# x11-misc/xkeyboard-config for /usr/share/X11/xkb.
 DEPEND="
-	android-container-pi? ( chromeos-base/android-container-pi )
-	android-container-qt? ( chromeos-base/android-container-qt )
-	android-container-master-arc-dev? ( chromeos-base/android-container-master-arc-dev )
+	|| (
+		chromeos-base/android-container-pi
+		chromeos-base/android-container-qt
+		chromeos-base/android-container-master-arc-dev
+	)
 	chromeos-base/chromeos-chrome
 	x11-misc/xkeyboard-config
 "
@@ -30,6 +31,7 @@ DEPEND="
 S="${WORKDIR}"
 
 src_compile() {
+	arc-build-constants-configure
 	"${SYSROOT}/${ARC_ETC_DIR}/bin/XkbToKcmConverter" \
 		"${SYSROOT}/usr/share/X11/xkb" \
 		"${SYSROOT}/usr/share/chromeos-assets/input_methods/input_methods.txt" . || die
