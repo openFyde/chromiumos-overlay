@@ -1128,6 +1128,9 @@ src_compile() {
 			"${TOOLS_TELEMETRY_BIN[@]}"
 			chromedriver
 		)
+		if use chrome_internal; then
+			chrome_targets+=( libassistant_debug.so )
+		fi
 	fi
 	use_nacl && chrome_targets+=( nacl_helper_bootstrap nacl_helper )
 
@@ -1500,6 +1503,12 @@ src_install() {
 		local chromedriver_dir='/usr/local/chromedriver'
 		dodir "${chromedriver_dir}"
 		cp -pPR "${FROM}"/chromedriver "${D}/${chromedriver_dir}" || die
+
+		if use chrome_internal; then
+			# Install LibAssistant test library to test image.
+			into /usr/local/
+			dolib.so "${FROM}"/libassistant_debug.so
+		fi
 	fi
 }
 
