@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI="6"
 CROS_WORKON_LOCALNAME="xorg-conf"
 CROS_WORKON_PROJECT="chromiumos/platform/xorg-conf"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -27,14 +27,13 @@ src_install() {
 
 	insinto /etc/gesture
 
-	# -cheets, -arcnext, -campfire, -kvm, -kernelnext and -arm64 variants
-	# are running on the same hardware as their base boards. Strip the suffix to
-	# re-use the config.
-	local suffix
-	for suffix in cheets arcnext campfire kvm kernelnext arm64; do
-		board_variant=${board_variant%-${suffix}}
-		board=${board%-${suffix}}
-	done
+	# Some boards have experimental variants, such as -cheets, -arcnext,
+	# -campfire, -kvm, -kernelnext or -arm64, which are running on the same
+	# hardware as their base boards. As opposed to board variants, which use
+	# underscore to separate from board name, they use a dash, so we can just
+	# strip anything matching.
+	board_variant=${board_variant%-*}
+	board=${board%-*}
 
 	# Enable exactly one evdev-compatible X input touchpad driver.
 	#
