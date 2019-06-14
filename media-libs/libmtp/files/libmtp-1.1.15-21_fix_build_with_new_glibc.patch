@@ -1,0 +1,15 @@
+diff --git a/src/util.h b/src/util.h
+index 0a2d941..e888e9f 100644
+--- a/src/util.h
++++ b/src/util.h
+@@ -22,7 +22,10 @@
+ 
+ #ifndef __MTP__UTIL__H
+ #define __MTP__UTIL__H
++
++#ifdef HAVE_CONFIG_H
+ #include "config.h" // To get HAVE_STRNDUP
++#endif
+ 
+ void data_dump(FILE *f, void *buf, uint32_t nbytes);
+ void data_dump_ascii (FILE *f, void *buf, uint32_t n, uint32_t dump_boundry);

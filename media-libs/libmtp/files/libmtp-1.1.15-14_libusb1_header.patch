@@ -1,0 +1,13 @@
+diff --git a/src/libusb-glue.h b/src/libusb-glue.h
+index 0ea6b29..55cb373 100644
+--- a/src/libusb-glue.h
++++ b/src/libusb-glue.h
+@@ -32,7 +32,7 @@
+ 
+ #include "ptp.h"
+ #ifdef HAVE_LIBUSB1
+-#include <libusb.h>
++#include "libusb.h"
+ #endif
+ #ifdef HAVE_LIBUSB0
+ #include <usb.h>
