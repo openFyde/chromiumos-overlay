@@ -14,6 +14,7 @@ IUSE="
 	amd64
 	android-container-master-arc-dev
 	android-container-pi
+	android-container-qt
 	arc
 	arc-camera3
 	arcvm
