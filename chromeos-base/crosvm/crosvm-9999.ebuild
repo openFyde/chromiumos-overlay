@@ -41,6 +41,7 @@ DEPEND="${RDEPEND}
 	=dev-rust/protobuf-2.3*:=
 	=dev-rust/protoc-rust-2.3*:=
 	~dev-rust/quote-0.6.10:=
+	dev-rust/trace_events:=
 	dev-rust/remain:=
 	=dev-rust/syn-0.15*:=
 	crosvm-gpu-forward? ( chromeos-base/rendernodehost:= )
