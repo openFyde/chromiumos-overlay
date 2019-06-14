@@ -109,6 +109,10 @@ src_prepare() {
 
 	# Remove this patch after libchrome uprev past r531975.
 	epatch "${FILESDIR}"/${P}-Add-implicit-fallthrough-warning.patch
+
+	# Patch for the r576279 uprev compatibility.
+	# TODO(crbug.com/909719): Remove on uprev.
+	epatch "${FILESDIR}"/${P}-libchrome-add-alias-from-base-Location-base-GetProgr.patch
 }
 
 src_install() {
