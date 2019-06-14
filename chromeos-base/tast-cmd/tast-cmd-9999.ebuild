@@ -31,18 +31,14 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND="
-	dev-go/cmp
-	dev-go/crypto
-	dev-go/golint
-	dev-go/gopsutil
-	dev-go/subcommands
-	dev-go/yaml
-"
+# Build-time dependencies should be added to tast-build-deps, not here.
+DEPEND="chromeos-base/tast-build-deps"
+
 RDEPEND="
 	app-arch/tar
 	app-arch/xz-utils
 	chromeos-base/google-breakpad
+	chromeos-base/tast-build-deps
 	net-misc/gsutil
 	!chromeos-base/tast-common
 "

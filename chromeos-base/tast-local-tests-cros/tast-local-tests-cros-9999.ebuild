@@ -37,27 +37,17 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="arc usbip"
 
-DEPEND="
-	chromeos-base/policy-go-proto
-	chromeos-base/system_api
-	dev-go/cdp
-	dev-go/cmp
-	dev-go/crypto
-	dev-go/dbus
-	dev-go/gopsutil
-	dev-go/go-matroska
-	dev-go/mdns
-	dev-go/protobuf
-	dev-go/selinux
-	dev-go/yaml
-"
+# Build-time dependencies should be added to tast-build-deps, not here.
+DEPEND="chromeos-base/tast-build-deps"
 
 RDEPEND="
 	chromeos-base/tast-local-helpers-cros
 	chromeos-base/wprgo
 	dev-libs/openssl
-	arc? ( dev-util/android-tools )
-	dev-util/android-uiautomator-server
+	arc? (
+		dev-util/android-tools
+		dev-util/android-uiautomator-server
+	)
 	net-misc/curl
 	sys-apps/memtester
 	usbip? ( chromeos-base/virtual-usb-printer )

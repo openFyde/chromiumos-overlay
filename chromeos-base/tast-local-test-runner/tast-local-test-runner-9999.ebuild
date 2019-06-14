@@ -28,10 +28,9 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND="
-	dev-go/crypto
-	dev-go/yaml
-"
+# Build-time dependencies should be added to tast-build-deps, not here.
+DEPEND="chromeos-base/tast-build-deps"
+
 RDEPEND="
 	app-arch/tar
 	!chromeos-base/tast-common
