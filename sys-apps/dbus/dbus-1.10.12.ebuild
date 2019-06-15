@@ -73,6 +73,7 @@ src_prepare() {
 		-e '/"dispatch"/d' \
 		bus/test-main.c || die
 
+	epatch "${FILESDIR}"/${PN}-1.10.12-dbus-send-add-sender-option.patch
 	epatch "${FILESDIR}"/${PN}-1.10.12-send-print-fixed.patch
 	epatch "${FILESDIR}"/${PN}-1.4.12-send-unix-fd.patch
 	epatch "${FILESDIR}"/${PN}-1.4.12-send-variant-dict.patch
