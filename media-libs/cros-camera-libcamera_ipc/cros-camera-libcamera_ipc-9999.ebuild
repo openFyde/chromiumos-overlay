@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo c
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="common/libcamera_ipc.gyp"
+PLATFORM_SUBDIR="camera/common/libcamera_ipc"
 
 inherit cros-camera cros-workon platform
 
@@ -30,8 +29,8 @@ src_install() {
 	dolib.a "${OUT}/libcamera_ipc.pic.a"
 
 	cros-camera_doheader \
-		include/cros-camera/camera_mojo_channel_manager.h \
-		include/cros-camera/ipc_util.h
+		../../include/cros-camera/camera_mojo_channel_manager.h \
+		../../include/cros-camera/ipc_util.h
 
-	cros-camera_dopc common/libcamera_ipc.pc.template
+	cros-camera_dopc ../libcamera_ipc.pc.template
 }
