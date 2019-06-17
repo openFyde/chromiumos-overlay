@@ -7,7 +7,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk kerberos .gn"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk kerberos libpasswordprovider .gn"
 
 PLATFORM_SUBDIR="kerberos"
 
@@ -24,6 +25,7 @@ IUSE="asan fuzzer"
 RDEPEND="
 	app-crypt/mit-krb5
 	chromeos-base/libbrillo:=[asan?,fuzzer?]
+	chromeos-base/libpasswordprovider
 	chromeos-base/minijail
 	dev-libs/protobuf:=
 	dev-libs/dbus-glib
