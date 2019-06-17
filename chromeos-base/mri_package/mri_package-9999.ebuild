@@ -17,12 +17,13 @@ inherit cros-workon platform udev user
 LIB_VERSION=72.0.0
 
 DESCRIPTION="Media perception service"
-SRC_URI="gs://chromeos-localmirror-private/distfiles/${PN}-${LIB_VERSION}.tar.gz"
+SRC_URI="internal? ( gs://chromeos-localmirror-private/distfiles/${PN}-${LIB_VERSION}.tar.gz )"
 RESTRICT="mirror"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
+IUSE="internal"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -32,14 +33,20 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_unpack() {
-	unpack "${A}"
+	if use internal; then
+		unpack "${A}"
+	fi
+
 	platform_src_unpack
 }
 
 src_compile() {
-	# Copy the library downloaded from chromeos-localmirror-private to the
-	# platform compile directory.
-	cp "${WORKDIR}"/librtanalytics.so "${OUT}" || die
+	if use internal; then
+		# Copy the library downloaded from chromeos-localmirror-private to the
+		# platform compile directory.
+		cp "${WORKDIR}"/librtanalytics.so "${OUT}" || die
+	fi
+
 	platform_src_compile
 }
 
