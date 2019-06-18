@@ -21,7 +21,7 @@ GOTOOL = '@GOTOOL@'
 def main(argv):
   os.environ['GOOS'] = 'linux'
   os.environ['GOARCH'] = GOARCH
-  os.environ['CGO_ENABLED'] = '1'
+  os.environ.setdefault('CGO_ENABLED', '1')
   os.environ['CC'] = CC
   os.environ['CXX'] = CXX
   os.execv(GOTOOL, [GOTOOL] + argv)
