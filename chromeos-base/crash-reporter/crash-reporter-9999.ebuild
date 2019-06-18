@@ -37,6 +37,7 @@ DEPEND="
 	${RDEPEND}
 	chromeos-base/debugd-client
 	chromeos-base/session_manager-client
+	chromeos-base/shill-client
 	chromeos-base/system_api
 	chromeos-base/vboot_reference
 	sys-devel/flex
