@@ -44,6 +44,7 @@ IUSE="
 	kerberos_daemon
 	kernel-3_8
 	kvm_host
+	media_perception
 	memd
 	mist
 	modemfwd
@@ -186,6 +187,7 @@ RDEPEND="
 	peerd? ( chromeos-base/peerd )
 	hammerd? ( chromeos-base/hammerd )
 	esim? ( chromeos-base/hermes )
+	media_perception? ( chromeos-base/mri_package )
 	memd? ( chromeos-base/memd )
 	power_management? ( chromeos-base/power_manager )
 	!chromeos-base/platform2
