@@ -7,14 +7,14 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk mems_setup .gn"
+CROS_WORKON_SUBTREE="common-mk libmems .gn"
 
-PLATFORM_SUBDIR="mems_setup"
+PLATFORM_SUBDIR="libmems"
 
 inherit cros-workon platform
 
-DESCRIPTION="MEMS Setup for Chromium OS."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_setup"
+DESCRIPTION="MEMS support library for Chromium OS."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libmems"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -22,23 +22,20 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
-	chromeos-base/libmems:=
+	chromeos-base/libbrillo:=
 	net-libs/libiio:="
 
 DEPEND="${RDEPEND}
 	chromeos-base/system_api"
 
 src_install() {
-	dosbin "${OUT}"/mems_setup
-}
+	dolib.so "${OUT}/lib/libmems.so"
+	dolib.so "${OUT}/lib/libmems_test_support.so"
 
-platform_pkg_test() {
-	local tests=(
-		mems_setup_testrunner
-	)
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins libmems.pc
+	doins libmems_test_support.pc
 
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	insinto "/usr/include/chromeos/libmems"
+	doins *.h
 }
