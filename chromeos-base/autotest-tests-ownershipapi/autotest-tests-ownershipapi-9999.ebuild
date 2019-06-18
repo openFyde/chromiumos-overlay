@@ -33,9 +33,6 @@ IUSE_TESTS="
 	+tests_login_CryptohomeOwnerQuery
 	+tests_login_MultipleSessions
 	+tests_login_OwnershipApi
-	+tests_login_OwnershipNotRetaken
-	+tests_login_OwnershipTaken
-	+tests_login_RemoteOwnership
 	+tests_login_UserPolicyKeys
 "
 
