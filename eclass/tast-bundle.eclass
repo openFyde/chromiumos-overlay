@@ -67,6 +67,20 @@ tast-bundle_pkg_setup() {
 	)
 }
 
+# @FUNCTION: tast-bundle_src_prepare
+# @DESCRIPTION:
+# Sets up environment variables for the Go toolchain.
+tast-bundle_src_prepare() {
+	# Disable cgo and PIE on building Tast binaries. See:
+	# https://crbug.com/976196
+	# https://github.com/golang/go/issues/30986#issuecomment-475626018
+	export CGO_ENABLED=0
+	export GOPIE=0
+
+	cros-workon_src_prepare
+	default
+}
+
 # @FUNCTION: tast-bundle_src_install
 # @DESCRIPTION:
 # Installs test bundle executable and associated data files.
@@ -92,4 +106,4 @@ tast-bundle_src_install() {
 	popd >/dev/null
 }
 
-EXPORT_FUNCTIONS pkg_setup src_install
+EXPORT_FUNCTIONS pkg_setup src_prepare src_install
