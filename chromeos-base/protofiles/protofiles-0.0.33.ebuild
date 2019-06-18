@@ -12,7 +12,7 @@
 
 EAPI="5"
 
-inherit cros-constants eutils git-2
+inherit cros-constants eutils git-r3
 
 # Every 3 strings in this array indicates a repository to checkout:
 #   - A unique name (to avoid checkout conflits)
@@ -21,7 +21,7 @@ inherit cros-constants eutils git-2
 EGIT_REPO_URIS=(
 	"cloud/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"3a34e9d3c22f20c0e29488ecc28a859788c476b8"
+	"94d2c22d6c41b388c6727d183797cdc7c4b78ad9"
 
 	# If you uprev these repos, please also:
 	# - Update files/VERSION to the corresponding revision of
@@ -52,11 +52,10 @@ IUSE=""
 src_unpack() {
 	set -- "${EGIT_REPO_URIS[@]}"
 	while [[ $# -gt 0 ]]; do
-		EGIT_PROJECT=$1 \
-		EGIT_SOURCEDIR="${S}/$1" \
+		EGIT_CHECKOUT_DIR="${S}/$1" \
 		EGIT_REPO_URI=$2 \
 		EGIT_COMMIT=$3 \
-		git-2_src_unpack
+		git-r3_src_unpack
 		shift 3
 	done
 }
