@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo c
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="common/jpeg/libjda.gyp"
+PLATFORM_SUBDIR="camera/common/jpeg/libjda"
 
 inherit cros-camera cros-workon platform
 
@@ -30,7 +29,7 @@ DEPEND="${RDEPEND}
 src_install() {
 	dolib.a "${OUT}/libjda.pic.a"
 
-	cros-camera_doheader include/cros-camera/jpeg_decode_accelerator.h
+	cros-camera_doheader ../../../include/cros-camera/jpeg_decode_accelerator.h
 
-	cros-camera_dopc common/jpeg/libjda.pc.template
+	cros-camera_dopc ../libjda.pc.template
 }
