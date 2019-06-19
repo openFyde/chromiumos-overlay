@@ -3,20 +3,21 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="607345dc8a72c636d185349029af6b7e4642af7f"
-CROS_WORKON_TREE=("bf86ccd52a8994e8c841d7b0a530173caaa5818f" "f13ed7231ffff073946974c0b49d73538f778ad4" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT=("aa4e935ff9f86fcab8c32471f2288467f08f3875" "b7ee3875756ec586ac45e75f0fad80f6c8e3680a")
+CROS_WORKON_TREE=("bf86ccd52a8994e8c841d7b0a530173caaa5818f" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c" "1e0ff96a1688291bc3ba192bf9268b7ed2d93bb9")
+CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
+CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/update_engine")
+CROS_WORKON_USE_VCSID=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk debugd .gn"
+CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="debugd/client"
+PLATFORM_SUBDIR="update_engine/client-headers"
 
-inherit cros-workon platform
+inherit cros-debug cros-workon platform
 
-DESCRIPTION="Chrome OS debugd client library"
+DESCRIPTION="Chrome OS Update Engine client library"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
@@ -36,7 +37,11 @@ DEPEND="
 	>=chromeos-base/libbrillo-0.0.1-r1
 "
 
+RDEPEND="
+	!<chromeos-base/update_engine-0.0.3
+"
+
 src_install() {
-  # Install DBus client library.
-  platform_install_dbus_client_lib "debugd"
+	# Install DBus client library.
+	platform_install_dbus_client_lib "update_engine"
 }
