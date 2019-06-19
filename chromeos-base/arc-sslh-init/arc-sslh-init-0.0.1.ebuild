@@ -12,7 +12,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="arcvm"
+IUSE=""
 
 RDEPEND="!<chromeos-base/chromeos-sshd-init-0.0.2
 	chromeos-base/minijail
@@ -24,11 +24,7 @@ S="${WORKDIR}"
 
 src_install() {
 	insinto /etc
-	if use arcvm; then
-		newins "${FILESDIR}"/sslh-arcvm.conf sslh.conf
-	else
-		doins "${FILESDIR}"/sslh.conf
-	fi
+	doins "${FILESDIR}"/sslh.conf
 
 	insinto /etc/init
 	doins "${FILESDIR}"/upstart/*
