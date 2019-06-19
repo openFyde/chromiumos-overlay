@@ -173,4 +173,65 @@ arc-build-select-clang() {
 	fi
 }
 
+# Copied from the upstream meson.eclass. The upstream cross-file does not
+# set needs_exe_wrapper, and I don't see how to automatically detect that
+# for upstream.
+arc-build-create-cross-file() {
+	# Reference: http://mesonbuild.com/Cross-compilation.html
+
+	# system roughly corresponds to uname -s (lowercase)
+	local system=unknown
+	case ${CHOST} in
+		*-aix*)          system=aix ;;
+		*-cygwin*)       system=cygwin ;;
+		*-darwin*)       system=darwin ;;
+		*-freebsd*)      system=freebsd ;;
+		*-linux*)        system=linux ;;
+		mingw*|*-mingw*) system=windows ;;
+		*-solaris*)      system=sunos ;;
+	esac
+
+	local cpu_family=$(tc-arch)
+	case ${cpu_family} in
+		amd64) cpu_family=x86_64 ;;
+		arm64) cpu_family=aarch64 ;;
+	esac
+
+	# This may require adjustment based on CFLAGS
+	local cpu=${CHOST%%-*}
+
+	ARC_CROSS_FILE="${T}/arc-meson.${CHOST}.${ABI}"
+	cat > "${ARC_CROSS_FILE}" <<-EOF
+	[binaries]
+	ar = $(_meson_env_array "$(tc-getAR)")
+	c = $(_meson_env_array "$(tc-getCC)")
+	cpp = $(_meson_env_array "$(tc-getCXX)")
+	fortran = $(_meson_env_array "$(tc-getFC)")
+	llvm-config = '$(tc-getPROG LLVM_CONFIG llvm-config)'
+	objc = $(_meson_env_array "$(tc-getPROG OBJC cc)")
+	objcpp = $(_meson_env_array "$(tc-getPROG OBJCXX c++)")
+	pkgconfig = '$(tc-getPKG_CONFIG)'
+	strip = $(_meson_env_array "$(tc-getSTRIP)")
+
+	[properties]
+	c_args = $(_meson_env_array "${CFLAGS} ${CPPFLAGS}")
+	c_link_args = $(_meson_env_array "${CFLAGS} ${LDFLAGS}")
+	cpp_args = $(_meson_env_array "${CXXFLAGS} ${CPPFLAGS}")
+	cpp_link_args = $(_meson_env_array "${CXXFLAGS} ${LDFLAGS}")
+	fortran_args = $(_meson_env_array "${FCFLAGS}")
+	fortran_link_args = $(_meson_env_array "${FCFLAGS} ${LDFLAGS}")
+	objc_args = $(_meson_env_array "${OBJCFLAGS} ${CPPFLAGS}")
+	objc_link_args = $(_meson_env_array "${OBJCFLAGS} ${LDFLAGS}")
+	objcpp_args = $(_meson_env_array "${OBJCXXFLAGS} ${CPPFLAGS}")
+	objcpp_link_args = $(_meson_env_array "${OBJCXXFLAGS} ${LDFLAGS}")
+	needs_exe_wrapper = true
+
+	[host_machine]
+	system = '${system}'
+	cpu_family = '${cpu_family}'
+	cpu = '${cpu}'
+	endian = '$(tc-endian)'
+	EOF
+}
+
 fi
