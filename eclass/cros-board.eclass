@@ -356,6 +356,7 @@ ALL_BOARDS=(
 	#tegra2_wario
 	tegra3-generic
 	terra
+	tglrvp
 	tidus
 	tricky
 	trogdor
