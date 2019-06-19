@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo c
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="common/jpeg/libjda_test.gyp"
+PLATFORM_SUBDIR="camera/common/jpeg/libjda_test"
 
 inherit cros-camera cros-workon platform
 
