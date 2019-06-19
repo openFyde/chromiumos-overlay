@@ -14,6 +14,8 @@ LICENSE="GPL-3 LGPL-3"
 SLOT="0"
 KEYWORDS="~*"
 
+STRIP_MASK="*.a *.o"
+
 # URIs taken from buildgcc -u
 # Needs to be synced with changes in the coreboot repo,
 # then pruned to the minimum required set (eg. no gdb, python, expat, llvm)
