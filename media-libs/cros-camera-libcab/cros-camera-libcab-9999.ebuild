@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo c
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="common/libcab.gyp"
+PLATFORM_SUBDIR="camera/common/libcab"
 
 inherit cros-camera cros-workon platform
 
@@ -34,17 +33,17 @@ src_install() {
 
 	dolib.a "${OUT}/libcab.pic.a"
 
-	cros-camera_doheader include/cros-camera/camera_algorithm.h \
-		include/cros-camera/camera_algorithm_bridge.h
+	cros-camera_doheader ../../include/cros-camera/camera_algorithm.h \
+		../../include/cros-camera/camera_algorithm_bridge.h
 
-	cros-camera_dopc common/libcab.pc.template
+	cros-camera_dopc ../libcab.pc.template
 
 	insinto /etc/init
-	doins common/init/cros-camera-algo.conf
+	doins ../init/cros-camera-algo.conf
 
 	insinto /etc/dbus-1/system.d
-	doins common/dbus/CrosCameraAlgo.conf
+	doins ../dbus/CrosCameraAlgo.conf
 
 	insinto "/usr/share/policy"
-	newins "common/cros-camera-algo-${ARCH}.policy" cros-camera-algo.policy
+	newins "../cros-camera-algo-${ARCH}.policy" cros-camera-algo.policy
 }
