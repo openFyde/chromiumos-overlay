@@ -2,14 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI="5"
+EAPI="6"
+
+MESON_AUTO_DEPEND=no
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa"
 CROS_WORKON_BLACKLIST="1"
 
-inherit base autotools multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
+inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
 OPENGL_DIR="xorg-x11"
 
@@ -66,6 +68,11 @@ QA_EXECSTACK="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 
 # Think about: ggi, fbcon, no-X configs
+
+driver_list() {
+	local drivers="$(sort -u <<< "${1// /$'\n'}")"
+	echo "${drivers//$'\n'/,}"
+}
 
 pkg_setup() {
 	# workaround toc-issue wrt #386545
@@ -125,7 +132,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
 
 	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson.build-Add-optio.patch
-	epatch "${FILESDIR}"/CHROMIUM-configure.ac-depend-on-libnativewindow-when-appropri.patch
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-plumb-swrast-option.patch
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-use-swrast-option-in-droid_load_driver.patch
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-fallback-to-software-rendering.patch
@@ -164,9 +170,14 @@ src_prepare() {
 		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
 	fi
 
-	base_src_prepare
+	epatch "${FILESDIR}"/FROMLIST-anv-Fix-vulkan-build-in-meson.patch
+	epatch "${FILESDIR}"/FROMLIST-anv-Add-android-dependencies-on-android.patch
+	epatch "${FILESDIR}"/FROMLIST-radv-Fix-vulkan-build-in-meson.patch
+	epatch "${FILESDIR}"/FROMLIST-meson-Allow-building-radeonsi-with-.patch
+	epatch "${FILESDIR}"/FROMLIST-meson-i965-Link-with-android.patch
+	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson-depend-on-libnativewindow-when-ap.patch
 
-	eautoreconf
+	default
 }
 
 src_configure() {
@@ -200,7 +211,7 @@ multilib_src_configure() {
 		driver_enable video_cards_nouveau nouveau
 
 		# ATI code
-		driver_enable video_cards_radeon radeon r200
+		driver_enable video_cards_radeon r100 r200
 	fi
 
 	if use gallium; then
@@ -221,7 +232,7 @@ multilib_src_configure() {
 	fi
 
 	if use vulkan; then
-		vulkan_enable video_cards_amdgpu radeon
+		vulkan_enable video_cards_amdgpu amd
 		vulkan_enable video_cards_intel intel
 	fi
 
@@ -238,14 +249,6 @@ multilib_src_configure() {
 		# Use llvm-config coming from ARC++ build.
 		export LLVM_CONFIG="${ARC_SYSROOT}/build/bin/llvm-config-host"
 
-		# FIXME(tfiga): It should be possible to make at least some of these be autodetected.
-		EXTRA_ARGS="
-			--enable-sysfs
-			--with-dri-searchpath=/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri
-			--sysconfdir=/system/vendor/etc
-			--enable-cross_compiling
-			--prefix=${ARC_PREFIX}/vendor
-		"
 		# FIXME(tfiga): Possibly use flag?
 		EGL_PLATFORM="android"
 
@@ -265,76 +268,79 @@ multilib_src_configure() {
 		export LLVM_CONFIG="no"
 	fi
 
-	ECONF_SOURCE="${S}" \
-	econf \
-		${EXTRA_ARGS} \
-		--disable-option-checking \
-		--with-driver=dri \
-		--disable-glu \
-		--disable-glut \
-		--disable-omx-bellagio \
-		--disable-va \
-		--disable-vdpau \
-		--disable-xvmc \
-		--disable-asm \
-		--without-demos \
-		--enable-texture-float \
-		--disable-dri3 \
-		$(use_enable llvm llvm-shared-libs) \
-		$(use_enable X glx) \
-		$(use_enable llvm) \
-		$(use_enable egl) \
-		$(use_enable gbm) \
-		$(use_enable gles1) \
-		$(use_enable gles2) \
-		$(use_enable shared-glapi) \
-		$(use_enable gallium) \
-		$(use_enable debug) \
-		$(use_enable nptl glx-tls) \
-		$(use_enable xlib-glx) \
-		$(use_enable !xlib-glx dri) \
-		--with-dri-drivers=${DRI_DRIVERS} \
-		--with-gallium-drivers=${GALLIUM_DRIVERS} \
-		--with-vulkan-drivers=${VULKAN_DRIVERS} \
-		--with-egl-lib-suffix=_mesa \
-		--with-gles-lib-suffix=_mesa \
-		--with-platform-sdk-version=${MESA_PLATFORM_SDK_VERSION} \
-		--enable-autotools \
-		$(use egl && echo "--with-platforms=${EGL_PLATFORM}")
+	arc-build-create-cross-file
+
+	emesonargs+=(
+		$(use cheets && echo "--prefix=${ARC_PREFIX}/vendor")
+		$(use cheets && echo "--sysconfdir=/system/vendor/etc")
+		$(use cheets && echo "-Ddri-search-path=/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri")
+		-Dgallium-va=false
+		-Dgallium-vdpau=false
+		-Dgallium-xvmc=false
+		-Dgallium-omx=disabled
+		-Dgallum-xa=false
+		-Dasm=false
+		-Dglx=disabled
+		-Ddri3=false
+		-Dgles-lib-suffix=_mesa
+		-Degl-lib-suffix=_mesa
+		$(meson_use llvm)
+		$(use egl && echo "-Dplatforms=${EGL_PLATFORM}")
+		$(meson_use egl)
+		$(meson_use gbm)
+		$(meson_use gles1)
+		$(meson_use gles2)
+		$(meson_use selinux)
+		$(meson_use shared-glapi)
+		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
+		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
+		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
+		--buildtype $(usex debug debug release)
+		$(use cheets && echo "--cross-file=${ARC_CROSS_FILE}")
+		$(use cheets && echo "-Dplatform-sdk-version=${ARC_PLATFORM_SDK_VERSION}")
+	)
+
+	meson_src_configure
+}
+
+# The meson eclass exports src_compile but not multilib_src_compile. src_compile
+# gets overridden by multilib-minimal
+multilib_src_compile() {
+	meson_src_compile
 }
 
 multilib_src_install_cheets() {
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)"
-	newexe $(get_libdir)/libglapi.so libglapi.so
+	newexe ${BUILD_DIR}/src/mapi/shared-glapi/libglapi.so.0 libglapi.so.0
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/egl"
-	newexe $(get_libdir)/libEGL_mesa.so libEGL_mesa.so
-	newexe $(get_libdir)/libGLESv1_CM_mesa.so libGLESv1_CM_mesa.so
-	newexe $(get_libdir)/libGLESv2_mesa.so libGLESv2_mesa.so
+	newexe ${BUILD_DIR}/src/egl/libEGL_mesa.so libEGL_mesa.so
+	newexe ${BUILD_DIR}/src/mapi/es1api/libGLESv1_CM_mesa.so libGLESv1_CM_mesa.so
+	newexe ${BUILD_DIR}/src/mapi/es2api/libGLESv2_mesa.so libGLESv2_mesa.so
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/dri"
 	if use classic && use video_cards_intel; then
-		newexe $(get_libdir)/i965_dri.so i965_dri.so
+		newexe ${BUILD_DIR}/src/mesa/drivers/dri/libmesa_dri_drivers.so i965_dri.so
 	fi
 	if use gallium; then
 		if use video_cards_llvmpipe; then
-			newexe $(get_libdir)/gallium/kms_swrast_dri.so kms_swrast_dri.so
+			newexe ${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so kms_swrast_dri.so
 		fi
 		if use video_cards_amdgpu; then
-			newexe $(get_libdir)/gallium/radeonsi_dri.so radeonsi_dri.so
+			newexe ${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so radeonsi_dri.so
 		fi
 		if use video_cards_virgl; then
-			newexe $(get_libdir)/gallium/virtio_gpu_dri.so virtio_gpu_dri.so
+			newexe ${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so virtio_gpu_dri.so
 		fi
 	fi
 
 	if use vulkan; then
 		exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/hw"
 		if use video_cards_amdgpu; then
-			newexe $(get_libdir)/libvulkan_radeon.so vulkan.cheets.so
+			newexe ${BUILD_DIR}/src/amd/vulkan/libvulkan_radeon.so vulkan.cheets.so
 		fi
 		if use video_cards_intel; then
-			newexe $(get_libdir)/libvulkan_intel.so vulkan.cheets.so
+			newexe ${BUILD_DIR}/src/intel/vulkan/libvulkan_intel.so vulkan.cheets.so
 		fi
 	fi
 }
@@ -345,7 +351,7 @@ multilib_src_install() {
 		return
 	fi
 
-	base_src_install
+	meson_src_install
 
 	# Remove redundant headers
 	# GLU and GLUT
