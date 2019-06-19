@@ -27,8 +27,10 @@ RDEPEND="
 	chromeos-base/google-breakpad[cros_i686?]
 	chromeos-base/libbrillo
 	chromeos-base/metrics
-	dev-libs/libpcre
+	dev-libs/libpcre:=
+	dev-libs/re2:=
 	net-misc/curl
+	|| ( sys-apps/journald sys-apps/systemd )
 	sys-libs/zlib
 	direncryption? ( sys-apps/keyutils )
 	test? ( app-arch/gzip )
@@ -40,7 +42,6 @@ DEPEND="
 	chromeos-base/shill-client
 	chromeos-base/system_api
 	chromeos-base/vboot_reference
-	sys-devel/flex
 "
 RDEPEND+="
 	chromeos-base/chromeos-ca-certificates
@@ -117,5 +118,5 @@ platform_pkg_test() {
 		"${gtest_filter_user_tests}"
 	platform_test "run" "${OUT}/crash_reporter_test" "1" \
 		"${gtest_filter_root_tests}"
-	platform_test "run" "${OUT}/anomaly_detector_test.sh"
+	platform_test "run" "${OUT}/anomaly_detector_test"
 }
