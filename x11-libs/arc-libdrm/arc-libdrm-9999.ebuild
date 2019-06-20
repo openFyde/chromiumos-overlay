@@ -45,6 +45,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/Add-Evdi-module-userspace-api-file.patch
 	epatch "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
 	epatch "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
+	epatch "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
 
 	xorg-2_src_prepare
 }
