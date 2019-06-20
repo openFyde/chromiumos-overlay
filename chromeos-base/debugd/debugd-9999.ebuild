@@ -28,7 +28,6 @@ COMMON_DEPEND="
 	chromeos-base/shill-client
 	chromeos-base/vboot_reference
 	!chromeos-base/workarounds
-	dev-libs/dbus-c++
 	dev-libs/libpcre
 	dev-libs/protobuf:=
 	net-libs/libpcap
