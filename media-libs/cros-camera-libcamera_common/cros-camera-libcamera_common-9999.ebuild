@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="common/libcamera_common.gyp"
+PLATFORM_SUBDIR="camera/common/libcamera_common"
 CROS_CAMERA_TESTS=(
 	"future_unittest"
 )
@@ -33,12 +32,12 @@ DEPEND="${RDEPEND}
 src_install() {
 	dolib.so "${OUT}/lib/libcamera_common.so"
 
-	cros-camera_doheader include/cros-camera/common.h \
-		include/cros-camera/constants.h \
-		include/cros-camera/export.h \
-		include/cros-camera/future.h \
-		include/cros-camera/future_internal.h \
-		include/cros-camera/camera_thread.h
+	cros-camera_doheader ../../include/cros-camera/common.h \
+		../../include/cros-camera/constants.h \
+		../../include/cros-camera/export.h \
+		../../include/cros-camera/future.h \
+		../../include/cros-camera/future_internal.h \
+		../../include/cros-camera/camera_thread.h
 
-	cros-camera_dopc common/libcamera_common.pc.template
+	cros-camera_dopc ../libcamera_common.pc.template
 }
