@@ -41,6 +41,7 @@ IUSE="
 	-asan
 	buildtest
 	+clang
+	-compilation_database
 	-device_tree
 	+dt_compression
 	+fit_compression_kernel_lz4
@@ -63,6 +64,7 @@ IUSE="
 	-criu
 "
 REQUIRED_USE="
+	compilation_database? ( clang )
 	fit_compression_kernel_lz4? ( !fit_compression_kernel_lzma )
 	fit_compression_kernel_lzma? ( !fit_compression_kernel_lz4 )
 "
@@ -1673,6 +1675,59 @@ get_dtb_name() {
 	find ${dtb_dir} -name "*.dtb" | LC_COLLATE=C sort
 }
 
+gen_compilation_database() {
+	local build_dir="$(cros-workon_get_build_dir)"
+	local src_dir="${build_dir}/source"
+	local db_chroot="${build_dir}/compile_commands_chroot.json"
+
+	"${src_dir}/scripts/gen_compile_commands.py" -d "${build_dir}" \
+		-o "${db_chroot}"|| die
+
+	# Make relative include paths absolute.
+	sed -i -e "s:-I\./:-I${build_dir}/:g" "${db_chroot}" || die
+
+	local ext_chroot_path="${EXTERNAL_TRUNK_PATH}/chroot"
+	local in_chroot_path="$(readlink -f "${src_dir}")"
+	local ext_src_path="${EXTERNAL_TRUNK_PATH}/${in_chroot_path#/mnt/host/source/}"
+
+	# Generate non-chroot version of the DB with the following
+	# changes:
+	#
+	# 1. translate file and directory paths
+	# 2. call clang directly instead of using CrOS wrappers
+	# 3. use standard clang target triples
+	# 4. remove a few compiler options that might not be available
+	#    in the potentially older clang version outside the chroot
+	#
+	sed -E -e "s:/mnt/host/source/:${EXTERNAL_TRUNK_PATH}/:g" \
+		-e "s:\"${src_dir}:\"${ext_src_path}:g" \
+		-e "s:-I/build/:-I${ext_chroot_path}/build/:g" \
+		-e "s:\"/build/:\"${ext_chroot_path}/build/:g" \
+		-e "s:-isystem /:-isystem ${ext_chroot_path}/:g" \
+		\
+		-e "s:[a-z0-9_]+-(cros|pc)-linux-gnu([a-z]*)?-clang:clang:g" \
+		\
+		-e "s:([a-z0-9_]+)-cros-linux-gnu:\1-linux-gnu:g" \
+		\
+		-e "s:-fdebug-info-for-profiling::g" \
+		-e "s:-mretpoline::g" \
+		-e "s:-mretpoline-external-thunk::g" \
+		-e "s:-mfentry::g" \
+		\
+		"${db_chroot}" \
+		> "${build_dir}/compile_commands_no_chroot.json" || or die
+
+	echo \
+"compile_commands_*.json are compilation databases for the Linux kernel. The
+files can be used by tools that support the commonly used JSON compilation
+database format.
+
+To use the compilation database with an IDE or other tools outside of the
+chroot create a symlink named 'compile_commands.json' in the kernel source
+directory (outside of the chroot) to compile_commands_no_chroot.json." \
+		> "${build_dir}/compile_commands.txt" || die
+}
+
 _cros-kernel2_compile() {
 	local build_targets=()  # use make default target
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
@@ -1723,6 +1778,10 @@ _cros-kernel2_compile() {
 			tee "${SMATCH_LOG_FILE}"
 	else
 		kmake -k ${build_targets[@]}
+	fi
+
+	if use compilation_database || ( use test && use clang ); then
+		gen_compilation_database
 	fi
 }
 
@@ -1994,6 +2053,16 @@ cros-kernel2_src_install() {
 		install_kernel_sources
 	else
 		dosym "$(cros-workon_get_build_dir)" "/usr/src/linux"
+	fi
+
+	if use compilation_database || ( use test && use clang ); then
+		insinto /build/kernel
+		einfo "Installing kernel compilation databases.\n"
+"To use the compilation database with an IDE or other tools outside of the
+chroot create a symlink named 'compile_commands.json' in the kernel source
+directory (outside of the chroot) to compile_commands_no_chroot.json."
+		doins "$(cros-workon_get_build_dir)"/compile_commands_*.json
+		doins "$(cros-workon_get_build_dir)"/compile_commands.txt
 	fi
 }
 
