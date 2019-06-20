@@ -24,6 +24,7 @@ IUSE="
 	chrome_internal
 	chromeless_tty
 	containers
+	crosvm-gpu
 	cups
 	diagnostics
 	+display_backlight
