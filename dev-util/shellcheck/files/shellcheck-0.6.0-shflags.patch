@@ -1,4 +1,4 @@
-From f7ca0fc03145e06a1f82e93a42aec5774c87863d Mon Sep 17 00:00:00 2001
+From 5ccef3d01f496e188cc56fe24d9073b28325783e Mon Sep 17 00:00:00 2001
 From: Benjamin Gordon <bmgordon@chromium.org>
 Date: Fri, 31 May 2019 10:42:53 -0600
 Subject: [PATCH] Add support for basic shflags semantics
@@ -131,7 +131,7 @@ index 3002e3e..fc3449f 100644
                  if shellType params == Ksh
                  then "Quote to prevent word splitting, or split robustly with read -A or while read."
 diff --git a/src/ShellCheck/AnalyzerLib.hs b/src/ShellCheck/AnalyzerLib.hs
-index de3498d..d7a03ff 100644
+index de3498d..3a14a89 100644
 --- a/src/ShellCheck/AnalyzerLib.hs
 +++ b/src/ShellCheck/AnalyzerLib.hs
 @@ -81,7 +81,8 @@ data Parameters = Parameters {
@@ -214,7 +214,7 @@ index de3498d..d7a03ff 100644
  
 +        "DEFINE_boolean" -> maybeToList $ getFlagVariable params rest
 +        "DEFINE_float" -> maybeToList $ getFlagVariable params rest
-+        "DEFINE_int" -> maybeToList $ getFlagVariable params rest
++        "DEFINE_integer" -> maybeToList $ getFlagVariable params rest
 +        "DEFINE_string" -> maybeToList $ getFlagVariable params rest
 +
          _ -> []
@@ -337,5 +337,5 @@ index f20874f..564baf8 100644
  
  newtype AnalysisResult = AnalysisResult {
 -- 
-2.22.0.rc2.383.gf4fbbf30c2-goog
+2.22.0.410.gd8fdbe21b5-goog
 
