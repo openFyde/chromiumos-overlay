@@ -7,8 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-# TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk container_utils permission_broker .gn"
+CROS_WORKON_SUBTREE="common-mk permission_broker .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="${PN}"
@@ -21,11 +20,10 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cfm_enabled_device containers"
+IUSE="cfm_enabled_device"
 
 RDEPEND="
 	chromeos-base/libbrillo
-	containers? ( chromeos-base/container_utils )
 	sys-apps/dbus
 	virtual/libusb:1
 	virtual/udev"
