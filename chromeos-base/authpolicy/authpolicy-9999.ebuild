@@ -35,7 +35,6 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	chromeos-base/cryptohome-client
 	chromeos-base/protofiles:=
 	chromeos-base/session_manager-client
 	chromeos-base/system_api:=
