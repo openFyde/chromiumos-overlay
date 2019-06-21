@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="common/libcbm.gyp"
+PLATFORM_SUBDIR="camera/common/libcbm"
 CROS_CAMERA_TESTS=(
 	"cbm_unittest"
 )
@@ -35,7 +34,7 @@ DEPEND="${RDEPEND}
 src_install() {
 	dolib.so "${OUT}/lib/libcbm.so"
 
-	cros-camera_doheader include/cros-camera/camera_buffer_manager.h
+	cros-camera_doheader ../../include/cros-camera/camera_buffer_manager.h
 
-	cros-camera_dopc common/libcbm.pc.template
+	cros-camera_dopc ../libcbm.pc.template
 }
