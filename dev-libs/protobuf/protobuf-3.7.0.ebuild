@@ -12,7 +12,7 @@ SRC_URI="https://github.com/protocolbuffers/${PN}/archive/v${PV}.tar.gz -> ${P}.
 LICENSE="BSD"
 SLOT="0/18"
 KEYWORDS="*"
-IUSE="emacs examples static-libs test zlib"
+IUSE="emacs examples static-libs test ubsan zlib"
 RESTRICT="!test? ( test )"
 
 DEPEND="emacs? ( virtual/emacs )
@@ -36,6 +36,7 @@ src_prepare() {
 
 src_configure() {
 	append-cppflags -DGOOGLE_PROTOBUF_NO_RTTI
+	use ubsan && append-flags "-fsanitize-blacklist=${FILESDIR}/ubsan_blocklist.txt"
 	tc-ld-disable-gold
 	multilib-minimal_src_configure
 }
