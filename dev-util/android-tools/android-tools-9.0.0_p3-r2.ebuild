@@ -80,6 +80,7 @@ src_prepare() {
 	eapply "${WORKDIR}"/arch/trunk/fix_build_core.patch
 	eapply "${FILESDIR}"/android-tools-8.1.0_p1-build.patch
 	eapply "${FILESDIR}"/android-tools-9.0.0-vsock.patch
+	eapply "${FILESDIR}"/android-tools-9.0.0-homedir.patch
 
 	cd "${S}"/selinux || die
 	eapply "${WORKDIR}"/arch/trunk/fix_build_selinux.patch
