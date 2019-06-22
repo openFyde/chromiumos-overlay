@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="9771053a02d98b91afcc955b887ee66320432981"
+CROS_WORKON_COMMIT="727e4d3faeb0b13631d3fed1724c8eb03e7e1c7c"
 CROS_WORKON_TREE=("88964300c225b7e8a3c2fe47860d091ca1f4fb65" "30f1db52b8dde22d7facc93e044a3445504e7a84" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -43,6 +43,8 @@ pkg_setup() {
 	# src_install() needs kerberosd.
 	enewuser kerberosd
 	enewgroup kerberosd
+	enewuser kerberosd-exec
+	enewgroup kerberosd-exec
 	cros-workon_pkg_setup
 }
 
