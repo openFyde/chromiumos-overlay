@@ -40,7 +40,6 @@ PATCHES=(
 	"${FILESDIR}"/0002-Decode-Align-the-height-for-external-surfaces.patch
 	"${FILESDIR}"/0003-Allow-I420-for-surface-creation.patch
 	"${FILESDIR}"/0004-Don-t-look-for-X-package.patch
-	"${FILESDIR}"/0005-Add-I420-to-supported-Image-formats.patch
 	"${FILESDIR}"/0006-VP-Add-VAProfileVP9Profile2-support-for-VA_RT_FORMAT.patch
 	"${FILESDIR}"/0007-register-reconstruct-surfaces.patch
 	"${FILESDIR}"/0008-Decode-Fix-partition-lengths-for-MFD_VP8_BSD_OBJECT.patch
@@ -51,6 +50,9 @@ PATCHES=(
 	"${FILESDIR}"/0013-reset-BRC-when-the-target-bitrate-or-max-bitrate-changed.patch
 	"${FILESDIR}"/0014-Encode-Fix-the-num_token_partitions-for-VP8-encode.patch
 	"${FILESDIR}"/0015-ignore-error-status-value-for-jpeg-decode.patch
+	"${FILESDIR}"/0016-VP-Add-VP-pipeline-in-PutImage.patch
+	"${FILESDIR}"/0017-VP-Add-NV21-kernel-rule.patch
+	"${FILESDIR}"/0018-VP-Refactor-image-creation-and-image-capability.patch
 )
 
 src_configure() {
