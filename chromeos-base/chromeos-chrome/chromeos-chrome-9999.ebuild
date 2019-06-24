@@ -48,7 +48,6 @@ IUSE="
 	+highdpi
 	internal_gles_conform
 	jumbo
-	kiosk_next
 	+libcxx
 	mojo
 	+nacl
@@ -310,7 +309,6 @@ set_build_args() {
 		use_bundled_fontconfig=false
 		# If to use the new tcmalloc version in Chromium.
 		use_new_tcmalloc=$(usetf new_tcmalloc)
-		enable_kiosk_next=$(usetf kiosk_next)
 
 		# Clang features.
 		is_asan=$(usetf asan)
