@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="common/libcamera_exif.gyp"
+PLATFORM_SUBDIR="camera/common/libcamera_exif"
 
 inherit cros-camera cros-workon platform
 
@@ -30,7 +29,7 @@ DEPEND="${RDEPEND}
 src_install() {
 	dolib.so "${OUT}/lib/libcamera_exif.so"
 
-	cros-camera_doheader include/cros-camera/exif_utils.h
+	cros-camera_doheader ../../include/cros-camera/exif_utils.h
 
-	cros-camera_dopc common/libcamera_exif.pc.template
+	cros-camera_dopc ../libcamera_exif.pc.template
 }
