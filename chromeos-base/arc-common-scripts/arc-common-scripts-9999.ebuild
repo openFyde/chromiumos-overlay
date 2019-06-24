@@ -19,7 +19,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 IUSE=""
-RDEPEND=""
+RDEPEND="app-misc/jq"
 DEPEND="${RDEPEND}"
 
 src_install() {
