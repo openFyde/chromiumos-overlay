@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="793b1832780f148a23b5a71a51758d950403874c"
+CROS_WORKON_COMMIT="fa1e1bf31626670d01e2fe519da0156517c77cbb"
 CROS_WORKON_TREE=("88964300c225b7e8a3c2fe47860d091ca1f4fb65" "7064c423c9dec2a1826ba1057322828f8c2951fd" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -41,7 +41,6 @@ pkg_setup() {
 
 src_install() {
 	cd "${OUT}"
-	dobin mount_extension_image
 	dobin device_jail_fs
 
 	fowners devicejail:devicejail /usr/bin/device_jail_fs
