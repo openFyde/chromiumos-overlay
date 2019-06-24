@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common/v4l2_device camera/include c
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="common/v4l2_device/libcamera_v4l2_device.gyp"
+PLATFORM_SUBDIR="camera/common/v4l2_device"
 
 inherit cros-camera cros-workon platform
 
@@ -28,7 +27,7 @@ DEPEND="${RDEPEND}
 src_install() {
 	dolib.so "${OUT}/lib/libcamera_v4l2_device.so"
 
-	cros-camera_doheader include/cros-camera/v4l2_device.h
+	cros-camera_doheader ../../include/cros-camera/v4l2_device.h
 
-	cros-camera_dopc common/v4l2_device/libcamera_v4l2_device.pc.template
+	cros-camera_dopc libcamera_v4l2_device.pc.template
 }
