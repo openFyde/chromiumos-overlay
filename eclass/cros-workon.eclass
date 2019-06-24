@@ -353,8 +353,6 @@ local_copy() {
 	# If we want to use git, and the source actually is a git repo
 	if [ "${CROS_WORKON_INPLACE}" == "1" ]; then
 		symlink_in_place "${src}" "${dst}"
-	elif [ "${CROS_WORKON_OUTOFTREE_BUILD}" == "1" ]; then
-		S="${src}"
 	else
 		local_copy_cp "${src}" "${dst}"
 	fi
@@ -564,11 +562,18 @@ cros-workon_src_unpack() {
 
 	einfo "path: ${path[*]}"
 	einfo "destdir: ${destdir[*]}"
-	# Copy source tree to /build/<board>/tmp for building
-	for (( i = 0; i < project_count; ++i )); do
-		local_copy "${path[i]}" "${destdir[i]}" || \
-			die "Cannot create a local copy"
-	done
+
+	# Out of tree builds don't need to copy the source, but can use it
+	# directly.
+	if [[ ${CROS_WORKON_OUTOFTREE_BUILD} -eq 1 ]]; then
+		S="${path[0]}"
+	else
+		# Copy source tree to /build/<board>/tmp for building
+		for (( i = 0; i < project_count; ++i )); do
+			local_copy "${path[i]}" "${destdir[i]}" || \
+				die "Cannot create a local copy"
+		done
+	fi
 	if [[ -n "${CROS_WORKON_PROJECT[*]}" ]]; then
 		set_vcsid "$(get_rev "${path[0]}/.git")"
 	fi
