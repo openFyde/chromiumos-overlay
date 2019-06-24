@@ -354,6 +354,7 @@ ALL_BOARDS=(
 	terra
 	tidus
 	tricky
+	trogdor
 	ultima
 	umaro
 	#urara
