@@ -180,7 +180,7 @@ cros_post_src_unpack_asan_init() {
 	# symbolize ubsan crashes.
 	export UBSAN_OPTIONS+=":symbolize=1:print_stacktrace=1"
 	# Clang coverage file generation location.
-	export LLVM_PROFILE_FILE="${coverage_path#${strip_sysroot}}/${PN}_%9m.profraw"
+	export LLVM_PROFILE_FILE="${coverage_path#${strip_sysroot}}/${P}_%9m.profraw"
 
 	local lsan_suppression="${S}/lsan_suppressions"
 	local lsan_suppression_ebuild="${FILESDIR}/lsan_suppressions"
@@ -222,6 +222,7 @@ cros_post_src_install_coverage_logs() {
 	local coverage_path="${T}/coverage_logs"
 	if [[ -n "$(ls -A "${coverage_path}")" ]]; then
 		local rel_cov_dir="build/coverage_data/${CATEGORY}/${PN}"
+		[[ "${SLOT:-0}" != "0" ]] && rel_cov_dir+="-${SLOT}"
 		local cov_dir="${D}/${rel_cov_dir}"
 		mkdir -p "${cov_dir}/raw_profiles"
 		cp "${coverage_path}"/*.profraw "${cov_dir}/raw_profiles" || die
