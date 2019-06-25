@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/android common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="android/libcamera_client/libcamera_client.gyp"
+PLATFORM_SUBDIR="camera/android/libcamera_client"
 
 inherit cros-camera cros-workon platform
 
@@ -30,15 +29,14 @@ DEPEND="${RDEPEND}
 src_install() {
 	local INCLUDE_DIR="/usr/include/android"
 	local LIB_DIR="/usr/$(get_libdir)"
-	local SRC_DIR="android/libcamera_client"
-	local PC_FILE_TEMPLATE="${SRC_DIR}/libcamera_client.pc.template"
+	local PC_FILE_TEMPLATE=libcamera_client.pc.template
 	local PC_FILE="${WORKDIR}/${PC_FILE_TEMPLATE##*/}"
 	PC_FILE="${PC_FILE%%.template}"
 
 	dolib.so "${OUT}/lib/libcamera_client.so"
 
 	insinto "${INCLUDE_DIR}/camera"
-	doins "${SRC_DIR}/include/camera"/*.h
+	doins include/camera/*.h
 
 	sed -e "s|@INCLUDE_DIR@|${INCLUDE_DIR}|" -e "s|@LIB_DIR@|${LIB_DIR}|" \
 		"${PC_FILE_TEMPLATE}" > "${PC_FILE}"
