@@ -154,6 +154,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-Add-HAL_PIXEL_FORMAT_YCbCr_420_888-in-vk_format.patch
 	epatch "${FILESDIR}"/CHROMIUM-Add-HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED-in-vk_fo.patch
 
+	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
+
 	if use android-container-nyc; then
 		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
 		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
