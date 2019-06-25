@@ -174,10 +174,7 @@ RDEPEND="
 	mist? ( chromeos-base/mist )
 	modemfwd? ( chromeos-base/modemfwd )
 	buffet? ( chromeos-base/buffet )
-	containers? (
-		chromeos-base/container_utils
-		chromeos-base/run_oci
-	)
+	containers? ( chromeos-base/run_oci )
 	cros_disks? ( chromeos-base/cros-disks )
 	debugd? ( chromeos-base/debugd )
 	diagnostics? ( chromeos-base/diagnostics )
