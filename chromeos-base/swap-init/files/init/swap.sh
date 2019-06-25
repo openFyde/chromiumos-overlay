@@ -82,10 +82,13 @@ get_mem_total() {
 default_low_memory_margin() {
   # compute fraction of total RAM used for low-mem margin.  The fraction is
   # given in bips.  A "bip" or "basis point" is 1/100 of 1%.
-  local margin
-  MARGIN_BIPS=520
-  margin=$(( $1 / 1024 * MARGIN_BIPS / 10000 ))  # MiB
-  echo "${margin}"
+  local critical_margin
+  local moderate_margin
+  CRITICAL_MARGIN_BIPS=520   # 5.2% FREE
+  critical_margin=$(( $1 / 1024 * CRITICAL_MARGIN_BIPS / 10000 ))  # MiB
+  MODERATE_MARGIN_BIPS=4000  # 40% FREE
+  moderate_margin=$(( $1 / 1024 * MODERATE_MARGIN_BIPS / 10000 ))  # MiB
+  echo "${critical_margin} ${moderate_margin}"
 }
 
 
