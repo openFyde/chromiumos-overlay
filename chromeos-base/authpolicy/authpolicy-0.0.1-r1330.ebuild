@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="269215d09a26f380b2835aa3ea45a69d87e64b47"
+CROS_WORKON_COMMIT="eb370be067b13185a1c29690ac942e5ce706e106"
 CROS_WORKON_TREE=("88964300c225b7e8a3c2fe47860d091ca1f4fb65" "2c4fcc066d26a67b3718e92b803d4df552e402bc" "e1806dff039cc88628f7e140a13a2ca5cefa71cf" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,7 +37,6 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	chromeos-base/cryptohome-client
 	chromeos-base/protofiles:=
 	chromeos-base/session_manager-client
 	chromeos-base/system_api:=
