@@ -13,17 +13,15 @@ DESCRIPTION="Chrome OS verified boot tools"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_host dev_debug_force fuzzer -mtd pd_sync tpmtests tpm tpm2"
+IUSE="cros_host dev_debug_force fuzzer pd_sync tpmtests tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="cros_host? ( dev-libs/libyaml )
-	mtd? ( sys-apps/flashrom )
 	dev-libs/libzip:=
 	dev-libs/openssl:=
 	sys-apps/util-linux"
-DEPEND="mtd? ( dev-embedded/android_mtdutils )
-	${RDEPEND}"
+DEPEND="${RDEPEND}"
 
 src_configure() {
 	cros-workon_src_configure
@@ -36,7 +34,6 @@ vemake() {
 		ARCH=$(tc-arch) \
 		TPM2_MODE=$(usev tpm2) \
 		PD_SYNC=$(usev pd_sync) \
-		USE_MTD=$(usev mtd) \
 		MINIMAL=$(usev !cros_host) \
 		NO_BUILD_TOOLS=$(usev fuzzer) \
 		DEV_DEBUG_FORCE=$(usev dev_debug_force) \
@@ -63,7 +60,7 @@ src_install() {
 	vemake \
 		BUILD="${WORKDIR}"/build-main \
 		DESTDIR="${D}$(usex cros_host /usr '')" \
-		install$(usex mtd '_mtd' '')
+		install
 
 	if use cros_host; then
 		# Installing on the host
