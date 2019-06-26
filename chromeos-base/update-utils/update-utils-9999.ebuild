@@ -21,6 +21,8 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
+RDEPEND="!chromeos-base/gmerge"
+
 # Add an empty src_compile() so we bypass compile stage.
 src_compile() { :; }
 

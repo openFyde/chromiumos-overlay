@@ -85,7 +85,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/cros-config-test
 	chromeos-base/cryptohome-dev-utils
 	tpm2? ( chromeos-base/g2f_tools )
-	chromeos-base/gmerge
+	chromeos-base/update-utils
 	chromeos-base/policy_utils
 	chromeos-base/protofiles
 	chromeos-base/screenshot
