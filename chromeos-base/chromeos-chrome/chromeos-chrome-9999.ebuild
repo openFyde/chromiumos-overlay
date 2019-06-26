@@ -904,6 +904,13 @@ setup_compile_flags() {
 		BUILD_STRING_ARGS+=( dump_call_chain_clustering_order="${chrome_outdir}/chrome.orderfile.txt" )
 	fi
 
+	# Turn off call graph profile sort (C3), when new pass manager is enabled.
+	# Only allow it when we want to generate orderfile.
+	# This is a temporary option and will need to be removed once orderfile is on.
+	if use clang && ! use orderfile_generate; then
+		EBUILD_LDFLAGS+=( "-Wl,--no-call-graph-profile-sort" )
+	fi
+
 	# Enable std::vector []-operator bounds checking.
 	append-cxxflags -D__google_stl_debug_vector=1
 
