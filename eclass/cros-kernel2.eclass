@@ -1737,7 +1737,7 @@ cros-kernel2_src_compile() {
 	# slower but they will still work OK.
 	if ! cmp -s "${build_cfg}" "${old_defconfig}"; then
 		ewarn "Slowing build speed because ebuild touched config."
-		rm "${old_config}" "${old_defconfig}" || die
+		rm -f "${old_config}" "${old_defconfig}" || die
 	fi
 
 	_cros-kernel2_compile
