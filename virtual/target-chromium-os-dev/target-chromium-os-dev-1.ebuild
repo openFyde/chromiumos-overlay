@@ -58,7 +58,6 @@ RDEPEND="${RDEPEND}
 	app-arch/xz-utils
 	app-arch/zip
 	profile? (
-		app-benchmarks/punybench
 		chromeos-base/quipper
 		app-benchmarks/libc-bench
 		net-analyzer/netperf
