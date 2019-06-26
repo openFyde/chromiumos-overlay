@@ -149,7 +149,7 @@ src_configure() {
 	# For llvmpipe on ARM we'll get errors about being unable to resolve
 	# "__aeabi_unwind_cpp_pr1" if we don't include this flag; seems wise
 	# to include it for all platforms though.
-	use video_cards_llvmpipe && append-flags "-rtlib=libgcc"
+	use video_cards_llvmpipe && append-flags "-rtlib=libgcc -shared-libgcc"
 
 	driver_enable pvr
 
