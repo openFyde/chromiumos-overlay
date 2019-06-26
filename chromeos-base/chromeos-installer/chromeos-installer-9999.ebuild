@@ -24,7 +24,6 @@ IUSE="cros_embedded cros_host -mtd pam systemd test +oobe_config"
 
 DEPEND="
 	chromeos-base/verity
-	mtd? ( dev-embedded/android_mtdutils )
 	!cros_host? (
 		chromeos-base/vboot_reference
 		dev-libs/openssl:=
