@@ -287,6 +287,10 @@ def main():
     cmdline = [x for x in cmdline if x not in UNSUPPORTED_ASAN_FLAGS]
     clang_cmdline = [x for x in clang_cmdline if x not in UNSUPPORTED_ASAN_FLAGS]
 
+  # Add flags for fuzzer.
+  if has_fuzzer_flags(myargs):
+    clang_cmdline.extend(FUZZER_FLAGS_TO_ADD)
+
   if gcc_comp.startswith('x86_64') or startswith_i86(gcc_comp):
     cmdline.extend(X86_DISABLE_FLAGS)
 

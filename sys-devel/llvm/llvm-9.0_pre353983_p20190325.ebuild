@@ -288,6 +288,12 @@ src_prepare() {
 	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
 	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
 
+	# new pass manager patches
+	# crbug/958867
+	epatch "${FILESDIR}"/llvm-9.0-no-cgprofile.patch
+	# https://bugs.llvm.org/show_bug.cgi?id=42272
+	epatch "${FILESDIR}"/llvm-9.0-no-assert-domtree.patch
+
 	# Make ocaml warnings non-fatal, bug #537308
 	sed -e "/RUN/s/-warn-error A//" -i llvm/test/Bindings/OCaml/*ml  || die
 
@@ -397,6 +403,9 @@ multilib_src_configure() {
 		# override default stdlib and rtlib
 		-DCLANG_DEFAULT_CXX_STDLIB=$(usex default-libcxx libc++ "")
 		-DCLANG_DEFAULT_RTLIB=$(usex default-compiler-rt compiler-rt "")
+
+		# Turn on new pass manager for LLVM
+		-DENABLE_EXPERIMENTAL_NEW_PASS_MANAGER=ON
 	)
 
 	# Update LLVM to 9.0 will cause LLVM to complain GCC

@@ -45,6 +45,11 @@ UNSUPPORTED_ASAN_FLAGS = set((
     '-D_FORTIFY_SOURCE=2',
 ))
 
+FUZZER_FLAGS_TO_ADD = set((
+    # TODO: This flag should be removed once fuzzer works with new pass manager
+    '-fno-experimental-new-pass-manager',
+))
+
 CLANG_UNSUPPORTED_PREFIXES = ('-Wstrict-aliasing=', '-finline-limit=')
 
 # clang with '-ftrapv' generates 'call __mulodi4', which is only implemented
@@ -84,6 +89,12 @@ def handle_exec_exception(exc, argv0, use_ccache, execargs):
 def has_sanitizer_flags(args):
   """Returns true if ASan/MSan flags are present."""
   if any([x.startswith('-fsanitize') for x in args]):
+    return True
+  return False
+
+def has_fuzzer_flags(args):
+  """Returns true if fuzzer flags are present."""
+  if any([(x.startswith('-fsanitize') and 'fuzzer' in x) for x in args]):
     return True
   return False
 

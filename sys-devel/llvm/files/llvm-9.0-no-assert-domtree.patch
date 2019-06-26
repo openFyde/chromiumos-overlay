@@ -1,0 +1,18 @@
+This patch is a work around for an existing bug (https://bugs.llvm.org/show_bug.cgi?id=42272) in new pass manager.
+
+When building LLVM with assertion, the assert statement in this file may be triggered by mistake. While there is
+on going work to fix it in community, we comment it out here for now until the fix is landed.
+
+diff --git a/llvm/lib/Transforms/Utils/LibCallsShrinkWrap.cpp b/llvm/lib/Transforms/Utils/LibCallsShrinkWrap.cpp
+index 8c67d1dc6eb..7356c2b2e1c 100644
+--- a/llvm/lib/Transforms/Utils/LibCallsShrinkWrap.cpp
++++ b/llvm/lib/Transforms/Utils/LibCallsShrinkWrap.cpp
+@@ -528,7 +528,7 @@ static bool runImpl(Function &F, const TargetLibraryInfo &TLI,
+   bool Changed = CCDCE.perform();
+ 
+ // Verify the dominator after we've updated it locally.
+-  assert(!DT || DT->verify(DominatorTree::VerificationLevel::Fast));
++  //assert(!DT || DT->verify(DominatorTree::VerificationLevel::Fast));
+   return Changed;
+ }
+ 
