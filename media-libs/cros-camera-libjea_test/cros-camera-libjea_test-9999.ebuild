@@ -21,7 +21,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	dev-cpp/gtest
+	dev-cpp/gtest:=
 	media-libs/cros-camera-libcamera_exif"
 
 src_install() {

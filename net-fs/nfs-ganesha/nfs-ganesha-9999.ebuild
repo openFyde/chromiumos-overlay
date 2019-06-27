@@ -28,7 +28,7 @@ RDEPEND="
 	"
 
 DEPEND="${RDEPEND}
-	test? ( dev-cpp/gtest )
+	test? ( dev-cpp/gtest:= )
 	"
 RDEPEND+="
 	net-nds/rpcbind"

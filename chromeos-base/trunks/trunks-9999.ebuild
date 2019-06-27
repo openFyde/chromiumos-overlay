@@ -39,7 +39,7 @@ RDEPEND="
 	!app-crypt/tpm-tools
 	fuzzer? (
 		dev-cpp/gmock
-		dev-cpp/gtest
+		dev-cpp/gtest:=
 	)
 	"
 

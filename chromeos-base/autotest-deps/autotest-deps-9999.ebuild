@@ -29,7 +29,7 @@ AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
 # deps/gtest
 RDEPEND="
-	dev-cpp/gtest
+	dev-cpp/gtest:=
 "
 
 # deps/iwcap

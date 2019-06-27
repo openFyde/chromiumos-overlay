@@ -21,7 +21,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	dev-cpp/gtest
+	dev-cpp/gtest:=
 	!media-libs/arc-camera3-libcab-test
 	media-libs/cros-camera-libcab"
 

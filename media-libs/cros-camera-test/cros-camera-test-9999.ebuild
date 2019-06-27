@@ -33,7 +33,7 @@ RDEPEND="
 	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}
-	dev-cpp/gtest
+	dev-cpp/gtest:=
 	media-libs/cros-camera-android-headers
 	media-libs/libyuv
 	virtual/pkgconfig"
