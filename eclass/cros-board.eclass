@@ -178,6 +178,7 @@ ALL_BOARDS=(
 	hsb
 	#iclrvp
 	ironhide
+	jacuzzi
 	#jadeite
 	#jaguar
 	jecht

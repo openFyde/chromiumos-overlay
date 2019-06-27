@@ -68,6 +68,7 @@ EC_BOARD_NAMES=(
 	hatch_fp
 	hoho
 	host
+	jacuzzi
 	jerry
 	kalista
 	kevin
