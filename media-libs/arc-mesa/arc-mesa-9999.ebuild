@@ -141,7 +141,7 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/FROMLIST-egl-fix-KHR_partial_update-without-EXT_buff.patch
 	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
-	epatch "${FILESDIR}"/CHROMIUM-Disable-EGL_KHR_partial_update.patch
+	epatch "${FILESDIR}"/FROMLIST-egl-android-Update-color_buffers-querying-for-buffer.patch
 
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
