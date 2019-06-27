@@ -1,7 +1,13 @@
-diff -rupN fuse-2.8.6/util/fusermount.c fuse-2.8.6.patched/util/fusermount.c
---- fuse-2.8.6/util/fusermount.c	2011-09-13 00:23:14.000000000 -0700
-+++ fuse-2.8.6.patched/util/fusermount.c	2011-10-19 08:48:44.346535813 -0700
-@@ -613,6 +613,21 @@ static int add_option(char **optsp, cons
+Changed fusermount to avoid calling getpwuid(3) if '-o user=<username>'
+is provided in the command line. This prevents glibc's implementation of
+getpwuid from invoking socket/connect syscalls, which allows ChromiumOS
+daemons to put more restrictive seccomp filters on fusermount.
+
+diff --git a/util/fusermount.c b/util/fusermount.c
+index 245aeea..e30f950 100644
+--- a/util/fusermount.c
++++ b/util/fusermount.c
+@@ -656,6 +656,21 @@ static int add_option(char **optsp, const char *opt, unsigned expand)
  	return 0;
  }
  
@@ -23,7 +29,7 @@ diff -rupN fuse-2.8.6/util/fusermount.c fuse-2.8.6.patched/util/fusermount.c
  static int get_mnt_opts(int flags, char *opts, char **mnt_optsp)
  {
  	int i;
-@@ -633,15 +648,6 @@ static int get_mnt_opts(int flags, char 
+@@ -676,15 +691,6 @@ static int get_mnt_opts(int flags, char *opts, char **mnt_optsp)
  	l = strlen(*mnt_optsp);
  	if ((*mnt_optsp)[l-1] == ',')
  		(*mnt_optsp)[l-1] = '\0';
@@ -39,7 +45,7 @@ diff -rupN fuse-2.8.6/util/fusermount.c fuse-2.8.6.patched/util/fusermount.c
  	return 0;
  }
  
-@@ -694,6 +700,7 @@ static int do_mount(const char *mnt, cha
+@@ -737,6 +743,7 @@ static int do_mount(const char *mnt, char **typep, mode_t rootmode,
  	char *subtype = NULL;
  	char *source = NULL;
  	char *type = NULL;
@@ -47,15 +53,15 @@ diff -rupN fuse-2.8.6/util/fusermount.c fuse-2.8.6.patched/util/fusermount.c
  	int check_empty = 1;
  	int blkdev = 0;
  
-@@ -707,6 +714,7 @@ static int do_mount(const char *mnt, cha
+@@ -750,6 +757,7 @@ static int do_mount(const char *mnt, char **typep, mode_t rootmode,
  		unsigned len;
  		const char *fsname_str = "fsname=";
  		const char *subtype_str = "subtype=";
 +		const char *user_str = "user=";
+ 		bool escape_ok = begins_with(s, fsname_str) ||
+ 				 begins_with(s, subtype_str);
  		for (len = 0; s[len]; len++) {
- 			if (s[len] == '\\' && s[len + 1])
- 				len++;
-@@ -719,6 +727,9 @@ static int do_mount(const char *mnt, cha
+@@ -764,6 +772,9 @@ static int do_mount(const char *mnt, char **typep, mode_t rootmode,
  		} else if (begins_with(s, subtype_str)) {
  			if (!get_string_opt(s, len, subtype_str, &subtype))
  				goto err;
@@ -65,13 +71,13 @@ diff -rupN fuse-2.8.6/util/fusermount.c fuse-2.8.6.patched/util/fusermount.c
  		} else if (opt_eq(s, len, "blkdev")) {
  			if (getuid() != 0) {
  				fprintf(stderr,
-@@ -775,6 +786,9 @@ static int do_mount(const char *mnt, cha
+@@ -826,6 +837,9 @@ static int do_mount(const char *mnt, char **typep, mode_t rootmode,
+ 	}
+ 	*d = '\0';
  	res = get_mnt_opts(flags, optbuf, &mnt_opts);
- 	if (res == -1)
- 		goto err;
-+	res = add_user_option(&mnt_opts, user);
 +	if (res == -1)
 +		goto err;
++	res = add_user_option(&mnt_opts, user);
+ 	if (res == -1)
+ 		goto err;
  
- 	sprintf(d, "fd=%i,rootmode=%o,user_id=%i,group_id=%i",
- 		fd, rootmode, getuid(), getgid());
