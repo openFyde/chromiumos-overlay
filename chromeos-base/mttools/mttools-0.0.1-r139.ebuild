@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="3c0e9c4a66f929e5752f5bf5fe45b1df5a0eb398"
-CROS_WORKON_TREE="e7ceb05acbf0542242a865f77d5ca712d9f4c82c"
+CROS_WORKON_COMMIT="27df4a99ceb8d2d6b5a1838c66fa030fa5943280"
+CROS_WORKON_TREE="d7379a811b2b9db28422a3545e18d76ceac528a3"
 CROS_WORKON_PROJECT="chromiumos/platform/mttools"
 
 inherit cros-sanitizers cros-workon cros-common.mk cros-constants cros-debug
