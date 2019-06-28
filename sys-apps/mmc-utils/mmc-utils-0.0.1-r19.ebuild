@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=4
-CROS_WORKON_COMMIT="1c55306a49b32bbb8c65e1e5e9d630f6720a6810"
-CROS_WORKON_TREE="ffe64f6bd313ab3ad9015c64b9a2d8898675daae"
+CROS_WORKON_COMMIT="329c5cade4d639803c0c356da250f8314617956c"
+CROS_WORKON_TREE="b5cee99ddc49c334164b14205467470d203dceac"
 CROS_WORKON_PROJECT="chromiumos/third_party/mmc-utils"
 
 inherit cros-workon toolchain-funcs
