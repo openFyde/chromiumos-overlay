@@ -10,7 +10,6 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk arc/appfuse .gn"
 
 PLATFORM_SUBDIR="arc/appfuse"
-PLATFORM_GYP_FILE="appfuse.gyp"
 
 inherit cros-workon platform user
 

@@ -11,7 +11,6 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk arc/network shill/net .gn"
 
 PLATFORM_SUBDIR="arc/network"
-PLATFORM_GYP_FILE="arc-network.gyp"
 
 inherit cros-workon libchrome platform user
 

@@ -10,7 +10,6 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk arc/obb-mounter .gn"
 
 PLATFORM_SUBDIR="arc/obb-mounter"
-PLATFORM_GYP_FILE="obb-mounter.gyp"
 
 inherit cros-workon platform
 

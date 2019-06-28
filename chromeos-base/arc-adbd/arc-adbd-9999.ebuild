@@ -10,7 +10,6 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk arc/adbd .gn"
 
 PLATFORM_SUBDIR="arc/adbd"
-PLATFORM_GYP_FILE="adbd.gyp"
 
 inherit cros-workon platform
 

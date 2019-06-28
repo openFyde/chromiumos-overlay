@@ -11,7 +11,6 @@ CROS_WORKON_SUBTREE="common-mk arc/apk-cache .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/apk-cache"
-PLATFORM_GYP_FILE="apk-cache.gyp"
 
 inherit cros-workon platform
 

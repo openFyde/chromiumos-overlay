@@ -12,7 +12,6 @@ CROS_WORKON_SUBTREE="common-mk arc/setup chromeos-config metrics .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/setup"
-PLATFORM_GYP_FILE="arc-setup.gyp"
 
 inherit cros-workon platform
 

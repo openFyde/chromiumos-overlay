@@ -10,7 +10,6 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk arc/sdcard .gn"
 
 PLATFORM_SUBDIR="arc/sdcard"
-PLATFORM_GYP_FILE="sdcard.gyp"
 
 inherit cros-workon platform
 
