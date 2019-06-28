@@ -158,6 +158,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-Add-HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED-in-vk_fo.patch
 
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
+	epatch "${FILESDIR}"/CHROMIUM-anv-Clamp-apiVersion-to-1.0.0-on-Android-Oreo.patch
 
 	if use android-container-nyc; then
 		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
@@ -422,11 +423,20 @@ multilib_src_install_all_cheets() {
 		doins "${FILESDIR}/vulkan.rc"
 
 		insinto "${ARC_PREFIX}/vendor/etc/permissions"
+
 		if use video_cards_intel; then
 			doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
-			doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
 		else
 			doins "${FILESDIR}/android.hardware.vulkan.level-0.xml"
+		fi
+
+		# Limit the Vulkan version to 1.0 before Android Pie. The
+		# Nougat and Oreo CTS reject 1.1 in test
+		# android.graphics.cts.VulkanFeaturesTest#testVulkanHardwareFeatures.
+		# (See b/136215923).
+		if ! use android-container-nyc && use video_cards_intel; then
+			doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
+		else
 			doins "${FILESDIR}/android.hardware.vulkan.version-1_0_3.xml"
 		fi
 	fi
