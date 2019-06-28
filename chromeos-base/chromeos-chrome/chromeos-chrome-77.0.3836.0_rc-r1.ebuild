@@ -57,6 +57,7 @@ IUSE="
 	oobe_config
 	opengl
 	opengles
+	orderfile_generate
 	+reorder_text_sections
 	+runhooks
 	strict_toolchain_checks
@@ -139,7 +140,7 @@ AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-77.0.3834.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-77.0.3836.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R77-3809.20-1561372169.afdo"
 AFDO_FILE["airmont"]="R77-3809.20-1561370647.afdo"
 AFDO_FILE["haswell"]="R77-3809.20-1561375615.afdo"
@@ -892,8 +893,22 @@ setup_compile_flags() {
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
 	fi
 
-	if use reorder_text_sections; then
+	# The logic to avoid using these two flags together here is to
+	# support temporary transition before orderfile is being used.
+	if use reorder_text_sections && ! use orderfile_generate; then
 		EBUILD_LDFLAGS+=( "-Wl,-z,keep-text-section-prefix" )
+	fi
+
+	if use orderfile_generate; then
+		local chrome_outdir="${CHROME_CACHE_DIR}/src/${BUILD_OUT}/${BUILDTYPE}"
+		BUILD_STRING_ARGS+=( dump_call_chain_clustering_order="${chrome_outdir}/chrome.orderfile.txt" )
+	fi
+
+	# Turn off call graph profile sort (C3), when new pass manager is enabled.
+	# Only allow it when we want to generate orderfile.
+	# This is a temporary option and will need to be removed once orderfile is on.
+	if use clang && ! use orderfile_generate; then
+		EBUILD_LDFLAGS+=( "-Wl,--no-call-graph-profile-sort" )
 	fi
 
 	# Enable std::vector []-operator bounds checking.
@@ -1423,6 +1438,12 @@ src_install() {
 	if [[ -n "${CHROMEOS_LOCAL_ACCOUNT}" ]]; then
 		echo "${CHROMEOS_LOCAL_ACCOUNT}" > "${T}/localaccount"
 		doins "${T}/localaccount"
+	fi
+
+	# Install the orderfile into the chrome directory
+	if use orderfile_generate; then
+		[[ -f "${FROM}/chrome.orderfile.txt" ]] || die "No orderfile generated."
+		doins "${FROM}/chrome.orderfile.txt"
 	fi
 
 	# Use the deploy_chrome from the *Chrome* checkout.  The benefit of
