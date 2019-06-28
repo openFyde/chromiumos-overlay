@@ -16,7 +16,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf
-	+crosvm-usb crosvm-gpu-forward fuzzer tpm2"
+	crosvm-gpu-forward fuzzer tpm2"
 
 RDEPEND="
 	sys-apps/dtc
@@ -28,7 +28,7 @@ RDEPEND="
 		media-libs/virglrenderer
 	)
 	crosvm-wl-dmabuf? ( media-libs/minigbm )
-	crosvm-usb? ( virtual/libusb:1= )
+	virtual/libusb:1=
 "
 DEPEND="${RDEPEND}
 	~dev-rust/byteorder-1.1.0:=
@@ -91,7 +91,7 @@ src_compile() {
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
 		$(usex crosvm-gpu-forward gpu-forward "")
-		$(usex crosvm-usb sandboxed-libusb "")
+		sandboxed-libusb
 	)
 
 	local packages=(
@@ -131,7 +131,6 @@ src_test() {
 
 		local feature_excludes=()
 		use tpm2 || feature_excludes+=( --exclude tpm2 --exclude tpm2-sys )
-		use crosvm-usb || feature_excludes+=( --exclude usb_util )
 		use crosvm-gpu-forward || feature_excludes+=( --exclude render_node_forward )
 
 		# io_jail tests fork the process, which cause memory leak errors when
