@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="de2130fc2268fd54f01206d728cd40fe9dd922aa"
-CROS_WORKON_TREE="e9db09b350c567cce81f99a645c4935a1a0b6e8a"
+EAPI=6
+CROS_WORKON_COMMIT="f9f83820c649503801bdd6922827493cab8bbc66"
+CROS_WORKON_TREE="2deeb3c96fb367a93a766cadce25b626af166c2a"
 CROS_WORKON_PROJECT="chromiumos/platform/tast"
 CROS_WORKON_LOCALNAME="tast"
 
@@ -37,3 +37,14 @@ RDEPEND="
 	app-arch/tar
 	!chromeos-base/tast-common
 "
+
+src_prepare() {
+	# Disable cgo and PIE on building Tast binaries. See:
+	# https://crbug.com/976196
+	# https://github.com/golang/go/issues/30986#issuecomment-475626018
+	export CGO_ENABLED=0
+	export GOPIE=0
+
+	cros-workon_src_prepare
+	default
+}
