@@ -36,7 +36,7 @@ CROS_BOARDS=(
 	strago
 	tidus
 	tricky
-	veyron_{fievel,jaq,jerry,mickey,mighty,minnie,minnie-kernelnext,speedy,tiger}
+	veyron_{fievel,jaq,jerry,jerry-kernelnext,mickey,mighty,minnie,minnie-kernelnext,speedy,tiger}
 	whirlwind
 	wolf
 	zako
