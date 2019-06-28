@@ -363,6 +363,7 @@ ALL_BOARDS=(
 	veyron_gus
 	veyron_jaq
 	veyron_jerry
+	veyron_jerry-kernelnext
 	veyron_mickey
 	veyron_mighty
 	veyron_minnie
