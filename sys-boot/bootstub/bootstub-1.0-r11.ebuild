@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="2"
-CROS_WORKON_COMMIT="6697fe6404055443d7c754b365907a0604f14111"
-CROS_WORKON_TREE="2b5235a821b109c685f1f7d2f8eafe35aa2ac3fb"
+CROS_WORKON_COMMIT="97f36acc1fe9732aa033fca55dd3baac8f3ceb48"
+CROS_WORKON_TREE="bbcbb1726580bb6e308d90499f966ffcbbfd2219"
 CROS_WORKON_PROJECT="chromiumos/third_party/bootstub"
 
 inherit eutils toolchain-funcs cros-workon
