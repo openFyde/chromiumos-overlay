@@ -38,6 +38,7 @@ IUSE="
 	kernel-3_8
 	kernel-3_10
 	kvm_host
+	kvm_transition
 	lxc
 	memd
 	ml_service
