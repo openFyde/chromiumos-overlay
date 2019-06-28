@@ -22,21 +22,23 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="cros_embedded cros_host -mtd pam systemd test +oobe_config"
 
-DEPEND="
+COMMON_DEPEND="
+	chromeos-base/libbrillo:=
+	chromeos-base/vboot_reference
+"
+
+DEPEND="${COMMON_DEPEND}
 	chromeos-base/verity
-	!cros_host? (
-		chromeos-base/vboot_reference
-		dev-libs/openssl:=
-	)"
-RDEPEND="
+	dev-libs/openssl:=
+"
+
+RDEPEND="${COMMON_DEPEND}
 	pam? ( app-admin/sudo )
 	chromeos-base/chromeos-common-script
-	chromeos-base/libbrillo
 	!cros_host? (
 		oobe_config? ( chromeos-base/oobe_config )
 		dev-libs/openssl
 	)
-	chromeos-base/vboot_reference
 	dev-util/shflags
 	sys-apps/rootdev
 	!cros_embedded? ( chromeos-base/chromeos-storage-info )
