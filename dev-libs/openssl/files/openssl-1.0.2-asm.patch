@@ -1,0 +1,187 @@
+Note: This is a slightly modified version of the upstream commits
+to apply to OpenSSL 1.0.2 in Chrome OS.
+https://github.com/openssl/openssl/commit/313e6ec11fb8a7bda1676ce5804bee8755664141
+(Fixed openssl for APPLE iOS builds.)
+and https://github.com/openssl/openssl/commit/8a5d8bc4bc1e835b62d988ad63454540be83d862
+(Changed __defined(__APPLE__) to #if defined(__thumb2__) || defined(__APPLE__)
+
+commit 313e6ec11fb8a7bda1676ce5804bee8755664141
+Author: Andy Polyakov <appro@openssl.org>
+Date:   Thu Apr 2 10:17:42 2015 +0200
+
+    Add assembly support for 32-bit iOS.
+    
+    Reviewed-by: Matt Caswell <matt@openssl.org>
+    Reviewed-by: Richard Levitte <levitte@openssl.org>
+
+diff --git a/crypto/aes/asm/aes-armv4.pl b/crypto/aes/asm/aes-armv4.pl
+index a620a7cddb..0f7ec39d56 100644
+--- a/crypto/aes/asm/aes-armv4.pl
++++ b/crypto/aes/asm/aes-armv4.pl
+@@ -187,9 +199,13 @@ AES_encrypt:
+ 	adr	r3,AES_encrypt
+ #endif
+ 	stmdb   sp!,{r1,r4-r12,lr}
++#if defined(__thumb2__) || defined(__APPLE__)
++	adr	$tbl,AES_Te
++#else
++	sub	$tbl,r3,#AES_encrypt-AES_Te	@ Te
++#endif
+ 	mov	$rounds,r0		@ inp
+ 	mov	$key,r2
+-	sub	$tbl,r3,#AES_encrypt-AES_Te	@ Te
+ #if __ARM_ARCH__<7
+ 	ldrb	$s0,[$rounds,#3]	@ load input data in endian-neutral
+ 	ldrb	$t1,[$rounds,#2]	@ manner...
+@@ -457,12 +473,16 @@ _armv4_AES_set_encrypt_key:
+ 	bne	.Labrt
+ 
+ .Lok:	stmdb   sp!,{r4-r12,lr}
+-	sub	$tbl,r3,#_armv4_AES_set_encrypt_key-AES_Te-1024	@ Te4
+-
+ 	mov	$rounds,r0		@ inp
+ 	mov	lr,r1			@ bits
+ 	mov	$key,r2			@ key
+ 
++#if defined(__thumb2__) || defined(__APPLE__)
++	adr	$tbl,AES_Te+1024				@ Te4
++#else
++	sub	$tbl,r3,#_armv4_AES_set_encrypt_key-AES_Te-1024	@ Te4
++#endif
++
+ #if __ARM_ARCH__<7
+ 	ldrb	$s0,[$rounds,#3]	@ load input data in endian-neutral
+ 	ldrb	$t1,[$rounds,#2]	@ manner...
+@@ -955,9 +975,13 @@ AES_decrypt:
+ 	adr	r3,AES_decrypt
+ #endif
+ 	stmdb   sp!,{r1,r4-r12,lr}
++#if defined(__thumb2__) || defined(__APPLE__)
++	adr	$tbl,AES_Td
++#else
++	sub	$tbl,r3,#AES_decrypt-AES_Td	@ Td
++#endif
+ 	mov	$rounds,r0		@ inp
+ 	mov	$key,r2
+-	sub	$tbl,r3,#AES_decrypt-AES_Td		@ Td
+ #if __ARM_ARCH__<7
+ 	ldrb	$s0,[$rounds,#3]	@ load input data in endian-neutral
+ 	ldrb	$t1,[$rounds,#2]	@ manner...
+diff --git a/crypto/aes/asm/bsaes-armv7.pl b/crypto/aes/asm/bsaes-armv7.pl
+index a4d3856e7d..043fa383b7 100644
+--- a/crypto/aes/asm/bsaes-armv7.pl
++++ b/crypto/aes/asm/bsaes-armv7.pl
+@@ -726,7 +738,11 @@ $code.=<<___;
+ _bsaes_decrypt8:
+ 	adr	$const,_bsaes_decrypt8
+ 	vldmia	$key!, {@XMM[9]}		@ round 0 key
++#if defined(__thumb2__) || defined(__APPLE__)
++	adr	$const,.LM0ISR
++#else
+ 	add	$const,$const,#.LM0ISR-_bsaes_decrypt8
++#endif
+ 
+ 	vldmia	$const!, {@XMM[8]}		@ .LM0ISR
+ 	veor	@XMM[10], @XMM[0], @XMM[9]	@ xor with round0 key
+@@ -821,7 +837,11 @@ _bsaes_const:
+ _bsaes_encrypt8:
+ 	adr	$const,_bsaes_encrypt8
+ 	vldmia	$key!, {@XMM[9]}		@ round 0 key
++#if defined(__thumb2__) || defined(__APPLE__)
++	adr	$const,.LM0SR
++#else
+ 	sub	$const,$const,#_bsaes_encrypt8-.LM0SR
++#endif
+ 
+ 	vldmia	$const!, {@XMM[8]}		@ .LM0SR
+ _bsaes_encrypt8_alt:
+@@ -925,7 +945,11 @@ $code.=<<___;
+ _bsaes_key_convert:
+ 	adr	$const,_bsaes_key_convert
+ 	vld1.8	{@XMM[7]},  [$inp]!		@ load round 0 key
++#if defined(__thumb2__) || defined(__APPLE__)
++	adr	$const,.LM0
++#else
+ 	sub	$const,$const,#_bsaes_key_convert-.LM0
++#endif
+ 	vld1.8	{@XMM[15]}, [$inp]!		@ load round 1 key
+ 
+ 	vmov.i8	@XMM[8],  #0x01			@ bit masks
+diff --git a/crypto/bn/asm/armv4-gf2m.pl b/crypto/bn/asm/armv4-gf2m.pl
+index 8f529c95cf..f05461a8f0 100644
+--- a/crypto/bn/asm/armv4-gf2m.pl
++++ b/crypto/bn/asm/armv4-gf2m.pl
+@@ -213,8 +225,8 @@ $code.=<<___;
+ .align	5
+ .LNEON:
+ 	ldr		r12, [sp]		@ 5th argument
+-	vmov.32		$a, r2, r1
+-	vmov.32		$b, r12, r3
++	vmov		$a, r2, r1
++	vmov		$b, r12, r3
+ 	vmov.i64	$k48, #0x0000ffffffffffff
+ 	vmov.i64	$k32, #0x00000000ffffffff
+ 	vmov.i64	$k16, #0x000000000000ffff
+diff --git a/crypto/modes/asm/ghash-armv4.pl b/crypto/modes/asm/ghash-armv4.pl
+index 44521f8984..7311ad2966 100644
+--- a/crypto/modes/asm/ghash-armv4.pl
++++ b/crypto/modes/asm/ghash-armv4.pl
+@@ -126,6 +138,11 @@ $code=<<___;
+ .text
+ .code	32
+ 
++#if defined(__thumb2__) || defined(__APPLE__)
++#define ldrplb  ldrbpl
++#define ldrneb  ldrbne
++#endif
++
+ .type	rem_4bit,%object
+ .align	5
+ rem_4bit:
+@@ -373,9 +390,9 @@ $code.=<<___;
+ .type	gcm_init_neon,%function
+ .align	4
+ gcm_init_neon:
+-	vld1.64		$IN#hi,[r1,:64]!	@ load H
++	vld1.64		$IN#hi,[r1]!		@ load H
+ 	vmov.i8		$t0,#0xe1
+-	vld1.64		$IN#lo,[r1,:64]
++	vld1.64		$IN#lo,[r1]
+ 	vshl.i64	$t0#hi,#57
+ 	vshr.u64	$t0#lo,#63		@ t0=0xc2....01
+ 	vdup.8		$t1,$IN#hi[7]
+@@ -394,8 +411,8 @@ gcm_init_neon:
+ .type	gcm_gmult_neon,%function
+ .align	4
+ gcm_gmult_neon:
+-	vld1.64		$IN#hi,[$Xi,:64]!	@ load Xi
+-	vld1.64		$IN#lo,[$Xi,:64]!
++	vld1.64		$IN#hi,[$Xi]!		@ load Xi
++	vld1.64		$IN#lo,[$Xi]!
+ 	vmov.i64	$k48,#0x0000ffffffffffff
+ 	vldmia		$Htbl,{$Hlo-$Hhi}	@ load twisted H
+ 	vmov.i64	$k32,#0x00000000ffffffff
+@@ -412,8 +429,8 @@ gcm_gmult_neon:
+ .type	gcm_ghash_neon,%function
+ .align	4
+ gcm_ghash_neon:
+-	vld1.64		$Xl#hi,[$Xi,:64]!	@ load Xi
+-	vld1.64		$Xl#lo,[$Xi,:64]!
++	vld1.64		$Xl#hi,[$Xi]!		@ load Xi
++	vld1.64		$Xl#lo,[$Xi]!
+ 	vmov.i64	$k48,#0x0000ffffffffffff
+ 	vldmia		$Htbl,{$Hlo-$Hhi}	@ load twisted H
+ 	vmov.i64	$k32,#0x00000000ffffffff
+@@ -468,8 +485,8 @@ $code.=<<___;
+ 	vrev64.8	$Xl,$Xl
+ #endif
+ 	sub		$Xi,#16	
+-	vst1.64		$Xl#hi,[$Xi,:64]!	@ write out Xi
+-	vst1.64		$Xl#lo,[$Xi,:64]
++	vst1.64		$Xl#hi,[$Xi]!		@ write out Xi
++	vst1.64		$Xl#lo,[$Xi]
+ 
+ 	ret					@ bx lr
+ .size	gcm_ghash_neon,.-gcm_ghash_neon
+ 
+

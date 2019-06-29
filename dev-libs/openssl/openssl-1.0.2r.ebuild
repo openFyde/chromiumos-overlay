@@ -112,12 +112,8 @@ src_prepare() {
 
 	epatch_user
 
-	# llvm/clang doesn't recognize certain asm syntax in thumb mode.
-	# See crbug.com/630057
-	if tc-is-clang ; then
-		epatch "${FILESDIR}"/${PN}-1.0.2-gas.patch
-		use arm && append-flags -no-integrated-as
-	fi
+	# Upstream asm syntax fixes from OpenSSL 1.1.1.
+	epatch "${FILESDIR}"/${PN}-1.0.2-asm.patch
 
 	# disable fips in the build
 	# make sure the man pages are suffixed #302165
