@@ -253,6 +253,11 @@ make_coreboot() {
 
 	# Configure and build coreboot.
 	yes "" | emake oldconfig "${CB_OPTS[@]}" obj="${builddir}" >${REDIR}
+	if grep -q "CONFIG_VENDOR_EMULATION=y" "${config_fname}"; then
+		local config_file
+		config_file="${FILESDIR}/configs/config.$(get_board)"
+		die "Working with a default configuration. ${config_file} incorrect?"
+	fi
 	emake "${CB_OPTS[@]}" obj="${builddir}"
 
 	# Expand FW_MAIN_* since we might add some files
