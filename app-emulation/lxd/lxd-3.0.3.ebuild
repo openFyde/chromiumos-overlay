@@ -150,6 +150,7 @@ src_prepare() {
 	eapply "${FILESDIR}/${P}-export-progress-8.patch" # crbug.com/927550
 	eapply "${FILESDIR}/${P}-export-tar-and-compress.patch" # crbug.com/927550
 	eapply "${FILESDIR}/${P}-delete-orphaned-ro-snapshot.patch" # crbug.com/944758
+	eapply "${FILESDIR}/${P}-add-container-tar-writer.patch" # crbug.com/972835
 	eapply_user
 
 	cd "${S}/dist/dqlite" || die "Can't cd to dqlite dir"
