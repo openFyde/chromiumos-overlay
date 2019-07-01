@@ -30,8 +30,21 @@ RDEPEND="
 	!tpm2? (
 		app-crypt/trousers
 	)
+	chromeos-base/libbrillo
+	chromeos-base/libchrome
 "
 
 DEPEND="
 	${RDEPEND}
 "
+
+src_install() {
+	# Installs the utilities executable.
+	insinto /usr/local/bin
+	doins "${OUT}/tpm_softclear"
+	chmod u+x "${D}/usr/local/bin/tpm_softclear"
+
+	# Installs header files
+	insinto /usr/include/tpm_softclear_utils
+	doins ./*.h
+}
