@@ -8,7 +8,7 @@ PYTHON_REQ_USE="gdbm"
 
 WANT_AUTOMAKE=1.11
 
-inherit autotools eutils flag-o-matic multilib multilib-minimal mono-env python-r1 systemd user
+inherit autotools cros-fuzzer cros-sanitizers eutils flag-o-matic multilib multilib-minimal mono-env python-r1 systemd user
 
 DESCRIPTION="System which facilitates service discovery on a local network"
 HOMEPAGE="http://avahi.org/"
@@ -19,7 +19,7 @@ S="${WORKDIR}/${P}"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
-IUSE="autoipd bookmarks dbus doc gdbm gtk gtk3 howl-compat +introspection ipv6 kernel_linux mdnsresponder-compat mono nls python qt5 selinux test"
+IUSE="autoipd bookmarks dbus doc fuzzer gdbm gtk gtk3 howl-compat +introspection ipv6 kernel_linux mdnsresponder-compat mono nls python qt5 selinux test"
 
 REQUIRED_USE="
 	python? ( dbus gdbm ${PYTHON_REQUIRED_USE} )
@@ -71,7 +71,7 @@ RDEPEND="
 
 MULTILIB_WRAPPED_HEADERS=( /usr/include/avahi-qt5/qt-watch.h )
 
-PATCHES=( "${FILESDIR}/${P}-qt5.patch" )
+PATCHES=( "${FILESDIR}/${P}-qt5.patch" "${FILESDIR}/${P}-fuzzer.patch"  )
 
 pkg_preinst() {
 	enewgroup netdev
@@ -112,6 +112,7 @@ src_prepare() {
 
 src_configure() {
 	# those steps should be done once-per-ebuild rather than per-ABI
+	sanitizers-setup-env
 	use sh && replace-flags -O? -O0
 	use python && python_setup
 
@@ -138,6 +139,10 @@ multilib_src_configure() {
 			--disable-libdaemon
 			--with-xml=none
 		)
+	fi
+
+	if use fuzzer ; then
+		myconf+=(--enable-fuzzer)
 	fi
 
 	myconf+=( $(multilib_native_use_enable qt5) )
@@ -191,6 +196,8 @@ multilib_src_install() {
 		insinto /usr/share/devhelp/books/avahi
 		doins avahi.devhelp || die
 	fi
+
+	fuzzer_install "${FILESDIR}/OWNERS" "examples/.libs/recv_fuzzer"
 }
 
 multilib_src_install_all() {
