@@ -40,6 +40,10 @@ src_install() {
 	# Upstart configuration
 	insinto /etc/init
 	doins modemfwd.conf
+
+	# DBus configuration
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.Modemfwd.conf
 }
 
 platform_pkg_test() {
