@@ -303,6 +303,15 @@ cros_use_libstdcxx() {
 	fi
 }
 
+cros_log_failed_packages() {
+	if [[ -n "${CROS_METRICS_DIR}" ]]; then
+		mkdir -p "${CROS_METRICS_DIR}"
+		echo "${CATEGORY}/${PN} ${EBUILD_PHASE}" >> "${CROS_METRICS_DIR}/FAILED_PACKAGES"
+	fi
+}
+
+register_die_hook cros_log_failed_packages
+
 filter_clang_syntax() {
 	local var flag flags=()
 	for var in CFLAGS CXXFLAGS; do
