@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="069f2a92133ad5b96ec25ee8c150344666b7ebad"
+CROS_WORKON_COMMIT="d7a7262e495c8f7682831781d2b8f21ce4b595ac"
 CROS_WORKON_TREE=("dc1506ef7c8cfd2c5ffd1809dac05596ec18773c" "7134e391e4c04513211b250b665951820d5b0bbd" "6bea033db73d131ad9ee64e721581af64fe9a52e" "f49bd8e6b19c7b36f4b3eb8e7aa73ff7cd0eb7d9" "2624ca1aeb7f546093c8cac8244297955cb1481d" "3203fc5c38912e1d0625e33126a801b6ae1a0c59")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -35,7 +35,7 @@ RDEPEND="
 	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}
-	dev-cpp/gtest
+	dev-cpp/gtest:=
 	media-libs/cros-camera-android-headers
 	media-libs/libyuv
 	virtual/pkgconfig"

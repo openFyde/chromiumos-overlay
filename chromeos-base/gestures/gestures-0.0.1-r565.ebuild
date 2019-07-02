@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
 CROS_WORKON_COMMIT="b0854045cbbf0862e60f56e259fb36ff130d8e97"
 CROS_WORKON_TREE="0cd1e90f14ef633f79ac743f4ab0b82de2e8a887"
 CROS_WORKON_PROJECT="chromiumos/platform/gestures"
@@ -22,7 +22,7 @@ RDEPEND="chromeos-base/gestures-conf
 	chromeos-base/libevdev
 	dev-libs/jsoncpp
 	virtual/udev"
-DEPEND="dev-cpp/gtest
+DEPEND="dev-cpp/gtest:=
 	X? ( x11-libs/libXi )
 	${RDEPEND}"
 

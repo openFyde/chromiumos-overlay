@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="069f2a92133ad5b96ec25ee8c150344666b7ebad"
+CROS_WORKON_COMMIT="d7a7262e495c8f7682831781d2b8f21ce4b595ac"
 CROS_WORKON_TREE=("3203fc5c38912e1d0625e33126a801b6ae1a0c59" "7751f7bb5459651b1c827e9e035faa33b278727c" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -41,7 +41,7 @@ RDEPEND="
 	!app-crypt/tpm-tools
 	fuzzer? (
 		dev-cpp/gmock
-		dev-cpp/gtest
+		dev-cpp/gtest:=
 	)
 	"
 
