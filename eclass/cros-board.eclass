@@ -189,6 +189,7 @@ ALL_BOARDS=(
 	kayle
 	kblrvp
 	kefka
+	kefka-kernelnext
 	#kennet
 	kevin
 	kevin64
