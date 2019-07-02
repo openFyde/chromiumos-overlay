@@ -36,4 +36,5 @@ RDEPEND="
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
 	!msan? ( media-libs/virglrenderer[fuzzer] )
+	net-dns/avahi[fuzzer]
 "
