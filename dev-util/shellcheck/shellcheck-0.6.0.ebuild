@@ -43,6 +43,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0.6.0-ebuild-vars.patch"
 	"${FILESDIR}/${PN}-0.6.0-json1.patch"
 	"${FILESDIR}/${PN}-0.6.0-shflags.patch"
+	"${FILESDIR}/${PN}-0.6.0-uses-shflags.patch"
 )
 
 src_install() {

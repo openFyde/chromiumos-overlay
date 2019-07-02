@@ -1,0 +1,30 @@
+From 9c267d0b76a07b957bc1711885b79eeb1f696ec1 Mon Sep 17 00:00:00 2001
+From: Benjamin Gordon <bmgordon@chromium.org>
+Date: Tue, 2 Jul 2019 08:08:38 -0600
+Subject: [PATCH 2/2] CHROMIUM: Add a compatibility --uses-shflags flag
+
+Upstream accepted the shflags behavior without a flag to enable it.  Add
+a do-nothing --uses-shflags option for compatibility with our existing
+callers that pass it.  We can drop this once we've removed local uses.
+---
+ shellcheck.hs | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/shellcheck.hs b/shellcheck.hs
+index cdc6c5a..3c24212 100644
+--- a/shellcheck.hs
++++ b/shellcheck.hs
+@@ -104,7 +104,9 @@ options = [
+         (ReqArg (Flag "wiki-link-count") "NUM")
+         "The number of wiki links to show, when applicable.",
+     Option "x" ["external-sources"]
+-        (NoArg $ Flag "externals" "true") "Allow 'source' outside of FILES"
++        (NoArg $ Flag "externals" "true") "Allow 'source' outside of FILES",
++    Option "" ["uses-shflags"]
++        (NoArg $ Flag "uses-shflags" "true") "Enable shflags semantics.  Deprecated: this is always enabled."
+     ]
+ 
+ printErr = lift . hPutStrLn stderr
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
