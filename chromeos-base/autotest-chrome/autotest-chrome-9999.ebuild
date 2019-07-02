@@ -41,6 +41,7 @@ RDEPEND="
 	vaapi? ( x11-libs/libva )
 	tests_graphics_Sanity? ( media-gfx/imagemagick x11-libs/libdrm )
 	tests_graphics_WebGLAquarium? ( app-benchmarks/microbenchmarks dev-util/memory-eater-locked )
+	virtual/autotest-private-libs
 "
 
 DEPEND="${RDEPEND}"
