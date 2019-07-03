@@ -7,6 +7,6 @@ Name: libyuv
 Description: YUV library
 Requires.private:
 Version: 0.0.1
-Libs: -lyuv.pic
+Libs: -lyuv.pic -ljpeg
 Libs.private:
 Cflags: -I${includedir} -DHAVE_JPEG
