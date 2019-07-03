@@ -121,6 +121,7 @@ ALL_BOARDS=(
 	danger_embedded
 	#derwent
 	#dragonegg
+	drallion
 	duck
 	edgar
 	elm
