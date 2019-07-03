@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="b5dc03e3eb35076920bb67f3364e0fd02917396d"
+CROS_WORKON_COMMIT="8c661907df688d4cb0020cfbf023d25ee7c3f145"
 CROS_WORKON_TREE=("3203fc5c38912e1d0625e33126a801b6ae1a0c59" "e2f7e89bb1716ee24b9b0c47dddee5205a620777" "b261e4d6edb23f37719e645269a83bd5617e454d" "0c09044de6eac9d7b509ecafedc623265c6b7b02" "44331daee0f4799625650603276cb1ccd906eecc" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,7 +22,9 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-als buffet +cras cros_embedded +display_backlight -has_keyboard_backlight -keyboard_includes_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
+IUSE="-als buffet +cras cros_embedded +display_backlight -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
+REQUIRED_USE="
+	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config )
@@ -116,15 +118,20 @@ src_install() {
 	fi
 	if use keyboard_includes_side_buttons; then
 		udev_dorules udev/optional/93-powerd-tags-keyboard-side-buttons.rules
+	elif use keyboard_convertible_no_side_buttons; then
+		udev_dorules udev/optional/93-powerd-tags-keyboard-convertible.rules
 	fi
+
 	if ! use touchpad_wakeup; then
 		udev_dorules udev/optional/93-powerd-tags-no-touchpad-wakeup.rules
 	elif use unibuild; then
 		udev_dorules udev/optional/93-powerd-tags-unibuild-touchpad-wakeup.rules
 	fi
+
 	if use touchscreen_wakeup; then
 		udev_dorules udev/optional/93-powerd-tags-touchscreen-wakeup.rules
 	fi
+
 	if use wilco; then
 		udev_dorules udev/optional/93-powerd-wilco-ec-files.rules
 	fi
