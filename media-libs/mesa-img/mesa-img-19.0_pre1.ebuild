@@ -6,6 +6,9 @@ EAPI=6
 
 MESON_AUTO_DEPEND=no
 
+CROS_WORKON_COMMIT="b43b55d4619489e603780adf3c92a36dadcc362b"
+CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
+
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_BLACKLIST="1"
@@ -36,7 +39,7 @@ fi
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
@@ -117,6 +120,19 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
 
+	# IMG patches
+	epatch "${FILESDIR}"/0001-dri-pvr-Introduce-PowerVR-DRI-driver.patch
+	epatch "${FILESDIR}"/0003-dri-Add-some-new-DRI-formats-and-fourccs.patch
+	epatch "${FILESDIR}"/0004-dri-Add-MT21-DRI-fourcc-and-DRM-format.patch
+	epatch "${FILESDIR}"/0005-GL_EXT_sparse_texture-entry-points.patch
+	epatch "${FILESDIR}"/0006-Add-support-for-various-GLES-extensions.patch
+	epatch "${FILESDIR}"/0011-GL_EXT_shader_pixel_local_storage2-entry-points.patch
+	epatch "${FILESDIR}"/0012-GL_IMG_framebuffer_downsample-entry-points.patch
+	epatch "${FILESDIR}"/0013-GL_OVR_multiview-entry-points.patch
+	epatch "${FILESDIR}"/0014-Add-OVR_multiview_multisampled_render_to_texture.patch
+	epatch "${FILESDIR}"/0019-egl-automatically-call-eglReleaseThread-on-thread-te.patch
+	epatch "${FILESDIR}"/0047-mapi-gen-always-use-offsets-from-static-data.patch
+
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
 	echo '#define MESA_GIT_SHA1 "git-0000000"' > src/git_sha1.h
 	default
@@ -133,8 +149,13 @@ src_configure() {
 	# to include it for all platforms though.
 	use video_cards_llvmpipe && append-flags "-rtlib=libgcc -shared-libgcc"
 
-	# IMG code
-	dri_driver_enable video_cards_powervr pvr
+	dri_driver_enable dri pvr
+
+	if use classic; then
+	# Configurable DRI drivers
+		# Intel code
+		dri_driver_enable video_cards_intel i965
+	fi
 
 	#
 	# IMG vulkan driver is part of img-ddk

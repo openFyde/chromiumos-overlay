@@ -1,17 +1,17 @@
-From 534206cb08aecbce44523e36014ad6edb48a8051 Mon Sep 17 00:00:00 2001
+From e51ea2e55f38eafb8af150fd5c2c9f6873f12c12 Mon Sep 17 00:00:00 2001
 From: Rufus Hamade <rufus.hamade@imgtec.com>
 Date: Thu, 4 Feb 2016 14:09:26 +0000
-Subject: [PATCH 16/50] GL_IMG_framebuffer_downsample entry points
+Subject: [PATCH 07/10] GL_IMG_framebuffer_downsample entry points
 
 ---
- src/mapi/glapi/gen/IMG_framebuffer_downsample.xml | 37 +++++++++++++++++++++++
- src/mapi/glapi/gen/es_EXT.xml                     |  3 ++
+ .../glapi/gen/IMG_framebuffer_downsample.xml  | 37 +++++++++++++++++++
+ src/mapi/glapi/gen/es_EXT.xml                 |  3 ++
  2 files changed, 40 insertions(+)
  create mode 100644 src/mapi/glapi/gen/IMG_framebuffer_downsample.xml
 
 diff --git a/src/mapi/glapi/gen/IMG_framebuffer_downsample.xml b/src/mapi/glapi/gen/IMG_framebuffer_downsample.xml
 new file mode 100644
-index 0000000..b5ce77d
+index 00000000000..b5ce77dfb08
 --- /dev/null
 +++ b/src/mapi/glapi/gen/IMG_framebuffer_downsample.xml
 @@ -0,0 +1,37 @@
@@ -53,10 +53,10 @@ index 0000000..b5ce77d
 +
 +</OpenGLAPI>
 diff --git a/src/mapi/glapi/gen/es_EXT.xml b/src/mapi/glapi/gen/es_EXT.xml
-index f44dfde..6396513 100644
+index fe5bcde5efc..c9512d688a9 100644
 --- a/src/mapi/glapi/gen/es_EXT.xml
 +++ b/src/mapi/glapi/gen/es_EXT.xml
-@@ -1445,6 +1445,9 @@
+@@ -1426,6 +1426,9 @@
  <!-- 253. GL_EXT_shader_pixel_local_storage2 -->
  <xi:include href="EXT_shader_pixel_local_storage2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
  
@@ -67,5 +67,5 @@ index f44dfde..6396513 100644
      <function name="ViewportArrayvOES" es2="3.1" alias="ViewportArrayv">
          <param name="first" type="GLuint"/>
 -- 
-2.7.4
+2.22.0
 

@@ -1,19 +1,18 @@
-From db48e01361739e315df04f38c981fd807bc688e8 Mon Sep 17 00:00:00 2001
+From d4289ed3c028dbbbaa8091e54b756243fad32557 Mon Sep 17 00:00:00 2001
 From: Brendan King <Brendan.King@imgtec.com>
-Date: Tue, 4 Sep 2018 15:32:44 +0100
-Subject: [PATCH 05/11] Add support for various GLES extensions
+Date: Mon, 10 Mar 2014 12:27:03 +0000
+Subject: [PATCH 05/10] Add support for various GLES extensions
 
 Add support for:
-	EXT_multisampled_render_to_texture
 	EXT_occlusion_query_boolean
 	IMG_multisampled_render_to_texture
 	OES_matrix_palette
 ---
- src/mapi/glapi/gen/es_EXT.xml | 59 ++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 50 insertions(+), 9 deletions(-)
+ src/mapi/glapi/gen/es_EXT.xml | 41 +++++++++++++++++++++++++++--------
+ 1 file changed, 32 insertions(+), 9 deletions(-)
 
 diff --git a/src/mapi/glapi/gen/es_EXT.xml b/src/mapi/glapi/gen/es_EXT.xml
-index dc40db6..49c0f50 100644
+index ac8f19649a8..1b35e89767a 100644
 --- a/src/mapi/glapi/gen/es_EXT.xml
 +++ b/src/mapi/glapi/gen/es_EXT.xml
 @@ -285,28 +285,25 @@
@@ -84,31 +83,6 @@ index dc40db6..49c0f50 100644
  <!-- 87. GL_OES_EGL_image_external -->
  <category name="GL_OES_EGL_image_external" number="87">
      <enum name="TEXTURE_EXTERNAL_OES"                     value="0x8D65"/>
-@@ -810,6 +833,24 @@
-     <enum name="RG8_EXT"                                  value="0x822B"/>
- </category>
- 
-+<!-- 106. GL_EXT_multisampled_render_to_texture -->
-+<category name="GL_EXT_multisampled_render_to_texture" number="106">
-+    <enum name="RENDERBUFFER_SAMPLES_EXT"                   value="0x8CAB"/>
-+    <enum name="FRAMEBUFFER_INCOMPLETE_MULTISAMPLE_EXT"     value="0x8D56"/>
-+    <enum name="MAX_SAMPLES_EXT"                            value="0x8D57"/>
-+    <enum name="FRAMEBUFFER_ATTACHMENT_TEXTURE_SAMPLES_EXT" value="0x8D6C"/>
-+
-+    <function name="FramebufferTexture2DMultisampleEXT" es2="2.0"
-+              exec="dynamic">
-+        <param name="target" type="GLenum"/>
-+        <param name="attachment" type="GLenum"/>
-+        <param name="textarget" type="GLenum"/>
-+        <param name="texture" type="GLuint"/>
-+        <param name="level" type="GLint"/>
-+        <param name="samples" type="GLsizei"/>
-+    </function>
-+</category>
-+
- <!-- 111. GL_ANGLE_texture_compression_dxt -->
- <category name="GL_ANGLE_texture_compression_dxt" number="111">
-     <enum name="COMPRESSED_RGBA_S3TC_DXT3_ANGLE"        value="0x83F2"/>
 -- 
-2.7.4
+2.22.0
 

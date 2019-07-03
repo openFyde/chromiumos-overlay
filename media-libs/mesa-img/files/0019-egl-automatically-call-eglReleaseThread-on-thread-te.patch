@@ -1,7 +1,7 @@
-From 754d105c4344883ead232c392102181c19671cba Mon Sep 17 00:00:00 2001
+From fce1dd0a6a8f675285da3fd1866d9487912fed01 Mon Sep 17 00:00:00 2001
 From: Iosif Antochi <iosif.antochi@imgtec.com>
 Date: Wed, 14 Jun 2017 14:49:55 +0100
-Subject: [PATCH 25/50] egl: automatically call eglReleaseThread on thread
+Subject: [PATCH 10/10] egl: automatically call eglReleaseThread on thread
  termination
 
 EGL thread cleanup conformance tests could run out of memory as the contexts
@@ -22,13 +22,14 @@ dEQP-EGL.functional.robustness.create_context.query_robust_access
  1 file changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/src/egl/main/eglcurrent.c b/src/egl/main/eglcurrent.c
-index 7af3011..545697e 100644
+index 479f231fb8f..d20ec64e654 100644
 --- a/src/egl/main/eglcurrent.c
 +++ b/src/egl/main/eglcurrent.c
-@@ -138,12 +138,36 @@ _eglDestroyThreadInfo(_EGLThreadInfo *t)
+@@ -137,13 +137,37 @@ _eglDestroyThreadInfo(_EGLThreadInfo *t)
+ }
  
  
- /**
++/**
 + * Delete/free a _EGLThreadInfo object.
 + */
 +static void
@@ -52,7 +53,7 @@ index 7af3011..545697e 100644
 +}
 +
 +
-+/**
+ /**
   * Make sure TSD is initialized and return current value.
   */
  static inline _EGLThreadInfo *
@@ -64,5 +65,5 @@ index 7af3011..545697e 100644
        return NULL;
     }
 -- 
-2.7.4
+2.22.0
 
