@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 
 DEPEND="virtual/pkgconfig"
-RDEPEND="!<sys-fs/fuse-2.9.7-r1:0"
+RDEPEND="!<sys-fs/fuse-2.9.8"
 
 S=${WORKDIR}/fuse-${PV}
 
@@ -22,6 +22,8 @@ S=${WORKDIR}/fuse-${PV}
 RESTRICT="test"
 
 src_prepare() {
+	epatch "${FILESDIR}"/fuse-common-3.2.6-conf.patch
+
 	default
 
 	# lto not supported yet -- https://github.com/libfuse/libfuse/issues/198
