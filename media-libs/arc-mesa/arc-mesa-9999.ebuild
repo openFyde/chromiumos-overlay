@@ -155,7 +155,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-Add-HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED-in-vk_fo.patch
 
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
-	epatch "${FILESDIR}"/CHROMIUM-anv-Clamp-apiVersion-to-1.0.0-on-Android-Oreo.patch
+	epatch "${FILESDIR}"/CHROMIUM-anv-Clamp-apiVersion-to-1.0.3-on-Android-Oreo.patch
 
 	if use android-container-nyc; then
 		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
