@@ -154,6 +154,7 @@ RDEPEND="${RDEPEND}
 	dev-lang/swig
 	dev-lang/yasm
 	dev-libs/dbus-glib
+	dev-libs/flatbuffers
 	>=dev-libs/glib-2.26.1
 	net-libs/grpc
 	dev-libs/libgcrypt
