@@ -89,6 +89,7 @@ src_install() {
 	esac
 	insinto /opt/google/chrome/resources
 	newins "${WORKDIR}/credits_${credits_arch}.html" linux_credits.html
+	keepdir /opt/google/vms
 }
 
 platform_pkg_test() {
