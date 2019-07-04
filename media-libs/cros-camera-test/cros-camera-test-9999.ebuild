@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/camera3_test camera/common camera/i
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="camera3_test/cros_camera_test.gyp"
+PLATFORM_SUBDIR="camera/camera3_test"
 
 inherit cros-camera cros-workon platform
 
