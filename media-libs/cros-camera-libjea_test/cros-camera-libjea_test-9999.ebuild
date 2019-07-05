@@ -9,8 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo c
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="common/jpeg/libjea_test.gyp"
+PLATFORM_SUBDIR="camera/common/jpeg/libjea_test"
 
 inherit cros-camera cros-workon platform
 
@@ -31,6 +30,8 @@ RDEPEND="
 	media-libs/libyuv"
 
 DEPEND="${RDEPEND}
+	chromeos-base/metrics
+	media-libs/libyuv
 	media-libs/cros-camera-android-headers"
 
 src_install() {
