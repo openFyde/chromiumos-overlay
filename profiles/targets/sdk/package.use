@@ -54,15 +54,15 @@ sys-libs/llvm-libunwind abi_x86_32
 media-video/ffmpeg -vaapi
 
 # Enable XML in GDB
->=sys-devel/gdb-8.0.1.20180501-r1	xml
->=cross-aarch64-cros-linux-gnu/gdb-8.0.1.20180501-r1	xml
->=cross-arm-none-eabi/gdb-8.0.1.20180501-r1	xml
->=cross-armv6j-cros-linux-gnueabi/gdb-8.0.1.20180501-r1	xml
->=cross-armv7a-cros-linux-gnueabi/gdb-8.0.1.20180501-r1	xml
->=cross-armv7a-cros-linux-gnueabihf/gdb-8.0.1.20180501-r1	xml
->=cross-i686-pc-linux-gnu/gdb-8.0.1.20180501-r1	xml
->=cross-mipsel-cros-linux-gnu/gdb-8.0.1.20180501-r1	xml
->=cross-x86_64-cros-linux-gnu/gdb-8.0.1.20180501-r1	xml
+sys-devel/gdb	xml
+cross-aarch64-cros-linux-gnu/gdb	xml
+cross-arm-none-eabi/gdb	xml
+cross-armv6j-cros-linux-gnueabi/gdb	xml
+cross-armv7a-cros-linux-gnueabi/gdb	xml
+cross-armv7a-cros-linux-gnueabihf/gdb	xml
+cross-i686-pc-linux-gnu/gdb	xml
+cross-mipsel-cros-linux-gnu/gdb	xml
+cross-x86_64-cros-linux-gnu/gdb	xml
 
 # Build qemu's userland helpers statically so we can copy them into sysroots
 # and run unittests standalone.  Build qemu's softmmu helpers statically so
