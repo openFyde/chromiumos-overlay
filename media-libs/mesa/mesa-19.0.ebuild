@@ -111,7 +111,6 @@ src_prepare() {
 	# internal format for GL context.
 	if use !video_cards_virgl; then
 		epatch "${FILESDIR}"/DOWNSTREAM-i965-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8-B8.patch
-		epatch "${FILESDIR}"/CHROMIUM-st-mesa-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8.patch
 	fi
 	epatch "${FILESDIR}"/intel-Add-support-for-Comet-Lake.patch
 	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
