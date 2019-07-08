@@ -6,7 +6,7 @@ EAPI="5"
 
 CROS_WORKON_PROJECT="chromiumos/third_party/libsigrokdecode"
 
-PYTHON_COMPAT=( python3_{2,3,4} )
+PYTHON_COMPAT=( python3_{2,3,4,6} )
 inherit cros-workon eutils python-single-r1 autotools
 
 SRC_URI=""
