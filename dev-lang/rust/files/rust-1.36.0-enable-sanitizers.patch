@@ -41,8 +41,8 @@ index b15a64c966..9256c4052d 100644
  
 diff --git a/src/librustc_codegen_llvm/back/link.rs b/src/librustc_codegen_llvm/back/link.rs
 index 6a3c2adc85..efef3e1453 100644
---- a/src/librustc_codegen_llvm/back/link.rs
-+++ b/src/librustc_codegen_llvm/back/link.rs
+--- a/src/librustc_codegen_ssa/back/link.rs
++++ b/src/librustc_codegen_ssa/back/link.rs
 @@ -491,7 +491,7 @@ fn link_natively(sess: &Session,
      cmd.args(&sess.opts.debugging_opts.pre_link_arg);
  
@@ -82,7 +82,7 @@ diff --git a/src/librustc_metadata/creader.rs b/src/librustc_metadata/creader.rs
 index 160d4c30c0..c4950f33ae 100644
 --- a/src/librustc_metadata/creader.rs
 +++ b/src/librustc_metadata/creader.rs
-@@ -767,15 +767,23 @@ impl<'a> CrateLoader<'a> {
+@@ -766,15 +766,23 @@ impl<'a> CrateLoader<'a> {
      }
  
      fn inject_sanitizer_runtime(&mut self) {
@@ -109,12 +109,12 @@ index 160d4c30c0..c4950f33ae 100644
  
              let supported_targets = match *sanitizer {
                  Sanitizer::Address => ASAN_SUPPORTED_TARGETS,
-@@ -794,7 +802,7 @@ impl<'a> CrateLoader<'a> {
+@@ -793,7 +801,7 @@ impl<'a> CrateLoader<'a> {
              // firstyear 2017 - during testing I was unable to access an OSX machine
              // to make this work on different crate types. As a result, today I have
              // only been able to test and support linux as a target.
--            if self.sess.target.target.llvm_target == "x86_64-unknown-linux-gnu" {
-+            if self.sess.target.target.llvm_target != "x86_64-apple-darwin" {
+-            if self.sess.opts.target_triple.triple() == "x86_64-unknown-linux-gnu" {
++            if self.sess.opts.target_triple.triple() != "x86_64-apple-darwin" {
                  if !self.sess.crate_types.borrow().iter().all(|ct| {
                      match *ct {
                          // Link the runtime
