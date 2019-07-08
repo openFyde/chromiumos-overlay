@@ -55,7 +55,7 @@ LDFLAGS="-Wl,-O2 -Wl,--as-needed"
 SYMLINK_LIB="yes"
 
 # Default target(s) for python-r1.eclass
-PYTHON_TARGETS="python2_7 python3_4 python3_6"
+PYTHON_TARGETS="python2_7 python3_6"
 PYTHON_SINGLE_TARGET="python2_7"
 
 # Use clang as the default compiler.
