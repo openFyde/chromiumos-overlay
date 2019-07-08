@@ -27,6 +27,7 @@ IUSE="
 	peerd
 	+shill
 	+tpm
+	tpm2
 	vaapi
 	wifi_testbed_ap
 "
@@ -61,7 +62,11 @@ IUSE="
 ################################################################################
 
 CROS_COMMON_RDEPEND="
-	tpm? ( app-crypt/tpm-tools )
+	tpm? (
+		app-crypt/tpm-tools
+		chromeos-base/tpm_softclear_utils
+	)
+	tpm2? ( chromeos-base/tpm_softclear_utils )
 	chromeos-base/chromeos-test-root
 	chromeos-base/ec-utils
 	chromeos-base/ec-utils-test
