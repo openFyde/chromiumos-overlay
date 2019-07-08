@@ -57,6 +57,7 @@ IUSE="
 	opengl
 	opengles
 	orderfile_generate
+	orderfile_verify
 	+reorder_text_sections
 	+runhooks
 	strict_toolchain_checks
@@ -75,6 +76,7 @@ REQUIRED_USE="
 	libcxx? ( clang )
 	thinlto? ( clang )
 	afdo_use? ( clang )
+	orderfile_verify? ( !reorder_text_sections )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -134,6 +136,7 @@ AFDO_LOCATION["silvermont"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-jo
 AFDO_LOCATION["airmont"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/airmont/"}
 AFDO_LOCATION["haswell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/haswell/"}
 AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/broadwell/"}
+UNVETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/orderfiles/unvetted"}
 
 # The following entries into the AFDO_FILE* dictionaries are set automatically
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
@@ -145,6 +148,8 @@ AFDO_FILE["airmont"]="R77-3809.38-1562581389.afdo"
 AFDO_FILE["haswell"]="R77-3809.38-1562585770.afdo"
 AFDO_FILE["broadwell"]="R77-3809.38-1562578564.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
+# The following entry will be modified automatically for verifying orderfile.
+UNVETTED_ORDERFILE=""
 
 # This dictionary can be used to manually override the setting for the
 # AFDO profile file. Any non-empty values in this array will take precedence
@@ -175,6 +180,8 @@ add_afdo_files() {
 }
 
 add_afdo_files
+
+SRC_URI+=" orderfile_verify? ( ${UNVETTED_ORDERFILE_LOCATION}/${UNVETTED_ORDERFILE}.tar.xz )"
 
 RDEPEND="${RDEPEND}
 	app-arch/bzip2
@@ -730,6 +737,20 @@ src_unpack() {
 		AFDO_PROFILE_LOC="${PROFILE_DIR}/${redacted_profile_file}"
 		einfo "Using ${PROFILE_STATE} AFDO data from ${AFDO_PROFILE_LOC}"
 	fi
+
+	# Unpack unvetted orderfile.
+	if use orderfile_verify; then
+		local orderfile_dir="${WORKDIR}/orderfile"
+		mkdir "${orderfile_dir}"
+		local orderfile_file=${UNVETTED_ORDERFILE}
+		(cd "${orderfile_dir}" && unpack "${orderfile_file}.tar.xz") || die
+
+		local orderfile_loc="${orderfile_dir}/${orderfile_file}"
+		einfo "Using ${orderfile_loc} as orderfile for ordering Chrome"
+
+		# Pass the path to orderfile to GN args.
+		BUILD_STRING_ARGS+=( "chrome_orderfile_path=${orderfile_loc}" )
+	fi
 }
 
 add_api_keys() {
@@ -1103,6 +1124,12 @@ chrome_make() {
 	# set up.
 	if use strict_toolchain_checks && "${use_lld}" && use reorder_text_sections; then
 		"${FILESDIR}/check_symbol_ordering.py" "${build_dir}/chrome" || die
+	fi
+
+	# Still use a script to check if the orderfile is used properly, i.e.
+	# Builtin_ functions are placed between the markers, etc.
+	if use strict_toolchain_checks && use orderfile_verify; then
+		"${FILESDIR}/check_orderfile.py" "${build_dir}/chrome" || die
 	fi
 }
 
