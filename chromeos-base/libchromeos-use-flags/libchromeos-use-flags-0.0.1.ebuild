@@ -76,6 +76,7 @@ IUSE="
 	touchview
 	veyron_mickey
 	veyron_minnie
+	virtio_gpu
 	wilco
 	+X
 "
