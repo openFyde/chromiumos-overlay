@@ -99,6 +99,9 @@ dev-python/certifi python_targets_python3_6
 dev-python/mako python_targets_python3_6
 dev-python/markupsafe python_targets_python3_6
 
+# Disable older python in packages that depend on portage to break circular rebuilds.
+dev-java/java-config -python_targets_python3_4
+
 # Lock in old python versions on existing binary packages.
 <=sys-devel/gdb-8.0.1.20180820-r1	-python_targets_python3_6
 <=cross-aarch64-cros-linux-gnu/gdb-8.0.1.20180820-r1	-python_targets_python3_6
