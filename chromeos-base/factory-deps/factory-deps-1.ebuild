@@ -9,7 +9,7 @@ HOMEPAGE="http://dev.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+shill X"
+IUSE="+shill"
 
 ################################################################################
 
@@ -30,14 +30,6 @@ FACTORY_FRAMEWORK_RDEPEND="
 	dev-python/ws4py
 "
 # Note: dbus-python may be temporarily broken on embedded platform.
-
-# Packages used only if X is available.
-FACTORY_X_RDEPEND="
-	dev-python/python-xlib
-	x11-apps/xinput
-	x11-apps/xrandr
-	x11-misc/xdotool
-"
 
 # Packages shared by several pytests inside factory.
 # TODO(itspeter): Might remove cryptohome once a conclusion
@@ -114,5 +106,4 @@ FACTORY_TEST_RDEPEND+="
 ################################################################################
 RDEPEND="${FACTORY_FRAMEWORK_RDEPEND}
 	 ${FACTORY_TEST_RDEPEND}
-	 X? ( ${FACTORY_X_RDEPEND} )
 "
