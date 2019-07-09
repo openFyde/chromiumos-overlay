@@ -25,7 +25,6 @@ RDEPEND="
 	dev-python/pycrypto
 	dev-python/setuptools
 	dev-vcs/git
-	dev-vcs/subversion
 	sci-visualization/gnuplot
 	www-servers/apache
 	www-apache/mod_wsgi
