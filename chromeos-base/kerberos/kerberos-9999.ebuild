@@ -50,12 +50,19 @@ pkg_setup() {
 
 src_install() {
 	dosbin "${OUT}"/kerberosd
+
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Kerberos.conf
+
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.Kerberos.service
+
 	insinto /etc/init
 	doins init/kerberosd.conf
+
+	insinto /usr/share/policy
+	newins seccomp/kerberosd-seccomp-"${ARCH}".policy kerberosd-seccomp.policy
+
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/kerberosd_whitelist.txt
 
