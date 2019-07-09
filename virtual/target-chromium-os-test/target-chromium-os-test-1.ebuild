@@ -89,7 +89,8 @@ CROS_COMMON_RDEPEND="
 	wifi_testbed_ap? (
 		dev-python/btsocket
 	)
-	dev-lang/python
+	dev-lang/python:2.7
+	dev-lang/python:3.6
 	p2p? ( dev-python/dpkt )
 	peerd? ( dev-python/dpkt )
 	cr50_onboard? ( dev-util/u2f-ref-code )

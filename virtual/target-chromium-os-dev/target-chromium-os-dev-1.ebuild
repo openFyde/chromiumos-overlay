@@ -101,7 +101,8 @@ RDEPEND="${RDEPEND}
 	net-misc/rsync
 	net-wireless/iw
 	net-wireless/wireless-tools
-	dev-lang/python
+	dev-lang/python:2.7
+	dev-lang/python:3.6
 	dev-libs/libgpiod
 	dev-python/protobuf-python
 	dev-python/cherrypy
