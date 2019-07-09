@@ -277,64 +277,64 @@ set_build_args() {
 		# that, despite the name, it should be usable by external users.
 		#
 		# Sanitizers don't like official builds.
-		is_official_build=$(usex asan false true)
+		"is_official_build=$(usex asan false true)"
 
-		is_debug=false
+		"is_debug=false"
 		"${EXTRA_GN_ARGS}"
-		use_v4l2_codec=$(usetf v4l2_codec)
-		use_v4lplugin=$(usetf v4lplugin)
-		use_vaapi=$(usetf vaapi)
-		use_ozone=true
-		use_evdev_gestures=$(usetf evdev_gestures)
-		use_xkbcommon=$(usetf xkbcommon)
+		"use_v4l2_codec=$(usetf v4l2_codec)"
+		"use_v4lplugin=$(usetf v4lplugin)"
+		"use_vaapi=$(usetf vaapi)"
+		"use_ozone=true"
+		"use_evdev_gestures=$(usetf evdev_gestures)"
+		"use_xkbcommon=$(usetf xkbcommon)"
 		# Use the Chrome OS toolchain and not the one bundled with Chromium.
-		linux_use_bundled_binutils=false
-		use_debug_fission=false
-		enable_remoting=$(usetf chrome_remoting)
-		enable_nacl=$(use_nacl; echotf)
-		icu_use_data_file=true
-		use_cras=true
+		"linux_use_bundled_binutils=false"
+		"use_debug_fission=false"
+		"enable_remoting=$(usetf chrome_remoting)"
+		"enable_nacl=$(use_nacl; echotf)"
+		"icu_use_data_file=true"
+		"use_cras=true"
 		# use_system_minigbm is set below.
 		# HarfBuzz and FreeType need to be built together in a specific way
 		# to get FreeType autohinting to work properly. Chromium bundles
 		# FreeType and HarfBuzz to meet that need.
 		# See crbug.com/694137 .
-		use_system_harfbuzz=false
-		use_system_freetype=false
-		use_system_libsync=true
-		use_cups=$(usetf cups)
+		"use_system_harfbuzz=false"
+		"use_system_freetype=false"
+		"use_system_libsync=true"
+		"use_cups=$(usetf cups)"
 		# Jumbo merges translation units together, making builds faster on single machines.
 		# This flag is not automatically tested, so it may not work all the time.
-		use_jumbo_build=$(usetf jumbo)
-		use_bundled_fontconfig=false
+		"use_jumbo_build=$(usetf jumbo)"
+		"use_bundled_fontconfig=false"
 		# If to use the new tcmalloc version in Chromium.
-		use_new_tcmalloc=$(usetf new_tcmalloc)
+		"use_new_tcmalloc=$(usetf new_tcmalloc)"
 
 		# Clang features.
-		is_asan=$(usetf asan)
-		is_clang=$(usetf clang)
-		cros_host_is_clang=$(usetf clang)
-		cros_v8_snapshot_is_clang=$(usetf clang)
-		clang_use_chrome_plugins=false
-		use_thin_lto=$(usetf thinlto)
-		is_cfi=$(usetf cfi)
-		use_cfi_cast=$(usetf cfi)
+		"is_asan=$(usetf asan)"
+		"is_clang=$(usetf clang)"
+		"cros_host_is_clang=$(usetf clang)"
+		"cros_v8_snapshot_is_clang=$(usetf clang)"
+		"clang_use_chrome_plugins=false"
+		"use_thin_lto=$(usetf thinlto)"
+		"is_cfi=$(usetf cfi)"
+		"use_cfi_cast=$(usetf cfi)"
 	)
 	# BUILD_STRING_ARGS needs appropriate quoting. So, we keep them separate and
 	# add them to BUILD_ARGS at the end.
 	BUILD_STRING_ARGS=(
-		target_sysroot="${SYSROOT}"
-		system_libdir="$(get_libdir)"
-		pkg_config="$(tc-getPKG_CONFIG)"
-		target_os=chromeos
-		host_pkg_config="$(tc-getBUILD_PKG_CONFIG)"
+		"target_sysroot=${SYSROOT}"
+		"system_libdir=$(get_libdir)"
+		"pkg_config=$(tc-getPKG_CONFIG)"
+		"target_os=chromeos"
+		"host_pkg_config=$(tc-getBUILD_PKG_CONFIG)"
 	)
-	use internal_gles_conform && BUILD_ARGS+=( internal_gles2_conform_tests=true )
+	use internal_gles_conform && BUILD_ARGS+=( "internal_gles2_conform_tests=true" )
 
 	# Disable tcmalloc on ARMv6 since it fails to build (crbug.com/181385)
 	if [[ ${CHOST} == armv6* ]]; then
-		BUILD_ARGS+=( arm_version=6 )
-		BUILD_STRING_ARGS+=( use_allocator=none )
+		BUILD_ARGS+=( "arm_version=6" )
+		BUILD_STRING_ARGS+=( "use_allocator=none" )
 	fi
 
 	# Ozone platforms.
@@ -342,36 +342,36 @@ set_build_args() {
 	for platform in ${OZONE_PLATFORMS[@]}; do
 		local flag="${OZONE_PLATFORM_DEFAULT_PREFIX}${platform}"
 		if use "${flag}"; then
-			BUILD_STRING_ARGS+=(ozone_platform="${platform}")
+			BUILD_STRING_ARGS+=( "ozone_platform=${platform}" )
 		fi
 	done
 	BUILD_ARGS+=(
-		ozone_auto_platforms=false
+		"ozone_auto_platforms=false"
 	)
 	for platform in ${IUSE_OZONE_PLATFORMS}; do
 		if use "${platform}"; then
-			BUILD_ARGS+=("${platform}"=true)
+			BUILD_ARGS+=( "${platform}=true" )
 		fi
 	done
 	if use "ozone_platform_gbm"; then
-		BUILD_ARGS+=(use_system_minigbm=true)
-		BUILD_ARGS+=(use_system_libdrm=true)
+		BUILD_ARGS+=( "use_system_minigbm=true" )
+		BUILD_ARGS+=( "use_system_libdrm=true" )
 	fi
 
 	# Set proper build args for the arch
 	case "${ARCH}" in
 	x86)
-		BUILD_STRING_ARGS+=( target_cpu=x86 )
+		BUILD_STRING_ARGS+=( "target_cpu=x86" )
 		;;
 	arm)
 		BUILD_ARGS+=(
-			arm_use_neon=$(usetf neon)
+			"arm_use_neon=$(usetf neon)"
 			# To workaround the 4GB debug limit. crbug.com/792999.
-			blink_symbol_level=1
+			"blink_symbol_level=1"
 		)
 		BUILD_STRING_ARGS+=(
-			target_cpu=arm
-			arm_float_abi=hard
+			"target_cpu=arm"
+			"arm_float_abi=hard"
 		)
 		local arm_arch=$(get-flag march)
 		local arm_cpu=$(get-flag mcpu)
@@ -386,20 +386,20 @@ set_build_args() {
 			arm_arch="armv7ve"
 		fi
 		if [[ -n "${arm_arch}" ]]; then
-			BUILD_STRING_ARGS+=( arm_arch="${arm_arch}" )
+			BUILD_STRING_ARGS+=( "arm_arch=${arm_arch}" )
 		fi
 		;;
 	arm64)
 		BUILD_STRING_ARGS+=(
-			target_cpu=arm64
+			"target_cpu=arm64"
 		)
 		local arm_arch=$(get-flag march)
 		if [[ -n "${arm_arch}" ]]; then
-			BUILD_STRING_ARGS+=( arm_arch="${arm_arch}" )
+			BUILD_STRING_ARGS+=( "arm_arch=${arm_arch}" )
 		fi
 		;;
 	amd64)
-		BUILD_STRING_ARGS+=( target_cpu=x64 )
+		BUILD_STRING_ARGS+=( "target_cpu=x64" )
 		;;
 	mips)
 		local mips_arch target_arch
@@ -419,8 +419,8 @@ set_build_args() {
 		esac
 
 		BUILD_STRING_ARGS+=(
-			target_cpu="${target_arch}"
-			mips_arch_variant="${mips_arch}"
+			"target_cpu=${target_arch}"
+			"mips_arch_variant=${mips_arch}"
 		)
 		;;
 	*)
@@ -430,32 +430,32 @@ set_build_args() {
 
 	if use chrome_internal; then
 		# Adding chrome branding specific variables.
-		BUILD_ARGS+=( is_chrome_branded=true )
+		BUILD_ARGS+=( "is_chrome_branded=true" )
 		# This test can only be build from internal sources.
-		BUILD_ARGS+=( internal_gles2_conform_tests=true )
+		BUILD_ARGS+=( "internal_gles2_conform_tests=true" )
 		export CHROMIUM_BUILD='_google_Chrome'
 		export OFFICIAL_BUILD='1'
 		export CHROME_BUILD_TYPE='_official'
 	elif use chrome_media; then
 		echo "Building Chromium with additional media codecs and containers."
-		BUILD_ARGS+=( proprietary_codecs=true )
-		BUILD_STRING_ARGS+=( ffmpeg_branding=ChromeOS )
+		BUILD_ARGS+=( "proprietary_codecs=true" )
+		BUILD_STRING_ARGS+=( "ffmpeg_branding=ChromeOS" )
 	fi
 
 	if use clang; then
 		BUILD_ARGS+=(
-			treat_warnings_as_errors=false
+			"treat_warnings_as_errors=false"
 		)
 	else
 		cros_use_gcc
 	fi
 
 	if use component_build; then
-		BUILD_ARGS+=( is_component_build=true )
+		BUILD_ARGS+=( "is_component_build=true" )
 	fi
 	if use_goma; then
-		BUILD_ARGS+=( use_goma=true )
-		BUILD_STRING_ARGS+=( goma_dir="${GOMA_DIR:-/home/${WHOAMI}/goma}" )
+		BUILD_ARGS+=( "use_goma=true" )
+		BUILD_STRING_ARGS+=( "goma_dir=${GOMA_DIR:-/home/${WHOAMI}/goma}" )
 
 		# Goma compiler proxy runs outside of portage build.
 		# Practically, because TMPDIR is set in portage, it is
@@ -480,7 +480,7 @@ set_build_args() {
 			# Using -g1 causes problems with crash server (see crbug.com/601854).
 			# Set use_debug_fission=true to prevent slow link (see crbug.com/703468).
 			# Disable debug_fission for bots which generate Afdo profile. (see crbug.com/704602).
-			BUILD_ARGS+=( use_debug_fission=true )
+			BUILD_ARGS+=( "use_debug_fission=true" )
 
 			# The breakpad cannot handle the debug files generated by
 			# llvm and debug fission properly. crosbug.com/710605
@@ -488,7 +488,7 @@ set_build_args() {
 				append-flags -fno-split-dwarf-inlining
 			fi
 		fi
-		BUILD_ARGS+=( symbol_level=2 )
+		BUILD_ARGS+=( "symbol_level=2" )
 	fi
 }
 
@@ -499,12 +499,12 @@ unpack_chrome() {
 	local cmd=( "${CHROMITE_BIN_DIR}"/sync_chrome )
 	use chrome_internal && cmd+=( --internal )
 	if [[ "${CHROME_VERSION}" != "9999" ]]; then
-		cmd+=( --tag="${CHROME_VERSION}" )
+		cmd+=( "--tag=${CHROME_VERSION}" )
 	fi
 	# --reset tells sync_chrome to blow away local changes and to feel
 	# free to delete any directories that get in the way of syncing. This
 	# is needed for unattended operation.
-	cmd+=( --reset --gclient="${EGCLIENT}" "${CHROME_DISTDIR}" )
+	cmd+=( --reset "--gclient=${EGCLIENT}" "${CHROME_DISTDIR}" )
 	elog "${cmd[*]}"
 	"${cmd[@]}" || die
 }
@@ -740,9 +740,9 @@ add_api_keys() {
 	local client_secret=$(awk "/google_default_client_secret/ ${EXTRACT}" "$1")
 
 	BUILD_STRING_ARGS+=(
-		google_api_key="${api_key}"
-		google_default_client_id="${client_id}"
-		google_default_client_secret="${client_secret}"
+		"google_api_key=${api_key}"
+		"google_default_client_id=${client_id}"
+		"google_default_client_secret=${client_secret}"
 	)
 }
 
@@ -848,7 +848,7 @@ setup_compile_flags() {
 	EBUILD_LDFLAGS=()
 	if use afdo_use; then
 		local afdo_flags=()
-		afdo_flags+=( -fprofile-sample-use="${AFDO_PROFILE_LOC}" )
+		afdo_flags+=( "-fprofile-sample-use=${AFDO_PROFILE_LOC}" )
 		# This is required because compiler emits different warnings
 		# for AFDO vs. non-AFDO. AFDO may inline different
 		# functions from non-AFDO, leading to different warnings.
@@ -900,7 +900,7 @@ setup_compile_flags() {
 
 	if use orderfile_generate; then
 		local chrome_outdir="${CHROME_CACHE_DIR}/src/${BUILD_OUT}/${BUILDTYPE}"
-		BUILD_STRING_ARGS+=( dump_call_chain_clustering_order="${chrome_outdir}/chrome.orderfile.txt" )
+		BUILD_STRING_ARGS+=( "dump_call_chain_clustering_order=${chrome_outdir}/chrome.orderfile.txt" )
 	fi
 
 	# Turn off call graph profile sort (C3), when new pass manager is enabled.
@@ -1006,39 +1006,39 @@ src_configure() {
 	fi
 
 	BUILD_STRING_ARGS+=(
-		cros_target_ar="${AR}"
-		cros_target_cc="${CC}"
-		cros_target_cxx="${CXX}"
-		host_toolchain="//build/toolchain/cros:host"
-		custom_toolchain="//build/toolchain/cros:target"
-		v8_snapshot_toolchain="//build/toolchain/cros:v8_snapshot"
-		cros_target_ld="${LD}"
-		cros_target_nm="${NM}"
-		cros_target_readelf="${READELF}"
-		cros_target_extra_cflags="${CFLAGS} ${EBUILD_CFLAGS[*]}"
-		cros_target_extra_cppflags="${CPPFLAGS}"
-		cros_target_extra_cxxflags="${CXXFLAGS} ${EBUILD_CXXFLAGS[*]}"
-		cros_target_extra_ldflags="${LDFLAGS} ${EBUILD_LDFLAGS[*]}"
-		cros_host_cc="${CC_host}"
-		cros_host_cxx="${CXX_host}"
-		cros_host_ar="${AR_host}"
-		cros_host_ld="${LD_host}"
-		cros_host_nm="${NM_host}"
-		cros_host_readelf="${READELF_host}"
-		cros_host_extra_cflags="${CFLAGS_host}"
-		cros_host_extra_cxxflags="${CXXFLAGS_host}"
-		cros_host_extra_cppflags="${CPPFLAGS_host}"
-		cros_host_extra_ldflags="${LDFLAGS_host}"
-		cros_v8_snapshot_cc="${CC_host}"
-		cros_v8_snapshot_cxx="${CXX_host}"
-		cros_v8_snapshot_ar="${AR_host}"
-		cros_v8_snapshot_ld="${LD_host}"
-		cros_v8_snapshot_nm="${NM_host}"
-		cros_v8_snapshot_readelf="${READELF_host}"
-		cros_v8_snapshot_extra_cflags="${CFLAGS_host}"
-		cros_v8_snapshot_extra_cxxflags="${CXXFLAGS_host}"
-		cros_v8_snapshot_extra_cppflags="${CPPFLAGS_host}"
-		cros_v8_snapshot_extra_ldflags="${LDFLAGS_host}"
+		"cros_target_ar=${AR}"
+		"cros_target_cc=${CC}"
+		"cros_target_cxx=${CXX}"
+		"host_toolchain=//build/toolchain/cros:host"
+		"custom_toolchain=//build/toolchain/cros:target"
+		"v8_snapshot_toolchain=//build/toolchain/cros:v8_snapshot"
+		"cros_target_ld=${LD}"
+		"cros_target_nm=${NM}"
+		"cros_target_readelf=${READELF}"
+		"cros_target_extra_cflags=${CFLAGS} ${EBUILD_CFLAGS[*]}"
+		"cros_target_extra_cppflags=${CPPFLAGS}"
+		"cros_target_extra_cxxflags=${CXXFLAGS} ${EBUILD_CXXFLAGS[*]}"
+		"cros_target_extra_ldflags=${LDFLAGS} ${EBUILD_LDFLAGS[*]}"
+		"cros_host_cc=${CC_host}"
+		"cros_host_cxx=${CXX_host}"
+		"cros_host_ar=${AR_host}"
+		"cros_host_ld=${LD_host}"
+		"cros_host_nm=${NM_host}"
+		"cros_host_readelf=${READELF_host}"
+		"cros_host_extra_cflags=${CFLAGS_host}"
+		"cros_host_extra_cxxflags=${CXXFLAGS_host}"
+		"cros_host_extra_cppflags=${CPPFLAGS_host}"
+		"cros_host_extra_ldflags=${LDFLAGS_host}"
+		"cros_v8_snapshot_cc=${CC_host}"
+		"cros_v8_snapshot_cxx=${CXX_host}"
+		"cros_v8_snapshot_ar=${AR_host}"
+		"cros_v8_snapshot_ld=${LD_host}"
+		"cros_v8_snapshot_nm=${NM_host}"
+		"cros_v8_snapshot_readelf=${READELF_host}"
+		"cros_v8_snapshot_extra_cflags=${CFLAGS_host}"
+		"cros_v8_snapshot_extra_cxxflags=${CXXFLAGS_host}"
+		"cros_v8_snapshot_extra_cppflags=${CPPFLAGS_host}"
+		"cros_v8_snapshot_extra_ldflags=${LDFLAGS_host}"
 	)
 
 	local arg
@@ -1459,17 +1459,17 @@ src_install() {
 	local cmd=( "${CHROME_ROOT}"/src/third_party/chromite/bin/deploy_chrome )
 	# Disable stripping for now, as deploy_chrome doesn't generate splitdebug files.
 	cmd+=(
-		--board="${BOARD}"
-		--build-dir="${FROM}"
-		--gn-args="${GN_ARGS}"
+		"--board=${BOARD}"
+		"--build-dir=${FROM}"
+		"--gn-args=${GN_ARGS}"
 		# If this is enabled, we need to re-enable `prepstrip` above for autotests.
 		# You'll also have to re-add "strip" to the RESTRICT at the top of the file.
 		--nostrip
-		--staging-dir="${D_CHROME_DIR}"
-		--staging-flags="${USE}"
+		"--staging-dir=${D_CHROME_DIR}"
+		"--staging-flags=${USE}"
 		--staging-only
-		--strip-bin="${STRIP}"
-		--strip-flags="${PORTAGE_STRIP_FLAGS}"
+		"--strip-bin=${STRIP}"
+		"--strip-flags=${PORTAGE_STRIP_FLAGS}"
 		--verbose
 	)
 	einfo "${cmd[*]}"
