@@ -4,8 +4,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="fc94ecedde9e1c06cd296bfb551295be651a1f66"
-CROS_WORKON_TREE=("dee870e424cb9c2bf83477e685ba64450a5b16f3" "28f1599f98428d7ac4e048895a48f08aef9b8f3f" "7751f7bb5459651b1c827e9e035faa33b278727c" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="d934d97cb4cd00c43d733193739fc9ef4470bc66"
+CROS_WORKON_TREE=("dee870e424cb9c2bf83477e685ba64450a5b16f3" "936f5a8d578baa82d0a53802889b3103fc577f9f" "7751f7bb5459651b1c827e9e035faa33b278727c" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -32,8 +32,21 @@ RDEPEND="
 	!tpm2? (
 		app-crypt/trousers
 	)
+	chromeos-base/libbrillo
+	chromeos-base/libchrome
 "
 
 DEPEND="
 	${RDEPEND}
 "
+
+src_install() {
+	# Installs the utilities executable.
+	insinto /usr/local/bin
+	doins "${OUT}/tpm_softclear"
+	chmod u+x "${D}/usr/local/bin/tpm_softclear"
+
+	# Installs header files
+	insinto /usr/include/tpm_softclear_utils
+	doins ./*.h
+}
