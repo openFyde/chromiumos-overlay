@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="fc94ecedde9e1c06cd296bfb551295be651a1f66"
+CROS_WORKON_COMMIT="ef34e0fef7a4c5b4a6dea8e6be9408b5ecf93f8e"
 CROS_WORKON_TREE=("dee870e424cb9c2bf83477e685ba64450a5b16f3" "d97db2088abb80ad826a5bfd6ae5e15d3cdf1a06" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,8 +37,10 @@ DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/minijail
-	wilco? ( chromeos-base/chromeos-dtc-vm-sarien-private )
-	wilco? ( chromeos-base/vpd )
+	wilco? (
+		virtual/chromeos-dtc-vm
+		chromeos-base/vpd
+	)
 "
 
 pkg_preinst() {
