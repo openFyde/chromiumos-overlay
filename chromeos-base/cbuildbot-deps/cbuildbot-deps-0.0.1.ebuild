@@ -22,7 +22,6 @@ RDEPEND="${RDEPEND}
 	dev-python/sqlalchemy
 	dev-vcs/git
 	dev-vcs/repo
-	dev-vcs/subversion
 	sys-apps/gawk
 "
 
