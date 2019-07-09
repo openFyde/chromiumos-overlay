@@ -63,7 +63,7 @@ src_install() {
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
 	local daemon_store="/etc/daemon-store/kerberosd"
 	dodir "${daemon_store}"
-	fperms 0700 "${daemon_store}"
+	fperms 0770 "${daemon_store}"
 	fowners kerberosd:kerberosd "${daemon_store}"
 }
 
