@@ -1,0 +1,2 @@
+set noparent
+include chromiumos/third_party/u-boot:/OWNERS

@@ -1,0 +1,2 @@
+set noparent
+include /sys-boot/u-boot/OWNERS
