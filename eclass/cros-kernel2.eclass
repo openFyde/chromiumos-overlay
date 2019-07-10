@@ -453,7 +453,6 @@ CONFIG_FRAME_POINTER=y
 CONFIG_GDB_SCRIPTS=y
 CONFIG_KGDB=y
 CONFIG_KGDB_KDB=y
-CONFIG_KGDB_SERIAL_CONSOLE=y
 CONFIG_PANIC_TIMEOUT=0
 # CONFIG_RANDOMIZE_BASE is not set
 # CONFIG_WATCHDOG is not set
@@ -461,7 +460,7 @@ CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=1
 CONFIG_DEBUG_INFO_DWARF4=y
 """
 # kgdb over serial port depends on CONFIG_HW_CONSOLE which depends on CONFIG_VT
-REQUIRED_USE="${REQUIRED_USE} kgdb? ( vtconsole pcserial )"
+REQUIRED_USE="${REQUIRED_USE} kgdb? ( vtconsole )"
 
 kmemleak_desc="Enable kmemleak"
 kmemleak_config="
