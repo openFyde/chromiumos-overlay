@@ -21,9 +21,11 @@ S=${WORKDIR}/fuse-${PV}
 # tests run in sys-fs/fuse
 RESTRICT="test"
 
-src_prepare() {
-	epatch "${FILESDIR}"/fuse-common-3.2.6-conf.patch
+PATCHES=(
+	"${FILESDIR}"/${P}-conf.patch
+)
 
+src_prepare() {
 	default
 
 	# lto not supported yet -- https://github.com/libfuse/libfuse/issues/198
