@@ -184,7 +184,6 @@ RDEPEND="${RDEPEND}
 	dev-python/pyinotify
 	dev-python/pyopenssl
 	dev-python/pytest
-	dev-python/python-daemon
 	dev-python/python-evdev
 	dev-python/python-uinput
 	dev-python/pyudev
