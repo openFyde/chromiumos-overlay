@@ -59,6 +59,7 @@ src_install() {
 	dobin "build/${BOARD}/util/iteflash"
 
 	dobin "util/flash_ec"
+	dobin "util/uart_stress_tester.py"
 	insinto /usr/share/ec-devutils
 	doins util/openocd/*
 
