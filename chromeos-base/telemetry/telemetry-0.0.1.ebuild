@@ -1,9 +1,11 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI="6"
 
-inherit python cros-constants
+PYTHON_COMPAT=( python2_7 python{3_6,3_7} )
+
+inherit python-r1 cros-constants
 
 DESCRIPTION="Chromium telemetry dep"
 HOMEPAGE="http://www.chromium.org/"
@@ -14,7 +16,7 @@ KEYWORDS="*"
 
 # Ensure the telemetry dep tarball is created already.
 DEPEND="chromeos-base/chromeos-chrome"
-RDEPEND="dev-python/psutil"
+RDEPEND="dev-python/psutil[${PYTHON_USEDEP}]"
 
 S=${WORKDIR}
 
@@ -29,8 +31,12 @@ src_install() {
 	insinto /usr/local/telemetry
 	doins -r "${WORKDIR}"/*
 
-	# Add telemetry to the python path.
-	dodir "$(python_get_sitedir)"
-	echo "/usr/local/telemetry/src/third_party/catapult/telemetry" > \
-		"${ED}$(python_get_sitedir)/telemetry.pth" || die
+	install_python() {
+		# TODO(crbug.com/771085): Figure out this SYSROOT business.
+		insinto "$(python_get_sitedir | sed "s:^${SYSROOT}::")"
+		# Add telemetry to the python path.
+		echo "/usr/local/telemetry/src/third_party/catapult/telemetry" | \
+			newins - telemetry.pth
+	}
+	python_foreach_impl install_python
 }
