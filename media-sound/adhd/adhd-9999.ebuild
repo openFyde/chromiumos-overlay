@@ -10,9 +10,6 @@ CROS_WORKON_USE_VCSID=1
 # Note: Do *NOT* add any more boards to this list.  Files should be installed
 # via bsp packages now, or configured via unibuild config settings.
 CROS_BOARDS=(
-	auron
-	auron_paine
-	auron_yuna
 	bolt
 	chell
 	cid
