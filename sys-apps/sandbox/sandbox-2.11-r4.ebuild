@@ -8,7 +8,7 @@
 
 EAPI="5"
 
-inherit eutils flag-o-matic multilib-minimal multiprocessing pax-utils
+inherit autotools eutils flag-o-matic multilib-minimal multiprocessing pax-utils
 
 DESCRIPTION="sandbox'd LD_PRELOAD hack"
 HOMEPAGE="https://www.gentoo.org/proj/en/portage/sandbox/"
@@ -35,7 +35,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-execvpe.patch #578516
 	epatch "${FILESDIR}"/${P}-exec-hash.patch #578524
 	epatch "${FILESDIR}"/${P}-symbol-table-size.patch # crosbug.com/884234
+	epatch "${FILESDIR}"/${P}-lld.patch # crbug.com/982877
 	epatch_user
+	eautoreconf
 }
 
 multilib_src_configure() {
