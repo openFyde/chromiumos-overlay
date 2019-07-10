@@ -39,7 +39,6 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}
-	=dev-lang/python-2*
 	dev-libs/libxml2
 	sys-devel/bison
 	sys-devel/flex
