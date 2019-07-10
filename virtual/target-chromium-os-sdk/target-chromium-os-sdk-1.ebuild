@@ -424,8 +424,6 @@ RDEPEND="${RDEPEND}
 	dev-python/enum34
 	dev-python/jsonrpclib
 	dev-python/jsonschema
-	dev-python/paramiko
-	dev-python/pycrypto
 	dev-python/python-gnupg
 	dev-python/requests
 	dev-python/sphinx
