@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="367fc705d107932356405d25e3427bba9332979a"
+CROS_WORKON_COMMIT="6524ed7d447dd3ba4d076f5310f91aba279fe156"
 CROS_WORKON_TREE=("dc1506ef7c8cfd2c5ffd1809dac05596ec18773c" "7134e391e4c04513211b250b665951820d5b0bbd" "e1c3f72095079c5cb59322a07192c8faf2a9b15c" "2624ca1aeb7f546093c8cac8244297955cb1481d" "79935d3039bad820fa03c8bded635ad197ad74ab" "ea6e2e1b6bec83695699ef78cec2f03321d97dd7")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -24,6 +24,7 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
+	chromeos-base/libbrillo
 	!media-libs/arc-camera3-libcab
 	media-libs/cros-camera-libcamera_common"
 
