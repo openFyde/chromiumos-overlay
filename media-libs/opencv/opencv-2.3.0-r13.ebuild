@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/opencv/opencv-2.3.0.ebuild,v 1.11 2011/11/22 22:38:59 dilfridge Exp $
 
-EAPI=3
+EAPI="6"
 
-PYTHON_DEPEND="python? 2:2.6"
+PYTHON_COMPAT=( python2_7 )
 
-inherit base toolchain-funcs cmake-utils python
+inherit toolchain-funcs cmake-utils python-single-r1
 
 MY_P=OpenCV-${PV}
 
@@ -17,7 +17,9 @@ SRC_URI="mirror://sourceforge/${PN}library/${MY_P}.tar.bz2"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cuda doc eigen examples ffmpeg gstreamer gtk ieee1394 jpeg jpeg2k openexr opengl png python qt4 sse sse2 sse3 ssse3 tiff v4l xine"
+IUSE="cuda eigen examples ffmpeg gstreamer gtk ieee1394 jpeg jpeg2k openexr opengl png python qt4 tiff v4l xine"
+
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND="
 	app-arch/bzip2
@@ -38,7 +40,7 @@ RDEPEND="
 	ieee1394? ( media-libs/libdc1394 sys-libs/libraw1394 )
 	openexr? ( media-libs/openexr )
 	png? ( media-libs/libpng )
-	python? ( dev-python/numpy )
+	python? ( ${PYTHON_DEPS} dev-python/numpy[${PYTHON_USEDEP}] )
 	qt4? (
 		x11-libs/qt-gui:4
 		x11-libs/qt-test:4
@@ -49,7 +51,6 @@ RDEPEND="
 	xine? ( media-libs/xine-lib )
 "
 DEPEND="${RDEPEND}
-	doc? ( virtual/latex-base )
 	dev-util/pkgconfig
 "
 
@@ -74,14 +75,11 @@ CMAKE_BUILD_TYPE="Release"
 S=${WORKDIR}/${MY_P}
 
 pkg_setup() {
-	if use python; then
-		python_set_active_version 2
-		python_pkg_setup
-	fi
+	use python && python-single-r1_pkg_setup
 }
 
 src_prepare() {
-	base_src_prepare
+	default
 
 	# remove bundled stuff
 	rm -rf 3rdparty
@@ -92,29 +90,29 @@ src_prepare() {
 
 src_configure() {
 	local mycmakeargs=(
-		$(cmake-utils_use_build doc DOCS)
-		$(cmake-utils_use_build examples)
-		$(cmake-utils_use examples INSTALL_C_EXAMPLES)
-		$(cmake-utils_use_build python NEW_PYTHON_SUPPORT)
-		$(cmake-utils_use_enable sse SSE)
-		$(cmake-utils_use_enable sse2 SSE2)
-		$(cmake-utils_use_enable sse3 SSE3)
-		$(cmake-utils_use_enable ssse3 SSSE3)
+		-DBUILD_DOCS=OFF #too much dark magic in cmakelists
+		-DBUILD_EXAMPLES=$(usex examples)
+		-DINSTALL_C_EXAMPLES=$(usex examples)
+		-DWITH_NEW_PYTHON_SUPPORT=$(usex python)
+		-DENABLE_SSE=OFF					# these options do nothing but
+		-DENABLE_SSE2=OFF					# add params to CFLAGS
+		-DENABLE_SSE3=OFF
+		-DENABLE_SSSE3=OFF
 		-DWITH_IPP=OFF
-		$(cmake-utils_use_with ieee1394 1394)
-		$(cmake-utils_use_with eigen)
-		$(cmake-utils_use_with ffmpeg)
-		$(cmake-utils_use_with gstreamer)
-		$(cmake-utils_use_with gtk)
-		$(cmake-utils_use_with jpeg)
-		$(cmake-utils_use_with jpeg2k JASPER)
-		$(cmake-utils_use_with openexr)
-		$(cmake-utils_use_with png)
-		$(cmake-utils_use_with qt4 QT)
-		$(cmake-utils_use_with opengl QT_OPENGL)
-		$(cmake-utils_use_with tiff)
-		$(cmake-utils_use_with v4l V4L)
-		$(cmake-utils_use_with xine)
+		-DWITH_1394=$(usex ieee1394)
+		-DWITH_EIGEN=$(usex eigen)
+		-DWITH_FFMPEG=$(usex ffmpeg)
+		-DWITH_GSTREAMER=$(usex gstreamer)
+		-DWITH_GTK=$(usex gtk)
+		-DWITH_JASPER=$(usex jpeg2k)
+		-DWITH_JPEG=$(usex jpeg)
+		-DWITH_OPENEXR=$(usex openexr)
+		-DWITH_PNG=$(usex png)
+		-DWITH_QT=$(usex qt4)
+		-DWITH_QT_OPENGL=$(usex opengl)
+		-DWITH_TIFF=$(usex tiff)
+		-DWITH_V4L=$(usex v4l)
+		-DWITH_XINE=$(usex xine)
 	)
 
 	if use cuda; then

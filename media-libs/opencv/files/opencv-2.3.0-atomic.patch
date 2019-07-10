@@ -4,8 +4,8 @@ This is a backport from upstream OpenCV where the issue is
 already fixed.
 
 diff -Nuar old/OpenCV-2.3.0/modules/core/include/opencv2/core/operations.hpp new/OpenCV-2.3.0/modules/core/include/opencv2/core/operations.hpp
---- old/OpenCV-2.3.0/modules/core/include/opencv2/core/operations.hpp
-+++ new/OpenCV-2.3.0/modules/core/include/opencv2/core/operations.hpp
+--- OpenCV-2.3.0/modules/core/include/opencv2/core/operations.hpp
++++ OpenCV-2.3.0/modules/core/include/opencv2/core/operations.hpp
 @@ -51,35 +51,28 @@
  #ifdef __cplusplus
  
