@@ -23,15 +23,25 @@ src_install() {
 	# TODO (crbug.com/346859) Convert to using distutils and a setup.py
 	# to specify which files should be installed.
 	cd "${D}/$(python_get_sitedir)/chromite"
-	find '(' -name '*.py[co]' -o -name '*unittest.py' ')' -delete
-	find -name '.git' -exec rm -rf {} +
 	rm -rf \
 		appengine \
+		contrib \
 		cidb \
+		infra \
 		lib/datafiles/ \
+		third_party/pyelftools/examples \
 		third_party/pyelftools/test \
 		mobmonitor \
 		venv
+	find '(' \
+		-name 'OWNERS*' -o \
+		-name '*.py[co]' -o \
+		-name '*unittest.py' -o \
+		-name '*unittest' -o \
+		-name '*.go' -o \
+		-name '*.md' \
+		')' -delete || die
+	find -name '.git' -exec rm -rf {} + || die
 }
 
 src_test() {
