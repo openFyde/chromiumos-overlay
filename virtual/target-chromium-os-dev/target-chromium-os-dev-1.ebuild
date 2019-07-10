@@ -91,7 +91,9 @@ RDEPEND="${RDEPEND}
 	shill? ( chromeos-base/shill-test-scripts )
 	chromeos-base/touch_firmware_test
 	net-analyzer/tcpdump
+	net-analyzer/traceroute
 	net-dialup/minicom
+	net-dns/bind-tools
 	net-misc/dhcp
 	net-misc/iperf:2
 	net-misc/iputils
