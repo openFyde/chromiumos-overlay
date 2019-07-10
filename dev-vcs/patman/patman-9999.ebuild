@@ -2,40 +2,38 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=4
-PYTHON_DEPEND="2"
+EAPI="6"
+
 CROS_WORKON_PROJECT="chromiumos/third_party/u-boot"
 CROS_WORKON_LOCALNAME="u-boot/files"
+CROS_WORKON_SUBTREE="tools/patman"
 
-inherit cros-workon distutils
+PYTHON_COMPAT=( python2_7 )
+
+inherit cros-workon distutils-r1
 
 DESCRIPTION="Patman tool (from U-Boot) for sending patches upstream"
-HOMEPAGE="http://www.denx.de/wiki/U-Boot"
+HOMEPAGE="https://www.denx.de/wiki/U-Boot"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~*"
 IUSE=""
 
-DEPEND="dev-python/setuptools"
+DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND=""
 
 src_prepare() {
 	cd tools/patman
-	rm patman
-	cp "${FILESDIR}/setup.py" .
-	touch __init__.py
-
-	distutils_src_prepare
+	distutils-r1_src_prepare
 }
 
 src_compile() {
 	cd tools/patman
-	distutils_src_compile
+	distutils-r1_src_compile
 }
 
 src_install() {
 	cd tools/patman
-	dobin "${FILESDIR}/patman"
-	distutils_src_install
+	distutils-r1_src_install
 }
