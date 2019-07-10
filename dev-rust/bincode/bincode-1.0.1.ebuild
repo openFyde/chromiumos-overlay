@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="A compact encoder / decoder pair that uses a binary zero-fluff encoding scheme"
@@ -18,7 +20,3 @@ DEPEND="
 	>=dev-rust/serde-1.0.63:= <dev-rust/serde-2.0.0
 	>=dev-rust/serde_derive-1.0.27:= <dev-rust/serde_derive-2.0.0
 "
-
-PATCHES=(
-	"${FILESDIR}/${P}-0001-Remove-dev-dependencies.patch"
-)

@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="Derives for the failure crate"
@@ -19,7 +21,3 @@ DEPEND="
 	=dev-rust/syn-0.15*:=
 	=dev-rust/synstructure-0.10*:=
 "
-
-PATCHES=(
-	"${FILESDIR}/${P}-0001-Remove-dev-dependencies.patch"
-)

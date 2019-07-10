@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="Serde is a framework for serializing and deserializing Rust data structures efficiently and generically."
@@ -23,7 +25,3 @@ DEPEND="
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/serde_stacker-0.1*:=
 "
-
-PATCHES=(
-	"${FILESDIR}/${P}-0001-Remove-dev-dependencies.patch"
-)
