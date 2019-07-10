@@ -3,10 +3,9 @@
 # $Header: /var/cvsroot/gentoo-x86/net-wireless/bluez/bluez-4.99.ebuild,v 1.7 2012/04/15 16:53:41 maekke Exp $
 
 EAPI="5"
-PYTHON_DEPEND="test-programs? 2"
 CROS_WORKON_PROJECT="chromiumos/third_party/bluez"
 
-inherit autotools multilib eutils systemd python udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
+inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="http://www.bluez.org/"
@@ -15,7 +14,7 @@ HOMEPAGE="http://www.bluez.org/"
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="asan cups debug systemd test-programs readline bt_deprecated_tools"
+IUSE="asan cups debug systemd readline bt_deprecated_tools"
 
 CDEPEND="
 	>=dev-libs/glib-2.14:2
@@ -29,26 +28,15 @@ CDEPEND="
 DEPEND="${CDEPEND}
 	>=dev-util/pkgconfig-0.20
 	sys-devel/flex
-	test-programs? ( >=dev-libs/check-0.9.8 )
 "
 RDEPEND="${CDEPEND}
 	!net-wireless/bluez-hcidump
 	!net-wireless/bluez-libs
 	!net-wireless/bluez-test
 	!net-wireless/bluez-utils
-	test-programs? (
-		dev-python/dbus-python
-		dev-python/pygobject:2
-	)
 "
 
 DOCS=( AUTHORS ChangeLog README )
-
-pkg_setup() {
-	if use test-programs; then
-		python_pkg_setup
-	fi
-}
 
 src_prepare() {
 	eautoreconf
@@ -76,7 +64,7 @@ src_configure() {
 		$(use_enable cups) \
 		--enable-datafiles \
 		$(use_enable debug) \
-		$(use_enable test-programs test) \
+		--disable-test \
 		--enable-library \
 		--disable-systemd \
 		--disable-obex \
@@ -97,22 +85,6 @@ src_test() {
 
 src_install() {
 	default
-
-	if use test-programs ; then
-		cd "${S}/test"
-		dobin simple-agent simple-endpoint simple-player simple-service
-		dobin monitor-bluetooth
-		newbin list-devices list-bluetooth-devices
-		local b
-		for b in test-* ; do
-			newbin "${b}" "bluez-${b}"
-		done
-		insinto /usr/share/doc/${PF}/test-services
-		doins service-*
-
-		python_convert_shebangs -r 2 "${ED}"
-		cd "${S}"
-	fi
 
 	dobin tools/btmgmt tools/btgatt-client tools/btgatt-server
 	dobin "${FILESDIR}/dbus_send_blutooth_class.awk"
