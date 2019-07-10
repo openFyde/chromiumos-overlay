@@ -422,7 +422,6 @@ RDEPEND="${RDEPEND}
 	dev-python/autopep8
 	dev-python/django
 	dev-python/enum34
-	dev-python/flup
 	dev-python/jsonrpclib
 	dev-python/jsonschema
 	dev-python/paramiko
