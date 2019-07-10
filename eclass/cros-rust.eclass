@@ -23,7 +23,7 @@ esac
 # Indicates that this package is an empty crate for satisfying cargo's
 # requirements but will not actually be used during compile time.  Used by
 # dev-dependencies or crates like winapi.
-: ${CROS_RUST_EMPTY_CRATE:=}
+: "${CROS_RUST_EMPTY_CRATE:=}"
 
 # @ECLASS-VARIABLE: CROS_RUST_EMPTY_CRATE_FEATURES
 # @PRE_INHERIT
@@ -40,7 +40,14 @@ fi
 # Enable integer overflow checks for this package.  Packages that wish to
 # disable integer overflow checks should set this value to 0.  Integer overflow
 # checks are always enabled when the cros-debug flag is set.
-: ${CROS_RUST_OVERFLOW_CHECKS:=1}
+: "${CROS_RUST_OVERFLOW_CHECKS:=1}"
+
+# @ECLASS-VARIABLE: CROS_RUST_REMOVE_DEV_DEPS
+# @PRE_INHERIT
+# @DESCRIPTION:
+# Removes all the dev-dependencies from the Cargo.toml. This can break circular
+# dependencies and help minimize how many dependent packages need to be added.
+: "${CROS_RUST_REMOVE_DEV_DEPS:=}"
 
 inherit toolchain-funcs cros-debug cros-sanitizers
 
@@ -186,6 +193,31 @@ cros-rust_src_prepare() {
 		# Cargo.toml.
 		sed -i \
 			'/# ignored by ebuild/d' \
+			"${S}/Cargo.toml" || die
+	fi
+
+	# Remove lines that start with "[dev-dependencies." until a line is found that
+	# starts with "[" but not "[dev-d".
+	#
+	# The sed script is of the form '/A/,/B/{/B/!d}'.
+	# The first part '/A/,/B/' includes lines that match /A/ and following lines
+	# until a line matches the second pattern /B/ inclusive. The last part,
+	# {/B/!d} deletes included lines that don't match /B/.
+	#
+	# The first pattern /^\[dev-dependencies\./ is fairly easy to understand. it
+	# matches any line that begins with "[dev-dependencies." The second pattern
+	# would ideally be /^[/ which would match any line that starts with "[".
+	# unfortunately that also matches the first pattern so the range would always
+	# be one line. To avoid this problem the second pattern approximates a check
+	# to make sure the first pattern isn't matched. It does so by testing to see
+	# if the string that follows the "[" doesn't match "dev-d". This is
+	# accomplished by matching strings that don't begin with "d", or begin with
+	# "d" but don't begin with "de", or begin with "de" but don't begin with
+	# "dev", ... or begin with "dev-" but don't begin with "dev-d".
+	if [[ "${CROS_RUST_REMOVE_DEV_DEPS}" == 1 ]]; then
+		local neg_pattern='/^\[($|[^d]|d($|[^e]|e($|[^v]|v($|[^-]|-($|[^d])))))/'
+		sed -i -E \
+			"/^\\[dev-dependencies\\./,${neg_pattern}{${neg_pattern}!d}" \
 			"${S}/Cargo.toml" || die
 	fi
 
