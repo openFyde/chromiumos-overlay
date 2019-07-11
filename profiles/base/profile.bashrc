@@ -149,8 +149,16 @@ cros_pre_pkg_setup_sysroot_build_bin_dir() {
 # our chromite code (by design) uses `python2`.  We don't install a copy via
 # the ebuild, so we wouldn't rewrite the she-bang.  Delete the stub since it
 # doesn't add a lot of value for us and breaks chromite.
+#
+# We can delete this code iif we only ever support a single major version of
+# Python in the entire system.  We'd have to drop all of Python 2 completely,
+# and never have Python 4 :).
 cros_post_pkg_setup_python_eclass_hack() {
 	rm -f "${T}"/python3.*/bin/python2
+}
+# A few packages run this during src_* phases.
+cros_post_src_compile_python_eclass_hack() {
+	cros_post_pkg_setup_python_eclass_hack
 }
 
 # Set ASAN settings so they'll work for unittests. http://crbug.com/367879
