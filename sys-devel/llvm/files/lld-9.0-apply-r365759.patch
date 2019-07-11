@@ -1,0 +1,122 @@
+This local patch is needed only because the following cherry-pick is not
+applied cleanly to the current compiler because of dependency.
+Should try to cherry-pick it after r365595.
+
+
+commit 020cc59e83b8072e52982870d4e2ad232e2cf651
+Author: Fangrui Song <maskray@google.com>
+Date:   Thu Jul 11 11:16:44 2019 +0000
+
+    [ELF] Warn rather than error when duplicate version assignments occur
+    
+    In lvm2, libdevmapper.so is linked with a version script with duplicate
+    version assignments:
+    
+        DM_1_02_138 { global: ... dm_bitset_parse_list; ... };
+        DM_1_02_129 { global: ... dm_bitset_parse_list; ... };
+    
+    ld.bfd silently accepts this while gold issues a warning. We currently
+    error, thus inhibit producing the executable. Change the error to
+    warning to allow this case, and improve the message.
+    
+    There are some cases where ld.bfd error
+    `anonymous version tag cannot be combined with other version tags`
+    but we just warn. It is probably OK for now.
+    
+    Reviewed By: grimar, ruiu
+    
+    Differential Revision: https://reviews.llvm.org/D64549
+    
+    llvm-svn: 365759
+
+diff --git a/lld/ELF/SymbolTable.cpp b/lld/ELF/SymbolTable.cpp
+index 9fc05d98366..dcbd15efafc 100644
+--- a/lld/ELF/SymbolTable.cpp
++++ b/lld/ELF/SymbolTable.cpp
+@@ -213,6 +213,14 @@ void SymbolTable::assignExactVersion(SymbolVersion Ver, uint16_t VersionId,
+     return;
+   }
+ 
++  auto getName = [](uint16_t ver) -> std::string {
++    if (ver == VER_NDX_LOCAL)
++      return "VER_NDX_LOCAL";
++    if (ver == VER_NDX_GLOBAL)
++      return "VER_NDX_GLOBAL";
++    return ("version '" + Config->VersionDefinitions[ver - 2].Name + "'").str();
++  };
++
+   // Assign the version.
+   for (Symbol *Sym : Syms) {
+     // Skip symbols containing version info because symbol versions
+@@ -221,10 +229,13 @@ void SymbolTable::assignExactVersion(SymbolVersion Ver, uint16_t VersionId,
+     if (Sym->getName().contains('@'))
+       continue;
+ 
+-    if (Sym->VersionId != Config->DefaultSymbolVersion &&
+-        Sym->VersionId != VersionId)
+-      error("duplicate symbol '" + Ver.Name + "' in version script");
+-    Sym->VersionId = VersionId;
++    if (Sym->VersionId == Config->DefaultSymbolVersion)
++      Sym->VersionId = VersionId;
++    if (Sym->VersionId == VersionId)
++      continue;
++
++    warn("attempt to reassign symbol '" + Ver.Name + "' of " +
++         getName(Sym->VersionId) + " to " + getName(VersionId));
+   }
+ }
+ 
+diff --git a/lld/test/ELF/version-script-reassign.s b/lld/test/ELF/version-script-reassign.s
+new file mode 100644
+index 00000000000..e2413295cc4
+--- /dev/null
++++ b/lld/test/ELF/version-script-reassign.s
+@@ -0,0 +1,31 @@
++# REQUIRES: x86
++# RUN: llvm-mc -filetype=obj -triple=x86_64 %s -o %t.o
++# RUN: echo '{ local: foo; };' > %tl.ver
++# RUN: echo '{ global: foo; local: *; };' > %tg.ver
++# RUN: echo 'V1 { global: foo; };' > %t1.ver
++# RUN: echo 'V2 { global: foo; };' > %t2.ver
++
++## Note, ld.bfd errors on the two cases.
++# RUN: ld.lld -shared %t.o --version-script %tl.ver --version-script %t1.ver \
++# RUN:   -o %t.so 2>&1 | FileCheck --check-prefix=LOCAL %s
++# RUN: llvm-readelf --dyn-syms %t.so | FileCheck --check-prefix=LOCAL-SYM %s
++# RUN: ld.lld -shared %t.o --version-script %tg.ver --version-script %t1.ver \
++# RUN:   -o %t.so 2>&1 | FileCheck --check-prefix=GLOBAL %s
++# RUN: llvm-readelf --dyn-syms %t.so | FileCheck --check-prefix=GLOBAL-SYM %s
++
++## Note, ld.bfd silently accepts this case.
++# RUN: ld.lld -shared %t.o --version-script %t1.ver --version-script %t2.ver \
++# RUN:   -o %t.so 2>&1 | FileCheck --check-prefix=V1-WARN %s
++# RUN: llvm-readelf --dyn-syms %t.so | FileCheck --check-prefix=V1-SYM %s
++
++# LOCAL: warning: attempt to reassign symbol 'foo' of VER_NDX_LOCAL to version 'V1'
++# LOCAL-SYM-NOT: foo
++
++# GLOBAL: warning: attempt to reassign symbol 'foo' of VER_NDX_GLOBAL to version 'V1'
++# GLOBAL-SYM: foo{{$}}
++
++# V1-WARN: warning: attempt to reassign symbol 'foo' of version 'V1' to version 'V2'
++# V1-SYM: foo@@V1
++
++.globl foo
++foo:
+diff --git a/lld/test/ELF/version-script.s b/lld/test/ELF/version-script.s
+index bba503b2d2e..8bbd769d33f 100644
+--- a/lld/test/ELF/version-script.s
++++ b/lld/test/ELF/version-script.s
+@@ -32,12 +32,6 @@
+ # RUN:   FileCheck -check-prefix=ERR2 %s
+ # ERR2: EOF expected, but got VERSION_2.0
+ 
+-# RUN: echo "VERSION_1.0 { global: foo1; local: *; };" > %t6.script
+-# RUN: echo "VERSION_2.0 { global: foo1; local: *; };" >> %t6.script
+-# RUN: not ld.lld --version-script %t6.script -shared %t.o %t2.so -o /dev/null 2>&1 | \
+-# RUN:   FileCheck -check-prefix=ERR3 %s
+-# ERR3: duplicate symbol 'foo1' in version script
+-
+ # RUN: echo "{ foo1; foo2; };" > %t.list
+ # RUN: ld.lld --version-script %t.script --dynamic-list %t.list %t.o %t2.so -o %t2
+ # RUN: llvm-readobj %t2 > /dev/null

@@ -339,6 +339,12 @@ src_prepare() {
 	use llvm-next || epatch "${FILESDIR}"/lld-8.0-reorder-hotsection-early.patch
 	use llvm-next && epatch "${FILESDIR}"/lld-9.0-reorder-hotsection-early.patch
 
+	# Fix LLD errors in duplicate symbols in version script. http://crbug.com/982882
+	use llvm-next && epatch_between 361749 365595 "${FILESDIR}"/lld-9.0-apply-r365759.patch
+
+	# Fix LLD errors in handling non-glob patterns in version script. FIXME: Add bug link.
+	use llvm-next && epatch_between 361749 365595 "${FILESDIR}"/lld-9.0-apply-r365760.patch
+
 	python_setup
 
 	# User patches
