@@ -1,17 +1,17 @@
-From 8db9a7a7579505189ba64e8b388b15f413de1be2 Mon Sep 17 00:00:00 2001
+From 3fe53543c7f610d23102c52dc544a41feaad35e9 Mon Sep 17 00:00:00 2001
 From: Frank Binns <frank.binns@imgtec.com>
 Date: Wed, 12 Aug 2015 09:11:51 +0100
-Subject: [PATCH 06/50] GL_EXT_sparse_texture entry points
+Subject: [PATCH 04/11] GL_EXT_sparse_texture entry points
 
 ---
- src/mapi/glapi/gen/EXT_sparse_texture.xml | 56 +++++++++++++++++++++++++++++++
+ src/mapi/glapi/gen/EXT_sparse_texture.xml | 56 +++++++++++++++++++++++
  src/mapi/glapi/gen/es_EXT.xml             |  3 ++
  2 files changed, 59 insertions(+)
  create mode 100644 src/mapi/glapi/gen/EXT_sparse_texture.xml
 
 diff --git a/src/mapi/glapi/gen/EXT_sparse_texture.xml b/src/mapi/glapi/gen/EXT_sparse_texture.xml
 new file mode 100644
-index 0000000..48d03e7
+index 00000000000..48d03e7b9c0
 --- /dev/null
 +++ b/src/mapi/glapi/gen/EXT_sparse_texture.xml
 @@ -0,0 +1,56 @@
@@ -72,10 +72,10 @@ index 0000000..48d03e7
 +
 +</OpenGLAPI>
 diff --git a/src/mapi/glapi/gen/es_EXT.xml b/src/mapi/glapi/gen/es_EXT.xml
-index f591c8a..ce7eb29 100644
+index 917fed62f98..ac8f19649a8 100644
 --- a/src/mapi/glapi/gen/es_EXT.xml
 +++ b/src/mapi/glapi/gen/es_EXT.xml
-@@ -1398,6 +1398,9 @@
+@@ -1397,6 +1397,9 @@
  
  </category>
  
@@ -86,5 +86,5 @@ index f591c8a..ce7eb29 100644
      <function name="ViewportArrayvOES" es2="3.1" alias="ViewportArrayv">
          <param name="first" type="GLuint"/>
 -- 
-2.7.4
+2.22.0
 

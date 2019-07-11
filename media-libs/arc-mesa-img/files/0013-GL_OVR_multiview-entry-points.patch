@@ -1,17 +1,17 @@
-From ba58a10ffa4c5185525a7eb23f18768bac4a12f1 Mon Sep 17 00:00:00 2001
+From 565cf93fd08985ae16663455a3926a5f92272607 Mon Sep 17 00:00:00 2001
 From: Brendan King <Brendan.King@imgtec.com>
 Date: Mon, 11 Jul 2016 12:45:30 +0100
-Subject: [PATCH 17/50] GL_OVR_multiview entry points
+Subject: [PATCH 08/11] GL_OVR_multiview entry points
 
 ---
  src/mapi/glapi/gen/gl_API.xml | 17 +++++++++++++++++
  1 file changed, 17 insertions(+)
 
 diff --git a/src/mapi/glapi/gen/gl_API.xml b/src/mapi/glapi/gen/gl_API.xml
-index 38c1921..ce472ab 100644
+index 929e5f6b024..9f8705ebc80 100644
 --- a/src/mapi/glapi/gen/gl_API.xml
 +++ b/src/mapi/glapi/gen/gl_API.xml
-@@ -12884,6 +12884,23 @@
+@@ -13032,6 +13032,23 @@
      </function>
  </category>
  
@@ -36,5 +36,5 @@ index 38c1921..ce472ab 100644
  
  <!-- 520. GL_EXT_shader_framebuffer_fetch -->
 -- 
-2.7.4
+2.22.0
 

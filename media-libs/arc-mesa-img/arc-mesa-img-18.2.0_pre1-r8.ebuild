@@ -1,1 +1,0 @@
-arc-mesa-img-18.2.0_pre1.ebuild

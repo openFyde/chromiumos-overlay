@@ -1,17 +1,17 @@
-From 75eaebcaa71a5aaa55ed12a352213e35c4a62801 Mon Sep 17 00:00:00 2001
+From 1b9ac9c200316f27a07ab12c7bf27e236ab8e0fb Mon Sep 17 00:00:00 2001
 From: Rufus Hamade <rufus.hamade@imgtec.com>
 Date: Thu, 4 Feb 2016 14:09:26 +0000
-Subject: [PATCH 14/50] GL_EXT_shader_pixel_local_storage2 entry points
+Subject: [PATCH 06/11] GL_EXT_shader_pixel_local_storage2 entry points
 
 ---
- .../glapi/gen/EXT_shader_pixel_local_storage2.xml  | 35 ++++++++++++++++++++++
- src/mapi/glapi/gen/es_EXT.xml                      |  3 ++
+ .../gen/EXT_shader_pixel_local_storage2.xml   | 35 +++++++++++++++++++
+ src/mapi/glapi/gen/es_EXT.xml                 |  3 ++
  2 files changed, 38 insertions(+)
  create mode 100644 src/mapi/glapi/gen/EXT_shader_pixel_local_storage2.xml
 
 diff --git a/src/mapi/glapi/gen/EXT_shader_pixel_local_storage2.xml b/src/mapi/glapi/gen/EXT_shader_pixel_local_storage2.xml
 new file mode 100644
-index 0000000..20e186c
+index 00000000000..20e186c0f0d
 --- /dev/null
 +++ b/src/mapi/glapi/gen/EXT_shader_pixel_local_storage2.xml
 @@ -0,0 +1,35 @@
@@ -51,10 +51,10 @@ index 0000000..20e186c
 +
 +</OpenGLAPI>
 diff --git a/src/mapi/glapi/gen/es_EXT.xml b/src/mapi/glapi/gen/es_EXT.xml
-index ce96c99..f44dfde 100644
+index 1b35e89767a..fe5bcde5efc 100644
 --- a/src/mapi/glapi/gen/es_EXT.xml
 +++ b/src/mapi/glapi/gen/es_EXT.xml
-@@ -1442,6 +1442,9 @@
+@@ -1423,6 +1423,9 @@
  <!-- 240. EXT_sparse_texture -->
  <xi:include href="EXT_sparse_texture.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
  
@@ -65,5 +65,5 @@ index ce96c99..f44dfde 100644
      <function name="ViewportArrayvOES" es2="3.1" alias="ViewportArrayv">
          <param name="first" type="GLuint"/>
 -- 
-2.7.4
+2.22.0
 

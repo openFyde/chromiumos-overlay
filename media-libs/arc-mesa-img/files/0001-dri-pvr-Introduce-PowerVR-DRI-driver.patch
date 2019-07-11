@@ -1,29 +1,34 @@
-From 790b37ea70dad9057a14f5b2f41631852e1a1ff6 Mon Sep 17 00:00:00 2001
+From c8c1f874613ca3d6eca647fcd79a5071baaffb1f Mon Sep 17 00:00:00 2001
 From: Frank Binns <frank.binns@imgtec.com>
-Date: Wed, 21 Nov 2018 16:50:03 +0000
-Subject: [PATCH] dri/pvr: Introduce PowerVR DRI driver.
+Date: Wed, 3 Jul 2019 10:48:29 +0100
+Subject: [PATCH 01/11] dri/pvr: Introduce PowerVR DRI driver.
 
-Change-Id: Iaf442c27ceb23f51369ce044d092ee92c667fcfd
+Change-Id: Ied94552937389a736124347d2f068b7066eff198
 ---
  configure.ac                              |    7 +
+ meson.build                               |   19 +-
+ meson_options.txt                         |    4 +-
  src/mesa/drivers/dri/Makefile.am          |    6 +
+ src/mesa/drivers/dri/meson.build          |    3 +
  src/mesa/drivers/dri/pvr/Makefile.am      |   44 +
  src/mesa/drivers/dri/pvr/Makefile.sources |   36 +
- src/mesa/drivers/dri/pvr/dri_support.h    |  969 ++++++++++++++++++++
- src/mesa/drivers/dri/pvr/img_drm_fourcc.h |  110 +++
+ src/mesa/drivers/dri/pvr/dri_support.h    |  969 ++++++++++++++
+ src/mesa/drivers/dri/pvr/img_drm_fourcc.h |  110 ++
  src/mesa/drivers/dri/pvr/imgpixfmts.h     |   80 ++
- src/mesa/drivers/dri/pvr/imgyuv.h         |   58 ++
- src/mesa/drivers/dri/pvr/mesa_context.c   |  258 ++++++
- src/mesa/drivers/dri/pvr/pvrcompat.c      | 1383 ++++++++++++++++++++++++++++
- src/mesa/drivers/dri/pvr/pvrdrawable.c    |  542 +++++++++++
- src/mesa/drivers/dri/pvr/pvrdri.c         | 1018 +++++++++++++++++++++
- src/mesa/drivers/dri/pvr/pvrdri.h         |  388 ++++++++
- src/mesa/drivers/dri/pvr/pvrext.c         |  440 +++++++++
- src/mesa/drivers/dri/pvr/pvrimage.c       | 1420 +++++++++++++++++++++++++++++
- src/mesa/drivers/dri/pvr/pvrimage.h       |  131 +++
+ src/mesa/drivers/dri/pvr/imgyuv.h         |   58 +
+ src/mesa/drivers/dri/pvr/mesa_context.c   |  258 ++++
+ src/mesa/drivers/dri/pvr/meson.build      |   48 +
+ src/mesa/drivers/dri/pvr/pvrcompat.c      | 1383 ++++++++++++++++++++
+ src/mesa/drivers/dri/pvr/pvrdrawable.c    |  542 ++++++++
+ src/mesa/drivers/dri/pvr/pvrdri.c         | 1018 +++++++++++++++
+ src/mesa/drivers/dri/pvr/pvrdri.h         |  388 ++++++
+ src/mesa/drivers/dri/pvr/pvrext.c         |  440 +++++++
+ src/mesa/drivers/dri/pvr/pvrimage.c       | 1420 +++++++++++++++++++++
+ src/mesa/drivers/dri/pvr/pvrimage.h       |  131 ++
  src/mesa/drivers/dri/pvr/pvrmesa.h        |   41 +
- src/mesa/drivers/dri/pvr/pvrutil.c        | 1067 ++++++++++++++++++++++
- 18 files changed, 7998 insertions(+)
+ src/mesa/drivers/dri/pvr/pvrutil.c        | 1067 ++++++++++++++++
+ src/meson.build                           |    1 +
+ 23 files changed, 8064 insertions(+), 9 deletions(-)
  create mode 100644 src/mesa/drivers/dri/pvr/Makefile.am
  create mode 100644 src/mesa/drivers/dri/pvr/Makefile.sources
  create mode 100644 src/mesa/drivers/dri/pvr/dri_support.h
@@ -31,6 +36,7 @@ Change-Id: Iaf442c27ceb23f51369ce044d092ee92c667fcfd
  create mode 100644 src/mesa/drivers/dri/pvr/imgpixfmts.h
  create mode 100644 src/mesa/drivers/dri/pvr/imgyuv.h
  create mode 100644 src/mesa/drivers/dri/pvr/mesa_context.c
+ create mode 100644 src/mesa/drivers/dri/pvr/meson.build
  create mode 100644 src/mesa/drivers/dri/pvr/pvrcompat.c
  create mode 100644 src/mesa/drivers/dri/pvr/pvrdrawable.c
  create mode 100644 src/mesa/drivers/dri/pvr/pvrdri.c
@@ -42,18 +48,18 @@ Change-Id: Iaf442c27ceb23f51369ce044d092ee92c667fcfd
  create mode 100644 src/mesa/drivers/dri/pvr/pvrutil.c
 
 diff --git a/configure.ac b/configure.ac
-index a76ac17..53a67ce 100644
+index d169223094f..4d9053bddfa 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -76,6 +76,7 @@ LIBDRM_REQUIRED=2.4.75
+@@ -89,6 +89,7 @@ LIBDRM_REQUIRED=2.4.75
  LIBDRM_RADEON_REQUIRED=2.4.71
- LIBDRM_AMDGPU_REQUIRED=2.4.91
+ LIBDRM_AMDGPU_REQUIRED=2.4.97
  LIBDRM_INTEL_REQUIRED=2.4.75
 +LIBDRM_PVR_REQUIRED=2.4.60
  LIBDRM_NVVIEUX_REQUIRED=2.4.66
  LIBDRM_NOUVEAU_REQUIRED=2.4.66
- LIBDRM_FREEDRENO_REQUIRED=2.4.92
-@@ -2008,6 +2009,10 @@ if test -n "$with_dri_drivers"; then
+ LIBDRM_ETNAVIV_REQUIRED=2.4.89
+@@ -2081,6 +2082,10 @@ if test -n "$with_dri_drivers"; then
              HAVE_R200_DRI=yes
              PKG_CHECK_MODULES([RADEON], [libdrm >= $LIBDRM_RADEON_REQUIRED libdrm_radeon >= $LIBDRM_RADEON_REQUIRED])
              ;;
@@ -64,7 +70,7 @@ index a76ac17..53a67ce 100644
          xswrast)
              HAVE_SWRAST_DRI=yes
              ;;
-@@ -2928,6 +2933,7 @@ AM_CONDITIONAL(HAVE_I965_DRI, test x$HAVE_I965_DRI = xyes)
+@@ -2993,6 +2998,7 @@ AM_CONDITIONAL(HAVE_I965_DRI, test x$HAVE_I965_DRI = xyes)
  AM_CONDITIONAL(HAVE_NOUVEAU_DRI, test x$HAVE_NOUVEAU_DRI = xyes)
  AM_CONDITIONAL(HAVE_R200_DRI, test x$HAVE_R200_DRI = xyes)
  AM_CONDITIONAL(HAVE_RADEON_DRI, test x$HAVE_RADEON_DRI = xyes)
@@ -72,7 +78,7 @@ index a76ac17..53a67ce 100644
  AM_CONDITIONAL(HAVE_SWRAST_DRI, test x$HAVE_SWRAST_DRI = xyes)
  
  AM_CONDITIONAL(HAVE_RADEON_VULKAN, test "x$HAVE_RADEON_VULKAN" = xyes)
-@@ -3127,6 +3133,7 @@ AC_CONFIG_FILES([Makefile
+@@ -3192,6 +3198,7 @@ AC_CONFIG_FILES([Makefile
                   src/mesa/drivers/dri/nouveau/Makefile
                   src/mesa/drivers/dri/r200/Makefile
                   src/mesa/drivers/dri/radeon/Makefile
@@ -80,8 +86,79 @@ index a76ac17..53a67ce 100644
                   src/mesa/drivers/dri/swrast/Makefile
                   src/mesa/drivers/osmesa/Makefile
                   src/mesa/drivers/osmesa/osmesa.pc
+diff --git a/meson.build b/meson.build
+index bfff862c3c8..648233f15ce 100644
+--- a/meson.build
++++ b/meson.build
+@@ -96,9 +96,9 @@ if _drivers.contains('auto')
+   if system_has_kms_drm
+     # TODO: PPC, Sparc
+     if ['x86', 'x86_64'].contains(host_machine.cpu_family())
+-      _drivers = ['i915', 'i965', 'r100', 'r200', 'nouveau']
++      _drivers = ['i915', 'i965', 'r100', 'r200', 'nouveau', 'pvr']
+     elif ['arm', 'aarch64'].contains(host_machine.cpu_family())
+-      _drivers = []
++      _drivers = ['pvr']
+     else
+       error('Unknown architecture @0@. Please pass -Ddri-drivers to set driver options. Patches gladly accepted to fix this.'.format(
+             host_machine.cpu_family()))
+@@ -118,6 +118,7 @@ with_dri_r100 = _drivers.contains('r100')
+ with_dri_r200 = _drivers.contains('r200')
+ with_dri_nouveau = _drivers.contains('nouveau')
+ with_dri_swrast = _drivers.contains('swrast')
++with_dri_pvr = _drivers.contains('pvr')
+ 
+ with_dri = _drivers.length() != 0 and _drivers != ['']
+ 
+@@ -1118,15 +1119,17 @@ _drm_radeon_ver = '2.4.71'
+ _drm_nouveau_ver = '2.4.66'
+ _drm_etnaviv_ver = '2.4.89'
+ _drm_intel_ver = '2.4.75'
++_drm_pvr_ver = '2.4.60'
+ _drm_ver = '2.4.75'
+ 
+ _libdrm_checks = [
+-  ['intel', with_dri_i915 or with_gallium_i915],
+-  ['amdgpu', with_amd_vk or with_gallium_radeonsi],
++  ['intel', with_dri_i915 or with_gallium_i915, true],
++  ['amdgpu', with_amd_vk or with_gallium_radeonsi, true],
+   ['radeon', (with_gallium_radeonsi or with_dri_r100 or with_dri_r200 or
+-              with_gallium_r300 or with_gallium_r600)],
+-  ['nouveau', (with_gallium_nouveau or with_dri_nouveau)],
+-  ['etnaviv', with_gallium_etnaviv],
++              with_gallium_r300 or with_gallium_r600), true],
++  ['nouveau', (with_gallium_nouveau or with_dri_nouveau), true],
++  ['etnaviv', with_gallium_etnaviv, true],
++  ['pvr', with_dri_pvr, false],
+ ]
+ 
+ # VC4 only needs core libdrm support of this version, not a libdrm_vc4
+@@ -1151,7 +1154,7 @@ endif
+ 
+ # Then get each libdrm module
+ foreach d : _libdrm_checks
+-  if d[1]
++  if d[1] and d[2]
+     set_variable(
+       'dep_libdrm_' + d[0],
+       dependency('libdrm_' + d[0], version : '>=' + _drm_ver)
+diff --git a/meson_options.txt b/meson_options.txt
+index ccf70659ff7..0a2e80294f2 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -38,7 +38,9 @@ option(
+   'dri-drivers',
+   type : 'array',
+   value : ['auto'],
+-  choices : ['', 'auto', 'i915', 'i965', 'r100', 'r200', 'nouveau', 'swrast'],
++  choices : [
++    '', 'auto', 'i915', 'i965', 'r100', 'r200', 'nouveau', 'swrast', 'pvr',
++  ],
+   description : 'List of dri drivers to build. If this is set to auto all drivers applicable to the target OS/architecture will be built'
+ )
+ option(
 diff --git a/src/mesa/drivers/dri/Makefile.am b/src/mesa/drivers/dri/Makefile.am
-index 3876d7c..15b0d53 100644
+index 3876d7c4192..15b0d5391d2 100644
 --- a/src/mesa/drivers/dri/Makefile.am
 +++ b/src/mesa/drivers/dri/Makefile.am
 @@ -36,6 +36,12 @@ MEGADRIVERS_DEPS += radeon/libradeon_dri.la
@@ -97,9 +174,23 @@ index 3876d7c..15b0d53 100644
  if HAVE_SWRAST_DRI
  SUBDIRS += swrast
  MEGADRIVERS_DEPS += swrast/libswrast_dri.la
+diff --git a/src/mesa/drivers/dri/meson.build b/src/mesa/drivers/dri/meson.build
+index d98c823f5fe..27213f7f660 100644
+--- a/src/mesa/drivers/dri/meson.build
++++ b/src/mesa/drivers/dri/meson.build
+@@ -40,6 +40,9 @@ endif
+ if with_dri_nouveau
+   subdir('nouveau')
+ endif
++if with_dri_pvr
++  subdir('pvr')
++endif
+ 
+ if dri_drivers != []
+   libmesa_dri_drivers = shared_library(
 diff --git a/src/mesa/drivers/dri/pvr/Makefile.am b/src/mesa/drivers/dri/pvr/Makefile.am
 new file mode 100644
-index 0000000..681c13e
+index 00000000000..681c13e6102
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/Makefile.am
 @@ -0,0 +1,44 @@
@@ -149,7 +240,7 @@ index 0000000..681c13e
 +libpvr_dri_la_LIBADD = $(PVR_LIBS)
 diff --git a/src/mesa/drivers/dri/pvr/Makefile.sources b/src/mesa/drivers/dri/pvr/Makefile.sources
 new file mode 100644
-index 0000000..6e0c8eb
+index 00000000000..6e0c8eb39f9
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/Makefile.sources
 @@ -0,0 +1,36 @@
@@ -191,7 +282,7 @@ index 0000000..6e0c8eb
 + pvrutil.c
 diff --git a/src/mesa/drivers/dri/pvr/dri_support.h b/src/mesa/drivers/dri/pvr/dri_support.h
 new file mode 100644
-index 0000000..fc5a8c4
+index 00000000000..fc5a8c47410
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/dri_support.h
 @@ -0,0 +1,969 @@
@@ -1166,7 +1257,7 @@ index 0000000..fc5a8c4
 +#endif /* defined(__PVRDRIIFCE_H__) */
 diff --git a/src/mesa/drivers/dri/pvr/img_drm_fourcc.h b/src/mesa/drivers/dri/pvr/img_drm_fourcc.h
 new file mode 100644
-index 0000000..b023ef2
+index 00000000000..b023ef231cc
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/img_drm_fourcc.h
 @@ -0,0 +1,110 @@
@@ -1282,7 +1373,7 @@ index 0000000..b023ef2
 +#endif /* IMG_DRM_FOURCC_H */
 diff --git a/src/mesa/drivers/dri/pvr/imgpixfmts.h b/src/mesa/drivers/dri/pvr/imgpixfmts.h
 new file mode 100644
-index 0000000..9e70a96
+index 00000000000..9e70a960636
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/imgpixfmts.h
 @@ -0,0 +1,80 @@
@@ -1368,7 +1459,7 @@ index 0000000..9e70a96
 +#endif /* _IMGPIXFMTS_H_ */
 diff --git a/src/mesa/drivers/dri/pvr/imgyuv.h b/src/mesa/drivers/dri/pvr/imgyuv.h
 new file mode 100644
-index 0000000..a91ee10
+index 00000000000..a91ee10d3f3
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/imgyuv.h
 @@ -0,0 +1,58 @@
@@ -1432,7 +1523,7 @@ index 0000000..a91ee10
 +#endif /* _IMGYUV_H_ */
 diff --git a/src/mesa/drivers/dri/pvr/mesa_context.c b/src/mesa/drivers/dri/pvr/mesa_context.c
 new file mode 100644
-index 0000000..0641352
+index 00000000000..064135222b6
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/mesa_context.c
 @@ -0,0 +1,258 @@
@@ -1694,9 +1785,63 @@ index 0000000..0641352
 +
 +	_glapi_set_dispatch(psTable);
 +}
+diff --git a/src/mesa/drivers/dri/pvr/meson.build b/src/mesa/drivers/dri/pvr/meson.build
+new file mode 100644
+index 00000000000..768731a3761
+--- /dev/null
++++ b/src/mesa/drivers/dri/pvr/meson.build
+@@ -0,0 +1,48 @@
++# Copyright (c) Imagination Technologies Ltd.
++#
++# The contents of this file are subject to the MIT license as set out below.
++#
++# Permission is hereby granted, free of charge, to any person obtaining a copy
++# of this software and associated documentation files (the "Software"), to deal
++# in the Software without restriction, including without limitation the rights
++# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++# copies of the Software, and to permit persons to whom the Software is
++# furnished to do so, subject to the following conditions:
++#
++# The above copyright notice and this permission notice shall be included in
++# all copies or substantial portions of the Software.
++#
++# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
++# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++# THE SOFTWARE.
++
++files_pvr = files(
++  'mesa_context.c',
++  'pvrcompat.c',
++  'pvrdrawable.c',
++  'pvrdri.c',
++  'pvrext.c',
++  'pvrimage.c',
++  'pvrutil.c',
++)
++
++dep_libpvr = [
++  dep_libdrm,
++  dependency('pvrdri', required : false),
++]
++
++libpvr = static_library(
++  'pvr',
++  [files_pvr, xmlpool_options_h, main_dispatch_h],
++  include_directories : [inc_common, inc_dri_common, inc_util, inc_pvr],
++  c_args : [c_vis_args, no_override_init_args],
++  cpp_args : [cpp_vis_args],
++  dependencies : [dep_libpvr],
++)
++
++dri_drivers += libpvr
++dri_link += 'pvr_dri.so'
 diff --git a/src/mesa/drivers/dri/pvr/pvrcompat.c b/src/mesa/drivers/dri/pvr/pvrcompat.c
 new file mode 100644
-index 0000000..3be9223
+index 00000000000..3be9223903d
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrcompat.c
 @@ -0,0 +1,1383 @@
@@ -3085,7 +3230,7 @@ index 0000000..3be9223
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrdrawable.c b/src/mesa/drivers/dri/pvr/pvrdrawable.c
 new file mode 100644
-index 0000000..a725645
+index 00000000000..a725645f7b6
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrdrawable.c
 @@ -0,0 +1,542 @@
@@ -3633,7 +3778,7 @@ index 0000000..a725645
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrdri.c b/src/mesa/drivers/dri/pvr/pvrdri.c
 new file mode 100644
-index 0000000..43cacce
+index 00000000000..b53ddc5c621
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrdri.c
 @@ -0,0 +1,1018 @@
@@ -4223,9 +4368,9 @@ index 0000000..43cacce
 +					      &psPVRContext->sConfig,
 +					      psPVRContext->eAPI,
 +					      eAPISub,
-+					      psCtxConfig->major_version,
-+					      psCtxConfig->minor_version,
-+					      psCtxConfig->flags,
++                                              psCtxConfig->major_version,
++                                              psCtxConfig->minor_version,
++                                              psCtxConfig->flags,
 +					      notify_reset,
 +					      uPriority,
 +					      &psPVRContext->psImpl);
@@ -4657,7 +4802,7 @@ index 0000000..43cacce
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrdri.h b/src/mesa/drivers/dri/pvr/pvrdri.h
 new file mode 100644
-index 0000000..50d930a
+index 00000000000..50d930a59c2
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrdri.h
 @@ -0,0 +1,388 @@
@@ -5051,7 +5196,7 @@ index 0000000..50d930a
 +#endif /* defined(__PVRDRI2_H__) */
 diff --git a/src/mesa/drivers/dri/pvr/pvrext.c b/src/mesa/drivers/dri/pvr/pvrext.c
 new file mode 100644
-index 0000000..c3782b6
+index 00000000000..c3782b6592b
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrext.c
 @@ -0,0 +1,440 @@
@@ -5497,7 +5642,7 @@ index 0000000..c3782b6
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrimage.c b/src/mesa/drivers/dri/pvr/pvrimage.c
 new file mode 100644
-index 0000000..873c852
+index 00000000000..873c852cf9e
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrimage.c
 @@ -0,0 +1,1420 @@
@@ -6923,7 +7068,7 @@ index 0000000..873c852
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrimage.h b/src/mesa/drivers/dri/pvr/pvrimage.h
 new file mode 100644
-index 0000000..9316ea3
+index 00000000000..9316ea3bedf
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrimage.h
 @@ -0,0 +1,131 @@
@@ -7060,7 +7205,7 @@ index 0000000..9316ea3
 +#endif /* !defined(__PVRIMAGE_H__) */
 diff --git a/src/mesa/drivers/dri/pvr/pvrmesa.h b/src/mesa/drivers/dri/pvr/pvrmesa.h
 new file mode 100644
-index 0000000..6e0fd8d
+index 00000000000..6e0fd8d296a
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrmesa.h
 @@ -0,0 +1,41 @@
@@ -7107,7 +7252,7 @@ index 0000000..6e0fd8d
 +#endif /* !defined(__PVRMESA_H__) */
 diff --git a/src/mesa/drivers/dri/pvr/pvrutil.c b/src/mesa/drivers/dri/pvr/pvrutil.c
 new file mode 100644
-index 0000000..64d2652
+index 00000000000..b0e5d260341
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrutil.c
 @@ -0,0 +1,1067 @@
@@ -7636,12 +7781,12 @@ index 0000000..64d2652
 +						 puMSAASamples,
 +						 uNumMSAASamples,
 +						 GL_FALSE,
++						 GL_FALSE,
 +						 GL_FALSE
 +#if defined(__DRI_ATTRIB_YUV_BIT)
 +						 , __DRI_ATTRIB_YUV_DEPTH_RANGE_NONE,
 +						 __DRI_ATTRIB_YUV_CSC_STANDARD_NONE
 +#endif
-+						 , GL_FALSE
 +						 );
 +
 +		ppsConfigs = driConcatConfigs(ppsConfigs, ppsNewConfigs);
@@ -8178,6 +8323,18 @@ index 0000000..64d2652
 +
 +	free(psPVRScreen->pbHasFormat);
 +}
+diff --git a/src/meson.build b/src/meson.build
+index ae094fccf6c..e5865ac2a9d 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -26,6 +26,7 @@ inc_src = include_directories('.')
+ inc_gallium = include_directories('gallium/include')
+ inc_gallium_aux = include_directories('gallium/auxiliary')
+ inc_amd_common = include_directories('amd/common')
++inc_pvr = include_directories('mesa/main', 'mapi/glapi')
+ 
+ libglsl_util = static_library(
+   'glsl_util',
 -- 
-2.7.4
+2.22.0
 

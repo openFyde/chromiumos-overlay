@@ -4,16 +4,17 @@
 
 EAPI="5"
 
+EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa-img"
 CROS_WORKON_LOCALNAME="mesa-img"
 CROS_WORKON_BLACKLIST="1"
 
-inherit base autotools multilib-minimal flag-o-matic python toolchain-funcs cros-workon arc-build
+inherit base autotools multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
 OPENGL_DIR="xorg-x11"
 
-FOLDER="${PV/_rc*/}"
-[[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
+#FOLDER="${PV/_rc*/}"
+#[[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -33,8 +34,8 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	android_aep -android_gles2 -android_gles30 +android_gles31 -android_gles32
-	-android_vulkan_compute_0
+	android_aep android-container-nyc -android_gles2 -android_gles30
+	+android_gles31 -android_gles32 -android_vulkan_compute_0
 	cheets +classic debug dri egl -gallium
 	-gbm gles1 gles2 -llvm +nptl pic selinux shared-glapi vulkan X xlib-glx
 	cheets_user cheets_user_64"
@@ -125,6 +126,53 @@ src_prepare() {
 		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
 
+	epatch "${FILESDIR}"/19.0-util-Don-t-block-SIGSYS-for-new-threads.patch
+	epatch "${FILESDIR}"/19.0-radv-Use-given-stride-for-images-imported-from-Andro.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
+
+	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson.build-Add-optio.patch
+	epatch "${FILESDIR}"/CHROMIUM-configure.ac-depend-on-libnativewindow-when-appropri.patch
+	epatch "${FILESDIR}"/CHROMIUM-egl-android-plumb-swrast-option.patch
+	epatch "${FILESDIR}"/CHROMIUM-egl-android-use-swrast-option-in-droid_load_driver.patch
+	epatch "${FILESDIR}"/CHROMIUM-egl-android-fallback-to-software-rendering.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-anv-Reject-unsupported-instance-versions-on.patch
+	epatch "${FILESDIR}"/CHROMIUM-anv-move-anv_GetMemoryAndroidHardwareBufferANDROID-u.patch
+	epatch "${FILESDIR}"/CHROMIUM-anv-fix-build-on-Nougat.patch
+	epatch "${FILESDIR}"/CHROMIUM-remove-unknown-android-extensions.patch
+	epatch "${FILESDIR}"/CHROMIUM-disable-unknown-device-extensions.patch
+	epatch "${FILESDIR}"/CHROMIUM-disable-VK_KHR_draw_indirect_count.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
+
+	epatch "${FILESDIR}"/FROMLIST-egl-fix-KHR_partial_update-without-EXT_buff.patch
+	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
+	epatch "${FILESDIR}"/CHROMIUM-Disable-EGL_KHR_partial_update.patch
+
+	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
+	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
+
+	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
+	epatch "${FILESDIR}"/UPSTREAM-intel-Add-support-for-Comet-Lake.patch
+
+	epatch "${FILESDIR}"/UPSTREAM-st-mesa-fix-2-crashes-in-st_tgsi_lower_yuv.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-Add-HAL_PIXEL_FORMAT_YCbCr_420_888-in-vk_format.patch
+	epatch "${FILESDIR}"/CHROMIUM-Add-HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED-in-vk_fo.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
+	epatch "${FILESDIR}"/CHROMIUM-anv-Clamp-apiVersion-to-1.0.3-on-Android-Oreo.patch
+
+	if use android-container-nyc; then
+		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
+		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
+	fi
+
+	#
+	# No IMG patches in the *-9999.ebuild as pvr dri isn't upstream
+	#
+
 	base_src_prepare
 
 	eautoreconf
@@ -159,6 +207,8 @@ multilib_src_configure() {
 		#
 		# cheets-specific overrides
 		#
+
+		MESA_PLATFORM_SDK_VERSION=${ARC_PLATFORM_SDK_VERSION}
 
 		# Use llvm-config coming from ARC++ build.
 		export LLVM_CONFIG="${ARC_SYSROOT}/build/bin/llvm-config-host"
@@ -227,6 +277,8 @@ multilib_src_configure() {
 		--with-vulkan-drivers=${VULKAN_DRIVERS} \
 		--with-egl-lib-suffix=_mesa \
 		--with-gles-lib-suffix=_mesa \
+		--with-platform-sdk-version=${MESA_PLATFORM_SDK_VERSION} \
+		--enable-autotools \
 		$(use egl && echo "--with-platforms=${EGL_PLATFORM}")
 }
 

@@ -1,0 +1,156 @@
+From e2be4643250602c60ab48440a353e58abeda5397 Mon Sep 17 00:00:00 2001
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Mon, 18 Mar 2019 19:06:05 -0700
+Subject: [PATCH 06/10] anv: fix build on Nougat
+
+AHardwareBuffer is only available on O and above.
+
+Change-Id: Ib7e22a0ece5fd5b8ec436c61aa75fcdb619dc255
+---
+ src/intel/vulkan/anv_android.c    | 22 +++++++++++++++++++---
+ src/intel/vulkan/anv_device.c     |  2 +-
+ src/intel/vulkan/anv_image.c      |  2 +-
+ src/intel/vulkan/vk_format_info.h |  2 +-
+ 4 files changed, 22 insertions(+), 6 deletions(-)
+
+diff --git a/src/intel/vulkan/anv_android.c b/src/intel/vulkan/anv_android.c
+index ef8f26b0c31a..aee11ccacd2f 100644
+--- a/src/intel/vulkan/anv_android.c
++++ b/src/intel/vulkan/anv_android.c
+@@ -98,6 +98,7 @@ anv_hal_close(struct hw_device_t *dev)
+    return -1;
+ }
+ 
++#if ANDROID_API_LEVEL >= 26
+ static VkResult
+ get_ahw_buffer_format_properties(
+    VkDevice device_h,
+@@ -243,6 +244,8 @@ anv_GetMemoryAndroidHardwareBufferANDROID(
+    return VK_ERROR_OUT_OF_HOST_MEMORY;
+ }
+ 
++#endif
++
+ /* Construct ahw usage mask from image usage bits, see
+  * 'AHardwareBuffer Usage Equivalence' in Vulkan spec.
+  */
+@@ -251,7 +254,7 @@ anv_ahw_usage_from_vk_usage(const VkImageCreateFlags vk_create,
+                             const VkImageUsageFlags vk_usage)
+ {
+    uint64_t ahw_usage = 0;
+-
++#if ANDROID_API_LEVEL >= 26
+    if (vk_usage & VK_IMAGE_USAGE_SAMPLED_BIT)
+       ahw_usage |= AHARDWAREBUFFER_USAGE_GPU_SAMPLED_IMAGE;
+ 
+@@ -270,7 +273,7 @@ anv_ahw_usage_from_vk_usage(const VkImageCreateFlags vk_create,
+    /* No usage bits set - set at least one GPU usage. */
+    if (ahw_usage == 0)
+       ahw_usage = AHARDWAREBUFFER_USAGE_GPU_SAMPLED_IMAGE;
+-
++#endif
+    return ahw_usage;
+ }
+ 
+@@ -282,6 +285,7 @@ anv_import_ahw_memory(VkDevice device_h,
+                       struct anv_device_memory *mem,
+                       const VkImportAndroidHardwareBufferInfoANDROID *info)
+ {
++#if ANDROID_API_LEVEL >= 26
+    ANV_FROM_HANDLE(anv_device, device, device_h);
+ 
+    /* Import from AHardwareBuffer to anv_device_memory. */
+@@ -316,6 +320,9 @@ anv_import_ahw_memory(VkDevice device_h,
+    mem->ahw = info->buffer;
+ 
+    return VK_SUCCESS;
++#else
++   return VK_ERROR_EXTENSION_NOT_PRESENT;
++#endif
+ }
+ 
+ VkResult
+@@ -323,6 +330,7 @@ anv_create_ahw_memory(VkDevice device_h,
+                       struct anv_device_memory *mem,
+                       const VkMemoryAllocateInfo *pAllocateInfo)
+ {
++#if ANDROID_API_LEVEL >= 26
+    ANV_FROM_HANDLE(anv_device, dev, device_h);
+ 
+    const VkMemoryDedicatedAllocateInfo *dedicated_info =
+@@ -369,8 +377,11 @@ anv_create_ahw_memory(VkDevice device_h,
+       return VK_ERROR_OUT_OF_HOST_MEMORY;
+ 
+    mem->ahw = ahw;
+-
+    return VK_SUCCESS;
++#else
++   return VK_ERROR_EXTENSION_NOT_PRESENT;
++#endif
++
+ }
+ 
+ VkResult
+@@ -381,6 +392,7 @@ anv_image_from_external(
+    const VkAllocationCallbacks *alloc,
+    VkImage *out_image_h)
+ {
++#if ANDROID_API_LEVEL >= 26
+    ANV_FROM_HANDLE(anv_device, device, device_h);
+ 
+    const struct VkExternalFormatANDROID *ext_info =
+@@ -407,8 +419,12 @@ anv_image_from_external(
+    *out_image_h = image_h;
+ 
+    return VK_SUCCESS;
++#else
++   return VK_ERROR_EXTENSION_NOT_PRESENT;
++#endif
+ }
+ 
++
+ VkResult
+ anv_image_from_gralloc(VkDevice device_h,
+                        const VkImageCreateInfo *base_info,
+diff --git a/src/intel/vulkan/anv_device.c b/src/intel/vulkan/anv_device.c
+index f44b046cf5da..88e2a80c18f9 100644
+--- a/src/intel/vulkan/anv_device.c
++++ b/src/intel/vulkan/anv_device.c
+@@ -2547,7 +2547,7 @@ void anv_FreeMemory(
+ 
+    anv_bo_cache_release(device, &device->bo_cache, mem->bo);
+ 
+-#ifdef ANDROID
++#if defined(ANDROID) && ANDROID_API_LEVEL >= 26
+    if (mem->ahw)
+       AHardwareBuffer_release(mem->ahw);
+ #endif
+diff --git a/src/intel/vulkan/anv_image.c b/src/intel/vulkan/anv_image.c
+index 3999c7399d04..06910e07afa0 100644
+--- a/src/intel/vulkan/anv_image.c
++++ b/src/intel/vulkan/anv_image.c
+@@ -714,7 +714,7 @@ resolve_ahw_image(struct anv_device *device,
+                   struct anv_image *image,
+                   struct anv_device_memory *mem)
+ {
+-#ifdef ANDROID
++#if defined(ANDROID) && ANDROID_API_LEVEL >= 26
+    assert(mem->ahw);
+    AHardwareBuffer_Desc desc;
+    AHardwareBuffer_describe(mem->ahw, &desc);
+diff --git a/src/intel/vulkan/vk_format_info.h b/src/intel/vulkan/vk_format_info.h
+index 555c67704bc2..2e126645763e 100644
+--- a/src/intel/vulkan/vk_format_info.h
++++ b/src/intel/vulkan/vk_format_info.h
+@@ -27,7 +27,7 @@
+ #include <stdbool.h>
+ #include <vulkan/vulkan.h>
+ 
+-#ifdef ANDROID
++#if defined(ANDROID) && ANDROID_API_LEVEL >= 26
+ #include <vndk/hardware_buffer.h>
+ /* See i915_private_android_types.h in minigbm. */
+ #define HAL_PIXEL_FORMAT_NV12_Y_TILED_INTEL 0x100
+-- 
+2.20.1
+

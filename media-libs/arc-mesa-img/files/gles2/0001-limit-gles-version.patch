@@ -36,7 +36,7 @@ index 34f8bbbcb1..f7d95b2d45 100644
     ctx->Version = _mesa_get_version(&ctx->Extensions, &ctx->Const, ctx->API);
 +   // HACK: Downgrade GLES2 version to 2.0.
 +   if (ctx->API == API_OPENGLES2 && ctx->Version > 20)
-+       ctx->Version = 20
++       ctx->Version = 20;
     ctx->Extensions.Version = ctx->Version;
  
     /* Make sure that the GLSL version lines up with the GL version. In some
