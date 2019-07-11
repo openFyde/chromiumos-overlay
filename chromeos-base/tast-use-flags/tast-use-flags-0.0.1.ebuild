@@ -25,6 +25,7 @@ IUSE="
 	chrome_internal
 	chromeless_tty
 	containers
+	cr50_onboard
 	crosvm-gpu
 	cups
 	diagnostics
