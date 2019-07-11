@@ -76,7 +76,15 @@ src_prepare() {
 	epatch_user
 
 	# START: Chromium OS
-	epatch "${FILESDIR}"/python-3.6.5-ldshared.patch
+	if tc-is-cross-compiler ; then
+		epatch "${FILESDIR}/python-3.6.5-cross-h2py.patch"
+		epatch "${FILESDIR}/python-3.6.5-cross-hack-compiler.patch"
+	fi
+	epatch "${FILESDIR}/python-3.6.5-cross-python-config.patch"
+	epatch "${FILESDIR}/python-3.6.5-cross-setup-sysroot.patch"
+	epatch "${FILESDIR}/python-3.6.5-cross-distutils.patch"
+	epatch "${FILESDIR}/python-3.6.5-ldshared.patch"
+	epatch "${FILESDIR}/python-3.6.5-system-libffi.patch"
 
 	# Undo the @libdir@ change for portage's pym folder as it is always
 	# installed into /usr/lib/ and not the abi libdir.
@@ -143,6 +151,8 @@ src_configure() {
 	# Needed on FreeBSD unless Python 3.2 is already installed.
 	# Please query BSD team before removing this!
 	append-ldflags "-L."
+
+	tc-export CC
 
 	local dbmliborder
 	if use gdbm; then
