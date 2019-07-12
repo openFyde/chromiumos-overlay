@@ -113,6 +113,10 @@ src_prepare() {
 	# Patch for the r576279 uprev compatibility.
 	# TODO(crbug.com/909719): Remove on uprev.
 	epatch "${FILESDIR}"/${P}-libchrome-add-alias-from-base-Location-base-GetProgr.patch
+
+	# Patch to fix emerging with FEATURES=test set until the platform2 commit is
+	# set beyond 45cccb17d4e0c375.
+	(cd .. && epatch "${FILESDIR}/${P}-gtest-config.patch")
 }
 
 src_install() {
