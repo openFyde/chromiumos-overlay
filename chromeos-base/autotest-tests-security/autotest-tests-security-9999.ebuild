@@ -39,12 +39,6 @@ IUSE_TESTS="
 		+tests_security_SeccompSyscallFilters
 	)
 	+tests_security_CpuVulnerabilities
-	containers? (
-		+tests_security_DeviceJail_AllowDeny
-		+tests_security_DeviceJail_Detach
-		+tests_security_DeviceJail_Filesystem
-		+tests_security_DeviceJail_Lockdown
-	)
 	containers? ( +tests_security_Libcontainer )
 	+tests_security_NosymfollowMountOption
 	+tests_security_ProcessManagementPolicy
