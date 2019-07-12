@@ -37,7 +37,7 @@ RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/minijail
 	wilco? (
-		virtual/chromeos-dtc-vm
+		chromeos-base/chromeos-bsp-wilco-private
 		chromeos-base/vpd
 	)
 "
