@@ -64,7 +64,6 @@ src_compile_cros_ec_utils() {
 		fi
 	done
 
-	# Allow no boards to build if cros_ec is not selected
 	if [[ ${some_board_built} == false ]]; then
 		die "We were not able to find a board target to build from the \
 set '${EC_BOARDS[*]}'"
@@ -119,7 +118,6 @@ src_install_cros_ec_utils() {
 		fi
 	done
 
-	# Allow no boards to install if cros_ec is not selected
 	if [[ ${some_board_installed} == false ]]; then
 		die "We were not able to install at least one board from the \
 set '${EC_BOARDS[*]}'"
