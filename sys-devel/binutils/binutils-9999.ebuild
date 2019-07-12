@@ -3,6 +3,13 @@
 
 EAPI="4"
 
+# FIXME: We have fixed a bug where gold generates inefficient
+# code for 32-bit armv8 CPUs, on upstream AOSP.
+# See http://b/134709902
+# We intentionally don't pick up this change because it
+# requires syncing many more commits, and we are in the process
+# of deprecating gold in Chrome OS.
+
 CROS_WORKON_REPO="https://android.googlesource.com"
 CROS_WORKON_PROJECT="toolchain/binutils"
 CROS_WORKON_LOCALNAME="../aosp/toolchain/binutils"
