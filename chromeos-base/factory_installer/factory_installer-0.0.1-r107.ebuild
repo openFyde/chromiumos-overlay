@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="5406e36775b4c4cb5e4573f1717fa476058a44a1"
-CROS_WORKON_TREE="569f2c64c55be1bb3f9efae8afbf5ebad9fb6dce"
+CROS_WORKON_COMMIT="3199949bc32ddd10d746acfdbf2a198493a7ac42"
+CROS_WORKON_TREE="17b1d60eddcb574f2ec19718bc06e7a3b7e22d6b"
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 
 inherit cros-sanitizers cros-workon toolchain-funcs cros-factory
@@ -166,7 +166,5 @@ CHROMEOS_AUSERVER=http://${FACTORY_SERVER}:8080/update
 CHROMEOS_DEVSERVER=http://${FACTORY_SERVER}:8080/update
 FACTORY_INSTALL=1
 HTTP_SERVER_OVERRIDE=true
-# Change the below value to true to enable board prompt
-USER_SELECT=false
 EOF
 }

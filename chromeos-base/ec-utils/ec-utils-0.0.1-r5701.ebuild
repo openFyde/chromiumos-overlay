@@ -132,6 +132,7 @@ src_install() {
 
 	if use cr50_onboard || use cr50_utils || use cros_host; then
 		dosbin "extra/usb_updater/gsctool"
+		dosbin "util/chargen"
 		dosym "gsctool" "/usr/sbin/usb_updater"
 	fi
 
