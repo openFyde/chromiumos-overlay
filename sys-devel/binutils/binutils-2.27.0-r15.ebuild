@@ -3,6 +3,13 @@
 
 EAPI="4"
 
+# FIXME: We have fixed a bug where gold generates inefficient
+# code for 32-bit armv8 CPUs, on upstream AOSP.
+# See http://b/134709902
+# We intentionally don't pick up this change because it
+# requires syncing many more commits, and we are in the process
+# of deprecating gold in Chrome OS.
+
 CROS_WORKON_COMMIT="cce69c1b1bfc46de5e1cdd4923f87215c0edb884"
 CROS_WORKON_TREE="ef450283e06228c68b26fbb47ba99b06cc0c3eea"
 CROS_WORKON_REPO="https://android.googlesource.com"
