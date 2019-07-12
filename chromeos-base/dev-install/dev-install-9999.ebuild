@@ -1,20 +1,16 @@
 # Copyright 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-# This ebuild file installs the developer installer package. It:
-#  + Copies dev_install.
-#  + Copies some config files for emerge: make.defaults and make.conf.
-#  + Generates a list of packages installed (in base images).
-# dev_install downloads and bootstraps emerge in base images without
-# modifying the root filesystem.
-
 EAPI="6"
-CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
-CROS_WORKON_LOCALNAME="dev"
-CROS_WORKON_OUTOFTREE_BUILD="1"
-CROS_WORKON_SUBTREE="dev-install"
+CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/dev-util")
+CROS_WORKON_LOCALNAME=("platform2" "dev")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/dev")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_SUBTREE=("common-mk dev-install .gn" "dev-install")
 
-inherit cros-workon
+PLATFORM_SUBDIR="dev-install"
+
+inherit cros-workon platform
 
 DESCRIPTION="Chromium OS Developer Packages installer"
 HOMEPAGE="http://dev.chromium.org/chromium-os/how-tos-and-troubleshooting/install-software-on-base-images"
@@ -24,7 +20,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND=""
+DEPEND="chromeos-base/libbrillo:="
 RDEPEND="${DEPEND}
 	app-arch/bzip2
 	app-arch/tar
@@ -43,12 +39,16 @@ fixup_make_defaults() {
 		${file} || die
 }
 
-# Nothing to compile.
-src_compile() { :; }
+platform_pkg_test() {
+	platform_test "run" "${OUT}/dev_install_test"
+}
 
 src_install() {
-	cd "${S}/dev-install"
-	dobin dev_install
+	dobin "${OUT}/dev_install"
+
+	cd "../../dev/dev-install" || die
+	exeinto /usr/share/dev-install
+	newexe dev_install main.sh
 
 	insinto /usr/share/${PN}/portage/make.profile
 	doins make.defaults
