@@ -8,8 +8,9 @@ inherit eutils toolchain-funcs cros-constants cmake-utils git-2 cros-llvm
 
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
-# llvm:353983 https://critique.corp.google.com/#review/233864070
-export EGIT_COMMIT="de7a0a152648d1a74cf4319920b1848aa00d1ca3" # r353983
+# llvm:361749 https://critique.corp.google.com/#review/252092293
+# Master bug: crbug/972454
+export EGIT_COMMIT="c11de5eada2decd0a495ea02676b6f4838cd54fb" # r361749
 
 DESCRIPTION="Compiler runtime library for clang"
 HOMEPAGE="http://compiler-rt.llvm.org/"
@@ -46,13 +47,6 @@ src_prepare() {
 		CHERRIES=""
 	else
 		CHERRIES=""
-		CHERRIES+=" a2062b222d93e2ae86d36ec75923c8b1e4ae0d81" #r354632
-		CHERRIES+=" e3b6d11038f3927fd02ec6d5459cfd0ffbe6b2fe" #r354989, needed to pick r355030
-		CHERRIES+=" f46a52b5363d22bba6cc6081da295ece181977f2" #r355030
-		CHERRIES+=" f6b0a14bff33f85087e9cc5c3b1bb00f58ed8b8b" #r355041
-		CHERRIES+=" d4b4e17d2c70c8d498ad33422cf847d659b5b0cf" #r355064
-		CHERRIES+=" 37ce064082c6c8283829f206af55ff6a28e95544" #r355125
-		CHERRIES+=" 86724e40bfa544a5024a2a3d522934aef6914cc7" #r356581
 	fi
 
 	# Cherry-pick for both llvm and llvm-next
@@ -65,6 +59,7 @@ src_prepare() {
 	# Apply patches
 	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
 	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
+	epatch "${FILESDIR}"/compiler-rt-9.0-force-fPIC.patch
 }
 
 src_configure() {

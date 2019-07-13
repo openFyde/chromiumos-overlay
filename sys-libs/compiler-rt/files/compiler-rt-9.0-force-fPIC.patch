@@ -1,0 +1,20 @@
+This patches fixes an issue where the static libc++ included within
+libfuzzer contains non-PIC code.
+The fix is simple, just make sure that  CMAKE_POSITION_INDEPENDENT_CODE
+is passed through.
+Pending to submit this upstream.
+
+diff --git a/compiler-rt/cmake/Modules/AddCompilerRT.cmake b/compiler-rt/cmake/Modules/AddCompilerRT.cmake
+index f7ee932f214..dc6401f4053 100644
+--- a/compiler-rt/cmake/Modules/AddCompilerRT.cmake
++++ b/compiler-rt/cmake/Modules/AddCompilerRT.cmake
+@@ -576,7 +576,8 @@ macro(add_custom_libcxx name prefix)
+     CMAKE_OBJDUMP
+     CMAKE_STRIP
+     CMAKE_SYSROOT
+-    CMAKE_SYSTEM_NAME)
++    CMAKE_SYSTEM_NAME
++    CMAKE_POSITION_INDEPENDENT_CODE)
+   foreach(variable ${PASSTHROUGH_VARIABLES})
+     get_property(is_value_set CACHE ${variable} PROPERTY VALUE SET)
+     if(${is_value_set})
