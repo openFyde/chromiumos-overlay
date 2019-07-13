@@ -338,8 +338,10 @@ src_install() {
 
 	if use hardened ; then
 		LDWRAPPER=ldwrapper.hardened
+		LDWRAPPER_LLD=ldwrapper_lld.hardened
 	else
 		LDWRAPPER=ldwrapper
+		LDWRAPPER_LLD=ldwrapper_lld
 	fi
 
 	mv "${D}/${BINPATH}/ld.bfd" "${D}/${BINPATH}/ld.bfd.real" || die
@@ -349,6 +351,9 @@ src_install() {
 
 	# Set default to be ld.bfd in regular installation
 	dosym ld.bfd "${BINPATH}/ld"
+
+	# Install lld wrapper only for cross toolchains.
+	is_cross && newbin "${FILESDIR}/${LDWRAPPER_LLD}" "${CTARGET}-ld.lld"
 
 	# Require gold for targets we know support gold, but auto-detect others.
 	local gold=false

@@ -445,8 +445,7 @@ multilib_src_install() {
 	exeinto "/usr/bin"
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang"
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang++"
-	mv "${D}/usr/bin/lld" "${D}/usr/bin/lld.real" || die
-	newexe "${FILESDIR}/ldwrapper" "lld" || die
+	newexe "${FILESDIR}/ldwrapper_lld.host" "${CHOST}-ld.lld"
 }
 
 multilib_src_install_all() {
