@@ -149,7 +149,7 @@ AFDO_FILE["haswell"]="R77-3809.38-1562585770.afdo"
 AFDO_FILE["broadwell"]="R77-3809.38-1562578564.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 # The following entry will be modified automatically for verifying orderfile.
-UNVETTED_ORDERFILE=""
+UNVETTED_ORDERFILE="chromeos-chrome-orderfile-77.0.3849.0_rc-r1.orderfile"
 
 # This dictionary can be used to manually override the setting for the
 # AFDO profile file. Any non-empty values in this array will take precedence
