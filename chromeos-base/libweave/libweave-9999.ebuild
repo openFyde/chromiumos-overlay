@@ -22,7 +22,7 @@ KEYWORDS="~*"
 
 # libweave-test, which depends on gmock, is built unconditionally, so the gmock
 # dependency is always needed.
-DEPEND="dev-cpp/gmock"
+DEPEND="dev-cpp/gtest:="
 
 src_unpack() {
 	local s="${S}"

@@ -45,15 +45,14 @@ inherit cros-debug cros-fuzzer cros-sanitizers cros-workon flag-o-matic toolchai
 # everywhere even if they otherwise aren't using the flag.
 IUSE="cros_host test"
 
-# Similarly to above, we use gmock/gtest for unittests in platform2 packages.
-# Add the dep all the time even if a few packages wouldn't use it as it doesn't
-# add any real overhead. As we often use the FRIEND_TEST macro provided by
-# gtest/gtest_prod.h in regular class definitions, the gtest dependency is needed
-# outside test as well.
+# Similarly to above, we use gtest (includes gmock) for unittests in platform2
+# packages. Add the dep all the time even if a few packages wouldn't use it as
+# it doesn't add any real overhead. As we often use the FRIEND_TEST macro
+# provided by gtest/gtest_prod.h in regular class definitions, the gtest
+# dependency is needed outside test as well.
 DEPEND="
-	test? ( dev-cpp/gmock )
 	cros_host? ( dev-util/gn )
-	dev-cpp/gtest
+	dev-cpp/gtest:=
 "
 
 platform() {

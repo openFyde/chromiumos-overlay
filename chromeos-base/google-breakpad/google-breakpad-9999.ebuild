@@ -30,7 +30,6 @@ IUSE="-alltests cros_host test"
 RDEPEND="net-misc/curl"
 DEPEND="${RDEPEND}
 	test? (
-		dev-cpp/gmock:=
 		dev-cpp/gtest:=
 	)"
 

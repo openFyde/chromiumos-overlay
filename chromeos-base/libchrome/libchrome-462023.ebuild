@@ -43,8 +43,7 @@ RDEPEND="dev-libs/glib:2=
 	)
 "
 DEPEND="${RDEPEND}
-	dev-cpp/gtest
-	dev-cpp/gmock
+	dev-cpp/gtest:=
 "
 
 # libmojo used to be in a separate package, which now conflicts with libchrome.

@@ -31,16 +31,15 @@ COMMON_DEPEND="
 	ftdi_tpm? ( dev-embedded/libftdi )
 	tpm2_simulator? ( chromeos-base/tpm2 )
 	dev-libs/protobuf:=
+	fuzzer? (
+		dev-cpp/gtest:=
+	)
 	"
 
 RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	!app-crypt/tpm-tools
-	fuzzer? (
-		dev-cpp/gmock
-		dev-cpp/gtest:=
-	)
 	"
 
 DEPEND="

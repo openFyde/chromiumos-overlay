@@ -27,8 +27,7 @@ RDEPEND="sys-libs/libcap
 	!<chromeos-base/chromeos-minijail-1"
 DEPEND="${RDEPEND}
 	test? (
-		dev-cpp/gtest
-		dev-cpp/gmock
+		dev-cpp/gtest:=
 	)"
 
 src_configure() {

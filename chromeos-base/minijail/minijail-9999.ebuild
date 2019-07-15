@@ -26,7 +26,6 @@ RDEPEND="sys-libs/libcap
 DEPEND="${RDEPEND}
 	test? (
 		dev-cpp/gtest:=
-		dev-cpp/gmock:=
 	)"
 
 src_configure() {
