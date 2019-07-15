@@ -58,6 +58,8 @@ src_install() {
 	doins dbus/org.chromium.Kerberos.service
 	insinto /etc/init
 	doins init/kerberosd.conf
+	insinto /usr/share/cros/startup/process_management_policies
+	doins setuid_restrictions/kerberosd_whitelist.txt
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
