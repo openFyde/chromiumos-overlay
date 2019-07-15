@@ -12,9 +12,11 @@ if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/google/googletest"
 else
-	SRC_URI="https://github.com/google/googletest/archive/release-1.8.1.tar.gz -> ${PN}-1.8.1.tar.gz"
+	# Chromium & breakpad use a newer version than the latest upstream release.
+	GIT_COMMIT="5ec7f0c4a113e2f18ac2c6cc7df51ad6afc24081"
+	SRC_URI="https://github.com/google/googletest/archive/${GIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="*"
-	S="${WORKDIR}"/googletest-release-1.8.1
+	S="${WORKDIR}"/googletest-${GIT_COMMIT}
 fi
 
 DESCRIPTION="Google C++ Testing Framework"
@@ -52,7 +54,6 @@ multilib_src_configure() {
 		-Dgmock_build_tests=$(usex test)
 		-Dgtest_build_tests=$(usex test)
 		-DPYTHON_EXECUTABLE="${PYTHON}"
-		-DTHREADS_PTHREAD_ARG=-pthread
 	)
 	cmake-utils_src_configure
 }
