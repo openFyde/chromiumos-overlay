@@ -30,6 +30,7 @@ COMMON_DEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/debugd-client
 	chromeos-base/system_api
 "
 RDEPEND="
