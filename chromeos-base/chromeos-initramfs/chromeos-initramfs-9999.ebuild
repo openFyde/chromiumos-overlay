@@ -102,7 +102,7 @@ src_prepare() {
 src_compile() {
 	local deps=()
 	use frecon && deps+=( /sbin/frecon-lite /sbin/udevd /bin/udevadm )
-	use mtd && deps+=(/usr/bin/cgpt.bin)
+	use mtd && deps+=(/usr/bin/cgpt)
 	if use factory_netboot_ramfs; then
 		use power_management && deps+=(/usr/bin/backlight_tool)
 	fi
