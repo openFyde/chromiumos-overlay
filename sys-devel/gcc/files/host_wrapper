@@ -11,6 +11,7 @@ FLAGS_TO_ADD=(
   -Wno-maybe-uninitialized
   -Wno-unused-local-typedefs
   -Wno-deprecated-declarations
+  -static-libgcc
 )
 
 exec "$0".real ${FLAGS_TO_ADD[@]} "$@"
