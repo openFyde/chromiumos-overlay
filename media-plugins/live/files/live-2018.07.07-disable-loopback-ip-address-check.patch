@@ -1,0 +1,31 @@
+From: Pablo Ceballos <pceballos@chromium.org>
+
+Disable the loopback IP address check
+
+In upstream live555, this can be disabled by defining
+DISABLE_LOOPBACK_IP_ADDRESS_CHECK at build time. However, this is not available
+in version 2018.07.07. This patch mirrors that functionality, but always
+disables the loopback IP address check.
+
+On most Chrome OS devices the outgoing packet used by the loopback IP address
+check will be blocked by the default iptables rules (since it uses an arbitrary
+IP address and port) and live555 will hang after that.
+
+--- a/live/groupsock/GroupsockHelper.cpp
++++ b/live/groupsock/GroupsockHelper.cpp
+@@ -661,6 +661,7 @@ netAddressBits ourIPAddress(UsageEnvironment& env) {
+     do {
+       loopbackWorks = 0; // until we learn otherwise
+ 
++#if 0
+       testAddr.s_addr = our_inet_addr("228.67.43.91"); // arbitrary
+       Port testPort(15947); // ditto
+ 
+@@ -697,6 +698,7 @@ netAddressBits ourIPAddress(UsageEnvironment& env) {
+ 
+       // We use this packet's source address, if it's good:
+       loopbackWorks = !badAddressForUs(fromAddr.sin_addr.s_addr);
++#endif
+     } while (0);
+ 
+     if (sock >= 0) {
