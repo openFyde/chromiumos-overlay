@@ -181,6 +181,7 @@ IUSE_TESTS=(
 	+tests_policy_KeyPermissions
 	+tests_policy_KioskModeEnabled
 	+tests_policy_ManagedBookmarks
+	+tests_policy_NativePrintersBulkAccessMode
 	+tests_policy_NewTabPageLocation
 	+tests_policy_NotificationsAllowedForUrls
 	+tests_policy_NotificationsBlockedForUrls
