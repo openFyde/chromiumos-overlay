@@ -33,6 +33,7 @@ DEPEND="
 	${RDEPEND}
 	chromeos-base/chromeos-ec-headers
 	chromeos-base/system_api
+	dev-libs/openssl:=
 	"
 
 pkg_setup() {
