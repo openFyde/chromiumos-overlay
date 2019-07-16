@@ -31,6 +31,7 @@ IUSE="
 	cheets
 	compupdates
 	cros-debug
+	disable_cros_video_decoder
 	disable_flash_hw_video_decode
 	disable_low_latency_audio
 	disable_webaudio
