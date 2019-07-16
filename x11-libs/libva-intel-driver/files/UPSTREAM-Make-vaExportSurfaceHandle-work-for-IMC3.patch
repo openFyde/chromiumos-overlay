@@ -1,0 +1,72 @@
+From bfd0e7d8334b414683de33ab1d0520562cf4329f Mon Sep 17 00:00:00 2001
+From: Daniele Castagna <dcastagna@chromium.org>
+Date: Mon, 29 Jul 2019 21:31:09 -0400
+Subject: [PATCH] Make vaExportSurfaceHandle work for IMC3
+
+vaExportSurfaceHandle currently doesn't support IMC3 format.
+This patch adds support for IMC3 in seprate layers mode and
+fixes ExportSurfaceHandle to work with formats that might have
+alignment requirements for U/V plane start addresses.
+
+This can be used to export VAAPI decoded JPEGs without
+incurring in additional copies.
+---
+ src/i965_drv_video.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/src/i965_drv_video.c b/src/i965_drv_video.c
+index 4aa8da7..55b066f 100644
+--- a/src/i965_drv_video.c
++++ b/src/i965_drv_video.c
+@@ -6700,6 +6700,7 @@ static uint32_t drm_format_of_separate_plane(uint32_t fourcc, int plane)
+         switch (fourcc) {
+         case VA_FOURCC_NV12:
+         case VA_FOURCC_I420:
++        case VA_FOURCC_IMC3:
+         case VA_FOURCC_YV12:
+         case VA_FOURCC_YV16:
+         case VA_FOURCC_Y800:
+@@ -6731,6 +6732,7 @@ static uint32_t drm_format_of_separate_plane(uint32_t fourcc, int plane)
+         case VA_FOURCC_NV12:
+             return DRM_FORMAT_GR88;
+         case VA_FOURCC_I420:
++        case VA_FOURCC_IMC3:          
+         case VA_FOURCC_YV12:
+         case VA_FOURCC_YV16:
+             return DRM_FORMAT_R8;
+@@ -6793,7 +6795,7 @@ i965_ExportSurfaceHandle(VADriverContextP ctx, VASurfaceID surface_id,
+     const i965_fourcc_info *info;
+     VADRMPRIMESurfaceDescriptor *desc;
+     unsigned int tiling, swizzle;
+-    uint32_t formats[4], pitch, height, offset;
++    uint32_t formats[4], pitch, height, offset, y_offset;
+     int fd, p;
+     int composite_object =
+         flags & VA_EXPORT_SURFACE_COMPOSED_LAYERS;
+@@ -6895,15 +6897,21 @@ i965_ExportSurfaceHandle(VADriverContextP ctx, VASurfaceID surface_id,
+             if (p == 0) {
+                 pitch  = obj_surface->width;
+                 height = obj_surface->height;
++                if (obj_surface->y_cb_offset < obj_surface->y_cr_offset)
++                  y_offset = obj_surface->y_cb_offset;
++                else
++                  y_offset = obj_surface->y_cr_offset;
+             } else {
++                y_offset = obj_surface->y_cr_offset - obj_surface->y_cb_offset;              
++                if (y_offset < 0)
++                  y_offset = -y_offset;
+                 pitch  = obj_surface->cb_cr_pitch;
+                 height = obj_surface->cb_cr_height;
+             }
+ 
+             desc->layers[p].offset[0] = offset;
+             desc->layers[p].pitch[0]  = pitch;
+-
+-            offset += pitch * height;
++            offset += pitch * y_offset;
+         }
+     }
+ 
+-- 
+2.22.0.709.g102302147b-goog
+
