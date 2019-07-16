@@ -6,7 +6,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-inherit cros-workon cros-ec-board
+inherit cros-workon
 
 DESCRIPTION="Chrome OS EC Utility Helper"
 
@@ -19,7 +19,7 @@ KEYWORDS="~*"
 IUSE="biod -cr50_onboard"
 
 RDEPEND="chromeos-base/ec-utils
-	dev-util/shflags"
+	biod? ( dev-util/shflags )"
 
 src_compile() {
 	tc-export CC
@@ -38,16 +38,7 @@ src_install() {
 	fi
 
 	if use biod; then
-		get_ec_boards
-
-		local target
-		for target in "${EC_BOARDS[@]}"; do
-			if [[ -f "board/${target}/flash_fp_mcu" ]]; then
-				einfo "Installing flash_fp_mcu for ${target}"
-				dobin "board/${target}/flash_fp_mcu"
-				insinto /usr/share/flash_fp_mcu
-				doins "util/flash_fp_mcu_common.sh"
-			fi
-		done
+		einfo "Installing flash_fp_mcu"
+		dobin "util/flash_fp_mcu"
 	fi
 }
