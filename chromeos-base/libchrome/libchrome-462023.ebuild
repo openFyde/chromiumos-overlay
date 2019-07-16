@@ -112,6 +112,9 @@ src_prepare() {
 	# Patch for the r576279 uprev compatibility.
 	# TODO(crbug.com/909719): Remove on uprev.
 	epatch "${FILESDIR}"/${P}-libchrome-add-alias-from-base-Location-base-GetProgr.patch
+
+	# Remove this patch after libchrome uprev past r626151.
+	epatch "${FILESDIR}"/${P}-components-timers-fix-fd-leak-in-AlarmTimer.patch
 }
 
 src_install() {
