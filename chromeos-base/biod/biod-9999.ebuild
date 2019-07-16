@@ -6,7 +6,7 @@ CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk biod metrics .gn"
+CROS_WORKON_SUBTREE="common-mk biod chromeos-config metrics .gn"
 
 PLATFORM_SUBDIR="biod"
 
@@ -18,9 +18,11 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="fuzzer"
+IUSE="fuzzer unibuild"
 
 RDEPEND="
+	unibuild? ( chromeos-base/chromeos-config )
+	chromeos-base/chromeos-config-tools
 	chromeos-base/libbrillo:=
 	chromeos-base/metrics:=
 	sys-apps/flashmap:=
