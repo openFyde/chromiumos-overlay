@@ -53,6 +53,7 @@ PATCHES=(
 	"${FILESDIR}/0027-UPSTREAM-nl80211-include-nl80211_sta_info-enums.patch"
 	"${FILESDIR}/0028-UPSTREAM-media-pixfmt-Add-H264-Slice-format.patch"
 	"${FILESDIR}/0029-BACKPORT-FROMLIST-media-uapi-Add-VP8-stateless-decod.patch"
+	"${FILESDIR}/0030-BACKPORT-sync-enum-nl80211_commands-with-kernel-v5.2.patch"
 )
 
 src_unpack() {
