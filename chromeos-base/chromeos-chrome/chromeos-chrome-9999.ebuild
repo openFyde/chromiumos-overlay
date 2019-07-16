@@ -181,7 +181,7 @@ add_afdo_files() {
 
 add_afdo_files
 
-SRC_URI+=" orderfile_verify? ( ${UNVETTED_ORDERFILE_LOCATION}/${UNVETTED_ORDERFILE}.tar.xz )"
+SRC_URI+=" orderfile_verify? ( ${UNVETTED_ORDERFILE_LOCATION}/${UNVETTED_ORDERFILE}.xz )"
 
 RDEPEND="${RDEPEND}
 	app-arch/bzip2
@@ -743,7 +743,7 @@ src_unpack() {
 		local orderfile_dir="${WORKDIR}/orderfile"
 		mkdir "${orderfile_dir}"
 		local orderfile_file=${UNVETTED_ORDERFILE}
-		(cd "${orderfile_dir}" && unpack "${orderfile_file}.tar.xz") || die
+		(cd "${orderfile_dir}" && unpack "${orderfile_file}.xz") || die
 
 		local orderfile_loc="${orderfile_dir}/${orderfile_file}"
 		einfo "Using ${orderfile_loc} as orderfile for ordering Chrome"
