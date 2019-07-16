@@ -10,7 +10,8 @@ EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 # llvm:361749 https://critique.corp.google.com/#review/252092293
 # Master bug: crbug/972454
-export EGIT_COMMIT="c11de5eada2decd0a495ea02676b6f4838cd54fb" # r361749
+LLVM_HASH="c11de5eada2decd0a495ea02676b6f4838cd54fb" # r361749
+LLVM_NEXT_HASH="c11de5eada2decd0a495ea02676b6f4838cd54fb" # r361749
 
 DESCRIPTION="Compiler runtime library for clang"
 HOMEPAGE="http://compiler-rt.llvm.org/"
@@ -33,9 +34,9 @@ pkg_setup() {
 
 src_unpack() {
 	if use llvm-next; then
-		# llvm:361749 https://critique.corp.google.com/#review/252092293
-		# Master bug: crbug/972454
-		export EGIT_COMMIT="c11de5eada2decd0a495ea02676b6f4838cd54fb" # r361749
+		export EGIT_COMMIT="${LLVM_NEXT_HASH}"
+	else
+		export EGIT_COMMIT="${LLVM_HASH}"
 	fi
 	git-2_src_unpack
 }
