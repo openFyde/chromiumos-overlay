@@ -35,6 +35,7 @@ IUSE="
 	grunt
 	internal
 	+internal_mic
+	+internal_speaker
 	kernel-3_8
 	kernel-3_10
 	kvm_host
