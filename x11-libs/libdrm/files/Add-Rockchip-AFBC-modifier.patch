@@ -1,7 +1,7 @@
-From 514aeaec7567f894ef2b145ac782e412b420a078 Mon Sep 17 00:00:00 2001
-From: "Kristian H. Kristensen" <hoegsberg@chromium.org>
-Date: Tue, 6 Sep 2016 15:20:25 -0700
-Subject: [PATCH libdrm 6/7] CHROMIUM: drm_fourcc.h: Add Rockchip AFBC modifier
+From 37396fa7d3b241ff12230bac28fdf8011b92b355 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>
+Date: Mon, 15 Jul 2019 20:54:12 -0700
+Subject: [PATCH] CHROMIUM: drm_fourcc.h: Add Rockchip AFBC modifier
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -18,6 +18,7 @@ Reviewed-by: Anders Pedersen <anders.pedersen@arm.com>
 
 BUG=b:112720782
 Signed-off-by: Kristian H. Kristensen <hoegsberg@chromium.org>
+Signed-off-by: Stéphane Marchesin <marcheu@chromium.org>
 
 Change-Id: Id0d35736047e1fede88c1ce844d834262c7db2ef
 ---
@@ -26,10 +27,10 @@ Change-Id: Id0d35736047e1fede88c1ce844d834262c7db2ef
  2 files changed, 19 insertions(+)
 
 diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
-index d4e92d1f..4b146d7a 100644
+index 5c69090d..5b1444f0 100644
 --- a/include/drm/drm_fourcc.h
 +++ b/include/drm/drm_fourcc.h
-@@ -189,6 +189,9 @@ extern "C" {
+@@ -314,6 +314,9 @@ extern "C" {
  
  #define DRM_FORMAT_RESERVED	      ((1ULL << 56) - 1)
  
@@ -39,9 +40,9 @@ index d4e92d1f..4b146d7a 100644
  #define fourcc_mod_code(vendor, val) \
  	((((__u64)DRM_FORMAT_MOD_VENDOR_## vendor) << 56) | ((val) & 0x00ffffffffffffffULL))
  
-@@ -407,6 +410,20 @@ extern "C" {
+@@ -756,6 +759,20 @@ extern "C" {
   */
- #define DRM_FORMAT_MOD_BROADCOM_VC4_T_TILED fourcc_mod_code(BROADCOM, 1)
+ #define DRM_FORMAT_MOD_ALLWINNER_TILED fourcc_mod_code(ALLWINNER, 1)
  
 +/*
 + * Rockchip ARM Framebuffer Compression (AFBC)
@@ -61,18 +62,18 @@ index d4e92d1f..4b146d7a 100644
  }
  #endif
 diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
-index 975dcbcd..c31df981 100644
+index e66be660..4cdbcd21 100644
 --- a/tests/modetest/modetest.c
 +++ b/tests/modetest/modetest.c
-@@ -293,6 +293,8 @@ static const char *modifier_to_string(uint64_t modifier)
- 		return "NVIDIA_16BX2_BLOCK(5)";
- 	case DRM_FORMAT_MOD_BROADCOM_VC4_T_TILED:
+@@ -298,6 +298,8 @@ static const char *modifier_to_string(uint64_t modifier)
  		return "MOD_BROADCOM_VC4_T_TILED";
+ 	case DRM_FORMAT_MOD_QCOM_COMPRESSED:
+ 		return "QCOM_COMPRESSED";
 +	case DRM_FORMAT_MOD_CHROMEOS_ROCKCHIP_AFBC:
 +		return "MOD_CHROMEOS_ROCKCHIP_AFBC";
  	default:
  		return "(UNKNOWN MODIFIER)";
  	}
 -- 
-2.16.4
+2.22.0.510.g264f2c817a-goog
 

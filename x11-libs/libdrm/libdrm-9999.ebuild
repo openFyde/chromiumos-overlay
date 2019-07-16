@@ -46,7 +46,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/Add-Evdi-module-userspace-api-file.patch
 	epatch "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
 	epatch "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
-	epatch "${FILESDIR}"/intel-sync-i915_pciids.h-with-kernel.patch
 
 	xorg-2_src_prepare
 }
