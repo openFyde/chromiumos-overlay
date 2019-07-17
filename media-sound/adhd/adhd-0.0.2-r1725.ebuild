@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=4
-CROS_WORKON_COMMIT="411b43c6da20258584ad209b2d978fbf1d6831b5"
-CROS_WORKON_TREE="b68db16161edbf54a02ae3bed28d0af82c701830"
+CROS_WORKON_COMMIT="050a8fef9dacd068999a7378ff7c769649ce465d"
+CROS_WORKON_TREE="670d85187883a4a2bf6d288555a3572ebb0f10f1"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -12,9 +12,6 @@ CROS_WORKON_USE_VCSID=1
 # Note: Do *NOT* add any more boards to this list.  Files should be installed
 # via bsp packages now, or configured via unibuild config settings.
 CROS_BOARDS=(
-	auron
-	auron_paine
-	auron_yuna
 	bolt
 	chell
 	cid
