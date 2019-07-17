@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk metrics .gn"
 
 PLATFORM_SUBDIR="metrics"
 
-inherit cros-constants cros-workon platform systemd
+inherit cros-constants cros-workon platform systemd user
 
 DESCRIPTION="Metrics aggregation service for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
@@ -99,4 +99,9 @@ platform_pkg_test() {
 	for test_bin in "${tests[@]}"; do
 		platform_test "run" "${OUT}/${test_bin}"
 	done
+}
+
+pkg_preinst() {
+	enewuser metrics
+	enewgroup metrics
 }
