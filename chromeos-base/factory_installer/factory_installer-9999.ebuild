@@ -26,7 +26,7 @@ ALL_PORTS=(
 	tty{0..5}
 )
 IUSE_PORTS="${ALL_PORTS[@]/#/${USE_PREFIX}}"
-IUSE="${IUSE_PORTS} -asan"
+IUSE="${IUSE_PORTS} -asan test"
 
 # Factory install images operate by downloading content from a
 # server.  In some cases, the downloaded content contains programs
@@ -63,6 +63,7 @@ COMMON_DEPEND="
 	!chromeos-base/chromeos-factory"
 
 DEPEND="$COMMON_DEPEND
+	test? ( chromeos-base/secure-wipe )
 	chromeos-base/factory
 	x86? ( sys-boot/syslinux )"
 
@@ -74,18 +75,15 @@ RDEPEND="$COMMON_DEPEND
 	chromeos-base/chromeos-installer
 	chromeos-base/chromeos-storage-info
 	chromeos-base/ec-utils
+	chromeos-base/secure-wipe
 	chromeos-base/vpd
 	dev-util/stressapptest
 	net-misc/htpdate
 	net-wireless/iw
 	sys-apps/flashrom
-	sys-apps/hdparm
-	sys-apps/mmc-utils
-	sys-apps/nvme-cli
 	sys-apps/net-tools
 	sys-apps/upstart
 	sys-apps/util-linux
-	sys-block/fio
 	sys-block/parted
 	sys-fs/e2fsprogs"
 
@@ -102,7 +100,7 @@ src_compile() {
 }
 
 src_test() {
-	tests/factory_verify_test.sh || die "unittest failed"
+	tests/secure-wipe.sh || die "integration test failed"
 }
 
 src_install() {
@@ -130,7 +128,6 @@ src_install() {
 	doins init/*.conf
 
 	insinto /root
-	doins factory_verify.fio
 	newins $FILESDIR/dot.factory_installer .factory_installer
 	# install PMBR code
 	case "$(tc-arch)" in
