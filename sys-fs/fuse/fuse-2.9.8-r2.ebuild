@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-inherit ltprune libtool linux-info udev toolchain-funcs
+inherit ltprune libtool linux-info udev toolchain-funcs fcaps
 
 DESCRIPTION="An interface for filesystems implemented in userspace"
 HOMEPAGE="https://github.com/libfuse/libfuse"
@@ -29,17 +29,18 @@ pkg_setup() {
 }
 
 src_prepare() {
+	local PATCHES=(
+		"${FILESDIR}"/${PN}-2.8.5-fix-lazy-binding.patch
+		"${FILESDIR}"/${PN}-2.8.5-gold.patch
+		"${FILESDIR}"/${PN}-2.8.6-remove-setuid.patch
+		"${FILESDIR}"/${PN}-2.9.3-kernel-types.patch
+		"${FILESDIR}"/${PN}-2.9.7-pass-fuse-fd.patch
+		"${FILESDIR}"/${PN}-2.9.8-user-option.patch
+	)
 	# sandbox violation with mtab writability wrt #438250
 	# don't sed configure.in without eautoreconf because of maintainer mode
 	sed -i 's:umount --fake:true --fake:' configure || die
 	elibtoolize
-
-	epatch "${FILESDIR}"/fuse-2.8.5-fix-lazy-binding.patch
-	epatch "${FILESDIR}"/fuse-2.8.5-gold.patch
-	epatch "${FILESDIR}"/fuse-2.8.6-remove-setuid.patch
-	epatch "${FILESDIR}"/fuse-2.9.3-kernel-types.patch
-	epatch "${FILESDIR}"/fuse-2.9.7-pass-fuse-fd.patch
-	epatch "${FILESDIR}"/fuse-2.9.8-user-option.patch
 
 	default
 }
@@ -76,4 +77,9 @@ src_install() {
 
 	# handled by the device manager
 	rm -r "${D%/}"/dev || die
+}
+
+pkg_postinst() {
+	# CHROMIUM: remove-setuid.patch removes suid. Add fcaps instead.
+	fcaps cap_sys_admin usr/bin/fusermount
 }
