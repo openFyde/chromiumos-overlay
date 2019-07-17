@@ -142,6 +142,7 @@ IUSE_TESTS=(
 	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ArcDisableScreenshots
 	+tests_policy_AudioOutputAllowed
+	+tests_policy_BookmarkBarEnabled
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
@@ -163,6 +164,7 @@ IUSE_TESTS=(
 	+tests_policy_EnrollmentRetainment
 	+tests_policy_EnterpriseForceInstallCustom
 	+tests_policy_ExtensionAllowedTypes
+	+tests_policy_ExtensionControls
 	+tests_policy_ExtensionPolicy
 	+tests_policy_ExternalStorageDisabled
 	+tests_policy_ExternalStorageReadOnly
@@ -203,6 +205,7 @@ IUSE_TESTS=(
 	+tests_policy_ShowLogoutButtonInTray
 	+tests_policy_ShowHomeButton
 	+tests_policy_SystemTimezone
+	+tests_policy_TranslateEnabled
 	+tests_policy_URLBlacklist
 	+tests_policy_URLWhitelist
 	+tests_policy_UserNativePrintersAllowed
