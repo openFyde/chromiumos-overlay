@@ -157,6 +157,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
 	epatch "${FILESDIR}"/CHROMIUM-anv-Clamp-apiVersion-to-1.0.3-on-Android-Oreo.patch
 
+	epatch "${FILESDIR}"/FROMLIST-virgl-Set-meta-data-for-textures-from-handle.patch
+
 	if use android-container-nyc; then
 		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
 		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
