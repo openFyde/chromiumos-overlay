@@ -9,16 +9,15 @@ fi
 
 declare -A revisions
 declare -A git_repos=(
-    [vkrunner]=https://github.com/Igalia/vkrunner/archive
-    [spirv-headers]=https://github.com/KhronosGroup/SPIRV-Headers/archive
-    [spirv-tools]=https://github.com/KhronosGroup/SPIRV-Tools/archive
+    [SPIRV-Headers]=https://github.com/KhronosGroup/SPIRV-Headers/archive
+    [SPIRV-Tools]=https://github.com/KhronosGroup/SPIRV-Tools/archive
     [glslang]=https://github.com/KhronosGroup/glslang/archive
 )
 
 for module in "${!git_repos[@]}"; do
     # Pull the git sha1 out of fetch_sources.py
     revision=$(PYTHONPATH=$deqp_repo/external python -c "import fetch_sources; \
-	print [p for p in fetch_sources.PACKAGES if p.baseDir == '$module'][0].revision")
+	print [p for p in fetch_sources.PACKAGES if p.baseDir == '$module'.lower()][0].revision")
 
     var=${module/-/_}
     var="MY_${var^^}_COMMIT"
