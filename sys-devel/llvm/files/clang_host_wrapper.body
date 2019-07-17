@@ -31,7 +31,6 @@ def main(argv):
       '-Qunused-arguments',
       '-grecord-gcc-switches',
       '-fno-addrsig',
-      '-static-libgcc',
   ]
 
   use_clang_tidy = os.environ.get('WITH_TIDY')
