@@ -11,7 +11,8 @@ SRC_URI=""
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 # llvm:353983 https://critique.corp.google.com/#review/233864070
-export EGIT_COMMIT="de7a0a152648d1a74cf4319920b1848aa00d1ca3" #r353983
+LLVM_HASH="de7a0a152648d1a74cf4319920b1848aa00d1ca3" #r353983
+LLVM_NEXT_HASH="de7a0a152648d1a74cf4319920b1848aa00d1ca3" #r353983
 
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
@@ -30,8 +31,9 @@ pkg_setup() {
 
 src_unpack() {
 	if use llvm-next; then
-		# llvm:353983 https://critique.corp.google.com/#review/233864070
-		export EGIT_COMMIT="de7a0a152648d1a74cf4319920b1848aa00d1ca3" #r353983
+		export EGIT_COMMIT="${LLVM_NEXT_HASH}"
+	else
+		export EGIT_COMMIT="${LLVM_HASH}"
 	fi
 	git-2_src_unpack
 }
