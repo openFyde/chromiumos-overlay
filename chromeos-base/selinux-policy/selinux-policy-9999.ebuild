@@ -262,7 +262,7 @@ check_attribute_include() {
 
 check_file_type_and_attribute() {
 	einfo "Checking file types and their attributes"
-	check_attribute_include file_type cros_file_type unlabeled system_data_file media_data_file
+	check_attribute_include file_type cros_file_type unlabeled system_data_file media_data_file android_file_type
 	check_attribute_include cros_file_type cros_system_file_type cros_tmpfile_type cros_home_file_type cros_var_file_type cros_run_file_type cros_uncategorized_file_type
 }
 
