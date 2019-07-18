@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("367fc705d107932356405d25e3427bba9332979a" "2e1f8ac86127061d75ae3786afc0b2bf0cefc6dd")
+CROS_WORKON_COMMIT=("31b61b5014625225c8a5b564b88842c027dbbaa8" "2e1f8ac86127061d75ae3786afc0b2bf0cefc6dd")
 CROS_WORKON_TREE=("ea6e2e1b6bec83695699ef78cec2f03321d97dd7" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c" "94d1ede77761ffc292b199310282ee3df6e95b34")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME=("platform2" "weave/libweave")
@@ -24,7 +24,7 @@ KEYWORDS="*"
 
 # libweave-test, which depends on gmock, is built unconditionally, so the gmock
 # dependency is always needed.
-DEPEND="dev-cpp/gmock"
+DEPEND="dev-cpp/gtest:="
 
 src_unpack() {
 	local s="${S}"

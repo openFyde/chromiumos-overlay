@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="367fc705d107932356405d25e3427bba9332979a"
+CROS_WORKON_COMMIT="31b61b5014625225c8a5b564b88842c027dbbaa8"
 CROS_WORKON_TREE=("ea6e2e1b6bec83695699ef78cec2f03321d97dd7" "7751f7bb5459651b1c827e9e035faa33b278727c" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -33,16 +33,15 @@ COMMON_DEPEND="
 	ftdi_tpm? ( dev-embedded/libftdi )
 	tpm2_simulator? ( chromeos-base/tpm2 )
 	dev-libs/protobuf:=
+	fuzzer? (
+		dev-cpp/gtest:=
+	)
 	"
 
 RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	!app-crypt/tpm-tools
-	fuzzer? (
-		dev-cpp/gmock
-		dev-cpp/gtest:=
-	)
 	"
 
 DEPEND="

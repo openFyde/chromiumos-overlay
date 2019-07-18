@@ -72,6 +72,7 @@ IUSE_LINUX_FIRMWARE=(
 	i915_skl
 	ibt_9260
 	ibt_9560
+	ibt_ax201
 	ibt-hw
 	ipu3_fw
 	keyspan_usb
@@ -212,6 +213,7 @@ src_install() {
 	use_fw ipu3_fw && doins intel/irci_* intel/ipu3-fw.bin
 	use_fw ibt_9260 && doins_subdir intel/ibt-18-16-1.*
 	use_fw ibt_9560 && doins_subdir intel/ibt-17-16-1.*
+	use_fw ibt_ax201 && doins_subdir intel/ibt-19-*.*
 	use_fw ibt-hw && doins_subdir intel/ibt-hw-*.bseq
 	use_fw keyspan_usb && doins_subdir keyspan/*
 	use_fw marvell-mwlwifi && doins_subdir mwlwifi/*.bin
