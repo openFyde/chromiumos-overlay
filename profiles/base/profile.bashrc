@@ -220,6 +220,10 @@ cros_post_src_test_asan_check() {
 cros_post_src_install_coverage_logs() {
 	# Generate coverage reports for the package.
 	local coverage_path="${T}/coverage_logs"
+	if [[ ! -d "${coverage_path}" ]]; then
+		return
+	fi
+
 	if [[ -n "$(ls -A "${coverage_path}")" ]]; then
 		local rel_cov_dir="build/coverage_data/${CATEGORY}/${PN}"
 		[[ "${SLOT:-0}" != "0" ]] && rel_cov_dir+="-${SLOT}"
