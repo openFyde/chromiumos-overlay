@@ -1,18 +1,18 @@
 # Copyright (c) 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 inherit autotools eutils user
 
 DESCRIPTION="The USBGuard software framework helps to protect your computer against rogue USB devices (a.k.a. BadUSB) by implementing basic whitelisting and blacklisting capabilities based on device attributes."
 HOMEPAGE="https://usbguard.github.io/"
-GIT_REV="db5553d12ed3db63019fa7b640b32ab93554d035"
+GIT_REV="4957d2d0bc4c2ed4529e8b69f9813c735d51a69a"
 CATCH_REV="35f510545d55a831372d3113747bf1314ff4f2ef"
-PEGTL_REV="4a41a7aec66deb99764246c5ce7d59f45489c175"
+PEGTL_REV="ecec1f68d5ddae123aa7fb82b88abc1e03dd3587"
 SRC_URI="https://github.com/USBGuard/usbguard/archive/${GIT_REV}.tar.gz -> ${P}.tar.gz
 https://github.com/catchorg/Catch2/archive/${CATCH_REV}.tar.gz -> ${PN}-201807-catch.tar.gz
-https://github.com/taocpp/PEGTL/archive/${PEGTL_REV}.tar.gz -> ${PN}-201807-pegtl.tar.gz"
+https://github.com/taocpp/PEGTL/archive/${PEGTL_REV}.tar.gz -> ${PN}-20190808-pegtl.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -35,6 +35,7 @@ S="${WORKDIR}/usbguard-${GIT_REV}/"
 
 PATCHES=(
 	"${FILESDIR}/daemon_conf.patch"
+	"${FILESDIR}/dbus.patch"
 )
 
 src_prepare() {
@@ -44,7 +45,7 @@ src_prepare() {
 	rm -rf "${S}/src/ThirdParty/PEGTL"
 	mv "${WORKDIR}/PEGTL-${PEGTL_REV}" "${S}/src/ThirdParty/PEGTL"
 
-	epatch "${PATCHES[@]}"
+	default
 	eautoreconf
 }
 
@@ -52,8 +53,8 @@ src_configure() {
 	cros_enable_cxx_exceptions
 	econf \
 		--without-polkit \
-		--without-dbus \
 		--without-ldap \
+		--with-dbus \
 		--with-bundled-catch \
 		--with-bundled-pegtl \
 		--with-crypto-library=gcrypt
@@ -75,6 +76,12 @@ src_install() {
 	insinto /etc/init
 	doins "${FILESDIR}"/usbguard.conf
 	doins "${FILESDIR}"/usbguard-wrapper.conf
+
+	insinto /usr/share/dbus-1/interfaces
+	newins "${S}/src/DBus/DBusInterface.xml" org.usbguard1.xml
+
+	insinto /etc/dbus-1/system.d
+	doins "${FILESDIR}/org.usbguard1.conf"
 
 	insinto /etc/usbguard
 	insopts -o usbguard -g usbguard -m600
