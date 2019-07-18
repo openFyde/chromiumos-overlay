@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="6688da03eb8f42f5d060a0ccf825439afa781f56"
-CROS_WORKON_TREE=("ea6e2e1b6bec83695699ef78cec2f03321d97dd7" "685d25083e1d0204a83f858958165116d8803cc5" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="16cd8e26d9f449d0a9a75935896054683d73ff4a"
+CROS_WORKON_TREE=("ea6e2e1b6bec83695699ef78cec2f03321d97dd7" "ec8d073b0b68413b9e7a7f39154fdfc921188644" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -52,12 +52,19 @@ pkg_setup() {
 
 src_install() {
 	dosbin "${OUT}"/kerberosd
+
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Kerberos.conf
+
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.Kerberos.service
+
 	insinto /etc/init
 	doins init/kerberosd.conf
+
+	insinto /usr/share/policy
+	newins seccomp/kerberosd-seccomp-"${ARCH}".policy kerberosd-seccomp.policy
+
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/kerberosd_whitelist.txt
 
