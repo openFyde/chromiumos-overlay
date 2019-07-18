@@ -13,7 +13,8 @@ HOMEPAGE="http://libcxxabi.llvm.org/"
 
 SRC_URI=""
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
-EGIT_COMMIT="6c35a1e5afb8a5c0c02a77b46226ea6daccd1be4" #r349610
+LLVM_HASH="6c35a1e5afb8a5c0c02a77b46226ea6daccd1be4" #r349610
+LLVM_NEXT_HASH="6c35a1e5afb8a5c0c02a77b46226ea6daccd1be4" #r349610
 
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
@@ -48,7 +49,9 @@ pkg_setup() {
 
 src_unpack() {
 	if use llvm-next; then
-		EGIT_COMMIT="6c35a1e5afb8a5c0c02a77b46226ea6daccd1be4" #r349610
+		export EGIT_COMMIT="${LLVM_NEXT_HASH}"
+	else
+		export EGIT_COMMIT="${LLVM_HASH}"
 	fi
 	git-2_src_unpack
 }
