@@ -4,10 +4,10 @@
 EAPI=6
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
-CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/keymaster .gn"
+CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
+CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/keymaster")
+CROS_WORKON_SUBTREE=("common-mk arc/keymaster .gn" "")
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/keymaster"
