@@ -1,0 +1,76 @@
+Introduce an arc hook into the Keymaster context. The hook is implemented
+as part of the arc-keymasterd daemon under platform2/arc/keymaster, and
+enables us to customize context behavior for handling key blobs where
+applicable.
+
+diff --git a/contexts/pure_soft_keymaster_context.cpp b/contexts/pure_soft_keymaster_context.cpp
+index b4d1fb7..c3c0f50 100644
+--- a/contexts/pure_soft_keymaster_context.cpp
++++ b/contexts/pure_soft_keymaster_context.cpp
+@@ -121,6 +121,10 @@ keymaster_error_t PureSoftKeymasterContext::CreateKeyBlob(const AuthorizationSet
+     if (error != KM_ERROR_OK)
+         return error;
+ 
++    error = arc_hook_.SerializeKeyBlob(key_material, hidden, *hw_enforced, *sw_enforced, blob);
++    if (error == KM_ERROR_OK)
++      return error;
++
+     return SerializeIntegrityAssuredBlob(key_material, hidden, *hw_enforced, *sw_enforced, blob);
+ }
+ 
+@@ -183,6 +187,10 @@ keymaster_error_t PureSoftKeymasterContext::ParseKeyBlob(const KeymasterKeyBlob&
+     if (error != KM_ERROR_OK)
+         return error;
+ 
++    error = arc_hook_.DeserializeKeyBlob(blob, hidden, &key_material, &hw_enforced, &sw_enforced);
++    if (error == KM_ERROR_OK)
++        return constructKey();
++
+     // Assume it's an integrity-assured blob (new software-only blob, or new keymaster0-backed
+     // blob).
+     error = DeserializeIntegrityAssuredBlob(blob, hidden, &key_material, &hw_enforced, &sw_enforced);
+@@ -204,12 +212,20 @@ keymaster_error_t PureSoftKeymasterContext::ParseKeyBlob(const KeymasterKeyBlob&
+     return constructKey();
+ }
+ 
+-keymaster_error_t PureSoftKeymasterContext::DeleteKey(const KeymasterKeyBlob& /* blob */) const {
++keymaster_error_t PureSoftKeymasterContext::DeleteKey(const KeymasterKeyBlob& blob) const {
++    keymaster_error_t error = arc_hook_.DeleteKey(blob);
++    if (error == KM_ERROR_OK)
++      return error;
++
+     // Nothing to do for software-only contexts.
+     return KM_ERROR_OK;
+ }
+ 
+ keymaster_error_t PureSoftKeymasterContext::DeleteAllKeys() const {
++    keymaster_error_t error = arc_hook_.DeleteAllKeys();
++    if (error == KM_ERROR_OK)
++      return error;
++
+     return KM_ERROR_OK;
+ }
+ 
+diff --git a/include/keymaster/contexts/pure_soft_keymaster_context.h b/include/keymaster/contexts/pure_soft_keymaster_context.h
+index 3a1156d..deac96e 100644
+--- a/include/keymaster/contexts/pure_soft_keymaster_context.h
++++ b/include/keymaster/contexts/pure_soft_keymaster_context.h
+@@ -28,6 +28,8 @@
+ #include <keymaster/soft_key_factory.h>
+ #include <keymaster/random_source.h>
+ 
++#include <arc/keymaster/context/hook.h>
++
+ namespace keymaster {
+ 
+ class SoftKeymasterKeyRegistrations;
+@@ -99,6 +101,9 @@ class PureSoftKeymasterContext: public KeymasterContext,
+     uint32_t os_version_;
+     uint32_t os_patchlevel_;
+     SoftKeymasterEnforcement soft_keymaster_enforcement_;
++
++  private:
++    arc::keymaster::context::Hook arc_hook_;
+ };
+ 
+ }  // namespace keymaster

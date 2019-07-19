@@ -60,6 +60,9 @@ src_prepare() {
 	# Expose BoringSSL headers and outputs.
 	append-cxxflags "-I${WORKDIR}/${BORINGSSL_P}/include"
 	append-ldflags "-L${BORINGSSL_OUTDIR}"
+	# Patch keymaster context.
+	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
+	epatch "${FILESDIR}/keymaster-context-hooks.patch"
 }
 
 src_configure() {
