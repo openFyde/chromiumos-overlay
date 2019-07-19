@@ -1346,13 +1346,7 @@ install_telemetry_dep_resources() {
 		# To avoid silent failures assert the success.
 		DEPS_LIST=$(python ${FIND_DEPS} ${PERF_DEPS} ${CROS_DEPS} | \
 			sed -e 's|^'${CHROME_ROOT}/src/'||'; assert)
-		install_test_resources "${test_dir}" "${DEPS_LIST}" \
-			chrome/test/data/image_decoding \
-			chrome/test/data/perf/tough_compositor_cases \
-			content/test/data/gpu \
-			content/test/data/media \
-			content/test/gpu \
-			media/test/data
+		install_test_resources "${test_dir}" "${DEPS_LIST}"
 		# For crosperf, which uses some tests only available on internal builds.
 		if use chrome_internal; then
 			install_test_resources "${test_dir}" \
