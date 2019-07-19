@@ -14,7 +14,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+cros_ec_utils detachable_ui device_tree frecon +interactive_recovery -mtd +power_management"
+IUSE="+cros_ec_utils detachable_ui device_tree +interactive_recovery -mtd +power_management"
 
 # Build Targets
 TARGETS_IUSE="
@@ -84,7 +84,7 @@ DEPEND="
 	sys-fs/lvm2
 	virtual/chromeos-bsp-initramfs
 	chromeos-base/chromeos-init
-	frecon? ( sys-apps/frecon-lite virtual/udev )
+	sys-apps/frecon-lite
 	power_management? ( chromeos-base/power_manager ) "
 
 RDEPEND=""
@@ -101,7 +101,6 @@ src_prepare() {
 
 src_compile() {
 	local deps=()
-	use frecon && deps+=( /sbin/frecon-lite /sbin/udevd /bin/udevadm )
 	use mtd && deps+=(/usr/bin/cgpt)
 	if use factory_netboot_ramfs; then
 		use power_management && deps+=(/usr/bin/backlight_tool)
