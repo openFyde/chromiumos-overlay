@@ -65,7 +65,8 @@ src_prepare() {
 
 src_configure() {
 	local mycmakeargs=(
-		-DCMAKE_BUILD_TYPE=Release
+		"-DCMAKE_BUILD_TYPE=Release"
+		"-DCMAKE_SYSTEM_PROCESSOR=${CHOST%%-*}"
 	)
 	cmake-utils_src_configure
 	platform_src_configure
