@@ -17,3 +17,19 @@ evdev:input:b0005v3175p9000e*-*m4*
 evdev:input:b0005v3175p9100e*-*m4*
 evdev:input:b0003v3175p9100e*-*m4*
  KEYBOARD_KEY_ffd10018=assistant
+
+# "Kata" Keyboards
+# TODO: Remove this when KEY_ZOOM and KEY_SCALE map to
+# fullscreen and overview respectively in Chrome OS UI.
+evdev:input:b0005v046DpB35De*-*m4*
+evdev:input:b0003v046Dp408Ce*-*m4*
+ KEYBOARD_KEY_c0224=f1
+ KEYBOARD_KEY_c0227=f2
+ KEYBOARD_KEY_c0232=f3
+ KEYBOARD_KEY_c029f=f4
+ KEYBOARD_KEY_c0070=f5
+ KEYBOARD_KEY_c006f=f6
+ KEYBOARD_KEY_c00cd=f7
+ KEYBOARD_KEY_c00e2=f8
+ KEYBOARD_KEY_c00ea=f9
+ KEYBOARD_KEY_c00e9=f10
