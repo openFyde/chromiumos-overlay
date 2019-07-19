@@ -111,18 +111,11 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	# Don't apply intel BGRA internal format patch for VM build since BGRA_EXT is not a valid
-	# internal format for GL context.
-	if use !video_cards_virgl; then
-		epatch "${FILESDIR}"/DOWNSTREAM-i965-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8-B8.patch
-	fi
-
 	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
 
 	# IMG patches
 	epatch "${FILESDIR}"/0001-dri-pvr-Introduce-PowerVR-DRI-driver.patch
 	epatch "${FILESDIR}"/0003-dri-Add-some-new-DRI-formats-and-fourccs.patch
-	epatch "${FILESDIR}"/0004-dri-Add-MT21-DRI-fourcc-and-DRM-format.patch
 	epatch "${FILESDIR}"/0005-GL_EXT_sparse_texture-entry-points.patch
 	epatch "${FILESDIR}"/0006-Add-support-for-various-GLES-extensions.patch
 	epatch "${FILESDIR}"/0011-GL_EXT_shader_pixel_local_storage2-entry-points.patch

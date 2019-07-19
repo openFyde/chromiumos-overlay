@@ -38,8 +38,6 @@ DEPEND="${RDEPEND}"
 XORG_EAUTORECONF=yes
 
 src_prepare() {
-	epatch "${FILESDIR}"/Add-Mediatek-proprietary-format.patch
-	epatch "${FILESDIR}"/add-DRM_IOCTL_VGEM_MODE_MAP_DUMB-support.patch
 	epatch "${FILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
 	epatch "${FILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
 	epatch "${FILESDIR}"/Add-Evdi-module-userspace-api-file.patch

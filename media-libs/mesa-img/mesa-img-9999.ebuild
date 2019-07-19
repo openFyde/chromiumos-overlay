@@ -108,12 +108,6 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	# Don't apply intel BGRA internal format patch for VM build since BGRA_EXT is not a valid
-	# internal format for GL context.
-	if use !video_cards_virgl; then
-		epatch "${FILESDIR}"/DOWNSTREAM-i965-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8-B8.patch
-	fi
-
 	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
 
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory

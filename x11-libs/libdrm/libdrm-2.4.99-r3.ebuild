@@ -1,20 +1,14 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="4"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 CROS_WORKON_COMMIT="b2103fa3257daa6acfdc6f4d4d8565abebaec4a8"
 CROS_WORKON_TREE="f691fb10ddd5ffefb25682ff89f6f978fe91ec02"
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
-CROS_WORKON_LOCALNAME="libdrm"
 CROS_WORKON_BLACKLIST="1"
 
-P=${P#"arc-"}
-PN=${PN#"arc-"}
-S="${WORKDIR}/${P}"
-
-XORG_MULTILIB=yes
-inherit xorg-2 cros-workon arc-build
+inherit xorg-2 cros-workon
 
 DESCRIPTION="X.Org libdrm library"
 HOMEPAGE="http://dri.freedesktop.org/"
@@ -26,21 +20,27 @@ SRC_URI=""
 LICENSE="|| ( MIT X )"
 SLOT="0"
 KEYWORDS="*"
-VIDEO_CARDS="amdgpu exynos freedreno nouveau omap radeon vc4 vmware"
+VIDEO_CARDS="amdgpu exynos freedreno intel nouveau omap radeon vc4 vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
 IUSE="${IUSE_VIDEO_CARDS} libkms manpages +udev"
+REQUIRED_USE="video_cards_exynos? ( libkms )"
 RESTRICT="test" # see bug #236845
 
-RDEPEND=""
+RDEPEND="dev-libs/libpthread-stubs
+	udev? ( virtual/udev )
+	video_cards_amdgpu? ( dev-util/cunit )
+	video_cards_intel? ( >=x11-libs/libpciaccess-0.10 )
+	!<x11-libs/libdrm-tests-2.4.58-r3
+"
+
 DEPEND="${RDEPEND}"
 
 XORG_EAUTORECONF=yes
 
 src_prepare() {
-	epatch "${FILESDIR}"/Add-Mediatek-proprietary-format.patch
 	epatch "${FILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
 	epatch "${FILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
 	epatch "${FILESDIR}"/Add-Evdi-module-userspace-api-file.patch
@@ -52,26 +52,21 @@ src_prepare() {
 }
 
 src_configure() {
-	# FIXME(tfiga): Could inherit arc-build invoke this implicitly?
-	arc-build-select-clang
-
 	XORG_CONFIGURE_OPTIONS=(
-		--disable-install-test-programs
+		--enable-install-test-programs
 		$(use_enable video_cards_amdgpu amdgpu)
 		$(use_enable video_cards_exynos exynos-experimental-api)
 		$(use_enable video_cards_freedreno freedreno)
+		$(use_enable video_cards_intel intel)
 		$(use_enable video_cards_nouveau nouveau)
 		$(use_enable video_cards_omap omap-experimental-api)
 		$(use_enable video_cards_radeon radeon)
-		$(use_enable video_cards_vc4 vc4)
+		$(use_enable video_cards vc4 vc4)
 		$(use_enable video_cards_vmware vmwgfx)
 		$(use_enable libkms)
 		$(use_enable manpages)
 		$(use_enable udev)
 		--disable-cairo-tests
-		--disable-intel
-		"--prefix=${ARC_PREFIX}/vendor"
-		"--datadir=${ARC_PREFIX}/vendor/usr/share"
 	)
 	xorg-2_src_configure
 }
