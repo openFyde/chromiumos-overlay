@@ -23,6 +23,7 @@ RDEPEND="
 	chromeos-base/ghostscript-fuzz[fuzzer]
 	chromeos-base/imageloader[fuzzer]
 	chromeos-base/ippusb_manager[fuzzer]
+	chromeos-base/kerberos[fuzzer]
 	chromeos-base/metrics[fuzzer]
 	chromeos-base/p2p[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
