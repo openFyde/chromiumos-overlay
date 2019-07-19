@@ -1,22 +1,23 @@
-# Copyright 2017 The Chromium OS Authors. All rights reserved.
+# Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=6
 
-CROS_WORKON_COMMIT="6688da03eb8f42f5d060a0ccf825439afa781f56"
-CROS_WORKON_TREE=("ea6e2e1b6bec83695699ef78cec2f03321d97dd7" "c9130e1dfa8a86bff22f1fb0786fabdf10deff6c" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="4b27f5686dfa1fccc39dbd1a9bda46b3c46b9337"
+CROS_WORKON_TREE=("ea6e2e1b6bec83695699ef78cec2f03321d97dd7" "0fde4fa07d4691472d42d5e463090baea48a0539" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk cryptohome .gn"
+CROS_WORKON_SUBTREE="common-mk shill .gn"
 
-PLATFORM_SUBDIR="cryptohome/client"
+PLATFORM_NATIVE_TEST="yes"
+PLATFORM_SUBDIR="shill/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="Cryptohome D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome"
+DESCRIPTION="Shill DBus client library for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -35,10 +36,10 @@ DEPEND="
 "
 
 RDEPEND="
-	!<chromeos-base/cryptohome-0.0.1
+	!<chromeos-base/shill-0.0.2
 "
 
 src_install() {
-	# Install D-Bus client library.
-	platform_install_dbus_client_lib "cryptohome"
+	# Install DBus client library.
+	platform_install_dbus_client_lib "shill"
 }
