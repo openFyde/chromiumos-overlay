@@ -10,7 +10,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-sanitizers cros-workon cros-common.mk toolchain-funcs
 
-DESCRIPTION="Chrome OS KMS console (without DBUS support)"
+DESCRIPTION="Chrome OS KMS console (without DBUS/UDEV support)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/frecon"
 
 LICENSE="BSD-Google"
@@ -18,8 +18,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="-asan"
 
-RDEPEND="virtual/udev
-	media-libs/libpng:0=
+RDEPEND="media-libs/libpng:0=
 	sys-apps/libtsm"
 
 DEPEND="${RDEPEND}
@@ -28,8 +27,7 @@ DEPEND="${RDEPEND}
 	x11-libs/libdrm"
 
 src_configure() {
-	export DBUS=0
-	export TARGET=frecon-lite
+	export FRECON_LITE=1
 	sanitizers-setup-env
 	cros-common.mk_src_configure
 }
