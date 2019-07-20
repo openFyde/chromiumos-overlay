@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="5328bd2e8f43a19b15cc8c23862d5aa83897176b"
-CROS_WORKON_TREE="2ec914033997d4add10f337763abc12bd4345184"
+CROS_WORKON_COMMIT="3bd094c271d8cf39c84a1d282043c7f197c1afe8"
+CROS_WORKON_TREE="33ec1de36a843174c2fa3fd79aade08a6f5a2905"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -43,6 +43,7 @@ RDEPEND="
 	vaapi? ( x11-libs/libva )
 	tests_graphics_Sanity? ( media-gfx/imagemagick x11-libs/libdrm )
 	tests_graphics_WebGLAquarium? ( app-benchmarks/microbenchmarks dev-util/memory-eater-locked )
+	virtual/autotest-private-libs
 "
 
 DEPEND="${RDEPEND}"
