@@ -2,31 +2,29 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="d26cc68b6745c84dc2c3555b16e087948cec4dbb"
-CROS_WORKON_TREE="90f1a43d26addedc8182b19a41cef5758f519442"
+CROS_WORKON_COMMIT="c1b8e7aa3b081cf51d5e0d29f1e9b26f2ef1987a"
+CROS_WORKON_TREE="cf5ea3239b77568dc5270369146a8dc66f25465a"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
 inherit cros-workon autotest-deponly
 
-DESCRIPTION="Autotest policy deps"
+DESCRIPTION="Autotest D-Bus deps"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
-LICENSE="GPL-2"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
 # Autotest enabled by default.
 IUSE="+autotest"
 
-AUTOTEST_DEPS_LIST="policy_protos"
+AUTOTEST_DEPS_LIST="dbus_protos"
 
 # NOTE: For deps, we need to keep *.a
 AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
-# The dependency on Chrome guarantees that cloud_policy.proto is available.
-DEPEND="chromeos-base/chromeos-chrome
-	chromeos-base/protofiles:=
+DEPEND="chromeos-base/system_api
 	dev-libs/protobuf:=
 "
 
