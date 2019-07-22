@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="5f413081e8c41826bbf7e700310189c88b9ca27c"
-CROS_WORKON_TREE="198e596b9b87501eb10a9cd8d7d5150d2490828f"
+CROS_WORKON_COMMIT="f94631506bb31f407a2a849ad55ea315e2099f1e"
+CROS_WORKON_TREE="8a09994480b33d3b5ef58bde78a8432c4771b999"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -264,7 +264,7 @@ check_attribute_include() {
 
 check_file_type_and_attribute() {
 	einfo "Checking file types and their attributes"
-	check_attribute_include file_type cros_file_type unlabeled system_data_file media_data_file
+	check_attribute_include file_type cros_file_type unlabeled system_data_file media_data_file android_file_type
 	check_attribute_include cros_file_type cros_system_file_type cros_tmpfile_type cros_home_file_type cros_var_file_type cros_run_file_type cros_uncategorized_file_type
 }
 
