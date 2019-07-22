@@ -76,6 +76,7 @@ DEPEND="${RDEPEND}
 src_install() {
 	pushd "${OUT}" >/dev/null
 	dosbin cryptohomed cryptohome cryptohome-proxy cryptohome-path lockbox-cache tpm-manager
+	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
 	if use tpm2; then
 		dosbin bootlockboxd bootlockboxtool
