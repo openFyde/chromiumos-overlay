@@ -32,3 +32,9 @@ src_install() {
 	dobin stateful_update
 	# TODO(crbug.com/940276): quick-provision here.
 }
+
+src_test() {
+	# Run the unit tests.
+	cd nebraska
+	./run_unittests || die
+}
