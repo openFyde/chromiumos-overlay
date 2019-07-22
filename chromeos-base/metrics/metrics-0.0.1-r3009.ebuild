@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="a532b692aa75d37961ffb26fc8a84b94215659a6"
+CROS_WORKON_COMMIT="257544d92d820110ea266ffd17f333770888876c"
 CROS_WORKON_TREE=("f577121f2538fbe78584b4fe59c478a26bf80df4" "efb94ffa0b3efe295792bb1a7dc7c5a584150e36" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk metrics .gn"
 
 PLATFORM_SUBDIR="metrics"
 
-inherit cros-constants cros-workon platform systemd
+inherit cros-constants cros-workon platform systemd user
 
 DESCRIPTION="Metrics aggregation service for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
@@ -101,4 +101,9 @@ platform_pkg_test() {
 	for test_bin in "${tests[@]}"; do
 		platform_test "run" "${OUT}/${test_bin}"
 	done
+}
+
+pkg_preinst() {
+	enewuser metrics
+	enewgroup metrics
 }
