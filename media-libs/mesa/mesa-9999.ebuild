@@ -46,8 +46,8 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	+classic debug dri drm egl +gallium -gbm gles1 gles2 llvm +nptl pic
-	selinux shared-glapi kernel_FreeBSD vulkan wayland xlib-glx X"
+	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
+	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 
@@ -192,6 +192,10 @@ src_configure() {
 	fi
 
 	append-flags "-UENABLE_SHADER_CACHE"
+
+	if use kvm_guest; then
+		emesonargs+=( -Ddri-search-path=/opt/google/cros-containers/lib )
+	fi
 
 	emesonargs+=(
 		-Dglx="${glx}"
