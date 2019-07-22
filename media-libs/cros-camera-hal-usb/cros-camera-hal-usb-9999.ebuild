@@ -9,10 +9,9 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/usb camera/includ
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="hal/usb/libcamera_hal.gyp"
+PLATFORM_SUBDIR="camera/hal/usb"
 CROS_CAMERA_TESTS=(
-	"image_processor_unittest"
+	"image_processor_test"
 )
 
 inherit cros-camera cros-workon platform
