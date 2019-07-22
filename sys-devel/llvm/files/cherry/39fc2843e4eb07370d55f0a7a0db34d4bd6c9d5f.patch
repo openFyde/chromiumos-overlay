@@ -1,0 +1,180 @@
+commit 39fc2843e4eb07370d55f0a7a0db34d4bd6c9d5f
+Author: Francis Visoiu Mistrih <francisvm@yahoo.com>
+Date:   Wed Jul 17 20:46:16 2019 +0000
+
+    [CodeGen] Add stack protector tests where the guard gets re-assigned
+    
+    In preparation of a fix, add tests for multiple backends.
+    
+    llvm-svn: 366370
+
+diff --git a/llvm/test/CodeGen/AArch64/stack-guard-reassign.ll b/llvm/test/CodeGen/AArch64/stack-guard-reassign.ll
+new file mode 100644
+index 00000000000..a3b00fd2cca
+--- /dev/null
++++ llvm/test/CodeGen/AArch64/stack-guard-reassign.ll
+@@ -0,0 +1,9 @@
++; RUN: llc -O0 --frame-pointer=all -mtriple=aarch64-- -o - %S/../Inputs/stack-guard-reassign.ll | FileCheck %s
++
++; Verify that the offset assigned to the stack protector is at the top of the
++; frame, covering the locals.
++; CHECK-LABEL: fn:
++; CHECK:      add x8, sp, #24
++; CHECK-NEXT: adrp x9, __stack_chk_guard
++; CHECK-NEXT: ldr x9, [x9, :lo12:__stack_chk_guard]
++; CHECK-NEXT: str x9, [x8]
+diff --git a/llvm/test/CodeGen/AArch64/stack-guard-reassign.mir b/llvm/test/CodeGen/AArch64/stack-guard-reassign.mir
+new file mode 100644
+index 00000000000..296290e2b0f
+--- /dev/null
++++ llvm/test/CodeGen/AArch64/stack-guard-reassign.mir
+@@ -0,0 +1,34 @@
++# RUN: llc -mtriple=arm64-apple-ios -start-before=localstackalloc -stop-after=prologepilog -o - %s | FileCheck %s
++
++--- |
++  @__stack_chk_guard = external global i8*
++  define i32 @main(i32, i8**) {
++    %StackGuardSlot = alloca i8*
++    unreachable
++  }
++...
++---
++name:            main
++tracksRegLiveness: true
++frameInfo:
++# CHECK: stackSize: 560
++  stackProtector:  '%stack.0.StackGuardSlot'
++stack:
++  - { id: 0, name: StackGuardSlot, size: 8, alignment: 8, stack-id: default }
++# Verify that the offset assigned to the stack protector is at the top of the
++# frame, covering the locals.
++# CHECK:       - { id: 0, name: StackGuardSlot, type: default, offset: -552, size: 8,
++# CHECK-NEXT:      alignment: 8, stack-id: default, callee-saved-register: '', callee-saved-restored: true,
++# CHECK-NEXT:      local-offset: -8, debug-info-variable: '', debug-info-expression: '',
++# CHECK-NEXT:      debug-info-location: '' }
++  - { id: 1, size: 512, alignment: 1, stack-id: default }
++  - { id: 2, size: 4, alignment: 4, stack-id: default }
++body:             |
++  bb.0:
++    %25:gpr64common = LOAD_STACK_GUARD :: (dereferenceable invariant load 8 from @__stack_chk_guard)
++    STRXui killed %25, %stack.0.StackGuardSlot, 0 :: (volatile store 8 into %stack.0.StackGuardSlot)
++    %28:gpr64 = LDRXui %stack.0.StackGuardSlot, 0 :: (volatile load 8 from %stack.0.StackGuardSlot)
++    %29:gpr64common = LOAD_STACK_GUARD :: (dereferenceable invariant load 8 from @__stack_chk_guard)
++    RET_ReallyLR implicit undef $w0, implicit killed %28, implicit killed %29
++
++...
+diff --git a/llvm/test/CodeGen/AArch64/stack-guard-vaarg.ll b/llvm/test/CodeGen/AArch64/stack-guard-vaarg.ll
+new file mode 100644
+index 00000000000..e083aa10e33
+--- /dev/null
++++ llvm/test/CodeGen/AArch64/stack-guard-vaarg.ll
+@@ -0,0 +1,41 @@
++; RUN: llc --frame-pointer=all -mtriple=aarch64-- < %s | FileCheck %s
++
++; PR25610: -fstack-protector places the canary in the wrong place on arm64 with
++;          va_args
++
++%struct.__va_list = type { i8*, i8*, i8*, i32, i32 }
++
++; CHECK-LABEL: test
++; CHECK: ldr [[GUARD:x[0-9]+]]{{.*}}:lo12:__stack_chk_guard]
++; Make sure the canary is placed relative to the frame pointer, not
++; the stack pointer.
++; CHECK: str [[GUARD]], [sp, #8]
++define void @test(i8* %i, ...) #0 {
++entry:
++  %buf = alloca [10 x i8], align 1
++  %ap = alloca %struct.__va_list, align 8
++  %tmp = alloca %struct.__va_list, align 8
++  %0 = getelementptr inbounds [10 x i8], [10 x i8]* %buf, i64 0, i64 0
++  call void @llvm.lifetime.start(i64 10, i8* %0)
++  %1 = bitcast %struct.__va_list* %ap to i8*
++  call void @llvm.lifetime.start(i64 32, i8* %1)
++  call void @llvm.va_start(i8* %1)
++  %2 = bitcast %struct.__va_list* %tmp to i8*
++  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %2, i8* %1, i64 32, i32 8, i1 false)
++  call void @baz(i8* %i, %struct.__va_list* nonnull %tmp)
++  call void @bar(i8* %0)
++  call void @llvm.va_end(i8* %1)
++  call void @llvm.lifetime.end(i64 32, i8* %1)
++  call void @llvm.lifetime.end(i64 10, i8* %0)
++  ret void
++}
++
++declare void @llvm.lifetime.start(i64, i8* nocapture)
++declare void @llvm.va_start(i8*)
++declare void @baz(i8*, %struct.__va_list*)
++declare void @llvm.memcpy.p0i8.p0i8.i64(i8* nocapture, i8* nocapture readonly, i64, i32, i1)
++declare void @bar(i8*)
++declare void @llvm.va_end(i8*)
++declare void @llvm.lifetime.end(i64, i8* nocapture)
++
++attributes #0 = { noinline nounwind optnone ssp }
+diff --git a/llvm/test/CodeGen/ARM/stack-guard-reassign.ll b/llvm/test/CodeGen/ARM/stack-guard-reassign.ll
+new file mode 100644
+index 00000000000..ae3d91361e2
+--- /dev/null
++++ llvm/test/CodeGen/ARM/stack-guard-reassign.ll
+@@ -0,0 +1,14 @@
++; RUN: llc -O0 --frame-pointer=none -mtriple=arm-- -o - %S/../Inputs/stack-guard-reassign.ll | FileCheck %s
++
++; Verify that the offset assigned to the stack protector is at the top of the
++; frame, covering the locals.
++; CHECK-LABEL: fn:
++; CHECK:      sub sp, sp, #40
++; CHECK-NEXT: sub sp, sp, #65536
++; CHECK-NEXT: add r1, sp, #28
++; CHECK-NEXT: ldr r2, .LCPI0_0
++; CHECK-NEXT: ldr r3, [r2]
++; CHECK-NEXT: str r3, [r1]
++; CHECK-NEXT: str r0, [sp, #32]
++; CHECK: .LCPI0_0:
++; CHECK-NEXT: .long __stack_chk_guard
+diff --git a/llvm/test/CodeGen/Inputs/stack-guard-reassign.ll b/llvm/test/CodeGen/Inputs/stack-guard-reassign.ll
+new file mode 100644
+index 00000000000..5829b2562e7
+--- /dev/null
++++ llvm/test/CodeGen/Inputs/stack-guard-reassign.ll
+@@ -0,0 +1,21 @@
++define i32 @fn(i8* %str) #0 {
++entry:
++  %str.addr = alloca i8*, align 4
++  %buffer = alloca [65536 x i8], align 1
++  store i8* %str, i8** %str.addr, align 4
++  %arraydecay = getelementptr inbounds [65536 x i8], [65536 x i8]* %buffer, i32 0, i32 0
++  %0 = load i8*, i8** %str.addr, align 4
++  %call = call i8* @strcpy(i8* %arraydecay, i8* %0)
++  %arraydecay1 = getelementptr inbounds [65536 x i8], [65536 x i8]* %buffer, i32 0, i32 0
++  %call2 = call i32 @puts(i8* %arraydecay1)
++  %arrayidx = getelementptr inbounds [65536 x i8], [65536 x i8]* %buffer, i32 0, i32 65535
++  %1 = load i8, i8* %arrayidx, align 1
++  %conv = zext i8 %1 to i32
++  ret i32 %conv
++}
++
++declare i8* @strcpy(i8*, i8*)
++
++declare i32 @puts(i8*)
++
++attributes #0 = { noinline nounwind optnone ssp }
+diff --git a/llvm/test/CodeGen/PowerPC/stack-guard-reassign.ll b/llvm/test/CodeGen/PowerPC/stack-guard-reassign.ll
+new file mode 100644
+index 00000000000..3a8cac506c2
+--- /dev/null
++++ llvm/test/CodeGen/PowerPC/stack-guard-reassign.ll
+@@ -0,0 +1,15 @@
++; RUN: llc -O0 --frame-pointer=none -mtriple=powerpc-- -o - %S/../Inputs/stack-guard-reassign.ll | FileCheck %s
++
++; Verify that the offset assigned to the stack protector is at the top of the
++; frame, covering the locals.
++; CHECK-LABEL: fn:
++; CHECK:      mflr 0
++; CHECK-NEXT: stw 0, 4(1)
++; CHECK-NEXT: lis 0, -2
++; CHECK-NEXT: ori 0, 0, 65488
++; CHECK-NEXT: stwux 1, 1, 0
++; CHECK-NEXT: subf 0, 0, 1
++; CHECK-NEXT: addi 4, 1, 36
++; CHECK-NEXT: lis 5, __stack_chk_guard@ha
++; CHECK-NEXT: lwz 6, __stack_chk_guard@l(5)
++; CHECK-NEXT: stw 6, 0(4)

@@ -1,0 +1,165 @@
+commit 9f2b290addfc4d9f514790b47773b141682b0db5
+Author: Francis Visoiu Mistrih <francisvm@yahoo.com>
+Date:   Wed Jul 17 20:46:19 2019 +0000
+
+    [PEI] Don't re-allocate a pre-allocated stack protector slot
+    
+    The LocalStackSlotPass pre-allocates a stack protector and makes sure
+    that it comes before the local variables on the stack.
+    
+    We need to make sure that later during PEI we don't re-allocate a new
+    stack protector slot. If that happens, the new stack protector slot will
+    end up being **after** the local variables that it should be protecting.
+    
+    Therefore, we would have two slots assigned for two different stack
+    protectors, one at the top of the stack, and one at the bottom. Since
+    PEI will overwrite the assigned slot for the stack protector, the load
+    that is used to compare the value of the stack protector will use the
+    slot assigned by PEI, which is wrong.
+    
+    For this, we need to check if the object is pre-allocated, and re-use
+    that pre-allocated slot.
+    
+    Differential Revision: https://reviews.llvm.org/D64757
+    
+    llvm-svn: 366371
+
+diff --git a/llvm/lib/CodeGen/LocalStackSlotAllocation.cpp b/llvm/lib/CodeGen/LocalStackSlotAllocation.cpp
+index aa8f824c6b9..b14d76a585f 100644
+--- a/llvm/lib/CodeGen/LocalStackSlotAllocation.cpp
++++ b/llvm/lib/CodeGen/LocalStackSlotAllocation.cpp
+@@ -201,6 +201,14 @@ void LocalStackSlotPass::calculateFrameObjectOffsets(MachineFunction &Fn) {
+   SmallSet<int, 16> ProtectedObjs;
+   if (MFI.hasStackProtectorIndex()) {
+     int StackProtectorFI = MFI.getStackProtectorIndex();
++
++    // We need to make sure we didn't pre-allocate the stack protector when
++    // doing this.
++    // If we already have a stack protector, this will re-assign it to a slot
++    // that is **not** covering the protected objects.
++    assert(!MFI.isObjectPreAllocated(StackProtectorFI) &&
++           "Stack protector pre-allocated in LocalStackSlotAllocation");
++
+     StackObjSet LargeArrayObjs;
+     StackObjSet SmallArrayObjs;
+     StackObjSet AddrOfObjs;
+diff --git a/llvm/lib/CodeGen/PrologEpilogInserter.cpp b/llvm/lib/CodeGen/PrologEpilogInserter.cpp
+index dfbf665321d..d463bee6759 100644
+--- a/llvm/lib/CodeGen/PrologEpilogInserter.cpp
++++ b/llvm/lib/CodeGen/PrologEpilogInserter.cpp
+@@ -933,8 +933,16 @@ void PEI::calculateFrameObjectOffsets(MachineFunction &MF) {
+     StackObjSet SmallArrayObjs;
+     StackObjSet AddrOfObjs;
+ 
+-    AdjustStackOffset(MFI, StackProtectorFI, StackGrowsDown, Offset, MaxAlign,
+-                      Skew);
++    // If we need a stack protector, we need to make sure that
++    // LocalStackSlotPass didn't already allocate a slot for it.
++    // If we are told to use the LocalStackAllocationBlock, the stack protector
++    // is expected to be already pre-allocated.
++    if (!MFI.getUseLocalStackAllocationBlock())
++      AdjustStackOffset(MFI, StackProtectorFI, StackGrowsDown, Offset, MaxAlign,
++                        Skew);
++    else if (!MFI.isObjectPreAllocated(MFI.getStackProtectorIndex()))
++      llvm_unreachable(
++          "Stack protector not pre-allocated by LocalStackSlotPass.");
+ 
+     // Assign large stack objects first.
+     for (unsigned i = 0, e = MFI.getObjectIndexEnd(); i != e; ++i) {
+@@ -968,6 +976,15 @@ void PEI::calculateFrameObjectOffsets(MachineFunction &MF) {
+       llvm_unreachable("Unexpected SSPLayoutKind.");
+     }
+ 
++    // We expect **all** the protected stack objects to be pre-allocated by
++    // LocalStackSlotPass. If it turns out that PEI still has to allocate some
++    // of them, we may end up messing up the expected order of the objects.
++    if (MFI.getUseLocalStackAllocationBlock() &&
++        !(LargeArrayObjs.empty() && SmallArrayObjs.empty() &&
++          AddrOfObjs.empty()))
++      llvm_unreachable("Found protected stack objects not pre-allocated by "
++                       "LocalStackSlotPass.");
++
+     AssignProtectedObjSet(LargeArrayObjs, ProtectedObjs, MFI, StackGrowsDown,
+                           Offset, MaxAlign, Skew);
+     AssignProtectedObjSet(SmallArrayObjs, ProtectedObjs, MFI, StackGrowsDown,
+diff --git a/llvm/test/CodeGen/AArch64/stack-guard-reassign.ll b/llvm/test/CodeGen/AArch64/stack-guard-reassign.ll
+index a3b00fd2cca..632774c970e 100644
+--- a/llvm/test/CodeGen/AArch64/stack-guard-reassign.ll
++++ b/llvm/test/CodeGen/AArch64/stack-guard-reassign.ll
+@@ -3,7 +3,7 @@
+ ; Verify that the offset assigned to the stack protector is at the top of the
+ ; frame, covering the locals.
+ ; CHECK-LABEL: fn:
+-; CHECK:      add x8, sp, #24
++; CHECK:      sub x8, x29, #24
+ ; CHECK-NEXT: adrp x9, __stack_chk_guard
+ ; CHECK-NEXT: ldr x9, [x9, :lo12:__stack_chk_guard]
+ ; CHECK-NEXT: str x9, [x8]
+diff --git a/llvm/test/CodeGen/AArch64/stack-guard-reassign.mir b/llvm/test/CodeGen/AArch64/stack-guard-reassign.mir
+index 296290e2b0f..c0dfcbce1d8 100644
+--- a/llvm/test/CodeGen/AArch64/stack-guard-reassign.mir
++++ b/llvm/test/CodeGen/AArch64/stack-guard-reassign.mir
+@@ -11,13 +11,13 @@
+ name:            main
+ tracksRegLiveness: true
+ frameInfo:
+-# CHECK: stackSize: 560
++# CHECK: stackSize: 544
+   stackProtector:  '%stack.0.StackGuardSlot'
+ stack:
+   - { id: 0, name: StackGuardSlot, size: 8, alignment: 8, stack-id: default }
+ # Verify that the offset assigned to the stack protector is at the top of the
+ # frame, covering the locals.
+-# CHECK:       - { id: 0, name: StackGuardSlot, type: default, offset: -552, size: 8,
++# CHECK:       - { id: 0, name: StackGuardSlot, type: default, offset: -24, size: 8,
+ # CHECK-NEXT:      alignment: 8, stack-id: default, callee-saved-register: '', callee-saved-restored: true,
+ # CHECK-NEXT:      local-offset: -8, debug-info-variable: '', debug-info-expression: '',
+ # CHECK-NEXT:      debug-info-location: '' }
+diff --git a/llvm/test/CodeGen/AArch64/stack-guard-vaarg.ll b/llvm/test/CodeGen/AArch64/stack-guard-vaarg.ll
+index e083aa10e33..29e66d95787 100644
+--- a/llvm/test/CodeGen/AArch64/stack-guard-vaarg.ll
++++ b/llvm/test/CodeGen/AArch64/stack-guard-vaarg.ll
+@@ -9,7 +9,7 @@
+ ; CHECK: ldr [[GUARD:x[0-9]+]]{{.*}}:lo12:__stack_chk_guard]
+ ; Make sure the canary is placed relative to the frame pointer, not
+ ; the stack pointer.
+-; CHECK: str [[GUARD]], [sp, #8]
++; CHECK: stur [[GUARD]], [x29, #-24]
+ define void @test(i8* %i, ...) #0 {
+ entry:
+   %buf = alloca [10 x i8], align 1
+diff --git a/llvm/test/CodeGen/ARM/stack-guard-reassign.ll b/llvm/test/CodeGen/ARM/stack-guard-reassign.ll
+index ae3d91361e2..2ce1d1588a4 100644
+--- a/llvm/test/CodeGen/ARM/stack-guard-reassign.ll
++++ b/llvm/test/CodeGen/ARM/stack-guard-reassign.ll
+@@ -3,12 +3,12 @@
+ ; Verify that the offset assigned to the stack protector is at the top of the
+ ; frame, covering the locals.
+ ; CHECK-LABEL: fn:
+-; CHECK:      sub sp, sp, #40
++; CHECK:      sub sp, sp, #32
+ ; CHECK-NEXT: sub sp, sp, #65536
+-; CHECK-NEXT: add r1, sp, #28
++; CHECK-NEXT: add lr, sp, #65536
++; CHECK-NEXT: add r1, lr, #28
+ ; CHECK-NEXT: ldr r2, .LCPI0_0
+ ; CHECK-NEXT: ldr r3, [r2]
+ ; CHECK-NEXT: str r3, [r1]
+-; CHECK-NEXT: str r0, [sp, #32]
+ ; CHECK: .LCPI0_0:
+ ; CHECK-NEXT: .long __stack_chk_guard
+diff --git a/llvm/test/CodeGen/PowerPC/stack-guard-reassign.ll b/llvm/test/CodeGen/PowerPC/stack-guard-reassign.ll
+index 3a8cac506c2..8128b63d598 100644
+--- a/llvm/test/CodeGen/PowerPC/stack-guard-reassign.ll
++++ b/llvm/test/CodeGen/PowerPC/stack-guard-reassign.ll
+@@ -9,7 +9,9 @@
+ ; CHECK-NEXT: ori 0, 0, 65488
+ ; CHECK-NEXT: stwux 1, 1, 0
+ ; CHECK-NEXT: subf 0, 0, 1
+-; CHECK-NEXT: addi 4, 1, 36
++; CHECK-NEXT: lis 4, 1
++; CHECK-NEXT: ori 4, 4, 44
++; CHECK-NEXT: add 4, 1, 4
+ ; CHECK-NEXT: lis 5, __stack_chk_guard@ha
+ ; CHECK-NEXT: lwz 6, __stack_chk_guard@l(5)
+ ; CHECK-NEXT: stw 6, 0(4)
