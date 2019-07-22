@@ -13,7 +13,7 @@ inherit  cros-constants check-reqs cmake-utils eutils flag-o-matic git-2 git-r3 
 # llvm:361749 https://critique.corp.google.com/#review/252092293
 # Master bug: crbug/972454
 LLVM_HASH="c11de5eada2decd0a495ea02676b6f4838cd54fb" # r361749
-LLVM_NEXT_HASH="c11de5eada2decd0a495ea02676b6f4838cd54fb" # r361749
+LLVM_NEXT_HASH="6b043f051836635a1e88da4d0464e6569bd7b625" # r365631
 
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="http://llvm.org/"
@@ -195,16 +195,8 @@ pick_next_cherries() {
 	local CHERRIES=""
 
 	# clang
-	# Next two for: crbug/977282
-	CHERRIES+=" 7e48b406ef5ef2208c75874f7751a786e748706f" #r361885
-	CHERRIES+=" 37b753368238cd25868632960f477d25f973b977" #r363548
 
 	# llvm
-	# Next two from google3 cherries for r361749
-	CHERRIES+=" 8472fa6c54c9d044adcd147f6826bccebd730f30" #r362856
-	CHERRIES+=" ca84c4be4b443df7e49202bb6ca42f831b524245" #r361781
-	# crbug.com/916740.
-	CHERRIES+=" 26cc5bcb1a392c9e352be35c50f18e1404d91159" #r364039
 	# Next 3 for crbug/984116
 	CHERRIES+=" 90ba54bf67c4c134d000b064121789a32c0c6a73" #r366369
 	CHERRIES+=" 39fc2843e4eb07370d55f0a7a0db34d4bd6c9d5f" #r366370
@@ -213,6 +205,8 @@ pick_next_cherries() {
 	# compiler-rt
 
 	# lld
+	CHERRIES+=" be8275753fe23fb56c4cb5127695dad540b9053c" #r365759
+	CHERRIES+=" 7b5a54e369035a5754be2e836b7b583b3db8c884" #r365760
 
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
@@ -313,18 +307,19 @@ src_prepare() {
 	# Revert r335145 and r335284 since android reverts them.
 	# b/113573336
 	epatch_after 335145 "${FILESDIR}"/llvm-8.0-revert-r335145.patch
+	use llvm-next || epatch "${FILESDIR}"/clang-8.0-revert-r335284.patch
+	use llvm-next && epatch "${FILESDIR}"/clang-next-9.0-revert-r335284.patch
 
 	# clang patches
 	# clang: crbug/606391
 	epatch "${FILESDIR}"/${PN}-3.8-invocation.patch
 
-	epatch "${FILESDIR}"/clang-next-8.0-revert-r335284.patch
-
 	# lld patches
 	# Allow .elf suffix in lld binary name.
 	epatch "${FILESDIR}/lld-invoke-name.patch"
 	# Put .text.hot section before .text section.
-	epatch "${FILESDIR}"/lld-9.0-reorder-hotsection-early.patch
+	use llvm-next || epatch "${FILESDIR}"/lld-9.0-reorder-hotsection-early.patch
+	use llvm-next && epatch "${FILESDIR}"/lld-next-9.0-reorder-hotsection-early.patch
 
 	# Fix LLD errors in duplicate symbols in version script. http://crbug.com/982882
 	epatch_between 361749 365595 "${FILESDIR}"/lld-9.0-apply-r365759.patch
