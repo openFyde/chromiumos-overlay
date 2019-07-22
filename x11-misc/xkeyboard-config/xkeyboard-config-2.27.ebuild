@@ -37,7 +37,6 @@ PATCHES=(
 	"${FILESDIR}"/${P}-remap-capslock.patch
 	"${FILESDIR}"/${P}-add-f19-24.patch
 	"${FILESDIR}"/${P}-gb-extd-deadkey.patch
-	"${FILESDIR}"/${P}-ch-brokenbar.patch
 	"${FILESDIR}"/${P}-br-euro-degree.patch
 	"${FILESDIR}"/${P}-es-euro-sign.patch
 	"${FILESDIR}"/${P}-fr-keypad-comma.patch
