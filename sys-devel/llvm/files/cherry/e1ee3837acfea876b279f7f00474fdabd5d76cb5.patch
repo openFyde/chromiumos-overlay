@@ -1,0 +1,182 @@
+From e1ee3837acfea876b279f7f00474fdabd5d76cb5 Mon Sep 17 00:00:00 2001
+From: Fangrui Song <maskray@google.com>
+Date: Thu, 11 Jul 2019 11:16:51 +0000
+Subject: [PATCH] [ELF] Handle non-glob patterns before glob patterns in
+ version scripts & fix a corner case of --dynamic-list
+
+This fixes PR38549, which is silently accepted by ld.bfd.
+This seems correct because it makes sense to let non-glob patterns take
+precedence over glob patterns.
+
+lld issues an error because
+`assignWildcardVersion(ver, VER_NDX_LOCAL);` is processed before `assignExactVersion(ver, v.id, v.name);`.
+
+Move all assignWildcardVersion() calls after assignExactVersion() calls
+to fix this.
+
+Also, move handleDynamicList() to the bottom. computeBinding() called by
+includeInDynsym() has this cryptic rule:
+
+    if (versionId == VER_NDX_LOCAL && isDefined() && !isPreemptible)
+      return STB_LOCAL;
+
+Before the change:
+
+* foo's version is set to VER_NDX_LOCAL due to `local: *`
+* handleDynamicList() is called
+  - foo.computeBinding() is STB_LOCAL
+  - foo.includeInDynsym() is false
+  - foo.isPreemptible is not set (wrong)
+* foo's version is set to V1
+
+After the change:
+
+* foo's version is set to VER_NDX_LOCAL due to `local: *`
+* foo's version is set to V1
+* handleDynamicList() is called
+  - foo.computeBinding() is STB_GLOBAL
+  - foo.includeInDynsym() is true
+  - foo.isPreemptible is set (correct)
+
+Reviewed By: ruiu
+
+Differential Revision: https://reviews.llvm.org/D64550
+
+llvm-svn: 365760
+---
+ lld/ELF/SymbolTable.cpp                | 40 ++++++++++++--------------
+ lld/ELF/SymbolTable.h                  |  1 -
+ lld/test/ELF/dynamic-list-preempt.s    |  7 ++++-
+ lld/test/ELF/version-script-reassign.s |  5 ++++
+ 4 files changed, 29 insertions(+), 24 deletions(-)
+
+diff --git a/lld/ELF/SymbolTable.cpp b/lld/ELF/SymbolTable.cpp
+index 252e1201c0c..fde08064a60 100644
+--- a/lld/ELF/SymbolTable.cpp
++++ b/lld/ELF/SymbolTable.cpp
+@@ -153,20 +153,6 @@ std::vector<Symbol *> SymbolTable::findAllByVersion(SymbolVersion ver) {
+   return res;
+ }
+ 
+-// If there's only one anonymous version definition in a version
+-// script file, the script does not actually define any symbol version,
+-// but just specifies symbols visibilities.
+-void SymbolTable::handleAnonymousVersion() {
+-  for (SymbolVersion &ver : config->versionScriptGlobals)
+-    assignExactVersion(ver, VER_NDX_GLOBAL, "global");
+-  for (SymbolVersion &ver : config->versionScriptGlobals)
+-    assignWildcardVersion(ver, VER_NDX_GLOBAL);
+-  for (SymbolVersion &ver : config->versionScriptLocals)
+-    assignExactVersion(ver, VER_NDX_LOCAL, "local");
+-  for (SymbolVersion &ver : config->versionScriptLocals)
+-    assignWildcardVersion(ver, VER_NDX_LOCAL);
+-}
+-
+ // Handles -dynamic-list.
+ void SymbolTable::handleDynamicList() {
+   for (SymbolVersion &ver : config->dynamicList) {
+@@ -241,23 +227,27 @@ void SymbolTable::assignWildcardVersion(SymbolVersion ver, uint16_t versionId) {
+ 
+ // This function processes version scripts by updating VersionId
+ // member of symbols.
++// If there's only one anonymous version definition in a version
++// script file, the script does not actually define any symbol version,
++// but just specifies symbols visibilities.
+ void SymbolTable::scanVersionScript() {
+-  // Handle edge cases first.
+-  handleAnonymousVersion();
+-  handleDynamicList();
+-
+-  // Now we have version definitions, so we need to set version ids to symbols.
+-  // Each version definition has a glob pattern, and all symbols that match
+-  // with the pattern get that version.
+-
+   // First, we assign versions to exact matching symbols,
+   // i.e. version definitions not containing any glob meta-characters.
++  for (SymbolVersion &ver : config->versionScriptGlobals)
++    assignExactVersion(ver, VER_NDX_GLOBAL, "global");
++  for (SymbolVersion &ver : config->versionScriptLocals)
++    assignExactVersion(ver, VER_NDX_LOCAL, "local");
+   for (VersionDefinition &v : config->versionDefinitions)
+     for (SymbolVersion &ver : v.globals)
+       assignExactVersion(ver, v.id, v.name);
+ 
+   // Next, we assign versions to fuzzy matching symbols,
+   // i.e. version definitions containing glob meta-characters.
++  for (SymbolVersion &ver : config->versionScriptGlobals)
++    assignWildcardVersion(ver, VER_NDX_GLOBAL);
++  for (SymbolVersion &ver : config->versionScriptLocals)
++    assignWildcardVersion(ver, VER_NDX_LOCAL);
++
+   // Note that because the last match takes precedence over previous matches,
+   // we iterate over the definitions in the reverse order.
+   for (VersionDefinition &v : llvm::reverse(config->versionDefinitions))
+@@ -269,4 +259,10 @@ void SymbolTable::scanVersionScript() {
+   // Let them parse and update their names to exclude version suffix.
+   for (Symbol *sym : symVector)
+     sym->parseSymbolVersion();
++
++  // isPreemptible is false at this point. To correctly compute the binding of a
++  // Defined (which is used by includeInDynsym()), we need to know if it is
++  // VER_NDX_LOCAL or not. If defaultSymbolVersion is VER_NDX_LOCAL, we should
++  // compute symbol versions before handling --dynamic-list.
++  handleDynamicList();
+ }
+diff --git a/lld/ELF/SymbolTable.h b/lld/ELF/SymbolTable.h
+index 26a5adac6e7..b64707f4ab0 100644
+--- a/lld/ELF/SymbolTable.h
++++ b/lld/ELF/SymbolTable.h
+@@ -64,7 +64,6 @@ private:
+   std::vector<Symbol *> findAllByVersion(SymbolVersion ver);
+ 
+   llvm::StringMap<std::vector<Symbol *>> &getDemangledSyms();
+-  void handleAnonymousVersion();
+   void assignExactVersion(SymbolVersion ver, uint16_t versionId,
+                           StringRef versionName);
+   void assignWildcardVersion(SymbolVersion ver, uint16_t versionId);
+diff --git a/lld/test/ELF/dynamic-list-preempt.s b/lld/test/ELF/dynamic-list-preempt.s
+index c19acc891da..024f9302a00 100644
+--- a/lld/test/ELF/dynamic-list-preempt.s
++++ b/lld/test/ELF/dynamic-list-preempt.s
+@@ -7,9 +7,14 @@
+ # RUN: llvm-readobj -r %t.so | FileCheck --check-prefix=RELOCS %s
+ # RUN: llvm-readobj --dyn-syms  %t.so | FileCheck --check-prefix=DYNSYMS %s
+ 
++# RUN: echo "V1 { global: foo; bar; local: *; };" > %t.vers
++# RUN: ld.lld --hash-style=sysv -fatal-warnings -dynamic-list %t.list -version-script %t.vers -shared %t.o -o %t.so
++# RUN: llvm-readobj -r %t.so | FileCheck --check-prefix=RELOCS %s
++# RUN: llvm-readobj --dyn-syms  %t.so | FileCheck --check-prefix=DYNSYMS %s
++
+ # RELOCS:      Relocations [
+ # RELOCS-NEXT:   Section ({{.*}}) .rela.plt {
+-# RELOCS-NEXT:     R_X86_64_JUMP_SLOT foo 0x0
++# RELOCS-NEXT:     R_X86_64_JUMP_SLOT foo{{.*}} 0x0
+ # RELOCS-NEXT:     R_X86_64_JUMP_SLOT ext 0x0
+ # RELOCS-NEXT:   }
+ # RELOCS-NEXT: ]
+diff --git a/lld/test/ELF/version-script-reassign.s b/lld/test/ELF/version-script-reassign.s
+index e2413295cc4..62b32cba82b 100644
+--- a/lld/test/ELF/version-script-reassign.s
++++ b/lld/test/ELF/version-script-reassign.s
+@@ -4,6 +4,7 @@
+ # RUN: echo '{ global: foo; local: *; };' > %tg.ver
+ # RUN: echo 'V1 { global: foo; };' > %t1.ver
+ # RUN: echo 'V2 { global: foo; };' > %t2.ver
++# RUN: echo 'V2 { global: notexist; local: f*; };' > %t2w.ver
+ 
+ ## Note, ld.bfd errors on the two cases.
+ # RUN: ld.lld -shared %t.o --version-script %tl.ver --version-script %t1.ver \
+@@ -18,6 +19,10 @@
+ # RUN:   -o %t.so 2>&1 | FileCheck --check-prefix=V1-WARN %s
+ # RUN: llvm-readelf --dyn-syms %t.so | FileCheck --check-prefix=V1-SYM %s
+ 
++# RUN: ld.lld -shared %t.o --version-script %t1.ver --version-script %t2w.ver \
++# RUN:   -o %t.so --fatal-warnings
++# RUN: llvm-readelf --dyn-syms %t.so | FileCheck --check-prefix=V1-SYM %s
++
+ # LOCAL: warning: attempt to reassign symbol 'foo' of VER_NDX_LOCAL to version 'V1'
+ # LOCAL-SYM-NOT: foo
+ 
+-- 
+2.22.0.657.g960e92d24f-goog
+

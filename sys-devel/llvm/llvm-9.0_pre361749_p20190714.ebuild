@@ -206,7 +206,7 @@ pick_next_cherries() {
 
 	# lld
 	CHERRIES+=" be8275753fe23fb56c4cb5127695dad540b9053c" #r365759
-	CHERRIES+=" 7b5a54e369035a5754be2e836b7b583b3db8c884" #r365760
+	CHERRIES+=" e1ee3837acfea876b279f7f00474fdabd5d76cb5" #r365760
 
 	for cherry in ${CHERRIES}; do
 		epatch "${FILESDIR}/cherry/${cherry}.patch"
