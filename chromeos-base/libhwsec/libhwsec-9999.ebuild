@@ -31,7 +31,7 @@ DEPEND="
 
 src_install() {
 	insinto /usr/include/chromeos/libhwsec
-	doins *.h
+	doins ./*.h
 
 	dolib.so "${OUT}"/lib/libhwsec.so
 }
