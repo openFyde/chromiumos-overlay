@@ -20,8 +20,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libhws
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
+IUSE="test tpm2"
 
 RDEPEND="
+	!tpm2? ( app-crypt/trousers )
 	chromeos-base/libbrillo:=
 "
 
