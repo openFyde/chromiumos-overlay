@@ -110,6 +110,12 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/crash_reporter_test"
+	local gtest_filter_user_tests="-*.RunAsRoot*:"
+	local gtest_filter_root_tests="*.RunAsRoot*-"
+
+	platform_test "run" "${OUT}/crash_reporter_test" "0" \
+		"${gtest_filter_user_tests}"
+	platform_test "run" "${OUT}/crash_reporter_test" "1" \
+		"${gtest_filter_root_tests}"
 	platform_test "run" "${OUT}/anomaly_detector_test.sh"
 }
