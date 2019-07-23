@@ -39,7 +39,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
-		hwsec_test
+		hwsec_testrunner
 	)
 	local test_bin
 	for test_bin in "${tests[@]}"; do
