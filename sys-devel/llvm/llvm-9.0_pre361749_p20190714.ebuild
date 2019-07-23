@@ -163,56 +163,6 @@ src_unpack() {
 	EGIT_NOUNPACK=
 }
 
-pick_cherries() {
-	local CHERRIES=""
-
-	# clang
-	# Next two for: crbug/977282
-	CHERRIES+=" 7e48b406ef5ef2208c75874f7751a786e748706f" #r361885
-	CHERRIES+=" 37b753368238cd25868632960f477d25f973b977" #r363548
-
-	# llvm
-	# Next two from google3 cherries for r361749
-	CHERRIES+=" 8472fa6c54c9d044adcd147f6826bccebd730f30" #r362856
-	CHERRIES+=" ca84c4be4b443df7e49202bb6ca42f831b524245" #r361781
-	# crbug.com/916740.
-	CHERRIES+=" 26cc5bcb1a392c9e352be35c50f18e1404d91159" #r364039
-	# Next 3 for crbug/984116
-	CHERRIES+=" 90ba54bf67c4c134d000b064121789a32c0c6a73" #r366369
-	CHERRIES+=" 39fc2843e4eb07370d55f0a7a0db34d4bd6c9d5f" #r366370
-	CHERRIES+=" 9f2b290addfc4d9f514790b47773b141682b0db5" #r366371
-
-	# compiler-rt
-
-	# lld
-
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-}
-
-pick_next_cherries() {
-	local CHERRIES=""
-
-	# clang
-
-	# llvm
-	# Next 3 for crbug/984116
-	CHERRIES+=" 90ba54bf67c4c134d000b064121789a32c0c6a73" #r366369
-	CHERRIES+=" 39fc2843e4eb07370d55f0a7a0db34d4bd6c9d5f" #r366370
-	CHERRIES+=" 9f2b290addfc4d9f514790b47773b141682b0db5" #r366371
-
-	# compiler-rt
-
-	# lld
-	CHERRIES+=" be8275753fe23fb56c4cb5127695dad540b9053c" #r365759
-	CHERRIES+=" e1ee3837acfea876b279f7f00474fdabd5d76cb5" #r365760
-
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-}
-
 get_most_recent_revision() {
 	local subdir="${S}/llvm"
 
@@ -238,6 +188,13 @@ get_most_recent_revision() {
 				}
 			}
 			/^\s+llvm-svn: [0-9]+$/ { most_recent_id = $2 }'
+}
+
+get_most_recent_sha() {
+	local subdir="${S}/llvm"
+
+	# Get the git hash of the most recent commit.
+	git -C "${subdir}" rev-parse HEAD
 }
 
 # This cache is a bit awkward, since the most natural way to do this is "make a
@@ -276,58 +233,19 @@ epatch_before() {
 }
 
 src_prepare() {
-	if ! use llvm-tot ; then
-		use llvm-next || pick_cherries
-		use llvm-next && pick_next_cherries
-	fi
-
-	# compiler-rt patches
-	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
-	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
-	epatch "${FILESDIR}"/compiler-rt-9.0-force-fPIC.patch
-
-	# new pass manager patches
-	# crbug/958867
-	epatch "${FILESDIR}"/llvm-9.0-no-cgprofile.patch
-	# https://bugs.llvm.org/show_bug.cgi?id=42272
-	epatch "${FILESDIR}"/llvm-9.0-no-assert-domtree.patch
+	ensure_most_recent_revision_set
 
 	# Make ocaml warnings non-fatal, bug #537308
 	sed -e "/RUN/s/-warn-error A//" -i llvm/test/Bindings/OCaml/*ml  || die
 
-	# llvm patches
-	# Allow custom cmake build types (like 'Gentoo')
-	epatch "${FILESDIR}"/cmake/${PN}-3.8-allow_custom_cmake_build_types.patch
-
-	# crbug/591436
-	epatch "${FILESDIR}"/llvm-8.0-clang-executable-detection.patch
-
-	epatch "${FILESDIR}"/llvm-3.9-dwarf-version.patch
-
-	# Revert r335145 and r335284 since android reverts them.
-	# b/113573336
-	epatch_after 335145 "${FILESDIR}"/llvm-8.0-revert-r335145.patch
-	use llvm-next || epatch "${FILESDIR}"/clang-8.0-revert-r335284.patch
-	use llvm-next && epatch "${FILESDIR}"/clang-next-9.0-revert-r335284.patch
-
-	# clang patches
-	# clang: crbug/606391
-	epatch "${FILESDIR}"/${PN}-3.8-invocation.patch
-
-	# lld patches
-	# Allow .elf suffix in lld binary name.
-	epatch "${FILESDIR}/lld-invoke-name.patch"
-	# Put .text.hot section before .text section.
-	use llvm-next || epatch "${FILESDIR}"/lld-9.0-reorder-hotsection-early.patch
-	use llvm-next && epatch "${FILESDIR}"/lld-next-9.0-reorder-hotsection-early.patch
-
-	# Fix LLD errors in duplicate symbols in version script. http://crbug.com/982882
-	epatch_between 361749 365595 "${FILESDIR}"/lld-9.0-apply-r365759.patch
-
-	# Fix LLD errors in handling non-glob patterns in version script. FIXME: Add bug link.
-	epatch_between 361749 365595 "${FILESDIR}"/lld-9.0-apply-r365760.patch
-
 	python_setup
+
+	python "${FILESDIR}"/patch_manager.py \
+		--svn_version "$(get_most_recent_revision)" \
+		--git_hash "$(get_most_recent_sha)" \
+		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
+		--filesdir_path "${FILESDIR}" \
+		--src_path "${S}" || die
 
 	# User patches
 	epatch_user
