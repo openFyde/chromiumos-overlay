@@ -15,7 +15,7 @@
 # to gclient path.
 
 EAPI="5"
-inherit autotest-deponly binutils-funcs cros-constants eutils flag-o-matic git-2 multilib toolchain-funcs user
+inherit autotest-deponly binutils-funcs cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://www.chromium.org/"
@@ -50,6 +50,7 @@ IUSE="
 	jumbo
 	+libcxx
 	mojo
+	msan
 	+nacl
 	neon
 	new_tcmalloc
@@ -57,10 +58,12 @@ IUSE="
 	opengl
 	opengles
 	orderfile_generate
+	orderfile_verify
 	+reorder_text_sections
 	+runhooks
 	strict_toolchain_checks
 	+thinlto
+	ubsan
 	+v4l2_codec
 	v4lplugin
 	vaapi
@@ -75,6 +78,7 @@ REQUIRED_USE="
 	libcxx? ( clang )
 	thinlto? ( clang )
 	afdo_use? ( clang )
+	orderfile_verify? ( !reorder_text_sections )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -134,17 +138,20 @@ AFDO_LOCATION["silvermont"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-jo
 AFDO_LOCATION["airmont"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/airmont/"}
 AFDO_LOCATION["haswell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/haswell/"}
 AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/broadwell/"}
+UNVETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/orderfiles/unvetted"}
 
 # The following entries into the AFDO_FILE* dictionaries are set automatically
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-77.0.3849.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R77-3809.38-1562580965.afdo"
-AFDO_FILE["airmont"]="R77-3809.38-1562581389.afdo"
-AFDO_FILE["haswell"]="R77-3809.38-1562585770.afdo"
-AFDO_FILE["broadwell"]="R77-3809.38-1562578564.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-77.0.3860.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R77-3849.0-1563789224.afdo"
+AFDO_FILE["airmont"]="R77-3849.0-1563789733.afdo"
+AFDO_FILE["haswell"]="R77-3809.38-1563791973.afdo"
+AFDO_FILE["broadwell"]="R77-3809.38-1563788827.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
+# The following entry will be modified automatically for verifying orderfile.
+UNVETTED_ORDERFILE="chromeos-chrome-orderfile-77.0.3849.0_rc-r1.orderfile"
 
 # This dictionary can be used to manually override the setting for the
 # AFDO profile file. Any non-empty values in this array will take precedence
@@ -175,6 +182,8 @@ add_afdo_files() {
 }
 
 add_afdo_files
+
+SRC_URI+=" orderfile_verify? ( ${UNVETTED_ORDERFILE_LOCATION}/${UNVETTED_ORDERFILE}.xz )"
 
 RDEPEND="${RDEPEND}
 	app-arch/bzip2
@@ -277,7 +286,7 @@ set_build_args() {
 		# that, despite the name, it should be usable by external users.
 		#
 		# Sanitizers don't like official builds.
-		"is_official_build=$(usex asan false true)"
+		"is_official_build=$(use_sanitizers false true)"
 
 		"is_debug=false"
 		"${EXTRA_GN_ARGS}"
@@ -312,6 +321,8 @@ set_build_args() {
 
 		# Clang features.
 		"is_asan=$(usetf asan)"
+		"is_msan=$(usetf msan)"
+		"is_ubsan=$(usetf ubsan)"
 		"is_clang=$(usetf clang)"
 		"cros_host_is_clang=$(usetf clang)"
 		"cros_v8_snapshot_is_clang=$(usetf clang)"
@@ -730,6 +741,20 @@ src_unpack() {
 		AFDO_PROFILE_LOC="${PROFILE_DIR}/${redacted_profile_file}"
 		einfo "Using ${PROFILE_STATE} AFDO data from ${AFDO_PROFILE_LOC}"
 	fi
+
+	# Unpack unvetted orderfile.
+	if use orderfile_verify; then
+		local orderfile_dir="${WORKDIR}/orderfile"
+		mkdir "${orderfile_dir}"
+		local orderfile_file=${UNVETTED_ORDERFILE}
+		(cd "${orderfile_dir}" && unpack "${orderfile_file}.xz") || die
+
+		local orderfile_loc="${orderfile_dir}/${orderfile_file}"
+		einfo "Using ${orderfile_loc} as orderfile for ordering Chrome"
+
+		# Pass the path to orderfile to GN args.
+		BUILD_STRING_ARGS+=( "chrome_orderfile_path=${orderfile_loc}" )
+	fi
 }
 
 add_api_keys() {
@@ -1103,6 +1128,12 @@ chrome_make() {
 	# set up.
 	if use strict_toolchain_checks && "${use_lld}" && use reorder_text_sections; then
 		"${FILESDIR}/check_symbol_ordering.py" "${build_dir}/chrome" || die
+	fi
+
+	# Still use a script to check if the orderfile is used properly, i.e.
+	# Builtin_ functions are placed between the markers, etc.
+	if use strict_toolchain_checks && use orderfile_verify; then
+		"${FILESDIR}/check_orderfile.py" "${build_dir}/chrome" || die
 	fi
 }
 
