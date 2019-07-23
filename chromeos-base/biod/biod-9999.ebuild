@@ -27,6 +27,7 @@ RDEPEND="
 	chromeos-base/metrics:=
 	sys-apps/flashmap:=
 	sys-apps/flashrom
+	virtual/chromeos-firmware-fpmcu
 	"
 
 DEPEND="
