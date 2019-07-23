@@ -44,6 +44,8 @@ chromeos-base/chromeos-chrome   build_tests
 >=chromeos-base/chromeos-chrome-42.0.2297.0_rc-r1		v4l2_codec
 chromeos-base/nsswitch	zeroconf
 media-gfx/imagemagick	jpeg png svg tiff
+# Disable all SANE backends that don't support USB.
+media-gfx/sane-backends -sane_backends_abaton -sane_backends_agfafocus -sane_backends_apple -sane_backends_artec -sane_backends_bh -sane_backends_canon -sane_backends_coolscan -sane_backends_dc210 -sane_backends_dc240 -sane_backends_dc25 -sane_backends_dmc -sane_backends_hs2p -sane_backends_ibm -sane_backends_kodak -sane_backends_leo -sane_backends_matsushita -sane_backends_microtek -sane_backends_mustek -sane_backends_nec -sane_backends_net -sane_backends_p5 -sane_backends_pie -sane_backends_plustek_pp -sane_backends_qcam -sane_backends_ricoh -sane_backends_s9036 -sane_backends_sceptre -sane_backends_sharp -sane_backends_sp15c -sane_backends_st400 -sane_backends_tamarack -sane_backends_teco1 -sane_backends_teco2 -sane_backends_teco3 -sane_backends_test -sane_backends_umax_pp
 media-gfx/zbar		-gtk -imagemagick jpeg python -qt4 threads -v4l -X -xv
 media-libs/freeimage	png
 # TODO(derat): Unset glib for harfbuzz if/when pango is no longer needed:
