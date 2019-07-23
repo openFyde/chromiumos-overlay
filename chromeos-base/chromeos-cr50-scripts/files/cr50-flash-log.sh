@@ -56,12 +56,25 @@ main() {
   # event ID.
   #
   # After awk processing below just the header is printed for each line.
-  gsctool -a -L "${prev_stamp}" | awk '{print $1}' | while read entry; do
+  gsctool -a -L "${prev_stamp}" | sed 's/:/ /g' | while read -r entry; do
     local event_id
     local new_stamp
 
-    event_id="$(echo "${entry}" | sed 's/.*://')"
-    new_stamp="$(echo "${entry}" | sed 's/:.*//')"
+    set -- ${entry}
+
+    new_stamp=$1
+    event_id=$2
+
+    if [ "${event_id}" = "05" ]; then
+      # If event_id is 05, which is FE_LOG_NVMEM, then adopt '200 + the first
+      # byte of payload' as an new event_id, as defined as enum Cr50FlashLogs in
+      # https://chromium.googlesource.com/chromium/src/+/master/tools/metrics/
+      # histograms/enums.xml.
+      #
+      # For example, event_id=05, payload[0]=00, then new event id is 200, which
+      # is labed as 'Nvmem Malloc'.
+      event_id=$(( 200 + 0x$3 ))
+    fi
 
     metrics_client -s "Platform.Cr50.FlashLog" "0x${event_id}"
     exit_code="$?"
