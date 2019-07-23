@@ -35,6 +35,10 @@ src_install() {
 	insinto /usr/include/chromeos/libhwsec
 	doins ./*.h
 
+	insinto /usr/include/chromeos/libhwsec/overalls
+	doins ./overalls/overalls.h
+	doins ./overalls/overalls_api.h
+
 	dolib.so "${OUT}"/lib/libhwsec.so
 }
 
