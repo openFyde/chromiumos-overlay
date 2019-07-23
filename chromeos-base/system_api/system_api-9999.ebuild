@@ -60,6 +60,7 @@ src_install() {
 		cryptohome
 		debugd
 		dlcservice
+		kerberos
 		login_manager
 		lorgnette
 		oobe_config
