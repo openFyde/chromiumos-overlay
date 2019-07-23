@@ -39,7 +39,15 @@ src_install() {
 	doins ./overalls/overalls.h
 	doins ./overalls/overalls_api.h
 
+	if ! use tpm2; then
+		insinto /usr/include/chromeos/libhwsec/test_utils/tpm1
+		doins ./test_utils/tpm1/*.h
+	fi
+
 	dolib.so "${OUT}"/lib/libhwsec.so
+	if ! use tpm2; then
+		dolib.a "${OUT}"/libhwsec_test.a
+	fi
 }
 
 
