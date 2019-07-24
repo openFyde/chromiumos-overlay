@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="6f994b8e3ac868ffb1fba35473c753e65dcd1b5e"
-CROS_WORKON_TREE="445179be58aa1bb824166c4d4ca84c87c600b42a"
+CROS_WORKON_COMMIT="2ad39013e188b32640486b662005d29a199937b9"
+CROS_WORKON_TREE="e399aa4da2dc7dbc274db26caa623ab91acda9b3"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-inherit cros-workon cros-ec-board
+inherit cros-workon
 
 DESCRIPTION="Chrome OS EC Utility Helper"
 
@@ -21,7 +21,7 @@ KEYWORDS="*"
 IUSE="biod -cr50_onboard"
 
 RDEPEND="chromeos-base/ec-utils
-	dev-util/shflags"
+	biod? ( dev-util/shflags )"
 
 src_compile() {
 	tc-export CC
@@ -40,16 +40,7 @@ src_install() {
 	fi
 
 	if use biod; then
-		get_ec_boards
-
-		local target
-		for target in "${EC_BOARDS[@]}"; do
-			if [[ -f "board/${target}/flash_fp_mcu" ]]; then
-				einfo "Installing flash_fp_mcu for ${target}"
-				dobin "board/${target}/flash_fp_mcu"
-				insinto /usr/share/flash_fp_mcu
-				doins "util/flash_fp_mcu_common.sh"
-			fi
-		done
+		einfo "Installing flash_fp_mcu"
+		dobin "util/flash_fp_mcu"
 	fi
 }

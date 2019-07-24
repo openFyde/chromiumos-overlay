@@ -3,20 +3,20 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="a532b692aa75d37961ffb26fc8a84b94215659a6"
-CROS_WORKON_TREE=("f577121f2538fbe78584b4fe59c478a26bf80df4" "5213912b42ae5a90f4befa7da76c67cc0620620c" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="7d3dedd541adf50c6de194e06319dec394e8b8bd"
+CROS_WORKON_TREE=("f577121f2538fbe78584b4fe59c478a26bf80df4" "166b6a5bd282eb02d0db91490efa0fdab99fd7ac" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk login_manager .gn"
+CROS_WORKON_SUBTREE="common-mk power_manager .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="login_manager/session_manager-client"
+PLATFORM_SUBDIR="power_manager/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="Session manager (chromeos-login) DBus client library for Chromium OS"
+DESCRIPTION="Power manager DBus client library for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 
 LICENSE="BSD-Google"
@@ -36,10 +36,10 @@ DEPEND="
 "
 
 RDEPEND="
-	!<chromeos-base/chromeos-login-0.0.2
+	!<chromeos-base/power_manager-0.0.2
 "
 
 src_install() {
 	# Install DBus client library.
-	platform_install_dbus_client_lib "session_manager"
+	platform_install_dbus_client_lib "power_manager"
 }
