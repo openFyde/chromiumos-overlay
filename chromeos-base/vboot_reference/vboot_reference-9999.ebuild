@@ -47,7 +47,6 @@ src_compile() {
 	# Vboot reference knows the flags to use
 	unset CFLAGS
 	vemake BUILD="${WORKDIR}"/build-main all
-	unset CC AR CXX PKG_CONFIG
 }
 
 src_test() {
