@@ -168,6 +168,64 @@ cros_post_src_compile_python_eclass_hack() {
 	cros_post_pkg_setup_python_eclass_hack
 }
 
+# We don't want builds to run tools directly like `gcc` or `clang` or
+# `pkg-config`.  This indicates the packages are written incorrectly and
+# would use the wrong toolchain for the board.  They might seem to work for
+# x86_64 boards (since the SDK is x86_64), but it's still unreliable.
+# https://crbug.com/985180
+cros_pre_src_prepare_build_toolchain_catch() {
+	# TODO(vapier): Only enabled for the SDK currently.  Boards have too many
+	# failing packages currently.
+	if [[ $(cros_target) != "cros_host" ]]; then
+		return
+	fi
+
+	# TODO(vapier): Finish fixing these packages.
+	case ${CATEGORY}/${PN} in
+	*/gdb) return ;;
+	# Haskell has some internal logic that invokes `pkg-config --version`.
+	app-admin/haskell-updater) return ;;
+	dev-embedded/u-boot-tools) return ;;
+	dev-util/shellcheck) return ;;
+	dev-haskell/*) return ;;
+	dev-lang/ghc) return ;;
+	dev-lang/ruby) return ;;
+	dev-lang/rust) return ;;
+	dev-python/pycairo) return ;;
+	media-video/ffmpeg) return ;;
+	net-analyzer/wireshark) return ;;
+	# Used during `aclocal` to find glib macros.
+	x11-libs/cairo) return ;;
+	esac
+
+	local dir="${T}/build-toolchain-wrappers"
+	mkdir -p "${dir}"
+	local tool tcvar
+	for tool in pkg-config; do
+		tcvar=${tool^^}
+		tcvar=${tcvar//-/_}
+		cat <<EOF > "${dir}/${tool}"
+#!/bin/sh
+$(which eerror) "\$(
+err() { echo "${tool}: ERROR: \$*"; }
+err "Do not call unprefixed tools directly."
+err "For board tools, use \\\`tc-export ${tcvar}\\\` (or \\\${CHOST}-${tool})."
+err "For build-time-only tools, \\\`tc-export BUILD_${tcvar}\\\` (or \\\${CBUILD}-${tool})."
+pstree -a -A -s -l \$\$
+)"
+$(which die) "Bad ${tool} [\$*] invocation"
+exit 1
+EOF
+		chmod a+rx "${dir}/${tool}"
+	done
+	PATH="${dir}:${PATH}"
+}
+cros_post_src_install_build_toolchain_catch() {
+	# Some portage install hooks will run tools.  We probably want to change
+	# those, but at least for now, we'll undo the wrappers.
+	rm -rf "${T}/build-toolchain-wrappers"
+}
+
 # Set ASAN settings so they'll work for unittests. http://crbug.com/367879
 # We run at src_unpack time so that the hooks have time to get registered
 # and saved in the environment.  Portage has a bug where hooks registered
