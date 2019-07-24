@@ -3,13 +3,13 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="a532b692aa75d37961ffb26fc8a84b94215659a6"
-CROS_WORKON_TREE=("f577121f2538fbe78584b4fe59c478a26bf80df4" "1e7ca43c1ed93403d3cf797a08ef372d497fa7ca" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT=("be549d7f9140eebb35ed1fa0f40bbcbc6e99ae8f" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_TREE=("f577121f2538fbe78584b4fe59c478a26bf80df4" "9c4e3d5745289b667678a7ce82bbb7ff13ace217" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 CROS_WORKON_INCREMENTAL_BUILD="1"
-CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/keymaster .gn"
+CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
+CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/keymaster")
+CROS_WORKON_SUBTREE=("common-mk arc/keymaster .gn" "")
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/keymaster"
@@ -67,7 +67,8 @@ src_prepare() {
 
 src_configure() {
 	local mycmakeargs=(
-		-DCMAKE_BUILD_TYPE=Release
+		"-DCMAKE_BUILD_TYPE=Release"
+		"-DCMAKE_SYSTEM_PROCESSOR=${CHOST%%-*}"
 	)
 	cmake-utils_src_configure
 	platform_src_configure
