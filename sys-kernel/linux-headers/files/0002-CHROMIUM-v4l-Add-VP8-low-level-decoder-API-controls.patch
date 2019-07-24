@@ -1,4 +1,4 @@
-From cc1731d3668d06ae413e1d23bdb16eaa2c5a4573 Mon Sep 17 00:00:00 2001
+From 3f75a46ca019d8e02eb60c8daed5b6baf5adfe00 Mon Sep 17 00:00:00 2001
 From: Pawel Osciak <posciak@chromium.org>
 Date: Fri, 26 Dec 2014 10:37:33 +0900
 Subject: [PATCH] CHROMIUM: v4l: Add VP8 low-level decoder API controls.
@@ -8,24 +8,20 @@ to provide additional parameters for the hardware that cannot parse the
 input stream.
 
 BUG=chrome-os-partner:33728
-TEST=compile
 
-Change-Id: I32b45e07cfe02b25ea5202d0c839699103e3b800
-Signed-off-by: Pawel Osciak <posciak@chromium.org>
-Reviewed-on: https://chromium-review.googlesource.com/237670
-Reviewed-by: Wu-cheng Li <wuchengli@chromium.org>
-Commit-Queue: Tomasz Figa <tfiga@chromium.org>
-Tested-by: Tomasz Figa <tfiga@chromium.org>
+[fbuergisser@chromium.org: original patch modified as h264 headers were moved
+ to other header files which cause a failure when applying the original patch.
+ Keeping part of the original patch for context.]
 ---
- include/uapi/linux/v4l2-controls.h | 95 ++++++++++++++++++++++++++++++
+ include/uapi/linux/v4l2-controls.h | 94 ++++++++++++++++++++++++++++++
  include/uapi/linux/videodev2.h     |  3 +
- 2 files changed, 98 insertions(+)
+ 2 files changed, 97 insertions(+)
 
 diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 192e9e9886e2..32573951105f 100644
+index a692623e0236..3cc443af9036 100644
 --- a/include/uapi/linux/v4l2-controls.h
 +++ b/include/uapi/linux/v4l2-controls.h
-@@ -595,6 +595,9 @@ enum v4l2_vp8_golden_frame_sel {
+@@ -589,6 +589,9 @@ enum v4l2_vp8_golden_frame_sel {
  #define V4L2_CID_MPEG_VIDEO_VPX_P_FRAME_QP		(V4L2_CID_MPEG_BASE+510)
  #define V4L2_CID_MPEG_VIDEO_VPX_PROFILE			(V4L2_CID_MPEG_BASE+511)
  
@@ -35,9 +31,9 @@ index 192e9e9886e2..32573951105f 100644
  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
  #define V4L2_CID_MPEG_CX2341X_BASE 				(V4L2_CTRL_CLASS_MPEG | 0x1000)
  #define V4L2_CID_MPEG_CX2341X_VIDEO_SPATIAL_FILTER_MODE 	(V4L2_CID_MPEG_CX2341X_BASE+0)
-@@ -1123,6 +1126,98 @@ struct v4l2_ctrl_h264_decode_param {
- 	struct v4l2_h264_dpb_entry dpb[16];
- };
+@@ -969,6 +972,97 @@ enum v4l2_deemphasis {
+ #define V4L2_CID_RF_TUNER_IF_GAIN		(V4L2_CID_RF_TUNER_CLASS_BASE + 62)
+ #define V4L2_CID_RF_TUNER_PLL_LOCK			(V4L2_CID_RF_TUNER_CLASS_BASE + 91)
  
 +#define V4L2_VP8_SEGMNT_HDR_FLAG_ENABLED              0x01
 +#define V4L2_VP8_SEGMNT_HDR_FLAG_UPDATE_MAP           0x02
@@ -130,15 +126,14 @@ index 192e9e9886e2..32573951105f 100644
 +
 +	__u8 flags;
 +};
-+
+ 
  /*  Detection-class control IDs defined by V4L2 */
  #define V4L2_CID_DETECT_CLASS_BASE		(V4L2_CTRL_CLASS_DETECT | 0x900)
- #define V4L2_CID_DETECT_CLASS			(V4L2_CTRL_CLASS_DETECT | 1)
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 21d898c280d6..1f5ab20cf458 100644
+index c2c9e44e70a7..68363054b586 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -635,6 +635,7 @@ struct v4l2_pix_format {
+@@ -636,6 +636,7 @@ struct v4l2_pix_format {
  #define V4L2_PIX_FMT_VC1_ANNEX_G v4l2_fourcc('V', 'C', '1', 'G') /* SMPTE 421M Annex G compliant stream */
  #define V4L2_PIX_FMT_VC1_ANNEX_L v4l2_fourcc('V', 'C', '1', 'L') /* SMPTE 421M Annex L compliant stream */
  #define V4L2_PIX_FMT_VP8      v4l2_fourcc('V', 'P', '8', '0') /* VP8 */
@@ -146,21 +141,21 @@ index 21d898c280d6..1f5ab20cf458 100644
  #define V4L2_PIX_FMT_VP9      v4l2_fourcc('V', 'P', '9', '0') /* VP9 */
  
  /*  Vendor-specific formats   */
-@@ -1578,6 +1579,7 @@ struct v4l2_ext_control {
- 		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scal_mtrx;
- 		struct v4l2_ctrl_h264_slice_param __user *p_h264_slice_param;
- 		struct v4l2_ctrl_h264_decode_param __user *p_h264_decode_param;
+@@ -1574,6 +1575,7 @@ struct v4l2_ext_control {
+ 		__u8 __user *p_u8;
+ 		__u16 __user *p_u16;
+ 		__u32 __user *p_u32;
 +		struct v4l2_ctrl_vp8_frame_hdr __user *p_vp8_frame_hdr;
  		void __user *ptr;
  	};
  } __attribute__ ((packed));
-@@ -1627,6 +1629,7 @@ enum v4l2_ctrl_type {
- 	V4L2_CTRL_TYPE_H264_SCALING_MATRIX = 0x0105,
- 	V4L2_CTRL_TYPE_H264_SLICE_PARAM = 0x0106,
- 	V4L2_CTRL_TYPE_H264_DECODE_PARAM = 0x0107,
-+	V4L2_CTRL_TYPE_VP8_FRAME_HDR	= 0x108,
+@@ -1618,6 +1620,7 @@ enum v4l2_ctrl_type {
+ 	V4L2_CTRL_TYPE_U8	     = 0x0100,
+ 	V4L2_CTRL_TYPE_U16	     = 0x0101,
+ 	V4L2_CTRL_TYPE_U32	     = 0x0102,
++	V4L2_CTRL_TYPE_VP8_FRAME_HDR = 0x0108,
  
- 	V4L2_CTRL_TYPE_PRIVATE       = 0xffff,
+ 	V4L2_CTRL_TYPE_PRIVATE	     = 0xffff,
  };
 -- 
 2.22.0.657.g960e92d24f-goog
