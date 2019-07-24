@@ -51,6 +51,7 @@ PATCHES=(
 	"${FILESDIR}/0025-UPSTREAM-nl80211-mac80211-mesh-add-mesh-path-change-c.patch"
 	"${FILESDIR}/0026-FROMLIST-Input_add_KEY_KBD_LAYOUT_NEXT.patch"
 	"${FILESDIR}/0027-UPSTREAM-nl80211-include-nl80211_sta_info-enums.patch"
+	"${FILESDIR}/0028-UPSTREAM-media-pixfmt-Add-H264-Slice-format.patch"
 )
 
 src_unpack() {
