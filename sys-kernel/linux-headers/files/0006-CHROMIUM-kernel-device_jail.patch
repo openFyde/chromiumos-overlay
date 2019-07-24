@@ -1,17 +1,24 @@
-commit 6c9b2880419a82fdeee0c8f66f9c861524891a82
-Author: Eric Caruso <ejcaruso@chromium.org>
-Date:   Wed Dec 7 16:18:15 2016 -0800
+From a7313b8c1690d34ebec3bdc4387a3f590060dbb7 Mon Sep 17 00:00:00 2001
+From: Eric Caruso <ejcaruso@chromium.org>
+Date: Wed, 7 Dec 2016 16:18:15 -0800
 Subject: [PATCH] CHROMIUM: kernel device_jail
 
 Interface to device_jail subsystem found in security/chromiumos.
 
 BUG=chromium:644338
 
+Change-Id: I5aa85b3896b93b19e64825e3626279850c083f77
 Signed-off-by: Eric Caruso <ejcaruso@chromium.org>
 ---
+ include/uapi/linux/device_jail.h | 36 ++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 include/uapi/linux/device_jail.h
 
+diff --git a/include/uapi/linux/device_jail.h b/include/uapi/linux/device_jail.h
+new file mode 100644
+index 000000000000..25ec85555e60
 --- /dev/null
-+++ include/uapi/linux/device_jail.h
++++ b/include/uapi/linux/device_jail.h
 @@ -0,0 +1,36 @@
 +/*
 + * Device jail user interface.
@@ -49,3 +56,6 @@ Signed-off-by: Eric Caruso <ejcaruso@chromium.org>
 +};
 +
 +#endif /* _UAPI_LINUX_DEVICE_JAIL_H */
+-- 
+2.22.0.657.g960e92d24f-goog
+

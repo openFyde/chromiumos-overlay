@@ -1,4 +1,4 @@
-From 3238d40015b79297a604dd83ff3b0b6894e483ab Mon Sep 17 00:00:00 2001
+From 8122268d39752a32db9e85d368cc23793f088db7 Mon Sep 17 00:00:00 2001
 From: Pawel Osciak <posciak@chromium.org>
 Date: Fri, 19 Aug 2016 18:12:09 +0900
 Subject: [PATCH] CHROMIUM: v4l: Add
@@ -14,12 +14,14 @@ TEST=veaunittest
 
 Change-Id: I17b41a8a3e228338f5c59dcdfb38ca04cfa5119b
 ---
+ include/uapi/linux/v4l2-controls.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 23b11a2..d458219 100644
---- include/uapi/linux/v4l2-controls.h
-+++ include/uapi/linux/v4l2-controls.h
-@@ -526,7 +526,7 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type {
+index 5650dc40ff2a..489d6f8eba9b 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -536,7 +536,7 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type {
  #define V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX	(V4L2_CID_MPEG_BASE+385)
  #define V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAM	(V4L2_CID_MPEG_BASE+386)
  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAM	(V4L2_CID_MPEG_BASE+387)
@@ -29,5 +31,5 @@ index 23b11a2..d458219 100644
  #define V4L2_CID_MPEG_VIDEO_MPEG4_P_FRAME_QP	(V4L2_CID_MPEG_BASE+401)
  #define V4L2_CID_MPEG_VIDEO_MPEG4_B_FRAME_QP	(V4L2_CID_MPEG_BASE+402)
 -- 
-2.8.0.rc3.226.g39d4020
+2.22.0.657.g960e92d24f-goog
 
