@@ -43,6 +43,7 @@ CROS_BOARDS=(
 	kalista
 	kevin
 	kip
+	kukui
 	lars
 	leon
 	link
