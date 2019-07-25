@@ -29,6 +29,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-detect-rotational.patch
 	epatch "${FILESDIR}"/${P}-sysmacros.h
 	epatch "${FILESDIR}"/${P}-fileio-overflow.patch # crbug.com/216504
+	epatch "${FILESDIR}"/${P}-large-readahead.patch
 }
 
 src_configure() {
