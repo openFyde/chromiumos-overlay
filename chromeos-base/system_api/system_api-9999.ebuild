@@ -56,6 +56,7 @@ src_install() {
 	local dir dirs=(
 		attestation
 		biod
+		chunneld
 		cros-disks
 		cros_healthd
 		cryptohome
