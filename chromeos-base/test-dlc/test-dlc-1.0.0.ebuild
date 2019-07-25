@@ -19,10 +19,15 @@ src_unpack() {
 }
 
 src_install() {
-	# Installs test DLC module.
-	insinto /opt/google/dlc/test-dlc/test-package
-	doins "${FILESDIR}/table"
-	doins "${FILESDIR}/imageloader.json"
-	insinto /usr/local/dlc/
-	doins "${FILESDIR}/dlcservice_test-dlc.payload"
+	local n
+	for n in {1..2}; do
+		local id="test${n}-dlc"
+		local package="test-package"
+		insinto "/opt/google/dlc/${id}/${package}/"
+		doins "${FILESDIR}/${id}/${package}/table"
+		doins "${FILESDIR}/${id}/${package}/imageloader.json"
+		insinto "/usr/local/dlc/${id}/${package}/"
+		doins "${FILESDIR}/${id}/${package}/dlcservice_test-dlc.payload"
+		doins "${FILESDIR}/${id}/${package}/dlcservice_test-dlc.payload.json"
+	done
 }

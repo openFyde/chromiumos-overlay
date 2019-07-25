@@ -5,28 +5,42 @@
 
 # Use this script to regenrate the artifacts needed by the test-dlc.
 
+if [ -z "$BOARD" ]; then
+  echo "BOARD variable is unset." && exit 1
+else
+  echo "using BOARD='$BOARD'"
+fi
+
 set -ex
 
 TEMP="$(mktemp -d)"
 DLC_ARTIFACT_DIR="$(mktemp -d)"
-BOARD="/build/reef"
+BUILD_BOARD="/build/$BOARD"
+DLC_PACKAGE="test-package"
+PAYLOAD="dlcservice_test-dlc.payload"
 
-mkdir -p "${DLC_ARTIFACT_DIR}"/dir
-truncate -s 12K "${DLC_ARTIFACT_DIR}/file1.bin"
-truncate -s 24K "${DLC_ARTIFACT_DIR}/dir/file2.bin"
+for N in {1..2}; do
+	DLC_ID="test${N}-dlc"
+	DLC_PATH="${DLC_ID}/${DLC_PACKAGE}"
 
-build_dlc --src-dir "${DLC_ARTIFACT_DIR}" --install-root-dir "${TEMP}" \
-	  --sysroot "${BOARD}" --pre-allocated-blocks "3" \
-	  --version "1.0.0" --id "test-dlc" --package "test-package" \
-	  --name "Test DLC"
+	mkdir -p "${DLC_ARTIFACT_DIR}"/dir "./${DLC_PATH}"
+	truncate -s 12K "${DLC_ARTIFACT_DIR}/file1.bin"
+	truncate -s 24K "${DLC_ARTIFACT_DIR}/dir/file2.bin"
 
-delta_generator \
-    --new_partitions="${TEMP}/build/rootfs/dlc/test-dlc/test-package/dlc.img" \
-    --partition_names="dlc/test-dlc/test-package" \
-    --major_version=2 \
-    --out_file="dlcservice_test-dlc.payload"
+	build_dlc --src-dir "${DLC_ARTIFACT_DIR}" --install-root-dir "${TEMP}" \
+		  --sysroot "${BUILD_BOARD}" --pre-allocated-blocks "10" \
+		  --version "1.0.0" --id "${DLC_ID}" --package "${DLC_PACKAGE}" \
+		  --name "Test${N} DLC"
 
-cp "${TEMP}/opt/google/dlc/test-dlc/test-package/table" .
-cp "${TEMP}/opt/google/dlc/test-dlc/test-package/imageloader.json" .
+	cp "${TEMP}/opt/google/dlc/${DLC_PATH}/table" "${DLC_PATH}/."
+	cp "${TEMP}/opt/google/dlc/${DLC_PATH}/imageloader.json" "${DLC_PATH}/."
 
-rm -rf "${TEMP} ${DLC_ARTIFACT_DIR}"
+	cros_generate_update_payload \
+	    --image "${TEMP}/build/rootfs/dlc/${DLC_PATH}/dlc.img" \
+	    --output "${TEMP}/${PAYLOAD}"
+
+	cp "${TEMP}/${PAYLOAD}" "${DLC_PATH}/."
+	cp "${TEMP}/${PAYLOAD}.json" "${DLC_PATH}/."
+
+	rm -rf "${TEMP} ${DLC_ARTIFACT_DIR}"
+done
