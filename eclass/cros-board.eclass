@@ -73,6 +73,7 @@ ALL_BOARDS=(
 	bobcat
 	bolt
 	bruteus
+	bubs
 	buddy
 	buddy-cfm
 	#buranku
