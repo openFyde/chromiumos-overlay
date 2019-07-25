@@ -3,8 +3,8 @@
 # $Header:
 
 EAPI="4"
-CROS_WORKON_COMMIT="274688eb2280dba7d1e0afe5a6a77c703624c43f"
-CROS_WORKON_TREE="697226ec06ab25b3cd47712e0773e8b5ee597594"
+CROS_WORKON_COMMIT="5af26c3c6e0dfe78f9553bbf8f91508bd706643b"
+CROS_WORKON_TREE="828dfc6cd65ef743dca796d03319fb91c86b3a52"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashmap"
 
 inherit cros-workon toolchain-funcs multilib python
