@@ -50,12 +50,7 @@ IUSE_TESTS=(
 	# Uses chrome_binary_test dependency.
 	+tests_video_JDAPerf
 	+tests_video_JEAPerf
-	+tests_video_JpegDecodeAccelerator
-	+tests_video_JpegEncodeAccelerator
-	+tests_video_VideoDecodeAccelerator
-	+tests_video_VideoEncodeAccelerator
 	+tests_video_VDAPerf
-	+tests_video_VDASanity
 	+tests_video_VEAPerf
 
 	# Tests that depend on telemetry.
@@ -240,19 +235,10 @@ IUSE_TESTS=(
 	+tests_touch_TouchscreenTaps
 	+tests_touch_TouchscreenZoom
 	+tests_touch_StylusTaps
-	+tests_video_ChromeHWDecodeUsed
-	+tests_video_ChromeRTCHWEncodeUsed
-	+tests_video_ChromeVidResChangeHWDecode
 	+tests_video_HangoutHardwarePerf
-	+tests_video_MediaRecorderHWEncodeUsed
 	+tests_video_MediaRecorderPerf
 	+tests_video_PlaybackPerf
-	+tests_video_VideoSanity
-	+tests_video_VideoSeek
-	+tests_video_WebRtcCamera
-	+tests_video_WebRtcMediaRecorder
 	+tests_video_WebRtcPerf
-	+tests_video_WebRtcPeerConnectionWithCamera
 )
 
 IUSE_TESTS_CELLULAR="
