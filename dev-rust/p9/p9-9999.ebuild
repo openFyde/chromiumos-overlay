@@ -15,7 +15,6 @@ DESCRIPTION="Server implementation of the 9P file system protocol"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/p9/"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="fuzzer test"
 
@@ -26,6 +25,8 @@ DEPEND="
 	~dev-rust/syn-0.15.21:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
+
+RDEPEND="!<=dev-rust/p9-0.1.0-r14"
 
 get_crate_version() {
 	local crate="$1"

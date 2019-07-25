@@ -14,7 +14,6 @@ DESCRIPTION="A library for managing temporary files and directories"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/tempfile"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
@@ -26,6 +25,8 @@ DEPEND="
 	=dev-rust/remove_dir_all-0.5*:=
 	=dev-rust/winapi-0.3*:=
 "
+
+RDEPEND="!<=dev-rust/tempfile-3.0.7-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

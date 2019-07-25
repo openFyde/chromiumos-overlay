@@ -14,7 +14,6 @@ DESCRIPTION="A Rust utility library for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libchromeos-rs/"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
@@ -26,6 +25,8 @@ DEPEND="chromeos-base/system_api
 	>=dev-rust/protobuf-2.1:=
 	!>=dev-rust/protobuf-3.0:=
 "
+
+RDEPEND="!<=dev-rust/libchromeos-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

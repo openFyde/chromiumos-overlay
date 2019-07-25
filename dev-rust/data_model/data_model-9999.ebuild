@@ -15,13 +15,14 @@ DESCRIPTION="Crates includes traits and types for safe interaction with raw memo
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/data_model"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
 	dev-rust/assertions:=
 "
+
+RDEPEND="!dev-rust/data_model:0.1.0/r12"
 
 src_unpack() {
 	cros-workon_src_unpack

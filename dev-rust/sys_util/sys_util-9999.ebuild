@@ -15,12 +15,12 @@ DESCRIPTION="Small system utility modules for usage by other modules."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sys_util"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
 RDEPEND="
 	sys-libs/libcap:=
+	!<=dev-rust/sys_util-0.1.0-r60
 "
 DEPEND="
 	${RDEPEND}
@@ -80,3 +80,4 @@ pkg_prerm() {
 	cros-rust_pkg_prerm poll_token_derive
 	cros-rust_pkg_prerm
 }
+

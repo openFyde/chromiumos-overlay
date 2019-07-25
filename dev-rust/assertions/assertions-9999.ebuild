@@ -15,9 +15,10 @@ DESCRIPTION="Crates for compile-time assertion macro."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/assertions"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
+
+RDEPEND="!<=dev-rust/assertions-0.1.0-r3"
 
 src_unpack() {
 	cros-workon_src_unpack

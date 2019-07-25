@@ -15,9 +15,10 @@ DESCRIPTION="Containing a type sync::Mutex which wraps the standard library Mute
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sync"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
+
+RDEPEND="!<=dev-rust/sync-0.1.0-r6"
 
 src_unpack() {
 	cros-workon_src_unpack

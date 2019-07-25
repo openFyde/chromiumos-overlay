@@ -15,7 +15,6 @@ DESCRIPTION="Convert number to enum"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/enumn"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
@@ -24,6 +23,8 @@ DEPEND="
 	=dev-rust/quote-0.6*
 	=dev-rust/syn-0.15*
 "
+
+RDEPEND="!<=dev-rust/enumn-0.0.1-r4"
 
 src_unpack() {
 	cros-workon_src_unpack

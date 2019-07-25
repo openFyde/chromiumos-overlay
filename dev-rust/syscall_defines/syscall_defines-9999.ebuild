@@ -15,9 +15,10 @@ DESCRIPTION="Linux syscall defines."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/syscall_defines"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
+
+RDEPEND="!<=dev-rust/syscall_defines-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

@@ -15,12 +15,12 @@ DESCRIPTION="Rust wrapper for chromeos-base/libvda"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/libvda/rust"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
 RDEPEND="
 	chromeos-base/libvda:=
+	!<=dev-rust/libvda-0.0.1-r5
 "
 
 DEPEND="

@@ -14,7 +14,6 @@ DESCRIPTION="Infrastructure for clients to emit trace events."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trace_events/"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
@@ -22,6 +21,8 @@ DEPEND="=dev-rust/libc-0.2*:=
 	=dev-rust/criterion-0.2*:=
 	>=dev-rust/serde_json-1:=
 "
+
+RDEPEND="!<=dev-rust/trace_events-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack
