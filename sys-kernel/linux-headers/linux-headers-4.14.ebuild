@@ -52,6 +52,7 @@ PATCHES=(
 	"${FILESDIR}/0026-FROMLIST-Input_add_KEY_KBD_LAYOUT_NEXT.patch"
 	"${FILESDIR}/0027-UPSTREAM-nl80211-include-nl80211_sta_info-enums.patch"
 	"${FILESDIR}/0028-UPSTREAM-media-pixfmt-Add-H264-Slice-format.patch"
+	"${FILESDIR}/0029-BACKPORT-FROMLIST-media-uapi-Add-VP8-stateless-decod.patch"
 )
 
 src_unpack() {
