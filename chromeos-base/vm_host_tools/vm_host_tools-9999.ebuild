@@ -29,6 +29,7 @@ RDEPEND="
 	app-arch/libarchive
 	!!chromeos-base/vm_tools
 	chromeos-base/arc-networkd
+	chromeos-base/chunnel
 	chromeos-base/crosvm
 	chromeos-base/libbrillo
 	chromeos-base/minijail
