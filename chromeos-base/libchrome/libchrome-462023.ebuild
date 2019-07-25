@@ -119,6 +119,10 @@ src_prepare() {
 	# Remove glib dependency.
 	# TODO(hidehiko): Fix the config in AOSP libchrome.
 	epatch "${FILESDIR}"/${P}-libchrome-Remove-glib-dependency.patch
+
+	# Add RingBuffer from libchrome.
+	# # TODO(lnishan): Remove after libchrome uprev past r574656
+	epatch "${FILESDIR}"/${P}-Add-base-containers-RingBuffer.patch
 }
 
 src_install() {
