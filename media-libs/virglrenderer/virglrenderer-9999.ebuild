@@ -18,9 +18,9 @@ IUSE="fuzzer profiling static-libs test"
 RDEPEND="
 	>=x11-libs/libdrm-2.4.50
 	media-libs/libepoxy
+	media-libs/minigbm
 	fuzzer? (
 		media-libs/mesa
-		media-libs/minigbm
 	)
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
