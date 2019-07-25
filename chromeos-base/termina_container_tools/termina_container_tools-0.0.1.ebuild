@@ -19,6 +19,7 @@ RDEPEND="
 	x11-themes/cros-adapta
 "
 DEPEND="
+	chromeos-base/chunnel
 	chromeos-base/vm_guest_tools
 	net-libs/grpc:=
 	dev-libs/protobuf:=
@@ -31,6 +32,7 @@ src_install() {
 	"${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --bindir=/bin \
 			--libdir=/lib --generate-wrappers \
 			--copy-to-tree="${WORKDIR}"/container_pkg/ \
+			/usr/bin/chunnel \
 			/usr/bin/garcon \
 			/usr/bin/notificationd \
 			/usr/bin/sommelier \
