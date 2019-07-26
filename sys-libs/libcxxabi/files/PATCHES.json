@@ -1,0 +1,6 @@
+[
+    {
+        "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
+        "rel_patch_path": "libcxxabi-7-use-libgcc_eh.patch"
+    }
+]

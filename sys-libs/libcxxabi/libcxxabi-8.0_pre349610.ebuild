@@ -57,8 +57,12 @@ src_unpack() {
 }
 
 src_prepare() {
-	# Link with libgcc_eh when compiler-rt is used.
-	epatch "${FILESDIR}"/libcxxabi-7-use-libgcc_eh.patch
+	python "${FILESDIR}"/patch_manager.py \
+		--svn_version "$(get_most_recent_revision)" \
+		--git_hash "$(get_most_recent_sha)" \
+		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
+		--filesdir_path "${FILESDIR}" \
+		--src_path "${S}" || die
 }
 
 multilib_src_configure() {
