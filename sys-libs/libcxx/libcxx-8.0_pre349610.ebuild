@@ -59,11 +59,12 @@ src_unpack() {
 }
 
 src_prepare() {
-	# Link with libgcc_eh when compiler-rt is used.
-	epatch "${FILESDIR}"/libcxx-7-use-libgcc_eh.patch
-	# Adds visibility annotions to make CFI work.
-	# Patch is under review at https://reviews.llvm.org/D48680
-	epatch "${FILESDIR}/${PN}-cfi.patch"
+	python "${FILESDIR}"/patch_manager.py \
+		--svn_version "$(get_most_recent_revision)" \
+		--git_hash "$(get_most_recent_sha)" \
+		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
+		--filesdir_path "${FILESDIR}" \
+		--src_path "${S}" || die
 }
 
 pkg_setup() {

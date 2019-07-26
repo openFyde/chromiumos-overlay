@@ -1,0 +1,10 @@
+[
+    {
+        "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
+        "rel_patch_path": "libcxx-7-use-libgcc_eh.patch"
+    },
+    {
+        "comment": "Adds correct visibility annotations so that CFI check\ncan be disabled on these functions",
+        "rel_patch_path": "libcxx-cfi.patch"
+    }
+]
