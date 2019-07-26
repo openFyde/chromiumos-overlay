@@ -59,7 +59,8 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	abi_x86_32? ( !<=app-emulation/emul-linux-x86-baselibs-20130224-r2
 		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32(-)] )
-	!<=sys-devel/lld-8.0_pre349610-r5"
+	!<=sys-devel/lld-8.0_pre349610-r5
+	!<=sys-devel/llvm-8.0_pre"
 
 # pypy gives me around 1700 unresolved tests due to open file limit
 # being exceeded. probably GC does not close them fast enough.
