@@ -1737,12 +1737,16 @@ _cros-kernel2_compile() {
 				$(usex device_tree 'zImage dtbs' uImage)
 				$(usex boot_dts_device_tree dtbs '')
 				$(cros_chkconfig_present MODULES && echo "modules")
+				$(use kgdb &&
+					sed -nE 's/^(scripts_gdb):.*$/\1/p' Makefile)
 			)
 			;;
 		arm64)
 			build_targets=(
 				Image dtbs
 				$(cros_chkconfig_present MODULES && echo "modules")
+				$(use kgdb &&
+					sed -nE 's/^(scripts_gdb):.*$/\1/p' Makefile)
 			)
 			;;
 		mips)
@@ -1750,6 +1754,8 @@ _cros-kernel2_compile() {
 				vmlinuz.bin
 				$(usex device_tree 'dtbs' '')
 				$(cros_chkconfig_present MODULES && echo "modules")
+				$(use kgdb &&
+					sed -nE 's/^(scripts_gdb):.*$/\1/p' Makefile)
 			)
 			;;
 	esac
