@@ -42,25 +42,12 @@ src_unpack() {
 }
 
 src_prepare() {
-	# Cherry-picks
-	local CHERRIES=""
-	if use llvm-next; then
-		CHERRIES=""
-	else
-		CHERRIES=""
-	fi
-
-	# Cherry-pick for both llvm and llvm-next
-	# None this time.
-
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-
-	# Apply patches
-	epatch "${FILESDIR}"/llvm-next-leak-whitelist.patch
-	epatch "${FILESDIR}"/clang-4.0-asan-default-path.patch
-	epatch "${FILESDIR}"/compiler-rt-9.0-force-fPIC.patch
+	python "${FILESDIR}"/patch_manager.py \
+		--svn_version "$(get_most_recent_revision)" \
+		--git_hash "$(get_most_recent_sha)" \
+		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
+		--filesdir_path "${FILESDIR}" \
+		--src_path "${S}" || die
 }
 
 src_configure() {
