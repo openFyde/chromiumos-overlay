@@ -25,7 +25,10 @@ RDEPEND="
 	dev-libs/protobuf:=
 "
 
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	media-libs/minigbm:=
+"
 
 src_install() {
 	newbin "${OUT}"/server_proxy arcvm_server_proxy
