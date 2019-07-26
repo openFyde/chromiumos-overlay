@@ -38,29 +38,13 @@ src_unpack() {
 	git-2_src_unpack
 }
 
-pick_cherries() {
-	local CHERRIES=""
-	CHERRIES+="dc1b8e9f4478c838c8704295d97f5e514edb9cd0" #r355142
-	pushd "${S}" >/dev/null || die
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-	popd >/dev/null || die
-}
-
-pick_next_cherries() {
-	local CHERRIES=""
-	CHERRIES+="dc1b8e9f4478c838c8704295d97f5e514edb9cd0" #r355142
-	pushd "${S}" >/dev/null || die
-	for cherry in ${CHERRIES}; do
-		epatch "${FILESDIR}/cherry/${cherry}.patch"
-	done
-	popd >/dev/null || die
-}
-
 src_prepare() {
-	use llvm-next || pick_cherries
-	use llvm-next && pick_next_cherries
+	python "${FILESDIR}"/patch_manager.py \
+		--svn_version "$(get_most_recent_revision)" \
+		--git_hash "$(get_most_recent_sha)" \
+		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
+		--filesdir_path "${FILESDIR}" \
+		--src_path "${S}" || die
 }
 
 multilib_src_configure() {
