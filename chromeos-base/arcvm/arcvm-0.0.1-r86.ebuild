@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="bfcff843f8429a416c6507cbffd06e219bb48488"
+CROS_WORKON_COMMIT="ae53dc84e831a627902c7e88227f7711de80dfcf"
 CROS_WORKON_TREE=("f577121f2538fbe78584b4fe59c478a26bf80df4" "033722d624d7798c28920a5f24ac7ed65ebc3b26" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,7 +27,10 @@ RDEPEND="
 	dev-libs/protobuf:=
 "
 
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	media-libs/minigbm:=
+"
 
 src_install() {
 	newbin "${OUT}"/server_proxy arcvm_server_proxy
