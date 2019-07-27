@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_so
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="tpm tpm2"
+IUSE="test tpm tpm2"
 REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="
@@ -34,8 +34,11 @@ RDEPEND="
 	chromeos-base/libchrome
 "
 
-DEPEND="
-	${RDEPEND}
+DEPEND="${RDEPEND}
+	tpm2? (
+		chromeos-base/system_api
+		chromeos-base/trunks[test?]
+	)
 "
 
 src_install() {
@@ -47,4 +50,8 @@ src_install() {
 	# Installs header files
 	insinto /usr/include/tpm_softclear_utils
 	doins ./*.h
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/tpm_softclear_utils_testrunner"
 }
