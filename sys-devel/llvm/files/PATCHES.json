@@ -57,6 +57,12 @@
         "end_version": 365760
     },
     {
+        "comment": "Don't resolve the stack protector frame accesses until PEI",
+        "rel_patch_path": "cherry/0503add6dab545600b99c89753fcc7cb5bd15fc8.patch",
+        "start_version": 365631,
+        "end_version": 367068
+    },
+    {
         "comment": "Adds a whitelist of packages that have known memory leaks",
         "rel_patch_path": "llvm-next-leak-whitelist.patch"
     },
