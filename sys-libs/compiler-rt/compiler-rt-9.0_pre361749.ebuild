@@ -124,10 +124,9 @@ src_install() {
 	local llvm_version=$(llvm-config --version)
 	local clang_version=${llvm_version%svn*}
 	clang_version=${clang_version%git*}
-	if [[ ${clang_version} == "8.0.0" ]] ; then
-		new_version="9.0.0"
-	else
-		new_version="8.0.0"
-	fi
+	local compiler_rt_version=${clang_version%%.*}
+	new_version="$((compiler_rt_version + 1)).0.0"
+	old_version="$((compiler_rt_version - 1)).0.0"
 	cp -r  "${D}${libdir}/clang/${clang_version}" "${D}${libdir}/clang/${new_version}"
+	cp -r  "${D}${libdir}/clang/${clang_version}" "${D}${libdir}/clang/${old_version}"
 }
