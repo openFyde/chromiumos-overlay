@@ -126,6 +126,8 @@ src_prepare() {
 
 	# Fix for CVE-2019-12450, see also crbug.com/972030
 	epatch "${FILESDIR}"/${PN}-2.58.3-gfile-Limit-access-to-files-when-copying.patch
+	# Fix for CVE-2019-CVE-2019-13012, see also crbug.com/981618
+	epatch "${FILESDIR}"/${PN}-2.58.3-keyfile-settings-Use-tighter-permissions.patch
 
 	# Tarball doesn't come with gtk-doc.make and we can't unconditionally depend on dev-util/gtk-doc due
 	# to circular deps during bootstramp. If actually not building gtk-doc, an almost empty file will do
