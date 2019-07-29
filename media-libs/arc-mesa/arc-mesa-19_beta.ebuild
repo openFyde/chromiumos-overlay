@@ -129,7 +129,7 @@ src_prepare() {
 		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
 
-	epatch "${FILESDIR}"/FROMLIST-egl-android-remove-HAL_PIXEL_FORMAT_BGRA_88.patch
+	epatch "${FILESDIR}"/BACKPORT-egl-android-Only-keep-BGRA-EGL-configs-as-fallback.patch
 
 	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-more-color_buffers.patch
