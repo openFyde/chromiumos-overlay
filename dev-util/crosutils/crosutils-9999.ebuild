@@ -20,5 +20,5 @@ IUSE=""
 
 src_install() {
 	exeinto /usr/lib/crosutils
-	doexe common.sh remote_access.sh
+	doexe common.sh
 }
