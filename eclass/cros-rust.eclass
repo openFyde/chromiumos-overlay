@@ -351,7 +351,7 @@ ecargo_build_fuzzer() {
 # @DESCRIPTION:
 # Call `cargo test` with the specified command line options.
 ecargo_test() {
-	ecargo test --target="${CHOST}" --target-dir "target/ecargo-test" --release "$@"
+	ecargo test --target="${CHOST}" --release "$@"
 }
 
 # @FUNCTION: cros-rust_publish
