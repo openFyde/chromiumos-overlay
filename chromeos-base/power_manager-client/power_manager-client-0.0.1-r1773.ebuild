@@ -1,22 +1,23 @@
-# Copyright 2017 The Chromium OS Authors. All rights reserved.
+# Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="07e9630d97f5d99b447f76f58325afd40f9f84ad"
-CROS_WORKON_TREE=("f577121f2538fbe78584b4fe59c478a26bf80df4" "45aaa9293f803719cdb8aa9a236cd10b0ad3b1d6" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="ecddd71dace2c2bb6be6f6b922cb3a4d95f21871"
+CROS_WORKON_TREE=("f577121f2538fbe78584b4fe59c478a26bf80df4" "55d1babe10f0f068a7a1b4de9bdaa05e55715f42" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk cryptohome .gn"
+CROS_WORKON_SUBTREE="common-mk power_manager .gn"
 
-PLATFORM_SUBDIR="cryptohome/client"
+PLATFORM_NATIVE_TEST="yes"
+PLATFORM_SUBDIR="power_manager/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="Cryptohome D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome"
+DESCRIPTION="Power manager DBus client library for Chromium OS"
+HOMEPAGE="http://www.chromium.org/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -35,10 +36,10 @@ DEPEND="
 "
 
 RDEPEND="
-	!<chromeos-base/cryptohome-0.0.1
+	!<chromeos-base/power_manager-0.0.2
 "
 
 src_install() {
-	# Install D-Bus client library.
-	platform_install_dbus_client_lib "cryptohome"
+	# Install DBus client library.
+	platform_install_dbus_client_lib "power_manager"
 }
