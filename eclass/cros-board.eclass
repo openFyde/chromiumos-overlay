@@ -195,6 +195,7 @@ ALL_BOARDS=(
 	kevin
 	kevin64
 	kevin-arcnext
+	kevin-arc64
 	#kevin-bertha
 	kevin-tpm2
 	kidd
