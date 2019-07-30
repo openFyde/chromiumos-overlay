@@ -35,6 +35,8 @@ src_install() {
 			/usr/bin/notificationd \
 			/usr/bin/sommelier \
 			/usr/bin/wayland_demo \
+			/usr/bin/wayland_copy_demo \
+			/usr/bin/wayland_paste_demo \
 			/usr/bin/Xwayland \
 			/usr/bin/x11_demo \
 			/usr/bin/xkbcomp \
