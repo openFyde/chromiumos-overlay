@@ -815,6 +815,7 @@ setup_test_lists() {
 	TEST_FILES=(
 		ash_ui_perftests
 		capture_unittests
+		gl_tests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
