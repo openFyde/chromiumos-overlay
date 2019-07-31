@@ -10,21 +10,29 @@ CROS_GO_SOURCE="github.com/grpc/grpc-go:google.golang.org/grpc v${PV}"
 CROS_GO_PACKAGES=(
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/benchmark/stats"
+	"google.golang.org/grpc/backoff"
+	"google.golang.org/grpc/balancer"
+	"google.golang.org/grpc/balancer/base"
+	"google.golang.org/grpc/balancer/roundrobin"
+	"google.golang.org/grpc/binarylog/grpc_binarylog_v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/grpclb/grpc_lb_v1/messages"
+	"google.golang.org/grpc/credentials/internal"
+	"google.golang.org/grpc/encoding"
+	"google.golang.org/grpc/encoding/proto"
 	"google.golang.org/grpc/grpclog"
-	"google.golang.org/grpc/internal"
+	"google.golang.org/grpc/internal/..."
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/naming"
 	"google.golang.org/grpc/peer"
 	"google.golang.org/grpc/reflection/..."
+	"google.golang.org/grpc/resolver/..."
+	"google.golang.org/grpc/serviceconfig"
 	"google.golang.org/grpc/stats"
 	"google.golang.org/grpc/status"
 	"google.golang.org/grpc/tap"
-	"google.golang.org/grpc/transport"
 )
 
 CROS_GO_TEST=(
@@ -45,6 +53,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/genproto-rpc
+	dev-go/go-sys
 	dev-go/net
 "
 RDEPEND="${DEPEND}"
