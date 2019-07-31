@@ -19,10 +19,16 @@ evdev:input:b0003v3175p9100e*-*m4*
  KEYBOARD_KEY_ffd10018=assistant
 
 # "Kata" Keyboards
-# TODO: Remove this when KEY_ZOOM and KEY_SCALE map to
+# TODO(bleung, dtor): Remove this when KEY_ZOOM and KEY_SCALE map to
 # fullscreen and overview respectively in Chrome OS UI.
+# https://chromium-review.googlesource.com/c/chromium/src/+/1700649
 evdev:input:b0005v046DpB35De*-*m4*
-evdev:input:b0003v046Dp408Ce*-*m4*
+# NOTE: Older kernels (3.14) map this keyboard to a non upstream
+# BUS_DJ which causes problems when the string below is 0003, for USB.
+# For now, let's wildcard the bus so we match this keyboard on all of our
+# supported kernels. This whole thing should be removed once the CL above
+# is landed in chromium.
+evdev:input:b*v046Dp408Ce*-*m4*
  KEYBOARD_KEY_c0224=f1
  KEYBOARD_KEY_c0227=f2
  KEYBOARD_KEY_c0232=f3
