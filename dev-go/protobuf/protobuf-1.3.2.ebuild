@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/golang/protobuf bbd03ef6da3a115852eaf24c8a1c46aeb39aa175"
+CROS_GO_SOURCE="github.com/golang/protobuf v${PV}"
 
 CROS_GO_PACKAGES=(
 	"github.com/golang/protobuf/descriptor"
