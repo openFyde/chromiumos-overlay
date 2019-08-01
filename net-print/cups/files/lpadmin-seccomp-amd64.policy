@@ -4,6 +4,7 @@
 
 access: 1
 arch_prctl: 1
+bind: 1
 brk: 1
 close: 1
 connect: 1
@@ -19,6 +20,7 @@ getpeername: 1
 getpid: 1
 getrandom: 1
 getrusage: 1
+getsockname: 1
 gettimeofday: 1
 getuid: 1
 ioctl: 1
@@ -33,6 +35,7 @@ openat: 1
 poll: 1
 read: 1
 recvfrom: 1
+recvmsg: 1
 restart_syscall: 1
 rt_sigaction: 1
 sendmsg: 1
