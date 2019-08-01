@@ -1,0 +1,175 @@
+From e49c417ed1847a3b8e7595ddb8212ea8d13df5df Mon Sep 17 00:00:00 2001
+From: Fangrui Song <maskray@google.com>
+Date: Tue, 6 Aug 2019 14:03:45 +0000
+Subject: [PATCH] [ELF] Make binding (weak or non-weak) logic consistent for
+ Undefined and SharedSymbol
+
+This is a case missed by D64136. If %t1.o has a weak reference on foo,
+and %t2.so has a non-weak reference on foo:
+
+```
+0. ld.lld %t1.o %t2.so          # ok; STB_WEAK; accepted since D64136
+1. ld.lld %t2.so %t1.o          # undefined symbol: foo; STB_GLOBAL
+2. gold %t1.o %t2.so            # ok; STB_WEAK
+3. gold %t2.so %t1.o            # undefined reference to 'foo'; STB_GLOBAL
+4. ld.bfd %t1.o %t2.so          # undefined reference to `foo'; STB_WEAK
+5. ld.bfd %t2.so %t1.o          # undefined reference to `foo'; STB_WEAK
+```
+
+It can be argued that in both cases, the binding of the undefined foo
+should be set to STB_WEAK, because the binding should not be affected by
+referenced from shared objects.
+
+--allow-shlib-undefined doesn't suppress errors (3,4,5), but -shared or
+--noinhibit-exec allows ld.bfd/gold to produce a binary:
+
+```
+3. gold -shared %t2.so %t1.o    # ok; STB_GLOBAL
+4. ld.bfd -shared %t2.so %t1.o  # ok; STB_WEAK
+5. ld.bfd -shared %t1.o %t1.o   # ok; STB_WEAK
+```
+
+If %t2.so has DT_NEEDED entries, ld.bfd will load them (lld/gold don't
+have the behavior). If one of the DSO defines foo and it is in the
+link-time search path (e.g. DT_NEEDED entry is an absolute path, via
+-rpath=, via -rpath-link=, etc),
+`ld.bfd %t1.o %t2.so` and `ld.bfd %t1.o %t2.so` will not error.
+
+In this patch, we make Undefined and SharedSymbol share the same binding
+computing logic. Case 1 will be allowed:
+
+```
+0. ld.lld %t1.o %t2.so          # ok; STB_WEAK; accepted since D64136
+1. ld.lld %t2.so %t1.o          # ok; STB_WEAK; changed by this patch
+```
+
+In the future, we can explore the option that turns both (0,1) into
+errors if --no-allow-shlib-undefined (default when linking an
+executable) is in action.
+
+Reviewed By: ruiu
+
+Differential Revision: https://reviews.llvm.org/D65584
+
+llvm-svn: 368038
+---
+ lld/ELF/InputFiles.cpp           |  1 +
+ lld/ELF/Symbols.cpp              | 18 +++++++-----------
+ lld/ELF/Symbols.h                | 17 +++++++++--------
+ lld/test/ELF/weak-undef-shared.s |  3 +++
+ 4 files changed, 20 insertions(+), 19 deletions(-)
+
+diff --git a/lld/ELF/InputFiles.cpp b/lld/ELF/InputFiles.cpp
+index c8ae3b58683..dfe148f8fc2 100644
+--- a/lld/ELF/InputFiles.cpp
++++ b/lld/ELF/InputFiles.cpp
+@@ -1098,6 +1098,7 @@ template <class ELFT> void ObjFile<ELFT>::initializeSymbols() {
+     // Handle global undefined symbols.
+     if (eSym.st_shndx == SHN_UNDEF) {
+       this->symbols[i]->resolve(Undefined{this, name, binding, stOther, type});
++      this->symbols[i]->referenced = true;
+       continue;
+     }
+ 
+diff --git a/lld/ELF/Symbols.cpp b/lld/ELF/Symbols.cpp
+index 092eb32247e..e8eaa0c242a 100644
+--- a/lld/ELF/Symbols.cpp
++++ b/lld/ELF/Symbols.cpp
+@@ -492,17 +492,13 @@ void Symbol::resolveUndefined(const Undefined &other) {
+   if (dyn_cast_or_null<SharedFile>(other.file))
+     return;
+ 
+-  if (isUndefined()) {
+-    // The binding may "upgrade" from weak to non-weak.
+-    if (other.binding != STB_WEAK)
++  if (isUndefined() || isShared()) {
++    // The binding will be weak if there is at least one reference and all are
++    // weak. The binding has one opportunity to change to weak: if the first
++    // reference is weak.
++    if (other.binding != STB_WEAK || !referenced)
+       binding = other.binding;
+-  } else if (auto *s = dyn_cast<SharedSymbol>(this)) {
+-    // The binding of a SharedSymbol will be weak if there is at least one
+-    // reference and all are weak. The binding has one opportunity to change to
+-    // weak: if the first reference is weak.
+-    if (other.binding != STB_WEAK || !s->referenced)
+-      binding = other.binding;
+-    s->referenced = true;
++    referenced = true;
+   }
+ }
+ 
+@@ -658,6 +654,6 @@ void Symbol::resolveShared(const SharedSymbol &other) {
+     uint8_t bind = binding;
+     replace(other);
+     binding = bind;
+-    cast<SharedSymbol>(this)->referenced = true;
++    referenced = true;
+   }
+ }
+diff --git a/lld/ELF/Symbols.h b/lld/ELF/Symbols.h
+index 9c1eb387c2f..6ceb3431685 100644
+--- a/lld/ELF/Symbols.h
++++ b/lld/ELF/Symbols.h
+@@ -127,6 +127,11 @@ public:
+   // doesn't know the final contents of the symbol.
+   unsigned canInline : 1;
+ 
++  // Used by Undefined and SharedSymbol to track if there has been at least one
++  // undefined reference to the symbol. The binding may change to STB_WEAK if
++  // the first undefined reference from a non-shared object is weak.
++  unsigned referenced : 1;
++
+   // True if this symbol is specified by --trace-symbol option.
+   unsigned traced : 1;
+ 
+@@ -229,9 +234,9 @@ protected:
+         type(type), stOther(stOther), symbolKind(k), visibility(stOther & 3),
+         isUsedInRegularObj(!file || file->kind() == InputFile::ObjKind),
+         exportDynamic(isExportDynamic(k, visibility)), canInline(false),
+-        traced(false), needsPltAddr(false), isInIplt(false), gotInIgot(false),
+-        isPreemptible(false), used(!config->gcSections), needsTocRestore(false),
+-        scriptDefined(false) {}
++        referenced(false), traced(false), needsPltAddr(false), isInIplt(false),
++        gotInIgot(false), isPreemptible(false), used(!config->gcSections),
++        needsTocRestore(false), scriptDefined(false) {}
+ 
+ public:
+   // True the symbol should point to its PLT entry.
+@@ -367,11 +372,6 @@ public:
+   uint64_t value; // st_value
+   uint64_t size;  // st_size
+   uint32_t alignment;
+-
+-  // This is true if there has been at least one undefined reference to the
+-  // symbol. The binding may change to STB_WEAK if the first undefined reference
+-  // is weak.
+-  bool referenced = false;
+ };
+ 
+ // LazyArchive and LazyObject represent a symbols that is not yet in the link,
+@@ -535,6 +535,7 @@ void Symbol::replace(const Symbol &New) {
+   isUsedInRegularObj = old.isUsedInRegularObj;
+   exportDynamic = old.exportDynamic;
+   canInline = old.canInline;
++  referenced = old.referenced;
+   traced = old.traced;
+   isPreemptible = old.isPreemptible;
+   scriptDefined = old.scriptDefined;
+diff --git a/lld/test/ELF/weak-undef-shared.s b/lld/test/ELF/weak-undef-shared.s
+index 990e023b260..0b3e0ec78e5 100644
+--- a/lld/test/ELF/weak-undef-shared.s
++++ b/lld/test/ELF/weak-undef-shared.s
+@@ -30,6 +30,9 @@
+ # RUN: ld.lld %t1.o %t2.so -o %t
+ # RUN: llvm-readelf --dyn-syms %t | FileCheck --check-prefix=WEAK %s
+ 
++# RUN: ld.lld %t2.so %t1.o -o %t
++# RUN: llvm-readelf --dyn-syms %t | FileCheck --check-prefix=WEAK %s
++
+ # WEAK:   NOTYPE WEAK   DEFAULT UND foo
+ # GLOBAL: NOTYPE GLOBAL DEFAULT UND foo
+ 
+-- 
+2.22.0.770.g0f2c4a37fd-goog
+

@@ -69,6 +69,12 @@
         "end_version": 367596
     },
     {
+        "comment": "Make binding (weak or non-weak) logic consistent for Undefined and SharedSymbol",
+        "rel_patch_path": "cherry/e49c417ed1847a3b8e7595ddb8212ea8d13df5df.patch",
+        "start_version": 365631,
+        "end_version": 368038
+    },
+    {
         "comment": "Adds a whitelist of packages that have known memory leaks",
         "rel_patch_path": "llvm-next-leak-whitelist.patch"
     },
