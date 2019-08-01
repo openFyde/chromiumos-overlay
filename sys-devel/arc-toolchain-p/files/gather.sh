@@ -7,7 +7,7 @@
 # This script creates a tarball that contains toolchains for android P.
 # Before running it, please modify the following 4 variables
 #   - ANDROID_TREE
-#   - ARTIFACTS_DIR_ARM
+#   - ARTIFACTS_DIR_ARM64
 #   - ARTIFACTS_DIR_X86_64
 #   - TO_DIR_BASE
 # Then just run it from anywhere with no arguments.
@@ -16,7 +16,7 @@
 # *** PREREQUISITES ***
 # Before running the script, follow these steps:
 #
-# 1. Download prebuilts for ARM and x86_64
+# 1. Download prebuilts for ARM64 and x86_64
 #
 # Go to go/ab, select branch git_pi-arc-dev. Pick a -userdebug build for all
 # architectures, then download cheets_${arch}-target_files-${build_id}.zip.
@@ -43,27 +43,31 @@ set -e
 : "${ANDROID_TREE:="${HOME}/android-p"}"
 
 # ARCH names used in sysroot.
-ARC_ARCH=('amd64' 'arm' 'amd64')
+ARC_ARCH=('amd64' 'arm64' 'amd64' 'arm64')
 
 # LIBRARY paths for each ARCH
-ARC_ARCH_LIB_DIR=('lib' 'lib' 'lib64')
+ARC_ARCH_LIB_DIR=('lib' 'lib' 'lib64' 'lib64')
+
+# LIBRARY paths for each ARCH, where libcrt* can be found
+ARC_ARCH_LIB_CRT_DIR=('lib' 'lib' 'lib64' 'lib')
 
 # ARCH names used in android.
-ARC_ARCH_ANDROID=('x86' 'arm' 'x86_64')
+ARC_ARCH_ANDROID=('x86' 'arm' 'x86_64' 'arm64')
 
 # ARCH names used in kernel uapi.
-ARC_ARCH_UAPI=('x86' 'arm' 'x86')
+ARC_ARCH_UAPI=('x86' 'arm' 'x86' 'arm64')
 
 # 2. The dir to which the artifacts tarball (downloaded from go/ab) was
 # extracted. Pick a -userdebug build.
-# Now we support two platforms: 32-bit arm and 32/64-bit x86.
-: "${ARTIFACTS_DIR_ARM:="${ANDROID_TREE}/arm_target_files/"}"
+# Now we support four platforms: 32/64-bit arm, and 32/64-bit x86.
+: "${ARTIFACTS_DIR_ARM64:="${ANDROID_TREE}/arm64_target_files/"}"
 : "${ARTIFACTS_DIR_X86_64:="${ANDROID_TREE}/x86_64_target_files/"}"
 
 ARTIFACTS_DIR_ARRAY=(
 	"${ARTIFACTS_DIR_X86_64}"
-	"${ARTIFACTS_DIR_ARM}"
+	"${ARTIFACTS_DIR_ARM64}"
 	"${ARTIFACTS_DIR_X86_64}"
+	"${ARTIFACTS_DIR_ARM64}"
 )
 
 # 3. Destination directory.
@@ -73,8 +77,8 @@ TO_DIR_BASE="${TO_DIR_BASE:-"${ANDROID_TREE}/arc-toolchain-p-dir"}"
 ### Do not change the following.
 
 if [[ ! -d "${ANDROID_TREE}" ]] || \
-	[[ ! -d "${ARTIFACTS_DIR_ARM}" ]] || \
-	[[ ! -d "${ARTIFACTS_DIR_X86_64}" ]] ; then
+   [[ ! -d "${ARTIFACTS_DIR_ARM64}" ]] || \
+   [[ ! -d "${ARTIFACTS_DIR_X86_64}" ]] ; then
 	echo "Please open and edit \"$0\" before running."
 	exit 1
 fi
@@ -112,7 +116,6 @@ for (( a = 0; a < ${len}; ++a )); do
 
 	arch_to_dir="${TO_DIR_BASE}/${arc_arch}"
 	runcmd mkdir -p "${arch_to_dir}/usr/include"
-	runcmd mkdir -p "${arch_to_dir}/usr/include/asm"
 	runcmd mkdir -p "${arch_to_dir}/usr/include/c++/4.9"
 	runcmd mkdir -p "${arch_to_dir}/usr/include/linux/asm"
 
@@ -163,9 +166,10 @@ for (( a = 0; a < ${len}; ++a )); do
 		runcmd cp -p "${file}" "${arch_to_dir}/usr/${lib}/"
 	done
 
+	lib_crt="${ARC_ARCH_LIB_CRT_DIR[${a}]}"
 	for f in crtbegin_static.o crtbegin_dynamic.o crtend_android.o crtbegin_so.o crtend_so.o; do
 		absolute_f="${ANDROID_TREE}/prebuilts/ndk/current/platforms/android-24"
-		absolute_f+="/arch-${arch}/usr/${lib}/${f}"
+		absolute_f+="/arch-${arch}/usr/${lib_crt}/${f}"
 		if [[ ! -e "${absolute_f}" ]]; then
 			echo "${absolute_f} not found, perhaps you forgot to check it out?"\
 				" Aborted."
@@ -206,9 +210,17 @@ for (( a = 0; a < ${len}; ++a )); do
 
 
 	### 4.2 Linux kernel assembly.
+	if [[ "${ARC_ARCH_UAPI[${a}]}" == "x86" ]]; then
+		# x86 is able to use common asm headers
+		asm_target="${arch_to_dir}/usr/include/asm/"
+	else
+		# arm and arm64 need different asm headers
+		asm_target="${arch_to_dir}/usr/include/arch-${ARC_ARCH_UAPI[${a}]}/include/asm/"
+	fi
+	runcmd mkdir -p "${asm_target}"
 	runcmd cp -pPR \
 		"${ANDROID_TREE}/bionic/libc/kernel/uapi/asm-${ARC_ARCH_UAPI[${a}]}/asm"/* \
-		"${arch_to_dir}/usr/include/asm/"
+		"${asm_target}"
 
 
 	### 4.3a Other include directories
@@ -282,12 +294,19 @@ for arch in "${ARC_ARCH_ANDROID[@]}"; do
 	arch_dir="${arch}"
 	sysroot_arch="${arch}"
 	abi="${arch}-linux-androideabi"
-	if [[ "${arch}" == "x86" || "${arch}" == "x86_64" ]]; then
+	case "${arch}" in
+	x86|x86_64)
 		arch="x86"
 		arch_dir="x86_64"
 		sysroot_arch="amd64"
 		abi="x86_64-linux-android"
-	fi
+		;;
+	arm64)
+		arch="aarch64"
+		arch_dir="aarch64"
+		abi="aarch64-linux-android"
+		;;
+	esac
 	gcc_dir="${TO_DIR_BASE}/arc-gcc/${arch_dir}"
 	runcmd mkdir -p "${gcc_dir}"
 	runcmd rsync -a --exclude=.git/ \

@@ -8,9 +8,9 @@ DESCRIPTION="Ebuild for Android toolchain (compilers, linker, libraries, headers
 
 # The source tarball contains files collected from the sources below.
 #
-#   # from ab/5042227
-#   cheets_arm-target_files-5042227.zip
-#   cheets_x86_64-target_files-5042227.zip
+#   # from ab/5775114
+#   cheets_arm64-target_files-5775114.zip
+#   cheets_x86_64-target_files-5775114.zip
 SRC_URI="http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/${P}.tar.gz"
 
 LICENSE="GPL-3 LGPL-3 GPL-3 libgcc libstdc++ gcc-runtime-library-exception-3.1 FDL-1.2 UoI-NCSA"
@@ -28,5 +28,5 @@ QA_PREBUILT="*"
 
 src_install() {
 	dodir "${INSTALL_DIR}"
-	cp -pPR * "${D}/${INSTALL_DIR}/" || die
+	cp -pPR -- * "${D}/${INSTALL_DIR}/" || die
 }
