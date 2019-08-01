@@ -112,6 +112,7 @@ src_configure() {
 src_compile() {
 	meson_src_compile
 	cd ${S}/platform/mosys
+	export RUSTFLAGS="-C default-linker-libraries"
 	MESON_BUILD_ROOT="${BUILD_DIR}" cargo_src_compile
 }
 

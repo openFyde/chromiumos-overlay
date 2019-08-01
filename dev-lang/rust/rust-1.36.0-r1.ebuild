@@ -34,6 +34,7 @@ SRC_URI="https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz
 	https://static.rust-lang.org/dist/${STAGE0_DATE}/rust-std-${STAGE0_VERSION}-x86_64-unknown-linux-gnu.tar.gz
 	https://static.rust-lang.org/dist/${RUST_STAGE0_amd64}.tar.gz
 	https://static.rust-lang.org/dist/cargo-${STAGE0_VERSION_CARGO}-x86_64-unknown-linux-gnu.tar.gz
+	https://github.com/rust-lang/llvm-project/archive/2c5656ae593851d0b2336a727cc14b77a06b8ac0.zip -> rustc-llvm-project-${PV}.zip
 "
 
 LICENSE="|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA"
@@ -53,6 +54,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
 	"${FILESDIR}/${P}-libstd-sanitizer-paths.patch"
 	"${FILESDIR}/${P}-sanitizer-lib-boilerplate.patch"
+	"${FILESDIR}/${P}-rustbuild-detect-cxx-for-all-targets.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"
@@ -131,6 +133,12 @@ src_prepare() {
 		sed -i 's:"stdc++":"c++":g' src/librustc_llvm/build.rs || die
 	fi
 
+	# The libunwind code is missing from from the llvm fork shipped with the rustc source tarball
+	# for unknown reasons. The ebuild sources the llvm fork directly from github and now we place
+	# the libunwind source in the correct spot.
+	mv "${WORKDIR}"/llvm-project-*/libunwind \
+		src/llvm-project/ || die
+
 	default
 }
 
@@ -170,6 +178,7 @@ mandir = "share/man"
 default-linker = "${CBUILD}-clang"
 channel = "${SLOT%%/*}"
 codegen-units = 0
+llvm-libunwind = true
 
 EOF
 	for tt in "${RUSTC_TARGET_TRIPLES[@]}" ; do
