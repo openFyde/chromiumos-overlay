@@ -34,8 +34,9 @@ src_prepare() {
 	cp "${SYSROOT}/usr/sbin/apxs" "${T}/apxs"
 	# Update apxs to point to the installbuilddir and includedir in the
 	# SYSROOT rather than on the build host.
-	sed -i -r \
+	sed -i -E \
 		-e '/^my \$(installbuild|include)dir/s:=:= $ENV{"SYSROOT"} .:' \
+		-e '/get_vars\("AP[RU]_CONFIG"\)/s:get_vars:$ENV{"SYSROOT"} .&:' \
 		"${T}/apxs" || die
 	eautoconf
 }
