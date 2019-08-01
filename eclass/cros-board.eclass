@@ -317,6 +317,7 @@ ALL_BOARDS=(
 	samus-kernelnext
 	sand
 	sarien
+	sarien-kvm
 	scarlet
 	scarlet-arcnext
 	sentry
