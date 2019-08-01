@@ -123,6 +123,10 @@ src_prepare() {
 	# Add RingBuffer from libchrome.
 	# # TODO(lnishan): Remove after libchrome uprev past r574656
 	epatch "${FILESDIR}"/${P}-Add-base-containers-RingBuffer.patch
+
+	# Fix timing issue with dbus::ObjectManager.
+	# # TODO(bingxue): Remove after libchrome uprev past r684392.
+	epatch "${FILESDIR}"/${P}-Connect-to-NameOwnerChanged-signal-when-setting-call.patch
 }
 
 src_install() {
