@@ -12,7 +12,7 @@ EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 # llvm:353983 https://critique.corp.google.com/#review/233864070
 LLVM_HASH="de7a0a152648d1a74cf4319920b1848aa00d1ca3" #r353983
-LLVM_NEXT_HASH="de7a0a152648d1a74cf4319920b1848aa00d1ca3" #r353983
+LLVM_NEXT_HASH="6b043f051836635a1e88da4d0464e6569bd7b625" # r365631
 
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
