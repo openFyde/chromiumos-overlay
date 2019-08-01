@@ -63,6 +63,12 @@
         "end_version": 367068
     },
     {
+        "comment": "Fix for DominatorTree assertion error in new pass manager",
+        "rel_patch_path": "cherry/3af2a69575da80f5e7b9890509a072b5062fe7c7.patch",
+        "start_version": 365631,
+        "end_version": 367596
+    },
+    {
         "comment": "Adds a whitelist of packages that have known memory leaks",
         "rel_patch_path": "llvm-next-leak-whitelist.patch"
     },
@@ -80,7 +86,8 @@
     },
     {
         "comment": "Workaround for existing bug (https://bugs.llvm.org/show_bug.cgi?id=42272) in new pass manager",
-        "rel_patch_path": "llvm-9.0-no-assert-domtree.patch"
+        "rel_patch_path": "llvm-9.0-no-assert-domtree.patch",
+        "end_version": 365631
     },
     {
         "comment": "Used as destination of target generators",
