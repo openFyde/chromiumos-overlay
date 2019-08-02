@@ -1,4 +1,4 @@
-From af781293c020a80d346836f7029ee38d3f1e2cd6 Mon Sep 17 00:00:00 2001
+From a4b5732e23ec9cd4e9624e3c31266bdd39440a40 Mon Sep 17 00:00:00 2001
 From: Kan Yan <kyan@google.com>
 Date: Thu, 28 Dec 2017 14:19:17 -0800
 Subject: [PATCH] tc: add support for new qdisc "arl"
@@ -9,17 +9,17 @@ TEST="tc qdisc add dev wan0 root handle 1: arl minrate 4800kbit "
 
 Signed-off-by: Kan Yan <kyan@google.com>
 ---
- include/linux/pkt_sched.h |  22 ++++-
+ include/linux/pkt_sched.h |  23 ++++-
  tc/Makefile               |   1 +
  tc/q_arl.c                | 188 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 210 insertions(+), 1 deletion(-)
+ 3 files changed, 211 insertions(+), 1 deletion(-)
  create mode 100644 tc/q_arl.c
 
 diff --git a/include/linux/pkt_sched.h b/include/linux/pkt_sched.h
-index df7451d3..3bd88b70 100644
+index 2cf434a..cd7db97 100644
 --- a/include/linux/pkt_sched.h
 +++ b/include/linux/pkt_sched.h
-@@ -489,9 +489,29 @@ enum {
+@@ -710,9 +710,30 @@ enum {
  	TCA_CBQ_POLICE,
  	__TCA_CBQ_MAX,
  };
@@ -43,6 +43,7 @@ index df7451d3..3bd88b70 100644
 +	TCA_ARL_LIMIT,
 +	TCA_ARL_MAX_LATENCY,
 +	TCA_ARL_LATENCY_HYSTERESIS,
++	TCA_ARL_PAD,
 +	__TCA_ARL_MAX,
 +};
 +#define TCA_ARL_MAX (__TCA_ARL_MAX - 1)
@@ -51,10 +52,10 @@ index df7451d3..3bd88b70 100644
  
  enum {
 diff --git a/tc/Makefile b/tc/Makefile
-index dfa875b5..8b04c71b 100644
+index 1a38c02..90f41e4 100644
 --- a/tc/Makefile
 +++ b/tc/Makefile
-@@ -68,6 +68,7 @@ TCMODULES += q_hhf.o
+@@ -69,6 +69,7 @@ TCMODULES += q_nss.o
  TCMODULES += q_clsact.o
  TCMODULES += e_bpf.o
  TCMODULES += f_matchall.o
@@ -64,7 +65,7 @@ index dfa875b5..8b04c71b 100644
  ifeq ($(TC_CONFIG_ATM),y)
 diff --git a/tc/q_arl.c b/tc/q_arl.c
 new file mode 100644
-index 00000000..ad2bdfb7
+index 0000000..ad2bdfb
 --- /dev/null
 +++ b/tc/q_arl.c
 @@ -0,0 +1,188 @@
@@ -257,5 +258,5 @@ index 00000000..ad2bdfb7
 +	.print_xstats	= arl_print_xstats,
 +};
 -- 
-2.19.0.rc0.228.g281dcd1b4d0-goog
+2.23.0.rc1.153.gdeed80330f-goog
 
