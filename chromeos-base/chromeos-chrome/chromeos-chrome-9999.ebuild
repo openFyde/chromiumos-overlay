@@ -813,7 +813,6 @@ src_prepare() {
 
 setup_test_lists() {
 	TEST_FILES=(
-		ash_ui_perftests
 		capture_unittests
 		gl_tests
 		jpeg_decode_accelerator_unittest
