@@ -33,6 +33,9 @@ board_setup_32bit_au_env()
 		export CXX=${CHOST}-clang++
 		append-flags "-Xclang-only=-stdlib=libstdc++"
 		append-ldflags "-Xclang-only=-stdlib=libstdc++"
+		# TODO(crbug.com/991024): Work around for lld not linking with 32bit
+		# glibc.
+		append-ldflags "-Xclang-only=-Wl,--allow-multiple-definition"
 	fi
 	__AU_OLD_SYSROOT=${SYSROOT}
 	export SYSROOT=/usr/${CHOST}
@@ -64,6 +67,9 @@ board_teardown_32bit_au_env()
 		export CC=${__AU_OLD_CC}
 		export CXX=${__AU_OLD_CXX}
 		filter-flags "-Xclang-only=-stdlib=libstdc++"
+		# TODO(crbug.com/991024): Work around for lld not linking with 32bit
+		# glibc.
+		filter-flags "-Xclang-only=-Wl,--allow-multiple-definition"
 	fi
 }
 
