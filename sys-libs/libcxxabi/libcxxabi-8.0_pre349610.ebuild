@@ -73,6 +73,8 @@ multilib_src_configure() {
 	fi
 	append-flags -I"${S}/libunwind/include"
 	append-flags "-stdlib=libstdc++"
+	# Enable futex in libc++abi to match prod toolchain.
+	append-cppflags -D_LIBCXXABI_USE_FUTEX
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		-DLLVM_ENABLE_PROJECTS="libcxxabi"
