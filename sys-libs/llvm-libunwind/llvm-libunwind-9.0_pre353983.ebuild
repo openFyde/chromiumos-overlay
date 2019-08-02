@@ -41,7 +41,6 @@ src_unpack() {
 src_prepare() {
 	python "${FILESDIR}"/patch_manager.py \
 		--svn_version "$(get_most_recent_revision)" \
-		--git_hash "$(get_most_recent_sha)" \
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
 		--src_path "${S}" || die
