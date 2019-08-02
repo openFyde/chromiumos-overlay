@@ -11,8 +11,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/hal/usb camera/hal/usb_v1 camera/in
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera"
-PLATFORM_GYP_FILE="hal/usb_v1/arc_camera_service.gyp"
+PLATFORM_SUBDIR="camera/hal/usb_v1"
 
 inherit cros-workon platform user
 
@@ -37,10 +36,10 @@ src_install() {
 	dobin "${OUT}/arc_camera_service"
 
 	insinto /etc/dbus-1/system.d
-	doins hal/usb_v1/org.chromium.ArcCamera.conf
+	doins org.chromium.ArcCamera.conf
 
 	insinto /etc/init
-	doins hal/usb_v1/init/arc-camera.conf
+	doins init/arc-camera.conf
 }
 
 pkg_preinst() {
