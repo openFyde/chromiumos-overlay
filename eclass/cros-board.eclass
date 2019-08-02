@@ -390,6 +390,7 @@ ALL_BOARDS=(
 	veyron_thea
 	veyron_tiger
 	viking
+	viking-poc2
 	volteer
 	#waluigi
 	whirlwind
