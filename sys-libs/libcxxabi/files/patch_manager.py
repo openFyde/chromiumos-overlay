@@ -9,10 +9,12 @@
 from __future__ import print_function
 
 import argparse
-import failure_modes
 import json
 import os
 import subprocess
+
+from collections import namedtuple
+from failure_modes import FailureModes
 
 
 def is_directory(dir_path):
@@ -51,12 +53,6 @@ def GetCommandLineArgs():
       required=True,
       help='the LLVM svn version to use for patch management')
 
-  # Add argument for the LLVM hash to use for patch management.
-  parser.add_argument(
-      '--git_hash',
-      required=True,
-      help='the LLVM git hash for the \'svn_version\'')
-
   # Add argument for the patch metadata file that is in $FILESDIR.
   parser.add_argument(
       '--patch_metadata_file',
@@ -84,10 +80,8 @@ def GetCommandLineArgs():
   # applicable patches.
   parser.add_argument(
       '--failure_mode',
-      default=failure_modes.FAIL,
-      choices=[failure_modes.FAIL, failure_modes.CONTINUE,
-               failure_modes.DISABLE_PATCHES, failure_modes.BISECT_PATCHES,
-               failure_modes.REMOVE_PATCHES],
+      default=FailureModes.FAIL.value,
+      choices=[mode.value for mode in FailureModes],
       help='the mode of the patch manager when handling failed patches ' \
           '(default: %(default)s)')
 
@@ -221,18 +215,18 @@ def _ConvertToASCII(obj):
   return obj
 
 
-def HandlePatches(svn_version, git_hash, patch_metadata_file, filesdir_path,
-                  src_path, mode):
+def HandlePatches(svn_version, patch_metadata_file, filesdir_path, src_path,
+                  mode):
   """Handles the patches in the .json file for the package.
 
   Args:
     svn_version: The LLVM version to use for patch management.
-    git_hash: The git hash of the LLVM version.
     patch_metadata_file: The absolute path to the .json file in '$FILESDIR/'
     that has all the patches and their metadata.
     filesdir_path: The absolute path to $FILESDIR.
     src_path: The absolute path to the unpacked destination of the package.
     mode: The action to take when an applicable patch failed to apply.
+      Ex: 'FailureModes.FAIL'
 
   Returns:
     Depending on the mode, 'None' would be returned if everything went well or
@@ -251,7 +245,7 @@ def HandlePatches(svn_version, git_hash, patch_metadata_file, filesdir_path,
 
   # 'fail' or 'continue' mode would not modify a patch's metadata, so the .json
   # file would stay the same.
-  if mode != failure_modes.FAIL or mode != failure_modes.CONTINUE:
+  if mode != FailureModes.FAIL and mode != FailureModes.CONTINUE:
     can_modify_patches = True
 
   # A flag that determines whether at least one patch's metadata was
@@ -322,9 +316,9 @@ def HandlePatches(svn_version, git_hash, patch_metadata_file, filesdir_path,
         # applicable will be added to the updated .json file and all patches
         # that are not applicable will be added to the remove patches list which
         # will not be included in the updated .json file.
-        if patch_applicable or mode != failure_modes.REMOVE_PATCHES:
+        if patch_applicable or mode != FailureModes.REMOVE_PATCHES:
           applicable_patches.append(cur_patch_dict)
-        elif mode == failure_modes.REMOVE_PATCHES:
+        elif mode == FailureModes.REMOVE_PATCHES:
           removed_patches.append(path_to_patch)
 
           if not modified_metadata:
@@ -335,7 +329,7 @@ def HandlePatches(svn_version, git_hash, patch_metadata_file, filesdir_path,
         non_applicable_patches.append(os.path.basename(path_to_patch))
 
       # There is no need to apply patches in 'remove_patches' mode.
-      if patch_applicable and mode != failure_modes.REMOVE_PATCHES:
+      if patch_applicable and mode != FailureModes.REMOVE_PATCHES:
         patch_applied = ApplyPatch(src_path, path_to_patch)
 
         if not patch_applied:  # Failed to apply patch.
@@ -343,7 +337,7 @@ def HandlePatches(svn_version, git_hash, patch_metadata_file, filesdir_path,
 
           # Check the mode to determine what action to take on the failing
           # patch.
-          if mode == failure_modes.DISABLE_PATCHES:
+          if mode == FailureModes.DISABLE_PATCHES:
             # Set the patch's 'end_version' to 'svn_version' so the patch
             # would not be applicable anymore (i.e. the patch's 'end_version'
             # would not be greater than 'svn_version').
@@ -359,12 +353,12 @@ def HandlePatches(svn_version, git_hash, patch_metadata_file, filesdir_path,
               updated_patch = True
 
               modified_metadata = patch_metadata_file
-          elif mode == failure_modes.BISECT_PATCHES:
+          elif mode == FailureModes.BISECT_PATCHES:
             # TODO (saludlemus): Complete this mode.
             # Figure out where the patch's stops applying and set the patch's
             # 'end_version' to that version.
             pass
-          elif mode == failure_modes.FAIL:
+          elif mode == FailureModes.FAIL:
             if applied_patches:
               print('The following patches applied successfully up to the '
                     'failed patch:')
@@ -376,58 +370,62 @@ def HandlePatches(svn_version, git_hash, patch_metadata_file, filesdir_path,
         else:  # Successfully applied patch
           applied_patches.append(os.path.basename(path_to_patch))
 
-  # Create a dictionary of the patch results.
-  patch_info_dict = {
-      'applied_patches': applied_patches,
-      'failed_patches': failed_patches,
-      'non_applicable_patches': non_applicable_patches,
-      'disabled_patches': disabled_patches,
-      'removed_patches': removed_patches,
-      'modified_metadata': modified_metadata
-  }
+  # Create a namedtuple of the patch results.
+  PatchInfo = namedtuple('PatchInfo', [
+      'applied_patches', 'failed_patches', 'non_applicable_patches',
+      'disabled_patches', 'removed_patches', 'modified_metadata'
+  ])
+
+  patch_info = PatchInfo(
+      applied_patches=applied_patches,
+      failed_patches=failed_patches,
+      non_applicable_patches=non_applicable_patches,
+      disabled_patches=disabled_patches,
+      removed_patches=removed_patches,
+      modified_metadata=modified_metadata)
 
   # Determine post actions after iterating through the patches.
-  if mode == failure_modes.REMOVE_PATCHES:
+  if mode == FailureModes.REMOVE_PATCHES:
     if removed_patches:
       UpdatePatchMetadataFile(patch_metadata_file, applicable_patches)
-  elif mode == failure_modes.DISABLE_PATCHES or \
-      mode == failure_modes.BISECT_PATCHES:
+  elif mode == FailureModes.DISABLE_PATCHES or \
+      mode == FailureModes.BISECT_PATCHES:
     if updated_patch:
       UpdatePatchMetadataFile(patch_metadata_file, applicable_patches)
 
-  return patch_info_dict
+  return patch_info
 
 
-def PrintPatchResults(patch_info_dict):
+def PrintPatchResults(patch_info):
   """Prints the results of handling the patches of a package.
 
   Args:
-    patch_info_dict: A dictionary that has information on the patches.
+    patch_info: A namedtuple that has information on the patches.
   """
 
-  if patch_info_dict['applied_patches']:
+  if patch_info.applied_patches:
     print('The following patches applied successfully:')
-    print('\n'.join(patch_info_dict['applied_patches']))
+    print('\n'.join(patch_info.applied_patches))
 
-  if patch_info_dict['failed_patches']:
+  if patch_info.failed_patches:
     print('The following patches failed to apply:')
-    print('\n'.join(patch_info_dict['failed_patches']))
+    print('\n'.join(patch_info.failed_patches))
 
-  if patch_info_dict['non_applicable_patches']:
+  if patch_info.non_applicable_patches:
     print('The following patches were not applicable:')
-    print('\n'.join(patch_info_dict['non_applicable_patches']))
+    print('\n'.join(patch_info.non_applicable_patches))
 
-  if patch_info_dict['modified_metadata']:
+  if patch_info.modified_metadata:
     print('The patch metadata file %s has been modified' % os.path.basename(
-        patch_info_dict['modified_metadata']))
+        patch_info.modified_metadata))
 
-  if patch_info_dict['disabled_patches']:
+  if patch_info.disabled_patches:
     print('The following patches were disabled:')
-    print('\n'.join(patch_info_dict['disabled_patches']))
+    print('\n'.join(patch_info.disabled_patches))
 
-  if patch_info_dict['removed_patches']:
+  if patch_info.removed_patches:
     print('The following patches were removed from the patch metadata file:')
-    for cur_patch_path in patch_info_dict['removed_patches']:
+    for cur_patch_path in patch_info.removed_patches:
       print('%s' % os.path.basename(cur_patch_path))
 
 
@@ -437,12 +435,12 @@ def main():
   args_output = GetCommandLineArgs()
 
   # Get the results of handling the patches of the package.
-  patch_info_dict = HandlePatches(
-      args_output.svn_version, args_output.git_hash,
-      args_output.patch_metadata_file, args_output.filesdir_path,
-      args_output.src_path, args_output.failure_mode)
+  patch_info = HandlePatches(args_output.svn_version,
+                             args_output.patch_metadata_file,
+                             args_output.filesdir_path, args_output.src_path,
+                             FailureModes(args_output.failure_mode))
 
-  PrintPatchResults(patch_info_dict)
+  PrintPatchResults(patch_info)
 
 
 if __name__ == '__main__':
