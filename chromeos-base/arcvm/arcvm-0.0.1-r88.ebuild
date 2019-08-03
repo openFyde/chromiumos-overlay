@@ -1,10 +1,10 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
-CROS_WORKON_COMMIT="52bb12df7f36925c3913faae70581607c2f3cfc5"
-CROS_WORKON_TREE=("8e516de8961c22228293b5d8bc6c23905f116abd" "033722d624d7798c28920a5f24ac7ed65ebc3b26" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="0a06d587c458f2cd2aaed8d236ad48c962fd52aa"
+CROS_WORKON_TREE=("8e516de8961c22228293b5d8bc6c23905f116abd" "c113ee5e77842f27c895837de92edcbb6283111a" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,20 +23,27 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	chromeos-base/libbrillo
+	chromeos-base/libbrillo:=
+	chromeos-base/vboot_reference:=
 	dev-libs/protobuf:=
 "
 
 DEPEND="
 	${RDEPEND}
 	media-libs/minigbm:=
+	chromeos-base/system_api:=
 "
 
 src_install() {
 	newbin "${OUT}"/server_proxy arcvm_server_proxy
+	dobin "${OUT}"/arcvm-launch
 
 	insinto /etc/init
 	doins init/arcvm-server-proxy.conf
+	doins init/arcvm.conf
+
+	insinto /etc/dbus-1/system.d
+	doins init/dbus-1/ArcVmUpstart.conf
 }
 
 platform_pkg_test() {
