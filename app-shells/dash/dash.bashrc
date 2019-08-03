@@ -11,9 +11,6 @@ cros_pre_src_prepare_patches() {
 	else
 		# Emit crash reports when we detect problems.
 		CPPFLAGS+=" -DSHELL_NOEXEC_CRASH_REPORTS"
-		# Don't halt execution for now.
-		# TODO(vapier): Remove this once crash report rates go down.
-		CPPFLAGS+=" -DSHELL_NOEXEC_REPORT_ONLY"
 	fi
 	export CPPFLAGS
 }
