@@ -4,8 +4,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="ca9e4b3e06d7e306777e23c7cf34d8ef2dc6a94f"
-CROS_WORKON_TREE=("fb04314ba38f1b698a2ef2ac7178c9dffddfad70" "936f5a8d578baa82d0a53802889b3103fc577f9f" "bc7b290dc9ce7b2b9d25b959bf3c60b81fd04466" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="a41723c0c9cbde11d1e84ec551d3bcbaf8d17c91"
+CROS_WORKON_TREE=("fb04314ba38f1b698a2ef2ac7178c9dffddfad70" "ec173ae189aa75f0b03cb38cdb9008d36180389c" "bc7b290dc9ce7b2b9d25b959bf3c60b81fd04466" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_so
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="tpm tpm2"
+IUSE="test tpm tpm2"
 REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="
@@ -36,8 +36,11 @@ RDEPEND="
 	chromeos-base/libchrome
 "
 
-DEPEND="
-	${RDEPEND}
+DEPEND="${RDEPEND}
+	tpm2? (
+		chromeos-base/system_api
+		chromeos-base/trunks[test?]
+	)
 "
 
 src_install() {
@@ -49,4 +52,8 @@ src_install() {
 	# Installs header files
 	insinto /usr/include/tpm_softclear_utils
 	doins ./*.h
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/tpm_softclear_utils_testrunner"
 }
