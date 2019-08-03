@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="543695577403cac006728ed2ba15e7b1f3ec9577"
-CROS_WORKON_TREE="bb6e703dbe9f70ffe4c6fc778499cebc1fa375fd"
+CROS_WORKON_COMMIT="695128f3ab683b8779ca8d1a93621fd5ba81e632"
+CROS_WORKON_TREE="a3bb1577cb3e473745ba12ec2b6b68a9ede829db"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
 CROS_WORKON_SUBTREE="util/crossgcc"
@@ -27,7 +27,7 @@ https://ftpmirror.gnu.org/mpfr/mpfr-4.0.2.tar.xz
 https://ftpmirror.gnu.org/mpc/mpc-1.1.0.tar.gz
 https://ftpmirror.gnu.org/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz
 https://ftpmirror.gnu.org/binutils/binutils-2.32.tar.xz
-https://acpica.org/sites/acpica/files/acpica-unix2-20190509.tar.gz
+https://acpica.org/sites/acpica/files/acpica-unix2-20190703.tar.gz
 https://ftpmirror.gnu.org/make/make-4.2.1.tar.bz2
 "
 
