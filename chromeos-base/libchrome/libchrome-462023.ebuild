@@ -239,6 +239,11 @@ src_install() {
 		doins -r third_party/jinja2
 		doins -r third_party/markupsafe
 		doins -r third_party/ply
+
+		# Mark scripts executable.
+		fperms +x \
+			/usr/src/libmojo-"${SLOT}"/mojo/generate_type_mappings.py \
+			/usr/src/libmojo-"${SLOT}"/mojo/mojom_bindings_generator.py
 	fi
 
 	# Install header files.
