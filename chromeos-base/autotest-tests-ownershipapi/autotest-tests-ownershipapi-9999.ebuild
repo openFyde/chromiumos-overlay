@@ -33,7 +33,6 @@ IUSE_TESTS="
 	+tests_login_CryptohomeOwnerQuery
 	+tests_login_MultipleSessions
 	+tests_login_OwnershipApi
-	+tests_login_UserPolicyKeys
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
