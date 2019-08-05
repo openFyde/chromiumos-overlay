@@ -101,6 +101,7 @@ src_install() {
 platform_pkg_test() {
 	local tests=(
 		cros_healthd_test
+		libcros_healthd_utils_test
 		libdiag_test
 		libgrpc_async_adapter_test
 		libtelem_test
