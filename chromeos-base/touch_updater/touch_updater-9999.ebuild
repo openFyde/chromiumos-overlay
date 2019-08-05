@@ -28,10 +28,13 @@ IUSE="input_devices_synaptics
 	input_devices_elan_i2chid
 "
 
+# Third party firmware updaters usually belong in sys-apps/.  If you just
+# checked in a new one to chromeos-base/, please move it to sys-apps/ before
+# adding it as a dependency here.
 RDEPEND="
 	input_devices_synaptics? ( chromeos-base/rmi4utils )
 	input_devices_wacom? ( chromeos-base/wacom_fw_flash )
-	input_devices_etphidiap? ( chromeos-base/etphidiap )
+	input_devices_etphidiap? ( sys-apps/etphidiap )
 	input_devices_st? ( chromeos-base/st_flash )
 	input_devices_st_touchscreen? ( sys-apps/st-touch-fw-updater )
 	input_devices_weida? ( chromeos-base/weida_wdt_util )
