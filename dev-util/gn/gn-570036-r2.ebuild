@@ -31,7 +31,7 @@ EAPI="5"
 GN_X64_SHA1="fd3ad1f9abaac592975b058fd6cf01b8374748c5"
 
 DESCRIPTION="GN (generate ninja) meta-build system"
-HOMEPAGE="https://code.google.com/p/chromium/wiki/gn"
+HOMEPAGE="https://gn.googlesource.com/gn/"
 SRC_URI="http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/gn-${GN_X64_SHA1}.bin"
 RESTRICT="mirror"
 
