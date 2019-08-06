@@ -12,6 +12,7 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="
+	chromeos-base/aosp-frameworks-base-proto
 	chromeos-base/policy-go-proto
 	chromeos-base/system_api
 	chromeos-base/vm_protos
