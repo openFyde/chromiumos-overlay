@@ -59,6 +59,7 @@ RDEPEND="${RDEPEND}
 	sys-devel/make
 	sys-devel/patch
 	sys-fs/e2fsprogs
+	sys-fs/f2fs-tools
 	sys-libs/ncurses
 	sys-libs/readline
 	sys-libs/zlib
