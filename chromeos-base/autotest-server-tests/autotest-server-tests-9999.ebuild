@@ -224,6 +224,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_UpdateKernelDataKeyVersion
 	+tests_firmware_UpdateKernelSubkeyVersion
 	+tests_firmware_UpdateKernelVersion
+	+tests_firmware_UpdaterModes
 	+tests_firmware_UserRequestRecovery
 	+tests_firmware_WilcoDiagnosticsMode
 	+tests_firmware_WriteProtect
