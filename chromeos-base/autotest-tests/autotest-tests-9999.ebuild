@@ -169,6 +169,7 @@ CLIENT_IUSE_TESTS="
 		+tests_logging_KernelCrash
 		+tests_logging_UdevCrash
 		+tests_logging_UserCrash
+		+tests_platform_AnomalyDetector
 	)
 	+tests_network_EthCaps
 	+tests_network_EthernetStressPlug
