@@ -148,6 +148,7 @@ CONFIG_FRAGMENTS=(
 	fbconsole
 	goldfish
 	highmem
+	hypervisor_guest
 	i2cdev
 	iscsi
 	kasan
@@ -393,6 +394,13 @@ CONFIG_KEYBOARD_GOLDFISH_EVENTS=y
 highmem_desc="highmem"
 highmem_config="
 CONFIG_HIGHMEM64G=y
+"
+
+hypervisor_guest_desc="Support running under a hypervisor"
+hypervisor_guest_config="
+CONFIG_HYPERVISOR_GUEST=y
+CONFIG_PARAVIRT=y
+CONFIG_KVM_GUEST=y
 "
 
 i2cdev_desc="I2C device interface"
