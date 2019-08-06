@@ -26,7 +26,9 @@ LICENSE="BSD"
 SLOT="0"
 IUSE="doc examples test"
 
-DEPEND="test? ( ${PYTHON_DEPS} )"
+RDEPEND="!dev-cpp/gmock"
+DEPEND="${RDEPEND}
+	test? ( ${PYTHON_DEPS} )"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-9999-fix-gcc6-undefined-behavior.patch
