@@ -22,6 +22,7 @@ S="${WORKDIR}/${P}/src"
 
 PATCHES=(
 	"${FILESDIR}/unix-socket.patch"
+	"${FILESDIR}/read-transfer-backoff.patch"
 )
 
 src_install() {
