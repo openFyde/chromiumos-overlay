@@ -19,11 +19,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/imagel
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="fuzzer"
 
 RDEPEND="chromeos-base/libbrillo
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 	sys-fs/lvm2"
 
 DEPEND="${RDEPEND}
