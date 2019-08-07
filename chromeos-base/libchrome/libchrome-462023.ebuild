@@ -254,6 +254,10 @@ src_install() {
 		fperms +x \
 			/usr/src/libmojo-"${SLOT}"/mojo/generate_type_mappings.py \
 			/usr/src/libmojo-"${SLOT}"/mojo/mojom_bindings_generator.py
+
+		# Use correct shebang for these python2-only scripts.
+		find "${D}"/usr/src/libmojo-"${SLOT}"/mojo/ -name '*.py' \
+			-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
 	fi
 
 	# Install header files.
