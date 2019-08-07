@@ -85,6 +85,7 @@ src_prepare() {
 	epatch "${FILESDIR}/python-3.6.5-cross-distutils.patch"
 	epatch "${FILESDIR}/python-3.6.5-ldshared.patch"
 	epatch "${FILESDIR}/python-3.6.5-system-libffi.patch"
+	epatch "${FILESDIR}/python-3.6.5-sigint-handler.patch"
 
 	# Undo the @libdir@ change for portage's pym folder as it is always
 	# installed into /usr/lib/ and not the abi libdir.

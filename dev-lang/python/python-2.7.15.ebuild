@@ -147,6 +147,7 @@ src_prepare() {
 	epatch "${FILESDIR}/python-2.7.9-ncurses-pkg-config.patch"
 	epatch "${FILESDIR}/python-2.7.10-cross-compile-warn-test.patch"
 	epatch "${FILESDIR}/python-2.7.10-system-libffi.patch"
+	epatch "${FILESDIR}/python-2.7.15-sigint-handler.patch"
 
 	epatch_user
 
