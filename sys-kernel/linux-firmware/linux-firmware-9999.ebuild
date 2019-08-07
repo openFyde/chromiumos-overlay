@@ -85,6 +85,7 @@ IUSE_LINUX_FIRMWARE=(
 	rt2870
 	rtl8168g-1
 	rtl8168g-2
+	rtl_bt-8822c
 	rtw8822c
 	venus-52
 	"${IUSE_ATH3K[@]}"
@@ -130,6 +131,7 @@ LICENSE="
 	linux_firmware_rt2870? ( LICENCE.ralink-firmware.txt LICENCE.ralink_a_mediatek_company_firmware )
 	linux_firmware_rtl8168g-1? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8168g-2? ( LICENCE.rtl_nic )
+	linux_firmware_rtl_bt-8822c? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtw8822c? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_venus-52? ( LICENSE.qcom )
 	$(printf 'linux_firmware_%s? ( LICENCE.iwlwifi_firmware ) ' "${IUSE_IWLWIFI[@]}")
@@ -224,6 +226,7 @@ src_install() {
 	use_fw rockchip-dptx && doins_subdir rockchip/dptx.bin
 	use_fw rtl8168g-1 && doins_subdir rtl_nic/rtl8168g-1.fw
 	use_fw rtl8168g-2 && doins_subdir rtl_nic/rtl8168g-2.fw
+	use_fw rtl_bt-8822c && doins_subdir rtl_bt/rtl8822c*.bin
 	use_fw rtw8822c && doins_subdir rtw88/rtw8822c*.bin
 	use_fw venus-52 && doins_subdir qcom/venus-5.2/*
 	use video_cards_radeon && doins_subdir radeon/*
