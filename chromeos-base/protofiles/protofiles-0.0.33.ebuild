@@ -41,8 +41,7 @@ EGIT_REPO_URIS=(
 )
 
 DESCRIPTION="Protobuf installer for the device policy proto definitions."
-HOMEPAGE="http://chromium.org"
-SRC_URI=""
+HOMEPAGE="https://chromium.googlesource.com/chromium/src/components/policy"
 
 LICENSE="BSD-Google"
 SLOT="0/${PV}"
@@ -71,6 +70,8 @@ src_install() {
 	insinto /usr/share/policy_resources
 	doins "${S}"/cloud/policy/resources/policy_templates.json
 	doins "${FILESDIR}"/VERSION
-	insinto /usr/share/policy_tools
-	doins "${S}"/cloud/policy/tools/generate_policy_source.py
+	exeinto /usr/share/policy_tools
+	doexe "${S}"/cloud/policy/tools/generate_policy_source.py
+	sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' \
+		"${D}/usr/share/policy_tools/generate_policy_source.py" || die
 }
