@@ -24,6 +24,7 @@ IUSE="mmc nvme sata test"
 DEPEND=""
 
 RDEPEND="
+	app-misc/jq
 	sata? ( sys-apps/hdparm )
 	mmc? ( sys-apps/mmc-utils )
 	nvme? ( sys-apps/nvme-cli )
@@ -36,4 +37,5 @@ src_test() {
 
 src_install() {
 	dosbin secure-wipe.sh
+	dosbin wipe_disk
 }
