@@ -150,6 +150,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/protofiles
 	chromeos-base/pywalt
 	chromeos-base/screenshot
+	chromeos-base/secure-wipe
 	shill? ( chromeos-base/shill-test-scripts )
 	!chromeless_tests? ( chromeos-base/telemetry )
 	chromeos-base/touchbot
