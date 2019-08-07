@@ -13,6 +13,7 @@ KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-test.
 IUSE="
 	arc-camera3
+	biod
 	-chromeless_tests
 	cheets
 	chromeless_tty
@@ -71,6 +72,7 @@ CROS_COMMON_RDEPEND="
 	chromeos-base/ec-utils
 	chromeos-base/ec-utils-test
 	chromeos-base/factory-deps
+	biod? ( chromeos-base/chromeos-fpmcu-test )
 	hammerd? ( chromeos-base/hammerd-test-utils )
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
