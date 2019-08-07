@@ -27,6 +27,7 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	dolib.a "${OUT}/libcamera_ipc.pic.a"
+	dolib.a "${OUT}/libcamera_ipc_mojom.a"
 
 	cros-camera_doheader \
 		../../include/cros-camera/camera_mojo_channel_manager.h \
