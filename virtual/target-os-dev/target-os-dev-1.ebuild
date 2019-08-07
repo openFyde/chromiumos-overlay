@@ -1,10 +1,12 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
 
-DESCRIPTION="List of packages that make up the developer OS image;
-by default, we build a Chromium OS dev image"
+DESCRIPTION="List of additional packages for the developer OS image;
+by default, we build a Chromium OS dev image.
+Note: When building a dev image, the build system pulls in all packages from the
+base image as well."
 HOMEPAGE="http://dev.chromium.org/"
 
 LICENSE="BSD-Google"
