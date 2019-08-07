@@ -1,5 +1,11 @@
 [
     {
+        "comment": "Build libfuzzer libcxx-static with PIC",
+        "rel_patch_path": "cherry/295d4b7727caba392ff3fdf1dbd9006b1ee1a1a2.patch",
+        "start_version": 365631,
+        "end_version": 367943
+    },
+    {
         "comment": "Adds a whitelist of packages that have known memory leaks",
         "rel_patch_path": "llvm-next-leak-whitelist.patch"
     },
@@ -9,6 +15,7 @@
     },
     {
         "comment": "Fixes an issue where static libc++ is included\nwithin libfuzzer contains non-PIC code",
-        "rel_patch_path": "compiler-rt-9.0-force-fPIC.patch"
+        "rel_patch_path": "compiler-rt-9.0-force-fPIC.patch",
+        "end_version": 365631
     }
 ]

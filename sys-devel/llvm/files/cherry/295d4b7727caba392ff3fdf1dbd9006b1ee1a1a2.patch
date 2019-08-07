@@ -1,0 +1,31 @@
+From 295d4b7727caba392ff3fdf1dbd9006b1ee1a1a2 Mon Sep 17 00:00:00 2001
+From: Yi Kong <yikong@google.com>
+Date: Mon, 5 Aug 2019 22:55:17 +0000
+Subject: [PATCH] Build libfuzzer libcxx-static with PIC
+
+r356153 changed default build option of static libcxx to no PIC. We now
+need to explicitly specify CMAKE_POSITION_INDEPENDENT_CODE to get PIC
+libcxx.
+
+Differential Revision: https://reviews.llvm.org/D65773
+
+llvm-svn: 367943
+---
+ compiler-rt/lib/fuzzer/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/compiler-rt/lib/fuzzer/CMakeLists.txt b/compiler-rt/lib/fuzzer/CMakeLists.txt
+index 852019dc154..3743db9908c 100644
+--- a/compiler-rt/lib/fuzzer/CMakeLists.txt
++++ b/compiler-rt/lib/fuzzer/CMakeLists.txt
+@@ -143,6 +143,7 @@ if(OS_NAME MATCHES "Linux|Fuchsia" AND
+     add_custom_libcxx(libcxx_fuzzer_${arch} ${LIBCXX_${arch}_PREFIX}
+       CFLAGS ${TARGET_CFLAGS}
+       CMAKE_ARGS -DCMAKE_CXX_COMPILER_WORKS=ON
++                 -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+                  -DLIBCXX_ABI_NAMESPACE=Fuzzer)
+     target_compile_options(RTfuzzer.${arch} PRIVATE -isystem ${LIBCXX_${arch}_PREFIX}/include/c++/v1)
+     add_dependencies(RTfuzzer.${arch} libcxx_fuzzer_${arch}-build)
+-- 
+2.22.0.770.g0f2c4a37fd-goog
+
