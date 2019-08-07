@@ -33,7 +33,6 @@ RDEPEND="
 	!tpm2? (
 		app-crypt/trousers
 	)
-	chromeos-base/libbrillo:=
 	dev-libs/protobuf:=
 "
 

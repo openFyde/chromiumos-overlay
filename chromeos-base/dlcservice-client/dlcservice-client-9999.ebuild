@@ -25,7 +25,6 @@ KEYWORDS="~*"
 # libbrillo library.
 DEPEND="
 	chromeos-base/chromeos-dbus-bindings
-	chromeos-base/libbrillo:=
 "
 
 src_install() {

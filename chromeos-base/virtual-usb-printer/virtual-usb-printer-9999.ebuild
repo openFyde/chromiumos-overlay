@@ -23,7 +23,6 @@ KEYWORDS="~*"
 IUSE="usbip"
 
 RDEPEND="
-	chromeos-base/libbrillo:=
 	usbip? ( net-misc/usbip )
 "
 

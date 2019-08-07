@@ -22,7 +22,6 @@ KEYWORDS="~*"
 IUSE="+seccomp wilco"
 
 COMMON_DEPEND="
-	chromeos-base/libbrillo:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-libs/grpc:=

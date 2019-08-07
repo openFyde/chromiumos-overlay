@@ -21,7 +21,6 @@ SLOT="0"
 KEYWORDS="~*"
 
 COMMON_DEPEND="
-	chromeos-base/libbrillo:=
 "
 
 DEPEND="

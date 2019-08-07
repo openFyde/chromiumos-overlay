@@ -17,6 +17,11 @@
 # Set to yes if the package needs libchrome.
 : ${WANT_LIBCHROME:="yes"}
 
+# @ECLASS-VARIABLE: WANT_LIBBRILLO
+# @DESCRIPTION:
+# Set to yes if the package needs libbrillo.
+: "${WANT_LIBBRILLO:=${WANT_LIBCHROME}}"
+
 # @ECLASS-VARIABLE: PLATFORM_SUBDIR
 # @DESCRIPTION:
 # Subdir in src/platform2 where the gyp file is located.
@@ -39,6 +44,15 @@
 inherit cros-debug cros-fuzzer cros-sanitizers cros-workon flag-o-matic toolchain-funcs multiprocessing
 
 [[ "${WANT_LIBCHROME}" == "yes" ]] && inherit libchrome
+
+# Sanity check: libbrillo can't exist without libchrome.
+if [[ "${WANT_LIBBRILLO}" == "yes" ]]; then
+	if [[ "${WANT_LIBCHROME}" == "no" ]]; then
+		die "libbrillo requires libchrome"
+	fi
+	DEPEND="chromeos-base/libbrillo:="
+	RDEPEND="chromeos-base/libbrillo:="
+fi
 
 # While not all packages utilize USE=test, it's common to write gyp conditionals
 # based on the flag.  Add it to the eclass so ebuilds don't have to duplicate it

@@ -33,7 +33,6 @@ RDEPEND="
 	)
 	chromeos-base/attestation
 	chromeos-base/chaps
-	chromeos-base/libbrillo:=
 	chromeos-base/libscrypt
 	chromeos-base/metrics
 	chromeos-base/tpm_manager

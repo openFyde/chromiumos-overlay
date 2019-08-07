@@ -14,6 +14,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk system_api .gn"
 
 PLATFORM_SUBDIR="system_api"
+WANT_LIBBRILLO="no"
 
 inherit cros-go cros-workon toolchain-funcs platform
 

@@ -22,7 +22,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="chromeos-base/libbrillo:=
+RDEPEND="
 	dev-libs/expat
 	sys-apps/dbus"
 DEPEND="${RDEPEND}"
