@@ -293,14 +293,8 @@ IUSE_TESTS_TPM="
 	tpm2? ( +tests_platform_Pkcs11InitOnLogin )
 "
 
-# TODO(ihf): unify N and P tests once they pass reliably.
 IUSE_TESTS_ARC="
-	android-container-pi? (
-		+tests_graphics_Idle_P
-	)
-	android-container-nyc? (
-		+tests_graphics_Idle
-	)
+	+tests_graphics_Idle
 "
 
 IUSE_TESTS="
