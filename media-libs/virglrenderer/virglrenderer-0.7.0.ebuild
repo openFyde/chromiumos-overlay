@@ -3,28 +3,20 @@
 
 EAPI="6"
 
-inherit autotools cros-fuzzer cros-sanitizers eutils flag-o-matic toolchain-funcs
+CROS_WORKON_COMMIT="336f2f19118b751a645f5db756a5e7629a59ec90"
+CROS_WORKON_TREE="74b5a78521c657bee30edb9e33cb0ad6d5cbc703"
+CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
-if [[ ${PV} == "9999" ]] ; then
-	EGIT_REPO_URI="https://anongit.freedesktop.org/git/virglrenderer.git"
-	KEYWORDS="~*"
-	inherit git-r3
-else
-	GIT_SHA1="99d61001e9494aa214fb328a32ed2abd1656c28d"
-	SRC_URI="https://github.com/freedesktop/virglrenderer/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
-	S="${WORKDIR}/${PN}-${GIT_SHA1}"
-	KEYWORDS="*"
-fi
+CROS_WORKON_BLACKLIST="1"
 
-# Uncomment the following line temporarily to update the manifest when updating
-# the pinned version via: ebuild $(equery w virglrenderer) manifest
-#RESTRICT=nomirror
+inherit autotools cros-fuzzer cros-sanitizers eutils flag-o-matic toolchain-funcs cros-workon
 
 DESCRIPTION="library used implement a virtual 3D GPU used by qemu"
 HOMEPAGE="https://virgil3d.github.io/"
 
 LICENSE="MIT"
 SLOT="0"
+KEYWORDS="*"
 IUSE="fuzzer profiling static-libs test"
 
 RDEPEND="
@@ -41,6 +33,7 @@ DEPEND="${RDEPEND}
 	test? ( >=dev-libs/check-0.9.4 )"
 
 PATCHES=(
+	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
 )
 
 src_prepare() {
@@ -57,6 +50,7 @@ src_configure() {
 	fi
 	econf \
 		--disable-glx \
+		--enable-gbm-allocation \
 		$(use_enable static-libs static) \
 		$(use_enable test tests) \
 		$(use_enable fuzzer)

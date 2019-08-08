@@ -29,6 +29,7 @@ DEPEND="${RDEPEND}
 	test? ( >=dev-libs/check-0.9.4 )"
 
 PATCHES=(
+	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
 )
 
 src_prepare() {
@@ -45,6 +46,7 @@ src_configure() {
 	fi
 	econf \
 		--disable-glx \
+		--enable-gbm-allocation \
 		$(use_enable static-libs static) \
 		$(use_enable test tests) \
 		$(use_enable fuzzer)
