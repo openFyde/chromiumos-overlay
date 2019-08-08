@@ -212,6 +212,8 @@ multilib_src_configure() {
 		--disable-rpath-install
 		--nopyc
 		--nopyo
+		--without-regedit
+		--with-libiconv="${SYSROOT}/usr"
 		$(multilib_native_use_with acl acl-support)
 		$(multilib_native_usex addc '' '--without-ad-dc')
 		$(multilib_native_use_with addns dnsupdate)
@@ -233,7 +235,7 @@ multilib_src_configure() {
 		$(multilib_native_usex python '' '--disable-python')
 		$(multilib_native_use_enable zeroconf avahi)
 		$(multilib_native_usex test '--enable-selftest' '')
-		$(usex system-mitkrb5 '--with-system-mitkrb5' '')
+		$(usex system-mitkrb5 "--with-system-mitkrb5 ${SYSROOT}/usr" '')
 		$(use_enable gnutls)
 		$(use_with debug lttng)
 		$(use_with ldap)
