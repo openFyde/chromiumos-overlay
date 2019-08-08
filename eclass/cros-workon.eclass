@@ -390,6 +390,12 @@ cros-workon_src_unpack() {
 		die "Sorry, but \$S cannot be set to \$WORKDIR"
 	fi
 
+	# Setting CROS_WORKON_COMMIT in 9999 ebuilds doesn't make sense nor is
+	# supported, so reject it up front.
+	if [[ "${PV}" == "9999" ]] && [[ -n "${CROS_WORKON_COMMIT}" || -n "${CROS_WORKON_TREE}" ]]; then
+		die "9999 ebuilds must not set CROS_WORKON_COMMIT or CROS_WORKON_TREE"
+	fi
+
 	# Set the default of CROS_WORKON_DESTDIR. This is done here because S is
 	# sometimes overridden in ebuilds and we cannot rely on the global state
 	# (and therefore ordering of eclass inherits and local ebuild overrides).
