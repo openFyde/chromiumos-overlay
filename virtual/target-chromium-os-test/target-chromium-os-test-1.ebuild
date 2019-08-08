@@ -183,6 +183,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	media-gfx/perceptualdiff
 	media-gfx/zbar
 	cheets? ( media-libs/arc-codec-test )
+	arc-camera3? ( media-libs/cros-camera-libjea_test )
 	arc-camera3? ( media-libs/cros-camera-test )
 	media-libs/cros-camera-v4l2_test
 	media-libs/libexif
