@@ -122,6 +122,7 @@ ALL_BOARDS=(
 	dalmore
 	danger
 	danger_embedded
+	dedede
 	#derwent
 	#dragonegg
 	drallion

@@ -50,6 +50,7 @@ EC_BOARD_NAMES=(
 	coral
 	cr50
 	cyan
+	dedede
 	dingdong
 	dragonegg
 	elm
