@@ -165,6 +165,8 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/FROMLIST-virgl-Set-meta-data-for-textures-from-handle.patch
 
+	epatch "${FILESDIR}"/BACKPORT-egl-Enable-eglGetPlatformDisplay-on-Android.patch
+
 	if use android-container-nyc; then
 		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
 		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
