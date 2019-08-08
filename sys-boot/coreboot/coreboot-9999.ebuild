@@ -11,6 +11,7 @@ CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/arm-trusted-firmware"
 	"chromiumos/platform/vboot_reference"
 	"chromiumos/third_party/coreboot/blobs"
+	"chromiumos/third_party/coreboot/intel-microcode"
 	"chromiumos/third_party/cbootimage"
 )
 CROS_WORKON_LOCALNAME=(
@@ -18,6 +19,7 @@ CROS_WORKON_LOCALNAME=(
 	"arm-trusted-firmware"
 	"../platform/vboot_reference"
 	"coreboot/3rdparty/blobs"
+	"coreboot/3rdparty/intel-microcode"
 	"cbootimage"
 )
 CROS_WORKON_DESTDIR=(
@@ -25,6 +27,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/3rdparty/arm-trusted-firmware"
 	"${S}/3rdparty/vboot"
 	"${S}/3rdparty/blobs"
+	"${S}/3rdparty/intel-microcode"
 	"${S}/util/nvidia/cbootimage"
 )
 
