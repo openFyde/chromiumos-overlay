@@ -98,13 +98,13 @@ src_install() {
 	einfo "Installing header files"
 	insinto /usr/include/vboot
 	doins host/include/* \
-	      firmware/include/gpt.h \
-	      firmware/include/tlcl.h \
-	      firmware/include/tss_constants.h \
-	      firmware/include/tpm1_tss_constants.h \
-	      firmware/include/tpm2_tss_constants.h \
-	      firmware/2lib/include/2id.h \
-	      firmware/lib21/include/vb21_struct.h
+		firmware/include/gpt.h \
+		firmware/include/tlcl.h \
+		firmware/include/tss_constants.h \
+		firmware/include/tpm1_tss_constants.h \
+		firmware/include/tpm2_tss_constants.h \
+		firmware/2lib/include/2id.h \
+		firmware/lib21/include/vb21_struct.h
 
 	einfo "Installing host library"
 	dolib.a "${WORKDIR}"/build-main/libvboot_host.a
