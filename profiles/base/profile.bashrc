@@ -306,7 +306,7 @@ cros_use_libstdcxx() {
 cros_log_failed_packages() {
 	if [[ -n "${CROS_METRICS_DIR}" ]]; then
 		mkdir -p "${CROS_METRICS_DIR}"
-		echo "${CATEGORY}/${PN} ${EBUILD_PHASE:-"unknown"}" \
+		echo "${CATEGORY}/${PF} ${EBUILD_PHASE:-"unknown"}" \
 			 >> "${CROS_METRICS_DIR}/FAILED_PACKAGES"
 	fi
 }
