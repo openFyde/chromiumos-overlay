@@ -58,8 +58,9 @@ IUSE="
 	opengl
 	opengles
 	orderfile_generate
+	+orderfile_use
 	orderfile_verify
-	+reorder_text_sections
+	reorder_text_sections
 	+runhooks
 	strict_toolchain_checks
 	+thinlto
@@ -139,6 +140,7 @@ AFDO_LOCATION["airmont"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/c
 AFDO_LOCATION["haswell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/haswell/"}
 AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/broadwell/"}
 UNVETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/orderfiles/unvetted"}
+VETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/orderfiles/vetted"}
 
 # The following entries into the AFDO_FILE* dictionaries are set automatically
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
@@ -151,7 +153,7 @@ AFDO_FILE["haswell"]="R78-3809.77-1565002609.afdo"
 AFDO_FILE["broadwell"]="R78-3849.0-1565001978.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 # The following entry will be modified automatically for verifying orderfile.
-UNVETTED_ORDERFILE="chromeos-chrome-orderfile-77.0.3849.0_rc-r1.orderfile"
+UNVETTED_ORDERFILE=""
 
 # This dictionary can be used to manually override the setting for the
 # AFDO profile file. Any non-empty values in this array will take precedence
@@ -165,6 +167,13 @@ AFDO_FROZEN_FILE["silvermont"]=""
 AFDO_FROZEN_FILE["airmont"]=""
 AFDO_FROZEN_FILE["haswell"]=""
 AFDO_FROZEN_FILE["broadwell"]=""
+
+# This variable can be used to manually override the setting for the
+# orderfile file, similar to the AFDO profiles above.
+# Normally updating and downloading orderfile is taken care by Chrome source
+# code. So any non-empty values in this variable will override the default
+# Chrome behavior and use the orderfile from the path
+ORDERFILE_FROZEN=""
 
 add_afdo_files() {
 	local a f l
@@ -183,7 +192,20 @@ add_afdo_files() {
 
 add_afdo_files
 
-SRC_URI+=" orderfile_verify? ( ${UNVETTED_ORDERFILE_LOCATION}/${UNVETTED_ORDERFILE}.xz )"
+add_orderfiles() {
+	# For verify orderfile, only for a toolchain special build.
+	if [[ -n ${UNVETTED_ORDERFILE} ]]; then
+		SRC_URI+=" orderfile_verify? ( ${UNVETTED_ORDERFILE_LOCATION}/${UNVETTED_ORDERFILE}.xz )"
+	fi
+
+	# For freezing orderfile, only used for there's some kind of problems
+	# with the orderfile in Chrome.
+	if [[ -n ${ORDERFILE_FROZEN} ]]; then
+		SRC_URI+=" orderfile_use? ( ${VETTED_ORDERFILE_LOCATION}/${ORDERFILE_FROZEN}.xz )"
+	fi
+}
+
+add_orderfiles
 
 RDEPEND="${RDEPEND}
 	app-arch/bzip2
@@ -762,6 +784,23 @@ src_unpack() {
 		# Pass the path to orderfile to GN args.
 		BUILD_STRING_ARGS+=( "chrome_orderfile_path=${orderfile_loc}" )
 	fi
+
+	if use orderfile_use; then
+		# Default orderfile is set in Chromium side, nothing to do here.
+		# Logic for using a freezed version of orderfile
+		if [[ -n ${ORDERFILE_FROZEN} ]]; then
+			local orderfile_dir="${WORKDIR}/orderfile"
+			mkdir "${orderfile_dir}"
+			local orderfile_file=${ORDERFILE_FROZEN}
+			(cd "${orderfile_dir}" && unpack "${orderfile_file}.xz") || die
+			orderfile_loc="${orderfile_dir}/${orderfile_file}"
+			einfo "Using freezed orderfile unpacked at ${orderfile_loc}"
+			BUILD_STRING_ARGS+=( "chrome_orderfile_path=${orderfile_loc}" )
+		fi
+	else
+		# If not using orderfile, override the default orderfile path to empty.
+		BUILD_STRING_ARGS+=( "chrome_orderfile_path=\"\"" )
+	fi
 }
 
 add_api_keys() {
@@ -1141,7 +1180,7 @@ chrome_make() {
 
 	# Still use a script to check if the orderfile is used properly, i.e.
 	# Builtin_ functions are placed between the markers, etc.
-	if use strict_toolchain_checks && use orderfile_verify; then
+	if use strict_toolchain_checks && (use orderfile_use || use orderfile_verify); then
 		"${FILESDIR}/check_orderfile.py" "${build_dir}/chrome" || die
 	fi
 }
