@@ -127,6 +127,12 @@ src_prepare() {
 	# Fix timing issue with dbus::ObjectManager.
 	# # TODO(bingxue): Remove after libchrome uprev past r684392.
 	epatch "${FILESDIR}"/${P}-Connect-to-NameOwnerChanged-signal-when-setting-call.patch
+
+	# Cherry-pick base::data for r576297 uprev.
+	epatch "${FILESDIR}"/${P}-Reland-base-Implement-std-size-std-empty-and-std-dat.patch
+
+	# Forward compatibility for r576297.
+	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-1.patch
 }
 
 src_install() {

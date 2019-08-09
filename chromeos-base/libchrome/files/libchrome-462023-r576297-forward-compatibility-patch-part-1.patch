@@ -1,0 +1,209 @@
+From 4914bfd0ef6361c8a956b8eb0336918ab12fb17e Mon Sep 17 00:00:00 2001
+From: Hidehiko Abe <hidehiko@chromium.org>
+Date: Sat, 10 Aug 2019 01:49:12 +0900
+Subject: [PATCH] libchrome: r576279 forward compatibility patch part 1.
+
+This CL includes;
+- NumberToString overload.
+- TaskRunner::BelongsToCurrentThread() alias.
+- Value::SetKey()
+- SimpleAlarmTimer::Create().
+- base/memory/scoped_refptr.h
+- base/posix/unix_domain_socket.h
+
+BUG=chromium:909719
+TEST=Build.
+
+Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
+---
+ base/memory/scoped_refptr.h               | 31 +++++++++++++++++++++++
+ base/posix/unix_domain_socket.h           | 12 +++++++++
+ base/strings/string_number_conversions.h  | 20 +++++++++++++++
+ base/task_runner.h                        |  4 +++
+ base/values.cc                            |  5 ++++
+ base/values.h                             |  2 ++
+ components/timers/alarm_timer_chromeos.cc |  8 ++++++
+ components/timers/alarm_timer_chromeos.h  |  2 ++
+ 8 files changed, 84 insertions(+)
+ create mode 100644 base/memory/scoped_refptr.h
+ create mode 100644 base/posix/unix_domain_socket.h
+
+diff --git a/base/memory/scoped_refptr.h b/base/memory/scoped_refptr.h
+new file mode 100644
+index 0000000..0815c34
+--- /dev/null
++++ b/base/memory/scoped_refptr.h
+@@ -0,0 +1,31 @@
++// Copyright 2019 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++// This file is for forward compatibility to uprev r576279.
++
++#ifndef BASE_MEMORY_SCOPED_REFPTR_H_
++#define BASE_MEMORY_SCOPED_REFPTR_H_
++
++#include "base/memory/ref_counted.h"
++
++namespace base {
++
++// Constructs an instance of T, which is a ref counted type, and wraps the
++// object into a scoped_refptr<T>.
++template <typename T, typename... Args>
++    scoped_refptr<T> MakeRefCounted(Args&&... args) {
++  T* obj = new T(std::forward<Args>(args)...);
++  return subtle::AdoptRefIfNeeded(obj, T::kRefCountPreference);
++}
++
++// Takes an instance of T, which is a ref counted type, and wraps the object
++// into a scoped_refptr<T>.
++template <typename T>
++    scoped_refptr<T> WrapRefCounted(T* t) {
++  return scoped_refptr<T>(t);
++}
++
++}  // namespace base
++
++#endif  // BASE_MEMORY_SCOPED_REFPTR_H_
+diff --git a/base/posix/unix_domain_socket.h b/base/posix/unix_domain_socket.h
+new file mode 100644
+index 0000000..5112731
+--- /dev/null
++++ b/base/posix/unix_domain_socket.h
+@@ -0,0 +1,12 @@
++// Copyright 2019 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++// This file is for forward compatibility to uprev r576279.
++
++#ifndef BASE_POSIX_UNIX_DOMAIN_SOCKET_H_
++#define BASE_POSIX_UNIX_DOMAIN_SOCKET_H_
++
++#include "base/posix/unix_domain_socket_linux.h"
++
++#endif  // BASE_POSIX_UNIX_DOMAIN_SOCKET_H_
+diff --git a/base/strings/string_number_conversions.h b/base/strings/string_number_conversions.h
+index a95544e..776451c 100644
+--- a/base/strings/string_number_conversions.h
++++ b/base/strings/string_number_conversions.h
+@@ -42,15 +42,31 @@ namespace base {
+ BASE_EXPORT std::string IntToString(int value);
+ BASE_EXPORT string16 IntToString16(int value);
+ 
++inline std::string NumberToString(int value) {
++  return IntToString(value);
++}
++
+ BASE_EXPORT std::string UintToString(unsigned value);
+ BASE_EXPORT string16 UintToString16(unsigned value);
+ 
++inline std::string NumberToString(unsigned value) {
++  return UintToString(value);
++}
++
+ BASE_EXPORT std::string Int64ToString(int64_t value);
+ BASE_EXPORT string16 Int64ToString16(int64_t value);
+ 
++inline std::string NumberToString(int64_t value) {
++  return Int64ToString(value);
++}
++
+ BASE_EXPORT std::string Uint64ToString(uint64_t value);
+ BASE_EXPORT string16 Uint64ToString16(uint64_t value);
+ 
++inline std::string NumberToString(uint64_t value) {
++  return Uint64ToString(value);
++}
++
+ BASE_EXPORT std::string SizeTToString(size_t value);
+ BASE_EXPORT string16 SizeTToString16(size_t value);
+ 
+@@ -59,6 +75,10 @@ BASE_EXPORT string16 SizeTToString16(size_t value);
+ // locale. If you want to use locale specific formatting, use ICU.
+ BASE_EXPORT std::string DoubleToString(double value);
+ 
++inline std::string NumberToString(double value) {
++  return DoubleToString(value);
++}
++
+ // String -> number conversions ------------------------------------------------
+ 
+ // Perform a best-effort conversion of the input string to a numeric type,
+diff --git a/base/task_runner.h b/base/task_runner.h
+index 0421d56..dd449f4 100644
+--- a/base/task_runner.h
++++ b/base/task_runner.h
+@@ -80,6 +80,10 @@ class BASE_EXPORT TaskRunner
+   // general to use 'true' as a default value.
+   virtual bool RunsTasksOnCurrentThread() const = 0;
+ 
++  inline bool BelongsToCurrentThread() const {
++    return RunsTasksOnCurrentThread();
++  }
++
+   // Posts |task| on the current TaskRunner.  On completion, |reply|
+   // is posted to the thread that called PostTaskAndReply().  Both
+   // |task| and |reply| are guaranteed to be deleted on the thread
+diff --git a/base/values.cc b/base/values.cc
+index b5e44e6..dc67293 100644
+--- a/base/values.cc
++++ b/base/values.cc
+@@ -340,6 +340,11 @@ bool Value::GetAsDictionary(const DictionaryValue** out_value) const {
+   return is_dict();
+ }
+ 
++Value* Value::SetKey(StringPiece key, Value&& value) {
++  CHECK(is_dict());
++  return ((**dict_ptr_)[key.as_string()] = std::make_unique<Value>(std::move(value))).get();
++}
++
+ Value* Value::DeepCopy() const {
+   return new Value(*this);
+ }
+diff --git a/base/values.h b/base/values.h
+index 925152d..9f916d2 100644
+--- a/base/values.h
++++ b/base/values.h
+@@ -153,6 +153,8 @@ class BASE_EXPORT Value {
+   bool GetAsDictionary(const DictionaryValue** out_value) const;
+   // Note: Do not add more types. See the file-level comment above for why.
+ 
++  Value* SetKey(StringPiece key, Value&& value);
++
+   // This creates a deep copy of the entire Value tree, and returns a pointer
+   // to the copy. The caller gets ownership of the copy, of course.
+   // Subclasses return their own type directly in their overrides;
+diff --git a/components/timers/alarm_timer_chromeos.cc b/components/timers/alarm_timer_chromeos.cc
+index e332466..c59ec93 100644
+--- a/components/timers/alarm_timer_chromeos.cc
++++ b/components/timers/alarm_timer_chromeos.cc
+@@ -166,4 +166,12 @@ SimpleAlarmTimer::SimpleAlarmTimer() : AlarmTimer(true, false) {
+ SimpleAlarmTimer::~SimpleAlarmTimer() {
+ }
+ 
++std::unique_ptr<SimpleAlarmTimer> SimpleAlarmTimer::Create() {
++  auto result = std::make_unique<SimpleAlarmTimer>();
++  if (!result->CanWakeFromSuspend()) {
++    return nullptr;
++  }
++  return result;
++}
++
+ }  // namespace timers
+diff --git a/components/timers/alarm_timer_chromeos.h b/components/timers/alarm_timer_chromeos.h
+index 8066704..88f2588 100644
+--- a/components/timers/alarm_timer_chromeos.h
++++ b/components/timers/alarm_timer_chromeos.h
+@@ -101,6 +101,8 @@ class SimpleAlarmTimer : public AlarmTimer {
+  public:
+   SimpleAlarmTimer();
+   ~SimpleAlarmTimer() override;
++
++  std::unique_ptr<SimpleAlarmTimer> Create();
+ };
+ 
+ }  // namespace timers
+-- 
+2.23.0.rc1.153.gdeed80330f-goog
+
