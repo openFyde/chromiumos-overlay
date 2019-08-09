@@ -58,7 +58,7 @@ arc-build-check-arch() {
 	esac
 }
 
-_arc-build-select-common() {
+arc-build-select-clang() {
 	if [[ -n ${ARC_SYSROOT} ]] ; then
 		# If we've already been set up, don't re-run.
 		die "arc-build must be initialized only once. Please fix your ebuild."
@@ -117,33 +117,8 @@ _arc-build-select-common() {
 	# By calling 'cros_enable_cxx_exceptions' we can filter out these flags.
 	# Call it here to make sure that any Android packages are compiled this way.
 	cros_enable_cxx_exceptions
-}
 
-# DEPRECATED. Do not use unless you have a really good reason.
-# We do not support GCC builds anymore, so if your package fails to build
-# with Clang, please try to fix it before considering to use GCC.
-# See b/65189615 for reasons and changes that we did to switch other ebuilds.
-arc-build-select-gcc() {
-	if [[ -z $MY_ARC_EBUILD_IS_BROKEN_AND_I_REALLY_NEED_GCC ]]; then
-		eerror "arc-build-select-gcc is not supported anymore."
-		eerror "Please read eclass/arc-build.eclass, if you want to know more."
-		die "arc-build-select-gcc is not supported anymore."
-	fi
-
-	ewarn "arc-build-select-gcc is not supported anymore, you're on your own."
-	ewarn "Using GCC for now, as forced by the ebuild, but please fix your package..."
-
-	_arc-build-select-common
-
-	append-cxxflags -I${ARC_SYSROOT}/usr/include/c++/4.9 -lc++
-
-	export CC="${ARC_GCC_BASE}/bin/${ARC_GCC_TUPLE}-gcc"
-	export CXX="${ARC_GCC_BASE}/bin/${ARC_GCC_TUPLE}-g++"
-}
-
-arc-build-select-clang() {
-	_arc-build-select-common
-
+	# Select clang compiler
 	ARC_LLVM_BASE="${ARC_BASE}/arc-llvm/${ARC_LLVM_VERSION}"
 	export CC="${ARC_LLVM_BASE}/bin/clang --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST}"
 	export CXX="${ARC_LLVM_BASE}/bin/clang++ --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST}"
