@@ -7,7 +7,7 @@ DESCRIPTION="Firmware for tools based on Chromium OS EC"
 HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 
 SERVO_MICRO_NAME="servo_micro_v2.3.7-096c7ee84" # servo-firmware-R70-11011.14.0
-SERVO_V4_NAME="servo_v4_v2.3.7-096c7ee84"       # servo-firmware-R70-11011.14.0
+SERVO_V4_NAME="servo_v4_v2.3.22-ecb74cc56" # servo-firmware-R70-11011.17.0
 SWEETBERRY_NAME="sweetberry_v2.3.7-096c7ee84"   # servo-firmware-R70-11011.14.0
 UPDATER_PATH="/usr/share/servo_updater/firmware"
 
