@@ -21,7 +21,7 @@ src_compile() {
 	cat > pkg-config <<EOF
 #!/bin/bash
 case \${ABI} in
-aarch64|amd64)
+arm64|amd64)
 	libdir=lib64
 	;;
 arm|x86)
@@ -74,9 +74,22 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	local prebuilt_src="${ARC_BASE}/${ARCH}/usr"
 	local bin_dir="${ARC_PREFIX}/build/bin"
 	local prebuilt_dir="${ARC_PREFIX}/usr"
+
+	local arc_arch="${ARCH}"
+	# arm needs to use arm64 directory, which provides combined arm/arm64
+	# headers and libraries, except on NYC where we do not provide arm64
+	# support.
+	einfo "${ARC_VERSION_CODENAME}"
+	# TODO(b:138786145): Fix qt/master toolchain as well
+	if [[ "${ARCH}" == "arm" && "${ARC_VERSION_CODENAME}" != "nyc" &&
+			"${ARC_VERSION_CODENAME}" != "qt" &&
+			"${ARC_VERSION_CODENAME}" != "master" ]]; then
+		arc_arch="arm64"
+	fi
+
+	local prebuilt_src="${ARC_BASE}/${arc_arch}/usr"
 
 	exeinto "${bin_dir}"
 	doexe pkg-config

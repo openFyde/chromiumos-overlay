@@ -72,15 +72,30 @@ arc-build-select-clang() {
 
 	case ${ARCH} in
 	arm)
-		ARC_GCC_TUPLE=arm-linux-androideabi
-		ARC_GCC_BASE="${ARC_BASE}/arc-gcc/arm/${ARC_GCC_TUPLE}-4.9"
+		ARC_GCC_TUPLE_arm64=aarch64-linux-android
+		ARC_GCC_BASE_arm64="${ARC_BASE}/arc-gcc/aarch64/${ARC_GCC_TUPLE_arm64}-4.9"
+		ARC_GCC_TUPLE_arm=arm-linux-androideabi
+		ARC_GCC_BASE_arm="${ARC_BASE}/arc-gcc/arm/${ARC_GCC_TUPLE_arm}-4.9"
 
-		export CHOST="${ARC_GCC_TUPLE}"
-		append-cppflags -I"${ARC_SYSROOT}/usr/include/arch-arm/include/"
+		# multilib.eclass does not use CFLAGS_${DEFAULT_ABI}, but
+		# we need to add some flags valid only for arm/arm64, so we trick
+		# it to think that neither arm nor arm64 is the default.
+		export DEFAULT_ABI=none
+		export CHOST_arm64=aarch64-linux-android
+		export CHOST_arm=arm-linux-androideabi
 
 		# Android uses softfp ABI
 		filter-flags -mfloat-abi=hard
-		append-flags -mfloat-abi=softfp
+		CFLAGS_arm="${CFLAGS_arm} -mfloat-abi=softfp"
+
+		CFLAGS_arm64="${CFLAGS_arm64} -I${ARC_SYSROOT}/usr/include/arch-arm64/include/"
+		CFLAGS_arm="${CFLAGS_arm} -I${ARC_SYSROOT}/usr/include/arch-arm/include/"
+
+		export CFLAGS_arm64="${CFLAGS_arm64} -target ${CHOST_arm64} --gcc-toolchain=${ARC_GCC_BASE_arm64}"
+		export CFLAGS_arm="${CFLAGS_arm} -target ${CHOST_arm} --gcc-toolchain=${ARC_GCC_BASE_arm}"
+
+		# Add Android related utilities location to ${PATH}.
+		export PATH="${ARC_GCC_BASE_arm64}/bin:${ARC_GCC_BASE_arm}/bin:${PATH}"
 		;;
 	amd64)
 		ARC_GCC_TUPLE=x86_64-linux-android
@@ -93,13 +108,21 @@ arc-build-select-clang() {
 		export CHOST=x86_64-linux-android
 		export CHOST_amd64=x86_64-linux-android
 		export CHOST_x86=i686-linux-android
-		export CFLAGS_amd64="${CFLAGS_amd64} -I${ARC_SYSROOT}/usr/include/arch-x86_64/include/"
-		export CFLAGS_x86="${CFLAGS_x86} -I${ARC_SYSROOT}/usr/include/arch-x86/include/"
+
+		CFLAGS_amd64="${CFLAGS_amd64} -I${ARC_SYSROOT}/usr/include/arch-x86_64/include/"
+		CFLAGS_x86="${CFLAGS_x86} -I${ARC_SYSROOT}/usr/include/arch-x86/include/"
+
+		export CFLAGS_amd64="${CFLAGS_amd64} -target ${CHOST_amd64} --gcc-toolchain=${ARC_GCC_BASE}"
+		export CFLAGS_x86="${CFLAGS_x86} -target ${CHOST_x86} --gcc-toolchain=${ARC_GCC_BASE}"
+
+		# Add Android related utilities location to ${PATH}.
+		export PATH="${ARC_GCC_BASE}/bin:${PATH}"
 		;;
 	esac
 
-	# Add Android related utilities location to ${PATH}.
-	export PATH="${ARC_GCC_BASE}/bin:${PATH}"
+	# Some linkers (namely ARM64's bfd linker) do no have this flag set by
+	# default.
+	append-ldflags -Wl,--allow-shlib-undefined
 
 	# Strip out flags that are specific to our compiler wrapper.
 	filter-flags -clang-syntax
@@ -120,8 +143,8 @@ arc-build-select-clang() {
 
 	# Select clang compiler
 	ARC_LLVM_BASE="${ARC_BASE}/arc-llvm/${ARC_LLVM_VERSION}"
-	export CC="${ARC_LLVM_BASE}/bin/clang --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST}"
-	export CXX="${ARC_LLVM_BASE}/bin/clang++ --gcc-toolchain=${ARC_GCC_BASE} -target ${CHOST}"
+	export CC="${ARC_LLVM_BASE}/bin/clang"
+	export CXX="${ARC_LLVM_BASE}/bin/clang++"
 
 	# Allow unused arguments since ARC often uses flags from Chrome OS but
 	# with older clang.
