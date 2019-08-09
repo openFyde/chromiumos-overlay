@@ -84,3 +84,6 @@ sys-boot/libpayload		coreboot-sdk
 sys-boot/depthcharge		coreboot-sdk
 sys-boot/chromeos-seabios	coreboot-sdk
 chromeos-base/chromeos-ec	coreboot-sdk
+
+# clang doesn't recognize gcc pragmas, so libgcrypt needs to turn off -O flags.
+dev-libs/libgcrypt	o-flag-munging
