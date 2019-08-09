@@ -144,7 +144,7 @@ UNVETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-jo
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-78.0.3877.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-77.0.3862.0_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R78-3849.0-1565003983.afdo"
 AFDO_FILE["airmont"]="R78-3849.0-1564999971.afdo"
 AFDO_FILE["haswell"]="R78-3809.77-1565002609.afdo"
@@ -705,7 +705,14 @@ src_unpack() {
 			# Merge benchmark-based profile and CWP profiles
 			# http://crbug.com/920432
 			local benchmark_afdo_src="benchmark"
-			local benchmark_profile_file="${benchmark_afdo_src}_${AFDO_FILE[${benchmark_afdo_src}]}"
+			local benchmark_profile_file
+			if [[ -n ${AFDO_FROZEN_FILE[${benchmark_afdo_src}]} ]]; then
+				benchmark_profile_file="${AFDO_FROZEN_FILE[${benchmark_afdo_src}]}"
+			else
+				benchmark_profile_file="${AFDO_FILE[${benchmark_afdo_src}]}"
+			fi
+
+			benchmark_profile_file="${benchmark_afdo_src}_${benchmark_profile_file}"
 
 			[[ -n ${benchmark_profile_file} ]] || die "Missing benchmark-based AFDO profile"
 			unpack "${benchmark_profile_file}${AFDO_COMPRESSOR_SUFFIX[${benchmark_afdo_src}]}"
