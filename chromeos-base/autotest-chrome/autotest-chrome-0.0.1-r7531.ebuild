@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="8bd4d35f1d4fae472824a27f3e1ccd39a5218089"
-CROS_WORKON_TREE="13ef013b95eb5afa80a89b4a5624eb415e89c627"
+CROS_WORKON_COMMIT="f71f9605fa6f75c040cc15551afda6c1e15959a4"
+CROS_WORKON_TREE="167dcb89b21642989dd61a176ae97c50ad475493"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -295,14 +295,8 @@ IUSE_TESTS_TPM="
 	tpm2? ( +tests_platform_Pkcs11InitOnLogin )
 "
 
-# TODO(ihf): unify N and P tests once they pass reliably.
 IUSE_TESTS_ARC="
-	android-container-pi? (
-		+tests_graphics_Idle_P
-	)
-	android-container-nyc? (
-		+tests_graphics_Idle
-	)
+	+tests_graphics_Idle
 "
 
 IUSE_TESTS="
