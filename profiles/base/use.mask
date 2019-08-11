@@ -244,3 +244,6 @@ abi_ppc_32
 abi_ppc_64
 abi_s390_32
 abi_s390_64
+# multilib for ARC++ ARM64
+abi_arm_32
+abi_arm_64
