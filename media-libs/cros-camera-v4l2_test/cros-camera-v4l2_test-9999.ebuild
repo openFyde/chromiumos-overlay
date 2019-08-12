@@ -21,7 +21,6 @@ KEYWORDS="~*"
 
 RDEPEND="
 	chromeos-base/libbrillo:=
-	chromeos-base/libchrome:=
 	dev-cpp/gtest:=
 	dev-libs/re2:=
 	media-libs/libyuv
