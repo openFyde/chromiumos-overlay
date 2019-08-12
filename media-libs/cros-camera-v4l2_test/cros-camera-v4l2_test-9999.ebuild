@@ -20,11 +20,13 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
+	chromeos-base/libbrillo:=
+	dev-cpp/gtest:=
+	dev-libs/re2:=
+	media-libs/libyuv
 	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}
-	dev-cpp/gtest
-	media-libs/libyuv
 	virtual/pkgconfig"
 
 src_install() {
