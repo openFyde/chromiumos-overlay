@@ -20,7 +20,7 @@ RDEPEND="!<chromeos-base/etphidiap-1.1-r3"
 DEPEND="!<chromeos-base/etphidiap-1.1-r3"
 
 PATCHES=(
-	"${FILESDIR}/${P}-fix-compile.patch"
+	"${FILESDIR}/${P}-fix-warnings.patch"
 )
 
 src_configure() {
