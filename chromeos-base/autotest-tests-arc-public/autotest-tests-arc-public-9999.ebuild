@@ -16,13 +16,8 @@ KEYWORDS="~*"
 
 CLIENT_TESTS="
 	!android-container-master-arc-dev? (
+		+tests_cheets_Midis
 		+tests_cheets_StartAndroid
-	)
-	android-container-nyc? (
-		+test_cheets_Midis
-	)
-	android-container-pi? (
-		+test_cheets_Midis
 	)
 	+tests_graphics_Gralloc
 "
@@ -40,8 +35,6 @@ DEPEND="${RDEPEND}"
 
 IUSE="
 	android-container-master-arc-dev
-	android-container-nyc
-	android-container-pi
 	+autotest
 	${IUSE_TESTS}
 "
