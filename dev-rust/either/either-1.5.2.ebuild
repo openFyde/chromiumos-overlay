@@ -5,14 +5,14 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="A library for creating references that carry their owner with them."
-HOMEPAGE="https://github.com/Kimundi/owning-ref-rs"
+DESCRIPTION="Either has methods that are similar to Option and Result, and it also implements traits like Iterator."
+HOMEPAGE="https://github.com/bluss/either"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/stable_deref_trait-1*:=
+	>=dev-rust/serde-1.0.0:=
 "

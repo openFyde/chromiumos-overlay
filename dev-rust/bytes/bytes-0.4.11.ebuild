@@ -3,13 +3,19 @@
 
 EAPI="6"
 
-CROS_RUST_EMPTY_CRATE=1
-
 inherit cros-rust
 
-DESCRIPTION="Empty bytes crate"
-HOMEPAGE=""
+DESCRIPTION="A utility library for working with bytes."
+HOMEPAGE="https://github.com/tokio-rs/bytes"
+SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="BSD-Google"
+LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
+
+DEPEND="
+	>=dev-rust/byteorder-1.1.0:=
+	>=dev-rust/iovec-0.1.0:=
+	>=dev-rust/either-1.5.0:=
+	>=dev-rust/serde-1.0.0:=
+"
