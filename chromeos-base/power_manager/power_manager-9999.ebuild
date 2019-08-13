@@ -40,6 +40,7 @@ RDEPEND+="
 "
 
 DEPEND="${RDEPEND}
+	chromeos-base/chromeos-ec-headers
 	chromeos-base/system_api"
 
 # Some deps we only need at runtime.
