@@ -53,7 +53,12 @@ src_unpack() {
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"
 	fi
-	git-2_src_unpack
+	# crbug.com/925990: if egit doesn't actually check out a non-HEAD hash,
+	# then we'll end up with an empty source tree, with git unhappy that
+	# everything has been deleted. Until that's resolved, reset to HEAD
+	# during all checkouts. This should be a nop unless we're in a
+	# situation where this bug would bite us.
+	EGIT_BOOTSTRAP="git reset --hard HEAD" git-2_src_unpack
 }
 
 src_prepare() {
