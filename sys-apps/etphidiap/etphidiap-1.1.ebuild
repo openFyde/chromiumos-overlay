@@ -14,6 +14,11 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
+# Old name for this package.  Must block old revisions which would install
+# the same files as this package.
+RDEPEND="!<chromeos-base/etphidiap-1.1-r3"
+DEPEND="!<chromeos-base/etphidiap-1.1-r3"
+
 PATCHES=(
 	"${FILESDIR}/${P}-fix-compile.patch"
 )
