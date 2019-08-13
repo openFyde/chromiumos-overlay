@@ -189,8 +189,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_FAFTPrepare
 	+tests_firmware_FAFTRPC
 	+tests_firmware_FAFTSetup
-	+tests_firmware_FastbootErase
-	+tests_firmware_FastbootReboot
 	biod? ( +tests_firmware_Fingerprint )
 	+tests_firmware_FMap
 	+tests_firmware_FWMPDisableCCD
