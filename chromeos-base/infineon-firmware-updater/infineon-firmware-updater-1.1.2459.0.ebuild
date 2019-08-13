@@ -33,6 +33,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/retry-send-on-ebusy.patch
 	epatch "${FILESDIR}"/ignore-error-on-complete-option.patch
 	epatch "${FILESDIR}"/update-type-ownerauth.patch
+	epatch "${FILESDIR}"/openssl-1.1.patch
 }
 
 src_configure() {
