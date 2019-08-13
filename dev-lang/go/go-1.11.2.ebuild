@@ -63,9 +63,6 @@ src_unpack() {
 src_configure() {
 	export GOROOT_BOOTSTRAP="${WORKDIR}/${BOOTSTRAP}"
 	export GOROOT_FINAL="${EPREFIX}$(get_goroot)"
-	# TODO: (crbug.com/985141): Remove forced build using gold linker
-	# after lld supports the R_AARCH64_TLSLE_MOVW_TPREL_G0 relocation.
-	append-ldflags "-fuse-ld=gold"
 }
 
 src_prepare() {
@@ -79,12 +76,9 @@ src_compile() {
 
 	cd "${S}/src"
 	einfo "Building the cross compiler for ${CTARGET}."
-	# TODO: (crbug.com/985141): Remove forced build using gold linker
-	# after lld supports the R_AARCH64_TLSLE_MOVW_TPREL_G0 relocation.
 	GOOS="linux" GOARCH="$(get_goarch ${CTARGET})" CGO_ENABLED="1" \
 		CC_FOR_TARGET="$(tc-getTARGET_CC)" \
 		CXX_FOR_TARGET="$(tc-getTARGET_CXX)" \
-		CGO_LDFLAGS="-fuse-ld=gold" \
 		./make.bash || die
 
 	if is_cross ; then
@@ -93,7 +87,6 @@ src_compile() {
 			CC="$(tc-getTARGET_CC)" \
 			CXX="$(tc-getTARGET_CXX)" \
 			GOROOT="${S}" \
-			CGO_LDFLAGS="-fuse-ld=gold" \
 			"${S}/bin/go" install -v -buildmode=pie std || die
 	fi
 }
