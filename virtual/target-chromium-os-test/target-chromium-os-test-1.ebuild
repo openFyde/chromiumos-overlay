@@ -72,7 +72,7 @@ CROS_COMMON_RDEPEND="
 	chromeos-base/ec-utils
 	chromeos-base/ec-utils-test
 	chromeos-base/factory-deps
-	biod? ( chromeos-base/chromeos-fpmcu-test )
+	biod? ( virtual/chromeos-fpmcu-test )
 	hammerd? ( chromeos-base/hammerd-test-utils )
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
