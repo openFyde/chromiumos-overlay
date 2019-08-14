@@ -5,23 +5,15 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="Timer facilities for Tokio"
-HOMEPAGE="https://tokio.rs/"
+DESCRIPTION="This crate provides concurrent queues that can be shared among threads"
+HOMEPAGE="https://github.com/crossbeam-rs/crossbeam/tree/master/crossbeam-utils"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	=dev-rust/crossbeam-utils-0.6*:=
-	=dev-rust/futures-0.1*:=
-	=dev-rust/slab-0.4*:=
-	=dev-rust/tokio-executor-0.1*:=
 	=dev-rust/rand-0.6*:=
-	=dev-rust/tokio-mock-task-0.1*:=
 "
-
-PATCHES=(
-	"${FILESDIR}/${P}-0001-Remove-dev-dependencies.patch"
-)

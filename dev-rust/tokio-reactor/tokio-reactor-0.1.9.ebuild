@@ -25,6 +25,9 @@ DEPEND="
 	=dev-rust/tokio-executor-0.1*:=
 	=dev-rust/tokio-io-0.1*:=
 	=dev-rust/tokio-sync-0.1*:=
-	=dev-rust/tokio-0.1*:=
 	=dev-rust/tokio-io-pool-0.1*:=
 "
+
+PATCHES=(
+	"${FILESDIR}/${P}-0001-Remove-dev-dependencies.patch"
+)

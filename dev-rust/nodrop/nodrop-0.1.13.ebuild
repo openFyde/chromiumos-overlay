@@ -5,15 +5,14 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="Single threaded executor which manage many tasks concurrently on the current thread"
-HOMEPAGE="https://tokio.rs/"
+DESCRIPTION="A wrapper type to inhibit drop (destructor)"
+HOMEPAGE="https://github.com/bluss/arrayvec"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/futures-0.1*:=
-	=dev-rust/tokio-executor-0.1*:=
+	=dev-rust/nodrop-union-0.1*:=
 "

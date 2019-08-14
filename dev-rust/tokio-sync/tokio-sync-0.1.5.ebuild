@@ -18,10 +18,10 @@ DEPEND="
 	=dev-rust/futures-0.1*:=
 	=dev-rust/env_logger-0.5*:=
 	=dev-rust/loom-0.1*:=
-	=dev-rust/tokio-0.1*:=
 	=dev-rust/tokio-mock-task-0.1*:=
 "
 
 PATCHES=(
 	"${FILESDIR}/${P}-0001-Remove-dev-features.patch"
+	"${FILESDIR}/${P}-0002-Remove-dev-dependencies.patch"
 )

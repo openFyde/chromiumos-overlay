@@ -16,5 +16,8 @@ KEYWORDS="*"
 DEPEND="
 	=dev-rust/crossbeam-utils-0.6*:=
 	=dev-rust/futures-0.1*:=
-	=dev-rust/tokio-0.1*:=
 "
+
+PATCHES=(
+	"${FILESDIR}/${P}-0001-Remove-dev-dependencies.patch"
+)

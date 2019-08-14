@@ -5,7 +5,7 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="Timer facilities for Tokio"
+DESCRIPTION="Asynchronous filesystem manipulation operations"
 HOMEPAGE="https://tokio.rs/"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
@@ -14,12 +14,13 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/crossbeam-utils-0.6*:=
 	=dev-rust/futures-0.1*:=
-	=dev-rust/slab-0.4*:=
-	=dev-rust/tokio-executor-0.1*:=
+	=dev-rust/tokio-io-0.1*:=
+	=dev-rust/tokio-threadpool-0.1*:=
 	=dev-rust/rand-0.6*:=
-	=dev-rust/tokio-mock-task-0.1*:=
+	=dev-rust/tempdir-0.3*:=
+	=dev-rust/tempfile-3*:=
+	=dev-rust/tokio-codec-0.1*:=
 "
 
 PATCHES=(

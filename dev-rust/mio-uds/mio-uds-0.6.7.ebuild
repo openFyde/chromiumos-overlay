@@ -5,8 +5,8 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="Single threaded executor which manage many tasks concurrently on the current thread"
-HOMEPAGE="https://tokio.rs/"
+DESCRIPTION="A library for integrating Unix Domain Sockets with mio"
+HOMEPAGE="https://github.com/alexcrichton/mio-uds"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
@@ -14,6 +14,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/futures-0.1*:=
-	=dev-rust/tokio-executor-0.1*:=
+	=dev-rust/iovec-0.1*:=
+	=dev-rust/libc-0.2*:=
+	=dev-rust/mio-0.6*:=
+	=dev-rust/tempdir-0.3*:=
 "

@@ -5,15 +5,10 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="Single threaded executor which manage many tasks concurrently on the current thread"
-HOMEPAGE="https://tokio.rs/"
+DESCRIPTION="C-Like offset_of functionality for Rust structs"
+HOMEPAGE="https://github.com/Gilnaa/memoffset"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
-
-DEPEND="
-	=dev-rust/futures-0.1*:=
-	=dev-rust/tokio-executor-0.1*:=
-"

@@ -21,5 +21,8 @@ DEPEND="
 	=dev-rust/tokio-io-0.1*:=
 	=dev-rust/tokio-reactor-0.1*:=
 	=dev-rust/env_logger-0.5*:=
-	=dev-rust/tokio-0.1*:=
 "
+
+PATCHES=(
+	"${FILESDIR}/${P}-0001-Remove-dev-dependencies.patch"
+)
