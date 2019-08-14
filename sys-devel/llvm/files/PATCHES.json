@@ -81,6 +81,24 @@
         "end_version": 367943
     },
     {
+        "comment": "asm goto: Don't recreate a label if it's already used",
+        "rel_patch_path": "cherry/1b104388752f66191c867380efde7bbf1f13ca80.patch",
+        "start_version": 365631,
+        "end_version": 368477
+    },
+    {
+        "comment": "asm goto: Require a name for a block addr target",
+        "rel_patch_path": "cherry/79176a2542d03107b90613c84f18ccba41ad8fa8.patch",
+        "start_version": 365631,
+        "end_version": 368478
+    },
+    {
+        "comment": "asm goto: Ignore indirect branches from callbr",
+        "rel_patch_path": "cherry/cc2bebe039374d6f0c8251ac322f8f7148d85950.patch",
+        "start_version": 365631,
+        "end_version": 368873
+    },
+    {
         "comment": "Adds a whitelist of packages that have known memory leaks",
         "rel_patch_path": "llvm-next-leak-whitelist.patch"
     },
