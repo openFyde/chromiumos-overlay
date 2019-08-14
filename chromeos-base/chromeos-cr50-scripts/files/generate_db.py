@@ -52,6 +52,47 @@ URLS below in DownloadImages().
 This script requires the gbb header gathered from the device
 flashrom -r image.bin
 flashrom -r -p ec ec.bin
+
+These gathered images then need to be placed in a directory that matches
+the DutBoard Entry below.
+
+They are archived in google storage as follows:
+
+gsutil cp -r images/atlas-pvt-11827.46.0/ gs://chromeos-localmirror/verify_ro/images
+
+The current state of this archive looks like this:
+
+moragues@moragues:~$ gsutil ls -r gs://chromeos-localmirror/verify_ro/images
+gs://chromeos-localmirror/verify_ro/images/:
+gs://chromeos-localmirror/verify_ro/images/
+
+gs://chromeos-localmirror/verify_ro/images/atlas-pvt-11827.46.0/:
+gs://chromeos-localmirror/verify_ro/images/atlas-pvt-11827.46.0/ec.bin
+gs://chromeos-localmirror/verify_ro/images/atlas-pvt-11827.46.0/image.bin
+
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.107.0/:
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.107.0/
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.107.0/README
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.107.0/ec.bin
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.107.0/image.bin
+
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.86.0/:
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.86.0/
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.86.0/README
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.86.0/ec.bin
+gs://chromeos-localmirror/verify_ro/images/eve-firmware-9584.86.0/image.bin
+
+gs://chromeos-localmirror/verify_ro/images/eve-pvt/:
+gs://chromeos-localmirror/verify_ro/images/eve-pvt/
+gs://chromeos-localmirror/verify_ro/images/eve-pvt/README
+gs://chromeos-localmirror/verify_ro/images/eve-pvt/ec.bin
+gs://chromeos-localmirror/verify_ro/images/eve-pvt/image.bin
+
+gs://chromeos-localmirror/verify_ro/images/nocturne-pvt-10984.28.0/:
+gs://chromeos-localmirror/verify_ro/images/nocturne-pvt-10984.28.0/
+gs://chromeos-localmirror/verify_ro/images/nocturne-pvt-10984.28.0/README
+gs://chromeos-localmirror/verify_ro/images/nocturne-pvt-10984.28.0/ec.bin
+gs://chromeos-localmirror/verify_ro/images/nocturne-pvt-10984.28.0/image.bin
 """
 
 import argparse
@@ -82,6 +123,12 @@ FmapSection = collections.namedtuple('FmapSection', ['start', 'size', 'end'])
 
 
 boards = [
+    DutBoard(
+        name='Atlas',
+        rlz='XWJE',
+        ap=['images/atlas-pvt-11827.46.0/image.bin'],
+        ec=['images/atlas-pvt-11827.46.0/ec.bin'],
+        gbb=['images/atlas-pvt-11827.46.0/image.bin']),
     DutBoard(
         name='Eve',
         rlz='ZZAF',
