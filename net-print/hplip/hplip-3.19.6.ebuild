@@ -1,9 +1,9 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
+PYTHON_COMPAT=( python2_7 python3_{5,6} )
 PYTHON_REQ_USE="threads,xml"
 
 # 14 and 15 spit out a lot of warnings about subdirs
@@ -14,16 +14,13 @@ inherit autotools linux-info python-single-r1 readme.gentoo-r1 udev
 DESCRIPTION="HP Linux Imaging and Printing - Print, scan, fax drivers and service tools"
 HOMEPAGE="https://developers.hp.com/hp-linux-imaging-and-printing"
 SRC_URI="mirror://sourceforge/hplip/${P}.tar.gz
-		https://dev.gentoo.org/~billie/distfiles/${PN}-3.18.3-patches-2.tar.xz"
+		https://dev.gentoo.org/~billie/distfiles/${PN}-3.18.12-patches-1.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="doc fax +hpcups hpijs kde libressl -libusb0 minimal parport policykit qt5 scanner +snmp static-ppds X"
-
-# dependency on dev-python/notify-python dropped due to python 3 incompatibility
-# possible replacement notify2 (https://pypi.org/project/notify2/0.3) not in tree
+IUSE="doc fax +hpcups hpijs kde libnotify libressl -libusb0 minimal parport policykit qt5 scanner +snmp static-ppds X"
 
 COMMON_DEPEND="
 	net-print/cups
@@ -42,10 +39,14 @@ COMMON_DEPEND="
 		)
 	)
 "
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
 	virtual/pkgconfig
 "
-RDEPEND="${COMMON_DEPEND}
+DEPEND="
+	${COMMON_DEPEND}
+"
+RDEPEND="
+	${COMMON_DEPEND}
 	app-text/ghostscript-gpl
 	!minimal? (
 		>=dev-python/dbus-python-1.2.0-r1[${PYTHON_USEDEP}]
@@ -53,15 +54,20 @@ RDEPEND="${COMMON_DEPEND}
 		$(python_gen_cond_dep 'dev-python/pygobject:3[${PYTHON_USEDEP}]' 'python3*')
 		fax? ( dev-python/reportlab[${PYTHON_USEDEP}] )
 		kernel_linux? ( virtual/udev )
-		qt5? ( >=dev-python/PyQt5-5.5.1[dbus,gui,widgets,${PYTHON_USEDEP}] )
+		qt5? (
+			>=dev-python/PyQt5-5.5.1[dbus,gui,widgets,${PYTHON_USEDEP}]
+			libnotify? ( dev-python/notify2[${PYTHON_USEDEP}] )
+		)
 		scanner? (
 			>=dev-python/reportlab-3.2[${PYTHON_USEDEP}]
 			>=dev-python/pillow-3.1.1[${PYTHON_USEDEP}]
-			X? ( || (
-				kde? ( kde-misc/skanlite )
-				media-gfx/xsane
-				media-gfx/sane-frontends
-			) )
+			X? (
+				|| (
+					kde? ( kde-misc/skanlite )
+					media-gfx/xsane
+					media-gfx/sane-frontends
+				)
+			)
 		)
 	)
 	policykit? ( sys-auth/polkit )
@@ -71,6 +77,7 @@ REQUIRED_USE="!minimal? ( ${PYTHON_REQUIRED_USE} )"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-3.18.6-disable-create-ppd.patch"
+	"${FILESDIR}/${PN}-3.19.6-fix-return.patch"
 	"${WORKDIR}/patches"
 )
 
@@ -204,6 +211,7 @@ src_configure() {
 		--with-cupsfilterdir=$(cups-config --serverbin)/filter \
 		--with-docdir=/usr/share/doc/${PF} \
 		--with-htmldir=/usr/share/doc/${PF}/html \
+		--disable-network-build \
 		${myconf} \
 		${drv_build} \
 		${minimal_build} \
@@ -216,8 +224,7 @@ src_configure() {
 		$(use_enable parport pp-build) \
 		$(use_enable policykit) \
 		$(use_enable qt5) \
-		$(use_enable scanner scan-build) \
-		$(use_enable snmp network-build)
+		$(use_enable scanner scan-build)
 
 	# hpijs ppds are created at configure time but are not installed (3.17.11)
 
