@@ -118,7 +118,7 @@ ARRAY_VARIABLES=(
 # can be found in the commit.
 # CROW_WORKON_COMMIT is updated only when CROS_WORKON_TREE below is updated,
 # so it does not necessarily point to HEAD in the source repository.
-: ${CROS_WORKON_COMMIT:=master}
+: "${CROS_WORKON_COMMIT:=}"
 
 # @ECLASS-VARIABLE: CROS_WORKON_TREE
 # @DESCRIPTION:
@@ -514,8 +514,7 @@ cros-workon_src_unpack() {
 		if [[ "${PV}" == "9999" ]]; then
 			# Setting CROS_WORKON_COMMIT in 9999 ebuilds doesn't make sense nor is
 			# supported, so reject it up front.
-			# TODO(vapier): We allow "master" atm as that's the global default.
-			if [[ "${r}" != "master" || -n "${tree}" ]]; then
+			if [[ -n "${tree}" ]]; then
 				die "9999 ebuilds must not set CROS_WORKON_COMMIT or CROS_WORKON_TREE"
 			fi
 		else
