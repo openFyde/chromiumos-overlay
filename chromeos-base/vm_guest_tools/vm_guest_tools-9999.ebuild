@@ -53,8 +53,6 @@ src_install() {
 		dobin "${OUT}"/sommelier
 		dobin "${OUT}"/virtwl_guest_proxy
 		dobin "${OUT}"/wayland_demo
-		dobin "${OUT}"/wayland_copy_demo
-		dobin "${OUT}"/wayland_paste_demo
 		dobin "${OUT}"/x11_demo
 	fi
 
