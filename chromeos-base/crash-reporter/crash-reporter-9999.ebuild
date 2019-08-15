@@ -28,6 +28,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/metrics
 	dev-libs/libpcre:=
+	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-misc/curl
 	|| ( sys-apps/journald sys-apps/systemd )
