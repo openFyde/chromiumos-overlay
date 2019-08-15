@@ -14,9 +14,8 @@ RDEPEND=""
 DEPEND=""
 
 S=${WORKDIR}
-PREBUILT_SRC="${ARC_BASE}/${ARCH}/usr"
 
-multilib_src_compile() {
+src_compile() {
 	arc-build-constants-configure
 
 	cat > pkg-config <<EOF
@@ -57,9 +56,6 @@ install_pc_file() {
 }
 
 multilib_src_install() {
-	local bin_dir="${ARC_PREFIX}/build/bin"
-	local prebuilt_dir="${ARC_PREFIX}/usr"
-
 	PC_SRC_DIR="${FILESDIR}/${ARC_VERSION_CODENAME}"
 
 	insinto "${ARC_PREFIX}/vendor/$(get_libdir)/pkgconfig"
@@ -75,9 +71,15 @@ multilib_src_install() {
 	if [[ "${ARC_VERSION_CODENAME}" != "nyc" ]]; then
 		install_pc_file nativewindow.pc
 	fi
+}
+
+multilib_src_install_all() {
+	local prebuilt_src="${ARC_BASE}/${ARCH}/usr"
+	local bin_dir="${ARC_PREFIX}/build/bin"
+	local prebuilt_dir="${ARC_PREFIX}/usr"
 
 	exeinto "${bin_dir}"
 	doexe pkg-config
 
-	dosym "${PREBUILT_SRC}" "${prebuilt_dir}"
+	dosym "${prebuilt_src}" "${prebuilt_dir}"
 }
