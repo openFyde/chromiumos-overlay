@@ -392,7 +392,8 @@ cros-workon_src_unpack() {
 
 	# Setting CROS_WORKON_COMMIT in 9999 ebuilds doesn't make sense nor is
 	# supported, so reject it up front.
-	if [[ "${PV}" == "9999" ]] && [[ -n "${CROS_WORKON_COMMIT}" || -n "${CROS_WORKON_TREE}" ]]; then
+	# TODO(vapier): We allow "master" atm as that's the global default.
+	if [[ "${PV}" == "9999" ]] && [[ "${CROS_WORKON_COMMIT}" != "master" || -n "${CROS_WORKON_TREE}" ]]; then
 		die "9999 ebuilds must not set CROS_WORKON_COMMIT or CROS_WORKON_TREE"
 	fi
 
