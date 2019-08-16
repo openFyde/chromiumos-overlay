@@ -3,22 +3,21 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="4f87791539aca55cba352c92edaeb2f1768efb53"
-CROS_WORKON_TREE=("be9deee33ea6aedd9dfe69b33c12accd5733a331" "f534569ce996a753116f1f8a273b0e92677947cd" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
+CROS_WORKON_COMMIT="dedbf83334457970d369695227cbaaa63f2062f8"
+CROS_WORKON_TREE=("be9deee33ea6aedd9dfe69b33c12accd5733a331" "815f54dd541f862b3c7c31e6c6a6818486b4c97a" "dc1506ef7c8cfd2c5ffd1809dac05596ec18773c")
 CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk debugd .gn"
+CROS_WORKON_SUBTREE="common-mk shill .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="debugd/client"
+PLATFORM_SUBDIR="shill/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="Chrome OS debugd client library"
-HOMEPAGE="http://www.chromium.org/"
-SRC_URI=""
+DESCRIPTION="Shill DBus client library for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -36,7 +35,11 @@ DEPEND="
 	>=chromeos-base/libbrillo-0.0.1-r1
 "
 
+RDEPEND="
+	!<chromeos-base/shill-0.0.2
+"
+
 src_install() {
-  # Install DBus client library.
-  platform_install_dbus_client_lib "debugd"
+	# Install DBus client library.
+	platform_install_dbus_client_lib "shill"
 }
