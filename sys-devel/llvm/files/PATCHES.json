@@ -111,6 +111,12 @@
         "end_version": 365921
     },
     {
+        "comment": "[X86] Manually reimplement getTargetInsertSubreg in X86DAGToDAGISel::matchBitExtract \nso we can call insertDAGNode on the target constant.",
+        "rel_patch_path": "cherry/120cffccf8c3a46f6003a3b5a6b0f39130df4bd2.patch",
+        "start_version": 365631,
+        "end_version": 369084
+    },
+    {
         "comment": "Adds a whitelist of packages that have known memory leaks",
         "rel_patch_path": "llvm-next-leak-whitelist.patch"
     },
