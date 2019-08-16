@@ -1,4 +1,4 @@
-From dcf08cdd26e8c9f25f367ced025f228ebb4afa64 Mon Sep 17 00:00:00 2001
+From d5a215eef7e97fd08f7278b3c1c1ede68c346a6f Mon Sep 17 00:00:00 2001
 From: Frank Binns <frank.binns@imgtec.com>
 Date: Wed, 3 Jul 2019 10:48:29 +0100
 Subject: [PATCH 01/10] dri/pvr: Introduce PowerVR DRI driver.
@@ -1841,7 +1841,7 @@ index 00000000000..768731a3761
 +dri_link += 'pvr_dri.so'
 diff --git a/src/mesa/drivers/dri/pvr/pvrcompat.c b/src/mesa/drivers/dri/pvr/pvrcompat.c
 new file mode 100644
-index 00000000000..3be9223903d
+index 00000000000..e429e0cc135
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrcompat.c
 @@ -0,0 +1,1383 @@
@@ -2080,7 +2080,7 @@ index 00000000000..3be9223903d
 +static bool
 +RegisterCallbacksCompat(const PVRDRICallbacks *psCallbacks)
 +{
-+	static void (*pfRegisterCallbacks)(PVRDRICallbacks *psCallbacks);
++	void (*pfRegisterCallbacks)(PVRDRICallbacks *psCallbacks) = NULL;
 +
 +	LookupFunc(PVRDRIRegisterCallbacks, pfRegisterCallbacks);
 +
@@ -2109,7 +2109,7 @@ index 00000000000..3be9223903d
 +{
 +	bool res;
 +
-+	static bool (*pfRegisterVersionedCallbacks)(const PVRDRICallbacks *psCallbacks,
++	bool (*pfRegisterVersionedCallbacks)(const PVRDRICallbacks *psCallbacks,
 +						    unsigned uVersion) = NULL;
 +
 +	CompatLock();
