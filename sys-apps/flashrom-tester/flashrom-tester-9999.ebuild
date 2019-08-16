@@ -31,6 +31,7 @@ src_unpack() {
 }
 
 src_compile() {
+	unset CFLAGS
 	ecargo_build
 	use test && ecargo_test --no-run
 }
