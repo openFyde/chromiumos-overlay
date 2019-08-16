@@ -1,5 +1,5 @@
 CONFIG_VENDOR_GOOGLE=y
-CONFIG_BOARD_GOOGLE_DRALLION=y
+CONFIG_BOARD_GOOGLE_SARIEN_CML=y
 
 CONFIG_PAYLOAD_NONE=y
 CONFIG_USE_BLOBS=y
@@ -19,7 +19,7 @@ CONFIG_SPI_FLASH_SMM=y
 
 # SPI Descriptor
 CONFIG_HAVE_IFD_BIN=y
-CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/drallion/descriptor-drallion.bin"
+CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/drallion/descriptor-sarien_cml.bin"
 
 # FSP blobs
 CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/cml/fsp/Include/"
@@ -37,7 +37,7 @@ CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/drallion/vbt.bin"
 
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
-CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/drallion/me-drallion.bin"
+CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/drallion/me-sarien_cml.bin"
 
 # EC
 CONFIG_HAVE_EC_BIN=y
