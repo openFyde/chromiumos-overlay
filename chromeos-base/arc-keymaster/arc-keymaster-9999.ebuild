@@ -53,10 +53,18 @@ src_unpack() {
 
 src_prepare() {
 	cmake-utils_src_prepare
+
 	# Expose libhardware headers from arc-toolchain-p.
+	local arc_arch="${ARCH}"
+	# arm needs to use arm64 directory, which provides combined arm/arm64
+	# headers.
+	if [[ "${ARCH}" == "arm" ]]; then
+		arc_arch="arm64"
+	fi
 	mkdir -p "${WORKDIR}/libhardware/include" || die
-	cp -rfp "/opt/android-p/${ARCH}/usr/include/hardware" "${WORKDIR}/libhardware/include" || die
+	cp -rfp "/opt/android-p/${arc_arch}/usr/include/hardware" "${WORKDIR}/libhardware/include" || die
 	append-cxxflags "-I${WORKDIR}/libhardware/include"
+
 	# Expose BoringSSL headers and outputs.
 	append-cxxflags "-I${WORKDIR}/${BORINGSSL_P}/include"
 	append-ldflags "-L${BORINGSSL_OUTDIR}"
