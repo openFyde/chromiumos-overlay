@@ -99,6 +99,34 @@ cros_setup_hooks() {
 }
 cros_setup_hooks
 
+cros_emit_build_metric() {
+	# We only enable build metrics on servers currently, but we need to make
+	# sure the binpkgs they produce are usable when deployed for developers
+	# & DUTs.
+	local emit_metric="/mnt/host/source/chromite/bin/emit_metric"
+	if [[ -n "${BUILD_API_METRICS_LOG}" ]] && [[ -e "${emit_metric}" ]] ; then
+		local operation=$1
+		local phase=$2
+		"${emit_metric}" "${operation}" "emerge.${phase}.${CATEGORY}/${PF}"
+	fi
+}
+
+if [[ -n "${BUILD_API_METRICS_LOG}" ]] ; then
+	# Set up recording of Build API metrics events.
+	cros_setup_metric_events() {
+		# Avoid executing multiple times in a single build.
+		[[ ${cros_setup_metric_events_run+set} == "set" ]] && return
+
+		local phase
+		for phase in {src_{unpack,prepare,configure,compile,test,install},pkg_{{pre,post}{inst,rm},setup}} ; do
+			eval "cros_pre_${phase}_start_timer() { cros_emit_build_metric start-timer "${phase}" ; }"
+			eval "cros_post_${phase}_stop_timer() { cros_emit_build_metric stop-timer "${phase}" ; }"
+		done
+		export cros_setup_metric_events_run="yes"
+	}
+	cros_setup_metric_events
+fi
+
 # Packages that use python will run a small python script to find the
 # pythondir. Unfortunately, they query the host python to find out the
 # paths for things, which means they inevitably guess wrong.  Export
