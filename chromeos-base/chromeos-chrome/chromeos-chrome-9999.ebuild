@@ -162,7 +162,7 @@ UNVETTED_ORDERFILE=""
 # This is only used when there is some kind of problem with the AFDO profile
 # generation process and one needs to force the use of an older profile.
 declare -A AFDO_FROZEN_FILE
-AFDO_FROZEN_FILE["benchmark"]="chromeos-chrome-amd64-77.0.3862.0_rc-r1.afdo"
+AFDO_FROZEN_FILE["benchmark"]=""
 AFDO_FROZEN_FILE["silvermont"]=""
 AFDO_FROZEN_FILE["airmont"]=""
 AFDO_FROZEN_FILE["haswell"]=""
