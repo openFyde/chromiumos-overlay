@@ -90,11 +90,6 @@ src_compile() {
 		BOARD=cr50 emake -C extra/usb_updater gsctool
 	fi
 
-	# Add usb_updater2 for servo or hammer updates.
-	if use updater_utils || use cros_host; then
-		emake -C extra/usb_updater usb_updater2
-	fi
-
 	# Build Chromium EC utilities.
 	use cros_ec_utils && src_compile_cros_ec_utils
 }
@@ -131,11 +126,6 @@ src_install() {
 		dosbin "extra/usb_updater/gsctool"
 		dosbin "util/chargen"
 		dosym "gsctool" "/usr/sbin/usb_updater"
-	fi
-
-	# Add usb_updater2 for servo or hammer updates.
-	if use updater_utils || use cros_host; then
-		dosbin "extra/usb_updater/usb_updater2"
 	fi
 
 	if [[ -d "board/${BOARD}/userspace/etc/init" ]] ; then

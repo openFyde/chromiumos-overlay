@@ -48,6 +48,8 @@ src_compile() {
 	export HOSTCC="${CC}"
 	set_board
 	emake utils-host
+	# Add usb_updater2 for servo or hammer updates.
+	emake -C extra/usb_updater usb_updater2
 	distutils-r1_src_compile
 }
 
@@ -57,6 +59,9 @@ src_install() {
 	dobin "build/${BOARD}/util/ec_parse_panicinfo"
 	dobin "build/${BOARD}/util/uartupdatetool"
 	dobin "build/${BOARD}/util/iteflash"
+
+	# Add usb_updater2 for servo or hammer updates.
+	dosbin "extra/usb_updater/usb_updater2"
 
 	dobin "util/flash_ec"
 	dobin "util/uart_stress_tester.py"
