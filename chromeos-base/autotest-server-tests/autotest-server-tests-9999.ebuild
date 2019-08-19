@@ -299,6 +299,9 @@ SERVER_IUSE_TESTS="
 	+tests_rlz_CheckPing
 	+tests_security_kASLR
 	+tests_sequences
+	+tests_servo_LabControlVerification
+	+tests_servo_LabstationVerification
+	+tests_servo_USBMuxVerification
 	+tests_servohost_Reboot
 	+tests_stress_ClientTestReboot
 	+tests_stress_EnrollmentRetainment
