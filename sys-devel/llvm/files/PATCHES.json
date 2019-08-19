@@ -117,23 +117,22 @@
         "end_version": 369084
     },
     {
-	"comment": "ELF: Simplify test. NFCI. (Needed to pick r366466)",
-	"rel_patch_path": "cherry/311131dafc0eff9a965907596e51b9e8834b7082.patch",
-	"start_version": 365631,
-	"end_version": 366463
+        "comment": "ELF: Simplify test. NFCI. (Needed to pick r366466)",
+        "rel_patch_path": "cherry/311131dafc0eff9a965907596e51b9e8834b7082.patch",
+        "start_version": 365631,
+        "end_version": 366463
     },
     {
-	"comment": "ELF: Add support for remaining R_AARCH64_MOVW* relocations.",
-	"rel_patch_path": "cherry/c2ccf4ccba295b1300018e65c658ff305992aa29.patch",
-	"start_version": 365631,
-	"end_version": 366466
+        "comment": "ELF: Add support for remaining R_AARCH64_MOVW* relocations.",
+        "rel_patch_path": "cherry/c2ccf4ccba295b1300018e65c658ff305992aa29.patch",
+        "start_version": 365631,
+        "end_version": 366466
     },
     {
-	"comment": "[LLD][ELF][AArch64] Support for movz, movk tprel relocations",
-	"rel_patch_path": "cherry/d4695e1d75a358d3161b5a81c9754c410c1ed2bc.patch",
-	"start_version": 365631,
-	"end_version": 368293
->>>>>>> llvm: Cherry-pick r366466 and r368293 to llvm-next to support some ARM64 relocation types.
+        "comment": "[LLD][ELF][AArch64] Support for movz, movk tprel relocations",
+        "rel_patch_path": "cherry/d4695e1d75a358d3161b5a81c9754c410c1ed2bc.patch",
+        "start_version": 365631,
+        "end_version": 368293
     },
     {
         "comment": "Adds a whitelist of packages that have known memory leaks",
