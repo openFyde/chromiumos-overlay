@@ -190,7 +190,13 @@
     },
     {
         "comment": "Uses argv[0] to get host system information. Created\na wrapper of LLD and real lld becomes lld.elf so the LLD\ncannot get the host system information and dies",
-        "rel_patch_path": "lld-invoke-name.patch"
+        "rel_patch_path": "lld-invoke-name.patch",
+        "end_version": 365730
+    },
+    {
+        "comment": "Uses argv[0] to get host system information. Created\na wrapper of LLD and real lld becomes lld.elf so the LLD\ncannot get the host system information and dies",
+        "rel_patch_path": "lld-10.0-invoke-name.patch",
+        "start_version": 365730
     },
     {
         "comment": "Achieves the functionality of reordering .text.hot\nsections before .text section",
