@@ -17,7 +17,7 @@ IUSE="tpm_slb9655_v4_31"
 DEPEND="test? ( dev-util/shunit2 )"
 
 RDEPEND="
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	tpm_slb9655_v4_31? ( chromeos-base/ec-utils )
 "
 

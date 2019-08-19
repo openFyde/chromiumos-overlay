@@ -21,7 +21,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	chromeos-base/libbrillo
 	"
 

@@ -58,7 +58,7 @@ FACTORY_NETBOOT_DEPENDS="
 	chromeos-base/factory_installer
 	chromeos-base/vboot_reference
 	chromeos-base/vpd
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	dev-util/shflags
 	dev-util/xxd
 	net-misc/curl

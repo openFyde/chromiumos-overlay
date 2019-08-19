@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-crypt/tpm-tools/tpm-tools-1.3.8.ebuild,v 1.5 2014/08/14 16:59:01 phajdan.jr Exp $
 
-EAPI=4
+EAPI=6
 inherit autotools eutils flag-o-matic
 
 DESCRIPTION="TrouSerS' support tools for the Trusted Platform Modules"
@@ -16,7 +16,7 @@ IUSE="nls pkcs11 debug tpm2"
 
 COMMON_DEPEND="
 	!tpm2? ( >=app-crypt/trousers-0.3.0 )
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	pkcs11? ( dev-libs/opencryptoki )
 	"
 RDEPEND="${COMMON_DEPEND}
@@ -24,15 +24,17 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	nls? ( sys-devel/gettext )"
 
+PATCHES=(
+	"${FILESDIR}/${P}-gold.patch"
+	# Patch for Chromium OS testing.
+	"${FILESDIR}/${P}-password.patch"
+)
+
 src_prepare() {
 	sed -i -r \
 		-e '/CFLAGS/s/ -(Werror|m64)//' \
 		configure.in || die
-	epatch "${FILESDIR}/${P}-gold.patch"
-
-	# Patch for Chromium OS testing.
-	epatch "${FILESDIR}"/${P}-password.patch
-
+	default
 	eautoreconf
 }
 

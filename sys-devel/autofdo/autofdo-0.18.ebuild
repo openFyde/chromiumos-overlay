@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="dev-libs/openssl
+DEPEND="dev-libs/openssl:0=
 	dev-libs/libffi
 	sys-devel/llvm
 	sys-libs/zlib"

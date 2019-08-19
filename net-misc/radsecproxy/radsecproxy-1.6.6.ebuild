@@ -12,7 +12,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-RDEPEND="dev-libs/openssl"
+RDEPEND="dev-libs/openssl:0="
 DEPEND="${RDEPEND}"
 IUSE="openssl ssl"
 

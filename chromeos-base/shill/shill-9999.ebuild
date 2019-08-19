@@ -31,7 +31,7 @@ RDEPEND="
 	chromeos-base/libpasswordprovider
 	chromeos-base/metrics
 	chromeos-base/nsswitch
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	cellular? ( net-dialup/ppp )
 	pppoe? ( net-dialup/ppp )
 	vpn? ( net-dialup/ppp )

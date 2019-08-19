@@ -36,7 +36,7 @@ CDEPEND="
 		sys-libs/readline:0
 	)
 	ssl? (
-		!libressl? ( dev-libs/openssl:0 )
+		!libressl? ( dev-libs/openssl:0= )
 		libressl? ( dev-libs/libressl )
 	)
 	smartcard? ( dev-libs/engine_pkcs11 )

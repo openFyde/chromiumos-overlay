@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="4"
+EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
 CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.6"
 
@@ -20,7 +20,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="ipv6 logwatch netlink sqlite +ssl +wps +crda taxonomy"
 
-DEPEND="ssl? ( dev-libs/openssl )
+DEPEND="ssl? ( dev-libs/openssl:0= )
 	kernel_linux? (
 		dev-libs/libnl:3
 		crda? ( net-wireless/crda )

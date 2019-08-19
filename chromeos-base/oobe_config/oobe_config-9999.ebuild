@@ -27,7 +27,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/libtpmcrypto
 	chromeos-base/metrics
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	sys-apps/dbus
 "
 

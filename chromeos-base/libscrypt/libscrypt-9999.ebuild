@@ -1,7 +1,7 @@
 # Copyright (c) 2009 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/libscrypt"
 CROS_WORKON_LOCALNAME="../third_party/libscrypt"
 
@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="-asan static-libs"
 
-RDEPEND="dev-libs/openssl"
+RDEPEND="dev-libs/openssl:0="
 DEPEND="${RDEPEND}"
 
 src_prepare() {

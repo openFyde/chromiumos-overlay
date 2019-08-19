@@ -25,7 +25,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/metrics
 	chromeos-base/vboot_reference
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	sys-apps/flashmap
 "
 DEPEND="

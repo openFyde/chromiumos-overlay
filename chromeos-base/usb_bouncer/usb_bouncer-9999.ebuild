@@ -24,7 +24,7 @@ IUSE="fuzzer"
 RDEPEND="chromeos-base/libbrillo
 	fuzzer? ( dev-libs/libprotobuf-mutator )
 	chromeos-base/minijail
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	sys-apps/usbguard"
 
 DEPEND="${RDEPEND}

@@ -18,7 +18,7 @@ IUSE="kvm_guest minimal"
 # depending on USE flags.
 RDEPEND="
 	!x11-base/xorg-server
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	>=dev-libs/wayland-1.3.0
 	>=media-libs/mesa-10.3.4-r1
 	>=x11-libs/libXfont2-2.0.1

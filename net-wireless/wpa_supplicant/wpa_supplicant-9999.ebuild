@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=4
+EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
 CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.6"
 
-inherit cros-workon eutils toolchain-funcs qt4-r2 qmake-utils multilib systemd user
+inherit cros-workon eutils toolchain-funcs qmake-utils multilib systemd user
 
 DESCRIPTION="IEEE 802.1X/WPA supplicant for secure wireless transfers"
 # HOMEPAGE="http://hostap.epitest.fi/wpa_supplicant/"
@@ -48,7 +48,7 @@ CDEPEND="
 		sys-libs/readline:0
 	)
 	ssl? (
-		!libressl? ( dev-libs/openssl:0 )
+		!libressl? ( dev-libs/openssl:0= )
 		libressl? ( dev-libs/libressl )
 	)
 	smartcard? ( dev-libs/engine_pkcs11 )

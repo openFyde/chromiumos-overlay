@@ -43,7 +43,7 @@ DEPEND="chromeos-base/tast-build-deps"
 RDEPEND="
 	chromeos-base/tast-local-helpers-cros
 	chromeos-base/wprgo
-	dev-libs/openssl
+	dev-libs/openssl:0=
 	arc? (
 		dev-util/android-tools
 		dev-util/android-uiautomator-server

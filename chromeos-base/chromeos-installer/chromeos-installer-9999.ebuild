@@ -29,7 +29,7 @@ COMMON_DEPEND="
 
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/verity
-	dev-libs/openssl:=
+	dev-libs/openssl:0=
 "
 
 RDEPEND="${COMMON_DEPEND}
@@ -37,7 +37,7 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-common-script
 	!cros_host? (
 		oobe_config? ( chromeos-base/oobe_config )
-		dev-libs/openssl
+		dev-libs/openssl:0=
 	)
 	dev-util/shflags
 	sys-apps/rootdev
