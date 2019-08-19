@@ -386,6 +386,7 @@ ALL_BOARDS=(
 	veyron_thea
 	veyron_tiger
 	viking
+	volteer
 	#waluigi
 	whirlwind
 	whlrvp
