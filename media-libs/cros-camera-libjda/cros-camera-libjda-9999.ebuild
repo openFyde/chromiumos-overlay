@@ -21,9 +21,14 @@ KEYWORDS="~*"
 
 RDEPEND="media-libs/cros-camera-libcamera_common"
 
+# cros-camera-libcbm is needed here because this package uses
+# //camera/common:libcamera_metrics rule. It doesn't directly use the package,
+# but another rule in that BUILD.gn requires libcbm upon opening the .gn file.
+# See crbug.com/995162 for detail.
 DEPEND="${RDEPEND}
 	chromeos-base/metrics
 	media-libs/cros-camera-libcamera_ipc
+	media-libs/cros-camera-libcbm
 	virtual/pkgconfig"
 
 src_install() {
