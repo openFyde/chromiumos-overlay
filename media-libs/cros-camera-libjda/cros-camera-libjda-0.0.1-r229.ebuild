@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="4e8e3c9540d4551c591de154f30863080f44c669"
+CROS_WORKON_COMMIT="78209a689f9581939d55bd0a72b2e001c1c5bb29"
 CROS_WORKON_TREE=("dc1506ef7c8cfd2c5ffd1809dac05596ec18773c" "7134e391e4c04513211b250b665951820d5b0bbd" "edcbbd3523433f21d2dcf376dff69fd5ed8f7961" "d20cd8a54d1cafc94ac4b7511b7c6c6e92005274" "79935d3039bad820fa03c8bded635ad197ad74ab" "500027955923ee4dc652a725c0bbeb405aac230a" "07262abee049397578927628df979310bcfa0d64")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -23,9 +23,14 @@ KEYWORDS="*"
 
 RDEPEND="media-libs/cros-camera-libcamera_common"
 
+# cros-camera-libcbm is needed here because this package uses
+# //camera/common:libcamera_metrics rule. It doesn't directly use the package,
+# but another rule in that BUILD.gn requires libcbm upon opening the .gn file.
+# See crbug.com/995162 for detail.
 DEPEND="${RDEPEND}
 	chromeos-base/metrics
 	media-libs/cros-camera-libcamera_ipc
+	media-libs/cros-camera-libcbm
 	virtual/pkgconfig"
 
 src_install() {
