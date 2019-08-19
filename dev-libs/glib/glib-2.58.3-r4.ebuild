@@ -5,8 +5,9 @@ EAPI=5
 PYTHON_COMPAT=( python{2_7,3_5,3_6,3_7} )
 GNOME2_EAUTORECONF=yes
 
-inherit autotools bash-completion-r1 epunt-cxx flag-o-matic gnome2 libtool linux-info \
-	multilib multilib-minimal pax-utils python-any-r1 toolchain-funcs virtualx
+inherit autotools bash-completion-r1 cros-sanitizers epunt-cxx flag-o-matic \
+	gnome2 libtool linux-info multilib multilib-minimal pax-utils \
+	python-any-r1 toolchain-funcs virtualx
 
 # Until bug #537330 glib is a reverse dependency of pkgconfig and, then
 # adding new dependencies end up making stage3 to grow. Every addition needs
@@ -152,6 +153,8 @@ EOF
 }
 
 multilib_src_configure() {
+	sanitizers-setup-env
+
 	# Avoid circular depend with dev-util/pkgconfig and
 	# native builds (cross-compiles won't need pkg-config
 	# in the target ROOT to work here)
