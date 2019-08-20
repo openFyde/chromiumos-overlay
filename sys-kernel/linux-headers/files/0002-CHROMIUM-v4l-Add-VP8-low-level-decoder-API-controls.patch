@@ -32,7 +32,7 @@ new file mode 100644
 index 000000000000..9713ffe81ad2
 --- /dev/null
 +++ b/include/uapi/linux/media/vp8-ctrls-legacy.h
-@@ -0,0 +1,144 @@
+@@ -0,0 +1,146 @@
 +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR BSD-3-Clause) */
 +/*
 + *  Video for Linux Two controls header file
@@ -80,6 +80,8 @@ index 000000000000..9713ffe81ad2
 +
 +#ifndef __LINUX_MEDIA_VP8_CTRLS_LEGACY_H
 +#define __LINUX_MEDIA_VP8_CTRLS_LEGACY_H
++
++#include <linux/videodev2.h>
 +
 +/* Control IDs not existing in upstream */
 +#define V4L2_CID_MPEG_VIDEO_VP8_FRAME_HDR		(V4L2_CID_MPEG_BASE+590)

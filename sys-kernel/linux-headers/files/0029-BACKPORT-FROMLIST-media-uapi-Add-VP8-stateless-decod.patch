@@ -36,7 +36,7 @@ new file mode 100644
 index 000000000000..6cc2eeea4c90
 --- /dev/null
 +++ b/include/uapi/linux/media/vp8-ctrls.h
-@@ -0,0 +1,110 @@
+@@ -0,0 +1,112 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * These are the VP8 state controls for use with stateless VP8
@@ -47,8 +47,10 @@ index 000000000000..6cc2eeea4c90
 + * become part of the official public API.
 + */
 +
-+#ifndef _VP8_CTRLS_H_
-+#define _VP8_CTRLS_H_
++#ifndef __LINUX_MEDIA_VP8_CTRLS_H
++#define __LINUX_MEDIA_VP8_CTRLS_H
++
++#include <linux/videodev2.h>
 +
 +#define V4L2_PIX_FMT_VP8_FRAME v4l2_fourcc('V', 'P', '8', 'F')
 +
