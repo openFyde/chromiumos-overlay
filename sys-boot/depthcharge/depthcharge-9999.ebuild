@@ -12,7 +12,7 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="detachable_ui diag_payload fastboot fwconsole mocktpm pd_sync unibuild
+IUSE="detachable_ui diag_payload fwconsole mocktpm pd_sync unibuild
 	verbose debug"
 
 DEPEND="
@@ -82,7 +82,6 @@ dc_make() {
 #   depthcharge.elf   - normal image
 #   dev.elf           - developer image
 #   netboot.elf       - network image
-#   fastboot.elf      - fastboot image (ise 'fastboot' USE flag is set)
 # In addition, .map files are produced for each, and a .config file which
 # holds the configuration that was used.
 # Args
@@ -114,10 +113,6 @@ make_depthcharge() {
 	dc_make depthcharge "${builddir}" libpayload
 	dc_make dev "${builddir}" libpayload_gdb
 	dc_make netboot "${builddir}" libpayload_gdb
-
-	if use fastboot; then
-		dc_make fastboot "${builddir}" libpayload
-	fi
 }
 
 src_compile() {
@@ -160,10 +155,6 @@ do_install() {
 		depthcharge.config
 		{netboot,depthcharge,dev}.elf{,.map}
 	)
-
-	if use fastboot ; then
-		files_to_copy+=(fastboot.elf{,.map})
-	fi
 
 	insinto "${dstdir}/depthcharge"
 	doins "${files_to_copy[@]}"

@@ -19,7 +19,7 @@ BOARDS="${BOARDS} nautilus nocturne octopus panther parrot peppy poppy pyro"
 BOARDS="${BOARDS} rambi rammus reef samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
 IUSE="${BOARDS} altfw diag_payload seabios wilco_ec"
-IUSE="${IUSE} fsp fastboot unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
+IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 
 REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
@@ -307,8 +307,6 @@ setup_altfw() {
 #    image.serial.bin   - production image with serial console enabled
 #    image.dev.bin      - developer image with serial console enabled
 #    image.net.bin      - netboot image with serial console enabled
-#    image.fastboot.bin - fastboot image with serial console enabled
-#    image.fastboot-prod.bin - fastboot image (no serial console)
 #
 # If $2 is set, then it uses "image-$2" instead of "image" and puts images in
 # the $2 subdirectory.
@@ -321,7 +319,6 @@ setup_altfw() {
 #       depthcharge/depthcharge.elf - depthcharge ELF payload
 #       depthcharge/dev.elf      - developer version of depthcharge
 #       depthcharge/netboot.elf  - netboot version of depthcharge
-#       depthcharge/fastboot.elf - fastboot version of depthcharge
 #       depthcharge/depthcharge.config - configuration used to build depthcharge image
 #       compressed-assets-ro/*   - fonts, images and screens for recovery mode
 #                                  originally from cbfs-ro-compress/*,
@@ -372,7 +369,6 @@ build_images() {
 	local depthcharge="${depthcharge_prefix}/depthcharge.elf"
 	local depthcharge_dev="${depthcharge_prefix}/dev.elf"
 	local netboot="${depthcharge_prefix}/netboot.elf"
-	local fastboot="${depthcharge_prefix}/fastboot.elf"
 	local depthcharge_config="${depthcharge_prefix}/depthcharge.config"
 
 	# TODO(teravest): Rewrite these loops with 'while read'
@@ -454,14 +450,6 @@ build_images() {
 		die "failed to preset netboot parameter defaults."
 	einfo "Netboot configured to boot ${bootfile}, fetch kernel command" \
 		"line from ${argsfile}, and use the DHCP-provided TFTP server IP."
-
-	if use fastboot ; then
-		build_image fastboot "${coreboot_file}.serial" \
-			"${fastboot}" "${depthcharge}"
-
-		build_image fastboot-prod "${coreboot_file}" \
-			"${fastboot}" "${depthcharge}"
-	fi
 }
 
 src_compile() {
