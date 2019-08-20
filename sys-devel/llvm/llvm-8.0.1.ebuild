@@ -71,14 +71,10 @@ DEPEND="${RDEPEND}
 	libffi? ( virtual/pkgconfig )
 	!!<dev-python/configparser-3.3.0.2
 	${PYTHON_DEPS}"
-# There are no file collisions between these versions but having :0
-# installed means llvm-config there will take precedence.
+# Note: Gentoo supports multiple SLOTs of llvm, but we don't currently for the board.
+# Force older versions to be removed first.
 RDEPEND="${RDEPEND}
-	!sys-devel/llvm:0"
-# Remove previous version of llvm to avoid file collisions, since all slots end
-# up in the same install directory.
-RDEPEND="${RDEPEND}
-	!sys-devel/llvm:6"
+	!<sys-devel/llvm-${SLOT}"
 PDEPEND="sys-devel/llvm-common
 	gold? ( sys-devel/llvmgold )"
 
