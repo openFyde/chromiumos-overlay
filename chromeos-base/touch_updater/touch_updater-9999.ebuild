@@ -37,7 +37,7 @@ RDEPEND="
 	chromeos-base/chromeos-touch-common
 	input_devices_synaptics? ( chromeos-base/rmi4utils )
 	input_devices_wacom? ( chromeos-base/wacom_fw_flash )
-	input_devices_etphidiap? ( sys-apps/etphidiap )
+	input_devices_etphidiap? ( chromeos-base/chromeos-touch-etphidiap )
 	input_devices_st? ( chromeos-base/st_flash )
 	input_devices_st_touchscreen? ( sys-apps/st-touch-fw-updater )
 	input_devices_weida? ( chromeos-base/weida_wdt_util )
@@ -50,7 +50,7 @@ RDEPEND="
 "
 
 pkg_preinst() {
-	if use input_devices_etphidiap || use input_devices_st_touchscreen; then
+	if use input_devices_st_touchscreen; then
 		enewgroup fwupdate-i2c
 		enewuser fwupdate-i2c
 	fi
