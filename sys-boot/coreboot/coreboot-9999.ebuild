@@ -258,7 +258,7 @@ make_coreboot() {
 		config_file="${FILESDIR}/configs/config.$(get_board)"
 		die "Working with a default configuration. ${config_file} incorrect?"
 	fi
-	emake "${CB_OPTS[@]}" obj="${builddir}"
+	emake "${CB_OPTS[@]}" obj="${builddir}" HOSTCC="$(tc-getBUILD_CC)"
 
 	# Expand FW_MAIN_* since we might add some files
 	cbfstool "${builddir}/coreboot.rom" expand -r FW_MAIN_A,FW_MAIN_B
