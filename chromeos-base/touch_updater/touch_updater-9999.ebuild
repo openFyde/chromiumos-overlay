@@ -3,18 +3,20 @@
 
 EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/platform/touch_updater"
+CROS_WORKON_SUBTREE="policies scripts"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
 inherit cros-workon user
 
 DESCRIPTION="Touch firmware and config updater"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://www.chromium.org/chromium-os"
 SRC_URI=""
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="input_devices_synaptics
+IUSE="
+	input_devices_synaptics
 	input_devices_wacom
 	input_devices_etphidiap
 	input_devices_st
@@ -32,6 +34,7 @@ IUSE="input_devices_synaptics
 # checked in a new one to chromeos-base/, please move it to sys-apps/ before
 # adding it as a dependency here.
 RDEPEND="
+	chromeos-base/chromeos-touch-common
 	input_devices_synaptics? ( chromeos-base/rmi4utils )
 	input_devices_wacom? ( chromeos-base/wacom_fw_flash )
 	input_devices_etphidiap? ( sys-apps/etphidiap )
@@ -44,7 +47,6 @@ RDEPEND="
 	input_devices_g2touch? ( chromeos-base/g2update_tool )
 	input_devices_cirque? ( chromeos-base/cirque_fw_update )
 	input_devices_elan_i2chid? ( chromeos-base/elan_i2chid_tools )
-	sys-apps/mosys
 "
 
 pkg_preinst() {
