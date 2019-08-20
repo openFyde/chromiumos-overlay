@@ -22,7 +22,7 @@ RDEPEND="
 	dev-python/imaging
 	dev-python/mysqlclient
 	dev-python/netifaces
-	dev-python/pycrypto
+	|| ( dev-python/pycrypto dev-python/pycryptodome )
 	dev-python/setuptools
 	dev-vcs/git
 	sci-visualization/gnuplot
