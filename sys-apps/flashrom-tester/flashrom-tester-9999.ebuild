@@ -3,6 +3,7 @@
 
 EAPI="6"
 
+CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_LOCALNAME="flashrom"
 CROS_WORKON_SUBTREE="util/flashrom_tester"
