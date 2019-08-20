@@ -36,6 +36,14 @@ src_compile() {
 	use test && ecargo_test --no-run
 }
 
+src_test() {
+	if use x86 || use amd64; then
+		ecargo_test
+	else
+		elog "Skipping rust unit tests on non-x86 platform"
+	fi
+}
+
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/flashrom_tester"
 }
