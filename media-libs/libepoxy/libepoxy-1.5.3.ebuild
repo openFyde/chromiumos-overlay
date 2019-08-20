@@ -18,6 +18,7 @@ inherit autotools-multilib ${GIT_ECLASS} python-any-r1
 
 DESCRIPTION="Epoxy is a library for handling OpenGL function pointer management for you"
 HOMEPAGE="https://github.com/anholt/libepoxy"
+
 if [[ ${PV} = 9999* ]]; then
 	KEYWORDS="*"
 	SRC_URI=""
@@ -35,6 +36,11 @@ DEPEND="${PYTHON_DEPS}
 	x11-misc/util-macros
 	x11-libs/libX11[${MULTILIB_USEDEP}]"
 RDEPEND="virtual/opengles"
+
+PATCHES=(
+	"${FILESDIR}"/0001-Update-OpenGL-registry.patch
+)
+
 
 src_unpack() {
 	default
