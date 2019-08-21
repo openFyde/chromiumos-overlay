@@ -5,8 +5,7 @@ EAPI=4
 CROS_WORKON_COMMIT="4f4fad584e9c2735af5131f15b697376a3327de5"
 CROS_WORKON_TREE="10ae15c97adb01d4ab813f8d211c17411020d323"
 CROS_WORKON_PROJECT="chromium/deps/libmtp"
-CROS_WORKON_LOCALNAME="../../chromium/src/third_party/libmtp"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_LOCALNAME="../chromium/src/third_party/libmtp"
 
 inherit autotools cros-sanitizers cros-workon
 
