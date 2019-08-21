@@ -203,9 +203,11 @@ elif [[ ${CHOST} == armv7*h* ]]; then
 	TRIPLE="armv7-unknown-linux-gnueabihf"
 fi
 
+# Hack: Unslotted OpenSSL dependency to allow cargo to continue using OpenSSL
+# 1.0.2 across the OpenSSL 1.1 uprev. To be switched back to slotted dependency
+# after the OpenSSL uprev is done.
 COMMON_DEPEND="sys-libs/zlib
-	!libressl? ( dev-libs/openssl:0= )
-	libressl? ( dev-libs/libressl:0= )
+	dev-libs/openssl
 	net-libs/libssh2"
 RDEPEND="${COMMON_DEPEND}
 	!dev-util/cargo-bin
