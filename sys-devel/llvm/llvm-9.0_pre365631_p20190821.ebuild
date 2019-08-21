@@ -12,7 +12,7 @@ inherit  cros-constants check-reqs cmake-utils eutils flag-o-matic git-2 git-r3 
 
 # llvm:361749 https://critique.corp.google.com/#review/252092293
 # Master bug: crbug/972454
-LLVM_HASH="c11de5eada2decd0a495ea02676b6f4838cd54fb" # r361749
+LLVM_HASH="6b043f051836635a1e88da4d0464e6569bd7b625" #r365631
 LLVM_NEXT_HASH="6b043f051836635a1e88da4d0464e6569bd7b625" # r365631
 
 DESCRIPTION="Low Level Virtual Machine"

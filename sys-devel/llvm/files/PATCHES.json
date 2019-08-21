@@ -1,35 +1,5 @@
 [
     {
-        "comment": "Fix -working-directory issues",
-        "rel_patch_path": "cherry/7e48b406ef5ef2208c75874f7751a786e748706f.patch",
-        "start_version": 361749,
-        "end_version": 361885
-    },
-    {
-        "comment": "Promote -fdebug-compilation-dir from a cc1 flag to\nclang and clang-cl driver flags",
-        "rel_patch_path": "cherry/37b753368238cd25868632960f477d25f973b977.patch",
-        "start_version": 361749,
-        "end_version": 363548
-    },
-    {
-        "comment": "Add support for 'nodebug' attribute on typedefs and\nalias templates fro DebugInfo",
-        "rel_patch_path": "cherry/8472fa6c54c9d044adcd147f6826bccebd730f30.patch",
-        "start_version": 361749,
-        "end_version": 362856
-    },
-    {
-        "comment": "Set MayLiveAcrossBlocks when allocating uses for\nRegAllocFast",
-        "rel_patch_path": "cherry/ca84c4be4b443df7e49202bb6ca42f831b524245.patch",
-        "start_version": 361749,
-        "end_version": 361781
-    },
-    {
-        "comment": "Fix a crash with assembler source and -g",
-        "rel_patch_path": "cherry/26cc5bcb1a392c9e352be35c50f18e1404d91159.patch",
-        "start_version": 361749,
-        "end_version": 364039
-    },
-    {
         "comment": "Simplify checks for stack protector index checking",
         "rel_patch_path": "cherry/90ba54bf67c4c134d000b064121789a32c0c6a73.patch",
         "end_version": 366369
@@ -149,18 +119,8 @@
         "rel_patch_path": "clang-4.0-asan-default-path.patch"
     },
     {
-        "comment": "Fixes an issue where static libc++ is included\nwithin libfuzzer contains non-PIC code",
-        "rel_patch_path": "compiler-rt-9.0-force-fPIC.patch",
-        "end_version": 365631
-    },
-    {
         "comment": "Makes llvm not generate .cgprofile entries when we\ndo not use integrated-as",
         "rel_patch_path": "llvm-9.0-no-cgprofile.patch"
-    },
-    {
-        "comment": "Workaround for existing bug (https://bugs.llvm.org/show_bug.cgi?id=42272) in new pass manager",
-        "rel_patch_path": "llvm-9.0-no-assert-domtree.patch",
-        "end_version": 365631
     },
     {
         "comment": "Used as destination of target generators",
@@ -178,12 +138,6 @@
         "comment": "Reverts LLVM commit r335145 which is one of two \ncommits responsible for the crash of LLVM with r339409. The\npatch is temporary so when the bug is fixed, the patch can\nbe removed",
         "rel_patch_path": "llvm-8.0-revert-r335145.patch",
         "start_version": 335146
-    },
-    {
-        "comment": "Reverts LLVM commit r335284 which is one of two\ncommits responsible for the crash of LLVM with r339409. The\npatch is temporary so when the bug is fixed, the patch can\nbe removed",
-        "rel_patch_path": "clang-8.0-revert-r335284.patch",
-        "start_version": 361749,
-        "end_version": 365631
     },
     {
         "comment": "Reverts LLVM commit r335284 which is one of two\ncommits responsible for the crash of LLVM with r339409. The\npatch is temporary so when the bug is fixed, the patch can\nbe removed",
@@ -206,25 +160,7 @@
     },
     {
         "comment": "Achieves the functionality of reordering .text.hot\nsections before .text section",
-        "rel_patch_path": "lld-9.0-reorder-hotsection-early.patch",
-        "start_version": 361749,
-        "end_version": 365631
-    },
-    {
-        "comment": "Achieves the functionality of reordering .text.hot\nsections before .text section",
         "rel_patch_path": "lld-next-9.0-reorder-hotsection-early.patch",
         "start_version": 365631
-    },
-    {
-        "comment": "Needed because the cherry-pick is not applied cleanly\n(git hash: 020cc59e83b8072e52982870d4e2ad232e2cf651)\nto the current compiler because of dependency. Try to\ncherry-pick it after r365595",
-        "rel_patch_path": "lld-9.0-apply-r365759.patch",
-        "start_version": 361749,
-        "end_version": 365596
-    },
-    {
-        "comment": "Needed because the cherry-pick is not applied cleanly\n(git hash: b21ad2a27e04b4cc02989eb53de43a8cbaf42d42)\nto the current compiler because of dependency. Try to\ncherry-pick it after r365595",
-        "rel_patch_path": "lld-9.0-apply-r365760.patch",
-        "start_version": 361749,
-        "end_version": 365596
     }
 ]
