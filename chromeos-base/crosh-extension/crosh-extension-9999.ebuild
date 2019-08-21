@@ -5,7 +5,7 @@ EAPI="6"
 
 CROS_WORKON_PROJECT="apps/libapps"
 CROS_WORKON_LOCALNAME="../third_party/libapps"
-CROS_WORKON_SUBTREE="libdot hterm nassh ssh_client"
+CROS_WORKON_SUBTREE="libdot hterm nassh ssh_client terminal"
 
 inherit cros-workon
 
