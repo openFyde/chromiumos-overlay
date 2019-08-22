@@ -247,7 +247,7 @@ src_prepare() {
 
 	python_setup
 
-	python "${FILESDIR}"/patch_manager.py \
+	"${FILESDIR}"/patch_manager.py \
 		--svn_version "$(get_most_recent_revision)" \
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
