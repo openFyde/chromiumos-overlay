@@ -9,7 +9,6 @@ CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/keymaster")
 CROS_WORKON_SUBTREE=("common-mk arc/keymaster .gn" "")
 
-PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/keymaster"
 
 # This BoringSSL integration follows go/boringssl-cros.
