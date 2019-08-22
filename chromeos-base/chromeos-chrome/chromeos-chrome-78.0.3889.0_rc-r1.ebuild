@@ -144,11 +144,11 @@ UNVETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-jo
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-78.0.3877.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R78-3849.0-1565003983.afdo"
-AFDO_FILE["airmont"]="R78-3849.0-1564999971.afdo"
-AFDO_FILE["haswell"]="R78-3809.77-1565002609.afdo"
-AFDO_FILE["broadwell"]="R78-3849.0-1565001978.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-78.0.3888.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R78-3865.18-1566209693.afdo"
+AFDO_FILE["airmont"]="R78-3865.18-1566210253.afdo"
+AFDO_FILE["haswell"]="R78-3809.102-1565608061.afdo"
+AFDO_FILE["broadwell"]="R78-3865.18-1566207233.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 # The following entry will be modified automatically for verifying orderfile.
 UNVETTED_ORDERFILE="chromeos-chrome-orderfile-77.0.3849.0_rc-r1.orderfile"
@@ -160,7 +160,7 @@ UNVETTED_ORDERFILE="chromeos-chrome-orderfile-77.0.3849.0_rc-r1.orderfile"
 # This is only used when there is some kind of problem with the AFDO profile
 # generation process and one needs to force the use of an older profile.
 declare -A AFDO_FROZEN_FILE
-AFDO_FROZEN_FILE["benchmark"]=""
+AFDO_FROZEN_FILE["benchmark"]="chromeos-chrome-amd64-77.0.3862.0_rc-r1.afdo"
 AFDO_FROZEN_FILE["silvermont"]=""
 AFDO_FROZEN_FILE["airmont"]=""
 AFDO_FROZEN_FILE["haswell"]=""
@@ -705,7 +705,14 @@ src_unpack() {
 			# Merge benchmark-based profile and CWP profiles
 			# http://crbug.com/920432
 			local benchmark_afdo_src="benchmark"
-			local benchmark_profile_file="${benchmark_afdo_src}_${AFDO_FILE[${benchmark_afdo_src}]}"
+			local benchmark_profile_file
+			if [[ -n ${AFDO_FROZEN_FILE[${benchmark_afdo_src}]} ]]; then
+				benchmark_profile_file="${AFDO_FROZEN_FILE[${benchmark_afdo_src}]}"
+			else
+				benchmark_profile_file="${AFDO_FILE[${benchmark_afdo_src}]}"
+			fi
+
+			benchmark_profile_file="${benchmark_afdo_src}_${benchmark_profile_file}"
 
 			[[ -n ${benchmark_profile_file} ]] || die "Missing benchmark-based AFDO profile"
 			unpack "${benchmark_profile_file}${AFDO_COMPRESSOR_SUFFIX[${benchmark_afdo_src}]}"
@@ -815,6 +822,7 @@ setup_test_lists() {
 	TEST_FILES=(
 		capture_unittests
 		gl_tests
+		interactive_ui_tests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
@@ -1152,21 +1160,25 @@ src_compile() {
 	else
 		chrome_targets+=( chrome )
 	fi
-	if use build_tests; then
-		chrome_targets+=(
-			"${TEST_FILES[@]}"
-			"${TOOLS_TELEMETRY_BIN[@]}"
-			chromedriver
-		)
-		if use chrome_internal; then
-			chrome_targets+=( libassistant_debug.so )
-		fi
-	fi
 	use_nacl && chrome_targets+=( nacl_helper_bootstrap nacl_helper )
 
 	chrome_make "${chrome_targets[@]}"
 
 	if use build_tests; then
+		local chrome_test_targets=(
+			"${TEST_FILES[@]}"
+			"${TOOLS_TELEMETRY_BIN[@]}"
+			chromedriver
+		)
+		if use chrome_internal; then
+			chrome_test_targets+=( libassistant_debug.so )
+		fi
+		# TODO(https://crbug.com/992933): A hang/freeze in linker is
+		# observed when building chrome and test targets simultenously.
+		# Link test targets separately for now. Merge to single make
+		# again once the issue is fixed.
+		chrome_make "${chrome_test_targets[@]}"
+
 		install_chrome_test_resources "${WORKDIR}/test_src"
 		install_page_cycler_dep_resources "${WORKDIR}/page_cycler_src"
 		install_perf_data_dep_resources "${WORKDIR}/perf_data_src"
