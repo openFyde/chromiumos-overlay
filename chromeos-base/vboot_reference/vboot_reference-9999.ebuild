@@ -75,7 +75,6 @@ src_install() {
 			"${D}"/usr/bin/load_kernel_test \
 			"${D}"/usr/bin/make_dev_firmware.sh \
 			"${D}"/usr/bin/make_dev_ssd.sh \
-			"${D}"/usr/bin/tpm_init_temp_fix \
 			"${D}"/usr/bin/tpm-nvsize \
 			"${D}"/usr/bin/tpmc \
 			|| die
