@@ -32,5 +32,4 @@ DEPEND="${RDEPEND}
 src_install() {
 	dobin "${OUT}/media_v4l2_is_capture_device"
 	dobin "${OUT}/media_v4l2_test"
-	dobin "${OUT}/media_v4l2_unittest"
 }
