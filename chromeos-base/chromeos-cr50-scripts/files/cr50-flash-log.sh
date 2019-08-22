@@ -73,7 +73,7 @@ main() {
       #
       # For example, event_id=05, payload[0]=00, then new event id is 200, which
       # is labed as 'Nvmem Malloc'.
-      event_id=$(( 200 + 0x$3 ))
+      event_id="$(printf "%x" $(( 200 + 0x$3 )))"
     fi
 
     metrics_client -s "Platform.Cr50.FlashLog" "0x${event_id}"
