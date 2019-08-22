@@ -861,7 +861,6 @@ setup_test_lists() {
 	TEST_FILES=(
 		capture_unittests
 		gl_tests
-		interactive_ui_tests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
@@ -1199,25 +1198,21 @@ src_compile() {
 	else
 		chrome_targets+=( chrome )
 	fi
-	use_nacl && chrome_targets+=( nacl_helper_bootstrap nacl_helper )
-
-	chrome_make "${chrome_targets[@]}"
-
 	if use build_tests; then
-		local chrome_test_targets=(
+		chrome_targets+=(
 			"${TEST_FILES[@]}"
 			"${TOOLS_TELEMETRY_BIN[@]}"
 			chromedriver
 		)
 		if use chrome_internal; then
-			chrome_test_targets+=( libassistant_debug.so )
+			chrome_targets+=( libassistant_debug.so )
 		fi
-		# TODO(https://crbug.com/992933): A hang/freeze in linker is
-		# observed when building chrome and test targets simultenously.
-		# Link test targets separately for now. Merge to single make
-		# again once the issue is fixed.
-		chrome_make "${chrome_test_targets[@]}"
+	fi
+	use_nacl && chrome_targets+=( nacl_helper_bootstrap nacl_helper )
 
+	chrome_make "${chrome_targets[@]}"
+
+	if use build_tests; then
 		install_chrome_test_resources "${WORKDIR}/test_src"
 		install_page_cycler_dep_resources "${WORKDIR}/page_cycler_src"
 		install_perf_data_dep_resources "${WORKDIR}/perf_data_src"
