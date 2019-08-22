@@ -3,8 +3,9 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="97dee2023c2a65ba9c1f861e1693ce2ffdb7e6a1"
+CROS_WORKON_COMMIT="2068b9230f2212566df18a894943cacebd9a99bc"
 CROS_WORKON_TREE="c7210d0204e402a31ac3e6daab30712c28807edc"
+CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_LOCALNAME="flashrom"
 CROS_WORKON_SUBTREE="util/flashrom_tester"
@@ -36,6 +37,14 @@ src_compile() {
 	unset CFLAGS
 	ecargo_build
 	use test && ecargo_test --no-run
+}
+
+src_test() {
+	if use x86 || use amd64; then
+		ecargo_test
+	else
+		elog "Skipping rust unit tests on non-x86 platform"
+	fi
 }
 
 src_install() {
