@@ -69,6 +69,7 @@ IUSE="
 	rialto
 	rialto_enterprise_enrollment
 	screenshare_sw_codec
+	smartdim
 	stylus
 	test
 	touch_centric_device
