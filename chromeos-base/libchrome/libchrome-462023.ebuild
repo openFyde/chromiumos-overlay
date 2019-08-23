@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("45cccb17d4e0c375b4eb1729c2ed14278035363d" "9887bc9626824394a2565e302a259d8fc89538c0")
+CROS_WORKON_COMMIT=("570a86f8a4a69c3be7085cbaf6d0a19a3f5ab401" "9887bc9626824394a2565e302a259d8fc89538c0")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
@@ -69,6 +69,10 @@ src_unpack() {
 }
 
 src_prepare() {
+	# TODO(hidehiko): Drop this on next uprev once code with implicit fallthroughs
+	# are fixed (e.g. json_parser).
+	append-flags -Wno-implicit-fallthrough
+
 	epatch "${FILESDIR}"/${P}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
 	epatch "${FILESDIR}"/${P}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
 	epatch "${FILESDIR}"/${P}-dbus-Make-MockObjectManager-useful.patch
@@ -133,6 +137,10 @@ src_prepare() {
 
 	# Forward compatibility for r576297.
 	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-1.patch
+
+	# Use correct shebang for these python2-only scripts.
+	find "${S}"/mojo/ -name '*.py' \
+		-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
 }
 
 src_install() {
@@ -254,10 +262,6 @@ src_install() {
 		fperms +x \
 			/usr/src/libmojo-"${SLOT}"/mojo/generate_type_mappings.py \
 			/usr/src/libmojo-"${SLOT}"/mojo/mojom_bindings_generator.py
-
-		# Use correct shebang for these python2-only scripts.
-		find "${D}"/usr/src/libmojo-"${SLOT}"/mojo/ -name '*.py' \
-			-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
 	fi
 
 	# Install header files.
