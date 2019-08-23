@@ -34,7 +34,10 @@ src_unpack() {
 }
 
 src_compile() {
-	unset CFLAGS
+	# Override HOST_CFLAGS so that build dependencies use the correct
+	# flags on cross-compiled targets using cc-rs.
+	tc-export_build_env
+	export HOST_CFLAGS="${BUILD_CFLAGS}"
 	ecargo_build
 	use test && ecargo_test --no-run
 }
