@@ -18,7 +18,6 @@ CROS_BOARDS=(
 	daisy_skate
 	daisy_spring
 	falco
-	gandof
 	glados
 	jecht
 	leon
