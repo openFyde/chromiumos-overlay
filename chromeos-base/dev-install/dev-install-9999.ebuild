@@ -20,7 +20,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND="chromeos-base/libbrillo:="
+DEPEND="chromeos-base/vboot_reference:="
 RDEPEND="${DEPEND}
 	app-arch/bzip2
 	app-arch/tar
