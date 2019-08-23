@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="5"
+EAPI=6
 
 inherit cmake-utils toolchain-funcs
 
@@ -33,6 +33,7 @@ RDEPEND="${DEPEND}"
 src_prepare() {
 	# This allows board specific dptf config override.
 	epatch "${FILESDIR}"/dptf-allow-board-specific-override.patch
+	default
 }
 
 src_configure() {

@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU Gener Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit cmake-utils cros-sanitizers
 
@@ -24,6 +24,11 @@ PATCHES=(
 	"${FILESDIR}/unix-socket.patch"
 	"${FILESDIR}/read-transfer-backoff.patch"
 )
+
+src_prepare() {
+	eapply -p2 "${PATCHES[@]}"
+	eapply_user
+}
 
 src_configure() {
 	sanitizers-setup-env

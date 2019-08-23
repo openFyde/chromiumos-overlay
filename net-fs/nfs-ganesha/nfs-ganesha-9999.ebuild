@@ -4,7 +4,7 @@
 # Change this version number when making a change to the upstart config
 # or the seccomp file: 2
 
-EAPI=5
+EAPI=6
 CROS_WORKON_PROJECT=("chromiumos/third_party/nfs-ganesha" "chromiumos/third_party/ntirpc")
 CROS_WORKON_LOCALNAME=("nfs-ganesha" "ntirpc")
 CROS_WORKON_DESTDIR=("${S}" "${S}/src/libntirpc")

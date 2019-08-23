@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=6
 
 inherit cmake-utils multilib
 
@@ -47,6 +47,7 @@ src_prepare() {
 	epatch "${FILESDIR}/0001-Replace-hard-coded-lib-with-LIBDIR.patch"
 	epatch "${FILESDIR}/0001-glx-close-display-Fix-GLX_DOUBLEBUFFER-attrib.patch"
 	sed -i "s/@LIBDIR@/$(get_libdir)/" piglit || die "Sed failed!"
+	eapply_user
 }
 
 src_configure() {
