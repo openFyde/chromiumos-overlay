@@ -52,6 +52,7 @@ IUSE="
 	selinux
 	selinux_experimental
 	skate
+	smartdim
 	snow
 	spring
 	touchview
