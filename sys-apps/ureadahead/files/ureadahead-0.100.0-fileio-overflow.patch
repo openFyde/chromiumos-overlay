@@ -2,10 +2,8 @@ This patch adds fixes for 1 and 4 in chromium:216504
 1) adds O_NOFOLLOW tag to file open tags
 2) checks for negative overflows in num_paths while reading pack file
 
-diff --git a/ureadahead-0.100.0/src/pack.c b/ureadahead-0.100.0/src/pack.c
-index 7903870..511f2b0 100644
---- a/ureadahead-0.100.0/src/pack.c
-+++ b/ureadahead-0.100.0/src/pack.c
+--- a/src/pack.c
++++ b/src/pack.c
 @@ -383,7 +383,7 @@ write_pack (const char *filename,
  	/* Open the file, making sure we truncate it and give it a
  	 * sane mode
@@ -36,10 +34,8 @@ index 7903870..511f2b0 100644
 
  	if (setrlimit (RLIMIT_NOFILE, &nofile) < 0)
  		nih_return_system_error (-1);
-diff --git a/ureadahead-0.100.0/src/trace.c b/ureadahead-0.100.0/src/trace.c
-index 9f0ec09..6bc6e84 100644
---- a/ureadahead-0.100.0/src/trace.c
-+++ b/ureadahead-0.100.0/src/trace.c
+--- a/src/trace.c
++++ b/src/trace.c
 @@ -138,7 +138,7 @@ trace (int daemonise,
  	size_t              num_cpus = 0;
 
