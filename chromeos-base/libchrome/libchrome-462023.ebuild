@@ -138,6 +138,10 @@ src_prepare() {
 	# Forward compatibility for r576297.
 	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-1.patch
 
+	# Don't crash for mismatched histogram parms.
+	# # TODO(weidonglin): Remove after libchrome uprev past r552089.
+	epatch "${FILESDIR}"/${P}-libchrome-Don-t-crash-for-mismatched-histogram-parms.patch
+
 	# Use correct shebang for these python2-only scripts.
 	find "${S}"/mojo/ -name '*.py' \
 		-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
