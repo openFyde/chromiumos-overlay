@@ -133,11 +133,13 @@ IUSE_TESTS=(
 	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
+	+tests_policy_AccessibilityTest
 	+tests_policy_AllowDeletingBrowserHistory
 	+tests_policy_AllowDinosaurEasterEgg
 	+tests_policy_AllowScreenLock
 	+tests_policy_AlternateErrorPages
 	+tests_policy_ArcAudioCaptureAllowed
+	+tests_policy_ArcBackupRestoreServiceEnabled
 	+tests_policy_ArcExternalStorageDisabled
 	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ArcDisableScreenshots
@@ -210,6 +212,7 @@ IUSE_TESTS=(
 	+tests_policy_URLBlacklist
 	+tests_policy_URLWhitelist
 	+tests_policy_UserNativePrintersAllowed
+	+tests_policy_VirtualMachinesAllowed
 	+tests_power_AudioDetector
 	+tests_power_Consumption
 	+tests_power_Display
