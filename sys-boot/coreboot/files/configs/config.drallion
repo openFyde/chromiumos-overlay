@@ -44,10 +44,6 @@ CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/drallion/me-drallion.bin"
 CONFIG_HAVE_EC_BIN=y
 CONFIG_EC_BIN_PATH="3rdparty/blobs/mainboard/sarien_cml-ec.bin"
 
-# GbE
-CONFIG_HAVE_GBE_BIN=y
-CONFIG_GBE_BIN_PATH="3rdparty/blobs/mainboard/drallion/gbe.bin"
-
 # Disable
 # CONFIG_UART_DEBUG is not set
 # CONFIG_CONSOLE_SERIAL is not set
