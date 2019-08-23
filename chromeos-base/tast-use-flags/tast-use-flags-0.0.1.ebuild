@@ -58,6 +58,7 @@ IUSE="
 	smartdim
 	snow
 	spring
+	+storage_wearout_detect
 	touchview
 	transparent_hugepage
 	ubsan
