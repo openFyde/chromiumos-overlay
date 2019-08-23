@@ -139,6 +139,7 @@ ALL_BOARDS=(
 	eve-kvm
 	eve-swap
 	eve-userdebug
+	excelsior
 	expresso
 	falco
 	falco_gles
