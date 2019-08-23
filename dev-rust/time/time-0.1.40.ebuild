@@ -13,7 +13,9 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/log-0.4.0:=
+DEPEND="
+	>=dev-rust/libc-0.2.1:=
+	>=dev-rust/log-0.4.0:=
 	>=dev-rust/redox_syscall-0.1.0:=
 	>=dev-rust/winapi-0.3.0:=
 	>=dev-rust/rustc-serialize-0.3.0:=
