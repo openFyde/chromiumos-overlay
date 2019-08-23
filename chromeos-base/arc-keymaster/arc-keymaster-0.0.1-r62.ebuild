@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("66ed10a4e172bdd47b4e08f1661fe21e975c2ef9" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_COMMIT=("28cc72b02e7e68a0be3de763f4a23ec7684d9bc6" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
 CROS_WORKON_TREE=("730940d1ad982b0928be2d517a8583b66235e15e" "ac6d3118741368e763108a9703097f8c7f18e736" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
@@ -11,7 +11,6 @@ CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/keymaster")
 CROS_WORKON_SUBTREE=("common-mk arc/keymaster .gn" "")
 
-PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/keymaster"
 
 # This BoringSSL integration follows go/boringssl-cros.
