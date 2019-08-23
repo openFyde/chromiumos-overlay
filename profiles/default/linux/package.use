@@ -18,8 +18,6 @@ dev-libs/gmp		-cxx
 dev-libs/libevent	-ssl -threads
 dev-perl/GD             png
 dev-python/pyudev	pygobject
-sci-libs/libsigrokdecode python_targets_python3_3 python_single_target_python3_3
-sci-electronics/sigrok-cli python_targets_python3_3 python_single_target_python3_3
 # This requires deps we haven't imported (zeromq) and doesn't seem worth the
 # effort at this time.
 dev-python/ipython -smp
