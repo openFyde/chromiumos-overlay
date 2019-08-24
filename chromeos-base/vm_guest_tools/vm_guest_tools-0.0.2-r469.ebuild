@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="67972c1175952d843ae49c1463bdaa11e7d328f2"
-CROS_WORKON_TREE=("730940d1ad982b0928be2d517a8583b66235e15e" "e7ffa1f5d2ebc671fd14005a0cc35652aa9bec3e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="cb04a43c1bf7756fa71eeca43a5e253459f8da4b"
+CROS_WORKON_TREE=("730940d1ad982b0928be2d517a8583b66235e15e" "d1baff9869d42fbb4f4ef5fa875726f528c0a6af" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -55,8 +55,6 @@ src_install() {
 		dobin "${OUT}"/sommelier
 		dobin "${OUT}"/virtwl_guest_proxy
 		dobin "${OUT}"/wayland_demo
-		dobin "${OUT}"/wayland_copy_demo
-		dobin "${OUT}"/wayland_paste_demo
 		dobin "${OUT}"/x11_demo
 	fi
 
