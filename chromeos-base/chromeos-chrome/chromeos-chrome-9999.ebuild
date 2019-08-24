@@ -1507,12 +1507,6 @@ src_install() {
 	dodir "${CHROME_DIR}"
 	insinto "${CHROME_DIR}"
 
-	# Enable the chromeos local account, if the environment dictates.
-	if [[ -n "${CHROMEOS_LOCAL_ACCOUNT}" ]]; then
-		echo "${CHROMEOS_LOCAL_ACCOUNT}" > "${T}/localaccount"
-		doins "${T}/localaccount"
-	fi
-
 	# Install the orderfile into the chrome directory
 	if use orderfile_generate; then
 		[[ -f "${FROM}/chrome.orderfile.txt" ]] || die "No orderfile generated."
