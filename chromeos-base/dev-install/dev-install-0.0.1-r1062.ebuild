@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT=("66ed10a4e172bdd47b4e08f1661fe21e975c2ef9" "eb8e66173fea376355a414d0696a6d36ab4180fe")
+CROS_WORKON_COMMIT=("f8d2a24b97c0f8189d5e43ab70ed34098cd366d8" "6bc3218a8163eeae8ec2bee50a06f4516bd0cedc")
 CROS_WORKON_TREE=("730940d1ad982b0928be2d517a8583b66235e15e" "d12e131f67e0ca2110df760c914fe2d2efe709eb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "16ec4eb6432d9a31009bf944c438d9a94cab152f")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/dev-util")
 CROS_WORKON_LOCALNAME=("platform2" "dev")
@@ -22,7 +22,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="chromeos-base/libbrillo:="
+DEPEND="chromeos-base/vboot_reference:="
 RDEPEND="${DEPEND}
 	app-arch/bzip2
 	app-arch/tar
