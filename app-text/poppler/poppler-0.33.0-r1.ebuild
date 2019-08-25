@@ -1,1 +1,0 @@
-poppler-0.33.0.ebuild
