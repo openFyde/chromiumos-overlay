@@ -73,10 +73,12 @@ src_install() {
 # Pre-processes control files and installs DEPENDENCIES info.
 pkg_postinst() {
 	local root_autotest_dir="${ROOT}${AUTOTEST_BASE}"
-	python -B "${root_autotest_dir}/site_utils/suite_preprocessor.py" \
+	PYTHONDONTWRITEBYTECODE=1 \
+	"${root_autotest_dir}/site_utils/suite_preprocessor.py" \
 		-a "${root_autotest_dir}" \
-		-o "${root_autotest_dir}/test_suites/${SUITE_DEPENDENCIES_FILE}"
-	python -B "${root_autotest_dir}/site_utils/control_file_preprocessor.py" \
+		-o "${root_autotest_dir}/test_suites/${SUITE_DEPENDENCIES_FILE}" || die
+	PYTHONDONTWRITEBYTECODE=1 \
+	"${root_autotest_dir}/site_utils/control_file_preprocessor.py" \
 		-a "${root_autotest_dir}" \
-		-o "${root_autotest_dir}/test_suites/${SUITE_TO_CONTROL_MAP}"
+		-o "${root_autotest_dir}/test_suites/${SUITE_TO_CONTROL_MAP}" || die
 }

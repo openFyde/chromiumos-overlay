@@ -431,7 +431,7 @@ autotest_pkg_postinst() {
 		einfo "Running packager with options ${test_opt} ${dep_opt} ${prof_opt}"
 		local logfile=${root_autotest_dir}/packages/${CATEGORY}_${PN}.log
 		flock "${root_autotest_dir}/packages" \
-			-c "python -B ${root_autotest_dir}/utils/packager.py \
+			-c "PYTHONDONTWRITEBYTECODE=1 ${root_autotest_dir}/utils/packager.py \
 				-r ${root_autotest_dir}/packages \
 				${test_opt} ${dep_opt} ${prof_opt} -a upload && \
 				echo ${CATEGORY}/${PN} > ${logfile} && \
