@@ -80,6 +80,7 @@ REQUIRED_USE="
 	thinlto? ( clang )
 	afdo_use? ( clang )
 	orderfile_verify? ( !reorder_text_sections )
+	orderfile_generate? ( !orderfile_use !reorder_text_sections )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -799,7 +800,7 @@ src_unpack() {
 		fi
 	else
 		# If not using orderfile, override the default orderfile path to empty.
-		BUILD_STRING_ARGS+=( "chrome_orderfile_path=\"\"" )
+		BUILD_STRING_ARGS+=( "chrome_orderfile_path=" )
 	fi
 }
 
