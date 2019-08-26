@@ -248,6 +248,7 @@ ALL_BOARDS=(
 	monroe
 	moose
 	nami
+	nami-kvm
 	nautilus
 	#nefario
 	#newbie
