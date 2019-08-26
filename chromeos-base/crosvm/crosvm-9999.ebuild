@@ -31,7 +31,6 @@ RDEPEND="
 	virtual/libusb:1=
 "
 DEPEND="${RDEPEND}
-	~dev-rust/byteorder-1.1.0:=
 	~dev-rust/cc-1.0.25:=
 	~dev-rust/getopts-0.2.18:=
 	~dev-rust/libc-0.2.44:=
