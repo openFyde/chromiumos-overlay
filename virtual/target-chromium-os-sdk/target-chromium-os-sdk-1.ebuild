@@ -512,3 +512,8 @@ RDEPEND="${RDEPEND}
 # Autotest's new RPC server will use grpc
 RDEPEND="${RDEPEND}
 	dev-python/grpcio"
+
+# Needed for unit tests of tast-local-tests-cros
+RDEPEND="${RDEPEND}
+	dev-util/strace"
+
