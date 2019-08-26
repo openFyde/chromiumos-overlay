@@ -96,6 +96,10 @@ src_prepare() {
 
 	cd "${S}"/boringssl || die
 	eapply "${FILESDIR}"/android-tools-9.0.0-armasm.patch
+	# Backport clang fallthru patches to fix newer clang builds.
+	# https://boringssl-review.googlesource.com/c/boringssl/+/37244
+	# https://boringssl-review.googlesource.com/c/boringssl/+/37247
+	eapply "${FILESDIR}"/android-tools-clang-fallthru.patch
 
 	cd "${S}" || die
 	default
