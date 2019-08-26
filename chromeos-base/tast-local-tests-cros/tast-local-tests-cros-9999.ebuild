@@ -50,6 +50,8 @@ RDEPEND="
 	)
 	net-misc/curl
 	sys-apps/memtester
+	sys-apps/rootdev
+	virtual/udev
 	usbip? ( chromeos-base/virtual-usb-printer )
 "
 
