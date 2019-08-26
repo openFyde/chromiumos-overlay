@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("2617f00881f2c53b7ebe6c103f4165845e3b67ef" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
-CROS_WORKON_TREE=("b050a2ab2836dd6da5e48eab3fd4ac328d4325bc" "e1b3a7996db3d63d9ec95ca82f6dbd8fc09c0218" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
+CROS_WORKON_COMMIT=("5278d6f183913555174c074c4f8b71f166b521d2" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_TREE=("b050a2ab2836dd6da5e48eab3fd4ac328d4325bc" "b71e7214c188d28efe4e778afc62768da68ef3f3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
@@ -62,6 +62,9 @@ src_prepare() {
 	# Expose BoringSSL headers and outputs.
 	append-cxxflags "-I${WORKDIR}/${BORINGSSL_P}/include"
 	append-ldflags "-L${BORINGSSL_OUTDIR}"
+	# Patch keymaster context.
+	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
+	epatch "${FILESDIR}/keymaster-context-hooks.patch"
 }
 
 src_configure() {
