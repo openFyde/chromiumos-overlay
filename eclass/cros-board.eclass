@@ -98,6 +98,7 @@ ALL_BOARDS=(
 	cheza
 	cheza-freedreno
 	cheza64
+	cheza64-freedreno
 	#chronos
 	cid
 	clapper
