@@ -78,11 +78,12 @@ index 4539b637ded4..f7e03d808262 100644
  #include "../bashansi.h"
  #include "../bashintl.h"
  
-@@ -155,6 +159,8 @@ file_error_and_exit:
+@@ -155,6 +159,9 @@ file_error_and_exit:
        return ((flags & FEVAL_BUILTIN) ? EXECUTION_FAILURE : -1);
      }      
- 
-+  check_noexec (fd, filename);
+
++  if (interactive_shell == 0)
++    check_noexec (fd, filename);
 +
    if (S_ISREG (finfo.st_mode) && file_size <= SSIZE_MAX)
      {
