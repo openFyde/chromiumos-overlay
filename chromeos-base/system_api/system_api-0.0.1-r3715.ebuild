@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="2617f00881f2c53b7ebe6c103f4165845e3b67ef"
-CROS_WORKON_TREE=("b050a2ab2836dd6da5e48eab3fd4ac328d4325bc" "a5b58f8d23cf45829f562ebd7420d3752b0cc58d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3f4abe472f9c2ea15f50a768b8f56a0eb54efd7a"
+CROS_WORKON_TREE=("b050a2ab2836dd6da5e48eab3fd4ac328d4325bc" "94246fe394abbebafc02d329017350fbe5b69e29" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
@@ -58,6 +58,7 @@ src_install() {
 	local dir dirs=(
 		attestation
 		biod
+		chunneld
 		cros-disks
 		cros_healthd
 		cryptohome
