@@ -127,29 +127,6 @@ if [[ -n "${BUILD_API_METRICS_LOG}" ]] ; then
 	cros_setup_metric_events
 fi
 
-# Packages that use python will run a small python script to find the
-# pythondir. Unfortunately, they query the host python to find out the
-# paths for things, which means they inevitably guess wrong.  Export
-# the cached values ourselves and since we know these are going through
-# autoconf, we can leverage ${libdir} that econf sets up automatically.
-cros_pre_src_unpack_python_multilib_setup() {
-	# We don't need this hack in the sdk itself.  Drop it to unblock multitarget
-	# in the sdk.  We'll need to revisit for boards.  https://crbug.com/736322
-	if [[ $(cros_target) == "cros_host" ]] ; then
-		return
-	fi
-
-	# Avoid executing multiple times in a single build.
-	[[ ${am_cv_python_version:+set} == "set" ]] && return
-
-	local py=${PYTHON:-python}
-	local py_ver=$(${py} -c 'import sys;sys.stdout.write(sys.version[:3])')
-
-	export am_cv_python_version=${py_ver}
-	export am_cv_python_pythondir="\${libdir}/python${py_ver}/site-packages"
-	export am_cv_python_pyexecdir=${am_cv_python_pythondir}
-}
-
 # If we ran clang-tidy during the compile phase, we need to capture the build
 # logs, which contain the actual clang-tidy warnings.
 cros_pre_src_install_tidy_setup() {
