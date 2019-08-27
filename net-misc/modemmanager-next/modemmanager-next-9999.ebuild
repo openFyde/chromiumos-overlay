@@ -17,7 +17,7 @@ HOMEPAGE="http://mail.gnome.org/archives/networkmanager-list/2008-July/msg00274.
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-asan doc mbim systemd qmi"
+IUSE="doc mbim systemd qmi"
 
 RDEPEND=">=dev-libs/glib-2.36
 	>=sys-apps/dbus-1.2
@@ -90,7 +90,8 @@ src_test() {
 	# TODO(benchan): Run unit tests for non-x86 platforms via qemu.
 	if [[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] ; then
 		# This is an ugly hack that happens to work, but should not be copied.
-		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" \
+		PATH="${SYSROOT}/usr/bin:${PATH}" \
+		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir):${SYSROOT}/$(get_libdir)" \
 		emake check
 	fi
 }
