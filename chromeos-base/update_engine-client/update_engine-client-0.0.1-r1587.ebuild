@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("5278d6f183913555174c074c4f8b71f166b521d2" "3b7544b621970037dd295b0435595d231a2ff5c4")
-CROS_WORKON_TREE=("b050a2ab2836dd6da5e48eab3fd4ac328d4325bc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "fb9004eeac233b079a9d99aaf3fa2a7013dd177f")
+CROS_WORKON_COMMIT=("7e37510d4ab80ca5c18937bcb9b99a39c0b372e5" "a2c8b92227ddf33fd934357d0aea39bbe36e6293")
+CROS_WORKON_TREE=("b050a2ab2836dd6da5e48eab3fd4ac328d4325bc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "08c55997efd9ffb442f748f0ff72798fa79168be")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/update_engine")
