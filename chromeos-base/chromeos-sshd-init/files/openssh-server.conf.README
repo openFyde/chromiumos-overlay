@@ -51,8 +51,8 @@ complicated.
 
   # Create host keys (only needs to be done once).
   $ mkdir -p /mnt/stateful_partition/etc/ssh
-  $ ssh-keygen -f /mnt/stateful_partition/etc/ssh/ssh_host_dsa_key -N '' -t dsa
   $ ssh-keygen -f /mnt/stateful_partition/etc/ssh/ssh_host_rsa_key -N '' -t rsa
+  $ ssh-keygen -f /mnt/stateful_partition/etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 
   # Open firewall and start sshd (must be done on every boot).
   $ iptables -A INPUT -p tcp --dport 22 -j ACCEPT
