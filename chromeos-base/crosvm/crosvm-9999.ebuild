@@ -93,7 +93,6 @@ src_compile() {
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
 		$(usex crosvm-gpu-forward gpu-forward "")
-		sandboxed-libusb
 	)
 
 	local packages=(
