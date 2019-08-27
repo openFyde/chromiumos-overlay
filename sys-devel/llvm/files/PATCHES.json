@@ -27,6 +27,12 @@
         "end_version": 365760
     },
     {
+        "comment": "ELF: Allow forward references to linked sections.",
+        "rel_patch_path": "cherry/cb2d8e912512305fb5c45cf0f35f654f713dfa7c.patch",
+        "start_version": 365631,
+        "end_version": 366460
+    },
+    {
         "comment": "Don't resolve the stack protector frame accesses until PEI",
         "rel_patch_path": "cherry/0503add6dab545600b99c89753fcc7cb5bd15fc8.patch",
         "start_version": 365631,
