@@ -235,13 +235,14 @@ multilib_src_configure() {
 		$(multilib_native_usex python '' '--disable-python')
 		$(multilib_native_use_enable zeroconf avahi)
 		$(multilib_native_usex test '--enable-selftest' '')
-		$(usex system-mitkrb5 "--with-system-mitkrb5 ${SYSROOT}/usr" '')
+		$(usex system-mitkrb5 '--with-system-mitkrb5' '')
 		$(use_enable gnutls)
 		$(use_with debug lttng)
 		$(use_with ldap)
 	)
 	multilib_is_native_abi && myconf+=( --with-shared-modules=${SHAREDMODS} )
 
+	KRB5_CONFIG="${CHOST}-krb5-config" \
 	CPPFLAGS="-I${SYSROOT}${EPREFIX}/usr/include/et ${CPPFLAGS}" \
 		waf-utils_src_configure ${myconf[@]}
 }
