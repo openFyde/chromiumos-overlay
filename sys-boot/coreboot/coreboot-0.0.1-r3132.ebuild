@@ -3,7 +3,7 @@
 
 # Change this version number when any change is made to configs/files under
 # coreboot and an auto-revbump is required.
-# VERSION=REVBUMP-0.0.52
+# VERSION=REVBUMP-0.0.53
 
 EAPI=5
 CROS_WORKON_COMMIT=("360eeadd59258bcfcf51f5a09be3973d8ac1c9fc" "464243e4aaf6966ba3fbcece76eba918469f9d45" "4539726499d6ee43077918eee3e1768040b45983" "3795022861bef05fcf3872b4c63a855e72a71f2d" "1b73a1e19ef406b0dcc828667a0e5c5336b5ae0a" "b7d5b2d6a6dd05874d86ee900ff441d261f9034c")
