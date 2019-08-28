@@ -46,6 +46,7 @@ IUSE="
 	ml_service
 	moblab
 	mocktpm
+	nyan_kitty
 	rialto
 	rk3399
 	selinux
