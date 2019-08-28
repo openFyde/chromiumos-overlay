@@ -23,6 +23,10 @@ DEPEND=">=dev-libs/libp11-0.2.5
 	dev-libs/openssl:0="
 RDEPEND="${DEPEND}"
 
+PATCHES=(
+	"${FILESDIR}/${PN}-0.1.8-Fixes-for-OpenSSL-1.1-build.patch"
+)
+
 if [[ "${PV}" = "9999" ]]; then
 	DEPEND="${DEPEND}
 		app-text/docbook-xsl-stylesheets
