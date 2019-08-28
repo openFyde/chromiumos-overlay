@@ -5,101 +5,6 @@
       "cflags": [
         "-O2",
         "-pipe",
-        "-march=armv7-a",
-        "-mtune=cortex-a15",
-        "-mfpu=neon",
-        "-mfloat-abi=hard",
-        "-g",
-        "-fno-exceptions",
-        "-fno-unwind-tables",
-        "-fno-asynchronous-unwind-tables"
-      ],
-      "useflags": [
-        "accessibility",
-        "autotest",
-        "build_tests",
-        "buildcheck",
-        "cfi",
-        "chrome_debug",
-        "chrome_remoting",
-        "clang",
-        "cups",
-        "debug_fission",
-        "evdev_gestures",
-        "fonts",
-        "highdpi",
-        "libcxx",
-        "nacl",
-        "neon",
-        "opengles",
-        "ozone_platform_default_gbm",
-        "ozone_platform_gbm",
-        "reorder_text_sections",
-        "runhooks",
-        "thinlto",
-        "v4l2_codec",
-        "xkbcommon"
-      ]
-    },
-    "key": {
-      "board": "arm-generic",
-      "useflags": [
-        "-chrome_internal"
-      ]
-    }
-  },
-  {
-    "compat_id": {
-      "arch": "amd64",
-      "cflags": [
-        "-O2",
-        "-pipe",
-        "-march=x86-64",
-        "-msse3",
-        "-g",
-        "-fno-exceptions",
-        "-fno-unwind-tables",
-        "-fno-asynchronous-unwind-tables"
-      ],
-      "useflags": [
-        "accessibility",
-        "authpolicy",
-        "autotest",
-        "build_tests",
-        "buildcheck",
-        "cfi",
-        "chrome_debug",
-        "chrome_remoting",
-        "clang",
-        "cups",
-        "debug_fission",
-        "evdev_gestures",
-        "fonts",
-        "highdpi",
-        "libcxx",
-        "nacl",
-        "opengles",
-        "ozone_platform_default_gbm",
-        "ozone_platform_gbm",
-        "reorder_text_sections",
-        "runhooks",
-        "thinlto",
-        "v4l2_codec",
-        "vaapi",
-        "xkbcommon"
-      ]
-    },
-    "key": {
-      "board": "amd64-generic",
-      "useflags": []
-    }
-  },
-  {
-    "compat_id": {
-      "arch": "arm",
-      "cflags": [
-        "-O2",
-        "-pipe",
         "-march=armv8-a+crc",
         "-mtune=cortex-a57.cortex-a53",
         "-mfpu=crypto-neon-fp-armv8",
@@ -127,9 +32,9 @@
         "nacl",
         "neon",
         "opengles",
+        "orderfile_use",
         "ozone_platform_default_gbm",
         "ozone_platform_gbm",
-        "reorder_text_sections",
         "runhooks",
         "thinlto",
         "v4l2_codec",
@@ -139,49 +44,6 @@
     },
     "key": {
       "board": "scarlet",
-      "useflags": [
-        "-chrome_internal"
-      ]
-    }
-  },
-  {
-    "compat_id": {
-      "arch": "arm64",
-      "cflags": [
-        "-O2",
-        "-pipe",
-        "-g",
-        "-fno-exceptions",
-        "-fno-unwind-tables",
-        "-fno-asynchronous-unwind-tables"
-      ],
-      "useflags": [
-        "accessibility",
-        "autotest",
-        "build_tests",
-        "buildcheck",
-        "cfi",
-        "chrome_debug",
-        "chrome_remoting",
-        "clang",
-        "cups",
-        "debug_fission",
-        "evdev_gestures",
-        "fonts",
-        "highdpi",
-        "libcxx",
-        "opengles",
-        "ozone_platform_default_gbm",
-        "ozone_platform_gbm",
-        "reorder_text_sections",
-        "runhooks",
-        "thinlto",
-        "v4l2_codec",
-        "xkbcommon"
-      ]
-    },
-    "key": {
-      "board": "arm64-generic",
       "useflags": [
         "-chrome_internal"
       ]
@@ -220,9 +82,9 @@
         "nacl",
         "neon",
         "opengles",
+        "orderfile_use",
         "ozone_platform_default_gbm",
         "ozone_platform_gbm",
-        "reorder_text_sections",
         "runhooks",
         "thinlto",
         "v4l2_codec",
@@ -235,6 +97,144 @@
       "useflags": [
         "-chrome_internal"
       ]
+    }
+  },
+  {
+    "compat_id": {
+      "arch": "arm",
+      "cflags": [
+        "-O2",
+        "-pipe",
+        "-march=armv7-a",
+        "-mtune=cortex-a15",
+        "-mfpu=neon",
+        "-mfloat-abi=hard",
+        "-g",
+        "-fno-exceptions",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables"
+      ],
+      "useflags": [
+        "accessibility",
+        "autotest",
+        "build_tests",
+        "buildcheck",
+        "cfi",
+        "chrome_debug",
+        "chrome_remoting",
+        "clang",
+        "cups",
+        "debug_fission",
+        "evdev_gestures",
+        "fonts",
+        "highdpi",
+        "libcxx",
+        "nacl",
+        "neon",
+        "opengles",
+        "orderfile_use",
+        "ozone_platform_default_gbm",
+        "ozone_platform_gbm",
+        "runhooks",
+        "thinlto",
+        "v4l2_codec",
+        "xkbcommon"
+      ]
+    },
+    "key": {
+      "board": "arm-generic",
+      "useflags": [
+        "-chrome_internal"
+      ]
+    }
+  },
+  {
+    "compat_id": {
+      "arch": "arm64",
+      "cflags": [
+        "-O2",
+        "-pipe",
+        "-g",
+        "-fno-exceptions",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables"
+      ],
+      "useflags": [
+        "accessibility",
+        "autotest",
+        "build_tests",
+        "buildcheck",
+        "cfi",
+        "chrome_debug",
+        "chrome_remoting",
+        "clang",
+        "cups",
+        "debug_fission",
+        "evdev_gestures",
+        "fonts",
+        "highdpi",
+        "libcxx",
+        "opengles",
+        "orderfile_use",
+        "ozone_platform_default_gbm",
+        "ozone_platform_gbm",
+        "runhooks",
+        "thinlto",
+        "v4l2_codec",
+        "xkbcommon"
+      ]
+    },
+    "key": {
+      "board": "arm64-generic",
+      "useflags": [
+        "-chrome_internal"
+      ]
+    }
+  },
+  {
+    "compat_id": {
+      "arch": "amd64",
+      "cflags": [
+        "-O2",
+        "-pipe",
+        "-march=x86-64",
+        "-msse3",
+        "-g",
+        "-fno-exceptions",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables"
+      ],
+      "useflags": [
+        "accessibility",
+        "authpolicy",
+        "autotest",
+        "build_tests",
+        "buildcheck",
+        "cfi",
+        "chrome_debug",
+        "chrome_remoting",
+        "clang",
+        "cups",
+        "debug_fission",
+        "evdev_gestures",
+        "fonts",
+        "highdpi",
+        "libcxx",
+        "nacl",
+        "opengles",
+        "orderfile_use",
+        "ozone_platform_default_gbm",
+        "ozone_platform_gbm",
+        "runhooks",
+        "thinlto",
+        "v4l2_codec",
+        "vaapi",
+        "xkbcommon"
+      ]
+    },
+    "key": {
+      "board": "amd64-generic",
+      "useflags": []
     }
   }
 ]

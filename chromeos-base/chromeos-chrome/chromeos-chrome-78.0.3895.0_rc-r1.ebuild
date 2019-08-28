@@ -58,8 +58,9 @@ IUSE="
 	opengl
 	opengles
 	orderfile_generate
+	+orderfile_use
 	orderfile_verify
-	+reorder_text_sections
+	reorder_text_sections
 	+runhooks
 	strict_toolchain_checks
 	+thinlto
@@ -79,6 +80,7 @@ REQUIRED_USE="
 	thinlto? ( clang )
 	afdo_use? ( clang )
 	orderfile_verify? ( !reorder_text_sections )
+	orderfile_generate? ( !orderfile_use !reorder_text_sections )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -139,19 +141,20 @@ AFDO_LOCATION["airmont"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/c
 AFDO_LOCATION["haswell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/haswell/"}
 AFDO_LOCATION["broadwell"]=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/cwp/chrome/broadwell/"}
 UNVETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/orderfiles/unvetted"}
+VETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/orderfiles/vetted"}
 
 # The following entries into the AFDO_FILE* dictionaries are set automatically
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-78.0.3888.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R78-3865.18-1566209693.afdo"
-AFDO_FILE["airmont"]="R78-3865.18-1566210253.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-78.0.3893.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R78-3877.0-1566814872.afdo"
+AFDO_FILE["airmont"]="R78-3877.0-1566812873.afdo"
 AFDO_FILE["haswell"]="R78-3809.102-1565608061.afdo"
-AFDO_FILE["broadwell"]="R78-3865.18-1566207233.afdo"
+AFDO_FILE["broadwell"]="R78-3865.35-1566812043.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 # The following entry will be modified automatically for verifying orderfile.
-UNVETTED_ORDERFILE="chromeos-chrome-orderfile-77.0.3849.0_rc-r1.orderfile"
+UNVETTED_ORDERFILE=""
 
 # This dictionary can be used to manually override the setting for the
 # AFDO profile file. Any non-empty values in this array will take precedence
@@ -160,11 +163,18 @@ UNVETTED_ORDERFILE="chromeos-chrome-orderfile-77.0.3849.0_rc-r1.orderfile"
 # This is only used when there is some kind of problem with the AFDO profile
 # generation process and one needs to force the use of an older profile.
 declare -A AFDO_FROZEN_FILE
-AFDO_FROZEN_FILE["benchmark"]="chromeos-chrome-amd64-77.0.3862.0_rc-r1.afdo"
+AFDO_FROZEN_FILE["benchmark"]=""
 AFDO_FROZEN_FILE["silvermont"]=""
 AFDO_FROZEN_FILE["airmont"]=""
 AFDO_FROZEN_FILE["haswell"]=""
 AFDO_FROZEN_FILE["broadwell"]=""
+
+# This variable can be used to manually override the setting for the
+# orderfile file, similar to the AFDO profiles above.
+# Normally updating and downloading orderfile is taken care by Chrome source
+# code. So any non-empty values in this variable will override the default
+# Chrome behavior and use the orderfile from the path
+ORDERFILE_FROZEN=""
 
 add_afdo_files() {
 	local a f l
@@ -183,7 +193,20 @@ add_afdo_files() {
 
 add_afdo_files
 
-SRC_URI+=" orderfile_verify? ( ${UNVETTED_ORDERFILE_LOCATION}/${UNVETTED_ORDERFILE}.xz )"
+add_orderfiles() {
+	# For verify orderfile, only for a toolchain special build.
+	if [[ -n ${UNVETTED_ORDERFILE} ]]; then
+		SRC_URI+=" orderfile_verify? ( ${UNVETTED_ORDERFILE_LOCATION}/${UNVETTED_ORDERFILE}.xz )"
+	fi
+
+	# For freezing orderfile, only used for there's some kind of problems
+	# with the orderfile in Chrome.
+	if [[ -n ${ORDERFILE_FROZEN} ]]; then
+		SRC_URI+=" orderfile_use? ( ${VETTED_ORDERFILE_LOCATION}/${ORDERFILE_FROZEN}.xz )"
+	fi
+}
+
+add_orderfiles
 
 RDEPEND="${RDEPEND}
 	app-arch/bzip2
@@ -762,6 +785,23 @@ src_unpack() {
 		# Pass the path to orderfile to GN args.
 		BUILD_STRING_ARGS+=( "chrome_orderfile_path=${orderfile_loc}" )
 	fi
+
+	if use orderfile_use; then
+		# Default orderfile is set in Chromium side, nothing to do here.
+		# Logic for using a freezed version of orderfile
+		if [[ -n ${ORDERFILE_FROZEN} ]]; then
+			local orderfile_dir="${WORKDIR}/orderfile"
+			mkdir "${orderfile_dir}"
+			local orderfile_file=${ORDERFILE_FROZEN}
+			(cd "${orderfile_dir}" && unpack "${orderfile_file}.xz") || die
+			orderfile_loc="${orderfile_dir}/${orderfile_file}"
+			einfo "Using freezed orderfile unpacked at ${orderfile_loc}"
+			BUILD_STRING_ARGS+=( "chrome_orderfile_path=${orderfile_loc}" )
+		fi
+	else
+		# If not using orderfile, override the default orderfile path to empty.
+		BUILD_STRING_ARGS+=( "chrome_orderfile_path=" )
+	fi
 }
 
 add_api_keys() {
@@ -822,7 +862,6 @@ setup_test_lists() {
 	TEST_FILES=(
 		capture_unittests
 		gl_tests
-		interactive_ui_tests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
@@ -1141,7 +1180,7 @@ chrome_make() {
 
 	# Still use a script to check if the orderfile is used properly, i.e.
 	# Builtin_ functions are placed between the markers, etc.
-	if use strict_toolchain_checks && use orderfile_verify; then
+	if use strict_toolchain_checks && (use orderfile_use || use orderfile_verify); then
 		"${FILESDIR}/check_orderfile.py" "${build_dir}/chrome" || die
 	fi
 }
@@ -1160,25 +1199,21 @@ src_compile() {
 	else
 		chrome_targets+=( chrome )
 	fi
-	use_nacl && chrome_targets+=( nacl_helper_bootstrap nacl_helper )
-
-	chrome_make "${chrome_targets[@]}"
-
 	if use build_tests; then
-		local chrome_test_targets=(
+		chrome_targets+=(
 			"${TEST_FILES[@]}"
 			"${TOOLS_TELEMETRY_BIN[@]}"
 			chromedriver
 		)
 		if use chrome_internal; then
-			chrome_test_targets+=( libassistant_debug.so )
+			chrome_targets+=( libassistant_debug.so )
 		fi
-		# TODO(https://crbug.com/992933): A hang/freeze in linker is
-		# observed when building chrome and test targets simultenously.
-		# Link test targets separately for now. Merge to single make
-		# again once the issue is fixed.
-		chrome_make "${chrome_test_targets[@]}"
+	fi
+	use_nacl && chrome_targets+=( nacl_helper_bootstrap nacl_helper )
 
+	chrome_make "${chrome_targets[@]}"
+
+	if use build_tests; then
 		install_chrome_test_resources "${WORKDIR}/test_src"
 		install_page_cycler_dep_resources "${WORKDIR}/page_cycler_src"
 		install_perf_data_dep_resources "${WORKDIR}/perf_data_src"
@@ -1472,12 +1507,6 @@ src_install() {
 	# Create the main Chrome install directory.
 	dodir "${CHROME_DIR}"
 	insinto "${CHROME_DIR}"
-
-	# Enable the chromeos local account, if the environment dictates.
-	if [[ -n "${CHROMEOS_LOCAL_ACCOUNT}" ]]; then
-		echo "${CHROMEOS_LOCAL_ACCOUNT}" > "${T}/localaccount"
-		doins "${T}/localaccount"
-	fi
 
 	# Install the orderfile into the chrome directory
 	if use orderfile_generate; then
