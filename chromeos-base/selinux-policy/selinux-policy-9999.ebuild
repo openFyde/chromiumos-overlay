@@ -20,6 +20,7 @@ IUSE="
 	+combine_chromeos_policy selinux_audit_all selinux_develop selinux_experimental
 	arc_first_release_n
 	nocheck
+	cheets_user cheets_user_64
 "
 # When developers are doing something not Android. This required use is to let
 # the developer know, disabling combine_chromeos_policy flag doesn't change
@@ -368,4 +369,29 @@ src_install() {
 	fi
 
 	udev_dorules "${FILESDIR}/50-selinux.rules"
+}
+
+src_test() {
+	local neverallowjava="${SYSROOT}/etc/selinux/intermediates/SELinuxNeverallowRulesTest.java"
+	if [ ! -f "${SYSROOT}/etc/selinux/intermediates/SELinuxNeverallowRulesTest.java" ]; then
+		ewarn "No SELinuxNeverallowRulesTest.java found. CTS neverallow pre-test is skipped."
+		return
+	fi
+	if ! ( use cheets_user || use cheets_user_64 ); then
+		ewarn "ARC not user build. CTS neverallow pre-test is skipped."
+		return
+	fi
+	(
+		grep "boolean compatiblePropertyOnly = false;" -B 2 |
+		grep "boolean fullTrebleOnly = false;" -B 1 |
+		grep neverallowRule |
+		sed -e 's/.*"\(neverallow.*\)";/\1/g'
+	) < "$neverallowjava" > neverallows
+	local loc="$(wc -l neverallows | awk '{print $1;}')"
+	local cur=0
+	while read -r rule; do
+		cur=$((cur+1))
+		printf "Checking neverallow rules: %d/%d\r" "$cur" "$loc"
+		sepolicy-analyze "${SEPOLICY_FILENAME}" neverallow -n "$rule" || (echo failed for "$rule"; die)
+	done < neverallows
 }
