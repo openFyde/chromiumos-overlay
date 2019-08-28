@@ -14,11 +14,8 @@ MY_P=${P/-gpl}
 PVM=$(get_version_component_range 1-2)
 PVM_S=$(replace_all_version_separators "" ${PVM})
 
-MY_PATCHSET=1
-
 SRC_URI="
 	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${PVM_S}/${MY_P}.tar.xz
-	https://dev.gentoo.org/~dilfridge/distfiles/${P}-patchset-${MY_PATCHSET}.tar.xz
 "
 
 # Google has a commercial license for ghostscript when distributed with
@@ -74,7 +71,6 @@ RDEPEND="${COMMON_DEPEND}
 S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
-	"${WORKDIR}/patches/"
 	"${FILESDIR}/"
 )
 
@@ -149,7 +145,6 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	append-cflags -fno-sanitize=shift
 
 	local FONTPATH
 	for path in \
@@ -218,7 +213,7 @@ src_configure() {
 }
 
 src_compile() {
-	emake -j1 so all
+	emake -j8 so all
 
 	cd "${S}"/ijs || die
 	emake
@@ -237,16 +232,7 @@ src_install() {
 	# rename the original cidfmap to cidfmap.GS
 	mv "${ED}/usr/share/ghostscript/${PVM}/Resource/Init/cidfmap"{,.GS} || die
 
-	# install our own cidfmap to handle CJK fonts
 	insinto /usr/share/ghostscript/${PVM}/Resource/Init
-	doins \
-		"${WORKDIR}/fontmaps/CIDFnmap" \
-		"${WORKDIR}/fontmaps/cidfmap"
-	for X in ${LANGS} ; do
-		if use linguas_${X} ; then
-			doins "${WORKDIR}/fontmaps/cidfmap.${X/-/_}"
-		fi
-	done
 
 	# install the CMaps from poppler-data properly, bug #409361
 	if ! use crosfonts; then
