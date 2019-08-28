@@ -243,24 +243,16 @@ IUSE_TESTS=(
 	+tests_video_ChromeHWDecodeUsed
 	+tests_video_ChromeRTCHWEncodeUsed
 	+tests_video_ChromeVidResChangeHWDecode
-	+tests_video_GlitchDetection
 	+tests_video_HangoutHardwarePerf
 	+tests_video_MediaRecorderHWEncodeUsed
 	+tests_video_MediaRecorderPerf
-	+tests_video_MultiplePlayback
 	+tests_video_PlaybackPerf
-	+tests_video_VideoCorruption
-	+tests_video_VideoDecodeMemoryUsage
-	+tests_video_VideoReload
 	+tests_video_VideoSanity
 	+tests_video_VideoSeek
 	+tests_video_WebRtcCamera
 	+tests_video_WebRtcMediaRecorder
 	+tests_video_WebRtcPerf
 	+tests_video_WebRtcPeerConnectionWithCamera
-	+tests_video_YouTubeHTML5
-	+tests_video_YouTubeMseEme
-	+tests_video_YouTubePage
 )
 
 IUSE_TESTS_CELLULAR="
