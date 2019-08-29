@@ -1,0 +1,68 @@
+From 253652f5322d7034f54c6ef729db7a60b1970833 Mon Sep 17 00:00:00 2001
+From: Gert Wollny <gert.wollny@collabora.com>
+Date: Fri, 30 Aug 2019 15:36:51 +0200
+Subject: [PATCH] vrend: Keep track of GL_FRAMEBUFFER_SRGB state and restore it
+ after blits
+
+When doing a blit in blit_int we use the same context that we use for drawing.
+Now with qemu or crostini blits may be issued that are not issued by the guest
+program so that it expects a GL_FRAMEBUFFER_SRGB state that might actually have
+been clobbered.
+
+Keep track of how GL_FRAMEBUFFER_SRGB is set when the framebuffer state is issued,
+and restore its value after doing a blit via glBlitFramebuffer.
+
+Thanks to Lapton Wu for tracking this down.
+
+Fixes #126
+
+Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
+---
+ src/vrend_renderer.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
+index 75d99f3e..433cf0de 100644
+--- a/src/vrend_renderer.c
++++ b/src/vrend_renderer.c
+@@ -583,6 +583,7 @@ struct vrend_sub_context {
+    bool depth_test_enabled;
+    bool alpha_test_enabled;
+    bool stencil_test_enabled;
++   bool framebuffer_srgb_enabled;
+ 
+    GLuint program_id;
+    int last_shader_idx;
+@@ -2273,6 +2274,7 @@ static void vrend_hw_emit_framebuffer_state(struct vrend_context *ctx)
+       glReadBuffer(GL_NONE);
+       if (has_feature(feat_srgb_write_control)) {
+          glDisable(GL_FRAMEBUFFER_SRGB_EXT);
++         ctx->sub->framebuffer_srgb_enabled = false;
+       }
+    } else if (has_feature(feat_srgb_write_control)) {
+       struct vrend_surface *surf = NULL;
+@@ -2291,6 +2293,7 @@ static void vrend_hw_emit_framebuffer_state(struct vrend_context *ctx)
+       } else {
+          glDisable(GL_FRAMEBUFFER_SRGB_EXT);
+       }
++      ctx->sub->framebuffer_srgb_enabled = use_srgb;
+    }
+ 
+    if (vrend_state.use_gles &&
+@@ -8305,6 +8308,13 @@ static void vrend_renderer_blit_int(struct vrend_context *ctx,
+ 
+    glBindFramebuffer(GL_FRAMEBUFFER, ctx->sub->fb_id);
+ 
++   if (has_feature(feat_srgb_write_control)) {
++      if (ctx->sub->framebuffer_srgb_enabled)
++         glEnable(GL_FRAMEBUFFER_SRGB);
++      else
++         glDisable(GL_FRAMEBUFFER_SRGB);
++   }
++
+    if (make_intermediate_copy) {
+       vrend_renderer_resource_destroy(intermediate_copy);
+       glDeleteFramebuffers(1, &intermediate_fbo);
+-- 
+2.22.0
+
