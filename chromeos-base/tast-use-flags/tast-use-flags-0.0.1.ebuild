@@ -39,6 +39,8 @@ IUSE="
 	+internal_speaker
 	kernel-3_8
 	kernel-3_10
+	kernel-3_14
+	kernel-3_18
 	kvm_host
 	kvm_transition
 	lxc
