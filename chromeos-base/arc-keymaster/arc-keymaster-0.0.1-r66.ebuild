@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("5278d6f183913555174c074c4f8b71f166b521d2" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_COMMIT=("357bf3b88ac9d5af777d372fa0523a91bf50caf9" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
 CROS_WORKON_TREE=("b050a2ab2836dd6da5e48eab3fd4ac328d4325bc" "b71e7214c188d28efe4e778afc62768da68ef3f3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
@@ -55,10 +55,18 @@ src_unpack() {
 
 src_prepare() {
 	cmake-utils_src_prepare
+
 	# Expose libhardware headers from arc-toolchain-p.
+	local arc_arch="${ARCH}"
+	# arm needs to use arm64 directory, which provides combined arm/arm64
+	# headers.
+	if [[ "${ARCH}" == "arm" ]]; then
+		arc_arch="arm64"
+	fi
 	mkdir -p "${WORKDIR}/libhardware/include" || die
-	cp -rfp "/opt/android-p/${ARCH}/usr/include/hardware" "${WORKDIR}/libhardware/include" || die
+	cp -rfp "/opt/android-p/${arc_arch}/usr/include/hardware" "${WORKDIR}/libhardware/include" || die
 	append-cxxflags "-I${WORKDIR}/libhardware/include"
+
 	# Expose BoringSSL headers and outputs.
 	append-cxxflags "-I${WORKDIR}/${BORINGSSL_P}/include"
 	append-ldflags "-L${BORINGSSL_OUTDIR}"
