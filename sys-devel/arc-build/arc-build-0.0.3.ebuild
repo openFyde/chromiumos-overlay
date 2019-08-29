@@ -81,7 +81,6 @@ multilib_src_install_all() {
 	# arm needs to use arm64 directory, which provides combined arm/arm64
 	# headers and libraries, except on NYC where we do not provide arm64
 	# support.
-	einfo "${ARC_VERSION_CODENAME}"
 	# TODO(b:138786145): Fix qt/master toolchain as well
 	if [[ "${ARCH}" == "arm" && "${ARC_VERSION_CODENAME}" != "nyc" &&
 			"${ARC_VERSION_CODENAME}" != "qt" &&
