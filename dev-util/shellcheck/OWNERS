@@ -1,4 +1,3 @@
 set noparent
 
-bmgordon@chromium.org
-cjmcdonald@chromium.org
+include chromiumos/third_party/shellcheck:/OWNERS
