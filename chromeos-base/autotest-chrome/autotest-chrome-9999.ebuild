@@ -47,12 +47,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS=(
-	# Uses chrome_binary_test dependency.
-	+tests_video_JDAPerf
-	+tests_video_JEAPerf
-	+tests_video_VDAPerf
-	+tests_video_VEAPerf
-
 	# Tests that depend on telemetry.
 	+tests_accessibility_Sanity
 	+tests_accessibility_ChromeVoxSound
@@ -236,10 +230,6 @@ IUSE_TESTS=(
 	+tests_touch_TouchscreenZoom
 	+tests_touch_StylusTaps
 	+tests_video_AVAnalysis
-	+tests_video_HangoutHardwarePerf
-	+tests_video_MediaRecorderPerf
-	+tests_video_PlaybackPerf
-	+tests_video_WebRtcPerf
 )
 
 IUSE_TESTS_CELLULAR="
