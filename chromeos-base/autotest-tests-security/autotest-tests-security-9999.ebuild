@@ -43,7 +43,6 @@ IUSE_TESTS="
 	+tests_security_NosymfollowMountOption
 	+tests_security_ProcessManagementPolicy
 	+tests_security_RootfsOwners
-	selinux? ( +tests_security_SELinux )
 	+tests_security_SysVIPC
 	x86? ( +tests_security_x86Registers )
 	amd64? ( +tests_security_x86Registers )
