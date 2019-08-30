@@ -382,17 +382,29 @@ src_test() {
 		ewarn "No SELinuxNeverallowRulesTest.java found. CTS neverallow pre-test is skipped."
 		return
 	fi
-	if ! ( use cheets_user || use cheets_user_64 ); then
-		ewarn "ARC not user build. CTS neverallow pre-test is skipped."
+	if use android-container-master-arc-dev; then
+		ewarn "master-arc-dev is known to include policies that breaks CTS neverallow rules."
+		ewarn "search arc_cts_fails_release in platform2/sepolicy for more details."
+		ewarn "CTS pre-test is skipped."
 		return
 	fi
-	(
-		grep "boolean compatiblePropertyOnly = false;" -B 2 |
-		grep "boolean fullTrebleOnly = false;" -B 1 |
-		grep neverallowRule |
-		sed -e 's/.*"\(neverallow.*\)";/\1/g'
-	) < "$neverallowjava" > neverallows
+	if use android-container-pi || use android-container-qt; then
+		(
+			grep "boolean compatiblePropertyOnly = false;" -B 2 |
+			grep "boolean fullTrebleOnly = false;" -B 1 |
+			grep neverallowRule |
+			sed -E 's/.*"(neverallow.*)";/\1/g'
+		) < "${neverallowjava}" > neverallows
+	else # nyc
+		(
+			grep "String neverallowRule = " |
+			sed -E 's/.*"(neverallow.*)";/\1/g'
+		) < "${neverallowjava}" > neverallows
+	fi
 	local loc="$(wc -l neverallows | awk '{print $1;}')"
+	if [[ "${loc}" -lt "100" ]]; then
+		die "too few test cases. something is wrong."
+	fi
 	local cur=0
 	while read -r rule; do
 		cur=$((cur+1))
