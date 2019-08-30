@@ -68,6 +68,11 @@ src_prepare() {
 	# Expose BoringSSL headers and outputs.
 	append-cxxflags "-I${WORKDIR}/${BORINGSSL_P}/include"
 	append-ldflags "-L${BORINGSSL_OUTDIR}"
+	# Backport clang fallthru patches to fix newer clang builds.
+	# https://boringssl-review.googlesource.com/c/boringssl/+/37244
+	# https://boringssl-review.googlesource.com/c/boringssl/+/37247
+	cd "${WORKDIR}/${BORINGSSL_P}" || die
+	epatch "${FILESDIR}"/boringssl-clang-fallthru.patch
 	# Patch keymaster context.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
 	epatch "${FILESDIR}/keymaster-context-hooks.patch"
