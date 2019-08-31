@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("357bf3b88ac9d5af777d372fa0523a91bf50caf9" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_COMMIT=("b855a118bf83d5ea496868d97d9c2fb396e00ebf" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
 CROS_WORKON_TREE=("b050a2ab2836dd6da5e48eab3fd4ac328d4325bc" "b71e7214c188d28efe4e778afc62768da68ef3f3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
@@ -70,6 +70,11 @@ src_prepare() {
 	# Expose BoringSSL headers and outputs.
 	append-cxxflags "-I${WORKDIR}/${BORINGSSL_P}/include"
 	append-ldflags "-L${BORINGSSL_OUTDIR}"
+	# Backport clang fallthru patches to fix newer clang builds.
+	# https://boringssl-review.googlesource.com/c/boringssl/+/37244
+	# https://boringssl-review.googlesource.com/c/boringssl/+/37247
+	cd "${WORKDIR}/${BORINGSSL_P}" || die
+	epatch "${FILESDIR}"/boringssl-clang-fallthru.patch
 	# Patch keymaster context.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
 	epatch "${FILESDIR}/keymaster-context-hooks.patch"
