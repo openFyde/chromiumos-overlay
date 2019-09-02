@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="1e8571e216ed3f8fb7154109bb29e85adbafa48b"
-CROS_WORKON_TREE="188e327ff48223bdb214483e7e71988952c91e57"
+CROS_WORKON_COMMIT="59e9d0b5dea20af32b82b99e6edd1a4b9abaf3e3"
+CROS_WORKON_TREE="a22932d14b1c6bf2160c548d882ca508f92d6e29"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -45,7 +45,6 @@ IUSE_TESTS="
 	+tests_security_NosymfollowMountOption
 	+tests_security_ProcessManagementPolicy
 	+tests_security_RootfsOwners
-	selinux? ( +tests_security_SELinux )
 	+tests_security_SysVIPC
 	x86? ( +tests_security_x86Registers )
 	amd64? ( +tests_security_x86Registers )
