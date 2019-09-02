@@ -19,6 +19,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 DEPEND=">=dev-rust/rand-0.6.4:=
 	=dev-rust/chrono-0.4*:=
+	=dev-rust/clap-2.33*:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/env_logger-0.6.1:=
 	=dev-rust/built-0.3*:=
