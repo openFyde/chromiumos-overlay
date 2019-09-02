@@ -2,21 +2,23 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="03a0b4a186336f3a27dbbeee2e21877674901e4d"
-CROS_WORKON_TREE="4430ac514b5302f76bb9683ea09e8fd05ffcd235"
+CROS_WORKON_COMMIT="dea0a6324f58e13c1c0b23ea33626f5211675a6f"
+CROS_WORKON_TREE=("968c62566a03aa7f1c2b5f60de51ab46d948a9b1" "7637c40bd3d13727126e5c821568f962c89eb83f")
 CROS_WORKON_PROJECT="chromiumos/platform/touch_updater"
+CROS_WORKON_SUBTREE="policies scripts"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
 inherit cros-workon user
 
 DESCRIPTION="Touch firmware and config updater"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://www.chromium.org/chromium-os"
 SRC_URI=""
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="input_devices_synaptics
+IUSE="
+	input_devices_synaptics
 	input_devices_wacom
 	input_devices_etphidiap
 	input_devices_st
@@ -34,11 +36,12 @@ IUSE="input_devices_synaptics
 # checked in a new one to chromeos-base/, please move it to sys-apps/ before
 # adding it as a dependency here.
 RDEPEND="
+	chromeos-base/chromeos-touch-common
 	input_devices_synaptics? ( chromeos-base/rmi4utils )
 	input_devices_wacom? ( chromeos-base/wacom_fw_flash )
-	input_devices_etphidiap? ( sys-apps/etphidiap )
+	input_devices_etphidiap? ( chromeos-base/chromeos-touch-etphidiap )
 	input_devices_st? ( chromeos-base/st_flash )
-	input_devices_st_touchscreen? ( sys-apps/st-touch-fw-updater )
+	input_devices_st_touchscreen? ( chromeos-base/chromeos-touch-stupdate )
 	input_devices_weida? ( chromeos-base/weida_wdt_util )
 	input_devices_goodix? ( chromeos-base/gdix_hid_firmware_update )
 	input_devices_sis? ( chromeos-base/sisConsoletool )
@@ -46,14 +49,9 @@ RDEPEND="
 	input_devices_g2touch? ( chromeos-base/g2update_tool )
 	input_devices_cirque? ( chromeos-base/cirque_fw_update )
 	input_devices_elan_i2chid? ( chromeos-base/elan_i2chid_tools )
-	sys-apps/mosys
 "
 
 pkg_preinst() {
-	if use input_devices_etphidiap || use input_devices_st_touchscreen; then
-		enewgroup fwupdate-i2c
-		enewuser fwupdate-i2c
-	fi
 	if use input_devices_elan_i2chid; then
 		enewgroup fwupdate-hidraw
 		enewuser fwupdate-hidraw
