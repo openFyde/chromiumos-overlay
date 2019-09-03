@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/platform/factory"
 CROS_WORKON_LOCALNAME="factory"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -30,6 +30,7 @@ DEPEND="virtual/chromeos-bsp-factory
 BUILD_DIR="${WORKDIR}/build"
 
 src_prepare() {
+	default
 	# Need the lddtree from the chromite dir.
 	export PATH="${CHROMITE_BIN_DIR}:${PATH}"
 }
@@ -46,6 +47,7 @@ src_configure() {
 	export SRCROOT="${CROS_WORKON_SRCROOT}"
 	export TARGET_DIR=/usr/local/factory
 	export WEBGL_AQUARIUM_DIR="${WORKDIR}/webgl_aquarium_static"
+	export FROM_EBUILD=1
 
 	# Support out-of-tree build.
 	export BUILD_DIR="${WORKDIR}/build"
