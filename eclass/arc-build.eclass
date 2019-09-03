@@ -81,6 +81,7 @@ arc-build-select-clang() {
 		# we need to add some flags valid only for arm/arm64, so we trick
 		# it to think that neither arm nor arm64 is the default.
 		export DEFAULT_ABI=none
+		export CHOST=aarch64-linux-android
 		export CHOST_arm64=aarch64-linux-android
 		export CHOST_arm=arm-linux-androideabi
 
@@ -119,6 +120,13 @@ arc-build-select-clang() {
 		export PATH="${ARC_GCC_BASE}/bin:${PATH}"
 		;;
 	esac
+
+	# Make sure we use the 64-bit strip/objcopy that can handle both 32-bit
+	# and 64-bit binaries.
+	STRIP="$(tc-getSTRIP ${CHOST})"
+	export STRIP
+	OBJCOPY="$(tc-getOBJCOPY ${CHOST})"
+	export OBJCOPY
 
 	# Some linkers (namely ARM64's bfd linker) do no have this flag set by
 	# default.
