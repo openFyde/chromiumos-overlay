@@ -4,9 +4,18 @@
 
 EAPI=5
 
-CROS_WORKON_PROJECT="chromiumos/platform/ec"
-CROS_WORKON_LOCALNAME="ec"
-CROS_WORKON_DESTDIR="${S}/platform/ec"
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/ec"
+	"chromiumos/third_party/cryptoc"
+)
+CROS_WORKON_LOCALNAME=(
+	"ec"
+	"../third_party/cryptoc"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform/ec"
+	"${S}/third_party/cryptoc"
+)
 
 inherit toolchain-funcs cros-workon cros-unibuild coreboot-sdk
 
