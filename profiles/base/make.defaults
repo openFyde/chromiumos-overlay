@@ -168,3 +168,7 @@ TTY_CONSOLE="tty2"
 # Explicitly set the default value to "" otherwise portage will default it to
 # "*".
 CROS_WORKON_TREE=""
+
+# We don't use the news feature anywhere.  Disable it to avoid useless runtime
+# overhead (especially with locking checks).
+FEATURES="-news"
