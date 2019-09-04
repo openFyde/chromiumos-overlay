@@ -17,7 +17,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="iwlwifi_dump sata"
+IUSE="iwlwifi_dump nvme sata"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login
@@ -39,6 +39,7 @@ COMMON_DEPEND="
 "
 RDEPEND="${COMMON_DEPEND}
 	iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump )
+	nvme? ( sys-apps/nvme-cli )
 "
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-login
