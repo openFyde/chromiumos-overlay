@@ -4,11 +4,20 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="519f9cdf0d50d87111e45227e9f0efea3686a8e1"
-CROS_WORKON_TREE="e5885610704bff6cfc73d92f23eded66f296e4e6"
-CROS_WORKON_PROJECT="chromiumos/platform/ec"
-CROS_WORKON_LOCALNAME="ec"
-CROS_WORKON_DESTDIR="${S}/platform/ec"
+CROS_WORKON_COMMIT=("519f9cdf0d50d87111e45227e9f0efea3686a8e1" "e05bfa91102dd5137b4027b4f3405e041ffe2c32")
+CROS_WORKON_TREE=("e5885610704bff6cfc73d92f23eded66f296e4e6" "1f42f6d549ba7b3f6bc5d67029984b113787ae0d")
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/ec"
+	"chromiumos/third_party/cryptoc"
+)
+CROS_WORKON_LOCALNAME=(
+	"ec"
+	"../third_party/cryptoc"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform/ec"
+	"${S}/third_party/cryptoc"
+)
 
 inherit toolchain-funcs cros-workon cros-unibuild coreboot-sdk
 
