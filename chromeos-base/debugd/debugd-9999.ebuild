@@ -17,7 +17,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="iwlwifi_dump tpm"
+IUSE="iwlwifi_dump sata"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login
@@ -35,7 +35,7 @@ COMMON_DEPEND="
 	sys-apps/iproute2
 	sys-apps/memtester
 	sys-apps/rootdev
-	sys-apps/smartmontools
+	sata? ( sys-apps/smartmontools )
 "
 RDEPEND="${COMMON_DEPEND}
 	iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump )
