@@ -58,3 +58,17 @@ https://crbug.com/812425
    if (!HaveCapability(CAP_SYS_ADMIN)) return;  // Skip test.
    ScopedTempDir tmpdir("/tmp/quipper_tmp.");
    ScopedTempDir mntdir("/tmp/quipper_mnt.");
+
+https://crbug.com/1000545
+
+--- a/perf_serializer_test.cc
++++ b/perf_serializer_test.cc
+@@ -729,7 +729,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceEvents) {
+   }
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceErrorEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesAuxtraceErrorEvents) {
+   std::stringstream input;
+ 
+   // header
