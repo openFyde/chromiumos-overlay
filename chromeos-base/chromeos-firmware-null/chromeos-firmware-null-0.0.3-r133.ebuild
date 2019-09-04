@@ -57,9 +57,5 @@ src_compile() {
 }
 
 src_install() {
-	elog "Dummy implementation to replace cros-firmware.eclass"
-}
-
-src_test() {
-	echo "Dummy implementation to replace cros-firmware.eclass"
+	einfo "Dummy implementation to replace cros-firmware.eclass"
 }
