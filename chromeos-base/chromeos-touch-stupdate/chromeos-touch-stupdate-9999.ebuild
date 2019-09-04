@@ -19,6 +19,7 @@ KEYWORDS="~*"
 RDEPEND="
 	chromeos-base/chromeos-touch-common
 	sys-apps/st-touch-fw-updater
+	!<chromeos-base/touch_updater-0.0.1-r167
 "
 
 pkg_preinst() {

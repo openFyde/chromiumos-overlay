@@ -16,7 +16,10 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-RDEPEND="sys-apps/mosys"
+RDEPEND="
+	sys-apps/mosys
+	!<chromeos-base/touch_updater-0.0.1-r167
+"
 
 src_install() {
 	insinto "/opt/google/touch/scripts"

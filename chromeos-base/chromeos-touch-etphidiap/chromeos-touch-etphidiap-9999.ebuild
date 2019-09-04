@@ -19,6 +19,7 @@ KEYWORDS="~*"
 RDEPEND="
 	chromeos-base/chromeos-touch-common
 	sys-apps/etphidiap
+	!<chromeos-base/touch_updater-0.0.1-r167
 "
 
 pkg_preinst() {
