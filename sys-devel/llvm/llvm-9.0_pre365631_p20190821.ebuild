@@ -28,6 +28,8 @@ EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 LICENSE="UoI-NCSA"
 SLOT="8"
 KEYWORDS="-* amd64"
+# FIXME: llvm-tot is somewhat misleading: at the moment, it's essentially
+# llvm-next with a few extra checks enabled
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi llvm-next
 	llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot multitarget
 	ncurses ocaml python test +thinlto xml video_cards_radeon"
@@ -135,9 +137,7 @@ apply_pgo_profile() {
 src_unpack() {
 	local llvm_hash
 
-	if use llvm-tot; then
-		llvm_hash="origin/master"
-	elif use llvm-next; then
+	if use llvm-next || use llvm-tot; then
 		llvm_hash="${LLVM_NEXT_HASH}"
 	else
 		llvm_hash="${LLVM_HASH}"
