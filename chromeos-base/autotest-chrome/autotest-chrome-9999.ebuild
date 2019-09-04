@@ -235,6 +235,7 @@ IUSE_TESTS=(
 	+tests_touch_TouchscreenTaps
 	+tests_touch_TouchscreenZoom
 	+tests_touch_StylusTaps
+	+tests_video_AVAnalysis
 	+tests_video_HangoutHardwarePerf
 	+tests_video_MediaRecorderPerf
 	+tests_video_PlaybackPerf
