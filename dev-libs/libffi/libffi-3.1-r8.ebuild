@@ -40,7 +40,8 @@ src_prepare() {
 	epatch \
 		"${FILESDIR}"/${P}-execstack.patch \
 		"${FILESDIR}"/${P}-typing_error.patch \
-		"${FILESDIR}"/${PN}-clang-asm-syntax.patch
+		"${FILESDIR}"/${PN}-clang-asm-syntax.patch \
+		"${FILESDIR}"/${PN}-allow-PROT_EXEC-PROT_WRITE.patch
 
 	sed -i -e 's:@toolexeclibdir@:$(libdir):g' Makefile.in || die #462814
 	# http://sourceware.org/ml/libffi-discuss/2014/msg00060.html
