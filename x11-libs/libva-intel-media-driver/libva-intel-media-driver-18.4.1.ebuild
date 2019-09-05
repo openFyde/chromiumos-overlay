@@ -53,6 +53,7 @@ PATCHES=(
 	"${FILESDIR}"/0016-VP-Add-VP-pipeline-in-PutImage.patch
 	"${FILESDIR}"/0017-VP-Add-NV21-kernel-rule.patch
 	"${FILESDIR}"/0018-VP-Refactor-image-creation-and-image-capability.patch
+	"${FILESDIR}"/0019-Encoder-VP8-GEN9-GEN10-GEN11-Ensure-forced_lf_adjust.patch
 )
 
 src_configure() {
