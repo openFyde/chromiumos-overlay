@@ -8,4 +8,4 @@ UBSAN_ENABLED_FLAGS="${UBSAN_ENABLED_FLAGS},signed-integer-overflow,shift,vla-bo
 
 CFLAGS=" -fsanitize=${UBSAN_ENABLED_FLAGS} -fno-sanitize-recover=all"
 CXXFLAGS=" -fsanitize=${UBSAN_ENABLED_FLAGS} -fno-sanitize-recover=all"
-LDFLAGS=" -Xcompiler -fsanitize=${UBSAN_ENABLED_FLAGS} -Xcompiler -fno-sanitize-recover=all"
+LDFLAGS=" -Xcompiler -fsanitize=${UBSAN_ENABLED_FLAGS} -Xcompiler -fno-sanitize-recover=all -Wl,--allow-shlib-undefined"

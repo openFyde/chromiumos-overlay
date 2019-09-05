@@ -5,4 +5,4 @@
 # Compiler flags to build all packages with libfuzzer.
 CFLAGS=" -fsanitize=fuzzer-no-link"
 CXXFLAGS=" -fsanitize=fuzzer-no-link"
-LDFLAGS=" -Xcompiler -fsanitize=fuzzer-no-link"
+LDFLAGS=" -Xcompiler -fsanitize=fuzzer-no-link -Wl,--allow-shlib-undefined"
