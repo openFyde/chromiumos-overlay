@@ -44,6 +44,8 @@ RDEPEND="
 pkg_preinst() {
 	enewuser cros_healthd
 	enewgroup cros_healthd
+	enewuser healthd_ec
+	enewgroup healthd_ec
 
 	if use wilco; then
 		enewuser wilco_dtc
@@ -80,6 +82,8 @@ src_install() {
 	insinto /usr/share/policy
 	newins "init/cros_healthd-seccomp-${ARCH}.policy" \
 		cros_healthd-seccomp.policy
+	newins "ectool/ectool_i2cread-seccomp-${ARCH}.policy" \
+		ectool_i2cread-seccomp.policy
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
@@ -93,6 +97,8 @@ src_install() {
 	exeinto /usr/libexec/diagnostics
 	doexe "${OUT}/urandom"
 	doexe "${OUT}/smartctl-check"
+	# Install the helper executables required by telemetry.
+	doexe "${OUT}/cros_healthd_helper"
 
 	# Install udev rules.
 	udev_dorules udev/*.rules
