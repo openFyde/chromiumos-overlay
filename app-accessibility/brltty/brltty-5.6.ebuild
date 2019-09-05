@@ -7,7 +7,7 @@ EAPI=5
 FINDLIB_USE="ocaml"
 
 inherit findlib eutils multilib toolchain-funcs java-pkg-opt-2 flag-o-matic \
-	autotools udev user
+	autotools udev user cros-sanitizers
 
 DESCRIPTION="Daemon that provides access to the Linux/Unix console for a blind person"
 HOMEPAGE="http://mielke.cc/brltty/"
@@ -57,6 +57,7 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	tc-export AR LD PKG_CONFIG
 	# override prefix in order to install into /
 	# braille terminal needs to be available as soon in the boot process as
