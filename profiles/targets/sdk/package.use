@@ -119,3 +119,5 @@ dev-libs/libffi		static-libs
 
 # MariaDB connector must run in MySQL compatible mode in the SDK for autotest
 dev-db/mariadb-connector-c  mysqlcompat
+
+dev-lang/ruby -rdoc
