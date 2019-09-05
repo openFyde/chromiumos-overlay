@@ -110,6 +110,7 @@ ALL_BOARDS=(
 	cranky
 	cyan
 	cyan-cheets
+	cyan-kernelnext
 	cyclone
 	daisy
 	#daisy-drm
