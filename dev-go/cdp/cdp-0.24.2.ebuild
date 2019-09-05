@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/mafredri/cdp v0.22.0"
+CROS_GO_SOURCE="github.com/mafredri/cdp v0.24.2"
 
 CROS_GO_PACKAGES=(
 	"github.com/mafredri/cdp"
