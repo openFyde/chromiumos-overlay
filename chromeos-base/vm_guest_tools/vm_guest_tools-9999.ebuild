@@ -75,7 +75,6 @@ platform_pkg_test() {
 	)
 
 	local container_tests=(
-		garcon_app_search_test
 		garcon_desktop_file_test
 		garcon_icon_index_file_test
 		garcon_icon_finder_test
