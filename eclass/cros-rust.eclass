@@ -264,11 +264,11 @@ cros-rust_src_configure() {
 
 	use cros-debug && rustflags+=( -Cdebug-assertions=on )
 
-	use asan && rustflags+=( -Csanitizer=address )
-	use lsan && rustflags+=( -Csanitizer=leak )
-	use msan && rustflags+=( -Csanitizer=memory )
-	use tsan && rustflags+=( -Csanitizer=thread )
-	use ubsan && rustflags+=( -Clink-arg=-fsanitize=undefined )
+	use asan && rustflags+=( -Clink-arg=-fuse-ld=gold -Csanitizer=address )
+	use lsan && rustflags+=( -Clink-arg=-fuse-ld=gold -Csanitizer=leak )
+	use msan && rustflags+=( -Clink-arg=-fuse-ld=gold -Csanitizer=memory )
+	use tsan && rustflags+=( -Clink-arg=-fuse-ld=gold -Csanitizer=thread )
+	use ubsan && rustflags+=( -Clink-arg=-fuse-ld=gold -Clink-arg=-fsanitize=undefined )
 
 	if use fuzzer; then
 		rustflags+=(
