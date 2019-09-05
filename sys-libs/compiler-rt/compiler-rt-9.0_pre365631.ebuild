@@ -19,7 +19,7 @@ HOMEPAGE="http://compiler-rt.llvm.org/"
 LICENSE="UoI-NCSA"
 SLOT="0"
 KEYWORDS="*"
-IUSE="llvm-next llvm-tot"
+IUSE="llvm-crt llvm-next llvm-tot"
 DEPEND="sys-devel/llvm"
 if [[ ${CATEGORY} == cross-* ]] ; then
 	DEPEND+="
@@ -78,7 +78,7 @@ src_configure() {
 		"-DLLVM_ENABLE_PROJECTS=compiler-rt"
 
 		# crbug/855759
-		"-DCOMPILER_RT_BUILD_CRT=OFF"
+		"-DCOMPILER_RT_BUILD_CRT=$(usex llvm-crt)"
 	)
 
 	if [[ ${CTARGET} == *-eabi ]]; then

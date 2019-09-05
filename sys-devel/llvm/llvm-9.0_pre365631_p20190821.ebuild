@@ -30,9 +30,9 @@ SLOT="8"
 KEYWORDS="-* amd64"
 # FIXME: llvm-tot is somewhat misleading: at the moment, it's essentially
 # llvm-next with a few extra checks enabled
-IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi llvm-next
-	llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot multitarget
-	ncurses ocaml python test +thinlto xml video_cards_radeon"
+IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi llvm-crt
+	llvm-next llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot
+	multitarget ncurses ocaml python test +thinlto xml video_cards_radeon"
 
 COMMON_DEPEND="
 	sys-libs/zlib:0=
@@ -224,7 +224,7 @@ multilib_src_configure() {
 		"-DENABLE_EXPERIMENTAL_NEW_PASS_MANAGER=ON"
 
 		# crbug/855759
-		"-DCOMPILER_RT_BUILD_CRT=OFF"
+		"-DCOMPILER_RT_BUILD_CRT=$(usex llvm-crt)"
 
 		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 		"-DCLANG_DEFAULT_UNWINDLIB=libgcc"
