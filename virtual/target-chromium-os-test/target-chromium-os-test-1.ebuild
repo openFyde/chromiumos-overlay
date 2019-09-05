@@ -120,6 +120,7 @@ CROS_COMMON_RDEPEND+="
 CROS_X86_RDEPEND="
 	app-benchmarks/sysbench
 	sys-apps/pciutils
+	sys-power/iasl
 	vaapi? ( media-gfx/vadumpcaps media-video/libva-utils )
 	x11-misc/read-edid
 "
