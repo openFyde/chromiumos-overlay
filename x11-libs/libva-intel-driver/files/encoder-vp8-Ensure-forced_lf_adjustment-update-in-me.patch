@@ -1,0 +1,31 @@
+From 87379f67bbbce0ecea3d97f50f35317dc68da3b5 Mon Sep 17 00:00:00 2001
+From: Sreerenj Balachandran <sreerenj.balachandran@intel.com>
+Date: Fri, 6 Sep 2019 11:07:56 -0700
+Subject: [PATCH] encoder: vp8: Ensure forced_lf_adjustment update in media
+ kernel
+
+Ensure the submission of forced_lf_adjustment in
+mode probablity update kernel curbe. This will help to fix
+the ffmpeg decoder output md5 mismatch with vpxdec for
+the Intel encoded video samples.
+
+Reported, Tested and Verified by Hirokazu Honda<hiroh@google.com>
+---
+ src/i965_encoder_vp8.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/i965_encoder_vp8.c b/src/i965_encoder_vp8.c
+index e2e096587679..797984d8798e 100644
+--- a/src/i965_encoder_vp8.c
++++ b/src/i965_encoder_vp8.c
+@@ -4381,6 +4381,7 @@ i965_encoder_vp8_vme_mpu_set_curbe(VADriverContextP ctx,
+     pcmd->dw1.sign_bias_golden = pic_param->pic_flags.bits.sign_bias_golden;
+     pcmd->dw1.sign_bias_alt_ref = pic_param->pic_flags.bits.sign_bias_alternate;
+     pcmd->dw1.refresh_entropy_p = pic_param->pic_flags.bits.refresh_entropy_probs;
++    pcmd->dw1.forced_lf_update_for_key_frame = pic_param->pic_flags.bits.forced_lf_adjustment;
+ 
+     pcmd->dw2.loop_filter_level = pic_param->loop_filter_level[0];
+     pcmd->dw2.qindex = quant_param->quantization_index[0];
+-- 
+2.17.1
+

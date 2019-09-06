@@ -53,6 +53,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-use-the-right-buffer-for-the-2nd-level-batchbuffer.patch
 	epatch "${FILESDIR}"/UPSTREAM-update-avc-media-kernel-for-bdw-bsw.patch
 	epatch "${FILESDIR}"/UPSTREAM-Make-vaExportSurfaceHandle-work-for-IMC3.patch
+	epatch "${FILESDIR}"/encoder-vp8-Ensure-forced_lf_adjustment-update-in-me.patch
 
 	sed -e 's/intel-gen4asm/\0diSaBlEd/g' -i configure.ac || die
 	autotools-multilib_src_prepare
