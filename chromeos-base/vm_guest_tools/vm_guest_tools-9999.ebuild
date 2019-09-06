@@ -51,6 +51,7 @@ src_install() {
 		dobin "${OUT}"/garcon
 		dobin "${OUT}"/notificationd
 		dobin "${OUT}"/sommelier
+		dobin "${OUT}"/upgrade_container
 		dobin "${OUT}"/virtwl_guest_proxy
 		dobin "${OUT}"/wayland_demo
 		dobin "${OUT}"/x11_demo

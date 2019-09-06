@@ -56,6 +56,9 @@ src_install() {
 	)
 	cp -aL "${dlopen_libs[@]}" "${WORKDIR}"/container_pkg/lib/
 
+	# These are scripts, so lddtree doesn't like them.
+	cp -aL "${SYSROOT}/usr/bin/upgrade_container" "${WORKDIR}/container_pkg/bin"
+
 	insinto /opt/google/cros-containers
 	insopts -m0755
 	doins -r "${WORKDIR}"/container_pkg/*
