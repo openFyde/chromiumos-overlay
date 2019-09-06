@@ -125,6 +125,7 @@ src_prepare() {
 	fi
 	epatch "${FILESDIR}"/python-2.7.10-cross-setup-sysroot.patch
 	epatch "${FILESDIR}"/python-2.7.10-cross-distutils.patch
+	epatch "${FILESDIR}"/python-2.7.10-cross-sysconfig.patch
 	epatch "${FILESDIR}"/python-2.7.10-ldshared.patch
 	# Undo the @libdir@ change for portage's pym folder as it is always
 	# installed into /usr/lib/ and not the abi libdir.

@@ -83,6 +83,7 @@ src_prepare() {
 	epatch "${FILESDIR}/python-3.6.5-cross-python-config.patch"
 	epatch "${FILESDIR}/python-3.6.5-cross-setup-sysroot.patch"
 	epatch "${FILESDIR}/python-3.6.5-cross-distutils.patch"
+	epatch "${FILESDIR}/python-3.6.5-cross-sysconfig.patch"
 	epatch "${FILESDIR}/python-3.6.5-ldshared.patch"
 	epatch "${FILESDIR}/python-3.6.5-system-libffi.patch"
 	epatch "${FILESDIR}/python-3.6.5-sigint-handler.patch"
