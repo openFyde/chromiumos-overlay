@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit cmake-utils
+inherit cmake-utils cros-sanitizers
 
 DESCRIPTION="a userland driver for IPP-over-USB class USB devices."
 HOMEPAGE="https://github.com/OpenPrinting/ippusbxd"
@@ -24,6 +24,11 @@ PATCHES=(
 	"${FILESDIR}/unix-socket.patch"
 	"${FILESDIR}/read-transfer-backoff.patch"
 )
+
+src_configure() {
+	sanitizers-setup-env
+	cmake-utils_src_configure
+}
 
 src_install() {
 	dobin "${BUILD_DIR}/ippusbxd"
