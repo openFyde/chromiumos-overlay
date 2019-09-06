@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND=">=dev-python/google-resumable-media-0.3.1[${PYTHON_USEDEP}]
-	>=dev-python/google-cloud-core-0.28[${PYTHON_USEDEP}]
-	>=dev-python/google-api-core-0.1.1[${PYTHON_USEDEP}]"
+	>=dev-python/google-cloud-core-1.0.3[${PYTHON_USEDEP}]
+	>=dev-python/google-auth-1.2.0[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]"

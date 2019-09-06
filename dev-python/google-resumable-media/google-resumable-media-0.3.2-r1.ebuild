@@ -1,1 +1,0 @@
-google-resumable-media-0.3.2.ebuild
