@@ -23,7 +23,7 @@ HOMEPAGE="https://www.shellcheck.net/"
 
 LICENSE="GPL-3"
 SLOT="0/${PV}"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE=""
 
 DEPEND="dev-haskell/aeson:=[profile?]
