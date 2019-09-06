@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="719f34a63b22e6e1090ae258f1a60752bf534c6f"
+CROS_WORKON_COMMIT="60260f62df616d46724a551a05c5cc136dfd5c4d"
 CROS_WORKON_TREE=("b050a2ab2836dd6da5e48eab3fd4ac328d4325bc" "037322a439e182a8696e6ddd5c43966f85e71018" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -19,7 +19,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="iwlwifi_dump sata"
+IUSE="iwlwifi_dump nvme sata"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login
@@ -41,6 +41,7 @@ COMMON_DEPEND="
 "
 RDEPEND="${COMMON_DEPEND}
 	iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump )
+	nvme? ( sys-apps/nvme-cli )
 "
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-login
