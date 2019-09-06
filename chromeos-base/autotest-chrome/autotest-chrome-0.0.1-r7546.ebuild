@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="13c05390689d673b86827bda49ec97cecea1b8c2"
-CROS_WORKON_TREE="fe03f78e64bdf2f9c7f5294baf60c04d551a28b7"
+CROS_WORKON_COMMIT="05763f585c70d21781ef55231a28a583b9d9ef8a"
+CROS_WORKON_TREE="124ea71c2f254e970f53ae8b5ed8e94c5a7dfc5b"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -52,12 +52,7 @@ IUSE_TESTS=(
 	# Uses chrome_binary_test dependency.
 	+tests_video_JDAPerf
 	+tests_video_JEAPerf
-	+tests_video_JpegDecodeAccelerator
-	+tests_video_JpegEncodeAccelerator
-	+tests_video_VideoDecodeAccelerator
-	+tests_video_VideoEncodeAccelerator
 	+tests_video_VDAPerf
-	+tests_video_VDASanity
 	+tests_video_VEAPerf
 
 	# Tests that depend on telemetry.
@@ -242,27 +237,10 @@ IUSE_TESTS=(
 	+tests_touch_TouchscreenTaps
 	+tests_touch_TouchscreenZoom
 	+tests_touch_StylusTaps
-	+tests_video_ChromeHWDecodeUsed
-	+tests_video_ChromeRTCHWEncodeUsed
-	+tests_video_ChromeVidResChangeHWDecode
-	+tests_video_GlitchDetection
 	+tests_video_HangoutHardwarePerf
-	+tests_video_MediaRecorderHWEncodeUsed
 	+tests_video_MediaRecorderPerf
-	+tests_video_MultiplePlayback
 	+tests_video_PlaybackPerf
-	+tests_video_VideoCorruption
-	+tests_video_VideoDecodeMemoryUsage
-	+tests_video_VideoReload
-	+tests_video_VideoSanity
-	+tests_video_VideoSeek
-	+tests_video_WebRtcCamera
-	+tests_video_WebRtcMediaRecorder
 	+tests_video_WebRtcPerf
-	+tests_video_WebRtcPeerConnectionWithCamera
-	+tests_video_YouTubeHTML5
-	+tests_video_YouTubeMseEme
-	+tests_video_YouTubePage
 )
 
 IUSE_TESTS_CELLULAR="
