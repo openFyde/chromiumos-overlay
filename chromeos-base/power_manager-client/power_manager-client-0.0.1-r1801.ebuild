@@ -1,24 +1,23 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI="5"
 
-CROS_WORKON_COMMIT="c02184b9631f512180e18fe19036c5f5f8b9245b"
-CROS_WORKON_TREE=("fd02e6090c8f07ce200c4a4a20eefc55a064dc6d" "037322a439e182a8696e6ddd5c43966f85e71018" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0e19589f0c5625d36f6f6c54731cb4a66424e279"
+CROS_WORKON_TREE=("fd02e6090c8f07ce200c4a4a20eefc55a064dc6d" "a52dab927bbfb3486897bcf45afe99dcee2585f0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk debugd .gn"
+CROS_WORKON_SUBTREE="common-mk power_manager .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="debugd/client"
+PLATFORM_SUBDIR="power_manager/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="Chrome OS debugd client library"
+DESCRIPTION="Power manager DBus client library for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
-SRC_URI=""
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -36,7 +35,11 @@ DEPEND="
 	>=chromeos-base/libbrillo-0.0.1-r1
 "
 
+RDEPEND="
+	!<chromeos-base/power_manager-0.0.2
+"
+
 src_install() {
-  # Install DBus client library.
-  platform_install_dbus_client_lib "debugd"
+	# Install DBus client library.
+	platform_install_dbus_client_lib "power_manager"
 }
