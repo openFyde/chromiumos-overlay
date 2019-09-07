@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="c02184b9631f512180e18fe19036c5f5f8b9245b"
-CROS_WORKON_TREE=("fd02e6090c8f07ce200c4a4a20eefc55a064dc6d" "233f5952eb9512217485c581dfa4d131e5f67c22" "f543a07bb08e1844aa89baf2539cd77ac0ea0b61" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6d70441bcab16b9994e967b0411dea3e584de3ad"
+CROS_WORKON_TREE=("fd02e6090c8f07ce200c4a4a20eefc55a064dc6d" "0fd51ec814ec91361bfd296e4b0b1da2bcd01a28" "f543a07bb08e1844aa89baf2539cd77ac0ea0b61" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -30,6 +30,7 @@ RDEPEND="
 	chromeos-base/libbrillo
 	chromeos-base/metrics
 	dev-libs/libpcre:=
+	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-misc/curl
 	|| ( sys-apps/journald sys-apps/systemd )
