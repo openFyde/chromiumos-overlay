@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="05763f585c70d21781ef55231a28a583b9d9ef8a"
-CROS_WORKON_TREE="124ea71c2f254e970f53ae8b5ed8e94c5a7dfc5b"
+CROS_WORKON_COMMIT="383a3ed2bf60f66552afd3caaffaf2b3b1047598"
+CROS_WORKON_TREE="276654bc73a8cfff0be9078091bede8f1aa923c6"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic libchrome cros-debug cros-workon autotest
@@ -41,8 +41,6 @@ RDEPEND="${RDEPEND}
 		chromeos-base/metrics
 		dev-python/protobuf-python
 	)
-	tests_platform_RootPartitionsNotMounted? ( sys-apps/rootdev )
-	tests_platform_RootPartitionsNotMounted? ( virtual/udev )
 	tests_platform_SecureEraseFile? ( chromeos-base/secure-erase-file )
 	tests_hardware_MemoryLatency? ( app-benchmarks/lmbench )
 	tests_hardware_MemoryThroughput? ( app-benchmarks/lmbench )
@@ -220,7 +218,6 @@ CLIENT_IUSE_TESTS="
 	)
 	cups? ( +tests_platform_PrinterPpds )
 	+tests_platform_Rootdev
-	+tests_platform_RootPartitionsNotMounted
 	+tests_platform_SecureEraseFile
 	!chromeless_tty? ( +tests_platform_SessionManagerStateKeyGeneration )
 	+tests_platform_TabletMode
