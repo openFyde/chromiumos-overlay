@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="42147cc6d125db94a3f2ac38f482ba34a609f33c"
+CROS_WORKON_COMMIT="1e286153c6b95118a1fc0dde9afb1171f01d20e9"
 CROS_WORKON_TREE="63045e788d5ab6ca9f4bd60edd8c6753ef190864"
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
@@ -21,6 +21,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 DEPEND=">=dev-rust/rand-0.6.4:=
 	=dev-rust/chrono-0.4*:=
+	=dev-rust/clap-2.33*:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/env_logger-0.6.1:=
 	=dev-rust/built-0.3*:=
