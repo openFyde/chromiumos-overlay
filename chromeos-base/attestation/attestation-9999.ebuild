@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk attestation chaps tpm_manager trunks .gn"
+CROS_WORKON_SUBTREE="common-mk attestation chaps libhwsec tpm_manager trunks .gn"
 
 PLATFORM_SUBDIR="attestation"
 
@@ -39,6 +39,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	test? ( chromeos-base/libhwsec )
 	chromeos-base/vboot_reference
 	tpm2? (
 		chromeos-base/trunks[test?]
