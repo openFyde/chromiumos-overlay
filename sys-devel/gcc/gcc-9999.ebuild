@@ -361,49 +361,57 @@ EOF
 	toolchain_src_install
 
 	cd "${D}$(get_bin_dir)"
+
+	local use_llvm_next=false
+	if use llvm-next || use llvm-tot
+	then
+		use_llvm_next=true
+	fi
+
 	if is_crosscompile ; then
+		local sysroot_wrapper_file_prefix
+		local sysroot_wrapper_config
 		if use hardened
 		then
-			SYSROOT_WRAPPER_FILE=sysroot_wrapper.hardened
-			SYSROOT_WRAPPER_FLAGS=sysroot_wrapper.hardened.flags
-			SYSROOT_WRAPPER_HEADER=sysroot_wrapper.hardened.header
+			sysroot_wrapper_file_prefix=sysroot_wrapper.hardened
+			sysroot_wrapper_config=cros.hardened
 		else
-			SYSROOT_WRAPPER_FILE=sysroot_wrapper
-			SYSROOT_WRAPPER_FLAGS=sysroot_wrapper.flags
-			SYSROOT_WRAPPER_HEADER=sysroot_wrapper.header
+			sysroot_wrapper_file_prefix=sysroot_wrapper
+			sysroot_wrapper_config=cros.nonhardened
 		fi
 
 		exeinto "$(get_bin_dir)"
-		if use llvm-next || use llvm-tot
-		then
-			cat "${FILESDIR}/${SYSROOT_WRAPPER_HEADER}" \
-				"${FILESDIR}/wrapper_script_common" \
-				"${FILESDIR}/${SYSROOT_WRAPPER_FLAGS}" \
-				"${FILESDIR}/llvm_next.flags" \
-				"${FILESDIR}/sysroot_wrapper.body" > \
-			"${D}$(get_bin_dir)/${SYSROOT_WRAPPER_FILE}" || die
-		else
-			cat "${FILESDIR}/${SYSROOT_WRAPPER_HEADER}" \
-				"${FILESDIR}/wrapper_script_common" \
-				"${FILESDIR}/${SYSROOT_WRAPPER_FLAGS}" \
-				"${FILESDIR}/sysroot_wrapper.body" > \
-			"${D}$(get_bin_dir)/${SYSROOT_WRAPPER_FILE}" || die
-		fi
-		chmod 755 "${D}$(get_bin_dir)/${SYSROOT_WRAPPER_FILE}" || die
 		cat "${FILESDIR}/bisect_driver.py" > \
 			"${D}$(get_bin_dir)/bisect_driver.py" || die
 
-		sed -i \
-			-e "/^  use_ccache = .*@CCACHE_DEFAULT@/s:=[^#]*:= $(usex wrapper_ccache True False) :" \
-			"${D}$(get_bin_dir)/${SYSROOT_WRAPPER_FILE}" || die
+		# Note: We are always producing both versions, with and without ccache,
+		# so we can replace the behavior of the wrapper without rebuilding it.
+		# Used e.g. in chromite/scripts/cros_setup_toolchains.py to disable the
+		# ccache for simplechrome toolchains.
+		local ccache_suffixes=(noccache ccache)
+		local ccache_option_values=(false true)
+		for ccache_index in {0,1}; do
+			local ccache_suffix="${ccache_suffixes[${ccache_index}]}"
+			local ccache_option="${ccache_option_values[${ccache_index}]}"
+			# Build new golang wrapper
+			"${FILESDIR}/compiler_wrapper/build.py" --config="${sysroot_wrapper_config}" \
+				--use_ccache="${ccache_option}" \
+				--use_llvm_next="${use_llvm_next}" \
+				--output_file="${D}$(get_bin_dir)/${sysroot_wrapper_file_prefix}.${ccache_suffix}" || die
+		done
+
+		local use_ccache_index
+		use_ccache_index="$(usex wrapper_ccache 1 0)"
+		local sysroot_wrapper_file="${sysroot_wrapper_file_prefix}.${ccache_suffixes[${use_ccache_index}]}"
+
 		for x in c++ cpp g++ gcc; do
 			if [[ -f "${CTARGET}-${x}" ]]; then
 				mv "${CTARGET}-${x}" "${CTARGET}-${x}.real"
-				dosym "${SYSROOT_WRAPPER_FILE}" "$(get_bin_dir)/${CTARGET}-${x}" || die
+				dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${CTARGET}-${x}" || die
 			fi
 		done
 		for x in clang clang++; do
-			dosym "${SYSROOT_WRAPPER_FILE}" "$(get_bin_dir)/${CTARGET}-${x}" || die
+			dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${CTARGET}-${x}" || die
 		done
 		if use go; then
 			local wrapper="sysroot_wrapper.gccgo"
@@ -412,18 +420,23 @@ EOF
 			dosym "${wrapper}" "$(get_bin_dir)/${CTARGET}-gccgo" || die
 		fi
 	else
-		SYSROOT_WRAPPER_FILE=host_wrapper
+		local sysroot_wrapper_file=host_wrapper
+
 		exeinto "$(get_bin_dir)"
-		doexe "${FILESDIR}/${SYSROOT_WRAPPER_FILE}" || die
+
+		"${FILESDIR}/compiler_wrapper/build.py" --config=cros.host --use_ccache=false \
+			--use_llvm_next="${use_llvm_next}" \
+			--output_file="${D}$(get_bin_dir)/${sysroot_wrapper_file}" || die
+
 		for x in c++ cpp g++ gcc; do
 			if [[ -f "${CTARGET}-${x}" ]]; then
 				mv "${CTARGET}-${x}" "${CTARGET}-${x}.real"
-				dosym "${SYSROOT_WRAPPER_FILE}" "$(get_bin_dir)/${CTARGET}-${x}" || die
+				dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${CTARGET}-${x}" || die
 			fi
 			if [[ -f "${x}" ]]; then
 				ln "${CTARGET}-${x}.real" "${x}.real" || die
 				rm "${x}" || die
-				dosym "${SYSROOT_WRAPPER_FILE}" "$(get_bin_dir)/${x}" || die
+				dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${x}" || die
 			fi
 		done
 	fi
