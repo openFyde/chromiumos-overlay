@@ -42,6 +42,6 @@ EOF
 }
 
 src_install() {
-	insinto /opt/google/containers/pins
+	insinto /usr/local/opt/google/containers/pins
 	doins termina.json
 }

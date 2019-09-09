@@ -20,6 +20,7 @@ IUSE="
 	cr50_onboard
 	cros_ec
 	cros_embedded
+	kvm_host
 	hammerd
 	opengl
 	opengles
@@ -98,6 +99,10 @@ CROS_COMMON_RDEPEND="
 	sys-apps/memtester
 	virtual/autotest-capability
 	virtual/chromeos-bsp-test
+	kvm_host? (
+		chromeos-base/crostini-pin
+		chromeos-base/termina-pin
+	)
 "
 
 # Packages needed by FAFT.

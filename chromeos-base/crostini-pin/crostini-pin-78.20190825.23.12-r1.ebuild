@@ -53,7 +53,7 @@ EOF
 }
 
 src_install() {
-	insinto /opt/google/containers/pins
+	insinto /usr/local/opt/google/containers/pins
 	doins crostini_rootfs.json
 	doins crostini_metadata.json
 }

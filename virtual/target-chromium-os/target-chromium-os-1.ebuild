@@ -214,8 +214,6 @@ RDEPEND="
 		chromeos-base/chromeos-termina-scripts
 		chromeos-base/crosdns
 		chromeos-base/crostini_client
-		chromeos-base/crostini-pin
-		chromeos-base/termina-pin
 		chromeos-base/vm_host_tools
 	)
 	sys-kernel/linux-firmware
