@@ -13,6 +13,8 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 DEPEND="
-	=dev-rust/spin-0.4.10:=
+	=dev-rust/spin-0.5*:=
 "
