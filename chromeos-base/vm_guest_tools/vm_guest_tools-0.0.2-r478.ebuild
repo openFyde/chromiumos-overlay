@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="075a7a204ae3a315735eae3018a9b9c28098d3c1"
+CROS_WORKON_COMMIT="d7adfd0ae2fab317071fff4ab5406ca0cbea8a49"
 CROS_WORKON_TREE=("fd02e6090c8f07ce200c4a4a20eefc55a064dc6d" "b8e363454c893f88a76c5506b3adcc64c32a35ce" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -77,7 +77,6 @@ platform_pkg_test() {
 	)
 
 	local container_tests=(
-		garcon_app_search_test
 		garcon_desktop_file_test
 		garcon_icon_index_file_test
 		garcon_icon_finder_test
