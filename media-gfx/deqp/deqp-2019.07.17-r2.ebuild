@@ -5,7 +5,7 @@ EAPI="5"
 
 CMAKE_MAKEFILE_GENERATOR="ninja"
 
-inherit cmake-utils
+inherit cmake-utils cros-sanitizers
 
 DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
 HOMEPAGE="https://android.googlesource.com/platform/external/deqp"
@@ -63,6 +63,8 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
+
 	# See crbug.com/585712.
 	append-lfs-flags
 
