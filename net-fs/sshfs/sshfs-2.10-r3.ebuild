@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+inherit cros-sanitizers
 
 DESCRIPTION="Fuse-filesystem utilizing the sftp service"
 HOMEPAGE="https://github.com/libfuse/sshfs"
@@ -21,4 +22,9 @@ DEPEND="${CDEPEND}
 src_prepare() {
 	eapply "${FILESDIR}"/sshfs-2.10-mount-mode.patch
 	eapply_user
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
