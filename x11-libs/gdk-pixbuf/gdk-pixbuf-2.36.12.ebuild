@@ -4,7 +4,7 @@
 EAPI=6
 GNOME2_LA_PUNT="yes"
 
-inherit flag-o-matic gnome2 multilib multilib-minimal autotools
+inherit flag-o-matic gnome2 multilib multilib-minimal autotools cros-sanitizers
 
 DESCRIPTION="Image loading library for GTK+"
 HOMEPAGE="https://git.gnome.org/browse/gdk-pixbuf"
@@ -71,6 +71,7 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	sanitizers-setup-env
 	# png always on to display icons
 	ECONF_SOURCE="${S}" \
 	gnome2_src_configure \
