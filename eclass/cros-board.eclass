@@ -294,6 +294,7 @@ ALL_BOARDS=(
 	ppcbe-64-generic
 	ppcle-32-generic
 	ppcle-64-generic
+	puff
 	puppy
 	purin
 	pyro
