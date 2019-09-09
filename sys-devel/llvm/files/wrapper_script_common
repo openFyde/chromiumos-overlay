@@ -160,12 +160,18 @@ def double_build_with_wno_error(cmd,
   # All of the below is basically logging. If we fail at any point, it's
   # reasonable for that to fail the build. This is all meant for FYI-like
   # builders in the first place.
+
+  # Ensure that our mode below will pass through unharmed.
+  old_umask = os.umask(0)
+
   try:
     # Allow root and regular users to write to this without issue.
     os.makedirs(new_warnings_dir, mode=0o777)
   except OSError as e:
     if e.errno != errno.EEXIST:
       raise
+
+  os.umask(old_umask)
 
   # Have some tag to show that files aren't fully written. It would be sad if
   # an interrupted build (or out of disk space, or similar) caused tools to
@@ -181,6 +187,7 @@ def double_build_with_wno_error(cmd,
       dir=new_warnings_dir,
       text=True)
 
+  os.fchmod(file_handle, 0o666)
   output_to_log = '\n'.join(
       piece for piece in [original_stderr, original_stdout] if piece)
 
