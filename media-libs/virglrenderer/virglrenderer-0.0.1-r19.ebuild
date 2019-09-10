@@ -32,6 +32,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
+	"${FILESDIR}"/FROMLIST-vrend-Keep-track-of-GL_FRAMEBUFFER_SRGB-state-and-re.patch
 )
 
 src_prepare() {
