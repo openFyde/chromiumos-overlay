@@ -7,7 +7,7 @@ EAPI=5
 : ${CMAKE_MAKEFILE_GENERATOR:=ninja}
 PYTHON_COMPAT=( python2_7 )
 
-inherit  cros-constants check-reqs cmake-utils eutils flag-o-matic git-2 git-r3 \
+inherit  cros-constants cmake-utils eutils flag-o-matic git-2 git-r3 \
 	multilib multilib-minimal python-single-r1 toolchain-funcs pax-utils
 
 # llvm:361749 https://critique.corp.google.com/#review/252092293
@@ -70,58 +70,6 @@ REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	llvm_pgo_generate? ( !llvm_pgo_use )"
 
-pkg_pretend() {
-	# in megs
-	# !clang !debug !multitarget -O2       400
-	# !clang !debug  multitarget -O2       550
-	#  clang !debug !multitarget -O2       950
-	#  clang !debug  multitarget -O2      1200
-	# !clang  debug  multitarget -O2      5G
-	#  clang !debug  multitarget -O0 -g  12G
-	#  clang  debug  multitarget -O2     16G
-	#  clang  debug  multitarget -O0 -g  14G
-
-	local build_size=550
-
-	if use debug; then
-		ewarn "USE=debug is known to increase the size of package considerably"
-		ewarn "and cause the tests to fail."
-		ewarn
-
-		(( build_size *= 14 ))
-	elif is-flagq '-g?(gdb)?([1-9])'; then
-		ewarn "The C++ compiler -g option is known to increase the size of the package"
-		ewarn "considerably. If you run out of space, please consider removing it."
-		ewarn
-
-		(( build_size *= 10 ))
-	fi
-
-	# Multiply by number of ABIs :).
-	local abis=( $(multilib_get_enabled_abis) )
-	(( build_size *= ${#abis[@]} ))
-
-	local CHECKREQS_DISK_BUILD=${build_size}M
-	check-reqs_pkg_pretend
-
-	if [[ ${MERGE_TYPE} != binary ]]; then
-		echo 'int main() {return 0;}' > "${T}"/test.cxx || die
-		ebegin "Trying to build a C++11 test program"
-		if ! $(tc-getCXX) -std=c++11 -o /dev/null "${T}"/test.cxx; then
-			eerror "LLVM-${PV} requires C++11-capable C++ compiler. Your current compiler"
-			eerror "does not seem to support -std=c++11 option. Please upgrade your compiler"
-			eerror "to gcc-4.7 or an equivalent version supporting C++11."
-			die "Currently active compiler does not support -std=c++11"
-		fi
-		eend ${?}
-	fi
-}
-
-pkg_setup() {
-	pkg_pretend
-	export CMAKE_USE_DIR="${S}/llvm"
-}
-
 check_lld_works() {
 	echo 'int main() {return 0;}' > "${T}"/lld.cxx || die
 	echo "Trying to link program with lld"
@@ -135,6 +83,8 @@ apply_pgo_profile() {
 }
 
 src_unpack() {
+	export CMAKE_USE_DIR="${S}/llvm"
+
 	local llvm_hash
 
 	if use llvm-next || use llvm-tot; then

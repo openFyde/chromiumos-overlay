@@ -614,6 +614,9 @@ get_kheader_version() {
 # pkg_ and src_ phases, so we call this function both in pkg_pretend and in
 # src_unpack.
 sanity_prechecks() {
+	# CrOS makes sure these checks all pass.
+	return
+
 	# Make sure devpts is mounted correctly for use w/out setuid pt_chown
 	check_devpts
 
@@ -742,7 +745,8 @@ sanity_prechecks() {
 
 # pkg_pretend
 
-pkg_pretend() {
+# CrOS doesn't care about these checks.
+disabled_pkg_pretend() {
 	# All the checks...
 	einfo "Checking general environment sanity."
 	sanity_prechecks
