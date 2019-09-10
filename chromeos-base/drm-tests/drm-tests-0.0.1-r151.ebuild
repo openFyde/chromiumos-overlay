@@ -1,12 +1,12 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 CROS_WORKON_COMMIT="317bfd8cfbaf233f672af56b935ff291f72fd699"
 CROS_WORKON_TREE="e1998d3d31d440c821ab3134addea4c9122d13cc"
 CROS_WORKON_PROJECT="chromiumos/platform/drm-tests"
 
-inherit cros-workon toolchain-funcs
+inherit cros-sanitizers cros-workon toolchain-funcs
 
 DESCRIPTION="Chrome OS DRM Tests"
 
@@ -27,6 +27,11 @@ RDEPEND="virtual/opengles
 	)"
 DEPEND="${RDEPEND}
 	x11-drivers/opengles-headers"
+
+src_configure() {
+	sanitizers-setup-env
+	cros-workon_src_configure
+}
 
 src_compile() {
 	tc-export CC
