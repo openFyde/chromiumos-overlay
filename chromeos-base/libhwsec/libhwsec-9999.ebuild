@@ -45,9 +45,7 @@ src_install() {
 	fi
 
 	dolib.so "${OUT}"/lib/libhwsec.so
-	if ! use tpm2; then
-		dolib.a "${OUT}"/libhwsec_test.a
-	fi
+	dolib.a "${OUT}"/libhwsec_test.a
 }
 
 
