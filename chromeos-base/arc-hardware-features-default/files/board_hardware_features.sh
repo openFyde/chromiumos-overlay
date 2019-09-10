@@ -50,7 +50,8 @@ has_gyro() {
 }
 
 has_light_sensor () {
-  has_hardware_property has-light-sensor
+  has_hardware_property has-base-light-sensor ||
+      has_hardware_property has-lid-light-sensor
 }
 
 has_multicamera() {
