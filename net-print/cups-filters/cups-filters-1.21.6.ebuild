@@ -5,7 +5,7 @@ EAPI=6
 
 GENTOO_DEPEND_ON_PERL=no
 
-inherit perl-module systemd flag-o-matic
+inherit perl-module systemd flag-o-matic cros-sanitizers
 
 if [[ "${PV}" == "9999" ]] ; then
 	inherit bzr autotools
@@ -64,6 +64,13 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
+	# lld complains about duplicate definition of new/delete operator
+	# in filter/pdftoraster.cxx conflicting with asan's.
+	# TODO(crbug.com/1001587): Fix operator duplicate definition with asan.
+	# Temporary allow multiple definition to unblock asan build with lld.
+	use_sanitizers && append-ldflags "-Wl,--allow-multiple-definition"
+
 	# These two variables are required to configure cups-filters.
 	# Without them, ./configure script tries to run $PKG_CONFIG to
 	# find qpdf, what fails on missing libjpeg dependency defined
