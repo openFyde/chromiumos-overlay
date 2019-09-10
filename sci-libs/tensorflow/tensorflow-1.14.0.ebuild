@@ -179,8 +179,12 @@ src_prepare() {
 	# Exceptions are required for jsoncpp.
 	! use minimal && cros_enable_cxx_exceptions
 
-	# Can cause linker errors with full TF.
-	tc-ld-is-gold && append-ldflags "-Wl,--no-experimental-use-relr"
+	# Can cause linker errors with full TF with relr relocations.
+	if tc-ld-is-lld; then
+		append-ldflags "-Wl,--pack-dyn-relocs=none"
+	elif tc-ld-is-gold; then
+		append-ldflags "-Wl,--no-experimental-use-relr"
+	fi
 
 	bazel_setup_bazelrc
 	bazel_setup_crosstool "$(get-cpu-str "${CBUILD}")" "$(get-cpu-str "${CHOST}")"
