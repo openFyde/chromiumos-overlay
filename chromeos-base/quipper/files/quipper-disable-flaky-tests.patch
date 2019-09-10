@@ -63,12 +63,156 @@ https://crbug.com/1000545
 
 --- a/perf_serializer_test.cc
 +++ b/perf_serializer_test.cc
+@@ -452,7 +452,7 @@ TEST_P(SerializePerfDataFiles, TestBuildIDs) {
+   EXPECT_TRUE(deserializer.Deserialize(perf_data_proto));
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesTraceMetadata) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesTraceMetadata) {
+   std::stringstream input;
+ 
+   const size_t data_size =
+@@ -496,7 +496,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesTraceMetadata) {
+   EXPECT_EQ(tracing_metadata_str, deserializer.tracing_data());
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesPerfEventAttrEvent) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesPerfEventAttrEvent) {
+   std::stringstream input;
+ 
+   // header
+@@ -536,7 +536,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesPerfEventAttrEvent) {
+   EXPECT_EQ(0, perf_data_proto.events().size());
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesPerfFileAttr) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesPerfFileAttr) {
+   std::stringstream input;
+ 
+   // header
+@@ -579,7 +579,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesPerfFileAttr) {
+   EXPECT_EQ(0, perf_data_proto.events().size());
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesMmapEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesMmapEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -646,7 +646,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesMmapEvents) {
+   }
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceInfoEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesAuxtraceInfoEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -688,7 +688,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceInfoEvents) {
+   }
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesAuxtraceEvents) {
+   std::stringstream input;
+ 
+   // header
 @@ -729,7 +729,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceEvents) {
    }
  }
  
 -TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceErrorEvents) {
 +TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesAuxtraceErrorEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -789,7 +789,7 @@ TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesAuxtraceErrorEvents)
+   EXPECT_TRUE(matches) << difference;
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesThreadMapEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesThreadMapEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -835,7 +835,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesThreadMapEvents) {
+   }
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesStatConfigEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesStatConfigEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -905,7 +905,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesStatConfigEvents) {
+   EXPECT_TRUE(matches) << difference;
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesStatEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesStatEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -956,7 +956,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesStatEvents) {
+   EXPECT_TRUE(matches) << difference;
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesStatRoundEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesStatRoundEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -1004,7 +1004,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesStatRoundEvents) {
+   EXPECT_TRUE(matches) << difference;
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesTimeConvEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesTimeConvEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -1042,7 +1042,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesTimeConvEvents) {
+ }
+ 
+ // Regression test for http://crbug.com/501004.
+-TEST(PerfSerializerTest, SerializesAndDeserializesBuildIDs) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesBuildIDs) {
+   std::stringstream input;
+ 
+   // header
+@@ -1173,7 +1173,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesBuildIDs) {
+ }
+ 
+ // Regression test for http://crbug.com/500746.
+-TEST(PerfSerializerTest, SerializesAndDeserializesForkAndExitEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesForkAndExitEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -1282,7 +1282,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesForkAndExitEvents) {
+   }
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesContextSwitchEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesContextSwitchEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -1368,7 +1368,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesContextSwitchEvents) {
+   }
+ }
+ 
+-TEST(PerfSerializerTest, SerializesAndDeserializesNamespacesEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesNamespacesEvents) {
+   std::stringstream input;
+ 
+   // header
+@@ -1425,7 +1425,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesNamespacesEvents) {
+ }
+ 
+ // Regression test for http://crbug.com/500746.
+-TEST(PerfSerializerTest, DeserializeLegacyExitEvents) {
++TEST(PerfSerializerTest, DISABLED_DeserializeLegacyExitEvents) {
    std::stringstream input;
  
    // header
