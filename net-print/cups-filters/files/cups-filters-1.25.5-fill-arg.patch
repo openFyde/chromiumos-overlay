@@ -1,0 +1,27 @@
+From babcf7930db50be896833c87938b0fb7a13c7f3e Mon Sep 17 00:00:00 2001
+From: Sean Kau <skau@chromium.org>
+Date: Mon, 9 Sep 2019 22:25:42 -0700
+Subject: [PATCH] fill arg
+
+Sent upstream https://github.com/OpenPrinting/cups-filters/pull/153
+
+---
+ filter/foomatic-rip/foomaticrip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/filter/foomatic-rip/foomaticrip.c b/filter/foomatic-rip/foomaticrip.c
+index a21b1a5e..ed4ae1d0 100644
+--- a/filter/foomatic-rip/foomaticrip.c
++++ b/filter/foomatic-rip/foomaticrip.c
+@@ -1105,7 +1105,7 @@ int main(int argc, char** argv)
+         if (dontparse == 2) {
+             /* Raw queue, simply pass the input into the postpipe (or to STDOUT
+                when there is no postpipe) */
+-            _log("Raw printing, executing \"cat %s\"\n\n");
++            _log("Raw printing, executing \"cat %%s\"\n\n");
+             snprintf(tmp, 1024, "cat %s", postpipe->data);
+             run_system_process("raw-printer", tmp);
+             continue;
+-- 
+2.23.0.162.g0b9fbb3734-goog
+

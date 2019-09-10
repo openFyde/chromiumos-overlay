@@ -1,0 +1,27 @@
+From c29ffca3e991b82ec929e6daa034e7b6c91519b4 Mon Sep 17 00:00:00 2001
+From: Zdenek Dohnal <zdohnal@redhat.com>
+Date: Mon, 12 Aug 2019 15:53:34 +0200
+Subject: [PATCH] Fix segfault when running foomatic-rip by hand and env
+ PRINTER is missing
+
+---
+ filter/foomatic-rip/spooler.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/filter/foomatic-rip/spooler.c b/filter/foomatic-rip/spooler.c
+index 7f0cb8ee..50dcbaf3 100644
+--- a/filter/foomatic-rip/spooler.c
++++ b/filter/foomatic-rip/spooler.c
+@@ -94,8 +94,7 @@ void init_cups(list_t *arglist, dstr_t *filelist, jobparams_t *job)
+        CUPS puts the print queue name into the PRINTER environment variable
+        when calling filters. */
+     strncpy(job->printer, getenv("PRINTER"), 256);
+-    if (strlen(getenv("PRINTER")) > 255)
+-      job->printer[255] = '\0';
++    job->printer[255] = '\0';
+ 
+     free(cups_options);
+ }
+-- 
+2.23.0.162.g0b9fbb3734-goog
+
