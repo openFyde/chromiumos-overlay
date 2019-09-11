@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="ff7fc9e4ab616f16edd549063508eaf0c762d411"
+CROS_WORKON_COMMIT="c5b961741480ca6c6e925b29d0bcb47238835ec4"
 CROS_WORKON_TREE="acfa713be50bf66b0df143867c1c6a505b0e7c65"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,7 +20,7 @@ KEYWORDS="*"
 DEPEND="chromeos-base/system_api
 	=dev-rust/dbus-0.6*:=
 	=dev-rust/getopts-0.2*:=
-	=dev-rust/lazy_static-1.2*:=
+	=dev-rust/lazy_static-1*:=
 	>=dev-rust/libc-0.2.44:=
 	!>=dev-rust/libc-0.3
 	>=dev-rust/protobuf-2.3:=
