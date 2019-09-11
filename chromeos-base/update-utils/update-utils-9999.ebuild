@@ -10,7 +10,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="nebraska stateful_update"
+CROS_WORKON_SUBTREE="nebraska stateful_update quick-provision"
 
 inherit cros-workon
 
@@ -30,7 +30,7 @@ src_install() {
 	into /usr/local
 	dobin nebraska/nebraska.py
 	dobin stateful_update
-	# TODO(crbug.com/940276): quick-provision here.
+	dobin quick-provision/quick-provision
 }
 
 src_test() {
