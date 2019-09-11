@@ -48,6 +48,7 @@ IUSE="
 	ml_service
 	moblab
 	mocktpm
+	msan
 	nyan_kitty
 	rialto
 	rk3399
@@ -59,6 +60,7 @@ IUSE="
 	spring
 	touchview
 	transparent_hugepage
+	ubsan
 	unibuild
 	usbguard
 	usbip
