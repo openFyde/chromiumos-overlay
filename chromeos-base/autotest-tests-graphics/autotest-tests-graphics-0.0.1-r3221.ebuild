@@ -2,12 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="8b008f8d8a2374f9b73eab6a2d829877305c1065"
-CROS_WORKON_TREE="803a0371219bc44db7701c7b5a8022bdf6a4f167"
+CROS_WORKON_COMMIT="b2f6d79c00b48d75050172749100a006b60afa93"
+CROS_WORKON_TREE="7b47c5774eb3805e18a9045db60ee84cb5ea9ada"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
-inherit cros-workon autotest
+inherit cros-sanitizers cros-workon autotest
 
 DESCRIPTION="Graphics autotests"
 HOMEPAGE="http://www.chromium.org/"
@@ -53,3 +53,8 @@ IUSE_TESTS="
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
+
+src_configure() {
+	sanitizers-setup-env
+	cros-workon_src_configure
+}
