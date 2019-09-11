@@ -5,7 +5,7 @@ EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
-inherit cros-workon autotest
+inherit cros-sanitizers cros-workon autotest
 
 DESCRIPTION="Graphics autotests"
 HOMEPAGE="http://www.chromium.org/"
@@ -51,3 +51,8 @@ IUSE_TESTS="
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
+
+src_configure() {
+	sanitizers-setup-env
+	cros-workon_src_configure
+}
