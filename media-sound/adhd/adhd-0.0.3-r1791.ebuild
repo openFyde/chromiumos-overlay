@@ -24,7 +24,6 @@ CROS_BOARDS=(
 	jecht
 	leon
 	link
-	lulu
 	mccloud
 	monroe
 	panther
