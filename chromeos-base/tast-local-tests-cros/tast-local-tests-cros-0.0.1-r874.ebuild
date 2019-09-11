@@ -43,6 +43,7 @@ IUSE="arc usbip"
 DEPEND="chromeos-base/tast-build-deps"
 
 RDEPEND="
+	chromeos-base/policy-testserver
 	chromeos-base/tast-local-helpers-cros
 	chromeos-base/wprgo
 	dev-libs/openssl:0=
