@@ -19,7 +19,7 @@ DEPEND=">=dev-rust/bitflags-1.0:=
 	>=dev-rust/libc-0.2:=
 	>=dev-rust/libgit2-sys-0.8.0:=
 	=dev-rust/log-0.4*:=
-	>=dev-rust/url-1.0:=
+	=dev-rust/url-1*:=
 	>=dev-rust/openssl-probe-0.1.2:=
 	>=dev-rust/openssl-sys-0.9.47:=
 "
