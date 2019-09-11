@@ -37,7 +37,7 @@ PATCHES=(
 	"${FILESDIR}"/UPSTREAM-vrend-Ignore-prev-shader-stages-in-shader-key-when-p.patch
 	"${FILESDIR}"/UPSTREAM-vrend-Unbind-sampler-view-after-creation.patch
 	"${FILESDIR}"/UPSTREAM-vrend-Use-view-target-instead-of-texture-target.patch
-	"${FILESDIR}"/FROMLIST-vrend-Keep-track-of-GL_FRAMEBUFFER_SRGB-state-and-re.patch
+	"${FILESDIR}"/UPSTREAM-vrend-Keep-track-of-GL_FRAMEBUFFER_SRGB-state-and-re.patch
 )
 
 src_prepare() {
