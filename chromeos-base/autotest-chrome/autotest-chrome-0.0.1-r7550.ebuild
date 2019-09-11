@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="c9fd5ffd782ce8642b977a597b15869c092b0f85"
-CROS_WORKON_TREE="39ea3c097f149a150f9a55daa1f2f20a17d3ca60"
+CROS_WORKON_COMMIT="951fb31379005bab960ccf6a8df064170078bd78"
+CROS_WORKON_TREE="00abe7115bc8f4f7af3796d68b4d3c281940f9d5"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -49,12 +49,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS=(
-	# Uses chrome_binary_test dependency.
-	+tests_video_JDAPerf
-	+tests_video_JEAPerf
-	+tests_video_VDAPerf
-	+tests_video_VEAPerf
-
 	# Tests that depend on telemetry.
 	+tests_accessibility_Sanity
 	+tests_accessibility_ChromeVoxSound
@@ -238,10 +232,6 @@ IUSE_TESTS=(
 	+tests_touch_TouchscreenZoom
 	+tests_touch_StylusTaps
 	+tests_video_AVAnalysis
-	+tests_video_HangoutHardwarePerf
-	+tests_video_MediaRecorderPerf
-	+tests_video_PlaybackPerf
-	+tests_video_WebRtcPerf
 )
 
 IUSE_TESTS_CELLULAR="
