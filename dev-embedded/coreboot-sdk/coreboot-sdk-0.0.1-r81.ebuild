@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="695128f3ab683b8779ca8d1a93621fd5ba81e632"
-CROS_WORKON_TREE="a3bb1577cb3e473745ba12ec2b6b68a9ede829db"
+CROS_WORKON_COMMIT="bbe75620a2a5fd5f993d5ca6b088d268dcb3216d"
+CROS_WORKON_TREE="bf66829cc5c8cc887eb52d3e6fdb6cf697580f59"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
 CROS_WORKON_SUBTREE="util/crossgcc"
