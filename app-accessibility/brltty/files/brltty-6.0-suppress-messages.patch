@@ -3,29 +3,31 @@ to the user when the api client is not connected.  This is needed because
 it is hard to localize those messages and they don't mean anything to
 the end user.
 diff --git a/Drivers/Screen/Linux/screen.c b/Drivers/Screen/Linux/screen.c
-index bc2f2c4..556ee9c 100644
+index 255e090bf..797f35b05 100644
 --- a/Drivers/Screen/Linux/screen.c
 +++ b/Drivers/Screen/Linux/screen.c
-@@ -52,15 +52,17 @@ typedef enum {
+@@ -53,10 +53,11 @@ typedef enum {
    PARM_CHARSET,
-   PARM_DEBUGSFM,
    PARM_HFB,
+   PARM_LOG_SFM,
 +  PARM_MSGS,
+   PARM_UNICODE,
    PARM_VT,
  } ScreenParameters;
--#define SCRPARMS "charset", "debugsfm", "hfb", "vt"
-+#define SCRPARMS "charset", "debugsfm", "hfb", "msgs", "vt"
+-#define SCRPARMS "charset", "hfb", "logsfm", "unicode", "vt"
++#define SCRPARMS "charset", "hfb", "logsfm", "msgs", "unicode", "vt"
  
  #include "scr_driver.h"
  #include "screen.h"
- 
+@@ -64,6 +65,7 @@ typedef enum {
  static const char *problemText;
- static unsigned int debugScreenFontMap;
+ static unsigned int logScreenFontMap;
+ static unsigned int directUnicode;
 +static unsigned int showProblemText = 1;
- static int virtualTerminal;
+ static int virtualTerminalNumber;
  
  #define UNICODE_ROW_DIRECT 0XF000
-@@ -1093,6 +1095,15 @@ processParameters_LinuxScreen (char **parameters) {
+@@ -1264,6 +1266,15 @@ processParameters_LinuxScreen (char **parameters) {
      }
    }
  
@@ -41,7 +43,7 @@ index bc2f2c4..556ee9c 100644
    return 1;
  }
  
-@@ -1388,7 +1399,7 @@ readCharacters_LinuxScreen (const ScreenBox *box, ScreenCharacter *buffer) {
+@@ -1616,7 +1627,7 @@ readCharacters_LinuxScreen (const ScreenBox *box, ScreenCharacter *buffer) {
    if (readScreenSize(&size)) {
      if (validateScreenBox(box, size.columns, size.rows)) {
        if (problemText) {
@@ -51,15 +53,15 @@ index bc2f2c4..556ee9c 100644
        }
  
 diff --git a/Programs/scr_driver.c b/Programs/scr_driver.c
-index 16d60d7..0797468 100644
+index b121c16d6..b1f31caae 100644
 --- a/Programs/scr_driver.c
 +++ b/Programs/scr_driver.c
 @@ -38,7 +38,7 @@ typedef enum {
  #define DRIVER_DEVELOPERS ""
  #include "scr_driver.h"
  
--static const char defaultScreenMessage[] = strtext("no screen");
-+static const char defaultScreenMessage[] = "";
- static const char *screenMessage = defaultScreenMessage;
- 
- static int
+-static const char defaultMessage[] = strtext("no screen");
++static const char defaultMessage[] = "";
+ static const char *messageParameter = NULL;
+ static const char *noDriverReason = NULL;
+ static const char *screenMessage = NULL;

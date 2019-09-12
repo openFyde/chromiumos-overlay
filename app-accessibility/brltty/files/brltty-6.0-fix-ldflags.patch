@@ -1,0 +1,63 @@
+diff --git a/configure.ac b/configure.ac
+index 94b12b924..dd1c96ae1 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -442,7 +442,7 @@ AC_CACHE_CHECK([for shared object creation command], [brltty_cv_prog_make_object
+    case "${host_os}"
+    in
+       linux*|gnu*|openbsd*|freebsd*|kfreebsd*|netbsd*|*qnx*|cygwin*|mingw*|elf*)
+-         brltty_mkshr_ld_make="-shared"
++         brltty_mkshr_ld_make="-shared ${LDFLAGS}"
+          ;;
+       solaris*)
+          brltty_mkshr_ld_make="-G"
+@@ -451,7 +451,7 @@ AC_CACHE_CHECK([for shared object creation command], [brltty_cv_prog_make_object
+          brltty_mkshr_ld_make="-b"
+          ;;
+       osf*)
+-         brltty_mkshr_ld_make="-shared"
++         brltty_mkshr_ld_make="-shared ${LDFLAGS}"
+          ;;
+       darwin*)
+          brltty_mkshr_ld_make="-bundle"
+@@ -468,7 +468,7 @@ AC_CACHE_CHECK([for shared object creation command], [brltty_cv_prog_make_object
+ 
+    if test "${GCC}" = "yes"
+    then
+-      brltty_cv_prog_make_object_shared="\$(CC) ${brltty_mkshr_gcc_make=-shared} BRLTTY_OPTIONS_LD2CC([${brltty_mkshr_ld_options}])"
++      brltty_cv_prog_make_object_shared="\$(CC) ${brltty_mkshr_gcc_make=-shared} ${LDFLAGS} BRLTTY_OPTIONS_LD2CC([${brltty_mkshr_ld_options}]) -o"
+    else
+       brltty_cv_prog_make_object_shared="\$(LD) ${brltty_mkshr_ld_make} ${brltty_mkshr_ld_options}"
+    fi
+@@ -491,7 +491,7 @@ AC_CACHE_CHECK([for dynamic library creation command], [brltty_cv_prog_mklib], [
+ case "${host_os}"
+ in
+    linux*|gnu*|openbsd*|freebsd*|kfreebsd*|netbsd*|*qnx*|elf*)
+-      brltty_mklib_ld_make="-shared"
++      brltty_mklib_ld_make="-shared ${LDFLAGS}"
+       brltty_mklib_ld_options="-soname"
+       ;;
+    solaris*)
+@@ -503,11 +503,11 @@ in
+       brltty_mklib_ld_options="+h"
+       ;;
+    osf*)
+-      brltty_mklib_ld_make="-shared"
++      brltty_mklib_ld_make="-shared ${LDFLAGS}"
+       brltty_mklib_ld_options="-expect_unresolved '*' -soname"
+       ;;
+    cygwin*|mingw*)
+-      brltty_mklib_ld_make="-shared"
++      brltty_mklib_ld_make="-shared ${LDFLAGS}"
+       brltty_mklib_ld_options="--out-implib implib.a --output-def lib.def -soname"
+       ;;
+    msdos*)
+@@ -553,7 +553,7 @@ in
+ esac
+ if test "${GCC}" = "yes"
+ then
+-   brltty_cv_prog_mklib="\$(CC) \$(LDFLAGS) ${brltty_mklib_gcc_make=-shared} BRLTTY_OPTIONS_LD2CC([${brltty_mklib_ld_options+${brltty_mklib_ld_options} <name>}]) -o"
++   brltty_cv_prog_mklib="\$(CC) \$(LDFLAGS) ${brltty_mklib_gcc_make=-shared} ${LDFLAGS} BRLTTY_OPTIONS_LD2CC([${brltty_mklib_ld_options+${brltty_mklib_ld_options} <name>}]) -o"
+ else
+    brltty_cv_prog_mklib="\$(LD) \$(LDFLAGS) ${brltty_mklib_ld_make} ${brltty_mklib_ld_options+${brltty_mklib_ld_options} <name>} -o"
+ fi])

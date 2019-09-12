@@ -11,7 +11,7 @@ inherit findlib eutils multilib toolchain-funcs java-pkg-opt-2 flag-o-matic \
 
 DESCRIPTION="Daemon that provides access to the Linux/Unix console for a blind person"
 HOMEPAGE="http://mielke.cc/brltty/"
-SRC_URI="http://mielke.cc/brltty/archive/${P}.tar.gz"
+SRC_URI="http://mielke.cc/brltty/archive/${P}.tar.xz"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
