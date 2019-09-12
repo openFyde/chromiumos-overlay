@@ -19,7 +19,7 @@ HOMEPAGE="http://compiler-rt.llvm.org/"
 LICENSE="UoI-NCSA"
 SLOT="0"
 KEYWORDS="*"
-IUSE="llvm-next"
+IUSE="llvm-next llvm-tot"
 DEPEND="sys-devel/llvm"
 if [[ ${CATEGORY} == cross-* ]] ; then
 	DEPEND+="
@@ -33,7 +33,7 @@ pkg_setup() {
 }
 
 src_unpack() {
-	if use llvm-next; then
+	if use llvm-next || use llvm-tot; then
 		export EGIT_COMMIT="${LLVM_NEXT_HASH}"
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"

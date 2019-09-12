@@ -19,7 +19,7 @@ LLVM_NEXT_HASH="6b043f051836635a1e88da4d0464e6569bd7b625" # r365631
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+compiler-rt cros_host libunwind msan llvm-next +static-libs test"
+IUSE="+compiler-rt cros_host libunwind msan llvm-next llvm-tot +static-libs test"
 
 RDEPEND="
 	libunwind? (
@@ -48,7 +48,7 @@ pkg_setup() {
 }
 
 src_unpack() {
-	if use llvm-next; then
+	if use llvm-next || use llvm-tot; then
 		export EGIT_COMMIT="${LLVM_NEXT_HASH}"
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"

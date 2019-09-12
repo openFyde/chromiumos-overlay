@@ -22,7 +22,7 @@ LLVM_NEXT_HASH="6b043f051836635a1e88da4d0464e6569bd7b625" # r365631
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt libunwind llvm-next msan +static-libs test"
+IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt libunwind llvm-next llvm-tot msan +static-libs test"
 REQUIRED_USE="libunwind? ( || ( libcxxabi libcxxrt ) )
 	?? ( libcxxabi libcxxrt )"
 
@@ -50,7 +50,7 @@ python_check_deps() {
 }
 
 src_unpack() {
-	if use llvm-next; then
+	if use llvm-next || use llvm-tot; then
 		export EGIT_COMMIT="${LLVM_NEXT_HASH}"
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"

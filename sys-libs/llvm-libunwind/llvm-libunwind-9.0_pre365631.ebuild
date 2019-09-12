@@ -17,7 +17,7 @@ LLVM_NEXT_HASH="6b043f051836635a1e88da4d0464e6569bd7b625" # r365631
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cros_host debug llvm-next +static-libs +shared-libs"
+IUSE="cros_host debug llvm-next llvm-tot +static-libs +shared-libs"
 RDEPEND="!${CATEGORY}/libunwind"
 
 DEPEND="${RDEPEND}
@@ -30,7 +30,7 @@ pkg_setup() {
 }
 
 src_unpack() {
-	if use llvm-next; then
+	if use llvm-next || use llvm-tot; then
 		export EGIT_COMMIT="${LLVM_NEXT_HASH}"
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"
@@ -51,6 +51,14 @@ src_prepare() {
 		--src_path "${S}" || die
 }
 
+should_enable_asserts() {
+	if use debug || use llvm-tot; then
+		echo yes
+	else
+		echo no
+	fi
+}
+
 multilib_src_configure() {
 	# Allow targeting non-neon targets for armv7a.
 	if [[ ${CATEGORY} == cross-armv7a* ]] ; then
@@ -62,7 +70,7 @@ multilib_src_configure() {
 		-DLLVM_ENABLE_PROJECTS="libunwind"
 		-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
 		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
-		-DLIBUNWIND_ENABLE_ASSERTIONS=$(usex debug)
+		-DLIBUNWIND_ENABLE_ASSERTIONS=$(should_enable_asserts)
 		-DLIBUNWIND_ENABLE_STATIC=$(usex static-libs)
 		-DLIBUNWIND_ENABLE_SHARED=$(usex shared-libs)
 		-DLIBUNWIND_TARGET_TRIPLE=${CTARGET}
