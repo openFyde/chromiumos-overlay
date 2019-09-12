@@ -34,7 +34,7 @@ CROS_ADDONS_TREE="/usr/local/portage/chromiumos/chromeos"
 cros_target() {
 	if [[ ${CROS_SDK_HOST} == "cros-sdk-host" ]] ; then
 		echo "cros_host"
-	elif [[ ${ROOT%/} == ${SYSROOT%/} ]] ; then
+	elif [[ "${SYSROOT:-/}" != "/" && "${ROOT%/}" == "${SYSROOT%/}" ]] ; then
 		echo "board_sysroot"
 	else
 		echo "target_image"
