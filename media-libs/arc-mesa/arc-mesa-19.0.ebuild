@@ -144,7 +144,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-anv-fix-build-on-Nougat.patch
 	epatch "${FILESDIR}"/CHROMIUM-remove-unknown-android-extensions.patch
 	epatch "${FILESDIR}"/CHROMIUM-disable-unknown-device-extensions.patch
-	epatch "${FILESDIR}"/CHROMIUM-disable-VK_KHR_draw_indirect_count.patch
 
 	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
 
