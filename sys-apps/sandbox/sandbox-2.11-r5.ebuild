@@ -36,6 +36,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-exec-hash.patch #578524
 	epatch "${FILESDIR}"/${P}-symbol-table-size.patch # crosbug.com/884234
 	epatch "${FILESDIR}"/${P}-lld.patch # crbug.com/982877
+	epatch "${FILESDIR}"/${P}-match-prefixes.patch # crbug.com/914263
 	epatch_user
 	eautoreconf
 }
