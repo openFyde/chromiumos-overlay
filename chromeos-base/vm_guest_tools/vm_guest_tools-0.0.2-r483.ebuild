@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="de129224fcac1b1ae3ebd2bcc4773e9e959fa205"
+CROS_WORKON_COMMIT="c6be7c4326c6cc8e44cd59beac03469d83ad4b26"
 CROS_WORKON_TREE=("3ec7544c4b108a15d3ea61facc0a4bbeace58eed" "59b097137cb18a02e0ec60d8cbe9d9295b8e16de" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -53,6 +53,7 @@ src_install() {
 		dobin "${OUT}"/garcon
 		dobin "${OUT}"/notificationd
 		dobin "${OUT}"/sommelier
+		dobin "${OUT}"/upgrade_container
 		dobin "${OUT}"/virtwl_guest_proxy
 		dobin "${OUT}"/wayland_demo
 		dobin "${OUT}"/x11_demo
