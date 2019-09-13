@@ -117,8 +117,20 @@
         "end_version": 369173
     },
     {
+        "comment": "Revert \"Make `vector` unconditionally move elements when exceptions are disabled.\"",
+        "rel_patch_path": "cherry/b370e7691a680b06f3c159c6a19582adf449de90.patch",
+        "start_version": 370808,
+        "end_version": 371068
+    },
+    {
         "comment": "Adds a whitelist of packages that have known memory leaks",
-        "rel_patch_path": "llvm-next-leak-whitelist.patch"
+        "rel_patch_path": "llvm-next-leak-whitelist.patch",
+        "end_version": 370808
+    },
+    {
+        "comment": "Adds a whitelist of packages that have known memory leaks",
+        "rel_patch_path": "llvm-next-leak-whitelist.v2.patch",
+        "start_version": 370808
     },
     {
         "comment": "Sets the ASAN message to go to /va/log/asan${pid} by\ndefault",
@@ -134,7 +146,13 @@
     },
     {
         "comment": "Fixes crbug/591436. Force fallback to traditional executable detection",
-        "rel_patch_path": "llvm-8.0-clang-executable-detection.patch"
+        "rel_patch_path": "llvm-8.0-clang-executable-detection.patch",
+        "end_version": 370808
+    },
+    {
+        "comment": "Fixes crbug/591436. Force fallback to traditional executable detection",
+        "rel_patch_path": "llvm-8.0-clang-executable-detection.v2.patch",
+        "start_version": 370808
     },
     {
         "comment": "Temporary workaround. Breakpad cannot handle Dwarf\nVersion 4. Works around issue by forcing Debug Frames\nversion of Dwarf to be version 1, while leaving the rest of\nthe Dwarf data at version 4",
@@ -143,12 +161,20 @@
     {
         "comment": "Reverts LLVM commit r335145 which is one of two \ncommits responsible for the crash of LLVM with r339409. The\npatch is temporary so when the bug is fixed, the patch can\nbe removed",
         "rel_patch_path": "llvm-8.0-revert-r335145.patch",
-        "start_version": 335146
+        "start_version": 335146,
+        "end_version": 371643
     },
     {
         "comment": "Reverts LLVM commit r335284 which is one of two\ncommits responsible for the crash of LLVM with r339409. The\npatch is temporary so when the bug is fixed, the patch can\nbe removed",
         "rel_patch_path": "clang-next-9.0-revert-r335284.patch",
-        "start_version": 365631
+        "start_version": 365631,
+        "end_version": 370808
+    },
+    {
+        "comment": "Reverts LLVM commit r335284 which is one of two\ncommits responsible for the crash of LLVM with r339409. The\npatch is temporary so when the bug is fixed, the patch can\nbe removed",
+        "rel_patch_path": "clang-next-9.0-revert-r335284.v2.patch",
+        "start_version": 370808,
+        "end_version": 371643
     },
     {
         "comment": "Fixes clang.elf calling clang.elf because direct\ncalls to clang.elf misses all environment setup in clang\nwrapper. Calls to clang wrapper instead of clang.elf binary",

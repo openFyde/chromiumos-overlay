@@ -45,7 +45,7 @@ PDEPEND=">=sys-devel/gcc-config-1.7"
 
 RESTRICT="mirror strip"
 
-IUSE="gcc_repo gcj git_gcc go graphite gtk hardened hardfp mounted_gcc multilib
+IUSE="gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm-next llvm-tot mounted_gcc multilib
 	nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache
 	next_gcc prev_gcc"
 REQUIRED_USE="next_gcc? ( !prev_gcc )"
@@ -373,11 +373,21 @@ EOF
 		fi
 
 		exeinto "$(get_bin_dir)"
-		cat "${FILESDIR}/${SYSROOT_WRAPPER_HEADER}" \
-			"${FILESDIR}/wrapper_script_common" \
-			"${FILESDIR}/${SYSROOT_WRAPPER_FLAGS}" \
-			"${FILESDIR}/sysroot_wrapper.body" > \
+		if use llvm-next || use llvm-tot
+		then
+			cat "${FILESDIR}/${SYSROOT_WRAPPER_HEADER}" \
+				"${FILESDIR}/wrapper_script_common" \
+				"${FILESDIR}/${SYSROOT_WRAPPER_FLAGS}" \
+				"${FILESDIR}/llvm_next.flags" \
+				"${FILESDIR}/sysroot_wrapper.body" > \
 			"${D}$(get_bin_dir)/${SYSROOT_WRAPPER_FILE}" || die
+		else
+			cat "${FILESDIR}/${SYSROOT_WRAPPER_HEADER}" \
+				"${FILESDIR}/wrapper_script_common" \
+				"${FILESDIR}/${SYSROOT_WRAPPER_FLAGS}" \
+				"${FILESDIR}/sysroot_wrapper.body" > \
+			"${D}$(get_bin_dir)/${SYSROOT_WRAPPER_FILE}" || die
+		fi
 		chmod 755 "${D}$(get_bin_dir)/${SYSROOT_WRAPPER_FILE}" || die
 		cat "${FILESDIR}/bisect_driver.py" > \
 			"${D}$(get_bin_dir)/bisect_driver.py" || die

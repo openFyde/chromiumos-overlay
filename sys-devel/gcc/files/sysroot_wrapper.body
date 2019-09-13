@@ -268,7 +268,7 @@ def main():
 
   print_cmdline = '-print-cmdline' in myargs
 
-  clang_cmdline = clang_flags + list(FLAGS_TO_ADD)
+  clang_cmdline = clang_flags + list(LLVM_NEXT_FLAGS_TO_ADD) + list(FLAGS_TO_ADD)
 
   gcc_cmdline = gcc_flags + list(FLAGS_TO_ADD)
 
