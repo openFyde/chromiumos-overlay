@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=4
-CROS_WORKON_COMMIT="154f2799ee5d37ae475b4b87183f5529aeaf637c"
-CROS_WORKON_TREE="89b6bec3e969149fc075f2ce8fbd38d7c1d0f5d4"
+CROS_WORKON_COMMIT="137d28f5239ff1a255b45d96222b8d3cbcedfa91"
+CROS_WORKON_TREE="9167746529ad3bf93aa69e5facc55fa7d2207f48"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -24,6 +24,7 @@ CROS_BOARDS=(
 	jecht
 	leon
 	link
+	lulu
 	mccloud
 	monroe
 	panther
