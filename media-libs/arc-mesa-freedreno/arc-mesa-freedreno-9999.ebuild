@@ -7,7 +7,7 @@ EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-freedreno"
 
-inherit base meson flag-o-matic toolchain-funcs cros-workon arc-build
+inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -59,6 +59,10 @@ src_prepare() {
 src_configure() {
 	arc-build-select-clang
 
+	multilib-minimal_src_configure
+}
+
+multilib_src_configure() {
 	# The AOSP build system defines the Make variable PLATFORM_SDK_VERSION,
 	# and Mesa's Android.mk files use it to define the macro
 	# ANDROID_API_LEVEL. Arc emulates that here.
@@ -106,25 +110,26 @@ src_configure() {
 	meson_src_configure
 }
 
-src_install() {
-	build_dir="${WORKDIR}/arc-mesa-freedreno-${PV}-build"
-	install_dir="${WORKDIR}/arc-mesa-freedreno-${PV}-install"
-	DESTDIR=${install_dir} ninja -C ${build_dir} install
-	vendor_dir="${install_dir}/opt/google/containers/android/vendor"
+# The meson eclass exports src_compile but not multilib_src_compile. src_compile
+# gets overridden by multilib-minimal
+multilib_src_compile() {
+	meson_src_compile
+}
 
+multilib_src_install() {
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)"
-	newexe ${vendor_dir}/lib/libglapi.so.0.0.0 libglapi.so.0.0.0
-	dosym libglapi.so.0.0.0 "${ARC_PREFIX}/vendor/$(get_libdir)"/libglapi.so.0 
-	dosym libglapi.so.0 "${ARC_PREFIX}/vendor/$(get_libdir)"/libglapi.so
+	newexe "${BUILD_DIR}/src/mapi/shared-glapi/libglapi.so.0" libglapi.so.0
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/egl"
-	newexe ${vendor_dir}/lib/libEGL_mesa.so libEGL_mesa.so
-	newexe ${vendor_dir}/lib/libGLESv1_CM_mesa.so libGLESv1_CM_mesa.so
-	newexe ${vendor_dir}/lib/libGLESv2_mesa.so libGLESv2_mesa.so
+	newexe "${BUILD_DIR}/src/egl/libEGL_mesa.so" libEGL_mesa.so
+	newexe "${BUILD_DIR}/src/mapi/es1api/libGLESv1_CM_mesa.so" libGLESv1_CM_mesa.so
+	newexe "${BUILD_DIR}/src/mapi/es2api/libGLESv2_mesa.so" libGLESv2_mesa.so
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/dri"
-	newexe ${vendor_dir}/lib/dri/msm_dri.so msm_dri.so
+	newexe "${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so" msm_dri.so
+}
 
+multilib_src_install_all() {
 	# For documentation on the feature set represented by each XML file
 	# installed into /vendor/etc/permissions, see
 	# <https://developer.android.com/reference/android/content/pm/PackageManager.html>.
@@ -137,5 +142,5 @@ src_install() {
 
 	# Install the dri header for arc-cros-gralloc
 	insinto "${ARC_PREFIX}/vendor/include/GL"
-	doins -r "${vendor_dir}/include/GL/internal"
+	doins -r "${S}/include/GL/internal"
 }
