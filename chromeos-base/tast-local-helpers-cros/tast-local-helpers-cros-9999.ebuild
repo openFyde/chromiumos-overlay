@@ -32,4 +32,10 @@ src_install() {
 	# Executable files' names take the form <category>.<TestName>.<bin_name>.
 	exeinto /usr/libexec/tast/helpers/local/cros
 	doexe "${OUT}"/*.[A-Z]*.*
+	# Install symbol list file to the location required by minidump_stackwalk.
+	# See https://www.chromium.org/developers/decoding-crash-dumps for details.
+	local crasher_exec="${OUT}/platform.UserCrash.crasher"
+	local id=$(head -n1 "${crasher_exec}.sym" | cut -d' ' -f 4)
+	insinto "/usr/libexec/tast/helpers/local/cros/symbols/${crasher_exec##*/}/${id}"
+	doins "${crasher_exec}.sym"
 }
