@@ -1,1 +1,0 @@
-aosp-frameworks-base-proto-20190812.ebuild

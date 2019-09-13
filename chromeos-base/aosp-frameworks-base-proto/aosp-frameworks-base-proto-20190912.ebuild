@@ -11,11 +11,9 @@ CROS_GO_PACKAGES=(
 inherit cros-go
 
 DESCRIPTION="AOSP frameworks/base protobuf files"
-HOMEPAGE="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/proto/"
-GIT_COMMIT="ce98a32755d817a0163bdff2fea5a1f6245f5c80"
-SRC_URI="https://android.googlesource.com/platform/frameworks/base/+archive/${GIT_COMMIT}/core/proto.tar.gz -> aosp-frameworks-base-core-proto-${PV}.tar.gz
-		https://android.googlesource.com/platform/frameworks/base/+archive/${GIT_COMMIT}/libs/incident/proto.tar.gz -> aosp-frameworks-base-libs-incident-proto-${PV}.tar.gz
-		"
+HOMEPAGE="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android10-dev/core/proto/"
+GIT_COMMIT="873f1727e5c7af9174ca662ad26ba5b95096d1f8"
+SRC_URI="https://android.googlesource.com/platform/frameworks/base/+archive/${GIT_COMMIT}/core/proto.tar.gz -> aosp-frameworks-base-core-proto-${PV}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -34,32 +32,22 @@ src_unpack() {
 	# Unpack the tar.gz files manually since they need to be unpacked in special directories.
 
 	mkdir -p frameworks/base/core/proto || die
-	mkdir -p frameworks/base/libs/incident/proto || die
 
 	pushd . || die
 	cd frameworks/base/core/proto || die
 	unpack "aosp-frameworks-base-core-proto-${PV}.tar.gz"
 	popd || die
-
-	pushd . || die
-	cd frameworks/base/libs/incident/proto || die
-	unpack "aosp-frameworks-base-libs-incident-proto-${PV}.tar.gz"
-	popd || die
 }
 
 src_compile() {
-	# SRC_URI contains all .proto files from Android frameworks/base (~100 .proto files).
+	# SRC_URI contains all .proto files from Android frameworks/base (~150 .proto files).
 	# For Tast, we only need a subset: Activity Manager,  Window Manager,
 	# and its dependencies.
 	# If there is a need to add more, add a new "protoc" or extend an
 	# existing one.
 
 	local core_path="frameworks/base/core/proto/android"
-	local libs_incident_path="frameworks/base/libs/incident/proto/android"
-	# core/proto path
 	local cp="${WORKDIR}/${core_path}"
-	# libs/incident/proto path
-	local lip="${WORKDIR}/${libs_incident_path}"
 	local out="${WORKDIR}/gen/go/src/android.com"
 
 	# protoc allow us to map a "protobuf import" with a "golang import".
@@ -83,6 +71,7 @@ src_compile() {
 		"${core_path}/graphics/point.proto"
 		"${core_path}/graphics/rect.proto"
 		"${core_path}/internal/processstats.proto"
+		"${core_path}/os/bundle.proto"
 		"${core_path}/os/looper.proto"
 		"${core_path}/os/message.proto"
 		"${core_path}/os/messagequeue.proto"
@@ -98,11 +87,11 @@ src_compile() {
 		"${core_path}/view/display.proto"
 		"${core_path}/view/displaycutout.proto"
 		"${core_path}/view/displayinfo.proto"
+		"${core_path}/view/enums.proto"
 		"${core_path}/view/remote_animation_target.proto"
 		"${core_path}/view/surface.proto"
 		"${core_path}/view/surfacecontrol.proto"
 		"${core_path}/view/windowlayoutparams.proto"
-		"${libs_incident_path}/privacy.proto"
 	)
 
 	# Generates the mapping between protobuf import file to Go import. E.g:
@@ -118,16 +107,16 @@ src_compile() {
 	# package conflicts.
 	# Use a different "import_path" per directory to avoid name conflict.
 	protoc \
-		--go_out="${map},import_path=android.com/incident:${out}" \
+		--go_out="${map},import_path=android.com/${core_path}:${out}" \
 		--proto_path="${WORKDIR}" \
-		"${lip}/privacy.proto" \
+		"${cp}/privacy.proto" \
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/app:${out}" \
+		--go_out="${map},import_path=android.com/${core_path}/app:${out}" \
 		--proto_path="${WORKDIR}" \
-		"${cp}/app/enums.proto" \
 		"${cp}/app/activitymanager.proto" \
+		"${cp}/app/enums.proto" \
 		"${cp}/app/notification.proto" \
 		"${cp}/app/profilerinfo.proto" \
 		"${cp}/app/statusbarmanager.proto" \
@@ -135,7 +124,7 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/content:${out}" \
+		--go_out="${map},import_path=android.com/${core_path}/content:${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/content/activityinfo.proto" \
 		"${cp}/content/component_name.proto" \
@@ -146,7 +135,7 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/graphics:${out}" \
+		--go_out="${map},import_path=android.com/${core_path}/graphics:${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/graphics/pixelformat.proto" \
 		"${cp}/graphics/point.proto" \
@@ -154,13 +143,13 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/internal:${out}" \
+		--go_out="${map},import_path=android.com/${core_path}/internal:${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/internal/processstats.proto" \
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/os:${out}" \
+		--go_out="${map},import_path=android.com/${core_path}/os:${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/os/bundle.proto" \
 		"${cp}/os/looper.proto" \
@@ -172,7 +161,7 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/server:${out}" \
+		--go_out="${map},import_path=android.com/${core_path}/server:${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/server/activitymanagerservice.proto" \
 		"${cp}/server/animationadapter.proto" \
@@ -183,13 +172,13 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/util:${out}" \
+		--go_out="${map},import_path=android.com/${core_path}/util:${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/util/common.proto" \
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/view:${out}" \
+		--go_out="${map},import_path=android.com/${core_path}/view:${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/view/display.proto" \
 		"${cp}/view/displaycutout.proto" \
