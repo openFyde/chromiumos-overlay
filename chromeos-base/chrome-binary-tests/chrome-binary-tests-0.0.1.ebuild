@@ -26,12 +26,8 @@ src_install() {
 	doexe "${BINARY_DIR}/jpeg_encode_accelerator_unittest"
 	doexe "${BINARY_DIR}/ozone_gl_unittests"
 	doexe "${BINARY_DIR}/sandbox_linux_unittests"
-	# TODO(crbug.com/879065): Remove video_decode_accelerator_unittest
-	# after all functionality has moved to video_decode_accelerator_tests
-	# and video_decode_accelerator_perf_tests.
 	doexe "${BINARY_DIR}/video_decode_accelerator_perf_tests"
 	doexe "${BINARY_DIR}/video_decode_accelerator_tests"
-	doexe "${BINARY_DIR}/video_decode_accelerator_unittest"
 	doexe "${BINARY_DIR}/video_encode_accelerator_unittest"
 	doexe "${BINARY_DIR}/wayland_client_perftests"
 }
