@@ -16,3 +16,12 @@ KEYWORDS="*"
 DEPEND="
 	~dev-rust/protobuf-2.3.0:=
 "
+
+src_compile() {
+	ecargo_build
+}
+
+src_install() {
+	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
+	dobin "$(cros-rust_get_build_dir)/protoc-gen-rust"
+}
