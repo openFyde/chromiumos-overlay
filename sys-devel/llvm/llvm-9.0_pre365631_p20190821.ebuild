@@ -100,12 +100,7 @@ src_unpack() {
 	ESVN_PROJECT="llvm"
 	EGIT_COMMIT="${llvm_hash}"
 
-	# crbug.com/925990: if egit doesn't actually check out a non-HEAD hash,
-	# then we'll end up with an empty source tree, with git unhappy that
-	# everything has been deleted. Until that's resolved, reset to HEAD
-	# during all checkouts. This should be a nop unless we're in a
-	# situation where this bug would bite us.
-	EGIT_BOOTSTRAP="git reset --hard HEAD" git-2_src_unpack
+	git-2_src_unpack
 
 	if apply_pgo_profile; then
 		cd "${WORKDIR}"
