@@ -142,51 +142,7 @@ get_most_recent_revision() {
 			/^\s+llvm-svn: [0-9]+$/ { most_recent_id = $2 }'
 }
 
-get_most_recent_sha() {
-	local subdir="${S}/llvm"
-
-	# Get the git hash of the most recent commit.
-	git -C "${subdir}" rev-parse HEAD
-}
-
-# This cache is a bit awkward, since the most natural way to do this is "make a
-# get_most_recent_revision function, and call it in a subshell." Subshells make
-# caching worthless. :)
-most_recent_revision=
-
-ensure_most_recent_revision_set() {
-	if test -z "$most_recent_revision"; then
-		most_recent_revision="$(get_most_recent_revision)"
-	fi
-}
-
-epatch_between() {
-	local min_revision="$1"
-	local max_revision="$2"
-	local patch="$3"
-
-	ensure_most_recent_revision_set
-
-	if test "$min_revision" -le "$most_recent_revision" -a \
-			"$max_revision" -ge "$most_recent_revision"; then
-		epatch "$patch"
-	else
-		einfo "Patch $3 not applied"
-		return 1
-	fi
-}
-
-epatch_after() {
-	epatch_between $1 9999999 $2
-}
-
-epatch_before() {
-	epatch_between 0 $1 $2
-}
-
 src_prepare() {
-	ensure_most_recent_revision_set
-
 	# Make ocaml warnings non-fatal, bug #537308
 	sed -e "/RUN/s/-warn-error A//" -i llvm/test/Bindings/OCaml/*ml  || die
 
