@@ -146,9 +146,9 @@ VETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-78.0.3893.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R78-3877.0-1567418235.afdo"
-AFDO_FILE["airmont"]="R78-3877.0-1567416920.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-78.0.3902.0_rc-r1-merged.afdo"
+AFDO_FILE["silvermont"]="R78-3877.0-1568022778.afdo"
+AFDO_FILE["airmont"]="R78-3877.0-1568023596.afdo"
 AFDO_FILE["haswell"]="R78-3809.102-1565608061.afdo"
 AFDO_FILE["broadwell"]="R78-3877.0-1567419040.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
@@ -858,6 +858,8 @@ src_prepare() {
 setup_test_lists() {
 	TEST_FILES=(
 		capture_unittests
+		dawn_end2end_tests
+		dawn_unittests
 		gl_tests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
