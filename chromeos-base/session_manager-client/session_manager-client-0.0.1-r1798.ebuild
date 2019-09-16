@@ -1,24 +1,23 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI="5"
 
-CROS_WORKON_COMMIT="c6e430949b7789fd1155da1ce6451cc5c30f2555"
-CROS_WORKON_TREE=("3ec7544c4b108a15d3ea61facc0a4bbeace58eed" "ed7c197be99bf32b070f13269607863e877fe9bd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="034a6259cd6b7a253c1c79bc7b315b69f8c0325c"
+CROS_WORKON_TREE=("3ec7544c4b108a15d3ea61facc0a4bbeace58eed" "c26b1292f1a024108f22c773cb8dd77aaca073d1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk debugd .gn"
+CROS_WORKON_SUBTREE="common-mk login_manager .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="debugd/client"
+PLATFORM_SUBDIR="login_manager/session_manager-client"
 
 inherit cros-workon platform
 
-DESCRIPTION="Chrome OS debugd client library"
+DESCRIPTION="Session manager (chromeos-login) DBus client library for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
-SRC_URI=""
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -36,7 +35,11 @@ DEPEND="
 	>=chromeos-base/libbrillo-0.0.1-r1
 "
 
+RDEPEND="
+	!<chromeos-base/chromeos-login-0.0.2
+"
+
 src_install() {
-  # Install DBus client library.
-  platform_install_dbus_client_lib "debugd"
+	# Install DBus client library.
+	platform_install_dbus_client_lib "session_manager"
 }
