@@ -25,6 +25,7 @@ DEPEND=">=dev-rust/rand-0.6.4:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/built-0.3*:=
 	=dev-rust/sys-info-0.5.7:=
+	=dev-rust/serde_json-1*:=
 "
 
 src_unpack() {
