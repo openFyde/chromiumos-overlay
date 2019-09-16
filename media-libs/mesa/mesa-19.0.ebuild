@@ -113,6 +113,7 @@ src_prepare() {
 	fi
 	epatch "${FILESDIR}"/intel-Add-support-for-Comet-Lake.patch
 	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
+	epatch "${FILESDIR}"/19.0-radeonsi-gfx9-honor-user-stride-for-imported-buffers.patch
 
 	default
 }
