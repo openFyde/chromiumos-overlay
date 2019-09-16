@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="336f2f19118b751a645f5db756a5e7629a59ec90"
-CROS_WORKON_TREE="74b5a78521c657bee30edb9e33cb0ad6d5cbc703"
+CROS_WORKON_COMMIT="eca01605f2dd5e1f5e58e19d3cbbff868921bc2b"
+CROS_WORKON_TREE="272d12a65116f26db2bc76d5052e25e7158bfcda"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
 CROS_WORKON_BLACKLIST="1"
@@ -34,10 +34,6 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
-	"${FILESDIR}"/UPSTREAM-vrend-Ignore-prev-shader-stages-in-shader-key-when-p.patch
-	"${FILESDIR}"/UPSTREAM-vrend-Unbind-sampler-view-after-creation.patch
-	"${FILESDIR}"/UPSTREAM-vrend-Use-view-target-instead-of-texture-target.patch
-	"${FILESDIR}"/UPSTREAM-vrend-Keep-track-of-GL_FRAMEBUFFER_SRGB-state-and-re.patch
 )
 
 src_prepare() {
