@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="08a71caa9e1f172a2ced090c8f0e144f1682a5b6"
+CROS_WORKON_COMMIT="67f8bf11cda54fad8354cb45b4e8b140a1d2ce51"
 CROS_WORKON_TREE=("36986fb0f17df363eb97a40cdf3f8622f2d1c6f8" "3ec7544c4b108a15d3ea61facc0a4bbeace58eed" "b7c9b244aa3d415510d16feabf5d78b232bb43f3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -31,6 +31,7 @@ RDEPEND="
 	app-arch/libarchive
 	!!chromeos-base/vm_tools
 	chromeos-base/arc-networkd
+	chromeos-base/chunnel
 	chromeos-base/crosvm
 	chromeos-base/libbrillo
 	chromeos-base/minijail
