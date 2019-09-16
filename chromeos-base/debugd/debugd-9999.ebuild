@@ -17,7 +17,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="iwlwifi_dump nvme sata"
+IUSE="cellular iwlwifi_dump nvme sata tpm"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login
