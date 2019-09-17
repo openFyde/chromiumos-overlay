@@ -1,0 +1,38 @@
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI="5"
+
+CROS_WORKON_COMMIT="aa896519b14416d2b3e842e18f6c070eb8b79a0b"
+CROS_WORKON_TREE=("6d0a1403799ea9191481152a885383fce1fe4713" "58e303f0cefdfd25ee5cc4beee40fbca619aeb6b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk chromeos-common-script .gn"
+
+PLATFORM_SUBDIR="chromeos-common-script"
+
+inherit cros-workon platform
+
+DESCRIPTION="Chrome OS storage info tools"
+HOMEPAGE="http://www.chromium.org/"
+SRC_URI=""
+
+LICENSE="BSD-Google"
+SLOT="0"
+KEYWORDS="*"
+IUSE="direncryption"
+
+DEPEND=""
+
+RDEPEND="!<chromeos-base/chromeos-installer-0.0.3"
+
+src_install() {
+	insinto /usr/share/misc
+	doins share/chromeos-common.sh
+	if use direncryption; then
+		sed -i '/local direncryption_enabled=/s/false/true/' \
+			"${D}/usr/share/misc/chromeos-common.sh" ||
+			die "Can not set directory encryption in common library"
+	fi
+}
