@@ -17,6 +17,7 @@ DEPEND="
 	chromeos-base/system_api
 	chromeos-base/vm_protos
 	chromeos-base/wilco-dtc-grpc-protos
+	dev-go/boringssl-acvptool
 	dev-go/cdp
 	dev-go/cmp
 	dev-go/crypto
