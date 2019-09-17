@@ -34,3 +34,7 @@ src_install() {
 	exeinto /usr/share/cros/init
 	doexe init/*.sh
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/timberslide_test_runner"
+}
