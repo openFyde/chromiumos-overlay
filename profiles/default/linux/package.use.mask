@@ -82,3 +82,6 @@ sys-process/psmisc test
 # requires dev-lang/python to be built with SQLite, which is USE masked on all
 # boards.
 dev-python/py test
+
+# We don't care about smartcard support in GPG, and USB is only used for that.
+app-crypt/gnupg smartcard usb
