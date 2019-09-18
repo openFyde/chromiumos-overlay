@@ -13,7 +13,6 @@ CROS_BOARDS=(
 	bolt
 	chell
 	cid
-	cyan
 	daisy
 	daisy_skate
 	daisy_spring
