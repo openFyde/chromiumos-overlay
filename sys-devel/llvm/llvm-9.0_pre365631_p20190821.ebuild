@@ -347,6 +347,15 @@ multilib_src_install() {
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang"
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang++"
 	newexe "${FILESDIR}/ldwrapper_lld.host" "${CHOST}-ld.lld"
+
+	# Install FuzzedDataProvider.h if not provided by default installation.
+	# Remove after llvm version is past r368448.
+	local fuzz_header_dir="${D}/usr/lib64/clang/9.0.0/include/fuzzer"
+	local svn_version="$(get_most_recent_revision)"
+	if [[ "${svn_version}" -lt 368448 ]]; then
+		mkdir -p "${fuzz_header_dir}"
+		cp "${FILESDIR}"/FuzzedDataProvider.h "${fuzz_header_dir}" || die
+	fi
 }
 
 multilib_src_install_all() {
