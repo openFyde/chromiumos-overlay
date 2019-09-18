@@ -31,6 +31,7 @@ IUSE_TESTS="
 	+tests_audio_CRASFormatConversion
 	+tests_audio_CrasDevSwitchStress
 	+tests_audio_CrasLoopback
+	+tests_audio_CrasPinnedStream
 	+tests_audio_CrasStress
 	+tests_audio_LoopbackLatency
 	+tests_audio_Microphone
