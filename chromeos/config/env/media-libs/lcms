@@ -1,9 +1,0 @@
-# Copyright 2019 The Chromium OS Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style license that can be
-# found in the LICENSE file.
-
-# lcms does not build with gold in fuzzer builds, https://crbug.com/927356.
-# Force bfd for amd64 since bfd does not support --fix-cortex-a53-843419
-cros_pre_src_prepare_use_bfd_linker() {
-	use amd64 && LDFLAGS+=" -fuse-ld=bfd"
-}
