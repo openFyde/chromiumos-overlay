@@ -9,7 +9,7 @@ HOMEPAGE="http://dev.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+shill"
+IUSE="+cras +shill"
 
 ################################################################################
 
@@ -54,8 +54,10 @@ FACTORY_TEST_RDEPEND="
 
 # Packages used by audio related tests
 FACTORY_TEST_RDEPEND+="
-	chromeos-base/audiotest
-	media-sound/sox
+	cras? (
+		chromeos-base/audiotest
+		media-sound/sox
+	)
 "
 
 # Packages used by camera related tests

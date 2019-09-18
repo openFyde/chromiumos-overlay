@@ -18,6 +18,7 @@ IUSE="
 	cheets
 	chromeless_tty
 	cr50_onboard
+	+cras
 	cros_ec
 	cros_embedded
 	kvm_host
@@ -142,7 +143,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	app-misc/utouch-evemu
 	app-mobilephone/dfu-util
 	chromeos-base/autotest-client
-	chromeos-base/audiotest
+	cras? ( chromeos-base/audiotest )
 	chromeos-base/avtest_label_detect
 	chromeos-base/chrome-binary-tests
 	chromeos-base/cros-camera-tool
