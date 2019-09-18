@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="6"
 
 DESCRIPTION="Install packages that must live in the rootfs in test images"
 # 1) Normally, test image packages are merged into the stateful partition
@@ -17,9 +17,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 
 RDEPEND="
-	app-mobilephone/dfu-util
 	chromeos-base/chromeos-test-init
-	dev-embedded/dfu-programmer
 	virtual/chromeos-test-testauthkeys
 	virtual/chromeos-bsp-test-root
 "

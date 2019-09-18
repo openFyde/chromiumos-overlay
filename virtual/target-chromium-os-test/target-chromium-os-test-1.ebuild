@@ -140,6 +140,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	opengles? ( app-misc/eglinfo )
 	app-misc/tmux
 	app-misc/utouch-evemu
+	app-mobilephone/dfu-util
 	chromeos-base/autotest-client
 	chromeos-base/audiotest
 	chromeos-base/avtest_label_detect
@@ -160,6 +161,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	!chromeless_tests? ( chromeos-base/telemetry )
 	chromeos-base/touchbot
 	chromeos-base/toolchain-tests
+	dev-embedded/dfu-programmer
 	dev-libs/re2
 	dev-python/protobuf-python
 	dev-python/btsocket
