@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="aa896519b14416d2b3e842e18f6c070eb8b79a0b"
-CROS_WORKON_TREE=("6d0a1403799ea9191481152a885383fce1fe4713" "4de230fecfe44c46535e1cbe24472fcfef21b819" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ab07872f39d2303792a4f35a9423439957c3519e"
+CROS_WORKON_TREE=("6d0a1403799ea9191481152a885383fce1fe4713" "b70ba2a21d08577fbe53f073a7a4842353c81062" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
@@ -22,7 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 models="gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite
 	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite
 	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521.tflite
+	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite
 	gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
 
 SRC_URI="${models}"
