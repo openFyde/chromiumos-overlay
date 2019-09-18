@@ -5,7 +5,6 @@ EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
-CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="crosh"
 
 inherit cros-workon cros-rust
@@ -20,6 +19,7 @@ KEYWORDS="~*"
 IUSE="rust-crosh"
 
 DEPEND=">=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
+	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
 	dev-rust/remain:=
 	dev-rust/sys_util:=
 	>=dev-rust/termion-1.5.1:= <dev-rust/termion-2.0.0
