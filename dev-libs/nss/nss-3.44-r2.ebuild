@@ -103,16 +103,9 @@ src_prepare() {
 		cmd/platlibs.mk || die
 
 	multilib_copy_sources
-
-	strip-flags
 }
 
 multilib_src_configure() {
-	# Workaround the bug in crbug.com/817911
-	# With BFD linker, the libsmime3.so contains two NSS_3.10 symbols, one is
-	# global, the other is local and this makes LLD cry.
-	use cros_host && append-ldflags -fuse-ld=gold
-
 	# Ensure we stay multilib aware
 	sed -i -e "/@libdir@/ s:lib64:$(get_libdir):" config/Makefile || die
 }
