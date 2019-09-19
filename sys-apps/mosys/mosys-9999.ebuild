@@ -137,5 +137,5 @@ src_install() {
 
 	insinto /usr/share/policy
 	newins "seccomp/mosys-seccomp-${ARCH}.policy" mosys-seccomp.policy
-	dodoc README TODO
+	dodoc README
 }
