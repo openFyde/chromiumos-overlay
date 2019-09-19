@@ -271,8 +271,6 @@ SERVER_IUSE_TESTS="
 	+tests_platform_LabFirmwareUpdate
 	power_management? (
 		+tests_platform_PowerStatusStress
-		+tests_power_DarkResumeShutdownServer
-		+tests_power_DarkResumeDisplay
 		+tests_power_DeferForFlashrom
 		+tests_power_WakeSources
 	)
