@@ -57,7 +57,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	"${FILESDIR}"/patch_manager.py \
+	"${FILESDIR}"/patch_manager/patch_manager.py \
 		--svn_version "$(get_most_recent_revision)" \
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
