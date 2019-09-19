@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("570a86f8a4a69c3be7085cbaf6d0a19a3f5ab401" "9887bc9626824394a2565e302a259d8fc89538c0")
+CROS_WORKON_COMMIT=("570a86f8a4a69c3be7085cbaf6d0a19a3f5ab401" "f643617fab0c09e80f58145c8b98242552a4289c")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
@@ -201,6 +201,7 @@ src_install() {
 		doins \
 			crypto/crypto_export.h \
 			crypto/hmac.h \
+			crypto/libcrypto-compat.h \
 			crypto/nss_key_util.h \
 			crypto/nss_util.h \
 			crypto/nss_util_internal.h \
