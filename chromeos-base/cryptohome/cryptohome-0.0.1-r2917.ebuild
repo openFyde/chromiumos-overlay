@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="916ae8655469e9ca4b66524a9d046483772b8864"
+CROS_WORKON_COMMIT="8f43e1e7eb43242ab0d38200f4ef223be80ad5b4"
 CROS_WORKON_TREE=("fc7fc7a30cc667a3d0fec5545fc6601b38b074ae" "e9aa7afff00b7186efd9ad8773513e2efe793ba9" "81669caa547fd77b3de301fcead88e62b2ba934a" "f27e9581dc578f9a83beacea11f5e9208ac3da24" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -127,6 +127,14 @@ src_install() {
 			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't replace direncryption flag in cryptohomed.conf"
+		fi
+		if use distributed_cryptohome; then
+			sed -i 's/started tcsd/started attestationd/' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace tcsd with attestationd in cryptohomed.conf"
+			sed -i '/env DISTRIBUTED_MODE_FLAG=/s:=.*:="--attestation_mode=dbus":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't activate distributed mode in cryptohomed.conf"
 		fi
 	fi
 	exeinto /usr/share/cros/init
