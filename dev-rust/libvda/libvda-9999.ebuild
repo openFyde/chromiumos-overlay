@@ -9,7 +9,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_SUBTREE="arc/vm/libvda/rust"
 
-inherit cros-workon cros-rust
+inherit cros-workon cros-rust multilib
 
 DESCRIPTION="Rust wrapper for chromeos-base/libvda"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/libvda/rust"
@@ -42,7 +42,9 @@ src_compile() {
 
 src_test() {
 	if use x86 || use amd64; then
-		ecargo_test
+		# TODO(alexlau, keiichiw): Remove LD_LIBRARY_PATH once we can run the
+		# test in a chroot for the build sysroot.
+		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" ecargo_test
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
