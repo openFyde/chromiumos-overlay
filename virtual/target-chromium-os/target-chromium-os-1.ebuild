@@ -53,7 +53,6 @@ IUSE="
 	+network_time
 	nfc
 	pam
-	peerd
 	postscript
 	+power_management
 	+profile
@@ -181,7 +180,6 @@ RDEPEND="
 	kerberos_daemon? ( chromeos-base/kerberos )
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
-	peerd? ( chromeos-base/peerd )
 	hammerd? ( chromeos-base/hammerd )
 	esim? ( chromeos-base/hermes )
 	media_perception? ( chromeos-base/mri_package )

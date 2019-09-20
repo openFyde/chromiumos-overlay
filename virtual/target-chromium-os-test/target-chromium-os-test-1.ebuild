@@ -27,7 +27,6 @@ IUSE="
 	opengles
 	ozone
 	p2p
-	peerd
 	+shill
 	+tpm
 	tpm2
@@ -94,7 +93,6 @@ CROS_COMMON_RDEPEND="
 	dev-lang/python:2.7
 	dev-lang/python:3.6
 	p2p? ( dev-python/dpkt )
-	peerd? ( dev-python/dpkt )
 	cr50_onboard? ( dev-util/u2f-ref-code )
 	net-misc/rsync
 	sys-apps/memtester
