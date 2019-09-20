@@ -291,10 +291,12 @@ cros_use_gcc() {
 	if [[ $(basename ${CC:-gcc}) != *"gcc"* ]]; then
 		export CC=${CHOST}-gcc
 		export CXX=${CHOST}-g++
+		export LD=${CHOST}-ld
 	fi
 	if [[ $(basename ${BUILD_CC:-gcc}) != *"gcc"* ]]; then
 		export BUILD_CC=${CBUILD}-gcc
 		export BUILD_CXX=${CBUILD}-g++
+		export BUILD_LD=${CBUILD}-ld
 	fi
 	filter_unsupported_gcc_flags
 	filter_sanitizers
