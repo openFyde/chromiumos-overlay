@@ -15,14 +15,8 @@ KEYWORDS="*"
 
 DEPEND="
 	=dev-rust/curl-0.4*:=
-	=dev-rust/env_logger-0.4*:=
 	=dev-rust/futures-0.1*:=
-	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
-	=dev-rust/mio-0.6*:=
-	=dev-rust/scoped-tls-0.1*:=
-	=dev-rust/slab-0.4*:=
-	=dev-rust/tokio-core-0.1*:=
 	=dev-rust/tokio-io-0.1*:=
-	=dev-rust/winapi-0.3*:=
+	=dev-rust/tokio-core-0.1*:=
 "
