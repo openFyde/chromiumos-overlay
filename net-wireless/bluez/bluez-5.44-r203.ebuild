@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/net-wireless/bluez/bluez-4.99.ebuild,v 1.7 2012/04/15 16:53:41 maekke Exp $
 
 EAPI="5"
-CROS_WORKON_COMMIT="da15276ab7409bc74545f0a76657aad24a56a176"
-CROS_WORKON_TREE="6a4416e1c6d42478da2788395e7d6891a769ad50"
+CROS_WORKON_COMMIT="bbc3e9238a2228dfd6337f3c7b9945704641be55"
+CROS_WORKON_TREE="46e5034e40674f350a9ecae8a0098c0a8f678a5e"
 CROS_WORKON_PROJECT="chromiumos/third_party/bluez"
 
 inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
