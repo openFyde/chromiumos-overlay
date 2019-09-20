@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/net-wireless/bluez/bluez-4.99.ebuild,v 1.7 2012/04/15 16:53:41 maekke Exp $
 
 EAPI="5"
-CROS_WORKON_COMMIT="f85432a219be3885da2ab27f8387e34611f0b1dd"
-CROS_WORKON_TREE="ef50c5d6b447b3e1cd11163f408bbebf7eac5224"
+CROS_WORKON_COMMIT="da15276ab7409bc74545f0a76657aad24a56a176"
+CROS_WORKON_TREE="6a4416e1c6d42478da2788395e7d6891a769ad50"
 CROS_WORKON_PROJECT="chromiumos/third_party/bluez"
 
 inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
@@ -16,7 +16,7 @@ HOMEPAGE="http://www.bluez.org/"
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
-IUSE="asan cups debug systemd readline bt_deprecated_tools"
+IUSE="allow_set_le_splitter asan cups debug systemd readline bt_deprecated_tools"
 
 CDEPEND="
 	>=dev-libs/glib-2.14:2
@@ -72,6 +72,7 @@ src_configure() {
 		--disable-obex \
 		--enable-sixaxis \
 		--disable-network \
+		$(use_enable allow_set_le_splitter) \
 		 $(use_enable bt_deprecated_tools deprecated)
 }
 
