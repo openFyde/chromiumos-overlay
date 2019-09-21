@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=4
-CROS_WORKON_COMMIT="d1289928b69719de92515a349afa20a8022e111d"
-CROS_WORKON_TREE="a02e9da7f974b5999e544a8eef17af06ff304b87"
+CROS_WORKON_COMMIT="facc0057fb55787a8f1a0f1e5c9b298b92760a93"
+CROS_WORKON_TREE="796c9dd32ef26750a8bf1267a9fe627a6351a56e"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -33,6 +33,7 @@ IUSE_TESTS="
 	+tests_audio_CRASFormatConversion
 	+tests_audio_CrasDevSwitchStress
 	+tests_audio_CrasLoopback
+	+tests_audio_CrasPinnedStream
 	+tests_audio_CrasStress
 	+tests_audio_LoopbackLatency
 	+tests_audio_Microphone
