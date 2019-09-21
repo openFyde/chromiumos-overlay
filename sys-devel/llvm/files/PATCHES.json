@@ -200,5 +200,11 @@
         "comment": "Achieves the functionality of reordering .text.hot\nsections before .text section",
         "rel_patch_path": "lld-next-9.0-reorder-hotsection-early.patch",
         "start_version": 365631
+    },
+    {
+        "comment": "Add -Wpoison-system-directories clang warning",
+        "rel_patch_path": "cherry/41d9d5092a17e60615077da6ef22b4f5cfae2c2e.patch",
+        "start_version": 370808,
+        "end_version": 371878
     }
 ]
