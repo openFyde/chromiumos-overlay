@@ -1,0 +1,81 @@
+# Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI="6"
+CROS_WORKON_COMMIT="50b30fb4ad21f001034f950415cdfaf4550c6372"
+CROS_WORKON_TREE="cf50c6283eef57e42c8e1865242335fe6012396a"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_DESTDIR="${S}"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="crosh"
+
+inherit cros-workon cros-rust
+
+DESCRIPTION="Chrome OS command-line shell"
+HOMEPAGE="http://www.chromium.org/"
+SRC_URI=""
+
+LICENSE="BSD-Google"
+SLOT="0"
+KEYWORDS="*"
+IUSE="rust-crosh"
+
+DEPEND=">=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
+	dev-rust/remain:=
+	dev-rust/sys_util:=
+	>=dev-rust/termion-1.5.1:= <dev-rust/termion-2.0.0
+"
+RDEPEND="app-admin/sudo
+	chromeos-base/vboot_reference
+	net-misc/iputils
+	net-misc/openssh
+	net-wireless/iw
+	sys-apps/net-tools
+"
+
+src_unpack() {
+	cros-workon_src_unpack
+	S+="/crosh"
+
+	cros-rust_src_unpack
+}
+
+src_compile() {
+	# File order is important here.
+	sed \
+		-e '/^#/d' \
+		-e '/^$/d' \
+		inputrc.safe inputrc.extra \
+		> "${WORKDIR}"/inputrc.crosh || die
+	ecargo_build
+
+	use test && ecargo_test --no-run
+}
+
+src_test() {
+	./run_tests.sh || die
+
+	if use x86 || use amd64; then
+		ecargo_test
+	else
+		elog "Skipping rust unit tests on non-x86 platform"
+	fi
+}
+
+src_install() {
+	if use rust-crosh; then
+		dobin "$(cros-rust_get_build_dir)/crosh"
+		newbin crosh crosh.sh
+	else
+		dobin crosh
+	fi
+	dobin network_diag
+	local d="/usr/share/crosh"
+	insinto "${d}/dev.d"
+	doins dev.d/*.sh
+	insinto "${d}/removable.d"
+	doins removable.d/*.sh
+	insinto "${d}"
+	doins "${WORKDIR}"/inputrc.crosh
+}
