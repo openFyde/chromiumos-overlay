@@ -134,6 +134,9 @@ src_configure() {
 		return
 	fi
 
+	# GCC builds do not like LD being set, it will find correct LD to use.
+	unset LD BUILD_LD
+
 	local gcc_langs="c"
 	use cxx && gcc_langs+=",c++"
 	use go && gcc_langs+=",go"
