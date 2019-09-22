@@ -2,12 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="50b30fb4ad21f001034f950415cdfaf4550c6372"
+CROS_WORKON_COMMIT="161138428e6fe2d5eed364c88c159372ec783ddf"
 CROS_WORKON_TREE="cf50c6283eef57e42c8e1865242335fe6012396a"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
-CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="crosh"
 
 inherit cros-workon cros-rust
@@ -22,6 +21,7 @@ KEYWORDS="*"
 IUSE="rust-crosh"
 
 DEPEND=">=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
+	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
 	dev-rust/remain:=
 	dev-rust/sys_util:=
 	>=dev-rust/termion-1.5.1:= <dev-rust/termion-2.0.0

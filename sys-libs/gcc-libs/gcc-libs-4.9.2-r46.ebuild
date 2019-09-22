@@ -62,6 +62,7 @@ src_configure() {
 		ewarn "Skipping configure due to existing build output"
 		return
 	fi
+	cros_use_gcc
 
 	# Unset CC and CXX to let gcc-libs select the right compiler.
 	unset CC CXX
