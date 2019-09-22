@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=4
-CROS_WORKON_COMMIT="c3eed23d25c1f81e8716f707e1c841f46d3ef5f1"
-CROS_WORKON_TREE="9854705ce048ed2dd15f792759220c37ce22469e"
+CROS_WORKON_COMMIT="4665c4688b9e87f3385e67f517969ae31f2318cb"
+CROS_WORKON_TREE="0c180cbc4c1fb03b30c6d5f1af772e9757258c2d"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -15,7 +15,6 @@ CROS_BOARDS=(
 	bolt
 	chell
 	cid
-	cyan
 	daisy
 	daisy_skate
 	daisy_spring
