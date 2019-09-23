@@ -1476,6 +1476,11 @@ src_install() {
 		# protofiles ebuild since this is a generated proto.
 		insinto /usr/share/protofiles
 		doins "${FROM}"/gen/components/policy/proto/cloud_policy.proto
+		# Copy the policy_common_definitions.proto file that is required by
+		# cloud_policy.proto.
+		# TODO(crbug.com/1006077): Move this into chromeos-base/protofiles or some
+		# other package.
+		doins "${CHROME_ROOT}"/src/components/policy/proto/policy_common_definitions.proto
 	fi
 
 	# Copy input_methods.txt for XkbToKcmConverter & auto-test.
