@@ -29,11 +29,4 @@ CLANG_FLAGS_TO_ADD = set(['-Qunused-arguments',
                           '-fuse-ld=lld',
                          ])
 
-#
-# Flags to add when generating compiler wrapper for llvm-next.
-# Real flags are added in llvm_next.flags file; this is normally
-# an empty placeholder, to prevent needing multiple copies of
-# sysroot_wrapper.body.
-#
-LLVM_NEXT_FLAGS_TO_ADD = set([])
 

@@ -16,6 +16,14 @@ WRAPPER_ONLY_OPTIONS = set((
 
 X86_DISABLE_FLAGS = set(['-mno-movbe'])
 
+#
+# Flags to add when generating compiler wrapper for llvm-next.
+# Real flags are added in llvm_next.flags file; this is normally
+# an empty placeholder, to prevent needing multiple copies of
+# clang_host_wrapper.body.
+#
+LLVM_NEXT_FLAGS_TO_ADD = set([])
+
 # GCC flags to remove from the clang command line.
 # TODO: Once clang supports GCC compatibility mode, remove
 # these checks.

@@ -51,7 +51,7 @@ def main(argv):
   # Filter unsupported linker flags if sanitizers are used.
   filter_unsupported_asan_flags = has_sanitizer_flags(myargs)
 
-  clang_cmdline = clang_flags + list(FLAGS_TO_ADD)
+  clang_cmdline = clang_flags + list(LLVM_NEXT_FLAGS_TO_ADD) + list(FLAGS_TO_ADD)
   clang_flags = list(FLAGS_TO_ADD)
 
   cmdline = [x for x in myargs if x not in WRAPPER_ONLY_OPTIONS]

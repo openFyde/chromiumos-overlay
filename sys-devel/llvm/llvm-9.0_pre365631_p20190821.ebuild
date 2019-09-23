@@ -336,10 +336,19 @@ multilib_src_install() {
 	cmake-utils_src_install
 
 	local wrapper_script=clang_host_wrapper
-	cat "${FILESDIR}/clang_host_wrapper.header" \
-		"${FILESDIR}/wrapper_script_common" \
-		"${FILESDIR}/clang_host_wrapper.body" > \
-		"${D}/usr/bin/${wrapper_script}" || die
+	if use llvm-next || llvm-tot
+	then
+		cat "${FILESDIR}/clang_host_wrapper.header" \
+			"${FILESDIR}/wrapper_script_common" \
+			"${FILESDIR}/llvm_next.flags" \
+			"${FILESDIR}/clang_host_wrapper.body" > \
+			"${D}/usr/bin/${wrapper_script}" || die
+	else
+		cat "${FILESDIR}/clang_host_wrapper.header" \
+			"${FILESDIR}/wrapper_script_common" \
+			"${FILESDIR}/clang_host_wrapper.body" > \
+			"${D}/usr/bin/${wrapper_script}" || die
+	fi
 	chmod 755 "${D}/usr/bin/${wrapper_script}" || die
 	newbin "${D}/usr/bin/clang-tidy" "clang-tidy"
 	dobin "${FILESDIR}/bisect_driver.py"
