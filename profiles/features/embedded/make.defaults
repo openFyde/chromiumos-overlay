@@ -26,5 +26,11 @@ USE="${USE} -ml_service"
 # protect the lockscreen.
 USE="${USE} -usb_bouncer -usbguard"
 
+# Disable auth frameworks.
+USE="${USE} -kerberos -kerberos_daemon"
+
+# Disable filesystem extensions.
+USE="${USE} -drivefs -samba -smbprovider"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"

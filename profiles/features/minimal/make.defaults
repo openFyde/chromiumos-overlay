@@ -35,6 +35,12 @@ USE="${USE} -cros_disks cros_embedded -debugd -encrypted_stateful -gdmwimax"
 USE="${USE} -lorgnette -memd -mist -ml_service -pam -passive_metrics"
 USE="${USE} -power_management -scanner -tpm -usb_bouncer -usbguard -vpn -wimax"
 
+# Disable auth frameworks.
+USE="${USE} -kerberos -kerberos_daemon"
+
+# Disable filesystem extensions.
+USE="${USE} -drivefs -samba -smbprovider"
+
 # Remove most of the unused firmware in kernel build (see crbug.com/378877).
 USE="${USE} -firmware_install"
 
