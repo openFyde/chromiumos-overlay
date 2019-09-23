@@ -4,7 +4,7 @@
 EAPI=5
 
 : ${CMAKE_MAKEFILE_GENERATOR:=ninja}
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_6 )
 
 inherit cmake-multilib cros-constants cros-llvm flag-o-matic git-2 llvm python-any-r1
 

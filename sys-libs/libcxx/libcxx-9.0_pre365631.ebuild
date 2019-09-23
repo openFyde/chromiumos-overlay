@@ -6,7 +6,7 @@ EAPI=5
 # Ninja provides better scalability and cleaner verbose output, and is used
 # throughout all LLVM projects.
 : ${CMAKE_MAKEFILE_GENERATOR:=ninja}
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_6 )
 
 inherit cmake-multilib cros-constants cros-llvm git-2 llvm python-any-r1 toolchain-funcs
 
