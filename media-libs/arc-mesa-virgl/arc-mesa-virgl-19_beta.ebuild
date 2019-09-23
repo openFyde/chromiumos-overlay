@@ -26,7 +26,7 @@ HOMEPAGE="http://mesa3d.sourceforge.net/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
@@ -87,7 +87,7 @@ pkg_setup() {
 	# upgraded by then.
 	local d
 	for d in EGL GL GLES GLES2 GLES3 KHR; do
-		local replaced_link="${ROOT}${ARC_PREFIX}/vendor/include/${d}"
+		local replaced_link="${ROOT}${ARC_VM_PREFIX}/vendor/include/${d}"
 		if [[ -L "${replaced_link}" ]]; then
 			rm -f "${replaced_link}"
 		fi
@@ -253,7 +253,7 @@ multilib_src_configure() {
 	arc-build-create-cross-file
 
 	emesonargs+=(
-		$(use cheets && echo "--prefix=${ARC_PREFIX}/vendor")
+		$(use cheets && echo "--prefix=${ARC_VM_PREFIX}/vendor")
 		$(use cheets && echo "--sysconfdir=/system/vendor/etc")
 		$(use cheets && echo "-Ddri-search-path=/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri")
 		-Dgallium-va=false
@@ -292,15 +292,15 @@ multilib_src_compile() {
 }
 
 multilib_src_install_cheets() {
-	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)"
+	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)"
 	newexe ${BUILD_DIR}/src/mapi/shared-glapi/libglapi.so.0 libglapi.so.0
 
-	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/egl"
+	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/egl"
 	newexe ${BUILD_DIR}/src/egl/libEGL_mesa.so libEGL_mesa.so
 	newexe ${BUILD_DIR}/src/mapi/es1api/libGLESv1_CM_mesa.so libGLESv1_CM_mesa.so
 	newexe ${BUILD_DIR}/src/mapi/es2api/libGLESv2_mesa.so libGLESv2_mesa.so
 
-	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/dri"
+	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/dri"
 	if use classic && use video_cards_intel; then
 		newexe ${BUILD_DIR}/src/mesa/drivers/dri/libmesa_dri_drivers.so i965_dri.so
 	fi
@@ -317,7 +317,7 @@ multilib_src_install_cheets() {
 	fi
 
 	if use vulkan; then
-		exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/hw"
+		exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/hw"
 		if use video_cards_amdgpu; then
 			newexe ${BUILD_DIR}/src/amd/vulkan/libvulkan_radeon.so vulkan.cheets.so
 		fi
@@ -383,7 +383,7 @@ multilib_src_install() {
 
 multilib_src_install_all_cheets() {
 	# Set driconf option to enable S3TC hardware decompression
-	insinto "${ARC_PREFIX}/vendor/etc/"
+	insinto "${ARC_VM_PREFIX}/vendor/etc/"
 	doins "${FILESDIR}"/drirc
 
 	# For documentation on the feature set represented by each XML file
@@ -393,7 +393,7 @@ multilib_src_install_all_cheets() {
 	# <https://android.googlesource.com/platform/frameworks/native/+/master/data/etc>.
 
 	# Install init files to advertise supported API versions.
-	insinto "${ARC_PREFIX}/vendor/etc/init"
+	insinto "${ARC_VM_PREFIX}/vendor/etc/init"
 	if use android_gles32; then
 		doins "${FILESDIR}/gles32/init.gpu.rc"
 	elif use android_gles31; then
@@ -407,10 +407,10 @@ multilib_src_install_all_cheets() {
 	# Install vulkan related files.
 	if use vulkan; then
 		einfo "Using android vulkan."
-		insinto "${ARC_PREFIX}/vendor/etc/init"
+		insinto "${ARC_VM_PREFIX}/vendor/etc/init"
 		doins "${FILESDIR}/vulkan.rc"
 
-		insinto "${ARC_PREFIX}/vendor/etc/permissions"
+		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
 
 		if use video_cards_intel; then
 			doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
@@ -431,19 +431,19 @@ multilib_src_install_all_cheets() {
 
 	if use android_vulkan_compute_0 && ! use android-container-nyc; then
 		einfo "Using android vulkan_compute_0."
-		insinto "${ARC_PREFIX}/vendor/etc/permissions"
+		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
 		doins "${FILESDIR}/android.hardware.vulkan.compute-0.xml"
 	fi
 
 	# Install permission file to declare opengles aep support.
 	if use android_aep; then
 		einfo "Using android aep."
-		insinto "${ARC_PREFIX}/vendor/etc/permissions"
+		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
 		doins "${FILESDIR}/android.hardware.opengles.aep.xml"
 	fi
 
 	# Install the dri header for arc-cros-gralloc
-	insinto "${ARC_PREFIX}/vendor/include/GL"
+	insinto "${ARC_VM_PREFIX}/vendor/include/GL"
 	doins -r "${S}/include/GL/internal"
 }
 
