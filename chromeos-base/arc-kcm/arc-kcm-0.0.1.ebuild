@@ -32,7 +32,7 @@ S="${WORKDIR}"
 
 src_compile() {
 	arc-build-constants-configure
-	"${SYSROOT}/${ARC_ETC_DIR}/bin/XkbToKcmConverter" \
+	"${SYSROOT}${ARC_CONTAINER_ETC_DIR}/bin/XkbToKcmConverter" \
 		"${SYSROOT}/usr/share/X11/xkb" \
 		"${SYSROOT}/usr/share/chromeos-assets/input_methods/input_methods.txt" . || die
 }
