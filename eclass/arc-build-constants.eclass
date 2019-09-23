@@ -17,7 +17,10 @@ ANDROID_VM_VERS=(
 	android-vm-pi
 )
 
-IUSE="arcvm cheets ${ANDROID_CONTAINER_VERS[*]} ${ANDROID_VM_VERS[*]}"
+IUSE="arcvm"
+IUSE="${IUSE} cheets"
+IUSE="${IUSE} ${ANDROID_CONTAINER_VERS[*]}"
+IUSE="${IUSE} ${ANDROID_VM_VERS[*]}"
 
 REQUIRED_USE="
 	^^ ( ${ANDROID_CONTAINER_VERS[*]} ${ANDROID_VM_VERS[*]} )
@@ -29,8 +32,14 @@ REQUIRED_USE="
 # @DESCRIPTION:
 # Configures ARC variables for container or VM build:
 # - ARC_PREFIX: Path to root directory of ARC installation relative to sysroot.
+# - ARC_VM_PREFIX: Path to root directory of ARCVM installation relative to sysroot.
+# - ARC_CONTAINER_PREFIX: Path to root directory of ARC++ installation relative to sysroot.
 # - ARC_VENDOR_DIR: Path to install directory for /vendor files relative to sysroot.
+# - ARC_VM_VENDOR_DIR: Path to install directory for /vendor files relative to sysroot for ARCVM.
+# - ARC_CONTAINER_VENDOR_DIR: Path to install directory for /vendor files relative to sysroot for ARC++.
 # - ARC_ETC_DIR: Path to install directory for /etc files relative to sysroot.
+# - ARC_VM_ETC_DIR: Path to install directory for /etc files relative to sysroot for ARCVM.
+# - ARC_CONTAINER_ETC_DIR: Path to install directory for /etc files relative to sysroot for ARC++.
 # - ARC_VERSION_CODENAME: Selected Android version.
 arc-build-constants-configure() {
 	if ! use cheets; then
@@ -38,15 +47,25 @@ arc-build-constants-configure() {
 		return
 	fi
 
-	# TODO(alexlau): Update this when we need to build ARC++ and ARCVM together.
+	# Use only in packages that are specific to either ARC++ or ARCVM.
+	ARC_VM_PREFIX="/opt/google/vms/android"
+	ARC_CONTAINER_PREFIX="/opt/google/containers/android"
+
+	ARC_PREFIX="/opt/google/containers/android"
 	if use arcvm; then
 		ARC_PREFIX="/opt/google/vms/android"
-	else
-		ARC_PREFIX="/opt/google/containers/android"
 	fi
 
+	# Always finalize *_DIR's only after setting the PREFIX*'s to allow for
+	# interposition of the locations.
 	ARC_VENDOR_DIR="/build/rootfs${ARC_PREFIX}/vendor"
 	ARC_ETC_DIR="/build/rootfs${ARC_PREFIX}/etc"
+
+	ARC_VM_VENDOR_DIR="/build/rootfs${ARC_VM_PREFIX}/vendor"
+	ARC_VM_ETC_DIR="/build/rootfs${ARC_VM_PREFIX}/etc"
+
+	ARC_CONTAINER_VENDOR_DIR="/build/rootfs${ARC_CONTAINER_PREFIX}/vendor"
+	ARC_CONTAINER_ETC_DIR="/build/rootfs${ARC_CONTAINER_PREFIX}/etc"
 }
 
 fi
