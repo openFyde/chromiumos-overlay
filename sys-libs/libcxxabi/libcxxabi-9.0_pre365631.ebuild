@@ -77,33 +77,33 @@ multilib_src_configure() {
 	append-cppflags -D_LIBCXXABI_USE_FUTEX
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
-		-DLLVM_ENABLE_PROJECTS="libcxxabi"
-		-DLIBCXXABI_LIBDIR_SUFFIX=${libdir#lib}
-		-DLIBCXXABI_ENABLE_SHARED=ON
-		-DLIBCXXABI_ENABLE_STATIC=$(usex static-libs)
-		-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)
-		-DLIBCXXABI_INCLUDE_TESTS=$(usex test)
-		-DCMAKE_INSTALL_PREFIX="${PREFIX}"
-		-DLIBCXXABI_LIBCXX_INCLUDES="${S}"/libcxx/include
-		-DLIBCXXABI_USE_COMPILER_RT=$(usex compiler-rt)
+		"-DLLVM_ENABLE_PROJECTS=libcxxabi"
+		"-DLIBCXXABI_LIBDIR_SUFFIX=${libdir#lib}"
+		"-DLIBCXXABI_ENABLE_SHARED=ON"
+		"-DLIBCXXABI_ENABLE_STATIC=$(usex static-libs)"
+		"-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)"
+		"-DLIBCXXABI_INCLUDE_TESTS=$(usex test)"
+		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
+		"-DLIBCXXABI_LIBCXX_INCLUDES=${S}/libcxx/include"
+		"-DLIBCXXABI_USE_COMPILER_RT=$(usex compiler-rt)"
 	)
 
 	# Update LLVM to 9.0 will cause LLVM to complain
 	# libstdc++ version is old. Add this flag as suggested in the error
 	# message.
 	mycmakeargs+=(
-		-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
+		"-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1"
 	)
 
 	if use msan; then
 		mycmakeargs+=(
-			-DLLVM_USE_SANITIZER=Memory
+			"-DLLVM_USE_SANITIZER=Memory"
 		)
 	fi
 
 	if use test; then
 		mycmakeargs+=(
-			-DLIT_COMMAND="${EPREFIX}"/usr/bin/lit
+			"-DLIT_COMMAND=${EPREFIX}/usr/bin/lit"
 		)
 	fi
 	cmake-utils_src_configure

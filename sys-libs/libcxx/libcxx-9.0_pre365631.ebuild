@@ -132,25 +132,25 @@ multilib_src_configure() {
 	append-flags "-stdlib=libstdc++"
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
-		-DLLVM_ENABLE_PROJECTS="libcxx"
-		-DLIBCXX_LIBDIR_SUFFIX=${libdir#lib}
-		-DLIBCXX_ENABLE_SHARED=ON
-		-DLIBCXX_ENABLE_STATIC=$(usex static-libs)
-		-DLIBCXX_CXX_ABI=${cxxabi}
-		-DLIBCXX_CXX_ABI_INCLUDE_PATHS=${cxxabi_incs}
+		"-DLLVM_ENABLE_PROJECTS=libcxx"
+		"-DLIBCXX_LIBDIR_SUFFIX=${libdir#lib}"
+		"-DLIBCXX_ENABLE_SHARED=ON"
+		"-DLIBCXX_ENABLE_STATIC=$(usex static-libs)"
+		"-DLIBCXX_CXX_ABI=${cxxabi}"
+		"-DLIBCXX_CXX_ABI_INCLUDE_PATHS=${cxxabi_incs}"
 		# we're using our own mechanism for generating linker scripts
-		-DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=OFF
-		-DLIBCXX_HAS_MUSL_LIBC=$(usex elibc_musl)
-		-DLIBCXX_HAS_GCC_S_LIB=${want_gcc_s}
-		-DLIBCXX_USE_COMPILER_RT=$(usex compiler-rt)
-		-DLIBCXX_INCLUDE_TESTS=$(usex test)
-		-DCMAKE_INSTALL_PREFIX=${PREFIX}
-		-DCMAKE_SHARED_LINKER_FLAGS="${extra_libs[*]} ${LDFLAGS}"
+		"-DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=OFF"
+		"-DLIBCXX_HAS_MUSL_LIBC=$(usex elibc_musl)"
+		"-DLIBCXX_HAS_GCC_S_LIB=${want_gcc_s}"
+		"-DLIBCXX_USE_COMPILER_RT=$(usex compiler-rt)"
+		"-DLIBCXX_INCLUDE_TESTS=$(usex test)"
+		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
+		"-DCMAKE_SHARED_LINKER_FLAGS=${extra_libs[*]} ${LDFLAGS}"
 	)
 
 	if use msan; then
 		mycmakeargs+=(
-			-DLLVM_USE_SANITIZER=Memory
+			"-DLLVM_USE_SANITIZER=Memory"
 		)
 	fi
 
@@ -158,8 +158,8 @@ multilib_src_configure() {
 		mycmakeargs+=(
 			# this can be any directory, it just needs to exist...
 			# FIXME: remove this once https://reviews.llvm.org/D25093 is merged
-			-DLLVM_MAIN_SRC_DIR="${T}"
-			-DLIT_COMMAND="${EPREFIX}"/usr/bin/lit
+			"-DLLVM_MAIN_SRC_DIR=${T}"
+			"-DLIT_COMMAND=${EPREFIX}/usr/bin/lit"
 		)
 	fi
 	cmake-utils_src_configure

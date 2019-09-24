@@ -75,27 +75,27 @@ src_configure() {
 	BUILD_DIR=${WORKDIR}/${P}_build
 
 	local mycmakeargs=(
-		-DLLVM_ENABLE_PROJECTS="compiler-rt"
+		"-DLLVM_ENABLE_PROJECTS=compiler-rt"
 
 		# crbug/855759
-		-DCOMPILER_RT_BUILD_CRT=OFF
+		"-DCOMPILER_RT_BUILD_CRT=OFF"
 	)
 
 	if [[ ${CTARGET} == *-eabi ]]; then
 		mycmakeargs+=(
-			-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
-			-DCOMPILER_RT_OS_DIR=baremetal
-			-DCOMPILER_RT_BAREMETAL_BUILD=yes
-			-DCMAKE_C_COMPILER_TARGET="${CTARGET}"
-			-DCOMPILER_RT_DEFAULT_TARGET_ONLY=yes
+			"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
+			"-DCOMPILER_RT_OS_DIR=baremetal"
+			"-DCOMPILER_RT_BAREMETAL_BUILD=yes"
+			"-DCMAKE_C_COMPILER_TARGET=${CTARGET}"
+			"-DCOMPILER_RT_DEFAULT_TARGET_ONLY=yes"
 		)
 	else
 		mycmakeargs+=(
-			-DCOMPILER_RT_TEST_TARGET_TRIPLE="${CTARGET}"
+			"-DCOMPILER_RT_TEST_TARGET_TRIPLE=${CTARGET}"
 		)
 	fi
 	mycmakeargs+=(
-		-DCOMPILER_RT_INSTALL_PATH="${EPREFIX}$(${CC} --print-resource-dir)"
+		"-DCOMPILER_RT_INSTALL_PATH=${EPREFIX}$(${CC} --print-resource-dir)"
 	)
 	cmake-utils_src_configure
 }

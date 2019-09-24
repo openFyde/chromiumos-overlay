@@ -62,18 +62,18 @@ multilib_src_configure() {
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		"${mycmakeargs[@]}"
-		-DLLVM_ENABLE_PROJECTS="libunwind"
-		-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
-		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
-		-DLIBUNWIND_ENABLE_ASSERTIONS=$(should_enable_asserts)
-		-DLIBUNWIND_ENABLE_STATIC=$(usex static-libs)
-		-DLIBUNWIND_ENABLE_SHARED=$(usex shared-libs)
-		-DLIBUNWIND_TARGET_TRIPLE=${CTARGET}
-		-DLIBUNWIND_ENABLE_THREADS=OFF
-		-DLIBUNWIND_ENABLE_CROSS_UNWINDING=ON
-		-DCMAKE_INSTALL_PREFIX=${PREFIX}
+		"-DLLVM_ENABLE_PROJECTS=libunwind"
+		"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
+		"-DLLVM_LIBDIR_SUFFIX=${libdir#lib}"
+		"-DLIBUNWIND_ENABLE_ASSERTIONS=$(should_enable_asserts)"
+		"-DLIBUNWIND_ENABLE_STATIC=$(usex static-libs)"
+		"-DLIBUNWIND_ENABLE_SHARED=$(usex shared-libs)"
+		"-DLIBUNWIND_TARGET_TRIPLE=${CTARGET}"
+		"-DLIBUNWIND_ENABLE_THREADS=OFF"
+		"-DLIBUNWIND_ENABLE_CROSS_UNWINDING=ON"
+		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
 		# Avoid old libstdc++ errors when bootstrapping.
-		-DLLVM_ENABLE_LIBCXX=ON
+		"-DLLVM_ENABLE_LIBCXX=ON"
 	)
 
 	cmake-utils_src_configure

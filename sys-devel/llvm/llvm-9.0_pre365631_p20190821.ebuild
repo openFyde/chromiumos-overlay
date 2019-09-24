@@ -188,52 +188,52 @@ multilib_src_configure() {
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		"${mycmakeargs[@]}"
-		-DLLVM_ENABLE_PROJECTS="llvm;clang;lld;compiler-rt;clang-tools-extra"
-		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
+		"-DLLVM_ENABLE_PROJECTS=llvm;clang;lld;compiler-rt;clang-tools-extra"
+		"-DLLVM_LIBDIR_SUFFIX=${libdir#lib}"
 
-		-DLLVM_BUILD_LLVM_DYLIB=ON
+		"-DLLVM_BUILD_LLVM_DYLIB=ON"
 		# Link LLVM statically
-		-DLLVM_LINK_LLVM_DYLIB=OFF
+		"-DLLVM_LINK_LLVM_DYLIB=OFF"
 
-		-DLLVM_ENABLE_TIMESTAMPS=OFF
-		-DLLVM_TARGETS_TO_BUILD="${targets}"
-		-DLLVM_BUILD_TESTS=$(usex test)
+		"-DLLVM_ENABLE_TIMESTAMPS=OFF"
+		"-DLLVM_TARGETS_TO_BUILD=${targets}"
+		"-DLLVM_BUILD_TESTS=$(usex test)"
 
-		-DLLVM_ENABLE_FFI=$(usex libffi)
-		-DLLVM_ENABLE_TERMINFO=$(usex ncurses)
-		-DLLVM_ENABLE_ASSERTIONS=$(enable_asserts)
-		-DLLVM_ENABLE_EH=ON
-		-DLLVM_ENABLE_RTTI=ON
+		"-DLLVM_ENABLE_FFI=$(usex libffi)"
+		"-DLLVM_ENABLE_TERMINFO=$(usex ncurses)"
+		"-DLLVM_ENABLE_ASSERTIONS=$(enable_asserts)"
+		"-DLLVM_ENABLE_EH=ON"
+		"-DLLVM_ENABLE_RTTI=ON"
 
-		-DWITH_POLLY=OFF # TODO
+		"-DWITH_POLLY=OFF" # TODO
 
-		-DLLVM_HOST_TRIPLE="${CHOST}"
+		"-DLLVM_HOST_TRIPLE=${CHOST}"
 
-		-DFFI_INCLUDE_DIR="${ffi_cflags#-I}"
-		-DFFI_LIBRARY_DIR="${ffi_ldflags#-L}"
-		-DLLVM_BINUTILS_INCDIR="${SYSROOT}"/usr/include
+		"-DFFI_INCLUDE_DIR=${ffi_cflags#-I}"
+		"-DFFI_LIBRARY_DIR=${ffi_ldflags#-L}"
+		"-DLLVM_BINUTILS_INCDIR=${SYSROOT}/usr/include"
 
-		-DHAVE_HISTEDIT_H=$(usex libedit)
-		-DENABLE_LINKER_BUILD_ID=ON
-		-DCLANG_VENDOR="Chromium OS ${PVR}"
+		"-DHAVE_HISTEDIT_H=$(usex libedit)"
+		"-DENABLE_LINKER_BUILD_ID=ON"
+		"-DCLANG_VENDOR=Chromium OS ${PVR}"
 		# override default stdlib and rtlib
-		-DCLANG_DEFAULT_CXX_STDLIB=$(usex default-libcxx libc++ "")
-		-DCLANG_DEFAULT_RTLIB=$(usex default-compiler-rt compiler-rt "")
+		"-DCLANG_DEFAULT_CXX_STDLIB=$(usex default-libcxx libc++ "")"
+		"-DCLANG_DEFAULT_RTLIB=$(usex default-compiler-rt compiler-rt "")"
 
 		# Turn on new pass manager for LLVM
-		-DENABLE_EXPERIMENTAL_NEW_PASS_MANAGER=ON
+		"-DENABLE_EXPERIMENTAL_NEW_PASS_MANAGER=ON"
 
 		# crbug/855759
-		-DCOMPILER_RT_BUILD_CRT=OFF
+		"-DCOMPILER_RT_BUILD_CRT=OFF"
 
-		-DCMAKE_POSITION_INDEPENDENT_CODE=ON
-		-DCLANG_DEFAULT_UNWINDLIB=libgcc
+		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
+		"-DCLANG_DEFAULT_UNWINDLIB=libgcc"
 	)
 
 	# Update LLVM to 9.0 will cause LLVM to complain GCC
 	# version is < 5.1. Add this flag to suppress the error.
 	mycmakeargs+=(
-		-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
+		"-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1"
 	)
 
 	if check_lld_works; then
@@ -241,7 +241,7 @@ multilib_src_configure() {
 			# We use lld to link llvm, because:
 			# 1) Gold has issue with no index for archive,
 			# 2) Gold doesn't support instrumented compiler-rt well.
-			-DLLVM_USE_LINKER=lld
+			"-DLLVM_USE_LINKER=lld"
 		)
 		# The standalone toolchain may be run at places not supporting
 		# smallPIE, disabling it for lld.
@@ -252,44 +252,44 @@ multilib_src_configure() {
 
 		if use thinlto; then
 			mycmakeargs+=(
-				-DLLVM_ENABLE_LTO=thin
+				"-DLLVM_ENABLE_LTO=thin"
 			)
 		fi
 
 		if apply_pgo_profile; then
 			mycmakeargs+=(
-				-DLLVM_PROFDATA_FILE="${WORKDIR}/llvm.profdata"
+				"-DLLVM_PROFDATA_FILE=${WORKDIR}/llvm.profdata"
 			)
 		fi
 
 		if use llvm_pgo_generate; then
 			mycmakeargs+=(
-				-DLLVM_BUILD_INSTRUMENTED=IR
+				"-DLLVM_BUILD_INSTRUMENTED=IR"
 			)
 		fi
 	fi
 
 	if ! multilib_is_native_abi || ! use ocaml; then
 		mycmakeargs+=(
-			-DOCAMLFIND=NO
+			"-DOCAMLFIND=NO"
 		)
 	fi
 #	Note: go bindings have no CMake rules at the moment
 #	but let's kill the check in case they are introduced
 #	if ! multilib_is_native_abi || ! use go; then
 		mycmakeargs+=(
-			-DGO_EXECUTABLE=GO_EXECUTABLE-NOTFOUND
+			"-DGO_EXECUTABLE=GO_EXECUTABLE-NOTFOUND"
 		)
 #	fi
 
 	if multilib_is_native_abi; then
 		mycmakeargs+=(
-			-DLLVM_BUILD_DOCS=$(usex doc)
-			-DLLVM_ENABLE_SPHINX=$(usex doc)
-			-DLLVM_ENABLE_DOXYGEN=OFF
-			-DLLVM_INSTALL_HTML="${EPREFIX}/usr/share/doc/${PF}/html"
-			-DSPHINX_WARNINGS_AS_ERRORS=OFF
-			-DLLVM_INSTALL_UTILS=ON
+			"-DLLVM_BUILD_DOCS=$(usex doc)"
+			"-DLLVM_ENABLE_SPHINX=$(usex doc)"
+			"-DLLVM_ENABLE_DOXYGEN=OFF"
+			"-DLLVM_INSTALL_HTML=${EPREFIX}/usr/share/doc/${PF}/html"
+			"-DSPHINX_WARNINGS_AS_ERRORS=OFF"
+			"-DLLVM_INSTALL_UTILS=ON"
 		)
 	fi
 
