@@ -60,6 +60,7 @@ src_unpack() {
 
 src_prepare() {
 	epatch "${FILESDIR}"/Fix-build-for-surfaceless-target.patch
+	epatch "${FILESDIR}"/0001-Remove-line-expression-tests.patch
 }
 
 src_configure() {
