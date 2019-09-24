@@ -42,14 +42,17 @@ src_install() {
 	# Main binary.
 	dobin "${OUT}"/arc-networkd
 
-	# Utility library.
+	# Libraries.
 	dolib.so "${OUT}"/lib/libarcnetwork-util.so
+	dolib.so "${OUT}"/lib/libpatchpanel-client.so
 
 	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/libarcnetwork-util.pc
+	doins "${OUT}"/libpatchpanel-client.pc
 
 	insinto /usr/include/arc/network/
+	doins client.h
 	doins mac_address_generator.h
 	doins subnet.h
 	doins subnet_pool.h
@@ -57,6 +60,9 @@ src_install() {
 	insinto /etc/init
 	doins "${S}"/init/arc-network.conf
 	doins "${S}"/init/arc-network-bridge.conf
+
+	insinto /etc/dbus-1/system.d
+	doins dbus/*.conf
 
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
