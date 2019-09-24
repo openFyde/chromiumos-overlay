@@ -50,6 +50,7 @@ IUSE_BRCMWIFI=(
 	brcmfmac4371-pcie
 )
 IUSE_LINUX_FIRMWARE=(
+	adreno-630
 	adsp_apl
 	adsp_cnl
 	adsp_glk
@@ -94,6 +95,7 @@ IUSE_LINUX_FIRMWARE=(
 )
 IUSE="${IUSE_LINUX_FIRMWARE[@]/#/linux_firmware_} video_cards_radeon video_cards_amdgpu"
 LICENSE="
+	linux_firmware_adreno-630? ( LICENSE.qcom )
 	linux_firmware_adsp_apl? ( LICENCE.adsp_sst )
 	linux_firmware_adsp_cnl? ( LICENCE.adsp_sst )
 	linux_firmware_adsp_glk? ( LICENCE.adsp_sst )
@@ -141,6 +143,7 @@ LICENSE="
 "
 
 RDEPEND="
+	linux_firmware_adreno-630? ( !media-libs/a630-fw )
 	linux_firmware_ath3k-all? ( !net-wireless/ath3k )
 	linux_firmware_ath3k-ar3011? ( !net-wireless/ath3k )
 	linux_firmware_ath3k-ar3012? ( !net-wireless/ath3k )
@@ -191,6 +194,7 @@ doins_subdir() {
 src_install() {
 	local x
 	insinto "${FIRMWARE_INSTALL_ROOT}"
+	use_fw adreno-630 && doins_subdir qcom/a630*
 	use_fw adsp_apl && doins_subdir intel/dsp_fw_bxtn*
 	use_fw adsp_cnl && doins_subdir intel/dsp_fw_cnl*
 	use_fw adsp_glk && doins_subdir intel/dsp_fw_glk*
