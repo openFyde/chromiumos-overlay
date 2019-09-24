@@ -15,7 +15,10 @@
 # to gclient path.
 
 EAPI="5"
-inherit autotest-deponly binutils-funcs cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user
+
+# TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
+PYTHON_COMPAT=( python2_7 )
+inherit autotest-deponly binutils-funcs cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://www.chromium.org/"
