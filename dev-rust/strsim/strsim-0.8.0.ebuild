@@ -3,12 +3,14 @@
 
 EAPI="6"
 
-CROS_RUST_EMPTY_CRATE=1
+CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
-DESCRIPTION="Empty strsim crate"
-HOMEPAGE=""
 
-LICENSE="BSD-Google"
+DESCRIPTION="Implementations of string similarity metrics."
+HOMEPAGE="https://github.com/dguo/strsim-rs"
+SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
+
+LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"

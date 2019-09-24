@@ -3,18 +3,12 @@
 
 EAPI="6"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
-
 inherit cros-rust
 
-DESCRIPTION="Library for ANSI terminal colours and styles (bold, underline)."
-HOMEPAGE="https://github.com/ogham/rust-ansi-term"
+DESCRIPTION="A Rust macro to generate structures which behave like a set of bitflags"
+HOMEPAGE="https://github.com/bitflags/bitflags"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
-
-DEPEND="
-	>=dev-rust/winapi-0.3.4:= <dev-rust/winapi-0.4.0
-"

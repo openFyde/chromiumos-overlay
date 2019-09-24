@@ -3,12 +3,18 @@
 
 EAPI="6"
 
-CROS_RUST_EMPTY_CRATE=1
+CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
-DESCRIPTION="Empty vec_map crate"
-HOMEPAGE=""
 
-LICENSE="BSD-Google"
+DESCRIPTION="A simple map based on a vector for small integer keys."
+HOMEPAGE="https://github.com/contain-rs/vec-map"
+SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
+
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
+
+DEPEND="
+	>=dev-rust/serde-1.0.0:= <dev-rust/serde-2.0.0
+"

@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="Library for ANSI terminal colours and styles (bold, underline)."
-HOMEPAGE="https://github.com/ogham/rust-ansi-term"
+DESCRIPTION="An XML library in pure Rust."
+HOMEPAGE="http://netvl.github.io/xml-rs/"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
@@ -16,5 +16,5 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/winapi-0.3.4:= <dev-rust/winapi-0.4.0
+	>=dev-rust/bitflags-0.5.0:= <dev-rust/bitflags-0.8.0
 "
