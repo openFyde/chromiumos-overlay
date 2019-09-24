@@ -18,9 +18,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/blueto
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="seccomp +bluetooth_suspend_management"
+IUSE="seccomp unibuild +bluetooth_suspend_management"
 
 RDEPEND="
+	unibuild? ( chromeos-base/chromeos-config )
 	chromeos-base/libbrillo
 	chromeos-base/newblue
 	net-wireless/bluez"
