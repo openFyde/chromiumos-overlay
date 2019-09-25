@@ -38,6 +38,7 @@ IUSE="
 	drm_atomic
 	edge_touch_filtering
 	eve
+	force_crashpad
 	gpu_sandbox_allow_sysv_shm
 	gpu_sandbox_failures_not_fatal
 	gpu_sandbox_start_after_initialization
