@@ -46,10 +46,6 @@ src_install() {
 	insinto /usr/local/bin
 	doins "${OUT}/tpm_softclear"
 	chmod u+x "${D}/usr/local/bin/tpm_softclear"
-
-	# Installs header files
-	insinto /usr/include/tpm_softclear_utils
-	doins ./*.h
 }
 
 platform_pkg_test() {
