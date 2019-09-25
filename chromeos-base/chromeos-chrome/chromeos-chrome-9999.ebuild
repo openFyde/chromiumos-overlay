@@ -18,7 +18,7 @@ EAPI="5"
 
 # TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
 PYTHON_COMPAT=( python2_7 )
-inherit autotest-deponly binutils-funcs cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1
+inherit autotest-deponly binutils-funcs cros-credentials cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://www.chromium.org/"
@@ -631,23 +631,7 @@ src_unpack() {
 	# Create storage directories.
 	sandboxless_ensure_directory "${CHROME_DISTDIR}" "${CHROME_CACHE_DIR}"
 
-	# Copy in credentials to fake home directory so that build process
-	# can access vcs and ssh if needed.
-	mkdir -p ${HOME}
-	SSH_CONFIG_DIR=/home/${WHOAMI}/.ssh
-	if [[ -d ${SSH_CONFIG_DIR} ]]; then
-		cp -rfp ${SSH_CONFIG_DIR} ${HOME} || die
-	fi
-	NET_CONFIG=/home/${WHOAMI}/.netrc
-	if [[ -f ${NET_CONFIG} ]]; then
-		cp -fp ${NET_CONFIG} ${HOME} || die
-	fi
-	GITCOOKIES_SRC=/home/${WHOAMI}/.gitcookies
-	GITCOOKIES_DST=${HOME}/.gitcookies
-	if [[ -f "${GITCOOKIES_SRC}" ]]; then
-		cp -fp "${GITCOOKIES_SRC}" "${GITCOOKIES_DST}" || die
-		git config --global http.cookiefile "${GITCOOKIES_DST}"
-	fi
+	cros-credentials_setup
 
 	decide_chrome_origin
 

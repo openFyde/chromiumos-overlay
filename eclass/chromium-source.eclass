@@ -26,7 +26,7 @@
 # This eclass also adds a dependency on chromeos-base/chromium-source
 # which is the ebuild used for downloading the source code.
 
-inherit cros-constants
+inherit cros-constants cros-credentials
 
 # @ECLASS-VARIABLE: CHROMIUM_GCLIENT_TEMPLATE
 # @DESCRIPTION: (Optional) Template gclient file passed to sync_chrome
@@ -91,27 +91,6 @@ chromium_source_compute_source_dir() {
 	esac
 }
 
-# Copy in credentials to fake home directory so that build process can
-# access vcs and ssh if needed.
-chromium_source_copy_credentials() {
-	mkdir -p "${HOME}"
-	local whoami=$(whoami)
-	local ssh_config_dir="/home/${whoami}/.ssh"
-	if [[ -d "${ssh_config_dir}" ]]; then
-		cp -rfp "${ssh_config_dir}" "${HOME}" || die
-	fi
-	local net_config="/home/${whoami}/.netrc"
-	if [[ -f "${net_config}" ]]; then
-		cp -fp "${net_config}" "${HOME}" || die
-	fi
-	local gitcookies_src="/home/${whoami}/.gitcookies"
-	local gitcookies_dst="${HOME}/.gitcookies"
-	if [[ -f "${gitcookies_src}" ]]; then
-		cp -fp "${gitcookies_src}" "${gitcookies_dst}" || die
-		git config --global http.cookiefile "${gitcookies_dst}"
-	fi
-}
-
 # Check out Chromium source code.
 chromium_source_check_out_source() {
 	[[ "${CHROMIUM_SOURCE_ORIGIN}" == LOCAL_SOURCE ]] && return
@@ -153,7 +132,7 @@ chromium_source_check_out_source() {
 chromium-source_src_unpack() {
 	chromium_source_compute_origin
 	chromium_source_compute_source_dir
-	chromium_source_copy_credentials
+	cros-credentials_setup
 	chromium_source_check_out_source
 }
 

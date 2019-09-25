@@ -13,7 +13,7 @@
 # managed in the same way.  You've got a git tree and you want to build
 # it.  This automates a lot of that common stuff in one place.
 
-inherit cros-constants
+inherit cros-constants cros-credentials
 
 # Array variables. All of the following variables can contain multiple items
 # with the restriction being that all of them have to have either:
@@ -532,6 +532,9 @@ cros-workon_src_unpack() {
 				ewarn "Falling back to git.eclass..."
 			fi
 		fi
+
+		# We have to pull from git, maybe a private repo.
+		cros-credentials_setup
 
 		EGIT_BRANCH="${CROS_WORKON_EGIT_BRANCH}"
 
