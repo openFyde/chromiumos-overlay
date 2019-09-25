@@ -336,7 +336,7 @@ multilib_src_install() {
 	cmake-utils_src_install
 
 	local wrapper_script=clang_host_wrapper
-	if use llvm-next || llvm-tot
+	if use llvm-next || use llvm-tot
 	then
 		cat "${FILESDIR}/clang_host_wrapper.header" \
 			"${FILESDIR}/wrapper_script_common" \
