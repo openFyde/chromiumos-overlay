@@ -123,7 +123,7 @@
         "end_version": 371068
     },
     {
-        "comment": [compiler-rt][crt]  make test case nontrivial in check_cxx_section_exists",
+        "comment": "[compiler-rt][crt]  make test case nontrivial in check_cxx_section_exists",
         "rel_patch_path": "cherry/155a43edb0c161bb5122ad4eeee991b43a0278bc.patch",
         "start_version": 365631,
         "end_version": 372038
