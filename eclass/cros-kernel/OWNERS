@@ -1,0 +1,2 @@
+# defconfig files should only be used as a fallback, not for official builds.
+per-file *defconfig=*
