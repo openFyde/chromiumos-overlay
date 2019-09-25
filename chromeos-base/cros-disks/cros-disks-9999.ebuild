@@ -105,10 +105,10 @@ platform_pkg_test() {
 	gtest_filter_qemu_common+=":MountInfoTest.RetrieveFromCurrentProcess"
 	gtest_filter_qemu_common+=":GlibProcessTest.*"
 
-	local gtest_filter_user_tests="-*.RunAsRoot*:"
+	local gtest_filter_user_tests="-*RunAsRoot*:"
 	! use x86 && ! use amd64 && gtest_filter_user_tests+="${gtest_filter_qemu_common}"
 
-	local gtest_filter_root_tests="*.RunAsRoot*-"
+	local gtest_filter_root_tests="*RunAsRoot*-"
 	! use x86 && ! use amd64 && gtest_filter_root_tests+="${gtest_filter_qemu_common}"
 
 	platform_test "run" "${OUT}/disks_testrunner" "1" \
