@@ -56,3 +56,7 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners u2f:u2f "${daemon_store}"
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/u2fd_test_runner"
+}
