@@ -18,6 +18,7 @@ IUSE=""
 # here that need the cross-compiler toolchains installed first.
 RDEPEND="
 	dev-lang/rust
+	dev-rust/dbus-codegen
 	dev-rust/protobuf-codegen
 	dev-util/cargo
 	sys-apps/mosys
