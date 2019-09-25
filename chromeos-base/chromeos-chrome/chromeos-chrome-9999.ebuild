@@ -146,11 +146,11 @@ VETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-78.0.3902.0_rc-r1-merged.afdo"
-AFDO_FILE["silvermont"]="R79-3903.0-1568628088.afdo"
-AFDO_FILE["airmont"]="R79-3900.0-1568629889.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-78.0.3902.0_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R79-3904.12-1569231291.afdo"
+AFDO_FILE["airmont"]="R79-3903.0-1569234053.afdo"
 AFDO_FILE["haswell"]="R78-3809.102-1565608061.afdo"
-AFDO_FILE["broadwell"]="R79-3865.63-1568626808.afdo"
+AFDO_FILE["broadwell"]="R79-3903.0-1569232734.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 # The following entry will be modified automatically for verifying orderfile.
 UNVETTED_ORDERFILE=""
