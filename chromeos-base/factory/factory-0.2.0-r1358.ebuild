@@ -8,7 +8,10 @@ CROS_WORKON_PROJECT="chromiumos/platform/factory"
 CROS_WORKON_LOCALNAME="factory"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit cros-workon python cros-constants cros-factory
+# TODO(crbug.com/999876): Upgrade to Python 3 at some point.
+PYTHON_COMPAT=( python2_7 )
+
+inherit cros-workon python-r1 cros-constants cros-factory
 
 # External dependencies
 LOCAL_MIRROR_URL=http://commondatastorage.googleapis.com/chromeos-localmirror/
@@ -31,6 +34,11 @@ DEPEND="virtual/chromeos-bsp-factory
 
 BUILD_DIR="${WORKDIR}/build"
 
+pkg_setup() {
+	cros-workon_pkg_setup
+	python_setup
+}
+
 src_prepare() {
 	default
 	# Need the lddtree from the chromite dir.
@@ -44,7 +52,7 @@ src_configure() {
 	# Export build settings
 	export BOARD="${SYSROOT##*/}"
 	export OUTOFTREE_BUILD="${CROS_WORKON_OUTOFTREE_BUILD}"
-	export PYTHON="$(PYTHON)"
+	export PYTHON="${EPYTHON}"
 	export PYTHON_SITEDIR="${EROOT}$(python_get_sitedir)"
 	export SRCROOT="${CROS_WORKON_SRCROOT}"
 	export TARGET_DIR=/usr/local/factory
