@@ -517,3 +517,6 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	dev-util/strace"
 
+# Host dependencies for termina_build_image
+RDEPEND="${RDEPEND}
+	app-misc/fdupes"
