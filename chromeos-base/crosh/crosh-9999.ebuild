@@ -17,11 +17,13 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="rust-crosh"
 
-DEPEND=">=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
+DEPEND="chromeos-base/system_api-rust:=
+	>=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
 	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
 	dev-rust/remain:=
 	dev-rust/sys_util:=
 	>=dev-rust/termion-1.5.1:= <dev-rust/termion-2.0.0
+	dev-rust/tlsdate_dbus:=
 "
 RDEPEND="app-admin/sudo
 	chromeos-base/vboot_reference
