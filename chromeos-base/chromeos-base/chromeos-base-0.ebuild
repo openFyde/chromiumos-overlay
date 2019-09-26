@@ -164,11 +164,6 @@ src_install() {
 		# We want dash as our main shell.
 		dosym dash /bin/sh
 
-		# Ensure /etc/shadow exists in the target with correct perms.
-		# http://bugs.gentoo.org/260993
-		touch "${D}/etc/shadow" || die
-		chmod 0600 "${D}/etc/shadow" || die
-
 		# Avoid the wrapper and just link to the only editor we have.
 		dodir /usr/libexec
 		dosym /usr/bin/$(usex cros_embedded vi vim) /usr/libexec/editor
