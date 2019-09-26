@@ -23,3 +23,11 @@ DEPEND="
 src_install() {
 	cros-rust_publish "${RUST_CRATE}"
 }
+
+pkg_postinst() {
+	cros-rust_pkg_postinst "${RUST_CRATE}"
+}
+
+pkg_prerm() {
+	cros-rust_pkg_prerm "${RUST_CRATE}"
+}

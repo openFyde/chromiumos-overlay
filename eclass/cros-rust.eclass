@@ -54,7 +54,7 @@ inherit toolchain-funcs cros-debug cros-sanitizers
 IUSE="asan fuzzer lsan +lto msan test tsan ubsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
-EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_install
+EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_install pkg_postinst pkg_prerm
 
 DEPEND="
 	>=virtual/rust-1.28.0:=
@@ -62,7 +62,9 @@ DEPEND="
 "
 
 ECARGO_HOME="${WORKDIR}/cargo_home"
-CROS_RUST_REGISTRY_DIR="/usr/lib/cros_rust_registry"
+CROS_RUST_REGISTRY_BASE="/usr/lib/cros_rust_registry"
+CROS_RUST_REGISTRY_DIR="${CROS_RUST_REGISTRY_BASE}/store"
+CROS_RUST_REGISTRY_INST_DIR="${CROS_RUST_REGISTRY_BASE}/registry"
 
 # Ignore odr violations in unit tests in asan builds
 # (https://github.com/rust-lang/rust/issues/41807).
@@ -122,7 +124,7 @@ cros-rust_src_unpack() {
 
 	cat <<- EOF > "${ECARGO_HOME}/config"
 	[source.chromeos]
-	directory = "${SYSROOT}/${CROS_RUST_REGISTRY_DIR}"
+	directory = "${SYSROOT}/${CROS_RUST_REGISTRY_INST_DIR}"
 
 	[source.crates-io]
 	replace-with = "chromeos"
@@ -357,8 +359,8 @@ ecargo_test() {
 # @FUNCTION: cros-rust_publish
 # @USAGE: [crate name] [crate version]
 # @DESCRIPTION:
-# Publish a library crate to the local registry.  Should only be called from
-# within a src_install() function.
+# Install a library crate to the local registry store.  Should only be called
+# from within a src_install() function.
 cros-rust_publish() {
 	debug-print-function ${FUNCNAME} "$@"
 
@@ -423,6 +425,47 @@ cros-rust_src_install() {
 	debug-print-function ${FUNCNAME} "$@"
 
 	cros-rust_publish
+}
+
+# @FUNCTION: cros-rust_pkg_postinst
+# @USAGE: [crate name] [crate version]
+# @DESCRIPTION:
+# Install a library crate in the local registry store into the registry,
+# making it visible to Cargo.
+cros-rust_pkg_postinst() {
+	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_postinst" ]]; then
+		die "${FUNCNAME}() should only be used in pkg_postinst() phase"
+	fi
+
+	local name="${1:-${PN}}"
+	local version="${2:-${PV}}"
+	local crate="${name}-${version}"
+
+	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
+	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
+	mkdir -p "${registry_dir}"
+
+	local dest="${registry_dir}/${crate}"
+	einfo "Linking ${crate} into Cargo registry at ${registry_dir}"
+	ln -srT "${crate_dir}" "${dest}" || die
+}
+
+# @FUNCTION: cros-rust_pkg_prerm
+# @USAGE: [crate name] [crate version]
+# @DESCRIPTION:
+# Unlink a library crate from the local registry.
+cros-rust_pkg_prerm() {
+	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_prerm" ]]; then
+		die "${FUNCNAME}() should only be used in pkg_prerm() phase"
+	fi
+
+	local name="${1:-${PN}}"
+	local version="${2:-${PV}}"
+	local crate="${name}-${version}"
+
+	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
+	einfo "Removing ${crate} from Cargo registry"
+	rm -f "${registry_dir}/${crate}" || die
 }
 
 # @FUNCTION: cros-rust_get_crate_version

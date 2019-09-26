@@ -52,3 +52,15 @@ src_install() {
 	pushd trace_events_macros > /dev/null || die
 	cros-rust_publish trace_events_macros "$(cros-rust_get_crate_version .)"
 }
+
+pkg_postinst() {
+	cros-rust_pkg_postinst trace_events
+	cros-rust_pkg_postinst json_tracer
+	cros-rust_pkg_postinst trace_events_macros
+}
+
+pkg_prerm() {
+	cros-rust_pkg_prerm trace_events
+	cros-rust_pkg_prerm json_tracer
+	cros-rust_pkg_prerm trace_events_macros
+}

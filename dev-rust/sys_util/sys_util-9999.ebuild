@@ -70,3 +70,13 @@ src_install() {
 
 	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
 }
+
+pkg_postinst() {
+	cros-rust_pkg_postinst poll_token_derive
+	cros-rust_pkg_postinst
+}
+
+pkg_prerm() {
+	cros-rust_pkg_prerm poll_token_derive
+	cros-rust_pkg_prerm
+}

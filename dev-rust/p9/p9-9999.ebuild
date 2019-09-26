@@ -70,3 +70,13 @@ src_install() {
 			"$(cros-rust_get_build_dir)/p9_tframe_decode_fuzzer"
 	fi
 }
+
+pkg_postinst() {
+	cros-rust_pkg_postinst wire_format_derive
+	cros-rust_pkg_postinst p9
+}
+
+pkg_prerm() {
+	cros-rust_pkg_prerm wire_format_derive
+	cros-rust_pkg_prerm p9
+}
