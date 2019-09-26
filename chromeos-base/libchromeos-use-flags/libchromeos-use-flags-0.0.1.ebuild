@@ -77,6 +77,7 @@ IUSE="
 	touchview
 	veyron_mickey
 	veyron_minnie
+	video_capture_use_gpu_memory_buffer
 	virtio_gpu
 	wilco
 	+X
