@@ -437,10 +437,31 @@ cros-workon_src_unpack() {
 	array_vars_autocomplete
 
 	# Make sure all CROS_WORKON_DESTDIR are under S.
-	local p
+	local p r i
 	for p in "${CROS_WORKON_DESTDIR[@]}"; do
 		if [[ "${p}" != "${S}" && "${p}" != "${S}"/* ]]; then
 			die "CROS_WORKON_DESTDIR=${p} must be under S=${S}"
+		fi
+	done
+
+	for (( i = 0; i < project_count; ++i )); do
+		p="${CROS_WORKON_PROJECT[$i]}"
+		r="${CROS_WORKON_REPO[$i]}"
+		if [[ "${p}" == /* ]]; then
+			die "CROS_WORKON_PROJECT: ${p}: paths should not be absolute"
+		elif [[ "${p}" == ../* ]]; then
+			die "CROS_WORKON_PROJECT: ${p}: paths should be relative to the root of the server"
+		fi
+
+		# Catch a few semi-common mistakes with project source.  https://crbug.com/1008106
+		if [[ "${p}" == chromeos/* ]]; then
+			if [[ "${r}" == "${CROS_GIT_HOST_URL}" ]]; then
+				die "CROS_WORKON_PROJECT: ${p}: chromeos/ projects should have CROS_WORKON_REPO=\${CROS_GIT_INT_HOST_URL}"
+			fi
+		elif [[ "${p}" == chromium/* ]]; then
+			if [[ "${r}" == "${CROS_GIT_INT_HOST_URL}" ]]; then
+				die "CROS_WORKON_PROJECT: ${p}: chromiumos/ projects should have CROS_WORKON_REPO=\${CROS_GIT_HOST_URL}"
+			fi
 		fi
 	done
 
