@@ -40,12 +40,16 @@ src_compile() {
 	tc-export_build_env
 	export HOST_CFLAGS="${BUILD_CFLAGS}"
 	ecargo_build
-	use test && ecargo_test --no-run
+	if use test; then
+		ecargo_test --no-run
+		ecargo_test --no-run -p flashrom
+	fi
 }
 
 src_test() {
 	if use x86 || use amd64; then
 		ecargo_test
+		ecargo_test -p flashrom
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
