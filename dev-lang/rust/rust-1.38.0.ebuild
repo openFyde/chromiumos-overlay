@@ -22,9 +22,9 @@ else
 fi
 
 
-STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).2"
+STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).0"
 STAGE0_VERSION_CARGO="0.$(($(get_version_component_range 2))).0"
-STAGE0_DATE="2019-05-14"
+STAGE0_DATE="2019-08-15"
 RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
@@ -53,6 +53,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
 	"${FILESDIR}/${P}-libstd-sanitizer-paths.patch"
 	"${FILESDIR}/${P}-sanitizer-lib-boilerplate.patch"
+	"${FILESDIR}/${P}-no-test-on-build.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"
@@ -67,6 +68,14 @@ RUSTC_TARGET_TRIPLES=(
 	aarch64-cros-linux-gnu
 )
 
+# In this context BARE means the OS part of the triple is none and gcc is used for C/C++ and
+# linking.
+RUSTC_BARE_TARGET_TRIPLES=(
+	thumbv6m-none-eabi # Cortex-M0, M0+, M1
+	thumbv7m-none-eabi # Cortex-M3
+	thumbv7em-none-eabihf # Cortex-M4F, M7F, FPU, hardfloat
+)
+
 pkg_setup() {
 	python-any-r1_pkg_setup
 	# Skips the toolchain check if we are installing a binpkg.
@@ -75,6 +84,7 @@ pkg_setup() {
 		for tt in "${RUSTC_TARGET_TRIPLES[@]}" ; do
 			which "${tt}-clang" >/dev/null || die "missing toolchain ${tt}"
 		done
+		which "arm-none-eabi-gcc" >/dev/null || die "missing toolchain arm-none-eabi"
 	fi
 }
 
@@ -97,13 +107,6 @@ src_prepare() {
 	sed -e 's:"unknown":"cros":g' aarch64_unknown_linux_gnu.rs >aarch64_cros_linux_gnu.rs || die
 	popd
 
-	# One of the patches changes a vendored library, thereby changing the
-	# checksum.
-	pushd vendor/compiler_builtins || die
-	sed -i 's:66e76e0e8016a6a4e5d5b0a4a08a83051b24699047bda3a54dc18593cfef7801:183ce3f632aaceea80d6544eb631128b98f0d562d7c730061c7e49c1d8cd0f0d:g' \
-		.cargo-checksum.json
-	popd
-
 	# The miri tool is built because of 'extended = true' in cros-config.toml,
 	# but the build is busted. See the upstream issue: [https://github.com/rust-
 	# lang/rust/issues/56576]. Because miri isn't installed or needed, this sed
@@ -115,11 +118,9 @@ src_prepare() {
 	# Tsk. Tsk. The rust makefile for LLVM's compiler-rt uses -ffreestanding
 	# but one of the files includes <stdlib.h> causing occasional problems
 	# with MB_LEN_MAX. See crbug.com/730845 for the thrilling details. This
-	# line patches over the problematic include. This must go here because
-	# src/compiler-rt is a submodule that only gets filled in after
-	# ./configure.
+	# line patches over the problematic include.
 	sed -e 's:#include <stdlib.h>:void abort(void);:g' \
-		-i "${ECONF_SOURCE:-.}"/vendor/compiler_builtins/compiler-rt/lib/builtins/int_util.c || die
+		-i "${ECONF_SOURCE:-.}"/src/llvm-project/compiler-rt/lib/builtins/int_util.c || die
 
 	epatch "${PATCHES[@]}"
 
@@ -140,7 +141,7 @@ src_configure() {
 
 	local targets=""
 	local tt
-	for tt in "${RUSTC_TARGET_TRIPLES[@]}" ; do
+	for tt in "${RUSTC_TARGET_TRIPLES[@]}" "${RUSTC_BARE_TARGET_TRIPLES[@]}" ; do
 		targets+="\"${tt}\", "
 	done
 
@@ -170,6 +171,8 @@ mandir = "share/man"
 default-linker = "${CBUILD}-clang"
 channel = "${SLOT%%/*}"
 codegen-units = 0
+llvm-libunwind = true
+codegen-tests = false
 
 EOF
 	for tt in "${RUSTC_TARGET_TRIPLES[@]}" ; do
