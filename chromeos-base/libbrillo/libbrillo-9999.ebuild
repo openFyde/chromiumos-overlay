@@ -11,6 +11,10 @@ CROS_WORKON_SUBTREE="common-mk libbrillo .gn"
 
 PLATFORM_SUBDIR="libbrillo"
 
+# platform.eclass automatically add dependency to libbrillo by default,
+# but this package should not have the dependency.
+WANT_LIBBRILLO="no"
+
 inherit cros-workon multilib platform
 
 DESCRIPTION="Base library for Chromium OS"
