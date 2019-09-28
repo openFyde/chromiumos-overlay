@@ -35,6 +35,7 @@ DEPEND="${RDEPEND}
 PATCHES=(
 	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
 	"${FILESDIR}"/0001-CHROMIUM-Revert-vrend-Always-use-a-texture-view-for-.patch
+	"${FILESDIR}"/UPSTREAM-shader-re-interpret-GRID_SIZE-BLOCK_ID-and-THREAD_ID.patch
 )
 
 src_prepare() {

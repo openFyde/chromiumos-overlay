@@ -1,0 +1,39 @@
+From 4ac3a04cb8a4b0d419bccbb7798b59aa098487a6 Mon Sep 17 00:00:00 2001
+From: Lepton Wu <lepton@chromium.org>
+Date: Fri, 27 Sep 2019 11:10:10 -0700
+Subject: [PATCH] shader: re-interpret GRID_SIZE, BLOCK_ID, and THREAD_ID as
+ float in MOV to TEMP
+
+These values are unsigned, but the temporaries are always assumed to be in float
+representation, and the temps values will be re-interpreted as integers when
+needed. Hence above values must not be value-converted to float but the
+bit-representation must be maintained when they are stored in a temp register.
+
+Fixes #105
+
+Signed-off-by: Lepton Wu <lepton@chromium.org>
+Reviewed-by: Gert Wollny <gert.wollny@collabora.com>
+---
+ src/vrend_shader.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/vrend_shader.c b/src/vrend_shader.c
+index 2303196..3927991 100644
+--- a/src/vrend_shader.c
++++ b/src/vrend_shader.c
+@@ -4109,7 +4109,11 @@ get_source_info(struct dump_ctx *ctx,
+                } else if (ctx->system_values[j].name == TGSI_SEMANTIC_GRID_SIZE ||
+                           ctx->system_values[j].name == TGSI_SEMANTIC_THREAD_ID ||
+                           ctx->system_values[j].name == TGSI_SEMANTIC_BLOCK_ID) {
+-                  strbuf_fmt(src_buf, "uvec4(%s.%c, %s.%c, %s.%c, %s.%c)",
++                  enum vrend_type_qualifier mov_conv = TYPE_CONVERSION_NONE;
++                  if (inst->Instruction.Opcode == TGSI_OPCODE_MOV &&
++                      inst->Dst[0].Register.File == TGSI_FILE_TEMPORARY)
++                    mov_conv = UINT_BITS_TO_FLOAT;
++                  strbuf_fmt(src_buf, "%s(uvec4(%s.%c, %s.%c, %s.%c, %s.%c))", get_string(mov_conv),
+                              ctx->system_values[j].glsl_name, get_swiz_char(src->Register.SwizzleX),
+                              ctx->system_values[j].glsl_name, get_swiz_char(src->Register.SwizzleY),
+                              ctx->system_values[j].glsl_name, get_swiz_char(src->Register.SwizzleZ),
+-- 
+2.23.0.581.g78d2f28ef7-goog
+
