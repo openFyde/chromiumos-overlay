@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="b6899564618a19219fc887935514be4175d1ce27"
+CROS_WORKON_COMMIT="3ee7fe06fcaad49259c254006feb1ff503f5875a"
 CROS_WORKON_TREE=("bf84a23a00350764b97d4ceb2bee5c17164d7855" "94967bff34205136dd4284cdd7ba5408e7c82dd4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -33,4 +33,6 @@ RDEPEND="
 
 src_install() {
 	dobin "${OUT}/diagnostics_dpsl_demo_vm"
+	dobin "${OUT}/diagnostics_dpsl_test_listener"
+	dobin "${OUT}/diagnostics_dpsl_test_requester"
 }
