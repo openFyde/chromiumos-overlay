@@ -1,0 +1,29 @@
+From 87cd2e2954daca898ecebb3ec820d4d58938068a Mon Sep 17 00:00:00 2001
+From: Lepton Wu <lepton@chromium.org>
+Date: Fri, 27 Sep 2019 21:26:15 -0700
+Subject: [PATCH] CHROMIUM: Revert "vrend: Always use a texture view for the
+ source when doing blits (HACK)"
+
+This reverts commit d5dd2d302dafa2ad7690814a889b3800ed22a097.
+
+Change-Id: I739a728778d6cd96aca28aa2042e96a7c920b137
+---
+ src/vrend_renderer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
+index 785f15a..65e5130 100644
+--- a/src/vrend_renderer.c
++++ b/src/vrend_renderer.c
+@@ -8140,7 +8140,7 @@ static void vrend_renderer_blit_int(struct vrend_context *ctx,
+       }
+    }
+ 
+-   if (has_feature(feat_texture_view))
++   if ((src_res->base.format != info->src.format) && has_feature(feat_texture_view))
+       blitter_views[0] = vrend_make_view(src_res, info->src.format);
+ 
+    if ((dst_res->base.format != info->dst.format) && has_feature(feat_texture_view))
+-- 
+2.23.0.444.g18eeb5a265-goog
+
