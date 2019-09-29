@@ -3,7 +3,8 @@
 
 EAPI=6
 
-inherit cros-constants git-r3
+PYTHON_COMPAT=( python2_7 )
+inherit cros-constants git-r3 python-any-r1
 
 # Every 3 strings in this array indicates a repository to checkout:
 #   - A unique name (to avoid checkout conflits)
@@ -56,18 +57,20 @@ src_unpack() {
 
 src_compile() {
 	# Generate cloud_policy.proto with --all-chrome-versions option.
-	python "${POLICY_DIR}/tools/generate_policy_source.py" \
+	"${POLICY_DIR}/tools/generate_policy_source.py" \
 		--cloud-policy-protobuf="${WORKDIR}/cloud_policy.proto" \
 		--all-chrome-versions \
 		--target-platform="chrome_os" \
-		--policy-templates-file="${POLICY_DIR}/resources/policy_templates.json"
+		--policy-templates-file="${POLICY_DIR}/resources/policy_templates.json" \
+		|| die
 
 	# Create Python bindings needed for policy_testserver.py.
 	protoc --proto_path="${POLICY_DIR}/proto" --python_out="${WORKDIR}" \
 		"${POLICY_DIR}/proto/chrome_device_policy.proto" \
 		"${POLICY_DIR}/proto/device_management_backend.proto" \
-		"${POLICY_DIR}/proto/chrome_extension_policy.proto"
-	protoc --proto_path="${WORKDIR}" --python_out="${WORKDIR}" "${WORKDIR}/cloud_policy.proto"
+		"${POLICY_DIR}/proto/chrome_extension_policy.proto" \
+		|| die
+	protoc --proto_path="${WORKDIR}" --python_out="${WORKDIR}" "${WORKDIR}/cloud_policy.proto" || die
 }
 
 src_install() {
