@@ -16,6 +16,10 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="cros_host"
 
+# We don't have unittests, so make sure the cros_run_unit_tests script
+# doesn't waste time rebuilding us all the time.
+RESTRICT="test"
+
 src_install() {
 	use cros_host && return
 	insinto "$(python_get_sitedir)/chromite"
@@ -42,13 +46,4 @@ src_install() {
 		-name '*.md' \
 		')' -delete || die
 	find -name '.git' -exec rm -rf {} + || die
-}
-
-src_test() {
-	# Run the chromite unit tests, resetting the environment to the standard
-	# one using a sudo invocation. Currently the tests assume they run from a
-	# repo checkout, so they need to be run from the real source dir.
-	# TODO(davidjames): Fix that, and run the tests from ${S} instead.
-	cd "${CHROMITE_DIR}" && sudo -u "${PORTAGE_USERNAME}" \
-		PATH="${CROS_WORKON_SRCROOT}/../depot_tools:${PATH}" ./run_tests || die
 }
