@@ -12,9 +12,10 @@ inherit cros-workon
 DESCRIPTION="The Chromium OS Shell extension (the HTML/JS rendering part)"
 HOMEPAGE="https://chromium.googlesource.com/apps/libapps/+/master/nassh/doc/chromeos-crosh.md"
 # These are kept in sync with libdot.py settings.
-NPM_HASH="6aa8e3885b83f646e15bd56f9f53b97a481fe1907da55519fd789ca755d9eca5"
+NPM_HASH="84259097b393ed263265e277bc3dcd102efb2c8f192be710bab12ed1cd1e7808"
 SRC_URI="
 	https://storage.googleapis.com/chromium-nodejs/10.15.3/3f578b6dec3fdddde88a9e889d9dd5d660c26db9
+	https://storage.googleapis.com/chromeos-localmirror/secureshell/distfiles/node_modules-6aa8e3885b83f646e15bd56f9f53b97a481fe1907da55519fd789ca755d9eca5.tar.xz
 	https://storage.googleapis.com/chromeos-localmirror/secureshell/distfiles/node_modules-${NPM_HASH}.tar.xz
 "
 
