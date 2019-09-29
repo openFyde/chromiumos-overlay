@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="50b30fb4ad21f001034f950415cdfaf4550c6372"
+CROS_WORKON_COMMIT="df42613aa6403db3e952c1e083cc7eacd73f434c"
 CROS_WORKON_TREE=("bf84a23a00350764b97d4ceb2bee5c17164d7855" "fbe8bc4fe64bed20a528104d0f5eee167bf9f15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -20,6 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 # Clients of the ML service should place the URIs of their model files into
 # this variable.
 models="gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite
+	gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite
 	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite
 	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite
 	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite
