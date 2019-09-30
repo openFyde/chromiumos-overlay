@@ -142,6 +142,9 @@ src_configure() {
 	echo "CONFIG_FST_TEST=y" >> ${CONFIG}
 	echo "CONFIG_ACS=y" >> ${CONFIG}
 
+	# WPA3
+	echo "CONFIG_SAE=y" >> ${CONFIG}
+
 	if use netlink; then
 		# Netlink support
 		echo "CONFIG_VLAN_NETLINK=y" >> ${CONFIG}
