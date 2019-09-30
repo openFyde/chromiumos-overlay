@@ -20,7 +20,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_embedded cros_host -mtd pam systemd test +oobe_config"
+IUSE="cros_embedded cros_host enable_slow_boot_notify -mtd pam systemd test +oobe_config"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
