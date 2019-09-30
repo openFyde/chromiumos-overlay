@@ -34,11 +34,11 @@ cfg-if-0.1.2
 clang-sys-0.21.1
 clap-2.27.1
 env_logger-0.4.3
-getopts-0.2.15
+getopts-0.2.21
 glob-0.2.11
 kernel32-sys-0.2.2
 lazy_static-0.2.11
-lazy_static-1.0.0
+lazy_static-1.4.0
 libc-0.2.33
 libloading-0.4.2
 log-0.3.8
@@ -54,7 +54,7 @@ strsim-0.6.0
 termion-1.5.1
 textwrap-0.9.0
 thread_local-0.3.4
-unicode-width-0.1.4
+unicode-width-0.1.6
 unreachable-1.0.0
 utf8-ranges-1.0.0
 vec_map-0.8.0
