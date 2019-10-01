@@ -107,7 +107,9 @@ cros_emit_build_metric() {
 	if [[ -n "${BUILD_API_METRICS_LOG}" ]] && [[ -e "${emit_metric}" ]] ; then
 		local operation=$1
 		local phase=$2
-		"${emit_metric}" "${operation}" "emerge.${phase}.${CATEGORY}/${PF}"
+		local metric="emerge.${phase}.${CATEGORY}/${PF}"
+		local key="${metric}"
+		"${emit_metric}" "${operation}" "${metric}" "${key}"
 	fi
 }
 
