@@ -28,6 +28,9 @@ DEPEND="${RDEPEND}"
 src_install() {
 	dobin "${OUT}/timberslide"
 
+	# Install upstart configs and scripts
 	insinto /etc/init
 	doins init/*.conf
+	exeinto /usr/share/cros/init
+	doexe init/*.sh
 }
