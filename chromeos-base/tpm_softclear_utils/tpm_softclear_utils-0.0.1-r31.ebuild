@@ -4,7 +4,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="50b30fb4ad21f001034f950415cdfaf4550c6372"
+CROS_WORKON_COMMIT="765e093fa7364a54a145c67608ac9c4760f3dada"
 CROS_WORKON_TREE=("bf84a23a00350764b97d4ceb2bee5c17164d7855" "776a7db8f660d08f98fec63ab06c554bf15917f9" "b13f03a60c0287876790e11f78840e42341cfebd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -48,10 +48,6 @@ src_install() {
 	insinto /usr/local/bin
 	doins "${OUT}/tpm_softclear"
 	chmod u+x "${D}/usr/local/bin/tpm_softclear"
-
-	# Installs header files
-	insinto /usr/include/tpm_softclear_utils
-	doins ./*.h
 }
 
 platform_pkg_test() {
