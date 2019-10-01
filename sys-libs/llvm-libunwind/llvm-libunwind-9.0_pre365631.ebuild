@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit cros-constants cmake-multilib cmake-utils git-2 cros-llvm
 
@@ -44,6 +44,8 @@ src_prepare() {
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
 		--src_path "${S}" || die
+
+	eapply_user
 }
 
 should_enable_asserts() {

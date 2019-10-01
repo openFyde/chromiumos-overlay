@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 : ${CMAKE_MAKEFILE_GENERATOR:=ninja}
 PYTHON_COMPAT=( python3_6 )
@@ -155,7 +155,7 @@ src_prepare() {
 		--src_path "${S}" || die
 
 	# User patches
-	epatch_user
+	eapply_user
 
 	# Native libdir is used to hold LLVMgold.so
 	NATIVE_LIBDIR=$(get_libdir)

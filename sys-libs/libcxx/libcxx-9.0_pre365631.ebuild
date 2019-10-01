@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 # Ninja provides better scalability and cleaner verbose output, and is used
 # throughout all LLVM projects.
@@ -39,12 +39,6 @@ DEPEND="${RDEPEND}
 		$(python_gen_any_dep 'dev-python/lit[${PYTHON_USEDEP}]') )
 	app-arch/xz-utils"
 
-PATCHES=(
-	# Add link flag "-Wl,-z,defs" to avoid underlinking; this is needed in a
-	# out-of-tree build.
-	"${FILESDIR}/${PN}-3.9-cmake-link-flags.patch"
-)
-
 python_check_deps() {
 	has_version "dev-python/lit[${PYTHON_USEDEP}]"
 }
@@ -64,6 +58,8 @@ src_prepare() {
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
 		--src_path "${S}" || die
+
+	eapply_user
 }
 
 pkg_setup() {

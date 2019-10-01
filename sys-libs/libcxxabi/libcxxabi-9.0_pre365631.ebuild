@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 : ${CMAKE_MAKEFILE_GENERATOR:=ninja}
 PYTHON_COMPAT=( python3_6 )
@@ -62,6 +62,8 @@ src_prepare() {
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
 		--src_path "${S}" || die
+
+	eapply_user
 }
 
 multilib_src_configure() {
