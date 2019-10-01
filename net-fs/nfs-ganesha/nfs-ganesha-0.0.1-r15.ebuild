@@ -4,7 +4,7 @@
 # Change this version number when making a change to the upstart config
 # or the seccomp file: 2
 
-EAPI=5
+EAPI=6
 CROS_WORKON_COMMIT=("165395bf01548d8a0135357ca4c222b9c0c0acaa" "a9fc54d636fc3e5b5f0918769a2e5343c5f0d823")
 CROS_WORKON_TREE=("1e59dcc844637373f01a2e09131a9ce2cee2702d" "88d265872a677ae108eaa4cfea94602341b7a51f")
 CROS_WORKON_PROJECT=("chromiumos/third_party/nfs-ganesha" "chromiumos/third_party/ntirpc")

@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors.  All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 CROS_WORKON_COMMIT="a9fc54d636fc3e5b5f0918769a2e5343c5f0d823"
 CROS_WORKON_TREE="88d265872a677ae108eaa4cfea94602341b7a51f"
 CROS_WORKON_PROJECT="chromiumos/third_party/ntirpc"
