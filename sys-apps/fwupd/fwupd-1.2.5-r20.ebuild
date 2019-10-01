@@ -37,7 +37,7 @@ RDEPEND="
 	dev-libs/libgpg-error
 	dev-libs/libgudev:=
 	>=dev-libs/libgusb-0.2.9[introspection?]
-	>=dev-libs/libxmlb-0.1.5
+	>=dev-libs/libxmlb-0.1.7
 	>=net-libs/libsoup-2.51.92:2.4[introspection?]
 	virtual/libelf:0=
 	colorhug? ( >=x11-misc/colord-1.2.12:0= )
