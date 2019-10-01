@@ -14,7 +14,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 
-RDEPEND="dev-python/futures[${PYTHON_USEDEP}]
+RDEPEND="virtual/python-futures[${PYTHON_USEDEP}]
 	dev-python/pytz[${PYTHON_USEDEP}]
 	dev-python/six[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
