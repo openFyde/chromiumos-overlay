@@ -21,7 +21,7 @@ inherit cros-constants eutils git-r3
 EGIT_REPO_URIS=(
 	"cloud/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"aa3757875de6942321d0f7d38fa5915dbab7c46d"
+	"953b0e70393d162d5b66bc8a1d1b48df59ad9dd0"
 
 	# If you uprev these repos, please also:
 	# - Update files/VERSION to the corresponding revision of
@@ -60,10 +60,18 @@ src_unpack() {
 }
 
 src_install() {
+	# Adding all protofiles that exist except for policy_common_definitions.proto
+	# as a short term solution for crbug.com/1009436, until chromeos-chrome
+	# is being updated by the pfq.
 	insinto /usr/include/proto
-	doins "${S}"/cloud/policy/proto/*.proto
+	doins "${S}"/cloud/policy/proto/chrome_device_policy.proto
+	doins "${S}"/cloud/policy/proto/chrome_extension_policy.proto
+	doins "${S}"/cloud/policy/proto/install_attributes.proto
+	doins "${S}"/cloud/policy/proto/policy_signing_key.proto
+	doins "${S}"/cloud/policy/proto/device_management_backend.proto
 	insinto /usr/share/protofiles
 	doins "${S}"/cloud/policy/proto/chrome_device_policy.proto
+	newins "${S}"/cloud/policy/proto/policy_common_definitions.proto policy_common_definitions.proto.tmp
 	doins "${S}"/cloud/policy/proto/device_management_backend.proto
 	doins "${S}"/cloud/policy/proto/chrome_extension_policy.proto
 	dobin "${FILESDIR}"/policy_reader
@@ -74,4 +82,11 @@ src_install() {
 	doexe "${S}"/cloud/policy/tools/generate_policy_source.py
 	sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' \
 		"${D}/usr/share/policy_tools/generate_policy_source.py" || die
+}
+# This is a short term solution for crbug.com/1009436 till the pfq
+# upload the new version of chromeos-chrome.
+pkg_postinst() {
+	mv "${ROOT}"/usr/share/protofiles/policy_common_definitions.proto.tmp \
+	"${ROOT}"/usr/share/protofiles/policy_common_definitions.proto || \
+	die "Unable to rename the policy_common_definitions"
 }
