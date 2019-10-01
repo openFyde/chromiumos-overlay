@@ -34,3 +34,13 @@ src_install() {
 	dobin "${OUT}/diagnostics_dpsl_test_listener"
 	dobin "${OUT}/diagnostics_dpsl_test_requester"
 }
+
+platform_pkg_test() {
+	local tests=(
+		libdpsl_test
+	)
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test "run" "${OUT}/${test_bin}"
+	done
+}
