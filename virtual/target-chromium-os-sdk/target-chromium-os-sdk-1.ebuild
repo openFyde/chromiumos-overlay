@@ -520,3 +520,8 @@ RDEPEND="${RDEPEND}
 # Host dependencies for termina_build_image
 RDEPEND="${RDEPEND}
 	app-misc/fdupes"
+
+# Host dependencies that lets us boost to performance governor
+# to speed up builds.  https://crbug.com/1008932
+RDEPEND="${RDEPEND}
+	sys-power/cpupower"
