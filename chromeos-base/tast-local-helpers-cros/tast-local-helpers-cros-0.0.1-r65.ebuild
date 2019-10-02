@@ -4,8 +4,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT=("c0b33b19bdb64f1820a92b82e0f7b1036384dea2" "c4ca24175df858c17f1b530d84dbceb414403206")
-CROS_WORKON_TREE=("bf84a23a00350764b97d4ceb2bee5c17164d7855" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "37e8d7171ed521e7aa4a0c6b0c2d36ccd402a13c")
+CROS_WORKON_COMMIT=("910d65310598c27a48ff7a438d685b6f571e7950" "0990fa44a0242114c885b6db7b1c29133cfc26c8")
+CROS_WORKON_TREE=("bf84a23a00350764b97d4ceb2bee5c17164d7855" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "0566df1e7509b471e646d2154752aba89ccda0cd")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/tast-tests")
 CROS_WORKON_LOCALNAME=("platform2" "platform/tast-tests")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/tast-tests")
@@ -34,4 +34,10 @@ src_install() {
 	# Executable files' names take the form <category>.<TestName>.<bin_name>.
 	exeinto /usr/libexec/tast/helpers/local/cros
 	doexe "${OUT}"/*.[A-Z]*.*
+	# Install symbol list file to the location required by minidump_stackwalk.
+	# See https://www.chromium.org/developers/decoding-crash-dumps for details.
+	local crasher_exec="${OUT}/platform.UserCrash.crasher"
+	local id=$(head -n1 "${crasher_exec}.sym" | cut -d' ' -f 4)
+	insinto "/usr/libexec/tast/helpers/local/cros/symbols/${crasher_exec##*/}/${id}"
+	doins "${crasher_exec}.sym"
 }
