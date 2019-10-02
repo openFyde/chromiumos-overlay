@@ -171,6 +171,7 @@ ALL_BOARDS=(
 	gonzo
 	gru
 	grunt
+	grunt-kernelnext
 	guado
 	guado-accelerator
 	guado-cfm
