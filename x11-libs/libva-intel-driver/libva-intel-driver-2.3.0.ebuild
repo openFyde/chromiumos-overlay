@@ -55,6 +55,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-Make-vaExportSurfaceHandle-work-for-IMC3.patch
 	epatch "${FILESDIR}"/encoder-vp8-Ensure-forced_lf_adjustment-update-in-me.patch
 	epatch "${FILESDIR}"/vp8-encoder-Workaround-to-force-perforamce-mode-enco.patch
+	epatch "${FILESDIR}"/gen9_vp9_encoder-Ensure-brc-reset-irrespective-of-th.patch
 
 	sed -e 's/intel-gen4asm/\0diSaBlEd/g' -i configure.ac || die
 	autotools-multilib_src_prepare
