@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="eed6491316e70d0a7650422ca4fff250c6cd8ea1"
-CROS_WORKON_TREE="afda643bcc7ef41eedbe2ea40b5b4fc81279929e"
+CROS_WORKON_COMMIT="ac0af312ebf68ecbf33352eef28e0c2b9ef43993"
+CROS_WORKON_TREE="9bd8ebfc92504567bceff3b343795ae042dbe220"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -292,6 +292,7 @@ SERVER_IUSE_TESTS="
 	+tests_policy_WiFiAutoconnectServer
 	+tests_policy_WiFiPrecedenceServer
 	+tests_policy_WiFiTypesServer
+	+tests_policy_WilcoServerOnNonWilcoDevice
 	+tests_power_BrightnessResetAfterReboot
 	+tests_power_ChargeControlWrapper
 	+tests_power_Monitoring
