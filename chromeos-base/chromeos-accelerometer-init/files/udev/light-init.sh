@@ -65,6 +65,8 @@ set_calibration_values() {
 
 main() {
   set_calibration_values get_calibration_from_vpd
+  # Set XYZ mode on light sensor if color support is available
+  set_sysfs_entry "${IIO_DEVICE_PATH}/${name}/calibrate" "0"
 }
 
 # invoke main if not in test mode, otherwise let the test code call.
