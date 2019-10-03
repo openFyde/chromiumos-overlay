@@ -1,28 +1,29 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=6
-CROS_WORKON_COMMIT="1ee0cb9e68742513a9bfa30e00a7355966eed0d7"
-CROS_WORKON_TREE="6d86f74e452b80c27bb03c5b400350097718ce22"
+EAPI="6"
+CROS_WORKON_COMMIT="68459cc3d71b3ccaded2577cec611f0e78a9a73f"
+CROS_WORKON_TREE="70acb480db87485dbc3c45f5fb9fde0130ec537d"
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
-CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.6"
+CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.8"
 
-inherit cros-workon eutils toolchain-funcs
+inherit cros-workon toolchain-funcs savedconfig
 
 DESCRIPTION="IEEE 802.11 wireless LAN Host AP daemon"
-HOMEPAGE="http://hostap.epitest.fi"
-# COMMIT_ID="access-ap-480994d"
-# SRC_URI="http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/hostap-${COMMIT_ID}.tar.gz"
-# RESTRICT="mirror"
+HOMEPAGE="http://w1.fi"
 SRC_URI=""
-LICENSE="|| ( GPL-2 BSD )"
 
+LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
-IUSE="ipv6 logwatch netlink sqlite +ssl +wps +crda taxonomy"
+IUSE="internal-tls ipv6 libressl logwatch netlink sqlite +wps +crda"
 
-DEPEND="ssl? ( dev-libs/openssl:0= )
+DEPEND="
+	libressl? ( dev-libs/libressl:0= )
+	!libressl? (
+		internal-tls? ( dev-libs/libtommath )
+		!internal-tls? ( dev-libs/openssl:0=[-bindist] )
+	)
 	kernel_linux? (
 		dev-libs/libnl:3
 		crda? ( net-wireless/crda )
@@ -31,6 +32,16 @@ DEPEND="ssl? ( dev-libs/openssl:0= )
 	sqlite? ( >=dev-db/sqlite-3 )"
 
 RDEPEND="${DEPEND}"
+
+pkg_pretend() {
+	if use internal-tls; then
+		if use libressl; then
+			elog "libressl flag takes precedence over internal-tls"
+		else
+			ewarn "internal-tls implementation is experimental and provides fewer features"
+		fi
+	fi
+}
 
 src_unpack() {
 	cros-workon_src_unpack
@@ -47,6 +58,12 @@ src_configure() {
 	local CONFIG="${S}/.config"
 	cros-workon_src_configure
 
+	restore_config "${CONFIG}"
+	if [[ -f "${CONFIG}" ]]; then
+		default_src_configure
+		return 0
+	fi
+
 	# toolchain setup
 	echo "CC = $(tc-getCC)" > ${CONFIG}
 
@@ -55,7 +72,9 @@ src_configure() {
 	echo "CONFIG_ERP=y" >> ${CONFIG}
 	echo "CONFIG_EAP_MD5=y" >> ${CONFIG}
 
-	if use ssl; then
+	if use internal-tls && ! use libressl; then
+		echo "CONFIG_TLS=internal" >> ${CONFIG}
+	else
 		# SSL authentication methods
 		echo "CONFIG_EAP_FAST=y" >> ${CONFIG}
 		echo "CONFIG_EAP_TLS=y" >> ${CONFIG}
@@ -64,6 +83,8 @@ src_configure() {
 		echo "CONFIG_EAP_PEAP=y" >> ${CONFIG}
 		echo "CONFIG_TLSV11=y" >> ${CONFIG}
 		echo "CONFIG_TLSV12=y" >> ${CONFIG}
+		# OpenSSL on ChromeOS does not include EC support needed by EAP_PWD.
+		# echo "CONFIG_EAP_PWD=y" >> ${CONFIG}
 	fi
 
 	if use wps; then
@@ -87,8 +108,6 @@ src_configure() {
 	echo "CONFIG_EAP_SAKE=y" >> ${CONFIG}
 	echo "CONFIG_EAP_GPSK=y" >> ${CONFIG}
 	echo "CONFIG_EAP_GPSK_SHA256=y" >> ${CONFIG}
-	# OpenSSL on ChromeOS does not include EC support needed by EAP_PWD.
-	# echo "CONFIG_EAP_PWD=y" >> ${CONFIG}
 
 	einfo "Enabling drivers: "
 
@@ -97,8 +116,6 @@ src_configure() {
 	einfo "  HostAP driver enabled"
 	echo "CONFIG_DRIVER_WIRED=y" >> ${CONFIG}
 	einfo "  Wired driver enabled"
-	echo "CONFIG_DRIVER_PRISM54=y" >> ${CONFIG}
-	einfo "  Prism54 driver enabled"
 	echo "CONFIG_DRIVER_NONE=y" >> ${CONFIG}
 	einfo "  None driver enabled"
 
@@ -126,7 +143,9 @@ src_configure() {
 	echo "CONFIG_FST=y" >> ${CONFIG}
 	echo "CONFIG_FST_TEST=y" >> ${CONFIG}
 	echo "CONFIG_ACS=y" >> ${CONFIG}
-	echo "CONFIG_P2P_MANAGER=y" >> ${CONFIG}
+
+	# WPA3
+	echo "CONFIG_SAE=y" >> ${CONFIG}
 
 	if use netlink; then
 		# Netlink support
@@ -143,20 +162,11 @@ src_configure() {
 		echo "CONFIG_SQLITE=y" >> ${CONFIG}
 	fi
 
-	if use taxonomy; then
-		# Taxonomy support
-		echo "CONFIG_CLIENT_TAXONOMY=y" >> ${CONFIG}
-	fi
-
 	# If we are using libnl 2.0 and above, enable support for it
 	# Removed for now, since the 3.2 version is broken, and we don't
 	# support it.
 	if has_version ">=dev-libs/libnl-3.2"; then
-		# Excitingly, this flag causes -DCONFIG_LIBNL20 to the added to the
-		# CFLAGS for the drivers. Do not be alarmed.
-		echo "CONFIG_LIBNL32=y" >> ${CONFIG}
-		echo "CONFIG_LIBNL3_ROUTE=y" >> ${CONFIG}
-		echo "CFLAGS += $($(tc-getPKG_CONFIG) --cflags libnl-3.0 libnl-genl-3.0)" >> ${CONFIG}
+		echo "CONFIG_LIBNL32=y" >> .config
 	fi
 
 	# TODO: Add support for BSD drivers
@@ -167,7 +177,7 @@ src_configure() {
 src_compile() {
 	emake V=1
 
-	if use ssl; then
+	if use libressl || ! use internal-tls; then
 		emake V=1 nt_password_hash
 		emake V=1 hlr_auc_gw
 	fi
@@ -182,13 +192,9 @@ src_install() {
 	dosbin ${PN}
 	dobin ${PN}_cli
 
-	use ssl && dobin nt_password_hash hlr_auc_gw
-
-# ChromeOS uses upstart instead of systemd.
-#
-#	newinitd "${FILESDIR}"/${PN}-init.d ${PN}
-#	newconfd "${FILESDIR}"/${PN}-conf.d ${PN}
-#	systemd_dounit "${FILESDIR}"/${PN}.service
+	if use libressl || ! use internal-tls; then
+		dobin nt_password_hash hlr_auc_gw
+	fi
 
 	doman ${PN}{.8,_cli.1}
 
@@ -205,6 +211,8 @@ src_install() {
 		exeinto /etc/log.d/scripts/services/
 		doexe logwatch/${PN}
 	fi
+
+	save_config .config
 }
 
 pkg_postinst() {
