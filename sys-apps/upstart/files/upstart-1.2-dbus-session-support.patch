@@ -1,0 +1,320 @@
+Committer: James Hunt
+Date: 2011-06-01 09:51:39 UTC
+mfrom: (1282.1.3 upstream-add-session-bus-support)
+Revision ID: james.hunt@ubuntu.com-20110601095139-1baxdokonrqu6vqa
+Re-merge of lp:~jamesodhunt/upstart/upstream-add-session-bus-support
+for initctl D-Bus session support.
+
+=== modified file 'util/initctl.c'
+--- util/initctl.c	2010-02-04 19:08:07 +0000
++++ util/initctl.c	2011-06-01 09:42:05 +0000
+@@ -63,6 +63,11 @@
+ static void   reply_handler       (int *ret, NihDBusMessage *message);
+ static void   error_handler       (void *data, NihDBusMessage *message);
+ 
++#ifndef TEST
++
++static int    dbus_bus_type_setter  (NihOption *option, const char *arg);
++
++#endif
+ 
+ /* Prototypes for option and command functions */
+ int start_action                (NihCommand *command, char * const *args);
+@@ -78,12 +83,21 @@
+ 
+ 
+ /**
+- * system_bus:
+- *
+- * Whether to connect to the init daemon on the D-Bus system bus or
+- * privately.
+- **/
+-int system_bus = -1;
++ * use_dbus:
++ *
++ * If  1, connect using a D-Bus bus.
++ * If  0, connect using private connection.
++ * If -1, determine appropriate connection based on UID.
++ */
++int use_dbus = -1;
++
++/**
++ * dbus_bus_type:
++ *
++ * D-Bus bus to connect to (DBUS_BUS_SYSTEM or DBUS_BUS_SESSION), or -1
++ * to have an appropriate bus selected.
++ */
++int dbus_bus_type = -1;
+ 
+ /**
+  * dest_name:
+@@ -107,6 +121,28 @@
+  **/
+ int no_wait = FALSE;
+ 
++/**
++ * NihOption setter function to handle selection of appropriate D-Bus
++ * bus.
++ *
++ * Always returns 1 denoting success.
++ **/
++int
++dbus_bus_type_setter (NihOption *option, const char *arg)
++{
++	nih_assert (option);
++
++	if (! strcmp (option->long_option, "system")) {
++		use_dbus      = TRUE;
++		dbus_bus_type = DBUS_BUS_SYSTEM;
++	}
++	else if (! strcmp (option->long_option, "session")) {
++		use_dbus      = TRUE;
++		dbus_bus_type = DBUS_BUS_SESSION;
++	}
++
++	return 1;
++}
+ 
+ /**
+  * upstart_open:
+@@ -132,17 +168,22 @@
+ 	DBusConnection *connection;
+ 	NihDBusProxy *  upstart;
+ 
+-	if (system_bus < 0)
+-		system_bus = getuid () ? TRUE : FALSE;
++	if (use_dbus < 0)
++		use_dbus = getuid () ? TRUE : FALSE;
++	if (use_dbus >= 0 && dbus_bus_type < 0)
++		dbus_bus_type = DBUS_BUS_SYSTEM;
+ 
+ 	dbus_error_init (&dbus_error);
+-	if (system_bus) {
++	if (use_dbus) {
+ 		if (! dest_name)
+ 			dest_name = DBUS_SERVICE_UPSTART;
+ 
+-		connection = dbus_bus_get (DBUS_BUS_SYSTEM, &dbus_error);
++		connection = dbus_bus_get (dbus_bus_type, &dbus_error);
+ 		if (! connection) {
+-			nih_error ("%s: %s", _("Unable to connect to system bus"),
++			nih_error ("%s: %s",
++				dbus_bus_type == DBUS_BUS_SYSTEM
++				? _("Unable to connect to system bus")
++				: _("Unable to connect to session bus"),
+ 				   dbus_error.message);
+ 			dbus_error_free (&dbus_error);
+ 			return NULL;
+@@ -1258,9 +1299,11 @@
+  * Command-line options accepted for all arguments.
+  **/
+ static NihOption options[] = {
++	{ 0, "session", N_("use D-Bus session bus to connect to init daemon (for testing)"),
++	  NULL, NULL, NULL, dbus_bus_type_setter },
+ 	{ 0, "system", N_("use D-Bus system bus to connect to init daemon"),
+-	  NULL, NULL, &system_bus, NULL },
+-	{ 0, "dest", N_("destination well-known name on system bus"),
++	  NULL, NULL, NULL, dbus_bus_type_setter },
++	{ 0, "dest", N_("destination well-known name on D-Bus bus"),
+ 	  NULL, "NAME", &dest_name, NULL },
+ 
+ 	NIH_OPTION_LAST
+
+=== modified file 'util/man/initctl.8'
+--- util/man/initctl.8	2010-02-04 19:08:07 +0000
++++ util/man/initctl.8	2011-06-01 09:42:05 +0000
+@@ -1,4 +1,4 @@
+-.TH initctl 8 2010-02-04 "Upstart"
++.TH initctl 8 2011-06-01 "Upstart"
+ .\"
+ .SH NAME
+ initctl \- init daemon control tool
+@@ -33,6 +33,12 @@
+ .\"
+ .SH OPTIONS
+ .TP
++.B --session
++Connect to
++.BR init (8)
++daemon using the D-Bus session bus (for testing purposes only).
++.\"
++.TP
+ .B --system
+ Communication with the
+ .BR init (8)
+@@ -348,7 +354,7 @@
+ .RB < https://launchpad.net/upstart/+bugs >
+ .\"
+ .SH COPYRIGHT
+-Copyright \(co 2010 Canonical Ltd.
++Copyright \(co 2010-2011 Canonical Ltd.
+ .br
+ This is free software; see the source for copying conditions.  There is NO
+ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+=== modified file 'util/tests/test_initctl.c'
+--- util/tests/test_initctl.c	2010-02-04 20:43:33 +0000
++++ util/tests/test_initctl.c	2011-06-01 09:42:05 +0000
+@@ -44,7 +44,8 @@
+ #include "dbus/upstart.h"
+ 
+ 
+-extern int system_bus;
++extern int use_dbus;
++extern int dbus_bus_type;
+ extern char *dest_name;
+ extern const char *dest_address;
+ extern int no_wait;
+@@ -103,7 +104,7 @@
+ 	 */
+ 	TEST_FEATURE ("with private connection");
+ 	TEST_ALLOC_FAIL {
+-		system_bus = FALSE;
++		use_dbus = FALSE;
+ 		dest_name = NULL;
+ 		dest_address = "unix:abstract=/com/ubuntu/upstart/test";
+ 
+@@ -179,7 +180,8 @@
+ 	 */
+ 	TEST_FEATURE ("with system bus connection");
+ 	TEST_ALLOC_FAIL {
+-		system_bus = TRUE;
++		use_dbus = TRUE;
++		dbus_bus_type = DBUS_BUS_SYSTEM;
+ 		dest_name = NULL;
+ 		dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -240,7 +242,8 @@
+ 	 */
+ 	TEST_FEATURE ("with system bus connection and different name");
+ 	TEST_ALLOC_FAIL {
+-		system_bus = TRUE;
++		use_dbus = TRUE;
++		dbus_bus_type = DBUS_BUS_SYSTEM;
+ 		dest_name = "com.ubuntu.UpstartTest";
+ 		dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -302,7 +305,7 @@
+ 	 */
+ 	TEST_FEATURE ("with non-listening private connection");
+ 	TEST_ALLOC_FAIL {
+-		system_bus = FALSE;
++		use_dbus = FALSE;
+ 		dest_name = NULL;
+ 		dest_address = "unix:abstract=/com/ubuntu/upstart/test";
+ 
+@@ -328,7 +331,8 @@
+ 	 */
+ 	TEST_FEATURE ("with non-listening system bus");
+ 	TEST_ALLOC_FAIL {
+-		system_bus = TRUE;
++		use_dbus = TRUE;
++		dbus_bus_type = DBUS_BUS_SYSTEM;
+ 		dest_name = NULL;
+ 		dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -360,7 +364,7 @@
+ 	 */
+ 	TEST_FEATURE ("with --dest but without --system");
+ 	TEST_ALLOC_FAIL {
+-		system_bus = FALSE;
++		use_dbus = FALSE;
+ 		dest_name = "com.ubuntu.Upstart";
+ 		dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -3229,7 +3233,8 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	use_dbus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -4999,7 +5004,8 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	use_dbus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -6584,7 +6590,8 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	use_dbus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -8357,7 +8364,8 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	use_dbus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -9239,7 +9247,8 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	use_dbus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -10769,7 +10778,7 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -12060,7 +12069,7 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -12494,7 +12503,7 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -12684,7 +12693,7 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+@@ -12904,7 +12913,7 @@
+ 					"NameAcquired"));
+ 	dbus_message_unref (method_call);
+ 
+-	system_bus = TRUE;
++	dbus_bus_type = DBUS_BUS_SYSTEM;
+ 	dest_name = DBUS_SERVICE_UPSTART;
+ 	dest_address = DBUS_ADDRESS_UPSTART;
+ 
+
