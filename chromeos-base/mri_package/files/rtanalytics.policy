@@ -3,6 +3,7 @@
 # found in the LICENSE file.
 
 creat: 1
+dup: 1
 epoll_wait: 1
 epoll_ctl: 1
 epoll_create1: 1
