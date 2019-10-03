@@ -81,10 +81,8 @@ src_install() {
 	insinto /usr/include/chromeos/dbus/trunks
 	doins "${S}"/interface.proto
 
-	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
-		"${OUT}/lib" libtrunks /usr/include/trunks
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	doins "${OUT}"/lib/libtrunks.pc
+	doins "${OUT}"/obj/trunks/libtrunks.pc
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_creation_blob_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/trunks_hmac_authorization_delegate_fuzzer
