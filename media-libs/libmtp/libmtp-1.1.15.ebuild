@@ -30,7 +30,6 @@ PATCHES=(
 	"${FILESDIR}"/${P}-06_disable_ptp_canon_eos_setdevicepropvalue.patch
 	"${FILESDIR}"/${P}-09_do_not_build_udev_and_examples.patch
 	"${FILESDIR}"/${P}-10_remove_nexus_s_from_device_list.patch
-	"${FILESDIR}"/${P}-14_libusb1_header.patch
 	"${FILESDIR}"/${P}-15_read_chunks.patch
 	"${FILESDIR}"/${P}-19_raw_read_directory.patch
 	"${FILESDIR}"/${P}-20_get_thumbnail_format.patch
