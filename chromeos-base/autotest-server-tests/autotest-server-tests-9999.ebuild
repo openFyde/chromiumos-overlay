@@ -207,7 +207,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_RecoveryCacheBootKeys
 	+tests_firmware_RollbackFirmware
 	+tests_firmware_RollbackKernel
-	+tests_firmware_RONormalBoot
 	+tests_firmware_SelfSignedBoot
 	+tests_firmware_SetSerialNumber
 	+tests_firmware_SoftwareSync
