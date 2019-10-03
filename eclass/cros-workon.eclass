@@ -453,7 +453,8 @@ cros-workon_src_unpack() {
 					: #ewarn "${path} contains changes"
 				fi
 			else
-				ewarn "${path} is not at rev ${CROS_WORKON_COMMIT}"
+				echo "Local checkout '${path}' is not at rev ${CROS_WORKON_COMMIT}."
+				echo "Will manually git clone to get the pinned state."
 			fi
 		else
 			# This will hit minilayout users a lot, and rarely non-minilayout
