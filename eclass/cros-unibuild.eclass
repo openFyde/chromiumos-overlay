@@ -208,7 +208,7 @@ unibuild_install_thermal_files() {
 # @USAGE: [source] [dest] [symlink path]
 # @INTERNAL
 # @DESCRIPTION:
-# Install touch firmware and create a symlink for 'request firmware' hotplug.
+# Install the firmware and create a symlink for 'request firmware' hotplug.
 #   $1: Source filename
 #   $2: Destination filename (in /opt/google)
 #   $3: Full path to symlink in /lib/firmware
@@ -223,20 +223,41 @@ _unibuild_install_fw() {
 	dosym "${dest}" "${symlink}"
 }
 
+# @FUNCTION: _unibuild_install_fw_common
+# @USAGE: [config_name]
+# @INTERNAL
+# @DESCRIPTION:
+# Install the firmware and create a symlink for the files which query from
+# the cros_config_host.
+_unibuild_install_fw_common() {
+	local config_name="$1"
+
+	einfo "unibuild: Installing symlinked files"
+	set -o pipefail
+	cros_config_host "${config_name}" |
+	( while read -r source; do
+		read -r dest
+		read -r symlink
+		_unibuild_install_fw "${FILESDIR}/${source}" "${dest}" "${symlink}"
+	done ) || die "Failed to read config"
+}
+
 # @FUNCTION: unibuild_install_touch_files
 # @USAGE:
 # @DESCRIPTION:
 # Install files related to touch firmware. This includes firmware for the
 # touchscreen, touchpad and stylus.
 unibuild_install_touch_files() {
-	einfo "unibuild: Installing touch files"
-	set -o pipefail
-	cros_config_host get-touch-firmware-files |
-	( while read -r source; do
-		read -r dest
-		read -r symlink
-		_unibuild_install_fw "${FILESDIR}/${source}" "${dest}" "${symlink}"
-	done ) || die "Failed to read config"
+	_unibuild_install_fw_common "get-touch-firmware-files"
+}
+
+# @FUNCTION: unibuild_install_detachable_base_files
+# @USAGE:
+# @DESCRIPTION:
+# Install files related to detachable base firmware. This includes firmware
+# for the detachable base ec and touchpad binary
+unibuild_install_detachable_base_files() {
+	_unibuild_install_fw_common "get-detachable-base-firmware-files"
 }
 
 # @FUNCTION: unibuild_install_audio_files
