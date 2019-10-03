@@ -22,6 +22,8 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
+	chromeos-base/attestation
+	chromeos-base/attestation-client
 	chromeos-base/libbrillo
 	chromeos-base/metrics
 	chromeos-base/power_manager-client
@@ -31,6 +33,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/attestation-client
 	chromeos-base/system_api
 	"
 
