@@ -68,25 +68,26 @@ DEPEND="${RDEPEND}
 	media-libs/ladspa-sdk"
 
 check_format_error() {
-	local dir
 	local file
 	local files_need_format=()
-	local target_dirs=(
-		"cras/examples"
-		"cras/src/libcras"
-	)
-	for dir in "${target_dirs[@]}"; do
-		for file in "${dir}"/*.{c,cc,h}; do
-			[[ -e "${file}" ]] || continue
-			clang-format -style=file "${file}" | cmp -s "${file}"
-			[[ $? == 0 ]] || files_need_format+=( "${file}" )
-		done
-	done
+	einfo "Running format checks for ADHD .c, .cc and .h files"
+	while read -r -d $'\0' file; do
+		if ! cmp <(clang-format -style=file "${file}") "${file}"
+		then
+			files_need_format+=( "${file}" )
+		fi
+	done< <(find . \( -name "*.c" -o -name "*.cc" -o -name "*.h" \) \
+		-print0)
+
 	if [[ "${#files_need_format[@]}" != "0" ]]; then
-		ewarn "The following files have formmating errors:"
-		ewarn "${files_need_format[*]}"
+		eerror "The following files have formatting errors:"
+		eerror "${files_need_format[*]}"
+		eerror "You can run \"clang-format -i -style=file" \
+			"${files_need_format[*]}\"" \
+			"under chromiumos/src/third_party/adhd to fix them."
 		return 1
 	fi
+	einfo "    All files are well formatted."
 	return 0
 }
 
@@ -109,7 +110,7 @@ src_compile() {
 }
 
 src_test() {
-	check_format_error || ewarn "Should fail because of format errors"
+	check_format_error || die "Format check failed"
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
