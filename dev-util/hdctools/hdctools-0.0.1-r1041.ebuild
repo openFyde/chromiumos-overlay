@@ -5,7 +5,7 @@ EAPI="5"
 CROS_WORKON_COMMIT="1436677ffe1ee9b5e8393c0594d3f9b2ccd861e3"
 CROS_WORKON_TREE="d54f8aaf761dd53395c4275744f37ff35c6bedcc"
 CROS_WORKON_PROJECT="chromiumos/third_party/hdctools"
-PYTHON_COMPAT=( python2_{6,7} )
+PYTHON_COMPAT=( python2_7 )
 
 inherit cros-workon distutils-r1 toolchain-funcs multilib udev
 
@@ -34,7 +34,10 @@ src_configure() {
 }
 
 src_test() {
-	py.test -v build/ || die
+	python_test() {
+		py.test -v build/ || die
+	}
+	python_foreach_impl python_test
 }
 
 src_compile() {
