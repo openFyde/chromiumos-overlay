@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 inherit eutils toolchain-funcs cros-constants cmake-utils git-2 cros-llvm
 
@@ -47,6 +47,7 @@ src_prepare() {
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
 		--src_path "${S}" || die
+	eapply_user
 }
 
 src_configure() {
