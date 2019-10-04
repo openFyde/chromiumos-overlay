@@ -29,6 +29,7 @@ IUSE="
 	crosvm-gpu
 	cups
 	diagnostics
+	disable_cros_video_decoder
 	+display_backlight
 	dlc_test
 	drm_atomic
