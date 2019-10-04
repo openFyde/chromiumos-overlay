@@ -21,6 +21,7 @@ IUSE="test"
 DEPEND="
 	>=dev-rust/getopts-0.2.18:=
 	!>=dev-rust/getopts-0.3
+	dev-rust/hound:=
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "
