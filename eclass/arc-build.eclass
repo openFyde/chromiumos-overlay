@@ -53,7 +53,7 @@ DEPEND="sys-devel/arc-build[${MULTILIB_USEDEP}]"
 # Make sure we know how to handle the active system.
 arc-build-check-arch() {
 	case ${ARCH} in
-	arm|amd64) ;;
+	arm|arm64|amd64) ;;
 	*) die "Unsupported arch ${ARCH}" ;;
 	esac
 }
@@ -71,7 +71,7 @@ arc-build-select-clang() {
 	export PKG_CONFIG="${ARC_SYSROOT}/build/bin/pkg-config"
 
 	case ${ARCH} in
-	arm)
+	arm|arm64)
 		ARC_GCC_TUPLE_arm64=aarch64-linux-android
 		ARC_GCC_BASE_arm64="${ARC_BASE}/arc-gcc/aarch64/${ARC_GCC_TUPLE_arm64}-4.9"
 		ARC_GCC_TUPLE_arm=arm-linux-androideabi
