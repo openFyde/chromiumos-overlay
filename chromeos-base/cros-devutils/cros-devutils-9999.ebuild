@@ -19,7 +19,6 @@ RDEPEND="app-portage/gentoolkit
 	>=chromeos-base/devserver-0.0.2
 	dev-lang/python
 	dev-util/shflags
-	dev-util/crosutils
 	dev-util/toolchain-utils
 	sys-apps/flashmap
 	"

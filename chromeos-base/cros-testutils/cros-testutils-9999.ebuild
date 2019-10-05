@@ -18,7 +18,6 @@ RDEPEND="app-emulation/qemu
 	app-portage/gentoolkit
 	app-shells/bash
 	chromeos-base/cros-devutils
-	dev-util/crosutils
 	dev-python/django
 	"
 

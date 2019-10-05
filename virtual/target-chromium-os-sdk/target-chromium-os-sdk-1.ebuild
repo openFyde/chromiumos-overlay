@@ -87,7 +87,6 @@ RDEPEND="${RDEPEND}
 	dev-embedded/tegrarcm
 	dev-embedded/u-boot-tools
 	dev-util/ccache
-	dev-util/crosutils
 	media-gfx/pngcrush
 	>=sys-apps/dtc-1.3.0-r5
 	sys-boot/bootstub
