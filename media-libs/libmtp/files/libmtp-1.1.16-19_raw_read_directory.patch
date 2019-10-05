@@ -1,8 +1,8 @@
-diff --git src/libmtp.c src/libmtp.c
-index b91f246..bbe2642 100644
---- src/libmtp.c
-+++ src/libmtp.c
-@@ -4415,6 +4415,78 @@ LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *device,
+diff --git a/src/libmtp.c b/src/libmtp.c
+index a9cc9f7..7f01d38 100644
+--- a/src/libmtp.c
++++ b/src/libmtp.c
+@@ -4555,6 +4555,67 @@ LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *device,
    return retfiles;
  }
  
@@ -45,17 +45,6 @@ index b91f246..bbe2642 100644
 +    return -1;
 +  }
 +
-+  if (FLAG_BROKEN_GET_OBJECT_PROPVAL(ptp_usb)) {
-+    // These devices cannot handle the commands needed for
-+    // Uncached access!
-+    LIBMTP_ERROR("tried to use %s on an unsupported device, "
-+                 "this command does not work on all devices "
-+                 "due to missing low-level support to read "
-+                 "information on individual tracks\n",
-+                 __func__);
-+    return -1;
-+  }
-+
 +  if (storage == 0)
 +    storageid = PTP_GOH_ALL_STORAGE;
 +  else
@@ -81,11 +70,11 @@ index b91f246..bbe2642 100644
  
  /**
   * This creates a new track metadata structure and allocates memory
-diff --git src/libmtp.h src/libmtp.h
-index 33fac41..f923cc1 100644
---- src/libmtp.h
-+++ src/libmtp.h
-@@ -875,6 +875,10 @@ LIBMTP_file_t *LIBMTP_Get_Filelisting_With_Callback(LIBMTP_mtpdevice_t *,
+diff --git a/src/libmtp.h b/src/libmtp.h
+index f1b42a4..689bcc6 100644
+--- a/src/libmtp.h
++++ b/src/libmtp.h
+@@ -919,6 +919,10 @@ LIBMTP_file_t *LIBMTP_Get_Filelisting_With_Callback(LIBMTP_mtpdevice_t *,
  LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *,
  					     uint32_t const,
  					     uint32_t const);
@@ -96,11 +85,11 @@ index 33fac41..f923cc1 100644
  LIBMTP_file_t *LIBMTP_Get_Filemetadata(LIBMTP_mtpdevice_t *, uint32_t const);
  int LIBMTP_Get_File_Chunk(LIBMTP_mtpdevice_t*, uint32_t, uint32_t, uint32_t,
                            unsigned char**, uint32_t*);
-diff --git src/libmtp.h.in src/libmtp.h.in
-index b49d449..2b2f0bb 100644
---- src/libmtp.h.in
-+++ src/libmtp.h.in
-@@ -875,6 +875,10 @@ LIBMTP_file_t *LIBMTP_Get_Filelisting_With_Callback(LIBMTP_mtpdevice_t *,
+diff --git a/src/libmtp.h.in b/src/libmtp.h.in
+index ec4ea79..56166fa 100644
+--- a/src/libmtp.h.in
++++ b/src/libmtp.h.in
+@@ -919,6 +919,10 @@ LIBMTP_file_t *LIBMTP_Get_Filelisting_With_Callback(LIBMTP_mtpdevice_t *,
  LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *,
  					     uint32_t const,
  					     uint32_t const);
@@ -111,10 +100,10 @@ index b49d449..2b2f0bb 100644
  LIBMTP_file_t *LIBMTP_Get_Filemetadata(LIBMTP_mtpdevice_t *, uint32_t const);
  int LIBMTP_Get_File_Chunk(LIBMTP_mtpdevice_t*, uint32_t, uint32_t, uint32_t,
                            unsigned char**, uint32_t*);
-diff --git src/libmtp.sym src/libmtp.sym
-index b6951b2..4130fe8 100644
---- src/libmtp.sym
-+++ src/libmtp.sym
+diff --git a/src/libmtp.sym b/src/libmtp.sym
+index 7a619ac..c8bc10f 100644
+--- a/src/libmtp.sym
++++ b/src/libmtp.sym
 @@ -48,6 +48,7 @@ LIBMTP_Get_Filetype_Description
  LIBMTP_Get_Filelisting
  LIBMTP_Get_Filelisting_With_Callback

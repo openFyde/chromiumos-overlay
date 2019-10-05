@@ -1,11 +1,12 @@
-Index: src/libmtp.c
-===================================================================
---- src/libmtp.c	(revision 167447)
-+++ src/libmtp.c	(working copy)
-@@ -4972,6 +4972,56 @@
+diff --git a/src/libmtp.c b/src/libmtp.c
+index eeb9c8c..a9cc9f7 100644
+--- a/src/libmtp.c
++++ b/src/libmtp.c
+@@ -5114,6 +5114,56 @@ LIBMTP_track_t *LIBMTP_Get_Trackmetadata(LIBMTP_mtpdevice_t *device, uint32_t co
+   return track;
  }
  
- /**
++/**
 + * This copies a chunk of a file off the device to memory.
 + * @param device a pointer to the device to get the track from.
 + * @param id the file ID of the file to retrieve.
@@ -55,15 +56,14 @@ Index: src/libmtp.c
 +  return 0;
 +}
 +
-+/**
+ /**
   * This is a manual conversion from MTPDataGetFunc to PTPDataGetFunc
   * to isolate the internal type.
-  */
-Index: src/libmtp.h
-===================================================================
---- src/libmtp.h	(revision 167447)
-+++ src/libmtp.h	(working copy)
-@@ -876,6 +876,8 @@
+diff --git a/src/libmtp.h b/src/libmtp.h
+index 911bc15..f1b42a4 100644
+--- a/src/libmtp.h
++++ b/src/libmtp.h
+@@ -920,6 +920,8 @@ LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *,
  					     uint32_t const,
  					     uint32_t const);
  LIBMTP_file_t *LIBMTP_Get_Filemetadata(LIBMTP_mtpdevice_t *, uint32_t const);
@@ -72,11 +72,11 @@ Index: src/libmtp.h
  int LIBMTP_Get_File_To_File(LIBMTP_mtpdevice_t*, uint32_t, char const * const,
  			LIBMTP_progressfunc_t const, void const * const);
  int LIBMTP_Get_File_To_File_Descriptor(LIBMTP_mtpdevice_t*,
-Index: src/libmtp.h.in
-===================================================================
---- src/libmtp.h.in	(revision 167447)
-+++ src/libmtp.h.in	(working copy)
-@@ -876,6 +876,8 @@
+diff --git a/src/libmtp.h.in b/src/libmtp.h.in
+index 92325b2..ec4ea79 100644
+--- a/src/libmtp.h.in
++++ b/src/libmtp.h.in
+@@ -920,6 +920,8 @@ LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *,
  					     uint32_t const,
  					     uint32_t const);
  LIBMTP_file_t *LIBMTP_Get_Filemetadata(LIBMTP_mtpdevice_t *, uint32_t const);
@@ -85,11 +85,11 @@ Index: src/libmtp.h.in
  int LIBMTP_Get_File_To_File(LIBMTP_mtpdevice_t*, uint32_t, char const * const,
  			LIBMTP_progressfunc_t const, void const * const);
  int LIBMTP_Get_File_To_File_Descriptor(LIBMTP_mtpdevice_t*,
-Index: src/libmtp.sym
-===================================================================
---- src/libmtp.sym	(revision 167447)
-+++ src/libmtp.sym	(working copy)
-@@ -49,6 +49,7 @@
+diff --git a/src/libmtp.sym b/src/libmtp.sym
+index 20d9195..7a619ac 100644
+--- a/src/libmtp.sym
++++ b/src/libmtp.sym
+@@ -49,6 +49,7 @@ LIBMTP_Get_Filelisting
  LIBMTP_Get_Filelisting_With_Callback
  LIBMTP_Get_Files_And_Folders
  LIBMTP_Get_Filemetadata

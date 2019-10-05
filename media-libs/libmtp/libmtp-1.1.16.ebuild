@@ -7,7 +7,7 @@ inherit autotools cros-sanitizers
 
 DESCRIPTION="An implementation of Microsoft's Media Transfer Protocol (MTP)."
 HOMEPAGE="http://libmtp.sourceforge.net/"
-SRC_URI="https://sourceforge.net/projects/libmtp/files/libmtp/1.1.15/libmtp-1.1.15.tar.gz"
+SRC_URI="https://sourceforge.net/projects/libmtp/files/libmtp/1.1.16/libmtp-1.1.16.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -33,7 +33,6 @@ PATCHES=(
 	"${FILESDIR}"/${P}-15_read_chunks.patch
 	"${FILESDIR}"/${P}-19_raw_read_directory.patch
 	"${FILESDIR}"/${P}-20_get_thumbnail_format.patch
-	"${FILESDIR}"/${P}-21_fix_build_with_new_glibc.patch
 )
 
 src_prepare() {

@@ -55,7 +55,7 @@ index 7b7e06b..ba8f69a 100644
 +#CLEANFILES = libmtp.usermap @UDEV_RULES@ libmtp.fdi libmtp.hwdb
 +#endif
 diff --git a/Makefile.in b/Makefile.in
-index c85503a..4575cba 100644
+index 757c02c..a54aeb5 100644
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -159,9 +159,8 @@ am__uninstall_files_from_dir = { \
@@ -70,7 +70,7 @@ index c85503a..4575cba 100644
  RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
    distclean-recursive maintainer-clean-recursive
  am__recursive_targets = \
-@@ -370,20 +369,11 @@ target_alias = @target_alias@
+@@ -371,20 +370,11 @@ target_alias = @target_alias@
  top_build_prefix = @top_build_prefix@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
@@ -92,7 +92,7 @@ index c85503a..4575cba 100644
  all: config.h
  	$(MAKE) $(AM_MAKEFLAGS) all-recursive
  
-@@ -493,27 +483,6 @@ uninstall-pkgconfigDATA:
+@@ -494,27 +484,6 @@ uninstall-pkgconfigDATA:
  	@list='$(pkgconfig_DATA)'; test -n "$(pkgconfigdir)" || list=; \
  	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
  	dir='$(DESTDIR)$(pkgconfigdir)'; $(am__uninstall_files_from_dir)
@@ -120,7 +120,7 @@ index c85503a..4575cba 100644
  
  # This directory's subdirectories are mostly independent; you can cd
  # into them and run 'make' without going through this Makefile.
-@@ -814,7 +783,7 @@ check: check-recursive
+@@ -818,7 +787,7 @@ check: check-recursive
  all-am: Makefile $(DATA) config.h
  installdirs: installdirs-recursive
  installdirs-am:
@@ -129,7 +129,7 @@ index c85503a..4575cba 100644
  	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
  	done
  install: install-recursive
-@@ -839,7 +808,6 @@ install-strip:
+@@ -843,7 +812,6 @@ install-strip:
  mostlyclean-generic:
  
  clean-generic:
@@ -137,7 +137,7 @@ index c85503a..4575cba 100644
  
  distclean-generic:
  	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
-@@ -870,8 +838,7 @@ info: info-recursive
+@@ -874,8 +842,7 @@ info: info-recursive
  
  info-am:
  
@@ -147,7 +147,7 @@ index c85503a..4575cba 100644
  
  install-dvi: install-dvi-recursive
  
-@@ -917,8 +884,7 @@ ps: ps-recursive
+@@ -921,8 +888,7 @@ ps: ps-recursive
  
  ps-am:
  
@@ -157,7 +157,7 @@ index c85503a..4575cba 100644
  
  .MAKE: $(am__recursive_targets) all install-am install-strip
  
-@@ -931,30 +897,18 @@ uninstall-am: uninstall-hwdbDATA uninstall-pkgconfigDATA \
+@@ -935,30 +901,18 @@ uninstall-am: uninstall-hwdbDATA uninstall-pkgconfigDATA \
  	distdir distuninstallcheck dvi dvi-am html html-am info \
  	info-am install install-am install-data install-data-am \
  	install-dvi install-dvi-am install-exec install-exec-am \
@@ -216,7 +216,7 @@ index 11f3640..f39c888 100644
  AM_CPPFLAGS=-I$(top_builddir)/src
  LDADD=../src/libmtp.la
 diff --git a/util/Makefile.in b/util/Makefile.in
-index 5baca52..9b217ed 100644
+index 0554846..f970da6 100644
 --- a/util/Makefile.in
 +++ b/util/Makefile.in
 @@ -88,8 +88,6 @@ PRE_UNINSTALL = :
@@ -228,7 +228,7 @@ index 5baca52..9b217ed 100644
  subdir = util
  ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
  am__aclocal_m4_deps = $(top_srcdir)/m4/byteorder.m4 \
-@@ -104,83 +102,8 @@ mkinstalldirs = $(install_sh) -d
+@@ -104,85 +102,8 @@ mkinstalldirs = $(install_sh) -d
  CONFIG_HEADER = $(top_builddir)/config.h
  CONFIG_CLEAN_FILES =
  CONFIG_CLEAN_VPATH_FILES =
@@ -262,7 +262,9 @@ index 5baca52..9b217ed 100644
 -am__v_at_1 = 
 -DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 -depcomp = $(SHELL) $(top_srcdir)/depcomp
--am__depfiles_maybe = depfiles
+-am__maybe_remake_depfiles = depfiles
+-am__depfiles_remade = ./$(DEPDIR)/mtp-hotplug.Po \
+-	./$(DEPDIR)/mtp-probe.Po
 -am__mv = mv -f
 -COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 -	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -314,7 +316,7 @@ index 5baca52..9b217ed 100644
  am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp
  DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
  ACLOCAL = @ACLOCAL@
-@@ -314,15 +237,11 @@ target_alias = @target_alias@
+@@ -317,15 +238,11 @@ target_alias = @target_alias@
  top_build_prefix = @top_build_prefix@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
@@ -330,7 +332,7 @@ index 5baca52..9b217ed 100644
  $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
  	@for dep in $?; do \
  	  case '$(am__configure_deps)' in \
-@@ -352,142 +271,6 @@ $(top_srcdir)/configure:  $(am__configure_deps)
+@@ -355,148 +272,6 @@ $(top_srcdir)/configure:  $(am__configure_deps)
  $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  $(am__aclocal_m4_deps):
@@ -447,8 +449,14 @@ index 5baca52..9b217ed 100644
 -distclean-compile:
 -	-rm -f *.tab.c
 -
--@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mtp-hotplug.Po@am__quote@
--@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mtp-probe.Po@am__quote@
+-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mtp-hotplug.Po@am__quote@ # am--include-marker
+-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mtp-probe.Po@am__quote@ # am--include-marker
+-
+-$(am__depfiles_remade):
+-	@$(MKDIR_P) $(@D)
+-	@echo '# dummy' >$@-t && $(am__mv) $@-t $@
+-
+-am--depfiles: $(am__depfiles_remade)
 -
 -.c.o:
 -@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -473,7 +481,7 @@ index 5baca52..9b217ed 100644
  
  mostlyclean-libtool:
  	-rm -f *.lo
-@@ -497,37 +280,12 @@ clean-libtool:
+@@ -506,37 +281,12 @@ clean-libtool:
  
  ID: $(am__tagged_files)
  	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -517,17 +525,17 @@ index 5baca52..9b217ed 100644
  cscopelist: cscopelist-am
  
  cscopelist-am: $(am__tagged_files)
-@@ -544,9 +302,6 @@ cscopelist-am: $(am__tagged_files)
+@@ -553,9 +303,6 @@ cscopelist-am: $(am__tagged_files)
  	  fi; \
  	done >> $(top_builddir)/cscope.files
  
 -distclean-tags:
 -	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 -
- distdir: $(DISTFILES)
- 	@srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
- 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
-@@ -579,11 +334,8 @@ distdir: $(DISTFILES)
+ distdir: $(BUILT_SOURCES)
+ 	$(MAKE) $(AM_MAKEFLAGS) distdir-am
+ 
+@@ -591,11 +338,8 @@ distdir-am: $(DISTFILES)
  	done
  check-am: all-am
  check: check-am
@@ -540,7 +548,7 @@ index 5baca52..9b217ed 100644
  install: install-am
  install-exec: install-exec-am
  install-data: install-data-am
-@@ -616,14 +368,11 @@ maintainer-clean-generic:
+@@ -628,15 +372,12 @@ maintainer-clean-generic:
  	@echo "it deletes files that may require special tools to rebuild."
  clean: clean-am
  
@@ -549,15 +557,17 @@ index 5baca52..9b217ed 100644
 +clean-am: clean-generic clean-libtool mostlyclean-am
  
  distclean: distclean-am
--	-rm -rf ./$(DEPDIR)
+-		-rm -f ./$(DEPDIR)/mtp-hotplug.Po
+-	-rm -f ./$(DEPDIR)/mtp-probe.Po
  	-rm -f Makefile
 -distclean-am: clean-am distclean-compile distclean-generic \
 -	distclean-tags
++
 +distclean-am: clean-am distclean-generic
  
  dvi: dvi-am
  
-@@ -637,13 +386,13 @@ info: info-am
+@@ -650,13 +391,13 @@ info: info-am
  
  info-am:
  
@@ -573,11 +583,12 @@ index 5baca52..9b217ed 100644
  
  install-html: install-html-am
  
-@@ -666,14 +415,12 @@ install-ps-am:
+@@ -679,15 +420,12 @@ install-ps-am:
  installcheck-am:
  
  maintainer-clean: maintainer-clean-am
--	-rm -rf ./$(DEPDIR)
+-		-rm -f ./$(DEPDIR)/mtp-hotplug.Po
+-	-rm -f ./$(DEPDIR)/mtp-probe.Po
  	-rm -f Makefile
  maintainer-clean-am: distclean-am maintainer-clean-generic
  
@@ -589,7 +600,7 @@ index 5baca52..9b217ed 100644
  
  pdf: pdf-am
  
-@@ -683,25 +430,24 @@ ps: ps-am
+@@ -697,25 +435,24 @@ ps: ps-am
  
  ps-am:
  
@@ -598,7 +609,7 @@ index 5baca52..9b217ed 100644
  
  .MAKE: install-am install-strip
  
--.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
+-.PHONY: CTAGS GTAGS TAGS all all-am am--depfiles check check-am clean \
 -	clean-binPROGRAMS clean-generic clean-libtool \
 -	clean-mtp_probePROGRAMS cscopelist-am ctags ctags-am distclean \
 +.PHONY: all all-am check check-am clean \

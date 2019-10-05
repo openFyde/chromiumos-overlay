@@ -1,8 +1,8 @@
 diff --git a/src/music-players.h b/src/music-players.h
-index fdd4654..c753e36 100644
+index 713305c..315ec73 100644
 --- a/src/music-players.h
 +++ b/src/music-players.h
-@@ -2257,12 +2257,6 @@
+@@ -2430,12 +2430,6 @@
    // Reported by anonymous Sourceforge user
    { "Google Inc (for Asus)", 0x18d1, "TF101 Transformer", 0x4e0f,
        DEVICE_FLAGS_ANDROID_BUGS },
