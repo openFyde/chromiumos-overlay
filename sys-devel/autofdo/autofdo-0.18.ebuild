@@ -15,21 +15,15 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="dev-libs/openssl:0=
-	dev-libs/protobuf:=
 	dev-libs/libffi
 	sys-devel/llvm
 	sys-libs/zlib"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	# Link with libLLVM, since we are building LLVM dynamically and linking
-	# it statically, see http://crbug.com/936051.
-	epatch "${FILESDIR}/autofdo-0.19-link-with-libllvm.patch"
-
-	# Upstream AutoFDO needs to build protobuf with source, but the build
-	# script doesn't work on Chrome OS. Since Chrome OS has protobuf library,
-	# we can use the system library instead of building a new one.
-	epatch "${FILESDIR}/autofdo-0.19-use-system-protobuf.patch"
+	# Changes to perf introduce new events. Ignore unknown ones.
+	epatch "${FILESDIR}/autofdo-0.18-unsupported_perf_events.patch"
+	epatch "${FILESDIR}/autofdo-0.18-link-with-libllvm.patch"
 
 	# The upstream tarball does not have aclocal.m4, and the upstream
 	# Makefile.in is generated from automake 1.15. We are still using
