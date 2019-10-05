@@ -11,7 +11,7 @@ else
 	KEYWORDS="*"
 fi
 
-inherit bash-completion-r1 linux-info meson multilib-minimal ninja-utils systemd toolchain-funcs udev user
+inherit bash-completion-r1 meson multilib-minimal ninja-utils systemd toolchain-funcs udev user
 
 DESCRIPTION="System and service manager for Linux"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/systemd"
@@ -57,23 +57,6 @@ BDEPEND="
 	>=sys-kernel/linux-headers-${MINKV}
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
 "
-
-pkg_pretend() {
-	if [[ ${MERGE_TYPE} != buildonly ]]; then
-		local CONFIG_CHECK="~EPOLL ~FANOTIFY ~FHANDLE
-			~INOTIFY_USER ~PROC_FS ~SIGNALFD ~SYSFS
-			~TIMERFD ~UNIX"
-
-		use acl && CONFIG_CHECK+=" ~TMPFS_POSIX_ACL"
-		use seccomp && CONFIG_CHECK+=" ~SECCOMP ~SECCOMP_FILTER"
-
-		if kernel_is -lt ${MINKV//./ }; then
-			ewarn "Kernel version at least ${MINKV} required"
-		fi
-
-		check_extra_config
-	fi
-}
 
 pkg_setup() {
 	:
