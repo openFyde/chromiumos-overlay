@@ -42,6 +42,9 @@ src_install() {
 
 	insinto /etc/init
 	doins init/arcvm-server-proxy.conf
+
+	insinto /etc/dbus-1/system.d
+	doins init/dbus-1/ArcVmServerProxy.conf
 }
 
 platform_pkg_test() {
