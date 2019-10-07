@@ -9,7 +9,7 @@ CMAKE_MIN_VERSION=3.7.0-r1
 PYTHON_COMPAT=( python2_7 )
 
 inherit cmake-utils flag-o-matic multilib-minimal \
-	multiprocessing pax-utils python-any-r1 toolchain-funcs
+	multiprocessing pax-utils python-any-r1 toolchain-funcs eapi7-ver
 
 MY_P=${P}.src
 DESCRIPTION="Low Level Virtual Machine"
@@ -32,7 +32,7 @@ ALL_LLVM_TARGETS=( "${ALL_LLVM_TARGETS[@]/#/llvm_targets_}" )
 
 LICENSE="UoI-NCSA rc BSD public-domain
 	llvm_targets_ARM? ( LLVM-Grant )"
-SLOT="$(get_major_version)"
+SLOT="$(ver_cut 1)"
 KEYWORDS="*"
 IUSE="debug doc exegesis gold libedit +libffi ncurses test tools xar xml
 	kernel_Darwin ${ALL_LLVM_TARGETS[*]}"
@@ -59,7 +59,7 @@ DEPEND="${RDEPEND}
 		( >=sys-freebsd/freebsd-lib-9.1-r10 sys-libs/libcxx )
 	)
 	kernel_Darwin? (
-		<sys-libs/libcxx-$(get_version_component_range 1-3).9999
+		<sys-libs/libcxx-$(ver_cut 1-3).9999
 		>=sys-devel/binutils-apple-5.1
 	)
 	doc? ( $(python_gen_any_dep '

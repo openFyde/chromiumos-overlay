@@ -13,7 +13,7 @@ CMAKE_MIN_VERSION=3.7.0-r1
 PYTHON_COMPAT=( python2_7 )
 
 inherit cmake-utils flag-o-matic multilib-minimal \
-	multiprocessing pax-utils python-any-r1 toolchain-funcs arc-build
+	multiprocessing pax-utils python-any-r1 toolchain-funcs arc-build eapi7-ver
 
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="https://llvm.org/"
@@ -35,7 +35,7 @@ ALL_LLVM_TARGETS=( "${ALL_LLVM_TARGETS[@]/#/llvm_targets_}" )
 
 LICENSE="UoI-NCSA rc BSD public-domain
 	llvm_targets_ARM? ( LLVM-Grant )"
-SLOT="$(get_major_version)"
+SLOT="$(ver_cut 1)"
 KEYWORDS="*"
 IUSE="debug doc exegesis libedit libffi ncurses test xar xml
 	kernel_Darwin ${ALL_LLVM_TARGETS[*]}"
