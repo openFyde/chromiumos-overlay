@@ -22,6 +22,7 @@ KEYWORDS="~*"
 IUSE="-hammerd_api"
 
 RDEPEND="
+	chromeos-base/ec-utils
 	chromeos-base/libbrillo
 	chromeos-base/metrics
 	chromeos-base/vboot_reference
