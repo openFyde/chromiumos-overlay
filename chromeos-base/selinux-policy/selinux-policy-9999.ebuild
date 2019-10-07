@@ -314,10 +314,15 @@ src_compile() {
 			fi
 		fi
 
-		cat "chromeos_file_contexts" \
-			"${SYSROOT}/etc/selinux/intermediates/arc_file_contexts" \
-			> file_contexts \
-			|| die "failed to combine *_file_contexts files"
+		# Add header/footer around ARC++ contexts, so they can be
+		# correctly replaced when pushing new Android builds using
+		# push_to_device.py.
+		(
+			cat "chromeos_file_contexts" &&
+			echo -e "\n# BEGIN_ARC_FILE_CONTEXTS" &&
+			cat "${SYSROOT}/etc/selinux/intermediates/arc_file_contexts" &&
+			echo -e "\n# END_ARC_FILE_CONTEXTS"
+		) > file_contexts || die "failed to combine *_file_contexts files"
 
 	else
 		# Chrome OS without ARC++ only. Chrome OS with Android N doesn't
