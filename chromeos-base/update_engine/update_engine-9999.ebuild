@@ -27,9 +27,7 @@ IUSE="cros_p2p +dbus dlc -hwid_override +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2
-	!chromeos-base/brillo_update_payload
 	chromeos-base/chromeos-ca-certificates
-	!<chromeos-base/cros-devutils-0.0.3
 	chromeos-base/libbrillo
 	chromeos-base/metrics
 	chromeos-base/vboot_reference
@@ -114,7 +112,6 @@ src_install() {
 	dobin "${OUT}"/update_engine_client
 
 	if use cros_host; then
-		dobin "${S}"/scripts/brillo_update_payload
 		dobin "${OUT}"/delta_generator
 	fi
 
@@ -134,6 +131,7 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins UpdateEngine.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/update_engine_omaha_request_action_fuzzer \
-		--dict "${S}"/fuzz/xml.dict
+	platform_fuzzer_install "${S}"/OWNERS \
+				"${OUT}"/update_engine_omaha_request_action_fuzzer \
+				--dict "${S}"/fuzz/xml.dict
 }
