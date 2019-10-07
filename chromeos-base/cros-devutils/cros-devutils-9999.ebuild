@@ -40,18 +40,3 @@ src_install() {
 	dosym /usr/share/bash-completion/repo /etc/bash_completion.d/repo
 	dosym /usr/share/bash-completion/completions/git /etc/bash_completion.d/git
 }
-
-src_test() {
-	cd "${S}" # Let's just run unit tests from ${S} rather than install and run.
-
-	local TESTS=(
-		autoupdate_unittest.py
-		builder_test.py
-		common_util_unittest.py
-	)
-	local test
-	for test in "${TESTS[@]}" ; do
-		einfo "Running ${test}"
-		./${test} || die "Failed in ${test}"
-	done
-}
