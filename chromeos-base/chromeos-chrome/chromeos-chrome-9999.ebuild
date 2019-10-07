@@ -29,6 +29,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="
 	afdo_use
+	afdo_verify
 	+accessibility
 	app_shell
 	asan
@@ -81,6 +82,7 @@ REQUIRED_USE="
 	libcxx? ( clang )
 	thinlto? ( clang )
 	afdo_use? ( clang )
+	afdo_verify? ( clang !afdo_use )
 	orderfile_verify? ( !reorder_text_sections )
 	orderfile_generate? ( !orderfile_use !reorder_text_sections )
 	"
@@ -155,8 +157,9 @@ AFDO_FILE["airmont"]="R79-3904.19-1569838411.afdo"
 AFDO_FILE["haswell"]="R78-3809.102-1565608061.afdo"
 AFDO_FILE["broadwell"]="R79-3903.0-1569840015.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
-# The following entry will be modified automatically for verifying orderfile.
+# The following entry will be modified automatically for verifying orderfile or AFDO profile.
 UNVETTED_ORDERFILE=""
+UNVETTED_AFDO_FILE=""
 
 # This dictionary can be used to manually override the setting for the
 # AFDO profile file. Any non-empty values in this array will take precedence
@@ -771,6 +774,14 @@ src_unpack() {
 
 		AFDO_PROFILE_LOC="${PROFILE_DIR}/${redacted_profile_file}"
 		einfo "Using ${PROFILE_STATE} AFDO data from ${AFDO_PROFILE_LOC}"
+	fi
+
+	# Use to verify a local unvetted AFDO file.
+	if use afdo_verify; then
+		if [[ ! -e "${UNVETTED_AFDO_FILE}" ]]; then
+			die "Cannot find ${UNVETTED_AFDO_FILE} to build Chrome."
+		fi
+		BUILD_STRING_ARGS+=( "clang_sample_profile_path=${UNVETTED_AFDO_FILE}" )
 	fi
 
 	# Unpack unvetted orderfile.
