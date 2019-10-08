@@ -33,6 +33,10 @@ DEPEND="
 		x11-libs/libXrandr:=[${MULTILIB_USEDEP}]
 	)"
 
+PATCHES=(
+	"${FILESDIR}"/vulkan-loader-1.1.92.1-sysroot-asm_offset.patch
+)
+
 multilib_src_configure() {
 	local mycmakeargs=(
 		-DCMAKE_SKIP_RPATH=True
