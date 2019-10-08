@@ -3,9 +3,10 @@
 
 EAPI="5"
 
+# TODO(crbug.com/1011631): Add python3 when it's been ported.
 CROS_WORKON_COMMIT="0f59a9a41177186cf41b331e279d0b7804512654"
 CROS_WORKON_TREE="9da92573b1513e36c8e6ce819bfe2354edaeec64"
-PYTHON_COMPAT=( python2_7 python3_{3,4,5,6} )
+PYTHON_COMPAT=( python2_7 )
 
 CROS_WORKON_LOCALNAME="../aosp/system/update_engine"
 CROS_WORKON_PROJECT="aosp/platform/system/update_engine"
@@ -47,5 +48,8 @@ src_install() {
 src_test() {
 	# Run update_payload unittests.
 	cd scripts
-	./run_unittests || die
+	python_test() {
+		./run_unittests || die
+	}
+	python_foreach_impl python_test
 }
