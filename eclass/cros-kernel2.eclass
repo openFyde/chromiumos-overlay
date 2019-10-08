@@ -48,6 +48,7 @@ IUSE="
 	fit_compression_kernel_lzma
 	firmware_install
 	-kernel_sources
+	lld
 	nfc
 	${WIRELESS_SUFFIXES[@]/#/-wireless}
 	-wifi_testbed_ap
@@ -67,6 +68,7 @@ REQUIRED_USE="
 	compilation_database? ( clang )
 	fit_compression_kernel_lz4? ( !fit_compression_kernel_lzma )
 	fit_compression_kernel_lzma? ( !fit_compression_kernel_lz4 )
+	lld? ( clang )
 "
 STRIP_MASK="
 	/lib/modules/*/kernel/*
@@ -1417,9 +1419,10 @@ kmake() {
 		CHOST=${cross} clang-setup-env
 	fi
 	local binutils_path=$(LD=${cross}-ld get_binutils_path_ld)
+	local linker=$(usex lld "${cross}-ld.lld" "${binutils_path}/ld")
 
 	set -- \
-		LD="${binutils_path}/ld" \
+		LD="${linker}" \
 		CC="${CC} -B${binutils_path}" \
 		CXX="${CXX} -B${binutils_path}" \
 		HOSTCC="${BUILD_CC}" \
