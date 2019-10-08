@@ -63,7 +63,6 @@ IUSE="
 	orderfile_generate
 	+orderfile_use
 	orderfile_verify
-	reorder_text_sections
 	+runhooks
 	strict_toolchain_checks
 	+thinlto
@@ -83,8 +82,7 @@ REQUIRED_USE="
 	thinlto? ( clang )
 	afdo_use? ( clang )
 	afdo_verify? ( clang !afdo_use )
-	orderfile_verify? ( !reorder_text_sections )
-	orderfile_generate? ( !orderfile_use !reorder_text_sections )
+	orderfile_generate? ( !orderfile_use )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -978,12 +976,6 @@ setup_compile_flags() {
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
 	fi
 
-	# The logic to avoid using these two flags together here is to
-	# support temporary transition before orderfile is being used.
-	if use reorder_text_sections && ! use orderfile_generate; then
-		EBUILD_LDFLAGS+=( "-Wl,-z,keep-text-section-prefix" )
-	fi
-
 	if use orderfile_generate; then
 		local chrome_outdir="${CHROME_CACHE_DIR}/src/${BUILD_OUT}/${BUILDTYPE}"
 		BUILD_STRING_ARGS+=( "dump_call_chain_clustering_order=${chrome_outdir}/chrome.orderfile.txt" )
@@ -1181,16 +1173,6 @@ chrome_make() {
 		cp -p "${BUILD_OUT_SYM}/${BUILDTYPE}/.ninja_log" "${GLOG_log_dir}/ninja_log"
 	fi
 	[[ "${ret}" -eq 0 ]] || die
-
-	# Ensure that all of Chrome's Builtins_ functions appear in the first
-	# 30MB of its binary. This needs to be performed on an unstripped
-	# binary.
-	#
-	# FIXME(gbiv): This is ugly; remove once we have orderfiles properly
-	# set up.
-	if use strict_toolchain_checks && "${use_lld}" && use reorder_text_sections; then
-		"${FILESDIR}/check_symbol_ordering.py" "${build_dir}/chrome" || die
-	fi
 
 	# Still use a script to check if the orderfile is used properly, i.e.
 	# Builtin_ functions are placed between the markers, etc.
@@ -1614,14 +1596,6 @@ pkg_preinst() {
 		[[ -n ${files} ]] && die "Debug files exceed 4GiB: ${files}"
 	fi
 
-	# Test .text.hot section comes before .text in Chrome.
-	# https://crbug.com/912781
-	if use strict_toolchain_checks && use afdo_use && use reorder_text_sections; then
-		if ! readelf -lW "${ED}/${CHROME_DIR}/chrome" | grep -qF ".text.hot .text"; then
-			readelf -l -W "${ED}/${CHROME_DIR}/chrome"
-			die ".text.hot does not come before .text"
-		fi
-	fi
 }
 
 pkg_postinst() {
