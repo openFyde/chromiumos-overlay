@@ -106,11 +106,6 @@ src_prepare() {
 	fi
 
 	epatch "${FILESDIR}"/18.3-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
-	# Don't apply intel BGRA internal format patch for VM build since BGRA_EXT is not a valid
-	# internal format for GL context.
-	if use !video_cards_virgl; then
-		epatch "${FILESDIR}"/DOWNSTREAM-i965-Use-GL_BGRA_EXT-internal-format-for-B8G8R8A8-B8.patch
-	fi
 	epatch "${FILESDIR}"/intel-Add-support-for-Comet-Lake.patch
 	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
 	epatch "${FILESDIR}"/19.0-radeonsi-gfx9-honor-user-stride-for-imported-buffers.patch
