@@ -59,6 +59,7 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_desktop_file_fuzzer \
 		--dict "${S}"/testdata/garcon_desktop_file_fuzzer.dict
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_ini_parse_util_fuzzer
 
 	into /
 	newsbin "${OUT}"/maitred init
