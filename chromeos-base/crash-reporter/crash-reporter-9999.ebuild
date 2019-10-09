@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cheets chromeless_tty cros_embedded -direncryption systemd"
+IUSE="cheets chromeless_tty cros_embedded -direncryption systemd fuzzer"
 
 RDEPEND="
 	chromeos-base/minijail
@@ -109,6 +109,9 @@ src_install() {
 	doins crash_reporter_logs.conf
 
 	udev_dorules 99-crash-reporter.rules
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/crash_sender_fuzzer \
+		--dict "${S}"/crash_sender_fuzzer.dict
 }
 
 platform_pkg_test() {
