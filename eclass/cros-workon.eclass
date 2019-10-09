@@ -15,6 +15,37 @@
 
 inherit cros-constants cros-credentials
 
+# Default slotting for cros-workon packages.
+#
+# Gentoo Slotting Guide:
+# https://devmanual.gentoo.org/general-concepts/slotting/index.html
+#
+# By default, cros-workon packages do not support having multiple versions
+# of the same package installed at the same time. The top level slot
+# of "0" expresses this requirement, as Portage will not allow multiple
+# packages with the same name and slot to be installed. The subslot is set to
+# ${PVR} by default. ${PVR} expands to the package version and revision number,
+# e.g. "0.0.1-r307" or "9999". This means that a package being uprevved (or a
+# user installing the unstable version of a package) will trigger subslot
+# rebuilds in every package that DEPENDs on the original package and uses the
+# subslot operator ':='.
+#
+# Packages should only override this value in specific cases:
+# 1. The package does not provide any artifacts that can be consumed at build
+#    time by another package. An example would be if a package only installs
+#    a program and provides no headers or shared libraries. In this case, the
+#    package should override SLOT to be "0/0", indicating that changes in that
+#    package do not need to trigger recompilations in dependent packages.
+#
+# 2. The package genuinely supports having multiple versions installed at the
+#    same time. In this case, the package should define the slots and subslots
+#    in a manner consistent with the Gentoo Slotting Guide. All usages in this
+#    manner require sign-off from the Chromium OS build team.
+#
+# In either case, the SLOT variable must be overridden *after* inheriting from
+# this eclass.
+SLOT="0/${PVR}"
+
 # Array variables. All of the following variables can contain multiple items
 # with the restriction being that all of them have to have either:
 # - the same number of items globally
