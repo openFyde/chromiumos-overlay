@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="kvm_guest vm-containers"
+IUSE="kvm_guest vm-containers fuzzer"
 
 # This ebuild should only be used on VM guest boards.
 REQUIRED_USE="kvm_guest"
@@ -56,6 +56,9 @@ src_install() {
 		dobin "${OUT}"/wayland_demo
 		dobin "${OUT}"/x11_demo
 	fi
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_desktop_file_fuzzer \
+		--dict "${S}"/testdata/garcon_desktop_file_fuzzer.dict
 
 	into /
 	newsbin "${OUT}"/maitred init

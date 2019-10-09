@@ -33,6 +33,7 @@ RDEPEND="
 	chromeos-base/trunks[fuzzer]
 	chromeos-base/update_engine[fuzzer]
 	chromeos-base/usb_bouncer[fuzzer]
+	asan? ( chromeos-base/vm_guest_tools[fuzzer] )
 	asan? ( chromeos-base/vm_host_tools[fuzzer] )
 	asan? ( dev-rust/p9[fuzzer] )
 	dev-util/bsdiff[fuzzer]
