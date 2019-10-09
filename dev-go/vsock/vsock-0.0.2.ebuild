@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_GO_SOURCE="github.com/mdlayher/vsock 65587aa3274a83bbca6fcb90c96e84a3912b3201"
+CROS_GO_SOURCE="github.com/mdlayher/vsock 9de589a8c10bfadb0e94fe67caa79a05a1a45a52"
 
 CROS_GO_PACKAGES=(
 	"github.com/mdlayher/vsock"
