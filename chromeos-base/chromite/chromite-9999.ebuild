@@ -27,7 +27,7 @@ src_install() {
 
 	install_python() {
 		# TODO(crbug.com/771085): Figure out this SYSROOT business.
-		insinto "$(python_get_sitedir | sed "s:^${SYSROOT}::")"
+		local dir="$(python_get_sitedir | sed "s:^${SYSROOT}::")/chromite"
 		insinto "${dir}"
 		doins -r "${S}"/*
 
