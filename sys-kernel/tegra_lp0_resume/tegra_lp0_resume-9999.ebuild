@@ -1,14 +1,13 @@
 # Copyright 2014 The Chromium OS Authors.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 
 DESCRIPTION="lp0 resume blob for Tegra"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
-SLOT="0"
-KEYWORDS="~arm"
+KEYWORDS="-* ~arm ~arm64"
 IUSE=""
 
 RDEPEND=""
