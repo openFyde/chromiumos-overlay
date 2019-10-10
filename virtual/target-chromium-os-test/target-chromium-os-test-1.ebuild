@@ -31,6 +31,7 @@ IUSE="
 	+tpm
 	tpm2
 	vaapi
+	wifi_hostap_test
 	wifi_testbed_ap
 "
 
@@ -210,6 +211,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	net-misc/iputils
 	net-misc/openssh
 	net-misc/radvd
+	wifi_hostap_test? ( net-wireless/hostap-test )
 	sci-geosciences/gpsd
 	sys-apps/coreutils
 	sys-apps/dtc
