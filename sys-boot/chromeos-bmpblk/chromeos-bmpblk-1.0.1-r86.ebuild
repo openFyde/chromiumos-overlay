@@ -93,7 +93,9 @@ CROS_BOARDS=(
 	zoombini
 )
 
-inherit cros-workon cros-board
+# TODO(crbug.com/1011520): Port this to Python 3.
+PYTHON_COMPAT=( python2_7 )
+inherit cros-workon cros-board python-any-r1
 
 DESCRIPTION="Chrome OS Firmware Bitmap Block"
 HOMEPAGE="http://www.chromium.org/"
