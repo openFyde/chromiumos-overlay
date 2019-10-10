@@ -105,6 +105,7 @@ src_install() {
 	doins pkcs11/*.h
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_attributes_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_object_store_fuzzer
 }
 
 platform_pkg_test() {
