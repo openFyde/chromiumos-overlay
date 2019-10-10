@@ -2,6 +2,11 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+# cairo's aclocal.float.m4 doesn't work with --gc-sections.
+cros_pre_src_prepare_cairo_no_gc_sections() {
+  filter-ldflags -Wl,--gc-sections
+}
+
 cros_pre_src_configure_cairo_flags() {
   # gcc 4.9 needs this to compile it.
   # upstream bug is at

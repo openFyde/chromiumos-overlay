@@ -71,11 +71,14 @@ MARCH_TUNE=""
 
 # Allow a board to override or define additional settings.
 source make.conf.board
-COMMON_COMPILER_FLAGS="-O2 -pipe ${MARCH_TUNE} ${BOARD_COMPILER_FLAGS} -g ${CXXEXCEPTIONS_FLAGS}"
+COMMON_COMPILER_FLAGS="-O2 -pipe ${MARCH_TUNE} ${BOARD_COMPILER_FLAGS} -g ${CXXEXCEPTIONS_FLAGS} \
+-ffunction-sections -fdata-sections"
 CFLAGS="${CFLAGS} ${COMMON_COMPILER_FLAGS}"
 CXXFLAGS="${CXXFLAGS} ${COMMON_COMPILER_FLAGS}"
 # Clear the variable so people don't try to rely on it.
 COMMON_COMPILER_FLAGS=""
+
+LDFLAGS="${LDFLAGS} -Wl,--gc-sections"
 
 # Allow the user to override or define additional settings.
 source make.conf.user
