@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("97376dbf653f150af7616b90f52b501d70371fb0" "0f59a9a41177186cf41b331e279d0b7804512654")
+CROS_WORKON_COMMIT=("547320548b8bd6cd1b4d78dfdeefdc720882e1dc" "0f59a9a41177186cf41b331e279d0b7804512654")
 CROS_WORKON_TREE=("bf84a23a00350764b97d4ceb2bee5c17164d7855" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9da92573b1513e36c8e6ce819bfe2354edaeec64")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
@@ -29,9 +29,7 @@ IUSE="cros_p2p +dbus dlc -hwid_override +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2
-	!chromeos-base/brillo_update_payload
 	chromeos-base/chromeos-ca-certificates
-	!<chromeos-base/cros-devutils-0.0.3
 	chromeos-base/libbrillo
 	chromeos-base/metrics
 	chromeos-base/vboot_reference
@@ -116,7 +114,6 @@ src_install() {
 	dobin "${OUT}"/update_engine_client
 
 	if use cros_host; then
-		dobin "${S}"/scripts/brillo_update_payload
 		dobin "${OUT}"/delta_generator
 	fi
 
@@ -136,6 +133,7 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins UpdateEngine.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/update_engine_omaha_request_action_fuzzer \
-		--dict "${S}"/fuzz/xml.dict
+	platform_fuzzer_install "${S}"/OWNERS \
+				"${OUT}"/update_engine_omaha_request_action_fuzzer \
+				--dict "${S}"/fuzz/xml.dict
 }
