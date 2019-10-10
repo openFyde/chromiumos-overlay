@@ -22,7 +22,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="systemd test tpm tpm2"
+IUSE="systemd test tpm tpm2 fuzzer"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
@@ -45,6 +45,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	chromeos-base/system_api
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 	tpm2? ( chromeos-base/trunks[test?] )
 	"
 
@@ -102,6 +103,8 @@ src_install() {
 
 	insinto /usr/include/chaps/pkcs11
 	doins pkcs11/*.h
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_attributes_fuzzer
 }
 
 platform_pkg_test() {

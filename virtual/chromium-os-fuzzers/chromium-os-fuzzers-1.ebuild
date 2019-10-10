@@ -14,6 +14,7 @@ IUSE="asan msan"
 RDEPEND="
 	chromeos-base/authpolicy[fuzzer]
 	chromeos-base/biod[fuzzer]
+	chromeos-base/chaps[fuzzer]
 	chromeos-base/chromeos-ec[fuzzer]
 	chromeos-base/cros-disks[fuzzer]
 	chromeos-base/crosdns[fuzzer]
