@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="b6899564618a19219fc887935514be4175d1ce27"
-CROS_WORKON_TREE=("bf84a23a00350764b97d4ceb2bee5c17164d7855" "1e8775afb1d4861b6de7ebd17eba50b7bea95604" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e471d0c7537d9ca610a7aa1bcd9ecdc2530140c5"
+CROS_WORKON_TREE=("bf84a23a00350764b97d4ceb2bee5c17164d7855" "4d17e2a440bf681d93111b3868fad5f06fd8470d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -30,6 +30,9 @@ DEPEND="${RDEPEND}"
 src_install() {
 	dobin "${OUT}/timberslide"
 
+	# Install upstart configs and scripts
 	insinto /etc/init
 	doins init/*.conf
+	exeinto /usr/share/cros/init
+	doexe init/*.sh
 }
