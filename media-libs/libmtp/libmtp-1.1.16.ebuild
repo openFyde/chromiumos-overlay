@@ -33,6 +33,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-15_read_chunks.patch
 	"${FILESDIR}"/${P}-19_raw_read_directory.patch
 	"${FILESDIR}"/${P}-20_get_thumbnail_format.patch
+	"${FILESDIR}"/${P}-22_ptp_timezone.patch
 )
 
 src_prepare() {
