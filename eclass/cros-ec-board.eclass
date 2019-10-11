@@ -21,7 +21,7 @@
 
 # Check for EAPI 4+
 case "${EAPI:-0}" in
-4|5|6) ;;
+4|5|6|7) ;;
 *) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
@@ -29,7 +29,7 @@ inherit cros-unibuild
 
 # For unibuild we need EAPI 5 for the sub-slot dependency feature.
 case "${EAPI:-0}" in
-5|6)
+5|6|7)
 	DEPEND+=" unibuild? (
 			chromeos-base/chromeos-config:=
 		) "
