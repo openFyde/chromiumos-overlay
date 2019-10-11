@@ -10,6 +10,7 @@ from __future__ import print_function
 
 import argparse
 import os.path
+import re
 import subprocess
 import sys
 
@@ -19,7 +20,7 @@ def parse_args():
   parser.add_argument(
       '--config',
       required=True,
-      choices=['cros.hardened', 'cros.nonhardened', 'cros.host'])
+      choices=['cros.hardened', 'cros.nonhardened', 'cros.host', 'android'])
   parser.add_argument('--use_ccache', required=True, choices=['true', 'false'])
   parser.add_argument(
       '--use_llvm_next', required=True, choices=['true', 'false'])
@@ -45,8 +46,18 @@ def calc_go_args(args, version):
 
 
 def read_version(build_dir):
-  with open(os.path.join(build_dir, 'VERSION'), 'r') as r:
-    return r.read()
+  version_path = os.path.join(build_dir, 'VERSION')
+  if os.path.exists(version_path):
+    with open(version_path, 'r') as r:
+      return r.read()
+
+  last_commit_msg = subprocess.check_output(
+      ['git', '-C', build_dir, 'log', '-1', '--pretty=%B'])
+  # Use last found change id to support reverts as well.
+  change_ids = re.findall(r'Change-Id: (\w+)', last_commit_msg)
+  if not change_ids:
+    sys.exit("Couldn't find Change-Id in last commit message.")
+  return change_ids[-1]
 
 
 def main():
