@@ -87,6 +87,8 @@ src_install() {
 	doins "${OUT}"/lib/libtrunks.pc
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_creation_blob_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_key_blob_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/trunks_password_authorization_delegate_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_resource_manager_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_tpm_pinweaver_fuzzer
 }
