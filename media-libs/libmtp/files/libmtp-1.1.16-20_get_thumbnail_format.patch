@@ -1,8 +1,8 @@
 diff --git a/src/libmtp.c b/src/libmtp.c
-index 7f01d38..27240c3 100644
+index ac4e9c7..3516e8b 100644
 --- a/src/libmtp.c
 +++ b/src/libmtp.c
-@@ -9321,6 +9321,27 @@ int LIBMTP_TruncateObject(LIBMTP_mtpdevice_t *device, uint32_t const id,
+@@ -9310,6 +9310,27 @@ int LIBMTP_TruncateObject(LIBMTP_mtpdevice_t *device, uint32_t const id,
  }
  
  
