@@ -106,6 +106,7 @@ EC_BOARD_NAMES=(
 	whiskers
 	zinger
 	zoombini
+	zork
 )
 
 IUSE_FIRMWARES="${EC_BOARD_NAMES[@]/#/${EC_BOARD_USE_PREFIX}}"
