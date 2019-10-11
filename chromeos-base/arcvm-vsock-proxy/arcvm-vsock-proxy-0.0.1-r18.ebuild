@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="31349f692c038c4efc81eb7a43ecf1a89da5c36d"
+CROS_WORKON_COMMIT="a4489597f0772a342062cf4dd9f2b61615a464ff"
 CROS_WORKON_TREE=("bf84a23a00350764b97d4ceb2bee5c17164d7855" "34d95a736dbe8ece4d56844c3c8b1d5c07eea91d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -44,6 +44,9 @@ src_install() {
 
 	insinto /etc/init
 	doins init/arcvm-server-proxy.conf
+
+	insinto /etc/dbus-1/system.d
+	doins init/dbus-1/ArcVmServerProxy.conf
 }
 
 platform_pkg_test() {
