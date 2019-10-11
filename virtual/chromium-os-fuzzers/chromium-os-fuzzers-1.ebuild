@@ -25,6 +25,7 @@ RDEPEND="
 	chromeos-base/imageloader[fuzzer]
 	chromeos-base/ippusb_manager[fuzzer]
 	chromeos-base/kerberos[fuzzer]
+	chromeos-base/libbrillo[fuzzer]
 	chromeos-base/libipp[fuzzer]
 	chromeos-base/metrics[fuzzer]
 	chromeos-base/p2p[fuzzer]

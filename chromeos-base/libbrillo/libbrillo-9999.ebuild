@@ -23,7 +23,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libbri
 LICENSE="BSD-Google"
 SLOT="0/${PV}.0"
 KEYWORDS="~*"
-IUSE="cros_host +dbus +device_mapper +udev"
+IUSE="cros_host +dbus +device_mapper fuzzer +udev"
 
 COMMON_DEPEND="
 	chromeos-base/minijail
@@ -69,6 +69,8 @@ src_install() {
 	doins policy/*.h
 	insinto /usr/include/install_attributes
 	doins install_attributes/libinstallattributes.h
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libbrillo_http_form_data_fuzzer
 }
 
 platform_pkg_test() {
