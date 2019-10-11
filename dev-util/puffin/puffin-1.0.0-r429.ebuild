@@ -4,8 +4,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("570a86f8a4a69c3be7085cbaf6d0a19a3f5ab401" "dfec7fab93efd097fa494268d0e60e7e115dcea7")
-CROS_WORKON_TREE=("730940d1ad982b0928be2d517a8583b66235e15e" "9b31a005af654c8d652f4aebebf840cfb42879c8")
+CROS_WORKON_COMMIT=("a4489597f0772a342062cf4dd9f2b61615a464ff" "ba2b2a9c0c6874f90d1a72accc7b14f9e5b5adf7")
+CROS_WORKON_TREE=("075846334e40e14a98fd45b236c94b32ad8282d5" "8d7545bc9bae9fc17f8e752b353624c72868d1a6 ")
 inherit cros-constants
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
@@ -49,12 +49,16 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins libpuffdiff.pc libpuffpatch.pc
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/puffin_fuzzer
+	for f in "huff" "puff" "puffpatch"; do
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}/puffin_${f}_fuzzer"
+	done
 }
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/puffin_test"
 
-	# Run fuzzer.
-	platform_fuzzer_test "${OUT}"/puffin_fuzzer
+	# Run fuzzers.
+	for f in "huff" "puff" "puffpatch"; do
+		platform_fuzzer_test "${OUT}/puffin_${f}_fuzzer"
+	done
 }
