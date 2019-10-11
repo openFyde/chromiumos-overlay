@@ -34,6 +34,7 @@ IUSE="python"
 
 DEPEND="sys-libs/zlib:=
 	dev-libs/libpcre2:=
+	dev-libs/openssl:=
 	virtual/libusb:1="
 RDEPEND="${DEPEND}
 	python? ( ${PYTHON_DEPS} )"
