@@ -151,6 +151,9 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer
+
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/cryptohome_cryptolib_blob_to_hex_fuzzer
 }
 
 pkg_preinst() {
