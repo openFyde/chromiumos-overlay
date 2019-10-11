@@ -79,6 +79,8 @@ src_install() {
 	fowners biod:biod "${daemon_store}"
 
 	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/biod_storage_fuzzer
+
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/biod_crypto_validation_value_fuzzer
 }
 
 platform_pkg_test() {
