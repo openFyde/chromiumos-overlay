@@ -62,8 +62,9 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" install
-	# Cleanup an unused file from the emake install command.
-	rm -f "${D}/etc/usbguard/rules.conf"
+	# Cleanup unwanted files from the emake install command.
+	rm "${D}/etc/usbguard/rules.conf" || die
+	rm "${D}/usr/share/dbus-1/system.d/org.usbguard1.conf" || die
 
 	insinto /etc/usbguard/rules.d
 	use cfm_enabled_device && doins "${FILESDIR}/50-cfm-rules.conf"
