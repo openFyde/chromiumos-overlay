@@ -203,6 +203,7 @@ RDEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.13
 	>=dev-util/intltool-0.30
 	dev-util/scons
+	dev-util/vulkan-headers
 	>=dev-vcs/git-1.7.2
 	>=media-libs/freetype-2.2.1
 	>=media-libs/lcms-2.6:2
