@@ -443,11 +443,15 @@ cros-rust_pkg_postinst() {
 
 	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
 	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
-	mkdir -p "${registry_dir}"
 
-	local dest="${registry_dir}/${crate}"
-	einfo "Linking ${crate} into Cargo registry at ${registry_dir}"
-	ln -srT "${crate_dir}" "${dest}" || die
+	# Don't install links for binary-only crates as they won't have any
+	# library crates to register.  This avoids dangling symlinks.
+	if [[ -e "${crate_dir}" ]]; then
+		local dest="${registry_dir}/${crate}"
+		einfo "Linking ${crate} into Cargo registry at ${registry_dir}"
+		mkdir -p "${registry_dir}"
+		ln -srT "${crate_dir}" "${dest}" || die
+	fi
 }
 
 # @FUNCTION: cros-rust_pkg_prerm
@@ -464,8 +468,12 @@ cros-rust_pkg_prerm() {
 	local crate="${name}-${version}"
 
 	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
-	einfo "Removing ${crate} from Cargo registry"
-	rm -f "${registry_dir}/${crate}" || die
+	local link="${registry_dir}/${crate}"
+	# Add a check to avoid spamming when it doesn't exist (e.g. binary crates).
+	if [[ -L "${link}" ]]; then
+		einfo "Removing ${crate} from Cargo registry"
+		rm -f "${link}" || die
+	fi
 }
 
 # @FUNCTION: cros-rust_get_crate_version
