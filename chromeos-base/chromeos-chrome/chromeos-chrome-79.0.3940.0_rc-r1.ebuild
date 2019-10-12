@@ -29,6 +29,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="
 	afdo_use
+	afdo_verify
 	+accessibility
 	app_shell
 	asan
@@ -62,7 +63,6 @@ IUSE="
 	orderfile_generate
 	+orderfile_use
 	orderfile_verify
-	reorder_text_sections
 	+runhooks
 	strict_toolchain_checks
 	+thinlto
@@ -81,8 +81,8 @@ REQUIRED_USE="
 	libcxx? ( clang )
 	thinlto? ( clang )
 	afdo_use? ( clang )
-	orderfile_verify? ( !reorder_text_sections )
-	orderfile_generate? ( !orderfile_use !reorder_text_sections )
+	afdo_verify? ( clang !afdo_use )
+	orderfile_generate? ( !orderfile_use )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -149,14 +149,15 @@ VETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-79.0.3923.0_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R79-3904.19-1569836348.afdo"
-AFDO_FILE["airmont"]="R79-3904.19-1569838411.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-79.0.3931.2_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R79-3904.41-1570446057.afdo"
+AFDO_FILE["airmont"]="R79-3904.35-1570450409.afdo"
 AFDO_FILE["haswell"]="R78-3809.102-1565608061.afdo"
-AFDO_FILE["broadwell"]="R79-3903.0-1569840015.afdo"
+AFDO_FILE["broadwell"]="R79-3904.35-1570441307.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
-# The following entry will be modified automatically for verifying orderfile.
+# The following entry will be modified automatically for verifying orderfile or AFDO profile.
 UNVETTED_ORDERFILE=""
+UNVETTED_AFDO_FILE=""
 
 # This dictionary can be used to manually override the setting for the
 # AFDO profile file. Any non-empty values in this array will take precedence
@@ -773,6 +774,14 @@ src_unpack() {
 		einfo "Using ${PROFILE_STATE} AFDO data from ${AFDO_PROFILE_LOC}"
 	fi
 
+	# Use to verify a local unvetted AFDO file.
+	if use afdo_verify; then
+		if [[ ! -e "${UNVETTED_AFDO_FILE}" ]]; then
+			die "Cannot find ${UNVETTED_AFDO_FILE} to build Chrome."
+		fi
+		BUILD_STRING_ARGS+=( "clang_sample_profile_path=${UNVETTED_AFDO_FILE}" )
+	fi
+
 	# Unpack unvetted orderfile.
 	if use orderfile_verify; then
 		local orderfile_dir="${WORKDIR}/orderfile"
@@ -965,12 +974,6 @@ setup_compile_flags() {
 			EBUILD_LDFLAGS+=( -gsplit-dwarf )
 		fi
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
-	fi
-
-	# The logic to avoid using these two flags together here is to
-	# support temporary transition before orderfile is being used.
-	if use reorder_text_sections && ! use orderfile_generate; then
-		EBUILD_LDFLAGS+=( "-Wl,-z,keep-text-section-prefix" )
 	fi
 
 	if use orderfile_generate; then
@@ -1170,16 +1173,6 @@ chrome_make() {
 		cp -p "${BUILD_OUT_SYM}/${BUILDTYPE}/.ninja_log" "${GLOG_log_dir}/ninja_log"
 	fi
 	[[ "${ret}" -eq 0 ]] || die
-
-	# Ensure that all of Chrome's Builtins_ functions appear in the first
-	# 30MB of its binary. This needs to be performed on an unstripped
-	# binary.
-	#
-	# FIXME(gbiv): This is ugly; remove once we have orderfiles properly
-	# set up.
-	if use strict_toolchain_checks && "${use_lld}" && use reorder_text_sections; then
-		"${FILESDIR}/check_symbol_ordering.py" "${build_dir}/chrome" || die
-	fi
 
 	# Still use a script to check if the orderfile is used properly, i.e.
 	# Builtin_ functions are placed between the markers, etc.
@@ -1603,14 +1596,6 @@ pkg_preinst() {
 		[[ -n ${files} ]] && die "Debug files exceed 4GiB: ${files}"
 	fi
 
-	# Test .text.hot section comes before .text in Chrome.
-	# https://crbug.com/912781
-	if use strict_toolchain_checks && use afdo_use && use reorder_text_sections; then
-		if ! readelf -lW "${ED}/${CHROME_DIR}/chrome" | grep -qF ".text.hot .text"; then
-			readelf -l -W "${ED}/${CHROME_DIR}/chrome"
-			die ".text.hot does not come before .text"
-		fi
-	fi
 }
 
 pkg_postinst() {
