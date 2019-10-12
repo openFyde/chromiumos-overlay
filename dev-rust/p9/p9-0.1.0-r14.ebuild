@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="a543dc6fed8a5bf2479177c116e0137274db3533"
+CROS_WORKON_COMMIT="a435264dc7cb147e329b921f56fe551fa5da9ad0"
 CROS_WORKON_TREE="bec46cea39f1ad5bcbea6a46a5761d866f125e4e"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -71,4 +71,14 @@ src_install() {
 		fuzzer_install "${S}/fuzz/OWNERS" \
 			"$(cros-rust_get_build_dir)/p9_tframe_decode_fuzzer"
 	fi
+}
+
+pkg_postinst() {
+	cros-rust_pkg_postinst wire_format_derive
+	cros-rust_pkg_postinst p9
+}
+
+pkg_prerm() {
+	cros-rust_pkg_prerm wire_format_derive
+	cros-rust_pkg_prerm p9
 }

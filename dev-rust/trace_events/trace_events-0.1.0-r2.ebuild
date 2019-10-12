@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="8282d0b4e2952a08bc5b0392c7ee75435552c622"
+CROS_WORKON_COMMIT="a435264dc7cb147e329b921f56fe551fa5da9ad0"
 CROS_WORKON_TREE="e509681943a4a652c4575e6da2260621c04c8500"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -53,4 +53,16 @@ src_install() {
 	popd > /dev/null || die
 	pushd trace_events_macros > /dev/null || die
 	cros-rust_publish trace_events_macros "$(cros-rust_get_crate_version .)"
+}
+
+pkg_postinst() {
+	cros-rust_pkg_postinst trace_events
+	cros-rust_pkg_postinst json_tracer
+	cros-rust_pkg_postinst trace_events_macros
+}
+
+pkg_prerm() {
+	cros-rust_pkg_prerm trace_events
+	cros-rust_pkg_prerm json_tracer
+	cros-rust_pkg_prerm trace_events_macros
 }

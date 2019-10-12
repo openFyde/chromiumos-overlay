@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="a8adff0ff14f66570a3aa86f6106b55081526be1"
+CROS_WORKON_COMMIT="a462f74b2688379d04d4acf4337d07df58fc08e6"
 CROS_WORKON_TREE="2590aed0d64976ade3cc71a61d7f1486be8cffb3"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -71,4 +71,14 @@ src_install() {
 	popd > /dev/null
 
 	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
+}
+
+pkg_postinst() {
+	cros-rust_pkg_postinst poll_token_derive
+	cros-rust_pkg_postinst
+}
+
+pkg_prerm() {
+	cros-rust_pkg_prerm poll_token_derive
+	cros-rust_pkg_prerm
 }
