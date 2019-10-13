@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="547320548b8bd6cd1b4d78dfdeefdc720882e1dc"
+CROS_WORKON_COMMIT="07bde5220945a24642614c8a9cdffa8b5f496498"
 CROS_WORKON_TREE="bded2cbfde052df8e818830a499945b3c1c163c0"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -52,7 +52,7 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
-		ecargo_test --all || die "chunnel test failed"
+		ecargo_test --all
 	fi
 }
 

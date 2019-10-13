@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="910d65310598c27a48ff7a438d685b6f571e7950"
+CROS_WORKON_COMMIT="07bde5220945a24642614c8a9cdffa8b5f496498"
 CROS_WORKON_TREE="001fc514c81a576f3bf777e742c0959c0e507e95"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -11,9 +11,8 @@ CROS_WORKON_SUBTREE="crosh"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="Chrome OS command-line shell"
-HOMEPAGE="http://www.chromium.org/"
-SRC_URI=""
+DESCRIPTION="Chrome OS developer command-line shell"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosh/"
 
 LICENSE="BSD-Google"
 SLOT="0"

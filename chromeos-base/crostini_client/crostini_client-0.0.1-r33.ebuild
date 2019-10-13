@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="3e2b58b05f522c0c8903ddedec37f78122671a37"
+CROS_WORKON_COMMIT="07bde5220945a24642614c8a9cdffa8b5f496498"
 CROS_WORKON_TREE="f6054a54c62ed9a7ef70d0ba58e47494faf23757"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -12,6 +12,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 inherit cros-workon cros-rust
 
 DESCRIPTION="Command-line client for controlling crostini"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/crostini_client/"
 
 LICENSE="BSD-Google"
 SLOT="0"

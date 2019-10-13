@@ -12,7 +12,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-fuzzer cros-rust cros-workon toolchain-funcs user
 
-DESCRIPTION="Utility for running Linux VMs on Chrome OS"
+DESCRIPTION="Utility for running VMs on Chrome OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/"
 
 LICENSE="BSD-Google"
 SLOT="0"

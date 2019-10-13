@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="4caea830f569831653460c962745cb6b14c95c9f"
+CROS_WORKON_COMMIT="07bde5220945a24642614c8a9cdffa8b5f496498"
 CROS_WORKON_TREE="f8beea4c071ce3932b3bb340f6c81e40381cefaa"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -57,7 +57,7 @@ src_test() {
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/9s"
 
-	# We don't have a seccomp policy for arm64.
+	# We don't have a seccomp policy for arm64 yet.
 	insinto /usr/share/policy
 	use arm64 || newins "seccomp/9s-seccomp-${ARCH}.policy" 9s-seccomp.policy
 }
