@@ -50,7 +50,7 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
-		ecargo_test --all || die "chunnel test failed"
+		ecargo_test --all
 	fi
 }
 

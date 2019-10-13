@@ -9,9 +9,8 @@ CROS_WORKON_SUBTREE="crosh"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="Chrome OS command-line shell"
-HOMEPAGE="http://www.chromium.org/"
-SRC_URI=""
+DESCRIPTION="Chrome OS developer command-line shell"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosh/"
 
 LICENSE="BSD-Google"
 SLOT="0"
