@@ -1,8 +1,8 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-CROS_WORKON_COMMIT="e1b2eca39378301e10404c9e4a7f79dae294f826"
+EAPI=7
+CROS_WORKON_COMMIT="07bde5220945a24642614c8a9cdffa8b5f496498"
 CROS_WORKON_TREE=("17521578248ed477467a85ea08abbcc8ace26f4c" "03750b4b542e8ae05257e4daf55d4f428dc120dc" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,25 +21,30 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="
 	cros_embedded +debugd +encrypted_stateful frecon
 	kernel-3_8 kernel-3_10 kernel-3_14 kernel-3_18 +midi
 	-s3halt +syslog systemd +udev vivid vtconsole"
 
-# shunit2 should be a dependency only if USE=test, but cros_run_unit_test
-# doesn't calculate dependencies when emerging packages.
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
-DEPEND="chromeos-base/libbrillo
-	chromeos-base/metrics
-	chromeos-base/secure-erase-file
-	chromeos-base/vboot_reference
-	dev-util/shunit2
-	sys-apps/rootdev
+COMMON_DEPEND="
+	chromeos-base/metrics:=
+	chromeos-base/secure-erase-file:=
+	chromeos-base/vboot_reference:=
+	sys-apps/rootdev:=
 "
 
-RDEPEND="${DEPEND}
+DEPEND="${COMMON_DEPEND}
+	test? (
+		sys-process/psmisc
+		dev-util/shunit2
+		sys-apps/diffutils
+	)
+"
+
+RDEPEND="${COMMON_DEPEND}
 	app-arch/tar
 	app-misc/jq
 	chromeos-base/bootstat
@@ -57,9 +62,6 @@ RDEPEND="${DEPEND}
 	)
 	frecon? (
 		sys-apps/frecon
-	)
-	test? (
-		sys-process/psmisc
 	)
 "
 
