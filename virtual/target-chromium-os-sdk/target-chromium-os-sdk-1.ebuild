@@ -332,7 +332,7 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	>=chromeos-base/vboot_reference-1.0-r174
 	chromeos-base/verity
-	dev-python/ahocorasick
+	!dev-python/ahocorasick
 	dev-python/pyahocorasick
 	sys-fs/libfat
 	"
