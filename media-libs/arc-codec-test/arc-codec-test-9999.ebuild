@@ -1,8 +1,8 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_INCREMENTAL_BUILD=1
+EAPI=6
+
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -58,7 +58,6 @@ multilib_src_compile() {
 }
 
 multilib_src_install() {
-	OUT="${BUILD_DIR}/out/Default"
 	exeinto "/usr/libexec/arc-binary-tests"
 
 	newexe "${OUT}/arcvideodecoder_test" "arcvideodecoder_test_${ABI}"
