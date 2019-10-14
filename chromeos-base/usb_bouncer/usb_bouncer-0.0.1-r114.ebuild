@@ -3,13 +3,14 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="2bc6c5f46a8d9ad66b6b78fbbdf724bd66bf2a10"
-CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "1759a7d58d3a4625ef1fd24b7bbec89f0c7f1775" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="00a11ffde18a7d2e9880893a03b56da1af35e1e1"
+CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "2603705c2caed81f5792299e275387339a7fb15b" "1759a7d58d3a4625ef1fd24b7bbec89f0c7f1775" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk usb_bouncer .gn"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk metrics usb_bouncer .gn"
 
 PLATFORM_SUBDIR="usb_bouncer"
 
@@ -25,6 +26,7 @@ IUSE="fuzzer"
 
 RDEPEND="chromeos-base/libbrillo
 	fuzzer? ( dev-libs/libprotobuf-mutator )
+	chromeos-base/metrics
 	chromeos-base/minijail
 	dev-libs/openssl:0=
 	sys-apps/usbguard"
