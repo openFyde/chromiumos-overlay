@@ -86,6 +86,8 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/lib/libtrunks.pc
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_creation_blob_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/trunks_hmac_authorization_delegate_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_key_blob_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/trunks_password_authorization_delegate_fuzzer
