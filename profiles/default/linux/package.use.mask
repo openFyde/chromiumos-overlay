@@ -72,6 +72,7 @@ sys-libs/libcap pam
 app-arch/gzip test
 dev-python/pytest test
 sys-process/psmisc test
+sys-apps/diffutils test
 
 # dev-python/py has a test dependency on a later version of pytest than we
 # provide. Upgrading pytest adds a dependency on dev-python/hypothesis, which
