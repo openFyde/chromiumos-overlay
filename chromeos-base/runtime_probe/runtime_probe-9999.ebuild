@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/runtim
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
-IUSE="unibuild"
+IUSE="unibuild asan fuzzer"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config )
@@ -69,6 +69,11 @@ src_install() {
 
 	# Install udev rules.
 	udev_dorules udev/*.rules
+
+	local fuzzer
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+	done
 }
 
 platform_pkg_test() {
