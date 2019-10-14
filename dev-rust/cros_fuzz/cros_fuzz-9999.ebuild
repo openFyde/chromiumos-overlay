@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cros-f
 LICENSE="BSD-Google"
 SLOT="0/${PR}"
 KEYWORDS="~*"
-IUSE="test"
+IUSE="fuzzer test"
 
 DEPEND="
 	=dev-rust/rand_core-0.4*:=
