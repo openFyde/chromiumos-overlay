@@ -105,6 +105,10 @@ platform_pkg_test() {
 	else
 		platform_test "run" "${unittests_binary}" 1 "${GTEST_FILTER}"
 	fi
+
+	for f in "omaha_request_action" "delta_performer"; do
+		platform_fuzzer_test "${OUT}/update_engine_${f}_fuzzer"
+	done
 }
 
 src_install() {
@@ -134,4 +138,6 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS \
 				"${OUT}"/update_engine_omaha_request_action_fuzzer \
 				--dict "${S}"/fuzz/xml.dict
+	platform_fuzzer_install "${S}"/OWNERS \
+				"${OUT}"/update_engine_delta_performer_fuzzer
 }
