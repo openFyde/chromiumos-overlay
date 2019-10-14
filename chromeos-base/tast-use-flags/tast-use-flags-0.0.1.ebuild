@@ -38,6 +38,7 @@ IUSE="
 	internal
 	+internal_mic
 	+internal_speaker
+	iwlwifi_rescan
 	kernel-3_8
 	kernel-3_10
 	kernel-3_14
