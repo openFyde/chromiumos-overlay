@@ -70,6 +70,7 @@ src_install() {
 	insinto /usr/include/install_attributes
 	doins install_attributes/libinstallattributes.h
 
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libbrillo_data_encoding_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/libbrillo_dbus_data_serialization_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libbrillo_http_form_data_fuzzer
