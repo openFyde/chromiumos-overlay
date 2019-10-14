@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+CROS_WORKON_COMMIT=("00a11ffde18a7d2e9880893a03b56da1af35e1e1" "11a6fc258c6765a43b973b15e86fb4bce7675202")
+CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "578e6ce7f9190342841d9a8e74e19bcc5d500844")
 inherit cros-constants
 
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/modp_b64")
@@ -22,7 +24,7 @@ HOMEPAGE="https://github.com/client9/stringencoders"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 IUSE="fuzzer"
 
 src_install() {
