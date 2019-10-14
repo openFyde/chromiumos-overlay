@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="e1b2eca39378301e10404c9e4a7f79dae294f826"
-CROS_WORKON_TREE=("17521578248ed477467a85ea08abbcc8ace26f4c" "b13f03a60c0287876790e11f78840e42341cfebd" "2603705c2caed81f5792299e275387339a7fb15b" "42b8681033fea9d0e8c57ef704c72bb187fac70c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="99e402471ffd85d0e9f8b73016677e56891b53e5"
+CROS_WORKON_TREE=("17521578248ed477467a85ea08abbcc8ace26f4c" "b13f03a60c0287876790e11f78840e42341cfebd" "2603705c2caed81f5792299e275387339a7fb15b" "df240380ed54f7bdf4d78aa06453ee3a3e3f8d12" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -57,4 +57,8 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
 	fowners u2f:u2f "${daemon_store}"
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/u2fd_test_runner"
 }
