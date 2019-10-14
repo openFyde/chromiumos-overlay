@@ -30,12 +30,6 @@ DEPEND="unibuild? ( chromeos-base/chromeos-config )
 	sys-libs/ncurses sys-libs/readline"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	# This allows board specific dptf config override.
-	epatch "${FILESDIR}"/dptf-allow-board-specific-override.patch
-	default
-}
-
 src_configure() {
 	# cmake configuration for DPTF policy shared libraries
 	local mycmakeargs=( -DCHROMIUM_BUILD=YES )
