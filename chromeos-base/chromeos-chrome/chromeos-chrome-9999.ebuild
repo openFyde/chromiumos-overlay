@@ -1399,7 +1399,17 @@ pkg_preinst() {
 		local files=$(find "${ED}/usr/lib/debug${CHROME_DIR}" -size +$((4 * 1024 * 1024 * 1024 - 1))c)
 		[[ -n ${files} ]] && die "Debug files exceed 4GiB: ${files}"
 	fi
-
+	# Verify that the elf program headers in splitdebug binary match the chrome
+	# binary, this is needed for correct symbolization in CWP.
+	# b/128861198, https://crbug.com/1007548 .
+	if [[ ${MERGE_TYPE} != binary ]] && use strict_toolchain_checks; then
+		local chrome_headers=$(${READELF} --program-headers --wide \
+			"${ED}/${CHROME_DIR}"/chrome | grep LOAD)
+		local chrome_debug_headers=$(${READELF} --program-headers --wide \
+			"${ED}/usr/lib/debug${CHROME_DIR}"/chrome.debug | grep LOAD)
+		[[ "${chrome_headers}" != "${chrome_debug_headers}" ]] && \
+			die "chrome program headers do not match chrome.debug"
+	fi
 }
 
 pkg_postinst() {
