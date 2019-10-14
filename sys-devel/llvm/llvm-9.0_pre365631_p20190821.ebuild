@@ -171,6 +171,8 @@ enable_asserts() {
 }
 
 multilib_src_configure() {
+	use llvm-next && append-flags -Wno-poison-system-directories
+
 	local targets
 	if use multitarget; then
 		targets='host;X86;ARM;AArch64;NVPTX'
