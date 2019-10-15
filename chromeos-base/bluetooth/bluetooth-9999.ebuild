@@ -53,6 +53,8 @@ src_install() {
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/btdispatch.conf || die
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/newblued.conf || die
 	fi
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/newblued_fuzzer
 }
 
 platform_pkg_test() {
