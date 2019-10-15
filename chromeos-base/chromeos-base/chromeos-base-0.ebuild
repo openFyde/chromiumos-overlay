@@ -187,6 +187,10 @@ src_install() {
 		# Custom login shell snippets.
 		insinto /etc/profile.d
 		doins "${FILESDIR}"/cursor.sh
+
+		# Custom kernel module configuration.
+		insinto /etc/modprobe.d
+		doins "${FILESDIR}"/modprobe.d/*.conf
 	fi
 
 	# Some daemons and utilities access the mounts through /etc/mtab.
