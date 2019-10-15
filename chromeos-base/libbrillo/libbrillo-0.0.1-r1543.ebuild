@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="0e985254803df99a4b8838ca0387090b2102e03c"
+CROS_WORKON_COMMIT="9239a43f2dc2e98e57e9d77aac72fa3ce8169e5f"
 CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "05dfb5b9e76884fb8b8b2c9e5a972d60e90526cf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,7 +25,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libbri
 LICENSE="BSD-Google"
 SLOT="0/${PV}.0"
 KEYWORDS="*"
-IUSE="cros_host +dbus +device_mapper +udev"
+IUSE="cros_host +dbus +device_mapper fuzzer +udev"
 
 COMMON_DEPEND="
 	chromeos-base/minijail
@@ -71,6 +71,8 @@ src_install() {
 	doins policy/*.h
 	insinto /usr/include/install_attributes
 	doins install_attributes/libinstallattributes.h
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libbrillo_http_form_data_fuzzer
 }
 
 platform_pkg_test() {
