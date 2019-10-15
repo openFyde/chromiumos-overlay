@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="2bc6c5f46a8d9ad66b6b78fbbdf724bd66bf2a10"
-CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "2efd6847a968fabf0f3ea7ea6a5966c0e1c26463" "2603705c2caed81f5792299e275387339a7fb15b" "d8ac2ad180aa54028a051524d3717bd021e37f0c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0e985254803df99a4b8838ca0387090b2102e03c"
+CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "d776a9e8a3bda879fe5f4751af723ff6d1a65874" "2603705c2caed81f5792299e275387339a7fb15b" "d8ac2ad180aa54028a051524d3717bd021e37f0c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -24,7 +24,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="systemd test tpm tpm2"
+IUSE="systemd test tpm tpm2 fuzzer"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
@@ -47,6 +47,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	chromeos-base/system_api
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 	tpm2? ( chromeos-base/trunks[test?] )
 	"
 
@@ -104,6 +105,9 @@ src_install() {
 
 	insinto /usr/include/chaps/pkcs11
 	doins pkcs11/*.h
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_attributes_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_object_store_fuzzer
 }
 
 platform_pkg_test() {

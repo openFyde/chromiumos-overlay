@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="2bc6c5f46a8d9ad66b6b78fbbdf724bd66bf2a10"
-CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "71a5e86b9c41686c6c3909c5ba6bdddea7c90624" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0e985254803df99a4b8838ca0387090b2102e03c"
+CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "72e9dfe2bd103a5fc29a949c2a89229f1ef35a0b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="kvm_guest vm-containers"
+IUSE="kvm_guest vm-containers fuzzer"
 
 # This ebuild should only be used on VM guest boards.
 REQUIRED_USE="kvm_guest"
@@ -58,6 +58,13 @@ src_install() {
 		dobin "${OUT}"/wayland_demo
 		dobin "${OUT}"/x11_demo
 	fi
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_desktop_file_fuzzer \
+		--dict "${S}"/testdata/garcon_desktop_file_fuzzer.dict
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_icon_index_file_fuzzer \
+		--dict "${S}"/testdata/garcon_icon_index_file_fuzzer.dict
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_ini_parse_util_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_mime_types_parser_fuzzer
 
 	into /
 	newsbin "${OUT}"/maitred init
