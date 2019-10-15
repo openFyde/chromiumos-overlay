@@ -24,6 +24,7 @@ KEYWORDS="~*"
 IUSE="
 	arcvm
 	esdfs
+	fuzzer
 	houdini
 	houdini64
 	ndk_translation
@@ -97,6 +98,10 @@ src_install() {
 		keepdir /opt/google/containers/arc-art/mountpoints/dev-rootfs
 		keepdir /opt/google/containers/arc-art/mountpoints/vendor
 	fi
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_expand_property_contents_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_fingerprint_and_sdk_version_fuzzer
 }
 
 platform_pkg_test() {
