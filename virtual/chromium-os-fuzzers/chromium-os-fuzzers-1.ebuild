@@ -12,6 +12,7 @@ KEYWORDS="*"
 IUSE="asan msan"
 
 RDEPEND="
+	chromeos-base/arc-adbd[fuzzer]
 	chromeos-base/authpolicy[fuzzer]
 	chromeos-base/biod[fuzzer]
 	chromeos-base/chaps[fuzzer]

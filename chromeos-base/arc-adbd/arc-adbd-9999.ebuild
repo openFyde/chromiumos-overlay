@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/ad
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+seccomp"
+IUSE="+seccomp fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -34,4 +34,7 @@ src_install() {
 	use seccomp && newins "seccomp/arc-adbd-${ARCH}.policy" arc-adbd-seccomp.policy
 
 	dosbin "${OUT}/arc-adbd"
+
+	# Install fuzzer.
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc-adbd-setup-config-fs-fuzzer
 }
