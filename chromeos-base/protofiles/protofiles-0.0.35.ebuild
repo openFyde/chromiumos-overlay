@@ -12,6 +12,9 @@
 
 EAPI="5"
 
+# We don't need the history at all.
+EGIT_CLONE_TYPE="shallow"
+
 inherit cros-constants eutils git-r3
 
 # Every 3 strings in this array indicates a repository to checkout:
