@@ -22,4 +22,7 @@ KEYWORDS="~*"
 src_install() {
 	insinto /etc/init
 	doins arc/vm/launch/init/arcvm-ureadahead.conf
+
+	insinto /usr/share/arcvm
+	doins arc/vm/launch/init/config.json
 }
