@@ -30,11 +30,14 @@ RDEPEND="
 	chromeos-base/minijail
 	net-libs/grpc:=
 	dev-libs/protobuf:=
-	media-libs/mesa[gbm]
-	x11-base/xwayland
-	x11-libs/libxkbcommon
-	x11-libs/pixman
+	!fuzzer? (
+		media-libs/mesa[gbm]
+		x11-base/xwayland
+		x11-libs/libxkbcommon
+		x11-libs/pixman
+	)
 "
+
 DEPEND="
 	${RDEPEND}
 	dev-go/grpc
@@ -70,7 +73,7 @@ src_install() {
 	# Create a folder for process configs to be launched at VM startup.
 	dodir /etc/maitred/
 
-	dosym /run/resolv.conf /etc/resolv.conf
+	use fuzzer || dosym /run/resolv.conf /etc/resolv.conf
 
 	CROS_GO_WORKSPACE="${OUT}/gen/go"
 	cros-go_src_install
