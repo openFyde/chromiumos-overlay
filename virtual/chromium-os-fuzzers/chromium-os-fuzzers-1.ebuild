@@ -35,6 +35,7 @@ RDEPEND="
 	chromeos-base/shill[fuzzer]
 	chromeos-base/smbprovider[fuzzer]
 	chromeos-base/trunks[fuzzer]
+	chromeos-base/u2fd[fuzzer]
 	chromeos-base/update_engine[fuzzer]
 	chromeos-base/usb_bouncer[fuzzer]
 	asan? ( chromeos-base/vm_guest_tools[fuzzer] )

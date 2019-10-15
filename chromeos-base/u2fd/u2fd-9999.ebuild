@@ -58,6 +58,8 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
 	fowners u2f:u2f "${daemon_store}"
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_adpu_fuzzer
 }
 
 platform_pkg_test() {
