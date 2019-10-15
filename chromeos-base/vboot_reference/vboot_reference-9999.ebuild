@@ -6,7 +6,7 @@ EAPI="5"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 
-inherit cros-debug cros-workon
+inherit cros-debug cros-fuzzer cros-sanitizers cros-workon
 
 DESCRIPTION="Chrome OS verified boot tools"
 
@@ -25,6 +25,16 @@ DEPEND="${RDEPEND}"
 
 src_configure() {
 	cros-workon_src_configure
+
+	# Determine sanitizer flags. This is necessary because the Makefile
+	# purposely ignores CFLAGS from the environment. So we collect the
+	# sanitizer flags and pass just them to the Makefile explicitly.
+	SANITIZER_CFLAGS=$(
+		append-flags() {
+			printf "%s" "$* "
+		}
+		sanitizers-setup-env
+	)
 }
 
 vemake() {
@@ -37,6 +47,7 @@ vemake() {
 		MINIMAL=$(usev !cros_host) \
 		NO_BUILD_TOOLS=$(usev fuzzer) \
 		DEV_DEBUG_FORCE=$(usev dev_debug_force) \
+		FUZZ_FLAGS="${SANITIZER_CFLAGS}" \
 		"$@"
 }
 
@@ -86,6 +97,8 @@ src_install() {
 		dobin "${WORKDIR}"/build-main/tests/tpm_lite/tpmtest*[^.]?
 		dobin "${WORKDIR}"/build-main/utility/tpm_set_readsrkpub
 	fi
+
+	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/cgpt_fuzzer
 
 	# Install devkeys to /usr/share/vboot/devkeys
 	# (shared by host and target)
