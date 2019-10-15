@@ -28,6 +28,7 @@ RDEPEND="
 	chromeos-base/diagnostics[fuzzer]
 	chromeos-base/dlcservice[fuzzer]
 	chromeos-base/ghostscript-fuzz[fuzzer]
+	chromeos-base/hammerd[fuzzer]
 	chromeos-base/imageloader[fuzzer]
 	chromeos-base/ippusb_manager[fuzzer]
 	chromeos-base/kerberos[fuzzer]

@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hammer
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
-IUSE="-hammerd_api"
+IUSE="-hammerd_api fuzzer"
 
 RDEPEND="
 	chromeos-base/ec-utils
@@ -56,6 +56,8 @@ src_install() {
 	# Install rsyslog config.
 	insinto /etc/rsyslog.d
 	doins rsyslog/rsyslog.hammerd.conf
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_load_ec_image_fuzzer
 }
 
 platform_pkg_test() {
