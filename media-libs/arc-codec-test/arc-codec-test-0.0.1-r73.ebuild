@@ -1,10 +1,10 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="2bc6c5f46a8d9ad66b6b78fbbdf724bd66bf2a10"
+EAPI=6
+
+CROS_WORKON_COMMIT="00a11ffde18a7d2e9880893a03b56da1af35e1e1"
 CROS_WORKON_TREE=("203b3e1cdbe17a87f4c26caaaa3c7aab0d03c92e" "1c9dedfb489b146ba061dcc365b6be84de5528d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
-CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -60,7 +60,6 @@ multilib_src_compile() {
 }
 
 multilib_src_install() {
-	OUT="${BUILD_DIR}/out/Default"
 	exeinto "/usr/libexec/arc-binary-tests"
 
 	newexe "${OUT}/arcvideodecoder_test" "arcvideodecoder_test_${ABI}"
