@@ -198,8 +198,11 @@ src_prepare() {
 	epatch "${FILESDIR}"/BACKPORT-i965-Add-handling-for-fp16-configs.patch
 	if ! use android-container-nyc; then
 		epatch "${FILESDIR}"/UPSTREAM-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_FP.patch
+		epatch "${FILESDIR}"/BACKPORT-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_10.patch
 	fi
 	epatch "${FILESDIR}"/UPSTREAM-intel-compiler-force-simd8-when-dual-src-blending-on.patch
+
+	epatch "${FILESDIR}"/UPSTREAM-i965-setup-sized-internalformat-for-MESA_FO.patch
 	default
 }
 

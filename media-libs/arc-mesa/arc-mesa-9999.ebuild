@@ -145,6 +145,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
 
 	epatch "${FILESDIR}"/FROMLIST-egl-fix-KHR_partial_update-without-EXT_buff.patch
+	epatch "${FILESDIR}"/BACKPORT-egl-android-Only-keep-BGRA-EGL-configs-as-fallback.patch
 	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
 	epatch "${FILESDIR}"/FROMLIST-egl-android-Update-color_buffers-querying-for-buffer.patch
 
@@ -191,8 +192,11 @@ src_prepare() {
 	epatch "${FILESDIR}"/BACKPORT-i965-Add-handling-for-fp16-configs.patch
 	if ! use android-container-nyc; then
 		epatch "${FILESDIR}"/UPSTREAM-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_FP.patch
+		epatch "${FILESDIR}"/BACKPORT-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_10.patch
 	fi
 	epatch "${FILESDIR}"/UPSTREAM-intel-compiler-force-simd8-when-dual-src-blending-on.patch
+
+	epatch "${FILESDIR}"/UPSTREAM-i965-setup-sized-internalformat-for-MESA_FO.patch
 	default
 }
 
