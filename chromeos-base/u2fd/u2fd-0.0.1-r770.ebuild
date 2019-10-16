@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="2bc6c5f46a8d9ad66b6b78fbbdf724bd66bf2a10"
+CROS_WORKON_COMMIT="0ac5114417384b77e0df09af92aa7239f3198982"
 CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "d8ac2ad180aa54028a051524d3717bd021e37f0c" "2603705c2caed81f5792299e275387339a7fb15b" "a8d95e451cb998ddabd26ea45a71961c4e85e2ce" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -24,6 +24,8 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
+	chromeos-base/attestation
+	chromeos-base/attestation-client
 	chromeos-base/libbrillo
 	chromeos-base/metrics
 	chromeos-base/power_manager-client
@@ -33,6 +35,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/attestation-client
 	chromeos-base/system_api
 	"
 
