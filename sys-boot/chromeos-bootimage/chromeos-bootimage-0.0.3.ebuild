@@ -19,7 +19,7 @@ BOARDS="${BOARDS} nautilus nocturne octopus panther parrot peppy poppy puff pyro
 BOARDS="${BOARDS} rambi rammus reef samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
 IUSE="${BOARDS} altfw diag_payload seabios wilco_ec"
-IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec +bmpblk"
+IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec +ec_ro_sync pd_sync +bmpblk"
 
 REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
@@ -34,6 +34,7 @@ DEPEND="
 	unibuild? ( chromeos-base/chromeos-config )
 	u-boot? ( sys-boot/u-boot )
 	cros_ec? ( chromeos-base/chromeos-ec )
+	pd_sync? ( chromeos-base/chromeos-ec )
 	"
 
 # Directory where the generated files are looked for and placed.
@@ -127,17 +128,31 @@ add_ec() {
 	local ecroot="$4"
 	local pad="0"
 
+	# When EFS is enabled, the payloads here may be resigned and enlarged so
+	# extra padding is needed.
 	is_ec_efs_enabled "${depthcharge_config}" && pad="128"
-	einfo "Padding ecrw ${pad} byte."
-	cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c lzma \
-		-f "${ecroot}/ec.RW.bin" -n "${name}" -p "${pad}" || die
-	cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
-		-f "${ecroot}/ec.RW.hash" -n "${name}.hash" || die
+	einfo "Padding ${name}{ro,rw} ${pad} byte."
+
+	do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c lzma \
+		-f "${ecroot}/ec.RW.bin" -n "${name}rw" -p "${pad}"
+	do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
+		-f "${ecroot}/ec.RW.hash" -n "${name}rw.hash"
+
+	if ! use ec_ro_sync; then
+		einfo "Skip packing EC RO."
+	elif [[ -f "${ecroot}/ec.RO.bin" ]]; then
+		do_cbfstool "${rom}" add -r COREBOOT -t raw -c lzma \
+			-f "${ecroot}/ec.RO.bin" -n "${name}ro" -p "${pad}"
+		do_cbfstool "${rom}" add -r COREBOOT -t raw -c none \
+			-f "${ecroot}/ec.RO.hash" -n "${name}ro.hash"
+	else
+		ewarn "Missing ${ecroot}/ec.RO.bin, skip packing EC RO."
+	fi
 
 	# Add EC version file for Wilco EC
 	if use wilco_ec; then
-		cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
-			-f "${ecroot}/ec.RW.version" -n "${name}.version" || die
+		do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
+			-f "${ecroot}/ec.RW.version" -n "${name}rw.version"
 	fi
 }
 
@@ -404,12 +419,26 @@ build_images() {
 	if use cros_ec || use wilco_ec; then
 		if use unibuild; then
 			einfo "Adding EC for ${ec_build_target}"
-			add_ec "${depthcharge_config}" "${coreboot_file}" "ecrw" "${froot}/${ec_build_target}"
-			add_ec "${depthcharge_config}" "${coreboot_file}.serial" "ecrw" "${froot}/${ec_build_target}"
+			add_ec "${depthcharge_config}" "${coreboot_file}" "ec" "${froot}/${ec_build_target}"
+			add_ec "${depthcharge_config}" "${coreboot_file}.serial" "ec" "${froot}/${ec_build_target}"
 		else
-			add_ec "${depthcharge_config}" "${coreboot_file}" "ecrw" "${froot}"
-			add_ec "${depthcharge_config}" "${coreboot_file}.serial" "ecrw" "${froot}"
+			add_ec "${depthcharge_config}" "${coreboot_file}" "ec" "${froot}"
+			add_ec "${depthcharge_config}" "${coreboot_file}.serial" "ec" "${froot}"
 		fi
+	fi
+
+	local pd_folder="${froot}/"
+	if use unibuild; then
+		pd_folder+="${ec_build_target}_pd"
+	else
+		# For non-unibuild boards this must match PD_FIRMWARE in board
+		# overlay make.defaults.
+		pd_folder+="${PD_FIRMWARE:-$(basename "${ROOT}")_pd}"
+	fi
+
+	if use pd_sync; then
+		add_ec "${depthcharge_config}" "${coreboot_file}" "pd" "${pd_folder}"
+		add_ec "${depthcharge_config}" "${coreboot_file}.serial" "pd" "${pd_folder}"
 	fi
 
 	if use altfw; then
