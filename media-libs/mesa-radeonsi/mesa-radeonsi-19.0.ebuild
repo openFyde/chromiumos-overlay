@@ -49,8 +49,8 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
-	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X"
+	+classic debug dri drm +egl +gallium -gbm gles1 +gles2 kernel_FreeBSD
+	kvm_guest llvm +nptl pic selinux +shared-glapi vulkan wayland xlib-glx X"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 
@@ -73,6 +73,7 @@ RDEPEND="
 	dev-libs/libgcrypt
 	virtual/udev
 	${LIBDRM_DEPSTRING}
+	!media-libs/mesa
 "
 
 DEPEND="${RDEPEND}
