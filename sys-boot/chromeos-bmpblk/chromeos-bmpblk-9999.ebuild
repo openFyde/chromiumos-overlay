@@ -26,6 +26,7 @@ CROS_BOARDS=(
 	daisy_spring
 	daisy_skate
 	dragonegg
+	drallion
 	enguarde
 	expresso
 	eve
