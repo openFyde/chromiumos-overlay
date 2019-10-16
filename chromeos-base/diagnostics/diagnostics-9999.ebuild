@@ -96,6 +96,10 @@ src_install() {
 
 	# Install udev rules.
 	udev_dorules udev/*.rules
+
+	# Install fuzzers.
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_block_device_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_cached_vpd_fuzzer
 }
 
 platform_pkg_test() {
