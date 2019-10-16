@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/flashrom/flashrom-0.9.4.ebuild,v 1.5 2011/09/20 16:03:21 nativemad Exp $
 
-EAPI="4"
+EAPI=7
 CROS_WORKON_COMMIT="607cc6322f6fd1094e46e50c2e7a2eef67be1e1a"
 CROS_WORKON_TREE="7d3a91c874a8b74a99a784481bdc83b9aa5d14d7"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
@@ -15,7 +15,7 @@ HOMEPAGE="http://flashrom.org/"
 SRC_URI=""
 
 LICENSE="GPL-2"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="+atahpt +bitbang_spi +buspirate_spi dediprog +drkaiser
 +dummy +fdtmap ft2232_spi +gfxnvidia +internal +linux_i2c +linux_mtd +linux_spi
@@ -41,9 +41,10 @@ LIB_DEPEND="atahpt? ( sys-apps/pciutils[static-libs(+)] )
 	ogp_spi? ( sys-apps/pciutils[static-libs(+)] )"
 RDEPEND="!static? ( ${LIB_DEPEND//\[static-libs(+)]} )"
 DEPEND="${RDEPEND}
-	static? ( ${LIB_DEPEND} )
-	sys-apps/diffutils"
+	static? ( ${LIB_DEPEND} )"
 RDEPEND+=" internal? ( sys-apps/dmidecode )"
+
+BDEPEND="sys-apps/diffutils"
 
 _flashrom_enable() {
 	local c="CONFIG_${2:-$(echo $1 | tr [:lower:] [:upper:])}"
