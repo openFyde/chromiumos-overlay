@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="0e985254803df99a4b8838ca0387090b2102e03c"
-CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "72e9dfe2bd103a5fc29a949c2a89229f1ef35a0b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0ac5114417384b77e0df09af92aa7239f3198982"
+CROS_WORKON_TREE=("1c9dedfb489b146ba061dcc365b6be84de5528d8" "17c7013acc0db0f5bad2fb96127a08adb0086d63" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -32,11 +32,14 @@ RDEPEND="
 	chromeos-base/minijail
 	net-libs/grpc:=
 	dev-libs/protobuf:=
-	media-libs/mesa[gbm]
-	x11-base/xwayland
-	x11-libs/libxkbcommon
-	x11-libs/pixman
+	!fuzzer? (
+		media-libs/mesa[gbm]
+		x11-base/xwayland
+		x11-libs/libxkbcommon
+		x11-libs/pixman
+	)
 "
+
 DEPEND="
 	${RDEPEND}
 	dev-go/grpc
@@ -72,7 +75,7 @@ src_install() {
 	# Create a folder for process configs to be launched at VM startup.
 	dodir /etc/maitred/
 
-	dosym /run/resolv.conf /etc/resolv.conf
+	use fuzzer || dosym /run/resolv.conf /etc/resolv.conf
 
 	CROS_GO_WORKSPACE="${OUT}/gen/go"
 	cros-go_src_install
