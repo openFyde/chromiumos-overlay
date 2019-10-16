@@ -36,7 +36,7 @@ CROS_BOARDS=(
 	zako
 )
 
-inherit toolchain-funcs autotools cros-sanitizers cros-workon cros-board systemd user libchrome-version
+inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon cros-board systemd user libchrome-version
 
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="http://www.chromium.org"
@@ -44,7 +44,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="asan +cras-apm selinux systemd unibuild"
+IUSE="asan +cras-apm fuzzer selinux systemd unibuild"
 
 RDEPEND=">=media-libs/alsa-lib-1.0.27
 	!<media-libs/alsa-lib-1.1.6-r3
@@ -96,10 +96,15 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
+	if use amd64 ; then
+		export FUZZER_LDFLAGS="-fsanitize=fuzzer"
+	fi
+
 	cd cras
 	cros-workon_src_configure $(use_enable selinux) \
 		$(use_enable cras-apm webrtc-apm) \
-		--enable-metrics
+		--enable-metrics \
+		$(use_enable amd64 fuzzer)
 }
 
 src_compile() {
@@ -185,6 +190,9 @@ src_install() {
 	# Install asound.conf for CRAS alsa plugin
 	insinto /etc
 	doins "${FILESDIR}"/asound.conf
+
+	# Install fuzzer binary
+	fuzzer_install "${S}/OWNERS" cras/src/cras_rclient_message_fuzzer
 }
 
 pkg_preinst() {
