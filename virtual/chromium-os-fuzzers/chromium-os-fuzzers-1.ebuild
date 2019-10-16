@@ -13,10 +13,11 @@ IUSE="asan msan"
 
 RDEPEND="
 	chromeos-base/arc-adbd[fuzzer]
+	chromeos-base/arc-networkd[fuzzer]
 	chromeos-base/authpolicy[fuzzer]
 	chromeos-base/biod[fuzzer]
-	chromeos-base/chaps[fuzzer]
 	chromeos-base/bluetooth[fuzzer]
+	chromeos-base/chaps[fuzzer]
 	chromeos-base/chromeos-ec[fuzzer]
 	chromeos-base/crash-reporter[fuzzer]
 	chromeos-base/cros-disks[fuzzer]

@@ -58,6 +58,11 @@ src_install() {
 	insinto /etc/init
 	doins "${S}"/init/arc-network.conf
 	doins "${S}"/init/arc-network-bridge.conf
+
+	local fuzzer
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+	done
 }
 
 pkg_preinst() {
