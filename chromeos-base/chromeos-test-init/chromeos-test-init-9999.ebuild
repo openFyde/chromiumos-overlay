@@ -16,7 +16,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/init/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="+encrypted_stateful tpm2"
 
 src_unpack() {
 	cros-workon_src_unpack
@@ -29,4 +29,12 @@ src_install() {
 
 	insinto /usr/share/cros
 	doins upstart/test-init/*_utils.sh
+
+	if use encrypted_stateful && use tpm2; then
+		insinto /etc/init
+		doins upstart/test-init/encrypted_stateful/create-system-key.conf
+
+		insinto /usr/share/cros
+		doins upstart/test-init/encrypted_stateful/system_key_utils.sh
+	fi
 }
