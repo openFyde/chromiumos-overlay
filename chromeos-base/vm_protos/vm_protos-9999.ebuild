@@ -22,6 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
+IUSE="fuzzer"
 
 RDEPEND="
 	dev-libs/protobuf:=
