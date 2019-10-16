@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="27ef01c9953290d2609d07fc8e2b6689341494df"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "32abbffd5ee496adf1121ebe58e15bf4cdfed7a6" "fc3543e9e8bcba0275c4be12ac0348ef186025f6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="242b2384f9d036c16d4f3946cb70483ddb1f4824"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "32abbffd5ee496adf1121ebe58e15bf4cdfed7a6" "7a2bd010e2752f55ce7f282f48217b65226fd451" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -55,6 +55,8 @@ src_install() {
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/btdispatch.conf || die
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/newblued.conf || die
 	fi
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/newblued_fuzzer
 }
 
 platform_pkg_test() {

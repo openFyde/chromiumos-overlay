@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="27ef01c9953290d2609d07fc8e2b6689341494df"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "c5453107870e7bfdc4976294c853facc866046ab" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="242b2384f9d036c16d4f3946cb70483ddb1f4824"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "158070874d670a10d849c7f1b01c8b473298b4ce" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cheets chromeless_tty cros_embedded -direncryption systemd"
+IUSE="cheets chromeless_tty cros_embedded -direncryption systemd fuzzer"
 
 RDEPEND="
 	chromeos-base/minijail
@@ -111,6 +111,9 @@ src_install() {
 	doins crash_reporter_logs.conf
 
 	udev_dorules 99-crash-reporter.rules
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/crash_sender_fuzzer \
+		--dict "${S}"/crash_sender_fuzzer.dict
 }
 
 platform_pkg_test() {
