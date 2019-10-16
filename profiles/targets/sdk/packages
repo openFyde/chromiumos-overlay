@@ -12,3 +12,5 @@
 # information on this file and the @system set.
 
 *app-shells/bash
+# install-xattr provides the `install` binary used by ebuilds in src_install
+*sys-apps/install-xattr
