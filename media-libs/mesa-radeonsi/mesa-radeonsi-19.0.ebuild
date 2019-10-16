@@ -115,6 +115,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/0003-GL_MESA_framebuffer_flip_y-mesa-Allow-MESA_framebuffer_flip_y-for-GLES-3.patch
 	epatch "${FILESDIR}"/0004-GL_MESA_framebuffer_flip_y-gallium-Enable-MESA_framebuffer_flip_y.patch
 	epatch "${FILESDIR}"/0005-GL_MESA_framebuffer_flip_y-st-mesa-Fix-inverted-polygon-stipple-condition.patch
+	epatch "${FILESDIR}"/19.0-vl-Add-cropping-flags-for-H264.patch
+	epatch "${FILESDIR}"/19.0-radeon-vce-Add-support-for-frame_cropping_flag-of-VA.patch
+	epatch "${FILESDIR}"/19.0-st-va-enc-Add-support-for-frame_cropping_flag-of-VAE.patch
+	epatch "${FILESDIR}"/19.0-winsys-amdgpu-Restrict-allocation-to-GTT-for-small-v.patch
 
 	default
 }
