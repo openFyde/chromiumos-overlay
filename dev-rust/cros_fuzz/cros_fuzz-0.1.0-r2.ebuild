@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="fb00b462dc21980b1e1056468e5158c0e44aa670"
+CROS_WORKON_COMMIT="af5c5d7bbfe70128e79a7a8f36824271ddfa13d0"
 CROS_WORKON_TREE="dddebfe3cdcac4e719b16ebd715802cbba7de098"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cros-f
 LICENSE="BSD-Google"
 SLOT="0/${PR}"
 KEYWORDS="*"
-IUSE="test"
+IUSE="fuzzer test"
 
 DEPEND="
 	=dev-rust/rand_core-0.4*:=
