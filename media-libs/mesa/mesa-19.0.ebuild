@@ -109,11 +109,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/intel-Add-support-for-Comet-Lake.patch
 	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
 	epatch "${FILESDIR}"/19.0-radeonsi-gfx9-honor-user-stride-for-imported-buffers.patch
-	epatch "${FILESDIR}"/0001-GL_MESA_framebuffer_flip_y-include-GLES2-Sync-GLES2-headers-with-Khronos.patch
-	epatch "${FILESDIR}"/0002-GL_MESA_framebuffer_flip_y-mesa-GetFramebufferParameteriv-spelling.patch
-	epatch "${FILESDIR}"/0003-GL_MESA_framebuffer_flip_y-mesa-Allow-MESA_framebuffer_flip_y-for-GLES-3.patch
-	epatch "${FILESDIR}"/0004-GL_MESA_framebuffer_flip_y-gallium-Enable-MESA_framebuffer_flip_y.patch
-	epatch "${FILESDIR}"/0005-GL_MESA_framebuffer_flip_y-st-mesa-Fix-inverted-polygon-stipple-condition.patch
 
 	default
 }
