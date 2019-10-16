@@ -14,4 +14,5 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND=">=dev-rust/pkg-config-0.3:=
+	sys-apps/dbus
 "
