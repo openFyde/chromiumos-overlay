@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("27ef01c9953290d2609d07fc8e2b6689341494df" "0f59a9a41177186cf41b331e279d0b7804512654")
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9da92573b1513e36c8e6ce819bfe2354edaeec64")
+CROS_WORKON_COMMIT=("1b8d6ab14f752db00158450ca45c1a3b88d5809b" "6f0366d35c9646d4ffad48c8b8531a1b6ebfdd81")
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c15347a0d0e4e0db13e3cf320aeec18ba97733c0")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/update_engine")
@@ -107,6 +107,10 @@ platform_pkg_test() {
 	else
 		platform_test "run" "${unittests_binary}" 1 "${GTEST_FILTER}"
 	fi
+
+	for f in "omaha_request_action" "delta_performer"; do
+		platform_fuzzer_test "${OUT}/update_engine_${f}_fuzzer"
+	done
 }
 
 src_install() {
@@ -136,4 +140,6 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS \
 				"${OUT}"/update_engine_omaha_request_action_fuzzer \
 				--dict "${S}"/fuzz/xml.dict
+	platform_fuzzer_install "${S}"/OWNERS \
+				"${OUT}"/update_engine_delta_performer_fuzzer
 }
