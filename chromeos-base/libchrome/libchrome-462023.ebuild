@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("e16fde2503008bcf88993c8e17572589b99ce316" "f643617fab0c09e80f58145c8b98242552a4289c")
+CROS_WORKON_COMMIT=("e16fde2503008bcf88993c8e17572589b99ce316" "fd0c4e3a5548c31368bf253b27748dccd5fd1361")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
@@ -24,7 +24,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="${PV}"
 KEYWORDS="*"
-IUSE="cros_host +crypto +dbus +mojo +timers"
+IUSE="cros_host +crypto +dbus fuzzer +mojo +timers"
 
 PLATFORM_SUBDIR="libchrome"
 
@@ -190,7 +190,6 @@ src_install() {
 
 	insinto /usr/include/base-"${SLOT}"/base/test
 	doins \
-		base/test/fuzzed_data_provider.h \
 		base/test/simple_test_clock.h \
 		base/test/simple_test_tick_clock.h \
 		base/test/test_mock_time_task_runner.h \
