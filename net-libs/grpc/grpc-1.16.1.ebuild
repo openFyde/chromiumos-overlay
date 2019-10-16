@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit flag-o-matic toolchain-funcs
+inherit cros-fuzzer cros-sanitizers flag-o-matic toolchain-funcs
 
 MY_PV="${PV//_pre/-pre}"
 
@@ -46,6 +46,16 @@ S="${WORKDIR}/${PN}-${MY_PV}"
 src_prepare() {
 	sed -i 's@$(prefix)/lib@$(prefix)/$(INSTALL_LIBDIR)@g' Makefile || die "fix libdir"
 	default
+}
+
+src_configure() {
+	default
+	if use_sanitizers; then
+		# grpc ebuild need to disable some features for building with
+		# sanitizers, https://crbug.com/1015125 .
+		append-flags "-fno-sanitize=vptr"
+		append-flags "-Wno-frame-larger-than="
+	fi
 }
 
 src_compile() {
