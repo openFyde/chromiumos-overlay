@@ -45,7 +45,7 @@ RDEPEND="
 	chromeos-base/u2fd[fuzzer]
 	chromeos-base/update_engine[fuzzer]
 	chromeos-base/usb_bouncer[fuzzer]
-	asan? ( chromeos-base/vm_guest_tools[fuzzer] )
+	chromeos-base/vm_guest_tools[fuzzer]
 	asan? ( chromeos-base/vm_host_tools[fuzzer] )
 	dev-libs/modp_b64[fuzzer]
 	asan? ( dev-rust/p9[fuzzer] )
