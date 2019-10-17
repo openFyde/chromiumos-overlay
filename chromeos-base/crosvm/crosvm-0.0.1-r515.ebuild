@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="92568c9c27c68382f7b9145513050fda3109c920"
-CROS_WORKON_TREE="bc7b4a2a9f29619d647203a9079d64a4cc30fed9"
+CROS_WORKON_COMMIT="cfb7db44eb9e5a0bca9a22bfb985252ef74ab251"
+CROS_WORKON_TREE="abd2de195bd35c1e1394816308e632171e34dd15"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -71,6 +71,7 @@ get_seccomp_path() {
 FUZZERS=(
 	crosvm_block_fuzzer
 	crosvm_qcow_fuzzer
+	crosvm_usb_descriptor_fuzzer
 	crosvm_zimage_fuzzer
 )
 
