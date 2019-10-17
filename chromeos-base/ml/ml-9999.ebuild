@@ -29,7 +29,7 @@ SRC_URI="${models}"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -39,7 +39,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 "
 
 src_install() {
@@ -61,12 +61,19 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.MachineLearning.service
 
+	# Create distfile array of model filepaths.
+	local distfile_array
+	local model_file
+	for model_file in ${models}; do
+		distfile_array+=( "${DISTDIR}/${model_file##*/}" )
+	done
+
 	# Install system ML models (but not test models).
 	insinto /opt/google/chrome/ml_models
-	local distfile_uri
-	for distfile_uri in ${models}; do
-		doins "${DISTDIR}/${distfile_uri##*/}"
-	done
+	doins "${distfile_array[@]}"
+
+	# Install fuzzer targets.
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ml_service_impl_fuzzer "${distfile_array[@]}"
 }
 
 pkg_preinst() {
