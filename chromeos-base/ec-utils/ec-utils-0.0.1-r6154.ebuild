@@ -10,8 +10,8 @@
 # of the many models successfully builds.
 
 EAPI=5
-CROS_WORKON_COMMIT="af88cc91a92f15c65699d206fb6415a6d7edd3a0"
-CROS_WORKON_TREE="1bc63943dd58c279734bc22da8a066dea237594b"
+CROS_WORKON_COMMIT="c654e71e4909f2913a12bf444fb83dcbf442043d"
+CROS_WORKON_TREE="d877788d369ddd42d72f62a43beac72bd394320c"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 
@@ -92,11 +92,6 @@ src_compile() {
 		BOARD=cr50 emake -C extra/usb_updater gsctool
 	fi
 
-	# Add usb_updater2 for servo or hammer updates.
-	if use updater_utils || use cros_host; then
-		emake -C extra/usb_updater usb_updater2
-	fi
-
 	# Build Chromium EC utilities.
 	use cros_ec_utils && src_compile_cros_ec_utils
 }
@@ -133,11 +128,6 @@ src_install() {
 		dosbin "extra/usb_updater/gsctool"
 		dosbin "util/chargen"
 		dosym "gsctool" "/usr/sbin/usb_updater"
-	fi
-
-	# Add usb_updater2 for servo or hammer updates.
-	if use updater_utils || use cros_host; then
-		dosbin "extra/usb_updater/usb_updater2"
 	fi
 
 	if [[ -d "board/${BOARD}/userspace/etc/init" ]] ; then
