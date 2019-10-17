@@ -150,11 +150,26 @@ LC_MESSAGES="C"
 #                    TTY_CONSOLE for enabling tty consoles
 #                    U_BOOT_CONFIG_USE for selecting U-Boot config
 #                    U_BOOT_FDT_USE for selecting U-Boot device tree
-#                    LINUX_FIRMARE for selecting upstream firmware components
+#                    LINUX_FIRMWARE for selecting upstream firmware components
 #                    OZONE_PLATFORM for platforms to build into chrome
 #                    EC_FIRMWARE for compiling the main EC image
 #                    EC_FIRMWARE_EXTRA for compiling other needed EC images
-USE_EXPAND="${USE_EXPAND} BOARD_USE CROS_WORKON_TREE TESTS TTY_CONSOLE U_BOOT_CONFIG_USE U_BOOT_FDT_USE LINUX_FIRMWARE OZONE_PLATFORM OZONE_PLATFORM_DEFAULT EC_FIRMWARE EC_FIRMWARE_EXTRA"
+#                    FPMCU_FIRMWARE for compiling the fingerprint firmware
+#
+# When you add a variable to USE_EXPAND, it means that if portage encounters
+# the specified variable in make.defaults it will expand it into a USE variable
+# with the prefix being a lowercase version of the variable.
+#
+# For example, if FPMCU_FIRMWARE is added to USE_EXPAND, setting
+#
+#   FPMCU_FIRMWARE="bloonchipper dartmonkey"
+#
+# in device-specific profile (e.g., overlays/baseboard-hatch/profiles/base/make.defaults)
+# will result in the following USE flags being created:
+#
+#   fpmcu_firmware_bloonchipper
+#   fpmcu_firmware_dartmonkey
+USE_EXPAND="${USE_EXPAND} BOARD_USE CROS_WORKON_TREE TESTS TTY_CONSOLE U_BOOT_CONFIG_USE U_BOOT_FDT_USE LINUX_FIRMWARE OZONE_PLATFORM OZONE_PLATFORM_DEFAULT EC_FIRMWARE EC_FIRMWARE_EXTRA FPMCU_FIRMWARE"
 USE_EXPAND_HIDDEN="${USE_EXPAND_HIDDEN} CROS_WORKON_TREE"
 
 # Default licenses that are accepted for ChromiumOS builds.
