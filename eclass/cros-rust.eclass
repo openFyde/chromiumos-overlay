@@ -364,8 +364,13 @@ ecargo_test() {
 cros-rust_publish() {
 	debug-print-function ${FUNCNAME} "$@"
 
+	local default_version="${PV}"
+	if [[ "${default_version}" == "9999" ]]; then
+		default_version="$(cros-rust_get_crate_version)"
+	fi
+
 	local name="${1:-${PN}}"
-	local version="${2:-${PV}}"
+	local version="${2:-${default_version}}"
 
 	# Create the .crate file.
 	ecargo package --allow-dirty --no-metadata --no-verify || die
@@ -412,6 +417,11 @@ cros-rust_publish() {
 
 	# We want the Cargo.toml.orig file to be world readable.
 	fperms 0644 "${CROS_RUST_REGISTRY_DIR}/${name}-${version}/Cargo.toml.orig"
+
+	# Symlink the 9999 version to the version installed by the crate.
+	if [[ "${PV}" == "9999" && "${version}" != "9999" ]]; then
+		dosym "${name}-${version}" "${CROS_RUST_REGISTRY_DIR}/${name}-${PV}"
+	fi
 }
 
 # @FUNCTION: cros-rust_get_build_dir
@@ -444,6 +454,11 @@ cros-rust_pkg_postinst() {
 	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
 	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
 
+	if [[ "${version}" == "9999" && -L "${crate_dir}" ]]; then
+		crate_dir="$(readlink -f "${crate_dir}")"
+		crate="$(basename "${crate_dir}")"
+	fi
+
 	# Don't install links for binary-only crates as they won't have any
 	# library crates to register.  This avoids dangling symlinks.
 	if [[ -e "${crate_dir}" ]]; then
@@ -466,6 +481,11 @@ cros-rust_pkg_prerm() {
 	local name="${1:-${PN}}"
 	local version="${2:-${PV}}"
 	local crate="${name}-${version}"
+
+	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
+	if [[ "${version}" == "9999" && -L "${crate_dir}" ]]; then
+		crate="$(basename "$(readlink -f "${crate_dir}")")"
+	fi
 
 	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
 	local link="${registry_dir}/${crate}"
