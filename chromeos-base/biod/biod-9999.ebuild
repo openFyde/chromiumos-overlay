@@ -13,11 +13,19 @@ PLATFORM_SUBDIR="biod"
 inherit cros-fuzzer cros-sanitizers cros-workon platform udev user
 
 DESCRIPTION="Biometrics Daemon for Chromium OS"
-HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/README.md"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fp_on_power_button fuzzer unibuild"
+IUSE="
+	fp_on_power_button
+	fpmcu_firmware_bloonchipper
+	fpmcu_firmware_dartmonkey
+	fpmcu_firmware_nami
+	fpmcu_firmware_nocturne
+	fuzzer
+	unibuild
+"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
@@ -29,6 +37,16 @@ RDEPEND="
 	${COMMON_DEPEND}
 	sys-apps/flashrom
 	virtual/chromeos-firmware-fpmcu
+	"
+
+# Release branch firmware.
+# The USE flags below come from USE_EXPAND variables.
+# See third_party/chromiumos-overlay/profiles/base/make.defaults.
+RDEPEND+="
+	fpmcu_firmware_bloonchipper? ( sys-firmware/chromeos-fpmcu-release-bloonchipper )
+	fpmcu_firmware_dartmonkey? ( sys-firmware/chromeos-fpmcu-release-dartmonkey )
+	fpmcu_firmware_nami? ( sys-firmware/chromeos-fpmcu-release-nami )
+	fpmcu_firmware_nocturne? ( sys-firmware/chromeos-fpmcu-release-nocturne )
 "
 
 DEPEND="
