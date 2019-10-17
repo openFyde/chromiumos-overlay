@@ -83,7 +83,6 @@ src_install() {
 			"${D}"/usr/bin/chromeos-tpm-recovery \
 			"${D}"/usr/bin/dev_debug_vboot \
 			"${D}"/usr/bin/enable_dev_usb_boot \
-			"${D}"/usr/bin/load_kernel_test \
 			"${D}"/usr/bin/make_dev_firmware.sh \
 			"${D}"/usr/bin/make_dev_ssd.sh \
 			"${D}"/usr/bin/tpm-nvsize \
