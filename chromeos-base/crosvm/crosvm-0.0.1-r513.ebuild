@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="a7b75c8a219eb98e49d995ea58e33e1832533e1b"
-CROS_WORKON_TREE="6acef43595b92f474e58d8fdb0c500f071e55a01"
+CROS_WORKON_COMMIT="6494117e1766337f5d688b98bfc3df999932c3ac"
+CROS_WORKON_TREE="0c8b6fd24a615ae146bb0a2d6f4d8ce332f5cc42"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -95,7 +95,6 @@ src_compile() {
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
 		$(usex crosvm-gpu-forward gpu-forward "")
-		sandboxed-libusb
 	)
 
 	local packages=(
