@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="27ef01c9953290d2609d07fc8e2b6689341494df"
+CROS_WORKON_COMMIT="467467e6900b16ba8edd09704d27d3f4e5d3acc9"
 CROS_WORKON_TREE="ac4a8094dbb10410131913ea4dfac609e15f3919"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -41,4 +41,12 @@ src_test() {
 
 src_install() {
 	cros-rust_publish "${RUST_CRATE}" "$(cros-rust_get_crate_version)"
+}
+
+pkg_postinst() {
+	cros-rust_pkg_postinst "${RUST_CRATE}"
+}
+
+pkg_prerm() {
+	cros-rust_pkg_prerm "${RUST_CRATE}"
 }
