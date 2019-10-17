@@ -35,6 +35,7 @@ RDEPEND="
 	chromeos-base/metrics[fuzzer]
 	chromeos-base/p2p[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
+	chromeos-base/power_manager[fuzzer]
 	chromeos-base/shill[fuzzer]
 	chromeos-base/smbprovider[fuzzer]
 	chromeos-base/trunks[fuzzer]
