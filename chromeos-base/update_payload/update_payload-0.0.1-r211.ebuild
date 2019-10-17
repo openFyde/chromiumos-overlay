@@ -4,8 +4,8 @@
 EAPI="5"
 
 # TODO(crbug.com/1011631): Add python3 when it's been ported.
-CROS_WORKON_COMMIT="6f0366d35c9646d4ffad48c8b8531a1b6ebfdd81"
-CROS_WORKON_TREE="c15347a0d0e4e0db13e3cf320aeec18ba97733c0"
+CROS_WORKON_COMMIT="8368ee08c56d222080704e42c0e98a76e2143ffa"
+CROS_WORKON_TREE="e776e7e6a74daf5d4c0fbf27e59e3ffc2343e177"
 PYTHON_COMPAT=( python2_7 )
 
 CROS_WORKON_LOCALNAME="../aosp/system/update_engine"
