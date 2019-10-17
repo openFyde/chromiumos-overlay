@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="dbe6165b32397b66268ce9015448af313fe85217"
+CROS_WORKON_COMMIT="82f96846ec4a5b958966d438ca89ba4c80f0117e"
 CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "26c78fd15c90622d10d92f30cdc76cf7db4fb266" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -88,6 +88,8 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/lib/libtrunks.pc
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_creation_blob_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/trunks_hmac_authorization_delegate_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_key_blob_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/trunks_password_authorization_delegate_fuzzer

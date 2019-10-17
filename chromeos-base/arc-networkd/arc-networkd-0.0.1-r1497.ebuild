@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="dbe6165b32397b66268ce9015448af313fe85217"
+CROS_WORKON_COMMIT="82f96846ec4a5b958966d438ca89ba4c80f0117e"
 CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "ffeec025148f7a6bc9337a76c64c7dd284e019ee" "7119177c95c3beb78cc07cd68f5f37e141ceeb3f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -60,6 +60,11 @@ src_install() {
 	insinto /etc/init
 	doins "${S}"/init/arc-network.conf
 	doins "${S}"/init/arc-network-bridge.conf
+
+	local fuzzer
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+	done
 }
 
 pkg_preinst() {
