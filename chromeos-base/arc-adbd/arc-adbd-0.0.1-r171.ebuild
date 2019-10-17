@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="27ef01c9953290d2609d07fc8e2b6689341494df"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "8c6ff51b424c1954ebf2adfcc108e230d802b8cf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="dbe6165b32397b66268ce9015448af313fe85217"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "7a75d9d589938cc5ef5daa3c390ec8d21014e963" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/ad
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+seccomp"
+IUSE="+seccomp fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -36,4 +36,7 @@ src_install() {
 	use seccomp && newins "seccomp/arc-adbd-${ARCH}.policy" arc-adbd-seccomp.policy
 
 	dosbin "${OUT}/arc-adbd"
+
+	# Install fuzzer.
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc-adbd-setup-config-fs-fuzzer
 }
