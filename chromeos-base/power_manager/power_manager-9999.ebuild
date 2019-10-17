@@ -20,7 +20,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-als buffet +cras cros_embedded +display_backlight -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
+IUSE="-als asan buffet +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -153,6 +153,11 @@ src_install() {
 		insinto /etc/buffet/commands
 		doins powerd/buffet/*.json
 	fi
+
+	local fuzzer
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+	done
 }
 
 platform_pkg_test() {
