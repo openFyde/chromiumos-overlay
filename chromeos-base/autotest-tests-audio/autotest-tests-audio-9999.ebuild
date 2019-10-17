@@ -25,7 +25,6 @@ DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
 	+tests_audio_Aconnect
-	+tests_audio_AlsaAPI
 	+tests_audio_AlsaLoopback
 	+tests_audio_Aplay
 	+tests_audio_CRASFormatConversion
@@ -34,7 +33,6 @@ IUSE_TESTS="
 	+tests_audio_CrasPinnedStream
 	+tests_audio_CrasStress
 	+tests_audio_LoopbackLatency
-	+tests_audio_Microphone
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
