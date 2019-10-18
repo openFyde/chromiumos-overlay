@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="1b8d6ab14f752db00158450ca45c1a3b88d5809b"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "b9e83ef75bc16e8aeecd8600a5cc154bbe5842f8" "38a36f76290e3e0f13d021ad8597ea5f250a05ba" "f27e9581dc578f9a83beacea11f5e9208ac3da24" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0e8fe4d20f617ff7db3f0cf366af8c318a771c4c"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "3510e473e791226cb34172ab5192d1512cb68bb0" "38a36f76290e3e0f13d021ad8597ea5f250a05ba" "f27e9581dc578f9a83beacea11f5e9208ac3da24" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -153,6 +153,9 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer
+
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/cryptohome_cryptolib_blob_to_hex_fuzzer
 }
 
 pkg_preinst() {

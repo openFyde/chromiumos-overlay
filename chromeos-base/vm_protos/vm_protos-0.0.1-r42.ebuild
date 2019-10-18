@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="27ef01c9953290d2609d07fc8e2b6689341494df"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "a0a2c4b64e1debbbc5a8737cb03303bf4eabc09f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0e8fe4d20f617ff7db3f0cf366af8c318a771c4c"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "3fb8b1614853310154d41bac21189fd2847fcc20" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/vm_tools/..."
 )
@@ -24,6 +24,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
+IUSE="fuzzer"
 
 RDEPEND="
 	dev-libs/protobuf:=

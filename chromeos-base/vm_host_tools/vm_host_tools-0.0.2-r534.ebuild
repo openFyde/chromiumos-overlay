@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="dbe6165b32397b66268ce9015448af313fe85217"
-CROS_WORKON_TREE=("ffeec025148f7a6bc9337a76c64c7dd284e019ee" "96ecb2dad8cd853305974b8e506a17e386c4ee60" "bab7601b451db8f3ca98abe547186c2ddfa5a4a0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0e8fe4d20f617ff7db3f0cf366af8c318a771c4c"
+CROS_WORKON_TREE=("ffeec025148f7a6bc9337a76c64c7dd284e019ee" "96ecb2dad8cd853305974b8e506a17e386c4ee60" "5b834bd0ae78b7c79a4b2004954e1f557356a1f0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -65,6 +65,7 @@ src_install() {
 	dobin "${OUT}"/vsh
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/cicerone_container_listener_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vsh_client_fuzzer
 
 	# Install header for passing USB devices to plugin VMs.
 	insinto /usr/include/vm_concierge
