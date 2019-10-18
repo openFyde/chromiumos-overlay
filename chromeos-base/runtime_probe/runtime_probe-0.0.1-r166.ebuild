@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="1b8d6ab14f752db00158450ca45c1a3b88d5809b"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "62882972b26833f55d00f52b6f6bb5adc4e29cf1" "654f1ac91304e8cd8d994aa4ba82eb186f9a89cb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="950779ced4218ed70dd368831776fd9e0116e030"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "62882972b26833f55d00f52b6f6bb5adc4e29cf1" "5548fa2882bc9bc0a9b91f2e40449a6b67a49174" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/runtim
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="*"
-IUSE="unibuild"
+IUSE="unibuild asan fuzzer"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config )
@@ -71,6 +71,11 @@ src_install() {
 
 	# Install udev rules.
 	udev_dorules udev/*.rules
+
+	local fuzzer
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+	done
 }
 
 platform_pkg_test() {
