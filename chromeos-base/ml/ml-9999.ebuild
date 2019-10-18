@@ -72,8 +72,14 @@ src_install() {
 	insinto /opt/google/chrome/ml_models
 	doins "${distfile_array[@]}"
 
+	# Install system ML models to fuzzer dir.
+	insinto /usr/libexec/fuzzers
+	doins "${distfile_array[@]}"
+
 	# Install fuzzer targets.
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ml_service_impl_fuzzer "${distfile_array[@]}"
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+	done
 }
 
 pkg_preinst() {
