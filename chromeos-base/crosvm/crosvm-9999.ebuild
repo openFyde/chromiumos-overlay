@@ -155,14 +155,12 @@ src_test() {
 		[[ -e "${CROSVM_CARGO_TEST_KERNEL_BINARY}" ]] || \
 			die "expected to find kernel binary at ${CROSVM_CARGO_TEST_KERNEL_BINARY}"
 
-		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
-		# access because the bots don't support these.  Also exclude sys_util
-		# since they already run as part of the dev-rust/sys_util package.
-		ecargo_test --all \
-			--exclude kvm \
-			--exclude kvm_sys \
-			--exclude net_util -v \
-			--exclude qcow \
+		# Excluding tests that run on a different arch, use /dev/dri,
+		# /dev/net/tun, or wayland access because the bots don't support these.
+		# Also exclude sys_util since they already run as part of the
+		# dev-rust/sys_util package.
+		ecargo_test --all -v \
+			--exclude net_util \
 			--exclude aarch64 \
 			--exclude gpu_buffer \
 			--exclude gpu_display \
