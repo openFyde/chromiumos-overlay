@@ -112,6 +112,9 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/crash_sender_fuzzer \
 		--dict "${S}"/crash_sender_fuzzer.dict
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/anomaly_detector_fuzzer \
+		--dict "${S}"/anomaly_detector_fuzzer.dict
 }
 
 platform_pkg_test() {
