@@ -35,7 +35,8 @@ src_install() {
 
 	dosbin "${OUT}/arc-adbd"
 
-	# Install fuzzer.
+	# Install fuzzers.
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc-adbd-setup-config-fs-fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc-adbd-setup-function-fs-fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc-adbd-create-pipe-fuzzer
 }
