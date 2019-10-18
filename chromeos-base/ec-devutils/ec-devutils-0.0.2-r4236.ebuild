@@ -22,6 +22,7 @@ RDEPEND="
 	app-mobilephone/dfu-util
 	sys-firmware/servo-firmware
 	sys-apps/flashrom
+	!<chromeos-base/ec-utils-0.0.1-r6153
 	chromeos-base/ec-utils
 	>=dev-python/pyusb-1.0.2
 	"
