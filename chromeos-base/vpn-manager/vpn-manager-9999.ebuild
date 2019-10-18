@@ -34,6 +34,8 @@ src_install() {
 	dosbin "${OUT}"/l2tpipsec_vpn
 	exeinto /usr/libexec/l2tpipsec_vpn
 	doexe bin/pluto_updown
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vpn_manager_service_manager_fuzzer
 }
 
 platform_pkg_test() {
