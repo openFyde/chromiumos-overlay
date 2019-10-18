@@ -46,6 +46,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-4k-align.patch
 	epatch "${FILESDIR}"/${P}-selinux.patch
 	epatch "${FILESDIR}"/${P}-fix-inline.patch
+	epatch "${FILESDIR}"/${P}-rare-race-in-frag-wait.patch
 }
 
 use10() { usex $1 1 0 ; }
