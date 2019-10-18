@@ -35,6 +35,7 @@ RDEPEND="
 	chromeos-base/libbrillo[fuzzer]
 	chromeos-base/libipp[fuzzer]
 	chromeos-base/metrics[fuzzer]
+	chromeos-base/modemfwd[fuzzer]
 	chromeos-base/p2p[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/power_manager[fuzzer]

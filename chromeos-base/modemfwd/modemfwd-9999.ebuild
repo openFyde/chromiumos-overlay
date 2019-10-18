@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/modemf
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="fuzzer"
 
 RDEPEND="
 	app-arch/xz-utils:=
@@ -32,6 +32,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/shill-client
 	chromeos-base/system_api
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 "
 
 src_install() {
@@ -44,6 +45,9 @@ src_install() {
 	# DBus configuration
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Modemfwd.conf
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_v2_fuzzer
 }
 
 platform_pkg_test() {
