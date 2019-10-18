@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="27ef01c9953290d2609d07fc8e2b6689341494df"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "5ea90fa284c3973b92aeee759ad9100d3fe63fbb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="dfa3da3447127dc941aacfee56617dd6ec7ae1c1"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "7dd576021e6fb3e90c8a136b7507d9d8c50b2aa6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hammer
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="*"
-IUSE="-hammerd_api"
+IUSE="-hammerd_api fuzzer"
 
 RDEPEND="
 	chromeos-base/ec-utils
@@ -58,6 +58,8 @@ src_install() {
 	# Install rsyslog config.
 	insinto /etc/rsyslog.d
 	doins rsyslog/rsyslog.hammerd.conf
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_load_ec_image_fuzzer
 }
 
 platform_pkg_test() {
