@@ -10,8 +10,11 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-fuzzer cros-rust cros-workon toolchain-funcs user
 
+KERNEL_PREBUILT_DATE="2019_10_10_00_22"
+
 DESCRIPTION="Utility for running VMs on Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/"
+SRC_URI="test? ( https://storage.googleapis.com/crosvm-testing/x86_64/${KERNEL_PREBUILT_DATE}/bzImage -> crosvm-bzImage-${KERNEL_PREBUILT_DATE} )"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -125,6 +128,8 @@ src_compile() {
 }
 
 src_test() {
+	# Some of the tests will use /dev/kvm.
+	addwrite /dev/kvm
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
@@ -145,6 +150,10 @@ src_test() {
 		# io_jail tests fork the process, which cause memory leak errors when
 		# run under sanitizers.
 		cros-rust_use_sanitizers && feature_excludes+=( --exclude io_jail )
+
+		export CROSVM_CARGO_TEST_KERNEL_BINARY="${DISTDIR}/crosvm-bzImage-${KERNEL_PREBUILT_DATE}"
+		[[ -e "${CROSVM_CARGO_TEST_KERNEL_BINARY}" ]] || \
+			die "expected to find kernel binary at ${CROSVM_CARGO_TEST_KERNEL_BINARY}"
 
 		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
 		# access because the bots don't support these.  Also exclude sys_util
