@@ -98,6 +98,8 @@ src_install() {
 	fi
 
 	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/cgpt_fuzzer
+	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_keyblock_fuzzer
+	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_preamble_fuzzer
 
 	# Install devkeys to /usr/share/vboot/devkeys
 	# (shared by host and target)
