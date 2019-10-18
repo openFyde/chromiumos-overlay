@@ -21,7 +21,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="fuzzer"
+IUSE=""
 
 RDEPEND="chromeos-base/metrics
 	dev-libs/glib

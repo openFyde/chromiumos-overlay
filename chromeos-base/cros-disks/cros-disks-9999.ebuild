@@ -18,7 +18,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="asan chromeless_tty fuzzer +seccomp"
+IUSE="chromeless_tty +seccomp"
 
 RDEPEND="
 	app-arch/unrar

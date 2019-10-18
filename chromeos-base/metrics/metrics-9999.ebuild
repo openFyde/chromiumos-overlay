@@ -18,7 +18,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="fuzzer metrics_uploader +passive_metrics systemd"
+IUSE="metrics_uploader +passive_metrics systemd"
 
 RDEPEND="
 	chromeos-base/libbrillo
