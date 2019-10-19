@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="27ef01c9953290d2609d07fc8e2b6689341494df"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "326220202f6474ca70114aa69c52d71c72b21b4b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="105aeacfeb1c210e3561082b4442e6a2e14f0b2c"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "a991d20975915d9293d71c6bfa9590c11978c215" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,6 +36,8 @@ src_install() {
 	dosbin "${OUT}"/l2tpipsec_vpn
 	exeinto /usr/libexec/l2tpipsec_vpn
 	doexe bin/pluto_updown
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vpn_manager_service_manager_fuzzer
 }
 
 platform_pkg_test() {
