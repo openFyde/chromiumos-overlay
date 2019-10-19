@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="c1de3b3d952b8aab9089669c67587651c8d776a9"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "d8e2d98bcdfd69f3fe27ef423e6a90b5fc9647cd" "62882972b26833f55d00f52b6f6bb5adc4e29cf1" "2603705c2caed81f5792299e275387339a7fb15b" "722a9bacacbe5a945758a23e926ccfa075ddfc44" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d6e2506957093638dc57bf9046d0129e01e3311f"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "d8e2d98bcdfd69f3fe27ef423e6a90b5fc9647cd" "62882972b26833f55d00f52b6f6bb5adc4e29cf1" "2603705c2caed81f5792299e275387339a7fb15b" "d53e0d9845b6809e602e05ffc9ab270efca40fab" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-als asan buffet +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
+IUSE="-als buffet +cras cros_embedded +display_backlight -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -156,6 +156,7 @@ src_install() {
 		doins powerd/buffet/*.json
 	fi
 
+	# Install fuzz targets.
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
 		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
