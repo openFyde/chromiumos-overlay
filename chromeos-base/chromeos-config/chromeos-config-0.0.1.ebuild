@@ -14,9 +14,10 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
+IUSE="fuzzer"
 
 DEPEND="
-	virtual/chromeos-config-bsp:=
+	!fuzzer? ( virtual/chromeos-config-bsp:= )
 "
 RDEPEND="${DEPEND}"
 
