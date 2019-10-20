@@ -149,7 +149,7 @@ VETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-79.0.3940.0_rc-r1.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-79.0.3943.1_rc-r1.afdo"
 AFDO_FILE["silvermont"]="R79-3928.0-1571049528.afdo"
 AFDO_FILE["airmont"]="R79-3931.2-1571054549.afdo"
 AFDO_FILE["haswell"]="R78-3809.102-1565608061.afdo"
