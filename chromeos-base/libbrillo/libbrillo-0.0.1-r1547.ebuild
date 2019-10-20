@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="0e8fe4d20f617ff7db3f0cf366af8c318a771c4c"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "aa9e061a2553dafc2450c94b234432440a54fb01" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8a9336902dc87e5693cd0856b4e9caf6d58c579c"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "1b31e38ac67d8248950f34c536d25fd013880376" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -72,6 +72,7 @@ src_install() {
 	insinto /usr/include/install_attributes
 	doins install_attributes/libinstallattributes.h
 
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libbrillo_data_encoding_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/libbrillo_dbus_data_serialization_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libbrillo_http_form_data_fuzzer
