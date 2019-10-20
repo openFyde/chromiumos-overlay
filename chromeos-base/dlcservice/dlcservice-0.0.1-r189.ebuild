@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="1b8d6ab14f752db00158450ca45c1a3b88d5809b"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "dd5802598dc0c9f738694aa295fbeeec5179a0a9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="bd4f7fabdc4960f7dcbaddfb2a00e2ac5905c94c"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "10dc45b87b008c19e5cab314ebef0c39e8825b50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -50,8 +50,8 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.DlcService.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer \
-		--dict "${S}"/fuzz/path.dict
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_device_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer
 
 	into /usr/local
 	dobin "${OUT}/dlcservice_util"
@@ -59,6 +59,8 @@ src_install() {
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/dlcservice_tests"
+	platform_fuzzer_test "${OUT}"/dlcservice_boot_device_fuzzer
+	platform_fuzzer_test "${OUT}"/dlcservice_boot_slot_fuzzer
 }
 
 pkg_preinst() {
