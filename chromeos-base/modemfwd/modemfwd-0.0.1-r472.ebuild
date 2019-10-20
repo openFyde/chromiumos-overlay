@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="1b8d6ab14f752db00158450ca45c1a3b88d5809b"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "62882972b26833f55d00f52b6f6bb5adc4e29cf1" "57412ba599331c7376d6662fee92f368fb587c2f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e1f1cd56c268633d8cfaac5ecb5aa1c6843059ee"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "62882972b26833f55d00f52b6f6bb5adc4e29cf1" "41d8ffbb64ead510559f36f3175a039ac166ecb8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/modemf
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="fuzzer"
 
 RDEPEND="
 	app-arch/xz-utils:=
@@ -34,6 +34,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/shill-client
 	chromeos-base/system_api
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 "
 
 src_install() {
@@ -46,6 +47,9 @@ src_install() {
 	# DBus configuration
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Modemfwd.conf
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_v2_fuzzer
 }
 
 platform_pkg_test() {
