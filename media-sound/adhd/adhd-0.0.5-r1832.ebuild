@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=4
-CROS_WORKON_COMMIT="a8df1c52bde3bfd2aebc1d7adcd6f195eb212cb1"
-CROS_WORKON_TREE="986ff6e6df137b0e6dd397f575f25e9ca05e92b8"
+CROS_WORKON_COMMIT="bed3d0bdf4b50fb5a20b09708a886b1770ab193e"
+CROS_WORKON_TREE="7351b98c460b428e5f9a5714b3bcf8b1c43a2f51"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -38,7 +38,7 @@ CROS_BOARDS=(
 	zako
 )
 
-inherit toolchain-funcs autotools cros-sanitizers cros-workon cros-board systemd user libchrome-version
+inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon cros-board systemd user libchrome-version
 
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="http://www.chromium.org"
@@ -46,7 +46,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="asan +cras-apm selinux systemd unibuild"
+IUSE="asan +cras-apm fuzzer selinux systemd unibuild"
 
 RDEPEND=">=media-libs/alsa-lib-1.0.27
 	!<media-libs/alsa-lib-1.1.6-r3
@@ -98,10 +98,15 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
+	if use amd64 ; then
+		export FUZZER_LDFLAGS="-fsanitize=fuzzer"
+	fi
+
 	cd cras
 	cros-workon_src_configure $(use_enable selinux) \
 		$(use_enable cras-apm webrtc-apm) \
-		--enable-metrics
+		--enable-metrics \
+		$(use_enable amd64 fuzzer)
 }
 
 src_compile() {
@@ -187,6 +192,9 @@ src_install() {
 	# Install asound.conf for CRAS alsa plugin
 	insinto /etc
 	doins "${FILESDIR}"/asound.conf
+
+	# Install fuzzer binary
+	fuzzer_install "${S}/OWNERS" cras/src/cras_rclient_message_fuzzer
 }
 
 pkg_preinst() {
