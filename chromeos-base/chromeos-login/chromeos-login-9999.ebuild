@@ -35,6 +35,7 @@ RDEPEND="chromeos-base/bootstat
 	chromeos-base/metrics
 	dev-libs/nss
 	dev-libs/protobuf
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 	sys-apps/util-linux"
 
 DEPEND="${RDEPEND}
@@ -110,5 +111,13 @@ src_install() {
 	insinto /etc
 	doins chrome_dev.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}/login_manager_validator_utils_fuzzer"
+	local fuzzers=(
+		login_manager_validator_utils_fuzzer
+		login_manager_validator_utils_policy_desc_fuzzer
+	)
+
+	local fuzzer
+	for fuzzer in "${fuzzers[@]}"; do
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}/${fuzzer}"
+	done
 }
