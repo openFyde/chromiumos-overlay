@@ -36,7 +36,7 @@ RDEPEND="
 
 # blocker (https://crbug.com/214886), can be removed later
 RDEPEND+="
-	 !app-laptop/laptop-mode-tools
+	!app-laptop/laptop-mode-tools
 "
 
 DEPEND="${RDEPEND}
