@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="dfa3da3447127dc941aacfee56617dd6ec7ae1c1"
-CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "7dd576021e6fb3e90c8a136b7507d9d8c50b2aa6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="63c408a6d65854f16d4f37ee5bbb1574eb9b4b47"
+CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "44fb48e9235414cf26b1c7e6e5846392158ca6bf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -60,6 +60,7 @@ src_install() {
 	doins rsyslog/rsyslog.hammerd.conf
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_load_ec_image_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_update_fw_fuzzer
 }
 
 platform_pkg_test() {
