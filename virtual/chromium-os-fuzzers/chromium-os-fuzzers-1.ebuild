@@ -20,6 +20,7 @@ RDEPEND="
 	chromeos-base/bluetooth[fuzzer]
 	chromeos-base/chaps[fuzzer]
 	chromeos-base/chromeos-ec[fuzzer]
+	chromeos-base/chromeos-login[fuzzer]
 	chromeos-base/crash-reporter[fuzzer]
 	chromeos-base/cros-disks[fuzzer]
 	chromeos-base/crosdns[fuzzer]

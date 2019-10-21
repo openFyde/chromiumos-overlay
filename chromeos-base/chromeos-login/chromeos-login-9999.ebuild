@@ -109,4 +109,6 @@ src_install() {
 
 	insinto /etc
 	doins chrome_dev.conf
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/login_manager_validator_utils_fuzzer"
 }
