@@ -19,7 +19,9 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-RDEPEND="media-libs/cros-camera-libcamera_common"
+RDEPEND="
+	media-libs/cros-camera-libcamera_common
+	media-libs/cros-camera-libcamera_ipc"
 
 # cros-camera-libcbm is needed here because this package uses
 # //camera/common:libcamera_metrics rule. It doesn't directly use the package,
@@ -27,7 +29,6 @@ RDEPEND="media-libs/cros-camera-libcamera_common"
 # See crbug.com/995162 for detail.
 DEPEND="${RDEPEND}
 	chromeos-base/metrics
-	media-libs/cros-camera-libcamera_ipc
 	media-libs/cros-camera-libcbm
 	virtual/pkgconfig"
 

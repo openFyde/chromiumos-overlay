@@ -23,10 +23,10 @@ KEYWORDS="~*"
 RDEPEND="
 	chromeos-base/libbrillo
 	!media-libs/arc-camera3-libcab
-	media-libs/cros-camera-libcamera_common"
-
-DEPEND="${RDEPEND}
+	media-libs/cros-camera-libcamera_common
 	media-libs/cros-camera-libcamera_ipc"
+
+DEPEND="${RDEPEND}"
 
 src_install() {
 	dobin "${OUT}/cros_camera_algo"
