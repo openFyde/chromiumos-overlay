@@ -26,7 +26,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_install() {
-	dolib.a "${OUT}/libcamera_ipc.pic.a"
+	dolib.so "${OUT}/lib/libcamera_ipc.so"
 	dolib.a "${OUT}/libcamera_ipc_mojom.a"
 
 	cros-camera_doheader \
