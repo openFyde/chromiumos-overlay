@@ -18,6 +18,7 @@ IUSE_KERNEL_VERS=(
 	kernel-4_4
 	kernel-4_14
 	kernel-4_19
+	kernel-5_4
 	kernel-experimental
 	kernel-next
 	kernel-upstream-mainline
@@ -34,6 +35,7 @@ RDEPEND="
 	kernel-4_4? ( sys-kernel/chromeos-kernel-4_4 )
 	kernel-4_14? ( sys-kernel/chromeos-kernel-4_14 )
 	kernel-4_19? ( sys-kernel/chromeos-kernel-4_19 )
+	kernel-5_4? ( sys-kernel/chromeos-kernel-5_4 )
 	kernel-experimental? ( sys-kernel/chromeos-kernel-experimental )
 	kernel-next? ( sys-kernel/chromeos-kernel-next )
 	kernel-upstream-mainline? ( sys-kernel/upstream-kernel-mainline )
@@ -47,7 +49,7 @@ RDEPEND+="
 "
 
 # Default to the latest kernel if none has been selected.
-RDEPEND_DEFAULT="sys-kernel/chromeos-kernel-4_4"
+RDEPEND_DEFAULT="sys-kernel/chromeos-kernel-5_4"
 # Here be dragons!
 RDEPEND+="
 	$(printf '!%s? ( ' "${IUSE_KERNEL_VERS[@]}")
