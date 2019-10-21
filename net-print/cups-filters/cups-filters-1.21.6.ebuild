@@ -56,6 +56,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.25.5-use-public-ghostscript-method.patch"
 	"${FILESDIR}/${PN}-1.25.5-fix-segfault-when-running-by-hand.patch"
 	"${FILESDIR}/${PN}-1.25.5-fill-arg.patch"
+	"${FILESDIR}/${PN}-1.21.6-asan-pacifier.patch"
 )
 
 src_prepare() {
@@ -68,11 +69,6 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	# lld complains about duplicate definition of new/delete operator
-	# in filter/pdftoraster.cxx conflicting with asan's.
-	# TODO(crbug.com/1001587): Fix operator duplicate definition with asan.
-	# Temporary allow multiple definition to unblock asan build with lld.
-	use_sanitizers && append-ldflags "-Wl,--allow-multiple-definition"
 
 	# These two variables are required to configure cups-filters.
 	# Without them, ./configure script tries to run $PKG_CONFIG to
