@@ -13,6 +13,7 @@ IUSE="asan msan"
 
 RDEPEND="
 	chromeos-base/arc-adbd[fuzzer]
+	asan? ( chromeos-base/arc-keymaster[fuzzer] )
 	chromeos-base/arc-networkd[fuzzer]
 	chromeos-base/arc-obb-mounter[fuzzer]
 	chromeos-base/arc-setup[fuzzer]
