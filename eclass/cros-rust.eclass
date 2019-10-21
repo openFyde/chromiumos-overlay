@@ -17,6 +17,20 @@ case "${EAPI:-0}" in
 [012345]) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
+# @ECLASS-VARIABLE: CROS_RUST_CRATE_NAME
+# @DESCRIPTION:
+# The name of the crate used by Cargo. This defaults to the package name.
+: "${CROS_RUST_CRATE_NAME:=${PN}}"
+
+# @ECLASS-VARIABLE: CROS_RUST_CRATE_VERSION
+# @DESCRIPTION:
+# The version of the crate used by Cargo. This defaults to PV. Note that
+# cros-rust_get_crate_version can be used to get this information from the
+# Cargo.toml but that is only available in src_* functions. Also, for -9999
+# ebuilds this is handled in a special way; A symbolic link is used to point to
+# the installed crate so it can be removed correctly.
+: "${CROS_RUST_CRATE_VERSION:=${PV}}"
+
 # @ECLASS-VARIABLE: CROS_RUST_EMPTY_CRATE
 # @PRE_INHERIT
 # @DESCRIPTION:
@@ -99,8 +113,8 @@ cros-rust_src_unpack() {
 		mkdir -p "${S}/src"
 		cat <<- EOF >> "${S}/Cargo.toml"
 		[package]
-		name = "${PN}"
-		version = "${PV}"
+		name = "${CROS_RUST_CRATE_NAME}"
+		version = "${CROS_RUST_CRATE_VERSION}"
 		authors = ["The Chromium OS Authors"]
 
 		[features]
@@ -364,12 +378,12 @@ ecargo_test() {
 cros-rust_publish() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	local default_version="${PV}"
+	local default_version="${CROS_RUST_CRATE_VERSION}"
 	if [[ "${default_version}" == "9999" ]]; then
 		default_version="$(cros-rust_get_crate_version)"
 	fi
 
-	local name="${1:-${PN}}"
+	local name="${1:-${CROS_RUST_CRATE_NAME}}"
 	local version="${2:-${default_version}}"
 
 	# Create the .crate file.
@@ -419,8 +433,8 @@ cros-rust_publish() {
 	fperms 0644 "${CROS_RUST_REGISTRY_DIR}/${name}-${version}/Cargo.toml.orig"
 
 	# Symlink the 9999 version to the version installed by the crate.
-	if [[ "${PV}" == "9999" && "${version}" != "9999" ]]; then
-		dosym "${name}-${version}" "${CROS_RUST_REGISTRY_DIR}/${name}-${PV}"
+	if [[ "${CROS_RUST_CRATE_VERSION}" == "9999" && "${version}" != "9999" ]]; then
+		dosym "${name}-${version}" "${CROS_RUST_REGISTRY_DIR}/${name}-9999"
 	fi
 }
 
@@ -447,8 +461,8 @@ cros-rust_pkg_postinst() {
 		die "${FUNCNAME}() should only be used in pkg_postinst() phase"
 	fi
 
-	local name="${1:-${PN}}"
-	local version="${2:-${PV}}"
+	local name="${1:-${CROS_RUST_CRATE_NAME}}"
+	local version="${2:-${CROS_RUST_CRATE_VERSION}}"
 	local crate="${name}-${version}"
 
 	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
@@ -478,8 +492,8 @@ cros-rust_pkg_prerm() {
 		die "${FUNCNAME}() should only be used in pkg_prerm() phase"
 	fi
 
-	local name="${1:-${PN}}"
-	local version="${2:-${PV}}"
+	local name="${1:-${CROS_RUST_CRATE_NAME}}"
+	local version="${2:-${CROS_RUST_CRATE_VERSION}}"
 	local crate="${name}-${version}"
 
 	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
