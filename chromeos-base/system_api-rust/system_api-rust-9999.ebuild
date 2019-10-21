@@ -11,7 +11,7 @@ START_DIR="system_api"
 
 inherit cros-workon cros-rust
 
-RUST_CRATE="system_api"
+CROS_RUST_CRATE_NAME="system_api"
 DESCRIPTION="Chrome OS system API D-Bus bindings for Rust."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/system_api/"
 
@@ -44,16 +44,4 @@ src_test() {
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
-}
-
-src_install() {
-	cros-rust_publish "${RUST_CRATE}" "$(cros-rust_get_crate_version)"
-}
-
-pkg_postinst() {
-	cros-rust_pkg_postinst "${RUST_CRATE}"
-}
-
-pkg_prerm() {
-	cros-rust_pkg_prerm "${RUST_CRATE}"
 }

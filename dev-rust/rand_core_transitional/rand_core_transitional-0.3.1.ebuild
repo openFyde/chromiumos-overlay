@@ -5,29 +5,17 @@ EAPI="6"
 
 inherit cros-rust
 
-RUST_CRATE="rand_core"
-DESCRIPTION="Transitional package for ${RUST_CRATE}"
+CROS_RUST_CRATE_NAME="rand_core"
+DESCRIPTION="Transitional package for ${CROS_RUST_CRATE_NAME}"
 HOMEPAGE="https://github.com/rust-random/rand"
-SRC_URI="https://crates.io/api/v1/crates/${RUST_CRATE}/${PV}/download -> ${RUST_CRATE}-${PV}.crate"
+SRC_URI="https://crates.io/api/v1/crates/${CROS_RUST_CRATE_NAME}/${PV}/download -> ${CROS_RUST_CRATE_NAME}-${PV}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-S="${WORKDIR}/${RUST_CRATE}-${PV}"
+S="${WORKDIR}/${CROS_RUST_CRATE_NAME}-${PV}"
 
 DEPEND="
 	~dev-rust/rand_core-0.4.0:=
 "
-
-src_install() {
-	cros-rust_publish "${RUST_CRATE}"
-}
-
-pkg_postinst() {
-	cros-rust_pkg_postinst "${RUST_CRATE}"
-}
-
-pkg_prerm() {
-	cros-rust_pkg_prerm "${RUST_CRATE}"
-}
