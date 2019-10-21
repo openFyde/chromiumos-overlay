@@ -138,6 +138,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-plumb-swrast-option.patch
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-use-swrast-option-in-droid_load_driver.patch
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-fallback-to-software-rendering.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Remove-our-own-reference-to-buffers.patch
 
 	epatch "${FILESDIR}"/CHROMIUM-anv-Reject-unsupported-instance-versions-on.patch
 	epatch "${FILESDIR}"/CHROMIUM-anv-move-anv_GetMemoryAndroidHardwareBufferANDROID-u.patch

@@ -130,6 +130,7 @@ src_prepare() {
 	fi
 
 	epatch "${FILESDIR}"/BACKPORT-egl-android-Only-keep-BGRA-EGL-configs-as-fallback.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Remove-our-own-reference-to-buffers.patch
 
 	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-more-color_buffers.patch
