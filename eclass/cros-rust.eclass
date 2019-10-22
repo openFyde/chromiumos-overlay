@@ -451,6 +451,44 @@ cros-rust_src_install() {
 	cros-rust_publish
 }
 
+# @FUNCTION: _cleanup_registry_link
+# @INTERNAL
+# @USAGE: [crate name] [crate version]
+# @DESCRIPTION:
+# Unlink a library crate from the local registry. This is repeated in the prerm
+# and preinst stages.
+_cleanup_registry_link() {
+	local name="${1:-${CROS_RUST_CRATE_NAME}}"
+	local version="${2:-${CROS_RUST_CRATE_VERSION}}"
+	local crate="${name}-${version}"
+
+	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
+	if [[ "${version}" == "9999" && -L "${crate_dir}" ]]; then
+		crate="$(basename "$(readlink -f "${crate_dir}")")"
+	fi
+
+	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
+	local link="${registry_dir}/${crate}"
+	# Add a check to avoid spamming when it doesn't exist (e.g. binary crates).
+	if [[ -L "${link}" ]]; then
+		einfo "Removing ${crate} from Cargo registry"
+		rm -f "${link}" || die
+	fi
+}
+
+# @FUNCTION: cros-rust_pkg_preinst
+# @USAGE: [crate name] [crate version]
+# @DESCRIPTION:
+# Make sure a library crate isn't linked in the local registry prior to the
+# install step to avoid races.
+cros-rust_pkg_preinst() {
+	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_preinst" ]]; then
+		die "${FUNCNAME}() should only be used in pkg_preinst() phase"
+	fi
+
+	_cleanup_registry_link "$@"
+}
+
 # @FUNCTION: cros-rust_pkg_postinst
 # @USAGE: [crate name] [crate version]
 # @DESCRIPTION:
@@ -492,22 +530,7 @@ cros-rust_pkg_prerm() {
 		die "${FUNCNAME}() should only be used in pkg_prerm() phase"
 	fi
 
-	local name="${1:-${CROS_RUST_CRATE_NAME}}"
-	local version="${2:-${CROS_RUST_CRATE_VERSION}}"
-	local crate="${name}-${version}"
-
-	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
-	if [[ "${version}" == "9999" && -L "${crate_dir}" ]]; then
-		crate="$(basename "$(readlink -f "${crate_dir}")")"
-	fi
-
-	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
-	local link="${registry_dir}/${crate}"
-	# Add a check to avoid spamming when it doesn't exist (e.g. binary crates).
-	if [[ -L "${link}" ]]; then
-		einfo "Removing ${crate} from Cargo registry"
-		rm -f "${link}" || die
-	fi
+	_cleanup_registry_link "$@"
 }
 
 # @FUNCTION: cros-rust_get_crate_version
