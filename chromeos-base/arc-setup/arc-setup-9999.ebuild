@@ -46,7 +46,7 @@ RDEPEND="
 	esdfs? ( sys-apps/restorecon )"
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api"
+	chromeos-base/system_api[fuzzer?]"
 
 
 enable_esdfs() {

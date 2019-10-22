@@ -18,7 +18,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="chromeless_tty +seccomp"
+IUSE="chromeless_tty fuzzer +seccomp"
 
 RDEPEND="
 	app-arch/unrar
@@ -38,7 +38,7 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api"
+	chromeos-base/system_api[fuzzer?]"
 
 pkg_preinst() {
 	enewuser "cros-disks"

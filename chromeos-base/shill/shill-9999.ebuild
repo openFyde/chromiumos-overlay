@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cellular dhcpv6 kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn wake_on_wifi +wifi +wired_8021x"
+IUSE="cellular dhcpv6 fuzzer kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn wake_on_wifi +wifi +wired_8021x"
 
 # Sorted by the package we depend on. (Not by use flag!)
 RDEPEND="
@@ -53,7 +53,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/shill-client
 	chromeos-base/power_manager-client
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	vpn? ( chromeos-base/vpn-manager )"
 
 pkg_preinst() {

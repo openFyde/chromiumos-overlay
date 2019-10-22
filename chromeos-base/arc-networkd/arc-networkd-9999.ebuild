@@ -19,6 +19,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo
@@ -36,7 +37,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/shill
 	chromeos-base/shill-client
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 "
 
 src_install() {

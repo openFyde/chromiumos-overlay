@@ -20,7 +20,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cfm_enabled_device"
+IUSE="cfm_enabled_device fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -29,7 +29,7 @@ RDEPEND="
 	virtual/udev"
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	sys-kernel/linux-headers"
 
 src_install() {

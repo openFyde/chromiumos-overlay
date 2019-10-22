@@ -44,7 +44,7 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator )
 	tpm2? ( chromeos-base/trunks[test?] )
 	"

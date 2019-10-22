@@ -18,7 +18,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="metrics_uploader +passive_metrics systemd"
+IUSE="fuzzer metrics_uploader +passive_metrics systemd"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -31,7 +31,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/session_manager-client
-	chromeos-base/system_api:=
+	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vboot_reference
 	"
 

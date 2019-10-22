@@ -25,7 +25,7 @@ KEYWORDS="~*"
 # The flag distributed_cryptohome is for turning on tpm_manager and
 # attestation for 1.2 devices.
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
-	-direncryption distributed_cryptohome pinweaver selinux systemd test
+	-direncryption distributed_cryptohome fuzzer pinweaver selinux systemd test
 	tpm tpm2"
 
 REQUIRED_USE="
@@ -67,7 +67,7 @@ DEPEND="${RDEPEND}
 	chromeos-base/bootlockbox-client
 	chromeos-base/cryptohome-client
 	chromeos-base/protofiles:=
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	chromeos-base/tpm_manager-client
 	chromeos-base/vboot_reference
 	chromeos-base/libhwsec

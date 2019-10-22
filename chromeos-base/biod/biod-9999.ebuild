@@ -18,7 +18,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="unibuild fp_on_power_button"
+IUSE="fp_on_power_button fuzzer unibuild"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config )
@@ -34,7 +34,7 @@ DEPEND="
 	${RDEPEND}
 	chromeos-base/chromeos-ec-headers
 	chromeos-base/power_manager-client
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	dev-libs/openssl:=
 	"
 

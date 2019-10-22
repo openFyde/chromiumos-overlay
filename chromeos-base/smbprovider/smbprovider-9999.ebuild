@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/smbpro
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -32,7 +32,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/protofiles:=
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	chromeos-base/libpasswordprovider
 "
 

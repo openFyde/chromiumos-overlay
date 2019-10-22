@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/blueto
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="seccomp unibuild +bluetooth_suspend_management"
+IUSE="+bluetooth_suspend_management fuzzer seccomp unibuild"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config )
@@ -27,7 +27,7 @@ RDEPEND="
 	net-wireless/bluez"
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api"
+	chromeos-base/system_api[fuzzer?]"
 
 src_install() {
 	dobin init/scripts/bluetooth-setup.sh

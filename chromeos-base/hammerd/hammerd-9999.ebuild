@@ -31,7 +31,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 "
 
 pkg_preinst() {

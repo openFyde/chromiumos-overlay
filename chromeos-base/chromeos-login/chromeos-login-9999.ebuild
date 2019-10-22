@@ -21,7 +21,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cheets systemd unibuild"
+IUSE="cheets fuzzer systemd unibuild"
 
 RDEPEND="chromeos-base/bootstat
 	unibuild? ( chromeos-base/chromeos-config )
@@ -39,7 +39,7 @@ RDEPEND="chromeos-base/bootstat
 
 DEPEND="${RDEPEND}
 	chromeos-base/protofiles
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	chromeos-base/vboot_reference"
 
 pkg_preinst() {

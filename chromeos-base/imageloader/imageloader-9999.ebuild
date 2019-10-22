@@ -28,7 +28,7 @@ RDEPEND="chromeos-base/libbrillo
 	sys-fs/lvm2"
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api"
+	chromeos-base/system_api[fuzzer?]"
 
 src_install() {
 	# Install manifest parsing libraries

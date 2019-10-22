@@ -23,7 +23,7 @@ SRC_URI=""
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_p2p +dbus dlc -hwid_override +power_management systemd"
+IUSE="cros_p2p +dbus dlc fuzzer -hwid_override +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2
@@ -48,7 +48,7 @@ DEPEND="
 	chromeos-base/power_manager-client
 	chromeos-base/session_manager-client
 	chromeos-base/shill-client
-	chromeos-base/system_api:=
+	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/update_engine-client
 	sys-fs/e2fsprogs
 	test? ( sys-fs/squashfs-tools )

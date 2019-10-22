@@ -26,7 +26,7 @@ RDEPEND="
 	chromeos-base/chromeos-config-tools
 	chromeos-base/libbrillo
 	chromeos-base/libchrome
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 "
 DEPEND="${RDEPEND}"
 

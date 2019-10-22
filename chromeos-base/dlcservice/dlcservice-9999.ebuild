@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/dlcser
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -29,7 +29,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/dlcservice-client
 	chromeos-base/imageloader-client
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	chromeos-base/update_engine-client"
 
 src_install() {

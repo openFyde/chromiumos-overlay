@@ -26,7 +26,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
-	chromeos-base/system_api"
+	chromeos-base/system_api[fuzzer?]"
 
 src_install() {
 	# Install our binary.

@@ -20,6 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/u2fhid
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
+IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/attestation
@@ -34,7 +35,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/attestation-client
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	"
 
 pkg_setup() {

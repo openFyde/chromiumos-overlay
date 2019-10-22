@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagno
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+seccomp wilco"
+IUSE="fuzzer +seccomp wilco"
 
 COMMON_DEPEND="
 	dev-libs/protobuf:=
@@ -30,7 +30,7 @@ COMMON_DEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/debugd-client
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 "
 RDEPEND="
 	${COMMON_DEPEND}

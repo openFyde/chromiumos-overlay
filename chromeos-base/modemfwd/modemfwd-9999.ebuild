@@ -31,7 +31,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	chromeos-base/shill-client
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator )
 "
 
