@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="893fe2b81b8712a6353a1f3a1e0d404cf6309ec1"
+CROS_WORKON_COMMIT="1db73822fb0b88df4ea897526e3c5bb38faa4075"
 CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "d8e2d98bcdfd69f3fe27ef423e6a90b5fc9647cd" "62882972b26833f55d00f52b6f6bb5adc4e29cf1" "2603705c2caed81f5792299e275387339a7fb15b" "e80973d632a865dec17d8f3b1881aa9ad3843416" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -38,7 +38,7 @@ RDEPEND="
 
 # blocker (https://crbug.com/214886), can be removed later
 RDEPEND+="
-	 !app-laptop/laptop-mode-tools
+	!app-laptop/laptop-mode-tools
 "
 
 DEPEND="${RDEPEND}
