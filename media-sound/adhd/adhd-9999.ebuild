@@ -101,10 +101,17 @@ src_configure() {
 	fi
 
 	cd cras
-	cros-workon_src_configure $(use_enable selinux) \
-		$(use_enable cras-apm webrtc-apm) \
-		--enable-metrics \
-		$(use_enable amd64 fuzzer)
+	# Disable external libraries for fuzzers.
+	if use fuzzer ; then
+		cros-workon_src_configure \
+			$(use_enable cras-apm webrtc-apm) \
+			$(use_enable amd64 fuzzer)
+	else
+		cros-workon_src_configure $(use_enable selinux) \
+			$(use_enable cras-apm webrtc-apm) \
+			--enable-metrics \
+			$(use_enable amd64 fuzzer)
+	fi
 }
 
 src_compile() {
