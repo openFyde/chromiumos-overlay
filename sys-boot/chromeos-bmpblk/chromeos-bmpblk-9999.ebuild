@@ -64,6 +64,7 @@ CROS_BOARDS=(
 	peach_pit
 	peppy
 	poppy
+	puff
 	quawks
 	rammus
 	reks
