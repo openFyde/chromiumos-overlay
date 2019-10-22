@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="3da3d3d68b9a643bd573b128c563c71f376c958c"
+CROS_WORKON_COMMIT="b682a531b2ded2f8823f9d45c0701cf4c6e47ae7"
 CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "319bb3db667fdc5897155ba60f273aca01a3f58b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -31,7 +31,7 @@ SRC_URI="${models}"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/libbrillo
@@ -41,7 +41,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
-	chromeos-base/system_api
+	chromeos-base/system_api[fuzzer?]
 "
 
 src_install() {
@@ -63,12 +63,19 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.MachineLearning.service
 
+	# Create distfile array of model filepaths.
+	local distfile_array
+	local model_file
+	for model_file in ${models}; do
+		distfile_array+=( "${DISTDIR}/${model_file##*/}" )
+	done
+
 	# Install system ML models (but not test models).
 	insinto /opt/google/chrome/ml_models
-	local distfile_uri
-	for distfile_uri in ${models}; do
-		doins "${DISTDIR}/${distfile_uri##*/}"
-	done
+	doins "${distfile_array[@]}"
+
+	# Install fuzzer targets.
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ml_service_impl_fuzzer "${distfile_array[@]}"
 }
 
 pkg_preinst() {
