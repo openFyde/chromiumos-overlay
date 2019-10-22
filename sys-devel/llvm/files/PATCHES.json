@@ -202,10 +202,10 @@
         "start_version": 365631
     },
     {
-        "comment": "Add -Wpoison-system-directories clang warning",
-        "rel_patch_path": "cherry/41d9d5092a17e60615077da6ef22b4f5cfae2c2e.patch",
+        "comment": "[llvm-objcopy] Strip debug sections when running with --strip-unneeded",
+        "rel_patch_path": "cherry/0f323439d897565e78b261109ed77e32230e9cc5.patch",
         "start_version": 370808,
-        "end_version": 371878
+        "end_version": 369761
     },
     {
         "comment": "LLD: [ELF] Support -z undefs",
@@ -218,5 +218,77 @@
         "rel_patch_path": "cherry/7afffb54eac8c7aedc8c24f75ccdd70b176a9d9f.patch",
         "start_version": 370808,
         "end_version": 370923
+    },
+    {
+        "comment": "[DebugInfo] Emit DW_TAG_enumeration_type for referenced global enumerator.",
+        "rel_patch_path": "cherry/48c6fadc0daceb3374d7cc1df1e99ffef4b89d4c.patch",
+        "start_version": 370808,
+        "end_version": 370981
+    },
+    {
+        "comment": "[IfConversion] Fix diamond conversion with unanalyzable branches.",
+        "rel_patch_path": "cherry/cae1e47f6ed7effd82cc47e68c2a42513487a1d7.patch",
+        "start_version": 370808,
+        "end_version": 371111
+    },
+    {
+        "comment": "Revert r370635, it caused PR43241.",
+        "rel_patch_path": "cherry/8455294f2ac13d587b13d728038a9bffa7185f2b.patch",
+        "start_version": 370808,
+        "end_version": 371202
+    },
+    {
+        "comment": "Revert 'Revert r370635, it caused PR43241.'",
+        "rel_patch_path": "cherry/5d9f419a2e01c437a35899952d3342cc96a7d9e1.patch",
+        "start_version": 370808,
+        "end_version": 371215
+    },
+    {
+        "comment": "Reland D66717 [ELF] Do not ICF two sections with different output sections (by SECTIONS commands",
+        "rel_patch_path": "cherry/8d30c1dcec2a935e0b1cffc26fdc6054ff101f53.patch",
+        "start_version": 370808,
+        "end_version": 371216
+    },
+    {
+        "comment": "[IRMover] Don't map globals if their types are the same",
+        "rel_patch_path": "cherry/8b46544641ef49e20621a3ac8e14fd4c95338522.patch",
+        "start_version": 370808,
+        "end_version": 371643
+    },
+    {
+        "comment": "[ELF] Delete a redundant assignment to SectionBase::assigned. NFC",
+        "rel_patch_path": "cherry/51ead00bf81cd92a868bdd1551a06ec5efdb563b.patch",
+        "start_version": 370808,
+        "end_version": 371804
+    },
+    {
+        "comment": "Add -Wpoison-system-directories clang warning",
+        "rel_patch_path": "cherry/41d9d5092a17e60615077da6ef22b4f5cfae2c2e.patch",
+        "start_version": 370808,
+        "end_version": 371878
+    },
+    {
+        "comment": "[ELF] Map the ELF header at imageBase",
+        "rel_patch_path": "cherry/06bb7dfbd445fe928b0ae0263ba9df1acd861c41.patch",
+        "start_version": 370808,
+        "end_version": 371957
+    },
+    {
+        "comment": "[ELF] Make MergeInputSection merging aware of output sections",
+        "rel_patch_path": "cherry/e47bbd28f8e9dfea4e019e27e9d371c144c3302e.patch",
+        "start_version": 370808,
+        "end_version": 372734
+    },
+    {
+        "comment": "[ELF] Delete SectionBase::assigned",
+        "rel_patch_path": "cherry/e447d5afd37228125bca280ad96c1a191b0b4169.patch",
+        "start_version": 370808,
+        "end_version": 372735
+    },
+    {
+        "comment": "ELF: Don't merge SHF_LINK_ORDER sections for different output sections in relocatable links.",
+        "rel_patch_path": "cherry/97e251e05a46f5b90af5a0bebebdda98e7fd98ab.patch",
+        "start_version": 370808,
+        "end_version": 373255
     }
 ]
