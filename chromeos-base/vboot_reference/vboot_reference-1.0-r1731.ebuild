@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="2abf0e7b7038b4ac12ea5edf7db00dad09a8e5c7"
-CROS_WORKON_TREE="eee999daff88272ef010bd2843d944b5a179480f"
+CROS_WORKON_COMMIT="34307d894dfad7fdb962ab1b126d44a2a4a5fd68"
+CROS_WORKON_TREE="cf1f8d3d790c30feffcc9197d432a03ed9f8001d"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 
@@ -100,6 +100,8 @@ src_install() {
 	fi
 
 	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/cgpt_fuzzer
+	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_keyblock_fuzzer
+	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_preamble_fuzzer
 
 	# Install devkeys to /usr/share/vboot/devkeys
 	# (shared by host and target)

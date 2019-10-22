@@ -26,7 +26,6 @@ DEPEND="${RDEPEND}
 
 src_unpack() {
 	cros-workon_src_unpack
-
 	cros-rust_src_unpack
 }
 

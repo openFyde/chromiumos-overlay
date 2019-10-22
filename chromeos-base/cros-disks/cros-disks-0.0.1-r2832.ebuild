@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="e835325abfa6acfee13582dbdf2c779708818ff9"
-CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "d1a539e0546d44d1ec382d540f60beeebb7b1ffe" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0384d0cf4fde54f96cd51e8c8c1ed3a01ea5e098"
+CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "b87e9c546f8fb54496248c2d7c05396fc1fc477c" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -91,6 +91,7 @@ src_install() {
 
 	local fuzzers=(
 		mount_options_fuzzer
+		filesystem_label_fuzzer
 	)
 
 	local fuzzer
