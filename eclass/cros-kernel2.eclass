@@ -169,6 +169,7 @@ CONFIG_FRAGMENTS=(
 	highmem
 	hypervisor_guest
 	i2cdev
+	iioservice
 	irqsoff_tracer
 	iscsi
 	lockdown
@@ -422,6 +423,11 @@ CONFIG_VIRTIO_VSOCKETS=m
 i2cdev_desc="I2C device interface"
 i2cdev_config="
 CONFIG_I2C_CHARDEV=y
+"
+
+iioservice_desc="Enable IIO service"
+iioservice_config="
+# CONFIG_IIO_CROS_EC_SENSORS_RING is not set
 "
 
 irqsoff_tracer_desc="irqsoff tracer"
