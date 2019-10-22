@@ -149,11 +149,11 @@ VETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/
 # by the PFQ builder. Don't change the format of the lines or modify by hand.
 declare -A AFDO_FILE
 # MODIFIED BY PFQ, DON' TOUCH....
-AFDO_FILE["benchmark"]="chromeos-chrome-amd64-79.0.3931.2_rc-r1.afdo"
-AFDO_FILE["silvermont"]="R79-3904.41-1570446057.afdo"
-AFDO_FILE["airmont"]="R79-3904.35-1570450409.afdo"
+AFDO_FILE["benchmark"]="chromeos-chrome-amd64-79.0.3943.1_rc-r1.afdo"
+AFDO_FILE["silvermont"]="R79-3928.0-1571049528.afdo"
+AFDO_FILE["airmont"]="R79-3931.2-1571054549.afdo"
 AFDO_FILE["haswell"]="R78-3809.102-1565608061.afdo"
-AFDO_FILE["broadwell"]="R79-3904.35-1570441307.afdo"
+AFDO_FILE["broadwell"]="R79-3904.41-1571046112.afdo"
 # ....MODIFIED BY PFQ, DON' TOUCH
 # The following entry will be modified automatically for verifying orderfile or AFDO profile.
 UNVETTED_ORDERFILE=""
@@ -878,12 +878,8 @@ setup_test_lists() {
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
-		# TODO(crbug.com/879065): Remove video_decode_accelerator_unittest
-		# after all functionality has moved to video_decode_accelerator_tests
-		# and video_decode_accelerator_perf_tests.
 		video_decode_accelerator_perf_tests
 		video_decode_accelerator_tests
-		video_decode_accelerator_unittest
 		video_encode_accelerator_unittest
 		wayland_client_perftests
 	)
