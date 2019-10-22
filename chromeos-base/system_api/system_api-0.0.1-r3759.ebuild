@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="2b1dae9373aa6142620f2e5769ccf5c7795a4263"
+CROS_WORKON_COMMIT="1db73822fb0b88df4ea897526e3c5bb38faa4075"
 CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "2cffe0fffb654df3df5a5c45291b4fecc3b67f31" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
@@ -18,7 +18,7 @@ CROS_WORKON_SUBTREE="common-mk system_api .gn"
 PLATFORM_SUBDIR="system_api"
 WANT_LIBBRILLO="no"
 
-inherit cros-go cros-workon toolchain-funcs platform
+inherit cros-fuzzer cros-go cros-workon toolchain-funcs platform
 
 DESCRIPTION="Chrome OS system API (D-Bus service names, etc.)"
 HOMEPAGE="http://www.chromium.org/"
