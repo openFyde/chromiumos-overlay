@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="e835325abfa6acfee13582dbdf2c779708818ff9"
-CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "1291c8978f7766615b4dcf23c482220739d6e49c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="5cbbac26226ca7a2d0444cd1c7638e5c6a8eedbe"
+CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "6808728daad414acca15dfd0048e5ab567f647bd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -54,6 +54,8 @@ src_install() {
 	diropts --mode=0700 --owner=root --group=root
 	keepdir "${CONTAINER_DIR}"/mountpoints/
 	keepdir "${CONTAINER_DIR}"/mountpoints/container-root
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/mount-obb_fuzzer
 }
 
 platform_pkg_test() {
