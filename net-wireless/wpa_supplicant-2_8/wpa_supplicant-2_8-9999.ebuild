@@ -52,6 +52,7 @@ DEPEND="${CDEPEND}
 	virtual/pkgconfig
 "
 RDEPEND="${CDEPEND}
+	!net-wireless/wpa_supplicant
 	selinux? ( sec-policy/selinux-networkmanager )
 "
 
