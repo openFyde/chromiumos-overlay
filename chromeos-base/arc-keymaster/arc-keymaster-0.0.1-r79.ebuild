@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("e835325abfa6acfee13582dbdf2c779708818ff9" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
-CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "b71e7214c188d28efe4e778afc62768da68ef3f3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
+CROS_WORKON_COMMIT=("b682a531b2ded2f8823f9d45c0701cf4c6e47ae7" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "835592a1f7a9635fa0c6b9c7a5104c20f8d0169d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
@@ -116,6 +116,8 @@ src_install() {
 	dolib.so "${OUT}/lib/libarckeymaster_context.so"
 	dolib.so "${OUT}/lib/libkeymaster.so"
 	dosbin "${OUT}/arc-keymasterd"
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_keymasterd_fuzzer
 }
 
 pkg_preinst() {
