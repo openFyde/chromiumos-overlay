@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="1b8d6ab14f752db00158450ca45c1a3b88d5809b"
+CROS_WORKON_COMMIT="1db73822fb0b88df4ea897526e3c5bb38faa4075"
 CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "e5f691371f67d7ba9eeb78403dca01e7c0a07428" "62882972b26833f55d00f52b6f6bb5adc4e29cf1" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,7 +20,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="fuzzer unibuild fp_on_power_button"
+IUSE="unibuild fp_on_power_button"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config )

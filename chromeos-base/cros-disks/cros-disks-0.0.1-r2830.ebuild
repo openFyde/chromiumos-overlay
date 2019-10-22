@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="1db7ce09652944f8d9c8491b6fafe8bfb90955a1"
+CROS_WORKON_COMMIT="1db73822fb0b88df4ea897526e3c5bb38faa4075"
 CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "91d2b07eeeaf765be9438498e739f75339d661ac" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -20,7 +20,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="asan chromeless_tty fuzzer +seccomp"
+IUSE="chromeless_tty +seccomp"
 
 RDEPEND="
 	app-arch/unrar

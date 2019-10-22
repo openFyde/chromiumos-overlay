@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="27ef01c9953290d2609d07fc8e2b6689341494df"
+CROS_WORKON_COMMIT="1db73822fb0b88df4ea897526e3c5bb38faa4075"
 CROS_WORKON_TREE=("96ecb2dad8cd853305974b8e506a17e386c4ee60" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,7 +20,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="fuzzer metrics_uploader +passive_metrics systemd"
+IUSE="metrics_uploader +passive_metrics systemd"
 
 RDEPEND="
 	chromeos-base/libbrillo
