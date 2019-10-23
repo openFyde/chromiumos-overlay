@@ -216,7 +216,7 @@ src_install() {
 	use_fw i915_kbl && doins_subdir i915/kbl*
 	use_fw i915_skl && doins_subdir i915/skl*
 	# ipu3-fw.bin is a symlink to irci_*.bin
-	use_fw ipu3_fw && doins intel/irci_* intel/ipu3-fw.bin
+	use_fw ipu3_fw && doins_subdir intel/irci_* intel/ipu3-fw.bin
 	use_fw ibt_9260 && doins_subdir intel/ibt-18-16-1.*
 	use_fw ibt_9560 && doins_subdir intel/ibt-17-16-1.*
 	use_fw ibt_ax201 && doins_subdir intel/ibt-19-*.*
