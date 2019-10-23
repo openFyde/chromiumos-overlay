@@ -1,0 +1,48 @@
+From 5b2c1a3b2cd1ec2e732ad22cc4eddbe6f417d4e2 Mon Sep 17 00:00:00 2001
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Tue, 2 Apr 2019 18:22:59 -0700
+Subject: [PATCH] HACK: disable intel_miptree_unmap_tiled_memcpy for gen 8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+For some reason it causes glTexImage failures on auron_paine/auron_yuna
+(but not on Cyan/Samus, or CrOS).
+
+00 pc 00019636  /system/lib/libc.so (memcpy+742)
+01 pc 00adea05  /vendor/lib/dri/i965_dri.so (linear_to_ytiled_faster+2117)
+02 pc 00adceff  /vendor/lib/dri/i965_dri.so (intel_linear_to_tiled+1375)
+03 pc 00adc98a  /vendor/lib/dri/i965_dri.so (_isl_memcpy_linear_to_tiled+250)
+04 pc 00aa9b9e  /vendor/lib/dri/i965_dri.so (isl_memcpy_linear_to_tiled+414)
+05 pc 007f93eb  /vendor/lib/dri/i965_dri.so (intel_miptree_unmap_tiled_memcpy+459)
+06 pc 007f6494  /vendor/lib/dri/i965_dri.so (intel_miptree_unmap+420)
+07 pc 0080879d  /vendor/lib/dri/i965_dri.so (intel_unmap_texture_image+205)
+08 pc 002bf978  /vendor/lib/dri/i965_dri.so (store_texsubimage+2344)
+09 pc 002bfb3a  /vendor/lib/dri/i965_dri.so (_mesa_store_texsubimage+298)
+10 pc 0080b83b  /vendor/lib/dri/i965_dri.so (intel_upload_tex+1275)#11 pc 0080a53f  /vendor/lib/dri/i965_dri.so (intelTexSubImage+799)
+12 pc 002a3a78  /vendor/lib/dri/i965_dri.so (texture_sub_image+728)
+13 pc 00295c2b  /vendor/lib/dri/i965_dri.so (texsubimage_err+1147)
+14 pc 00295e9c  /vendor/lib/dri/i965_dri.so (_mesa_TexSubImage2D+300)
+15 pc 0000c9a4  /vendor/lib/egl/libGLESv2_mesa.so (glTexSubImage2D+212)
+
+Change-Id: Id3730483d9de6b7ede88fe9f31c6175f0a3c4bc3
+---
+ src/mesa/drivers/dri/i965/intel_mipmap_tree.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/mesa/drivers/dri/i965/intel_mipmap_tree.c b/src/mesa/drivers/dri/i965/intel_mipmap_tree.c
+index b4e3524aa51f..feb8f1dbb94c 100644
+--- a/src/mesa/drivers/dri/i965/intel_mipmap_tree.c
++++ b/src/mesa/drivers/dri/i965/intel_mipmap_tree.c
+@@ -3788,7 +3788,7 @@ intel_miptree_map(struct brw_context *brw,
+       intel_miptree_map_depthstencil(brw, mt, map, level, slice);
+    } else if (use_intel_mipree_map_blit(brw, mt, map)) {
+       intel_miptree_map_blit(brw, mt, map, level, slice);
+-   } else if (mt->surf.tiling != ISL_TILING_LINEAR && devinfo->gen > 4) {
++   } else if (mt->surf.tiling != ISL_TILING_LINEAR && devinfo->gen > 8) {
+       intel_miptree_map_tiled_memcpy(brw, mt, map, level, slice);
+ #if defined(USE_SSE41)
+    } else if (!(mode & GL_MAP_WRITE_BIT) &&
+-- 
+2.20.1
+
