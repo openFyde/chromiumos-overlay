@@ -44,7 +44,6 @@ RDEPEND=">=x11-libs/libdrm-2.4.46
 		x11-libs/libXext
 		x11-libs/libXfixes
 	)
-	egl? ( >=media-libs/mesa-9.1.6[egl] )
 	opengl? ( >=virtual/opengl-7.0-r1 )
 	wayland? ( >=dev-libs/wayland-1.0.6 )
 	"
