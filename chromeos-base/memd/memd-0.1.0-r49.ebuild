@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="07bde5220945a24642614c8a9cdffa8b5f496498"
+CROS_WORKON_COMMIT="cc621b27d426c23038b91d973b8fed1a372db8c4"
 CROS_WORKON_TREE="2757a9c32a132776910c47d97b886bf56e2d71c3"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,8 +27,10 @@ DEPEND="chromeos-base/system_api
 	=dev-rust/env_logger-0.6*:=
 	~dev-rust/libc-0.2.44:=
 	~dev-rust/log-0.4.5:=
-	=dev-rust/protobuf-2.3*:=
-	=dev-rust/protoc-rust-2.3*:=
+	>=dev-rust/protobuf-2.8:=
+	!>=dev-rust/protobuf-3
+	>=dev-rust/protoc-rust-2.8:=
+	!>=dev-rust/protoc-rust-3
 	~dev-rust/syslog-4.0.0:=
 	~dev-rust/time-0.1.40:=
 	=dev-rust/tempfile-3*:=

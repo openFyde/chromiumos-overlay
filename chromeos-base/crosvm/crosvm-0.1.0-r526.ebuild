@@ -41,8 +41,10 @@ DEPEND="${RDEPEND}
 	~dev-rust/num_cpus-1.9.0:=
 	~dev-rust/pkg-config-0.3.11:=
 	~dev-rust/proc-macro2-0.4.21:=
-	=dev-rust/protobuf-2.3*:=
-	=dev-rust/protoc-rust-2.3*:=
+	>=dev-rust/protobuf-2.8:=
+	!>=dev-rust/protobuf-3
+	>=dev-rust/protoc-rust-2.8:=
+	!>=dev-rust/protoc-rust-3
 	~dev-rust/quote-0.6.10:=
 	dev-rust/trace_events:=
 	dev-rust/remain:=
