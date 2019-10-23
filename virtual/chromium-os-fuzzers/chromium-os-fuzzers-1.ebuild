@@ -38,6 +38,7 @@ RDEPEND="
 	chromeos-base/libipp[fuzzer]
 	asan? ( chromeos-base/libvda[fuzzer] )
 	chromeos-base/metrics[fuzzer]
+	chromeos-base/ml[fuzzer]
 	chromeos-base/modemfwd[fuzzer]
 	chromeos-base/p2p[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
