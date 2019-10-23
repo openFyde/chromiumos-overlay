@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="2ce3d8a507ae6c2f86beeabc2635762f562a6662"
-CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "caa5df23735b4decc310df749c094d0299f5a316" "c20279913b902dccb872b7888809f4908dc9fa03" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="02c5c7131efb8baf8a5c382f864549d4cbc1827c"
+CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "a91c98f70446b62113d0dfa727a63aca6b3ca2c8" "c20279913b902dccb872b7888809f4908dc9fa03" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -81,6 +81,8 @@ src_install() {
 	fowners biod:biod "${daemon_store}"
 
 	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/biod_storage_fuzzer
+
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/biod_crypto_validation_value_fuzzer
 }
 
 platform_pkg_test() {
