@@ -41,6 +41,7 @@ IUSE_IWLWIFI=(
 	iwlwifi-7265D
 	iwlwifi-9000
 	iwlwifi-9260
+	iwlwifi-Qu-c0
 	iwlwifi-QuZ
 )
 IUSE_BRCMWIFI=(
@@ -120,6 +121,7 @@ LICENSE="
 	linux_firmware_ipu3_fw? ( LICENSE.ipu3_firmware )
 	linux_firmware_ibt_9260? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt_9560? ( LICENCE.ibt_firmware )
+	linux_firmware_ibt_ax201? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt-hw? ( LICENCE.ibt_firmware )
 	linux_firmware_keyspan_usb? ( LICENSE.keyspan_usb )
 	linux_firmware_marvell-mwlwifi? ( LICENCE.Marvell )
