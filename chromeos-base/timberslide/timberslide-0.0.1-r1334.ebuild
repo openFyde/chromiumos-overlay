@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="e835325abfa6acfee13582dbdf2c779708818ff9"
-CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "4d17e2a440bf681d93111b3868fad5f06fd8470d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="03044bd948d4e2aa222e3550be3a0ddf28a515fe"
+CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "41c885be790f9197104c3d02eb3431a198cfe8ec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -35,4 +35,8 @@ src_install() {
 	doins init/*.conf
 	exeinto /usr/share/cros/init
 	doexe init/*.sh
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/timberslide_test_runner"
 }
