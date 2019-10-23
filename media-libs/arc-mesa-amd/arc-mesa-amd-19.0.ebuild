@@ -63,7 +63,7 @@ DEPEND="cheets? (
 		)
 	)"
 
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND} !media-libs/arc-mesa"
 
 # It is slow without texrels, if someone wants slow
 # mesa without texrels +pic use is worth the shot
