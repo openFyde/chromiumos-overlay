@@ -208,6 +208,12 @@
         "end_version": 371878
     },
     {
+        "comment": "LLD: [ELF] Support -z undefs",
+        "rel_patch_path": "cherry/60ff4dd9cd8a5052067b2dee1fc68bfba1f695cc.patch",
+        "start_version": 365631,
+        "end_version": 371715
+    },
+    {
         "comment": "[LLD] [ELF] Don't shrink RelrSection",
         "rel_patch_path": "cherry/7afffb54eac8c7aedc8c24f75ccdd70b176a9d9f.patch",
         "start_version": 370808,
