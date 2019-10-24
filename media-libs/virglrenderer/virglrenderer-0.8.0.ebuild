@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="eca01605f2dd5e1f5e58e19d3cbbff868921bc2b"
-CROS_WORKON_TREE="272d12a65116f26db2bc76d5052e25e7158bfcda"
+CROS_WORKON_COMMIT="77d268182379f73849ebd92af41acfce05d51795"
+CROS_WORKON_TREE="afad5c712e09956550fff0cf110f2d934ea90f12"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
 CROS_WORKON_BLACKLIST="1"
@@ -34,8 +34,6 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
-	"${FILESDIR}"/0001-CHROMIUM-Revert-vrend-Always-use-a-texture-view-for-.patch
-	"${FILESDIR}"/UPSTREAM-shader-re-interpret-GRID_SIZE-BLOCK_ID-and-THREAD_ID.patch
 )
 
 src_prepare() {
