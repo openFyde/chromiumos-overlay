@@ -23,11 +23,17 @@ IUSE="cros_host"
 RESTRICT="test"
 
 src_install() {
-	use cros_host && return
-
 	install_python() {
 		# TODO(crbug.com/771085): Figure out this SYSROOT business.
 		local dir="$(python_get_sitedir | sed "s:^${SYSROOT}::")/chromite"
+
+		# For the SDK, we just install symlinks to the live code.
+		if use cros_host; then
+			dodir "${dir%/*}"
+			dosym "${CHROOT_SOURCE_ROOT}/chromite" "${dir}"
+			return
+		fi
+
 		insinto "${dir}"
 		doins -r "${S}"/*
 
