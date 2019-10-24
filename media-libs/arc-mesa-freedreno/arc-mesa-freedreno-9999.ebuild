@@ -24,7 +24,6 @@ IUSE="
 	cheets_user
 	cheets_user_64
 	debug
-	video_cards_freedreno
 	-vulkan
 "
 
@@ -33,10 +32,8 @@ REQUIRED_USE="
 "
 
 DEPEND="
-	>=x11-libs/arc-libdrm-2.4.82[video_cards_freedreno,${MULTILIB_USEDEP}]
-	video_cards_freedreno? (
-		dev-libs/arc-libelf[${MULTILIB_USEDEP}]
-	)
+	>=x11-libs/arc-libdrm-2.4.82[${MULTILIB_USEDEP}]
+	dev-libs/arc-libelf[${MULTILIB_USEDEP}]
 "
 
 RDEPEND="${DEPEND}"
