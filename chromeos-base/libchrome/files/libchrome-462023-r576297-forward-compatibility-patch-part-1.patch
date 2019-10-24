@@ -1,4 +1,4 @@
-From 4914bfd0ef6361c8a956b8eb0336918ab12fb17e Mon Sep 17 00:00:00 2001
+From f7d0703166892684a30bf5209240baf48555070c Mon Sep 17 00:00:00 2001
 From: Hidehiko Abe <hidehiko@chromium.org>
 Date: Sat, 10 Aug 2019 01:49:12 +0900
 Subject: [PATCH] libchrome: r576279 forward compatibility patch part 1.
@@ -10,6 +10,7 @@ This CL includes;
 - SimpleAlarmTimer::Create().
 - base/memory/scoped_refptr.h
 - base/posix/unix_domain_socket.h
+- base/memory/shared_memory_handle.h::GetHandle/GetSize
 
 BUG=chromium:909719
 TEST=Build.
@@ -17,6 +18,8 @@ TEST=Build.
 Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
 ---
  base/memory/scoped_refptr.h               | 31 +++++++++++++++++++++++
+ base/memory/shared_memory_handle.h        | 23 ++++++++++++++++-
+ base/memory/shared_memory_posix.cc        | 13 +++++++---
  base/posix/unix_domain_socket.h           | 12 +++++++++
  base/strings/string_number_conversions.h  | 20 +++++++++++++++
  base/task_runner.h                        |  4 +++
@@ -24,7 +27,7 @@ Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
  base/values.h                             |  2 ++
  components/timers/alarm_timer_chromeos.cc |  8 ++++++
  components/timers/alarm_timer_chromeos.h  |  2 ++
- 8 files changed, 84 insertions(+)
+ 10 files changed, 116 insertions(+), 4 deletions(-)
  create mode 100644 base/memory/scoped_refptr.h
  create mode 100644 base/posix/unix_domain_socket.h
 
@@ -65,6 +68,86 @@ index 0000000..0815c34
 +}  // namespace base
 +
 +#endif  // BASE_MEMORY_SCOPED_REFPTR_H_
+diff --git a/base/memory/shared_memory_handle.h b/base/memory/shared_memory_handle.h
+index dc33eea..744ec63 100644
+--- a/base/memory/shared_memory_handle.h
++++ b/base/memory/shared_memory_handle.h
+@@ -7,6 +7,7 @@
+ 
+ #include <stddef.h>
+ 
++#include "base/unguessable_token.h"
+ #include "build/build_config.h"
+ 
+ #if defined(OS_WIN)
+@@ -28,7 +29,27 @@ namespace base {
+ // SharedMemoryHandle is a platform specific type which represents
+ // the underlying OS handle to a shared memory segment.
+ #if defined(OS_POSIX) && !(defined(OS_MACOSX) && !defined(OS_IOS))
+-typedef FileDescriptor SharedMemoryHandle;
++class BASE_EXPORT SharedMemoryHandle: public FileDescriptor {
++ public:
++  // Before
++  SharedMemoryHandle() : FileDescriptor() {}
++  SharedMemoryHandle(int ifd, bool iauto_close)
++    : FileDescriptor(ifd, iauto_close) {}
++  // After
++  SharedMemoryHandle(const SharedMemoryHandle& handle) = default;
++  SharedMemoryHandle(const base::FileDescriptor& file_descriptor,
++                     size_t size,
++                     const base::UnguessableToken& guid)
++          : FileDescriptor(file_descriptor) {}
++  SharedMemoryHandle& operator=(const SharedMemoryHandle &handle) = default;
++  static SharedMemoryHandle ImportHandle(int fd, size_t _size) {
++    return SharedMemoryHandle(fd, false);
++  }
++  int GetHandle() const {
++    return this->fd;
++  }
++  size_t GetSize() const;
++};
+ #elif defined(OS_WIN)
+ class BASE_EXPORT SharedMemoryHandle {
+  public:
+diff --git a/base/memory/shared_memory_posix.cc b/base/memory/shared_memory_posix.cc
+index 287e55d..e442eec 100644
+--- a/base/memory/shared_memory_posix.cc
++++ b/base/memory/shared_memory_posix.cc
+@@ -85,7 +85,7 @@ SharedMemoryHandle SharedMemory::DuplicateHandle(
+   int duped_handle = HANDLE_EINTR(dup(handle.fd));
+   if (duped_handle < 0)
+     return base::SharedMemory::NULLHandle();
+-  return base::FileDescriptor(duped_handle, true);
++  return base::SharedMemoryHandle(duped_handle, true);
+ }
+ 
+ // static
+@@ -310,11 +310,11 @@ bool SharedMemory::Unmap() {
+ }
+ 
+ SharedMemoryHandle SharedMemory::handle() const {
+-  return FileDescriptor(mapped_file_, false);
++  return SharedMemoryHandle(mapped_file_, false);
+ }
+ 
+ SharedMemoryHandle SharedMemory::TakeHandle() {
+-  FileDescriptor handle(mapped_file_, true);
++  SharedMemoryHandle handle(mapped_file_, true);
+   mapped_file_ = -1;
+   memory_ = nullptr;
+   mapped_size_ = 0;
+@@ -415,4 +415,11 @@ bool SharedMemory::GetUniqueId(SharedMemory::UniqueId* id) const {
+   return true;
+ }
+ 
++size_t SharedMemoryHandle::GetSize() const {
++  size_t size;
++  if (!SharedMemory::GetSizeFromSharedMemoryHandle(*this, &size))
++    return 0;
++  return size;
++}
++
+ }  // namespace base
 diff --git a/base/posix/unix_domain_socket.h b/base/posix/unix_domain_socket.h
 new file mode 100644
 index 0000000..5112731
@@ -205,5 +288,5 @@ index 8066704..88f2588 100644
  
  }  // namespace timers
 -- 
-2.23.0.rc1.153.gdeed80330f-goog
+2.24.0.rc0.303.g954a862665-goog
 
