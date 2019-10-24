@@ -15,6 +15,7 @@ RDEPEND="
 	chromeos-base/arc-adbd[fuzzer]
 	asan? ( chromeos-base/arc-keymaster[fuzzer] )
 	chromeos-base/arc-networkd[fuzzer]
+	chromeos-base/arc-obb-mounter[fuzzer]
 	chromeos-base/arc-setup[fuzzer]
 	chromeos-base/authpolicy[fuzzer]
 	chromeos-base/biod[fuzzer]

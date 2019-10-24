@@ -52,6 +52,8 @@ src_install() {
 	diropts --mode=0700 --owner=root --group=root
 	keepdir "${CONTAINER_DIR}"/mountpoints/
 	keepdir "${CONTAINER_DIR}"/mountpoints/container-root
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/mount-obb_fuzzer
 }
 
 platform_pkg_test() {
