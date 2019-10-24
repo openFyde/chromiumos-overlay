@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="e835325abfa6acfee13582dbdf2c779708818ff9"
+CROS_WORKON_COMMIT="8edb5aa979eae46e76d47e77a80901af08d7a180"
 CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "1a404f6bcb3f72af4e7593a1112bfeb943d59d8d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,8 +37,12 @@ src_install() {
 	dolib.so "${OUT}"/lib/libvda.so
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/arc/vm/libvda/libvda.pc
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libvda_fuzzer
 }
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/libvda_fake_unittest"
+
+	platform_fuzzer_test "${OUT}"/libvda_fuzzer
 }

@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="52a58d3684b9e90669a2a8dff370255a84774554"
-CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "c20279913b902dccb872b7888809f4908dc9fa03" "26cc39937cb33cdae66977037ac978473c338884" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "5cae5a24512f9e2f545db5de4a4b6bc7d8a9d307" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8edb5aa979eae46e76d47e77a80901af08d7a180"
+CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "c20279913b902dccb872b7888809f4908dc9fa03" "26cc39937cb33cdae66977037ac978473c338884" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "5c3e16ab9c75b57e7eb16e1cf8f20d7336495ad9" "2603705c2caed81f5792299e275387339a7fb15b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -37,6 +37,7 @@ RDEPEND="chromeos-base/bootstat
 	chromeos-base/metrics
 	dev-libs/nss
 	dev-libs/protobuf
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 	sys-apps/util-linux"
 
 DEPEND="${RDEPEND}
@@ -112,5 +113,13 @@ src_install() {
 	insinto /etc
 	doins chrome_dev.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}/login_manager_validator_utils_fuzzer"
+	local fuzzers=(
+		login_manager_validator_utils_fuzzer
+		login_manager_validator_utils_policy_desc_fuzzer
+	)
+
+	local fuzzer
+	for fuzzer in "${fuzzers[@]}"; do
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}/${fuzzer}"
+	done
 }
