@@ -51,7 +51,7 @@ src_configure() {
 	export BOARD="${SYSROOT##*/}"
 	export OUTOFTREE_BUILD="${CROS_WORKON_OUTOFTREE_BUILD}"
 	export PYTHON="${EPYTHON}"
-	export PYTHON_SITEDIR="${EROOT}$(python_get_sitedir)"
+	export PYTHON_SITEDIR="${ESYSROOT}$(python_get_sitedir)"
 	export SRCROOT="${CROS_WORKON_SRCROOT}"
 	export TARGET_DIR=/usr/local/factory
 	export WEBGL_AQUARIUM_DIR="${WORKDIR}/webgl_aquarium_static"
