@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="f60d367467496c38a4a599e467d717d16358dab1"
-CROS_WORKON_TREE="f050a9d20ed3adb23d426eb628bdbea9d352f5a9"
+CROS_WORKON_COMMIT="1955fd1fb317841ecdf31666a5d88021670ae035"
+CROS_WORKON_TREE="e134cf11b2746d6128805dc8865dd03b140bcf49"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -34,6 +34,10 @@ RDEPEND="
 	virtual/libusb:1=
 "
 DEPEND="${RDEPEND}
+	fuzzer? (
+		dev-rust/cros_fuzz:=
+		=dev-rust/rand-0.6*:=
+	)
 	=dev-rust/bitflags-1*:=
 	~dev-rust/cc-1.0.25:=
 	~dev-rust/getopts-0.2.18:=
@@ -74,6 +78,7 @@ FUZZERS=(
 	crosvm_block_fuzzer
 	crosvm_qcow_fuzzer
 	crosvm_usb_descriptor_fuzzer
+	crosvm_virtqueue_fuzzer
 	crosvm_zimage_fuzzer
 )
 
