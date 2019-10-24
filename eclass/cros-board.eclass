@@ -130,6 +130,7 @@ ALL_BOARDS=(
 	elm
 	elm-cheets
 	#emeraldlake2
+	endeavour
 	enguarde
 	#envoy-jerry
 	eve
