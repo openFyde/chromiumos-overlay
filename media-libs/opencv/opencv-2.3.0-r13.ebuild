@@ -75,7 +75,15 @@ CMAKE_BUILD_TYPE="Release"
 S=${WORKDIR}/${MY_P}
 
 pkg_setup() {
-	use python && python-single-r1_pkg_setup
+	if use python ; then
+		python-single-r1_pkg_setup
+	else
+		# Normally we'd use python-any-r1, but the eclasses do not allow for
+		# both to be used simultaneously (or even conditionally).  Unfortunately
+		# this package uses python at build time (python2-only) and can compile
+		# modules too.
+		export EPYTHON=python2
+	fi
 }
 
 src_prepare() {
