@@ -7,7 +7,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="chromeos-config"
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{2_7,3_6,3_7} )
 
 inherit cros-workon distutils-r1
 
