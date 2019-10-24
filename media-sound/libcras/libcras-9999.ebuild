@@ -16,7 +16,6 @@ DESCRIPTION="Rust version libcras"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/master/cras/client/libcras"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
 
@@ -27,6 +26,8 @@ DEPEND="
 	media-sound/audio_streams:=
 	media-sound/cras-sys:=
 "
+
+RDEPEND="!<=media-sound/libcras-0.1.0-r21"
 
 src_unpack() {
 	cros-workon_src_unpack

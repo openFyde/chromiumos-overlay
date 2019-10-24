@@ -15,9 +15,10 @@ DESCRIPTION="Crate provides a basic interface for playing audio."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/master/audio_streams"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="~*"
 IUSE="test"
+
+RDEPEND="!<=media-sound/audio_streams-0.1.0-r7"
 
 src_unpack() {
 	cros-workon_src_unpack
