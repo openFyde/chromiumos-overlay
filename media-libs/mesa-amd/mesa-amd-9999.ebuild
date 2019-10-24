@@ -73,6 +73,7 @@ RDEPEND="
 	${LIBDRM_DEPSTRING}
 	!media-libs/mesa
 	!media-libs/mesa-radeonsi
+	!media-libs/libva-amdgpu-driver
 "
 
 DEPEND="${RDEPEND}
@@ -202,6 +203,7 @@ src_configure() {
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
+		-Dva-libs-path="/usr/$(get_libdir)/va/drivers"
 	)
 
 	meson_src_configure

@@ -6,7 +6,7 @@ EAPI=6
 
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="b43b55d4619489e603780adf3c92a36dadcc362b"
+CROS_WORKON_COMMIT="877417918f6086baf1dd53a03b7808820e800ced"
 CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
@@ -75,6 +75,7 @@ RDEPEND="
 	${LIBDRM_DEPSTRING}
 	!media-libs/mesa
 	!media-libs/mesa-radeonsi
+	!media-libs/libva-amdgpu-driver
 "
 
 DEPEND="${RDEPEND}
@@ -106,20 +107,11 @@ src_prepare() {
 			-e "s/-DHAVE_POSIX_MEMALIGN//" \
 			configure.ac || die
 	fi
-
-	epatch "${FILESDIR}"/18.3-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
-	epatch "${FILESDIR}"/intel-Add-support-for-Comet-Lake.patch
-	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
-	epatch "${FILESDIR}"/19.0-radeonsi-gfx9-honor-user-stride-for-imported-buffers.patch
-	epatch "${FILESDIR}"/0001-GL_MESA_framebuffer_flip_y-include-GLES2-Sync-GLES2-headers-with-Khronos.patch
-	epatch "${FILESDIR}"/0002-GL_MESA_framebuffer_flip_y-mesa-GetFramebufferParameteriv-spelling.patch
-	epatch "${FILESDIR}"/0003-GL_MESA_framebuffer_flip_y-mesa-Allow-MESA_framebuffer_flip_y-for-GLES-3.patch
-	epatch "${FILESDIR}"/0004-GL_MESA_framebuffer_flip_y-gallium-Enable-MESA_framebuffer_flip_y.patch
-	epatch "${FILESDIR}"/0005-GL_MESA_framebuffer_flip_y-st-mesa-Fix-inverted-polygon-stipple-condition.patch
-	epatch "${FILESDIR}"/19.0-vl-Add-cropping-flags-for-H264.patch
-	epatch "${FILESDIR}"/19.0-radeon-vce-Add-support-for-frame_cropping_flag-of-VA.patch
-	epatch "${FILESDIR}"/19.0-st-va-enc-Add-support-for-frame_cropping_flag-of-VAE.patch
-	epatch "${FILESDIR}"/19.0-winsys-amdgpu-Restrict-allocation-to-GTT-for-small-v.patch
+	epatch "${FILESDIR}"/19.3-include-GLES2-Sync-GLES2-headers-with-Khronos.patch
+	epatch "${FILESDIR}"/19.3-mesa-GetFramebufferParameteriv-spelling.patch
+	epatch "${FILESDIR}"/19.3-mesa-Allow-MESA_framebuffer_flip_y-for-GLES-3.patch
+	epatch "${FILESDIR}"/19.3-gallium-Enable-MESA_framebuffer_flip_y.patch
+	epatch "${FILESDIR}"/19.3-st-mesa-Fix-inverted-polygon-stipple-condition.patch
 
 	default
 }
@@ -216,6 +208,7 @@ src_configure() {
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
+		-Dva-libs-path="/usr/$(get_libdir)/va/drivers"
 	)
 
 	meson_src_configure

@@ -1,4 +1,4 @@
-From 90d312591ca6ede95d7d79a4721ebcf7195a0004 Mon Sep 17 00:00:00 2001
+From ac0f6cd2bdea1166baa9e574e29d7fe56b708ddc Mon Sep 17 00:00:00 2001
 From: Kenneth Graunke <kenneth@whitecape.org>
 Date: Tue, 8 Oct 2019 15:20:19 -0700
 Subject: [PATCH 5/5] st/mesa: Fix inverted polygon stipple condition
@@ -13,7 +13,7 @@ Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/mesa/state_tracker/st_atom_stipple.c b/src/mesa/state_tracker/st_atom_stipple.c
-index 3437553c154..86a4247f326 100644
+index 3437553c154f..86a4247f3269 100644
 --- a/src/mesa/state_tracker/st_atom_stipple.c
 +++ b/src/mesa/state_tracker/st_atom_stipple.c
 @@ -74,7 +74,7 @@ st_update_polygon_stipple( struct st_context *st )
@@ -26,5 +26,5 @@ index 3437553c154..86a4247f326 100644
        } else {
           invert_stipple(newStipple.stipple, ctx->PolygonStipple,
 -- 
-2.23.0.581.g78d2f28ef7-goog
+2.21.0
 

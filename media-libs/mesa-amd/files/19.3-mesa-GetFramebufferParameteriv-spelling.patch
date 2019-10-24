@@ -1,4 +1,4 @@
-From 59796bf4a5e15920b868e745015e5c255a95bdd8 Mon Sep 17 00:00:00 2001
+From aba934845388ff211b94ec88a7213ff5cfff49e0 Mon Sep 17 00:00:00 2001
 From: Fritz Koenig <frkoenig@google.com>
 Date: Mon, 7 Oct 2019 11:15:03 -0700
 Subject: [PATCH 2/5] mesa: GetFramebufferParameteriv spelling
@@ -13,7 +13,7 @@ Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
  2 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/src/mapi/glapi/gen/apiexec.py b/src/mapi/glapi/gen/apiexec.py
-index e2fc124be22..4f9229d5fcd 100644
+index e2fc124be22a..4f9229d5fcd9 100644
 --- a/src/mapi/glapi/gen/apiexec.py
 +++ b/src/mapi/glapi/gen/apiexec.py
 @@ -148,7 +148,7 @@ functions = {
@@ -26,10 +26,10 @@ index e2fc124be22..4f9229d5fcd 100644
      # OpenGL 4.5 / GL_ARB_direct_state_access.   Mesa can expose the extension
      # with core profile.
 diff --git a/src/mapi/glapi/gen/gl_API.xml b/src/mapi/glapi/gen/gl_API.xml
-index 929e5f6b024..9ee91a4a6fb 100644
+index c5e6a066ac65..a804e850f468 100644
 --- a/src/mapi/glapi/gen/gl_API.xml
 +++ b/src/mapi/glapi/gen/gl_API.xml
-@@ -10908,12 +10908,12 @@
+@@ -10932,12 +10932,12 @@
  
      <enum name="FRAMEBUFFER_PROGRAMMABLE_SAMPLE_LOCATIONS_ARB" value="0x9342">
          <size name="FramebufferParameteri"/>
@@ -44,7 +44,7 @@ index 929e5f6b024..9ee91a4a6fb 100644
      </enum>
  
      <function name="FramebufferSampleLocationsfvARB" no_error="true">
-@@ -10960,12 +10960,12 @@
+@@ -10984,12 +10984,12 @@
  
      <enum name="FRAMEBUFFER_PROGRAMMABLE_SAMPLE_LOCATIONS_NV" value="0x9342" alias="FRAMEBUFFER_PROGRAMMABLE_SAMPLE_LOCATIONS_ARB">
          <size name="FramebufferParameteri"/>
@@ -60,5 +60,5 @@ index 929e5f6b024..9ee91a4a6fb 100644
  
      <function name="FramebufferSampleLocationsfvNV" no_error="true" es2="3.1" alias="FramebufferSampleLocationsfvARB">
 -- 
-2.23.0.581.g78d2f28ef7-goog
+2.21.0
 
