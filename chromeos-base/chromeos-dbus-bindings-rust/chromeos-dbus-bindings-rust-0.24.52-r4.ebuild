@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="467467e6900b16ba8edd09704d27d3f4e5d3acc9"
+CROS_WORKON_COMMIT="8edb5aa979eae46e76d47e77a80901af08d7a180"
 CROS_WORKON_TREE="ac4a8094dbb10410131913ea4dfac609e15f3919"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="chromeos-dbus-bindings"
 
 inherit cros-workon cros-rust
 
-RUST_CRATE="chromeos_dbus_bindings"
+CROS_RUST_CRATE_NAME="chromeos_dbus_bindings"
 DESCRIPTION="Chrome OS D-Bus bindings generator for Rust."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-dbus-bindings/"
 
@@ -37,16 +37,4 @@ src_test() {
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
-}
-
-src_install() {
-	cros-rust_publish "${RUST_CRATE}" "$(cros-rust_get_crate_version)"
-}
-
-pkg_postinst() {
-	cros-rust_pkg_postinst "${RUST_CRATE}"
-}
-
-pkg_prerm() {
-	cros-rust_pkg_prerm "${RUST_CRATE}"
 }
