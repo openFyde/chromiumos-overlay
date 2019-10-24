@@ -203,6 +203,13 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_InvalidUSB
 	+tests_firmware_LegacyRecovery
 	+tests_firmware_Mosys
+	+tests_firmware_PDConnect
+	+tests_firmware_PDDataSwap
+	+tests_firmware_PDPowerSwap
+	+tests_firmware_PDResetHard
+	+tests_firmware_PDResetSoft
+	+tests_firmware_PDTrySrc
+	+tests_firmware_PDVbusRequest
 	+tests_firmware_RecoveryButton
 	+tests_firmware_RecoveryCacheBootKeys
 	+tests_firmware_RollbackFirmware
