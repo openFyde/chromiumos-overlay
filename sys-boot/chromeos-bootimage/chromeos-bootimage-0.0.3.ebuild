@@ -19,7 +19,7 @@ BOARDS="${BOARDS} nautilus nocturne octopus panther parrot peppy poppy puff pyro
 BOARDS="${BOARDS} rambi rammus reef samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
 IUSE="${BOARDS} altfw diag_payload seabios wilco_ec"
-IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
+IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec +bmpblk"
 
 REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
@@ -34,7 +34,6 @@ DEPEND="
 	unibuild? ( chromeos-base/chromeos-config )
 	u-boot? ( sys-boot/u-boot )
 	cros_ec? ( chromeos-base/chromeos-ec )
-	pd_sync? ( chromeos-base/chromeos-ec )
 	"
 
 # Directory where the generated files are looked for and placed.
@@ -411,11 +410,6 @@ build_images() {
 			add_ec "${depthcharge_config}" "${coreboot_file}" "ecrw" "${froot}"
 			add_ec "${depthcharge_config}" "${coreboot_file}.serial" "ecrw" "${froot}"
 		fi
-	fi
-
-	if use pd_sync; then
-		add_ec "${depthcharge_config}" "${coreboot_file}" "pdrw" "${froot}/${PD_FIRMWARE}"
-		add_ec "${depthcharge_config}" "${coreboot_file}.serial" "pdrw" "${froot}/${PD_FIRMWARE}"
 	fi
 
 	if use altfw; then
