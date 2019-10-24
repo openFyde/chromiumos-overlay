@@ -178,6 +178,20 @@ src_prepare() {
 	epatch "${FILESDIR}"/FROMLIST-meson-i965-Link-with-android.patch
 	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson-depend-on-libnativewindow-when-ap.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-drm-uapi-Update-headers-for-fp16-formats.patch
+	epatch "${FILESDIR}"/BACKPORT-i965-Add-helper-function-for-allowed-config.patch
+	epatch "${FILESDIR}"/UPSTREAM-dri-Add-config-attributes-for-color-channel.patch
+	epatch "${FILESDIR}"/UPSTREAM-util-move-bitcount-to-bitscan.h.patch
+	epatch "${FILESDIR}"/BACKPORT-egl-Convert-configs-to-use-shifts-and-sizes.patch
+	epatch "${FILESDIR}"/UPSTREAM-glx-Add-fields-for-color-shifts.patch
+	epatch "${FILESDIR}"/BACKPORT-dri-Handle-configs-with-floating-point-pixe.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-Handle-dri-configs-with-floating-point-.patch
+	epatch "${FILESDIR}"/BACKPORT-dri-Add-fp16-formats.patch
+	epatch "${FILESDIR}"/UPSTREAM-gbm-Add-buffer-handling-and-visuals-for-fp1.patch
+	epatch "${FILESDIR}"/BACKPORT-i965-Add-handling-for-fp16-configs.patch
+	if ! use android-container-nyc; then
+		epatch "${FILESDIR}"/UPSTREAM-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_FP.patch
+	fi
 	default
 }
 
