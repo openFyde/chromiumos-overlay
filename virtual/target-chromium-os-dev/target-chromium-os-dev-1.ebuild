@@ -40,7 +40,7 @@ CROS_X86_RDEPEND="
 	sys-apps/pciutils
 	sys-boot/syslinux
 	vaapi? ( media-gfx/vadumpcaps media-video/libva-utils )
-	video_cards_intel? ( x11-apps/intel-gpu-tools )
+	video_cards_intel? ( x11-apps/igt-gpu-tools )
 "
 
 RDEPEND="
