@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-inherit eutils flag-o-matic toolchain-funcs multilib multilib-minimal
+inherit eutils flag-o-matic toolchain-funcs multilib multilib-minimal cros-sanitizers
 
 # openssl-1.0.2-patches-1.6 contain additional CVE patches
 # which got fixed with this release.
@@ -148,6 +148,9 @@ src_prepare() {
 	append-flags -fno-strict-aliasing
 	append-flags $(test-flags-CC -Wa,--noexecstack)
 	append-cppflags -DOPENSSL_NO_BUF_FREELISTS
+
+	# Enable code coverage flags when requested
+	coverage-setup-env
 
 	# Add PURIFY=1 for msan builds, https://crbug.com/960520
 	use msan && append-cppflags "-DPURIFY=1"
