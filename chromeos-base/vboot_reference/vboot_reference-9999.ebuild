@@ -35,6 +35,8 @@ src_configure() {
 		}
 		sanitizers-setup-env
 	)
+	# Disable alignment sanitization, https://crbug.com/1015908 .
+	SANITIZER_CFLAGS+=" -fno-sanitize=alignment"
 }
 
 vemake() {
