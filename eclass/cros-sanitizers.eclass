@@ -76,7 +76,7 @@ msan-setup-env() {
 	use msan || return 0
 	# msan does not work with FORTIFY enabled.
 	append-cppflags "-U_FORTIFY_SOURCE"
-	append-flags "-fsanitize=memory"
+	append-flags "-fsanitize=memory -fsanitize-memory-track-origins"
 	append-ldflags "-fsanitize=memory"
 	sanitizer-add-blocklist "msan"
 }
