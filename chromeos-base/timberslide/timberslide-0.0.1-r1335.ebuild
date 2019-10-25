@@ -3,13 +3,14 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="03044bd948d4e2aa222e3550be3a0ddf28a515fe"
-CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "41c885be790f9197104c3d02eb3431a198cfe8ec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0fa84e461270d78304f704117b997fd222b499b2"
+CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "0d67210086590f2a65e886c0886bf3cbd7992361" "ea1b818da0938e4eb2458033b07448b3ae39110a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk timberslide .gn"
+# TODO(https://crbug.com/809389)
+CROS_WORKON_SUBTREE="common-mk metrics timberslide .gn"
 
 PLATFORM_SUBDIR="timberslide"
 
@@ -23,7 +24,10 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND="chromeos-base/libbrillo"
+RDEPEND="
+	chromeos-base/metrics
+	dev-libs/re2:=
+"
 
 DEPEND="${RDEPEND}"
 
