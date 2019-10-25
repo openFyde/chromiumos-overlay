@@ -48,6 +48,7 @@ src_install() {
 
 	# Fuzzer.
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firewall_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/port_tracker_fuzzer
 }
 
 platform_pkg_test() {
