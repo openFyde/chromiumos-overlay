@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/chromite"
 CROS_WORKON_LOCALNAME="../../chromite"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{2_7,3_6,3_7} )
 
 inherit cros-constants cros-workon python-r1
 
@@ -25,11 +25,17 @@ IUSE="cros_host"
 RESTRICT="test"
 
 src_install() {
-	use cros_host && return
-
 	install_python() {
 		# TODO(crbug.com/771085): Figure out this SYSROOT business.
 		local dir="$(python_get_sitedir | sed "s:^${SYSROOT}::")/chromite"
+
+		# For the SDK, we just install symlinks to the live code.
+		if use cros_host; then
+			dodir "${dir%/*}"
+			dosym "${CHROOT_SOURCE_ROOT}/chromite" "${dir}"
+			return
+		fi
+
 		insinto "${dir}"
 		doins -r "${S}"/*
 
