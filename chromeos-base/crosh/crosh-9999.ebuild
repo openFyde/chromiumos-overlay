@@ -15,7 +15,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosh/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="rust-crosh"
+IUSE="+rust-crosh"
 
 DEPEND="chromeos-base/system_api-rust:=
 	>=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
