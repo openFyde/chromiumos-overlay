@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -20,7 +20,6 @@ HOMEPAGE="http://www.chromium.org/developers/design-documents/chaps-technical-de
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="systemd test tpm tpm2 fuzzer"
 
@@ -28,25 +27,24 @@ REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="
 	!tpm2? (
-		app-crypt/trousers
+		app-crypt/trousers:=
 	)
 	tpm2? (
-		chromeos-base/trunks
+		chromeos-base/trunks:=
 	)
-	test? ( app-arch/gzip )
-	chromeos-base/minijail
-	chromeos-base/libbrillo
-	chromeos-base/metrics
+	chromeos-base/minijail:=
+	chromeos-base/metrics:=
 	!dev-db/leveldb
-	dev-libs/leveldb
+	dev-libs/leveldb:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 "
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api[fuzzer?]
+	test? ( app-arch/gzip )
+	chromeos-base/system_api:=[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator )
-	tpm2? ( chromeos-base/trunks[test?] )
+	tpm2? ( chromeos-base/trunks:=[test?] )
 	"
 
 src_install() {
