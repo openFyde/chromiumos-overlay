@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -15,7 +15,6 @@ DESCRIPTION="Container to run Android's removable-media daemon."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/removable-media"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="chromeos-base/mount-passthrough

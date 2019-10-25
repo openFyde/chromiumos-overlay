@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,18 +17,20 @@ DESCRIPTION="D-Bus service to provide ARC Appfuse"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/appfuse"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	chromeos-base/libbrillo
-	sys-apps/dbus
-	sys-fs/fuse
+	sys-apps/dbus:=
+	sys-fs/fuse:=
 "
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api
-	virtual/pkgconfig"
+	chromeos-base/system_api:=
+"
+
+BDEPEND="
+	virtual/pkgconfig
+"
 
 src_install() {
 	dobin "${OUT}/arc-appfuse-provider"

@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
@@ -28,15 +28,16 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/ke
 SRC_URI="https://github.com/google/${BORINGSSL_PN}/archive/${BORINGSSL_PV}.tar.gz -> ${BORINGSSL_P}.tar.gz"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="+seccomp"
 
 RDEPEND="
-	chromeos-base/libbrillo:=
-	chromeos-base/minijail"
+	chromeos-base/minijail
+"
 
-DEPEND="${RDEPEND}"
+DEPEND="
+	chromeos-base/system_api:=
+"
 
 HEADER_TAINT="#ifdef CHROMEOS_OPENSSL_IS_OPENSSL
 #error \"Do not mix OpenSSL and BoringSSL headers.\"
@@ -82,6 +83,7 @@ src_configure() {
 	local mycmakeargs=(
 		"-DCMAKE_BUILD_TYPE=Release"
 		"-DCMAKE_SYSTEM_PROCESSOR=${CHOST%%-*}"
+		"-DBUILD_SHARED_LIBS=OFF"
 	)
 	cmake-utils_src_configure
 	platform_src_configure

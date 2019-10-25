@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,12 +17,10 @@ inherit cros-workon libchrome platform user
 DESCRIPTION="ARC connectivity management daemon"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT=0
 KEYWORDS="~*"
 IUSE="fuzzer"
 
 COMMON_DEPEND="
-	chromeos-base/libbrillo
 	dev-libs/protobuf:=
 	net-libs/libndp
 "
@@ -35,9 +33,9 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/shill
-	chromeos-base/shill-client
-	chromeos-base/system_api[fuzzer?]
+	chromeos-base/shill:=
+	chromeos-base/shill-client:=
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 src_install() {

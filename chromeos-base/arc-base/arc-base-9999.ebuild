@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -15,7 +15,6 @@ DESCRIPTION="Container to run Android."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container-bundle"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 # TODO(b/73695883): Rename from android-container-master-arc-dev to
