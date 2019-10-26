@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="a435264dc7cb147e329b921f56fe551fa5da9ad0"
+CROS_WORKON_COMMIT="676316e2b2793fc35ff013e352e65b68eca29260"
 CROS_WORKON_TREE="e509681943a4a652c4575e6da2260621c04c8500"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -16,7 +16,6 @@ DESCRIPTION="Infrastructure for clients to emit trace events."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trace_events/"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="test"
 
@@ -24,6 +23,8 @@ DEPEND="=dev-rust/libc-0.2*:=
 	=dev-rust/criterion-0.2*:=
 	>=dev-rust/serde_json-1:=
 "
+
+RDEPEND="!<=dev-rust/trace_events-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

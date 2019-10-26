@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="301583c01a64cecdf2e96b66c14442f7b0122f49"
+CROS_WORKON_COMMIT="8a7e4e902a4950b060ea23b40c0dfce7bfa1b2cb"
 CROS_WORKON_TREE="b07ca21e719f39bce322e5e5ee98d60c4b53c0a2"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -17,13 +17,14 @@ DESCRIPTION="Crates includes traits and types for safe interaction with raw memo
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/data_model"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
 	dev-rust/assertions:=
 "
+
+RDEPEND="!dev-rust/data_model:0.1.0/r12"
 
 src_unpack() {
 	cros-workon_src_unpack

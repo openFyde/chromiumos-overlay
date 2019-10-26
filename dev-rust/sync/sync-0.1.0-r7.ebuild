@@ -3,27 +3,28 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="967c2f2c9bce9e177f0eea3f1bb73d35d9c95922"
-CROS_WORKON_TREE="dbe587d866956d88c4445de8a9380cca33c6a231"
+CROS_WORKON_COMMIT="8a7e4e902a4950b060ea23b40c0dfce7bfa1b2cb"
+CROS_WORKON_TREE="28852483b877a051ca092e4b811f8831872c49b0"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="assertions"
+CROS_WORKON_SUBTREE="sync"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="Crates for compile-time assertion macro."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/assertions"
+DESCRIPTION="Containing a type sync::Mutex which wraps the standard library Mutex and mirrors the same methods"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sync"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="test"
 
+RDEPEND="!<=dev-rust/sync-0.1.0-r6"
+
 src_unpack() {
 	cros-workon_src_unpack
-	S+="/assertions"
+	S+="/sync"
 
 	cros-rust_src_unpack
 }

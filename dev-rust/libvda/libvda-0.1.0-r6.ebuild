@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="84560ed00ea89cec7819c8b471b591b27a304fde"
+CROS_WORKON_COMMIT="676316e2b2793fc35ff013e352e65b68eca29260"
 CROS_WORKON_TREE="22f71da79733ade2a95a7a0e1cf627e7149ead7a"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,12 +17,12 @@ DESCRIPTION="Rust wrapper for chromeos-base/libvda"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/libvda/rust"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="test"
 
 RDEPEND="
 	chromeos-base/libvda:=
+	!<=dev-rust/libvda-0.0.1-r5
 "
 
 DEPEND="

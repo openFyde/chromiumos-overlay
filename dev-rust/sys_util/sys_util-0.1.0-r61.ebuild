@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="92568c9c27c68382f7b9145513050fda3109c920"
+CROS_WORKON_COMMIT="8a7e4e902a4950b060ea23b40c0dfce7bfa1b2cb"
 CROS_WORKON_TREE="e6e8f641de6c44d93e58eae940e66ed0650c5cf7"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -17,12 +17,12 @@ DESCRIPTION="Small system utility modules for usage by other modules."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sys_util"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="test"
 
 RDEPEND="
 	sys-libs/libcap:=
+	!<=dev-rust/sys_util-0.1.0-r60
 "
 DEPEND="
 	${RDEPEND}
@@ -82,3 +82,4 @@ pkg_prerm() {
 	cros-rust_pkg_prerm poll_token_derive
 	cros-rust_pkg_prerm
 }
+

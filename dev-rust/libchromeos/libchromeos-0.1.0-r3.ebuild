@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="ebade0d619e8b0e26adc3b19b47224c98a6fd32e"
+CROS_WORKON_COMMIT="676316e2b2793fc35ff013e352e65b68eca29260"
 CROS_WORKON_TREE="0eda50c11ced2c3a523eb3371116b892d469fa9a"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -16,7 +16,6 @@ DESCRIPTION="A Rust utility library for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libchromeos-rs/"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="test"
 
@@ -28,6 +27,8 @@ DEPEND="chromeos-base/system_api
 	>=dev-rust/protobuf-2.1:=
 	!>=dev-rust/protobuf-3.0:=
 "
+
+RDEPEND="!<=dev-rust/libchromeos-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

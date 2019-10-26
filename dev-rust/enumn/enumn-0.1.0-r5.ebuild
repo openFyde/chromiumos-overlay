@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="a5d248c86382a255c84a2592db67f6ef9887b2a1"
+CROS_WORKON_COMMIT="8a7e4e902a4950b060ea23b40c0dfce7bfa1b2cb"
 CROS_WORKON_TREE="d80b17140cf1a3c017ff4d6679768cf454242597"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -17,7 +17,6 @@ DESCRIPTION="Convert number to enum"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/enumn"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="test"
 
@@ -26,6 +25,8 @@ DEPEND="
 	=dev-rust/quote-0.6*
 	=dev-rust/syn-0.15*
 "
+
+RDEPEND="!<=dev-rust/enumn-0.0.1-r4"
 
 src_unpack() {
 	cros-workon_src_unpack

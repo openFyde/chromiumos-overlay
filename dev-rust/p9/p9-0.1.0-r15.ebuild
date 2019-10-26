@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="a435264dc7cb147e329b921f56fe551fa5da9ad0"
+CROS_WORKON_COMMIT="676316e2b2793fc35ff013e352e65b68eca29260"
 CROS_WORKON_TREE="bec46cea39f1ad5bcbea6a46a5761d866f125e4e"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,7 +17,6 @@ DESCRIPTION="Server implementation of the 9P file system protocol"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/p9/"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="fuzzer test"
 
@@ -28,6 +27,8 @@ DEPEND="
 	~dev-rust/syn-0.15.21:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
+
+RDEPEND="!<=dev-rust/p9-0.1.0-r14"
 
 get_crate_version() {
 	local crate="$1"

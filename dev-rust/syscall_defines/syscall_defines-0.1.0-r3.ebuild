@@ -1,37 +1,30 @@
-# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="92568c9c27c68382f7b9145513050fda3109c920"
-CROS_WORKON_TREE="5b534e005508aab07c044f866ed002dcddb413ef"
+CROS_WORKON_COMMIT="8a7e4e902a4950b060ea23b40c0dfce7bfa1b2cb"
+CROS_WORKON_TREE="0a6ad1e73bbdc75f3fdb52e8d2934793246f4807"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
+CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="tempfile"
+CROS_WORKON_SUBTREE="syscall_defines"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="A library for managing temporary files and directories"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/tempfile"
+DESCRIPTION="Linux syscall defines."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/syscall_defines"
 
 LICENSE="BSD-Google"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="test"
 
-DEPEND="
-	=dev-rust/cfg-if-0.1*:=
-	>=dev-rust/libc-0.2.27:=
-	=dev-rust/rand-0.6*:=
-	=dev-rust/redox_syscall-0.1*:=
-	=dev-rust/remove_dir_all-0.5*:=
-	=dev-rust/winapi-0.3*:=
-"
+RDEPEND="!<=dev-rust/syscall_defines-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack
-	S+="/tempfile"
+	S+="/syscall_defines"
 
 	cros-rust_src_unpack
 }
