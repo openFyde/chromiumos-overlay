@@ -1,0 +1,41 @@
+From a1a567211828731f263c977865b51832f90f15ea Mon Sep 17 00:00:00 2001
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Wed, 25 Sep 2019 10:44:44 -0700
+Subject: [PATCH 1/1] virgl: honor winsys supplied metadata
+
+To truly to do this correctly, we'll have to fix the discrepancy between
+drm_virtgpu_3d_transfer_to_host and virtio_gpu_transfer_host_3d. However,
+this is a good starting point.
+
+Since virtio-gpu only supports self-import and export, this should be fine.
+Let's only do WINSYS_HANDLE_TYPE_FD for this currently.
+
+Reviewed by: Robert Tarasov <tutankhamen@chromium.org>
+---
+ src/gallium/winsys/virgl/drm/virgl_drm_winsys.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c b/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c
+index 01e1f51d7574..0fe61bbe4659 100644
+--- a/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c
++++ b/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c
+@@ -313,10 +313,15 @@ virgl_drm_winsys_resource_create_handle(struct virgl_winsys *qws,
+    struct virgl_hw_res *res = NULL;
+    uint32_t handle = whandle->handle;
+ 
+-   if (whandle->offset != 0) {
++   if (whandle->offset != 0 && whandle->type == WINSYS_HANDLE_TYPE_SHARED) {
+       _debug_printf("attempt to import unsupported winsys offset %u\n",
+                     whandle->offset);
+       return NULL;
++   } else if (whandle->type == WINSYS_HANDLE_TYPE_FD) {
++      *plane = whandle->plane;
++      *stride = whandle->stride;
++      *plane_offset = whandle->offset;
++      *modifier = whandle->modifier;
+    }
+ 
+    mtx_lock(&qdws->bo_handles_mutex);
+-- 
+2.24.0.rc0.303.g954a862665-goog
+

@@ -148,7 +148,18 @@ src_prepare() {
 		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
 	fi
 
-	epatch "${FILESDIR}"/CHROMIUM-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch
+	epatch "${FILESDIR}"/UPSTREAM-state_tracker-winsys_handle-Add-plane-input-field.patch
+	epatch "${FILESDIR}"/UPSTREAM-gallium-screen-Add-pipe_screen-resource_get_param.patch
+	epatch "${FILESDIR}"/UPSTREAM-gallium-dri2-Support-images-with-multiple-planes-for.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-remove-stride-from-virgl_hw_res.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-modify-resource_create_from_handle-.-callback.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-modify-internal-structures-to-track-winsys-sup.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-replace-fprintf-with-_debug_printf.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-honor-winsys-supplied-metadata.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Remove-our-own-reference-to-buffers.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-Remove-formats-with-unusual-sample-count.patch
+	epatch "${FILESDIR}"/UPSTREAM-meson-Do-not-use-GLX_USE_TLS-on-Android.patch
+	epatch "${FILESDIR}"/UPSTREAM-mapi-Adapted-libglvnd-x86-tsd-changes.patch
 
 	default
 }

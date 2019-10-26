@@ -1,0 +1,38 @@
+From d7ca1efc6c814947af5b0a0c75b40673b61c31c4 Mon Sep 17 00:00:00 2001
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Sat, 3 Aug 2019 18:13:52 +0200
+Subject: [PATCH 1/1] meson: Do not use GLX_USE_TLS on Android.
+
+The asm code expects a specific kind of implementation, but Android
+uses something different (emutls).
+
+Turns out mesa has a fallback with pthread_getspecific, with an
+optimizaiton if only a single thread is used. emutls also uses
+getspecific, so lets just use the optimized mesa implementation.
+
+Fixes: 20294dceebc "mesa: Enable asm unconditionally, now that gen_matypes is gone."
+Reviewed-by: Eric Engestrom <eric.engestrom@intel.com>
+---
+ meson.build | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 7e8fee2ee2a1..2ca672e492f9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -375,7 +375,11 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
+   endif
+ endif
+ 
+-pre_args += '-DGLX_USE_TLS'
++# Android uses emutls for versions <= P/28. For GLX_USE_TLS we need ELF TLS.
++if not with_platform_android or get_option('platform-sdk-version') >= 29
++  pre_args += '-DGLX_USE_TLS'
++endif
++
+ if with_glx != 'disabled'
+   if not (with_platform_x11 and with_any_opengl)
+     error('Cannot build GLX support without X11 platform support and at least one OpenGL API')
+-- 
+2.24.0.rc0.303.g954a862665-goog
+

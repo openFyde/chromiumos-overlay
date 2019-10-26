@@ -1,0 +1,56 @@
+From ac175fb1683c111d791e0cf6880abd07daf8943d Mon Sep 17 00:00:00 2001
+From: Lepton Wu <lepton@chromium.org>
+Date: Thu, 12 Sep 2019 10:36:11 -0700
+Subject: [PATCH 1/1] virgl: replace fprintf with _debug_printf
+
+Signed-off-by: Lepton Wu <lepton@chromium.org>
+Reviewed-by: Gurchetan Singh <gurchetansingh@chromium.org>
+---
+ src/gallium/winsys/virgl/drm/virgl_drm_winsys.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c b/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c
+index c3509aef49ca..8f557bd06c14 100644
+--- a/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c
++++ b/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c
+@@ -311,8 +311,8 @@ virgl_drm_winsys_resource_create_handle(struct virgl_winsys *qws,
+    uint32_t handle = whandle->handle;
+ 
+    if (whandle->offset != 0) {
+-      fprintf(stderr, "attempt to import unsupported winsys offset %u\n",
+-              whandle->offset);
++      _debug_printf("attempt to import unsupported winsys offset %u\n",
++                    whandle->offset);
+       return NULL;
+    }
+ 
+@@ -539,7 +539,7 @@ static void virgl_drm_add_res(struct virgl_drm_winsys *qdws,
+                               cbuf->nres * sizeof(struct virgl_hw_buf*),
+                               new_nres * sizeof(struct virgl_hw_buf*));
+       if (!new_ptr) {
+-          fprintf(stderr,"failure to add relocation %d, %d\n", cbuf->cres, new_nres);
++          _debug_printf("failure to add relocation %d, %d\n", cbuf->cres, new_nres);
+           return;
+       }
+       cbuf->res_bo = new_ptr;
+@@ -548,7 +548,7 @@ static void virgl_drm_add_res(struct virgl_drm_winsys *qdws,
+                         cbuf->nres * sizeof(uint32_t),
+                         new_nres * sizeof(uint32_t));
+       if (!new_ptr) {
+-          fprintf(stderr,"failure to add hlist relocation %d, %d\n", cbuf->cres, cbuf->nres);
++          _debug_printf("failure to add hlist relocation %d, %d\n", cbuf->cres, cbuf->nres);
+           return;
+       }
+       cbuf->res_hlist = new_ptr;
+@@ -734,7 +734,7 @@ static int virgl_drm_winsys_submit_cmd(struct virgl_winsys *qws,
+ 
+    ret = drmIoctl(qdws->fd, DRM_IOCTL_VIRTGPU_EXECBUFFER, &eb);
+    if (ret == -1)
+-      fprintf(stderr,"got error from kernel - expect bad rendering %d\n", errno);
++      _debug_printf("got error from kernel - expect bad rendering %d\n", errno);
+    cbuf->base.cdw = 0;
+ 
+    if (qws->supports_fences) {
+-- 
+2.24.0.rc0.303.g954a862665-goog
+

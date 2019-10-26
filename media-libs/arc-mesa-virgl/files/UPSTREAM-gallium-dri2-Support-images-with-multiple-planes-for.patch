@@ -1,0 +1,105 @@
+From 2decad495f36c0d9c952e47ff672c14a0dab8df1 Mon Sep 17 00:00:00 2001
+From: Jordan Justen <jordan.l.justen@intel.com>
+Date: Mon, 24 Jun 2019 10:39:03 -0700
+Subject: [PATCH 1/1] gallium/dri2: Support images with multiple planes for
+ modifiers
+
+Signed-off-by: Jordan Justen <jordan.l.justen@intel.com>
+Reviewed-by: Kenneth Graunke <kenneth@whitecape.org>
+Acked-by: Eric Anholt <eric@anholt.net>
+---
+ src/gallium/state_trackers/dri/dri2.c       | 35 +++++++++++++++++++--
+ src/gallium/state_trackers/dri/dri_screen.h |  1 +
+ 2 files changed, 33 insertions(+), 3 deletions(-)
+
+diff --git a/src/gallium/state_trackers/dri/dri2.c b/src/gallium/state_trackers/dri/dri2.c
+index ac842ddf756d..4b4ab3196c29 100644
+--- a/src/gallium/state_trackers/dri/dri2.c
++++ b/src/gallium/state_trackers/dri/dri2.c
+@@ -907,6 +907,7 @@ dri2_create_image_from_fd(__DRIscreen *_screen,
+       whandles[i].stride = (unsigned)strides[index];
+       whandles[i].offset = (unsigned)offsets[index];
+       whandles[i].modifier = modifier;
++      whandles[i].plane = i;
+    }
+ 
+    img = dri2_create_image_from_winsys(_screen, width, height, map,
+@@ -1063,6 +1064,7 @@ dri2_query_image_by_resource_handle(__DRIimage *image, int attrib, int *value)
+    struct winsys_handle whandle;
+    unsigned usage;
+    memset(&whandle, 0, sizeof(whandle));
++   whandle.plane = image->plane;
+ 
+    switch (attrib) {
+    case __DRI_IMAGE_ATTRIB_STRIDE:
+@@ -1124,6 +1126,18 @@ dri2_query_image_by_resource_handle(__DRIimage *image, int attrib, int *value)
+    }
+ }
+ 
++static bool
++dri2_resource_get_param(__DRIimage *image, enum pipe_resource_param param,
++                        uint64_t *value)
++{
++   struct pipe_screen *pscreen = image->texture->screen;
++   if (!pscreen->resource_get_param)
++      return false;
++
++   return pscreen->resource_get_param(pscreen, image->texture, image->plane,
++                                      param, value);
++}
++
+ static GLboolean
+ dri2_query_image(__DRIimage *image, int attrib, int *value)
+ {
+@@ -1223,11 +1237,25 @@ dri2_from_planar(__DRIimage *image, int plane, void *loaderPrivate)
+ {
+    __DRIimage *img;
+ 
+-   if (plane != 0)
++   if (plane < 0) {
+       return NULL;
++   } else if (plane > 0) {
++      uint64_t planes;
++      if (!dri2_resource_get_param(image, PIPE_RESOURCE_PARAM_NPLANES,
++                                   &planes) ||
++          plane >= planes) {
++         return NULL;
++      }
++   }
+ 
+-   if (image->dri_components == 0)
+-      return NULL;
++   if (image->dri_components == 0) {
++      uint64_t modifier;
++      if (!dri2_resource_get_param(image, PIPE_RESOURCE_PARAM_MODIFIER,
++                                   &modifier) ||
++          modifier == DRM_FORMAT_MOD_INVALID) {
++         return NULL;
++      }
++   }
+ 
+    img = dri2_dup_image(image, loaderPrivate);
+    if (img == NULL)
+@@ -1239,6 +1267,7 @@ dri2_from_planar(__DRIimage *image, int plane, void *loaderPrivate)
+ 
+    /* set this to 0 for sub images. */
+    img->dri_components = 0;
++   img->plane = plane;
+    return img;
+ }
+ 
+diff --git a/src/gallium/state_trackers/dri/dri_screen.h b/src/gallium/state_trackers/dri/dri_screen.h
+index 85372cb97c88..f16715dee563 100644
+--- a/src/gallium/state_trackers/dri/dri_screen.h
++++ b/src/gallium/state_trackers/dri/dri_screen.h
+@@ -105,6 +105,7 @@ struct __DRIimageRec {
+    uint32_t dri_fourcc;
+    uint32_t dri_components;
+    unsigned use;
++   unsigned plane;
+ 
+    void *loader_private;
+ 
+-- 
+2.24.0.rc0.303.g954a862665-goog
+

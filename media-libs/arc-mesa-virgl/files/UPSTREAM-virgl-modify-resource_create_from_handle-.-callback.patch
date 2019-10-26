@@ -1,0 +1,79 @@
+From aad4127c41b70981f5c8a5aad6e3d7922a812ccb Mon Sep 17 00:00:00 2001
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Wed, 25 Sep 2019 10:06:23 -0700
+Subject: [PATCH 1/1] virgl: modify resource_create_from_handle(..) callback
+
+This commit makes no functional changes, just adds the revelant
+plumbing.
+
+Reviewed by: Robert Tarasov <tutankhamen@chromium.org>
+---
+ src/gallium/drivers/virgl/virgl_resource.c      | 9 ++++++++-
+ src/gallium/drivers/virgl/virgl_winsys.h        | 6 +++++-
+ src/gallium/winsys/virgl/drm/virgl_drm_winsys.c | 6 +++++-
+ 3 files changed, 18 insertions(+), 3 deletions(-)
+
+diff --git a/src/gallium/drivers/virgl/virgl_resource.c b/src/gallium/drivers/virgl/virgl_resource.c
+index ca4db39dab1f..530f8e57fe79 100644
+--- a/src/gallium/drivers/virgl/virgl_resource.c
++++ b/src/gallium/drivers/virgl/virgl_resource.c
+@@ -507,6 +507,8 @@ static struct pipe_resource *virgl_resource_from_handle(struct pipe_screen *scre
+                                                         struct winsys_handle *whandle,
+                                                         unsigned usage)
+ {
++   uint32_t winsys_stride, plane_offset, plane;
++   uint64_t modifier;
+    struct virgl_screen *vs = virgl_screen(screen);
+    if (templ->target == PIPE_BUFFER)
+       return NULL;
+@@ -517,7 +519,12 @@ static struct pipe_resource *virgl_resource_from_handle(struct pipe_screen *scre
+    pipe_reference_init(&res->u.b.reference, 1);
+    virgl_resource_layout(&res->u.b, &res->metadata);
+ 
+-   res->hw_res = vs->vws->resource_create_from_handle(vs->vws, whandle);
++   plane = winsys_stride = plane_offset = modifier = 0;
++   res->hw_res = vs->vws->resource_create_from_handle(vs->vws, whandle,
++                                                      &plane,
++                                                      &winsys_stride,
++                                                      &plane_offset,
++                                                      &modifier);
+    if (!res->hw_res) {
+       FREE(res);
+       return NULL;
+diff --git a/src/gallium/drivers/virgl/virgl_winsys.h b/src/gallium/drivers/virgl/virgl_winsys.h
+index 9abfec6898bc..97885c999550 100644
+--- a/src/gallium/drivers/virgl/virgl_winsys.h
++++ b/src/gallium/drivers/virgl/virgl_winsys.h
+@@ -80,7 +80,11 @@ struct virgl_winsys {
+                                struct virgl_hw_res *res);
+ 
+    struct virgl_hw_res *(*resource_create_from_handle)(struct virgl_winsys *vws,
+-                                                       struct winsys_handle *whandle);
++                                                       struct winsys_handle *whandle,
++                                                       uint32_t *plane,
++                                                       uint32_t *stride,
++                                                       uint32_t *plane_offset,
++                                                       uint64_t *modifier);
+    boolean (*resource_get_handle)(struct virgl_winsys *vws,
+                                   struct virgl_hw_res *res,
+                                   uint32_t stride,
+diff --git a/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c b/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c
+index 741064a958cd..01e1f51d7574 100644
+--- a/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c
++++ b/src/gallium/winsys/virgl/drm/virgl_drm_winsys.c
+@@ -301,7 +301,11 @@ alloc:
+ 
+ static struct virgl_hw_res *
+ virgl_drm_winsys_resource_create_handle(struct virgl_winsys *qws,
+-                                        struct winsys_handle *whandle)
++                                        struct winsys_handle *whandle,
++                                        uint32_t *plane,
++                                        uint32_t *stride,
++                                        uint32_t *plane_offset,
++                                        uint64_t *modifier)
+ {
+    struct virgl_drm_winsys *qdws = virgl_drm_winsys(qws);
+    struct drm_gem_open open_arg = {};
+-- 
+2.24.0.rc0.303.g954a862665-goog
+

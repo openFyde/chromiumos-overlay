@@ -1,0 +1,55 @@
+From 45206d7673adb1484cbdb3eadaf82e0849c9cdcf Mon Sep 17 00:00:00 2001
+From: Jonathan Gray <jsg@openbsd.org>
+Date: Fri, 13 Sep 2019 10:09:15 -0700
+Subject: [PATCH 1/1] mapi: Adapted libglvnd x86 tsd changes
+
+The x86 assembly language stub in src/mapi/entry_x86_tsd.h does not
+generate PIC (position-independent code). This causes text relocations
+which bring troubles on recent versions of FreeBSD, OpenBSD, Android.
+
+Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=108541
+Reviewed-by: Matt Turner <mattst88@gmail.com>
+Signed-off-by: Lepton Wu <lepton@chromium.org>
+---
+ src/mapi/entry_x86_tsd.h | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/src/mapi/entry_x86_tsd.h b/src/mapi/entry_x86_tsd.h
+index 0c28c8ff068..bd8db7b19f9 100644
+--- a/src/mapi/entry_x86_tsd.h
++++ b/src/mapi/entry_x86_tsd.h
+@@ -31,7 +31,7 @@
+ #define HIDDEN
+ #endif
+ 
+-#define X86_ENTRY_SIZE 32
++#define X86_ENTRY_SIZE 64
+ 
+ __asm__(".text\n"
+         ".balign 32\n"
+@@ -44,12 +44,18 @@ __asm__(".text\n"
+    func ":"
+ 
+ #define STUB_ASM_CODE(slot)         \
+-   "movl " ENTRY_CURRENT_TABLE ", %eax\n\t" \
++   "push %ebx\n\t"                  \
++   "call 1f\n\t"                    \
++   "1:\n\t"                         \
++   "popl %ebx\n\t"                  \
++   "addl $_GLOBAL_OFFSET_TABLE_+[.-1b], %ebx\n\t" \
++   "movl " ENTRY_CURRENT_TABLE "@GOT(%ebx), %eax\n\t" \
++   "mov (%eax), %eax\n\t"           \
+    "testl %eax, %eax\n\t"           \
+-   "je 1f\n\t"                      \
+-   "jmp *(4 * " slot ")(%eax)\n"    \
++   "jne 1f\n\t"                     \
++   "call " ENTRY_CURRENT_TABLE_GET "@PLT\n\t" \
+    "1:\n\t"                         \
+-   "call " ENTRY_CURRENT_TABLE_GET "\n\t" \
++   "pop %ebx\n\t"                   \
+    "jmp *(4 * " slot ")(%eax)"
+ 
+ #define MAPI_TMP_STUB_ASM_GCC
+-- 
+2.24.0.rc1.363.gb1bccd3e3d-goog
+

@@ -1,0 +1,67 @@
+From 0346b70083311c65a55038d3e3829da551e229cb Mon Sep 17 00:00:00 2001
+From: Jordan Justen <jordan.l.justen@intel.com>
+Date: Thu, 1 Aug 2019 13:30:21 -0700
+Subject: [PATCH 1/1] gallium/screen: Add pipe_screen::resource_get_param
+
+This function retrieves individual parameters selected by enum
+pipe_resource_param. It can be used as a more direct alternative to
+pipe_screen::resource_get_handle.
+
+Signed-off-by: Jordan Justen <jordan.l.justen@intel.com>
+Reviewed-by: Kenneth Graunke <kenneth@whitecape.org>
+Acked-by: Eric Anholt <eric@anholt.net>
+---
+ src/gallium/include/pipe/p_defines.h | 15 +++++++++++++++
+ src/gallium/include/pipe/p_screen.h  | 10 ++++++++++
+ 2 files changed, 25 insertions(+)
+
+diff --git a/src/gallium/include/pipe/p_defines.h b/src/gallium/include/pipe/p_defines.h
+index 86cc9d80ac9f..0c79cac5cff1 100644
+--- a/src/gallium/include/pipe/p_defines.h
++++ b/src/gallium/include/pipe/p_defines.h
+@@ -1026,6 +1026,21 @@ enum pipe_compute_cap
+    PIPE_COMPUTE_CAP_MAX_VARIABLE_THREADS_PER_BLOCK,
+ };
+ 
++/**
++ * Resource parameters. They can be queried using
++ * pipe_screen::get_resource_param.
++ */
++enum pipe_resource_param
++{
++   PIPE_RESOURCE_PARAM_NPLANES,
++   PIPE_RESOURCE_PARAM_STRIDE,
++   PIPE_RESOURCE_PARAM_OFFSET,
++   PIPE_RESOURCE_PARAM_MODIFIER,
++   PIPE_RESOURCE_PARAM_HANDLE_TYPE_SHARED,
++   PIPE_RESOURCE_PARAM_HANDLE_TYPE_KMS,
++   PIPE_RESOURCE_PARAM_HANDLE_TYPE_FD,
++};
++
+ /**
+  * Types of parameters for pipe_context::set_context_param.
+  */
+diff --git a/src/gallium/include/pipe/p_screen.h b/src/gallium/include/pipe/p_screen.h
+index 9bd247722993..ac2087921d75 100644
+--- a/src/gallium/include/pipe/p_screen.h
++++ b/src/gallium/include/pipe/p_screen.h
+@@ -262,6 +262,16 @@ struct pipe_screen {
+                                struct winsys_handle *handle,
+                                unsigned usage);
+ 
++   /**
++    * Get info for the given pipe resource without the need to get a
++    * winsys_handle.
++    */
++   bool (*resource_get_param)(struct pipe_screen *screen,
++                              struct pipe_resource *resource,
++                              unsigned int plane,
++                              enum pipe_resource_param param,
++                              uint64_t *value);
++
+    /**
+     * Get stride and offset for the given pipe resource without the need to get
+     * a winsys_handle.
+-- 
+2.24.0.rc0.303.g954a862665-goog
+
