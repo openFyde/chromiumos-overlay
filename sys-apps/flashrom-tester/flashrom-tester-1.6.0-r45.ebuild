@@ -27,6 +27,8 @@ DEPEND=">=dev-rust/rand-0.6.4:=
 	=dev-rust/serde_json-1*:=
 "
 
+RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41"
+
 src_unpack() {
 	cros-workon_src_unpack
 	S=$S/$CROS_WORKON_SUBTREE
