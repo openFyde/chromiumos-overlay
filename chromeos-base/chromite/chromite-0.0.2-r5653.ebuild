@@ -1,7 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 CROS_WORKON_COMMIT="a8c4e3a48ffde94eb75630b0640328e4f62fbe59"
 CROS_WORKON_TREE="af52512f0b47e03cc6104428f0add1cb17f8f2d4"
 CROS_WORKON_PROJECT="chromiumos/chromite"
@@ -16,7 +16,6 @@ DESCRIPTION="Wrapper for running chromite unit tests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/chromite/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="cros_host"
 
