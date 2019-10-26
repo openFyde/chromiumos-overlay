@@ -22,7 +22,7 @@ DEPEND="
 	dev-rust/assertions:=
 "
 
-RDEPEND="!dev-rust/data_model:0.1.0/r12"
+RDEPEND="!!<=dev-rust/data_model-0.1.0-r13"
 
 src_unpack() {
 	cros-workon_src_unpack
