@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="c477ca80e3f628a08b331db379b7989a40c99ad9"
+CROS_WORKON_COMMIT="676316e2b2793fc35ff013e352e65b68eca29260"
 CROS_WORKON_TREE=("bfa2dfdfdc1fd669d4e14dc30d8f0fc82490bad9" "1967406d36d9b0d44aa22061af22e717bc9688f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -54,6 +54,8 @@ src_install() {
 	diropts --mode=0700 --owner=root --group=root
 	keepdir "${CONTAINER_DIR}"/mountpoints/
 	keepdir "${CONTAINER_DIR}"/mountpoints/container-root
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/mount-obb_fuzzer
 }
 
 platform_pkg_test() {
