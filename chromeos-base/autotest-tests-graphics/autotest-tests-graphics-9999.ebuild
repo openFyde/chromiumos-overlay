@@ -39,7 +39,6 @@ IUSE_TESTS="
 	+tests_graphics_GLAPICheck
 	+tests_graphics_GLBench
 	+tests_graphics_GLMark2
-	+tests_graphics_GpuReset
 	+tests_graphics_KernelConfig
 	+tests_graphics_KernelMemory
 	+tests_graphics_LibDRM
