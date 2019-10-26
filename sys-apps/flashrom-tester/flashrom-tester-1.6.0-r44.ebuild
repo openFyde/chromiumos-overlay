@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_COMMIT="2f8899e2864cf022d59046694d733c4cb4b787d7"
 CROS_WORKON_TREE="7eba230742f6afae2027ca678df4657e14d90f63"
@@ -17,7 +17,6 @@ DESCRIPTION="Utility for AVL qualification of SPI flash chips with flashrom"
 HOMEPAGE="https://www.flashrom.org/Flashrom"
 
 LICENSE="GPL-2"
-SLOT="${PV}/${PR}"
 KEYWORDS="*"
 DEPEND=">=dev-rust/rand-0.6.4:=
 	=dev-rust/chrono-0.4*:=
