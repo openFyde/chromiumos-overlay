@@ -367,7 +367,8 @@ cros-firmware_src_test() {
 
 	for fname in *test.py; do
 		einfo "Running tests in ${fname}"
-		"./${fname}" || die "Tests failed at ${fname}"
+		python2 "./${fname}" || die "Tests failed at ${fname} (py2)"
+		python3 "./${fname}" || die "Tests failed at ${fname} (py3)"
 	done
 }
 
