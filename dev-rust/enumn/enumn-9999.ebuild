@@ -24,7 +24,7 @@ DEPEND="
 	=dev-rust/syn-0.15*
 "
 
-RDEPEND="!<=dev-rust/enumn-0.0.1-r4"
+RDEPEND="!!<=dev-rust/enumn-0.0.1-r4"
 
 src_unpack() {
 	cros-workon_src_unpack

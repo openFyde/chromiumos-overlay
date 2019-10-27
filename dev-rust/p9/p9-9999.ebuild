@@ -26,7 +26,7 @@ DEPEND="
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
 
-RDEPEND="!<=dev-rust/p9-0.1.0-r14"
+RDEPEND="!!<=dev-rust/p9-0.1.0-r14"
 
 get_crate_version() {
 	local crate="$1"

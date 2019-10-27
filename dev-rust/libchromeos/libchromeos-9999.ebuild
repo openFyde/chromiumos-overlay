@@ -26,7 +26,7 @@ DEPEND="chromeos-base/system_api
 	!>=dev-rust/protobuf-3.0:=
 "
 
-RDEPEND="!<=dev-rust/libchromeos-0.1.0-r2"
+RDEPEND="!!<=dev-rust/libchromeos-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

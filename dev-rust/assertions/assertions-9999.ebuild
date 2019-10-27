@@ -18,7 +18,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-RDEPEND="!<=dev-rust/assertions-0.1.0-r3"
+RDEPEND="!!<=dev-rust/assertions-0.1.0-r3"
 
 src_unpack() {
 	cros-workon_src_unpack

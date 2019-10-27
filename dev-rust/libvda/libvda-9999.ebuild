@@ -20,7 +20,7 @@ IUSE="test"
 
 RDEPEND="
 	chromeos-base/libvda:=
-	!<=dev-rust/libvda-0.0.1-r5
+	!!<=dev-rust/libvda-0.0.1-r5
 "
 
 DEPEND="

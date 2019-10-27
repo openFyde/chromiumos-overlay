@@ -22,7 +22,7 @@ DEPEND="=dev-rust/libc-0.2*:=
 	>=dev-rust/serde_json-1:=
 "
 
-RDEPEND="!<=dev-rust/trace_events-0.1.0-r2"
+RDEPEND="!!<=dev-rust/trace_events-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

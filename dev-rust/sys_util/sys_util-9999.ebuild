@@ -20,7 +20,7 @@ IUSE="test"
 
 RDEPEND="
 	sys-libs/libcap:=
-	!<=dev-rust/sys_util-0.1.0-r60
+	!!<=dev-rust/sys_util-0.1.0-r60
 "
 DEPEND="
 	${RDEPEND}

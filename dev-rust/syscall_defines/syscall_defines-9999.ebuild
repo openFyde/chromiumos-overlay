@@ -18,7 +18,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-RDEPEND="!<=dev-rust/syscall_defines-0.1.0-r2"
+RDEPEND="!!<=dev-rust/syscall_defines-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

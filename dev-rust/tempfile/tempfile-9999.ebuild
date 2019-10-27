@@ -26,7 +26,7 @@ DEPEND="
 	=dev-rust/winapi-0.3*:=
 "
 
-RDEPEND="!<=dev-rust/tempfile-3.0.7-r2"
+RDEPEND="!!<=dev-rust/tempfile-3.0.7-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

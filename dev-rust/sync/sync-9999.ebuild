@@ -18,7 +18,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-RDEPEND="!<=dev-rust/sync-0.1.0-r6"
+RDEPEND="!!<=dev-rust/sync-0.1.0-r6"
 
 src_unpack() {
 	cros-workon_src_unpack
