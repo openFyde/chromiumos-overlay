@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="c477ca80e3f628a08b331db379b7989a40c99ad9"
+CROS_WORKON_COMMIT="64da82dc80b94787b520631df3664f36d5f8436a"
 CROS_WORKON_TREE="c20279913b902dccb872b7888809f4908dc9fa03"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,6 +22,7 @@ KEYWORDS="*"
 
 RDEPEND="
 	sys-apps/dtc[python]
+	dev-python/jinja[${PYTHON_USEDEP}]
 	!<chromeos-base/chromeos-config-tools-0.0.2
 "
 
