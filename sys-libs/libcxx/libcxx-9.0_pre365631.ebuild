@@ -222,11 +222,3 @@ multilib_src_install_all() {
 		rm -r "${ED}/usr/share/doc"
 	fi
 }
-
-pkg_postinst() {
-	elog "This package (${PN}) is mainly intended as a replacement for the C++"
-	elog "standard library when using clang."
-	elog "To use it, instead of libstdc++, use:"
-	elog "    clang++ -stdlib=libc++"
-	elog "to compile your C++ programs."
-}
