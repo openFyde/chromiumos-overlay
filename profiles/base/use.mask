@@ -247,3 +247,8 @@ abi_s390_64
 # multilib for ARC++ ARM64
 abi_arm_32
 abi_arm_64
+
+# TODO(b/65121142): don't enable until these are resolved:
+#   https://issuetracker.google.com/142963605
+#   https://issuetracker.google.com/136606696
+iwlwifi_dump
