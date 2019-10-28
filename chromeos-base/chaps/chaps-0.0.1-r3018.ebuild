@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="01d274f1de1607857f66cdeec59c40c6569fb275"
+CROS_WORKON_COMMIT="2da3ff4baf7b17beb7f7cc2ef9580abfdd6eb25a"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "0e68beb1125d00c4c78094b77fa90ea37065f356" "bd078d2e32eab21edea34865b304bc00a5c8ba3d" "e800a683ab02b73ce07ca73e09eb675047c8b83c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -22,7 +22,6 @@ HOMEPAGE="http://www.chromium.org/developers/design-documents/chaps-technical-de
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="systemd test tpm tpm2 fuzzer"
 
@@ -30,25 +29,24 @@ REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="
 	!tpm2? (
-		app-crypt/trousers
+		app-crypt/trousers:=
 	)
 	tpm2? (
-		chromeos-base/trunks
+		chromeos-base/trunks:=
 	)
-	test? ( app-arch/gzip )
-	chromeos-base/minijail
-	chromeos-base/libbrillo
-	chromeos-base/metrics
+	chromeos-base/minijail:=
+	chromeos-base/metrics:=
 	!dev-db/leveldb
-	dev-libs/leveldb
+	dev-libs/leveldb:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 "
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api[fuzzer?]
+	test? ( app-arch/gzip )
+	chromeos-base/system_api:=[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator )
-	tpm2? ( chromeos-base/trunks[test?] )
+	tpm2? ( chromeos-base/trunks:=[test?] )
 	"
 
 src_install() {

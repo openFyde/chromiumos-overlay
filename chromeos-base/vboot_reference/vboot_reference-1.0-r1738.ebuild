@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="9c35c41b6c2f515714d609eb1458c50e89f2be48"
-CROS_WORKON_TREE="006f74ac81d11c19bf18f2296e33872b1c0e59f0"
+CROS_WORKON_COMMIT="8f0989e7bfc7f56a40f1dede727999934a6dc6e0"
+CROS_WORKON_TREE="bd7aa2dc40504737cc651a026fd9165400263acc"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 
@@ -37,8 +37,12 @@ src_configure() {
 		}
 		sanitizers-setup-env
 	)
-	# Disable alignment sanitization, https://crbug.com/1015908 .
-	SANITIZER_CFLAGS+=" -fno-sanitize=alignment"
+	if use_sanitizers; then
+		# Disable alignment sanitization and memory leak checks,
+		# https://crbug.com/1015908 .
+		SANITIZER_CFLAGS+=" -fno-sanitize=alignment"
+		export ASAN_OPTIONS+=":detect_leaks=0:"
+	fi
 }
 
 vemake() {
