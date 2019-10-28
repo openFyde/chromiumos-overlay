@@ -46,6 +46,7 @@ src_configure() {
 
 	# Export build settings
 	export SRCROOT="${CROS_WORKON_SRCROOT}"
+	export FROM_EBUILD=1
 }
 
 src_compile() {
