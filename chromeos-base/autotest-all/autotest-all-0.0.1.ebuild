@@ -56,7 +56,6 @@ SUITE_DEPENDENCIES_FILE="dependency_info"
 SUITE_TO_CONTROL_MAP="suite_to_control_file_map"
 
 src_unpack() {
-	elog "Unpacking..."
 	mkdir -p "${S}"
 	touch "${S}/${SUITE_DEPENDENCIES_FILE}"
 	touch "${S}/${SUITE_TO_CONTROL_MAP}"
