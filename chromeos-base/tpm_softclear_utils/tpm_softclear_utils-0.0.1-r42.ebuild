@@ -2,9 +2,9 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT="01d274f1de1607857f66cdeec59c40c6569fb275"
+CROS_WORKON_COMMIT="ce425564d7d050331ac98357d675e05680b58a89"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "776a7db8f660d08f98fec63ab06c554bf15917f9" "e800a683ab02b73ce07ca73e09eb675047c8b83c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,26 +20,23 @@ DESCRIPTION="Utilities for soft-clearing TPM. This package resides in test image
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_softclear_utils/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="test tpm tpm2"
 REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="
 	tpm2? (
-		chromeos-base/trunks
+		chromeos-base/trunks:=
 	)
 	!tpm2? (
-		app-crypt/trousers
+		app-crypt/trousers:=
 	)
-	chromeos-base/libbrillo
-	chromeos-base/libchrome
 "
 
 DEPEND="${RDEPEND}
 	tpm2? (
-		chromeos-base/system_api
-		chromeos-base/trunks[test?]
+		chromeos-base/system_api:=
+		chromeos-base/trunks:=[test?]
 	)
 "
 
