@@ -14,24 +14,12 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="fuzzer internal"
+IUSE="fuzzer"
 
-# TODO(crbug/1016803): When the virtual package is no longer used, remove the
-#                      OR clause from this dependency. In the mean time, don't
-#                      change this DEPEND string without code review from the
-#                      Chrome OS build team. There is some subtle logic at play
-#                      here necessary to work around a Portage bug.
 DEPEND="
-	!fuzzer? (
-		|| (
-			virtual/chromeos-config-bsp
-			(
-				chromeos-base/chromeos-config-bsp:=
-				internal? ( chromeos-base/chromeos-config-bsp-private:= )
-			)
-		)
-	)
+	!fuzzer? ( virtual/chromeos-config-bsp:= )
 "
+RDEPEND="${DEPEND}"
 
 # This ebuild creates the Chrome OS master configuration file stored in
 # ${UNIBOARD_JSON_INSTALL_PATH}. See go/cros-unified-builds-design for
