@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="8a7e4e902a4950b060ea23b40c0dfce7bfa1b2cb"
+CROS_WORKON_COMMIT="ee723d5204f8a0741cf993900fb6471202db9a97"
 CROS_WORKON_TREE="b07ca21e719f39bce322e5e5ee98d60c4b53c0a2"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -24,7 +24,7 @@ DEPEND="
 	dev-rust/assertions:=
 "
 
-RDEPEND="!dev-rust/data_model:0.1.0/r12"
+RDEPEND="!!<=dev-rust/data_model-0.1.0-r13"
 
 src_unpack() {
 	cros-workon_src_unpack
