@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="3bb8cfb5e428da7f7cad890717c305c4c971ac8f"
+CROS_WORKON_COMMIT="c99a5f1a5dea9c7e0a1fd801418878522bd1f316"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "40624bd0cd159e7879378afbcdf58a2c636fe984" "a2e764dbd182ccb9f92c28a405e87980bb616833" "2ba22b88ed6c3fdb6b720b3a0c1bc4c0a17f1afa" "5d53ff58483685bdf4424a3c8e8496656e9aa83e" "bd078d2e32eab21edea34865b304bc00a5c8ba3d")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -21,7 +21,9 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
-RDEPEND="media-libs/cros-camera-libcamera_common"
+RDEPEND="
+	media-libs/cros-camera-libcamera_common
+	media-libs/cros-camera-libcamera_ipc"
 
 # cros-camera-libcbm is needed here because this package uses
 # //camera/common:libcamera_metrics rule. It doesn't directly use the package,
@@ -29,7 +31,6 @@ RDEPEND="media-libs/cros-camera-libcamera_common"
 # See crbug.com/995162 for detail.
 DEPEND="${RDEPEND}
 	chromeos-base/metrics
-	media-libs/cros-camera-libcamera_ipc
 	media-libs/cros-camera-libcbm
 	virtual/pkgconfig"
 
