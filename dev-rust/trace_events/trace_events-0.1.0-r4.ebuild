@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="676316e2b2793fc35ff013e352e65b68eca29260"
+CROS_WORKON_COMMIT="e4849bcf7e91c49a63c490c792749a2606951e0f"
 CROS_WORKON_TREE="e509681943a4a652c4575e6da2260621c04c8500"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,7 +24,7 @@ DEPEND="=dev-rust/libc-0.2*:=
 	>=dev-rust/serde_json-1:=
 "
 
-RDEPEND="!<=dev-rust/trace_events-0.1.0-r2"
+RDEPEND="!!<=dev-rust/trace_events-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack

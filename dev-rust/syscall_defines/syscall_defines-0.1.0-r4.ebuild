@@ -3,28 +3,28 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="8a7e4e902a4950b060ea23b40c0dfce7bfa1b2cb"
-CROS_WORKON_TREE="dbe587d866956d88c4445de8a9380cca33c6a231"
+CROS_WORKON_COMMIT="f9815ee26f4452b67ef6e79cf3a4c623851bb620"
+CROS_WORKON_TREE="0a6ad1e73bbdc75f3fdb52e8d2934793246f4807"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="assertions"
+CROS_WORKON_SUBTREE="syscall_defines"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="Crates for compile-time assertion macro."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/assertions"
+DESCRIPTION="Linux syscall defines."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/syscall_defines"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
-RDEPEND="!<=dev-rust/assertions-0.1.0-r3"
+RDEPEND="!!<=dev-rust/syscall_defines-0.1.0-r2"
 
 src_unpack() {
 	cros-workon_src_unpack
-	S+="/assertions"
+	S+="/syscall_defines"
 
 	cros-rust_src_unpack
 }

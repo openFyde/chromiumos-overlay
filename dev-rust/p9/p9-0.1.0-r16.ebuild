@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="676316e2b2793fc35ff013e352e65b68eca29260"
+CROS_WORKON_COMMIT="e4849bcf7e91c49a63c490c792749a2606951e0f"
 CROS_WORKON_TREE="bec46cea39f1ad5bcbea6a46a5761d866f125e4e"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,7 +28,7 @@ DEPEND="
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
 
-RDEPEND="!<=dev-rust/p9-0.1.0-r14"
+RDEPEND="!!<=dev-rust/p9-0.1.0-r14"
 
 get_crate_version() {
 	local crate="$1"

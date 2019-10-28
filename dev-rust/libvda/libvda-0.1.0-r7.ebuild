@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="676316e2b2793fc35ff013e352e65b68eca29260"
+CROS_WORKON_COMMIT="e4849bcf7e91c49a63c490c792749a2606951e0f"
 CROS_WORKON_TREE="22f71da79733ade2a95a7a0e1cf627e7149ead7a"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ IUSE="test"
 
 RDEPEND="
 	chromeos-base/libvda:=
-	!<=dev-rust/libvda-0.0.1-r5
+	!!<=dev-rust/libvda-0.0.1-r5
 "
 
 DEPEND="

@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="8a7e4e902a4950b060ea23b40c0dfce7bfa1b2cb"
+CROS_WORKON_COMMIT="f9815ee26f4452b67ef6e79cf3a4c623851bb620"
 CROS_WORKON_TREE="28852483b877a051ca092e4b811f8831872c49b0"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -20,7 +20,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
-RDEPEND="!<=dev-rust/sync-0.1.0-r6"
+RDEPEND="!!<=dev-rust/sync-0.1.0-r6"
 
 src_unpack() {
 	cros-workon_src_unpack

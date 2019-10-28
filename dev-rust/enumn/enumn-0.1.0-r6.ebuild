@@ -3,36 +3,34 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="8a7e4e902a4950b060ea23b40c0dfce7bfa1b2cb"
-CROS_WORKON_TREE="5b534e005508aab07c044f866ed002dcddb413ef"
+CROS_WORKON_COMMIT="f9815ee26f4452b67ef6e79cf3a4c623851bb620"
+CROS_WORKON_TREE="d80b17140cf1a3c017ff4d6679768cf454242597"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
-CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="tempfile"
+# We don't use CROS_WORKON_OUTOFTREE_BUILD here since project's Cargo.toml is
+# using "provided by ebuild" macro which supported by cros-rust.
+CROS_WORKON_SUBTREE="enumn"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="A library for managing temporary files and directories"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/tempfile"
+DESCRIPTION="Convert number to enum"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/enumn"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
-	=dev-rust/cfg-if-0.1*:=
-	>=dev-rust/libc-0.2.27:=
-	=dev-rust/rand-0.6*:=
-	=dev-rust/redox_syscall-0.1*:=
-	=dev-rust/remove_dir_all-0.5*:=
-	=dev-rust/winapi-0.3*:=
+	=dev-rust/proc-macro2-0.4*
+	=dev-rust/quote-0.6*
+	=dev-rust/syn-0.15*
 "
 
-RDEPEND="!<=dev-rust/tempfile-3.0.7-r2"
+RDEPEND="!!<=dev-rust/enumn-0.0.1-r4"
 
 src_unpack() {
 	cros-workon_src_unpack
-	S+="/tempfile"
+	S+="/enumn"
 
 	cros-rust_src_unpack
 }
