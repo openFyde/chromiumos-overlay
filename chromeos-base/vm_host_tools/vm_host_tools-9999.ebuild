@@ -70,10 +70,16 @@ src_install() {
 	doins concierge/plugin_vm_usb.h
 
 	insinto /etc/init
-	doins init/*.conf
+	doins init/seneschal.conf
+	doins init/vm_cicerone.conf
+	doins init/vm_concierge.conf
+	doins init/vmlog_forwarder.conf
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
+
+	insinto /etc
+	doins init/arcvm_dev.conf
 
 	insinto /usr/share/policy
 	if use seccomp; then
