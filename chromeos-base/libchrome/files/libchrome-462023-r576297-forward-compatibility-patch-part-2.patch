@@ -1,0 +1,174 @@
+From 208e785d7fde2507f06524dd344c2cffdbd9d30e Mon Sep 17 00:00:00 2001
+From: Qijiang Fan <fqj@chromium.org>
+Date: Tue, 29 Oct 2019 20:24:18 +0900
+Subject: [PATCH] libchrome: r576279 forward compatibility patch part 2 (mojo).
+
+This CL includes;
+- mojo/public/cpp/system/platform_handle.{h,cpp}:{W,Unw}rapPlatformHandle
+
+BUG=chromium:909719
+TEST=Build.
+
+Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
+---
+ mojo/public/cpp/system/platform_handle.cc | 57 ++++++++++++++++++++
+ mojo/public/cpp/system/platform_handle.h  | 63 +++++++++++++++++++++++
+ 2 files changed, 120 insertions(+)
+
+diff --git a/mojo/public/cpp/system/platform_handle.cc b/mojo/public/cpp/system/platform_handle.cc
+index 42e4aba..6116860 100644
+--- a/mojo/public/cpp/system/platform_handle.cc
++++ b/mojo/public/cpp/system/platform_handle.cc
+@@ -31,6 +31,29 @@ base::PlatformFile PlatformFileFromPlatformHandleValue(uint64_t value) {
+ 
+ }  // namespace
+ 
++
++ScopedHandle WrapPlatformHandle(PlatformHandle handle) {
++  MojoPlatformHandle platform_handle;
++  PlatformHandle::ToMojoPlatformHandle(std::move(handle), &platform_handle);
++
++  MojoHandle wrapped_handle;
++  MojoResult result =
++      MojoWrapPlatformHandle(&platform_handle, &wrapped_handle);
++  if (result != MOJO_RESULT_OK)
++    return ScopedHandle();
++  return ScopedHandle(Handle(wrapped_handle));
++}
++
++PlatformHandle UnwrapPlatformHandle(ScopedHandle handle) {
++  MojoPlatformHandle platform_handle;
++  platform_handle.struct_size = sizeof(platform_handle);
++  MojoResult result = MojoUnwrapPlatformHandle(handle.release().value(),
++                                               &platform_handle);
++  if (result != MOJO_RESULT_OK)
++    return PlatformHandle();
++  return PlatformHandle::FromMojoPlatformHandle(&platform_handle);
++}
++
+ ScopedHandle WrapPlatformFile(base::PlatformFile platform_file) {
+   MojoPlatformHandle platform_handle;
+   platform_handle.struct_size = sizeof(MojoPlatformHandle);
+@@ -175,4 +198,38 @@ MojoResult UnwrapMachPort(ScopedHandle handle, mach_port_t* port) {
+ }
+ #endif  // defined(OS_MACOSX) && !defined(OS_IOS)
+ 
++// static
++PlatformHandle PlatformHandle::FromMojoPlatformHandle(
++    const MojoPlatformHandle* handle) {
++  if (handle->struct_size < sizeof(*handle) ||
++      handle->type == MOJO_PLATFORM_HANDLE_TYPE_INVALID) {
++    return PlatformHandle();
++  }
++
++  if (handle->type != MOJO_PLATFORM_HANDLE_TYPE_FILE_DESCRIPTOR)
++    return PlatformHandle();
++  return PlatformHandle(base::ScopedFD(static_cast<int>(handle->value)));
++}
++
++// static
++void PlatformHandle::ToMojoPlatformHandle(PlatformHandle handle,
++                                          MojoPlatformHandle* out_handle) {
++  DCHECK(out_handle);
++  out_handle->struct_size = sizeof(MojoPlatformHandle);
++  if (handle.type_ == Type::kNone) {
++    out_handle->type = MOJO_PLATFORM_HANDLE_TYPE_INVALID;
++    out_handle->value = 0;
++    return;
++  }
++
++  do {
++    DCHECK(handle.is_fd());
++    out_handle->type = MOJO_PLATFORM_HANDLE_TYPE_FILE_DESCRIPTOR;
++    out_handle->value = static_cast<uint64_t>(handle.TakeFD().release());
++  } while (false);
++
++  // One of the above cases must take ownership of |handle|.
++  DCHECK(!handle.is_valid());
++}
++
+ }  // namespace mojo
+diff --git a/mojo/public/cpp/system/platform_handle.h b/mojo/public/cpp/system/platform_handle.h
+index 801264e..e034ef8 100644
+--- a/mojo/public/cpp/system/platform_handle.h
++++ b/mojo/public/cpp/system/platform_handle.h
+@@ -30,6 +30,61 @@
+ 
+ namespace mojo {
+ 
++class PlatformHandle {
++public:
++  enum class Type {
++    kNone,
++    kFd,
++  };
++
++  PlatformHandle() = default;
++  PlatformHandle(PlatformHandle&& other) {
++    *this = std::move(other);
++  }
++  explicit PlatformHandle(base::ScopedFD fd)
++    : type_(Type::kFd), fd_(std::move(fd)) {
++  }
++
++  ~PlatformHandle() = default;
++
++  PlatformHandle& operator=(PlatformHandle&& other) {
++    type_ = other.type_;
++    other.type_ = Type::kNone;
++
++    fd_ = std::move(other.fd_);
++
++    return *this;
++  }
++
++  // Takes ownership of |handle|'s underlying platform handle and fills in
++  // |mojo_handle| with a representation of it. The caller assumes ownership of
++  // the platform handle.
++  static void ToMojoPlatformHandle(PlatformHandle handle,
++                                   MojoPlatformHandle* mojo_handle);
++
++  // Closes the underlying platform handle.
++  // Assumes ownership of the platform handle described by |handle|, and returns
++  // it as a new PlatformHandle.
++  static PlatformHandle FromMojoPlatformHandle(
++      const MojoPlatformHandle* handle);
++
++  bool is_valid() const { return is_valid_fd(); }
++  bool is_valid_fd() const { return fd_.is_valid(); }
++  bool is_fd() const { return type_ == Type::kFd; }
++  const base::ScopedFD& GetFD() const { return fd_; }
++  base::ScopedFD TakeFD() {
++    return std::move(fd_);
++  }
++
++  int ReleaseFD() WARN_UNUSED_RESULT {
++    return fd_.release();
++  }
++
++private:
++  Type type_;
++  base::ScopedFD fd_;
++};
++
+ #if defined(OS_POSIX)
+ const MojoPlatformHandleType kPlatformFileHandleType =
+     MOJO_PLATFORM_HANDLE_TYPE_FILE_DESCRIPTOR;
+@@ -58,6 +113,14 @@ ScopedHandle WrapPlatformFile(base::PlatformFile platform_file);
+ MOJO_CPP_SYSTEM_EXPORT
+ MojoResult UnwrapPlatformFile(ScopedHandle handle, base::PlatformFile* file);
+ 
++// Wraps a PlatformHandle from the C++ platform support library as a Mojo
++// handle.
++MOJO_CPP_SYSTEM_EXPORT ScopedHandle WrapPlatformHandle(PlatformHandle handle);
++
++// Unwraps a Mojo handle to a PlatformHandle object from the C++ platform
++// support library.
++MOJO_CPP_SYSTEM_EXPORT PlatformHandle UnwrapPlatformHandle(ScopedHandle handle);
++
+ // Wraps a base::SharedMemoryHandle as a Mojo handle. Takes ownership of the
+ // SharedMemoryHandle. Note that |read_only| is only an indicator of whether
+ // |memory_handle| only supports read-only mapping. It does NOT have any
+-- 
+2.24.0.rc0.303.g954a862665-goog
+
