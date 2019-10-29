@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="e7e2435f3c7dbb447a0161936f453abff6184ab5"
-CROS_WORKON_TREE="25b3e1c940a2c86769b0f7d2f9f11ff76ca88672"
+CROS_WORKON_COMMIT="ea4dec83384d25a6287dd1fd0124971cda1b9e9a"
+CROS_WORKON_TREE="2b98d0f6600b41c8f14e6e114c28dc4b059b0ace"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -27,8 +27,6 @@ DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
 	+tests_network_BasicProfileProperties
-	+tests_network_ConfigureEthernetServiceForProfile
-	+tests_network_DefaultProfileServices
 	+tests_network_DhcpClasslessStaticRoute
 	+tests_network_DhcpFailureWithStaticIP
 	+tests_network_DhcpNak
