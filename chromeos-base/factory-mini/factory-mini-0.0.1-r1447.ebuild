@@ -40,11 +40,18 @@ DEPEND="${PYTHON_DEPS}
 "
 RDEPEND="!chromeos-base/chromeos-factory-mini"
 
+pkg_setup() {
+	cros-workon_pkg_setup
+	python_setup
+}
+
 src_configure() {
 	default
 	cros-workon_src_configure
 
 	# Export build settings
+	export PYTHON="${EPYTHON}"
+	export PYTHON_SITEDIR="${ESYSROOT}$(python_get_sitedir)"
 	export SRCROOT="${CROS_WORKON_SRCROOT}"
 	export FROM_EBUILD=1
 }
