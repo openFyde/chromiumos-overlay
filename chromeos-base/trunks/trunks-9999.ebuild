@@ -65,7 +65,11 @@ src_install() {
 	dosbin tpm_version
 	dosbin "${OUT}"/trunksd
 	dolib.so "${OUT}"/lib/libtrunks.so
-	use test && dolib.a "${OUT}"/libtrunks_test.a
+	# trunks_test library implements trunks mocks which
+	# are used by unittest and fuzzer.
+	if use test || use fuzzer; then
+		dolib.a "${OUT}"/libtrunks_test.a
+	fi
 
 	insinto /usr/share/policy
 	newins trunksd-seccomp-${ARCH}.policy trunksd-seccomp.policy
