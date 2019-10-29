@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="1264262d7e414cd0db06b284218520c92954af6c"
+CROS_WORKON_COMMIT="da4b08749e92c12f97cf97f940f7f2e21e6aa833"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "2c5f602dd4bfda172cd6da0adf9a1c3cefc767e9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -46,6 +46,8 @@ RDEPEND="
 pkg_preinst() {
 	enewuser cros_healthd
 	enewgroup cros_healthd
+	enewuser healthd_ec
+	enewgroup healthd_ec
 
 	if use wilco; then
 		enewuser wilco_dtc
@@ -82,6 +84,8 @@ src_install() {
 	insinto /usr/share/policy
 	newins "init/cros_healthd-seccomp-${ARCH}.policy" \
 		cros_healthd-seccomp.policy
+	newins "ectool/ectool_i2cread-seccomp-${ARCH}.policy" \
+		ectool_i2cread-seccomp.policy
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
@@ -95,6 +99,8 @@ src_install() {
 	exeinto /usr/libexec/diagnostics
 	doexe "${OUT}/urandom"
 	doexe "${OUT}/smartctl-check"
+	# Install the helper executables required by telemetry.
+	doexe "${OUT}/cros_healthd_helper"
 
 	# Install udev rules.
 	udev_dorules udev/*.rules
