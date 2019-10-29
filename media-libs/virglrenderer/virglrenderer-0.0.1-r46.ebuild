@@ -32,7 +32,6 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
-	"${FILESDIR}"/0001-CHROMIUM-Revert-vrend-Always-use-a-texture-view-for-.patch
 )
 
 src_prepare() {
