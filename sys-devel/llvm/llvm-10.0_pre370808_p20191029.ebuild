@@ -12,7 +12,7 @@ inherit  cros-constants cmake-utils eutils flag-o-matic git-2 git-r3 \
 
 # llvm:361749 https://critique.corp.google.com/#review/252092293
 # Master bug: crbug/972454
-LLVM_HASH="6b043f051836635a1e88da4d0464e6569bd7b625" #r365631
+LLVM_HASH="1bea97c971d60f261f1bdfaa7b6d9cb30a6962fd" # r370808
 LLVM_NEXT_HASH="1bea97c971d60f261f1bdfaa7b6d9cb30a6962fd" # r370808
 
 DESCRIPTION="Low Level Virtual Machine"
@@ -171,7 +171,7 @@ enable_asserts() {
 }
 
 multilib_src_configure() {
-	use llvm-next && append-flags -Wno-poison-system-directories
+	append-flags -Wno-poison-system-directories
 
 	local targets
 	if use multitarget; then
@@ -354,15 +354,6 @@ multilib_src_install() {
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang"
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang++"
 	newexe "${FILESDIR}/ldwrapper_lld.host" "${CHOST}-ld.lld"
-
-	# Install FuzzedDataProvider.h if not provided by default installation.
-	# Remove after llvm version is past r368448.
-	local fuzz_header_dir="${D}/usr/lib64/clang/9.0.0/include/fuzzer"
-	local svn_version="$(get_most_recent_revision)"
-	if [[ "${svn_version}" -lt 368448 ]]; then
-		mkdir -p "${fuzz_header_dir}"
-		cp "${FILESDIR}"/FuzzedDataProvider.h "${fuzz_header_dir}" || die
-	fi
 }
 
 multilib_src_install_all() {
