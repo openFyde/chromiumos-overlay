@@ -3,13 +3,16 @@
 
 EAPI="6"
 
-CROS_RUST_EMPTY_CRATE=1
-
 inherit cros-rust
 
-DESCRIPTION="Empty ${PN} crate"
-HOMEPAGE=""
+DESCRIPTION="Serialization and deserialization support provided by the compiler in the form of derive(RustcEncodable, RustcDecodable)."
+HOMEPAGE="https://github.com/rust-lang-deprecated/rustc-serialize"
+SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="BSD-Google"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
+
+DEPEND="
+	=dev-rust/rand-0.3*:=
+"
