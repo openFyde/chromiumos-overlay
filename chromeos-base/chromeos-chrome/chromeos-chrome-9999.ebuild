@@ -747,6 +747,7 @@ setup_test_lists() {
 		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
+		vaapi_unittest
 		video_decode_accelerator_perf_tests
 		video_decode_accelerator_tests
 		video_encode_accelerator_unittest
