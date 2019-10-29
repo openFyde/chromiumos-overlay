@@ -58,7 +58,6 @@ DELTA_GENERATOR_RDEPEND="
 	app-arch/unzip
 	app-arch/xz-utils
 	app-shells/bash
-	brillo-base/libsparse
 	dev-util/shflags
 	sys-fs/e2fsprogs
 	sys-fs/squashfs-tools
