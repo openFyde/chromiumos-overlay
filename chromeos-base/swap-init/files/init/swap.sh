@@ -53,6 +53,18 @@ extra_free_default_generator() {
   echo 0
 }
 
+RAM_VS_SWAP_WEIGHT_MAX=256
+RAM_VS_SWAP_WEIGHT_CONVERSION=1
+RAM_VS_SWAP_WEIGHT_OVERRIDE_FILE="${PER_DEVICE_OVERRIDE_DIR}/ram_vs_swap_weight"
+RAM_VS_SWAP_WEIGHT_BOARD_OVERRIDE_FILE="${PER_BOARD_OVERRIDE_DIR}/ram_vs_swap_weight"
+RAM_VS_SWAP_WEIGHT_SPECIAL_FILE="/sys/kernel/mm/chromeos-low_mem/ram_vs_swap_weight"
+
+ram_vs_swap_weight_default_generator() {
+  # Historically we've found that zram compresses approximately at this ratio
+  # which is why this is the current default.
+  echo 4
+}
+
 HIST_MIN=100
 HIST_MAX=10000
 HIST_BUCKETS=50
@@ -284,6 +296,8 @@ status() {
   cat "${MARGIN_SPECIAL_FILE}"
   printf "min_filelist_kbytes (KiB): "
   cat "${MIN_FILELIST_SPECIAL_FILE}"
+  printf "ram_vs_swap_weight: "
+  cat "${RAM_VS_SWAP_WEIGHT_SPECIAL_FILE}"
   if [ -e "${EXTRA_FREE_SPECIAL_FILE}" ]; then
     printf "extra_free_kbytes (KiB): "
     cat "${EXTRA_FREE_SPECIAL_FILE}"
@@ -330,7 +344,7 @@ set_parameter() {
   local param="$1"
   local value="$2"
   case "${param}" in
-  margin|min_filelist|extra_free)
+  margin|min_filelist|extra_free|ram_vs_swap_weight)
     # We're good.
     ;;
   *)
@@ -372,8 +386,8 @@ set_parameter() {
 usage() {
   cat <<EOF
 Usage: $0 <start|stop|status|enable <size>|disable|
-           set_parameter <margin|min_filelist|extra_free> <value>>|
-           get_target_value <margin|min_filelist|extra_free> <value>>
+           set_parameter <margin|min_filelist|extra_free|ram_vs_swap_weight> <value>>|
+           get_target_value <margin|min_filelist|extra_free|ram_vs_swap_weight> <value>>
 
 Start or stop the use of the compressed swap file, or persistently set
 various memory manager tunable parameters, or get their chosen values.
