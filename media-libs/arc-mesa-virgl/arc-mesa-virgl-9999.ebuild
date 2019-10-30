@@ -126,72 +126,11 @@ src_prepare() {
 		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
 
-	epatch "${FILESDIR}"/19.0-util-Don-t-block-SIGSYS-for-new-threads.patch
-	epatch "${FILESDIR}"/19.0-radv-Use-given-stride-for-images-imported-from-Andro.patch
-
-	epatch "${FILESDIR}"/CHROMIUM-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
-
-	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson.build-Add-optio.patch
-	epatch "${FILESDIR}"/CHROMIUM-egl-android-plumb-swrast-option.patch
-	epatch "${FILESDIR}"/CHROMIUM-egl-android-use-swrast-option-in-droid_load_driver.patch
-	epatch "${FILESDIR}"/CHROMIUM-egl-android-fallback-to-software-rendering.patch
-
-	epatch "${FILESDIR}"/CHROMIUM-anv-Reject-unsupported-instance-versions-on.patch
-	epatch "${FILESDIR}"/CHROMIUM-anv-move-anv_GetMemoryAndroidHardwareBufferANDROID-u.patch
-	epatch "${FILESDIR}"/CHROMIUM-anv-fix-build-on-Nougat.patch
-	epatch "${FILESDIR}"/CHROMIUM-remove-unknown-android-extensions.patch
-	epatch "${FILESDIR}"/CHROMIUM-disable-unknown-device-extensions.patch
-
-	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
-
-	epatch "${FILESDIR}"/FROMLIST-egl-fix-KHR_partial_update-without-EXT_buff.patch
-	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
-	epatch "${FILESDIR}"/FROMLIST-egl-android-Update-color_buffers-querying-for-buffer.patch
-
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
 
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
-	epatch "${FILESDIR}"/UPSTREAM-intel-Add-support-for-Comet-Lake.patch
 
-	epatch "${FILESDIR}"/UPSTREAM-st-mesa-fix-2-crashes-in-st_tgsi_lower_yuv.patch
-
-	epatch "${FILESDIR}"/CHROMIUM-Add-HAL_PIXEL_FORMAT_YCbCr_420_888-in-vk_format.patch
-	epatch "${FILESDIR}"/CHROMIUM-Add-HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED-in-vk_fo.patch
-
-	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
-	epatch "${FILESDIR}"/CHROMIUM-anv-Clamp-apiVersion-to-1.0.3-on-Android-Oreo.patch
-
-	epatch "${FILESDIR}"/FROMLIST-virgl-Set-meta-data-for-textures-from-handle.patch
-
-	epatch "${FILESDIR}"/BACKPORT-egl-Enable-eglGetPlatformDisplay-on-Android.patch
-
-	if use android-container-nyc; then
-		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
-		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
-	fi
-
-	epatch "${FILESDIR}"/FROMLIST-anv-Fix-vulkan-build-in-meson.patch
-	epatch "${FILESDIR}"/FROMLIST-anv-Add-android-dependencies-on-android.patch
-	epatch "${FILESDIR}"/FROMLIST-radv-Fix-vulkan-build-in-meson.patch
-	epatch "${FILESDIR}"/FROMLIST-meson-Allow-building-radeonsi-with-.patch
-	epatch "${FILESDIR}"/FROMLIST-meson-i965-Link-with-android.patch
-	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson-depend-on-libnativewindow-when-ap.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-drm-uapi-Update-headers-for-fp16-formats.patch
-	epatch "${FILESDIR}"/BACKPORT-i965-Add-helper-function-for-allowed-config.patch
-	epatch "${FILESDIR}"/UPSTREAM-dri-Add-config-attributes-for-color-channel.patch
-	epatch "${FILESDIR}"/UPSTREAM-util-move-bitcount-to-bitscan.h.patch
-	epatch "${FILESDIR}"/BACKPORT-egl-Convert-configs-to-use-shifts-and-sizes.patch
-	epatch "${FILESDIR}"/UPSTREAM-glx-Add-fields-for-color-shifts.patch
-	epatch "${FILESDIR}"/BACKPORT-dri-Handle-configs-with-floating-point-pixe.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-Handle-dri-configs-with-floating-point-.patch
-	epatch "${FILESDIR}"/BACKPORT-dri-Add-fp16-formats.patch
-	epatch "${FILESDIR}"/UPSTREAM-gbm-Add-buffer-handling-and-visuals-for-fp1.patch
-	epatch "${FILESDIR}"/BACKPORT-i965-Add-handling-for-fp16-configs.patch
-	if ! use android-container-nyc; then
-		epatch "${FILESDIR}"/UPSTREAM-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_FP.patch
-	fi
 	default
 }
 
