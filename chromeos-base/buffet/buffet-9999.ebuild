@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -16,13 +16,11 @@ inherit cros-workon libchrome platform user
 DESCRIPTION="Local and cloud communication services for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT=0
 KEYWORDS="~*"
 IUSE=""
 
 COMMON_DEPEND="
-	chromeos-base/libbrillo
-	chromeos-base/libweave
+	chromeos-base/libweave:=
 "
 
 RDEPEND="
@@ -31,8 +29,8 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/shill-client
-	chromeos-base/system_api
+	chromeos-base/shill-client:=
+	chromeos-base/system_api:=
 "
 
 pkg_preinst() {

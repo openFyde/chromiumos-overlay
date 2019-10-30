@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -16,18 +16,17 @@ DESCRIPTION="Bluetooth service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/bluetooth"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="+bluetooth_suspend_management fuzzer seccomp unibuild"
 
 RDEPEND="
-	unibuild? ( chromeos-base/chromeos-config )
-	chromeos-base/libbrillo
-	chromeos-base/newblue
-	net-wireless/bluez"
+	unibuild? ( chromeos-base/chromeos-config:= )
+	chromeos-base/newblue:=
+	net-wireless/bluez:=
+"
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api[fuzzer?]"
+	chromeos-base/system_api:=[fuzzer?]"
 
 src_install() {
 	dobin init/scripts/bluetooth-setup.sh
