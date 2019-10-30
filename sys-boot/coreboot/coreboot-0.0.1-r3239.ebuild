@@ -201,6 +201,8 @@ src_prepare() {
 		fi
 	done
 
+	cp -a "${FILESDIR}/3rdparty/"* 3rdparty
+
 	if use unibuild; then
 		local build_target
 
