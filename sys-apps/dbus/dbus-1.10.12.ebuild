@@ -4,7 +4,7 @@
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools eutils linux-info flag-o-matic python-any-r1 readme.gentoo-r1 systemd virtualx user multilib-minimal
+inherit autotools cros-sanitizers eutils linux-info flag-o-matic python-any-r1 readme.gentoo-r1 systemd virtualx user multilib-minimal
 
 DESCRIPTION="A message bus system, a simple way for applications to talk to each other"
 HOMEPAGE="https://dbus.freedesktop.org/"
@@ -13,7 +13,7 @@ SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.gz"
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="debug doc selinux static-libs systemd test user-session X"
+IUSE="debug doc selinux static-libs systemd test ubsan user-session X"
 
 CDEPEND="
 	>=dev-libs/expat-2
@@ -96,6 +96,9 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# Handle ubsan blocklist for https:://crbug.com/1016103
+	# TODO: replace with sanitizers-setup-env after verifying VM builds.
+	use ubsan && sanitizer-add-blocklist "ubsan"
 	local docconf myconf
 
 	# so we can get backtraces from apps
