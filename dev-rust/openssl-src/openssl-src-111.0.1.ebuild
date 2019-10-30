@@ -10,7 +10,7 @@ inherit cros-rust
 DESCRIPTION="Empty ${PN} crate that pulls in the openssl headers."
 HOMEPAGE=""
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 

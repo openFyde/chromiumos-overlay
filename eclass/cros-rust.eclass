@@ -200,6 +200,10 @@ cros-rust_src_unpack() {
 	done
 
 	if [[ "${CROS_RUST_EMPTY_CRATE}" == "1" ]]; then
+		if [[ "${LICENSE}" != "metapackage" ]]; then
+			die "Set LICENSE=\"metapackage\" in empty crate ebuilds"
+		fi
+
 		# Generate an empty Cargo.toml and src/lib.rs for this crate.
 		mkdir -p "${S}/src"
 		cat <<- EOF >> "${S}/Cargo.toml"
@@ -222,6 +226,13 @@ cros-rust_src_unpack() {
 		done
 
 		touch "${S}/src/lib.rs"
+	else
+		if [[ -z "${LICENSE}" ]]; then
+			die "Missing LICENSE= setting in ebuild"
+		fi
+		if [[ "${LICENSE}" == "metapackage" ]]; then
+			die "LICENSE=metapackage is only allowed in empty crate ebuilds"
+		fi
 	fi
 
 	# Set up the cargo config.

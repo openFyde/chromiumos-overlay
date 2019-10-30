@@ -10,6 +10,6 @@ inherit cros-rust
 DESCRIPTION="Empty ${PN} crate"
 HOMEPAGE=""
 
-LICENSE="MIT"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"

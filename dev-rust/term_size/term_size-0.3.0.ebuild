@@ -10,6 +10,6 @@ inherit cros-rust
 DESCRIPTION="Empty term_size crate"
 HOMEPAGE=""
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"

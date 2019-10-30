@@ -11,6 +11,6 @@ inherit cros-rust
 DESCRIPTION="Empty hyphenation crate"
 HOMEPAGE=""
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"

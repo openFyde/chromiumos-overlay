@@ -7,8 +7,8 @@ CROS_RUST_EMPTY_CRATE=1
 
 inherit cros-rust
 
-CRIPTION="Empty ${PN} crate"
+DESCRIPTION="Empty ${PN} crate"
 HOMEPAGE=""
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"

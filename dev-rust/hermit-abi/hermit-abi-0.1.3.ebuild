@@ -10,6 +10,6 @@ inherit cros-rust
 DESCRIPTION="Empty ${PN} crate"
 HOMEPAGE="https://github.com/hermitcore/libhermit-rs"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"

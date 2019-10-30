@@ -9,6 +9,6 @@ inherit cros-rust
 DESCRIPTION="Empty clippy crate"
 HOMEPAGE=""
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
