@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT=("01dfa81f1b4becb157ed9ccc9277f6eac1de67e3" "8048ece6c16c91acfe0d36d1d3cc0890ab6e945c")
-CROS_WORKON_TREE=("64ab22305a380877c9fb4422b4de35122867643d" "84dd0fabdc4d0729885dc7ce3ac35903504ba5e6")
+CROS_WORKON_COMMIT=("db1cda26539c711c3da7ed4d410dfe8190e89b8f" "8048ece6c16c91acfe0d36d1d3cc0890ab6e945c")
+CROS_WORKON_TREE=("ece5c30abb27e436ada9a0b2a07a08a7eb7da938" "84dd0fabdc4d0729885dc7ce3ac35903504ba5e6")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/google-breakpad"
 	"linux-syscall-support"
