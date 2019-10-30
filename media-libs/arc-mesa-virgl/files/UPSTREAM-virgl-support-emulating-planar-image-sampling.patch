@@ -1,0 +1,37 @@
+From 0466239aae7cb38f8e34ef5a778da45035c30f49 Mon Sep 17 00:00:00 2001
+From: David Stevens <stevensd@chromium.org>
+Date: Wed, 23 Oct 2019 11:06:17 +0900
+Subject: [PATCH] virgl: support emulating planar image sampling
+
+Mesa emulates planar format sampling with per-plane samplers. Virgl now
+supports this by allowing the plane index to be passed when creating a
+sampler view from a planar image. With this change, mesa now passes that
+information to virgl.
+
+Signed-off-by: David Stevens <stevensd@chromium.org>
+Reviewed-by: Lepton Wu <lepton@chromium.org>
+---
+ src/gallium/drivers/virgl/virgl_encode.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/gallium/drivers/virgl/virgl_encode.c b/src/gallium/drivers/virgl/virgl_encode.c
+index 5d2f7dff6bea..7a17a90c48d8 100644
+--- a/src/gallium/drivers/virgl/virgl_encode.c
++++ b/src/gallium/drivers/virgl/virgl_encode.c
+@@ -879,7 +879,12 @@ int virgl_encode_sampler_view(struct virgl_context *ctx,
+       virgl_encoder_write_dword(ctx->cbuf, state->u.buf.offset / elem_size);
+       virgl_encoder_write_dword(ctx->cbuf, (state->u.buf.offset + state->u.buf.size) / elem_size - 1);
+    } else {
+-      virgl_encoder_write_dword(ctx->cbuf, state->u.tex.first_layer | state->u.tex.last_layer << 16);
++      if (res->metadata.plane) {
++         debug_assert(state->u.tex.first_layer == 0 && state->u.tex.last_layer == 0);
++         virgl_encoder_write_dword(ctx->cbuf, res->metadata.plane);
++      } else {
++         virgl_encoder_write_dword(ctx->cbuf, state->u.tex.first_layer | state->u.tex.last_layer << 16);
++      }
+       virgl_encoder_write_dword(ctx->cbuf, state->u.tex.first_level | state->u.tex.last_level << 8);
+    }
+    tmp = VIRGL_OBJ_SAMPLER_VIEW_SWIZZLE_R(state->swizzle_r) |
+-- 
+2.24.0.432.g9d3f5f5b63-goog
+
