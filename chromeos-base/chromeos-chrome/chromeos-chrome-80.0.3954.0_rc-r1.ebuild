@@ -65,6 +65,7 @@ IUSE="
 	orderfile_verify
 	+runhooks
 	strict_toolchain_checks
+	touchview
 	+thinlto
 	ubsan
 	+v4l2_codec
@@ -317,6 +318,9 @@ set_build_args() {
 	if use "ozone_platform_gbm"; then
 		BUILD_ARGS+=( "use_system_minigbm=true" )
 		BUILD_ARGS+=( "use_system_libdrm=true" )
+	fi
+	if use "touchview"; then
+		BUILD_ARGS+=( "subpixel_font_rendering_disabled=true" )
 	fi
 
 	# Set proper build args for the arch
