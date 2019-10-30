@@ -1,7 +1,7 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_BLACKLIST="1"
@@ -59,7 +59,7 @@ src_configure() {
 		$(use_enable video_cards_nouveau nouveau)
 		$(use_enable video_cards_omap omap-experimental-api)
 		$(use_enable video_cards_radeon radeon)
-		$(use_enable video_cards vc4 vc4)
+		$(use_enable video_cards_vc4 vc4)
 		$(use_enable video_cards_vmware vmwgfx)
 		$(use_enable libkms)
 		$(use_enable manpages)
