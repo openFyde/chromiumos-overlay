@@ -73,6 +73,7 @@ IUSE="
 	screenshare_sw_codec
 	smartdim
 	stylus
+	tablet_form_factor
 	test
 	touch_centric_device
 	touchscreen_wakeup
