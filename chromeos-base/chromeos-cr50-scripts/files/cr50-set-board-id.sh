@@ -111,15 +111,6 @@ main() {
   case "$#" in
     1)
       phase="$1"
-
-      # To provision board ID, we use RLZ brand code which is a four letter code
-      # (see full list on go/crosrlz) from VPD or hardware straps, and can be
-      # retrieved by command 'mosys platform brand'.
-      rlz="$(mosys platform brand)"
-      if [ $? != 0 ]; then
-        die "Failed at 'mosys' command."
-      fi
-
       ;;
     2)
       phase="$1"
@@ -129,25 +120,12 @@ main() {
       die "Usage: $0 phase [board_id]"
   esac
 
-  if [ "$1" = "check_device" ]; then
-    # The check_device function will not return
-    check_device
-  fi
-
-  case "${#rlz}" in
-    0)
-      die "No RLZ brand code assigned yet."
-      ;;
-    4)
-      # Valid RLZ are 4 letters
-      ;;
-    *)
-      die "Invalid RLZ brand code (${rlz})."
-      ;;
-  esac
-
   local flag=""
   case "${phase}" in
+    "check_device")
+      # The check_device function will not return
+      check_device
+      ;;
     "unknown")
       flag="0xff00"
       ;;
@@ -161,6 +139,27 @@ main() {
       ;;
     *)
       die "Unknown phase (${phase})"
+      ;;
+  esac
+
+  # To provision board ID, we use RLZ brand code which is a four letter code
+  # (see full list on go/crosrlz) from VPD or hardware straps, and can be
+  # retrieved by command 'mosys platform brand'.
+  if [ -z "${rlz}" ] ; then
+    rlz="$(mosys platform brand)"
+    if [ $? != 0 ]; then
+      die "Failed at 'mosys' command."
+    fi
+  fi
+  case "${#rlz}" in
+    0)
+      die "No RLZ brand code assigned yet."
+      ;;
+    4)
+      # Valid RLZ are 4 letters
+      ;;
+    *)
+      die "Invalid RLZ brand code (${rlz})."
       ;;
   esac
 
