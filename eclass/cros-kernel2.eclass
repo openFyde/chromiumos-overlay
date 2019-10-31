@@ -49,7 +49,7 @@ IUSE="
 	fit_compression_kernel_lzma
 	firmware_install
 	-kernel_sources
-	lld
+	+lld
 	nfc
 	${WIRELESS_SUFFIXES[@]/#/-wireless}
 	-wifi_testbed_ap
