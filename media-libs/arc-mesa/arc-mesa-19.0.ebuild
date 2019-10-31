@@ -183,6 +183,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/FROMLIST-meson-i965-Link-with-android.patch
 	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson-depend-on-libnativewindow-when-ap.patch
 	epatch "${FILESDIR}"/19.0-radeonsi-gfx9-honor-user-stride-for-imported-buffers.patch
+	epatch "${FILESDIR}"/CHROMIUM-do-not-initialize-destroy-locale-for-strtod.patch
 
 	default
 }
