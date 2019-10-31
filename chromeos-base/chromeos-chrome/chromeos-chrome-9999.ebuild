@@ -65,8 +65,8 @@ IUSE="
 	orderfile_verify
 	+runhooks
 	strict_toolchain_checks
-	touchview
 	+thinlto
+	touchview
 	ubsan
 	+v4l2_codec
 	v4lplugin
