@@ -57,9 +57,6 @@ src_prepare() {
 src_configure() {
 	tc-getPROG PKG_CONFIG pkg-config
 
-	# Needs std=gnu++11 to build with libc++. crbug.com/750831
-	append-cxxflags "-std=gnu++11"
-
 	append-cppflags "-UENABLE_SHADER_CACHE"
 
 	if use debug; then
