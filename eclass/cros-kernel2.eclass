@@ -923,6 +923,7 @@ builtin_fw_amdgpu_files=(
 	amdgpu/picasso_rlc.bin
 	amdgpu/picasso_sdma.bin
 	amdgpu/picasso_vcn.bin
+	amdgpu/raven_dmcu.bin
 	amdgpu/stoney_ce.bin
 	amdgpu/stoney_me.bin
 	amdgpu/stoney_mec.bin
