@@ -46,8 +46,8 @@ cr50_check_board_id_and_flag() {
   # Parse the output. E.g., 5a5a4146:a5a5beb9:0000ff00
   output="${output##* }"
 
-  if [ "${output}" = "ffffffff:ffffffff:ffffffff" ]; then
-    # Board ID is cleared, it's ok to go ahead and set it.
+  if [ "${output%:*}" = "ffffffff:ffffffff" ]; then
+    # Board ID is type cleared, it's ok to go ahead and set it.
     return 0
   fi
 
@@ -76,6 +76,25 @@ cr50_set_board_id_and_flag() {
   "${UPDATER}" -a -i "${updater_arg}" 2>&1
   if [ $? != 0 ]; then
     die "Failed to update with ${updater_arg}"
+  fi
+}
+
+# Exit if cr50 is running an image with a minor version less than the given
+# number. The two arguments are the lowest minor version the DUT should be
+# running and a description of the feature.
+check_cr50_support() {
+  local target="${1}"
+  local exit_status=0
+  local output=""
+  local desc="${2}"
+
+  output=$("${UPDATER}" -a -f -M 2>&1) || exit_status="$?"
+  if [ "${exit_status}" != "0" ]; then
+    die "Failed to get the version."
+  fi
+  rw_version=$(echo "${output}" | grep RW_FW_VER | cut -d = -f 2)
+  if [ "${rw_version##*.}" -lt "${target}" ]; then
+    die "Running cr50 ${rw_version}. ${desc} support was added in .${target}."
   fi
 }
 
@@ -126,6 +145,23 @@ main() {
       # The check_device function will not return
       check_device
       ;;
+    "whitelabel_flags")
+      # Whitelabel flags are set by using 0xffffffff as the rlz and the
+      # whitelabel flags. Cr50 images that support partial board id will ignore
+      # the board id type if it's 0xffffffff and only set the flags.
+      # Partial board id support was added in 0.X.24. Before that images won't
+      # ever ignore the type field. They always set board_id_type_inv to
+      # ~board_id_type. Trying the whitelabel command on these old images would
+      # blow the board id type in addition to the flags, and prevent setting the
+      # RLZ later. Exit here if the image doesn't support partial board id.
+      check_cr50_support "24" "partial board id"
+
+      rlz="0xffffffff"
+      flag="0x3f80"
+      ;;
+    "whitelabel")
+      flag="0x3f80"
+      ;;
     "unknown")
       flag="0xff00"
       ;;
@@ -157,6 +193,11 @@ main() {
       ;;
     4)
       # Valid RLZ are 4 letters
+      ;;
+    10)
+      if ! hex_eq "${rlz}" "0xffffffff"; then
+        die "Only support erased hex RLZ not ${rlz}."
+      fi
       ;;
     *)
       die "Invalid RLZ brand code (${rlz})."
