@@ -18,7 +18,7 @@ BOARDS="${BOARDS} kunimitsu link lumpy lumpy64 mario meowth nasher nami"
 BOARDS="${BOARDS} nautilus nocturne octopus panther parrot peppy poppy puff pyro"
 BOARDS="${BOARDS} rambi rammus reef samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo zoombini"
-IUSE="${BOARDS} altfw diag_payload seabios wilco_ec"
+IUSE="${BOARDS} diag_payload seabios wilco_ec"
 IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec +ec_ro_sync pd_sync +bmpblk"
 
 REQUIRED_USE="
@@ -441,10 +441,8 @@ build_images() {
 		add_ec "${depthcharge_config}" "${coreboot_file}.serial" "pd" "${pd_folder}"
 	fi
 
-	if use altfw; then
-		setup_altfw "${coreboot_build_target}" "${coreboot_file}"
-		setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
-	fi
+	setup_altfw "${coreboot_build_target}" "${coreboot_file}"
+	setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
 
 	build_image "" "${coreboot_file}" "${depthcharge}" "${depthcharge}"
 
