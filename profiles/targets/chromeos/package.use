@@ -110,11 +110,6 @@ sys-apps/util-linux     -unicode -udev
 sys-auth/pambase	-nullok
 sys-block/fio		aio
 sys-block/parted	device-mapper
-
-# crbug.com/998527: Make altfw the default
-sys-boot/chromeos-bootimage altfw
-sys-boot/chromeos-seabios altfw
-
 sys-devel/bc		forced-sandbox
 sys-devel/clang		-multitarget
 sys-devel/llvm		-multitarget -ncurses
