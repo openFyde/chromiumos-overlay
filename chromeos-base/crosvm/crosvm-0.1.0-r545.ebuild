@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="b016f84b590fab11ac37d8534771431d58da6a8b"
-CROS_WORKON_TREE="1afecbad115d3c7642c34e1b8f0cea68c7e9ef64"
+CROS_WORKON_COMMIT="5bff67d485f22fcbd391231dad1666cc849deb36"
+CROS_WORKON_TREE="0b46b580af3ea681796c24fc8e6038dc10e5e0b8"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -12,8 +12,11 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-fuzzer cros-rust cros-workon toolchain-funcs user
 
+KERNEL_PREBUILT_DATE="2019_10_10_00_22"
+
 DESCRIPTION="Utility for running VMs on Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/"
+SRC_URI="test? ( https://storage.googleapis.com/crosvm-testing/x86_64/${KERNEL_PREBUILT_DATE}/bzImage -> crosvm-bzImage-${KERNEL_PREBUILT_DATE} )"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -127,6 +130,8 @@ src_compile() {
 }
 
 src_test() {
+	# Some of the tests will use /dev/kvm.
+	addwrite /dev/kvm
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
@@ -148,14 +153,16 @@ src_test() {
 		# run under sanitizers.
 		cros-rust_use_sanitizers && feature_excludes+=( --exclude io_jail )
 
-		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
-		# access because the bots don't support these.  Also exclude sys_util
-		# since they already run as part of the dev-rust/sys_util package.
-		ecargo_test --all \
-			--exclude kvm \
-			--exclude kvm_sys \
-			--exclude net_util -v \
-			--exclude qcow \
+		export CROSVM_CARGO_TEST_KERNEL_BINARY="${DISTDIR}/crosvm-bzImage-${KERNEL_PREBUILT_DATE}"
+		[[ -e "${CROSVM_CARGO_TEST_KERNEL_BINARY}" ]] || \
+			die "expected to find kernel binary at ${CROSVM_CARGO_TEST_KERNEL_BINARY}"
+
+		# Excluding tests that run on a different arch, use /dev/dri,
+		# /dev/net/tun, or wayland access because the bots don't support these.
+		# Also exclude sys_util since they already run as part of the
+		# dev-rust/sys_util package.
+		ecargo_test --all -v \
+			--exclude net_util \
 			--exclude aarch64 \
 			--exclude gpu_buffer \
 			--exclude gpu_display \
