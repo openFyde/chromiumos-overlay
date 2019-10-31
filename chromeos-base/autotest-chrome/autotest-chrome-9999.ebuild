@@ -132,6 +132,7 @@ IUSE_TESTS=(
 	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ArcDisableScreenshots
 	+tests_policy_AudioOutputAllowed
+	+tests_policy_AutotestSanity
 	+tests_policy_BookmarkBarEnabled
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
@@ -146,6 +147,7 @@ IUSE_TESTS=(
 	+tests_policy_DeviceAllowBluetooth
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceTargetVersionPrefix
+	+tests_policy_DeviceWilcoDtcAllowed
 	+tests_policy_DisableScreenshots
 	+tests_policy_DownloadDirectory
 	+tests_policy_DriveDisabled
