@@ -123,10 +123,10 @@ sys-fs/lvm2		-lvm1 -readline -static device-mapper-only -thin
 sys-fs/mtools		-X
 sys-fs/ntfs3g		-crypt external-fuse ntfsprogs -suid
 sys-fs/udev		-devfs-compat -rule_generator hwdb acl
-sys-kernel/chromeos-kernel-3_8 -clang
-sys-kernel/chromeos-kernel-3_10 -clang
-sys-kernel/chromeos-kernel-3_14 -clang
-sys-kernel/chromeos-kernel-3_18 -clang
+sys-kernel/chromeos-kernel-3_8 -clang -lld
+sys-kernel/chromeos-kernel-3_10 -clang -lld
+sys-kernel/chromeos-kernel-3_14 -clang -lld
+sys-kernel/chromeos-kernel-3_18 -clang -lld
 sys-kernel/linux-firmware	linux_firmware_keyspan_usb
 sys-libs/ldb		-python
 sys-libs/ncurses	-cxx -unicode minimal tinfo
