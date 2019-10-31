@@ -102,6 +102,7 @@ EC_BOARD_NAMES=(
 	soraka
 	staff
 	strago
+	trogdor
 	twinkie
 	wand
 	whiskers
