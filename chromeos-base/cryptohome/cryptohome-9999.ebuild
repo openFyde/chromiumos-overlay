@@ -151,7 +151,8 @@ src_install() {
 	doexe shall-use-userdataauth.sh
 
 	platform_fuzzer_install "${S}"/OWNERS \
-		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer
+		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
+		fuzzers/data/*
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_blob_to_hex_fuzzer
