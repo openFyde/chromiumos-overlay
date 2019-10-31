@@ -50,7 +50,6 @@ IUSE="
 	goma
 	+highdpi
 	internal_gles_conform
-	jumbo
 	+libcxx
 	mojo
 	msan
@@ -259,9 +258,6 @@ set_build_args() {
 		"use_system_freetype=false"
 		"use_system_libsync=true"
 		"use_cups=$(usetf cups)"
-		# Jumbo merges translation units together, making builds faster on single machines.
-		# This flag is not automatically tested, so it may not work all the time.
-		"use_jumbo_build=$(usetf jumbo)"
 		"use_bundled_fontconfig=false"
 
 		# Clang features.
