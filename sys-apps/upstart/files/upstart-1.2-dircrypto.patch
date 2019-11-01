@@ -5,10 +5,11 @@ When the key for decoding an encrypted ext4 directory is added, all other
 processes will be able to read the decoded information, assuming they have access
 rights to that directory.
 
-Patch by Gwendal Grignou <gwendal@chromium.org>
+Patch by Gwendal Grignou <gwendal@chromium.org>,
+updated by Guenter Roeck <groeck@chromium.org>
 
 diff --git a/configure.ac b/configure.ac
-index f2f3aea..a814437 100644
+index 3adbd49..404c5ca 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -34,6 +34,37 @@ PKG_CHECK_MODULES([UDEV], [libudev >= 146], [have_udev=yes], [have_udev=no])
@@ -62,62 +63,35 @@ index 91410b1..7069ffa 100644
  
  
 diff --git a/init/main.c b/init/main.c
-index 10d6c27..821ed53 100644
+index 5e74f33..125239c 100644
 --- a/init/main.c
 +++ b/init/main.c
-@@ -43,6 +43,11 @@
+@@ -43,6 +43,10 @@
  #include <syslog.h>
  #include <unistd.h>
  
 +#ifdef ADD_DIRCRYPTO_RING
-+#include <ext2fs/ext2_fs.h>
 +#include <keyutils.h>
 +#endif
 +
  #ifdef HAVE_SELINUX
  #include <selinux/selinux.h>
- #endif
-@@ -125,6 +130,11 @@ main (int   argc,
- 	char **args;
- 	char  *arg_end = NULL;
- 	int    ret;
-+#ifdef ADD_DIRCRYPTO_RING
-+	int    root_fd;
-+	struct ext4_encryption_policy policy;
-+	key_serial_t keyring_id;
-+#endif
- 
- 	argv0 = argv[0];
- 	nih_main_init (argv0);
-@@ -294,6 +304,49 @@ main (int   argc,
+ #include <selinux/restorecon.h>
+@@ -309,6 +313,35 @@ main (int   argc,
  		(int)getpid (), (int)getppid ());
  #endif /* DEBUG */
  
 +#ifdef ADD_DIRCRYPTO_RING
-+#define EXT4_IOC_GET_ENCRYPTION_POLICY \
-+	_IOW('f', 21, struct ext4_encryption_policy)
 +	/*
 +	 * Set a keyring for the session to hold ext4 crypto keys.
 +	 * The session is at the root of all processes, so any users who wish
 +	 * to access a directory protected by ext4 crypto can access the key.
 +	 *
-+	 * Set only a session keyring when needed.
-+	 * A kernel patch is needed (see crbug/593893).
-+	 * Upstream kernel does not have the patch yet
-+	 * (See https://lkml.org/lkml/2016/3/17/491).
++	 * Only set a session keyring if the kernel supports ext4 encryption.
 +	 */
-+	int fd = open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
-+	if (fd == -1) {
-+		nih_warn("%s: %s", _("Unable to open / directory: %s"),
-+			 strerror (errno));
-+		ret = EINVAL;
-+	} else {
-+		ret = ioctl(fd, EXT4_IOC_GET_ENCRYPTION_POLICY, &policy);
-+		if (ret)
-+			ret = errno;
-+		close(fd);
-+	}
-+	if (ret != EINVAL && ret != EOPNOTSUPP && ret != ENOTTY) {
++	if (!access("/sys/fs/ext4/features/encryption", F_OK)) {
++		key_serial_t keyring_id;
++
 +		keyring_id = add_key ("keyring", "dircrypt", 0, 0,
 +				KEY_SPEC_SESSION_KEYRING);
 +		if (keyring_id == -1) {
@@ -139,3 +113,6 @@ index 10d6c27..821ed53 100644
  
  	/* Reset the signal state and install the signal handler for those
  	 * signals we actually want to catch; this also sets those that
+-- 
+2.20.1
+
