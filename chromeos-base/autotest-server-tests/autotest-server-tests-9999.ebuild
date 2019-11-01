@@ -121,7 +121,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Bmpblk
 	+tests_firmware_CgptStress
 	+tests_firmware_ClearTPMOwnerAndReset
-	+tests_firmware_CompareInstalledToShellBall
 	+tests_firmware_ConsecutiveBoot
 	+tests_firmware_ConsecutiveBootPowerButton
 	+tests_firmware_ConsecutiveLidSwitch
@@ -275,7 +274,6 @@ SERVER_IUSE_TESTS="
 	+tests_platform_InstallTestImage
 	+tests_platform_InternalDisplay
 	+tests_platform_KernelErrorPaths
-	+tests_platform_LabFirmwareUpdate
 	power_management? (
 		+tests_platform_PowerStatusStress
 		+tests_power_DeferForFlashrom
