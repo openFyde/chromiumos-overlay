@@ -18,14 +18,14 @@ ANDROID_VM_VERS=(
 	android-vm-master
 )
 
-IUSE="arcvm"
+IUSE="arcpp arcvm"
 IUSE="${IUSE} cheets"
 IUSE="${IUSE} ${ANDROID_CONTAINER_VERS[*]}"
 IUSE="${IUSE} ${ANDROID_VM_VERS[*]}"
 
 REQUIRED_USE="
-	^^ ( ${ANDROID_CONTAINER_VERS[*]} ${ANDROID_VM_VERS[*]} )
-	!arcvm? ( ^^ ( ${ANDROID_CONTAINER_VERS[*]} ) )
+	|| ( arcpp arcvm )
+	arcpp? ( ^^ ( ${ANDROID_CONTAINER_VERS[*]} ) )
 	arcvm? ( ^^ ( ${ANDROID_VM_VERS[*]} ) )
 "
 
@@ -52,9 +52,15 @@ arc-build-constants-configure() {
 	ARC_VM_PREFIX="/opt/google/vms/android"
 	ARC_CONTAINER_PREFIX="/opt/google/containers/android"
 
-	ARC_PREFIX="/opt/google/containers/android"
-	if use arcvm; then
-		ARC_PREFIX="/opt/google/vms/android"
+	if use arcpp && use arcvm; then
+		# When building ARC++ and ARCVM together, the path to which common packages
+		# will install to will point to a union path jointed during build_images.
+		ARC_PREFIX="/build/rootfs/opt/google/union/android"
+		ARC_VM_PREFIX="/usr/local/vms/android"
+	elif use arcvm; then
+		ARC_PREFIX="${ARC_VM_PREFIX}"
+	else
+		ARC_PREFIX="${ARC_CONTAINER_PREFIX}"
 	fi
 
 	# Always finalize *_DIR's only after setting the PREFIX*'s to allow for
