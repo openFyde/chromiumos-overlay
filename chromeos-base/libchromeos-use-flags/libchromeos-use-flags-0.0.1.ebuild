@@ -3,8 +3,6 @@
 
 EAPI="5"
 
-inherit cros-debug
-
 DESCRIPTION="Text file listing USE flags for chromeos-base/libchromeos"
 
 LICENSE="BSD-Google"
@@ -19,7 +17,6 @@ IUSE="
 	arc
 	arc_adb_sideloading
 	arc_force_2x_scaling
-	arc_oobe_optin
 	arc_oobe_optin_no_skip
 	arc_transition_m_to_n
 	arcpp
@@ -28,36 +25,23 @@ IUSE="
 	background_blur
 	big_little
 	biod
-	caroline
 	cfm_enabled_device
 	cheets
 	compupdates
-	cros-debug
 	disable_cros_video_decoder
 	disable_flash_hw_video_decode
-	disable_low_latency_audio
-	disable_webaudio
 	drm_atomic
 	edge_touch_filtering
-	eve
 	force_crashpad
 	gpu_sandbox_allow_sysv_shm
 	gpu_sandbox_failures_not_fatal
-	gpu_sandbox_start_after_initialization
 	gpu_sandbox_start_early
-	has_hdd
-	highdpi
 	instant_tethering
-	internal_stylus
-	kevin
 	kvm_host
 	kvm_transition
 	legacy_keyboard
 	legacy_power_button
-	link
-	low_pressure_touch_filtering
 	moblab
-	native_assistant
 	native_gpu_memory_buffers
 	natural_scroll_default
 	neon
@@ -65,22 +49,15 @@ IUSE="
 	oobe_skip_postlogin
 	oobe_skip_to_login
 	opengles
-	ozone
 	passive_event_listeners
 	pita
-	pointer_events
 	rialto
-	rialto_enterprise_enrollment
 	screenshare_sw_codec
 	smartdim
-	stylus
 	tablet_form_factor
-	test
 	touch_centric_device
 	touchscreen_wakeup
 	touchview
-	veyron_mickey
-	veyron_minnie
 	video_capture_use_gpu_memory_buffer
 	virtio_gpu
 	wilco
