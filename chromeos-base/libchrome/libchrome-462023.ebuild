@@ -140,6 +140,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-2.patch
 	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-3.patch
 	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-4.patch
+	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-5.patch
 
 	# Don't crash for mismatched histogram parms.
 	# # TODO(weidonglin): Remove after libchrome uprev past r552089.
