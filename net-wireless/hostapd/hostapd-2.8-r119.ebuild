@@ -83,8 +83,7 @@ src_configure() {
 		echo "CONFIG_EAP_PEAP=y" >> ${CONFIG}
 		echo "CONFIG_TLSV11=y" >> ${CONFIG}
 		echo "CONFIG_TLSV12=y" >> ${CONFIG}
-		# OpenSSL on ChromeOS does not include EC support needed by EAP_PWD.
-		# echo "CONFIG_EAP_PWD=y" >> ${CONFIG}
+		echo "CONFIG_EAP_PWD=y" >> ${CONFIG}
 	fi
 
 	if use wps; then
@@ -103,11 +102,14 @@ src_configure() {
 	echo "CONFIG_EAP_AKA=y" >> ${CONFIG}
 	echo "CONFIG_EAP_AKA_PRIME=y" >> ${CONFIG}
 	echo "CONFIG_EAP_EKE=y" >> ${CONFIG}
+	echo "CONFIG_EAP_FAST=y" >> ${CONFIG}
 	echo "CONFIG_EAP_PAX=y" >> ${CONFIG}
 	echo "CONFIG_EAP_PSK=y" >> ${CONFIG}
 	echo "CONFIG_EAP_SAKE=y" >> ${CONFIG}
 	echo "CONFIG_EAP_GPSK=y" >> ${CONFIG}
 	echo "CONFIG_EAP_GPSK_SHA256=y" >> ${CONFIG}
+	echo "CONFIG_EAP_UNAUTH_TLS=y" >> ${CONFIG}
+	echo "CONFIG_EAP_VENDOR_TEST=y" >> ${CONFIG}
 
 	einfo "Enabling drivers: "
 
