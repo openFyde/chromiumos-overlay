@@ -1,23 +1,23 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=6
 
-CROS_WORKON_COMMIT="5b7c5ee0509fd988d20f56fbd6ba8d3386fb4bca"
-CROS_WORKON_TREE=("70d83bbed2cc71b12ba96acb151f090af819c990" "74736bea397c14116c889fff3f9698983b44e384" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="65746efd2ea6abcf7a4abf5ca3ca24fa0fea6c4e"
+CROS_WORKON_TREE=("70d83bbed2cc71b12ba96acb151f090af819c990" "e95fd76ae997634a6b92525954af58e1d1d7235f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk power_manager .gn"
+CROS_WORKON_SUBTREE="common-mk shill .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="power_manager/client"
+PLATFORM_SUBDIR="shill/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="Power manager DBus client library for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+DESCRIPTION="Shill DBus client library for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -36,10 +36,10 @@ DEPEND="
 "
 
 RDEPEND="
-	!<chromeos-base/power_manager-0.0.2
+	!<chromeos-base/shill-0.0.2
 "
 
 src_install() {
 	# Install DBus client library.
-	platform_install_dbus_client_lib "power_manager"
+	platform_install_dbus_client_lib "shill"
 }

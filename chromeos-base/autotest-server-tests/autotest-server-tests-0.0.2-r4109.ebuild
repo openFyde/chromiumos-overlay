@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="22a8a5ebdf8a936e41e8144e376560a4b8216c4b"
-CROS_WORKON_TREE="cd55b02473e53ebc22787df0b1f63003888bd847"
+CROS_WORKON_COMMIT="1be83cc38e25d4ba98316f0c7996367cd6c6194b"
+CROS_WORKON_TREE="e2756331c247f4d15067d55ec27022ef251be2ea"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -123,7 +123,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Bmpblk
 	+tests_firmware_CgptStress
 	+tests_firmware_ClearTPMOwnerAndReset
-	+tests_firmware_CompareInstalledToShellBall
 	+tests_firmware_ConsecutiveBoot
 	+tests_firmware_ConsecutiveBootPowerButton
 	+tests_firmware_ConsecutiveLidSwitch
@@ -277,7 +276,6 @@ SERVER_IUSE_TESTS="
 	+tests_platform_InstallTestImage
 	+tests_platform_InternalDisplay
 	+tests_platform_KernelErrorPaths
-	+tests_platform_LabFirmwareUpdate
 	power_management? (
 		+tests_platform_PowerStatusStress
 		+tests_power_DeferForFlashrom
