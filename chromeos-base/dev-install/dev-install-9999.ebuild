@@ -50,6 +50,7 @@ src_install() {
 	exeinto /usr/share/dev-install
 	newexe dev_install main.sh
 
+	cd "${S}/share" || die
 	insinto /usr/share/${PN}/portage/make.profile
 	doins make.defaults
 
