@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure prepare
+DEPEND=>=sys-fs/fuse-2.6.0_pre3:0 >=dev-libs/glib-2.4.2 virtual/pkgconfig
+DESCRIPTION=Fuse-filesystem utilizing the sftp service
+EAPI=6
+HOMEPAGE=https://github.com/libfuse/sshfs
+IUSE=asan coverage fuzzer msan tsan ubsan
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=>=sys-fs/fuse-2.6.0_pre3:0 >=dev-libs/glib-2.4.2 >=net-misc/openssh-4.4
+SLOT=0
+SRC_URI=https://github.com/libfuse/sshfs/releases/download/sshfs-2.10/sshfs-2.10.tar.gz
+_eclasses_=cros-sanitizers	68fd6af9813658a590887ca09efa2444	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=ebaddef5331ae4b40b12266dcab603ca

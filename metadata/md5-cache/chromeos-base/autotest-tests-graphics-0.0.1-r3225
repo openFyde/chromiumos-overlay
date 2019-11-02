@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install postinst prepare setup unpack
+DEPEND=!<chromeos-base/autotest-tests-0.0.3 chromeos-base/autotest-deps-graphics ozone? ( tests_graphics_Drm? ( chromeos-base/drm-tests ) tests_graphics_Gbm? ( media-libs/minigbm ) ) tests_graphics_GLBench? ( chromeos-base/glbench ) tests_graphics_GLMark2? ( chromeos-base/autotest-deps-glmark2 ) tests_graphics_SanAngeles? ( media-libs/waffle ) dev-vcs/git
+DESCRIPTION=Graphics autotests
+EAPI=5
+HOMEPAGE=http://www.chromium.org/
+IUSE=+autotest ozone ozone? ( +tests_graphics_dEQP +tests_graphics_Drm +tests_graphics_Gbm ) +tests_graphics_GLAPICheck +tests_graphics_GLBench +tests_graphics_GLMark2 +tests_graphics_KernelConfig +tests_graphics_KernelMemory +tests_graphics_LibDRM +tests_graphics_PerfControl +tests_graphics_SanAngeles +tests_graphics_SyncControlTest asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_64182466264b45c638623de6853ab50c91d05879 +buildcheck autotest opengles
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=!<chromeos-base/autotest-tests-0.0.3 chromeos-base/autotest-deps-graphics ozone? ( tests_graphics_Drm? ( chromeos-base/drm-tests ) tests_graphics_Gbm? ( media-libs/minigbm ) ) tests_graphics_GLBench? ( chromeos-base/glbench ) tests_graphics_GLMark2? ( chromeos-base/autotest-deps-glmark2 ) tests_graphics_SanAngeles? ( media-libs/waffle ) ( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )
+SLOT=0
+_eclasses_=autotest	08b4e7e85f2e2e045ac3e5c8ed44fdc9	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	3b601120f312bbae79125777d6e788db	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	6c859cdda96f9f5c9a4efc0b57f354bf	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=493e32de4f4844c75bb3cf8cd7b8faba

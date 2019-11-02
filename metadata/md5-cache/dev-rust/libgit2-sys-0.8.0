@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install postinst prepare prerm unpack
+DEPEND=>=dev-rust/cc-1.0.25:= >=dev-rust/libc-0.2:= >=dev-rust/libssh2-sys-0.2.11:= >=dev-rust/libz-sys-1.0.22:= >=dev-rust/pkg-config-0.3.7:= >=dev-rust/openssl-sys-0.9.47:= >=virtual/rust-1.28.0:= >=dev-util/cargo-0.29.0
+DESCRIPTION=Native bindings to the libgit2 library
+EAPI=6
+HOMEPAGE=https://github.com/rust-lang/git2-rs
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
+LICENSE=|| ( MIT Apache-2.0 )
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=0.8.0/r0
+SRC_URI=https://crates.io/api/v1/crates/libgit2-sys/0.8.0/download -> libgit2-sys-0.8.0.crate
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	a0c2a251ef205deeb455f8df39c70b45	cros-sanitizers	68fd6af9813658a590887ca09efa2444	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=e554571ba4c274b62089eadcb7e79636

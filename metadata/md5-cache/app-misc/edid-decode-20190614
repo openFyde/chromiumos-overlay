@@ -1,0 +1,10 @@
+DEFINED_PHASES=configure
+DESCRIPTION=Extended Display Identification Data (EDID) decoder
+EAPI=5
+HOMEPAGE=https://git.linuxtv.org/edid-decode.git/about
+KEYWORDS=*
+LICENSE=MIT
+SLOT=0
+SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/edid-decode-20190614.tar.gz
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=6fa597e5f40db501ef4b2c06769ea99d

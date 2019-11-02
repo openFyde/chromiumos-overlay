@@ -8,5 +8,5 @@ LICENSE=libpng
 RDEPEND=media-libs/libpng:0=[-pnm2png(-)]
 SLOT=0/16
 SRC_URI=mirror://sourceforge/libpng/libpng-1.6.25.tar.xz
-_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
+_eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
 _md5_=97270c3138063ea32139caac485ae925

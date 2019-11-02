@@ -9,5 +9,5 @@ LICENSE=BSD-Google
 RDEPEND=chromeos-base/vboot_reference unibuild? ( chromeos-base/chromeos-config:= ) app-arch/gzip app-arch/sharutils app-arch/tar sys-apps/util-linux chromeos-base/vpd sys-apps/flashrom sys-apps/mosys cros_ish? ( chromeos-base/chromeos-ish )
 RESTRICT=mirror
 SLOT=0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-firmware	cc08a0496f5204525d84bcb6756b6d5d	cros-unibuild	b0c63947b994d5b898a75fcd865f62cf	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
-_md5_=972bd8e200957bf1ac0569eff2c45674
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-firmware	cb73e29392de150515871866c220b9c5	cros-unibuild	ffdd23d044a8b1132999e0b11ae355b3	cros-workon	3b601120f312bbae79125777d6e788db	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	6c859cdda96f9f5c9a4efc0b57f354bf	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=dfb1d14b3d4b9ea95bab20296709feae

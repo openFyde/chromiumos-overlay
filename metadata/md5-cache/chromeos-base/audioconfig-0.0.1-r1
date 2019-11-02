@@ -1,8 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Audio configuration files
-EAPI=2
-HOMEPAGE=http://src.chromium.org
-KEYWORDS=*
-LICENSE=BSD
-SLOT=0
-_md5_=855a76d1b3ff8748d0387f0b1159cc97

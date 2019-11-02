@@ -1,9 +1,0 @@
-DEFINED_PHASES=compile install
-DESCRIPTION=File for pinning the Termina version for testing
-EAPI=6
-HOMEPAGE=http://dev.chromium.org/
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0
-_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
-_md5_=4094ad7af4c3183ef49ac7888073affe

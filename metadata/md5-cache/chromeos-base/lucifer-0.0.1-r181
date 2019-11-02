@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile info install postinst setup test unpack
+DEPEND=dev-go/errors dev-go/gcp-bigquery dev-go/go-sys dev-go/luci-tsmon dev-go/opencensus dev-go/subcommands dev-go/xerrors dev-vcs/git dev-lang/go
+DESCRIPTION=Chromium OS testing infrastructure
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/infra/lucifer/
+IUSE=cros_host cros_workon_tree_e4f8b510a1fd73c1ea9234a157db0cc82f0bbb24
+KEYWORDS=*
+LICENSE=BSD-Google
+RESTRICT=binchecks strip
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-go	157c7bac0e032e424ec1c3316c127db8	cros-workon	3b601120f312bbae79125777d6e788db	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	6c859cdda96f9f5c9a4efc0b57f354bf	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=7cf3fd4c2d43f5c8dcb8433bb4601336

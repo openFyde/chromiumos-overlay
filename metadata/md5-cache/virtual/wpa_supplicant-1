@@ -1,0 +1,9 @@
+DEFINED_PHASES=-
+DEPEND=!wpa_supplicant_next? ( net-wireless/wpa_supplicant:=[dbus] !net-wireless/wpa_supplicant-2_8 ) wpa_supplicant_next? ( net-wireless/wpa_supplicant-2_8:=[dbus] !net-wireless/wpa_supplicant )
+DESCRIPTION=Virtual to select between different wpa_supplicant revisions
+EAPI=6
+IUSE=wpa_supplicant_next
+KEYWORDS=*
+RDEPEND=!wpa_supplicant_next? ( net-wireless/wpa_supplicant:=[dbus] !net-wireless/wpa_supplicant-2_8 ) wpa_supplicant_next? ( net-wireless/wpa_supplicant-2_8:=[dbus] !net-wireless/wpa_supplicant )
+SLOT=0
+_md5_=883cdfb1f759dcef75857f9b18e93263

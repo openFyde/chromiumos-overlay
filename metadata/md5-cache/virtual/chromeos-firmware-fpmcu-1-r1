@@ -1,0 +1,6 @@
+DEFINED_PHASES=-
+DESCRIPTION=Generic ebuild which satisfies virtual/chromeos-firmware-fpmcu. Overridden in the private overlay.
+EAPI=6
+KEYWORDS=*
+SLOT=0
+_md5_=1c316de9512ad1daa706fd73f9e4553c

@@ -1,9 +1,10 @@
 DEFINED_PHASES=install
 DESCRIPTION=Install software codec configuration on ARCVM
 EAPI=5
-IUSE=arcvm
+IUSE=arcvm cheets android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt android-vm-pi
 KEYWORDS=*
 LICENSE=BSD-Google
+REQUIRED_USE=^^ ( android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt android-vm-pi ) !arcvm? ( ^^ ( android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt ) ) arcvm? ( ^^ ( android-vm-pi ) )
 SLOT=0
-_eclasses_=arc-build-constants	703af1183bebf188eb1660e16995ba10
+_eclasses_=arc-build-constants	d232df0c412eeeacc33206f9db72c6c9
 _md5_=1dc546671f9e7ebaac35454116fbaf85

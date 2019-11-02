@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install postinst prepare prerm setup test unpack
+DEPEND=chromeos-base/chromeos-dbus-bindings-rust:= =dev-rust/dbus-0.6*:= dev-vcs/git >=virtual/rust-1.28.0:= >=dev-util/cargo-0.29.0
+DESCRIPTION=Chrome OS system API D-Bus bindings for Rust.
+EAPI=6
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/system_api/
+IUSE=cros_host cros_workon_tree_a0d8550678a1ed2a4ab62782049032a024bf40df_e2625b3867cb196d95037423254249ca91240333_ba15d6389975ee3f002088a3e5f8ba186dcc24d7_ebd11befc1a57fac6ed42c680a616f7307cb8210 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
+LICENSE=BSD-Google
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=0/0.24.52-r13
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	a0c2a251ef205deeb455f8df39c70b45	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	3b601120f312bbae79125777d6e788db	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	6c859cdda96f9f5c9a4efc0b57f354bf	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=3dffc2e0f2bf5f3ae7d57a8cc3969074

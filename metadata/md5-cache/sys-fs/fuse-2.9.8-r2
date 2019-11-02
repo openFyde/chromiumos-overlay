@@ -1,0 +1,14 @@
+DEFINED_PHASES=configure install postinst prepare setup
+DEPEND=virtual/pkgconfig >=app-portage/elt-patches-20170815 virtual/pkgconfig filecaps? ( sys-libs/libcap )
+DESCRIPTION=An interface for filesystems implemented in userspace
+EAPI=6
+HOMEPAGE=https://github.com/libfuse/libfuse
+IUSE=examples kernel_linux kernel_FreeBSD static-libs kernel_linux +filecaps
+KEYWORDS=*
+LICENSE=GPL-2
+PDEPEND=kernel_FreeBSD? ( sys-fs/fuse4bsd )
+RDEPEND=sys-fs/fuse-common
+SLOT=0
+SRC_URI=https://github.com/libfuse/libfuse/releases/download/fuse-2.9.8/fuse-2.9.8.tar.gz
+_eclasses_=eapi7-ver	756b3f27d8e46131d5cf3c51bd876446	eutils	06133990e861be0fe60c2b428fd025d9	fcaps	eeefea88d5fef2853d4c1e3770340302	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	linux-info	6accc0e19163336db48a3c346993eb16	ltprune	2770eed66a9b8ef944714cd0e968182e	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	udev	d91cac2c73b94629cad2daea66e0d182
+_md5_=f5c82c3fbcdd182805819f6aa940fad1

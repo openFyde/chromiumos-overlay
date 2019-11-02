@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile configure info install prepare setup test unpack
-DEPEND=dev-libs/expat dev-libs/libgcrypt virtual/udev >=x11-libs/libdrm-2.4.94 =dev-lang/python-2* dev-libs/libxml2 sys-devel/bison sys-devel/flex virtual/pkgconfig dev-vcs/git
+DEPEND=dev-libs/expat dev-libs/libgcrypt virtual/udev >=x11-libs/libdrm-2.4.94 dev-libs/libxml2 sys-devel/bison sys-devel/flex virtual/pkgconfig dev-vcs/git
 DESCRIPTION=OpenGL-like graphic library for Linux
 EAPI=6
 HOMEPAGE=http://mesa3d.sourceforge.net/
@@ -8,5 +8,5 @@ KEYWORDS=~*
 LICENSE=MIT SGI-B-2.0
 RDEPEND=dev-libs/expat dev-libs/libgcrypt virtual/udev >=x11-libs/libdrm-2.4.94
 SLOT=0
-_eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-workon	95ad12f00a41358c69ea7582e50958e1	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	8c47ad5a0bf57db218b06ee8cb9829c2	meson	bb03fba89211ada65fb543d1f8343100	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	ninja-utils	ebb2eaddc6331c4fa000b8eb8f6fe074	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	9c197f17a0c674e03f7bc2b075110f3e
-_md5_=5bafc6c6d23f068b08eb7a5bfeb16737
+_eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-workon	3b601120f312bbae79125777d6e788db	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	6c859cdda96f9f5c9a4efc0b57f354bf	meson	4482d86840b3da8663084ac71014f5d6	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=699544dbaaf7255c4bb2bfa7fb6641c0
