@@ -59,12 +59,16 @@ UB_BUILD_DIR="build"
 # @FUNCTION: get_current_u_boot_config
 # @DESCRIPTION:
 # Finds the config for the current board by checking the master configuration.
+# The default is to use 'coreboot'.
 get_current_u_boot_config() {
+	local config
+
 	if use sandbox; then
-		echo chromeos_sandbox
+		config=chromeos_sandbox
 	else
-		cros_config_host get-firmware-build-targets u-boot || die
+		config="$(cros_config_host get-firmware-build-targets u-boot)"
 	fi
+	echo "${config:-coreboot}"
 }
 
 umake() {
@@ -73,6 +77,8 @@ umake() {
 }
 
 src_configure() {
+	local config
+
 	export LDFLAGS=$(raw-ldflags)
 	tc-export BUILD_CC
 
