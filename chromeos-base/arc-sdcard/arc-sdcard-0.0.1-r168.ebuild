@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="3bb8cfb5e428da7f7cad890717c305c4c971ac8f"
+CROS_WORKON_COMMIT="f982e351a748d71a8042ec6909e72f2faf137364"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "8507735579e7fc9b3850039ffb51c77c9c39c64c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,7 +19,6 @@ DESCRIPTION="Container to run Android's sdcard daemon."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/sdcard"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="esdfs"
 

@@ -1,9 +1,9 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="def23f1c7ff06d3cab9fa18780e13b7a55829af4"
+CROS_WORKON_COMMIT="f982e351a748d71a8042ec6909e72f2faf137364"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "263eb4a91bacce18001e21a1694227869ae4711b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,17 +19,19 @@ DESCRIPTION="D-Bus service to mount OBB files"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/obb-mounter"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	chromeos-base/libbrillo
-	sys-fs/fuse
-	sys-libs/libcap
+	sys-fs/fuse:=
+	sys-libs/libcap:=
 "
 
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+DEPEND="${RDEPEND}"
+
+BDEPEND="
+	virtual/pkgconfig
+"
+
 
 CONTAINER_DIR="/opt/google/containers/arc-obb-mounter"
 

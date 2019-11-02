@@ -1,9 +1,9 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="9b368af6a4943b90941471d0bdf7e7208788f898"
+CROS_WORKON_COMMIT="f982e351a748d71a8042ec6909e72f2faf137364"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "c7bda606e0e0442329c074c5a4372085a9ca1cc2" "eaba6cf1d12d0852c3d93f36e583310366dbd995" "0fb784e506cbf071c9e2700aa93bf591a4f624a1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,6 @@ DESCRIPTION="Set up environment to run ARC."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/setup"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="
 	arcvm
@@ -32,23 +31,26 @@ IUSE="
 	ndk_translation
 	unibuild"
 
-RDEPEND="
-	chromeos-base/bootstat
-	!<chromeos-base/chromeos-cheets-scripts-0.0.4
-	unibuild? ( chromeos-base/chromeos-config )
-	chromeos-base/chromeos-config-tools
-	chromeos-base/cryptohome-client
-	chromeos-base/libbrillo
-	chromeos-base/metrics
-	chromeos-base/minijail
-	chromeos-base/swap-init
-	sys-libs/libselinux
-	dev-libs/dbus-glib
-	dev-libs/protobuf
-	esdfs? ( sys-apps/restorecon )"
+COMMON_DEPEND="
+	chromeos-base/bootstat:=
+	chromeos-base/chromeos-config-tools:=
+	chromeos-base/cryptohome-client:=
+	chromeos-base/metrics:=
+	dev-libs/dbus-glib:=
+	dev-libs/protobuf:=
+	sys-libs/libselinux:=
+	chromeos-base/minijail:=
+"
 
-DEPEND="${RDEPEND}
-	chromeos-base/system_api[fuzzer?]"
+RDEPEND="${COMMON_DEPEND}
+	chromeos-base/swap-init
+	esdfs? ( sys-apps/restorecon )
+"
+
+DEPEND="${COMMON_DEPEND}
+	unibuild? ( chromeos-base/chromeos-config:= )
+	chromeos-base/system_api:=[fuzzer?]
+"
 
 
 enable_esdfs() {

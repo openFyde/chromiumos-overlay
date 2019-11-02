@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="0deca1323be953cec3adbac523f362cd496b3d76"
+CROS_WORKON_COMMIT="f982e351a748d71a8042ec6909e72f2faf137364"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "2822c12aff73ad311bb921794d0f5b6557558313" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,7 +18,6 @@ DESCRIPTION="A package to run arcvm."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/launch"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 src_install() {

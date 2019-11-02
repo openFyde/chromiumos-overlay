@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="02fa88e03baf5690d1ea81e48cfd2010302a8816"
+CROS_WORKON_COMMIT="f982e351a748d71a8042ec6909e72f2faf137364"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "0e94b175077f4fe6d5dc46f052665311cc8dbcda" "cf2950cef94b312abae3ba71a1c3d3f9aa96cdb1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,6 @@ DESCRIPTION="Container to run Android."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container-bundle"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 # TODO(b/73695883): Rename from android-container-master-arc-dev to

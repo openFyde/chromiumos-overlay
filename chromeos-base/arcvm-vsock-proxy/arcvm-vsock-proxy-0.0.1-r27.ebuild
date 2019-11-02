@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="def23f1c7ff06d3cab9fa18780e13b7a55829af4"
+CROS_WORKON_COMMIT="f982e351a748d71a8042ec6909e72f2faf137364"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "c64f62b86efb2204575ccb4c37574d0bba0e6fad" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,24 +19,15 @@ DESCRIPTION="ARCVM vsock proxy."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/vsock_proxy"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	chromeos-base/libbrillo:=
 	dev-libs/protobuf:=
 	sys-fs/fuse
 "
 
 DEPEND="
 	${RDEPEND}
-"
-
-# Previously this ebuild was named "arcvm".
-# TODO(hashimoto): Remove this blocker after a while.
-RDEPEND="
-	${RDEPEND}
-	!chromeos-base/arcvm
 "
 
 src_install() {

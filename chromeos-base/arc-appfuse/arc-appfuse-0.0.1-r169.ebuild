@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="def23f1c7ff06d3cab9fa18780e13b7a55829af4"
+CROS_WORKON_COMMIT="f982e351a748d71a8042ec6909e72f2faf137364"
 CROS_WORKON_TREE=("5d53ff58483685bdf4424a3c8e8496656e9aa83e" "85bf9251a06885d1cb9c000fdeaa1673f14f1ffc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,18 +19,20 @@ DESCRIPTION="D-Bus service to provide ARC Appfuse"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/appfuse"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	chromeos-base/libbrillo
-	sys-apps/dbus
-	sys-fs/fuse
+	sys-apps/dbus:=
+	sys-fs/fuse:=
 "
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api
-	virtual/pkgconfig"
+	chromeos-base/system_api:=
+"
+
+BDEPEND="
+	virtual/pkgconfig
+"
 
 src_install() {
 	dobin "${OUT}/arc-appfuse-provider"
