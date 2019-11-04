@@ -13,13 +13,10 @@ KEYWORDS="*"
 IUSE=""
 
 # Block the old package to force people to clean up.
-RDEPEND="!chromeos-base/hard-host-depends"
-
-# Pull in any site-specific or private-overlay-specific packages needed on the
-# host.
-RDEPEND="${RDEPEND}
-	virtual/hard-host-depends-bsp
-	"
+RDEPEND="
+	!chromeos-base/hard-host-depends
+	!virtual/hard-host-depends-bsp
+"
 
 # Basic utilities
 RDEPEND="${RDEPEND}
