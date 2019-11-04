@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="d9096e4dd801a64224ed0f04c55e5895b2716062"
-CROS_WORKON_TREE="9ac4b38de863625a20eece51f9e7b8357d1b401a"
+CROS_WORKON_COMMIT="e9f35007037ca27ef55047e75d3fd42107df5adb"
+CROS_WORKON_TREE="1c5b5a1067460e00596e51458faa7e02060f42bf"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -134,6 +134,7 @@ IUSE_TESTS=(
 	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ArcDisableScreenshots
 	+tests_policy_AudioOutputAllowed
+	+tests_policy_AutotestSanity
 	+tests_policy_BookmarkBarEnabled
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
@@ -148,6 +149,7 @@ IUSE_TESTS=(
 	+tests_policy_DeviceAllowBluetooth
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceTargetVersionPrefix
+	+tests_policy_DeviceWilcoDtcAllowed
 	+tests_policy_DisableScreenshots
 	+tests_policy_DownloadDirectory
 	+tests_policy_DriveDisabled
