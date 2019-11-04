@@ -127,19 +127,39 @@ is_ec_efs_enabled() {
 	grep -q "^CONFIG_EC_EFS=y$" "${depthcharge_config}"
 }
 
+# Returns true if coreboot is set up to perform EC software sync
+is_early_ec_sync_enabled() {
+	local coreboot_config="$1"
+
+	grep -q "^CONFIG_VBOOT_EARLY_EC_SYNC=y$" "${coreboot_config}"
+}
+
+# Adds EC{ro,rw} images to CBFS
 add_ec() {
 	local depthcharge_config="$1"
-	local rom="$2"
-	local name="$3"
-	local ecroot="$4"
+	local coreboot_config="$2"
+	local rom="$3"
+	local name="$4"
+	local ecroot="$5"
 	local pad="0"
+	local comp_type="lzma"
+
+	# The initial implementation of EC software sync in coreboot does
+	# not support decompression of the EC firmware images.  There is
+	# not enough CAR/SRAM space available to store the entire image
+	# decompressed, so it would have to be decompressed in a "streaming"
+	# fashion.  See crbug.com/1023830.
+	if [[ "${name}" != "pd" ]] && is_early_ec_sync_enabled "${coreboot_config}"; then
+		einfo "Adding uncompressed EC image"
+		comp_type="none"
+	fi
 
 	# When EFS is enabled, the payloads here may be resigned and enlarged so
 	# extra padding is needed.
 	is_ec_efs_enabled "${depthcharge_config}" && pad="128"
 	einfo "Padding ${name}{ro,rw} ${pad} byte."
 
-	do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c lzma \
+	do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c "${comp_type}" \
 		-f "${ecroot}/ec.RW.bin" -n "${name}rw" -p "${pad}"
 	do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
 		-f "${ecroot}/ec.RW.hash" -n "${name}rw.hash"
@@ -147,7 +167,7 @@ add_ec() {
 	if ! use ec_ro_sync; then
 		einfo "Skip packing EC RO."
 	elif [[ -f "${ecroot}/ec.RO.bin" ]]; then
-		do_cbfstool "${rom}" add -r COREBOOT -t raw -c lzma \
+		do_cbfstool "${rom}" add -r COREBOOT -t raw -c "${comp_type}" \
 			-f "${ecroot}/ec.RO.bin" -n "${name}ro" -p "${pad}"
 		do_cbfstool "${rom}" add -r COREBOOT -t raw -c none \
 			-f "${ecroot}/ec.RO.hash" -n "${name}ro.hash"
@@ -369,6 +389,7 @@ build_images() {
 
 	local coreboot_orig
 	local depthcharge_prefix
+	local coreboot_config
 
 	if [ -n "${build_name}" ]; then
 		einfo "Building firmware images for ${build_name}"
@@ -376,9 +397,11 @@ build_images() {
 		mkdir "${outdir}"
 		suffix="-${build_name}"
 		coreboot_orig="${froot}/${coreboot_build_target}/coreboot.rom"
+		coreboot_config="${froot}/${coreboot_build_target}/coreboot.config"
 		depthcharge_prefix="${froot}/${depthcharge_build_target}/depthcharge"
 	else
 		coreboot_orig="${froot}/coreboot.rom"
+		coreboot_config="${froot}/coreboot.config"
 		depthcharge_prefix="${froot}/depthcharge"
 	fi
 
@@ -425,11 +448,11 @@ build_images() {
 	if use cros_ec || use wilco_ec; then
 		if use unibuild; then
 			einfo "Adding EC for ${ec_build_target}"
-			add_ec "${depthcharge_config}" "${coreboot_file}" "ec" "${froot}/${ec_build_target}"
-			add_ec "${depthcharge_config}" "${coreboot_file}.serial" "ec" "${froot}/${ec_build_target}"
+			add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "ec" "${froot}/${ec_build_target}"
+			add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.serial" "ec" "${froot}/${ec_build_target}"
 		else
-			add_ec "${depthcharge_config}" "${coreboot_file}" "ec" "${froot}"
-			add_ec "${depthcharge_config}" "${coreboot_file}.serial" "ec" "${froot}"
+			add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "ec" "${froot}"
+			add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.serial" "ec" "${froot}"
 		fi
 	fi
 
@@ -443,8 +466,8 @@ build_images() {
 	fi
 
 	if use pd_sync; then
-		add_ec "${depthcharge_config}" "${coreboot_file}" "pd" "${pd_folder}"
-		add_ec "${depthcharge_config}" "${coreboot_file}.serial" "pd" "${pd_folder}"
+		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "pd" "${pd_folder}"
+		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.serial" "pd" "${pd_folder}"
 	fi
 
 	setup_altfw "${coreboot_build_target}" "${coreboot_file}"
