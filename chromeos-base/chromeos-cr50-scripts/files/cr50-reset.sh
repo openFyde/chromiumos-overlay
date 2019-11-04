@@ -64,6 +64,9 @@ cr50_reset() {
     return 1
   fi
 
+  # Preseve enough space to prevent terminal scrolling.
+  clear
+
   # Display the challenge.
   echo "Challenge:"
   echo "${ch}"
