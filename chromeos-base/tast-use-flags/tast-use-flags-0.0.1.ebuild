@@ -17,6 +17,7 @@ IUSE="
 	android-container-qt
 	android-vm-pi
 	arc
+	arc-camera1
 	arc-camera3
 	arcvm
 	asan
