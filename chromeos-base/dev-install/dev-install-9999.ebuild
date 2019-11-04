@@ -1,12 +1,13 @@
 # Copyright 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/dev-util")
-CROS_WORKON_LOCALNAME=("platform2" "dev")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/dev")
+EAPI="7"
+
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk dev-install .gn" "dev-install")
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk dev-install .gn"
 
 PLATFORM_SUBDIR="dev-install"
 
@@ -45,10 +46,6 @@ platform_pkg_test() {
 
 src_install() {
 	dobin "${OUT}/dev_install"
-
-	cd "../../dev/dev-install" || die
-	exeinto /usr/share/dev-install
-	newexe dev_install main.sh
 
 	cd "${S}/share" || die
 	insinto /usr/share/${PN}/portage/make.profile
