@@ -1,8 +1,8 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-CROS_WORKON_COMMIT="5b7c5ee0509fd988d20f56fbd6ba8d3386fb4bca"
+EAPI=7
+CROS_WORKON_COMMIT="e8d79f5778769167107827353d295324474fae74"
 CROS_WORKON_TREE=("70d83bbed2cc71b12ba96acb151f090af819c990" "eb2874b79c09cfe06cc47e53fc156b210a75c44b" "08a9d2628c2d6c2c3927546901c137c75a8d36d4" "0fb784e506cbf071c9e2700aa93bf591a4f624a1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,27 +18,28 @@ DESCRIPTION="Biometrics Daemon for Chromium OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="fp_on_power_button fuzzer unibuild"
 
-RDEPEND="
-	unibuild? ( chromeos-base/chromeos-config )
-	chromeos-base/chromeos-config-tools
-	chromeos-base/libbrillo:=
+COMMON_DEPEND="
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/metrics:=
 	sys-apps/flashmap:=
+	unibuild? ( chromeos-base/chromeos-config:= )
+"
+RDEPEND="
+	${COMMON_DEPEND}
 	sys-apps/flashrom
 	virtual/chromeos-firmware-fpmcu
-	"
+"
 
 DEPEND="
-	${RDEPEND}
-	chromeos-base/chromeos-ec-headers
-	chromeos-base/power_manager-client
-	chromeos-base/system_api[fuzzer?]
+	${COMMON_DEPEND}
+	chromeos-base/chromeos-ec-headers:=
+	chromeos-base/power_manager-client:=
+	chromeos-base/system_api:=[fuzzer?]
 	dev-libs/openssl:=
-	"
+"
 
 pkg_setup() {
 	enewuser biod

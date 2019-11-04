@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="5b7c5ee0509fd988d20f56fbd6ba8d3386fb4bca"
+CROS_WORKON_COMMIT="e8d79f5778769167107827353d295324474fae74"
 CROS_WORKON_TREE=("70d83bbed2cc71b12ba96acb151f090af819c990" "d8e2d98bcdfd69f3fe27ef423e6a90b5fc9647cd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,13 +18,11 @@ inherit cros-workon libchrome platform user
 DESCRIPTION="Local and cloud communication services for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT=0
 KEYWORDS="*"
 IUSE=""
 
 COMMON_DEPEND="
-	chromeos-base/libbrillo
-	chromeos-base/libweave
+	chromeos-base/libweave:=
 "
 
 RDEPEND="
@@ -33,8 +31,8 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/shill-client
-	chromeos-base/system_api
+	chromeos-base/shill-client:=
+	chromeos-base/system_api:=
 "
 
 pkg_preinst() {

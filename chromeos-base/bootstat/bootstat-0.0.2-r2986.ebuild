@@ -1,9 +1,9 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="5b7c5ee0509fd988d20f56fbd6ba8d3386fb4bca"
+CROS_WORKON_COMMIT="e8d79f5778769167107827353d295324474fae74"
 CROS_WORKON_TREE=("70d83bbed2cc71b12ba96acb151f090af819c990" "8f8ace492c0cd2a8d28b432522b13933db1214a5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -19,15 +19,19 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
+COMMON_DEPEND="
+	sys-apps/rootdev:=
+"
+
 RDEPEND="
-	sys-apps/rootdev
-	"
-DEPEND="${RDEPEND}
-	chromeos-base/libbrillo
+	${COMMON_DEPEND}
+"
+
+DEPEND="
+	${COMMON_DEPEND}
 "
 
 src_install() {
