@@ -15,7 +15,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/chromite/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros_host"
+IUSE=""
 
 # We don't have unittests, so make sure the cros_run_unit_tests script
 # doesn't waste time rebuilding us all the time.
@@ -25,13 +25,6 @@ src_install() {
 	install_python() {
 		# TODO(crbug.com/771085): Figure out this SYSROOT business.
 		local dir="$(python_get_sitedir | sed "s:^${SYSROOT}::")/chromite"
-
-		# For the SDK, we just install symlinks to the live code.
-		if use cros_host; then
-			dodir "${dir%/*}"
-			dosym "${CHROOT_SOURCE_ROOT}/chromite" "${dir}"
-			return
-		fi
 
 		insinto "${dir}"
 		doins -r "${S}"/*

@@ -137,6 +137,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/chromeos-base
 	>=chromeos-base/chromeos-config-host-0.0.1-r301
 	chromeos-base/chromeos-installer
+	chromeos-base/chromite-sdk
 	chromeos-base/cros-devutils[cros_host]
 	chromeos-base/cros-testutils
 	chromeos-base/ec-devutils
