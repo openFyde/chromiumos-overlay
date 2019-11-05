@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="5b7c5ee0509fd988d20f56fbd6ba8d3386fb4bca"
+CROS_WORKON_COMMIT="3a4c7fdedc892007bf8226a0506a1048337935c8"
 CROS_WORKON_TREE=("70d83bbed2cc71b12ba96acb151f090af819c990" "dfab6a61a2a0649713108c977d760fd3a211eb4e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -50,6 +50,7 @@ src_install() {
 
 	# Fuzzer.
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firewall_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/port_tracker_fuzzer
 }
 
 platform_pkg_test() {
