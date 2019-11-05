@@ -21,6 +21,7 @@ DEPEND="chromeos-base/system_api-rust:=
 	>=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
 	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
 	dev-rust/remain:=
+	>=dev-rust/rustyline-5.0.4:= <dev-rust/rustyline-6.0.0
 	dev-rust/sys_util:=
 	dev-rust/tempfile:=
 	>=dev-rust/termion-1.5.1:= <dev-rust/termion-2.0.0
