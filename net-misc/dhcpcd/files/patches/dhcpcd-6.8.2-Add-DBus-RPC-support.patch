@@ -981,11 +981,11 @@ index 0000000..cc88356
 +		}
 +		dhcpcd_stop_interface(dhcpcd_ctx, iface_name);
 +		(void) dbus_ack(con, msg);
-+		exit(EXIT_FAILURE);
++		eloop_exit(dhcpcd_ctx->eloop, EXIT_FAILURE);
 +	} else if (dbus_message_is_signal(msg, DBUS_INTERFACE_LOCAL,
 +					  "Disconnected")) {
 +		dhcpcd_stop_interfaces(dhcpcd_ctx);
-+		exit(EXIT_FAILURE);
++		eloop_exit(dhcpcd_ctx->eloop, EXIT_FAILURE);
 +	}
 +	return get_dbus_error(con, msg, S_EINVAL, S_ARGS);
 +#undef IsMethod
@@ -1077,9 +1077,9 @@ index 0000000..cc88356
 +	}
 +	if (strcmp(service, "org.chromium.flimflam") == 0 &&
 +	    strlen(new_owner) == 0) {
-+		syslog(LOG_INFO, "exiting because flimflamd has died");
++		syslog(LOG_INFO, "exiting because shill has died");
 +		dhcpcd_stop_interfaces(dhcpcd_ctx);
-+		exit(EXIT_FAILURE);
++		eloop_exit(dhcpcd_ctx->eloop, EXIT_FAILURE);
 +	}
 +	return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 +}

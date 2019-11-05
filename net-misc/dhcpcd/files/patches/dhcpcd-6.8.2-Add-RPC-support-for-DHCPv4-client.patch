@@ -188,7 +188,7 @@ index 763e06f..a486ac2 100644
  
 +	if (rpc_init(&ctx) == -1) {
 +		/* NB: rpc_init generates a syslog msg */
-+		exit(EXIT_FAILURE);
++		goto exit_failure;
 +	}
 +	rpc_signal_status("Init");
 +
