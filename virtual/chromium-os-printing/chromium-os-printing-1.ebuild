@@ -10,11 +10,12 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="postscript"
+IUSE="internal postscript"
 
 RDEPEND="
 	chromeos-base/ippusb_manager
 	net-print/cups
 	net-print/cups-filters
+	internal? ( net-print/xerox-printing-license )
 	postscript? ( net-print/hplip )
 "
