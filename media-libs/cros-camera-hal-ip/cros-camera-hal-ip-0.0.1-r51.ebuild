@@ -4,10 +4,10 @@
 EAPI=5
 
 CROS_WORKON_COMMIT="fb2df820af54bb41e1d8bc3f899a6e04a5a7fad5"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "95792eb9452c8e29329d404fbffc4f600382248f" "cc73b4627831fee9a8d0f4514b29bed30ab1d78f" "f7f16d5474f139cf453b503655a8e6936cb52e88" "2ba22b88ed6c3fdb6b720b3a0c1bc4c0a17f1afa" "70d83bbed2cc71b12ba96acb151f090af819c990")
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "95792eb9452c8e29329d404fbffc4f600382248f" "cc73b4627831fee9a8d0f4514b29bed30ab1d78f" "f7f16d5474f139cf453b503655a8e6936cb52e88" "2ba22b88ed6c3fdb6b720b3a0c1bc4c0a17f1afa" "70d83bbed2cc71b12ba96acb151f090af819c990" "0fb784e506cbf071c9e2700aa93bf591a4f624a1")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/ip camera/include camera/mojo common-mk"
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/ip camera/include camera/mojo common-mk metrics"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -23,6 +23,7 @@ KEYWORDS="*"
 RDEPEND="
 	chromeos-base/libbrillo
 	media-libs/cros-camera-libcbm
+	media-libs/cros-camera-libjda
 	media-libs/libsync"
 
 DEPEND="${RDEPEND}
