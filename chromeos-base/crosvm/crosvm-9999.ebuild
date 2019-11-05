@@ -42,7 +42,7 @@ DEPEND="${RDEPEND}
 	=dev-rust/bitflags-1*:=
 	~dev-rust/cc-1.0.25:=
 	~dev-rust/getopts-0.2.18:=
-	~dev-rust/libc-0.2.44:=
+	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	~dev-rust/num_cpus-1.9.0:=
 	~dev-rust/pkg-config-0.3.11:=
 	~dev-rust/proc-macro2-0.4.21:=

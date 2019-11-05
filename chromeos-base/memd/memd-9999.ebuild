@@ -23,7 +23,7 @@ DEPEND="chromeos-base/system_api
 	~dev-rust/chrono-0.4.2:=
 	~dev-rust/dbus-0.6.1:=
 	=dev-rust/env_logger-0.6*:=
-	~dev-rust/libc-0.2.44:=
+	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	~dev-rust/log-0.4.5:=
 	>=dev-rust/protobuf-2.8:=
 	!>=dev-rust/protobuf-3
