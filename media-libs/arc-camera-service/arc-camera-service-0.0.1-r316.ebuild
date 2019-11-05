@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="0cea80c5760f570b8a3c904a6c53594c1b4393ab"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "b59eb31c6d9ddcfca9aa60666cec34e25fb65cd9" "c91d64ed0ade5112c219f8f1e9742cf9ecbae646" "919e0296149265dc619bd627732aa16d058c499d" "70d83bbed2cc71b12ba96acb151f090af819c990")
+CROS_WORKON_COMMIT="fb2df820af54bb41e1d8bc3f899a6e04a5a7fad5"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "b59eb31c6d9ddcfca9aa60666cec34e25fb65cd9" "c91d64ed0ade5112c219f8f1e9742cf9ecbae646" "f7f16d5474f139cf453b503655a8e6936cb52e88" "70d83bbed2cc71b12ba96acb151f090af819c990")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 # TODO(crbug.com/914263): camera/hal/usb is unnecessary for this build but is
