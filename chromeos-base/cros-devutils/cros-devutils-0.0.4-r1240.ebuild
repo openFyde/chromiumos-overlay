@@ -1,21 +1,24 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
+
 CROS_WORKON_COMMIT="c8b21a39cc93006b17a01fdc71d333114b7909aa"
-CROS_WORKON_TREE="9cc1b2f2296c6a2e53d6bf3793f7a813fd73c3a1"
+CROS_WORKON_TREE="c9fdef9fe5c670a799724cf86f99ea4b565144aa"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_SUBTREE="host"
 
-inherit cros-workon multilib
+inherit cros-workon
 
 DESCRIPTION="Development utilities for ChromiumOS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/host/"
 
-LICENSE="GPL-2"
-SLOT="0"
+LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test"
+IUSE=""
 
 RDEPEND="app-portage/gentoolkit
 	>=chromeos-base/devserver-0.0.2
@@ -26,6 +29,8 @@ RDEPEND="app-portage/gentoolkit
 	"
 # These are all either bash / python scripts.  No actual builds DEPS.
 DEPEND=""
+
+src_compile() { :; }
 
 src_install() {
 	local host_tools=(
