@@ -1,1 +1,0 @@
-libc-0.2.44.ebuild
