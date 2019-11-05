@@ -10,7 +10,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
 # chromiumos-wide-profiling directory is in $SRC_URI, not in platform2.
-CROS_WORKON_SUBTREE="common-mk"
+CROS_WORKON_SUBTREE="common-mk .gn"
 
 PLATFORM_SUBDIR="chromiumos-wide-profiling"
 
@@ -18,7 +18,7 @@ inherit cros-workon platform
 
 DESCRIPTION="quipper: chromiumos wide profiling"
 HOMEPAGE="http://www.chromium.org/chromium-os/profiling-in-chromeos"
-GIT_SHA1="6c1f25926799345df918a4a483287427c048aac3"
+GIT_SHA1="26628a824f066d54a4fee4341fce652b8f4a6bd8"
 SRC="quipper-${GIT_SHA1}.tar.gz"
 SRC_URI="gs://chromeos-localmirror/distfiles/${SRC}"
 SRC_DIR="src/${PN}"
