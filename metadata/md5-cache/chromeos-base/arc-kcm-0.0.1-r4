@@ -8,5 +8,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 REQUIRED_USE=cheets ^^ ( android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt android-vm-pi ) !arcvm? ( ^^ ( android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt ) ) arcvm? ( ^^ ( android-vm-pi ) )
 SLOT=0
-_eclasses_=arc-build-constants	d232df0c412eeeacc33206f9db72c6c9
+_eclasses_=arc-build-constants	68e5d6821d4d959803162f4ac22c6780
 _md5_=24b481bda73d491ddb89336f50eac016
