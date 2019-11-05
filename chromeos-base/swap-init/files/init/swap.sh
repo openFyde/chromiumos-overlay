@@ -115,13 +115,18 @@ default_low_memory_margin() {
 get_target_value() {
   local PARAM="$(echo "$1" | tr '[a-z]' '[A-Z]')"
   local value
-  local board_override_file="$(expand_var "${PARAM}_BOARD_OVERRIDE_FILE")"
   local override_file="$(expand_var "${PARAM}_OVERRIDE_FILE")"
+  local board_override_file="$(expand_var "${PARAM}_BOARD_OVERRIDE_FILE")"
   local default_generator="$1"_default_generator
 
   if [ -e "${override_file}" ]; then
-    value=$(cat "${override_file}")
-  elif [ -e "${board_override_file}" ]; then
+    rm -f "${override_file}" 2> /dev/null
+  fi
+
+  # We no longer allow per-user overrides because they were causing issues
+  # where users were unaware of kernel changes requiring new parameters.
+  # Additionally, user overrides prevent finch based experimentation.
+  if [ -e "${board_override_file}" ]; then
     value=$(cat "${board_override_file}")
   else
     value=$(${default_generator})
@@ -354,7 +359,6 @@ set_parameter() {
   esac
   local PARAM="$(echo "${param}" | tr '[:lower:]' '[:upper:]')"
   local max="$(expand_var "${PARAM}_MAX")"
-  local override_file="$(expand_var "${PARAM}_OVERRIDE_FILE")"
   local special_file="$(expand_var "${PARAM}_SPECIAL_FILE")"
   local conversion="$(expand_var "${PARAM}_CONVERSION")"
   local default_generator=${param}_default_generator
@@ -369,14 +373,15 @@ set_parameter() {
     exit 1
   fi
 
+  # We no longer allow per-user overrides because they were causing issues
+  # where users were unaware of kernel changes requiring new parameters.
+  # Additionally, user overrides prevent finch based experimentation.
   local system_value
   if [ "${value}" = "-1" ]; then
-    rm -f "${override_file}"
     system_value=$(get_target_value "${param}")
   else
     # User units (always MiB) may differ from system units (sometimes KiB).
     system_value=$(( value * conversion ))
-    create_write_file "${override_file}" "${system_value}"
   fi
   echo "${system_value}" > "${special_file}"
   value=$(( system_value / conversion ))
