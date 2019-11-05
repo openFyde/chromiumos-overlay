@@ -1,0 +1,23 @@
+Remove the with-dirs feature so that the dirs dependency is not needed.
+diff --git a/Cargo.toml b/Cargo.toml
+index 5db7f2f..588bfdf 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -25,7 +25,7 @@ repository = "https://github.com/kkawakam/rustyline"
+ [package.metadata.docs.rs]
+ all-features = false
+ default-target = "x86_64-unknown-linux-gnu"
+-features = ["with-dirs"]
++features = []
+ no-default-features = true
+ [dependencies.dirs]
+ version = "2.0"
+@@ -46,7 +46,7 @@ version = "1.0"
+ [dependencies.unicode-width]
+ version = "0.1"
+ [features]
+-default = ["with-dirs"]
++default = []
+ with-dirs = ["dirs"]
+ [target."cfg(unix)".dependencies.nix]
+ version = "0.14"
