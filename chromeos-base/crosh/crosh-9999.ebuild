@@ -24,7 +24,6 @@ DEPEND="chromeos-base/system_api-rust:=
 	>=dev-rust/rustyline-5.0.4:= <dev-rust/rustyline-6.0.0
 	dev-rust/sys_util:=
 	dev-rust/tempfile:=
-	>=dev-rust/termion-1.5.1:= <dev-rust/termion-2.0.0
 	dev-rust/tlsdate_dbus:=
 "
 RDEPEND="app-admin/sudo
