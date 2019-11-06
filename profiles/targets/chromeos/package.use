@@ -143,3 +143,255 @@ x11-libs/libva		egl
 # Need png for color font support. bzip2 is not used. It's only for X11 *pcf.bz2
 # that we don't have.
 media-libs/freetype	png -bzip2
+
+# Freeze Python 2.7 versions for all existing packages.  We'll slowly trim this
+# list down as packages don't need them.  New packages should *not* be added
+# here as new code should be using Python 3.
+# TODO(crbug.com/1007152): Trim this entirely!
+app-admin/compute-image-packages python_targets_python2_7
+app-admin/sosreport python_targets_python2_7
+app-admin/webapp-config python_targets_python2_7
+app-arch/brotli python_targets_python2_7
+app-editors/vim python_targets_python2_7
+app-emulation/cloud-init python_targets_python2_7
+chromeos-base/chromite python_targets_python2_7
+chromeos-base/ec-devutils python_targets_python2_7
+chromeos-base/factory python_targets_python2_7
+chromeos-base/factory-mini python_targets_python2_7
+chromeos-base/hammerd-test-utils python_targets_python2_7
+chromeos-base/infra-virtualenv python_targets_python2_7
+chromeos-base/mobmonitor python_targets_python2_7
+chromeos-base/pywalt python_targets_python2_7
+chromeos-base/telemetry python_targets_python2_7
+chromeos-base/touch_firmware_test python_targets_python2_7
+chromeos-base/touchbot python_targets_python2_7
+chromeos-base/update_payload python_targets_python2_7
+dev-embedded/libftdi python_targets_python2_7
+dev-lang/python-exec python_targets_python2_7
+dev-lang/yasm python_targets_python2_7
+dev-libs/boost python_targets_python2_7
+dev-libs/glib python_targets_python2_7
+dev-libs/libnl python_targets_python2_7
+dev-libs/libxml2 python_targets_python2_7
+dev-libs/libxslt python_targets_python2_7
+dev-libs/protobuf python_targets_python2_7
+dev-python/argcomplete python_targets_python2_7
+dev-python/asn1crypto python_targets_python2_7
+dev-python/backports python_targets_python2_7
+dev-python/bcrypt python_targets_python2_7
+dev-python/boto python_targets_python2_7
+dev-python/bottle python_targets_python2_7
+dev-python/btsocket python_targets_python2_7
+dev-python/cachetools python_targets_python2_7
+dev-python/certifi python_targets_python2_7
+dev-python/cffi python_targets_python2_7
+dev-python/chardet python_targets_python2_7
+dev-python/cheetah python_targets_python2_7
+dev-python/cheroot python_targets_python2_7
+dev-python/cherrypy python_targets_python2_7
+dev-python/configobj python_targets_python2_7
+dev-python/contextlib2 python_targets_python2_7
+dev-python/crcmod python_targets_python2_7
+dev-python/cryptography python_targets_python2_7
+dev-python/cycler python_targets_python2_7
+dev-python/cython python_targets_python2_7
+dev-python/dbus-python python_targets_python2_7
+dev-python/django python_targets_python2_7
+dev-python/dnspython python_targets_python2_7
+dev-python/docutils python_targets_python2_7
+dev-python/dpkt python_targets_python2_7
+dev-python/ecdsa python_targets_python2_7
+dev-python/elementtree python_targets_python2_7
+dev-python/entrypoints python_targets_python2_7
+dev-python/fasteners python_targets_python2_7
+dev-python/funcsigs python_targets_python2_7
+dev-python/future python_targets_python2_7
+dev-python/gcs-oauth2-boto-plugin python_targets_python2_7
+dev-python/gevent python_targets_python2_7
+dev-python/gnupg python_targets_python2_7
+dev-python/gdata python_targets_python2_7
+dev-python/google-api-core python_targets_python2_7
+dev-python/google-api-python-client python_targets_python2_7
+dev-python/google-apitools python_targets_python2_7
+dev-python/google-auth python_targets_python2_7
+dev-python/google-cloud-core python_targets_python2_7
+dev-python/google-cloud-pubsub python_targets_python2_7
+dev-python/google-cloud-storage python_targets_python2_7
+dev-python/google-reauth-python python_targets_python2_7
+dev-python/google-resumable-media python_targets_python2_7
+dev-python/googleapis-common-protos python_targets_python2_7
+dev-python/greenlet python_targets_python2_7
+dev-python/grpc-google-iam-v1 python_targets_python2_7
+dev-python/grpcio python_targets_python2_7
+dev-python/httplib2 python_targets_python2_7
+dev-python/idna python_targets_python2_7
+dev-python/imaging python_targets_python2_7
+dev-python/jaraco-functools python_targets_python2_7
+dev-python/jinja python_targets_python2_7
+dev-python/jsonpatch python_targets_python2_7
+dev-python/jsonpointer python_targets_python2_7
+dev-python/jsonrpclib python_targets_python2_7
+dev-python/jsonschema python_targets_python2_7
+dev-python/keyring python_targets_python2_7
+dev-python/kiwisolver python_targets_python2_7
+dev-python/lazy-object-proxy python_targets_python2_7
+dev-python/linecache2 python_targets_python2_7
+dev-python/lockfile python_targets_python2_7
+dev-python/lxml python_targets_python2_7
+dev-python/m2crypto python_targets_python2_7
+dev-python/markdown python_targets_python2_7
+dev-python/markupsafe python_targets_python2_7
+dev-python/matplotlib python_targets_python2_7
+dev-python/mkvparse python_targets_python2_7
+dev-python/mock python_targets_python2_7
+dev-python/monotonic python_targets_python2_7
+dev-python/more-itertools python_targets_python2_7
+dev-python/mysqlclient python_targets_python2_7
+dev-python/namespace-google python_targets_python2_7
+dev-python/namespace-jaraco python_targets_python2_7
+dev-python/netifaces python_targets_python2_7
+dev-python/numpy python_targets_python2_7
+dev-python/oauth python_targets_python2_7
+dev-python/oauth2client python_targets_python2_7
+dev-python/packaging python_targets_python2_7
+dev-python/parallel-ssh python_targets_python2_7
+dev-python/paramiko python_targets_python2_7
+dev-python/pbr python_targets_python2_7
+dev-python/pexpect python_targets_python2_7
+dev-python/ply python_targets_python2_7
+dev-python/portend python_targets_python2_7
+dev-python/prettytable python_targets_python2_7
+dev-python/protobuf-python python_targets_python2_7
+dev-python/psutil python_targets_python2_7
+dev-python/ptyprocess python_targets_python2_7
+dev-python/py python_targets_python2_7
+dev-python/pyasn1 python_targets_python2_7
+dev-python/pyasn1-modules python_targets_python2_7
+dev-python/pyblake2 python_targets_python2_7
+dev-python/pycparser python_targets_python2_7
+dev-python/pycryptodome python_targets_python2_7
+dev-python/pygments python_targets_python2_7
+dev-python/pygobject python_targets_python2_7
+dev-python/pynacl python_targets_python2_7
+dev-python/pyopenssl python_targets_python2_7
+dev-python/pyparsing python_targets_python2_7
+dev-python/pyserial python_targets_python2_7
+dev-python/PySocks python_targets_python2_7
+dev-python/pytest python_targets_python2_7
+dev-python/python-daemon python_targets_python2_7
+dev-python/python-dateutil python_targets_python2_7
+dev-python/python-evdev python_targets_python2_7
+dev-python/python-gflags python_targets_python2_7
+dev-python/python-gnupg python_targets_python2_7
+dev-python/python-libusb1 python_targets_python2_7
+dev-python/python-uinput python_targets_python2_7
+dev-python/pytz python_targets_python2_7
+dev-python/pyu2f python_targets_python2_7
+dev-python/pyudev python_targets_python2_7
+dev-python/pyusb python_targets_python2_7
+dev-python/pyxattr python_targets_python2_7
+dev-python/pyyaml python_targets_python2_7
+dev-python/qrcode python_targets_python2_7
+dev-python/regex python_targets_python2_7
+dev-python/requests python_targets_python2_7
+dev-python/retry-decorator python_targets_python2_7
+dev-python/rfc3987 python_targets_python2_7
+dev-python/rsa python_targets_python2_7
+dev-python/rtslib-fb python_targets_python2_7
+dev-python/scandir python_targets_python2_7
+dev-python/secretstorage python_targets_python2_7
+dev-python/selenium python_targets_python2_7
+dev-python/setproctitle python_targets_python2_7
+dev-python/setuptools python_targets_python2_7
+dev-python/setuptools_scm python_targets_python2_7
+dev-python/setuptools_scm_git_archive python_targets_python2_7
+dev-python/simplejson python_targets_python2_7
+dev-python/six python_targets_python2_7
+dev-python/ssh2 python_targets_python2_7
+dev-python/ssh2-python python_targets_python2_7
+dev-python/strict-rfc3339 python_targets_python2_7
+dev-python/tempora python_targets_python2_7
+dev-python/tftpy python_targets_python2_7
+dev-python/tqdm python_targets_python2_7
+dev-python/traceback2 python_targets_python2_7
+dev-python/trollius python_targets_python2_7
+dev-python/uritemplate python_targets_python2_7
+dev-python/urllib3 python_targets_python2_7
+dev-python/utm python_targets_python2_7
+dev-python/vcversioner python_targets_python2_7
+dev-python/versioneer python_targets_python2_7
+dev-python/virtualenv python_targets_python2_7
+dev-python/wcwidth python_targets_python2_7
+dev-python/webcolors python_targets_python2_7
+dev-python/ws4py python_targets_python2_7
+dev-python/zc-lockfile python_targets_python2_7
+dev-util/android-tools python_targets_python2_7
+dev-util/gdbus-codegen python_targets_python2_7
+dev-util/glib-utils python_targets_python2_7
+dev-util/hdctools python_targets_python2_7
+dev-util/mem python_targets_python2_7
+dev-util/perf python_targets_python2_7
+dev-util/scons python_targets_python2_7
+dev-util/trace-cmd python_targets_python2_7
+dev-vcs/git python_targets_python2_7
+media-gfx/zbar python_targets_python2_7
+media-libs/alsa-lib python_targets_python2_7
+media-libs/opencv python_targets_python2_7
+net-analyzer/nmap python_targets_python2_7
+net-dns/avahi python_targets_python2_7
+net-fs/samba python_targets_python2_7
+net-ftp/pybootd python_targets_python2_7
+net-libs/libproxy python_targets_python2_7
+net-misc/gsutil python_targets_python2_7
+net-print/cups python_targets_python2_7
+net-print/hplip python_targets_python2_7
+sci-geosciences/gpsd python_targets_python2_7
+sci-libs/tensorflow python_targets_python2_7
+sys-apps/dtc python_targets_python2_7
+sys-apps/file python_targets_python2_7
+sys-apps/flashmap python_targets_python2_7
+sys-apps/fwupd python_targets_python2_7
+sys-apps/i2c-tools python_targets_python2_7
+sys-apps/kmod python_targets_python2_7
+sys-apps/moblab-common python_targets_python2_7
+sys-apps/portage python_targets_python2_7
+sys-apps/usbutils python_targets_python2_7
+sys-apps/util-linux python_targets_python2_7
+sys-block/fio python_targets_python2_7
+sys-devel/gdb python_targets_python2_7
+sys-fs/ecryptfs-utils python_targets_python2_7
+sys-libs/ldb python_targets_python2_7
+sys-libs/libapparmor python_targets_python2_7
+sys-libs/libcap-ng python_targets_python2_7
+sys-libs/libselinux python_targets_python2_7
+sys-libs/talloc python_targets_python2_7
+sys-libs/tdb python_targets_python2_7
+sys-libs/tevent python_targets_python2_7
+sys-process/audit python_targets_python2_7
+sys-process/iotop python_targets_python2_7
+virtual/python-cffi python_targets_python2_7
+virtual/python-enum34 python_targets_python2_7
+virtual/python-funcsigs python_targets_python2_7
+virtual/python-futures python_targets_python2_7
+virtual/python-greenlet python_targets_python2_7
+virtual/python-ipaddress python_targets_python2_7
+virtual/python-pathlib python_targets_python2_7
+virtual/python-typing python_targets_python2_7
+www-apache/mod_wsgi python_targets_python2_7
+x11-proto/xcb-proto python_targets_python2_7
+
+# These packages only support Python 2.7.  They aren't needed in Python 3.6+.
+# TODO(crbug.com/1007152): Trim this entirely!
+dev-python/backports-functools-lru-cache python_targets_python2_7 -python_targets_python3_6
+dev-python/backports-lzma python_targets_python2_7 -python_targets_python3_6
+dev-python/backports-shutil_get_terminal_size python_targets_python2_7 -python_targets_python3_6
+dev-python/configparser python_targets_python2_7 -python_targets_python3_6
+dev-python/ctypesgen python_targets_python2_7 -python_targets_python3_6
+dev-python/enum34 python_targets_python2_7 -python_targets_python3_6
+dev-python/functools32 python_targets_python2_7 -python_targets_python3_6
+dev-python/futures python_targets_python2_7 -python_targets_python3_6
+dev-python/ipaddress python_targets_python2_7 -python_targets_python3_6
+dev-python/mox python_targets_python2_7 -python_targets_python3_6
+dev-python/pathlib python_targets_python2_7 -python_targets_python3_6
+dev-python/subprocess32 python_targets_python2_7 -python_targets_python3_6
+dev-python/typing python_targets_python2_7 -python_targets_python3_6
