@@ -63,7 +63,8 @@ RDEPEND=">=media-libs/alsa-lib-1.0.27
 	chromeos-base/metrics
 	selinux? ( sys-libs/libselinux )"
 DEPEND="${RDEPEND}
-	media-libs/ladspa-sdk"
+	media-libs/ladspa-sdk
+	media-sound/cras_rust"
 
 check_format_error() {
 	local file
