@@ -290,5 +290,11 @@
         "rel_patch_path": "cherry/97e251e05a46f5b90af5a0bebebdda98e7fd98ab.patch",
         "start_version": 370808,
         "end_version": 373255
+    },
+    {
+        "comment": "[ELF] Error if the linked-to section of a SHF_LINK_ORDER section is discarded",
+        "rel_patch_path": "cherry/267205149587595e956db25a12252835a51cd372.patch",
+        "start_version": 370808,
+        "end_version": 372400
     }
 ]
