@@ -281,11 +281,11 @@ cros-rust_src_configure() {
 
 	use cros-debug && rustflags+=( -Cdebug-assertions=on )
 
-	use asan && rustflags+=( -Clink-arg=-fuse-ld=gold -Csanitizer=address )
-	use lsan && rustflags+=( -Clink-arg=-fuse-ld=gold -Csanitizer=leak )
-	use msan && rustflags+=( -Clink-arg=-fuse-ld=gold -Csanitizer=memory )
-	use tsan && rustflags+=( -Clink-arg=-fuse-ld=gold -Csanitizer=thread )
-	use ubsan && rustflags+=( -Clink-arg=-fuse-ld=gold -Clink-arg=-fsanitize=undefined )
+	use asan && rustflags+=( -Csanitizer=address )
+	use lsan && rustflags+=( -Csanitizer=leak )
+	use msan && rustflags+=( -Csanitizer=memory )
+	use tsan && rustflags+=( -Csanitizer=thread )
+	use ubsan && rustflags+=( -Clink-arg=-fsanitize=undefined )
 
 	if use fuzzer; then
 		rustflags+=(
@@ -298,6 +298,7 @@ cros-rust_src_configure() {
 			-Cllvm-args=-sanitizer-coverage-trace-divs
 			-Cllvm-args=-sanitizer-coverage-trace-geps
 			-Cllvm-args=-sanitizer-coverage-prune-blocks=0
+			-Clink-arg=-Wl,--no-gc-sections
 		)
 	fi
 
