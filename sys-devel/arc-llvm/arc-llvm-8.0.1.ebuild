@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -17,12 +17,12 @@ inherit cmake-utils flag-o-matic multilib-minimal \
 
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="https://llvm.org/"
-SRC_URI="https://releases.llvm.org/${PV/_//}/${MY_P/_/}.src.tar.xz
+SRC_URI="https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/${MY_P}.src.tar.xz
 	!doc? ( https://dev.gentoo.org/~mgorny/dist/llvm/${MY_P}-manpages.tar.bz2 )"
 
 # Keep in sync with CMakeLists.txt
 ALL_LLVM_TARGETS=( AArch64 AMDGPU ARM BPF Hexagon Lanai Mips MSP430
-	NVPTX PowerPC Sparc SystemZ X86 XCore )
+	NVPTX PowerPC Sparc SystemZ WebAssembly X86 XCore )
 ALL_LLVM_TARGETS=( "${ALL_LLVM_TARGETS[@]/#/llvm_targets_}" )
 
 # Additional licenses:
@@ -47,12 +47,11 @@ RDEPEND="!sys-devel/arc-llvm:0"
 # Remove previous version of llvm to avoid file collisions, since all slots end
 # up in the same install directory.
 RDEPEND="${RDEPEND}
-	!sys-devel/arc-llvm:6"
+	!<sys-devel/arc-llvm-${SLOT}"
 
-REQUIRED_USE="${PYTHON_REQUIRED_USE}
-	|| ( ${ALL_LLVM_TARGETS[*]} )"
+REQUIRED_USE="|| ( ${ALL_LLVM_TARGETS[*]} )"
 
-S=${WORKDIR}/${MY_P/_/}.src
+S=${WORKDIR}/${MY_P}.src
 
 HOST_DIR="${WORKDIR}/${PF}-${CBUILD}"
 
@@ -239,15 +238,15 @@ multilib_src_install() {
 	into ${ARC_PREFIX}/build
 	newbin "${HOST_DIR}/bin/llvm-config-${ABI}" "llvm-config-host-${ABI}"
 
-	# Manually copy libLLVM-7.0.1.so into the android container.
+	# Manually copy libLLVM-8.0.1.so into the android container.
 	# TODO(b/112313068): Statically link with this instead of installing
 	# this shared library.
 	into "${ARC_PREFIX}/vendor"
-	dolib $(get_libdir)/libLLVM-7.so
+	dolib $(get_libdir)/libLLVM-${SLOT}.so
 
 	# Then replace the copy in the build directory with a symlink to the
 	# vendor image copy.
-	dosym ../../vendor/$(get_libdir)/libLLVM-7.so "${ARC_PREFIX}/build/$(get_libdir)/libLLVM-7.so"
+	dosym ../../vendor/$(get_libdir)/libLLVM-${SLOT}.so "${ARC_PREFIX}/build/$(get_libdir)/libLLVM-${SLOT}.so"
 }
 
 multilib_src_install_all() {
