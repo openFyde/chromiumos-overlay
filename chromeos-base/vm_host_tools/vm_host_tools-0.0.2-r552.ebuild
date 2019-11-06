@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="5b7c5ee0509fd988d20f56fbd6ba8d3386fb4bca"
-CROS_WORKON_TREE=("e85d815893d9cfe210bdf65ff49c9e6a881761fd" "70d83bbed2cc71b12ba96acb151f090af819c990" "40dc8c94689c676eb245b70940a9b0579dbee518" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ad47fae106ce9918c6db2bf93beef69598c901d1"
+CROS_WORKON_TREE=("e85d815893d9cfe210bdf65ff49c9e6a881761fd" "70d83bbed2cc71b12ba96acb151f090af819c990" "18bfecba2c34f0fc76499adac9309423b6ff2477" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -72,10 +72,16 @@ src_install() {
 	doins concierge/plugin_vm_usb.h
 
 	insinto /etc/init
-	doins init/*.conf
+	doins init/seneschal.conf
+	doins init/vm_cicerone.conf
+	doins init/vm_concierge.conf
+	doins init/vmlog_forwarder.conf
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
+
+	insinto /etc
+	doins init/arcvm_dev.conf
 
 	insinto /usr/share/policy
 	if use seccomp; then
