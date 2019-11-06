@@ -21,13 +21,15 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/se
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="
-	arcvm
+	arcpp
 	esdfs
 	fuzzer
 	houdini
 	houdini64
 	ndk_translation
 	unibuild"
+
+REQUIRED_USE="arcpp"
 
 COMMON_DEPEND="
 	chromeos-base/bootstat:=
@@ -62,13 +64,11 @@ src_install() {
 	dosbin "${OUT}"/arc-setup
 
 	insinto /etc/init
-	if ! use arcvm; then
-		doins etc/arc-boot-continue.conf
-		doins etc/arc-kmsg-logger.conf
-		doins etc/arc-lifetime.conf
-		doins etc/arc-sensor.conf
-		doins etc/arc-update-restorecon-last.conf
-	fi
+	doins etc/arc-boot-continue.conf
+	doins etc/arc-kmsg-logger.conf
+	doins etc/arc-lifetime.conf
+	doins etc/arc-sensor.conf
+	doins etc/arc-update-restorecon-last.conf
 	if use esdfs; then
 		doins etc/arc-sdcard.conf
 		doins etc/arc-sdcard-mount.conf
@@ -88,18 +88,16 @@ src_install() {
 		enable_esdfs "${D}/usr/share/arc-setup/config.json"
 	fi
 
-	if ! use arcvm; then
-		insinto /opt/google/containers/arc-art
-		doins "${OUT}/dev-rootfs.squashfs"
+	insinto /opt/google/containers/arc-art
+	doins "${OUT}/dev-rootfs.squashfs"
 
-		# container-root is where the root filesystem of the container in which
-		# patchoat and dex2oat runs is mounted. dev-rootfs is mount point
-		# for squashfs.
-		diropts --mode=0700 --owner=root --group=root
-		keepdir /opt/google/containers/arc-art/mountpoints/container-root
-		keepdir /opt/google/containers/arc-art/mountpoints/dev-rootfs
-		keepdir /opt/google/containers/arc-art/mountpoints/vendor
-	fi
+	# container-root is where the root filesystem of the container in which
+	# patchoat and dex2oat runs is mounted. dev-rootfs is mount point
+	# for squashfs.
+	diropts --mode=0700 --owner=root --group=root
+	keepdir /opt/google/containers/arc-art/mountpoints/container-root
+	keepdir /opt/google/containers/arc-art/mountpoints/dev-rootfs
+	keepdir /opt/google/containers/arc-art/mountpoints/vendor
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_expand_property_contents_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer
