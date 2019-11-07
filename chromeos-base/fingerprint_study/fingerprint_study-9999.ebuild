@@ -5,8 +5,9 @@ EAPI=7
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="biod/study"
+PYTHON_COMPAT=( python2_7 )
 
-inherit cros-workon
+inherit cros-workon python-r1
 
 DESCRIPTION="Chromium OS Fingerprint user study software"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/study"
@@ -15,7 +16,12 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 DEPEND=""
-RDEPEND="dev-lang/python"
+RDEPEND="
+	${PYTHON_DEPS}
+	chromeos-base/ec-utils
+	dev-python/cherrypy[${PYTHON_USEDEP}]
+	dev-python/ws4py[${PYTHON_USEDEP}]
+	"
 
 src_unpack() {
 	cros-workon_src_unpack
