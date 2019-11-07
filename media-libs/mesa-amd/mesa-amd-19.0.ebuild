@@ -74,6 +74,7 @@ RDEPEND="
 	virtual/udev
 	${LIBDRM_DEPSTRING}
 	!media-libs/mesa
+	!media-libs/mesa-radeonsi
 "
 
 DEPEND="${RDEPEND}
