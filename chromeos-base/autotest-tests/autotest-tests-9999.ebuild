@@ -135,6 +135,7 @@ CLIENT_IUSE_TESTS="
 	+tests_hardware_Smartctl
 	+tests_hardware_SsdDetection
 	+tests_hardware_StorageFio
+	+tests_hardware_StorageFioOther
 	+tests_hardware_StorageTrim
 	+tests_hardware_StorageWearoutDetect
 	+tests_hardware_TouchScreenPowerCycles
