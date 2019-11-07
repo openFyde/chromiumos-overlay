@@ -218,8 +218,7 @@ src_install() {
 	use_fw i915_kbl && doins_subdir i915/kbl*
 	use_fw i915_skl && doins_subdir i915/skl*
 	use_fw i915_tgl && doins_subdir i915/tgl*
-	# ipu3-fw.bin is a symlink to irci_*.bin
-	use_fw ipu3_fw && doins_subdir intel/irci_* intel/ipu3-fw.bin
+	use_fw ipu3_fw && doins_subdir intel/irci_*
 	use_fw ibt_9260 && doins_subdir intel/ibt-18-16-1.*
 	use_fw ibt_9560 && doins_subdir intel/ibt-17-16-1.*
 	use_fw ibt_ax201 && doins_subdir intel/ibt-19-*.*
@@ -241,8 +240,7 @@ src_install() {
 	use video_cards_radeon && doins_subdir radeon/*
 	use video_cards_amdgpu && doins_subdir amdgpu/{carrizo,stoney,picasso}*
 
-	# The extra file rt3070.bin is a symlink.
-	use_fw rt2870 && doins rt2870.bin rt3070.bin
+	use_fw rt2870 && doins rt2870.bin
 
 	# The firmware here is a mess; install specific files by hand.
 	if use linux_firmware_ath3k-all || use linux_firmware_ath3k-ar3011; then
@@ -275,4 +273,18 @@ src_install() {
 		brcmfmac4371-pcie) doins_subdir brcm/brcmfmac4371-pcie.* ;;
 		esac
 	done
+
+	# Hanle 'Link:' directives in WHENCE. The Makefile's copy-firmware.sh
+	# does this too, but we trim down the install list a lot, so we don't
+	# use that script.
+	local link target
+	while read -r link target; do
+		# ${target} is link-relative, so we need to construct a full path.
+		local install_target="${D}/${FIRMWARE_INSTALL_ROOT}/$(dirname "${link}")/${target}"
+		# Skip 'Link' directives for files we didn't install already.
+		[[ -f "${install_target}" ]] || continue
+		einfo "Creating link ${link} (${target})"
+		dodir "${FIRMWARE_INSTALL_ROOT}/$(dirname "${link}")"
+		dosym "${target}" "${FIRMWARE_INSTALL_ROOT}/${link}"
+	done < <(grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g')
 }
