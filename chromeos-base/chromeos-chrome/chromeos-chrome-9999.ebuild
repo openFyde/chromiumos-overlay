@@ -1230,8 +1230,10 @@ src_install() {
 	doins "${FILESDIR}"/chrome.conf
 
 	# Copy Quickoffice resources for official build.
-	if use chrome_internal; then
-		insinto /usr/share/chromeos-assets/quickoffice
+	# Quickoffice is not yet available for arm64, https://crbug.com/881489
+	if use chrome_internal && [[ "${ARCH}" != "arm64" ]]; then
+		local qo_install_root="/usr/share/chromeos-assets/quickoffice"
+		insinto "${qo_install_root}"
 		QUICKOFFICE="${CHROME_ROOT}"/src/chrome/browser/resources/chromeos/quickoffice
 		doins -r "${QUICKOFFICE}"/_locales
 		doins -r "${QUICKOFFICE}"/css
@@ -1240,23 +1242,48 @@ src_install() {
 		doins -r "${QUICKOFFICE}"/scripts
 		doins -r "${QUICKOFFICE}"/views
 
-		insinto /usr/share/chromeos-assets/quickoffice/_platform_specific
+		local qo_path=""
 		case "${ARCH}" in
 		arm)
-			doins -r "${QUICKOFFICE}"/_platform_specific/arm
-			;;
-		arm64)
-			true
-			# Quickoffice is not yet available for arm64, https://crbug.com/881489 .
-			# doins -r "${QUICKOFFICE}"/_platform_specific/arm64
+			qo_path="${QUICKOFFICE}"/_platform_specific/arm
 			;;
 		amd64)
-			doins -r "${QUICKOFFICE}"/_platform_specific/x86_64
+			qo_path="${QUICKOFFICE}"/_platform_specific/x86_64
 			;;
 		*)
 			die "Unsupported architecture: ${ARCH}"
 			;;
 		esac
+
+		# Compress the platform-specific NaCl binaries with squashfs to
+		# save space on the rootfs.
+		# - compress with LZO and 1M blocks to optimize trade-off
+		# between compression ratio and decompression speed.
+		# - use "-keep-as-directory" option so the squash file will
+		# include the folder with the name of the CPU architecture,
+		# which is expected by the scripts on device.
+		# - use "-root-mode 0755" to ensure that the mountpoint has
+		# permissions 0755 instead of the default 0777.
+		# - use "-4k-align" option so individual files inside the squash
+		# file will be aligned to 4K blocks, which improves the
+		# efficiency of the delta updates.
+		mksquashfs "${qo_path}" "${WORKDIR}/quickoffice.squash" \
+			-all-root -noappend -no-recovery -no-exports \
+			-exit-on-error -comp lzo -b 1M -keep-as-directory \
+			-4k-align -root-mode 0755 -no-progress \
+			|| die "Failed to create Quickoffice squashfs"
+
+		doins "${WORKDIR}/quickoffice.squash"
+		# Create the directory where the Quickoffice squashfs will be
+		# mounted.
+		keepdir "${qo_install_root}"/_platform_specific
+		# Install the upstart scripts that will automatically
+		# mount/unmount the Quickoffice squashfs when Chrome
+		# starts/stops.
+		insinto /etc/init
+		doins "${QUICKOFFICE}"/upstart/quickoffice-start.conf
+		doins "${QUICKOFFICE}"/upstart/quickoffice-stop.conf
+
 	fi
 
 	# Chrome test resources
