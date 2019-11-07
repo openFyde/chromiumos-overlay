@@ -71,6 +71,7 @@ IUSE="
 	veyron_mickey
 	veyron_rialto
 	vulkan
+	wifi_hostap_test
 	wilco
 "
 
