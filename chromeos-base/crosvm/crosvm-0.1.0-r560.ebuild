@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="a52b2a6c8167eebb285b70b54077919bbf113a35"
-CROS_WORKON_TREE="600d2fec69fd89e3216a84b2bc64de510c7f9207"
+CROS_WORKON_COMMIT="07e3c4184b928176b01f1d8222d905ca1d9fe0d0"
+CROS_WORKON_TREE="e0a39fd4b9d6eb415b19cead6e78e759fc845c34"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -44,7 +44,7 @@ DEPEND="${RDEPEND}
 	=dev-rust/bitflags-1*:=
 	~dev-rust/cc-1.0.25:=
 	~dev-rust/getopts-0.2.18:=
-	~dev-rust/libc-0.2.44:=
+	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	~dev-rust/num_cpus-1.9.0:=
 	~dev-rust/pkg-config-0.3.11:=
 	~dev-rust/proc-macro2-0.4.21:=
