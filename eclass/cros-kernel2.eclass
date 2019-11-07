@@ -2061,8 +2061,8 @@ cros-kernel2_src_install() {
 
 	if use compilation_database || ( use test && use clang ); then
 		insinto /build/kernel
-		einfo "Installing kernel compilation databases.\n"
-"To use the compilation database with an IDE or other tools outside of the
+		einfo "Installing kernel compilation databases.
+To use the compilation database with an IDE or other tools outside of the
 chroot create a symlink named 'compile_commands.json' in the kernel source
 directory (outside of the chroot) to compile_commands_no_chroot.json."
 		doins "$(cros-workon_get_build_dir)"/compile_commands_*.json
