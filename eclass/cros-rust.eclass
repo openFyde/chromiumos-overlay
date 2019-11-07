@@ -71,8 +71,7 @@ REQUIRED_USE="?? ( asan lsan msan tsan )"
 EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_install pkg_postinst pkg_prerm
 
 DEPEND="
-	>=virtual/rust-1.28.0:=
-	>=dev-util/cargo-0.29.0
+	>=virtual/rust-1.39.0:=
 "
 
 ECARGO_HOME="${WORKDIR}/cargo_home"

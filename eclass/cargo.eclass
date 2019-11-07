@@ -24,7 +24,7 @@ EXPORT_FUNCTIONS src_unpack src_compile src_install
 IUSE="debug"
 
 CARGO_DEP=""
-[[ ${CATEGORY}/${PN} != dev-util/cargo ]] && CARGO_DEP=">=dev-util/cargo-0.13.0"
+[[ ${CATEGORY}/${PN} != dev-util/cargo ]] && CARGO_DEP=">=dev-lang/rust-1.39.0"
 
 RDEPEND="sys-libs/llvm-libunwind"
 DEPEND="

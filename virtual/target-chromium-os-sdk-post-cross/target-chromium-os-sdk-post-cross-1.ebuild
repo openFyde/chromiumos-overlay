@@ -20,7 +20,6 @@ RDEPEND="
 	dev-lang/rust
 	dev-rust/dbus-codegen
 	dev-rust/protobuf-codegen
-	dev-util/cargo
 	sys-apps/mosys
 	dev-embedded/coreboot-sdk
 "

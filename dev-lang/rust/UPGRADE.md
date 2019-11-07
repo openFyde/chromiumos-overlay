@@ -50,9 +50,9 @@ sed -i -e "s#dev-lang/rust-${DEL_VERSION}#dev-lang/rust-${NEW_VERSION}#" \
   ../../profiles/targets/chromeos/package.provided
 
 # Add a virtual/rust ebuild for the new version.
-cp virtual/rust/rust-${OLD_VERSION}.ebuild virtual/rust/rust-${NEW_VERSION}.ebuild
-git add virtual/rust/rust-${NEW_VERSION}.ebuild
-git rm virtual/rust/rust-${DEL_VERSION}.ebuild
+cp ../../virtual/rust/rust-${OLD_VERSION}.ebuild ../../virtual/rust/rust-${NEW_VERSION}.ebuild
+git add ../../virtual/rust/rust-${NEW_VERSION}.ebuild
+git rm ../../virtual/rust/rust-${DEL_VERSION}.ebuild
 ```
 
 - Upload change for review. CC reviewers from previous upgrade.
