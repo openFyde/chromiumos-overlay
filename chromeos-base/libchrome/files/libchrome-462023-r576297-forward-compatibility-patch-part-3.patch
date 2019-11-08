@@ -1,14 +1,15 @@
-From 207cb5321933d05de4cedda8ccf8946ec049fac3 Mon Sep 17 00:00:00 2001
+From 265134179eda2fc1ecc396411f354f00a65ea5a9 Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Wed, 30 Oct 2019 13:52:45 +0900
-Subject: [PATCH 2/3] libchrome: r576279 forward compatibility patch part 3
+Subject: [PATCH 2/4] libchrome: r576279 forward compatibility patch part 3
  (dbus)
 
 Change-Id: I0b514eed9427316b664e9c96c79d701d7cc053f3
 ---
- dbus/message.cc | 5 +++--
- dbus/message.h  | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ dbus/message.cc          |  5 +++--
+ dbus/message.h           |  2 +-
+ dbus/mock_object_proxy.h | 19 +++++++++++++++++++
+ 3 files changed, 23 insertions(+), 3 deletions(-)
 
 diff --git a/dbus/message.cc b/dbus/message.cc
 index c8663f7..4b32ae9 100644
@@ -50,6 +51,36 @@ index 256a842..dd1e801 100644
  
   private:
    // Creates a signal message. The internal raw message is NULL.
+diff --git a/dbus/mock_object_proxy.h b/dbus/mock_object_proxy.h
+index 17d2a9f..99ed0e5 100644
+--- a/dbus/mock_object_proxy.h
++++ b/dbus/mock_object_proxy.h
+@@ -12,6 +12,25 @@
+ #include "dbus/object_proxy.h"
+ #include "testing/gmock/include/gmock/gmock.h"
+ 
++// CallMethodAndBlockWithErrorDetails
++#define MIGRATE_MockCallMethodAndBlockWithErrorDetails MockCallMethodAndBlockWithErrorDetails
++// CallMethodAndBlock
++#define MIGRATE_MockCallMethodAndBlock MockCallMethodAndBlock
++// DoConnectToSignal
++#define MIGRATE_ConnectToSignal ConnectToSignal
++// DoCallMethod
++#define MIGRATE_CallMethod CallMethod
++// DoCallMethodWithErrorCallback
++#define MIGRATE_CallMethodWithErrorCallback CallMethodWithErrorCallback
++// *x
++#define MIGRATE_WrapObjectProxyCallback(x) (x)
++// std::unique_ptr<x>
++#define MIGRATE_WrapObjectProxyResponseType(x) x*
++// (x)
++#define MIGRATE_WrapObjectProxyResponseConversion(x) ((x).release())
++// std::unique_ptr<Response>()
++#define MIGRATE_WrapObjectProxyResponseEmpty nullptr
++
+ namespace dbus {
+ 
+ // Mock for ObjectProxy.
 -- 
-2.24.0.rc0.303.g954a862665-goog
+2.21.0
 
