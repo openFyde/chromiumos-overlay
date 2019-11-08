@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
@@ -27,19 +27,18 @@ models="gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tf
 SRC_URI="${models}"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="fuzzer"
 
 RDEPEND="
-	chromeos-base/libbrillo
-	chromeos-base/metrics
-	sci-libs/tensorflow
+	chromeos-base/libbrillo:=
+	chromeos-base/metrics:=
+	sci-libs/tensorflow:=
 "
 
 DEPEND="
 	${RDEPEND}
-	chromeos-base/system_api[fuzzer?]
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 src_install() {
