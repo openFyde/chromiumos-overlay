@@ -73,6 +73,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-225-v4l_id-check-mplane-video-capture-and-output-capaili.patch
 	"${FILESDIR}"/${PN}-225-udevadm-hwdb-Return-non-zero-exit-code-on-error.patch
 	"${FILESDIR}"/${PN}-225-sysmacros.patch
+	"${FILESDIR}"/${PN}-225-50-udev-default.rules-set-default-group-for-udmabuf.patch
 )
 
 check_default_rules() {
