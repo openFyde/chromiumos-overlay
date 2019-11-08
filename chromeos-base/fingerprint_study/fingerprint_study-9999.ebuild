@@ -31,6 +31,7 @@ src_install() {
 	insinto /opt/google/fingerprint_study/html
 	doins html/index.html
 	doins html/bootstrap-3.3.7.min.css
+	doins html/fingerprint.svg
 
 	insinto /etc/init
 	doins fingerprint_study.conf
