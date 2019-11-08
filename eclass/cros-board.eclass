@@ -143,6 +143,7 @@ ALL_BOARDS=(
 	#eve-bertha
 	eve-campfire
 	eve-kvm
+	eve-manatee
 	eve-swap
 	eve-userdebug
 	excelsior
