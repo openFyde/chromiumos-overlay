@@ -89,6 +89,7 @@ CROS_BOARDS=(
 	veyron_minnie
 	veyron_pinky
 	veyron_romy
+	volteer
 	winky
 	wolf
 	zako
