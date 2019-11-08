@@ -41,6 +41,7 @@ IUSE_IWLWIFI=(
 	iwlwifi-7265D
 	iwlwifi-9000
 	iwlwifi-9260
+	iwlwifi-cc
 	iwlwifi-Qu-c0
 	iwlwifi-QuZ
 )
