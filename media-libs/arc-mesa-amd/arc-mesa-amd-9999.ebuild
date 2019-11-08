@@ -126,36 +126,18 @@ src_prepare() {
 		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
 
-	epatch "${FILESDIR}"/19.0-util-Don-t-block-SIGSYS-for-new-threads.patch
-	epatch "${FILESDIR}"/19.0-radv-Use-given-stride-for-images-imported-from-Andro.patch
-
-	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson.build-Add-optio.patch
-
-	epatch "${FILESDIR}"/CHROMIUM-remove-unknown-android-extensions.patch
-	epatch "${FILESDIR}"/CHROMIUM-disable-unknown-device-extensions.patch
-
+	epatch "${FILESDIR}"/CHROMIUM-HACK-remove-unknown-android-extensions.patch
+	epatch "${FILESDIR}"/CHROMIUM-HACK-disable-unknown-device-extensions.patch
 	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
 
-	epatch "${FILESDIR}"/FROMLIST-egl-fix-KHR_partial_update-without-EXT_buff.patch
 	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
-	epatch "${FILESDIR}"/FROMLIST-egl-android-Update-color_buffers-querying-for-buffer.patch
 
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
 
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
 
-	epatch "${FILESDIR}"/UPSTREAM-st-mesa-fix-2-crashes-in-st_tgsi_lower_yuv.patch
-
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
-
-	epatch "${FILESDIR}"/BACKPORT-egl-Enable-eglGetPlatformDisplay-on-Android.patch
-
-	epatch "${FILESDIR}"/FROMLIST-radv-Fix-vulkan-build-in-meson.patch
-	epatch "${FILESDIR}"/FROMLIST-meson-Allow-building-radeonsi-with-.patch
-	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson-depend-on-libnativewindow-when-ap.patch
-
-	epatch "${FILESDIR}"/CHROMIUM-do-not-initialize-destroy-locale-for-strtod.patch
 
 	default
 }
@@ -427,8 +409,8 @@ multilib_src_install_all_cheets() {
 	fi
 
 	# Install the dri header for arc-cros-gralloc
-	insinto "${ARC_PREFIX}/vendor/include/GL"
-	doins -r "${S}/include/GL/internal"
+	insinto "${ARC_PREFIX}/vendor/include/"
+	doins -r "${S}/include/GL/"
 }
 
 multilib_src_install_all() {
