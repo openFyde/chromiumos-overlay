@@ -17,6 +17,7 @@ DEPEND=">=dev-rust/num-integer-0.1.36:=
 	=dev-rust/num-traits-0.2*:=
 	>=dev-rust/num-iter-0.1.35:=
 	>=dev-rust/rustc-serialize-0.3.20:=
+	=dev-rust/ryu-0.2*:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/serde_json-1*:=
