@@ -17,12 +17,6 @@ KEYWORDS="~*"
 # Enable autotest by default.
 IUSE="-chromeless_tests +autotest -chromeless_tty"
 
-RDEPEND=""
-DEPEND="${RDEPEND}
-	!<chromeos-base/autotest-server-tests-0.0.2
-	>=net-wireless/hostapd-2.3
-"
-
 SERVER_IUSE_TESTS="
 	+tests_network_WiFi_APSupportedRates
 	+tests_network_WiFi_AssocConfigPerformance
