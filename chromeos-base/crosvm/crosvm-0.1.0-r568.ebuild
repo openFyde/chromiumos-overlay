@@ -79,6 +79,7 @@ get_seccomp_path() {
 
 FUZZERS=(
 	crosvm_block_fuzzer
+	crosvm_fs_server_fuzzer
 	crosvm_qcow_fuzzer
 	crosvm_usb_descriptor_fuzzer
 	crosvm_virtqueue_fuzzer
