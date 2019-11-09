@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="4"
-CROS_WORKON_COMMIT="02413874833f74292910f9ec2b7cc921310290f9"
-CROS_WORKON_TREE="9f9308f6cb5682c547d1e3421b7f0e889851d51b"
+CROS_WORKON_COMMIT="91dc48883abfcf63ae800a37380f0ac57328fc80"
+CROS_WORKON_TREE="1d4c68923bca320adda4211b773c874a1a70e4ee"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -18,12 +18,6 @@ KEYWORDS="*"
 
 # Enable autotest by default.
 IUSE="-chromeless_tests +autotest -chromeless_tty"
-
-RDEPEND=""
-DEPEND="${RDEPEND}
-	!<chromeos-base/autotest-server-tests-0.0.2
-	>=net-wireless/hostapd-2.3
-"
 
 SERVER_IUSE_TESTS="
 	+tests_network_WiFi_APSupportedRates
