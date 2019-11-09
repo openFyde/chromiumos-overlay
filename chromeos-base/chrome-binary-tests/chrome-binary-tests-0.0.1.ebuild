@@ -18,6 +18,8 @@ DEPEND="chromeos-base/chromeos-chrome"
 src_install() {
 	exeinto /usr/libexec/chrome-binary-tests
 	# The binary tests in ${BINARY_DIR} are built by chrome-chrome.
+	# If you add/remove a binary here, please also do so for
+	# CHROME_TEST_BINARIES in src/platform/bisect-kit/bisect_kit/cr_util.py
 	BINARY_DIR="${SYSROOT}/usr/local/build/autotest/client/deps/chrome_test/test_src/out/Release"
 	doexe "${BINARY_DIR}/capture_unittests"
 	doexe "${BINARY_DIR}/dawn_end2end_tests"
