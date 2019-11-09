@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="2b109386e7676333a53b1511c12dce3a4ff329e3"
+CROS_WORKON_COMMIT="2fc5c6cd95dec9373a2d97fe9147a07a4a064770"
 CROS_WORKON_TREE="c7a00741a0fa4739a508864616c2fa45b5e5a797"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -11,7 +11,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="sys_util"
 CROS_WORKON_SUBDIRS_TO_COPY="sys_util"
 
-inherit cros-workon cros-rust
+inherit cros-workon cros-rust versionator
 
 DESCRIPTION="Small system utility modules for usage by other modules."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sys_util"
@@ -55,6 +55,11 @@ src_test() {
 	# freed (because it is owned by some other thread created by the test runner
 	# in the parent process).
 	cros-rust_use_sanitizers && skip_tests+=( --skip "fork::tests" )
+	# The memfd_create() system call first appeared in Linux 3.17.  Skip guest
+	# memory tests for builders with older kernels.
+	if ! version_is_at_least 3.17 "$(uname -r)"; then
+		skip_tests+=( --skip "guest_memory::tests" )
+	fi
 
 	if use x86 || use amd64; then
 		# Some tests must be run single threaded to ensure correctness,
