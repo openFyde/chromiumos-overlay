@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT=("e590bee3079b24cdf76d22ee2bf3d4b6ba21454b" "b02346f62b99e4b6be28cc33e58a9dfd0bde753a")
+CROS_WORKON_COMMIT=("bcc58bbfabf7eece438ed6bd7a2e35fb6cb4573c" "b02346f62b99e4b6be28cc33e58a9dfd0bde753a")
 CROS_WORKON_TREE=("70d83bbed2cc71b12ba96acb151f090af819c990" "9a070ed9a2ed954d422ef1baf1e3f4009d2e8119" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7735859ee35290b7c5a2de983cd78e41d6b687a8")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/dev-util")
 CROS_WORKON_LOCALNAME=("platform2" "dev")
@@ -52,6 +52,7 @@ src_install() {
 	exeinto /usr/share/dev-install
 	newexe dev_install main.sh
 
+	cd "${S}/share" || die
 	insinto /usr/share/${PN}/portage/make.profile
 	doins make.defaults
 
