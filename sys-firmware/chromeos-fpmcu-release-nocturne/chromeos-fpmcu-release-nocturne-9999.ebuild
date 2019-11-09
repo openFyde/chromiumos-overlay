@@ -9,6 +9,7 @@
 EAPI=6
 
 FIRMWARE_EC_BOARD="nocturne_fp"
+FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"

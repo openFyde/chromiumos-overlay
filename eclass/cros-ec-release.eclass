@@ -40,7 +40,15 @@ if [[ -z "${FIRMWARE_EC_BOARD}" ]]; then
 	die "FIRMWARE_EC_BOARD must be specified in ebuild."
 fi
 
-inherit cros-ec
+# @ECLASS-VARIABLE: FIRMWARE_EC_RELEASE_REPLACE_RO
+# @DEFAULT_UNSET
+# @DESCRIPTION:
+# By default the RO version in the binary will match the RW version. Use this
+# variable to tell the build to replace the RO version with the factory-shipped
+# version.
+: "${FIRMWARE_EC_RELEASE_REPLACE_RO:="no"}"
+
+inherit cros-ec cros-ec-merge-ro
 
 DESCRIPTION="Chrome OS EC release firmware for ${FIRMWARE_EC_BOARD}."
 
@@ -84,6 +92,11 @@ cros-ec-release_src_prepare() {
 # FIRMWARE_EC_BOARD into release directory.
 cros-ec-release_src_install() {
 	debug-print-function "${FUNCNAME[0]}" "$@"
+
+	# Run the RO replacement process if requested.
+	if [[ "${FIRMWARE_EC_RELEASE_REPLACE_RO}" == "yes" ]]; then
+		cros-ec-merge-ro_src_install
+	fi
 
 	cros-ec_set_build_env
 
