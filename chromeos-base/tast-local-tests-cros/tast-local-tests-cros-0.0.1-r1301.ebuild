@@ -37,7 +37,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
 LICENSE="Apache-2.0 BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="arc usbip"
+IUSE="arc chromeless_tty chromeless_tests usbip"
 
 # Build-time dependencies should be added to tast-build-deps, not here.
 DEPEND="chromeos-base/tast-build-deps"
@@ -46,6 +46,11 @@ RDEPEND="
 	chromeos-base/policy-testserver
 	chromeos-base/tast-local-helpers-cros
 	chromeos-base/wprgo
+	!chromeless_tty? (
+		!chromeless_tests? (
+			chromeos-base/drm-tests
+		)
+	)
 	dev-libs/openssl:0=
 	arc? (
 		dev-util/android-tools
