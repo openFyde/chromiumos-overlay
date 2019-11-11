@@ -184,6 +184,7 @@ ALL_BOARDS=(
 	guado_labstation
 	hana
 	hatch
+	hatch-diskswap
 	heli
 	hsb
 	#iclrvp
