@@ -19,6 +19,8 @@ RDEPEND=">=app-arch/unrar-5:=
 	sys-fs/fuse:0"
 DEPEND="${RDEPEND}"
 
+PATCHES=("${FILESDIR}"/${PN}-1.27.2-pass-fuse-fd.patch)
+
 src_configure() {
 	export USER_CFLAGS="${CFLAGS}"
 
