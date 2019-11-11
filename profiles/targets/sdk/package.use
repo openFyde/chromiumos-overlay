@@ -105,22 +105,15 @@ dev-libs/boost -python
 # list down as packages don't need them.  New packages should *not* be added
 # here as new code should be using Python 3.
 # TODO(crbug.com/1007152): Trim this entirely!
-app-admin/webapp-config python_targets_python2_7
 app-arch/brotli python_targets_python2_7
-app-editors/vim python_targets_python2_7
-app-emulation/qemu python_targets_python2_7
-app-portage/esearch python_targets_python2_7
 app-portage/gentoolkit python_targets_python2_7
-app-text/asciidoc python_targets_python2_7
 brillo-base/libsparse python_targets_python2_7
 chromeos-base/chromeos-config-host python_targets_python2_7
 chromeos-base/chromite-sdk python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/update_payload python_targets_python2_7
 dev-embedded/libftdi python_targets_python2_7
-dev-java/java-config python_targets_python2_7
 dev-lang/python-exec python_targets_python2_7
-dev-lang/yasm python_targets_python2_7
 dev-libs/closure_linter python_targets_python2_7
 dev-libs/libnl python_targets_python2_7
 dev-libs/libxml2 python_targets_python2_7
@@ -307,12 +300,9 @@ net-print/cups python_targets_python2_7
 sys-apps/dtc python_targets_python2_7
 sys-apps/file python_targets_python2_7
 sys-apps/flashmap python_targets_python2_7
-sys-apps/kmod python_targets_python2_7
 sys-apps/portage python_targets_python2_7
 sys-apps/usbutils python_targets_python2_7
-sys-apps/util-linux python_targets_python2_7
 sys-devel/grit-i18n python_targets_python2_7
-sys-devel/llvm python_targets_python2_7
 sys-libs/libcap-ng python_targets_python2_7
 sys-libs/libselinux python_targets_python2_7
 sys-process/audit python_targets_python2_7
