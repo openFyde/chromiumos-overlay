@@ -144,6 +144,9 @@ x11-libs/libva		egl
 # that we don't have.
 media-libs/freetype	png -bzip2
 
+# We don't need Python in these packages, so save some space.
+dev-libs/boost -python
+
 # Freeze Python 2.7 versions for all existing packages.  We'll slowly trim this
 # list down as packages don't need them.  New packages should *not* be added
 # here as new code should be using Python 3.
@@ -169,7 +172,6 @@ chromeos-base/update_payload python_targets_python2_7
 dev-embedded/libftdi python_targets_python2_7
 dev-lang/python-exec python_targets_python2_7
 dev-lang/yasm python_targets_python2_7
-dev-libs/boost python_targets_python2_7
 dev-libs/glib python_targets_python2_7
 dev-libs/libnl python_targets_python2_7
 dev-libs/libxml2 python_targets_python2_7
