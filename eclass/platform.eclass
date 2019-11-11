@@ -1,6 +1,5 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
-
 # @ECLASS: platform.eclass
 # @MAINTAINER:
 # ChromiumOS Build Team
@@ -95,8 +94,8 @@ platform() {
 	if [[ "${CROS_WORKON_INCREMENTAL_BUILD}" != "1" ]]; then
 		cmd+=( --disable_incremental )
 	fi
-	echo "${cmd[@]}"
 	"${cmd[@]}" || die
+	# The stdout from this function used in platform_install
 }
 
 platform_get_target_args() {
@@ -120,6 +119,19 @@ platform_src_unpack() {
 	PLATFORM_TOOLDIR="${S}/common-mk"
 	S+="/${PLATFORM_SUBDIR}"
 	export OUT="$(cros-workon_get_build_dir)/out/Default"
+}
+
+platform_install() {
+	tmpfile=$(mktemp)
+	trap "rm \"${tmpfile}\"" 0
+	if platform install > "${tmpfile}"; then
+		while read -ra line; do
+			echo "${line[@]}"
+			eval "${line[@]}"
+		done < "${tmpfile}"
+	else
+		die "platform install was failed."
+	fi
 }
 
 platform_test() {
