@@ -10,7 +10,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since crosvm/Cargo.toml is
 # using "# ignored by ebuild" macro which supported by cros-rust.
 
-inherit cros-fuzzer cros-rust cros-workon toolchain-funcs user
+inherit cros-fuzzer cros-rust cros-workon toolchain-funcs user versionator
 
 KERNEL_PREBUILT_DATE="2019_10_10_00_22"
 
@@ -158,6 +158,13 @@ src_test() {
 		[[ -e "${CROSVM_CARGO_TEST_KERNEL_BINARY}" ]] || \
 			die "expected to find kernel binary at ${CROSVM_CARGO_TEST_KERNEL_BINARY}"
 
+		local skip_tests=()
+		# The memfd_create() system call first appeared in Linux 3.17.  Skip
+		# the boot test, which relies on this functionality, on older kernels.
+		if ! version_is_at_least 3.17 "$(uname -r)"; then
+			skip_tests+=( --skip "boot" )
+		fi
+
 		# Exluding tests that need memfd_create, /dev/kvm, /dev/dri, or wayland
 		# access because the bots don't support these.  Also exclude sys_util
 		# since they already run as part of the dev-rust/sys_util package.
@@ -173,6 +180,7 @@ src_test() {
 			--exclude sys_util \
 			"${feature_excludes[@]}" \
 			-- --test-threads=1 \
+			"${skip_tests[@]}" \
 			|| die "cargo test failed"
 
 		# Plugin tests all require /dev/kvm, but we want to make sure they build
