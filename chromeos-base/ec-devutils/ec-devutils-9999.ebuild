@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 PYTHON_COMPAT=( python2_7 )
@@ -14,9 +14,11 @@ HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-ISUE=""
+IUSE="hammerd"
 
+DEPEND="virtual/libusb:1="
 RDEPEND="
+	${DEPEND}
 	app-mobilephone/dfu-util
 	sys-firmware/servo-firmware
 	sys-apps/flashrom
@@ -24,7 +26,10 @@ RDEPEND="
 	chromeos-base/ec-utils
 	>=dev-python/pyusb-1.0.2
 	"
-DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
+BDEPEND="
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	virtual/pkgconfig
+	"
 
 set_board() {
 	# No need to be board specific, no tools below build code that is
@@ -51,6 +56,10 @@ src_compile() {
 	emake utils-host
 	# Add usb_updater2 for servo or hammer updates.
 	emake -C extra/usb_updater usb_updater2
+	if use hammerd; then
+		# Add touchpad_updater for TP update on hammer.
+		emake -C extra/touchpad_updater touchpad_updater
+	fi
 	distutils-r1_src_compile
 }
 
@@ -63,6 +72,10 @@ src_install() {
 
 	# Add usb_updater2 for servo or hammer updates.
 	dosbin "extra/usb_updater/usb_updater2"
+	if use hammerd; then
+		# Add touchpad_updater for TP update on hammer.
+		newsbin "extra/touchpad_updater/touchpad_updater" ec_touchpad_updater
+	fi
 
 	dobin "util/flash_ec"
 	dobin "util/uart_stress_tester.py"
