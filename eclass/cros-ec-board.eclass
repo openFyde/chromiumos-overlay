@@ -54,6 +54,7 @@ EC_BOARD_NAMES=(
 	dingdong
 	dragonegg
 	elm
+	endeavour
 	eve
 	eve_fp
 	fizz
