@@ -15,14 +15,12 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
 # Enable autotest by default.
-IUSE="+autotest ozone"
+IUSE="+autotest"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
 	chromeos-base/autotest-deps-graphics
-	ozone? (
-		tests_graphics_Gbm? ( media-libs/minigbm )
-	)
+	tests_graphics_Gbm? ( media-libs/minigbm )
 	tests_graphics_GLBench? ( chromeos-base/glbench )
 	tests_graphics_GLMark2? ( chromeos-base/autotest-deps-glmark2 )
 	tests_graphics_SanAngeles? ( media-libs/waffle )
@@ -30,10 +28,8 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	ozone? (
-		+tests_graphics_dEQP
-		+tests_graphics_Gbm
-	)
+	+tests_graphics_dEQP
+	+tests_graphics_Gbm
 	+tests_graphics_GLAPICheck
 	+tests_graphics_GLBench
 	+tests_graphics_GLMark2
