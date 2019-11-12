@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="bf0bb529eeb1d27f4f52107d273e75aeead3e43b"
-CROS_WORKON_TREE="64182466264b45c638623de6853ab50c91d05879"
+CROS_WORKON_COMMIT="58a67c209cc686e545689f14013988636e70a114"
+CROS_WORKON_TREE="2c8b83c502eda3722ecadb2cc06e947baab10124"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -23,7 +23,6 @@ RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
 	chromeos-base/autotest-deps-graphics
 	ozone? (
-		tests_graphics_Drm? ( chromeos-base/drm-tests )
 		tests_graphics_Gbm? ( media-libs/minigbm )
 	)
 	tests_graphics_GLBench? ( chromeos-base/glbench )
@@ -35,7 +34,6 @@ DEPEND="${RDEPEND}"
 IUSE_TESTS="
 	ozone? (
 		+tests_graphics_dEQP
-		+tests_graphics_Drm
 		+tests_graphics_Gbm
 	)
 	+tests_graphics_GLAPICheck
