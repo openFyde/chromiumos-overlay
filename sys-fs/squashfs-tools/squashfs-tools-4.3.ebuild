@@ -47,6 +47,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-selinux.patch
 	epatch "${FILESDIR}"/${P}-fix-inline.patch
 	epatch "${FILESDIR}"/${P}-rare-race-in-frag-wait.patch
+	epatch "${FILESDIR}"/${P}-root-mode.patch
 }
 
 use10() { usex $1 1 0 ; }
