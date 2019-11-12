@@ -183,8 +183,23 @@ disk_based_swap_supported() {
   else
     disk_based_swap_enabled=false
   fi
-
   ${disk_based_swap_enabled}
+}
+
+swap_to_optane() {
+  local optane_swap=false
+
+  # Return true if optane device exists.
+  if [ -b "/dev/nvme1n1" ]; then
+      dev_dir="$(find /sys/devices/ -name nvme1n1 | grep -v virtual)"
+      model="$(sed -E 's/[ \t]+$//' "${dev_dir}"/device/model)"
+      if [ "${model}" = "INTEL HBRPEKNX0101AO" ]; then
+        optane_swap=true
+      fi
+  else
+    optane_swap=false
+  fi
+  ${optane_swap}
 }
 
 die() {
@@ -235,21 +250,16 @@ start() {
     size_kb=$(( requested_size_mb * 1024 ))
   fi
 
-  if disk_based_swap_supported; then
-    if [ -e "${SWAP_DIR}" ]; then
-      rm -r "${SWAP_DIR}"
-    fi
-    mkdir -p "${SWAP_DIR}"
-    dd if=/dev/urandom bs=1 count=32 2> /dev/null |
-        e4crypt add_key "${SWAP_DIR}"
-    fallocate -l 20G "${SWAP_DIR}/swapfile" ||
-        die "failed to create swapfile"
-    chmod 600 "${SWAP_DIR}/swapfile" ||
-        die "failed to set swapfile permissions"
-    mkswap "${SWAP_DIR}/swapfile" ||
-        die "mkswap "${SWAP_DIR}/swapfile" failed"
-    swapon "${SWAP_DIR}/swapfile" ||
-        die "swapon "${SWAP_DIR}/swapfile" failed"
+  if disk_based_swap_supported && swap_to_optane; then
+    table="0 $(blockdev --getsz /dev/nvme1n1) crypt aes-cbc-essiv:sha256 \
+      $(tr -dc 'A-F0-9' < /dev/urandom | fold -w 32 | head -n 1) \
+      0 /dev/nvme1n1 0 1 allow_discards"
+    /sbin/dmsetup create enc-swap --table "${table}" ||
+      die "/sbin/dmsetup create enc-swap failed"
+    mkswap "/dev/mapper/enc-swap" ||
+      die "mkswap /dev/mapper/enc-swap failed"
+    swapon -d "/dev/mapper/enc-swap" ||
+      die "swapon /dev/mapper/enc-swap failed"
     echo 1 > /sys/module/zswap/parameters/enabled
   else
     # Load zram module.  Ignore failure (it could be compiled in the kernel).
