@@ -25,7 +25,6 @@ IUSE="
 	hammerd
 	opengl
 	opengles
-	ozone
 	p2p
 	+shill
 	+tpm
@@ -148,7 +147,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/chrome-binary-tests
 	chromeos-base/cros-camera-tool
 	chromeos-base/cros-config-test
-	ozone? ( chromeos-base/drm-tests )
+	!chromeless_tty? ( !chromeless_tests? ( chromeos-base/drm-tests ) )
 	chromeos-base/factory-mini
 	chromeos-base/glbench
 	chromeos-base/libvda-gpu-tests
@@ -198,7 +197,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	media-libs/libexif
 	media-libs/libvpx
 	media-libs/opencv
-	ozone? ( media-gfx/deqp )
+	!chromeless_tty? ( !chromeless_tests? ( media-gfx/deqp ) )
 	media-libs/tiff
 	opengles? ( media-libs/waffle )
 	opengl? ( media-libs/waffle )
