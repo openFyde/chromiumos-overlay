@@ -10,30 +10,7 @@ CROS_WORKON_USE_VCSID=1
 # Note: Do *NOT* add any more boards to this list.  Files should be installed
 # via bsp packages now, or configured via unibuild config settings.
 CROS_BOARDS=(
-	bolt
-	chell
-	cid
-	daisy
-	daisy_skate
-	daisy_spring
-	falco
-	glados
-	jecht
-	leon
-	link
-	mccloud
-	monroe
-	panther
-	peppy
-	rikku
-	stout
-	strago
-	tidus
-	tricky
-	veyron_{fievel,jaq,jerry,jerry-kernelnext,mickey,mighty,minnie,minnie-kernelnext,speedy,tiger}
 	whirlwind
-	wolf
-	zako
 )
 
 inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon cros-board systemd user libchrome-version
