@@ -19,7 +19,7 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND="!!chromeos-base/flimflam-test
+DEPEND="
 	dev-lang/python
 	dev-python/dbus-python
 	dev-python/pygobject"
