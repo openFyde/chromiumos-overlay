@@ -30,7 +30,7 @@ SLOT="8"
 KEYWORDS="-* amd64"
 # FIXME: llvm-tot is somewhat misleading: at the moment, it's essentially
 # llvm-next with a few extra checks enabled
-IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi llvm-crt
+IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi +llvm-crt
 	llvm-next llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot
 	multitarget ncurses ocaml python test +thinlto xml video_cards_radeon"
 

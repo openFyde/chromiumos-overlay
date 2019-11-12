@@ -19,7 +19,7 @@ HOMEPAGE="http://compiler-rt.llvm.org/"
 LICENSE="UoI-NCSA"
 SLOT="0"
 KEYWORDS="*"
-IUSE="llvm-crt llvm-next llvm-tot"
+IUSE="+llvm-crt llvm-next llvm-tot"
 DEPEND="sys-devel/llvm"
 if [[ ${CATEGORY} == cross-* ]] ; then
 	DEPEND+="
