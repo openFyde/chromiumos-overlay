@@ -155,6 +155,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/FROMLIST-meson-Allow-building-radeonsi-with-.patch
 	epatch "${FILESDIR}"/FROMLIST-configure.ac-meson-depend-on-libnativewindow-when-ap.patch
 
+	epatch "${FILESDIR}"/CHROMIUM-do-not-initialize-destroy-locale-for-strtod.patch
+
 	default
 }
 
