@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install postinst prepare prerm unpack
+DEPEND=>=dev-rust/num-integer-0.1.36:= =dev-rust/num-traits-0.2*:= >=dev-rust/num-iter-0.1.35:= >=dev-rust/rustc-serialize-0.3.20:= =dev-rust/ryu-0.2*:= =dev-rust/serde-1*:= =dev-rust/serde_derive-1*:= =dev-rust/serde_json-1*:= >=dev-rust/time-0.1.39:= =dev-rust/bincode-0.8*:= >=virtual/rust-1.28.0:= >=dev-util/cargo-0.29.0
+DESCRIPTION=Aims to be a feature-complete superset of the time library
+EAPI=6
+HOMEPAGE=https://github.com/chronotope/chrono
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
+LICENSE=|| ( MIT Apache-2.0 )
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=0.4.2/r1
+SRC_URI=https://crates.io/api/v1/crates/chrono/0.4.2/download -> chrono-0.4.2.crate
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	71bf6fa43bde611609127fae679b4a69	cros-sanitizers	68fd6af9813658a590887ca09efa2444	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=b3dc7dfc89fa37ef8af81db684d0b36f

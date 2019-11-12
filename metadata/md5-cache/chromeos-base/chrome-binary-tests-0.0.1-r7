@@ -1,9 +1,0 @@
-DEFINED_PHASES=install
-DEPEND=chromeos-base/chromeos-chrome
-DESCRIPTION=Install Chromium binary tests to test image
-EAPI=6
-HOMEPAGE=http://www.chromium.org
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0
-_md5_=d1cf62eaa7ab698c1ed55498c8cb1a78
