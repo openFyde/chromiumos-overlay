@@ -336,6 +336,10 @@ setup_target_flags() {
 }
 
 setup_flags() {
+	# Glibc controls its own optimization settings, so this would be a nop
+	# if we were to run it. Leave it here anyway as a grep-friendly marker.
+	# cros_optimize_package_for_speed
+
 	# Make sure host make.conf doesn't pollute us
 	if is_crosscompile || tc-is-cross-compiler ; then
 		CHOST=${CTARGET} strip-unsupported-flags

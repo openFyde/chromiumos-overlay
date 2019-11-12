@@ -121,6 +121,7 @@ src_prepare() {
 src_configure() {
 	tc-getPROG PKG_CONFIG pkg-config
 
+	cros_optimize_package_for_speed
 	# For llvmpipe on ARM we'll get errors about being unable to resolve
 	# "__aeabi_unwind_cpp_pr1" if we don't include this flag; seems wise
 	# to include it for all platforms though.

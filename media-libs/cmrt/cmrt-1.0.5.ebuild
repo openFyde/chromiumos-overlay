@@ -24,6 +24,11 @@ src_prepare() {
 	eautoreconf
 }
 
+src_configure() {
+	cros_optimize_package_for_speed
+	default
+}
+
 src_install() {
 	default
 	prune_libtool_files

@@ -33,6 +33,8 @@ src_prepare() {
 }
 
 src_configure() {
+	cros_optimize_package_for_speed
+
 	# Explicitly restrict configuration for Ozone/Freon.
 	econf \
 		--enable-drm \

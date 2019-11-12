@@ -109,6 +109,7 @@ multilib_src_configure() {
 			;;
 	esac
 
+	cros_optimize_package_for_speed
 	# libaudit is *only* used in DBus wrt SELinux support, so disable it, if
 	# not on an SELinux profile.
 	myconf=(

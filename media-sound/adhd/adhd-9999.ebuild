@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=4
+EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -67,6 +67,7 @@ src_prepare() {
 }
 
 src_configure() {
+	cros_optimize_package_for_speed
 	sanitizers-setup-env
 	if use amd64 ; then
 		export FUZZER_LDFLAGS="-fsanitize=fuzzer"

@@ -164,6 +164,8 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	cros_optimize_package_for_speed
+
 	unset APPS #197996
 	unset SCRIPTS #312551
 	unset CROSS_COMPILE #311473

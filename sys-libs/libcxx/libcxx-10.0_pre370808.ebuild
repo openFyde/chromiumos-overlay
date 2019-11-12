@@ -86,6 +86,8 @@ multilib_src_configure() {
 	# Filter sanitzers flags.
 	filter_sanitizers
 
+	cros_optimize_package_for_speed
+
 	local cxxabi cxxabi_incs
 	if use libcxxabi; then
 		cxxabi=libcxxabi

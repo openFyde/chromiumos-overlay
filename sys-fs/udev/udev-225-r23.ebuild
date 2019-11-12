@@ -159,6 +159,8 @@ src_prepare() {
 }
 
 src_configure() {
+	cros_optimize_package_for_speed
+
 	# Prevent conflicts with i686 cross toolchain, bug 559726
 	tc-export AR CC NM OBJCOPY RANLIB
 	multilib-minimal_src_configure

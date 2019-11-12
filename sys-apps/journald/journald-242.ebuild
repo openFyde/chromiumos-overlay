@@ -76,6 +76,8 @@ src_configure() {
 	# Prevent conflicts with i686 cross toolchain, bug 559726
 	tc-export AR CC NM OBJCOPY RANLIB
 
+	cros_optimize_package_for_speed
+
 	multilib-minimal_src_configure
 }
 

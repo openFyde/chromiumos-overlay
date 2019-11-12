@@ -69,6 +69,8 @@ src_unpack() {
 }
 
 src_prepare() {
+	cros_optimize_package_for_speed
+
 	# TODO(hidehiko): Drop this on next uprev once code with implicit fallthroughs
 	# are fixed (e.g. json_parser).
 	append-flags -Wno-implicit-fallthrough

@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/speex/speex-1.2_rc1.ebuild,v 1.8 2009/12/11 19:59:55 ranger Exp $
 
+EAPI=5
+
 inherit autotools eutils flag-o-matic
 
 MY_P=${P/_} ; MY_P=${MY_P/_p/.}
@@ -35,6 +37,7 @@ src_unpack() {
 }
 
 src_compile() {
+	cros_optimize_package_for_speed
 	append-flags -D_FILE_OFFSET_BITS=64 -DRESAMPLE_FORCE_FULL_SINC_TABLE
 
 	econf $(use_enable sse) $(use_enable neon) $(use_enable ogg)

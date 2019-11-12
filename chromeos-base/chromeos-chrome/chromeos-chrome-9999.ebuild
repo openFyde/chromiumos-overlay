@@ -739,6 +739,10 @@ setup_test_lists() {
 
 # Handle all CFLAGS/CXXFLAGS/etc... munging here.
 setup_compile_flags() {
+	# Chrome controls its own optimization settings, so this would be a nop
+	# if we were to run it. Leave it here anyway as a grep-friendly marker.
+	# cros_optimize_package_for_speed
+
 	# The chrome makefiles specify -O and -g flags already, so remove the
 	# portage flags.
 	filter-flags -g -O*

@@ -73,6 +73,8 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	cros_optimize_package_for_speed
+
 	local addfonts
 	# harvest some font locations, such that users can benefit from the
 	# host OS's installed fonts

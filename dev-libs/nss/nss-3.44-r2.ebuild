@@ -106,6 +106,8 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	cros_optimize_package_for_speed
+
 	# Ensure we stay multilib aware
 	sed -i -e "/@libdir@/ s:lib64:$(get_libdir):" config/Makefile || die
 }

@@ -80,6 +80,11 @@ get_dependent_services() {
 	fi
 }
 
+src_configure() {
+	cros_optimize_package_for_speed
+	platform_src_configure
+}
+
 src_install() {
 	# Install libshill-net library.
 	insinto "/usr/$(get_libdir)/pkgconfig"

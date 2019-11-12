@@ -1567,6 +1567,10 @@ cros-kernel2_src_prepare() {
 }
 
 cros-kernel2_src_configure() {
+	# The kernel controls its own optimization settings, so this would be a nop
+	# if we were to run it. Leave it here anyway as a grep-friendly marker.
+	# cros_optimize_package_for_speed
+
 	# Use a single or split kernel config as specified in the board or variant
 	# make.conf overlay. Default to the arch specific split config if an
 	# overlay or variant does not set either CHROMEOS_KERNEL_CONFIG or

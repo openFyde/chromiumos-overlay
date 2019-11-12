@@ -143,6 +143,8 @@ src_prepare() {
 }
 
 src_configure() {
+	cros_optimize_package_for_speed
+
 	if use cheets; then
 		#
 		# cheets-specific overrides

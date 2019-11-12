@@ -321,6 +321,15 @@ cros_log_failed_packages() {
 	fi
 }
 
+cros_optimize_package_for_speed() {
+	# NOTE: Replacing this with -O3 probably isn't worth it. -O3 sometimes speeds
+	# up code/sometimes doesn't, and the binaries where literally 94% of our
+	# fleetwide cycles are spent (at the time of writing) reject our optimization
+	# flags and substitute their own anyway.
+	export CFLAGS+=" -O2"
+	export CXXFLAGS+=" -O2"
+}
+
 register_die_hook cros_log_failed_packages
 
 filter_clang_syntax() {
