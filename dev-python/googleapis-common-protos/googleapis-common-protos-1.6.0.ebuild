@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=6
+EAPI=7
 
 PYTHON_COMPAT=( python{2_7,3_3,3_4,3_6} pypy )
 
