@@ -10,6 +10,6 @@ inherit cros-rust
 DESCRIPTION="Empty ${PN} crate"
 HOMEPAGE=""
 
-LICENSE="BSD-Google"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"

@@ -10,6 +10,6 @@ inherit cros-rust
 DESCRIPTION="Empty quickcheck crate"
 HOMEPAGE=""
 
-LICENSE="BSD-Google"
+LICENSE="|| ( MIT Unlicense )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
