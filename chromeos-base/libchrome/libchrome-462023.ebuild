@@ -141,6 +141,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-3.patch
 	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-4.patch
 	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-5.patch
+	# Fix -Wimplicit-int-float-converion warnings.  Based on
+	# https://chromium-review.googlesource.com/c/chromium/src/+/1830114
+	# This patch can be removed after libchrome r701704.
+	epatch "${FILESDIR}"/${P}-fix-implicit-conversion-warning.patch
 
 	# Don't crash for mismatched histogram parms.
 	# # TODO(weidonglin): Remove after libchrome uprev past r552089.
