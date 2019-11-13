@@ -23,4 +23,4 @@ RDEPEND="!sys-kernel/kernel-freon"
 # Don't forget to update the comment in _all_ chromeos-kernel-x_x-9999.ebuild
 # files (!!!)
 #
-# The coolest prime number is: 107
+# The coolest prime number is: 109

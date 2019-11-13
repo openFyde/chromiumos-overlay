@@ -119,7 +119,7 @@ MULTILIB_STRICT_EXEMPT+="|modules"
 # ...fragments will have the following variables substitutions
 # applied later (needs to be done later since these values
 # aren't reliable when used in a global context like this):
-#   %ROOT% => ${ROOT}
+#   %ROOT% => ${SYSROOT}
 
 CONFIG_FRAGMENTS=(
 	acpi_ac
@@ -1645,7 +1645,7 @@ cros-kernel2_src_configure() {
 		fi
 
 		echo "${!config}" | \
-			sed -e "s|%ROOT%|${ROOT}|g" \
+			sed -e "s|%ROOT%|${SYSROOT}|g" \
 			>> "${build_cfg}" || die
 	done
 
@@ -1666,7 +1666,7 @@ cros-kernel2_src_configure() {
 
 	if [[ ${#builtin_fw[@]} -gt 0 ]]; then
 		echo "${extra_fw_config}" | \
-			sed -e "s|%ROOT%|${ROOT}|g" -e "s|%FW%|${builtin_fw[*]}|g" \
+			sed -e "s|%ROOT%|${SYSROOT}|g" -e "s|%FW%|${builtin_fw[*]}|g" \
 			>> "${build_cfg}" || die
 	fi
 
