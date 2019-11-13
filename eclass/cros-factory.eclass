@@ -20,6 +20,32 @@ esac
 # @DESCRIPTION: Folder of factory resources to current board.
 : ${CROS_FACTORY_BOARD_RESOURCES_DIR:=/var/lib/factory/resources}
 
+# @FUNCTION: factory_get_resource_archive_path
+# @USAGE: <name> <res_root>
+# @DESCRIPTION:
+# Get the path of a resource archive for ChromeOS Factory
+# (chromeos-base/chromeos-factory).
+#
+# <name> is the name of resource archive without file name extension.
+#
+# <res_root> is the path to system root of resource folder.  Defaults to
+# "${SYSROOT}".  When creating resource archive, this should be "${ED}".
+# (Function factory_create_resource already takes care of this. In most cases,
+# this argument should not be set.)
+#
+# @EXAMPLE:
+# To get the path of resource archive "factory-board":
+#
+# @CODE
+#  factory_get_resource_archive_path factory-board
+# @CODE
+factory_get_resource_archive_path() {
+	local name="$1"
+	local res_root="${2:-${SYSROOT}}"
+
+	echo "${res_root}${CROS_FACTORY_BOARD_RESOURCES_DIR}/${name}.tar"
+}
+
 # @FUNCTION: factory_create_resource
 # @USAGE: <name> <local_dir> <resource_dir> <objects...>
 # @DESCRIPTION:
@@ -64,19 +90,21 @@ factory_create_resource() {
 	shift
 	shift
 
-	local archive_dir="${ED}${CROS_FACTORY_BOARD_RESOURCES_DIR}"
-	mkdir -p "${archive_dir}"
-
 	# Normalize resource_dir.
 	[ -n "${name}" ] || name="factory-board"
 	[ -n "${local_dir}" ] || local_dir="${WORKDIR}"
 	[ -n "${resource_dir}" ] || resource_dir="."
 
+	local archive_path="$(factory_get_resource_archive_path \
+		"${name}" "${ED}")"
+	local archive_dir="$(dirname "${archive_path}")"
+	mkdir -p "${archive_dir}"
+
 	# transform regular file paths, but not targets of symbolic links and hard
 	# links.
-	tar -cf "${archive_dir}/${name}.tar" \
+	tar -cf "${archive_path}" \
 		-C "${local_dir}" --transform "s'^'${resource_dir}/'SH" \
-		"$@"
+		"$@" || die "Failed to create resource file."
 }
 
 # @FUNCTION: factory_unpack_resource
@@ -103,7 +131,9 @@ factory_unpack_resource() {
 	local output_dir="${2:-${WORKDIR}}"
 	[[ $# -gt 2 ]] && die "Usage: ${FUNCNAME} <name> [output dir]"
 
+	local archive_path="$(factory_get_resource_archive_path "${name}")"
 	mkdir -p "${output_dir}"
-	tar -xvf "${EROOT}${CROS_FACTORY_BOARD_RESOURCES_DIR}/${name}.tar" \
-		-C "${output_dir}"
+	tar -xvf "${archive_path}" \
+		-C "${output_dir}" \
+		|| die "Failed to unpack ${archive_path} to ${output_dir}"
 }
