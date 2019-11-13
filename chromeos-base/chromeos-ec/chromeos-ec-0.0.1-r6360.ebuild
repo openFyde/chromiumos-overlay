@@ -81,7 +81,7 @@ src_unpack() {
 src_prepare() {
 	if ! [[ ${PV} == 9999* ]]; then
 		# Link the private sources in the private/ sub-directory if needed
-		ln -sf ${SYSROOT}/firmware/ec-private ${S}/private
+		ln -sf "${SYSROOT}/firmware/ec-private" "${S}/private"
 	fi
 }
 
@@ -111,8 +111,8 @@ set_build_env() {
 	get_ec_boards
 
 	EC_OPTS=()
-	use quiet && EC_OPTS+=( -s V=0 )
-	use verbose && EC_OPTS+=( V=1 )
+	use quiet && EC_OPTS+=( "-s V=0" )
+	use verbose && EC_OPTS+=( "V=1" )
 }
 
 # Build EC with a supplied configuration and output directory.
@@ -131,10 +131,10 @@ make_ec() {
 		"touchpad_fw=${touchpad_fw} bootblock=${bootblock}"
 
 	if [[ -n "${touchpad_fw}" ]]; then
-		extra_opts+=( TOUCHPAD_FW="${touchpad_fw}" )
+		extra_opts+=( "TOUCHPAD_FW=${touchpad_fw}" )
 	fi
 	if [[ -n "${bootblock}" ]]; then
-		extra_opts+=( BOOTBLOCK="${bootblock}" )
+		extra_opts+=( "BOOTBLOCK=${bootblock}" )
 	fi
 
 	BOARD=${target} emake "${EC_OPTS[@]}" clean
@@ -169,7 +169,7 @@ src_compile() {
 	set_build_env
 
 	local target
-	einfo "Building targets: ${EC_BOARDS[@]}"
+	einfo "Building targets: ${EC_BOARDS[*]}"
 	for target in "${EC_BOARDS[@]}"; do
 		# Always pass TOUCHPAD_FW parameter: boards that do not require
 		# it will simply ignore the parameter, even if the touchpad FW
@@ -194,7 +194,7 @@ src_compile() {
 			local bootblock="${target_root}/coreboot/bootblock.bin"
 			local bootblock_serial="${target_root}/coreboot_serial/bootblock.bin"
 
-			if [[ -f "$bootblock_serial" ]]; then
+			if [[ -f "${bootblock_serial}" ]]; then
 				# Since we are including AP bootblock, two sets
 				# of EC images need to be built -- one with
 				# serial console enabled, and one without.
@@ -213,9 +213,9 @@ src_compile() {
 
 	if use fuzzer ; then
 		local sanitizers=()
-		use asan && sanitizers+=( TEST_ASAN=y )
-		use msan && sanitizers+=( TEST_MSAN=y )
-		use ubsan && sanitizers+=( TEST_UBSAN=y )
+		use asan && sanitizers+=( "TEST_ASAN=y" )
+		use msan && sanitizers+=( "TEST_MSAN=y" )
+		use ubsan && sanitizers+=( "TEST_UBSAN=y" )
 		emake buildfuzztests "${sanitizers[@]}"
 	fi
 }
@@ -312,7 +312,7 @@ board_install() {
 	if [[ -f chip/npcx/spiflashfw/npcx_monitor.bin ]]; then
 		doins chip/npcx/spiflashfw/npcx_monitor.bin
 	fi
-	popd > /dev/null
+	popd > /dev/null || die
 
 	if [[ "${board}" == "cr50" ]]; then
 		install_cr50_signer_aid "${dest_dir}"
@@ -324,7 +324,7 @@ src_install() {
 
 	local target
 
-	einfo "Installing targets: ${EC_BOARDS[@]}"
+	einfo "Installing targets: ${EC_BOARDS[*]}"
 	for target in "${EC_BOARDS[@]}"; do
 		board_install "${target}" "${WORKDIR}/build_${target}" \
 			"/firmware/${target}" "" \
