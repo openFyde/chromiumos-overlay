@@ -92,7 +92,6 @@ CLIENT_IUSE_TESTS="
 		+tests_camera_HAL3
 		+tests_camera_HAL3Perf
 	)
-	+tests_crosvm_Sanity
 	!chromeless_tty? (
 		!chromeless_tests? (
 			+tests_desktopui_CrashyReboot
