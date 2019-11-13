@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -9,25 +9,46 @@ HOMEPAGE="https://linuxcontainers.org/lxd/introduction/"
 # This list includes the subset of packages required for the LXD client library
 # to build.
 CROS_GO_PACKAGES=(
+	"github.com/Rican7/retry"
+	"github.com/Rican7/retry/backoff"
+	"github.com/Rican7/retry/jitter"
+	"github.com/Rican7/retry/strategy"
+	"github.com/canonical/go-dqlite/client"
+	"github.com/canonical/go-dqlite/driver"
+	"github.com/canonical/go-dqlite/internal/bindings"
+	"github.com/canonical/go-dqlite/internal/logging"
+	"github.com/canonical/go-dqlite/internal/protocol"
+	"github.com/flosch/pongo2"
 	"github.com/gosexy/gettext"
+	"github.com/juju/errors"
 	"github.com/juju/loggo"
 	"github.com/juju/webbrowser"
 	"github.com/lxc/lxd/client"
+	"github.com/lxc/lxd/lxd/db/cluster"
+	"github.com/lxc/lxd/lxd/db/node"
+	"github.com/lxc/lxd/lxd/db/query"
+	"github.com/lxc/lxd/lxd/db/schema"
+	"github.com/lxc/lxd/lxd/util"
 	"github.com/lxc/lxd/shared/..."
 	"github.com/mattn/go-colorable"
 	"github.com/mattn/go-isatty"
+	"github.com/mattn/go-sqlite3"
 	"github.com/rogpeppe/fastuuid"
+	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	"gopkg.in/errgo.v1"
 	"gopkg.in/httprequest.v1"
+	"gopkg.in/lxc/go-lxc.v2"
 	"gopkg.in/macaroon-bakery.v2/bakery"
 	"gopkg.in/macaroon-bakery.v2/bakery/checkers"
 	"gopkg.in/macaroon-bakery.v2/bakery/internal/macaroonpb"
 	"gopkg.in/macaroon-bakery.v2/httpbakery"
 	"gopkg.in/macaroon-bakery.v2/internal/httputil"
 	"gopkg.in/macaroon.v2"
+	"gopkg.in/robfig/cron.v2"
 )
 
-CROS_GO_WORKSPACE="${S}/dist"
+CROS_GO_WORKSPACE="${S}/_dist"
 
 LICENSE="Apache-2.0 BSD BSD-2 LGPL-2.1 LGPL-3 MIT MPL-2.0"
 SLOT="0"
@@ -51,6 +72,7 @@ DEPEND="
 	dev-go/go-sys
 	dev-go/httprouter
 	dev-go/net
+	dev-go/protobuf
 	dev-go/text
 	dev-go/websocket
 	dev-lang/tcl
@@ -71,14 +93,18 @@ RDEPEND="
 		>=app-emulation/lxc-2.0.7[seccomp]
 		dev-libs/libuv
 		dev-libs/lzo
+		dev-util/xdelta:3
 		dnsmasq? (
 			net-dns/dnsmasq[dhcp,ipv6?]
 		)
 		net-firewall/ebtables
 		net-firewall/iptables[ipv6?]
 		net-libs/libnfnetlink
+		net-libs/libnsl:0=
 		net-misc/rsync[xattr]
 		sys-apps/iproute2[ipv6?]
+		sys-fs/fuse
+		sys-fs/lxcfs
 		sys-fs/squashfs-tools
 		virtual/acl
 	)
@@ -127,53 +153,58 @@ src_unpack() {
 	# Instead of using the lxd symlink in the dist directory, move the lxd
 	# source into that directory. Otherwise, the cros-go_src_install stage
 	# will fail since it won't traverse symlinks.
-	rm "${S}/dist/src/${EGO_PN}"
-	mkdir "${S}/dist/src/${EGO_PN}"
+	rm "${S}/_dist/src/${EGO_PN}"
+	mkdir "${S}/_dist/src/${EGO_PN}"
 	find "${S}"/* -maxdepth 0 \
 				-type d \
-				! -name "dist" \
-				-exec mv {} "${S}/dist/src/${EGO_PN}" \;
+				! -name "_dist" \
+				-exec mv {} "${S}/_dist/src/${EGO_PN}" \;
 }
 
 src_prepare() {
-	cd "${S}/dist/src/${EGO_PN}"
-	eapply "${FILESDIR}/${P}-cert-ec384.patch" # crbug.com/837445
-	eapply "${FILESDIR}/${P}-goroutine-leak.patch" # crbug.com/912189
-	eapply "${FILESDIR}/${P}-reset-listener.patch" # crbug.com/912189
-	eapply "${FILESDIR}/${P}-export-progress-1.patch" # crbug.com/927550
-	eapply "${FILESDIR}/${P}-export-progress-2.patch" # crbug.com/927550
-	eapply "${FILESDIR}/${P}-export-progress-3.patch" # crbug.com/927550
-	eapply "${FILESDIR}/${P}-export-progress-4.patch" # crbug.com/927550
-	eapply "${FILESDIR}/${P}-export-progress-5.patch" # crbug.com/927550
-	eapply "${FILESDIR}/${P}-export-progress-6.patch" # crbug.com/927550
-	eapply "${FILESDIR}/${P}-export-progress-7.patch" # crbug.com/927550
-	eapply "${FILESDIR}/${P}-export-progress-8.patch" # crbug.com/927550
-	eapply "${FILESDIR}/${P}-export-tar-and-compress.patch" # crbug.com/927550
-	eapply "${FILESDIR}/${P}-delete-orphaned-ro-snapshot.patch" # crbug.com/944758
-	eapply "${FILESDIR}/${P}-add-container-tar-writer.patch" # crbug.com/972835
+	cd "${S}/_dist/src/${EGO_PN}"
+	eapply "${FILESDIR}/0001-lxd-util-Add-HasFilesystem.patch" # crbug.com/1024327
+	eapply "${FILESDIR}/0002-lxd-Detect-built-in-shiftfs-too.patch" # crbug.com/1024327
 	eapply_user
 
-	cd "${S}/dist/dqlite" || die "Can't cd to dqlite dir"
+	cd "${S}/_dist/deps/raft" || die "Can't cd to raft dir"
+	eautoreconf
+
+	cd "${S}/_dist/deps/dqlite" || die "Can't cd to dqlite dir"
 	eautoreconf
 }
 
 src_configure() {
-	export GOPATH="${S}/dist"
-	cd "${GOPATH}/sqlite" || die "Can't cd to sqlite dir"
+	export GOPATH="${S}/_dist"
+	cd "${GOPATH}/deps/sqlite" || die "Can't cd to sqlite dir"
 	econf --enable-replication --disable-amalgamation --disable-tcl --libdir="${EPREFIX}/usr/$(get_libdir)/lxd"
 
-	cd "${GOPATH}/dqlite" || die "Can't cd to dqlite dir"
-	PKG_CONFIG_PATH="${GOPATH}/sqlite/" econf --libdir="${EPREFIX}/usr/$(get_libdir)/lxd"
+	cd "${GOPATH}/deps/raft" || die "Can't cd to raft dir"
+	PKG_CONFIG_PATH="${GOPATH}/deps/raft/" econf --libdir="${EPREFIX}/usr/$(get_libdir)/lxd"
+
+	cd "${GOPATH}/deps/dqlite" || die "Can't cd to dqlite dir"
+	export RAFT_CFLAGS="-I${GOPATH}/deps/raft/include/"
+	export RAFT_LIBS="${GOPATH}/deps/raft/.libs"
+	export CO_CFLAGS="-I${GOPATH}/deps/libco/"
+	export CO_LIBS="${GOPATH}/deps/libco/"
+	PKG_CONFIG_PATH="${GOPATH}/deps/sqlite/" econf --libdir="${EPREFIX}/usr/$(get_libdir)/lxd"
 }
 
 src_compile() {
-	export GOPATH="${S}/dist"
+	export GOPATH="${S}/_dist"
 
-	cd "${GOPATH}/sqlite" || die "Can't cd to sqlite dir"
+	cd "${GOPATH}/deps/sqlite" || die "Can't cd to sqlite dir"
 	emake
 
-	cd "${GOPATH}/dqlite" || die "Can't cd to dqlite dir"
-	emake CFLAGS="-I${GOPATH}/sqlite"
+	cd "${GOPATH}/deps/raft" || die "Can't cd to raft dir"
+	emake
+
+	cd "${GOPATH}/deps/libco" || die "Can't cd to libco dir"
+	emake
+
+	cd "${GOPATH}/deps/dqlite" || die "Can't cd to dqlite dir"
+	emake CFLAGS="${CFLAGS} -I${GOPATH}/deps/sqlite -I${GOPATH}/deps/raft/include" \
+	LDFLAGS="${LDFLAGS} -L${GOPATH}/deps/sqlite -L${GOPATH}/deps/raft"
 
 	# We don't use the Makefile here because it builds targets with the
 	# assumption that `pwd` is in a deep gopath namespace, which we're not.
@@ -185,9 +216,9 @@ src_compile() {
 
 		# LXD depends on a patched, bundled sqlite with replication
 		# capabilities.
-		export CGO_CFLAGS="-I${GOPATH}/sqlite/ -I${GOPATH}/dqlite/include/"
-		export CGO_LDFLAGS="-L${GOPATH}/sqlite/.libs/ -L${GOPATH}/dqlite/.libs/ -Wl,-rpath,${EPREFIX}/usr/$(get_libdir)/lxd"
-		export LD_LIBRARY_PATH="${GOPATH}/sqlite/.libs/:${GOPATH}/dqlite/.libs/"
+		export CGO_CFLAGS="-I${GOPATH}/deps/sqlite/ -I${GOPATH}/deps/dqlite/include/ -I${GOPATH}/deps/raft/include/ -I${GOPATH}/deps/libco/"
+		export CGO_LDFLAGS="-L${GOPATH}/deps/sqlite/.libs/ -L${GOPATH}/deps/dqlite/.libs/ -L${GOPATH}/deps/raft/.libs -L${GOPATH}/deps/libco/ -Wl,-rpath,${EPREFIX}/usr/$(get_libdir)/lxd"
+		export LD_LIBRARY_PATH="${GOPATH}/deps/sqlite/.libs/:${GOPATH}/deps/dqlite/.libs/:${GOPATH}/deps/raft/.libs:${GOPATH}/deps/libco/"
 
 		cros_go install -v -x -tags libsqlite3 ${EGO_PN}/lxd || die "Failed to build the daemon"
 	fi
@@ -196,6 +227,7 @@ src_compile() {
 		cros_go install -v -x ${EGO_PN}/fuidshift || die "Failed to build fuidshift"
 		cros_go install -v -x ${EGO_PN}/lxc-to-lxd || die "Failed to build lxc-to-lxd"
 		cros_go install -v -x ${EGO_PN}/lxd-benchmark || die "Failed to build lxd-benchmark"
+		cros_go install -v -x ${EGO_PN}/lxd-p2c || die "Failed to build lxd-p2c"
 	fi
 
 	use nls && emake build-mo
@@ -203,7 +235,7 @@ src_compile() {
 
 src_test() {
 	if use daemon; then
-		export GOPATH="${S}/dist"
+		export GOPATH="${S}/_dist"
 		# This is mostly a copy/paste from the Makefile's "check" rule, but
 		# patching the Makefile to work in a non "fully-qualified" go namespace
 		# was more complicated than this modest copy/paste.
@@ -221,18 +253,24 @@ src_test() {
 src_install() {
 	cros-go_src_install
 
-	local bindir="dist/bin"
+	local bindir="_dist/bin"
 	if [[ ${ARCH} != "amd64" ]]; then
 		bindir="${bindir}/linux_${ARCH}"
 	fi
 	dobin ${bindir}/lxc
 	if use daemon; then
 
-		export GOPATH="${S}/dist"
-		cd "${GOPATH}/sqlite" || die "Can't cd to sqlite dir"
+		export GOPATH="${S}/_dist"
+		cd "${GOPATH}/deps/sqlite" || die "Can't cd to sqlite dir"
 		emake DESTDIR="${D}" install
 
-		cd "${GOPATH}/dqlite" || die "Can't cd to dqlite dir"
+		cd "${GOPATH}/deps/raft" || die "Can't cd to raft dir"
+		emake DESTDIR="${D}" install
+
+		cd "${GOPATH}/deps/libco" || die "Can't cd to libco dir"
+		dolib.so libco.so.0.1.0 || die "Can't install libco.so"
+
+		cd "${GOPATH}/deps/dqlite" || die "Can't cd to dqlite dir"
 		emake DESTDIR="${D}" install
 
 		# Must only install libs
@@ -247,16 +285,21 @@ src_install() {
 		dobin ${bindir}/fuidshift
 		dobin ${bindir}/lxc-to-lxd
 		dobin ${bindir}/lxd-benchmark
+		dobin ${bindir}/lxd-p2c
 	fi
 
 	if use nls; then
 		domo po/*.mo
 	fi
 
-	newbashcomp dist/src/${EGO_PN}/scripts/bash/lxd-client \
-		lxc
+	# These C header files are dependencies of lxd/shared/idmap which don't
+	# get installed by the usual golang tools.
+	insinto "/usr/lib/gopath/src/github.com/lxc/lxd/lxd/"
+	doins -r "${S}/_dist/src/github.com/lxc/lxd/lxd/include"
 
-	dodoc AUTHORS dist/src/${EGO_PN}/doc/*
+	newbashcomp _dist/src/${EGO_PN}/scripts/bash/lxd-client lxc
+
+	dodoc AUTHORS _dist/src/${EGO_PN}/doc/*
 }
 
 pkg_postinst() {
