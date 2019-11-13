@@ -149,16 +149,6 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
-		# The parse_seccomp_policy file that is installed in the chroot can only
-		# be used to check x86 seccomp policies.
-		local seccomp_path="$(get_seccomp_path)"
-		local policy
-		for policy in "${seccomp_path}"/*.policy; do
-			sed "s:/usr/share/policy/crosvm:./${seccomp_path}:g" "${policy}" \
-				| parse_seccomp_policy >/dev/null \
-				|| die "failed to compile seccomp policy ${policy}"
-		done
-
 		local feature_excludes=()
 		use tpm2 || feature_excludes+=( --exclude tpm2 --exclude tpm2-sys )
 
@@ -213,8 +203,21 @@ src_install() {
 	# Install seccomp policy files.
 	local seccomp_path="${S}/$(get_seccomp_path)"
 	if [[ -d "${seccomp_path}" ]] ; then
+		local policy
+		for policy in "${seccomp_path}"/*.policy; do
+			sed -i "s:/usr/share/policy/crosvm:${seccomp_path}:g" "${policy}" \
+				|| die "failed to modify seccomp policy ${policy}"
+		done
+		for policy in "${seccomp_path}"/*.policy; do
+			local policy_output="${policy%.policy}.bpf"
+			compile_seccomp_policy \
+				--arch-json "${SYSROOT}/build/share/constants.json" \
+				--default-action trap "${policy}" "${policy_output}" \
+				|| die "failed to compile seccomp policy ${policy}"
+		done
+		rm "${seccomp_path}"/common_device.bpf
 		insinto /usr/share/policy/crosvm
-		doins "${seccomp_path}"/*.policy
+		doins "${seccomp_path}"/*.bpf
 	fi
 
 	# Install qcow utils library, header, and pkgconfig files.
