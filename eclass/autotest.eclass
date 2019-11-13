@@ -6,7 +6,7 @@
 # Purpose: Eclass for handling autotest test packages
 #
 
-inherit cros-constants
+inherit cros-constants toolchain-funcs
 
 RDEPEND="( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )"
 
