@@ -8,7 +8,6 @@ inherit cros-constants
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/modp_b64")
 CROS_WORKON_LOCALNAME=("../platform2" "../third_party/modp_b64")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/modp_b64")
-CROS_WORKON_REPO=("${CROS_GIT_HOST_URL}" "${CROS_GIT_AOSP_URL}")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="modp_b64"
