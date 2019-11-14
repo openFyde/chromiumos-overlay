@@ -435,7 +435,7 @@ autotest_pkg_postinst() {
 				-r ${root_autotest_dir}/packages \
 				${test_opt} ${dep_opt} ${prof_opt} -a upload && \
 				echo ${CATEGORY}/${PN} > ${logfile} && \
-				echo ${test_opt} ${dep_opt} ${prof_opt} >> ${logfile}"
+				echo ${test_opt} ${dep_opt} ${prof_opt} >> ${logfile}" || die
 	else
 		einfo "Packager not run as nothing was found to package."
 	fi
