@@ -238,7 +238,7 @@ src_install() {
 	use_fw rtw8822c && doins_subdir rtw88/rtw8822c*.bin
 	use_fw venus-52 && doins_subdir qcom/venus-5.2/*
 	use video_cards_radeon && doins_subdir radeon/*
-	use video_cards_amdgpu && doins_subdir amdgpu/{carrizo,stoney,picasso}*
+	use video_cards_amdgpu && doins_subdir amdgpu/{carrizo,picasso,stoney}*
 
 	use_fw rt2870 && doins rt2870.bin
 
