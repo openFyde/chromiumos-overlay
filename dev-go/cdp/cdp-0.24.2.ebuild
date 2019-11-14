@@ -42,3 +42,9 @@ DEPEND="
 		dev-go/sync
 	)"
 RDEPEND="dev-go/websocket"
+
+src_prepare() {
+	EPATCH_OPTS="-d src/github.com/mafredri/cdp"
+	epatch "${FILESDIR}"/Revert-rpcc-Repeat-the-error-that-closed-the-connect.patch
+	epatch "${FILESDIR}"/Revert-rpcc-Fix-error-propagation-during-Invoke-Clos.patch
+}

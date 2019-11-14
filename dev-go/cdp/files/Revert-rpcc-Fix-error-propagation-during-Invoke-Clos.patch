@@ -1,0 +1,40 @@
+From 9a792aa5ba397874561d68f545cf2408aceaf1fc Mon Sep 17 00:00:00 2001
+From: David Stevens <stevensd@chromium.org>
+Date: Wed, 13 Nov 2019 15:58:35 +0900
+Subject: [PATCH] Revert "rpcc: Fix error propagation during Invoke/Close race"
+
+This reverts commit 2a28a12ac3f505882ed2648f5a1499ff42d0141b.
+---
+ rpcc/conn.go | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
+
+diff --git a/rpcc/conn.go b/rpcc/conn.go
+index bcb327c..aa210df 100644
+--- a/rpcc/conn.go
++++ b/rpcc/conn.go
+@@ -407,19 +407,10 @@ func (c *Conn) send(ctx context.Context, call *rpcCall) (err error) {
+ 	}
+ 
+ 	if err != nil {
++		// Remove reference on error, avoid
++		// unnecessary work in recv.
+ 		c.mu.Lock()
+-		if c.closed {
+-			// There is a chance that WriteRequest is executed in
+-			// parallel with the closing of Conn. If it happens,
+-			// err will be a "use of closed network connection"
+-			// error, but we want to return the error that closed
+-			// Conn.
+-			err = c.err
+-		} else {
+-			// Remove reference on error, avoid
+-			// unnecessary work in recv.
+-			delete(c.pending, reqID)
+-		}
++		delete(c.pending, reqID)
+ 		c.mu.Unlock()
+ 		return err
+ 	}
+-- 
+2.24.0.rc1.363.gb1bccd3e3d-goog
+
