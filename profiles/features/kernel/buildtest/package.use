@@ -1,9 +1,11 @@
-sys-kernel/chromeos-kernel-3_8 buildtest -clang
-sys-kernel/chromeos-kernel-3_10 buildtest -clang
-sys-kernel/chromeos-kernel-3_14 buildtest -clang
-sys-kernel/chromeos-kernel-3_18 buildtest -clang
-sys-kernel/chromeos-kernel-4_4 buildtest -clang
-sys-kernel/chromeos-kernel-4_14 buildtest -clang
-sys-kernel/chromeos-kernel-4_19 buildtest -clang
-sys-kernel/chromeos-kernel-experimental buildtest -clang
-sys-kernel/chromeos-kernel-next buildtest -clang
+# This profile is used to build Linux kernels with GCC/GNU binutils based
+# toolchain instead of LLVM based toolchain.
+sys-kernel/chromeos-kernel-3_8 buildtest -clang -lld
+sys-kernel/chromeos-kernel-3_10 buildtest -clang -lld
+sys-kernel/chromeos-kernel-3_14 buildtest -clang -lld
+sys-kernel/chromeos-kernel-3_18 buildtest -clang -lld
+sys-kernel/chromeos-kernel-4_4 buildtest -clang -lld
+sys-kernel/chromeos-kernel-4_14 buildtest -clang -lld
+sys-kernel/chromeos-kernel-4_19 buildtest -clang -lld
+sys-kernel/chromeos-kernel-experimental buildtest -clang -lld
+sys-kernel/chromeos-kernel-next buildtest -clang -lld
