@@ -173,8 +173,6 @@ CLIENT_IUSE_TESTS="
 	+tests_network_EthernetStressPlug
 	+tests_network_Ipv6SimpleNegotiation
 	+tests_network_NegotiatedLANSpeed
-	+tests_network_UdevRename
-	+tests_network_WiFiCaps
 	+tests_platform_AccurateTime
 	+tests_platform_AesThroughput
 	!chromeless_tty? (
