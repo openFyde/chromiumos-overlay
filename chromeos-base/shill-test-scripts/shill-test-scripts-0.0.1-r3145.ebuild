@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="9acf65899c0d3c83587997cccbc4b81cdcb70ce4"
+CROS_WORKON_COMMIT="fff4e8cda1fbc73e66a5fd34ef13dea35701cb1b"
 CROS_WORKON_TREE="72d962c75cca6c048fd34a6f8e95365e9727e7ab"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -21,7 +21,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="!!chromeos-base/flimflam-test
+DEPEND="
 	dev-lang/python
 	dev-python/dbus-python
 	dev-python/pygobject"
