@@ -1,28 +1,25 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
-CROS_WORKON_COMMIT="19ff28bd95b79e421059fdccf6b07e0a23f12aa3"
-CROS_WORKON_TREE="4887c0614304379c60be561ab16d9d9ac1ee686e"
+EAPI=2
+CROS_WORKON_COMMIT="49428f49143ba0357693f4ace9b169ce63cfa42c"
+CROS_WORKON_TREE="63ad7c007a13a4206ac5add9f881793488754cb7"
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 
 inherit cros-workon autotest
 
-DESCRIPTION="TPM firmware tests"
+DESCRIPTION="vboot tests"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="x86 arm amd64"
-DEPEND="app-crypt/trousers
-        chromeos-base/tpm"
 
 # Enable autotest by default.
 IUSE="${IUSE} +autotest"
 
 IUSE_TESTS="
-	+tests_hardware_TPMFirmware
-	+tests_hardware_TPMFirmwareServer
+	+tests_firmware_VbootCrypto
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
@@ -31,12 +28,10 @@ CROS_WORKON_LOCALNAME=vboot_reference
 
 # path from root of repo
 AUTOTEST_CLIENT_SITE_TESTS=autotest/client
-AUTOTEST_SERVER_SITE_TESTS=autotest/server
 
 function src_compile {
 	# for Makefile
-	export VBOOT_DIR=${WORKDIR}/${P}
-        export MINIMAL=1  # Makefile requires this for cross-compiling
+	export VBOOT_SRC_DIR=${WORKDIR}/${P}
 	autotest_src_compile
 }
 
