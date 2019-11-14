@@ -8,7 +8,7 @@ EGIT_REPO_URI="git://anongit.freedesktop.org/harfbuzz"
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit eutils flag-o-matic libtool multilib-minimal python-any-r1
+inherit eutils flag-o-matic libtool multilib-minimal python-any-r1 xdg-utils
 
 DESCRIPTION="An OpenType text shaping engine"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/HarfBuzz"
