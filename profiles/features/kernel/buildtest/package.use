@@ -1,0 +1,9 @@
+sys-kernel/chromeos-kernel-3_8 buildtest -clang
+sys-kernel/chromeos-kernel-3_10 buildtest -clang
+sys-kernel/chromeos-kernel-3_14 buildtest -clang
+sys-kernel/chromeos-kernel-3_18 buildtest -clang
+sys-kernel/chromeos-kernel-4_4 buildtest -clang
+sys-kernel/chromeos-kernel-4_14 buildtest -clang
+sys-kernel/chromeos-kernel-4_19 buildtest -clang
+sys-kernel/chromeos-kernel-experimental buildtest -clang
+sys-kernel/chromeos-kernel-next buildtest -clang
