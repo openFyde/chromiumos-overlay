@@ -3,8 +3,9 @@
 
 EAPI=6
 
-# f7b830d8df9f5578c748aa0283d44c59ea7eeb25 is the current version as of Sep 10, 2019.
-CROS_GO_SOURCE="boringssl.googlesource.com/boringssl f7b830d8df9f5578c748aa0283d44c59ea7eeb25"
+# 6ba98ff60144f60aba589b4d6121689528fbae76 is the current version as of Nov 12, 2019.
+# ACVPTool in this version supports the algorithms needed by cr50 for FIPS testing.
+CROS_GO_SOURCE="boringssl.googlesource.com/boringssl 6ba98ff60144f60aba589b4d6121689528fbae76"
 
 CROS_GO_PACKAGES=(
 	"boringssl.googlesource.com/boringssl/util/fipstools/acvp/acvptool/acvp"
