@@ -50,34 +50,6 @@ setup_cross_toolchain() {
 
 get_most_recent_revision() {
 	local subdir="${S}/llvm"
-
-	# Tries to parse the last revision ID present in the most recent commit
-	# with a revision ID attached. We can't simply `grep -m 1`, since it's
-	# reasonable for a revert message to include the git-svn-id of the
-	# commit it's reverting.
-	#
-	# Thankfully, LLVM's machinery always makes this ID the last line of
-	# each upstream commit, so we just need to search for it, with commit
-	# two lines later.
-	#
-	# Example of revision ID line:
-	# llvm-svn: 358929
-	#
-	# Where 358929 is the revision.
-	git -C "${subdir}" log | \
-		awk '
-			/^commit/ {
-				if (most_recent_id != "") {
-					print most_recent_id
-					exit
-				}
-			}
-			/^\s+llvm-svn: [0-9]+$/ { most_recent_id = $2 }'
-}
-
-get_most_recent_sha() {
-	local subdir="${S}/llvm"
-
-	# Get the git hash of the most recent commit.
-	git -C "${subdir}" rev-parse HEAD
+	# Tries to get the revision ID of the most recent commit
+	"${FILESDIR}"/patch_manager/git_llvm_rev.py --llvm_dir "${subdir}" --sha "$(git -C "${subdir}" rev-parse HEAD)" | cut -d 'r' -f 2
 }
