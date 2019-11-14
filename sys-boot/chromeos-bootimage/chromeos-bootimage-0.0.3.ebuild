@@ -17,7 +17,7 @@ BOARDS="${BOARDS} falco fizz fox glados glkrvp grunt hatch jecht kalista kblrvp"
 BOARDS="${BOARDS} kunimitsu link lumpy lumpy64 mario meowth nasher nami"
 BOARDS="${BOARDS} nautilus nocturne octopus panther parrot peppy poppy puff pyro"
 BOARDS="${BOARDS} rambi rammus reef samus sand sarien sklrvp slippy snappy"
-BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo volteer zoombini"
+BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo volteer zoombini zork"
 IUSE="${BOARDS} diag_payload seabios wilco_ec"
 IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 
