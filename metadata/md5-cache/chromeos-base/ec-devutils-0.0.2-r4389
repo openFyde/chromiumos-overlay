@@ -3,11 +3,11 @@ DEPEND=dev-python/setuptools[python_targets_python2_7(-)?,-python_single_target_
 DESCRIPTION=Host development utilities for Chromium OS EC
 EAPI=5
 HOMEPAGE=https://www.chromium.org/chromium-os/ec-development
-IUSE=cros_host cros_workon_tree_d62e9092d896b0b607364a3ca2cbab324e465ee9 python_targets_python2_7
+IUSE=cros_host cros_workon_tree_2dfffcb6b3b457b8abdbc6f4a0acc267cb9209d2 python_targets_python2_7
 KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=app-mobilephone/dfu-util sys-firmware/servo-firmware sys-apps/flashrom !<chromeos-base/ec-utils-0.0.1-r6153 chromeos-base/ec-utils >=dev-python/pyusb-1.0.2 python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,-python_single_target_python2_7(-)]
 REQUIRED_USE=|| ( python_targets_python2_7 )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-workon	3b601120f312bbae79125777d6e788db	distutils-r1	71a5ee567fb298e553ce8d1319279151	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	6c859cdda96f9f5c9a4efc0b57f354bf	multibuild	40fe59465edacd730c644ec2bc197809	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	python-r1	ce1cd23cfdc1848e8e32743efe34f299	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
-_md5_=1df09d8dd7cb0c3ede7ea18f1eefe781
+_md5_=10934c4fd44b235fcdc0c73ecea79da4
