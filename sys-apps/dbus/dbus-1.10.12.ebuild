@@ -88,8 +88,6 @@ src_prepare() {
 	# In libdbus, raise SIGTERM when the connection is dropped.
 	epatch "${FILESDIR}"/${PN}-1.6.8-raise-SIGTERM-on-connection-lost.patch
 
-	eapply_user
-
 	# required for asneeded patch but also for bug 263909, cross-compile so
 	# don't remove eautoreconf
 	eautoreconf
