@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="64264eebc0f9da48544acb80c8a7c9ce33c7967a"
-CROS_WORKON_TREE=("13277321c94a2f8ea0ff6bf7d8c246ffd349380a" "1923147ad4ebd5455884abcec51e6de181b4abac" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b60dd1f1f127ce8de25c8949aabbce40f9fb341d"
+CROS_WORKON_TREE=("13277321c94a2f8ea0ff6bf7d8c246ffd349380a" "47c984c232e51c59eade9ae7238c0cef0bbde9c5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
@@ -56,6 +56,7 @@ src_install() {
 	# include directory. Users will need to include the corresponding client
 	# library to access these files.
 	local dir dirs=(
+		anomaly_detector
 		attestation
 		biod
 		chunneld
