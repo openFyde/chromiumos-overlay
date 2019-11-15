@@ -55,3 +55,4 @@ src_prepare() {
 	export PYTHONPATH="${TMP_DIR}/telemetry/src/third_party/catapult/telemetry"
 	autotest_src_prepare
 }
+

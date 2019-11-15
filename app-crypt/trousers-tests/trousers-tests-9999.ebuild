@@ -40,4 +40,3 @@ src_compile() {
 	autotest_src_compile
 }
 
-
