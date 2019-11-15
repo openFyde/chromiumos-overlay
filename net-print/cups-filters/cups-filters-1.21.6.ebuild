@@ -61,7 +61,6 @@ PATCHES=(
 
 src_prepare() {
 	default
-	eautoreconf
 
 	# Bug #626800
 	append-cxxflags -std=c++11
