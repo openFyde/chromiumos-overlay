@@ -79,8 +79,6 @@ src_compile() {
 		else
 			minijail_targets+=( dump_constants )
 		fi
-	else
-		minijail_targets+=( parse_seccomp_policy )
 	fi
 
 	cros-common.mk_src_compile "${minijail_targets[@]}"
@@ -95,7 +93,6 @@ src_install() {
 	into /
 	dosbin "${OUT}"/minijail0
 	dolib.so "${OUT}"/libminijail{,preload}.so
-	use cros_host && dobin "${OUT}"/parse_seccomp_policy
 
 	doman minijail0.[15]
 
