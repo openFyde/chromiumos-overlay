@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="9baebbaeb2d0f3714ecf5f19de705503a636df91"
-CROS_WORKON_TREE="762d30c494b321611e2725098acab4cd67fc348d"
+CROS_WORKON_COMMIT="a84648551d735effbe1cd081505b3b09c0812d9b"
+CROS_WORKON_TREE="8b4facce494bc68343aa10040c9de1dcdaac33a8"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -57,3 +57,4 @@ src_prepare() {
 	export PYTHONPATH="${TMP_DIR}/telemetry/src/third_party/catapult/telemetry"
 	autotest_src_prepare
 }
+
