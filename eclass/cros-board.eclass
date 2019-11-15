@@ -184,6 +184,7 @@ ALL_BOARDS=(
 	guado-kernelnext
 	guado_labstation
 	hana
+	hana-kernelnext
 	hatch
 	hatch-diskswap
 	heli
