@@ -16,7 +16,7 @@ KEYWORDS="~*"
 
 # By default, only libiio is installed.
 # For testing, use USE=libiio_all to compile tests and iiod daemon.
-IUSE="+aio +avahi libiio_all"
+IUSE="aio avahi libiio_all"
 
 RDEPEND="dev-libs/libxml2:=
 	virtual/libusb:1=
