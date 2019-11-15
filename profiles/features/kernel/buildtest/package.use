@@ -7,5 +7,6 @@ sys-kernel/chromeos-kernel-3_18 buildtest -clang -lld
 sys-kernel/chromeos-kernel-4_4 buildtest -clang -lld
 sys-kernel/chromeos-kernel-4_14 buildtest -clang -lld
 sys-kernel/chromeos-kernel-4_19 buildtest -clang -lld
+sys-kernel/chromeos-kernel-5_4 buildtest -clang -lld
 sys-kernel/chromeos-kernel-experimental buildtest -clang -lld
 sys-kernel/chromeos-kernel-next buildtest -clang -lld
