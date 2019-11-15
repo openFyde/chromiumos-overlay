@@ -3,19 +3,18 @@
 
 EAPI="6"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
-
 inherit cros-rust
 
-DESCRIPTION="Experimental async/await support for Tokio"
-HOMEPAGE="https://tokio.rs/"
+DESCRIPTION="Detect when another Future wants a result."
+HOMEPAGE="https://github.com/seanmonstar/want"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/futures-0.1*:=
-	=dev-rust/tokio-io-0.1*:=
+	>=dev-rust/futures-0.1:=
+	>=dev-rust/log-0.4:=
+	>=dev-rust/try-lock-0.2:=
 "

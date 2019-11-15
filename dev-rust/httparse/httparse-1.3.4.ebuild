@@ -3,13 +3,14 @@
 
 EAPI="6"
 
-CROS_RUST_EMPTY_CRATE=1
+CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="Empty ${PN} crate"
-HOMEPAGE=""
+DESCRIPTION="A push parser for the HTTP 1.x protocol. Avoids allocations. No copy. Fast."
+HOMEPAGE="https://github.com/seanmonstar/httparse"
+SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="BSD-Google"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"

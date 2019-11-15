@@ -7,15 +7,19 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="Experimental async/await support for Tokio"
-HOMEPAGE="https://tokio.rs/"
+DESCRIPTION="OpenSSL bindings for the Rust programming language."
+HOMEPAGE="https://github.com/sfackler/rust-openssl"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="Apache-2.0"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/futures-0.1*:=
-	=dev-rust/tokio-io-0.1*:=
+	>=dev-rust/bitflags-1.0:=
+	>=dev-rust/cfg-if-0.1:=
+	>=dev-rust/foreign-types-0.3.1:=
+	>=dev-rust/lazy_static-1.0:=
+	>=dev-rust/libc-0.2:=
+	>=dev-rust/openssl-sys-0.9.50:=
 "

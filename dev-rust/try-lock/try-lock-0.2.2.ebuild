@@ -3,19 +3,12 @@
 
 EAPI="6"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
-
 inherit cros-rust
 
-DESCRIPTION="Experimental async/await support for Tokio"
-HOMEPAGE="https://tokio.rs/"
+DESCRIPTION="A light-weight lock guarded by an atomic boolean."
+HOMEPAGE="https://github.com/seanmonstar/try-lock"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
-
-DEPEND="
-	=dev-rust/futures-0.1*:=
-	=dev-rust/tokio-io-0.1*:=
-"

@@ -5,8 +5,8 @@ EAPI="6"
 
 inherit cros-rust
 
-DESCRIPTION="An implementation of thread pools which hand out futures to the results of the computation on the threads themselves."
-HOMEPAGE="https://github.com/rust-lang-nursery/futures-rs"
+DESCRIPTION="Default TLS implementation for use with hyper"
+HOMEPAGE="https://github.com/hyperium/hyper-tls"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -14,6 +14,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/futures-0.1:=
-	>=dev-rust/num_cpus-1.0:=
+	>=dev-rust/bytes-0.4:=
+	>=dev-rust/futures-0.1.21:=
+	>=dev-rust/hyper-0.12:=
+	>=dev-rust/native-tls-0.2:=
+	>=dev-rust/tokio-io-0.1:=
+	>=dev-rust/tokio-0.1.5:=
 "

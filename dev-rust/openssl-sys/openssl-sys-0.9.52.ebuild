@@ -3,19 +3,20 @@
 
 EAPI="6"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
-
 inherit cros-rust
 
-DESCRIPTION="Experimental async/await support for Tokio"
-HOMEPAGE="https://tokio.rs/"
+DESCRIPTION="OpenSSL bindings for the Rust programming language."
+HOMEPAGE="https://github.com/sfackler/rust-openssl"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	=dev-rust/futures-0.1*:=
-	=dev-rust/tokio-io-0.1*:=
+DEPEND=">=dev-rust/autocfg-0.1.2:=
+	>=dev-rust/cc-1.0:=
+	>=dev-rust/libc-0.2:=
+	>=dev-rust/pkg-config-0.3.9:=
+	>=dev-rust/vcpkg-0.2:=
+	>=dev-rust/openssl-src-111.0.1:=
 "
