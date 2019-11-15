@@ -15,6 +15,8 @@ CROS_WORKON_SUBTREE="common-mk diagnostics/grpc .gn"
 
 PLATFORM_SUBDIR="diagnostics/grpc"
 
+WANT_LIBCHROME="no"
+WANT_LIBBRILLO="no"
 inherit cros-go cros-workon multilib platform
 
 DESCRIPTION="Chrome OS Wilco DTC proto/gRPC API"
