@@ -72,7 +72,7 @@ SERVER_IUSE_TESTS="
 	cellular? ( +tests_cellular_StaleModemReboot )
 	android-container-nyc? (
 		+tests_cheets_CTS_N
-		+tests_cheets_GTS
+		+tests_cheets_GTS_N
 	)
 	android-container-pi? (
 		+tests_cheets_CTS_Instant
