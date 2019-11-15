@@ -26,6 +26,7 @@ IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 # (crbug.com/1024401, and MT8183 family). Please double check before turning on
 # this option.
 IUSE="${IUSE} ec_ro_sync"
+IUSE="${IUSE} +depthcharge"
 
 REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
@@ -34,7 +35,7 @@ REQUIRED_USE="
 DEPEND="
 	chromeos-base/vboot_reference
 	sys-boot/coreboot
-	sys-boot/depthcharge
+	depthcharge? ( sys-boot/depthcharge )
 	bmpblk? ( sys-boot/chromeos-bmpblk )
 	tianocore? ( sys-boot/edk2 )
 	seabios? ( sys-boot/chromeos-seabios )
