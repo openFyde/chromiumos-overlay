@@ -15,6 +15,7 @@ ANDROID_CONTAINER_VERS=(
 # USE flags corresponding to different VM versions.
 ANDROID_VM_VERS=(
 	android-vm-pi
+	android-vm-master
 )
 
 IUSE="arcvm"
