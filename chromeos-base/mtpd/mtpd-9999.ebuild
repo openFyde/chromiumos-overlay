@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -16,19 +16,19 @@ DESCRIPTION="MTP daemon for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mtpd"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="-asan +seccomp systemd test"
 
-RDEPEND="
-	chromeos-base/libbrillo
+COMMON_DEPEND="
 	dev-libs/protobuf:=
-	media-libs/libmtp
+	media-libs/libmtp:=
 	virtual/udev
 "
 
-DEPEND="${RDEPEND}
-	chromeos-base/system_api"
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/system_api:="
 
 src_install() {
 	dosbin "${OUT}"/mtpd
