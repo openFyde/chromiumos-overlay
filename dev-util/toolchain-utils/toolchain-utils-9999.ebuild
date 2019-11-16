@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/toolchain-utils"
 CROS_WORKON_LOCALNAME="toolchain-utils"
 
@@ -11,7 +11,7 @@ DESCRIPTION="Compilation and runtime tests for toolchain"
 HOMEPAGE="http://www.chromium.org/"
 
 LICENSE="BSD-Google"
-SLOT=0
+SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
