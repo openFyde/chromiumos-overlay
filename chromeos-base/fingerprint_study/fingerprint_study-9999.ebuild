@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="biod/study"
@@ -12,11 +12,10 @@ DESCRIPTION="Chromium OS Fingerprint user study software"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/study"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
-DEPEND="dev-lang/python"
-RDEPEND=""
+DEPEND=""
+RDEPEND="dev-lang/python"
 
 src_unpack() {
 	cros-workon_src_unpack
