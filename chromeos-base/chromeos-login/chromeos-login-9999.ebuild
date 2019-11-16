@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,32 +19,34 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="cheets fuzzer generated_cros_config systemd unibuild"
 
-RDEPEND="chromeos-base/bootstat
+COMMON_DEPEND="chromeos-base/bootstat:=
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
-	chromeos-base/chromeos-config-tools
-	chromeos-base/minijail
-	chromeos-base/cryptohome
-	chromeos-base/libbrillo
-	chromeos-base/libchromeos-ui
-	chromeos-base/libcontainer
-	chromeos-base/libpasswordprovider
-	chromeos-base/metrics
-	dev-libs/nss
-	dev-libs/protobuf
-	fuzzer? ( dev-libs/libprotobuf-mutator )
-	sys-apps/util-linux"
+	chromeos-base/chromeos-config-tools:=
+	chromeos-base/minijail:=
+	chromeos-base/cryptohome:=
+	chromeos-base/libchromeos-ui:=
+	chromeos-base/libcontainer:=
+	chromeos-base/libpasswordprovider:=
+	chromeos-base/metrics:=
+	dev-libs/nss:=
+	dev-libs/protobuf:=
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
+	sys-apps/util-linux:=
+"
 
-DEPEND="${RDEPEND}
-	>=chromeos-base/protofiles-0.0.35
-	chromeos-base/system_api[fuzzer?]
-	chromeos-base/vboot_reference"
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
+	>=chromeos-base/protofiles-0.0.35:=
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vboot_reference:=
+"
 
 pkg_preinst() {
 	enewgroup policy-readers
