@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -16,14 +16,9 @@ inherit cros-camera cros-workon platform
 DESCRIPTION="Chrome OS camera test utility."
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
-RDEPEND="
-	chromeos-base/libbrillo"
-
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+BDEPEND="virtual/pkgconfig"
 
 src_install() {
 	dobin "${OUT}/cros-camera-tool"
