@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -15,37 +15,35 @@ inherit cros-workon platform user
 DESCRIPTION="Chrome OS debugging service"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="cellular iwlwifi_dump nvme sata tpm"
 
 COMMON_DEPEND="
-	chromeos-base/chromeos-login
-	chromeos-base/minijail
-	chromeos-base/chromeos-ssh-testkeys
-	chromeos-base/chromeos-sshd-init
-	chromeos-base/libbrillo
-	chromeos-base/shill-client
-	chromeos-base/vboot_reference
-	!chromeos-base/workarounds
-	dev-libs/libpcre
+	chromeos-base/chromeos-login:=
+	chromeos-base/minijail:=
+	chromeos-base/shill-client:=
+	chromeos-base/vboot_reference:=
+	dev-libs/re2:=
+	dev-libs/libpcre:=
 	dev-libs/protobuf:=
-	net-libs/libpcap
-	net-wireless/iw
-	sys-apps/iproute2
-	sys-apps/memtester
-	sys-apps/rootdev
-	sata? ( sys-apps/smartmontools )
+	net-libs/libpcap:=
+	net-wireless/iw:=
+	sys-apps/rootdev:=
+	sata? ( sys-apps/smartmontools:= )
 "
 RDEPEND="${COMMON_DEPEND}
 	iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump )
 	nvme? ( sys-apps/nvme-cli )
+	chromeos-base/chromeos-ssh-testkeys
+	chromeos-base/chromeos-sshd-init
+	!chromeos-base/workarounds
+	sys-apps/iproute2
+	sys-apps/memtester
 "
 DEPEND="${COMMON_DEPEND}
-	chromeos-base/chromeos-login
-	chromeos-base/debugd-client
-	chromeos-base/system_api
-	sys-apps/dbus"
+	chromeos-base/debugd-client:=
+	chromeos-base/system_api:=
+	sys-apps/dbus:="
 
 pkg_preinst() {
 	enewuser "debugd"
