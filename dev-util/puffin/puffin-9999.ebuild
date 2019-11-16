@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=6
+EAPI=7
 
 inherit cros-constants
 
@@ -22,17 +22,16 @@ DESCRIPTION="Puffin: Deterministic patching tool for deflate streams"
 HOMEPAGE="https://android.googlesource.com/platform/external/puffin/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="asan fuzzer"
 
-RDEPEND="
-	chromeos-base/libbrillo[asan?,fuzzer?]
+COMMON_DEPEND="chromeos-base/libbrillo:=[asan?,fuzzer?]
 	dev-libs/protobuf:=
-	dev-util/bsdiff
+	dev-util/bsdiff:=
 "
 
-DEPEND="${RDEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	if use cros_host; then
