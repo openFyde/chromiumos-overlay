@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,23 +18,21 @@ DESCRIPTION="Provides utilities to save and restore OOBE config."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/oobe_config/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="tpm tpm2"
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="?? ( tpm tpm2 )"
 
-RDEPEND="
-	chromeos-base/libbrillo
-	chromeos-base/libtpmcrypto
-	chromeos-base/metrics
+COMMMON_DEPEND="
+	chromeos-base/libtpmcrypto:=
+	chromeos-base/metrics:=
 	dev-libs/openssl:0=
-	sys-apps/dbus
+	sys-apps/dbus:=
 "
-
+RDEPEND="${COMMMON_DEPEND}"
 DEPEND="
-	${RDEPEND}
-	chromeos-base/power_manager-client
-	chromeos-base/system_api
+	${COMMMON_DEPEND}
+	chromeos-base/power_manager-client:=
+	chromeos-base/system_api:=
 "
 
 pkg_preinst() {
