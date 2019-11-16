@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,14 +21,12 @@ SRC_URI="internal? ( gs://chromeos-localmirror-private/distfiles/${PN}-${LIB_VER
 RESTRICT="mirror"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="internal"
 
 RDEPEND="
-	chromeos-base/libbrillo
-	media-sound/adhd
-	>=sys-apps/dbus-1.0
+	media-sound/adhd:=
+	>=sys-apps/dbus-1.0:=
 "
 DEPEND="${RDEPEND}"
 
