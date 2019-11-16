@@ -94,6 +94,7 @@ CROS_BOARDS=(
 	wolf
 	zako
 	zoombini
+	zork
 )
 
 # TODO(crbug.com/1011520): Port this to Python 3.
