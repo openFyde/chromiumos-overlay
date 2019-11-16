@@ -3,10 +3,10 @@ DEPEND=chromeos-base/system_api dev-libs/protobuf:= dev-vcs/git
 DESCRIPTION=Autotest D-Bus deps
 EAPI=5
 HOMEPAGE=http://www.chromium.org/
-IUSE=+autotest cros_host cros_workon_tree_c3bf1ca0fed36231d19c580814a45d7a07be5ff5 +buildcheck autotest opengles
+IUSE=+autotest cros_host cros_workon_tree_74168de06f7961174c35a506efa9e6352a662303 +buildcheck autotest opengles
 KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )
 SLOT=0
 _eclasses_=autotest	46683629a907dfb020a41544f3af86ab	autotest-deponly	9b1e5d19c437abea0e7c0fa90c192abd	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-workon	3b601120f312bbae79125777d6e788db	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	6c859cdda96f9f5c9a4efc0b57f354bf	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=f6de675e84e27e94dd93f5eb175078e3
+_md5_=c7eca39fca24966d36aaf1c13d4d2bd6
