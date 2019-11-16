@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,24 +18,24 @@ DESCRIPTION="Requests and manages Kerberos tickets to enable Kerberos SSO"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/kerberos/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="asan fuzzer"
 
-RDEPEND="
-	app-crypt/mit-krb5
+COMMON_DEPEND="
+	app-crypt/mit-krb5:=
 	chromeos-base/libbrillo:=[asan?,fuzzer?]
-	chromeos-base/libpasswordprovider
-	chromeos-base/metrics
-	chromeos-base/minijail
+	chromeos-base/libpasswordprovider:=
+	chromeos-base/metrics:=
+	chromeos-base/minijail:=
 	dev-libs/protobuf:=
-	dev-libs/dbus-glib
-	sys-apps/dbus
+	dev-libs/dbus-glib:=
+	sys-apps/dbus:=
 "
+RDEPEND="${COMMON_DEPEND}"
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPEND}
 	chromeos-base/protofiles:=
-	chromeos-base/session_manager-client
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 "
 
