@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,7 +18,6 @@ DESCRIPTION="Encrypts/Decrypts data to a serialized proto with TPM sealed key."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libtpmcrypto/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="tpm tpm2"
 REQUIRED_USE="tpm2? ( !tpm )"
@@ -26,18 +25,22 @@ REQUIRED_USE="tpm2? ( !tpm )"
 # This depends on protobuf because it uses protoc and needs to be rebuilt
 # whenever the protobuf library is updated since generated source files may be
 # incompatible across different versions of the protobuf library.
-RDEPEND="
+COMMON_DEPEND="
 	tpm2? (
-		chromeos-base/trunks
+		chromeos-base/trunks:=
 	)
 	!tpm2? (
-		app-crypt/trousers
+		app-crypt/trousers:=
 	)
 	dev-libs/protobuf:=
 "
 
+RDEPEND="
+	${COMMON_DEPEND}
+"
+
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPEND}
 "
 
 src_install() {
