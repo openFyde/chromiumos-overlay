@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -19,7 +19,6 @@ DESCRIPTION="host service for render node forwarding"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/rendernodehost/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 DEPEND="x11-libs/libdrm:="
