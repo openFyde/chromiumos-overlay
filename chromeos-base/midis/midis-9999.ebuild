@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -16,16 +16,16 @@ DESCRIPTION="MIDI Server for Chromium OS"
 HOMEPAGE=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="+seccomp asan fuzzer"
 
-RDEPEND="
-	media-libs/alsa-lib
-	chromeos-base/libbrillo[asan?,fuzzer?]
+COMMON_DEPEND="
+	media-libs/alsa-lib:=
+	chromeos-base/libbrillo:=[asan?,fuzzer?]
 "
 
-DEPEND="${RDEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_unpack() {
 	platform_src_unpack
