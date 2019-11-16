@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_GO_PACKAGES=(
 	"chromiumos/policy/..."
@@ -20,13 +20,12 @@ inherit cros-go cros-workon toolchain-funcs platform
 DESCRIPTION="Chrome OS policy protocol buffer binding for go"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/policy_proto"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 DEPEND="
-	>=chromeos-base/protofiles-0.0.35
-	dev-go/protobuf
-	dev-libs/protobuf
+	>=chromeos-base/protofiles-0.0.35:=
+	dev-go/protobuf:=
+	dev-libs/protobuf:=
 "
 
 src_unpack() {
