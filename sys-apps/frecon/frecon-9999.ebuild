@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform/frecon"
 CROS_WORKON_LOCALNAME="../platform/frecon"
@@ -14,19 +14,22 @@ DESCRIPTION="Chrome OS KMS console"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/frecon"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="-asan"
 
-RDEPEND="virtual/udev
-	sys-apps/dbus
-	media-libs/libpng:0=
-	sys-apps/libtsm
-	x11-libs/libdrm"
+BDEPEND="virtual/pkgconfig"
 
-DEPEND="${RDEPEND}
-	media-sound/adhd
-	virtual/pkgconfig"
+COMMON_DEPEND="virtual/udev
+	sys-apps/dbus:=
+	media-libs/libpng:0=
+	sys-apps/libtsm:=
+	x11-libs/libdrm:="
+
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
+	media-sound/adhd:=
+"
 
 src_configure() {
 	sanitizers-setup-env
