@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -9,7 +9,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="sys_util"
 CROS_WORKON_SUBDIRS_TO_COPY="sys_util"
 
-inherit cros-workon cros-rust versionator
+inherit cros-workon cros-rust
 
 DESCRIPTION="Small system utility modules for usage by other modules."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sys_util"
@@ -55,7 +55,8 @@ src_test() {
 	cros-rust_use_sanitizers && skip_tests+=( --skip "fork::tests" )
 	# The memfd_create() system call first appeared in Linux 3.17.  Skip guest
 	# memory tests for builders with older kernels.
-	if ! version_is_at_least 3.17 "$(uname -r)"; then
+	local cut_version=$(ver_cut 1-2 "$(uname -r)")
+	if ver_test 3.17 -gt "${cut_version}"; then
 		skip_tests+=( --skip "guest_memory::tests" )
 	fi
 
