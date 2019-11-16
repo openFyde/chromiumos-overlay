@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_GO_PACKAGES=(
 	"chromiumos/vm_tools/..."
@@ -20,7 +20,6 @@ inherit cros-go cros-workon multilib platform
 DESCRIPTION="Chrome OS VM protobuf API"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/proto"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="fuzzer"
 
@@ -32,8 +31,8 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	dev-go/protobuf
-	dev-go/grpc
+	dev-go/protobuf:=
+	dev-go/grpc:=
 "
 
 src_unpack() {
