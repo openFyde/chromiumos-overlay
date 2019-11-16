@@ -14,6 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
+	chromeos-base/mems_setup
 	virtual/chromeos-ec-driver-init
 	virtual/modutils
 	virtual/udev
@@ -36,8 +37,6 @@ src_test() {
 
 src_install() {
 	udev_dorules "${FILESDIR}"/udev/99-cros-ec-accel.rules
-	exeinto $(get_udevdir)
-	doexe "${FILESDIR}"/udev/*.sh
 
 	insinto /etc/init
 	doins "${FILESDIR}"/init/cros-ec-accel.conf
