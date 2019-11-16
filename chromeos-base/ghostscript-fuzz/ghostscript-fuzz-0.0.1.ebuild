@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 inherit cros-fuzzer cros-sanitizers flag-o-matic
 
@@ -14,8 +14,9 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="asan fuzzer"
 
-RDEPEND="app-text/ghostscript-gpl[fuzzer]"
-DEPEND="${RDEPEND}"
+COMMON_DEPEND="app-text/ghostscript-gpl:=[fuzzer]"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 # We really don't want to be building this otherwise.
 REQUIRED_USE="fuzzer"
