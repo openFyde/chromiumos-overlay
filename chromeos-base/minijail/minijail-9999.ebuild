@@ -1,7 +1,7 @@
 # Copyright (c) 2009 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_BLACKLIST=1
 CROS_WORKON_LOCALNAME="aosp/external/minijail"
@@ -17,13 +17,13 @@ DESCRIPTION="helper binary and library for sandboxing & restricting privs of ser
 HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="asan cros-debug +seccomp test"
 
-RDEPEND="sys-libs/libcap
+COMMON_DEPEND="sys-libs/libcap:=
 	!<chromeos-base/chromeos-minijail-1"
-DEPEND="${RDEPEND}
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
 	test? (
 		dev-cpp/gtest:=
 	)"
