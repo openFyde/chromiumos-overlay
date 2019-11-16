@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
@@ -21,36 +21,35 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="Apache-2.0"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="cros_p2p +dbus dlc fuzzer -hwid_override +power_management systemd"
 
 COMMON_DEPEND="
-	app-arch/bzip2
-	chromeos-base/chromeos-ca-certificates
-	chromeos-base/metrics
-	chromeos-base/vboot_reference
-	cros_p2p? ( chromeos-base/p2p )
-	dev-libs/expat
+	app-arch/bzip2:=
+	chromeos-base/chromeos-ca-certificates:=
+	chromeos-base/metrics:=
+	chromeos-base/vboot_reference:=
+	cros_p2p? ( chromeos-base/p2p:= )
+	dev-libs/expat:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
-	dev-libs/xz-embedded
-	dev-util/bsdiff
-	dev-util/puffin
-	net-misc/curl
-	sys-apps/rootdev"
+	dev-libs/xz-embedded:=
+	dev-util/bsdiff:=
+	dev-util/puffin:=
+	net-misc/curl:=
+	sys-apps/rootdev:="
 
 DEPEND="
-	app-arch/xz-utils
-	chromeos-base/debugd-client
-	dlc? ( chromeos-base/dlcservice-client )
-	chromeos-base/power_manager-client
-	chromeos-base/session_manager-client
-	chromeos-base/shill-client
+	app-arch/xz-utils:=
+	chromeos-base/debugd-client:=
+	dlc? ( chromeos-base/dlcservice-client:= )
+	chromeos-base/power_manager-client:=
+	chromeos-base/session_manager-client:=
+	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
-	chromeos-base/update_engine-client
-	sys-fs/e2fsprogs
-	test? ( sys-fs/squashfs-tools )
+	chromeos-base/update_engine-client:=
+	sys-fs/e2fsprogs:=
+	test? ( sys-fs/squashfs-tools:= )
 	${COMMON_DEPEND}"
 
 DELTA_GENERATOR_RDEPEND="
