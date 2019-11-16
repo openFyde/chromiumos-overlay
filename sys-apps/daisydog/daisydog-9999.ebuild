@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/daisydog"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 
@@ -11,7 +11,7 @@ DESCRIPTION="Simple HW watchdog daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/daisydog"
 
 LICENSE="GPL-2"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
