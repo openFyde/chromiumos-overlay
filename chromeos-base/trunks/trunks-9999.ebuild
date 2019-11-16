@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,6 @@ DESCRIPTION="Trunks service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trunks/"
 
 LICENSE="Apache-2.0"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="cr50_onboard fuzzer ftdi_tpm test tpm2_simulator"
 
@@ -25,10 +24,10 @@ IUSE="cr50_onboard fuzzer ftdi_tpm test tpm2_simulator"
 # whenever the protobuf library is updated since generated source files may be
 # incompatible across different versions of the protobuf library.
 COMMON_DEPEND="
-	chromeos-base/minijail
-	chromeos-base/power_manager-client
-	ftdi_tpm? ( dev-embedded/libftdi )
-	tpm2_simulator? ( chromeos-base/tpm2 )
+	chromeos-base/minijail:=
+	chromeos-base/power_manager-client:=
+	ftdi_tpm? ( dev-embedded/libftdi:= )
+	tpm2_simulator? ( chromeos-base/tpm2:= )
 	dev-libs/protobuf:=
 	fuzzer? (
 		dev-cpp/gtest:=
@@ -43,7 +42,7 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/chromeos-ec-headers
+	chromeos-base/chromeos-ec-headers:=
 	"
 
 src_install() {
