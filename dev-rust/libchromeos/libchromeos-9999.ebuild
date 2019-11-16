@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,8 +17,8 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-DEPEND="chromeos-base/system_api
-	sys-apps/dbus
+DEPEND="chromeos-base/system_api:=
+	sys-apps/dbus:=
 	=dev-rust/dbus-0.6*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
