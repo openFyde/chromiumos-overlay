@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -18,43 +18,42 @@ DESCRIPTION="Shill Connection Manager for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="cellular dhcpv6 fuzzer kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn wake_on_wifi +wifi +wired_8021x"
 
 # Sorted by the package we depend on. (Not by use flag!)
-RDEPEND="
-	chromeos-base/bootstat
-	tpm? ( chromeos-base/chaps )
-	chromeos-base/minijail
-	chromeos-base/libbrillo
-	chromeos-base/libpasswordprovider
-	chromeos-base/metrics
-	chromeos-base/nsswitch
-	dev-libs/openssl:0=
-	cellular? ( net-dialup/ppp )
-	pppoe? ( net-dialup/ppp )
-	vpn? ( net-dialup/ppp )
-	net-dns/c-ares
-	net-libs/libtirpc
-	net-firewall/iptables
-	net-libs/libnetfilter_queue
-	net-libs/libnfnetlink
+COMMON_DEPEND="
+	chromeos-base/bootstat:=
+	tpm? ( chromeos-base/chaps:= )
+	chromeos-base/minijail:=
+	chromeos-base/libpasswordprovider:=
+	chromeos-base/metrics:=
+	chromeos-base/nsswitch:=
+	cellular? ( net-dialup/ppp:= )
+	pppoe? ( net-dialup/ppp:= )
+	vpn? ( net-dialup/ppp:= )
+	net-dns/c-ares:=
+	net-libs/libtirpc:=
+	net-firewall/iptables:=
+	net-libs/libnetfilter_queue:=
+	net-libs/libnfnetlink:=
+	wifi? ( virtual/wpa_supplicant )
+	wired_8021x? ( virtual/wpa_supplicant )
+	sys-apps/rootdev:=
+	cellular? ( net-misc/modemmanager-next:= )
+	!kernel-3_10? ( !kernel-3_8? ( net-firewall/conntrack-tools:= ) )
+"
+
+RDEPEND="${COMMON_DEPEND}
 	net-misc/dhcpcd
 	dhcpv6? ( net-misc/dhcpcd[ipv6] )
 	vpn? ( net-vpn/openvpn )
-	wifi? ( virtual/wpa_supplicant )
-	wired_8021x? ( virtual/wpa_supplicant )
-	sys-apps/rootdev
-	cellular? ( net-misc/modemmanager-next )
-	!kernel-3_10? ( !kernel-3_8? ( net-firewall/conntrack-tools ) )
 "
-
-DEPEND="${RDEPEND}
-	chromeos-base/shill-client
-	chromeos-base/power_manager-client
-	chromeos-base/system_api[fuzzer?]
-	vpn? ( chromeos-base/vpn-manager )"
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/shill-client:=
+	chromeos-base/power_manager-client:=
+	chromeos-base/system_api:=[fuzzer?]
+	vpn? ( chromeos-base/vpn-manager:= )"
 
 pkg_preinst() {
 	enewgroup "shill-crypto"
