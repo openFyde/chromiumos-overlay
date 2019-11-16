@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,6 @@ DESCRIPTION="The library for building and parsing IPP (Internet Printing Protoco
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libipp/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 src_install() {
