@@ -1,14 +1,14 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since crosvm/Cargo.toml is
 # using "# ignored by ebuild" macro which supported by cros-rust.
 
-inherit cros-fuzzer cros-rust cros-workon toolchain-funcs user versionator
+inherit cros-fuzzer cros-rust cros-workon toolchain-funcs user
 
 KERNEL_PREBUILT_DATE="2019_10_10_00_22"
 
@@ -17,23 +17,26 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/"
 SRC_URI="test? ( https://storage.googleapis.com/crosvm-testing/x86_64/${KERNEL_PREBUILT_DATE}/bzImage -> crosvm-bzImage-${KERNEL_PREBUILT_DATE} )"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf fuzzer tpm2"
 
-RDEPEND="
-	sys-apps/dtc
+COMMON_DEPEND="
+	sys-apps/dtc:=
 	sys-libs/libcap:=
-	!chromeos-base/crosvm-bin
-	chromeos-base/minijail
+	chromeos-base/minijail:=
 	crosvm-gpu? (
-		dev-libs/wayland
-		media-libs/virglrenderer
+		dev-libs/wayland:=
+		media-libs/virglrenderer:=
 	)
-	crosvm-wl-dmabuf? ( media-libs/minigbm )
+	crosvm-wl-dmabuf? ( media-libs/minigbm:= )
 	virtual/libusb:1=
 "
-DEPEND="${RDEPEND}
+
+RDEPEND="${COMMON_DEPEND}
+	!chromeos-base/crosvm-bin
+"
+
+DEPEND="${COMMON_DEPEND}
 	fuzzer? (
 		dev-rust/cros_fuzz:=
 		=dev-rust/rand-0.6*:=
@@ -155,7 +158,8 @@ src_test() {
 		local skip_tests=()
 		# The memfd_create() system call first appeared in Linux 3.17.  Skip
 		# the boot test, which relies on this functionality, on older kernels.
-		if ! version_is_at_least 3.17 "$(uname -r)"; then
+		local cut_version=$(ver_cut 1-2 "$(uname -r)")
+		if ver_test 3.17 -gt "${cut_version}"; then
 			skip_tests+=( --skip "boot" )
 		fi
 
