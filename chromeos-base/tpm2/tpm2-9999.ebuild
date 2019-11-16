@@ -1,9 +1,9 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/tpm2"
-CROS_WORKON_LOCALNAME="../third_party/tpm2"
+CROS_WORKON_LOCALNAME="third_party/tpm2"
 
 inherit cros-workon toolchain-funcs
 
@@ -11,7 +11,6 @@ DESCRIPTION="TPM2.0 library"
 HOMEPAGE="http://www.chromium.org/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 DEPEND="dev-libs/openssl:0="
