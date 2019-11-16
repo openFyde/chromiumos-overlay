@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,34 +18,31 @@ DESCRIPTION="Crash reporting service that uploads crash reports with debug infor
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="cheets chromeless_tty cros_embedded -direncryption systemd fuzzer"
 
-RDEPEND="
-	chromeos-base/minijail
-	chromeos-base/google-breakpad[cros_i686?]
-	chromeos-base/libbrillo
-	chromeos-base/metrics
+COMMON_DEPEND="
+	chromeos-base/minijail:=
+	chromeos-base/google-breakpad:=[cros_i686?]
+	chromeos-base/metrics:=
 	dev-libs/libpcre:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
-	net-misc/curl
-	|| ( sys-apps/journald sys-apps/systemd )
-	sys-libs/zlib
-	direncryption? ( sys-apps/keyutils )
-	test? ( app-arch/gzip )
+	net-misc/curl:=
+	sys-libs/zlib:=
+"
+RDEPEND="${COMMON_DEPEND}
+	chromeos-base/chromeos-ca-certificates
+	|| ( sys-apps/journald:= sys-apps/systemd:= )
+	direncryption? ( sys-apps/keyutils:= )
 "
 DEPEND="
-	${RDEPEND}
-	chromeos-base/debugd-client
-	chromeos-base/session_manager-client
-	chromeos-base/shill-client
-	chromeos-base/system_api[fuzzer?]
-	chromeos-base/vboot_reference
-"
-RDEPEND+="
-	chromeos-base/chromeos-ca-certificates
+	${COMMON_DEPEND}
+	chromeos-base/debugd-client:=
+	chromeos-base/session_manager-client:=
+	chromeos-base/shill-client:=
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vboot_reference:=
 "
 
 src_configure() {
