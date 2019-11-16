@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authros. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform/glbench"
 
@@ -12,17 +12,17 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/glbench/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="opengl opengles"
 
-RDEPEND="
-	>=dev-cpp/gflags-2.0
-	media-libs/libpng
-	virtual/opengles
-	media-libs/waffle"
-DEPEND="${RDEPEND}
-	x11-drivers/opengles-headers"
+COMMON_DEPEND="
+	>=dev-cpp/gflags-2.0:=
+	media-libs/libpng:=
+	virtual/opengles:=
+	media-libs/waffle:="
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
+	x11-drivers/opengles-headers:="
 
 src_compile() {
 	emake -C src
