@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/logitech-updater"
 
 inherit cros-workon libchrome udev user
@@ -10,12 +10,14 @@ DESCRIPTION="Logitech firmware updater"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/logitech-updater"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
-RDEPEND="
-	chromeos-base/libbrillo
+COMMON_DEPEND="chromeos-base/libbrillo:=
+	virtual/libusb:1=
 "
+
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_configure() {
 	cros-workon_src_configure
