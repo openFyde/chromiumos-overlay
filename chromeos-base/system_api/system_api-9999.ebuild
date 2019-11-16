@@ -1,7 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
@@ -31,7 +31,7 @@ IUSE="cros_host"
 RDEPEND=""
 
 DEPEND="${RDEPEND}
-	dev-go/protobuf
+	dev-go/protobuf:=
 	dev-libs/protobuf:=
 	cros_host? ( net-libs/grpc:= )
 "
