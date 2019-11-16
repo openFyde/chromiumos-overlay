@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,16 +17,14 @@ DESCRIPTION="MEMS support library for Chromium OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libmems"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="
-	chromeos-base/libbrillo:=
+COMMON_DEPEND="
 	net-libs/libiio:="
-
-DEPEND="${RDEPEND}
-	chromeos-base/system_api"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/system_api:="
 
 src_install() {
 	dolib.so "${OUT}/lib/libmems.so"
