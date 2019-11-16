@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,7 +18,6 @@ DESCRIPTION="Attestation service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/attestation/"
 
 LICENSE="Apache-2.0"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="distributed_cryptohome test tpm tpm2"
 
@@ -26,24 +25,23 @@ REQUIRED_USE="tpm2? ( !tpm )"
 
 RDEPEND="
 	tpm? (
-		app-crypt/trousers
+		app-crypt/trousers:=
 	)
 	tpm2? (
-		chromeos-base/trunks
+		chromeos-base/trunks:=
 	)
-	chromeos-base/chaps
-	chromeos-base/minijail
-	chromeos-base/libbrillo
-	chromeos-base/tpm_manager
+	chromeos-base/chaps:=
+	chromeos-base/minijail:=
+	chromeos-base/tpm_manager:=
 	"
 
 DEPEND="
 	${RDEPEND}
-	test? ( chromeos-base/libhwsec )
-	chromeos-base/vboot_reference
+	test? ( chromeos-base/libhwsec:= )
+	chromeos-base/vboot_reference:=
 	tpm2? (
-		chromeos-base/trunks[test?]
-		chromeos-base/chromeos-ec-headers
+		chromeos-base/trunks:=[test?]
+		chromeos-base/chromeos-ec-headers:=
 	)
 	"
 
