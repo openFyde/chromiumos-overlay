@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_LOCALNAME=("platform2" "third_party/atrusctl")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/atrusctl")
@@ -17,12 +17,9 @@ DESCRIPTION="CrOS daemon for the Atrus speakerphone"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/atrusctl/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 DEPEND="
-	chromeos-base/libbrillo
-	chromeos-base/libchrome
 	virtual/libusb:1
 	virtual/libudev:0=
 "
@@ -41,7 +38,7 @@ src_install() {
 
 	insinto /etc/init
 	doins init/atrusd.conf
-	
+
 	insinto /etc/dbus-1/system.d
 	doins dbus_permissions/org.chromium.Atrusctl.conf
 }
