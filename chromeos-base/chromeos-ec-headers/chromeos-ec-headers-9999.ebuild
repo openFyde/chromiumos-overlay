@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
@@ -16,7 +16,6 @@ HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
