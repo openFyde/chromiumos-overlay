@@ -1,7 +1,7 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 
 inherit cros-workon autotest
@@ -10,10 +10,12 @@ DESCRIPTION="TPM firmware tests"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 LICENSE="GPL-2"
-SLOT="0"
-KEYWORDS="~x86 ~arm ~amd64"
-DEPEND="app-crypt/trousers
-        chromeos-base/tpm"
+SLOT="0/0"
+KEYWORDS="~*"
+DEPEND="
+	app-crypt/trousers:=
+	chromeos-base/tpm:=
+"
 
 # Enable autotest by default.
 IUSE="${IUSE} +autotest"
