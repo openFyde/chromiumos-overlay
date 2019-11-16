@@ -1,0 +1,66 @@
+https://github.com/GrahamDumpleton/mod_wsgi/commit/c8edb4ad7904e30a1cec12934643d7f035a5f9cf
+
+From c8edb4ad7904e30a1cec12934643d7f035a5f9cf Mon Sep 17 00:00:00 2001
+From: Graham Dumpleton <Graham.Dumpleton@gmail.com>
+Date: Thu, 18 Oct 2012 21:14:28 +1100
+Subject: [PATCH] Python 3.X can have library suffix.
+
+---
+ configure    | 28 ++++++++++++++++++++++++++--
+ configure.ac | 28 ++++++++++++++++++++++++++--
+ 2 files changed, 52 insertions(+), 4 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index ef5c39429b22..a39fe8b18742 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -75,7 +75,15 @@ AC_SUBST(PYTHON)
+ 
+ PYTHON_VERSION=`${PYTHON} -c 'from sys import stdout; \
+     from distutils import sysconfig; \
+-    stdout.write((sysconfig.get_config_var("VERSION")))'`
++    stdout.write(sysconfig.get_config_var("VERSION"))'`
++
++PYTHON_LDVERSION=`${PYTHON} -c 'from sys import stdout; \
++    from distutils import sysconfig; \
++    stdout.write(sysconfig.get_config_var("LDVERSION") or "")'`
++
++if test x"${PYTHON_LDVERSION}" = x""; then
++    PYTHON_LDVERSION=${PYTHON_VERSION}
++fi
+ 
+ CPPFLAGS1=`${PYTHON} -c 'from sys import stdout; \
+     from distutils import sysconfig; \
+@@ -113,12 +121,28 @@ PYTHONFRAMEWORK=`${PYTHON} -c 'from sys import stdout; \
+     from distutils import sysconfig; \
+     stdout.write(sysconfig.get_config_var("PYTHONFRAMEWORK"))'`
+ 
++if test "${PYTHON_LDVERSION}" != "${PYTHON_VERSION}"; then
++    PYTHONCFGDIR="${PYTHONCFGDIR}-${PYTHON_LDVERSION}"
++fi
++
+ if test "${PYTHONFRAMEWORKDIR}" = "no-framework" -o \
+         "${ENABLE_FRAMEWORK}" != "yes"; then
+     LDFLAGS1="-L${PYTHONLIBDIR}"
+     LDFLAGS2="-L${PYTHONCFGDIR}"
+ 
+-    LDLIBS1="-lpython${PYTHON_VERSION}"
++    LDLIBS1="-lpython${PYTHON_LDVERSION}"
++
++    # MacOS X seems to be broken and doesn't use ABIFLAGS suffix
++    # so add a check to try and work out what we need to do.
++
++    if test -f "${PYTHONLIBDIR}/libpython${PYTHON_VERSION}.a"; then
++        LDLIBS1="-lpython${PYTHON_VERSION}"
++    fi
++
++    if test -f "${PYTHONCFGDIR}/libpython${PYTHON_VERSION}.a"; then
++        LDLIBS1="-lpython${PYTHON_VERSION}"
++    fi
++
+     LDLIBS2=`${PYTHON} -c 'from sys import stdout; \
+         from distutils import sysconfig; \
+         stdout.write(sysconfig.get_config_var("LIBS"))'`
+-- 
+2.24.0.432.g9d3f5f5b63-goog
+
