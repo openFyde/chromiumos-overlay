@@ -4,13 +4,14 @@
 # Check for EAPI 4+
 case "${EAPI:-0}" in
 0|1|2|3) die "Unsupported EAPI=${EAPI:-0} (too old) for ${ECLASS}" ;;
-*) ;;
+4|5|6) inherit eapi7-ver ;;
+7) ;;
 esac
 
 # Since we use CHROMEOS_KERNEL_CONFIG and CHROMEOS_KERNEL_SPLITCONFIG here,
 # it is not safe to reuse the kernel prebuilts across different boards. Inherit
 # the cros-board eclass to make sure that doesn't happen.
-inherit binutils-funcs cros-board toolchain-funcs versionator
+inherit binutils-funcs cros-board toolchain-funcs
 
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
@@ -2055,13 +2056,17 @@ cros-kernel2_src_install() {
 			"$(cros-workon_get_build_dir)" &
 	fi
 
+	local version=$(kernelrelease)
+
 	if cros_chkconfig_present MODULES; then
 		kmake INSTALL_MOD_PATH="${D}" INSTALL_MOD_STRIP="magic" \
 			STRIP="$(eclass_dir)/strip_splitdebug" \
 			modules_install
+		if ! has ${EAPI} {4..6}; then
+			dostrip -x "/lib/modules/${version}/kernel/" /usr/lib/debug/lib/modules/
+		fi
 	fi
 
-	local version=$(kernelrelease)
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 	local kernel_bin="${D}/boot/vmlinuz-${version}"
 
@@ -2142,10 +2147,11 @@ cros-kernel2_src_install() {
 		# No need to check kernel image size.
 		true
 	else
-		if version_is_at_least 3.18 ${version} ; then
+		local cut_version=$(ver_cut 1-2 "${version}")
+		if ver_test 3.18 -le "${cut_version}" ; then
 			kern_max=32
 			kern_warn=12
-		elif version_is_at_least 3.10 ${version} ; then
+		elif ver_test 3.10 -le "${cut_version}" ; then
 			kern_max=16
 			kern_warn=12
 		else
@@ -2163,6 +2169,9 @@ cros-kernel2_src_install() {
 	# Install uncompressed kernel for debugging purposes.
 	insinto /usr/lib/debug/boot
 	doins "$(cros-workon_get_build_dir)/vmlinux"
+	if ! has ${EAPI} {4..6}; then
+		dostrip -x /usr/lib/debug/boot/vmlinux /usr/src/
+	fi
 	if use kgdb && [[ -d "$(cros-workon_get_build_dir)/scripts/gdb" ]]; then
 		cp "$(cros-workon_get_build_dir)/vmlinux-gdb.py" "${D}"/usr/lib/debug/boot/ || die
 		mkdir "${D}"/usr/lib/debug/boot/scripts || die
