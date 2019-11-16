@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -16,23 +16,22 @@ inherit cros-constants cros-workon platform systemd user
 DESCRIPTION="Metrics aggregation service for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="fuzzer metrics_uploader +passive_metrics systemd"
 
-RDEPEND="
-	chromeos-base/libbrillo
-	dev-libs/dbus-glib
-	dev-libs/libpcre
+COMMON_DEPEND="
+	dev-libs/dbus-glib:=
+	dev-libs/libpcre:=
 	dev-libs/protobuf:=
-	sys-apps/rootdev
+	sys-apps/rootdev:=
 	"
 
+RDEPEND="${COMMON_DEPEND}"
 DEPEND="
-	${RDEPEND}
-	chromeos-base/session_manager-client
+	${COMMON_DEPEND}
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
-	chromeos-base/vboot_reference
+	chromeos-base/vboot_reference:=
 	"
 
 src_install() {
