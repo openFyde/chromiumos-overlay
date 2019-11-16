@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform/dm-verity"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -12,7 +12,6 @@ DESCRIPTION="File system integrity image generator for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dm-verity"
 
 LICENSE="BSD-Google GPL-2"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="test"
 
