@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,19 +17,17 @@ inherit cros-workon platform user
 DESCRIPTION="HTTP sever interface library"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT=0
 KEYWORDS="~*"
 
 RDEPEND="
-	chromeos-base/libbrillo
-	chromeos-base/permission_broker
-	net-libs/libmicrohttpd
-	!chromeos-base/libwebserv
+	chromeos-base/permission_broker:=
+	net-libs/libmicrohttpd:=
+	!chromeos-base/libwebserv:=
 "
 
 DEPEND="
 	${RDEPEND}
-	chromeos-base/permission_broker-client
+	chromeos-base/permission_broker-client:=
 "
 
 pkg_preinst() {
@@ -59,9 +57,9 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins webservd/etc/dbus-1/org.chromium.WebServer.conf
 
-        # Install seccomp filter for webservd.
-        insinto /usr/share/filters
-        doins webservd/usr/share/filters/webservd-seccomp.policy
+	# Install seccomp filter for webservd.
+	insinto /usr/share/filters
+	doins webservd/usr/share/filters/webservd-seccomp.policy
 
 	# Install web server daemon.
 	dobin "${OUT}"/webservd
