@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
@@ -17,13 +17,12 @@ DESCRIPTION="Used with USBIP to provide a virtual USB printer for testing."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/virtual-usb-printer/"
 
 LICENSE="GPL-2"
-SLOT=0
 KEYWORDS="~*"
 
 IUSE="usbip"
 
 RDEPEND="
-	usbip? ( net-misc/usbip )
+	usbip? ( net-misc/usbip:= )
 "
 
 DEPEND="${RDEPEND}"
