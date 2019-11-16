@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,19 +18,19 @@ DESCRIPTION="Library for sealing data to device identity and state"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/sealed_storage"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 IUSE="test tpm2"
 
 REQUIRED_USE="tpm2"
-RDEPEND="
-	chromeos-base/tpm_manager[test?]
-	chromeos-base/trunks[test?]
+COMMON_DEPEND="
+	chromeos-base/tpm_manager:=[test?]
+	chromeos-base/trunks:=[test?]
 "
-DEPEND="${RDEPEND}
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
 	chromeos-base/protofiles:=
-	chromeos-base/system_api
+	chromeos-base/system_api:=
 "
 
 src_install() {
