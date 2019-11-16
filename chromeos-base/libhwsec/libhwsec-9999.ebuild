@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,18 +18,16 @@ DESCRIPTION="Crypto and utility functions used in TPM related daemons."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libhwsec/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="test tpm2"
 
-RDEPEND="
-	!tpm2? ( app-crypt/trousers )
-	chromeos-base/libbrillo:=
+COMMON_DEPEND="
+	dev-libs/openssl:0=
+	!tpm2? ( app-crypt/trousers:= )
 "
 
-DEPEND="
-	${RDEPEND}
-"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	insinto /usr/include/chromeos/libhwsec
