@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,20 +18,20 @@ DESCRIPTION="Manage the usbguard whitelist"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/usb_bouncer/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="~*"
 IUSE="fuzzer"
 
-RDEPEND="
-	fuzzer? ( dev-libs/libprotobuf-mutator )
-	chromeos-base/metrics
-	chromeos-base/minijail
+COMMON_DEPEND="
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
+	chromeos-base/metrics:=
+	chromeos-base/minijail:=
 	dev-libs/openssl:0=
-	sys-apps/usbguard
+	sys-apps/usbguard:=
 "
-
-DEPEND="${RDEPEND}
-	chromeos-base/session_manager-client"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/session_manager-client:="
 
 src_install() {
 	insinto /lib/udev/rules.d
