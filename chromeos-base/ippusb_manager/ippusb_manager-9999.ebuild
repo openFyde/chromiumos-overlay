@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -16,17 +16,16 @@ DESCRIPTION="Service which manages communication between ippusbxd and cups."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ippusb_manager/"
 
 LICENSE="BSD-Google"
-SLOT=0
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="
-	chromeos-base/minijail
-	net-print/ippusbxd
+COMMON_DEPEND="
+	chromeos-base/minijail:=
+	net-print/ippusbxd:=
 	virtual/libusb:1=
 "
-
-DEPEND="${RDEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 pkg_preinst() {
 	enewgroup ippusb
