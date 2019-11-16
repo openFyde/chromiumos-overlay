@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 PYTHON_COMPAT=( python3_{6,7} )
 
@@ -15,7 +15,6 @@ DESCRIPTION="Chrome OS Update Engine Update Payload Scripts"
 HOMEPAGE="https://chromium.googlesource.com/aosp/platform/system/update_engine"
 
 LICENSE="Apache-2.0"
-SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
