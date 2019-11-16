@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,17 +19,16 @@ DESCRIPTION="Python wrapper of hammerd API and some python utility scripts."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hammerd/"
 
 LICENSE="BSD-Google"
-SLOT=0
 KEYWORDS="~*"
 IUSE="+hammerd_api"
 
-RDEPEND="
-	chromeos-base/hammerd
-"
-DEPEND="
-	${RDEPEND}
+BDEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
 "
+RDEPEND="
+	chromeos-base/hammerd:=
+"
+DEPEND="${RDEPEND}"
 
 src_configure() {
 	platform_src_configure
