@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -18,38 +18,31 @@ DESCRIPTION="Power Manager for Chromium OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
-RDEPEND="
+COMMON_DEPEND="
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
-	chromeos-base/chromeos-config-tools
-	chromeos-base/ec-utils
-	chromeos-base/metrics
-	dev-libs/libnl
+	chromeos-base/chromeos-config-tools:=
+	chromeos-base/metrics:=
+	dev-libs/libnl:=
 	dev-libs/protobuf:=
-	cras? ( media-sound/adhd )
+	cras? ( media-sound/adhd:= )
 	virtual/udev"
 
-# blocker (https://crbug.com/214886), can be removed later
-RDEPEND+="
-	!app-laptop/laptop-mode-tools
-"
-
-DEPEND="${RDEPEND}
-	chromeos-base/chromeos-ec-headers
-	chromeos-base/system_api[fuzzer?]"
-
-# Some deps we only need at runtime.
-RDEPEND+="
+RDEPEND="${COMMON_DEPEND}
+	chromeos-base/ec-utils
 	mosys_eventlog? ( sys-apps/mosys )
 "
+
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/chromeos-ec-headers:=
+	chromeos-base/system_api:=[fuzzer?]"
 
 pkg_setup() {
 	# Create the 'power' user and group here in pkg_setup as src_install needs
