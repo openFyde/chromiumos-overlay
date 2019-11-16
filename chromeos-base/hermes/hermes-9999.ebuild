@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,16 +17,10 @@ DESCRIPTION="Chrome OS eSIM/EUICC integration"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hermes"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="
-	chromeos-base/libbrillo:=
-	"
-
 DEPEND="
-	${RDEPEND}
 	chromeos-base/google-lpa:=
 	chromeos-base/system_api:=
 	"
