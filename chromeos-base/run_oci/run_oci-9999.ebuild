@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -16,16 +16,17 @@ inherit cros-workon libchrome platform
 DESCRIPTION="Utility for running OCI-compatible containers"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="
-	chromeos-base/libcontainer
-	sys-apps/util-linux
-	sys-libs/libcap
+COMMON_DEPEND="
+	chromeos-base/libcontainer:=
+	sys-apps/util-linux:=
+	sys-libs/libcap:=
 "
-DEPEND="${RDEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	cd "${OUT}"
