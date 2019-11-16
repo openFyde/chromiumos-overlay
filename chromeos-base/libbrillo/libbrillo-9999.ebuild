@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,14 +26,14 @@ KEYWORDS="~*"
 IUSE="cros_host +dbus +device_mapper fuzzer +udev"
 
 COMMON_DEPEND="
-	chromeos-base/minijail
-	dbus? ( dev-libs/dbus-glib )
+	chromeos-base/minijail:=
+	dbus? ( dev-libs/dbus-glib:= )
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
-	net-misc/curl
-	sys-apps/rootdev
-	device_mapper? ( sys-fs/lvm2 )
-	udev? ( virtual/libudev:= )
+	net-misc/curl:=
+	sys-apps/rootdev:=
+	device_mapper? ( sys-fs/lvm2:= )
+	udev? ( virtual/libudev )
 "
 RDEPEND="
 	${COMMON_DEPEND}
@@ -43,9 +43,9 @@ RDEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
-	>=chromeos-base/protofiles-0.0.35
+	>=chromeos-base/protofiles-0.0.35:=
 	dbus? ( chromeos-base/system_api:=[fuzzer?] )
-	dev-libs/modp_b64
+	dev-libs/modp_b64:=
 "
 
 src_install() {
