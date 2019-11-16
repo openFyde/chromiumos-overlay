@@ -1,14 +1,15 @@
 # Copyright 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-CROS_WORKON_COMMIT=("729c595cbda09732893f11531a0268405a119e02" "33ab7368a66fec64ad5c81c381b1b8e0a09574e9")
-CROS_WORKON_TREE=("1319841568b5f67d3de28c685396b374735f5d15" "3acba8d0a7f01698a0b1b6329c831424846d810a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "906367253d33fdf015d5b6aa1b1b6b9143e6cbd3")
-CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/dev-util")
-CROS_WORKON_LOCALNAME=("platform2" "dev")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/dev")
+EAPI="7"
+
+CROS_WORKON_COMMIT="c4af37a88407f8c92352ab570f2067d8438ff2a9"
+CROS_WORKON_TREE=("1319841568b5f67d3de28c685396b374735f5d15" "3acba8d0a7f01698a0b1b6329c831424846d810a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk dev-install .gn" "dev-install")
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk dev-install .gn"
 
 PLATFORM_SUBDIR="dev-install"
 
@@ -47,10 +48,6 @@ platform_pkg_test() {
 
 src_install() {
 	dobin "${OUT}/dev_install"
-
-	cd "../../dev/dev-install" || die
-	exeinto /usr/share/dev-install
-	newexe dev_install main.sh
 
 	cd "${S}/share" || die
 	insinto /usr/share/${PN}/portage/make.profile
