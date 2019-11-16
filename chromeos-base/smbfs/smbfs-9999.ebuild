@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,18 +18,19 @@ DESCRIPTION="FUSE filesystem to mount SMB shares."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/smbfs/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="~*"
 
-RDEPEND="
-	=sys-fs/fuse-2.9*
-	net-fs/samba
+COMMON_DEPEND="
+	=sys-fs/fuse-2.9*:=
+	net-fs/samba:=
 "
 
+RDEPEND="${COMMON_DEPEND}"
 DEPEND="
-	${RDEPEND}
-	chromeos-base/system_api
-	chromeos-base/libpasswordprovider
+	${COMMON_DEPEND}
+	chromeos-base/system_api:=
+	chromeos-base/libpasswordprovider:=
 "
 
 pkg_preinst() {
