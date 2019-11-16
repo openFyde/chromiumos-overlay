@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/graphyte"
 CROS_WORKON_LOCALNAME="graphyte"
 PYTHON_COMPAT=( python2_7 )
@@ -12,8 +12,7 @@ DESCRIPTION="Graphyte RF testing framework"
 HOMEPAGE="https://sites.google.com/a/google.com/graphyte/home"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND=""
-DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
+BDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
