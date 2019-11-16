@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -17,17 +17,19 @@ DESCRIPTION="G2F gnubby (U2F+GCSE) development and testing tools"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/u2fd"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="~*"
 
-RDEPEND="
-	dev-libs/hidapi
+COMMON_DEPEND="
+	dev-libs/hidapi:=
 	"
 
+RDEPEND="${COMMON_DEPEND}"
+
 DEPEND="
-	${RDEPEND}
-	chromeos-base/chromeos-ec-headers
-	chromeos-base/u2fd
+	${COMMON_DEPEND}
+	chromeos-base/chromeos-ec-headers:=
+	chromeos-base/u2fd:=
 	"
 
 src_install() {
