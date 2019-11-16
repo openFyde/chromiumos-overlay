@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
@@ -11,17 +11,17 @@ inherit cros-debug cros-fuzzer cros-sanitizers cros-workon
 DESCRIPTION="Chrome OS verified boot tools"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="cros_host dev_debug_force fuzzer pd_sync tpmtests tpm tpm2"
 
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="?? ( tpm2 tpm )"
 
-RDEPEND="cros_host? ( dev-libs/libyaml )
+COMMON_DEPEND="cros_host? ( dev-libs/libyaml:= )
 	dev-libs/libzip:=
 	dev-libs/openssl:=
-	sys-apps/util-linux"
-DEPEND="${RDEPEND}"
+	sys-apps/util-linux:="
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_configure() {
 	cros-workon_src_configure
