@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,17 +17,17 @@ DESCRIPTION="libvda CrOS video decoding library"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/libvda"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="libvda_test"
 
-RDEPEND="
-	chromeos-base/libbrillo:=
+COMMON_DEPEND="
 	media-libs/minigbm:=
 "
 
+RDEPEND="${COMMON_DEPEND}"
+
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPEND}
 	chromeos-base/system_api:=
 "
 
