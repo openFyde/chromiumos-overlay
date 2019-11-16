@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -15,15 +15,13 @@ inherit cros-workon platform
 DESCRIPTION="L2TP/IPsec VPN manager for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
-	chromeos-base/libbrillo
-	net-dialup/ppp
-	net-dialup/xl2tpd
-	net-vpn/strongswan
+	net-dialup/ppp:=
+	net-dialup/xl2tpd:=
+	net-vpn/strongswan:=
 "
 
 DEPEND="${RDEPEND}"
