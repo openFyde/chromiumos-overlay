@@ -1043,6 +1043,9 @@ src_compile() {
 		rm -rf "${deps}/telemetry_dep/test_src"
 		mv "${WORKDIR}/telemetry_src" "${deps}/telemetry_dep/test_src"
 
+		# The autotest eclass wants this for some reason.
+		get_paths() { :; }
+
 		# HACK: It would make more sense to call autotest_src_prepare in
 		# src_prepare, but we need to call install_chrome_test_resources first.
 		autotest-deponly_src_prepare
