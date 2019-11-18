@@ -3,7 +3,7 @@ DEPEND=app-arch/gcab app-arch/libarchive:= dev-db/sqlite >=dev-libs/glib-2.45.8:
 DESCRIPTION=Aims to make updating firmware on Linux automatic, safe and reliable
 EAPI=6
 HOMEPAGE=https://fwupd.org
-IUSE=colorhug daemon dell doc firmware-packager +gpg introspection +man nls nvme pkcs7 redfish synaptics systemd test thunderbolt uefi cros_host cros_workon_tree_40bf926d1ab8460100ada5b2cca325bd885d751c python_targets_python2_7 python_targets_python3_4 python_targets_python3_5 python_targets_python3_6 python_targets_python3_7
+IUSE=colorhug daemon dell doc firmware-packager +gpg introspection +man nls nvme pkcs7 redfish synaptics systemd test thunderbolt uefi cros_host cros_workon_tree_494121943c00bbedc50b84f75e82473ef677f179 python_targets_python2_7 python_targets_python3_4 python_targets_python3_5 python_targets_python3_6 python_targets_python3_7
 KEYWORDS=*
 LICENSE=LGPL-2.1+
 PDEPEND=daemon? ( sys-apps/dbus )
@@ -11,4 +11,4 @@ RDEPEND=app-arch/gcab app-arch/libarchive:= dev-db/sqlite >=dev-libs/glib-2.45.8
 REQUIRED_USE=|| ( python_targets_python2_7 python_targets_python3_4 python_targets_python3_5 python_targets_python3_6 python_targets_python3_7 ) daemon? ( introspection ) dell? ( uefi )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-workon	3b601120f312bbae79125777d6e788db	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	6c859cdda96f9f5c9a4efc0b57f354bf	meson	4482d86840b3da8663084ac71014f5d6	multibuild	40fe59465edacd730c644ec2bc197809	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-r1	ce1cd23cfdc1848e8e32743efe34f299	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	user	9090dfc2ada1aeb498eed56b8ad04ce6	vala	2f3804278870542119da624a5eded505	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
-_md5_=843fef6554a361d7fa7139fff1bcf100
+_md5_=210cddf4f33b2b57915e54477129c237
