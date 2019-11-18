@@ -16,7 +16,7 @@ LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="ap dbus debug gnutls eap-sim fasteap +hs2-0 libressl p2p ps3 qt5 readline selinux smartcard ssl systemd +tdls uncommon-eap-types wps kernel_linux kernel_FreeBSD wimax"
+IUSE="ap dbus debug gnutls eap-sim fasteap +hs2-0 libressl p2p ps3 qt5 readline selinux smartcard ssl systemd +tdls uncommon-eap-types wifi_hostap_test wps kernel_linux kernel_FreeBSD wimax"
 REQUIRED_USE="fasteap? ( !gnutls !ssl ) smartcard? ( ssl )"
 
 CDEPEND="
@@ -317,6 +317,32 @@ src_configure() {
 		eqmake5 wpa_gui.pro
 		popd > /dev/null || die
 	fi
+
+	# Mostly pulled from tests/hwsim/example-wpa_supplicant.config.
+	if use wifi_hostap_test; then
+		Kconfig_style_config DRIVER_NONE
+		Kconfig_style_config TESTING_OPTIONS
+		Kconfig_style_config EAP_VENDOR_TEST
+		Kconfig_style_config MODULE_TESTS
+		Kconfig_style_config DEBUG_LINUX_TRACING
+		Kconfig_style_config WPA_TRACE
+		# TODO(https://crbug.com/1013471): enable BFD to run additional
+		# trace-based tests.
+		#Kconfig_style_config WPA_TRACE_BFD
+
+		# A few extra features that we don't currently break out into
+		# other USE flags but are unconditionally tested by hwsim
+		# tests.
+		Kconfig_style_config EAP_TNC
+		Kconfig_style_config MBO
+		Kconfig_style_config OCV
+		Kconfig_style_config FST
+		Kconfig_style_config SUITEB
+		Kconfig_style_config SUITEB192
+		Kconfig_style_config FILS
+		Kconfig_style_config FILS_SK_PFS
+		Kconfig_style_config OWE
+	fi
 }
 
 src_compile() {
@@ -381,7 +407,14 @@ src_install() {
 		insinto /usr/share/dbus-1/interfaces
 		doins ${FILESDIR}/dbus_bindings/fi.w1.wpa_supplicant1.xml || die
 		insinto /etc/dbus-1/system.d
-		doins ${FILESDIR}/dbus_permissions/fi.w1.wpa_supplicant1.conf || die
+		# Allow (but don't require) wpa_supplicant to run as root only
+		# when building hwsim targets.
+		if use wifi_hostap_test; then
+			newins "${FILESDIR}"/dbus_permissions/root_fi.w1.wpa_supplicant1.conf \
+				fi.w1.wpa_supplicant1.conf
+		else
+			doins "${FILESDIR}"/dbus_permissions/fi.w1.wpa_supplicant1.conf
+		fi
 
 		popd > /dev/null
 	fi
