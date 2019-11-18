@@ -197,6 +197,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-intel-compiler-force-simd8-when-dual-src-blending-on.patch
 
 	epatch "${FILESDIR}"/UPSTREAM-i965-setup-sized-internalformat-for-MESA_FO.patch
+
+	epatch "${FILESDIR}"/UPSTREAM-anv-expose-VK_EXT_queue_family_foreign-on-A.patch
 	default
 }
 
