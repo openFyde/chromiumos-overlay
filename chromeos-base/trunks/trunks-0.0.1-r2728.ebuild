@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="228371d6b5efb1b4e5c9171058e9e6d3034ba33f"
-CROS_WORKON_TREE=("1319841568b5f67d3de28c685396b374735f5d15" "e800a683ab02b73ce07ca73e09eb675047c8b83c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="5e7690fe48ab10d077765e59555630fef73bb7cd"
+CROS_WORKON_TREE=("1319841568b5f67d3de28c685396b374735f5d15" "19e0e061f4be49a0e6c4605bc2b49506d5ba6e77" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -83,10 +83,8 @@ src_install() {
 	insinto /usr/include/chromeos/dbus/trunks
 	doins "${S}"/interface.proto
 
-	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
-		"${OUT}/lib" libtrunks /usr/include/trunks
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	doins "${OUT}"/lib/libtrunks.pc
+	doins "${OUT}"/obj/trunks/libtrunks.pc
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_creation_blob_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/trunks_hmac_authorization_delegate_fuzzer
