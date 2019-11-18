@@ -24,6 +24,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}/${P}-respect-wayland-configure-flags.patch"
+	"${FILESDIR}/0001-Remove-blitter-usage.patch"
 )
 
 src_prepare() {
