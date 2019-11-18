@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3f062eac867cee4b10940394dc751e8edc31d143"
-CROS_WORKON_TREE=("1319841568b5f67d3de28c685396b374735f5d15" "2b19e9733ea5c348e58b4c3cfd3070cca984db29" "cdace72b20a9414a4b7b179b8eb7dd1a2dd2f381" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0884393a4220181f4114864a675bc5afb3f8eec2"
+CROS_WORKON_TREE=("1319841568b5f67d3de28c685396b374735f5d15" "5ec74fda4353a5668531a09f15746be9e47a19bf" "cdace72b20a9414a4b7b179b8eb7dd1a2dd2f381" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -44,14 +44,17 @@ src_install() {
 	# Main binary.
 	dobin "${OUT}"/arc-networkd
 
-	# Utility library.
+	# Libraries.
 	dolib.so "${OUT}"/lib/libarcnetwork-util.so
+	dolib.so "${OUT}"/lib/libpatchpanel-client.so
 
 	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/libarcnetwork-util.pc
+	doins "${OUT}"/libpatchpanel-client.pc
 
 	insinto /usr/include/arc/network/
+	doins client.h
 	doins mac_address_generator.h
 	doins subnet.h
 	doins subnet_pool.h
@@ -59,6 +62,9 @@ src_install() {
 	insinto /etc/init
 	doins "${S}"/init/arc-network.conf
 	doins "${S}"/init/arc-network-bridge.conf
+
+	insinto /etc/dbus-1/system.d
+	doins dbus/*.conf
 
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
