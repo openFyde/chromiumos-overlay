@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=4
-CROS_WORKON_COMMIT="690cebd664a019586f99480d7646c8f19f28f55a"
-CROS_WORKON_TREE="fe42c9f53e554cf6ee64431829aa84df94908398"
+CROS_WORKON_COMMIT="4cb8be3c2f8bc4b854360fc9ecd586ad1ba05b0a"
+CROS_WORKON_TREE="41056a07a40af54bb56ddee8344244d97cbfd5ca"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -65,7 +65,8 @@ RDEPEND=">=media-libs/alsa-lib-1.0.27
 	chromeos-base/metrics
 	selinux? ( sys-libs/libselinux )"
 DEPEND="${RDEPEND}
-	media-libs/ladspa-sdk"
+	media-libs/ladspa-sdk
+	media-sound/cras_rust"
 
 check_format_error() {
 	local file
