@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="2fcdf195f3730123a3acfffe508c2bed1db27ee5"
+CROS_WORKON_COMMIT="003f782cb23b092b5fd21b14916bafc4b8bf862c"
 CROS_WORKON_TREE=("1319841568b5f67d3de28c685396b374735f5d15" "1aa42c5083a78fae11bf7049f5e8871e980fb9b6" "043a97bc52491a845a5ec6237ab833bb46832c4d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -36,6 +36,7 @@ RDEPEND="
 	sys-fs/exfat-utils
 	sys-fs/fuse-exfat
 	sys-fs/ntfs3g
+	sys-fs/rar2fs
 	virtual/udev
 "
 
