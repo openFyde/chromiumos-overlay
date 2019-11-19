@@ -104,6 +104,8 @@ src_configure() {
 	cd cras
 	# Disable external libraries for fuzzers.
 	if use fuzzer ; then
+		# Disable "gc-sections" for fuzzer builds, https://crbug.com/1026125 .
+		append-ldflags "-Wl,--no-gc-sections"
 		cros-workon_src_configure \
 			$(use_enable cras-apm webrtc-apm) \
 			$(use_enable amd64 fuzzer)
