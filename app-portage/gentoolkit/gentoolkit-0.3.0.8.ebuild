@@ -63,6 +63,10 @@ python_install_all() {
 		rm -rf "${ED}"/etc/revdep-rebuild
 		rm -rf "${ED}"/var
 	fi
+
+	# Portage installs this now.
+	find "${D}" -name 'glsa-check*' -delete || die
+	rm -rf "${D}"/var
 }
 
 pkg_postinst() {
