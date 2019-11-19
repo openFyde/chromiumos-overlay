@@ -67,6 +67,7 @@ RDEPEND="
 		$(python_gen_cond_dep 'dev-python/pyxattr[${PYTHON_USEDEP}]' \
 			python2_7 pypy)
 	) )
+	!<app-portage/gentoolkit-0.3.0.8-r4
 	!<app-admin/logrotate-3.8.0
 	!<app-portage/repoman-2.3.10"
 PDEPEND="
