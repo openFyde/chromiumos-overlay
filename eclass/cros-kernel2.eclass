@@ -1442,7 +1442,11 @@ kmake() {
 		CHOST=${cross} clang-setup-env
 	fi
 	local binutils_path=$(LD=${cross}-ld get_binutils_path_ld)
-	local linker=$(usex lld "${cross}-ld.lld" "${binutils_path}/ld")
+	# Use ld.lld instead of ${cross}-ld.lld, ${cross}-ld.lld has userspace
+	# specific options. Linux kernel already specifies the type by "-m <type>".
+	# It also matches upstream (https://github.com/ClangBuiltLinux) and
+	# Android usage.
+	local linker=$(usex lld "ld.lld" "${binutils_path}/ld")
 
 	set -- \
 		LD="${linker}" \
