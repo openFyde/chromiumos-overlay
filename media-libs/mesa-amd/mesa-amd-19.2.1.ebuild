@@ -84,6 +84,7 @@ DEPEND="${RDEPEND}
 	sys-devel/flex
 	virtual/pkgconfig
 	x11-base/xorg-proto
+	x11-libs/libva
 	wayland? ( >=dev-libs/wayland-protocols-1.8 )
 	llvm? ( sys-devel/llvm )
 "
@@ -208,6 +209,7 @@ src_configure() {
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
+		-Dgallium-va=true
 		-Dva-libs-path="/usr/$(get_libdir)/va/drivers"
 	)
 
