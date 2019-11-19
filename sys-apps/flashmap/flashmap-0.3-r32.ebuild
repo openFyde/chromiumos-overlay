@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header:
 
-EAPI="6"
+EAPI=7
 CROS_WORKON_COMMIT="2f7b2e16f588dde75a0c9c28175f16b8cb9e11dc"
 CROS_WORKON_TREE="6fdc81bee0326e66662115d9bda50159bf41db9f"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashmap"
@@ -16,7 +16,6 @@ HOMEPAGE="http://flashmap.googlecode.com"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 # Disable unit testing for now because one of the test cases for detecting
