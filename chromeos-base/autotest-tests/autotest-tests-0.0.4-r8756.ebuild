@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="6005f36ef9fe820abe8e956f4cb3037169a3120c"
-CROS_WORKON_TREE="5d350dd4723a18530b1438129a823869490506d6"
+CROS_WORKON_COMMIT="325761e92c90413a605d13c19c1b24c3ea969fe7"
+CROS_WORKON_TREE="95461d78ae1c4423397662a59f45d02d00f70fdd"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic libchrome cros-debug cros-workon autotest
@@ -94,7 +94,6 @@ CLIENT_IUSE_TESTS="
 		+tests_camera_HAL3
 		+tests_camera_HAL3Perf
 	)
-	+tests_crosvm_Sanity
 	!chromeless_tty? (
 		!chromeless_tests? (
 			+tests_desktopui_CrashyReboot
