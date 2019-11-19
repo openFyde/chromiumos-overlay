@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="93dc5eab5bb9aec12e103e29e6e0516d442807c6"
+CROS_WORKON_COMMIT="70386a4f5d8ba8c03698a5ea450e08e9ab4575ca"
 CROS_WORKON_TREE=("c9338e2c2e898e065dce6d62921e358a85709cd3" "4a543bc603a2b51ab5bfadc513071f915814af20" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/wilco_dtc/..."
@@ -17,6 +17,8 @@ CROS_WORKON_SUBTREE="common-mk diagnostics/grpc .gn"
 
 PLATFORM_SUBDIR="diagnostics/grpc"
 
+WANT_LIBCHROME="no"
+WANT_LIBBRILLO="no"
 inherit cros-go cros-workon multilib platform
 
 DESCRIPTION="Chrome OS Wilco DTC proto/gRPC API"
