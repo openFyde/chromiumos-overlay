@@ -45,6 +45,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
 	epatch "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
 	epatch "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
+	epatch "${FILESDIR}"/FROMLIST-Add-drmModeGetFB2.patch
 
 	xorg-2_src_prepare
 }
