@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=4
-CROS_WORKON_COMMIT="a5f7c3909e4fd4603254eb5ce973c3fa1c625c8b"
-CROS_WORKON_TREE="a725cc33ea20305eb678bf234d01e38bc9661037"
+CROS_WORKON_COMMIT="2440c2907c246bf400bf7816879b919966cdf9c6"
+CROS_WORKON_TREE="92ef56519b5f5d6f4d6d529da34aa20bc0fc5326"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -12,30 +12,7 @@ CROS_WORKON_USE_VCSID=1
 # Note: Do *NOT* add any more boards to this list.  Files should be installed
 # via bsp packages now, or configured via unibuild config settings.
 CROS_BOARDS=(
-	bolt
-	chell
-	cid
-	daisy
-	daisy_skate
-	daisy_spring
-	falco
-	glados
-	jecht
-	leon
-	link
-	mccloud
-	monroe
-	panther
-	peppy
-	rikku
-	stout
-	strago
-	tidus
-	tricky
-	veyron_{fievel,jaq,jerry,jerry-kernelnext,mickey,mighty,minnie,minnie-kernelnext,speedy,tiger}
 	whirlwind
-	wolf
-	zako
 )
 
 inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon cros-board systemd user libchrome-version
