@@ -18,7 +18,8 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="cpu_flags_x86_sse2 neon"
 
-DEPEND="dev-libs/libevent:=
+DEPEND="dev-libs/iniparser:=
+	dev-libs/libevent:=
 	dev-libs/protobuf:="
 RDEPEND="${DEPEND}"
 
