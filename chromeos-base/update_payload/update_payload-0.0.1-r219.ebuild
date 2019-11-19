@@ -3,10 +3,9 @@
 
 EAPI="5"
 
-# TODO(crbug.com/1011631): Add python3 when it's been ported.
-CROS_WORKON_COMMIT="d04ca0c5cc9e4507301be355fd3bd86b871b05c4"
-CROS_WORKON_TREE="38427341c137b32b99d143a878d14a7e89cb3af5"
-PYTHON_COMPAT=( python2_7 )
+CROS_WORKON_COMMIT="165843ca10908d7bd79582829a5ee51b098685e6"
+CROS_WORKON_TREE="c4c98899ca4d134af1b2655afbe17dc7cb843b40"
+PYTHON_COMPAT=( python3_{6,7} )
 
 CROS_WORKON_LOCALNAME="../aosp/system/update_engine"
 CROS_WORKON_PROJECT="aosp/platform/system/update_engine"
@@ -22,7 +21,6 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	$(python_gen_cond_dep 'dev-python/backports-lzma[${PYTHON_USEDEP}]' python2_7)
 	dev-python/protobuf-python[${PYTHON_USEDEP}]
 	!<chromeos-base/devserver-0.0.3
 "
