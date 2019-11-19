@@ -1,9 +1,9 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="ee780f1fc3e1f8010e7d0d574f6ac608654d5bcb"
+CROS_WORKON_COMMIT="b38eb521704bd65459f6d5cb5c77cd425c8dadb2"
 CROS_WORKON_TREE=("1319841568b5f67d3de28c685396b374735f5d15" "df639db2eaff86a848c711dffbda03d08104ba00" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,21 +19,19 @@ DESCRIPTION="A daemon to update EC firmware of hammer, the base of the detachabl
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hammerd/"
 
 LICENSE="BSD-Google"
-SLOT=0
 KEYWORDS="*"
 IUSE="-hammerd_api fuzzer"
 
 RDEPEND="
-	chromeos-base/ec-utils
-	chromeos-base/libbrillo
-	chromeos-base/metrics
-	chromeos-base/vboot_reference
+	chromeos-base/ec-utils:=
+	chromeos-base/metrics:=
+	chromeos-base/vboot_reference:=
 	dev-libs/openssl:0=
-	sys-apps/flashmap
+	sys-apps/flashmap:=
 "
 DEPEND="
 	${RDEPEND}
-	chromeos-base/system_api[fuzzer?]
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 pkg_preinst() {
