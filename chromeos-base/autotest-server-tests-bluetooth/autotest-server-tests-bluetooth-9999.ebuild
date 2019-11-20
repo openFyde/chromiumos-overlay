@@ -17,9 +17,8 @@ KEYWORDS="~*"
 # Enable autotest by default.
 IUSE="+autotest"
 
-RDEPEND=""
-DEPEND="${RDEPEND}
-	!<chromeos-base/autotest-server-tests-0.0.2
+RDEPEND="
+	!<chromeos-base/autotest-server-tests-0.0.2-r4126
 "
 
 SERVER_IUSE_TESTS="
