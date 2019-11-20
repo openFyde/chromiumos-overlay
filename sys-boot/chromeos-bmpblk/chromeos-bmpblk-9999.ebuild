@@ -51,6 +51,7 @@ CROS_BOARDS=(
 	mccloud
 	meowth
 	monroe
+	mushu
 	nami
 	nautilus
 	ninja

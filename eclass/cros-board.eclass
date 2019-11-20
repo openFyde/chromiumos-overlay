@@ -260,6 +260,7 @@ ALL_BOARDS=(
 	moblab-generic-vm
 	monroe
 	moose
+	mushu
 	nami
 	nami-kvm
 	nautilus

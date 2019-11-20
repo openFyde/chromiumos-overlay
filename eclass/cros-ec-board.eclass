@@ -72,6 +72,7 @@ EC_BOARD_NAMES=(
 	meowth
 	meowth_fp
 	minimuffin
+	mushu
 	nami
 	nami_fp
 	nautilus
