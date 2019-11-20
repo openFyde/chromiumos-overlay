@@ -30,6 +30,9 @@ USE="${USE} -power_management"
 # We don't boot things inside the sdk.
 USE="${USE} -openrc"
 
+# We only have one rootfs.
+USE="${USE} -split-usr"
+
 # Various runtime features that control emerge behavior.
 # See "man 5 make.conf" for details.
 FEATURES="allow-missing-manifests buildpkg clean-logs -collision-protect

@@ -25,6 +25,7 @@ USE="${USE} smartdim"
 USE="${USE} smbprovider"
 USE="${USE} usb_bouncer"
 USE="${USE} usbguard"
+USE="${USE} -split-usr"
 
 # All chromeos-based boards created after 2019-01 must be unibuild-enabled. See
 # https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-config/README.md
