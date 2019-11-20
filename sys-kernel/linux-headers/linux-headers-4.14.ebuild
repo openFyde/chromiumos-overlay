@@ -53,6 +53,7 @@ PATCHES=(
 	"${FILESDIR}/0028-UPSTREAM-media-pixfmt-Add-H264-Slice-format.patch"
 	"${FILESDIR}/0029-BACKPORT-FROMLIST-media-uapi-Add-VP8-stateless-decod.patch"
 	"${FILESDIR}/0030-BACKPORT-sync-enum-nl80211_commands-with-kernel-v5.2.patch"
+	"${FILESDIR}/0031-FROMLIST-media-pixfmt-Add-Mediatek-ISP-P1-image-meta.patch"
 )
 
 src_unpack() {
