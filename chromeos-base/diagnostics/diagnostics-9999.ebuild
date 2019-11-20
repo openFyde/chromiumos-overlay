@@ -63,12 +63,8 @@ src_install() {
 
 		# Install seccomp policy files.
 		insinto /usr/share/policy
-		newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
+		use seccomp && newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
 			wilco_dtc_supportd-seccomp.policy
-		newins "init/wilco-dtc-e2fsck-seccomp-${ARCH}.policy" \
-			wilco-dtc-e2fsck-seccomp.policy
-		newins "init/wilco-dtc-resize2fs-seccomp-${ARCH}.policy" \
-			wilco-dtc-resize2fs-seccomp.policy
 
 		# Install D-Bus configuration file.
 		insinto /etc/dbus-1/system.d
