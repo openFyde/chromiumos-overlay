@@ -19,7 +19,13 @@ BOARDS="${BOARDS} nautilus nocturne octopus panther parrot peppy poppy puff pyro
 BOARDS="${BOARDS} rambi rammus reef samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo volteer zoombini"
 IUSE="${BOARDS} diag_payload seabios wilco_ec"
-IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec +ec_ro_sync pd_sync +bmpblk"
+IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
+
+# 'ec_ro_sync' can be a solution for devices that will fail to complete recovery
+# due to TCPC reset (crbug.com/782427#c4), but may not work for every devices
+# (crbug.com/1024401, and MT8183 family). Please double check before turning on
+# this option.
+IUSE="${IUSE} ec_ro_sync"
 
 REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
