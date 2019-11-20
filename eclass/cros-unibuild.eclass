@@ -138,6 +138,28 @@ install_model_files() {
 	_install_model_files ""
 }
 
+# @FUNCTION: install_generated_config_files
+# @USAGE:
+# @DESCRIPTION:
+# Installs generated JSON payloads and C files for the current board. This is
+# intended to be called from the chromeos-config-<board> public and private
+# ebuilds.
+install_generated_config_files() {
+	[[ $# -eq 0 ]] || die "${FUNCNAME[0]}: takes no arguments"
+
+	# Install platform config as "config.json" and build config as
+	# "config.yaml". Consumers of the payloads expect these names and locations.
+	insinto "${UNIBOARD_CROS_CONFIG_DIR}"
+	newins "${FILESDIR}/generated/platform_config.json" "config.json"
+
+	insinto "${UNIBOARD_YAML_DIR}"
+	newins "${FILESDIR}/generated/build_config.json" "config.yaml"
+
+	doins "${FILESDIR}/generated/config.c"
+	doins "${FILESDIR}/generated/ec_config.h"
+	doins "${FILESDIR}/generated/ec_config.c"
+}
+
 # @FUNCTION: cros_config_host_local
 # @USAGE:
 # @DESCRIPTION:
