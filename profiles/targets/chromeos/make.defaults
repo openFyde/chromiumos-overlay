@@ -82,7 +82,7 @@ LINUX_FIRMWARE="rt2870"
 # Various runtime features that control emerge behavior.
 # See "man 5 make.conf" for details.
 FEATURES="allow-missing-manifests buildpkg clean-logs -collision-protect
-          -ebuild-locks force-mirror nodoc noinfo noman -merge-sync
+          -ebuild-locks force-mirror nodoc noinfo noman -merge-sync -pid-sandbox
           parallel-install -preserve-libs sandbox splitdebug -strict userfetch
           userpriv usersandbox -unknown-features-warn network-sandbox"
 
