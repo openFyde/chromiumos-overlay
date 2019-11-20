@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="67d5a05b67592dfa848390ba9ec988a9fb5f0254"
-CROS_WORKON_TREE=("c9338e2c2e898e065dce6d62921e358a85709cd3" "93e5ad95da6e85001e11d791ef62a85382fa3675" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="82bbfee2ce7e83414372b8abc45bfd9292657531"
+CROS_WORKON_TREE=("c9338e2c2e898e065dce6d62921e358a85709cd3" "660ebb2ed06bc5fc6e23b55ee50ac43efc86f147" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -65,12 +65,8 @@ src_install() {
 
 		# Install seccomp policy files.
 		insinto /usr/share/policy
-		newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
+		use seccomp && newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
 			wilco_dtc_supportd-seccomp.policy
-		newins "init/wilco-dtc-e2fsck-seccomp-${ARCH}.policy" \
-			wilco-dtc-e2fsck-seccomp.policy
-		newins "init/wilco-dtc-resize2fs-seccomp-${ARCH}.policy" \
-			wilco-dtc-resize2fs-seccomp.policy
 
 		# Install D-Bus configuration file.
 		insinto /etc/dbus-1/system.d
