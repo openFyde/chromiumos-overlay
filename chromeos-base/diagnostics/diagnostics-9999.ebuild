@@ -42,6 +42,7 @@ RDEPEND="
 "
 
 pkg_preinst() {
+	enewgroup cros_ec-access
 	enewuser cros_healthd
 	enewgroup cros_healthd
 	enewuser healthd_ec
