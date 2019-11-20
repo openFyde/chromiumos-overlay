@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Chrome OS Fonts (meta package)"
 HOMEPAGE="http://src.chromium.org"
@@ -47,6 +47,7 @@ RDEPEND="${DEPEND}"
 
 S=${WORKDIR}
 
+# Don't 'die' in here, because our callers want to catch errors.
 qemu_run() {
 	# Run the emulator to execute command. It needs to be copied
 	# temporarily into the sysroot because we chroot to it.
@@ -69,7 +70,8 @@ qemu_run() {
 			qemu=( qemu-i386 -cpu max )
 			;;
 		*)
-			die "Unable to determine QEMU from ARCH."
+			eerror "Unable to determine QEMU from ARCH."
+			return 1
 	esac
 
 	# The following code uses sudo to generate the font-cache.  It is almost
@@ -100,37 +102,45 @@ qemu_run() {
 	# All of which is to say: don't use sudo in your ebuild.  You have been
 	# warned.  -- chirantan
 
-	cp "/usr/bin/${qemu[0]}" "${ROOT}/tmp" || die
-	sudo chroot "${ROOT}" "/tmp/${qemu[0]}" "${qemu[@]:1}" "$@" || die
-	rm "${ROOT}/tmp/${qemu[0]}" || die
+	local chroot_dir="${WORKDIR#${SYSROOT}}"
+	if ! cp "/usr/bin/${qemu[0]}" "${WORKDIR}"; then
+		eerror "Failed to copy /usr/bin/${qemu[0]} -> ${WORKDIR}"
+		return 1
+	fi
+	if ! sudo chroot "${SYSROOT}" "${chroot_dir}/${qemu[0]}" "${qemu[@]:1}" "$@"; then
+		eerror "Failed to run QEMU (args $*)"
+		return 1
+	fi
+	if ! rm "${WORKDIR}/${qemu[0]}"; then
+		eerror "Failed to clean up QEMU"
+		return 1
+	fi
 }
 
 generate_font_cache() {
 	# Bind mount over the cache directory so that we don't scribble over the
 	# $SYSROOT.  Same warning as above applies: don't use sudo in your ebuild.
 	mkdir -p "${WORKDIR}/out"
-	if grep -q "${ROOT}/usr/share/cache/fontconfig" /proc/mounts; then
-		sudo umount "${ROOT}/usr/share/cache/fontconfig"
+	if grep -q "${SYSROOT%/}/usr/share/cache/fontconfig" /proc/mounts; then
+		sudo umount "${SYSROOT}/usr/share/cache/fontconfig" || die
 	fi
-	sudo mount --bind "${WORKDIR}/out" "${ROOT}/usr/share/cache/fontconfig"
+	sudo mount --bind "${WORKDIR}/out" "${SYSROOT}/usr/share/cache/fontconfig" || die
 
 	# If we're running directly on the target (e.g. gmerge), we don't need
-	# to chroot or use qemu.  Run in a subshell so that we can clean up
-	# the bind mount even if fc-cache fails.
-	(
-		if [[ "${ROOT:-/}" == "/" ]]; then
-			sudo /usr/bin/fc-cache -f -v || die
-		elif [[ "${ARCH}" == "amd64" ]]; then
-			# Uses the host's fc-cache binary to build the font
-			# cache on the target.
-			sudo /usr/bin/fc-cache --sysroot="${SYSROOT}" -f -v
-		else
-			qemu_run /usr/bin/fc-cache -f -v
-		fi
-	)
+	# to chroot or use qemu. Don't 'die' on errors so we can clean up the
+	# bind mount even if fc-cache fails.
+	if [[ "${SYSROOT:-/}" == "/" ]]; then
+		sudo /usr/bin/fc-cache -f -v
+	elif [[ "${ARCH}" == "amd64" ]]; then
+		# Uses the host's fc-cache binary to build the font
+		# cache on the target.
+		sudo /usr/bin/fc-cache --sysroot="${SYSROOT}" -f -v
+	else
+		qemu_run /usr/bin/fc-cache -f -v
+	fi
 	local retval=$?
 
-	sudo umount "${ROOT}/usr/share/cache/fontconfig"
+	sudo umount "${SYSROOT}/usr/share/cache/fontconfig" || die
 	[[ ${retval} == 0 ]] || die "fc-cache failed"
 }
 
