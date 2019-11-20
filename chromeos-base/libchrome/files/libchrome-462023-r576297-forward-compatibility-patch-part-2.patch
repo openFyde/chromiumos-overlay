@@ -1,20 +1,84 @@
-From 208e785d7fde2507f06524dd344c2cffdbd9d30e Mon Sep 17 00:00:00 2001
+From 0816e698ffd847b997fe63076a8ccd062bd8dd91 Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Tue, 29 Oct 2019 20:24:18 +0900
-Subject: [PATCH] libchrome: r576279 forward compatibility patch part 2 (mojo).
+Subject: [PATCH 1/4] libchrome: r576279 forward compatibility patch part 2
+ (mojo).
 
 This CL includes;
 - mojo/public/cpp/system/platform_handle.{h,cpp}:{W,Unw}rapPlatformHandle
+- mojo/public/cpp/platform/socket*:mojo::SocketRecvmsg
 
 BUG=chromium:909719
 TEST=Build.
 
 Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
 ---
- mojo/public/cpp/system/platform_handle.cc | 57 ++++++++++++++++++++
- mojo/public/cpp/system/platform_handle.h  | 63 +++++++++++++++++++++++
- 2 files changed, 120 insertions(+)
+ BUILD.gn                                      |  1 +
+ .../public/cpp/platform/socket_utils_posix.cc | 16 +++++
+ mojo/public/cpp/platform/socket_utils_posix.h | 17 +++++
+ mojo/public/cpp/system/platform_handle.cc     | 57 +++++++++++++++++
+ mojo/public/cpp/system/platform_handle.h      | 63 +++++++++++++++++++
+ 5 files changed, 154 insertions(+)
+ create mode 100644 mojo/public/cpp/platform/socket_utils_posix.cc
+ create mode 100644 mojo/public/cpp/platform/socket_utils_posix.h
 
+diff --git a/BUILD.gn b/BUILD.gn
+index 4477a86..5b12e2b 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -690,6 +690,7 @@ if (use.mojo) {
+       "mojo/public/cpp/system/wait.cc",
+       "mojo/public/cpp/system/wait_set.cc",
+       "mojo/public/cpp/system/watcher.cc",
++      "mojo/public/cpp/platform/socket_utils_posix.cc",
+     ] + get_target_outputs(":mojom_bindings_gen")
+   }
+ 
+diff --git a/mojo/public/cpp/platform/socket_utils_posix.cc b/mojo/public/cpp/platform/socket_utils_posix.cc
+new file mode 100644
+index 0000000..b8268a4
+--- /dev/null
++++ b/mojo/public/cpp/platform/socket_utils_posix.cc
+@@ -0,0 +1,16 @@
++#include "mojo/public/cpp/platform/socket_utils_posix.h"
++#include "mojo/edk/embedder/platform_channel_utils_posix.h"
++
++ssize_t mojo::SocketRecvmsg(base::PlatformFile socket, void* buf,
++                            size_t num_bytes,
++                            std::vector<base::ScopedFD>* descriptors,
++                            bool block) {
++  std::deque<mojo::edk::PlatformHandle> platform_handles;
++  ssize_t retval =
++      mojo::edk::PlatformChannelRecvmsg(mojo::edk::PlatformHandle(socket), buf,
++                                        num_bytes, &platform_handles, block);
++  for (auto& handle : platform_handles) {
++    descriptors->push_back(std::move(base::ScopedFD(handle.handle)));
++  }
++  return retval;
++}
+diff --git a/mojo/public/cpp/platform/socket_utils_posix.h b/mojo/public/cpp/platform/socket_utils_posix.h
+new file mode 100644
+index 0000000..307e661
+--- /dev/null
++++ b/mojo/public/cpp/platform/socket_utils_posix.h
+@@ -0,0 +1,17 @@
++#include <mojo/edk/embedder/platform_channel_utils_posix.h>
++
++#ifndef MOJO_PUBLIC_CPP_PLATFORM_SOCKET_UTILS_POSIX_H_
++#define MOJO_PUBLIC_CPP_PLATFORM_SOCKET_UTILS_POSIX_H_
++
++#include <vector>
++
++#include "base/files/file.h"
++#include "base/files/scoped_file.h"
++
++namespace mojo {
++ssize_t SocketRecvmsg(base::PlatformFile socket, void* buf, size_t num_bytes,
++                      std::vector<base::ScopedFD>* descriptors,
++                      bool block = false);
++}
++
++#endif
 diff --git a/mojo/public/cpp/system/platform_handle.cc b/mojo/public/cpp/system/platform_handle.cc
 index 42e4aba..6116860 100644
 --- a/mojo/public/cpp/system/platform_handle.cc
@@ -170,5 +234,5 @@ index 801264e..e034ef8 100644
  // SharedMemoryHandle. Note that |read_only| is only an indicator of whether
  // |memory_handle| only supports read-only mapping. It does NOT have any
 -- 
-2.24.0.rc0.303.g954a862665-goog
+2.24.0.432.g9d3f5f5b63-goog
 

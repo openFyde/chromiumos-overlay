@@ -245,6 +245,7 @@ src_install() {
 			mojo/public/cpp/bindings
 			mojo/public/cpp/bindings/lib
 			mojo/public/cpp/system
+			mojo/public/cpp/platform
 		)
 		gen_header_dirs+=(
 			mojo/common
