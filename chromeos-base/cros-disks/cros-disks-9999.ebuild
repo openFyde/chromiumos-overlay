@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -16,19 +16,21 @@ inherit cros-workon platform user
 DESCRIPTION="Disk mounting daemon for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="chromeless_tty fuzzer +seccomp"
 
+COMMON_DEPEND="
+	chromeos-base/metrics:=
+	chromeos-base/minijail:=
+	chromeos-base/session_manager-client:=
+	sys-apps/rootdev:=
+	sys-apps/util-linux:=
+"
+
 RDEPEND="
+	${COMMON_DEPEND}
 	app-arch/unrar
-	chromeos-base/libbrillo
-	chromeos-base/metrics
-	chromeos-base/minijail
-	chromeos-base/session_manager-client
 	net-fs/sshfs
-	sys-apps/rootdev
-	sys-apps/util-linux
 	sys-fs/avfs
 	sys-fs/dosfstools
 	sys-fs/exfat-utils
@@ -38,8 +40,10 @@ RDEPEND="
 	virtual/udev
 "
 
-DEPEND="${RDEPEND}
-	chromeos-base/system_api[fuzzer?]"
+DEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/system_api:=[fuzzer?]
+"
 
 pkg_preinst() {
 	enewuser "cros-disks"
