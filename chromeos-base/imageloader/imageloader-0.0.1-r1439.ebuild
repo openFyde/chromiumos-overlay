@@ -1,9 +1,9 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="93dc5eab5bb9aec12e103e29e6e0516d442807c6"
+CROS_WORKON_COMMIT="1b4ad68be5f6ef5df32b5d337579f5738c2de02b"
 CROS_WORKON_TREE=("c9338e2c2e898e065dce6d62921e358a85709cd3" "09cde498624b0e9e1d20609380992ae530f300ce" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,18 +19,16 @@ DESCRIPTION="Allow mounting verified utility images"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/imageloader/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="fuzzer"
 
-RDEPEND="chromeos-base/libbrillo
-	dev-libs/openssl:=
+RDEPEND="dev-libs/openssl:=
 	dev-libs/protobuf:=
-	fuzzer? ( dev-libs/libprotobuf-mutator )
-	sys-fs/lvm2"
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
+	sys-fs/lvm2:="
 
 DEPEND="${RDEPEND}
-	chromeos-base/system_api[fuzzer?]"
+	chromeos-base/system_api:=[fuzzer?]"
 
 src_install() {
 	# Install manifest parsing libraries
