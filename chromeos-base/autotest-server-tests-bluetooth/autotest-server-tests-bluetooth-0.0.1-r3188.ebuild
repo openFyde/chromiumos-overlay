@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="bbd2299d92abeb2b265891a91a79aa69ba400923"
-CROS_WORKON_TREE="b178e34baaa08a073f95189827bd6375a6d108e7"
+CROS_WORKON_COMMIT="7520bb1f1171929cf081049e88e2bb9d68e3a3ce"
+CROS_WORKON_TREE="837942bceebf5064762d9a14279037433caa08d5"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME=../third_party/autotest/files
 
@@ -19,9 +19,8 @@ KEYWORDS="*"
 # Enable autotest by default.
 IUSE="+autotest"
 
-RDEPEND=""
-DEPEND="${RDEPEND}
-	!<chromeos-base/autotest-server-tests-0.0.2
+RDEPEND="
+	!<chromeos-base/autotest-server-tests-0.0.2-r4126
 "
 
 SERVER_IUSE_TESTS="
