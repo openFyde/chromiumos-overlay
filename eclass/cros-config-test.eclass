@@ -3,8 +3,7 @@
 
 # Check for EAPI 5+
 case "${EAPI:-0}" in
-5|6) ;;
-*) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+[0-4]*) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
 inherit cros-unibuild
