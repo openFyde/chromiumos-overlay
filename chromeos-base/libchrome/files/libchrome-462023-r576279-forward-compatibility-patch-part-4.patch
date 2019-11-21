@@ -1,7 +1,7 @@
-From bc3fa40f6d00b49a0649f74a4ad6aa32f66d0ac7 Mon Sep 17 00:00:00 2001
+From f2bf8effd1d36de3a08af138a1d559726b63f70d Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Wed, 30 Oct 2019 14:54:23 +0900
-Subject: [PATCH] libchrome: r576279 forward compatibility patch part 4
+Subject: [PATCH 4/5] libchrome: r576279 forward compatibility patch part 4
  (temporary)
 
 Change-Id: I1d6b88d4f214107430ac16dace7274f1c6ccd0d0
@@ -76,5 +76,5 @@ index 2184051..c43eb70 100644
  
      if (!options.environ.empty() || options.clear_environ)
 -- 
-2.24.0.rc0.303.g954a862665-goog
+2.24.0.432.g9d3f5f5b63-goog
 

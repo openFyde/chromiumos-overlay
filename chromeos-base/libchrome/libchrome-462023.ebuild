@@ -59,13 +59,13 @@ REQUIRED_USE="mojo? ( crypto )"
 src_unpack() {
 	platform_src_unpack
 
-	# Upgrade base/json r456626 to r576297 to catch important security
-	# hardening work. The code is not vanilla r576297, but it has been
+	# Upgrade base/json r456626 to r576279 to catch important security
+	# hardening work. The code is not vanilla r576279, but it has been
 	# adjusted slightly to make it work with this libchrome version.
 	# TODO(crbug.com/860181): Remove src_unpack() again once libchrome is
-	# uprev'ed to r576297.
+	# uprev'ed to r576279.
 	rm "${S}/base/json/"* || die
-	cp "${FILESDIR}/base_json_based_on_r576297/"* "${S}/base/json" || die
+	cp "${FILESDIR}/base_json_based_on_r576279/"* "${S}/base/json" || die
 }
 
 src_prepare() {
@@ -132,15 +132,15 @@ src_prepare() {
 	# # TODO(bingxue): Remove after libchrome uprev past r684392.
 	epatch "${FILESDIR}"/${P}-Connect-to-NameOwnerChanged-signal-when-setting-call.patch
 
-	# Cherry-pick base::data for r576297 uprev.
+	# Cherry-pick base::data for r576279 uprev.
 	epatch "${FILESDIR}"/${P}-Reland-base-Implement-std-size-std-empty-and-std-dat.patch
 
-	# Forward compatibility for r576297.
-	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-1.patch
-	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-2.patch
-	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-3.patch
-	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-4.patch
-	epatch "${FILESDIR}"/${P}-r576297-forward-compatibility-patch-part-5.patch
+	# Forward compatibility for r576279.
+	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-1.patch
+	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-2.patch
+	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-3.patch
+	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-4.patch
+	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-5.patch
 	# Fix -Wimplicit-int-float-converion warnings.  Based on
 	# https://chromium-review.googlesource.com/c/chromium/src/+/1830114
 	# This patch can be removed after libchrome r701704.

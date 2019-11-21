@@ -1,7 +1,7 @@
-From f7d0703166892684a30bf5209240baf48555070c Mon Sep 17 00:00:00 2001
+From 10edc68950c9767b749ae092ed7d93b21684a9d5 Mon Sep 17 00:00:00 2001
 From: Hidehiko Abe <hidehiko@chromium.org>
 Date: Sat, 10 Aug 2019 01:49:12 +0900
-Subject: [PATCH] libchrome: r576279 forward compatibility patch part 1.
+Subject: [PATCH 1/5] libchrome: r576279 forward compatibility patch part 1.
 
 This CL includes;
 - NumberToString overload.
@@ -288,5 +288,5 @@ index 8066704..88f2588 100644
  
  }  // namespace timers
 -- 
-2.24.0.rc0.303.g954a862665-goog
+2.24.0.432.g9d3f5f5b63-goog
 

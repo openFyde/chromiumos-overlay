@@ -1,7 +1,7 @@
-From 265134179eda2fc1ecc396411f354f00a65ea5a9 Mon Sep 17 00:00:00 2001
+From 030318b0fde436805966e887c8cbccffe7dc5683 Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Wed, 30 Oct 2019 13:52:45 +0900
-Subject: [PATCH 2/4] libchrome: r576279 forward compatibility patch part 3
+Subject: [PATCH 3/5] libchrome: r576279 forward compatibility patch part 3
  (dbus)
 
 Change-Id: I0b514eed9427316b664e9c96c79d701d7cc053f3
@@ -82,5 +82,5 @@ index 17d2a9f..99ed0e5 100644
  
  // Mock for ObjectProxy.
 -- 
-2.21.0
+2.24.0.432.g9d3f5f5b63-goog
 
