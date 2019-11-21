@@ -1,0 +1,9 @@
+sys-kernel/chromeos-kernel-3_8 debug
+sys-kernel/chromeos-kernel-3_10 debug
+sys-kernel/chromeos-kernel-3_14 debug
+sys-kernel/chromeos-kernel-3_18 debug
+sys-kernel/chromeos-kernel-4_4 debug
+sys-kernel/chromeos-kernel-4_14 debug
+sys-kernel/chromeos-kernel-4_19 debug
+sys-kernel/chromeos-kernel-experimental debug
+sys-kernel/chromeos-kernel-next debug
