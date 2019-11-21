@@ -4,8 +4,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="e9398ae6311df3f3d0155d698376c0fb5edd6ab5"
-CROS_WORKON_TREE="1d9bc51407ece5f9860bc62f57324a32a0df03e7"
+CROS_WORKON_COMMIT="ccc27496aa7fe106ca7f4e21db07cc07eacbc2b9"
+CROS_WORKON_TREE="bb3e11707c69745e64304d7f246ae0c1c2e0b665"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
 
 PYTHON_COMPAT=( python2_7 )
@@ -26,7 +26,7 @@ HOMEPAGE="http://www.cups.org/"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="acl dbus debug java kerberos lprng-compat pam
+IUSE="acl dbus debug java kerberos pam
 	python +seccomp selinux +ssl static-libs systemd +threads upstart usb X xinetd zeroconf"
 # TODO: 'IUSE=kernel_linux' should be handled implicitly (e.g., with
 # IUSE_IMPLICIT), but this doesn't work with 'cros deploy' right now. See
@@ -49,7 +49,7 @@ CDEPEND="
 	dbus? ( >=sys-apps/dbus-1.6.18-r1[${MULTILIB_USEDEP}] )
 	java? ( >=virtual/jre-1.6:* )
 	kerberos? ( >=virtual/krb5-0-r1[${MULTILIB_USEDEP}] )
-	!lprng-compat? ( !net-print/lprng )
+	!net-print/lprng
 	pam? ( virtual/pam )
 	python? ( ${PYTHON_DEPS} )
 	ssl? (
@@ -168,6 +168,10 @@ multilib_src_configure() {
 			--disable-shared
 		)
 	fi
+
+	# engages the Chrome-OS-specific "minimal" build.
+	# We perform further cleanup in multilib_src_install_all().
+	myconf+=( "--with-components=cros-minimal" )
 
 	# explicitly specify compiler wrt bug 524340
 	#
@@ -295,17 +299,6 @@ multilib_src_install_all() {
 	# we're sending logs to syslog, not /var/log/cups/*
 	rmdir "${ED}"/var/log/cups || die
 
-	# for the special case of running lprng and cups together, bug 467226
-	if use lprng-compat ; then
-		rm -fv "${ED}"/usr/bin/{lp*,cancel}
-		rm -fv "${ED}"/usr/sbin/lp*
-		rm -fv "${ED}"/usr/share/man/man1/{lp*,cancel*}
-		rm -fv "${ED}"/usr/share/man/man8/lp*
-		ewarn "Not installing lp... binaries, since the lprng-compat useflag is set."
-		ewarn "Unless you plan to install an exotic server setup, you most likely"
-		ewarn "do not want this. Disable the useflag then and all will be fine."
-	fi
-
 	# CUPS tries to install these as root-only executables, for
 	# IPP/Kerberos support, and for "privileged port" listening. We don't
 	# need the former, and the latter is handled by Linux capabilities.
@@ -344,6 +337,32 @@ multilib_src_install_all() {
 	else
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/cupsd.conf
 	fi
+
+	# Removes files and directories not used by Chrome OS.
+	rm -rv \
+		"${ED}"usr/share/cups/drv/ \
+		"${ED}"usr/share/cups/ppdc/ \
+			|| die
+	rm -v \
+		"${ED}"etc/cups/*.default \
+		"${ED}"etc/cups/snmp.conf \
+		"${ED}"usr/bin/cancel \
+		"${ED}"usr/bin/cupstestdsc \
+		"${ED}"usr/bin/ppd* \
+		"${ED}"usr/libexec/cups/backend/http \
+		"${ED}"usr/libexec/cups/backend/https \
+		"${ED}"usr/libexec/cups/backend/snmp \
+		"${ED}"usr/libexec/cups/daemon/cups-deviced \
+		"${ED}"usr/libexec/cups/daemon/cups-driverd \
+		"${ED}"usr/libexec/cups/daemon/cups-lpd \
+		"${ED}"usr/libexec/cups/filter/rastertodymo \
+		"${ED}"usr/sbin/accept \
+		"${ED}"usr/sbin/cupsaddsmb \
+		"${ED}"usr/sbin/cupsctl \
+		"${ED}"usr/sbin/cupsreject \
+		"${ED}"usr/sbin/lpmove \
+		"${ED}"usr/sbin/reject \
+			|| die
 }
 
 pkg_preinst() {
