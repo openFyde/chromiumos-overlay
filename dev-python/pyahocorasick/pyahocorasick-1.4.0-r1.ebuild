@@ -14,3 +14,7 @@ LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
+
+PATCHES=(
+	"${FILESDIR}/${P}-bytes.patch"
+)
