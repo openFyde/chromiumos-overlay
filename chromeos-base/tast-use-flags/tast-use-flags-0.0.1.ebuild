@@ -56,6 +56,7 @@ IUSE="
 	mocktpm
 	msan
 	nyan_kitty
+	pita
 	rialto
 	rk3399
 	selinux
