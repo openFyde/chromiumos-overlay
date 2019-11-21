@@ -49,9 +49,6 @@ DEPEND="${RDEPEND}
 		test? ( dev-util/dejagnu )
 		nls? ( sys-devel/gettext )
 	)"
-# Transition hack until we upgrade ncurses.
-RDEPEND+="
-	client? ( || ( sys-libs/ncurses:0= sys-libs/ncurses:5/5 ) )"
 
 
 pkg_setup() {
