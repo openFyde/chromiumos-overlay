@@ -7,7 +7,7 @@ inherit eutils
 
 DESCRIPTION="Epson Inkjet Printer Driver (ESC/P-R)"
 HOMEPAGE="http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX"
-SRC_URI="https://download3.ebz.epson.net/dsc/f/03/00/07/72/04/eb05a9e15ed0bc8b0949e9dd220f144d3efec288/epson-inkjet-printer-escpr-1.6.23-1lsb3.2.tar.gz"
+SRC_URI="https://download3.ebz.epson.net/dsc/f/03/00/10/33/90/13c8b802beeae061b6eb08248a0417be08484a26/epson-inkjet-printer-escpr-1.7.6-1lsb3.2.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
