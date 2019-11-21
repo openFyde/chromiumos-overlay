@@ -3,12 +3,12 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools 2d19ab38faf14664c76088411c21bf4fafea960b"
+CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools a434f64ace81347eff0fb4a32bc80a235e0ad762"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/ast/astutil"
-	"golang.org/x/tools/go/gcimporter15"
 	"golang.org/x/tools/go/gcexportdata"
+	"golang.org/x/tools/go/internal/gcimporter"
 )
 
 CROS_GO_TEST=(
