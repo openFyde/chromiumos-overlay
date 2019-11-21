@@ -713,8 +713,6 @@ src_prepare() {
 setup_test_lists() {
 	TEST_FILES=(
 		capture_unittests
-		dawn_end2end_tests
-		dawn_unittests
 		gl_tests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
@@ -1263,9 +1261,6 @@ src_install() {
 			true
 			# Quickoffice is not yet available for arm64, https://crbug.com/881489 .
 			# doins -r "${QUICKOFFICE}"/_platform_specific/arm64
-			;;
-		x86)
-			doins -r "${QUICKOFFICE}"/_platform_specific/x86_32
 			;;
 		amd64)
 			doins -r "${QUICKOFFICE}"/_platform_specific/x86_64
