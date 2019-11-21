@@ -27,6 +27,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/system_api
 "
 
 pkg_preinst() {
