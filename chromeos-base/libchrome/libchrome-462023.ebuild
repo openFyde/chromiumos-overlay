@@ -239,6 +239,7 @@ src_install() {
 		header_dirs+=(
 			ipc
 			mojo/common
+			mojo/core/embedder
 			mojo/edk/embedder
 			mojo/edk/system
 			mojo/public/c/system

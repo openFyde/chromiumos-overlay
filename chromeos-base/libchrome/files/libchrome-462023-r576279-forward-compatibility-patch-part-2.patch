@@ -1,4 +1,4 @@
-From 3dfb3948736ab6db9ee264dd16c2a799d52bf9f2 Mon Sep 17 00:00:00 2001
+From 7bc7a1d9653ca3e3bdce060e799742cd17c0b03d Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Tue, 29 Oct 2019 20:24:18 +0900
 Subject: [PATCH 2/5] libchrome: r576279 forward compatibility patch part 2
@@ -7,26 +7,41 @@ Subject: [PATCH 2/5] libchrome: r576279 forward compatibility patch part 2
 This CL includes;
 - mojo/public/cpp/system/platform_handle.{h,cpp}:{W,Unw}rapPlatformHandle
 - mojo/public/cpp/platform/socket*:mojo::SocketRecvmsg
+- mojo/core/embedder:Init/ScopedIPCSupport
 
 BUG=chromium:909719
 TEST=Build.
 
 Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
 ---
- BUILD.gn                                      |  1 +
+ BUILD.gn                                      |  2 +
+ mojo/core/embedder/embedder.cc                | 12 ++++
+ mojo/core/embedder/embedder.h                 | 12 ++++
+ mojo/core/embedder/scoped_ipc_support.h       | 12 ++++
  .../public/cpp/platform/socket_utils_posix.cc | 16 +++++
  mojo/public/cpp/platform/socket_utils_posix.h | 17 +++++
  mojo/public/cpp/system/platform_handle.cc     | 57 +++++++++++++++++
  mojo/public/cpp/system/platform_handle.h      | 63 +++++++++++++++++++
- 5 files changed, 154 insertions(+)
+ 8 files changed, 191 insertions(+)
+ create mode 100644 mojo/core/embedder/embedder.cc
+ create mode 100644 mojo/core/embedder/embedder.h
+ create mode 100644 mojo/core/embedder/scoped_ipc_support.h
  create mode 100644 mojo/public/cpp/platform/socket_utils_posix.cc
  create mode 100644 mojo/public/cpp/platform/socket_utils_posix.h
 
 diff --git a/BUILD.gn b/BUILD.gn
-index 4477a86..5b12e2b 100644
+index 4477a86..04fd5ec 100644
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -690,6 +690,7 @@ if (use.mojo) {
+@@ -607,6 +607,7 @@ if (use.mojo) {
+       "mojo/common/data_pipe_drainer.cc",
+       "mojo/common/data_pipe_utils.cc",
+       "mojo/common/values_struct_traits.cc",
++      "mojo/core/embedder/embedder.cc",
+       "mojo/edk/embedder/connection_params.cc",
+       "mojo/edk/embedder/embedder.cc",
+       "mojo/edk/embedder/entrypoints.cc",
+@@ -690,6 +691,7 @@ if (use.mojo) {
        "mojo/public/cpp/system/wait.cc",
        "mojo/public/cpp/system/wait_set.cc",
        "mojo/public/cpp/system/watcher.cc",
@@ -34,6 +49,60 @@ index 4477a86..5b12e2b 100644
      ] + get_target_outputs(":mojom_bindings_gen")
    }
  
+diff --git a/mojo/core/embedder/embedder.cc b/mojo/core/embedder/embedder.cc
+new file mode 100644
+index 0000000..de6fc3c
+--- /dev/null
++++ b/mojo/core/embedder/embedder.cc
+@@ -0,0 +1,12 @@
++#include "mojo/core/embedder/embedder.h"
++#include "mojo/edk/embedder/embedder.h"
++
++namespace mojo {
++namespace core {
++
++void Init() {
++  mojo::edk::Init();
++}
++
++} // namespace core
++} // namespace mojo
+diff --git a/mojo/core/embedder/embedder.h b/mojo/core/embedder/embedder.h
+new file mode 100644
+index 0000000..769a525
+--- /dev/null
++++ b/mojo/core/embedder/embedder.h
+@@ -0,0 +1,12 @@
++#ifndef MOJO_CORE_EMBEDDER_EMBEDDER_H_
++#define MOJO_CORE_EMBEDDER_EMBEDDER_H_
++
++namespace mojo {
++namespace core {
++
++void Init();
++
++} // namespace core
++} // namespace mojo
++
++#endif // MOJO_CORE_EMBEDDER_EMBEDDER_H_
+diff --git a/mojo/core/embedder/scoped_ipc_support.h b/mojo/core/embedder/scoped_ipc_support.h
+new file mode 100644
+index 0000000..db4ab6a
+--- /dev/null
++++ b/mojo/core/embedder/scoped_ipc_support.h
+@@ -0,0 +1,12 @@
++#ifndef MOJO_CORE_EMBEDDER_SCOPED_IPC_SUPPORT_H_
++#define MOJO_CORE_EMBEDDER_SCOPED_IPC_SUPPORT_H_
++
++#include <mojo/edk/embedder/scoped_ipc_support.h>
++
++namespace mojo {
++namespace core {
++using ScopedIPCSupport = mojo::edk::ScopedIPCSupport;
++} // namespace core
++} // namespace mojo
++
++#endif // MOJO_CORE_EMBEDDER_SCOPED_IPC_SUPPORT_H_
 diff --git a/mojo/public/cpp/platform/socket_utils_posix.cc b/mojo/public/cpp/platform/socket_utils_posix.cc
 new file mode 100644
 index 0000000..f7704fd
