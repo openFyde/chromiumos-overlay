@@ -51,6 +51,8 @@ SLOT="0/${PV}"
 KEYWORDS="*"
 IUSE=""
 
+RDEPEND="!<chromeos-base/chromeos-chrome-79.0.3943.1"
+
 src_unpack() {
 	set -- "${EGIT_REPO_URIS[@]}"
 	while [[ $# -gt 0 ]]; do
@@ -63,9 +65,6 @@ src_unpack() {
 }
 
 src_install() {
-	# Adding all protofiles that exist except for policy_common_definitions.proto
-	# as a short term solution for crbug.com/1009436, until chromeos-chrome
-	# is being updated by the pfq.
 	insinto /usr/include/proto
 	doins "${S}"/cloud/policy/proto/chrome_device_policy.proto
 	doins "${S}"/cloud/policy/proto/chrome_extension_policy.proto
@@ -74,7 +73,7 @@ src_install() {
 	doins "${S}"/cloud/policy/proto/device_management_backend.proto
 	insinto /usr/share/protofiles
 	doins "${S}"/cloud/policy/proto/chrome_device_policy.proto
-	newins "${S}"/cloud/policy/proto/policy_common_definitions.proto policy_common_definitions.proto.tmp
+	doins "${S}"/cloud/policy/proto/policy_common_definitions.proto
 	doins "${S}"/cloud/policy/proto/device_management_backend.proto
 	doins "${S}"/cloud/policy/proto/chrome_extension_policy.proto
 	dobin "${FILESDIR}"/policy_reader
@@ -85,11 +84,4 @@ src_install() {
 	doexe "${S}"/cloud/policy/tools/generate_policy_source.py
 	sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' \
 		"${D}/usr/share/policy_tools/generate_policy_source.py" || die
-}
-# This is a short term solution for crbug.com/1009436 till the pfq
-# upload the new version of chromeos-chrome.
-pkg_postinst() {
-	mv "${ROOT}"/usr/share/protofiles/policy_common_definitions.proto.tmp \
-	"${ROOT}"/usr/share/protofiles/policy_common_definitions.proto || \
-	die "Unable to rename the policy_common_definitions"
 }
