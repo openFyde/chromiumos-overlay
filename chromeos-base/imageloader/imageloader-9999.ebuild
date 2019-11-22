@@ -49,8 +49,9 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins dbus_service/org.chromium.ImageLoader.service
 	insinto /etc/init
-	doins imageloader.conf
-	doins imageloader-shutdown.conf
+	doins init/pepper-flash-player.conf
+	doins init/imageloader.conf
+	doins init/imageloader-shutdown.conf
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_helper_process_receiver_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_manifest_fuzzer \
