@@ -37,7 +37,7 @@ CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard/hatch/ucode.bin"
 
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
-CONFIG_ME_BIN_PATH="3rdparty/blobs/baseboard/hatch/me.bin"
+CONFIG_ME_BIN_PATH="3rdparty/blobs/baseboard/hatch/me-kindred.bin"
 
 # Disable
 # CONFIG_UART_DEBUG is not set
