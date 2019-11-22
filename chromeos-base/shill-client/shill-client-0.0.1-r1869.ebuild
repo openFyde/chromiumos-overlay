@@ -1,23 +1,23 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=6
 
-CROS_WORKON_COMMIT="1d27e6a36651ae498d2cd49eaaac0f1edd2e73f6"
-CROS_WORKON_TREE=("c9338e2c2e898e065dce6d62921e358a85709cd3" "41a3af62e58f1f34ac007ae175ba2589a06d434d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="75c3edc9dd613456c88f7a77fb793f908d4e7f3c"
+CROS_WORKON_TREE=("c9338e2c2e898e065dce6d62921e358a85709cd3" "54d4a006db99408c8b5cf3381421260eab7f88ac" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk login_manager .gn"
+CROS_WORKON_SUBTREE="common-mk shill .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="login_manager/session_manager-client"
+PLATFORM_SUBDIR="shill/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="Session manager (chromeos-login) DBus client library for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+DESCRIPTION="Shill DBus client library for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -36,10 +36,10 @@ DEPEND="
 "
 
 RDEPEND="
-	!<chromeos-base/chromeos-login-0.0.2
+	!<chromeos-base/shill-0.0.2
 "
 
 src_install() {
 	# Install DBus client library.
-	platform_install_dbus_client_lib "session_manager"
+	platform_install_dbus_client_lib "shill"
 }
