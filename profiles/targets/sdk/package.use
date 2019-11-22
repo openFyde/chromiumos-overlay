@@ -263,6 +263,7 @@ dev-python/setuptools_scm python_targets_python2_7
 dev-python/setuptools_scm_git_archive python_targets_python2_7
 dev-python/simplegeneric python_targets_python2_7
 dev-python/simplejson python_targets_python2_7
+dev-python/singledispatch python_targets_python2_7
 dev-python/six python_targets_python2_7
 dev-python/sphinx python_targets_python2_7
 dev-python/sqlalchemy python_targets_python2_7
@@ -318,6 +319,7 @@ virtual/python-funcsigs python_targets_python2_7
 virtual/python-futures python_targets_python2_7
 virtual/python-ipaddress python_targets_python2_7
 virtual/python-pathlib python_targets_python2_7
+virtual/python-singledispatch python_targets_python2_7
 virtual/python-typing python_targets_python2_7
 x11-proto/xcb-proto python_targets_python2_7
 
