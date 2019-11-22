@@ -71,8 +71,17 @@ src_install() {
 		elif use amd64 ; then
 			unzip "${S}"/speech_synthesis/patts/tts_service_x86_64.nexe.zip || die
 		fi
+
+		if readelf --wide --section-headers ./*.nexe | grep -qE '\s\.(symtab|strtab)\s'; then
+			# For the reasons detailed above, we can't strip NaCl executables locally.
+			# It's up to the user(s) who built the binary to ensure it's properly
+			# `strip`ed before it lands in CrOS. At last measurement, the cost of
+			# shipping an unstripped tts_service.nexe was 14-32MB of rootfs space.
+			die "tts_service doesn't appear to be properly stripped"
+		fi
+
 		# We don't need these to be executable, and some autotests will fail it.
-		chmod 0644 *.nexe || die
+		chmod 0644 ./*.nexe || die
 		popd >/dev/null
 	fi
 }
