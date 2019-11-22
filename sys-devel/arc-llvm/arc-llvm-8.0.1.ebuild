@@ -86,12 +86,15 @@ build_host_tool() {
 	local libdir=$(get_libdir)
 	cmake -DLLVM_LIBDIR_SUFFIX=${libdir#lib} \
 		-DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS// /;}" \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 		-G "Unix Makefiles" ${S}
-	# We don't build shared libraries on the host, but we want
-	# llvm-config's output to match the target behavior, so override
-	# the config embedded into the binary.
-	sed -i -E '/LLVM_(LINK|ENABLE)_DYLIB 0/s:0:1:' \
-		"${HOST_DIR}/${tool}/BuildVariables.inc"
+	# Settings for the target and host may differ (e.g. system libs), but we
+	# need llvm-config's output to match the target behavior. Copy the
+	# config from the target into the host before embedding into the binary.
+	if [[ -f "${BUILD_DIR}/${tool}/BuildVariables.inc" ]]; then
+		cp "${BUILD_DIR}/${tool}/BuildVariables.inc" \
+			"${HOST_DIR}/${tool}"
+	fi
 	cd "${HOST_DIR}/${tool}" || die
 	emake
 }
@@ -126,6 +129,7 @@ multilib_src_configure() {
 		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
 		
 		-DLLVM_BUILD_LLVM_DYLIB=ON
+		-DLLVM_LINK_LLVM_DYLIB=ON
 
 		-DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS// /;}"
 		-DLLVM_BUILD_TESTS=$(usex test)
@@ -139,8 +143,8 @@ multilib_src_configure() {
 		-DLLVM_ENABLE_LIBXML2=$(usex xml)
 		-DLLVM_ENABLE_ASSERTIONS=$(usex debug)
 		-DLLVM_ENABLE_LIBPFM=$(usex exegesis)
-		-DLLVM_ENABLE_EH=ON
-		-DLLVM_ENABLE_RTTI=ON
+		-DLLVM_ENABLE_EH=OFF
+		-DLLVM_ENABLE_RTTI=OFF
 
 		-DWITH_POLLY=OFF # TODO
 
