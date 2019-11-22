@@ -1,7 +1,7 @@
 # Copyright (c) 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_COMMIT="3ad8c055a4d62b9524aaa470f98fbda78a51cec5"
 CROS_WORKON_TREE="fc4eaeb9c36b2dbdc4e16a8ceb8d1a5693ec3c78"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -33,12 +33,22 @@ AUTOTEST_BASE="/autotest"
 src_prepare() {
 	default
 	mkdir -p "${AUTOTEST_WORK}"
-	cp -fpru "${S}"/* "${AUTOTEST_WORK}/" &>/dev/null
-	find "${AUTOTEST_WORK}" -name '*.pyc' -delete
+	rsync -am --exclude="*.pyc" --exclude="server/site_tests" --exclude="server/tests" \
+		--exclude="client/site_tests" --exclude="client/tests" \
+		"${S}"/* "${AUTOTEST_WORK}/" || die "Failed to copy autotest source code"
 
-	rm "${AUTOTEST_WORK}"/shadow_config.ini
+	local test_to_copy=('provision_AutoUpdate' 'hardware_StorageQualCheckSetup')
+
+	for test in "${test_to_copy[@]}"; do
+		rsync -am "${S}"/server/site_tests/"${test}" \
+			"${AUTOTEST_WORK}/"server/site_tests/ || die "Failed to copy ${test} tests"
+	done
+
+	rm -f "${AUTOTEST_WORK}"/shadow_config.ini || die
 	# We want to create a symlink here instead.
-	rm -rf "${AUTOTEST_WORK}"/logs
+	rm -rf "${AUTOTEST_WORK}"/logs || die
+
+	mkdir -p "${AUTOTEST_WORK}"/server/tests || die
 }
 
 src_compile() {
