@@ -63,6 +63,7 @@ IUSE="
 	spring
 	+storage_wearout_detect
 	touchview
+	tpm2
 	transparent_hugepage
 	ubsan
 	unibuild
