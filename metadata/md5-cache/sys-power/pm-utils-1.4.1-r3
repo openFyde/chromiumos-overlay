@@ -10,4 +10,4 @@ RDEPEND=!<sys-power/powermgmt-base-1.31 !>=sys-power/powermgmt-base-1.31[-pm-uti
 SLOT=0
 SRC_URI=http://pm-utils.freedesktop.org/releases/pm-utils-1.4.1.tar.gz
 _eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=2909cb104933daa32d74066cbe8c7dae
+_md5_=ffb97f505eca2fdfb10c1751b29b07b3
