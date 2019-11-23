@@ -21,7 +21,6 @@ RDEPEND="
 	chromeos-base/autotest-tests
 	chromeos-base/autotest-tests-security
 	chromeos-base/autotest-tests-toolchain
-	chromeos-base/ci-results-archiver
 	bluetooth? ( chromeos-base/autotest-server-tests-bluetooth )
 	buffet? ( chromeos-base/autotest-tests-cloud-services )
 	cellular? ( chromeos-base/autotest-tests-cellular )
