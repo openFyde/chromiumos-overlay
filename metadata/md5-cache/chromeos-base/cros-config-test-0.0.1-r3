@@ -7,5 +7,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=virtual/chromeos-bsp-test chromeos-base/tast-local-tests-cros
 SLOT=0
-_eclasses_=cros-config-test	f471acbbac2b4c021aba0d64bf01e79e	cros-unibuild	ffdd23d044a8b1132999e0b11ae355b3
+_eclasses_=cros-config-test	f471acbbac2b4c021aba0d64bf01e79e	cros-unibuild	fc705f11e45567e9948a423d5ffde089
 _md5_=4b06206dd507b88386911de8b948ddd3
