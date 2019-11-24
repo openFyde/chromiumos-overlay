@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2014 The Chromium OS Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
@@ -10,8 +10,6 @@
 Can be used as a command-line tool or via 'import mem' in python.
 """
 
-
-from __future__ import print_function
 
 import argparse
 import code
@@ -27,7 +25,7 @@ Available functions:
 """
 
 
-class HexInt(long):
+class HexInt(int):
   """An int that prints out as hex but is still just a number."""
 
   def __repr__(self):
@@ -96,7 +94,7 @@ def w(addr, val):
 
 def _ParseInt(x):
   """Create an int from a string, autodetecting the base."""
-  return long(x, 0)
+  return int(x, 0)
 
 
 # Commands we export and their argument types.
@@ -116,7 +114,7 @@ def _ListCommands():
   """
   commands = []
 
-  for cmd_name in sorted(_COMMANDS.iterkeys()):
+  for cmd_name in sorted(_COMMANDS.keys()):
     func = eval(cmd_name)
     arg_names = inspect.getargspec(func)[0]
     short_doc = func.__doc__.splitlines()[0]
@@ -136,7 +134,7 @@ def _CreateParser():
   parser = argparse.ArgumentParser()
   subparsers = parser.add_subparsers()
 
-  for cmd_name, arg_types in sorted(_COMMANDS.iteritems()):
+  for cmd_name, arg_types in sorted(_COMMANDS.items()):
     func = eval(cmd_name)
     arg_names = inspect.getargspec(func)[0]
     short_doc = func.__doc__.splitlines()[0]
