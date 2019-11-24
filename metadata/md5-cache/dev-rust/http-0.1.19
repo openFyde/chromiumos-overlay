@@ -1,13 +1,13 @@
 DEFINED_PHASES=configure install postinst prepare prerm unpack
-DEPEND==dev-rust/futures-0.1*:= =dev-rust/tokio-io-0.1*:= >=virtual/rust-1.39.0:=
-DESCRIPTION=Experimental async/await support for Tokio
+DEPEND=>=dev-rust/bytes-0.4:= >=dev-rust/fnv-1.0.5:= >=dev-rust/itoa-0.4.1:= >=virtual/rust-1.39.0:=
+DESCRIPTION=A general purpose library of common HTTP types
 EAPI=6
-HOMEPAGE=https://tokio.rs/
+HOMEPAGE=https://github.com/hyperium/http
 IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=*
-LICENSE=MIT
+LICENSE=|| ( MIT Apache-2.0 )
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0.1.7/r0
-SRC_URI=https://crates.io/api/v1/crates/tokio-async-await/0.1.7/download -> tokio-async-await-0.1.7.crate
+SLOT=0.1.19/r0
+SRC_URI=https://crates.io/api/v1/crates/http/0.1.19/download -> http-0.1.19.crate
 _eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	5d83a1dfe554c3b722254be32e7915ec	cros-sanitizers	68fd6af9813658a590887ca09efa2444	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=a6e8f6f933895c64f164c30191fc9878
+_md5_=cb9c0fb68363dcf13ca2a00f9e7b6e73
