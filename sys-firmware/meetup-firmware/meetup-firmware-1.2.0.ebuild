@@ -4,9 +4,9 @@
 EAPI=5
 
 DESCRIPTION="Logitech MeetUp firmware"
-SRC_URI="https://s3.amazonaws.com/chromiumos/meetup-bin/${P}.tar.gz"
+SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tar.xz"
 
-LICENSE="Google-TOS"
+LICENSE="BSD-Logitech"
 SLOT="0"
 KEYWORDS="*"
 
