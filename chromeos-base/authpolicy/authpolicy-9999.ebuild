@@ -35,7 +35,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	chromeos-base/protofiles:=
+	>=chromeos-base/protofiles-0.0.35:=
 	chromeos-base/session_manager-client
 	chromeos-base/system_api:=[fuzzer?]
 "

@@ -24,7 +24,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 DEPEND="
-	chromeos-base/protofiles
+	>=chromeos-base/protofiles-0.0.35
 	dev-go/protobuf
 	dev-libs/protobuf
 "

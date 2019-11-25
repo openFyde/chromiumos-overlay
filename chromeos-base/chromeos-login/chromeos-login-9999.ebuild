@@ -39,7 +39,7 @@ RDEPEND="chromeos-base/bootstat
 	sys-apps/util-linux"
 
 DEPEND="${RDEPEND}
-	chromeos-base/protofiles
+	>=chromeos-base/protofiles-0.0.35
 	chromeos-base/system_api[fuzzer?]
 	chromeos-base/vboot_reference"
 

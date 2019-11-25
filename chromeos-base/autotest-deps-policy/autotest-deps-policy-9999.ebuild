@@ -24,7 +24,7 @@ AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
 # The dependency on Chrome guarantees that cloud_policy.proto is available.
 DEPEND="chromeos-base/chromeos-chrome
-	chromeos-base/protofiles:=
+	>=chromeos-base/protofiles-0.0.35:=
 	dev-libs/protobuf:=
 "
 
