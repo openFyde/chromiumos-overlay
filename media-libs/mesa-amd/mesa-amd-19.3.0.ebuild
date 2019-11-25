@@ -6,8 +6,8 @@ EAPI=6
 
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="877417918f6086baf1dd53a03b7808820e800ced"
-CROS_WORKON_TREE="d4f1c3922cce8b994fc6426f616fd5fac9354b6b"
+CROS_WORKON_COMMIT="98da2086606c52af0f043eb5b838a3857012ca20"
+CROS_WORKON_TREE="70ca3580767be0529cf99593c94d7d7f8ef6abac"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
@@ -109,11 +109,6 @@ src_prepare() {
 			-e "s/-DHAVE_POSIX_MEMALIGN//" \
 			configure.ac || die
 	fi
-	epatch "${FILESDIR}"/19.3-include-GLES2-Sync-GLES2-headers-with-Khronos.patch
-	epatch "${FILESDIR}"/19.3-mesa-GetFramebufferParameteriv-spelling.patch
-	epatch "${FILESDIR}"/19.3-mesa-Allow-MESA_framebuffer_flip_y-for-GLES-3.patch
-	epatch "${FILESDIR}"/19.3-gallium-Enable-MESA_framebuffer_flip_y.patch
-	epatch "${FILESDIR}"/19.3-st-mesa-Fix-inverted-polygon-stipple-condition.patch
 
 	default
 }
