@@ -342,6 +342,7 @@ net-dns/avahi python_targets_python2_7
 net-fs/samba python_targets_python2_7
 net-ftp/pybootd python_targets_python2_7
 net-libs/libproxy python_targets_python2_7
+net-libs/nodejs python_targets_python2_7
 net-misc/gsutil python_targets_python2_7
 net-print/cups python_targets_python2_7
 net-print/hplip python_targets_python2_7
