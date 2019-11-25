@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="eb8db2e5444bf8ef6508e42d045c3d42b86404be"
+CROS_WORKON_COMMIT="0946f66606e379b238c9a5a4e5a9000a1b7a19bb"
 CROS_WORKON_TREE=("1e8218a3d15868b67db7aac03b06e3d7de327778" "ae20e387b65aa42ad96a1dbea389a87e7a54920c" "efb32517f1688037d9c8d49c6e0ea149d6bb3b67" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,7 +37,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	chromeos-base/protofiles:=
+	>=chromeos-base/protofiles-0.0.35:=
 	chromeos-base/session_manager-client
 	chromeos-base/system_api:=[fuzzer?]
 "
