@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="978018b54b8f4e69645f4b21a2bb22681b01a523"
+CROS_WORKON_COMMIT="d0f112ba7e53794200eea7fdbce068146c295a92"
 CROS_WORKON_TREE=("1e8218a3d15868b67db7aac03b06e3d7de327778" "86fb3bdaefea1503b679bc3468ae484721065387" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -38,12 +38,12 @@ RDEPEND="${COMMON_DEPEND}
 	pam? ( app-admin/sudo )
 	chromeos-base/chromeos-common-script
 	!cros_host? (
+		!cros_embedded? ( chromeos-base/chromeos-storage-info )
 		oobe_config? ( chromeos-base/oobe_config )
 		dev-libs/openssl:0=
 	)
 	dev-util/shflags
 	sys-apps/rootdev
-	!cros_embedded? ( chromeos-base/chromeos-storage-info )
 	sys-apps/util-linux
 	sys-apps/which
 	sys-fs/e2fsprogs"
