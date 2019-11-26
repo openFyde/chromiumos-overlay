@@ -89,6 +89,7 @@ IUSE_LINUX_FIRMWARE=(
 	qca-wcn3990-bt
 	rockchip-dptx
 	rt2870
+	rtl8153
 	rtl8168g-1
 	rtl8168g-2
 	rtl_bt-8822c
@@ -138,6 +139,7 @@ LICENSE="
 	linux_firmware_qca-wcn3990-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_rockchip-dptx? ( LICENCE.rockchip )
 	linux_firmware_rt2870? ( LICENCE.ralink-firmware.txt LICENCE.ralink_a_mediatek_company_firmware )
+	linux_firmware_rtl8153? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtl8168g-1? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8168g-2? ( LICENCE.rtl_nic )
 	linux_firmware_rtl_bt-8822c? ( LICENCE.rtlwifi_firmware )
@@ -235,6 +237,7 @@ src_install() {
 	use_fw qca6174a-5-bt && doins_subdir qca/{nvm,rampatch}_usb_*.bin
 	use_fw qca-wcn3990-bt && doins_subdir qca/{crbtfw21.tlv,crnv21.bin}
 	use_fw rockchip-dptx && doins_subdir rockchip/dptx.bin
+	use_fw rtl8153 && doins_subdir rtl_nic/rtl8153*.fw
 	use_fw rtl8168g-1 && doins_subdir rtl_nic/rtl8168g-1.fw
 	use_fw rtl8168g-2 && doins_subdir rtl_nic/rtl8168g-2.fw
 	use_fw rtl_bt-8822c && doins_subdir rtl_bt/rtl8822c*.bin
