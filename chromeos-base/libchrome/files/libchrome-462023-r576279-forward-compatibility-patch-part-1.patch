@@ -1,4 +1,4 @@
-From 10edc68950c9767b749ae092ed7d93b21684a9d5 Mon Sep 17 00:00:00 2001
+From d092b8c6e07b7311cd70addf40e673c3ad2498c9 Mon Sep 17 00:00:00 2001
 From: Hidehiko Abe <hidehiko@chromium.org>
 Date: Sat, 10 Aug 2019 01:49:12 +0900
 Subject: [PATCH 1/5] libchrome: r576279 forward compatibility patch part 1.
@@ -10,7 +10,8 @@ This CL includes;
 - SimpleAlarmTimer::Create().
 - base/memory/scoped_refptr.h
 - base/posix/unix_domain_socket.h
-- base/memory/shared_memory_handle.h::GetHandle/GetSize
+- base/memory/shared_memory_handle.h::GetHandle/GetSize/IsValid/Release
+- base/memory/shared_memory.h::GetReadOnlyHandle
 
 BUG=chromium:909719
 TEST=Build.
@@ -18,7 +19,8 @@ TEST=Build.
 Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
 ---
  base/memory/scoped_refptr.h               | 31 +++++++++++++++++++++++
- base/memory/shared_memory_handle.h        | 23 ++++++++++++++++-
+ base/memory/shared_memory.h               |  6 +++++
+ base/memory/shared_memory_handle.h        | 31 ++++++++++++++++++++++-
  base/memory/shared_memory_posix.cc        | 13 +++++++---
  base/posix/unix_domain_socket.h           | 12 +++++++++
  base/strings/string_number_conversions.h  | 20 +++++++++++++++
@@ -27,7 +29,7 @@ Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
  base/values.h                             |  2 ++
  components/timers/alarm_timer_chromeos.cc |  8 ++++++
  components/timers/alarm_timer_chromeos.h  |  2 ++
- 10 files changed, 116 insertions(+), 4 deletions(-)
+ 11 files changed, 130 insertions(+), 4 deletions(-)
  create mode 100644 base/memory/scoped_refptr.h
  create mode 100644 base/posix/unix_domain_socket.h
 
@@ -68,8 +70,25 @@ index 0000000..0815c34
 +}  // namespace base
 +
 +#endif  // BASE_MEMORY_SCOPED_REFPTR_H_
+diff --git a/base/memory/shared_memory.h b/base/memory/shared_memory.h
+index 4b66cc6..fb580ce 100644
+--- a/base/memory/shared_memory.h
++++ b/base/memory/shared_memory.h
+@@ -207,6 +207,12 @@ class BASE_EXPORT SharedMemory {
+   // It is safe to call Close repeatedly.
+   void Close();
+ 
++  SharedMemoryHandle GetReadOnlyHandle() {
++    SharedMemoryHandle new_handle;
++    GiveReadOnlyToProcess(GetCurrentProcessHandle(), &new_handle);
++    return new_handle;
++  }
++
+   // Shares the shared memory to another process.  Attempts to create a
+   // platform-specific new_handle which can be used in a remote process to read
+   // the shared memory file.  new_handle is an output parameter to receive the
 diff --git a/base/memory/shared_memory_handle.h b/base/memory/shared_memory_handle.h
-index dc33eea..744ec63 100644
+index dc33eea..1054a71 100644
 --- a/base/memory/shared_memory_handle.h
 +++ b/base/memory/shared_memory_handle.h
 @@ -7,6 +7,7 @@
@@ -80,7 +99,7 @@ index dc33eea..744ec63 100644
  #include "build/build_config.h"
  
  #if defined(OS_WIN)
-@@ -28,7 +29,27 @@ namespace base {
+@@ -28,7 +29,35 @@ namespace base {
  // SharedMemoryHandle is a platform specific type which represents
  // the underlying OS handle to a shared memory segment.
  #if defined(OS_POSIX) && !(defined(OS_MACOSX) && !defined(OS_IOS))
@@ -105,6 +124,14 @@ index dc33eea..744ec63 100644
 +    return this->fd;
 +  }
 +  size_t GetSize() const;
++  bool IsValid() const {
++    return this->fd >= 0;
++  }
++  int Release() {
++    int old_fd = this->fd;
++    this->fd = -1;
++    return old_fd;
++  }
 +};
  #elif defined(OS_WIN)
  class BASE_EXPORT SharedMemoryHandle {
@@ -288,5 +315,5 @@ index 8066704..88f2588 100644
  
  }  // namespace timers
 -- 
-2.24.0.432.g9d3f5f5b63-goog
+2.24.0.393.g34dc348eaf-goog
 
