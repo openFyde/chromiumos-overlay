@@ -322,6 +322,9 @@ get_paths() {
 		else
 			pathelement="${pathbase}/${CROS_WORKON_LOCALNAME[i]}"
 			if [[ ! -d "${pathelement}" ]]; then
+				ewarn "Could not find \"${pathelement}\"."
+				ewarn "The CROS_WORKON_LOCALNAME for this ebuild should be updated"
+				ewarn "to be relative to \"${pathbase}\"."
 				pathelement="${pathbase}/platform/${CROS_WORKON_LOCALNAME[i]}"
 			fi
 		fi
