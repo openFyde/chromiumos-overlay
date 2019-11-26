@@ -2,10 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/bsdiff/bsdiff-4.3-r2.ebuild,v 1.1 2010/12/13 00:35:03 flameeyes Exp $
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT=("a9b6a98b093af51514e7c25b62981b9aad3ffd7c" "10118144d0b8a90496db9f97d55bf607db2c8c8b")
-CROS_WORKON_TREE=("8d4f0a176280a2748eba9800ba25f1bfe8c390c6" "ebe23d95183dfad42797b3d4ffea28ee8af07f92")
+CROS_WORKON_COMMIT=("e2e98964fdf43bbcbf84bb46020b94e67e8b49dd" "dd59520774fe4949de90b5bbdd619f805cd5ae0f")
+CROS_WORKON_TREE=("1e8218a3d15868b67db7aac03b06e3d7de327778" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "04a59b88ccb4355fa29467c39487009c44a1e7d5")
 inherit cros-constants
 
 # cros-workon expects the repo to be in src/third_party, but is in src/aosp.
@@ -26,13 +26,12 @@ HOMEPAGE="http://www.daemonology.net/bsdiff/"
 SRC_URI=""
 
 LICENSE="BSD-2"
-SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	>=app-arch/brotli-1.0.6
-	app-arch/bzip2
-	dev-libs/libdivsufsort
+	>=app-arch/brotli-1.0.6:=
+	app-arch/bzip2:=
+	dev-libs/libdivsufsort:=
 "
 DEPEND="${RDEPEND}"
 

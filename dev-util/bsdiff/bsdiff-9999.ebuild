@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/bsdiff/bsdiff-4.3-r2.ebuild,v 1.1 2010/12/13 00:35:03 flameeyes Exp $
 
-EAPI=6
+EAPI=7
 
 inherit cros-constants
 
@@ -24,13 +24,12 @@ HOMEPAGE="http://www.daemonology.net/bsdiff/"
 SRC_URI=""
 
 LICENSE="BSD-2"
-SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	>=app-arch/brotli-1.0.6
-	app-arch/bzip2
-	dev-libs/libdivsufsort
+	>=app-arch/brotli-1.0.6:=
+	app-arch/bzip2:=
+	dev-libs/libdivsufsort:=
 "
 DEPEND="${RDEPEND}"
 
