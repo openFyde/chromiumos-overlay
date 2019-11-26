@@ -77,10 +77,8 @@ src_unpack() {
 }
 
 src_prepare() {
-	if ! [[ ${PV} == 9999* ]]; then
-		# Link the private sources in the private/ sub-directory if needed
-		ln -sf "${SYSROOT}/firmware/ec-private" "${S}/private"
-	fi
+	# Link the private sources in the private/ sub-directory.
+	ln -sfT "${SYSROOT}/firmware/ec-private" "${S}/private" || die
 }
 
 src_configure() {
