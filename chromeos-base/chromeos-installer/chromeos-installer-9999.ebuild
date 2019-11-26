@@ -36,12 +36,12 @@ RDEPEND="${COMMON_DEPEND}
 	pam? ( app-admin/sudo )
 	chromeos-base/chromeos-common-script
 	!cros_host? (
+		!cros_embedded? ( chromeos-base/chromeos-storage-info )
 		oobe_config? ( chromeos-base/oobe_config )
 		dev-libs/openssl:0=
 	)
 	dev-util/shflags
 	sys-apps/rootdev
-	!cros_embedded? ( chromeos-base/chromeos-storage-info )
 	sys-apps/util-linux
 	sys-apps/which
 	sys-fs/e2fsprogs"
