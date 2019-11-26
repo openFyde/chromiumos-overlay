@@ -20,8 +20,9 @@ RDEPEND=">=app-arch/unrar-5:=
 DEPEND="${RDEPEND}"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-1.27.2-pass-fuse-fd.patch
-	"${FILESDIR}"/${PN}-1.27.2-linker-driver.patch
+	"${FILESDIR}/${PN}-1.27.2-pass-fuse-fd.patch"
+	"${FILESDIR}/${PN}-1.27.2-set-locale-to-utf8.patch"
+	"${FILESDIR}/${PN}-1.27.2-linker-driver.patch"
 )
 
 src_configure() {

@@ -1,0 +1,28 @@
+From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
+Date: Tue, 26 Nov 2019 15:28:15 +1100
+Subject: Set LC_TYPE to en_US.UTF8
+
+In order to correctly list files with non-ASCII characters in RAR
+archives, rar2fs needs to run with a UTF-8 compatible locale.
+
+BUG=chromium:1021818
+---
+ rar2fs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rar2fs.c b/rar2fs.c
+index 3355e28..873fd6c 100644
+--- a/rar2fs.c
++++ b/rar2fs.c
+@@ -5459,7 +5459,7 @@ int main(int argc, char *argv[])
+         int res = 0;
+ 
+ #ifdef HAVE_SETLOCALE
+-        setlocale(LC_CTYPE, "");
++        setlocale(LC_CTYPE, "en_US.UTF8");
+ #endif
+ 
+ #ifdef HAVE_UMASK
+-- 
+2.24.0.393.g34dc348eaf-goog
+
