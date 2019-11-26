@@ -16,6 +16,7 @@ app-shells/dash	vanilla
 net-misc/openssh kerberos hpn
 sys-apps/flashrom dediprog ft2232_spi serprog
 dev-lang/python gdbm
+sys-apps/smartmontools	-daemon
 sys-fs/lvm2 -thin
 
 # qemu is statically linked with glib when compiled for the host and thus
