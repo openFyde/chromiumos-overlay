@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="Small vector optimization for Rust"
@@ -15,5 +17,4 @@ KEYWORDS="*"
 
 DEPEND="
 	=dev-rust/serde-1*:=
-	=dev-rust/bincode-1.0*:=
 "
