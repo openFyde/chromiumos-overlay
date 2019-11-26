@@ -46,9 +46,6 @@ USE="${USE} -X"
 # Use opengles instead of opengl
 USE="${USE} opengles"
 
-# Enable ozone in Chrome.
-USE="${USE} ozone"
-
 # Enable gestures support in Chrome.
 USE="${USE} evdev_gestures"
 
