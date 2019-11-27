@@ -44,6 +44,9 @@ IUSE="
 	kernel-3_10
 	kernel-3_14
 	kernel-3_18
+	kernel-4_4
+	kernel-4_14
+	kernel-4_19
 	kvm_host
 	kvm_transition
 	lxc
