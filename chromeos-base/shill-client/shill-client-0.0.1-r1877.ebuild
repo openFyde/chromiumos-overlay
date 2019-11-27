@@ -3,23 +3,21 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("f62508ae880a486d4dff25e097ce31862afa3ed7" "4b00ae16c992f7913bc026d3027b41d8b271f436")
-CROS_WORKON_TREE=("1e8218a3d15868b67db7aac03b06e3d7de327778" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "3f40541fc81a02b0264f4e34db746389f57ea776")
-CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
-CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
-CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/update_engine")
-CROS_WORKON_USE_VCSID=1
+CROS_WORKON_COMMIT="0099eef391565296ac85f760315bbc4dc795691b"
+CROS_WORKON_TREE=("1e8218a3d15868b67db7aac03b06e3d7de327778" "cb2396534a4fb05de45e70671e0a3cc32aa47ae2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk .gn" "")
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_SUBTREE="common-mk shill .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="update_engine/client-headers"
+PLATFORM_SUBDIR="shill/client"
 
-inherit cros-debug cros-workon platform
+inherit cros-workon platform
 
-DESCRIPTION="Chrome OS Update Engine client library"
-HOMEPAGE="http://www.chromium.org/"
-SRC_URI=""
+DESCRIPTION="Shill DBus client library for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -38,10 +36,10 @@ DEPEND="
 "
 
 RDEPEND="
-	!<chromeos-base/update_engine-0.0.3
+	!<chromeos-base/shill-0.0.2
 "
 
 src_install() {
 	# Install DBus client library.
-	platform_install_dbus_client_lib "update_engine"
+	platform_install_dbus_client_lib "shill"
 }
