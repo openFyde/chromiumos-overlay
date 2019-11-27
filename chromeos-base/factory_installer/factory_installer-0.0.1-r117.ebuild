@@ -145,8 +145,12 @@ src_install() {
 	newins $PMBR_SOURCE .pmbr_code
 
 	einfo "Install resources from chromeos-base/factory."
-	factory_unpack_resource installer "${ED}usr" || \
-		die "Failed to unpack resource 'installer'."
+	factory_unpack_resource installer "${ED}usr"
+
+	if [[ -f "$(factory_get_resource_archive_path installer-board)" ]]; then
+		einfo "Install resources from chromeos-base/factory-board."
+		factory_unpack_resource installer-board "${ED}"
+	fi
 }
 
 pkg_postinst() {
