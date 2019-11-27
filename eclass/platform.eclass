@@ -24,12 +24,17 @@
 
 # @ECLASS-VARIABLE: PLATFORM_SUBDIR
 # @DESCRIPTION:
-# Subdir in src/platform2 where the package is located.
+# Subdir in src/platform2 where the gyp file is located.
 
 # @ECLASS-VARIABLE: PLATFORM_NATIVE_TEST
 # @DESCRIPTION:
 # If set to yes, run the test only for amd64 and x86.
 : ${PLATFORM_NATIVE_TEST:="no"}
+
+# @ECLASS-VARIABLE: PLATFORM_GYP_FILE
+# @DESCRIPTION:
+# Name of GYP file within PLATFORM_SUBDIR.
+: ${PLATFORM_GYP_FILE:="${PLATFORM_SUBDIR}.gyp"}
 
 # @ECLASS-VARIABLE: PLATFORM_ARC_BUILD
 # @DESCRIPTION:
@@ -49,7 +54,7 @@ if [[ "${WANT_LIBBRILLO}" == "yes" ]]; then
 	RDEPEND="chromeos-base/libbrillo:="
 fi
 
-# While not all packages utilize USE=test, it's common to write gn conditionals
+# While not all packages utilize USE=test, it's common to write gyp conditionals
 # based on the flag.  Add it to the eclass so ebuilds don't have to duplicate it
 # everywhere even if they otherwise aren't using the flag.
 IUSE="cros_host test"
@@ -189,7 +194,7 @@ platform_src_configure() {
 	cros-debug-add-NDEBUG
 	append-lfs-flags
 	sanitizers-setup-env
-	platform_configure "$@"
+	platform_configure "${S}/${PLATFORM_GYP_FILE}" "$@"
 }
 
 platform_src_test() {
