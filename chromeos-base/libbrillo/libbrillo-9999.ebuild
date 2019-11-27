@@ -48,13 +48,18 @@ DEPEND="
 "
 
 src_install() {
-	local v
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	for v in "${LIBCHROME_VERS[@]}"; do
-		dolib.so "${OUT}"/lib/lib{brillo,installattributes,policy}*-"${v}".so
-		dolib.a "${OUT}"/libbrillo*-"${v}".a
-		doins "${OUT}"/obj/libbrillo/libbrillo*-"${v}".pc
-	done
+
+	dolib.so "${OUT}"/lib/lib{brillo,installattributes,policy}*.so
+	dolib.a "${OUT}"/libbrillo*.a
+	# Install libbrillo with and without version number as a temporary
+	# measure.
+	doins "${OUT}"/obj/libbrillo/libbrillo*.pc
+	# Add symbolic links libpolicy-${LIBCHROME_VERS[0]}.so (points to
+	# libpolicy.so) and libinstallattributes-${LIBCHROME_VERS[0]}.so
+	# (points to libinstallattributes.so).
+	dosym libpolicy.so /usr/$(get_libdir)/libpolicy-${LIBCHROME_VERS[0]}.so
+	dosym libinstallattributes.so /usr/$(get_libdir)/libinstallattributes-${LIBCHROME_VERS[0]}.so
 
 	# Install all the header files from libbrillo/brillo/*.h into
 	# /usr/include/brillo (recursively, with sub-directories).
@@ -76,10 +81,7 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local v
-	for v in "${LIBCHROME_VERS[@]}"; do
-		platform_test "run" "${OUT}/libbrillo-${v}_tests"
-		platform_test "run" "${OUT}/libinstallattributes-${v}_tests"
-		platform_test "run" "${OUT}/libpolicy-${v}_tests"
-	done
+	platform_test "run" "${OUT}/libbrillo_tests"
+	platform_test "run" "${OUT}/libinstallattributes_tests"
+	platform_test "run" "${OUT}/libpolicy_tests"
 }
