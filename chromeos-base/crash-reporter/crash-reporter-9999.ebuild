@@ -66,6 +66,8 @@ pkg_setup() {
 	# A group to manage file permissions for files that crash reporter
 	# components need to access.
 	enewgroup "crash-access"
+	# A group to grant access to the user's crash directory (in /home)
+	enewgroup "crash-user-access"
 	cros-workon_pkg_setup
 }
 
