@@ -133,6 +133,7 @@ ALL_BOARDS=(
 	edgar
 	elm
 	elm-cheets
+	elm-kernelnext
 	#emeraldlake2
 	endeavour
 	enguarde
