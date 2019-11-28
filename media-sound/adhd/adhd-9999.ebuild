@@ -7,13 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
 
-# Note: Do *NOT* add any more boards to this list.  Files should be installed
-# via bsp packages now, or configured via unibuild config settings.
-CROS_BOARDS=(
-	whirlwind
-)
-
-inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon cros-board systemd user libchrome-version
+inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon systemd user libchrome-version
 
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="http://www.chromium.org"
@@ -95,8 +89,7 @@ src_configure() {
 }
 
 src_compile() {
-	local board=$(get_current_board_with_variant)
-	emake BOARD=${board} CC="$(tc-getCC)" || die "Unable to build ADHD"
+	emake CC="$(tc-getCC)" || die "Unable to build ADHD"
 }
 
 src_test() {
@@ -112,58 +105,14 @@ src_test() {
 }
 
 src_install() {
-	local board=$(get_current_board_with_variant)
-	# Get board name without variant E.g.
-	# get daisy from daisy_spring,
-	local board_no_variant=$(get_current_board_no_variant)
-	# Search the boards that are relevant to this board. E.g.
-	# for daisy_spring, search in this order:
-	# daisy_spring, daisy to find the files.
-	local board_all=( ${board} ${board_no_variant} )
-	emake BOARD=${board} DESTDIR="${D}" SYSTEMD=$(usex systemd) install
+	emake DESTDIR="${D}" SYSTEMD="$(usex systemd)" install
 
-	# install alsa config files
-	insinto /etc/modprobe.d
-	local b
-	for b in "${board_all[@]}" ; do
-		local alsa_conf=alsa-module-config/alsa-${b}.conf
-		if [[ -f ${alsa_conf} ]] ; then
-			doins ${alsa_conf}
-			break
-		fi
-	done
-
-	# install alsa patch files
-	insinto /lib/firmware
-	for b in "${board_all[@]}" ; do
-		local alsa_patch=alsa-module-config/${b}_alsa.fw
-		if [[ -f ${alsa_patch} ]] ; then
-			doins ${alsa_patch}
-			break
-		fi
-	done
-
-	# install ucm config files
-	insinto /usr/share/alsa/ucm
-	local board_dir
-	for board_dir in "${board_all[@]}" ; do
-		if [[ -d ucm-config/${board_dir} ]] ; then
-			doins -r ucm-config/${board_dir}/*
-			break
-		fi
-	done
 	# install common ucm config files.
+	insinto /usr/share/alsa/ucm
 	doins -r ucm-config/for_all_boards/*
 
-	# install cras config files
-	insinto /etc/cras
-	for board_dir in "${board_all[@]}" ; do
-		if [[ -d cras-config/${board_dir} ]] ; then
-			doins -r cras-config/${board_dir}/*
-			break
-		fi
-	done
 	# install common cras config files.
+	insinto /etc/cras
 	doins -r cras-config/for_all_boards/*
 
 	# install dbus config allowing cras access
