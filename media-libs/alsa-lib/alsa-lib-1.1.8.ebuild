@@ -26,6 +26,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.1.6-missing_files.patch" #652422
 	"${FILESDIR}/0001-Force-ucm-back-to-CRAS-version.patch"
 	"${FILESDIR}/0001-conf-ucm-delete-conflicting-ucm.patch"
+	"${FILESDIR}/0001-ucm-Use-strncmp-to-avoid-access-out-of-boundary.patch"
 )
 
 pkg_setup() {
