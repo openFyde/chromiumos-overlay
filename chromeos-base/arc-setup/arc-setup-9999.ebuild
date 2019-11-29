@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk arc/setup chromeos-config metrics .gn"
+CROS_WORKON_SUBTREE="common-mk arc/network arc/setup chromeos-config metrics .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/setup"
@@ -43,6 +43,7 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
+	chromeos-base/arc-networkd
 	chromeos-base/swap-init
 	esdfs? ( sys-apps/restorecon )
 "
