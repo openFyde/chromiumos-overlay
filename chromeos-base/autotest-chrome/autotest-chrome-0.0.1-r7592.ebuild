@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="c019ad6bc0552a0e1c216bf3274ea38593f3814c"
-CROS_WORKON_TREE="b72eba4bb559afa3514e389c69e6aadaa73ce41a"
+CROS_WORKON_COMMIT="f200a2d64591377ed49bbbbc561f3a6394cd9315"
+CROS_WORKON_TREE="a20f1ea52dd8e4f6a7ae712bffeaae50f74f8eab"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -234,7 +234,6 @@ IUSE_TESTS=(
 	+tests_touch_TouchscreenZoom
 	+tests_touch_StylusTaps
 	+tests_video_AVAnalysis
-	+tests_video_HangoutHardwarePerf
 	+tests_video_PlaybackPerf
 	+tests_video_WebRtcPerf
 )
