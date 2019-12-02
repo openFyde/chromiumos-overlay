@@ -3,10 +3,10 @@ DEPEND=dev-haskell/aeson:=[profile?] >=dev-haskell/diff-0.2.0:=[profile?] >=dev-
 DESCRIPTION=Shell script analysis tool
 EAPI=6
 HOMEPAGE=https://www.shellcheck.net/
-IUSE=cros_host cros_workon_tree_473e1087060f18c3161fe91c3c1fa1bd770c6d76 doc hscolour profile test
+IUSE=cros_host cros_workon_tree_4287e479dc2abed194bc587e1c27c8c62d63a8e9 doc hscolour profile test
 KEYWORDS=*
 LICENSE=GPL-3
 PROPERTIES=live
 SLOT=0/0.7
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-workon	3b601120f312bbae79125777d6e788db	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	ghc-package	a87d404fca43c39142c7df928fd1021a	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	haskell-cabal	45605f3898bdc59eb016fb50ca27bf18	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
-_md5_=98b2eafe7a8a0ceac3563f7efe2ec28a
+_md5_=dd7b284b6691197a33fc268beb4b1efe
