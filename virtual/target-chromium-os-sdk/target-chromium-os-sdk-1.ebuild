@@ -296,7 +296,6 @@ RDEPEND="${RDEPEND}
 	dev-python/mysqlclient
 	dev-python/sqlalchemy
 	dev-python/pyparsing
-	dev-python/python-statsd
 	dev-python/virtualenv
 	"
 
