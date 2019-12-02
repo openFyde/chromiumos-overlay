@@ -3,8 +3,8 @@
 # $Header: $
 
 EAPI="4"
-CROS_WORKON_COMMIT="dfd556ca4a9f8669a5b8ded5b6f0dd46836ee598"
-CROS_WORKON_TREE="778623e4c83600cadcbb5c1b9f091991087ac7e9"
+CROS_WORKON_COMMIT="d565ea8e106af7c13272898ab3b8d37f83d52673"
+CROS_WORKON_TREE="95333f1a31d305ca8ee462df54ecabf9ed01a829"
 CROS_WORKON_PROJECT="chromiumos/third_party/em100"
 
 inherit cros-workon toolchain-funcs
