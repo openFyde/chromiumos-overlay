@@ -14,7 +14,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="fuzzer"
+IUSE="fuzzer generated_cros_config"
 
 DEPEND="
 	!fuzzer? ( virtual/chromeos-config-bsp:= )
@@ -31,6 +31,11 @@ S=${WORKDIR}
 # Merges all of the source YAML config files and generates the
 # corresponding build config and platform config files.
 src_compile() {
+	if use generated_cros_config ; then
+		einfo "Config files already generated, nothing to compile."
+		return 0
+	fi
+
 	local yaml_files=( "${SYSROOT}${UNIBOARD_YAML_DIR}/"*.yaml )
 	local input_yaml_files=()
 	local yaml="${WORKDIR}/config.yaml"
@@ -61,6 +66,11 @@ src_compile() {
 }
 
 src_install() {
+	if use generated_cros_config ; then
+		einfo "Config files already generated, nothing to install."
+		return 0
+	fi
+
 	# Get the directory name only, and use that as the install directory.
 	if [[ -e "${WORKDIR}/config.json" ]]; then
 		insinto "${UNIBOARD_JSON_INSTALL_PATH%/*}"
@@ -146,9 +156,36 @@ _verify_file_dump() {
 	fi
 }
 
+# @FUNCTION: _verify_generated_files
+# @USAGE:
+# @INTERNAL
+# @DESCRIPTION:
+# Verifies that all generated files are installed. Should only be called when
+# the generated_cros_config USE flag is set.
+_verify_generated_files() {
+	local expected_files=(
+		"${SYSROOT}${UNIBOARD_JSON_INSTALL_PATH}"
+		"${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
+		"${SYSROOT}${UNIBOARD_YAML_DIR}/config.c"
+		"${SYSROOT}${UNIBOARD_YAML_DIR}/ec_config.h"
+		"${SYSROOT}${UNIBOARD_YAML_DIR}/ec_config.c"
+	)
+
+	for f in "${expected_files[@]}"; do
+		if [[ ! -e "${f}" ]]; then
+			eerror "${f} not found."
+			die
+		fi
+	done
+}
+
 src_test() {
-	_verify_config_dump model.yaml config_dump.json
-	_verify_config_dump private-model.yaml config_dump-private.json
+	if use generated_cros_config; then
+		_verify_generated_files
+	else
+		_verify_config_dump model.yaml config_dump.json
+		_verify_config_dump private-model.yaml config_dump-private.json
+	fi
 
 	_verify_file_dump "" # No suffix for public files
 	_verify_file_dump "-private"
