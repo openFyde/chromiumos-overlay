@@ -15,6 +15,10 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="python"
+
+RDEPEND="python? ( ${PYTHON_DEPS} )"
+DEPEND="${RDEPEND}"
 
 # Disable unit testing for now because one of the test cases for detecting
 # buffer overflow causes emake to fail when fmap_test is run.
@@ -39,9 +43,11 @@ src_test() {
 src_install() {
 	emake LIBDIR=$(get_libdir) DESTDIR="${D}" USE_PKG_CONFIG=1 install
 
-	install_python() {
-		insinto "$(python_get_sitedir)"
-		doins "fmap.py"
-	}
-	python_foreach_impl install_python
+	if use python; then
+		install_python() {
+			insinto "$(python_get_sitedir)"
+			doins "fmap.py"
+		}
+		python_foreach_impl install_python
+	fi
 }
