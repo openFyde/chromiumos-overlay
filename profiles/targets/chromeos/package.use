@@ -146,6 +146,7 @@ media-libs/freetype	png -bzip2
 
 # We don't need Python in these packages, so save some space.
 dev-libs/boost -python
+sys-apps/flashmap -python
 
 # Freeze Python 2.7 versions for all existing packages.  We'll slowly trim this
 # list down as packages don't need them.  New packages should *not* be added
@@ -352,7 +353,6 @@ sci-geosciences/gpsd python_targets_python2_7
 sci-libs/tensorflow python_targets_python2_7
 sys-apps/dtc python_targets_python2_7
 sys-apps/file python_targets_python2_7
-sys-apps/flashmap python_targets_python2_7
 sys-apps/fwupd python_targets_python2_7
 sys-apps/i2c-tools python_targets_python2_7
 sys-apps/kmod python_targets_python2_7
