@@ -55,7 +55,6 @@ src_test() {
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/9s"
 
-	# We don't have a seccomp policy for arm64 yet.
 	insinto /usr/share/policy
-	use arm64 || newins "seccomp/9s-seccomp-${ARCH}.policy" 9s-seccomp.policy
+	newins "seccomp/9s-seccomp-${ARCH}.policy" 9s-seccomp.policy
 }
