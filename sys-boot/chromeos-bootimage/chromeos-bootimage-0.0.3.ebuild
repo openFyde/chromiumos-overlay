@@ -32,6 +32,7 @@ REQUIRED_USE="
 "
 
 DEPEND="
+	chromeos-base/vboot_reference
 	sys-boot/coreboot
 	sys-boot/depthcharge
 	bmpblk? ( sys-boot/chromeos-bmpblk )
