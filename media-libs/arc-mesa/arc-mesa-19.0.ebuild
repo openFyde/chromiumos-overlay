@@ -199,6 +199,7 @@ src_prepare() {
 	if ! use android-container-nyc; then
 		epatch "${FILESDIR}"/UPSTREAM-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_FP.patch
 	fi
+	epatch "${FILESDIR}"/UPSTREAM-intel-compiler-force-simd8-when-dual-src-blending-on.patch
 	default
 }
 
