@@ -105,7 +105,7 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="detachable_ui diag_payload"
+IUSE="menu_ui legacy_menu_ui diag_payload"
 
 BDEPEND="${PYTHON_DEPS}"
 DEPEND="virtual/chromeos-vendor-strings"
@@ -140,8 +140,10 @@ src_prepare() {
 
 src_compile() {
 	local vendor_strings_dir="${SYSROOT}/firmware/vendor-strings"
-	if use detachable_ui ; then
-		export DETACHABLE_UI=1
+	if use menu_ui ; then
+		export MENU_UI=1
+	elif use legacy_menu_ui ; then
+		export LEGACY_MENU_UI=1
 	fi
 	# Using diagnostic payload implies enabling UI to run it
 	if use diag_payload ; then
