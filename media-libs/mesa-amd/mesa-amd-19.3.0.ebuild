@@ -110,6 +110,15 @@ src_prepare() {
 			configure.ac || die
 	fi
 
+	# https://gitlab.freedesktop.org/mesa/mesa/merge_requests/332
+	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
+	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
+
+	# See b/113330262.
+	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
+
+	epatch "${FILESDIR}"/CHROMIUM-HACK-remove-unknown-radv-extensions.patch
+
 	default
 }
 
