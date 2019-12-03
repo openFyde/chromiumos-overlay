@@ -89,6 +89,7 @@ ALL_BOARDS=(
 	caroline-arc64
 	caroline-arcnext
 	#caroline-bertha
+	caroline-kernelnext
 	caroline-ndktranslation
 	caroline-userdebug
 	cardhu
