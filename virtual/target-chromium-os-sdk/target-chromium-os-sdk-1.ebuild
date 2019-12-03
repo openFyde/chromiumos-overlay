@@ -284,6 +284,7 @@ RDEPEND="${RDEPEND}
 	dev-python/ipython
 	dev-util/patchutils
 	dev-util/perf
+	dev-util/shfmt
 	net-analyzer/netperf
 	sys-apps/less
 	sys-apps/man-pages
