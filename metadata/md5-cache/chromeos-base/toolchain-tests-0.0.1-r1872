@@ -1,12 +1,12 @@
-DEFINED_PHASES=compile configure info install setup unpack
+DEFINED_PHASES=info setup test unpack
 DEPEND=dev-vcs/git
-DESCRIPTION=Exported headers from the embedded controller codebase.
+DESCRIPTION=Compilation and runtime tests for toolchain
 EAPI=5
-HOMEPAGE=https://www.chromium.org/chromium-os/ec-development
-IUSE=cros_host cros_workon_tree_286b337fb9d4bcd00ca9e338dc194515eddc4cf0
+HOMEPAGE=http://www.chromium.org/
+IUSE=cros_host cros_workon_tree_366513e6ddf4d39d5f63d4351bc0b6ac82058831
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-workon	3b601120f312bbae79125777d6e788db	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=e757e36bb67f89607c2e4573d0f29c82
+_md5_=8d69c0a4c56c41ab30555724f5c9b3a4
