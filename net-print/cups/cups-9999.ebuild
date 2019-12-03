@@ -338,21 +338,16 @@ multilib_src_install_all() {
 
 	# Removes files and directories not used by Chrome OS.
 	rm -rv \
-		"${ED}"usr/share/cups/drv/ \
 		"${ED}"usr/share/cups/ppdc/ \
-			|| die
+			|| die "failed to remove some directories"
 	rm -v \
 		"${ED}"etc/cups/*.default \
 		"${ED}"etc/cups/snmp.conf \
 		"${ED}"usr/bin/cancel \
 		"${ED}"usr/bin/cupstestdsc \
-		"${ED}"usr/bin/ppd* \
 		"${ED}"usr/libexec/cups/backend/http \
 		"${ED}"usr/libexec/cups/backend/https \
 		"${ED}"usr/libexec/cups/backend/snmp \
-		"${ED}"usr/libexec/cups/daemon/cups-deviced \
-		"${ED}"usr/libexec/cups/daemon/cups-driverd \
-		"${ED}"usr/libexec/cups/daemon/cups-lpd \
 		"${ED}"usr/libexec/cups/filter/rastertodymo \
 		"${ED}"usr/sbin/accept \
 		"${ED}"usr/sbin/cupsaddsmb \
@@ -360,7 +355,7 @@ multilib_src_install_all() {
 		"${ED}"usr/sbin/cupsreject \
 		"${ED}"usr/sbin/lpmove \
 		"${ED}"usr/sbin/reject \
-			|| die
+			|| die "failed to remove some files"
 }
 
 pkg_preinst() {
