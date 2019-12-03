@@ -143,6 +143,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50InvalidateRW
 	+tests_firmware_Cr50Open
 	+tests_firmware_Cr50OpenWhileAPOff
+	+tests_firmware_Cr50PartialBoardId
 	+tests_firmware_Cr50Password
 	+tests_firmware_Cr50PinWeaverServer
 	+tests_firmware_Cr50RddG3
