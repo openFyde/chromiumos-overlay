@@ -298,6 +298,11 @@ SERVER_IUSE_TESTS="
 	+tests_power_ServoChargeStress
 	+tests_power_ServodWrapper
 	+tests_provision_AutoUpdate
+	+tests_provision_CheetsUpdate
+	+tests_provision_Cr50TOT
+	+tests_provision_Cr50Update
+	+tests_provision_FactoryImage
+	+tests_provision_FirmwareUpdate
 	+tests_rlz_CheckPing
 	+tests_security_kASLR
 	+tests_sequences
