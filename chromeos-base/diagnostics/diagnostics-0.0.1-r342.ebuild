@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="1375937bdd9a00d99a0a4beb6a2f2c45fa61fe11"
+CROS_WORKON_COMMIT="caadbbe8ca71141a1d8cafc142c962ef6b096276"
 CROS_WORKON_TREE=("587fcc1fc96e0444ffe553cf04588b83796f3de2" "44f6ab4dc89d3a914343a636a939d44a3a826b37" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -118,6 +118,7 @@ src_install() {
 platform_pkg_test() {
 	local tests=(
 		cros_healthd_test
+		libcommon_test
 		libcros_healthd_utils_test
 		libdiag_test
 		libgrpc_async_adapter_test
