@@ -119,6 +119,13 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/CHROMIUM-HACK-remove-unknown-radv-extensions.patch
 
+	# See b/145519080
+	epatch "${FILESDIR}"/19.3-Revert-dri_interface-add-interface-for-EGL_EXT_image.patch
+	epatch "${FILESDIR}"/19.3-Revert-egl-handle-EGL_IMAGE_EXTERNAL_FLUSH_EXT.patch
+	epatch "${FILESDIR}"/19.3-Revert-egl-implement-new-functions-from-EGL_EXT_imag.patch
+	epatch "${FILESDIR}"/19.3-Revert-st-dri-add-support-for-EGL_EXT_image_flush_ex.patch
+	epatch "${FILESDIR}"/19.3-Revert-st-dri-assume-external-consumers-of-back-buff.patch
+
 	default
 }
 
