@@ -204,6 +204,7 @@ IUSE_TESTS=(
 	+tests_policy_UserNativePrintersAllowed
 	+tests_policy_VirtualMachinesAllowed
 	+tests_policy_WilcoOnNonWilcoDevice
+	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
 	+tests_power_Consumption
 	+tests_power_Display
