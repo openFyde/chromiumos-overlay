@@ -33,6 +33,7 @@ IUSE="
 	disable_cros_video_decoder
 	+display_backlight
 	dlc_test
+	+drivefs
 	drm_atomic
 	fizz
 	grunt
