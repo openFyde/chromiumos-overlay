@@ -5,5 +5,6 @@ sys-kernel/chromeos-kernel-3_18 debug
 sys-kernel/chromeos-kernel-4_4 debug
 sys-kernel/chromeos-kernel-4_14 debug
 sys-kernel/chromeos-kernel-4_19 debug
+sys-kernel/chromeos-kernel-5_4 debug
 sys-kernel/chromeos-kernel-experimental debug
 sys-kernel/chromeos-kernel-next debug
