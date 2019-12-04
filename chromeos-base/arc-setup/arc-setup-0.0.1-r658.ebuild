@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3fe852bfaaeb3d7ad36c6b02998262de3e6bce51"
+CROS_WORKON_COMMIT="caadbbe8ca71141a1d8cafc142c962ef6b096276"
 CROS_WORKON_TREE=("587fcc1fc96e0444ffe553cf04588b83796f3de2" "70f5b227fc0127f0779f4f1f15da0eb6da598cd8" "b5f0e8e6c455b5f0825eccb3846fbdf31a73593f" "a77eac030d6b8d943f22b938bbb94a3547feb2c9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,13 +23,15 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/se
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="
-	arcvm
+	arcpp
 	esdfs
 	fuzzer
 	houdini
 	houdini64
 	ndk_translation
 	unibuild"
+
+REQUIRED_USE="arcpp"
 
 COMMON_DEPEND="
 	chromeos-base/bootstat:=
@@ -64,13 +66,11 @@ src_install() {
 	dosbin "${OUT}"/arc-setup
 
 	insinto /etc/init
-	if ! use arcvm; then
-		doins etc/arc-boot-continue.conf
-		doins etc/arc-kmsg-logger.conf
-		doins etc/arc-lifetime.conf
-		doins etc/arc-sensor.conf
-		doins etc/arc-update-restorecon-last.conf
-	fi
+	doins etc/arc-boot-continue.conf
+	doins etc/arc-kmsg-logger.conf
+	doins etc/arc-lifetime.conf
+	doins etc/arc-sensor.conf
+	doins etc/arc-update-restorecon-last.conf
 	if use esdfs; then
 		doins etc/arc-sdcard.conf
 		doins etc/arc-sdcard-mount.conf
@@ -90,18 +90,16 @@ src_install() {
 		enable_esdfs "${D}/usr/share/arc-setup/config.json"
 	fi
 
-	if ! use arcvm; then
-		insinto /opt/google/containers/arc-art
-		doins "${OUT}/dev-rootfs.squashfs"
+	insinto /opt/google/containers/arc-art
+	doins "${OUT}/dev-rootfs.squashfs"
 
-		# container-root is where the root filesystem of the container in which
-		# patchoat and dex2oat runs is mounted. dev-rootfs is mount point
-		# for squashfs.
-		diropts --mode=0700 --owner=root --group=root
-		keepdir /opt/google/containers/arc-art/mountpoints/container-root
-		keepdir /opt/google/containers/arc-art/mountpoints/dev-rootfs
-		keepdir /opt/google/containers/arc-art/mountpoints/vendor
-	fi
+	# container-root is where the root filesystem of the container in which
+	# patchoat and dex2oat runs is mounted. dev-rootfs is mount point
+	# for squashfs.
+	diropts --mode=0700 --owner=root --group=root
+	keepdir /opt/google/containers/arc-art/mountpoints/container-root
+	keepdir /opt/google/containers/arc-art/mountpoints/dev-rootfs
+	keepdir /opt/google/containers/arc-art/mountpoints/vendor
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_expand_property_contents_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer
