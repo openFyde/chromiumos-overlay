@@ -111,11 +111,25 @@ main() {
   # for wlan0 over dbus, so 3 is the only "happy" case for users here.
   local wifi_status=0
   local buf
+  local port
+  local bc
+
+  log "$1 was removed. Trying to revive"
 
   # Get rid of wifi module to restart cleanly.
   modprobe -r iwlmvm iwlwifi
+  # Find the WiFi PCIe root port.
+  port="$(basename "$(dirname "$1")")"
+  # Get the current bridge control.
+  bc=$(setpci -s "${port}" BRIDGE_CONTROL)
+  # Turn on bit 6 - secondary bus reset.
+  setpci -s "${port}" BRIDGE_CONTROL="$(printf "%04x" $((0x${bc} | 0x40)))"
+  sleep 0.01
+  # Turn secondary bus reset off.
+  setpci -s "${port}" BRIDGE_CONTROL="${bc}"
+  sleep 1
   log "Starting pci bus rescan"
-  echo 1 > /sys/bus/pci/rescan
+  echo 1 > "/sys/bus/pci/devices/${port}/rescan"
   # Delay b/w rescanning pci bus and wlan0 appearining is 100-300 ms. Hence
   # sleep here to make the checks below easier.
   sleep 1
@@ -143,4 +157,4 @@ main() {
   metrics_client -e Platform.WiFiStatusAfterForcedPCIRescan ${wifi_status} 3
 }
 
-main
+main "$@"
