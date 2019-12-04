@@ -10,5 +10,5 @@ RDEPEND=>=dev-libs/glib-2.14:2 netlink? ( dev-libs/libnl ) adns? ( !libadns? ( >
 REQUIRED_USE=?? ( gtk2 gtk3 qt4 ) ssl? ( crypt )
 SLOT=0/1.10.5
 SRC_URI=http://www.wireshark.org/download/src/all-versions/wireshark-1.10.5.tar.bz2
-_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	user	9b418e566f412ef04237d17d3e63d94a
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	user	80df3e896cd7f906710429455a106daf
 _md5_=25c92c79aac747634add3f65aef3b225
