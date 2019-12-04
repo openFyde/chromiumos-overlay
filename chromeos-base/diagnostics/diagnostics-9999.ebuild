@@ -35,6 +35,7 @@ DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/minijail
+	dev-util/stressapptest
 	wilco? (
 		chromeos-base/chromeos-dtc-vm
 		chromeos-base/vpd
