@@ -1,0 +1,64 @@
+From 8f6b40594ec693267f809cc28f4982ab86ad9b24 Mon Sep 17 00:00:00 2001
+From: "Zhang, Boyuan" <Boyuan.Zhang@amd.com>
+Date: Wed, 4 Dec 2019 14:16:29 +0000
+Subject: [PATCH] radeonsi: Add support for midstream bitrate change in encoder
+
+BACKPORT: Remove |picture| argument from enc->begin in radeon_vcn_enc.c
+
+Change-Id: Ia4ee5a2a37095b2309fb53e70aaac7e99cc87021
+Reviewed-by: Boyuan Zhang <Boyuan.Zhang@amd.com<mailto:Boyuan.Zhang@amd.com>>
+---
+ src/gallium/drivers/radeon/radeon_vce.c     |  3 ++-
+ src/gallium/drivers/radeon/radeon_vcn_enc.c | 15 +++++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/src/gallium/drivers/radeon/radeon_vce.c b/src/gallium/drivers/radeon/radeon_vce.c
+index 84d3c1e2fa4d..7d2448ec144a 100644
+--- a/src/gallium/drivers/radeon/radeon_vce.c
++++ b/src/gallium/drivers/radeon/radeon_vce.c
+@@ -268,7 +268,8 @@ static void rvce_begin_frame(struct pipe_video_codec *encoder,
+ 		enc->pic.rate_ctrl.rate_ctrl_method != pic->rate_ctrl.rate_ctrl_method ||
+ 		enc->pic.quant_i_frames != pic->quant_i_frames ||
+ 		enc->pic.quant_p_frames != pic->quant_p_frames ||
+-		enc->pic.quant_b_frames != pic->quant_b_frames;
++               enc->pic.quant_b_frames != pic->quant_b_frames ||
++               enc->pic.rate_ctrl.target_bitrate != pic->rate_ctrl.target_bitrate;
+ 
+ 	enc->pic = *pic;
+ 	si_get_pic_param(enc, pic);
+diff --git a/src/gallium/drivers/radeon/radeon_vcn_enc.c b/src/gallium/drivers/radeon/radeon_vcn_enc.c
+index aa9182f273b6..6cd0b2cf40d4 100644
+--- a/src/gallium/drivers/radeon/radeon_vcn_enc.c
++++ b/src/gallium/drivers/radeon/radeon_vcn_enc.c
+@@ -247,6 +247,17 @@ static void radeon_enc_begin_frame(struct pipe_video_codec *encoder,
+ {
+ 	struct radeon_encoder *enc = (struct radeon_encoder*)encoder;
+ 	struct vl_video_buffer *vid_buf = (struct vl_video_buffer *)source;
++       bool need_rate_control = false;
++
++       if (u_reduce_video_profile(enc->base.profile) == PIPE_VIDEO_FORMAT_MPEG4_AVC) {
++               struct pipe_h264_enc_picture_desc *pic = (struct pipe_h264_enc_picture_desc *)picture;
++               need_rate_control =
++                       enc->enc_pic.rc_layer_init.target_bit_rate != pic->rate_ctrl.target_bitrate;
++       } else if (u_reduce_video_profile(picture->profile) == PIPE_VIDEO_FORMAT_HEVC) {
++                struct pipe_h265_enc_picture_desc *pic = (struct pipe_h265_enc_picture_desc *)picture;
++               need_rate_control =
++                       enc->enc_pic.rc_layer_init.target_bit_rate != pic->rc.target_bitrate;
++       }
+ 
+ 	radeon_vcn_enc_get_param(enc, picture);
+ 
+@@ -266,6 +277,10 @@ static void radeon_enc_begin_frame(struct pipe_video_codec *encoder,
+ 		flush(enc);
+ 		si_vid_destroy_buffer(&fb);
+ 	}
++       if (need_rate_control) {
++               enc->begin(enc);
++               flush(enc);
++       }
+ }
+ 
+ static void radeon_enc_encode_bitstream(struct pipe_video_codec *encoder,
+-- 
+2.24.0.393.g34dc348eaf-goog
+

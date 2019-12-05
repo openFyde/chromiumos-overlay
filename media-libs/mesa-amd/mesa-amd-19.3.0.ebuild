@@ -126,6 +126,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/19.3-Revert-st-dri-add-support-for-EGL_EXT_image_flush_ex.patch
 	epatch "${FILESDIR}"/19.3-Revert-st-dri-assume-external-consumers-of-back-buff.patch
 
+	# From https://patchwork.freedesktop.org/patch/343687/
+	epatch "${FILESDIR}"/FROMLIST-radeonsi-Add-support-for-midstream-bitrate-change-in.patch
+
 	default
 }
 
