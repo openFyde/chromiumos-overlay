@@ -1,19 +1,23 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 # We can drop this if cros-uniboard stops using cros-board.
 CROS_BOARDS=( none )
 
-inherit cros-unibuild toolchain-funcs
+# This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
+# the canonical empty project.
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="empty-project"
+
+inherit cros-unibuild toolchain-funcs cros-workon
 
 DESCRIPTION="Chromium OS-specific configuration"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 LICENSE="BSD-Google"
-SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE="fuzzer generated_cros_config"
 
 DEPEND="
@@ -24,9 +28,6 @@ RDEPEND="${DEPEND}"
 # This ebuild creates the Chrome OS master configuration file stored in
 # ${UNIBOARD_JSON_INSTALL_PATH}. See go/cros-unified-builds-design for
 # more information.
-
-# There is no workon source directory, so use the work directory.
-S=${WORKDIR}
 
 # Merges all of the source YAML config files and generates the
 # corresponding build config and platform config files.
@@ -74,14 +75,14 @@ src_install() {
 	# Get the directory name only, and use that as the install directory.
 	if [[ -e "${WORKDIR}/config.json" ]]; then
 		insinto "${UNIBOARD_JSON_INSTALL_PATH%/*}"
-		doins config.json
+		doins "${WORKDIR}/config.json"
 	fi
 	insinto "${UNIBOARD_YAML_DIR}"
-	doins config.c
-	doins ec_config.c
-	doins ec_config.h
+	doins "${WORKDIR}/config.c"
+	doins "${WORKDIR}/ec_config.c"
+	doins "${WORKDIR}/ec_config.h"
 	if [[ -e "${WORKDIR}/config.yaml" ]]; then
-		doins config.yaml
+		doins "${WORKDIR}/config.yaml"
 	fi
 }
 
@@ -126,8 +127,8 @@ _verify_config_dump() {
 	local merged_path="${WORKDIR}/${source_yaml}"
 	if [[ -e "${expected_path}" ]]; then
 		if [[ -e "${source_path}" ]]; then
-		  cros_config_schema -o "${merged_path}" -m "${source_path}" \
-			  || die "cros_config_schema failed for build config."
+			cros_config_schema -o "${merged_path}" -m "${source_path}" \
+				|| die "cros_config_schema failed for build config."
 			cros_config_host -c "${merged_path}" dump-config > "${actual_path}"
 			_verify_file_match "${expected_path}" "${actual_path}"
 		else
