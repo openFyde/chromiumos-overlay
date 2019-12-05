@@ -3,4 +3,5 @@
 # found in the LICENSE file.
 
 # List packages that need specific use flags in fuzzer builds.
+chromeos-base/arc-setup arcpp
 chromeos-base/vm_guest_tools kvm_guest
