@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/avtest
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-asan vaapi"
+IUSE="-asan v4l2_codec vaapi"
 
 RDEPEND="vaapi? ( x11-libs/libva )"
 DEPEND="${RDEPEND}"
@@ -30,6 +30,7 @@ src_unpack() {
 
 src_configure() {
 	export USE_VAAPI=$(usex vaapi)
+	export USE_V4L2_CODEC=$(usex v4l2_codec)
 	sanitizers-setup-env
 	cros-common.mk_src_configure
 }
