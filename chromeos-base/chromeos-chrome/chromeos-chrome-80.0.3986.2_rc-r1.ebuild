@@ -66,7 +66,7 @@ IUSE="
 	+thinlto
 	touchview
 	ubsan
-	+v4l2_codec
+	v4l2_codec
 	v4lplugin
 	vaapi
 	verbose
