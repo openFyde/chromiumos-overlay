@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="3fe852bfaaeb3d7ad36c6b02998262de3e6bce51"
+CROS_WORKON_COMMIT="582df65279f849bb8e135c3112467d798761b583"
 CROS_WORKON_TREE=("587fcc1fc96e0444ffe553cf04588b83796f3de2" "fe885bcf4f537b8ae947e8f912729d348387204b" "a77eac030d6b8d943f22b938bbb94a3547feb2c9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -68,6 +68,8 @@ pkg_setup() {
 	# A group to manage file permissions for files that crash reporter
 	# components need to access.
 	enewgroup "crash-access"
+	# A group to grant access to the user's crash directory (in /home)
+	enewgroup "crash-user-access"
 	cros-workon_pkg_setup
 }
 
