@@ -18,7 +18,6 @@ IUSE="detachable_ui diag_payload fwconsole mocktpm pd_sync unibuild
 	verbose debug"
 
 DEPEND="
-	chromeos-base/vboot_reference
 	sys-boot/libpayload
 	unibuild? ( chromeos-base/chromeos-config )
 "
