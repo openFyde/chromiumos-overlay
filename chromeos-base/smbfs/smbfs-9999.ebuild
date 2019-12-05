@@ -7,7 +7,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
-CROS_WORKON_SUBTREE="common-mk smbfs .gn"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk libpasswordprovider smbfs .gn"
 
 PLATFORM_SUBDIR="smbfs"
 
@@ -28,6 +29,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api
+	chromeos-base/libpasswordprovider
 "
 
 pkg_preinst() {
