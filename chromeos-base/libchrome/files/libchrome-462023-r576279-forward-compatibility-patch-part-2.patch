@@ -1,4 +1,4 @@
-From 7bc7a1d9653ca3e3bdce060e799742cd17c0b03d Mon Sep 17 00:00:00 2001
+From 3281fc0818876b7e6babe4b2c26f62377fd02feb Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Tue, 29 Oct 2019 20:24:18 +0900
 Subject: [PATCH 2/5] libchrome: r576279 forward compatibility patch part 2
@@ -6,6 +6,7 @@ Subject: [PATCH 2/5] libchrome: r576279 forward compatibility patch part 2
 
 This CL includes;
 - mojo/public/cpp/system/platform_handle.{h,cpp}:{W,Unw}rapPlatformHandle
+- mojo/public/cpp/system/invitation.{h,cpp}:IncomingInvitation
 - mojo/public/cpp/platform/socket*:mojo::SocketRecvmsg
 - mojo/core/embedder:Init/ScopedIPCSupport
 
@@ -14,23 +15,27 @@ TEST=Build.
 
 Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
 ---
- BUILD.gn                                      |  2 +
+ BUILD.gn                                      |  3 +
  mojo/core/embedder/embedder.cc                | 12 ++++
  mojo/core/embedder/embedder.h                 | 12 ++++
  mojo/core/embedder/scoped_ipc_support.h       | 12 ++++
  .../public/cpp/platform/socket_utils_posix.cc | 16 +++++
  mojo/public/cpp/platform/socket_utils_posix.h | 17 +++++
+ mojo/public/cpp/system/invitation.cc          | 30 +++++++++
+ mojo/public/cpp/system/invitation.h           | 40 ++++++++++++
  mojo/public/cpp/system/platform_handle.cc     | 57 +++++++++++++++++
  mojo/public/cpp/system/platform_handle.h      | 63 +++++++++++++++++++
- 8 files changed, 191 insertions(+)
+ 10 files changed, 262 insertions(+)
  create mode 100644 mojo/core/embedder/embedder.cc
  create mode 100644 mojo/core/embedder/embedder.h
  create mode 100644 mojo/core/embedder/scoped_ipc_support.h
  create mode 100644 mojo/public/cpp/platform/socket_utils_posix.cc
  create mode 100644 mojo/public/cpp/platform/socket_utils_posix.h
+ create mode 100644 mojo/public/cpp/system/invitation.cc
+ create mode 100644 mojo/public/cpp/system/invitation.h
 
 diff --git a/BUILD.gn b/BUILD.gn
-index 4477a86..04fd5ec 100644
+index 4477a86..8124f0a 100644
 --- a/BUILD.gn
 +++ b/BUILD.gn
 @@ -607,6 +607,7 @@ if (use.mojo) {
@@ -41,7 +46,13 @@ index 4477a86..04fd5ec 100644
        "mojo/edk/embedder/connection_params.cc",
        "mojo/edk/embedder/embedder.cc",
        "mojo/edk/embedder/entrypoints.cc",
-@@ -690,6 +691,7 @@ if (use.mojo) {
+@@ -685,11 +686,13 @@ if (use.mojo) {
+       "mojo/public/cpp/bindings/lib/validation_errors.cc",
+       "mojo/public/cpp/bindings/lib/validation_util.cc",
+       "mojo/public/cpp/system/buffer.cc",
++      "mojo/public/cpp/system/invitation.cc",
+       "mojo/public/cpp/system/platform_handle.cc",
+       "mojo/public/cpp/system/simple_watcher.cc",
        "mojo/public/cpp/system/wait.cc",
        "mojo/public/cpp/system/wait_set.cc",
        "mojo/public/cpp/system/watcher.cc",
@@ -148,6 +159,88 @@ index 0000000..307e661
 +}
 +
 +#endif
+diff --git a/mojo/public/cpp/system/invitation.cc b/mojo/public/cpp/system/invitation.cc
+new file mode 100644
+index 0000000..3cfddf4
+--- /dev/null
++++ b/mojo/public/cpp/system/invitation.cc
+@@ -0,0 +1,30 @@
++#include "mojo/public/cpp/system/invitation.h"
++
++namespace mojo {
++
++PlatformChannelEndpoint::PlatformChannelEndpoint(PlatformHandle handle)
++    : handle_(std::move(handle)) {}
++
++PlatformChannelEndpoint::PlatformChannelEndpoint(
++    PlatformChannelEndpoint&& other) = default;
++
++IncomingInvitation::IncomingInvitation() = default;
++
++IncomingInvitation::IncomingInvitation(IncomingInvitation&& other) = default;
++
++IncomingInvitation& IncomingInvitation::operator=(IncomingInvitation&& other) = default;
++
++IncomingInvitation IncomingInvitation::Accept(
++    PlatformChannelEndpoint channel_endpoint) {
++  mojo::edk::SetParentPipeHandle(
++      mojo::edk::ScopedPlatformHandle(mojo::edk::PlatformHandle(
++          channel_endpoint.TakePlatformHandle().TakeFD().release())));
++  return IncomingInvitation();
++}
++
++ScopedMessagePipeHandle IncomingInvitation::ExtractMessagePipe(
++    base::StringPiece token) {
++  return mojo::edk::CreateChildMessagePipe(token.as_string());
++}
++
++}  // namespace mojo
+diff --git a/mojo/public/cpp/system/invitation.h b/mojo/public/cpp/system/invitation.h
+new file mode 100644
+index 0000000..3c58968
+--- /dev/null
++++ b/mojo/public/cpp/system/invitation.h
+@@ -0,0 +1,40 @@
++#ifndef MOJO_PUBLIC_CPP_SYSTEM_INVITATION_H_
++#define MOJO_PUBLIC_CPP_SYSTEM_INVITATION_H_
++
++#include <utility>
++
++#include "base/macros.h"
++#include "base/strings/string_piece.h"
++#include "mojo/edk/embedder/embedder.h"
++#include "mojo/public/cpp/system/platform_handle.h"
++
++namespace mojo {
++
++class PlatformChannelEndpoint {
++ public:
++  explicit PlatformChannelEndpoint(PlatformHandle handle);
++  PlatformChannelEndpoint(PlatformChannelEndpoint&& other);
++  PlatformHandle TakePlatformHandle() WARN_UNUSED_RESULT {
++    return std::move(handle_);
++  }
++ private:
++  PlatformHandle handle_;
++
++  DISALLOW_COPY_AND_ASSIGN(PlatformChannelEndpoint);
++};
++
++class IncomingInvitation {
++ public:
++  IncomingInvitation();
++  IncomingInvitation(IncomingInvitation&& other);
++
++  IncomingInvitation& operator=(IncomingInvitation&& other);
++
++  static IncomingInvitation Accept(
++      PlatformChannelEndpoint channel_endpoint);
++  ScopedMessagePipeHandle ExtractMessagePipe(base::StringPiece token);
++};
++
++} // mojo
++
++#endif // MOJO_PUBLIC_CPP_SYSTEM_INVITATION_H_
 diff --git a/mojo/public/cpp/system/platform_handle.cc b/mojo/public/cpp/system/platform_handle.cc
 index 42e4aba..6116860 100644
 --- a/mojo/public/cpp/system/platform_handle.cc
@@ -303,5 +396,5 @@ index 801264e..e034ef8 100644
  // SharedMemoryHandle. Note that |read_only| is only an indicator of whether
  // |memory_handle| only supports read-only mapping. It does NOT have any
 -- 
-2.24.0.432.g9d3f5f5b63-goog
+2.24.0.393.g34dc348eaf-goog
 
