@@ -129,6 +129,9 @@ src_prepare() {
 	# From https://patchwork.freedesktop.org/patch/343687/
 	epatch "${FILESDIR}"/FROMLIST-radeonsi-Add-support-for-midstream-bitrate-change-in.patch
 
+	# b/144464741
+	epatch "${FILESDIR}"/CHROMIUM-Revert-st-mesa-radeonsi-fix-race-between-destruction.patch
+
 	default
 }
 

@@ -1,0 +1,257 @@
+From f29c0abad76543517e58c773ecb03bf348406ce8 Mon Sep 17 00:00:00 2001
+From: Satyajit Sahu <satyajit.sahu@amd.com>
+Date: Fri, 6 Dec 2019 11:18:17 +0530
+Subject: [PATCH] Revert "st/mesa/radeonsi: fix race between destruction of
+ types and shader compilation"
+
+This reverts commit a6b7068ff5fbf4694a45a6e07adac5047e574514.
+
+Change-Id: Iee7ba4e0dd1599e1939fe7a833d4d8ff0cee10b8
+---
+ src/compiler/glsl/glsl_parser_extras.h        |  1 -
+ src/gallium/drivers/radeonsi/si_pipe.c        | 24 ++++++++-----------
+ src/mesa/drivers/dri/i915/intel_context.c     |  2 +-
+ src/mesa/drivers/dri/i965/brw_context.c       |  2 +-
+ .../drivers/dri/nouveau/nouveau_context.c     |  2 +-
+ .../dri/radeon/radeon_common_context.c        |  2 +-
+ src/mesa/drivers/osmesa/osmesa.c              |  8 +++----
+ src/mesa/drivers/x11/xm_api.c                 |  4 ++--
+ src/mesa/main/context.c                       |  4 ++--
+ src/mesa/main/context.h                       |  2 +-
+ src/mesa/state_tracker/st_context.c           |  3 +--
+ 11 files changed, 24 insertions(+), 30 deletions(-)
+
+diff --git a/src/compiler/glsl/glsl_parser_extras.h b/src/compiler/glsl/glsl_parser_extras.h
+index 2c64e88414d..cfe9dca8b29 100644
+--- a/src/compiler/glsl/glsl_parser_extras.h
++++ b/src/compiler/glsl/glsl_parser_extras.h
+@@ -1012,7 +1012,6 @@ extern "C" {
+ #endif
+ 
+ struct glcpp_parser;
+-struct _mesa_glsl_parse_state;
+ 
+ typedef void (*glcpp_extension_iterator)(
+               struct _mesa_glsl_parse_state *state,
+diff --git a/src/gallium/drivers/radeonsi/si_pipe.c b/src/gallium/drivers/radeonsi/si_pipe.c
+index 01c9d89ab4f..2c26874545d 100644
+--- a/src/gallium/drivers/radeonsi/si_pipe.c
++++ b/src/gallium/drivers/radeonsi/si_pipe.c
+@@ -166,9 +166,6 @@ static void si_destroy_context(struct pipe_context *context)
+ 	struct si_context *sctx = (struct si_context *)context;
+ 	int i;
+ 
+-	util_queue_finish(&sctx->screen->shader_compiler_queue);
+-	util_queue_finish(&sctx->screen->shader_compiler_queue_low_priority);
+-
+ 	/* Unreference the framebuffer normally to disable related logic
+ 	 * properly.
+ 	 */
+@@ -759,17 +756,6 @@ static void si_destroy_screen(struct pipe_screen* pscreen)
+ 	if (!sscreen->ws->unref(sscreen->ws))
+ 		return;
+ 
+-	simple_mtx_destroy(&sscreen->aux_context_lock);
+-
+-	struct u_log_context *aux_log = ((struct si_context *)sscreen->aux_context)->log;
+-	if (aux_log) {
+-		sscreen->aux_context->set_log_context(sscreen->aux_context, NULL);
+-		u_log_context_destroy(aux_log);
+-		FREE(aux_log);
+-	}
+-
+-	sscreen->aux_context->destroy(sscreen->aux_context);
+-
+ 	util_queue_destroy(&sscreen->shader_compiler_queue);
+ 	util_queue_destroy(&sscreen->shader_compiler_queue_low_priority);
+ 
+@@ -799,6 +785,16 @@ static void si_destroy_screen(struct pipe_screen* pscreen)
+ 	si_gpu_load_kill_thread(sscreen);
+ 
+ 	simple_mtx_destroy(&sscreen->gpu_load_mutex);
++	simple_mtx_destroy(&sscreen->aux_context_lock);
++
++	struct u_log_context *aux_log = ((struct si_context *)sscreen->aux_context)->log;
++	if (aux_log) {
++		sscreen->aux_context->set_log_context(sscreen->aux_context, NULL);
++		u_log_context_destroy(aux_log);
++		FREE(aux_log);
++	}
++
++	sscreen->aux_context->destroy(sscreen->aux_context);
+ 
+ 	slab_destroy_parent(&sscreen->pool_transfers);
+ 
+diff --git a/src/mesa/drivers/dri/i915/intel_context.c b/src/mesa/drivers/dri/i915/intel_context.c
+index 14b56f614d9..993ad8bf05f 100644
+--- a/src/mesa/drivers/dri/i915/intel_context.c
++++ b/src/mesa/drivers/dri/i915/intel_context.c
+@@ -599,7 +599,7 @@ intelDestroyContext(__DRIcontext * driContextPriv)
+       driDestroyOptionCache(&intel->optionCache);
+ 
+       /* free the Mesa context */
+-      _mesa_free_context_data(&intel->ctx, true);
++      _mesa_free_context_data(&intel->ctx);
+ 
+       _math_matrix_dtr(&intel->ViewportMatrix);
+ 
+diff --git a/src/mesa/drivers/dri/i965/brw_context.c b/src/mesa/drivers/dri/i965/brw_context.c
+index ac84864f521..aea2baa64fe 100644
+--- a/src/mesa/drivers/dri/i965/brw_context.c
++++ b/src/mesa/drivers/dri/i965/brw_context.c
+@@ -1227,7 +1227,7 @@ intelDestroyContext(__DRIcontext * driContextPriv)
+    driDestroyOptionCache(&brw->optionCache);
+ 
+    /* free the Mesa context */
+-   _mesa_free_context_data(&brw->ctx, true);
++   _mesa_free_context_data(&brw->ctx);
+ 
+    ralloc_free(brw);
+    driContextPriv->driverPrivate = NULL;
+diff --git a/src/mesa/drivers/dri/nouveau/nouveau_context.c b/src/mesa/drivers/dri/nouveau/nouveau_context.c
+index 40102cfa4df..838e909ee3f 100644
+--- a/src/mesa/drivers/dri/nouveau/nouveau_context.c
++++ b/src/mesa/drivers/dri/nouveau/nouveau_context.c
+@@ -217,7 +217,7 @@ nouveau_context_deinit(struct gl_context *ctx)
+ 	nouveau_object_del(&nctx->hw.chan);
+ 
+ 	nouveau_scratch_destroy(ctx);
+-	_mesa_free_context_data(ctx, true);
++	_mesa_free_context_data(ctx);
+ }
+ 
+ void
+diff --git a/src/mesa/drivers/dri/radeon/radeon_common_context.c b/src/mesa/drivers/dri/radeon/radeon_common_context.c
+index 689304aa4fc..47719baa575 100644
+--- a/src/mesa/drivers/dri/radeon/radeon_common_context.c
++++ b/src/mesa/drivers/dri/radeon/radeon_common_context.c
+@@ -270,7 +270,7 @@ void radeonDestroyContext(__DRIcontext *driContextPriv )
+ 
+ 	/* free atom list */
+ 	/* free the Mesa context data */
+-	_mesa_free_context_data(&radeon->glCtx, true);
++	_mesa_free_context_data(&radeon->glCtx);
+ 
+ 	/* free the option cache */
+ 	driDestroyOptionCache(&radeon->optionCache);
+diff --git a/src/mesa/drivers/osmesa/osmesa.c b/src/mesa/drivers/osmesa/osmesa.c
+index acf1e3739ef..e2a2716220f 100644
+--- a/src/mesa/drivers/osmesa/osmesa.c
++++ b/src/mesa/drivers/osmesa/osmesa.c
+@@ -854,7 +854,7 @@ OSMesaCreateContextAttribs(const int *attribList, OSMesaContext sharelist)
+       osmesa->gl_buffer = _mesa_create_framebuffer(osmesa->gl_visual);
+       if (!osmesa->gl_buffer) {
+          _mesa_destroy_visual( osmesa->gl_visual );
+-         _mesa_free_context_data(&osmesa->mesa, true);
++         _mesa_free_context_data( &osmesa->mesa );
+          free(osmesa);
+          return NULL;
+       }
+@@ -891,7 +891,7 @@ OSMesaCreateContextAttribs(const int *attribList, OSMesaContext sharelist)
+              !_tnl_CreateContext( ctx ) ||
+              !_swsetup_CreateContext( ctx )) {
+             _mesa_destroy_visual(osmesa->gl_visual);
+-            _mesa_free_context_data(ctx, true);
++            _mesa_free_context_data(ctx);
+             free(osmesa);
+             return NULL;
+          }
+@@ -919,7 +919,7 @@ OSMesaCreateContextAttribs(const int *attribList, OSMesaContext sharelist)
+ 
+          if (ctx->Version < version_major * 10 + version_minor) {
+             _mesa_destroy_visual(osmesa->gl_visual);
+-            _mesa_free_context_data(ctx, true);
++            _mesa_free_context_data(ctx);
+             free(osmesa);
+             return NULL;
+          }
+@@ -955,7 +955,7 @@ OSMesaDestroyContext( OSMesaContext osmesa )
+       _mesa_destroy_visual( osmesa->gl_visual );
+       _mesa_reference_framebuffer( &osmesa->gl_buffer, NULL );
+ 
+-      _mesa_free_context_data(&osmesa->mesa, true);
++      _mesa_free_context_data( &osmesa->mesa );
+       free( osmesa );
+    }
+ }
+diff --git a/src/mesa/drivers/x11/xm_api.c b/src/mesa/drivers/x11/xm_api.c
+index 63936ac3e16..8b5b2fe9fd3 100644
+--- a/src/mesa/drivers/x11/xm_api.c
++++ b/src/mesa/drivers/x11/xm_api.c
+@@ -944,7 +944,7 @@ XMesaContext XMesaCreateContext( XMesaVisual v, XMesaContext share_list )
+        !_vbo_CreateContext( mesaCtx ) ||
+        !_tnl_CreateContext( mesaCtx ) ||
+        !_swsetup_CreateContext( mesaCtx )) {
+-      _mesa_free_context_data(&c->mesa, true);
++      _mesa_free_context_data(&c->mesa);
+       free(c);
+       return NULL;
+    }
+@@ -981,7 +981,7 @@ void XMesaDestroyContext( XMesaContext c )
+    _swrast_DestroyContext( mesaCtx );
+    _tnl_DestroyContext( mesaCtx );
+    _vbo_DestroyContext( mesaCtx );
+-   _mesa_free_context_data(mesaCtx, true);
++   _mesa_free_context_data( mesaCtx );
+    free( c );
+ }
+ 
+diff --git a/src/mesa/main/context.c b/src/mesa/main/context.c
+index 5a8f0ff191e..af9e6526c3d 100644
+--- a/src/mesa/main/context.c
++++ b/src/mesa/main/context.c
+@@ -1318,7 +1318,7 @@ fail:
+  * \sa _mesa_initialize_context() and init_attrib_groups().
+  */
+ void
+-_mesa_free_context_data(struct gl_context *ctx, bool destroy_compiler_types)
++_mesa_free_context_data( struct gl_context *ctx )
+ {
+    if (!_mesa_get_current_context()){
+       /* No current context, but we may need one in order to delete
+@@ -1421,7 +1421,7 @@ void
+ _mesa_destroy_context( struct gl_context *ctx )
+ {
+    if (ctx) {
+-      _mesa_free_context_data(ctx, true);
++      _mesa_free_context_data(ctx);
+       free( (void *) ctx );
+    }
+ }
+diff --git a/src/mesa/main/context.h b/src/mesa/main/context.h
+index e9b270df14c..7de10e9924b 100644
+--- a/src/mesa/main/context.h
++++ b/src/mesa/main/context.h
+@@ -115,7 +115,7 @@ _mesa_initialize_context( struct gl_context *ctx,
+                           const struct dd_function_table *driverFunctions);
+ 
+ extern void
+-_mesa_free_context_data(struct gl_context *ctx, bool destroy_compiler_types);
++_mesa_free_context_data( struct gl_context *ctx );
+ 
+ extern void
+ _mesa_destroy_context( struct gl_context *ctx );
+diff --git a/src/mesa/state_tracker/st_context.c b/src/mesa/state_tracker/st_context.c
+index 9f72a8ef871..7f3c2300061 100644
+--- a/src/mesa/state_tracker/st_context.c
++++ b/src/mesa/state_tracker/st_context.c
+@@ -85,7 +85,6 @@
+ #include "util/u_upload_mgr.h"
+ #include "util/u_vbuf.h"
+ #include "cso_cache/cso_context.h"
+-#include "compiler/glsl/glsl_parser_extras.h"
+ 
+ 
+ DEBUG_GET_ONCE_BOOL_OPTION(mesa_mvp_dp4, "MESA_MVP_DP4", FALSE)
+@@ -1075,7 +1074,7 @@ st_destroy_context(struct st_context *st)
+ 
+    st_destroy_program_variants(st);
+ 
+-   _mesa_free_context_data(ctx, false);
++   _mesa_free_context_data(ctx);
+ 
+    /* This will free the st_context too, so 'st' must not be accessed
+     * afterwards. */
+-- 
+2.21.0
+
