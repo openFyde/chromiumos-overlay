@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="70a5126e43021ffbdfb5440ebcc29b93ac1c60a4"
-CROS_WORKON_TREE=("587fcc1fc96e0444ffe553cf04588b83796f3de2" "70f5b227fc0127f0779f4f1f15da0eb6da598cd8" "1d4aa06b821af99f85bdbd1e5d03db723214cb22" "a77eac030d6b8d943f22b938bbb94a3547feb2c9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6a63c373f641c2c0a92e743e07127b8ed8fc8444"
+CROS_WORKON_TREE=("587fcc1fc96e0444ffe553cf04588b83796f3de2" "9c1a57432cb9514527e0495712b96dc32d9f88d2" "70f5b227fc0127f0779f4f1f15da0eb6da598cd8" "1d4aa06b821af99f85bdbd1e5d03db723214cb22" "a77eac030d6b8d943f22b938bbb94a3547feb2c9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk arc/setup chromeos-config metrics .gn"
+CROS_WORKON_SUBTREE="common-mk arc/network arc/setup chromeos-config metrics .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/setup"
@@ -45,6 +45,7 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
+	chromeos-base/arc-networkd
 	chromeos-base/swap-init
 	esdfs? ( sys-apps/restorecon )
 "
