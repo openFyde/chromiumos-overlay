@@ -109,6 +109,11 @@ COMMON_DEPEND="
 	)
 	>=dev-libs/libpcre-8.41-r1:3=
 "
+
+# HACK: unconditional dependency on openssl to fix build, see crbug.com/1031533
+COMMON_DEPEND+="
+	>=dev-libs/openssl-1.0.0:0="
+
 DEPEND="virtual/yacc
 	static? ( sys-libs/ncurses[static-libs] )
 	|| ( >=sys-devel/gcc-3.4.6 >=sys-devel/gcc-apple-4.0 )
