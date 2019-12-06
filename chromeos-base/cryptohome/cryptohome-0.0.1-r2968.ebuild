@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="60776a341715ebad1a9474c9443fef4bf6f65024"
+CROS_WORKON_COMMIT="de0a153fd7316221ae5a8a65894d97c1ec27b13c"
 CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "1b66751bab7363a7cee6fc6ee95ba13b43aa8457" "38a36f76290e3e0f13d021ad8597ea5f250a05ba" "f27e9581dc578f9a83beacea11f5e9208ac3da24" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -78,6 +78,7 @@ DEPEND="${RDEPEND}
 src_install() {
 	pushd "${OUT}" >/dev/null
 	dosbin cryptohomed cryptohome cryptohome-proxy cryptohome-path lockbox-cache tpm-manager
+	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
 	if use tpm2; then
 		dosbin bootlockboxd bootlockboxtool
