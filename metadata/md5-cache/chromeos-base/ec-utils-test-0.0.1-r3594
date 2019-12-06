@@ -1,13 +1,13 @@
-DEFINED_PHASES=configure info install prepare setup unpack
+DEFINED_PHASES=compile info install setup unpack
 DEPEND=dev-vcs/git
-DESCRIPTION=Autotest server web frontend
-EAPI=4
-HOMEPAGE=http://dev.chromium.org/chromium-os/testing
-IUSE=cros_host cros_workon_tree_b2379f90c981d4d9e21e8339a68160157c44b4ee
+DESCRIPTION=Chrome OS EC Utility Helper
+EAPI=6
+HOMEPAGE=http://www.chromium.org/
+IUSE=biod -cr50_onboard cros_host cros_workon_tree_2fb7ca0340b8cb8d32ac530f92e6a8da2af95ee9
 KEYWORDS=*
-LICENSE=GPL-2
+LICENSE=BSD-Google
 PROPERTIES=live
-RDEPEND=!<=chromeos-base/autotest-server-0.0.1-r1260
+RDEPEND=chromeos-base/ec-utils biod? ( dev-util/shflags )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-workon	b5caa6f36ce80bc76228f00a80c96d78	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=37ea720ec9a522f7759bcc8acf9529d7
+_md5_=3cb7ae3d038caa838b4eca7389898866
