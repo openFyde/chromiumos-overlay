@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI=7
 CROS_WORKON_COMMIT="127c5e645a90adbfca7f7a080ace19d9b992eee4"
 CROS_WORKON_TREE="8de3bf11a8040efbd53dd06a2bc7cc7af01eed50"
 CROS_WORKON_PROJECT="chromiumos/platform/vpd"
@@ -13,12 +13,11 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="static systemd"
 
 # util-linux is for libuuid.
-DEPEND="sys-apps/util-linux"
+DEPEND="sys-apps/util-linux:="
 # shflags for dump_vpd_log.
 # chromeos-activate-date for ActivateDate upstart and script.
 RDEPEND="
