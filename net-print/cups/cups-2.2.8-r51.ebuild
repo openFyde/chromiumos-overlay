@@ -4,8 +4,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="7533ba2d6ef0bbf92c0dcdb2bf4e80da5bb05e7b"
-CROS_WORKON_TREE="21a0f7ac4a341ebb5cefb0d457fe1c886e33b5a1"
+CROS_WORKON_COMMIT="1fe3b63abd7d022c2065a4c5738d2644ad22b88b"
+CROS_WORKON_TREE="099e12cbaac1b953372de3071f4735e292cdddc6"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
 
 PYTHON_COMPAT=( python2_7 )
@@ -340,21 +340,16 @@ multilib_src_install_all() {
 
 	# Removes files and directories not used by Chrome OS.
 	rm -rv \
-		"${ED}"usr/share/cups/drv/ \
 		"${ED}"usr/share/cups/ppdc/ \
-			|| die
+			|| die "failed to remove some directories"
 	rm -v \
 		"${ED}"etc/cups/*.default \
 		"${ED}"etc/cups/snmp.conf \
 		"${ED}"usr/bin/cancel \
 		"${ED}"usr/bin/cupstestdsc \
-		"${ED}"usr/bin/ppd* \
 		"${ED}"usr/libexec/cups/backend/http \
 		"${ED}"usr/libexec/cups/backend/https \
 		"${ED}"usr/libexec/cups/backend/snmp \
-		"${ED}"usr/libexec/cups/daemon/cups-deviced \
-		"${ED}"usr/libexec/cups/daemon/cups-driverd \
-		"${ED}"usr/libexec/cups/daemon/cups-lpd \
 		"${ED}"usr/libexec/cups/filter/rastertodymo \
 		"${ED}"usr/sbin/accept \
 		"${ED}"usr/sbin/cupsaddsmb \
@@ -362,7 +357,7 @@ multilib_src_install_all() {
 		"${ED}"usr/sbin/cupsreject \
 		"${ED}"usr/sbin/lpmove \
 		"${ED}"usr/sbin/reject \
-			|| die
+			|| die "failed to remove some files"
 }
 
 pkg_preinst() {
