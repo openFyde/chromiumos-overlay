@@ -3,13 +3,14 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="47095f81d1ebc4372d8d946901d338f9a602048d"
-CROS_WORKON_TREE=("587fcc1fc96e0444ffe553cf04588b83796f3de2" "544d1f3ce356c0f01d4549b1cb0089942c8261ff" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="00ddeb8e43263975d03fe470eeb9cbc869b2c158"
+CROS_WORKON_TREE=("587fcc1fc96e0444ffe553cf04588b83796f3de2" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "544d1f3ce356c0f01d4549b1cb0089942c8261ff" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
-CROS_WORKON_SUBTREE="common-mk smbfs .gn"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk libpasswordprovider smbfs .gn"
 
 PLATFORM_SUBDIR="smbfs"
 
@@ -30,6 +31,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api
+	chromeos-base/libpasswordprovider
 "
 
 pkg_preinst() {
