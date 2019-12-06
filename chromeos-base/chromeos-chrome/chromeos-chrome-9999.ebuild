@@ -638,19 +638,7 @@ src_unpack() {
 		BUILD_STRING_ARGS+=( "chrome_orderfile_path=${orderfile_loc}" )
 	fi
 
-	if use orderfile_use; then
-		# Default orderfile is set in Chromium side, nothing to do here.
-		# Logic for using a freezed version of orderfile
-		if [[ -n ${ORDERFILE_FROZEN} ]]; then
-			local orderfile_dir="${WORKDIR}/orderfile"
-			mkdir "${orderfile_dir}"
-			local orderfile_file=${ORDERFILE_FROZEN}
-			(cd "${orderfile_dir}" && unpack "${orderfile_file}.xz") || die
-			orderfile_loc="${orderfile_dir}/${orderfile_file}"
-			einfo "Using freezed orderfile unpacked at ${orderfile_loc}"
-			BUILD_STRING_ARGS+=( "chrome_orderfile_path=${orderfile_loc}" )
-		fi
-	else
+	if ! use orderfile_use; then
 		# If not using orderfile, override the default orderfile path to empty.
 		BUILD_STRING_ARGS+=( "chrome_orderfile_path=" )
 	fi
