@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="19fadeb129c2dfb9fbf0905c7bd16c9123124332"
-CROS_WORKON_TREE="787254c3ee36653030a9cdb7701e1c5a02b78f2b"
+CROS_WORKON_COMMIT="b2b08e47e544e727f7da8175d1ba3e9a3d1e4fda"
+CROS_WORKON_TREE="93e9363a1e525e1ea20a9b6e0d7b83eb5e02a444"
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 
 inherit cros-sanitizers cros-workon toolchain-funcs cros-factory
