@@ -17,7 +17,7 @@ KEYWORDS="*"
 IUSE="-asan doc mbim static-libs"
 
 RDEPEND=">=dev-libs/glib-2.36
-	mbim? ( >=net-libs/libmbim-1.14.0 )"
+	mbim? ( >=net-libs/libmbim-1.18.0 )"
 DEPEND="${RDEPEND}
 	doc? ( dev-util/gtk-doc )
 	virtual/pkgconfig"
