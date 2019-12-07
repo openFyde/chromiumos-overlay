@@ -2,8 +2,8 @@
 # Distributed under the terms of the BSD license.
 
 EAPI="6"
-CROS_WORKON_COMMIT="d117ca830460c07da694d75b58595e8aff4978a7"
-CROS_WORKON_TREE="a94d65cfae4234baa8093b8fccf2a298b4ecd38d"
+CROS_WORKON_COMMIT="b21eaa13ef54fff576d0bea30db4770447082705"
+CROS_WORKON_TREE="ee1ac5738f7272d4efecf32ccf03a2d6b11b667f"
 CROS_WORKON_PROJECT="chromiumos/platform/touch_updater"
 CROS_WORKON_LOCALNAME="touch_updater"
 CROS_WORKON_SUBTREE="common"
