@@ -30,6 +30,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/metrics
 	media-libs/cros-camera-libcbm
+	media-libs/libyuv
 	virtual/pkgconfig"
 
 src_install() {

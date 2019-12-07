@@ -26,6 +26,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers
+	media-libs/cros-camera-libcamera_client
 	media-libs/cros-camera-libcamera_metadata
 	virtual/pkgconfig"
 
