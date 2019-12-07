@@ -51,6 +51,8 @@ src_install() {
 
 src_test() {
 	# Run the unit tests.
-	cd nebraska
-	./run_unittests || die
+	python_test() {
+		"$PYTHON" nebraska/nebraska_unittest.py || die
+	}
+	python_foreach_impl python_test
 }
