@@ -345,8 +345,6 @@ multilib_src_install_all() {
 		"${ED}"etc/cups/snmp.conf \
 		"${ED}"usr/bin/cancel \
 		"${ED}"usr/bin/cupstestdsc \
-		"${ED}"usr/libexec/cups/backend/http \
-		"${ED}"usr/libexec/cups/backend/https \
 		"${ED}"usr/libexec/cups/backend/snmp \
 		"${ED}"usr/libexec/cups/filter/rastertodymo \
 		"${ED}"usr/sbin/accept \
