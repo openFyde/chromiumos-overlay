@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="1f739ec3c55a484958f7248c429ca7212790e3d2"
-CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "f1fb77a0e693c9f9d185584a495582438ccd6653" "38a36f76290e3e0f13d021ad8597ea5f250a05ba" "f27e9581dc578f9a83beacea11f5e9208ac3da24" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a6fe844a070b13b2ca75131a3f1a1eabf641f6d2"
+CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "8a9a17c745d75cbb3ebeaa0af6b48271e9a005e6" "38a36f76290e3e0f13d021ad8597ea5f250a05ba" "f27e9581dc578f9a83beacea11f5e9208ac3da24" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -153,7 +153,8 @@ src_install() {
 	doexe shall-use-userdataauth.sh
 
 	platform_fuzzer_install "${S}"/OWNERS \
-		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer
+		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
+		fuzzers/data/*
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_blob_to_hex_fuzzer
