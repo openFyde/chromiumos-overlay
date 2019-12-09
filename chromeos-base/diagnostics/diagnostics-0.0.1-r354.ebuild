@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="7c9a7b9b9fa5f7184e3d5c13efd33f342ed1eca8"
+CROS_WORKON_COMMIT="3802a06f181b73d617b71638f1b44bdf6ffd0f17"
 CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "a678d437cdbcae9e89afe6afa7092674488415d2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,6 +37,7 @@ DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/minijail
+	dev-util/stressapptest
 	wilco? (
 		chromeos-base/chromeos-dtc-vm
 		chromeos-base/vpd
