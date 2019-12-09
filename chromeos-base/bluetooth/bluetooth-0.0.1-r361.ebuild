@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d358e12412bcfe13530cdf3261498d8d654f0409"
+CROS_WORKON_COMMIT="42824d1c00c2e6255a70f5e12ead3403359d0125"
 CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "9329520a484c169b5c62d1d98bcd0a2733a25954" "0290f64eafc188b8fe353415370eca1b8b2c9ae6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -33,26 +33,21 @@ DEPEND="${RDEPEND}
 src_install() {
 	dobin init/scripts/bluetooth-setup.sh
 	dobin "${OUT}"/btdispatch
-	dobin "${OUT}"/newblued
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Bluetooth.conf
-	doins dbus/org.chromium.Newblue.conf
 
 	insinto /etc/init
 	doins init/upstart/bluetooth-setup.conf
 	doins init/upstart/btdispatch.conf
-	doins init/upstart/newblued.conf
 
 	if use seccomp; then
 		# Install seccomp policy files.
 		insinto /usr/share/policy
 		newins "seccomp_filters/btdispatch-seccomp-${ARCH}.policy" btdispatch-seccomp.policy
-		newins "seccomp_filters/newblued-seccomp-${ARCH}.policy" newblued-seccomp.policy
 	else
 		# Remove seccomp flags from minijail parameters.
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/btdispatch.conf || die
-		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/newblued.conf || die
 	fi
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_parsedataintouuids_fuzzer
