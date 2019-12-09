@@ -15,7 +15,7 @@
 #
 # eclass bug workaround count: 1
 
-EAPI=6
+EAPI=7
 
 inherit cros-ec cros-workon
 
@@ -34,6 +34,9 @@ CROS_WORKON_DESTDIR=(
 	"${S}/third_party/tpm2"
 	"${S}/third_party/cryptoc"
 )
+
+# Make sure config tools use the latest schema.
+BDEPEND=">=chromeos-base/chromeos-config-host-0.0.2"
 
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
 DESCRIPTION="Embedded Controller firmware code"

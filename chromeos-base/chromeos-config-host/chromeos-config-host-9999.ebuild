@@ -32,6 +32,6 @@ DEPEND="
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 src_unpack() {
-    cros-workon_src_unpack
-    S+="/chromeos-config"
+	cros-workon_src_unpack
+	S+="/chromeos-config"
 }
