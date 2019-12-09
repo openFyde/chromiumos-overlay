@@ -19,8 +19,7 @@ SRC_URI="test? ( https://storage.googleapis.com/crosvm-testing/x86_64/${KERNEL_P
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf
-	crosvm-gpu-forward fuzzer tpm2"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf fuzzer tpm2"
 
 RDEPEND="
 	sys-apps/dtc
@@ -54,7 +53,6 @@ DEPEND="${RDEPEND}
 	dev-rust/trace_events:=
 	dev-rust/remain:=
 	=dev-rust/syn-0.15*:=
-	crosvm-gpu-forward? ( chromeos-base/rendernodehost:= )
 	tpm2? (
 		chromeos-base/tpm2:=
 		chromeos-base/trunks:=
@@ -104,7 +102,6 @@ src_compile() {
 		$(usex crosvm-plugin plugin "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
-		$(usex crosvm-gpu-forward gpu-forward "")
 	)
 
 	local packages=(
@@ -146,7 +143,6 @@ src_test() {
 
 		local feature_excludes=()
 		use tpm2 || feature_excludes+=( --exclude tpm2 --exclude tpm2-sys )
-		use crosvm-gpu-forward || feature_excludes+=( --exclude render_node_forward )
 
 		# io_jail tests fork the process, which cause memory leak errors when
 		# run under sanitizers.
