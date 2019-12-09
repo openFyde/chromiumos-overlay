@@ -97,6 +97,11 @@ ARRAY_VARIABLES=(
 # regardless of the overlay they live in.
 # If looking at a manifest.xml, this is related to the "path" attribute of the
 # "project" tag (although that path is relative to the root of the manifest).
+#
+# *** WARNING ***
+# Do NOT rely on this default value, it will go away.
+# Instead override this to the desired value.
+# TODO(https://crbug.com/916471): Remove the default value.
 : ${CROS_WORKON_LOCALNAME:=${PN}}
 
 # @ECLASS-VARIABLE: CROS_WORKON_DESTDIR
