@@ -36,7 +36,5 @@ CROS_WORKON_DESTDIR=(
 )
 
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
-CR50_ROS=(cr50.prod.ro.A.0.0.10 cr50.prod.ro.B.0.0.10)
-SRC_URI="${CR50_ROS[@]/#/${MIRROR_PATH}}"
 DESCRIPTION="Embedded Controller firmware code"
 KEYWORDS="~*"

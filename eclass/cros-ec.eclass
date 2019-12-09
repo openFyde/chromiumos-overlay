@@ -61,9 +61,6 @@ DEPEND="
 # non-standard layout.
 RESTRICT="binchecks"
 
-# Cr50 signer manifest converted into proper json format.
-CR50_JSON='prod.json'
-
 # @FUNCTION: cros-ec_src_unpack
 # @DESCRIPTION:
 # Get source files.
@@ -157,27 +154,6 @@ cros-ec_make_ec() {
 	mv build "${build_dir}"
 }
 
-# @FUNCTION: cros-ec_prepare_cr50_signer_aid
-# @INTERNAL
-# @DESCRIPTION:
-# Convert internal representation of the signer manifest into
-# conventional JSON.
-cros-ec_prepare_cr50_signer_aid() {
-	local signer_manifest="util/signer/ec_RW-manifest-prod.json"
-	local codesigner="cr50-codesigner"
-
-	elog "Converting prod manifest into json format"
-
-	if ! type -P "${codesigner}" >/dev/null; then
-		ewarn "${codesigner} not available, not preparing ${CR50_JSON}"
-		return
-	fi
-
-	"${codesigner}" --convert-json -i "${signer_manifest}" \
-			-o "${S}/${CR50_JSON}" || \
-		die "failed to convert signer manifest ${signer_manifest}"
-}
-
 # @FUNCTION: cros-ec_src_compile
 # @DESCRIPTION:
 # Compile all boards specified in EC_BOARDS variable.
@@ -223,10 +199,6 @@ cros-ec_src_compile() {
 		fi
 		cros-ec_make_ec "${target}" "${WORKDIR}/build_${target}" \
 			"${touchpad_fw}" "${bootblock}"
-
-		if [[ "${target}" == "cr50" ]]; then
-			cros-ec_prepare_cr50_signer_aid
-		fi
 	done
 
 	if use fuzzer; then
@@ -236,30 +208,6 @@ cros-ec_src_compile() {
 		use ubsan && sanitizers+=( "TEST_UBSAN=y" )
 		emake buildfuzztests "${sanitizers[@]}"
 	fi
-}
-
-# @FUNCTION: cros-ec_install_cr50_signer_aid
-# @INTERNAL
-# @USAGE: <output directory to install the files>
-# @DESCRIPTION:
-# Install additional files, necessary for Cr50 signer inputs.
-cros-ec_install_cr50_signer_aid() {
-	local dest_dir="${1}"
-
-	if [[ ! -f ${S}/${CR50_JSON} ]]; then
-		ewarn "Not installing Cr50 support files"
-		return
-	fi
-
-	elog "Installing Cr50 signer support files"
-
-	insinto "${dest_dir}"
-
-	newins "${DISTDIR}/cr50.prod.ro.A.0.0.10" "prod.ro.A"
-	newins "${DISTDIR}/cr50.prod.ro.B.0.0.10" "prod.ro.B"
-	doins "${S}/board/cr50/rma_key_blob".*.{prod,test}
-	doins "${S}/${CR50_JSON}"
-	doins "${S}/util/signer/fuses.xml"
 }
 
 # @FUNCTION: cros-ec_board_install
@@ -327,10 +275,6 @@ cros-ec_board_install() {
 		doins chip/npcx/spiflashfw/npcx_monitor.bin
 	fi
 	popd > /dev/null || die
-
-	if [[ "${board}" == "cr50" ]]; then
-		cros-ec_install_cr50_signer_aid "${dest_dir}"
-	fi
 }
 
 # @FUNCTION: cros-ec_src_install
