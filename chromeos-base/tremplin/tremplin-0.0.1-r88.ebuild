@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="468b7928a137410f27a3dbfbe3cd12ee8a022a4e"
-CROS_WORKON_TREE="27a7518e789bd29a7f1a5c4bfb70788936cf93ad"
+CROS_WORKON_COMMIT="340dcf2bd27d98a333071ece6e4df0af58381283"
+CROS_WORKON_TREE="15364a684a85db005cc92b5f83bb9deee9c0acb7"
 CROS_WORKON_PROJECT="chromiumos/platform/tremplin"
 CROS_WORKON_LOCALNAME="tremplin"
 CROS_GO_BINARIES="chromiumos/tremplin"
