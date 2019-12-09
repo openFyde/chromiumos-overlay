@@ -115,11 +115,15 @@ add_payloads() {
 	local ro_payload=$2
 	local rw_payload=$3
 
-	do_cbfstool ${fw_image} add-payload \
-		-f ${ro_payload} -n fallback/payload -c lzma
+	if [ -n "${ro_payload}" ]; then
+		do_cbfstool "${fw_image}" add-payload \
+			-f "${ro_payload}" -n fallback/payload -c lzma
+	fi
 
-	do_cbfstool ${fw_image} add-payload \
-		-f ${rw_payload} -n fallback/payload -c lzma -r FW_MAIN_A,FW_MAIN_B
+	if [ -n "${rw_payload}" ]; then
+		do_cbfstool "${fw_image}" add-payload -f "${rw_payload}" \
+			-n fallback/payload -c lzma -r FW_MAIN_A,FW_MAIN_B
+	fi
 }
 
 # Returns true if EC supports EFS.
@@ -158,7 +162,9 @@ add_ec() {
 
 	# When EFS is enabled, the payloads here may be resigned and enlarged so
 	# extra padding is needed.
-	is_ec_efs_enabled "${depthcharge_config}" && pad="128"
+	if use depthcharge; then
+		is_ec_efs_enabled "${depthcharge_config}" && pad="128"
+	fi
 	einfo "Padding ${name}{ro,rw} ${pad} byte."
 
 	do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c "${comp_type}" \
@@ -411,10 +417,17 @@ build_images() {
 	cp "${coreboot_orig}" "${coreboot_file}"
 	cp "${coreboot_orig}.serial" "${coreboot_file}.serial"
 
-	local depthcharge="${depthcharge_prefix}/depthcharge.elf"
-	local depthcharge_dev="${depthcharge_prefix}/dev.elf"
-	local netboot="${depthcharge_prefix}/netboot.elf"
-	local depthcharge_config="${depthcharge_prefix}/depthcharge.config"
+	local depthcharge
+	local depthcharge_dev
+	local netboot
+	local depthcharge_config
+
+	if use depthcharge; then
+		depthcharge="${depthcharge_prefix}/depthcharge.elf"
+		depthcharge_dev="${depthcharge_prefix}/dev.elf"
+		netboot="${depthcharge_prefix}/netboot.elf"
+		depthcharge_config="${depthcharge_prefix}/depthcharge.config"
+	fi
 
 	# TODO(teravest): Rewrite these loops with 'while read'
 	for file in $(find compressed-assets-ro -type f 2>/dev/null); do
