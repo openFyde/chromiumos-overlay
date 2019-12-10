@@ -59,7 +59,7 @@ DEPEND="video_cards_powervr? (
 	)
 	cheets? (
 		>=x11-libs/arc-libdrm-2.4.82[${MULTILIB_USEDEP}]
-		llvm? ( sys-devel/arc-llvm[${MULTILIB_USEDEP}] )
+		llvm? ( sys-devel/arc-llvm:=[${MULTILIB_USEDEP}] )
 		video_cards_amdgpu? (
 			dev-libs/arc-libelf[${MULTILIB_USEDEP}]
 		)
