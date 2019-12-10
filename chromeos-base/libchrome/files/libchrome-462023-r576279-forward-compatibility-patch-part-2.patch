@@ -1,12 +1,12 @@
-From 3281fc0818876b7e6babe4b2c26f62377fd02feb Mon Sep 17 00:00:00 2001
+From 193db4882304c2cd6105509d247856c66a8b371f Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Tue, 29 Oct 2019 20:24:18 +0900
-Subject: [PATCH 2/5] libchrome: r576279 forward compatibility patch part 2
- (mojo).
+Subject: [PATCH 2/5] libchrome: r576279 forward compatibility patch part 2 (mojo).
 
 This CL includes;
 - mojo/public/cpp/system/platform_handle.{h,cpp}:{W,Unw}rapPlatformHandle
 - mojo/public/cpp/system/invitation.{h,cpp}:IncomingInvitation
+- mojo/public/cpp/bindings/interface_request.h:InterfaceRequest
 - mojo/public/cpp/platform/socket*:mojo::SocketRecvmsg
 - mojo/core/embedder:Init/ScopedIPCSupport
 
@@ -19,13 +19,14 @@ Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
  mojo/core/embedder/embedder.cc                | 12 ++++
  mojo/core/embedder/embedder.h                 | 12 ++++
  mojo/core/embedder/scoped_ipc_support.h       | 12 ++++
+ mojo/public/cpp/bindings/interface_request.h  |  3 +
  .../public/cpp/platform/socket_utils_posix.cc | 16 +++++
  mojo/public/cpp/platform/socket_utils_posix.h | 17 +++++
  mojo/public/cpp/system/invitation.cc          | 30 +++++++++
  mojo/public/cpp/system/invitation.h           | 40 ++++++++++++
  mojo/public/cpp/system/platform_handle.cc     | 57 +++++++++++++++++
  mojo/public/cpp/system/platform_handle.h      | 63 +++++++++++++++++++
- 10 files changed, 262 insertions(+)
+ 11 files changed, 265 insertions(+)
  create mode 100644 mojo/core/embedder/embedder.cc
  create mode 100644 mojo/core/embedder/embedder.h
  create mode 100644 mojo/core/embedder/scoped_ipc_support.h
@@ -114,6 +115,20 @@ index 0000000..db4ab6a
 +} // namespace mojo
 +
 +#endif // MOJO_CORE_EMBEDDER_SCOPED_IPC_SUPPORT_H_
+diff --git a/mojo/public/cpp/bindings/interface_request.h b/mojo/public/cpp/bindings/interface_request.h
+index 29d8836..0221b65 100644
+--- a/mojo/public/cpp/bindings/interface_request.h
++++ b/mojo/public/cpp/bindings/interface_request.h
+@@ -33,6 +33,9 @@ class InterfaceRequest {
+   InterfaceRequest() {}
+   InterfaceRequest(decltype(nullptr)) {}
+ 
++  explicit InterfaceRequest(ScopedMessagePipeHandle&& handle)
++      : handle_(std::move(handle)) {}
++
+   // Creates a new message pipe over which Interface is to be served, binding
+   // the specified InterfacePtr to one end of the message pipe and this
+   // InterfaceRequest to the other. For example usage, see comments on
 diff --git a/mojo/public/cpp/platform/socket_utils_posix.cc b/mojo/public/cpp/platform/socket_utils_posix.cc
 new file mode 100644
 index 0000000..f7704fd
