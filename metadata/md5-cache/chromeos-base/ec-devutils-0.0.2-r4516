@@ -4,7 +4,7 @@ DEPEND=virtual/libusb:1=
 DESCRIPTION=Host development utilities for Chromium OS EC
 EAPI=7
 HOMEPAGE=https://www.chromium.org/chromium-os/ec-development
-IUSE=hammerd cros_host cros_workon_tree_3bb0c052f7fa10cdf6fc26b173f3f809431f8f30 python_targets_python2_7
+IUSE=hammerd cros_host cros_workon_tree_7e76aca24c6f6b6b65ac9068b932930266311425 python_targets_python2_7
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
@@ -12,4 +12,4 @@ RDEPEND=virtual/libusb:1= app-mobilephone/dfu-util sys-firmware/servo-firmware s
 REQUIRED_USE=|| ( python_targets_python2_7 )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	23dd5f4d524e40693567a8911ee5c2be	cros-workon	b5caa6f36ce80bc76228f00a80c96d78	distutils-r1	71a5ee567fb298e553ce8d1319279151	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multibuild	40fe59465edacd730c644ec2bc197809	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	python-r1	ce1cd23cfdc1848e8e32743efe34f299	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=c0d23deb29b49821414ad583271621b8
+_md5_=6dd26d78efbc3cfb8d1c5ab2f09c5cf5
