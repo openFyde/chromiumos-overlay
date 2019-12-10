@@ -4,8 +4,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="60776a341715ebad1a9474c9443fef4bf6f65024"
-CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "12af1b9e27ddc397654fbe16460d9dd290ddb285" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="491b1688e6999ee9a2f652b92b857dbf1de211f8"
+CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "59c01f52a69a733f4e5d9336a6a1a6b1a3b25036" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/avtest
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-asan vaapi"
+IUSE="-asan v4l2_codec vaapi"
 
 RDEPEND="vaapi? ( x11-libs/libva )"
 DEPEND="${RDEPEND}"
@@ -32,6 +32,7 @@ src_unpack() {
 
 src_configure() {
 	export USE_VAAPI=$(usex vaapi)
+	export USE_V4L2_CODEC=$(usex v4l2_codec)
 	sanitizers-setup-env
 	cros-common.mk_src_configure
 }
