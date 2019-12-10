@@ -114,5 +114,6 @@ src_compile() {
 src_install() {
 	dosbin flashrom
 	doman flashrom.8
+	doheader libflashrom.h
 	dodoc README.chromiumos Documentation/*.txt
 }
