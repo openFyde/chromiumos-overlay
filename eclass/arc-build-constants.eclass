@@ -24,7 +24,7 @@ IUSE="${IUSE} ${ANDROID_CONTAINER_VERS[*]}"
 IUSE="${IUSE} ${ANDROID_VM_VERS[*]}"
 
 REQUIRED_USE="
-	|| ( arcpp arcvm )
+	cheets? ( || ( arcpp arcvm ) )
 	arcpp? ( ^^ ( ${ANDROID_CONTAINER_VERS[*]} ) )
 	arcvm? ( ^^ ( ${ANDROID_VM_VERS[*]} ) )
 "

@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="arc/network common-mk metrics vm_tools .gn"
 
 PLATFORM_SUBDIR="vm_tools"
 
-inherit cros-workon platform udev user
+inherit cros-workon platform udev user arc-build-constants
 
 DESCRIPTION="VM host tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
@@ -62,6 +62,12 @@ src_install() {
 	dobin "${OUT}"/vm_concierge
 	dobin "${OUT}"/vmlog_forwarder
 	dobin "${OUT}"/vsh
+
+	if use arcvm; then
+		arc-build-constants-configure
+		exeinto "${ARC_VM_VENDOR_DIR}/bin"
+		doexe "${OUT}"/vshd
+	fi
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/cicerone_container_listener_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vsh_client_fuzzer
