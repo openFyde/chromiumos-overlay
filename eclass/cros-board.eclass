@@ -139,6 +139,7 @@ ALL_BOARDS=(
 	enguarde
 	#envoy-jerry
 	eve
+	eve-arcdual
 	eve-arcnext
 	eve-arcvm
 	eve-arcvm-mesa-virgl-next
