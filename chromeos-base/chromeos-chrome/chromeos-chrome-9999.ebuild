@@ -780,6 +780,12 @@ setup_compile_flags() {
 			EBUILD_LDFLAGS+=( -gsplit-dwarf )
 		fi
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
+		# if using thinlto, we need to pass the equivalent of
+		# -fdebug-types-section to the backend, to prevent out-of-range
+		# relocations (see
+		# https://bugs.chromium.org/p/chromium/issues/detail?id=1032159).
+		append-ldflags -Wl,-mllvm
+		append-ldflags -Wl,-generate-type-units
 	fi
 
 	if use orderfile_generate; then
