@@ -281,6 +281,7 @@ ALL_BOARDS=(
 	octopus
 	#optimus
 	orco
+	palkia
 	panda
 	panther
 	panther_embedded
