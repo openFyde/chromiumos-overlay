@@ -167,8 +167,9 @@ EOF
 		einfo "Enabling em100 mode via CONFIG_EM100 (slower SPI flash)"
 		echo "CONFIG_EM100=y" >> "${CONFIG}"
 	fi
-	# Disable coreboot's Ada based Intel graphics init which we don't include
-	echo "# CONFIG_GFX_GMA is not set" >> "${CONFIG}"
+	# Use FSP's GOP in favor of coreboot's Ada based Intel graphics init
+	# which we don't include at this time. A no-op on non-FSP/GOP devices.
+	echo "CONFIG_RUN_FSP_GOP=y" >> "${CONFIG}"
 
 	cp "${CONFIG}" "${CONFIG_SERIAL}"
 	# handle the case when "${CONFIG}" does not have a newline in the end.
