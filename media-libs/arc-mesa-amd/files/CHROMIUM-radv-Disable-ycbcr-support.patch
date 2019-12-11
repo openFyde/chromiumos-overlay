@@ -1,0 +1,29 @@
+From b6604fff487ae33656d4cd4bd5b2dc3eabf91adc Mon Sep 17 00:00:00 2001
+From: Bas Nieuwenhuizen <basni@chromium.org>
+Date: Wed, 11 Dec 2019 13:28:14 +0100
+Subject: [PATCH 3/3] radv: Disable ycbcr support.
+
+To disable
+android.graphics.cts.MediaVulkanGpuTest#testMediaImportAndRendering
+
+Change-Id: I289ce99ce03bf39236217492c16e51b27cee9a5d
+---
+ src/amd/vulkan/radv_device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/amd/vulkan/radv_device.c b/src/amd/vulkan/radv_device.c
+index 0ab421b2377..b85a5e01ccc 100644
+--- a/src/amd/vulkan/radv_device.c
++++ b/src/amd/vulkan/radv_device.c
+@@ -918,7 +918,7 @@ void radv_GetPhysicalDeviceFeatures2(
+ 		case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES: {
+ 			VkPhysicalDeviceSamplerYcbcrConversionFeatures *features =
+ 			    (VkPhysicalDeviceSamplerYcbcrConversionFeatures*)ext;
+-			features->samplerYcbcrConversion = true;
++			features->samplerYcbcrConversion = false;
+ 			break;
+ 		}
+ 		case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES_EXT: {
+-- 
+2.24.0.525.g8f36a354ae-goog
+

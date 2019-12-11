@@ -138,6 +138,11 @@ src_prepare() {
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
 
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
+	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-1.1-on-ANDROID.patch
+	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-extensions-that-are-not-supported-by-P-.patch
+	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-ycbcr-support.patch
+	epatch "${FILESDIR}"/UPSTREAM-radv-Remove-_mesa_locale_init-fini-calls.patch
+	epatch "${FILESDIR}"/UPSTREAM-radv-Fix-RGBX-Android-Vulkan-format-correspondence.patch
 
 	default
 }
