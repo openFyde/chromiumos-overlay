@@ -1,7 +1,7 @@
 # Copyright (c) 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 
 # FIXME: We have fixed a bug where gold generates inefficient
 # code for 32-bit armv8 CPUs, on upstream AOSP.
@@ -152,6 +152,8 @@ toolchain_mips_use_sysv_gnuhash() {
 }
 
 src_configure() {
+	cros_optimize_package_for_speed
+
 	# Use gcc to build binutils.
 	cros_use_gcc
 

@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=4
+EAPI=5
 CROS_WORKON_COMMIT="5b9f8f2862b88a04da387e15229a0acd03f0805a"
 CROS_WORKON_TREE="9521a22c302a3ab4492c1a1e2df899583356e342"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -69,6 +69,7 @@ src_prepare() {
 }
 
 src_configure() {
+	cros_optimize_package_for_speed
 	sanitizers-setup-env
 	if use amd64 ; then
 		export FUZZER_LDFLAGS="-fsanitize=fuzzer"
