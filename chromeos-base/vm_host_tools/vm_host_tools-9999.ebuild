@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Remove arc/network from this list.
-CROS_WORKON_SUBTREE="arc/network common-mk vm_tools .gn"
+CROS_WORKON_SUBTREE="arc/network common-mk metrics vm_tools .gn"
 
 PLATFORM_SUBDIR="vm_tools"
 
@@ -32,6 +32,7 @@ RDEPEND="
 	chromeos-base/chunnel
 	chromeos-base/crosvm
 	chromeos-base/libbrillo
+	chromeos-base/metrics
 	chromeos-base/minijail
 	net-libs/grpc:=
 	dev-libs/protobuf:=
