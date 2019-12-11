@@ -14,20 +14,24 @@
 # Add a call to cros-credentials_setup before accessing a private repo.
 
 cros-credentials_setup() {
-	mkdir -p "${HOME}"
+	einfo "Setting up CrOS credentials"
+	mkdir -vp "${HOME}"
 	local whoami=$(whoami)
 	local ssh_config_dir="/home/${whoami}/.ssh"
 	if [[ -d "${ssh_config_dir}" ]]; then
-		cp -rfp "${ssh_config_dir}" "${HOME}" || die
+		cp -vrfp "${ssh_config_dir}" "${HOME}" || die
 	fi
 	local net_config="/home/${whoami}/.netrc"
 	if [[ -f "${net_config}" ]]; then
-		cp -fp "${net_config}" "${HOME}" || die
+		einfo "Copying ${net_config} to ${HOME}"
+		cp -vfp "${net_config}" "${HOME}" || die
 	fi
 	local gitcookies_src="/home/${whoami}/.gitcookies"
 	local gitcookies_dst="${HOME}/.gitcookies"
 	if [[ -f "${gitcookies_src}" ]]; then
-		cp -fp "${gitcookies_src}" "${gitcookies_dst}" || die
+		cp -vfp "${gitcookies_src}" "${gitcookies_dst}" || die
+		echo 'gitcookies accounts:'
+		awk 'NF && $1 !~ /^#/ {print $1}' "${gitcookies_dst}"
 		git config --global http.cookiefile "${gitcookies_dst}"
 	fi
 }
