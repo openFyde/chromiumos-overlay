@@ -53,6 +53,7 @@ IUSE="
 	pita
 	rialto
 	screenshare_sw_codec
+	shelf-hotseat
 	smartdim
 	tablet_form_factor
 	touch_centric_device
@@ -60,6 +61,7 @@ IUSE="
 	touchview
 	video_capture_use_gpu_memory_buffer
 	virtio_gpu
+	webui-tab-strip
 	wilco
 	+X
 "
