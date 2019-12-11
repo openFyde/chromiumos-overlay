@@ -28,4 +28,7 @@ src_install() {
 
 	insinto /etc/init
 	doins ../init/cros-camera-gpu-algo.conf
+
+	insinto "/usr/share/policy"
+	newins "../cros-camera-gpu-algo-${ARCH}.policy" cros-camera-gpu-algo.policy
 }
