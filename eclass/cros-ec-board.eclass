@@ -44,8 +44,6 @@ EC_BOARD_NAMES=(
 	atlas
 	atlas_ish
 	bds
-	chell
-	chell_pd
 	cheza
 	coral
 	cr50
@@ -58,21 +56,16 @@ EC_BOARD_NAMES=(
 	eve_fp
 	fizz
 	flapjack
-	glados
-	glados_pd
 	glkrvp
-	gru
 	grunt
 	hadoken
 	hammer
 	hatch
 	hatch_fp
 	hoho
-	host
 	jacuzzi
 	jerry
 	kalista
-	kevin
 	kukui
 	llama
 	lux
