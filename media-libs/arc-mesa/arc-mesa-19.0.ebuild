@@ -211,7 +211,9 @@ src_prepare() {
 
 src_configure() {
 	cros_optimize_package_for_speed
-
+	# Need to filter out --icf=all in this package temporarily because of failure in Gold linker
+	# https://crbug.com/1022226
+	filter-ldflags "-Wl,--icf=all"
 	if use cheets; then
 		#
 		# cheets-specific overrides

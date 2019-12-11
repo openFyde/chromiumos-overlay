@@ -80,7 +80,7 @@ CXXFLAGS="${CXXFLAGS} ${COMMON_COMPILER_FLAGS}"
 # Clear the variable so people don't try to rely on it.
 COMMON_COMPILER_FLAGS=""
 
-LDFLAGS="${LDFLAGS} -Wl,--gc-sections"
+LDFLAGS="${LDFLAGS} -Wl,--gc-sections -Wl,--icf=all"
 
 # Allow the user to override or define additional settings.
 source make.conf.user
