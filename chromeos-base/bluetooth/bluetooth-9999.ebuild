@@ -17,11 +17,14 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/blueto
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="+bluetooth_suspend_management fuzzer seccomp unibuild"
+IUSE="+bluetooth_suspend_management fuzzer generated_cros_config seccomp unibuild"
 
 RDEPEND="
-	unibuild? ( chromeos-base/chromeos-config:= )
 	chromeos-base/chromeos-config-tools:=
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/newblue:=
 	net-wireless/bluez:=
 "

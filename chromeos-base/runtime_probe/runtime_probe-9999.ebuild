@@ -19,10 +19,13 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/runtim
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
-IUSE="unibuild asan fuzzer"
+IUSE="generated_cros_config unibuild asan fuzzer"
 
 RDEPEND="
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/chromeos-config-tools
 	chromeos-base/libbrillo
 	chromeos-base/libchrome

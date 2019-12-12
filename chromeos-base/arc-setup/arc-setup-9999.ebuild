@@ -24,6 +24,7 @@ IUSE="
 	arcpp
 	esdfs
 	fuzzer
+	generated_cros_config
 	houdini
 	houdini64
 	ndk_translation
@@ -49,7 +50,10 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
-	unibuild? ( chromeos-base/chromeos-config:= )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/system_api:=[fuzzer?]
 "
 

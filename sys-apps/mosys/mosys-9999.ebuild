@@ -74,11 +74,12 @@ SRC_URI="$(cargo_crate_uris ${CRATES})"
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="unibuild"
+IUSE="generated_cros_config unibuild"
 
 # We need util-linux for libuuid.
 RDEPEND="unibuild? (
-		chromeos-base/chromeos-config
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 		sys-apps/dtc
 	)
 	dev-util/cmocka

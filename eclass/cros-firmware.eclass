@@ -45,23 +45,26 @@ inherit cros-workon cros-unibuild cros-constants
 
 # Check for EAPI 2+
 case "${EAPI:-0}" in
-2|3|4|5|6) ;;
-*) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+0|1) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+*) ;;
 esac
 
 # $board-overlay/make.conf may contain these flags to always create "firmware
 # from source".
-IUSE="bootimage cros_ec cros_ish unibuild"
+IUSE="bootimage cros_ec cros_ish unibuild generated_cros_config"
 
 # "futility update" is needed when building and running updater package.
 COMMON_DEPEND=" chromeos-base/vboot_reference "
 
 # For unibuild we need EAPI 5 for the sub-slot dependency feature.
 case "${EAPI:-0}" in
-5|6)
-	COMMON_DEPEND+=" unibuild? (
-			chromeos-base/chromeos-config:=
-		) "
+5|6|7)
+	COMMON_DEPEND+="
+		unibuild? (
+			!generated_cros_config? ( chromeos-base/chromeos-config )
+			generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+		)
+	"
 	;;
 esac
 

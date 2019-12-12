@@ -13,7 +13,7 @@ SRC_URI="https://github.com/intel/dptf/archive/${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="Apache-2.0 GPL-2 BSD"
 SLOT="0"
 KEYWORDS="-* amd64 x86"
-IUSE="debug unibuild"
+IUSE="debug generated_cros_config unibuild"
 
 # Makefile for DPTF policies
 CMAKE_USE_DIR="${S}/DPTF/Linux"
@@ -24,7 +24,11 @@ ESIFCMP_BUILD_DIR="ESIF/Products/ESIF_CMP/Linux"
 # Makefile for ESIF web server
 ESIFWS_BUILD_DIR="ESIF/Products/ESIF_WS/Linux"
 
-DEPEND="unibuild? ( chromeos-base/chromeos-config )
+DEPEND="
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/chromeos-config-tools
 	sys-apps/dbus
 	sys-libs/ncurses sys-libs/readline"

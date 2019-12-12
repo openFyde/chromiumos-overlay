@@ -32,7 +32,7 @@ inherit toolchain-funcs cros-ec-board cros-workon cros-unibuild coreboot-sdk
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md"
 
 LICENSE="BSD-Google"
-IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test"
+IUSE="quiet verbose coreboot-sdk unibuild generated_cros_config fuzzer bootblock_in_ec asan msan ubsan test"
 
 RDEPEND="
 	fuzzer? (
@@ -53,7 +53,10 @@ DEPEND="
 	test? ( dev-libs/libprotobuf-mutator:= )
 	virtual/chromeos-ec-private-files
 	virtual/chromeos-ec-touch-firmware
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	bootblock_in_ec? ( sys-boot/coreboot )
 "
 

@@ -21,10 +21,13 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cheets fuzzer systemd unibuild"
+IUSE="cheets fuzzer generated_cros_config systemd unibuild"
 
 RDEPEND="chromeos-base/bootstat
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/chromeos-config-tools
 	chromeos-base/minijail
 	chromeos-base/cryptohome

@@ -15,14 +15,17 @@ HOMEPAGE="http://www.denx.de/wiki/U-Boot"
 
 LICENSE="GPL-2"
 KEYWORDS="~*"
-IUSE="dev sandbox unibuild vboot werror"
+IUSE="dev generated_cros_config sandbox unibuild vboot werror"
 
 DEPEND="sandbox? ( media-libs/libsdl:= )"
 
 RDEPEND="${DEPEND}
 	chromeos-base/u-boot-scripts
 	!!sys-boot/chromeos-u-boot
-	unibuild? ( chromeos-base/chromeos-config:= )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	"
 
 UB_BUILD_DIR="build"

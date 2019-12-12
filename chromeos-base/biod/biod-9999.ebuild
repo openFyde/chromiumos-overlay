@@ -24,6 +24,7 @@ IUSE="
 	fpmcu_firmware_nami
 	fpmcu_firmware_nocturne
 	fuzzer
+	generated_cros_config
 	unibuild
 "
 
@@ -31,7 +32,10 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/metrics:=
 	sys-apps/flashmap:=
-	unibuild? ( chromeos-base/chromeos-config:= )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 "
 RDEPEND="
 	${COMMON_DEPEND}
