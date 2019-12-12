@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="2fa0a14ea47f7d1c362e40d84cbe5d08484e3875"
-CROS_WORKON_TREE="f07ab10a62f1861760aafae8e5d502dfcb0778a9"
+CROS_WORKON_COMMIT="6d60e9d7adf88a879662bcfae3b9b1a1b4c4e4e7"
+CROS_WORKON_TREE="89b40eb0f26942faa2addec11949607fca755370"
 CROS_WORKON_PROJECT="chromiumos/third_party/novatek-tcon-fw-update-tool"
 CROS_WORKON_LOCALNAME="novatek-tcon-fw-update-tool"
 
