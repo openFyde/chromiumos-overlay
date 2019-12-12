@@ -1,17 +1,16 @@
 # Copyright 2012 The Chromium OS Authors.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 
 DESCRIPTION="coreboot's coreinfo payload"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="-* ~amd64 ~x86"
 
-RDEPEND="sys-boot/libpayload"
-DEPEND="sys-boot/libpayload"
+BDEPEND="dev-embedded/coreboot-sdk:="
+DEPEND="sys-boot/libpayload:="
 
 CROS_WORKON_LOCALNAME="coreboot"
 
