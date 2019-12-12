@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_COMMIT="f17caea7f6bdbafaca8de35e83178de3999e4f45"
 CROS_WORKON_TREE="0369647c48e87ad453ed6f5e83742b9c6be47794"
@@ -14,7 +14,6 @@ DESCRIPTION="Whining matrix"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/whining"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
