@@ -21,6 +21,7 @@ IUSE="+bluetooth_suspend_management fuzzer seccomp unibuild"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config:= )
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/newblue:=
 	net-wireless/bluez:=
 "
