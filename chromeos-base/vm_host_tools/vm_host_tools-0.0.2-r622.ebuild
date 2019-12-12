@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="f29f5a33f2a6abe07b0e7dc76015704491383903"
-CROS_WORKON_TREE=("5cb9db9acc2c8d080a7e084e9ce24fd658be84bc" "2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "5005470c8ec193497a20fd98cd235857efcf19e1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7f20e56a46dc82b40077a45f86726f9b0ef22eca"
+CROS_WORKON_TREE=("5cb9db9acc2c8d080a7e084e9ce24fd658be84bc" "2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "39275e1506e2b9e89e36ef34b9f4e007a31fdab3" "93761cd1e38dd268cc5101b8ba0ee580e60689e5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Remove arc/network from this list.
-CROS_WORKON_SUBTREE="arc/network common-mk vm_tools .gn"
+CROS_WORKON_SUBTREE="arc/network common-mk metrics vm_tools .gn"
 
 PLATFORM_SUBDIR="vm_tools"
 
@@ -34,6 +34,7 @@ RDEPEND="
 	chromeos-base/chunnel
 	chromeos-base/crosvm
 	chromeos-base/libbrillo
+	chromeos-base/metrics
 	chromeos-base/minijail
 	net-libs/grpc:=
 	dev-libs/protobuf:=
