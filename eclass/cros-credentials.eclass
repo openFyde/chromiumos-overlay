@@ -34,4 +34,7 @@ cros-credentials_setup() {
 		awk 'NF && $1 !~ /^#/ {print $1}' "${gitcookies_dst}"
 		git config --global http.cookiefile "${gitcookies_dst}"
 	fi
+
+	# Force disable user/pass prompting to avoid hanging builds.
+	git config --global core.askPass true
 }
