@@ -12,7 +12,7 @@ cros_pre_src_prepare_cross() {
 			cat<<EOF>"${waf}"
 			#!/bin/sh
 			# WAF_BINARY must be set from the ebuild.
-			exec "${WAF_BINARY}" "\$@" --cross-compile --cross-answers="${BASHRC_FILESDIR}/${ARCH}_waf_config_answers"
+			WAF_NO_PREFORK="1" exec "${WAF_BINARY}" "\$@" --cross-compile --cross-answers="${BASHRC_FILESDIR}/${ARCH}_waf_config_answers"
 EOF
 
 			chmod a+rx "${waf}"

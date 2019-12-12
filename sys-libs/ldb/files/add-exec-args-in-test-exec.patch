@@ -1,0 +1,42 @@
+diff --git a/buildtools/wafsamba/samba_waf18.py b/buildtools/wafsamba/samba_waf18.py
+index c0bb6bfcf55..547da1996da 100644
+--- a/buildtools/wafsamba/samba_waf18.py
++++ b/buildtools/wafsamba/samba_waf18.py
+@@ -1,7 +1,7 @@
+ # compatibility layer for building with more recent waf versions
+
+ import os, shlex, sys
+-from waflib import Build, Configure, Node, Utils, Options, Logs, TaskGen
++from waflib import Build, Configure, Node, Utils, Options, Logs, TaskGen, Task
+ from waflib import ConfigSet
+ from waflib.TaskGen import feature, after
+ from waflib.Configure import conf, ConfigurationContext
+@@ -429,3 +429,28 @@ def add_obj_file(self, file):
+     if not 'process_obj_files' in self.meths:
+         self.meths.append('process_obj_files')
+     self.obj_files.append(file)
++
++
++class test_exec(Task.Task):
++    """
++    A task that runs programs after they are built. See :py:func:`waflib.Tools.c_config.test_exec_fun`.
++    """
++    color = 'PINK'
++    def run(self):
++        exec_args = Utils.to_list(self.generator.exec_args)
++
++        if getattr(self.generator, 'rpath', None):
++            if getattr(self.generator, 'define_ret', False):
++                self.generator.bld.retval = self.generator.bld.cmd_and_log([self.inputs[0].abspath()] + exec_args)
++            else:
++                self.generator.bld.retval = self.generator.bld.exec_command([self.inputs[0].abspath()] + exec_args)
++        else:
++            env = self.env.env or {}
++            env.update(dict(os.environ))
++            for var in ('LD_LIBRARY_PATH', 'DYLD_LIBRARY_PATH', 'PATH'):
++                env[var] = self.inputs[0].parent.abspath() + os.path.pathsep + env.get(var, '')
++
++            if getattr(self.generator, 'define_ret', False):
++                self.generator.bld.retval = self.generator.bld.cmd_and_log([self.inputs[0].abspath()] + exec_args, env=env)
++            else:
++                self.generator.bld.retval = self.generator.bld.exec_command([self.inputs[0].abspath()] + exec_args, env=env)
