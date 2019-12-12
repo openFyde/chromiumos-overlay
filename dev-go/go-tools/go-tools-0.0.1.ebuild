@@ -3,7 +3,8 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools a434f64ace81347eff0fb4a32bc80a235e0ad762"
+# pick go-tools at the current head of release-branch.go1.13
+CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools 65e3620a7ae7ac25e8494a60f0e5ef4e4fba03b3"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/ast/astutil"
@@ -34,5 +35,5 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND=""
+DEPEND="dev-go/net"
 RDEPEND=""
