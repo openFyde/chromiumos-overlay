@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="26fbb91c9f9bd00e3fc20f38bcc9371485589603"
-CROS_WORKON_TREE="5ecce526d10e3fd6ede24bf877c178b5b11fa759"
+CROS_WORKON_COMMIT="e2497b44ab9698768745657744e7ae210cbc7d26"
+CROS_WORKON_TREE="8072e73fce4ac6e59c57c97aaa3e9ad349729ea9"
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
 CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.8"
 
