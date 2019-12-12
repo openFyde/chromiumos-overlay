@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
 CROS_WORKON_SUBTREE="util/crossgcc"
@@ -11,7 +11,6 @@ inherit cros-workon toolchain-funcs multiprocessing
 DESCRIPTION="upstream coreboot's compiler suite"
 HOMEPAGE="https://www.coreboot.org"
 LICENSE="GPL-3 LGPL-3"
-SLOT="0"
 KEYWORDS="~*"
 
 STRIP_MASK="*.a *.o"
@@ -42,6 +41,8 @@ buildgcc_failed() {
 }
 
 src_prepare() {
+	eapply_user
+
 	mkdir util/crossgcc/tarballs
 	ln -s "${DISTDIR}"/* util/crossgcc/tarballs/
 	unpack gnat-gpl-2017-x86_64-linux-bin.tar.gz
