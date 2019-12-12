@@ -5,7 +5,7 @@
 # coreboot and an auto-revbump is required.
 # VERSION=REVBUMP-0.0.60
 
-EAPI=5
+EAPI=7
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
 	"chromiumos/third_party/arm-trusted-firmware"
@@ -36,7 +36,6 @@ inherit cros-board cros-workon toolchain-funcs cros-unibuild coreboot-sdk
 DESCRIPTION="coreboot firmware"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
 IUSE="${IUSE} +bmpblk +intel_mrc qca-framework quiet unibuild verbose"
@@ -48,13 +47,13 @@ RESTRICT="strip"
 
 RDEPEND=""
 DEPEND="
-	mtc? ( sys-boot/mtc )
+	mtc? ( sys-boot/mtc:= )
 	virtual/coreboot-private-files
-	bmpblk? ( sys-boot/chromeos-bmpblk )
-	intel_mrc? ( x86? ( sys-boot/chromeos-mrc )
-		amd64? ( sys-boot/chromeos-mrc ) )
-	chipset_stoneyridge? ( sys-boot/amd-firmware )
-	qca-framework? ( sys-boot/qca-framework )
+	bmpblk? ( sys-boot/chromeos-bmpblk:= )
+	intel_mrc? ( x86? ( sys-boot/chromeos-mrc:= )
+		amd64? ( sys-boot/chromeos-mrc:= ) )
+	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
+	qca-framework? ( sys-boot/qca-framework:= )
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
@@ -191,6 +190,8 @@ src_prepare() {
 	local froot="${SYSROOT}/firmware"
 	local privdir="${SYSROOT}/firmware/coreboot-private"
 	local file
+
+	default
 
 	if [[ -d "${privdir}" ]]; then
 		while read -d $'\0' -r file; do
