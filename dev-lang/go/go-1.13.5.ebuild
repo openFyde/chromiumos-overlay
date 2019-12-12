@@ -65,10 +65,6 @@ src_configure() {
 	export GOROOT_FINAL="${EPREFIX}$(get_goroot)"
 }
 
-src_prepare() {
-	epatch "${FILESDIR}"/20190118-crypto-elliptic-reduction.patch
-}
-
 src_compile() {
 	einfo "Building the bootstrap compiler."
 	cd "${GOROOT_BOOTSTRAP}/src"
