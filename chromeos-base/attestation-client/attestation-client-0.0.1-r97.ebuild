@@ -1,22 +1,22 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="5"
 
-CROS_WORKON_COMMIT="60776a341715ebad1a9474c9443fef4bf6f65024"
-CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "ba36a59fd81bd8f68524413c54832b0ddfb94cdc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1615e5d5b09585f56e763693757bdc08bfb77055"
+CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "6260df5fc14c73bef173edb83ff3c3d2490df5bc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk tpm_manager .gn"
+CROS_WORKON_SUBTREE="common-mk attestation .gn"
 
-PLATFORM_SUBDIR="tpm_manager/client"
+PLATFORM_SUBDIR="attestation/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="TPM Manager D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_manager/client/"
+DESCRIPTION="Attestation D-Bus client library for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/attestation/client/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -34,17 +34,17 @@ DEPEND="
 	chromeos-base/libbrillo:=
 "
 
-# Note that for RDEPEND, we conflict with tpm_manager package older than
+# Note that for RDEPEND, we conflict with attestation package older than
 # 0.0.1 because this client is incompatible with daemon older than version
-# 0.0.1. We didn't RDEPEND on tpm_manager version 0.0.1 or greater because
-# we don't want to create circular dependency in case the package tpm_manager
+# 0.0.1. We didn't RDEPEND on attestation version 0.0.1 or greater because
+# we don't want to create circular dependency in case the package attestation
 # depends on some package foo that also depend on this package.
 RDEPEND="
-	!<chromeos-base/tpm_manager-0.0.1
+	!<chromeos-base/attestation-0.0.1
 	chromeos-base/libbrillo:=
 "
 
 src_install() {
 	# Install D-Bus client library.
-	platform_install_dbus_client_lib "tpm_manager"
+	platform_install_dbus_client_lib "attestation"
 }
