@@ -1,9 +1,9 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-CROS_WORKON_COMMIT="8ed88c6b7f733a8bd5a1264d4b9eb3dd3ae9375e"
+CROS_WORKON_COMMIT="5b9f8f2862b88a04da387e15229a0acd03f0805a"
 CROS_WORKON_TREE="368bde0eb80849524bc994d65783f4189e7487f9"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
