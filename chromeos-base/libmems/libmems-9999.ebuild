@@ -39,3 +39,15 @@ src_install() {
 	insinto "/usr/include/chromeos/libmems"
 	doins *.h
 }
+
+platform_pkg_test() {
+	local tests=(
+		libmems_testrunner
+	)
+
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test "run" "${OUT}/${test_bin}"
+	done
+}
+
