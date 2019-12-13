@@ -12,8 +12,8 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="detachable_ui diag_payload fwconsole mocktpm pd_sync unibuild
-	verbose debug generated_cros_config"
+IUSE="detachable menu_ui legacy_menu_ui diag_payload fwconsole mocktpm pd_sync
+	unibuild verbose debug generated_cros_config"
 
 DEPEND="
 	sys-boot/libpayload
@@ -100,8 +100,16 @@ make_depthcharge() {
 		echo "CONFIG_SYS_PROMPT=\"${board}: \"" >> \
 		  "board/${board}/defconfig"
 	fi
-	if use detachable_ui ; then
-		echo "CONFIG_DETACHABLE_UI=y" >> "board/${board}/defconfig"
+	if use detachable ; then
+		echo "CONFIG_DETACHABLE=y" >> "board/${board}/defconfig"
+	fi
+	if use menu_ui ; then
+		echo "CONFIG_MENU_UI=y" >> "board/${board}/defconfig"
+	elif use legacy_menu_ui ; then
+		echo "CONFIG_LEGACY_MENU_UI=y" >> "board/${board}/defconfig"
+	else
+		echo "CONFIG_LEGACY_CLAMSHELL_UI=y" >> \
+			"board/${board}/defconfig"
 	fi
 	# Using diagnostic payload implies enabling UI to run it
 	if use diag_payload ; then
