@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d36f8a9bf6341e0f7ca51e5f520c2867d7b810ee"
+CROS_WORKON_COMMIT="645eb2c6f16bfdd5e28b2f8e642a2ee478419ada"
 CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "42e1268fc0376c6e852d059cb3b4ed47a199c460" "f3b755897d437442e18e07bf29aa94f029f99e79" "39275e1506e2b9e89e36ef34b9f4e007a31fdab3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -15,11 +15,19 @@ PLATFORM_SUBDIR="biod"
 inherit cros-fuzzer cros-sanitizers cros-workon platform udev user
 
 DESCRIPTION="Biometrics Daemon for Chromium OS"
-HOMEPAGE="http://dev.chromium.org/chromium-os/packages/biod"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/README.md"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="fp_on_power_button fuzzer unibuild"
+IUSE="
+	fp_on_power_button
+	fpmcu_firmware_bloonchipper
+	fpmcu_firmware_dartmonkey
+	fpmcu_firmware_nami
+	fpmcu_firmware_nocturne
+	fuzzer
+	unibuild
+"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
@@ -31,6 +39,16 @@ RDEPEND="
 	${COMMON_DEPEND}
 	sys-apps/flashrom
 	virtual/chromeos-firmware-fpmcu
+	"
+
+# Release branch firmware.
+# The USE flags below come from USE_EXPAND variables.
+# See third_party/chromiumos-overlay/profiles/base/make.defaults.
+RDEPEND+="
+	fpmcu_firmware_bloonchipper? ( sys-firmware/chromeos-fpmcu-release-bloonchipper )
+	fpmcu_firmware_dartmonkey? ( sys-firmware/chromeos-fpmcu-release-dartmonkey )
+	fpmcu_firmware_nami? ( sys-firmware/chromeos-fpmcu-release-nami )
+	fpmcu_firmware_nocturne? ( sys-firmware/chromeos-fpmcu-release-nocturne )
 "
 
 DEPEND="
