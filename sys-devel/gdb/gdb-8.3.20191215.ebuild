@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -6,7 +6,7 @@ PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
 
 inherit flag-o-matic eutils python-single-r1 versionator
 
-GIT_SHAI="689b53dab1f782ff0ecc29f4d65e0d193c376703"
+GIT_SHAI="4d64623fc5a88a041fbb0ad5f4ad9d65cb0d4b47"
 SRC_URI="https://android.googlesource.com/toolchain/gdb/+archive/${GIT_SHAI}.tar.gz -> ${P}.tar.gz"
 
 export CTARGET=${CTARGET:-${CHOST}}
@@ -65,19 +65,18 @@ src_unpack() {
 		cp -r "${GDBDIR}"/* "${S}"
 	else
 		default
-		S="${WORKDIR}/${PN}-$(get_version_component_range 1-3)"
 	fi
+	S="${WORKDIR}/${PN}-$(get_version_component_range 1-2)"
 }
 
 src_prepare() {
 	[[ -n ${RPM} ]] && rpm_spec_epatch "${WORKDIR}"/gdb.spec
 	! use vanilla && [[ -n ${PATCH_VER} ]] && EPATCH_SUFFIX="patch" epatch "${WORKDIR}"/patch
-	epatch "${FILESDIR}"/gdb-8.0.1-remote-arm64.patch
-	epatch "${FILESDIR}"/gdb-8.0.1-sht_relr.patch
+	epatch "${FILESDIR}"/gdb-8.3-sht_relr.patch
 
 	default
 
-	strip-linguas -u bfd/po opcodes/po
+	strip-linguas -u gdb-8.3/bfd/po gdb-8.3/opcodes/po
 }
 
 gdb_branding() {
