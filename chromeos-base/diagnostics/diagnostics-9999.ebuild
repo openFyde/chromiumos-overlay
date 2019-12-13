@@ -119,7 +119,6 @@ platform_pkg_test() {
 		cros_healthd_test
 		libcommon_test
 		libcros_healthd_utils_test
-		libdiag_test
 		libgrpc_async_adapter_test
 		libtelem_test
 		routine_test
