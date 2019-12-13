@@ -10,7 +10,6 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk arc/mount-passthrough .gn"
 
 PLATFORM_SUBDIR="arc/mount-passthrough"
-PLATFORM_GYP_FILE="mount-passthrough.gyp"
 
 inherit cros-workon platform
 
