@@ -55,6 +55,7 @@ PATCHES=(
 	"${FILESDIR}/0030-BACKPORT-sync-enum-nl80211_commands-with-kernel-v5.2.patch"
 	"${FILESDIR}/0031-FROMLIST-media-pixfmt-Add-Mediatek-ISP-P1-image-meta.patch"
 	"${FILESDIR}/0032-BACKPORT-add-udmabuf-header.patch"
+	"${FILESDIR}/0033-FROMGIT-Input-add-privacy-screen-toggle-keycode.patch"
 )
 
 src_unpack() {
