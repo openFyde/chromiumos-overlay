@@ -6,14 +6,15 @@ CROS_WORKON_PROJECT="chromiumos/platform/tast"
 CROS_WORKON_LOCALNAME="tast"
 
 CROS_GO_BINARIES=(
-	"chromiumos/cmd/remote_test_runner"
-	"chromiumos/cmd/tast"
+	"chromiumos/tast/cmd/remote_test_runner"
+	"chromiumos/tast/cmd/tast"
 )
 
 CROS_GO_VERSION="${PF}"
 
 CROS_GO_TEST=(
-	"chromiumos/cmd/tast/..."
+	"chromiumos/tast/cmd/remote_test_runner/..."
+	"chromiumos/tast/cmd/tast/..."
 	# Also test common code.
 	"chromiumos/tast/..."
 )
