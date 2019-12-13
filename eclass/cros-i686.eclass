@@ -97,7 +97,7 @@ platform_src_configure_i686() {
 	push_i686_env
 	cros-debug-add-NDEBUG
 	append-lfs-flags
-	platform_configure "--cache_dir=${cache}" "${S}/${PLATFORM_GYP_FILE}" "$@"
+	platform_configure "--cache_dir=${cache}" "$@"
 	pop_i686_env
 }
 
