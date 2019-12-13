@@ -286,7 +286,7 @@ IUSE="
 	${IUSE_TESTS}
 "
 
-CROS_WORKON_LOCALNAME=../third_party/autotest/files
+CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 AUTOTEST_DEPS_LIST=""
 AUTOTEST_CONFIG_LIST=""

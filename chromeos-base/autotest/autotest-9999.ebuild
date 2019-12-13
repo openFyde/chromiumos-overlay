@@ -28,7 +28,7 @@ DEPEND="${RDEPEND}"
 # Ensure the configures run by autotest pick up the right config.site
 export CONFIG_SITE=/usr/share/config.site
 
-CROS_WORKON_LOCALNAME=../third_party/autotest/files
+CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 AUTOTEST_WORK="${WORKDIR}/autotest-work"
 
