@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="84560ed00ea89cec7819c8b471b591b27a304fde"
-CROS_WORKON_TREE="bded2cbfde052df8e818830a499945b3c1c163c0"
+CROS_WORKON_COMMIT="ed09a88cd0bf70baef73826df579433823a38f67"
+CROS_WORKON_TREE="57854e815083edc5ebb5e11cc0cf08eba8f0df83"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="vm_tools/chunnel"
