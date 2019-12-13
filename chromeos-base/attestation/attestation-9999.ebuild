@@ -60,11 +60,9 @@ src_install() {
 
 		insinto /etc/init
 		doins server/attestationd.conf
-		if use tpm2; then
-			sed -i 's/started tcsd/started tpm_managerd/' \
-				"${D}/etc/init/attestationd.conf" ||
-				die "Can't replace tcsd with tpm_managerd in attestationd.conf"
-		fi
+		sed -i 's/started tcsd/started tpm_managerd/' \
+			"${D}/etc/init/attestationd.conf" ||
+			die "Can't replace tcsd with tpm_managerd in attestationd.conf"
 
 		dosbin "${OUT}"/attestationd
 		dobin "${OUT}"/attestation_client
