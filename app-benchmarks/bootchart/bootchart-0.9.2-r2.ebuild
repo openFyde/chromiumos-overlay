@@ -5,6 +5,7 @@
 # of the bootchart project to use a C-based collector daemon. There wasn't a
 # good link to a source tarball to use in the ebuild and all we need are the
 # collector and gather files from it so they are inlined in the FILESDIR.
+EAPI=7
 
 inherit toolchain-funcs
 
@@ -12,7 +13,7 @@ DESCRIPTION="Performance analysis and visualization of the system boot process"
 HOMEPAGE="http://packages.ubuntu.com/lucid/bootchart"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 arm x86"
+KEYWORDS="*"
 IUSE=""
 
 DEPEND=""
@@ -26,7 +27,7 @@ src_unpack() {
 }
 
 src_compile() {
-	$(tc-getCC) ${CFLAGS} -o collector collector.c ||
+	$(tc-getCC) ${CFLAGS} ${CPPFLAGS} -o collector collector.c ||
 		die "Unable to compile bootchart collector."
 }
 
