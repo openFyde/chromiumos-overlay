@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5791825c6d7cf671739cf8b4ed1d1bf1a250d1b8"
+CROS_WORKON_COMMIT="00ad71fa640c018c1d014f467c50b9a7dc962a10"
 CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "5a6ba54922183299d439db62abe9ab3ec41b80af" "59153269864f6083e0d96b863a6f24ed57219527" "38a36f76290e3e0f13d021ad8597ea5f250a05ba" "a10541b781bce7a5076c93a9b3d44e47e3b378b9" "3c679089f3bda24fecdd19918e96cf2b72e8f9a0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -62,11 +62,9 @@ src_install() {
 
 		insinto /etc/init
 		doins server/attestationd.conf
-		if use tpm2; then
-			sed -i 's/started tcsd/started tpm_managerd/' \
-				"${D}/etc/init/attestationd.conf" ||
-				die "Can't replace tcsd with tpm_managerd in attestationd.conf"
-		fi
+		sed -i 's/started tcsd/started tpm_managerd/' \
+			"${D}/etc/init/attestationd.conf" ||
+			die "Can't replace tcsd with tpm_managerd in attestationd.conf"
 
 		dosbin "${OUT}"/attestationd
 		dobin "${OUT}"/attestation_client
