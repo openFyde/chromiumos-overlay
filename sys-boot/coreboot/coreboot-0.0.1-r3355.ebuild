@@ -42,7 +42,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
 IUSE="${IUSE} +bmpblk +intel_mrc qca-framework quiet unibuild verbose"
-IUSE="${IUSE} amd_cpu coreboot-sdk"
+IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge"
 # coreboot's build system handles stripping the binaries and producing a
 # separate .debug file with the symbols. This flag prevents portage from
 # stripping the .debug symbols
@@ -55,7 +55,7 @@ DEPEND="
 	bmpblk? ( sys-boot/chromeos-bmpblk )
 	intel_mrc? ( x86? ( sys-boot/chromeos-mrc )
 		amd64? ( sys-boot/chromeos-mrc ) )
-	amd_cpu? ( sys-boot/amd-firmware )
+	chipset_stoneyridge? ( sys-boot/amd-firmware )
 	qca-framework? ( sys-boot/qca-framework )
 	unibuild? ( chromeos-base/chromeos-config )
 	"
