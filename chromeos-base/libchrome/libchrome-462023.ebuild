@@ -152,6 +152,10 @@ src_prepare() {
 	# # TODO(weidonglin): Remove after libchrome uprev past r552089.
 	epatch "${FILESDIR}"/${P}-libchrome-Don-t-crash-for-mismatched-histogram-parms.patch
 
+	# Fix FileDescriptorWatcher leak
+	# TODO(fqj): Remove after libchrome past r627021.
+	epatch "${FILESDIR}"/${P}-fix-fd-watcher-leak.patch
+
 	# Use correct shebang for these python2-only scripts.
 	find "${S}"/mojo/ -name '*.py' \
 		-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
