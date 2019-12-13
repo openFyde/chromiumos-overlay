@@ -739,6 +739,10 @@ setup_test_lists() {
 
 # Handle all CFLAGS/CXXFLAGS/etc... munging here.
 setup_compile_flags() {
+	# Chrome controls its own optimization settings, so this would be a nop
+	# if we were to run it. Leave it here anyway as a grep-friendly marker.
+	# cros_optimize_package_for_speed
+
 	# The chrome makefiles specify -O and -g flags already, so remove the
 	# portage flags.
 	filter-flags -g -O*
@@ -776,6 +780,12 @@ setup_compile_flags() {
 			EBUILD_LDFLAGS+=( -gsplit-dwarf )
 		fi
 		EBUILD_LDFLAGS+=( ${thinlto_ldflag} )
+		# if using thinlto, we need to pass the equivalent of
+		# -fdebug-types-section to the backend, to prevent out-of-range
+		# relocations (see
+		# https://bugs.chromium.org/p/chromium/issues/detail?id=1032159).
+		append-ldflags -Wl,-mllvm
+		append-ldflags -Wl,-generate-type-units
 	fi
 
 	if use orderfile_generate; then
