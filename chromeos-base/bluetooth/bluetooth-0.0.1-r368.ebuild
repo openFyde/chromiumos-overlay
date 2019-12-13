@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d36f8a9bf6341e0f7ca51e5f520c2867d7b810ee"
+CROS_WORKON_COMMIT="645eb2c6f16bfdd5e28b2f8e642a2ee478419ada"
 CROS_WORKON_TREE=("2e487464bf8f7df9d7bea110f9c514bd1e56bf4f" "f3b755897d437442e18e07bf29aa94f029f99e79" "a586d52555f556438492650a9423e8999e236854" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,6 +23,7 @@ IUSE="+bluetooth_suspend_management fuzzer seccomp unibuild"
 
 RDEPEND="
 	unibuild? ( chromeos-base/chromeos-config:= )
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/newblue:=
 	net-wireless/bluez:=
 "
