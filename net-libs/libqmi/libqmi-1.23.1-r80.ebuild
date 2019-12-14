@@ -20,6 +20,7 @@ RDEPEND=">=dev-libs/glib-2.36
 	mbim? ( >=net-libs/libmbim-1.18.0 )"
 DEPEND="${RDEPEND}
 	doc? ( dev-util/gtk-doc )
+	sys-devel/autoconf-archive
 	virtual/pkgconfig"
 
 src_prepare() {
