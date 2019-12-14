@@ -29,6 +29,11 @@ src_configure() {
 	# Use arc-build base class to select the right compiler
 	arc-build-select-clang
 
+	# This packages uses -flto with gold, which doesn't support -Os
+	# or -Oz. This produces a 76KB .so, so optimizing for size is
+	# probably not a big deal.
+	cros_optimize_package_for_speed
+
 	BUILD_DIR="$(cros-workon_get_build_dir)"
 
 	append-lfs-flags
