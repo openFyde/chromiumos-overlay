@@ -80,11 +80,13 @@ src_configure() {
 		append-ldflags "-Wl,--no-gc-sections"
 		cros-workon_src_configure \
 			$(use_enable cras-apm webrtc-apm) \
+			--with-system-cras-rust \
 			$(use_enable amd64 fuzzer)
 	else
 		cros-workon_src_configure $(use_enable selinux) \
 			$(use_enable cras-apm webrtc-apm) \
 			--enable-metrics \
+			--with-system-cras-rust \
 			$(use_enable amd64 fuzzer)
 	fi
 }
