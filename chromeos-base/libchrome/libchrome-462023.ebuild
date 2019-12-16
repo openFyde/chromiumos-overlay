@@ -144,6 +144,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-4.patch
 	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-5.patch
 	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-6.patch
+	epatch "${FILESDIR}"/${P}-r576279-forward-compatibility-patch-part-7.patch
 	# Fix -Wimplicit-int-float-converion warnings.  Based on
 	# https://chromium-review.googlesource.com/c/chromium/src/+/1830114
 	# This patch can be removed after libchrome r701704.

@@ -1,4 +1,4 @@
-From 5892a82325544ae1e7c7500432fe35d37c4d8a73 Mon Sep 17 00:00:00 2001
+From c51e12c46972ede4113847dee44ef570a557e2c0 Mon Sep 17 00:00:00 2001
 From: hscham <hscham@chromium.org>
 Date: Wed, 11 Dec 2019 12:06:30 +0900
 Subject: [PATCH] libchrome: r576279 forward compatibility patch part 7
@@ -12,16 +12,16 @@ TEST=build
 
 Change-Id: I8746e3cad506e2524209fd69eb0f513119916177
 ---
- base/containers/flat_map.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ base/containers/flat_map.h | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
  create mode 100644 base/containers/flat_map.h
 
 diff --git a/base/containers/flat_map.h b/base/containers/flat_map.h
 new file mode 100644
-index 0000000..942992d
+index 0000000..279974a
 --- /dev/null
-+++ b/base/containers/flat_map.h
-@@ -0,0 +1,20 @@
++++ base/containers/flat_map.h
+@@ -0,0 +1,22 @@
 +// Copyright (c) 2011 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -31,6 +31,8 @@ index 0000000..942992d
 +
 +#ifndef BASE_CONTAINERS_FLAT_MAP_H_
 +#define BASE_CONTAINERS_FLAT_MAP_H_
++
++#include <unordered_map>
 +
 +namespace base {
 +template <class Key,
@@ -43,5 +45,5 @@ index 0000000..942992d
 +
 +#endif // BASE_CONTAINERS_FLAT_MAP_H_
 -- 
-2.24.0.525.g8f36a354ae-goog
+2.24.1.735.g03f4e72817-goog
 
