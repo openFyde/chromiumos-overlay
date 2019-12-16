@@ -182,7 +182,7 @@ cros_post_src_unpack_asan_init() {
 	mkdir -p "${coverage_path%/*}"
 
 	local strip_sysroot
-	if [[ -n "${PLATFORM_GYP_FILE}" ]]; then
+	if [[ -n "${PLATFORM_BUILD}" ]]; then
 		# platform_test chroots into $SYSROOT before running the unit
 		# tests, so we need to strip the $SYSROOT prefix from the
 		# 'log_path' option specified in $ASAN_OPTIONS and the
