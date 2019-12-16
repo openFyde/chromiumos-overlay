@@ -11,7 +11,7 @@ EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 # llvm:361749 https://critique.corp.google.com/#review/252092293
 # Master bug: crbug/972454
 LLVM_HASH="1bea97c971d60f261f1bdfaa7b6d9cb30a6962fd" # r370808
-LLVM_NEXT_HASH="1bea97c971d60f261f1bdfaa7b6d9cb30a6962fd" # r370808
+LLVM_NEXT_HASH="4e8231b5cf0f5f62c7a51a857e29f5be5cb55734" # r377782
 
 DESCRIPTION="Compiler runtime library for clang"
 HOMEPAGE="http://compiler-rt.llvm.org/"
