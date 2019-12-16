@@ -71,8 +71,10 @@ MARCH_TUNE=""
 
 # Allow a board to override or define additional settings.
 source make.conf.board
-COMMON_COMPILER_FLAGS="-O2 -pipe ${MARCH_TUNE} ${BOARD_COMPILER_FLAGS} -g ${CXXEXCEPTIONS_FLAGS} \
--ffunction-sections -fdata-sections"
+# FIXME(crbug.com/908661): Once the size optimization experiment is done, remove
+# SIZE_OPTIMIZATION_FLAG.
+COMMON_COMPILER_FLAGS="-O2 -pipe ${MARCH_TUNE} ${BOARD_COMPILER_FLAGS} ${SIZE_OPTIMIZATION_FLAG} \
+-g ${CXXEXCEPTIONS_FLAGS} -ffunction-sections -fdata-sections"
 CFLAGS="${CFLAGS} ${COMMON_COMPILER_FLAGS}"
 CXXFLAGS="${CXXFLAGS} ${COMMON_COMPILER_FLAGS}"
 # Clear the variable so people don't try to rely on it.
