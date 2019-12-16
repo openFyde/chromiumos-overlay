@@ -42,7 +42,7 @@ _ARC_BUILD_ECLASS=1
 
 # Check for EAPI 4+.
 case "${EAPI:-0}" in
-4|5|6) ;;
+4|5|6|7) ;;
 *) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
