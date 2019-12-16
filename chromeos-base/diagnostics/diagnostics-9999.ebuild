@@ -119,12 +119,13 @@ platform_pkg_test() {
 		cros_healthd_test
 		libcommon_test
 		libcros_healthd_utils_test
-		libgrpc_async_adapter_test
-		libtelem_test
 		routine_test
 	)
 	if use wilco; then
-		tests+=( wilco_dtc_supportd_test )
+		tests+=(
+			libgrpc_async_adapter_test
+			wilco_dtc_supportd_test
+		)
 	fi
 
 	local test_bin
