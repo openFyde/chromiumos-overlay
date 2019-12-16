@@ -32,9 +32,11 @@ REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
 "
 
+# TODO(sjg@chromium.org): Drop this zork stuff when the code is upstream
 DEPEND="
 	chromeos-base/vboot_reference
-	sys-boot/coreboot
+	zork? ( sys-boot/coreboot-zork )
+	!zork? ( sys-boot/coreboot )
 	depthcharge? ( sys-boot/depthcharge )
 	bmpblk? ( sys-boot/chromeos-bmpblk )
 	tianocore? ( sys-boot/edk2 )
