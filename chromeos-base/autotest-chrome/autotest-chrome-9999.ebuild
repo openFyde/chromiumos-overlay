@@ -146,6 +146,8 @@ IUSE_TESTS=(
 	+tests_policy_DeveloperToolsAvailability
 	+tests_policy_DeviceAllowBluetooth
 	+tests_policy_DeviceAutoUpdateDisabled
+	+tests_policy_DeviceCharging
+	+tests_policy_DeviceScheduledCharging
 	+tests_policy_DeviceTargetVersionPrefix
 	+tests_policy_DeviceWilcoDtcAllowed
 	+tests_policy_DisableScreenshots
