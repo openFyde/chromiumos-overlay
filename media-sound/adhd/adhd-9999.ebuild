@@ -128,8 +128,13 @@ src_install() {
 	insinto /etc
 	doins "${FILESDIR}"/asound.conf
 
-	# Install fuzzer binary
-	fuzzer_install "${S}/OWNERS" cras/src/cras_rclient_message_fuzzer
+	if use fuzzer ; then
+		# Install example dsp.ini file for fuzzer
+		insinto /etc/cras
+		doins cras-config/dsp.ini.sample
+		# Install fuzzer binary
+		fuzzer_install "${S}/OWNERS" cras/src/cras_rclient_message_fuzzer
+	fi
 }
 
 pkg_preinst() {
