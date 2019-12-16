@@ -132,6 +132,9 @@ src_prepare() {
 	# b/144464741
 	epatch "${FILESDIR}"/CHROMIUM-Revert-st-mesa-radeonsi-fix-race-between-destruction.patch
 
+	# b/145784205
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-disable-dcc-for-2x-MSAA-surface-and-bpe-4.patch
+
 	default
 }
 
