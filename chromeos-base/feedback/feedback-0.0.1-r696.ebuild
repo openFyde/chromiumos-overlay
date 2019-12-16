@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="efcaf836bd1e6486c495b780cb0edc81768c1fff"
+CROS_WORKON_COMMIT="d5691fbb9446e599189cb3be9f269309a3132933"
 CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "8a29ffc2bd507e66b634104585e59b02dc8a7ab3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,17 +18,10 @@ inherit cros-constants cros-workon git-2 platform
 DESCRIPTION="Feedback service for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
-RDEPEND="
-	chromeos-base/libbrillo
-	"
-
-DEPEND="
-	${RDEPEND}
-	chromeos-base/system_api
-	"
+RDEPEND=""
+DEPEND="chromeos-base/system_api:="
 
 src_unpack() {
 	platform_src_unpack
