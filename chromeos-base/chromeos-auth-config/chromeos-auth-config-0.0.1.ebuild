@@ -1,7 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="7"
 
 inherit pam
 
@@ -12,10 +12,9 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
-RDEPEND="!<=sys-apps/shadow-4.1.2.2-r6
-	>=sys-auth/pambase-20090620.1-r7
+DEPEND="sys-auth/pambase"
+RDEPEND="${DEPEND}
 	chromeos-base/vboot_reference"
-DEPEND="${RDEPEND}"
 
 S="${WORKDIR}"
 
