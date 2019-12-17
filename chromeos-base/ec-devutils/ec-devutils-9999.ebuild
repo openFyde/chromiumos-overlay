@@ -16,7 +16,9 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="hammerd"
 
-DEPEND="virtual/libusb:1="
+DEPEND="virtual/libusb:1=
+	sys-apps/flashmap:=
+	"
 RDEPEND="
 	${DEPEND}
 	app-mobilephone/dfu-util
