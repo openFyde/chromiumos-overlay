@@ -160,6 +160,18 @@ install_generated_config_files() {
 	doins "${FILESDIR}/generated/ec_config.c"
 }
 
+# @FUNCTION: install_private_file_dump
+# @USAGE:
+# @DESCRIPTION:
+# Installs file_dump-private.txt and file_dump-private.sh into
+# $CROS_CONFIG_TEST_DIR.
+install_private_file_dump() {
+	insinto "${CROS_CONFIG_TEST_DIR}"
+	doins "${FILESDIR}/file_dump-private.txt"
+	doins "${FILESDIR}/file_dump-private.sh"
+	chmod 755 "${D}${CROS_CONFIG_TEST_DIR}/file_dump-private.sh"
+}
+
 # @FUNCTION: verify_file_match
 # @USAGE: [expected_file] [actual_file]
 # @DESCRIPTION:
