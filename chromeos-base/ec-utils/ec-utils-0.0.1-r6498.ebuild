@@ -9,9 +9,9 @@
 # available to build. The logic in this ebuild succeeds so long as one
 # of the many models successfully builds.
 
-EAPI=5
-CROS_WORKON_COMMIT="e0d99a923236fb2f65fb8301e6ac631ba4d4267b"
-CROS_WORKON_TREE="68d3fc6879fe662130bc27f25a03791284bf8f30"
+EAPI=7
+CROS_WORKON_COMMIT="340804c765a2e6e6cb9e3f296f2f68c47ad8521e"
+CROS_WORKON_TREE="e7226bd95bd1ff428b2c7bebca02473363c3f777"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 
@@ -23,14 +23,14 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="-cr50_onboard -cr50_utils static unibuild -updater_utils"
 IUSE="${IUSE} cros_host +cros_ec_utils"
 
-DEPEND="dev-embedded/libftdi:=
+COMMON_DEPEND="dev-embedded/libftdi:=
 	virtual/libusb:1="
-RDEPEND="${DEPEND}"
+DEPEND="${COMMON_DEPEND}"
+RDEPEND="${COMMON_DEPEND}"
 
 pkg_preinst() {
 	enewgroup "dialout"

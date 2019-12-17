@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 CROS_WORKON_COMMIT="3c51d5fe1d3403da2bb7d73a8dedf710dfc70704"
 CROS_WORKON_TREE="3eb3bb04d5bb1a0ebb1785eb9f8a746185c44cfc"
 CROS_WORKON_LOCALNAME="xorg-conf"
@@ -15,12 +15,10 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="elan"
 
-RDEPEND="!chromeos-base/touchpad-linearity
-	!<=chromeos-base/xorg-conf-0.0.6-r128"
+RDEPEND="!chromeos-base/touchpad-linearity"
 DEPEND=""
 
 src_install() {
