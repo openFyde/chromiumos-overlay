@@ -1,16 +1,19 @@
-commit af9df8054c366c6632aec1247e32156fb2325c0b
-Author: Patrick Georgi <pgeorgi@google.com>
-Date:   Wed Jun 6 17:17:27 2018 +0200
+From 6f408c969d32d489acd5e65589e2d6af5677cdd1 Mon Sep 17 00:00:00 2001
+From: Simon Glass <sjg@chromium.org>
+Date: Wed, 18 Dec 2019 11:15:07 -0700
+Subject: [PATCH] WIP: hook into emuvariable to sync data with coreboot smm
+ store
 
-    WIP: hook into emuvariable to sync data with coreboot smm store
-    
-    Change-Id: I7f443b9f36612f79787e1b4b1075176a91107686
-    Signed-off-by: Patrick Georgi <pgeorgi@google.com>
+Change-Id: I7f443b9f36612f79787e1b4b1075176a91107686
+Signed-off-by: Patrick Georgi <pgeorgi@google.com>
+---
+ .../Variable/EmuRuntimeDxe/EmuVariable.c      | 157 ++++++++++++++++++
+ 1 file changed, 157 insertions(+)
 
-diff --git MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariable.c MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariable.c
-index 6dee2b6add..45ac02b142 100644
---- MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariable.c
-+++ MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariable.c
+diff --git a/MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariable.c b/MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariable.c
+index 6dee2b6add4..45ac02b142c 100644
+--- a/MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariable.c
++++ b/MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariable.c
 @@ -14,8 +14,53 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
  
  **/
@@ -197,3 +200,6 @@ index 6dee2b6add..45ac02b142 100644
 +
    return Status;
  }
+-- 
+2.24.1.735.g03f4e72817-goog
+

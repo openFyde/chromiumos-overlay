@@ -5,7 +5,7 @@
 # edk2 and an auto-revbump is required.
 # VERSION=REVBUMP-0.0.3
 
-EAPI=5
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/edk2"
 CROS_WORKON_LOCALNAME="edk2"
 
@@ -19,10 +19,9 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="fwserial"
 
+BDEPEND="dev-embedded/coreboot-sdk"
 RDEPEND=""
-DEPEND="
-	sys-boot/coreboot
-"
+DEPEND=""
 
 SRC_URI="https://www.openssl.org/source/openssl-1.1.0e.tar.gz"
 
@@ -59,8 +58,7 @@ src_prepare() {
 	if ! use fwserial; then
 		PATCHES+=("${FILESDIR}/05_CorebootPayloadPkg_noserial.patch")
 	fi
-
-	epatch "${PATCHES[@]}"
+	default
 }
 
 src_compile() {
