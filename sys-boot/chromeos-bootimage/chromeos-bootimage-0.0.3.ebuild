@@ -351,6 +351,39 @@ setup_altfw() {
 	# TODO(kitching): Get hash and sign.
 }
 
+# Add Chrome OS assets to the base and serial images:
+#       compressed-assets-ro/*   - fonts, images and screens for recovery mode
+#                                  originally from cbfs-ro-compress/*,
+#                                  pre-compressed in src_compile
+#       compressed-assets-rw/*   - files originally from cbfs-rw-compress/*,
+#                                  pre-compressed in src_compile
+#                                  used for vbt*.bin
+#       raw-assets-rw/* -          files originally from
+#                                  cbfs-rw-raw/*,
+#                                  used for extra wifi_sar files
+# Args:
+#  $1: Filename of image to add to
+
+add_assets() {
+	local rom="$1"
+
+	while IFS= read -r -d '' file; do
+		do_cbfstool "${rom}" add -r COREBOOT -f "${file}" \
+			-n "$(basename "${file}")" -t raw -c precompression
+	done < <(find compressed-assets-ro -type f -print0)
+
+	while IFS= read -r -d '' file; do
+		do_cbfstool "${rom}" add -r COREBOOT,FW_MAIN_A,FW_MAIN_B \
+			-f "${file}" -n "$(basename "${file}")" -t raw \
+			-c precompression
+	done < <(find compressed-assets-rw -type f -print0)
+
+	while IFS= read -r -d '' file; do
+		do_cbfstool "${rom}" add -r COREBOOT,FW_MAIN_A,FW_MAIN_B \
+			-f "${file}" -n "$(basename "${file}")" -t raw
+	done < <(find "raw-assets-rw/${build_name}" -type f -print0)
+}
+
 # Build firmware images for a given board
 # Creates image*.bin for the following images:
 #    image.bin          - production image (no serial console)
@@ -370,15 +403,7 @@ setup_altfw() {
 #       depthcharge/dev.elf      - developer version of depthcharge
 #       depthcharge/netboot.elf  - netboot version of depthcharge
 #       depthcharge/depthcharge.config - configuration used to build depthcharge image
-#       compressed-assets-ro/*   - fonts, images and screens for recovery mode
-#                                  originally from cbfs-ro-compress/*,
-#                                  pre-compressed in src_compile
-#       compressed-assets-rw/*   - files originally from cbfs-rw-compress/*,
-#                                  pre-compressed in src_compile
-#                                  used for vbt*.bin
-#       raw-assets-rw/* -          files originally from
-#                                  cbfs-rw-raw/*,
-#                                  used for extra wifi_sar files
+#       (plus files mentioned above in add_assets)
 #   $2: Name to use when naming output files (see note above, can be empty)
 #
 #   $3: Name of target to build for coreboot (can be empty)
@@ -431,32 +456,8 @@ build_images() {
 		depthcharge_config="${depthcharge_prefix}/depthcharge.config"
 	fi
 
-	# TODO(teravest): Rewrite these loops with 'while read'
-	for file in $(find compressed-assets-ro -type f 2>/dev/null); do
-		for rom in ${coreboot_file}{,.serial}; do
-			do_cbfstool ${rom} add \
-				-r COREBOOT \
-				-f $file -n $(basename $file) -t raw \
-				-c precompression
-		done
-	done
-
-	for file in $(find compressed-assets-rw -type f 2>/dev/null); do
-		for rom in ${coreboot_file}{,.serial}; do
-			do_cbfstool ${rom} add \
-				-r COREBOOT,FW_MAIN_A,FW_MAIN_B \
-				-f $file -n $(basename $file) -t raw \
-				-c precompression
-		done
-	done
-
-	for file in $(find "raw-assets-rw/${build_name}" -type f 2>/dev/null); do
-		for rom in "${coreboot_file}"{,.serial}; do
-			do_cbfstool "${rom}" add \
-				-r COREBOOT,FW_MAIN_A,FW_MAIN_B \
-				-f "${file}" -n "$(basename "${file}")" -t raw
-		done
-	done
+	add_assets "${coreboot_file}"
+	add_assets "${coreboot_file}.serial"
 
 	if [[ -d ${froot}/cbfs ]]; then
 		die "something is still using ${froot}/cbfs, which is deprecated."
