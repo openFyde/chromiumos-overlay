@@ -39,27 +39,69 @@ _emake() {
 		"$@"
 }
 
-src_compile() {
-	local config="chromeos/default.config"
+# Build the config for seabios
+# Args:
+#   $1: Filename of config file
+build_config() {
+	local cfg="$1"
 
-	_emake defconfig KCONFIG_DEFCONFIG="${config}"
+	# Hard-coded config for zork
+	local CONFIG_CONSOLE_UART_BASE_ADDRESS=0xfedc9000
+# 	local CONFIG_CONSOLE_SERIAL_115200=y
+# 	local CONFIG_DRIVERS_UART_8250MEM=y
+# 	local CONFIG_DRIVERS_UART_8250MEM_32=y
+# 	local CONFIG_PAYLOAD_CONFIGFILE="$(top)/src/mainboard/google/zork/config_seabios"
+	local CONFIG_SEABIOS_DEBUG_LEVEL=-1
+	local CONFIG_SEABIOS_VGA_COREBOOT=
+	local CONFIG_SEABIOS_THREAD_OPTIONROMS=n
+
+	# This code is taken from the coreboot Makefile
+	echo "CONFIG_COREBOOT=y" > "${cfg}"
+	echo "CONFIG_DEBUG_SERIAL_MMIO=y" >> "${cfg}"
+	echo "CONFIG_DEBUG_SERIAL_MEM_ADDRESS=${CONFIG_CONSOLE_UART_BASE_ADDRESS}" >> "${cfg}"
+
+	if [ "${CONFIG_SEABIOS_THREAD_OPTIONROMS}" != "y" ]; then
+		echo "# CONFIG_THREAD_OPTIONROMS is not set" >> "${cfg}"
+	fi
+	if [ "${CONFIG_SEABIOS_VGA_COREBOOT}" != "y" ]; then
+		echo "CONFIG_VGA_COREBOOT=y" >> "${cfg}"
+		echo "CONFIG_BUILD_VGABIOS=y" >> "${cfg}"
+	fi
+
+	echo "# CONFIG_TCGBIOS is not set" >> "${cfg}"
+	if [ "${CONFIG_SEABIOS_DEBUG_LEVEL}" != "-1" ]; then
+		echo "CONFIG_DEBUG_LEVEL=${CONFIG_SEABIOS_DEBUG_LEVEL}" >> "${cfg}"
+	fi
+}
+
+src_compile() {
+	local config="base.config"
+
+	build_config "${config}"
+	cat "${config}"
+	cp "${config}" .config
+	_emake olddefconfig
 	_emake
 
 	mkdir staging
 	cp out/bios.bin.elf staging/seabios.noserial.elf
+	cp .config staging/config.seabios.noserial
 	# Select which version is the default
 	if ! use fwserial; then
 		cp out/bios.bin.elf staging/seabios.elf
 	fi
 	_emake clean
 
+	cp "${config}" .config
 	echo "CONFIG_DEBUG_SERIAL=y" >> "${config}"
-	_emake defconfig KCONFIG_DEFCONFIG="${config}"
+	_emake olddefconfig
 	_emake
 	cp out/bios.bin.elf staging/seabios.serial.elf
 	if use fwserial; then
 		cp out/bios.bin.elf staging/seabios.elf
 	fi
+	cp  .config staging/config.seabios.serial
+	cp "${config}" staging/config.seabios.base
 }
 
 src_install() {
@@ -68,18 +110,7 @@ src_install() {
 
 	insinto /firmware/seabios
 	doins staging/seabios*.elf
-
-	# Add VGA option rom to CBFS, prefer native VGABIOS if it exists
-	if [[ ! -f "${vgabios}" ]]; then
-		vgabios="${oprom}"
-	fi
-	if [[ ! -f "${oprom}" ]]; then
-		cbfsrom="seavgabios.rom"
-	else
-		cbfsrom=$(basename "${oprom}")
-	fi
-	insinto /firmware/seabios/oprom
-	newins "${vgabios}" "${cbfsrom}"
+	doins staging/config*
 
 	# Add additional configuration
 	insinto /firmware/seabios/cbfs
