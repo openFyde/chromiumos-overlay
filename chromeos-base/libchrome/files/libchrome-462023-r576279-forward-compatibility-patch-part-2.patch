@@ -398,7 +398,7 @@ index 0000000..e89b205
 +      mojo::edk::PlatformChannelRecvmsg(mojo::edk::PlatformHandle(socket), buf,
 +                                        num_bytes, &platform_handles, block);
 +  for (auto& handle : platform_handles) {
-+    descriptors->push_back(std::move(base::ScopedFD(handle.handle)));
++    descriptors->push_back(base::ScopedFD(handle.handle));
 +  }
 +  return retval;
 +}
