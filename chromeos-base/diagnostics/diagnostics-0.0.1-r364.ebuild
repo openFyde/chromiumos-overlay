@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="254ecbc04d292131eca171d43412d6da5264edc8"
-CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "45070c2326f11a7574c63846480ac5bdcbc7909d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="eca2043bcfdeb2e55eb83b7bd2427f9c3b650b16"
+CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "029bc7e626acbb25f6834dcf6ff6bba6689ebbf6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -121,12 +121,13 @@ platform_pkg_test() {
 		cros_healthd_test
 		libcommon_test
 		libcros_healthd_utils_test
-		libgrpc_async_adapter_test
-		libtelem_test
 		routine_test
 	)
 	if use wilco; then
-		tests+=( wilco_dtc_supportd_test )
+		tests+=(
+			libgrpc_async_adapter_test
+			wilco_dtc_supportd_test
+		)
 	fi
 
 	local test_bin
