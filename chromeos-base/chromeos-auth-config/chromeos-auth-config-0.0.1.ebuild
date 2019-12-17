@@ -45,7 +45,4 @@ src_install() {
 	pamd_mimic system-local-login login auth account password session
 
 	dosbin "${FILESDIR}/is_developer_end_user"
-
-	insinto /etc/init
-	doins "${FILESDIR}"/hotkey-access.conf
 }
