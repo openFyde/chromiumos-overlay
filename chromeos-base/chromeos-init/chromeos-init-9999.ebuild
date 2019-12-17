@@ -100,6 +100,7 @@ src_install_upstart() {
 		doins upstart/pstore.conf upstart/reboot.conf
 		doins upstart/system-services.conf
 		doins upstart/uinput.conf
+		doins upstart/sysrq-init.conf
 
 		if use syslog; then
 			doins upstart/log-rotate.conf upstart/syslog.conf upstart/journald.conf
@@ -172,6 +173,7 @@ src_install() {
 	dosbin killers
 
 	# Install various helper programs.
+	dosbin "${OUT}"/cros_sysrq_init
 	dosbin "${OUT}"/static_node_tool
 	dosbin "${OUT}"/net_poll_tool
 	dosbin "${OUT}"/file_attrs_cleaner_tool
