@@ -1,9 +1,9 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="efcaf836bd1e6486c495b780cb0edc81768c1fff"
+CROS_WORKON_COMMIT="a0cde9ee783cbc3915d0cea55f09c8cf1c0ce506"
 CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,12 +19,10 @@ DESCRIPTION="Library for storing and retrieving user password"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libpasswordprovider"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	chromeos-base/libbrillo
-	sys-apps/keyutils
+	sys-apps/keyutils:=
 "
 
 DEPEND="${RDEPEND}"
