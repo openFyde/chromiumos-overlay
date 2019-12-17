@@ -1,8 +1,8 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="efcaf836bd1e6486c495b780cb0edc81768c1fff"
+EAPI=7
+CROS_WORKON_COMMIT="28d194ea48a05fd1aa3be0c1412a281b103c7d10"
 CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "b4eaa3357b1eccded4ad1c29b7bfbb17535c57dd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,19 +29,18 @@ models="gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tf
 SRC_URI="${models}"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="fuzzer"
 
 RDEPEND="
-	chromeos-base/libbrillo
-	chromeos-base/metrics
-	sci-libs/tensorflow
+	chromeos-base/libbrillo:=
+	chromeos-base/metrics:=
+	sci-libs/tensorflow:=
 "
 
 DEPEND="
 	${RDEPEND}
-	chromeos-base/system_api[fuzzer?]
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 src_install() {
