@@ -160,6 +160,29 @@ install_generated_config_files() {
 	doins "${FILESDIR}/generated/ec_config.c"
 }
 
+# @FUNCTION: verify_file_match
+# @USAGE: [expected_file] [actual_file]
+# @DESCRIPTION:
+# Verifies the expected file matches the actual file.
+#   $1: Filename of expected file contents
+#   $2: Filename of actual file contents
+verify_file_match() {
+	local expected_file="$1"
+	local actual_file="$2"
+
+	einfo "Verifying ${expected_file} matches ${actual_file}"
+	local expected_cksum="$(cksum "${expected_file}" | cut -d ' ' -f 1)"
+	local actual_cksum="$(cksum "${actual_file}" | cut -d ' ' -f 1)"
+	if [[ "${expected_cksum}" -ne "${actual_cksum}" ]]; then
+		eerror "Generated file doesn't match expected file. \n" \
+			"Generated file is available at: ${actual_file}\n" \
+			"If this is an expected change, copy this change to the expected" \
+			"$(basename "${expected_file}") file and commit with your CL.\n"
+		die
+	fi
+	einfo "Successfully verified ${expected_file} matches ${actual_file}"
+}
+
 # @FUNCTION: cros_config_host_local
 # @USAGE:
 # @DESCRIPTION:

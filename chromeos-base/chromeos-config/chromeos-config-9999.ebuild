@@ -86,30 +86,6 @@ src_install() {
 	fi
 }
 
-# @FUNCTION: _verify_file_match
-# @USAGE: [expected_file] [actual_file]
-# @INTERNAL
-# @DESCRIPTION:
-# Verifies the expected file matches the actual file.
-#   $1: Filename of expected file contents
-#   $2: Filename of actual file contents
-_verify_file_match() {
-	local expected_file="$1"
-	local actual_file="$2"
-
-	einfo "Verifying ${expected_file} matches ${actual_file}"
-	local expected_cksum="$(cksum "${expected_file}" | cut -d ' ' -f 1)"
-	local actual_cksum="$(cksum "${actual_file}" | cut -d ' ' -f 1)"
-	if [[ "${expected_cksum}" -ne "${actual_cksum}" ]]; then
-		eerror "Generated file doesn't match expected file. \n" \
-			"Generated file is available at: ${actual_file}\n" \
-			"If this is an expected change, copy this change to the expected" \
-			"$(basename ${expected_file}) file and commit with your CL.\n"
-		die
-	fi
-	einfo "Successfully verified ${expected_file} matches ${actual_file}"
-}
-
 # @FUNCTION: _verify_config_dump
 # @USAGE: [source-yaml] [expected-json]
 # @INTERNAL
@@ -130,30 +106,12 @@ _verify_config_dump() {
 			cros_config_schema -o "${merged_path}" -m "${source_path}" \
 				|| die "cros_config_schema failed for build config."
 			cros_config_host -c "${merged_path}" dump-config > "${actual_path}"
-			_verify_file_match "${expected_path}" "${actual_path}"
+			verify_file_match "${expected_path}" "${actual_path}"
 		else
 			eerror "Source YAML ${source_path} doesn't exist for checking" \
 				"against expected JSON dump ${expected_path}"
 			die
 		fi
-	fi
-}
-
-# @FUNCTION: _verify_file_dump
-# @USAGE: [file-suffix]
-# @INTERNAL
-# @DESCRIPTION:
-# Dumps the file list based on the script and verifies expected match.
-#   $1: Optional file suffix
-_verify_file_dump() {
-	local suffix="$1"
-
-	local expected_files="${SYSROOT}${CROS_CONFIG_TEST_DIR}/file_dump${suffix}.txt"
-	local file_dump_script="${SYSROOT}${CROS_CONFIG_TEST_DIR}/file_dump${suffix}.sh"
-	local actual_files="${WORKDIR}/file_dump${suffix}.txt"
-	if [[ -e "${expected_files}" ]]; then
-		("${file_dump_script}" > "${actual_files}")
-		_verify_file_match "${expected_files}" "${actual_files}"
 	fi
 }
 
@@ -187,8 +145,5 @@ src_test() {
 		_verify_config_dump model.yaml config_dump.json
 		_verify_config_dump private-model.yaml config_dump-private.json
 	fi
-
-	_verify_file_dump "" # No suffix for public files
-	_verify_file_dump "-private"
 }
 
