@@ -22,6 +22,7 @@ IUSE="+cros_ec_utils detachable_ui device_tree +interactive_recovery -mtd +power
 TARGETS_IUSE="
 	factory_netboot_ramfs
 	factory_shim_ramfs
+	hypervisor_ramfs
 	recovery_ramfs
 "
 IUSE+=" ${TARGETS_IUSE}"
@@ -78,10 +79,17 @@ FACTORY_NETBOOT_DEPENDS="
 	virtual/udev
 	"
 
+# Packages required for building hypervisor initramfs.
+HYPERVISOR_DEPENDS="
+	app-emulation/qemu
+	virtual/linux-sources
+	"
+
 DEPEND="
 	factory_netboot_ramfs? ( ${FACTORY_NETBOOT_DEPENDS} )
 	factory_shim_ramfs? ( ${FACTORY_SHIM_DEPENDS} )
 	recovery_ramfs? ( ${RECOVERY_DEPENDS} )
+	hypervisor_ramfs? ( ${HYPERVISOR_DEPENDS} )
 	sys-apps/busybox[-make-symlinks]
 	sys-fs/lvm2
 	virtual/chromeos-bsp-initramfs
