@@ -1,9 +1,9 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="efcaf836bd1e6486c495b780cb0edc81768c1fff"
+CROS_WORKON_COMMIT="510bd3df1d77714f7a8b669d7b08fd603b026930"
 CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "26cc39937cb33cdae66977037ac978473c338884" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -19,15 +19,13 @@ DESCRIPTION="Library to run jailed containers on Chrome OS"
 HOMEPAGE="http://www.chromium.org/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="+device-mapper"
 
 # Need lvm2 for devmapper.
-RDEPEND="chromeos-base/minijail
-	device-mapper? ( sys-fs/lvm2 )"
-DEPEND="${RDEPEND}
-	chromeos-base/libbrillo"
+RDEPEND="chromeos-base/minijail:=
+	device-mapper? ( sys-fs/lvm2:= )"
+DEPEND="${RDEPEND}"
 
 src_install() {
 	into /
