@@ -135,6 +135,9 @@ src_prepare() {
 	# b/145784205
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-disable-dcc-for-2x-MSAA-surface-and-bpe-4.patch
 
+	# b/139645646, b/145710559
+	epatch "${FILESDIR}"/CHROMIUM-Revert-va-use-a-compute-shader-for-the-blit.patch
+
 	default
 }
 

@@ -1,0 +1,148 @@
+From b8ffda927c32613f9d9464e62b74ca504a6e5c92 Mon Sep 17 00:00:00 2001
+From: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
+Date: Wed, 18 Dec 2019 14:29:50 +0530
+Subject: [PATCH] Revert "va: use a compute shader for the blit"
+
+This reverts commit 69430d7e59e8b4b38567cd1f8bb6d4e747b2650c.
+
+Change-Id: I27f1b73f3bc49bb6232ed0b9dac8220c6eaccf89
+---
+ src/gallium/auxiliary/Makefile.sources     |  2 -
+ src/gallium/auxiliary/meson.build          |  2 -
+ src/gallium/auxiliary/util/u_compute.h     | 45 ----------------------
+ src/gallium/state_trackers/va/context.c    |  2 -
+ src/gallium/state_trackers/va/postproc.c   |  7 +---
+ src/gallium/state_trackers/va/va_private.h |  1 -
+ 6 files changed, 1 insertion(+), 58 deletions(-)
+ delete mode 100644 src/gallium/auxiliary/util/u_compute.h
+
+diff --git a/src/gallium/auxiliary/Makefile.sources b/src/gallium/auxiliary/Makefile.sources
+index 8961ae2a1e0..3c2704717fc 100644
+--- a/src/gallium/auxiliary/Makefile.sources
++++ b/src/gallium/auxiliary/Makefile.sources
+@@ -214,8 +214,6 @@ C_SOURCES := \
+ 	util/u_box.h \
+ 	util/u_cache.c \
+ 	util/u_cache.h \
+-	util/u_compute.c \
+-	util/u_compute.h \
+ 	util/u_debug_gallium.h \
+ 	util/u_debug_gallium.c \
+ 	util/u_debug_describe.c \
+diff --git a/src/gallium/auxiliary/meson.build b/src/gallium/auxiliary/meson.build
+index c7ae8fd53e2..40e6e08be74 100644
+--- a/src/gallium/auxiliary/meson.build
++++ b/src/gallium/auxiliary/meson.build
+@@ -234,8 +234,6 @@ files_libgallium = files(
+   'util/u_box.h',
+   'util/u_cache.c',
+   'util/u_cache.h',
+-  'util/u_compute.c',
+-  'util/u_compute.h',
+   'util/u_debug_gallium.h',
+   'util/u_debug_gallium.c',
+   'util/u_debug_describe.c',
+diff --git a/src/gallium/auxiliary/util/u_compute.h b/src/gallium/auxiliary/util/u_compute.h
+deleted file mode 100644
+index 8c2866af8d4..00000000000
+--- a/src/gallium/auxiliary/util/u_compute.h
++++ /dev/null
+@@ -1,45 +0,0 @@
+-/**************************************************************************
+- * Copyright 2019 Sonny Jiang <sonnyj608@gmail.com>
+- * Copyright 2019 Advanced Micro Devices, Inc.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the
+- * "Software"), to deal in the Software without restriction, including
+- * without limitation the rights to use, copy, modify, merge, publish,
+- * distribute, sub license, and/or sell copies of the Software, and to
+- * permit persons to whom the Software is furnished to do so, subject to
+- * the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+- * IN NO EVENT SHALL VMWARE AND/OR ITS SUPPLIERS BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+- *
+- **************************************************************************/
+-
+-#ifndef U_COMPUTE_H
+-#define U_COMPUTE_H
+-
+-#include "pipe/p_context.h"
+-#include "pipe/p_state.h"
+-
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+-void util_compute_blit(struct pipe_context *ctx, struct pipe_blit_info *blit_info,
+-                       void **compute_state);
+-
+-#ifdef __cplusplus
+-}
+-#endif
+-
+-#endif
+diff --git a/src/gallium/state_trackers/va/context.c b/src/gallium/state_trackers/va/context.c
+index 2cb3a6c9268..25e972f6f98 100644
+--- a/src/gallium/state_trackers/va/context.c
++++ b/src/gallium/state_trackers/va/context.c
+@@ -363,8 +363,6 @@ vlVaDestroyContext(VADriverContextP ctx, VAContextID context_id)
+       }
+       context->decoder->destroy(context->decoder);
+    }
+-   if (context->blit_cs)
+-      drv->pipe->delete_compute_state(drv->pipe, context->blit_cs);
+    if (context->deint) {
+       vl_deint_filter_cleanup(context->deint);
+       FREE(context->deint);
+diff --git a/src/gallium/state_trackers/va/postproc.c b/src/gallium/state_trackers/va/postproc.c
+index 3431b1b48c7..21d316c7e97 100644
+--- a/src/gallium/state_trackers/va/postproc.c
++++ b/src/gallium/state_trackers/va/postproc.c
+@@ -27,7 +27,6 @@
+ 
+ #include "util/u_handle_table.h"
+ #include "util/u_memory.h"
+-#include "util/u_compute.h"
+ 
+ #include "vl/vl_defines.h"
+ #include "vl/vl_video_buffer.h"
+@@ -221,11 +220,7 @@ static VAStatus vlVaPostProcBlit(vlVaDriver *drv, vlVaContext *context,
+       blit.mask = PIPE_MASK_RGBA;
+       blit.filter = PIPE_TEX_MIPFILTER_LINEAR;
+ 
+-      if (drv->pipe->screen->get_param(drv->pipe->screen,
+-                                       PIPE_CAP_PREFER_COMPUTE_FOR_MULTIMEDIA))
+-         util_compute_blit(drv->pipe, &blit, &context->blit_cs);
+-      else
+-         drv->pipe->blit(drv->pipe, &blit);
++      drv->pipe->blit(drv->pipe, &blit);
+    }
+ 
+    // TODO: figure out why this is necessary for DMA-buf sharing
+diff --git a/src/gallium/state_trackers/va/va_private.h b/src/gallium/state_trackers/va/va_private.h
+index b2b997d4799..c4b49e30509 100644
+--- a/src/gallium/state_trackers/va/va_private.h
++++ b/src/gallium/state_trackers/va/va_private.h
+@@ -312,7 +312,6 @@ typedef struct {
+    bool first_single_submitted;
+    int gop_coeff;
+    bool needs_begin_frame;
+-   void *blit_cs;
+ } vlVaContext;
+ 
+ typedef struct {
+-- 
+2.17.1
+
