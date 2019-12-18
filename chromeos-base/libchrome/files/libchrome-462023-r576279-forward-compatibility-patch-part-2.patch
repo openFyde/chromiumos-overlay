@@ -1,7 +1,7 @@
-From e0c4d8b5773f5cafb103b36917c9f884fc1bfc3b Mon Sep 17 00:00:00 2001
+From ed40f152b808e9231fe3e4437aa7aaa4b5faa1a4 Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Tue, 29 Oct 2019 20:24:18 +0900
-Subject: [PATCH 2/5] libchrome: r576279 forward compatibility patch part 2
+Subject: [PATCH 2/6] libchrome: r576279 forward compatibility patch part 2
  (mojo).
 
 This CL includes;
@@ -18,11 +18,14 @@ TEST=Build.
 Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
 ---
  BUILD.gn                                      |  5 ++
+ mojo/core/core.h                              | 12 ++++
  mojo/core/embedder/embedder.cc                | 12 ++++
  mojo/core/embedder/embedder.h                 | 12 ++++
  mojo/core/embedder/scoped_ipc_support.h       | 12 ++++
  .../embedder/pending_process_connection.cc    |  7 +++
  .../edk/embedder/pending_process_connection.h |  7 +++
+ mojo/edk/system/core.cc                       |  5 ++
+ mojo/edk/system/core.h                        |  3 +
  mojo/public/cpp/bindings/interface_request.h  |  3 +
  mojo/public/cpp/platform/platform_channel.cc  | 21 +++++++
  mojo/public/cpp/platform/platform_channel.h   | 24 +++++++
@@ -34,7 +37,8 @@ Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
  mojo/public/cpp/system/invitation.h           | 56 +++++++++++++++++
  mojo/public/cpp/system/platform_handle.cc     | 57 +++++++++++++++++
  mojo/public/cpp/system/platform_handle.h      | 63 +++++++++++++++++++
- 17 files changed, 429 insertions(+)
+ 20 files changed, 449 insertions(+)
+ create mode 100644 mojo/core/core.h
  create mode 100644 mojo/core/embedder/embedder.cc
  create mode 100644 mojo/core/embedder/embedder.h
  create mode 100644 mojo/core/embedder/scoped_ipc_support.h
@@ -75,6 +79,24 @@ index 4477a86..a29832b 100644
      ] + get_target_outputs(":mojom_bindings_gen")
    }
  
+diff --git a/mojo/core/core.h b/mojo/core/core.h
+new file mode 100644
+index 0000000..dbdea04
+--- /dev/null
++++ b/mojo/core/core.h
+@@ -0,0 +1,12 @@
++#ifndef MOJO_CORE_CORE_H_
++#define MOJO_CORE_CORE_H_
++
++#include "mojo/edk/system/core.h"
++
++namespace mojo {
++namespace core {
++using Core = mojo::edk::Core;
++}
++}
++
++#endif // MOJO_CORE_CORE_H_
 diff --git a/mojo/core/embedder/embedder.cc b/mojo/core/embedder/embedder.cc
 new file mode 100644
 index 0000000..de6fc3c
@@ -172,6 +194,36 @@ index ca18227..1da3729 100644
    DISALLOW_COPY_AND_ASSIGN(PendingProcessConnection);
  };
  
+diff --git a/mojo/edk/system/core.cc b/mojo/edk/system/core.cc
+index 360e8c3..a5797ef 100644
+--- a/mojo/edk/system/core.cc
++++ b/mojo/edk/system/core.cc
+@@ -140,6 +140,11 @@ Core::~Core() {
+   }
+ }
+ 
++Core* Core::Get() {
++  DCHECK(internal::g_core);
++  return internal::g_core;
++}
++
+ void Core::SetIOTaskRunner(scoped_refptr<base::TaskRunner> io_task_runner) {
+   GetNodeController()->SetIOTaskRunner(io_task_runner);
+ }
+diff --git a/mojo/edk/system/core.h b/mojo/edk/system/core.h
+index 1f6d865..4caa2d0 100644
+--- a/mojo/edk/system/core.h
++++ b/mojo/edk/system/core.h
+@@ -44,6 +44,9 @@ class MOJO_SYSTEM_IMPL_EXPORT Core {
+   Core();
+   virtual ~Core();
+ 
++  // Get. forward compatiblity
++  static Core* Get();
++
+   // Called exactly once, shortly after construction, and before any other
+   // methods are called on this object.
+   void SetIOTaskRunner(scoped_refptr<base::TaskRunner> io_task_runner);
 diff --git a/mojo/public/cpp/bindings/interface_request.h b/mojo/public/cpp/bindings/interface_request.h
 index 29d8836..0221b65 100644
 --- a/mojo/public/cpp/bindings/interface_request.h
@@ -640,5 +692,5 @@ index 801264e..e034ef8 100644
  // SharedMemoryHandle. Note that |read_only| is only an indicator of whether
  // |memory_handle| only supports read-only mapping. It does NOT have any
 -- 
-2.24.0.525.g8f36a354ae-goog
+2.24.1.735.g03f4e72817-goog
 

@@ -245,9 +245,11 @@ src_install() {
 		header_dirs+=(
 			ipc
 			mojo/common
+			mojo/core
 			mojo/core/embedder
 			mojo/edk/embedder
 			mojo/edk/system
+			mojo/edk/system/ports
 			mojo/public/c/system
 			mojo/public/cpp/bindings
 			mojo/public/cpp/bindings/lib
