@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=5
-CROS_WORKON_COMMIT="664acb2c5eca7219e02ff0b7a0906ec4f8bfc40b"
-CROS_WORKON_TREE="a4d4abd759ea1e8427bf7fa6e82d98dacdd85c39"
+CROS_WORKON_COMMIT="522b374172ac645cf0bca9bfa5058069d459b4df"
+CROS_WORKON_TREE="6d28d310cfc5d1d42f77f65a0111798cc29bb82d"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -82,11 +82,13 @@ src_configure() {
 		append-ldflags "-Wl,--no-gc-sections"
 		cros-workon_src_configure \
 			$(use_enable cras-apm webrtc-apm) \
+			--with-system-cras-rust \
 			$(use_enable amd64 fuzzer)
 	else
 		cros-workon_src_configure $(use_enable selinux) \
 			$(use_enable cras-apm webrtc-apm) \
 			--enable-metrics \
+			--with-system-cras-rust \
 			$(use_enable amd64 fuzzer)
 	fi
 }

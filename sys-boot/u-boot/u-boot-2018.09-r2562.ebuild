@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_COMMIT=("0724fca07b604f40dd54e440105c74e6272d28f8" "94cf1f5a29d354147817d0c2af6de1e843965e75")
 CROS_WORKON_TREE=("1ddc9a0cd3f5807a1d4f9ad83561ddb11724fd0e" "56fa928015fb48a2e61086886819bb720d327d3b")
@@ -16,16 +16,15 @@ DESCRIPTION="Das U-Boot boot loader"
 HOMEPAGE="http://www.denx.de/wiki/U-Boot"
 
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="*"
 IUSE="dev sandbox unibuild vboot werror"
 
-DEPEND="sandbox? ( media-libs/libsdl )"
+DEPEND="sandbox? ( media-libs/libsdl:= )"
 
 RDEPEND="${DEPEND}
 	chromeos-base/u-boot-scripts
 	!!sys-boot/chromeos-u-boot
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? ( chromeos-base/chromeos-config:= )
 	"
 
 UB_BUILD_DIR="build"

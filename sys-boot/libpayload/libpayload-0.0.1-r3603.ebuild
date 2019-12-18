@@ -5,7 +5,7 @@
 # libpayload and an auto-revbump is required.
 # VERSION=REVBUMP-0.0.17
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT="de99c241f5a5c15470d202a2bc12ad46f1a0b9a1"
 CROS_WORKON_TREE="31f88f8fb61d97af870967d90653438e4a848873"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
@@ -13,7 +13,6 @@ CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 DESCRIPTION="coreboot's libpayload library"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="*"
 IUSE="coreboot-sdk verbose"
 

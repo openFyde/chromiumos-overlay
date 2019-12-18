@@ -1,7 +1,7 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT="3004147dd3707e600772ec6c5d37beac7f4b8eb4"
 CROS_WORKON_TREE="86739723f748584f03ca50902660cae0adbc1cbf"
 CROS_WORKON_PROJECT="chromiumos/third_party/seabios"
@@ -12,7 +12,6 @@ inherit toolchain-funcs cros-workon coreboot-sdk
 DESCRIPTION="Open Source implementation of X86 BIOS"
 HOMEPAGE="http://www.coreboot.org/SeaBIOS"
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="-* amd64 x86"
 IUSE="coreboot-sdk fwserial"
 
