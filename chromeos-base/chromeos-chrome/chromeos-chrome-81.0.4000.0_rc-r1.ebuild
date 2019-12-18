@@ -28,7 +28,7 @@ LICENSE="BSD-Google chrome_internal? ( Google-TOS )"
 SLOT="0"
 KEYWORDS="*"
 IUSE="
-	afdo_use
+	+afdo_use
 	afdo_verify
 	+accessibility
 	app_shell
