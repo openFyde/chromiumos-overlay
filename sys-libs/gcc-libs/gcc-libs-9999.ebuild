@@ -5,7 +5,7 @@
 # TODO(toolchain): This should not be building the compiler just to build
 # the target libs.  It should re-use the existing system cross compiler.
 
-EAPI="5"
+EAPI=7
 
 # These are used to find the project sources. Since the gcc-libs sources are
 # within the gcc source tree, we leave these "gcc" rather than "gcc-libs".
@@ -19,11 +19,9 @@ inherit eutils cros-workon binutils-funcs multilib
 DESCRIPTION="The GNU Compiler Collection.  This builds and installs the libgcc, libstdc++, and libgo libraries.  It is board-specific."
 
 LICENSE="GPL-3 LGPL-3 FDL-1.2"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="go hardened hardfp libatomic mounted_gcc +thumb vtable_verify"
 REQUIRED_USE="go? ( libatomic )"
-RESTRICT="strip"
 
 : ${CTARGET:=${CHOST}}
 
@@ -228,7 +226,6 @@ src_install() {
 	# they're being cross-compiled.
 	dolib.so "${D}"/usr/${CTARGET}/$(get_libdir)/lib*.so*
 	rm -rf "${D}"/usr/${CTARGET}
-	env RESTRICT="" CHOST=${CTARGET} prepstrip "${D}"
 }
 
 get_gcc_dir() {
