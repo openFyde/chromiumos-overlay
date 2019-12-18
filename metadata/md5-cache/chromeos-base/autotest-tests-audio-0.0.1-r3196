@@ -3,11 +3,11 @@ DEPEND=!<chromeos-base/autotest-tests-0.0.3 chromeos-base/audiotest dev-vcs/git
 DESCRIPTION=Audio autotests
 EAPI=4
 HOMEPAGE=http://www.chromium.org/
-IUSE=+autotest +tests_audio_Aconnect +tests_audio_AlsaLoopback +tests_audio_Aplay +tests_audio_CRASFormatConversion +tests_audio_CrasDevSwitchStress +tests_audio_CrasLoopback +tests_audio_CrasPinnedStream +tests_audio_CrasStress +tests_audio_LoopbackLatency cros_host cros_workon_tree_9730a9cee50f8562232f433a75475a381a94170b +buildcheck autotest opengles
+IUSE=+autotest +tests_audio_Aconnect +tests_audio_AlsaLoopback +tests_audio_Aplay +tests_audio_CRASFormatConversion +tests_audio_CrasDevSwitchStress +tests_audio_CrasLoopback +tests_audio_CrasPinnedStream +tests_audio_CrasStress +tests_audio_LoopbackLatency cros_host cros_workon_tree_e29f9f1c76bd103744d51a80e309fbcf626f571e +buildcheck autotest opengles
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=!<chromeos-base/autotest-tests-0.0.3 chromeos-base/audiotest ( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )
 SLOT=0
 _eclasses_=autotest	46683629a907dfb020a41544f3af86ab	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=bfd35d9376424144d88047443e7aa3fb
+_md5_=78c39d36fa57518cf72b8b4574c665b6
