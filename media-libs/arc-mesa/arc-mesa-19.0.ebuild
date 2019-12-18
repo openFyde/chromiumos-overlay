@@ -205,6 +205,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-i965-setup-sized-internalformat-for-MESA_FO.patch
 
 	epatch "${FILESDIR}"/UPSTREAM-anv-expose-VK_EXT_queue_family_foreign-on-A.patch
+	epatch "${FILESDIR}"/UPSTREAM-intel-limit-shader-geometry-on-BDW-GT1.patch
 	default
 }
 
