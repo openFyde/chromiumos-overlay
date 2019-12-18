@@ -34,6 +34,7 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterSASanity
 	+tests_bluetooth_AdapterStandalone
 	+tests_bluetooth_AdapterSuspendResume
+	+tests_bluetooth_PeerUpdate
 	+tests_bluetooth_Sanity_AdapterPresent
 	+tests_bluetooth_Sanity_DefaultState
 	+tests_bluetooth_Sanity_Discoverable
