@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="74784de84c4972125a7bf6bc4c27b11950672483"
-CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "288a6ff95bd2b01b4ca43a2cbac36c82818b4c89" "550ee73d2cf181a72f7aee3bcef0ddd014a8b550" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ccc5f337b19ec7fab20fcccf564ba1bb8284d261"
+CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "b0101fd65086a6daf01b57b4ddf6cd536496e03f" "550ee73d2cf181a72f7aee3bcef0ddd014a8b550" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -102,6 +102,7 @@ src_install_upstart() {
 		doins upstart/pstore.conf upstart/reboot.conf
 		doins upstart/system-services.conf
 		doins upstart/uinput.conf
+		doins upstart/sysrq-init.conf
 
 		if use syslog; then
 			doins upstart/log-rotate.conf upstart/syslog.conf upstart/journald.conf
@@ -174,6 +175,7 @@ src_install() {
 	dosbin killers
 
 	# Install various helper programs.
+	dosbin "${OUT}"/cros_sysrq_init
 	dosbin "${OUT}"/static_node_tool
 	dosbin "${OUT}"/net_poll_tool
 	dosbin "${OUT}"/file_attrs_cleaner_tool
