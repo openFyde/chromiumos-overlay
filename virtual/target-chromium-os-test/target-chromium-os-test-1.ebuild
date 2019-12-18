@@ -29,6 +29,7 @@ IUSE="
 	+shill
 	+tpm
 	tpm2
+	unibuild
 	vaapi
 	wifi_hostap_test
 	wifi_testbed_ap
@@ -238,4 +239,5 @@ RDEPEND="${CROS_COMMON_RDEPEND}
 # unit tests
 DEPEND="
 	chromeos-base/chromite
+	unibuild? ( chromeos-base/chromeos-config-file-dump-test )
 "
