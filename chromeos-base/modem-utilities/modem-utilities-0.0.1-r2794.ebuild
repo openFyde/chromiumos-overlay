@@ -1,8 +1,8 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
-CROS_WORKON_COMMIT="159b5f3c768fdba856c90f3e827a3e7c6a4dbae3"
+EAPI=7
+CROS_WORKON_COMMIT="dcf6aa0658fdbcf93e1dd0730d49b848db6619f9"
 CROS_WORKON_TREE="1be6bea6c35387cb50721a45560089c24dcdb2e1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -16,14 +16,13 @@ DESCRIPTION="Chromium OS modem utilities"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
-RDEPEND="
-	sys-apps/dbus
+COMMON_DEPEND="
+	sys-apps/dbus:=
 "
-
-DEPEND="${RDEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_unpack() {
 	cros-workon_src_unpack
