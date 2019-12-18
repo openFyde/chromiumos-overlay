@@ -220,29 +220,34 @@ cros-rust_src_prepare() {
 			"${S}/Cargo.toml" || die
 	fi
 
-	# Remove lines that start with "[dev-dependencies." until a line is found that
-	# starts with "[" but not "[dev-d".
+	# Remove dev-dependencies sections within the Cargo.toml file
 	#
-	# The sed script is of the form '/A/,/B/{/B/!d}'.
-	# The first part '/A/,/B/' includes lines that match /A/ and following lines
-	# until a line matches the second pattern /B/ inclusive. The last part,
-	# {/B/!d} deletes included lines that don't match /B/.
+	# dev_dep_pattern is a regex that matches toml section headers of the
+	# form [token.dev-dependencies], [dev-dependencies.token], and
+	# [dev-dependencies].
 	#
-	# The first pattern /^\[dev-dependencies\./ is fairly easy to understand. it
-	# matches any line that begins with "[dev-dependencies." The second pattern
-	# would ideally be /^[/ which would match any line that starts with "[".
-	# unfortunately that also matches the first pattern so the range would always
-	# be one line. To avoid this problem the second pattern approximates a check
-	# to make sure the first pattern isn't matched. It does so by testing to see
-	# if the string that follows the "[" doesn't match "dev-d". This is
-	# accomplished by matching strings that don't begin with "d", or begin with
-	# "d" but don't begin with "de", or begin with "de" but don't begin with
-	# "dev", ... or begin with "dev-" but don't begin with "dev-d".
+	# section_pattern is a regex that matches section headers in toml files.
+	#
+	# The awk program reads the file line by line.
+	# If any line matches dev_dep_pattern, it will skip every line until
+	# a line matching section_pattern is found which does not match
+	# dev_dep_pattern, in other words, until it finds a new section which
+	# is not a dev-dependency section.
+	#
+	# Awk cannot do in-place editing, so we write the result to a temporary
+	# file before replacing the input with that temp file.
 	if [[ "${CROS_RUST_REMOVE_DEV_DEPS}" == 1 ]]; then
-		local neg_pattern='/^\[($|[^d]|d($|[^e]|e($|[^v]|v($|[^-]|-($|[^d])))))/'
-		sed -i -E \
-			"/^\\[dev-dependencies\\./,${neg_pattern}{${neg_pattern}!d}" \
-			"${S}/Cargo.toml" || die
+		local prefixed_dev_dep='([^][]+\.)?dev-dependencies'
+		local suffixed_dev_dep='dev-dependencies(\.[^][]+)?'
+		local dev_dep_pattern="^\\[(${prefixed_dev_dep}|${suffixed_dev_dep})\\]$"
+		local section_pattern='^\['
+
+		awk "{
+			if(\$0 ~ /${dev_dep_pattern}/){skip = 1; next}
+			if( (\$0 ~ /${section_pattern}/) && (\$0 !~ /${dev_dep_pattern}/) ){skip = 0}
+			if(skip == 0){print}
+		}" "${S}/Cargo.toml" > "${S}/Cargo.toml.stripped" || die
+		mv "${S}/Cargo.toml.stripped" "${S}/Cargo.toml"
 	fi
 
 	default
