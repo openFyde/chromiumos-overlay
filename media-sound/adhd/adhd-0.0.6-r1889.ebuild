@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=5
-CROS_WORKON_COMMIT="2dc31a589456ede5c594b52c293c862f05e12b81"
-CROS_WORKON_TREE="80b9362d7eaf1464608480f0687629feacd64411"
+CROS_WORKON_COMMIT="67534711cd9147150bf01855b9ef6436a5534e42"
+CROS_WORKON_TREE="af1e244fdcdc6e86a2713ba4a6fe4e8dfffe97fc"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -130,8 +130,13 @@ src_install() {
 	insinto /etc
 	doins "${FILESDIR}"/asound.conf
 
-	# Install fuzzer binary
-	fuzzer_install "${S}/OWNERS" cras/src/cras_rclient_message_fuzzer
+	if use fuzzer ; then
+		# Install example dsp.ini file for fuzzer
+		insinto /etc/cras
+		doins cras-config/dsp.ini.sample
+		# Install fuzzer binary
+		fuzzer_install "${S}/OWNERS" cras/src/cras_rclient_message_fuzzer
+	fi
 }
 
 pkg_preinst() {
