@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="3bb40b037df5744763713198e510d61aeaa1ee95"
-CROS_WORKON_TREE="1a5ca4debe3162bc6c5130cedb0ca66aee46f986"
+CROS_WORKON_COMMIT="cfa3edf3feec8d1cf5f7a8d3c22073bc38cff1f1"
+CROS_WORKON_TREE="48b27159af768206cdf87c48de92fabedd4a87d7"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 PYTHON_COMPAT=( python2_7 )
@@ -18,7 +18,9 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="hammerd"
 
-DEPEND="virtual/libusb:1="
+DEPEND="virtual/libusb:1=
+	sys-apps/flashmap:=
+	"
 RDEPEND="
 	${DEPEND}
 	app-mobilephone/dfu-util
