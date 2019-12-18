@@ -188,8 +188,8 @@ cros-ec_src_compile() {
 		fi
 
 		if use bootblock_in_ec; then
-			local bootblock="${target_root}/coreboot/bootblock.bin"
-			local bootblock_serial="${target_root}/coreboot_serial/bootblock.bin"
+			bootblock="${target_root}/coreboot/bootblock.bin"
+			bootblock_serial="${target_root}/coreboot_serial/bootblock.bin"
 
 			if [[ -f "${bootblock_serial}" ]]; then
 				# Since we are including AP bootblock, two sets
