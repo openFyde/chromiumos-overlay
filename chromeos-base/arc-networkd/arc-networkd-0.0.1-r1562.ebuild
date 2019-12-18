@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f7e8b57f46df325dc93f85c6bd8907ba5f27bf41"
+CROS_WORKON_COMMIT="d63932ad050d197ad96ece9625424168dbafd8a4"
 CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "0da6e1e065424960a121cdc77e1dcbd6550664d2" "45d9407d6e6c1060c5192a85b318f4593dcb85ae" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -60,7 +60,6 @@ src_install() {
 	doins subnet_pool.h
 
 	insinto /etc/init
-	doins "${S}"/init/arc-network.conf
 	doins "${S}"/init/arc-network-bridge.conf
 
 	insinto /etc/dbus-1/system.d
