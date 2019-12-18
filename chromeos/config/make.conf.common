@@ -14,7 +14,7 @@ PORTDIR="/usr/local/portage/stable"
 # Adding packages to the @world set causes people more trouble than it's
 # worth in our setup -- we rarely have people add custom packages outside
 # of the ChromiumOS set.  You can use "--select" to override this.
-EMERGE_DEFAULT_OPTS="--oneshot"
+EMERGE_DEFAULT_OPTS="--oneshot --autounmask-backtrack=y --autounmask=n"
 
 # Use parallel bzip2 for portage if available
 PORTAGE_BZIP2_COMMAND="pbzip2"
