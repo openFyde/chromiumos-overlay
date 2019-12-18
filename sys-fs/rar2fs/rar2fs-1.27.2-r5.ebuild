@@ -23,6 +23,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.27.2-pass-fuse-fd.patch"
 	"${FILESDIR}/${PN}-1.27.2-set-locale-to-utf8.patch"
 	"${FILESDIR}/${PN}-1.27.2-linker-driver.patch"
+	"${FILESDIR}/${PN}-1.27.2-error-reporting.patch"
 )
 
 src_configure() {
