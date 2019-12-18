@@ -16,7 +16,8 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="alisp debug doc elibc_uclibc python +thread-safety"
 
-RDEPEND="python? ( ${PYTHON_DEPS} )"
+RDEPEND="python? ( ${PYTHON_DEPS} )
+	!<media-sound/adhd-0.0.2-r1784"
 DEPEND="${RDEPEND}
 	doc? ( >=app-doc/doxygen-1.2.6 )"
 
