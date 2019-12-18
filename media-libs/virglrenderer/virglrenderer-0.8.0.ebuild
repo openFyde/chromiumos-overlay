@@ -3,13 +3,14 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="77d268182379f73849ebd92af41acfce05d51795"
-CROS_WORKON_TREE="afad5c712e09956550fff0cf110f2d934ea90f12"
+CROS_WORKON_COMMIT="c162f33d5f30146ead05afe51ae6af8d13763e44"
+CROS_WORKON_TREE="b2445d717170b9eddb3335107d92f2b951c749f7"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
+# Prevent automatic uprevs of this package since upstream is out of our control.
 CROS_WORKON_BLACKLIST="1"
 
-inherit autotools cros-fuzzer cros-sanitizers eutils flag-o-matic toolchain-funcs cros-workon
+inherit cros-fuzzer cros-sanitizers eutils flag-o-matic meson toolchain-funcs cros-workon
 
 DESCRIPTION="library used implement a virtual 3D GPU used by qemu"
 HOMEPAGE="https://virgil3d.github.io/"
@@ -17,7 +18,7 @@ HOMEPAGE="https://virgil3d.github.io/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="*"
-IUSE="fuzzer profiling static-libs test"
+IUSE="debug fuzzer profiling test"
 
 RDEPEND="
 	>=x11-libs/libdrm-2.4.50
@@ -38,7 +39,6 @@ PATCHES=(
 
 src_prepare() {
 	default
-	[[ -e configure ]] || eautoreconf
 }
 
 src_configure() {
@@ -48,16 +48,20 @@ src_configure() {
 		append-flags -fprofile-instr-generate -fcoverage-mapping
 		append-ldflags -fprofile-instr-generate -fcoverage-mapping
 	fi
-	econf \
-		--disable-glx \
-		--enable-gbm-allocation \
-		$(use_enable static-libs static) \
-		$(use_enable test tests) \
-		$(use_enable fuzzer)
+
+	emesonargs+=(
+		-Dgbm_allocation="true"
+		-Dplatforms="egl"
+		-Dtests=$(usex test true false)
+		$(meson_use fuzzer)
+		--buildtype $(usex debug debug release)
+	)
+
+	meson_src_configure
 }
 
 src_install() {
-	default
+	meson_src_install
 
 	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" tests/fuzzer/.libs/virgl_fuzzer \
 		--options "${FILESDIR}/virgl_fuzzer.options"
