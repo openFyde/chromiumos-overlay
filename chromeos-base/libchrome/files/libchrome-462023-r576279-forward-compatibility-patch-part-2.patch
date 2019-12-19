@@ -1,4 +1,4 @@
-From ed40f152b808e9231fe3e4437aa7aaa4b5faa1a4 Mon Sep 17 00:00:00 2001
+From 7961103872db4f879e3b7b196d3b565100a83ee4 Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Tue, 29 Oct 2019 20:24:18 +0900
 Subject: [PATCH 2/6] libchrome: r576279 forward compatibility patch part 2
@@ -17,10 +17,10 @@ TEST=Build.
 
 Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
 ---
- BUILD.gn                                      |  5 ++
+ BUILD.gn                                      |  6 ++
  mojo/core/core.h                              | 12 ++++
- mojo/core/embedder/embedder.cc                | 12 ++++
- mojo/core/embedder/embedder.h                 | 12 ++++
+ mojo/core/embedder/embedder.cc                | 16 +++++
+ mojo/core/embedder/embedder.h                 | 16 +++++
  mojo/core/embedder/scoped_ipc_support.h       | 12 ++++
  .../embedder/pending_process_connection.cc    |  7 +++
  .../edk/embedder/pending_process_connection.h |  7 +++
@@ -35,9 +35,11 @@ Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
  mojo/public/cpp/platform/socket_utils_posix.h | 23 +++++++
  mojo/public/cpp/system/invitation.cc          | 51 +++++++++++++++
  mojo/public/cpp/system/invitation.h           | 56 +++++++++++++++++
+ mojo/public/cpp/system/isolated_connection.cc | 22 +++++++
+ mojo/public/cpp/system/isolated_connection.h  | 23 +++++++
  mojo/public/cpp/system/platform_handle.cc     | 57 +++++++++++++++++
  mojo/public/cpp/system/platform_handle.h      | 63 +++++++++++++++++++
- 20 files changed, 449 insertions(+)
+ 22 files changed, 503 insertions(+)
  create mode 100644 mojo/core/core.h
  create mode 100644 mojo/core/embedder/embedder.cc
  create mode 100644 mojo/core/embedder/embedder.h
@@ -50,9 +52,11 @@ Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
  create mode 100644 mojo/public/cpp/platform/socket_utils_posix.h
  create mode 100644 mojo/public/cpp/system/invitation.cc
  create mode 100644 mojo/public/cpp/system/invitation.h
+ create mode 100644 mojo/public/cpp/system/isolated_connection.cc
+ create mode 100644 mojo/public/cpp/system/isolated_connection.h
 
 diff --git a/BUILD.gn b/BUILD.gn
-index 4477a86..a29832b 100644
+index 4477a86..55cbf7f 100644
 --- a/BUILD.gn
 +++ b/BUILD.gn
 @@ -607,6 +607,7 @@ if (use.mojo) {
@@ -63,11 +67,12 @@ index 4477a86..a29832b 100644
        "mojo/edk/embedder/connection_params.cc",
        "mojo/edk/embedder/embedder.cc",
        "mojo/edk/embedder/entrypoints.cc",
-@@ -685,11 +686,15 @@ if (use.mojo) {
+@@ -685,11 +686,16 @@ if (use.mojo) {
        "mojo/public/cpp/bindings/lib/validation_errors.cc",
        "mojo/public/cpp/bindings/lib/validation_util.cc",
        "mojo/public/cpp/system/buffer.cc",
 +      "mojo/public/cpp/system/invitation.cc",
++      "mojo/public/cpp/system/isolated_connection.cc",
        "mojo/public/cpp/system/platform_handle.cc",
        "mojo/public/cpp/system/simple_watcher.cc",
        "mojo/public/cpp/system/wait.cc",
@@ -99,10 +104,10 @@ index 0000000..dbdea04
 +#endif // MOJO_CORE_CORE_H_
 diff --git a/mojo/core/embedder/embedder.cc b/mojo/core/embedder/embedder.cc
 new file mode 100644
-index 0000000..de6fc3c
+index 0000000..dcf1bba
 --- /dev/null
 +++ b/mojo/core/embedder/embedder.cc
-@@ -0,0 +1,12 @@
+@@ -0,0 +1,16 @@
 +#include "mojo/core/embedder/embedder.h"
 +#include "mojo/edk/embedder/embedder.h"
 +
@@ -113,21 +118,29 @@ index 0000000..de6fc3c
 +  mojo::edk::Init();
 +}
 +
++scoped_refptr<base::TaskRunner> GetIOTaskRunner() {
++  return mojo::edk::GetIOTaskRunner();
++}
++
 +} // namespace core
 +} // namespace mojo
 diff --git a/mojo/core/embedder/embedder.h b/mojo/core/embedder/embedder.h
 new file mode 100644
-index 0000000..769a525
+index 0000000..e8d6ed7
 --- /dev/null
 +++ b/mojo/core/embedder/embedder.h
-@@ -0,0 +1,12 @@
+@@ -0,0 +1,16 @@
 +#ifndef MOJO_CORE_EMBEDDER_EMBEDDER_H_
 +#define MOJO_CORE_EMBEDDER_EMBEDDER_H_
++
++#include "base/task_runner.h"
 +
 +namespace mojo {
 +namespace core {
 +
 +void Init();
++
++scoped_refptr<base::TaskRunner> GetIOTaskRunner();
 +
 +} // namespace core
 +} // namespace mojo
@@ -537,6 +550,63 @@ index 0000000..ac2b3f2
 +} // mojo
 +
 +#endif // MOJO_PUBLIC_CPP_SYSTEM_INVITATION_H_
+diff --git a/mojo/public/cpp/system/isolated_connection.cc b/mojo/public/cpp/system/isolated_connection.cc
+new file mode 100644
+index 0000000..05952eb
+--- /dev/null
++++ b/mojo/public/cpp/system/isolated_connection.cc
+@@ -0,0 +1,22 @@
++#include "mojo/public/cpp/system/isolated_connection.h"
++
++#include "mojo/edk/embedder/embedder.h"
++
++namespace mojo {
++
++IsolatedConnection::IsolatedConnection()
++    : token_(base::UnguessableToken::Create()) {}
++
++IsolatedConnection::~IsolatedConnection() {
++  mojo::edk::ClosePeerConnection(token_.ToString());
++}
++
++ScopedMessagePipeHandle IsolatedConnection::Connect(
++    PlatformChannelEndpoint endpoint) {
++  return mojo::edk::ConnectToPeerProcess(
++      mojo::edk::ScopedPlatformHandle(mojo::edk::PlatformHandle(
++          endpoint.TakePlatformHandle().TakeFD().release())),
++      token_.ToString());
++}
++
++}  // namespace mojo
+diff --git a/mojo/public/cpp/system/isolated_connection.h b/mojo/public/cpp/system/isolated_connection.h
+new file mode 100644
+index 0000000..57c6e43
+--- /dev/null
++++ b/mojo/public/cpp/system/isolated_connection.h
+@@ -0,0 +1,23 @@
++#ifndef MOJO_PUBLIC_CPP_SYSTEM_ISOLATED_CONNECTION_H_
++#define MOJO_PUBLIC_CPP_SYSTEM_ISOLATED_CONNECTION_H_
++
++#include "base/unguessable_token.h"
++#include "mojo/public/cpp/platform/platform_channel_endpoint.h"
++#include "mojo/public/cpp/system/message_pipe.h"
++
++namespace mojo {
++
++class IsolatedConnection {
++ public:
++  IsolatedConnection();
++  ~IsolatedConnection();
++
++  ScopedMessagePipeHandle Connect(PlatformChannelEndpoint endpoint);
++
++ private:
++  const base::UnguessableToken token_;
++};
++
++}
++
++#endif // MOJO_PUBLIC_CPP_SYSTEM_ISOLATED_CONNECTION_H_
 diff --git a/mojo/public/cpp/system/platform_handle.cc b/mojo/public/cpp/system/platform_handle.cc
 index 42e4aba..6116860 100644
 --- a/mojo/public/cpp/system/platform_handle.cc
