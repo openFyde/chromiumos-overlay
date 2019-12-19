@@ -81,6 +81,17 @@ tast-bundle_src_prepare() {
 	default
 }
 
+# @FUNCTION: tast-bundle_src_test
+# @DESCRIPTION:
+# Runs unit tests.
+tast-bundle_src_test() {
+	# Some unit tests write to /proc/self/comm to test interaction with
+	# external processes.
+	addwrite /proc/self/comm
+
+	cros-go_src_test
+}
+
 # @FUNCTION: tast-bundle_src_install
 # @DESCRIPTION:
 # Installs test bundle executable and associated data files.
@@ -106,4 +117,4 @@ tast-bundle_src_install() {
 	popd >/dev/null
 }
 
-EXPORT_FUNCTIONS pkg_setup src_prepare src_install
+EXPORT_FUNCTIONS pkg_setup src_prepare src_test src_install
