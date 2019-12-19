@@ -37,6 +37,9 @@ src_install() {
 	dosbin "${OUT}"/sealed_storage_tool
 	dolib.a "${OUT}"/libsealed_storage.a
 	dolib.so "${OUT}"/lib/libsealed_storage_wrapper.so
+
+	insinto /usr/include/chromeos/sealed_storage
+	doins sealed_storage.h
 }
 
 platform_pkg_test() {
