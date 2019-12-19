@@ -15,7 +15,7 @@
 #
 # eclass bug workaround count: 1
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_COMMIT=("c8c2fc0f0790ad8266855f9224aefcc2a447defb" "f4428141132ec85eb255a819fc5bdaea2303f6af" "e05bfa91102dd5137b4027b4f3405e041ffe2c32")
 CROS_WORKON_TREE=("f53aadc26bc5c2eeabae3b83b3b06429d3a9b5a0" "4b0eaae00da0418755628097981bf4013f92a3a6" "1f42f6d549ba7b3f6bc5d67029984b113787ae0d")
@@ -36,6 +36,9 @@ CROS_WORKON_DESTDIR=(
 	"${S}/third_party/tpm2"
 	"${S}/third_party/cryptoc"
 )
+
+# Make sure config tools use the latest schema.
+BDEPEND=">=chromeos-base/chromeos-config-host-0.0.2"
 
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
 DESCRIPTION="Embedded Controller firmware code"

@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="d36f8a9bf6341e0f7ca51e5f520c2867d7b810ee"
+CROS_WORKON_COMMIT="052657b02f804899367880dcc116c92754204eb8"
 CROS_WORKON_TREE="f3b755897d437442e18e07bf29aa94f029f99e79"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -34,6 +34,6 @@ DEPEND="
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 src_unpack() {
-    cros-workon_src_unpack
-    S+="/chromeos-config"
+	cros-workon_src_unpack
+	S+="/chromeos-config"
 }
