@@ -56,6 +56,7 @@ PATCHES=(
 	"${FILESDIR}/0031-FROMLIST-media-pixfmt-Add-Mediatek-ISP-P1-image-meta.patch"
 	"${FILESDIR}/0032-BACKPORT-add-udmabuf-header.patch"
 	"${FILESDIR}/0033-FROMGIT-Input-add-privacy-screen-toggle-keycode.patch"
+	"${FILESDIR}/0034-UPSTREAM-Input-add-REL_WHEEL_HI_RES-and-REL_HWHEEL_H.patch"
 )
 
 src_unpack() {
