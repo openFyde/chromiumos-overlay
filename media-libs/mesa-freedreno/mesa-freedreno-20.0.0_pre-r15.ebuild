@@ -59,10 +59,6 @@ src_configure() {
 
 	append-cppflags "-UENABLE_SHADER_CACHE"
 
-	if use debug; then
-		emesonargs+=( -Dbuildtype=debug)
-	fi
-
 	emesonargs+=(
 		-Dllvm=false
 		-Ddri3=false
@@ -77,6 +73,7 @@ src_configure() {
 		-Dgallium-vdpau=false
 		-Dgallium-xa=false
 		-Dplatforms=surfaceless
+		--buildtype $(usex debug debug release)
 	)
 
 	if use vulkan; then
