@@ -78,13 +78,21 @@ ECARGO_HOME="${WORKDIR}/cargo_home"
 CROS_RUST_REGISTRY_BASE="/usr/lib/cros_rust_registry"
 CROS_RUST_REGISTRY_DIR="${CROS_RUST_REGISTRY_BASE}/store"
 CROS_RUST_REGISTRY_INST_DIR="${CROS_RUST_REGISTRY_BASE}/registry"
-CROS_RUST_REGISTRY_LOCK="${PORTAGE_TMPDIR}/cros-rust-registry.lock"
 
 # Ignore odr violations in unit tests in asan builds
 # (https://github.com/rust-lang/rust/issues/41807).
 ASAN_OPTIONS="detect_odr_violation=0"
 
-# @FUNCTION: cargo_src_unpack
+# @FUNCTION: cros-rust_get_reg_lock
+# @DESCRIPTION:
+# Return the path to the rust registry lock file used to prevent races. A
+# function is required to support binary packages shared across boards by moving
+# the reference to PORTAGE_TMPDIR out of global scope.
+cros-rust_get_reg_lock() {
+	echo "${PORTAGE_TMPDIR}/cros-rust-registry.lock"
+}
+
+# @FUNCTION: cros-rust_src_unpack
 # @DESCRIPTION:
 # Unpacks the package
 cros-rust_src_unpack() {
@@ -326,7 +334,7 @@ ecargo() {
 	rm -f Cargo.lock
 
 	# Acquire a shared (read only) lock since this does not modify the registry.
-	flock --shared "${CROS_RUST_REGISTRY_LOCK}" cargo -v "$@" || die
+	flock --shared "$(cros-rust_get_reg_lock)" cargo -v "$@" || die
 
 	# Now remove any Cargo.lock files that cargo pointlessly created.
 	rm -f Cargo.lock
@@ -475,7 +483,7 @@ _cleanup_registry_link() {
 	if [[ -L "${link}" ]]; then
 		einfo "Removing ${crate} from Cargo registry"
 		# Acquire a exclusive lock since this modifies the registry.
-		flock --no-fork --exclusive "${CROS_RUST_REGISTRY_LOCK}" \
+		flock --no-fork --exclusive "$(cros-rust_get_reg_lock)" \
 			sh -c 'rm -f "$0"' "${link}" || die
 	fi
 }
