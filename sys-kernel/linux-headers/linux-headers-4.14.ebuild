@@ -26,7 +26,6 @@ S=${WORKDIR}/gentoo-headers-base-${PV}
 PATCHES=(
 	"${FILESDIR}/0001-CHROMIUM-media-headers-Import-V4L2-headers-from-Chro.patch"
 	"${FILESDIR}/0002-CHROMIUM-v4l-Add-VP8-low-level-decoder-API-controls.patch"
-	"${FILESDIR}/0003-v4l-add-pixelformat-change-event.patch"
 	"${FILESDIR}/0004-CHROMIUM-v4l-Add-VP9-low-level-decoder-API-controls.patch"
 	"${FILESDIR}/0005-CHROMIUM-v4l-Add-V4L2_CID_MPEG_VIDEO_H264_SPS_PPS_BE.patch"
 	"${FILESDIR}/0007-media-videodev2.h-add-IPU3-raw10-color.patch"
