@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT="74784de84c4972125a7bf6bc4c27b11950672483"
+CROS_WORKON_COMMIT="0b833a32a6df7368c27aebd06810349578576734"
 CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "550ee73d2cf181a72f7aee3bcef0ddd014a8b550" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,23 +18,22 @@ inherit cros-constants cros-workon platform systemd user
 DESCRIPTION="Metrics aggregation service for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="fuzzer metrics_uploader +passive_metrics systemd"
 
-RDEPEND="
-	chromeos-base/libbrillo
-	dev-libs/dbus-glib
-	dev-libs/libpcre
+COMMON_DEPEND="
+	dev-libs/dbus-glib:=
+	dev-libs/libpcre:=
 	dev-libs/protobuf:=
-	sys-apps/rootdev
+	sys-apps/rootdev:=
 	"
 
+RDEPEND="${COMMON_DEPEND}"
 DEPEND="
-	${RDEPEND}
-	chromeos-base/session_manager-client
+	${COMMON_DEPEND}
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
-	chromeos-base/vboot_reference
+	chromeos-base/vboot_reference:=
 	"
 
 src_install() {
