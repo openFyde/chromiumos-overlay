@@ -1,9 +1,9 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="efcaf836bd1e6486c495b780cb0edc81768c1fff"
+CROS_WORKON_COMMIT="20189abfb9b90cd2c1e90d331922af8b20670f26"
 CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "6ebc0d7d913e63ad0a38a0ca233f19e8e9c19912" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,19 +20,20 @@ DESCRIPTION="Permission Broker for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="cfm_enabled_device fuzzer"
 
-RDEPEND="
-	chromeos-base/libbrillo
-	sys-apps/dbus
+COMMMON_DEPEND="
+	sys-apps/dbus:=
 	virtual/libusb:1
-	virtual/udev"
+	virtual/udev
+"
 
-DEPEND="${RDEPEND}
-	chromeos-base/system_api[fuzzer?]
-	sys-kernel/linux-headers"
+RDEPEND="${COMMMON_DEPEND}"
+DEPEND="${COMMMON_DEPEND}
+	chromeos-base/system_api:=[fuzzer?]
+	sys-kernel/linux-headers:=
+"
 
 src_install() {
 	dobin "${OUT}"/permission_broker
