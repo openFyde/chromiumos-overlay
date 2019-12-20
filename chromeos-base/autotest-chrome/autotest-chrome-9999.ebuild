@@ -214,6 +214,7 @@ IUSE_TESTS=(
 	+tests_power_LoadTest
 	+tests_power_LowMemorySuspend
 	+tests_power_UiResume
+	+tests_power_VideoCall
 	+tests_power_VideoDetector
 	+tests_power_VideoPlayback
 	+tests_power_VideoSuspend
