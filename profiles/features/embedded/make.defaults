@@ -19,6 +19,11 @@ USE="${USE} -containers"
 # By default, don't run memd as it may have excessive impact on CPU usage.
 USE="${USE} -memd"
 
+# Enable the metrics uploader by default. Even if metrics aren't actually
+# uploaded (e.g., consent required), this is critical for periodically clearing
+# out any locally-collected metrics, in the absence of Chrome.
+USE="${USE} metrics_uploader"
+
 # Disable ML Service until/unless features on embedded devices need it.
 USE="${USE} -ml_service"
 
