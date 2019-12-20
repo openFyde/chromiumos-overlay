@@ -33,7 +33,6 @@ RDEPEND="
 	${COMMON_DEPEND}
 	media-sound/alsa-utils
 	media-plugins/alsa-plugins
-	dev-libs/libpthread-stubs
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp )
@@ -43,6 +42,7 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	dev-libs/libpthread-stubs:=
 	media-sound/cras_rust:=
 "
 
