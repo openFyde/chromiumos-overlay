@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+CROS_WORKON_COMMIT="aee3740612b42c9ad8b4878ecaac66c066f0e190"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "e61fc9eec58f232aa0a62acf639d58e1d506b3ac" "a10541b781bce7a5076c93a9b3d44e47e3b378b9" "18c00e6592ef342eff6eeb0d5706dc654432eab9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -39,6 +39,9 @@ src_install() {
 	dosbin "${OUT}"/sealed_storage_tool
 	dolib.a "${OUT}"/libsealed_storage.a
 	dolib.so "${OUT}"/lib/libsealed_storage_wrapper.so
+
+	insinto /usr/include/chromeos/sealed_storage
+	doins sealed_storage.h
 }
 
 platform_pkg_test() {
