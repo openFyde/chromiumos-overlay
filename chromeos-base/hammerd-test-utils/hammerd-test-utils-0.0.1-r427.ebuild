@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c62523378672b5faf4552e824d4b6c7dbec60eca"
+CROS_WORKON_COMMIT="8c054a0d10117acb842467b3ec46044fc61212bd"
 CROS_WORKON_TREE=("27d7d5f2d4de786738c22f9ded288cce7eed6a7c" "0afedb99591d086f6cac3367df9383bf35c3203f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -51,5 +51,5 @@ src_install() {
 
 	# Install hammer base tests on dut
 	dodir /usr/local/bin/hammertests
-	cp -R "${S}/hammertests" "${D}/usr/local/bin/hammertests"
+	cp -R "${S}/hammertests" "${D}/usr/local/bin"
 }
