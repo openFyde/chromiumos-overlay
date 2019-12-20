@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT="754335ec770b91b2a552a0dc8b4fc6b64c4fc11a"
 CROS_WORKON_TREE="7a6b87b24a56dc6a130caa9b6883207fbee67e63"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -15,29 +15,35 @@ DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="http://www.chromium.org"
 SRC_URI=""
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="asan +cras-apm fuzzer selinux systemd unibuild"
 
-RDEPEND=">=media-libs/alsa-lib-1.0.27
-	!<media-libs/alsa-lib-1.1.6-r3
+COMMON_DEPEND="
+	chromeos-base/metrics:=
+	dev-libs/iniparser:=
+	cras-apm? ( media-libs/webrtc-apm:= )
+	>=media-libs/alsa-lib-1.1.6-r3:=
+	media-libs/ladspa-sdk:=
+	media-libs/sbc:=
+	media-libs/speex:=
+	>=sys-apps/dbus-1.4.12:=
+	selinux? ( sys-libs/libselinux:= )
+	virtual/udev:=
+"
+
+RDEPEND="
+	${COMMON_DEPEND}
 	media-sound/alsa-utils
 	media-plugins/alsa-plugins
-	media-libs/sbc
-	media-libs/speex
-	cras-apm? ( media-libs/webrtc-apm )
-	dev-libs/iniparser
-	>=sys-apps/dbus-1.4.12
 	dev-libs/libpthread-stubs
-	virtual/udev
 	unibuild? ( chromeos-base/chromeos-config )
-	!<=chromeos-base/audioconfig-0.0.1-r1
 	chromeos-base/chromeos-config-tools
-	chromeos-base/metrics
-	selinux? ( sys-libs/libselinux )"
-DEPEND="${RDEPEND}
-	media-libs/ladspa-sdk
-	media-sound/cras_rust"
+"
+
+DEPEND="
+	${COMMON_DEPEND}
+	media-sound/cras_rust:=
+"
 
 check_format_error() {
 	local file
@@ -66,6 +72,7 @@ check_format_error() {
 src_prepare() {
 	cd cras
 	eautoreconf
+	eapply_user
 }
 
 src_configure() {
