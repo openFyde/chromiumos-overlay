@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="1e14c288a26fe9820581cac2c47f7e86580a3f2b"
-CROS_WORKON_TREE="d022a447030b86b2a3aa36553d0915467e1abcfc"
+CROS_WORKON_COMMIT="775a1c39561282a2ef13f03c5e1cc50a2f31876b"
+CROS_WORKON_TREE="56bb7e28c694e2cc7a378caae5c8cd6397c4a98c"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic libchrome cros-debug cros-workon autotest
@@ -188,8 +188,6 @@ CLIENT_IUSE_TESTS="
 	+tests_platform_Crouton
 	+tests_platform_DaemonsRespawn
 	+tests_platform_DBusMachineIdRotation
-	+tests_platform_DMVerityBitCorruption
-	+tests_platform_DMVerityCorruption
 	encrypted_stateful? ( +tests_platform_EncryptedStateful )
 	+tests_platform_ExternalUSBBootStress
 	+tests_platform_ExternalUSBStress
