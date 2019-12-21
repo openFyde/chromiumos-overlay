@@ -173,8 +173,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	export JAVA_HOME=/etc/java-config-2/current-system-vm/
-
+	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
 	append-flags $(get-cpu-flags)
 
 	# Exceptions are required for jsoncpp.
@@ -197,7 +196,6 @@ src_prepare() {
 }
 
 src_configure() {
-	export JAVA_HOME=/etc/java-config-2/current-system-vm/
 
 	do_configure() {
 		export CC_OPT_FLAGS=" "
@@ -287,7 +285,6 @@ src_configure() {
 }
 
 src_compile() {
-	export JAVA_HOME=/etc/java-config-2/current-system-vm/
 
 	if use python; then
 		python_setup
@@ -324,7 +321,6 @@ src_compile() {
 
 src_install() {
 	local i j
-	export JAVA_HOME=/etc/java-config-2/current-system-vm/
 
 	if ! use minimal; then
 		do_install() {
