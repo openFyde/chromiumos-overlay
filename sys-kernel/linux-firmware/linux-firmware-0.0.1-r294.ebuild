@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="3502e74f61ee54b0417a6bf93e40c5957b69633c"
-CROS_WORKON_TREE="dcbbf24768857fb988164a7fc5209ed2782705ad"
+CROS_WORKON_COMMIT="db9a55a3f7ad29cfe733bd7eb3c6434da9c9ab8b"
+CROS_WORKON_TREE="7da0b13bffd61b42419415d67544fe94e9091138"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
@@ -71,6 +71,7 @@ IUSE_LINUX_FIRMWARE=(
 	i915_bxt
 	i915_cnl
 	i915_glk
+	i915_jsl
 	i915_kbl
 	i915_skl
 	i915_tgl
@@ -121,6 +122,7 @@ LICENSE="
 	linux_firmware_i915_bxt? ( LICENSE.i915 )
 	linux_firmware_i915_cnl? ( LICENSE.i915 )
 	linux_firmware_i915_glk? ( LICENSE.i915 )
+	linux_firmware_i915_jsl? ( LICENSE.i915 )
 	linux_firmware_i915_kbl? ( LICENSE.i915 )
 	linux_firmware_i915_skl? ( LICENSE.i915 )
 	linux_firmware_i915_tgl? ( LICENSE.i915 )
@@ -220,6 +222,8 @@ src_install() {
 	use_fw i915_bxt && doins_subdir i915/bxt*
 	use_fw i915_cnl && doins_subdir i915/cnl*
 	use_fw i915_glk && doins_subdir i915/glk*
+	use_fw i915_jsl && doins_subdir i915/jsl*
+	use_fw i915_jsl && doins_subdir i915/icl_dmc_ver1_09.bin
 	use_fw i915_kbl && doins_subdir i915/kbl*
 	use_fw i915_skl && doins_subdir i915/skl*
 	use_fw i915_tgl && doins_subdir i915/tgl*
