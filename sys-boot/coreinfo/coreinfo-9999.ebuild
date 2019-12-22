@@ -9,7 +9,6 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="-* ~amd64 ~x86"
-IUSE="coreboot-sdk"
 
 RDEPEND="sys-boot/libpayload"
 DEPEND="sys-boot/libpayload"
@@ -19,11 +18,7 @@ CROS_WORKON_LOCALNAME="coreboot"
 inherit cros-workon toolchain-funcs coreboot-sdk
 
 src_compile() {
-	if ! use coreboot-sdk; then
-		export CROSS_COMPILE=i686-pc-linux-gnu-
-	else
-		export CROSS_COMPILE=${COREBOOT_SDK_PREFIX_x86_32}
-	fi
+	export CROSS_COMPILE=${COREBOOT_SDK_PREFIX_x86_32}
 	export CC="${CROSS_COMPILE}gcc"
 	unset CFLAGS
 
