@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="e33968345954bea19af684fb4d14d22bb64fcbac"
+CROS_WORKON_COMMIT="500b1c1c4dc1db58d7119353aa3fa2388754f7f1"
 CROS_WORKON_TREE=("7b502a61182dc307c8d16dff697817823466d296" "81f7fe23bf497aafef6d4128b33582b4422a9ff5" "e638ed4fe0aea306fc47fd27d5a16e527fb2f7a3" "b11248a21272b8bfed3babc0bbe6085b801eae31" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="arc/network common-mk metrics vm_tools .gn"
 
 PLATFORM_SUBDIR="vm_tools"
 
-inherit cros-workon platform udev user
+inherit cros-workon platform udev user arc-build-constants
 
 DESCRIPTION="VM host tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
@@ -64,6 +64,12 @@ src_install() {
 	dobin "${OUT}"/vm_concierge
 	dobin "${OUT}"/vmlog_forwarder
 	dobin "${OUT}"/vsh
+
+	if use arcvm; then
+		arc-build-constants-configure
+		exeinto "${ARC_VM_VENDOR_DIR}/bin"
+		doexe "${OUT}"/vshd
+	fi
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/cicerone_container_listener_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vsh_client_fuzzer
