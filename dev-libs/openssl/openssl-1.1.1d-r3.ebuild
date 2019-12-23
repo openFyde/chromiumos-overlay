@@ -25,7 +25,7 @@ SRC_URI="mirror://openssl/source/${MY_P}.tar.gz
 	)"
 
 LICENSE="openssl"
-SLOT="0/1.1" # .so version of libssl/libcrypto
+SLOT="0/1.0.0" # Hack: .so version of libssl/libcrypto from openssl 1.0.2
 [[ "${PV}" = *_pre* ]] || \
 KEYWORDS="*"
 IUSE="+asm bindist cros_host elibc_musl rfc3779 sctp cpu_flags_x86_sse2 sslv3 static-libs test tls-heartbeat vanilla zlib"
@@ -33,10 +33,9 @@ RESTRICT="!bindist? ( bindist )"
 
 RDEPEND=">=app-misc/c_rehash-1.7-r1
 	zlib? ( >=sys-libs/zlib-1.2.8-r1[static-libs(+)?,${MULTILIB_USEDEP}] )"
-DEPEND="${RDEPEND}"
 # Hack: Pull in the previous OpenSSL version in a slot to avoid breaking dynamic linking in the SDK.
-DEPEND+="
-	cros_host? ( dev-libs/openssl:legacy )"
+RDEPEND+=" dev-libs/openssl:legacy "
+DEPEND="${RDEPEND}"
 BDEPEND="
 	>=dev-lang/perl-5
 	sctp? ( >=net-misc/lksctp-tools-1.0.12 )
@@ -277,64 +276,8 @@ multilib_src_test() {
 }
 
 multilib_src_install() {
-	# We need to create $ED/usr on our own to avoid a race condition #665130
-	if [[ ! -d "${ED}/usr" ]]; then
-		# We can only create this directory once
-		mkdir "${ED}"/usr || die
+	if use cros_host; then
+		dolib.so libcrypto.so.1.1
+		dolib.so libssl.so.1.1
 	fi
-
-	emake DESTDIR="${D}" install
-}
-
-multilib_src_install_all() {
-	# openssl installs perl version of c_rehash by default, but
-	# we provide a shell version via app-misc/c_rehash
-	rm "${ED}"/usr/bin/c_rehash || die
-
-	dodoc CHANGES* FAQ NEWS README doc/*.txt doc/${PN}-c-indent.el
-
-	# This is crappy in that the static archives are still built even
-	# when USE=static-libs.  But this is due to a failing in the openssl
-	# build system: the static archives are built as PIC all the time.
-	# Only way around this would be to manually configure+compile openssl
-	# twice; once with shared lib support enabled and once without.
-	use static-libs || rm -f "${ED}"/usr/lib*/lib*.a
-
-	# create the certs directory
-	keepdir ${SSL_CNF_DIR}/certs
-
-	# Namespace openssl programs to prevent conflicts with other man pages
-	cd "${ED}"/usr/share/man || die
-	local m d s
-	for m in $(find . -type f | xargs grep -L '#include') ; do
-		d=${m%/*} ; d=${d#./} ; m=${m##*/}
-		[[ ${m} == openssl.1* ]] && continue
-		[[ -n $(find -L ${d} -type l) ]] && die "erp, broken links already!"
-		mv ${d}/{,ssl-}${m}
-		# fix up references to renamed man pages
-		sed -i '/^[.]SH "SEE ALSO"/,/^[.]/s:\([^(, ]*(1)\):ssl-\1:g' ${d}/ssl-${m}
-		ln -s ssl-${m} ${d}/openssl-${m}
-		# locate any symlinks that point to this man page ... we assume
-		# that any broken links are due to the above renaming
-		for s in $(find -L ${d} -type l) ; do
-			s=${s##*/}
-			rm -f ${d}/${s}
-			# We don't want to "|| die" here
-			ln -s ssl-${m} ${d}/ssl-${s}
-			ln -s ssl-${s} ${d}/openssl-${s}
-		done
-	done
-	[[ -n $(find -L ${d} -type l) ]] && die "broken manpage links found :("
-
-	dodir /etc/sandbox.d #254521
-	echo 'SANDBOX_PREDICT="/dev/crypto"' > "${ED}"/etc/sandbox.d/10openssl
-
-	diropts -m0700
-	keepdir ${SSL_CNF_DIR}/private
-}
-
-pkg_postinst() {
-	ebegin "Running 'c_rehash ${EROOT}${SSL_CNF_DIR}/certs/' to rebuild hashes #333069"
-	c_rehash "${EROOT}${SSL_CNF_DIR}/certs" >/dev/null
-	eend $?
 }
