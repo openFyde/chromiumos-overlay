@@ -81,24 +81,24 @@ factory_get_resource_archive_path() {
 # @CODE
 factory_create_resource() {
 	local params="<name> <local_dir> <resource_dir> <objects>..."
-	[[ $# -gt 3 ]] || die "Usage: ${FUNCNAME} ${params}"
+	[[ $# -gt 3 ]] || die "Usage: ${FUNCNAME[0]} ${params}"
 
-	local name="$1"
-	local local_dir="$2"
-	local resource_dir="$3"
+	local name="${1:-factory-board}"
+	local local_dir="${2:-${WORKDIR}}"
+	local resource_dir="${3:-.}"
 	shift
 	shift
 	shift
-
-	# Normalize resource_dir.
-	[ -n "${name}" ] || name="factory-board"
-	[ -n "${local_dir}" ] || local_dir="${WORKDIR}"
-	[ -n "${resource_dir}" ] || resource_dir="."
 
 	local archive_path="$(factory_get_resource_archive_path \
 		"${name}" "${ED}")"
 	local archive_dir="$(dirname "${archive_path}")"
+	local archive_name="$(basename "${archive_path}")"
 	mkdir -p "${archive_dir}"
+
+	if [[ -f "${archive_path}" ]]; then
+		die "Failed because ${archive_name} already exists."
+	fi
 
 	# transform regular file paths, but not targets of symbolic links and hard
 	# links.
