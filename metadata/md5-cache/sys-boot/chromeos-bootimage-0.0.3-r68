@@ -1,12 +1,12 @@
 DEFINED_PHASES=compile install
-DEPEND=chromeos-base/vboot_reference zork? ( sys-boot/coreboot-zork ) !zork? ( sys-boot/coreboot ) depthcharge? ( sys-boot/depthcharge ) bmpblk? ( sys-boot/chromeos-bmpblk ) tianocore? ( sys-boot/edk2 ) seabios? ( sys-boot/chromeos-seabios ) unibuild? ( chromeos-base/chromeos-config ) u-boot? ( sys-boot/u-boot ) cros_ec? ( chromeos-base/chromeos-ec ) pd_sync? ( chromeos-base/chromeos-ec )
+DEPEND=chromeos-base/vboot_reference zork? ( sys-boot/coreboot-zork ) !zork? ( sys-boot/coreboot ) depthcharge? ( sys-boot/depthcharge ) bmpblk? ( sys-boot/chromeos-bmpblk ) tianocore? ( sys-boot/edk2 ) seabios? ( sys-boot/chromeos-seabios ) unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) u-boot? ( sys-boot/u-boot ) cros_ec? ( chromeos-base/chromeos-ec ) pd_sync? ( chromeos-base/chromeos-ec )
 DESCRIPTION=ChromeOS firmware image builder
 EAPI=6
 HOMEPAGE=http://www.chromium.org
-IUSE=alex aplrvp atlas auron bayleybay beltino bolt butterfly chell cnlrvp coral cyan dedede dragonegg drallion emeraldlake2 eve falco fizz fox glados glkrvp grunt hatch jecht kalista kblrvp kunimitsu link lumpy lumpy64 mario meowth mushu nasher nami nautilus nocturne octopus panther parrot peppy poppy puff pyro rambi rammus reef samus sand sarien sklrvp slippy snappy soraka squawks stout strago stumpy sumo volteer zoombini zork diag_payload seabios wilco_ec fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk ec_ro_sync +depthcharge cros-debug
+IUSE=alex aplrvp atlas auron bayleybay beltino bolt butterfly chell cnlrvp coral cyan dedede dragonegg drallion emeraldlake2 eve falco fizz fox glados glkrvp grunt hatch jecht kalista kblrvp kunimitsu link lumpy lumpy64 mario meowth mushu nasher nami nautilus nocturne octopus panther parrot peppy poppy puff pyro rambi rammus reef samus sand sarien sklrvp slippy snappy soraka squawks stout strago stumpy sumo volteer zoombini zork diag_payload seabios wilco_ec fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk generated_cros_config ec_ro_sync +depthcharge cros-debug
 KEYWORDS=*
 LICENSE=GPL-2
 REQUIRED_USE=^^ ( alex aplrvp atlas auron bayleybay beltino bolt butterfly chell cnlrvp coral cyan dedede dragonegg drallion emeraldlake2 eve falco fizz fox glados glkrvp grunt hatch jecht kalista kblrvp kunimitsu link lumpy lumpy64 mario meowth mushu nasher nami nautilus nocturne octopus panther parrot peppy poppy puff pyro rambi rammus reef samus sand sarien sklrvp slippy snappy soraka squawks stout strago stumpy sumo volteer zoombini zork arm mips )
 SLOT=0
 _eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-unibuild	f4c31fd6b49bf1f72ba65fc86a67b8ae	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=ce80e0226d3e3264b9f1d6e9fc900ffa
+_md5_=fa764a623a2860d30e519c88fab4676a

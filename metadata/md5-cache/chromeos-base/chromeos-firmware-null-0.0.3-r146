@@ -1,14 +1,14 @@
 DEFINED_PHASES=compile info install setup test unpack
-DEPEND=dev-vcs/git dev-vcs/git chromeos-base/vboot_reference unibuild? ( chromeos-base/chromeos-config:= ) app-arch/gzip app-arch/sharutils app-arch/tar sys-apps/util-linux bootimage? ( sys-boot/chromeos-bootimage ) cros_ec? ( chromeos-base/chromeos-ec )
+DEPEND=dev-vcs/git dev-vcs/git chromeos-base/vboot_reference unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) app-arch/gzip app-arch/sharutils app-arch/tar sys-apps/util-linux bootimage? ( sys-boot/chromeos-bootimage ) cros_ec? ( chromeos-base/chromeos-ec )
 DESCRIPTION=Chrome OS Firmware (Template - change to board name)
 EAPI=5
 HOMEPAGE=http://src.chromium.org
-IUSE=cros_host cros_workon_tree_ae8ca5477830cef9b8e103c96a9eddffaba99a97 cros_host cros_workon_tree_ae8ca5477830cef9b8e103c96a9eddffaba99a97 bootimage cros_ec cros_ish unibuild
+IUSE=cros_host cros_workon_tree_ae8ca5477830cef9b8e103c96a9eddffaba99a97 cros_host cros_workon_tree_ae8ca5477830cef9b8e103c96a9eddffaba99a97 bootimage cros_ec cros_ish unibuild generated_cros_config
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
-RDEPEND=chromeos-base/vboot_reference unibuild? ( chromeos-base/chromeos-config:= ) app-arch/gzip app-arch/sharutils app-arch/tar sys-apps/util-linux chromeos-base/vpd sys-apps/flashrom sys-apps/mosys cros_ish? ( chromeos-base/chromeos-ish )
+RDEPEND=chromeos-base/vboot_reference unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) app-arch/gzip app-arch/sharutils app-arch/tar sys-apps/util-linux chromeos-base/vpd sys-apps/flashrom sys-apps/mosys cros_ish? ( chromeos-base/chromeos-ish )
 RESTRICT=mirror
 SLOT=0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-firmware	9d3a56e048bfeb54da8564f8b08dc6b0	cros-unibuild	f4c31fd6b49bf1f72ba65fc86a67b8ae	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-firmware	e6505c4c010ad1cf8df724f0d4b1073f	cros-unibuild	f4c31fd6b49bf1f72ba65fc86a67b8ae	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
 _md5_=ddf1e11191e054829f1abc5e6939af9c
