@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f07e74b923bb973d244c810d756e6233c93b4ebf"
+CROS_WORKON_COMMIT="683759513608ce804ef3011e6e6924873cb63514"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "7b502a61182dc307c8d16dff697817823466d296" "59decc3a0cb11b20dc2df029e254911f47d20e03" "c4250acf659642cc2c23c2c3ae9733bd042656c6" "e638ed4fe0aea306fc47fd27d5a16e527fb2f7a3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ IUSE="
 	arcpp
 	esdfs
 	fuzzer
+	generated_cros_config
 	houdini
 	houdini64
 	ndk_translation
@@ -51,7 +52,10 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
-	unibuild? ( chromeos-base/chromeos-config:= )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/system_api:=[fuzzer?]
 "
 

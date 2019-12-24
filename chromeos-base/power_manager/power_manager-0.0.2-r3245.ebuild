@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="f07e74b923bb973d244c810d756e6233c93b4ebf"
+CROS_WORKON_COMMIT="683759513608ce804ef3011e6e6924873cb63514"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "d8e2d98bcdfd69f3fe27ef423e6a90b5fc9647cd" "c4250acf659642cc2c23c2c3ae9733bd042656c6" "e638ed4fe0aea306fc47fd27d5a16e527fb2f7a3" "54ce1c6b36ca4575fc9e79ccc99ea002d282e2ca" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,12 +22,15 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
+IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
 RDEPEND="
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/chromeos-config-tools
 	chromeos-base/ec-utils
 	chromeos-base/metrics

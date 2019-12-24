@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="f07e74b923bb973d244c810d756e6233c93b4ebf"
+CROS_WORKON_COMMIT="683759513608ce804ef3011e6e6924873cb63514"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "c4250acf659642cc2c23c2c3ae9733bd042656c6" "7d4ff85b5829a0f48817e30b37d45973b0f4a306" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,10 +21,13 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/runtim
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="*"
-IUSE="unibuild asan fuzzer"
+IUSE="generated_cros_config unibuild asan fuzzer"
 
 RDEPEND="
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/chromeos-config-tools
 	chromeos-base/libbrillo
 	chromeos-base/libchrome

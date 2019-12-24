@@ -42,7 +42,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
 IUSE="${IUSE} +bmpblk +intel_mrc qca-framework quiet unibuild verbose"
-IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge"
+IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge generated_cros_config"
 # coreboot's build system handles stripping the binaries and producing a
 # separate .debug file with the symbols. This flag prevents portage from
 # stripping the .debug symbols
@@ -57,7 +57,10 @@ DEPEND="
 		amd64? ( sys-boot/chromeos-mrc ) )
 	chipset_stoneyridge? ( sys-boot/amd-firmware )
 	qca-framework? ( sys-boot/qca-framework )
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	"
 
 # Get the coreboot board config to build for.

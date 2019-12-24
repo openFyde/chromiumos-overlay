@@ -16,7 +16,7 @@ HOMEPAGE="http://www.chromium.org"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="asan +cras-apm fuzzer selinux systemd unibuild"
+IUSE="asan +cras-apm fuzzer generated_cros_config selinux systemd unibuild"
 
 COMMON_DEPEND="
 	chromeos-base/metrics:=
@@ -36,7 +36,10 @@ RDEPEND="
 	media-sound/alsa-utils
 	media-plugins/alsa-plugins
 	dev-libs/libpthread-stubs
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp )
+	)
 	chromeos-base/chromeos-config-tools
 "
 

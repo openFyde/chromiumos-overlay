@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("316f7d9a1153368268286551f1a160de8afeaeac" "438405ba4437e77943d211f701d6d0d6c791dddf")
+CROS_WORKON_COMMIT=("683759513608ce804ef3011e6e6924873cb63514" "438405ba4437e77943d211f701d6d0d6c791dddf")
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "616f05d6327d9bcfe570c1d061be57b0fc68c1e2")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -76,11 +76,12 @@ SRC_URI="$(cargo_crate_uris ${CRATES})"
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
 SLOT="0"
 KEYWORDS="*"
-IUSE="unibuild"
+IUSE="generated_cros_config unibuild"
 
 # We need util-linux for libuuid.
 RDEPEND="unibuild? (
-		chromeos-base/chromeos-config
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 		sys-apps/dtc
 	)
 	dev-util/cmocka

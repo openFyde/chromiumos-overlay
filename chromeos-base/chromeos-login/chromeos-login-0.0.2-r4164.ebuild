@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="5d4970c95850e2dd2595339576840e74e5e97114"
+CROS_WORKON_COMMIT="683759513608ce804ef3011e6e6924873cb63514"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "c4250acf659642cc2c23c2c3ae9733bd042656c6" "26cc39937cb33cdae66977037ac978473c338884" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "ac5307e6e8ef05f9e4c2003a09065ec3004e9bb7" "e638ed4fe0aea306fc47fd27d5a16e527fb2f7a3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,10 +23,13 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cheets fuzzer systemd unibuild"
+IUSE="cheets fuzzer generated_cros_config systemd unibuild"
 
 RDEPEND="chromeos-base/bootstat
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/chromeos-config-tools
 	chromeos-base/minijail
 	chromeos-base/cryptohome

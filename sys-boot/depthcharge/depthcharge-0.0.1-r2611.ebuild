@@ -15,11 +15,14 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 IUSE="detachable_ui diag_payload fwconsole mocktpm pd_sync unibuild
-	verbose debug"
+	verbose debug generated_cros_config"
 
 DEPEND="
 	sys-boot/libpayload
-	unibuild? ( chromeos-base/chromeos-config )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 "
 
 CROS_WORKON_LOCALNAME=("../platform/depthcharge" "../platform/vboot_reference")

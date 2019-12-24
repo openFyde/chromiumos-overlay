@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="f07e74b923bb973d244c810d756e6233c93b4ebf"
+CROS_WORKON_COMMIT="683759513608ce804ef3011e6e6924873cb63514"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "bbf56ba3ea2d39fbbee9245a6c70ba5f0956a53b" "c4250acf659642cc2c23c2c3ae9733bd042656c6" "e638ed4fe0aea306fc47fd27d5a16e527fb2f7a3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ IUSE="
 	fpmcu_firmware_nami
 	fpmcu_firmware_nocturne
 	fuzzer
+	generated_cros_config
 	unibuild
 "
 
@@ -33,7 +34,10 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/metrics:=
 	sys-apps/flashmap:=
-	unibuild? ( chromeos-base/chromeos-config:= )
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 "
 RDEPEND="
 	${COMMON_DEPEND}

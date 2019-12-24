@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="f07e74b923bb973d244c810d756e6233c93b4ebf"
+CROS_WORKON_COMMIT="683759513608ce804ef3011e6e6924873cb63514"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "c4250acf659642cc2c23c2c3ae9733bd042656c6" "a586d52555f556438492650a9423e8999e236854" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -19,11 +19,14 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/blueto
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="+bluetooth_suspend_management fuzzer seccomp unibuild"
+IUSE="+bluetooth_suspend_management fuzzer generated_cros_config seccomp unibuild"
 
 RDEPEND="
-	unibuild? ( chromeos-base/chromeos-config:= )
 	chromeos-base/chromeos-config-tools:=
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 	chromeos-base/newblue:=
 	net-wireless/bluez:=
 "
