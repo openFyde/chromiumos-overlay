@@ -18,7 +18,7 @@ SRC_URI="test? ( https://storage.googleapis.com/crosvm-testing/x86_64/${KERNEL_P
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf fuzzer tpm2"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
 
 COMMON_DEPEND="
 	sys-apps/dtc:=
@@ -89,6 +89,17 @@ src_unpack() {
 	# Unpack both the project and dependency source code
 	cros-workon_src_unpack
 	cros-rust_src_unpack
+}
+
+src_prepare() {
+	cros-workon_src_prepare
+	cros-rust_src_prepare
+
+	if use arcvm_gce_l1; then
+		eapply "${FILESDIR}"/0001-betty-arcvm-Loose-mprotect-mmap-for-software-renderi.patch
+	fi
+
+	eapply_user
 }
 
 src_configure() {
