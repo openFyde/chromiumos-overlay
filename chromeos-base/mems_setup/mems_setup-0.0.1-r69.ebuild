@@ -1,9 +1,9 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT="aee3740612b42c9ad8b4878ecaac66c066f0e190"
+CROS_WORKON_COMMIT="683759513608ce804ef3011e6e6924873cb63514"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "9055f375ab572e2ac218175e31c6b1b9e081d92f" "f862810929d3e950ac711742ea5d04eafde77151" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,16 +20,17 @@ DESCRIPTION="MEMS Setup for Chromium OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_setup"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND="
+COMMON_DEPEND="
 	chromeos-base/libmems:=
 	net-libs/libiio:="
 
-DEPEND="${RDEPEND}
-	chromeos-base/system_api"
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/system_api:="
 
 src_install() {
 	dosbin "${OUT}"/mems_setup

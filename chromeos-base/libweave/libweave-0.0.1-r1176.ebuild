@@ -1,9 +1,9 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT=("5d4970c95850e2dd2595339576840e74e5e97114" "7bffc78b4aaef6682c1d12901893daebab2f0d8f")
+CROS_WORKON_COMMIT=("683759513608ce804ef3011e6e6924873cb63514" "7bffc78b4aaef6682c1d12901893daebab2f0d8f")
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b51d0c2aafa4f20ad18ed6ecf47c6e493782a189")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME=("platform2" "weave/libweave")
@@ -18,7 +18,6 @@ inherit cros-workon libchrome platform
 DESCRIPTION="Weave device library"
 HOMEPAGE="http://dev.chromium.org/chromium-os/platform"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 # libweave-test, which depends on gmock, is built unconditionally, so the gmock
