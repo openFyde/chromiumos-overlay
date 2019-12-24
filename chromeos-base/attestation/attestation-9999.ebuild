@@ -71,6 +71,13 @@ src_install() {
 		newins server/attestationd-seccomp-${ARCH}.policy attestationd-seccomp.policy
 	fi
 
+	insinto /etc/dbus-1/system.d
+	doins pca_agent/server/org.chromium.PcaAgent.conf
+	insinto /etc/init
+	doins pca_agent/server/pca_agentd.conf
+	dosbin "${OUT}"/pca_agentd
+	dobin "${OUT}"/pca_agent_client
+
 	dolib.so "${OUT}"/lib/libattestation.so
 
 
