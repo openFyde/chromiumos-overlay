@@ -1,13 +1,12 @@
+BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile configure info install setup unpack
-DEPEND=dev-vcs/git
 DESCRIPTION=The GNU Compiler Collection. This builds and installs the libgcc, libstdc++, and libgo libraries. It is board-specific.
-EAPI=5
+EAPI=7
 IUSE=go hardened hardfp libatomic mounted_gcc +thumb vtable_verify cros_host cros_workon_tree_
 KEYWORDS=~*
 LICENSE=GPL-3 LGPL-3 FDL-1.2
 PROPERTIES=live
 REQUIRED_USE=go? ( libatomic )
-RESTRICT=strip
-SLOT=0
+SLOT=0/9999
 _eclasses_=binutils-funcs	6207477a739f6f25d13da27b9cc00160	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=4bd77c2928328953a944211d6d56fdf7
+_md5_=aaf3a39f46b5e5f04a93e6217f9e69d2
