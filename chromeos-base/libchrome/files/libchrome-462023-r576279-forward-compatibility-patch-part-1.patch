@@ -1,11 +1,12 @@
-From d092b8c6e07b7311cd70addf40e673c3ad2498c9 Mon Sep 17 00:00:00 2001
+From da785ac1322ea908914484400c98a2319f81c72b Mon Sep 17 00:00:00 2001
 From: Hidehiko Abe <hidehiko@chromium.org>
 Date: Sat, 10 Aug 2019 01:49:12 +0900
-Subject: [PATCH 1/5] libchrome: r576279 forward compatibility patch part 1.
+Subject: [PATCH] libchrome: r576279 forward compatibility patch part 1.
 
 This CL includes;
 - NumberToString overload.
-- TaskRunner::BelongsToCurrentThread() alias.
+- TaskRunner::BelongsToCurrentThread(),RunsTasksInCurrentSequence()
+  alias.
 - Value::SetKey()
 - SimpleAlarmTimer::Create().
 - base/memory/scoped_refptr.h
@@ -24,12 +25,12 @@ Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
  base/memory/shared_memory_posix.cc        | 13 +++++++---
  base/posix/unix_domain_socket.h           | 12 +++++++++
  base/strings/string_number_conversions.h  | 20 +++++++++++++++
- base/task_runner.h                        |  4 +++
+ base/task_runner.h                        |  8 ++++++
  base/values.cc                            |  5 ++++
  base/values.h                             |  2 ++
  components/timers/alarm_timer_chromeos.cc |  8 ++++++
  components/timers/alarm_timer_chromeos.h  |  2 ++
- 11 files changed, 130 insertions(+), 4 deletions(-)
+ 11 files changed, 134 insertions(+), 4 deletions(-)
  create mode 100644 base/memory/scoped_refptr.h
  create mode 100644 base/posix/unix_domain_socket.h
 
@@ -241,14 +242,18 @@ index a95544e..776451c 100644
  
  // Perform a best-effort conversion of the input string to a numeric type,
 diff --git a/base/task_runner.h b/base/task_runner.h
-index 0421d56..dd449f4 100644
+index 0421d56..973eae1 100644
 --- a/base/task_runner.h
 +++ b/base/task_runner.h
-@@ -80,6 +80,10 @@ class BASE_EXPORT TaskRunner
+@@ -80,6 +80,14 @@ class BASE_EXPORT TaskRunner
    // general to use 'true' as a default value.
    virtual bool RunsTasksOnCurrentThread() const = 0;
  
 +  inline bool BelongsToCurrentThread() const {
++    return RunsTasksOnCurrentThread();
++  }
++
++  inline bool RunsTasksInCurrentSequence() const {
 +    return RunsTasksOnCurrentThread();
 +  }
 +
@@ -315,5 +320,5 @@ index 8066704..88f2588 100644
  
  }  // namespace timers
 -- 
-2.24.0.393.g34dc348eaf-goog
+2.24.1.735.g03f4e72817-goog
 
