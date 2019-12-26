@@ -6,8 +6,8 @@
 # VERSION=REVBUMP-0.0.17
 
 EAPI=7
-CROS_WORKON_COMMIT="dab7f3f749e64f41a4988fcf8189473e1fd7ebec"
-CROS_WORKON_TREE="a077fcedfdcfcff3c751a23c837b2db81cabb919"
+CROS_WORKON_COMMIT="0509725dd88b738aa2b40f633825ccf2f426dd6c"
+CROS_WORKON_TREE="d56fc094282304aeb1aacab4943a02fa8cd6affe"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 
 DESCRIPTION="coreboot's libpayload library"
