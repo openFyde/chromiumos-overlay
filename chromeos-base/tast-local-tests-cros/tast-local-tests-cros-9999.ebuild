@@ -51,6 +51,7 @@ RDEPEND="
 	)
 	dev-libs/openssl:0=
 	arc? (
+		chromeos-base/tast-local-apks-cros
 		dev-util/android-tools
 		dev-util/android-uiautomator-server
 	)
