@@ -220,7 +220,6 @@ src_install() {
 	use_fw i915_bxt && doins_subdir i915/bxt*
 	use_fw i915_cnl && doins_subdir i915/cnl*
 	use_fw i915_glk && doins_subdir i915/glk*
-	use_fw i915_jsl && doins_subdir i915/jsl*
 	use_fw i915_jsl && doins_subdir i915/icl_dmc_ver1_09.bin
 	use_fw i915_kbl && doins_subdir i915/kbl*
 	use_fw i915_skl && doins_subdir i915/skl*
