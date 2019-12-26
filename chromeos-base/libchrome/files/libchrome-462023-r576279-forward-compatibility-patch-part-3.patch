@@ -1,15 +1,15 @@
-From 030318b0fde436805966e887c8cbccffe7dc5683 Mon Sep 17 00:00:00 2001
+From b127741cf0c42d1065cf3d4c8db8e28f4ffa1c18 Mon Sep 17 00:00:00 2001
 From: Qijiang Fan <fqj@chromium.org>
 Date: Wed, 30 Oct 2019 13:52:45 +0900
-Subject: [PATCH 3/5] libchrome: r576279 forward compatibility patch part 3
+Subject: [PATCH 3/6] libchrome: r576279 forward compatibility patch part 3
  (dbus)
 
 Change-Id: I0b514eed9427316b664e9c96c79d701d7cc053f3
 ---
  dbus/message.cc          |  5 +++--
  dbus/message.h           |  2 +-
- dbus/mock_object_proxy.h | 19 +++++++++++++++++++
- 3 files changed, 23 insertions(+), 3 deletions(-)
+ dbus/mock_object_proxy.h | 21 +++++++++++++++++++++
+ 3 files changed, 25 insertions(+), 3 deletions(-)
 
 diff --git a/dbus/message.cc b/dbus/message.cc
 index c8663f7..4b32ae9 100644
@@ -52,10 +52,10 @@ index 256a842..dd1e801 100644
   private:
    // Creates a signal message. The internal raw message is NULL.
 diff --git a/dbus/mock_object_proxy.h b/dbus/mock_object_proxy.h
-index 17d2a9f..99ed0e5 100644
+index 17d2a9f..8a81724 100644
 --- a/dbus/mock_object_proxy.h
 +++ b/dbus/mock_object_proxy.h
-@@ -12,6 +12,25 @@
+@@ -12,6 +12,27 @@
  #include "dbus/object_proxy.h"
  #include "testing/gmock/include/gmock/gmock.h"
  
@@ -77,10 +77,12 @@ index 17d2a9f..99ed0e5 100644
 +#define MIGRATE_WrapObjectProxyResponseConversion(x) ((x).release())
 +// std::unique_ptr<Response>()
 +#define MIGRATE_WrapObjectProxyResponseEmpty nullptr
++// DoWaitForServiceToBeAvailable
++#define MIGRATE_WaitForServiceToBeAvailable WaitForServiceToBeAvailable
 +
  namespace dbus {
  
  // Mock for ObjectProxy.
 -- 
-2.24.0.432.g9d3f5f5b63-goog
+2.24.1.735.g03f4e72817-goog
 
