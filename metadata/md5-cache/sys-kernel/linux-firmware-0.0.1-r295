@@ -11,4 +11,4 @@ RDEPEND=linux_firmware_adreno-630? ( !media-libs/a630-fw ) linux_firmware_ath3k-
 RESTRICT=binchecks strip test
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=f1a2b6a571c65bd4f47acdc2fb35c515
+_md5_=51f1de530205c4bb95ffad130ff2db8f
