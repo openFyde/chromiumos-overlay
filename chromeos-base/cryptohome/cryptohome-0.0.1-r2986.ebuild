@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+CROS_WORKON_COMMIT="79801145780018bb631b9034195138ee691a3ebc"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "7cc4c6571c7e76cd8c93b427061b19168c77d2c0" "38a36f76290e3e0f13d021ad8597ea5f250a05ba" "f27e9581dc578f9a83beacea11f5e9208ac3da24" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -27,8 +27,8 @@ KEYWORDS="*"
 # The flag distributed_cryptohome is for turning on tpm_manager and
 # attestation for 1.2 devices.
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
-	-direncryption distributed_cryptohome fuzzer pinweaver selinux systemd test
-	tpm tpm2"
+	-direncryption distributed_cryptohome double_extend_pcr_issue fuzzer
+	pinweaver selinux systemd test tpm tpm2"
 
 REQUIRED_USE="
 	device_mapper
