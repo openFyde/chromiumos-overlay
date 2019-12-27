@@ -17,8 +17,6 @@
 
 EAPI=7
 
-inherit cros-ec cros-workon
-
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/tpm2"
@@ -34,6 +32,8 @@ CROS_WORKON_DESTDIR=(
 	"${S}/third_party/tpm2"
 	"${S}/third_party/cryptoc"
 )
+
+inherit cros-ec cros-workon
 
 # Make sure config tools use the latest schema.
 BDEPEND=">=chromeos-base/chromeos-config-host-0.0.2"
