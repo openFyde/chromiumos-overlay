@@ -11,6 +11,10 @@ inherit cros-workon cros-common.mk
 DESCRIPTION="File system integrity image generator for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dm-verity"
 
+# Override default S as verity source code must be compiled in a directory
+# where the last leaf is 'verity'.
+S="${WORKDIR}/${PN}"
+
 LICENSE="BSD-Google GPL-2"
 KEYWORDS="~*"
 IUSE="test"
