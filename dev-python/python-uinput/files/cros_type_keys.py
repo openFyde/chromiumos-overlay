@@ -4,7 +4,7 @@
 # found in the LICENSE file.
 
 import argparse
-import cros_keys
+from . import cros_keys
 
 argparser = argparse.ArgumentParser(description="Type text via events.")
 argparser.add_argument(
