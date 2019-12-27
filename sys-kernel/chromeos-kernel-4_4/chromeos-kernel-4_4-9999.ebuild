@@ -4,6 +4,7 @@
 EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/v4.4"
+CROS_WORKON_EGIT_BRANCH="chromeos-4.4"
 
 # AFDO_PROFILE_VERSION is the build on which the profile is collected.
 # This is required by kernel_afdo.

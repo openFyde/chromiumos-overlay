@@ -4,6 +4,7 @@
 EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/v3.10"
+CROS_WORKON_EGIT_BRANCH="chromeos-3.10"
 
 # This must be inherited *after* EGIT/CROS_WORKON variables defined
 inherit cros-workon cros-kernel2

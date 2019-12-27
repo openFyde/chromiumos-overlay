@@ -5,6 +5,7 @@ EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/v4.19"
+CROS_WORKON_EGIT_BRANCH="chromeos-4.19"
 CROS_WORKON_SUBTREE="tools/usb/usbip"
 
 inherit autotools cros-workon eutils
