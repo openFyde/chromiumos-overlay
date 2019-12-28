@@ -1,4 +1,4 @@
-ACTION=="add", ATTR{name}=="cros-ec-accel*", RUN+="/usr/sbin/mems_setup --device_name=%k --sensor_kind=accel"
-ACTION=="add", ATTR{name}=="cros-ec-gyro", RUN+="/usr/sbin/mems_setup --device_name=%k --sensor_kind=anglvel"
-ACTION=="add", ATTR{name}=="cros-ec-light", RUN+="/usr/sbin/mems_setup --device_name=%k --sensor_kind=illuminance"
+ACTION=="add", ATTR{name}=="cros-ec-accel*", RUN+="/usr/sbin/mems_setup --device_id=%n --sensor_kind=accel"
+ACTION=="add", ATTR{name}=="cros-ec-gyro", RUN+="/usr/sbin/mems_setup --device_id=%n --sensor_kind=anglvel"
+ACTION=="add", ATTR{name}=="cros-ec-light", RUN+="/usr/sbin/mems_setup --device_id=%n --sensor_kind=illuminance"
 ACTION!="remove", ATTR{name}=="cros-ec-accel*", SYMLINK+="cros-ec-accel/%n", MODE="640", GROUP="chronos"
