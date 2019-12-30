@@ -114,11 +114,12 @@ src_install() {
 	# These files conflict with files provided in llvm ebuild
 	local libdir=$(llvm-config --libdir)
 	rm -rf "${ED}"usr/share || die
-	rm -rf "${ED}"${libdir}/clang/*/include || die
-	rm -f "${ED}"${libdir}/clang/*/*_blacklist.txt || die
-	rm -f "${ED}"${libdir}/clang/*/*/*_blacklist.txt || die
-	rm -f "${ED}"${libdir}/clang/*/dfsan_abilist.txt || die
-	rm -f "${ED}"${libdir}/clang/*/*/dfsan_abilist.txt || die
+	rm -rf "${ED}${libdir}"/clang/*/include || die
+	rm -f "${ED}${libdir}"/clang/*/*_blacklist.txt || die
+	rm -f "${ED}${libdir}"/clang/*/*/*_blacklist.txt || die
+	rm -f "${ED}${libdir}"/clang/*/dfsan_abilist.txt || die
+	rm -f "${ED}${libdir}"/clang/*/*/dfsan_abilist.txt || die
+	rm -f "${ED}${libdir}"/clang/*/bin/* || die
 
 	# Copy compiler-rt files to a new clang version to handle llvm updates gracefully.
 	local llvm_version=$(llvm-config --version)
