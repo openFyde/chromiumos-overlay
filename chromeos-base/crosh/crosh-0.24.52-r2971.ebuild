@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="216790a52f1e1031bdec4e53ab9f8f05712aa2de"
-CROS_WORKON_TREE="6d5e7ea15fa403f1a369a67fd10f7cbceaf9c28d"
+CROS_WORKON_COMMIT="270ea3162fd6db4c72ea7dccf94dd33dad13a395"
+CROS_WORKON_TREE="6c23a2ed69a6302e81fb7a2b9dc31f09f11f34ff"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -23,6 +23,7 @@ DEPEND="chromeos-base/system_api-rust:=
 	>=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
 	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
 	dev-rust/remain:=
+	>=dev-rust/rustyline-5.0.4:= <dev-rust/rustyline-6.0.0
 	dev-rust/sys_util:=
 	dev-rust/tempfile:=
 	>=dev-rust/termion-1.5.1:= <dev-rust/termion-2.0.0
