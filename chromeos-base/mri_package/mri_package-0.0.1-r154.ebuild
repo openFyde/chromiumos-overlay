@@ -2,9 +2,9 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+CROS_WORKON_COMMIT="270ea3162fd6db4c72ea7dccf94dd33dad13a395"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "6b170569e81189b8186583f0b2ed55951a5456fe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,14 +23,12 @@ SRC_URI="internal? ( gs://chromeos-localmirror-private/distfiles/${PN}-${LIB_VER
 RESTRICT="mirror"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="internal"
 
 RDEPEND="
-	chromeos-base/libbrillo
-	media-sound/adhd
-	>=sys-apps/dbus-1.0
+	media-sound/adhd:=
+	>=sys-apps/dbus-1.0:=
 "
 DEPEND="${RDEPEND}"
 
