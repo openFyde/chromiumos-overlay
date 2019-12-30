@@ -456,6 +456,11 @@ RDEPEND="${RDEPEND}
 	dev-util/unifdef
 	"
 
+# Host dependencies for the AP/EC/GSC firmware release testing workflow
+RDEPEND="${RDEPEND}
+	sys-firmware/fw-engprod-tools
+	"
+
 # Host dependencies for virtualbox-guest-additions
 RDEPEND="${RDEPEND}
 	dev-util/kbuild
