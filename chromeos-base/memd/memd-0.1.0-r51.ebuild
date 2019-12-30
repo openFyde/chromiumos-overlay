@@ -1,8 +1,8 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-CROS_WORKON_COMMIT="b9302f6f119e7e85009392ba9bd5aac0766274d6"
+EAPI=7
+CROS_WORKON_COMMIT="081c5519ccdc4c01624581a43c24a9dbd9abe87b"
 CROS_WORKON_TREE="2757a9c32a132776910c47d97b886bf56e2d71c3"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -16,12 +16,11 @@ DESCRIPTION="Fine-grain memory metrics collector"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/metrics/memd/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="+seccomp"
 
-DEPEND="chromeos-base/system_api
-	sys-apps/dbus
+DEPEND="chromeos-base/system_api:=
+	sys-apps/dbus:=
 	~dev-rust/chrono-0.4.2:=
 	~dev-rust/dbus-0.6.1:=
 	=dev-rust/env_logger-0.6*:=
