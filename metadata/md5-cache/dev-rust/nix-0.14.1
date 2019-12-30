@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install postinst prepare prerm unpack
+DEPEND=>=dev-rust/bitflags-1.0.0:= <dev-rust/bitflags-2.0.0 >=dev-rust/cfg-if-0.1.2:= <dev-rust/cfg-if-0.2.0 >=dev-rust/libc-0.2.60:= <dev-rust/libc-3.0.0 >=dev-rust/void-1.0.2:= <dev-rust/void-2.0.0 >=virtual/rust-1.39.0:=
+DESCRIPTION=Rust friendly bindings to *nix APIs.
+EAPI=7
+HOMEPAGE=https://github.com/nix-rust/nix
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
+LICENSE=MIT
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=0.14.1/r0
+SRC_URI=https://crates.io/api/v1/crates/nix/0.14.1/download -> nix-0.14.1.crate
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	07f3be197d862e5511a5605fd7b169e5	cros-sanitizers	68fd6af9813658a590887ca09efa2444	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=041cd24ab3719c99d1fe8bb82aeedff5

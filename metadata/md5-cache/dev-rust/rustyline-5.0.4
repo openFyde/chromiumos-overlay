@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install postinst prepare prerm unpack
+DEPEND=>=dev-rust/dirs-2.0.0:= <dev-rust/dirs-3.0.0 >=dev-rust/libc-0.2.0:= <dev-rust/libc-0.3.0 >=dev-rust/log-0.4.0:= <dev-rust/log-0.5.0 >=dev-rust/memchr-2.0.0:= <dev-rust/memchr-3.0.0 >=dev-rust/nix-0.14.0:= <dev-rust/nix-0.15.0 >=dev-rust/unicode-segmentation-1.0.0:= <dev-rust/unicode-segmentation-2.0.0 >=dev-rust/unicode-width-0.1.0:= <dev-rust/unicode-width-0.2.0 >=dev-rust/utf8parse-0.1.0:= <dev-rust/utf8parse-0.2.0 >=virtual/rust-1.39.0:=
+DESCRIPTION=Rustyline, a readline implementation based on Antirez's Linenoise.
+EAPI=7
+HOMEPAGE=https://docs.rs/rustyline
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
+LICENSE=MIT
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=5.0.4/r0
+SRC_URI=https://crates.io/api/v1/crates/rustyline/5.0.4/download -> rustyline-5.0.4.crate
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	07f3be197d862e5511a5605fd7b169e5	cros-sanitizers	68fd6af9813658a590887ca09efa2444	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=0556439e128a04f4e78b45e23dc8d814
