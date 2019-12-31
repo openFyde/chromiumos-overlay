@@ -2,9 +2,9 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+CROS_WORKON_COMMIT="8f815e78fe8fa75d0a280b6e5f969131c4a11326"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "898687cfd878621b0aa42a27138c8a6c72210b16" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,7 +19,6 @@ DESCRIPTION="Secure wipe"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/secure-wipe/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="mmc nvme sata test"
 
