@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 # Don't use Makefile.external here as it fetches from the network.
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+CROS_WORKON_COMMIT="8f815e78fe8fa75d0a280b6e5f969131c4a11326"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
@@ -26,21 +26,22 @@ SRC_URI="gs://chromeos-localmirror/distfiles/${SRC}"
 SRC_DIR="src/${PN}"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND="
-	>=dev-cpp/gflags-2.0
-	>=dev-libs/glib-2.30
+COMMON_DEPEND="
+	>=dev-cpp/gflags-2.0:=
+	>=dev-libs/glib-2.30:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
-	dev-libs/re2
-	dev-util/perf
+	dev-libs/re2:=
+	dev-util/perf:=
 "
 
-DEPEND="${RDEPEND}
-	chromeos-base/protofiles
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/protofiles:=
 	test? ( app-shells/dash )
 "
 

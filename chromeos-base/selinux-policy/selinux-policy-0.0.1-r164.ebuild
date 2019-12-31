@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="d63932ad050d197ad96ece9625424168dbafd8a4"
+CROS_WORKON_COMMIT="8f815e78fe8fa75d0a280b6e5f969131c4a11326"
 CROS_WORKON_TREE="5b037e97c9b4e6bf2e54bf2357c9a62ce85b50bb"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -14,7 +14,6 @@ inherit cros-workon udev
 
 DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="
 	android-container-qt
