@@ -1,8 +1,8 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
-CROS_WORKON_COMMIT="4b7ba73cddf097754fb3b30cdfe0d850fb54979b"
+EAPI=7
+CROS_WORKON_COMMIT="8f815e78fe8fa75d0a280b6e5f969131c4a11326"
 CROS_WORKON_TREE="05cdece6499f716715201a7c412320500fe60724"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,6 @@ inherit cros-workon
 DESCRIPTION="Chromium OS Region Data"
 HOMEPAGE="http://src.chromium.org"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
 # 'jq' allows command line tools to access the JSON database.
