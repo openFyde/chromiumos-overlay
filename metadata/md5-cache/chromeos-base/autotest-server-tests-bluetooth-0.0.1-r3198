@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile info install postinst prepare setup unpack
+DEPEND=dev-vcs/git
+DESCRIPTION=Autotest server tests for Bluetooth
+EAPI=5
+HOMEPAGE=http://www.chromium.org/
+IUSE=+autotest +tests_bluetooth_AdapterAudioLink +tests_bluetooth_AdapterCLSanity +tests_bluetooth_AdapterHIDReports +tests_bluetooth_AdapterLEAdvertising +tests_bluetooth_AdapterLEHIDSanity +tests_bluetooth_AdapterLESanity +tests_bluetooth_AdapterMDSanity +tests_bluetooth_AdapterPairing +tests_bluetooth_AdapterQuickSanity +tests_bluetooth_AdapterSASanity +tests_bluetooth_AdapterStandalone +tests_bluetooth_AdapterSuspendResume +tests_bluetooth_PeerUpdate +tests_bluetooth_Sanity_AdapterPresent +tests_bluetooth_Sanity_DefaultState +tests_bluetooth_Sanity_Discoverable +tests_bluetooth_Sanity_Discovery +tests_bluetooth_Sanity_LEDiscovery +tests_bluetooth_Sanity_ValidAddress +tests_bluetooth_SDP_ServiceAttributeRequest +tests_bluetooth_SDP_ServiceBrowse +tests_bluetooth_SDP_ServiceSearchAttributeRequest +tests_bluetooth_SDP_ServiceSearchRequestBasic cros_host cros_workon_tree_c60a5339ba4e0163742de64309b673b9d05455e8 +buildcheck autotest opengles
+KEYWORDS=*
+LICENSE=GPL-2
+PROPERTIES=live
+RDEPEND=!<chromeos-base/autotest-server-tests-0.0.2-r4126 ( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )
+SLOT=0
+_eclasses_=autotest	46683629a907dfb020a41544f3af86ab	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=6d44aee566d8120b92e4b8a83dd3cfff
