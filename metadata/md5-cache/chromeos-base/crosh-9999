@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile configure info install postinst prepare prerm setup test unpack
-DEPEND=chromeos-base/system_api-rust:= >=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0 >=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0 dev-rust/remain:= >=dev-rust/rustyline-5.0.4:= <dev-rust/rustyline-6.0.0 dev-rust/sys_util:= dev-rust/tempfile:= >=dev-rust/termion-1.5.1:= <dev-rust/termion-2.0.0 dev-rust/tlsdate_dbus:= dev-vcs/git >=virtual/rust-1.39.0:=
+DEPEND=chromeos-base/system_api-rust:= >=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0 >=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0 dev-rust/remain:= >=dev-rust/rustyline-5.0.4:= <dev-rust/rustyline-6.0.0 dev-rust/sys_util:= dev-rust/tempfile:= dev-rust/tlsdate_dbus:= dev-vcs/git >=virtual/rust-1.39.0:=
 DESCRIPTION=Chrome OS developer command-line shell
 EAPI=6
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosh/
@@ -11,4 +11,4 @@ RDEPEND=app-admin/sudo chromeos-base/vboot_reference net-misc/iputils net-misc/o
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	07f3be197d862e5511a5605fd7b169e5	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=3c69ef847b8df8e101b007aa943ec97f
+_md5_=dfd63f37278313b71153c6b40d770b33
