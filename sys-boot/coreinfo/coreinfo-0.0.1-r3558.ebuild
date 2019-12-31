@@ -1,7 +1,7 @@
 # Copyright 2012 The Chromium OS Authors.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_COMMIT="55392acd7b86e7ab5b0cb3f4be45730b8345efbc"
 CROS_WORKON_TREE="eeb9db24900b5f241a9e1fec36fec738aba09c16"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
@@ -9,23 +9,17 @@ CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 DESCRIPTION="coreboot's coreinfo payload"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="-* amd64 x86"
-IUSE="coreboot-sdk"
 
-RDEPEND="sys-boot/libpayload"
-DEPEND="sys-boot/libpayload"
+BDEPEND="dev-embedded/coreboot-sdk:="
+DEPEND="sys-boot/libpayload:="
 
 CROS_WORKON_LOCALNAME="coreboot"
 
 inherit cros-workon toolchain-funcs coreboot-sdk
 
 src_compile() {
-	if ! use coreboot-sdk; then
-		export CROSS_COMPILE=i686-pc-linux-gnu-
-	else
-		export CROSS_COMPILE=${COREBOOT_SDK_PREFIX_x86_32}
-	fi
+	export CROSS_COMPILE=${COREBOOT_SDK_PREFIX_x86_32}
 	export CC="${CROSS_COMPILE}gcc"
 	unset CFLAGS
 
