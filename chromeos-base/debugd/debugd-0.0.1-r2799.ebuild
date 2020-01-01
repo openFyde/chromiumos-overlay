@@ -1,8 +1,8 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+EAPI=7
+CROS_WORKON_COMMIT="8f815e78fe8fa75d0a280b6e5f969131c4a11326"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "b4c81b816df37552f26cdfa20e189d22b289268f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,37 +17,35 @@ inherit cros-workon platform user
 DESCRIPTION="Chrome OS debugging service"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="cellular iwlwifi_dump nvme sata tpm"
 
 COMMON_DEPEND="
-	chromeos-base/chromeos-login
-	chromeos-base/minijail
-	chromeos-base/chromeos-ssh-testkeys
-	chromeos-base/chromeos-sshd-init
-	chromeos-base/libbrillo
-	chromeos-base/shill-client
-	chromeos-base/vboot_reference
-	!chromeos-base/workarounds
-	dev-libs/libpcre
+	chromeos-base/chromeos-login:=
+	chromeos-base/minijail:=
+	chromeos-base/shill-client:=
+	chromeos-base/vboot_reference:=
+	dev-libs/re2:=
+	dev-libs/libpcre:=
 	dev-libs/protobuf:=
-	net-libs/libpcap
-	net-wireless/iw
-	sys-apps/iproute2
-	sys-apps/memtester
-	sys-apps/rootdev
-	sata? ( sys-apps/smartmontools )
+	net-libs/libpcap:=
+	net-wireless/iw:=
+	sys-apps/rootdev:=
+	sata? ( sys-apps/smartmontools:= )
 "
 RDEPEND="${COMMON_DEPEND}
 	iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump )
 	nvme? ( sys-apps/nvme-cli )
+	chromeos-base/chromeos-ssh-testkeys
+	chromeos-base/chromeos-sshd-init
+	!chromeos-base/workarounds
+	sys-apps/iproute2
+	sys-apps/memtester
 "
 DEPEND="${COMMON_DEPEND}
-	chromeos-base/chromeos-login
-	chromeos-base/debugd-client
-	chromeos-base/system_api
-	sys-apps/dbus"
+	chromeos-base/debugd-client:=
+	chromeos-base/system_api:=
+	sys-apps/dbus:="
 
 pkg_preinst() {
 	enewuser "debugd"
