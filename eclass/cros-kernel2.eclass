@@ -130,7 +130,6 @@ CONFIG_FRAGMENTS=(
 	bt_unsupported_read_enc_key_size
 	ca0132
 	cec
-	cifs
 	criu
 	cros_ec_mec
 	debug
@@ -250,11 +249,6 @@ cec_desc="Consumer Electronics Control support"
 cec_config="
 CONFIG_CEC_CORE=y
 CONFIG_MEDIA_CEC_SUPPORT=y
-"
-
-cifs_desc="Samba/CIFS Support"
-cifs_config="
-CONFIG_CIFS=m
 "
 
 criu_desc="Flags required if you wish to use the criu python library"
