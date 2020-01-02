@@ -2,10 +2,10 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="594f2826d1f19018e00aafed664dc8b013e0c8e4"
-CROS_WORKON_TREE="74258f9db992ddebd21ad85e60a93504f287cb62"
+CROS_WORKON_COMMIT="32412de5fe36815e828302d6d8279d687a3dddf0"
+CROS_WORKON_TREE="3388a51b4cfd0fadaa1bfd8f47b001ca96bb2aa6"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="ec"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -18,7 +18,6 @@ HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
