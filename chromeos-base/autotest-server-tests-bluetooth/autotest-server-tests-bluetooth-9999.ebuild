@@ -24,7 +24,6 @@ RDEPEND="
 SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterAudioLink
 	+tests_bluetooth_AdapterCLSanity
-	+tests_bluetooth_AdapterHIDReports
 	+tests_bluetooth_AdapterLEAdvertising
 	+tests_bluetooth_AdapterLEHIDSanity
 	+tests_bluetooth_AdapterLESanity
