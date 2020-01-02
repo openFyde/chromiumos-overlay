@@ -63,9 +63,10 @@ src_configure() {
 src_install() {
 	meson_src_install
 
-	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" tests/fuzzer/.libs/virgl_fuzzer \
-		--options "${FILESDIR}/virgl_fuzzer.options"
-	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" vtest/.libs/vtest_fuzzer \
+	# Temporarily do not install virgl_fuzzer as it does not build (crbug.com/1037696)
+	#fuzzer_install "${FILESDIR}/fuzzer-OWNERS" tests/fuzzer/.libs/virgl_fuzzer \
+	#	--options "${FILESDIR}/virgl_fuzzer.options"
+	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" "${WORKDIR}/${P}-build"/vtest/vtest_fuzzer \
 		--options "${FILESDIR}/vtest_fuzzer.options"
 
 	find "${ED}"/usr -name 'lib*.la' -delete
