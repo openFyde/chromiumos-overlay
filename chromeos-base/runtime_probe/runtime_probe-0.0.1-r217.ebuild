@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT="faae11f6f9e478cd19376ede63ae0bdf6a68088a"
+CROS_WORKON_COMMIT="8f815e78fe8fa75d0a280b6e5f969131c4a11326"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "44710d64333a0c085b4a906233b14bf609001281" "7d4ff85b5829a0f48817e30b37d45973b0f4a306" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,24 +19,24 @@ DESCRIPTION="Runtime probing on device componenets."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/runtime_probe/"
 
 LICENSE="BSD-Google"
-SLOT=0
 KEYWORDS="*"
 IUSE="generated_cros_config unibuild asan fuzzer"
 
-RDEPEND="
+COMMON_DEPEND="
 	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
+		!generated_cros_config? ( chromeos-base/chromeos-config:= )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
-	chromeos-base/chromeos-config-tools
-	chromeos-base/libbrillo
-	chromeos-base/libchrome
-	chromeos-base/system_api[fuzzer?]
+	chromeos-base/chromeos-config-tools:=
 "
-DEPEND="${RDEPEND}"
+
+RDEPEND="${COMMON_DEPEND}"
 
 # Add vboot_reference as build time dependency to read cros_debug status
-DEPEND+=" chromeos-base/vboot_reference "
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vboot_reference
+"
 
 pkg_preinst() {
 	# Create user and group for runtime_probe
