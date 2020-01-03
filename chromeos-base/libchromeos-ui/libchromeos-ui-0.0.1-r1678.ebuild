@@ -1,9 +1,9 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+CROS_WORKON_COMMIT="af3e0bc4ef27564dde1b84c527f880491a8a4916"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "a16b0f9dac83e66c69a98ce495327a37e201b9ad" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,16 +19,11 @@ inherit cros-workon platform
 DESCRIPTION="Library used to start Chromium-based UIs"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND="
-	chromeos-base/bootstat
-	chromeos-base/libbrillo
-	"
-
-DEPEND="${RDEPEND}"
+RDEPEND="chromeos-base/bootstat"
+DEPEND=""
 
 src_install() {
 	local v

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8f815e78fe8fa75d0a280b6e5f969131c4a11326"
+CROS_WORKON_COMMIT="af3e0bc4ef27564dde1b84c527f880491a8a4916"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "44710d64333a0c085b4a906233b14bf609001281" "7d4ff85b5829a0f48817e30b37d45973b0f4a306" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,7 +35,7 @@ RDEPEND="${COMMON_DEPEND}"
 # Add vboot_reference as build time dependency to read cros_debug status
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=[fuzzer?]
-	chromeos-base/vboot_reference
+	chromeos-base/vboot_reference:=
 "
 
 pkg_preinst() {
