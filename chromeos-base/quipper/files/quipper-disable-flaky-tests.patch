@@ -216,3 +216,17 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
+
+https://crbug.com/1038909
+
+--- a/perf_recorder_test.cc
++++ b/perf_recorder_test.cc
+@@ -41,7 +41,7 @@ class PerfRecorderTest : public ::testing::Test {
+   PerfRecorder perf_recorder_;
+ };
+ 
+-TEST_F(PerfRecorderTest, RecordToProtobuf) {
++TEST_F(PerfRecorderTest, DISABLED_RecordToProtobuf) {
+   // Read perf data using the PerfReader class.
+   // Dump it to a string and convert to a protobuf.
+   // Read the protobuf, and reconstruct the perf data.
