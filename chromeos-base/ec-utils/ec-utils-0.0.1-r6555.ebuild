@@ -28,6 +28,7 @@ IUSE="-cr50_onboard -cr50_utils static unibuild -updater_utils"
 IUSE="${IUSE} cros_host +cros_ec_utils"
 
 COMMON_DEPEND="dev-embedded/libftdi:=
+	dev-libs/openssl:0=
 	virtual/libusb:1="
 DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
