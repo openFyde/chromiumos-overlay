@@ -54,7 +54,7 @@ DEPEND="chromeos-base/update_engine"
 # Version of the DLC being built.
 
 # @ECLASS-VARIABLE: DLC_FS_TYPE
-# @REQUIRED
+# @OPTIONAL
 # @DEFAULT UNSET
 # @DESCRIPTION:
 # Specify the type of filesystem for the DLC image. Currently we only support
@@ -74,6 +74,13 @@ DEPEND="chromeos-base/update_engine"
 # Path to folder containing DLC artifacts to be packaged. Anything that should
 # be included in the DLC image should be in this folder when dlc_src_install is
 # called.
+
+# @ECLASS-VARIABLE: DLC_PRELOAD
+# @OPTIONAL
+# @DEFAULT FALSE
+# @DESCRIPTION:
+# Determines whether to preload the DLC for test images. A boolean must be
+# passed in.
 
 # @FUNCTION: dlc_src_install
 # @DESCRIPTION:
@@ -100,6 +107,10 @@ dlc_src_install() {
 
 	if [[ -n "${DLC_FS_TYPE}" ]]; then
 		args+=( --fs-type="${DLC_FS_TYPE}" )
+	fi
+
+	if [[ "${DLC_PRELOAD}" == "true" ]]; then
+		args+=( --preload )
 	fi
 
 	"${CHROMITE_BIN_DIR}"/build_dlc "${args[@]}" \
