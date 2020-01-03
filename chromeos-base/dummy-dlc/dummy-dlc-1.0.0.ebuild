@@ -24,6 +24,7 @@ DLC_PREALLOC_BLOCKS="1024"
 DLC_ID="dummy-dlc"
 DLC_PACKAGE="dummy-package"
 DLC_ARTIFACT_DIR="${T}/artifacts"
+DLC_PRELOAD=true
 
 src_unpack() {
 	# Because we are not pulling in any sources, we need to have an empty
