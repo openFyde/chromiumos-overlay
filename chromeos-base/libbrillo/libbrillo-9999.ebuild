@@ -21,7 +21,6 @@ DESCRIPTION="Base library for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libbrillo/"
 
 LICENSE="BSD-Google"
-SLOT="0/${PV}.0"
 KEYWORDS="~*"
 IUSE="cros_host +dbus +device_mapper fuzzer +udev"
 
