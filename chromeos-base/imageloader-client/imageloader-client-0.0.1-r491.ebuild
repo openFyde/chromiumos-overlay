@@ -1,9 +1,9 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+CROS_WORKON_COMMIT="89446db7e58492539f535081060e8aff42983913"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "09cde498624b0e9e1d20609380992ae530f300ce" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,7 +19,6 @@ DESCRIPTION="ImageLoader DBus client library for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/imageloader/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="cros_host"
 
@@ -27,13 +26,10 @@ IUSE="cros_host"
 # itself (chromeos-dbus-bindings) and produce header files that rely on
 # libbrillo library.
 DEPEND="
-	cros_host? ( chromeos-base/chromeos-dbus-bindings )
-	chromeos-base/libbrillo
+	cros_host? ( chromeos-base/chromeos-dbus-bindings:= )
 "
 
-RDEPEND="
-	chromeos-base/imageloader
-"
+RDEPEND="chromeos-base/imageloader"
 
 src_install() {
 	# Install DBus client library.
