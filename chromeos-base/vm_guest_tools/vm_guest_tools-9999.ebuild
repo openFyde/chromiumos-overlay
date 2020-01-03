@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,33 +17,35 @@ DESCRIPTION="VM guest tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="kvm_guest vm-containers fuzzer"
 
 # This ebuild should only be used on VM guest boards.
 REQUIRED_USE="kvm_guest"
 
-RDEPEND="
+COMMON_DEPEND="
 	!!chromeos-base/vm_tools
-	chromeos-base/libbrillo
-	chromeos-base/minijail
+	chromeos-base/minijail:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
 	!fuzzer? (
-		media-libs/mesa[gbm]
-		x11-base/xwayland
-		x11-libs/libxkbcommon
-		x11-libs/pixman
+		media-libs/mesa:=[gbm]
+		x11-base/xwayland:=
+		x11-libs/libxkbcommon:=
+		x11-libs/pixman:=
 	)
 "
 
+RDEPEND="
+	${COMMON_DEPEND}
+"
+
 DEPEND="
-	${RDEPEND}
-	dev-go/grpc
-	dev-go/protobuf
-	>=sys-kernel/linux-headers-4.4-r16
-	chromeos-base/vm_protos
+	${COMMON_DEPEND}
+	dev-go/grpc:=
+	dev-go/protobuf:=
+	sys-kernel/linux-headers:=
+	chromeos-base/vm_protos:=
 "
 
 src_install() {

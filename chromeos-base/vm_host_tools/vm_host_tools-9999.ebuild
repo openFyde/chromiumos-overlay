@@ -1,7 +1,8 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
+
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -19,31 +20,33 @@ CREDITS_SRC="linux_credits-10895.tar.bz2"
 SRC_URI="gs://chromeos-localmirror/distfiles/${CREDITS_SRC}"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 # The crosvm-wl-dmabuf USE flag is used when preprocessing concierge source.
 IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer"
 REQUIRED_USE="kvm_host"
 
-RDEPEND="
-	app-arch/libarchive
+COMMON_DEPEND="
+	app-arch/libarchive:=
 	!!chromeos-base/vm_tools
-	chromeos-base/arc-networkd
-	chromeos-base/chunnel
-	chromeos-base/crosvm
-	chromeos-base/libbrillo
-	chromeos-base/metrics
-	chromeos-base/minijail
+	chromeos-base/arc-networkd:=
+	chromeos-base/chunnel:=
+	chromeos-base/crosvm:=
+	chromeos-base/metrics:=
+	chromeos-base/minijail:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
+"
+
+RDEPEND="
+	${COMMON_DEPEND}
 	dev-rust/9s
 "
 DEPEND="
-	${RDEPEND}
-	chromeos-base/shill-client
-	>=chromeos-base/system_api-0.0.1-r3360[fuzzer?]
-	chromeos-base/vm_protos
-	fuzzer? ( dev-libs/libprotobuf-mutator )
+	${COMMON_DEPEND}
+	chromeos-base/shill-client:=
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vm_protos:=
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 src_unpack() {
