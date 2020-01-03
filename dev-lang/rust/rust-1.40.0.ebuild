@@ -24,7 +24,7 @@ fi
 
 STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).0"
 STAGE0_VERSION_CARGO="0.$(($(get_version_component_range 2))).0"
-STAGE0_DATE="2019-08-15"
+STAGE0_DATE="2019-11-07"
 RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
@@ -45,6 +45,8 @@ DEPEND="${PYTHON_DEPS}
 	>=dev-libs/libxml2-2.9.6
 	>=dev-lang/perl-5.0
 "
+
+RDEPEND="!dev-util/cargo"
 
 PATCHES=(
 	"${FILESDIR}/${P}-add-cros-targets.patch"
@@ -156,7 +158,7 @@ submodules = false
 python = "${EPYTHON}"
 vendor = true
 extended = true
-tools = ["rustfmt", "clippy", "cargofmt"]
+tools = ["cargo", "rustfmt", "clippy", "cargofmt"]
 sanitizers = true
 
 [llvm]
@@ -194,6 +196,7 @@ src_install() {
 	local obj="build/x86_64-unknown-linux-gnu/stage2"
 	local tools="${obj}-tools/x86_64-unknown-linux-gnu/release/"
 	dobin "${obj}/bin/rustc" "${obj}/bin/rustdoc"
+	dobin "${tools}/cargo"
 	dobin "${tools}/rustfmt" "${tools}/cargo-fmt"
 	dobin "${tools}/clippy-driver" "${tools}/cargo-clippy"
 	dobin src/etc/rust-gdb src/etc/rust-lldb

@@ -5,10 +5,10 @@ the toolchain in nightly mode.
 
 
 diff --git a/src/librustc/session/config.rs b/src/librustc/session/config.rs
-index d3a734cbc6..d8ae6a572f 100644
+index 2bcddeaf196..70fbac63899 100644
 --- a/src/librustc/session/config.rs
 +++ b/src/librustc/session/config.rs
-@@ -1209,6 +1209,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
+@@ -1208,6 +1208,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
          "allow the linker to link its default libraries"),
      linker_flavor: Option<LinkerFlavor> = (None, parse_linker_flavor, [UNTRACKED],
                                             "linker flavor"),
@@ -17,8 +17,8 @@ index d3a734cbc6..d8ae6a572f 100644
      linker_plugin_lto: LinkerPluginLto = (LinkerPluginLto::Disabled,
          parse_linker_plugin_lto, [TRACKED],
          "generate build artifacts that are compatible with linker-based LTO."),
-@@ -1374,8 +1376,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
-         "take the breaks off const evaluation. NOTE: this is unsound"),
+@@ -1371,8 +1373,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
+         "silence ICE triggered when the new const validator disagrees with the old"),
      osx_rpath_install_name: bool = (false, parse_bool, [TRACKED],
          "pass `-install_name @rpath/...` to the macOS linker"),
 -    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
@@ -26,34 +26,34 @@ index d3a734cbc6..d8ae6a572f 100644
      fuel: Option<(String, u64)> = (None, parse_optimization_fuel, [TRACKED],
          "set the optimization fuel quota for a crate"),
      print_fuel: Option<String> = (None, parse_opt_string, [TRACKED],
+diff --git a/src/librustc/session/mod.rs b/src/librustc/session/mod.rs
+index 13b76b79b3d..4cb546472d1 100644
+--- a/src/librustc/session/mod.rs
++++ b/src/librustc/session/mod.rs
+@@ -596,7 +596,7 @@ impl Session {
+             || self.opts.output_types.contains_key(&OutputType::Bitcode);
+ 
+         // Address sanitizer and memory sanitizer use alloca name when reporting an issue.
+-        let more_names = match self.opts.debugging_opts.sanitizer {
++        let more_names = match self.opts.cg.sanitizer {
+             Some(Sanitizer::Address) => true,
+             Some(Sanitizer::Memory) => true,
+             _ => more_names,
 diff --git a/src/librustc_codegen_llvm/attributes.rs b/src/librustc_codegen_llvm/attributes.rs
-index b15a64c966..9256c4052d 100644
+index 6a36a4a50cb..55d3263a945 100644
 --- a/src/librustc_codegen_llvm/attributes.rs
 +++ b/src/librustc_codegen_llvm/attributes.rs
-@@ -99,7 +99,7 @@ pub fn set_probestack(cx: &CodegenCx<'ll, '_>, llfn: &'ll Value) {
+@@ -98,7 +98,7 @@ pub fn set_probestack(cx: &CodegenCx<'ll, '_>, llfn: &'ll Value) {
      // Currently stack probes seem somewhat incompatible with the address
-     // sanitizer. With asan we're already protected from stack overflow anyway
-     // so we don't really need stack probes regardless.
--    if let Some(Sanitizer::Address) = cx.sess().opts.debugging_opts.sanitizer {
-+    if let Some(Sanitizer::Address) = cx.sess().opts.cg.sanitizer {
-         return
-     }
- 
-diff --git a/src/librustc_codegen_llvm/back/link.rs b/src/librustc_codegen_llvm/back/link.rs
-index 6a3c2adc85..efef3e1453 100644
---- a/src/librustc_codegen_ssa/back/link.rs
-+++ b/src/librustc_codegen_ssa/back/link.rs
-@@ -491,7 +491,7 @@ fn link_natively(sess: &Session,
-     cmd.args(&sess.opts.debugging_opts.pre_link_arg);
- 
-     if sess.target.target.options.is_like_fuchsia {
--        let prefix = match sess.opts.debugging_opts.sanitizer {
-+        let prefix = match sess.opts.cg.sanitizer {
-             Some(Sanitizer::Address) => "asan/",
-             _ => "",
-         };
+     // sanitizer and thread sanitizer. With asan we're already protected from
+     // stack overflow anyway so we don't really need stack probes regardless.
+-    match cx.sess().opts.debugging_opts.sanitizer {
++    match cx.sess().opts.cg.sanitizer {
+         Some(Sanitizer::Address) |
+         Some(Sanitizer::Thread) => return,
+         _ => {},
 diff --git a/src/librustc_codegen_llvm/declare.rs b/src/librustc_codegen_llvm/declare.rs
-index 3febcb019c..e0edb655c8 100644
+index 62eab0f3d4e..ca1b3186e8d 100644
 --- a/src/librustc_codegen_llvm/declare.rs
 +++ b/src/librustc_codegen_llvm/declare.rs
 @@ -50,7 +50,7 @@ fn declare_raw_fn(
@@ -65,11 +65,24 @@ index 3febcb019c..e0edb655c8 100644
          match *sanitizer {
              Sanitizer::Address => {
                  llvm::Attribute::SanitizeAddress.apply_llfn(Function, llfn);
+diff --git a/src/librustc_codegen_ssa/back/link.rs b/src/librustc_codegen_ssa/back/link.rs
+index a2b50ea8e2b..a448ab076d2 100644
+--- a/src/librustc_codegen_ssa/back/link.rs
++++ b/src/librustc_codegen_ssa/back/link.rs
+@@ -490,7 +490,7 @@ fn link_natively<'a, B: ArchiveBuilder<'a>>(sess: &'a Session,
+     cmd.args(&sess.opts.debugging_opts.pre_link_arg);
+ 
+     if sess.target.target.options.is_like_fuchsia {
+-        let prefix = match sess.opts.debugging_opts.sanitizer {
++        let prefix = match sess.opts.cg.sanitizer {
+             Some(Sanitizer::Address) => "asan/",
+             _ => "",
+         };
 diff --git a/src/librustc_codegen_ssa/back/write.rs b/src/librustc_codegen_ssa/back/write.rs
-index 4b02425d40..f0adbbdb0e 100644
+index b302b9ae7f0..f4c9e362848 100644
 --- a/src/librustc_codegen_ssa/back/write.rs
 +++ b/src/librustc_codegen_ssa/back/write.rs
-@@ -402,7 +402,7 @@ pub fn start_async_codegen<B: ExtraBackendMethods>(
+@@ -344,7 +344,7 @@ pub fn start_async_codegen<B: ExtraBackendMethods>(
      let mut metadata_config = ModuleConfig::new(vec![]);
      let mut allocator_config = ModuleConfig::new(vec![]);
  
@@ -79,10 +92,10 @@ index 4b02425d40..f0adbbdb0e 100644
              Sanitizer::Address => {
                  modules_config.passes.push("asan".to_owned());
 diff --git a/src/librustc_metadata/creader.rs b/src/librustc_metadata/creader.rs
-index 160d4c30c0..c4950f33ae 100644
+index 07c49d91797..4aec4d801ec 100644
 --- a/src/librustc_metadata/creader.rs
 +++ b/src/librustc_metadata/creader.rs
-@@ -766,15 +766,23 @@ impl<'a> CrateLoader<'a> {
+@@ -606,15 +606,23 @@ impl<'a> CrateLoader<'a> {
      }
  
      fn inject_sanitizer_runtime(&mut self) {
@@ -109,7 +122,7 @@ index 160d4c30c0..c4950f33ae 100644
  
              let supported_targets = match *sanitizer {
                  Sanitizer::Address => ASAN_SUPPORTED_TARGETS,
-@@ -793,7 +801,7 @@ impl<'a> CrateLoader<'a> {
+@@ -633,7 +641,7 @@ impl<'a> CrateLoader<'a> {
              // firstyear 2017 - during testing I was unable to access an OSX machine
              // to make this work on different crate types. As a result, today I have
              // only been able to test and support linux as a target.
