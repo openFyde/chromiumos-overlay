@@ -61,11 +61,16 @@ cr50_check_board_id_and_flag() {
   # Check if the flag has been set differently
   # The last field is the flag in hex. E.g., 0000ff00
   local flag=0x"${output##*:}"
-  if ! hex_eq "${flag}" "${new_flag}"; then
+  local desc=""
+  # The 0x4000 bit is the difference between MP and whitelabel flags. Factory
+  # scripts can ignore this mismatch if it's the only difference between the set
+  # board id and the new board id.
+  if hex_eq "$((flag ^ new_flag))" "0x4000"; then
+    desc="Whitelabel mismatch."
+  elif ! hex_eq "${flag}" "${new_flag}"; then
     die_as "${ERR_ALREADY_SET_DIFFERENT}" "Flag has been set differently."
   fi
-
-  die_as "${ERR_ALREADY_SET}" "Board ID and flag have already been set."
+  die_as "${ERR_ALREADY_SET}" "Board ID and flag have already been set. ${desc}"
 }
 
 cr50_set_board_id_and_flag() {
