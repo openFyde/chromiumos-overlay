@@ -261,6 +261,7 @@ start() {
     swapon -d "/dev/mapper/enc-swap" ||
       die "swapon /dev/mapper/enc-swap failed"
     echo 1 > /sys/module/zswap/parameters/enabled
+    echo 1 > /sys/kernel/mm/chromeos-low_mem/ram_vs_swap_weight
   else
     # Load zram module.  Ignore failure (it could be compiled in the kernel).
     modprobe zram || logger -t "${JOB}" "modprobe zram failed (compiled?)"
