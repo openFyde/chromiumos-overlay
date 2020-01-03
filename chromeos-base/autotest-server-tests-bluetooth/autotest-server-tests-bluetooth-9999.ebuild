@@ -28,7 +28,6 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterLEHIDSanity
 	+tests_bluetooth_AdapterLESanity
 	+tests_bluetooth_AdapterMDSanity
-	+tests_bluetooth_AdapterPairing
 	+tests_bluetooth_AdapterPowerMeasure
 	+tests_bluetooth_AdapterQuickSanity
 	+tests_bluetooth_AdapterSASanity
