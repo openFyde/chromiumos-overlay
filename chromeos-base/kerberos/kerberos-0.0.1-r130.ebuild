@@ -1,9 +1,9 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="66ef77d1e4fd809322af688ce95031b997235404"
+CROS_WORKON_COMMIT="89446db7e58492539f535081060e8aff42983913"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "c05dc2d4ad37f063a4d1c0bde13e2071380d64df" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "95e657fc249bd020f0c1cf8e5b519bca45ac5271" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,24 +20,24 @@ DESCRIPTION="Requests and manages Kerberos tickets to enable Kerberos SSO"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/kerberos/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="asan fuzzer"
 
-RDEPEND="
-	app-crypt/mit-krb5
+COMMON_DEPEND="
+	app-crypt/mit-krb5:=
 	chromeos-base/libbrillo:=[asan?,fuzzer?]
-	chromeos-base/libpasswordprovider
-	chromeos-base/metrics
-	chromeos-base/minijail
+	chromeos-base/libpasswordprovider:=
+	chromeos-base/metrics:=
+	chromeos-base/minijail:=
 	dev-libs/protobuf:=
-	dev-libs/dbus-glib
-	sys-apps/dbus
+	dev-libs/dbus-glib:=
+	sys-apps/dbus:=
 "
+RDEPEND="${COMMON_DEPEND}"
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPEND}
 	chromeos-base/protofiles:=
-	chromeos-base/session_manager-client
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 "
 
