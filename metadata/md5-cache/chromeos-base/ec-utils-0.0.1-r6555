@@ -1,6 +1,6 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile configure info install postinst preinst setup unpack
-DEPEND=dev-embedded/libftdi:= virtual/libusb:1= unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) sys-apps/baselayout
+DEPEND=dev-embedded/libftdi:= dev-libs/openssl:0= virtual/libusb:1= unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) sys-apps/baselayout
 DESCRIPTION=Chrome OS EC Utility
 EAPI=7
 HOMEPAGE=http://www.chromium.org/
@@ -8,7 +8,7 @@ IUSE=-cr50_onboard -cr50_utils static unibuild -updater_utils cros_host +cros_ec
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-RDEPEND=dev-embedded/libftdi:= virtual/libusb:1= sys-apps/baselayout
-SLOT=0/0.0.1-r6554
+RDEPEND=dev-embedded/libftdi:= dev-libs/openssl:0= virtual/libusb:1= sys-apps/baselayout
+SLOT=0/0.0.1-r6555
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-ec-board	a24897d375e0abc78b2b6559e875a2cd	cros-unibuild	f4c31fd6b49bf1f72ba65fc86a67b8ae	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	user	7c566af8c48023219fd63246e88d6621
-_md5_=e0a05e59e09d3690a3532c0e88597e5c
+_md5_=e5c77d4ab7296d30ba890afcc15b1996
