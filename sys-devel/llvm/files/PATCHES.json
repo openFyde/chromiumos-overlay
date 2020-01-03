@@ -302,5 +302,11 @@
         "rel_patch_path": "cherry/c5b890e922432bd80a5e3c6d82994ef4cdc41900.patch",
         "start_version": 373036,
         "end_version": 379308
+    },
+    {
+        "comment": "[ELF] Refine section group --gc-sections rules to not discard .debug_types",
+        "rel_patch_path": "cherry/60ce444eaa146bc2f762c70d433d4a0c847508f0.patch",
+        "start_version": 377567,
+        "end_version": 378921
     }
 ]
