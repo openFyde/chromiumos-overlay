@@ -296,5 +296,11 @@
         "rel_patch_path": "cherry/267205149587595e956db25a12252835a51cd372.patch",
         "start_version": 370808,
         "end_version": 372400
+    },
+    {
+        "comment": "PR44268: Fix crash if __builtin_object_size is applied to a heap allocation",
+        "rel_patch_path": "cherry/c5b890e922432bd80a5e3c6d82994ef4cdc41900.patch",
+        "start_version": 373036,
+        "end_version": 379308
     }
 ]
