@@ -71,6 +71,7 @@ src_configure() {
 		-Dgallium-vdpau=false
 		-Dgallium-xa=false
 		-Dplatforms=surfaceless
+		-Dtools=freedreno
 		--buildtype $(usex debug debug release)
 	)
 
