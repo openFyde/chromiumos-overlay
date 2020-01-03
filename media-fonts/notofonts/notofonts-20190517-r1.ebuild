@@ -1,1 +1,0 @@
-notofonts-20190517.ebuild

@@ -1,12 +1,12 @@
 # Copyright (c) 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
-EAPI="5"
+EAPI="7"
 
 inherit font
 
 DESCRIPTION="Noto Pan Unicode fonts developed by Monotype"
-SRC_URI="http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/${P}.tar.bz2"
+SRC_URI="http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/${P}.tar.xz"
 
 LICENSE="OFL-1.1"
 SLOT="0"
