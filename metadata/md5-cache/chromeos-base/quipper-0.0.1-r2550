@@ -9,7 +9,7 @@ KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
 RDEPEND=>=dev-cpp/gflags-2.0:= >=dev-libs/glib-2.30:= dev-libs/openssl:= dev-libs/protobuf:= dev-libs/re2:= dev-util/perf:= chromeos-base/libchrome:462023[cros-debug=] chromeos-base/libbrillo:=
-SLOT=0/0.0.1-r2549
+SLOT=0/0.0.1-r2550
 SRC_URI=gs://chromeos-localmirror/distfiles/quipper-26628a824f066d54a4fee4341fce652b8f4a6bd8.tar.gz
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	3c23591b59faf183d844cfca8632e911	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	71d43ad88b683708f937d2868436a290	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=d29d59c9b60e29e1edf365ac64dcdbcb
+_md5_=3b2a28852c7c8d33e128f778cebd77a4
