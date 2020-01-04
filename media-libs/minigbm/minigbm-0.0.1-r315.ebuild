@@ -46,6 +46,7 @@ src_prepare() {
 
 src_configure() {
 	export LIBDIR="/usr/$(get_libdir)"
+	append-cppflags -DDRI_DRIVER_DIR="/usr/$(get_libdir)/dri/"
 	use video_cards_amdgpu && append-cppflags -DDRV_AMDGPU && export DRV_AMDGPU=1
 	use video_cards_exynos && append-cppflags -DDRV_EXYNOS && export DRV_EXYNOS=1
 	use video_cards_intel && append-cppflags -DDRV_I915 && export DRV_I915=1

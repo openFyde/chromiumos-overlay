@@ -17,10 +17,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("a202c79b41dc3451dc1867f799528042b93565c8" "f4428141132ec85eb255a819fc5bdaea2303f6af" "e05bfa91102dd5137b4027b4f3405e041ffe2c32")
-CROS_WORKON_TREE=("7cf68df9d3a930ab7b69ef46d61d16f7652375d6" "4b0eaae00da0418755628097981bf4013f92a3a6" "1f42f6d549ba7b3f6bc5d67029984b113787ae0d")
-inherit cros-ec cros-workon
-
+CROS_WORKON_COMMIT=("a25fd9ccb9b38b2d81cf2027c3f081330c5e9c29" "f4428141132ec85eb255a819fc5bdaea2303f6af" "e05bfa91102dd5137b4027b4f3405e041ffe2c32")
+CROS_WORKON_TREE=("9898b316b6a858008b30e133a89077862661bcbc" "4b0eaae00da0418755628097981bf4013f92a3a6" "1f42f6d549ba7b3f6bc5d67029984b113787ae0d")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/tpm2"
@@ -36,6 +34,8 @@ CROS_WORKON_DESTDIR=(
 	"${S}/third_party/tpm2"
 	"${S}/third_party/cryptoc"
 )
+
+inherit cros-ec cros-workon
 
 # Make sure config tools use the latest schema.
 BDEPEND=">=chromeos-base/chromeos-config-host-0.0.2"
