@@ -29,6 +29,7 @@ COMMON_DEPEND="
 	chromeos-base/libpasswordprovider:=
 	chromeos-base/metrics:=
 	chromeos-base/nsswitch:=
+	dev-libs/re2:=
 	cellular? ( net-dialup/ppp:= )
 	pppoe? ( net-dialup/ppp:= )
 	vpn? ( net-dialup/ppp:= )
