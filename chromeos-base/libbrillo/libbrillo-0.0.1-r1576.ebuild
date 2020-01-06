@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="89446db7e58492539f535081060e8aff42983913"
+CROS_WORKON_COMMIT="ac1bf95ac71161cb1dc0cb023bc432c09050e2f5"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "1edbe1922d28a3b7a7be0992dcd17e71674b8c77" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,7 +23,6 @@ DESCRIPTION="Base library for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libbrillo/"
 
 LICENSE="BSD-Google"
-SLOT="0/${PV}.0"
 KEYWORDS="*"
 IUSE="cros_host +dbus +device_mapper fuzzer +udev"
 
