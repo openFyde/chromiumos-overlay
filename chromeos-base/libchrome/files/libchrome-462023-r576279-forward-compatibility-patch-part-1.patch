@@ -1,7 +1,7 @@
-From da785ac1322ea908914484400c98a2319f81c72b Mon Sep 17 00:00:00 2001
+From 664cad704e2c9b7d5f70f5d02555a980a12ca492 Mon Sep 17 00:00:00 2001
 From: Hidehiko Abe <hidehiko@chromium.org>
 Date: Sat, 10 Aug 2019 01:49:12 +0900
-Subject: [PATCH] libchrome: r576279 forward compatibility patch part 1.
+Subject: [PATCH 1/6] libchrome: r576279 forward compatibility patch part 1.
 
 This CL includes;
 - NumberToString overload.
@@ -13,27 +13,54 @@ This CL includes;
 - base/posix/unix_domain_socket.h
 - base/memory/shared_memory_handle.h::GetHandle/GetSize/IsValid/Release
 - base/memory/shared_memory.h::GetReadOnlyHandle
+- base/message_loop/message_pump_libevent.h:FdWatcher/FdWatchController.
+- base/message_loop/message_loop.h:FileDescriptorWatcher::Mode
 
 BUG=chromium:909719
 TEST=Build.
 
 Change-Id: I7d987fea70704375a5a3296349749648a19ffa7c
 ---
- base/memory/scoped_refptr.h               | 31 +++++++++++++++++++++++
- base/memory/shared_memory.h               |  6 +++++
- base/memory/shared_memory_handle.h        | 31 ++++++++++++++++++++++-
- base/memory/shared_memory_posix.cc        | 13 +++++++---
- base/posix/unix_domain_socket.h           | 12 +++++++++
- base/strings/string_number_conversions.h  | 20 +++++++++++++++
- base/task_runner.h                        |  8 ++++++
- base/values.cc                            |  5 ++++
- base/values.h                             |  2 ++
- components/timers/alarm_timer_chromeos.cc |  8 ++++++
- components/timers/alarm_timer_chromeos.h  |  2 ++
- 11 files changed, 134 insertions(+), 4 deletions(-)
+ base/files/file_descriptor_watcher_posix.cc |  4 +--
+ base/memory/scoped_refptr.h                 | 31 +++++++++++++++++++++
+ base/memory/shared_memory.h                 |  6 ++++
+ base/memory/shared_memory_handle.h          | 31 ++++++++++++++++++++-
+ base/memory/shared_memory_posix.cc          | 13 +++++++--
+ base/message_loop/message_loop.h            |  9 +++---
+ base/message_loop/message_pump_libevent.h   |  2 ++
+ base/posix/unix_domain_socket.h             | 12 ++++++++
+ base/strings/string_number_conversions.h    | 20 +++++++++++++
+ base/task_runner.h                          |  8 ++++++
+ base/values.cc                              |  5 ++++
+ base/values.h                               |  2 ++
+ components/timers/alarm_timer_chromeos.cc   |  8 ++++++
+ components/timers/alarm_timer_chromeos.h    |  2 ++
+ 14 files changed, 142 insertions(+), 11 deletions(-)
  create mode 100644 base/memory/scoped_refptr.h
  create mode 100644 base/posix/unix_domain_socket.h
 
+diff --git a/base/files/file_descriptor_watcher_posix.cc b/base/files/file_descriptor_watcher_posix.cc
+index 9746e35..31dd27c 100644
+--- a/base/files/file_descriptor_watcher_posix.cc
++++ b/base/files/file_descriptor_watcher_posix.cc
+@@ -120,7 +120,7 @@ void FileDescriptorWatcher::Controller::Watcher::StartWatching() {
+ void FileDescriptorWatcher::Controller::Watcher::OnFileCanReadWithoutBlocking(
+     int fd) {
+   DCHECK_EQ(fd_, fd);
+-  DCHECK_EQ(MessageLoopForIO::WATCH_READ, mode_);
++  DCHECK_EQ(MessagePumpLibevent::WATCH_READ, mode_);
+   DCHECK(thread_checker_.CalledOnValidThread());
+ 
+   // Run the callback on the sequence on which the watch was initiated.
+@@ -131,7 +131,7 @@ void FileDescriptorWatcher::Controller::Watcher::OnFileCanReadWithoutBlocking(
+ void FileDescriptorWatcher::Controller::Watcher::OnFileCanWriteWithoutBlocking(
+     int fd) {
+   DCHECK_EQ(fd_, fd);
+-  DCHECK_EQ(MessageLoopForIO::WATCH_WRITE, mode_);
++  DCHECK_EQ(MessagePumpLibevent::WATCH_WRITE, mode_);
+   DCHECK(thread_checker_.CalledOnValidThread());
+ 
+   // Run the callback on the sequence on which the watch was initiated.
 diff --git a/base/memory/scoped_refptr.h b/base/memory/scoped_refptr.h
 new file mode 100644
 index 0000000..0815c34
@@ -176,6 +203,46 @@ index 287e55d..e442eec 100644
 +}
 +
  }  // namespace base
+diff --git a/base/message_loop/message_loop.h b/base/message_loop/message_loop.h
+index fa054f4..b0a2cd0 100644
+--- a/base/message_loop/message_loop.h
++++ b/base/message_loop/message_loop.h
+@@ -597,11 +597,10 @@ class BASE_EXPORT MessageLoopForIO : public MessageLoop {
+   typedef MessagePumpLibevent::FileDescriptorWatcher
+       FileDescriptorWatcher;
+ 
+-  enum Mode {
+-    WATCH_READ = MessagePumpLibevent::WATCH_READ,
+-    WATCH_WRITE = MessagePumpLibevent::WATCH_WRITE,
+-    WATCH_READ_WRITE = MessagePumpLibevent::WATCH_READ_WRITE
+-  };
++  using Mode = MessagePumpLibevent::Mode;
++  constexpr static Mode WATCH_READ = MessagePumpLibevent::WATCH_READ;
++  constexpr static Mode WATCH_WRITE = MessagePumpLibevent::WATCH_WRITE;
++  constexpr static Mode WATCH_READ_WRITE = MessagePumpLibevent::WATCH_READ_WRITE;
+ #endif
+ 
+ #if defined(OS_WIN)
+diff --git a/base/message_loop/message_pump_libevent.h b/base/message_loop/message_pump_libevent.h
+index 1124560..ef6c7fe 100644
+--- a/base/message_loop/message_pump_libevent.h
++++ b/base/message_loop/message_pump_libevent.h
+@@ -34,6 +34,7 @@ class BASE_EXPORT MessagePumpLibevent : public MessagePump {
+    protected:
+     virtual ~Watcher() {}
+   };
++  using FdWatcher = Watcher;
+ 
+   // Object returned by WatchFileDescriptor to manage further watching.
+   class FileDescriptorWatcher {
+@@ -82,6 +83,7 @@ class BASE_EXPORT MessagePumpLibevent : public MessagePump {
+ 
+     DISALLOW_COPY_AND_ASSIGN(FileDescriptorWatcher);
+   };
++  using FdWatchController = FileDescriptorWatcher;
+ 
+   enum Mode {
+     WATCH_READ = 1 << 0,
 diff --git a/base/posix/unix_domain_socket.h b/base/posix/unix_domain_socket.h
 new file mode 100644
 index 0000000..5112731
