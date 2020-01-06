@@ -46,7 +46,7 @@ index 1a08183..0d2a392 100644
      f(uint32_t            , gbm_bo_get_height            , (struct gbm_bo *bo)) \
      f(uint32_t            , gbm_bo_get_stride            , (struct gbm_bo *bo)) \
      f(uint32_t            , gbm_bo_get_format            , (struct gbm_bo *bo)) \
-+    f(uint64_t            , gbm_bo_get_format_modifier   , (struct gbm_bo *bo)) \
++    f(uint64_t            , gbm_bo_get_modifier   , (struct gbm_bo *bo)) \
      f(union gbm_bo_handle , gbm_bo_get_handle            , (struct gbm_bo *bo)) \
      f(struct gbm_device * , gbm_bo_get_device            , (struct gbm_bo *bo))
  
@@ -70,7 +70,7 @@ index 00f1303..723cade 100644
 +        if (self->p->has_dma_buf_import_modifiers) {
 +            struct gbm_bo *bo = slbuf_get_bo(self);
 +            if (bo) {
-+                uint64_t modifier = self->f->gbm_bo_get_format_modifier(bo);
++                uint64_t modifier = self->f->gbm_bo_get_modifier(bo);
 +                attr[12] = EGL_LINUX_DRM_PLANE0_MODIFIER0_EXT;
 +                attr[13] = (uint32_t)(modifier & 0xffffffff);
 +                attr[14] = EGL_LINUX_DRM_PLANE0_MODIFIER1_EXT;
