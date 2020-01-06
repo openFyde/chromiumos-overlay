@@ -3,8 +3,14 @@
 
 EAPI=7
 
+inherit cros-constants
+
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
+CROS_WORKON_REPO=(
+	"${CROS_GIT_HOST_URL}"
+	"${CROS_GIT_AOSP_URL}"
+)
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/keymaster")
 CROS_WORKON_SUBTREE=("common-mk arc/keymaster .gn" "")
