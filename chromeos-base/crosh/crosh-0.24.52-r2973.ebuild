@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="8237b58f51c38b3ab652b0baa467ac12211f5695"
+CROS_WORKON_COMMIT="f400d1ada5fd4a181dc8e9c3cdd62c6dfaeeb2e3"
 CROS_WORKON_TREE="6c23a2ed69a6302e81fb7a2b9dc31f09f11f34ff"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosh/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="rust-crosh"
+IUSE="+rust-crosh"
 
 DEPEND="chromeos-base/system_api-rust:=
 	>=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
