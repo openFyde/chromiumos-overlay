@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6ef6a6ce7763e2595090092c34827c9b8dba4983"
-CROS_WORKON_TREE="a212295534353655d763b120770d4f41349dba4c"
+CROS_WORKON_COMMIT="a21e5ff89c4d83bd20cd762b2579dfc45361231a"
+CROS_WORKON_TREE="2135b68103692ebcc3ce337ed76b6b53c8d2948b"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -107,7 +107,7 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="detachable_ui diag_payload"
+IUSE="menu_ui legacy_menu_ui diag_payload"
 
 BDEPEND="${PYTHON_DEPS}"
 DEPEND="virtual/chromeos-vendor-strings"
@@ -142,8 +142,10 @@ src_prepare() {
 
 src_compile() {
 	local vendor_strings_dir="${SYSROOT}/firmware/vendor-strings"
-	if use detachable_ui ; then
-		export DETACHABLE_UI=1
+	if use menu_ui ; then
+		export MENU_UI=1
+	elif use legacy_menu_ui ; then
+		export LEGACY_MENU_UI=1
 	fi
 	# Using diagnostic payload implies enabling UI to run it
 	if use diag_payload ; then
