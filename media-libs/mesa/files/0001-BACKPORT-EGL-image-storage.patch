@@ -1,0 +1,650 @@
+From 62cd1bdf41a2b1441a5b3fe21a46140808c05d9e Mon Sep 17 00:00:00 2001
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Mon, 6 Jan 2020 18:02:26 -0800
+Subject: [PATCH] BACKPORT: EGL image storage
+
+Change-Id: I73fd96af28f74afbca080a6df00f1c1db1f94af8
+---
+ src/mapi/glapi/gen/EXT_EGL_image_storage.xml |  22 +++
+ src/mapi/glapi/gen/es_EXT.xml                |   1 +
+ src/mapi/glapi/gen/static_data.py            |   2 +
+ src/mesa/drivers/dri/common/dri_util.c       | 111 +++++++++------
+ src/mesa/drivers/dri/common/dri_util.h       |   3 +
+ src/mesa/drivers/dri/i965/intel_extensions.c |   1 +
+ src/mesa/drivers/dri/i965/intel_image.h      |   2 +
+ src/mesa/drivers/dri/i965/intel_screen.c     |   1 +
+ src/mesa/drivers/dri/i965/intel_tex_image.c  |  62 ++++++++-
+ src/mesa/main/dd.h                           |   8 +-
+ src/mesa/main/extensions_table.h             |   1 +
+ src/mesa/main/mtypes.h                       |   1 +
+ src/mesa/main/teximage.c                     | 137 ++++++++++++++++---
+ src/mesa/main/teximage.h                     |   7 +
+ 14 files changed, 293 insertions(+), 66 deletions(-)
+ create mode 100644 src/mapi/glapi/gen/EXT_EGL_image_storage.xml
+
+diff --git a/src/mapi/glapi/gen/EXT_EGL_image_storage.xml b/src/mapi/glapi/gen/EXT_EGL_image_storage.xml
+new file mode 100644
+index 00000000000..9ce84d537aa
+--- /dev/null
++++ b/src/mapi/glapi/gen/EXT_EGL_image_storage.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0"?>
++<!DOCTYPE OpenGLAPI SYSTEM "gl_API.dtd">
++
++<OpenGLAPI>
++
++<category name="GL_EXT_EGL_image_storage" number="301">
++
++    <function name="EGLImageTargetTexStorageEXT" es2="3.0" desktop="false">
++        <param name="target" type="GLenum"/>
++        <param name="image" type="GLvoid *"/>
++        <param name="attrib_list" type="const GLint *"/>
++    </function>
++
++    <function name="EGLImageTargetTextureStorageEXT" es2="3.0" desktop="false">
++        <param name="texture" type="GLuint"/>
++        <param name="image" type="GLvoid *"/>
++        <param name="attrib_list" type="const GLint *"/>
++    </function>
++
++</category>
++
++</OpenGLAPI>
+diff --git a/src/mapi/glapi/gen/es_EXT.xml b/src/mapi/glapi/gen/es_EXT.xml
+index 3a797a50989..a3411679c19 100644
+--- a/src/mapi/glapi/gen/es_EXT.xml
++++ b/src/mapi/glapi/gen/es_EXT.xml
+@@ -1490,4 +1490,5 @@
+    </function>
+ </category>
+ 
++<xi:include href="EXT_EGL_image_storage.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+ </OpenGLAPI>
+diff --git a/src/mapi/glapi/gen/static_data.py b/src/mapi/glapi/gen/static_data.py
+index 24781390d30..62652112f3f 100644
+--- a/src/mapi/glapi/gen/static_data.py
++++ b/src/mapi/glapi/gen/static_data.py
+@@ -1455,6 +1455,8 @@ offsets = {
+     "PrimitiveBoundingBox": 1419,
+     "FramebufferParameteriMESA": 1420,
+     "GetFramebufferParameterivMESA": 1421,
++    "EGLImageTargetTexStorageEXT" : 1422,
++    "EGLImageTargetTextureStorageEXT" : 1423,
+ }
+ 
+ functions = [
+diff --git a/src/mesa/drivers/dri/common/dri_util.c b/src/mesa/drivers/dri/common/dri_util.c
+index ac3a04bceff..cdf7aa92c24 100644
+--- a/src/mesa/drivers/dri/common/dri_util.c
++++ b/src/mesa/drivers/dri/common/dri_util.c
+@@ -873,86 +873,107 @@ driUpdateFramebufferSize(struct gl_context *ctx, const __DRIdrawable *dPriv)
+ static const struct {
+    uint32_t    image_format;
+    mesa_format mesa_format;
++   GLenum internal_format;
+ } format_mapping[] = {
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_RGB565,
+-      .mesa_format  =        MESA_FORMAT_B5G6R5_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_RGB565,
++      .mesa_format     =        MESA_FORMAT_B5G6R5_UNORM,
++      .internal_format =        GL_RGB565,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_ARGB1555,
+-      .mesa_format  =        MESA_FORMAT_B5G5R5A1_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_ARGB1555,
++      .mesa_format     =        MESA_FORMAT_B5G5R5A1_UNORM,
++      .internal_format =        GL_RGB5_A1,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_XRGB8888,
+-      .mesa_format  =        MESA_FORMAT_B8G8R8X8_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_XRGB8888,
++      .mesa_format     =        MESA_FORMAT_B8G8R8X8_UNORM,
++      .internal_format =        GL_RGBA8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_ARGB2101010,
+-      .mesa_format  =        MESA_FORMAT_B10G10R10A2_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_ARGB2101010,
++      .mesa_format     =        MESA_FORMAT_B10G10R10A2_UNORM,
++      .internal_format =        GL_RGB10_A2,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_XRGB2101010,
+-      .mesa_format  =        MESA_FORMAT_B10G10R10X2_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_XRGB2101010,
++      .mesa_format     =        MESA_FORMAT_B10G10R10X2_UNORM,
++      .internal_format =        GL_RGB10_A2,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_ABGR2101010,
+-      .mesa_format  =        MESA_FORMAT_R10G10B10A2_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_ABGR2101010,
++      .mesa_format     =        MESA_FORMAT_R10G10B10A2_UNORM,
++      .internal_format =        GL_RGB10_A2,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_XBGR2101010,
+-      .mesa_format  =        MESA_FORMAT_R10G10B10X2_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_XBGR2101010,
++      .mesa_format     =        MESA_FORMAT_R10G10B10X2_UNORM,
++      .internal_format =        GL_RGB10_A2,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_ARGB8888,
+-      .mesa_format  =        MESA_FORMAT_B8G8R8A8_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_ARGB8888,
++      .mesa_format     =        MESA_FORMAT_B8G8R8A8_UNORM,
++      .internal_format =        GL_RGBA8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_ABGR8888,
+-      .mesa_format  =        MESA_FORMAT_R8G8B8A8_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_ABGR8888,
++      .mesa_format     =        MESA_FORMAT_R8G8B8A8_UNORM,
++      .internal_format =        GL_RGBA8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_XBGR8888,
+-      .mesa_format  =        MESA_FORMAT_R8G8B8X8_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_XBGR8888,
++      .mesa_format     =        MESA_FORMAT_R8G8B8X8_UNORM,
++      .internal_format =        GL_RGBA8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_R8,
+-      .mesa_format  =        MESA_FORMAT_R_UNORM8,
++      .image_format    = __DRI_IMAGE_FORMAT_R8,
++      .mesa_format     =        MESA_FORMAT_R_UNORM8,
++      .internal_format =        GL_R8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_R8,
+-      .mesa_format  =        MESA_FORMAT_L_UNORM8,
++      .image_format    = __DRI_IMAGE_FORMAT_R8,
++      .mesa_format     =        MESA_FORMAT_L_UNORM8,
++      .internal_format =        GL_R8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_GR88,
+-      .mesa_format  =        MESA_FORMAT_R8G8_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_GR88,
++      .mesa_format     =        MESA_FORMAT_R8G8_UNORM,
++      .internal_format =        GL_RG8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_GR88,
+-      .mesa_format  =        MESA_FORMAT_L8A8_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_GR88,
++      .mesa_format     =        MESA_FORMAT_L8A8_UNORM,
++      .internal_format =        GL_RG8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_SABGR8,
+-      .mesa_format  =        MESA_FORMAT_R8G8B8A8_SRGB,
++      .image_format    = __DRI_IMAGE_FORMAT_SABGR8,
++      .mesa_format     =        MESA_FORMAT_R8G8B8A8_SRGB,
++      .internal_format =        GL_SRGB8_ALPHA8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_SARGB8,
+-      .mesa_format  =        MESA_FORMAT_B8G8R8A8_SRGB,
++      .image_format    = __DRI_IMAGE_FORMAT_SARGB8,
++      .mesa_format     =        MESA_FORMAT_B8G8R8A8_SRGB,
++      .internal_format =        GL_SRGB8_ALPHA8,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_R16,
+-      .mesa_format  =        MESA_FORMAT_R_UNORM16,
++      .image_format    = __DRI_IMAGE_FORMAT_R16,
++      .mesa_format     =        MESA_FORMAT_R_UNORM16,
++      .internal_format =        GL_R16,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_R16,
+-      .mesa_format  =        MESA_FORMAT_L_UNORM16,
++      .image_format    = __DRI_IMAGE_FORMAT_R16,
++      .mesa_format     =        MESA_FORMAT_L_UNORM16,
++      .internal_format =        GL_R16,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_GR1616,
+-      .mesa_format  =        MESA_FORMAT_R16G16_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_GR1616,
++      .mesa_format     =        MESA_FORMAT_R16G16_UNORM,
++      .internal_format =        GL_RG16,
+    },
+    {
+-      .image_format = __DRI_IMAGE_FORMAT_GR1616,
+-      .mesa_format  =        MESA_FORMAT_L16A16_UNORM,
++      .image_format    = __DRI_IMAGE_FORMAT_GR1616,
++      .mesa_format     =        MESA_FORMAT_L_UNORM16,
++      .internal_format =        GL_RG16,
+    },
+ };
+ 
+@@ -976,6 +997,16 @@ driImageFormatToGLFormat(uint32_t image_format)
+    return MESA_FORMAT_NONE;
+ }
+ 
++uint32_t
++driGLFormatToSizedInternalGLFormat(mesa_format format)
++{
++   for (size_t i = 0; i < ARRAY_SIZE(format_mapping); i++)
++      if (format_mapping[i].mesa_format == format)
++         return format_mapping[i].internal_format;
++
++   return GL_NONE;
++}
++
+ /** Image driver interface */
+ const __DRIimageDriverExtension driImageDriverExtension = {
+     .base = { __DRI_IMAGE_DRIVER, 1 },
+diff --git a/src/mesa/drivers/dri/common/dri_util.h b/src/mesa/drivers/dri/common/dri_util.h
+index d6c7d07d4e0..1bc84ebddaa 100644
+--- a/src/mesa/drivers/dri/common/dri_util.h
++++ b/src/mesa/drivers/dri/common/dri_util.h
+@@ -320,6 +320,9 @@ struct __DRIdrawableRec {
+ extern uint32_t
+ driGLFormatToImageFormat(mesa_format format);
+ 
++extern uint32_t
++driGLFormatToSizedInternalGLFormat(mesa_format format);
++
+ extern mesa_format
+ driImageFormatToGLFormat(uint32_t image_format);
+ 
+diff --git a/src/mesa/drivers/dri/i965/intel_extensions.c b/src/mesa/drivers/dri/i965/intel_extensions.c
+index d7080fb21b4..545d3b2e3b8 100644
+--- a/src/mesa/drivers/dri/i965/intel_extensions.c
++++ b/src/mesa/drivers/dri/i965/intel_extensions.c
+@@ -141,6 +141,7 @@ intelInitExtensions(struct gl_context *ctx)
+    ctx->Extensions.OES_texture_float_linear = true;
+    ctx->Extensions.OES_texture_half_float = true;
+    ctx->Extensions.OES_texture_half_float_linear = true;
++   ctx->Extensions.EXT_EGL_image_storage = true;
+ 
+    if (devinfo->gen >= 8)
+       ctx->Const.GLSLVersion = 450;
+diff --git a/src/mesa/drivers/dri/i965/intel_image.h b/src/mesa/drivers/dri/i965/intel_image.h
+index 4ab8a49b8bb..49f26d236f9 100644
+--- a/src/mesa/drivers/dri/i965/intel_image.h
++++ b/src/mesa/drivers/dri/i965/intel_image.h
+@@ -1,4 +1,5 @@
+ /*
++://gitlab.freedesktop.org/mesa/mesa/merge_requests/3299/diffs#diff-content-6d6f80af2b8ec8e1fe366c565ba85c6a1737c7c0 endif
+  * Copyright 2006 VMware, Inc.
+  * All Rights Reserved.
+  *
+@@ -110,6 +111,7 @@ struct __DRIimageRec {
+    /* \} */
+ 
+    void *data;
++   bool imported_dmabuf;
+ };
+ 
+ #ifdef __cplusplus
+diff --git a/src/mesa/drivers/dri/i965/intel_screen.c b/src/mesa/drivers/dri/i965/intel_screen.c
+index d34b161f41e..a3ea3692833 100644
+--- a/src/mesa/drivers/dri/i965/intel_screen.c
++++ b/src/mesa/drivers/dri/i965/intel_screen.c
+@@ -1259,6 +1259,7 @@ intel_create_image_from_dma_bufs2(__DRIscreen *dri_screen,
+    image->sample_range = sample_range;
+    image->horizontal_siting = horizontal_siting;
+    image->vertical_siting = vertical_siting;
++   image->imported_dmabuf = true;
+ 
+    *error = __DRI_IMAGE_ERROR_SUCCESS;
+    return image;
+diff --git a/src/mesa/drivers/dri/i965/intel_tex_image.c b/src/mesa/drivers/dri/i965/intel_tex_image.c
+index 8d4ca7fed72..13ba2a0e506 100644
+--- a/src/mesa/drivers/dri/i965/intel_tex_image.c
++++ b/src/mesa/drivers/dri/i965/intel_tex_image.c
+@@ -599,10 +599,11 @@ intelSetTexBuffer(__DRIcontext *pDRICtx, GLint target, __DRIdrawable *dPriv)
+ }
+ 
+ static void
+-intel_image_target_texture_2d(struct gl_context *ctx, GLenum target,
+-			      struct gl_texture_object *texObj,
+-			      struct gl_texture_image *texImage,
+-			      GLeglImageOES image_handle)
++intel_image_target_texture(struct gl_context *ctx, GLenum target,
++                           struct gl_texture_object *texObj,
++                           struct gl_texture_image *texImage,
++                           GLeglImageOES image_handle,
++                           bool storage)
+ {
+    struct brw_context *brw = brw_context(ctx);
+    struct intel_mipmap_tree *mt;
+@@ -630,13 +631,63 @@ intel_image_target_texture_2d(struct gl_context *ctx, GLenum target,
+    struct intel_texture_object *intel_texobj = intel_texture_object(texObj);
+    intel_texobj->planar_format = image->planar_format;
+ 
+-   const GLenum internal_format =
++   GLenum internal_format =
+       image->internal_format != 0 ?
+       image->internal_format : _mesa_get_format_base_format(mt->format);
++
++   /* Fix the internal format when _mesa_get_format_base_format(mt->format)
++    * isn't a valid one for that particular format.
++    */
++   if (brw->mesa_format_supports_render[image->format]) {
++      if (image->format == MESA_FORMAT_R10G10B10A2_UNORM ||
++          image->format == MESA_FORMAT_R10G10B10X2_UNORM ||
++          image->format == MESA_FORMAT_B10G10R10A2_UNORM ||
++          image->format == MESA_FORMAT_B10G10R10X2_UNORM)
++         internal_format = GL_RGB10_A2;
++   }
++
++   /* Guess sized internal format for dma-bufs, as specified by
++    * EXT_EGL_image_storage.
++    */
++   if (storage && target == GL_TEXTURE_2D && image->imported_dmabuf) {
++      internal_format = driGLFormatToSizedInternalGLFormat(image->format);
++      if (internal_format == GL_NONE) {
++         _mesa_error(ctx, GL_INVALID_OPERATION, __func__);
++         return;
++      }
++   }
++
+    intel_set_texture_image_mt(brw, texImage, internal_format, mt->format, mt);
+    intel_miptree_release(&mt);
+ }
+ 
++static void
++intel_image_target_texture_2d(struct gl_context *ctx, GLenum target,
++                              struct gl_texture_object *texObj,
++                              struct gl_texture_image *texImage,
++                              GLeglImageOES image_handle)
++{
++   intel_image_target_texture(ctx, target, texObj, texImage, image_handle,
++                              false);
++}
++
++static void
++intel_image_target_tex_storage(struct gl_context *ctx, GLenum target,
++                              struct gl_texture_object *texObj,
++                              struct gl_texture_image *texImage,
++                              GLeglImageOES image_handle)
++{
++   struct intel_texture_object *intel_texobj = intel_texture_object(texObj);
++   intel_image_target_texture(ctx, target, texObj, texImage, image_handle,
++                              true);
++
++   /* The miptree is in a validated state, so no need to check later. */
++   intel_texobj->needs_validate = false;
++   intel_texobj->validated_first_level = 0;
++   intel_texobj->validated_last_level = 0;
++   intel_texobj->_Format = texImage->TexFormat;
++}
++
+ static bool
+ intel_gettexsubimage_blorp(struct brw_context *brw,
+                            struct gl_texture_image *tex_image,
+@@ -929,6 +980,7 @@ intelInitTextureImageFuncs(struct dd_function_table *functions)
+    functions->TexSubImage = intelTexSubImage;
+    functions->CompressedTexSubImage = intelCompressedTexSubImage;
+    functions->EGLImageTargetTexture2D = intel_image_target_texture_2d;
++   functions->EGLImageTargetTexStorage = intel_image_target_tex_storage;
+    functions->BindRenderbufferTexImage = intel_bind_renderbuffer_tex_image;
+    functions->GetTexSubImage = intel_get_tex_sub_image;
+ }
+diff --git a/src/mesa/main/dd.h b/src/mesa/main/dd.h
+index 1214eeaa474..a09e11b1330 100644
+--- a/src/mesa/main/dd.h
++++ b/src/mesa/main/dd.h
+@@ -973,7 +973,13 @@ struct dd_function_table {
+    void (*EGLImageTargetRenderbufferStorage)(struct gl_context *ctx,
+ 					     struct gl_renderbuffer *rb,
+ 					     void *image_handle);
+-
++   /**
++    * \name GL_EXT_EGL_image_storage interface
++    */
++   void (*EGLImageTargetTexStorage)(struct gl_context *ctx, GLenum target,
++                                    struct gl_texture_object *texObj,
++                                    struct gl_texture_image *texImage,
++                                    GLeglImageOES image_handle);
+    /**
+     * \name GL_EXT_transform_feedback interface
+     */
+diff --git a/src/mesa/main/extensions_table.h b/src/mesa/main/extensions_table.h
+index bca4aa063f5..cf3271f73c6 100644
+--- a/src/mesa/main/extensions_table.h
++++ b/src/mesa/main/extensions_table.h
+@@ -201,6 +201,7 @@ EXT(ATI_texture_env_combine3                , ATI_texture_env_combine3
+ EXT(ATI_texture_float                       , ARB_texture_float                      , GLL, GLC,  x ,  x , 2002)
+ EXT(ATI_texture_mirror_once                 , ATI_texture_mirror_once                , GLL, GLC,  x ,  x , 2006)
+ 
++EXT(EXT_EGL_image_storage                   , EXT_EGL_image_storage                  , GLL, GLC , x ,  30, 2018)
+ EXT(EXT_abgr                                , dummy_true                             , GLL, GLC,  x ,  x , 1995)
+ EXT(EXT_base_instance                       , ARB_base_instance                      ,  x ,  x ,  x ,  30, 2014)
+ EXT(EXT_bgra                                , dummy_true                             , GLL,  x ,  x ,  x , 1995)
+diff --git a/src/mesa/main/mtypes.h b/src/mesa/main/mtypes.h
+index 9bca5c153ad..9f6aaebbe95 100644
+--- a/src/mesa/main/mtypes.h
++++ b/src/mesa/main/mtypes.h
+@@ -4245,6 +4245,7 @@ struct gl_extensions
+    GLboolean EXT_depth_bounds_test;
+    GLboolean EXT_disjoint_timer_query;
+    GLboolean EXT_draw_buffers2;
++   GLboolean EXT_EGL_image_storage;
+    GLboolean EXT_float_blend;
+    GLboolean EXT_framebuffer_multisample;
+    GLboolean EXT_framebuffer_multisample_blit_scaled;
+diff --git a/src/mesa/main/teximage.c b/src/mesa/main/teximage.c
+index a43915e18d9..3d7736a8119 100644
+--- a/src/mesa/main/teximage.c
++++ b/src/mesa/main/teximage.c
+@@ -3229,23 +3229,28 @@ _mesa_TexImage3D_no_error(GLenum target, GLint level, GLint internalFormat,
+                      width, height, depth, border, format, type, 0, pixels);
+ }
+ 
+-
+-void GLAPIENTRY
+-_mesa_EGLImageTargetTexture2DOES (GLenum target, GLeglImageOES image)
++/*
++ * Helper used by __mesa_EGLImageTargetTexture2DOES and
++ * _mesa_EGLImageTargetTexStorageEXT.
++ */
++static void
++egl_image_target_texture(struct gl_context *ctx,
++                         struct gl_texture_object *texObj, GLenum target,
++                         GLeglImageOES image, bool tex_storage,
++                         const char *caller)
+ {
+-   struct gl_texture_object *texObj;
+    struct gl_texture_image *texImage;
+    bool valid_target;
+-   GET_CURRENT_CONTEXT(ctx);
+    FLUSH_VERTICES(ctx, 0);
+ 
+    switch (target) {
+    case GL_TEXTURE_2D:
+-      valid_target = ctx->Extensions.OES_EGL_image;
++      valid_target = _mesa_has_OES_EGL_image(ctx) ||
++                     (tex_storage && _mesa_has_EXT_EGL_image_storage(ctx));
+       break;
+    case GL_TEXTURE_EXTERNAL_OES:
+       valid_target =
+-         _mesa_is_gles(ctx) ? ctx->Extensions.OES_EGL_image_external : false;
++         _mesa_is_gles(ctx) ? _mesa_has_OES_EGL_image_external(ctx) : false;
+       break;
+    default:
+       valid_target = false;
+@@ -3253,47 +3258,139 @@ _mesa_EGLImageTargetTexture2DOES (GLenum target, GLeglImageOES image)
+    }
+ 
+    if (!valid_target) {
+-      _mesa_error(ctx, GL_INVALID_ENUM,
+-                  "glEGLImageTargetTexture2D(target=%d)", target);
++      _mesa_error(ctx, GL_INVALID_ENUM, "%s(target=%d)", caller, target);
+       return;
+    }
+ 
+    if (!image) {
+-      _mesa_error(ctx, GL_INVALID_OPERATION,
+-                  "glEGLImageTargetTexture2D(image=%p)", image);
++      _mesa_error(ctx, GL_INVALID_VALUE, "%s(image=%p)", caller, image);
+       return;
+    }
+ 
+    if (ctx->NewState & _NEW_PIXEL)
+       _mesa_update_state(ctx);
+ 
+-   texObj = _mesa_get_current_tex_object(ctx, target);
+-   if (!texObj)
+-      return;
+-
+    _mesa_lock_texture(ctx, texObj);
+ 
+    if (texObj->Immutable) {
+-      _mesa_error(ctx, GL_INVALID_OPERATION,
+-                  "glEGLImageTargetTexture2D(texture is immutable)");
++      _mesa_error(ctx, GL_INVALID_OPERATION, "%s(texture is immutable)", caller);
+       _mesa_unlock_texture(ctx, texObj);
+       return;
+    }
+ 
+    texImage = _mesa_get_tex_image(ctx, texObj, target, 0);
+    if (!texImage) {
+-      _mesa_error(ctx, GL_OUT_OF_MEMORY, "glEGLImageTargetTexture2D");
++      _mesa_error(ctx, GL_OUT_OF_MEMORY, "%s", caller);
+    } else {
+       ctx->Driver.FreeTextureImageBuffer(ctx, texImage);
+ 
+-      ctx->Driver.EGLImageTargetTexture2D(ctx, target,
+-                                          texObj, texImage, image);
++      if (tex_storage) {
++         ctx->Driver.EGLImageTargetTexStorage(ctx, target, texObj, texImage,
++                                              image);
++      } else {
++         ctx->Driver.EGLImageTargetTexture2D(ctx, target, texObj, texImage,
++                                             image);
++      }
+ 
+       _mesa_dirty_texobj(ctx, texObj);
+    }
++
++   if (tex_storage)
++      _mesa_set_texture_view_state(ctx, texObj, target, 1);
++
+    _mesa_unlock_texture(ctx, texObj);
+ }
+ 
++void GLAPIENTRY
++_mesa_EGLImageTargetTexture2DOES(GLenum target, GLeglImageOES image)
++{
++   struct gl_texture_object *texObj;
++   const char *func = "glEGLImageTargetTexture2D";
++   GET_CURRENT_CONTEXT(ctx);
++
++   texObj = _mesa_get_current_tex_object(ctx, target);
++   if (!texObj) {
++      _mesa_error(ctx, GL_INVALID_ENUM, "%s(target=%d)", func, target);
++      return;
++   }
++
++   egl_image_target_texture(ctx, texObj, target, image, false, func);
++}
++
++static void
++egl_image_target_texture_storage(struct gl_context *ctx,
++                                 struct gl_texture_object *texObj, GLenum target,
++                                 GLeglImageOES image, const GLint *attrib_list,
++                                 const char *caller)
++{
++   /*
++    * EXT_EGL_image_storage:
++    *
++    * "<attrib_list> must be NULL or a pointer to the value GL_NONE."
++    */
++   if (attrib_list && attrib_list[0] != GL_NONE) {
++      _mesa_error(ctx, GL_INVALID_VALUE, "%s(image=%p)", caller, image);
++      return;
++   }
++
++   switch (target) {
++   case GL_TEXTURE_2D:
++   case GL_TEXTURE_EXTERNAL_OES:
++      break;
++   default:
++    /*
++     * The EXT_EGL_image_storage spec allows for many other targets besides
++     * GL_TEXTURE_2D and GL_TEXTURE_EXTERNAL_OES, however these are complicated
++     * to implement.
++     */
++     _mesa_error(ctx, GL_INVALID_OPERATION, "%s(unsupported target=%d)",
++                 caller, target);
++     return;
++   }
++
++   egl_image_target_texture(ctx, texObj, target, image, true, caller);
++}
++
++
++void GLAPIENTRY
++_mesa_EGLImageTargetTexStorageEXT(GLenum target, GLeglImageOES image,
++                                  const GLint *attrib_list)
++{
++   struct gl_texture_object *texObj;
++   const char *func = "glEGLImageTargetTexStorageEXT";
++   GET_CURRENT_CONTEXT(ctx);
++
++   texObj = _mesa_get_current_tex_object(ctx, target);
++   if (!texObj) {
++      _mesa_error(ctx, GL_INVALID_ENUM, "%s(target=%d)", func, target);
++      return;
++   }
++
++   egl_image_target_texture_storage(ctx, texObj, target, image, attrib_list,
++                                    func);
++}
++
++void GLAPIENTRY
++_mesa_EGLImageTargetTextureStorageEXT(GLuint texture, GLeglImageOES image,
++                                      const GLint *attrib_list)
++{
++   struct gl_texture_object *texObj;
++   const char *func = "glEGLImageTargetTextureStorageEXT";
++   GET_CURRENT_CONTEXT(ctx);
++
++   if (!(_mesa_is_desktop_gl(ctx) && ctx->Version >= 45) &&
++       !_mesa_has_ARB_direct_state_access(ctx)) {
++      _mesa_error(ctx, GL_INVALID_OPERATION, "direct access not supported");
++      return;
++   }
++
++   texObj = _mesa_lookup_texture_err(ctx, texture, func);
++   if (!texObj)
++      return;
++
++   egl_image_target_texture_storage(ctx, texObj, texObj->Target, image,
++                                    attrib_list, func);
++}
+ 
+ /**
+  * Helper that implements the glTexSubImage1/2/3D()
+diff --git a/src/mesa/main/teximage.h b/src/mesa/main/teximage.h
+index 266a9f3d83d..55c0ff87a48 100644
+--- a/src/mesa/main/teximage.h
++++ b/src/mesa/main/teximage.h
+@@ -299,6 +299,13 @@ _mesa_TexImage3D_no_error(GLenum target, GLint level, GLint internalformat,
+ extern void GLAPIENTRY
+ _mesa_EGLImageTargetTexture2DOES( GLenum target, GLeglImageOES image );
+ 
++extern void GLAPIENTRY
++_mesa_EGLImageTargetTexStorageEXT(GLenum target, GLeglImageOES image,
++                                  const GLint *attrib_list);
++extern void GLAPIENTRY
++_mesa_EGLImageTargetTextureStorageEXT(GLuint texture, GLeglImageOES image,
++                                      const GLint *attrib_list);
++
+ void GLAPIENTRY
+ _mesa_TexSubImage1D_no_error(GLenum target, GLint level, GLint xoffset,
+                              GLsizei width,
+-- 
+2.24.1
+
