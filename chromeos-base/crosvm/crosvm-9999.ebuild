@@ -3,7 +3,7 @@
 
 EAPI=6
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
-CROS_WORKON_LOCALNAME="../platform/crosvm"
+CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since crosvm/Cargo.toml is
 # using "# ignored by ebuild" macro which supported by cros-rust.
