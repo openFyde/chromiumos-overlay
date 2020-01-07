@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT=("13b22bbd753fc2c019a0be5b8bb3a8c23c0b338a" "edfe2f28738571aab8f83880c453916bcc4b3985")
-CROS_WORKON_TREE=("4fcabd29dd272352d5be398c9e3db0c79a8b28c7" "40698575c9f1f4ad1aa6cc84901a412163fdf8cc")
+CROS_WORKON_COMMIT=("4658c8ca9489347ad8d7ed8da6246ec9af976dde" "c46b7269a7b2928134550a688c859c127f47eba2")
+CROS_WORKON_TREE=("4bd28c046b425d56ffdeca83c33159c7f956595d" "4873d12fd4955de76682ebc4b42e1abbf23ffaff")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/depthcharge"
 	"chromiumos/platform/vboot_reference"
@@ -14,8 +14,8 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="detachable_ui diag_payload fwconsole mocktpm pd_sync unibuild
-	verbose debug generated_cros_config"
+IUSE="detachable menu_ui legacy_menu_ui diag_payload fwconsole mocktpm pd_sync
+	unibuild verbose debug generated_cros_config"
 
 DEPEND="
 	sys-boot/libpayload
@@ -102,8 +102,16 @@ make_depthcharge() {
 		echo "CONFIG_SYS_PROMPT=\"${board}: \"" >> \
 		  "board/${board}/defconfig"
 	fi
-	if use detachable_ui ; then
-		echo "CONFIG_DETACHABLE_UI=y" >> "board/${board}/defconfig"
+	if use detachable ; then
+		echo "CONFIG_DETACHABLE=y" >> "board/${board}/defconfig"
+	fi
+	if use menu_ui ; then
+		echo "CONFIG_MENU_UI=y" >> "board/${board}/defconfig"
+	elif use legacy_menu_ui ; then
+		echo "CONFIG_LEGACY_MENU_UI=y" >> "board/${board}/defconfig"
+	else
+		echo "CONFIG_LEGACY_CLAMSHELL_UI=y" >> \
+			"board/${board}/defconfig"
 	fi
 	# Using diagnostic payload implies enabling UI to run it
 	if use diag_payload ; then
