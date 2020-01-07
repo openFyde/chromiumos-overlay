@@ -1,8 +1,8 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-CROS_WORKON_COMMIT="ed09a88cd0bf70baef73826df579433823a38f67"
+EAPI=7
+CROS_WORKON_COMMIT="ec86b641e2e953139b900195c84acbce7089b81c"
 CROS_WORKON_TREE="57854e815083edc5ebb5e11cc0cf08eba8f0df83"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -14,7 +14,7 @@ DESCRIPTION="Tunnel between localhost in different netns"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/chunnel"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="kvm_host"
 
