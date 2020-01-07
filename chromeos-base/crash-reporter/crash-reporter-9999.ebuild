@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cheets chromeless_tty cros_embedded -direncryption systemd fuzzer"
+IUSE="cheets chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=

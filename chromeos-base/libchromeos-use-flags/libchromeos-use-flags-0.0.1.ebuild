@@ -37,6 +37,7 @@ IUSE="
 	gpu_sandbox_failures_not_fatal
 	gpu_sandbox_start_early
 	instant_tethering
+	kvm_guest
 	kvm_host
 	kvm_transition
 	legacy_keyboard
