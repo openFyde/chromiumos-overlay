@@ -13,12 +13,14 @@ KEYWORDS="*"
 IUSE="
 	amd64
 	android-container-master-arc-dev
+	android-container-nyc
 	android-container-pi
 	android-container-qt
 	android-vm-pi
 	arc
 	arc-camera1
 	arc-camera3
+	arcpp
 	arcvm
 	asan
 	betty
