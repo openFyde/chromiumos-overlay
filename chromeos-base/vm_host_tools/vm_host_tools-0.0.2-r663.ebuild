@@ -1,8 +1,9 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="03dc121cf0f5f7da9a3cb0c6b924e3cadb369cad"
+EAPI=7
+
+CROS_WORKON_COMMIT="ec86b641e2e953139b900195c84acbce7089b81c"
 CROS_WORKON_TREE=("6d74a4844065698eac0757a982f8fc78bea1e5db" "81f7fe23bf497aafef6d4128b33582b4422a9ff5" "95e657fc249bd020f0c1cf8e5b519bca45ac5271" "77bc8eb81d0298fed438ed8d1b9b39c9a95c1329" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,31 +22,33 @@ CREDITS_SRC="linux_credits-10895.tar.bz2"
 SRC_URI="gs://chromeos-localmirror/distfiles/${CREDITS_SRC}"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 # The crosvm-wl-dmabuf USE flag is used when preprocessing concierge source.
 IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer"
 REQUIRED_USE="kvm_host"
 
-RDEPEND="
-	app-arch/libarchive
+COMMON_DEPEND="
+	app-arch/libarchive:=
 	!!chromeos-base/vm_tools
-	chromeos-base/arc-networkd
-	chromeos-base/chunnel
-	chromeos-base/crosvm
-	chromeos-base/libbrillo
-	chromeos-base/metrics
-	chromeos-base/minijail
+	chromeos-base/arc-networkd:=
+	chromeos-base/chunnel:=
+	chromeos-base/crosvm:=
+	chromeos-base/metrics:=
+	chromeos-base/minijail:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
+"
+
+RDEPEND="
+	${COMMON_DEPEND}
 	dev-rust/9s
 "
 DEPEND="
-	${RDEPEND}
-	chromeos-base/shill-client
-	>=chromeos-base/system_api-0.0.1-r3360[fuzzer?]
-	chromeos-base/vm_protos
-	fuzzer? ( dev-libs/libprotobuf-mutator )
+	${COMMON_DEPEND}
+	chromeos-base/shill-client:=
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vm_protos:=
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 src_unpack() {
