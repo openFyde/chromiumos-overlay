@@ -71,5 +71,8 @@
 	<flag name='linux_firmware_venus-52'>
 		Install Venus 5.2 codec firmware files
 	</flag>
+	<flag name='linux_firmware_venus-54'>
+		Install Venus 5.4 codec firmware files
+	</flag>
 </use>
 </pkgmetadata>
