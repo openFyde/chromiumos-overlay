@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-# Build qemu with RO segment disabled temporarily, https://crbug.com/1004526.
+# Build qemu with bfd linker temporarily, http://crbug.com/1035694
 cros_pre_src_configure_use_bfd() {
-	append-ldflags "-Wl,--no-rosegment" || die
+	append-ldflags "-fuse-ld=bfd" || die
 }
