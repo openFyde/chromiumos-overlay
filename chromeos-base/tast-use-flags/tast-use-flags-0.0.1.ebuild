@@ -51,6 +51,7 @@ IUSE="
 	kernel-4_14
 	kernel-4_19
 	kernel-5_4
+	kukui
 	kvm_host
 	kvm_transition
 	lxc
@@ -60,6 +61,7 @@ IUSE="
 	mocktpm
 	msan
 	nyan_kitty
+	octopus
 	pita
 	rialto
 	rk3399
