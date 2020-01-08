@@ -96,6 +96,10 @@ src_install() {
 		newins "init/vm_cicerone-seccomp-${ARCH}.policy" vm_cicerone-seccomp.policy
 	fi
 
+	insinto /usr/include/chromeos/
+	doins common/tzif_parser.h
+	dolib.a "${OUT}"/libtzif_parser.a
+
 	udev_dorules udev/99-vm.rules
 
 	# TODO(crbug.com/876898): Remove hardcoded credits file.
