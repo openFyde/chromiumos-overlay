@@ -1,9 +1,9 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="046d003dc91edf5d81d60b1fedd7cdad672082dd"
+CROS_WORKON_COMMIT="1ac4ab8c5c4b3b772c447f626f9b0258cb88d949"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "59039c487484aabee62be3c473f79d96f22d361f" "4a28ab6bdac58d7952bca66912788d50b8a8cdab" "0211dc05f45b88ef8a95467f0e004b5520f26ed6" "e572ce47cbda62e83f0a8793e74d4189ffef3238" "ce7f8b7d17ca5ea5acf26e9d0329b53f518f0336" "81f7fe23bf497aafef6d4128b33582b4422a9ff5" "6f312bfe6c8f6c17ab3b63e90199ccea0d2ce5dd")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,29 +21,30 @@ DESCRIPTION="Chrome OS camera service. The service is in charge of accessing
 camera device. It uses unix domain socket to build a synchronous channel."
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="arc-camera1 cheets +cros-camera-algo-sandbox"
 
-RDEPEND="
-	chromeos-base/libbrillo
+BDEPEND="virtual/pkgconfig"
+
+COMMON_DEPEND="
 	!media-libs/arc-camera3
-	cros-camera-algo-sandbox? ( media-libs/cros-camera-libcab )
-	media-libs/cros-camera-hal-usb
-	media-libs/cros-camera-libcamera_common
-	media-libs/cros-camera-libcamera_ipc
-	media-libs/cros-camera-libcamera_metadata
-	media-libs/libsync
+	cros-camera-algo-sandbox? ( media-libs/cros-camera-libcab:= )
+	media-libs/cros-camera-hal-usb:=
+	media-libs/cros-camera-libcamera_common:=
+	media-libs/cros-camera-libcamera_ipc:=
+	media-libs/cros-camera-libcamera_metadata:=
+	media-libs/libsync:=
 	virtual/cros-camera-effects
 	virtual/cros-camera-hal
 	virtual/cros-camera-hal-configs"
 
-DEPEND="${RDEPEND}
-	chromeos-base/metrics
-	media-libs/cros-camera-android-headers
-	media-libs/minigbm
-	virtual/pkgconfig
-	x11-libs/libdrm"
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/metrics:=
+	media-libs/cros-camera-android-headers:=
+	media-libs/minigbm:=
+	x11-libs/libdrm:="
 
 src_install() {
 	dobin "${OUT}/cros_camera_service"
