@@ -3,8 +3,8 @@
 
 # Check for EAPI 4+
 case "${EAPI:-0}" in
-4|5|6) ;;
-*) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+0|1|2|3) die "Unsupported EAPI=${EAPI:-0} (too old) for ${ECLASS}" ;;
+*) ;;
 esac
 
 # Since we use CHROMEOS_KERNEL_CONFIG and CHROMEOS_KERNEL_SPLITCONFIG here,
