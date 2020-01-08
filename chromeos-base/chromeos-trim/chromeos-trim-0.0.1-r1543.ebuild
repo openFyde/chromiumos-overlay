@@ -1,9 +1,9 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+CROS_WORKON_COMMIT="b52c0b532f027280ba0864db55d41a61348188d2"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "ed0177c2a46c1ae1b37ded0e8fa457656d5d977c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,7 +20,7 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE=""
 
