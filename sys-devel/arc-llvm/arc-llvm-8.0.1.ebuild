@@ -109,6 +109,8 @@ build_host_config() {
 }
 
 src_configure() {
+	# Do not pass icf ldflag since it's not supported by this linker.
+	filter-ldflags -Wl,--icf=all
 	arc-build-select-clang
 	multilib-minimal_src_configure
 }
