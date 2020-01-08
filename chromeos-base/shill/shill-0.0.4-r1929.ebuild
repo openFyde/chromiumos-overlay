@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a104d59def3c6e65b6e860340d8fd2e28c72c059"
+CROS_WORKON_COMMIT="96dced7b44a5508b32c4862032571ee2f2b4e378"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "95e657fc249bd020f0c1cf8e5b519bca45ac5271" "c8b5d66a944017f514ad318b485ba954b30ef7a6" "18fca5cb67d7667443bec2413d28605e83741e3e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -31,6 +31,7 @@ COMMON_DEPEND="
 	chromeos-base/libpasswordprovider:=
 	chromeos-base/metrics:=
 	chromeos-base/nsswitch:=
+	dev-libs/re2:=
 	cellular? ( net-dialup/ppp:= )
 	pppoe? ( net-dialup/ppp:= )
 	vpn? ( net-dialup/ppp:= )
