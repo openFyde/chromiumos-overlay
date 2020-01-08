@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_COMMIT="329c5cade4d639803c0c356da250f8314617956c"
 CROS_WORKON_TREE="b5cee99ddc49c334164b14205467470d203dceac"
 CROS_WORKON_PROJECT="chromiumos/third_party/mmc-utils"
@@ -25,7 +25,7 @@ DESCRIPTION="Userspace tools for MMC/SD devices"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/mmc-utils"
 
 LICENSE="GPL-2"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="static"
 
