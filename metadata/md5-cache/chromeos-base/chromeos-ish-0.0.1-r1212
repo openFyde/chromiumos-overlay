@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=dev-embedded/libftdi:1= chromeos-base/chromeos-config test? ( dev-libs/libprotobuf-mutator:= ) dev-vcs/git
+DESCRIPTION=ECOS ISH image
+EAPI=5
+HOMEPAGE=https://www.chromium.org/chromium-os/ec-development
+IUSE=quiet verbose coreboot-sdk unibuild test cros_host cros_workon_tree_f503abb5041c086ea79c38e6dfa90d8e614d65b0_1f42f6d549ba7b3f6bc5d67029984b113787ae0d
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=test? ( dev-libs/openssl:= dev-libs/protobuf:= )
+REQUIRED_USE=unibuild
+SLOT=0
+_eclasses_=coreboot-sdk	14e05f07f9e2270f5d01f0b5f21b40d5	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-unibuild	f4c31fd6b49bf1f72ba65fc86a67b8ae	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=c3dfcef7e76b882f2bf532129f48fa26
