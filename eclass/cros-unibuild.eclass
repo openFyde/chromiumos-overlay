@@ -156,8 +156,6 @@ install_generated_config_files() {
 	newins "${FILESDIR}/generated/build_config.json" "config.yaml"
 
 	doins "${FILESDIR}/generated/config.c"
-	doins "${FILESDIR}/generated/ec_config.h"
-	doins "${FILESDIR}/generated/ec_config.c"
 }
 
 # @FUNCTION: install_private_file_dump
