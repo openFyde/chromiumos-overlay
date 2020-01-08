@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_COMMIT="98f42b36741a35c348baea4b505022878983cdd9"
 CROS_WORKON_TREE="e5e3fe67eeec08619ff4376f204739ec9ee450d5"
@@ -16,17 +16,19 @@ DESCRIPTION="Chrome OS KMS console (without DBUS/UDEV support)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/frecon"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="-asan"
 
-RDEPEND="media-libs/libpng:0=
-	sys-apps/libtsm"
+BDEPEND="virtual/pkgconfig"
 
-DEPEND="${RDEPEND}
-	media-sound/adhd
-	virtual/pkgconfig
-	x11-libs/libdrm"
+COMMON_DEPEND="media-libs/libpng:0=
+	sys-apps/libtsm:="
+
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
+	media-sound/adhd:=
+	x11-libs/libdrm:="
 
 src_configure() {
 	export FRECON_LITE=1
