@@ -7,6 +7,7 @@ CROS_WORKON_COMMIT="2e52351f6b618b63fb1acde19dc712fd7412cbc6"
 CROS_WORKON_TREE="91c5fc30094a07b10c61bc94d3224f88b8dab8a2"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/v4.14"
+CROS_WORKON_EGIT_BRANCH="chromeos-4.14"
 
 # This must be inherited *after* EGIT/CROS_WORKON variables defined
 inherit cros-workon cros-kernel2
