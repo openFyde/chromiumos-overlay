@@ -3,10 +3,16 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("c3a81e49fd5c2b7dbcfe8249c9260a213153512a" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_COMMIT=("4bf5ae65d2ddd1ece36021c3c59f11c2dbf30daf" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "2bf8cf7e65d4cdbcf1f46b7c5ddfcf3de47b74f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
+inherit cros-constants
+
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/system/keymaster")
+CROS_WORKON_REPO=(
+	"${CROS_GIT_HOST_URL}"
+	"${CROS_GIT_AOSP_URL}"
+)
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/keymaster")
 CROS_WORKON_SUBTREE=("common-mk arc/keymaster .gn" "")
