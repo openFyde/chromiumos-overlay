@@ -49,6 +49,9 @@ pkg_setup() {
 	# them to change the ownership of power manager files.
 	enewuser "power"
 	enewgroup "power"
+	# Ensure that this group exists so that power_manager can access
+	# /dev/cros_ec.
+	enewgroup "cros_ec-access"
 	cros-workon_pkg_setup
 }
 
