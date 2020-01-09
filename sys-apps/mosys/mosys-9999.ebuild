@@ -64,6 +64,9 @@ winapi-0.2.8
 winapi-build-0.1.1
 "
 
+WANT_LIBCHROME="no"
+WANT_LIBBRILLO="no"
+
 inherit cargo flag-o-matic meson toolchain-funcs cros-unibuild cros-workon platform
 
 DESCRIPTION="Utility for obtaining various bits of low-level system info"
