@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT="db3ba96c05e307b5b3de22a8329c74e9c562b1ef"
 CROS_WORKON_TREE="ea38e187087db442549e66c3e8b2a2b624968dd2"
 CROS_WORKON_PROJECT="chromiumos/third_party/huddly-updater"
@@ -12,19 +12,22 @@ DESCRIPTION="A utility to update Huddly camera firmware"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/huddly-updater"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="test"
 
-DEPEND="
-	chromeos-base/libbrillo
-	dev-libs/msgpack
-	test? ( dev-cpp/gtest:= )
+COMMON_DEPEND="chromeos-base/libbrillo:=
+	dev-libs/msgpack:=
 	virtual/libusb:1
-	virtual/libudev:0="
+	virtual/libudev:0=
+"
 
-RDEPEND="${DEPEND}
-	app-arch/unzip"
+DEPEND="${COMMON_DEPEND}
+	test? ( dev-cpp/gtest:= )
+"
+
+RDEPEND="${COMMON_DEPEND}
+	app-arch/unzip
+"
 
 src_configure() {
 	cros-workon_src_configure
