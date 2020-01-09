@@ -1,8 +1,0 @@
-DEFINED_PHASES=-
-DEPEND=~dev-lang/rust-1.38.0:=
-DESCRIPTION=Virtual for the Rust language compiler
-EAPI=6
-KEYWORDS=*
-SLOT=0/1.38
-_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
-_md5_=681a5e908f98728926070dab395f2622
