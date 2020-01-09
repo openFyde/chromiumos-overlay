@@ -15,7 +15,7 @@ SLOT="8"
 KEYWORDS="-* amd64"
 IUSE="debug multitarget python"
 
-RDEPEND="~sys-devel/llvm-${PV}[debug=,multitarget?,python?,${MULTILIB_USEDEP}]"
+RDEPEND=""
 
 # Please keep this package around since it's quite likely that we'll
 # return to separate LLVM & clang ebuilds when the cmake build system

@@ -61,7 +61,6 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	abi_x86_32? ( !<=app-emulation/emul-linux-x86-baselibs-20130224-r2
 		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32(-)] )
-	!<=sys-devel/lld-8.0_pre349610-r5
 	!<=sys-devel/llvm-8.0_pre"
 
 # pypy gives me around 1700 unresolved tests due to open file limit
@@ -342,4 +341,18 @@ multilib_src_install_all() {
 	# some users may find it useful
 	dodoc llvm/utils/vim/vimrc
 	dobin "${S}/compiler-rt/lib/asan/scripts/asan_symbolize.py"
+}
+
+pkg_postinst() {
+	if has_version ">=dev-util/ccache-3.1.9-r2" ; then
+		#add ccache links as clang might get installed after ccache
+		"${EROOT}"/usr/bin/ccache-config --install-links
+	fi
+}
+
+pkg_postrm() {
+	if has_version ">=dev-util/ccache-3.1.9-r2" && [[ -z ${REPLACED_BY_VERSION} ]]; then
+		# --remove-links would remove all links, --install-links updates them
+		"${EROOT}"/usr/bin/ccache-config --install-links
+	fi
 }
