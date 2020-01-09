@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk midis .gn"
 
 PLATFORM_SUBDIR="midis"
 
-inherit cros-workon platform user git-r3
+inherit cros-workon git-2 platform user
 
 DESCRIPTION="MIDI Server for Chromium OS"
 HOMEPAGE=""
@@ -35,9 +35,9 @@ src_unpack() {
 	# in this directory, and these headers are referenced assuming the
 	# "media" directory is stored in the base directory, we install
 	# the Git checkout in platform2.
-	EGIT_CHECKOUT_DIR="${S}/../media/midi" \
+	EGIT_SOURCEDIR="${S}/../media/midi" \
 	EGIT_COMMIT="294d224ae7a8a695bb71337be8781b29abb5dafc" \
-	git-r3_src_unpack
+	git-2_src_unpack
 }
 
 src_install() {
