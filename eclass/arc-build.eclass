@@ -135,6 +135,10 @@ arc-build-select-clang() {
 	# Strip out flags that are specific to our compiler wrapper.
 	filter-flags -clang-syntax
 
+	# Some linkers (such as ARM64's bfd linker) doesn't recognize or link
+	# correctly with this flag, filter it out.
+	filter-flags -Wl,--icf=all
+
 	# Set up flags for the android sysroot.
 	append-flags --sysroot="${ARC_SYSROOT}"
 	append-cppflags --sysroot="${ARC_SYSROOT}"
