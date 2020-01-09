@@ -1,1 +1,1 @@
-{"appid": "{2EDF7C6D-6586-D292-0B61-4A33B62E3BF6}_test1-dlc", "is_delta": false, "md5_hex": "deprecated", "metadata_signature": null, "metadata_size": 149, "sha1_hex": "deprecated", "sha256_hex": "nhF3BgF8xna7W56r38e5qe8cZQ1y9rQRAxpP0RYamHg=", "size": 797, "target_version": "99999.0.0", "version": 2}
+{"appid": "_test1-dlc", "is_delta": false, "md5_hex": "deprecated", "metadata_signature": null, "metadata_size": 149, "sha1_hex": "deprecated", "sha256_hex": "nhF3BgF8xna7W56r38e5qe8cZQ1y9rQRAxpP0RYamHg=", "size": 797, "target_version": "99999.0.0", "version": 2}

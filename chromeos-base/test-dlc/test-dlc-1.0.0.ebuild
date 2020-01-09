@@ -26,8 +26,10 @@ src_install() {
 		insinto "/opt/google/dlc/${id}/${package}/"
 		doins "${FILESDIR}/${id}/${package}/table"
 		doins "${FILESDIR}/${id}/${package}/imageloader.json"
-		insinto "/usr/local/dlc/${id}/${package}/"
-		doins "${FILESDIR}/${id}/${package}/dlcservice_test-dlc.payload"
-		doins "${FILESDIR}/${id}/${package}/dlcservice_test-dlc.payload.json"
+		insinto "/usr/local/dlc/"
+		newins "${FILESDIR}/${id}/${package}/dlcservice_test-dlc.payload" \
+			"${id}_${package}_dlcservice_test-dlc.payload"
+		newins "${FILESDIR}/${id}/${package}/dlcservice_test-dlc.payload.json" \
+			"${id}_${package}_dlcservice_test-dlc.payload.json"
 	done
 }
