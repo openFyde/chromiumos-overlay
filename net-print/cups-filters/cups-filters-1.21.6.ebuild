@@ -80,6 +80,7 @@ src_configure() {
 	local myeconfargs=(
 		--docdir="${EPREFIX}/usr/share/doc/${PF}"
 		--disable-imagefilters
+		--disable-driverless
 		--localstatedir="${EPREFIX}"/var
 		--with-browseremoteprotocols=DNSSD,CUPS
 		--with-cups-rundir="${EPREFIX}"/run/cups
