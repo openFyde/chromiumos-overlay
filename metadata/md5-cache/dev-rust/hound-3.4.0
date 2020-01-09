@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install postinst prepare prerm unpack
+DEPEND=>=virtual/rust-1.39.0:=
+DESCRIPTION=A wav encoding and decoding library
+EAPI=7
+HOMEPAGE=https://github.com/ruuda/hound
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
+LICENSE=|| ( Apache-2.0 )
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=3.4.0/r0
+SRC_URI=https://crates.io/api/v1/crates/hound/3.4.0/download -> hound-3.4.0.crate
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	07f3be197d862e5511a5605fd7b169e5	cros-sanitizers	68fd6af9813658a590887ca09efa2444	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=02fbba0960462a9db11c94533a04cdea
