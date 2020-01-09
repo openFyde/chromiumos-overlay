@@ -1,8 +1,8 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+EAPI=7
+CROS_WORKON_COMMIT="ea41963c15a89ab0c93b755f9d90e205f26dd9af"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "4362d292efb6fca48e40445c338d099d6d90f27c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -18,17 +18,19 @@ DESCRIPTION="Local hostname modifier service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crosdns"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="+seccomp asan fuzzer"
 
-RDEPEND="
-	chromeos-base/libbrillo[asan?,fuzzer?]
-	chromeos-base/minijail"
+COMMON_DEPEND="
+	chromeos-base/libbrillo:=[asan?,fuzzer?]
+	chromeos-base/minijail:="
+
+RDEPEND="${COMMON_DEPEND}"
 
 DEPEND="
-	${RDEPEND}
-	chromeos-base/system_api[fuzzer?]"
+	${COMMON_DEPEND}
+	chromeos-base/system_api:=[fuzzer?]"
 
 src_install() {
 	# Install our binary.
