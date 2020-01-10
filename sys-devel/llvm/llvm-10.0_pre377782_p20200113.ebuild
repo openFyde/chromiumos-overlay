@@ -12,7 +12,7 @@ inherit  cros-constants cmake-utils eutils flag-o-matic git-2 git-r3 \
 
 # llvm:361749 https://critique.corp.google.com/#review/252092293
 # Master bug: crbug/972454
-LLVM_HASH="1bea97c971d60f261f1bdfaa7b6d9cb30a6962fd" # r370808
+LLVM_HASH="4e8231b5cf0f5f62c7a51a857e29f5be5cb55734" # r377782
 LLVM_NEXT_HASH="4e8231b5cf0f5f62c7a51a857e29f5be5cb55734" # r377782
 
 DESCRIPTION="Low Level Virtual Machine"
@@ -31,7 +31,7 @@ KEYWORDS="-* amd64"
 # FIXME: llvm-tot is somewhat misleading: at the moment, it's essentially
 # llvm-next with a few extra checks enabled
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi +llvm-crt
-	llvm-next llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot
+	llvm-next llvm_pgo_generate llvm_pgo_use llvm-next_pgo_use llvm-tot
 	multitarget ncurses ocaml python test +thinlto xml video_cards_radeon"
 
 COMMON_DEPEND="
