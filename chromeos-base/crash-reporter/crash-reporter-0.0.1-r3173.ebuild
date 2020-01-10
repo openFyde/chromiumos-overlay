@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="a689ab062123c65b876299312cbcd3621dd1e31c"
+CROS_WORKON_COMMIT="350fadff73f46a126b3e27e5b549dedda40a213a"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "d3f3a13cee1988d06a8de8ddac4a7e51bc6458be" "6f312bfe6c8f6c17ab3b63e90199ccea0d2ce5dd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,34 +20,31 @@ DESCRIPTION="Crash reporting service that uploads crash reports with debug infor
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="cheets chromeless_tty cros_embedded -direncryption systemd fuzzer"
 
-RDEPEND="
-	chromeos-base/minijail
-	chromeos-base/google-breakpad[cros_i686?]
-	chromeos-base/libbrillo
-	chromeos-base/metrics
+COMMON_DEPEND="
+	chromeos-base/minijail:=
+	chromeos-base/google-breakpad:=[cros_i686?]
+	chromeos-base/metrics:=
 	dev-libs/libpcre:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
-	net-misc/curl
-	|| ( sys-apps/journald sys-apps/systemd )
-	sys-libs/zlib
-	direncryption? ( sys-apps/keyutils )
-	test? ( app-arch/gzip )
+	net-misc/curl:=
+	sys-libs/zlib:=
+"
+RDEPEND="${COMMON_DEPEND}
+	chromeos-base/chromeos-ca-certificates
+	|| ( sys-apps/journald:= sys-apps/systemd:= )
+	direncryption? ( sys-apps/keyutils:= )
 "
 DEPEND="
-	${RDEPEND}
-	chromeos-base/debugd-client
-	chromeos-base/session_manager-client
-	chromeos-base/shill-client
-	chromeos-base/system_api[fuzzer?]
-	chromeos-base/vboot_reference
-"
-RDEPEND+="
-	chromeos-base/chromeos-ca-certificates
+	${COMMON_DEPEND}
+	chromeos-base/debugd-client:=
+	chromeos-base/session_manager-client:=
+	chromeos-base/shill-client:=
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vboot_reference:=
 "
 
 src_configure() {

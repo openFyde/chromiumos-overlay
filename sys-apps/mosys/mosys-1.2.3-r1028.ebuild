@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("683759513608ce804ef3011e6e6924873cb63514" "438405ba4437e77943d211f701d6d0d6c791dddf")
+CROS_WORKON_COMMIT=("350fadff73f46a126b3e27e5b549dedda40a213a" "438405ba4437e77943d211f701d6d0d6c791dddf")
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "616f05d6327d9bcfe570c1d061be57b0fc68c1e2")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -65,6 +65,9 @@ which-1.0.3
 winapi-0.2.8
 winapi-build-0.1.1
 "
+
+WANT_LIBCHROME="no"
+WANT_LIBBRILLO="no"
 
 inherit cargo flag-o-matic meson toolchain-funcs cros-unibuild cros-workon platform
 
