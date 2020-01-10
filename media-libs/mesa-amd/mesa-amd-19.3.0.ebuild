@@ -138,6 +138,9 @@ src_prepare() {
 	# b/139645646, b/145710559
 	epatch "${FILESDIR}"/CHROMIUM-Revert-va-use-a-compute-shader-for-the-blit.patch
 
+	# b/146765340
+	epatch "${FILESDIR}"/UPSTREAM-radeon-vcn-Handle-crop-parameters-for-encoder.patch
+
 	default
 }
 

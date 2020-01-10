@@ -1,0 +1,44 @@
+From 4e3a09db25c6609eeeb710f3863fc67914d2edc1 Mon Sep 17 00:00:00 2001
+From: Satyajit Sahu <satyajit.sahu@amd.com>
+Date: Tue, 24 Dec 2019 11:20:25 +0530
+Subject: [PATCH] radeon/vcn: Handle crop parameters for encoder
+
+Set proper cropping parameter if frame cropping is enabled
+
+Signed-off-by: Satyajit Sahu <satyajit.sahu@amd.com>
+Reviewed-by: Boyuan Zhang boyuan.zhang@amd.com
+Tested-by: Marge Bot <https://gitlab.freedesktop.org/mesa/mesa/merge_requests/3328>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/merge_requests/3328>
+---
+ src/gallium/drivers/radeon/radeon_vcn_enc.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/src/gallium/drivers/radeon/radeon_vcn_enc.c b/src/gallium/drivers/radeon/radeon_vcn_enc.c
+index aa9182f273b..0bcce867327 100644
+--- a/src/gallium/drivers/radeon/radeon_vcn_enc.c
++++ b/src/gallium/drivers/radeon/radeon_vcn_enc.c
+@@ -52,10 +52,17 @@ static void radeon_vcn_enc_get_param(struct radeon_encoder *enc, struct pipe_pic
+       enc->enc_pic.ref_idx_l1 = pic->ref_idx_l1;
+       enc->enc_pic.not_referenced = pic->not_referenced;
+       enc->enc_pic.is_idr = (pic->picture_type == PIPE_H264_ENC_PICTURE_TYPE_IDR);
+-      enc->enc_pic.crop_left = 0;
+-      enc->enc_pic.crop_right = (align(enc->base.width, 16) - enc->base.width) / 2;
+-      enc->enc_pic.crop_top = 0;
+-      enc->enc_pic.crop_bottom = (align(enc->base.height, 16) - enc->base.height) / 2;
++      if (pic->pic_ctrl.enc_frame_cropping_flag) {
++          enc->enc_pic.crop_left = pic->pic_ctrl.enc_frame_crop_left_offset;
++          enc->enc_pic.crop_right = pic->pic_ctrl.enc_frame_crop_right_offset;
++          enc->enc_pic.crop_top = pic->pic_ctrl.enc_frame_crop_top_offset;
++          enc->enc_pic.crop_bottom = pic->pic_ctrl.enc_frame_crop_bottom_offset;
++      } else {
++          enc->enc_pic.crop_left = 0;
++          enc->enc_pic.crop_right = (align(enc->base.width, 16) - enc->base.width) / 2;
++          enc->enc_pic.crop_top = 0;
++          enc->enc_pic.crop_bottom = (align(enc->base.height, 16) - enc->base.height) / 2;
++      }
+       enc->enc_pic.rc_layer_init.target_bit_rate = pic->rate_ctrl.target_bitrate;
+       enc->enc_pic.rc_layer_init.peak_bit_rate = pic->rate_ctrl.peak_bitrate;
+       enc->enc_pic.rc_layer_init.frame_rate_num = pic->rate_ctrl.frame_rate_num;
+-- 
+2.17.1
+
