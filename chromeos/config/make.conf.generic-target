@@ -71,6 +71,11 @@ MARCH_TUNE=""
 
 # Allow a board to override or define additional settings.
 source make.conf.board
+
+# NOTE: Flags here apply to all of our toolchains, including GCC, clang, and
+# ARC++'s clang (which notably uses ld.bfd at times). Please tread carefully and
+# test thoroughly before adding flags here.
+#
 # FIXME(crbug.com/908661): Once the size optimization experiment is done, remove
 # SIZE_OPTIMIZATION_FLAG.
 COMMON_COMPILER_FLAGS="-O2 -pipe ${MARCH_TUNE} ${BOARD_COMPILER_FLAGS} ${SIZE_OPTIMIZATION_FLAG} \
