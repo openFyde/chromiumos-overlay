@@ -8,5 +8,5 @@ KEYWORDS=*
 LICENSE=GPL-2
 REQUIRED_USE=^^ ( alex aplrvp atlas auron bayleybay beltino bolt butterfly chell cnlrvp coral cyan dedede dragonegg drallion emeraldlake2 eve falco fizz fox glados glkrvp grunt hatch jecht kalista kblrvp kunimitsu link lumpy lumpy64 mario meowth mushu nasher nami nautilus nocturne octopus panther parrot peppy poppy puff pyro rambi rammus reef samus sand sarien sklrvp slippy snappy soraka squawks stout strago stumpy sumo volteer zoombini zork tglrvp arm mips )
 SLOT=0
-_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-unibuild	f4c31fd6b49bf1f72ba65fc86a67b8ae	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-unibuild	020876b8cedca5cea0748234362d99a5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
 _md5_=4857a72059b69168654896a09e44ea19
