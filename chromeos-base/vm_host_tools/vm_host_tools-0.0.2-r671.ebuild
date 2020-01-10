@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a91855a667427010b3fe617e6235006360af0577"
-CROS_WORKON_TREE=("1ca26b8169b8be982699bf09cba85adf2c00d8f0" "81f7fe23bf497aafef6d4128b33582b4422a9ff5" "6f312bfe6c8f6c17ab3b63e90199ccea0d2ce5dd" "d78bf2ce4804b6d133c65a21253d98e367eda9d7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1bf7d622417f8d3c3fdd934aa19624e3283540de"
+CROS_WORKON_TREE=("1ca26b8169b8be982699bf09cba85adf2c00d8f0" "81f7fe23bf497aafef6d4128b33582b4422a9ff5" "6f312bfe6c8f6c17ab3b63e90199ccea0d2ce5dd" "c780f3cea0eac6c25d75a06635d4ab6bc82e3337" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -97,6 +97,10 @@ src_install() {
 	if use seccomp; then
 		newins "init/vm_cicerone-seccomp-${ARCH}.policy" vm_cicerone-seccomp.policy
 	fi
+
+	insinto /usr/include/chromeos/
+	doins common/tzif_parser.h
+	dolib.a "${OUT}"/libtzif_parser.a
 
 	udev_dorules udev/99-vm.rules
 
