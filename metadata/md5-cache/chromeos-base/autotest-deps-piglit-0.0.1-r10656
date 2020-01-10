@@ -3,11 +3,11 @@ DEPEND=opengl? ( virtual/glut ) opengl? ( virtual/opengl ) dev-python/mako dev-p
 DESCRIPTION=dependencies for Piglit (collection of automated tests for OpenGl based on glean and mesa)
 EAPI=4
 HOMEPAGE=http://cgit.freedesktop.org/piglit
-IUSE=+autotest opengl cros_host cros_workon_tree_7105a0d205b44f11c688a40b7c29a000476d2a8d +buildcheck autotest opengles
+IUSE=+autotest opengl cros_host cros_workon_tree_9d8ea2dc9c6a86d5a9b1e256ea28bdfcec35be1f +buildcheck autotest opengles
 KEYWORDS=*
 LICENSE=GPL-2 LGPL-3
 PROPERTIES=live
 RDEPEND=opengl? ( virtual/glut ) opengl? ( virtual/opengl ) dev-python/mako dev-python/numpy media-libs/tiff media-libs/libpng sys-libs/zlib x11-libs/libICE x11-libs/libSM x11-libs/libX11 x11-libs/libXtst x11-libs/libXau x11-libs/libXdmcp x11-libs/libXext x11-libs/libXi x11-libs/libXpm x11-libs/libXrender opengl? ( x11-proto/glproto ) ( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )
 SLOT=0
 _eclasses_=autotest	46683629a907dfb020a41544f3af86ab	autotest-deponly	9b1e5d19c437abea0e7c0fa90c192abd	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=1b44fd7e6cc5946f88da50aa327022d6
+_md5_=8ca322c74a21ba972aff01a0a87f5a91
