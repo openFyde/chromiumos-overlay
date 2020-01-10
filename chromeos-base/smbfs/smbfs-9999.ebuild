@@ -39,6 +39,9 @@ pkg_preinst() {
 
 src_install() {
 	dosbin "${OUT}"/smbfs
+
+	insinto /usr/share/policy
+	newins seccomp_filters/smbfs-seccomp-"${ARCH}".policy smbfs-seccomp.policy
 }
 
 platform_pkg_test() {
