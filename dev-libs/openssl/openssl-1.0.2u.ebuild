@@ -23,15 +23,15 @@ SRC_URI="mirror://openssl/source/${MY_P}.tar.gz
 LICENSE="openssl"
 SLOT="legacy"
 KEYWORDS="*"
-IUSE="+asm bindist gmp kerberos msan rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
+IUSE="ap +asm bindist cros_host gmp kerberos msan pita rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
 RESTRICT="!bindist? ( bindist )"
 
 RDEPEND=">=app-misc/c_rehash-1.7-r1
 	gmp? ( >=dev-libs/gmp-5.1.3-r1[static-libs(+)?,${MULTILIB_USEDEP}] )
 	zlib? ( >=sys-libs/zlib-1.2.8-r1[static-libs(+)?,${MULTILIB_USEDEP}] )
 	kerberos? ( >=app-crypt/mit-krb5-1.11.4[${MULTILIB_USEDEP}] )
-	!<dev-libs/openssl-1.1.1d-r5:0
-	!<dev-libs/openssl-1.0.2u-r3:0"
+	!<dev-libs/openssl-1.1.1g:0
+	!<dev-libs/openssl-1.0.2t-r4:0"
 DEPEND="${RDEPEND}
 	>=dev-lang/perl-5
 	sctp? ( >=net-misc/lksctp-tools-1.0.12 )
@@ -258,6 +258,7 @@ multilib_src_compile() {
 	# that it's -j1 as the code itself serializes subdirs
 	emake -j1 V=1 depend
 	emake all
+
 	# rehash is needed to prep the certs/ dir; do this
 	# separately to avoid parallel build issues.
 	emake rehash
@@ -267,7 +268,23 @@ multilib_src_test() {
 	emake -j1 test
 }
 
+compat_only() {
+	! use pita && ! use ap
+}
+
 multilib_src_install() {
+	if compat_only; then
+		if use cros_host; then
+			# Only install the libraries so binaries that depend on
+			# them keep working. Once these binaries are rebuilt
+			# against the new version, we can drop this ebuild.
+			dolib.so libcrypto.so.1.0.0
+			dolib.so libssl.so.1.0.0
+		fi
+
+		return
+	fi
+
 	# We need to create $ED/usr on our own to avoid a race condition #665130
 	if [[ ! -d "${ED%/}/usr" ]]; then
 		# We can only create this directory once
@@ -278,6 +295,10 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
+	if compat_only; then
+		return
+	fi
+
 	# openssl installs perl version of c_rehash by default, but
 	# we provide a shell version via app-misc/c_rehash
 	rm "${ED%/}"/usr/bin/c_rehash || die
@@ -332,6 +353,10 @@ multilib_src_install_all() {
 }
 
 pkg_postinst() {
+	if compat_only; then
+		return
+	fi
+
 	ebegin "Running 'c_rehash ${EROOT%/}${SSL_CNF_DIR}/certs/' to rebuild hashes #333069"
 	c_rehash "${EROOT%/}${SSL_CNF_DIR}/certs" >/dev/null
 	eend $?
