@@ -43,9 +43,7 @@ IUSE="
 	+chrome_remoting
 	clang_tidy
 	component_build
-	cups
 	+debug_fission
-	evdev_gestures
 	+fonts
 	goma
 	+highdpi
@@ -136,6 +134,8 @@ RDEPEND="${RDEPEND}
 	app-crypt/mit-krb5
 	app-misc/edid-decode
 	authpolicy? ( chromeos-base/authpolicy )
+	chromeos-base/gestures
+	chromeos-base/libevdev
 	fonts? ( chromeos-base/chromeos-fonts )
 	dev-libs/nspr
 	>=dev-libs/nss-3.12.2
@@ -148,7 +148,7 @@ RDEPEND="${RDEPEND}
 	media-libs/libpng
 	v4lplugin? ( media-libs/libv4lplugins )
 	>=media-sound/adhd-0.0.1-r310
-	cups? ( net-print/cups )
+	net-print/cups
 	opengl? ( virtual/opengl )
 	opengles? ( virtual/opengles )
 	sys-apps/dbus
@@ -161,10 +161,6 @@ RDEPEND="${RDEPEND}
 	xkbcommon? (
 		x11-libs/libxkbcommon
 		x11-misc/xkeyboard-config
-	)
-	evdev_gestures? (
-		chromeos-base/gestures
-		chromeos-base/libevdev
 	)
 	accessibility? (
 		app-accessibility/brltty
@@ -227,6 +223,7 @@ should_upload_build_logs() {
 
 set_build_args() {
 	BUILD_ARGS=(
+		"is_chromeos_device=true"
 		# is_official_build sometimes implies extra optimizations (e.g. it will allow
 		# ThinLTO to optimize more aggressively, if ThinLTO is enabled). Please note
 		# that, despite the name, it should be usable by external users.
@@ -240,7 +237,6 @@ set_build_args() {
 		"use_v4lplugin=$(usetf v4lplugin)"
 		"use_vaapi=$(usetf vaapi)"
 		"use_ozone=true"
-		"use_evdev_gestures=$(usetf evdev_gestures)"
 		"use_xkbcommon=$(usetf xkbcommon)"
 		# Use the Chrome OS toolchain and not the one bundled with Chromium.
 		"linux_use_bundled_binutils=false"
@@ -248,7 +244,6 @@ set_build_args() {
 		"enable_remoting=$(usetf chrome_remoting)"
 		"enable_nacl=$(use_nacl; echotf)"
 		"icu_use_data_file=true"
-		"use_cras=true"
 		# use_system_minigbm is set below.
 		# HarfBuzz and FreeType need to be built together in a specific way
 		# to get FreeType autohinting to work properly. Chromium bundles
@@ -256,8 +251,6 @@ set_build_args() {
 		# See crbug.com/694137 .
 		"use_system_harfbuzz=false"
 		"use_system_freetype=false"
-		"use_system_libsync=true"
-		"use_cups=$(usetf cups)"
 		"use_bundled_fontconfig=false"
 
 		# Clang features.
@@ -267,7 +260,6 @@ set_build_args() {
 		"is_clang=true"
 		"cros_host_is_clang=true"
 		"cros_v8_snapshot_is_clang=true"
-		"clang_use_chrome_plugins=false"
 		"use_thin_lto=$(usetf thinlto)"
 		"is_cfi=$(usetf cfi)"
 		"use_cfi_cast=$(usetf cfi)"
