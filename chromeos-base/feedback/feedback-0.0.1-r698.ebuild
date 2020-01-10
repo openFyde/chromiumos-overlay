@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
-CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "8a29ffc2bd507e66b634104585e59b02dc8a7ab3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8a01cc783849077d5730f4b6f0806e166a7575e6"
+CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "2d81fe2bea13838f67e7842b74f3a03ef2deacd0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,16 +22,6 @@ KEYWORDS="*"
 
 RDEPEND=""
 DEPEND="chromeos-base/system_api:="
-
-src_unpack() {
-	platform_src_unpack
-
-	EGIT_REPO_URI="${CROS_GIT_HOST_URL}/chromium/src/components/feedback.git" \
-	EGIT_SOURCEDIR="${S}/components/feedback" \
-	EGIT_PROJECT="feedback" \
-	EGIT_COMMIT="fe1dc2b6d694d240e0417cd9673220ca6989edc1" \
-	git-2_src_unpack
-}
 
 src_install() {
 	dobin "${OUT}"/feedback_client
