@@ -74,6 +74,7 @@ ALL_BOARDS=(
 	bob
 	bobcat
 	bolt
+	borealis
 	bruteus
 	bubs
 	buddy
