@@ -28,7 +28,7 @@ index 9e85fdb22001..1400febf3ba7 100755
          -fPIC
              -Wl,--no-as-needed
          )
-@@ -199,3 +197,10 @@ if (DEFINED MEDIA_VERSION)
+@@ -199,3 +197,12 @@ if (DEFINED MEDIA_VERSION)
  elseif (DEFINED ENV{MEDIA_VERSION})
      add_definitions(-DUFO_VERSION="$ENV{MEDIA_VERSION}")
  endif()
@@ -39,6 +39,8 @@ index 9e85fdb22001..1400febf3ba7 100755
 +add_compile_options("-Wno-overloaded-virtual")
 +add_compile_options("-Wno-inconsistent-missing-override")
 +add_compile_options("-Wno-bitfield-constant-conversion")
++add_compile_options("-Wno-tautological-constant-out-of-range-compare")
++add_compile_options("-Wno-sizeof-array-div")
 -- 
 2.19.0
 
