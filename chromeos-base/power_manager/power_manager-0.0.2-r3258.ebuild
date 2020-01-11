@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2b178cb5e7bc03bd3e051527b23b064833814403"
+CROS_WORKON_COMMIT="60fd6a44f807ac8d450ae96396b0224e35fa7b60"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "1ff9a9d292e9eb05697f1234e78c6ae536044c52" "0a729dd2444ec374b74923e1539824fad3671702" "6f312bfe6c8f6c17ab3b63e90199ccea0d2ce5dd" "8326efed8fe71197bb2763dcaae812c0694ec1e4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -51,6 +51,9 @@ pkg_setup() {
 	# them to change the ownership of power manager files.
 	enewuser "power"
 	enewgroup "power"
+	# Ensure that this group exists so that power_manager can access
+	# /dev/cros_ec.
+	enewgroup "cros_ec-access"
 	cros-workon_pkg_setup
 }
 
