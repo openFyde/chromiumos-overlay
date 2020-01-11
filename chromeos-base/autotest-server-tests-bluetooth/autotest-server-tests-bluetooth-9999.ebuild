@@ -33,8 +33,6 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterSASanity
 	+tests_bluetooth_PeerUpdate
 	+tests_bluetooth_Sanity_Discoverable
-	+tests_bluetooth_Sanity_Discovery
-	+tests_bluetooth_Sanity_LEDiscovery
 	+tests_bluetooth_SDP_ServiceAttributeRequest
 	+tests_bluetooth_SDP_ServiceBrowse
 	+tests_bluetooth_SDP_ServiceSearchAttributeRequest
