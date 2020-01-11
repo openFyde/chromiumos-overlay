@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="6e1bb2c6d190294fbfa75a7e1991920c0540d972"
-CROS_WORKON_TREE=("7b957ecc47f1c55e13cf2680cdd682e254f6b3b7" "58b49e5e917363f108bd8fc57e9c6c2f8978588a")
+CROS_WORKON_COMMIT="53bcf1a4b4450de0d3239638013d0b799829945f"
+CROS_WORKON_TREE=("aec83bbb8eac80ad9edba5488666d50dc8df2b2c" "b466a0688ffd6f869e593460f34469344d5b59e0")
 CROS_WORKON_PROJECT="chromiumos/platform/touch_updater"
 CROS_WORKON_SUBTREE="policies scripts"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -31,6 +31,7 @@ IUSE="
 	input_devices_cirque
 	input_devices_elan_i2chid
 	input_devices_melfas
+	input_devices_emright
 "
 
 # Third party firmware updaters usually belong in sys-apps/.  If you just
@@ -51,10 +52,11 @@ RDEPEND="
 	input_devices_cirque? ( chromeos-base/cirque_fw_update )
 	input_devices_elan_i2chid? ( chromeos-base/elan_i2chid_tools )
 	input_devices_melfas? ( chromeos-base/mfs-console-tool )
+	input_devices_emright? ( chromeos-base/emright_fw_updater )
 "
 
 pkg_preinst() {
-	if use input_devices_elan_i2chid || use input_devices_melfas; then
+	if use input_devices_elan_i2chid || use input_devices_melfas || use input_devices_emright; then
 		enewgroup fwupdate-hidraw
 		enewuser fwupdate-hidraw
 	fi
