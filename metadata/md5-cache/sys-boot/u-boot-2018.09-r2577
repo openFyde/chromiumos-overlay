@@ -4,11 +4,11 @@ DEPEND=sandbox? ( media-libs/libsdl:= )
 DESCRIPTION=Das U-Boot boot loader
 EAPI=7
 HOMEPAGE=http://www.denx.de/wiki/U-Boot
-IUSE=dev generated_cros_config sandbox unibuild vboot werror cros_host cros_workon_tree_1ddc9a0cd3f5807a1d4f9ad83561ddb11724fd0e_15b60423ad67f3f8f5fef7cc4c63085d3b328934
+IUSE=dev generated_cros_config sandbox unibuild vboot werror cros_host cros_workon_tree_1ddc9a0cd3f5807a1d4f9ad83561ddb11724fd0e_61a428384a71db78d26751dde532554fe21be103
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=sandbox? ( media-libs/libsdl:= ) chromeos-base/u-boot-scripts !!sys-boot/chromeos-u-boot unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) )
-SLOT=0/2018.09-r2576
+SLOT=0/2018.09-r2577
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=1615af64e5ddd0647a8b2b66caaeed3c
+_md5_=0805522120b4a28e66383f86892991d9
