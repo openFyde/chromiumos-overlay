@@ -1,9 +1,9 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT="f60265b9a6dca4daaebcc5fbed8c42f96359d86e"
+CROS_WORKON_COMMIT="b572e9d5a9d198a492a3e04a251f384a346340ef"
 CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "f6f6a80edc913e2e5845bf2f30dea4abc3d75060" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,16 +19,11 @@ DESCRIPTION="Hardware Verifier Tool/Lib for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hardware_verifier/"
 
 LICENSE="BSD-Google"
-SLOT=0
 KEYWORDS="*"
 
-RDEPEND="
-	chromeos-base/libbrillo:=
-"
 DEPEND="
-	${RDEPEND}
-	chromeos-base/system_api
-	chromeos-base/vboot_reference
+	chromeos-base/system_api:=
+	chromeos-base/vboot_reference:=
 "
 
 src_install() {
