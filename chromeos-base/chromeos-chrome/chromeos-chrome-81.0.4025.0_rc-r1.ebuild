@@ -1344,6 +1344,12 @@ src_install() {
 		doins "${FROM}/chrome.orderfile.txt"
 	fi
 
+	# Install the unvetted orderfile into the chrome directory for upload.
+	if use orderfile_verify; then
+		[[ -f "${DISTDIR}/${UNVETTED_ORDERFILE}.xz" ]] || die "Lost the unvetted orderfile."
+		doins "${DISTDIR}/${UNVETTED_ORDERFILE}.xz"
+	fi
+
 	# Use the deploy_chrome from the *Chrome* checkout.  The benefit of
 	# doing this is if a new buildspec of Chrome requires a non-backwards
 	# compatible change to deploy_chrome, we can commit the fix to
