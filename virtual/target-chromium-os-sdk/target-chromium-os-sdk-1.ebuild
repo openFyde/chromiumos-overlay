@@ -212,8 +212,6 @@ RDEPEND="${RDEPEND}
 	!sys-apps/nih-dbus-tool
 	sys-devel/autofdo
 	sys-devel/bc
-	sys-devel/clang
-	sys-devel/lld
 	>=sys-libs/glibc-2.27
 	sys-libs/libcxxabi
 	sys-libs/libcxx
