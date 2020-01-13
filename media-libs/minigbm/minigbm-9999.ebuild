@@ -20,7 +20,7 @@ VIDEO_CARDS="
 	amdgpu exynos intel marvell mediatek msm
 	radeon radeonsi rockchip tegra vc4 virgl
 "
-IUSE="-asan"
+IUSE="-asan kernel-4_4 kernel-4_19"
 for card in ${VIDEO_CARDS}; do
 	IUSE+=" video_cards_${card}"
 done
@@ -48,6 +48,11 @@ src_configure() {
 	use video_cards_amdgpu && append-cppflags -DDRV_AMDGPU && export DRV_AMDGPU=1
 	use video_cards_exynos && append-cppflags -DDRV_EXYNOS && export DRV_EXYNOS=1
 	use video_cards_intel && append-cppflags -DDRV_I915 && export DRV_I915=1
+	if use video_cards_intel ; then
+		if use kernel-4_4 || use kernel-4_19 ; then
+			append-cppflags -DI915_SCANOUT_Y_TILED
+		fi
+	fi
 	use video_cards_marvell && append-cppflags -DDRV_MARVELL && export DRV_MARVELL=1
 	if [[ ${MTK_MINIGBM_PLATFORM} == "MT8183" ]] ; then
 		append-cppflags -DMTK_MT8183 && export MTK_MT8183=1
