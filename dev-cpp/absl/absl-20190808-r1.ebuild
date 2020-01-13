@@ -1,4 +1,4 @@
-# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Copyright 2020 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -16,10 +16,6 @@ IUSE=""
 
 RDEPEND=""
 DEPEND=""
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-0.0.1-cmake-install-headers.patch
-)
 
 S="${WORKDIR}/abseil-cpp-${PV}"
 ABSLDIR="${WORKDIR}/${P}_build/absl"
