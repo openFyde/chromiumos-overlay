@@ -107,7 +107,8 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="menu_ui legacy_menu_ui diag_payload"
+IUSE="menu_ui legacy_menu_ui diag_payload
+	physical_presence_power physical_presence_recovery"
 
 BDEPEND="${PYTHON_DEPS}"
 DEPEND="virtual/chromeos-vendor-strings"
@@ -153,6 +154,13 @@ src_compile() {
 	fi
 	if [[ -f "${vendor_strings_dir}/vendor_format.yaml" ]] ; then
 		export VENDOR_STRINGS_DIR="${vendor_strings_dir}"
+	fi
+	if use physical_presence_power ; then
+		export PHYSICAL_PRESENCE="power"
+	elif use physical_presence_recovery ; then
+		export PHYSICAL_PRESENCE="recovery"
+	else
+		export PHYSICAL_PRESENCE="keyboard"
 	fi
 	emake OUTPUT="${WORKDIR}" "${BOARD}"
 	emake OUTPUT="${WORKDIR}/${BOARD}" ARCHIVER="/usr/bin/archive" archive
