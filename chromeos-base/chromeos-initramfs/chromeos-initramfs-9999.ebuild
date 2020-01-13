@@ -14,7 +14,8 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+cros_ec_utils detachable_ui device_tree +interactive_recovery -mtd +power_management"
+IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
+IUSE="${IUSE} menu_ui -mtd +power_management"
 
 # Build Targets
 TARGETS_IUSE="
@@ -123,7 +124,8 @@ src_compile() {
 	emake SYSROOT="${SYSROOT}" BOARD="$(get_current_board_with_variant)" \
 		INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
 		INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
-		DEVICE_IS_DETACHABLE="$(usex detachable_ui 1 0)" \
+		DETACHABLE="$(usex detachable 1 0)" \
+		MENU_UI="$(usex menu_ui 1 0)" \
 		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
 		LOCALE_LIST="${RECOVERY_LOCALES}" ${targets[*]}
 }
