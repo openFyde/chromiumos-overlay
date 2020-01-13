@@ -5,4 +5,6 @@
 # Build qemu with bfd linker temporarily, http://crbug.com/1035694
 cros_pre_src_configure_use_bfd() {
 	append-ldflags "-fuse-ld=bfd" || die
+	# Disable ICF because BFD does not support it, https://crbug.com/1022226
+	filter-ldflags "-Wl,--icf=all"
 }
