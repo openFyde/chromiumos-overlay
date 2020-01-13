@@ -12,7 +12,8 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="~*"
 IUSE="detachable menu_ui legacy_menu_ui diag_payload fwconsole mocktpm pd_sync
-	unibuild verbose debug generated_cros_config"
+	unibuild verbose debug generated_cros_config
+	physical_presence_power physical_presence_recovery"
 
 DEPEND="
 	sys-boot/libpayload:=
@@ -90,29 +91,32 @@ dc_make() {
 make_depthcharge() {
 	local board="$1"
 	local builddir="$2"
+	local defconfig="board/${board}/defconfig"
 
 	if use mocktpm ; then
-		echo "CONFIG_MOCK_TPM=y" >> "board/${board}/defconfig"
+		echo "CONFIG_MOCK_TPM=y" >> "${defconfig}"
 	fi
 	if use fwconsole ; then
-		echo "CONFIG_CLI=y" >> "board/${board}/defconfig"
-		echo "CONFIG_SYS_PROMPT=\"${board}: \"" >> \
-		  "board/${board}/defconfig"
+		echo "CONFIG_CLI=y" >> "${defconfig}"
+		echo "CONFIG_SYS_PROMPT=\"${board}: \"" >> "${defconfig}"
 	fi
 	if use detachable ; then
-		echo "CONFIG_DETACHABLE=y" >> "board/${board}/defconfig"
+		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
 	fi
 	if use menu_ui ; then
-		echo "CONFIG_MENU_UI=y" >> "board/${board}/defconfig"
+		echo "CONFIG_MENU_UI=y" >> "${defconfig}"
 	elif use legacy_menu_ui ; then
-		echo "CONFIG_LEGACY_MENU_UI=y" >> "board/${board}/defconfig"
+		echo "CONFIG_LEGACY_MENU_UI=y" >> "${defconfig}"
 	else
-		echo "CONFIG_LEGACY_CLAMSHELL_UI=y" >> \
-			"board/${board}/defconfig"
+		echo "CONFIG_LEGACY_CLAMSHELL_UI=y" >> "${defconfig}"
 	fi
 	# Using diagnostic payload implies enabling UI to run it
 	if use diag_payload ; then
-		echo "CONFIG_DIAGNOSTIC_UI=y" >> "board/${board}/defconfig"
+		echo "CONFIG_DIAGNOSTIC_UI=y" >> "${defconfig}"
+	fi
+
+	if use physical_presence_power || use physical_presence_recovery ; then
+		echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
 	fi
 
 	[[ ${PV} == "9999" ]] && dc_make distclean "${builddir}" libpayload
