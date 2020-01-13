@@ -4,13 +4,13 @@ DEPEND=fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= ) fuzzer? ( dev-libs/lib
 DESCRIPTION=Google Security Chip firmware code
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/cr50_stab
-IUSE=quiet verbose fuzzer asan msan ubsan cros_host cros_workon_tree_8dc884ee66e8ad4e42397166d3b03365731a156d_4b0eaae00da0418755628097981bf4013f92a3a6_1f42f6d549ba7b3f6bc5d67029984b113787ae0d
+IUSE=quiet verbose fuzzer asan msan ubsan cros_host cros_workon_tree_a1235fddd97d2525edee17afda6061a8c88c560b_4b0eaae00da0418755628097981bf4013f92a3a6_1f42f6d549ba7b3f6bc5d67029984b113787ae0d
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=!<chromeos-base/chromeos-ec-0.0.2 fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= )
 RESTRICT=binchecks
-SLOT=0/0.0.1-r3
+SLOT=0/0.0.1-r4
 SRC_URI=gs://chromeos-localmirror/distfiles/cr50.prod.ro.A.0.0.11 gs://chromeos-localmirror/distfiles/cr50.prod.ro.B.0.0.11
 _eclasses_=coreboot-sdk	14e05f07f9e2270f5d01f0b5f21b40d5	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=5997372336e74568b8f0784775f08cf3
+_md5_=e06fa322d2cce89a1d052e58993a53eb
