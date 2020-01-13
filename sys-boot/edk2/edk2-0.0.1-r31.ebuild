@@ -17,11 +17,10 @@ DESCRIPTION="EDK II firmware development environment for the UEFI and PI specifi
 HOMEPAGE="https://github.com/tianocore/edk2"
 
 LICENSE="BSD"
-SLOT="0"
 KEYWORDS="*"
 IUSE="fwserial"
 
-BDEPEND="dev-embedded/coreboot-sdk"
+BDEPEND="dev-embedded/coreboot-sdk:="
 RDEPEND=""
 DEPEND=""
 

@@ -1,7 +1,7 @@
 # Copyright 2012 The Chromium OS Authors.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT=("0a3dd53dd492b744d983334c9179d0dc05b94f5a" "cd08c7797d8281cb10c7721599ddc5602ab359e3")
 CROS_WORKON_TREE=("cedc28fb11f199f8db9e17b0d10671bef72fde17" "61a428384a71db78d26751dde532554fe21be103")
 CROS_WORKON_PROJECT=(
@@ -12,13 +12,12 @@ CROS_WORKON_PROJECT=(
 DESCRIPTION="coreboot's depthcharge payload"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="*"
 IUSE="detachable menu_ui legacy_menu_ui diag_payload fwconsole mocktpm pd_sync
 	unibuild verbose debug generated_cros_config"
 
 DEPEND="
-	sys-boot/libpayload
+	sys-boot/libpayload:=
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )

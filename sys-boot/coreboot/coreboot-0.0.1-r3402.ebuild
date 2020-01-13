@@ -5,7 +5,7 @@
 # coreboot and an auto-revbump is required.
 # VERSION=REVBUMP-0.0.60
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT=("35d5de626fb2d93cd4355d5b85206cf34f768afc" "d537ee795c1390601428d6b5b3499d05b62ad271" "cd08c7797d8281cb10c7721599ddc5602ab359e3" "b267c3608629cd0d9807e1ccbbe32ce318823569" "ee319ae7bc59e88b60142f40a9ec1b46656de4db" "b7d5b2d6a6dd05874d86ee900ff441d261f9034c")
 CROS_WORKON_TREE=("260fc0112e56aabaaa117b98bc140331c3bedb6d" "9c19da5c9b5dea08b157645fa0b4b2e21dc898c5" "61a428384a71db78d26751dde532554fe21be103" "a70c71fd96de5aadf2da61ffcfa2f9cde502052b" "45d22a8711f85c4310c0c2121d3dc8a72793d375" "c0433b88f972fa26dded401be022c1c026cd644e")
 CROS_WORKON_PROJECT=(
@@ -38,7 +38,6 @@ inherit cros-board cros-workon toolchain-funcs cros-unibuild coreboot-sdk
 DESCRIPTION="coreboot firmware"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="*"
 IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
 IUSE="${IUSE} +bmpblk +intel_mrc qca-framework quiet unibuild verbose"
@@ -50,13 +49,13 @@ RESTRICT="strip"
 
 RDEPEND=""
 DEPEND="
-	mtc? ( sys-boot/mtc )
+	mtc? ( sys-boot/mtc:= )
 	virtual/coreboot-private-files
-	bmpblk? ( sys-boot/chromeos-bmpblk )
-	intel_mrc? ( x86? ( sys-boot/chromeos-mrc )
-		amd64? ( sys-boot/chromeos-mrc ) )
-	chipset_stoneyridge? ( sys-boot/amd-firmware )
-	qca-framework? ( sys-boot/qca-framework )
+	bmpblk? ( sys-boot/chromeos-bmpblk:= )
+	intel_mrc? ( x86? ( sys-boot/chromeos-mrc:= )
+		amd64? ( sys-boot/chromeos-mrc:= ) )
+	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
+	qca-framework? ( sys-boot/qca-framework:= )
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
@@ -193,6 +192,8 @@ src_prepare() {
 	local froot="${SYSROOT}/firmware"
 	local privdir="${SYSROOT}/firmware/coreboot-private"
 	local file
+
+	default
 
 	if [[ -d "${privdir}" ]]; then
 		while read -d $'\0' -r file; do
