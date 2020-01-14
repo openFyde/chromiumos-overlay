@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("0a3dd53dd492b744d983334c9179d0dc05b94f5a" "cd08c7797d8281cb10c7721599ddc5602ab359e3")
-CROS_WORKON_TREE=("cedc28fb11f199f8db9e17b0d10671bef72fde17" "61a428384a71db78d26751dde532554fe21be103")
+CROS_WORKON_COMMIT=("70f36b94dded5566f8dea17fa2f184d9abb439bc" "cd08c7797d8281cb10c7721599ddc5602ab359e3")
+CROS_WORKON_TREE=("ce1fa3d035e8d4d511b84c1803b17d3e7cac58d8" "61a428384a71db78d26751dde532554fe21be103")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/depthcharge"
 	"chromiumos/platform/vboot_reference"
@@ -14,7 +14,8 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
 IUSE="detachable menu_ui legacy_menu_ui diag_payload fwconsole mocktpm pd_sync
-	unibuild verbose debug generated_cros_config"
+	unibuild verbose debug generated_cros_config
+	physical_presence_power physical_presence_recovery"
 
 DEPEND="
 	sys-boot/libpayload:=
@@ -92,29 +93,32 @@ dc_make() {
 make_depthcharge() {
 	local board="$1"
 	local builddir="$2"
+	local defconfig="board/${board}/defconfig"
 
 	if use mocktpm ; then
-		echo "CONFIG_MOCK_TPM=y" >> "board/${board}/defconfig"
+		echo "CONFIG_MOCK_TPM=y" >> "${defconfig}"
 	fi
 	if use fwconsole ; then
-		echo "CONFIG_CLI=y" >> "board/${board}/defconfig"
-		echo "CONFIG_SYS_PROMPT=\"${board}: \"" >> \
-		  "board/${board}/defconfig"
+		echo "CONFIG_CLI=y" >> "${defconfig}"
+		echo "CONFIG_SYS_PROMPT=\"${board}: \"" >> "${defconfig}"
 	fi
 	if use detachable ; then
-		echo "CONFIG_DETACHABLE=y" >> "board/${board}/defconfig"
+		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
 	fi
 	if use menu_ui ; then
-		echo "CONFIG_MENU_UI=y" >> "board/${board}/defconfig"
+		echo "CONFIG_MENU_UI=y" >> "${defconfig}"
 	elif use legacy_menu_ui ; then
-		echo "CONFIG_LEGACY_MENU_UI=y" >> "board/${board}/defconfig"
+		echo "CONFIG_LEGACY_MENU_UI=y" >> "${defconfig}"
 	else
-		echo "CONFIG_LEGACY_CLAMSHELL_UI=y" >> \
-			"board/${board}/defconfig"
+		echo "CONFIG_LEGACY_CLAMSHELL_UI=y" >> "${defconfig}"
 	fi
 	# Using diagnostic payload implies enabling UI to run it
 	if use diag_payload ; then
-		echo "CONFIG_DIAGNOSTIC_UI=y" >> "board/${board}/defconfig"
+		echo "CONFIG_DIAGNOSTIC_UI=y" >> "${defconfig}"
+	fi
+
+	if use physical_presence_power || use physical_presence_recovery ; then
+		echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
 	fi
 
 	[[ ${PV} == "9999" ]] && dc_make distclean "${builddir}" libpayload
