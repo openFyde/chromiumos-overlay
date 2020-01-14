@@ -2,10 +2,10 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT=("a9b6a98b093af51514e7c25b62981b9aad3ffd7c" "ba2b2a9c0c6874f90d1a72accc7b14f9e5b5adf7")
-CROS_WORKON_TREE=("8d4f0a176280a2748eba9800ba25f1bfe8c390c6" "8d7545bc9bae9fc17f8e752b353624c72868d1a6 ")
+CROS_WORKON_COMMIT=("a72ae1e5d314b8516eaf1136238ef22b8323d5b3" "4effb50064a04a3b2394d8132f0544cf851107a4")
+CROS_WORKON_TREE=("81f7fe23bf497aafef6d4128b33582b4422a9ff5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "515ab32dfde6dabd0e67095b28d851c9a13f9a17")
 inherit cros-constants
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
@@ -24,17 +24,16 @@ DESCRIPTION="Puffin: Deterministic patching tool for deflate streams"
 HOMEPAGE="https://android.googlesource.com/platform/external/puffin/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="asan fuzzer"
 
-RDEPEND="
-	chromeos-base/libbrillo[asan?,fuzzer?]
+COMMON_DEPEND="chromeos-base/libbrillo:=[asan?,fuzzer?]
 	dev-libs/protobuf:=
-	dev-util/bsdiff
+	dev-util/bsdiff:=
 "
 
-DEPEND="${RDEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	if use cros_host; then
