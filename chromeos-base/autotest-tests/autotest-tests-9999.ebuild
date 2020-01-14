@@ -58,6 +58,7 @@ DEPEND="${RDEPEND}"
 X86_IUSE_TESTS="
 	+tests_security_SMMLocked
 	+tests_xfsFilesystemTestSuite
+	+tests_hardware_UnsafeMemory
 "
 
 CLIENT_IUSE_TESTS="
