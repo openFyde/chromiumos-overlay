@@ -6,7 +6,7 @@
 #
 # eclass bug workaround count: 1
 
-EAPI=6
+EAPI=7
 
 FIRMWARE_EC_BOARD="nocturne_fp"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
