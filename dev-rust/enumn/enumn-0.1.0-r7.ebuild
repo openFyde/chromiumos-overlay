@@ -1,9 +1,9 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="f9815ee26f4452b67ef6e79cf3a4c623851bb620"
+CROS_WORKON_COMMIT="60eb1fbe89fab558bf781c6c02496a345b5d6a4c"
 CROS_WORKON_TREE="d80b17140cf1a3c017ff4d6679768cf454242597"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -21,9 +21,9 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
-	=dev-rust/proc-macro2-0.4*
-	=dev-rust/quote-0.6*
-	=dev-rust/syn-0.15*
+	=dev-rust/proc-macro2-0.4*:=
+	=dev-rust/quote-0.6*:=
+	=dev-rust/syn-0.15*:=
 "
 
 RDEPEND="!!<=dev-rust/enumn-0.0.1-r4"
