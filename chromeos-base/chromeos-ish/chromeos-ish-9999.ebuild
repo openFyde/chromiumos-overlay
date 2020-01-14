@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE.makefile file.
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
@@ -23,23 +23,25 @@ DESCRIPTION="ECOS ISH image"
 HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="quiet verbose coreboot-sdk unibuild test"
 REQUIRED_USE="unibuild"
 
-RDEPEND="
+COMMON_DEPEND="
 	test? (
 		dev-libs/openssl:=
 		dev-libs/protobuf:=
 	)
 "
 
+RDEPEND="${COMMON_DEPEND}"
+
 # EC build requires libftdi, but not used for runtime (b:129129436)
 DEPEND="
 	dev-embedded/libftdi:1=
 	chromeos-base/chromeos-config
 	test? ( dev-libs/libprotobuf-mutator:= )
+	${COMMON_DEPEND}
 "
 
 src_unpack() {
@@ -48,6 +50,8 @@ src_unpack() {
 }
 
 src_prepare() {
+	default
+
 	cros_use_gcc
 }
 
