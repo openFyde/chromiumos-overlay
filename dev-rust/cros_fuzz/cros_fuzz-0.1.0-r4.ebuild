@@ -1,9 +1,9 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="894142de791f2080a9c92594611c350ccd1d2b7f"
+CROS_WORKON_COMMIT="54f358abf659dc723d1fbc86a4002ded49a6f513"
 CROS_WORKON_TREE="ccf15d2c45fbf16c6e2d9db5bd0f750f71006f4d"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,7 +17,6 @@ DESCRIPTION="Support crate for running rust fuzzers on Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cros-fuzz"
 
 LICENSE="BSD-Google"
-SLOT="0/${PR}"
 KEYWORDS="*"
 IUSE="fuzzer test"
 

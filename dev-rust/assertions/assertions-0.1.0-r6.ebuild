@@ -1,34 +1,30 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="bf433ea9f6b5f3717b23700b50f996edd527e17d"
-CROS_WORKON_TREE="0ed53e15750d3032d9b0fbb4ec190b487b61c2ac"
+CROS_WORKON_COMMIT="60eb1fbe89fab558bf781c6c02496a345b5d6a4c"
+CROS_WORKON_TREE="dbe587d866956d88c4445de8a9380cca33c6a231"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
+CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="data_model"
-CROS_WORKON_SUBDIRS_TO_COPY="data_model"
+CROS_WORKON_SUBTREE="assertions"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="Crates includes traits and types for safe interaction with raw memory."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/data_model"
+DESCRIPTION="Crates for compile-time assertion macro."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/assertions"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
-DEPEND="
-	dev-rust/assertions:=
-"
-
-RDEPEND="!!<=dev-rust/data_model-0.1.0-r13"
+RDEPEND="!!<=dev-rust/assertions-0.1.0-r3"
 
 src_unpack() {
 	cros-workon_src_unpack
-	S+="/data_model"
+	S+="/assertions"
 
 	cros-rust_src_unpack
 }
