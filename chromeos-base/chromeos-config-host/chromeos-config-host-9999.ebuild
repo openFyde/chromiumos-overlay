@@ -7,7 +7,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="chromeos-config"
 
-PYTHON_COMPAT=( python{2_7,3_6,3_7} )
+PYTHON_COMPAT=( python{3_6,3_7} )
 
 inherit cros-workon distutils-r1
 
@@ -19,6 +19,7 @@ SLOT=0
 KEYWORDS="~*"
 
 RDEPEND="
+	>=sys-fs/squashfs-tools-4.3
 	sys-apps/dtc[python]
 	dev-python/jinja[${PYTHON_USEDEP}]
 	!<chromeos-base/chromeos-config-tools-0.0.2
