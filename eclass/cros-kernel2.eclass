@@ -893,6 +893,8 @@ FIRMWARE_BINARIES=(
 	builtin_fw_t210_xusb
 	builtin_fw_t210_nouveau
 	builtin_fw_t210_bpmp
+	builtin_fw_guc_jsl
+	builtin_fw_huc_jsl
 	builtin_fw_guc_g9
 	builtin_fw_huc_g9
 	builtin_fw_x86_aml_ucode
@@ -982,6 +984,16 @@ builtin_fw_t210_nouveau_files=(
 builtin_fw_t210_bpmp_desc="Tegra210 BPMP"
 builtin_fw_t210_bpmp_files=(
 	nvidia/tegra210/bpmp.bin
+)
+
+builtin_fw_guc_jsl_desc="GuC Firmware for JSL"
+builtin_fw_guc_jsl_files=(
+     i915/ehl_guc_33.0.4.bin
+)
+
+builtin_fw_huc_jsl_desc="HuC Firmware for JSL"
+builtin_fw_huc_jsl_files=(
+    i915/ehl_huc_9.0.0.bin
 )
 
 builtin_fw_guc_g9_desc="GuC Firmware for Gen9"
