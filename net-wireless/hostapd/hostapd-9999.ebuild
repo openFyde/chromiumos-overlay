@@ -14,7 +14,7 @@ SRC_URI=""
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="internal-tls ipv6 libressl logwatch netlink sqlite wifi_hostap_test +wps +crda"
+IUSE="internal-tls ipv6 libressl logwatch netlink sqlite +wps +crda"
 
 DEPEND="
 	libressl? ( dev-libs/libressl:0= )
@@ -169,33 +169,6 @@ src_configure() {
 	# support it.
 	if has_version ">=dev-libs/libnl-3.2"; then
 		echo "CONFIG_LIBNL32=y" >> .config
-	fi
-
-	# Mostly pulled from tests/hwsim/example-hostapd.config.
-	if use wifi_hostap_test; then
-		echo "CFLAGS += -DCONFIG_RADIUS_TEST" >> ${CONFIG}
-		# Currently fail to build without -lbfd:
-		#   http://lists.infradead.org/pipermail/hostap/2019-October/040676.html
-		#   [PATCH] Fix hostapd build with CONFIG_WPA_TRACE but no CONFIG_WPA_TRACE_BFD
-		#echo "CONFIG_WPA_TRACE=y" >> ${CONFIG}
-
-		# TODO(https://crbug.com/1013471): enable BFD to run additional
-		# trace-based tests.
-		#echo "CONFIG_WPA_TRACE_BFD=y" >> ${CONFIG}
-
-		echo "CONFIG_DEBUG_LINUX_TRACING=y" >> ${CONFIG}
-		echo "CONFIG_TESTING_OPTIONS=y" >> ${CONFIG}
-		echo "CONFIG_MODULE_TESTS=y" >> ${CONFIG}
-		echo "CONFIG_P2P_MANAGER=y" >> ${CONFIG}
-		echo "CONFIG_DEBUG_FILE=y" >> ${CONFIG}
-		echo "CONFIG_FILS=y" >> ${CONFIG}
-		echo "CONFIG_FILS_SK_PFS=y" >> ${CONFIG}
-		echo "CONFIG_OCV=y" >> ${CONFIG}
-		echo "CONFIG_OWE=y" >> ${CONFIG}
-		echo "CONFIG_NO_RANDOM_POOL=y" >> ${CONFIG}
-		echo "CONFIG_VLAN_NETLINK=y" >> ${CONFIG}
-		echo "CONFIG_WPA_CLI_EDIT=y" >> ${CONFIG}
-		echo "CONFIG_MBO=y" >> ${CONFIG}
 	fi
 
 	# TODO: Add support for BSD drivers
