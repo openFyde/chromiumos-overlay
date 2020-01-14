@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package chromiumos_overlay;
+
+import "src/platform2/bluetooth/proto/config.proto";
+
+// Specifies runtime software configuration for a given design.
+message DesignConfig {
+    bluetooth.BluetoothConfig bluetooth_config = 2;
+}
