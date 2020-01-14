@@ -8,7 +8,6 @@ CROS_WORKON_COMMIT="4ef9bd07c59c47dff551d6cd8e0e64fb489b04aa"
 CROS_WORKON_TREE="7ad3c68f2e6638fa01b1774fd2d0738984ef7a9b"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa"
-CROS_WORKON_BLACKLIST="1"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 

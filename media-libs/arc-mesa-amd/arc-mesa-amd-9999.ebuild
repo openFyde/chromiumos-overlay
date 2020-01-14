@@ -6,10 +6,8 @@ EAPI="6"
 
 MESON_AUTO_DEPEND=no
 
-EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="mesa"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_LOCALNAME="mesa-amd"
 
 inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
@@ -134,22 +132,6 @@ src_prepare() {
 	if use android-container-pi; then
 		epatch "${FILESDIR}"/CHROMIUM-egl-Limit-to-EGL-1.4.patch
 	fi
-
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-require-ANDROID_native_fence_sync-for-bu.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-enable-disable-KHR_partial_update-correc.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-report-that-multi-plane-formats-are-s.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Fix-compute-copies-for-subsampled-formats.patch
-
-	# b/152378755
-	epatch "${FILESDIR}"/UPSTREAM-frontend-dri-Implement-mapping-individual-planes.patch
-
-	# b/152173082
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-expose-16xAA-on-chips-with-1-RB-due-t.patch
-
-	# b/157274950
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-disable-dcc-for-2x-MSAA-surface-and-bpe-4.patch
 
 	default
 }

@@ -6,10 +6,9 @@ EAPI=6
 
 MESON_AUTO_DEPEND=no
 
-EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="mesa"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_LOCALNAME="mesa-amd"
+CROS_WORKON_EGIT_BRANCH="chromeos-amd"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
