@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="aae12b307048295ede5eafd3ca3d5594b022fac7"
-CROS_WORKON_TREE="93ad9d93a47daf2468e06d48646e92c87dfa6d7c"
+CROS_WORKON_COMMIT="dcaa1ab56d49e2d020d949f7d3ba5cded847571a"
+CROS_WORKON_TREE="df34038d79d71807d8279a223f52a3ccdfd0b9b9"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -16,7 +16,8 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+cros_ec_utils detachable_ui device_tree +interactive_recovery -mtd +power_management"
+IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
+IUSE="${IUSE} menu_ui -mtd +power_management"
 
 # Build Targets
 TARGETS_IUSE="
@@ -125,7 +126,8 @@ src_compile() {
 	emake SYSROOT="${SYSROOT}" BOARD="$(get_current_board_with_variant)" \
 		INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
 		INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
-		DEVICE_IS_DETACHABLE="$(usex detachable_ui 1 0)" \
+		DETACHABLE="$(usex detachable 1 0)" \
+		MENU_UI="$(usex menu_ui 1 0)" \
 		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
 		LOCALE_LIST="${RECOVERY_LOCALES}" ${targets[*]}
 }
