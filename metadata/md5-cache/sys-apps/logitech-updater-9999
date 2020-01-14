@@ -1,13 +1,14 @@
+BDEPEND=dev-vcs/git virtual/pkgconfig
 DEFINED_PHASES=configure info install preinst setup unpack
-DEPEND=dev-vcs/git chromeos-base/libchrome:462023[cros-debug=] virtual/pkgconfig sys-apps/baselayout
+DEPEND=chromeos-base/libbrillo:= virtual/libusb:1= chromeos-base/libchrome:462023[cros-debug=] sys-apps/baselayout
 DESCRIPTION=Logitech firmware updater
-EAPI=5
+EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/logitech-updater
 IUSE=cros_host cros_workon_tree_ cros-debug
 KEYWORDS=~*
 LICENSE=BSD-Google
 PROPERTIES=live
-RDEPEND=chromeos-base/libbrillo chromeos-base/libchrome:462023[cros-debug=] sys-apps/baselayout
-SLOT=0
+RDEPEND=chromeos-base/libbrillo:= virtual/libusb:1= chromeos-base/libchrome:462023[cros-debug=] sys-apps/baselayout
+SLOT=0/9999
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	3c23591b59faf183d844cfca8632e911	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	udev	452708c3f55cf6e918b045adb949a9e6	user	7c566af8c48023219fd63246e88d6621
-_md5_=5bdc617653e96e1651ddba61743dc485
+_md5_=3ded39c47a0bd2765a5fb62581e6a098
