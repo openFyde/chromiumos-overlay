@@ -13,15 +13,15 @@ inherit cros-constants git-r3 python-any-r1
 EGIT_REPO_URIS=(
 	"third_party/tlslite"
 	"${CROS_GIT_HOST_URL}/chromium/src/third_party/tlslite.git"
-	"0e00634c2052d16038e3905fd544d0f6cc3ec566"
+	"0bc3364c7e8ead43c2fbd26d98d1fdfb683019fc"
 
 	"net/tools/testserver"
 	"${CROS_GIT_HOST_URL}/chromium/src/net/tools/testserver.git"
-	"81f46b9acb3ed3d82fecd6a233935d7f30f63ff5"
+	"776b695eba0f404a72bbb5925ebfe9250e72b01b"
 
 	"components/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"b9db1257486074c59d57ec8d064e38cdac0fc103"
+	"bd7bf2e3af79a371bed27cb3158d30c4ad400516"
 )
 
 DESCRIPTION="Dependencies needed by the policy_testserver"
@@ -69,8 +69,12 @@ src_compile() {
 		"${POLICY_DIR}/proto/chrome_device_policy.proto" \
 		"${POLICY_DIR}/proto/device_management_backend.proto" \
 		"${POLICY_DIR}/proto/chrome_extension_policy.proto" \
+		"${POLICY_DIR}/proto/policy_common_definitions.proto" \
 		|| die
-	protoc --proto_path="${WORKDIR}" --python_out="${WORKDIR}" "${WORKDIR}/cloud_policy.proto" || die
+	protoc --proto_path="${WORKDIR}" --proto_path="${POLICY_DIR}/proto" \
+		--python_out="${WORKDIR}" \
+		"${WORKDIR}/cloud_policy.proto" \
+		|| die
 }
 
 src_install() {
@@ -84,5 +88,6 @@ src_install() {
 	doins "${WORKDIR}/chrome_device_policy_pb2.py"
 	doins "${WORKDIR}/device_management_backend_pb2.py"
 	doins "${WORKDIR}/chrome_extension_policy_pb2.py"
+	doins "${WORKDIR}/policy_common_definitions_pb2.py"
 	doins "${WORKDIR}/cloud_policy_pb2.py"
 }
