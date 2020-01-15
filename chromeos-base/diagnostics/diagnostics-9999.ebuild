@@ -27,10 +27,14 @@ COMMON_DEPEND="
 	net-libs/grpc:=
 	virtual/libudev:=
 "
+
+# TODO(crbug/1042312): move tzif_parser to more general library than
+#  vm_host_tools
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/debugd-client
 	chromeos-base/system_api[fuzzer?]
+	chromeos-base/vm_host_tools
 "
 RDEPEND="
 	${COMMON_DEPEND}
