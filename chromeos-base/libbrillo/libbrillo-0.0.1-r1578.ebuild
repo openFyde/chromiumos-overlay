@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="26ec26c4ac3ba35bf59fa5acbbd26c59a3381adc"
-CROS_WORKON_TREE=("65558ff6a3b26d0ace511c80691b2d4c133fa71b" "1edbe1922d28a3b7a7be0992dcd17e71674b8c77" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a2b75fdcbb05a9d08a74b58d16efa0bc35d628a8"
+CROS_WORKON_TREE=("65558ff6a3b26d0ace511c80691b2d4c133fa71b" "0bb59daf14585e75d045341b302cb0af03c5cf6b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -50,13 +50,18 @@ DEPEND="
 "
 
 src_install() {
-	local v
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	for v in "${LIBCHROME_VERS[@]}"; do
-		dolib.so "${OUT}"/lib/lib{brillo,installattributes,policy}*-"${v}".so
-		dolib.a "${OUT}"/libbrillo*-"${v}".a
-		doins "${OUT}"/obj/libbrillo/libbrillo*-"${v}".pc
-	done
+
+	dolib.so "${OUT}"/lib/lib{brillo,installattributes,policy}*.so
+	dolib.a "${OUT}"/libbrillo*.a
+	# Install libbrillo with and without version number as a temporary
+	# measure.
+	doins "${OUT}"/obj/libbrillo/libbrillo*.pc
+	# Add symbolic links libpolicy-${LIBCHROME_VERS[0]}.so (points to
+	# libpolicy.so) and libinstallattributes-${LIBCHROME_VERS[0]}.so
+	# (points to libinstallattributes.so).
+	dosym libpolicy.so /usr/$(get_libdir)/libpolicy-${LIBCHROME_VERS[0]}.so
+	dosym libinstallattributes.so /usr/$(get_libdir)/libinstallattributes-${LIBCHROME_VERS[0]}.so
 
 	# Install all the header files from libbrillo/brillo/*.h into
 	# /usr/include/brillo (recursively, with sub-directories).
@@ -78,10 +83,7 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local v
-	for v in "${LIBCHROME_VERS[@]}"; do
-		platform_test "run" "${OUT}/libbrillo-${v}_tests"
-		platform_test "run" "${OUT}/libinstallattributes-${v}_tests"
-		platform_test "run" "${OUT}/libpolicy-${v}_tests"
-	done
+	platform_test "run" "${OUT}/libbrillo_tests"
+	platform_test "run" "${OUT}/libinstallattributes_tests"
+	platform_test "run" "${OUT}/libpolicy_tests"
 }
