@@ -18,6 +18,8 @@ RDEPEND="
 "
 
 src_configure() {
+	# Disable tautological-compare warnings, crbug.com/1042142
+	append-flags "-Wno-tautological-compare"
 	cros-workon_src_configure
 }
 
