@@ -217,16 +217,70 @@ https://crbug.com/1000545
  
    // header
 
-https://crbug.com/1038909
+https://crbug.com/1021952
 
 --- a/perf_recorder_test.cc
 +++ b/perf_recorder_test.cc
 @@ -41,7 +41,7 @@ class PerfRecorderTest : public ::testing::Test {
    PerfRecorder perf_recorder_;
  };
- 
+
 -TEST_F(PerfRecorderTest, RecordToProtobuf) {
 +TEST_F(PerfRecorderTest, DISABLED_RecordToProtobuf) {
    // Read perf data using the PerfReader class.
    // Dump it to a string and convert to a protobuf.
    // Read the protobuf, and reconstruct the perf data.
+@@ -69,7 +69,7 @@ TEST_F(PerfRecorderTest, RecordToProtobu
+   EXPECT_EQ("0.2", command.Get(6).value());
+ }
+
+-TEST_F(PerfRecorderTest, StatToProtobuf) {
++TEST_F(PerfRecorderTest, DISABLED_StatToProtobuf) {
+   // Run perf stat and verify output.
+   string output_string;
+   EXPECT_TRUE(perf_recorder_.RunCommandAndGetSerializedOutput(
+@@ -81,7 +81,7 @@ TEST_F(PerfRecorderTest, StatToProtobuf)
+   EXPECT_GT(stat.line_size(), 0);
+ }
+
+-TEST_F(PerfRecorderTest, MemRecordToProtobuf) {
++TEST_F(PerfRecorderTest, DISABLED_MemRecordToProtobuf) {
+   if (!IsPerfMemRecordAvailable()) return;
+
+   // Run perf mem record and verify output.
+@@ -94,7 +94,7 @@ TEST_F(PerfRecorderTest, MemRecordToProt
+   ASSERT_TRUE(perf_data_proto.ParseFromString(output_string));
+ }
+
+-TEST_F(PerfRecorderTest, StatSingleEvent) {
++TEST_F(PerfRecorderTest, DISABLED_StatSingleEvent) {
+   string output_string;
+   ASSERT_TRUE(perf_recorder_.RunCommandAndGetSerializedOutput(
+       {"perf", "stat", "-a", "-e", "cpu-clock"}, 0.2, &output_string));
+@@ -118,7 +118,7 @@ TEST_F(PerfRecorderTest, StatSingleEvent
+   EXPECT_EQ("cpu-clock", stat.line(0).event_name());
+ }
+
+-TEST_F(PerfRecorderTest, StatMultipleEvents) {
++TEST_F(PerfRecorderTest, DISABLED_StatMultipleEvents) {
+   string output_string;
+   ASSERT_TRUE(perf_recorder_.RunCommandAndGetSerializedOutput(
+       {"perf", "stat", "-a", "-e", "cpu-clock", "-e", "context-switches", "-e",
+@@ -173,7 +173,7 @@ TEST_F(PerfRecorderTest, StatMultipleEve
+   EXPECT_EQ("page-faults", stat.line(3).event_name());
+ }
+
+-TEST_F(PerfRecorderTest, DontAllowCommands) {
++TEST_F(PerfRecorderTest, DISABLED_DontAllowCommands) {
+   string output_string;
+   EXPECT_FALSE(perf_recorder_.RunCommandAndGetSerializedOutput(
+       {"perf", "record", "--", "sh", "-c", "echo 'malicious'"}, 0.2,
+@@ -183,7 +183,7 @@ TEST_F(PerfRecorderTest, DontAllowComman
+       &output_string));
+ }
+
+-TEST(PerfRecorderNoPerfTest, FailsIfPerfDoesntExist) {
++TEST(PerfRecorderNoPerfTest, DISABLED_FailsIfPerfDoesntExist) {
+   string output_string;
+   PerfRecorder perf_recorder({"sudo", "/doesnt-exist/usr/not-bin/not-perf"});
+   EXPECT_FALSE(perf_recorder.RunCommandAndGetSerializedOutput(
