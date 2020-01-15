@@ -268,7 +268,7 @@ src_install() {
 	use_fw venus-52 && doins_subdir qcom/venus-5.2/*
 	use_fw venus-54 && doins_subdir qcom/venus-5.4/*
 	use video_cards_radeon && doins_subdir radeon/*
-	use video_cards_amdgpu && doins_subdir amdgpu/{carrizo,picasso,raven_dmcu,raven2,stoney}*
+	use video_cards_amdgpu && doins_subdir amdgpu/{carrizo,picasso,raven_dmcu,raven2,stoney,vega12}*
 
 	use_fw rt2870 && doins rt2870.bin
 

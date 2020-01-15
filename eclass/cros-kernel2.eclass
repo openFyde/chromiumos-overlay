@@ -907,6 +907,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_kbl_ucode
 	builtin_fw_x86_skl_ucode
 	builtin_fw_x86_whl_ucode
+	builtin_fw_vega12
 )
 
 builtin_fw_amdgpu_desc="Firmware for AMD GPU"
@@ -951,6 +952,24 @@ builtin_fw_amdgpu_files=(
 	amdgpu/stoney_sdma.bin
 	amdgpu/stoney_uvd.bin
 	amdgpu/stoney_vce.bin
+)
+
+builtin_fw_vega12_desc="Firmware for AMD VEGA12"
+builtin_fw_vega12_files=(
+	amdgpu/vega12_asd.bin
+	amdgpu/vega12_ce.bin
+	amdgpu/vega12_gpu_info.bin
+	amdgpu/vega12_me.bin
+	amdgpu/vega12_mec2.bin
+	amdgpu/vega12_mec.bin
+	amdgpu/vega12_pfp.bin
+	amdgpu/vega12_rlc.bin
+	amdgpu/vega12_sdma1.bin
+	amdgpu/vega12_sdma.bin
+	amdgpu/vega12_smc.bin
+	amdgpu/vega12_sos.bin
+	amdgpu/vega12_uvd.bin
+	amdgpu/vega12_vce.bin
 )
 
 builtin_fw_t124_xusb_desc="Tegra124 XHCI controller"
