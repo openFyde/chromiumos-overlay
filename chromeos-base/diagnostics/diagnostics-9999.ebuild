@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,7 +18,6 @@ DESCRIPTION="Device telemetry and diagnostics for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="fuzzer wilco generated_cros_config unibuild"
 
@@ -38,9 +37,9 @@ COMMON_DEPEND="
 #  vm_host_tools
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/debugd-client
-	chromeos-base/system_api[fuzzer?]
-	chromeos-base/vm_host_tools
+	chromeos-base/debugd-client:=
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vm_host_tools:=
 "
 RDEPEND="
 	${COMMON_DEPEND}
