@@ -185,6 +185,9 @@ are_we_used() {
 }
 
 autotest_src_prepare() {
+	# EAPI7 compatability. Effectively a noop, but required.
+	default
+
 	are_we_used || return 0
 	einfo "Preparing tests"
 
