@@ -3,17 +3,17 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="2edfda69c6a7dc01605bc2ad7cb2b32a77133699"
-CROS_WORKON_TREE="854457774ec199e673c3b25001eb7b3c46fcff5d"
+CROS_WORKON_COMMIT="39e216d90f1c6448b61911ee69697cc57730e7f8"
+CROS_WORKON_TREE="f42ac5fe43cff0af2955da2149437c27d04ae26a"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
-CROS_WORKON_LOCALNAME="kernel/v4.14"
-CROS_WORKON_EGIT_BRANCH="chromeos-4.14"
+CROS_WORKON_LOCALNAME="kernel/v4.19"
+CROS_WORKON_EGIT_BRANCH="chromeos-4.19"
 
 # This must be inherited *after* EGIT/CROS_WORKON variables defined
 inherit cros-workon cros-kernel2
 
 HOMEPAGE="https://www.chromium.org/chromium-os/chromiumos-design-docs/chromium-os-kernel"
-DESCRIPTION="Chrome OS Linux Kernel 4.14"
+DESCRIPTION="Chrome OS Linux Kernel 4.19"
 KEYWORDS="*"
 
 # Change the following (commented out) number to the next prime number
@@ -25,4 +25,4 @@ KEYWORDS="*"
 # Don't forget to update the comment in _all_ chromeos-kernel-x_x-9999.ebuild
 # files (!!!)
 #
-# The coolest prime number is: 107
+# The coolest prime number is: 109
