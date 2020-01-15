@@ -1,9 +1,9 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT="26ec26c4ac3ba35bf59fa5acbbd26c59a3381adc"
+CROS_WORKON_COMMIT="9ac4e49772deefed257636492fee2413d6a1f4f8"
 CROS_WORKON_TREE=("65558ff6a3b26d0ace511c80691b2d4c133fa71b" "b159a5abcad1284b20404bf80af86371368f9439" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,15 +19,13 @@ DESCRIPTION="Various tools for the native printing system."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/print_tools/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
-RDEPEND="
-	chromeos-base/libbrillo:=
+COMMON_DEPEND="
 	chromeos-base/libipp:=
 "
-
-DEPEND="${RDEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	dobin "${OUT}"/printer_diag
