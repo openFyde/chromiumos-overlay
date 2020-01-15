@@ -3,7 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/chromite"
-CROS_WORKON_LOCALNAME="../../chromite"
+CROS_WORKON_LOCALNAME="../chromite"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
 PYTHON_COMPAT=( python{2_7,3_6,3_7} )
