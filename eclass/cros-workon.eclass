@@ -242,6 +242,10 @@ inherit flag-o-matic toolchain-funcs
 # there's no dependence on git and we don't want it pulled in.
 if [[ -n "${CROS_WORKON_PROJECT[*]}" ]]; then
 	inherit git-2
+	# Add this sentinel value because array_vars_autocomplete later mutates the array.
+	EMPTY_PROJECT=0
+else
+	EMPTY_PROJECT=1
 fi
 
 # Block deprecated vars.
@@ -473,7 +477,7 @@ cros-workon_src_unpack() {
 		fi
 	done
 
-	if [[ "${PV}" == "9999" && "${CROS_WORKON_ALWAYS_LIVE}" != "1" ]] || [[ -z "${CROS_WORKON_PROJECT[*]}" ]]; then
+	if [[ "${PV}" == "9999" && "${CROS_WORKON_ALWAYS_LIVE}" != "1" ]] || [[ "${EMPTY_PROJECT}" == "1" ]]; then
 		# Live / non-repo packages
 		fetch_method=local
 	elif [[ "${PV}" != "9999" && "${CROS_WORKON_ALWAYS_LIVE}" == "1" ]]; then
@@ -645,7 +649,7 @@ cros-workon_src_unpack() {
 				die "Cannot create a local copy"
 		done
 	fi
-	if [[ -n "${CROS_WORKON_PROJECT[*]}" ]]; then
+	if [[ "${EMPTY_PROJECT}" == "0" ]]; then
 		set_vcsid "$(get_rev "${path[0]}/.git")"
 	fi
 	cros-workon_enforce_subtrees
