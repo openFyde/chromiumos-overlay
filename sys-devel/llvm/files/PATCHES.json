@@ -1,139 +1,5 @@
 [
     {
-        "comment": "Simplify checks for stack protector index checking",
-        "rel_patch_path": "cherry/90ba54bf67c4c134d000b064121789a32c0c6a73.patch",
-        "end_version": 366369
-    },
-    {
-        "comment": "Add stack protector tests where the guard gets\nre-assigned",
-        "rel_patch_path": "cherry/39fc2843e4eb07370d55f0a7a0db34d4bd6c9d5f.patch",
-        "end_version": 366370
-    },
-    {
-        "comment": "Does not re-allocate a pre-allocated stack protector slot",
-        "rel_patch_path": "cherry/9f2b290addfc4d9f514790b47773b141682b0db5.patch",
-        "end_version": 366371
-    },
-    {
-        "comment": "Warn instead of error when duplicate version\nassignments occur",
-        "rel_patch_path": "cherry/be8275753fe23fb56c4cb5127695dad540b9053c.patch",
-        "start_version": 365631,
-        "end_version": 365759
-    },
-    {
-        "comment": "Handle non-glob patterns before glob patterns in\nversion scripts & fix a corner case of --dynamic-list",
-        "rel_patch_path": "cherry/e1ee3837acfea876b279f7f00474fdabd5d76cb5.patch",
-        "start_version": 365631,
-        "end_version": 365760
-    },
-    {
-        "comment": "ELF: Allow forward references to linked sections.",
-        "rel_patch_path": "cherry/cb2d8e912512305fb5c45cf0f35f654f713dfa7c.patch",
-        "start_version": 365631,
-        "end_version": 366460
-    },
-    {
-        "comment": "Don't resolve the stack protector frame accesses until PEI",
-        "rel_patch_path": "cherry/0503add6dab545600b99c89753fcc7cb5bd15fc8.patch",
-        "start_version": 365631,
-        "end_version": 367068
-    },
-    {
-        "comment": "Fix for DominatorTree assertion error in new pass manager",
-        "rel_patch_path": "cherry/3af2a69575da80f5e7b9890509a072b5062fe7c7.patch",
-        "start_version": 365631,
-        "end_version": 367596
-    },
-    {
-        "comment": "Make binding (weak or non-weak) logic consistent for Undefined and SharedSymbol",
-        "rel_patch_path": "cherry/e49c417ed1847a3b8e7595ddb8212ea8d13df5df.patch",
-        "start_version": 365631,
-        "end_version": 368038
-    },
-    {
-        "comment": "Build libfuzzer libcxx-static with PIC",
-        "rel_patch_path": "cherry/295d4b7727caba392ff3fdf1dbd9006b1ee1a1a2.patch",
-        "start_version": 365631,
-        "end_version": 367943
-    },
-    {
-        "comment": "asm goto: Don't recreate a label if it's already used",
-        "rel_patch_path": "cherry/1b104388752f66191c867380efde7bbf1f13ca80.patch",
-        "start_version": 365631,
-        "end_version": 368477
-    },
-    {
-        "comment": "asm goto: Require a name for a block addr target",
-        "rel_patch_path": "cherry/79176a2542d03107b90613c84f18ccba41ad8fa8.patch",
-        "start_version": 365631,
-        "end_version": 368478
-    },
-    {
-        "comment": "asm goto: Ignore indirect branches from callbr",
-        "rel_patch_path": "cherry/cc2bebe039374d6f0c8251ac322f8f7148d85950.patch",
-        "start_version": 365631,
-        "end_version": 368873
-    },
-    {
-        "comment": "Do not emit '#' before immediates in inline asm",
-        "rel_patch_path": "cherry/0cb2a33dfd3e87a01d5eab3effbe033db10300eb.patch",
-        "start_version": 365631,
-        "end_version": 368320
-    },
-    {
-        "comment": "CodeGet: Init 32bit pointers with 0xFFFFFFFF",
-        "rel_patch_path": "cherry/c2ac925d6e1599f9c667a16196bd36888df02e1e.patch",
-        "start_version": 365631,
-        "end_version": 365921
-    },
-    {
-        "comment": "[X86] Manually reimplement getTargetInsertSubreg in X86DAGToDAGISel::matchBitExtract \nso we can call insertDAGNode on the target constant.",
-        "rel_patch_path": "cherry/120cffccf8c3a46f6003a3b5a6b0f39130df4bd2.patch",
-        "start_version": 365631,
-        "end_version": 369084
-    },
-    {
-        "comment": "ELF: Simplify test. NFCI. (Needed to pick r366466)",
-        "rel_patch_path": "cherry/311131dafc0eff9a965907596e51b9e8834b7082.patch",
-        "start_version": 365631,
-        "end_version": 366463
-    },
-    {
-        "comment": "ELF: Add support for remaining R_AARCH64_MOVW* relocations.",
-        "rel_patch_path": "cherry/c2ccf4ccba295b1300018e65c658ff305992aa29.patch",
-        "start_version": 365631,
-        "end_version": 366466
-    },
-    {
-        "comment": "[LLD][ELF][AArch64] Support for movz, movk tprel relocations",
-        "rel_patch_path": "cherry/d4695e1d75a358d3161b5a81c9754c410c1ed2bc.patch",
-        "start_version": 365631,
-        "end_version": 368293
-    },
-    {
-        "comment": "Push LR register before calling __gnu_mcount_nc as it expects the value of LR register to be the top value of the stack on ARM32.",
-        "rel_patch_path": "cherry/16fa8b09702378bacfa3d07081afe6b353b99e60.patch",
-        "start_version": 365631,
-        "end_version": 369173
-    },
-    {
-        "comment": "Revert \"Make `vector` unconditionally move elements when exceptions are disabled.\"",
-        "rel_patch_path": "cherry/b370e7691a680b06f3c159c6a19582adf449de90.patch",
-        "start_version": 370808,
-        "end_version": 371068
-    },
-    {
-        "comment": "[compiler-rt][crt]  make test case nontrivial in check_cxx_section_exists",
-        "rel_patch_path": "cherry/155a43edb0c161bb5122ad4eeee991b43a0278bc.patch",
-        "start_version": 365631,
-        "end_version": 372038
-    },
-    {
-        "comment": "Adds a whitelist of packages that have known memory leaks",
-        "rel_patch_path": "llvm-next-leak-whitelist.patch",
-        "end_version": 370808
-    },
-    {
         "comment": "Adds a whitelist of packages that have known memory leaks",
         "rel_patch_path": "llvm-next-leak-whitelist.v2.patch",
         "start_version": 370808
@@ -152,11 +18,6 @@
     },
     {
         "comment": "Fixes crbug/591436. Force fallback to traditional executable detection",
-        "rel_patch_path": "llvm-8.0-clang-executable-detection.patch",
-        "end_version": 370808
-    },
-    {
-        "comment": "Fixes crbug/591436. Force fallback to traditional executable detection",
         "rel_patch_path": "llvm-8.0-clang-executable-detection.v2.patch",
         "start_version": 370808
     },
@@ -165,31 +26,8 @@
         "rel_patch_path": "llvm-3.9-dwarf-version.patch"
     },
     {
-        "comment": "Reverts LLVM commit r335145 which is one of two \ncommits responsible for the crash of LLVM with r339409. The\npatch is temporary so when the bug is fixed, the patch can\nbe removed",
-        "rel_patch_path": "llvm-8.0-revert-r335145.patch",
-        "start_version": 335146,
-        "end_version": 371643
-    },
-    {
-        "comment": "Reverts LLVM commit r335284 which is one of two\ncommits responsible for the crash of LLVM with r339409. The\npatch is temporary so when the bug is fixed, the patch can\nbe removed",
-        "rel_patch_path": "clang-next-9.0-revert-r335284.patch",
-        "start_version": 365631,
-        "end_version": 370808
-    },
-    {
-        "comment": "Reverts LLVM commit r335284 which is one of two\ncommits responsible for the crash of LLVM with r339409. The\npatch is temporary so when the bug is fixed, the patch can\nbe removed",
-        "rel_patch_path": "clang-next-9.0-revert-r335284.v2.patch",
-        "start_version": 370808,
-        "end_version": 371643
-    },
-    {
         "comment": "Fixes clang.elf calling clang.elf because direct\ncalls to clang.elf misses all environment setup in clang\nwrapper. Calls to clang wrapper instead of clang.elf binary",
         "rel_patch_path": "llvm-3.8-invocation.patch"
-    },
-    {
-        "comment": "Uses argv[0] to get host system information. Created\na wrapper of LLD and real lld becomes lld.elf so the LLD\ncannot get the host system information and dies",
-        "rel_patch_path": "lld-invoke-name.patch",
-        "end_version": 365730
     },
     {
         "comment": "Uses argv[0] to get host system information. Created\na wrapper of LLD and real lld becomes lld.elf so the LLD\ncannot get the host system information and dies",
@@ -200,102 +38,6 @@
         "comment": "Achieves the functionality of reordering .text.hot\nsections before .text section",
         "rel_patch_path": "lld-next-9.0-reorder-hotsection-early.patch",
         "start_version": 365631
-    },
-    {
-        "comment": "[llvm-objcopy] Strip debug sections when running with --strip-unneeded",
-        "rel_patch_path": "cherry/0f323439d897565e78b261109ed77e32230e9cc5.patch",
-        "start_version": 370808,
-        "end_version": 369761
-    },
-    {
-        "comment": "LLD: [ELF] Support -z undefs",
-        "rel_patch_path": "cherry/60ff4dd9cd8a5052067b2dee1fc68bfba1f695cc.patch",
-        "start_version": 365631,
-        "end_version": 371715
-    },
-    {
-        "comment": "[LLD] [ELF] Don't shrink RelrSection",
-        "rel_patch_path": "cherry/7afffb54eac8c7aedc8c24f75ccdd70b176a9d9f.patch",
-        "start_version": 370808,
-        "end_version": 370923
-    },
-    {
-        "comment": "[DebugInfo] Emit DW_TAG_enumeration_type for referenced global enumerator.",
-        "rel_patch_path": "cherry/48c6fadc0daceb3374d7cc1df1e99ffef4b89d4c.patch",
-        "start_version": 370808,
-        "end_version": 370981
-    },
-    {
-        "comment": "[IfConversion] Fix diamond conversion with unanalyzable branches.",
-        "rel_patch_path": "cherry/cae1e47f6ed7effd82cc47e68c2a42513487a1d7.patch",
-        "start_version": 370808,
-        "end_version": 371111
-    },
-    {
-        "comment": "Revert r370635, it caused PR43241.",
-        "rel_patch_path": "cherry/8455294f2ac13d587b13d728038a9bffa7185f2b.patch",
-        "start_version": 370808,
-        "end_version": 371202
-    },
-    {
-        "comment": "Revert 'Revert r370635, it caused PR43241.'",
-        "rel_patch_path": "cherry/5d9f419a2e01c437a35899952d3342cc96a7d9e1.patch",
-        "start_version": 370808,
-        "end_version": 371215
-    },
-    {
-        "comment": "Reland D66717 [ELF] Do not ICF two sections with different output sections (by SECTIONS commands",
-        "rel_patch_path": "cherry/8d30c1dcec2a935e0b1cffc26fdc6054ff101f53.patch",
-        "start_version": 370808,
-        "end_version": 371216
-    },
-    {
-        "comment": "[IRMover] Don't map globals if their types are the same",
-        "rel_patch_path": "cherry/8b46544641ef49e20621a3ac8e14fd4c95338522.patch",
-        "start_version": 370808,
-        "end_version": 371643
-    },
-    {
-        "comment": "[ELF] Delete a redundant assignment to SectionBase::assigned. NFC",
-        "rel_patch_path": "cherry/51ead00bf81cd92a868bdd1551a06ec5efdb563b.patch",
-        "start_version": 370808,
-        "end_version": 371804
-    },
-    {
-        "comment": "Add -Wpoison-system-directories clang warning",
-        "rel_patch_path": "cherry/41d9d5092a17e60615077da6ef22b4f5cfae2c2e.patch",
-        "start_version": 370808,
-        "end_version": 371878
-    },
-    {
-        "comment": "[ELF] Map the ELF header at imageBase",
-        "rel_patch_path": "cherry/06bb7dfbd445fe928b0ae0263ba9df1acd861c41.patch",
-        "start_version": 370808,
-        "end_version": 371957
-    },
-    {
-        "comment": "[ELF] Make MergeInputSection merging aware of output sections",
-        "rel_patch_path": "cherry/e47bbd28f8e9dfea4e019e27e9d371c144c3302e.patch",
-        "start_version": 370808,
-        "end_version": 372734
-    },
-    {
-        "comment": "[ELF] Delete SectionBase::assigned",
-        "rel_patch_path": "cherry/e447d5afd37228125bca280ad96c1a191b0b4169.patch",
-        "start_version": 370808,
-        "end_version": 372735
-    },
-    {
-        "comment": "ELF: Don't merge SHF_LINK_ORDER sections for different output sections in relocatable links.",
-        "rel_patch_path": "cherry/97e251e05a46f5b90af5a0bebebdda98e7fd98ab.patch",
-        "start_version": 370808,
-        "end_version": 373255
-    },
-    {
-        "comment": "[ELF] Error if the linked-to section of a SHF_LINK_ORDER section is discarded",
-        "rel_patch_path": "cherry/267205149587595e956db25a12252835a51cd372.patch",
-        "start_version": 370808,
-        "end_version": 372400
     },
     {
         "comment": "PR44268: Fix crash if __builtin_object_size is applied to a heap allocation",

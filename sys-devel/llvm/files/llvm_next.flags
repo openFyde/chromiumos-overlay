@@ -1,9 +1,0 @@
-#
-# Flags to add when generating compiler wrapper for llvm-next.
-
-LLVM_NEXT_FLAGS_TO_ADD = set(['-Wno-reorder-init-list',
-                              '-Wno-final-dtor-non-final-class',
-                              '-Wno-implicit-int-float-conversion',
-                              '-Wno-return-stack-address'
-                              ])
-

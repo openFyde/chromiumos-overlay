@@ -1,12 +1,6 @@
 [
     {
         "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
-        "rel_patch_path": "libcxx-9-use-libgcc_eh.patch",
-        "start_version": 365631,
-        "end_version": 374056
-    },
-    {
-        "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
         "rel_patch_path": "libcxx-10-use-libgcc_eh.patch",
         "start_version": 374056
     },
