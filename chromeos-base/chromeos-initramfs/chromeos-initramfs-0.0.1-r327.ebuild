@@ -119,7 +119,7 @@ src_compile() {
 
 	local targets=()
 	for target in ${TARGETS_IUSE}; do
-		use ${target} && targets+=(${target%_ramfs})
+		use "${target}" && targets+=("${target%_ramfs}")
 	done
 	einfo "Building targets: ${targets[*]}"
 
@@ -129,13 +129,13 @@ src_compile() {
 		DETACHABLE="$(usex detachable 1 0)" \
 		MENU_UI="$(usex menu_ui 1 0)" \
 		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
-		LOCALE_LIST="${RECOVERY_LOCALES}" ${targets[*]}
+		LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[*]}"
 }
 
 src_install() {
 	insinto /var/lib/initramfs
 	for target in ${TARGETS_IUSE}; do
-		use ${target} &&
-			doins "${WORKDIR}"/${target}.cpio.xz
+		use "${target}" &&
+			doins "${WORKDIR}/${target}.cpio.xz"
 	done
 }
