@@ -116,6 +116,7 @@ src_prepare() {
 
 	# Upstream asm syntax fixes from OpenSSL 1.1.1.
 	epatch "${FILESDIR}"/${PN}-1.0.2-asm.patch
+	epatch "${FILESDIR}"/${PN}-1.0.2-asm-armv4-mont.patch
 
 	# disable fips in the build
 	# make sure the man pages are suffixed #302165
