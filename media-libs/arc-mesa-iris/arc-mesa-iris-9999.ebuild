@@ -25,10 +25,12 @@ IUSE="
 	cheets_user_64
 	debug
 	vulkan
+	android_vulkan_compute_0
 "
 
 REQUIRED_USE="
 	cheets
+	android_vulkan_compute_0? ( vulkan )
 "
 
 DEPEND="
@@ -74,7 +76,7 @@ multilib_src_configure() {
 		-Dplatforms=android
 		-Degl-lib-suffix=_mesa
 		-Dgles-lib-suffix=_mesa
- 		-Dvulkan-drivers=$(usex vulkan intel '')
+		-Dvulkan-drivers=$(usex vulkan intel '')
 		--cross-file="${ARC_CROSS_FILE}"
 		-Dplatform-sdk-version="${ARC_PLATFORM_SDK_VERSION}"
 	)
@@ -99,6 +101,11 @@ multilib_src_install() {
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/dri"
 	newexe "${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so" iris_dri.so
+
+	if use vulkan; then
+		exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/hw"
+		newexe "${BUILD_DIR}/src/intel/vulkan/libvulkan_intel.so" vulkan.cheets.so
+	fi
 }
 
 multilib_src_install_all() {
@@ -111,6 +118,23 @@ multilib_src_install_all() {
 	# Install init files to advertise supported API versions.
 	insinto "${ARC_PREFIX}/vendor/etc/init"
 	doins "${FILESDIR}/gles32.rc"
+
+	# Install vulkan files
+	if use vulkan; then
+		einfo "Using android vulkan."
+		insinto "${ARC_PREFIX}/vendor/etc/init"
+		doins "${FILESDIR}/vulkan.rc"
+
+		insinto "${ARC_PREFIX}/vendor/etc/permissions"
+		doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
+		doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
+
+		if use android_vulkan_compute_0; then
+			einfo "Using android vulkan_compute_0."
+			insinto "${ARC_PREFIX}/vendor/etc/permissions"
+			doins "${FILESDIR}/android.hardware.vulkan.compute-0.xml"
+		fi
+	fi
 
 	# Install the dri header for arc-cros-gralloc
 	insinto "${ARC_PREFIX}/vendor/include/GL"
