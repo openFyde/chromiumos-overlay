@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="e8d497f4a11996d149b8092bf2ffa813aaa108b9"
-CROS_WORKON_TREE="b0ad3ed6a53f7661382e3db3564379968a0d5fb8"
+CROS_WORKON_COMMIT="ff43cc76ae9065c73663226d0924e04caf22986e"
+CROS_WORKON_TREE="f4b662c0284dd99a1b7512dd8c38752e4debed17"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
 inherit cros-fuzzer cros-sanitizers eutils flag-o-matic meson toolchain-funcs cros-workon
