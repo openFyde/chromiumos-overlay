@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package audio;
+
+message AudioConfig {
+    // Directory of device configs where volume curves live. Should be an
+    // absolute path, e.g. /etc/cras/device1.
+    string device_config_dir = 1;
+
+    // The suffix to append to internal card name to control which ucm config
+    // file to load.
+    string internal_ucm_suffix = 2;
+}
