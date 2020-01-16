@@ -20,7 +20,6 @@ IUSE="
 	arc_first_release_n
 	nocheck
 	cheets_user cheets_user_64
-	kernel-5_4
 "
 # When developers are doing something not Android. This required use is to let
 # the developer know, disabling combine_chromeos_policy flag doesn't change
@@ -351,9 +350,7 @@ src_install() {
 	doins file_contexts
 
 	insinto /etc/selinux
-	# TODO(b/144691707): Remove the kernel version check once the policy
-	# is compatible with 5.4.
-	if use selinux_experimental || use kernel-5_4; then
+	if use selinux_experimental; then
 		newins "${FILESDIR}/selinux_config_experimental" config
 	else
 		newins "${FILESDIR}/selinux_config" config
