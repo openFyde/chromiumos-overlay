@@ -21,9 +21,6 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="chromeos-base/libbrillo"
-DEPEND="${RDEPEND}"
-
 pkg_preinst() {
 	# Set up touch_firmware_calibration user and group which will be used to
 	# run tools for calibration.

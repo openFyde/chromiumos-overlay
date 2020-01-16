@@ -29,7 +29,6 @@ RDEPEND="
 	media-libs/cros-camera-libcamera_timezone"
 
 DEPEND="${RDEPEND}
-	chromeos-base/libbrillo
 	virtual/pkgconfig"
 
 src_install() {

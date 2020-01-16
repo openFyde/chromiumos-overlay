@@ -20,9 +20,6 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="chromeos-base/libbrillo"
-DEPEND="${RDEPEND}"
-
 pkg_preinst() {
 	# Set up the touch_keyboard user and group, which will be used to run
 	# touch_keyboard_handler instead of root.

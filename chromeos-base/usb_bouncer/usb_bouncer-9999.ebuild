@@ -22,12 +22,13 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="fuzzer"
 
-RDEPEND="chromeos-base/libbrillo
+RDEPEND="
 	fuzzer? ( dev-libs/libprotobuf-mutator )
 	chromeos-base/metrics
 	chromeos-base/minijail
 	dev-libs/openssl:0=
-	sys-apps/usbguard"
+	sys-apps/usbguard
+"
 
 DEPEND="${RDEPEND}
 	chromeos-base/session_manager-client"

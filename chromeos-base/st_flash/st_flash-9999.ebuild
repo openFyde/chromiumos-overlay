@@ -20,9 +20,6 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="chromeos-base/libbrillo"
-DEPEND="${RDEPEND}"
-
 src_install() {
 	dobin "${OUT}"/st_flash
 }

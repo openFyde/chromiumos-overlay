@@ -27,7 +27,6 @@ RDEPEND="
 	sys-apps/rootdev
 "
 DEPEND="${RDEPEND}
-	chromeos-base/libbrillo
 	chromeos-base/system_api
 "
 

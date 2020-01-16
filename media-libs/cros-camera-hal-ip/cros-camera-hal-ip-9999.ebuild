@@ -19,7 +19,6 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 RDEPEND="
-	chromeos-base/libbrillo
 	media-libs/cros-camera-libcbm
 	media-libs/cros-camera-libjda
 	media-libs/libsync"

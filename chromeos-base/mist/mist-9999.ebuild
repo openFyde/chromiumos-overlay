@@ -22,7 +22,7 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
-	chromeos-base/libbrillo[udev]
+	chromeos-base/libbrillo:=[udev]
 	chromeos-base/metrics
 	dev-libs/protobuf:=
 	net-dialup/ppp

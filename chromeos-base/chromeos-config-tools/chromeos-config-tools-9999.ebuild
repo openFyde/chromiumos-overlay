@@ -22,7 +22,6 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
-	chromeos-base/libbrillo
 	sys-apps/dtc
 "
 

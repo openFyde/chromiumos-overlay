@@ -21,7 +21,6 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	chromeos-base/libbrillo
 	!media-libs/arc-camera3-libcab
 	media-libs/cros-camera-libcamera_common
 	media-libs/cros-camera-libcamera_ipc"

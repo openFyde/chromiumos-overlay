@@ -29,7 +29,6 @@ IUSE="cros_host"
 # code using the new location.
 DEPEND="
 	cros_host? ( >=chromeos-base/chromeos-dbus-bindings-0.0.1-r1058 )
-	>=chromeos-base/libbrillo-0.0.1-r1
 "
 
 RDEPEND="

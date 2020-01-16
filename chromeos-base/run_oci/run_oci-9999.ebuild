@@ -21,7 +21,6 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
-	chromeos-base/libbrillo
 	chromeos-base/libcontainer
 	sys-apps/util-linux
 	sys-libs/libcap

@@ -22,7 +22,6 @@ KEYWORDS="~*"
 IUSE="fuzzer"
 
 RDEPEND="
-	chromeos-base/libbrillo
 	chromeos-base/imageloader
 	dev-libs/protobuf:="
 

@@ -13,7 +13,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-DEPEND="chromeos-base/libbrillo"
+DEPEND="chromeos-base/libbrillo:="
 
 RDEPEND="${DEPEND}"
 

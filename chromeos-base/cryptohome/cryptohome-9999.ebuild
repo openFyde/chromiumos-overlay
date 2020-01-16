@@ -46,7 +46,6 @@ RDEPEND="
 	)
 	chromeos-base/attestation
 	chromeos-base/chaps
-	chromeos-base/libbrillo
 	chromeos-base/libhwsec
 	chromeos-base/libscrypt
 	chromeos-base/metrics

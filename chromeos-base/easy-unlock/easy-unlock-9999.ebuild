@@ -23,7 +23,6 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/easy-unlock-crypto
-	chromeos-base/libbrillo
 "
 
 DEPEND="

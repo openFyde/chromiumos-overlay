@@ -21,7 +21,6 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	chromeos-base/libbrillo
 	media-libs/cros-camera-libcamera_timezone"
 
 DEPEND="${RDEPEND}

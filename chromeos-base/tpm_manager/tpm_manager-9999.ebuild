@@ -30,7 +30,6 @@ RDEPEND="
 		chromeos-base/trunks
 	)
 	chromeos-base/minijail
-	chromeos-base/libbrillo
 	chromeos-base/libhwsec
 	chromeos-base/libtpmcrypto
 	"

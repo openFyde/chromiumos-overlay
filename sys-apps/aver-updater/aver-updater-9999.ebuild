@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	chromeos-base/libbrillo
+	chromeos-base/libbrillo:=
 "
 
 src_configure() {

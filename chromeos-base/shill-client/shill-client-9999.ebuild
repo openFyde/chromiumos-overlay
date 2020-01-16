@@ -22,10 +22,6 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="cros_host"
 
-DEPEND="
-	>=chromeos-base/libbrillo-0.0.1-r1
-"
-
 RDEPEND="
 	!<chromeos-base/shill-0.0.2
 "

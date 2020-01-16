@@ -24,7 +24,6 @@ KEYWORDS="~*"
 IUSE="usb_camera_monocle"
 
 RDEPEND="
-	chromeos-base/libbrillo
 	dev-libs/re2
 	!media-libs/arc-camera3-hal-usb
 	media-libs/cros-camera-libcamera_client
