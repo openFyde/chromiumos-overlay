@@ -6,12 +6,11 @@
 #
 # eclass bug workaround count: 1
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT=("1d529566e8ba78226f52df375f0d7113d0ef19bd" "f4428141132ec85eb255a819fc5bdaea2303f6af" "e05bfa91102dd5137b4027b4f3405e041ffe2c32")
-CROS_WORKON_TREE=("6f3b6312bac0907ab33d7bc0bfdd1c08c9e7fdf4" "4b0eaae00da0418755628097981bf4013f92a3a6" "1f42f6d549ba7b3f6bc5d67029984b113787ae0d")
-FIRMWARE_EC_BOARD="nami_fp"
-FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
+CROS_WORKON_COMMIT=("f46eefcad2b32a171583c4f566c2efd0c0bd7127" "f4428141132ec85eb255a819fc5bdaea2303f6af" "e05bfa91102dd5137b4027b4f3405e041ffe2c32")
+CROS_WORKON_TREE=("c6c64e17d0d5f713555bb84771ef876430fb61d3" "4b0eaae00da0418755628097981bf4013f92a3a6" "1f42f6d549ba7b3f6bc5d67029984b113787ae0d")
+FIRMWARE_EC_BOARD="bloonchipper"
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
@@ -20,7 +19,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"../platform/release-firmware/fpmcu-nami"
+	"../platform/release-firmware/fpmcu-bloonchipper"
 	"tpm2"
 	"cryptoc"
 )

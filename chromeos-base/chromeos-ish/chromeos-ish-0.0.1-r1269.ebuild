@@ -2,10 +2,10 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE.makefile file.
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT=("c5c198a95c5975a0f0555c1a005abbd0ad5e4902" "e05bfa91102dd5137b4027b4f3405e041ffe2c32")
-CROS_WORKON_TREE=("75b6ba27ed0b27e51840612b4b320250bb311aee" "1f42f6d549ba7b3f6bc5d67029984b113787ae0d")
+CROS_WORKON_COMMIT=("e5d01b87e4007d19dbc37a0d0791a5ee36890f0e" "e05bfa91102dd5137b4027b4f3405e041ffe2c32")
+CROS_WORKON_TREE=("7548c7aaa25096dd459334a9a08080b7c04e16d5" "1f42f6d549ba7b3f6bc5d67029984b113787ae0d")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/cryptoc"
@@ -25,23 +25,25 @@ DESCRIPTION="ECOS ISH image"
 HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="quiet verbose coreboot-sdk unibuild test"
 REQUIRED_USE="unibuild"
 
-RDEPEND="
+COMMON_DEPEND="
 	test? (
 		dev-libs/openssl:=
 		dev-libs/protobuf:=
 	)
 "
 
+RDEPEND="${COMMON_DEPEND}"
+
 # EC build requires libftdi, but not used for runtime (b:129129436)
 DEPEND="
 	dev-embedded/libftdi:1=
 	chromeos-base/chromeos-config
 	test? ( dev-libs/libprotobuf-mutator:= )
+	${COMMON_DEPEND}
 "
 
 src_unpack() {
@@ -50,6 +52,8 @@ src_unpack() {
 }
 
 src_prepare() {
+	default
+
 	cros_use_gcc
 }
 
