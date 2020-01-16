@@ -14,6 +14,7 @@ KEYWORDS="~*"
 
 COMMON_DEPEND="chromeos-base/libbrillo:=
 	virtual/libusb:1=
+	chromeos-base/libdfu_notification
 "
 
 RDEPEND="${COMMON_DEPEND}"
