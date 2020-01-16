@@ -317,32 +317,6 @@ src_configure() {
 		eqmake5 wpa_gui.pro
 		popd > /dev/null || die
 	fi
-
-	# Mostly pulled from tests/hwsim/example-wpa_supplicant.config.
-	if use wifi_hostap_test; then
-		Kconfig_style_config DRIVER_NONE
-		Kconfig_style_config TESTING_OPTIONS
-		Kconfig_style_config EAP_VENDOR_TEST
-		Kconfig_style_config MODULE_TESTS
-		Kconfig_style_config DEBUG_LINUX_TRACING
-		Kconfig_style_config WPA_TRACE
-		# TODO(https://crbug.com/1013471): enable BFD to run additional
-		# trace-based tests.
-		#Kconfig_style_config WPA_TRACE_BFD
-
-		# A few extra features that we don't currently break out into
-		# other USE flags but are unconditionally tested by hwsim
-		# tests.
-		Kconfig_style_config EAP_TNC
-		Kconfig_style_config MBO
-		Kconfig_style_config OCV
-		Kconfig_style_config FST
-		Kconfig_style_config SUITEB
-		Kconfig_style_config SUITEB192
-		Kconfig_style_config FILS
-		Kconfig_style_config FILS_SK_PFS
-		Kconfig_style_config OWE
-	fi
 }
 
 src_compile() {

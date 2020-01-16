@@ -22,7 +22,11 @@ IUSE="dbus"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-DEPEND="net-libs/libpcap:="
+DEPEND="
+	dev-libs/libnl:3
+	dev-libs/openssl:0=
+	net-libs/libpcap:=
+"
 
 # pygobject with python3 support requires recent versions (e.g., 3.28.3 --
 # http://crrev.com/c/1869550), but recent versions are more difficult to
@@ -34,12 +38,13 @@ RDEPEND="${DEPEND}
 	dbus? (
 		dev-python/dbus-python[${PYTHON_USEDEP}]
 		dev-python/pygobject[${PYTHON_USEDEP}]
+		sys-apps/dbus
 	)
 	dev-python/pycryptodome[${PYTHON_USEDEP}]
 	dev-python/pyrad[${PYTHON_USEDEP}]
 	net-analyzer/wireshark
-	net-wireless/hostapd[wifi_hostap_test]
-	net-wireless/wpa_supplicant-2_8[wifi_hostap_test]
+
+	net-wireless/crda
 "
 
 src_unpack() {
@@ -47,12 +52,36 @@ src_unpack() {
 }
 
 src_configure() {
-	# Nothing to do.
-	:
+	cros-workon_src_configure
+	# Toolchain setup
+	tc-export CC
+
+	cp tests/hwsim/example-wpa_supplicant.config wpa_supplicant/.config || die
+	cp tests/hwsim/example-hostapd.config hostapd/.config || die
+
+	# Disable WPA_TRACE_BFD, and kill any hard-coded /usr/include paths.
+	# TODO(https://crbug.com/1013471): re-enable BFD to run additional
+	# trace-based tests.
+	sed -i \
+		-e '/^CONFIG_WPA_TRACE_BFD=/d' \
+		-e '/^CFLAGS .*\/usr\/include/d' \
+		wpa_supplicant/.config \
+		hostapd/.config || die
 }
 
+# Clean in-between builds, because common code may be built with different
+# configs. See also tests/hwsim/build.sh.
 src_compile() {
+	einfo "Building wlantest"
 	emake -C wlantest V=1
+
+	einfo "Building hostapd"
+	emake -C hostapd clean
+	emake -C hostapd hostapd hostapd_cli hlr_auc_gw V=1
+
+	einfo "Building wpa_supplicant"
+	emake -C wpa_supplicant clean
+	emake -C wpa_supplicant V=1
 }
 
 src_install() {
@@ -64,16 +93,13 @@ src_install() {
 	cp -pPR "${S}"/tests/hwsim "${D}/${install_dir}"/tests || die
 	cp -pPR "${S}"/wpaspy "${D}/${install_dir}" || die
 
-	# We have a few wrapper scripts, to overlay onto the hostap
-	# source/build hierarchy.
-	local run="${FILESDIR}/runme.sh"
 	exeinto "${install_dir}"/hostapd
 	local exe
 	for exe in hostapd hostapd_cli hlr_auc_gw; do
-		newexe "${run}" "${exe}"
+		doexe "hostapd/${exe}"
 	done
 	exeinto "${install_dir}"/wpa_supplicant
 	for exe in wpa_supplicant wpa_cli; do
-		newexe "${run}" "${exe}"
+		doexe "wpa_supplicant/${exe}"
 	done
 }
