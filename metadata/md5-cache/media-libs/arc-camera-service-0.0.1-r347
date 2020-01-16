@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure info install preinst setup test unpack
+DEPEND=!chromeos-base/arc-camera-service media-libs/cros-camera-libcamera_timezone chromeos-base/libbrillo virtual/pkgconfig dev-vcs/git dev-vcs/git chromeos-base/libchrome:462023[cros-debug=] cros_host? ( dev-util/gn ) dev-cpp/gtest:= sys-apps/baselayout
+DESCRIPTION=ARC camera service. The service is in charge of accessing camera device. It uses linux domain socket (/run/camera/camera.sock) to build a synchronous channel.
+EAPI=5
+IUSE=-asan cros_host cros_workon_tree_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb_d58be6324ba2a1d0452d23bafb39c869c5ed2cd6_33374e750bb19b0cb8c0ad159e6f77e80fbf48ff_aac6acf155e37c38ff9504a0aec8a269bb2f3e20_9863ee9778012b49f27d5c4a939f6b7e6c1cf36e_7010e07aca1a8f5685729ec7fc8a7691a7ae2808 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb_d58be6324ba2a1d0452d23bafb39c869c5ed2cd6_33374e750bb19b0cb8c0ad159e6f77e80fbf48ff_aac6acf155e37c38ff9504a0aec8a269bb2f3e20_9863ee9778012b49f27d5c4a939f6b7e6c1cf36e_7010e07aca1a8f5685729ec7fc8a7691a7ae2808 cros-debug cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live live
+RDEPEND=!chromeos-base/arc-camera-service media-libs/cros-camera-libcamera_timezone chromeos-base/libchrome:462023[cros-debug=] chromeos-base/libbrillo:= sys-apps/baselayout
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	3c23591b59faf183d844cfca8632e911	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	71d43ad88b683708f937d2868436a290	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	user	7c566af8c48023219fd63246e88d6621
+_md5_=be16eb2ec9a51f3e186482e8377979b1
