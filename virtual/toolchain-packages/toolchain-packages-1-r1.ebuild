@@ -17,9 +17,15 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
+
+# dev-lang/rust qualifies as a toolchain package by the above criteria but
+# cannot be tested in a straightforward manner on the CQ because it requires
+# the full suite of cross-compilers to be built in order to be compiled. It can
+# be added back to this list once it can be compiled without requiring every
+# cross-compiler to be built first.
+
 DEPEND="
 	dev-lang/go
-	dev-lang/rust
 	dev-libs/elfutils
 	sys-devel/binutils
 	sys-devel/gcc
