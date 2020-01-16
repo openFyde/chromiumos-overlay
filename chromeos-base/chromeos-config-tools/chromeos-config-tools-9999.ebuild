@@ -44,6 +44,11 @@ src_install() {
 	doins "libcros_config/fake_cros_config.h"
 
 	dobin "${OUT}"/cros_config
+
+	# Setup the mountpoint for ConfigFS
+	dodir /config
+	keepdir /config/private
+	keepdir /config/v1
 }
 
 platform_pkg_test() {
