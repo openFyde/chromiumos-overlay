@@ -1,13 +1,13 @@
-DEFINED_PHASES=info install setup unpack
+DEFINED_PHASES=configure info install prepare setup unpack
 DEPEND=dev-vcs/git
-DESCRIPTION=Test tool that recovers bricked Chromium OS test devices
-EAPI=6
-HOMEPAGE=http://www.chromium.org/
-IUSE=cros_host cros_workon_tree_748f47a3e25596699d14cb3a2d0daafa6c12ea67
+DESCRIPTION=Autotest server web frontend
+EAPI=4
+HOMEPAGE=http://dev.chromium.org/chromium-os/testing
+IUSE=cros_host cros_workon_tree_58fa72ee11e13f821cb4d914b2a4a64bf0640e52
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
-RDEPEND=!<chromeos-base/shill-0.0.4 chromeos-base/chromeos-init dev-lang/python
+RDEPEND=!<=chromeos-base/autotest-server-0.0.1-r1260
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=2fa42ccfac66cf7a5b8f94253af59ca2
+_md5_=5d761c821892d0d44ffc831462dbc833
