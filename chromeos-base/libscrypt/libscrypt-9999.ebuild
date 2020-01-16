@@ -3,7 +3,7 @@
 
 EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/libscrypt"
-CROS_WORKON_LOCALNAME="../third_party/libscrypt"
+CROS_WORKON_LOCALNAME="third_party/libscrypt"
 
 inherit cros-sanitizers cros-workon autotools
 

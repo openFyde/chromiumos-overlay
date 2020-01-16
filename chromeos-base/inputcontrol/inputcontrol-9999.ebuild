@@ -4,6 +4,7 @@
 EAPI="6"
 
 CROS_WORKON_PROJECT="chromiumos/platform/inputcontrol"
+CROS_WORKON_LOCALNAME="platform/inputcontrol"
 
 inherit cros-workon
 

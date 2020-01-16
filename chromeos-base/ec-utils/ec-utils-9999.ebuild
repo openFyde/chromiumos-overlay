@@ -11,7 +11,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
-CROS_WORKON_LOCALNAME="ec"
+CROS_WORKON_LOCALNAME="platform/ec"
 
 inherit cros-workon cros-ec-board user
 

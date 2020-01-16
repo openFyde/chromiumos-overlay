@@ -5,6 +5,7 @@ EAPI=7
 
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
+CROS_WORKON_LOCALNAME="platform/vboot_reference"
 
 inherit cros-debug cros-fuzzer cros-sanitizers cros-workon
 
