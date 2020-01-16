@@ -144,6 +144,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-ycbcr-support.patch
 	epatch "${FILESDIR}"/UPSTREAM-radv-Remove-_mesa_locale_init-fini-calls.patch
 	epatch "${FILESDIR}"/UPSTREAM-radv-Fix-RGBX-Android-Vulkan-format-correspondence.patch
+	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_shader_atomic_int64-for.patch
 
 	default
 }

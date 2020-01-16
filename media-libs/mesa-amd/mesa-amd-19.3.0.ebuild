@@ -141,6 +141,9 @@ src_prepare() {
 	# b/146765340
 	epatch "${FILESDIR}"/UPSTREAM-radeon-vcn-Handle-crop-parameters-for-encoder.patch
 
+	# b/147712952
+	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_shader_atomic_int64-for.patch
+
 	default
 }
 
