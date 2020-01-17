@@ -74,6 +74,8 @@ src_prepare() {
 	# TODO(hidehiko): Drop this on next uprev once code with implicit fallthroughs
 	# are fixed (e.g. json_parser).
 	append-flags -Wno-implicit-fallthrough
+	# TODO(crbug.com/1041757): Verify the warning when libchrome got upgraded.
+	append-flags -Wno-range-loop-analysis
 
 	epatch "${FILESDIR}"/${P}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
 	epatch "${FILESDIR}"/${P}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
