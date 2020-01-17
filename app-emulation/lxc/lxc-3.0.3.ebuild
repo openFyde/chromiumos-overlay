@@ -95,6 +95,7 @@ pkg_setup() {
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.0.0-bash-completion.patch
 	"${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch # bug 558854
+	"${FILESDIR}"/${P}-check-euid-for-caps.patch # crbug.com/1041546
 )
 
 src_prepare() {
