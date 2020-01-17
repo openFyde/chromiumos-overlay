@@ -33,16 +33,7 @@ BDEPEND="
 "
 
 src_install() {
-	dobin "${OUT}/arc-appfuse-provider"
-
-	insinto /etc/dbus-1/system.d
-	doins org.chromium.ArcAppfuseProvider.conf
-
-	insinto /etc/init
-	doins init/arc-appfuse-provider.conf
-
-	insinto /usr/share/policy
-	newins "seccomp/arc-appfuse-provider-seccomp-${ARCH}.policy" arc-appfuse-provider-seccomp.policy
+	platform_install
 }
 
 pkg_preinst() {
@@ -51,5 +42,5 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/arc-appfuse_testrunner"
+	platform test_all
 }
