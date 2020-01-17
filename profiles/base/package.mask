@@ -3,3 +3,4 @@
 sys-firmware/analogix-anx3429-firmware
 sys-firmware/parade-ps8751a3-firmware
 sys-firmware/parade-ps8751a3-firmware-canary
+sys-firmware/parade-ps8805a2-firmware
