@@ -145,6 +145,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-radv-Remove-_mesa_locale_init-fini-calls.patch
 	epatch "${FILESDIR}"/UPSTREAM-radv-Fix-RGBX-Android-Vulkan-format-correspondence.patch
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_shader_atomic_int64-for.patch
+	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_ANDROID_external_memory_and.patch
 
 	default
 }
