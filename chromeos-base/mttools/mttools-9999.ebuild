@@ -4,6 +4,7 @@
 EAPI="6"
 
 CROS_WORKON_PROJECT="chromiumos/platform/mttools"
+CROS_WORKON_LOCALNAME="platform/mttools"
 
 inherit cros-sanitizers cros-workon cros-common.mk cros-constants cros-debug
 

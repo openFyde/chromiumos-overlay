@@ -6,7 +6,7 @@ EAPI=7
 # This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
 # the canonical empty project.
 CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
-CROS_WORKON_LOCALNAME="empty-project"
+CROS_WORKON_LOCALNAME="platform/empty-project"
 
 DESCRIPTION="Tests of Chromium OS-specific configuration installed files"
 HOMEPAGE="http://www.chromium.org/"

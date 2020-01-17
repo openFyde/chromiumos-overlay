@@ -5,7 +5,7 @@ EAPI=7
 PYTHON_COMPAT=( python2_7 )
 
 CROS_WORKON_PROJECT="chromiumos/platform/touchbot"
-CROS_WORKON_LOCALNAME="touchbot"
+CROS_WORKON_LOCALNAME="platform/touchbot"
 
 inherit cros-workon distutils-r1
 

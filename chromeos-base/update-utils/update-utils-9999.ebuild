@@ -9,7 +9,7 @@ EAPI=6
 PYTHON_COMPAT=( python2_7 python3_{6,7} )
 
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
-CROS_WORKON_LOCALNAME="dev"
+CROS_WORKON_LOCALNAME="platform/dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="nebraska stateful_update quick-provision"

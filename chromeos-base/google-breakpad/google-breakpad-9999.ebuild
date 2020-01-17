@@ -8,8 +8,8 @@ CROS_WORKON_PROJECT=(
 	"linux-syscall-support"
 )
 CROS_WORKON_LOCALNAME=(
-	"../third_party/breakpad"
-	"../third_party/breakpad/src/third_party/lss"
+	"third_party/breakpad"
+	"third_party/breakpad/src/third_party/lss"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}"
