@@ -12,6 +12,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+import firmware_config_pb2 as firmware__config__pb2
 from src.platform2.bluetooth.proto import config_pb2 as src_dot_platform2_dot_bluetooth_dot_proto_dot_config__pb2
 from src.platform2.chromeos_config.proto import design_variant_id_scan_config_pb2 as src_dot_platform2_dot_chromeos__config_dot_proto_dot_design__variant__id__scan__config__pb2
 
@@ -21,9 +22,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='chromiumos_overlay',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x1b\x64\x65sign_variant_config.proto\x12\x12\x63hromiumos_overlay\x1a*src/platform2/bluetooth/proto/config.proto\x1aGsrc/platform2/chromeos-config/proto/design_variant_id_scan_config.proto\"\x8c\x01\n\x13\x44\x65signVariantConfig\x12?\n\x0bscan_config\x18\x01 \x01(\x0b\x32*.chromeos_config.DesignVariantIdScanConfig\x12\x34\n\x10\x62luetooth_config\x18\x02 \x01(\x0b\x32\x1a.bluetooth.BluetoothConfigb\x06proto3')
+  serialized_pb=_b('\n\x1b\x64\x65sign_variant_config.proto\x12\x12\x63hromiumos_overlay\x1a\x15\x66irmware_config.proto\x1a*src/platform2/bluetooth/proto/config.proto\x1aGsrc/platform2/chromeos-config/proto/design_variant_id_scan_config.proto\"\xb8\x01\n\x13\x44\x65signVariantConfig\x12?\n\x0bscan_config\x18\x01 \x01(\x0b\x32*.chromeos_config.DesignVariantIdScanConfig\x12*\n\x08\x66irmware\x18\x02 \x01(\x0b\x32\x18.firmware.FirmwareConfig\x12\x34\n\x10\x62luetooth_config\x18\x03 \x01(\x0b\x32\x1a.bluetooth.BluetoothConfigb\x06proto3')
   ,
-  dependencies=[src_dot_platform2_dot_bluetooth_dot_proto_dot_config__pb2.DESCRIPTOR,src_dot_platform2_dot_chromeos__config_dot_proto_dot_design__variant__id__scan__config__pb2.DESCRIPTOR,])
+  dependencies=[firmware__config__pb2.DESCRIPTOR,src_dot_platform2_dot_bluetooth_dot_proto_dot_config__pb2.DESCRIPTOR,src_dot_platform2_dot_chromeos__config_dot_proto_dot_design__variant__id__scan__config__pb2.DESCRIPTOR,])
 
 
 
@@ -43,8 +44,15 @@ _DESIGNVARIANTCONFIG = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bluetooth_config', full_name='chromiumos_overlay.DesignVariantConfig.bluetooth_config', index=1,
+      name='firmware', full_name='chromiumos_overlay.DesignVariantConfig.firmware', index=1,
       number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='bluetooth_config', full_name='chromiumos_overlay.DesignVariantConfig.bluetooth_config', index=2,
+      number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -61,11 +69,12 @@ _DESIGNVARIANTCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=169,
-  serialized_end=309,
+  serialized_start=192,
+  serialized_end=376,
 )
 
 _DESIGNVARIANTCONFIG.fields_by_name['scan_config'].message_type = src_dot_platform2_dot_chromeos__config_dot_proto_dot_design__variant__id__scan__config__pb2._DESIGNVARIANTIDSCANCONFIG
+_DESIGNVARIANTCONFIG.fields_by_name['firmware'].message_type = firmware__config__pb2._FIRMWARECONFIG
 _DESIGNVARIANTCONFIG.fields_by_name['bluetooth_config'].message_type = src_dot_platform2_dot_bluetooth_dot_proto_dot_config__pb2._BLUETOOTHCONFIG
 DESCRIPTOR.message_types_by_name['DesignVariantConfig'] = _DESIGNVARIANTCONFIG
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)

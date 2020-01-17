@@ -4,4 +4,5 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-protoc -I. -I../../../.. design_variant_config.proto --python_out=proto_bindings
+protoc -I. -I../../../.. ./*.proto --python_out=proto_bindings
+

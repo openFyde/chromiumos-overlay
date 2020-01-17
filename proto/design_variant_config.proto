@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package chromiumos_overlay;
 
+import "firmware_config.proto";
 import "src/platform2/bluetooth/proto/config.proto";
 import "src/platform2/chromeos-config/proto/design_variant_id_scan_config.proto";
 
@@ -9,5 +10,7 @@ import "src/platform2/chromeos-config/proto/design_variant_id_scan_config.proto"
 message DesignVariantConfig {
     chromeos_config.DesignVariantIdScanConfig scan_config = 1;
 
-    bluetooth.BluetoothConfig bluetooth_config = 2;
+    firmware.FirmwareConfig firmware = 2;
+
+    bluetooth.BluetoothConfig bluetooth_config = 3;
 }
