@@ -3,6 +3,7 @@
 
 EAPI=5
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
+CROS_WORKON_LOCALNAME="platform/factory_installer"
 
 inherit cros-sanitizers cros-workon toolchain-funcs cros-factory
 
@@ -87,7 +88,6 @@ RDEPEND="$COMMON_DEPEND
 	sys-block/parted
 	sys-fs/e2fsprogs"
 
-CROS_WORKON_LOCALNAME="factory_installer"
 
 src_configure() {
 	sanitizers-setup-env

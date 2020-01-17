@@ -5,7 +5,7 @@ EAPI=7
 
 PYTHON_COMPAT=( python3_{6,7} )
 
-CROS_WORKON_LOCALNAME="../aosp/system/update_engine"
+CROS_WORKON_LOCALNAME="aosp/system/update_engine"
 CROS_WORKON_PROJECT="aosp/platform/system/update_engine"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 

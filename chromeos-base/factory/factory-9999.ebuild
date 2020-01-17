@@ -3,7 +3,7 @@
 
 EAPI=5
 CROS_WORKON_PROJECT="chromiumos/platform/factory"
-CROS_WORKON_LOCALNAME="factory"
+CROS_WORKON_LOCALNAME="platform/factory"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
 # TODO(crbug.com/999876): Upgrade to Python 3 at some point.

@@ -3,7 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/tremplin"
-CROS_WORKON_LOCALNAME="tremplin"
+CROS_WORKON_LOCALNAME="platform/tremplin"
 CROS_GO_BINARIES="chromiumos/tremplin"
 
 CROS_GO_TEST=(
