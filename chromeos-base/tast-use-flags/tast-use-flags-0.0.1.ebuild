@@ -40,6 +40,7 @@ IUSE="
 	drm_atomic
 	eve
 	fizz
+	force_crashpad
 	grunt
 	internal
 	+internal_mic
