@@ -69,6 +69,7 @@ RDEPEND="
 		x11-libs/libXrandr
 		x11-libs/libXxf86vm
 	)
+	!media-libs/mesa
 	llvm? ( virtual/libelf )
 	dev-libs/expat
 	dev-libs/libgcrypt
@@ -106,10 +107,7 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	epatch "${FILESDIR}"/18.3-intel-limit-urb-size-for-SKL-KBL-CFL-GT1.patch
-	epatch "${FILESDIR}"/intel-Add-support-for-Comet-Lake.patch
 	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
-	epatch "${FILESDIR}"/19.0-radeonsi-gfx9-honor-user-stride-for-imported-buffers.patch
 	epatch "${FILESDIR}"/0001-GL_MESA_framebuffer_flip_y-include-GLES2-Sync-GLES2-headers-with-Khronos.patch
 	epatch "${FILESDIR}"/0002-GL_MESA_framebuffer_flip_y-mesa-GetFramebufferParameteriv-spelling.patch
 	epatch "${FILESDIR}"/0003-GL_MESA_framebuffer_flip_y-mesa-Allow-MESA_framebuffer_flip_y-for-GLES-3.patch
@@ -242,10 +240,6 @@ src_install() {
 			doins "${S}/$(get_libdir)/${x}"
 		fi
 	done
-
-	# Set driconf option to enable S3TC hardware decompression
-	insinto "/etc/"
-	doins "${FILESDIR}"/drirc
 }
 
 # $1 - VIDEO_CARDS flag (check skipped for "--")

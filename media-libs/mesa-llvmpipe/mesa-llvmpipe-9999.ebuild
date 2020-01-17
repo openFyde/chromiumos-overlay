@@ -67,6 +67,7 @@ RDEPEND="
 		x11-libs/libXxf86vm
 	)
 	llvm? ( virtual/libelf )
+	!media-libs/mesa
 	dev-libs/expat
 	dev-libs/libgcrypt
 	virtual/udev
@@ -230,10 +231,6 @@ src_install() {
 			doins "${S}/$(get_libdir)/${x}"
 		fi
 	done
-
-	# Set driconf option to enable S3TC hardware decompression
-	insinto "/etc/"
-	doins "${FILESDIR}"/drirc
 }
 
 # $1 - VIDEO_CARDS flag (check skipped for "--")
