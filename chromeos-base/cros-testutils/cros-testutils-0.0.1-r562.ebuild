@@ -1,11 +1,11 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI=7
 CROS_WORKON_COMMIT="32ab4e7e23359e235ec68aee09c25b403fa29000"
 CROS_WORKON_TREE="20958a81e7fb7c5f9fe805dbfa18c515acf3db6e"
 CROS_WORKON_PROJECT="chromiumos/platform/crostestutils"
-CROS_WORKON_LOCALNAME="crostestutils"
+CROS_WORKON_LOCALNAME="platform/crostestutils"
 
 inherit cros-workon
 
@@ -13,7 +13,6 @@ DESCRIPTION="Host test utilities for ChromiumOS"
 HOMEPAGE="http://www.chromium.org/"
 
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="app-emulation/qemu
