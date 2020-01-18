@@ -11,7 +11,7 @@ DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
 HOMEPAGE="https://android.googlesource.com/platform/external/deqp"
 
 # This corresponds to a commit near ToT.
-MY_DEQP_COMMIT='15f23671da856ef5a7375aa814888517dfa9bd7c'
+MY_DEQP_COMMIT='a3d4f2bdc5414efa20b0288e1bf75a4c1bd758c0'
 
 # To uprev deqp, follow these commands:
 # wget https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz
@@ -21,14 +21,16 @@ MY_DEQP_COMMIT='15f23671da856ef5a7375aa814888517dfa9bd7c'
 # dependencies be unpacked into the source tree. See ${S}/external/fetch_sources.py
 # in the dEQP for the required dependencies. Upload these tarballs to the ChromeOS mirror too and
 # update the manifest.
-MY_GLSLANG_COMMIT='6.2.2596'
-MY_SPIRV_TOOLS_COMMIT='vulkan-1.1-rc1'
-MY_SPIRV_HEADERS_COMMIT='vulkan-1.1-rc2'
+MY_AMBER_COMMIT='62ef3e4e056d80f848baadee745cc176f6252cc3'
+MY_GLSLANG_COMMIT='1ff0c181bb37b06371e2ffa2810d473c5e01c9b7'
+MY_SPIRV_TOOLS_COMMIT='2c0111e6eba779cf30e8c7f5a733ea0762895ba0'
+MY_SPIRV_HEADERS_COMMIT='842ec90674627ed2ffef609e3cd79d1562eded01'
 
 SRC_URI="https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz -> deqp-${MY_DEQP_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/glslang/archive/${MY_GLSLANG_COMMIT}.tar.gz -> glslang-${MY_GLSLANG_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/SPIRV-Tools/archive/${MY_SPIRV_TOOLS_COMMIT}.tar.gz -> SPIRV-Tools-${MY_SPIRV_TOOLS_COMMIT}.tar.gz
-	https://github.com/KhronosGroup/SPIRV-Headers/archive/${MY_SPIRV_HEADERS_COMMIT}.tar.gz -> SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}.tar.gz"
+	https://github.com/KhronosGroup/SPIRV-Headers/archive/${MY_SPIRV_HEADERS_COMMIT}.tar.gz -> SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}.tar.gz
+	https://github.com/google/amber/archive/${MY_AMBER_COMMIT}.tar.gz -> amber-${MY_AMBER_COMMIT}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -52,15 +54,14 @@ S="${WORKDIR}"
 src_unpack() {
 	default_src_unpack || die
 
-	mkdir -p external/{glslang,spirv-tools,spirv-headers}
+	mkdir -p external/{amber,glslang,spirv-tools,spirv-headers}
+	mv "amber-${MY_AMBER_COMMIT}" external/amber/src || die
 	mv "glslang-${MY_GLSLANG_COMMIT}" external/glslang/src || die
 	mv "SPIRV-Tools-${MY_SPIRV_TOOLS_COMMIT}" external/spirv-tools/src || die
 	mv "SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}" external/spirv-headers/src || die
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/Fix-build-for-surfaceless-target.patch
-	epatch "${FILESDIR}"/0001-Remove-line-expression-tests.patch
 	epatch "${FILESDIR}"/Fix-clang-compiler-error.patch
 	default
 }

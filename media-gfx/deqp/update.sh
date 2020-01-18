@@ -12,6 +12,7 @@ declare -A git_repos=(
     [SPIRV-Headers]=https://github.com/KhronosGroup/SPIRV-Headers/archive
     [SPIRV-Tools]=https://github.com/KhronosGroup/SPIRV-Tools/archive
     [glslang]=https://github.com/KhronosGroup/glslang/archive
+    [amber]=https://github.com/google/amber/archive
 )
 
 for module in "${!git_repos[@]}"; do
