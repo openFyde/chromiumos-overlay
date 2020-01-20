@@ -1,6 +1,6 @@
-From 2ecd7c1ea597bb1ea2b50c1164dc2176a71220c3 Mon Sep 17 00:00:00 2001
-From: Daniel Kurtz <djkurtz@chromium.org>
-Date: Mon, 23 Sep 2019 13:52:35 +0200
+From 340221b78e7af95b703dcefa9afa4ffe891db920 Mon Sep 17 00:00:00 2001
+From: Mattias Nissler <mnissler@chromium.org>
+Date: Mon, 20 Jan 2020 14:07:12 +0100
 Subject: [PATCH] Add OpenSSL 1.1 support
 
 Add support for OpenSSL 1.1 API while maintaining support for OpenSSL
@@ -27,10 +27,10 @@ significantly re-implemented to avoid direct X509_SIG manipulation.
 BUG=chromium:739688
 TEST=FEATURES=test emerge-sarien libp11
 ---
- src/p11_key.c |  46 ++++++++++++++++----
- src/p11_ops.c |  29 +++++++++----
- src/p11_rsa.c | 118 +++++++++++++++++++++++++++++++++++++++++++++-----
- 3 files changed, 164 insertions(+), 29 deletions(-)
+ src/p11_key.c |  46 +++++++++++++++----
+ src/p11_ops.c |  29 ++++++++----
+ src/p11_rsa.c | 119 +++++++++++++++++++++++++++++++++++++++++++++-----
+ 3 files changed, 165 insertions(+), 29 deletions(-)
 
 --- a/src/p11_key.c
 +++ b/src/p11_key.c
@@ -228,11 +228,16 @@ TEST=FEATURES=test emerge-sarien libp11
  	RSA_set_app_data(rsa, key);
  
  	RSA_free(rsa);
-@@ -115,14 +133,18 @@ static int pkcs11_rsa_sign(int type, const unsigned char *m, unsigned int m_len,
+@@ -110,6 +128,8 @@ static int pkcs11_rsa_sign(int type, const unsigned char *m, unsigned int m_len,
+ 	
+ 	return PKCS11_sign(type,m,m_len,sigret,siglen,(PKCS11_KEY *) RSA_get_app_data(rsa));
+ }
++
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
+ /* Lousy hack alert. If RSA_verify detects that the key has the
+  * RSA_FLAG_SIGN_VER flags set, it will assume that verification
   * is implemented externally as well.
-  * We work around this by temporarily cleaning the flag, and
-  * calling RSA_verify once more.
-+ * OpenSSL-1.1 does not define or use the RSA_FLAG_SIGN_VER. No need for hack
+@@ -118,7 +138,7 @@ static int pkcs11_rsa_sign(int type, const unsigned char *m, unsigned int m_len,
   */
  static int
  pkcs11_rsa_verify(int type, const unsigned char *m, unsigned int m_len,
@@ -241,21 +246,15 @@ TEST=FEATURES=test emerge-sarien libp11
  {
  	RSA *r = (RSA *) rsa;	/* Ugly hack to get rid of compiler warning */
  	int res;
- 
-+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
-+	res = RSA_verify(type, m, m_len, signature, siglen, r);
-+#else
- 	if (r->flags & RSA_FLAG_SIGN_VER) {
- 		r->flags &= ~RSA_FLAG_SIGN_VER;
- 		res = RSA_verify(type, m, m_len, signature, siglen, r);
-@@ -131,24 +153,96 @@ pkcs11_rsa_verify(int type, const unsigned char *m, unsigned int m_len,
+@@ -131,24 +151,99 @@ pkcs11_rsa_verify(int type, const unsigned char *m, unsigned int m_len,
  		PKCS11err(PKCS11_F_PKCS11_RSA_VERIFY, PKCS11_NOT_SUPPORTED);
  		res = 0;
  	}
-+#endif
++
  	return res;
  }
- 
++#endif
++
 +#if OPENSSL_VERSION_NUMBER < 0x10100005L
 +
 +static RSA_METHOD *RSA_meth_dup(const RSA_METHOD *meth)
@@ -322,7 +321,7 @@ TEST=FEATURES=test emerge-sarien libp11
 +	return 1;
 +}
 +#endif
-+
+ 
  /*
   * Overload the default OpenSSL methods for RSA
   */
@@ -347,7 +346,9 @@ TEST=FEATURES=test emerge-sarien libp11
 +		RSA_meth_set_priv_enc(ops, pkcs11_rsa_encrypt);
 +		RSA_meth_set_priv_dec(ops, pkcs11_rsa_decrypt);
 +		RSA_meth_set_sign(ops, pkcs11_rsa_sign);
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
 +		RSA_meth_set_verify(ops, pkcs11_rsa_verify);
++#endif
  	}
 -	return &ops;
 +	return ops;
@@ -355,5 +356,5 @@ TEST=FEATURES=test emerge-sarien libp11
  
  PKCS11_KEY_ops pkcs11_rsa_ops = {
 -- 
-2.21.0
+2.24.1
 
