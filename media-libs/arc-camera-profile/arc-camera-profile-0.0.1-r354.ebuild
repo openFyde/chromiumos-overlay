@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="646d9266f0b2a87e17b00a2b849c90a1dbdf7570"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "ec0e194172ebfae1d7a34e15b7a61fe97815bca0" "33374e750bb19b0cb8c0ad159e6f77e80fbf48ff" "9863ee9778012b49f27d5c4a939f6b7e6c1cf36e" "cbf7e4ca3df44ea0561a2ecf25e8e8b015003ec7" "c0a80b9d7fcf566454e141f044b430fccf9fd33d")
+CROS_WORKON_COMMIT="8149b140153b760573b42886cfcb9b2629e25a7f"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "ec0e194172ebfae1d7a34e15b7a61fe97815bca0" "8d72dd7e2b8aa933d6178e3e4bf90655cd7caa71" "9863ee9778012b49f27d5c4a939f6b7e6c1cf36e" "cbf7e4ca3df44ea0561a2ecf25e8e8b015003ec7" "c0a80b9d7fcf566454e141f044b430fccf9fd33d")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/usb camera/include camera/tools common-mk"
