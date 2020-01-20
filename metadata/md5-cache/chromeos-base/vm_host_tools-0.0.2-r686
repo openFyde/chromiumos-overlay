@@ -4,13 +4,13 @@ DEPEND=app-arch/libarchive:= !!chromeos-base/vm_tools chromeos-base/arc-networkd
 DESCRIPTION=VM host tools for Chrome OS
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools
-IUSE=+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer cros_host cros_workon_tree_243636760128ee1d730cae7b477a2a95c6f4f598_c0a80b9d7fcf566454e141f044b430fccf9fd33d_ede0d83eb33d420aed3eda5806ccd357881b4bb0_cdd7ae547dd7ae0c894db723c9f1a3ab9de8f96f_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_243636760128ee1d730cae7b477a2a95c6f4f598_c0a80b9d7fcf566454e141f044b430fccf9fd33d_ede0d83eb33d420aed3eda5806ccd357881b4bb0_cdd7ae547dd7ae0c894db723c9f1a3ab9de8f96f_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug cros_host test arcpp arcvm cheets android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt android-vm-pi android-vm-master
+IUSE=+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer cros_host cros_workon_tree_243636760128ee1d730cae7b477a2a95c6f4f598_c0a80b9d7fcf566454e141f044b430fccf9fd33d_ede0d83eb33d420aed3eda5806ccd357881b4bb0_8aadda0e703372bbd864189311a6546698c4dbcd_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_243636760128ee1d730cae7b477a2a95c6f4f598_c0a80b9d7fcf566454e141f044b430fccf9fd33d_ede0d83eb33d420aed3eda5806ccd357881b4bb0_8aadda0e703372bbd864189311a6546698c4dbcd_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug cros_host test arcpp arcvm cheets android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt android-vm-pi android-vm-master
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
 RDEPEND=app-arch/libarchive:= !!chromeos-base/vm_tools chromeos-base/arc-networkd:= chromeos-base/chunnel:= chromeos-base/crosvm:= chromeos-base/metrics:= chromeos-base/minijail:= net-libs/grpc:= dev-libs/protobuf:= dev-rust/9s chromeos-base/libchrome:462023[cros-debug=] chromeos-base/libbrillo:= sys-apps/baselayout
 REQUIRED_USE=kvm_host cheets? ( || ( arcpp arcvm ) ) arcpp? ( ^^ ( android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt ) ) arcvm? ( ^^ ( android-vm-pi android-vm-master ) )
-SLOT=0/0.0.2-r685
+SLOT=0/0.0.2-r686
 SRC_URI=gs://chromeos-localmirror/distfiles/linux_credits-10895.tar.bz2
 _eclasses_=arc-build-constants	437cf60621419e2c756218e3d6a7477d	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	3c23591b59faf183d844cfca8632e911	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	71d43ad88b683708f937d2868436a290	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	udev	452708c3f55cf6e918b045adb949a9e6	user	7c566af8c48023219fd63246e88d6621
-_md5_=b3314ec69e04c9b0c93a1fbb4c3dcfd8
+_md5_=d39154ecbc1fb84001bd4c6e6e913bf7
