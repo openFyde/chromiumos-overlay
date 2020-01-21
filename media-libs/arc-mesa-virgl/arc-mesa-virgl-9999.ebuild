@@ -126,9 +126,6 @@ src_prepare() {
 		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
 
-	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
-	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
-
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
 
 	default
