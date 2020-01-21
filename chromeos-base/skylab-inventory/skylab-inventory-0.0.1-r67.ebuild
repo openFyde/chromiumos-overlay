@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="e14ccea7aff5ff5fae6b4063e901dcc2e5eedd85"
-CROS_WORKON_TREE="47a4deca137eff07a11c3c1aab47607d078a7c00"
+CROS_WORKON_COMMIT="b3b8d7dd3bb0c988fcb31389502b36f69f173aaf"
+CROS_WORKON_TREE="4194f5fecef78c27d3232ab48407d11f72ecd6ab"
 CROS_WORKON_PROJECT="chromiumos/infra/skylab_inventory"
 CROS_WORKON_LOCALNAME="../../infra/skylab_inventory"
 CROS_GO_WORKSPACE="${S}/go"
