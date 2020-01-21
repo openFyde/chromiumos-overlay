@@ -290,6 +290,7 @@ SERVER_IUSE_TESTS="
 	+tests_policy_WiFiAutoconnectServer
 	+tests_policy_WiFiPrecedenceServer
 	+tests_policy_WiFiTypesServer
+	+tests_policy_WilcoServerDeviceDockMacAddressSource
 	+tests_policy_WilcoServerOnNonWilcoDevice
 	+tests_policy_WilcoServerUSBPowershare
 	+tests_power_BrightnessResetAfterReboot
