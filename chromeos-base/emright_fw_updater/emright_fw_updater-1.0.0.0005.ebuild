@@ -9,7 +9,7 @@ DESCRIPTION="EMRight Digitizer for Firmware Update"
 HOMEPAGE="https://github.com/emright123/emright_fw_updater"
 SRC_URI="https://github.com/emright123/emright_fw_updater/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
-LICENSE="GPL-2.0"
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
