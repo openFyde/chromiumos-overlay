@@ -7,7 +7,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_SUBTREE="common-mk diagnostics .gn"
+# TODO(crbug.com/1044813): Remove chromeos-config once its public headers are fixed.
+CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics .gn"
 
 PLATFORM_SUBDIR="diagnostics"
 
@@ -19,9 +20,14 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagno
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="fuzzer wilco"
+IUSE="fuzzer wilco generated_cros_config unibuild"
 
 COMMON_DEPEND="
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config:= )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
+	chromeos-base/chromeos-config-tools:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-libs/grpc:=
