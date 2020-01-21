@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f2b5b071907b4915a7519d1772a7ec681d00fab6"
+CROS_WORKON_COMMIT="1926047d5299d2afd83ddbad343a93d37b08f39b"
 CROS_WORKON_TREE=("c0a80b9d7fcf566454e141f044b430fccf9fd33d" "842b1cfa6081c4eaaaaf86a1dc5c1f008dc64088" "ede0d83eb33d420aed3eda5806ccd357881b4bb0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cheets chromeless_tty cros_embedded -direncryption systemd fuzzer"
+IUSE="cheets chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
