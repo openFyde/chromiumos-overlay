@@ -26,9 +26,11 @@ REQUIRED_USE="kvm_guest"
 COMMON_DEPEND="
 	!!chromeos-base/vm_tools
 	chromeos-base/minijail:=
-	chromeos-base/crash-reporter:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
+	vm-containers? (
+		chromeos-base/crash-reporter:=
+	)
 	!fuzzer? (
 		media-libs/mesa:=[gbm]
 		x11-base/xwayland:=
