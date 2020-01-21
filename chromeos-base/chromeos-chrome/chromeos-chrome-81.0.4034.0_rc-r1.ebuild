@@ -271,6 +271,11 @@ set_build_args() {
 		"use_thin_lto=$(usetf thinlto)"
 		"is_cfi=$(usetf cfi)"
 		"use_cfi_cast=$(usetf cfi)"
+
+		# Assistant integration tests are only run on the Chromium bots,
+		# but they increase the size of libassistant.so by 1.3MB so we
+		# disable them here.
+		"enable_assistant_integration_tests=false"
 	)
 	# BUILD_STRING_ARGS needs appropriate quoting. So, we keep them separate and
 	# add them to BUILD_ARGS at the end.
