@@ -1,7 +1,8 @@
+BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile configure info install postinst prepare prerm setup test unpack
-DEPEND=dev-rust/libc:= ~dev-rust/proc-macro2-0.4.21:= ~dev-rust/quote-0.6.10:= ~dev-rust/syn-0.15.21:= fuzzer? ( dev-rust/cros_fuzz:= ) dev-vcs/git >=virtual/rust-1.39.0:=
+DEPEND=dev-rust/libc:= ~dev-rust/proc-macro2-0.4.21:= ~dev-rust/quote-0.6.10:= ~dev-rust/syn-0.15.21:= fuzzer? ( dev-rust/cros_fuzz:= ) >=virtual/rust-1.39.0:=
 DESCRIPTION=Server implementation of the 9P file system protocol
-EAPI=6
+EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/p9/
 IUSE=fuzzer test fuzzer cros_host cros_workon_tree_ cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=~*
@@ -11,4 +12,4 @@ RDEPEND=!!<=dev-rust/p9-0.1.0-r14
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/9999
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-rust	07f3be197d862e5511a5605fd7b169e5	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=629c10c3a7322926baa0d9a713ba01a8
+_md5_=ba0b09907e36b6e2a64a05c7eaab4378
