@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="54f358abf659dc723d1fbc86a4002ded49a6f513"
+CROS_WORKON_COMMIT="ef93e73ca16f1171431fcb19fb4fc74ff78d247f"
 CROS_WORKON_TREE="39d4ff53c79f5f3db64d99d775bfa262f27bf73e"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,7 +17,7 @@ DESCRIPTION="Server binary for the 9P file system protocol"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/9s/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="test"
 
