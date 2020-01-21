@@ -5,6 +5,9 @@ EAPI="6"
 
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
+# Prevent automatic uprevs of this package since upstream is out of our control.
+CROS_WORKON_BLACKLIST="1"
+
 inherit cros-fuzzer cros-sanitizers eutils flag-o-matic meson toolchain-funcs cros-workon
 
 DESCRIPTION="library used implement a virtual 3D GPU used by qemu"
