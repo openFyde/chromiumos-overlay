@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package chromiumos_overlay;
+
+import "src/platform2/bluetooth/proto/config.proto";
+import "src/platform2/chromeos-config/proto/design_variant_id_scan_config.proto";
+
+// Specifies runtime software configuration for a given variant.
+message DesignVariantConfig {
+    chromeos_config.DesignVariantIdScanConfig scan_config = 1;
+
+    bluetooth.BluetoothConfig bluetooth_config = 2;
+}
