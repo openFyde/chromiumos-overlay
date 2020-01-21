@@ -154,6 +154,7 @@ src_install() {
 	einfo "Installing cr50 from ${build_dir} into ${dest_dir}"
 
 	insinto "${dest_dir}"
+	doins "${build_dir}/ec.bin"
 	doins "${build_dir}/RW/ec.RW.elf"
 	doins "${build_dir}/RW/ec.RW_B.elf"
 
