@@ -56,3 +56,6 @@ sys-apps/diffutils test
 # requires dev-lang/python to be built with SQLite, which is USE masked on all
 # boards.
 dev-python/py test
+
+# We don't use cxx library bindings for libgpiod.
+dev-libs/libgpiod cxx
