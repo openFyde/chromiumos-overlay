@@ -33,6 +33,7 @@ IUSE="
 	vaapi
 	wifi_hostap_test
 	wifi_testbed_ap
+	+wired_8021x
 "
 
 # Packages required to support autotest images.  Dependencies here
@@ -158,7 +159,10 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/pywalt
 	chromeos-base/screenshot
 	chromeos-base/secure-wipe
-	shill? ( chromeos-base/shill-test-scripts )
+	shill? (
+		chromeos-base/shill-test-scripts
+		wired_8021x? ( net-wireless/hostapd )
+	)
 	!chromeless_tests? ( chromeos-base/telemetry )
 	chromeos-base/touchbot
 	chromeos-base/toolchain-tests

@@ -85,6 +85,7 @@ IUSE="
 	vulkan
 	wifi_hostap_test
 	wilco
+	+wired_8021x
 "
 
 S=${WORKDIR}
