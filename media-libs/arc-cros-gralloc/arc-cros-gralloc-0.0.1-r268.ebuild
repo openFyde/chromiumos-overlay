@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="*"
 
 VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
-IUSE="$(printf 'video_cards_%s ' ${VIDEO_CARDS})"
+IUSE="kernel-4_4 kernel-4_19 $(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 
 RDEPEND="
 	x11-libs/arc-libdrm[${MULTILIB_USEDEP}]
@@ -44,6 +44,9 @@ src_configure() {
 	if use video_cards_intel; then
 		export DRV_I915=1
 		append-cppflags -DDRV_I915
+		if use kernel-4_4 || use kernel-4_19 ; then
+			append-cppflags -DI915_SCANOUT_Y_TILED
+		fi
 	fi
 
 	if use video_cards_rockchip; then
