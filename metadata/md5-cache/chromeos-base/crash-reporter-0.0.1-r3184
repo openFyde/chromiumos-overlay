@@ -4,11 +4,11 @@ DEPEND=chromeos-base/minijail:= chromeos-base/google-breakpad:=[cros_i686?] chro
 DESCRIPTION=Crash reporting service that uploads crash reports with debug information
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/
-IUSE=cheets chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzzer cros_host cros_workon_tree_ cros_i686 cros_host cros_workon_tree_ cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_ cros-debug cros_host test
-KEYWORDS=~*
+IUSE=cheets chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzzer cros_host cros_workon_tree_34e736b2ee0acc1681bb3c37947454b3459bea88_842b1cfa6081c4eaaaaf86a1dc5c1f008dc64088_ede0d83eb33d420aed3eda5806ccd357881b4bb0_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros_i686 cros_host cros_workon_tree_34e736b2ee0acc1681bb3c37947454b3459bea88_842b1cfa6081c4eaaaaf86a1dc5c1f008dc64088_ede0d83eb33d420aed3eda5806ccd357881b4bb0_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_34e736b2ee0acc1681bb3c37947454b3459bea88_842b1cfa6081c4eaaaaf86a1dc5c1f008dc64088_ede0d83eb33d420aed3eda5806ccd357881b4bb0_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug cros_host test
+KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live live
 RDEPEND=chromeos-base/minijail:= chromeos-base/google-breakpad:=[cros_i686?] chromeos-base/metrics:= dev-libs/libpcre:= dev-libs/protobuf:= dev-libs/re2:= net-misc/curl:= sys-libs/zlib:= chromeos-base/chromeos-ca-certificates || ( sys-apps/journald:= sys-apps/systemd:= ) direncryption? ( sys-apps/keyutils:= ) chromeos-base/libchrome:576279[cros-debug=] chromeos-base/libbrillo:= sys-apps/baselayout
-SLOT=0/9999
+SLOT=0/0.0.1-r3184
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-i686	bb57fa367ef5779cd4e4e01ccabb0f5a	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	9a62429c3e83cd30e646292329521f7d	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	71d43ad88b683708f937d2868436a290	systemd	71fd8d2065d102753fb9e4d20eaf3e9f	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	udev	452708c3f55cf6e918b045adb949a9e6	user	7c566af8c48023219fd63246e88d6621
-_md5_=dff3aa11fd79c02db1a9c12e542a0d7b
+_md5_=d864c2ec0869db4cecb55f903dcf5e2b

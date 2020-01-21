@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=chromeos-base/chromeos-config-tools:= unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) chromeos-base/newblue:= net-wireless/bluez:= chromeos-base/system_api:=[fuzzer?] chromeos-base/libchrome:576279[cros-debug=] cros_host? ( dev-util/gn ) dev-cpp/gtest:=
+DESCRIPTION=Bluetooth service for Chromium OS
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/bluetooth
+IUSE=+bluetooth_suspend_management fuzzer generated_cros_config seccomp unibuild cros_host cros_workon_tree_34e736b2ee0acc1681bb3c37947454b3459bea88_fe7e924dbb340e714ec9c97c72922f08ea4970ac_af86bbdac5880a9ed0df3064d4a4c55f0d6ee9b6_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_34e736b2ee0acc1681bb3c37947454b3459bea88_fe7e924dbb340e714ec9c97c72922f08ea4970ac_af86bbdac5880a9ed0df3064d4a4c55f0d6ee9b6_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live live
+RDEPEND=chromeos-base/chromeos-config-tools:= unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) chromeos-base/newblue:= net-wireless/bluez:= chromeos-base/libchrome:576279[cros-debug=] chromeos-base/libbrillo:=
+SLOT=0/0.0.1-r390
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	9a62429c3e83cd30e646292329521f7d	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	71d43ad88b683708f937d2868436a290	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=bced8c80b59c99188deabeca7d239e43
