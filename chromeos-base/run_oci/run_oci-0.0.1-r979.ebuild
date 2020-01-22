@@ -1,8 +1,8 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="03718efbe19c70779f015007d54a80cfe6038d90"
+EAPI=7
+CROS_WORKON_COMMIT="4476de7e9dce20854d57892697b7439d44228782"
 CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "26cc39937cb33cdae66977037ac978473c338884" "3273c462aba5a0ee59b9a7730d6601acfd1dd33b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -18,16 +18,17 @@ inherit cros-workon libchrome platform
 DESCRIPTION="Utility for running OCI-compatible containers"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND="
-	chromeos-base/libcontainer
-	sys-apps/util-linux
-	sys-libs/libcap
+COMMON_DEPEND="
+	chromeos-base/libcontainer:=
+	sys-apps/util-linux:=
+	sys-libs/libcap:=
 "
-DEPEND="${RDEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	cd "${OUT}"
