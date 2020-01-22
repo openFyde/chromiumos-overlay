@@ -1,10 +1,10 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
-CROS_WORKON_COMMIT=("03718efbe19c70779f015007d54a80cfe6038d90" "b3ca6de42efe07f41541634c1e65fe5ed67f8e30")
-CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e29105cb862acb4029a544572b35ee40f6a6aa15")
+CROS_WORKON_COMMIT=("da1f198a0c8ec77d7258a5b798e04ec258e17c64" "b6d1b41097e25d1e43ab6eadf91909d4c41900b7")
+CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "534e5fff37fbf45061457cd0fd8045169ca0dac2")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/update_engine")
@@ -23,36 +23,35 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="Apache-2.0"
-SLOT="0"
 KEYWORDS="*"
 IUSE="cros_p2p +dbus dlc fuzzer -hwid_override +power_management systemd"
 
 COMMON_DEPEND="
-	app-arch/bzip2
-	chromeos-base/chromeos-ca-certificates
-	chromeos-base/metrics
-	chromeos-base/vboot_reference
-	cros_p2p? ( chromeos-base/p2p )
-	dev-libs/expat
+	app-arch/bzip2:=
+	chromeos-base/chromeos-ca-certificates:=
+	chromeos-base/metrics:=
+	chromeos-base/vboot_reference:=
+	cros_p2p? ( chromeos-base/p2p:= )
+	dev-libs/expat:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
-	dev-libs/xz-embedded
-	dev-util/bsdiff
-	dev-util/puffin
-	net-misc/curl
-	sys-apps/rootdev"
+	dev-libs/xz-embedded:=
+	dev-util/bsdiff:=
+	dev-util/puffin:=
+	net-misc/curl:=
+	sys-apps/rootdev:="
 
 DEPEND="
-	app-arch/xz-utils
-	chromeos-base/debugd-client
-	dlc? ( chromeos-base/dlcservice-client )
-	chromeos-base/power_manager-client
-	chromeos-base/session_manager-client
-	chromeos-base/shill-client
+	app-arch/xz-utils:=
+	chromeos-base/debugd-client:=
+	dlc? ( chromeos-base/dlcservice-client:= )
+	chromeos-base/power_manager-client:=
+	chromeos-base/session_manager-client:=
+	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
-	chromeos-base/update_engine-client
-	sys-fs/e2fsprogs
-	test? ( sys-fs/squashfs-tools )
+	chromeos-base/update_engine-client:=
+	sys-fs/e2fsprogs:=
+	test? ( sys-fs/squashfs-tools:= )
 	${COMMON_DEPEND}"
 
 DELTA_GENERATOR_RDEPEND="
