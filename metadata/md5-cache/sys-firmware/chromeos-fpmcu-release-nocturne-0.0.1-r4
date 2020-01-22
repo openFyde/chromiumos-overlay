@@ -1,4 +1,4 @@
-BDEPEND=dev-vcs/git dev-vcs/git
+BDEPEND=dev-vcs/git dev-vcs/git dev-embedded/coreboot-sdk:=
 DEFINED_PHASES=compile configure info install prepare setup test unpack
 DEPEND=unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= ) test? ( dev-libs/openssl:= dev-libs/protobuf:= ) dev-embedded/libftdi:1= fuzzer? ( dev-libs/libprotobuf-mutator:= ) test? ( dev-libs/libprotobuf-mutator:= ) virtual/chromeos-ec-private-files virtual/chromeos-ec-touch-firmware unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) bootblock_in_ec? ( sys-boot/coreboot ) virtual/chromeos-ec-private-files
 DESCRIPTION=Chrome OS EC release firmware for nocturne_fp.
@@ -11,5 +11,5 @@ PROPERTIES=live live
 RDEPEND=fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= ) test? ( dev-libs/openssl:= dev-libs/protobuf:= )
 RESTRICT=binchecksbinchecks strip
 SLOT=0/0.0.1-r4
-_eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-ec	595e0dc259e1088f7834462e21c4fa66	cros-ec-board	a24897d375e0abc78b2b6559e875a2cd	cros-ec-merge-ro	b2267143e3a4f73d96a36feead38a0b9	cros-ec-release	9a95b7bb0fefbcec0803c657f36fa8df	cros-unibuild	020876b8cedca5cea0748234362d99a5	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_eclasses_=coreboot-sdk	7ef49939a6cbd2ccf8ef22eff0f7a235	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-ec	595e0dc259e1088f7834462e21c4fa66	cros-ec-board	a24897d375e0abc78b2b6559e875a2cd	cros-ec-merge-ro	b2267143e3a4f73d96a36feead38a0b9	cros-ec-release	9a95b7bb0fefbcec0803c657f36fa8df	cros-unibuild	020876b8cedca5cea0748234362d99a5	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
 _md5_=b259f4921b7a53d76fb7c70143c807f0
