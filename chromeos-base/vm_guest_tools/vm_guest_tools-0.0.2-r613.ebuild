@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b3aee9021f5f415145090c7fd6a4e7a2d1774c34"
+CROS_WORKON_COMMIT="c5079a13a38423a0057c93f79cbc577ea52694f8"
 CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "448e0e1f762de335d4ecc108004d9c6c075c2033" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,9 +28,11 @@ REQUIRED_USE="kvm_guest"
 COMMON_DEPEND="
 	!!chromeos-base/vm_tools
 	chromeos-base/minijail:=
-	chromeos-base/crash-reporter:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
+	vm-containers? (
+		chromeos-base/crash-reporter:=
+	)
 	!fuzzer? (
 		media-libs/mesa:=[gbm]
 		x11-base/xwayland:=
