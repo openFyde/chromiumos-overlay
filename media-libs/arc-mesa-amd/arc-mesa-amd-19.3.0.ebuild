@@ -36,8 +36,8 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	android_aep android-container-nyc -android_gles2 -android_gles30
-	-android_gles31 +android_gles32	-android_vulkan_compute_0
+	android_aep android-container-nyc android-container-pi -android_gles2
+	-android_gles30 -android_gles31 +android_gles32 -android_vulkan_compute_0
 	cheets +classic debug dri +egl +gallium
 	-gbm +gles1 +gles2 +llvm +nptl pic selinux +shared-glapi vulkan X xlib-glx
 	cheets_user cheets_user_64"
@@ -148,6 +148,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-radv-Fix-RGBX-Android-Vulkan-format-correspondence.patch
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_shader_atomic_int64-for.patch
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_ANDROID_external_memory_and.patch
+
+	if use android-container-pi; then
+		epatch "${FILESDIR}"/CHROMIUM-egl-Limit-to-EGL-1.4.patch
+	fi
 
 	default
 }

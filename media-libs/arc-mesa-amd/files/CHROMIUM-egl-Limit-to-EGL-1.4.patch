@@ -1,0 +1,38 @@
+From d7ad7c6e24ab6ef0b8ccb21b82baaa500923b00c Mon Sep 17 00:00:00 2001
+From: Drew Davenport <ddavenport@chromium.org>
+Date: Wed, 22 Jan 2020 09:33:40 -0700
+Subject: [PATCH] CHROMIUM: egl: Limit to EGL 1.4
+
+Android P does not support EGL 1.5, causing failures in dEQP-EGL. EGL
+1.5 is supported in Android 10, so this patch will need to be updated
+for new versions of arc++.
+
+Change-Id: If64948736feb7dfc500b129436f3e344994e57b5
+---
+ src/egl/main/eglapi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/egl/main/eglapi.c b/src/egl/main/eglapi.c
+index 68db0bd4cb93..0d8232ed4c23 100644
+--- a/src/egl/main/eglapi.c
++++ b/src/egl/main/eglapi.c
+@@ -583,7 +583,7 @@ static void
+ _eglComputeVersion(_EGLDisplay *disp)
+ {
+    disp->Version = 14;
+-
++#if !defined(ANDROID)
+    if (disp->Extensions.KHR_fence_sync &&
+        disp->Extensions.KHR_cl_event2 &&
+        disp->Extensions.KHR_wait_sync &&
+@@ -598,6 +598,7 @@ _eglComputeVersion(_EGLDisplay *disp)
+        disp->Extensions.KHR_gl_colorspace &&
+        disp->Extensions.KHR_surfaceless_context)
+       disp->Version = 15;
++#endif
+ }
+ 
+ /**
+-- 
+2.25.0.341.g760bfbb309-goog
+
