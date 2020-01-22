@@ -1,8 +1,8 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="03718efbe19c70779f015007d54a80cfe6038d90"
+EAPI=7
+CROS_WORKON_COMMIT="7fa72e1f15f2ad28f8a7f507a4fa2492d74f0689"
 CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "ede0d83eb33d420aed3eda5806ccd357881b4bb0" "4d54c19d023e6d826f52c587cf85e75c5d2db61e" "5c90b31465004c69f1638c5ed8e6ea7fa13a5e7e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -19,17 +19,19 @@ DESCRIPTION="G2F gnubby (U2F+GCSE) development and testing tools"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/u2fd"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 
-RDEPEND="
-	dev-libs/hidapi
+COMMON_DEPEND="
+	dev-libs/hidapi:=
 	"
 
+RDEPEND="${COMMON_DEPEND}"
+
 DEPEND="
-	${RDEPEND}
-	chromeos-base/chromeos-ec-headers
-	chromeos-base/u2fd
+	${COMMON_DEPEND}
+	chromeos-base/chromeos-ec-headers:=
+	chromeos-base/u2fd:=
 	"
 
 src_install() {

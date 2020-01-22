@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_COMMIT="fac20229289cf4d4373fffe83037d44b780eabd0"
 CROS_WORKON_TREE="8d9dda2ae662e7c6ef166ea8414f59c95c6d4aa8"
@@ -17,7 +17,6 @@ DESCRIPTION="Chrome OS Update Engine Update Payload Scripts"
 HOMEPAGE="https://chromium.googlesource.com/aosp/platform/system/update_engine"
 
 LICENSE="Apache-2.0"
-SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
