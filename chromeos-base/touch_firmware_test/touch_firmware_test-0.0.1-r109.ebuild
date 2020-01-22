@@ -1,7 +1,7 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT="8b455f6fe6b82cf679de9a9b7379147c33025998"
 CROS_WORKON_TREE="edd1d370979b8a0bb942fd9dfb62de140741f345"
 CROS_WORKON_PROJECT="chromiumos/platform/touch_firmware_test"
@@ -12,7 +12,7 @@ inherit cros-sanitizers cros-workon cros-constants cros-debug distutils-r1
 DESCRIPTION="Chromium OS multitouch utilities"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="-asan"
 
