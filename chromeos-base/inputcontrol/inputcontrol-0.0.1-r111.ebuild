@@ -6,6 +6,7 @@ EAPI="6"
 CROS_WORKON_COMMIT="4c0c21a9a02024f5c9913c1c7d0f74f100e861d1"
 CROS_WORKON_TREE="19837649b7a41d54284ed6538cbbe44e9109fb60"
 CROS_WORKON_PROJECT="chromiumos/platform/inputcontrol"
+CROS_WORKON_LOCALNAME="platform/inputcontrol"
 
 inherit cros-workon
 

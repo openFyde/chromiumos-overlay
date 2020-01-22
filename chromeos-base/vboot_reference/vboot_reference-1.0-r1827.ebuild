@@ -7,6 +7,7 @@ CROS_WORKON_COMMIT="e22ceb974fc551e41ca588c2b524a0a91fbe5d5a"
 CROS_WORKON_TREE="02206aebc187cf0fe5c21d2ed1ccf7a5b3c82418"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
+CROS_WORKON_LOCALNAME="platform/vboot_reference"
 
 inherit cros-debug cros-fuzzer cros-sanitizers cros-workon
 
