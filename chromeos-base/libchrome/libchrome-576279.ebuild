@@ -140,6 +140,9 @@ src_prepare() {
 
 	# Add WaitForServiceToBeAvailable back for MockObjectProxy
 	epatch "${FILESDIR}"/${P}-WaitForServiceToBeAvailable.patch
+
+	# TODO(crbug.com/1044363): Remove after uprev >= r586219.
+	epatch "${FILESDIR}"/${P}-Fix-TimeDelta.patch
 }
 
 src_install() {
