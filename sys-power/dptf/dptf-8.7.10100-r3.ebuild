@@ -36,6 +36,8 @@ RDEPEND="${DEPEND}"
 
 src_configure() {
 	# cmake configuration for DPTF policy shared libraries
+	# TODO(crbug.com/1044735): Temporary disable the warning. Remove when fixed.
+	append-flags -Wno-unsequenced
 	local mycmakeargs=( -DCHROMIUM_BUILD=YES )
 	use x86 && mycmakeargs+=( -DBUILD_ARCH=32bit )
 	use amd64 && mycmakeargs+=( -DBUILD_ARCH=64bit )
