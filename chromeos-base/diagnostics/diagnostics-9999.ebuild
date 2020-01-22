@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagno
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="fuzzer +seccomp wilco"
+IUSE="fuzzer wilco"
 
 COMMON_DEPEND="
 	dev-libs/protobuf:=
