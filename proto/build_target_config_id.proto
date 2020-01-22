@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package chromiumos_overlay;
+
+// An id that other messages can use as a foreign key to specify a
+// BuildTargetConfig. Id messages are equal iff their binary serialization is
+// equal.
+message BuildTargetConfigId {
+    string value = 1;
+}

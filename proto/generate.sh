@@ -8,6 +8,8 @@
 # src/third_party/chromiumos-overlay/...
 protos=(
     brand_config.proto
+    build_target_config.proto
+    build_target_config_id.proto
     design_variant_config.proto
     firmware_config.proto
 )

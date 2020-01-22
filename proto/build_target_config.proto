@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package chromiumos_overlay;
+
+import "src/third_party/chromiumos-overlay/proto/build_target_config_id.proto";
+
+message BuildTargetConfig {
+    BuildTargetConfigId id = 1;
+
+    // The name of the overlay to use, e.g. "amd64-generic"
+    string overlay = 2;
+}
