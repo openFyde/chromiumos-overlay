@@ -1,0 +1,10 @@
+DEFINED_PHASES=install
+DEPEND=!sys-boot/chromeos-firmware-ps8805
+DESCRIPTION=PS8805-A2 Firmware Binary
+EAPI=6
+KEYWORDS=*
+LICENSE=Google-TOS
+RDEPEND=!sys-boot/chromeos-firmware-ps8805
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/parade-ps8805a2-firmware-13.tar.xz
+_md5_=4702d9d38ee46cb88c3259c34cf5945e
