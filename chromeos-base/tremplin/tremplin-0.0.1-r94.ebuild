@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_COMMIT="32c087d4a7b02fb7ad5c043bfe2efca0019df1ff"
 CROS_WORKON_TREE="edaeb98395871eeb7a62379f00a37f1bc895f0cd"
 CROS_WORKON_PROJECT="chromiumos/platform/tremplin"
@@ -21,21 +21,24 @@ DESCRIPTION="Tremplin LXD client with gRPC support"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tremplin/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="
-	app-emulation/lxd
-	chromeos-base/vm_guest_tools
-	chromeos-base/vm_protos
-	dev-go/go-libaudit
-	dev-go/go-sys
-	dev-go/grpc
-	dev-go/kobject
-	dev-go/netlink
-	dev-go/vsock
-	dev-go/yaml
+COMMON_DEPEND="
+	app-emulation/lxd:=
 "
 
-RDEPEND="app-emulation/lxd"
+DEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/vm_guest_tools:=
+	chromeos-base/vm_protos:=
+	dev-go/go-libaudit:=
+	dev-go/go-sys:=
+	dev-go/grpc:=
+	dev-go/kobject:=
+	dev-go/netlink:=
+	dev-go/vsock:=
+	dev-go/yaml:=
+"
+
+RDEPEND="${COMMON_DEPEND}"
