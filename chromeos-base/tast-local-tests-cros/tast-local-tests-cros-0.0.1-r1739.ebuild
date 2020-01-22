@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT=("17011044f78e5454f24035a3d80022ed6080f8b6" "9aba3bb10f4fee77cf4ddc9b854d9a0afd53c752")
-CROS_WORKON_TREE=("b8e5bbe2fa069acfffc7649e38fe920c421ddb29" "aaba6055733af431fd5d901978d3a3ac2dc87b58")
+CROS_WORKON_COMMIT=("1a61d6216370d17eeab0c45df6791111d22af9d5" "9aba3bb10f4fee77cf4ddc9b854d9a0afd53c752")
+CROS_WORKON_TREE=("6e8ef35fb90b1f097f6e873d0ef0e9c74267881c" "aaba6055733af431fd5d901978d3a3ac2dc87b58")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast-tests"
 	"chromiumos/platform/tast"
@@ -53,6 +53,7 @@ RDEPEND="
 	)
 	dev-libs/openssl:0=
 	arc? (
+		chromeos-base/tast-local-apks-cros
 		dev-util/android-tools
 		dev-util/android-uiautomator-server
 	)
