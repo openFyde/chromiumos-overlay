@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_COMMIT="15ea40d83fb22bf4655ecb2b2c4fb66bce90cb92"
 CROS_WORKON_TREE="56bbe63047b22e65773b97d95ea4d0303e3ce058"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
@@ -16,7 +16,7 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="biod -cr50_onboard"
 

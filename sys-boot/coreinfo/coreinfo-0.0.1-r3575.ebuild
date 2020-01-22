@@ -11,6 +11,7 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="-* amd64 x86"
 
+BDEPEND="dev-embedded/coreboot-sdk:="
 DEPEND="sys-boot/libpayload:="
 
 CROS_WORKON_LOCALNAME="coreboot"

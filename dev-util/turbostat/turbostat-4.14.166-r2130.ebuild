@@ -1,8 +1,8 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="d10e49c8cf9d148909301940e11a3bdcd41d6134"
+EAPI=7
+CROS_WORKON_COMMIT="d08eaa7da9ea6f9fd31d5e6d3f1d5a9f3226af29"
 CROS_WORKON_TREE=("c4026f60cd9e13ee9351fa5c563bd49d1bb95e8f" "cdb215ba40d57e671d3ab2105932980137c01eda" "c104b2cfaaf623162d453b0296ed29ba5a7a0823")
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/v4.14"
@@ -20,7 +20,7 @@ HOMEPAGE="https://www.kernel.org/"
 DESCRIPTION="Intel processor C-state and P-state reporting tool"
 
 LICENSE="GPL-2"
-SLOT=0
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="-asan"
 
