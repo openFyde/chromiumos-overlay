@@ -1,0 +1,11 @@
+DEFINED_PHASES=install
+DESCRIPTION=Android SDK
+EAPI=7
+HOMEPAGE=http://developer.android.com
+KEYWORDS=*
+LICENSE=Apache-2.0 BSD BSD-2 BSD-4 CPL-1.0 EPL-1.0 FTL GPL-2 IJG ISC icu LGPL-2 LGPL-2.1 libpng MIT MPL-1.1 openssl SGI-B-2.0 UoI-NCSA ZLIB W3C
+RDEPEND=>=virtual/jdk-1.5 >=dev-java/ant-core-1.6.5 sys-libs/zlib
+RESTRICT=strip
+SLOT=0
+SRC_URI=https://ci.android.com/builds/submitted/5303910/sdk/latest/android-sdk_5303910_linux-x86.zip
+_md5_=88dde86cb581a8e376bb255cced103d6
