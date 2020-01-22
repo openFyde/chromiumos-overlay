@@ -3,11 +3,9 @@
 
 # Check for EAPI 4+
 case "${EAPI:-0}" in
-7) ;;
+4|5|6|7) ;;
 *) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
-
-BDEPEND="dev-embedded/coreboot-sdk:="
 
 # @ECLASS-VARIABLE: COREBOOT_SDK_PREFIX
 # @DESCRIPTION:
