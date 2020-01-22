@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI="6"
+EAPI=7
 
 CROS_WORKON_COMMIT="0724fca07b604f40dd54e440105c74e6272d28f8"
 CROS_WORKON_TREE="1e3964abc48d3b305ca1c2fdd23b3390d3bc6fc4"
@@ -18,11 +18,11 @@ DESCRIPTION="Patman tool (from U-Boot) for sending patches upstream"
 HOMEPAGE="https://www.denx.de/wiki/U-Boot"
 
 LICENSE="GPL-2"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
+BDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND=""
 
 src_prepare() {

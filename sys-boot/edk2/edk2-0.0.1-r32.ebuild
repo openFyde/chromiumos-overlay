@@ -20,7 +20,6 @@ LICENSE="BSD"
 KEYWORDS="*"
 IUSE="fwserial"
 
-BDEPEND="dev-embedded/coreboot-sdk:="
 RDEPEND=""
 DEPEND=""
 
