@@ -18,7 +18,7 @@ RDEPEND="!<chromeos-base/cros-devutils-0.0.4
 	chromeos-base/devserver-deps
 "
 DEPEND="
-	dev-python/psutil:=
+	dev-python/psutil
 "
 
 src_install() {
