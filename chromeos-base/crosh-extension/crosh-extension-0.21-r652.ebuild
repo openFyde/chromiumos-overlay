@@ -6,7 +6,7 @@ EAPI="6"
 CROS_WORKON_COMMIT="9e11e49f4100382e6ce51611c709bc255e8d1318"
 CROS_WORKON_TREE=("270130f8318104ff8978e5c2c92037041ba986af" "54dea7d09ecf4a5f7d20ad79eda4e85c71d721ca" "13a1cb166c2b1242f1d046059f3433b4483e5a3d" "926adbdeeb54b0edc672eec0fc211567fe178aa2" "8f48602783545d1cefa1de9306b85238fb0bfa58")
 CROS_WORKON_PROJECT="apps/libapps"
-CROS_WORKON_LOCALNAME="../third_party/libapps"
+CROS_WORKON_LOCALNAME="third_party/libapps"
 CROS_WORKON_SUBTREE="libdot hterm nassh ssh_client terminal"
 
 inherit cros-workon

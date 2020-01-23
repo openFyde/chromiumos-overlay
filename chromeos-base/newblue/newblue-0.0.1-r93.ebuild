@@ -6,7 +6,7 @@ EAPI=5
 CROS_WORKON_COMMIT="1dfb9d768aa95a93fda0242a287f213c4c1e41db"
 CROS_WORKON_TREE="117e4b55775cc1057f19623d4f8c92005fe1e55e"
 CROS_WORKON_PROJECT="chromiumos/platform/newblue"
-CROS_WORKON_LOCALNAME="newblue"
+CROS_WORKON_LOCALNAME="platform/newblue"
 CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit toolchain-funcs multilib cros-sanitizers cros-workon udev

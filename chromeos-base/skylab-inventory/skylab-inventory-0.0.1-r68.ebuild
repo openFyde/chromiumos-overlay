@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_COMMIT="b3b8d7dd3bb0c988fcb31389502b36f69f173aaf"
 CROS_WORKON_TREE="4194f5fecef78c27d3232ab48407d11f72ecd6ab"
@@ -25,15 +25,15 @@ DESCRIPTION="Chromium OS inventory tools"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/infra/skylab_inventory/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
-	dev-go/errors
-	dev-go/go-sys
-	dev-go/luci-tsmon
-	dev-go/protobuf
+	dev-go/errors:=
+	dev-go/go-sys:=
+	dev-go/luci-tsmon:=
+	dev-go/protobuf:=
 "
 RDEPEND="${DEPEND}"
