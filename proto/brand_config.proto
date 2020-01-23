@@ -8,12 +8,6 @@ import "src/platform2/chromeos-config/proto/brand_id_scan_config.proto";
 message BrandConfig {
     chromeos_config.BrandIdScanConfig scan_config = 1;
 
-    // Brand code of the device (also called RLZ code).
-    string brand_code = 2;
-
-    // Name of this device as it is called in the market.
-    string marketing_name = 3;
-
     // Base filename of the default wallpaper to show on this device.
-    string wallpaper = 4;
+    string wallpaper = 2;
 }
