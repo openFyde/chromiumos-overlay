@@ -1,7 +1,7 @@
-From 5bfa5432b8b58970545fa9ccd50b1e6de6d38737 Mon Sep 17 00:00:00 2001
+From 64e94623a4e72e9c55d6aebde38d9ca524842727 Mon Sep 17 00:00:00 2001
 From: Sean Kau <skau@chromium.org>
 Date: Thu, 11 Jul 2019 14:55:00 -0700
-Subject: [PATCH 2/2] ghostscript-9.25-urw-fonts-naming-1.patch
+Subject: [PATCH 3/4] ghostscript-9.25-urw-fonts-naming-1.patch
  ghostscript-9.25-urw-fonts-naming-2.patch
 
 ---
@@ -109,5 +109,5 @@ index 9f6b6297d..1470bff99 100644
  % 
  %
 -- 
-2.22.0.510.g264f2c817a-goog
+2.25.0.341.g760bfbb309-goog
 

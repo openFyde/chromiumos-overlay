@@ -1,7 +1,7 @@
-From cfe7e291725933ee3816104b8bae69684600621f Mon Sep 17 00:00:00 2001
+From a2c13ee2160d9214399264443d09f4c1ca63128c Mon Sep 17 00:00:00 2001
 From: "David Kaspar [Dee'Kej]" <dkaspar@redhat.com>
 Date: Fri, 7 Oct 2016 12:57:06 +0200
-Subject: [PATCH 2/2] Make sure customizations to
+Subject: [PATCH 2/4] Make sure customizations to
  /etc/ghostscript/Fontmap.local are used
 
   For more info, see: https://bugzilla.redhat.com/show_bug.cgi?id=610301
@@ -20,5 +20,5 @@ index ae5af96e0..72aeb1fa3 100644
 +% must be at the bottom of line to allow people overriding everything.
 +(Fontmap.local) .runlibfileifexists
 -- 
-2.22.0.510.g264f2c817a-goog
+2.25.0.341.g760bfbb309-goog
 

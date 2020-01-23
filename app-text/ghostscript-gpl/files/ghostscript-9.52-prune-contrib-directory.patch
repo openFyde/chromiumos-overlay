@@ -6,17 +6,17 @@ Subject: [PATCH] Remove from contrib directory all drivers with undefined,
 
 ---
  configure.ac                             |    8 +-
- contrib/contrib.mak                      |  383 +-
+ contrib/contrib.mak                      |  384 +-
  contrib/epson740/README                  |   25 -
  contrib/epson740/printerdb_rh5.2         | 1173 ------
  contrib/epson740/printerdb_rh6.0         | 1166 ------
  contrib/epson740/ps-to-printer.fpi_rh5.2 |   95 -
  contrib/epson740/upp-HowTo-to-be         |   59 -
- contrib/gdevgdi.c                        | 1452 --------
+ contrib/gdevgdi.c                        | 1473 --------
  contrib/gdevln03.c                       |  395 ---
- contrib/gdevlx7.c                        |  837 -----
- contrib/gdevmd2k.c                       |  786 ----
- contrib/gdevop4w.c                       |  361 --
+ contrib/gdevlx7.c                        |  844 -----
+ contrib/gdevmd2k.c                       |  792 -----
+ contrib/gdevop4w.c                       |  283 --
  contrib/gdevxes.c                        |  219 --
  contrib/japanese/dmp_init.ps             |  206 --
  contrib/japanese/dmp_site.ps             |   14 -
@@ -35,34 +35,32 @@ Subject: [PATCH] Remove from contrib directory all drivers with undefined,
  contrib/japanese/doc/gdevmjc.txt         |   58 -
  contrib/japanese/doc/gdevml6.txt         |   47 -
  contrib/japanese/doc/gdevp201.txt        |   30 -
- contrib/japanese/dviprlib.c              | 2821 ---------------
+ contrib/japanese/dviprlib.c              | 2823 ---------------
  contrib/japanese/dviprlib.h              |  357 --
  contrib/japanese/escp_24.src             |   12 -
- contrib/japanese/gdev10v.c               |  333 --
- contrib/japanese/gdevalps.c              |  394 --
- contrib/japanese/gdevdmpr.c              |  886 -----
- contrib/japanese/gdevespg.c              |  301 --
+ contrib/japanese/gdev10v.c               |  347 --
+ contrib/japanese/gdevalps.c              |  401 ---
+ contrib/japanese/gdevdmpr.c              |  888 -----
+ contrib/japanese/gdevespg.c              |  303 --
  contrib/japanese/gdevfmlbp.c             |  229 --
  contrib/japanese/gdevfmpr.c              |  210 --
  contrib/japanese/gdevj100.c              |  198 --
  contrib/japanese/gdevlbp3.c              |  277 --
- contrib/japanese/gdevmjc.c               | 1849 ----------
+ contrib/japanese/gdevmjc.c               | 1840 ----------
  contrib/japanese/gdevmjc.h               | 3220 -----------------
  contrib/japanese/gdevml6.c               |  342 --
- contrib/japanese/gdevnpdl.c              |  709 ----
- contrib/japanese/gdevp201.c              |  273 --
- contrib/japanese/gdevrpdl.c              |  293 --
+ contrib/japanese/gdevnpdl.c              |  710 ----
+ contrib/japanese/gdevp201.c              |  291 --
+ contrib/japanese/gdevrpdl.c              |  295 --
  contrib/md2k_md5k/README.jis             |  179 -
  contrib/pscolor/Makefile                 |   12 -
- contrib/pscolor/black.pdf                |  Bin 12804 -> 0 bytes
  contrib/pscolor/black.ps                 | 3642 -------------------
- contrib/pscolor/color.pdf                |  Bin 10518 -> 0 bytes
  contrib/pscolor/color.ps                 | 3368 ------------------
  contrib/pscolor/colorsplit.vcproj        |   73 -
  contrib/pscolor/common.mak               |   24 -
  contrib/pscolor/input.ps                 | 4141 ----------------------
  contrib/pscolor/instream.yy              |   23 -
- contrib/pscolor/test.c                   |  339 --
+ contrib/pscolor/test.c                   |  342 --
  contrib/pscolor/windows.mak              |   13 -
  contrib/uniprint/PM760p.upp              |   34 -
  contrib/uniprint/PM760pl.upp             |   34 -
@@ -89,7 +87,7 @@ Subject: [PATCH] Remove from contrib directory all drivers with undefined,
  contrib/uniprint/sharp.upp               |   58 -
  contrib/uniprint/sipixa6.upp             |   23 -
  contrib/uniprint/stc740ih.upp            |   58 -
- 84 files changed, 5 insertions(+), 36006 deletions(-)
+ 82 files changed, 5 insertions(+), 36005 deletions(-)
  delete mode 100644 contrib/epson740/README
  delete mode 100644 contrib/epson740/printerdb_rh5.2
  delete mode 100644 contrib/epson740/printerdb_rh6.0
@@ -137,9 +135,7 @@ Subject: [PATCH] Remove from contrib directory all drivers with undefined,
  delete mode 100644 contrib/japanese/gdevrpdl.c
  delete mode 100644 contrib/md2k_md5k/README.jis
  delete mode 100644 contrib/pscolor/Makefile
- delete mode 100644 contrib/pscolor/black.pdf
  delete mode 100644 contrib/pscolor/black.ps
- delete mode 100644 contrib/pscolor/color.pdf
  delete mode 100644 contrib/pscolor/color.ps
  delete mode 100644 contrib/pscolor/colorsplit.vcproj
  delete mode 100644 contrib/pscolor/common.mak
@@ -174,16 +170,17 @@ Subject: [PATCH] Remove from contrib directory all drivers with undefined,
  delete mode 100644 contrib/uniprint/stc740ih.upp
 
 diff --git a/configure.ac b/configure.ac
-index 8ecaccc..0901000 100644
+index 698abd304..7eece94f2 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -2083,12 +2083,12 @@ HP_DEVS='cdj500 djet500 djet500c dnj650c cljet5pr deskjet laserjet ljetplus ljet
+@@ -2405,13 +2405,13 @@ HP_DEVS='cdj500 djet500 djet500c dnj650c cljet5pr deskjet laserjet ljetplus ljet
  PCLXL_DEVS='pxlmono pxlcolor'
  EPSON_DEVS='eps9high eps9mid epson epsonc escp lp8000 lq850 photoex st800 stcolor alc1900 alc2000 alc4000 alc4100 alc8500 alc8600 alc9100 lp3000c lp8000c lp8200c lp8300c lp8500c lp8800c lp9000c lp9200c lp9500c lp9800c lps6500 epl2050 epl2050p epl2120 epl2500 epl2750 epl5800 epl5900 epl6100 epl6200 lp1800 lp1900 lp2200 lp2400 lp2500 lp7500 lp7700 lp7900 lp8100 lp8300f lp8400f lp8600 lp8600f lp8700 lp8900 lp9000b lp9100 lp9200b lp9300 lp9400 lp9600 lp9600s lps4500 eplcolor eplmono'
  CANON_DEVS='bj10e bj200 bjc600 bjc800 lbp8 lips3 bjcmono bjcgray bjccmyk bjccolor'
 -LEXMARK_DEVS='lxm5700m lxm3200 lex2050 lex3200 lex5700 lex7000'
 +LEXMARK_DEVS='lxm5700m lxm3200'
  BROTHER_DEVS='hl7x0 hl1240 hl1250'
+ APPLE_DEVS='appledmp iwhi iwlo iwlq'
  IBM_DEVS='ibmpro jetp3852'
 -OKI_DEVS='oki182 okiibm oki4w'
 -JAPAN_DEVS='lips4 lips4v ljet4pjl lj4dithp dj505j picty180 lips2p bjc880j pr201 pr150 pr1000 pr1000_4 jj100 bj10v bj10vh mj700v2c mj500c mj6000c mj8000c fmpr fmlbp ml600 lbp310 lbp320 md50Mono md50Eco md1xMono escpage lp2000 npdl rpdl'
@@ -195,10 +192,10 @@ index 8ecaccc..0901000 100644
  
  ETS_HALFTONING_DEVS='rinkj'
 diff --git a/contrib/contrib.mak b/contrib/contrib.mak
-index f5a2fa4..7bec0cd 100644
+index bb266407f..255633cf8 100644
 --- a/contrib/contrib.mak
 +++ b/contrib/contrib.mak
-@@ -257,25 +257,6 @@ $(DD)chp2200.dev : $(cdeskjet8_) $(DD)page.dev \
+@@ -281,25 +281,6 @@ $(DD)chp2200.dev : $(cdeskjet8_) $(DD)page.dev \
  	$(SETPDEV2) $(DD)chp2200 $(cdeskjet8_)
  
  
@@ -224,7 +221,7 @@ index f5a2fa4..7bec0cd 100644
  ### ---------------- The Brother HL-1240/HL-1250 printers --------------- ###
  ### These printers are ljet4-compatible, plus support for source tray     ###
  ### selection and special 1200x600 dpi mode.                              ###
-@@ -296,51 +277,6 @@ $(DEVOBJ)gdevhl12.$(OBJ) : $(CONTRIBSRC)gdevhl12.c $(PDEVH) $(gdevdljm_h) \
+@@ -320,51 +301,6 @@ $(DEVOBJ)gdevhl12.$(OBJ) : $(CONTRIBSRC)gdevhl12.c $(PDEVH) $(gdevdljm_h) \
  	$(DEVCC) $(DEVO_)gdevhl12.$(OBJ) $(C_) $(CONTRIBSRC)gdevhl12.c
  
  
@@ -276,7 +273,7 @@ index f5a2fa4..7bec0cd 100644
  ### -------------------------- EPSON Page/Color -------------------------- ###
  ###
  ###
-@@ -563,32 +499,6 @@ $(DD)eplmono.dev: $(escv_) $(DD)page.dev \
+@@ -587,33 +523,6 @@ $(DD)eplmono.dev: $(escv_) $(DD)page.dev \
                             $(CONTRIB_MAK) $(MAKEDIRS)
  	$(SETPDEV) $(DD)eplmono $(escv_)
  
@@ -306,10 +303,11 @@ index f5a2fa4..7bec0cd 100644
 -                           $(CONTRIB_MAK) $(MAKEDIRS)
 -	$(DEVCC) $(DEVO_)gdevlx7.$(OBJ) $(C_) $(CONTRIBSRC)gdevlx7.c
 -
- 
+-
  ### ----------- Lexmark 3200 device ------------ ###
  
-@@ -652,37 +562,6 @@ $(DD)bjc880j.dev : $(lipsr_) $(DD)page.dev \
+ lxm3200_=$(DEVOBJ)gdevlx32.$(OBJ)
+@@ -676,37 +585,6 @@ $(DD)bjc880j.dev : $(lipsr_) $(DD)page.dev \
  	$(SETPDEV) $(DD)bjc880j $(lipsr_)
  
  
@@ -347,7 +345,7 @@ index f5a2fa4..7bec0cd 100644
  ### ---------------- OpenPrinting Vector Printer Driver ---------------- ###
  ###                                                                      ###
  OPVP_DIR=$(CONTRIBSRC)opvp
-@@ -979,266 +858,6 @@ pcl3-install:
+@@ -1005,266 +883,6 @@ pcl3-install:
  	$(INSTALL_PROGRAM) $(BINDIR)$(D)pcl3opts$(XE) $(DESTDIR)$(bindir)
  
  
@@ -570,15 +568,15 @@ index f5a2fa4..7bec0cd 100644
 -### ---------- RICOH RPDL IV(600dpi) printer devices ---------- ###
 -#rpdl_=$(DEVOBJ)gdevrpdl.$(OBJ)
 -#$(DEVOBJ)gdevrpdl.$(OBJ) : $(JAPSRC)gdevrpdl.c \
--                           $(CONTRIB_MAK) $(MAKEDIRS)
+-#                           $(CONTRIB_MAK) $(MAKEDIRS)
 -#	$(DEVCC) $(DEVO_)gdevrpdl.$(OBJ) $(C_) $(JAPSRC)gdevrpdl.c
 -#
 -#$(DD)nx100f.dev : $(rpdl_) $(DD)page.dev \
--                           $(CONTRIB_MAK) $(MAKEDIRS)
+-#                           $(CONTRIB_MAK) $(MAKEDIRS)
 -#	$(SETPDEV2) $(DD)nx100f $(rpdl_)
 -#
 -#$(DD)nx100v.dev : $(rpdl_) $(DD)page.dev \
--                           $(CONTRIB_MAK) $(MAKEDIRS)
+-#                           $(CONTRIB_MAK) $(MAKEDIRS)
 -#	$(SETPDEV2) $(DD)nx100v $(rpdl_)
 -
 -### ------------ The ALPS Micro Dry printer devices ------------ ###
@@ -616,4 +614,5 @@ index f5a2fa4..7bec0cd 100644
 -install-contrib-extras: extra-dmprt-install extra-upp-install
 +install-contrib-extras:
 -- 
-2.19.0.605.g01d371f741-goog
+2.17.1
+
