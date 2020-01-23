@@ -4,5 +4,15 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-protoc -I. -I../../../.. ./*.proto --python_out=proto_bindings
+# proto_path is set to the project root, so all protos must be specified as
+# src/third_party/chromiumos-overlay/...
+protos=(
+    brand_config.proto
+    design_variant_config.proto
+    firmware_config.proto
+)
+for proto in "${protos[@]}"; do
+    protoc -I../../../.. "src/third_party/chromiumos-overlay/proto/${proto}" \
+        --python_out=proto_bindings
+done
 
