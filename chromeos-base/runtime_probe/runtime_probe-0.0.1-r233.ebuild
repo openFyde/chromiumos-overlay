@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4476de7e9dce20854d57892697b7439d44228782"
-CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "d5e3c2dc8f7c856ce9c9d81ed314ad2dade5d7b0" "be36559f0d9720c944e7403428dc08209ababb0b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0557c25d35b3e6d4c496ad22641dc3982337d1ed"
+CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "d5e3c2dc8f7c856ce9c9d81ed314ad2dade5d7b0" "af14fdb7fe8b42f7ba0c847c9c9b4fc7ed971151" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -34,6 +34,7 @@ RDEPEND="${COMMON_DEPEND}"
 
 # Add vboot_reference as build time dependency to read cros_debug status
 DEPEND="${COMMON_DEPEND}
+	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vboot_reference:=
 "
