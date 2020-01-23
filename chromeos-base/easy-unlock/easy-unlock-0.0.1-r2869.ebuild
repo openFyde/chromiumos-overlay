@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="03718efbe19c70779f015007d54a80cfe6038d90"
+CROS_WORKON_COMMIT="89195255b6c95ae0a85df9e31b8e6820b90f54f5"
 CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "2c29a6fcc28300d3b46621c659ffab8f1454781b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -19,17 +19,19 @@ inherit cros-workon platform user
 DESCRIPTION="Service for supporting Easy Unlock in Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND="
-	chromeos-base/easy-unlock-crypto
+COMMON_DEPEND="
+	chromeos-base/easy-unlock-crypto:=
 "
 
+RDEPEND="${COMMON_DEPEND}"
+
 DEPEND="
-	${RDEPEND}
-	chromeos-base/system_api
+	${COMMON_DEPEND}
+	chromeos-base/system_api:=
 "
 
 pkg_preinst() {
