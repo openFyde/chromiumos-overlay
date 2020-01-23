@@ -9,5 +9,5 @@ LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=!<chromeos-base/autotest-tests-0.0.3 chromeos-base/autotest-deps-p2p ( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )
 SLOT=0
-_eclasses_=autotest	1eb16ddc463fad9d76c25c1e8e285bd4	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	9e75455db3bc3a55477a769f3439f31f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_eclasses_=autotest	1eb16ddc463fad9d76c25c1e8e285bd4	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
 _md5_=86c809478a47447baee06c5ca1352ee8
