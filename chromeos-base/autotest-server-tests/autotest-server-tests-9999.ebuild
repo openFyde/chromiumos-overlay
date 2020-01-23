@@ -78,6 +78,7 @@ SERVER_IUSE_TESTS="
 		+tests_cheets_CTS_Instant
 		+tests_cheets_CTS_P
 		+tests_cheets_GTS
+		+tests_cheets_VTS
 	)
 	android-container-qt? ( +tests_cheets_CTS_Q )
 	android-container-master-arc-dev? ( +tests_cheets_CTS_Q )
