@@ -22,6 +22,9 @@ IUSE="esdfs"
 
 CONTAINER_DIR="/opt/google/containers/arc-sdcard"
 
+RDEPEND="!esdfs? ( chromeos-base/arc-setup )"
+DEPEND="${DEPEND}"
+
 src_install() {
 	if ! use esdfs; then
 		insinto /etc/init
