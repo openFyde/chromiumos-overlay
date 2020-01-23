@@ -148,6 +148,7 @@ ALL_BOARDS=(
 	#eve-bertha
 	eve-campfire
 	eve-kvm
+	eve-lacros
 	eve-manatee
 	eve-swap
 	eve-userdebug
