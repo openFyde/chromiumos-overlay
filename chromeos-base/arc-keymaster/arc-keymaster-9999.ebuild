@@ -38,10 +38,15 @@ KEYWORDS="~*"
 IUSE="+seccomp"
 
 RDEPEND="
-	chromeos-base/minijail
+	chromeos-base/chaps:=
+	chromeos-base/cryptohome:=
+	chromeos-base/minijail:=
+	dev-libs/protobuf:=
 "
 
 DEPEND="
+	${RDEPEND}
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 "
 
@@ -80,9 +85,9 @@ src_prepare() {
 	# https://boringssl-review.googlesource.com/c/boringssl/+/37247
 	cd "${WORKDIR}/${BORINGSSL_P}" || die
 	epatch "${FILESDIR}"/boringssl-clang-fallthru.patch
-	# Patch keymaster context.
+	# Verify upstream hasn't changed relevant context code.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
-	epatch "${FILESDIR}/keymaster-context-hooks.patch"
+	EPATCH_OPTS="--dry-run" epatch "${FILESDIR}/keymaster-context-hooks.patch"
 }
 
 src_configure() {
