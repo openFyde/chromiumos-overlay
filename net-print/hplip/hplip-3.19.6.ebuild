@@ -78,6 +78,7 @@ REQUIRED_USE="!minimal? ( ${PYTHON_REQUIRED_USE} )"
 PATCHES=(
 	"${FILESDIR}/${PN}-3.18.6-disable-create-ppd.patch"
 	"${FILESDIR}/${PN}-3.19.6-fix-return.patch"
+	"${FILESDIR}/${PN}-3.19.6-ignore-prebuilt-shared-objects.patch"
 	"${WORKDIR}/patches"
 )
 
@@ -141,6 +142,10 @@ src_prepare() {
 	sed -i \
 		-e "s:file('/etc/issue', 'r').read():'Gentoo':" \
 		installer/core_install.py || die
+
+	# Forcibly delete prebuilt shared objects that the Chrome OS
+	# build prefers not to rely upon.
+	rm -r "${S}/prnt/plugins" || die
 
 	eautoreconf
 }
