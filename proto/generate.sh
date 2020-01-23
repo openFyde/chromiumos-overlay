@@ -7,6 +7,7 @@
 # proto_path is set to the project root, so all protos must be specified as
 # src/third_party/chromiumos-overlay/...
 protos=(
+    audio_config.proto
     brand_config.proto
     build_target_config.proto
     build_target_config_id.proto
