@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT=("2c6dd6e93f2a833c911e307032dc7204e8917491" "ed1d76fbff67fdef4d35591e2d9ed6d116458f1f")
 CROS_WORKON_TREE=("261eabc7dcfddad2f7e2c333bcb0e8384d1ae343" "5ff7ada564089e829b3774ba6cee154259676dd3")
 CROS_WORKON_PROJECT=(
@@ -35,12 +35,12 @@ DESCRIPTION="Bundle of local integration tests for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
 
 LICENSE="Apache-2.0 BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="arc chromeless_tty chromeless_tests usbip"
 
 # Build-time dependencies should be added to tast-build-deps, not here.
-DEPEND="chromeos-base/tast-build-deps"
+DEPEND="chromeos-base/tast-build-deps:="
 
 RDEPEND="
 	chromeos-base/policy-testserver

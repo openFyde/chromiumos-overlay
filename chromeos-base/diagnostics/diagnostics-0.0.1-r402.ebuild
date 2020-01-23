@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="b3b70cebbf13ab95e7e298fa97889798acfb8de5"
+CROS_WORKON_COMMIT="d289a1dc657bc44b9b1a631a2d198b9ff6f655a2"
 CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "afea3b7e7d370484b4d85e4056ade73d0c6cd208" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagno
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="fuzzer +seccomp wilco"
+IUSE="fuzzer wilco"
 
 COMMON_DEPEND="
 	dev-libs/protobuf:=
