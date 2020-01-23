@@ -140,6 +140,7 @@ dlc_src_install() {
 		--package="${DLC_PACKAGE}"
 		--name="${DLC_NAME}"
 		--description="${DLC_DESCRIPTION}"
+		--fullnamerev="${CATEGORY}/${PF}"
 		--build-package
 	)
 

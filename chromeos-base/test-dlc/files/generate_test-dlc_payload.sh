@@ -57,6 +57,7 @@ for N in {1..2}; do
     --package "${DLC_PACKAGE}"
     --name "Test${N} DLC"
     --description "Description for Test${N} DLC"
+    --board "${BOARD}"
     --build-package
   )
   # For the first DLC, make it user used by the user.
