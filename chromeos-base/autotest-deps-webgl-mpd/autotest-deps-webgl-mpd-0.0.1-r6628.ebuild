@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_COMMIT="5f59b1406aedac59b233cbc9bb9cbfca9c372cbb"
 CROS_WORKON_TREE="bd1d8819e40ce0ce9e807b102f704aa2cdd42c9b"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -14,7 +14,6 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="GPL-2"
-SLOT="0"
 KEYWORDS="*"
 
 # Autotest enabled by default.
