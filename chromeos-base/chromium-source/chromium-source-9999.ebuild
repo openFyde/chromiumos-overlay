@@ -4,7 +4,7 @@
 # Downloads Chrome sources to ${CHROMIUM_SOURCE_DIR} which is typically
 # set to /var/cache/chromeos-cache/distfiles/target/chrome-src.
 
-EAPI="4"
+EAPI="6"
 inherit chromium-source
 
 DESCRIPTION="Source code for the open-source version of Google Chrome web browser"
