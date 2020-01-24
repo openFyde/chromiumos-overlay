@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5253b4bb8fc4118814e7ca23e746d12457278023"
-CROS_WORKON_TREE="8536717429d2ea8a418e407901d94126c22959da"
+CROS_WORKON_COMMIT="e868e8344045f8f1e42a6c14a27239b48da9ebb6"
+CROS_WORKON_TREE="03420ba0136048d3a6763f54ee21a5858cb56556"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="platform/dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -20,7 +20,7 @@ RDEPEND="!<chromeos-base/cros-devutils-0.0.4
 	chromeos-base/devserver-deps
 "
 DEPEND="
-	dev-python/psutil:=
+	dev-python/psutil
 "
 
 src_install() {
