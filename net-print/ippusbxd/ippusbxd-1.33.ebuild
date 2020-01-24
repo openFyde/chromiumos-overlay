@@ -23,6 +23,7 @@ S="${WORKDIR}/${P}/src"
 
 PATCHES=(
 	"${FILESDIR}/unix-socket.patch"
+	"${FILESDIR}/keep-alive.patch"
 )
 
 src_prepare() {
