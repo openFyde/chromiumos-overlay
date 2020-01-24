@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package chromiumos_overlay;
 
+import "src/config/api/design_config_id.proto";
 import "src/third_party/chromiumos-overlay/proto/audio_config.proto";
 import "src/third_party/chromiumos-overlay/proto/firmware_config.proto";
 import "src/platform2/bluetooth/proto/config.proto";
@@ -9,14 +10,18 @@ import "src/platform2/chromeos-config/proto/design_variant_id_scan_config.proto"
 import "src/platform2/power_manager/config.proto";
 
 // Specifies runtime software configuration for a given variant.
+// TODO(crbug.com/1040976): Rename and reword comments once names in
+// src/config/api have settled.
 message DesignVariantConfig {
-    chromeos_config.DesignVariantIdScanConfig scan_config = 1;
+    chromiumos.config.api.DesignConfigId design_config_id = 1;
 
-    firmware.FirmwareConfig firmware = 2;
+    chromeos_config.DesignVariantIdScanConfig scan_config = 2;
 
-    bluetooth.BluetoothConfig bluetooth_config = 3;
+    firmware.FirmwareConfig firmware = 3;
 
-    power_manager.PowerManagerConfig power_manager_config = 4;
+    bluetooth.BluetoothConfig bluetooth_config = 4;
 
-    AudioConfig audio_config = 5;
+    power_manager.PowerManagerConfig power_manager_config = 5;
+
+    AudioConfig audio_config = 6;
 }
