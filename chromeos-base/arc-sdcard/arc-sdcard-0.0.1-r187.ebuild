@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="47c7f847879bc350067d4eda4038d1151cc0abc2"
+CROS_WORKON_COMMIT="b008322063109da17dc3d91d32e6d08f49d5e0a7"
 CROS_WORKON_TREE=("e27f1b4637c4d92b0c7b14963d2910ad6b0b631e" "8507735579e7fc9b3850039ffb51c77c9c39c64c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,6 +23,9 @@ KEYWORDS="*"
 IUSE="esdfs"
 
 CONTAINER_DIR="/opt/google/containers/arc-sdcard"
+
+RDEPEND="!esdfs? ( chromeos-base/arc-setup )"
+DEPEND="${DEPEND}"
 
 src_install() {
 	if ! use esdfs; then
