@@ -54,6 +54,7 @@ IUSE="
 	passive_event_listeners
 	pita
 	rialto
+	scheduler_configuration_performance
 	screenshare_sw_codec
 	shelf-hotseat
 	smartdim
