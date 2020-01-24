@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 CROS_WORKON_COMMIT="525a1a770a5069e2d3dd74cfb2f183a6a42b5627"
 CROS_WORKON_TREE=("aec83bbb8eac80ad9edba5488666d50dc8df2b2c" "e5856b49760cd6647e413e6ca21b7529c293161a")
 CROS_WORKON_PROJECT="chromiumos/platform/touch_updater"
@@ -15,7 +15,7 @@ HOMEPAGE="https://www.chromium.org/chromium-os"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="
 	input_devices_synaptics
