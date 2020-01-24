@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=app-crypt/mit-krb5 chromeos-base/libbrillo:=[asan?,fuzzer?] chromeos-base/metrics >=chromeos-base/minijail-0.0.1-r1477 dev-libs/protobuf:= dev-libs/dbus-glib samba? ( >=net-fs/samba-4.5.3-r6 ) sys-apps/dbus sys-libs/libcap >=chromeos-base/protofiles-0.0.35:= chromeos-base/session_manager-client chromeos-base/system_api:=[fuzzer?] dev-vcs/git dev-vcs/git chromeos-base/libchrome:576279[cros-debug=] cros_host? ( dev-util/gn ) dev-cpp/gtest:= sys-apps/baselayout
+DESCRIPTION=Provides authentication to LDAP and fetching device/user policies
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/authpolicy/
+IUSE=+samba asan fuzzer cros_host cros_workon_tree_e27f1b4637c4d92b0c7b14963d2910ad6b0b631e_5c6b2510198bed338c714ecfbdff48c653849e3e_d98396481268f6a5480d29ff2a941f2afbe1a461_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_e27f1b4637c4d92b0c7b14963d2910ad6b0b631e_5c6b2510198bed338c714ecfbdff48c653849e3e_d98396481268f6a5480d29ff2a941f2afbe1a461_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live live
+RDEPEND=app-crypt/mit-krb5 chromeos-base/libbrillo:=[asan?,fuzzer?] chromeos-base/metrics >=chromeos-base/minijail-0.0.1-r1477 dev-libs/protobuf:= dev-libs/dbus-glib samba? ( >=net-fs/samba-4.5.3-r6 ) sys-apps/dbus sys-libs/libcap chromeos-base/libchrome:576279[cros-debug=] chromeos-base/libbrillo:= sys-apps/baselayout
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	9a62429c3e83cd30e646292329521f7d	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	95366e64a66d9dfb640463729d95b745	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	user	7c566af8c48023219fd63246e88d6621
+_md5_=c4859eb46b9658eee0d0155b4178d3ce
