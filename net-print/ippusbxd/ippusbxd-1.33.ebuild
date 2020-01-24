@@ -5,9 +5,10 @@ EAPI=6
 
 inherit cmake-utils cros-sanitizers
 
+GIT_HASH="e8176ff30f4b7ac203bd752d457d5e81437556f1"
 DESCRIPTION="a userland driver for IPP-over-USB class USB devices."
 HOMEPAGE="https://github.com/OpenPrinting/ippusbxd"
-SRC_URI="https://github.com/OpenPrinting/ippusbxd/${P}.tar.gz"
+SRC_URI="https://github.com/OpenPrinting/ippusbxd/archive/${GIT_HASH}.tar.gz -> ${P}-${GIT_HASH}.tar.gz"
 
 KEYWORDS="*"
 LICENSE="Apache-2.0"
@@ -22,7 +23,6 @@ S="${WORKDIR}/${P}/src"
 
 PATCHES=(
 	"${FILESDIR}/unix-socket.patch"
-	"${FILESDIR}/read-transfer-backoff.patch"
 )
 
 src_prepare() {
