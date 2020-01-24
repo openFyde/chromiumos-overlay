@@ -153,6 +153,7 @@ src_install() {
 	udev_dorules "${FILESDIR}/99-uhid.rules"
 	udev_dorules "${FILESDIR}/99-ps3-gamepad.rules"
 	udev_dorules "${FILESDIR}/99-bluetooth-quirks.rules"
+	udev_dorules "${FILESDIR}/99-bluetooth-suspend-owner.rules"
 
 	# Install the common config file.
 	insinto "/etc/bluetooth"
