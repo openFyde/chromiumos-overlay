@@ -28,6 +28,7 @@ IUSE="
 	cfm_enabled_device
 	cheets
 	compupdates
+	disable_background_blur
 	disable_cros_video_decoder
 	disable_flash_hw_video_decode
 	drm_atomic
