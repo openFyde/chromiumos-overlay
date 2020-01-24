@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="d289a1dc657bc44b9b1a631a2d198b9ff6f655a2"
-CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "afea3b7e7d370484b4d85e4056ade73d0c6cd208" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7604eb36d421755cfa622e6edc72353420bb3b73"
+CROS_WORKON_TREE=("34e736b2ee0acc1681bb3c37947454b3459bea88" "61d855b510fe53776c9da7e634a84405ddbfc47e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -29,10 +29,14 @@ COMMON_DEPEND="
 	net-libs/grpc:=
 	virtual/libudev:=
 "
+
+# TODO(crbug/1042312): move tzif_parser to more general library than
+#  vm_host_tools
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/debugd-client
 	chromeos-base/system_api[fuzzer?]
+	chromeos-base/vm_host_tools
 "
 RDEPEND="
 	${COMMON_DEPEND}
