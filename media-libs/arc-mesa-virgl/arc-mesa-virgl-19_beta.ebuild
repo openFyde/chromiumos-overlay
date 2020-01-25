@@ -407,6 +407,11 @@ multilib_src_install_all_cheets() {
 		doins "${FILESDIR}/gles2/init.gpu.rc"
 	fi
 
+	if use arm || use arm64; then
+		cat "${FILESDIR}/init.gpu.rc.arm.font.hack" >> \
+			"${ED}/${ARC_VM_PREFIX}/vendor/etc/init/init.gpu.rc"
+	fi
+
 	# Install vulkan related files.
 	if use vulkan; then
 		einfo "Using android vulkan."
