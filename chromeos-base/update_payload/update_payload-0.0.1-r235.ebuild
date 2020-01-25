@@ -7,7 +7,7 @@ CROS_WORKON_COMMIT="955aa6e428cc1e684e3341e558de6c8b6d7c6fba"
 CROS_WORKON_TREE="4c217817d967eccd7bf238c3b1611233b34898ce"
 PYTHON_COMPAT=( python3_{6,7} )
 
-CROS_WORKON_LOCALNAME="../aosp/system/update_engine"
+CROS_WORKON_LOCALNAME="aosp/system/update_engine"
 CROS_WORKON_PROJECT="aosp/platform/system/update_engine"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 

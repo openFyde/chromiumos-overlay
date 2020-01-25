@@ -5,7 +5,7 @@ EAPI=6
 CROS_WORKON_COMMIT="ed1d76fbff67fdef4d35591e2d9ed6d116458f1f"
 CROS_WORKON_TREE="5ff7ada564089e829b3774ba6cee154259676dd3"
 CROS_WORKON_PROJECT="chromiumos/platform/tast"
-CROS_WORKON_LOCALNAME="tast"
+CROS_WORKON_LOCALNAME="platform/tast"
 
 CROS_GO_BINARIES=(
 	"chromiumos/tast/cmd/remote_test_runner"
