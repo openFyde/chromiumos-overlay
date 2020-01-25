@@ -3,11 +3,11 @@ DEPEND=unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config:= ) g
 DESCRIPTION=Device telemetry and diagnostics for Chrome OS
 EAPI=6
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics
-IUSE=fuzzer wilco generated_cros_config unibuild cros_host cros_workon_tree_e27f1b4637c4d92b0c7b14963d2910ad6b0b631e_1b0ff3afed1daa7e41fd3bed49e7c4455c99971d_255d69924c6e83d819c0eb060a001eb884ab6c40_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_e27f1b4637c4d92b0c7b14963d2910ad6b0b631e_1b0ff3afed1daa7e41fd3bed49e7c4455c99971d_255d69924c6e83d819c0eb060a001eb884ab6c40_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug cros_host test
+IUSE=fuzzer wilco generated_cros_config unibuild cros_host cros_workon_tree_e27f1b4637c4d92b0c7b14963d2910ad6b0b631e_1b0ff3afed1daa7e41fd3bed49e7c4455c99971d_9c7add08379869183e4b18853cbee7052592e84c_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_e27f1b4637c4d92b0c7b14963d2910ad6b0b631e_1b0ff3afed1daa7e41fd3bed49e7c4455c99971d_9c7add08379869183e4b18853cbee7052592e84c_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug cros_host test
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
 RDEPEND=unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config:= ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) chromeos-base/chromeos-config-tools:= dev-libs/protobuf:= dev-libs/re2:= net-libs/grpc:= virtual/libudev:= chromeos-base/minijail dev-util/stressapptest wilco? ( chromeos-base/chromeos-dtc-vm chromeos-base/vpd ) chromeos-base/libchrome:576279[cros-debug=] chromeos-base/libbrillo:= sys-apps/baselayout
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	055ff99314ad156d7f67930cb336279d	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	libchrome	52cd96a336a9a4ac92565454351a37ad	libchrome-version	9a62429c3e83cd30e646292329521f7d	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	95366e64a66d9dfb640463729d95b745	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	udev	452708c3f55cf6e918b045adb949a9e6	user	7c566af8c48023219fd63246e88d6621
-_md5_=1ee9b6f6ab49d1cbc893edef38eacfda
+_md5_=3117840f766dc0bc84a4c495b1adef99
