@@ -3,11 +3,11 @@ DEPEND==www-servers/apache-2* >=app-portage/elt-patches-20170815 !<sys-devel/get
 DESCRIPTION=An Apache2 module for running Python WSGI applications.
 EAPI=5
 HOMEPAGE=http://code.google.com/p/modwsgi/
-IUSE=python_targets_python2_7 python_targets_python3_5 python_targets_python3_6 python_single_target_python2_7 python_single_target_python3_5 python_single_target_python3_6
+IUSE=python_targets_python2_7 python_targets_python3_6 python_single_target_python2_7 python_single_target_python3_6
 KEYWORDS=*
 LICENSE=Apache-2.0
-RDEPEND=python_single_target_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7[threads] ) python_single_target_python3_5? ( dev-lang/python:3.5[threads] ) python_single_target_python3_6? ( dev-lang/python:3.6[threads] ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,python_targets_python3_5(-)?,python_targets_python3_6(-)?,-python_single_target_jython2_7(-),-python_single_target_pypy(-),-python_single_target_pypy3(-),-python_single_target_python3_4(-),-python_single_target_python3_7(-),python_single_target_python2_7(+)?,python_single_target_python3_5(+)?,python_single_target_python3_6(+)?] =www-servers/apache-2*
+RDEPEND=python_single_target_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7[threads] ) python_single_target_python3_6? ( dev-lang/python:3.6[threads] ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,python_targets_python3_6(-)?,-python_single_target_pypy3(-),-python_single_target_python3_7(-),-python_single_target_python3_8(-),python_single_target_python2_7(+)?,python_single_target_python3_6(+)?] =www-servers/apache-2*
 SLOT=0
 SRC_URI=http://modwsgi.googlecode.com/files/mod_wsgi-3.4.tar.gz
-_eclasses_=apache-module	5c4c90da2d68c2dc8391666824f1293c	autotools	d0e5375d47f4c809f406eb892e531513	depend.apache	a471783c63e68987a2b20eb46f9edf68	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	b2f01ad412baf81650c23fcf0975fa33	python-single-r1	3a0fc81f484bfdbd9c2b7448015a36e4	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_eclasses_=apache-module	5c4c90da2d68c2dc8391666824f1293c	autotools	d0e5375d47f4c809f406eb892e531513	depend.apache	a471783c63e68987a2b20eb46f9edf68	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	b2f01ad412baf81650c23fcf0975fa33	python-single-r1	3a0fc81f484bfdbd9c2b7448015a36e4	python-utils-r1	931c328767d245c08a16a3f87be9ce9c	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
 _md5_=6120ee64f83821663a294827ba6f290d

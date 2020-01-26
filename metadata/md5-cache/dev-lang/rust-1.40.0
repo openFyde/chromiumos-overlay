@@ -10,5 +10,5 @@ REQUIRED_USE=amd64
 RESTRICT=binchecks strip
 SLOT=stable/1.40
 SRC_URI=https://static.rust-lang.org/dist/rustc-1.40.0-src.tar.gz -> rustc-1.40.0-src.tar.gz https://static.rust-lang.org/dist/2019-11-07/rust-std-1.39.0-x86_64-unknown-linux-gnu.tar.gz https://static.rust-lang.org/dist/rustc-1.39.0-x86_64-unknown-linux-gnu.tar.gz https://static.rust-lang.org/dist/cargo-0.40.0-x86_64-unknown-linux-gnu.tar.gz
-_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	python-any-r1	4900ae970f827a22d33d41bd8b8f9ace	python-utils-r1	1a4f6b5e7fa7b8da3f7d9753118d10c5	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
+_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	python-any-r1	4900ae970f827a22d33d41bd8b8f9ace	python-utils-r1	931c328767d245c08a16a3f87be9ce9c	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
 _md5_=bf50ebedae14bfc7a78f2b905056512a
