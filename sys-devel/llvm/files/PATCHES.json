@@ -308,5 +308,11 @@
         "rel_patch_path": "cherry/60ce444eaa146bc2f762c70d433d4a0c847508f0.patch",
         "start_version": 377567,
         "end_version": 378921
+    },
+    {
+        "comment": "Revert \"Reland: [DWARF] Allow cross-CU references of subprogram definitions\"",
+        "rel_patch_path": "cherry/802bec896171997a7b73dde3857712e0eedeabc1.patch",
+        "start_version": 380035,
+        "end_version": 382491
     }
 ]

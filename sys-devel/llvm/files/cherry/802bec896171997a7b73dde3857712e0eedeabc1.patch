@@ -1,0 +1,458 @@
+commit 802bec896171997a7b73dde3857712e0eedeabc1
+Author: Vedant Kumar <vsk@apple.com>
+Date:   Fri Jan 24 18:07:34 2020 -0800
+
+    Revert "Reland: [DWARF] Allow cross-CU references of subprogram definitions"
+    
+    ... as well as:
+    Revert "[DWARF] Defer creating declaration DIEs until we prepare call site info"
+    
+    This reverts commit fa4701e1979553c2df61698ac1ac212627630442.
+    
+    This reverts commit 79daafc90308787b52a5d3a7586e82acd5e374b3.
+    
+    There have been reports of this assert getting hit:
+    
+    CalleeDIE && "Could not find DIE for call site entry origin
+
+diff --git a/llvm/lib/CodeGen/AsmPrinter/DwarfCompileUnit.cpp b/llvm/lib/CodeGen/AsmPrinter/DwarfCompileUnit.cpp
+index 9dbe40d2db2..9b8d3121fe4 100644
+--- a/llvm/lib/CodeGen/AsmPrinter/DwarfCompileUnit.cpp
++++ b/llvm/lib/CodeGen/AsmPrinter/DwarfCompileUnit.cpp
+@@ -990,8 +990,8 @@ DIE &DwarfCompileUnit::constructCallSiteEntryDIE(DIE &ScopeDIE,
+     addAddress(CallSiteDIE, getDwarf5OrGNUAttr(dwarf::DW_AT_call_target),
+                MachineLocation(CallReg));
+   } else {
+-    DIE *CalleeDIE = getDIE(CalleeSP);
+-    assert(CalleeDIE && "Could not find DIE for call site entry origin");
++    DIE *CalleeDIE = getOrCreateSubprogramDIE(CalleeSP);
++    assert(CalleeDIE && "Could not create DIE for call site entry origin");
+     addDIEEntry(CallSiteDIE, getDwarf5OrGNUAttr(dwarf::DW_AT_call_origin),
+                 *CalleeDIE);
+   }
+diff --git a/llvm/lib/CodeGen/AsmPrinter/DwarfDebug.cpp b/llvm/lib/CodeGen/AsmPrinter/DwarfDebug.cpp
+index 0280370d2d8..326a2dd7af8 100644
+--- a/llvm/lib/CodeGen/AsmPrinter/DwarfDebug.cpp
++++ b/llvm/lib/CodeGen/AsmPrinter/DwarfDebug.cpp
+@@ -540,14 +540,6 @@ void DwarfDebug::constructAbstractSubprogramScopeDIE(DwarfCompileUnit &SrcCU,
+   }
+ }
+ 
+-DIE &DwarfDebug::constructSubprogramDefinitionDIE(const DISubprogram *SP) {
+-  DICompileUnit *Unit = SP->getUnit();
+-  assert(SP->isDefinition() && "Subprogram not a definition");
+-  assert(Unit && "Subprogram definition without parent unit");
+-  auto &CU = getOrCreateDwarfCompileUnit(Unit);
+-  return *CU.getOrCreateSubprogramDIE(SP);
+-}
+-
+ /// Try to interpret values loaded into registers that forward parameters
+ /// for \p CallMI. Store parameters with interpreted value into \p Params.
+ static void collectCallSiteParameters(const MachineInstr *CallMI,
+@@ -757,17 +749,6 @@ void DwarfDebug::constructCallSiteEntryDIEs(const DISubprogram &SP,
+         if (!CalleeDecl || !CalleeDecl->getSubprogram())
+           continue;
+         CalleeSP = CalleeDecl->getSubprogram();
+-
+-        if (CalleeSP->isDefinition()) {
+-          // Ensure that a subprogram DIE for the callee is available in the
+-          // appropriate CU.
+-          constructSubprogramDefinitionDIE(CalleeSP);
+-        } else {
+-          // Create the declaration DIE if it is missing. This is required to
+-          // support compilation of old bitcode with an incomplete list of
+-          // retained metadata.
+-          CU.getOrCreateSubprogramDIE(CalleeSP);
+-        }
+       }
+ 
+       // TODO: Omit call site entries for runtime calls (objc_msgSend, etc).
+@@ -915,6 +896,11 @@ DwarfDebug::getOrCreateDwarfCompileUnit(const DICompileUnit *DIUnit) {
+     NewCU.setSection(Asm->getObjFileLowering().getDwarfInfoSection());
+   }
+ 
++  // Create DIEs for function declarations used for call site debug info.
++  for (auto Scope : DIUnit->getRetainedTypes())
++    if (auto *SP = dyn_cast_or_null<DISubprogram>(Scope))
++      NewCU.getOrCreateSubprogramDIE(SP);
++
+   CUMap.insert({DIUnit, &NewCU});
+   CUDieMap.insert({&NewCU.getUnitDie(), &NewCU});
+   return NewCU;
+diff --git a/llvm/lib/CodeGen/AsmPrinter/DwarfDebug.h b/llvm/lib/CodeGen/AsmPrinter/DwarfDebug.h
+index a44960589d8..dbb1e8311a4 100644
+--- a/llvm/lib/CodeGen/AsmPrinter/DwarfDebug.h
++++ b/llvm/lib/CodeGen/AsmPrinter/DwarfDebug.h
+@@ -442,9 +442,6 @@ class DwarfDebug : public DebugHandlerBase {
+   /// Construct a DIE for this abstract scope.
+   void constructAbstractSubprogramScopeDIE(DwarfCompileUnit &SrcCU, LexicalScope *Scope);
+ 
+-  /// Construct a DIE for the subprogram definition \p SP and return it.
+-  DIE &constructSubprogramDefinitionDIE(const DISubprogram *SP);
+-
+   /// Construct DIEs for call site entries describing the calls in \p MF.
+   void constructCallSiteEntryDIEs(const DISubprogram &SP, DwarfCompileUnit &CU,
+                                   DIE &ScopeDIE, const MachineFunction &MF);
+diff --git a/llvm/lib/CodeGen/AsmPrinter/DwarfUnit.cpp b/llvm/lib/CodeGen/AsmPrinter/DwarfUnit.cpp
+index 76ac2e049fc..b54ec0b52c8 100644
+--- a/llvm/lib/CodeGen/AsmPrinter/DwarfUnit.cpp
++++ b/llvm/lib/CodeGen/AsmPrinter/DwarfUnit.cpp
+@@ -188,9 +188,8 @@ int64_t DwarfUnit::getDefaultLowerBound() const {
+ 
+ /// Check whether the DIE for this MDNode can be shared across CUs.
+ bool DwarfUnit::isShareableAcrossCUs(const DINode *D) const {
+-  // When the MDNode can be part of the type system (this includes subprogram
+-  // declarations *and* subprogram definitions, even local definitions), the
+-  // DIE must be shared across CUs.
++  // When the MDNode can be part of the type system, the DIE can be shared
++  // across CUs.
+   // Combining type units and cross-CU DIE sharing is lower value (since
+   // cross-CU DIE sharing is used in LTO and removes type redundancy at that
+   // level already) but may be implementable for some value in projects
+@@ -198,7 +197,9 @@ bool DwarfUnit::isShareableAcrossCUs(const DINode *D) const {
+   // together.
+   if (isDwoUnit() && !DD->shareAcrossDWOCUs())
+     return false;
+-  return (isa<DIType>(D) || isa<DISubprogram>(D)) && !DD->generateTypeUnits();
++  return (isa<DIType>(D) ||
++          (isa<DISubprogram>(D) && !cast<DISubprogram>(D)->isDefinition())) &&
++         !DD->generateTypeUnits();
+ }
+ 
+ DIE *DwarfUnit::getDIE(const DINode *D) const {
+diff --git a/llvm/test/DebugInfo/AArch64/unretained-declaration-subprogram.ll b/llvm/test/DebugInfo/AArch64/unretained-declaration-subprogram.ll
+deleted file mode 100644
+index 17ead0e8124..00000000000
+--- a/llvm/test/DebugInfo/AArch64/unretained-declaration-subprogram.ll
++++ /dev/null
+@@ -1,44 +0,0 @@
+-; RUN: llc -mtriple=arm64-apple-ios -filetype=obj < %s -o %t.o
+-; RUN: llvm-dwarfdump %t.o | FileCheck %s -implicit-check-not=DW_TAG_subprogram
+-
+-; The declaration subprogram for "function" is not in the CU's list of
+-; retained types. Test that a DWARF call site entry can still be constructed.
+-
+-; CHECK: DW_TAG_subprogram
+-; CHECK:   DW_AT_name {{.*}}__hidden#3_
+-; CHECK:   DW_TAG_call_site
+-; CHECK:     DW_AT_call_origin (0x{{0+}}[[FUNCTION_DIE:.*]])
+-
+-; CHECK: 0x{{0+}}[[FUNCTION_DIE]]: DW_TAG_subprogram
+-; CHECK:   DW_AT_name {{.*}}function
+-
+-target datalayout = "e-m:o-i64:64-i128:128-n32:64-S128"
+-target triple = "arm64-apple-ios9.0.0"
+-
+-define i32 @main() local_unnamed_addr !dbg !8 {
+-  %1 = tail call [2 x i64] @function([2 x i64] zeroinitializer), !dbg !11
+-  %2 = extractvalue [2 x i64] %1, 0, !dbg !11
+-  %3 = trunc i64 %2 to i32, !dbg !11
+-  ret i32 %3, !dbg !12
+-}
+-
+-declare !dbg !13 [2 x i64] @function([2 x i64]) local_unnamed_addr
+-
+-!llvm.module.flags = !{!0, !1, !2, !3, !4}
+-!llvm.dbg.cu = !{!5}
+-!llvm.ident = !{!7}
+-
+-!0 = !{i32 2, !"SDK Version", [2 x i32] [i32 13, i32 4]}
+-!1 = !{i32 7, !"Dwarf Version", i32 4}
+-!2 = !{i32 2, !"Debug Info Version", i32 3}
+-!3 = !{i32 1, !"wchar_size", i32 4}
+-!4 = !{i32 7, !"PIC Level", i32 2}
+-!5 = distinct !DICompileUnit(language: DW_LANG_C99, file: !6, producer: "__hidden#0_", isOptimized: true, runtimeVersion: 0, emissionKind: LineTablesOnly, nameTableKind: None)
+-!6 = !DIFile(filename: "__hidden#1_", directory: "__hidden#2_")
+-!7 = !{!"Apple clang version 11.0.0 (llvm-project fa407d93fd5e618d76378c1ce4e4f517e0563278) (+internal-os)"}
+-!8 = distinct !DISubprogram(name: "__hidden#3_", scope: !6, file: !6, line: 9, type: !9, scopeLine: 9, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !5)
+-!9 = !DISubroutineType(types: !10)
+-!10 = !{}
+-!11 = !DILocation(line: 12, column: 10, scope: !8)
+-!12 = !DILocation(line: 13, column: 3, scope: !8)
+-!13 = !DISubprogram(name: "function", scope: !6, file: !6, line: 7, type: !9, flags: DIFlagPrototyped, spFlags: DISPFlagOptimized)
+diff --git a/llvm/test/DebugInfo/MIR/AArch64/dbgcall-site-orr-moves.mir b/llvm/test/DebugInfo/MIR/AArch64/dbgcall-site-orr-moves.mir
+index 3e7e6cbfdee..916a14022ba 100644
+--- a/llvm/test/DebugInfo/MIR/AArch64/dbgcall-site-orr-moves.mir
++++ b/llvm/test/DebugInfo/MIR/AArch64/dbgcall-site-orr-moves.mir
+@@ -159,7 +159,7 @@ body:             |
+ ...
+ 
+ # CHECK: DW_TAG_GNU_call_site
+-# CHECK-NEXT: DW_AT_abstract_origin ({{.*}} "call_int")
++# CHECK-NEXT: DW_AT_abstract_origin (0x0000002a "call_int")
+ #
+ # CHECK: DW_TAG_GNU_call_site_parameter
+ # CHECK-NEXT: DW_AT_location      (DW_OP_reg0 W0)
+@@ -205,7 +205,7 @@ body:             |
+ ...
+ 
+ # CHECK: DW_TAG_GNU_call_site
+-# CHECK-NEXT: DW_AT_abstract_origin ({{.*}} "call_long")
++# CHECK-NEXT: DW_AT_abstract_origin (0x0000003e "call_long")
+ #
+ # CHECK: DW_TAG_GNU_call_site_parameter
+ # CHECK-NEXT: DW_AT_location      (DW_OP_reg0 W0)
+@@ -265,7 +265,7 @@ body:             |
+ ...
+ 
+ # CHECK: DW_TAG_GNU_call_site
+-# CHECK-NEXT: DW_AT_abstract_origin ({{.*}} "call_int_int")
++# CHECK-NEXT: DW_AT_abstract_origin (0x00000052 "call_int_int")
+ #
+ # CHECK: DW_TAG_GNU_call_site_parameter
+ # FIXME: The DW_AT_location attribute should actually refer to W0! See PR44118.
+diff --git a/llvm/test/DebugInfo/MIR/X86/debug-call-site-param.mir b/llvm/test/DebugInfo/MIR/X86/debug-call-site-param.mir
+index caee15c2a9e..e79be66cd4e 100644
+--- a/llvm/test/DebugInfo/MIR/X86/debug-call-site-param.mir
++++ b/llvm/test/DebugInfo/MIR/X86/debug-call-site-param.mir
+@@ -39,11 +39,17 @@
+ # CHECK-GNU-NEXT:      DW_AT_location      (DW_OP_reg8 R8)
+ # CHECK-GNU-NEXT:      DW_AT_GNU_call_site_value   (DW_OP_breg14 R14+3)
+ 
+-# CHECK-DWARF5: DW_TAG_call_site
+-# CHECK-DWARF5:   DW_AT_call_origin ([[getValue_SP:.*]])
++# CHECK-DWARF5: [[getValue_SP:.*]]: DW_TAG_subprogram
++# CHECK-DWARF5-NEXT: DW_AT_name      ("getVal")
+ 
++# CHECK-DWARF5: [[foo_SP:.*]]: DW_TAG_subprogram
++# CHECK-DWARF5-NEXT: DW_AT_name      ("foo")
++
++# CHECK-DWARF5: DW_TAG_call_site
++# CHECK-DWARF5:   DW_AT_call_origin ([[getValue_SP]])
++#
+ # CHECK-DWARF5: DW_TAG_call_site
+-# CHECK-DWARF5:   DW_AT_call_origin ([[foo_SP:.*]])
++# CHECK-DWARF5:   DW_AT_call_origin ([[foo_SP]])
+ # CHECK-DWARF5:   DW_AT_call_return_pc {{.*}}
+ # CHECK-DWARF5-EMPTY:
+ # CHECK-DWARF5:         DW_TAG_call_site_parameter
+@@ -65,12 +71,6 @@
+ # CHECK-DWARF5-NEXT:      DW_AT_location      (DW_OP_reg8 R8)
+ # CHECK-DWARF5-NEXT:      DW_AT_call_value   (DW_OP_breg14 R14+3)
+ 
+-# CHECK-DWARF5: [[getValue_SP]]: DW_TAG_subprogram
+-# CHECK-DWARF5-NEXT: DW_AT_name      ("getVal")
+-
+-# CHECK-DWARF5: [[foo_SP]]: DW_TAG_subprogram
+-# CHECK-DWARF5-NEXT: DW_AT_name      ("foo")
+-
+ --- |
+   ; ModuleID = 'test.c'
+   source_filename = "test.c"
+diff --git a/llvm/test/DebugInfo/X86/lto-cross-cu-call-origin-ref.ll b/llvm/test/DebugInfo/X86/lto-cross-cu-call-origin-ref.ll
+deleted file mode 100644
+index 00715841ab5..00000000000
+--- a/llvm/test/DebugInfo/X86/lto-cross-cu-call-origin-ref.ll
++++ /dev/null
+@@ -1,211 +0,0 @@
+-; RUN: llc -mtriple=x86_64-apple-darwin -filetype=obj < %s -o %t.o
+-; RUN: llvm-dwarfdump %t.o | FileCheck %s -implicit-check-not=DW_TAG_subprogram
+-; RUN: llvm-dwarfdump --verify %t.o
+-
+-; This test checks that cross-CU references within call site tags to subprogram
+-; definitions are well-formed. There are 5 cases checked in this test. Each set
+-; of checks is numbered and has a brief summary.
+-
+-; Instructions to regenerate the IR:
+-; clang -O1 -g -emit-llvm -o a.bc -c a.c
+-; clang -O1 -g -emit-llvm -o b.bc -c b.c
+-; llvm-link -o linked.bc a.bc b.bc
+-; opt -O1 linked.bc -o merged.bc
+-
+-; Source:
+-; // a.c
+-; __attribute__((optnone)) void noinline_func_in_a() {}
+-;
+-; __attribute__((optnone)) static void foo() {}
+-; __attribute__((always_inline)) void always_inline_helper_in_a_that_calls_foo() {
+-;   foo();
+-; }
+-;
+-; extern void func_from_b();
+-; void call_func_in_b_from_a() {
+-;   func_from_b();
+-; }
+-;
+-; // b.c
+-; extern void noinline_func_in_a();
+-; void call_noinline_func_in_a_from_b() {
+-;   noinline_func_in_a();
+-; }
+-;
+-; __attribute__((optnone)) void foo() {}
+-; extern void always_inline_helper_in_a_that_calls_foo();
+-; void call_both_foos_from_b() {
+-;   foo();
+-;   always_inline_helper_in_a_that_calls_foo();
+-; }
+-;
+-; __attribute__((optnone)) void func_from_b() {}
+-; void call_func_in_b_from_b() {
+-;   func_from_b();
+-; }
+-
+-; === CU for a.c ===
+-
+-; CHECK: DW_TAG_compile_unit
+-; CHECK:   DW_AT_name ("a.c")
+-
+-; CHECK: 0x{{0+}}[[NOINLINE_FUNC_IN_A:.*]]: DW_TAG_subprogram
+-; CHECK:   DW_AT_name ("noinline_func_in_a")
+-
+-; 1) Check that "always_inline_helper_in_a_that_calls_foo" calls the "foo" in
+-; a.c, and *not* the "foo" in b.c.
+-; CHECK: 0x{{0+}}[[ALWAYS_INLINE_HELPER_IN_A:.*]]: DW_TAG_subprogram
+-; CHECK:   DW_AT_abstract_origin ({{.*}} "always_inline_helper_in_a_that_calls_foo")
+-; CHECK:   DW_TAG_call_site
+-; CHECK-NEXT: DW_AT_call_origin (0x{{0+}}[[FOO_IN_A:.*]])
+-
+-; CHECK: 0x{{0+}}[[FOO_IN_A]]: DW_TAG_subprogram
+-; CHECK:   DW_AT_name ("foo")
+-
+-; 2) Check that "call_func_in_b_from_a" has a cross-CU ref into b.c.
+-; CHECK: DW_TAG_subprogram
+-; CHECK:   DW_AT_name ("call_func_in_b_from_a")
+-; CHECK:   DW_TAG_call_site
+-; CHECK-NEXT: DW_AT_call_origin (0x{{0+}}[[FUNC_FROM_B:.*]])
+-
+-; CHECK: DW_TAG_subprogram
+-; CHECK:   DW_AT_name ("always_inline_helper_in_a_that_calls_foo")
+-; CHECK:   DW_AT_inline (DW_INL_inlined)
+-
+-; === CU for b.c ===
+-
+-; CHECK: DW_TAG_compile_unit
+-; CHECK:   DW_AT_name ("b.c")
+-
+-; 3) Validate the cross-CU ref from "call_func_in_b_from_a" in a.c.
+-; CHECK: 0x{{0+}}[[FUNC_FROM_B]]: DW_TAG_subprogram
+-; CHECK:   DW_AT_name ("func_from_b")
+-
+-; 4) Validate the cross-CU ref from "call_noinline_func_in_a_from_b" in b.c.
+-; CHECK: DW_TAG_subprogram
+-; CHECK:   DW_AT_name ("call_noinline_func_in_a_from_b")
+-; CHECK:   DW_TAG_call_site
+-; CHECK-NEXT: DW_AT_call_origin (0x{{0+}}[[NOINLINE_FUNC_IN_A]])
+-
+-; CHECK: 0x{{0+}}[[FOO_IN_B:.*]]: DW_TAG_subprogram
+-; CHECK:   DW_AT_name ("foo")
+-
+-; 5) Validate that we correctly emit a cross-CU ref when the call is inlined
+-; from another CU.
+-; CHECK: DW_TAG_subprogram
+-; CHECK:   DW_AT_name ("call_both_foos_from_b")
+-; CHECK:   DW_TAG_call_site
+-; CHECK-NEXT: DW_AT_call_origin (0x{{0+}}[[FOO_IN_B]])
+-; CHECK:   DW_TAG_call_site
+-; CHECK-NEXT: DW_AT_call_origin (0x{{0+}}[[FOO_IN_A]])
+-
+-; CHECK: DW_TAG_subprogram
+-; CHECK:   DW_AT_name ("call_func_in_b_from_b")
+-; CHECK:   DW_TAG_call_site
+-; CHECK-NEXT: DW_AT_call_origin (0x{{0+}}[[FUNC_FROM_B]])
+-
+-target datalayout = "e-m:o-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+-target triple = "x86_64-apple-macosx10.14.0"
+-
+-define void @noinline_func_in_a() local_unnamed_addr #0 !dbg !17 {
+-entry:
+-  ret void, !dbg !20
+-}
+-
+-define void @always_inline_helper_in_a_that_calls_foo() local_unnamed_addr #1 !dbg !21 {
+-entry:
+-  tail call fastcc void @foo.2(), !dbg !22
+-  ret void, !dbg !23
+-}
+-
+-define internal fastcc void @foo.2() unnamed_addr #0 !dbg !24 {
+-entry:
+-  ret void, !dbg !25
+-}
+-
+-define void @call_func_in_b_from_a() local_unnamed_addr !dbg !26 {
+-entry:
+-  tail call void @func_from_b() #3, !dbg !27
+-  ret void, !dbg !28
+-}
+-
+-define void @call_noinline_func_in_a_from_b() local_unnamed_addr !dbg !29 {
+-entry:
+-  tail call void @noinline_func_in_a() #3, !dbg !30
+-  ret void, !dbg !31
+-}
+-
+-define void @foo() local_unnamed_addr #0 !dbg !32 {
+-entry:
+-  ret void, !dbg !33
+-}
+-
+-define void @call_both_foos_from_b() local_unnamed_addr !dbg !34 {
+-entry:
+-  tail call void @foo(), !dbg !35
+-  tail call fastcc void @foo.2() #3, !dbg !36
+-  ret void, !dbg !38
+-}
+-
+-define void @func_from_b() local_unnamed_addr #0 !dbg !39 {
+-entry:
+-  ret void, !dbg !40
+-}
+-
+-define void @call_func_in_b_from_b() local_unnamed_addr !dbg !41 {
+-entry:
+-  tail call void @func_from_b(), !dbg !42
+-  ret void, !dbg !43
+-}
+-
+-attributes #0 = { noinline }
+-attributes #1 = { alwaysinline }
+-
+-!llvm.dbg.cu = !{!0, !7}
+-!llvm.ident = !{!12, !12}
+-!llvm.module.flags = !{!13, !14, !15, !16}
+-
+-!0 = distinct !DICompileUnit(language: DW_LANG_C99, file: !1, producer: "clang version 10.0.0 (git@github.com:llvm/llvm-project.git 310e85309f870ee7347ef979d7d8da9bf28e92ea)", isOptimized: true, runtimeVersion: 0, emissionKind: FullDebug, enums: !2, retainedTypes: !3, nameTableKind: None)
+-!1 = !DIFile(filename: "a.c", directory: "/Users/vsk/tmp/lto-entry-vals")
+-!2 = !{}
+-!3 = !{!4}
+-!4 = !DISubprogram(name: "func_from_b", scope: !1, file: !1, line: 8, type: !5, spFlags: DISPFlagOptimized, retainedNodes: !2)
+-!5 = !DISubroutineType(types: !6)
+-!6 = !{null, null}
+-!7 = distinct !DICompileUnit(language: DW_LANG_C99, file: !8, producer: "clang version 10.0.0 (git@github.com:llvm/llvm-project.git 310e85309f870ee7347ef979d7d8da9bf28e92ea)", isOptimized: true, runtimeVersion: 0, emissionKind: FullDebug, enums: !2, retainedTypes: !9, nameTableKind: None)
+-!8 = !DIFile(filename: "b.c", directory: "/Users/vsk/tmp/lto-entry-vals")
+-!9 = !{!10, !11}
+-!10 = !DISubprogram(name: "noinline_func_in_a", scope: !8, file: !8, line: 1, type: !5, spFlags: DISPFlagOptimized, retainedNodes: !2)
+-!11 = !DISubprogram(name: "always_inline_helper_in_a_that_calls_foo", scope: !8, file: !8, line: 7, type: !5, spFlags: DISPFlagOptimized, retainedNodes: !2)
+-!12 = !{!"clang version 10.0.0 (git@github.com:llvm/llvm-project.git 310e85309f870ee7347ef979d7d8da9bf28e92ea)"}
+-!13 = !{i32 7, !"Dwarf Version", i32 4}
+-!14 = !{i32 2, !"Debug Info Version", i32 3}
+-!15 = !{i32 1, !"wchar_size", i32 4}
+-!16 = !{i32 7, !"PIC Level", i32 2}
+-!17 = distinct !DISubprogram(name: "noinline_func_in_a", scope: !1, file: !1, line: 1, type: !18, scopeLine: 1, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !2)
+-!18 = !DISubroutineType(types: !19)
+-!19 = !{null}
+-!20 = !DILocation(line: 1, column: 53, scope: !17)
+-!21 = distinct !DISubprogram(name: "always_inline_helper_in_a_that_calls_foo", scope: !1, file: !1, line: 4, type: !18, scopeLine: 4, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !2)
+-!22 = !DILocation(line: 5, column: 3, scope: !21)
+-!23 = !DILocation(line: 6, column: 1, scope: !21)
+-!24 = distinct !DISubprogram(name: "foo", scope: !1, file: !1, line: 3, type: !18, scopeLine: 3, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !2)
+-!25 = !DILocation(line: 3, column: 45, scope: !24)
+-!26 = distinct !DISubprogram(name: "call_func_in_b_from_a", scope: !1, file: !1, line: 9, type: !18, scopeLine: 9, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !2)
+-!27 = !DILocation(line: 10, column: 3, scope: !26)
+-!28 = !DILocation(line: 11, column: 1, scope: !26)
+-!29 = distinct !DISubprogram(name: "call_noinline_func_in_a_from_b", scope: !8, file: !8, line: 2, type: !18, scopeLine: 2, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !7, retainedNodes: !2)
+-!30 = !DILocation(line: 3, column: 3, scope: !29)
+-!31 = !DILocation(line: 4, column: 1, scope: !29)
+-!32 = distinct !DISubprogram(name: "foo", scope: !8, file: !8, line: 6, type: !18, scopeLine: 6, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !7, retainedNodes: !2)
+-!33 = !DILocation(line: 6, column: 38, scope: !32)
+-!34 = distinct !DISubprogram(name: "call_both_foos_from_b", scope: !8, file: !8, line: 8, type: !18, scopeLine: 8, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !7, retainedNodes: !2)
+-!35 = !DILocation(line: 9, column: 3, scope: !34)
+-!36 = !DILocation(line: 5, column: 3, scope: !21, inlinedAt: !37)
+-!37 = distinct !DILocation(line: 10, column: 3, scope: !34)
+-!38 = !DILocation(line: 11, column: 1, scope: !34)
+-!39 = distinct !DISubprogram(name: "func_from_b", scope: !8, file: !8, line: 13, type: !18, scopeLine: 13, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !7, retainedNodes: !2)
+-!40 = !DILocation(line: 13, column: 46, scope: !39)
+-!41 = distinct !DISubprogram(name: "call_func_in_b_from_b", scope: !8, file: !8, line: 14, type: !18, scopeLine: 14, flags: DIFlagAllCallsDescribed, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !7, retainedNodes: !2)
+-!42 = !DILocation(line: 15, column: 3, scope: !41)
+-!43 = !DILocation(line: 16, column: 1, scope: !41)
