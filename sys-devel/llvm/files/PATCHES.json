@@ -314,5 +314,11 @@
         "rel_patch_path": "cherry/802bec896171997a7b73dde3857712e0eedeabc1.patch",
         "start_version": 380035,
         "end_version": 382491
+    },
+    {
+        "comment": "Revert 651f07908a1 \"[AArch64] Don't combine callee-save and local stack adjustment when optimizing for size\"",
+        "rel_patch_path": "cherry/c2443155a0fb245c8f17f2c1c72b6ea391e86e81.patch",
+        "start_version": 375217,
+        "end_version": 378248
     }
 ]

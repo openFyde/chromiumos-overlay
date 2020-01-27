@@ -1,0 +1,93 @@
+commit c2443155a0fb245c8f17f2c1c72b6ea391e86e81
+Author: Hans Wennborg <hans@chromium.org>
+Date:   Sat Nov 30 14:20:11 2019 +0100
+
+    Revert 651f07908a1 "[AArch64] Don't combine callee-save and local stack adjustment when optimizing for size"
+    
+    This caused asserts (and perhaps also miscompiles) while building for Windows
+    on AArch64. See the discussion on D68530 for details and reproducer.
+    
+    Reverting until this can be investigated and fixed.
+    
+    > For arm64, D18619 introduced the ability to combine bumping the stack pointer
+    > upfront in case it needs to be bumped for both the callee-save area as well as
+    > the local stack area.
+    >
+    > That diff already remarks that "This change can cause an increase in
+    > instructions", but argues that even when that happens, it should be still be a
+    > performance benefit because the number of micro-ops is reduced.
+    >
+    > We have observed that this code-size increase can be significant in practice.
+    > This diff disables combining stack bumping for methods that are marked as
+    > optimize-for-size.
+    >
+    > Example of a prologue with the behavior before this diff (combining stack bumping when possible):
+    >   sub        sp, sp, #0x40
+    >   stp        d9, d8, [sp, #0x10]
+    >   stp        x20, x19, [sp, #0x20]
+    >   stp        x29, x30, [sp, #0x30]
+    >   add        x29, sp, #0x30
+    >   [... compute x8 somehow ...]
+    >   stp        x0, x8, [sp]
+    >
+    > And after this  diff, if the method is marked as optimize-for-size:
+    >   stp        d9, d8, [sp, #-0x30]!
+    >   stp        x20, x19, [sp, #0x10]
+    >   stp        x29, x30, [sp, #0x20]
+    >   add        x29, sp, #0x20
+    >   [... compute x8 somehow ...]
+    >   stp        x0, x8, [sp, #-0x10]!
+    >
+    > Note that without combining the stack bump there are two auto-decrements,
+    > nicely folded into the stp instructions, whereas otherwise there is a single
+    > sub sp, ... instruction, but not folded.
+    >
+    > Patch by Nikolai Tillmann!
+    >
+    > Differential Revision: https://reviews.llvm.org/D68530
+
+diff --git a/llvm/lib/Target/AArch64/AArch64FrameLowering.cpp b/llvm/lib/Target/AArch64/AArch64FrameLowering.cpp
+index eca9b1e75c2..8f88198203d 100644
+--- a/llvm/lib/Target/AArch64/AArch64FrameLowering.cpp
++++ b/llvm/lib/Target/AArch64/AArch64FrameLowering.cpp
+@@ -452,9 +452,6 @@ bool AArch64FrameLowering::shouldCombineCSRLocalStackBump(
+   const AArch64Subtarget &Subtarget = MF.getSubtarget<AArch64Subtarget>();
+   const AArch64RegisterInfo *RegInfo = Subtarget.getRegisterInfo();
+ 
+-  if (MF.getFunction().hasOptSize())
+-    return false;
+-
+   if (AFI->getLocalStackSize() == 0)
+     return false;
+ 
+diff --git a/llvm/test/CodeGen/AArch64/arm64-never-combine-csr-local-stack-bump-for-size.ll b/llvm/test/CodeGen/AArch64/arm64-never-combine-csr-local-stack-bump-for-size.ll
+deleted file mode 100644
+index 273fb31e16c..00000000000
+--- a/llvm/test/CodeGen/AArch64/arm64-never-combine-csr-local-stack-bump-for-size.ll
++++ /dev/null
+@@ -1,25 +0,0 @@
+-; RUN: llc < %s -mtriple=arm64-apple-ios7.0 -disable-post-ra | FileCheck %s
+-
+-; CHECK-LABEL: main:
+-; CHECK:       stp     x29, x30, [sp, #-16]!
+-; CHECK-NEXT:  stp     xzr, xzr, [sp, #-16]!
+-; CHECK:       adrp    x0, l_.str@PAGE
+-; CHECK:       add     x0, x0, l_.str@PAGEOFF
+-; CHECK-NEXT:  bl      _puts
+-; CHECK-NEXT:   add     sp, sp, #16
+-; CHECK-NEXT:	ldp	x29, x30, [sp], #16
+-; CHECK-NEXT:	ret
+-
+-@.str = private unnamed_addr constant [7 x i8] c"hello\0A\00"
+-
+-define i32 @main() nounwind ssp optsize {
+-entry:
+-  %local1 = alloca i64, align 8
+-  %local2 = alloca i64, align 8
+-  store i64 0, i64* %local1
+-  store i64 0, i64* %local2
+-  %call = call i32 @puts(i8* getelementptr inbounds ([7 x i8], [7 x i8]* @.str, i32 0, i32 0))
+-  ret i32 %call
+-}
+-
+-declare i32 @puts(i8*)
