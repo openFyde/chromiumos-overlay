@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="47c7f847879bc350067d4eda4038d1151cc0abc2"
+CROS_WORKON_COMMIT="0d08bbf0a6a1e5032ac03ae0d4e44c25ee82cfa1"
 CROS_WORKON_TREE=("e27f1b4637c4d92b0c7b14963d2910ad6b0b631e" "df79ace968ccac3eaf6f75d3b8b59ac6cbfde107" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -67,7 +67,11 @@ src_install() {
 	dosbin tpm_version
 	dosbin "${OUT}"/trunksd
 	dolib.so "${OUT}"/lib/libtrunks.so
-	use test && dolib.a "${OUT}"/libtrunks_test.a
+	# trunks_test library implements trunks mocks which
+	# are used by unittest and fuzzer.
+	if use test || use fuzzer; then
+		dolib.a "${OUT}"/libtrunks_test.a
+	fi
 
 	insinto /usr/share/policy
 	newins trunksd-seccomp-${ARCH}.policy trunksd-seccomp.policy
