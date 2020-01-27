@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package chromiumos_overlay;
 
+option go_package = "go.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto";
+
 import "src/config/api/design_config_id.proto";
 import "src/third_party/chromiumos-overlay/proto/audio_config.proto";
 import "src/third_party/chromiumos-overlay/proto/firmware_config.proto";

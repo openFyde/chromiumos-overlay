@@ -18,8 +18,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='src/third_party/chromiumos-overlay/proto/audio_config.proto',
   package='chromiumos_overlay',
   syntax='proto3',
-  serialized_options=None,
-  serialized_pb=_b('\n;src/third_party/chromiumos-overlay/proto/audio_config.proto\x12\x12\x63hromiumos_overlay\"^\n\x0b\x41udioConfig\x12\x11\n\tcard_name\x18\x01 \x01(\t\x12\x18\n\x10\x63\x61rd_config_file\x18\x02 \x01(\t\x12\x10\n\x08\x64sp_file\x18\x03 \x01(\t\x12\x10\n\x08ucm_file\x18\x04 \x01(\tb\x06proto3')
+  serialized_options=_b('ZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto'),
+  serialized_pb=_b('\n;src/third_party/chromiumos-overlay/proto/audio_config.proto\x12\x12\x63hromiumos_overlay\"^\n\x0b\x41udioConfig\x12\x11\n\tcard_name\x18\x01 \x01(\t\x12\x18\n\x10\x63\x61rd_config_file\x18\x02 \x01(\t\x12\x10\n\x08\x64sp_file\x18\x03 \x01(\t\x12\x10\n\x08ucm_file\x18\x04 \x01(\tBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
 )
 
 
@@ -87,4 +87,5 @@ AudioConfig = _reflection.GeneratedProtocolMessageType('AudioConfig', (_message.
 _sym_db.RegisterMessage(AudioConfig)
 
 
+DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)

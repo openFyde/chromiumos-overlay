@@ -20,8 +20,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='src/third_party/chromiumos-overlay/proto/firmware_config.proto',
   package='firmware',
   syntax='proto3',
-  serialized_options=None,
-  serialized_pb=_b('\n>src/third_party/chromiumos-overlay/proto/firmware_config.proto\x12\x08\x66irmware\x1a\x30\x63hromite/infra/proto/src/chromiumos/common.proto\"\'\n\x07Version\x12\r\n\x05major\x18\x01 \x01(\x05\x12\r\n\x05minor\x18\x02 \x01(\x05\"\xa7\x01\n\x0f\x46irmwarePayload\x12-\n\x0c\x62uild_target\x18\x01 \x01(\x0b\x32\x17.chromiumos.BuildTarget\x12\x1b\n\x13\x66irmware_image_name\x18\x02 \x01(\t\x12$\n\x04type\x18\x03 \x01(\x0e\x32\x16.firmware.FirmwareType\x12\"\n\x07version\x18\x04 \x01(\x0b\x32\x11.firmware.Version\"\xaa\x01\n\x0e\x46irmwareConfig\x12\x32\n\x0fmain_ro_payload\x18\x01 \x01(\x0b\x32\x19.firmware.FirmwarePayload\x12\x32\n\x0fmain_rw_payload\x18\x02 \x01(\x0b\x32\x19.firmware.FirmwarePayload\x12\x30\n\rec_ro_payload\x18\x03 \x01(\x0b\x32\x19.firmware.FirmwarePayload*W\n\x0c\x46irmwareType\x12\x19\n\x15\x46IRMWARE_TYPE_UNKNOWN\x10\x00\x12\x16\n\x12\x46IRMWARE_TYPE_MAIN\x10\x01\x12\x14\n\x10\x46IRMWARE_TYPE_EC\x10\x02\x62\x06proto3')
+  serialized_options=_b('ZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto'),
+  serialized_pb=_b('\n>src/third_party/chromiumos-overlay/proto/firmware_config.proto\x12\x08\x66irmware\x1a\x30\x63hromite/infra/proto/src/chromiumos/common.proto\"\'\n\x07Version\x12\r\n\x05major\x18\x01 \x01(\x05\x12\r\n\x05minor\x18\x02 \x01(\x05\"\xa7\x01\n\x0f\x46irmwarePayload\x12-\n\x0c\x62uild_target\x18\x01 \x01(\x0b\x32\x17.chromiumos.BuildTarget\x12\x1b\n\x13\x66irmware_image_name\x18\x02 \x01(\t\x12$\n\x04type\x18\x03 \x01(\x0e\x32\x16.firmware.FirmwareType\x12\"\n\x07version\x18\x04 \x01(\x0b\x32\x11.firmware.Version\"\xaa\x01\n\x0e\x46irmwareConfig\x12\x32\n\x0fmain_ro_payload\x18\x01 \x01(\x0b\x32\x19.firmware.FirmwarePayload\x12\x32\n\x0fmain_rw_payload\x18\x02 \x01(\x0b\x32\x19.firmware.FirmwarePayload\x12\x30\n\rec_ro_payload\x18\x03 \x01(\x0b\x32\x19.firmware.FirmwarePayload*W\n\x0c\x46irmwareType\x12\x19\n\x15\x46IRMWARE_TYPE_UNKNOWN\x10\x00\x12\x16\n\x12\x46IRMWARE_TYPE_MAIN\x10\x01\x12\x14\n\x10\x46IRMWARE_TYPE_EC\x10\x02\x42OZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
   ,
   dependencies=[chromite_dot_infra_dot_proto_dot_src_dot_chromiumos_dot_common__pb2.DESCRIPTOR,])
 
@@ -226,4 +226,5 @@ FirmwareConfig = _reflection.GeneratedProtocolMessageType('FirmwareConfig', (_me
 _sym_db.RegisterMessage(FirmwareConfig)
 
 
+DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)

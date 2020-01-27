@@ -19,8 +19,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='src/third_party/chromiumos-overlay/proto/brand_config.proto',
   package='chromiumos_overlay',
   syntax='proto3',
-  serialized_options=None,
-  serialized_pb=_b('\n;src/third_party/chromiumos-overlay/proto/brand_config.proto\x12\x12\x63hromiumos_overlay\x1a>src/platform2/chromeos-config/proto/brand_id_scan_config.proto\"Y\n\x0b\x42randConfig\x12\x37\n\x0bscan_config\x18\x01 \x01(\x0b\x32\".chromeos_config.BrandIdScanConfig\x12\x11\n\twallpaper\x18\x02 \x01(\tb\x06proto3')
+  serialized_options=_b('ZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto'),
+  serialized_pb=_b('\n;src/third_party/chromiumos-overlay/proto/brand_config.proto\x12\x12\x63hromiumos_overlay\x1a>src/platform2/chromeos-config/proto/brand_id_scan_config.proto\"Y\n\x0b\x42randConfig\x12\x37\n\x0bscan_config\x18\x01 \x01(\x0b\x32\".chromeos_config.BrandIdScanConfig\x12\x11\n\twallpaper\x18\x02 \x01(\tBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
   ,
   dependencies=[src_dot_platform2_dot_chromeos__config_dot_proto_dot_brand__id__scan__config__pb2.DESCRIPTOR,])
 
@@ -76,4 +76,5 @@ BrandConfig = _reflection.GeneratedProtocolMessageType('BrandConfig', (_message.
 _sym_db.RegisterMessage(BrandConfig)
 
 
+DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)

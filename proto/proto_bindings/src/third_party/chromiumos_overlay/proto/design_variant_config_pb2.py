@@ -24,8 +24,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='src/third_party/chromiumos-overlay/proto/design_variant_config.proto',
   package='chromiumos_overlay',
   syntax='proto3',
-  serialized_options=None,
-  serialized_pb=_b('\nDsrc/third_party/chromiumos-overlay/proto/design_variant_config.proto\x12\x12\x63hromiumos_overlay\x1a%src/config/api/design_config_id.proto\x1a;src/third_party/chromiumos-overlay/proto/audio_config.proto\x1a>src/third_party/chromiumos-overlay/proto/firmware_config.proto\x1a*src/platform2/bluetooth/proto/config.proto\x1aGsrc/platform2/chromeos-config/proto/design_variant_id_scan_config.proto\x1a(src/platform2/power_manager/config.proto\"\xf1\x02\n\x13\x44\x65signVariantConfig\x12?\n\x10\x64\x65sign_config_id\x18\x01 \x01(\x0b\x32%.chromiumos.config.api.DesignConfigId\x12?\n\x0bscan_config\x18\x02 \x01(\x0b\x32*.chromeos_config.DesignVariantIdScanConfig\x12*\n\x08\x66irmware\x18\x03 \x01(\x0b\x32\x18.firmware.FirmwareConfig\x12\x34\n\x10\x62luetooth_config\x18\x04 \x01(\x0b\x32\x1a.bluetooth.BluetoothConfig\x12?\n\x14power_manager_config\x18\x05 \x01(\x0b\x32!.power_manager.PowerManagerConfig\x12\x35\n\x0c\x61udio_config\x18\x06 \x01(\x0b\x32\x1f.chromiumos_overlay.AudioConfigb\x06proto3')
+  serialized_options=_b('ZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto'),
+  serialized_pb=_b('\nDsrc/third_party/chromiumos-overlay/proto/design_variant_config.proto\x12\x12\x63hromiumos_overlay\x1a%src/config/api/design_config_id.proto\x1a;src/third_party/chromiumos-overlay/proto/audio_config.proto\x1a>src/third_party/chromiumos-overlay/proto/firmware_config.proto\x1a*src/platform2/bluetooth/proto/config.proto\x1aGsrc/platform2/chromeos-config/proto/design_variant_id_scan_config.proto\x1a(src/platform2/power_manager/config.proto\"\xf1\x02\n\x13\x44\x65signVariantConfig\x12?\n\x10\x64\x65sign_config_id\x18\x01 \x01(\x0b\x32%.chromiumos.config.api.DesignConfigId\x12?\n\x0bscan_config\x18\x02 \x01(\x0b\x32*.chromeos_config.DesignVariantIdScanConfig\x12*\n\x08\x66irmware\x18\x03 \x01(\x0b\x32\x18.firmware.FirmwareConfig\x12\x34\n\x10\x62luetooth_config\x18\x04 \x01(\x0b\x32\x1a.bluetooth.BluetoothConfig\x12?\n\x14power_manager_config\x18\x05 \x01(\x0b\x32!.power_manager.PowerManagerConfig\x12\x35\n\x0c\x61udio_config\x18\x06 \x01(\x0b\x32\x1f.chromiumos_overlay.AudioConfigBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
   ,
   dependencies=[src_dot_config_dot_api_dot_design__config__id__pb2.DESCRIPTOR,src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_audio__config__pb2.DESCRIPTOR,src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_firmware__config__pb2.DESCRIPTOR,src_dot_platform2_dot_bluetooth_dot_proto_dot_config__pb2.DESCRIPTOR,src_dot_platform2_dot_chromeos__config_dot_proto_dot_design__variant__id__scan__config__pb2.DESCRIPTOR,src_dot_platform2_dot_power__manager_dot_config__pb2.DESCRIPTOR,])
 
@@ -114,4 +114,5 @@ DesignVariantConfig = _reflection.GeneratedProtocolMessageType('DesignVariantCon
 _sym_db.RegisterMessage(DesignVariantConfig)
 
 
+DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)

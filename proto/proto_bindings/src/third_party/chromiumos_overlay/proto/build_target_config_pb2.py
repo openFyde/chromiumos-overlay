@@ -19,8 +19,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='src/third_party/chromiumos-overlay/proto/build_target_config.proto',
   package='chromiumos_overlay',
   syntax='proto3',
-  serialized_options=None,
-  serialized_pb=_b('\nBsrc/third_party/chromiumos-overlay/proto/build_target_config.proto\x12\x12\x63hromiumos_overlay\x1a\x45src/third_party/chromiumos-overlay/proto/build_target_config_id.proto\"Y\n\x11\x42uildTargetConfig\x12\x33\n\x02id\x18\x01 \x01(\x0b\x32\'.chromiumos_overlay.BuildTargetConfigId\x12\x0f\n\x07overlay\x18\x02 \x01(\tb\x06proto3')
+  serialized_options=_b('ZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto'),
+  serialized_pb=_b('\nBsrc/third_party/chromiumos-overlay/proto/build_target_config.proto\x12\x12\x63hromiumos_overlay\x1a\x45src/third_party/chromiumos-overlay/proto/build_target_config_id.proto\"Y\n\x11\x42uildTargetConfig\x12\x33\n\x02id\x18\x01 \x01(\x0b\x32\'.chromiumos_overlay.BuildTargetConfigId\x12\x0f\n\x07overlay\x18\x02 \x01(\tBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
   ,
   dependencies=[src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_build__target__config__id__pb2.DESCRIPTOR,])
 
@@ -76,4 +76,5 @@ BuildTargetConfig = _reflection.GeneratedProtocolMessageType('BuildTargetConfig'
 _sym_db.RegisterMessage(BuildTargetConfig)
 
 
+DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)

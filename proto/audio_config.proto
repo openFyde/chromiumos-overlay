@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option go_package = "go.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto";
+
 package chromiumos_overlay;
 
 // Note that all files should be specified as paths relative to the root of a

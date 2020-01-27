@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package chromiumos_overlay;
 
+option go_package = "go.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto";
+
 // An id that other messages can use as a foreign key to specify a
 // BuildTargetConfig. Id messages are equal iff their binary serialization is
 // equal.

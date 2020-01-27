@@ -18,8 +18,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='src/third_party/chromiumos-overlay/proto/build_target_config_id.proto',
   package='chromiumos_overlay',
   syntax='proto3',
-  serialized_options=None,
-  serialized_pb=_b('\nEsrc/third_party/chromiumos-overlay/proto/build_target_config_id.proto\x12\x12\x63hromiumos_overlay\"$\n\x13\x42uildTargetConfigId\x12\r\n\x05value\x18\x01 \x01(\tb\x06proto3')
+  serialized_options=_b('ZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto'),
+  serialized_pb=_b('\nEsrc/third_party/chromiumos-overlay/proto/build_target_config_id.proto\x12\x12\x63hromiumos_overlay\"$\n\x13\x42uildTargetConfigId\x12\r\n\x05value\x18\x01 \x01(\tBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
 )
 
 
@@ -66,4 +66,5 @@ BuildTargetConfigId = _reflection.GeneratedProtocolMessageType('BuildTargetConfi
 _sym_db.RegisterMessage(BuildTargetConfigId)
 
 
+DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)
