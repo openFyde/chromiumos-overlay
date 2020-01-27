@@ -303,7 +303,6 @@ virtual/python-ipaddress python_targets_python2_7
 virtual/python-pathlib python_targets_python2_7
 virtual/python-singledispatch python_targets_python2_7
 virtual/python-typing python_targets_python2_7
-x11-proto/xcb-proto python_targets_python2_7
 
 # These packages only support Python 2.7.  They aren't needed in Python 3.6+.
 # TODO(crbug.com/1007152): Trim this entirely!
