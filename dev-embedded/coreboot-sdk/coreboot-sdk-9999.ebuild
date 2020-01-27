@@ -13,8 +13,6 @@ HOMEPAGE="https://www.coreboot.org"
 LICENSE="GPL-3 LGPL-3"
 KEYWORDS="~*"
 
-STRIP_MASK="*.a *.o"
-
 # URIs taken from buildgcc -u
 # Needs to be synced with changes in the coreboot repo,
 # then pruned to the minimum required set (eg. no gdb, python, expat, llvm)
@@ -101,6 +99,11 @@ src_compile() {
 }
 
 src_install() {
+	local files
+
 	dodir /opt
 	cp -a out/opt/coreboot-sdk "${D}"/opt/coreboot-sdk || die
+
+	readarray -t files < <(find "${D}" -name '*.[ao]' -printf "/%P\n")
+	dostrip -x "${files[@]}"
 }
