@@ -39,6 +39,8 @@ sys-libs/ncurses tinfo
 dev-java/icedtea-bin cups -gtk headless-awt -multilib -webstart
 # We don't want cups-filters to pull in ghostscript.
 net-print/cups-filters -postscript
+# We don't use python features in cups.
+net-print/cups -python
 
 # Disable Segger J-Link for building openocd-0.10.0. We currently
 # don't use J-Link. It requires upgrading libjaylink, which is not yet
@@ -283,7 +285,6 @@ dev-vcs/patman python_targets_python2_7
 media-libs/alsa-lib python_targets_python2_7
 net-libs/nodejs python_targets_python2_7
 net-misc/gsutil python_targets_python2_7
-net-print/cups python_targets_python2_7
 sys-apps/dtc python_targets_python2_7
 sys-apps/file python_targets_python2_7
 sys-apps/flashmap python_targets_python2_7
