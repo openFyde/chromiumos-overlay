@@ -100,8 +100,7 @@ fi
 
 # Check for EAPI 2+
 case "${EAPI:-0}" in
-2|3|4|5|6) ;;
-*) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+0|1) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
 cros-binary_check_file() {
