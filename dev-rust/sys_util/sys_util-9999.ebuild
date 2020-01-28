@@ -25,9 +25,9 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	>=dev-rust/libc-0.2.44:=
-	~dev-rust/quote-0.6.10:=
-	>=dev-rust/proc-macro2-0.4:=
-	>=dev-rust/syn-0.15:=
+	=dev-rust/quote-1*:=
+	=dev-rust/proc-macro2-1*:=
+	=dev-rust/syn-1*:=
 	dev-rust/data_model:=
 	dev-rust/sync:=
 	dev-rust/syscall_defines:=

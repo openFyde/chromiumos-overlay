@@ -19,9 +19,9 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
-	=dev-rust/proc-macro2-0.4*:=
-	=dev-rust/quote-0.6*:=
-	=dev-rust/syn-0.15*:=
+	=dev-rust/proc-macro2-1*:=
+	=dev-rust/quote-1*:=
+	=dev-rust/syn-1*:=
 "
 
 RDEPEND="!!<=dev-rust/enumn-0.0.1-r4"

@@ -47,15 +47,15 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	~dev-rust/num_cpus-1.9.0:=
 	~dev-rust/pkg-config-0.3.11:=
-	~dev-rust/proc-macro2-0.4.21:=
+	=dev-rust/proc-macro2-1*:=
 	>=dev-rust/protobuf-2.8:=
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8:=
 	!>=dev-rust/protoc-rust-3
-	~dev-rust/quote-0.6.10:=
+	=dev-rust/quote-1*:=
+	=dev-rust/syn-1*:=
 	dev-rust/trace_events:=
 	dev-rust/remain:=
-	=dev-rust/syn-0.15*:=
 	tpm2? (
 		chromeos-base/tpm2:=
 		chromeos-base/trunks:=

@@ -20,9 +20,9 @@ IUSE="fuzzer test"
 
 DEPEND="
 	dev-rust/libc:=
-	~dev-rust/proc-macro2-0.4.21:=
-	~dev-rust/quote-0.6.10:=
-	~dev-rust/syn-0.15.21:=
+	=dev-rust/proc-macro2-1*:=
+	=dev-rust/quote-1*:=
+	=dev-rust/syn-1*:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
 
