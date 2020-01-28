@@ -23,6 +23,7 @@ IUSE="
 	arcpp
 	arcvm
 	asan
+	atlas
 	betty
 	biod
 	chrome_internal
@@ -37,6 +38,7 @@ IUSE="
 	dlc_test
 	+drivefs
 	drm_atomic
+	eve
 	fizz
 	grunt
 	internal
