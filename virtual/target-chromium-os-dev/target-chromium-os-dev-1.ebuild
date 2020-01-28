@@ -11,7 +11,8 @@ SLOT="0"
 KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
 IUSE="cras nvme pam opengl +power_management +profile
-	+shill tpm tpm2 usb vaapi video_cards_intel"
+	+shill tpm tpm2 usb vaapi video_cards_intel
+	chromeless_tty"
 
 # The dependencies here are meant to capture "all the packages
 # developers want to use for development, test, or debug".  This
@@ -87,7 +88,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/update-utils
 	chromeos-base/policy_utils
 	chromeos-base/protofiles
-	chromeos-base/screenshot
+	!chromeless_tty? ( chromeos-base/screenshot )
 	shill? ( chromeos-base/shill-test-scripts )
 	chromeos-base/touch_firmware_test
 	net-analyzer/tcpdump

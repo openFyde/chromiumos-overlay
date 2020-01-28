@@ -157,7 +157,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/policy_utils
 	chromeos-base/protofiles
 	chromeos-base/pywalt
-	chromeos-base/screenshot
+	!chromeless_tty? ( chromeos-base/screenshot )
 	chromeos-base/secure-wipe
 	shill? (
 		chromeos-base/shill-test-scripts
