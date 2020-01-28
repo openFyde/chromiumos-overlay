@@ -12,7 +12,6 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from src.config.api import design_config_id_pb2 as src_dot_config_dot_api_dot_design__config__id__pb2
 from src.third_party.chromiumos_overlay.proto import audio_config_pb2 as src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_audio__config__pb2
 from src.third_party.chromiumos_overlay.proto import firmware_config_pb2 as src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_firmware__config__pb2
 from src.platform2.bluetooth.proto import config_pb2 as src_dot_platform2_dot_bluetooth_dot_proto_dot_config__pb2
@@ -25,9 +24,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='chromiumos_overlay',
   syntax='proto3',
   serialized_options=_b('ZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto'),
-  serialized_pb=_b('\nDsrc/third_party/chromiumos-overlay/proto/design_variant_config.proto\x12\x12\x63hromiumos_overlay\x1a%src/config/api/design_config_id.proto\x1a;src/third_party/chromiumos-overlay/proto/audio_config.proto\x1a>src/third_party/chromiumos-overlay/proto/firmware_config.proto\x1a*src/platform2/bluetooth/proto/config.proto\x1aGsrc/platform2/chromeos-config/proto/design_variant_id_scan_config.proto\x1a(src/platform2/power_manager/config.proto\"\xf1\x02\n\x13\x44\x65signVariantConfig\x12?\n\x10\x64\x65sign_config_id\x18\x01 \x01(\x0b\x32%.chromiumos.config.api.DesignConfigId\x12?\n\x0bscan_config\x18\x02 \x01(\x0b\x32*.chromeos_config.DesignVariantIdScanConfig\x12*\n\x08\x66irmware\x18\x03 \x01(\x0b\x32\x18.firmware.FirmwareConfig\x12\x34\n\x10\x62luetooth_config\x18\x04 \x01(\x0b\x32\x1a.bluetooth.BluetoothConfig\x12?\n\x14power_manager_config\x18\x05 \x01(\x0b\x32!.power_manager.PowerManagerConfig\x12\x35\n\x0c\x61udio_config\x18\x06 \x01(\x0b\x32\x1f.chromiumos_overlay.AudioConfigBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
+  serialized_pb=_b('\nDsrc/third_party/chromiumos-overlay/proto/design_variant_config.proto\x12\x12\x63hromiumos_overlay\x1a;src/third_party/chromiumos-overlay/proto/audio_config.proto\x1a>src/third_party/chromiumos-overlay/proto/firmware_config.proto\x1a*src/platform2/bluetooth/proto/config.proto\x1aGsrc/platform2/chromeos-config/proto/design_variant_id_scan_config.proto\x1a(src/platform2/power_manager/config.proto\"\xb0\x02\n\x13\x44\x65signVariantConfig\x12?\n\x0bscan_config\x18\x01 \x01(\x0b\x32*.chromeos_config.DesignVariantIdScanConfig\x12*\n\x08\x66irmware\x18\x02 \x01(\x0b\x32\x18.firmware.FirmwareConfig\x12\x34\n\x10\x62luetooth_config\x18\x03 \x01(\x0b\x32\x1a.bluetooth.BluetoothConfig\x12?\n\x14power_manager_config\x18\x04 \x01(\x0b\x32!.power_manager.PowerManagerConfig\x12\x35\n\x0c\x61udio_config\x18\x05 \x01(\x0b\x32\x1f.chromiumos_overlay.AudioConfigBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
   ,
-  dependencies=[src_dot_config_dot_api_dot_design__config__id__pb2.DESCRIPTOR,src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_audio__config__pb2.DESCRIPTOR,src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_firmware__config__pb2.DESCRIPTOR,src_dot_platform2_dot_bluetooth_dot_proto_dot_config__pb2.DESCRIPTOR,src_dot_platform2_dot_chromeos__config_dot_proto_dot_design__variant__id__scan__config__pb2.DESCRIPTOR,src_dot_platform2_dot_power__manager_dot_config__pb2.DESCRIPTOR,])
+  dependencies=[src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_audio__config__pb2.DESCRIPTOR,src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_firmware__config__pb2.DESCRIPTOR,src_dot_platform2_dot_bluetooth_dot_proto_dot_config__pb2.DESCRIPTOR,src_dot_platform2_dot_chromeos__config_dot_proto_dot_design__variant__id__scan__config__pb2.DESCRIPTOR,src_dot_platform2_dot_power__manager_dot_config__pb2.DESCRIPTOR,])
 
 
 
@@ -40,43 +39,36 @@ _DESIGNVARIANTCONFIG = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='design_config_id', full_name='chromiumos_overlay.DesignVariantConfig.design_config_id', index=0,
+      name='scan_config', full_name='chromiumos_overlay.DesignVariantConfig.scan_config', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='scan_config', full_name='chromiumos_overlay.DesignVariantConfig.scan_config', index=1,
+      name='firmware', full_name='chromiumos_overlay.DesignVariantConfig.firmware', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='firmware', full_name='chromiumos_overlay.DesignVariantConfig.firmware', index=2,
+      name='bluetooth_config', full_name='chromiumos_overlay.DesignVariantConfig.bluetooth_config', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bluetooth_config', full_name='chromiumos_overlay.DesignVariantConfig.bluetooth_config', index=3,
+      name='power_manager_config', full_name='chromiumos_overlay.DesignVariantConfig.power_manager_config', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='power_manager_config', full_name='chromiumos_overlay.DesignVariantConfig.power_manager_config', index=4,
+      name='audio_config', full_name='chromiumos_overlay.DesignVariantConfig.audio_config', index=4,
       number=5, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='audio_config', full_name='chromiumos_overlay.DesignVariantConfig.audio_config', index=5,
-      number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -93,11 +85,10 @@ _DESIGNVARIANTCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=416,
-  serialized_end=785,
+  serialized_start=377,
+  serialized_end=681,
 )
 
-_DESIGNVARIANTCONFIG.fields_by_name['design_config_id'].message_type = src_dot_config_dot_api_dot_design__config__id__pb2._DESIGNCONFIGID
 _DESIGNVARIANTCONFIG.fields_by_name['scan_config'].message_type = src_dot_platform2_dot_chromeos__config_dot_proto_dot_design__variant__id__scan__config__pb2._DESIGNVARIANTIDSCANCONFIG
 _DESIGNVARIANTCONFIG.fields_by_name['firmware'].message_type = src_dot_third__party_dot_chromiumos__overlay_dot_proto_dot_firmware__config__pb2._FIRMWARECONFIG
 _DESIGNVARIANTCONFIG.fields_by_name['bluetooth_config'].message_type = src_dot_platform2_dot_bluetooth_dot_proto_dot_config__pb2._BLUETOOTHCONFIG
