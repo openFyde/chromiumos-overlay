@@ -326,5 +326,11 @@
         "rel_patch_path": "cherry/055779a9ac11e56442cbcdc73da59f8bce7ce57d.patch",
         "start_version": 376047,
         "end_version": 378631
+    },
+    {
+        "comment": "Revert 3f91705ca54 \"ARM-NEON: make type modifiers orthogonal and allow multiple modifiers.\"",
+        "rel_patch_path": "cherry/21f26470e9747c472d3c18654e676cbea8393635.patch",
+        "start_version": 377658,
+        "end_version": 377965
     }
 ]
