@@ -149,6 +149,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_shader_atomic_int64-for.patch
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_ANDROID_external_memory_and.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Clear-uninitialized-variable.patch
+
 	if use android-container-pi; then
 		epatch "${FILESDIR}"/CHROMIUM-egl-Limit-to-EGL-1.4.patch
 	fi

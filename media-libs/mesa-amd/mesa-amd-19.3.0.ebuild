@@ -144,6 +144,8 @@ src_prepare() {
 	# b/147712952
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_shader_atomic_int64-for.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Clear-uninitialized-variable.patch
+
 	default
 }
 
