@@ -23,7 +23,8 @@ IUSE=""
 RDEPEND="
 	media-libs/libpng:0=
 	media-libs/minigbm:=
-	x11-libs/libdrm:="
+	x11-libs/libdrm:=
+	virtual/opengles"
 
 DEPEND="${RDEPEND}"
 
