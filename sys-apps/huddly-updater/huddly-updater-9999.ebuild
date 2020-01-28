@@ -14,6 +14,7 @@ KEYWORDS="~*"
 IUSE="test"
 
 COMMON_DEPEND="chromeos-base/libbrillo:=
+	chromeos-base/cfm-dfu-notification:=
 	dev-libs/msgpack:=
 	virtual/libusb:1
 	virtual/libudev:0=
