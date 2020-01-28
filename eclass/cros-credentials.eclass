@@ -34,6 +34,13 @@ cros-credentials_setup() {
 		awk 'NF && $1 !~ /^#/ {print $1}' "${gitcookies_dst}"
 		git config --global http.cookiefile "${gitcookies_dst}"
 	fi
+	local luci_creds_src="/home/${whoami}/.config/chrome_infra/auth/creds.json"
+	local luci_creds_dest="${HOME}/.config/chrome_infra/auth/"
+	if [[ -f "${luci_creds_src}" ]]; then
+		einfo "Copying ${luci_creds_src} to ${HOME}"
+		mkdir -p "${luci_creds_dest}"
+		cp -vfp "${luci_creds_src}" "${luci_creds_dest}" || die
+	fi
 
 	# Force disable user/pass prompting to avoid hanging builds.
 	git config --global core.askPass true
