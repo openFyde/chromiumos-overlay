@@ -320,5 +320,11 @@
         "rel_patch_path": "cherry/c2443155a0fb245c8f17f2c1c72b6ea391e86e81.patch",
         "start_version": 375217,
         "end_version": 378248
+    },
+    {
+        "comment": "Revert \"[InstCombine] keep assumption before sinking calls\"",
+        "rel_patch_path": "cherry/055779a9ac11e56442cbcdc73da59f8bce7ce57d.patch",
+        "start_version": 376047,
+        "end_version": 378631
     }
 ]
