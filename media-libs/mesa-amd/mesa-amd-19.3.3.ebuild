@@ -6,8 +6,8 @@ EAPI=6
 
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="98da2086606c52af0f043eb5b838a3857012ca20"
-CROS_WORKON_TREE="70ca3580767be0529cf99593c94d7d7f8ef6abac"
+CROS_WORKON_COMMIT="352037317b36c7ffd13aa3be8dc12e23a38a5bf2"
+CROS_WORKON_TREE="94682e8484c605218f9b5955f3a2e066342f728c"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
@@ -110,21 +110,10 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	# https://gitlab.freedesktop.org/mesa/mesa/merge_requests/332
-	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
-	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
-
 	# See b/113330262.
 	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
 
 	epatch "${FILESDIR}"/CHROMIUM-HACK-remove-unknown-radv-extensions.patch
-
-	# See b/145519080
-	epatch "${FILESDIR}"/19.3-Revert-dri_interface-add-interface-for-EGL_EXT_image.patch
-	epatch "${FILESDIR}"/19.3-Revert-egl-handle-EGL_IMAGE_EXTERNAL_FLUSH_EXT.patch
-	epatch "${FILESDIR}"/19.3-Revert-egl-implement-new-functions-from-EGL_EXT_imag.patch
-	epatch "${FILESDIR}"/19.3-Revert-st-dri-add-support-for-EGL_EXT_image_flush_ex.patch
-	epatch "${FILESDIR}"/19.3-Revert-st-dri-assume-external-consumers-of-back-buff.patch
 
 	# From https://patchwork.freedesktop.org/patch/343687/
 	epatch "${FILESDIR}"/FROMLIST-radeonsi-Add-support-for-midstream-bitrate-change-in.patch
