@@ -101,6 +101,7 @@ pkg_preinst() {
 	add_daemon_user "input"      # For /dev/input/event access
 	enewgroup "i2c"              # For I2C device node access.
 	enewgroup "hidraw"           # For hidraw device node access.
+	enewgroup "drm_dp_aux"       # For drm_dp_aux device node access.
 	enewgroup "password-viewers" # For access to the user's password
 	enewgroup "serial"           # For owning access to serial devices.
 	enewgroup "tun"              # For access to /dev/net/tun.
