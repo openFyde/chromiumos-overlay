@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk cfm/libdfu_notification .gn"
 
 PLATFORM_SUBDIR="cfm/libdfu_notification"
 
-inherit cros-workon platform user
+inherit cros-workon platform
 
 DESCRIPTION="Library to send firmware update notifications to CFM"
 
@@ -20,12 +20,9 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND=""
-DEPEND="${RDEPEND}
-	chromeos-base/libbrillo
-"
+DEPEND="${RDEPEND}"
 
 src_install() {
-	into /
 	dolib.so "${OUT}"/lib/libdfu_notification.so
 
 	"${S}"/platform2_preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
