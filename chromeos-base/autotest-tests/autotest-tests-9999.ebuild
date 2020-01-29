@@ -202,7 +202,6 @@ CLIENT_IUSE_TESTS="
 	+tests_platform_LibCBench
 	+tests_platform_LogDupSuppression
 	+tests_platform_LogNonKernelKmsg
-	+tests_platform_MemCheck
 	+tests_platform_MemoryMonitor
 	chromeless_tty? ( +tests_platform_MetricsUploader )
 	+tests_platform_NetParms
