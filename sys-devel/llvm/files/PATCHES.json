@@ -332,5 +332,11 @@
         "rel_patch_path": "cherry/21f26470e9747c472d3c18654e676cbea8393635.patch",
         "start_version": 377658,
         "end_version": 377965
+    },
+    {
+        "comment": "[Diagnostic] Fixed add ftabstop to -Wmisleading-indentation",
+        "rel_patch_path": "cherry/b4b904e19bb356724b2c6aea0199ce05c6f15cdb.patch",
+        "start_version": 380035,
+        "end_version": 380480
     }
 ]

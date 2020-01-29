@@ -1,0 +1,179 @@
+commit b4b904e19bb356724b2c6aea0199ce05c6f15cdb
+Author: Tyker <tyker1@outlook.com>
+Date:   Fri Jan 3 16:59:44 2020 +0100
+
+    [Diagnostic] Fixed add ftabstop to -Wmisleading-indentation
+    
+    Summary:
+    this allow much better support of codebases like the linux kernel that mix tabs and spaces.
+    
+    -ftabstop=//Width// allow specifying how large tabs are considered to be.
+    
+    Reviewers: xbolva00, aaron.ballman, rsmith
+    
+    Reviewed By: aaron.ballman
+    
+    Subscribers: mstorsjo, cfe-commits, jyknight, riccibruno, rsmith, nathanchance
+    
+    Tags: #clang
+    
+    Differential Revision: https://reviews.llvm.org/D71037
+
+diff --git a/clang/lib/Parse/ParseStmt.cpp b/clang/lib/Parse/ParseStmt.cpp
+index 203f30610ce..b7965401565 100644
+--- a/clang/lib/Parse/ParseStmt.cpp
++++ b/clang/lib/Parse/ParseStmt.cpp
+@@ -1214,6 +1214,42 @@ struct MisleadingIndentationChecker {
+     if (Kind == MSK_else && !ShouldSkip)
+       P.MisleadingIndentationElseLoc = SL;
+   }
++
++  /// Compute the column number will aligning tabs on TabStop (-ftabstop), this
++  /// gives the visual indentation of the SourceLocation.
++  static unsigned getVisualIndentation(SourceManager &SM, SourceLocation Loc) {
++    unsigned TabStop = SM.getDiagnostics().getDiagnosticOptions().TabStop;
++
++    unsigned ColNo = SM.getSpellingColumnNumber(Loc);
++    if (ColNo == 0 || TabStop == 1)
++      return ColNo;
++
++    std::pair<FileID, unsigned> FIDAndOffset = SM.getDecomposedLoc(Loc);
++
++    bool Invalid;
++    StringRef BufData = SM.getBufferData(FIDAndOffset.first, &Invalid);
++    if (Invalid)
++      return 0;
++
++    const char *EndPos = BufData.data() + FIDAndOffset.second;
++    // FileOffset are 0-based and Column numbers are 1-based
++    assert(FIDAndOffset.second + 1 >= ColNo &&
++           "Column number smaller than file offset?");
++
++    unsigned VisualColumn = 0; // Stored as 0-based column, here.
++    // Loop from beginning of line up to Loc's file position, counting columns,
++    // expanding tabs.
++    for (const char *CurPos = EndPos - (ColNo - 1); CurPos != EndPos;
++         ++CurPos) {
++      if (*CurPos == '\t')
++        // Advance visual column to next tabstop.
++        VisualColumn += (TabStop - VisualColumn % TabStop);
++      else
++        VisualColumn++;
++    }
++    return VisualColumn + 1;
++  }
++
+   void Check() {
+     Token Tok = P.getCurToken();
+     if (P.getActions().getDiagnostics().isIgnored(
+@@ -1230,9 +1266,9 @@ struct MisleadingIndentationChecker {
+       P.MisleadingIndentationElseLoc = SourceLocation();
+ 
+     SourceManager &SM = P.getPreprocessor().getSourceManager();
+-    unsigned PrevColNum = SM.getSpellingColumnNumber(PrevLoc);
+-    unsigned CurColNum = SM.getSpellingColumnNumber(Tok.getLocation());
+-    unsigned StmtColNum = SM.getSpellingColumnNumber(StmtLoc);
++    unsigned PrevColNum = getVisualIndentation(SM, PrevLoc);
++    unsigned CurColNum = getVisualIndentation(SM, Tok.getLocation());
++    unsigned StmtColNum = getVisualIndentation(SM, StmtLoc);
+ 
+     if (PrevColNum != 0 && CurColNum != 0 && StmtColNum != 0 &&
+         ((PrevColNum > StmtColNum && PrevColNum == CurColNum) ||
+diff --git a/clang/test/Parser/warn-misleading-indentation.cpp b/clang/test/Parser/warn-misleading-indentation.cpp
+index d366db767e6..4b9d45b19ca 100644
+--- a/clang/test/Parser/warn-misleading-indentation.cpp
++++ b/clang/test/Parser/warn-misleading-indentation.cpp
+@@ -1,7 +1,9 @@
+ // RUN: %clang_cc1 -x c -fsyntax-only -verify %s
+-// RUN: %clang_cc1 -x c -fsyntax-only -verify -Wmisleading-indentation -DWITH_WARN %s
+-// RUN: %clang_cc1 -std=c++17 -fsyntax-only -verify -Wall -Wno-unused -DWITH_WARN -DCXX17 %s
+ // RUN: %clang_cc1 -std=c++17 -fsyntax-only -verify -Wall -Wno-unused -Wno-misleading-indentation -DCXX17 %s
++// RUN: %clang_cc1 -x c -fsyntax-only -verify -Wmisleading-indentation -DWITH_WARN -ftabstop 8 -DTAB_SIZE=8 %s
++// RUN: %clang_cc1 -std=c++17 -fsyntax-only -verify -Wall -Wno-unused -DWITH_WARN  -ftabstop 4 -DTAB_SIZE=4 -DCXX17 %s
++// RUN: %clang_cc1 -x c -fsyntax-only -verify -Wall -Wno-unused -DWITH_WARN -ftabstop 1 -DTAB_SIZE=1 %s
++// RUN: %clang_cc1 -std=c++17 -fsyntax-only -verify -Wall -Wno-unused -Wmisleading-indentation -DCXX17 -DWITH_WARN -ftabstop 2 -DTAB_SIZE=2 %s
+ 
+ #ifndef WITH_WARN
+ // expected-no-diagnostics
+@@ -225,3 +227,81 @@ void s(int num) {
+ // expected-warning@-2 {{misleading indentation; statement is not part of the previous 'if'}}
+ #endif
+ }
++int a4()
++{
++	if (0)
++		return 1;
++ 	return 0;
++#if (TAB_SIZE == 1)
++// expected-warning@-2 {{misleading indentation; statement is not part of the previous 'if'}}
++// expected-note@-5 {{here}}
++#endif 
++}
++
++int a5()
++{
++	if (0)
++		return 1;
++		return 0;
++#if WITH_WARN
++// expected-warning@-2 {{misleading indentation; statement is not part of the previous 'if'}}
++// expected-note@-5 {{here}}
++#endif
++}
++
++int a6()
++{
++	if (0)
++		return 1;
++      		return 0;
++#if (TAB_SIZE == 8)
++// expected-warning@-2 {{misleading indentation; statement is not part of the previous 'if'}}
++// expected-note@-5 {{here}}
++#endif
++}
++
++#define FOO \
++ goto fail
++
++int main(int argc, char* argv[]) {
++  if (5 != 0)
++    goto fail;
++  else
++    goto fail;
++
++  if (1) {
++    if (1)
++      goto fail;
++    else if (1)
++      goto fail;
++    else if (1)
++      goto fail;
++    else
++      goto fail;
++  } else if (1) {
++    if (1)
++      goto fail;
++  }
++
++  if (1) {
++    if (1)
++      goto fail;
++  } else if (1)
++    goto fail;
++
++
++  if (1) goto fail; goto fail;
++
++    if (0)
++        goto fail;
++
++    goto fail;
++
++    if (0)
++        FOO;
++
++    goto fail;
++
++fail:;
++}
++
