@@ -501,6 +501,9 @@ src_prepare() {
 
 src_configure() {
 	if ! use binary; then
+		# HC is used by ghc-make-args
+		# shellcheck disable=2034
+		HC="${WORKDIR}/usr/bin/ghc-${BIN_PV}"
 		# initialize build.mk
 		echo '# Gentoo changes' > mk/build.mk
 

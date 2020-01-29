@@ -28,7 +28,7 @@ RESTRICT=test # circular dependencies
 RDEPEND=">=dev-lang/ghc-8.4.3:="
 DEPEND="${RDEPEND}"
 
-CABAL_CORE_LIB_GHC_PV="PM:8.4.3"
+CABAL_CORE_LIB_GHC_PV="PM:8.4.3 PM:8.4.3-r1"
 
 S="${WORKDIR}/${MY_P}"
 
