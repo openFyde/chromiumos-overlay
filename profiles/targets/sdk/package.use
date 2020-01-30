@@ -274,7 +274,6 @@ sys-apps/flashmap python_targets_python2_7
 sys-apps/portage python_targets_python2_7
 sys-devel/grit-i18n python_targets_python2_7
 sys-libs/libcap-ng python_targets_python2_7
-sys-libs/libselinux python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
 virtual/python-enum34 python_targets_python2_7
 virtual/python-funcsigs python_targets_python2_7
