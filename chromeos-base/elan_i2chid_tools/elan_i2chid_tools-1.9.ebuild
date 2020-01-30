@@ -23,6 +23,6 @@ src_install() {
 	newsbin i2chid_iap_v2/bin/i2chid_iap_v2 elan_i2chid_iap
 
 	insinto /usr/share/${PN}
-	doins i2chid_read_fwid/bin/fwid_mapping_table.txt
+	doins "${FILESDIR}"/fwid_mapping_table.txt
 }
 
