@@ -108,7 +108,6 @@ dev-libs/boost -python
 app-arch/brotli python_targets_python2_7
 app-portage/gentoolkit python_targets_python2_7
 brillo-base/libsparse python_targets_python2_7
-chromeos-base/chromeos-config-host python_targets_python2_7
 chromeos-base/chromite-sdk python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/update_payload python_targets_python2_7
