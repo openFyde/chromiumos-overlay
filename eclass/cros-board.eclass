@@ -142,6 +142,7 @@ ALL_BOARDS=(
 	eve
 	eve-arcdual
 	eve-arcnext
+	eve-arc-r
 	eve-arcvm
 	eve-arcvm-mesa-virgl-next
 	eve-arm64
