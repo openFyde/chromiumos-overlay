@@ -337,7 +337,6 @@ dev-util/mem python_targets_python2_7
 dev-util/perf python_targets_python2_7
 dev-util/scons python_targets_python2_7
 dev-util/trace-cmd python_targets_python2_7
-dev-vcs/git python_targets_python2_7
 media-gfx/zbar python_targets_python2_7
 media-libs/alsa-lib python_targets_python2_7
 media-libs/opencv python_targets_python2_7
