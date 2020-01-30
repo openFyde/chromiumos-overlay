@@ -25,6 +25,7 @@ DEPEND="
 	dev-go/golint
 	dev-go/gopsutil
 	dev-go/go-matroska
+	dev-go/grpc
 	dev-go/mdns
 	dev-go/protobuf
 	dev-go/selinux
