@@ -351,7 +351,6 @@ sys-apps/i2c-tools python_targets_python2_7
 sys-apps/kmod python_targets_python2_7
 sys-apps/moblab-common python_targets_python2_7
 sys-apps/portage python_targets_python2_7
-sys-apps/usbutils python_targets_python2_7
 sys-apps/util-linux python_targets_python2_7
 sys-block/fio python_targets_python2_7
 sys-devel/gdb python_targets_python2_7

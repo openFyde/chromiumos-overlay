@@ -41,6 +41,8 @@ dev-java/icedtea-bin cups -gtk headless-awt -multilib -webstart
 net-print/cups-filters -postscript
 # We don't use python features in cups.
 net-print/cups -python
+# We don't need lsusb.py as we have the compiled lsusb program.
+sys-apps/usbutils	-python
 
 # Disable Segger J-Link for building openocd-0.10.0. We currently
 # don't use J-Link. It requires upgrading libjaylink, which is not yet
@@ -283,7 +285,6 @@ sys-apps/dtc python_targets_python2_7
 sys-apps/file python_targets_python2_7
 sys-apps/flashmap python_targets_python2_7
 sys-apps/portage python_targets_python2_7
-sys-apps/usbutils python_targets_python2_7
 sys-devel/grit-i18n python_targets_python2_7
 sys-libs/libcap-ng python_targets_python2_7
 sys-libs/libselinux python_targets_python2_7
