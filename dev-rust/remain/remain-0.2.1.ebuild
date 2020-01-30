@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="Compile-time checks that an enum or match is written in sorted order"
@@ -14,9 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/compiletest_rs-0.3*:=
-	=dev-rust/proc-macro2-0.4*:=
-	=dev-rust/quote-0.6*:=
-	=dev-rust/syn-0.15*:=
-	=dev-rust/version_check-0.1*:=
+	=dev-rust/proc-macro2-1*:=
+	=dev-rust/quote-1*:=
+	=dev-rust/syn-1*:=
 "

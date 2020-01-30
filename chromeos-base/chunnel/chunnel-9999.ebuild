@@ -27,7 +27,7 @@ DEPEND="
 	=dev-rust/protobuf-2*:=
 	=dev-rust/protoc-rust-2*:=
 	=dev-rust/tempfile-3*:=
-	dev-rust/remain:=
+	=dev-rust/remain-0.2*:=
 	sys-apps/dbus:=
 "
 
