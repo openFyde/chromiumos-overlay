@@ -142,7 +142,6 @@ dev-python/cryptography python_targets_python2_7
 dev-python/cycler python_targets_python2_7
 dev-python/cython python_targets_python2_7
 dev-python/dbus-python python_targets_python2_7
-dev-python/decorator python_targets_python2_7
 dev-python/django python_targets_python2_7
 dev-python/dnspython python_targets_python2_7
 dev-python/docutils python_targets_python2_7
@@ -163,11 +162,8 @@ dev-python/httplib2 python_targets_python2_7
 dev-python/idna python_targets_python2_7
 dev-python/imaging python_targets_python2_7
 dev-python/intelhex python_targets_python2_7
-dev-python/ipython_genutils python_targets_python2_7
-dev-python/ipython python_targets_python2_7
 dev-python/isort python_targets_python2_7
 dev-python/jaraco-functools python_targets_python2_7
-dev-python/jedi python_targets_python2_7
 dev-python/jinja python_targets_python2_7
 dev-python/jsonrpclib python_targets_python2_7
 dev-python/jsonschema python_targets_python2_7
@@ -196,15 +192,12 @@ dev-python/oauth2client python_targets_python2_7
 dev-python/packaging python_targets_python2_7
 dev-python/paramiko python_targets_python2_7
 dev-python/pathlib2 python_targets_python2_7
-dev-python/path-py python_targets_python2_7
 dev-python/pbr python_targets_python2_7
 dev-python/pep8 python_targets_python2_7
 dev-python/pexpect python_targets_python2_7
-dev-python/pickleshare python_targets_python2_7
 dev-python/pluggy python_targets_python2_7
 dev-python/ply python_targets_python2_7
 dev-python/portend python_targets_python2_7
-dev-python/prompt_toolkit python_targets_python2_7
 dev-python/protobuf-python python_targets_python2_7
 dev-python/psutil python_targets_python2_7
 dev-python/ptyprocess python_targets_python2_7
@@ -256,7 +249,6 @@ dev-python/setproctitle python_targets_python2_7
 dev-python/setuptools python_targets_python2_7
 dev-python/setuptools_scm python_targets_python2_7
 dev-python/setuptools_scm_git_archive python_targets_python2_7
-dev-python/simplegeneric python_targets_python2_7
 dev-python/simplejson python_targets_python2_7
 dev-python/singledispatch python_targets_python2_7
 dev-python/six python_targets_python2_7
@@ -266,7 +258,6 @@ dev-python/strict-rfc3339 python_targets_python2_7
 dev-python/tempita python_targets_python2_7
 dev-python/tempora python_targets_python2_7
 dev-python/traceback2 python_targets_python2_7
-dev-python/traitlets python_targets_python2_7
 dev-python/trollius python_targets_python2_7
 dev-python/twisted-core python_targets_python2_7
 dev-python/twisted-web python_targets_python2_7
@@ -275,7 +266,6 @@ dev-python/urllib3 python_targets_python2_7
 dev-python/vcversioner python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
-dev-python/wcwidth python_targets_python2_7
 dev-python/webcolors python_targets_python2_7
 dev-python/wrapt python_targets_python2_7
 dev-python/ws4py python_targets_python2_7
