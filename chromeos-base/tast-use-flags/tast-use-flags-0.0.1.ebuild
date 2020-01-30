@@ -60,6 +60,8 @@ IUSE="
 	arc-camera3
 	arcpp
 	arcvm
+	arm
+	arm64
 	asan
 	atlas
 	betty
