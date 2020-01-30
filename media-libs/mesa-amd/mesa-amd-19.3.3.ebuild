@@ -110,9 +110,6 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	# See b/113330262.
-	epatch "${FILESDIR}"/CHROMIUM-HACK-radv-disable-TC-compatible-HTILE-on-Stoney.patch
-
 	epatch "${FILESDIR}"/CHROMIUM-HACK-remove-unknown-radv-extensions.patch
 
 	# From https://patchwork.freedesktop.org/patch/343687/
