@@ -125,7 +125,6 @@ dev-python/asn1crypto python_targets_python2_7
 dev-python/astroid python_targets_python2_7
 dev-python/atomicwrites python_targets_python2_7
 dev-python/attrs python_targets_python2_7
-dev-python/autopep8 python_targets_python2_7
 dev-python/backports python_targets_python2_7
 dev-python/bcrypt python_targets_python2_7
 dev-python/boto python_targets_python2_7
