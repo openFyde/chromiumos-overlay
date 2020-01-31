@@ -28,6 +28,7 @@ COMMON_DEPEND="
 	dev-libs/libpcre:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
+	kvm_guest? ( net-libs/grpc:= )
 	net-misc/curl:=
 	sys-libs/zlib:=
 "
@@ -43,6 +44,7 @@ DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vboot_reference:=
+	chromeos-base/vm_protos:=
 "
 
 src_configure() {
