@@ -5,7 +5,8 @@ EAPI=5
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/usb camera/include camera/mojo common-mk metrics"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/usb camera/include camera/mojo chromeos-config common-mk metrics"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -21,7 +22,7 @@ DESCRIPTION="Chrome OS USB camera HAL v3."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="usb_camera_monocle"
+IUSE="usb_camera_monocle generated_cros_config unibuild"
 
 RDEPEND="
 	dev-libs/re2
@@ -34,7 +35,12 @@ RDEPEND="
 	media-libs/cros-camera-libcamera_timezone
 	media-libs/cros-camera-libcbm
 	media-libs/cros-camera-libjda
-	media-libs/libsync"
+	media-libs/libsync
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp )
+	)
+	chromeos-base/chromeos-config-tools"
 
 DEPEND="${RDEPEND}
 	chromeos-base/metrics
