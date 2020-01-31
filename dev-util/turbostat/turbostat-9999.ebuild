@@ -3,8 +3,8 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
-CROS_WORKON_LOCALNAME="kernel/v4.14"
-CROS_WORKON_EGIT_BRANCH="chromeos-4.14"
+CROS_WORKON_LOCALNAME="kernel/v5.4"
+CROS_WORKON_EGIT_BRANCH="chromeos-5.4"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 # Narrow the workon scope to just files referenced by the turbostat
