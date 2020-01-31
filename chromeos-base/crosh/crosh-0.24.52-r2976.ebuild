@@ -1,8 +1,8 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-CROS_WORKON_COMMIT="81a596523d19decfb53f0fab9394a7e84fb1a963"
+EAPI=7
+CROS_WORKON_COMMIT="71b961be1ce219f303b7814456a4243de10193f2"
 CROS_WORKON_TREE="48a58210a399fa94496f8048c59d3862215327f2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -15,7 +15,7 @@ DESCRIPTION="Chrome OS developer command-line shell"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosh/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="rust-crosh"
 
