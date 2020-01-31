@@ -88,9 +88,13 @@ IUSE_LINUX_FIRMWARE=(
 	qca-wcn3990-bt
 	rockchip-dptx
 	rt2870
+	rtl8107e-1
+	rtl8107e-2
 	rtl8153
 	rtl8168g-1
 	rtl8168g-2
+	rtl8168h-1
+	rtl8168h-2
 	rtl_bt-8822c
 	rtw8822c
 	venus-52
@@ -140,9 +144,13 @@ LICENSE="
 	linux_firmware_qca-wcn3990-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_rockchip-dptx? ( LICENCE.rockchip )
 	linux_firmware_rt2870? ( LICENCE.ralink-firmware.txt LICENCE.ralink_a_mediatek_company_firmware )
+	linux_firmware_rtl8107e-1? ( LICENCE.rtl_nic )
+	linux_firmware_rtl8107e-2? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8153? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtl8168g-1? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8168g-2? ( LICENCE.rtl_nic )
+	linux_firmware_rtl8168h-1? ( LICENCE.rtl_nic )
+	linux_firmware_rtl8168h-2? ( LICENCE.rtl_nic )
 	linux_firmware_rtl_bt-8822c? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtw8822c? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_venus-52? ( LICENSE.qcom )
@@ -242,9 +250,13 @@ src_install() {
 	use_fw rockchip-dptx && doins_subdir rockchip/dptx.bin
 	# TODO(b/145625868): rtl8153a-3 currently excluded because it causes repeated
 	# dongle resets on kernel 4.19.
+	use_fw rtl8107e-1 && doins_subdir rtl_nic/rtl8107e-1.fw
+	use_fw rtl8107e-2 && doins_subdir rtl_nic/rtl8107e-2.fw
 	use_fw rtl8153 && doins_subdir rtl_nic/{rtl8153a-2.fw,rtl8153a-4.fw,rtl8153b-2.fw}
 	use_fw rtl8168g-1 && doins_subdir rtl_nic/rtl8168g-1.fw
 	use_fw rtl8168g-2 && doins_subdir rtl_nic/rtl8168g-2.fw
+	use_fw rtl8168h-1 && doins_subdir rtl_nic/rtl8168h-1.fw
+	use_fw rtl8168h-2 && doins_subdir rtl_nic/rtl8168h-2.fw
 	use_fw rtl_bt-8822c && doins_subdir rtl_bt/rtl8822c*.bin
 	use_fw rtw8822c && doins_subdir rtw88/rtw8822c*.bin
 	use_fw venus-52 && doins_subdir qcom/venus-5.2/*

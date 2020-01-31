@@ -68,6 +68,18 @@
 	<flag name='linux_firmware_qca6174a-5-bt'>
 		Install all firmware files for the QCA6174A-5 Bluetooth controller
 	</flag>
+	<flag name='linux_firmware_rtl8107e-1'>
+		Install Realtek RTL8107E-1 firmware binary
+	</flag>
+	<flag name='linux_firmware_rtl8107e-2'>
+		Install Realtek RTL8107E-2 firmware binary
+	</flag>
+	<flag name='linux_firmware_rtl8168h-1'>
+		Install Realtek RTL8168H-1 firmware binary
+	</flag>
+	<flag name='linux_firmware_rtl8168h-2'>
+		Install Realtek RTL8168H-2 firmware binary
+	</flag>
 	<flag name='linux_firmware_venus-52'>
 		Install Venus 5.2 codec firmware files
 	</flag>
