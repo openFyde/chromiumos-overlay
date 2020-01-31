@@ -92,6 +92,7 @@ IUSE_LINUX_FIRMWARE=(
 	rtl8107e-2
 	rtl8125a-3
 	rtl8153
+	rtl8168fp-3
 	rtl8168g-1
 	rtl8168g-2
 	rtl8168h-1
@@ -149,6 +150,7 @@ LICENSE="
 	linux_firmware_rtl8107e-2? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8125a-3? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8153? ( LICENCE.rtlwifi_firmware )
+	linux_firmware_rtl8168fp-3? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8168g-1? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8168g-2? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8168h-1? ( LICENCE.rtl_nic )
@@ -256,6 +258,7 @@ src_install() {
 	use_fw rtl8107e-2 && doins_subdir rtl_nic/rtl8107e-2.fw
 	use_fw rtl8125a-3 && doins_subdir rtl_nic/rtl8125a-3.fw
 	use_fw rtl8153 && doins_subdir rtl_nic/{rtl8153a-2.fw,rtl8153a-4.fw,rtl8153b-2.fw}
+	use_fw rtl8168fp-3 && doins_subdir rtl_nic/rtl8168fp-3.fw
 	use_fw rtl8168g-1 && doins_subdir rtl_nic/rtl8168g-1.fw
 	use_fw rtl8168g-2 && doins_subdir rtl_nic/rtl8168g-2.fw
 	use_fw rtl8168h-1 && doins_subdir rtl_nic/rtl8168h-1.fw

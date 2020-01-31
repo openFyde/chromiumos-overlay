@@ -77,6 +77,9 @@
 	<flag name='linux_firmware_rtl8125a-3'>
 		Install Realtek RTL8125A-3 firmware binary
 	</flag>
+	<flag name='linux_firmware_rtl8168fp-3'>
+		Install Realtek RTL8168fp/RTL8117 firmware binary
+	</flag>
 	<flag name='linux_firmware_rtl8168h-1'>
 		Install Realtek RTL8168H-1 firmware binary
 	</flag>
