@@ -129,7 +129,7 @@ src_compile() {
 		DETACHABLE="$(usex detachable 1 0)" \
 		MENU_UI="$(usex menu_ui 1 0)" \
 		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
-		LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[*]}"
+		LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[@]}"
 }
 
 src_install() {
