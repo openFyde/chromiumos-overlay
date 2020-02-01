@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4d82469696f7499018b4fc2ab616baf0416605be"
+CROS_WORKON_COMMIT="1a43ac17e6a4f5bb2b176c6f09f6f7ef0528ab58"
 CROS_WORKON_TREE=("2ef18d1c42c7aee2c4bb4110359103045c055adf" "5e077ba26cca7a0d3c303d27dd0682e9404d325a" "20c1ca24779e99d7e7b293daafb640cbbd21c78f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,7 +30,10 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/chromeos-nat-init
+	net-firewall/iptables
 	net-misc/bridge-utils
+	sys-apps/iproute2
+	sys-apps/net-tools
 "
 
 DEPEND="
