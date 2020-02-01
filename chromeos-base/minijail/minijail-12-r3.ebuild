@@ -1,10 +1,10 @@
 # Copyright (c) 2009 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="664eba707187fb623892b4ae6cd6689f1015e738"
-CROS_WORKON_TREE="0400a91035ac7abb5db0398cc8da7f39984b46c9"
+CROS_WORKON_COMMIT="cf504ca8d6ab416e16c930c6eaf257a65831e1e1"
+CROS_WORKON_TREE="727d9e4a28558d983b033800191449b37cc4f368"
 CROS_WORKON_BLACKLIST=1
 CROS_WORKON_LOCALNAME="aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
@@ -23,9 +23,10 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="asan cros-debug +seccomp test"
 
-RDEPEND="sys-libs/libcap
+COMMON_DEPEND="sys-libs/libcap:=
 	!<chromeos-base/chromeos-minijail-1"
-DEPEND="${RDEPEND}
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
 	test? (
 		dev-cpp/gtest:=
 	)"
