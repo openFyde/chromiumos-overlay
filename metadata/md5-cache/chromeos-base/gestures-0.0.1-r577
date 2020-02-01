@@ -4,11 +4,11 @@ DEPEND=dev-cpp/gtest:= X? ( x11-libs/libXi:= ) chromeos-base/gestures-conf:= chr
 DESCRIPTION=Gesture recognizer library
 EAPI=7
 HOMEPAGE=http://www.chromium.org/
-IUSE=-asan +X cros-debug asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_f47589befe182fbafa25e6a9f552452c1173acfd
+IUSE=-asan +X cros-debug asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_6576dd21a889ae101fa2aeccea24d04d74f9c8d6
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=chromeos-base/gestures-conf:= chromeos-base/libevdev:= dev-libs/jsoncpp:= virtual/udev
-SLOT=0/0.0.1-r576
+SLOT=0/0.0.1-r577
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=d40dbbcef02e20ea68f1d18c401b742f
+_md5_=e8160af0e0d36c73868b4fba720eda8d
