@@ -119,7 +119,6 @@ dev-libs/libnl python_targets_python2_7
 dev-libs/libxml2 python_targets_python2_7
 dev-libs/libxslt python_targets_python2_7
 dev-python/pyahocorasick python_targets_python2_7
-dev-python/appdirs python_targets_python2_7
 dev-python/asn1crypto python_targets_python2_7
 dev-python/astroid python_targets_python2_7
 dev-python/atomicwrites python_targets_python2_7
@@ -245,9 +244,7 @@ dev-python/wrapt python_targets_python2_7
 dev-python/ws4py python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-python/zope-interface python_targets_python2_7
-dev-util/gtk-doc python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
-dev-util/itstool python_targets_python2_7
 dev-util/scons python_targets_python2_7
 net-libs/nodejs python_targets_python2_7
 sys-apps/dtc python_targets_python2_7
