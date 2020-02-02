@@ -277,7 +277,6 @@ dev-util/hdctools python_targets_python2_7
 dev-util/itstool python_targets_python2_7
 dev-util/perf python_targets_python2_7
 dev-util/scons python_targets_python2_7
-media-libs/alsa-lib python_targets_python2_7
 net-libs/nodejs python_targets_python2_7
 net-misc/gsutil python_targets_python2_7
 sys-apps/dtc python_targets_python2_7
