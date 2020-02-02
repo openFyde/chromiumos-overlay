@@ -169,7 +169,6 @@ chromeos-base/touch_firmware_test python_targets_python2_7
 chromeos-base/touchbot python_targets_python2_7
 chromeos-base/update_payload python_targets_python2_7
 dev-embedded/libftdi python_targets_python2_7
-dev-lang/python-exec python_targets_python2_7
 dev-lang/yasm python_targets_python2_7
 dev-libs/glib python_targets_python2_7
 dev-libs/libnl python_targets_python2_7

@@ -113,7 +113,6 @@ chromeos-base/chromite-sdk python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/update_payload python_targets_python2_7
 dev-embedded/libftdi python_targets_python2_7
-dev-lang/python-exec python_targets_python2_7
 dev-libs/libnl python_targets_python2_7
 dev-libs/libxml2 python_targets_python2_7
 dev-libs/libxslt python_targets_python2_7
