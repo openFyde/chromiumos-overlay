@@ -203,7 +203,6 @@ dev-python/ecdsa python_targets_python2_7
 dev-python/elementtree python_targets_python2_7
 dev-python/entrypoints python_targets_python2_7
 dev-python/fasteners python_targets_python2_7
-dev-python/funcsigs python_targets_python2_7
 dev-python/future python_targets_python2_7
 dev-python/gcs-oauth2-boto-plugin python_targets_python2_7
 dev-python/gevent python_targets_python2_7
@@ -365,13 +364,7 @@ sys-libs/tevent python_targets_python2_7
 sys-process/audit python_targets_python2_7
 sys-process/iotop python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
-virtual/python-enum34 python_targets_python2_7
-virtual/python-funcsigs python_targets_python2_7
-virtual/python-futures python_targets_python2_7
 virtual/python-greenlet python_targets_python2_7
-virtual/python-ipaddress python_targets_python2_7
-virtual/python-pathlib python_targets_python2_7
-virtual/python-typing python_targets_python2_7
 www-apache/mod_wsgi python_targets_python2_7
 x11-proto/xcb-proto python_targets_python2_7
 
@@ -383,6 +376,7 @@ dev-python/backports-shutil_get_terminal_size python_targets_python2_7 -python_t
 dev-python/configparser python_targets_python2_7 -python_targets_python3_6
 dev-python/ctypesgen python_targets_python2_7 -python_targets_python3_6
 dev-python/enum34 python_targets_python2_7 -python_targets_python3_6
+dev-python/funcsigs python_targets_python2_7
 dev-python/functools32 python_targets_python2_7 -python_targets_python3_6
 dev-python/futures python_targets_python2_7 -python_targets_python3_6
 dev-python/ipaddress python_targets_python2_7 -python_targets_python3_6
@@ -390,3 +384,9 @@ dev-python/mox python_targets_python2_7 -python_targets_python3_6
 dev-python/pathlib python_targets_python2_7 -python_targets_python3_6
 dev-python/subprocess32 python_targets_python2_7 -python_targets_python3_6
 dev-python/typing python_targets_python2_7 -python_targets_python3_6
+virtual/python-enum34 python_targets_python2_7
+virtual/python-funcsigs python_targets_python2_7
+virtual/python-futures python_targets_python2_7
+virtual/python-ipaddress python_targets_python2_7
+virtual/python-pathlib python_targets_python2_7
+virtual/python-typing python_targets_python2_7
