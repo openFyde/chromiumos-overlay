@@ -327,8 +327,6 @@ dev-python/webcolors python_targets_python2_7
 dev-python/ws4py python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-util/android-tools python_targets_python2_7
-dev-util/gdbus-codegen python_targets_python2_7
-dev-util/glib-utils python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 dev-util/mem python_targets_python2_7
 dev-util/perf python_targets_python2_7
