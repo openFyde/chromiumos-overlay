@@ -1,9 +1,9 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="523fdf98009c6c4ca9030709eddca8497f273c6c"
+CROS_WORKON_COMMIT="98a0db5a952515a345e46a7d0dad1cf42fb04227"
 CROS_WORKON_TREE=("2ef18d1c42c7aee2c4bb4110359103045c055adf" "049477d0cd66e36853a568f8cffa89323e9ed8db" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
@@ -33,7 +33,7 @@ IUSE="cros_host"
 RDEPEND=""
 
 DEPEND="${RDEPEND}
-	dev-go/protobuf
+	dev-go/protobuf:=
 	dev-libs/protobuf:=
 	cros_host? ( net-libs/grpc:= )
 "
