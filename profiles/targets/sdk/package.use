@@ -121,14 +121,12 @@ dev-libs/libxml2 python_targets_python2_7
 dev-libs/libxslt python_targets_python2_7
 dev-python/pyahocorasick python_targets_python2_7
 dev-python/appdirs python_targets_python2_7
-dev-python/argcomplete python_targets_python2_7
 dev-python/asn1crypto python_targets_python2_7
 dev-python/astroid python_targets_python2_7
 dev-python/atomicwrites python_targets_python2_7
 dev-python/attrs python_targets_python2_7
 dev-python/backports python_targets_python2_7
 dev-python/bcrypt python_targets_python2_7
-dev-python/boto python_targets_python2_7
 dev-python/btsocket python_targets_python2_7
 dev-python/certifi python_targets_python2_7
 dev-python/cffi python_targets_python2_7
@@ -149,14 +147,10 @@ dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
 dev-python/ecdsa python_targets_python2_7
 dev-python/entrypoints python_targets_python2_7
-dev-python/fasteners python_targets_python2_7
 dev-python/flake8 python_targets_python2_7
 dev-python/funcsigs python_targets_python2_7
 dev-python/future python_targets_python2_7
-dev-python/gcs-oauth2-boto-plugin python_targets_python2_7
 dev-python/gdata python_targets_python2_7
-dev-python/google-apitools python_targets_python2_7
-dev-python/google-reauth-python python_targets_python2_7
 dev-python/grpcio python_targets_python2_7
 dev-python/grpcio-tools python_targets_python2_7
 dev-python/httplib2 python_targets_python2_7
@@ -181,7 +175,6 @@ dev-python/markupsafe python_targets_python2_7
 dev-python/matplotlib python_targets_python2_7
 dev-python/mccabe python_targets_python2_7
 dev-python/mock python_targets_python2_7
-dev-python/monotonic python_targets_python2_7
 dev-python/more-itertools python_targets_python2_7
 dev-python/mysqlclient python_targets_python2_7
 dev-python/namespace-google python_targets_python2_7
@@ -189,7 +182,6 @@ dev-python/namespace-jaraco python_targets_python2_7
 dev-python/namespace-zope python_targets_python2_7
 dev-python/netifaces python_targets_python2_7
 dev-python/numpy python_targets_python2_7
-dev-python/oauth2client python_targets_python2_7
 dev-python/packaging python_targets_python2_7
 dev-python/paramiko python_targets_python2_7
 dev-python/pathlib2 python_targets_python2_7
@@ -226,7 +218,6 @@ dev-python/pytest python_targets_python2_7
 dev-python/python-daemon python_targets_python2_7
 dev-python/python-dateutil python_targets_python2_7
 dev-python/python-evdev python_targets_python2_7
-dev-python/python-gflags python_targets_python2_7
 dev-python/python-gnupg python_targets_python2_7
 dev-python/python-statsd python_targets_python2_7
 dev-python/python-uinput python_targets_python2_7
@@ -239,7 +230,6 @@ dev-python/pyyaml python_targets_python2_7
 dev-python/redis-py python_targets_python2_7
 dev-python/regex python_targets_python2_7
 dev-python/requests python_targets_python2_7
-dev-python/retry-decorator python_targets_python2_7
 dev-python/rfc3987 python_targets_python2_7
 dev-python/rsa python_targets_python2_7
 dev-python/rtslib-fb python_targets_python2_7
@@ -279,7 +269,6 @@ dev-util/itstool python_targets_python2_7
 dev-util/perf python_targets_python2_7
 dev-util/scons python_targets_python2_7
 net-libs/nodejs python_targets_python2_7
-net-misc/gsutil python_targets_python2_7
 sys-apps/dtc python_targets_python2_7
 sys-apps/file python_targets_python2_7
 sys-apps/flashmap python_targets_python2_7
