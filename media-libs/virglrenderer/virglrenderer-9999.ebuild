@@ -20,7 +20,7 @@ RDEPEND="
 	media-libs/libepoxy
 	media-libs/minigbm
 	fuzzer? (
-		media-libs/mesa
+		virtual/opengles
 	)
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
@@ -30,6 +30,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
+	"${FILESDIR}"/virglrenderer-fuzzer-flags.patch
 )
 
 src_prepare() {
