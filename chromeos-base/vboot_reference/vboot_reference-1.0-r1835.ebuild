@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="371d33783f3304732135e069d0c91b398c5375d4"
-CROS_WORKON_TREE="c65e46c35d8c7aecac20c52984d6556b3d7dcab6"
+CROS_WORKON_COMMIT="fb253e8ddf5cc882769420ca0ed8f14131c758de"
+CROS_WORKON_TREE="ce2d7d65b68893c0e59dfaaf8d3e382fecfbf49f"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 CROS_WORKON_LOCALNAME="platform/vboot_reference"
@@ -19,8 +19,7 @@ IUSE="cros_host dev_debug_force fuzzer pd_sync tpmtests tpm tpm2"
 
 REQUIRED_USE="?? ( tpm2 tpm )"
 
-COMMON_DEPEND="cros_host? ( dev-libs/libyaml:= )
-	dev-libs/libzip:=
+COMMON_DEPEND="dev-libs/libzip:=
 	dev-libs/openssl:=
 	sys-apps/util-linux:="
 RDEPEND="${COMMON_DEPEND}"
@@ -51,10 +50,9 @@ vemake() {
 		SRCDIR="${S}" \
 		LIBDIR="$(get_libdir)" \
 		ARCH=$(tc-arch) \
+		SDK_BUILD=$(usev cros_host) \
 		TPM2_MODE=$(usev tpm2) \
 		PD_SYNC=$(usev pd_sync) \
-		MINIMAL=$(usev !cros_host) \
-		NO_BUILD_TOOLS=$(usev fuzzer) \
 		DEV_DEBUG_FORCE=$(usev dev_debug_force) \
 		FUZZ_FLAGS="${SANITIZER_CFLAGS}" \
 		"$@"
@@ -64,9 +62,9 @@ src_compile() {
 	mkdir "${WORKDIR}"/build-main
 	tc-export CC AR CXX PKG_CONFIG
 	cros-debug-add-NDEBUG
-	# Vboot reference knows the flags to use
+	# vboot_reference knows the flags to use
 	unset CFLAGS
-	vemake BUILD="${WORKDIR}"/build-main all
+	vemake BUILD="${WORKDIR}"/build-main $(usex fuzzer fuzzers all)
 }
 
 src_test() {
@@ -75,28 +73,23 @@ src_test() {
 }
 
 src_install() {
+	if use fuzzer; then
+		einfo "Installing fuzzers"
+		fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/cgpt_fuzzer
+		fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_keyblock_fuzzer
+		fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_preamble_fuzzer
+		return
+	fi
+
 	einfo "Installing programs"
 	vemake \
 		BUILD="${WORKDIR}"/build-main \
-		DESTDIR="${D}$(usex cros_host /usr '')" \
+		DESTDIR="${D}" \
 		install
 
 	if use cros_host; then
-		# Installing on the host
 		exeinto /usr/share/vboot/bin
 		doexe scripts/image_signing/*.sh
-
-		# Remove board stuff.
-		rm -r \
-			"${D}"/usr/default \
-			"${D}"/usr/bin/chromeos-tpm-recovery \
-			"${D}"/usr/bin/dev_debug_vboot \
-			"${D}"/usr/bin/enable_dev_usb_boot \
-			"${D}"/usr/bin/make_dev_firmware.sh \
-			"${D}"/usr/bin/make_dev_ssd.sh \
-			"${D}"/usr/bin/tpm-nvsize \
-			"${D}"/usr/bin/tpmc \
-			|| die
 	fi
 
 	if use tpmtests; then
@@ -105,10 +98,6 @@ src_install() {
 		dobin "${WORKDIR}"/build-main/tests/tpm_lite/tpmtest*[^.]?
 		dobin "${WORKDIR}"/build-main/utility/tpm_set_readsrkpub
 	fi
-
-	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/cgpt_fuzzer
-	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_keyblock_fuzzer
-	fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_preamble_fuzzer
 
 	# Install devkeys to /usr/share/vboot/devkeys
 	# (shared by host and target)
