@@ -111,8 +111,9 @@ src_install() {
 
 	# Install the diagnostic routine executables.
 	exeinto /usr/libexec/diagnostics
-	doexe "${OUT}/urandom"
+	doexe "${OUT}/floating-point-accuracy"
 	doexe "${OUT}/smartctl-check"
+	doexe "${OUT}/urandom"
 	# Install the helper executables required by telemetry.
 	doexe "${OUT}/cros_healthd_helper"
 
