@@ -88,6 +88,9 @@ src_install() {
 	doins common/print_attestation_ca_proto.h
 	doins common/print_interface_proto.h
 	doins common/print_keystore_proto.h
+
+	insinto /usr/share/policy
+	newins "pca_agent/server/pca_agentd-seccomp-${ARCH}.policy" pca_agentd-seccomp.policy
 }
 
 platform_pkg_test() {
