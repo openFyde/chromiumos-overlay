@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="e12d7f160d3d3f95ea4e3b8558ff2e88afdc1e8d"
-CROS_WORKON_TREE="a01214c08b04471b75cc470f38b8542c0a1546d8"
+CROS_WORKON_COMMIT="4fa47abf298f4e481451b2e451a1ded0acc90e89"
+CROS_WORKON_TREE="51200516918f28989fa3358b1c11b316f9529a2d"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -80,6 +80,7 @@ SERVER_IUSE_TESTS="
 		+tests_cheets_CTS_Instant
 		+tests_cheets_CTS_P
 		+tests_cheets_GTS
+		+tests_cheets_VTS
 	)
 	android-container-qt? ( +tests_cheets_CTS_Q )
 	android-container-master-arc-dev? ( +tests_cheets_CTS_Q )
