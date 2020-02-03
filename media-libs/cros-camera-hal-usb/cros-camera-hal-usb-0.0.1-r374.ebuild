@@ -3,11 +3,12 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="b204961ed518b72f9b4c79b64b8ffa70cc00e378"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "949959b23df79413f3956355b1a4662128f60a40" "8d72dd7e2b8aa933d6178e3e4bf90655cd7caa71" "9863ee9778012b49f27d5c4a939f6b7e6c1cf36e" "ce7f8b7d17ca5ea5acf26e9d0329b53f518f0336" "2ef18d1c42c7aee2c4bb4110359103045c055adf" "cc5fe8af4878c3987a5bc60e23e8754d7567085c")
+CROS_WORKON_COMMIT="d9490f689fd4bb93197f3249644775cede2fe499"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "949959b23df79413f3956355b1a4662128f60a40" "04517afbe7ca1422dafb344a9745367a5073ef0c" "9863ee9778012b49f27d5c4a939f6b7e6c1cf36e" "ce7f8b7d17ca5ea5acf26e9d0329b53f518f0336" "cdf08d4ab84d7f77438ec9d6dc75ab3f99128f10" "2ef18d1c42c7aee2c4bb4110359103045c055adf" "cc5fe8af4878c3987a5bc60e23e8754d7567085c")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/usb camera/include camera/mojo common-mk metrics"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/usb camera/include camera/mojo chromeos-config common-mk metrics"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -23,7 +24,7 @@ DESCRIPTION="Chrome OS USB camera HAL v3."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="usb_camera_monocle"
+IUSE="usb_camera_monocle generated_cros_config unibuild"
 
 RDEPEND="
 	dev-libs/re2
@@ -36,7 +37,12 @@ RDEPEND="
 	media-libs/cros-camera-libcamera_timezone
 	media-libs/cros-camera-libcbm
 	media-libs/cros-camera-libjda
-	media-libs/libsync"
+	media-libs/libsync
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp )
+	)
+	chromeos-base/chromeos-config-tools"
 
 DEPEND="${RDEPEND}
 	chromeos-base/metrics
