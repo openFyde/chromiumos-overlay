@@ -23,6 +23,8 @@ src_install() {
 	# CHROME_TEST_BINARIES in src/platform/bisect-kit/bisect_kit/cr_util.py
 	BINARY_DIR="${SYSROOT}/usr/local/build/autotest/client/deps/chrome_test/test_src/out/Release"
 	doexe "${BINARY_DIR}/capture_unittests"
+	doexe "${BINARY_DIR}/dawn_end2end_tests"
+	doexe "${BINARY_DIR}/dawn_unittests"
 	doexe "${BINARY_DIR}/jpeg_decode_accelerator_unittest"
 	doexe "${BINARY_DIR}/jpeg_encode_accelerator_unittest"
 	doexe "${BINARY_DIR}/ozone_gl_unittests"
