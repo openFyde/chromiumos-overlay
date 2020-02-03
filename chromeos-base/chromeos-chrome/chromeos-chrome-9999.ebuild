@@ -707,6 +707,8 @@ src_prepare() {
 setup_test_lists() {
 	TEST_FILES=(
 		capture_unittests
+		dawn_end2end_tests
+		dawn_unittests
 		gl_tests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
