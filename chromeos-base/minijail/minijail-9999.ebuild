@@ -39,6 +39,9 @@ src_configure() {
 }
 
 src_compile() {
+	# Avoid confusing people with our docs.
+	sed -i "s:/var/empty:${DEFAULT_PIVOT_ROOT}:g" minijail0.[15] || die
+
 	cros-common.mk_src_compile all $(usex cros_host parse_seccomp_policy '')
 }
 
