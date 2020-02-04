@@ -3,7 +3,7 @@ DEFINED_PHASES=compile configure info install prepare setup test unpack
 DESCRIPTION=Patman tool (from U-Boot) for sending patches upstream
 EAPI=7
 HOMEPAGE=https://www.denx.de/wiki/U-Boot
-IUSE=cros_host cros_workon_tree_1e3964abc48d3b305ca1c2fdd23b3390d3bc6fc4 python_targets_python2_7
+IUSE=cros_host cros_workon_tree_60723876dffc3bef9f88fd64e38f59fa4569ca75 python_targets_python2_7
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
@@ -11,4 +11,4 @@ RDEPEND=python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/
 REQUIRED_USE=|| ( python_targets_python2_7 )
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	distutils-r1	71a5ee567fb298e553ce8d1319279151	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multibuild	40fe59465edacd730c644ec2bc197809	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	python-r1	ce1cd23cfdc1848e8e32743efe34f299	python-utils-r1	931c328767d245c08a16a3f87be9ce9c	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=7b9d9ed683739bf00cfd5ab1a9710484
+_md5_=e5e65d663bfa5e570813338cb3267bad
