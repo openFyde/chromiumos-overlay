@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/u-boot"
 CROS_WORKON_LOCALNAME="u-boot/files"
 CROS_WORKON_SUBTREE="tools/patman"
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_6 )
 
 inherit cros-workon distutils-r1
 
