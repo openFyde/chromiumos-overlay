@@ -43,6 +43,8 @@ net-print/cups-filters -postscript
 net-print/cups -python
 # We don't need lsusb.py as we have the compiled lsusb program.
 sys-apps/usbutils	-python
+# We don't use any of the python files this package installs.
+dev-util/boost-build	-python
 
 # Disable Segger J-Link for building openocd-0.10.0. We currently
 # don't use J-Link. It requires upgrading libjaylink, which is not yet
@@ -270,7 +272,6 @@ dev-python/wrapt python_targets_python2_7
 dev-python/ws4py python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-python/zope-interface python_targets_python2_7
-dev-util/boost-build python_targets_python2_7
 dev-util/gtk-doc python_targets_python2_7
 dev-util/gyp python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
