@@ -36,9 +36,11 @@ src_install() {
 		apk-cache-cleaner-seccomp.policy
 
 	dosbin "${OUT}/apk-cache-cleaner"
+	dobin  "${OUT}/apk-cache-ctl"
 	dosbin apk-cache-cleaner-jailed
 }
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/apk-cache-cleaner_testrunner"
+	platform_test "run" "${OUT}/apk-cache-ctl_testrunner"
 }
