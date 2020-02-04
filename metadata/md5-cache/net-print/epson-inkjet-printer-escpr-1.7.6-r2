@@ -9,4 +9,4 @@ RDEPEND=net-print/cups
 SLOT=0
 SRC_URI=https://download3.ebz.epson.net/dsc/f/03/00/10/33/90/13c8b802beeae061b6eb08248a0417be08484a26/epson-inkjet-printer-escpr-1.7.6-1lsb3.2.tar.gz
 _eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=1cacb5614a44fc0156d908d170c24e35
+_md5_=7790548e57157b6de0f3b0045ea9269b
