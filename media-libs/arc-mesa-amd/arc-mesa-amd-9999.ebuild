@@ -148,6 +148,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_ANDROID_external_memory_and.patch
 
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Clear-uninitialized-variable.patch
+	epatch "${FILESDIR}"/UPSTREAM-radv-Do-not-set-SX-DISABLE-bits-for-RB-with-unused-s.patch
+
 
 	if use android-container-pi; then
 		epatch "${FILESDIR}"/CHROMIUM-egl-Limit-to-EGL-1.4.patch
