@@ -78,15 +78,6 @@ MULTILIB_WRAPPED_HEADERS=(
 /usr/include/va/va_glx.h
 )
 
-src_prepare() {
-	# After this https://github.com/intel/libva/pull/245 is merged
-	# below patch will not be needed
-	use video_cards_iHD && epatch "${FILESDIR}"/0001-Replace-i965-with-iHD-driver.patch
-	epatch "${FILESDIR}"/0002-Add-return-value-into-logs.patch
-
-	autotools-utils_src_prepare
-}
-
 multilib_src_configure() {
 	local myeconfargs=(
 		--with-drivers-path="${EPREFIX}/usr/$(get_libdir)/va/drivers"
