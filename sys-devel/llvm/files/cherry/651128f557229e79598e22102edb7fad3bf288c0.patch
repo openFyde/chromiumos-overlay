@@ -1,0 +1,109 @@
+From 651128f557229e79598e22102edb7fad3bf288c0 Mon Sep 17 00:00:00 2001
+From: Amy Huang <akhuang@google.com>
+Date: Fri, 3 Jan 2020 16:28:48 -0800
+Subject: [PATCH] [DebugInfo] Add option to clang to limit debug info that is
+ emitted for classes.
+
+Summary:
+This patch adds an option to limit debug info by only emitting complete class
+type information when its constructor is emitted. This applies to classes
+that have nontrivial user defined constructors.
+
+I implemented the option by adding another level to `DebugInfoKind`, and
+a flag `-flimit-debug-info-constructor`.
+
+Total object file size on Windows, compiling with RelWithDebInfo:
+  before: 4,257,448 kb
+  after:  2,104,963 kb
+
+And on Linux
+  before: 9,225,140 kb
+  after:  4,387,464 kb
+
+According to the Windows clang.pdb files, here is a list of types that are no
+longer complete with this option enabled: https://reviews.llvm.org/P8182
+
+Reviewers: rnk, dblaikie
+
+Subscribers: aprantl, cfe-commits
+
+Tags: #clang
+
+Differential Revision: https://reviews.llvm.org/D72427
+---
+ clang/lib/CodeGen/CGDebugInfo.cpp             | 17 +++++++++++
+ .../CodeGenCXX/debug-info-limited-ctor.cpp    | 30 +++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+ create mode 100644 clang/test/CodeGenCXX/debug-info-limited-ctor.cpp
+
+diff --git a/clang/lib/CodeGen/CGDebugInfo.cpp b/clang/lib/CodeGen/CGDebugInfo.cpp
+index 3672490fafd5..cbd524eda9d0 100644
+--- a/clang/lib/CodeGen/CGDebugInfo.cpp
++++ b/clang/lib/CodeGen/CGDebugInfo.cpp
+@@ -1648,6 +1648,12 @@ llvm::DISubprogram *CGDebugInfo::CreateCXXMemberFunction(
+   if (CGM.getLangOpts().Optimize)
+     SPFlags |= llvm::DISubprogram::SPFlagOptimized;
+ 
++  // In this debug mode, emit type info for a class when its constructor type
++  // info is emitted.
++  if (DebugKind == codegenoptions::DebugInfoConstructor)
++    if (const CXXConstructorDecl *CD = dyn_cast<CXXConstructorDecl>(Method))
++      completeClass(CD->getParent());
++
+   llvm::DINodeArray TParamsArray = CollectFunctionTemplateParams(Method, Unit);
+   llvm::DISubprogram *SP = DBuilder.createMethod(
+       RecordTy, MethodName, MethodLinkageName, MethodDefUnit, MethodLine,
+@@ -2211,6 +2217,17 @@ static bool shouldOmitDefinition(codegenoptions::DebugInfoKind DebugKind,
+       !isClassOrMethodDLLImport(CXXDecl))
+     return true;
+ 
++  // In constructor debug mode, only emit debug info for a class when its
++  // constructor is emitted. Skip this optimization if the class or any of
++  // its methods are marked dllimport.
++  if (DebugKind == codegenoptions::DebugInfoConstructor &&
++      !CXXDecl->isLambda() && !isClassOrMethodDLLImport(CXXDecl)) {
++    for (const auto *Ctor : CXXDecl->ctors()) {
++      if (Ctor->isUserProvided())
++        return true;
++    }
++  }
++
+   TemplateSpecializationKind Spec = TSK_Undeclared;
+   if (const auto *SD = dyn_cast<ClassTemplateSpecializationDecl>(RD))
+     Spec = SD->getSpecializationKind();
+diff --git a/clang/test/CodeGenCXX/debug-info-limited-ctor.cpp b/clang/test/CodeGenCXX/debug-info-limited-ctor.cpp
+new file mode 100644
+index 000000000000..321f1736391f
+--- /dev/null
++++ b/clang/test/CodeGenCXX/debug-info-limited-ctor.cpp
+@@ -0,0 +1,30 @@
++// RUN: %clang -cc1 -debug-info-kind=constructor -emit-llvm %s -o - | FileCheck %s
++
++// CHECK: !DICompositeType(tag: DW_TAG_structure_type, name: "A"
++// CHECK-NOT:              DIFlagFwdDecl
++// CHECK-SAME:             ){{$}}
++struct A {};
++void TestA() { A a; }
++
++// CHECK: !DICompositeType(tag: DW_TAG_structure_type, name: "B"
++// CHECK-SAME:             flags: DIFlagFwdDecl
++struct B {
++  B();
++};
++void TestB() { B b; }
++
++// CHECK: !DICompositeType(tag: DW_TAG_structure_type, name: "C"
++// CHECK-NOT:              flags: DIFlagFwdDecl
++// CHECK-SAME:             ){{$}}
++struct C {
++  C() {}
++};
++void TestC() { C c; }
++
++// CHECK: !DICompositeType(tag: DW_TAG_structure_type, name: "D"
++// CHECK-NOT:              flags: DIFlagFwdDecl
++// CHECK-SAME:             ){{$}}
++struct D {
++  D();
++};
++D::D() {}

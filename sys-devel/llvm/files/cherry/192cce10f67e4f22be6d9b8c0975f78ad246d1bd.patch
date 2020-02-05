@@ -1,0 +1,35 @@
+commit 192cce10f67e4f22be6d9b8c0975f78ad246d1bd
+Author: Florian Hahn <flo@fhahn.com>
+Date:   Tue Jan 14 14:50:07 2020 +0000
+
+    Revert "Recommit "[GlobalOpt] Pass DTU to removeUnreachableBlocks instead of recomputing.""
+    
+    This reverts commit a03d7b0f24b65d69721dbbbc871df0629efcf774.
+    
+    As discussed in D68298, this causes a compile-time regression, in case
+    the DTs requested are not used elsewhere in GlobalOpt. We should only
+    get the DTs if they are available here, but this seems not possible with
+    the legacy pass manager from a module pass.
+
+diff --git a/llvm/lib/Transforms/IPO/GlobalOpt.cpp b/llvm/lib/Transforms/IPO/GlobalOpt.cpp
+index beb3785eda3..0fd966457ec 100644
+--- a/llvm/lib/Transforms/IPO/GlobalOpt.cpp
++++ b/llvm/lib/Transforms/IPO/GlobalOpt.cpp
+@@ -2298,10 +2298,14 @@ OptimizeFunctions(Module &M,
+     // So, remove unreachable blocks from the function, because a) there's
+     // no point in analyzing them and b) GlobalOpt should otherwise grow
+     // some more complicated logic to break these cycles.
++    // Removing unreachable blocks might invalidate the dominator so we
++    // recalculate it.
+     if (!F->isDeclaration()) {
+-      auto &DT = LookupDomTree(*F);
+-      DomTreeUpdater DTU(DT, DomTreeUpdater::UpdateStrategy::Lazy);
+-      Changed |= removeUnreachableBlocks(*F, &DTU);
++      if (removeUnreachableBlocks(*F)) {
++        auto &DT = LookupDomTree(*F);
++        DT.recalculate(*F);
++        Changed = true;
++      }
+     }
+ 
+     Changed |= processGlobal(*F, GetTLI, LookupDomTree);

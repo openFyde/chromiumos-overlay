@@ -92,5 +92,53 @@
         "rel_patch_path": "cherry/6c4a8bc0a9f6a466d90d542bef66d69550c1b041.patch",
         "start_version": 380035,
         "end_version": 383698
+    },
+    {
+        "comment": "[DebugInfo] Add another level to DebugInfoKind called Constructor",
+        "rel_patch_path": "cherry/53539bb032d162e0147c0e9650a5d1c7ca77dae0.patch",
+        "start_version": 380035,
+        "end_version": 381274
+    },
+    {
+        "comment": "[PATCH][DebugInfo] Add option to clang to limit debug info that is emitted for classes",
+        "rel_patch_path": "cherry/651128f557229e79598e22102edb7fad3bf288c0.patch",
+        "start_version": 380035,
+        "end_version": 381394
+    },
+    {
+        "comment": "Add a warning, flags and pragmas to limit the number of pre-processor tokens in a translation unit",
+        "rel_patch_path": "cherry/739b410f1ff51d507830774320c2db3a80d8610d.patch",
+        "start_version": 380035,
+        "end_version": 382580
+    },
+    {
+        "comment": "[DebugInfo] Re-instate LiveDebugVariables scope trimming",
+        "rel_patch_path": "cherry/41206b61e30c3d84188cb17b91c2c0c800982dd1.patch",
+        "start_version": 380035,
+        "end_version": 383495
+    },
+    {
+        "comment": "Revert \"[msan] Check qsort input.\"",
+        "rel_patch_path": "cherry/04926e67fda210c9709da4f8672ac0b5147ebb90.patch",
+        "start_version": 380035,
+        "end_version": 380105
+    },
+    {
+        "comment": "Revert Recommit \"[GlobalOpt] Pass DTU to removeUnreachableBlocks instead of recomputing.\"",
+        "rel_patch_path": "cherry/192cce10f67e4f22be6d9b8c0975f78ad246d1bd.patch",
+        "start_version": 380035,
+        "end_version": 381347
+    },
+    {
+        "comment": "Revert \"[DebugInfo][DAG] Distinguish different kinds of location indirection\"",
+        "rel_patch_path": "cherry/ece761427f63de96ee52bbd6be1c61b07967a917.patch",
+        "start_version": 380035,
+        "end_version": 383779
+    },
+    {
+        "comment": "Fix StringRef std::string after 777180a32b6107.",
+        "rel_patch_path": "cherry/2eb80a99a2c6f8e2f090a2bc8cd2760fe1e1f267.patch",
+        "start_version": 382781,
+        "end_version": 383239
     }
 ]

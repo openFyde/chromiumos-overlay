@@ -1,0 +1,35 @@
+commit 2eb80a99a2c6f8e2f090a2bc8cd2760fe1e1f267
+Author: Sylvestre Ledru <sylvestre@debian.org>
+Date:   Sat Feb 1 15:36:51 2020 +0100
+
+    Make StringRef's std::string conversion operator explicit
+    The build is currenly broken when perf or ffi are enabled for llvm
+    
+    Just like in https://reviews.llvm.org/rG777180a32b61070a10dd330b4f038bf24e916af1
+
+diff --git a/llvm/lib/ExecutionEngine/Interpreter/ExternalFunctions.cpp b/llvm/lib/ExecutionEngine/Interpreter/ExternalFunctions.cpp
+index 71b7f893d71..cb1b35d6238 100644
+--- a/llvm/lib/ExecutionEngine/Interpreter/ExternalFunctions.cpp
++++ b/llvm/lib/ExecutionEngine/Interpreter/ExternalFunctions.cpp
+@@ -274,7 +274,7 @@ GenericValue Interpreter::callExternalFunction(Function *F,
+   RawFunc RawFn;
+   if (RF == RawFunctions->end()) {
+     RawFn = (RawFunc)(intptr_t)
+-      sys::DynamicLibrary::SearchForAddressOfSymbol(F->getName());
++      sys::DynamicLibrary::SearchForAddressOfSymbol(std::string(F->getName()));
+     if (!RawFn)
+       RawFn = (RawFunc)(intptr_t)getPointerToGlobalIfAvailable(F);
+     if (RawFn != 0)
+diff --git a/llvm/lib/ExecutionEngine/PerfJITEvents/PerfJITEventListener.cpp b/llvm/lib/ExecutionEngine/PerfJITEvents/PerfJITEventListener.cpp
+index cc196df3b2f..ba9e7476e29 100644
+--- a/llvm/lib/ExecutionEngine/PerfJITEvents/PerfJITEventListener.cpp
++++ b/llvm/lib/ExecutionEngine/PerfJITEvents/PerfJITEventListener.cpp
+@@ -328,7 +328,7 @@ bool PerfJITEventListener::InitDebuggingDir() {
+     return false;
+   }
+ 
+-  JitPath = UniqueDebugDir.str();
++  JitPath = std::string(UniqueDebugDir.str());
+ 
+   return true;
+ }

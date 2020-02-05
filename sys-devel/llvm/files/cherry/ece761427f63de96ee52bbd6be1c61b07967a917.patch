@@ -1,0 +1,179 @@
+commit ece761427f63de96ee52bbd6be1c61b07967a917
+Author: Jeremy Morse <jeremy.morse@sony.com>
+Date:   Wed Feb 5 16:57:59 2020 +0000
+
+    Revert "[DebugInfo][DAG] Distinguish different kinds of location indirection"
+    
+    This reverts commit 3137fe4d23eeb8df08c03e9111465325eeafe08e.
+    
+    I'm backing out D68945, which this patch is a follow up for. It'll be
+    re-landed when D68945 is fixed.
+    
+    The changes to dbg-value-func-arg.ll occur because our handling of certain
+    kinds of location now mixes up indirection that happens at different points
+    in a DIExpression. While this is a regression, it's a return to the prior
+    behaviour while a better patch is sought.
+
+diff --git a/llvm/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp b/llvm/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
+index fc88e5f4c2a..8f108ba1a90 100644
+--- a/llvm/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
++++ b/llvm/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
+@@ -5583,6 +5583,7 @@ bool SelectionDAGBuilder::EmitFuncArgumentDbgValue(
+   MachineFunction &MF = DAG.getMachineFunction();
+   const TargetInstrInfo *TII = DAG.getSubtarget().getInstrInfo();
+ 
++  bool IsIndirect = false;
+   Optional<MachineOperand> Op;
+   // Some arguments' frame index is recorded during argument lowering.
+   int FI = FuncInfo.getArgumentFrameIndex(Arg);
+@@ -5604,6 +5605,7 @@ bool SelectionDAGBuilder::EmitFuncArgumentDbgValue(
+     }
+     if (Reg) {
+       Op = MachineOperand::CreateReg(Reg, false);
++      IsIndirect = IsDbgDeclare;
+     }
+   }
+ 
+@@ -5670,6 +5672,7 @@ bool SelectionDAGBuilder::EmitFuncArgumentDbgValue(
+       }
+ 
+       Op = MachineOperand::CreateReg(VMI->second, false);
++      IsIndirect = IsDbgDeclare;
+     } else if (ArgRegsAndSizes.size() > 1) {
+       // This was split due to the calling convention, and no virtual register
+       // mapping exists for the value.
+@@ -5683,26 +5686,9 @@ bool SelectionDAGBuilder::EmitFuncArgumentDbgValue(
+ 
+   assert(Variable->isValidLocationForIntrinsic(DL) &&
+          "Expected inlined-at fields to agree");
+-
+-  // If the argument arrives in a stack slot, then what the IR thought was a
+-  // normal Value is actually in memory, and we must add a deref to load it.
+-  if (Op->isFI()) {
+-    int FI = Op->getIndex();
+-    unsigned Size = DAG.getMachineFunction().getFrameInfo().getObjectSize(FI);
+-    if (Expr->isImplicit()) {
+-      SmallVector<uint64_t, 2> Ops = {dwarf::DW_OP_deref_size, Size};
+-      Expr = DIExpression::prependOpcodes(Expr, Ops);
+-    } else {
+-      Expr = DIExpression::prepend(Expr, DIExpression::DerefBefore);
+-    }
+-  }
+-
+-  // If this location was specified with a dbg.declare, then it and its
+-  // expression calculate the address of the variable. Append a deref to
+-  // force it to be a memory location.
+-  if (IsDbgDeclare)
++  IsIndirect = (Op->isReg()) ? IsIndirect : true;
++  if (IsIndirect)
+     Expr = DIExpression::append(Expr, {dwarf::DW_OP_deref});
+-
+   FuncInfo.ArgDbgValues.push_back(
+       BuildMI(MF, DL, TII->get(TargetOpcode::DBG_VALUE), false,
+               *Op, Variable, Expr));
+diff --git a/llvm/test/CodeGen/X86/dbg-value-func-arg.ll b/llvm/test/CodeGen/X86/dbg-value-func-arg.ll
+index beaf84871d1..d589712690f 100644
+--- a/llvm/test/CodeGen/X86/dbg-value-func-arg.ll
++++ b/llvm/test/CodeGen/X86/dbg-value-func-arg.ll
+@@ -34,8 +34,8 @@ define dso_local %struct.bar* @func1(%struct.bar* readnone returned %0, i32 %1,
+ ; CHECK-DAG: DBG_VALUE %fixed-stack.0, $noreg, {{.*}}, !DIExpression(DW_OP_deref, DW_OP_LLVM_fragment, 32, 32),
+ ; CHECK-DAG: DBG_VALUE %fixed-stack.3, $noreg, {{.*}}, !DIExpression(DW_OP_deref),
+ ; CHECK-DAG: DBG_VALUE %fixed-stack.2, $noreg, {{.*}}, !DIExpression(DW_OP_deref),
+-; CHECK-DAG: DBG_VALUE %fixed-stack.3, $noreg, {{.*}}, !DIExpression(DW_OP_deref_size, 4, DW_OP_plus_uconst, 144, DW_OP_stack_value),
+-; CHECK-DAG: DBG_VALUE %fixed-stack.3, $noreg, {{.*}}, !DIExpression(DW_OP_deref_size, 4, DW_OP_plus_uconst, 144, DW_OP_stack_value, DW_OP_LLVM_fragment, 32, 32),
++; CHECK-DAG: DBG_VALUE %fixed-stack.3, $noreg, {{.*}}, !DIExpression(DW_OP_plus_uconst, 144, DW_OP_deref, DW_OP_stack_value),
++; CHECK-DAG: DBG_VALUE %fixed-stack.3, $noreg, {{.*}}, !DIExpression(DW_OP_plus_uconst, 144, DW_OP_deref, DW_OP_stack_value, DW_OP_LLVM_fragment, 32, 32),
+ 
+   call void @llvm.dbg.value(metadata i32 %2, metadata !24, metadata !DIExpression(DW_OP_LLVM_fragment, 0, 32)), !dbg !26
+   call void @llvm.dbg.value(metadata i32* %3, metadata !24, metadata !DIExpression(DW_OP_LLVM_fragment, 32, 32)), !dbg !26
+diff --git a/llvm/test/DebugInfo/X86/stack-arg-deref.ll b/llvm/test/DebugInfo/X86/stack-arg-deref.ll
+deleted file mode 100644
+index 7b7fcac7dc3..00000000000
+--- a/llvm/test/DebugInfo/X86/stack-arg-deref.ll
++++ /dev/null
+@@ -1,85 +0,0 @@
+-; RUN: llc -stop-before=finalize-isel -o - %s -mtriple=i386-- | FileCheck %s --check-prefix=MIR
+-; RUN: llc -o - %s -mtriple=i386-- --filetype=obj | llvm-dwarfdump - | FileCheck %s --check-prefix=DWARF --implicit-check-not=DW_TAG_subprogram
+-; REQUIRES: object-emission
+-;
+-; Test that, when arguments are passed on the stack (such as i386),
+-; variable location dereferences occur in the right place. When referring to
+-; argument stack slots a deref must be used to load the slot first.
+-
+-; MIR: ![[FOOVAR:[0-9]+]] = !DILocalVariable(name: "foovar"
+-; MIR: ![[BARVAR:[0-9]+]] = !DILocalVariable(name: "barvar"
+-; MIR: ![[BAZVAR:[0-9]+]] = !DILocalVariable(name: "bazvar"
+-
+-; Plain i32 on the stack.
+-; MIR-LABEL: name: foo
+-; MIR:       DBG_VALUE %fixed-stack.0, $noreg, ![[FOOVAR]],
+-; MIR-SAME:  !DIExpression(DW_OP_deref)
+-; DWARF: DW_TAG_subprogram
+-; DWARF-LABEL: DW_AT_name ("cheese")
+-; DWARF:       DW_TAG_variable
+-; DWARF-NEXT:  DW_AT_location (DW_OP_fbreg +4)
+-; DWARF-NEXT:  DW_AT_name ("foovar")
+-define i8 @foo(i32 %blah) !dbg !20 {
+-entry:
+-  call void @llvm.dbg.value(metadata i32 %blah, metadata !23, metadata !DIExpression()), !dbg !21
+-  ret i8 0, !dbg !21
+-}
+-
+-; Pointer on the stack that we fiddle with.
+-; MIR-LABEL: name: bar
+-; MIR:       DBG_VALUE %fixed-stack.0, $noreg, ![[BARVAR]],
+-; MIR-SAME:  !DIExpression(DW_OP_deref_size, 4, DW_OP_plus_uconst, 4, DW_OP_stack_value)
+-; DWARF: DW_TAG_subprogram
+-; DWARF-LABEL: DW_AT_name ("nope")
+-; DWARF:       DW_TAG_variable
+-; DWARF-NEXT:  DW_AT_location (DW_OP_fbreg +4, DW_OP_deref_size 0x4, DW_OP_plus_uconst 0x4, DW_OP_stack_value)
+-; DWARF-NEXT:  DW_AT_name ("barvar")
+-define i8 @bar(i32 *%blah) !dbg !30 {
+-entry:
+-  call void @llvm.dbg.value(metadata i32* %blah, metadata !33, metadata !DIExpression(DW_OP_plus_uconst, 4, DW_OP_stack_value)), !dbg !31
+-  ret i8 0, !dbg !31
+-}
+-
+-; Pointer that we use as a dbg.declare variable location, after fiddling with
+-; the pointer value.
+-; MIR-LABEL: name: baz
+-; MIR:       DBG_VALUE %fixed-stack.0, $noreg, ![[BAZVAR]],
+-; MIR-SAME:  !DIExpression(DW_OP_deref, DW_OP_plus_uconst, 4, DW_OP_deref)
+-; DWARF: DW_TAG_subprogram
+-; DWARF-LABEL: DW_AT_name ("brains")
+-; DWARF:       DW_TAG_variable
+-; DWARF-NEXT:  DW_AT_location (DW_OP_fbreg +4, DW_OP_deref, DW_OP_plus_uconst 0x4)
+-; DWARF-NEXT:  DW_AT_name ("bazvar")
+-define i8 @baz(i32 *%blah) !dbg !40 {
+-entry:
+-  call void @llvm.dbg.declare(metadata i32* %blah, metadata !43, metadata !DIExpression(DW_OP_plus_uconst, 4)), !dbg !41
+-  ret i8 0, !dbg !41
+-}
+-
+-declare void @llvm.dbg.value(metadata, metadata, metadata)
+-declare void @llvm.dbg.declare(metadata, metadata, metadata)
+-
+-!llvm.dbg.cu = !{!0}
+-!llvm.module.flags = !{!5}
+-
+-!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "asdf", isOptimized: true, runtimeVersion: 0, emissionKind: FullDebug, enums: !2)
+-!1 = !DIFile(filename: "nil", directory: "/")
+-!2 = !{}
+-!5 = !{i32 2, !"Debug Info Version", i32 3}
+-!7 = !DISubroutineType(types: !2)
+-!8 = !DIBasicType(name: "i32", size: 32, encoding: DW_ATE_signed)
+-
+-!20 = distinct !DISubprogram(name: "cheese", linkageName: "cheese", scope: null, file: !1, line: 12, type: !7, isLocal: false, isDefinition: true, scopeLine: 12, isOptimized: true, unit: !0, retainedNodes: !22)
+-!21 = !DILocation(line: 1, column: 1, scope: !20)
+-!22 = !{!23}
+-!23 = !DILocalVariable(name: "foovar", scope: !20, file: !1, line: 14, type: !8)
+-
+-!30 = distinct !DISubprogram(name: "nope", linkageName: "nope", scope: null, file: !1, line: 12, type: !7, isLocal: false, isDefinition: true, scopeLine: 12, isOptimized: true, unit: !0, retainedNodes: !32)
+-!31 = !DILocation(line: 1, column: 1, scope: !30)
+-!32 = !{!33}
+-!33 = !DILocalVariable(name: "barvar", scope: !30, file: !1, line: 14, type: !8)
+-
+-!40 = distinct !DISubprogram(name: "brains", linkageName: "brains", scope: null, file: !1, line: 12, type: !7, isLocal: false, isDefinition: true, scopeLine: 12, isOptimized: true, unit: !0, retainedNodes: !42)
+-!41 = !DILocation(line: 1, column: 1, scope: !40)
+-!42 = !{!43}
+-!43 = !DILocalVariable(name: "bazvar", scope: !40, file: !1, line: 14, type: !8)

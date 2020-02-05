@@ -1,0 +1,363 @@
+commit 53539bb032d162e0147c0e9650a5d1c7ca77dae0
+Author: Amy Huang <akhuang@google.com>
+Date:   Mon Jan 13 15:54:54 2020 -0800
+
+    [DebugInfo] Add another level to DebugInfoKind called Constructor
+    
+    The option will limit debug info by only emitting complete class
+    type information when its constructor is emitted.
+    This patch changes comparisons with LimitedDebugInfo to use the new
+    level instead.
+    
+    Differential Revision: https://reviews.llvm.org/D72427
+
+diff --git a/clang/include/clang/Basic/CodeGenOptions.h b/clang/include/clang/Basic/CodeGenOptions.h
+index 900620a3929..21ac54e8ee1 100644
+--- a/clang/include/clang/Basic/CodeGenOptions.h
++++ b/clang/include/clang/Basic/CodeGenOptions.h
+@@ -357,6 +357,11 @@ public:
+ 
+   /// Check if CSIR profile use is on.
+   bool hasProfileCSIRUse() const { return getProfileUse() == ProfileCSIRInstr; }
++
++  /// Check if type and variable info should be emitted.
++  bool hasReducedDebugInfo() const {
++    return getDebugInfo() >= codegenoptions::DebugInfoConstructor;
++  }
+ };
+ 
+ }  // end namespace clang
+diff --git a/clang/include/clang/Basic/DebugInfoOptions.h b/clang/include/clang/Basic/DebugInfoOptions.h
+index ac18a3a4796..586168bd015 100644
+--- a/clang/include/clang/Basic/DebugInfoOptions.h
++++ b/clang/include/clang/Basic/DebugInfoOptions.h
+@@ -34,6 +34,11 @@ enum DebugInfoKind {
+   /// (-gline-tables-only).
+   DebugLineTablesOnly,
+ 
++  /// Limit generated debug info for classes to reduce size. This emits class
++  /// type info only where the constructor is emitted, if it is a class that
++  /// has a constructor.
++  DebugInfoConstructor,
++
+   /// Limit generated debug info to reduce size (-fno-standalone-debug). This
+   /// emits forward decls for types that could be replaced with forward decls in
+   /// the source code. For dynamic C++ classes type info is only emitted into
+diff --git a/clang/lib/CodeGen/CGBlocks.cpp b/clang/lib/CodeGen/CGBlocks.cpp
+index b0295ce69bf..11f54d1f7fb 100644
+--- a/clang/lib/CodeGen/CGBlocks.cpp
++++ b/clang/lib/CodeGen/CGBlocks.cpp
+@@ -1483,8 +1483,7 @@ void CodeGenFunction::setBlockContextParameter(const ImplicitParamDecl *D,
+   Address alloc = CreateMemTemp(D->getType(), D->getName() + ".addr");
+   Builder.CreateStore(arg, alloc);
+   if (CGDebugInfo *DI = getDebugInfo()) {
+-    if (CGM.getCodeGenOpts().getDebugInfo() >=
+-        codegenoptions::LimitedDebugInfo) {
++    if (CGM.getCodeGenOpts().hasReducedDebugInfo()) {
+       DI->setLocation(D->getLocation());
+       DI->EmitDeclareOfBlockLiteralArgVariable(
+           *BlockInfo, D->getName(), argNum,
+@@ -1656,8 +1655,7 @@ CodeGenFunction::GenerateBlockFunction(GlobalDecl GD,
+       const VarDecl *variable = CI.getVariable();
+       DI->EmitLocation(Builder, variable->getLocation());
+ 
+-      if (CGM.getCodeGenOpts().getDebugInfo() >=
+-          codegenoptions::LimitedDebugInfo) {
++      if (CGM.getCodeGenOpts().hasReducedDebugInfo()) {
+         const CGBlockInfo::Capture &capture = blockInfo.getCapture(variable);
+         if (capture.isConstant()) {
+           auto addr = LocalDeclMap.find(variable)->second;
+diff --git a/clang/lib/CodeGen/CGDebugInfo.cpp b/clang/lib/CodeGen/CGDebugInfo.cpp
+index 675df309e3f..3672490fafd 100644
+--- a/clang/lib/CodeGen/CGDebugInfo.cpp
++++ b/clang/lib/CodeGen/CGDebugInfo.cpp
+@@ -591,6 +591,7 @@ void CGDebugInfo::CreateCompileUnit() {
+   case codegenoptions::DebugDirectivesOnly:
+     EmissionKind = llvm::DICompileUnit::DebugDirectivesOnly;
+     break;
++  case codegenoptions::DebugInfoConstructor:
+   case codegenoptions::LimitedDebugInfo:
+   case codegenoptions::FullDebugInfo:
+     EmissionKind = llvm::DICompileUnit::FullDebug;
+@@ -2043,7 +2044,7 @@ void CGDebugInfo::CollectVTableInfo(const CXXRecordDecl *RD, llvm::DIFile *Unit,
+ 
+ llvm::DIType *CGDebugInfo::getOrCreateRecordType(QualType RTy,
+                                                  SourceLocation Loc) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   llvm::DIType *T = getOrCreateType(RTy, getOrCreateFile(Loc));
+   return T;
+ }
+@@ -2055,7 +2056,7 @@ llvm::DIType *CGDebugInfo::getOrCreateInterfaceType(QualType D,
+ 
+ llvm::DIType *CGDebugInfo::getOrCreateStandaloneType(QualType D,
+                                                      SourceLocation Loc) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   assert(!D.isNull() && "null type");
+   llvm::DIType *T = getOrCreateType(D, getOrCreateFile(Loc));
+   assert(T && "could not create debug info for type");
+@@ -3270,7 +3271,7 @@ void CGDebugInfo::collectFunctionDeclProps(GlobalDecl GD, llvm::DIFile *Unit,
+                               DebugKind <= codegenoptions::DebugLineTablesOnly))
+     LinkageName = StringRef();
+ 
+-  if (DebugKind >= codegenoptions::LimitedDebugInfo) {
++  if (CGM.getCodeGenOpts().hasReducedDebugInfo()) {
+     if (const NamespaceDecl *NSDecl =
+             dyn_cast_or_null<NamespaceDecl>(FD->getDeclContext()))
+       FDContext = getOrCreateNamespace(NSDecl);
+@@ -3957,7 +3958,7 @@ llvm::DILocalVariable *CGDebugInfo::EmitDeclare(const VarDecl *VD,
+                                                 llvm::Optional<unsigned> ArgNo,
+                                                 CGBuilderTy &Builder,
+                                                 const bool UsePointerValue) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   assert(!LexicalBlockStack.empty() && "Region stack mismatch, stack empty!");
+   if (VD->hasAttr<NoDebugAttr>())
+     return nullptr;
+@@ -4091,12 +4092,12 @@ llvm::DILocalVariable *
+ CGDebugInfo::EmitDeclareOfAutoVariable(const VarDecl *VD, llvm::Value *Storage,
+                                        CGBuilderTy &Builder,
+                                        const bool UsePointerValue) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   return EmitDeclare(VD, Storage, llvm::None, Builder, UsePointerValue);
+ }
+ 
+ void CGDebugInfo::EmitLabel(const LabelDecl *D, CGBuilderTy &Builder) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   assert(!LexicalBlockStack.empty() && "Region stack mismatch, stack empty!");
+ 
+   if (D->hasAttr<NoDebugAttr>())
+@@ -4132,7 +4133,7 @@ llvm::DIType *CGDebugInfo::CreateSelfType(const QualType &QualTy,
+ void CGDebugInfo::EmitDeclareOfBlockDeclRefVariable(
+     const VarDecl *VD, llvm::Value *Storage, CGBuilderTy &Builder,
+     const CGBlockInfo &blockInfo, llvm::Instruction *InsertPoint) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   assert(!LexicalBlockStack.empty() && "Region stack mismatch, stack empty!");
+ 
+   if (Builder.GetInsertBlock() == nullptr)
+@@ -4203,7 +4204,7 @@ void CGDebugInfo::EmitDeclareOfBlockDeclRefVariable(
+ void CGDebugInfo::EmitDeclareOfArgVariable(const VarDecl *VD, llvm::Value *AI,
+                                            unsigned ArgNo,
+                                            CGBuilderTy &Builder) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   EmitDeclare(VD, AI, ArgNo, Builder);
+ }
+ 
+@@ -4260,7 +4261,7 @@ void CGDebugInfo::EmitDeclareOfBlockLiteralArgVariable(const CGBlockInfo &block,
+                                                        unsigned ArgNo,
+                                                        llvm::AllocaInst *Alloca,
+                                                        CGBuilderTy &Builder) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   ASTContext &C = CGM.getContext();
+   const BlockDecl *blockDecl = block.getBlockDecl();
+ 
+@@ -4426,7 +4427,7 @@ llvm::DIGlobalVariableExpression *CGDebugInfo::CollectAnonRecordDecls(
+ 
+ void CGDebugInfo::EmitGlobalVariable(llvm::GlobalVariable *Var,
+                                      const VarDecl *D) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   if (D->hasAttr<NoDebugAttr>())
+     return;
+ 
+@@ -4495,7 +4496,7 @@ void CGDebugInfo::EmitGlobalVariable(llvm::GlobalVariable *Var,
+ }
+ 
+ void CGDebugInfo::EmitGlobalVariable(const ValueDecl *VD, const APValue &Init) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   if (VD->hasAttr<NoDebugAttr>())
+     return;
+   llvm::TimeTraceScope TimeScope("DebugConstGlobalVariable", [&]() {
+@@ -4594,7 +4595,7 @@ void CGDebugInfo::EmitGlobalVariable(const ValueDecl *VD, const APValue &Init) {
+ 
+ void CGDebugInfo::EmitExternalVariable(llvm::GlobalVariable *Var,
+                                        const VarDecl *D) {
+-  assert(DebugKind >= codegenoptions::LimitedDebugInfo);
++  assert(CGM.getCodeGenOpts().hasReducedDebugInfo());
+   if (D->hasAttr<NoDebugAttr>())
+     return;
+ 
+@@ -4619,7 +4620,7 @@ llvm::DIScope *CGDebugInfo::getCurrentContextDescriptor(const Decl *D) {
+ }
+ 
+ void CGDebugInfo::EmitUsingDirective(const UsingDirectiveDecl &UD) {
+-  if (CGM.getCodeGenOpts().getDebugInfo() < codegenoptions::LimitedDebugInfo)
++  if (!CGM.getCodeGenOpts().hasReducedDebugInfo())
+     return;
+   const NamespaceDecl *NSDecl = UD.getNominatedNamespace();
+   if (!NSDecl->isAnonymousNamespace() ||
+@@ -4632,7 +4633,7 @@ void CGDebugInfo::EmitUsingDirective(const UsingDirectiveDecl &UD) {
+ }
+ 
+ void CGDebugInfo::EmitUsingDecl(const UsingDecl &UD) {
+-  if (CGM.getCodeGenOpts().getDebugInfo() < codegenoptions::LimitedDebugInfo)
++  if (!CGM.getCodeGenOpts().hasReducedDebugInfo())
+     return;
+   assert(UD.shadow_size() &&
+          "We shouldn't be codegening an invalid UsingDecl containing no decls");
+@@ -4673,7 +4674,7 @@ void CGDebugInfo::EmitImportDecl(const ImportDecl &ID) {
+ 
+ llvm::DIImportedEntity *
+ CGDebugInfo::EmitNamespaceAlias(const NamespaceAliasDecl &NA) {
+-  if (CGM.getCodeGenOpts().getDebugInfo() < codegenoptions::LimitedDebugInfo)
++  if (!CGM.getCodeGenOpts().hasReducedDebugInfo())
+     return nullptr;
+   auto &VH = NamespaceAliasCache[&NA];
+   if (VH)
+@@ -4795,7 +4796,7 @@ void CGDebugInfo::finalize() {
+ }
+ 
+ void CGDebugInfo::EmitExplicitCastType(QualType Ty) {
+-  if (CGM.getCodeGenOpts().getDebugInfo() < codegenoptions::LimitedDebugInfo)
++  if (!CGM.getCodeGenOpts().hasReducedDebugInfo())
+     return;
+ 
+   if (auto *DieTy = getOrCreateType(Ty, TheCU->getFile()))
+diff --git a/clang/lib/CodeGen/CGDecl.cpp b/clang/lib/CodeGen/CGDecl.cpp
+index 86e02d2d7e4..5aac7a8d54c 100644
+--- a/clang/lib/CodeGen/CGDecl.cpp
++++ b/clang/lib/CodeGen/CGDecl.cpp
+@@ -446,8 +446,7 @@ void CodeGenFunction::EmitStaticVarDecl(const VarDecl &D,
+ 
+   // Emit global variable debug descriptor for static vars.
+   CGDebugInfo *DI = getDebugInfo();
+-  if (DI &&
+-      CGM.getCodeGenOpts().getDebugInfo() >= codegenoptions::LimitedDebugInfo) {
++  if (DI && CGM.getCodeGenOpts().hasReducedDebugInfo()) {
+     DI->setLocation(D.getLocation());
+     DI->EmitGlobalVariable(var, &D);
+   }
+@@ -1394,8 +1393,7 @@ CodeGenFunction::EmitAutoVarAlloca(const VarDecl &D) {
+     EmitVariablyModifiedType(Ty);
+ 
+   auto *DI = getDebugInfo();
+-  bool EmitDebugInfo = DI && CGM.getCodeGenOpts().getDebugInfo() >=
+-                                 codegenoptions::LimitedDebugInfo;
++  bool EmitDebugInfo = DI && CGM.getCodeGenOpts().hasReducedDebugInfo();
+ 
+   Address address = Address::invalid();
+   Address AllocaAddr = Address::invalid();
+@@ -2496,9 +2494,7 @@ void CodeGenFunction::EmitParmDecl(const VarDecl &D, ParamValue Arg,
+ 
+   // Emit debug info for param declarations in non-thunk functions.
+   if (CGDebugInfo *DI = getDebugInfo()) {
+-    if (CGM.getCodeGenOpts().getDebugInfo() >=
+-            codegenoptions::LimitedDebugInfo &&
+-        !CurFuncIsThunk) {
++    if (CGM.getCodeGenOpts().hasReducedDebugInfo() && !CurFuncIsThunk) {
+       DI->EmitDeclareOfArgVariable(&D, DeclPtr.getPointer(), ArgNo, Builder);
+     }
+   }
+diff --git a/clang/lib/CodeGen/CGStmt.cpp b/clang/lib/CodeGen/CGStmt.cpp
+index 8d5ec5fa803..138459c68db 100644
+--- a/clang/lib/CodeGen/CGStmt.cpp
++++ b/clang/lib/CodeGen/CGStmt.cpp
+@@ -562,8 +562,7 @@ void CodeGenFunction::EmitLabel(const LabelDecl *D) {
+ 
+   // Emit debug info for labels.
+   if (CGDebugInfo *DI = getDebugInfo()) {
+-    if (CGM.getCodeGenOpts().getDebugInfo() >=
+-        codegenoptions::LimitedDebugInfo) {
++    if (CGM.getCodeGenOpts().hasReducedDebugInfo()) {
+       DI->setLocation(D->getLocation());
+       DI->EmitLabel(D, Builder);
+     }
+diff --git a/clang/lib/CodeGen/CGStmtOpenMP.cpp b/clang/lib/CodeGen/CGStmtOpenMP.cpp
+index f9406a95764..dc3899f0e4e 100644
+--- a/clang/lib/CodeGen/CGStmtOpenMP.cpp
++++ b/clang/lib/CodeGen/CGStmtOpenMP.cpp
+@@ -567,8 +567,7 @@ CodeGenFunction::GenerateOpenMPCapturedStmtFunction(const CapturedStmt &S) {
+   const CapturedDecl *CD = S.getCapturedDecl();
+   // Build the argument list.
+   bool NeedWrapperFunction =
+-      getDebugInfo() &&
+-      CGM.getCodeGenOpts().getDebugInfo() >= codegenoptions::LimitedDebugInfo;
++      getDebugInfo() && CGM.getCodeGenOpts().hasReducedDebugInfo();
+   FunctionArgList Args;
+   llvm::MapVector<const Decl *, std::pair<const VarDecl *, Address>> LocalAddrs;
+   llvm::DenseMap<const Decl *, std::pair<const Expr *, llvm::Value *>> VLASizes;
+diff --git a/clang/lib/CodeGen/CodeGenFunction.cpp b/clang/lib/CodeGen/CodeGenFunction.cpp
+index a976005e2e4..2bf94f697e0 100644
+--- a/clang/lib/CodeGen/CodeGenFunction.cpp
++++ b/clang/lib/CodeGen/CodeGenFunction.cpp
+@@ -2110,7 +2110,7 @@ void CodeGenFunction::EmitDeclRefExprDbgValue(const DeclRefExpr *E,
+                                               const APValue &Init) {
+   assert(Init.hasValue() && "Invalid DeclRefExpr initializer!");
+   if (CGDebugInfo *Dbg = getDebugInfo())
+-    if (CGM.getCodeGenOpts().getDebugInfo() >= codegenoptions::LimitedDebugInfo)
++    if (CGM.getCodeGenOpts().hasReducedDebugInfo())
+       Dbg->EmitGlobalVariable(E->getDecl(), Init);
+ }
+ 
+diff --git a/clang/lib/CodeGen/CodeGenModule.cpp b/clang/lib/CodeGen/CodeGenModule.cpp
+index 5e0f0db90b0..57beda26677 100644
+--- a/clang/lib/CodeGen/CodeGenModule.cpp
++++ b/clang/lib/CodeGen/CodeGenModule.cpp
+@@ -4118,13 +4118,13 @@ void CodeGenModule::EmitGlobalVarDefinition(const VarDecl *D,
+ 
+   // Emit global variable debug information.
+   if (CGDebugInfo *DI = getModuleDebugInfo())
+-    if (getCodeGenOpts().getDebugInfo() >= codegenoptions::LimitedDebugInfo)
++    if (getCodeGenOpts().hasReducedDebugInfo())
+       DI->EmitGlobalVariable(GV, D);
+ }
+ 
+ void CodeGenModule::EmitExternalVarDeclaration(const VarDecl *D) {
+   if (CGDebugInfo *DI = getModuleDebugInfo())
+-    if (getCodeGenOpts().getDebugInfo() >= codegenoptions::LimitedDebugInfo) {
++    if (getCodeGenOpts().hasReducedDebugInfo()) {
+       QualType ASTTy = D->getType();
+       llvm::Type *Ty = getTypes().ConvertTypeForMem(D->getType());
+       llvm::PointerType *PTy =
+@@ -5371,7 +5371,7 @@ void CodeGenModule::EmitTopLevelDecl(Decl *D) {
+     ObjCRuntime->GenerateClass(OMD);
+     // Emit global variable debug information.
+     if (CGDebugInfo *DI = getModuleDebugInfo())
+-      if (getCodeGenOpts().getDebugInfo() >= codegenoptions::LimitedDebugInfo)
++      if (getCodeGenOpts().hasReducedDebugInfo())
+         DI->getOrCreateInterfaceType(getContext().getObjCInterfaceType(
+             OMD->getClassInterface()), OMD->getLocation());
+     break;
+diff --git a/clang/lib/Driver/ToolChains/Clang.cpp b/clang/lib/Driver/ToolChains/Clang.cpp
+index 04c401ff880..646627c6d40 100644
+--- a/clang/lib/Driver/ToolChains/Clang.cpp
++++ b/clang/lib/Driver/ToolChains/Clang.cpp
+@@ -999,6 +999,9 @@ static void RenderDebugEnablingArgs(const ArgList &Args, ArgStringList &CmdArgs,
+   case codegenoptions::DebugLineTablesOnly:
+     CmdArgs.push_back("-debug-info-kind=line-tables-only");
+     break;
++  case codegenoptions::DebugInfoConstructor:
++    CmdArgs.push_back("-debug-info-kind=constructor");
++    break;
+   case codegenoptions::LimitedDebugInfo:
+     CmdArgs.push_back("-debug-info-kind=limited");
+     break;
+diff --git a/clang/lib/Frontend/CompilerInvocation.cpp b/clang/lib/Frontend/CompilerInvocation.cpp
+index 4743d4f5809..e1e59565083 100644
+--- a/clang/lib/Frontend/CompilerInvocation.cpp
++++ b/clang/lib/Frontend/CompilerInvocation.cpp
+@@ -731,6 +731,7 @@ static bool ParseCodeGenArgs(CodeGenOptions &Opts, ArgList &Args, InputKind IK,
+         llvm::StringSwitch<unsigned>(A->getValue())
+             .Case("line-tables-only", codegenoptions::DebugLineTablesOnly)
+             .Case("line-directives-only", codegenoptions::DebugDirectivesOnly)
++            .Case("constructor", codegenoptions::DebugInfoConstructor)
+             .Case("limited", codegenoptions::LimitedDebugInfo)
+             .Case("standalone", codegenoptions::FullDebugInfo)
+             .Default(~0U);
+@@ -787,8 +788,7 @@ static bool ParseCodeGenArgs(CodeGenOptions &Opts, ArgList &Args, InputKind IK,
+       llvm::Triple::arm, llvm::Triple::armeb};
+ 
+   llvm::Triple T(TargetOpts.Triple);
+-  if (Opts.OptimizationLevel > 0 &&
+-      Opts.getDebugInfo() >= codegenoptions::LimitedDebugInfo &&
++  if (Opts.OptimizationLevel > 0 && Opts.hasReducedDebugInfo() &&
+       llvm::is_contained(DebugEntryValueArchs, T.getArch()))
+     Opts.EnableDebugEntryValues = Args.hasArg(OPT_femit_debug_entry_values);
+ 

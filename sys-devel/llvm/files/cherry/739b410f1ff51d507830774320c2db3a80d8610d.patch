@@ -1,0 +1,394 @@
+commit 739b410f1ff51d507830774320c2db3a80d8610d
+Author: Hans Wennborg <hans@chromium.org>
+Date:   Wed Oct 9 15:22:38 2019 +0200
+
+    Add a warning, flags and pragmas to limit the number of pre-processor tokens in a translation unit
+    
+    See
+    https://docs.google.com/document/d/1xMkTZMKx9llnMPgso0jrx3ankI4cv60xeZ0y4ksf4wc/preview
+    for background discussion.
+    
+    This adds a warning, flags and pragmas to limit the number of
+    pre-processor tokens either at a certain point in a translation unit, or
+    overall.
+    
+    The idea is that this would allow projects to limit the size of certain
+    widely included headers, or for translation units overall, as a way to
+    insert backstops for header bloat and prevent compile-time regressions.
+    
+    Differential revision: https://reviews.llvm.org/D72703
+
+diff --git a/clang/include/clang/Basic/DiagnosticGroups.td b/clang/include/clang/Basic/DiagnosticGroups.td
+index a15fb908c53..d98ca36b22c 100644
+--- a/clang/include/clang/Basic/DiagnosticGroups.td
++++ b/clang/include/clang/Basic/DiagnosticGroups.td
+@@ -1149,3 +1149,32 @@ def CrossTU : DiagGroup<"ctu">;
+ def CTADMaybeUnsupported : DiagGroup<"ctad-maybe-unsupported">;
+ 
+ def FortifySource : DiagGroup<"fortify-source">;
++
++def MaxTokens : DiagGroup<"max-tokens"> {
++  code Documentation = [{
++The warning is issued if the number of pre-processor tokens exceeds
++the token limit, which can be set in three ways:
++
++1. As a limit at a specific point in a file, using the ``clang max_tokens_here``
++  pragma:
++
++   .. code-block: c++
++      #pragma clang max_tokens_here 1234
++
++2. As a per-translation unit limit, using the ``-fmax-tokens`` command-line
++   flag:
++
++   .. code-block: console
++      clang -c a.cpp -fmax-tokens 1234
++
++3. As a per-translation unit limit using the ``clang max_tokens_total`` pragma,
++   which works like and overrides the ``-fmax-tokens`` flag:
++
++   .. code-block: c++
++      #pragma clang max_file_tokens 1234
++
++These limits can be helpful in limiting code growth through included files.
++
++Setting a token limit of zero means no limit.
++}];
++}
+diff --git a/clang/include/clang/Basic/DiagnosticParseKinds.td b/clang/include/clang/Basic/DiagnosticParseKinds.td
+index 04b103e3087..86613307ee2 100644
+--- a/clang/include/clang/Basic/DiagnosticParseKinds.td
++++ b/clang/include/clang/Basic/DiagnosticParseKinds.td
+@@ -1046,6 +1046,8 @@ def warn_pragma_expected_section_label_or_name : Warning<
+ def warn_pragma_expected_init_seg : Warning<
+   "expected 'compiler', 'lib', 'user', or a string literal for the section name in '#pragma %0' - ignored">,
+   InGroup<IgnoredPragmas>;
++
++def err_pragma_expected_integer : Error<"expected an integer argument in '#pragma %0'">;
+ def warn_pragma_expected_integer : Warning<
+   "expected integer between %0 and %1 inclusive in '#pragma %2' - ignored">,
+   InGroup<IgnoredPragmas>;
+@@ -1375,4 +1377,14 @@ def err_placeholder_expected_auto_or_decltype_auto : Error<
+   "expected 'auto' or 'decltype(auto)' after concept name">;
+ }
+ 
++def warn_max_tokens : Warning<
++  "the number of preprocessor source tokens (%0) exceeds this token limit (%1)">,
++  InGroup<MaxTokens>;
++
++def warn_max_tokens_total : Warning<
++  "the total number of preprocessor source tokens (%0) exceeds the token limit (%1)">,
++  InGroup<MaxTokens>;
++
++def note_max_tokens_total_override : Note<"total token limit set here">;
++
+ } // end of Parser diagnostics
+diff --git a/clang/include/clang/Basic/LangOptions.def b/clang/include/clang/Basic/LangOptions.def
+index 3319a312397..f7fa0151d39 100644
+--- a/clang/include/clang/Basic/LangOptions.def
++++ b/clang/include/clang/Basic/LangOptions.def
+@@ -344,6 +344,8 @@ LANGOPT(PaddingOnUnsignedFixedPoint, 1, 0,
+ 
+ LANGOPT(RegisterStaticDestructors, 1, 1, "Register C++ static destructors")
+ 
++COMPATIBLE_VALUE_LANGOPT(MaxTokens, 32, 0, "Max number of tokens per TU or 0")
++
+ #undef LANGOPT
+ #undef COMPATIBLE_LANGOPT
+ #undef BENIGN_LANGOPT
+diff --git a/clang/include/clang/Driver/Options.td b/clang/include/clang/Driver/Options.td
+index 80d774e64ee..650da3ae646 100644
+--- a/clang/include/clang/Driver/Options.td
++++ b/clang/include/clang/Driver/Options.td
+@@ -646,6 +646,9 @@ def emit_merged_ifs : Flag<["-"], "emit-merged-ifs">,
+ def interface_stub_version_EQ : JoinedOrSeparate<["-"], "interface-stub-version=">, Flags<[CC1Option]>;
+ def exported__symbols__list : Separate<["-"], "exported_symbols_list">;
+ def e : JoinedOrSeparate<["-"], "e">, Group<Link_Group>;
++def fmax_tokens : Separate<["-"], "fmax-tokens">,
++  HelpText<"Max total number of preprocessed tokens for -Wmax-tokens.">,
++  Group<f_Group>, Flags<[CC1Option]>;
+ def fPIC : Flag<["-"], "fPIC">, Group<f_Group>;
+ def fno_PIC : Flag<["-"], "fno-PIC">, Group<f_Group>;
+ def fPIE : Flag<["-"], "fPIE">, Group<f_Group>;
+diff --git a/clang/include/clang/Lex/Preprocessor.h b/clang/include/clang/Lex/Preprocessor.h
+index 91f294b1d9b..11fe66f6f58 100644
+--- a/clang/include/clang/Lex/Preprocessor.h
++++ b/clang/include/clang/Lex/Preprocessor.h
+@@ -416,6 +416,14 @@ class Preprocessor {
+   /// of phase 4 of translation or for some other situation.
+   unsigned LexLevel = 0;
+ 
++  /// The number of (LexLevel 0) preprocessor tokens.
++  unsigned TokenCount = 0;
++
++  /// The maximum number of (LexLevel 0) tokens before issuing a -Wmax-tokens
++  /// warning, or zero for unlimited.
++  unsigned MaxTokens = 0;
++  SourceLocation MaxTokensOverrideLoc;
++
+ public:
+   struct PreambleSkipInfo {
+     SourceLocation HashTokenLoc;
+@@ -1010,6 +1018,19 @@ public:
+   }
+   /// \}
+ 
++  /// Get the number of tokens processed so far.
++  unsigned getTokenCount() const { return TokenCount; }
++
++  /// Get the max number of tokens before issuing a -Wmax-tokens warning.
++  unsigned getMaxTokens() const { return MaxTokens; }
++
++  void overrideMaxTokens(unsigned Value, SourceLocation Loc) {
++    MaxTokens = Value;
++    MaxTokensOverrideLoc = Loc;
++  };
++
++  SourceLocation getMaxTokensOverrideLoc() const { return MaxTokensOverrideLoc; }
++
+   /// Register a function that would be called on each token in the final
+   /// expanded token stream.
+   /// This also reports annotation tokens produced by the parser.
+diff --git a/clang/include/clang/Parse/Parser.h b/clang/include/clang/Parse/Parser.h
+index 41f46861d08..18798238748 100644
+--- a/clang/include/clang/Parse/Parser.h
++++ b/clang/include/clang/Parse/Parser.h
+@@ -201,6 +201,8 @@ class Parser : public CodeCompletionHandler {
+   std::unique_ptr<PragmaHandler> STDCCXLIMITHandler;
+   std::unique_ptr<PragmaHandler> STDCUnknownHandler;
+   std::unique_ptr<PragmaHandler> AttributePragmaHandler;
++  std::unique_ptr<PragmaHandler> MaxTokensHerePragmaHandler;
++  std::unique_ptr<PragmaHandler> MaxTokensTotalPragmaHandler;
+ 
+   std::unique_ptr<CommentHandler> CommentSemaHandler;
+ 
+diff --git a/clang/lib/Driver/ToolChains/Clang.cpp b/clang/lib/Driver/ToolChains/Clang.cpp
+index cbf6098761a..44f8f2676cb 100644
+--- a/clang/lib/Driver/ToolChains/Clang.cpp
++++ b/clang/lib/Driver/ToolChains/Clang.cpp
+@@ -5717,6 +5717,8 @@ void Clang::ConstructJob(Compilation &C, const JobAction &JA,
+   Args.AddLastArg(CmdArgs, options::OPT_dM);
+   Args.AddLastArg(CmdArgs, options::OPT_dD);
+ 
++  Args.AddLastArg(CmdArgs, options::OPT_fmax_tokens);
++
+   // Handle serialized diagnostics.
+   if (Arg *A = Args.getLastArg(options::OPT__serialize_diags)) {
+     CmdArgs.push_back("-serialize-diagnostic-file");
+diff --git a/clang/lib/Frontend/CompilerInvocation.cpp b/clang/lib/Frontend/CompilerInvocation.cpp
+index 847b613d6e9..eb1c50f68a0 100644
+--- a/clang/lib/Frontend/CompilerInvocation.cpp
++++ b/clang/lib/Frontend/CompilerInvocation.cpp
+@@ -3292,6 +3292,8 @@ static void ParseLangArgs(LangOptions &Opts, ArgList &Args, InputKind IK,
+ 
+   Opts.CompleteMemberPointers = Args.hasArg(OPT_fcomplete_member_pointers);
+   Opts.BuildingPCHWithObjectFile = Args.hasArg(OPT_building_pch_with_obj);
++
++  Opts.MaxTokens = getLastArgIntValue(Args, OPT_fmax_tokens, 0, Diags);
+ }
+ 
+ static bool isStrictlyPreprocessorAction(frontend::ActionKind Action) {
+diff --git a/clang/lib/Lex/Preprocessor.cpp b/clang/lib/Lex/Preprocessor.cpp
+index a18dc4af422..3bbd5ef8d6d 100644
+--- a/clang/lib/Lex/Preprocessor.cpp
++++ b/clang/lib/Lex/Preprocessor.cpp
+@@ -166,6 +166,8 @@ Preprocessor::Preprocessor(std::shared_ptr<PreprocessorOptions> PPOpts,
+       this->PPOpts->ExcludedConditionalDirectiveSkipMappings;
+   if (ExcludedConditionalDirectiveSkipMappings)
+     ExcludedConditionalDirectiveSkipMappings->clear();
++
++  MaxTokens = LangOpts.MaxTokens;
+ }
+ 
+ Preprocessor::~Preprocessor() {
+@@ -962,8 +964,12 @@ void Preprocessor::Lex(Token &Result) {
+ 
+   LastTokenWasAt = Result.is(tok::at);
+   --LexLevel;
+-  if (OnToken && LexLevel == 0 && !Result.getFlag(Token::IsReinjected))
+-    OnToken(Result);
++
++  if (LexLevel == 0 && !Result.getFlag(Token::IsReinjected)) {
++    ++TokenCount;
++    if (OnToken)
++      OnToken(Result);
++  }
+ }
+ 
+ /// Lex a header-name token (including one formed from header-name-tokens if
+diff --git a/clang/lib/Parse/ParsePragma.cpp b/clang/lib/Parse/ParsePragma.cpp
+index df411e1928d..ec50847b1db 100644
+--- a/clang/lib/Parse/ParsePragma.cpp
++++ b/clang/lib/Parse/ParsePragma.cpp
+@@ -262,6 +262,18 @@ struct PragmaAttributeHandler : public PragmaHandler {
+   ParsedAttributes AttributesForPragmaAttribute;
+ };
+ 
++struct PragmaMaxTokensHereHandler : public PragmaHandler {
++  PragmaMaxTokensHereHandler() : PragmaHandler("max_tokens_here") {}
++  void HandlePragma(Preprocessor &PP, PragmaIntroducer Introducer,
++                    Token &FirstToken) override;
++};
++
++struct PragmaMaxTokensTotalHandler : public PragmaHandler {
++  PragmaMaxTokensTotalHandler() : PragmaHandler("max_tokens_total") {}
++  void HandlePragma(Preprocessor &PP, PragmaIntroducer Introducer,
++                    Token &FirstToken) override;
++};
++
+ }  // end namespace
+ 
+ void Parser::initializePragmaHandlers() {
+@@ -382,6 +394,12 @@ void Parser::initializePragmaHandlers() {
+   AttributePragmaHandler =
+       std::make_unique<PragmaAttributeHandler>(AttrFactory);
+   PP.AddPragmaHandler("clang", AttributePragmaHandler.get());
++
++  MaxTokensHerePragmaHandler = std::make_unique<PragmaMaxTokensHereHandler>();
++  PP.AddPragmaHandler("clang", MaxTokensHerePragmaHandler.get());
++
++  MaxTokensTotalPragmaHandler = std::make_unique<PragmaMaxTokensTotalHandler>();
++  PP.AddPragmaHandler("clang", MaxTokensTotalPragmaHandler.get());
+ }
+ 
+ void Parser::resetPragmaHandlers() {
+@@ -487,6 +505,12 @@ void Parser::resetPragmaHandlers() {
+ 
+   PP.RemovePragmaHandler("clang", AttributePragmaHandler.get());
+   AttributePragmaHandler.reset();
++
++  PP.RemovePragmaHandler("clang", MaxTokensHerePragmaHandler.get());
++  MaxTokensHerePragmaHandler.reset();
++
++  PP.RemovePragmaHandler("clang", MaxTokensTotalPragmaHandler.get());
++  MaxTokensTotalPragmaHandler.reset();
+ }
+ 
+ /// Handle the annotation token produced for #pragma unused(...)
+@@ -3279,3 +3303,64 @@ void PragmaAttributeHandler::HandlePragma(Preprocessor &PP,
+   PP.EnterTokenStream(std::move(TokenArray), 1,
+                       /*DisableMacroExpansion=*/false, /*IsReinject=*/false);
+ }
++
++// Handle '#pragma clang max_tokens 12345'.
++void PragmaMaxTokensHereHandler::HandlePragma(Preprocessor &PP,
++                                              PragmaIntroducer Introducer,
++                                              Token &Tok) {
++  PP.Lex(Tok);
++  if (Tok.is(tok::eod)) {
++    PP.Diag(Tok.getLocation(), diag::err_pragma_missing_argument)
++        << "clang max_tokens_here" << /*Expected=*/true << "integer";
++    return;
++  }
++
++  SourceLocation Loc = Tok.getLocation();
++  uint64_t MaxTokens;
++  if (Tok.isNot(tok::numeric_constant) ||
++      !PP.parseSimpleIntegerLiteral(Tok, MaxTokens)) {
++    PP.Diag(Tok.getLocation(), diag::err_pragma_expected_integer)
++        << "clang max_tokens_here";
++    return;
++  }
++
++  if (Tok.isNot(tok::eod)) {
++    PP.Diag(Tok.getLocation(), diag::warn_pragma_extra_tokens_at_eol)
++        << "clang max_tokens_here";
++    return;
++  }
++
++  if (PP.getTokenCount() > MaxTokens) {
++    PP.Diag(Loc, diag::warn_max_tokens)
++        << PP.getTokenCount() << (unsigned)MaxTokens;
++  }
++}
++
++// Handle '#pragma clang max_file_tokens 12345'.
++void PragmaMaxTokensTotalHandler::HandlePragma(Preprocessor &PP,
++                                               PragmaIntroducer Introducer,
++                                               Token &Tok) {
++  PP.Lex(Tok);
++  if (Tok.is(tok::eod)) {
++    PP.Diag(Tok.getLocation(), diag::err_pragma_missing_argument)
++        << "clang max_tokens_total" << /*Expected=*/true << "integer";
++    return;
++  }
++
++  SourceLocation Loc = Tok.getLocation();
++  uint64_t MaxTokens;
++  if (Tok.isNot(tok::numeric_constant) ||
++      !PP.parseSimpleIntegerLiteral(Tok, MaxTokens)) {
++    PP.Diag(Tok.getLocation(), diag::err_pragma_expected_integer)
++        << "clang max_tokens_total";
++    return;
++  }
++
++  if (Tok.isNot(tok::eod)) {
++    PP.Diag(Tok.getLocation(), diag::warn_pragma_extra_tokens_at_eol)
++        << "clang max_tokens_total";
++    return;
++  }
++
++  PP.overrideMaxTokens(MaxTokens, Loc);
++}
+diff --git a/clang/lib/Parse/Parser.cpp b/clang/lib/Parse/Parser.cpp
+index 0b778bd2427..fd05b760cc9 100644
+--- a/clang/lib/Parse/Parser.cpp
++++ b/clang/lib/Parse/Parser.cpp
+@@ -650,6 +650,16 @@ bool Parser::ParseTopLevelDecl(DeclGroupPtrTy &Result, bool IsFirstDecl) {
+     return false;
+ 
+   case tok::eof:
++    // Check whether -fmax-tokens was reached.
++    if (PP.getMaxTokens() != 0 && PP.getTokenCount() > PP.getMaxTokens()) {
++      PP.Diag(Tok.getLocation(), diag::warn_max_tokens_total)
++          << PP.getTokenCount() << PP.getMaxTokens();
++      SourceLocation OverrideLoc = PP.getMaxTokensOverrideLoc();
++      if (OverrideLoc.isValid()) {
++        PP.Diag(OverrideLoc, diag::note_max_tokens_total_override);
++      }
++    }
++
+     // Late template parsing can begin.
+     if (getLangOpts().DelayedTemplateParsing)
+       Actions.SetLateTemplateParser(LateTemplateParserCallback,
+diff --git a/clang/test/Driver/autocomplete.c b/clang/test/Driver/autocomplete.c
+index 5c0bfb69f9a..7eef3d603f5 100644
+--- a/clang/test/Driver/autocomplete.c
++++ b/clang/test/Driver/autocomplete.c
+@@ -99,6 +99,7 @@
+ // WARNING-NEXT: -Wmain-return-type
+ // WARNING-NEXT: -Wmalformed-warning-check
+ // WARNING-NEXT: -Wmany-braces-around-scalar-init
++// WARNING-NEXT: -Wmax-tokens
+ // WARNING-NEXT: -Wmax-unsigned-zero
+ // RUN: %clang --autocomplete=-Wno-invalid-pp- | FileCheck %s -check-prefix=NOWARNING
+ // NOWARNING: -Wno-invalid-pp-token
+diff --git a/clang/test/Parser/max-tokens.cpp b/clang/test/Parser/max-tokens.cpp
+new file mode 100644
+index 00000000000..982432e8a65
+--- /dev/null
++++ b/clang/test/Parser/max-tokens.cpp
+@@ -0,0 +1,23 @@
++// RUN: %clang_cc1 -fsyntax-only -verify %s
++// RUN: %clang_cc1 -fsyntax-only -verify %s -DMAX_TOKENS          -fmax-tokens 2
++// RUN: %clang_cc1 -fsyntax-only -verify %s -DMAX_TOKENS_OVERRIDE -fmax-tokens 9
++
++int x, y, z;
++
++#pragma clang max_tokens_here         // expected-error  {{missing argument to '#pragma clang max_tokens_here'; expected integer}}
++#pragma clang max_tokens_here foo     // expected-error  {{expected an integer argument in '#pragma clang max_tokens_here'}}
++#pragma clang max_tokens_here 123 456 // expected-warning{{extra tokens at end of '#pragma clang max_tokens_here' - ignored}}
++
++#pragma clang max_tokens_here 1 // expected-warning{{the number of preprocessor source tokens (7) exceeds this token limit (1)}}
++
++
++#pragma clang max_tokens_total // expected-error{{missing argument to '#pragma clang max_tokens_total'; expected integer}}
++#pragma clang max_tokens_total foo // expected-error{{expected an integer argument in '#pragma clang max_tokens_total'}}
++#pragma clang max_tokens_total 123 456 // expected-warning{{extra tokens at end of '#pragma clang max_tokens_total' - ignored}}
++
++#ifdef MAX_TOKENS_OVERRIDE
++#pragma clang max_tokens_total 3 // expected-warning@+4{{the total number of preprocessor source tokens (8) exceeds the token limit (3)}}
++                                // expected-note@-1{{total token limit set here}}
++#elif MAX_TOKENS
++// expected-warning@+1{{the total number of preprocessor source tokens (8) exceeds the token limit (2)}}
++#endif
