@@ -37,6 +37,8 @@ IUSE="
 	gpu_sandbox_allow_sysv_shm
 	gpu_sandbox_failures_not_fatal
 	gpu_sandbox_start_early
+	houdini
+	houdini64
 	instant_tethering
 	kvm_guest
 	kvm_host
@@ -46,6 +48,7 @@ IUSE="
 	moblab
 	native_gpu_memory_buffers
 	natural_scroll_default
+	ndk_translation
 	neon
 	nocturne
 	oobe_skip_postlogin
