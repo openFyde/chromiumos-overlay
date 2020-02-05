@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="1ee0d61bd356c6a2e08456652b53a79e8d5fe7e6"
-CROS_WORKON_TREE="a026ef1908d9d94336c3a63306cae51ec13898d1"
+CROS_WORKON_COMMIT="b4fb27a3ef2f91166ee598162fc2a205a0690c87"
+CROS_WORKON_TREE="fc3ce3eddfafa57b6388c0c9d347b2d81b51be0a"
 CROS_WORKON_PROJECT="chromiumos/third_party/logitech-updater"
 
 inherit cros-workon libchrome udev user
@@ -16,6 +16,7 @@ KEYWORDS="*"
 
 COMMON_DEPEND="chromeos-base/libbrillo:=
 	virtual/libusb:1=
+	chromeos-base/cfm-dfu-notification:=
 "
 
 RDEPEND="${COMMON_DEPEND}"
