@@ -23,7 +23,6 @@ DLC_VERSION="${PV}"
 DLC_PREALLOC_BLOCKS="1024"
 DLC_ID="dummy-dlc"
 DLC_PACKAGE="dummy-package"
-DLC_ARTIFACT_DIR="${T}/artifacts"
 DLC_PRELOAD=true
 
 src_unpack() {
@@ -40,8 +39,6 @@ src_install() {
 	# problems, like, when a DLC image change is not reflected in its rootfs
 	# manifest. If the image is always the same, we might not catch problems
 	# like that.
-	mkdir -p "${DLC_ARTIFACT_DIR}" || die
-
 	# To reproduce the same image file, replace the seed with the target
 	# seed value. If the image already exist, the seed value exists in
 	# /root/seed after you mount it.
@@ -52,14 +49,19 @@ src_install() {
 	# needed too. Otherwise it is just a no-op. Setting the value of RANDOM
 	# acts as setting a seed value for bash's random generator.
 	RANDOM="${seed}"
-	echo "${seed}" > "${DLC_ARTIFACT_DIR}/seed"
+	# Setup DLC paths.
+	into "$(dlc_get_path)/opt/dummy-dlc/"
+	insinto "$(dlc_get_path)/opt/dummy-dlc/"
+	exeinto "$(dlc_get_path)/opt/dummy-dlc/"
+
+	echo seed | newins - seed
 
 	local n
 	for n in {1..3}; do
-		local dummy_file="${DLC_ARTIFACT_DIR}/dummy-file-${n}.bin"
-		> "${dummy_file}"
+		local dummy_file="dummy-file-${n}.bin"
 		local count=$(( RANDOM % 10000 ))
 		printf "%i-${PVR}\n" $(seq 0 "${count}") >> "${dummy_file}"
+		doins "${dummy_file}"
 	done
 
 	dlc_src_install

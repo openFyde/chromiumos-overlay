@@ -24,6 +24,7 @@ case "${EAPI:-0}" in
 esac
 
 DEPEND="chromeos-base/update_engine"
+DLC_BUILD_DIR="build/rootfs/dlc"
 
 # @ECLASS-VARIABLE: DLC_ID
 # @REQUIRED
@@ -67,42 +68,61 @@ DEPEND="chromeos-base/update_engine"
 # The number of blocks to preallocate for each of the the DLC A/B partitions.
 # Block size is 4 KiB.
 
-# @ECLASS-VARIABLE: DLC_ARTIFACT_DIR
-# @REQUIRED
-# @DEFAULT UNSET
-# @DESCRIPTION:
-# Path to folder containing DLC artifacts to be packaged. Anything that should
-# be included in the DLC image should be in this folder when dlc_src_install is
-# called.
-
 # @ECLASS-VARIABLE: DLC_PRELOAD
 # @OPTIONAL
-# @DEFAULT FALSE
 # @DESCRIPTION:
 # Determines whether to preload the DLC for test images. A boolean must be
 # passed in.
+: "${DLC_PRELOAD:="false"}"
+
+# @ECLASS-VARIABLE: DLC_ENABLED
+# @OPTIONAL
+# @DESCRIPTION:
+# Determines whether the package will be a DLC package or regular package.
+# By default, the package is a DLC package and the files will be installed in
+# ${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root, but if the variable is set to
+# "false", all the functions will ignore the path suffix and everything that
+# would have been installed inside the DLC, gets installed in the rootfs.
+: "${DLC_ENABLED:="true"}"
+
+# @FUNCTION: dlc_get_path
+# @USAGE:
+# @RETURN:
+# Returns the path where the DLC files are being installed.
+dlc_get_path() {
+	if [[ "${DLC_ENABLED}" != "true" ]]; then
+		echo "/"
+	else
+		[[ -z "${DLC_ID}" ]] && die "DLC_ID undefined"
+		[[ -z "${DLC_PACKAGE}" ]] && die "DLC_PACKAGE undefined"
+		echo "/${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root"
+	fi
+}
 
 # @FUNCTION: dlc_src_install
 # @DESCRIPTION:
-# Packages DLC artifacts and installs metadata to /opt/google/${DLC_ID}. DLC
-# images are moved to a temporary directory at /build/rootfs/dlc/${DLC_ID}.
+# Installs DLC files into
+# /build/${BOARD}/${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root.
 dlc_src_install() {
+	[[ "${DLC_ENABLED}" =~ ^(true|false)$ ]] || die "Invalid DLC_ENABLED value"
+	if [[ "${DLC_ENABLED}" != "true" ]]; then
+		return
+	fi
 	[[ -z "${DLC_ID}" ]] && die "DLC_ID undefined"
 	[[ -z "${DLC_PACKAGE}" ]] && die "DLC_PACKAGE undefined"
 	[[ -z "${DLC_NAME}" ]] && die "DLC_NAME undefined"
 	[[ -z "${DLC_VERSION}" ]] && die "DLC_VERSION undefined"
 	[[ -z "${DLC_PREALLOC_BLOCKS}" ]] && die "DLC_PREALLOC_BLOCKS undefined"
-	[[ -z "${DLC_ARTIFACT_DIR}" ]] && die "DLC_ARTIFACT_DIR undefined"
+	[[ "${DLC_PRELOAD}" =~ ^(true|false)$ ]] || die "Invalid DLC_PRELOAD value"
 
 	local args=(
-		--src-dir="${DLC_ARTIFACT_DIR}"
-		--sysroot="${SYSROOT}"
 		--install-root-dir="${D}"
 		--pre-allocated-blocks="${DLC_PREALLOC_BLOCKS}"
 		--version="${DLC_VERSION}"
 		--id="${DLC_ID}"
 		--package="${DLC_PACKAGE}"
 		--name="${DLC_NAME}"
+		--build-package
 	)
 
 	if [[ -n "${DLC_FS_TYPE}" ]]; then
@@ -114,7 +134,7 @@ dlc_src_install() {
 	fi
 
 	"${CHROMITE_BIN_DIR}"/build_dlc "${args[@]}" \
-		|| die "build_dlc failed to generate DLC image and metadata"
+		|| die "build_dlc failed."
 }
 
 EXPORT_FUNCTIONS src_install
