@@ -460,11 +460,8 @@ build_images() {
 		depthcharge_config="${depthcharge_prefix}/depthcharge.config"
 	fi
 
-	# Zork doesn't have a full build yet
-	if ! use zork; then
-		add_assets "${coreboot_file}"
-		add_assets "${coreboot_file}.serial"
-	fi
+	add_assets "${coreboot_file}"
+	add_assets "${coreboot_file}.serial"
 
 	if [[ -d ${froot}/cbfs ]]; then
 		die "something is still using ${froot}/cbfs, which is deprecated."
