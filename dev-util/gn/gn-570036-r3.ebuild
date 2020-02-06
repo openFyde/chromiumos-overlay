@@ -40,10 +40,6 @@ SLOT="0"
 KEYWORDS="-* amd64"
 IUSE=""
 
-RDEPEND="dev-libs/libpcre
-	dev-libs/glib"
-DEPEND="net-misc/gsutil"
-
 # See chromium:386603 for why we download a prebuilt binary instead of
 # compiling it ourselves.
 
