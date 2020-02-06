@@ -9,6 +9,7 @@
 EAPI=7
 
 FIRMWARE_EC_BOARD="dartmonkey"
+FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
