@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="c162f33d5f30146ead05afe51ae6af8d13763e44"
-CROS_WORKON_TREE="b2445d717170b9eddb3335107d92f2b951c749f7"
+CROS_WORKON_COMMIT="10854be9130a382413d6119d0b1153f5e7d91fa1"
+CROS_WORKON_TREE="c60f44e7d025e877724b73780975168677481996"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
 # Prevent automatic uprevs of this package since upstream is out of our control.
@@ -36,7 +36,6 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
-	"${FILESDIR}"/virglrenderer-fuzzer-flags.patch
 )
 
 src_prepare() {
