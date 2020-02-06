@@ -2,9 +2,9 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT=("2923751bf31dd9e7814ecd836da87a6c816987d6" "1020145237ef93c48f967d1283f7ac9a50ccb9c5")
+CROS_WORKON_COMMIT=("3b66e610dd593f183d98b5c7f2500a1f0d231ab7" "6517901ce03b1259dbde7e8cd939d2c8ef89bc81")
 CROS_WORKON_TREE=("33378ea9ec0ce2140519976d43d90cb944b86813" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6556ac6b5e75cddac5bde83fd3d4fff07067cb62")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/tast-tests")
 CROS_WORKON_LOCALNAME=("platform2" "platform/tast-tests")
@@ -19,15 +19,15 @@ DESCRIPTION="Compiled executables used by local Tast tests in the cros bundle"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/+/master/helpers"
 
 LICENSE="BSD-Google GPL-3"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 
-RDEPEND="
+COMMON_DEPEND="
 	dev-cpp/gtest:=
 	media-libs/minigbm:=
 	x11-libs/libdrm:=
 "
-
+RDEPEND="${COMMON_DEPEND}"
 DEPEND="${RDEPEND}"
 
 src_install() {
