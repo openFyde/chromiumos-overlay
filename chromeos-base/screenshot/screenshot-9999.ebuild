@@ -26,7 +26,8 @@ RDEPEND="
 	x11-libs/libdrm:=
 	virtual/opengles"
 
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	x11-drivers/opengles-headers"
 
 src_install() {
 	dosbin "${OUT}/screenshot"
