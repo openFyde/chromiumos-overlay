@@ -20,7 +20,7 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cheets fuzzer generated_cros_config systemd unibuild"
+IUSE="cheets fuzzer generated_cros_config systemd unibuild user_session_isolation"
 
 COMMON_DEPEND="chromeos-base/bootstat:=
 	unibuild? (
@@ -64,8 +64,6 @@ platform_pkg_test() {
 		gtest_qemu_filter+=":SessionManagerProcessTest.*"
 	fi
 
-
-
 	local test_bin
 	for test_bin in "${tests[@]}"; do
 		platform_test "run" "${OUT}/${test_bin}" "0" "" "${gtest_qemu_filter}"
@@ -84,7 +82,7 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins SessionManager.conf
 
-	# Adding init scripts
+	# Adding init scripts.
 	if use systemd; then
 		systemd_dounit init/systemd/*
 		systemd_enable_service x-started.target
