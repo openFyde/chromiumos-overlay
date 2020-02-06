@@ -263,7 +263,6 @@ dev-python/ws4py python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-python/zope-interface python_targets_python2_7
 dev-util/gtk-doc python_targets_python2_7
-dev-util/gyp python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 dev-util/itstool python_targets_python2_7
 dev-util/perf python_targets_python2_7
