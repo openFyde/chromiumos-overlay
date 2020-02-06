@@ -388,7 +388,6 @@ RDEPEND="${RDEPEND}
 # Host dependencies for building Platform2
 RDEPEND="${RDEPEND}
 	chromeos-base/chromeos-dbus-bindings
-	dev-util/gyp
 	dev-util/meson
 	dev-util/ninja
 	"
