@@ -33,7 +33,6 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
-	"${FILESDIR}"/virglrenderer-fuzzer-flags.patch
 )
 
 src_prepare() {
