@@ -12,7 +12,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from src.platform2.chromeos_config.proto import brand_id_scan_config_pb2 as src_dot_platform2_dot_chromeos__config_dot_proto_dot_brand__id__scan__config__pb2
+from src.platform2.chromeos_config.proto import identity_scan_config_pb2 as src_dot_platform2_dot_chromeos__config_dot_proto_dot_identity__scan__config__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,9 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='chromiumos_overlay',
   syntax='proto3',
   serialized_options=_b('ZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto'),
-  serialized_pb=_b('\n;src/third_party/chromiumos-overlay/proto/brand_config.proto\x12\x12\x63hromiumos_overlay\x1a>src/platform2/chromeos-config/proto/brand_id_scan_config.proto\"Y\n\x0b\x42randConfig\x12\x37\n\x0bscan_config\x18\x01 \x01(\x0b\x32\".chromeos_config.BrandIdScanConfig\x12\x11\n\twallpaper\x18\x02 \x01(\tBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
+  serialized_pb=_b('\n;src/third_party/chromiumos-overlay/proto/brand_config.proto\x12\x12\x63hromiumos_overlay\x1a>src/platform2/chromeos-config/proto/identity_scan_config.proto\"b\n\x0b\x42randConfig\x12@\n\x0bscan_config\x18\x01 \x01(\x0b\x32+.chromeos_config.IdentityScanConfig.BrandId\x12\x11\n\twallpaper\x18\x02 \x01(\tBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
   ,
-  dependencies=[src_dot_platform2_dot_chromeos__config_dot_proto_dot_brand__id__scan__config__pb2.DESCRIPTOR,])
+  dependencies=[src_dot_platform2_dot_chromeos__config_dot_proto_dot_identity__scan__config__pb2.DESCRIPTOR,])
 
 
 
@@ -61,10 +61,10 @@ _BRANDCONFIG = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=147,
-  serialized_end=236,
+  serialized_end=245,
 )
 
-_BRANDCONFIG.fields_by_name['scan_config'].message_type = src_dot_platform2_dot_chromeos__config_dot_proto_dot_brand__id__scan__config__pb2._BRANDIDSCANCONFIG
+_BRANDCONFIG.fields_by_name['scan_config'].message_type = src_dot_platform2_dot_chromeos__config_dot_proto_dot_identity__scan__config__pb2._IDENTITYSCANCONFIG_BRANDID
 DESCRIPTOR.message_types_by_name['BrandConfig'] = _BRANDCONFIG
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

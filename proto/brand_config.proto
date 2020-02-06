@@ -4,12 +4,12 @@ package chromiumos_overlay;
 
 option go_package = "go.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto";
 
-import "src/platform2/chromeos-config/proto/brand_id_scan_config.proto";
+import "src/platform2/chromeos-config/proto/identity_scan_config.proto";
 
 // Specifies branding configuration.
 message BrandConfig {
-    chromeos_config.BrandIdScanConfig scan_config = 1;
+  chromeos_config.IdentityScanConfig.BrandId scan_config = 1;
 
-    // Base filename of the default wallpaper to show on this device.
-    string wallpaper = 2;
+  // Base filename of the default wallpaper to show on this device.
+  string wallpaper = 2;
 }

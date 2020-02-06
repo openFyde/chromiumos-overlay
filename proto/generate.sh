@@ -11,7 +11,7 @@ protos=(
     brand_config.proto
     build_target_config.proto
     build_target_config_id.proto
-    design_variant_config.proto
+    design_config_build_payload.proto
     firmware_config.proto
 )
 for proto in "${protos[@]}"; do

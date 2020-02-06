@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package chromiumos_overlay;
+
+option go_package = "go.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto";
+
+import "src/third_party/chromiumos-overlay/proto/audio_config.proto";
+import "src/third_party/chromiumos-overlay/proto/firmware_config.proto";
+import "src/platform2/bluetooth/proto/config.proto";
+import "src/platform2/chromeos-config/proto/identity_scan_config.proto";
+import "src/platform2/power_manager/config.proto";
+
+// Defines all of the software build and runtime configuation that is unique to
+// a specific hardware design configuration.
+message DesignConfigBuildPayload {
+  chromeos_config.IdentityScanConfig.DesignConfigId scan_config = 1;
+
+  firmware.FirmwareConfig firmware = 2;
+
+  bluetooth.BluetoothConfig bluetooth_config = 3;
+
+  power_manager.PowerManagerConfig power_manager_config = 4;
+
+  AudioConfig audio_config = 5;
+}
