@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="60eb1fbe89fab558bf781c6c02496a345b5d6a4c"
-CROS_WORKON_TREE="d80b17140cf1a3c017ff4d6679768cf454242597"
+CROS_WORKON_COMMIT="672559f91ae54664fc1f76326c0ecc4008da4c09"
+CROS_WORKON_TREE="25ba5cffdbb3a78a7956b5109fcef6206ca298e9"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since project's Cargo.toml is
@@ -21,9 +21,9 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
-	=dev-rust/proc-macro2-0.4*:=
-	=dev-rust/quote-0.6*:=
-	=dev-rust/syn-0.15*:=
+	=dev-rust/proc-macro2-1*:=
+	=dev-rust/quote-1*:=
+	=dev-rust/syn-1*:=
 "
 
 RDEPEND="!!<=dev-rust/enumn-0.0.1-r4"

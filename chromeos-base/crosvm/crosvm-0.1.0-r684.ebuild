@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="3eb7927bcd1aeb5578aab3109b9fb90c7a641af5"
-CROS_WORKON_TREE="15e28704a6bf0478852e57988e15e46ee7b4606c"
+CROS_WORKON_COMMIT="672559f91ae54664fc1f76326c0ecc4008da4c09"
+CROS_WORKON_TREE="05a1d14081aefbc91dcc3a3c4e3988688f1b84ee"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -49,15 +49,15 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	~dev-rust/num_cpus-1.9.0:=
 	~dev-rust/pkg-config-0.3.11:=
-	~dev-rust/proc-macro2-0.4.21:=
+	=dev-rust/proc-macro2-1*:=
 	>=dev-rust/protobuf-2.8:=
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8:=
 	!>=dev-rust/protoc-rust-3
-	~dev-rust/quote-0.6.10:=
+	=dev-rust/quote-1*:=
+	=dev-rust/syn-1*:=
 	dev-rust/trace_events:=
 	dev-rust/remain:=
-	=dev-rust/syn-0.15*:=
 	tpm2? (
 		chromeos-base/tpm2:=
 		chromeos-base/trunks:=

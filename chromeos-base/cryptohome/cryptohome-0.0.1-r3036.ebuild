@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="86946f33ca8755a99e0ba32960bed0a75817a3f7"
-CROS_WORKON_TREE=("2ef18d1c42c7aee2c4bb4110359103045c055adf" "f5837c9ccf6c6124e9e353f8dcb2d872e7d56665" "ff56413cdc83473e5915a8ad37cd18348f77fca9" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6fb2fead5b8dd25c5ab89fca8138f09db41ce0b3"
+CROS_WORKON_TREE=("2ef18d1c42c7aee2c4bb4110359103045c055adf" "b1a111685d3d764dc7e8198c03a70aea684850be" "ff56413cdc83473e5915a8ad37cd18348f77fca9" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -76,7 +76,8 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	pushd "${OUT}" >/dev/null
-	dosbin cryptohomed cryptohome cryptohome-proxy cryptohome-path lockbox-cache tpm-manager
+	dosbin cryptohomed cryptohome cryptohome-proxy cryptohome-path homedirs_initializer \
+		lockbox-cache tpm-manager
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
 	if use tpm2; then

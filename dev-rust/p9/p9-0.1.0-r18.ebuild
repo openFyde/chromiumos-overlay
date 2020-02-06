@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ef93e73ca16f1171431fcb19fb4fc74ff78d247f"
-CROS_WORKON_TREE="bec46cea39f1ad5bcbea6a46a5761d866f125e4e"
+CROS_WORKON_COMMIT="6fb2fead5b8dd25c5ab89fca8138f09db41ce0b3"
+CROS_WORKON_TREE="04d3c2c5a03fc535b999410d543700d020ba2e4f"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -22,9 +22,9 @@ IUSE="fuzzer test"
 
 DEPEND="
 	dev-rust/libc:=
-	~dev-rust/proc-macro2-0.4.21:=
-	~dev-rust/quote-0.6.10:=
-	~dev-rust/syn-0.15.21:=
+	=dev-rust/proc-macro2-1*:=
+	=dev-rust/quote-1*:=
+	=dev-rust/syn-1*:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
 
