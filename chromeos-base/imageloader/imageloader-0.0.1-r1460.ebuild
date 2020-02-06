@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2923751bf31dd9e7814ecd836da87a6c816987d6"
-CROS_WORKON_TREE=("33378ea9ec0ce2140519976d43d90cb944b86813" "fe066ae9ce0bf6c03b8985a4dfd8d92afdb6175b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a916ae7e3e30396fd838563a00e854814dfbb250"
+CROS_WORKON_TREE=("33378ea9ec0ce2140519976d43d90cb944b86813" "5b325480746b60da5c6ef04e9da749cb6e4908c4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -51,8 +51,9 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins dbus_service/org.chromium.ImageLoader.service
 	insinto /etc/init
-	doins imageloader.conf
-	doins imageloader-shutdown.conf
+	doins init/pepper-flash-player.conf
+	doins init/imageloader.conf
+	doins init/imageloader-shutdown.conf
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_helper_process_receiver_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_manifest_fuzzer \
