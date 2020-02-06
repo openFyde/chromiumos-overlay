@@ -35,6 +35,8 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/permission_broker-client:=
+	chromeos-base/session_manager-client:=
 	chromeos-base/shill:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
