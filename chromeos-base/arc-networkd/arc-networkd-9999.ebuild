@@ -31,7 +31,6 @@ RDEPEND="
 	net-firewall/iptables
 	net-misc/bridge-utils
 	sys-apps/iproute2
-	sys-apps/net-tools
 "
 
 DEPEND="
