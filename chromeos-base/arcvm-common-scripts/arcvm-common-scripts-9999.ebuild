@@ -27,8 +27,12 @@ RDEPEND="
 src_install() {
 	insinto /etc/init
 	doins arc/vm/scripts/init/arcvm-host.conf
+	doins arc/vm/scripts/init/arcvm-per-board-features.conf
 	doins arc/vm/scripts/init/arcvm-ureadahead.conf
 
 	insinto /usr/share/arcvm
 	doins arc/vm/scripts/init/config.json
+
+	insinto /etc/dbus-1/system.d
+	doins arc/vm/scripts/init/dbus-1/ArcVmScripts.conf
 }
