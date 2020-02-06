@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="670d0dd2a6cde686fa71857f09c63b71f716f81a"
-CROS_WORKON_TREE="9b0410d729fc4bece9cde65465604e657530d1d4"
+CROS_WORKON_COMMIT="8584b95d120f1a49c40003e4ea5dc006208b2f7e"
+CROS_WORKON_TREE="3e9109499dbbc5a005790c536f96edd8168d15b3"
 CROS_WORKON_PROJECT="chromiumos/third_party/hdctools"
 PYTHON_COMPAT=( python2_7 )
 
