@@ -21,6 +21,7 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/data_model:=
+	media-sound/audio_streams:=
 "
 
 RDEPEND="!<=media-sound/cras-sys-0.1.0-r10"

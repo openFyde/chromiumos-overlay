@@ -23,7 +23,6 @@ DEPEND="
 	>=dev-rust/libc-0.2.44:=
 	dev-rust/data_model:=
 	dev-rust/sys_util:=
-	dev-rust/sync:=
 	media-sound/audio_streams:=
 	media-sound/cras-sys:=
 "
