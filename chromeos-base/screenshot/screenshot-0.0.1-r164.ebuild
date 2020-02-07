@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="afd98dcd1de1bb1daf9436e16658021345a8d1e3"
+CROS_WORKON_COMMIT="d84ad9c088cb1e329e0f79715f4bbacf13df4b46"
 CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "5ecefa8246d0b6402947dff54f84a5745c1bc38f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,7 +28,8 @@ RDEPEND="
 	x11-libs/libdrm:=
 	virtual/opengles"
 
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	x11-drivers/opengles-headers"
 
 src_install() {
 	dosbin "${OUT}/screenshot"

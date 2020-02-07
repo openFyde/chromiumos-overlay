@@ -46,15 +46,6 @@ pkg_pretend() {
 	fi
 }
 
-src_prepare() {
-	# workaround for cros-workon not preserving git metadata
-	if [[ ${PV} == 9999* && "${CROS_WORKON_INPLACE}" != "1" ]]; then
-		echo "#define MESA_GIT_SHA1 \"git-deadbeef\"" > src/git_sha1.h
-	fi
-
-	default
-}
-
 src_configure() {
 	arc-build-select-clang
 
@@ -73,11 +64,6 @@ multilib_src_configure() {
 
 	# Need std=gnu++11 to build with libc++. crbug.com/750831
 	append-cxxflags "-std=gnu++11"
-	append-cppflags "-UENABLE_SHADER_CACHE"
-
-	if use debug; then
-		emesonargs+=( -Dbuildtype=debug)
-	fi
 
 	emesonargs+=(
 		--prefix="${ARC_PREFIX}/vendor"
@@ -85,6 +71,7 @@ multilib_src_configure() {
 		-Ddri-search-path="/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri"
 		-Dllvm=false
 		-Ddri3=false
+		-Dshader-cache=false
 		-Dglx=disabled
 		-Degl=true
 		-Dgbm=false
@@ -98,13 +85,9 @@ multilib_src_configure() {
 		-Dplatforms=android
 		-Degl-lib-suffix=_mesa
 		-Dgles-lib-suffix=_mesa
+		--buildtype $(usex debug debug release)
+		-Dvulkan-drivers=$(usex vulkan freedreno '')
 	)
-
-	if use vulkan; then
-		emesonargs+=( -Dvulkan-drivers=freedreno )
-	else
-		emesonargs+=( -Dvulkan-drivers= )
-	fi
 
 	meson_src_configure
 }
