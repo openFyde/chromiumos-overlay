@@ -15,7 +15,10 @@ EAPI="5"
 # We don't need the history at all.
 EGIT_CLONE_TYPE="shallow"
 
-inherit cros-constants eutils git-r3
+# TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
+PYTHON_COMPAT=( python2_7 )
+
+inherit cros-constants eutils git-r3 python-any-r1
 
 # Every 3 strings in this array indicates a repository to checkout:
 #   - A unique name (to avoid checkout conflits)
@@ -51,6 +54,8 @@ SLOT="0/${PV}"
 KEYWORDS="*"
 IUSE=""
 
+POLICY_DIR="${S}/cloud/policy"
+
 RDEPEND="!<chromeos-base/chromeos-chrome-79.0.3943.1"
 
 src_unpack() {
@@ -64,24 +69,44 @@ src_unpack() {
 	done
 }
 
+src_compile() {
+	# Generate cloud_policy.proto.
+	"${POLICY_DIR}/tools/generate_policy_source.py" \
+		--cloud-policy-protobuf="${WORKDIR}/cloud_policy.proto" \
+		--chrome-version-file="${FILESDIR}/VERSION" \
+		--policy-templates-file="${POLICY_DIR}/resources/policy_templates.json" \
+		--target-platform="chrome_os" \
+		|| die "Failed to generate cloud_policy.proto"
+}
+
 src_install() {
 	insinto /usr/include/proto
-	doins "${S}"/cloud/policy/proto/chrome_device_policy.proto
-	doins "${S}"/cloud/policy/proto/chrome_extension_policy.proto
-	doins "${S}"/cloud/policy/proto/install_attributes.proto
-	doins "${S}"/cloud/policy/proto/policy_signing_key.proto
-	doins "${S}"/cloud/policy/proto/device_management_backend.proto
+	doins "${POLICY_DIR}"/proto/chrome_device_policy.proto
+	doins "${POLICY_DIR}"/proto/chrome_extension_policy.proto
+	doins "${POLICY_DIR}"/proto/install_attributes.proto
+	doins "${POLICY_DIR}"/proto/policy_signing_key.proto
+	doins "${POLICY_DIR}"/proto/device_management_backend.proto
 	insinto /usr/share/protofiles
-	doins "${S}"/cloud/policy/proto/chrome_device_policy.proto
-	doins "${S}"/cloud/policy/proto/policy_common_definitions.proto
-	doins "${S}"/cloud/policy/proto/device_management_backend.proto
-	doins "${S}"/cloud/policy/proto/chrome_extension_policy.proto
+	doins "${POLICY_DIR}"/proto/chrome_device_policy.proto
+	doins "${POLICY_DIR}"/proto/policy_common_definitions.proto
+	doins "${POLICY_DIR}"/proto/device_management_backend.proto
+	doins "${POLICY_DIR}"/proto/chrome_extension_policy.proto
+	newins "${WORKDIR}"/cloud_policy.proto cloud_policy.proto.tmp
 	dobin "${FILESDIR}"/policy_reader
 	insinto /usr/share/policy_resources
-	doins "${S}"/cloud/policy/resources/policy_templates.json
+	doins "${POLICY_DIR}"/resources/policy_templates.json
 	doins "${FILESDIR}"/VERSION
 	exeinto /usr/share/policy_tools
-	doexe "${S}"/cloud/policy/tools/generate_policy_source.py
+	doexe "${POLICY_DIR}"/tools/generate_policy_source.py
 	sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' \
 		"${D}/usr/share/policy_tools/generate_policy_source.py" || die
+}
+
+# This is a short term solution for crbug.com/1025188 till the PUpr
+# upload the new version of chromeos-chrome package, which won't
+# install cloud_policy.proto anymore.
+pkg_postinst() {
+	mv "${ROOT}"/usr/share/protofiles/cloud_policy.proto.tmp \
+		"${ROOT}"/usr/share/protofiles/cloud_policy.proto || \
+		die "Unable to rename the cloud_policy protobuf"
 }
