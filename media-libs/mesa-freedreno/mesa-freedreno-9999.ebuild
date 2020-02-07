@@ -56,6 +56,7 @@ src_configure() {
 		-Dtools=freedreno
 		--buildtype $(usex debug debug release)
 		-Dvulkan-drivers=$(usex vulkan freedreno '')
+		-DI-love-half-baked-turnips=$(usex vulkan true false)
 	)
 
 	meson_src_configure
