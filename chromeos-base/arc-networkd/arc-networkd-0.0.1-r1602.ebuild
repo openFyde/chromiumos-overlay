@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="afd98dcd1de1bb1daf9436e16658021345a8d1e3"
+CROS_WORKON_COMMIT="62608279fca4bf4aa4f25afbe74ab95c4ee7f34b"
 CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "c0331f50d41b1c7886cc0cdaaf98bc5083f4ef38" "20c1ca24779e99d7e7b293daafb640cbbd21c78f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -33,7 +33,6 @@ RDEPEND="
 	net-firewall/iptables
 	net-misc/bridge-utils
 	sys-apps/iproute2
-	sys-apps/net-tools
 "
 
 DEPEND="
