@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="afd98dcd1de1bb1daf9436e16658021345a8d1e3"
-CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "a8867789d9072af4e60a17112d51836c3e90062b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="16911186a3df68f787c6e5921c48ee2860bc1901"
+CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "4a5749de31fa0856553802ce28e817513ec24b3e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,8 +29,12 @@ RDEPEND="
 src_install() {
 	insinto /etc/init
 	doins arc/vm/scripts/init/arcvm-host.conf
+	doins arc/vm/scripts/init/arcvm-per-board-features.conf
 	doins arc/vm/scripts/init/arcvm-ureadahead.conf
 
 	insinto /usr/share/arcvm
 	doins arc/vm/scripts/init/config.json
+
+	insinto /etc/dbus-1/system.d
+	doins arc/vm/scripts/init/dbus-1/ArcVmScripts.conf
 }
