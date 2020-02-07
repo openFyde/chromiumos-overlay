@@ -34,7 +34,7 @@ src_configure() {
 
 	econf \
 		--enable-mbim-username='modem' \
-		--enable-more-warnings=error \
+		--enable-compile-warnings=yes \
 		$(use_enable static{-libs,}) \
 		$(use_enable {,gtk-}doc)
 }
