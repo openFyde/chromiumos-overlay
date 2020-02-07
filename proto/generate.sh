@@ -9,8 +9,8 @@
 protos=(
     audio_config.proto
     brand_config.proto
-    build_target_config.proto
-    build_target_config_id.proto
+    build_target.proto
+    build_target_id.proto
     design_config_build_payload.proto
     firmware_config.proto
 )
