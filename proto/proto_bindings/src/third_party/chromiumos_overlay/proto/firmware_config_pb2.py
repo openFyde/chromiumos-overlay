@@ -3,7 +3,6 @@
 
 import sys
 _b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
-from google.protobuf.internal import enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
@@ -13,7 +12,6 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from chromite.infra.proto.src.chromiumos import common_pb2 as chromite_dot_infra_dot_proto_dot_src_dot_chromiumos_dot_common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -21,41 +19,61 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='firmware',
   syntax='proto3',
   serialized_options=_b('ZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto'),
-  serialized_pb=_b('\n>src/third_party/chromiumos-overlay/proto/firmware_config.proto\x12\x08\x66irmware\x1a\x30\x63hromite/infra/proto/src/chromiumos/common.proto\"\'\n\x07Version\x12\r\n\x05major\x18\x01 \x01(\x05\x12\r\n\x05minor\x18\x02 \x01(\x05\"\xa7\x01\n\x0f\x46irmwarePayload\x12-\n\x0c\x62uild_target\x18\x01 \x01(\x0b\x32\x17.chromiumos.BuildTarget\x12\x1b\n\x13\x66irmware_image_name\x18\x02 \x01(\t\x12$\n\x04type\x18\x03 \x01(\x0e\x32\x16.firmware.FirmwareType\x12\"\n\x07version\x18\x04 \x01(\x0b\x32\x11.firmware.Version\"\xaa\x01\n\x0e\x46irmwareConfig\x12\x32\n\x0fmain_ro_payload\x18\x01 \x01(\x0b\x32\x19.firmware.FirmwarePayload\x12\x32\n\x0fmain_rw_payload\x18\x02 \x01(\x0b\x32\x19.firmware.FirmwarePayload\x12\x30\n\rec_ro_payload\x18\x03 \x01(\x0b\x32\x19.firmware.FirmwarePayload*W\n\x0c\x46irmwareType\x12\x19\n\x15\x46IRMWARE_TYPE_UNKNOWN\x10\x00\x12\x16\n\x12\x46IRMWARE_TYPE_MAIN\x10\x01\x12\x14\n\x10\x46IRMWARE_TYPE_EC\x10\x02\x42OZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
-  ,
-  dependencies=[chromite_dot_infra_dot_proto_dot_src_dot_chromiumos_dot_common__pb2.DESCRIPTOR,])
+  serialized_pb=_b('\n>src/third_party/chromiumos-overlay/proto/firmware_config.proto\x12\x08\x66irmware\"5\n\x0c\x46irmwareType\"%\n\x04Type\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x08\n\x04MAIN\x10\x01\x12\x06\n\x02\x45\x43\x10\x02\"\'\n\x07Version\x12\r\n\x05major\x18\x01 \x01(\x05\x12\r\n\x05minor\x18\x02 \x01(\x05\"\x93\x01\n\x0f\x46irmwarePayload\x12\x19\n\x11\x62uild_target_name\x18\x01 \x01(\t\x12\x1b\n\x13\x66irmware_image_name\x18\x02 \x01(\t\x12$\n\x04type\x18\x03 \x01(\x0b\x32\x16.firmware.FirmwareType\x12\"\n\x07version\x18\x04 \x01(\x0b\x32\x11.firmware.Version\"\xaa\x01\n\x0e\x46irmwareConfig\x12\x32\n\x0fmain_ro_payload\x18\x01 \x01(\x0b\x32\x19.firmware.FirmwarePayload\x12\x32\n\x0fmain_rw_payload\x18\x02 \x01(\x0b\x32\x19.firmware.FirmwarePayload\x12\x30\n\rec_ro_payload\x18\x03 \x01(\x0b\x32\x19.firmware.FirmwarePayloadBOZMgo.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/protob\x06proto3')
+)
 
-_FIRMWARETYPE = _descriptor.EnumDescriptor(
-  name='FirmwareType',
-  full_name='firmware.FirmwareType',
+
+
+_FIRMWARETYPE_TYPE = _descriptor.EnumDescriptor(
+  name='Type',
+  full_name='firmware.FirmwareType.Type',
   filename=None,
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='FIRMWARE_TYPE_UNKNOWN', index=0, number=0,
+      name='UNKNOWN', index=0, number=0,
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='FIRMWARE_TYPE_MAIN', index=1, number=1,
+      name='MAIN', index=1, number=1,
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='FIRMWARE_TYPE_EC', index=2, number=2,
+      name='EC', index=2, number=2,
       serialized_options=None,
       type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=510,
-  serialized_end=597,
+  serialized_start=92,
+  serialized_end=129,
 )
-_sym_db.RegisterEnumDescriptor(_FIRMWARETYPE)
+_sym_db.RegisterEnumDescriptor(_FIRMWARETYPE_TYPE)
 
-FirmwareType = enum_type_wrapper.EnumTypeWrapper(_FIRMWARETYPE)
-FIRMWARE_TYPE_UNKNOWN = 0
-FIRMWARE_TYPE_MAIN = 1
-FIRMWARE_TYPE_EC = 2
 
+_FIRMWARETYPE = _descriptor.Descriptor(
+  name='FirmwareType',
+  full_name='firmware.FirmwareType',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _FIRMWARETYPE_TYPE,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=76,
+  serialized_end=129,
+)
 
 
 _VERSION = _descriptor.Descriptor(
@@ -91,8 +109,8 @@ _VERSION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=126,
-  serialized_end=165,
+  serialized_start=131,
+  serialized_end=170,
 )
 
 
@@ -104,9 +122,9 @@ _FIRMWAREPAYLOAD = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='build_target', full_name='firmware.FirmwarePayload.build_target', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='build_target_name', full_name='firmware.FirmwarePayload.build_target_name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -119,8 +137,8 @@ _FIRMWAREPAYLOAD = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='type', full_name='firmware.FirmwarePayload.type', index=2,
-      number=3, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -143,8 +161,8 @@ _FIRMWAREPAYLOAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=168,
-  serialized_end=335,
+  serialized_start=173,
+  serialized_end=320,
 )
 
 
@@ -188,21 +206,28 @@ _FIRMWARECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=338,
-  serialized_end=508,
+  serialized_start=323,
+  serialized_end=493,
 )
 
-_FIRMWAREPAYLOAD.fields_by_name['build_target'].message_type = chromite_dot_infra_dot_proto_dot_src_dot_chromiumos_dot_common__pb2._BUILDTARGET
-_FIRMWAREPAYLOAD.fields_by_name['type'].enum_type = _FIRMWARETYPE
+_FIRMWARETYPE_TYPE.containing_type = _FIRMWARETYPE
+_FIRMWAREPAYLOAD.fields_by_name['type'].message_type = _FIRMWARETYPE
 _FIRMWAREPAYLOAD.fields_by_name['version'].message_type = _VERSION
 _FIRMWARECONFIG.fields_by_name['main_ro_payload'].message_type = _FIRMWAREPAYLOAD
 _FIRMWARECONFIG.fields_by_name['main_rw_payload'].message_type = _FIRMWAREPAYLOAD
 _FIRMWARECONFIG.fields_by_name['ec_ro_payload'].message_type = _FIRMWAREPAYLOAD
+DESCRIPTOR.message_types_by_name['FirmwareType'] = _FIRMWARETYPE
 DESCRIPTOR.message_types_by_name['Version'] = _VERSION
 DESCRIPTOR.message_types_by_name['FirmwarePayload'] = _FIRMWAREPAYLOAD
 DESCRIPTOR.message_types_by_name['FirmwareConfig'] = _FIRMWARECONFIG
-DESCRIPTOR.enum_types_by_name['FirmwareType'] = _FIRMWARETYPE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+FirmwareType = _reflection.GeneratedProtocolMessageType('FirmwareType', (_message.Message,), dict(
+  DESCRIPTOR = _FIRMWARETYPE,
+  __module__ = 'src.third_party.chromiumos_overlay.proto.firmware_config_pb2'
+  # @@protoc_insertion_point(class_scope:firmware.FirmwareType)
+  ))
+_sym_db.RegisterMessage(FirmwareType)
 
 Version = _reflection.GeneratedProtocolMessageType('Version', (_message.Message,), dict(
   DESCRIPTOR = _VERSION,
