@@ -25,7 +25,6 @@ RDEPEND="
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
-	chromeos-base/newblue:=
 	net-wireless/bluez:=
 "
 
