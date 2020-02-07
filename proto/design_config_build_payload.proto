@@ -10,8 +10,7 @@ import "src/platform2/bluetooth/proto/config.proto";
 import "src/platform2/chromeos-config/proto/identity_scan_config.proto";
 import "src/platform2/power_manager/config.proto";
 
-// Defines all of the software build and runtime configuation that is unique to
-// a specific hardware design configuration.
+// TODO(shapiroc): Delete after config is migrated.
 message DesignConfigBuildPayload {
   chromeos_config.IdentityScanConfig.DesignConfigId scan_config = 1;
 

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package chromiumos_overlay;
+
+option go_package = "go.chromium.org/chromiumos/config/go/src/third_party/chromiumos-overlay/proto";
+
+import "src/third_party/chromiumos-overlay/proto/audio_config.proto";
+import "src/third_party/chromiumos-overlay/proto/firmware_config.proto";
+import "src/platform2/bluetooth/proto/config.proto";
+import "src/platform2/chromeos-config/proto/identity_scan_config.proto";
+import "src/platform2/power_manager/config.proto";
+
+message BuildPayload {
+  // Determines how to scan for a unique hardware design config.
+  //
+  // And based on that hardware configuriation identity,
+  // defines all of the unique software build and runtime configuration.
+  //
+  // For context, see: config/api/design.proto
+  message DesignConfig {
+    chromeos_config.IdentityScanConfig.DesignConfigId scan_config = 1;
+
+    firmware.FirmwareConfig firmware = 2;
+
+    bluetooth.BluetoothConfig bluetooth_config = 3;
+
+    power_manager.PowerManagerConfig power_manager_config = 4;
+
+    AudioConfig audio_config = 5;
+  }
+
+  // Determines how to scan for a unique device brand.
+  //
+  // And based on that brand identity,
+  // defines all of the unique branding information.
+  //
+  // For context, see: config/api/device_brand.proto
+  message BrandConfig {
+    chromeos_config.IdentityScanConfig.BrandId scan_config = 1;
+
+    // Base filename of the default wallpaper to show on this device.
+    string wallpaper = 2;
+  }
+}

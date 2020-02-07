@@ -9,6 +9,7 @@
 protos=(
     audio_config.proto
     brand_config.proto
+    build_payload.proto
     build_target.proto
     build_target_id.proto
     design_config_build_payload.proto
