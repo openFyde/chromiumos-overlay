@@ -1,8 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Google text-to-speech engine
-EAPI=6
-KEYWORDS=*
-LICENSE=BSD
-SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles/googletts-12.tar.xz
-_md5_=57e5697a43517d29c1fd3c60c048fbd2
