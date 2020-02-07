@@ -87,13 +87,51 @@ src_test() {
 }
 
 src_install() {
-	default
+	# TODO(crbug/1019578): Identify unneeded files and remove from
+	# installation.
 
-	dobin tools/btmgmt tools/btgatt-client tools/btgatt-server
+	# Install command-line tools
+	dobin client/bluetoothctl
+	dobin monitor/btmon
+	dobin tools/bccmd
+	dobin tools/bluemoon
+	dobin tools/btattach
+	dobin tools/btgatt-client
+	dobin tools/btgatt-server
+	dobin tools/btmgmt
+	dobin tools/hciconfig
+	dobin tools/hcitool
+	dobin tools/hex2hcd
+	dobin tools/l2ping
+	dobin tools/l2test
+	dobin tools/mpris-proxy
+	dobin tools/rctest
+
+	# Install scripts
 	dobin "${FILESDIR}/dbus_send_blutooth_class.awk"
 	dobin "${FILESDIR}/get_bluetooth_device_class.sh"
 	dobin "${FILESDIR}/start_bluetoothd.sh"
 	dobin "${FILESDIR}/start_bluetoothlog.sh"
+
+	# Install daemons
+	exeinto /usr/libexec/bluetooth
+	doexe src/bluetoothd
+	doexe obexd/src/obexd
+
+	# Install development library files
+	insinto /usr/include/bluetooth
+	doins lib/*.h
+	insinto /usr/"$(get_libdir)"/pkgconfig
+	doins lib/bluez.pc
+
+	# Install shared library files
+	dolib.so lib/.libs/libbluetooth.so
+	dolib.so lib/.libs/libbluetooth.so.3
+	dolib.so lib/.libs/libbluetooth.so.3.18.15
+
+	# Install plugin library files
+	exeinto /usr/"$(get_libdir)"/bluetooth/plugins
+	doexe plugins/.libs/sixaxis.so
 
 	# Install init scripts.
 	if use systemd; then
@@ -106,6 +144,14 @@ src_install() {
 		newins "${FILESDIR}/bluetoothlog-upstart.conf" bluetoothlog.conf
 	fi
 
+	# Install D-Bus config
+	insinto /etc/dbus-1/system.d
+	doins src/bluetooth.conf
+
+	# Install udev files
+	exeinto /lib/udev
+	doexe tools/hid2hci
+	udev_newrules "tools/hid2hci.rules" "97-hid2hci.rules"
 	udev_dorules "${FILESDIR}/99-uhid.rules"
 	udev_dorules "${FILESDIR}/99-ps3-gamepad.rules"
 	udev_dorules "${FILESDIR}/99-bluetooth-quirks.rules"
