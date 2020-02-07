@@ -8,7 +8,6 @@ CROS_WORKON_TREE="0b6795d2671c45afb88b1183819224df71dece1d"
 CROS_WORKON_PROJECT="chromiumos/platform/minigbm"
 CROS_WORKON_LOCALNAME="../platform/minigbm"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-sanitizers cros-workon cros-common.mk toolchain-funcs multilib
 
