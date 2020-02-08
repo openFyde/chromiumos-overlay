@@ -4,10 +4,10 @@ DEPEND=dev-libs/openssl:0=
 DESCRIPTION=TPM2.0 library
 EAPI=7
 HOMEPAGE=http://www.chromium.org/
-IUSE=cros_host cros_workon_tree_87e39cb12ae271131e61ca6d7500222f2cba380b
+IUSE=cros_host cros_workon_tree_af8c38a147ac8f1b3e4c21212b5976bdb51c34aa
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-SLOT=0/0.0.1-r119
+SLOT=0/0.0.1-r120
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=1f124d041705ee1b973f5a5ca0c7d336
+_md5_=a35f621dae48adb9171a84825e9c4f7c
