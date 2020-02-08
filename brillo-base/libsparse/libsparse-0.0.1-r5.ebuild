@@ -11,9 +11,7 @@ CROS_WORKON_LOCALNAME="platform/core"
 CROS_WORKON_PROJECT="platform/system/core"
 CROS_WORKON_REPO="https://android.googlesource.com"
 
-PYTHON_COMPAT=( python2_7 )
-
-inherit cros-workon multilib python-single-r1
+inherit cros-workon multilib
 
 DESCRIPTION="Library and cli tools for Android sparse files"
 HOMEPAGE="https://android.googlesource.com/platform/system/core"
@@ -23,7 +21,6 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	${PYTHON_DEPS}
 	sys-libs/zlib
 "
 DEPEND="
@@ -43,10 +40,4 @@ src_configure() {
 	cros-workon_src_configure
 	export GENTOO_LIBDIR=$(get_libdir)
 	tc-export CC
-}
-
-src_install() {
-	default
-
-	python_doscript simg_dump.py
 }

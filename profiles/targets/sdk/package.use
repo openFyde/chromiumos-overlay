@@ -112,7 +112,6 @@ dev-libs/boost -python
 # here as new code should be using Python 3.
 # TODO(crbug.com/1007152): Trim this entirely!
 app-portage/gentoolkit python_targets_python2_7
-brillo-base/libsparse python_targets_python2_7
 chromeos-base/chromite-sdk python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 dev-embedded/libftdi python_targets_python2_7
