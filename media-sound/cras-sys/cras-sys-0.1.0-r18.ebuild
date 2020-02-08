@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="1866da43a41e42dab151b6f4075c243090af5165"
-CROS_WORKON_TREE="2c5c3dadf4cbfcfb5e1686b8489f592544935dcf"
+CROS_WORKON_COMMIT="16bb16470dbf2dc3bd2d04b9669f1781654b1ed3"
+CROS_WORKON_TREE="c8775f77b15728d0671ad9c1920c6790744be341"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras-sys/Cargo.toml is
@@ -23,6 +23,7 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/data_model:=
+	media-sound/audio_streams:=
 "
 
 RDEPEND="!<=media-sound/cras-sys-0.1.0-r10"
