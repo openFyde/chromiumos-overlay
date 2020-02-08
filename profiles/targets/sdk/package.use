@@ -203,7 +203,6 @@ dev-python/pyelftools python_targets_python2_7
 dev-python/pyflakes python_targets_python2_7
 dev-python/pygments python_targets_python2_7
 dev-python/pygobject python_targets_python2_7
-dev-python/pyinotify python_targets_python2_7
 dev-python/pylint python_targets_python2_7
 dev-python/pynacl python_targets_python2_7
 dev-python/pyopenssl python_targets_python2_7

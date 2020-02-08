@@ -181,7 +181,6 @@ RDEPEND="${RDEPEND}
 	dev-python/pycairo
 	dev-python/pycparser
 	dev-python/pygobject
-	dev-python/pyinotify
 	dev-python/pyopenssl
 	dev-python/pytest
 	dev-python/python-evdev
