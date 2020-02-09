@@ -1,12 +1,13 @@
-BDEPEND=dev-vcs/git
-DEFINED_PHASES=info setup unpack
-DESCRIPTION=Compilation and runtime tests for toolchain
-EAPI=7
-HOMEPAGE=http://www.chromium.org/
-IUSE=cros_host cros_workon_tree_c3d45d81667ec478781ca5565dc20dedeb26ecb1
+DEFINED_PHASES=configure info install prepare setup unpack
+DEPEND=dev-vcs/git
+DESCRIPTION=Autotest server web frontend
+EAPI=4
+HOMEPAGE=http://dev.chromium.org/chromium-os/testing
+IUSE=cros_host cros_workon_tree_3be3eb67f86b708ed2a3e7295f6be9e207e7455b
 KEYWORDS=*
-LICENSE=BSD-Google
+LICENSE=GPL-2
 PROPERTIES=live
-SLOT=0/0.0.1-r2239
+RDEPEND=!<=chromeos-base/autotest-server-0.0.1-r1260
+SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=8966704f3d27f8b7d9710d3294d1234c
+_md5_=c6d271cf59435706129b4749c6e5b8b2
