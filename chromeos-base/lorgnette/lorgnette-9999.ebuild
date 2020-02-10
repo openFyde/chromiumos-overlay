@@ -47,6 +47,8 @@ src_install() {
 	doins dbus_permissions/org.chromium.lorgnette.conf
 	insinto /usr/share/dbus-1/system-services
 	doins dbus_service/org.chromium.lorgnette.service
+	insinto /etc/init
+	doins init/lorgnette.conf
 }
 
 platform_pkg_test() {
