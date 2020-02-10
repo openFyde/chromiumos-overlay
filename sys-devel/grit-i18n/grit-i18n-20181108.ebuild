@@ -1,7 +1,7 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI="7"
 PYTHON_COMPAT=( python2_7 )
 
 inherit python-single-r1
