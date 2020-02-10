@@ -35,6 +35,9 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.VirtualFileProvider.conf
 
+	insinto /etc/init
+	doins init/virtual-file-provider.conf
+
 	insinto /usr/share/dbus-1/system-services
 	doins org.chromium.VirtualFileProvider.service
 }
