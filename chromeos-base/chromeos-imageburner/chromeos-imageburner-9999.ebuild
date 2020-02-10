@@ -38,6 +38,9 @@ src_install() {
 
 	insinto /usr/share/dbus-1/system-services
 	doins org.chromium.ImageBurner.service
+
+	insinto /etc/init
+	doins init/image-burner.conf
 }
 
 platform_pkg_test() {
