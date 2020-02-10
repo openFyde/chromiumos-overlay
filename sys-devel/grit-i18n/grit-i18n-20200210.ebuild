@@ -14,7 +14,7 @@ inherit python-single-r1
 #     chromeos-localmirror/distfiles
 #  4. Rename the ebuild, using the date corresponding to ${GIT_SHA1}'s commit
 #     time stamp as the new version.
-GIT_SHA1="9042916f9da0493c759bff0b644a6eb11b385fb1"
+GIT_SHA1="73253b76da834152a7cfa76f6b4208694febf4d5"
 SRC_URI="gs://chromeos-localmirror/distfiles/${PN}-${GIT_SHA1}.tar.gz"
 
 DESCRIPTION="GRIT - Google Resource and Internationalization Tool"
@@ -29,6 +29,10 @@ DEPEND="${PYTHON_DEPS}"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}"
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-revert-diags.patch
+)
 
 src_install() {
 	python_domodule grit
