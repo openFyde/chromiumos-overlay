@@ -75,9 +75,10 @@ src_install() {
 	insinto /usr/share/cros-disks
 	doins usb-device-info
 
-	# Install seccomp policy file.
+	# Install seccomp policy files.
 	insinto /usr/share/policy
 	use seccomp && newins avfsd-seccomp-${ARCH}.policy avfsd-seccomp.policy
+	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 
 	# Install upstart config file.
 	insinto /etc/init
