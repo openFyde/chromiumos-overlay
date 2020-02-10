@@ -49,7 +49,7 @@ src_configure() {
 
 src_compile() {
 	tc-export CC
-	emake CFLAGS="-Wall ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}"
+	emake CFLAGS="-Wall -Werror ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}"
 }
 
 src_install() {
