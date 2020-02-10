@@ -187,6 +187,7 @@ src_install() {
 
 	insinto /usr/include/base-"${SLOT}"/base/test
 	doins \
+		base/test/bind_test_util.h \
 		base/test/simple_test_clock.h \
 		base/test/simple_test_tick_clock.h \
 		base/test/test_mock_time_task_runner.h \
