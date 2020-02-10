@@ -1,0 +1,141 @@
+Sanitizer runtimes are currently behind the `-Z` flag, which is only available
+on nightly builds of the compiler.  We would like to enable fuzzing on chrome
+os anyway so move the sanitizer option under `-C` instead since we don't build
+the toolchain in nightly mode.
+
+diff --git a/src/librustc_codegen_llvm/attributes.rs b/src/librustc_codegen_llvm/attributes.rs
+index 5479a1f3144..1d9c5436e91 100644
+--- a/src/librustc_codegen_llvm/attributes.rs
++++ b/src/librustc_codegen_llvm/attributes.rs
+@@ -100,7 +100,7 @@ fn set_probestack(cx: &CodegenCx<'ll, '_>, llfn: &'ll Value) {
+     // Currently stack probes seem somewhat incompatible with the address
+     // sanitizer and thread sanitizer. With asan we're already protected from
+     // stack overflow anyway so we don't really need stack probes regardless.
+-    match cx.sess().opts.debugging_opts.sanitizer {
++    match cx.sess().opts.cg.sanitizer {
+         Some(Sanitizer::Address) |
+         Some(Sanitizer::Thread) => return,
+         _ => {},
+diff --git a/src/librustc_codegen_llvm/declare.rs b/src/librustc_codegen_llvm/declare.rs
+index 5144b92ea10..dc7b657f795 100644
+--- a/src/librustc_codegen_llvm/declare.rs
++++ b/src/librustc_codegen_llvm/declare.rs
+@@ -50,7 +50,7 @@ fn declare_raw_fn(
+         llvm::Attribute::NoRedZone.apply_llfn(Function, llfn);
+     }
+ 
+-    if let Some(ref sanitizer) = cx.tcx.sess.opts.debugging_opts.sanitizer {
++    if let Some(ref sanitizer) = cx.tcx.sess.opts.cg.sanitizer {
+         match *sanitizer {
+             Sanitizer::Address => {
+                 llvm::Attribute::SanitizeAddress.apply_llfn(Function, llfn);
+diff --git a/src/librustc_codegen_ssa/back/link.rs b/src/librustc_codegen_ssa/back/link.rs
+index a2b50ea8e2b..a448ab076d2 100644
+--- a/src/librustc_codegen_ssa/back/link.rs
++++ b/src/librustc_codegen_ssa/back/link.rs
+@@ -490,7 +490,7 @@ fn link_natively<'a, B: ArchiveBuilder<'a>>(sess: &'a Session,
+     cmd.args(&sess.opts.debugging_opts.pre_link_arg);
+ 
+     if sess.target.target.options.is_like_fuchsia {
+-        let prefix = match sess.opts.debugging_opts.sanitizer {
++        let prefix = match sess.opts.cg.sanitizer {
+             Some(Sanitizer::Address) => "asan/",
+             _ => "",
+         };
+diff --git a/src/librustc_codegen_ssa/back/write.rs b/src/librustc_codegen_ssa/back/write.rs
+index 283295cadfc..0f5a849c958 100644
+--- a/src/librustc_codegen_ssa/back/write.rs
++++ b/src/librustc_codegen_ssa/back/write.rs
+@@ -357,7 +357,7 @@ pub fn start_async_codegen<B: ExtraBackendMethods>(
+ 
+     modules_config.pgo_gen = sess.opts.cg.profile_generate.clone();
+     modules_config.pgo_use = sess.opts.cg.profile_use.clone();
+-    modules_config.sanitizer = sess.opts.debugging_opts.sanitizer.clone();
++    modules_config.sanitizer = sess.opts.cg.sanitizer.clone();
+     modules_config.sanitizer_recover = sess.opts.debugging_opts.sanitizer_recover.clone();
+     modules_config.sanitizer_memory_track_origins =
+         sess.opts.debugging_opts.sanitizer_memory_track_origins;
+diff --git a/src/librustc_metadata/creader.rs b/src/librustc_metadata/creader.rs
+index 0a0f2560b99..b4bcb0e95f6 100644
+--- a/src/librustc_metadata/creader.rs
++++ b/src/librustc_metadata/creader.rs
+@@ -641,15 +641,23 @@ impl<'a> CrateLoader<'a> {
+     }
+ 
+     fn inject_sanitizer_runtime(&mut self) {
+-        if let Some(ref sanitizer) = self.sess.opts.debugging_opts.sanitizer {
++        if let Some(ref sanitizer) = self.sess.opts.cg.sanitizer {
+             // Sanitizers can only be used on some tested platforms with
+             // executables linked to `std`
+             const ASAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu",
++                                                      "x86_64-cros-linux-gnu",
++                                                      "x86_64-pc-linux-gnu",
+                                                       "x86_64-apple-darwin"];
+             const TSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu",
++                                                      "x86_64-cros-linux-gnu",
++                                                      "x86_64-pc-linux-gnu",
+                                                       "x86_64-apple-darwin"];
+-            const LSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu"];
+-            const MSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu"];
++            const LSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu",
++                                                      "x86_64-cros-linux-gnu",
++                                                      "x86_64-pc-linux-gnu"];
++            const MSAN_SUPPORTED_TARGETS: &[&str] = &["x86_64-unknown-linux-gnu",
++                                                      "x86_64-cros-linux-gnu",
++                                                      "x86_64-pc-linux-gnu"];
+ 
+             let supported_targets = match *sanitizer {
+                 Sanitizer::Address => ASAN_SUPPORTED_TARGETS,
+@@ -668,7 +676,7 @@ impl<'a> CrateLoader<'a> {
+             // firstyear 2017 - during testing I was unable to access an OSX machine
+             // to make this work on different crate types. As a result, today I have
+             // only been able to test and support linux as a target.
+-            if self.sess.opts.target_triple.triple() == "x86_64-unknown-linux-gnu" {
++            if self.sess.opts.target_triple.triple() != "x86_64-apple-darwin" {
+                 if !self.sess.crate_types.borrow().iter().all(|ct| {
+                     match *ct {
+                         // Link the runtime
+diff --git a/src/librustc_session/config.rs b/src/librustc_session/config.rs
+index 7f3bab8f232..d033ea821ac 100644
+--- a/src/librustc_session/config.rs
++++ b/src/librustc_session/config.rs
+@@ -1309,6 +1309,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
+         "allow the linker to link its default libraries"),
+     linker_flavor: Option<LinkerFlavor> = (None, parse_linker_flavor, [UNTRACKED],
+                                            "linker flavor"),
++    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
++                                    "use a sanitizer"),
+     linker_plugin_lto: LinkerPluginLto = (LinkerPluginLto::Disabled,
+         parse_linker_plugin_lto, [TRACKED],
+         "generate build artifacts that are compatible with linker-based LTO."),
+@@ -1470,8 +1472,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
+         "take the breaks off const evaluation. NOTE: this is unsound"),
+     osx_rpath_install_name: bool = (false, parse_bool, [TRACKED],
+         "pass `-install_name @rpath/...` to the macOS linker"),
+-    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
+-                                    "use a sanitizer"),
+     sanitizer_recover: Vec<Sanitizer> = (vec![], parse_sanitizer_list, [TRACKED],
+         "Enable recovery for selected sanitizers"),
+     sanitizer_memory_track_origins: usize = (0, parse_sanitizer_memory_track_origins, [TRACKED],
+@@ -1632,7 +1632,7 @@ pub fn default_configuration(sess: &Session) -> CrateConfig {
+             }
+         }
+     }
+-    if let Some(s) = &sess.opts.debugging_opts.sanitizer {
++    if let Some(s) = &sess.opts.cg.sanitizer {
+         let symbol = Symbol::intern(&s.to_string());
+         ret.insert((sym::sanitize, Some(symbol)));
+     }
+diff --git a/src/librustc_session/session.rs b/src/librustc_session/session.rs
+index 150d207e5bf..faa4ea4439d 100644
+--- a/src/librustc_session/session.rs
++++ b/src/librustc_session/session.rs
+@@ -555,7 +555,7 @@ impl Session {
+             || self.opts.output_types.contains_key(&OutputType::Bitcode);
+ 
+         // Address sanitizer and memory sanitizer use alloca name when reporting an issue.
+-        let more_names = match self.opts.debugging_opts.sanitizer {
++        let more_names = match self.opts.cg.sanitizer {
+             Some(Sanitizer::Address) => true,
+             Some(Sanitizer::Memory) => true,
+             _ => more_names,
