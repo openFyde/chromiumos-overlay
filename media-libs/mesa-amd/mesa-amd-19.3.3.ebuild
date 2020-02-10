@@ -129,6 +129,8 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Clear-uninitialized-variable.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-report-that-multi-plane-formats-are-s.patch
+
 	default
 }
 
