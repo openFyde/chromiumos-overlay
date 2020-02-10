@@ -632,9 +632,10 @@ src_compile() {
 src_install() {
 	# Install to chrome folder to remind people this is chrome's icu.
 	local build_dir="src/${BUILD_OUT_SYM}/${BUILDTYPE}"
-	into "${CHROME_DIR}"
-	dolib.so "${build_dir}${CHROME_DIR}/libicui18n.so"
-	dolib.so "${build_dir}${CHROME_DIR}/libicuuc.so"
+	exeinto "${CHROME_DIR}"
+	doexe "${build_dir}/libicui18n.so"
+	doexe "${build_dir}/libicuuc.so"
+	insinto "${CHROME_DIR}"
 	doins "${build_dir}/icudtl.dat"
 
 	# Make symlinks of icu libraries in /usr/lib{32,64} to let others use it.
