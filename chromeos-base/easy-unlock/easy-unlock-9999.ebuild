@@ -47,6 +47,9 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins org.chromium.EasyUnlock.service
 
+	insinto /etc/init
+	doins init/easy-unlock.conf
+
 	insinto /usr/share/dbus-1/interfaces
 	doins dbus_bindings/org.chromium.EasyUnlockInterface.xml
 }
