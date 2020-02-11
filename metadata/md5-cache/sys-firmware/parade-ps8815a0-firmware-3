@@ -1,0 +1,10 @@
+DEFINED_PHASES=install
+DEPEND=!sys-boot/chromeos-firmware-ps8815
+DESCRIPTION=PS8815-A0 Firmware Binary
+EAPI=6
+KEYWORDS=*
+LICENSE=Google-TOS
+RDEPEND=!sys-boot/chromeos-firmware-ps8815
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/parade-ps8815a0-firmware-3.tar.xz
+_md5_=6d6f15495d4d6445cbc8d9c0bc26b97a
