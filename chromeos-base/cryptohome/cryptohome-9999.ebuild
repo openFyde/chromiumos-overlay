@@ -26,7 +26,7 @@ KEYWORDS="~*"
 # attestation for 1.2 devices.
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption distributed_cryptohome double_extend_pcr_issue fuzzer
-	pinweaver selinux systemd test tpm tpm2"
+	pinweaver selinux systemd test tpm tpm2 user_session_isolation"
 
 REQUIRED_USE="
 	device_mapper
