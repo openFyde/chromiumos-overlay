@@ -191,7 +191,6 @@ RDEPEND="${RDEPEND}
 	dev-python/pyopenssl
 	dev-python/pytest
 	dev-python/python-evdev
-	dev-python/python-uinput
 	dev-python/pyudev
 	dev-python/pyusb
 	dev-python/setproctitle
