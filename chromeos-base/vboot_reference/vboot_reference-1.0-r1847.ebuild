@@ -64,7 +64,7 @@ src_compile() {
 	cros-debug-add-NDEBUG
 	# vboot_reference knows the flags to use
 	unset CFLAGS
-	vemake BUILD="${WORKDIR}"/build-main $(usex fuzzer fuzzers all)
+	vemake BUILD="${WORKDIR}"/build-main all $(usex fuzzer fuzzers '')
 }
 
 src_test() {
@@ -73,14 +73,6 @@ src_test() {
 }
 
 src_install() {
-	if use fuzzer; then
-		einfo "Installing fuzzers"
-		fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/cgpt_fuzzer
-		fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_keyblock_fuzzer
-		fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_preamble_fuzzer
-		return
-	fi
-
 	einfo "Installing programs"
 	vemake \
 		BUILD="${WORKDIR}"/build-main \
@@ -117,4 +109,11 @@ src_install() {
 
 	einfo "Installing host library"
 	dolib.a "${WORKDIR}"/build-main/libvboot_host.a
+
+	if use fuzzer; then
+		einfo "Installing fuzzers"
+		fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/cgpt_fuzzer
+		fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_keyblock_fuzzer
+		fuzzer_install "${S}"/OWNERS "${WORKDIR}"/build-main/tests/vb2_preamble_fuzzer
+	fi
 }
