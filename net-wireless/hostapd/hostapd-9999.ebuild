@@ -46,12 +46,6 @@ src_unpack() {
 	S+="/hostapd"
 }
 
-src_prepare() {
-	cros-workon_src_prepare
-	sed -i -e "s:/etc/hostapd:/etc/hostapd/hostapd:g" \
-		"${S}/hostapd.conf" || die
-}
-
 src_configure() {
 	local CONFIG="${S}/.config"
 	cros-workon_src_configure
@@ -186,11 +180,6 @@ src_compile() {
 }
 
 src_install() {
-	insinto /etc/${PN}
-	doins ${PN}.{conf,accept,deny,eap_user,radius_clients,sim_db,wpa_psk}
-
-	fperms -R 600 /etc/${PN}
-
 	dosbin ${PN}
 	dobin ${PN}_cli
 
