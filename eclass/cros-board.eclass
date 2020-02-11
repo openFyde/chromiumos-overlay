@@ -391,12 +391,12 @@ ALL_BOARDS=(
 	veyron_gus
 	veyron_jaq
 	veyron_jerry
-	veyron_jerry-kernelnext
+	#veyron_jerry-kernelnext
 	veyron_mickey
 	veyron_mighty
 	veyron_minnie
 	veyron_minnie-cheets
-	veyron_minnie-kernelnext
+	#veyron_minnie-kernelnext
 	veyron_nicky
 	veyron_pinky
 	veyron_remy
