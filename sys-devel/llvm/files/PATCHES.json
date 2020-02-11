@@ -80,5 +80,17 @@
         "rel_patch_path": "cherry/b4b904e19bb356724b2c6aea0199ce05c6f15cdb.patch",
         "start_version": 380035,
         "end_version": 380480
+    },
+    {
+        "comment": "[LLD][ELF][ARM] Do not insert interworking thunks for non STT_FUNC symbols",
+        "rel_patch_path": "cherry/4f38ab250ff4680375c4c01db0a88c157093c665.patch",
+        "start_version": 380035,
+        "end_version": 382696
+    },
+    {
+        "comment": "Make llvm::crc32() work also for input sizes larger than 32 bits",
+        "rel_patch_path": "cherry/6c4a8bc0a9f6a466d90d542bef66d69550c1b041.patch",
+        "start_version": 380035,
+        "end_version": 383698
     }
 ]
