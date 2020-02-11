@@ -23,5 +23,7 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="dev-go/crypto:="
+DEPEND="
+	dev-go/crypto:=
+	dev-go/gapi-googleapi:="
 RDEPEND=""
