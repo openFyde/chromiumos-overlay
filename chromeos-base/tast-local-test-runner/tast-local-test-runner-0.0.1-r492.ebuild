@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CROS_WORKON_COMMIT="cafb1e549e159a44d99a66ddc98d78ebd89d8da3"
 CROS_WORKON_TREE="ae511ffd19b0dc71153f67ca95f6957b593e9cd9"
 CROS_WORKON_PROJECT="chromiumos/platform/tast"
@@ -24,12 +24,12 @@ DESCRIPTION="Runner for local integration tests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE=""
 
 # Build-time dependencies should be added to tast-build-deps, not here.
-DEPEND="chromeos-base/tast-build-deps"
+DEPEND="chromeos-base/tast-build-deps:="
 
 RDEPEND="
 	app-arch/tar
