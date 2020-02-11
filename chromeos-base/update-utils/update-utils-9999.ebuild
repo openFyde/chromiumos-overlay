@@ -31,20 +31,6 @@ src_compile() { :; }
 src_install() {
 	into /usr/local
 	dobin nebraska/nebraska.py
-	dobin stateful_update
-	dobin quick-provision/quick-provision
-
-	# Install the nebraska as a library too to be used by autotests.
-	install_nebraska() {
-		# TODO(crbug.com/771085): Clear the SYSROOT var as python will
-		# use that to define the sitedir which means we end up
-		# installing into a path like /build/$BOARD/build/$BOARD/xxx.
-		# This is a bug in the core python logic, but this is breaking
-		# moblab, so hack it for now.
-		insinto "$(python_get_sitedir | sed "s:^${SYSROOT}::")/nebraska"
-		doins "nebraska/nebraska.py"
-	}
-	python_foreach_impl install_nebraska
 }
 
 src_test() {
