@@ -16,6 +16,7 @@ KEYWORDS="*"
 DEPEND="
 	>=dev-rust/futures-channel-0.3.1:= <dev-rust/futures-channel-0.4
 	>=dev-rust/futures-core-0.3.1:= <dev-rust/futures-core-0.4
+	>=dev-rust/futures-executor-0.3.1:= <dev-rust/futures-executor-0.4
 	>=dev-rust/futures-util-0.3.1:= <dev-rust/futures-util-0.4
 	>=dev-rust/futures-sink-0.3.1:= <dev-rust/futures-sink-0.4
 	>=dev-rust/futures-macro-0.3.1:= <dev-rust/futures-macro-0.4
