@@ -35,7 +35,7 @@ ALL_BOARDS=(
 	amd64-generic-goofy
 	amd64-generic_embedded
 	#amd64-generic_freon
-	amd64-generic_mobbuild
+	#amd64-generic_mobbuild
 	amd64-host
 	#anglar
 	aplrvp
@@ -225,7 +225,7 @@ ALL_BOARDS=(
 	kunimitsu
 	lakitu
 	lakitu-gpu
-	lakitu_mobbuild
+	#lakitu_mobbuild
 	lakitu-nc
 	lakitu_next
 	lakitu-slice
