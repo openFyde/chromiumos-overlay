@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ec86b641e2e953139b900195c84acbce7089b81c"
-CROS_WORKON_TREE="57854e815083edc5ebb5e11cc0cf08eba8f0df83"
+CROS_WORKON_COMMIT="045e8127f44a5671922d0c0c8aebb5cb9afefc06"
+CROS_WORKON_TREE="eed3f172805ff13f143d7f8b86ed227083f17bc5"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="vm_tools/chunnel"
@@ -29,7 +29,7 @@ DEPEND="
 	=dev-rust/protobuf-2*:=
 	=dev-rust/protoc-rust-2*:=
 	=dev-rust/tempfile-3*:=
-	dev-rust/remain:=
+	=dev-rust/remain-0.2*:=
 	sys-apps/dbus:=
 "
 
