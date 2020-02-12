@@ -123,6 +123,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/0013-GL_OVR_multiview-entry-points.patch
 	epatch "${FILESDIR}"/0014-Add-OVR_multiview_multisampled_render_to_texture.patch
 	epatch "${FILESDIR}"/0019-egl-automatically-call-eglReleaseThread-on-thread-te.patch
+	epatch "${FILESDIR}"/0040-GL_EXT_clip_control-entry-point.patch
 	epatch "${FILESDIR}"/0047-mapi-gen-always-use-offsets-from-static-data.patch
 
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
