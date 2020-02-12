@@ -85,7 +85,7 @@ cros-ec-merge-ro_src_install() {
 	local target="${FIRMWARE_EC_BOARD}"
 
 	local firmware_bin_dir="$(readlink -f \
-		"${S}/private/fingerprint/fpc/firmware-bin" || die)"
+		"${S}/private/fingerprint/fpc/firmware-bin")"
 
 	if [[ ! -d "${firmware_bin_dir}" ]]; then
 		einfo "No RO firmware found. This is expected in a public build."
