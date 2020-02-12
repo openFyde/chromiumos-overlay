@@ -1,5 +1,5 @@
 DEFINED_PHASES=configure install postinst prepare prerm unpack
-DEPEND==dev-rust/compiletest_rs-0.3*:= =dev-rust/proc-macro2-0.4*:= =dev-rust/quote-0.6*:= =dev-rust/syn-0.15*:= =dev-rust/version_check-0.1*:= >=virtual/rust-1.39.0:=
+DEPEND==dev-rust/proc-macro2-1*:= =dev-rust/quote-1*:= =dev-rust/syn-1*:= >=virtual/rust-1.39.0:=
 DESCRIPTION=Compile-time checks that an enum or match is written in sorted order
 EAPI=6
 HOMEPAGE=https://github.com/dtolnay/remain
@@ -7,7 +7,7 @@ IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan 
 KEYWORDS=*
 LICENSE=|| ( MIT Apache-2.0 )
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0.1.2/r0
-SRC_URI=https://crates.io/api/v1/crates/remain/0.1.2/download -> remain-0.1.2.crate
+SLOT=0.2.1/r0
+SRC_URI=https://crates.io/api/v1/crates/remain/0.2.1/download -> remain-0.2.1.crate
 _eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	07f3be197d862e5511a5605fd7b169e5	cros-sanitizers	68fd6af9813658a590887ca09efa2444	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=a6f81c5939ac83a8f6cd2550280db29d
+_md5_=822acba8f91b6e73aebe2601d7660332
