@@ -4,6 +4,7 @@
 EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform/dm-verity"
+CROS_WORKON_LOCALNAME="platform/verity"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
 inherit cros-workon cros-common.mk

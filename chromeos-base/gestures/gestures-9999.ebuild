@@ -3,6 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/gestures"
+CROS_WORKON_LOCALNAME="platform/gestures"
 CROS_WORKON_USE_VCSID=1
 
 inherit toolchain-funcs multilib cros-debug cros-sanitizers cros-workon

@@ -3,6 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/vpd"
+CROS_WORKON_LOCALNAME="platform/vpd"
 
 inherit cros-workon systemd
 

@@ -7,8 +7,8 @@ CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast"
 )
 CROS_WORKON_LOCALNAME=(
-	"tast-tests"
-	"tast"
+	"platform/tast-tests"
+	"platform/tast"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}"
