@@ -200,6 +200,7 @@ dev-python/pygments python_targets_python2_7
 dev-python/pygobject python_targets_python2_7
 dev-python/pylint python_targets_python2_7
 dev-python/pyopenssl python_targets_python2_7
+dev-python/pyparsing python_targets_python2_7
 dev-python/py python_targets_python2_7
 dev-python/pyserial python_targets_python2_7
 dev-python/pyshark python_targets_python2_7
