@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="9ea19a28a55fc2c485a2a5b7d53a7f68777aece4"
+CROS_WORKON_COMMIT="9bc2287bf555fb933ad8d5431b153db74eb9cd72"
 CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "aa62ffb63e2c2b68bb788a980a68d79c9450f97f" "ff56413cdc83473e5915a8ad37cd18348f77fca9" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,7 +28,7 @@ KEYWORDS="*"
 # attestation for 1.2 devices.
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption distributed_cryptohome double_extend_pcr_issue fuzzer
-	pinweaver selinux systemd test tpm tpm2"
+	pinweaver selinux systemd test tpm tpm2 user_session_isolation"
 
 REQUIRED_USE="
 	device_mapper
