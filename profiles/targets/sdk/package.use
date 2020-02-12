@@ -208,7 +208,6 @@ dev-python/pytest python_targets_python2_7
 dev-python/python-dateutil python_targets_python2_7
 dev-python/python-evdev python_targets_python2_7
 dev-python/python-gnupg python_targets_python2_7
-dev-python/python-statsd python_targets_python2_7
 dev-python/python-uinput python_targets_python2_7
 dev-python/pytz python_targets_python2_7
 dev-python/pyu2f python_targets_python2_7
