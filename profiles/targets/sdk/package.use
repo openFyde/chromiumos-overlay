@@ -108,6 +108,7 @@ dev-lang/ruby -rdoc
 
 # We don't need Python in these packages, so save some space.
 dev-libs/boost -python
+sys-apps/dtc -python
 
 # Freeze Python 2.7 versions for all existing packages.  We'll slowly trim this
 # list down as packages don't need them.  New packages should *not* be added
@@ -248,7 +249,6 @@ dev-python/zope-interface python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 dev-util/scons python_targets_python2_7
 net-libs/nodejs python_targets_python2_7
-sys-apps/dtc python_targets_python2_7
 sys-apps/file python_targets_python2_7
 sys-apps/flashmap python_targets_python2_7
 sys-apps/portage python_targets_python2_7

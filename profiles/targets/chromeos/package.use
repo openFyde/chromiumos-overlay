@@ -341,7 +341,6 @@ net-print/cups python_targets_python2_7
 net-print/hplip python_targets_python2_7
 sci-geosciences/gpsd python_targets_python2_7
 sci-libs/tensorflow python_targets_python2_7
-sys-apps/dtc python_targets_python2_7
 sys-apps/file python_targets_python2_7
 sys-apps/fwupd python_targets_python2_7
 sys-apps/i2c-tools python_targets_python2_7
