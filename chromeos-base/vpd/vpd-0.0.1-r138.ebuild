@@ -5,6 +5,7 @@ EAPI=7
 CROS_WORKON_COMMIT="127c5e645a90adbfca7f7a080ace19d9b992eee4"
 CROS_WORKON_TREE="8de3bf11a8040efbd53dd06a2bc7cc7af01eed50"
 CROS_WORKON_PROJECT="chromiumos/platform/vpd"
+CROS_WORKON_LOCALNAME="platform/vpd"
 
 inherit cros-workon systemd
 
