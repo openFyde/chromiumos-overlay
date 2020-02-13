@@ -15,8 +15,8 @@ KEYWORDS="*"
 
 DEPEND="
 	=dev-rust/proc-macro2-0.4*:=
-	>=dev-rust/quote-0.6.3:=
-	>=dev-rust/syn-0.15.22:=
+	>=dev-rust/quote-0.6.3:= <dev-rust/quote-0.7
+	>=dev-rust/syn-0.15.22:= <dev-rust/syn-0.16
 "
 
 src_prepare() {
