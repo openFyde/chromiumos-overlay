@@ -127,6 +127,7 @@ ALL_BOARDS=(
 	danger
 	danger_embedded
 	dedede
+	deltaur
 	#derwent
 	#dragonegg
 	drallion
