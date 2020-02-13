@@ -209,6 +209,7 @@ IUSE_TESTS=(
 	+tests_policy_WilcoOnNonWilcoDevice
 	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
+	+tests_power_BatteryDrain
 	+tests_power_Consumption
 	+tests_power_Display
 	+tests_power_FlashVideoSuspend
@@ -216,6 +217,8 @@ IUSE_TESTS=(
 	+tests_power_IdleSuspend
 	+tests_power_LoadTest
 	+tests_power_LowMemorySuspend
+	+tests_power_Speedometer2
+	+tests_power_ThermalLoad
 	+tests_power_UiResume
 	+tests_power_VideoCall
 	+tests_power_VideoDetector

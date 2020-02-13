@@ -53,6 +53,7 @@ IUSE_TESTS="
 		+tests_power_SuspendStress
 		+tests_power_SuspendToIdle
 	)
+	+tests_power_WaitForCoolDown
 	+tests_power_WakeupRTC
 "
 
