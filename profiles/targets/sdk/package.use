@@ -146,7 +146,6 @@ dev-python/ecdsa python_targets_python2_7
 dev-python/entrypoints python_targets_python2_7
 dev-python/flake8 python_targets_python2_7
 dev-python/future python_targets_python2_7
-dev-python/gdata python_targets_python2_7
 dev-python/grpcio python_targets_python2_7
 dev-python/grpcio-tools python_targets_python2_7
 dev-python/httplib2 python_targets_python2_7

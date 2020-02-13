@@ -368,11 +368,6 @@ RDEPEND="${RDEPEND}
 	net-misc/wget
 	"
 
-# Host dependencies that are needed for chromite/bin/upload_package_status
-RDEPEND="${RDEPEND}
-	dev-python/gdata
-	"
-
 # Host dependencies for HWID processing
 RDEPEND="${RDEPEND}
 	dev-python/pyyaml

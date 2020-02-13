@@ -206,7 +206,6 @@ dev-python/future python_targets_python2_7
 dev-python/gcs-oauth2-boto-plugin python_targets_python2_7
 dev-python/gevent python_targets_python2_7
 dev-python/gnupg python_targets_python2_7
-dev-python/gdata python_targets_python2_7
 dev-python/google-api-core python_targets_python2_7
 dev-python/google-api-python-client python_targets_python2_7
 dev-python/google-apitools python_targets_python2_7
