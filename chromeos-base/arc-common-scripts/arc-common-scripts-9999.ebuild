@@ -25,4 +25,7 @@ DEPEND=""
 src_install() {
 	dosbin arc/scripts/android-sh
 	dosbin arc/scripts/android-sh-vm
+
+	insinto /etc/init
+	doins arc/scripts/arc-stale-directory-remover.conf
 }
