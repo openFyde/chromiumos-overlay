@@ -139,7 +139,6 @@ dev-python/cycler python_targets_python2_7
 dev-python/cython python_targets_python2_7
 dev-python/dbus-python python_targets_python2_7
 dev-python/django python_targets_python2_7
-dev-python/dnspython python_targets_python2_7
 dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
 dev-python/ecdsa python_targets_python2_7
@@ -191,7 +190,6 @@ dev-python/pyblake2 python_targets_python2_7
 dev-python/pycairo python_targets_python2_7
 dev-python/pycodestyle python_targets_python2_7
 dev-python/pycparser python_targets_python2_7
-dev-python/pycryptodome python_targets_python2_7
 dev-python/pyelftools python_targets_python2_7
 dev-python/pyflakes python_targets_python2_7
 dev-python/pygments python_targets_python2_7
