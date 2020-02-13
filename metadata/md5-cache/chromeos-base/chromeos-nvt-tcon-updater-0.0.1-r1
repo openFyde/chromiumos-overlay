@@ -1,0 +1,13 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=info install preinst setup unpack
+DEPEND=sys-apps/baselayout
+DESCRIPTION=Shell library for integrating the Novatek TCON Firmware updater
+EAPI=7
+IUSE=cros_host cros_workon_tree_809788aa7ecc2503360f53644223a0b1398403e0
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=chromeos-base/chromeos-init chromeos-base/common-assets chromeos-base/minijail sys-apps/novatek-tcon-fw-update-tool sys-apps/baselayout
+SLOT=0/0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	user	7c566af8c48023219fd63246e88d6621
+_md5_=127d42b9996b46b1c13643a7c0e9b0f6
