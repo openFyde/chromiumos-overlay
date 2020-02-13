@@ -166,7 +166,6 @@ dev-python/lxml python_targets_python2_7
 dev-python/m2crypto python_targets_python2_7
 dev-python/mako python_targets_python2_7
 dev-python/markupsafe python_targets_python2_7
-dev-python/matplotlib python_targets_python2_7
 dev-python/mccabe python_targets_python2_7
 dev-python/mock python_targets_python2_7
 dev-python/more-itertools python_targets_python2_7
