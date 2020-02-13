@@ -5,7 +5,7 @@ EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/platform/btsocket"
 CROS_WORKON_LOCALNAME="../platform/btsocket"
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python{3_6,3_7} )
 
 inherit cros-sanitizers cros-workon distutils-r1
 
