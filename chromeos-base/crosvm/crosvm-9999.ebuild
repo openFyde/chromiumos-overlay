@@ -46,6 +46,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/futures-0.3*:=
 	~dev-rust/getopts-0.2.18:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
+	dev-rust/minijail-sys:=
 	~dev-rust/num_cpus-1.9.0:=
 	=dev-rust/paste-0.1*:=
 	=dev-rust/pin-utils-0.1*:=
