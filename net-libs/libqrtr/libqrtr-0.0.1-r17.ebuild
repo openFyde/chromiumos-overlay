@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="e5cc28a8bec257bc82e1936b075aab7b8c468c29"
-CROS_WORKON_TREE="b38248b74b6e4811e5aedf97787d1cca17fda3d1"
+CROS_WORKON_COMMIT="c21498e56ffd9e71d44fb308e8af36fecaffd762"
+CROS_WORKON_TREE="a0248c7d961d290072590870fb3f291fef6130ee"
 CROS_WORKON_PROJECT="chromiumos/third_party/libqrtr"
 
 inherit autotools cros-sanitizers cros-workon user
