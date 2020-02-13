@@ -78,6 +78,9 @@ src_prepare() {
 	# r583543.
 	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
 
+	# r596510.
+	epatch "${FILESDIR}"/${P}-Mojo-Check-if-dispatcher-is-null-in-Core-UnwrapPlatf.patch
+
 	# This no_destructor.h is taken from r599267.
 	epatch "${FILESDIR}"/${P}-Add-base-NoDestructor-T.patch
 
