@@ -85,6 +85,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/cros-config-test
 	chromeos-base/cryptohome-dev-utils
 	tpm2? ( chromeos-base/g2f_tools )
+	!chromeless_tty? ( chromeos-base/graphics-utils-go )
 	chromeos-base/update-utils
 	chromeos-base/policy_utils
 	chromeos-base/protofiles
