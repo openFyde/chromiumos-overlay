@@ -145,9 +145,10 @@ src_install() {
 	udev_dorules "${FILESDIR}/99-bluetooth-quirks.rules"
 	udev_dorules "${FILESDIR}/99-bluetooth-suspend-owner.rules"
 
-	# Install the common config file.
+	# Install the config files.
 	insinto "/etc/bluetooth"
 	doins "${S}"/src/main_common.conf
+	doins "${FILESDIR}/input.conf"
 
 	# We don't preserve /var/lib in images, so nuke anything we preseed.
 	rm -rf "${D}"/var/lib/bluetooth
