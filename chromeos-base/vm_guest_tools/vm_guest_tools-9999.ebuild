@@ -52,6 +52,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_install_compilation_database
+
 	dobin "${OUT}"/vm_syslog
 	dosbin "${OUT}"/vshd
 

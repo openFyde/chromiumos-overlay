@@ -56,7 +56,7 @@ fi
 # While not all packages utilize USE=test, it's common to write gn conditionals
 # based on the flag.  Add it to the eclass so ebuilds don't have to duplicate it
 # everywhere even if they otherwise aren't using the flag.
-IUSE="cros_host test"
+IUSE="compilation_database cros_host test"
 
 # Similarly to above, we use gtest (includes gmock) for unittests in platform2
 # packages. Add the dep all the time even if a few packages wouldn't use it as
@@ -67,6 +67,56 @@ DEPEND="
 	cros_host? ( dev-util/gn )
 	dev-cpp/gtest:=
 "
+
+
+# @FUNCTION: platform_gen_compilation_database
+# @DESCRIPTION:
+# Generates a compilation database for use by language servers.
+platform_gen_compilation_database() {
+	local db_chroot="${OUT}/compile_commands_chroot.json"
+
+	ninja -C "${OUT}" -t compdb cc cxx > "${db_chroot}" || die
+
+	local ext_chroot_path="${EXTERNAL_TRUNK_PATH}/chroot"
+
+	# Make relative include paths absolute.
+	sed -i -e "s:-I\./:-I${OUT}/:g" "${db_chroot}" || die
+
+	# Generate non-chroot version of the DB with the following
+	# changes:
+	#
+	# 1. translate file and directory paths
+	# 2. call clang directly instead of using CrOS wrappers
+	# 3. use standard clang target triples
+	# 4. remove a few compiler options that might not be available
+	#    in the potentially older clang version outside the chroot
+	#
+	sed -E -e "s:(\.\./|\.\.)*/mnt/host/source/:${EXTERNAL_TRUNK_PATH}/:g" \
+		-e "s:/build/:${ext_chroot_path}/build/:g" \
+		-e "s:-isystem /:-isystem ${ext_chroot_path}/:g" \
+		\
+		-e "s:[a-z0-9_]+-(cros|pc)-linux-gnu([a-z]*)?-clang:clang:g" \
+		\
+		-e "s:([a-z0-9_]+)-cros-linux-gnu:\1-linux-gnu:g" \
+		\
+		-e "s:-fdebug-info-for-profiling::g" \
+		-e "s:-mretpoline::g" \
+		-e "s:-mretpoline-external-thunk::g" \
+		-e "s:-mfentry::g" \
+		\
+		"${db_chroot}" \
+		> "${OUT}/compile_commands_no_chroot.json" || die
+
+	echo \
+"compile_commands_*.json are compilation databases for ${CATEGORY}/${PN}. The
+files can be used by tools that support the commonly used JSON compilation
+database format.
+
+To use the compilation database with an IDE or other tools outside of the
+chroot create a symlink named 'compile_commands.json' in the ${PN} source
+directory (outside of the chroot) to compile_commands_no_chroot.json." \
+		> "${OUT}/compile_commands.txt" || die
+}
 
 platform() {
 	local platform2_py="${PLATFORM_TOOLDIR}/platform2.py"
@@ -196,6 +246,8 @@ platform_fuzzer_test() {
 
 platform_src_compile() {
 	platform "compile" "all"
+
+	use compilation_database && platform_gen_compilation_database
 }
 
 platform_configure() {
@@ -244,6 +296,20 @@ platform_install_dbus_client_lib() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}/lib${libname}-client.pc"
 	doins "${OUT}/lib${libname}-client-test.pc"
+}
+
+# @FUNCTION: platform_install_compilation_database
+# @DESCRIPTION:
+# Installs compilation database files to
+# /build/compilation_database/${CATEGORY}/${PN}.
+platform_install_compilation_database() {
+	if use compilation_database; then
+		insinto "/build/compilation_database/${CATEGORY}/${PN}"
+
+		doins "${OUT}/compile_commands.txt"
+		doins "${OUT}/compile_commands_chroot.json"
+		doins "${OUT}/compile_commands_no_chroot.json"
+	fi
 }
 
 EXPORT_FUNCTIONS src_compile src_test src_configure src_unpack

@@ -56,6 +56,8 @@ src_unpack() {
 }
 
 src_install() {
+	platform_install_compilation_database
+
 	dobin "${OUT}"/cicerone_client
 	dobin "${OUT}"/concierge_client
 	dobin "${OUT}"/maitred_client
