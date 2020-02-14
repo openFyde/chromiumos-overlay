@@ -794,6 +794,10 @@ setup_compile_flags() {
 		# https://bugs.chromium.org/p/chromium/issues/detail?id=1032159).
 		append-ldflags -Wl,-mllvm
 		append-ldflags -Wl,-generate-type-units
+	else
+		# Non-ThinLTO builds with symbol_level=2 may have out-of-range
+		# relocations, too: crbug.com/1050819.
+		append-flags -fdebug-types-section
 	fi
 
 	if use orderfile_generate; then
