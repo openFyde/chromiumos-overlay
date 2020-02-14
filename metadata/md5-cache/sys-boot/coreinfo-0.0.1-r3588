@@ -4,10 +4,10 @@ DEPEND=sys-boot/libpayload:=
 DESCRIPTION=coreboot's coreinfo payload
 EAPI=7
 HOMEPAGE=http://www.coreboot.org
-IUSE=cros_host cros_workon_tree_87183787fa6f33e455fe0c4f9e89a45d3522f2f5
+IUSE=cros_host cros_workon_tree_ebd1b5e6d0158938bb98d1c5d1cc9fe77bba7c59
 KEYWORDS=-* amd64 x86
 LICENSE=GPL-2
 PROPERTIES=live
-SLOT=0/0.0.1-r3587
+SLOT=0/0.0.1-r3588
 _eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=45fb644f36e932b268dd32869205f579
+_md5_=2ec9edff990a4adef538f7f8730e4c73
