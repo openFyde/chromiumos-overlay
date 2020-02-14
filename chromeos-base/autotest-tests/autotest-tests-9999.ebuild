@@ -106,7 +106,7 @@ CLIENT_IUSE_TESTS="
 	)
 	+tests_dummy_Fail
 	+tests_dummy_Pass
-	+tests_dummy_Output
+	+tests_dummy_SynchronousOffload
 	tests_example_UnitTest
 	+tests_firmware_RomSize
 	+tests_firmware_SetFWMP
