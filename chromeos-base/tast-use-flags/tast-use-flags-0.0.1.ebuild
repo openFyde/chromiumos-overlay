@@ -86,6 +86,7 @@ IUSE="
 	veyron_mickey
 	veyron_rialto
 	vulkan
+	watchdog
 	wifi_hostap_test
 	wilco
 	+wired_8021x
