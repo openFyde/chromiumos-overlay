@@ -4,12 +4,12 @@ DEPEND=dev-embedded/libftdi:1= chromeos-base/chromeos-config test? ( dev-libs/li
 DESCRIPTION=ECOS ISH image
 EAPI=7
 HOMEPAGE=https://www.chromium.org/chromium-os/ec-development
-IUSE=quiet verbose coreboot-sdk unibuild test cros_host cros_workon_tree_51305c35f6185df85cc065d7179e1779cced8b97_5b25e42c84714218b06757c9d47399820bb64da5
+IUSE=quiet verbose coreboot-sdk unibuild test cros_host cros_workon_tree_91dbd4a1aa62b588366104214d1e6a288c7e4e2a_5b25e42c84714218b06757c9d47399820bb64da5
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=test? ( dev-libs/openssl:= dev-libs/protobuf:= )
 REQUIRED_USE=unibuild
-SLOT=0/0.0.1-r1434
+SLOT=0/0.0.1-r1436
 _eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-unibuild	020876b8cedca5cea0748234362d99a5	cros-workon	6ede984d15f4c6eae58ceb08f92938f5	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=a2a8a4e2580f8fed3fe54f51b7a6e2b1
+_md5_=15a407cceef933db6a0d5fc7ce170015
