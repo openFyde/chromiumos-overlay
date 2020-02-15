@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=4
-CROS_WORKON_COMMIT="62389761f8910b8ac2300dd8df1308e36750a789"
-CROS_WORKON_TREE="ae0cbd62a8cddb176fd679439eacc8797737ee66"
+CROS_WORKON_COMMIT="cc9738eab45ccff8dff06438bf36ccec1ecae848"
+CROS_WORKON_TREE="5acd83dab5181c4b9b89dff11e16dff543a91375"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -55,6 +55,7 @@ IUSE_TESTS="
 		+tests_power_SuspendStress
 		+tests_power_SuspendToIdle
 	)
+	+tests_power_WaitForCoolDown
 	+tests_power_WakeupRTC
 "
 

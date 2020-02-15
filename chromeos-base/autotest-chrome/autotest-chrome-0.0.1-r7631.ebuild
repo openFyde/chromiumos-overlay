@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="f0bce71897e860dd33f5e7b607a20cd2f04c2eb6"
-CROS_WORKON_TREE="b40e428badc22c81ec7f7181ffda9db66001c0d9"
+CROS_WORKON_COMMIT="cc9738eab45ccff8dff06438bf36ccec1ecae848"
+CROS_WORKON_TREE="5acd83dab5181c4b9b89dff11e16dff543a91375"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -211,6 +211,7 @@ IUSE_TESTS=(
 	+tests_policy_WilcoOnNonWilcoDevice
 	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
+	+tests_power_BatteryDrain
 	+tests_power_Consumption
 	+tests_power_Display
 	+tests_power_FlashVideoSuspend
@@ -218,6 +219,8 @@ IUSE_TESTS=(
 	+tests_power_IdleSuspend
 	+tests_power_LoadTest
 	+tests_power_LowMemorySuspend
+	+tests_power_Speedometer2
+	+tests_power_ThermalLoad
 	+tests_power_UiResume
 	+tests_power_VideoCall
 	+tests_power_VideoDetector
