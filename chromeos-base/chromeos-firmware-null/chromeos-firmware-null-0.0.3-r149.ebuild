@@ -4,7 +4,7 @@
 EAPI=5
 CROS_WORKON_COMMIT="ca10c04528c0f118c0b2d52709093cd7f43490a4"
 CROS_WORKON_TREE="c1a5607a073857faf2cd1de0cd5685136ebe587c"
-CROS_WORKON_LOCALNAME="firmware"
+CROS_WORKON_LOCALNAME="platform/firmware"
 CROS_WORKON_PROJECT="chromiumos/platform/firmware"
 
 inherit cros-workon cros-firmware
