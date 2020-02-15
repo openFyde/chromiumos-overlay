@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="521e25a8c3ce87483c83842e5efbf7d3e48a504b"
+CROS_WORKON_COMMIT="bccecaec708ad347d1cb8bf4235c47056f104e06"
 CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "cdc83938245a15c83c723ed8db804ff46901d498" "34fde63d2097b7fc06201da7d1e9b3e28a011284" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -49,10 +49,6 @@ src_install() {
 	fi
 
 	# Install scripts.
-	insinto /etc/init
-	doins arc/scripts/arc-stale-directory-remover.conf
-	doins arc/scripts/arc-remove-data.conf
-
 	insinto /etc/sysctl.d
 	doins arc/scripts/01-sysctl-arc.conf
 
