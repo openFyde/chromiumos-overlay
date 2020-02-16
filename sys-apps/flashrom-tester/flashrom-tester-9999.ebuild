@@ -23,6 +23,7 @@ DEPEND=">=dev-rust/rand-0.6.4:=
 	=dev-rust/built-0.3*:=
 	=dev-rust/sys-info-0.5.7:=
 	=dev-rust/serde_json-1*:=
+	=dev-rust/nix-0.14*:=
 "
 
 RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41"
