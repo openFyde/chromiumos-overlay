@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a48b99d9a70bcb1dc38757768d4b6f67fe758408"
-CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "9a30a3c5a6ae05a7344751c41da48c5d9ce48a5a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="860b11400a2abf77bc3611ff8b48f2dcf8a86ba6"
+CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "9a30a3c5a6ae05a7344751c41da48c5d9ce48a5a" "8dcdec74885292dd2a6d59e8c118c7e3a0884a21" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk hardware_verifier .gn"
+CROS_WORKON_SUBTREE="common-mk hardware_verifier metrics .gn"
 
 PLATFORM_SUBDIR="hardware_verifier"
 
@@ -22,6 +22,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 
 DEPEND="
+	chromeos-base/metrics:=
 	chromeos-base/system_api:=
 	chromeos-base/vboot_reference:=
 "
