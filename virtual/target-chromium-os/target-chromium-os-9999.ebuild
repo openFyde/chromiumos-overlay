@@ -249,7 +249,10 @@ RDEPEND="
 	arc-camera1? ( chromeos-base/cros-camera )
 	arc-camera3? ( chromeos-base/cros-camera )
 	fwupd? ( sys-apps/fwupd )
-	smbprovider? ( chromeos-base/smbprovider )
+	smbprovider? (
+		chromeos-base/smbfs
+		chromeos-base/smbprovider
+	)
 "
 
 ################################################################################
