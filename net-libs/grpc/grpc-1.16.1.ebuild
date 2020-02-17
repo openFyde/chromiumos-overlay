@@ -50,6 +50,8 @@ src_prepare() {
 
 src_configure() {
 	default
+	# Suppress "-Wnon-c-typedef-for-linkage warning, https://crbug.com/1055907
+	append-flags "-Wno-non-c-typedef-for-linkage"
 	if use_sanitizers; then
 		# grpc ebuild need to disable some features for building with
 		# sanitizers, https://crbug.com/1015125 .
