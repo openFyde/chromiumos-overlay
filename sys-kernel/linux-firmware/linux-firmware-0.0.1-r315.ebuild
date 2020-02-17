@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="6f27126aac7d9c7ba4be72b1b302d99e65655b48"
-CROS_WORKON_TREE="32903d5a3c8c634f1006de2e80ecdf135c7e562a"
+CROS_WORKON_COMMIT="2a574192db9de99967542d525f152bb9353dd94f"
+CROS_WORKON_TREE="1fc4d2709b06d399a5b8790c1cbc8ffa8cddaf5b"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
@@ -84,6 +84,7 @@ IUSE_LINUX_FIRMWARE=(
 	marvell-mwlwifi
 	marvell-pcie8897
 	marvell-pcie8997
+	mt8173-vpu
 	nvidia-xusb
 	qca6174a-3-bt
 	qca6174a-5-bt
@@ -142,6 +143,7 @@ LICENSE="
 	linux_firmware_marvell-mwlwifi? ( LICENCE.Marvell )
 	linux_firmware_marvell-pcie8897? ( LICENCE.Marvell )
 	linux_firmware_marvell-pcie8997? ( LICENCE.Marvell )
+	linux_firmware_mt8173-vpu? ( LICENCE.mediatek-vpu )
 	linux_firmware_nvidia-xusb? ( LICENCE.nvidia )
 	linux_firmware_qca6174a-3-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_qca6174a-5-bt? ( LICENSE.QualcommAtheros_ath10k )
@@ -181,6 +183,7 @@ RDEPEND="
 	)
 	linux_firmware_marvell-pcie8897? ( !net-wireless/marvell_sd8787[pcie] )
 	linux_firmware_marvell-pcie8997? ( !net-wireless/marvell_sd8787[pcie] )
+	linux_firmware_mt8173-vpu? ( !media-libs/vpu-fw )
 	linux_firmware_nvidia-xusb? ( !sys-kernel/xhci-firmware )
 	linux_firmware_rt2870? ( !net-wireless/realtek-rt2800-firmware )
 	!net-wireless/ath6k
@@ -249,6 +252,7 @@ src_install() {
 	use_fw marvell-mwlwifi && doins_subdir mwlwifi/*.bin
 	use_fw marvell-pcie8897 && doins_subdir mrvl/pcie8897_uapsta.bin
 	use_fw marvell-pcie8997 && doins_subdir mrvl/pcieusb8997_combo_v4.bin
+	use_fw mt8173-vpu && doins vpu_{d,p}.bin
 	use_fw nvidia-xusb && doins_subdir nvidia/tegra*/xusb.bin
 	use_fw qca6174a-3-bt && doins_subdir qca/{nvm,rampatch}_0044*.bin
 	use_fw qca6174a-5-bt && doins_subdir qca/{nvm,rampatch}_usb_*.bin
