@@ -5,27 +5,10 @@ Subject: [PATCH 2/5] backward compatibiliy patch
 
 Change-Id: Id5b8e818bbd6a22874a422379c2079d731a6a58e
 ---
- base/stl_util.h          |  5 +++++
  base/values.cc           |  4 ++++
  base/values.h            |  3 +++
- 3 files changed, 12 insertions(+)
+ 2 files changed, 7 insertions(+)
 
-diff --git a/base/stl_util.h b/base/stl_util.h
-index 6d521cc..db8aa2d 100644
---- a/base/stl_util.h
-+++ b/base/stl_util.h
-@@ -77,6 +77,11 @@ constexpr auto data(Container& c) -> decltype(c.data()) {
-   return c.data();
- }
- 
-+inline char* string_as_array(std::string* str) {
-+  // DO NOT USE const_cast<char*>(str->data())
-+  return str->empty() ? NULL : &*str->begin();
-+}
-+
- // std::basic_string::data() had no mutable overload prior to C++17 [1].
- // Hence this overload is provided.
- // Note: str[0] is safe even for empty strings, as they are guaranteed to be
 diff --git a/base/values.cc b/base/values.cc
 index a48af5e..a31b1ed 100644
 --- a/base/values.cc
