@@ -62,6 +62,7 @@ IUSE="
 	-transparent_hugepage
 	tpm2
 	-kernel_afdo
+	-afdo_verify
 	test
 	-criu
 "
@@ -90,7 +91,8 @@ KERNEL_VERSION="${KERNEL_VERSION/_/.}"
 # Prefer the frozen version of afdo profiles if set.
 AFDO_VERSION=${AFDO_FROZEN_PROFILE_VERSION:-$AFDO_PROFILE_VERSION}
 if [[ -n "${AFDO_VERSION}" ]]; then
-	AFDO_LOCATION="gs://chromeos-prebuilt/afdo-job/cwp/kernel/${KERNEL_VERSION}"
+	# Set AFDO_LOCATION if not already set.
+	: ${AFDO_LOCATION:="gs://chromeos-prebuilt/afdo-job/cwp/kernel/${KERNEL_VERSION}"}
 	AFDO_GCOV="${PN}-${AFDO_VERSION}.gcov"
 	AFDO_GCOV_COMPBINARY="${AFDO_GCOV}.compbinary.afdo"
 	SRC_URI+="
@@ -2150,6 +2152,11 @@ chroot create a symlink named 'compile_commands.json' in the kernel source
 directory (outside of the chroot) to compile_commands_no_chroot.json."
 		doins "$(cros-workon_get_build_dir)"/compile_commands_*.json
 		doins "$(cros-workon_get_build_dir)"/compile_commands.txt
+	fi
+
+	if use afdo_verify; then
+		# Deliver the profile we just verified.
+		doins "${DISTDIR}/${AFDO_GCOV}.xz"
 	fi
 }
 
