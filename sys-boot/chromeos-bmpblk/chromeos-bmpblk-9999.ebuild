@@ -62,6 +62,7 @@ CROS_BOARDS=(
 	nyan_big
 	octopus
 	orco
+	palkia
 	panther
 	parrot
 	peach_pi
