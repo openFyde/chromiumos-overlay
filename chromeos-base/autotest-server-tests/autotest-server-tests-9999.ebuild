@@ -109,6 +109,7 @@ SERVER_IUSE_TESTS="
 	+tests_dummy_PassServer
 	+tests_dummy_FailServer
 	+tests_dummy_FlakyTestServer
+	+tests_dummy_SynchronousOffloadServer
 	+tests_enterprise_ClearTPM
 	+tests_enterprise_KioskEnrollmentServer
 	+tests_enterprise_LongevityTrackerServer
