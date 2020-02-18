@@ -161,7 +161,6 @@ chromeos-base/factory python_targets_python2_7
 chromeos-base/factory-mini python_targets_python2_7
 chromeos-base/fingerprint_study python_targets_python2_7
 chromeos-base/hammerd-test-utils python_targets_python2_7
-chromeos-base/infra-virtualenv python_targets_python2_7
 chromeos-base/mobmonitor python_targets_python2_7
 chromeos-base/pywalt python_targets_python2_7
 chromeos-base/telemetry python_targets_python2_7
