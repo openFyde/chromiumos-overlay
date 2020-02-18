@@ -318,7 +318,6 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	dev-python/btsocket
 	dev-python/selenium
-	dev-util/dejagnu
 	sys-apps/iproute2
 	sys-apps/net-tools
 	"
