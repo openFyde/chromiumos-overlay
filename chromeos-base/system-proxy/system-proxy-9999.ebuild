@@ -48,6 +48,10 @@ src_install() {
 
 	insinto /etc/init
 	doins init/system-proxy.conf
+
+	insinto /usr/share/policy
+	newins seccomp/system-proxy-seccomp-"${ARCH}".policy system-proxy-seccomp.policy
+	newins seccomp/system-proxy-worker-seccomp-"${ARCH}".policy system-proxy-worker-seccomp.policy
 }
 
 platform_pkg_test() {
