@@ -33,6 +33,7 @@ src_configure() {
 	econf \
 		--enable-qmi-username='modem' \
 		--enable-compile-warnings=yes \
+		--enable-qrtr \
 		$(use_enable mbim mbim-qmux) \
 		$(use_enable static{-libs,}) \
 		$(use_enable {,gtk-}doc)
