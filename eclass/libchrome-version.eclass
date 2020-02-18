@@ -11,5 +11,5 @@
 # @DESCRIPTION:
 # This eclass manages the libchrome version.
 
-[[ -z ${LIBCHROME_VERS} ]] && LIBCHROME_VERS=( 576279 )
+[[ -z ${LIBCHROME_VERS} ]] && LIBCHROME_VERS=( 679961 )
 export BASE_VER="${LIBCHROME_VERS[0]}"

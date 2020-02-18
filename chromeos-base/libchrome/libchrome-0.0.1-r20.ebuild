@@ -3,13 +3,12 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("75007484b5d43683cbf7c13c849e369aa32cf06b" "2fa400214c4a9acca292b649bf060f3f87f32f14")
+CROS_WORKON_COMMIT=("75007484b5d43683cbf7c13c849e369aa32cf06b" "eaa616ec9e7bdd0bddd6244eb990f67b86e99ab9")
 CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d67f5633982d46b44bec37ce0efeafa01828455e")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
-CROS_WORKON_BLACKLIST=1
 
 WANT_LIBCHROME="no"
 inherit cros-workon libchrome-version platform
@@ -110,7 +109,9 @@ src_install() {
 		base/synchronization
 		base/system
 		base/task
-		base/task_scheduler
+		base/task/common
+		base/task/sequence_manager
+		base/task/thread_pool
 		base/third_party/icu
 		base/third_party/nspr
 		base/third_party/valgrind
