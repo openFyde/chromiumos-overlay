@@ -239,8 +239,6 @@ IUSE_TESTS=(
 	+tests_touch_TouchscreenZoom
 	+tests_touch_StylusTaps
 	+tests_video_AVAnalysis
-	+tests_video_PlaybackPerf
-	+tests_video_WebRtcPerf
 )
 
 IUSE_TESTS_CELLULAR="
