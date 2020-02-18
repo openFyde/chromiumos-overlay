@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="41785f6be311d2e9f4ba0d61319e7fcab95f2f70"
+CROS_WORKON_COMMIT="0449a1faa7b26703f727ca58431c15cbc31b6867"
 CROS_WORKON_TREE="f50db9b74456fdaa0c71ae49ce9d07fc21047583"
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
@@ -25,6 +25,7 @@ DEPEND=">=dev-rust/rand-0.6.4:=
 	=dev-rust/built-0.3*:=
 	=dev-rust/sys-info-0.5.7:=
 	=dev-rust/serde_json-1*:=
+	=dev-rust/nix-0.14*:=
 "
 
 RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41"
