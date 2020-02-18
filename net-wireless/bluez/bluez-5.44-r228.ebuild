@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/net-wireless/bluez/bluez-4.99.ebuild,v 1.7 2012/04/15 16:53:41 maekke Exp $
 
 EAPI="5"
-CROS_WORKON_COMMIT="4a6a8cc0299d2f58f27f3feaf84333c4a02a7679"
-CROS_WORKON_TREE="9476eac20cafb0b6fbff715f7b16d5aca5c6ec5d"
+CROS_WORKON_COMMIT="36fae5445bf7ac9c84e1aa0339d05e76f80df51f"
+CROS_WORKON_TREE="6551c2fdd1a7f6a11d09f1516c23eaf0525bcfcd"
 CROS_WORKON_PROJECT="chromiumos/third_party/bluez"
 
 inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
@@ -155,6 +155,7 @@ src_install() {
 	udev_dorules "${FILESDIR}/99-uhid.rules"
 	udev_dorules "${FILESDIR}/99-ps3-gamepad.rules"
 	udev_dorules "${FILESDIR}/99-bluetooth-quirks.rules"
+	udev_dorules "${FILESDIR}/99-bluetooth-suspend-owner.rules"
 
 	# Install the common config file.
 	insinto "/etc/bluetooth"

@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="2ba091070f58f97fed3c3379d4c57803e4561478"
-CROS_WORKON_TREE="c042bfa5a966835843904305cafe4d61a568335c"
+CROS_WORKON_COMMIT="c36781eb71561970ca86332db963fc961770cbfe"
+CROS_WORKON_TREE="46dbf97cc30a7fb5cc0dda07cda7a861eb267cde"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -34,6 +34,7 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterQuickSanity
 	+tests_bluetooth_AdapterSASanity
 	+tests_bluetooth_PeerUpdate
+	+tests_bluetooth_AdapterSRSanity
 	+tests_bluetooth_Sanity_Discoverable
 	+tests_bluetooth_SDP_ServiceAttributeRequest
 	+tests_bluetooth_SDP_ServiceBrowse
