@@ -33,6 +33,7 @@ media-libs/libmtp       -crypt
 media-libs/mesa         -llvm -gallium -classic
 media-sound/alsa-utils	-libsamplerate minimal
 net-misc/curl		ares
+net-misc/socat		-ssl
 net-wireless/bluez	-consolekit
 sci-geosciences/gpsd	-cxx
 # verity and other packages link statically with libuuid.
