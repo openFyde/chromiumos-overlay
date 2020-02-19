@@ -33,14 +33,12 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api:=[fuzzer?]"
 
 src_install() {
-	dobin init/scripts/bluetooth-setup.sh
 	dobin "${OUT}"/btdispatch
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Bluetooth.conf
 
 	insinto /etc/init
-	doins init/upstart/bluetooth-setup.conf
 	doins init/upstart/btdispatch.conf
 
 	if use seccomp; then
