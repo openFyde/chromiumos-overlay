@@ -26,7 +26,6 @@ DEPEND="${RDEPEND}"
 # TODO(crbug.com/948805): Remove tests_network_WlanDriver when
 # partners are able to run Tast test.
 IUSE_TESTS="
-	+tests_network_BasicProfileProperties
 	+tests_network_DhcpClasslessStaticRoute
 	+tests_network_DhcpFailureWithStaticIP
 	+tests_network_DhcpNak
