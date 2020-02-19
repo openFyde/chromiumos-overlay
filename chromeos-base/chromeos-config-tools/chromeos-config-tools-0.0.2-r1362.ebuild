@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="c535b77643853271128f4edd6a8067eb28720fa1"
-CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "f60a457d614f59d551c5a476559ef5b3b979d06c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="aae1bc369f25c2a16c46dad0aac7081dc299403b"
+CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "cb5c3b19a7d59afeb806d7200c4e32ebfccc3b6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -45,11 +45,11 @@ src_install() {
 	doins "libcros_config/fake_cros_config.h"
 
 	dobin "${OUT}"/cros_config
+	dosbin "${OUT}"/cros_configfs
 
-	# Setup the mountpoint for ConfigFS
-	dodir /config
-	keepdir /config/private
-	keepdir /config/v1
+	# Install init scripts.
+	insinto /etc/init
+	doins init/*.conf
 }
 
 platform_pkg_test() {
