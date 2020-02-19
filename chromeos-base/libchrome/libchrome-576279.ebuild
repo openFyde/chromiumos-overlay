@@ -91,10 +91,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-components-timers-fix-fd-leak-in-AlarmTimer.patch
 	# epatch "${FILESDIR}"/${P}-Refactor-AlarmTimer-to-report-error-to-the-caller.patch
 
-	# TODO(hidehiko): Remove this patch after libchrome is uprevved
-	# to >= r463684.
-	epatch "${FILESDIR}"/${P}-Introduce-ValueReferenceAdapter-for-gracef.patch
-
 	# For backward compatibility.
 	# TODO(crbug.com/909719): Remove this patch after clients are updated.
 	epatch "${FILESDIR}"/${P}-libchrome-Add-EmptyResponseCallback-for-backward-com.patch
@@ -137,9 +133,6 @@ src_prepare() {
 
 	# Enable location source to add function_name
 	epatch "${FILESDIR}"/${P}-enable-location-source.patch
-
-	# Backward compatibility (remove all when uprev is done)
-	epatch "${FILESDIR}"/${P}-r462023-backward-compatibility.patch
 
 	# Add WaitForServiceToBeAvailable back for MockObjectProxy
 	epatch "${FILESDIR}"/${P}-WaitForServiceToBeAvailable.patch
