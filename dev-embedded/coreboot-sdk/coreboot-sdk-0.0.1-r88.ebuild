@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="0509725dd88b738aa2b40f633825ccf2f426dd6c"
+CROS_WORKON_COMMIT="42b4c9ab5954c4c62c8c52bf29abb13ea3ba3941"
 CROS_WORKON_TREE="0b91758f27b0a2e9d85cbf2573c5710240946765"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
@@ -14,8 +14,6 @@ DESCRIPTION="upstream coreboot's compiler suite"
 HOMEPAGE="https://www.coreboot.org"
 LICENSE="GPL-3 LGPL-3"
 KEYWORDS="*"
-
-STRIP_MASK="*.a *.o"
 
 # URIs taken from buildgcc -u
 # Needs to be synced with changes in the coreboot repo,
@@ -56,6 +54,15 @@ src_prepare() {
 }
 
 src_compile() {
+	# We're bootstrapping with an old compiler whose
+	# linker isn't happy about this flag.
+	filter-ldflags "-Wl,--icf=all"
+
+	cd util/crossgcc || die "couldn't enter crossgcc tree"
+
+	./buildgcc -d /opt/coreboot-sdk -D "${S}/out" -P iasl -t -j "$(makeopts_jobs)" \
+	|| buildgcc_failed "ACPI"
+
 	# To bootstrap the Ada build, an Ada compiler needs to be available. To
 	# make sure it interacts well with the C/C++ parts of the compiler,
 	# buildgcc asks gcc for the Ada compiler's path using the compiler's
@@ -64,19 +71,14 @@ src_compile() {
 	export PATH="${S}"/gnat-gpl-2017-x86_64-linux-bin/bin:"${PATH}"
 	export CC=gcc CXX=g++
 
-	local buildgcc_opts=(-j "$(makeopts_jobs)" -l c,ada -t)
-
-	cd util/crossgcc
-
-	./buildgcc -d /opt/coreboot-sdk -D "${S}/out" -P iasl \
-		"${buildgcc_opts[@]}" \
-	|| buildgcc_failed "${arch}"
+	local buildgcc_opts=(-j "$(makeopts_jobs)" -l "c,ada" -t)
 
 	# Build bootstrap compiler to get a reliable compiler base no matter how
 	# versions diverged, but keep it separately, since we only need it
 	# during this build and not in the chroot.
 	./buildgcc -B -d "${S}"/bootstrap "${buildgcc_opts[@]}" \
 		|| buildgcc_failed "cros_sdk (bootstrap)"
+
 	export PATH="${S}/bootstrap/bin:${PATH}"
 
 	local architectures=(
@@ -99,6 +101,11 @@ src_compile() {
 }
 
 src_install() {
+	local files
+
 	dodir /opt
 	cp -a out/opt/coreboot-sdk "${D}"/opt/coreboot-sdk || die
+
+	readarray -t files < <(find "${D}" -name '*.[ao]' -printf "/%P\n")
+	dostrip -x "${files[@]}"
 }
