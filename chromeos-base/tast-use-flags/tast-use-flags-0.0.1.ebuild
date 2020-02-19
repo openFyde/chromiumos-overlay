@@ -9,6 +9,43 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
+# Use flags needed for crostini_stable software dep.
+# Kept separate so that they can be cleanly removed as the set of stable boards
+# grows.
+# TODO(crbug.com/950346): Remove this list when hwdeps are available.
+CROSTINI_STABLE_USE_FLAGS="
+	auron_paine
+	auron_yuna
+	banon
+	bob
+	buddy
+	celes
+	coral
+	cyan
+	edgar
+	elm
+	fizz
+	gandof
+	grunt
+	hana
+	kefka
+	kevin64
+	kevin
+	kukui
+	kefka
+	lulu
+	nocturne
+	octopus
+	reks
+	relm
+	samus
+	sarien
+	setzer
+	terra
+	ultima
+	wizpig
+"
+
 # NB: Flags listed here are off by default unless prefixed with a '+'.
 IUSE="
 	amd64
@@ -23,7 +60,6 @@ IUSE="
 	arcpp
 	arcvm
 	asan
-	atlas
 	betty
 	biod
 	chrome_internal
@@ -90,6 +126,7 @@ IUSE="
 	wifi_hostap_test
 	wilco
 	+wired_8021x
+	${CROSTINI_STABLE_USE_FLAGS}
 "
 
 S=${WORKDIR}
