@@ -13,6 +13,10 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
+# Files in /usr/share/chromeos-assets/speech_synthesis/ moved from
+# chromeos-base/common-assets.
+RDEPEND="!<chromeos-base/common-assets-0.0.2-r123"
+
 S="${WORKDIR}"
 
 src_install() {
