@@ -29,9 +29,7 @@ COMMON_DEPEND="
 
 RDEPEND="
 	${COMMON_DEPEND}
-	app-arch/unrar
 	net-fs/sshfs
-	sys-fs/avfs
 	sys-fs/dosfstools
 	sys-fs/exfat-utils
 	sys-fs/fuse-exfat
@@ -52,9 +50,6 @@ pkg_preinst() {
 
 	enewuser "ntfs-3g"
 	enewgroup "ntfs-3g"
-
-	enewuser "avfs"
-	enewgroup "avfs"
 
 	enewuser "fuse-exfat"
 	enewgroup "fuse-exfat"
@@ -81,7 +76,6 @@ src_install() {
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
-	use seccomp && newins avfsd-seccomp-${ARCH}.policy avfsd-seccomp.policy
 	use seccomp && newins fuse-zip-seccomp-${ARCH}.policy fuse-zip-seccomp.policy
 	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 
