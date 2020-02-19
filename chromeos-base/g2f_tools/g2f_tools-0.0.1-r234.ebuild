@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="546ea54508f4c24de641fe429f88d12045afb713"
+CROS_WORKON_COMMIT="d2c6d08450f74a08722f25754ef133d1b04988a8"
 CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "8dcdec74885292dd2a6d59e8c118c7e3a0884a21" "d5a78a696950572d4aaec93154465312b22a7119" "8f8ef9ff52b5630abe40d31b9a6c5d49f6f71082" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -36,6 +36,7 @@ DEPEND="
 
 src_install() {
 	dobin "${OUT}"/g2ftool
+	dobin "${OUT}"/webauthntool
 }
 
 platform_pkg_test() {
