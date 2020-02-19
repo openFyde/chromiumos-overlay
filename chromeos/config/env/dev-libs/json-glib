@@ -1,0 +1,9 @@
+# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# Disable Wvoid-pointer-to-int-cast warning in json-glib, https://crbug.com/1054099.
+cros_pre_src_prepare_disable_warnings() {
+	export CFLAGS+=" -Wno-void-pointer-to-int-cast"
+	export CXXFLAGS+=" -Wno-void-pointer-to-int-cast"
+}
