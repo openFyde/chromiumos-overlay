@@ -65,6 +65,7 @@ IUSE="
 	touch_centric_device
 	touchscreen_wakeup
 	touchview
+	tpm_fallback
 	video_capture_use_gpu_memory_buffer
 	virtio_gpu
 	webui-tab-strip

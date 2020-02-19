@@ -63,6 +63,7 @@ IUSE="
 	strict_toolchain_checks
 	+thinlto
 	touchview
+	tpm_fallback
 	ubsan
 	v4l2_codec
 	v4lplugin
@@ -441,6 +442,10 @@ set_build_args() {
 			)
 		fi
 
+	fi
+
+	if use tpm_fallback; then
+		BUILD_ARGS+=( "tpm_fallback=true" )
 	fi
 }
 
