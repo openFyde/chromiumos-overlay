@@ -1,7 +1,7 @@
 # Copyright 2020 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,20 +18,18 @@ and ARC apps behind an authenticated web proxy."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/system-proxy/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="~*"
 
-RDEPEND="
-	chromeos-base/libbrillo:=
+COMMON_DEPEND="
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 	dev-libs/dbus-glib:=
 	sys-apps/dbus:=
 	net-misc/curl:=
 "
-DEPEND="
-	${RDEPEND}
-"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 pkg_preinst() {
 	enewuser "system-proxy"

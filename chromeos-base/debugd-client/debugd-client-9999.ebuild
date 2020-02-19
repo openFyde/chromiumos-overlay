@@ -1,7 +1,7 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,7 +19,6 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="cros_host"
 
@@ -29,8 +28,8 @@ IUSE="cros_host"
 # revision because libbrillo-0.0.1-r1 changed location of header files from
 # chromeos/ to brillo/ and chromeos-dbus-bindings-0.0.1-r1058 generates the
 # code using the new location.
-DEPEND="
-	cros_host? ( >=chromeos-base/chromeos-dbus-bindings-0.0.1-r1058 )
+BDEPEND="
+	chromeos-base/chromeos-dbus-bindings
 "
 
 src_install() {

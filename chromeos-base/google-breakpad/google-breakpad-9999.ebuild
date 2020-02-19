@@ -1,7 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/google-breakpad"
@@ -23,17 +23,19 @@ HOMEPAGE="https://chromium.googlesource.com/breakpad/breakpad"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="-alltests cros_host test"
 
-RDEPEND="net-misc/curl"
-DEPEND="${RDEPEND}
+COMMON_DEPEND="net-misc/curl:="
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
 	test? (
 		dev-cpp/gtest:=
-	)"
+	)
+"
 
 src_prepare() {
+	default
 	find "${S}" -type f -exec touch -r "${S}"/configure {} +
 }
 

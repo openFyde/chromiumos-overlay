@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,16 +19,17 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="chromeos-base/metrics
-	dev-libs/glib
-	net-dns/avahi-daemon
-	net-firewall/iptables"
+COMMON_DEPEND="chromeos-base/metrics:=
+	dev-libs/glib:=
+	net-dns/avahi-daemon:=
+	net-firewall/iptables:="
 
-DEPEND="${RDEPEND}"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 platform_pkg_test() {
 	local tests=(

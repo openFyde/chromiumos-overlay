@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,21 +18,23 @@ DESCRIPTION="Provides access to Samba file share"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/smbprovider/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="~*"
 IUSE="fuzzer"
 
-RDEPEND="
+COMMON_DEPEND="
 	dev-libs/protobuf:=
 	>=net-fs/samba-4.5.3-r6
-	sys-apps/dbus
+	sys-apps/dbus:=
 "
 
+RDEPEND="${COMMON_DEPEND}"
+
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPEND}
 	chromeos-base/protofiles:=
-	chromeos-base/system_api[fuzzer?]
-	chromeos-base/libpasswordprovider
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/libpasswordprovider:=
 "
 
 pkg_setup() {

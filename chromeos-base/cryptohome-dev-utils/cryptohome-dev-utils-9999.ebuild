@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -18,35 +18,37 @@ DESCRIPTION="Cryptohome developer and testing utilities for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="~*"
 IUSE="tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
-RDEPEND="
+COMMON_DEPEND="
 	tpm? (
-		app-crypt/trousers
+		app-crypt/trousers:=
 	)
 	tpm2? (
-		chromeos-base/trunks
+		chromeos-base/trunks:=
 	)
-	chromeos-base/attestation
-	chromeos-base/chaps
-	chromeos-base/libscrypt
-	chromeos-base/metrics
-	chromeos-base/tpm_manager
-	chromeos-base/secure-erase-file
-	dev-libs/glib
+	chromeos-base/attestation:=
+	chromeos-base/chaps:=
+	chromeos-base/libscrypt:=
+	chromeos-base/metrics:=
+	chromeos-base/tpm_manager:=
+	chromeos-base/secure-erase-file:=
+	dev-libs/glib:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
-	sys-apps/keyutils
-	sys-fs/e2fsprogs
-	sys-fs/ecryptfs-utils
+	sys-apps/keyutils:=
+	sys-fs/e2fsprogs:=
+	sys-fs/ecryptfs-utils:=
 "
 
-DEPEND="${RDEPEND}
-	chromeos-base/vboot_reference
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/vboot_reference:=
 "
 
 src_install() {
