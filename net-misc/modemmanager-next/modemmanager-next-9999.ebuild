@@ -80,7 +80,7 @@ src_configure() {
 	append-flags -Xclang-only=-Wno-unneeded-internal-declaration
 	cros-workon_src_configure \
 		--with-html-dir="\${datadir}/doc/${PF}/html" \
-		--enable-more-warnings=error \
+		--enable-compile-warnings=yes \
 		$(use_enable {,gtk-}doc) \
 		$(use_with mbim) \
 		$(use_with qmi)
