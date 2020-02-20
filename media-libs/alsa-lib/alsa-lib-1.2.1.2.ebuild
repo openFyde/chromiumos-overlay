@@ -24,6 +24,7 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-1.1.6-missing_files.patch" #652422
+	"${FILESDIR}/0001-ucm-Use-strncmp-to-avoid-access-out-of-boundary.patch"
 )
 
 pkg_setup() {
