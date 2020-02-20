@@ -56,7 +56,7 @@ IUSE=""
 
 POLICY_DIR="${S}/cloud/policy"
 
-RDEPEND="!<chromeos-base/chromeos-chrome-79.0.3943.1"
+RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
 
 src_unpack() {
 	set -- "${EGIT_REPO_URIS[@]}"
@@ -91,7 +91,7 @@ src_install() {
 	doins "${POLICY_DIR}"/proto/policy_common_definitions.proto
 	doins "${POLICY_DIR}"/proto/device_management_backend.proto
 	doins "${POLICY_DIR}"/proto/chrome_extension_policy.proto
-	newins "${WORKDIR}"/cloud_policy.proto cloud_policy.proto.tmp
+	doins "${WORKDIR}"/cloud_policy.proto
 	dobin "${FILESDIR}"/policy_reader
 	insinto /usr/share/policy_resources
 	doins "${POLICY_DIR}"/resources/policy_templates.json
@@ -100,13 +100,4 @@ src_install() {
 	doexe "${POLICY_DIR}"/tools/generate_policy_source.py
 	sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' \
 		"${D}/usr/share/policy_tools/generate_policy_source.py" || die
-}
-
-# This is a short term solution for crbug.com/1025188 till the PUpr
-# upload the new version of chromeos-chrome package, which won't
-# install cloud_policy.proto anymore.
-pkg_postinst() {
-	mv "${ROOT}"/usr/share/protofiles/cloud_policy.proto.tmp \
-		"${ROOT}"/usr/share/protofiles/cloud_policy.proto || \
-		die "Unable to rename the cloud_policy protobuf"
 }
