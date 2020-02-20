@@ -28,7 +28,6 @@ IUSE="debug vulkan tools"
 # keep blocks in rdepend for binpkg
 RDEPEND="
 	dev-libs/expat
-	dev-libs/libgcrypt
 	virtual/udev
 	>=x11-libs/libdrm-2.4.94
 "
@@ -57,6 +56,7 @@ src_configure() {
 		-Dgallium-xa=false
 		-Dplatforms=surfaceless
 		-Dtools=$(usex tools intel '')
+		--buildtype $(usex debug debug release)
  		-Dvulkan-drivers=$(usex vulkan intel '')
 	)
 
