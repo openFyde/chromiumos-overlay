@@ -19,17 +19,14 @@ EAPI=7
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
-	"chromiumos/third_party/tpm2"
 	"chromiumos/third_party/cryptoc"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform/ec"
-	"third_party/tpm2"
 	"third_party/cryptoc"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform/ec"
-	"${S}/third_party/tpm2"
 	"${S}/third_party/cryptoc"
 )
 
