@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="54abc1dd59bf6e32b49c1239327cc12a5b869340"
-CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "83588b55dedc3c20c8167d3eaaa29530628f188c" "8dcdec74885292dd2a6d59e8c118c7e3a0884a21" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e72d0a735a8ab6bb129b59f7717e4a1f2095fd04"
+CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "e24e61c99b94d50fb8978d5a8042a51bd51141e4" "8dcdec74885292dd2a6d59e8c118c7e3a0884a21" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -77,9 +77,10 @@ src_install() {
 	insinto /usr/share/cros-disks
 	doins usb-device-info
 
-	# Install seccomp policy file.
+	# Install seccomp policy files.
 	insinto /usr/share/policy
 	use seccomp && newins avfsd-seccomp-${ARCH}.policy avfsd-seccomp.policy
+	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 
 	# Install upstart config file.
 	insinto /etc/init
