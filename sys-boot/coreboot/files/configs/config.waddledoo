@@ -30,9 +30,9 @@ CONFIG_INTEL_GMA_ADD_VBT=y
 CONFIG_RUN_FSP_GOP=y
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/baseboard-dedede/vbt.bin"
 
-# TODO(b/147367591): Microcode
-# CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS is not set
-# CONFIG_CPU_UCODE_BINARIES is not set
+# Microcode
+CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
+CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard-dedede/ucode.bin"
 
 # TODO(b/147367591): SPI Descriptor
 # CONFIG_HAVE_IFD_BIN is not set
