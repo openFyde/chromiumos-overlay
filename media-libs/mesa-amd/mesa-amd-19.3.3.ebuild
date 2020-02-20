@@ -131,6 +131,9 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-report-that-multi-plane-formats-are-s.patch
 
+	# b/148922252
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Fix-compute-copies-for-subsampled-formats.patch
+
 	default
 }
 
