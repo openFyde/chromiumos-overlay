@@ -20,7 +20,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/third_party/cryptoc"
 )
 
-inherit toolchain-funcs cros-workon coreboot-sdk
+inherit coreboot-sdk cros-ec-board cros-workon toolchain-funcs
 
 DESCRIPTION="Google Security Chip firmware code"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/cr50_stab"
@@ -33,14 +33,16 @@ KEYWORDS="~*"
 IUSE="quiet verbose fuzzer asan msan ubsan"
 
 COMMON_DEPEND="
+	dev-libs/openssl:0=
+	virtual/libusb:1=
 	fuzzer? (
-		dev-libs/openssl:=
 		dev-libs/protobuf:=
 	)
 "
 
 RDEPEND="
 	!<chromeos-base/chromeos-ec-0.0.2
+	!<chromeos-base/ec-utils-0.0.2
 	${COMMON_DEPEND}
 "
 
@@ -76,6 +78,8 @@ set_build_env() {
 	export HOSTCC=${CC}
 	export BUILDCC=${BUILD_CC}
 
+	get_ec_boards
+
 	EC_OPTS=()
 	use quiet && EC_OPTS+=( -s 'V=0' )
 	use verbose && EC_OPTS+=( 'V=1' )
@@ -104,10 +108,9 @@ prepare_cr50_signer_aid () {
 src_compile() {
 	set_build_env
 
-	emake clean
-	emake BOARD=cr50 "${EC_OPTS[@]}"
-
-	prepare_cr50_signer_aid
+	export BOARD=cr50
+	emake -C extra/usb_updater clean
+	emake -C extra/usb_updater gsctool
 
 	if use fuzzer ; then
 		local sanitizers=()
@@ -116,6 +119,15 @@ src_compile() {
 		use ubsan && sanitizers+=( 'TEST_UBSAN=y' )
 		emake buildfuzztests "${sanitizers[@]}"
 	fi
+
+	if [[ "${EC_BOARDS[0]}" != "reef" ]]; then
+		elog "Not building Cr50 binaries"
+		return
+	fi
+
+	emake clean
+	emake "${EC_OPTS[@]}"
+	prepare_cr50_signer_aid
 }
 
 #
@@ -149,16 +161,9 @@ src_install() {
 	local build_dir
 	local dest_dir
 
-	build_dir="build/cr50"
-	dest_dir='/firmware/cr50'
-	einfo "Installing cr50 from ${build_dir} into ${dest_dir}"
-
-	insinto "${dest_dir}"
-	doins "${build_dir}/ec.bin"
-	doins "${build_dir}/RW/ec.RW.elf"
-	doins "${build_dir}/RW/ec.RW_B.elf"
-
-	install_cr50_signer_aid
+	dosbin "extra/usb_updater/gsctool"
+	dosbin "util/chargen"
+	dosym "gsctool" "/usr/sbin/usb_updater"
 
 	if use fuzzer ; then
 		local f
@@ -178,5 +183,21 @@ src_install() {
 			fi
 		done
 	fi
+
+	if [[ "${EC_BOARDS[0]}" != "reef" ]]; then
+		elog "Not installing Cr50 binaries"
+		return
+	fi
+
+	build_dir="build/cr50"
+	dest_dir='/firmware/cr50'
+	einfo "Installing cr50 from ${build_dir} into ${dest_dir}"
+
+	insinto "${dest_dir}"
+	doins "${build_dir}/ec.bin"
+	doins "${build_dir}/RW/ec.RW.elf"
+	doins "${build_dir}/RW/ec.RW_B.elf"
+
+	install_cr50_signer_aid
 }
 

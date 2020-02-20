@@ -22,7 +22,7 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="-cr50_onboard -cr50_utils static unibuild -updater_utils"
+IUSE="static unibuild -updater_utils"
 IUSE="${IUSE} cros_host +cros_ec_utils"
 
 COMMON_DEPEND="dev-embedded/libftdi:=
@@ -81,16 +81,6 @@ src_compile() {
 	# host (BUILDCC, amd64). So we need to override HOSTCC by target "CC".
 	export HOSTCC="${CC} $(usex static '-static' '')"
 
-	# Do not set BOARD yet, as gsctool is built for cr50.
-	if use cr50_onboard || use cr50_utils || use cros_host; then
-		# Get rid of the local compilation products in case they are
-		# present.
-		emake -C extra/usb_updater clean
-
-		# Make sure to override environment setting for BOARD, if any.
-		BOARD=cr50 emake -C extra/usb_updater gsctool
-	fi
-
 	# Build Chromium EC utilities.
 	use cros_ec_utils && src_compile_cros_ec_utils
 }
@@ -122,12 +112,6 @@ set '${EC_BOARDS[*]}'"
 src_install() {
 	# Install Chromium EC utilities.
 	use cros_ec_utils && src_install_cros_ec_utils
-
-	if use cr50_onboard || use cr50_utils || use cros_host; then
-		dosbin "extra/usb_updater/gsctool"
-		dosbin "util/chargen"
-		dosym "gsctool" "/usr/sbin/usb_updater"
-	fi
 }
 
 pkg_postinst() {
