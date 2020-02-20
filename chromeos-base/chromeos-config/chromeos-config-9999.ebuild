@@ -41,7 +41,6 @@ src_compile() {
 	local input_yaml_files=()
 	local yaml="${WORKDIR}/config.yaml"
 	local c_file="${WORKDIR}/config.c"
-	local json="${WORKDIR}/config.json"
 	local configfs_image="${WORKDIR}/configfs.img"
 	local gen_yaml="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
 	if [[ "${yaml_files[0]}" =~ .*[a-z_]+\.yaml$ ]]; then
@@ -57,7 +56,7 @@ src_compile() {
 		done
 		cros_config_schema -o "${yaml}" -m "${input_yaml_files[@]}" \
 			|| die "cros_config_schema failed for build config."
-		cros_config_schema -c "${yaml}" -o "${json}" \
+		cros_config_schema -c "${yaml}" \
 			--configfs-output "${configfs_image}" -g "${WORKDIR}" -f "True" \
 			|| die "cros_config_schema failed for platform config."
 	else
@@ -74,15 +73,12 @@ src_install() {
 		return 0
 	fi
 
-	local file
-
 	# Get the directory name only, and use that as the install directory.
 	insinto "${UNIBOARD_JSON_INSTALL_PATH%/*}"
-	for file in "config.json" "configfs.img"; do
-		if [[ -e "${WORKDIR}/${file}" ]]; then
-			doins "${WORKDIR}/${file}"
-		fi
-	done
+	if [[ -e "${WORKDIR}/configfs.img" ]]; then
+		doins "${WORKDIR}/configfs.img"
+	fi
+
 	insinto "${UNIBOARD_YAML_DIR}"
 	doins "${WORKDIR}/config.c"
 	doins "${WORKDIR}/ec_config.c"
