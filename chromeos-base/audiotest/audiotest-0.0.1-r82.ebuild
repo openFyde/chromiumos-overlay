@@ -7,6 +7,7 @@ CROS_WORKON_COMMIT="e2f6b6df0af3ac953418acf45ca2f310cf3b7089"
 CROS_WORKON_TREE="661e4026e1688710bb3f500f04c1eb31c47043b8"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/audiotest"
+CROS_WORKON_LOCALNAME="platform/audiotest"
 
 inherit cros-sanitizers cros-workon cros-common.mk toolchain-funcs
 
