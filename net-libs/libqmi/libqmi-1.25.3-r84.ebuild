@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="43b098af026b9bd7b0d6ad911bfb8c90f7daa5b8"
-CROS_WORKON_TREE="d4939c79e4a2e3c119a83fc6c9b3bbdf24cb5163"
+CROS_WORKON_COMMIT="57ec73376b787b395a185aa412f790b7625fec11"
+CROS_WORKON_TREE="b463b4f99d0637d1b5e3ee6cc3d2f9d69929ef65"
 CROS_WORKON_PROJECT="chromiumos/third_party/libqmi"
 
 inherit autotools cros-sanitizers cros-workon
@@ -35,6 +35,7 @@ src_configure() {
 	econf \
 		--enable-qmi-username='modem' \
 		--enable-compile-warnings=yes \
+		--enable-qrtr \
 		$(use_enable mbim mbim-qmux) \
 		$(use_enable static{-libs,}) \
 		$(use_enable {,gtk-}doc)
