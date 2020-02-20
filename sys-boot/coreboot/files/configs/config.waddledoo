@@ -19,10 +19,11 @@ CONFIG_ELOG_GSMI=y
 CONFIG_ELOG_BOOT_COUNT=y
 CONFIG_ELOG_BOOT_COUNT_CMOS_OFFSET=144
 
-# TODO(b/148411686): Firmware Support Package
-# CONFIG_ADD_FSP_BINARIES is not set
-# CONFIG_FSP_M_FILE is not set
-# CONFIG_FSP_S_FILE is not set
+# Firmware Support Package
+CONFIG_ADD_FSP_BINARIES=y
+CONFIG_FSP_M_FILE="3rdparty/blobs/intel/jsl/fsp/fspm.bin"
+CONFIG_FSP_S_FILE="3rdparty/blobs/intel/jsl/fsp/fsps.bin"
+# TODO(b/148411686): Include the header after fix for c#2
 # CONFIG_FSP_HEADER_PATH is not set
 
 # Enable VBT
