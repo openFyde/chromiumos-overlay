@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fd59e203cb875fe1f39357be86daf1679327445f"
-CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "c3bff415eefa377edc8a6a21fa89e541bd48cf7c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d0b5f425c2c2868307bb27bbab11aef8199810b2"
+CROS_WORKON_TREE=("142f8e8618a85124529b0000717d72079aa4ad97" "9c4ede612336e6a2650ab73b1e70726932a0c5e8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -83,7 +83,8 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/libbrillo_tests"
+	local gtest_filter_qemu="-*DeathTest*"
+	platform_test "run" "${OUT}/libbrillo_tests" "" "" "${gtest_filter_qemu}"
 	platform_test "run" "${OUT}/libinstallattributes_tests"
 	platform_test "run" "${OUT}/libpolicy_tests"
 }
