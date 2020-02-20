@@ -1,1 +1,0 @@
-googletts-12.ebuild

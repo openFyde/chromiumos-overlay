@@ -21,5 +21,5 @@ S="${WORKDIR}"
 
 src_install() {
 	insinto /usr/share/chromeos-assets/speech_synthesis/patts
-	doins *.{css,html,js,json,wasm,xvoice}
+	doins *.{css,data,html,js,json,wasm,xvoice,xz}
 }
