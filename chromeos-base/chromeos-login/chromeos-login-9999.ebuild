@@ -20,7 +20,7 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cheets fuzzer generated_cros_config systemd unibuild user_session_isolation"
+IUSE="arc_adb_sideloading cheets fuzzer generated_cros_config systemd unibuild user_session_isolation"
 
 COMMON_DEPEND="chromeos-base/bootstat:=
 	unibuild? (
