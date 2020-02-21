@@ -220,8 +220,7 @@ usetf()  { usex $1 true false ; }
 use_goma() {
 	[[ "${USE_GOMA:-$(usetf goma)}" == "true" ]]
 }
-use_goma_log() {
-	use_goma && \
+should_upload_build_logs() {
 	[[ -n "${GOMA_TMP_DIR}" && -n "${GLOG_log_dir}" && \
 		"${GLOG_log_dir}" == "${GOMA_TMP_DIR}"* ]]
 }
@@ -976,14 +975,14 @@ chrome_make() {
 	)
 	# If goma is used, log the command, cwd and env vars, which will be
 	# uploaded to the logging server.
-	if use_goma_log; then
+	if should_upload_build_logs; then
 		env --null > "${GLOG_log_dir}/ninja_env"
 		pwd > "${GLOG_log_dir}/ninja_cwd"
 		echo "${command[@]}" > "${GLOG_log_dir}/ninja_command"
 	fi
 	PATH=${PATH}:${DEPOT_TOOLS} "${command[@]}"
 	local ret=$?
-	if use_goma_log; then
+	if should_upload_build_logs; then
 		echo "${ret}" > "${GLOG_log_dir}/ninja_exit"
 		cp -p "${BUILD_OUT_SYM}/${BUILDTYPE}/.ninja_log" "${GLOG_log_dir}/ninja_log"
 	fi
