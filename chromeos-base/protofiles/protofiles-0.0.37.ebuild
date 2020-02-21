@@ -56,6 +56,16 @@ IUSE=""
 
 POLICY_DIR="${S}/cloud/policy"
 
+# A sorted list of the static protobuf files that exist in Chromium.
+POLICY_DIR_PROTO_FILES=(
+	"chrome_device_policy.proto"
+	"chrome_extension_policy.proto"
+	"device_management_backend.proto"
+	"install_attributes.proto"
+	"policy_common_definitions.proto"
+	"policy_signing_key.proto"
+)
+
 RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
 
 src_unpack() {
@@ -100,4 +110,20 @@ src_install() {
 	doexe "${POLICY_DIR}"/tools/generate_policy_source.py
 	sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' \
 		"${D}/usr/share/policy_tools/generate_policy_source.py" || die
+
+	# Retrieve the proto files which exist in that path, with their full paths.
+	local policy_dir_proto_files=( "${POLICY_DIR}"/proto/*.proto )
+
+	# Convert policy_dir_proto_files into an array, and retrieving the files names, instead of their full path.
+	policy_dir_proto_files=( "${policy_dir_proto_files[@]##*/}" )
+
+	# Check whether all protobuf files that exist in Chromium side has already been installed in protofiles package or
+	# not. And to verify that the list in autotests package, which is using these protobuf files are up-to-date.
+	sorter() {
+		printf '%s\n' "$@" | LC_ALL=C sort
+	}
+	if [[ "$(sorter "${policy_dir_proto_files[@]}")" != "$(sorter "${POLICY_DIR_PROTO_FILES[@]}")" ]]; then
+		die "Add all new protobuf files into the sorted list of chromium protobuf files, which exist in protofiles package.
+			Please update all the imported protobuf files in autotest package in policy_protos.py file."
+	fi
 }
