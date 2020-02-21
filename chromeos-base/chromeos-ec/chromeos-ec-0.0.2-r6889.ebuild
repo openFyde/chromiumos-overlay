@@ -17,21 +17,18 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("d3b9d8ad4739d6f65fcc321105a7031d15e1b3a0" "0be7f8dcc9bc3d082036fbab8c1caa67715a11f4" "1e2e9d7183f545eefd1a86a07b0ab6f91d837a6c")
-CROS_WORKON_TREE=("bfcce8365f2d7c8bef0839dd19f482c356b4b416" "a4c56d3bb4c4f359199854c87e06b4af06cf05ce" "fdbc51bbd5a7ee9d532ea1aa30cf21e57ca199db")
+CROS_WORKON_COMMIT=("d3b9d8ad4739d6f65fcc321105a7031d15e1b3a0" "1e2e9d7183f545eefd1a86a07b0ab6f91d837a6c")
+CROS_WORKON_TREE=("bfcce8365f2d7c8bef0839dd19f482c356b4b416" "fdbc51bbd5a7ee9d532ea1aa30cf21e57ca199db")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
-	"chromiumos/third_party/tpm2"
 	"chromiumos/third_party/cryptoc"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform/ec"
-	"third_party/tpm2"
 	"third_party/cryptoc"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform/ec"
-	"${S}/third_party/tpm2"
 	"${S}/third_party/cryptoc"
 )
 
