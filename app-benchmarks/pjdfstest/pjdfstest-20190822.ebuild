@@ -40,8 +40,6 @@ src_configure() {
 }
 
 src_install() {
-	newbin "${FILESDIR}/run-pjdfstest.sh" run-pjdfstest
-
 	exeinto /opt/pjdfstest/
 	doexe pjdfstest
 

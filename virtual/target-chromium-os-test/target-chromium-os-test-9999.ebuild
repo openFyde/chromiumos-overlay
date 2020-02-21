@@ -144,6 +144,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	app-benchmarks/blktests
 	app-benchmarks/lmbench
 	app-benchmarks/microbenchmarks
+	app-benchmarks/pjdfstest
 	app-benchmarks/xfstests
 	app-misc/ckermit
 	opengles? ( app-misc/eglinfo )
