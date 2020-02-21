@@ -142,6 +142,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	app-arch/gzip
 	app-arch/tar
 	app-benchmarks/blktests
+	app-benchmarks/blogbench
 	app-benchmarks/lmbench
 	app-benchmarks/microbenchmarks
 	app-benchmarks/pjdfstest
