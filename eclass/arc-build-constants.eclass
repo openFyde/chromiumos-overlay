@@ -10,11 +10,13 @@ ANDROID_CONTAINER_VERS=(
 	android-container-nyc
 	android-container-pi
 	android-container-qt
+	android-container-rvc
 )
 
 # USE flags corresponding to different VM versions.
 ANDROID_VM_VERS=(
 	android-vm-pi
+	android-vm-rvc
 	android-vm-master
 )
 
