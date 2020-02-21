@@ -1,0 +1,9 @@
+DEFINED_PHASES=install
+DESCRIPTION=Google text-to-speech engine
+EAPI=6
+KEYWORDS=*
+LICENSE=BSD-Google
+RDEPEND=!<chromeos-base/common-assets-0.0.2-r123
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/googletts-13.tar.xz
+_md5_=214de358caea99da235114683c6f2da2
