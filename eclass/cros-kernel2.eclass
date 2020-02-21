@@ -197,6 +197,7 @@ CONFIG_FRAGMENTS=(
 	virtio_balloon
 	vivid
 	vlan
+	vmware_guest
 	vtconsole
 	wifi_testbed_ap
 	wifi_diag
@@ -795,6 +796,15 @@ CONFIG_VIDEO_VIVID_MAX_DEVS=64
 vlan_desc="802.1Q VLAN"
 vlan_config="
 CONFIG_VLAN_8021Q=m
+"
+
+vmware_guest_desc="Support running under VMware hypervisor"
+vmware_guest_config="
+CONFIG_VMWARE_BALLOON=y
+CONFIG_VMWARE_PVSCSI=y
+CONFIG_VMWARE_VMCI=y
+CONFIG_VMWARE_VMCI_VSOCKETS=y
+CONFIG_VMXNET3=y
 "
 
 wifi_testbed_ap_desc="Defer Atheros Wifi EEPROM regulatory"
