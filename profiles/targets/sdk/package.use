@@ -145,7 +145,6 @@ dev-python/django python_targets_python2_7
 dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
 dev-python/ecdsa python_targets_python2_7
-dev-python/flake8 python_targets_python2_7
 dev-python/future python_targets_python2_7
 dev-python/grpcio python_targets_python2_7
 dev-python/grpcio-tools python_targets_python2_7
@@ -164,7 +163,6 @@ dev-python/lxml python_targets_python2_7
 dev-python/m2crypto python_targets_python2_7
 dev-python/mako python_targets_python2_7
 dev-python/markupsafe python_targets_python2_7
-dev-python/mccabe python_targets_python2_7
 dev-python/mock python_targets_python2_7
 dev-python/more-itertools python_targets_python2_7
 dev-python/mysqlclient python_targets_python2_7
@@ -189,10 +187,8 @@ dev-python/pycairo python_targets_python2_7
 dev-python/pycodestyle python_targets_python2_7
 dev-python/pycparser python_targets_python2_7
 dev-python/pyelftools python_targets_python2_7
-dev-python/pyflakes python_targets_python2_7
 dev-python/pygments python_targets_python2_7
 dev-python/pygobject python_targets_python2_7
-dev-python/pylint python_targets_python2_7
 dev-python/pyopenssl python_targets_python2_7
 dev-python/pyparsing python_targets_python2_7
 dev-python/py python_targets_python2_7
