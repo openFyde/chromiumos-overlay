@@ -12,10 +12,12 @@ INSTALL_DIR="/usr/local/graphics"
 CROS_GO_BINARIES=(
 	# Add more apps here.
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
+	"trace_replay/cmd/trace_replay:${INSTALL_DIR}/trace_replay"
 )
 
 CROS_GO_TEST=(
 	"sanity/cmd/pass"
+	"trace_replay/cmd/trace_replay"
 )
 
 CROS_GO_VET=(
