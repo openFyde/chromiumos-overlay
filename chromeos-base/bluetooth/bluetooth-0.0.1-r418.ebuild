@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ae80499cc377be1e39105408478416bda0f0915b"
+CROS_WORKON_COMMIT="04fda43a23bc479a0dc5484ab5fbeb4258d8f105"
 CROS_WORKON_TREE=("d4a0e9048e8d32a8678de4569c72f6e8953902c2" "29a126da9c9ed1a2cdd3812f293bfd28ff38772d" "cdd561e3db24d82f9bce4bd758d7f81aaaeea1ce" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -35,14 +35,12 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api:=[fuzzer?]"
 
 src_install() {
-	dobin init/scripts/bluetooth-setup.sh
 	dobin "${OUT}"/btdispatch
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Bluetooth.conf
 
 	insinto /etc/init
-	doins init/upstart/bluetooth-setup.conf
 	doins init/upstart/btdispatch.conf
 
 	if use seccomp; then
