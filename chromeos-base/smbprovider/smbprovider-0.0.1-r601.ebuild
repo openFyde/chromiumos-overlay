@@ -1,9 +1,9 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="ae80499cc377be1e39105408478416bda0f0915b"
+CROS_WORKON_COMMIT="b6fd85b113203afc76732349d993189942c99f5b"
 CROS_WORKON_TREE=("d4a0e9048e8d32a8678de4569c72f6e8953902c2" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "1c97dcc5afe714fce24e1cb74c2f504b6620f40c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,21 +20,23 @@ DESCRIPTION="Provides access to Samba file share"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/smbprovider/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="fuzzer"
 
-RDEPEND="
+COMMON_DEPEND="
 	dev-libs/protobuf:=
 	>=net-fs/samba-4.5.3-r6
-	sys-apps/dbus
+	sys-apps/dbus:=
 "
 
+RDEPEND="${COMMON_DEPEND}"
+
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPEND}
 	chromeos-base/protofiles:=
-	chromeos-base/system_api[fuzzer?]
-	chromeos-base/libpasswordprovider
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/libpasswordprovider:=
 "
 
 pkg_setup() {

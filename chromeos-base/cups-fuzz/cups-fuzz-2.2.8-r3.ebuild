@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
-CROS_WORKON_COMMIT="ac1ba6031c3dfab30cd3bb66360a9ba5103944c6"
+CROS_WORKON_COMMIT="e9e569ef342616552df0e4db48ce6ed98af1fdb2"
 CROS_WORKON_TREE="6c56a58a6808e59bd763896a3b4e5fc1228d1c94"
 CROS_WORKON_LOCALNAME="third_party/cups"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
@@ -18,12 +18,13 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="asan fuzzer"
 
-RDEPEND="net-print/cups[fuzzer]"
-DEPEND="${RDEPEND}"
+COMMON_DEPEND="net-print/cups:=[fuzzer]"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 # We really don't want to be building this otherwise.
 REQUIRED_USE="fuzzer"
