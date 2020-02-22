@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="04fda43a23bc479a0dc5484ab5fbeb4258d8f105"
-CROS_WORKON_TREE=("d4a0e9048e8d32a8678de4569c72f6e8953902c2" "29a126da9c9ed1a2cdd3812f293bfd28ff38772d" "cdd561e3db24d82f9bce4bd758d7f81aaaeea1ce" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b1d88366999c433e93b0d8314d3a637835c127e5"
+CROS_WORKON_TREE=("d4a0e9048e8d32a8678de4569c72f6e8953902c2" "29a126da9c9ed1a2cdd3812f293bfd28ff38772d" "6e5950697fe5b5a9410f2b52444b5c478bcca58e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -27,7 +27,6 @@ RDEPEND="
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
-	chromeos-base/newblue:=
 	net-wireless/bluez:=
 "
 
@@ -51,16 +50,6 @@ src_install() {
 		# Remove seccomp flags from minijail parameters.
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/btdispatch.conf || die
 	fi
-
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_parsedataintouuids_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_parsedataintoservicedata_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_parseeir_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_parsereportdescriptor_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_trimadapterfromobjectpath_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_trimdevicefromobjectpath_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_trimservicefromobjectpath_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_trimcharacteristicfromobjectpath_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bluetooth_trimdescriptorfromobjectpath_fuzzer
 }
 
 platform_pkg_test() {
