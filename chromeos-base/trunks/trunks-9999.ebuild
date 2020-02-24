@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec trunks .gn"
 
 PLATFORM_SUBDIR="trunks"
 
@@ -38,6 +38,7 @@ RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	!app-crypt/tpm-tools
+	chromeos-base/libhwsec
 	"
 
 DEPEND="
