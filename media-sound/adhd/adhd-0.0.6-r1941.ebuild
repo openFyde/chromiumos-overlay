@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="b028db48cb46f22b60b0177dbbd4ca5d51070a3f"
-CROS_WORKON_TREE="c2abf340a8df9faf8fb47c3d39c1113c334c2dd4"
+CROS_WORKON_COMMIT="c4dd34f972564d7ac5aba6665a742d61fc2fe488"
+CROS_WORKON_TREE="8747e3a7d7d3774a47b8bbae3d6aae6e9f99c861"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -147,7 +147,7 @@ src_install() {
 		insinto /etc/cras
 		doins cras-config/dsp.ini.sample
 		# Install fuzzer binary
-		fuzzer_install "${S}/OWNERS" cras/src/cras_rclient_message_fuzzer
+		fuzzer_install "${S}/OWNERS.fuzz" cras/src/cras_rclient_message_fuzzer
 	fi
 }
 
