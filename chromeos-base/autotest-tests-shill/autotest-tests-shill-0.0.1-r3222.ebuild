@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="01a3bc37184000145fa86f167ddc2c324eb4362f"
-CROS_WORKON_TREE="56bbc8b431c005a151d6ea913061c81e8e0f04e0"
+CROS_WORKON_COMMIT="70b9b4a3562652b9991074be8e5e00f4a23714af"
+CROS_WORKON_TREE="eeded2b3598228af7a59fe026547e369da6da635"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -28,7 +28,6 @@ DEPEND="${RDEPEND}"
 # TODO(crbug.com/948805): Remove tests_network_WlanDriver when
 # partners are able to run Tast test.
 IUSE_TESTS="
-	+tests_network_BasicProfileProperties
 	+tests_network_DhcpClasslessStaticRoute
 	+tests_network_DhcpFailureWithStaticIP
 	+tests_network_DhcpNak
