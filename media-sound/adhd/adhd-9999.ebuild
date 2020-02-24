@@ -145,7 +145,7 @@ src_install() {
 		insinto /etc/cras
 		doins cras-config/dsp.ini.sample
 		# Install fuzzer binary
-		fuzzer_install "${S}/OWNERS" cras/src/cras_rclient_message_fuzzer
+		fuzzer_install "${S}/OWNERS.fuzz" cras/src/cras_rclient_message_fuzzer
 	fi
 }
 
