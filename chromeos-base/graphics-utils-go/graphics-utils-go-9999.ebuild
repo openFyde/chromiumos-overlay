@@ -11,11 +11,13 @@ CROS_GO_BINARIES=(
 	# Add more apps here.
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
 	"trace_replay/cmd/trace_replay:${INSTALL_DIR}/trace_replay"
+	"trace_profiling/cmd/analyze:${INSTALL_DIR}/analyze"
 )
 
 CROS_GO_TEST=(
 	"sanity/cmd/pass"
 	"trace_replay/cmd/trace_replay"
+	"trace_profiling/cmd/analyze"
 )
 
 CROS_GO_VET=(
@@ -23,6 +25,7 @@ CROS_GO_VET=(
 )
 
 inherit cros-go cros-workon
+SRC_URI="$(cros-go_src_uri)"
 
 DESCRIPTION="Portable graphics utils written in go"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/graphics/"
@@ -32,9 +35,17 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND=""
+DEPEND="
+	dev-go/fogleman-gg
+	dev-go/go-image
+	dev-go/gofpdf
+	dev-go/golang-freetype
+	dev-go/gonum-plot
+	dev-go/readline
+	dev-go/svgo
+"
 
-RDEPEND=""
+RDEPEND="${DEPEND}"
 
 src_prepare() {
 	# Disable cgo and PIE on building Tast binaries. See:

@@ -6,6 +6,10 @@ EAPI=5
 CROS_GO_SOURCE="go.googlesource.com/text:golang.org/x/text 1cbadb444a806fd9430d14ad08967ed91da4fa0a"
 
 CROS_GO_PACKAGES=(
+	"golang.org/x/text/encoding"
+	"golang.org/x/text/encoding/charmap"
+	"golang.org/x/text/encoding/internal"
+	"golang.org/x/text/encoding/internal/identifier"
 	"golang.org/x/text/secure/bidirule"
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/bidi"
