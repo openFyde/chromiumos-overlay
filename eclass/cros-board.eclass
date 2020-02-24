@@ -213,7 +213,7 @@ ALL_BOARDS=(
 	#kennet
 	kevin
 	kevin64
-	kevin-arcnext
+	#kevin-arcnext
 	kevin-arc64
 	#kevin-bertha
 	kevin-tpm2
