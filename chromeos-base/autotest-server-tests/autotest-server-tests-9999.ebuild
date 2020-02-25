@@ -141,6 +141,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50DevMode
 	+tests_firmware_Cr50ECReset
 	+tests_firmware_Cr50FactoryResetVC
+	+tests_firmware_Cr50CCDFirmwareUpdate
 	+tests_firmware_Cr50GetName
 	+tests_firmware_Cr50InvalidateRW
 	+tests_firmware_Cr50Open
