@@ -33,10 +33,14 @@ arm|x86)
 	;;
 esac
 
-PKG_CONFIG_LIBDIR="${SYSROOT}${ARC_PREFIX}/vendor/\${libdir}/pkgconfig"
-export PKG_CONFIG_LIBDIR
+export PKG_CONFIG_LIBDIR="\${ARC_SYSROOT}/vendor/\${libdir}/pkgconfig"
 
-export PKG_CONFIG_SYSROOT_DIR="${SYSROOT}"
+# This would normally use just \${SYSROOT}, but platform.eclass re-points
+# \${SYSROOT} at \${ARC_SYSROOT}. Note that \${ARC_PREFIX} would better be
+# expanded at run time as well, but it's currently not exported into the build
+# environment.
+# TODO(crbug.com/1056100): Address sysroot confusion.
+export PKG_CONFIG_SYSROOT_DIR="\${SYSROOT%${ARC_PREFIX}}"
 
 # Portage will get confused and try to "help" us by exporting this.
 # Undo that logic.
