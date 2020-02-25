@@ -75,6 +75,9 @@ src_install() {
 	dosbin "${OUT}"/crash_reporter
 	dosbin "${OUT}"/crash_sender
 
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.AnomalyEventService.conf
+
 	into /usr
 	use cros_embedded || dobin "${OUT}"/anomaly_detector
 	dosbin kernel_log_collector.sh
