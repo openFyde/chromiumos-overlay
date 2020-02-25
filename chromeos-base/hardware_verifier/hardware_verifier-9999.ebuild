@@ -33,6 +33,9 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}/hardware_verifier"
+
+	insinto /etc/init
+	doins init/hardware-verifier.conf
 }
 
 platform_pkg_test() {
