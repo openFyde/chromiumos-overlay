@@ -89,6 +89,7 @@ IUSE_LINUX_FIRMWARE=(
 	qca6174a-3-bt
 	qca6174a-5-bt
 	qca-wcn3990-bt
+	qca-wcn3991-bt
 	rockchip-dptx
 	rt2870
 	rtl8107e-1
@@ -148,6 +149,7 @@ LICENSE="
 	linux_firmware_qca6174a-3-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_qca6174a-5-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_qca-wcn3990-bt? ( LICENSE.QualcommAtheros_ath10k )
+	linux_firmware_qca-wcn3991-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_rockchip-dptx? ( LICENCE.rockchip )
 	linux_firmware_rt2870? ( LICENCE.ralink-firmware.txt LICENCE.ralink_a_mediatek_company_firmware )
 	linux_firmware_rtl8107e-1? ( LICENCE.rtl_nic )
@@ -257,6 +259,7 @@ src_install() {
 	use_fw qca6174a-3-bt && doins_subdir qca/{nvm,rampatch}_0044*.bin
 	use_fw qca6174a-5-bt && doins_subdir qca/{nvm,rampatch}_usb_*.bin
 	use_fw qca-wcn3990-bt && doins_subdir qca/{crbtfw21.tlv,crnv21.bin}
+	use_fw qca-wcn3991-bt && doins_subdir qca/{crbtfw32.tlv,crnv32.bin}
 	use_fw rockchip-dptx && doins_subdir rockchip/dptx.bin
 	# TODO(b/145625868): rtl8153a-3 currently excluded because it causes repeated
 	# dongle resets on kernel 4.19.
