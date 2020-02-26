@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="dbb8948ebe348ea4480e17ad397fc1d92b7c8e30"
-CROS_WORKON_TREE="db0fbef7625dfc5f44ca804ff654a713bb9f2e1b"
+CROS_WORKON_COMMIT="0bb824acb759ff57bf2c9e06417b29cfd262a3de"
+CROS_WORKON_TREE="86b48bf1c50fe4a926eec49d4dedf8c86a01696e"
 CROS_WORKON_BLACKLIST=1
 CROS_WORKON_LOCALNAME="aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
@@ -19,7 +19,6 @@ DESCRIPTION="helper binary and library for sandboxing & restricting privs of ser
 HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="asan cros-debug +seccomp test"
 
@@ -42,6 +41,9 @@ src_configure() {
 }
 
 src_compile() {
+	# Avoid confusing people with our docs.
+	sed -i "s:/var/empty:${DEFAULT_PIVOT_ROOT}:g" minijail0.[15] || die
+
 	cros-common.mk_src_compile all $(usex cros_host parse_seccomp_policy '')
 }
 
