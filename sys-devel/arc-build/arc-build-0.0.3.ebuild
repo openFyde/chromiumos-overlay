@@ -18,6 +18,13 @@ S=${WORKDIR}
 src_compile() {
 	arc-build-constants-configure
 
+	# Note that in the code generated below, references to ${SYSROOT} etc. are
+	# escaped so they don't get evaluated only at run time of the script.
+	# There is one exception for ${ARC_PREFIX} (see the commment below) -
+	# if/when this is resolved, the script would be static and there'd be no
+	# need to dynamically generate it.
+	# TODO(crbug.com/1056100): Consider moving to ${FILESDIR} when the bug is
+	# addressed.
 	cat > pkg-config <<EOF
 #!/bin/bash
 case \${ABI} in
