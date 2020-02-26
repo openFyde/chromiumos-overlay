@@ -130,6 +130,12 @@
         "end_version": 381347
     },
     {
+        "comment": "[Sema] Avoid Wrange-loop-analysis false positives",
+        "rel_patch_path": "cherry/41fcd17250fa0526e4b7fd2c7df7721b0f79b683.patch",
+        "start_version": 380035,
+        "end_version": 382025
+    },
+    {
         "comment": "Revert \"[DebugInfo][DAG] Distinguish different kinds of location indirection\"",
         "rel_patch_path": "cherry/ece761427f63de96ee52bbd6be1c61b07967a917.patch",
         "start_version": 380035,
