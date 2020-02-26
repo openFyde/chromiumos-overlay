@@ -29,7 +29,7 @@ HOMEPAGE="https://cs.chromium.org/chromium/src/third_party/icu/"
 
 LICENSE="BSD"
 
-SLOT="0/${PV}"
+SLOT="0/${PVR}"
 KEYWORDS="~*"
 
 # [Mod] Most of non-related IUSE flags are removed.
@@ -81,12 +81,12 @@ DEPEND=""
 usetf()  { usex $1 true false ; }
 
 set_build_args() {
-	# [Mod] 1. Add a new arg "icu_compile_to_shared_library=true".
+	# [Mod] 1. Add a new arg "icu_disable_thin_archive=true".
 	#       2. Set the values according to IUSE default value but disable
 	#          unnecessary feature
 	#       3. Set "is_cfi=false".
 	BUILD_ARGS=(
-		"icu_compile_to_shared_library=true"
+		"icu_disable_thin_archive=true"
 
 		# is_official_build sometimes implies extra optimizations (e.g. it will allow
 		# ThinLTO to optimize more aggressively, if ThinLTO is enabled). Please note
@@ -630,22 +630,73 @@ src_compile() {
 
 # [Mod] src_install() is greatly simplied and totally new.
 src_install() {
-	# Install to chrome folder to remind people this is chrome's icu.
 	local build_dir="src/${BUILD_OUT_SYM}/${BUILDTYPE}"
-	exeinto "${CHROME_DIR}"
-	doexe "${build_dir}/libicui18n.so"
-	doexe "${build_dir}/libicuuc.so"
+	dolib.a "${build_dir}/obj/third_party/icu/libicui18n.a"
+	dolib.a "${build_dir}/obj/third_party/icu/libicuuc.a"
+	# Install to chrome folder to make chrome work.
 	insinto "${CHROME_DIR}"
 	doins "${build_dir}/icudtl.dat"
 
-	# Make symlinks of icu libraries in /usr/lib{32,64} to let others use it.
-	dosym "../../${CHROME_DIR}/libicui18n.so" "/usr/$(get_libdir)/libicui18n.so"
-	dosym "../../${CHROME_DIR}/libicuuc.so" "/usr/$(get_libdir)/libicuuc.so"
-
-	# Install icu header to /usr/include.
-	local icu_header_dir="${D}/usr/include/icu/"
-	mkdir -p "${icu_header_dir}"
-	rsync -am --delete --include="*.h" --include="*/" --exclude="*" \
-		"${CHROME_ROOT}/src/third_party/icu/source/" \
-		"${icu_header_dir}"
+	# Install icu header to /usr/include/icu/.
+	local icu_headers=(
+		"common/unicode/brkiter.h"
+		"common/unicode/bytestream.h"
+		"common/unicode/char16ptr.h"
+		"common/unicode/chariter.h"
+		"common/unicode/errorcode.h"
+		"common/unicode/localpointer.h"
+		"common/unicode/locid.h"
+		"common/unicode/parseerr.h"
+		"common/unicode/platform.h"
+		"common/unicode/ptypes.h"
+		"common/unicode/putil.h"
+		"common/unicode/putil.h"
+		"common/unicode/rep.h"
+		"common/unicode/std_string.h"
+		"common/unicode/strenum.h"
+		"common/unicode/stringoptions.h"
+		"common/unicode/stringpiece.h"
+		"common/unicode/ubrk.h"
+		"common/unicode/uchar.h"
+		"common/unicode/uchar.h"
+		"common/unicode/uconfig.h"
+		"common/unicode/ucpmap.h"
+		"common/unicode/ucurr.h"
+		"common/unicode/udata.h"
+		"common/unicode/udisplaycontext.h"
+		"common/unicode/uenum.h"
+		"common/unicode/uloc.h"
+		"common/unicode/umachine.h"
+		"common/unicode/umisc.h"
+		"common/unicode/unistr.h"
+		"common/unicode/uobject.h"
+		"common/unicode/urename.h"
+		"common/unicode/ures.h"
+		"common/unicode/utext.h"
+		"common/unicode/utf.h"
+		"common/unicode/utf.h"
+		"common/unicode/utf16.h"
+		"common/unicode/utf16.h"
+		"common/unicode/utf8.h"
+		"common/unicode/utf8.h"
+		"common/unicode/utf_old.h"
+		"common/unicode/utf_old.h"
+		"common/unicode/utypes.h"
+		"common/unicode/uvernum.h"
+		"common/unicode/uversion.h"
+		"i18n/unicode/calendar.h"
+		"i18n/unicode/gregocal.h"
+		"i18n/unicode/regex.h"
+		"i18n/unicode/timezone.h"
+		"i18n/unicode/ucal.h"
+		"i18n/unicode/ufieldpositer.h"
+		"i18n/unicode/uformattable.h"
+		"i18n/unicode/unum.h"
+		"i18n/unicode/uregex.h"
+	)
+	local f
+	for f in "${icu_headers[@]}"; do
+		insinto "/usr/include/icu/${f%/*}"
+		doins "${CHROME_ROOT}/src/third_party/icu/source/${f}"
+	done
 }
