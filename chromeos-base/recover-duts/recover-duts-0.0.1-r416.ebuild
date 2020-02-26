@@ -3,9 +3,10 @@
 
 EAPI=7
 CROS_WORKON_COMMIT="affd4a6a2024e73b03de7c475ce368f87e73f7da"
-CROS_WORKON_TREE="1c8aaeb8ce232446a65d04a86cb6df7cc97b7f89"
+CROS_WORKON_TREE="5bb3bef9dea46ab82ccbd69275a253d5941b4987"
 CROS_WORKON_PROJECT="chromiumos/platform/crostestutils"
 CROS_WORKON_LOCALNAME="crostestutils"
+CROS_WORKON_SUBTREE="recover_duts"
 
 inherit cros-workon
 
@@ -17,24 +18,22 @@ SLOT="0/0"
 KEYWORDS="*"
 
 RDEPEND="
-!<chromeos-base/shill-0.0.4
-chromeos-base/chromeos-init
-dev-lang/python
+	chromeos-base/chromeos-init
 "
 
-# These are all either bash / python scripts.  No actual builds DEPS.
 DEPEND=""
 
-# Use default src_compile and src_install which use Makefile.
+src_unpack() {
+	cros-workon_src_unpack
+	S+="/recover_duts"
+}
 
 src_install() {
-	pushd "${S}/recover_duts" || die
-	newbin recover_duts.sh recover_duts
 	dosbin reload_network_device
 
-	pushd "hooks" || die
-	dodir /usr/bin/hooks
-	exeinto /usr/bin/hooks
-	doexe *
-	popd
+	exeinto /usr/libexec/recover-duts
+	newexe recover_duts.sh recover_duts
+
+	exeinto /usr/libexec/recover-duts/hooks
+	doexe hooks/*
 }
