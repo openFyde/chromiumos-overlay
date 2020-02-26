@@ -19,7 +19,7 @@ VIDEO_CARDS="
 	amdgpu exynos intel marvell mediatek msm
 	radeon radeonsi rockchip tegra vc4 virgl
 "
-IUSE="-asan kernel-4_4 kernel-4_19"
+IUSE="-asan kernel-3_8 kernel-3_14 kernel-3_18"
 for card in ${VIDEO_CARDS}; do
 	IUSE+=" video_cards_${card}"
 done
@@ -48,7 +48,7 @@ src_configure() {
 	use video_cards_exynos && append-cppflags -DDRV_EXYNOS && export DRV_EXYNOS=1
 	use video_cards_intel && append-cppflags -DDRV_I915 && export DRV_I915=1
 	if use video_cards_intel ; then
-		if use kernel-4_4 || use kernel-4_19 ; then
+		if ! (use kernel-3_8 || use kernel-3_14 || use kernel-3_18); then
 			append-cppflags -DI915_SCANOUT_Y_TILED
 		fi
 	fi
