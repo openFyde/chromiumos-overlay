@@ -27,5 +27,5 @@ S="${WORKDIR}/${PN}-${GIT_REV}/"
 src_configure() {
 	use static && append-ldflags -static
 	tc-export CC
-	export prefix=/usr
+	export prefix=/usr/local
 }
