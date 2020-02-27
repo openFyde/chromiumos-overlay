@@ -8,4 +8,9 @@
 # the package, and it prints a string on stdout with the numerical version
 # number for said repo.
 
-awk -F"[ ',]+" '/version :/{print $4; exit}' "$1"/meson.build
+cd "$1" || exit
+if [[ -f contrib/get-version.py ]]; then
+  contrib/get-version.py | awk -F- '{print $1}'
+else
+  awk -F"[ ',]+" '/version :/{print $4; exit}' meson.build
+fi
