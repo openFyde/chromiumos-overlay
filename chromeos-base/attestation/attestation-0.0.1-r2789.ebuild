@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cbf67cb0bee6866a3e4cb004ae3dfae7b74d89cb"
-CROS_WORKON_TREE=("a049deba38a69414f9446279b569687189508f53" "1c290d15e7ac5de26487efcd1a78747a37947265" "81efa1b7c4fb6124a2feaec3b9b486b65749185f" "d33af452545894a4015d3e685ef122cea924019c" "c26253c05cd067e3756d684e153cffbbb26d2b7f" "2da64bb3271d19322575278b307844da3b0e3108" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="567bf73e46ec56c7ccde0f98a18a9f3ff3ee451c"
+CROS_WORKON_TREE=("a049deba38a69414f9446279b569687189508f53" "d73a6ac606c162efa11efd3b82d8e701f771d1a1" "81efa1b7c4fb6124a2feaec3b9b486b65749185f" "d33af452545894a4015d3e685ef122cea924019c" "c26253c05cd067e3756d684e153cffbbb26d2b7f" "2da64bb3271d19322575278b307844da3b0e3108" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -73,6 +73,13 @@ src_install() {
 		newins server/attestationd-seccomp-${ARCH}.policy attestationd-seccomp.policy
 	fi
 
+	insinto /etc/dbus-1/system.d
+	doins pca_agent/server/org.chromium.PcaAgent.conf
+	insinto /etc/init
+	doins pca_agent/server/pca_agentd.conf
+	dosbin "${OUT}"/pca_agentd
+	dobin "${OUT}"/pca_agent_client
+
 	dolib.so "${OUT}"/lib/libattestation.so
 
 
@@ -83,6 +90,9 @@ src_install() {
 	doins common/print_attestation_ca_proto.h
 	doins common/print_interface_proto.h
 	doins common/print_keystore_proto.h
+
+	insinto /usr/share/policy
+	newins "pca_agent/server/pca_agentd-seccomp-${ARCH}.policy" pca_agentd-seccomp.policy
 }
 
 platform_pkg_test() {
