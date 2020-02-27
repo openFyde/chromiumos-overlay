@@ -40,6 +40,7 @@ CROS_BOARDS=(
 	grunt
 	guado
 	hatch
+	jacuzzi
 	kalista
 	kevin
 	kip
