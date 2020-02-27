@@ -94,6 +94,7 @@ SERVER_IUSE_TESTS="
 			+tests_desktopui_CrashyRebootServer
 		)
 	)
+	+tests_crosperf_Wrapper
 	+tests_display_EdidStress
 	+tests_display_HDCPScreen
 	+tests_display_HotPlugAtBoot
