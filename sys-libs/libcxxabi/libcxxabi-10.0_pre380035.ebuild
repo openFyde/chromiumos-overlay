@@ -19,7 +19,7 @@ LLVM_NEXT_HASH="a21beccea2020f950845cbb68db663d0737e174c" # r380035
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+compiler-rt cros_host libunwind msan llvm-next llvm-tot +static-libs test"
+IUSE="+compiler-rt cros_host libunwind msan llvm-next llvm-tot +static-libs"
 
 RDEPEND="
 	libunwind? (
@@ -31,10 +31,7 @@ RDEPEND="
 	!cros_host? ( sys-libs/gcc-libs )"
 
 DEPEND="${RDEPEND}
-	cros_host? ( sys-devel/llvm )
-	test? ( >=sys-devel/clang-3.9.0
-		~sys-libs/libcxx-${PV}[libcxxabi(-)]
-		$(python_gen_any_dep 'dev-python/lit[${PYTHON_USEDEP}]') )"
+	cros_host? ( sys-devel/llvm )"
 
 python_check_deps() {
 	has_version "dev-python/lit[${PYTHON_USEDEP}]"
@@ -43,7 +40,6 @@ python_check_deps() {
 pkg_setup() {
 	setup_cross_toolchain
 	llvm_pkg_setup
-	use test && python-any-r1_pkg_setup
 	export CMAKE_USE_DIR="${S}/libcxxabi"
 }
 
@@ -84,7 +80,7 @@ multilib_src_configure() {
 		"-DLIBCXXABI_ENABLE_SHARED=ON"
 		"-DLIBCXXABI_ENABLE_STATIC=$(usex static-libs)"
 		"-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)"
-		"-DLIBCXXABI_INCLUDE_TESTS=$(usex test)"
+		"-DLIBCXXABI_INCLUDE_TESTS=OFF"
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
 		"-DLIBCXXABI_LIBCXX_INCLUDES=${S}/libcxx/include"
 		"-DLIBCXXABI_USE_COMPILER_RT=$(usex compiler-rt)"
@@ -103,21 +99,7 @@ multilib_src_configure() {
 		)
 	fi
 
-	if use test; then
-		mycmakeargs+=(
-			"-DLIT_COMMAND=${EPREFIX}/usr/bin/lit"
-		)
-	fi
 	cmake-utils_src_configure
-}
-
-multilib_src_test() {
-	local clang_path=$(type -P "${CHOST:+${CHOST}-}clang" 2>/dev/null)
-
-	[[ -n ${clang_path} ]] || die "Unable to find ${CHOST}-clang for tests"
-	sed -i -e "/cxx_under_test/s^\".*\"^\"${clang_path}\"^" test/lit.site.cfg || die
-
-	cmake-utils_src_make check-libcxxabi
 }
 
 multilib_src_install_all() {

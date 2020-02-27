@@ -22,7 +22,7 @@ LLVM_NEXT_HASH="a21beccea2020f950845cbb68db663d0737e174c" # r380035
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt libunwind llvm-next llvm-tot msan +static-libs test"
+IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt libunwind llvm-next llvm-tot msan +static-libs"
 REQUIRED_USE="libunwind? ( || ( libcxxabi libcxxrt ) )
 	?? ( libcxxabi libcxxrt )"
 
@@ -31,12 +31,8 @@ RDEPEND="
 	libcxxrt? ( ${CATEGORY}/libcxxrt[libunwind=,static-libs?,${MULTILIB_USEDEP}] )
 	!libcxxabi? ( !libcxxrt? ( >=sys-devel/gcc-4.7:=[cxx] ) )
 	!cros_host? ( sys-libs/gcc-libs )"
-# clang-3.9.0 installs necessary target symlinks unconditionally
-# which removes the need for MULTILIB_USEDEP
 DEPEND="${RDEPEND}
 	cros_host? ( sys-devel/llvm )
-	test? ( >=sys-devel/clang-3.9.0
-		$(python_gen_any_dep 'dev-python/lit[${PYTHON_USEDEP}]') )
 	app-arch/xz-utils"
 
 python_check_deps() {
@@ -65,7 +61,6 @@ src_prepare() {
 pkg_setup() {
 	setup_cross_toolchain
 	llvm_pkg_setup
-	use test && python-any-r1_pkg_setup
 
 	if ! use libcxxabi && ! use libcxxrt && ! tc-is-gcc ; then
 		eerror "To build ${PN} against libsupc++, you have to use gcc. Other"
@@ -141,7 +136,7 @@ multilib_src_configure() {
 		"-DLIBCXX_HAS_MUSL_LIBC=$(usex elibc_musl)"
 		"-DLIBCXX_HAS_GCC_S_LIB=${want_gcc_s}"
 		"-DLIBCXX_USE_COMPILER_RT=$(usex compiler-rt)"
-		"-DLIBCXX_INCLUDE_TESTS=$(usex test)"
+		"-DLIBCXX_INCLUDE_TESTS=OFF"
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
 		"-DCMAKE_SHARED_LINKER_FLAGS=${extra_libs[*]} ${LDFLAGS}"
 	)
@@ -152,24 +147,7 @@ multilib_src_configure() {
 		)
 	fi
 
-	if use test; then
-		mycmakeargs+=(
-			# this can be any directory, it just needs to exist...
-			# FIXME: remove this once https://reviews.llvm.org/D25093 is merged
-			"-DLLVM_MAIN_SRC_DIR=${T}"
-			"-DLIT_COMMAND=${EPREFIX}/usr/bin/lit"
-		)
-	fi
 	cmake-utils_src_configure
-}
-
-multilib_src_test() {
-	local clang_path=$(type -P "${CHOST:+${CHOST}-}clang" 2>/dev/null)
-
-	[[ -n ${clang_path} ]] || die "Unable to find ${CHOST}-clang for tests"
-	sed -i -e "/cxx_under_test/s^\".*\"^\"${clang_path}\"^" test/lit.site.cfg || die
-
-	cmake-utils_src_make check-libcxx
 }
 
 # Usage: deps
