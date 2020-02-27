@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="5783962617755a7c3237c50b950d90da9e10cf69"
-CROS_WORKON_TREE="ec262ca133821db0e2e801df6b13e13e6a77b79f"
+CROS_WORKON_COMMIT="1adaec7eab956622187e8c5eaaeaf5ef5cf9e569"
+CROS_WORKON_TREE="09eb89b9eafd8ad5da382ed2a43923ecf4350bcb"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt arcvm +autotest biod +cellular -chromeless_tests -chromeless_tty cros_p2p debugd has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
+IUSE="android-container android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt android-vm-pi +autotest biod +cellular -chromeless_tests -chromeless_tty cros_p2p debugd has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
 RDEPEND=""
@@ -84,7 +84,7 @@ SERVER_IUSE_TESTS="
 	)
 	android-container-qt? ( +tests_cheets_CTS_Q )
 	android-container-master-arc-dev? ( +tests_cheets_CTS_Q )
-	arcvm? (
+	android-vm-pi? (
 		+tests_cheets_CTS_Instant
 		+tests_cheets_CTS_P
 		+tests_cheets_GTS
