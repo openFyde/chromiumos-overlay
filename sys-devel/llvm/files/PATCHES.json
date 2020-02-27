@@ -136,6 +136,12 @@
         "end_version": 383779
     },
     {
+        "comment": "[ARM] Fix infinite loop when lowering STRICT_FP_EXTEND",
+        "rel_patch_path": "cherry/0ec57972967dfb43fc022c2e3788be041d1db730.patch",
+        "start_version": 380035,
+        "end_version": 384546
+    },
+    {
         "comment": "Fix StringRef std::string after 777180a32b6107.",
         "rel_patch_path": "cherry/2eb80a99a2c6f8e2f090a2bc8cd2760fe1e1f267.patch",
         "start_version": 382781,
