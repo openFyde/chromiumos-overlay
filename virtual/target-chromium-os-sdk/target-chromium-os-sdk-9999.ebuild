@@ -157,6 +157,7 @@ RDEPEND="${RDEPEND}
 	dev-lang/python:2.7
 	dev-lang/python:3.6
 	dev-lang/swig
+	dev-lang/tcl
 	dev-lang/yasm
 	dev-libs/dbus-glib
 	dev-libs/flatbuffers
