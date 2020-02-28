@@ -13,7 +13,7 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="arc-camera3 -chromeless_tests -chromeless_tty +crash_reporting cups +encrypted_stateful hammerd +network_time -ppp +passive_metrics +profile vaapi"
+IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups +encrypted_stateful hammerd +network_time -ppp +passive_metrics +profile vaapi"
 # Enable autotest by default.
 IUSE="${IUSE} +autotest"
 
@@ -193,6 +193,7 @@ CLIENT_IUSE_TESTS="
 	+tests_platform_ExternalUSBStress
 	+tests_platform_FileNum
 	+tests_platform_FileSize
+	biod? ( +tests_platform_Fingerprint )
 	+tests_platform_Firewall
 	+tests_platform_FullyChargedPowerStatus
 	+tests_platform_HighResTimers
