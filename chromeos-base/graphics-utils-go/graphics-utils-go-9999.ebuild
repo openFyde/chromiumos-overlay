@@ -12,13 +12,14 @@ CROS_GO_BINARIES=(
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
 	"trace_replay/cmd/trace_replay:${INSTALL_DIR}/trace_replay"
 	"trace_profiling/cmd/analyze:${INSTALL_DIR}/analyze"
+	"trace_profiling/cmd/profile:${INSTALL_DIR}/profile"
 )
 
 CROS_GO_TEST=(
 	"sanity/cmd/pass"
 	"trace_replay/cmd/trace_replay"
 	"trace_profiling/cmd/analyze"
-)
+	"trace_profiling/cmd/profile")
 
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
@@ -36,6 +37,7 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	dev-go/crypto
 	dev-go/fogleman-gg
 	dev-go/go-image
 	dev-go/gofpdf
