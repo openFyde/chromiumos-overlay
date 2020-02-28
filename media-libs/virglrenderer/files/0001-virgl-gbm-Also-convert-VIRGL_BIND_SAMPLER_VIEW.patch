@@ -1,0 +1,31 @@
+From dbb0f1a32583c160ab43905159698a5e129ae53d Mon Sep 17 00:00:00 2001
+From: Lepton Wu <lepton@chromium.org>
+Date: Wed, 26 Feb 2020 15:36:23 -0800
+Subject: [PATCH] virgl: gbm: Also convert VIRGL_BIND_SAMPLER_VIEW
+
+We convert GBM_BO_USE_TEXTURING to VIRGL_BIND_SAMPLER_VIEW at
+Android side, so just convert VIRGL_BIND_SAMPLER_VIEW back to
+GBM_BO_USE_TEXTURING, otherwise the allocation won't go
+through gbm.
+
+Signed-off-by: Lepton Wu <lepton@chromium.org>
+---
+ src/virgl_gbm.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/virgl_gbm.c b/src/virgl_gbm.c
+index 20597b6..2c46dd8 100644
+--- a/src/virgl_gbm.c
++++ b/src/virgl_gbm.c
+@@ -380,6 +380,8 @@ int virgl_gbm_transfer(struct gbm_bo *bo, uint32_t direction, struct iovec *iove
+ uint32_t virgl_gbm_convert_flags(uint32_t virgl_bind_flags)
+ {
+    uint32_t flags = 0;
++   if (virgl_bind_flags & VIRGL_BIND_SAMPLER_VIEW)
++      flags |= GBM_BO_USE_TEXTURING;
+    if (virgl_bind_flags & VIRGL_BIND_RENDER_TARGET)
+       flags |= GBM_BO_USE_RENDERING;
+    if (virgl_bind_flags & VIRGL_BIND_SCANOUT)
+-- 
+2.25.1.481.gfbce0eb801-goog
+

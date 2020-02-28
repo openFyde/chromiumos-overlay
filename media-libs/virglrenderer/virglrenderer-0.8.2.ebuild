@@ -36,6 +36,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-CHROMIUM-Adjust-plane-parameter.patch
+	"${FILESDIR}"/0001-virgl-gbm-Also-convert-VIRGL_BIND_SAMPLER_VIEW.patch
 )
 
 src_prepare() {
