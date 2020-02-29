@@ -83,6 +83,7 @@ CROS_BOARDS=(
 	stumpy
 	sumo
 	swanky
+	tglrvp
 	tidus
 	tricky
 	veyron_brain
