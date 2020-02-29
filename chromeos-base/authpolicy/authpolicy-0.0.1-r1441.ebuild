@@ -1,9 +1,9 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="3ad187b9c7fd4198f1f6aaa85d0176a7d12b0d95"
+CROS_WORKON_COMMIT="5b8313d88c0a0088d06983f23470ea49bc94c895"
 CROS_WORKON_TREE=("a049deba38a69414f9446279b569687189508f53" "1ac9f84a97e27999616a4c660ad2923a6e78debb" "7e090ba54425d36a9899ce32e6195fa8e1b93335" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,25 +20,26 @@ DESCRIPTION="Provides authentication to LDAP and fetching device/user policies"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/authpolicy/"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="+samba asan fuzzer"
 
-RDEPEND="
-	app-crypt/mit-krb5
+COMMMON_DEPEND="
+	app-crypt/mit-krb5:=
 	chromeos-base/libbrillo:=[asan?,fuzzer?]
-	chromeos-base/metrics
-	>=chromeos-base/minijail-0.0.1-r1477
+	chromeos-base/metrics:=
+	>=chromeos-base/minijail-0.0.1-r1477:=
 	dev-libs/protobuf:=
-	dev-libs/dbus-glib
-	samba? ( >=net-fs/samba-4.5.3-r6 )
-	sys-apps/dbus
-	sys-libs/libcap
+	dev-libs/dbus-glib:=
+	samba? ( >=net-fs/samba-4.5.3-r6:= )
+	sys-apps/dbus:=
+	sys-libs/libcap:=
 "
+RDEPEND="${COMMMON_DEPEND}"
 DEPEND="
-	${RDEPEND}
+	${COMMMON_DEPEND}
 	>=chromeos-base/protofiles-0.0.35:=
-	chromeos-base/session_manager-client
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 "
 
