@@ -21,6 +21,7 @@ COMMON_DEPEND=">=dev-embedded/libftdi-0.18:=
 	>=dev-python/pexpect-3.0:=
 	dev-python/pyserial:=
 	>=dev-python/pyusb-1.0.2:=
+	sys-power/uhubctl
 	virtual/libusb:1
 	chromeos-base/ec-devutils:=
 "
