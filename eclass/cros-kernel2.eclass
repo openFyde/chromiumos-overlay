@@ -972,6 +972,8 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_skl_ucode
 	builtin_fw_x86_whl_ucode
 	builtin_fw_vega12
+	builtin_fw_guc_tgl
+	builtin_fw_huc_tgl
 )
 
 builtin_fw_amdgpu_desc="Firmware for AMD GPU"
@@ -1137,6 +1139,16 @@ builtin_fw_x86_whl_ucode_desc="Intel ucode for WHL"
 builtin_fw_x86_whl_ucode_files=(
 	intel-ucode/06-8e-0b
 	intel-ucode/06-8e-0c
+)
+
+builtin_fw_guc_tgl_desc="GuC Firmware for TGL"
+builtin_fw_guc_tgl_files=(
+	i915/tgl_guc_35.2.0.bin
+)
+
+builtin_fw_huc_tgl_desc="HuC Firmware for TGL"
+builtin_fw_huc_tgl_files=(
+	i915/tgl_huc_7.0.3.bin
 )
 
 extra_fw_config="
