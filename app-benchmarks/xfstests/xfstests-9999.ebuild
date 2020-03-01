@@ -36,5 +36,5 @@ src_prepare() {
 
 src_configure() {
 	use kernel_linux && export PLATFORM=linux
-	cros-workon_src_configure --prefix="${EPREFIX}/usr/local"
+	cros-workon_src_configure
 }
