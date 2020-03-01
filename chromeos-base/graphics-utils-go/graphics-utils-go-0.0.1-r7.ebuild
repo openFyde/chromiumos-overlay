@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e3b00b0ecf626a01a421e4fd86af28da202523d0"
-CROS_WORKON_TREE="c66c82e7090e7626ce9b7363048f548641ec4ee8"
+CROS_WORKON_COMMIT="d2c7080e7230d9bf8caa0fe48934b614207100bf"
+CROS_WORKON_TREE="393d3f2c64c0017066adad83145500d0fcb2a937"
 CROS_WORKON_PROJECT="chromiumos/platform/graphics"
 CROS_WORKON_LOCALNAME="platform/graphics"
 
@@ -14,13 +14,14 @@ CROS_GO_BINARIES=(
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
 	"trace_replay/cmd/trace_replay:${INSTALL_DIR}/trace_replay"
 	"trace_profiling/cmd/analyze:${INSTALL_DIR}/analyze"
+	"trace_profiling/cmd/profile:${INSTALL_DIR}/profile"
 )
 
 CROS_GO_TEST=(
 	"sanity/cmd/pass"
 	"trace_replay/cmd/trace_replay"
 	"trace_profiling/cmd/analyze"
-)
+	"trace_profiling/cmd/profile")
 
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
@@ -38,6 +39,7 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="
+	dev-go/crypto
 	dev-go/fogleman-gg
 	dev-go/go-image
 	dev-go/gofpdf
