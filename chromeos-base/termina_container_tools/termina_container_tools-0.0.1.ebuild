@@ -53,7 +53,8 @@ src_install() {
 			"/usr/$(get_libdir)/libGLESv2.so.2" \
 			"/$(get_libdir)/libnss_compat.so.2" \
 			"/$(get_libdir)/libnss_files.so.2" \
-			"/$(get_libdir)/libnss_nis.so.2"
+			"/$(get_libdir)/libnss_nis.so.2" \
+			"/$(get_libdir)/libnss_dns.so.2"
 		)
 	)
 	cp -aL "${dlopen_libs[@]}" "${WORKDIR}"/container_pkg/lib/
