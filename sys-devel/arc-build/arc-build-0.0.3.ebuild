@@ -95,6 +95,7 @@ multilib_src_install_all() {
 	# TODO(b:138786145): Fix qt/master toolchain as well
 	if [[ "${ARCH}" == "arm" && "${ARC_VERSION_CODENAME}" != "nyc" &&
 			"${ARC_VERSION_CODENAME}" != "qt" &&
+			"${ARC_VERSION_CODENAME}" != "rvc" &&
 			"${ARC_VERSION_CODENAME}" != "master" ]]; then
 		arc_arch="arm64"
 	fi
