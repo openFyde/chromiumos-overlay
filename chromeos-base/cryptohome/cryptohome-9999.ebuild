@@ -80,6 +80,7 @@ src_install() {
 		lockbox-cache tpm-manager
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
+	dosbin encrypted-reboot-vault
 	if use tpm2; then
 		dosbin bootlockboxd bootlockboxtool
 	fi
