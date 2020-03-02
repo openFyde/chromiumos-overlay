@@ -61,3 +61,7 @@ CONFIG_POWER_STATE_OFF_AFTER_FAILURE=y
 # applied in the FIT tool will persist.  In particular the EC region
 # should not be writable in order to prevent flashrom issues.
 CONFIG_DO_NOT_TOUCH_DESCRIPTOR_REGION=y
+
+# WiFi SAR
+CONFIG_CHROMEOS_WIFI_SAR=y
+CONFIG_WIFI_SAR_CBFS_FILEPATH="3rdparty/blobs/mainboard/drallion/wifi_sar/wifi_sar-drallion.hex"
