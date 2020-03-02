@@ -40,6 +40,7 @@ CROSTINI_STABLE_USE_FLAGS="
 	relm
 	samus
 	sarien
+	scarlet
 	setzer
 	terra
 	ultima
