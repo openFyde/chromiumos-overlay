@@ -193,6 +193,7 @@ ALL_BOARDS=(
 	hana
 	hana-kernelnext
 	hatch
+	hatch-arc-r
 	hatch-diskswap
 	heli
 	hsb
@@ -221,6 +222,7 @@ ALL_BOARDS=(
 	kip
 	klang
 	kukui
+	kukui-arc-r
 	kumo
 	kunimitsu
 	lakitu
