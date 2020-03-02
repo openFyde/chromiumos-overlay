@@ -2,12 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="300354e5d74418c8e03737ca9029c64d9297a28d"
-CROS_WORKON_TREE="9c07b02309289bb86367a8929c41cc7a53e2b78d"
+CROS_WORKON_COMMIT="e1cb3b9c86ec37b742be1b59ee973e0eea35d2e3"
+CROS_WORKON_TREE="00b91e25e3bf7c71b460b3870e960124ec6b53ec"
 CROS_WORKON_PROJECT="chromiumos/platform/btsocket"
 CROS_WORKON_LOCALNAME="../platform/btsocket"
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python{3_6,3_7} )
 
 inherit cros-sanitizers cros-workon distutils-r1
 
