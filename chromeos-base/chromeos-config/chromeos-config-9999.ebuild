@@ -8,8 +8,8 @@ CROS_BOARDS=( none )
 
 # This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
 # the canonical empty project.
-CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
-CROS_WORKON_LOCALNAME="platform/empty-project"
+CROS_WORKON_PROJECT="chromiumos/config"
+CROS_WORKON_LOCALNAME="config"
 
 inherit cros-unibuild toolchain-funcs cros-workon
 
@@ -32,6 +32,13 @@ RDEPEND="${DEPEND}"
 # Merges all of the source YAML config files and generates the
 # corresponding build config and platform config files.
 src_compile() {
+	local proto_bindings_dir="${S}/python/config"
+	mkdir -p "${proto_bindings_dir}"
+	find "${S}/proto/api" -type f -name "*.proto" -print0 | \
+		xargs -0 protoc --proto_path="${S}/proto" \
+		--python_out="${proto_bindings_dir}" || die
+	einfo "Config python bindings generated at ${proto_bindings_dir}"
+
 	if use generated_cros_config ; then
 		einfo "Config files already generated, nothing to compile."
 		return 0
