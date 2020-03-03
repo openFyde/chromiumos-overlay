@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="940ca4da805d83c9e25919c7146bee62523d6c57"
-CROS_WORKON_TREE=("03bbbcee411f17ba1fc689765743cc4876d16cbb" "224d4a1f5a9f36390178a03ab97c1ee3d69854db" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8d36be83146b5b5555b735d61f79e5720b7dcdd0"
+CROS_WORKON_TREE=("03bbbcee411f17ba1fc689765743cc4876d16cbb" "18df97621929e6308734bae69c51a888a56f8d41" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -50,6 +50,10 @@ src_install() {
 
 	insinto /etc/init
 	doins init/system-proxy.conf
+
+	insinto /usr/share/policy
+	newins seccomp/system-proxy-seccomp-"${ARCH}".policy system-proxy-seccomp.policy
+	newins seccomp/system-proxy-worker-seccomp-"${ARCH}".policy system-proxy-worker-seccomp.policy
 }
 
 platform_pkg_test() {
