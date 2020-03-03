@@ -28,7 +28,7 @@ DEPEND="chromeos-base/system_api:=
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8:=
 	!>=dev-rust/protoc-rust-3
-	~dev-rust/syslog-4.0.0:=
+	~dev-rust/syslog-4.0.1:=
 	~dev-rust/time-0.1.40:=
 	=dev-rust/tempfile-3*:=
 	"
