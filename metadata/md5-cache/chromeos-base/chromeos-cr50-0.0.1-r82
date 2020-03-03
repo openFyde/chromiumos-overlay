@@ -5,5 +5,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=chromeos-base/chromeos-cr50-dev chromeos-base/chromeos-cr50-scripts
 SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles//cr50.r0.0.11.w0.3.25.tbz2 gs://chromeos-localmirror/distfiles//cr50.r0.0.11.w0.4.25_FFFF_00000000_00000010.tbz2
-_md5_=a1244aa9bb58e6833b2ed664d183b87d
+SRC_URI=gs://chromeos-localmirror/distfiles//cr50.r0.0.11.w0.3.25.tbz2 gs://chromeos-localmirror/distfiles//cr50.r0.0.11.w0.4.26_FFFF_00000000_00000010.tbz2
+_md5_=bb692065d1684b49cfbe7832e07c7218
