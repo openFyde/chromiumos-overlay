@@ -195,8 +195,10 @@ cros_post_src_unpack_asan_init() {
 	export UBSAN_OPTIONS+=" log_path=${log_path#${strip_sysroot}}"
 	# symbolize ubsan crashes.
 	export UBSAN_OPTIONS+=":symbolize=1:print_stacktrace=1"
-	# Clang coverage file generation location.
-	export LLVM_PROFILE_FILE="${coverage_path#${strip_sysroot}}/${P}_%9m.profraw"
+	# Clang coverage file generation location, only for target builds.
+	if [[ $(cros_target) == "board_sysroot" ]]; then
+		export LLVM_PROFILE_FILE="${coverage_path#${strip_sysroot}}/${P}_%9m.profraw"
+	fi
 
 	local lsan_suppression="${S}/lsan_suppressions"
 	local lsan_suppression_ebuild="${FILESDIR}/lsan_suppressions"
@@ -235,6 +237,9 @@ cros_post_src_test_asan_check() {
 
 cros_post_src_install_coverage_logs() {
 	# Generate coverage reports for the package.
+	if [[ $(cros_target) != "board_sysroot" ]]; then
+		return
+	fi
 	local coverage_path="${T}/coverage_logs"
 	if [[ ! -d "${coverage_path}" ]]; then
 		return
