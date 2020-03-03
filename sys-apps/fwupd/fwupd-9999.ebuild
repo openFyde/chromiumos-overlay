@@ -42,7 +42,7 @@ RDEPEND=">=app-arch/gcab-1.0
 	>=dev-libs/glib-2.45.8:2
 	dev-libs/json-glib
 	dev-libs/libgpg-error
-	dev-libs/libgudev:=
+	>=dev-libs/libgudev-232:=
 	>=dev-libs/libgusb-0.2.9[introspection?]
 	>=dev-libs/libxmlb-0.1.13
 	>=net-libs/libsoup-2.51.92:2.4[introspection?]
