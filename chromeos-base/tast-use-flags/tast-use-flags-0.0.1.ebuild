@@ -77,6 +77,7 @@ IUSE="
 	+drivefs
 	drm_atomic
 	fizz
+	force_breakpad
 	force_crashpad
 	grunt
 	internal
