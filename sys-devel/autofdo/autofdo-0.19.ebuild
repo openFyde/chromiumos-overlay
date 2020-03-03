@@ -31,6 +31,9 @@ src_prepare() {
 	# we can use the system library instead of building a new one.
 	epatch "${FILESDIR}/autofdo-0.19-use-system-protobuf.patch"
 
+	# Fix clang error reported in https://crbug.com/1057903
+	epatch "${FILESDIR}/autofdo-0.19-llvm-stringref-error.patch"
+
 	# The upstream tarball does not have aclocal.m4, and the upstream
 	# Makefile.in is generated from automake 1.15. We are still using
 	# automake 1.14. This mismatch makes the build fail.
