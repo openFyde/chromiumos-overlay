@@ -3,8 +3,8 @@
 # Based on gentoo's modemmanager ebuild
 
 EAPI=6
-CROS_WORKON_COMMIT="a4d3a4de1fdab7c282f1a188d2d3d0aaa24f0698"
-CROS_WORKON_TREE="4ca565b11691a0cedcea129b7930274d3e7dc1a7"
+CROS_WORKON_COMMIT="988f572cc882a74209fba0f5c49cf0b01b9163a6"
+CROS_WORKON_TREE="276bfcbe2a10152fb079130c976015bc952b6aa5"
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
 
 inherit eutils autotools cros-sanitizers cros-workon flag-o-matic systemd udev user
@@ -82,7 +82,7 @@ src_configure() {
 	append-flags -Xclang-only=-Wno-unneeded-internal-declaration
 	cros-workon_src_configure \
 		--with-html-dir="\${datadir}/doc/${PF}/html" \
-		--enable-more-warnings=error \
+		--enable-compile-warnings=yes \
 		$(use_enable {,gtk-}doc) \
 		$(use_with mbim) \
 		$(use_with qmi)
