@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="d64f897379b9bdbefa648077249517941a5df8f2"
-CROS_WORKON_TREE="815bcefb8a1ff87bb9dc351f40b48d64799d9d13"
+CROS_WORKON_COMMIT="b356166c67f3e7e87691386c236af37a9c0d98ea"
+CROS_WORKON_TREE="db58a92172a9d77b2cc1e3cc737f52df5362880b"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic libchrome cros-debug cros-workon autotest
@@ -15,7 +15,7 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="arc-camera3 -chromeless_tests -chromeless_tty +crash_reporting cups +encrypted_stateful hammerd +network_time -ppp +passive_metrics +profile vaapi"
+IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups +encrypted_stateful hammerd +network_time -ppp +passive_metrics +profile vaapi"
 # Enable autotest by default.
 IUSE="${IUSE} +autotest"
 
@@ -195,6 +195,7 @@ CLIENT_IUSE_TESTS="
 	+tests_platform_ExternalUSBStress
 	+tests_platform_FileNum
 	+tests_platform_FileSize
+	biod? ( +tests_platform_Fingerprint )
 	+tests_platform_Firewall
 	+tests_platform_FullyChargedPowerStatus
 	+tests_platform_HighResTimers

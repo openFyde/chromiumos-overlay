@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 CROS_WORKON_COMMIT="d693859c4294eb67dec03d69d114deeb088ffe5e"
 CROS_WORKON_TREE="758c63aa3002ec012d3df6d00841c35406dc7456"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
@@ -171,6 +171,11 @@ LICENSE="
 	video_cards_amdgpu? ( LICENSE.amdgpu )
 "
 
+BDEPEND="
+	dev-lang/python
+	dev-vcs/git
+"
+
 RDEPEND="
 	linux_firmware_adreno-630? ( !media-libs/a630-fw )
 	linux_firmware_ath3k-all? ( !net-wireless/ath3k )
@@ -202,7 +207,7 @@ RDEPEND="
 	!net-wireless/iwl6050-ucode
 "
 
-RESTRICT="binchecks strip test"
+RESTRICT="binchecks strip"
 
 FIRMWARE_INSTALL_ROOT="/lib/firmware"
 
@@ -326,4 +331,8 @@ src_install() {
 		dodir "${FIRMWARE_INSTALL_ROOT}/$(dirname "${link}")"
 		dosym "${target}" "${FIRMWARE_INSTALL_ROOT}/${link}"
 	done < <(grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g')
+}
+
+src_test() {
+	emake check
 }
