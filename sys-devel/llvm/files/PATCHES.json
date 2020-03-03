@@ -158,5 +158,17 @@
         "rel_patch_path": "cherry/2f4f8fcf64c67ee327e19b74a82a2330cfb32312.patch",
         "start_version": 385457,
         "end_version": 386077
+    },
+    {
+        "comment": "[ThinLTO/LowerTypeTests] Handle unpromoted local type ids",
+        "rel_patch_path": "cherry/873c0d0786dcf22f4af39f65df824917f70f2170.patch",
+        "start_version": 384279,
+        "end_version": 386151
+    },
+    {
+        "comment": "Revert Restore [WPD/LowerTypeTests] Delay lowering/removal of type tests until after ICP",
+        "rel_patch_path": "cherry/80bf137fa132ea33204e98bbefa924afe9258a4e.patch",
+        "start_version": 384279,
+        "end_version": 386180
     }
 ]
