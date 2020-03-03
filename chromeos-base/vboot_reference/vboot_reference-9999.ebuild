@@ -42,7 +42,7 @@ src_configure() {
 		# Disable alignment sanitization and memory leak checks,
 		# https://crbug.com/1015908 .
 		SANITIZER_CFLAGS+=" -fno-sanitize=alignment"
-		export ASAN_OPTIONS+=":detect_leaks=0:"
+		export ASAN_OPTIONS+=":detect_leaks=0:detect_odr_violation=0:"
 	fi
 }
 
