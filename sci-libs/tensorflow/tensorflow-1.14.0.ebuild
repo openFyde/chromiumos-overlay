@@ -125,6 +125,7 @@ S="${WORKDIR}/${MY_P}"
 PATCHES=(
 	"${FILESDIR}/tensorflow-1.14.0-0001-systemlibs-unbundle-enum34.patch"
 	"${FILESDIR}/tensorflow-1.14.0-0002-linker-option-z-defs.patch"
+	"${FILESDIR}/tensorflow-1.14.0-0003-eigen-include-sstream.patch"
 )
 DOCS=( AUTHORS CONTRIBUTING.md ISSUE_TEMPLATE.md README.md RELEASE.md )
 CHECKREQS_MEMORY="5G"
