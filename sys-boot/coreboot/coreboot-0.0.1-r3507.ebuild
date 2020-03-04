@@ -304,7 +304,7 @@ make_coreboot() {
 	done
 
 	if [ -d ${froot}/cbfs ]; then
-	    die "something is still using ${froot}/cbfs, which is deprecated."
+		die "something is still using ${froot}/cbfs, which is deprecated."
 	fi
 }
 
