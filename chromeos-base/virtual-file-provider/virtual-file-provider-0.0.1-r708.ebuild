@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="940ca4da805d83c9e25919c7146bee62523d6c57"
-CROS_WORKON_TREE=("03bbbcee411f17ba1fc689765743cc4876d16cbb" "581dd51b14f200f6a8b6387a1219879557a71bf3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3b020faf1e367216f196033e85a37f9457be374b"
+CROS_WORKON_TREE=("03bbbcee411f17ba1fc689765743cc4876d16cbb" "d88f095b5f6b7c506d6d6ca7ada912dac00f68d6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -36,6 +36,9 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.VirtualFileProvider.conf
+
+	insinto /etc/init
+	doins init/virtual-file-provider.conf
 
 	insinto /usr/share/dbus-1/system-services
 	doins org.chromium.VirtualFileProvider.service
