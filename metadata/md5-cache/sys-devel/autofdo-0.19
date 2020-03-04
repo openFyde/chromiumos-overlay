@@ -9,4 +9,4 @@ RDEPEND=dev-libs/openssl:0= dev-libs/protobuf:= dev-libs/libffi sys-devel/llvm s
 SLOT=0
 SRC_URI=https://github.com/google/autofdo/archive/0.19.tar.gz -> autofdo-0.19.tar.gz
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=b3c67782ca1f82ef77a2f536b77ae236
+_md5_=f298b49806bfe0327c80e4f966b4fae4
