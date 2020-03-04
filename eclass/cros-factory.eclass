@@ -18,7 +18,7 @@ esac
 
 # @ECLASS-VARIABLE: CROS_FACTORY_BOARD_RESOURCES_DIR
 # @DESCRIPTION: Folder of factory resources to current board.
-: ${CROS_FACTORY_BOARD_RESOURCES_DIR:=/var/lib/factory/resources}
+: "${CROS_FACTORY_BOARD_RESOURCES_DIR:=/usr/share/factory/resources}"
 
 # @FUNCTION: factory_get_resource_archive_path
 # @USAGE: <name> <res_root>
@@ -73,7 +73,7 @@ factory_get_resource_archive_path() {
 # @EXAMPLE:
 # To copy files from ${WORKDIR}/dist/webgl_aquarium_static as
 #  /usr/local/factory/py/test/pytests/webgl_aquarium_static/* in resource file
-#  ${D}/var/lib/factory/resources/factory-board.tar:
+#  ${D}/usr/share/factory/resources/factory-board.tar:
 #
 # @CODE
 #  factory_create_resource factory-board "${WORKDIR}/dist" \
@@ -120,7 +120,8 @@ factory_create_resource() {
 # Defaults to "${WORKDIR}" if param is empty.
 #
 # @EXAMPLE:
-# To extract files from ${EROOT}var/lib/factory/resources/factory-board.tar
+# To extract files from
+# ${EROOT}usr/share/factory/resources/factory-board.tar
 # to ${WORKDIR}/py/test/pytests:
 #
 # @CODE
