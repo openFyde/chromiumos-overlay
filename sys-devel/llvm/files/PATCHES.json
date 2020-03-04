@@ -148,6 +148,12 @@
         "end_version": 384546
     },
     {
+        "comment": "[DAGCombine] Fix alias analysis for unaligned accesses",
+        "rel_patch_path": "cherry/1de10705594c7a2c9b8fde901c391bd84062ae04.patch",
+        "start_version": 380035,
+        "end_version": 385989
+    },
+    {
         "comment": "Fix StringRef std::string after 777180a32b6107.",
         "rel_patch_path": "cherry/2eb80a99a2c6f8e2f090a2bc8cd2760fe1e1f267.patch",
         "start_version": 382781,
