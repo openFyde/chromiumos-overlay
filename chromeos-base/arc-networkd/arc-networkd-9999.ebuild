@@ -22,7 +22,6 @@ IUSE="fuzzer"
 
 COMMON_DEPEND="
 	dev-libs/protobuf:=
-	net-libs/libndp
 "
 
 RDEPEND="
