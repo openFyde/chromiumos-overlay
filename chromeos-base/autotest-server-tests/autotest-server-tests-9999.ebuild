@@ -217,6 +217,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_SetSerialNumber
 	+tests_firmware_SoftwareSync
 	+tests_firmware_StandbyPowerConsumption
+	+tests_firmware_SysfsVPD
 	+tests_firmware_TPMNotCorruptedDevMode
 	tpm? ( +tests_firmware_TPMExtend )
 	tpm? ( +tests_firmware_TPMVersionCheck )
