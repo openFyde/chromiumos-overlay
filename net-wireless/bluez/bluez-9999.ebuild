@@ -14,7 +14,7 @@ HOMEPAGE="http://www.bluez.org/"
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="allow_set_le_splitter asan cups debug systemd readline bt_deprecated_tools"
+IUSE="asan cups debug systemd readline bt_deprecated_tools"
 
 CDEPEND="
 	>=dev-libs/glib-2.14:2
@@ -70,7 +70,6 @@ src_configure() {
 		--disable-obex \
 		--enable-sixaxis \
 		--disable-network \
-		$(use_enable allow_set_le_splitter) \
 		 $(use_enable bt_deprecated_tools deprecated)
 }
 
