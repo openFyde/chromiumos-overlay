@@ -34,7 +34,7 @@ SRC_URI+=" https://www.kernel.org/pub/linux/kernel/v${LINUX_V}/${LINUX_SOURCES}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 IUSE="audit clang crypt debug +demangle +doc gtk java lzma numa perl python slang systemtap unwind zlib"
 # TODO babeltrace
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
@@ -45,7 +45,7 @@ RDEPEND="audit? ( sys-process/audit )
 		sys-devel/clang:*
 		sys-devel/llvm:*
 	)
-	demangle? ( sys-libs/binutils-libs:= )
+	demangle? ( sys-devel/binutils:= )
 	gtk? ( x11-libs/gtk+:2 )
 	java? ( virtual/jre:* )
 	lzma? ( app-arch/xz-utils )
@@ -54,11 +54,11 @@ RDEPEND="audit? ( sys-process/audit )
 	python? ( ${PYTHON_DEPS} )
 	slang? ( sys-libs/slang )
 	systemtap? ( dev-util/systemtap )
-	unwind? ( sys-libs/libunwind )
+	unwind? ( sys-libs/llvm-libunwind )
 	zlib? ( sys-libs/zlib )
 	dev-libs/elfutils"
 DEPEND="${RDEPEND}
-	>=sys-kernel/linux-headers-4.19
+	>=sys-kernel/linux-headers-4.4
 	${LINUX_PATCH+dev-util/patchutils}
 	sys-devel/bison
 	sys-devel/flex
@@ -74,6 +74,11 @@ S_K="${WORKDIR}/linux-${LINUX_VER}"
 S="${S_K}/tools/perf"
 
 CONFIG_CHECK="~PERF_EVENTS ~KALLSYMS"
+
+PATCHES=(
+	"${FILESDIR}/5.3.7-Fix-hugepage-text.patch"
+	"${FILESDIR}/5.3.7-Don-t-install-self-tests.patch"
+)
 
 pkg_setup() {
 	linux-info_pkg_setup
@@ -133,6 +138,7 @@ src_prepare() {
 	# Drop some upstream too-developer-oriented flags and fix the
 	# Makefile in general
 	sed -i \
+		-e 's:-Werror::' \
 		-e "s:\$(sysconfdir_SQ)/bash_completion.d:$(get_bashcompdir):" \
 		"${S}"/Makefile.perf || die
 	# A few places still use -Werror w/out $(WERROR) protection.

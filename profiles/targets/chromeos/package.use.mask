@@ -59,3 +59,7 @@ dev-python/py test
 
 # We don't use cxx library bindings for libgpiod.
 dev-libs/libgpiod cxx
+
+# We build perf without clang/LLVM support.
+dev-util/perf clang
+
