@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk hardware_verifier metrics .gn"
 
 PLATFORM_SUBDIR="hardware_verifier"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="Hardware Verifier Tool/Lib for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hardware_verifier/"
@@ -24,6 +24,12 @@ DEPEND="
 	chromeos-base/system_api:=
 	chromeos-base/vboot_reference:=
 "
+
+pkg_preinst() {
+	# Create user and group for hardware_verifier
+	enewuser "hardware_verifier"
+	enewgroup "hardware_verifier"
+}
 
 src_install() {
 	dobin "${OUT}/hardware_verifier"
