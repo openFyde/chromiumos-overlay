@@ -59,6 +59,7 @@ IUSE_TESTS=(
 	+tests_autoupdate_EOL
 	+tests_autoupdate_LoginStartUpdateLogout
 	+tests_autoupdate_StartOOBEUpdate
+	+tests_autoupdate_UpdateFromUI
 	+tests_autoupdate_UserData
 	+tests_bluetooth_AdapterReboot
 	+tests_bluetooth_AdapterSanity
