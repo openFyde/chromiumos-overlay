@@ -156,6 +156,8 @@ src_prepare() {
 		epatch "${FILESDIR}"/CHROMIUM-egl-Limit-to-EGL-1.4.patch
 	fi
 
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-disable-dcc-for-2x-MSAA-surface-and-bpe-4.patch
+
 	default
 }
 
