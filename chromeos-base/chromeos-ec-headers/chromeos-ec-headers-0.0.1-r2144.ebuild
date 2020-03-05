@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("5e9b1c805b2b13d998fb65506ff3a214c8bfd8d3" "b5ca19dc6b20cbad5283f250f50e1dd177b4f258")
-CROS_WORKON_TREE=("759dce14dd6bda958b989449f64e87b700a3882d" "eeb1ead7bd7b0aab18a189cbeeed096615ef2e73")
+CROS_WORKON_COMMIT=("f94dbdfa5768a8be81b180bfd00064f8bb642634" "b5ca19dc6b20cbad5283f250f50e1dd177b4f258")
+CROS_WORKON_TREE=("a265d2822d5f0ffd45a6c1e882dedb2a61153ea9" "eeb1ead7bd7b0aab18a189cbeeed096615ef2e73")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/platform/ec"
