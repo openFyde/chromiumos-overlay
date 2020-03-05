@@ -9,7 +9,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
-inherit cros-workon linux-info meson python-single-r1 vala xdg toolchain-funcs
+inherit cros-workon linux-info meson python-single-r1 user vala xdg toolchain-funcs
 
 DESCRIPTION="Aims to make updating firmware on Linux automatic, safe and reliable"
 HOMEPAGE="https://fwupd.org"
