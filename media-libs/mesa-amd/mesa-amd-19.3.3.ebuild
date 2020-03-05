@@ -134,6 +134,9 @@ src_prepare() {
 	# b/148922252
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Fix-compute-copies-for-subsampled-formats.patch
 
+	# b/148752246
+	epatch "${FILESDIR}"/UPSTREAM-st-va-GetConfigAttributes-check-profile-and-entrypoi.patch
+
 	default
 }
 

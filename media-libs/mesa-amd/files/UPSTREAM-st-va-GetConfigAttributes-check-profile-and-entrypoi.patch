@@ -1,0 +1,46 @@
+From 0ab5c88a0ac0dacac085c17bef23c9c67eaf9e86 Mon Sep 17 00:00:00 2001
+From: Satyajit Sahu <satyajit.sahu@amd.com>
+Date: Thu, 20 Feb 2020 14:05:32 +0530
+Subject: [PATCH] st/va: GetConfigAttributes: check profile and entrypoint
+ combination
+
+Added check if profile is supported or not for the entrypoint in
+GetConfigAttributes.
+
+Signed-off-by: Satyajit Sahu <satyajit.sahu@amd.com>
+Acked-by: Leo Liu <leo.liu@amd.com>
+Tested-by: Marge Bot <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3889>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3889>
+---
+ src/gallium/state_trackers/va/config.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/gallium/state_trackers/va/config.c b/src/gallium/state_trackers/va/config.c
+index 53d50fde63f..617ca6944c4 100644
+--- a/src/gallium/state_trackers/va/config.c
++++ b/src/gallium/state_trackers/va/config.c
+@@ -121,7 +121,9 @@ vlVaGetConfigAttributes(VADriverContextP ctx, VAProfile profile, VAEntrypoint en
+ 
+    for (i = 0; i < num_attribs; ++i) {
+       unsigned int value;
+-      if (entrypoint == VAEntrypointVLD) {
++      if ((entrypoint == VAEntrypointVLD) &&
++          (pscreen->get_video_param(pscreen, ProfileToPipe(profile),
++           PIPE_VIDEO_ENTRYPOINT_BITSTREAM, PIPE_VIDEO_CAP_SUPPORTED))) {
+          switch (attrib_list[i].type) {
+          case VAConfigAttribRTFormat:
+             value = VA_RT_FORMAT_YUV420 | VA_RT_FORMAT_YUV422;
+@@ -134,7 +136,9 @@ vlVaGetConfigAttributes(VADriverContextP ctx, VAProfile profile, VAEntrypoint en
+             value = VA_ATTRIB_NOT_SUPPORTED;
+             break;
+          }
+-      } else if (entrypoint == VAEntrypointEncSlice) {
++      } else if ((entrypoint == VAEntrypointEncSlice) &&
++                 (pscreen->get_video_param(pscreen, ProfileToPipe(profile),
++                  PIPE_VIDEO_ENTRYPOINT_ENCODE, PIPE_VIDEO_CAP_SUPPORTED))) {
+          switch (attrib_list[i].type) {
+          case VAConfigAttribRTFormat:
+             value = VA_RT_FORMAT_YUV420;
+-- 
+2.17.1
+
