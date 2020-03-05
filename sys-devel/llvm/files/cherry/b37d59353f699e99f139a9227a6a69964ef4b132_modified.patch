@@ -1,0 +1,226 @@
+commit b37d59353f699e99f139a9227a6a69964ef4b132
+Author: John Brawn <john.brawn@arm.com>
+Date:   Wed Jan 22 14:04:12 2020 +0000
+
+    [FPEnv][ARM] Add lowering of STRICT_FSETCC and STRICT_FSETCCS
+    
+    These can be lowered to code sequences using CMPFP and CMPFPE which then get
+    selected to VCMP and VCMPE. The implementation isn't fully correct, as the chain
+    operand isn't handled correctly, but resolving that looks like it would involve
+    changes around FPSCR-handling instructions and how the FPSCR is modelled.
+    
+    The fp-intrinsics test was already testing some of this but as the entire test
+    was being XFAILed it wasn't noticed. Un-XFAIL the test and instead leave the
+    cases where we aren't generating the right instruction sequences as FIXME.
+    
+    Differential Revision: https://reviews.llvm.org/D73194
+
+
+    The patch was modified with conflict resolutions to make it applicable to llvm
+    r380035.
+
+diff --git a/llvm/lib/Target/ARM/ARMISelLowering.cpp b/llvm/lib/Target/ARM/ARMISelLowering.cpp
+index d5cc1e759d8..79dda1d022f 100644
+--- a/llvm/lib/Target/ARM/ARMISelLowering.cpp
++++ b/llvm/lib/Target/ARM/ARMISelLowering.cpp
+@@ -1356,6 +1356,14 @@ ARMTargetLowering::ARMTargetLowering(const TargetMachine &TM,
+       setOperationAction(ISD::FP16_TO_FP, MVT::f32, Expand);
+       setOperationAction(ISD::FP_TO_FP16, MVT::f32, Expand);
+     }
++
++    // Strict floating-point comparisons need custom lowering.
++    setOperationAction(ISD::STRICT_FSETCC,  MVT::f16, Custom);
++    setOperationAction(ISD::STRICT_FSETCCS, MVT::f16, Custom);
++    setOperationAction(ISD::STRICT_FSETCC,  MVT::f32, Custom);
++    setOperationAction(ISD::STRICT_FSETCCS, MVT::f32, Custom);
++    setOperationAction(ISD::STRICT_FSETCC,  MVT::f64, Custom);
++    setOperationAction(ISD::STRICT_FSETCCS, MVT::f64, Custom);
+   }
+ 
+   // Use __sincos_stret if available.
+@@ -1554,7 +1562,9 @@ const char *ARMTargetLowering::getTargetNodeName(unsigned Opcode) const {
+   case ARMISD::CMN:           return "ARMISD::CMN";
+   case ARMISD::CMPZ:          return "ARMISD::CMPZ";
+   case ARMISD::CMPFP:         return "ARMISD::CMPFP";
++  case ARMISD::CMPFPE:        return "ARMISD::CMPFPE";
+   case ARMISD::CMPFPw0:       return "ARMISD::CMPFPw0";
++  case ARMISD::CMPFPEw0:      return "ARMISD::CMPFPEw0";
+   case ARMISD::BCC_i64:       return "ARMISD::BCC_i64";
+   case ARMISD::FMSTAT:        return "ARMISD::FMSTAT";
+ 
+@@ -4353,13 +4363,16 @@ SDValue ARMTargetLowering::getARMCmp(SDValue LHS, SDValue RHS, ISD::CondCode CC,
+ 
+ /// Returns a appropriate VFP CMP (fcmp{s|d}+fmstat) for the given operands.
+ SDValue ARMTargetLowering::getVFPCmp(SDValue LHS, SDValue RHS,
+-                                     SelectionDAG &DAG, const SDLoc &dl) const {
++                                     SelectionDAG &DAG, const SDLoc &dl,
++                                     bool Signaling) const {
+   assert(Subtarget->hasFP64() || RHS.getValueType() != MVT::f64);
+   SDValue Cmp;
+   if (!isFloatingPointZero(RHS))
+-    Cmp = DAG.getNode(ARMISD::CMPFP, dl, MVT::Glue, LHS, RHS);
++    Cmp = DAG.getNode(Signaling ? ARMISD::CMPFPE : ARMISD::CMPFP,
++                      dl, MVT::Glue, LHS, RHS);
+   else
+-    Cmp = DAG.getNode(ARMISD::CMPFPw0, dl, MVT::Glue, LHS);
++    Cmp = DAG.getNode(Signaling ? ARMISD::CMPFPEw0 : ARMISD::CMPFPw0,
++                      dl, MVT::Glue, LHS);
+   return DAG.getNode(ARMISD::FMSTAT, dl, MVT::Glue, Cmp);
+ }
+ 
+@@ -9277,6 +9290,51 @@ static void ReplaceCMP_SWAP_64Results(SDNode *N,
+   Results.push_back(SDValue(CmpSwap, 2));
+ }
+ 
++SDValue ARMTargetLowering::LowerFSETCC(SDValue Op, SelectionDAG &DAG) const {
++  SDLoc dl(Op);
++  EVT VT = Op.getValueType();
++  SDValue Chain = Op.getOperand(0);
++  SDValue LHS = Op.getOperand(1);
++  SDValue RHS = Op.getOperand(2);
++  ISD::CondCode CC = cast<CondCodeSDNode>(Op.getOperand(3))->get();
++  bool IsSignaling = Op.getOpcode() == ISD::STRICT_FSETCCS;
++
++  // If we don't have instructions of this float type then soften to a libcall
++  // and use SETCC instead.
++  if (isUnsupportedFloatingType(LHS.getValueType())) {
++    DAG.getTargetLoweringInfo().softenSetCCOperands(
++      DAG, LHS.getValueType(), LHS, RHS, CC, dl, LHS, RHS, Chain, IsSignaling);
++    if (!RHS.getNode()) {
++      RHS = DAG.getConstant(0, dl, LHS.getValueType());
++      CC = ISD::SETNE;
++    }
++    SDValue Result = DAG.getNode(ISD::SETCC, dl, VT, LHS, RHS,
++                                 DAG.getCondCode(CC));
++    return DAG.getMergeValues({Result, Chain}, dl);
++  }
++
++  ARMCC::CondCodes CondCode, CondCode2;
++  FPCCToARMCC(CC, CondCode, CondCode2);
++
++  // FIXME: Chain is not handled correctly here. Currently the FPSCR is implicit
++  // in CMPFP and CMPFPE, but instead it should be made explicit by these
++  // instructions using a chain instead of glue. This would also fix the problem
++  // here (and also in LowerSELECT_CC) where we generate two comparisons when
++  // CondCode2 != AL.
++  SDValue True = DAG.getConstant(1, dl, VT);
++  SDValue False =  DAG.getConstant(0, dl, VT);
++  SDValue ARMcc = DAG.getConstant(CondCode, dl, MVT::i32);
++  SDValue CCR = DAG.getRegister(ARM::CPSR, MVT::i32);
++  SDValue Cmp = getVFPCmp(LHS, RHS, DAG, dl, IsSignaling);
++  SDValue Result = getCMOV(dl, VT, False, True, ARMcc, CCR, Cmp, DAG);
++  if (CondCode2 != ARMCC::AL) {
++    ARMcc = DAG.getConstant(CondCode2, dl, MVT::i32);
++    Cmp = getVFPCmp(LHS, RHS, DAG, dl, IsSignaling);
++    Result = getCMOV(dl, VT, Result, True, ARMcc, CCR, Cmp, DAG);
++  }
++  return DAG.getMergeValues({Result, Chain}, dl);
++}
++
+ SDValue ARMTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const {
+   LLVM_DEBUG(dbgs() << "Lowering node: "; Op.dump());
+   switch (Op.getOpcode()) {
+@@ -9370,6 +9428,8 @@ SDValue ARMTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const {
+   case ISD::FP_ROUND: return LowerFP_ROUND(Op, DAG);
+   case ISD::STRICT_FP_EXTEND:
+   case ISD::FP_EXTEND: return LowerFP_EXTEND(Op, DAG);
++  case ISD::STRICT_FSETCC:
++  case ISD::STRICT_FSETCCS: return LowerFSETCC(Op, DAG);
+   case ARMISD::WIN__DBZCHK: return SDValue();
+   }
+ }
+diff --git a/llvm/lib/Target/ARM/ARMISelLowering.h b/llvm/lib/Target/ARM/ARMISelLowering.h
+index 57817549d74..3b5a3793ade 100644
+--- a/llvm/lib/Target/ARM/ARMISelLowering.h
++++ b/llvm/lib/Target/ARM/ARMISelLowering.h
+@@ -84,7 +84,9 @@ class VectorType;
+       CMN,          // ARM CMN instructions.
+       CMPZ,         // ARM compare that sets only Z flag.
+       CMPFP,        // ARM VFP compare instruction, sets FPSCR.
++      CMPFPE,       // ARM VFP signalling compare instruction, sets FPSCR.
+       CMPFPw0,      // ARM VFP compare against zero instruction, sets FPSCR.
++      CMPFPEw0,     // ARM VFP signalling compare against zero instruction, sets FPSCR.
+       FMSTAT,       // ARM fmstat instruction.
+
+       CMOV,         // ARM conditional move instructions.
+@@ -729,6 +731,7 @@ class VectorType;
+     SDValue LowerFP_EXTEND(SDValue Op, SelectionDAG &DAG) const;
+     SDValue LowerFP_TO_INT(SDValue Op, SelectionDAG &DAG) const;
+     SDValue LowerINT_TO_FP(SDValue Op, SelectionDAG &DAG) const;
++    SDValue LowerFSETCC(SDValue Op, SelectionDAG &DAG) const;
+     void lowerABS(SDNode *N, SmallVectorImpl<SDValue> &Results,
+                   SelectionDAG &DAG) const;
+
+@@ -817,7 +820,7 @@ class VectorType;
+     SDValue getARMCmp(SDValue LHS, SDValue RHS, ISD::CondCode CC,
+                       SDValue &ARMcc, SelectionDAG &DAG, const SDLoc &dl) const;
+     SDValue getVFPCmp(SDValue LHS, SDValue RHS, SelectionDAG &DAG,
+-                      const SDLoc &dl) const;
++                      const SDLoc &dl, bool Signaling = false) const;
+     SDValue duplicateCmp(SDValue Cmp, SelectionDAG &DAG) const;
+
+     SDValue OptimizeVFPBrcond(SDValue Op, SelectionDAG &DAG) const;
+diff --git a/llvm/lib/Target/ARM/ARMInstrVFP.td b/llvm/lib/Target/ARM/ARMInstrVFP.td
+index a41a483d1a4..f1d1d8a8916 100644
+--- a/llvm/lib/Target/ARM/ARMInstrVFP.td
++++ b/llvm/lib/Target/ARM/ARMInstrVFP.td
+@@ -21,6 +21,8 @@ def SDT_VMOVSR : SDTypeProfile<1, 1, [SDTCisVT<0, f32>, SDTCisVT<1, i32>]>;
+ def arm_fmstat : SDNode<"ARMISD::FMSTAT",  SDTNone, [SDNPInGlue, SDNPOutGlue]>;
+ def arm_cmpfp  : SDNode<"ARMISD::CMPFP",   SDT_ARMCmp, [SDNPOutGlue]>;
+ def arm_cmpfp0 : SDNode<"ARMISD::CMPFPw0", SDT_CMPFP0, [SDNPOutGlue]>;
++def arm_cmpfpe : SDNode<"ARMISD::CMPFPE",  SDT_ARMCmp, [SDNPOutGlue]>;
++def arm_cmpfpe0: SDNode<"ARMISD::CMPFPEw0",SDT_CMPFP0, [SDNPOutGlue]>;
+ def arm_fmdrr  : SDNode<"ARMISD::VMOVDRR", SDT_VMOVDRR>;
+ def arm_fmrrd  : SDNode<"ARMISD::VMOVRRD", SDT_VMOVRRD>;
+ def arm_vmovsr  : SDNode<"ARMISD::VMOVSR", SDT_VMOVSR>;
+@@ -548,12 +550,12 @@ let Defs = [FPSCR_NZCV] in {
+ def VCMPED : ADuI<0b11101, 0b11, 0b0100, 0b11, 0,
+                   (outs), (ins DPR:$Dd, DPR:$Dm),
+                   IIC_fpCMP64, "vcmpe", ".f64\t$Dd, $Dm",
+-                  [/* For disassembly only; pattern left blank */]>;
++                  [(arm_cmpfpe DPR:$Dd, (f64 DPR:$Dm))]>;
+ 
+ def VCMPES : ASuI<0b11101, 0b11, 0b0100, 0b11, 0,
+                   (outs), (ins SPR:$Sd, SPR:$Sm),
+                   IIC_fpCMP32, "vcmpe", ".f32\t$Sd, $Sm",
+-                  [/* For disassembly only; pattern left blank */]> {
++                  [(arm_cmpfpe SPR:$Sd, SPR:$Sm)]> {
+   // Some single precision VFP instructions may be executed on both NEON and
+   // VFP pipelines on A8.
+   let D = VFPNeonA8Domain;
+@@ -562,7 +564,7 @@ def VCMPES : ASuI<0b11101, 0b11, 0b0100, 0b11, 0,
+ def VCMPEH : AHuI<0b11101, 0b11, 0b0100, 0b11, 0,
+                   (outs), (ins HPR:$Sd, HPR:$Sm),
+                   IIC_fpCMP16, "vcmpe", ".f16\t$Sd, $Sm",
+-                  [/* For disassembly only; pattern left blank */]>;
++                  [(arm_cmpfpe HPR:$Sd, HPR:$Sm)]>;
+ 
+ def VCMPD  : ADuI<0b11101, 0b11, 0b0100, 0b01, 0,
+                   (outs), (ins DPR:$Dd, DPR:$Dm),
+@@ -611,7 +613,7 @@ let Defs = [FPSCR_NZCV] in {
+ def VCMPEZD : ADuI<0b11101, 0b11, 0b0101, 0b11, 0,
+                    (outs), (ins DPR:$Dd),
+                    IIC_fpCMP64, "vcmpe", ".f64\t$Dd, #0",
+-                   [/* For disassembly only; pattern left blank */]> {
++                   [(arm_cmpfpe0 (f64 DPR:$Dd))]> {
+   let Inst{3-0} = 0b0000;
+   let Inst{5}   = 0;
+ }
+@@ -619,7 +621,7 @@ def VCMPEZD : ADuI<0b11101, 0b11, 0b0101, 0b11, 0,
+ def VCMPEZS : ASuI<0b11101, 0b11, 0b0101, 0b11, 0,
+                    (outs), (ins SPR:$Sd),
+                    IIC_fpCMP32, "vcmpe", ".f32\t$Sd, #0",
+-                   [/* For disassembly only; pattern left blank */]> {
++                   [(arm_cmpfpe0 SPR:$Sd)]> {
+   let Inst{3-0} = 0b0000;
+   let Inst{5}   = 0;
+ 
+@@ -631,7 +633,7 @@ def VCMPEZS : ASuI<0b11101, 0b11, 0b0101, 0b11, 0,
+ def VCMPEZH : AHuI<0b11101, 0b11, 0b0101, 0b11, 0,
+                    (outs), (ins HPR:$Sd),
+                    IIC_fpCMP16, "vcmpe", ".f16\t$Sd, #0",
+-                   [/* For disassembly only; pattern left blank */]> {
++                   [(arm_cmpfpe0 HPR:$Sd)]> {
+   let Inst{3-0} = 0b0000;
+   let Inst{5}   = 0;
+ }

@@ -1,0 +1,309 @@
+commit 9a621de1ecadf668886a7caf743f6283d1c709e2
+Author: Wang, Pengfei <pengfei.wang@intel.com>
+Date:   Thu Dec 26 22:16:46 2019 +0800
+
+    [X86] Adding fp128 support for strict fcmp
+    
+    Summary: Adding fp128 support for strict fcmp
+    
+    Reviewers: craig.topper, LiuChen3, andrew.w.kaylor, RKSimon, uweigand
+    
+    Subscribers: hiraditya, llvm-commits, LuoYuanke
+    
+    Tags: #llvm
+    
+    Differential Revision: https://reviews.llvm.org/D71897
+
+diff --git a/llvm/include/llvm/CodeGen/TargetLowering.h b/llvm/include/llvm/CodeGen/TargetLowering.h
+index d59abfd3819..89c05e6bee6 100644
+--- a/llvm/include/llvm/CodeGen/TargetLowering.h
++++ b/llvm/include/llvm/CodeGen/TargetLowering.h
+@@ -3032,6 +3032,12 @@ public:
+                            const SDLoc &DL, const SDValue OldLHS,
+                            const SDValue OldRHS) const;
+ 
++  void softenSetCCOperands(SelectionDAG &DAG, EVT VT, SDValue &NewLHS,
++                           SDValue &NewRHS, ISD::CondCode &CCCode,
++                           const SDLoc &DL, const SDValue OldLHS,
++                           const SDValue OldRHS, SDValue &Chain,
++                           bool IsSignaling = false) const;
++
+   /// Returns a pair of (return value, chain).
+   /// It is an error to pass RTLIB::UNKNOWN_LIBCALL as \p LC.
+   std::pair<SDValue, SDValue> makeLibCall(SelectionDAG &DAG, RTLIB::Libcall LC,
+diff --git a/llvm/lib/CodeGen/SelectionDAG/LegalizeFloatTypes.cpp b/llvm/lib/CodeGen/SelectionDAG/LegalizeFloatTypes.cpp
+index 1f053cea6e5..f1edb3d0d98 100644
+--- a/llvm/lib/CodeGen/SelectionDAG/LegalizeFloatTypes.cpp
++++ b/llvm/lib/CodeGen/SelectionDAG/LegalizeFloatTypes.cpp
+@@ -782,6 +782,8 @@ bool DAGTypeLegalizer::SoftenFloatOperand(SDNode *N, unsigned OpNo) {
+   case ISD::STRICT_LLRINT:
+   case ISD::LLRINT:      Res = SoftenFloatOp_LLRINT(N); break;
+   case ISD::SELECT_CC:   Res = SoftenFloatOp_SELECT_CC(N); break;
++  case ISD::STRICT_FSETCC:
++  case ISD::STRICT_FSETCCS:
+   case ISD::SETCC:       Res = SoftenFloatOp_SETCC(N); break;
+   case ISD::STORE:       Res = SoftenFloatOp_STORE(N, OpNo); break;
+   case ISD::FCOPYSIGN:   Res = SoftenFloatOp_FCOPYSIGN(N); break;
+@@ -931,26 +933,39 @@ SDValue DAGTypeLegalizer::SoftenFloatOp_SELECT_CC(SDNode *N) {
+ }
+ 
+ SDValue DAGTypeLegalizer::SoftenFloatOp_SETCC(SDNode *N) {
+-  SDValue NewLHS = N->getOperand(0), NewRHS = N->getOperand(1);
+-  ISD::CondCode CCCode = cast<CondCodeSDNode>(N->getOperand(2))->get();
++  bool IsStrict = N->isStrictFPOpcode();
++  SDValue Op0 = N->getOperand(IsStrict ? 1 : 0);
++  SDValue Op1 = N->getOperand(IsStrict ? 2 : 1);
++  SDValue Chain = IsStrict ? N->getOperand(0) : SDValue();
++  ISD::CondCode CCCode =
++      cast<CondCodeSDNode>(N->getOperand(IsStrict ? 3 : 2))->get();
+ 
+-  EVT VT = NewLHS.getValueType();
+-  NewLHS = GetSoftenedFloat(NewLHS);
+-  NewRHS = GetSoftenedFloat(NewRHS);
+-  TLI.softenSetCCOperands(DAG, VT, NewLHS, NewRHS, CCCode, SDLoc(N),
+-                          N->getOperand(0), N->getOperand(1));
++  EVT VT = Op0.getValueType();
++  SDValue NewLHS = GetSoftenedFloat(Op0);
++  SDValue NewRHS = GetSoftenedFloat(Op1);
++  TLI.softenSetCCOperands(DAG, VT, NewLHS, NewRHS, CCCode, SDLoc(N), Op0, Op1,
++                          Chain, N->getOpcode() == ISD::STRICT_FSETCCS);
+ 
+-  // If softenSetCCOperands returned a scalar, use it.
+-  if (!NewRHS.getNode()) {
+-    assert(NewLHS.getValueType() == N->getValueType(0) &&
+-           "Unexpected setcc expansion!");
+-    return NewLHS;
++  // Update N to have the operands specified.
++  if (NewRHS.getNode()) {
++    if (IsStrict)
++      NewLHS = DAG.getNode(ISD::SETCC, SDLoc(N), N->getValueType(0), NewLHS,
++                           NewRHS, DAG.getCondCode(CCCode));
++    else
++      return SDValue(DAG.UpdateNodeOperands(N, NewLHS, NewRHS,
++                                            DAG.getCondCode(CCCode)), 0);
+   }
+ 
+-  // Otherwise, update N to have the operands specified.
+-  return SDValue(DAG.UpdateNodeOperands(N, NewLHS, NewRHS,
+-                                DAG.getCondCode(CCCode)),
+-                 0);
++  // Otherwise, softenSetCCOperands returned a scalar, use it.
++  assert((NewRHS.getNode() || NewLHS.getValueType() == N->getValueType(0)) &&
++         "Unexpected setcc expansion!");
++
++  if (IsStrict) {
++    ReplaceValueWith(SDValue(N, 0), NewLHS);
++    ReplaceValueWith(SDValue(N, 1), Chain);
++    return SDValue();
++  }
++  return NewLHS;
+ }
+ 
+ SDValue DAGTypeLegalizer::SoftenFloatOp_STORE(SDNode *N, unsigned OpNo) {
+diff --git a/llvm/lib/CodeGen/SelectionDAG/TargetLowering.cpp b/llvm/lib/CodeGen/SelectionDAG/TargetLowering.cpp
+index 21c8bde4364..a25fba337ba 100644
+--- a/llvm/lib/CodeGen/SelectionDAG/TargetLowering.cpp
++++ b/llvm/lib/CodeGen/SelectionDAG/TargetLowering.cpp
+@@ -285,6 +285,22 @@ void TargetLowering::softenSetCCOperands(SelectionDAG &DAG, EVT VT,
+                                          ISD::CondCode &CCCode,
+                                          const SDLoc &dl, const SDValue OldLHS,
+                                          const SDValue OldRHS) const {
++  SDValue Chain;
++  return softenSetCCOperands(DAG, VT, NewLHS, NewRHS, CCCode, dl, OldLHS,
++                             OldRHS, Chain);
++}
++
++void TargetLowering::softenSetCCOperands(SelectionDAG &DAG, EVT VT,
++                                         SDValue &NewLHS, SDValue &NewRHS,
++                                         ISD::CondCode &CCCode,
++                                         const SDLoc &dl, const SDValue OldLHS,
++                                         const SDValue OldRHS,
++                                         SDValue &Chain,
++                                         bool IsSignaling) const {
++  // FIXME: Currently we cannot really respect all IEEE predicates due to libgcc
++  // not supporting it. We can update this code when libgcc provides such
++  // functions.
++
+   assert((VT == MVT::f32 || VT == MVT::f64 || VT == MVT::f128 || VT == MVT::ppcf128)
+          && "Unsupported setcc type!");
+ 
+@@ -390,7 +406,8 @@ void TargetLowering::softenSetCCOperands(SelectionDAG &DAG, EVT VT,
+   EVT OpsVT[2] = { OldLHS.getValueType(),
+                    OldRHS.getValueType() };
+   CallOptions.setTypeListBeforeSoften(OpsVT, RetVT, true);
+-  NewLHS = makeLibCall(DAG, LC1, RetVT, Ops, CallOptions, dl).first;
++  auto Call = makeLibCall(DAG, LC1, RetVT, Ops, CallOptions, dl, Chain);
++  NewLHS = Call.first;
+   NewRHS = DAG.getConstant(0, dl, RetVT);
+ 
+   CCCode = getCmpLibcallCC(LC1);
+@@ -399,16 +416,22 @@ void TargetLowering::softenSetCCOperands(SelectionDAG &DAG, EVT VT,
+     CCCode = getSetCCInverse(CCCode, RetVT);
+   }
+ 
+-  if (LC2 != RTLIB::UNKNOWN_LIBCALL) {
++  if (LC2 == RTLIB::UNKNOWN_LIBCALL) {
++    // Update Chain.
++    Chain = Call.second;
++  } else {
+     SDValue Tmp = DAG.getNode(
+         ISD::SETCC, dl,
+         getSetCCResultType(DAG.getDataLayout(), *DAG.getContext(), RetVT),
+         NewLHS, NewRHS, DAG.getCondCode(CCCode));
+-    NewLHS = makeLibCall(DAG, LC2, RetVT, Ops, CallOptions, dl).first;
++    auto Call2 = makeLibCall(DAG, LC2, RetVT, Ops, CallOptions, dl, Chain);
+     NewLHS = DAG.getNode(
+         ISD::SETCC, dl,
+         getSetCCResultType(DAG.getDataLayout(), *DAG.getContext(), RetVT),
+-        NewLHS, NewRHS, DAG.getCondCode(getCmpLibcallCC(LC2)));
++        Call2.first, NewRHS, DAG.getCondCode(getCmpLibcallCC(LC2)));
++    if (Chain)
++      Chain = DAG.getNode(ISD::TokenFactor, dl, MVT::Other, Call.second,
++                          Call2.second);
+     NewLHS = DAG.getNode(ISD::OR, dl, Tmp.getValueType(), Tmp, NewLHS);
+     NewRHS = SDValue();
+   }
+diff --git a/llvm/lib/Target/X86/X86ISelLowering.cpp b/llvm/lib/Target/X86/X86ISelLowering.cpp
+index 426bfb61419..c2d76b1be8a 100644
+--- a/llvm/lib/Target/X86/X86ISelLowering.cpp
++++ b/llvm/lib/Target/X86/X86ISelLowering.cpp
+@@ -20755,7 +20755,7 @@ static std::pair<SDValue, SDValue> EmitCmp(SDValue Op0, SDValue Op1,
+                                            const X86Subtarget &Subtarget,
+                                            SDValue Chain, bool IsSignaling) {
+   if (isNullConstant(Op1))
+-    return std::make_pair(EmitTest(Op0, X86CC, dl, DAG, Subtarget), SDValue());
++    return std::make_pair(EmitTest(Op0, X86CC, dl, DAG, Subtarget), Chain);
+ 
+   EVT CmpVT = Op0.getValueType();
+ 
+@@ -21842,15 +21842,15 @@ SDValue X86TargetLowering::LowerSETCC(SDValue Op, SelectionDAG &DAG) const {
+   // Handle f128 first, since one possible outcome is a normal integer
+   // comparison which gets handled by emitFlagsForSetcc.
+   if (Op0.getValueType() == MVT::f128) {
+-    // FIXME: We may need a strict version of softenSetCCOperands before
+-    // supporting f128.
+-    assert(!IsStrict && "Unhandled strict operation!");
+-    softenSetCCOperands(DAG, MVT::f128, Op0, Op1, CC, dl, Op0, Op1);
++    softenSetCCOperands(DAG, MVT::f128, Op0, Op1, CC, dl, Op0, Op1, Chain,
++                        Op.getOpcode() == ISD::STRICT_FSETCCS);
+ 
+     // If softenSetCCOperands returned a scalar, use it.
+     if (!Op1.getNode()) {
+       assert(Op0.getValueType() == Op.getValueType() &&
+              "Unexpected setcc expansion!");
++      if (IsStrict)
++        return DAG.getMergeValues({Op0, Chain}, dl);
+       return Op0;
+     }
+   }
+diff --git a/llvm/test/CodeGen/X86/fp128-libcalls-strict.ll b/llvm/test/CodeGen/X86/fp128-libcalls-strict.ll
+index 6cb20d68963..ac7e61de29f 100644
+--- a/llvm/test/CodeGen/X86/fp128-libcalls-strict.ll
++++ b/llvm/test/CodeGen/X86/fp128-libcalls-strict.ll
+@@ -1128,7 +1128,99 @@ entry:
+   ret i64 %round
+ }
+ 
+-attributes #0 = { strictfp }
++define i64 @cmp(i64 %a, i64 %b, fp128 %x, fp128 %y) #0 {
++; CHECK-LABEL: cmp:
++; CHECK:       # %bb.0:
++; CHECK-NEXT:    pushq %r14
++; CHECK-NEXT:    pushq %rbx
++; CHECK-NEXT:    pushq %rax
++; CHECK-NEXT:    movq %rsi, %r14
++; CHECK-NEXT:    movq %rdi, %rbx
++; CHECK-NEXT:    callq __eqtf2
++; CHECK-NEXT:    testl %eax, %eax
++; CHECK-NEXT:    cmovneq %r14, %rbx
++; CHECK-NEXT:    movq %rbx, %rax
++; CHECK-NEXT:    addq $8, %rsp
++; CHECK-NEXT:    popq %rbx
++; CHECK-NEXT:    popq %r14
++; CHECK-NEXT:    retq
++;
++; X86-LABEL: cmp:
++; X86:       # %bb.0:
++; X86-NEXT:    subl $12, %esp
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    calll __eqtf2
++; X86-NEXT:    addl $32, %esp
++; X86-NEXT:    testl %eax, %eax
++; X86-NEXT:    leal {{[0-9]+}}(%esp), %eax
++; X86-NEXT:    leal {{[0-9]+}}(%esp), %ecx
++; X86-NEXT:    cmovel %eax, %ecx
++; X86-NEXT:    movl (%ecx), %eax
++; X86-NEXT:    movl 4(%ecx), %edx
++; X86-NEXT:    addl $12, %esp
++; X86-NEXT:    retl
++  %cond = call i1 @llvm.experimental.constrained.fcmp.f128(
++                                               fp128 %x, fp128 %y,
++                                               metadata !"oeq",
++                                               metadata !"fpexcept.strict") #0
++  %res = select i1 %cond, i64 %a, i64 %b
++  ret i64 %res
++}
++
++define i64 @cmps(i64 %a, i64 %b, fp128 %x, fp128 %y) #0 {
++; CHECK-LABEL: cmps:
++; CHECK:       # %bb.0:
++; CHECK-NEXT:    pushq %r14
++; CHECK-NEXT:    pushq %rbx
++; CHECK-NEXT:    pushq %rax
++; CHECK-NEXT:    movq %rsi, %r14
++; CHECK-NEXT:    movq %rdi, %rbx
++; CHECK-NEXT:    callq __eqtf2
++; CHECK-NEXT:    testl %eax, %eax
++; CHECK-NEXT:    cmovneq %r14, %rbx
++; CHECK-NEXT:    movq %rbx, %rax
++; CHECK-NEXT:    addq $8, %rsp
++; CHECK-NEXT:    popq %rbx
++; CHECK-NEXT:    popq %r14
++; CHECK-NEXT:    retq
++;
++; X86-LABEL: cmps:
++; X86:       # %bb.0:
++; X86-NEXT:    subl $12, %esp
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    pushl {{[0-9]+}}(%esp)
++; X86-NEXT:    calll __eqtf2
++; X86-NEXT:    addl $32, %esp
++; X86-NEXT:    testl %eax, %eax
++; X86-NEXT:    leal {{[0-9]+}}(%esp), %eax
++; X86-NEXT:    leal {{[0-9]+}}(%esp), %ecx
++; X86-NEXT:    cmovel %eax, %ecx
++; X86-NEXT:    movl (%ecx), %eax
++; X86-NEXT:    movl 4(%ecx), %edx
++; X86-NEXT:    addl $12, %esp
++; X86-NEXT:    retl
++  %cond = call i1 @llvm.experimental.constrained.fcmps.f128(
++                                               fp128 %x, fp128 %y,
++                                               metadata !"oeq",
++                                               metadata !"fpexcept.strict") #0
++  %res = select i1 %cond, i64 %a, i64 %b
++  ret i64 %res
++}
++
++attributes #0 = { nounwind strictfp }
+ 
+ declare fp128 @llvm.experimental.constrained.fadd.f128(fp128, fp128, metadata, metadata)
+ declare fp128 @llvm.experimental.constrained.fsub.f128(fp128, fp128, metadata, metadata)
+@@ -1158,3 +1250,5 @@ declare i32 @llvm.experimental.constrained.lrint.i32.f128(fp128, metadata, metad
+ declare i64 @llvm.experimental.constrained.llrint.i64.f128(fp128, metadata, metadata)
+ declare i32 @llvm.experimental.constrained.lround.i32.f128(fp128, metadata)
+ declare i64 @llvm.experimental.constrained.llround.i64.f128(fp128, metadata)
++declare i1 @llvm.experimental.constrained.fcmp.f128(fp128, fp128, metadata, metadata)
++declare i1 @llvm.experimental.constrained.fcmps.f128(fp128, fp128, metadata, metadata)

@@ -124,6 +124,18 @@
         "end_version": 380105
     },
     {
+        "comment": "[X86] Adding fp128 support for strict fcmp",
+        "rel_patch_path": "cherry/9a621de1ecadf668886a7caf743f6283d1c709e2.patch",
+        "start_version": 380035,
+        "end_version": 380791
+    },
+    {
+        "comment": "[LegalizeIntegerTypes][X86] Add support for expanding input of STRICT_SINT_TO_FP/STRICT_UINT_TO_FP into a libcall.",
+        "rel_patch_path": "cherry/26c7a4ed101fae85d2041ee1c8e8483b96e4460e.patch",
+        "start_version": 380035,
+        "end_version": 381260
+    },
+    {
         "comment": "Revert Recommit \"[GlobalOpt] Pass DTU to removeUnreachableBlocks instead of recomputing.\"",
         "rel_patch_path": "cherry/192cce10f67e4f22be6d9b8c0975f78ad246d1bd.patch",
         "start_version": 380035,
@@ -136,10 +148,22 @@
         "end_version": 382025
     },
     {
+        "comment": "[FPEnv][ARM] Add lowering of STRICT_FSETCC and STRICT_FSETCCS",
+        "rel_patch_path": "cherry/b37d59353f699e99f139a9227a6a69964ef4b132_modified.patch",
+        "start_version": 380035,
+        "end_version": 383345
+    },
+    {
         "comment": "Revert \"[DebugInfo][DAG] Distinguish different kinds of location indirection\"",
         "rel_patch_path": "cherry/ece761427f63de96ee52bbd6be1c61b07967a917.patch",
         "start_version": 380035,
         "end_version": 383779
+    },
+    {
+        "comment": "Fix type-dependency of bitfields in templates",
+        "rel_patch_path": "cherry/a58017e5cae5be948fd1913b68d46553e87aa622.patch",
+        "start_version": 380035,
+        "end_version": 384465
     },
     {
         "comment": "[ARM] Fix infinite loop when lowering STRICT_FP_EXTEND",
