@@ -76,7 +76,6 @@ IUSE="
 REQUIRED_USE="
 	cfi? ( thinlto )
 	afdo_verify? ( !afdo_use )
-	goma_thinlto? ( thinlto )
 	orderfile_generate? ( !orderfile_use )
 	"
 
@@ -225,11 +224,10 @@ should_upload_build_logs() {
 }
 
 set_build_args() {
-	# Some configurations don't set the goma USE flag, but enable Goma through
-	# the USE_GOMA environment variable. To support this, we don't include
-	# the check for goma in REQUIRED_USE. Instead, we check here.
-	use goma_thinlto && \
-		(use_goma || die "Cannot use goma_thinlto in a non-Goma build")
+	# use goma_thinlto says that if we are using Goma and ThinLTO, use
+	# Goma for distributed code generation. So only set the corresponding
+	# gn arg to true if all three conditions are met.
+	use_goma_thin_lto=$(use goma_thinlto && use_goma && use thinlto; echotf)
 	BUILD_ARGS=(
 		"is_chromeos_device=true"
 		# is_official_build sometimes implies extra optimizations (e.g. it will allow
@@ -269,7 +267,7 @@ set_build_args() {
 		"cros_host_is_clang=true"
 		"cros_v8_snapshot_is_clang=true"
 		"use_thin_lto=$(usetf thinlto)"
-		"use_goma_thin_lto=$(usetf goma_thinlto)"
+		"use_goma_thin_lto=${use_goma_thin_lto}"
 		"is_cfi=$(usetf cfi)"
 		"use_cfi_cast=$(usetf cfi)"
 
