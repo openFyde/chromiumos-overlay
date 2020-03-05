@@ -3,8 +3,8 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/graphyte"
-CROS_WORKON_LOCALNAME="graphyte"
-PYTHON_COMPAT=( python2_7 )
+CROS_WORKON_LOCALNAME="platform/graphyte"
+PYTHON_COMPAT=( python2_7 python3_{6,7} )
 
 inherit cros-workon distutils-r1
 
