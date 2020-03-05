@@ -157,6 +157,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50WilcoRmaFactoryMode
 	+tests_firmware_Cr50WPG3
 	+tests_firmware_DevBootUSB
+	+tests_firmware_DevDefaultBoot
 	+tests_firmware_DevMode
 	+tests_firmware_DevModeStress
 	+tests_firmware_DevScreenTimeout
