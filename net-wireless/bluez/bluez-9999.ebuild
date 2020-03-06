@@ -90,19 +90,11 @@ src_install() {
 	# Install command-line tools
 	dobin client/bluetoothctl
 	dobin monitor/btmon
-	dobin tools/bccmd
-	dobin tools/bluemoon
-	dobin tools/btattach
 	dobin tools/btgatt-client
 	dobin tools/btgatt-server
 	dobin tools/btmgmt
 	dobin tools/hciconfig
 	dobin tools/hcitool
-	dobin tools/hex2hcd
-	dobin tools/l2ping
-	dobin tools/l2test
-	dobin tools/mpris-proxy
-	dobin tools/rctest
 
 	# Install scripts
 	dobin "${FILESDIR}/dbus_send_blutooth_class.awk"
@@ -113,7 +105,6 @@ src_install() {
 	# Install daemons
 	exeinto /usr/libexec/bluetooth
 	doexe src/bluetoothd
-	doexe obexd/src/obexd
 
 	# Install development library files
 	insinto /usr/include/bluetooth
