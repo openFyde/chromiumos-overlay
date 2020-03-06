@@ -25,8 +25,8 @@ DEPEND="${RDEPEND}"
 OUT=$(cros-workon_get_build_dir)
 
 src_compile() {
-	gn gen "${OUT}" --root="${S}"/android
-	ninja -C "${OUT}"
+	gn gen "${OUT}" --root="${S}"/android || die "gn failed"
+	ninja -C "${OUT}" || die "build failed"
 }
 
 src_install() {
