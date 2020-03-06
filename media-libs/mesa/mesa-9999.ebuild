@@ -2,9 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI=6
-
-MESON_AUTO_DEPEND=no
+EAPI=7
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
@@ -35,7 +33,6 @@ fi
 # ralloc is LGPL-3
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT LGPL-3 SGI-B-2.0"
-SLOT="0"
 KEYWORDS="~*"
 
 INTEL_CARDS="intel"
@@ -49,37 +46,41 @@ IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
 	kvm_guest llvm +nptl pic selinux shared-glapi +vulkan wayland xlib-glx X"
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60:="
 
 REQUIRED_USE="video_cards_amdgpu? ( llvm )
 	video_cards_llvmpipe? ( llvm )"
 
-# keep correct libdrm and dri2proto dep
-# keep blocks in rdepend for binpkg
-RDEPEND="
+COMMON_DEPEND="
+	dev-libs/expat:=
+	dev-libs/libgcrypt:=
+	llvm? ( sys-devel/llvm:= )
+	llvm? ( virtual/libelf:= )
+	virtual/udev:=
 	X? (
-		!<x11-base/xorg-server-1.7
-		>=x11-libs/libX11-1.3.99.901
-		x11-libs/libXdamage
-		x11-libs/libXext
-		x11-libs/libXrandr
-		x11-libs/libXxf86vm
+		!<x11-base/xorg-server-1.7:=
+		>=x11-libs/libX11-1.3.99.901:=
+		x11-libs/libXdamage:=
+		x11-libs/libXext:=
+		x11-libs/libXrandr:=
+		x11-libs/libXxf86vm:=
 	)
-	llvm? ( virtual/libelf )
-	dev-libs/expat
-	dev-libs/libgcrypt
-	virtual/udev
 	${LIBDRM_DEPSTRING}
 "
 
-DEPEND="${RDEPEND}
-	dev-libs/libxml2
+RDEPEND="${COMMON_DEPEND}
+"
+
+DEPEND="${COMMON_DEPEND}
+	dev-libs/libxml2:=
+	x11-base/xorg-proto:=
+	wayland? ( >=dev-libs/wayland-protocols-1.8:= )
+"
+
+BDEPEND="
+	virtual/pkgconfig
 	sys-devel/bison
 	sys-devel/flex
-	virtual/pkgconfig
-	x11-base/xorg-proto
-	wayland? ( >=dev-libs/wayland-protocols-1.8 )
-	llvm? ( sys-devel/llvm )
 "
 
 driver_list() {
