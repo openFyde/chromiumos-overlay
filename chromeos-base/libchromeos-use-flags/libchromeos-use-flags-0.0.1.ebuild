@@ -33,6 +33,8 @@ IUSE="
 	disable_flash_hw_video_decode
 	drm_atomic
 	edge_touch_filtering
+	enable_heuristic_palm_detection_filter
+	enable_neural_palm_detection_filter
 	force_crashpad
 	gpu_sandbox_allow_sysv_shm
 	gpu_sandbox_failures_not_fatal
