@@ -8,6 +8,8 @@ CROS_WORKON_LOCALNAME="../platform/crostestutils"
 CROS_GO_WORKSPACE="${S}/go"
 CROS_GO_BINARIES=(
 	"firmware/cmd/dut_info:/usr/bin/fw_dut_info"
+	"firmware/cmd/e2e_coverage_summarizer:/usr/bin/fw_e2e_coverage_summarizer"
+	"firmware/cmd/lab_triage_helper:/usr/bin/fw_lab_triage_helper"
 )
 
 inherit cros-go cros-workon
