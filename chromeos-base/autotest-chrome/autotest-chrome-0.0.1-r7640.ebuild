@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="7756c9d5af31fd0965a0cde89fc3983ddc87ed0d"
-CROS_WORKON_TREE="b703de8ba497bec965e98650a15d72177f1a3c9e"
+CROS_WORKON_COMMIT="2c01d45b6c83bf63dfeefcd3b8ba274e8c96b024"
+CROS_WORKON_TREE="165151e3bb065542fd67734e7e414dd3158cfe52"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -61,6 +61,7 @@ IUSE_TESTS=(
 	+tests_autoupdate_EOL
 	+tests_autoupdate_LoginStartUpdateLogout
 	+tests_autoupdate_StartOOBEUpdate
+	+tests_autoupdate_UpdateFromUI
 	+tests_autoupdate_UserData
 	+tests_bluetooth_AdapterReboot
 	+tests_bluetooth_AdapterSanity
