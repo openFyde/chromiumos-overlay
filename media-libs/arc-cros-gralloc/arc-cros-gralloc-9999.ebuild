@@ -36,6 +36,7 @@ src_configure() {
 
 	BUILD_DIR="$(cros-workon_get_build_dir)"
 
+	append-cppflags -DDRI_DRIVER_DIR="/vendor/$(get_libdir)/dri"
 	append-lfs-flags
 
 	# TODO(gsingh): use pkgconfig
