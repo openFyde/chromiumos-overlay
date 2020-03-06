@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
-EAPI="4"
+EAPI="7"
 CROS_WORKON_COMMIT="8afebd60c77201ab9eac6e049e4576ed26c6d600"
 CROS_WORKON_TREE="df4813a2daa4de831ad4a401f7cca7a7b0480b00"
 CROS_WORKON_PROJECT="chromiumos/platform/tpm"
@@ -14,11 +14,11 @@ DESCRIPTION="Various TPM tools"
 HOMEPAGE="http://www.chromium.org/"
 
 LICENSE="BSD"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="-asan"
 
-RDEPEND="app-crypt/trousers"
+RDEPEND="app-crypt/trousers:="
 DEPEND="${RDEPEND}"
 
 src_configure() {
