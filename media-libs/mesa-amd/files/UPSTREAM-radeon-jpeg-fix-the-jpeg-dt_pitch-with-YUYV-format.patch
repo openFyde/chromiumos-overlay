@@ -1,0 +1,39 @@
+From 9fb35373b5f15f061c61ceab713ebc4da303ae0f Mon Sep 17 00:00:00 2001
+From: Leo Liu <leo.liu@amd.com>
+Date: Thu, 6 Feb 2020 19:20:09 -0500
+Subject: [PATCH 8/8] radeon/jpeg: fix the jpeg dt_pitch with YUYV format
+
+The dt_pitch should be same as NV12 format from decoder views,
+and it finally got corrected with gfx9 surface's fixes from MR
+https://gitlab.freedesktop.org/mesa/mesa/merge_requests/3738
+
+Signed-off-by: Leo Liu <leo.liu@amd.com>
+Acked-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Tested-by: Marge Bot <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3738>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3738>
+---
+ src/gallium/drivers/radeon/radeon_vcn_dec_jpeg.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/src/gallium/drivers/radeon/radeon_vcn_dec_jpeg.c b/src/gallium/drivers/radeon/radeon_vcn_dec_jpeg.c
+index b53af093785..1214c9438d1 100644
+--- a/src/gallium/drivers/radeon/radeon_vcn_dec_jpeg.c
++++ b/src/gallium/drivers/radeon/radeon_vcn_dec_jpeg.c
+@@ -48,12 +48,9 @@ static struct pb_buffer *radeon_jpeg_get_decode_param(struct radeon_decoder *dec
+ 
+ 	dec->jpg.bsd_size = align(dec->bs_size, 128);
+ 	dec->jpg.dt_luma_top_offset = luma->surface.u.gfx9.surf_offset;
+-	if (target->buffer_format == PIPE_FORMAT_NV12) {
++	if (target->buffer_format == PIPE_FORMAT_NV12)
+ 		dec->jpg.dt_chroma_top_offset = chroma->surface.u.gfx9.surf_offset;
+-		dec->jpg.dt_pitch = luma->surface.u.gfx9.surf_pitch * luma->surface.blk_w;
+-	}
+-	else if (target->buffer_format == PIPE_FORMAT_YUYV)
+-		dec->jpg.dt_pitch = luma->surface.u.gfx9.surf_pitch;
++	dec->jpg.dt_pitch = luma->surface.u.gfx9.surf_pitch * luma->surface.blk_w;
+ 	dec->jpg.dt_uv_pitch = dec->jpg.dt_pitch / 2;
+ 
+ 	return luma->buffer.buf;
+-- 
+2.17.1
+

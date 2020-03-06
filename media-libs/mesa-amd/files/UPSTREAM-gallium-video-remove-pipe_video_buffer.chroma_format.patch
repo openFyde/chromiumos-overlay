@@ -1,0 +1,445 @@
+From e357af9543ddf8a01eeae8e4078485146438f197 Mon Sep 17 00:00:00 2001
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Date: Wed, 5 Feb 2020 10:21:20 +0100
+Subject: [PATCH 3/8] gallium/video: remove pipe_video_buffer.chroma_format
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+chroma_format depends on buffer_format so use the format_to_chroma_format
+helper instead of storing it next to buffer_format.
+This avoids bugs where one value is changed without updating the other.
+
+Reviewed-by: Marek Olšák <marek.olsak@amd.com>
+Acked-by: Leo Liu <leo.liu@amd.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3738>
+---
+ src/gallium/auxiliary/vl/vl_deint_filter.c           | 3 +--
+ src/gallium/auxiliary/vl/vl_mpeg12_decoder.c         | 6 +++---
+ src/gallium/auxiliary/vl/vl_video_buffer.c           | 2 +-
+ src/gallium/drivers/nouveau/nouveau_video.c          | 3 +--
+ src/gallium/drivers/nouveau/nouveau_vp3_video.c      | 3 +--
+ src/gallium/drivers/nouveau/nv50/nv84_video.c        | 3 +--
+ src/gallium/drivers/r600/radeon_vce.c                | 1 -
+ src/gallium/drivers/radeon/radeon_uvd_enc.c          | 1 -
+ src/gallium/drivers/radeon/radeon_vce.c              | 1 -
+ src/gallium/drivers/radeon/radeon_vcn_enc.c          | 1 -
+ src/gallium/include/pipe/p_video_codec.h             | 1 -
+ src/gallium/state_trackers/omx/bellagio/vid_enc.c    | 1 -
+ src/gallium/state_trackers/omx/vid_dec_common.c      | 5 +++--
+ src/gallium/state_trackers/omx/vid_dec_h264_common.c | 1 -
+ src/gallium/state_trackers/omx/vid_enc_common.c      | 1 -
+ src/gallium/state_trackers/va/image.c                | 6 +++---
+ src/gallium/state_trackers/va/postproc.c             | 6 ++++--
+ src/gallium/state_trackers/va/surface.c              | 2 --
+ src/gallium/state_trackers/vdpau/decode.c            | 3 ++-
+ src/gallium/state_trackers/vdpau/mixer.c             | 2 +-
+ src/gallium/state_trackers/vdpau/output.c            | 1 -
+ src/gallium/state_trackers/vdpau/surface.c           | 8 ++++----
+ src/gallium/state_trackers/xvmc/surface.c            | 2 +-
+ 23 files changed, 26 insertions(+), 37 deletions(-)
+
+diff --git a/src/gallium/auxiliary/vl/vl_deint_filter.c b/src/gallium/auxiliary/vl/vl_deint_filter.c
+index dbd6be534e9..37777666f46 100644
+--- a/src/gallium/auxiliary/vl/vl_deint_filter.c
++++ b/src/gallium/auxiliary/vl/vl_deint_filter.c
+@@ -262,7 +262,6 @@ vl_deint_filter_init(struct vl_deint_filter *filter, struct pipe_context *pipe,
+       PIPE_VIDEO_ENTRYPOINT_UNKNOWN,
+       PIPE_VIDEO_CAP_PREFERED_FORMAT
+    );
+-   templ.chroma_format = PIPE_VIDEO_CHROMA_FORMAT_420;
+    templ.width = video_width;
+    templ.height = video_height;
+    templ.interlaced = true;
+@@ -420,7 +419,7 @@ vl_deint_filter_check_buffers(struct vl_deint_filter *filter,
+    struct pipe_video_buffer *bufs[] = { prevprev, prev, cur, next };
+ 
+    for (i = 0; i < 4; i++) {
+-      if (bufs[i]->chroma_format != PIPE_VIDEO_CHROMA_FORMAT_420)
++      if (pipe_format_to_chroma_format(bufs[i]->buffer_format) != PIPE_VIDEO_CHROMA_FORMAT_420)
+          return false;
+       if (bufs[i]->width < filter->video_width ||
+           bufs[i]->height < filter->video_height)
+diff --git a/src/gallium/auxiliary/vl/vl_mpeg12_decoder.c b/src/gallium/auxiliary/vl/vl_mpeg12_decoder.c
+index b7ef70f6ced..8a04158145a 100644
+--- a/src/gallium/auxiliary/vl/vl_mpeg12_decoder.c
++++ b/src/gallium/auxiliary/vl/vl_mpeg12_decoder.c
+@@ -982,10 +982,10 @@ init_idct(struct vl_mpeg12_decoder *dec, const struct format_config* format_conf
+       nr_of_idct_render_targets = 1;
+ 
+    formats[0] = formats[1] = formats[2] = format_config->idct_source_format;
++   assert(pipe_format_to_chroma_format(formats[0]) == dec->base.chroma_format);
+    memset(&templat, 0, sizeof(templat));
+    templat.width = dec->base.width / 4;
+    templat.height = dec->base.height;
+-   templat.chroma_format = dec->base.chroma_format;
+    dec->idct_source = vl_video_buffer_create_ex
+    (
+       dec->context, &templat,
+@@ -996,10 +996,10 @@ init_idct(struct vl_mpeg12_decoder *dec, const struct format_config* format_conf
+       goto error_idct_source;
+ 
+    formats[0] = formats[1] = formats[2] = format_config->mc_source_format;
++   assert(pipe_format_to_chroma_format(formats[0]) == dec->base.chroma_format);
+    memset(&templat, 0, sizeof(templat));
+    templat.width = dec->base.width / nr_of_idct_render_targets;
+    templat.height = dec->base.height / 4;
+-   templat.chroma_format = dec->base.chroma_format;
+    dec->mc_source = vl_video_buffer_create_ex
+    (
+       dec->context, &templat,
+@@ -1047,10 +1047,10 @@ init_mc_source_widthout_idct(struct vl_mpeg12_decoder *dec, const struct format_
+    struct pipe_video_buffer templat;
+ 
+    formats[0] = formats[1] = formats[2] = format_config->mc_source_format;
++   assert(pipe_format_to_chroma_format(formats[0]) == dec->base.chroma_format);
+    memset(&templat, 0, sizeof(templat));
+    templat.width = dec->base.width;
+    templat.height = dec->base.height;
+-   templat.chroma_format = dec->base.chroma_format;
+    dec->mc_source = vl_video_buffer_create_ex
+    (
+       dec->context, &templat,
+diff --git a/src/gallium/auxiliary/vl/vl_video_buffer.c b/src/gallium/auxiliary/vl/vl_video_buffer.c
+index b159007c2b9..ef176324287 100644
+--- a/src/gallium/auxiliary/vl/vl_video_buffer.c
++++ b/src/gallium/auxiliary/vl/vl_video_buffer.c
+@@ -187,7 +187,7 @@ vl_video_buffer_template(struct pipe_resource *templ,
+    templ->usage = usage;
+ 
+    vl_video_buffer_adjust_size(&templ->width0, &height, plane,
+-                               tmpl->chroma_format, false);
++                               pipe_format_to_chroma_format(tmpl->buffer_format), false);
+    templ->height0 = height;
+ }
+ 
+diff --git a/src/gallium/drivers/nouveau/nouveau_video.c b/src/gallium/drivers/nouveau/nouveau_video.c
+index 95d8866bae8..41b10aac641 100644
+--- a/src/gallium/drivers/nouveau/nouveau_video.c
++++ b/src/gallium/drivers/nouveau/nouveau_video.c
+@@ -782,7 +782,7 @@ nouveau_video_buffer_create(struct pipe_context *pipe,
+        screen->device->chipset < 0x40)
+       return vl_video_buffer_create(pipe, templat);
+ 
+-   assert(templat->chroma_format == PIPE_VIDEO_CHROMA_FORMAT_420);
++   assert(pipe_format_to_chroma_format(templat->buffer_format) == PIPE_VIDEO_CHROMA_FORMAT_420);
+    width = align(templat->width, 64);
+    height = align(templat->height, 64);
+ 
+@@ -795,7 +795,6 @@ nouveau_video_buffer_create(struct pipe_context *pipe,
+    buffer->base.get_sampler_view_planes = nouveau_video_buffer_sampler_view_planes;
+    buffer->base.get_sampler_view_components = nouveau_video_buffer_sampler_view_components;
+    buffer->base.get_surfaces = nouveau_video_buffer_surfaces;
+-   buffer->base.chroma_format = templat->chroma_format;
+    buffer->base.buffer_format = templat->buffer_format;
+    buffer->base.width = width;
+    buffer->base.height = height;
+diff --git a/src/gallium/drivers/nouveau/nouveau_vp3_video.c b/src/gallium/drivers/nouveau/nouveau_vp3_video.c
+index d2e6945877b..21595f9d1ed 100644
+--- a/src/gallium/drivers/nouveau/nouveau_vp3_video.c
++++ b/src/gallium/drivers/nouveau/nouveau_vp3_video.c
+@@ -89,7 +89,7 @@ nouveau_vp3_video_buffer_create(struct pipe_context *pipe,
+       return vl_video_buffer_create(pipe, templat);
+ 
+    assert(templat->interlaced);
+-   assert(templat->chroma_format == PIPE_VIDEO_CHROMA_FORMAT_420);
++   assert(pipe_format_to_chroma_format(templat->buffer_format) == PIPE_VIDEO_CHROMA_FORMAT_420);
+ 
+    buffer = CALLOC_STRUCT(nouveau_vp3_video_buffer);
+    if (!buffer)
+@@ -98,7 +98,6 @@ nouveau_vp3_video_buffer_create(struct pipe_context *pipe,
+    buffer->base.buffer_format = templat->buffer_format;
+    buffer->base.context = pipe;
+    buffer->base.destroy = nouveau_vp3_video_buffer_destroy;
+-   buffer->base.chroma_format = templat->chroma_format;
+    buffer->base.width = templat->width;
+    buffer->base.height = templat->height;
+    buffer->base.get_sampler_view_planes = nouveau_vp3_video_buffer_sampler_view_planes;
+diff --git a/src/gallium/drivers/nouveau/nv50/nv84_video.c b/src/gallium/drivers/nouveau/nv50/nv84_video.c
+index dbec1f786f1..7930fdb4bf1 100644
+--- a/src/gallium/drivers/nouveau/nv50/nv84_video.c
++++ b/src/gallium/drivers/nouveau/nv50/nv84_video.c
+@@ -619,7 +619,7 @@ nv84_video_buffer_create(struct pipe_context *pipe,
+       debug_printf("Require interlaced video buffers\n");
+       return NULL;
+    }
+-   if (template->chroma_format != PIPE_VIDEO_CHROMA_FORMAT_420) {
++   if (pipe_format_to_chroma_format(template->buffer_format) != PIPE_VIDEO_CHROMA_FORMAT_420) {
+       debug_printf("Must use 4:2:0 format\n");
+       return NULL;
+    }
+@@ -638,7 +638,6 @@ nv84_video_buffer_create(struct pipe_context *pipe,
+    buffer->base.buffer_format = template->buffer_format;
+    buffer->base.context = pipe;
+    buffer->base.destroy = nv84_video_buffer_destroy;
+-   buffer->base.chroma_format = template->chroma_format;
+    buffer->base.width = template->width;
+    buffer->base.height = template->height;
+    buffer->base.get_sampler_view_planes = nv84_video_buffer_sampler_view_planes;
+diff --git a/src/gallium/drivers/r600/radeon_vce.c b/src/gallium/drivers/r600/radeon_vce.c
+index 4051d73533d..ec5ca76f010 100644
+--- a/src/gallium/drivers/r600/radeon_vce.c
++++ b/src/gallium/drivers/r600/radeon_vce.c
+@@ -434,7 +434,6 @@ struct pipe_video_codec *rvce_create_encoder(struct pipe_context *context,
+ 	}
+ 
+ 	templat.buffer_format = PIPE_FORMAT_NV12;
+-	templat.chroma_format = PIPE_VIDEO_CHROMA_FORMAT_420;
+ 	templat.width = enc->base.width;
+ 	templat.height = enc->base.height;
+ 	templat.interlaced = false;
+diff --git a/src/gallium/drivers/radeon/radeon_uvd_enc.c b/src/gallium/drivers/radeon/radeon_uvd_enc.c
+index 639e5043543..b2b742aab9b 100644
+--- a/src/gallium/drivers/radeon/radeon_uvd_enc.c
++++ b/src/gallium/drivers/radeon/radeon_uvd_enc.c
+@@ -327,7 +327,6 @@ radeon_uvd_create_encoder(struct pipe_context *context,
+    enc->si = &si;
+ 
+    templat.buffer_format = PIPE_FORMAT_NV12;
+-   templat.chroma_format = PIPE_VIDEO_CHROMA_FORMAT_420;
+    templat.width = enc->base.width;
+    templat.height = enc->base.height;
+    templat.interlaced = false;
+diff --git a/src/gallium/drivers/radeon/radeon_vce.c b/src/gallium/drivers/radeon/radeon_vce.c
+index 7d2448ec144..7cfdcfff0d3 100644
+--- a/src/gallium/drivers/radeon/radeon_vce.c
++++ b/src/gallium/drivers/radeon/radeon_vce.c
+@@ -448,7 +448,6 @@ struct pipe_video_codec *si_vce_create_encoder(struct pipe_context *context,
+ 	}
+ 
+ 	templat.buffer_format = PIPE_FORMAT_NV12;
+-	templat.chroma_format = PIPE_VIDEO_CHROMA_FORMAT_420;
+ 	templat.width = enc->base.width;
+ 	templat.height = enc->base.height;
+ 	templat.interlaced = false;
+diff --git a/src/gallium/drivers/radeon/radeon_vcn_enc.c b/src/gallium/drivers/radeon/radeon_vcn_enc.c
+index b9276098996..c561341b335 100644
+--- a/src/gallium/drivers/radeon/radeon_vcn_enc.c
++++ b/src/gallium/drivers/radeon/radeon_vcn_enc.c
+@@ -401,7 +401,6 @@ struct pipe_video_codec *radeon_create_encoder(struct pipe_context *context,
+ 	enc->si = &si;
+ 
+ 	templat.buffer_format = PIPE_FORMAT_NV12;
+-	templat.chroma_format = PIPE_VIDEO_CHROMA_FORMAT_420;
+ 	templat.width = enc->base.width;
+ 	templat.height = enc->base.height;
+ 	templat.interlaced = false;
+diff --git a/src/gallium/include/pipe/p_video_codec.h b/src/gallium/include/pipe/p_video_codec.h
+index ab8b4fcb605..38255048d94 100644
+--- a/src/gallium/include/pipe/p_video_codec.h
++++ b/src/gallium/include/pipe/p_video_codec.h
+@@ -122,7 +122,6 @@ struct pipe_video_buffer
+    struct pipe_context *context;
+ 
+    enum pipe_format buffer_format;
+-   enum pipe_video_chroma_format chroma_format;
+    unsigned width;
+    unsigned height;
+    bool interlaced;
+diff --git a/src/gallium/state_trackers/omx/bellagio/vid_enc.c b/src/gallium/state_trackers/omx/bellagio/vid_enc.c
+index 8153103e97b..7f4a673d3cd 100644
+--- a/src/gallium/state_trackers/omx/bellagio/vid_enc.c
++++ b/src/gallium/state_trackers/omx/bellagio/vid_enc.c
+@@ -547,7 +547,6 @@ static OMX_ERRORTYPE vid_enc_SetConfig(OMX_HANDLETYPE handle, OMX_INDEXTYPE idx,
+          struct pipe_video_buffer templat = {};
+ 
+          templat.buffer_format = PIPE_FORMAT_NV12;
+-         templat.chroma_format = PIPE_VIDEO_CHROMA_FORMAT_420;
+          templat.width = priv->scale.xWidth;
+          templat.height = priv->scale.xHeight;
+          templat.interlaced = false;
+diff --git a/src/gallium/state_trackers/omx/vid_dec_common.c b/src/gallium/state_trackers/omx/vid_dec_common.c
+index 21952513de1..5ca544f8386 100644
+--- a/src/gallium/state_trackers/omx/vid_dec_common.c
++++ b/src/gallium/state_trackers/omx/vid_dec_common.c
+@@ -52,7 +52,6 @@ void vid_dec_NeedTarget(vid_dec_PrivateType *priv)
+    if (!priv->target) {
+       memset(&templat, 0, sizeof(templat));
+ 
+-      templat.chroma_format = PIPE_VIDEO_CHROMA_FORMAT_420;
+       templat.width = priv->codec->width;
+       templat.height = priv->codec->height;
+       templat.buffer_format = pscreen->get_video_param(
+@@ -132,7 +131,9 @@ void vid_dec_FillOutput(vid_dec_PrivateType *priv, struct pipe_video_buffer *buf
+       if (!views[i]) continue;
+       width = def->nFrameWidth;
+       height = def->nFrameHeight;
+-      vl_video_buffer_adjust_size(&width, &height, i, buf->chroma_format, buf->interlaced);
++      vl_video_buffer_adjust_size(&width, &height, i,
++                                  pipe_format_to_chroma_format(buf->buffer_format),
++                                  buf->interlaced);
+       for (j = 0; j < views[i]->texture->array_size; ++j) {
+          struct pipe_box box = {0, 0, j, width, height, 1};
+          struct pipe_transfer *transfer;
+diff --git a/src/gallium/state_trackers/omx/vid_dec_h264_common.c b/src/gallium/state_trackers/omx/vid_dec_h264_common.c
+index 388852ba542..4190251c90d 100644
+--- a/src/gallium/state_trackers/omx/vid_dec_h264_common.c
++++ b/src/gallium/state_trackers/omx/vid_dec_h264_common.c
+@@ -1096,7 +1096,6 @@ void vid_dec_FrameDecoded_common(vid_dec_PrivateType* priv, OMX_BUFFERHEADERTYPE
+             port = tiz_krn_get_port(tiz_get_krn(handleOf (priv)), OMX_VID_DEC_AVC_INPUT_PORT_INDEX);
+ #endif
+             memset(&templat, 0, sizeof(templat));
+-            templat.chroma_format = PIPE_VIDEO_CHROMA_FORMAT_420;
+ #if ENABLE_ST_OMX_BELLAGIO
+             templat.width = port->sPortParam.format.video.nFrameWidth;
+             templat.height = port->sPortParam.format.video.nFrameHeight;
+diff --git a/src/gallium/state_trackers/omx/vid_enc_common.c b/src/gallium/state_trackers/omx/vid_enc_common.c
+index c15c3516973..1cc0c130e5d 100644
+--- a/src/gallium/state_trackers/omx/vid_enc_common.c
++++ b/src/gallium/state_trackers/omx/vid_enc_common.c
+@@ -194,7 +194,6 @@ struct encode_task *enc_NeedTask_common(vid_enc_PrivateType * priv, OMX_VIDEO_PO
+       return NULL;
+ 
+    templat.buffer_format = PIPE_FORMAT_NV12;
+-   templat.chroma_format = PIPE_VIDEO_CHROMA_FORMAT_420;
+    templat.width = def->nFrameWidth;
+    templat.height = def->nFrameHeight;
+    templat.interlaced = false;
+diff --git a/src/gallium/state_trackers/va/image.c b/src/gallium/state_trackers/va/image.c
+index 9e3a49f1996..27874cfc060 100644
+--- a/src/gallium/state_trackers/va/image.c
++++ b/src/gallium/state_trackers/va/image.c
+@@ -65,7 +65,7 @@ vlVaVideoSurfaceSize(vlVaSurface *p_surf, int component,
+    *height = p_surf->templat.height;
+ 
+    vl_video_buffer_adjust_size(width, height, component,
+-                               p_surf->templat.chroma_format,
++                               pipe_format_to_chroma_format(p_surf->templat.buffer_format),
+                                p_surf->templat.interlaced);
+ }
+ 
+@@ -446,10 +446,10 @@ vlVaGetImage(VADriverContextP ctx, VASurfaceID surface, int x, int y,
+       unsigned box_y = y & ~1;
+       if (!views[i]) continue;
+       vl_video_buffer_adjust_size(&box_w, &box_h, i,
+-                                  surf->templat.chroma_format,
++                                  pipe_format_to_chroma_format(surf->templat.buffer_format),
+                                   surf->templat.interlaced);
+       vl_video_buffer_adjust_size(&box_x, &box_y, i,
+-                                  surf->templat.chroma_format,
++                                  pipe_format_to_chroma_format(surf->templat.buffer_format),
+                                   surf->templat.interlaced);
+       for (j = 0; j < views[i]->texture->array_size; ++j) {
+          struct pipe_box box = {box_x, box_y, j, box_w, box_h, 1};
+diff --git a/src/gallium/state_trackers/va/postproc.c b/src/gallium/state_trackers/va/postproc.c
+index 3431b1b48c7..59c938fd2dd 100644
+--- a/src/gallium/state_trackers/va/postproc.c
++++ b/src/gallium/state_trackers/va/postproc.c
+@@ -97,9 +97,11 @@ static void vlVaGetBox(struct pipe_video_buffer *buf, unsigned idx,
+    width = region->width;
+    height = region->height;
+ 
+-   vl_video_buffer_adjust_size(&x, &y, plane, buf->chroma_format,
++   vl_video_buffer_adjust_size(&x, &y, plane,
++                               pipe_format_to_chroma_format(buf->buffer_format),
+                                buf->interlaced);
+-   vl_video_buffer_adjust_size(&width, &height, plane, buf->chroma_format,
++   vl_video_buffer_adjust_size(&width, &height, plane,
++                               pipe_format_to_chroma_format(buf->buffer_format),
+                                buf->interlaced);
+ 
+    box->x = region->x < 0 ? -x : x;
+diff --git a/src/gallium/state_trackers/va/surface.c b/src/gallium/state_trackers/va/surface.c
+index 391eab65e69..bfad93f8f3d 100644
+--- a/src/gallium/state_trackers/va/surface.c
++++ b/src/gallium/state_trackers/va/surface.c
+@@ -776,8 +776,6 @@ vlVaCreateSurfaces2(VADriverContextP ctx, unsigned int format,
+       templat.buffer_format = expected_format;
+    }
+ 
+-   templat.chroma_format = ChromaToPipe(format);
+-
+    templat.width = width;
+    templat.height = height;
+ 
+diff --git a/src/gallium/state_trackers/vdpau/decode.c b/src/gallium/state_trackers/vdpau/decode.c
+index 48dfb0e0003..8d3c58714a8 100644
+--- a/src/gallium/state_trackers/vdpau/decode.c
++++ b/src/gallium/state_trackers/vdpau/decode.c
+@@ -600,7 +600,8 @@ vlVdpDecoderRender(VdpDecoder decoder,
+    if (vlsurf->device != vldecoder->device)
+       return VDP_STATUS_HANDLE_DEVICE_MISMATCH;
+ 
+-   if (vlsurf->video_buffer != NULL && vlsurf->video_buffer->chroma_format != dec->chroma_format)
++   if (vlsurf->video_buffer != NULL &&
++       pipe_format_to_chroma_format(vlsurf->video_buffer->buffer_format) != dec->chroma_format)
+       // TODO: Recreate decoder with correct chroma
+       return VDP_STATUS_INVALID_CHROMA_TYPE;
+ 
+diff --git a/src/gallium/state_trackers/vdpau/mixer.c b/src/gallium/state_trackers/vdpau/mixer.c
+index a50232bfac3..2e2bd20ef39 100644
+--- a/src/gallium/state_trackers/vdpau/mixer.c
++++ b/src/gallium/state_trackers/vdpau/mixer.c
+@@ -272,7 +272,7 @@ VdpStatus vlVdpVideoMixerRender(VdpVideoMixer mixer,
+ 
+    if (vmixer->video_width > video_buffer->width ||
+        vmixer->video_height > video_buffer->height ||
+-       vmixer->chroma_format != video_buffer->chroma_format)
++       vmixer->chroma_format != pipe_format_to_chroma_format(video_buffer->buffer_format))
+       return VDP_STATUS_INVALID_SIZE;
+ 
+    if (layer_count > vmixer->max_layers)
+diff --git a/src/gallium/state_trackers/vdpau/output.c b/src/gallium/state_trackers/vdpau/output.c
+index 1f873daa814..29742e1c192 100644
+--- a/src/gallium/state_trackers/vdpau/output.c
++++ b/src/gallium/state_trackers/vdpau/output.c
+@@ -465,7 +465,6 @@ vlVdpOutputSurfacePutBitsYCbCr(VdpOutputSurface surface,
+    mtx_lock(&vlsurface->device->mutex);
+    memset(&vtmpl, 0, sizeof(vtmpl));
+    vtmpl.buffer_format = format;
+-   vtmpl.chroma_format = FormatYCBCRToPipeChroma(source_ycbcr_format);
+ 
+    if (destination_rect) {
+       vtmpl.width = abs(destination_rect->x0-destination_rect->x1);
+diff --git a/src/gallium/state_trackers/vdpau/surface.c b/src/gallium/state_trackers/vdpau/surface.c
+index e9d55a282e2..1f1b0b3ef68 100644
+--- a/src/gallium/state_trackers/vdpau/surface.c
++++ b/src/gallium/state_trackers/vdpau/surface.c
+@@ -89,7 +89,7 @@ vlVdpVideoSurfaceCreate(VdpDevice device, VdpChromaType chroma_type,
+       PIPE_VIDEO_ENTRYPOINT_BITSTREAM,
+       PIPE_VIDEO_CAP_PREFERED_FORMAT
+    );
+-   p_surf->templat.chroma_format = ChromaToPipe(chroma_type);
++   assert(pipe_format_to_chroma_format(p_surf->templat.buffer_format) == ChromaToPipe(chroma_type));
+    p_surf->templat.width = width;
+    p_surf->templat.height = height;
+    p_surf->templat.interlaced = pipe->screen->get_video_param
+@@ -168,11 +168,11 @@ vlVdpVideoSurfaceGetParameters(VdpVideoSurface surface,
+    if (p_surf->video_buffer) {
+       *width = p_surf->video_buffer->width;
+       *height = p_surf->video_buffer->height;
+-      *chroma_type = PipeToChroma(p_surf->video_buffer->chroma_format);
++      *chroma_type = PipeToChroma(pipe_format_to_chroma_format(p_surf->video_buffer->buffer_format));
+    } else {
+       *width = p_surf->templat.width;
+       *height = p_surf->templat.height;
+-      *chroma_type = PipeToChroma(p_surf->templat.chroma_format);
++      *chroma_type = PipeToChroma(pipe_format_to_chroma_format(p_surf->templat.buffer_format));
+    }
+ 
+    return VDP_STATUS_OK;
+@@ -186,7 +186,7 @@ vlVdpVideoSurfaceSize(vlVdpSurface *p_surf, int component,
+    *height = p_surf->templat.height;
+ 
+    vl_video_buffer_adjust_size(width, height, component,
+-                               p_surf->templat.chroma_format,
++                               pipe_format_to_chroma_format(p_surf->templat.buffer_format),
+                                p_surf->templat.interlaced);
+ }
+ 
+diff --git a/src/gallium/state_trackers/xvmc/surface.c b/src/gallium/state_trackers/xvmc/surface.c
+index c450a273767..03ee59482c6 100644
+--- a/src/gallium/state_trackers/xvmc/surface.c
++++ b/src/gallium/state_trackers/xvmc/surface.c
+@@ -182,7 +182,7 @@ Status XvMCCreateSurface(Display *dpy, XvMCContext *context, XvMCSurface *surfac
+       context_priv->decoder->entrypoint,
+       PIPE_VIDEO_CAP_PREFERED_FORMAT
+    );
+-   tmpl.chroma_format = context_priv->decoder->chroma_format;
++   assert(pipe_format_to_chroma_format(tmpl.buffer_format) == context_priv->decoder->chroma_format);
+    tmpl.width = context_priv->decoder->width;
+    tmpl.height = context_priv->decoder->height;
+    tmpl.interlaced = pipe->screen->get_video_param
+-- 
+2.17.1
+

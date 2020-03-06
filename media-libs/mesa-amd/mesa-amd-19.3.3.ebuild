@@ -137,6 +137,16 @@ src_prepare() {
 	# b/148752246
 	epatch "${FILESDIR}"/UPSTREAM-st-va-GetConfigAttributes-check-profile-and-entrypoi.patch
 
+        # b/148988984, b/150709236
+        epatch "${FILESDIR}"/BACKPORT-UPSTREAM-radeonsi-test-subsampled-format-in-testdma.patch
+        epatch "${FILESDIR}"/BACKPORT-UPSTREAM-format-add-format_to_chroma_format.patch
+        epatch "${FILESDIR}"/UPSTREAM-gallium-video-remove-pipe_video_buffer.chroma_format.patch
+        epatch "${FILESDIR}"/UPSTREAM-gallium-vl-add-4-2-2-support.patch
+        epatch "${FILESDIR}"/UPSTREAM-radeonsi-fix-surf_pitch-for-subsampled-surface.patch
+        epatch "${FILESDIR}"/UPSTREAM-st-va-enable-4-2-2-chroma-format.patch
+        epatch "${FILESDIR}"/UPSTREAM-st-va-add-support-YUY2.patch
+        epatch "${FILESDIR}"/UPSTREAM-radeon-jpeg-fix-the-jpeg-dt_pitch-with-YUYV-format.patch
+
 	default
 }
 

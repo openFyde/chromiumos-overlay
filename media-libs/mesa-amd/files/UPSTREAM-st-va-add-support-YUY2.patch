@@ -1,0 +1,58 @@
+From 63ec8633d9694e735d182007b4ffcd16463ff027 Mon Sep 17 00:00:00 2001
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Date: Thu, 13 Feb 2020 19:24:43 +0100
+Subject: [PATCH 7/8] st/va: add support YUY2
+
+YUY2 is a duplicate of YUYV and is used by gstreamer for 4:2:2.
+
+Acked-by: Leo Liu <leo.liu@amd.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3738>
+---
+ src/gallium/state_trackers/va/image.c      | 2 ++
+ src/gallium/state_trackers/va/va_private.h | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/gallium/state_trackers/va/image.c b/src/gallium/state_trackers/va/image.c
+index 27874cfc060..b197d2eed63 100644
+--- a/src/gallium/state_trackers/va/image.c
++++ b/src/gallium/state_trackers/va/image.c
+@@ -46,6 +46,7 @@ static const VAImageFormat formats[] =
+    {VA_FOURCC('I','4','2','0')},
+    {VA_FOURCC('Y','V','1','2')},
+    {VA_FOURCC('Y','U','Y','V')},
++   {VA_FOURCC('Y','U','Y','2')},
+    {VA_FOURCC('U','Y','V','Y')},
+    {.fourcc = VA_FOURCC('B','G','R','A'), .byte_order = VA_LSB_FIRST, 32, 32,
+     0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000},
+@@ -160,6 +161,7 @@ vlVaCreateImage(VADriverContextP ctx, VAImageFormat *format, int width, int heig
+ 
+    case VA_FOURCC('U','Y','V','Y'):
+    case VA_FOURCC('Y','U','Y','V'):
++   case VA_FOURCC('Y','U','Y','2'):
+       img->num_planes = 1;
+       img->pitches[0] = w * 2;
+       img->offsets[0] = 0;
+diff --git a/src/gallium/state_trackers/va/va_private.h b/src/gallium/state_trackers/va/va_private.h
+index b2b997d4799..09ccbc88729 100644
+--- a/src/gallium/state_trackers/va/va_private.h
++++ b/src/gallium/state_trackers/va/va_private.h
+@@ -49,7 +49,7 @@
+ #define VL_VA_DRIVER(ctx) ((vlVaDriver *)ctx->pDriverData)
+ #define VL_VA_PSCREEN(ctx) (VL_VA_DRIVER(ctx)->vscreen->pscreen)
+ 
+-#define VL_VA_MAX_IMAGE_FORMATS 11
++#define VL_VA_MAX_IMAGE_FORMATS 12
+ #define VL_VA_ENC_GOP_COEFF 16
+ 
+ #define UINT_TO_PTR(x) ((void*)(uintptr_t)(x))
+@@ -103,6 +103,7 @@ VaFourccToPipeFormat(unsigned format)
+    case VA_FOURCC('Y','V','1','2'):
+       return PIPE_FORMAT_YV12;
+    case VA_FOURCC('Y','U','Y','V'):
++   case VA_FOURCC('Y','U','Y','2'):
+       return PIPE_FORMAT_YUYV;
+    case VA_FOURCC('U','Y','V','Y'):
+       return PIPE_FORMAT_UYVY;
+-- 
+2.17.1
+

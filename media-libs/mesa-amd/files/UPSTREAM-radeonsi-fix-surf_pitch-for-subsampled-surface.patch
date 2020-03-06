@@ -1,0 +1,75 @@
+From 8721232947f88690aa830d8ff830a6a59b14e52e Mon Sep 17 00:00:00 2001
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Date: Tue, 4 Feb 2020 18:56:59 +0100
+Subject: [PATCH 5/8] radeonsi: fix surf_pitch for subsampled surface
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+gfx9.surf_pitch is supposed to be in blocks (or elements) but addrlib
+returns a pitch in pixels.
+This cause a mismatch between surface->bpe and surface.u.gfx9.surf_pitch.
+
+For subsampled formats like uyvy (bpe is 2) this breaks in various places:
+ - sdma copy
+ - video rendering (see issue https://gitlab.freedesktop.org/mesa/mesa/issues/2363)
+   when the vl_compositor_gfx_render method is used
+
+Reviewed-by: Marek Olšák <marek.olsak@amd.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3738>
+---
+ src/amd/common/ac_surface.c                   |  5 +++++
+ .../drivers/radeonsi/si_compute_blit.c        | 20 +++++++++----------
+ 2 files changed, 15 insertions(+), 10 deletions(-)
+
+diff --git a/src/amd/common/ac_surface.c b/src/amd/common/ac_surface.c
+index 9ad7d4b75f8..1ae9f8c3f7f 100644
+--- a/src/amd/common/ac_surface.c
++++ b/src/amd/common/ac_surface.c
+@@ -1058,6 +1058,11 @@ static int gfx9_compute_miptree(ADDR_HANDLE addrlib,
+ 
+ 	surf->u.gfx9.surf_slice_size = out.sliceSize;
+ 	surf->u.gfx9.surf_pitch = out.pitch;
++	if (!compressed && surf->blk_w > 1 && out.pitch == out.pixelPitch) {
++		/* Adjust surf_pitch to be in elements units,
++		 * not in pixels */
++		surf->u.gfx9.surf_pitch /= surf->blk_w;
++	}
+ 	surf->u.gfx9.surf_height = out.height;
+ 	surf->surf_size = out.surfSize;
+ 	surf->surf_alignment = out.baseAlign;
+diff --git a/src/gallium/drivers/radeonsi/si_compute_blit.c b/src/gallium/drivers/radeonsi/si_compute_blit.c
+index 21909825b8e..6b5cbb9d4dc 100644
+--- a/src/gallium/drivers/radeonsi/si_compute_blit.c
++++ b/src/gallium/drivers/radeonsi/si_compute_blit.c
+@@ -338,17 +338,17 @@ void si_compute_copy_image(struct si_context *sctx,
+ 	assert(util_format_is_subsampled_422(src_format) ==
+ 	       util_format_is_subsampled_422(dst_format));
+ 
+-	if (util_format_is_subsampled_422(src_format))
++	if (util_format_is_subsampled_422(src_format)) {
+ 		src_format = dst_format = PIPE_FORMAT_R32_UINT;
+-
+-	unsigned x_div = util_format_get_blockwidth(src->format) /
+-	                 util_format_get_blockwidth(src_format);
+-	assert(src_box->x % x_div == 0);
+-	assert(width % x_div == 0);
+-
+-	unsigned data[] = {src_box->x / x_div, src_box->y, src_box->z, 0,
+-	                   dstx / x_div, dsty, dstz, 0};
+-	width /= x_div;
++		/* Interpreting 422 subsampled format (16 bpp) as 32 bpp
++		 * should force us to divide src_box->x, dstx and width by 2.
++		 * But given that ac_surface allocates this format as 32 bpp
++		 * and that surf_size is then modified to pack the values
++		 * we must keep the original values to get the correct results.
++		 */
++	}
++	unsigned data[] = {src_box->x, src_box->y, src_box->z, 0,
++	                   dstx, dsty, dstz, 0};
+ 
+ 	if (width == 0 || height == 0)
+ 		return;
+-- 
+2.17.1
+

@@ -1,0 +1,53 @@
+From 548bfa1fb92c7651a93869dbb2cd71abc92faab8 Mon Sep 17 00:00:00 2001
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Date: Wed, 5 Feb 2020 10:20:06 +0100
+Subject: [PATCH 2/2] format: add format_to_chroma_format
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Reviewed-by: Marek Olšák <marek.olsak@amd.com>
+Acked-by: Leo Liu <leo.liu@amd.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3738>
+
+Removed P010 format as it was causing compilation errors
+
+Change-Id: I374321bf46933edbb0a63614b17c5788b401e914
+Signed-off-by: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
+---
+ src/gallium/include/pipe/p_format.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/src/gallium/include/pipe/p_format.h b/src/gallium/include/pipe/p_format.h
+index 2da480d6dce..524f81db7fd 100644
+--- a/src/gallium/include/pipe/p_format.h
++++ b/src/gallium/include/pipe/p_format.h
+@@ -500,6 +500,25 @@ enum pipe_video_chroma_format
+    PIPE_VIDEO_CHROMA_FORMAT_NONE
+ };
+ 
++static inline enum pipe_video_chroma_format
++pipe_format_to_chroma_format(enum pipe_format format)
++{
++   switch (format) {
++      case PIPE_FORMAT_NV12:
++      case PIPE_FORMAT_NV21:
++      case PIPE_FORMAT_YV12:
++      case PIPE_FORMAT_IYUV:
++      case PIPE_FORMAT_P016:
++         return PIPE_VIDEO_CHROMA_FORMAT_420;
++      case PIPE_FORMAT_UYVY:
++      case PIPE_FORMAT_YUYV:
++      case PIPE_FORMAT_YV16:
++         return PIPE_VIDEO_CHROMA_FORMAT_422;
++      default:
++         return PIPE_VIDEO_CHROMA_FORMAT_NONE;
++   }
++}
++
+ #ifdef __cplusplus
+ }
+ #endif
+-- 
+2.17.1
+
