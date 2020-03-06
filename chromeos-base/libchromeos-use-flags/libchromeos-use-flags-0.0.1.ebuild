@@ -17,7 +17,6 @@ IUSE="
 	arc
 	arc_adb_sideloading
 	arc_force_2x_scaling
-	arc_oobe_optin_no_skip
 	arc_transition_m_to_n
 	arcpp
 	arcvm
