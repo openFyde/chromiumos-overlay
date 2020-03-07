@@ -452,34 +452,6 @@ EOF
 	fi
 }
 
-pkg_preinst() {
-	# We handle ccache ourselves in the sysroot wrapper.
-	rm -f /usr/lib/ccache/bin/*-*
-
-	local ccache_dir="/var/cache/distfiles/ccache"
-	local vcsid_file="${ccache_dir}/.gcc.vcsid.${CTARGET}"
-	# Clean out the ccache whenever the gcc code changes.
-	# If we are using a live ebuild, nuke it everytime just
-	# to be safe.
-	[[ ${PV} == "9999" ]] && rm -f "${vcsid_file}"
-	local old_vcsid=$(cat "${vcsid_file}" 2>/dev/null)
-	if [[ ${old_vcsid} != ${CROS_WORKON_COMMIT} ]] ; then
-		# Don't just delete the whole dir as that would punt
-		# the vcsid tag files from other targets too.
-		rm -rf "${ccache_dir}"/*
-	fi
-	mkdir -p -m 2775 "${ccache_dir}"
-	echo "${CROS_WORKON_COMMIT}" > "${vcsid_file}"
-
-	# Use a 10G limit as our bots have finite resources.  A full
-	# x86-generic build uses ~6GB, while an amd64-generic uses
-	# ~8GB, so this limit should be sufficient.
-	CCACHE_UMASK=002 CCACHE_DIR=${ccache_dir} ccache -F 0 -M 11G
-
-	# Make sure the dirs have perms for emerge builders.
-	chown -R ${PORTAGE_USERNAME}:portage "${ccache_dir}"
-}
-
 pkg_postinst() {
 	gcc-config $(get_gcc_config_file)
 }
