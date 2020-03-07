@@ -288,6 +288,7 @@ ALL_BOARDS=(
 	octavius
 	octopus
 	#optimus
+	orchestra
 	orco
 	palkia
 	panda

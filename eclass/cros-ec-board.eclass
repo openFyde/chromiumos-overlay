@@ -85,6 +85,7 @@ EC_BOARD_NAMES=(
 	oak
 	oak_pd
 	octopus
+	orchestra
 	palkia
 	plankton
 	poppy
