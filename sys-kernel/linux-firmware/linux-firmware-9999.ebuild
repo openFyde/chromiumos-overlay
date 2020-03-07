@@ -267,12 +267,10 @@ src_install() {
 	use_fw qca-wcn3990-bt && doins_subdir qca/{crbtfw21.tlv,crnv21.bin}
 	use_fw qca-wcn3991-bt && doins_subdir qca/{crbtfw32.tlv,crnv32.bin}
 	use_fw rockchip-dptx && doins_subdir rockchip/dptx.bin
-	# TODO(b/145625868): rtl8153a-3 currently excluded because it causes repeated
-	# dongle resets on kernel 4.19.
 	use_fw rtl8107e-1 && doins_subdir rtl_nic/rtl8107e-1.fw
 	use_fw rtl8107e-2 && doins_subdir rtl_nic/rtl8107e-2.fw
 	use_fw rtl8125a-3 && doins_subdir rtl_nic/rtl8125a-3.fw
-	use_fw rtl8153 && doins_subdir rtl_nic/{rtl8153a-2.fw,rtl8153a-4.fw,rtl8153b-2.fw}
+	use_fw rtl8153 && doins_subdir rtl_nic/rtl8153*.fw
 	use_fw rtl8168fp-3 && doins_subdir rtl_nic/rtl8168fp-3.fw
 	use_fw rtl8168g-1 && doins_subdir rtl_nic/rtl8168g-1.fw
 	use_fw rtl8168g-2 && doins_subdir rtl_nic/rtl8168g-2.fw
