@@ -190,6 +190,12 @@
         "end_version": 385452
     },
     {
+        "comment": "[Sema] Add -Wpointer-to-enum-cast and -Wvoid-pointer-to-enum-cast",
+        "rel_patch_path": "cherry/2a41b31fcdfcb67ab7038fc2ffb606fd50b83a84.patch",
+        "start_version": 384785,
+        "end_version": 386665
+    },
+    {
         "comment": "[X86] Don't add DELETED_NODES to DAG combine worklist after calling",
         "rel_patch_path": "cherry/2f4f8fcf64c67ee327e19b74a82a2330cfb32312.patch",
         "start_version": 385457,
