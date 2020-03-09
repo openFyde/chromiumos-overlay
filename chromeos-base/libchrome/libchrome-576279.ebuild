@@ -8,7 +8,7 @@
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("e9a60fb73d814844e3a985dd48302a03a06cca57" "991a472978a91cd467a6895bf47e1e6f8285b00a")
+CROS_WORKON_COMMIT=("41b182badc47ce7fe502b91bc24331a845239718" "675e1c7c61517f12283873c787ad1500a940e4a6")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
@@ -242,6 +242,7 @@ src_install() {
 		)
 		gen_header_dirs+=(
 			mojo/public/interfaces/bindings
+			mojo/public/mojom/base
 		)
 
 		# Install libmojo.pc.
@@ -255,6 +256,8 @@ src_install() {
 		doins build/gn_helpers.py
 		doins -r build/android/gyp/util
 		doins -r build/android/pylib
+		exeinto /usr/src/libmojo-"${SLOT}"/mojo
+		doexe libchrome_tools/mojom_generate_type_mappings.py
 
 		insinto /usr/src/libmojo-"${SLOT}"/third_party
 		doins -r third_party/jinja2
@@ -276,5 +279,13 @@ src_install() {
 	for d in "${gen_header_dirs[@]}"; do
 		insinto /usr/include/base-"${SLOT}"/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.h
+		insinto /usr/share/libchrome/mojom
+		doins "${OUT}"/gen/include/"${d}"/*.p
 	done
+
+	# Install libchrome base type mojo mapping
+	if use mojo; then
+		insinto /usr/share/libchrome/mojom_type_mappings_typemapping
+		doins "${OUT}"/gen/libchrome/mojom_type_mappings_typemapping
+	fi
 }
