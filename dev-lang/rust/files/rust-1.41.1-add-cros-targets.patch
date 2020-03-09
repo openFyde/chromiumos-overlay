@@ -7,10 +7,10 @@ target triple vendors (e.g. "cros" or "pc") to the "unknown" variant, so we
 add copies of the relevant cros targets here as well.
 
 diff --git a/src/librustc_target/spec/mod.rs b/src/librustc_target/spec/mod.rs
-index 351d469..2779a65 100644
+index 67f45d3d230..51e0eef6630 100644
 --- a/src/librustc_target/spec/mod.rs
 +++ b/src/librustc_target/spec/mod.rs
-@@ -332,6 +332,8 @@ macro_rules! supported_targets {
+@@ -335,6 +335,8 @@ macro_rules! supported_targets {
  supported_targets! {
      ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
      ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
@@ -19,12 +19,13 @@ index 351d469..2779a65 100644
      ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
      ("i586-unknown-linux-gnu", i586_unknown_linux_gnu),
      ("mips-unknown-linux-gnu", mips_unknown_linux_gnu),
-@@ -361,10 +363,12 @@ supported_targets! {
+@@ -364,11 +366,13 @@ supported_targets! {
      ("armv5te-unknown-linux-musleabi", armv5te_unknown_linux_musleabi),
      ("armv7-unknown-linux-gnueabi", armv7_unknown_linux_gnueabi),
      ("armv7-unknown-linux-gnueabihf", armv7_unknown_linux_gnueabihf),
 +    ("armv7a-cros-linux-gnueabihf", armv7a_cros_linux_gnueabihf),
      ("thumbv7neon-unknown-linux-gnueabihf", thumbv7neon_unknown_linux_gnueabihf),
+     ("thumbv7neon-unknown-linux-musleabihf", thumbv7neon_unknown_linux_musleabihf),
      ("armv7-unknown-linux-musleabi", armv7_unknown_linux_musleabi),
      ("armv7-unknown-linux-musleabihf", armv7_unknown_linux_musleabihf),
      ("aarch64-unknown-linux-gnu", aarch64_unknown_linux_gnu),
