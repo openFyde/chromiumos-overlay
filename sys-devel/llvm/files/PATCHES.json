@@ -178,6 +178,18 @@
         "end_version": 385989
     },
     {
+        "comment": "[cmake] By default do not build compiler-rt with PGO",
+        "rel_patch_path": "cherry/20dfcf189d224e637377970318a021c81d2fbde0.patch",
+        "start_version": 380035,
+        "end_version": 386784
+    },
+    {
+        "comment": "[cmake] Strip quotes in compiler-rt/lib/crt; error if checks fail",
+        "rel_patch_path": "cherry/cfc3e7f458f8798782c01a0dadf872c60340c23e.patch",
+        "start_version": 380035,
+        "end_version": 386785
+    },
+    {
         "comment": "Fix StringRef std::string after 777180a32b6107.",
         "rel_patch_path": "cherry/2eb80a99a2c6f8e2f090a2bc8cd2760fe1e1f267.patch",
         "start_version": 382781,
