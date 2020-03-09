@@ -13,7 +13,6 @@ The files in this folder are generated. Do not modify manually!
 
 To update:
 - modify third_party/toolchain_utils/compiler_wrapper
-- cd third_party/toolchain_utils/compiler_wrapper
-- run ./bundle.py --output_dir=...
+- run third_party/toolchain_utils/compiler_wrapper/bundle.py --output_dir=...
 
-Source: https://chromium-review.googlesource.com/q/I766af02fee111e2e2233612e8352de1fb0802c3b
+Source: https://chromium-review.googlesource.com/q/I6f6aaeb7ea45ab8b3d68299422f0594a689ecfcd
