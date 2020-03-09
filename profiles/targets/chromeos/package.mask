@@ -15,3 +15,10 @@
 =sys-devel/llvm-8.0_pre*
 =sys-devel/llvm-9.0_pre*
 =sys-devel/llvm-10.0_pre*
+=sys-devel/llvm-11.0_pre*
+=sys-devel/llvm-12.0_pre*
+=sys-devel/llvm-13.0_pre*
+=sys-devel/llvm-14.0_pre*
+=sys-devel/llvm-15.0_pre*
+=sys-devel/llvm-16.0_pre*
+=sys-devel/llvm-17.0_pre*
