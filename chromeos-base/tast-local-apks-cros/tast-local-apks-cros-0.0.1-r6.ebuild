@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="e55bbf0d6af996122b1da460fbb9ceb230b2e81b"
+CROS_WORKON_COMMIT="a0f217d2ef5d5153a6082b0b0e14a76bcf5b8409"
 CROS_WORKON_TREE="374a0f78abbfc8d996e380b4cde8420462876fe7"
 CROS_WORKON_PROJECT="chromiumos/platform/tast-tests"
 CROS_WORKON_LOCALNAME="platform/tast-tests"
@@ -27,8 +27,8 @@ DEPEND="${RDEPEND}"
 OUT=$(cros-workon_get_build_dir)
 
 src_compile() {
-	gn gen "${OUT}" --root="${S}"/android
-	ninja -C "${OUT}"
+	gn gen "${OUT}" --root="${S}"/android || die "gn failed"
+	ninja -C "${OUT}" || die "build failed"
 }
 
 src_install() {
