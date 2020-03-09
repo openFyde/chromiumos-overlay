@@ -1060,6 +1060,7 @@ builtin_fw_amdgpu_files=(
 	amdgpu/picasso_rlc.bin
 	amdgpu/picasso_sdma.bin
 	amdgpu/picasso_vcn.bin
+	amdgpu/picasso_ta.bin
 	amdgpu/raven_dmcu.bin
 	amdgpu/raven2_asd.bin
 	amdgpu/raven2_ce.bin
@@ -1071,6 +1072,7 @@ builtin_fw_amdgpu_files=(
 	amdgpu/raven2_rlc.bin
 	amdgpu/raven2_sdma.bin
 	amdgpu/raven2_vcn.bin
+	amdgpu/raven2_ta.bin
 	amdgpu/stoney_ce.bin
 	amdgpu/stoney_me.bin
 	amdgpu/stoney_mec.bin
