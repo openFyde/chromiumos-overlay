@@ -77,6 +77,7 @@ IUSE_LINUX_FIRMWARE=(
 	i915_tgl
 	ibt_9260
 	ibt_9560
+	ibt_ax200
 	ibt_ax201
 	ibt-hw
 	ipu3_fw
@@ -138,6 +139,7 @@ LICENSE="
 	linux_firmware_ipu3_fw? ( LICENSE.ipu3_firmware )
 	linux_firmware_ibt_9260? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt_9560? ( LICENCE.ibt_firmware )
+	linux_firmware_ibt_ax200? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt_ax201? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt-hw? ( LICENCE.ibt_firmware )
 	linux_firmware_keyspan_usb? ( LICENSE.keyspan_usb )
@@ -253,6 +255,7 @@ src_install() {
 	use_fw ipu3_fw && doins_subdir intel/irci_*
 	use_fw ibt_9260 && doins_subdir intel/ibt-18-16-1.*
 	use_fw ibt_9560 && doins_subdir intel/ibt-17-16-1.*
+	use_fw ibt_ax200 && doins_subdir intel/ibt-20-*.*
 	use_fw ibt_ax201 && doins_subdir intel/ibt-19-*.*
 	use_fw ibt-hw && doins_subdir intel/ibt-hw-*.bseq
 	use_fw keyspan_usb && doins_subdir keyspan/*
