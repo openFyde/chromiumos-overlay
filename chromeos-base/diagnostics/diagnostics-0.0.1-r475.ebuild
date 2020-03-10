@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="419d6149b7f3893d878eb8289a24c584843e11fe"
+CROS_WORKON_COMMIT="95296e1c73831e931517f2985a1ce69d7fc5bf63"
 CROS_WORKON_TREE=("861f66e9f884ebb293fb541a5501f183861a2dda" "f5f10b08ad5aa01821569ac7f004248f1471d940" "535203500466c5cbe7c1b15a93c4a01eb55725be" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -113,8 +113,9 @@ src_install() {
 
 	# Install the diagnostic routine executables.
 	exeinto /usr/libexec/diagnostics
-	doexe "${OUT}/urandom"
+	doexe "${OUT}/floating-point-accuracy"
 	doexe "${OUT}/smartctl-check"
+	doexe "${OUT}/urandom"
 	# Install the helper executables required by telemetry.
 	doexe "${OUT}/cros_healthd_helper"
 
