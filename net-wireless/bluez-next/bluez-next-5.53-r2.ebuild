@@ -143,7 +143,7 @@ src_install() {
 
 	# Install D-Bus config
 	insinto /etc/dbus-1/system.d
-	doins src/bluetooth.conf
+	doins "${FILESDIR}/org.bluez.conf"
 
 	# Install udev files
 	exeinto /lib/udev
