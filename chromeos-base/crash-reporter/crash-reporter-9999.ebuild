@@ -78,6 +78,11 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.AnomalyEventService.conf
 
+	local daemon_store="/etc/daemon-store/crash"
+	dodir "${daemon_store}"
+	fperms 3770 "${daemon_store}"
+	fowners crash:crash-user-access "${daemon_store}"
+
 	into /usr
 	use cros_embedded || dobin "${OUT}"/anomaly_detector
 	dosbin kernel_log_collector.sh
