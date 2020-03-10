@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="3acbab67202baa3d7b298601b37ebf61d03edc7c"
-CROS_WORKON_TREE="3f4cc1937d9265126a405f39d7abff654605866c"
+CROS_WORKON_COMMIT="dbaec98fc97ebbbf2aa3ac81ee3f4502a55a4038"
+CROS_WORKON_TREE="068a93a9d64357042300153808eb9309ee5fee5c"
 CROS_WORKON_PROJECT="chromiumos/graphyte"
-CROS_WORKON_LOCALNAME="graphyte"
-PYTHON_COMPAT=( python2_7 )
+CROS_WORKON_LOCALNAME="platform/graphyte"
+PYTHON_COMPAT=( python2_7 python3_{6,7} )
 
 inherit cros-workon distutils-r1
 
