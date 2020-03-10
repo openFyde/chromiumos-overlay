@@ -112,6 +112,7 @@ src_install() {
 	# Install the diagnostic routine executables.
 	exeinto /usr/libexec/diagnostics
 	doexe "${OUT}/floating-point-accuracy"
+	doexe "${OUT}/prime-search"
 	doexe "${OUT}/smartctl-check"
 	doexe "${OUT}/urandom"
 
