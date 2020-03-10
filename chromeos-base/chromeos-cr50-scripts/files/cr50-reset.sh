@@ -9,8 +9,7 @@
 
 # RMA Reset Authorization parameters.
 # - URL of Reset Authorization Server.
-RMA_SERVER="https://www.google.com/chromeos/partner/console/cr50reset/"
-RMA_SERVER="${RMA_SERVER}request?challenge="
+RMA_SERVER="https://www.google.com/chromeos/partner/console/cr50reset"
 # - Number of retries before giving up.
 MAX_RETRIES=3
 # - Time in seconds to delay before generating another qrcode.
@@ -75,7 +74,7 @@ cr50_reset() {
   ch="$(echo "${ch}" | tr -d '[:space:]')"
 
   # Calculate challenge string.
-  local chstr="${RMA_SERVER}${ch}&hwid=${hwid}"
+  local chstr="${RMA_SERVER}?challenge=${ch}&hwid=${hwid}"
 
   # Create qrcode and display it.
   qrencode -o "${chg_str_path}/chg.png" "${chstr}"
