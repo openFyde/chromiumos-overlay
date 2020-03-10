@@ -4,8 +4,8 @@
 EAPI=7
 
 # We can drop this if cros-uniboard stops using cros-board.
-CROS_WORKON_COMMIT="8d730dd6b0484cc38af0473966833f619c9d8804"
-CROS_WORKON_TREE="4aa7280d7ab0676c16de2d9377913b27e216cad2"
+CROS_WORKON_COMMIT="b8cd5f9e26824b1f641fc48a085fcf85690b3417"
+CROS_WORKON_TREE="14c3c27c68dd5b10968abbf9138a37a6bec59ffc"
 CROS_BOARDS=( none )
 
 # This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
@@ -34,13 +34,6 @@ RDEPEND="${DEPEND}"
 # Merges all of the source YAML config files and generates the
 # corresponding build config and platform config files.
 src_compile() {
-	local proto_bindings_dir="${S}/python/config"
-	mkdir -p "${proto_bindings_dir}"
-	find "${S}/proto/api" -type f -name "*.proto" -print0 | \
-		xargs -0 protoc --proto_path="${S}/proto" \
-		--python_out="${proto_bindings_dir}" || die
-	einfo "Config python bindings generated at ${proto_bindings_dir}"
-
 	if use generated_cros_config ; then
 		einfo "Config files already generated, nothing to compile."
 		return 0
