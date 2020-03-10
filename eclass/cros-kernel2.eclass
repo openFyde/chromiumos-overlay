@@ -4,14 +4,13 @@
 # Check for EAPI 4+
 case "${EAPI:-0}" in
 0|1|2|3) die "Unsupported EAPI=${EAPI:-0} (too old) for ${ECLASS}" ;;
-4|5|6) inherit eapi7-ver ;;
-7) ;;
+*) ;;
 esac
 
 # Since we use CHROMEOS_KERNEL_CONFIG and CHROMEOS_KERNEL_SPLITCONFIG here,
 # it is not safe to reuse the kernel prebuilts across different boards. Inherit
 # the cros-board eclass to make sure that doesn't happen.
-inherit binutils-funcs cros-board toolchain-funcs
+inherit binutils-funcs cros-board toolchain-funcs versionator
 
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
@@ -2048,20 +2047,6 @@ cros-kernel2_src_install() {
 		return 0
 	fi
 
-	if ! has ${EAPI} {4..6}; then
-		pushd "${ED}" > /dev/null || die
-		local x y
-		set -o noglob
-		local strip_mask=( ${STRIP_MASK} )
-		set +o noglob
-		for x in "${strip_mask[@]}"; do
-			for y in "${ED%/}"/${x#/}; do
-				dostrip -x "${y#${ED%/}}"
-			done
-		done
-		popd > /dev/null || die
-	fi
-
 	dodir /boot
 	kmake INSTALL_PATH="${D}/boot" install
 
@@ -2157,11 +2142,10 @@ cros-kernel2_src_install() {
 		# No need to check kernel image size.
 		true
 	else
-		local cut_version=$(ver_cut 1-2 "${version}")
-		if ver_test 3.18 -le "${cut_version}" ; then
+		if version_is_at_least 3.18 ${version} ; then
 			kern_max=32
 			kern_warn=12
-		elif ver_test 3.10 -le "${cut_version}" ; then
+		elif version_is_at_least 3.10 ${version} ; then
 			kern_max=16
 			kern_warn=12
 		else
