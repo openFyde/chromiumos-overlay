@@ -9,4 +9,4 @@
 # at the same time as revving the ebuild to a known version value, editing this
 # version can be useful.
 
-echo 0.0.2
+echo 0.0.3
