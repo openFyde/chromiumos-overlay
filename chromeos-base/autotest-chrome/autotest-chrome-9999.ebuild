@@ -39,7 +39,6 @@ RDEPEND="
 	chromeos-base/telemetry
 	sys-apps/ethtool
 	vaapi? ( x11-libs/libva )
-	tests_graphics_Sanity? ( media-gfx/imagemagick x11-libs/libdrm )
 	tests_graphics_WebGLAquarium? ( app-benchmarks/microbenchmarks dev-util/memory-eater-locked )
 	virtual/autotest-private-libs
 "
@@ -86,7 +85,6 @@ IUSE_TESTS=(
 	+tests_enterprise_RemoraRequisition
 	+tests_graphics_Chrome
 	+tests_graphics_HwOverlays
-	+tests_graphics_Sanity
 	+tests_graphics_Stress
 	+tests_graphics_VideoRenderingPower
 	+tests_graphics_VTSwitch
