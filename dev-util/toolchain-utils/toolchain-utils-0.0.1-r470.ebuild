@@ -35,4 +35,6 @@ src_install() {
 	dosym ${dit_dir}/debug_info_test.py /usr/bin/debug_info_test
 
 	newbin afdo_redaction/redact_profile.py redact_textual_afdo_profile
+
+	newbin afdo_redaction/remove_indirect_calls.py remove_indirect_calls
 }
