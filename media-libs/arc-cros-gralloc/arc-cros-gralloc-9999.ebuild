@@ -36,7 +36,6 @@ src_configure() {
 
 	BUILD_DIR="$(cros-workon_get_build_dir)"
 
-	append-cppflags -DDRI_DRIVER_DIR="/vendor/$(get_libdir)/dri"
 	append-lfs-flags
 
 	# TODO(gsingh): use pkgconfig
@@ -81,6 +80,8 @@ src_configure() {
 }
 
 multilib_src_compile() {
+	filter-flags "-DDRI_DRIVER_DIR=*"
+	append-cppflags -DDRI_DRIVER_DIR="/vendor/$(get_libdir)/dri"
 	export TARGET_DIR="${BUILD_DIR}/"
 	emake -C "${S}/cros_gralloc"
 	emake -C "${S}/cros_gralloc/gralloc0/tests/"
