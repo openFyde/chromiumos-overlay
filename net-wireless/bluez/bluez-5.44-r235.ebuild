@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/net-wireless/bluez/bluez-4.99.ebuild,v 1.7 2012/04/15 16:53:41 maekke Exp $
 
 EAPI="5"
-CROS_WORKON_COMMIT="ab24af9ec856ee4a74e64cf588779fa7037388c1"
-CROS_WORKON_TREE="4417aca2d023479c0717ca6665b28b260c47224d"
+CROS_WORKON_COMMIT="3da7663cefeb8ceab13b0f0556ed16cb6572ed0e"
+CROS_WORKON_TREE="f38acdd8ee6662afbc1f3ceb6de0676daf2cf4f9"
 CROS_WORKON_PROJECT="chromiumos/third_party/bluez"
 
 inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
@@ -147,9 +147,10 @@ src_install() {
 	udev_dorules "${FILESDIR}/99-bluetooth-quirks.rules"
 	udev_dorules "${FILESDIR}/99-bluetooth-suspend-owner.rules"
 
-	# Install the common config file.
+	# Install the config files.
 	insinto "/etc/bluetooth"
 	doins "${S}"/src/main_common.conf
+	doins "${FILESDIR}/input.conf"
 
 	# We don't preserve /var/lib in images, so nuke anything we preseed.
 	rm -rf "${D}"/var/lib/bluetooth
