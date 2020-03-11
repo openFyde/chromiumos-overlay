@@ -73,6 +73,7 @@ src_prepare() {
 	[[ -n ${RPM} ]] && rpm_spec_epatch "${WORKDIR}"/gdb.spec
 	! use vanilla && [[ -n ${PATCH_VER} ]] && EPATCH_SUFFIX="patch" epatch "${WORKDIR}"/patch
 	epatch "${FILESDIR}"/gdb-8.3-sht_relr.patch
+	epatch "${FILESDIR}"/gdb-8.3-python.patch
 
 	default
 
