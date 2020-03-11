@@ -4,11 +4,11 @@ DEPEND=!fuzzer? ( virtual/chromeos-config-bsp:= )
 DESCRIPTION=Chromium OS-specific configuration
 EAPI=7
 HOMEPAGE=http://www.chromium.org/
-IUSE=fuzzer generated_cros_config cros_host cros_workon_tree_7b6781d409647e37f1231a3b6d59d657c4ae2061
+IUSE=fuzzer generated_cros_config cros_host cros_workon_tree_3782d17c518d6c9104c0556a379959835382af17
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=!fuzzer? ( virtual/chromeos-config-bsp:= )
-SLOT=0/0.0.2-r12
+SLOT=0/0.0.2-r14
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-unibuild	020876b8cedca5cea0748234362d99a5	cros-workon	3040532958e53f85ce0804441082ea05	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=8e6ce04660bb3763caeaefd656151f4f
+_md5_=19ab8e6736a5cffd63e2012a15a75413
