@@ -15,7 +15,9 @@ legacy_conf_file="${bluetooth_dir}/main.conf"
 
 # TODO(shapiroc): Remove once all config migrated to cros_config
 if [ -d ${model_dir} ]; then
-  model=$(mosys platform model)
+  # Note: the below usage of the model name is not a good pattern, but should
+  # apply to non-unibuild only as the below bluetooth config will override it.
+  model="$(cros_config / name)"
   model_conf_file="${model_dir}/${model}.conf"
   if [ -e ${model_conf_file} ]; then
     config_file_param="--configfile=${model_conf_file}"
