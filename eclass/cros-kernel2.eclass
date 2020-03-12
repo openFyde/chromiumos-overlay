@@ -1606,12 +1606,16 @@ kmake() {
 
 	# Support 64bit kernels w/32bit userlands.
 	local cross=${CHOST}
+	local cross_compat
+	local CC_COMPAT
 	case ${ARCH}:${kernel_arch} in
 		x86:x86_64)
 			cross="x86_64-cros-linux-gnu"
 			;;
 		arm:arm64)
 			cross="aarch64-cros-linux-gnu"
+			cross_compat="armv7a-cros-linux-gnueabihf-"
+			CC_COMPAT="armv7a-cros-linux-gnueabihf-clang"
 			;;
 	esac
 
@@ -1634,6 +1638,7 @@ kmake() {
 	set -- \
 		LD="${linker}" \
 		CC="${CC} -B${binutils_path}" \
+		CC_COMPAT="${CC_COMPAT}" \
 		CXX="${CXX} -B${binutils_path}" \
 		HOSTCC="${BUILD_CC}" \
 		HOSTCXX="${BUILD_CXX}" \
@@ -1705,6 +1710,7 @@ kmake() {
 
 	ARCH=${kernel_arch} \
 		CROSS_COMPILE="${cross}-" \
+		CROSS_COMPILE_COMPAT="${cross_compat}" \
 		KCFLAGS="${kcflags}" \
 		emake \
 		O="$(cros-workon_get_build_dir)" \
