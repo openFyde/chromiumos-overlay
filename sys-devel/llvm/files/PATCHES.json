@@ -224,5 +224,11 @@
         "rel_patch_path": "cherry/80bf137fa132ea33204e98bbefa924afe9258a4e.patch",
         "start_version": 384279,
         "end_version": 386180
+    },
+    {
+        "comment": "Revert Reland [DebugInfo] Enable the debug entry values feature by default",
+        "rel_patch_path": "cherry/f82b32a51e22cc56d20f695772797127d3f9d85a.patch",
+        "start_version": 386806,
+        "end_version": 387212
     }
 ]
