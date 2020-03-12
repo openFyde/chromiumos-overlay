@@ -1,4 +1,4 @@
-From bec57cb2511f3830c036c10886cdcde8c07d0c18 Mon Sep 17 00:00:00 2001
+From cded87ae1e15aa95dba07f9be20868b5fef1368e Mon Sep 17 00:00:00 2001
 From: Kan Yan <kyan@google.com>
 Date: Thu, 23 Jan 2020 16:55:53 -0800
 Subject: [PATCH] tc: add support for new qdisc "ARL"
@@ -9,19 +9,22 @@ BUG=b:124309202
 TEST="tc qdisc add dev ifbwan0 root handle 1: arl minrate 4800kbit"
     " buffer 5000 limit 500 latency 100ms latency_hysteresis 30ms"
     " codel_target 10ms  ingress"
+
+Kill this once the 3.18 and 4.4 kernels are deprecated
+
 Signed-off-by: Kan Yan <kyan@google.com>
 ---
- include/linux/pkt_sched.h |  27 +++++
- tc/Makefile               |   1 +
- tc/q_arl.c                | 232 ++++++++++++++++++++++++++++++++++++++
+ include/uapi/linux/pkt_sched.h |  27 ++++
+ tc/Makefile                    |   1 +
+ tc/q_arl.c                     | 232 +++++++++++++++++++++++++++++++++
  3 files changed, 260 insertions(+)
  create mode 100644 tc/q_arl.c
 
-diff --git a/include/linux/pkt_sched.h b/include/linux/pkt_sched.h
-index 2cf434a..5416a4f 100644
---- a/include/linux/pkt_sched.h
-+++ b/include/linux/pkt_sched.h
-@@ -713,6 +713,33 @@ enum {
+diff --git a/include/uapi/linux/pkt_sched.h b/include/uapi/linux/pkt_sched.h
+index d35dd7a2..12b51898 100644
+--- a/include/uapi/linux/pkt_sched.h
++++ b/include/uapi/linux/pkt_sched.h
+@@ -742,6 +742,33 @@ enum {
  
  #define TCA_CBQ_MAX	(__TCA_CBQ_MAX - 1)
  
@@ -56,20 +59,20 @@ index 2cf434a..5416a4f 100644
  
  enum {
 diff --git a/tc/Makefile b/tc/Makefile
-index 1a38c02..90f41e4 100644
+index 457a3ea1..d6e67940 100644
 --- a/tc/Makefile
 +++ b/tc/Makefile
-@@ -69,6 +69,7 @@ TCMODULES += q_nss.o
- TCMODULES += q_clsact.o
- TCMODULES += e_bpf.o
- TCMODULES += f_matchall.o
+@@ -80,6 +80,7 @@ TCMODULES += q_cbs.o
+ TCMODULES += q_etf.o
+ TCMODULES += q_taprio.o
+ TCMODULES += q_plug.o
 +TCMODULES += q_arl.o
  
  TCSO :=
  ifeq ($(TC_CONFIG_ATM),y)
 diff --git a/tc/q_arl.c b/tc/q_arl.c
 new file mode 100644
-index 0000000..4ba63a9
+index 00000000..4ba63a99
 --- /dev/null
 +++ b/tc/q_arl.c
 @@ -0,0 +1,232 @@
@@ -306,5 +309,5 @@ index 0000000..4ba63a9
 +	.print_xstats	= arl_print_xstats,
 +};
 -- 
-2.25.0.341.g760bfbb309-goog
+2.21.0
 

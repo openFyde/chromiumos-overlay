@@ -7,10 +7,10 @@ EAPI="5"
 inherit eutils toolchain-funcs flag-o-matic multilib
 
 if [[ ${PV} == "9999" ]] ; then
-	EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git"
+	EGIT_REPO_URI="git://git.kernel.org/pub/scm/network/iproute2.git"
 	inherit git-2
 else
-	SRC_URI="mirror://kernel/linux/utils/net/${PN}/${P}.tar.xz"
+	SRC_URI="mirror://kernel/linux/utils/net/${PN}/${P}.tar.gz"
 	KEYWORDS="*"
 fi
 
@@ -39,11 +39,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.1.0-mtu.patch #291907
-	"${FILESDIR}"/${P}-update-kernel-headers-1.patch
-	"${FILESDIR}"/${P}-update-kernel-headers-2.patch
-	"${FILESDIR}"/${P}-add-uidrange-routing.patch
 	"${FILESDIR}"/${P}-jetstream-nss-qdisc.patch
-	"${FILESDIR}"/${P}-stdint.patch
 	"${FILESDIR}"/${P}-tc-add-support-for-new-qdisc-arl.patch
 )
 
@@ -69,7 +65,8 @@ src_prepare() {
 	sed -i \
 		-e 's:/var/run:/run:g' \
 		include/namespace.h \
-		man/man8/ip-netns.8 || die
+		man/man8/ip-netns.8 \
+		Makefile || die
 
 	# build against system headers
 	rm -r include/netinet #include/linux include/ip{,6}tables{,_common}.h include/libiptc
@@ -90,7 +87,7 @@ src_configure() {
 	${CC} ${CFLAGS} ${CPPFLAGS} ${LDFLAGS} test.c -lresolv >&/dev/null || sed -i '/^LDLIBS/s:-lresolv::' "${S}"/Makefile
 	popd >/dev/null
 
-	cat <<-EOF > Config
+	cat <<-EOF > config.mk
 	TC_CONFIG_ATM := $(usex atm y n)
 	TC_CONFIG_XT  := $(usex iptables y n)
 	TC_CONFIG_NO_XT := $(usex iptables n y)
@@ -102,6 +99,12 @@ src_configure() {
 	IP_CONFIG_SETNS := ${setns}
 	# Use correct iptables dir, #144265 #293709
 	IPT_LIB_DIR := $(use iptables && ${PKG_CONFIG} xtables --variable=xtlibdir)
+	CFLAGS += -DNEED_STRLCPY $(usex minimal "" -DHAVE_LIBMNL)
+	LDLIBS += $(usex minimal "" -lmnl)
+	EOF
+
+	[ "${setns}" = "y" ] && cat >> config.mk <<-EOF
+	CFLAGS += -DHAVE_SETNS
 	EOF
 }
 
@@ -123,10 +126,9 @@ src_install() {
 		ARPDDIR="${EPREFIX}"/var/lib/arpd \
 		install
 
-	rm "${ED}"/usr/share/doc/${PF}/*.{sgml,tex} || die #455988
-
 	dodir /bin
 	mv "${ED}"/{s,}bin/ip || die #330115
+	rmdir "${D}/${EPREFIX}/var/lib/arpd" && rmdir "${D}/${EPREFIX}/var/lib"
 
 	dolib.a lib/libnetlink.a
 	insinto /usr/include
