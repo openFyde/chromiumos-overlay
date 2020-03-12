@@ -396,10 +396,6 @@ set_build_args() {
 		BUILD_STRING_ARGS+=( "ffmpeg_branding=ChromeOS" )
 	fi
 
-	BUILD_ARGS+=(
-		"treat_warnings_as_errors=false"
-	)
-
 	if use component_build; then
 		BUILD_ARGS+=( "is_component_build=true" )
 	fi
