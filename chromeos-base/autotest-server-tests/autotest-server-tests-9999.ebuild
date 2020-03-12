@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt android-vm-pi +autotest biod +cellular -chromeless_tests -chromeless_tty cros_p2p debugd has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
+IUSE="android-container android-container-master-arc-dev android-container-pi android-vm-pi +autotest biod +cellular -chromeless_tests -chromeless_tty cros_p2p debugd has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
 RDEPEND=""
@@ -71,17 +71,12 @@ SERVER_IUSE_TESTS="
 	is-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
 	+tests_brillo_gTests
 	cellular? ( +tests_cellular_StaleModemReboot )
-	android-container-nyc? (
-		+tests_cheets_CTS_N
-		+tests_cheets_GTS_N
-	)
 	android-container-pi? (
 		+tests_cheets_CTS_Instant
 		+tests_cheets_CTS_P
 		+tests_cheets_GTS
 		+tests_cheets_VTS
 	)
-	android-container-qt? ( +tests_cheets_CTS_Q )
 	android-container-master-arc-dev? ( +tests_cheets_CTS_Q )
 	android-vm-pi? (
 		+tests_cheets_CTS_Instant
