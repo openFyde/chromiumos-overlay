@@ -161,6 +161,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-meson-Do-not-use-GLX_USE_TLS-on-Android.patch
 	epatch "${FILESDIR}"/UPSTREAM-mapi-Adapted-libglvnd-x86-tsd-changes.patch
 	epatch "${FILESDIR}"/UPSTREAM-virgl-support-emulating-planar-image-sampling.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-set-window-usage-flags.patch
 
 	default
 }
