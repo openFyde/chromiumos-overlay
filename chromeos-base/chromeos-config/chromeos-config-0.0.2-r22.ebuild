@@ -4,8 +4,8 @@
 EAPI=7
 
 # We can drop this if cros-uniboard stops using cros-board.
-CROS_WORKON_COMMIT="a3f4e2f2a2425dae3482b6ce77b3ac52272794bf"
-CROS_WORKON_TREE="ab91252e4081a07c1564a499be56d877d9b9e879"
+CROS_WORKON_COMMIT="935cb37338bf25e8c350b38974fed9001f246ac4"
+CROS_WORKON_TREE="ebfe4b2d47697d7f01ccc4dc4b0698645b97c099"
 CROS_BOARDS=( none )
 
 # This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
