@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="a3c34b04280b688022696a953025e186b0c3dcbd"
+CROS_WORKON_COMMIT="97e918c1da5f2fd71f4ca7dc4ff296f8ea2550bf"
 CROS_WORKON_TREE="7b6a2fd0b517f2386521760c040af3f3daada447"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,7 +24,8 @@ RDEPEND="
 	>=sys-fs/squashfs-tools-4.3
 	sys-apps/dtc[python]
 	dev-python/jinja[${PYTHON_USEDEP}]
-	!<chromeos-base/chromeos-config-tools-0.0.3
+	chromeos-base/cros-config-api
+	!<chromeos-base/chromeos-config-tools-0.0.4
 "
 
 DEPEND="
