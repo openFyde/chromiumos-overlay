@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("6de74ccadbec9d87a38912ba51719c6f5da8d4eb" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
-CROS_WORKON_TREE=("6122a020798f4dcf9c94c0fb40b0bc3f21382ada" "33e098b76e4c395046448b39afdc961a00641b23" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
+CROS_WORKON_COMMIT=("44934eaa10cdd7a479aab80c2f5e3bd0637e00bd" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_TREE=("6122a020798f4dcf9c94c0fb40b0bc3f21382ada" "aec4416f0211e10841fde8b64ca8f2815aeaf7cf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 inherit cros-constants
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
@@ -40,10 +40,15 @@ KEYWORDS="*"
 IUSE="+seccomp"
 
 RDEPEND="
-	chromeos-base/minijail
+	chromeos-base/chaps:=
+	chromeos-base/cryptohome:=
+	chromeos-base/minijail:=
+	dev-libs/protobuf:=
 "
 
 DEPEND="
+	${RDEPEND}
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 "
 
@@ -82,9 +87,9 @@ src_prepare() {
 	# https://boringssl-review.googlesource.com/c/boringssl/+/37247
 	cd "${WORKDIR}/${BORINGSSL_P}" || die
 	epatch "${FILESDIR}"/boringssl-clang-fallthru.patch
-	# Patch keymaster context.
+	# Verify upstream hasn't changed relevant context code.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
-	epatch "${FILESDIR}/keymaster-context-hooks.patch"
+	EPATCH_OPTS="--dry-run" epatch "${FILESDIR}/keymaster-context-hooks.patch"
 }
 
 src_configure() {
