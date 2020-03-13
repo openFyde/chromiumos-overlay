@@ -3,34 +3,37 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="16bb16470dbf2dc3bd2d04b9669f1781654b1ed3"
-CROS_WORKON_TREE="1fb5c1f962c724bde520940fc6c4053f4ab6bc84"
+CROS_WORKON_COMMIT="5de804b36fefc56dbd09ee055b1e7c6b5085d136"
+CROS_WORKON_TREE="388a474e9e8da0a3fe4e40af64433986e52c6dbc"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
-# We don't use CROS_WORKON_OUTOFTREE_BUILD here since audio_streams/Cargo.toml
-# is using "provided by ebuild" macro which supported by cros-rust
+# We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras-sys/Cargo.toml is
+# using "provided by ebuild" macro which supported by cros-rust
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="audio_streams"
+CROS_WORKON_SUBTREE="cras/client/libcras"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="Crate provides a basic interface for playing audio."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/master/audio_streams"
+DESCRIPTION="Rust version libcras"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/master/cras/client/libcras"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
-	dev-rust/sync:=
+	>=dev-rust/libc-0.2.44:=
+	dev-rust/data_model:=
 	dev-rust/sys_util:=
+	media-sound/audio_streams:=
+	media-sound/cras-sys:=
 "
 
-RDEPEND="!<=media-sound/audio_streams-0.1.0-r7"
+RDEPEND="!<=media-sound/libcras-0.1.0-r21"
 
 src_unpack() {
 	cros-workon_src_unpack
-	S+="/audio_streams"
+	S+="/cras/client/libcras"
 
 	cros-rust_src_unpack
 }
