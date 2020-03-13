@@ -15,6 +15,12 @@ inherit cros-workon platform
 DESCRIPTION="Library for classifying text"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/libtextclassifier/"
 
+# Place the model URIs of tclib into this variable.
+# We may need more than one models, e.g., temporarily during model upgrade.
+MODELS=( "gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-20200310.fb" )
+
+SRC_URI="${MODELS[*]}"
+
 LICENSE="Apache-2.0"
 SLOT="0/${PVR}"
 KEYWORDS="~*"
@@ -98,4 +104,9 @@ src_install() {
 			doins "${S}/${f}"
 		fi
 	done
+
+	# Install the model files.
+	insinto /opt/google/chrome/ml_models
+	local model_filenames=( "${MODELS[@]##*/}" )
+	doins "${model_filenames[@]/#/${DISTDIR}/}"
 }
