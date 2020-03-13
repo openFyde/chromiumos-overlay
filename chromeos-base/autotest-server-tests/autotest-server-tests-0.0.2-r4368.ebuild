@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="5697244c362582d88f4827b79a4167e9ef5f3138"
-CROS_WORKON_TREE="5ac97083cdf4fa0b93cafa379da3becc652649e4"
+CROS_WORKON_COMMIT="208be1a66b25b83f89868a1c3028678bf1ca0c56"
+CROS_WORKON_TREE="2b8ac1b5adcfa565a6d5c17e3151d41b838bd845"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-master-arc-dev android-container-nyc android-container-pi android-container-qt android-vm-pi +autotest biod +cellular -chromeless_tests -chromeless_tty cros_p2p debugd has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
+IUSE="android-container android-container-master-arc-dev android-container-pi android-vm-pi +autotest biod +cellular -chromeless_tests -chromeless_tty cros_p2p debugd has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
 RDEPEND=""
@@ -73,17 +73,12 @@ SERVER_IUSE_TESTS="
 	is-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
 	+tests_brillo_gTests
 	cellular? ( +tests_cellular_StaleModemReboot )
-	android-container-nyc? (
-		+tests_cheets_CTS_N
-		+tests_cheets_GTS_N
-	)
 	android-container-pi? (
 		+tests_cheets_CTS_Instant
 		+tests_cheets_CTS_P
 		+tests_cheets_GTS
 		+tests_cheets_VTS
 	)
-	android-container-qt? ( +tests_cheets_CTS_Q )
 	android-container-master-arc-dev? ( +tests_cheets_CTS_Q )
 	android-vm-pi? (
 		+tests_cheets_CTS_Instant
