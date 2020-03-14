@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="06d205979438c6863116265b984d7bfba85c26f2"
+CROS_WORKON_COMMIT="9445eab26dd8d391a1e0918034b78544ac57f5f1"
 CROS_WORKON_TREE=("6122a020798f4dcf9c94c0fb40b0bc3f21382ada" "25735466fd4440495a76231abde319bbc5f8fe15" "f80bd0721a67127e04dde4362dfcb1c39051698e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -79,6 +79,11 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.AnomalyEventService.conf
+
+	local daemon_store="/etc/daemon-store/crash"
+	dodir "${daemon_store}"
+	fperms 3770 "${daemon_store}"
+	fowners crash:crash-user-access "${daemon_store}"
 
 	into /usr
 	use cros_embedded || dobin "${OUT}"/anomaly_detector
