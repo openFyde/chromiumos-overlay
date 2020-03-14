@@ -43,7 +43,10 @@ src_compile() {
 	local c_file="${WORKDIR}/config.c"
 	local configfs_image="${WORKDIR}/configfs.img"
 	local gen_yaml="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
-	if [[ "${yaml_files[0]}" =~ .*[a-z_]+\.yaml$ ]]; then
+	# Protobuf based configs generate JSON directly with no YAML.
+	if [[ -f "${SYSROOT}${UNIBOARD_YAML_DIR}/project-config.json" ]]; then
+		cp "${SYSROOT}${UNIBOARD_YAML_DIR}/project-config.json" "${yaml}" || die
+	elif [[ "${yaml_files[0]}" =~ .*[a-z_]+\.yaml$ ]]; then
 		echo "# Generated YAML config file" > "${yaml}"
 		for source_yaml in "${yaml_files[@]}"; do
 			if [[ "${source_yaml}" != "${gen_yaml}" ]]; then
@@ -56,6 +59,9 @@ src_compile() {
 		done
 		cros_config_schema -o "${yaml}" -m "${input_yaml_files[@]}" \
 			|| die "cros_config_schema failed for build config."
+	fi
+
+	if [[ -f "${yaml}" ]]; then
 		cros_config_schema -c "${yaml}" \
 			--configfs-output "${configfs_image}" -g "${WORKDIR}" -f "True" \
 			|| die "cros_config_schema failed for platform config."
