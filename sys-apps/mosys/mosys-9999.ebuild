@@ -83,7 +83,6 @@ IUSE="generated_cros_config unibuild"
 RDEPEND="unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-		sys-apps/dtc
 	)
 	dev-util/cmocka
 	sys-apps/util-linux

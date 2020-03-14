@@ -21,9 +21,7 @@ SLOT=0
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="
-	sys-apps/dtc
-"
+RDEPEND=""
 
 DEPEND="${RDEPEND}"
 

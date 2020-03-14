@@ -20,7 +20,6 @@ KEYWORDS="~*"
 
 RDEPEND="
 	>=sys-fs/squashfs-tools-4.3
-	sys-apps/dtc[python]
 	dev-python/jinja[${PYTHON_USEDEP}]
 	chromeos-base/cros-config-api
 	!<chromeos-base/chromeos-config-tools-0.0.4
