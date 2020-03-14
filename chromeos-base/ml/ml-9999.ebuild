@@ -17,14 +17,16 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 
 # Clients of the ML service should place the URIs of their model files into
 # this variable.
-models="gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
+MODELS=(
+	"gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
+)
 
-SRC_URI="${models}"
+SRC_URI="${MODELS[*]}"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -61,11 +63,8 @@ src_install() {
 	doins dbus/org.chromium.MachineLearning.service
 
 	# Create distfile array of model filepaths.
-	local distfile_array
-	local model_file
-	for model_file in ${models}; do
-		distfile_array+=( "${DISTDIR}/${model_file##*/}" )
-	done
+	local model_files=( "${MODELS[@]##*/}" )
+	local distfile_array=( "${model_files[@]/#/${DISTDIR}/}" )
 
 	# Install system ML models (but not test models).
 	insinto /opt/google/chrome/ml_models
@@ -90,7 +89,7 @@ platform_pkg_test() {
 	# Recreate model dir in the temp directory (for use in unit tests).
 	mkdir "${T}/ml_models" || die
 	local distfile_uri
-	for distfile_uri in ${models}; do
+	for distfile_uri in "${MODELS[@]}"; do
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
 	done
 
