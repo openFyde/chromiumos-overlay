@@ -96,14 +96,13 @@ src_unpack() {
 }
 
 src_prepare() {
-	cros-workon_src_prepare
 	cros-rust_src_prepare
 
 	if use arcvm_gce_l1; then
 		eapply "${FILESDIR}"/0001-betty-arcvm-Loose-mprotect-mmap-for-software-renderi.patch
 	fi
 
-	eapply_user
+	default
 }
 
 src_configure() {

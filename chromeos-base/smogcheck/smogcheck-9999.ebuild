@@ -23,11 +23,6 @@ src_unpack() {
 	S+="/smogcheck"
 }
 
-src_prepare() {
-	cros-workon_src_prepare
-	cros-common.mk_src_prepare
-}
-
 src_configure() {
 	sanitizers-setup-env
 	cros-common.mk_src_configure

@@ -98,8 +98,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	cros-workon_src_prepare
-
 	# net/bpf.h needed for net-libs/libpcap on Gentoo/FreeBSD
 	sed -i \
 		-e "s:\(#include <pcap\.h>\):#include <net/bpf.h>\n\1:" \
@@ -147,6 +145,7 @@ src_prepare() {
 
 	# bug (565270)
 	# epatch "${FILESDIR}/${P}-libressl.patch"
+	default
 }
 
 src_configure() {

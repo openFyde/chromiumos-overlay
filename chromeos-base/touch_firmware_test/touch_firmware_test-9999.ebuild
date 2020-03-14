@@ -19,10 +19,6 @@ RDEPEND=""
 
 DEPEND=${RDEPEND}
 
-src_prepare() {
-	cros-workon_src_prepare
-}
-
 src_configure() {
 	sanitizers-setup-env
 	cros-debug-add-NDEBUG

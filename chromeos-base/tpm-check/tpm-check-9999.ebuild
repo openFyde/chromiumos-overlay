@@ -25,7 +25,3 @@ CROS_WORKON_LOCALNAME=platform/vboot_reference
 
 # path from root of repo
 AUTOTEST_CLIENT_SITE_TESTS=autotest/client
-
-src_prepare() {
-	cros-workon_src_prepare
-}

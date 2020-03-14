@@ -791,14 +791,6 @@ cros-workon_pkg_setup() {
 	fi
 }
 
-cros-workon_src_prepare() {
-	local out="$(cros-workon_get_build_dir)"
-	[[ ${CROS_WORKON_INCREMENTAL_BUILD} != "1" ]] && mkdir -p "${out}"
-	pushd "${CROS_WORKON_DESTDIR:-${S}}" >/dev/null
-	default_src_prepare
-	popd >/dev/null
-}
-
 cros-workon_pkg_info() {
 	print_quoted_array() { printf '"%s"\n' "$@"; }
 

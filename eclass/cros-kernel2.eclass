@@ -1749,7 +1749,7 @@ cros-kernel2_src_prepare() {
 		apply_private_patches
 	fi
 	use clang || cros_use_gcc
-	cros-workon_src_prepare
+	default
 }
 
 cros-kernel2_src_configure() {

@@ -41,6 +41,5 @@ src_prepare() {
 	export CGO_ENABLED=0
 	export GOPIE=0
 
-	cros-workon_src_prepare
 	default
 }
