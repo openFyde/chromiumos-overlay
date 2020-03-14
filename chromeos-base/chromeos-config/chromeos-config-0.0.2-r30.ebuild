@@ -62,10 +62,8 @@ src_compile() {
 			--configfs-output "${configfs_image}" -g "${WORKDIR}" -f "True" \
 			|| die "cros_config_schema failed for platform config."
 	else
-		einfo "Emitting empty c interface config for mosys and ec."
+		einfo "Emitting empty C interface config for mosys."
 		cp "${FILESDIR}/empty_config.c" "${c_file}"
-		cp "${FILESDIR}/empty_ec_config.c" "${WORKDIR}/ec_config.c"
-		cp "${FILESDIR}/empty_ec_config.h" "${WORKDIR}/ec_config.h"
 	fi
 }
 
@@ -83,8 +81,6 @@ src_install() {
 
 	insinto "${UNIBOARD_YAML_DIR}"
 	doins "${WORKDIR}/config.c"
-	doins "${WORKDIR}/ec_config.c"
-	doins "${WORKDIR}/ec_config.h"
 	if [[ -e "${WORKDIR}/config.yaml" ]]; then
 		doins "${WORKDIR}/config.yaml"
 	fi
@@ -130,8 +126,6 @@ _verify_generated_files() {
 		"${SYSROOT}${UNIBOARD_JSON_INSTALL_PATH}"
 		"${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
 		"${SYSROOT}${UNIBOARD_YAML_DIR}/config.c"
-		"${SYSROOT}${UNIBOARD_YAML_DIR}/ec_config.h"
-		"${SYSROOT}${UNIBOARD_YAML_DIR}/ec_config.c"
 	)
 
 	for f in "${expected_files[@]}"; do
