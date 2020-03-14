@@ -20,10 +20,6 @@ COMMON_DEPEND="chromeos-base/libbrillo:=
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 src_install() {
 	dosbin logitech-updater
 	udev_dorules conf/99-logitech-updater.rules

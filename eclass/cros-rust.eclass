@@ -265,6 +265,7 @@ cros-rust_src_prepare() {
 # build.
 cros-rust_src_configure() {
 	sanitizers-setup-env
+	cros-debug-add-NDEBUG
 
 	export CARGO_TARGET_DIR="${WORKDIR}"
 	export CARGO_HOME="${ECARGO_HOME}"
@@ -321,6 +322,7 @@ cros-rust_src_configure() {
 	fi
 
 	export RUSTFLAGS="${rustflags[*]}"
+	default
 }
 
 # @FUNCTION: cros-rust_use_sanitizers

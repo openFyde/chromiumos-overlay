@@ -16,12 +16,13 @@ KEYWORDS="~*"
 IUSE=""
 
 src_prepare() {
-	cros-workon_src_prepare
+	mkdir -p "$(cros-workon_get_build_dir)"
+	default
 }
 
 src_configure() {
-	cros-workon_src_configure
 	tc-export CC
+	default
 }
 
 _emake() {

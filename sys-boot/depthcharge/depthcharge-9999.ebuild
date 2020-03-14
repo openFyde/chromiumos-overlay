@@ -33,10 +33,6 @@ STRIP_MASK="*"
 
 inherit cros-workon cros-board toolchain-funcs cros-unibuild
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 # Get the depthcharge board config to build for.
 # Checks the current board with/without variant. Echoes the board config file
 # that should be used to build depthcharge.

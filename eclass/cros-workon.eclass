@@ -799,19 +799,6 @@ cros-workon_src_prepare() {
 	popd >/dev/null
 }
 
-cros-workon_src_configure() {
-	if [[ $(type -t cros-debug-add-NDEBUG) == "function" ]] ; then
-		# Only run this if we've inherited cros-debug.eclass.
-		cros-debug-add-NDEBUG
-	fi
-
-	if [[ -x ${ECONF_SOURCE:-.}/configure ]]; then
-		econf "$@"
-	else
-		default
-	fi
-}
-
 cros-workon_pkg_info() {
 	print_quoted_array() { printf '"%s"\n' "$@"; }
 

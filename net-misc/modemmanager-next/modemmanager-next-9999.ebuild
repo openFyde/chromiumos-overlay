@@ -78,7 +78,7 @@ src_prepare() {
 src_configure() {
 	sanitizers-setup-env
 	append-flags -Xclang-only=-Wno-unneeded-internal-declaration
-	cros-workon_src_configure \
+	econf \
 		--with-html-dir="\${datadir}/doc/${PF}/html" \
 		--enable-compile-warnings=yes \
 		$(use_enable {,gtk-}doc) \

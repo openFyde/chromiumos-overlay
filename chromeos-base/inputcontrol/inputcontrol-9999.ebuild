@@ -17,7 +17,3 @@ IUSE=""
 
 RDEPEND="app-arch/gzip"
 DEPEND=""
-
-src_configure() {
-	cros-workon_src_configure
-}

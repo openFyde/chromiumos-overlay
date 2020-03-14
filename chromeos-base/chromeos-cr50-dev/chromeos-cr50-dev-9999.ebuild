@@ -65,10 +65,6 @@ src_unpack() {
 	S+="/platform/ec"
 }
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 set_build_env() {
 	cros_use_gcc
 

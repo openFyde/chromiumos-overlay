@@ -18,8 +18,8 @@ KEYWORDS="~*"
 IUSE=""
 
 src_configure() {
-	cros-workon_src_configure
 	sanitizers-setup-env
+	default
 }
 
 src_test() {

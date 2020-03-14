@@ -17,10 +17,6 @@ DEPEND="chromeos-base/libbrillo:="
 
 RDEPEND="${DEPEND}"
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 src_install() {
 	dosbin sis-updater
 	udev_dorules conf/99-sis-usb.rules

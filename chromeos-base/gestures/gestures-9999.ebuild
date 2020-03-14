@@ -30,8 +30,8 @@ S="${WORKDIR}/gestures"
 src_configure() {
 	cros_optimize_package_for_speed
 	sanitizers-setup-env
-	cros-workon_src_configure
 	export USE_X11=$(usex X 1 0)
+	default
 }
 
 src_compile() {

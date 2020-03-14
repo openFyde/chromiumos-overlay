@@ -20,7 +20,7 @@ RDEPEND="
 src_configure() {
 	# Disable tautological-compare warnings, crbug.com/1042142
 	append-cppflags "-Wno-tautological-compare"
-	cros-workon_src_configure
+	default
 }
 
 src_install() {

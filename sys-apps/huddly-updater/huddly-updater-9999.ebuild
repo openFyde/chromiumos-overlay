@@ -28,10 +28,6 @@ RDEPEND="${COMMON_DEPEND}
 	app-arch/unzip
 "
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 src_test() {
 	if use amd64; then
 		emake tests

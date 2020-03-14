@@ -27,8 +27,6 @@ get_build_dir() {
 }
 
 src_configure() {
-	cros-workon_src_configure
-
 	# Determine sanitizer flags. This is necessary because the Makefile
 	# purposely ignores CFLAGS from the environment. So we collect the
 	# sanitizer flags and pass just them to the Makefile explicitly.
@@ -44,6 +42,8 @@ src_configure() {
 		SANITIZER_CFLAGS+=" -fno-sanitize=alignment"
 		export ASAN_OPTIONS+=":detect_leaks=0:detect_odr_violation=0:"
 	fi
+	cros-debug-add-NDEBUG
+	default
 }
 
 vemake() {
@@ -62,7 +62,6 @@ vemake() {
 src_compile() {
 	mkdir "$(get_build_dir)"
 	tc-export CC AR CXX PKG_CONFIG
-	cros-debug-add-NDEBUG
 	# vboot_reference knows the flags to use
 	unset CFLAGS
 	vemake BUILD="$(get_build_dir)" all $(usex fuzzer fuzzers '')

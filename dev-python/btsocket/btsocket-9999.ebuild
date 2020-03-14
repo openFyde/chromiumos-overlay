@@ -22,5 +22,5 @@ RDEPEND=""
 
 src_configure() {
 	sanitizers-setup-env
-	cros-workon_src_configure
+	default
 }

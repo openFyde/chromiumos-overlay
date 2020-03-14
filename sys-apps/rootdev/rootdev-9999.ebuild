@@ -17,8 +17,8 @@ IUSE="-asan"
 
 src_configure() {
 	sanitizers-setup-env
-	cros-workon_src_configure
 	tc-export CC
+	default
 }
 
 src_compile() {

@@ -32,10 +32,6 @@ DEPEND="${COMMON_DEPEND}
 	test? ( dev-python/pytest:= )
 "
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 src_test() {
 	python_test() {
 		py.test -v build/ || die

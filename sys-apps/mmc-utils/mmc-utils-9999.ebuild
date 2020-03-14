@@ -29,7 +29,7 @@ IUSE="static"
 
 src_configure() {
 	use static && append-ldflags -static
-	cros-workon_src_configure
 	tc-export CC
 	export prefix=/usr
+	default
 }

@@ -19,10 +19,6 @@ DEPEND="
 
 RDEPEND="${DEPEND}"
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 src_install() {
 	dosbin mimo-updater
 	udev_dorules conf/90-displaylink-usb.rules

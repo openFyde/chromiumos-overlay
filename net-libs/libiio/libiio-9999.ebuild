@@ -31,6 +31,6 @@ src_configure() {
 	# Remove udev rules to detect sensors on USB devices.
 	mycmakeargs+=( -DINSTALL_UDEV_RULE=OFF )
 
-	cros-workon_src_configure
 	cmake-utils_src_configure
+	default
 }

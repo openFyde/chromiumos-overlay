@@ -25,7 +25,8 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	cros-workon_src_configure
+	cros-debug-add-NDEBUG
+	default
 }
 
 src_install() {

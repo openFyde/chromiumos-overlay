@@ -25,10 +25,6 @@ RDEPEND="
 	virtual/chromeos-activate-date
 	"
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 src_compile() {
 	tc-export CC
 	use static && append-ldflags -static
