@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("6de74ccadbec9d87a38912ba51719c6f5da8d4eb" "d0eb8a3218a630e597190a640820c4307f89d55e")
+CROS_WORKON_COMMIT=("580fdc9771d6353b0293add18ae8424cc493a9a1" "d0eb8a3218a630e597190a640820c4307f89d55e")
 CROS_WORKON_TREE=("6122a020798f4dcf9c94c0fb40b0bc3f21382ada" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b1ed37137502a983642debf1d0478d9c80c4f263")
 CROS_WORKON_LOCALNAME=("../platform2" "libtextclassifier")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/libtextclassifier")
@@ -16,6 +16,12 @@ inherit cros-workon platform
 
 DESCRIPTION="Library for classifying text"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/libtextclassifier/"
+
+# Place the model URIs of tclib into this variable.
+# We may need more than one models, e.g., temporarily during model upgrade.
+MODELS=( "gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-20200310.fb" )
+
+SRC_URI="${MODELS[*]}"
 
 LICENSE="Apache-2.0"
 SLOT="0/${PVR}"
@@ -100,4 +106,9 @@ src_install() {
 			doins "${S}/${f}"
 		fi
 	done
+
+	# Install the model files.
+	insinto /opt/google/chrome/ml_models
+	local model_filenames=( "${MODELS[@]##*/}" )
+	doins "${model_filenames[@]/#/${DISTDIR}/}"
 }
