@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-wireless/bluez/bluez-4.99.ebuild,v 1.7 2012/04/15 16:53:41 maekke Exp $
 
-EAPI="5"
+EAPI="7"
 # To support choosing between current and next versions, two cros-workon
 # projects are declared. During emerge, both project sources are copied to
 # their respective destination directories, and one is chosen as the
@@ -18,28 +18,29 @@ HOMEPAGE="http://www.bluez.org/"
 #SRC_URI not defined because we get our source locally
 
 LICENSE="GPL-2 LGPL-2.1"
-SLOT="0"
 KEYWORDS="~*"
 IUSE="asan bluez-next cups debug systemd readline bt_deprecated_tools"
 
 CDEPEND="
-	>=dev-libs/glib-2.14:2
-	app-arch/bzip2
-	sys-apps/dbus
-	virtual/udev
-	cups? ( net-print/cups )
-	readline? ( sys-libs/readline )
-	chromeos-base/metrics
+	>=dev-libs/glib-2.14:2=
+	app-arch/bzip2:=
+	sys-apps/dbus:=
+	virtual/libudev:=
+	cups? ( net-print/cups:= )
+	readline? ( sys-libs/readline:= )
+	chromeos-base/metrics:=
 "
-DEPEND="${CDEPEND}
-	>=dev-util/pkgconfig-0.20
-	sys-devel/flex
-"
+DEPEND="${CDEPEND}"
+
 RDEPEND="${CDEPEND}
 	!net-wireless/bluez-hcidump
 	!net-wireless/bluez-libs
 	!net-wireless/bluez-test
 	!net-wireless/bluez-utils
+"
+BDEPEND="${CDEPEND}
+	dev-util/pkgconfig:=
+	sys-devel/flex:=
 "
 
 DOCS=( AUTHORS ChangeLog README )
@@ -54,11 +55,13 @@ src_unpack() {
 }
 
 src_prepare() {
+	default
+
 	eautoreconf
 
 	if use cups; then
 		sed -i \
-			-e "s:cupsdir = \$(libdir)/cups:cupsdir = `cups-config --serverbin`:" \
+			-e "s:cupsdir = \$(libdir)/cups:cupsdir = $(cups-config --serverbin):" \
 			Makefile.tools Makefile.in || die
 	fi
 }
