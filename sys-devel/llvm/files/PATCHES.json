@@ -236,5 +236,29 @@
         "rel_patch_path": "cherry/13a97305ba77f44eccba16087320c8aa016ac6da.patch",
         "start_version": 383663,
         "end_version": 385016
+    },
+    {
+        "comment": "Revert \"[ARM] Improve codegen of volatile load/store of i64\"",
+        "rel_patch_path": "cherry/af2a38458197e07cbd03ea9446714008488826d8.patch",
+        "start_version": 380711,
+        "end_version": 383972
+    },
+    {
+        "comment": "Revert \"[InstCombine][DebugInfo] Fold constants wrapped in metadata\"",
+        "rel_patch_path": "cherry/982944525c7706c4dee00042d5b7cf2f0d87804f.patch",
+        "start_version": 383041,
+        "end_version": 384124
+    },
+    {
+        "comment": "Revert \"[LICM] Support hosting of dynamic allocas out of loops\"",
+        "rel_patch_path": "cherry/14845b2c459021e3dbf2ead52d707d4a7db40cbb.patch",
+        "start_version": 376772,
+        "end_version": 385655
+    },
+    {
+        "comment": "Revert \"[clang] detect switch fallthrough marked by a comment (PR43465)\"",
+        "rel_patch_path": "cherry/c61401b89742f230b7e6a2cc0548fbf7442e906d.patch",
+        "start_version": 383396,
+        "end_version": 386178
     }
 ]
