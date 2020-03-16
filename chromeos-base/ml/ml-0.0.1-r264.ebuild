@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c79232b298adc1a0e65e249c4696a20bb936b3ab"
+CROS_WORKON_COMMIT="2e4cbe88e2a9e401a01e84410f50868ff8cc60d8"
 CROS_WORKON_TREE=("6122a020798f4dcf9c94c0fb40b0bc3f21382ada" "532bef4d775ba6385d1583b1737bb1b19b1e0448" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -19,14 +19,16 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 
 # Clients of the ML service should place the URIs of their model files into
 # this variable.
-models="gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite
-	gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
+MODELS=(
+	"gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
+)
 
-SRC_URI="${models}"
+SRC_URI="${MODELS[*]}"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -63,11 +65,8 @@ src_install() {
 	doins dbus/org.chromium.MachineLearning.service
 
 	# Create distfile array of model filepaths.
-	local distfile_array
-	local model_file
-	for model_file in ${models}; do
-		distfile_array+=( "${DISTDIR}/${model_file##*/}" )
-	done
+	local model_files=( "${MODELS[@]##*/}" )
+	local distfile_array=( "${model_files[@]/#/${DISTDIR}/}" )
 
 	# Install system ML models (but not test models).
 	insinto /opt/google/chrome/ml_models
@@ -92,7 +91,7 @@ platform_pkg_test() {
 	# Recreate model dir in the temp directory (for use in unit tests).
 	mkdir "${T}/ml_models" || die
 	local distfile_uri
-	for distfile_uri in ${models}; do
+	for distfile_uri in "${MODELS[@]}"; do
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
 	done
 
