@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 CROS_WORKON_COMMIT="ddb56b5eac4a659d8343acc59cfaef632f6b85b6"
 CROS_WORKON_TREE="364b4787419fa37b060f7292747ebf59f5127171"
 CROS_WORKON_PROJECT="chromiumos/platform/minigbm"
