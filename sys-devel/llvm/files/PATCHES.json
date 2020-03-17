@@ -40,126 +40,6 @@
         "start_version": 365631
     },
     {
-        "comment": "PR44268: Fix crash if __builtin_object_size is applied to a heap allocation",
-        "rel_patch_path": "cherry/c5b890e922432bd80a5e3c6d82994ef4cdc41900.patch",
-        "start_version": 373036,
-        "end_version": 379308
-    },
-    {
-        "comment": "[ELF] Refine section group --gc-sections rules to not discard .debug_types",
-        "rel_patch_path": "cherry/60ce444eaa146bc2f762c70d433d4a0c847508f0.patch",
-        "start_version": 377567,
-        "end_version": 378921
-    },
-    {
-        "comment": "Revert \"Reland: [DWARF] Allow cross-CU references of subprogram definitions\"",
-        "rel_patch_path": "cherry/802bec896171997a7b73dde3857712e0eedeabc1.patch",
-        "start_version": 380035,
-        "end_version": 382491
-    },
-    {
-        "comment": "Revert 651f07908a1 \"[AArch64] Don't combine callee-save and local stack adjustment when optimizing for size\"",
-        "rel_patch_path": "cherry/c2443155a0fb245c8f17f2c1c72b6ea391e86e81.patch",
-        "start_version": 375217,
-        "end_version": 378248
-    },
-    {
-        "comment": "Revert \"[InstCombine] keep assumption before sinking calls\"",
-        "rel_patch_path": "cherry/055779a9ac11e56442cbcdc73da59f8bce7ce57d.patch",
-        "start_version": 376047,
-        "end_version": 378631
-    },
-    {
-        "comment": "Revert 3f91705ca54 \"ARM-NEON: make type modifiers orthogonal and allow multiple modifiers.\"",
-        "rel_patch_path": "cherry/21f26470e9747c472d3c18654e676cbea8393635.patch",
-        "start_version": 377658,
-        "end_version": 377965
-    },
-    {
-        "comment": "[Diagnostic] Fixed add ftabstop to -Wmisleading-indentation",
-        "rel_patch_path": "cherry/b4b904e19bb356724b2c6aea0199ce05c6f15cdb.patch",
-        "start_version": 380035,
-        "end_version": 380480
-    },
-    {
-        "comment": "[LLD][ELF][ARM] Do not insert interworking thunks for non STT_FUNC symbols",
-        "rel_patch_path": "cherry/4f38ab250ff4680375c4c01db0a88c157093c665.patch",
-        "start_version": 380035,
-        "end_version": 382696
-    },
-    {
-        "comment": "Make llvm::crc32() work also for input sizes larger than 32 bits",
-        "rel_patch_path": "cherry/6c4a8bc0a9f6a466d90d542bef66d69550c1b041.patch",
-        "start_version": 380035,
-        "end_version": 383698
-    },
-    {
-        "comment": "[DebugInfo] Add another level to DebugInfoKind called Constructor",
-        "rel_patch_path": "cherry/53539bb032d162e0147c0e9650a5d1c7ca77dae0.patch",
-        "start_version": 380035,
-        "end_version": 381274
-    },
-    {
-        "comment": "[PATCH][DebugInfo] Add option to clang to limit debug info that is emitted for classes",
-        "rel_patch_path": "cherry/651128f557229e79598e22102edb7fad3bf288c0.patch",
-        "start_version": 380035,
-        "end_version": 381394
-    },
-    {
-        "comment": "Add a warning, flags and pragmas to limit the number of pre-processor tokens in a translation unit",
-        "rel_patch_path": "cherry/739b410f1ff51d507830774320c2db3a80d8610d.patch",
-        "start_version": 380035,
-        "end_version": 382580
-    },
-    {
-        "comment": "[DebugInfo] Re-instate LiveDebugVariables scope trimming",
-        "rel_patch_path": "cherry/41206b61e30c3d84188cb17b91c2c0c800982dd1.patch",
-        "start_version": 380035,
-        "end_version": 383495
-    },
-    {
-        "comment": "Revert \"[msan] Check qsort input.\"",
-        "rel_patch_path": "cherry/04926e67fda210c9709da4f8672ac0b5147ebb90.patch",
-        "start_version": 380035,
-        "end_version": 380105
-    },
-    {
-        "comment": "[X86] Adding fp128 support for strict fcmp",
-        "rel_patch_path": "cherry/9a621de1ecadf668886a7caf743f6283d1c709e2.patch",
-        "start_version": 380035,
-        "end_version": 380791
-    },
-    {
-        "comment": "[LegalizeIntegerTypes][X86] Add support for expanding input of STRICT_SINT_TO_FP/STRICT_UINT_TO_FP into a libcall.",
-        "rel_patch_path": "cherry/26c7a4ed101fae85d2041ee1c8e8483b96e4460e.patch",
-        "start_version": 380035,
-        "end_version": 381260
-    },
-    {
-        "comment": "Revert Recommit \"[GlobalOpt] Pass DTU to removeUnreachableBlocks instead of recomputing.\"",
-        "rel_patch_path": "cherry/192cce10f67e4f22be6d9b8c0975f78ad246d1bd.patch",
-        "start_version": 380035,
-        "end_version": 381347
-    },
-    {
-        "comment": "[Sema] Avoid Wrange-loop-analysis false positives",
-        "rel_patch_path": "cherry/41fcd17250fa0526e4b7fd2c7df7721b0f79b683.patch",
-        "start_version": 380035,
-        "end_version": 382025
-    },
-    {
-        "comment": "[FPEnv][ARM] Add lowering of STRICT_FSETCC and STRICT_FSETCCS",
-        "rel_patch_path": "cherry/b37d59353f699e99f139a9227a6a69964ef4b132_modified.patch",
-        "start_version": 380035,
-        "end_version": 383345
-    },
-    {
-        "comment": "Revert \"[DebugInfo][DAG] Distinguish different kinds of location indirection\"",
-        "rel_patch_path": "cherry/ece761427f63de96ee52bbd6be1c61b07967a917.patch",
-        "start_version": 380035,
-        "end_version": 383779
-    },
-    {
         "comment": "Fix type-dependency of bitfields in templates",
         "rel_patch_path": "cherry/a58017e5cae5be948fd1913b68d46553e87aa622.patch",
         "start_version": 380035,
@@ -188,12 +68,6 @@
         "rel_patch_path": "cherry/cfc3e7f458f8798782c01a0dadf872c60340c23e.patch",
         "start_version": 380035,
         "end_version": 386785
-    },
-    {
-        "comment": "Fix StringRef std::string after 777180a32b6107.",
-        "rel_patch_path": "cherry/2eb80a99a2c6f8e2f090a2bc8cd2760fe1e1f267.patch",
-        "start_version": 382781,
-        "end_version": 383239
     },
     {
         "comment": "[Sema] Fix pointer-to-int-cast diagnostic for _Bool",
