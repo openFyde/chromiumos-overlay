@@ -82,7 +82,9 @@ STRIP_MASK="
 
 # SRC_URI requires RESTRICT="mirror". We specify AutoFDO profiles in SRC_URI
 # so that ebuild can fetch it for us.
-RESTRICT="mirror"
+# binchecks is restricted because the kernel does not use all the same build
+# flags we want for userland (crbug/1061666).
+RESTRICT="binchecks mirror"
 SRC_URI=""
 
 KERNEL_VERSION="${PN#chromeos-kernel-}"
