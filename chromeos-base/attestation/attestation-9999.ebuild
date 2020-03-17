@@ -54,22 +54,20 @@ pkg_preinst() {
 }
 
 src_install() {
-	if use tpm2 || use distributed_cryptohome; then
-		insinto /etc/dbus-1/system.d
-		doins server/org.chromium.Attestation.conf
+	insinto /etc/dbus-1/system.d
+	doins server/org.chromium.Attestation.conf
 
-		insinto /etc/init
-		doins server/attestationd.conf
-		sed -i 's/started tcsd/started tpm_managerd/' \
-			"${D}/etc/init/attestationd.conf" ||
-			die "Can't replace tcsd with tpm_managerd in attestationd.conf"
+	insinto /etc/init
+	doins server/attestationd.conf
+	sed -i 's/started tcsd/started tpm_managerd/' \
+		"${D}/etc/init/attestationd.conf" ||
+		die "Can't replace tcsd with tpm_managerd in attestationd.conf"
 
-		dosbin "${OUT}"/attestationd
-		dobin "${OUT}"/attestation_client
+	dosbin "${OUT}"/attestationd
+	dobin "${OUT}"/attestation_client
 
-		insinto /usr/share/policy
-		newins server/attestationd-seccomp-${ARCH}.policy attestationd-seccomp.policy
-	fi
+	insinto /usr/share/policy
+	newins server/attestationd-seccomp-${ARCH}.policy attestationd-seccomp.policy
 
 	insinto /etc/dbus-1/system.d
 	doins pca_agent/server/org.chromium.PcaAgent.conf

@@ -123,19 +123,18 @@ src_install() {
 				bootlockboxd-seccomp.policy
 			insinto /etc/init
 			doins bootlockbox/bootlockboxd.conf
-		fi
-		if use direncryption; then
-			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
-				"${D}/etc/init/cryptohomed.conf" ||
-				die "Can't replace direncryption flag in cryptohomed.conf"
-		fi
-		if use distributed_cryptohome; then
+		else
 			sed -i 's/started tcsd/started attestationd/' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't replace tcsd with attestationd in cryptohomed.conf"
 			sed -i '/env DISTRIBUTED_MODE_FLAG=/s:=.*:="--attestation_mode=dbus":' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't activate distributed mode in cryptohomed.conf"
+		fi
+		if use direncryption; then
+			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace direncryption flag in cryptohomed.conf"
 		fi
 	fi
 	exeinto /usr/share/cros/init
