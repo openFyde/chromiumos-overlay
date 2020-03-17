@@ -32,8 +32,8 @@ src_install() {
 	# hardware as their base boards. As opposed to board variants, which use
 	# underscore to separate from board name, they use a dash, so we can just
 	# strip anything matching.
-	board_variant=${board_variant%-*}
-	board=${board%-*}
+	board_variant=${board_variant%%-*}
+	board=${board%%-*}
 
 	# Enable exactly one evdev-compatible X input touchpad driver.
 	#
