@@ -15,8 +15,8 @@
 # from /usr/local/bin to that file.
 
 EAPI=5
-CROS_WORKON_COMMIT="3d2aaab95f0c9eeb646f1edccf119e31bb9bfbc1"
-CROS_WORKON_TREE="d78df6b6863fe508b1b96f5dfe1459c743ba156f"
+CROS_WORKON_COMMIT="cb03e019c5ee45d1e7ac1d9d3748f756e0c2f180"
+CROS_WORKON_TREE="bbecfc49485f98717600fb730cf9d71febde07d4"
 CROS_WORKON_PROJECT="chromiumos/platform/factory"
 CROS_WORKON_LOCALNAME="platform/factory"
 CROS_WORKON_DESTDIR="${S}"
