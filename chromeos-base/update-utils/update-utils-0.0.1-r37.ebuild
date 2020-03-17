@@ -6,8 +6,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="edd2b181af1a5a790a7198c5077b18347d05b690"
-CROS_WORKON_TREE=("93246f59ae8c9adbdcbe4e27f3fffd154f53f37a" "a7054021f1976533096a10b32b8b2e4217a1d66b" "798e01ef051b54ee67a88a5fc7818ecadc893275")
+CROS_WORKON_COMMIT="ded2c7df7eeeb076040a3434561b012c83df5f05"
+CROS_WORKON_TREE=("e77f684eb94b8e27f610d6f5932888fb8897ffd0" "a7054021f1976533096a10b32b8b2e4217a1d66b" "798e01ef051b54ee67a88a5fc7818ecadc893275")
 PYTHON_COMPAT=( python2_7 python3_{6,7} )
 
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
@@ -33,20 +33,6 @@ src_compile() { :; }
 src_install() {
 	into /usr/local
 	dobin nebraska/nebraska.py
-	dobin stateful_update
-	dobin quick-provision/quick-provision
-
-	# Install the nebraska as a library too to be used by autotests.
-	install_nebraska() {
-		# TODO(crbug.com/771085): Clear the SYSROOT var as python will
-		# use that to define the sitedir which means we end up
-		# installing into a path like /build/$BOARD/build/$BOARD/xxx.
-		# This is a bug in the core python logic, but this is breaking
-		# moblab, so hack it for now.
-		insinto "$(python_get_sitedir | sed "s:^${SYSROOT}::")/nebraska"
-		doins "nebraska/nebraska.py"
-	}
-	python_foreach_impl install_nebraska
 }
 
 src_test() {
