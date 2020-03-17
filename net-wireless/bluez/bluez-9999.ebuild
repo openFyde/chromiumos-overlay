@@ -111,8 +111,12 @@ src_install() {
 	dobin tools/btgatt-client
 	dobin tools/btgatt-server
 	dobin tools/btmgmt
-	dobin tools/hciconfig
-	dobin tools/hcitool
+	if ! use bluez-next; then
+		# TODO(b/150951215): Remove this fork if possible by deprecating
+		# hciconfig and hcitool.
+		dobin tools/hciconfig
+		dobin tools/hcitool
+	fi
 
 	# Install scripts
 	dobin "${FILESDIR}/dbus_send_blutooth_class.awk"
@@ -133,7 +137,7 @@ src_install() {
 	# Install shared library files
 	dolib.so lib/.libs/libbluetooth.so
 	dolib.so lib/.libs/libbluetooth.so.3
-	dolib.so lib/.libs/libbluetooth.so.3.18.15
+	dolib.so lib/.libs/libbluetooth.so.3."$(usex bluez-next 19.1 18.15)"
 
 	# Install plugin library files
 	exeinto /usr/"$(get_libdir)"/bluetooth/plugins
@@ -165,7 +169,9 @@ src_install() {
 
 	# Install the config files.
 	insinto "/etc/bluetooth"
-	doins "${S}"/src/main_common.conf
+	# TODO(b/150951215): Remove the fork once our branch converges with
+	# upstream.
+	doins "${S}/src/$(usex bluez-next main.conf main_common.conf)"
 	doins "${FILESDIR}/input.conf"
 
 	# We don't preserve /var/lib in images, so nuke anything we preseed.
