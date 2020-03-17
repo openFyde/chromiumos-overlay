@@ -134,5 +134,11 @@
         "rel_patch_path": "cherry/c61401b89742f230b7e6a2cc0548fbf7442e906d.patch",
         "start_version": 383396,
         "end_version": 386178
+    },
+    {
+        "comment": "[CUDA] Warn about unsupported CUDA SDK version only if it's used.",
+        "rel_patch_path": "cherry/eb2ba2ea953b5ea73cdbb598f77470bde1c6a011.patch",
+        "start_version": 382740,
+        "end_version": 387062
     }
 ]
