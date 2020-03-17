@@ -147,10 +147,8 @@ install_model_files() {
 install_generated_config_files() {
 	[[ $# -eq 0 ]] || die "${FUNCNAME[0]}: takes no arguments"
 
-	# Install platform config as "config.json" and build config as
-	# "config.yaml". Consumers of the payloads expect these names and locations.
-	insinto "${UNIBOARD_CROS_CONFIG_DIR}"
-	newins "${FILESDIR}/generated/platform_config.json" "config.json"
+	# Install build config as "config.yaml".
+	# Consumers of the payloads expect these names and locations.
 
 	insinto "${UNIBOARD_YAML_DIR}"
 	newins "${FILESDIR}/generated/build_config.json" "config.yaml"
@@ -354,4 +352,34 @@ unibuild_install_bluetooth_files() {
 
 	einfo "unibuild: Installing bluetooth files"
 	_unibuild_common_install get-bluetooth-files
+}
+
+# @FUNCTION: unibuild_build_configfs_file
+# @USAGE:
+# @DESCRIPTION:
+# Build configfs img file.
+unibuild_build_configfs_file() {
+	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+
+	einfo "unibuild: Build configfs img file"
+
+	local yaml="${FILESDIR}/generated/build_config.json"
+	local configfs_image="${WORKDIR}/configfs.img"
+
+	cros_config_schema -c "${yaml}" \
+		--configfs-output "${configfs_image}" -g "${WORKDIR}" -f "True" \
+		|| die "cros_config_schema failed for configfs."
+}
+
+# @FUNCTION: unibuild_install_configfs_file
+# @USAGE:
+# @DESCRIPTION:
+# Install configfs img file.
+unibuild_install_configfs_file() {
+	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+
+	einfo "unibuild: Install configfs img file"
+
+	insinto "${UNIBOARD_CROS_CONFIG_DIR}"
+	doins "${WORKDIR}/configfs.img"
 }
