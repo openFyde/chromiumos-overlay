@@ -20,6 +20,13 @@ KEYWORDS="~*"
 
 BDEPEND="virtual/pkgconfig"
 
+RDEPEND="
+	media-libs/cros-camera-libcamera_common
+	media-libs/cros-camera-libcbm"
+
+DEPEND="${RDEPEND}
+	media-libs/cros-camera-android-headers"
+
 src_install() {
 	dolib.so "${OUT}/lib/libcamera_connector.so"
 	cros-camera_dopc ../libcamera_connector.pc.template
