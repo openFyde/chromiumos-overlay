@@ -147,6 +147,9 @@ src_prepare() {
         epatch "${FILESDIR}"/UPSTREAM-st-va-add-support-YUY2.patch
         epatch "${FILESDIR}"/UPSTREAM-radeon-jpeg-fix-the-jpeg-dt_pitch-with-YUYV-format.patch
 
+	# b/151392809, can be removed after an uprev to 19.3.4 or later
+	epatch "${FILESDIR}"/CHROMIUM-gallium-dri-Do-not-handle-params-in-dri2_query_image.patch
+
 	default
 }
 

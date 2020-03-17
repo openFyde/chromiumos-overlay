@@ -158,6 +158,9 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-disable-dcc-for-2x-MSAA-surface-and-bpe-4.patch
 
+	# b/151392809, can be removed after an uprev to 19.3.4 or later
+	epatch "${FILESDIR}"/CHROMIUM-gallium-dri-Do-not-handle-params-in-dri2_query_image.patch
+
 	default
 }
 
