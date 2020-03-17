@@ -15,6 +15,7 @@
 #   - Unrelated resource downloads (like for telemetry) are removed.
 #   - Unrelated configuration (like ozone platforms) are removed.
 #   - Unrelated features (like nacl) are disabled.
+#   - Header folders and libraries are postfixed with "${CHROME_ICU_POSTFIX}".
 #
 # Significant changes from "chromeos-chrome.ebuild" are highlighted by "[Mod]".
 #
@@ -72,10 +73,17 @@ BUILD_OUT="${BUILD_OUT:-out_icu_${BOARD}}"
 
 BUILD_OUT_SYM="c"
 
+# [Mod] To differentiate with the standard ICU, we postfix the include headers
+# folder and library names by "chrome". (see crbug.com/1059133 and b/151439301)
+CHROME_ICU_POSTFIX="-chrome"
+
 # [Mod] Order file and AFDO file variables/functions declared here are removed.
 
-# [Mod] chrome/icu depends on nothing.
-RDEPEND=""
+# [Mod] chrome/icu depends on nothing. Blocking the canonical icu package can
+# let us notice the potential repetitions.
+RDEPEND="
+	!dev-libs/icu
+"
 DEPEND=""
 
 # [Mod] NaCl utilities are removed.
@@ -633,8 +641,11 @@ src_compile() {
 # [Mod] src_install() is greatly simplied and totally new.
 src_install() {
 	local build_dir="src/${BUILD_OUT_SYM}/${BUILDTYPE}"
-	dolib.a "${build_dir}/obj/third_party/icu/libicui18n.a"
-	dolib.a "${build_dir}/obj/third_party/icu/libicuuc.a"
+	local icu_lib_dir="${build_dir}/obj/third_party/icu/"
+	mv "${icu_lib_dir}/libicui18n.a" "${icu_lib_dir}/libicui18n${CHROME_ICU_POSTFIX}.a"
+	mv "${icu_lib_dir}/libicuuc.a" "${icu_lib_dir}/libicuuc${CHROME_ICU_POSTFIX}.a"
+	dolib.a "${icu_lib_dir}/libicui18n${CHROME_ICU_POSTFIX}.a"
+	dolib.a "${icu_lib_dir}/libicuuc${CHROME_ICU_POSTFIX}.a"
 	# Install to chrome folder to make chrome work.
 	insinto "${CHROME_DIR}"
 	doins "${build_dir}/icudtl.dat"
@@ -698,7 +709,7 @@ src_install() {
 	)
 	local f
 	for f in "${icu_headers[@]}"; do
-		insinto "/usr/include/icu/${f%/*}"
+		insinto "/usr/include/icu${CHROME_ICU_POSTFIX}/${f%/*}"
 		doins "${CHROME_ROOT}/src/third_party/icu/source/${f}"
 	done
 }

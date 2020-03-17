@@ -27,8 +27,8 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
+	chromeos-base/chrome-icu:=
 	dev-libs/flatbuffers:=
-	dev-libs/icu:=
 	sci-libs/tensorflow:=
 	sys-libs/zlib:=
 "
