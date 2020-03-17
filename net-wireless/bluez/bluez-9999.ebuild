@@ -102,9 +102,6 @@ src_test() {
 }
 
 src_install() {
-	# TODO(crbug/1019578): Identify unneeded files and remove from
-	# installation.
-
 	# Install command-line tools
 	dobin client/bluetoothctl
 	dobin monitor/btmon
