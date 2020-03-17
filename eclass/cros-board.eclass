@@ -89,7 +89,7 @@ ALL_BOARDS=(
 	capri-zfpga
 	caroline
 	caroline-arc64
-	caroline-arcnext
+	#caroline-arcnext
 	#caroline-bertha
 	caroline-kernelnext
 	caroline-ndktranslation
