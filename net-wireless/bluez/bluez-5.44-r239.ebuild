@@ -2,10 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-wireless/bluez/bluez-4.99.ebuild,v 1.7 2012/04/15 16:53:41 maekke Exp $
 
-EAPI="5"
-CROS_WORKON_COMMIT="d0b9c92ef0c8578f7b1eeae69b11cbdfd4ba4bff"
-CROS_WORKON_TREE="6bb2d2b97e88eb5a42bb5edb830f6e9df235bd72"
-CROS_WORKON_PROJECT="chromiumos/third_party/bluez"
+EAPI="7"
+# To support choosing between current and next versions, two cros-workon
+# projects are declared. During emerge, both project sources are copied to
+# their respective destination directories, and one is chosen as the
+# "working directory" in src_unpack() below based on bluez-next USE flag.
+CROS_WORKON_COMMIT=("d0b9c92ef0c8578f7b1eeae69b11cbdfd4ba4bff" "1524499483a3678951c0e3059b158836398c4e9b")
+CROS_WORKON_TREE=("6bb2d2b97e88eb5a42bb5edb830f6e9df235bd72" "40ff8f2617391a5d10ed1e444d58815cfa425eaa")
+CROS_WORKON_LOCALNAME=("bluez" "bluez-next")
+CROS_WORKON_PROJECT=("chromiumos/third_party/bluez" "chromiumos/third_party/bluez")
+CROS_WORKON_DESTDIR=("${S}/bluez" "${S}/bluez-next")
 
 inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
 
@@ -14,38 +20,50 @@ HOMEPAGE="http://www.bluez.org/"
 #SRC_URI not defined because we get our source locally
 
 LICENSE="GPL-2 LGPL-2.1"
-SLOT="0"
 KEYWORDS="*"
-IUSE="asan cups debug systemd readline bt_deprecated_tools"
+IUSE="asan bluez-next cups debug systemd readline bt_deprecated_tools"
 
 CDEPEND="
-	>=dev-libs/glib-2.14:2
-	app-arch/bzip2
-	sys-apps/dbus
-	virtual/udev
-	cups? ( net-print/cups )
-	readline? ( sys-libs/readline )
-	chromeos-base/metrics
+	>=dev-libs/glib-2.14:2=
+	app-arch/bzip2:=
+	sys-apps/dbus:=
+	virtual/libudev:=
+	cups? ( net-print/cups:= )
+	readline? ( sys-libs/readline:= )
+	chromeos-base/metrics:=
 "
-DEPEND="${CDEPEND}
-	>=dev-util/pkgconfig-0.20
-	sys-devel/flex
-"
+DEPEND="${CDEPEND}"
+
 RDEPEND="${CDEPEND}
 	!net-wireless/bluez-hcidump
 	!net-wireless/bluez-libs
 	!net-wireless/bluez-test
 	!net-wireless/bluez-utils
 "
+BDEPEND="${CDEPEND}
+	dev-util/pkgconfig:=
+	sys-devel/flex:=
+"
 
 DOCS=( AUTHORS ChangeLog README )
 
+src_unpack() {
+	cros-workon_src_unpack
+
+	# Setting S has the effect of changing the temporary build directory
+	# here onwards. Choose "bluez-next" or "bluez" subdir depending on the
+	# USE flag.
+	S+="/$(usex bluez-next bluez-next bluez)"
+}
+
 src_prepare() {
+	default
+
 	eautoreconf
 
 	if use cups; then
 		sed -i \
-			-e "s:cupsdir = \$(libdir)/cups:cupsdir = `cups-config --serverbin`:" \
+			-e "s:cupsdir = \$(libdir)/cups:cupsdir = $(cups-config --serverbin):" \
 			Makefile.tools Makefile.in || die
 	fi
 }
@@ -136,7 +154,7 @@ src_install() {
 
 	# Install D-Bus config
 	insinto /etc/dbus-1/system.d
-	doins src/bluetooth.conf
+	doins "${FILESDIR}/org.bluez.conf"
 
 	# Install udev files
 	exeinto /lib/udev
