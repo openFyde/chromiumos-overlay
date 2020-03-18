@@ -235,6 +235,7 @@ src_install() {
 			mojo/core/embedder
 			mojo/core/ports
 			mojo/public/c/system
+			mojo/public/cpp/base
 			mojo/public/cpp/bindings
 			mojo/public/cpp/bindings/lib
 			mojo/public/cpp/platform
@@ -279,7 +280,7 @@ src_install() {
 	for d in "${gen_header_dirs[@]}"; do
 		insinto /usr/include/base-"${SLOT}"/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.h
-		insinto /usr/share/libchrome/mojom
+		insinto /usr/share/libchrome/pickle/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.p
 	done
 
