@@ -404,9 +404,6 @@ EOF
 				dosym "${sysroot_wrapper_file}" "${BINPATH}/${CTARGET}-${x}" || die
 			fi
 		done
-		for x in clang clang++; do
-			dosym "${sysroot_wrapper_file}" "${BINPATH}/${CTARGET}-${x}" || die
-		done
 		if use go; then
 			local wrapper="sysroot_wrapper.gccgo"
 			doexe "${FILESDIR}/${wrapper}" || die

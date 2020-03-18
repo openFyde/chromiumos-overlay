@@ -350,6 +350,48 @@ multilib_src_install() {
 		newbin "${D}/usr/bin/llvm-objcopy" "llvm-strip"
 	fi
 
+	# Build and install cross-compiler wrappers for supported ABIs.
+	# ccache wrapper is used in chroot and non-ccache wrapper is used
+	# in standalone SDK.
+	local ccache_suffixes=(noccache ccache)
+	local ccache_option_values=(false true)
+	for ccache_index in {0,1}; do
+		local ccache_suffix="${ccache_suffixes[${ccache_index}]}"
+		local ccache_option="${ccache_option_values[${ccache_index}]}"
+		# Build hardened wrapper written in golang.
+		"${FILESDIR}/compiler_wrapper/build.py" --config="cros.hardened" \
+			--use_ccache="${ccache_option}" \
+			--use_llvm_next="${use_llvm_next}" \
+			--output_file="${D}/usr/bin/sysroot_wrapper.hardened.${ccache_suffix}" || die
+
+		# Build non-hardened wrapper written in golang.
+		"${FILESDIR}/compiler_wrapper/build.py" --config="cros.nonhardened" \
+			--use_ccache="${ccache_option}" \
+			--use_llvm_next="${use_llvm_next}" \
+			--output_file="${D}/usr/bin/sysroot_wrapper.${ccache_suffix}" || die
+	done
+
+	local cros_hardened_targets=(
+		"aarch64-cros-linux-gnu"
+		"armv7a-cros-linux-gnueabihf"
+		"i686-pc-linux-gnu"
+		"x86_64-cros-linux-gnu"
+	)
+	local cros_nonhardened_targets=(
+		"arm-none-eabi"
+		"armv7m-cros-eabi"
+	)
+
+	local target
+	for target in "${cros_hardened_targets[@]}"; do
+		dosym "sysroot_wrapper.hardened.ccache" "/usr/bin/${target}-clang"
+		dosym "sysroot_wrapper.hardened.ccache" "/usr/bin/${target}-clang++"
+	done
+	for target in "${cros_nonhardened_targets[@]}"; do
+		dosym "sysroot_wrapper.ccache" "/usr/bin/${target}-clang"
+		dosym "sysroot_wrapper.ccache" "/usr/bin/${target}-clang++"
+	done
+
 	# Remove this file, if it exists, to avoid installation file collision,
 	# as this file is also generated/installed by the dev-python/six package.
 	if [[ -f "${D}/usr/lib/python3.6/site-packages/six.py" ]]; then
