@@ -233,6 +233,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_UserRequestRecovery
 	+tests_firmware_WilcoDiagnosticsMode
 	+tests_firmware_WriteProtect
+	+tests_firmware_WriteProtectFunc
 	+tests_graphics_PowerConsumption
 	+tests_graphics_MultipleDisplays
 	+tests_hardware_DiskFirmwareUpgrade
