@@ -12,7 +12,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="platform/dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="nebraska stateful_update quick-provision"
+CROS_WORKON_SUBTREE="nebraska"
 
 inherit cros-workon python-r1
 
