@@ -5,7 +5,8 @@
         "start_version": 374056
     },
     {
-        "comment": "Adds correct visibility annotations so that CFI check\ncan be disabled on these functions",
-        "rel_patch_path": "libcxx-cfi.patch"
-    }
+         "comment": "[libc++] Add missing visibility annotation for __base",
+         "rel_patch_path": "cherry/30ccc2e8d24b53273aae9cc21740f02ffb3018dc.patch",
+         "end_version": 387601
+     }
 ]
