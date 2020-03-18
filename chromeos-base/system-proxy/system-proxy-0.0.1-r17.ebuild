@@ -3,13 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2c9f5f4dbbe7ab2e788961194484d975cbb9380f"
-CROS_WORKON_TREE=("94bdce168a00f19903b3dd162e8e755cee9bbbf8" "4386599beeb42d1c09ee3d6c4dc2c9d6d13c0aff" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="047ca8fec13dd8198f4fdc74239c2ab9e5201cff"
+CROS_WORKON_TREE=("62811023c535a5d76b59f807d609123a96e7c18c" "94bdce168a00f19903b3dd162e8e755cee9bbbf8" "4386599beeb42d1c09ee3d6c4dc2c9d6d13c0aff" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk system-proxy .gn"
+# TODO(acostinas): Remove when https://crbug.com/809389 is fixed.
+CROS_WORKON_SUBTREE="arc/network common-mk system-proxy .gn"
 
 PLATFORM_SUBDIR="system-proxy"
 
@@ -24,6 +25,7 @@ SLOT="0/0"
 KEYWORDS="*"
 
 COMMON_DEPEND="
+	chromeos-base/arc-networkd:=
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 	dev-libs/dbus-glib:=
