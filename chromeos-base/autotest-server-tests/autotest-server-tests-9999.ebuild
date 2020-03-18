@@ -185,6 +185,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECWatchdog
 	+tests_firmware_EventLog
 	+tests_firmware_FAFTPrepare
+	+tests_firmware_FAFTModeTransitions
 	+tests_firmware_FAFTRPC
 	+tests_firmware_FAFTSetup
 	biod? ( +tests_firmware_Fingerprint )
