@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk trunks metrics u2fd .gn"
+CROS_WORKON_SUBTREE="common-mk trunks libhwsec metrics u2fd .gn"
 
 PLATFORM_SUBDIR="u2fd"
 
@@ -24,6 +24,7 @@ IUSE="fuzzer"
 COMMON_DEPEND="
 	chromeos-base/attestation:=
 	chromeos-base/attestation-client:=
+	chromeos-base/libhwsec:=
 	chromeos-base/metrics:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/trunks:=
