@@ -202,6 +202,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	dev-python/setuptools
 	dev-python/ws4py
 	dev-util/stressapptest
+	dev-util/trace-cmd
 	games-util/joystick
 	media-gfx/imagemagick[jpeg,png,svg,tiff]
 	media-gfx/perceptualdiff
