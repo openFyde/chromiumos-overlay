@@ -24,6 +24,7 @@ IUSE="fuzzer"
 COMMON_DEPEND="
 	chromeos-base/attestation:=
 	chromeos-base/attestation-client:=
+	chromeos-base/cbor:=
 	chromeos-base/libhwsec:=
 	chromeos-base/metrics:=
 	chromeos-base/power_manager-client:=
