@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="80877656782dfe3d14b200d2c94b5f933b895792"
-CROS_WORKON_TREE="577b34b2edd7554dfee7e1215e2e07f466819a0b"
+CROS_WORKON_COMMIT="3b4cdf788f097fc9e7cd64372ce77ae6e13886c0"
+CROS_WORKON_TREE="e5300964f7764a8405947d009358f133d142fb5e"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -187,6 +187,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECWatchdog
 	+tests_firmware_EventLog
 	+tests_firmware_FAFTPrepare
+	+tests_firmware_FAFTModeTransitions
 	+tests_firmware_FAFTRPC
 	+tests_firmware_FAFTSetup
 	biod? ( +tests_firmware_Fingerprint )
