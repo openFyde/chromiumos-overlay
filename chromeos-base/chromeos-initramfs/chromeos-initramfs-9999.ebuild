@@ -17,6 +17,7 @@ KEYWORDS="~*"
 IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} menu_ui -mtd +power_management"
 IUSE="${IUSE} physical_presence_power physical_presence_recovery"
+IUSE="${IUSE} unibuild"
 
 # Build Targets
 TARGETS_IUSE="
@@ -95,7 +96,9 @@ DEPEND="
 	virtual/chromeos-bsp-initramfs
 	chromeos-base/chromeos-init
 	sys-apps/frecon-lite
-	power_management? ( chromeos-base/power_manager ) "
+	power_management? ( chromeos-base/power_manager )
+	unibuild? ( chromeos-base/chromeos-config )
+	chromeos-base/chromeos-config-tools"
 
 RDEPEND=""
 
@@ -136,6 +139,7 @@ src_compile() {
 		INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
 		DETACHABLE="$(usex detachable 1 0)" \
 		MENU_UI="$(usex menu_ui 1 0)" \
+		UNIBUILD="$(usex unibuild 1 0)" \
 		PHYSICAL_PRESENCE="${physical_presence}" \
 		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
 		LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[@]}"
