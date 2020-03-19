@@ -38,20 +38,16 @@ cr50_compute_updater_sn_bits() {
     sed -e 's/.*=[^0-9a-f]*//I' -e 's/\(.\{24\}\).*/\1/'
 }
 
-cr50_check_board_id_is_cleared() {
+is_board_id_set() {
   local output
-  if ! output="$("${GSCTOOL=}" -a -i)"; then
-    die "Failed to execute ${GSCTOOL=} -a -i"
+  if ! output="$("${GSCTOOL}" -a -i)"; then
+    die "Failed to execute ${GSCTOOL} -a -i"
   fi
 
   # Parse the output. E.g., 5a5a4146:a5a5beb9:0000ff00
   output="${output##* }"
 
-  if [ "${output%:*}" != "ffffffff:ffffffff" ]; then
-    # Board ID is set, we cannot set SN Bits anymore.
-    die_as "${ERR_FORBIDDEN_TO_SET}" \
-      "Cannot set SN Bits since Board ID is already set."
-  fi
+  [ "${output%:*}" != "ffffffff:ffffffff" ]
 }
 
 cr50_check_sn_bits() {
@@ -89,8 +85,14 @@ cr50_check_sn_bits() {
 cr50_set_sn_bits() {
   local sn_bits="$1"
 
-  if ! "${GSCTOOL}" -a -S "${sn_bits}" 2>&1; then
-    die "Failed to set SN Bits to ${sn_bits}."
+  "${GSCTOOL}" -a -S "${sn_bits}" 2>&1
+  local status=$?
+  if [ "${status}" -ne 0 ]; then
+    local warning
+    if [ "${status}" -gt 2 ] && is_board_id_set; then
+      warning=" (BoardID is set)"
+    fi
+    die "Failed to set SN Bits to ${sn_bits}${warning}."
   fi
 }
 
@@ -101,10 +103,6 @@ main() {
   if [ -z "${serial_number}" ]; then
       die "No serial number assigned yet."
   fi
-
-  # Check that BoardID is not set to give a user-friendly error message.
-
-  cr50_check_board_id_is_cleared
 
   # Compute desired SN Bits, check that they can be set, and set them.
 
