@@ -48,6 +48,7 @@ PATCHES=(
 	"${FILESDIR}"/0002-Disable-IPC-usage.patch
 	"${FILESDIR}"/0003-Partially-revert-VP-Fix-aux-mapping-issue.patch
 	"${FILESDIR}"/0004-Fix-Clang-Warning.patch
+	"${FILESDIR}"/0005-use-gmmlib-calculate-the-NV12-surface-offset.patch
 )
 
 src_configure() {
