@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2c9f5f4dbbe7ab2e788961194484d975cbb9380f"
-CROS_WORKON_TREE=("94bdce168a00f19903b3dd162e8e755cee9bbbf8" "f442eeaf0c3fdca4f810af71bb7aa6efb10d641d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="dff140aa15be7af6cb5ab5b6f866f183593a0b20"
+CROS_WORKON_TREE=("94bdce168a00f19903b3dd162e8e755cee9bbbf8" "415e2e1d0fea642fa55cb93f9c8ccf2fa8c3dd96" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="common-mk media_perception .gn"
