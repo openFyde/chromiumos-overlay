@@ -57,7 +57,7 @@ SLOT="0/${PVR}"
 #   of items as other array variables when CROS_WORKON_SUBTREE is used.
 #   See the variable description below for more details.
 ARRAY_VARIABLES=(
-	CROS_WORKON_{SUBTREE,REPO,PROJECT,LOCALNAME,DESTDIR,COMMIT,SRCPATH} )
+	CROS_WORKON_{SUBTREE,REPO,PROJECT,LOCALNAME,DESTDIR,COMMIT,SRCPATH,EGIT_BRANCH} )
 
 # @ECLASS-VARIABLE: CROS_WORKON_SUBTREE
 # @DESCRIPTION:
@@ -489,6 +489,7 @@ cros-workon_src_unpack() {
 	local repo=( "${CROS_WORKON_REPO[@]}" )
 	local project=( "${CROS_WORKON_PROJECT[@]}" )
 	local destdir=( "${CROS_WORKON_DESTDIR[@]}" )
+	local branch=( "${CROS_WORKON_EGIT_BRANCH[@]}" )
 	get_paths
 
 	# Automatically build out-of-tree for common.mk packages.
@@ -600,12 +601,12 @@ cros-workon_src_unpack() {
 		# We have to pull from git, maybe a private repo.
 		cros-credentials_setup
 
-		EGIT_BRANCH="${CROS_WORKON_EGIT_BRANCH}"
 
 		# Always pull all branches, if we are pulling source via git.
 		EGIT_ALL_BRANCH="1"
 
 		for (( i = 0; i < project_count; ++i )); do
+			EGIT_BRANCH="${branch[i]}"
 			EGIT_REPO_URI="${repo[i]}/${project[i]}.git"
 			EGIT_PROJECT="${project[i]}${CROS_WORKON_GIT_SUFFIX}"
 			EGIT_SOURCEDIR="${destdir[i]}"
