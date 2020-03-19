@@ -16,10 +16,8 @@
 
 inherit cros-debug libchrome-version
 
-RDEPEND=$(
-	printf \
-		'chromeos-base/libchrome:%s[cros-debug=] ' \
-		"${LIBCHROME_VERS[@]}"
-)
+RDEPEND="
+	chromeos-base/libchrome:=[cros-debug=]
+"
 
 DEPEND="${RDEPEND}"

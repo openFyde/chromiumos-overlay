@@ -22,7 +22,6 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/libchrome"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-SLOT="${PV}"
 KEYWORDS="*"
 IUSE="cros_host +crypto +dbus fuzzer +mojo +timers"
 
@@ -30,6 +29,7 @@ PLATFORM_SUBDIR="libchrome"
 
 # TODO(avakulenko): Put dev-libs/nss behind a USE flag to make sure NSS is
 # pulled only into the configurations that require it.
+# TODO(fqj): remove !chromeos-base/libchrome:${PV} on next uprev to r680000.
 RDEPEND="dev-libs/glib:2=
 	dev-libs/libevent:=
 	dev-libs/modp_b64:=
@@ -42,6 +42,7 @@ RDEPEND="dev-libs/glib:2=
 		dev-libs/protobuf:=
 	)
 	dev-libs/re2:=
+	!chromeos-base/libchrome:${PV}
 "
 DEPEND="${RDEPEND}
 	dev-cpp/gtest:=
@@ -142,8 +143,8 @@ src_prepare() {
 }
 
 src_install() {
-	dolib.so "${OUT}"/lib/libbase*-"${SLOT}".so
-	dolib.a "${OUT}"/libbase*-"${SLOT}".a
+	dolib.so "${OUT}"/lib/libbase*-"${PV}".so
+	dolib.a "${OUT}"/libbase*-"${PV}".a
 
 	local gen_header_dirs=()
 	local header_dirs=(
@@ -181,7 +182,7 @@ src_install() {
 	use dbus && header_dirs+=( dbus )
 	use timers && header_dirs+=( components/timers )
 
-	insinto /usr/include/base-"${SLOT}"/base/test
+	insinto /usr/include/base-"${PV}"/base/test
 	doins \
 		base/test/bind_test_util.h \
 		base/test/simple_test_clock.h \
@@ -190,7 +191,7 @@ src_install() {
 		base/test/test_pending_task.h \
 
 	if use crypto; then
-		insinto /usr/include/base-${SLOT}/crypto
+		insinto /usr/include/base-${PV}/crypto
 		doins \
 			crypto/crypto_export.h \
 			crypto/hmac.h \
@@ -214,12 +215,12 @@ src_install() {
 	fi
 
 	insinto /usr/$(get_libdir)/pkgconfig
-	doins "${OUT}"/obj/libchrome/libchrome*-"${SLOT}".pc
+	doins "${OUT}"/obj/libchrome/libchrome*-"${PV}".pc
 
 	# Install libmojo.
 	if use mojo; then
 		# Install binary.
-		dolib.a "${OUT}"/libmojo-"${SLOT}".a
+		dolib.a "${OUT}"/libmojo-"${PV}".a
 
 		# Install headers.
 		header_dirs+=(
@@ -241,37 +242,37 @@ src_install() {
 
 		# Install libmojo.pc.
 		insinto /usr/$(get_libdir)/pkgconfig
-		doins "${OUT}"/obj/libchrome/libmojo-"${SLOT}".pc
+		doins "${OUT}"/obj/libchrome/libmojo-"${PV}".pc
 
 		# Install generate_mojom_bindings.
 		# TODO(hidehiko): Clean up tools' install directory.
-		insinto /usr/src/libmojo-"${SLOT}"/mojo
+		insinto /usr/src/libmojo-"${PV}"/mojo
 		doins -r mojo/public/tools/bindings/*
 		doins build/gn_helpers.py
 		doins -r build/android/gyp/util
 		doins -r build/android/pylib
-		exeinto /usr/src/libmojo-"${SLOT}"/mojo
+		exeinto /usr/src/libmojo-"${PV}"/mojo
 		doexe libchrome_tools/mojom_generate_type_mappings.py
 
-		insinto /usr/src/libmojo-"${SLOT}"/third_party
+		insinto /usr/src/libmojo-"${PV}"/third_party
 		doins -r third_party/jinja2
 		doins -r third_party/markupsafe
 		doins -r third_party/ply
 
 		# Mark scripts executable.
 		fperms +x \
-			/usr/src/libmojo-"${SLOT}"/mojo/generate_type_mappings.py \
-			/usr/src/libmojo-"${SLOT}"/mojo/mojom_bindings_generator.py
+			/usr/src/libmojo-"${PV}"/mojo/generate_type_mappings.py \
+			/usr/src/libmojo-"${PV}"/mojo/mojom_bindings_generator.py
 	fi
 
 	# Install header files.
 	local d
 	for d in "${header_dirs[@]}" ; do
-		insinto /usr/include/base-"${SLOT}"/"${d}"
+		insinto /usr/include/base-"${PV}"/"${d}"
 		doins "${d}"/*.h
 	done
 	for d in "${gen_header_dirs[@]}"; do
-		insinto /usr/include/base-"${SLOT}"/"${d}"
+		insinto /usr/include/base-"${PV}"/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.h
 		insinto /usr/share/libchrome/pickle/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.p
