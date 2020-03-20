@@ -43,6 +43,7 @@ IUSE="
 	cups
 	+libcxx
 	msan
+	neon
 	+runhooks
 	+thinlto
 	ubsan
