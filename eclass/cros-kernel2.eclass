@@ -17,8 +17,8 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
 SLOT="0"
 
-DEPEND="sys-apps/debianutils
-	sys-kernel/linux-firmware
+BDEPEND="sys-apps/debianutils"
+DEPEND="sys-kernel/linux-firmware
 	factory_netboot_ramfs? ( chromeos-base/chromeos-initramfs[factory_netboot_ramfs] )
 	factory_shim_ramfs? ( chromeos-base/chromeos-initramfs[factory_shim_ramfs] )
 	recovery_ramfs? ( chromeos-base/chromeos-initramfs[recovery_ramfs] )
