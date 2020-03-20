@@ -24,42 +24,49 @@ IUSE="
 	android-container-pi
 	android-container-qt
 	android-container-rvc
+	arcpp
+	arcvm
 	"
+
+REQUIRED_USE="|| ( arcpp arcvm )"
 
 RDEPEND="!<chromeos-base/chromeos-cheets-scripts-0.0.3"
 DEPEND="${RDEPEND}"
 
+# Both arcpp and arcvm have its /data in |CONTAINER_ROOTFS|.
 CONTAINER_ROOTFS="/opt/google/containers/android/rootfs"
 
 src_install() {
-	insinto /opt/google/containers/android
-	if use android-container-master-arc-dev; then
-		doins arc/container-bundle/master/config.json
-	elif use android-container-rvc; then
-		doins arc/container-bundle/rvc/config.json
-	elif use android-container-qt; then
-		doins arc/container-bundle/qt/config.json
-	elif use android-container-pi; then
-		doins arc/container-bundle/pi/config.json
-	else
-		echo "Unknown container version" >&2
-		exit 1
+	if use arcpp; then
+		insinto /opt/google/containers/android
+		if use android-container-master-arc-dev; then
+			doins arc/container-bundle/master/config.json
+		elif use android-container-rvc; then
+			doins arc/container-bundle/rvc/config.json
+		elif use android-container-qt; then
+			doins arc/container-bundle/qt/config.json
+		elif use android-container-pi; then
+			doins arc/container-bundle/pi/config.json
+		else
+			echo "Unknown container version" >&2
+			exit 1
+		fi
+
+		# Install scripts.
+		insinto /etc/sysctl.d
+		doins arc/scripts/01-sysctl-arc.conf
+
+		insinto /etc/rsyslog.d
+		doins arc/scripts/rsyslog.arc.conf
+
+		# Install exception file for FIFO blocking policy on stateful partition.
+		insinto /usr/share/cros/startup/fifo_exceptions
+		doins arc/container-bundle/arc-fifo-exceptions.txt
+
+		# Install exception file for symlink blocking policy on stateful partition.
+		insinto /usr/share/cros/startup/symlink_exceptions
+		doins arc/container-bundle/arc-symlink-exceptions.txt
 	fi
-
-	# Install scripts.
-	insinto /etc/sysctl.d
-	doins arc/scripts/01-sysctl-arc.conf
-
-	insinto /etc/rsyslog.d
-	doins arc/scripts/rsyslog.arc.conf
-
-	# Install exception file for FIFO blocking policy on stateful partition.
-	insinto /usr/share/cros/startup/fifo_exceptions
-	doins arc/container-bundle/arc-fifo-exceptions.txt
-
-	# Install exception file for symlink blocking policy on stateful partition.
-	insinto /usr/share/cros/startup/symlink_exceptions
-	doins arc/container-bundle/arc-symlink-exceptions.txt
 }
 
 pkg_preinst() {
