@@ -78,12 +78,7 @@ src_install() {
 	vemake \
 		BUILD="$(get_build_dir)" \
 		DESTDIR="${D}" \
-		install
-
-	if use cros_host; then
-		exeinto /usr/share/vboot/bin
-		doexe scripts/image_signing/*.sh
-	fi
+		install install_dev
 
 	if use tpmtests; then
 		into /usr
@@ -91,25 +86,6 @@ src_install() {
 		dobin "$(get_build_dir)"/tests/tpm_lite/tpmtest*[^.]?
 		dobin "$(get_build_dir)"/utility/tpm_set_readsrkpub
 	fi
-
-	# Install devkeys to /usr/share/vboot/devkeys
-	# (shared by host and target)
-	einfo "Installing devkeys"
-	insinto /usr/share/vboot/devkeys
-	doins tests/devkeys/*
-
-	# Install public headers to /build/${BOARD}/usr/include/vboot
-	einfo "Installing header files"
-	insinto /usr/include/vboot
-	doins host/include/* \
-		firmware/include/gpt.h \
-		firmware/include/tlcl.h \
-		firmware/include/tss_constants.h \
-		firmware/include/tpm1_tss_constants.h \
-		firmware/include/tpm2_tss_constants.h
-
-	einfo "Installing host library"
-	dolib.a "$(get_build_dir)"/libvboot_host.a
 
 	if use fuzzer; then
 		einfo "Installing fuzzers"
