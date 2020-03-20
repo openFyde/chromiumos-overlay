@@ -1,7 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit cros-debug cros-unibuild
 
@@ -33,27 +33,28 @@ REQUIRED_USE="
 	^^ ( ${BOARDS} arm mips )
 "
 
+BDEPEND="chromeos-base/vboot_reference"
+
 # TODO(sjg@chromium.org): Drop this zork stuff when the code is upstream
 DEPEND="
-	chromeos-base/vboot_reference
-	zork? ( sys-boot/coreboot-zork )
-	!zork? ( sys-boot/coreboot )
-	depthcharge? ( sys-boot/depthcharge )
-	bmpblk? ( sys-boot/chromeos-bmpblk )
-	tianocore? ( sys-boot/edk2 )
-	seabios? ( sys-boot/chromeos-seabios )
+	zork? ( sys-boot/coreboot-zork:= )
+	!zork? ( sys-boot/coreboot:= )
+	depthcharge? ( sys-boot/depthcharge:= )
+	bmpblk? ( sys-boot/chromeos-bmpblk:= )
+	tianocore? ( sys-boot/edk2:= )
+	seabios? ( sys-boot/chromeos-seabios:= )
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
-	u-boot? ( sys-boot/u-boot )
-	cros_ec? ( chromeos-base/chromeos-ec )
-	pd_sync? ( chromeos-base/chromeos-ec )
+	u-boot? ( sys-boot/u-boot:= )
+	cros_ec? ( chromeos-base/chromeos-ec:= )
+	pd_sync? ( chromeos-base/chromeos-ec:= )
 	"
 
 # Directory where the generated files are looked for and placed.
 CROS_FIRMWARE_IMAGE_DIR="/firmware"
-CROS_FIRMWARE_ROOT="${ROOT%/}${CROS_FIRMWARE_IMAGE_DIR}"
+CROS_FIRMWARE_ROOT="${SYSROOT}${CROS_FIRMWARE_IMAGE_DIR}"
 
 S=${WORKDIR}
 
@@ -211,7 +212,7 @@ build_image() {
 	local src_image=$2
 	local ro_payload=$3
 	local rw_payload=$4
-	local devkeys_dir="${ROOT%/}/usr/share/vboot/devkeys"
+	local devkeys_dir="${BROOT}/usr/share/vboot/devkeys"
 
 	[ -n "${image_type}" ] && image_type=".${image_type}"
 	local dst_image="${outdir}image${suffix}${image_type}.bin"
