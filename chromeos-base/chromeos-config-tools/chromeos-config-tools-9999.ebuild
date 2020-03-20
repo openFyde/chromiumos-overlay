@@ -14,7 +14,7 @@ CROS_WORKON_LOCALNAME=(
 	"config"
 )
 CROS_WORKON_SUBTREE=(
-	"common-mk chromeos-config .gn"
+	"common-mk chromeos-config .gn power_manager"
 	"python test"
 )
 CROS_WORKON_DESTDIR=(
