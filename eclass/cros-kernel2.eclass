@@ -1864,8 +1864,11 @@ cros-kernel2_src_configure() {
 
 	local old_config="$(cros-workon_get_build_dir)/cros-old-config"
 	local old_defconfig="$(cros-workon_get_build_dir)/cros-old-defconfig"
+	local old_hash="$(cros-workon_get_build_dir)/cros-old-hash"
 
-	if [[ -e "${old_config}" && -e "${old_defconfig}" ]] && \
+	if [[ -e "${old_config}" && -e "${old_defconfig}" && \
+		-e "${old_hash}" && \
+		"$(git rev-parse HEAD 2>/dev/null)" == $(<"${old_hash}") ]] && \
 		cmp -s "${build_cfg}" "${old_config}"; then
 		cp -a "${old_defconfig}" "${build_cfg}" || die
 	else
@@ -1875,6 +1878,9 @@ cros-kernel2_src_configure() {
 		kmake olddefconfig
 
 		cp -a "${build_cfg}" "${old_defconfig}" || die
+
+		# This is not fatal and happens if source is not a git tree
+		git rev-parse HEAD >"${old_hash}" 2>/dev/null
 	fi
 
 	# Create .scmversion file so that kernel release version
