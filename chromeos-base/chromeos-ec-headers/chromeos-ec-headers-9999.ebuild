@@ -16,6 +16,11 @@ CROS_WORKON_DESTDIR=(
 	"${S}/platform/ec"
 	"${S}/platform/cr50"
 )
+CROS_WORKON_EGIT_BRANCH=(
+	"master"
+	"cr50_stab"
+)
+
 CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-workon
