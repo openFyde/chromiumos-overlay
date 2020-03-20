@@ -24,8 +24,7 @@ COMMON_DEPEND="
 	dev-libs/libgcrypt
 	dev-libs/protobuf:=
 	sys-apps/dbus
-	sys-cluster/libqb
-	sys-libs/libcap-ng"
+	sys-cluster/libqb"
 
 DEPEND="${COMMON_DEPEND}"
 
@@ -36,6 +35,7 @@ S="${WORKDIR}/usbguard-${GIT_REV}/"
 PATCHES=(
 	"${FILESDIR}/daemon_conf.patch"
 	"${FILESDIR}/dbus.patch"
+	"${FILESDIR}/disable_optional.patch"
 )
 
 src_prepare() {
@@ -57,7 +57,11 @@ src_configure() {
 		--with-dbus \
 		--with-bundled-catch \
 		--with-bundled-pegtl \
-		--with-crypto-library=gcrypt
+		--with-crypto-library=gcrypt \
+		--disable-audit \
+		--disable-libcapng \
+		--disable-seccomp \
+		--disable-umockdev
 }
 
 src_install() {
