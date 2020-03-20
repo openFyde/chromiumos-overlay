@@ -140,5 +140,11 @@
         "rel_patch_path": "cherry/eb2ba2ea953b5ea73cdbb598f77470bde1c6a011.patch",
         "start_version": 382740,
         "end_version": 387062
+    },
+    {
+        "comment": "[DAGCombiner] Do not fold truncate(build_vector(..)) if it creates an illegal type",
+        "rel_patch_path": "cherry/edcfb47ff6d5562e22207f364c65f84302aa346b.patch",
+        "start_version": 383902,
+        "end_version": 387801
     }
 ]
