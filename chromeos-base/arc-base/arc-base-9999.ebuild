@@ -21,7 +21,6 @@ KEYWORDS="~*"
 # android-container-master.
 IUSE="
 	android-container-master-arc-dev
-	android-container-nyc
 	android-container-pi
 	android-container-qt
 	android-container-rvc
@@ -42,8 +41,6 @@ src_install() {
 		doins arc/container-bundle/qt/config.json
 	elif use android-container-pi; then
 		doins arc/container-bundle/pi/config.json
-	elif use android-container-nyc; then
-		doins arc/container-bundle/nyc/config.json
 	else
 		echo "Unknown container version" >&2
 		exit 1
