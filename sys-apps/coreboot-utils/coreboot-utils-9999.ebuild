@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header:
 
-EAPI="4"
+EAPI=7
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
 	"chromiumos/platform/vboot_reference"
@@ -14,6 +14,10 @@ CROS_WORKON_LOCALNAME=(
 CROS_WORKON_DESTDIR=(
 	"${S}"
 	"${S}/3rdparty/vboot"
+)
+CROS_WORKON_EGIT_BRANCH=(
+	"chromeos-2016.05"
+	"master"
 )
 
 inherit cros-workon toolchain-funcs
