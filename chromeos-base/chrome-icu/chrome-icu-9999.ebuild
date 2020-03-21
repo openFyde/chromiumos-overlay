@@ -85,7 +85,9 @@ CHROME_ICU_POSTFIX="-chrome"
 RDEPEND="
 	!dev-libs/icu
 "
-DEPEND=""
+DEPEND="
+	net-print/cups
+"
 
 # [Mod] NaCl utilities are removed.
 
@@ -117,7 +119,6 @@ set_build_args() {
 		"enable_nacl=false"
 		"enable_nacl=false"
 		"icu_use_data_file=true"
-		"use_cras=true"
 		# use_system_minigbm is set below.
 		# HarfBuzz and FreeType need to be built together in a specific way
 		# to get FreeType autohinting to work properly. Chromium bundles
