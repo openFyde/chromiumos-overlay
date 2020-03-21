@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c90aa6f17dcbdeaf4e7c5ce155f3a685afdbfd01"
-CROS_WORKON_TREE=("6efa0db0e49014be7389d66af98ab7469b93fc60" "c9c6bdfd84800bea8908504e8b25d73c2fec301a" "d21c1a86e253f15784bd996e3e052614c6aff6a8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7ec9c6f89d77c5f3d7620b946a219131845c127d"
+CROS_WORKON_TREE=("6efa0db0e49014be7389d66af98ab7469b93fc60" "88b8b49bb21d66bad606c15bf72bb59806d39f2e" "d21c1a86e253f15784bd996e3e052614c6aff6a8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,7 +23,6 @@ KEYWORDS="*"
 # android-container-master.
 IUSE="
 	android-container-master-arc-dev
-	android-container-nyc
 	android-container-pi
 	android-container-qt
 	android-container-rvc
@@ -44,8 +43,6 @@ src_install() {
 		doins arc/container-bundle/qt/config.json
 	elif use android-container-pi; then
 		doins arc/container-bundle/pi/config.json
-	elif use android-container-nyc; then
-		doins arc/container-bundle/nyc/config.json
 	else
 		echo "Unknown container version" >&2
 		exit 1
