@@ -3,14 +3,26 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="c90aa6f17dcbdeaf4e7c5ce155f3a685afdbfd01"
-CROS_WORKON_TREE=("6efa0db0e49014be7389d66af98ab7469b93fc60" "899ebac1bf0906dbee3ff45695e37f74f1c4043f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT=("c19934d9251db6fdeff922a5f1ed918cd0af15bf" "f96e859737b229c9a58e31c314a60f6ecfce8f34")
+CROS_WORKON_TREE=("6efa0db0e49014be7389d66af98ab7469b93fc60" "cacd49003e91230d3023d8799a2cf03c32da87c1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5d0e8e65ede7e783f5cdeab7d9fda0739a77c706" "1023f5510bbd69c2b18a5090204c6d331b638331")
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_SUBTREE="common-mk chromeos-config .gn"
 
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform2"
+	"chromiumos/config"
+)
+CROS_WORKON_LOCALNAME=(
+	"platform2"
+	"config"
+)
+CROS_WORKON_SUBTREE=(
+	"common-mk chromeos-config .gn"
+	"python test"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform2"
+	"${S}/config"
+)
 PLATFORM_SUBDIR="chromeos-config"
 
 inherit cros-workon platform
