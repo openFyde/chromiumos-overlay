@@ -56,7 +56,7 @@ DEPEND="${RDEPEND}
 	nls? ( sys-devel/gettext )
 	sys-devel/flex"
 
-RESTRICT="fetch"
+RESTRICT="fetch test"
 
 GITDIR=${WORKDIR}/gitdir
 
