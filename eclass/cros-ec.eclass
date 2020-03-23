@@ -21,9 +21,9 @@
 if [[ -z "${_ECLASS_CROS_EC}" ]]; then
 _ECLASS_CROS_EC="1"
 
-# Check for EAPI 5+.
+# Check for EAPI 7+.
 case "${EAPI:-0}" in
-0|1|2|3|4) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+0|1|2|3|4|5|6) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 *) ;;
 esac
 
@@ -78,21 +78,13 @@ cros-ec_src_unpack() {
 cros-ec_src_prepare() {
 	debug-print-function "${FUNCNAME[0]}" "$@"
 
-	eapply_user
+	default
 
 	# We want compilation to happen in the EC source directory.
 	S+="/platform/ec"
 
 	# Link the private sources in the private/ sub-directory.
 	ln -sfT "${SYSROOT}/firmware/ec-private" "${S}/private" || die
-}
-
-# @FUNCTION: cros-ec_src_configure
-# @DESCRIPTION:
-# Configure source files.
-cros-ec_src_configure() {
-	debug-print-function "${FUNCNAME[0]}" "$@"
-	cros-workon_src_configure
 }
 
 # @FUNCTION: cros-ec_set_build_env
@@ -348,6 +340,6 @@ cros-ec_src_test() {
 	emake "${EC_OPTS[@]}" buildall
 }
 
-EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_test src_install
+EXPORT_FUNCTIONS src_unpack src_prepare src_compile src_test src_install
 
 fi  # _ECLASS_CROS_EC

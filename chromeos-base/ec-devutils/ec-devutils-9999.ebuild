@@ -40,7 +40,6 @@ set_board() {
 }
 
 src_configure() {
-	cros-workon_src_configure
 	distutils-r1_src_configure
 }
 

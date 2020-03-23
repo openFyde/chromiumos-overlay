@@ -35,10 +35,6 @@ pkg_preinst() {
 	enewgroup "dialout"
 }
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 src_compile_cros_ec_utils() {
 	get_ec_boards
 	local board
