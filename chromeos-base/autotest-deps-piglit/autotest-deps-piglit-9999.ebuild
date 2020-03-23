@@ -46,5 +46,6 @@ DEPEND="${RDEPEND}"
 src_configure() {
 	# export a variable so that piglit knows where to find libglut.so
 	export GLUT_LIBDIR="/usr/$(get_libdir)"
-	cros-workon_src_configure
+
+	default
 }

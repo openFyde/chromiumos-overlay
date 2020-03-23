@@ -322,7 +322,3 @@ IUSE_TESTS="${IUSE_TESTS}
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
-
-src_configure() {
-	cros-workon_src_configure
-}

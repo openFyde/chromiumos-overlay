@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -61,7 +61,3 @@ AUTOTEST_CONFIG_LIST=""
 AUTOTEST_PROFILERS_LIST=""
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
-
-src_configure() {
-	cros-workon_src_configure
-}

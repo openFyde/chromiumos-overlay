@@ -305,7 +305,3 @@ src_prepare() {
 	export PYTHONPATH="${TMP_DIR}/third_party/catapult/telemetry"
 	autotest_src_prepare
 }
-
-src_configure() {
-	cros-workon_src_configure
-}

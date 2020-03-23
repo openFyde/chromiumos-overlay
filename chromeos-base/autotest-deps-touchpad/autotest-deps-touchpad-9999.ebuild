@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=2
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -31,9 +31,3 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}"
-
-src_configure() {
-	cros-workon_src_configure
-}
-
-
