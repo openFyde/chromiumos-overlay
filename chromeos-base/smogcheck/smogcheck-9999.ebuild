@@ -30,7 +30,7 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	cros-workon_src_configure
+	cros-common.mk_src_configure
 }
 
 src_install() {
