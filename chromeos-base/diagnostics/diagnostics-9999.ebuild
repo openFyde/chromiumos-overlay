@@ -114,8 +114,6 @@ src_install() {
 	doexe "${OUT}/floating-point-accuracy"
 	doexe "${OUT}/smartctl-check"
 	doexe "${OUT}/urandom"
-	# Install the helper executables required by telemetry.
-	doexe "${OUT}/cros_healthd_helper"
 
 	# Install udev rules.
 	udev_dorules udev/*.rules
