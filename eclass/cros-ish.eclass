@@ -59,13 +59,6 @@ cros-ish_src_prepare() {
 	cros_use_gcc
 }
 
-# @FUNCTION: cros-ish_src_configure
-# @DESCRIPTION:
-# Configure source files.
-cros-ish_src_configure() {
-	cros-workon_src_configure
-}
-
 # @FUNCTION: cros-ish_set_build_env
 # @DESCRIPTION:
 # Set toolchain and build options.
@@ -122,4 +115,4 @@ cros-ish_src_install() {
 	done
 }
 
-EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_test src_install
+EXPORT_FUNCTIONS src_unpack src_prepare src_compile src_test src_install
