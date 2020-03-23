@@ -45,7 +45,6 @@ src_prepare() {
 
 src_configure() {
 	default
-	cros-workon_src_configure
 
 	# Export build settings
 	export BOARD="${SYSROOT##*/}"

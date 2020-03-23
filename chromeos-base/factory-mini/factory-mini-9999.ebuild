@@ -45,7 +45,6 @@ pkg_setup() {
 
 src_configure() {
 	default
-	cros-workon_src_configure
 
 	# Export build settings
 	export PYTHON="${EPYTHON}"
