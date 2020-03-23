@@ -15,4 +15,4 @@ To update:
 - modify third_party/toolchain_utils/compiler_wrapper
 - run third_party/toolchain_utils/compiler_wrapper/bundle.py --output_dir=...
 
-Source: https://chromium-review.googlesource.com/q/Ia99ca994c976ee1137c3d904a78f7e25931c70f6
+Source: https://chromium-review.googlesource.com/q/I789daf34f26bf2d0c5dfe9ffb3e20f4aa06f1ed3
