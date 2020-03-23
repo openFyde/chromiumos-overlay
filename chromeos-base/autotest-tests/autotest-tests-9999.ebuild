@@ -4,7 +4,7 @@
 EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
-inherit toolchain-funcs flag-o-matic libchrome cros-debug cros-workon autotest
+inherit libchrome cros-workon autotest
 
 DESCRIPTION="Autotest tests"
 HOMEPAGE="http://www.chromium.org/"

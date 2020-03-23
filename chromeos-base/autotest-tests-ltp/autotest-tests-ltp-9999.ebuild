@@ -1,10 +1,10 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
-inherit toolchain-funcs flag-o-matic cros-workon autotest
+inherit cros-workon autotest
 
 DESCRIPTION="ltp autotest"
 HOMEPAGE="http://www.chromium.org/"
