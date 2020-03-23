@@ -20,6 +20,8 @@ KEYWORDS="*"
 RDEPEND="sys-fs/e2fsprogs
 	dev-lang/perl
 	sys-apps/attr
+	sys-apps/diffutils
+	sys-apps/gawk
 	sys-apps/util-linux
 	sys-devel/bc
 	sys-fs/xfsprogs
@@ -30,11 +32,10 @@ DEPEND="sys-apps/acl
 "
 
 src_prepare() {
-	cros-workon_src_prepare
 	eautoreconf
 }
 
 src_configure() {
 	use kernel_linux && export PLATFORM=linux
-	cros-workon_src_configure --prefix="${EPREFIX}/usr/local"
+	econf --prefix="${EPREFIX}/usr/local"
 }
