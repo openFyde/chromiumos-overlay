@@ -22,7 +22,9 @@ BDEPEND="virtual/pkgconfig"
 
 RDEPEND="
 	media-libs/cros-camera-libcamera_common
-	media-libs/cros-camera-libcamera_ipc"
+	media-libs/cros-camera-libcamera_ipc
+	media-libs/cros-camera-libcamera_metadata
+	media-libs/libsync"
 
 DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers

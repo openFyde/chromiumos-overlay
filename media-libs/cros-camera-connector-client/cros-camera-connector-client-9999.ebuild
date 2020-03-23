@@ -20,6 +20,9 @@ KEYWORDS="~*"
 
 RDEPEND="media-libs/cros-camera-libcamera_connector"
 
+DEPEND="${RDEPEND}
+	x11-libs/libdrm"
+
 BDEPEND="virtual/pkgconfig"
 
 src_install() {
