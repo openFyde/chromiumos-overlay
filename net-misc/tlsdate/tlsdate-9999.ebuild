@@ -35,7 +35,8 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	cros-workon_src_configure \
+	cros-debug-add-NDEBUG
+	econf \
 		$(use_enable dbus) \
 		$(use_enable seccomp seccomp-filter) \
 		$(use_enable cros-debug seccomp-debugging) \
