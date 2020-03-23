@@ -73,7 +73,7 @@ check_format_error() {
 src_prepare() {
 	cd cras
 	eautoreconf
-	eapply_user
+	default
 }
 
 src_configure() {
@@ -88,12 +88,11 @@ src_configure() {
 	if use fuzzer ; then
 		# Disable "gc-sections" for fuzzer builds, https://crbug.com/1026125 .
 		append-ldflags "-Wl,--no-gc-sections"
-		cros-workon_src_configure \
-			$(use_enable cras-apm webrtc-apm) \
+		econf $(use_enable cras-apm webrtc-apm) \
 			--with-system-cras-rust \
 			$(use_enable amd64 fuzzer)
 	else
-		cros-workon_src_configure $(use_enable selinux) \
+		econf $(use_enable selinux) \
 			$(use_enable cras-apm webrtc-apm) \
 			--enable-metrics \
 			--with-system-cras-rust \
