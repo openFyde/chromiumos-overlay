@@ -197,6 +197,7 @@ ALL_BOARDS=(
 	hatch
 	hatch-arc-r
 	hatch-diskswap
+	hatch-kernelnext
 	heli
 	hsb
 	#iclrvp
