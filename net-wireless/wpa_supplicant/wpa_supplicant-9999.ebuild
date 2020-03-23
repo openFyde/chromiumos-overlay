@@ -150,7 +150,6 @@ src_prepare() {
 }
 
 src_configure() {
-	cros-workon_src_configure
 	# Toolchain setup
 	tc-export CC
 

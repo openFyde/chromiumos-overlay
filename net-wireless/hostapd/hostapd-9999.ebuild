@@ -48,7 +48,6 @@ src_unpack() {
 
 src_configure() {
 	local CONFIG="${S}/.config"
-	cros-workon_src_configure
 
 	restore_config "${CONFIG}"
 	if [[ -f "${CONFIG}" ]]; then
@@ -167,7 +166,7 @@ src_configure() {
 
 	# TODO: Add support for BSD drivers
 
-	default_src_configure
+	default
 }
 
 src_compile() {
