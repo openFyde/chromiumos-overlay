@@ -16,7 +16,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/src/third_party/lss"
 )
 
-inherit cros-i686 cros-workon toolchain-funcs flag-o-matic multiprocessing
+inherit cros-i686 cros-workon flag-o-matic multiprocessing
 
 DESCRIPTION="Google crash reporting"
 HOMEPAGE="https://chromium.googlesource.com/breakpad/breakpad"
@@ -47,14 +47,12 @@ src_configure() {
 	# http://crbug.com/359999
 	use alltests && append-cppflags -DENABLE_FLAKY_TESTS
 
-	tc-export CC CXX LD PKG_CONFIG
-
 	multijob_init
 
 	mkdir build
-	pushd build >/dev/null
-	ECONF_SOURCE=${S} multijob_child_init cros-workon_src_configure --enable-system-test-libs
-	popd >/dev/null
+	pushd build >/dev/null || die
+	ECONF_SOURCE=${S} multijob_child_init econf --enable-system-test-libs
+	popd >/dev/null || die
 
 	if use cros_host || use_i686; then
 		# The mindump code is still wordsize specific.  Needs to be redone
@@ -67,7 +65,7 @@ src_configure() {
 		# Can be dropped once this is merged upstream:
 		# https://breakpad.appspot.com/619002/
 		append-lfs-flags # crbug.com/266064
-		ECONF_SOURCE=${S} multijob_child_init cros-workon_src_configure
+		ECONF_SOURCE=${S} multijob_child_init econf
 		filter-lfs-flags
 		use_i686 && pop_i686_env
 		use cros_host && filter-flags "-m32"
