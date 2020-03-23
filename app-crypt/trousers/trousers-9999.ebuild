@@ -45,7 +45,8 @@ src_configure() {
 	use tss_trace && append-cppflags -DTSS_TRACE
 	use mocktpm && append-cppflags -DMOCK_TPM
 
-	cros-workon_src_configure
+	cros-debug-add-NDEBUG
+	econf
 }
 
 src_install() {
