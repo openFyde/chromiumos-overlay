@@ -27,8 +27,7 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	cros-workon_src_configure \
-		$(use_enable static-libs static)
+	econf $(use_enable static-libs static)
 }
 
 src_install() {
