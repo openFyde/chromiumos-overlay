@@ -33,7 +33,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	video_cards_amdgpu? (
-		media-libs/mesa-amd
+		virtual/opengles
 		x11-drivers/opengles-headers
 	)"
 
