@@ -27,10 +27,6 @@ DEPEND="${RDEPEND}"
 RESTRICT="test"
 
 src_configure() {
-	cros-workon_src_configure
-}
-
-src_configure() {
 	tc-export AR CC LD NM STRIP OBJCOPY
 }
 
