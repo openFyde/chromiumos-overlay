@@ -22,6 +22,7 @@ BDEPEND="virtual/pkgconfig"
 
 RDEPEND="
 	media-libs/cros-camera-libcamera_common
+	media-libs/cros-camera-libcamera_ipc
 	media-libs/cros-camera-libcbm"
 
 DEPEND="${RDEPEND}
