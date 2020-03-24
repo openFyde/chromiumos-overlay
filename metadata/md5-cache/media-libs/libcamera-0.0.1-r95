@@ -3,11 +3,11 @@ DEPEND=udev? ( virtual/libudev ) dev-vcs/git >=dev-util/meson-0.48.2 >=dev-util/
 DESCRIPTION=Camera support library for Linux
 EAPI=6
 HOMEPAGE=https://www.libcamera.org
-IUSE=arc-camera3 doc test udev cros_host cros_workon_tree_49c6d99b3f8a9b55fa195019ce3b5c9e3e06b674
+IUSE=arc-camera3 doc test udev cros_host cros_workon_tree_f0778a5f1b5a7d2ee8d07dfbc02fe49678ac00a2
 KEYWORDS=*
 LICENSE=LGPL-2.1+
 PROPERTIES=live
 RDEPEND=udev? ( virtual/libudev )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	9037a4d9a986f18b0131b8a94f21a069	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	meson	b5ee7a05833ab91225acf30ffdeed006	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	931c328767d245c08a16a3f87be9ce9c	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=aac4a893303954b9cdb8d0fccd036022
+_md5_=9c3f544713d4b6b9c88e70df2e7087f7
