@@ -6,8 +6,8 @@ EAPI=6
 
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="352037317b36c7ffd13aa3be8dc12e23a38a5bf2"
-CROS_WORKON_TREE="94682e8484c605218f9b5955f3a2e066342f728c"
+CROS_WORKON_COMMIT="4ef9bd07c59c47dff551d6cd8e0e64fb489b04aa"
+CROS_WORKON_TREE="7ad3c68f2e6638fa01b1774fd2d0738984ef7a9b"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
@@ -110,24 +110,14 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	epatch "${FILESDIR}"/CHROMIUM-HACK-remove-unknown-radv-extensions.patch
-
 	# From https://patchwork.freedesktop.org/patch/343687/
 	epatch "${FILESDIR}"/FROMLIST-radeonsi-Add-support-for-midstream-bitrate-change-in.patch
-
-	# b/144464741
-	epatch "${FILESDIR}"/CHROMIUM-Revert-st-mesa-radeonsi-fix-race-between-destruction.patch
 
 	# b/145784205
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-disable-dcc-for-2x-MSAA-surface-and-bpe-4.patch
 
 	# b/146765340
 	epatch "${FILESDIR}"/UPSTREAM-radeon-vcn-Handle-crop-parameters-for-encoder.patch
-
-	# b/147712952
-	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_shader_atomic_int64-for.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Clear-uninitialized-variable.patch
 
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-report-that-multi-plane-formats-are-s.patch
 
@@ -137,18 +127,15 @@ src_prepare() {
 	# b/148752246
 	epatch "${FILESDIR}"/UPSTREAM-st-va-GetConfigAttributes-check-profile-and-entrypoi.patch
 
-        # b/148988984, b/150709236
-        epatch "${FILESDIR}"/BACKPORT-UPSTREAM-radeonsi-test-subsampled-format-in-testdma.patch
-        epatch "${FILESDIR}"/BACKPORT-UPSTREAM-format-add-format_to_chroma_format.patch
-        epatch "${FILESDIR}"/UPSTREAM-gallium-video-remove-pipe_video_buffer.chroma_format.patch
-        epatch "${FILESDIR}"/UPSTREAM-gallium-vl-add-4-2-2-support.patch
-        epatch "${FILESDIR}"/UPSTREAM-radeonsi-fix-surf_pitch-for-subsampled-surface.patch
-        epatch "${FILESDIR}"/UPSTREAM-st-va-enable-4-2-2-chroma-format.patch
-        epatch "${FILESDIR}"/UPSTREAM-st-va-add-support-YUY2.patch
-        epatch "${FILESDIR}"/UPSTREAM-radeon-jpeg-fix-the-jpeg-dt_pitch-with-YUYV-format.patch
-
-	# b/151392809, can be removed after an uprev to 19.3.4 or later
-	epatch "${FILESDIR}"/CHROMIUM-gallium-dri-Do-not-handle-params-in-dri2_query_image.patch
+	# b/148988984, b/150709236
+	epatch "${FILESDIR}"/BACKPORT-UPSTREAM-radeonsi-test-subsampled-format-in-testdma.patch
+	epatch "${FILESDIR}"/BACKPORT-UPSTREAM-format-add-format_to_chroma_format.patch
+	epatch "${FILESDIR}"/UPSTREAM-gallium-video-remove-pipe_video_buffer.chroma_format.patch
+	epatch "${FILESDIR}"/UPSTREAM-gallium-vl-add-4-2-2-support.patch
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-fix-surf_pitch-for-subsampled-surface.patch
+	epatch "${FILESDIR}"/UPSTREAM-st-va-enable-4-2-2-chroma-format.patch
+	epatch "${FILESDIR}"/UPSTREAM-st-va-add-support-YUY2.patch
+	epatch "${FILESDIR}"/UPSTREAM-radeon-jpeg-fix-the-jpeg-dt_pitch-with-YUYV-format.patch
 
 	default
 }
