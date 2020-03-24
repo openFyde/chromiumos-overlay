@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="f6c6b693809ce9558b41f1587cecb7c89ba5caaa"
-CROS_WORKON_TREE="c062073d361445413e67b397d979ededf62806c2"
+CROS_WORKON_COMMIT="cf45cef7d99c1bfcb4808890aea8d3d7151267e7"
+CROS_WORKON_TREE="563d56245760fe32b4dd4998b97e79e1ab7b3343"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -41,7 +41,6 @@ RDEPEND="
 	chromeos-base/telemetry
 	sys-apps/ethtool
 	vaapi? ( x11-libs/libva )
-	tests_graphics_Sanity? ( media-gfx/imagemagick x11-libs/libdrm )
 	tests_graphics_WebGLAquarium? ( app-benchmarks/microbenchmarks dev-util/memory-eater-locked )
 	virtual/autotest-private-libs
 "
@@ -88,7 +87,6 @@ IUSE_TESTS=(
 	+tests_enterprise_RemoraRequisition
 	+tests_graphics_Chrome
 	+tests_graphics_HwOverlays
-	+tests_graphics_Sanity
 	+tests_graphics_Stress
 	+tests_graphics_VideoRenderingPower
 	+tests_graphics_VTSwitch
