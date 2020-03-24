@@ -203,6 +203,8 @@ ARRAY_VARIABLES=(
 # ebuild, or if the git repo you're using is not part of the official manifest.
 # e.g. If you set CROS_WORKON_REPO or EGIT_REPO_URI to an external (to Google)
 # site, set this to "1".
+# Note that you must specify the CROS_WORKON_BLACKLIST="1" line in both the
+# unstable (i.e. 9999) and stable (e.g. 0.0.1-r) ebuild files.
 : ${CROS_WORKON_BLACKLIST:=}
 
 # @ECLASS-VARIABLE: CROS_WORKON_MAKE_COMPILE_ARGS
