@@ -136,7 +136,6 @@ RDEPEND="${RDEPEND}
 	app-crypt/mit-krb5
 	app-misc/edid-decode
 	authpolicy? ( chromeos-base/authpolicy )
-	~chromeos-base/chrome-icu-${PV}
 	chromeos-base/gestures
 	chromeos-base/libevdev
 	fonts? ( chromeos-base/chromeos-fonts )
@@ -1413,11 +1412,6 @@ src_install() {
 			dolib.so "${FROM}"/libassistant_debug.so
 		fi
 	fi
-
-	# The icu data is used by both chromeos-base/chrome-icu and this package.
-	# chromeos-base/chrome-icu is responsible for installing the icu data, so
-	# we remove it from ${D} here.
-	rm "${D_CHROME_DIR}/icudtl.dat" || die
 }
 
 pkg_preinst() {
