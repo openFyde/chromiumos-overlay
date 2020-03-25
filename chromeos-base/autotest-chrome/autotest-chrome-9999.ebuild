@@ -16,8 +16,6 @@ KEYWORDS="~*"
 # Enable autotest by default.
 IUSE="
 	${IUSE}
-	android-container-nyc
-	android-container-pi
 	+autotest
 	+cellular
 	+shill
