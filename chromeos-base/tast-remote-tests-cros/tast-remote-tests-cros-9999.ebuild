@@ -5,14 +5,17 @@ EAPI=7
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast-tests"
 	"chromiumos/platform/tast"
+	"chromiumos/platform/fw-testing-configs"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform/tast-tests"
 	"platform/tast"
+	"platform/tast-tests/src/chromiumos/tast/remote/firmware/data/fw-testing-configs"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}"
 	"${S}/tast-base"
+	"${S}/src/chromiumos/tast/remote/firmware/data/fw-testing-configs"
 )
 
 CROS_GO_WORKSPACE=(
