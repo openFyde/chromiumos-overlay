@@ -74,6 +74,7 @@ IUSE="
 	cups
 	diagnostics
 	disable_cros_video_decoder
+	elm-kernelnext
 	+display_backlight
 	dlc_test
 	+drivefs
@@ -82,6 +83,7 @@ IUSE="
 	force_breakpad
 	force_crashpad
 	grunt
+	hana-kernelnext
 	internal
 	+internal_mic
 	+internal_speaker
