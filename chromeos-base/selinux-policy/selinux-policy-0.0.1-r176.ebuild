@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b8f8c6c170d49e7d599002739f11e91647fec093"
+CROS_WORKON_COMMIT="2908049eaabcd78c39010138a509f85c51f1ebfc"
 CROS_WORKON_TREE="25c43c654b69e89848428b2066645f1c04495b0f"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="
 	android-container-qt
-	android-container-pi android-container-master-arc-dev android-container-nyc
+	android-container-pi android-container-master-arc-dev
 	+combine_chromeos_policy selinux_audit_all selinux_develop selinux_experimental
 	arc_first_release_n
 	nocheck
@@ -27,14 +27,13 @@ IUSE="
 # the developer know, disabling combine_chromeos_policy flag doesn't change
 # anything.
 REQUIRED_USE="
-	!combine_chromeos_policy? ( ^^ ( android-container-qt android-container-pi android-container-master-arc-dev android-container-nyc ) )
+	!combine_chromeos_policy? ( ^^ ( android-container-qt android-container-pi android-container-master-arc-dev ) )
 "
 
 DEPEND="
 	android-container-qt? ( chromeos-base/android-container-qt:0= )
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
 	android-container-master-arc-dev? ( chromeos-base/android-container-master-arc-dev:0= )
-	android-container-nyc? ( chromeos-base/android-container-nyc:0= )
 "
 
 RDEPEND="
@@ -126,7 +125,7 @@ version_cil() {
 }
 
 has_arc() {
-	use android-container-qt || use android-container-pi || use android-container-master-arc-dev || use android-container-nyc
+	use android-container-qt || use android-container-pi || use android-container-master-arc-dev
 }
 
 gen_m4_flags() {
@@ -138,8 +137,6 @@ gen_m4_flags() {
 		arc_version="p"
 	elif use android-container-master-arc-dev; then
 		arc_version="master"
-	elif use android-container-nyc; then
-		arc_version="n"
 	fi
 	M4_COMMON_FLAGS+=(
 		"-Darc_version=${arc_version}"
@@ -291,28 +288,18 @@ src_compile() {
 			sed -i '/^(policycap nnp_nosuid_transition)$/d' "${cilpath}"/*.cil || die
 
 			einfo "Combining Chrome OS and Android SELinux policy"
-			if use android-container-nyc; then
-				secilc "${SECILC_ARGS[@]}" "${cilpath}/sepolicy.cil" \
-					chromeos.cil || die "fail to build sepolicy"
-			else
-				secilc "${SECILC_ARGS[@]}" "${cilpath}/plat_sepolicy.cil" \
-					"${cilpath}/mapping.cil" \
-					"${cilpath}/plat_pub_versioned.cil" \
-					"${cilpath}/vendor_sepolicy.cil" \
-					chromeos.cil || die "fail to build sepolicy"
-			fi
+			secilc "${SECILC_ARGS[@]}" "${cilpath}/plat_sepolicy.cil" \
+				"${cilpath}/mapping.cil" \
+				"${cilpath}/plat_pub_versioned.cil" \
+				"${cilpath}/vendor_sepolicy.cil" \
+				chromeos.cil || die "fail to build sepolicy"
 		else
 			einfo "use ARC++ policy"
 
-			if use android-container-nyc; then
-				secilc "${SECILC_ARGS[@]}" "${cilpath}/sepolicy.cil" \
-					|| die "fail to build sepolicy"
-			else
-				secilc "${SECILC_ARGS[@]}" "${cilpath}/plat_sepolicy.cil" \
-					"${cilpath}/mapping.cil" \
-					"${cilpath}/plat_pub_versioned.cil" \
-					"${cilpath}/vendor_sepolicy.cil" || die "fail to build sepolicy"
-			fi
+			secilc "${SECILC_ARGS[@]}" "${cilpath}/plat_sepolicy.cil" \
+				"${cilpath}/mapping.cil" \
+				"${cilpath}/plat_pub_versioned.cil" \
+				"${cilpath}/vendor_sepolicy.cil" || die "fail to build sepolicy"
 		fi
 
 		# Add header/footer around ARC++ contexts, so they can be
@@ -389,19 +376,12 @@ src_test() {
 		ewarn "CTS pre-test is skipped."
 		return
 	fi
-	if use android-container-pi || use android-container-qt; then
-		(
-			grep "boolean compatiblePropertyOnly = false;" -B 2 |
-			grep "boolean fullTrebleOnly = false;" -B 1 |
-			grep neverallowRule |
-			sed -E 's/.*"(neverallow.*)";/\1/g'
-		) < "${neverallowjava}" > neverallows
-	else # nyc
-		(
-			grep "String neverallowRule = " |
-			sed -E 's/.*"(neverallow.*)";/\1/g'
-		) < "${neverallowjava}" > neverallows
-	fi
+	(
+		grep "boolean compatiblePropertyOnly = false;" -B 2 |
+		grep "boolean fullTrebleOnly = false;" -B 1 |
+		grep neverallowRule |
+		sed -E 's/.*"(neverallow.*)";/\1/g'
+	) < "${neverallowjava}" > neverallows
 	local loc="$(wc -l neverallows | awk '{print $1;}')"
 	if [[ "${loc}" -lt "100" ]]; then
 		die "too few test cases. something is wrong."
