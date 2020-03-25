@@ -12,5 +12,5 @@ REQUIRED_USE=compilation_database? ( clang ) fit_compression_kernel_lz4? ( !fit_
 RESTRICT=binchecks mirror
 SLOT=0
 SRC_URI=kernel_afdo? ( gs://chromeos-prebuilt/afdo-job/cwp/kernel/3.8/R77-12240.0-1563788154.gcov.xz -> chromeos-kernel-3_8-R77-12240.0-1563788154.gcov.xz )
-_eclasses_=binutils-funcs	6207477a739f6f25d13da27b9cc00160	cros-board	4868e472f29536362f8860ca3b265d52	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-kernel2	8f8e11d532aff164868ca904ab4b3727	cros-workon	9037a4d9a986f18b0131b8a94f21a069	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_eclasses_=binutils-funcs	6207477a739f6f25d13da27b9cc00160	cros-board	4868e472f29536362f8860ca3b265d52	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-kernel2	8f8e11d532aff164868ca904ab4b3727	cros-workon	a472e157d58fc9e2b928bb2c3ae2e6f2	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
 _md5_=4f80ed2b972122d7025add899a137a10
