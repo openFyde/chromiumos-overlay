@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="2b5b3241ce759edb237a731cada2dee43535ac57"
-CROS_WORKON_TREE="cc7ae15f21cbdbcdbb43727924686dff7dfce565"
+CROS_WORKON_COMMIT="e32bcc91521083ac9061617542a01f3f33f70523"
+CROS_WORKON_TREE="97bd77e08adaef5e854540e2c04c4d862aa825b4"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic libchrome cros-debug cros-workon autotest
@@ -110,6 +110,7 @@ CLIENT_IUSE_TESTS="
 	+tests_dummy_Pass
 	+tests_dummy_SynchronousOffload
 	tests_example_UnitTest
+	+tests_firmware_LockedME
 	+tests_firmware_RomSize
 	+tests_firmware_SetFWMP
 	+tests_firmware_TouchMTB
