@@ -16,6 +16,7 @@ IUSE="detachable menu_ui legacy_menu_ui diag_payload fwconsole mocktpm pd_sync
 	physical_presence_power physical_presence_recovery"
 
 DEPEND="
+	chromeos-base/chromeos-ec-headers:=
 	sys-boot/libpayload:=
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
@@ -65,6 +66,7 @@ dc_make() {
 	shift 3
 
 	local OPTS=(
+		"EC_HEADERS=${SYSROOT}/usr/include/chromeos/ec"
 		"VB_SOURCE=${VBOOT_REFERENCE_DESTDIR}"
 		"PD_SYNC=$(usev pd_sync)"
 		"obj=${builddir}"
