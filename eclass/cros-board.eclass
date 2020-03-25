@@ -70,7 +70,7 @@ ALL_BOARDS=(
 	betty-arcvm-pi
 	betty-nyc-arc
 	betty-pi-arc
-	betty-qt-arc
+	#betty-qt-arc
 	#bettyvirgl
 	blackwall
 	bob
