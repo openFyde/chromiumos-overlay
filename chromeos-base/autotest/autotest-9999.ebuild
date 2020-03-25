@@ -2,7 +2,19 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
+
+CROS_WORKON_PROJECT=(
+	"chromiumos/third_party/autotest"
+	"chromiumos/platform/fw-testing-configs"
+)
+CROS_WORKON_LOCALNAME=(
+	"third_party/autotest/files"
+	"third_party/autotest/files/server/cros/faft/fw-testing-configs"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}"
+	"${S}/server/cros/faft/fw-testing-configs"
+)
 
 inherit cros-workon cros-constants
 
@@ -27,8 +39,6 @@ DEPEND="${RDEPEND}"
 
 # Ensure the configures run by autotest pick up the right config.site
 export CONFIG_SITE=/usr/share/config.site
-
-CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 AUTOTEST_WORK="${WORKDIR}/autotest-work"
 
