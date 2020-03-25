@@ -134,7 +134,8 @@ src_install() {
 	# Install shared library files
 	dolib.so lib/.libs/libbluetooth.so
 	dolib.so lib/.libs/libbluetooth.so.3
-	dolib.so lib/.libs/libbluetooth.so.3."$(usex bluez-next 19.1 18.15)"
+	# TODO(b/152442119): Don't hardcode the version number
+	dolib.so lib/.libs/libbluetooth.so.3."$(usex bluez-next 19.2 18.15)"
 
 	# Install plugin library files
 	exeinto /usr/"$(get_libdir)"/bluetooth/plugins
