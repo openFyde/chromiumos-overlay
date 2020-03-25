@@ -79,9 +79,7 @@ multilib_src_install() {
 	install_pc_file sync.pc
 	install_pc_file zlib.pc
 
-	if [[ "${ARC_VERSION_CODENAME}" != "nyc" ]]; then
-		install_pc_file nativewindow.pc
-	fi
+	install_pc_file nativewindow.pc
 }
 
 multilib_src_install_all() {
@@ -90,11 +88,9 @@ multilib_src_install_all() {
 
 	local arc_arch="${ARCH}"
 	# arm needs to use arm64 directory, which provides combined arm/arm64
-	# headers and libraries, except on NYC where we do not provide arm64
-	# support.
+	# headers and libraries.
 	# TODO(b:138786145): Fix qt/master toolchain as well
-	if [[ "${ARCH}" == "arm" && "${ARC_VERSION_CODENAME}" != "nyc" &&
-			"${ARC_VERSION_CODENAME}" != "qt" &&
+	if [[ "${ARCH}" == "arm" && "${ARC_VERSION_CODENAME}" != "qt" &&
 			"${ARC_VERSION_CODENAME}" != "rvc" &&
 			"${ARC_VERSION_CODENAME}" != "master" ]]; then
 		arc_arch="arm64"
