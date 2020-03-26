@@ -123,7 +123,6 @@ IUSE="
 	ubsan
 	unibuild
 	usbguard
-	usbip
 	vaapi
 	veyron_mickey
 	veyron_rialto

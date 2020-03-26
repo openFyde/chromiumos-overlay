@@ -19,10 +19,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/virtual-usb-p
 LICENSE="GPL-2"
 KEYWORDS="~*"
 
-IUSE="usbip"
+IUSE=""
 
 RDEPEND="
-	usbip? ( net-misc/usbip:= )
+	net-misc/usbip:=
 "
 
 DEPEND="${RDEPEND}"
