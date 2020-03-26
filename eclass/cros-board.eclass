@@ -49,6 +49,7 @@ ALL_BOARDS=(
 	asuka
 	asurada
 	atlas
+	atlas-blueznext
 	atlas-kvm
 	auron
 	auron_paine
