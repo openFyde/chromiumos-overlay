@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6b282c58fcb7f17faec97a09447df21ed25b5eb2"
-CROS_WORKON_TREE="dae08ff85f577846847f00a7a9943859e691fe73"
+CROS_WORKON_COMMIT="6aeaa7583c7ec0e3a678b3327b642f353a6be4ca"
+CROS_WORKON_TREE="c02824c3dfd90ac2ad39f7e5add59aa22e527244"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
