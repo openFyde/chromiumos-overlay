@@ -1,10 +1,10 @@
 DEFINED_PHASES=-
-DEPEND=chromeos-base/aosp-frameworks-base-proto chromeos-base/policy-go-proto chromeos-base/system_api chromeos-base/vm_protos chromeos-base/wilco-dtc-grpc-protos dev-go/boringssl-acvptool dev-go/cdp dev-go/cmp dev-go/crypto dev-go/dbus dev-go/golint dev-go/gopsutil dev-go/go-matroska dev-go/grpc dev-go/mdns dev-go/protobuf dev-go/selinux dev-go/subcommands dev-go/sync dev-go/vsock dev-go/yaml
+DEPEND=chromeos-base/aosp-frameworks-base-proto chromeos-base/policy-go-proto chromeos-base/system_api chromeos-base/vm_protos chromeos-base/wilco-dtc-grpc-protos dev-go/boringssl-acvptool dev-go/cdp dev-go/cmp dev-go/crypto dev-go/dbus dev-go/golint dev-go/gopsutil dev-go/go-matroska dev-go/grpc dev-go/mdns dev-go/mp4 dev-go/protobuf dev-go/selinux dev-go/subcommands dev-go/sync dev-go/vsock dev-go/yaml
 DESCRIPTION=Build-time dependencies of Tast binaries
 EAPI=6
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast/
 KEYWORDS=*
 LICENSE=BSD-Google
-RDEPEND=chromeos-base/aosp-frameworks-base-proto chromeos-base/policy-go-proto chromeos-base/system_api chromeos-base/vm_protos chromeos-base/wilco-dtc-grpc-protos dev-go/boringssl-acvptool dev-go/cdp dev-go/cmp dev-go/crypto dev-go/dbus dev-go/golint dev-go/gopsutil dev-go/go-matroska dev-go/grpc dev-go/mdns dev-go/protobuf dev-go/selinux dev-go/subcommands dev-go/sync dev-go/vsock dev-go/yaml
+RDEPEND=chromeos-base/aosp-frameworks-base-proto chromeos-base/policy-go-proto chromeos-base/system_api chromeos-base/vm_protos chromeos-base/wilco-dtc-grpc-protos dev-go/boringssl-acvptool dev-go/cdp dev-go/cmp dev-go/crypto dev-go/dbus dev-go/golint dev-go/gopsutil dev-go/go-matroska dev-go/grpc dev-go/mdns dev-go/mp4 dev-go/protobuf dev-go/selinux dev-go/subcommands dev-go/sync dev-go/vsock dev-go/yaml
 SLOT=0
-_md5_=fa18e0c6da9499fdf0fd63c054df7e65
+_md5_=7689b6efbb5615a625261a344ae9c150
