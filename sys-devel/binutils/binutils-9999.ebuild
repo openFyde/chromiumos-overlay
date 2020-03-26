@@ -210,6 +210,7 @@ src_configure() {
 		--enable-compressed-debug-sections=none
 		--enable-threads
 		--enable-shared
+		--enable-deterministic-archives
 		# Newer versions (>=2.24) make this an explicit option. #497268
 		--enable-install-libiberty
 		--disable-werror
