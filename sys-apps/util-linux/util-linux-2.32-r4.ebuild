@@ -25,7 +25,10 @@ HOMEPAGE="https://www.kernel.org/pub/linux/utils/util-linux/ https://github.com/
 
 LICENSE="GPL-2 LGPL-2.1 BSD-4 MIT public-domain"
 SLOT="0"
-IUSE="build caps +cramfs fdformat kill ncurses nls pam python +readline selinux slang static-libs +suid systemd test tty-helpers udev unicode userland_GNU"
+IUSE="build caps +cramfs fdformat kill ncurses nls pam python +readline selinux slang static-libs +suid systemd test tty-helpers udev unicode userland_GNU
+	kernel-3_8 kernel-3_10 kernel-3_14 kernel-3_18 kernel-4_4 kernel-4_14
+	kernel-4_19 cros_host
+"
 
 # Most lib deps here are related to programs rather than our libs,
 # so we rarely need to specify ${MULTILIB_USEDEP}.
@@ -70,6 +73,11 @@ src_prepare() {
 	default
 
 	eapply "${FILESDIR}"/${P}-add-missing-lintl.patch
+	if ! use kernel-3_8 && ! use kernel-3_10 && ! use kernel-3_14 && \
+		! use kernel-3_18 && ! use kernel-4_4 && ! use kernel-4_14 && \
+		! use kernel-4_19 && ! use cros_host; then
+		eapply "${FILESDIR}"/${P}-nosymfollow.patch
+	fi
 	touch -r "${S}"/configure "${S}"/libsmartcols/src/Makemodule.am || die
 	touch -r "${S}"/configure "${S}"/libuuid/src/Makemodule.am || die
 
