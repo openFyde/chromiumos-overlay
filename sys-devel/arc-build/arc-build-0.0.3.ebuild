@@ -89,10 +89,7 @@ multilib_src_install_all() {
 	local arc_arch="${ARCH}"
 	# arm needs to use arm64 directory, which provides combined arm/arm64
 	# headers and libraries.
-	# TODO(b:138786145): Fix qt/master toolchain as well
-	if [[ "${ARCH}" == "arm" && "${ARC_VERSION_CODENAME}" != "qt" &&
-			"${ARC_VERSION_CODENAME}" != "rvc" &&
-			"${ARC_VERSION_CODENAME}" != "master" ]]; then
+	if [[ "${ARCH}" == "arm" ]]; then
 		arc_arch="arm64"
 	fi
 
