@@ -149,7 +149,7 @@ src_install() {
 	dolib.so "${OUT}"/lib/libbase*-"${PV}".so
 	dolib.a "${OUT}"/libbase*-"${PV}".a
 
-	local gen_header_dirs=()
+	local mojom_dirs=()
 	local header_dirs=(
 		base
 		base/allocator
@@ -239,7 +239,7 @@ src_install() {
 			mojo/public/cpp/platform
 			mojo/public/cpp/system
 		)
-		gen_header_dirs+=(
+		mojom_dirs+=(
 			mojo/public/interfaces/bindings
 			mojo/public/mojom/base
 		)
@@ -275,9 +275,11 @@ src_install() {
 		insinto /usr/include/base-"${PV}"/"${d}"
 		doins "${d}"/*.h
 	done
-	for d in "${gen_header_dirs[@]}"; do
+	for d in "${mojom_dirs[@]}"; do
 		insinto /usr/include/base-"${PV}"/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.h
+		insinto /usr/src/libchrome/mojom/"${d}"
+		doins "${S}"/"${d}"/*.mojom
 		insinto /usr/share/libchrome/pickle/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.p
 	done
