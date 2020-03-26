@@ -27,6 +27,7 @@ DEPEND="
 	dev-go/go-matroska
 	dev-go/grpc
 	dev-go/mdns
+	dev-go/mp4
 	dev-go/protobuf
 	dev-go/selinux
 	dev-go/subcommands
