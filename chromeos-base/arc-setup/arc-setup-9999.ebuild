@@ -89,7 +89,6 @@ src_install() {
 		doins etc/arc-sysctl.conf
 		doins etc/arc-system-mount.conf
 		doins etc/arc-ureadahead.conf
-		doins etc/arc-ureadahead-trace.conf
 
 		insinto /etc/dbus-1/system.d
 		doins etc/dbus-1/ArcUpstart.conf
