@@ -1,0 +1,243 @@
+From 5f6fec2404c5135247ae9e4e515e8d9d3242f790 Mon Sep 17 00:00:00 2001
+From: Connor Abbott <cwabbott0@gmail.com>
+Date: Wed, 27 Nov 2019 14:09:13 +0100
+Subject: [PATCH] AMDGPU: Fix handling of infinite loops in fragment shaders
+
+Summary:
+Due to the fact that kill is just a normal intrinsic, even though it's
+supposed to terminate the thread, we can end up with provably infinite
+loops that are actually supposed to end successfully. The
+AMDGPUUnifyDivergentExitNodes pass breaks up these loops, but because
+there's no obvious place to make the loop branch to, it just makes it
+return immediately, which skips the exports that are supposed to happen
+at the end and hangs the GPU if all the threads end up being killed.
+
+While it would be nice if the fact that kill terminates the thread were
+modeled in the IR, I think that the structurizer as-is would make a mess if we
+did that when the kill is inside control flow. For now, we just add a null
+export at the end to make sure that it always exports something, which fixes
+the immediate problem without penalizing the more common case. This means that
+we sometimes do two "done" exports when only some of the threads enter the
+discard loop, but from tests the hardware seems ok with that.
+
+This fixes dEQP-VK.graphicsfuzz.while-inside-switch with radv.
+
+Reviewers: arsenm, nhaehnle
+
+Subscribers: kzhuravl, jvesely, wdng, yaxunl, dstuttard, tpr, t-tye, hiraditya, llvm-commits
+
+Tags: #llvm
+
+Differential Revision: https://reviews.llvm.org/D70781
+
+(cherry picked from commit 87d98c149504f9b0751189744472d7cc94883960)
+---
+ .../AMDGPU/AMDGPUUnifyDivergentExitNodes.cpp  | 79 +++++++++++++++++--
+ .../test/CodeGen/AMDGPU/kill-infinite-loop.ll | 68 ++++++++++++++++
+ 2 files changed, 141 insertions(+), 6 deletions(-)
+ create mode 100644 llvm/test/CodeGen/AMDGPU/kill-infinite-loop.ll
+
+diff --git a/lib/Target/AMDGPU/AMDGPUUnifyDivergentExitNodes.cpp b/lib/Target/AMDGPU/AMDGPUUnifyDivergentExitNodes.cpp
+index 191f603a66d6..01bb60f07f2e 100644
+--- a/lib/Target/AMDGPU/AMDGPUUnifyDivergentExitNodes.cpp
++++ b/lib/Target/AMDGPU/AMDGPUUnifyDivergentExitNodes.cpp
+@@ -34,6 +34,7 @@
+ #include "llvm/IR/InstrTypes.h"
+ #include "llvm/IR/Instructions.h"
+ #include "llvm/IR/Intrinsics.h"
++#include "llvm/IR/IRBuilder.h"
+ #include "llvm/IR/Type.h"
+ #include "llvm/InitializePasses.h"
+ #include "llvm/Pass.h"
+@@ -117,24 +118,58 @@ static bool isUniformlyReached(const LegacyDivergenceAnalysis &DA,
+   return true;
+ }
+ 
++static void removeDoneExport(Function &F) {
++  ConstantInt *BoolFalse = ConstantInt::getFalse(F.getContext());
++  for (BasicBlock &BB : F) {
++    for (Instruction &I : BB) {
++      if (IntrinsicInst *Intrin = llvm::dyn_cast<IntrinsicInst>(&I)) {
++        if (Intrin->getIntrinsicID() == Intrinsic::amdgcn_exp) {
++          Intrin->setArgOperand(6, BoolFalse); // done
++        } else if (Intrin->getIntrinsicID() == Intrinsic::amdgcn_exp_compr) {
++          Intrin->setArgOperand(4, BoolFalse); // done
++        }
++      }
++    }
++  }
++}
++
+ static BasicBlock *unifyReturnBlockSet(Function &F,
+                                        ArrayRef<BasicBlock *> ReturningBlocks,
++                                       bool InsertExport,
+                                        const TargetTransformInfo &TTI,
+                                        StringRef Name) {
+   // Otherwise, we need to insert a new basic block into the function, add a PHI
+   // nodes (if the function returns values), and convert all of the return
+   // instructions into unconditional branches.
+   BasicBlock *NewRetBlock = BasicBlock::Create(F.getContext(), Name, &F);
++  IRBuilder<> B(NewRetBlock);
++
++  if (InsertExport) {
++    // Ensure that there's only one "done" export in the shader by removing the
++    // "done" bit set on the original final export. More than one "done" export
++    // can lead to undefined behavior.
++    removeDoneExport(F);
++
++    Value *Undef = UndefValue::get(B.getFloatTy());
++    B.CreateIntrinsic(Intrinsic::amdgcn_exp, { B.getFloatTy() },
++                      {
++                        B.getInt32(9), // target, SQ_EXP_NULL
++                        B.getInt32(0), // enabled channels
++                        Undef, Undef, Undef, Undef, // values
++                        B.getTrue(), // done
++                        B.getTrue(), // valid mask
++                      });
++  }
+ 
+   PHINode *PN = nullptr;
+   if (F.getReturnType()->isVoidTy()) {
+-    ReturnInst::Create(F.getContext(), nullptr, NewRetBlock);
++    B.CreateRetVoid();
+   } else {
+     // If the function doesn't return void... add a PHI node to the block...
+-    PN = PHINode::Create(F.getReturnType(), ReturningBlocks.size(),
+-                         "UnifiedRetVal");
+-    NewRetBlock->getInstList().push_back(PN);
+-    ReturnInst::Create(F.getContext(), PN, NewRetBlock);
++    PN = B.CreatePHI(F.getReturnType(), ReturningBlocks.size(),
++                     "UnifiedRetVal");
++    assert(!InsertExport);
++    B.CreateRet(PN);
+   }
+ 
+   // Loop over all of the blocks, replacing the return instruction with an
+@@ -173,6 +208,8 @@ bool AMDGPUUnifyDivergentExitNodes::runOnFunction(Function &F) {
+   // Dummy return block for infinite loop.
+   BasicBlock *DummyReturnBB = nullptr;
+ 
++  bool InsertExport = false;
++
+   for (BasicBlock *BB : PDT.getRoots()) {
+     if (isa<ReturnInst>(BB->getTerminator())) {
+       if (!isUniformlyReached(DA, *BB))
+@@ -188,6 +225,36 @@ bool AMDGPUUnifyDivergentExitNodes::runOnFunction(Function &F) {
+                                            "DummyReturnBlock", &F);
+         Type *RetTy = F.getReturnType();
+         Value *RetVal = RetTy->isVoidTy() ? nullptr : UndefValue::get(RetTy);
++
++        // For pixel shaders, the producer guarantees that an export is
++        // executed before each return instruction. However, if there is an
++        // infinite loop and we insert a return ourselves, we need to uphold
++        // that guarantee by inserting a null export. This can happen e.g. in
++        // an infinite loop with kill instructions, which is supposed to
++        // terminate. However, we don't need to do this if there is a non-void
++        // return value, since then there is an epilog afterwards which will
++        // still export.
++        //
++        // Note: In the case where only some threads enter the infinite loop,
++        // this can result in the null export happening redundantly after the
++        // original exports. However, The last "real" export happens after all
++        // the threads that didn't enter an infinite loop converged, which
++        // means that the only extra threads to execute the null export are
++        // threads that entered the infinite loop, and they only could've
++        // exited through being killed which sets their exec bit to 0.
++        // Therefore, unless there's an actual infinite loop, which can have
++        // invalid results, or there's a kill after the last export, which we
++        // assume the frontend won't do, this export will have the same exec
++        // mask as the last "real" export, and therefore the valid mask will be
++        // overwritten with the same value and will still be correct. Also,
++        // even though this forces an extra unnecessary export wait, we assume
++        // that this happens rare enough in practice to that we don't have to
++        // worry about performance.
++        if (F.getCallingConv() == CallingConv::AMDGPU_PS &&
++            RetTy->isVoidTy()) {
++          InsertExport = true;
++        }
++
+         ReturnInst::Create(F.getContext(), RetVal, DummyReturnBB);
+         ReturningBlocks.push_back(DummyReturnBB);
+       }
+@@ -260,6 +327,6 @@ bool AMDGPUUnifyDivergentExitNodes::runOnFunction(Function &F) {
+   const TargetTransformInfo &TTI
+     = getAnalysis<TargetTransformInfoWrapperPass>().getTTI(F);
+ 
+-  unifyReturnBlockSet(F, ReturningBlocks, TTI, "UnifiedReturnBlock");
++  unifyReturnBlockSet(F, ReturningBlocks, InsertExport, TTI, "UnifiedReturnBlock");
+   return true;
+ }
+diff --git a/test/CodeGen/AMDGPU/kill-infinite-loop.ll b/test/CodeGen/AMDGPU/kill-infinite-loop.ll
+new file mode 100644
+index 000000000000..30280b967ad8
+--- /dev/null
++++ b/test/CodeGen/AMDGPU/kill-infinite-loop.ll
+@@ -0,0 +1,68 @@
++; RUN: llc -march=amdgcn -verify-machineinstrs < %s | FileCheck -enable-var-scope %s
++; Although it's modeled without any control flow in order to get better code
++; out of the structurizer, @llvm.amdgcn.kill actually ends the thread that calls
++; it with "true". In case it's called in a provably infinite loop, we still
++; need to successfully exit and export something, even if we can't know where
++; to jump to in the LLVM IR. Therefore we insert a null export ourselves in
++; this case right before the s_endpgm to avoid GPU hangs, which is what this
++; tests.
++
++; CHECK-LABEL: return_void
++; Make sure that we remove the done bit from the original export
++; CHECK: exp mrt0 v{{[0-9]+}}, v{{[0-9]+}}, v{{[0-9]+}}, v{{[0-9]+}} vm
++; CHECK: exp null off, off, off, off done vm
++; CHECK-NEXT: s_endpgm
++define amdgpu_ps void @return_void(float %0) #0 {
++main_body:
++  %cmp = fcmp olt float %0, 1.000000e+01
++  br i1 %cmp, label %end, label %loop
++
++loop:
++  call void @llvm.amdgcn.kill(i1 false) #3
++  br label %loop
++
++end:
++  call void @llvm.amdgcn.exp.f32(i32 0, i32 15, float 0., float 0., float 0., float 1., i1 true, i1 true) #3
++  ret void
++}
++
++; Check that we also remove the done bit from compressed exports correctly.
++; CHECK-LABEL: return_void_compr
++; CHECK: exp mrt0 v{{[0-9]+}}, off, v{{[0-9]+}}, off compr vm
++; CHECK: exp null off, off, off, off done vm
++; CHECK-NEXT: s_endpgm
++define amdgpu_ps void @return_void_compr(float %0) #0 {
++main_body:
++  %cmp = fcmp olt float %0, 1.000000e+01
++  br i1 %cmp, label %end, label %loop
++
++loop:
++  call void @llvm.amdgcn.kill(i1 false) #3
++  br label %loop
++
++end:
++  call void @llvm.amdgcn.exp.compr.v2i16(i32 0, i32 5, <2 x i16> < i16 0, i16 0 >, <2 x i16> < i16 0, i16 0 >, i1 true, i1 true) #3
++  ret void
++}
++
++; In case there's an epilog, we shouldn't have to do this.
++; CHECK-LABEL: return_nonvoid
++; CHECK-NOT: exp null off, off, off, off done vm
++define amdgpu_ps float @return_nonvoid(float %0) #0 {
++main_body:
++  %cmp = fcmp olt float %0, 1.000000e+01
++  br i1 %cmp, label %end, label %loop
++
++loop:
++  call void @llvm.amdgcn.kill(i1 false) #3
++  br label %loop
++
++end:
++  ret float 0.
++}
++
++declare void @llvm.amdgcn.kill(i1) #0
++declare void @llvm.amdgcn.exp.f32(i32 immarg, i32 immarg, float, float, float, float, i1 immarg, i1 immarg) #0
++declare void @llvm.amdgcn.exp.compr.v2i16(i32 immarg, i32 immarg, <2 x i16>, <2 x i16>, i1 immarg, i1 immarg) #0
++
++attributes #0 = { nounwind }

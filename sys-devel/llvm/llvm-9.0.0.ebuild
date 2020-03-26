@@ -99,6 +99,9 @@ src_prepare() {
 	# https://bugs.gentoo.org/show_bug.cgi?id=565358
 	eapply "${FILESDIR}"/9999/0007-llvm-config-Clean-up-exported-values-update-for-shar.patch
 
+	# Vulkan hang fix with AMDGPU, can be removed when upreving to >= 10.0
+	eapply "${FILESDIR}"/cherry/5f6fec2404c5135247ae9e4e515e8d9d3242f790.patch
+
 	# disable use of SDK on OSX, bug #568758
 	sed -i -e 's/xcrun/false/' utils/lit/lit/util.py || die
 
