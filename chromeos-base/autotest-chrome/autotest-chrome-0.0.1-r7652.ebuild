@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="cf45cef7d99c1bfcb4808890aea8d3d7151267e7"
-CROS_WORKON_TREE="563d56245760fe32b4dd4998b97e79e1ab7b3343"
+CROS_WORKON_COMMIT="f718c80db4156dd2e18e413c644c03e8dc205140"
+CROS_WORKON_TREE="1328deeab54649f445210adebaa410ca5c4e4fd1"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit toolchain-funcs flag-o-matic cros-workon autotest
@@ -18,8 +18,6 @@ KEYWORDS="*"
 # Enable autotest by default.
 IUSE="
 	${IUSE}
-	android-container-nyc
-	android-container-pi
 	+autotest
 	+cellular
 	+shill
