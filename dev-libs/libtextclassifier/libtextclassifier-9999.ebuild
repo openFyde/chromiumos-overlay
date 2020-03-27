@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/libtextclassi
 
 # Place the model URIs of tclib into this variable.
 # We may need more than one models, e.g., temporarily during model upgrade.
-MODELS=( "gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-20200310.fb" )
+MODELS=( "gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v706.fb" )
 
 SRC_URI="${MODELS[*]}"
 
