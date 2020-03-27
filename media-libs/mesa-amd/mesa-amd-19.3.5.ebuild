@@ -137,6 +137,14 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-st-va-add-support-YUY2.patch
 	epatch "${FILESDIR}"/UPSTREAM-radeon-jpeg-fix-the-jpeg-dt_pitch-with-YUYV-format.patch
 
+	# b/152177291, b/151165954, can be removed with a 20.0 uprev
+	epatch "${FILESDIR}"/UPSTREAM-radv-fix-random-depth-range-unrestricted-failures-du.patch
+	epatch "${FILESDIR}"/UPSTREAM-amd-llvm-Fix-divergent-descriptor-indexing.-v3.patch
+	epatch "${FILESDIR}"/UPSTREAM-amd-llvm-Fix-divergent-descriptor-regressions-with-r.patch
+
+	# b/152177291, b/151165954, b/149839737
+	epatch "${FILESDIR}"/FROMLIST-radv-Store-64-bit-availability-bools-if-requested.patch
+
 	default
 }
 

@@ -1,0 +1,45 @@
+From c3151b4a3f55a010881a7e0ecfbde315c2a3e81d Mon Sep 17 00:00:00 2001
+From: Samuel Pitoiset <samuel.pitoiset@gmail.com>
+Date: Tue, 17 Mar 2020 15:32:45 +0100
+Subject: [PATCH 1/4] radv: fix random depth range unrestricted failures due to
+ a cache issue
+
+The shader module name is used to compute the pipeline key. The
+driver used to load the wrong pipelines because the shader names
+were similar.
+
+This should fix random failures of
+dEQP-VK.pipeline.depth_range_unrestricted.*
+
+Fixes: f11ea226664 ("radv: fix a performance regression with graphics depth/stencil clears")
+Signed-off-by: Samuel Pitoiset <samuel.pitoiset@gmail.com>
+Reviewed-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Tested-by: Marge Bot <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4216>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4216>
+(cherry picked from commit 94e37859a96cc56cf0c5418a5af00a3e9f5a1bf5)
+---
+ src/amd/vulkan/radv_meta_clear.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/amd/vulkan/radv_meta_clear.c b/src/amd/vulkan/radv_meta_clear.c
+index c31eab1f039..19f1f60748f 100644
+--- a/src/amd/vulkan/radv_meta_clear.c
++++ b/src/amd/vulkan/radv_meta_clear.c
+@@ -492,8 +492,12 @@ build_depthstencil_shader(struct nir_shader **out_vs,
+ 	nir_builder_init_simple_shader(&vs_b, NULL, MESA_SHADER_VERTEX, NULL);
+ 	nir_builder_init_simple_shader(&fs_b, NULL, MESA_SHADER_FRAGMENT, NULL);
+ 
+-	vs_b.shader->info.name = ralloc_strdup(vs_b.shader, "meta_clear_depthstencil_vs");
+-	fs_b.shader->info.name = ralloc_strdup(fs_b.shader, "meta_clear_depthstencil_fs");
++	vs_b.shader->info.name = ralloc_strdup(vs_b.shader,
++					       unrestricted ? "meta_clear_depthstencil_unrestricted_vs"
++							    : "meta_clear_depthstencil_vs");
++	fs_b.shader->info.name = ralloc_strdup(fs_b.shader,
++					       unrestricted ? "meta_clear_depthstencil_unrestricted_fs"
++							    : "meta_clear_depthstencil_fs");
+ 	const struct glsl_type *position_out_type = glsl_vec4_type();
+ 
+ 	nir_variable *vs_out_pos =
+-- 
+2.26.0.rc2.310.g2932bb562d-goog
+

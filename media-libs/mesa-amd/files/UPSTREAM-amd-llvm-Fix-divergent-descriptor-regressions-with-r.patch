@@ -1,0 +1,74 @@
+From a0e69c74bcef9ab362f8ec0682243e677a6541a1 Mon Sep 17 00:00:00 2001
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Fri, 13 Mar 2020 20:48:27 +0100
+Subject: [PATCH 3/4] amd/llvm: Fix divergent descriptor regressions with
+ radeonsi.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+piglit/bin/arb_bindless_texture-limit -auto -fbo:
+  Needed to deal with non-NULL dynamic_index without deref in tex instructions.
+
+piglit/bin/shader_runner tests/spec/arb_bindless_texture/execution/images/multiple-resident-images-reading.shader_test -auto:
+  Need to deal with non-deref images in enter_waterfall_imae.
+
+Fixes: b83c9aca4a5 "amd/llvm: Fix divergent descriptor indexing. (v3)"
+Acked-by: Marek Olšák <marek.olsak@amd.com>
+Reviewed-by: Samuel Pitoiset <samuel.pitoiset@gmail.com>
+Tested-by: Marge Bot <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4191>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4191>
+(cherry picked from commit 8e4e2cedcf53d0f9649d51fc3acccaada96172bb)
+---
+ src/amd/llvm/ac_nir_to_llvm.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+diff --git a/src/amd/llvm/ac_nir_to_llvm.c b/src/amd/llvm/ac_nir_to_llvm.c
+index 5c4bf5b1466..9b569646140 100644
+--- a/src/amd/llvm/ac_nir_to_llvm.c
++++ b/src/amd/llvm/ac_nir_to_llvm.c
+@@ -2658,7 +2658,11 @@ static LLVMValueRef enter_waterfall_image(struct ac_nir_context *ctx,
+ 					  struct waterfall_context *wctx,
+ 					  const nir_intrinsic_instr *instr)
+ {
+-	nir_deref_instr *deref_instr = nir_instr_as_deref(instr->src[0].ssa->parent_instr);
++	nir_deref_instr *deref_instr = NULL;
++
++	if (instr->src[0].ssa->parent_instr->type == nir_instr_type_deref)
++		deref_instr = nir_instr_as_deref(instr->src[0].ssa->parent_instr);
++
+ 	LLVMValueRef value = get_sampler_desc_index(ctx, deref_instr, &instr->instr, true);
+ 	return enter_waterfall(ctx, wctx, value, nir_intrinsic_access(instr) & ACCESS_NON_UNIFORM);
+ }
+@@ -4114,20 +4118,18 @@ static void tex_fetch_ptrs(struct ac_nir_context *ctx,
+ 		}
+ 	}
+ 
++	LLVMValueRef texture_dynamic_index = get_sampler_desc_index(ctx, texture_deref_instr,
++								    &instr->instr, false);
+ 	if (!sampler_deref_instr)
+ 		sampler_deref_instr = texture_deref_instr;
+ 
+-	LLVMValueRef texture_dynamic_index = NULL, sampler_dynamic_index = NULL;
+-	if (texture_deref_instr) {
+-		texture_dynamic_index = get_sampler_desc_index(ctx, texture_deref_instr, &instr->instr, false);
+-		texture_dynamic_index = enter_waterfall(ctx, wctx + 0, texture_dynamic_index, instr->texture_non_uniform);
+-	}
++        LLVMValueRef sampler_dynamic_index = get_sampler_desc_index(ctx, sampler_deref_instr,
++								    &instr->instr, false);
++	if (instr->texture_non_uniform)
++		texture_dynamic_index = enter_waterfall(ctx, wctx + 0, texture_dynamic_index, true);
+ 
+-	if (sampler_deref_instr && sampler_deref_instr != texture_deref_instr) {
+-		sampler_dynamic_index = get_sampler_desc_index(ctx, sampler_deref_instr, &instr->instr, false);
+-		sampler_dynamic_index = enter_waterfall(ctx, wctx + 1, sampler_dynamic_index, instr->sampler_non_uniform);
+-	} else
+-		sampler_dynamic_index = texture_dynamic_index;
++	if (instr->sampler_non_uniform)
++		sampler_dynamic_index = enter_waterfall(ctx, wctx + 1, sampler_dynamic_index, true);
+ 
+ 	enum ac_descriptor_type main_descriptor = instr->sampler_dim  == GLSL_SAMPLER_DIM_BUF ? AC_DESC_BUFFER : AC_DESC_IMAGE;
+ 
+-- 
+2.26.0.rc2.310.g2932bb562d-goog
+
