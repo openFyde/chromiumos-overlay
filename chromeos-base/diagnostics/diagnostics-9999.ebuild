@@ -100,6 +100,8 @@ src_install() {
 		cros_healthd-seccomp.policy
 	newins "ectool/ectool_i2cread-seccomp-${ARCH}.policy" \
 		ectool_i2cread-seccomp.policy
+	newins "ectool/ectool_pwmgetfanrpm-seccomp-${ARCH}.policy" \
+		ectool_pwmgetfanrpm-seccomp.policy
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
