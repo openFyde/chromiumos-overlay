@@ -16,7 +16,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="agent amt consolekit dell gtk-doc elogind +minimal +gpg introspection +man nls nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
+IUSE="agent amt consolekit dell gtk-doc elogind +minimal +gpg introspection +man nls nvme pkcs7 redfish synaptics systemd test +thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	^^ ( consolekit elogind minimal systemd )
 	dell? ( uefi )
@@ -65,9 +65,6 @@ RDEPEND=">=app-arch/gcab-1.0
 	pkcs7? ( >=net-libs/gnutls-3.4.4.1:= )
 	redfish? ( sys-libs/efivar )
 	systemd? ( >=sys-apps/systemd-211 )
-	thunderbolt? (
-		sys-apps/thunderbolt-software-user-space
-	)
 	uefi? (
 		app-crypt/tpm2-tss
 		media-libs/fontconfig
