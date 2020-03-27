@@ -63,6 +63,12 @@ fi
 # dependencies and help minimize how many dependent packages need to be added.
 : "${CROS_RUST_REMOVE_DEV_DEPS:=}"
 
+# @ECLASS-VARIABLE: CROS_RUST_TESTS
+# @DESCRIPTION:
+# An array of test executables to be run, which defaults to empty value and is
+# set by invoking cros-rust_get_test_executables.
+: "${CROS_RUST_TESTS:=}"
+
 inherit toolchain-funcs cros-debug cros-sanitizers
 
 IUSE="asan fuzzer lsan +lto msan test tsan ubsan"
@@ -383,6 +389,15 @@ ecargo_build_fuzzer() {
 # Call `cargo test` with the specified command line options.
 ecargo_test() {
 	ecargo test --target="${CHOST}" --target-dir "${CARGO_TARGET_DIR}/ecargo-test" --release "$@"
+}
+
+# @FUNCTION: cros-rust_get_test_executables
+# @DESCRIPTION:
+# Call `ecargo_test` with '--no-run' and '--message-format=json' arguments.
+# Then, use jq to parse and store all the test executables in a global array.
+cros-rust_get_test_executables() {
+	mapfile -t CROS_RUST_TESTS < <(ecargo_test --no-run --message-format=json | \
+	jq -r 'select(.profile.test == true) | .filenames[]')
 }
 
 # @FUNCTION: cros-rust_publish
