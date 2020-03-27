@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="902a388ed76eb5dbbf3d21a3e6b316798b0a1954"
-CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "04dc7a3036116bc7d35ac0163eca245b1554aa54" "0a6fa525741881586a12f35d2d8f200bad56644d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8fbf6cd8a8d49d412d8e3265331e81fec430f0ba"
+CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "95835c8c88b71d55287f094049bbb4242122b15a" "2b6ef399b9e465990f080c6d3cb0a58dd99394b1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -114,6 +114,7 @@ src_install() {
 	# Install the diagnostic routine executables.
 	exeinto /usr/libexec/diagnostics
 	doexe "${OUT}/floating-point-accuracy"
+	doexe "${OUT}/prime-search"
 	doexe "${OUT}/smartctl-check"
 	doexe "${OUT}/urandom"
 
