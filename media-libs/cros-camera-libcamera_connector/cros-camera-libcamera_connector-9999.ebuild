@@ -22,11 +22,11 @@ BDEPEND="virtual/pkgconfig"
 
 RDEPEND="
 	media-libs/cros-camera-libcamera_common
-	media-libs/cros-camera-libcamera_ipc
-	media-libs/cros-camera-libcbm"
+	media-libs/cros-camera-libcamera_ipc"
 
 DEPEND="${RDEPEND}
-	media-libs/cros-camera-android-headers"
+	media-libs/cros-camera-android-headers
+	x11-libs/libdrm"
 
 src_install() {
 	dolib.so "${OUT}/lib/libcamera_connector.so"
