@@ -95,12 +95,8 @@ src_configure() {
 
 src_test() {
 	# TODO(armansito): Run unit tests for non-x86 platforms.
-	# TODO(armansito): Instead of running dbus-launch here, use
-	# dbus-run-session from within BlueZ's make target and get that
-	# upstream. We're taking this approach for now since dbus-run-session
-	# requires at least dbus-1.8.
 	[[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] && \
-		dbus-launch --exit-with-session emake check VERBOSE=1
+		emake check VERBOSE=1
 }
 
 src_install() {
