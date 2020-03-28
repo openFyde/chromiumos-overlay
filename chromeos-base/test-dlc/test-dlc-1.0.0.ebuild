@@ -19,17 +19,8 @@ src_unpack() {
 }
 
 src_install() {
-	local n
-	for n in {1..2}; do
-		local id="test${n}-dlc"
-		local package="test-package"
-		insinto "/opt/google/dlc/${id}/${package}/"
-		doins "${FILESDIR}/${id}/${package}/table"
-		doins "${FILESDIR}/${id}/${package}/imageloader.json"
-		insinto "/usr/local/dlc/"
-		newins "${FILESDIR}/${id}/${package}/dlcservice_test-dlc.payload" \
-			"${id}_${package}_dlcservice_test-dlc.payload"
-		newins "${FILESDIR}/${id}/${package}/dlcservice_test-dlc.payload.json" \
-			"${id}_${package}_dlcservice_test-dlc.payload.json"
-	done
+	insinto "/opt/google/dlc"
+	doins -r "${FILESDIR}/rootfs_meta"/*
+	insinto "/usr/local/dlc"
+	doins -r "${FILESDIR}/payloads"/*
 }

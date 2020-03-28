@@ -15,18 +15,21 @@ set -ex
 
 TEMP="$(mktemp -d)"
 BUILD_BOARD="/build/${BOARD}"
+DLC_ROOTFS_META_DIR="rootfs_meta"
+DLC_PAYLOADS_DIR="payloads"
 DLC_IMAGE_DIR="build/rootfs/dlc"
 DLC_PACKAGE="test-package"
-PAYLOAD="dlcservice_test-dlc.payload"
+DLC_PAYLOAD="dlcservice_test-dlc.payload"
 LSB_RELEASE="etc/lsb-release"
 UPDATE_ENGINE_CONF="etc/update_engine.conf"
 
+mkdir -p "${DLC_PAYLOADS_DIR}" "${DLC_ROOTFS_META_DIR}"
 for N in {1..2}; do
   DLC_ID="test${N}-dlc"
   DLC_PATH="${DLC_ID}/${DLC_PACKAGE}"
   DLC_FILES_DIR="${TEMP}/${DLC_IMAGE_DIR}/${DLC_ID}/${DLC_PACKAGE}/root"
 
-  mkdir -p "${DLC_FILES_DIR}"/dir "./${DLC_PATH}" "${TEMP}"/etc
+  mkdir -p "${DLC_FILES_DIR}/dir"  "${TEMP}"/etc
   truncate -s 12K "${DLC_FILES_DIR}/file1.bin"
   truncate -s 24K "${DLC_FILES_DIR}/dir/file2.bin"
 
@@ -39,22 +42,21 @@ for N in {1..2}; do
 
   build_dlc --sysroot "${TEMP}" --rootfs "${TEMP}"
 
-  cp "${TEMP}/opt/google/dlc/${DLC_PATH}/table" "${DLC_PATH}/."
-  cp "${TEMP}/opt/google/dlc/${DLC_PATH}/imageloader.json" "${DLC_PATH}/."
+  cp -r "${TEMP}/opt/google/dlc"/* "${DLC_ROOTFS_META_DIR}/"
 
+  PAYLOAD_NAME="${DLC_ID}_${DLC_PACKAGE}_${DLC_PAYLOAD}"
   cros_generate_update_payload \
-      --image "${TEMP}/build/rootfs/dlc/${DLC_PATH}/dlc.img" \
-      --output "${TEMP}/${PAYLOAD}"
+      --tgt-image "${TEMP}/build/rootfs/dlc/${DLC_PATH}/dlc.img" \
+      --output "${TEMP}/${PAYLOAD_NAME}"
 
   # Remove the AppID because it is static and nebraska won't be able to get it
   # when different boards pass different APP IDs.
   FIND_BEGIN="{\"appid\": \""
   FIND_END="_test"
   sed -i "s/${FIND_BEGIN}.*${FIND_END}/${FIND_BEGIN}${FIND_END}/" \
-   "${TEMP}/${PAYLOAD}.json"
+   "${TEMP}/${PAYLOAD_NAME}.json"
 
-  cp "${TEMP}/${PAYLOAD}" "${DLC_PATH}/."
-  cp "${TEMP}/${PAYLOAD}.json" "${DLC_PATH}/."
+  cp "${TEMP}/${PAYLOAD_NAME}" "${TEMP}/${PAYLOAD_NAME}.json" "${DLC_PAYLOADS_DIR}/"
 
   sudo rm -rf "${TEMP}"
 done
