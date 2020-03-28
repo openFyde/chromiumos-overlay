@@ -65,10 +65,6 @@ src_prepare() {
 	default
 }
 
-src_configure() {
-	cros-workon_src_configure
-}
-
 src_install() {
 	insinto ${AUTOTEST_BASE}
 	doins -r "${AUTOTEST_WORK}"/*

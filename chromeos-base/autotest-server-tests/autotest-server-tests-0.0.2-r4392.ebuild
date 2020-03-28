@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="c61b4deb934ab528a7371a51f256073cdf164443"
-CROS_WORKON_TREE="d8ffc358c1a233386675717aad271592ada19b7b"
+CROS_WORKON_COMMIT="3593b5cf9f9d5b51df4068d0c95c3bb3b52d1e47"
+CROS_WORKON_TREE="510a965c45080e46745f91ff289f2779c81668ab"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -324,7 +324,3 @@ IUSE_TESTS="${IUSE_TESTS}
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
-
-src_configure() {
-	cros-workon_src_configure
-}

@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="9211f96cd030f7066491f172b36d1c6d6f8d72f4"
-CROS_WORKON_TREE="abef38678cffa3e1f76800575b624630b06bbf9b"
+CROS_WORKON_COMMIT="3593b5cf9f9d5b51df4068d0c95c3bb3b52d1e47"
+CROS_WORKON_TREE="510a965c45080e46745f91ff289f2779c81668ab"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -49,5 +49,5 @@ AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
 src_configure() {
 	sanitizers-setup-env
-	cros-workon_src_configure
+	default
 }
