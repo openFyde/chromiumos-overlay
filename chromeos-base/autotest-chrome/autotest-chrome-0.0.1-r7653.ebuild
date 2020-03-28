@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="f718c80db4156dd2e18e413c644c03e8dc205140"
-CROS_WORKON_TREE="1328deeab54649f445210adebaa410ca5c4e4fd1"
+CROS_WORKON_COMMIT="379d5219cb93df8a444512642e8e58980b81176c"
+CROS_WORKON_TREE="a941d7259e152283430a7c179508b5196af52ffb"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
-inherit toolchain-funcs flag-o-matic cros-workon autotest
+inherit cros-workon autotest
 
 DESCRIPTION="Autotest tests that require chrome_binary_test, or telemetry deps"
 HOMEPAGE="http://www.chromium.org/"

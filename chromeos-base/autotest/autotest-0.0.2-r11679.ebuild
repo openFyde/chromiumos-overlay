@@ -1,12 +1,12 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_COMMIT="379d5219cb93df8a444512642e8e58980b81176c"
 CROS_WORKON_TREE="a941d7259e152283430a7c179508b5196af52ffb"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
-inherit toolchain-funcs flag-o-matic cros-workon cros-constants
+inherit cros-workon cros-constants
 
 DESCRIPTION="Autotest scripts and tools"
 HOMEPAGE="http://www.chromium.org/"
@@ -62,6 +62,7 @@ src_prepare() {
 
 	sed "/^enable_server_prebuild/d" "${S}/global_config.ini" > \
 		"${AUTOTEST_WORK}/global_config.ini"
+	default
 }
 
 src_configure() {
