@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("ccbb7aaac04b56c685da9ef938950ab7945e9d1a" "3efcd52001ecdeb4878e2e2b70a44952f00b70d3")
-CROS_WORKON_TREE=("12489a728d72e40a6a4e3945a2584833742e3f73" "113ac4f531abf8f7ae0f36438c5367d3a901983d")
+CROS_WORKON_COMMIT=("58c6bc1cef238b6fbea7b94bda3b6f64a95f4063" "482e6e2ea17777283edd202a10f3282d58b0b18e")
+CROS_WORKON_TREE=("4f45c5367b3600ee795f2b9428bcd0c781b30d26" "48426c868ee66a1d5bd4f42f5b0bb11c17086017")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast-tests"
 	"chromiumos/platform/tast"
@@ -37,7 +37,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
 LICENSE="Apache-2.0 BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="arc chromeless_tty chromeless_tests usbip"
+IUSE="arc chromeless_tty chromeless_tests"
 
 # Build-time dependencies should be added to tast-build-deps, not here.
 DEPEND="chromeos-base/tast-build-deps:="
@@ -61,7 +61,7 @@ RDEPEND="
 	sys-apps/memtester
 	sys-apps/rootdev
 	virtual/udev
-	usbip? ( chromeos-base/virtual-usb-printer )
+	chromeos-base/virtual-usb-printer
 "
 
 # Permit files/external_data.conf to pull in files that are located in
