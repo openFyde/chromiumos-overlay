@@ -31,7 +31,7 @@ CROS_WORKON_DESTDIR=("${S}" "${VBOOT_REFERENCE_DESTDIR}")
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
 
-inherit cros-workon cros-board toolchain-funcs cros-unibuild
+inherit cros-workon cros-board cros-unibuild
 
 # Get the depthcharge board config to build for.
 # Checks the current board with/without variant. Echoes the board config file

@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/minigbm"
 CROS_WORKON_LOCALNAME="../platform/minigbm"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit cros-sanitizers cros-workon cros-common.mk toolchain-funcs multilib
+inherit cros-sanitizers cros-workon cros-common.mk multilib
 
 DESCRIPTION="Mini GBM implementation"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/minigbm"

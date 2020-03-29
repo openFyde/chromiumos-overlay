@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="update_engine"
 # Some unittests crash when run through qemu/arm.  Should figure this out.
 PLATFORM_NATIVE_TEST="yes"
 
-inherit toolchain-funcs cros-debug cros-workon platform systemd
+inherit cros-debug cros-workon platform systemd
 
 DESCRIPTION="Chrome OS Update Engine"
 HOMEPAGE="https://chromium.googlesource.com/aosp/platform/system/update_engine/"

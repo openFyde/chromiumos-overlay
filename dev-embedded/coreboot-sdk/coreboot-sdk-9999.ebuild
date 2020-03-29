@@ -6,7 +6,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
 CROS_WORKON_SUBTREE="util/crossgcc"
 
-inherit cros-workon toolchain-funcs multiprocessing
+inherit cros-workon flag-o-matic multiprocessing
 
 DESCRIPTION="upstream coreboot's compiler suite"
 HOMEPAGE="https://www.coreboot.org"

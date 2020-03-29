@@ -7,7 +7,7 @@ EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-iris"
 
-inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
+inherit base meson multilib-minimal flag-o-matic cros-workon arc-build
 
 DESCRIPTION="The Mesa 3D Graphics Library"
 HOMEPAGE="http://mesa3d.org/"

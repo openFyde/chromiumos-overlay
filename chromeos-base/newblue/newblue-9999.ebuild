@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/newblue"
 CROS_WORKON_LOCALNAME="platform/newblue"
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-inherit toolchain-funcs multilib cros-sanitizers cros-workon udev
+inherit multilib cros-sanitizers cros-workon udev
 
 DESCRIPTION="NewBlue Bluetooth stack"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/newblue"

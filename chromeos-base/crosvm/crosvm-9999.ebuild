@@ -8,7 +8,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since crosvm/Cargo.toml is
 # using "# ignored by ebuild" macro which supported by cros-rust.
 
-inherit cros-fuzzer cros-rust cros-workon toolchain-funcs user
+inherit cros-fuzzer cros-rust cros-workon user
 
 KERNEL_PREBUILT_DATE="2019_10_10_00_22"
 

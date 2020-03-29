@@ -11,7 +11,7 @@ CROS_BOARDS=( none )
 CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
 CROS_WORKON_LOCALNAME="../platform/empty-project"
 
-inherit cros-unibuild toolchain-funcs cros-workon
+inherit cros-unibuild cros-workon
 
 DESCRIPTION="Chromium OS-specific configuration"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/config/"

@@ -15,7 +15,7 @@ CROS_WORKON_SUBTREE="common-mk system_api .gn"
 PLATFORM_SUBDIR="system_api"
 WANT_LIBBRILLO="no"
 
-inherit cros-fuzzer cros-go cros-workon toolchain-funcs platform
+inherit cros-fuzzer cros-go cros-workon platform
 
 DESCRIPTION="Chrome OS system API (D-Bus service names, etc.)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/system_api/"

@@ -9,7 +9,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/edk2"
 CROS_WORKON_LOCALNAME="edk2"
 
-inherit toolchain-funcs cros-workon coreboot-sdk multiprocessing
+inherit cros-workon coreboot-sdk multiprocessing
 
 DESCRIPTION="EDK II firmware development environment for the UEFI and PI specifications."
 HOMEPAGE="https://github.com/tianocore/edk2"

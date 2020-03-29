@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="../platform/frecon"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-inherit cros-sanitizers cros-workon cros-common.mk toolchain-funcs
+inherit cros-sanitizers cros-workon cros-common.mk
 
 DESCRIPTION="Chrome OS KMS console (without DBUS/UDEV support)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/frecon"

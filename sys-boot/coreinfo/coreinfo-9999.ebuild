@@ -14,7 +14,7 @@ DEPEND="sys-boot/libpayload:="
 
 CROS_WORKON_LOCALNAME="coreboot"
 
-inherit cros-workon toolchain-funcs coreboot-sdk
+inherit cros-workon coreboot-sdk
 
 src_compile() {
 	export CROSS_COMPILE=${COREBOOT_SDK_PREFIX_x86_32}

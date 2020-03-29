@@ -11,7 +11,7 @@ CROS_WORKON_EGIT_BRANCH="chromeos-iris"
 
 KEYWORDS="~*"
 
-inherit base meson flag-o-matic toolchain-funcs cros-workon
+inherit base meson flag-o-matic cros-workon
 
 DESCRIPTION="The Mesa 3D Graphics Library"
 HOMEPAGE="http://mesa3d.org/"

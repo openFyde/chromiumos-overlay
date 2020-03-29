@@ -7,7 +7,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/audiotest"
 CROS_WORKON_LOCALNAME="platform/audiotest"
 
-inherit cros-sanitizers cros-workon cros-common.mk toolchain-funcs
+inherit cros-sanitizers cros-workon cros-common.mk
 
 DESCRIPTION="Audio test tools"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/audiotest"

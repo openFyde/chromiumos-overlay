@@ -12,7 +12,7 @@ CROS_WORKON_PROJECT=("chromiumos/third_party/bluez" "chromiumos/third_party/blue
 CROS_WORKON_DESTDIR=("${S}/bluez" "${S}/bluez-next")
 CROS_WORKON_EGIT_BRANCH=("chromeos-5.44" "chromeos-5.54")
 
-inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
+inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon flag-o-matic
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="http://www.bluez.org/"

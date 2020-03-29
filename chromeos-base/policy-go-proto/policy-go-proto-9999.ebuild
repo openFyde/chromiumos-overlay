@@ -15,7 +15,7 @@ CROS_WORKON_SUBTREE="common-mk policy_proto .gn"
 
 PLATFORM_SUBDIR="policy_proto"
 
-inherit cros-go cros-workon toolchain-funcs platform
+inherit cros-go cros-workon platform
 
 DESCRIPTION="Chrome OS policy protocol buffer binding for go"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/policy_proto"

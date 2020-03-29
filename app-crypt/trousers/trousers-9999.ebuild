@@ -7,7 +7,7 @@ EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/third_party/trousers"
 CROS_WORKON_EGIT_BRANCH="master-0.3.13"
 
-inherit autotools base cros-debug cros-sanitizers cros-workon flag-o-matic libchrome systemd toolchain-funcs user
+inherit autotools base cros-debug cros-sanitizers cros-workon flag-o-matic libchrome systemd user
 
 DESCRIPTION="An open-source TCG Software Stack (TSS) v1.1 implementation"
 HOMEPAGE="http://trousers.sf.net"
