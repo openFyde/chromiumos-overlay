@@ -72,7 +72,8 @@ BOARD="${BOARD:-${SYSROOT##/build/}}"
 # [Mod] GN output dir is named as "out_icu_${BOARD}".
 BUILD_OUT="${BUILD_OUT:-out_icu_${BOARD}}"
 
-BUILD_OUT_SYM="c"
+# [Mod] Change from "c" to avoid potential conflict with chromeos-chrome.ebuild.
+BUILD_OUT_SYM="c_icu"
 
 # [Mod] To differentiate with the standard ICU, we postfix the include headers
 # folder and library names by "chrome". (see crbug.com/1059133 and b/151439301)
