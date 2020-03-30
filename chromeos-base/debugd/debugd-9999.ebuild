@@ -45,9 +45,16 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=
 	sys-apps/dbus:="
 
-pkg_preinst() {
+pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs debugd.
 	enewuser "debugd"
 	enewgroup "debugd"
+
+	cros-workon_pkg_setup
+}
+
+pkg_preinst() {
 	enewuser "debugd-logs"
 	enewgroup "debugd-logs"
 
@@ -101,6 +108,11 @@ src_install() {
 
 	insinto /etc/perf_commands
 	doins -r share/perf_commands/*
+
+	local daemon_store="/etc/daemon-store/debugd"
+	dodir "${daemon_store}"
+	fperms 0660 "${daemon_store}"
+	fowners debugd:debugd "${daemon_store}"
 }
 
 platform_pkg_test() {
