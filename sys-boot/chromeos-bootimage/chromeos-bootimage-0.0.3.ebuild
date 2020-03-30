@@ -512,8 +512,9 @@ build_images() {
 	build_image net "${coreboot_file}.serial" "${depthcharge}" "${netboot}"
 
 	# Set convenient netboot parameter defaults for developers.
-	local bootfile="${PORTAGE_USERNAME}/${BOARD_USE}/vmlinuz"
-	local argsfile="${PORTAGE_USERNAME}/${BOARD_USE}/cmdline"
+	local name="${build_name:-"${BOARD_USE}"}"
+	local bootfile="${PORTAGE_USERNAME}/${name}/vmlinuz"
+	local argsfile="${PORTAGE_USERNAME}/${name}/cmdline"
 	netboot_firmware_settings.py \
 		-i "${outdir}image${suffix}.net.bin" \
 		--bootfile="${bootfile}" --argsfile="${argsfile}" &&
