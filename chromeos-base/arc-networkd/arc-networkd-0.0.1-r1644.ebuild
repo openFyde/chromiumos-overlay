@@ -3,20 +3,20 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6fd6728779b2f9ec3f25867440b66584a21e51fe"
-CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "6ac9c5f39620287275e85b31bbab0d81a57f4b01" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="750656973903f14b2cac408b909f4f4b2e471d3d"
+CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "89101dea43381357ad5715f65439b0c801515c0d" "6ac9c5f39620287275e85b31bbab0d81a57f4b01" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(garrick): Workaround for https://crbug.com/809389
-CROS_WORKON_SUBTREE="common-mk patchpanel shill/net .gn"
+CROS_WORKON_SUBTREE="common-mk arc/network shill/net .gn"
 
-PLATFORM_SUBDIR="patchpanel"
+PLATFORM_SUBDIR="arc/network"
 
 inherit cros-workon libchrome platform user
 
-DESCRIPTION="Network connectivity management daemon"
+DESCRIPTION="ARC connectivity management daemon"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -56,7 +56,7 @@ src_install() {
 	doins "${OUT}"/libarcnetwork-util.pc
 	doins "${OUT}"/libpatchpanel-client.pc
 
-	insinto /usr/include/patchpanel/
+	insinto /usr/include/arc/network/
 	doins client.h
 	doins mac_address_generator.h
 	doins subnet.h
