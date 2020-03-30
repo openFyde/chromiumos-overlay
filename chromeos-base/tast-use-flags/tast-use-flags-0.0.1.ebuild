@@ -83,6 +83,8 @@ IUSE="
 	force_crashpad
 	grunt
 	hana-kernelnext
+	houdini
+	houdini64
 	internal
 	+internal_mic
 	+internal_speaker
@@ -104,6 +106,8 @@ IUSE="
 	moblab
 	mocktpm
 	msan
+	ndk_translation
+	ndk_translation64
 	nyan_kitty
 	octopus
 	pita
