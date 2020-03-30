@@ -35,7 +35,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
 LICENSE="Apache-2.0 BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="arc chromeless_tty chromeless_tests"
+IUSE="arc chromeless_tty chromeless_tests kernel-3_8 kernel-3_10 kernel-3_14"
 
 # Build-time dependencies should be added to tast-build-deps, not here.
 DEPEND="chromeos-base/tast-build-deps:="
@@ -59,7 +59,13 @@ RDEPEND="
 	sys-apps/memtester
 	sys-apps/rootdev
 	virtual/udev
-	chromeos-base/virtual-usb-printer
+	!kernel-3_14? (
+		!kernel-3_10? (
+			!kernel-3_8? (
+				chromeos-base/virtual-usb-printer
+			)
+		)
+	)
 "
 
 # Permit files/external_data.conf to pull in files that are located in
