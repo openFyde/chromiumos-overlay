@@ -23,6 +23,19 @@ DLC_PAYLOAD="dlcservice_test-dlc.payload"
 LSB_RELEASE="etc/lsb-release"
 UPDATE_ENGINE_CONF="etc/update_engine.conf"
 
+# Creates files (truncated/hash/perm) in the files directory with given
+# truncate size, name, and permissions.
+generate_file() {
+  local size="$1"
+  local filepath="${DLC_FILES_DIR}/$2"
+  local permissions="$3"
+  truncate -s "${size}" "${filepath}" || die
+  sha256sum "${filepath}" > "${filepath}.sum" || die
+  chmod "${permissions}" "${filepath}" || die
+  echo "${permissions}" > "${filepath}.perms" || die
+}
+
+
 mkdir -p "${DLC_PAYLOADS_DIR}" "${DLC_ROOTFS_META_DIR}"
 for N in {1..2}; do
   DLC_ID="test${N}-dlc"
@@ -30,8 +43,9 @@ for N in {1..2}; do
   DLC_FILES_DIR="${TEMP}/${DLC_IMAGE_DIR}/${DLC_ID}/${DLC_PACKAGE}/root"
 
   mkdir -p "${DLC_FILES_DIR}/dir"  "${TEMP}"/etc
-  truncate -s 12K "${DLC_FILES_DIR}/file1.bin"
-  truncate -s 24K "${DLC_FILES_DIR}/dir/file2.bin"
+  generate_file 12K "file1.bin" 0755
+  generate_file 24K "dir/file2.bin" 0700
+  generate_file 24K "dir/file3.bin" 0444
 
   build_dlc  --install-root-dir "${TEMP}" --pre-allocated-blocks "10" \
       --version "1.0.0" --id "${DLC_ID}" --package "${DLC_PACKAGE}" \
