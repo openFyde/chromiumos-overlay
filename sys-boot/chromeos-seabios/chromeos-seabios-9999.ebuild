@@ -3,6 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/seabios"
+CROS_WORKON_EGIT_BRANCH="chromeos-2014.11.03"
 CROS_WORKON_LOCALNAME="seabios"
 
 inherit toolchain-funcs cros-workon coreboot-sdk

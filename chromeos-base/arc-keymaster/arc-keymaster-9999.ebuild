@@ -11,6 +11,7 @@ CROS_WORKON_REPO=(
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_AOSP_URL}"
 )
+CROS_WORKON_EGIT_BRANCH=("master" "pie-release")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/keymaster")
 CROS_WORKON_SUBTREE=("common-mk arc/keymaster .gn" "")

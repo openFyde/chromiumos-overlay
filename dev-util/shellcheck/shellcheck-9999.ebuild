@@ -5,6 +5,7 @@ EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/shellcheck"
 CROS_WORKON_LOCALNAME="shellcheck"
+CROS_WORKON_EGIT_BRANCH="chromeos-0.7"
 CROS_WORKON_DESTDIR="${S}"
 
 CABAL_FEATURES="lib profile haddock hoogle hscolour test-suite"

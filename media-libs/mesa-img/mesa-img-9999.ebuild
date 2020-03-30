@@ -8,6 +8,7 @@ MESON_AUTO_DEPEND=no
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
+CROS_WORKON_EGIT_BRANCH="mesa-img"
 CROS_WORKON_BLACKLIST="1"
 
 if [[ ${PV} = 9999* ]]; then

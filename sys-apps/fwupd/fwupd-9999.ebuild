@@ -4,6 +4,7 @@
 EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.3.8"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 

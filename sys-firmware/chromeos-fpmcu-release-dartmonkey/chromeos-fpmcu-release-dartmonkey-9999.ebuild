@@ -29,6 +29,12 @@ CROS_WORKON_DESTDIR=(
 	"${S}/third_party/cryptoc"
 )
 
+CROS_WORKON_EGIT_BRANCH=(
+	"firmware-fpmcu-dartmonkey-release"
+	"master"
+	"master"
+)
+
 inherit cros-workon cros-ec-release
 
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md"

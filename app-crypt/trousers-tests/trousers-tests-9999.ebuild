@@ -3,6 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/trousers"
+CROS_WORKON_EGIT_BRANCH="master-0.3.13"
 
 inherit cros-workon autotest
 
