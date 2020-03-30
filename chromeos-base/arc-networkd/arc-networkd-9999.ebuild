@@ -8,13 +8,13 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(garrick): Workaround for https://crbug.com/809389
-CROS_WORKON_SUBTREE="common-mk patchpanel shill/net .gn"
+CROS_WORKON_SUBTREE="common-mk arc/network shill/net .gn"
 
-PLATFORM_SUBDIR="patchpanel"
+PLATFORM_SUBDIR="arc/network"
 
 inherit cros-workon libchrome platform user
 
-DESCRIPTION="Network connectivity management daemon"
+DESCRIPTION="ARC connectivity management daemon"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -54,7 +54,7 @@ src_install() {
 	doins "${OUT}"/libarcnetwork-util.pc
 	doins "${OUT}"/libpatchpanel-client.pc
 
-	insinto /usr/include/patchpanel/
+	insinto /usr/include/arc/network/
 	doins client.h
 	doins mac_address_generator.h
 	doins subnet.h

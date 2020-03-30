@@ -7,8 +7,8 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-# TODO(crbug.com/809389): Remove network from this list.
-CROS_WORKON_SUBTREE="common-mk metrics patchpanel vm_tools .gn"
+# TODO(crbug.com/809389): Remove arc/network from this list.
+CROS_WORKON_SUBTREE="arc/network common-mk metrics vm_tools .gn"
 
 PLATFORM_SUBDIR="vm_tools"
 
