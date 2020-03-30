@@ -74,8 +74,8 @@ src_install() {
 	fperms 0770 "${daemon_store}"
 	fowners kerberosd:kerberosd "${daemon_store}"
 
-	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/config_validator_fuzzer \
-		--dict "${S}"/config_validator_fuzzer.dict || die
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/config_parser_fuzzer \
+		--dict "${S}"/config_parser_fuzzer.dict || die
 }
 
 platform_pkg_test() {
