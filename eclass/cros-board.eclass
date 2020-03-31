@@ -330,6 +330,7 @@ ALL_BOARDS=(
 	relm
 	reks
 	#reptile
+	reven
 	#ricochet
 	rikku
 	rikku-cfm
