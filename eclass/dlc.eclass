@@ -42,17 +42,26 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # packages. Needed to generate metadata for imageloader. Used in creating
 # directories for the image file and metadata. It cannot contain '_' or '/'.
 
-# @ECLASS-VARIABLE: DLC_NAME
+# @ECLASS-VARIABLE: DLC_PREALLOC_BLOCKS
 # @REQUIRED
 # @DEFAULT UNSET
+# @DESCRIPTION:
+# The number of blocks to preallocate for each of the the DLC A/B partitions.
+# Block size is 4 KiB.
+
+# @ECLASS-VARIABLE: DLC_NAME
+# @OPTIONAL
+# @DEFAULT ${PN}
 # @DESCRIPTION:
 # Name of the DLC being built.
+: "${DLC_NAME:=${PN}}"
 
 # @ECLASS-VARIABLE: DLC_VERSION
-# @REQUIRED
-# @DEFAULT UNSET
+# @OPTIONAL
+# @DEFAULT ${PVR}
 # @DESCRIPTION:
 # Version of the DLC being built.
+: "${DLC_VERSION:=${PVR}}"
 
 # @ECLASS-VARIABLE: DLC_FS_TYPE
 # @OPTIONAL
@@ -60,13 +69,6 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # @DESCRIPTION:
 # Specify the type of filesystem for the DLC image. Currently we only support
 # squashfs.
-
-# @ECLASS-VARIABLE: DLC_PREALLOC_BLOCKS
-# @REQUIRED
-# @DEFAULT UNSET
-# @DESCRIPTION:
-# The number of blocks to preallocate for each of the the DLC A/B partitions.
-# Block size is 4 KiB.
 
 # @ECLASS-VARIABLE: DLC_PRELOAD
 # @OPTIONAL

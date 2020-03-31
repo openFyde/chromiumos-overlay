@@ -18,11 +18,12 @@ KEYWORDS="*"
 IUSE="dlc"
 REQUIRED_USE="dlc"
 
-DLC_NAME="A dummy DLC"
-DLC_VERSION="${PV}"
-DLC_PREALLOC_BLOCKS="1024"
+# Required
 DLC_ID="dummy-dlc"
 DLC_PACKAGE="dummy-package"
+DLC_PREALLOC_BLOCKS="1024"
+
+# Optional, reference design doc for all optional DLC variables.
 DLC_PRELOAD=true
 
 src_unpack() {
@@ -49,6 +50,7 @@ src_install() {
 	# needed too. Otherwise it is just a no-op. Setting the value of RANDOM
 	# acts as setting a seed value for bash's random generator.
 	RANDOM="${seed}"
+
 	# Setup DLC paths.
 	into "$(dlc_get_path)/opt/dummy-dlc/"
 	insinto "$(dlc_get_path)/opt/dummy-dlc/"
