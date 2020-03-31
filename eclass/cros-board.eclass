@@ -68,7 +68,6 @@ ALL_BOARDS=(
 	betty-arcnext
 	betty-arcvm-master
 	betty-arcvm-pi
-	betty-nyc-arc
 	betty-pi-arc
 	#betty-qt-arc
 	#bettyvirgl
