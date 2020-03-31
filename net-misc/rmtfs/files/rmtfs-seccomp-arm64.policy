@@ -5,21 +5,27 @@
 faccessat: 1
 bind: 1
 brk: 1
+clone: 1
 close: 1
+exit: 1
+exit_group: 1
 fstat: 1
 newfstatat: 1
+getdents64: 1
 getpid: 1
 # Filter arg2 to disallow GRND_RANDOM (2).
 getrandom: arg2 in 0xfffffffd
 getsockname: 1
 gettid: 1
 lseek: 1
+madvise: 1
 # Prevent PROT_EXEC
 mmap: arg2 in 0xfffffffb
 # Prevent PROT_EXEC
 mprotect: arg2 in 0xfffffffb
 munmap: 1
 openat: 1
+pipe2: 1
 ppoll: 1
 pread64: 1
 pwrite64: 1
