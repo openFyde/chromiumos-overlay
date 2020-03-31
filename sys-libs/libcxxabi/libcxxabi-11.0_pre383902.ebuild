@@ -14,7 +14,7 @@ HOMEPAGE="http://libcxxabi.llvm.org/"
 SRC_URI=""
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 LLVM_HASH="e21b39a86dd6e8d1a5a5fe7e0286f8570732834d" # r383902
-LLVM_NEXT_HASH="e21b39a86dd6e8d1a5a5fe7e0286f8570732834d" # r383902
+LLVM_NEXT_HASH="c47f971694be0159ffddfee8a75ae515eba91439" # r387436
 
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
