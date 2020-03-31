@@ -35,6 +35,7 @@ geteuid: 1
 getgid: 1
 getpeername: 1
 getpid: 1
+getpgid: 1
 getppid: 1
 getpriority: 1
 gettid: 1
@@ -52,7 +53,6 @@ kill: 1
 listen: 1
 lseek: 1
 madvise: 1
-mkdir: 1
 mkdirat: 1
 # Don't allow mmap or mprotect with both PROT_WRITE and PROT_EXEC
 mmap: arg2 in 0xfffffffb || arg2 in 0xfffffffd
@@ -67,6 +67,7 @@ ppoll: 1
 prctl: 1
 pread64: 1
 prlimit64: 1
+pselect6: 1
 pwrite64: 1
 read: 1
 readlinkat: 1
@@ -74,9 +75,9 @@ recvfrom: 1
 recvmsg: 1
 renameat: 1
 restart_syscall: 1
-rmdir: 1
 rt_sigaction: 1
 rt_sigprocmask: 1
+rt_sigreturn: 1
 sendmmsg: 1
 sendmsg: 1
 sendto: 1

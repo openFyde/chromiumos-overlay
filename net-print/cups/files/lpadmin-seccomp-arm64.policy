@@ -23,6 +23,7 @@ getrusage: 1
 gettimeofday: 1
 getuid: 1
 ioctl: 1
+lseek: 1
 # Don't allow mmap or mprotect with both PROT_WRITE and PROT_EXEC
 mmap: arg2 in 0xfffffffb || arg2 in 0xfffffffd
 mprotect: arg2 in 0xfffffffb || arg2 in 0xfffffffd
