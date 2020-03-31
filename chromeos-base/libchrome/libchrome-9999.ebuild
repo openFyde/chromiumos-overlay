@@ -1,18 +1,12 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-# Note: the ${PV} should represent the overall svn rev number of the
-# chromium tree that we're extracting from rather than the svn rev of
-# the last change actually made to the base subdir.
-
 EAPI="5"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_COMMIT=("664afb6911a1d224202ee1fc50737e2c2f847b82" "75d40e3e1bbbc02d7efa6db28b84986355ebc3f8")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
-CROS_WORKON_BLACKLIST="1"
 
 WANT_LIBCHROME="no"
 inherit cros-workon libchrome-version platform
@@ -22,14 +16,14 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/libchrome"
 SRC_URI=""
 
 LICENSE="BSD-Google"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE="cros_host +crypto +dbus fuzzer +mojo +timers"
 
 PLATFORM_SUBDIR="libchrome"
 
 # TODO(avakulenko): Put dev-libs/nss behind a USE flag to make sure NSS is
 # pulled only into the configurations that require it.
-# TODO(fqj): remove !chromeos-base/libchrome:${PV} on next uprev to r680000.
+# TODO(fqj): remove !chromeos-base/libchrome-${BASE_VER} on next uprev to r680000.
 RDEPEND="dev-libs/glib:2=
 	dev-libs/libevent:=
 	dev-libs/modp_b64:=
@@ -42,7 +36,7 @@ RDEPEND="dev-libs/glib:2=
 		dev-libs/protobuf:=
 	)
 	dev-libs/re2:=
-	!chromeos-base/libchrome:${PV}
+	!~chromeos-base/libchrome-${BASE_VER}
 "
 DEPEND="${RDEPEND}
 	dev-cpp/gtest:=
@@ -149,8 +143,8 @@ src_prepare() {
 }
 
 src_install() {
-	dolib.so "${OUT}"/lib/libbase*-"${PV}".so
-	dolib.a "${OUT}"/libbase*-"${PV}".a
+	dolib.so "${OUT}"/lib/libbase*-"${BASE_VER}".so
+	dolib.a "${OUT}"/libbase*-"${BASE_VER}".a
 
 	local mojom_dirs=()
 	local header_dirs=(
@@ -190,7 +184,7 @@ src_install() {
 	use dbus && header_dirs+=( dbus )
 	use timers && header_dirs+=( components/timers )
 
-	insinto /usr/include/base-"${PV}"/base/test
+	insinto /usr/include/base-"${BASE_VER}"/base/test
 	doins \
 		base/test/bind_test_util.h \
 		base/test/scoped_task_environment.h \
@@ -200,7 +194,7 @@ src_install() {
 		base/test/test_pending_task.h \
 
 	if use crypto; then
-		insinto /usr/include/base-${PV}/crypto
+		insinto /usr/include/base-${BASE_VER}/crypto
 		doins \
 			crypto/crypto_export.h \
 			crypto/hmac.h \
@@ -224,12 +218,12 @@ src_install() {
 	fi
 
 	insinto /usr/$(get_libdir)/pkgconfig
-	doins "${OUT}"/obj/libchrome/libchrome*-"${PV}".pc
+	doins "${OUT}"/obj/libchrome/libchrome*-"${BASE_VER}".pc
 
 	# Install libmojo.
 	if use mojo; then
 		# Install binary.
-		dolib.a "${OUT}"/libmojo-"${PV}".a
+		dolib.a "${OUT}"/libmojo-"${BASE_VER}".a
 
 		# Install headers.
 		header_dirs+=(
@@ -251,37 +245,37 @@ src_install() {
 
 		# Install libmojo.pc.
 		insinto /usr/$(get_libdir)/pkgconfig
-		doins "${OUT}"/obj/libchrome/libmojo-"${PV}".pc
+		doins "${OUT}"/obj/libchrome/libmojo-"${BASE_VER}".pc
 
 		# Install generate_mojom_bindings.
 		# TODO(hidehiko): Clean up tools' install directory.
-		insinto /usr/src/libmojo-"${PV}"/mojo
+		insinto /usr/src/libmojo-"${BASE_VER}"/mojo
 		doins -r mojo/public/tools/bindings/*
 		doins build/gn_helpers.py
 		doins -r build/android/gyp/util
 		doins -r build/android/pylib
-		exeinto /usr/src/libmojo-"${PV}"/mojo
+		exeinto /usr/src/libmojo-"${BASE_VER}"/mojo
 		doexe libchrome_tools/mojom_generate_type_mappings.py
 
-		insinto /usr/src/libmojo-"${PV}"/third_party
+		insinto /usr/src/libmojo-"${BASE_VER}"/third_party
 		doins -r third_party/jinja2
 		doins -r third_party/markupsafe
 		doins -r third_party/ply
 
 		# Mark scripts executable.
 		fperms +x \
-			/usr/src/libmojo-"${PV}"/mojo/generate_type_mappings.py \
-			/usr/src/libmojo-"${PV}"/mojo/mojom_bindings_generator.py
+			/usr/src/libmojo-"${BASE_VER}"/mojo/generate_type_mappings.py \
+			/usr/src/libmojo-"${BASE_VER}"/mojo/mojom_bindings_generator.py
 	fi
 
 	# Install header files.
 	local d
 	for d in "${header_dirs[@]}" ; do
-		insinto /usr/include/base-"${PV}"/"${d}"
+		insinto /usr/include/base-"${BASE_VER}"/"${d}"
 		doins "${d}"/*.h
 	done
 	for d in "${mojom_dirs[@]}"; do
-		insinto /usr/include/base-"${PV}"/"${d}"
+		insinto /usr/include/base-"${BASE_VER}"/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.h
 		# Not to install mojom and pickle file to prevent misuse until Chromium IPC
 		# team is ready to have a stable mojo_base. see crbug.com/1055379
