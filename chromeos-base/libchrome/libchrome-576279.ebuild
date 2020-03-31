@@ -140,6 +140,9 @@ src_prepare() {
 
 	# TODO(crbug.com/1044363): Remove after uprev >= r586219.
 	epatch "${FILESDIR}"/${P}-Fix-TimeDelta.patch
+
+	# TODO(crbug.com/1065504): Remove after uprev to 754979.
+	epatch "${FILESDIR}"/${P}-libchrome-fix-integer-overflow-if-microseconds-is-IN.patch
 }
 
 src_install() {
