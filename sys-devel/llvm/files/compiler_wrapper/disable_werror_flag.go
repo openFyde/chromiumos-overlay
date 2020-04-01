@@ -41,6 +41,20 @@ func disableWerrorFlags(originalArgs []string) []string {
 	return noErrors
 }
 
+func isLikelyAConfTest(cfg *config, cmd *command) bool {
+	// Android doesn't do mid-build `configure`s, so we don't need to worry about this there.
+	if cfg.isAndroidWrapper {
+		return false
+	}
+
+	for _, a := range cmd.Args {
+		if strings.HasPrefix(a, "conftest.c") {
+			return true
+		}
+	}
+	return false
+}
+
 func doubleBuildWithWNoError(env env, cfg *config, newWarningsDir string, originalCmd *command) (exitCode int, err error) {
 	originalStdoutBuffer := &bytes.Buffer{}
 	originalStderrBuffer := &bytes.Buffer{}
@@ -62,7 +76,7 @@ func doubleBuildWithWNoError(env env, cfg *config, newWarningsDir string, origin
 	}
 	// The only way we can do anything useful is if it looks like the failure
 	// was -Werror-related.
-	if originalExitCode == 0 || !strings.Contains(originalStderrBuffer.String(), "-Werror") {
+	if originalExitCode == 0 || !bytes.Contains(originalStderrBuffer.Bytes(), []byte("-Werror")) || isLikelyAConfTest(cfg, originalCmd) {
 		originalStdoutBuffer.WriteTo(env.stdout())
 		originalStderrBuffer.WriteTo(env.stderr())
 		return originalExitCode, nil
@@ -80,16 +94,16 @@ func doubleBuildWithWNoError(env env, cfg *config, newWarningsDir string, origin
 	if err != nil {
 		return 0, err
 	}
-	// If -Wno-error fixed us, pretend that we never ran without -Wno-error.
-	// Otherwise, pretend that we never ran the second invocation. Since -Werror
-	// is an issue, log in either case.
-	if retryExitCode == 0 {
-		retryStdoutBuffer.WriteTo(env.stdout())
-		retryStderrBuffer.WriteTo(env.stderr())
-	} else {
+	// If -Wno-error fixed us, pretend that we never ran without -Wno-error. Otherwise, pretend
+	// that we never ran the second invocation.
+	if retryExitCode != 0 {
 		originalStdoutBuffer.WriteTo(env.stdout())
 		originalStderrBuffer.WriteTo(env.stderr())
+		return originalExitCode, nil
 	}
+
+	retryStdoutBuffer.WriteTo(env.stdout())
+	retryStderrBuffer.WriteTo(env.stderr())
 
 	// All of the below is basically logging. If we fail at any point, it's
 	// reasonable for that to fail the build. This is all meant for FYI-like
