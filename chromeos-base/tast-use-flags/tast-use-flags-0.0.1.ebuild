@@ -51,7 +51,6 @@ CROSTINI_STABLE_USE_FLAGS="
 IUSE="
 	amd64
 	android-container-master-arc-dev
-	android-container-nyc
 	android-container-pi
 	android-container-qt
 	android-vm-pi
