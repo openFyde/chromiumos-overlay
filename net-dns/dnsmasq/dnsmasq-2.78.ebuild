@@ -100,6 +100,7 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/${PN}-2.78-Alter-DHCP-address-selection-after-DECLINE-in-consec-addr.patch
 	epatch "${FILESDIR}"/${PN}-2.78-Fix-Alter-DHCP-address-selection-after-DECLINE-in-consec-addr.patch
+	epatch "${FILESDIR}"/${PN}-2.78-cve-2019-14834.patch
 
 	sed -i -r 's:lua5.[0-9]+:lua:' Makefile
 	sed -i "s:%%PREFIX%%:${EPREFIX}/usr:" dnsmasq.conf.example
