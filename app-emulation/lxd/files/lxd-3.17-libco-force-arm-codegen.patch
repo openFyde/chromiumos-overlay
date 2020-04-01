@@ -1,0 +1,27 @@
+From 9c9a6b665164fe537479cdd5474dcd240059b2ab Mon Sep 17 00:00:00 2001
+From: Stephen Barber <smbarber@chromium.org>
+Date: Wed, 1 Apr 2020 15:08:10 -0700
+Subject: [PATCH] arm: force arm code generation for co_switch
+
+When libco is built with thumb instructions, there is no guarantee that co_swap
+will be called with a bx instruction to switch out of thumb. Force co_switch to
+be built with 32-bit arm instructions to work around this.
+---
+ arm.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arm.c b/arm.c
+index 20c9531..bad24d0 100644
+--- a/arm.c
++++ b/arm.c
+@@ -80,6 +80,7 @@ void co_delete(cothread_t handle) {
+   free(handle);
+ }
+ 
++__attribute__((target("arm")))
+ void co_switch(cothread_t handle) {
+   cothread_t co_previous_handle = co_active_handle;
+   co_swap(co_active_handle = handle, co_previous_handle);
+-- 
+2.26.0.rc2.310.g2932bb562d-goog
+

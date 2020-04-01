@@ -167,6 +167,9 @@ src_prepare() {
 	eapply "${FILESDIR}/0002-lxd-Detect-built-in-shiftfs-too.patch" # crbug.com/1024327
 	eapply_user
 
+	cd "${S}/_dist/deps/libco" || die "Can't cd to libco dir"
+	eapply "${FILESDIR}/${P}-libco-force-arm-codegen.patch" # crbug.com/1059078
+
 	cd "${S}/_dist/deps/raft" || die "Can't cd to raft dir"
 	eautoreconf
 
