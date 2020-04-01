@@ -29,7 +29,8 @@ generate_file() {
   local size="$1"
   local filepath="${DLC_FILES_DIR}/$2"
   local permissions="$3"
-  truncate -s "${size}" "${filepath}" || die
+  # Read to /dev/urandom as tests are in place to check based off checksum.
+  dd if=/dev/urandom of="${filepath}" bs="${size}" count=1 || die
   sha256sum "${filepath}" > "${filepath}.sum" || die
   chmod "${permissions}" "${filepath}" || die
   echo "${permissions}" > "${filepath}.perms" || die
@@ -43,11 +44,12 @@ for N in {1..2}; do
   DLC_FILES_DIR="${TEMP}/${DLC_IMAGE_DIR}/${DLC_ID}/${DLC_PACKAGE}/root"
 
   mkdir -p "${DLC_FILES_DIR}/dir"  "${TEMP}"/etc
-  generate_file 12K "file1.bin" 0755
-  generate_file 24K "dir/file2.bin" 0700
-  generate_file 24K "dir/file3.bin" 0444
+  # Don't create unreadable files as tests check based on readability.
+  generate_file 10 "file1.bin" 0755
+  generate_file 20 "dir/file2.bin" 0544
+  generate_file 30 "dir/file3.bin" 0444
 
-  build_dlc  --install-root-dir "${TEMP}" --pre-allocated-blocks "10" \
+  build_dlc  --install-root-dir "${TEMP}" --pre-allocated-blocks "20" \
       --version "1.0.0" --id "${DLC_ID}" --package "${DLC_PACKAGE}" \
       --name "Test${N} DLC" --build-package
 
