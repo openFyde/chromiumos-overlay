@@ -33,9 +33,12 @@ DEPEND="
 	chromeos-base/libpasswordprovider:=
 "
 
-pkg_preinst() {
+pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs <daemon_user> and <daemon_group>.
 	enewuser "fuse-smbfs"
 	enewgroup "fuse-smbfs"
+	cros-workon_pkg_setup
 }
 
 src_install() {
@@ -43,6 +46,11 @@ src_install() {
 
 	insinto /usr/share/policy
 	newins seccomp_filters/smbfs-seccomp-"${ARCH}".policy smbfs-seccomp.policy
+
+	local daemon_store="/etc/daemon-store/smbfs"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners fuse-smbfs:fuse-smbfs "${daemon_store}"
 }
 
 platform_pkg_test() {
