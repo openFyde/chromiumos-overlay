@@ -18,7 +18,6 @@ IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups +
 IUSE="${IUSE} +autotest"
 
 # pygobject is used in the following tests:
-#   firmware_TouchMTB
 #   platform_CrosDisks*
 RDEPEND="
 	>=chromeos-base/autotest-deps-0.0.3
@@ -103,7 +102,6 @@ CLIENT_IUSE_TESTS="
 	+tests_firmware_LockedME
 	+tests_firmware_RomSize
 	+tests_firmware_SetFWMP
-	+tests_firmware_TouchMTB
 	+tests_firmware_VbootCrypto
 	+tests_flaky_test
 	+tests_hardware_Badblocks
