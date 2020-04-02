@@ -18,6 +18,15 @@ RDEPEND="dev-libs/libnl:="
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 
+PATCHES=(
+	"${FILESDIR}"/0000-update-nl80211.patch
+	"${FILESDIR}"/0001-update-nl80211.patch
+	"${FILESDIR}"/0002-reg-parse-NO_HE.patch
+	"${FILESDIR}"/0003-phy-index.patch
+	"${FILESDIR}"/0004-event-wiphy-reg-change.patch
+	"${FILESDIR}"/0005-phy-reg-get.patch
+)
+
 src_prepare() {
 	default
 	tc-export CC LD PKG_CONFIG

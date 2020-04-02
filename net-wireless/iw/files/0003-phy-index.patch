@@ -1,0 +1,34 @@
+From 11c35aef4afc6389613b5ed1c8d26002c1200e12 Mon Sep 17 00:00:00 2001
+From: Brian Norris <briannorris@chromium.org>
+Date: Wed, 11 Mar 2020 18:05:15 -0700
+Subject: [PATCH] iw: phy: dump wiphy index
+
+We support getting wiphy info by index (e.g., 'iw phy#0 info') but we
+don't actually dump that info anywhere. Let's fix that.
+
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+Link: https://lore.kernel.org/r/20200312010515.21095-1-briannorris@chromium.org
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+---
+commit 11c35aef4afc6389613b5ed1c8d26002c1200e12 upstream
+
+ info.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/info.c b/info.c
+index 04f4bd7414d6..97240f68371d 100644
+--- a/info.c
++++ b/info.c
+@@ -133,6 +133,9 @@ static int print_phy_handler(struct nl_msg *msg, void *arg)
+ 	if (print_name && tb_msg[NL80211_ATTR_WIPHY_NAME])
+ 		printf("Wiphy %s\n", nla_get_string(tb_msg[NL80211_ATTR_WIPHY_NAME]));
+ 
++	if (print_name && tb_msg[NL80211_ATTR_WIPHY])
++		printf("\twiphy index: %u\n", nla_get_u32(tb_msg[NL80211_ATTR_WIPHY]));
++
+ 	/* needed for split dump */
+ 	if (tb_msg[NL80211_ATTR_WIPHY_BANDS]) {
+ 		nla_for_each_nested(nl_band, tb_msg[NL80211_ATTR_WIPHY_BANDS], rem_band) {
+-- 
+2.26.0.292.g33ef6b2f38-goog
+

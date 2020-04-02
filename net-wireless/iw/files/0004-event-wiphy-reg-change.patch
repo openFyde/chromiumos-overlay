@@ -1,0 +1,35 @@
+From 02503184597f0ddf64a7a0441b2e8d2ee82d5542 Mon Sep 17 00:00:00 2001
+From: Markus Theil <markus.theil@tu-ilmenau.de>
+Date: Tue, 24 Mar 2020 17:21:49 +0100
+Subject: [PATCH] iw: event: also handle reg change on wiphy
+
+Signed-off-by: Markus Theil <markus.theil@tu-ilmenau.de>
+Link: https://lore.kernel.org/r/20200324162149.3178-1-markus.theil@tu-ilmenau.de
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+---
+commit 02503184597f0ddf64a7a0441b2e8d2ee82d5542 upstream
+
+ event.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/event.c b/event.c
+index 51aff97deb0d..b132b17f2efd 100644
+--- a/event.c
++++ b/event.c
+@@ -931,8 +931,12 @@ static int print_event(struct nl_msg *msg, void *arg)
+ 	case NL80211_CMD_SCHED_SCAN_RESULTS:
+ 		printf("got scheduled scan results\n");
+ 		break;
++	case NL80211_CMD_WIPHY_REG_CHANGE:
+ 	case NL80211_CMD_REG_CHANGE:
+-		printf("regulatory domain change: ");
++		if(gnlh->cmd == NL80211_CMD_WIPHY_REG_CHANGE)
++			printf("regulatory domain change (phy): ");
++		else
++			printf("regulatory domain change: ");
+ 
+ 		reg_type = nla_get_u8(tb[NL80211_ATTR_REG_TYPE]);
+ 
+-- 
+2.26.0.292.g33ef6b2f38-goog
+
