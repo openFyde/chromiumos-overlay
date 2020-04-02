@@ -165,6 +165,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECBootTime
 	+tests_firmware_ECCbiEeprom
 	+tests_firmware_ECCharging
+	+tests_firmware_ECChargingState
 	+tests_firmware_ECHash
 	+tests_firmware_ECKeyboard
 	+tests_firmware_ECKeyboardReboot
