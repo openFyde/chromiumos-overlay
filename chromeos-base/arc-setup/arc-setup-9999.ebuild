@@ -73,6 +73,13 @@ src_install() {
 	# Both ARCVM and ARC use arc-remove-data.
 	dosbin "${OUT}"/arc-remove-data
 
+	# arc-create-data is only for ARCVM
+	if use arcvm; then
+		dosbin "${OUT}"/arc-create-data
+		insinto /etc/init
+		doins etc/arc-create-data.conf
+	fi
+
 	# Other files are only for ARC.
 	if use arcpp; then
 		dosbin "${OUT}"/arc-setup
