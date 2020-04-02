@@ -417,3 +417,15 @@ platform_json_install() {
 	insinto "${UNIBOARD_YAML_DIR}"
 	doins "${WORKDIR}/project-config.json"
 }
+
+# @FUNCTION: unibuild_install_autobrightness_files
+# @USAGE:
+# @DESCRIPTION:
+# Install files related to autobrightness. This installs model_params.json
+# which specifies autobrightness policy.
+unibuild_install_autobrightness_files() {
+	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+
+	einfo "unibuild: Installing autobrightness files"
+	_unibuild_common_install get-autobrightness-files
+}
