@@ -81,6 +81,20 @@ tast-bundle_src_prepare() {
 	default
 }
 
+# @FUNCTION: tast-bundle_src_compile
+# @DESCRIPTION:
+# Compiles test bundle executables and generate associated misc files.
+tast-bundle_src_compile() {
+	cros-go_src_compile
+
+	local i
+	for (( i = 0; i < ${#CROS_WORKON_PROJECT[@]}; i++ )); do
+		echo "${CROS_WORKON_REPO[i]}/${CROS_WORKON_PROJECT[i]} ${CROS_WORKON_COMMIT[i]}"
+	done | jq -s -R -S 'split("\n")|map(split(" ")|{(.[0]): .[1]})|add' \
+		> "${TAST_BUNDLE_NAME}.sig.json" \
+		|| die "Generating signatures failed"
+}
+
 # @FUNCTION: tast-bundle_src_test
 # @DESCRIPTION:
 # Runs unit tests.
@@ -94,9 +108,12 @@ tast-bundle_src_test() {
 
 # @FUNCTION: tast-bundle_src_install
 # @DESCRIPTION:
-# Installs test bundle executable and associated data files.
+# Installs test bundle executables, associated data files and other misc files.
 tast-bundle_src_install() {
 	cros-go_src_install
+
+	insinto "${TAST_BUNDLE_PREFIX}/share/tast/signature/${TAST_BUNDLE_TYPE}"
+	newins "${TAST_BUNDLE_NAME}.sig.json" "${TAST_BUNDLE_NAME}.json"
 
 	# The base directory where test data files are installed.
 	local basedatadir="${TAST_BUNDLE_PREFIX}/share/tast/data"
@@ -117,4 +134,4 @@ tast-bundle_src_install() {
 	popd >/dev/null
 }
 
-EXPORT_FUNCTIONS pkg_setup src_prepare src_test src_install
+EXPORT_FUNCTIONS pkg_setup src_prepare src_compile src_test src_install
