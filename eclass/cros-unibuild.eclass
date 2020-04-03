@@ -383,3 +383,37 @@ unibuild_install_configfs_file() {
 	insinto "${UNIBOARD_CROS_CONFIG_DIR}"
 	doins "${WORKDIR}/configfs.img"
 }
+
+# @FUNCTION: platform_json_compile
+# @USAGE:
+# @DESCRIPTION:
+# Compile platform json file project-config.json. This is done by finding all
+# project-config.json within $S and using cros_config_schema to combine them
+# into a single project-config.json.
+platform_json_compile() {
+	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+
+	einfo "Compiling platform json file project-config.json."
+
+	local files
+	files=()
+	_find_configs "${S}" "project-config.json"
+
+	cros_config_schema \
+		-o "${WORKDIR}/project-config.json" \
+		-m "${files[@]}" \
+		|| die "cros_config_schema failed for build config."
+}
+
+# @FUNCTION: platform_json_install
+# @USAGE:
+# @DESCRIPTION:
+# Install platform json file project-config.json.
+platform_json_install() {
+	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+
+	einfo "Installing platform json file project-config.json."
+
+	insinto "${UNIBOARD_YAML_DIR}"
+	doins "${WORKDIR}/project-config.json"
+}
