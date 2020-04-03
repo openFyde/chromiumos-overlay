@@ -16,8 +16,10 @@ DESCRIPTION="Machine learning service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 
 # Clients of the ML service should place the URIs of their model files into
-# this variable.
-MODELS=(
+# MODELS_TO_INSTALL if they are installed into rootfs (built-in models), or
+# DOWNLOADABLE_MODELS if they are downloaded via component updater (downloadable
+# models).
+MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite"
@@ -26,7 +28,14 @@ MODELS=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
 )
 
-SRC_URI="${MODELS[*]}"
+DOWNLOADABLE_MODELS=(
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20200206-downloadable.tflite"
+)
+
+SRC_URI="
+	${DOWNLOADABLE_MODELS[*]}
+	${MODELS_TO_INSTALL[*]}
+"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -63,10 +72,10 @@ src_install() {
 	doins dbus/org.chromium.MachineLearning.service
 
 	# Create distfile array of model filepaths.
-	local model_files=( "${MODELS[@]##*/}" )
+	local model_files=( "${MODELS_TO_INSTALL[@]##*/}" )
 	local distfile_array=( "${model_files[@]/#/${DISTDIR}/}" )
 
-	# Install system ML models (but not test models).
+	# Install system ML models.
 	insinto /opt/google/chrome/ml_models
 	doins "${distfile_array[@]}"
 
@@ -86,10 +95,13 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	# Recreate model dir in the temp directory (for use in unit tests).
+	# Recreate model dir in the temp directory and copy both
+	# MODELS_TO_INSTALL and DOWNLOADABLE_MODELS into it for use in unit
+	# tests.
 	mkdir "${T}/ml_models" || die
+	local all_test_models=( "${DOWNLOADABLE_MODELS[@]}" "${MODELS_TO_INSTALL[@]}" )
 	local distfile_uri
-	for distfile_uri in "${MODELS[@]}"; do
+	for distfile_uri in "${all_test_models[@]}"; do
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
 	done
 
