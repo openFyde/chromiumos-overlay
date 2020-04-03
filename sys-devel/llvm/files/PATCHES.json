@@ -157,5 +157,11 @@
         "rel_patch_path": "cherry/636665331bbd4c369a9f33c4d35fb9a863c94646.patch",
         "start_version": 387675,
         "end_version": 387810
+    },
+    {
+        "comment": "[clang][AArch64] readd support for 'p' inline asm constraint",
+        "rel_patch_path": "cherry/5d90f886bc022e7c9144a0ef08ea7ccde7e66030.patch",
+        "start_version": 387430,
+        "end_version": 387475
     }
 ]
