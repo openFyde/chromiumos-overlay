@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk lorgnette metrics .gn"
 
 PLATFORM_SUBDIR="lorgnette"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="Document Scanning service for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
@@ -33,6 +33,10 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/permission_broker-client:=
 	chromeos-base/system_api:=
 "
+
+pkg_preinst() {
+	enewgroup "ippusb"
+}
 
 src_install() {
 	dobin "${OUT}"/lorgnette
