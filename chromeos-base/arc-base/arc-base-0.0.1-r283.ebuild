@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6ef84c8f83c06e5d5833b9213b4d076db4d472da"
+CROS_WORKON_COMMIT="e0a02fe7b0b503c16c5765c946eed747b006c32b"
 CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "6a199c3d58b39dadaa22790cf36a90fad2e1db83" "d21c1a86e253f15784bd996e3e052614c6aff6a8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -84,23 +84,25 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	local root_uid=$(egetent passwd android-root | cut -d: -f3)
-	local root_gid=$(egetent group android-root | cut -d: -f3)
+	if use arcpp; then
+		local root_uid=$(egetent passwd android-root | cut -d: -f3)
+		local root_gid=$(egetent group android-root | cut -d: -f3)
 
-	# Create a rootfs directory, and then a subdirectory mount point. We
-	# use 0500 for CONTAINER_ROOTFS instead of 0555 so that non-system
-	# processes running outside the container don't start depending on
-	# files in system.raw.img.
-	# These are created here rather than at
-	# install because some of them may already exist and have mounts.
-	install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
-		"${ROOT}${CONTAINER_ROOTFS}" \
-		|| true
-	# This CONTAINER_ROOTFS/root directory works as a mount point for
-	# system.raw.img, and once it's mounted, the image's root directory's
-	# permissions override the mode, owner, and group mkdir sets here.
-	mkdir -p "${ROOT}${CONTAINER_ROOTFS}/root" || true
-	install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
-		"${ROOT}${CONTAINER_ROOTFS}/android-data" \
-		|| true
+		# Create a rootfs directory, and then a subdirectory mount point. We
+		# use 0500 for CONTAINER_ROOTFS instead of 0555 so that non-system
+		# processes running outside the container don't start depending on
+		# files in system.raw.img.
+		# These are created here rather than at
+		# install because some of them may already exist and have mounts.
+		install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
+			"${ROOT}${CONTAINER_ROOTFS}" \
+			|| true
+		# This CONTAINER_ROOTFS/root directory works as a mount point for
+		# system.raw.img, and once it's mounted, the image's root directory's
+		# permissions override the mode, owner, and group mkdir sets here.
+		mkdir -p "${ROOT}${CONTAINER_ROOTFS}/root" || true
+		install -d --mode=0500 "--owner=${root_uid}" "--group=${root_gid}" \
+			"${ROOT}${CONTAINER_ROOTFS}/android-data" \
+			|| true
+	fi
 }
