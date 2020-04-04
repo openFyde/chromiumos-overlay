@@ -7,6 +7,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
+CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
 
 DESCRIPTION="coreboot's libpayload library"
 HOMEPAGE="http://www.coreboot.org"
