@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1046495dac74be2f78c9d31fb94dd6e146fb92f0"
-CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "ba0278d1335b68fa69cc8dc3afb95517c4672c48" "d5cce3ea4492260dfc1c00c05906a2625efdcb45" "37e19db442fe0d9a96e3af1d7c568ac6f3fd7c0b" "c218b19793213fbc08daad20dce926cf44766c10" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="21af55f76e30bfb312dbf24117d3bb0322987a53"
+CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "ba0278d1335b68fa69cc8dc3afb95517c4672c48" "e8e03acf4ff036252bd4dfd815b3b1366b9cfe09" "37e19db442fe0d9a96e3af1d7c568ac6f3fd7c0b" "c218b19793213fbc08daad20dce926cf44766c10" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -91,7 +91,6 @@ src_install() {
 		doins etc/arc-sysctl.conf
 		doins etc/arc-system-mount.conf
 		doins etc/arc-ureadahead.conf
-		doins etc/arc-ureadahead-trace.conf
 
 		insinto /etc/dbus-1/system.d
 		doins etc/dbus-1/ArcUpstart.conf
