@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="355a9cd84b5294410a56e0d5d848468e0a8e30cc"
-CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "2892af8ad399b2de48e4014efc69cb264e3915a5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="545ccff205d471f3c20d014ba04473b5bd3d3e25"
+CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "39de45bbbe35822316fc7b7aaaa4ce77a9ce3175" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -47,9 +47,16 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=
 	sys-apps/dbus:="
 
-pkg_preinst() {
+pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs debugd.
 	enewuser "debugd"
 	enewgroup "debugd"
+
+	cros-workon_pkg_setup
+}
+
+pkg_preinst() {
 	enewuser "debugd-logs"
 	enewgroup "debugd-logs"
 
@@ -103,6 +110,11 @@ src_install() {
 
 	insinto /etc/perf_commands
 	doins -r share/perf_commands/*
+
+	local daemon_store="/etc/daemon-store/debugd"
+	dodir "${daemon_store}"
+	fperms 0660 "${daemon_store}"
+	fowners debugd:debugd "${daemon_store}"
 }
 
 platform_pkg_test() {
