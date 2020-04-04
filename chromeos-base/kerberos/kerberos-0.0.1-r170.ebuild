@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="66aaf6bf2c6693b7b7c01a1072f1aa2065e04cd6"
-CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "2901fd0955723983e9d2c0a54e103338d1b86d94" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a0cbde792757ceb8a4c67d391cb796d555134f39"
+CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "0cde5f2c1cf9098eb421b5700b53ded1d3ff3b45" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -76,8 +76,8 @@ src_install() {
 	fperms 0770 "${daemon_store}"
 	fowners kerberosd:kerberosd "${daemon_store}"
 
-	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/config_validator_fuzzer \
-		--dict "${S}"/config_validator_fuzzer.dict || die
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/config_parser_fuzzer \
+		--dict "${S}"/config_parser_fuzzer.dict || die
 }
 
 platform_pkg_test() {
