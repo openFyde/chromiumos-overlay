@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="26fd922846483d7b3611e9da7b1133dd57f272dc"
-CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "da77c3f2016b06d7f69f2c0659749ff249186ce3" "e8e03acf4ff036252bd4dfd815b3b1366b9cfe09" "37e19db442fe0d9a96e3af1d7c568ac6f3fd7c0b" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6825337cfec3030f57032e8ad1460706c008520c"
+CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "da77c3f2016b06d7f69f2c0659749ff249186ce3" "94fad302f8bb1065f1f2d8bf4f046f64b2db4574" "37e19db442fe0d9a96e3af1d7c568ac6f3fd7c0b" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -74,6 +74,13 @@ enable_esdfs() {
 src_install() {
 	# Both ARCVM and ARC use arc-remove-data.
 	dosbin "${OUT}"/arc-remove-data
+
+	# arc-create-data is only for ARCVM
+	if use arcvm; then
+		dosbin "${OUT}"/arc-create-data
+		insinto /etc/init
+		doins etc/arc-create-data.conf
+	fi
 
 	# Other files are only for ARC.
 	if use arcpp; then
