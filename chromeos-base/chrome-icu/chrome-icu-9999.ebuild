@@ -83,8 +83,10 @@ CHROME_ICU_POSTFIX="-chrome"
 
 # [Mod] chrome/icu depends on nothing. Blocking the canonical icu package can
 # let us notice the potential repetitions.
+# [Mod] Old Chrome ebuilds installed icudtl.dat.
 RDEPEND="
 	!dev-libs/icu
+	!<chromeos-base/chromeos-chrome-83.0.4098.4
 "
 DEPEND="
 	net-print/cups
