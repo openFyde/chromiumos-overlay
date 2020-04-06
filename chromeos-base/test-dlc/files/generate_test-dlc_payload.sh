@@ -51,7 +51,8 @@ for N in {1..2}; do
 
   build_dlc  --install-root-dir "${TEMP}" --pre-allocated-blocks "20" \
       --version "1.0.0" --id "${DLC_ID}" --package "${DLC_PACKAGE}" \
-      --name "Test${N} DLC" --build-package
+      --name "Test${N} DLC" --description "Description for Test${N} DLC" \
+      --build-package
 
   cp "${BUILD_BOARD}/${LSB_RELEASE}" "${TEMP}"/etc/
   cp "${BUILD_BOARD}/${UPDATE_ENGINE_CONF}" "${TEMP}"/etc/

@@ -26,65 +26,65 @@ esac
 DEPEND="chromeos-base/update_engine"
 DLC_BUILD_DIR="build/rootfs/dlc"
 
-# @ECLASS-VARIABLE: DLC_ID
+# @ECLASS-VARIABLE: DLC_NAME
+# @DEFAULT_UNSET
 # @REQUIRED
-# @DEFAULT UNSET
 # @DESCRIPTION:
-# Unique ID for the DLC among all DLCs. Needed to generate metadata for
-# imageloader. Used in creating directories for the image file and metadata. It
-# cannot contain '_' or '/'.
-
-# @ECLASS-VARIABLE: DLC_PACKAGE
-# @REQUIRED
-# @DEFAULT UNSET
-# @DESCRIPTION:
-# Unique ID for the package in the DLC. Each DLC can have multiple
-# packages. Needed to generate metadata for imageloader. Used in creating
-# directories for the image file and metadata. It cannot contain '_' or '/'.
+# The name of the DLC to show on the UI.
 
 # @ECLASS-VARIABLE: DLC_PREALLOC_BLOCKS
+# @DEFAULT_UNSET
 # @REQUIRED
-# @DEFAULT UNSET
 # @DESCRIPTION:
 # The number of blocks to preallocate for each of the the DLC A/B partitions.
 # Block size is 4 KiB.
 
-# @ECLASS-VARIABLE: DLC_NAME
-# @OPTIONAL
-# @DEFAULT ${PN}
+# Other optional DLC ECLASS-VARAIBLES
+
+# @ECLASS-VARIABLE: DLC_DESCRIPTION
 # @DESCRIPTION:
-# Name of the DLC being built.
-: "${DLC_NAME:=${PN}}"
+# A human readable description for DLC. (Default is ${DESCRIPTION})
+
+# @ECLASS-VARIABLE: DLC_ID
+# @DESCRIPTION:
+# Unique ID for the DLC among all DLCs. Needed to generate metadata for
+# imageloader. Used in creating directories for the image file and metadata. It
+# cannot contain '_' or '/'. (Default is ${PN})
+: "${DLC_ID:=${PN}}"
+
+# @ECLASS-VARIABLE: DLC_PACKAGE
+# @DESCRIPTION:
+# Unique ID for the package in the DLC. Each DLC can have multiple
+# packages. Needed to generate metadata for imageloader. Used in creating
+# directories for the image file and metadata. It cannot contain '_' or '/'.
+# (Default is ${PN}-package)
+: "${DLC_PACKAGE:=${PN}-package}"
 
 # @ECLASS-VARIABLE: DLC_VERSION
-# @OPTIONAL
-# @DEFAULT ${PVR}
 # @DESCRIPTION:
-# Version of the DLC being built.
+# Version of the DLC being built. (Default is ${PVR})
 : "${DLC_VERSION:=${PVR}}"
 
 # @ECLASS-VARIABLE: DLC_FS_TYPE
-# @OPTIONAL
 # @DEFAULT UNSET
 # @DESCRIPTION:
 # Specify the type of filesystem for the DLC image. Currently we only support
 # squashfs.
 
 # @ECLASS-VARIABLE: DLC_PRELOAD
-# @OPTIONAL
 # @DESCRIPTION:
 # Determines whether to preload the DLC for test images. A boolean must be
-# passed in.
+# passed in. (Default is false)
 : "${DLC_PRELOAD:="false"}"
 
 # @ECLASS-VARIABLE: DLC_ENABLED
-# @OPTIONAL
 # @DESCRIPTION:
 # Determines whether the package will be a DLC package or regular package.
 # By default, the package is a DLC package and the files will be installed in
 # ${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root, but if the variable is set to
 # "false", all the functions will ignore the path suffix and everything that
 # would have been installed inside the DLC, gets installed in the rootfs.
+# (Default is true)
 : "${DLC_ENABLED:="true"}"
 
 # @FUNCTION: dlc_get_path
@@ -110,11 +110,17 @@ dlc_src_install() {
 	if [[ "${DLC_ENABLED}" != "true" ]]; then
 		return
 	fi
+
+	# Required.
+	[[ -z "${DLC_NAME}" ]] && die "DLC_NAME undefined"
+	[[ -z "${DLC_PREALLOC_BLOCKS}" ]] && die "DLC_PREALLOC_BLOCKS undefined"
+
+	# Optional, but error if derived default values are empty.
+	: "${DLC_DESCRIPTION:=${DESCRIPTION}}"
+	[[ -z "${DLC_DESCRIPTION}" ]] && die "DLC_DESCRIPTION undefined"
 	[[ -z "${DLC_ID}" ]] && die "DLC_ID undefined"
 	[[ -z "${DLC_PACKAGE}" ]] && die "DLC_PACKAGE undefined"
-	[[ -z "${DLC_NAME}" ]] && die "DLC_NAME undefined"
 	[[ -z "${DLC_VERSION}" ]] && die "DLC_VERSION undefined"
-	[[ -z "${DLC_PREALLOC_BLOCKS}" ]] && die "DLC_PREALLOC_BLOCKS undefined"
 	[[ "${DLC_PRELOAD}" =~ ^(true|false)$ ]] || die "Invalid DLC_PRELOAD value"
 
 	local args=(
@@ -124,6 +130,7 @@ dlc_src_install() {
 		--id="${DLC_ID}"
 		--package="${DLC_PACKAGE}"
 		--name="${DLC_NAME}"
+		--description="${DLC_DESCRIPTION}"
 		--build-package
 	)
 

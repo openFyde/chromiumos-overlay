@@ -19,11 +19,10 @@ IUSE="dlc"
 REQUIRED_USE="dlc"
 
 # Required
-DLC_ID="dummy-dlc"
-DLC_PACKAGE="dummy-package"
+DLC_NAME="Dummy DLC"
 DLC_PREALLOC_BLOCKS="1024"
 
-# Optional, reference design doc for all optional DLC variables.
+# Optional, reference design doc for all other optional DLC variables.
 DLC_PRELOAD=true
 
 src_unpack() {
