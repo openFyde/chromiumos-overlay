@@ -142,6 +142,9 @@ set_build_args() {
 		"clang_use_chrome_plugins=false"
 		"is_cfi=false"
 		"use_cfi_cast=false"
+
+		# Disable some unnecessary dependencies to avoid some trybot failure.
+		"use_xkbcommon=false"
 	)
 
 	# BUILD_STRING_ARGS needs appropriate quoting. So, we keep them separate and
@@ -278,7 +281,8 @@ unpack_chrome() {
 }
 
 decide_chrome_origin() {
-	local chrome_workon="=chromeos-base/chromeos-chrome-9999"
+	# [Mod] change "chromeos-chrome-9999" to "chrome-icu-9999".
+	local chrome_workon="=chromeos-base/chrome-icu-9999"
 	local cros_workon_file="${SYSROOT}/etc/portage/package.keywords/cros-workon"
 	if [[ -e "${cros_workon_file}" ]] && grep -q "${chrome_workon}" "${cros_workon_file}"; then
 		# LOCAL_SOURCE is the default for cros_workon
