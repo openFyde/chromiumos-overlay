@@ -5,7 +5,6 @@ mosys-base: &mosys_base_cmds
     # "id", "sku", or "version". Specific cases can add these commands
     # if they are guaranteed to not vary, e.g. there is only one sku.
     - "platform name"
-    - "platform vendor"
     - "platform model"
     - "platform chassis"
     - "platform brand"
