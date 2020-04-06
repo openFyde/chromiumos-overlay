@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="5e1debf8002ab06694494d472a03adb243c6dc5c"
-CROS_WORKON_TREE="44700cd4ab8482b12acee4761a7a9fc39342e40b"
+CROS_WORKON_COMMIT="d6930583c1d9dbb7bd38a289429b80a131ba600c"
+CROS_WORKON_TREE="d1b92e62dddefa6baa3d42493dd2872572eae16a"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -167,6 +167,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECBootTime
 	+tests_firmware_ECCbiEeprom
 	+tests_firmware_ECCharging
+	+tests_firmware_ECChargingState
 	+tests_firmware_ECHash
 	+tests_firmware_ECKeyboard
 	+tests_firmware_ECKeyboardReboot
