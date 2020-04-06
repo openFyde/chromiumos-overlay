@@ -10,7 +10,8 @@
     },
     {
         "comment": "Makes llvm not generate .cgprofile entries when we\ndo not use integrated-as",
-        "rel_patch_path": "llvm-9.0-no-cgprofile.patch"
+        "rel_patch_path": "llvm-9.0-no-cgprofile.patch",
+        "end_version": 388757
     },
     {
         "comment": "Used as destination of target generators",
