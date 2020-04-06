@@ -53,6 +53,7 @@ src_install() {
 	doins "libcros_config/fake_cros_config.h"
 
 	dobin "${OUT}"/cros_config
+	newbin cros_config_mock.sh cros_config_mock
 	dosbin "${OUT}"/cros_configfs
 
 	# Install init scripts.
