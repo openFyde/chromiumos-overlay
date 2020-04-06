@@ -52,6 +52,7 @@ PATCHES=(
 	"${FILESDIR}"/0006-Ignore-the-private-VP9-status-buffer.patch
 	"${FILESDIR}"/0007-add-SW-WA-to-diable-calculation-of-the-UV-offset-by-gmmlib-on-TGL.patch
 	"${FILESDIR}"/0008-VP-Explicitly-initialize-maxSrcRect-of-VpHalRenderer.patch
+	"${FILESDIR}"/0009-VP-fix-crash-in-vp8-playback.patch
 )
 
 src_configure() {
