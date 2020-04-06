@@ -9,6 +9,7 @@ EAPI=7
 CROS_WORKON_COMMIT="12de6198b32b5b704ebdd8e8e032a2c11dafce5f"
 CROS_WORKON_TREE="ac76d2123d537446a761daa5f7adb236456ce28f"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
+CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
 
 DESCRIPTION="coreboot's libpayload library"
 HOMEPAGE="http://www.coreboot.org"
