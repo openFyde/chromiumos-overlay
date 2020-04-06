@@ -324,6 +324,7 @@ ALL_BOARDS=(
 	rainier
 	rambi
 	rammus
+	rammus-arc-r
 	raspberrypi
 	reef
 	relm
