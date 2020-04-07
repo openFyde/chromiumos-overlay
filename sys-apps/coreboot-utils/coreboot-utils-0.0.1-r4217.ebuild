@@ -43,7 +43,6 @@ _emake() {
 
 src_configure() {
 	use static && append-ldflags -static
-	cros-workon_src_configure
 }
 
 is_x86() {
