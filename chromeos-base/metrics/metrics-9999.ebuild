@@ -84,6 +84,9 @@ src_install() {
 }
 
 platform_pkg_test() {
+	# Disable asan container overflow checks that is coming from gtest,
+	# not metrics code, https://crbug.com/1067977 .
+	export ASAN_OPTIONS+=":detect_container_overflow=0:"
 	local tests=(
 		cumulative_metrics_test
 		metrics_library_test
