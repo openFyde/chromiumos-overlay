@@ -27,13 +27,13 @@ die() {
 }
 
 cr50_compute_updater_sn_bits() {
-  local serial_number="$1"
+  local sn="$1"
 
   # SN Bits are defined as the first 96 bits of the SHA256 of the serial number.
   # They are passed to the updater as a string of 24 hex characters.
 
 
-  printf '%s' "${serial_number}" |
+  printf '%s' "${sn}" |
     openssl dgst -sha256 |
     sed -e 's/.*=[^0-9a-f]*//I' -e 's/\(.\{24\}\).*/\1/'
 }
@@ -76,7 +76,7 @@ cr50_check_sn_bits() {
   # Check if the SN Bits have been set differently.
   if [ "${device_sn_bits}" != "${sn_bits}" ]; then
     die_as "${ERR_ALREADY_SET_DIFFERENT}" "SN Bits have been set differently" \
-      " (${device_sn_bits} vs ${sn_bits})."
+      "(${device_sn_bits} vs ${sn_bits})."
   fi
 
   die_as "${ERR_ALREADY_SET}" "SN Bits have already been set."
@@ -97,22 +97,27 @@ cr50_set_sn_bits() {
 }
 
 main() {
-  local serial_number
-  serial_number="$(vpd_get_value serial_number 2>/dev/null)"
+  local sn_source=zero_touch_sn
+  local sn
+  sn="$(vpd_get_value "${sn_source}" 2>/dev/null)"
+  if [ -z "${sn}" ]; then
+    sn_source=serial_number
+    sn="$(vpd_get_value "${sn_source}" 2>/dev/null)"
+  fi
 
-  if [ -z "${serial_number}" ]; then
-      die "No serial number assigned yet."
+  if [ -z "${sn}" ]; then
+      die "No serial number assigned in zero_touch_sn or serial_number yet."
   fi
 
   # Compute desired SN Bits, check that they can be set, and set them.
 
   local sn_bits
-  sn_bits="$(cr50_compute_updater_sn_bits "${serial_number}")"
+  sn_bits="$(cr50_compute_updater_sn_bits "${sn}")"
 
   cr50_check_sn_bits "${sn_bits}"
   cr50_set_sn_bits "${sn_bits}"
 
-  echo "Successfully updated SN Bits for ${serial_number}."
+  echo "Successfully updated SN Bits for ${sn} from ${sn_source}."
 }
 
 main
