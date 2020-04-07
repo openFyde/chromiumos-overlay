@@ -186,20 +186,43 @@ disk_based_swap_supported() {
   ${disk_based_swap_enabled}
 }
 
+readonly INTEL_VENDOR_ID=0x8086
+readonly INTEL_OPTANE_MEM_DEVICE_ID=0x8510
+
 swap_to_optane() {
   local optane_swap=false
 
   # Return true if optane device exists.
   if [ -b "/dev/nvme1n1" ]; then
-      dev_dir="$(find /sys/devices/ -name nvme1n1 | grep -v virtual)"
-      model="$(sed -E 's/[ \t]+$//' "${dev_dir}"/device/model)"
-      if [ "${model}" = "INTEL HBRPEKNX0101AO" ]; then
-        optane_swap=true
-      fi
+    local dev_dir vendor_id device_id
+    dev_dir="/sys/block/nvme1n1"
+    vendor_id="$(sed -E 's/[ \t]+$//' "${dev_dir}"/device/device/subsystem_vendor)"
+    device_id="$(sed -E 's/[ \t]+$//' "${dev_dir}"/device/device/subsystem_device)"
+    if [ "${vendor_id}" = "${INTEL_VENDOR_ID}" ] && \
+       [ "${device_id}" = "${INTEL_OPTANE_MEM_DEVICE_ID}" ]; then
+      optane_swap=true
+    fi
   else
     optane_swap=false
   fi
   ${optane_swap}
+}
+
+swap_to_micron() {
+  local micron_swap=false
+
+  # Return true if micron dual namespace is configured.
+  if [ -b "/dev/nvme0n1" ] && [ -b "/dev/nvme0n2" ]; then
+    local dev_dir model
+    dev_dir="/sys/block/nvme0n1"
+    model="$(sed -E 's/[ \t]+$//' "${dev_dir}"/device/model)"
+    if [ "${model}" = "MTFDHBK256TDP" ]; then
+      micron_swap=true
+    fi
+  else
+    micron_swap=false
+  fi
+  ${micron_swap}
 }
 
 die() {
@@ -250,20 +273,15 @@ start() {
     size_kb=$(( requested_size_mb * 1024 ))
   fi
 
+  local swap_device=
+
   if disk_based_swap_supported && swap_to_optane; then
-    table="0 $(blockdev --getsz /dev/nvme1n1) crypt aes-cbc-essiv:sha256 \
-      $(tr -dc 'A-F0-9' < /dev/urandom | fold -w 32 | head -n 1) \
-      0 /dev/nvme1n1 0 1 allow_discards"
-    /sbin/dmsetup create enc-swap --table "${table}" ||
-      die "/sbin/dmsetup create enc-swap failed"
-    mkswap "/dev/mapper/enc-swap" ||
-      die "mkswap /dev/mapper/enc-swap failed"
-    swapon -d "/dev/mapper/enc-swap" ||
-      die "swapon /dev/mapper/enc-swap failed"
-    echo 1 > /sys/module/zswap/parameters/enabled
-    echo z3fold > /sys/module/zswap/parameters/zpool
-    echo 1 > /sys/kernel/mm/chromeos-low_mem/ram_vs_swap_weight
-  else
+    swap_device=/dev/nvme1n1
+  elif disk_based_swap_supported && swap_to_micron; then
+    swap_device=/dev/nvme0n1
+  fi
+
+  if [ -z "${swap_device}" ]; then
     # Load zram module.  Ignore failure (it could be compiled in the kernel).
     modprobe zram || logger -t "${JOB}" "modprobe zram failed (compiled?)"
 
@@ -283,6 +301,20 @@ start() {
       logger -t "${JOB}" "swapon /dev/zram0 failed, try ${tries}"
       sleep 0.1
     done
+  else
+    local table
+    table="0 $(blockdev --getsz "${swap_device}") crypt aes-cbc-essiv:sha256 \
+      $(tr -dc 'A-F0-9' < /dev/urandom | fold -w 32 | head -n 1) \
+      0 ${swap_device} 0 1 allow_discards"
+    /sbin/dmsetup create enc-swap --table "${table}" ||
+      die "/sbin/dmsetup create enc-swap failed"
+    mkswap "/dev/mapper/enc-swap" ||
+      die "mkswap /dev/mapper/enc-swap failed"
+    swapon -d "/dev/mapper/enc-swap" ||
+      die "swapon /dev/mapper/enc-swap failed"
+    echo 1 > /sys/module/zswap/parameters/enabled
+    echo z3fold > /sys/module/zswap/parameters/zpool
+    echo 1 > /sys/kernel/mm/chromeos-low_mem/ram_vs_swap_weight
   fi
 
   local swaptotalkb
