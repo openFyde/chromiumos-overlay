@@ -9,6 +9,7 @@ HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 C2D2_NAME="c2d2_v2.4.14-e63a7924c"
 SERVO_MICRO_NAME="servo_micro_v2.4.17-df61092c3"  # servo-firmware-R81-12768.20.0
 SERVO_V4_NAME="servo_v4_v2.4.17-df61092c3"        # servo-firmware-R81-12768.20.0
+SERVO_V41_NAME="servo_v41_v2.0.3735+440cf71e0"    # Local builds are temporary b/153464312
 SWEETBERRY_NAME="sweetberry_v2.3.7-096c7ee84"     # servo-firmware-R70-11011.14.0
 UPDATER_PATH="/usr/share/servo_updater/firmware"
 
@@ -18,6 +19,7 @@ SRC_URI="
 	${MIRROR_PATH}/${C2D2_NAME}.tar.xz
 	${MIRROR_PATH}/${SERVO_MICRO_NAME}.tar.gz
 	${MIRROR_PATH}/${SERVO_V4_NAME}.tar.gz
+	${MIRROR_PATH}/${SERVO_V41_NAME}.tar.gz
 	${MIRROR_PATH}/${SWEETBERRY_NAME}.tar.gz
 	"
 
@@ -42,6 +44,9 @@ src_install() {
 
 	doins "${SERVO_V4_NAME}.bin"
 	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.bin"
+
+	doins "${SERVO_V41_NAME}.bin"
+	dosym "${SERVO_V41_NAME}.bin" "${UPDATER_PATH}/servo_v41.bin"
 
 	doins "${SWEETBERRY_NAME}.bin"
 	dosym "${SWEETBERRY_NAME}.bin" "${UPDATER_PATH}/sweetberry.bin"
