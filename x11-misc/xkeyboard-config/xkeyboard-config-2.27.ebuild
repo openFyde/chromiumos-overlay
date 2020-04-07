@@ -40,7 +40,6 @@ PATCHES=(
 	"${FILESDIR}"/${P}-gb-extd-deadkey.patch
 	"${FILESDIR}"/${P}-br-euro-degree.patch
 	"${FILESDIR}"/${P}-es-euro-sign.patch
-	"${FILESDIR}"/${P}-fr-keypad-comma.patch
 	"${FILESDIR}"/${P}-us-intl-pc.patch
 	"${FILESDIR}"/${P}-bg-101.patch
 	"${FILESDIR}"/${P}-jp-default-layout.patch
