@@ -145,6 +145,9 @@ src_prepare() {
 	# b/152177291, b/151165954, b/149839737
 	epatch "${FILESDIR}"/FROMLIST-radv-Store-64-bit-availability-bools-if-requested.patch
 
+	# b/153334828
+	epatch "${FILESDIR}"/FROMLIST-radv-Consider-maximum-sample-distances-for-entire-gr.patch
+
 	default
 }
 
