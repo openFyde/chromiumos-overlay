@@ -45,7 +45,8 @@ src_install() {
 
 	# Install DBus interface.
 	insinto /usr/share/dbus-1/interfaces
-	doins dbus_bindings/org.chromium.Hermes.xml
+	doins dbus_bindings/org.chromium.Hermes.Manager.xml
+	doins dbus_bindings/org.chromium.Hermes.Profile.xml
 }
 
 platform_pkg_test() {
