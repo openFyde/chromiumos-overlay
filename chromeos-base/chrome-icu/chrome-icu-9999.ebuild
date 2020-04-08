@@ -85,6 +85,7 @@ CHROME_ICU_POSTFIX="-chrome"
 # let us notice the potential repetitions.
 # [Mod] Old Chrome ebuilds installed icudtl.dat.
 RDEPEND="
+	media-libs/libsync
 	!dev-libs/icu
 	!<chromeos-base/chromeos-chrome-83.0.4098.4
 "
