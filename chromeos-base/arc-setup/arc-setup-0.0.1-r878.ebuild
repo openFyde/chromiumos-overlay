@@ -49,6 +49,7 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/arc-networkd
+	arcvm? ( chromeos-base/crosvm )
 	arcpp? (
 		chromeos-base/swap-init
 		esdfs? ( sys-apps/restorecon )
