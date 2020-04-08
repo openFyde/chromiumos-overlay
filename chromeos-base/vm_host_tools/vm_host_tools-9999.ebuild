@@ -62,6 +62,15 @@ get_vmlog_forwarder_stop_services() {
 	echo "${stop_services}"
 }
 
+pkg_setup() {
+	# Duplicated from the crosvm ebuild. These are necessary here in order
+	# to create the daemon-store folder for concierge in src_install().
+	enewuser crosvm
+	enewgroup crosvm
+	enewuser pluginvm
+	cros-workon_pkg_setup
+}
+
 src_install() {
 	platform_install_compilation_database
 
@@ -113,6 +122,17 @@ src_install() {
 	udev_dorules udev/99-vm.rules
 
 	keepdir /opt/google/vms
+
+	# Create daemon store folder for crosvm and pvm
+	local crosvm_store="/etc/daemon-store/crosvm"
+	dodir "${crosvm_store}"
+	fperms 0700 "${crosvm_store}"
+	fowners crosvm:crosvm "${crosvm_store}"
+
+	local pvm_store="/etc/daemon-store/pvm"
+	dodir "${pvm_store}"
+	fperms 0770 "${pvm_store}"
+	fowners pluginvm:crosvm "${pvm_store}"
 }
 
 platform_pkg_test() {
