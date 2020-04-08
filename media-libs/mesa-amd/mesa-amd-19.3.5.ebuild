@@ -148,6 +148,9 @@ src_prepare() {
 	# b/153334828
 	epatch "${FILESDIR}"/FROMLIST-radv-Consider-maximum-sample-distances-for-entire-gr.patch
 
+	# b/145882519
+	epatch "${FILESDIR}"/FROMLIST-radeon-radeon_vce-fix-out-of-target-bitrate-in-CBR-m.patch
+
 	default
 }
 
