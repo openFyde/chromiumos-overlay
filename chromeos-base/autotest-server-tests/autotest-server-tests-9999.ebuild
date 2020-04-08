@@ -198,6 +198,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_PDConnect
 	+tests_firmware_PDDataSwap
 	+tests_firmware_PDPowerSwap
+	+tests_firmware_PDProtocol
 	+tests_firmware_PDResetHard
 	+tests_firmware_PDResetSoft
 	+tests_firmware_PDTrySrc
