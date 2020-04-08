@@ -17,16 +17,19 @@ DESCRIPTION="Document Scanning service for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE=""
+IUSE="test"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/metrics:=
+	media-gfx/sane-backends:=
 "
 
 RDEPEND="${COMMON_DEPEND}
-	media-gfx/sane-backends:=
 	media-gfx/pnm2png:=
+	test? (
+		media-gfx/perceptualdiff:=
+	)
 "
 
 DEPEND="${COMMON_DEPEND}
