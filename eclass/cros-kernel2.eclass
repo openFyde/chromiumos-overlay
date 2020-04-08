@@ -132,7 +132,6 @@ CONFIG_FRAGMENTS=(
 	apex
 	binder
 	blkdevram
-	bt_unsupported_read_enc_key_size
 	builtin_driver_amdgpu
 	ca0132
 	cec
@@ -244,16 +243,10 @@ CONFIG_BLK_DEV_RAM_COUNT=16
 CONFIG_BLK_DEV_RAM_SIZE=16384
 "
 
-bt_unsupported_read_enc_key_size_desc="Disable BT Classic security enforcement"
-bt_unsupported_read_enc_key_size_config="
-CONFIG_BT_ENFORCE_CLASSIC_SECURITY=n
-"
-
 builtin_driver_amdgpu_desc="DRM driver for AMD GPUs"
 builtin_driver_amdgpu_config="
 CONFIG_DRM_AMDGPU=y
 "
-
 ca0132_desc="CA0132 ALSA codec"
 ca0132_config="
 CONFIG_SND_HDA_CODEC_CA0132=y
