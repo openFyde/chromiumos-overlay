@@ -85,7 +85,6 @@ CHROME_ICU_POSTFIX="-chrome"
 # let us notice the potential repetitions.
 # [Mod] Old Chrome ebuilds installed icudtl.dat.
 RDEPEND="
-	media-libs/libsync
 	!dev-libs/icu
 	!<chromeos-base/chromeos-chrome-83.0.4098.4
 "
@@ -130,7 +129,7 @@ set_build_args() {
 		# See crbug.com/694137 .
 		"use_system_harfbuzz=false"
 		"use_system_freetype=false"
-		"use_system_libsync=true"
+		"use_system_libsync=false"
 		"use_cups=$(usetf cups)"
 		"use_bundled_fontconfig=false"
 
