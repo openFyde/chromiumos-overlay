@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="06a185bd490b1f564350dc21ca7766f1a7f56295"
+CROS_WORKON_COMMIT="1460318cde9d14845ec6ad4f007bd311db407c64"
 CROS_WORKON_TREE=("dea48af07754556aac092c0830de0b1ab410077b" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -86,6 +86,9 @@ src_install() {
 }
 
 platform_pkg_test() {
+	# Disable asan container overflow checks that is coming from gtest,
+	# not metrics code, https://crbug.com/1067977 .
+	export ASAN_OPTIONS+=":detect_container_overflow=0:"
 	local tests=(
 		cumulative_metrics_test
 		metrics_library_test
