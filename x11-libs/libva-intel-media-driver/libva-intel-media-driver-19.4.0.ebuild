@@ -27,7 +27,7 @@ fi
 
 LICENSE="MIT BSD"
 SLOT="0"
-IUSE=""
+IUSE="ihd_cmrtlib"
 
 DEPEND=">=media-libs/gmmlib-19.4.1
 	>=x11-libs/libva-2.6.0
@@ -66,7 +66,7 @@ src_configure() {
 		-DMEDIA_VERSION="19.4.0"
 		-DMEDIA_RUN_TEST_SUITE=OFF
 		-DINSTALL_DRIVER_SYSCONF=OFF
-		-DBUILD_CMRTLIB=OFF
+		"-DBUILD_CMRTLIB=$(usex ihd_cmrtlib ON OFF)"
 		-DCMAKE_DISABLE_FIND_PACKAGE_X11=TRUE
 	)
 
