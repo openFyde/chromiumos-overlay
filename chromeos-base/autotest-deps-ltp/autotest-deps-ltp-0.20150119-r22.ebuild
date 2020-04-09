@@ -5,6 +5,7 @@ EAPI=7
 CROS_WORKON_COMMIT="08733aa7d62b171c667d3eb7e299aa7345053fa9"
 CROS_WORKON_TREE="a2ebeab302f15e405e7e8c355ad74871e767e812"
 CROS_WORKON_PROJECT="chromiumos/third_party/ltp"
+CROS_WORKON_EGIT_BRANCH="chromeos-20150119"
 CROS_WORKON_LOCALNAME=../third_party/ltp
 
 inherit cros-workon cros-constants

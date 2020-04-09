@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("cf30cd68a6008d10036091c774699d243d7d8a9c" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_COMMIT=("0b96382664b789ade89b3f2aa5067757dd9f7824" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
 CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "7237e28c3ea82424423c356f7d444d1b5f510c99" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 inherit cros-constants
 
@@ -13,6 +13,7 @@ CROS_WORKON_REPO=(
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_AOSP_URL}"
 )
+CROS_WORKON_EGIT_BRANCH=("master" "pie-release")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/keymaster")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/aosp/system/keymaster")
 CROS_WORKON_SUBTREE=("common-mk arc/keymaster .gn" "")

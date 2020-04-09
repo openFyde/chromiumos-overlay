@@ -7,6 +7,7 @@ CROS_WORKON_COMMIT=("4fdd055df627ffe351cfdf03d230eaf63399e1c2" "c56276abd4013f9b
 CROS_WORKON_TREE=("856ab4444636080a5ff52fff0fd34c7be0288048" "af83299695011735c104367105b545c092a596c6")
 CROS_WORKON_PROJECT=("chromiumos/third_party/u-boot" "chromiumos/platform/vboot_reference")
 CROS_WORKON_LOCALNAME=("u-boot/files" "../platform/vboot_reference")
+CROS_WORKON_EGIT_BRANCH=("chromeos-v2020.01" "master")
 VBOOT_REFERENCE_DESTDIR="${S}/vboot_reference"
 CROS_WORKON_DESTDIR=("${S}" "${VBOOT_REFERENCE_DESTDIR}")
 

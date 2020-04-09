@@ -9,6 +9,7 @@ MESON_AUTO_DEPEND=no
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-iris"
+CROS_WORKON_EGIT_BRANCH="chromeos-iris"
 
 KEYWORDS="*"
 

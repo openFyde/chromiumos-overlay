@@ -7,6 +7,7 @@ EAPI="5"
 CROS_WORKON_COMMIT="c9edfa218e5a5972531b6f4a3ece8d33a44ae1b5"
 CROS_WORKON_TREE="742697db0bb207c6716d7484278ff91633c5f8ce"
 CROS_WORKON_PROJECT="chromiumos/third_party/libsigrok-cli"
+CROS_WORKON_EGIT_BRANCH="chromeos"
 
 PYTHON_COMPAT=( python3_{2,3,4,6} )
 inherit cros-workon eutils python-single-r1 autotools

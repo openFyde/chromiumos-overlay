@@ -7,6 +7,7 @@ EAPI="5"
 CROS_WORKON_COMMIT="10dbd8f557c0cef1e41a2f00ef38834f31913adf"
 CROS_WORKON_TREE="5858217ad29e54dd69c94a9be8da7ba4b050ff5c"
 CROS_WORKON_PROJECT="chromiumos/third_party/trousers"
+CROS_WORKON_EGIT_BRANCH="master-0.3.13"
 
 inherit autotools base cros-debug cros-sanitizers cros-workon flag-o-matic libchrome systemd toolchain-funcs user
 

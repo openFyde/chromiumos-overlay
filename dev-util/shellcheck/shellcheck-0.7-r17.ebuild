@@ -7,6 +7,7 @@ CROS_WORKON_COMMIT="d01318296bc4407c90afbc1d2d5db9d597b45c3a"
 CROS_WORKON_TREE="774dc714f57063e90ea3d2a8cff05c1bfc51658d"
 CROS_WORKON_PROJECT="chromiumos/third_party/shellcheck"
 CROS_WORKON_LOCALNAME="shellcheck"
+CROS_WORKON_EGIT_BRANCH="chromeos-0.7"
 CROS_WORKON_DESTDIR="${S}"
 
 CABAL_FEATURES="lib profile haddock hoogle hscolour test-suite"
