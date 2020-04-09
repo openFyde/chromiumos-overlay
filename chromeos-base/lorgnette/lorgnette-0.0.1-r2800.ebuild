@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="cf30cd68a6008d10036091c774699d243d7d8a9c"
-CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "381f01b794d997d8d62fd07bfb3cb2a1e0f31830" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c19a143f3aa37bda60646433a538eb1b474ea30e"
+CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "e850449f0ce8576a52210e40855a598fa9c3e369" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk lorgnette metrics .gn"
 
 PLATFORM_SUBDIR="lorgnette"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="Document Scanning service for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
@@ -35,6 +35,10 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/permission_broker-client:=
 	chromeos-base/system_api:=
 "
+
+pkg_preinst() {
+	enewgroup "ippusb"
+}
 
 src_install() {
 	dobin "${OUT}"/lorgnette
