@@ -52,7 +52,7 @@ CROS_GO_WORKSPACE="${S}/_dist"
 
 LICENSE="Apache-2.0 BSD BSD-2 LGPL-2.1 LGPL-3 MIT MPL-2.0"
 SLOT="0"
-KEYWORDS="-* amd64 arm"
+KEYWORDS="-* amd64 arm arm64"
 
 IUSE="+daemon +ipv6 +dnsmasq nls test tools"
 
@@ -168,7 +168,9 @@ src_prepare() {
 	eapply_user
 
 	cd "${S}/_dist/deps/libco" || die "Can't cd to libco dir"
-	eapply "${FILESDIR}/${P}-libco-force-arm-codegen.patch" # crbug.com/1059078
+	eapply "${FILESDIR}/${P}-libco-arm-asm.patch"     # crbug.com/1059078
+	eapply "${FILESDIR}/${P}-libco-aarch64-asm.patch" # crbug.com/1059078
+	eapply "${FILESDIR}/${P}-libco-amd64-asm.patch"   # crbug.com/1059078
 
 	cd "${S}/_dist/deps/raft" || die "Can't cd to raft dir"
 	eautoreconf
