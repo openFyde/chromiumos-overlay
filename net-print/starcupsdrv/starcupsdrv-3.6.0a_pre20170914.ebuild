@@ -36,8 +36,4 @@ src_install() {
 	exeinto "$(${SYSROOT}/usr/bin/cups-config --serverbin)/filter"
 	doexe install/rastertostar
 	doexe install/rastertostarlm
-
-	# Copies manifest file to /build folder.
-	insinto "/build/${PN}"
-	doins "${FILESDIR}/manifest.json"
 }
