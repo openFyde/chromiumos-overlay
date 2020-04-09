@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cf30cd68a6008d10036091c774699d243d7d8a9c"
-CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "de57b3d8555d22ffc6959824e00d270095a31c45" "d33af452545894a4015d3e685ef122cea924019c" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9ddb4811d8766d3342f31f8b8ce5273a8a29079e"
+CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "d6ede3236d4afba9dbf70d0c2ec684eb2f921f23" "d33af452545894a4015d3e685ef122cea924019c" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -125,19 +125,18 @@ src_install() {
 				bootlockboxd-seccomp.policy
 			insinto /etc/init
 			doins bootlockbox/bootlockboxd.conf
-		fi
-		if use direncryption; then
-			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
-				"${D}/etc/init/cryptohomed.conf" ||
-				die "Can't replace direncryption flag in cryptohomed.conf"
-		fi
-		if use distributed_cryptohome; then
+		else
 			sed -i 's/started tcsd/started attestationd/' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't replace tcsd with attestationd in cryptohomed.conf"
 			sed -i '/env DISTRIBUTED_MODE_FLAG=/s:=.*:="--attestation_mode=dbus":' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't activate distributed mode in cryptohomed.conf"
+		fi
+		if use direncryption; then
+			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace direncryption flag in cryptohomed.conf"
 		fi
 	fi
 	exeinto /usr/share/cros/init

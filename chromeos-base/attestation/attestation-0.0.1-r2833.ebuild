@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e19d67ddbe2ea6dee373dfd9d05b79d01df27a8a"
+CROS_WORKON_COMMIT="9ddb4811d8766d3342f31f8b8ce5273a8a29079e"
 CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "d3fe3650007ae01c7dad443a6ca5530bc425bd4c" "8b1fabcd4bc0003fac6f90e9e6714e5c5057cb5a" "d33af452545894a4015d3e685ef122cea924019c" "03b6ad4e3bd2e8ff7b0e1672e78411dba82f3e5e" "358dcfcfffc6cfbdadea9779631c6ed3b865434d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -56,22 +56,20 @@ pkg_preinst() {
 }
 
 src_install() {
-	if use tpm2 || use distributed_cryptohome; then
-		insinto /etc/dbus-1/system.d
-		doins server/org.chromium.Attestation.conf
+	insinto /etc/dbus-1/system.d
+	doins server/org.chromium.Attestation.conf
 
-		insinto /etc/init
-		doins server/attestationd.conf
-		sed -i 's/started tcsd/started tpm_managerd/' \
-			"${D}/etc/init/attestationd.conf" ||
-			die "Can't replace tcsd with tpm_managerd in attestationd.conf"
+	insinto /etc/init
+	doins server/attestationd.conf
+	sed -i 's/started tcsd/started tpm_managerd/' \
+		"${D}/etc/init/attestationd.conf" ||
+		die "Can't replace tcsd with tpm_managerd in attestationd.conf"
 
-		dosbin "${OUT}"/attestationd
-		dobin "${OUT}"/attestation_client
+	dosbin "${OUT}"/attestationd
+	dobin "${OUT}"/attestation_client
 
-		insinto /usr/share/policy
-		newins server/attestationd-seccomp-${ARCH}.policy attestationd-seccomp.policy
-	fi
+	insinto /usr/share/policy
+	newins server/attestationd-seccomp-${ARCH}.policy attestationd-seccomp.policy
 
 	insinto /etc/dbus-1/system.d
 	doins pca_agent/server/org.chromium.PcaAgent.conf

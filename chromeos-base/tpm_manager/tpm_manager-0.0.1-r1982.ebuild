@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="e19d67ddbe2ea6dee373dfd9d05b79d01df27a8a"
+CROS_WORKON_COMMIT="9ddb4811d8766d3342f31f8b8ce5273a8a29079e"
 CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "d33af452545894a4015d3e685ef122cea924019c" "39a5f59e47af96d209f0cc50266beb20f614756a" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "03b6ad4e3bd2e8ff7b0e1672e78411dba82f3e5e" "358dcfcfffc6cfbdadea9779631c6ed3b865434d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -48,28 +48,26 @@ pkg_preinst() {
 
 src_install() {
 	# Install D-Bus configuration file.
-	if use tpm2 || use distributed_cryptohome; then
-		insinto /etc/dbus-1/system.d
-		doins server/org.chromium.TpmManager.conf
+	insinto /etc/dbus-1/system.d
+	doins server/org.chromium.TpmManager.conf
 
-		# Install upstart config file.
-		insinto /etc/init
-		doins server/tpm_managerd.conf
-		if use tpm2; then
-			sed -i 's/started tcsd/started trunksd/' \
-				"${D}/etc/init/tpm_managerd.conf" ||
-				die "Can't replace tcsd with trunksd in tpm_managerd.conf"
-		fi
-
-		# Install the executables provided by TpmManager
-		dosbin "${OUT}"/tpm_managerd
-		dosbin "${OUT}"/local_data_migration
-		dobin "${OUT}"/tpm_manager_client
-
-		# Install seccomp policy files.
-		insinto /usr/share/policy
-		newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
+	# Install upstart config file.
+	insinto /etc/init
+	doins server/tpm_managerd.conf
+	if use tpm2; then
+		sed -i 's/started tcsd/started trunksd/' \
+			"${D}/etc/init/tpm_managerd.conf" ||
+			die "Can't replace tcsd with trunksd in tpm_managerd.conf"
 	fi
+
+	# Install the executables provided by TpmManager
+	dosbin "${OUT}"/tpm_managerd
+	dosbin "${OUT}"/local_data_migration
+	dobin "${OUT}"/tpm_manager_client
+
+	# Install seccomp policy files.
+	insinto /usr/share/policy
+	newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
 
 	dolib.so "${OUT}"/lib/libtpm_manager.so
 	dolib.a "${OUT}"/libtpm_manager_test.a
