@@ -39,11 +39,5 @@ src_configure() {
 }
 
 src_install() {
-	emake -C ppd DESTDIR="${D}" install
 	emake -C src DESTDIR="${D}" install
-	einstalldocs
-
-	# Copies manifest file to /build folder.
-	insinto "/build/${PN}"
-	doins "${FILESDIR}/manifest.json"
 }
