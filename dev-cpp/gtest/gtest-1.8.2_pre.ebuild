@@ -47,6 +47,9 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# Building gtest with "-Os" breaks unit tests in asan builds,
+	# https://crbug.com/1069493
+	cros_optimize_package_for_speed
 	local mycmakeargs=(
 		-DBUILD_GMOCK=ON
 		-DINSTALL_GTEST=ON
