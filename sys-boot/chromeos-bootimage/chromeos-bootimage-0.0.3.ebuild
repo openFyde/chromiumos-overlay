@@ -12,7 +12,7 @@ SLOT="0"
 KEYWORDS="*"
 # TODO(sjg@chromium.org): Remove when x86 can build all boards
 BOARDS="alex aplrvp atlas auron bayleybay beltino bolt butterfly"
-BOARDS="${BOARDS} chell cnlrvp coral cyan dedede dragonegg drallion emeraldlake2 eve"
+BOARDS="${BOARDS} chell cnlrvp coral cyan dedede deltaur dragonegg drallion emeraldlake2 eve"
 BOARDS="${BOARDS} endeavour falco fizz fox glados glkrvp grunt hatch jecht kalista"
 BOARDS="${BOARDS} kblrvp kunimitsu link lumpy lumpy64 mario meowth mushu nasher nami"
 BOARDS="${BOARDS} nautilus nocturne octopus palkia panther parrot peppy poppy puff pyro"
