@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit eutils
+inherit cros-sanitizers eutils
 
 DESCRIPTION="Epson Inkjet Printer Driver (ESC/P-R)"
 HOMEPAGE="http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX"
@@ -29,6 +29,7 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	econf --disable-shared
 
 	# Makefile calls ls to generate a file list which is included in Makefile.am
