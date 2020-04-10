@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cf30cd68a6008d10036091c774699d243d7d8a9c"
-CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "a63e3aa4eb123e01158f4f5c547801b0151142ad" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f44f27f59ec92135697868624d1593437cba7ab5"
+CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "fd24f87f8eec7d72a88e214bce461856815f6cad" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -47,7 +47,8 @@ src_install() {
 
 	# Install DBus interface.
 	insinto /usr/share/dbus-1/interfaces
-	doins dbus_bindings/org.chromium.Hermes.xml
+	doins dbus_bindings/org.chromium.Hermes.Manager.xml
+	doins dbus_bindings/org.chromium.Hermes.Profile.xml
 }
 
 platform_pkg_test() {
