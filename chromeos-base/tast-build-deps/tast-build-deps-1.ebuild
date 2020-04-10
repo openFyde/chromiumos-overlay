@@ -33,6 +33,7 @@ DEPEND="
 	dev-go/selinux
 	dev-go/subcommands
 	dev-go/sync
+	dev-go/uuid
 	dev-go/vsock
 	dev-go/yaml
 "
