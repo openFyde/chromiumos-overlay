@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c19a143f3aa37bda60646433a538eb1b474ea30e"
-CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "e850449f0ce8576a52210e40855a598fa9c3e369" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="20efeedff822f115c59b427dff1da139dd6d3247"
+CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "c6234f7bbf565556f675e9d52aa07a15c5e8634b" "fecdf8785297556c095cbc179e3b665e0cb02a8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,16 +19,19 @@ DESCRIPTION="Document Scanning service for Chromium OS"
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE=""
+IUSE="test"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/metrics:=
+	media-gfx/sane-backends:=
 "
 
 RDEPEND="${COMMON_DEPEND}
-	media-gfx/sane-backends:=
 	media-gfx/pnm2png:=
+	test? (
+		media-gfx/perceptualdiff:=
+	)
 "
 
 DEPEND="${COMMON_DEPEND}
