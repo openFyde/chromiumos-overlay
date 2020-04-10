@@ -15,7 +15,7 @@
 # @ECLASS-VARIABLE: ARC_BASE
 # @DESCRIPTION:
 # The path to ARC toolchain root directory. Normally defined by the profile.
-# e.g. /opt/android-n, for sys-devel/arc-toolchain-n
+# e.g. /opt/android-master, for sys-devel/arc-toolchain-master
 
 # @ECLASS-VARIABLE: ARC_VERSION_MAJOR
 # @DESCRIPTION:
@@ -35,7 +35,7 @@
 # @ECLASS-VARIABLE: ARC_LLVM_VERSION
 # @DESCRIPTION:
 # Version of LLVM included in the ARC toolchain.
-# Normally defined by the profile, e.g. 3.8, for arc-toolchain-n
+# Normally defined by the profile, e.g. 3.8
 
 if [[ -z ${_ARC_BUILD_ECLASS} ]]; then
 _ARC_BUILD_ECLASS=1
@@ -163,15 +163,7 @@ arc-build-select-clang() {
 	append-cflags -Qunused-arguments -Wno-unknown-warning-option
 	append-cxxflags -Qunused-arguments -Wno-unknown-warning-option
 
-	if (( ${ARC_VERSION_MAJOR} == 7 )); then
-		# TODO(crbug.com/922335): Remove "-stdlib=libc++" after bug resolved.
-		export CXX="${CXX} -stdlib=libc++"
-		append-cxxflags -stdlib=libc++
-		# Clang 3.8 does not properly include their C++ headers.
-		if [[ ${ARC_LLVM_VERSION} == "3.8" ]]; then
-			append-cxxflags -I${ARC_SYSROOT}/usr/include/c++/4.9
-		fi
-	elif (( ${ARC_VERSION_MAJOR} == 9 )); then
+	if (( ${ARC_VERSION_MAJOR} == 9 )); then
 		# TODO(crbug.com/922335): Remove "-stdlib=libc++" after bug resolved.
 		export CXX="${CXX} -stdlib=libc++"
 		append-cxxflags -stdlib=libc++
