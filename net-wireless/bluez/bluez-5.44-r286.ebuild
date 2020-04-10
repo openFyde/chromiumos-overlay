@@ -12,7 +12,7 @@ CROS_WORKON_TREE=("d7e56f84e322b42355b1eaf548593a88ec7fd7b3" "f3548c01be815623d6
 CROS_WORKON_LOCALNAME=("bluez" "bluez-next")
 CROS_WORKON_PROJECT=("chromiumos/third_party/bluez" "chromiumos/third_party/bluez")
 CROS_WORKON_DESTDIR=("${S}/bluez" "${S}/bluez-next")
-CROS_WORKON_EGIT_BRANCH=("chromeos-5.44" "chromeos-5.44")
+CROS_WORKON_EGIT_BRANCH=("chromeos-5.44" "chromeos-5.54")
 
 inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon toolchain-funcs flag-o-matic
 
