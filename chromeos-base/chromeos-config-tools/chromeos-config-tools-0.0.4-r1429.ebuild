@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT=("275bd4664c60b8e68ee49c46d110b5bc7d0d363f" "67f608605754e98428f65b4cbeb5a0f4d7e66ffe")
-CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "015a56597e25b47cede2844efe91a911f3e1a7fc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "cc19e4a0a358826410e384cc61a2207d745536a5" "637af0c3bc418c6b8108f947fc59acafa5f9e7d5" "0b0984e2b307815550f55b1150fa73818d72475d")
+CROS_WORKON_COMMIT=("f49677395ed1a6c981728de03779e2b910f0cb74" "67f608605754e98428f65b4cbeb5a0f4d7e66ffe")
+CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "e680d9d9fa8c0eabe991fca20df8734359d317f8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "cc19e4a0a358826410e384cc61a2207d745536a5" "637af0c3bc418c6b8108f947fc59acafa5f9e7d5" "0b0984e2b307815550f55b1150fa73818d72475d")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
 CROS_WORKON_PROJECT=(
@@ -55,6 +55,7 @@ src_install() {
 	doins "libcros_config/fake_cros_config.h"
 
 	dobin "${OUT}"/cros_config
+	newbin cros_config_mock.sh cros_config_mock
 	dosbin "${OUT}"/cros_configfs
 
 	# Install init scripts.
