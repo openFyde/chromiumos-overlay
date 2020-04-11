@@ -116,7 +116,8 @@ RDEPEND="${RDEPEND}
 	dev-lang/python:3.6
 	dev-libs/libgpiod
 	dev-python/protobuf-python
-	dev-python/cherrypy
+	dev-python/cherrypy:2.7
+	dev-python/cherrypy:3.6
 	dev-python/dbus-python
 	dev-util/hdctools
 	dev-util/mem
