@@ -109,7 +109,7 @@ HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="menu_ui legacy_menu_ui diag_payload
+IUSE="detachable menu_ui legacy_menu_ui diag_payload
 	physical_presence_power physical_presence_recovery"
 
 BDEPEND="${PYTHON_DEPS}"
@@ -145,6 +145,9 @@ src_prepare() {
 
 src_compile() {
 	local vendor_strings_dir="${SYSROOT}/firmware/vendor-strings"
+	if use detachable ; then
+		export DETACHABLE=1
+	fi
 	if use menu_ui ; then
 		export MENU_UI=1
 	elif use legacy_menu_ui ; then
