@@ -28,6 +28,7 @@ DEPEND="${RDEPEND}
 	chromeos-base/dlcservice-client:=
 	chromeos-base/imageloader-client:=
 	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/session_manager-client:=
 	chromeos-base/update_engine-client:="
 
 src_install() {
