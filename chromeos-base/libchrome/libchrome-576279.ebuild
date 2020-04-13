@@ -143,6 +143,9 @@ src_prepare() {
 
 	# TODO(crbug.com/1065504): Remove after uprev to 754979.
 	epatch "${FILESDIR}"/${P}-libchrome-fix-integer-overflow-if-microseconds-is-IN.patch
+
+	# Forward compatibility for r680000
+	epatch "${FILESDIR}"/${P}-r680000-forward-compatibility-patch-part-1.patch
 }
 
 src_install() {
@@ -156,6 +159,7 @@ src_install() {
 		base/containers
 		base/debug
 		base/files
+		base/hash
 		base/i18n
 		base/json
 		base/memory
@@ -166,6 +170,7 @@ src_install() {
 		base/process
 		base/strings
 		base/synchronization
+		base/system
 		base/task
 		base/task_scheduler
 		base/third_party/icu
