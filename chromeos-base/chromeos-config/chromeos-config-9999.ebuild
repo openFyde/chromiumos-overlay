@@ -8,8 +8,8 @@ CROS_BOARDS=( none )
 
 # This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
 # the canonical empty project.
-CROS_WORKON_PROJECT="chromiumos/config"
-CROS_WORKON_LOCALNAME="config"
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="../platform/empty-project"
 
 inherit cros-unibuild toolchain-funcs cros-workon
 

@@ -7,19 +7,15 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
-	"chromiumos/config"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform2"
-	"config"
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk chromeos-config .gn power_manager"
-	"python test"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
-	"${S}/config"
 )
 PLATFORM_SUBDIR="chromeos-config"
 
