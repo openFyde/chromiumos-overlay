@@ -1,6 +1,6 @@
 # Board
 CONFIG_VENDOR_GOOGLE=y
-CONFIG_BOARD_GOOGLE_DELTAUR=y
+CONFIG_BOARD_GOOGLE_DELTAN=y
 CONFIG_CHROMEOS=y
 
 # Other dependencies
@@ -9,7 +9,7 @@ CONFIG_USE_BLOBS=y
 
 # SPI Flash Descriptor
 CONFIG_HAVE_IFD_BIN=y
-CONFIG_IFD_BIN_PATH="3rdparty/blobs/baseboard/deltaur/descriptor-deltaur.bin"
+CONFIG_IFD_BIN_PATH="3rdparty/blobs/baseboard/deltaur/descriptor-deltan.bin"
 
 # FSP Blobs
 CONFIG_ADD_FSP_BINARIES=y
@@ -20,11 +20,11 @@ CONFIG_RUN_FSP_GOP=y
 
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
-CONFIG_ME_BIN_PATH="3rdparty/blobs/baseboard/deltaur/csme-deltaur.bin"
+CONFIG_ME_BIN_PATH="3rdparty/blobs/baseboard/deltaur/csme-deltan.bin"
 
 # EC
 CONFIG_HAVE_EC_BIN=y
-CONFIG_EC_BIN_PATH="3rdparty/blobs/baseboard/deltaur/ec-deltaur.bin"
+CONFIG_EC_BIN_PATH="3rdparty/blobs/baseboard/deltaur/ec-deltan.bin"
 
 # Microcode
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard/deltaur/ucode.bin"
@@ -34,12 +34,17 @@ CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
 CONFIG_INTEL_GMA_ADD_VBT=y
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/baseboard/deltaur/vbt.bin"
 
+# GbE firmware
+CONFIG_HAVE_GBE_BIN=y
+CONFIG_GBE_BIN_PATH="3rdparty/blobs/baseboard/deltaur/gbe.bin"
+
 # Serial console disabled by default (do not remove)
 # CONFIG_CONSOLE_SERIAL is not set
 
 # Event Logging
 CONFIG_CMOS_POST=y
 CONFIG_CMOS_POST_OFFSET=0x70
+CONFIG_CMOS_POST_EXTRA=y
 CONFIG_ELOG_GSMI=y
 CONFIG_ELOG_BOOT_COUNT=y
 CONFIG_ELOG_BOOT_COUNT_CMOS_OFFSET=144
@@ -47,7 +52,7 @@ CONFIG_ELOG_BOOT_COUNT_CMOS_OFFSET=144
 # SPI flash support in SMM
 CONFIG_SPI_FLASH_SMM=y
 
-# Disable EC software sync for bringup.
+# For bringup, we don't want to enable EC software sync just yet.
 CONFIG_GBB_FLAG_DISABLE_EC_SOFTWARE_SYNC=y
 
 # Wilco specific
