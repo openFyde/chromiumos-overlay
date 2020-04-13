@@ -26,12 +26,6 @@ esac
 DEPEND="chromeos-base/update_engine"
 DLC_BUILD_DIR="build/rootfs/dlc"
 
-# @ECLASS-VARIABLE: DLC_NAME
-# @DEFAULT_UNSET
-# @REQUIRED
-# @DESCRIPTION:
-# The name of the DLC to show on the UI.
-
 # @ECLASS-VARIABLE: DLC_PREALLOC_BLOCKS
 # @DEFAULT_UNSET
 # @REQUIRED
@@ -40,6 +34,13 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # Block size is 4 KiB.
 
 # Other optional DLC ECLASS-VARAIBLES
+
+# @ECLASS-VARIABLE: DLC_NAME
+# @DEFAULT_UNSET
+# @REQUIRED
+# @DESCRIPTION:
+# The name of the DLC to show on the UI.
+: "${DLC_NAME:=${PN}}"
 
 # @ECLASS-VARIABLE: DLC_DESCRIPTION
 # @DESCRIPTION:
@@ -57,8 +58,8 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # Unique ID for the package in the DLC. Each DLC can have multiple
 # packages. Needed to generate metadata for imageloader. Used in creating
 # directories for the image file and metadata. It cannot contain '_' or '/'.
-# (Default is ${PN}-package)
-: "${DLC_PACKAGE:=${PN}-package}"
+# (Default is package)
+: "${DLC_PACKAGE:=package}"
 
 # @ECLASS-VARIABLE: DLC_VERSION
 # @DESCRIPTION:
