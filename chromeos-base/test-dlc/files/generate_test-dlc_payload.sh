@@ -49,10 +49,22 @@ for N in {1..2}; do
   generate_file 20 "dir/file2.bin" 0544
   generate_file 30 "dir/file3.bin" 0444
 
-  build_dlc  --install-root-dir "${TEMP}" --pre-allocated-blocks "20" \
-      --version "1.0.0" --id "${DLC_ID}" --package "${DLC_PACKAGE}" \
-      --name "Test${N} DLC" --description "Description for Test${N} DLC" \
-      --build-package
+  args=(
+    --install-root-dir "${TEMP}"
+    --pre-allocated-blocks "20"
+    --version "1.0.0"
+    --id "${DLC_ID}"
+    --package "${DLC_PACKAGE}"
+    --name "Test${N} DLC"
+    --description "Description for Test${N} DLC"
+    --build-package
+  )
+  # For the first DLC, make it user used by the user.
+  if [[ "${N}" == 1 ]]; then
+    args+=( --used-by "user" )
+  fi
+
+  build_dlc "${args[@]}"
 
   cp "${BUILD_BOARD}/${LSB_RELEASE}" "${TEMP}"/etc/
   cp "${BUILD_BOARD}/${UPDATE_ENGINE_CONF}" "${TEMP}"/etc/
