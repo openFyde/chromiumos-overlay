@@ -7,7 +7,6 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-# TODO(garrick): Workaround for https://crbug.com/809389
 CROS_WORKON_SUBTREE="common-mk arc/network shill/net .gn"
 
 PLATFORM_SUBDIR="arc/network"
@@ -41,6 +40,11 @@ DEPEND="
 	chromeos-base/system_api:=[fuzzer?]
 "
 
+patchpanel_header() {
+	doins "$1"
+	sed -i 's/arc\/network\//patchpanel\//g' "${D}/usr/include/chromeos/patchpanel/$1" || die
+}
+
 src_install() {
 	# Main binary.
 	dobin "${OUT}"/arc-networkd
@@ -59,6 +63,16 @@ src_install() {
 	doins mac_address_generator.h
 	doins subnet.h
 	doins subnet_pool.h
+
+	insinto /usr/include/chromeos/patchpanel/
+	patchpanel_header address_manager.h
+	patchpanel_header client.h
+	patchpanel_header mac_address_generator.h
+	patchpanel_header net_util.h
+	patchpanel_header socket.h
+	patchpanel_header socket_forwarder.h
+	patchpanel_header subnet.h
+	patchpanel_header subnet_pool.h
 
 	insinto /etc/init
 	doins "${S}"/init/arc-network-bridge.conf
