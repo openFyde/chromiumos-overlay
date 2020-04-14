@@ -98,9 +98,6 @@ src_install() {
 		doins etc/arc-system-mount.conf
 		doins etc/arc-ureadahead.conf
 
-		insinto /etc/dbus-1/system.d
-		doins etc/dbus-1/ArcUpstart.conf
-
 		insinto /usr/share/arc-setup
 		doins etc/config.json
 
@@ -123,6 +120,9 @@ src_install() {
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_fingerprint_and_sdk_version_fuzzer
 	fi
+
+	insinto /etc/dbus-1/system.d
+	doins etc/dbus-1/ArcUpstart.conf
 }
 
 platform_pkg_test() {
