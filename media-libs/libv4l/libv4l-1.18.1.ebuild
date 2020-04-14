@@ -37,10 +37,9 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${MY_P}-disable-v4lwrapper.patch
-	epatch "${FILESDIR}"/${MY_P}-remove-glob.patch
-	epatch "${FILESDIR}"/${MY_P}-increase-v4l2-max-devices.patch
-	epatch "${FILESDIR}"/${MY_P}-sysmacros.patch
+	epatch "${FILESDIR}"/${P}-clang-fixes.patch
+	epatch "${FILESDIR}"/${P}-increase-v4l2-max-devices.patch
+	epatch "${FILESDIR}"/${P}-remove-glob.patch
 	eautoreconf
 }
 
@@ -52,7 +51,8 @@ multilib_src_configure() {
 		--disable-qv4l2 \
 		--disable-v4l-utils \
 		--without-libudev \
-		$(use_with jpeg)
+		$(use_with jpeg) \
+		--disable-bpf
 }
 
 multilib_src_compile() {

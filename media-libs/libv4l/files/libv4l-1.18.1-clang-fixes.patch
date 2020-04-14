@@ -1,0 +1,1594 @@
+v4l-utils: fix clang compilation error
+
+v4l-utils use a number of non-standard GCC C extensions which clang
+is refusing to compile.
+
+[..]
+ir-encode.c:38:2: error: function definition is not allowed here
+        {
+        ^
+ir-encode.c:56:3: warning: implicit declaration of function 'add_byte' is invalid in C99 [-Wimplicit-function-declaration]
+                add_byte(scancode >> 8);
+                ^
+ir-encode.c:112:2: error: function definition is not allowed here
+        {
+        ^
+ir-encode.c:127:2: warning: implicit declaration of function 'add_bits' is invalid in C99 [-Wimplicit-function-declaration]
+        add_bits(scancode >> 8, 13);
+        ^
+[..]
+
+Signed-off-by: Sergey Senozhatsky <senozhatsky@google.com>
+---
+ utils/common/ir-encode.c   | 380 +++++++++++++++++++++----------------
+ utils/ir-ctl/bpf_encoder.c |  45 +++--
+ utils/ir-ctl/ir-encode.c   | 380 +++++++++++++++++++++----------------
+ utils/keytable/ir-encode.c | 380 +++++++++++++++++++++----------------
+ 4 files changed, 668 insertions(+), 517 deletions(-)
+
+diff --git a/utils/common/ir-encode.c b/utils/common/ir-encode.c
+index e4fde40..9138c67 100644
+--- a/utils/common/ir-encode.c
++++ b/utils/common/ir-encode.c
+@@ -29,23 +29,28 @@
+ 
+ #define NS_TO_US(x) (((x)+500)/1000)
+ 
++static int nec_encode_add_byte(unsigned int *buf,
++			       int n,
++			       int unit,
++			       unsigned bits)
++{
++	int i;
++
++	for (i=0; i<8; i++) {
++		buf[n++] = NS_TO_US(unit);
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 3);
++		else
++			buf[n++] = NS_TO_US(unit);
++	}
++	return n;
++}
++
+ static int nec_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ {
+ 	const int nec_unit = 562500;
+ 	int n = 0;
+ 
+-	void add_byte(unsigned bits)
+-	{
+-		int i;
+-		for (i=0; i<8; i++) {
+-			buf[n++] = NS_TO_US(nec_unit);
+-			if (bits & (1 << i))
+-				buf[n++] = NS_TO_US(nec_unit * 3);
+-			else
+-				buf[n++] = NS_TO_US(nec_unit);
+-		}
+-	}
+-
+ 	buf[n++] = NS_TO_US(nec_unit * 16);
+ 	buf[n++] = NS_TO_US(nec_unit * 8);
+ 
+@@ -53,22 +58,22 @@ static int nec_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	default:
+ 		return 0;
+ 	case RC_PROTO_NEC:
+-		add_byte(scancode >> 8);
+-		add_byte(~(scancode >> 8));
+-		add_byte(scancode);
+-		add_byte(~scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 8);
++		n = nec_encode_add_byte(buf, n, nec_unit, ~(scancode >> 8));
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, ~scancode);
+ 		break;
+ 	case RC_PROTO_NECX:
+-		add_byte(scancode >> 16);
+-		add_byte(scancode >> 8);
+-		add_byte(scancode);
+-		add_byte(~scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 16);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 8);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, ~scancode);
+ 		break;
+ 	case RC_PROTO_NEC32:
+-		add_byte(scancode >> 16);
+-		add_byte(scancode >> 24);
+-		add_byte(scancode);
+-		add_byte(scancode >> 8);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 16);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 24);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 8);
+ 		break;
+ 	}
+ 
+@@ -104,102 +109,122 @@ static int jvc_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	return 35;
+ }
+ 
+-static int sanyo_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int sanyo_encode_add_bits(unsigned int *buf,
++				 int n,
++				 int unit,
++				 int bits,
++				 int count)
+ {
+-	const int sanyo_unit = 562500;
++	int i;
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		int i;
+-		for (i=0; i<count; i++) {
+-			*buf++ = NS_TO_US(sanyo_unit);
++	for (i=0; i<count; i++) {
++		buf[n++] = NS_TO_US(unit);
+ 
+-			if (bits & (1 << i))
+-				*buf++ = NS_TO_US(sanyo_unit * 3);
+-			else
+-				*buf++ = NS_TO_US(sanyo_unit);
+-		}
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 3);
++		else
++			buf[n++] = NS_TO_US(unit);
+ 	}
++	return n;
++}
+ 
+-	*buf++ = NS_TO_US(sanyo_unit * 16);
+-	*buf++ = NS_TO_US(sanyo_unit * 8);
++static int sanyo_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const int sanyo_unit = 562500;
++	int n = 0;
++
++	buf[n++] = NS_TO_US(sanyo_unit * 16);
++	buf[n++] = NS_TO_US(sanyo_unit * 8);
+ 
+-	add_bits(scancode >> 8, 13);
+-	add_bits(~(scancode >> 8), 13);
+-	add_bits(scancode, 8);
+-	add_bits(~scancode, 8);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, scancode >> 8, 13);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, ~(scancode >> 8), 13);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, scancode, 8);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, ~scancode, 8);
+ 
+-	*buf = NS_TO_US(sanyo_unit);
++	buf[n] = NS_TO_US(sanyo_unit);
+ 
+ 	return 87;
+ }
+ 
+-static int sharp_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int sharp_encode_add_bits(unsigned int *buf,
++				 int n,
++				 int unit,
++				 int bits,
++				 int count)
+ {
+-	const int sharp_unit = 40000;
++	int i;
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		int i;
+-		for (i=0; i<count; i++) {
+-			*buf++ = NS_TO_US(sharp_unit * 8);
++	for (i=0; i<count; i++) {
++		buf[n++] = NS_TO_US(unit * 8);
+ 
+-			if (bits & (1 << i))
+-				*buf++ = NS_TO_US(sharp_unit * 50);
+-			else
+-				*buf++ = NS_TO_US(sharp_unit * 25);
+-		}
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 50);
++		else
++			buf[n++] = NS_TO_US(unit * 25);
+ 	}
++	return n;
++}
+ 
+-	add_bits(scancode >> 8, 5);
+-	add_bits(scancode, 8);
+-	add_bits(1, 2);
++static int sharp_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const int sharp_unit = 40000;
++	int n = 0;
++
++	n = sharp_encode_add_bits(buf, n, sharp_unit, scancode >> 8, 5);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, scancode, 8);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, 1, 2);
+ 
+-	*buf++ = NS_TO_US(sharp_unit * 8);
+-	*buf++ = NS_TO_US(sharp_unit * 1000);
++	buf[n++] = NS_TO_US(sharp_unit * 8);
++	buf[n++] = NS_TO_US(sharp_unit * 1000);
+ 
+-	add_bits(scancode >> 8, 5);
+-	add_bits(~scancode, 8);
+-	add_bits(~1, 2);
+-	*buf++ = NS_TO_US(sharp_unit * 8);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, scancode >> 8, 5);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, ~scancode, 8);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, ~1, 2);
++	buf[n++] = NS_TO_US(sharp_unit * 8);
+ 
+ 	return (13 + 2) * 4 + 3;
+ }
+ 
+-static int sony_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int sony_encode_add_bits(unsigned int *buf,
++				int n,
++				int unit,
++				int bits,
++				int count)
+ {
+-	const int sony_unit = 600000;
+-	int n = 0;
++	int i;
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		int i;
+-		for (i=0; i<count; i++) {
+-			if (bits & (1 << i))
+-				buf[n++] = NS_TO_US(sony_unit * 2);
+-			else
+-				buf[n++] = NS_TO_US(sony_unit);
++	for (i=0; i<count; i++) {
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 2);
++		else
++			buf[n++] = NS_TO_US(unit);
+ 
+-			buf[n++] = NS_TO_US(sony_unit);
+-		}
++		buf[n++] = NS_TO_US(unit);
+ 	}
++	return n;
++}
++
++static int sony_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const int sony_unit = 600000;
++	int n = 0;
+ 
+ 	buf[n++] = NS_TO_US(sony_unit * 4);
+ 	buf[n++] = NS_TO_US(sony_unit);
+ 
+ 	switch (proto) {
+ 	case RC_PROTO_SONY12:
+-		add_bits(scancode, 7);
+-		add_bits(scancode >> 16, 5);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode, 7);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 16, 5);
+ 		break;
+ 	case RC_PROTO_SONY15:
+-		add_bits(scancode, 7);
+-		add_bits(scancode >> 16, 8);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode, 7);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 16, 8);
+ 		break;
+ 	case RC_PROTO_SONY20:
+-		add_bits(scancode, 7);
+-		add_bits(scancode >> 16, 5);
+-		add_bits(scancode >> 8, 8);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode, 7);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 16, 5);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 8, 8);
+ 		break;
+ 	default:
+ 		return 0;
+@@ -209,39 +234,47 @@ static int sony_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	return n - 1;
+ }
+ 
+-static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int rc5_encode_advance_space(unsigned int *buf, int n, unsigned length)
+ {
+-	const unsigned int rc5_unit = 888888;
+-	unsigned n = 0;
+-
+-	void advance_space(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[n] += length;
+-		else
+-			buf[++n] = length;
+-	}
++	if (n % 2)
++		buf[n] += length;
++	else
++		buf[++n] = length;
++	return n;
++}
+ 
+-	void advance_pulse(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[++n] = length;
+-		else
+-			buf[n] += length;
+-	}
++static int rc5_encode_advance_pulse(unsigned int *buf, int n, unsigned length)
++{
++	if (n % 2)
++		buf[++n] = length;
++	else
++		buf[n] += length;
++	return n;
++}
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		while (count--) {
+-			if (bits & (1 << count)) {
+-				advance_space(NS_TO_US(rc5_unit));
+-				advance_pulse(NS_TO_US(rc5_unit));
+-			} else {
+-				advance_pulse(NS_TO_US(rc5_unit));
+-				advance_space(NS_TO_US(rc5_unit));
+-			}
++static int rc5_encode_add_bits(unsigned int *buf,
++			       int n,
++			       int unit,
++			       int bits,
++			       int count)
++{
++	while (count--) {
++		if (bits & (1 << count)) {
++			n = rc5_encode_advance_space(buf, n, NS_TO_US(unit));
++			n = rc5_encode_advance_pulse(buf, n, NS_TO_US(unit));
++		} else {
++			n = rc5_encode_advance_pulse(buf, n, NS_TO_US(unit));
++			n = rc5_encode_advance_space(buf, n, NS_TO_US(unit));
+ 		}
+ 	}
++	return n;
++}
++
++static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const unsigned int rc5_unit = 888888;
++	unsigned n = 0;
++
+ 
+ 	buf[n] = NS_TO_US(rc5_unit);
+ 
+@@ -249,24 +282,27 @@ static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	default:
+ 		return 0;
+ 	case RC_PROTO_RC5:
+-		add_bits(!(scancode & 0x40), 1);
+-		add_bits(0, 1);
+-		add_bits(scancode >> 8, 5);
+-		add_bits(scancode, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit,
++					!(scancode & 0x40), 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, 0, 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 8, 5);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode, 6);
+ 		break;
+ 	case RC_PROTO_RC5_SZ:
+-		add_bits(!!(scancode & 0x2000), 1);
+-		add_bits(0, 1);
+-		add_bits(scancode >> 6, 6);
+-		add_bits(scancode, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit,
++					!!(scancode & 0x2000), 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, 0, 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 6, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode, 6);
+ 		break;
+ 	case RC_PROTO_RC5X_20:
+-		add_bits(!(scancode & 0x4000), 1);
+-		add_bits(0, 1);
+-		add_bits(scancode >> 16, 5);
+-		advance_space(NS_TO_US(rc5_unit * 4));
+-		add_bits(scancode >> 8, 6);
+-		add_bits(scancode, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit,
++					!(scancode & 0x4000), 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, 0, 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 16, 5);
++		n = rc5_encode_advance_space(buf, n, NS_TO_US(rc5_unit * 4));
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 8, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode, 6);
+ 		break;
+ 	}
+ 
+@@ -274,39 +310,47 @@ static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	return (n % 2) ? n : n + 1;
+ }
+ 
+-static int rc6_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int rc6_encode_advance_space(unsigned int *buf, int n, unsigned length)
+ {
+-	const unsigned int rc6_unit = 444444;
+-	unsigned n = 0;
+-
+-	void advance_space(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[n] += length;
+-		else
+-			buf[++n] = length;
+-	}
++	if (n % 2)
++		buf[n] += length;
++	else
++		buf[++n] = length;
++	return n;
++}
+ 
+-	void advance_pulse(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[++n] = length;
+-		else
+-			buf[n] += length;
+-	}
++static int rc6_encode_advance_pulse(unsigned int *buf, int n, unsigned length)
++{
++	if (n % 2)
++		buf[++n] = length;
++	else
++		buf[n] += length;
++	return n;
++}
+ 
+-	void add_bits(unsigned bits, unsigned count, unsigned length)
+-	{
+-		while (count--) {
+-			if (bits & (1 << count)) {
+-				advance_pulse(length);
+-				advance_space(length);
+-			} else {
+-				advance_space(length);
+-				advance_pulse(length);
+-			}
++static int rc6_encode_add_bits(unsigned int *buf,
++			       int n,
++			       unsigned bits,
++			       unsigned count,
++			       unsigned length)
++{
++	while (count--) {
++		if (bits & (1 << count)) {
++			n = rc6_encode_advance_pulse(buf, n, length);
++			n = rc6_encode_advance_space(buf, n, length);
++		} else {
++			n = rc6_encode_advance_space(buf, n, length);
++			n = rc6_encode_advance_pulse(buf, n, length);
+ 		}
+ 	}
++	return n;
++}
++
++static int rc6_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const unsigned int rc6_unit = 444444;
++	unsigned n = 0;
++
+ 
+ 	buf[n++] = NS_TO_US(rc6_unit * 6);
+ 	buf[n++] = NS_TO_US(rc6_unit * 2);
+@@ -316,25 +360,29 @@ static int rc6_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	default:
+ 		return 0;
+ 	case RC_PROTO_RC6_0:
+-		add_bits(8, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 16, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 8, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 16,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	case RC_PROTO_RC6_6A_20:
+-		add_bits(14, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 20, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 14, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 20,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	case RC_PROTO_RC6_6A_24:
+-		add_bits(14, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 24, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 14, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 24,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	case RC_PROTO_RC6_6A_32:
+ 	case RC_PROTO_RC6_MCE:
+-		add_bits(14, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 32, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 14, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 32,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	}
+ 
+diff --git a/utils/ir-ctl/bpf_encoder.c b/utils/ir-ctl/bpf_encoder.c
+index 82d12cc..9d9f228 100644
+--- a/utils/ir-ctl/bpf_encoder.c
++++ b/utils/ir-ctl/bpf_encoder.c
+@@ -80,35 +80,42 @@ static void encode_pulse_length(struct keymap *map, uint32_t scancode, int *buf,
+ 	*length = len;
+ }
+ 
++static int advance_space(int *buf, int len, unsigned length)
++{
++	if (len % 2)
++		buf[len] += length;
++	else
++		buf[++len] = length;
++	return len;
++}
++
++static int advance_pulse(int *buf, int len, unsigned length)
++{
++	if (len % 2)
++		buf[++len] = length;
++	else
++		buf[len] += length;
++	return len;
++}
++
+ static void encode_manchester(struct keymap *map, uint32_t scancode, int *buf, int *length)
+ {
+ 	int len = 0, bits, i;
+ 
+-	void advance_space(unsigned length)
+-	{
+-		if (len % 2)
+-			buf[len] += length;
+-		else
+-			buf[++len] = length;
+-	}
+-
+-	void advance_pulse(unsigned length)
+-	{
+-		if (len % 2)
+-			buf[++len] = length;
+-		else
+-			buf[len] += length;
+-	}
+ 
+ 	bits = keymap_param(map, "bits", 14);
+ 
+ 	for (i = bits - 1; i >= 0; i--) {
+ 		if (scancode & (1 << i)) {
+-			advance_pulse(keymap_param(map, "one_pulse", 888));
+-			advance_space(keymap_param(map, "one_space", 888));
++			len = advance_pulse(buf, len,
++					keymap_param(map, "one_pulse", 888));
++			len = advance_space(buf, len,
++					keymap_param(map, "one_space", 888));
+ 		} else {
+-			advance_space(keymap_param(map, "zero_space", 888));
+-			advance_pulse(keymap_param(map, "zero_pulse", 888));
++			len = advance_space(buf, len,
++					keymap_param(map, "zero_space", 888));
++			len = advance_pulse(buf, len,
++					keymap_param(map, "zero_pulse", 888));
+ 		}
+ 	}
+ 
+diff --git a/utils/ir-ctl/ir-encode.c b/utils/ir-ctl/ir-encode.c
+index e4fde40..9138c67 100644
+--- a/utils/ir-ctl/ir-encode.c
++++ b/utils/ir-ctl/ir-encode.c
+@@ -29,23 +29,28 @@
+ 
+ #define NS_TO_US(x) (((x)+500)/1000)
+ 
++static int nec_encode_add_byte(unsigned int *buf,
++			       int n,
++			       int unit,
++			       unsigned bits)
++{
++	int i;
++
++	for (i=0; i<8; i++) {
++		buf[n++] = NS_TO_US(unit);
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 3);
++		else
++			buf[n++] = NS_TO_US(unit);
++	}
++	return n;
++}
++
+ static int nec_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ {
+ 	const int nec_unit = 562500;
+ 	int n = 0;
+ 
+-	void add_byte(unsigned bits)
+-	{
+-		int i;
+-		for (i=0; i<8; i++) {
+-			buf[n++] = NS_TO_US(nec_unit);
+-			if (bits & (1 << i))
+-				buf[n++] = NS_TO_US(nec_unit * 3);
+-			else
+-				buf[n++] = NS_TO_US(nec_unit);
+-		}
+-	}
+-
+ 	buf[n++] = NS_TO_US(nec_unit * 16);
+ 	buf[n++] = NS_TO_US(nec_unit * 8);
+ 
+@@ -53,22 +58,22 @@ static int nec_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	default:
+ 		return 0;
+ 	case RC_PROTO_NEC:
+-		add_byte(scancode >> 8);
+-		add_byte(~(scancode >> 8));
+-		add_byte(scancode);
+-		add_byte(~scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 8);
++		n = nec_encode_add_byte(buf, n, nec_unit, ~(scancode >> 8));
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, ~scancode);
+ 		break;
+ 	case RC_PROTO_NECX:
+-		add_byte(scancode >> 16);
+-		add_byte(scancode >> 8);
+-		add_byte(scancode);
+-		add_byte(~scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 16);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 8);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, ~scancode);
+ 		break;
+ 	case RC_PROTO_NEC32:
+-		add_byte(scancode >> 16);
+-		add_byte(scancode >> 24);
+-		add_byte(scancode);
+-		add_byte(scancode >> 8);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 16);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 24);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 8);
+ 		break;
+ 	}
+ 
+@@ -104,102 +109,122 @@ static int jvc_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	return 35;
+ }
+ 
+-static int sanyo_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int sanyo_encode_add_bits(unsigned int *buf,
++				 int n,
++				 int unit,
++				 int bits,
++				 int count)
+ {
+-	const int sanyo_unit = 562500;
++	int i;
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		int i;
+-		for (i=0; i<count; i++) {
+-			*buf++ = NS_TO_US(sanyo_unit);
++	for (i=0; i<count; i++) {
++		buf[n++] = NS_TO_US(unit);
+ 
+-			if (bits & (1 << i))
+-				*buf++ = NS_TO_US(sanyo_unit * 3);
+-			else
+-				*buf++ = NS_TO_US(sanyo_unit);
+-		}
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 3);
++		else
++			buf[n++] = NS_TO_US(unit);
+ 	}
++	return n;
++}
+ 
+-	*buf++ = NS_TO_US(sanyo_unit * 16);
+-	*buf++ = NS_TO_US(sanyo_unit * 8);
++static int sanyo_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const int sanyo_unit = 562500;
++	int n = 0;
++
++	buf[n++] = NS_TO_US(sanyo_unit * 16);
++	buf[n++] = NS_TO_US(sanyo_unit * 8);
+ 
+-	add_bits(scancode >> 8, 13);
+-	add_bits(~(scancode >> 8), 13);
+-	add_bits(scancode, 8);
+-	add_bits(~scancode, 8);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, scancode >> 8, 13);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, ~(scancode >> 8), 13);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, scancode, 8);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, ~scancode, 8);
+ 
+-	*buf = NS_TO_US(sanyo_unit);
++	buf[n] = NS_TO_US(sanyo_unit);
+ 
+ 	return 87;
+ }
+ 
+-static int sharp_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int sharp_encode_add_bits(unsigned int *buf,
++				 int n,
++				 int unit,
++				 int bits,
++				 int count)
+ {
+-	const int sharp_unit = 40000;
++	int i;
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		int i;
+-		for (i=0; i<count; i++) {
+-			*buf++ = NS_TO_US(sharp_unit * 8);
++	for (i=0; i<count; i++) {
++		buf[n++] = NS_TO_US(unit * 8);
+ 
+-			if (bits & (1 << i))
+-				*buf++ = NS_TO_US(sharp_unit * 50);
+-			else
+-				*buf++ = NS_TO_US(sharp_unit * 25);
+-		}
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 50);
++		else
++			buf[n++] = NS_TO_US(unit * 25);
+ 	}
++	return n;
++}
+ 
+-	add_bits(scancode >> 8, 5);
+-	add_bits(scancode, 8);
+-	add_bits(1, 2);
++static int sharp_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const int sharp_unit = 40000;
++	int n = 0;
++
++	n = sharp_encode_add_bits(buf, n, sharp_unit, scancode >> 8, 5);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, scancode, 8);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, 1, 2);
+ 
+-	*buf++ = NS_TO_US(sharp_unit * 8);
+-	*buf++ = NS_TO_US(sharp_unit * 1000);
++	buf[n++] = NS_TO_US(sharp_unit * 8);
++	buf[n++] = NS_TO_US(sharp_unit * 1000);
+ 
+-	add_bits(scancode >> 8, 5);
+-	add_bits(~scancode, 8);
+-	add_bits(~1, 2);
+-	*buf++ = NS_TO_US(sharp_unit * 8);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, scancode >> 8, 5);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, ~scancode, 8);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, ~1, 2);
++	buf[n++] = NS_TO_US(sharp_unit * 8);
+ 
+ 	return (13 + 2) * 4 + 3;
+ }
+ 
+-static int sony_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int sony_encode_add_bits(unsigned int *buf,
++				int n,
++				int unit,
++				int bits,
++				int count)
+ {
+-	const int sony_unit = 600000;
+-	int n = 0;
++	int i;
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		int i;
+-		for (i=0; i<count; i++) {
+-			if (bits & (1 << i))
+-				buf[n++] = NS_TO_US(sony_unit * 2);
+-			else
+-				buf[n++] = NS_TO_US(sony_unit);
++	for (i=0; i<count; i++) {
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 2);
++		else
++			buf[n++] = NS_TO_US(unit);
+ 
+-			buf[n++] = NS_TO_US(sony_unit);
+-		}
++		buf[n++] = NS_TO_US(unit);
+ 	}
++	return n;
++}
++
++static int sony_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const int sony_unit = 600000;
++	int n = 0;
+ 
+ 	buf[n++] = NS_TO_US(sony_unit * 4);
+ 	buf[n++] = NS_TO_US(sony_unit);
+ 
+ 	switch (proto) {
+ 	case RC_PROTO_SONY12:
+-		add_bits(scancode, 7);
+-		add_bits(scancode >> 16, 5);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode, 7);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 16, 5);
+ 		break;
+ 	case RC_PROTO_SONY15:
+-		add_bits(scancode, 7);
+-		add_bits(scancode >> 16, 8);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode, 7);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 16, 8);
+ 		break;
+ 	case RC_PROTO_SONY20:
+-		add_bits(scancode, 7);
+-		add_bits(scancode >> 16, 5);
+-		add_bits(scancode >> 8, 8);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode, 7);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 16, 5);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 8, 8);
+ 		break;
+ 	default:
+ 		return 0;
+@@ -209,39 +234,47 @@ static int sony_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	return n - 1;
+ }
+ 
+-static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int rc5_encode_advance_space(unsigned int *buf, int n, unsigned length)
+ {
+-	const unsigned int rc5_unit = 888888;
+-	unsigned n = 0;
+-
+-	void advance_space(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[n] += length;
+-		else
+-			buf[++n] = length;
+-	}
++	if (n % 2)
++		buf[n] += length;
++	else
++		buf[++n] = length;
++	return n;
++}
+ 
+-	void advance_pulse(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[++n] = length;
+-		else
+-			buf[n] += length;
+-	}
++static int rc5_encode_advance_pulse(unsigned int *buf, int n, unsigned length)
++{
++	if (n % 2)
++		buf[++n] = length;
++	else
++		buf[n] += length;
++	return n;
++}
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		while (count--) {
+-			if (bits & (1 << count)) {
+-				advance_space(NS_TO_US(rc5_unit));
+-				advance_pulse(NS_TO_US(rc5_unit));
+-			} else {
+-				advance_pulse(NS_TO_US(rc5_unit));
+-				advance_space(NS_TO_US(rc5_unit));
+-			}
++static int rc5_encode_add_bits(unsigned int *buf,
++			       int n,
++			       int unit,
++			       int bits,
++			       int count)
++{
++	while (count--) {
++		if (bits & (1 << count)) {
++			n = rc5_encode_advance_space(buf, n, NS_TO_US(unit));
++			n = rc5_encode_advance_pulse(buf, n, NS_TO_US(unit));
++		} else {
++			n = rc5_encode_advance_pulse(buf, n, NS_TO_US(unit));
++			n = rc5_encode_advance_space(buf, n, NS_TO_US(unit));
+ 		}
+ 	}
++	return n;
++}
++
++static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const unsigned int rc5_unit = 888888;
++	unsigned n = 0;
++
+ 
+ 	buf[n] = NS_TO_US(rc5_unit);
+ 
+@@ -249,24 +282,27 @@ static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	default:
+ 		return 0;
+ 	case RC_PROTO_RC5:
+-		add_bits(!(scancode & 0x40), 1);
+-		add_bits(0, 1);
+-		add_bits(scancode >> 8, 5);
+-		add_bits(scancode, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit,
++					!(scancode & 0x40), 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, 0, 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 8, 5);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode, 6);
+ 		break;
+ 	case RC_PROTO_RC5_SZ:
+-		add_bits(!!(scancode & 0x2000), 1);
+-		add_bits(0, 1);
+-		add_bits(scancode >> 6, 6);
+-		add_bits(scancode, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit,
++					!!(scancode & 0x2000), 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, 0, 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 6, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode, 6);
+ 		break;
+ 	case RC_PROTO_RC5X_20:
+-		add_bits(!(scancode & 0x4000), 1);
+-		add_bits(0, 1);
+-		add_bits(scancode >> 16, 5);
+-		advance_space(NS_TO_US(rc5_unit * 4));
+-		add_bits(scancode >> 8, 6);
+-		add_bits(scancode, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit,
++					!(scancode & 0x4000), 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, 0, 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 16, 5);
++		n = rc5_encode_advance_space(buf, n, NS_TO_US(rc5_unit * 4));
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 8, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode, 6);
+ 		break;
+ 	}
+ 
+@@ -274,39 +310,47 @@ static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	return (n % 2) ? n : n + 1;
+ }
+ 
+-static int rc6_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int rc6_encode_advance_space(unsigned int *buf, int n, unsigned length)
+ {
+-	const unsigned int rc6_unit = 444444;
+-	unsigned n = 0;
+-
+-	void advance_space(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[n] += length;
+-		else
+-			buf[++n] = length;
+-	}
++	if (n % 2)
++		buf[n] += length;
++	else
++		buf[++n] = length;
++	return n;
++}
+ 
+-	void advance_pulse(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[++n] = length;
+-		else
+-			buf[n] += length;
+-	}
++static int rc6_encode_advance_pulse(unsigned int *buf, int n, unsigned length)
++{
++	if (n % 2)
++		buf[++n] = length;
++	else
++		buf[n] += length;
++	return n;
++}
+ 
+-	void add_bits(unsigned bits, unsigned count, unsigned length)
+-	{
+-		while (count--) {
+-			if (bits & (1 << count)) {
+-				advance_pulse(length);
+-				advance_space(length);
+-			} else {
+-				advance_space(length);
+-				advance_pulse(length);
+-			}
++static int rc6_encode_add_bits(unsigned int *buf,
++			       int n,
++			       unsigned bits,
++			       unsigned count,
++			       unsigned length)
++{
++	while (count--) {
++		if (bits & (1 << count)) {
++			n = rc6_encode_advance_pulse(buf, n, length);
++			n = rc6_encode_advance_space(buf, n, length);
++		} else {
++			n = rc6_encode_advance_space(buf, n, length);
++			n = rc6_encode_advance_pulse(buf, n, length);
+ 		}
+ 	}
++	return n;
++}
++
++static int rc6_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const unsigned int rc6_unit = 444444;
++	unsigned n = 0;
++
+ 
+ 	buf[n++] = NS_TO_US(rc6_unit * 6);
+ 	buf[n++] = NS_TO_US(rc6_unit * 2);
+@@ -316,25 +360,29 @@ static int rc6_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	default:
+ 		return 0;
+ 	case RC_PROTO_RC6_0:
+-		add_bits(8, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 16, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 8, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 16,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	case RC_PROTO_RC6_6A_20:
+-		add_bits(14, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 20, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 14, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 20,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	case RC_PROTO_RC6_6A_24:
+-		add_bits(14, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 24, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 14, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 24,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	case RC_PROTO_RC6_6A_32:
+ 	case RC_PROTO_RC6_MCE:
+-		add_bits(14, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 32, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 14, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 32,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	}
+ 
+diff --git a/utils/keytable/ir-encode.c b/utils/keytable/ir-encode.c
+index e4fde40..9138c67 100644
+--- a/utils/keytable/ir-encode.c
++++ b/utils/keytable/ir-encode.c
+@@ -29,23 +29,28 @@
+ 
+ #define NS_TO_US(x) (((x)+500)/1000)
+ 
++static int nec_encode_add_byte(unsigned int *buf,
++			       int n,
++			       int unit,
++			       unsigned bits)
++{
++	int i;
++
++	for (i=0; i<8; i++) {
++		buf[n++] = NS_TO_US(unit);
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 3);
++		else
++			buf[n++] = NS_TO_US(unit);
++	}
++	return n;
++}
++
+ static int nec_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ {
+ 	const int nec_unit = 562500;
+ 	int n = 0;
+ 
+-	void add_byte(unsigned bits)
+-	{
+-		int i;
+-		for (i=0; i<8; i++) {
+-			buf[n++] = NS_TO_US(nec_unit);
+-			if (bits & (1 << i))
+-				buf[n++] = NS_TO_US(nec_unit * 3);
+-			else
+-				buf[n++] = NS_TO_US(nec_unit);
+-		}
+-	}
+-
+ 	buf[n++] = NS_TO_US(nec_unit * 16);
+ 	buf[n++] = NS_TO_US(nec_unit * 8);
+ 
+@@ -53,22 +58,22 @@ static int nec_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	default:
+ 		return 0;
+ 	case RC_PROTO_NEC:
+-		add_byte(scancode >> 8);
+-		add_byte(~(scancode >> 8));
+-		add_byte(scancode);
+-		add_byte(~scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 8);
++		n = nec_encode_add_byte(buf, n, nec_unit, ~(scancode >> 8));
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, ~scancode);
+ 		break;
+ 	case RC_PROTO_NECX:
+-		add_byte(scancode >> 16);
+-		add_byte(scancode >> 8);
+-		add_byte(scancode);
+-		add_byte(~scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 16);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 8);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, ~scancode);
+ 		break;
+ 	case RC_PROTO_NEC32:
+-		add_byte(scancode >> 16);
+-		add_byte(scancode >> 24);
+-		add_byte(scancode);
+-		add_byte(scancode >> 8);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 16);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 24);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode);
++		n = nec_encode_add_byte(buf, n, nec_unit, scancode >> 8);
+ 		break;
+ 	}
+ 
+@@ -104,102 +109,122 @@ static int jvc_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	return 35;
+ }
+ 
+-static int sanyo_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int sanyo_encode_add_bits(unsigned int *buf,
++				 int n,
++				 int unit,
++				 int bits,
++				 int count)
+ {
+-	const int sanyo_unit = 562500;
++	int i;
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		int i;
+-		for (i=0; i<count; i++) {
+-			*buf++ = NS_TO_US(sanyo_unit);
++	for (i=0; i<count; i++) {
++		buf[n++] = NS_TO_US(unit);
+ 
+-			if (bits & (1 << i))
+-				*buf++ = NS_TO_US(sanyo_unit * 3);
+-			else
+-				*buf++ = NS_TO_US(sanyo_unit);
+-		}
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 3);
++		else
++			buf[n++] = NS_TO_US(unit);
+ 	}
++	return n;
++}
+ 
+-	*buf++ = NS_TO_US(sanyo_unit * 16);
+-	*buf++ = NS_TO_US(sanyo_unit * 8);
++static int sanyo_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const int sanyo_unit = 562500;
++	int n = 0;
++
++	buf[n++] = NS_TO_US(sanyo_unit * 16);
++	buf[n++] = NS_TO_US(sanyo_unit * 8);
+ 
+-	add_bits(scancode >> 8, 13);
+-	add_bits(~(scancode >> 8), 13);
+-	add_bits(scancode, 8);
+-	add_bits(~scancode, 8);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, scancode >> 8, 13);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, ~(scancode >> 8), 13);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, scancode, 8);
++	n = sanyo_encode_add_bits(buf, n, sanyo_unit, ~scancode, 8);
+ 
+-	*buf = NS_TO_US(sanyo_unit);
++	buf[n] = NS_TO_US(sanyo_unit);
+ 
+ 	return 87;
+ }
+ 
+-static int sharp_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int sharp_encode_add_bits(unsigned int *buf,
++				 int n,
++				 int unit,
++				 int bits,
++				 int count)
+ {
+-	const int sharp_unit = 40000;
++	int i;
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		int i;
+-		for (i=0; i<count; i++) {
+-			*buf++ = NS_TO_US(sharp_unit * 8);
++	for (i=0; i<count; i++) {
++		buf[n++] = NS_TO_US(unit * 8);
+ 
+-			if (bits & (1 << i))
+-				*buf++ = NS_TO_US(sharp_unit * 50);
+-			else
+-				*buf++ = NS_TO_US(sharp_unit * 25);
+-		}
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 50);
++		else
++			buf[n++] = NS_TO_US(unit * 25);
+ 	}
++	return n;
++}
+ 
+-	add_bits(scancode >> 8, 5);
+-	add_bits(scancode, 8);
+-	add_bits(1, 2);
++static int sharp_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const int sharp_unit = 40000;
++	int n = 0;
++
++	n = sharp_encode_add_bits(buf, n, sharp_unit, scancode >> 8, 5);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, scancode, 8);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, 1, 2);
+ 
+-	*buf++ = NS_TO_US(sharp_unit * 8);
+-	*buf++ = NS_TO_US(sharp_unit * 1000);
++	buf[n++] = NS_TO_US(sharp_unit * 8);
++	buf[n++] = NS_TO_US(sharp_unit * 1000);
+ 
+-	add_bits(scancode >> 8, 5);
+-	add_bits(~scancode, 8);
+-	add_bits(~1, 2);
+-	*buf++ = NS_TO_US(sharp_unit * 8);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, scancode >> 8, 5);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, ~scancode, 8);
++	n = sharp_encode_add_bits(buf, n, sharp_unit, ~1, 2);
++	buf[n++] = NS_TO_US(sharp_unit * 8);
+ 
+ 	return (13 + 2) * 4 + 3;
+ }
+ 
+-static int sony_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int sony_encode_add_bits(unsigned int *buf,
++				int n,
++				int unit,
++				int bits,
++				int count)
+ {
+-	const int sony_unit = 600000;
+-	int n = 0;
++	int i;
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		int i;
+-		for (i=0; i<count; i++) {
+-			if (bits & (1 << i))
+-				buf[n++] = NS_TO_US(sony_unit * 2);
+-			else
+-				buf[n++] = NS_TO_US(sony_unit);
++	for (i=0; i<count; i++) {
++		if (bits & (1 << i))
++			buf[n++] = NS_TO_US(unit * 2);
++		else
++			buf[n++] = NS_TO_US(unit);
+ 
+-			buf[n++] = NS_TO_US(sony_unit);
+-		}
++		buf[n++] = NS_TO_US(unit);
+ 	}
++	return n;
++}
++
++static int sony_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const int sony_unit = 600000;
++	int n = 0;
+ 
+ 	buf[n++] = NS_TO_US(sony_unit * 4);
+ 	buf[n++] = NS_TO_US(sony_unit);
+ 
+ 	switch (proto) {
+ 	case RC_PROTO_SONY12:
+-		add_bits(scancode, 7);
+-		add_bits(scancode >> 16, 5);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode, 7);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 16, 5);
+ 		break;
+ 	case RC_PROTO_SONY15:
+-		add_bits(scancode, 7);
+-		add_bits(scancode >> 16, 8);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode, 7);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 16, 8);
+ 		break;
+ 	case RC_PROTO_SONY20:
+-		add_bits(scancode, 7);
+-		add_bits(scancode >> 16, 5);
+-		add_bits(scancode >> 8, 8);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode, 7);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 16, 5);
++		n = sony_encode_add_bits(buf, n, sony_unit, scancode >> 8, 8);
+ 		break;
+ 	default:
+ 		return 0;
+@@ -209,39 +234,47 @@ static int sony_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	return n - 1;
+ }
+ 
+-static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int rc5_encode_advance_space(unsigned int *buf, int n, unsigned length)
+ {
+-	const unsigned int rc5_unit = 888888;
+-	unsigned n = 0;
+-
+-	void advance_space(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[n] += length;
+-		else
+-			buf[++n] = length;
+-	}
++	if (n % 2)
++		buf[n] += length;
++	else
++		buf[++n] = length;
++	return n;
++}
+ 
+-	void advance_pulse(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[++n] = length;
+-		else
+-			buf[n] += length;
+-	}
++static int rc5_encode_advance_pulse(unsigned int *buf, int n, unsigned length)
++{
++	if (n % 2)
++		buf[++n] = length;
++	else
++		buf[n] += length;
++	return n;
++}
+ 
+-	void add_bits(int bits, int count)
+-	{
+-		while (count--) {
+-			if (bits & (1 << count)) {
+-				advance_space(NS_TO_US(rc5_unit));
+-				advance_pulse(NS_TO_US(rc5_unit));
+-			} else {
+-				advance_pulse(NS_TO_US(rc5_unit));
+-				advance_space(NS_TO_US(rc5_unit));
+-			}
++static int rc5_encode_add_bits(unsigned int *buf,
++			       int n,
++			       int unit,
++			       int bits,
++			       int count)
++{
++	while (count--) {
++		if (bits & (1 << count)) {
++			n = rc5_encode_advance_space(buf, n, NS_TO_US(unit));
++			n = rc5_encode_advance_pulse(buf, n, NS_TO_US(unit));
++		} else {
++			n = rc5_encode_advance_pulse(buf, n, NS_TO_US(unit));
++			n = rc5_encode_advance_space(buf, n, NS_TO_US(unit));
+ 		}
+ 	}
++	return n;
++}
++
++static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const unsigned int rc5_unit = 888888;
++	unsigned n = 0;
++
+ 
+ 	buf[n] = NS_TO_US(rc5_unit);
+ 
+@@ -249,24 +282,27 @@ static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	default:
+ 		return 0;
+ 	case RC_PROTO_RC5:
+-		add_bits(!(scancode & 0x40), 1);
+-		add_bits(0, 1);
+-		add_bits(scancode >> 8, 5);
+-		add_bits(scancode, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit,
++					!(scancode & 0x40), 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, 0, 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 8, 5);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode, 6);
+ 		break;
+ 	case RC_PROTO_RC5_SZ:
+-		add_bits(!!(scancode & 0x2000), 1);
+-		add_bits(0, 1);
+-		add_bits(scancode >> 6, 6);
+-		add_bits(scancode, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit,
++					!!(scancode & 0x2000), 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, 0, 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 6, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode, 6);
+ 		break;
+ 	case RC_PROTO_RC5X_20:
+-		add_bits(!(scancode & 0x4000), 1);
+-		add_bits(0, 1);
+-		add_bits(scancode >> 16, 5);
+-		advance_space(NS_TO_US(rc5_unit * 4));
+-		add_bits(scancode >> 8, 6);
+-		add_bits(scancode, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit,
++					!(scancode & 0x4000), 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, 0, 1);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 16, 5);
++		n = rc5_encode_advance_space(buf, n, NS_TO_US(rc5_unit * 4));
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode >> 8, 6);
++		n = rc5_encode_add_bits(buf, n, rc5_unit, scancode, 6);
+ 		break;
+ 	}
+ 
+@@ -274,39 +310,47 @@ static int rc5_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	return (n % 2) ? n : n + 1;
+ }
+ 
+-static int rc6_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++static int rc6_encode_advance_space(unsigned int *buf, int n, unsigned length)
+ {
+-	const unsigned int rc6_unit = 444444;
+-	unsigned n = 0;
+-
+-	void advance_space(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[n] += length;
+-		else
+-			buf[++n] = length;
+-	}
++	if (n % 2)
++		buf[n] += length;
++	else
++		buf[++n] = length;
++	return n;
++}
+ 
+-	void advance_pulse(unsigned length)
+-	{
+-		if (n % 2)
+-			buf[++n] = length;
+-		else
+-			buf[n] += length;
+-	}
++static int rc6_encode_advance_pulse(unsigned int *buf, int n, unsigned length)
++{
++	if (n % 2)
++		buf[++n] = length;
++	else
++		buf[n] += length;
++	return n;
++}
+ 
+-	void add_bits(unsigned bits, unsigned count, unsigned length)
+-	{
+-		while (count--) {
+-			if (bits & (1 << count)) {
+-				advance_pulse(length);
+-				advance_space(length);
+-			} else {
+-				advance_space(length);
+-				advance_pulse(length);
+-			}
++static int rc6_encode_add_bits(unsigned int *buf,
++			       int n,
++			       unsigned bits,
++			       unsigned count,
++			       unsigned length)
++{
++	while (count--) {
++		if (bits & (1 << count)) {
++			n = rc6_encode_advance_pulse(buf, n, length);
++			n = rc6_encode_advance_space(buf, n, length);
++		} else {
++			n = rc6_encode_advance_space(buf, n, length);
++			n = rc6_encode_advance_pulse(buf, n, length);
+ 		}
+ 	}
++	return n;
++}
++
++static int rc6_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
++{
++	const unsigned int rc6_unit = 444444;
++	unsigned n = 0;
++
+ 
+ 	buf[n++] = NS_TO_US(rc6_unit * 6);
+ 	buf[n++] = NS_TO_US(rc6_unit * 2);
+@@ -316,25 +360,29 @@ static int rc6_encode(enum rc_proto proto, unsigned scancode, unsigned *buf)
+ 	default:
+ 		return 0;
+ 	case RC_PROTO_RC6_0:
+-		add_bits(8, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 16, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 8, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 16,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	case RC_PROTO_RC6_6A_20:
+-		add_bits(14, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 20, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 14, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 20,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	case RC_PROTO_RC6_6A_24:
+-		add_bits(14, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 24, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 14, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 24,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	case RC_PROTO_RC6_6A_32:
+ 	case RC_PROTO_RC6_MCE:
+-		add_bits(14, 4, NS_TO_US(rc6_unit));
+-		add_bits(0, 1, NS_TO_US(rc6_unit * 2));
+-		add_bits(scancode, 32, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 14, 4, NS_TO_US(rc6_unit));
++		n = rc6_encode_add_bits(buf, n, 0, 1, NS_TO_US(rc6_unit * 2));
++		n = rc6_encode_add_bits(buf, n, scancode, 32,
++					NS_TO_US(rc6_unit));
+ 		break;
+ 	}
+ 
+-- 
+2.26.2
+

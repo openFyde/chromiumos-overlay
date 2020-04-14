@@ -28,9 +28,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-time-header.patch
-	epatch "${FILESDIR}"/${P}-sysmacro.patch
-
+	epatch "${FILESDIR}"/${P}-clang-fixes.patch
 	eautoreconf
 }
 
@@ -39,9 +37,10 @@ src_configure() {
 	econf \
 		--disable-static \
 		$(use_enable qt4 qv4l2) \
-		$(use_with udev libudev) \
+		$(use_with udev) \
 		--with-udevdir="$(get_udevdir)" \
-		--without-jpeg
+		--without-jpeg \
+		--disable-bpf
 }
 
 src_install() {
@@ -52,6 +51,5 @@ src_install() {
 	newdoc utils/libv4l2util/TODO TODO.libv4l2util
 	newdoc utils/libmedia_dev/README README.libmedia_dev
 	newdoc utils/dvb/README README.dvb
-	newdoc utils/xc3028-firmware/README README.xc3028-firmware
 	newdoc utils/v4l2-compliance/fixme.txt fixme.txt.v4l2-compliance
 }
