@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d8a46578bfe0ef8ec31189bce5b42b18dc9cf0a7"
+CROS_WORKON_COMMIT="6c5b01d4941c7efc0d53c64a74658b58255ce003"
 CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "4662dc3d545d24b6be11c97e3a372e75678c3e4c" "8f00b338e86e415e446bdfb421cd41854c71cec7" "e680d9d9fa8c0eabe991fca20df8734359d317f8" "e378ca77690bca4c7fdce56f63b7efcf6544db6a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -100,9 +100,6 @@ src_install() {
 		doins etc/arc-system-mount.conf
 		doins etc/arc-ureadahead.conf
 
-		insinto /etc/dbus-1/system.d
-		doins etc/dbus-1/ArcUpstart.conf
-
 		insinto /usr/share/arc-setup
 		doins etc/config.json
 
@@ -125,6 +122,9 @@ src_install() {
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_fingerprint_and_sdk_version_fuzzer
 	fi
+
+	insinto /etc/dbus-1/system.d
+	doins etc/dbus-1/ArcUpstart.conf
 }
 
 platform_pkg_test() {
