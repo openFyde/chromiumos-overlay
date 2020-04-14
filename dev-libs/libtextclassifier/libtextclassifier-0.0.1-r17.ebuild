@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("cf30cd68a6008d10036091c774699d243d7d8a9c" "c5b12c20000939c2583147d2f574b6f04b4ddd00")
-CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "8644bbd22d25cb5bf147f05a289bdea4bf2236b3")
+CROS_WORKON_COMMIT=("c5e045113c657059a2f72e9ebb3889bcbd786246" "3b6aa2b3f62f5907434edf316e5e60f39592a4a5")
+CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d667f81f59324c5e27302f538e5296d349c0a7f3")
 CROS_WORKON_LOCALNAME=("../platform2" "libtextclassifier")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/libtextclassifier")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libtextclassifier")
