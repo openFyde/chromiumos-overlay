@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c5e045113c657059a2f72e9ebb3889bcbd786246"
+CROS_WORKON_COMMIT="f2bd1a6b3031c48568ad6227b6a1ce370471d158"
 CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "529b0a938f526b701b5c303210b7d80a00740c6f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -54,6 +54,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_install_compilation_database
+
 	dobin "${OUT}"/vm_syslog
 	dosbin "${OUT}"/vshd
 

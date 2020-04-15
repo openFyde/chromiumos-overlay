@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f9546315fb86a89441b169e55c1ce0a94b444272"
+CROS_WORKON_COMMIT="f2bd1a6b3031c48568ad6227b6a1ce370471d158"
 CROS_WORKON_TREE=("0e6767aedec2c6d08eff355074e0283c1661ef0a" "473665059c4645c366e7d3f0dfba638851176adc" "e378ca77690bca4c7fdce56f63b7efcf6544db6a" "529b0a938f526b701b5c303210b7d80a00740c6f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -58,6 +58,8 @@ src_unpack() {
 }
 
 src_install() {
+	platform_install_compilation_database
+
 	dobin "${OUT}"/cicerone_client
 	dobin "${OUT}"/concierge_client
 	dobin "${OUT}"/maitred_client
