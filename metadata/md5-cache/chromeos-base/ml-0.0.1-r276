@@ -4,12 +4,12 @@ DEPEND=chromeos-base/chrome-icu:= chromeos-base/libbrillo:= chromeos-base/metric
 DESCRIPTION=Machine learning service for Chromium OS
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/ml
-IUSE=fuzzer cros_host cros_workon_tree_473665059c4645c366e7d3f0dfba638851176adc_3440719a13cf33a5c828e069f4cded33d05b581d_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_473665059c4645c366e7d3f0dfba638851176adc_3440719a13cf33a5c828e069f4cded33d05b581d_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug cros_host test
+IUSE=fuzzer cros_host cros_workon_tree_473665059c4645c366e7d3f0dfba638851176adc_32c78003dc3bf6b2d978acbecf3bf6791555aba3_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_473665059c4645c366e7d3f0dfba638851176adc_32c78003dc3bf6b2d978acbecf3bf6791555aba3_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug cros_host test
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
 RDEPEND=chromeos-base/chrome-icu:= chromeos-base/libbrillo:= chromeos-base/metrics:= dev-libs/libtextclassifier:= sci-libs/tensorflow:= chromeos-base/libchrome:=[cros-debug=] chromeos-base/libbrillo:= sys-apps/baselayout
-SLOT=0/0.0.1-r275
+SLOT=0/0.0.1-r276
 SRC_URI=gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20200206-downloadable.tflite gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v706.fb
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	68fd6af9813658a590887ca09efa2444	cros-workon	a472e157d58fc9e2b928bb2c3ae2e6f2	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	libchrome	264ee4961c194da1b60bf0cc373161bc	libchrome-version	9a62429c3e83cd30e646292329521f7d	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	7318c8ec4f1c3adbc437ab8a8b12353b	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	user	7c566af8c48023219fd63246e88d6621
-_md5_=09903966b9d71c33492a660f4eb94a1f
+_md5_=b044d3713941c25f0ba968411619d29f
