@@ -124,7 +124,6 @@ src_compile() {
 platform_pkg_test() {
 	local tests=(
 		file_unittest
-		io_unittest
 		math_unittest
 		platform_unittest
 	)
