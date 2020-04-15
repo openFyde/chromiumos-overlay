@@ -151,6 +151,7 @@ src_install() {
 	doins cryptohome_userdataauth_interface.conf
 	exeinto /usr/libexec/cryptohome
 	doexe shall-use-userdataauth.sh
+	doexe update_userdataauth_from_features.sh
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
