@@ -4,7 +4,7 @@
 EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.3.8"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.4.1"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
@@ -45,7 +45,7 @@ RDEPEND=">=app-arch/gcab-1.0
 	dev-libs/libgpg-error
 	>=dev-libs/libgudev-232:=
 	>=dev-libs/libgusb-0.2.9[introspection?]
-	>=dev-libs/libjcat-0.1.0
+	>=dev-libs/libjcat-0.1.0[gpg?,pkcs7?]
 	>=dev-libs/libxmlb-0.1.13
 	>=net-libs/libsoup-2.51.92:2.4[introspection?]
 	virtual/libelf:0=
@@ -56,15 +56,10 @@ RDEPEND=">=app-arch/gcab-1.0
 		>=sys-libs/libsmbios-2.4.0
 	)
 	elogind? ( sys-auth/elogind )
-	gpg? (
-		app-crypt/gpgme
-		dev-libs/libgpg-error
-	)
 	!minimal? (
 		>=sys-auth/polkit-0.103
 	)
 	nvme? ( sys-libs/efivar )
-	pkcs7? ( >=net-libs/gnutls-3.4.4.1:= )
 	redfish? ( sys-libs/efivar )
 	systemd? ( >=sys-apps/systemd-211 )
 	uefi? (
@@ -120,12 +115,10 @@ src_configure() {
 		$(meson_use consolekit)
 		$(meson_use dell plugin_dell)
 		$(meson_use elogind)
-		$(meson_use gpg)
 		$(meson_use gtk-doc gtkdoc)
 		$(meson_use introspection)
 		$(meson_use man)
 		$(meson_use nvme plugin_nvme)
-		$(meson_use pkcs7)
 		$(meson_use redfish plugin_redfish)
 		$(meson_use synaptics plugin_synaptics)
 		$(meson_use systemd)
