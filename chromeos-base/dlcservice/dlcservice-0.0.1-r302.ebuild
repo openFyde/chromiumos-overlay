@@ -1,9 +1,9 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="9a27d15dca7a20471f335328f972fd522ccc16ca"
+CROS_WORKON_COMMIT="be15928973f6e9c1c22dc6de0526f088515d973b"
 CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "8260720a71477240a7f6d718869463726d82dcef" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,19 +19,19 @@ DESCRIPTION="A D-Bus service for Downloadable Content (DLC)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/dlcservice/"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 IUSE="fuzzer"
 
 RDEPEND="
-	chromeos-base/imageloader
+	chromeos-base/imageloader:=
 	dev-libs/protobuf:="
 
 DEPEND="${RDEPEND}
-	chromeos-base/dlcservice-client
-	chromeos-base/imageloader-client
-	chromeos-base/system_api[fuzzer?]
-	chromeos-base/update_engine-client"
+	chromeos-base/dlcservice-client:=
+	chromeos-base/imageloader-client:=
+	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/session_manager-client:=
+	chromeos-base/update_engine-client:="
 
 src_install() {
 	dosbin "${OUT}/dlcservice"
