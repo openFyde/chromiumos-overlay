@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cf30cd68a6008d10036091c774699d243d7d8a9c"
+CROS_WORKON_COMMIT="d244674f69ea09555e106cbbd0e4697d6a9d0bab"
 CROS_WORKON_TREE=("473665059c4645c366e7d3f0dfba638851176adc" "107eb5577172bfec26b93c3f8e8c643c0d2f3f5e" "f6137e9965e29e36f38d65beaa1528e537249a6e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,10 +35,13 @@ REQUIRED_USE="|| ( arcpp arcvm )"
 RDEPEND="!<chromeos-base/chromeos-cheets-scripts-0.0.3"
 DEPEND="${RDEPEND}"
 
-# Both arcpp and arcvm have its /data in |CONTAINER_ROOTFS|.
 CONTAINER_ROOTFS="/opt/google/containers/android/rootfs"
 
 src_install() {
+	# Redirect ARC and ARCVM logs to arc.log.
+	insinto /etc/rsyslog.d
+	doins arc/scripts/rsyslog.arc.conf
+
 	if use arcpp; then
 		insinto /opt/google/containers/android
 		if use android-container-master-arc-dev; then
@@ -58,9 +61,6 @@ src_install() {
 		insinto /etc/sysctl.d
 		doins arc/scripts/01-sysctl-arc.conf
 
-		insinto /etc/rsyslog.d
-		doins arc/scripts/rsyslog.arc.conf
-
 		# Install exception file for FIFO blocking policy on stateful partition.
 		insinto /usr/share/cros/startup/fifo_exceptions
 		doins arc/container-bundle/arc-fifo-exceptions.txt
@@ -72,6 +72,7 @@ src_install() {
 }
 
 pkg_preinst() {
+	# ARCVM also needs these users on the host side for proper ugid remapping.
 	enewuser "wayland"
 	enewgroup "wayland"
 	enewuser "arc-bridge"
