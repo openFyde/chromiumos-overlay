@@ -283,10 +283,12 @@ src_install() {
 	for d in "${mojom_dirs[@]}"; do
 		insinto /usr/include/base-"${PV}"/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.h
-		insinto /usr/src/libchrome/mojom/"${d}"
-		doins "${S}"/"${d}"/*.mojom
-		insinto /usr/share/libchrome/pickle/"${d}"
-		doins "${OUT}"/gen/include/"${d}"/*.p
+		# Not to install mojom and pickle file to prevent misuse until Chromium IPC
+		# team is ready to have a stable mojo_base. see crbug.com/1055379
+		# insinto /usr/src/libchrome/mojom/"${d}"
+		# doins "${S}"/"${d}"/*.mojom
+		# insinto /usr/share/libchrome/pickle/"${d}"
+		# doins "${OUT}"/gen/include/"${d}"/*.p
 	done
 
 	# Install libchrome base type mojo mapping
