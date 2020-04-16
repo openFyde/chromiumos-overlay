@@ -91,6 +91,18 @@ chromium_source_compute_source_dir() {
 	esac
 }
 
+# Hack to unblock devs building chrome-icu: crbug.com/1069842
+# Takes one parameter which is the age of the lack to find in minutes.
+find_git_cache_locks() {
+	local n_min=$1
+	local locks="$(find /tmp/git-cache -maxdepth 1 -regex ".+\.lock" -mmin +"${n_min}")"
+	if [[ -n ${locks} ]]; then
+		ewarn "Found lock (age > ${n_min} min) on the git cache!"
+		ewarn "${locks}"
+	fi
+	echo "${locks}"
+}
+
 # Check out Chromium source code.
 chromium_source_check_out_source() {
 	[[ "${CHROMIUM_SOURCE_ORIGIN}" == LOCAL_SOURCE ]] && return
@@ -117,6 +129,27 @@ chromium_source_check_out_source() {
 		elog "Using gclient template ${CHROMIUM_GCLIENT_TEMPLATE}"
 		cmd+=( --gclient_template="${CHROMIUM_GCLIENT_TEMPLATE}" )
 	fi
+
+	# TODO(engeg): Delete this logic once the git-cache locking is solved.
+	einfo "We're checking for stale locks in git-cache: crbug.com/1069842"
+	einfo "We'll heuristically ignore them based on their age and a short nap."
+	local locks="$(find_git_cache_locks "30")"
+	if [[ -n ${locks} ]]; then
+		ewarn "Running sync ignoring locks on git cache, may cause issues."
+		cmd+=( --ignore_locks )
+	else
+		locks="$(find_git_cache_locks "0")"
+		if [[ -n ${locks} ]]; then
+			ewarn "Found new locks on git cache, sleeping 15 min."
+			sleep 900
+			if [[ -n $(find_git_cache_locks "0") ]]; then
+				ewarn "Locks still present after 15 minute nap. ignoring them."
+				cmd+=( --ignore_locks )
+			fi
+		fi
+	fi
+	# // End engeg todo to delete.
+
 	# --reset tells sync_chrome to blow away local changes and to feel
 	# free to delete any directories that get in the way of syncing. This
 	# is needed for unattended operation.
