@@ -11,7 +11,7 @@ inherit cros-workon base
 inherit cros-workon eutils
 
 DESCRIPTION="TPM Light Command Library testsuite"
-LICENSE="GPL-2"
+LICENSE="BSD-Google"
 HOMEPAGE="http://www.chromium.org/"
 SLOT="0"
 KEYWORDS="~*"

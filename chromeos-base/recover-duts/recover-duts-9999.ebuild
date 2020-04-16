@@ -11,7 +11,7 @@ inherit cros-workon
 DESCRIPTION="Test tool that recovers bricked Chromium OS test devices"
 HOMEPAGE="http://www.chromium.org/"
 
-LICENSE="GPL-2"
+LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 

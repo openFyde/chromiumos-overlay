@@ -9,7 +9,7 @@ inherit cros-workon autotest
 DESCRIPTION="vboot tests"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
-LICENSE="GPL-2"
+LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 # Enable autotest by default.

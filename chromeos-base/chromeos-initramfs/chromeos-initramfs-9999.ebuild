@@ -11,7 +11,7 @@ inherit cros-workon cros-board cros-constants
 DESCRIPTION="Create Chrome OS initramfs"
 HOMEPAGE="http://www.chromium.org/"
 
-LICENSE="GPL-2"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
