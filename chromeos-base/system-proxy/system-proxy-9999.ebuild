@@ -33,6 +33,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/permission_broker-client:=
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 pkg_preinst() {
