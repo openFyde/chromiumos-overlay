@@ -7,9 +7,9 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/network shill/net .gn"
+CROS_WORKON_SUBTREE="common-mk patchpanel shill/net .gn"
 
-PLATFORM_SUBDIR="arc/network"
+PLATFORM_SUBDIR="patchpanel"
 
 inherit cros-workon libchrome platform user
 
@@ -42,7 +42,7 @@ DEPEND="
 
 patchpanel_header() {
 	doins "$1"
-	sed -i 's/arc\/network\//patchpanel\//g' "${D}/usr/include/chromeos/patchpanel/$1" || die
+	sed -i '/.pb.h/! s/patchpanel\//chromeos\/patchpanel\//g' "${D}/usr/include/chromeos/patchpanel/$1" || die
 }
 
 src_install() {
@@ -57,12 +57,6 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/libarcnetwork-util.pc
 	doins "${OUT}"/libpatchpanel-client.pc
-
-	insinto /usr/include/arc/network/
-	doins client.h
-	doins mac_address_generator.h
-	doins subnet.h
-	doins subnet_pool.h
 
 	insinto /usr/include/chromeos/patchpanel/
 	patchpanel_header address_manager.h
