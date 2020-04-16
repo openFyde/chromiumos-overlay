@@ -151,6 +151,8 @@ src_prepare() {
 	# b/145882519
 	epatch "${FILESDIR}"/FROMLIST-radeon-radeon_vce-fix-out-of-target-bitrate-in-CBR-m.patch
 
+	# b/152378755
+	epatch "${FILESDIR}"/UPSTREAM-winsys-amdgpu-Retrieve-WC-flags-from-imported-buffer.patch
 	default
 }
 
