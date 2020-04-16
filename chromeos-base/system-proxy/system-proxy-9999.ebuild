@@ -7,8 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-# TODO(acostinas): Remove when https://crbug.com/809389 is fixed.
-CROS_WORKON_SUBTREE="arc/network common-mk system-proxy .gn"
+CROS_WORKON_SUBTREE="common-mk system-proxy .gn"
 
 PLATFORM_SUBDIR="system-proxy"
 
