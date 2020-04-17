@@ -26,6 +26,7 @@ IUSE="
 	debug
 	vulkan
 	android_vulkan_compute_0
+	android_aep
 "
 
 REQUIRED_USE="
@@ -136,6 +137,12 @@ multilib_src_install_all() {
 		fi
 	fi
 
+	# Install permission file to declare opengles aep support.
+	if use android_aep; then
+		einfo "Using android aep."
+		insinto "${ARC_PREFIX}/vendor/etc/permissions"
+		doins "${FILESDIR}/android.hardware.opengles.aep.xml"
+	fi
 	# Install the dri header for arc-cros-gralloc
 	insinto "${ARC_PREFIX}/vendor/include/GL"
 	doins -r "${S}/include/GL/internal"
