@@ -83,7 +83,7 @@ FACTORY_NETBOOT_DEPENDS="
 
 # Packages required for building hypervisor initramfs.
 HYPERVISOR_DEPENDS="
-	app-emulation/qemu
+	chromeos-base/crosvm
 	virtual/linux-sources
 	"
 
