@@ -23,6 +23,11 @@ IUSE="+seccomp"
 
 RDEPEND="
 	chromeos-base/minijail
+	dev-db/sqlite:=
+"
+
+DEPEND="
+	dev-db/sqlite:=
 "
 
 src_install() {
