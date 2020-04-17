@@ -56,6 +56,12 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=[fuzzer?]
 	vpn? ( chromeos-base/vpn-manager:= )"
 
+pkg_setup() {
+	enewgroup "shill"
+	enewuser "shill"
+	cros-workon_pkg_setup
+}
+
 pkg_preinst() {
 	enewgroup "shill-crypto"
 	enewuser "shill-crypto"
@@ -63,8 +69,6 @@ pkg_preinst() {
 	enewuser "shill-scripts"
 	enewgroup "nfqueue"
 	enewuser "nfqueue"
-	enewgroup "shill"
-	enewuser "shill"
 }
 
 get_dependent_services() {
@@ -213,6 +217,12 @@ src_install() {
 	doins setuid_restrictions/shill_whitelist.txt
 
 	udev_dorules udev/*.rules
+
+	# Shill keeps profiles inside the user's cryptohome.
+	local daemon_store="/etc/daemon-store/shill"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners shill:shill "${daemon_store}"
 
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
