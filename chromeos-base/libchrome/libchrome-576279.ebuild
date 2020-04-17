@@ -146,6 +146,7 @@ src_prepare() {
 
 	# Forward compatibility for r680000
 	epatch "${FILESDIR}"/${P}-r680000-forward-compatibility-patch-part-1.patch
+	epatch "${FILESDIR}"/${P}-r680000-forward-compatibility-patch-part-2.patch
 }
 
 src_install() {
