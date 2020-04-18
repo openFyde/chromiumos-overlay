@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="24ec5070829e8de4316383aeb8b214e862c54af6"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "801b2c0b0101245aed16c0af7d1c8cf04d9710df" "b833fa9bb87baf88c860de5c2fe82b829f4d3e33" "e92c12397252af71303abe9bae0819944742cd57" "093c7a01cb65cb24871c5a2ce7c2bdd0a536fccf" "c3bfa24d1200914d5089aca56f479eabf522ea2a" "8f55b22e9c73df6112ef54b4bc65462bb0bf81ed" "e378ca77690bca4c7fdce56f63b7efcf6544db6a")
+CROS_WORKON_COMMIT="5cc319af1ca824bf91f879e56db41e6dbde36593"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "801b2c0b0101245aed16c0af7d1c8cf04d9710df" "0a838245f33a6864723b9e45ccc6cd8c4fa6fdcf" "e92c12397252af71303abe9bae0819944742cd57" "093c7a01cb65cb24871c5a2ce7c2bdd0a536fccf" "c3bfa24d1200914d5089aca56f479eabf522ea2a" "8f55b22e9c73df6112ef54b4bc65462bb0bf81ed" "e378ca77690bca4c7fdce56f63b7efcf6544db6a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
@@ -17,7 +17,7 @@ CROS_CAMERA_TESTS=(
 	"image_processor_test"
 )
 
-inherit cros-camera cros-workon platform
+inherit cros-camera cros-workon platform udev
 
 DESCRIPTION="Chrome OS USB camera HAL v3."
 
@@ -52,4 +52,5 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	cros-camera_dohal "${OUT}/lib/libcamera_hal.so" usb.so
+	udev_dorules udev/99-usbcam.rules
 }
