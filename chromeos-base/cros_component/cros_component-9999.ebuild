@@ -12,7 +12,7 @@ PLATFORM_SUBDIR="cros_component"
 inherit cros-workon platform
 
 DESCRIPTION="Configurations for Chrome OS universial installer"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cros_component/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

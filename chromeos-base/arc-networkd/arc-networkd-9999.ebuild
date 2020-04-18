@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="patchpanel"
 inherit cros-workon libchrome platform user
 
 DESCRIPTION="ARC connectivity management daemon"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/network/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="fuzzer"

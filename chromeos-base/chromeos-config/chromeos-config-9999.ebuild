@@ -14,7 +14,7 @@ CROS_WORKON_LOCALNAME="config"
 inherit cros-unibuild toolchain-funcs cros-workon
 
 DESCRIPTION="Chromium OS-specific configuration"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/config/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"

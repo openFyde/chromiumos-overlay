@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 inherit cros-workon autotest
 
 DESCRIPTION="TPM firmware tests"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/vboot_reference/"
 SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"

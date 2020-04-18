@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="cros-disks"
 inherit cros-workon platform user
 
 DESCRIPTION="Disk mounting daemon for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cros-disks/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="chromeless_tty fuzzer +seccomp"

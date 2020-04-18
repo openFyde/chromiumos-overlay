@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="debugd"
 inherit cros-workon platform user
 
 DESCRIPTION="Chrome OS debugging service"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/debugd/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="cellular iwlwifi_dump nvme sata tpm"

@@ -17,7 +17,7 @@ PLATFORM_NATIVE_TEST="yes"
 inherit toolchain-funcs cros-debug cros-workon platform systemd
 
 DESCRIPTION="Chrome OS Update Engine"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/aosp/platform/system/update_engine/"
 SRC_URI=""
 
 LICENSE="Apache-2.0"

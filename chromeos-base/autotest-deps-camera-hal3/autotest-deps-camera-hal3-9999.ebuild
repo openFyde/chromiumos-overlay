@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="third_party/autotest/files"
 inherit cros-workon autotest-deponly
 
 DESCRIPTION="Dependencies for camera_HAL3 autotest"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"

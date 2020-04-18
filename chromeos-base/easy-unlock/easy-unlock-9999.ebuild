@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="easy-unlock"
 inherit cros-workon platform user
 
 DESCRIPTION="Service for supporting Easy Unlock in Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/easy-unlock/"
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"

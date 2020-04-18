@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="libchromeos-ui"
 inherit cros-workon platform
 
 DESCRIPTION="Library used to start Chromium-based UIs"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libchromeos-ui/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""

@@ -105,7 +105,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit cros-workon cros-board python-any-r1
 
 DESCRIPTION="Chrome OS Firmware Bitmap Block"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/bmpblk/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="${PN}"
 inherit cros-workon platform udev user
 
 DESCRIPTION="Permission Broker for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/permission_broker/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

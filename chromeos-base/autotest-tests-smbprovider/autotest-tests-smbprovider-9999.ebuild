@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME="third_party/autotest/files"
 inherit cros-workon autotest
 
 DESCRIPTION="SmbProvider Autotests"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"

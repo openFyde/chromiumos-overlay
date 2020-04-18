@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="feedback"
 inherit cros-constants cros-workon git-2 platform
 
 DESCRIPTION="Feedback service for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/feedback/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 

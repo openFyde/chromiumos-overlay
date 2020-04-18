@@ -16,7 +16,7 @@ PLATFORM_SUBDIR="update_engine/client-headers"
 inherit cros-debug cros-workon platform
 
 DESCRIPTION="Chrome OS Update Engine client library"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/aosp/platform/system/update_engine/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

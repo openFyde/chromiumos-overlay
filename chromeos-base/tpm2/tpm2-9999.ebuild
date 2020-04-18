@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="third_party/tpm2"
 inherit cros-workon toolchain-funcs
 
 DESCRIPTION="TPM2.0 library"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/tpm2/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

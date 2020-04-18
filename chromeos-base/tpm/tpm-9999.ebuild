@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME="../third_party/tpm"
 inherit cros-sanitizers cros-workon toolchain-funcs
 
 DESCRIPTION="Various TPM tools"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tpm/"
 
 LICENSE="BSD"
 SLOT="0/0"

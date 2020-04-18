@@ -10,7 +10,7 @@ CROS_WORKON_USE_VCSID=1
 inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon systemd user libchrome-version
 
 DESCRIPTION="Google A/V Daemon"
-HOMEPAGE="http://www.chromium.org"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"

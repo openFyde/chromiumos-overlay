@@ -17,7 +17,7 @@ WEBGL_AQUARIUM_URI=${LOCAL_MIRROR_URL}/distfiles/webgl-aquarium-20130524.tar.bz2
 WS4PY_MODULE_URL=${LOCAL_MIRROR_URL}/distfiles/ws4py-0.5.1.tar.gz
 
 DESCRIPTION="Chrome OS Factory Software Platform"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory/"
 SRC_URI="${WEBGL_AQUARIUM_URI} ${WS4PY_MODULE_URL}"
 LICENSE="BSD-Google"
 SLOT="0"

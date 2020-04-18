@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="buffet"
 inherit cros-workon libchrome platform user
 
 DESCRIPTION="Local and cloud communication services for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/buffet/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""

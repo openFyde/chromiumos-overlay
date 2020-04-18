@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform/crostestutils"
 inherit cros-workon
 
 DESCRIPTION="Host test utilities for ChromiumOS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crostestutils/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -8,7 +8,7 @@ inherit cros-sanitizers cros-workon toolchain-funcs
 
 DESCRIPTION="Chrome OS DRM Tests"
 
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/drm-tests/"
 SRC_URI=""
 
 LICENSE="BSD"

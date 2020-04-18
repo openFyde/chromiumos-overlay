@@ -9,7 +9,7 @@ CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
 CROS_WORKON_LOCALNAME="platform/empty-project"
 
 DESCRIPTION="Tests of Chromium OS-specific configuration installed files"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://dev.chromium.org/chromium-os/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="fitpicker"
 inherit cros-workon platform
 
 DESCRIPTION="Utility for picking a kernel/device tree from a FIT image."
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/fitpicker/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

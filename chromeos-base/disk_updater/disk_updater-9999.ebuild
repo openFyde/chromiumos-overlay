@@ -12,7 +12,7 @@ PLATFORM_SUBDIR="disk_updater"
 inherit cros-workon platform
 
 DESCRIPTION="Root disk firmware updater"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/disk_updater/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

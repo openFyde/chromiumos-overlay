@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/firmware"
 inherit cros-workon cros-firmware
 
 DESCRIPTION="Chrome OS Firmware (Template - change to board name)"
-HOMEPAGE="http://src.chromium.org"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/firmware/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"

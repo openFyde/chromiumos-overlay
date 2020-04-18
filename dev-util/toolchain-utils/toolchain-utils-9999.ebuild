@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="toolchain-utils"
 inherit cros-workon
 
 DESCRIPTION="Compilation and runtime tests for toolchain"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/toolchain-utils/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

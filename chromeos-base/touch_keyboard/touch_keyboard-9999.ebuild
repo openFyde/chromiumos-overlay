@@ -12,7 +12,7 @@ PLATFORM_SUBDIR="touch_keyboard"
 inherit cros-workon platform user
 
 DESCRIPTION="Touch Keyboard"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/touch_keyboard/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

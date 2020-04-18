@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME=../third_party/ltp
 inherit cros-workon cros-constants
 
 DESCRIPTION="Autotest kernel ltp dep"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/ltp/"
 SRC_URI=""
 LICENSE="GPL-2"
 KEYWORDS="~*"

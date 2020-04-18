@@ -8,7 +8,7 @@ CROS_WORKON_EGIT_BRANCH="master-0.3.13"
 inherit cros-workon autotest
 
 DESCRIPTION="Trousers TPM tests"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/trousers/"
 SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"

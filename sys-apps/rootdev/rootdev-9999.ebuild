@@ -8,7 +8,7 @@ CROS_WORKON_OUTOFTREE_BUILD="1"
 inherit toolchain-funcs cros-sanitizers cros-workon
 
 DESCRIPTION="Chrome OS root block device tool/library"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/rootdev/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

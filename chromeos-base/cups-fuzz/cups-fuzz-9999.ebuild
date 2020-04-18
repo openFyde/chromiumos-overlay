@@ -13,7 +13,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 inherit cros-fuzzer cros-sanitizers cros-workon flag-o-matic libchrome toolchain-funcs
 
 DESCRIPTION="Fuzzer for PPD and IPP functions in CUPS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/cups/+/cups-2-2-8/fuzzers/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

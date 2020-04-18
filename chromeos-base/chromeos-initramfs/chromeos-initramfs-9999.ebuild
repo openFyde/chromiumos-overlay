@@ -9,7 +9,7 @@ CROS_WORKON_OUTOFTREE_BUILD="1"
 inherit cros-workon cros-board cros-constants
 
 DESCRIPTION="Create Chrome OS initramfs"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/initramfs/"
 
 LICENSE="BSD-Google"
 SLOT="0"

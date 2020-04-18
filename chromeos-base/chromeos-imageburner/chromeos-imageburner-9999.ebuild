@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="image-burner"
 inherit cros-workon platform
 
 DESCRIPTION="Image-burning service for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/image-burner/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

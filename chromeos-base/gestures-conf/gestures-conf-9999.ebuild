@@ -9,7 +9,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 inherit cros-board cros-workon user
 
 DESCRIPTION="Board specific gestures library configuration file."
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/xorg-conf/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

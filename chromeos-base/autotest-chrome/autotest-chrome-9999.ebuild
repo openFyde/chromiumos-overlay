@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 inherit cros-workon autotest
 
 DESCRIPTION="Autotest tests that require chrome_binary_test, or telemetry deps"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"

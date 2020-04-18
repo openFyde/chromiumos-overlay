@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME="platform/inputcontrol"
 inherit cros-workon
 
 DESCRIPTION="A collection of utilities for configuring input devices"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/inputcontrol/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

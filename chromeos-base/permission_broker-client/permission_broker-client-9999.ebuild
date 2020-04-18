@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="permission_broker/client"
 inherit cros-workon platform
 
 DESCRIPTION="Permission Broker DBus client library for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/permission_broker/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

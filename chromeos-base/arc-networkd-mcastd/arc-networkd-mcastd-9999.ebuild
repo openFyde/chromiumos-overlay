@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="patchpanel/mcastd"
 inherit cros-workon libchrome platform
 
 DESCRIPTION="Multicast forwarder daemon"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/network/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 

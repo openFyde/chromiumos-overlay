@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="init"
 inherit cros-workon platform user
 
 DESCRIPTION="Upstart init scripts for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/init/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

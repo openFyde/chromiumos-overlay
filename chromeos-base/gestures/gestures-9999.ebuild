@@ -9,7 +9,7 @@ CROS_WORKON_USE_VCSID=1
 inherit toolchain-funcs multilib cros-debug cros-sanitizers cros-workon
 
 DESCRIPTION="Gesture recognizer library"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/gestures/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

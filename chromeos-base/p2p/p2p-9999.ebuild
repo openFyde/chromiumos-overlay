@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="p2p"
 inherit cros-debug cros-workon platform user
 
 DESCRIPTION="Chromium OS P2P"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/p2p/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

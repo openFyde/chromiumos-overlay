@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform/factory_installer"
 inherit cros-sanitizers cros-workon toolchain-funcs cros-factory
 
 DESCRIPTION="Chrome OS Factory Installer"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory_installer/"
 SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"

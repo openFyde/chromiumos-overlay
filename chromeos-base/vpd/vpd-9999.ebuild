@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform/vpd"
 inherit cros-workon systemd
 
 DESCRIPTION="ChromeOS vital product data utilities"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/vpd/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

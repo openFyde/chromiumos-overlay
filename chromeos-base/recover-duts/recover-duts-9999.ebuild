@@ -9,7 +9,7 @@ CROS_WORKON_SUBTREE="recover_duts"
 inherit cros-workon
 
 DESCRIPTION="Test tool that recovers bricked Chromium OS test devices"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crostestutils/+/master/recover_duts/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

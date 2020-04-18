@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="third_party/autotest/files"
 inherit cros-workon autotest-deponly
 
 DESCRIPTION="Autotest touchpad deps"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"

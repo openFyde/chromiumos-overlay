@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 inherit cros-workon autotest
 
 DESCRIPTION="touchpad autotest"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"

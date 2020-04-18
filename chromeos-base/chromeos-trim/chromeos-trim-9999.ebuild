@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="trim"
 inherit cros-workon platform
 
 DESCRIPTION="Stateful partition periodic trimmer"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trim/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

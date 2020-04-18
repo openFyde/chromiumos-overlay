@@ -10,7 +10,7 @@ inherit cros-workon
 
 DESCRIPTION="Chrome OS EC Utility Helper"
 
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

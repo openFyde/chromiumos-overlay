@@ -10,7 +10,7 @@ PYTHON_COMPAT=( python2_7 python{3_6,3_7} )
 inherit cros-sanitizers cros-workon distutils-r1
 
 DESCRIPTION="Bluetooth Socket support module"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/btsocket/"
 
 LICENSE="BSD-Google"
 SLOT="0"

@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="login_manager"
 inherit cros-workon platform systemd user
 
 DESCRIPTION="Login manager for Chromium OS."
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-login/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

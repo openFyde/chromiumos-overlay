@@ -12,7 +12,7 @@ inherit cros-workon eutils
 
 DESCRIPTION="TPM Light Command Library testsuite"
 LICENSE="BSD-Google"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tpm_lite/"
 SLOT="0"
 KEYWORDS="~*"
 

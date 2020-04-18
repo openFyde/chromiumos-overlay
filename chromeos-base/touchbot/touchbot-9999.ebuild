@@ -10,7 +10,7 @@ CROS_WORKON_LOCALNAME="platform/touchbot"
 inherit cros-workon distutils-r1
 
 DESCRIPTION="Suite of control scripts for the Touchbot"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/touchbot/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

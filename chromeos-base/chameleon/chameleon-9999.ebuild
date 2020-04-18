@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/chameleon"
 inherit cros-workon
 
 DESCRIPTION="Chameleon bundle for Autotest lab deployment"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/chameleon/"
 
 LICENSE="BSD-Google"
 SLOT="0"

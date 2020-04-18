@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="metrics"
 inherit cros-constants cros-workon platform systemd user
 
 DESCRIPTION="Metrics aggregation service for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/metrics/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="fuzzer metrics_uploader +passive_metrics systemd"

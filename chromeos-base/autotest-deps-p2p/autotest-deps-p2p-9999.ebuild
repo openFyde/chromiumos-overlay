@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit cros-workon autotest-deponly python-any-r1
 
 DESCRIPTION="Autotest p2p deps"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"

@@ -19,7 +19,7 @@ CROS_WORKON_DESTDIR=(
 inherit cros-workon cros-constants
 
 DESCRIPTION="Autotest scripts and tools"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"

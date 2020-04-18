@@ -8,7 +8,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 inherit cros-workon
 
 DESCRIPTION="Battery Firmware Updater"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/battery_updater/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

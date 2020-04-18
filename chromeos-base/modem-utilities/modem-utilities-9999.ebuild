@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="modem-utilities"
 inherit cros-workon
 
 DESCRIPTION="Chromium OS modem utilities"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/modem-utilities/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"

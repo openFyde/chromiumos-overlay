@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="third_party/autotest/files"
 inherit cros-workon
 
 DESCRIPTION="Compilation and runtime tests for toolchain"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

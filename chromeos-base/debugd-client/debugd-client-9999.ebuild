@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="debugd/client"
 inherit cros-workon platform
 
 DESCRIPTION="Chrome OS debugd client library"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/debugd/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

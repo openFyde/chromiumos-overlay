@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 inherit cros-workon autotest
 
 DESCRIPTION="Cellular autotests"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 
 LICENSE="GPL-2"

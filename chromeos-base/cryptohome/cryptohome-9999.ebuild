@@ -16,7 +16,7 @@ PLATFORM_SUBDIR="cryptohome"
 inherit cros-workon platform systemd udev user
 
 DESCRIPTION="Encrypted home directories for Chromium OS"
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
