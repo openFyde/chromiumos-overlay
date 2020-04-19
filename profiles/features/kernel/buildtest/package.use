@@ -6,9 +6,7 @@ sys-kernel/chromeos-kernel-3_14 buildtest -clang -lld
 sys-kernel/chromeos-kernel-3_18 buildtest -clang -lld
 sys-kernel/chromeos-kernel-4_4 buildtest -clang -lld
 sys-kernel/chromeos-kernel-4_14 buildtest -clang -lld
-# For chromeos-4.19 and later we can build with clang.
-# We still need to disable lld to avoid link errors.
-sys-kernel/chromeos-kernel-4_19 buildtest -lld
-sys-kernel/chromeos-kernel-5_4 buildtest -lld
-sys-kernel/chromeos-kernel-experimental buildtest -lld
-sys-kernel/chromeos-kernel-next buildtest -lld
+sys-kernel/chromeos-kernel-4_19 buildtest -clang -lld
+sys-kernel/chromeos-kernel-5_4 buildtest -clang -lld
+sys-kernel/chromeos-kernel-experimental buildtest -clang -lld
+sys-kernel/chromeos-kernel-next buildtest -clang -lld
