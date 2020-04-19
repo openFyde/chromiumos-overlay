@@ -11,7 +11,7 @@ inherit cros-workon autotest
 DESCRIPTION="tpm check test"
 HOMEPAGE="http://www.chromium.org/"
 SRC_URI=""
-LICENSE="GPL-2"
+LICENSE="BSD-Google"
 KEYWORDS="*"
 
 # Enable autotest by default.

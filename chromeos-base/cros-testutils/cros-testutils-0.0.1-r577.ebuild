@@ -12,7 +12,7 @@ inherit cros-workon
 DESCRIPTION="Host test utilities for ChromiumOS"
 HOMEPAGE="http://www.chromium.org/"
 
-LICENSE="GPL-2"
+LICENSE="BSD-Google"
 KEYWORDS="*"
 
 RDEPEND="app-emulation/qemu

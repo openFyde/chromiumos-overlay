@@ -14,6 +14,6 @@ inherit cros-workon distutils-r1
 DESCRIPTION="Suite of control scripts for the Touchbot"
 HOMEPAGE="http://www.chromium.org/"
 
-LICENSE="GPL-2"
+LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
