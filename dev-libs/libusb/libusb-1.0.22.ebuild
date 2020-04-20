@@ -29,7 +29,6 @@ src_prepare() {
 	epatch "${FILESDIR}/0008-CHROMIUM-linux_usbfs-wire-up-IOCTL_USBFS_CONNINFO_EX.patch"
 	epatch "${FILESDIR}/0009-CHROMIUM-linux_usbfs-make-use-of-port-data-from-USBF.patch"
 	epatch "${FILESDIR}/0010-CHROMIUM-linux_usbfs-parse-devpath-in-sysfs-to-get-p.patch"
-	epatch "${FILESDIR}/0011-CHROMIUM-temporarily-add-back-chrome-specific-APIs.patch"
 }
 
 multilib_src_configure() {
