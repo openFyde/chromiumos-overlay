@@ -18,7 +18,7 @@ NPM_HASHES=(
 	# Next one.
 )
 SRC_URI="
-	https://storage.googleapis.com/chromium-nodejs/10.15.3/3f578b6dec3fdddde88a9e889d9dd5d660c26db9
+	https://storage.googleapis.com/chromium-nodejs/12.14.1/4572d3801500bcbebafadf203056d6263c840cda
 	$(printf 'https://storage.googleapis.com/chromeos-localmirror/secureshell/distfiles/node_modules-%s.tar.xz ' \
 		"${NPM_HASHES[@]}")
 "
