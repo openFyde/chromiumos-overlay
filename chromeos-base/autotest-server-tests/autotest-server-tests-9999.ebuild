@@ -190,6 +190,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_FWMPDisableCCD
 	+tests_firmware_FwScreenCloseLid
 	+tests_firmware_FwScreenPressPower
+	+tests_firmware_FWupdateWP
 	+tests_firmware_FWtries
 	+tests_firmware_IntegratedU2F
 	+tests_firmware_InvalidUSB
