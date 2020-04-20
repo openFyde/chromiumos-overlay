@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0df7b851a9a2d678a3f9bb87c0d01958099d8f72"
+CROS_WORKON_COMMIT="4a9ffc2ceb98d10e04ccd5c924673f49f3fc7974"
 CROS_WORKON_TREE=("c0efd0ff31d50e35795e4d3ed023c388039deea6" "cc6cc8566749b2f143a667372c9b9ac052395bc1" "4746545efb004d8e4da6aa87fa066cd5b2430ac4" "558e47fbc7870950fab7935eee840f712ecff712" "fafd72f1aa9f088b80b00cd81324963dba03de1b")
 CROS_WORKON_PROJECT="apps/libapps"
 CROS_WORKON_LOCALNAME="third_party/libapps"
@@ -20,7 +20,7 @@ NPM_HASHES=(
 	# Next one.
 )
 SRC_URI="
-	https://storage.googleapis.com/chromium-nodejs/10.15.3/3f578b6dec3fdddde88a9e889d9dd5d660c26db9
+	https://storage.googleapis.com/chromium-nodejs/12.14.1/4572d3801500bcbebafadf203056d6263c840cda
 	$(printf 'https://storage.googleapis.com/chromeos-localmirror/secureshell/distfiles/node_modules-%s.tar.xz ' \
 		"${NPM_HASHES[@]}")
 "
