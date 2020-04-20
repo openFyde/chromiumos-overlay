@@ -212,6 +212,12 @@ multilib_src_configure() {
 
 		# By default do not enable PGO for compiler-rt
 		"-DCOMPILER_RT_ENABLE_PGO=OFF"
+
+		# compiler-rt needs libc++ sources to be specified to build
+		# an internal copy for libfuzzer, can be removed if libc++
+		# is built inside llvm ebuild.
+		"-DCOMPILER_RT_LIBCXXABI_PATH=${S}/libcxxabi"
+		"-DCOMPILER_RT_LIBCXX_PATH=${S}/libcxx"
 	)
 
 	# Update LLVM to 9.0 will cause LLVM to complain GCC
