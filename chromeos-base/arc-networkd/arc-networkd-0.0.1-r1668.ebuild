@@ -3,16 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e8758b54a83d8966634ec393c7a681d3c378f0af"
-CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "2608384460f52d83bddeca7da570a50b380de17f" "952e5bdc043d0fba4da74b8f2f914c4dd788a228" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3388a03c27a0623a9664ba75f388d2bb18449c05"
+CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "54c46707681bdd77abb757eaf3ed86a9fa324b4d" "952e5bdc043d0fba4da74b8f2f914c4dd788a228" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-# TODO(garrick): Workaround for https://crbug.com/809389
-CROS_WORKON_SUBTREE="common-mk arc/network shill/net .gn"
+CROS_WORKON_SUBTREE="common-mk patchpanel shill/net .gn"
 
-PLATFORM_SUBDIR="arc/network"
+PLATFORM_SUBDIR="patchpanel"
 
 inherit cros-workon libchrome platform user
 
@@ -43,6 +42,11 @@ DEPEND="
 	chromeos-base/system_api:=[fuzzer?]
 "
 
+patchpanel_header() {
+	doins "$1"
+	sed -i '/.pb.h/! s/patchpanel\//chromeos\/patchpanel\//g' "${D}/usr/include/chromeos/patchpanel/$1" || die
+}
+
 src_install() {
 	# Main binary.
 	dobin "${OUT}"/arc-networkd
@@ -56,11 +60,15 @@ src_install() {
 	doins "${OUT}"/libarcnetwork-util.pc
 	doins "${OUT}"/libpatchpanel-client.pc
 
-	insinto /usr/include/arc/network/
-	doins client.h
-	doins mac_address_generator.h
-	doins subnet.h
-	doins subnet_pool.h
+	insinto /usr/include/chromeos/patchpanel/
+	patchpanel_header address_manager.h
+	patchpanel_header client.h
+	patchpanel_header mac_address_generator.h
+	patchpanel_header net_util.h
+	patchpanel_header socket.h
+	patchpanel_header socket_forwarder.h
+	patchpanel_header subnet.h
+	patchpanel_header subnet_pool.h
 
 	insinto /etc/init
 	doins "${S}"/init/arc-network-bridge.conf

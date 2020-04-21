@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6c54cf0b575dac94574cdf1c49a232a4fcf0b77c"
-CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "2608384460f52d83bddeca7da570a50b380de17f" "4f14c54d93d0a22eb59dc673f5babbcdb10770da" "c3bfa24d1200914d5089aca56f479eabf522ea2a" "fd56011294bae22657877b72ac67812038b48c7c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3388a03c27a0623a9664ba75f388d2bb18449c05"
+CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "8f8945d6b4f73b4d6a39acc2b8c72fd13429c116" "c3bfa24d1200914d5089aca56f479eabf522ea2a" "fd56011294bae22657877b72ac67812038b48c7c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk arc/network arc/setup chromeos-config metrics .gn"
+CROS_WORKON_SUBTREE="common-mk arc/setup chromeos-config metrics .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/setup"
