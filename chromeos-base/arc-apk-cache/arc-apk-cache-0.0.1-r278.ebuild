@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="86bcf17f5d3fce2ea2e6f4d21ef7ca3b5a393ed2"
+CROS_WORKON_COMMIT="db7ffc07b5af64615ea794acf4dc4574796fe54a"
 CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "ddfc0b26da447ef2207f44ff989858eb2ada8a7b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,6 +25,11 @@ IUSE="+seccomp"
 
 RDEPEND="
 	chromeos-base/minijail
+	dev-db/sqlite:=
+"
+
+DEPEND="
+	dev-db/sqlite:=
 "
 
 src_install() {
