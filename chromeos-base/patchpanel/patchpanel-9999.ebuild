@@ -48,7 +48,7 @@ patchpanel_header() {
 
 src_install() {
 	# Main binary.
-	dobin "${OUT}"/arc-networkd
+	dobin "${OUT}"/patchpaneld
 
 	# Libraries.
 	dolib.so "${OUT}"/lib/libarcnetwork-util.so
