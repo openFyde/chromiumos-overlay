@@ -5,15 +5,15 @@ EAPI=5
 
 DESCRIPTION="AVer firmware"
 
-VC520_FW_VER="0.0.0018.20"
-CAM540_FW_VER="0.0.6002.58"
+CAM520_FW_VER="0.0.0018.36"
+CAM540_FW_VER="0.0.6002.84"
 CAM340PLUS_FW_VER="0.0.1000.22"
 
-VC520_FW_NAME="aver-vc520"
+CAM520_FW_NAME="aver-cam520"
 CAM540_FW_NAME="aver-cam540"
 CAM340PLUS_FW_NAME="aver-cam340plus"
 
-SRC_URI="gs://chromeos-localmirror/distfiles/${VC520_FW_NAME}-${VC520_FW_VER}.tar.xz
+SRC_URI="gs://chromeos-localmirror/distfiles/${CAM520_FW_NAME}-${CAM520_FW_VER}.tar.xz
 	gs://chromeos-localmirror/distfiles/${CAM540_FW_NAME}-${CAM540_FW_VER}.tar.xz
 	gs://chromeos-localmirror/distfiles/${CAM340PLUS_FW_NAME}-${CAM340PLUS_FW_VER}.tar.xz"
 
@@ -29,9 +29,9 @@ S="${WORKDIR}"
 src_install() {
 	insinto /lib/firmware/aver
 
-	doins "${VC520_FW_NAME}-${VC520_FW_VER}.dat"
-	dosym "${VC520_FW_NAME}-${VC520_FW_VER}.dat" \
-		"/lib/firmware/aver/${VC520_FW_NAME}-latest.dat"
+	doins "${CAM520_FW_NAME}-${CAM520_FW_VER}.dat"
+	dosym "${CAM520_FW_NAME}-${CAM520_FW_VER}.dat" \
+		"/lib/firmware/aver/${CAM520_FW_NAME}-latest.dat"
 
 	doins "${CAM540_FW_NAME}-${CAM540_FW_VER}.dat"
 	dosym "${CAM540_FW_NAME}-${CAM540_FW_VER}.dat" \

@@ -1,1 +1,0 @@
-aver-firmware-1.0.2.ebuild
