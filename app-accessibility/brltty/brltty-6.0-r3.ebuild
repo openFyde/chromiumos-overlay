@@ -1,1 +1,0 @@
-brltty-6.0.ebuild

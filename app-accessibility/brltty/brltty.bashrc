@@ -3,13 +3,7 @@
 # found in the LICENSE file.
 
 cros_pre_src_prepare_brltty_config() {
-	epatch "${FILESDIR}"/${P}-Customize-retain-dots-for-Chrome-OS-and-ChromeVox.patch
-	epatch "${FILESDIR}"/${P}-fix-ldflags.patch
-	epatch "${FILESDIR}"/${P}-suppress-messages.patch
-	epatch "${FILESDIR}"/${P}-sysmacros.patch
-	epatch "${FILESDIR}"/${P}-tty0-openflags.patch
-	epatch "${FILESDIR}"/${P}-udev-run-script.patch
-	epatch "${FILESDIR}"/${P}-use-poll-rather-than-select.patch
+	epatch "${FILESDIR}"/${P}-fix-build.patch
 }
 
 cros_post_src_prepare_brltty_config() {
