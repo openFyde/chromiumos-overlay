@@ -20,7 +20,9 @@ KEYWORDS="~*"
 
 RDEPEND="
 	media-libs/cros-camera-libcamera_connector
-	dev-cpp/gtest:="
+	dev-cpp/gtest:=
+	media-libs/libyuv
+	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}"
 
