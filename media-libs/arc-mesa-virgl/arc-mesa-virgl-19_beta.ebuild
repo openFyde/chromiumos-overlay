@@ -398,7 +398,10 @@ multilib_src_install_all_cheets() {
 
 	# Install init files to advertise supported API versions.
 	insinto "${ARC_VM_PREFIX}/vendor/etc/init"
-	if use android_gles32; then
+
+	if use arm || use arm64; then
+		doins "${FILESDIR}/gles2/init.gpu.rc"
+	elif use android_gles32; then
 		doins "${FILESDIR}/gles32/init.gpu.rc"
 	elif use android_gles31; then
 		doins "${FILESDIR}/gles31/init.gpu.rc"
@@ -406,11 +409,6 @@ multilib_src_install_all_cheets() {
 		doins "${FILESDIR}/gles30/init.gpu.rc"
 	elif use android_gles2; then
 		doins "${FILESDIR}/gles2/init.gpu.rc"
-	fi
-
-	if use arm || use arm64; then
-		cat "${FILESDIR}/init.gpu.rc.arm.font.hack" >> \
-			"${ED}/${ARC_VM_PREFIX}/vendor/etc/init/init.gpu.rc"
 	fi
 
 	# Install vulkan related files.
