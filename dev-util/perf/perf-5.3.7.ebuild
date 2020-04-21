@@ -129,11 +129,14 @@ src_unpack() {
 
 src_prepare() {
 	default
+
+	pushd "${S_K}" >/dev/null || die
+	eapply "${FILESDIR}"/5.3.7-Fix-configure-tests.patch
 	if [[ -n ${LINUX_PATCH} ]] ; then
-		pushd "${S_K}" >/dev/null || die
 		eapply "${WORKDIR}"/${P}.patch
-		popd || die
 	fi
+	popd || die
+
 
 	# Drop some upstream too-developer-oriented flags and fix the
 	# Makefile in general
