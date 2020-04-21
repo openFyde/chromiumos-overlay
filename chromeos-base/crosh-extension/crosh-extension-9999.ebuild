@@ -16,6 +16,7 @@ NPM_HASHES=(
 	# Current one.
 	868c99605627748d698c967ee64dbc2f00e40846e9bf6a4737c223a90687ed45
 	# Next one.
+	bc482f2b229bd0797c104263dc60cb884a1c90f6e65f07050d0b94b165b3a255
 )
 SRC_URI="
 	https://storage.googleapis.com/chromium-nodejs/12.14.1/4572d3801500bcbebafadf203056d6263c840cda
