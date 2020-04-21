@@ -27,11 +27,11 @@ REQUIRED_USE="kvm_host"
 COMMON_DEPEND="
 	app-arch/libarchive:=
 	!!chromeos-base/vm_tools
-	chromeos-base/arc-networkd:=
 	chromeos-base/chunnel:=
 	chromeos-base/crosvm:=
 	chromeos-base/metrics:=
 	chromeos-base/minijail:=
+	chromeos-base/patchpanel:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
 "

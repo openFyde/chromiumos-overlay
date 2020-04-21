@@ -22,8 +22,8 @@ SLOT="0/0"
 KEYWORDS="~*"
 
 COMMON_DEPEND="
-	chromeos-base/arc-networkd:=
 	chromeos-base/minijail:=
+	chromeos-base/patchpanel:=
 	dev-libs/protobuf:=
 	dev-libs/dbus-glib:=
 	sys-apps/dbus:=

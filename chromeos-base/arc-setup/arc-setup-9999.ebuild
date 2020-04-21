@@ -46,7 +46,7 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
-	chromeos-base/arc-networkd
+	chromeos-base/patchpanel
 	arcvm? ( chromeos-base/crosvm )
 	arcpp? (
 		chromeos-base/swap-init

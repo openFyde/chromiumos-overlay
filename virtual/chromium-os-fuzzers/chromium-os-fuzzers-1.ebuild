@@ -14,7 +14,6 @@ IUSE="asan msan"
 RDEPEND="
 	chromeos-base/arc-adbd[fuzzer]
 	asan? ( chromeos-base/arc-keymaster[fuzzer] )
-	chromeos-base/arc-networkd[fuzzer]
 	chromeos-base/arc-obb-mounter[fuzzer]
 	chromeos-base/arc-setup[fuzzer]
 	chromeos-base/authpolicy[fuzzer]
@@ -42,6 +41,7 @@ RDEPEND="
 	chromeos-base/ml[fuzzer]
 	chromeos-base/modemfwd[fuzzer]
 	chromeos-base/p2p[fuzzer]
+	chromeos-base/patchpanel[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/power_manager[fuzzer]
 	chromeos-base/runtime_probe[fuzzer]
