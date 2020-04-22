@@ -216,7 +216,7 @@ cros_config_host_local() {
 }
 
 # @FUNCTION: _unibuild_common_install
-# @USAGE: [command]
+# @USAGE: command [project_path]
 # @INTERNAL
 # @DESCRIPTION:
 # Common installation function.
@@ -224,15 +224,26 @@ cros_config_host_local() {
 # root.
 # Args:
 #   $1: Command to pass to cros_config_host to get the files
+#   $2: (optional) Project path to config and file contents
 _unibuild_common_install() {
-	[[ $# -eq 1 ]] || die "${FUNCNAME}: takes one argument"
+	[[ $# -gt 0 ]] || die "${FUNCNAME}: cros_config_host command required"
+	[[ $# -lt 3 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
+
+	local config="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
 
 	local cmd="$1"
+	local config_files_path="${FILESDIR}"
+	local config="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
+	if [[ $# -gt 1 ]]; then
+		config_files_path="$2"
+		config="$2/generated/platform/chromeos-config/project-config.json"
+	fi
+	einfo "unibuild: Installing ${cmd} based on ${config}"
 	local source dest origfile
-	(cros_config_host "${cmd}" || die) |
+	(cros_config_host -c "${config}" "${cmd}" || die) |
 	while read -r source; do
 		read -r dest
-		einfo "   - ${source}"
+		einfo "   - ${config_files_path}/${source}"
 		insinto "$(dirname "${dest}")"
 		# From EAPI4+ symbolic links are not dereferenced when
 		# installing, but we want to dereference our links when
@@ -240,21 +251,22 @@ _unibuild_common_install() {
 		# in the source directory, but the installed file should not be
 		# a link especially since the installed folder structure is
 		# different.
-		origfile="$(readlink -f "${FILESDIR}/${source}")"
+		origfile="$(readlink -f "${config_files_path}/${source}")"
 		newins "${origfile}" "$(basename "${dest}")"
 	done
 }
 
 # @FUNCTION: unibuild_install_thermal_files
-# @USAGE:
+# @USAGE: [project_path]
 # @DESCRIPTION:
 # Install files related to thermal operation. Currently this is only the DPTF
 # (Dynamic Platform and Thermal Framework) datavaults, typically called dptf.dv
+# Args:
+#   $1: (optional) Project path to config and file contents
 unibuild_install_thermal_files() {
-	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
 
-	einfo "unibuild: Installing thermal files"
-	_unibuild_common_install get-thermal-files
+	_unibuild_common_install get-thermal-files "$@"
 }
 
 # @FUNCTION: _unibuild_install_fw
@@ -314,26 +326,29 @@ unibuild_install_detachable_base_files() {
 }
 
 # @FUNCTION: unibuild_install_audio_files
-# @USAGE:
+# @USAGE: [project_path]
 # @DESCRIPTION:
 # Install files related to audio. This includes cras, alsa and hotwording
 # topology firmware.
+# Args:
+#   $1: (optional) Project path to config and file contents
 unibuild_install_audio_files() {
-	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
 
-	einfo "unibuild: Installing audio files"
-	_unibuild_common_install get-audio-files
+	_unibuild_common_install get-audio-files "$@"
 }
 
 # @FUNCTION: unibuild_install_arc_files
 # @USAGE:
 # @DESCRIPTION: Install files related to arc++.
+# Args:
+#   $1: (optional) Source file directory path - default: ${FILESDIR}
 unibuild_install_arc_files() {
-	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
 
 	einfo "unibuild: Installing arc++ files"
 	local source dest
-	(cros_config_host get-arc-files || die) |
+	(cros_config_host get-arc-files "$1" || die) |
 	while read -r source; do
 		read -r dest
 		einfo "   - ${source}"
@@ -344,14 +359,15 @@ unibuild_install_arc_files() {
 }
 
 # @FUNCTION: unibuild_install_bluetooth_files
-# @USAGE:
+# @USAGE: [project_path]
 # @DESCRIPTION:
 # Install files related to bluetooth config.
+# Args:
+#   $1: (optional) Project path to config and file contents
 unibuild_install_bluetooth_files() {
-	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
 
-	einfo "unibuild: Installing bluetooth files"
-	_unibuild_common_install get-bluetooth-files
+	_unibuild_common_install get-bluetooth-files "$@"
 }
 
 # @FUNCTION: unibuild_build_configfs_file
@@ -419,13 +435,14 @@ platform_json_install() {
 }
 
 # @FUNCTION: unibuild_install_autobrightness_files
-# @USAGE:
+# @USAGE: [project_path]
 # @DESCRIPTION:
 # Install files related to autobrightness. This installs model_params.json
 # which specifies autobrightness policy.
+# Args:
+#   $1: (optional) Project path to config and file contents
 unibuild_install_autobrightness_files() {
-	[[ $# -eq 0 ]] || die "${FUNCNAME}: takes no arguments"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
 
-	einfo "unibuild: Installing autobrightness files"
-	_unibuild_common_install get-autobrightness-files
+	_unibuild_common_install get-autobrightness-files "$@"
 }
