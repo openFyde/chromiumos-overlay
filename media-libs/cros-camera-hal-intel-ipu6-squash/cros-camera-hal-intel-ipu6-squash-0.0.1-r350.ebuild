@@ -12,7 +12,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/hal/intel/ipu6"
 
-inherit cros-camera cros-workon platform
+inherit cros-camera cros-workon platform udev
 
 DESCRIPTION="Intel IPU6 (Image Processing Unit) Chrome OS camera HAL"
 
@@ -49,4 +49,6 @@ src_install() {
 	dolib.so "${OUT}/lib/libcamhal.so"
 	cros-camera_dohal "${OUT}/lib/libcamhal.so" intel-ipu6.so
 	dolib.so "${OUT}/lib/libcam_algo.so"
+
+	udev_dorules "${FILESDIR}/50-ipu-psys0.rules"
 }
