@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk system-proxy .gn"
 
 PLATFORM_SUBDIR="system-proxy"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="A daemon that provides authentication support for system services
 and ARC apps behind an authenticated web proxy."
@@ -30,7 +30,10 @@ COMMON_DEPEND="
 	net-misc/curl:=
 "
 RDEPEND="${COMMON_DEPEND}"
-DEPEND="${COMMON_DEPEND}"
+DEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/permission_broker-client:=
+"
 
 pkg_preinst() {
 	enewuser "system-proxy"
