@@ -1,5 +1,10 @@
 [
     {
+        "comment": "libcxx tensorflow sstream workaround",
+        "rel_patch_path": "libcxx-sstream.patch",
+        "start_version": 385170
+    },
+    {
         "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
         "rel_patch_path": "libcxx-10-use-libgcc_eh.patch",
         "start_version": 374056
@@ -8,5 +13,5 @@
          "comment": "[libc++] Add missing visibility annotation for __base",
          "rel_patch_path": "cherry/30ccc2e8d24b53273aae9cc21740f02ffb3018dc.patch",
          "end_version": 387601
-     }
+    }
 ]

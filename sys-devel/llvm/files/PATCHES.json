@@ -159,5 +159,53 @@
         "rel_patch_path": "cherry/5d90f886bc022e7c9144a0ef08ea7ccde7e66030.patch",
         "start_version": 387430,
         "end_version": 387475
+    },
+    {
+        "comment": "Revert \"[GISel]: Fix incorrect IRTranslation while translating null pointer types\"",
+        "rel_patch_path": "cherry/b8fc192d42af56b17b7d940e6c226f4969e0d851.patch",
+        "start_version": 328218,
+        "end_version": 388672
+    },
+    {
+        "comment": "Revert \"Convert a reachable llvm_unreachable into an assert.\"",
+        "rel_patch_path": "cherry/7339fca25facb566e969b6ce01f23ac96499d574.patch",
+        "start_version": 386862,
+        "end_version": 388144
+    },
+    {
+        "comment": "Revert \"Include static prof data when collecting loop BBs\"",
+        "rel_patch_path": "cherry/c3417592c847b8bd67deab21bbe6d62a49bde234.patch",
+        "start_version": 385160,
+        "end_version": 388115
+    },
+    {
+        "comment": "Revert \"[FIX] Do not copy an llvm::function_ref if it has to be reused\"",
+        "rel_patch_path": "cherry/0d0b90105f92f6cd9cc7004d565834f4429183fb.patch",
+        "start_version": 384779,
+        "end_version": 387942
+    },
+    {
+        "comment": "Revert \"EHScopeStack::Cleanup has virtual functions so the destructor should be too.\"",
+        "rel_patch_path": "cherry/b5eafda8d3ef02f9f78e090725564dd28e573322.patch",
+        "start_version": 386136,
+        "end_version": 387904
+    },
+    {
+        "comment": "Revert rGe6a7e3b5e3e7 \"[X86][SSE] matchShuffleWithSHUFPD - add support for unary shuffles.\"",
+        "rel_patch_path": "cherry/f424d51c3e195de786204a93a9ccf6367bb26c8e.patch",
+        "start_version": 386843,
+        "end_version": 387882
+    },
+    {
+        "comment": "Revert \"Generate Callee Saved Register (CSR) related cfi directives like .cfi_restore.\"",
+        "rel_patch_path": "cherry/a035726e5aae18bb9be1e61d9aef2a102c3b33ba.patch",
+        "start_version": 386407,
+        "end_version": 387755
+    },
+    {
+        "comment": "Revert \"Avoid emitting unreachable SP adjustments after `throw`\"",
+        "rel_patch_path": "cherry/4e0fe038f438ae1679eae9e156e1f248595b2373.patch",
+        "start_version": 386616,
+        "end_version": 387517
     }
 ]

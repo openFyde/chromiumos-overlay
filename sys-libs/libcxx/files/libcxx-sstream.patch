@@ -1,0 +1,12 @@
+diff --git a/libcxx/include/complex b/libcxx/include/complex
+index 92295be976c..1e496b4a851 100644
+--- a/libcxx/include/complex
++++ b/libcxx/include/complex
+@@ -244,6 +244,7 @@ template<class T, class charT, class traits>
+ #include <stdexcept>
+ #include <cmath>
+ #include <iosfwd>
++#include <sstream>
+ #include <version>
+ 
+ #if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
