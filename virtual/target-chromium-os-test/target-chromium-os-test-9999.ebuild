@@ -75,9 +75,13 @@ IUSE="
 CROS_COMMON_RDEPEND="
 	tpm? (
 		app-crypt/tpm-tools
+		chromeos-base/hwsec-test-utils
 		chromeos-base/tpm_softclear_utils
 	)
-	tpm2? ( chromeos-base/tpm_softclear_utils )
+	tpm2? (
+		chromeos-base/hwsec-test-utils
+		chromeos-base/tpm_softclear_utils
+	)
 	chromeos-base/chromeos-test-root
 	chromeos-base/ec-utils
 	chromeos-base/ec-utils-test
