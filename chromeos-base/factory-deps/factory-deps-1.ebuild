@@ -103,6 +103,11 @@ FACTORY_TEST_RDEPEND+="
 	dev-python/qrcode
 "
 
+# Packages used to read config.binaryproto.
+FACTORY_TEST_RDEPEND+="
+	chromeos-base/cros-config-api
+"
+
 ################################################################################
 # Assemble the final RDEPEND variable for portage
 ################################################################################
