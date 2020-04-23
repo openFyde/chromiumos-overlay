@@ -15,6 +15,11 @@ HOMEPAGE="https://git.kernel.org/cgit/linux/kernel/git/firmware/linux-firmware.g
 SLOT="0"
 KEYWORDS="*"
 
+
+IUSE_KERNEL_VERS=(
+	kernel-4_19
+	kernel-5_4
+)
 IUSE_ATH3K=(
 	ath3k-all
 	ath3k-ar3011
@@ -110,7 +115,12 @@ IUSE_LINUX_FIRMWARE=(
 	"${IUSE_IWLWIFI[@]}"
 	"${IUSE_BRCMWIFI[@]}"
 )
-IUSE="${IUSE_LINUX_FIRMWARE[@]/#/linux_firmware_} video_cards_radeon video_cards_amdgpu"
+IUSE="
+	${IUSE_KERNEL_VERS[*]}
+	${IUSE_LINUX_FIRMWARE[@]/#/linux_firmware_}
+	video_cards_radeon
+	video_cards_amdgpu"
+REQUIRED_USE="?? ( ${IUSE_KERNEL_VERS[*]} )"
 LICENSE="
 	linux_firmware_adreno-630? ( LICENSE.qcom )
 	linux_firmware_adsp_apl? ( LICENCE.adsp_sst )
@@ -228,6 +238,43 @@ doins_subdir() {
 	done
 }
 
+install_iwlwifi() {
+	local kernel=""
+	local k
+	for k in "${IUSE_KERNEL_VERS[@]}"; do
+		if use "${k}"; then
+			kernel="${k}"
+			break
+		fi
+	done
+	[[ -n "${kernel}" ]] || ewarn "No kernel USE flag has been set."
+
+	for x in "${IUSE_IWLWIFI[@]}"; do
+		use_fw "${x}" || continue
+		case "${x}" in
+		iwlwifi-all)   doins iwlwifi-*.ucode ;;
+		iwlwifi-6005)  doins iwlwifi-6000g2a-*.ucode ;;
+		iwlwifi-6030)  doins iwlwifi-6000g2b-*.ucode ;;
+		iwlwifi-7260)  doins "${x}-17.ucode" ;;
+		iwlwifi-7265D) doins "${x}-29.ucode" ;;
+		iwlwifi-9000)  doins "${x}-pu-b0-jf-b0-46.ucode" ;;
+		iwlwifi-9260)  doins "${x}-th-b0-jf-b0-46.ucode" ;;
+		iwlwifi-QuZ)
+			case "${kernel}" in
+			kernel-4_19) doins "${x}-a0-hr-b0-50.ucode" ;;
+			kernel-5_4)  doins "${x}-a0-hr-b0-53.ucode" ;;
+			*)
+				ewarn "Unexpected kernel version '${kernel}'."
+				ewarn "Installing all '${x}' files."
+				doins "${x}"-*.ucode
+				;;
+			esac
+			;;
+		iwlwifi-*) doins "${x}"-*.ucode ;;
+		esac
+	done
+}
+
 src_install() {
 	local x
 	insinto "${FIRMWARE_INSTALL_ROOT}"
@@ -298,16 +345,7 @@ src_install() {
 		)
 	fi
 
-	# The Intel wireless firmware is mostly standard.
-	for x in "${IUSE_IWLWIFI[@]}"; do
-		use_fw ${x} || continue
-		case ${x} in
-		iwlwifi-all)  doins iwlwifi-*.ucode ;;
-		iwlwifi-6005) doins iwlwifi-6000g2a-*.ucode ;;
-		iwlwifi-6030) doins iwlwifi-6000g2b-*.ucode ;;
-		iwlwifi-*)    doins ${x}-*.ucode ;;
-		esac
-	done
+	install_iwlwifi
 
 	for x in "${IUSE_BRCMWIFI[@]}"; do
 		use_fw ${x} || continue

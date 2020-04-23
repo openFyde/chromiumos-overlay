@@ -47,6 +47,7 @@ RDEPEND=">=app-arch/gcab-1.0
 	dev-libs/libgpg-error
 	>=dev-libs/libgudev-232:=
 	>=dev-libs/libgusb-0.2.9[introspection?]
+	>=dev-libs/libjcat-0.1.0
 	>=dev-libs/libxmlb-0.1.13
 	>=net-libs/libsoup-2.51.92:2.4[introspection?]
 	virtual/libelf:0=
@@ -140,8 +141,6 @@ src_configure() {
 		-Dplugin_modem_manager="false"
 		# Dependencies are not available (yet?)
 		-Dplugin_tpm="false"
-		# crbug.com/1056883
-		-Ddaemon="false"
 	)
 	export CACHE_DIRECTORY="${T}"
 	meson_src_configure
