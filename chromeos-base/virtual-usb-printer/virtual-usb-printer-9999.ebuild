@@ -28,6 +28,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 platform_pkg_test() {
+	platform_test "run" "${OUT}/escl-manager-testrunner"
 	platform_test "run" "${OUT}/http-util-testrunner"
 	platform_test "run" "${OUT}/ipp-util-testrunner"
 	platform_test "run" "${OUT}/load-config-testrunner"
@@ -37,6 +38,7 @@ platform_pkg_test() {
 src_install() {
 	dobin "${OUT}"/virtual-usb-printer
 	insinto /etc/virtual-usb-printer
+	doins config/escl_capabilities.json
 	doins config/ipp_attributes.json
 	doins config/ippusb_printer.json
 	doins config/usb_printer.json
