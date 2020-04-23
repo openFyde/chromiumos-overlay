@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="964143634671b2f107b1f3f644b2ccdae27c7d5a"
+CROS_WORKON_COMMIT="35f7bc398f43aa17627469e62da82e936bf84cce"
 CROS_WORKON_TREE="35c43814e5fd23d485a87bd4a0fac2696024854a"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,6 +18,7 @@ KEYWORDS="*"
 IUSE="
 	android-container-qt
 	android-container-pi android-container-master-arc-dev
+	android-vm-rvc
 	+combine_chromeos_policy selinux_audit_all selinux_develop selinux_experimental
 	arc_first_release_n
 	nocheck
@@ -27,13 +28,14 @@ IUSE="
 # the developer know, disabling combine_chromeos_policy flag doesn't change
 # anything.
 REQUIRED_USE="
-	!combine_chromeos_policy? ( ^^ ( android-container-qt android-container-pi android-container-master-arc-dev ) )
+	!combine_chromeos_policy? ( ^^ ( android-container-qt android-container-pi android-container-master-arc-dev android-vm-rvc ) )
 "
 
 DEPEND="
 	android-container-qt? ( chromeos-base/android-container-qt:0= )
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
 	android-container-master-arc-dev? ( chromeos-base/android-container-master-arc-dev:0= )
+	android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
 "
 
 RDEPEND="
@@ -125,7 +127,7 @@ version_cil() {
 }
 
 has_arc() {
-	use android-container-qt || use android-container-pi || use android-container-master-arc-dev
+	use android-container-qt || use android-container-pi || use android-container-master-arc-dev || use android-vm-rvc
 }
 
 gen_m4_flags() {
@@ -135,6 +137,8 @@ gen_m4_flags() {
 		arc_version="q"
 	elif use android-container-pi; then
 		arc_version="p"
+	elif use android-vm-rvc; then
+		arc_version="r"
 	elif use android-container-master-arc-dev; then
 		arc_version="master"
 	fi
@@ -376,15 +380,34 @@ src_test() {
 		ewarn "CTS pre-test is skipped."
 		return
 	fi
-	(
-		grep "boolean compatiblePropertyOnly = false;" -B 2 |
-		grep "boolean fullTrebleOnly = false;" -B 1 |
-		grep neverallowRule |
-		sed -E 's/.*"(neverallow.*)";/\1/g'
-	) < "${neverallowjava}" > neverallows
+
+	# Extract 'String neverallowRule = "neverallow ...";' lines from the Java source code and
+	# write the extracted lines to ./neverallows. We have two scripts below as Android P and R+
+	# use slightly different code styles.
+	if use android-vm-rvc; then
+		(
+			grep "boolean compatiblePropertyOnly = false;" -B 3 |
+			grep "boolean launchingWithROnly = false;" -B 2 |
+			grep "boolean fullTrebleOnly = false;" -B 1 |
+			grep neverallowRule |
+			sed -E 's/.*"(neverallow.*)";/\1/g'
+		) < "${neverallowjava}" > neverallows
+	else
+		(
+			grep "boolean compatiblePropertyOnly = false;" -B 2 |
+			grep "boolean fullTrebleOnly = false;" -B 1 |
+			grep neverallowRule |
+			sed -E 's/.*"(neverallow.*)";/\1/g'
+		) < "${neverallowjava}" > neverallows
+	fi
+
 	local loc="$(wc -l neverallows | awk '{print $1;}')"
 	if [[ "${loc}" -lt "100" ]]; then
 		die "too few test cases. something is wrong."
+	fi
+	if use android-vm-rvc; then
+		# We only run SELinux CTS against the guest-side policy. Skipping the test.
+		return
 	fi
 	local cur=0
 	while read -r rule; do

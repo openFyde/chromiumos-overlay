@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="86bcf17f5d3fce2ea2e6f4d21ef7ca3b5a393ed2"
+CROS_WORKON_COMMIT="35f7bc398f43aa17627469e62da82e936bf84cce"
 CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "4b64e4d07aeabfb5b6b4c252e4848b1a6e1715a8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,9 +35,12 @@ DEPEND="
 	chromeos-base/libpasswordprovider:=
 "
 
-pkg_preinst() {
+pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs <daemon_user> and <daemon_group>.
 	enewuser "fuse-smbfs"
 	enewgroup "fuse-smbfs"
+	cros-workon_pkg_setup
 }
 
 src_install() {
@@ -45,6 +48,11 @@ src_install() {
 
 	insinto /usr/share/policy
 	newins seccomp_filters/smbfs-seccomp-"${ARCH}".policy smbfs-seccomp.policy
+
+	local daemon_store="/etc/daemon-store/smbfs"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners fuse-smbfs:fuse-smbfs "${daemon_store}"
 }
 
 platform_pkg_test() {
