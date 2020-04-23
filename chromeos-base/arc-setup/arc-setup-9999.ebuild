@@ -71,8 +71,9 @@ enable_esdfs() {
 
 
 src_install() {
-	# Both ARCVM and ARC use arc-remove-data.
+	# Used for both ARCVM and ARC.
 	dosbin "${OUT}"/arc-remove-data
+	dosbin "${OUT}"/arc-remove-stale-data
 
 	# arc-create-data is only for ARCVM
 	if use arcvm; then
