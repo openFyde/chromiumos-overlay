@@ -28,19 +28,16 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
-	vm-containers? (
-		chromeos-base/crash-reporter:=
-	)
-	!fuzzer? (
-		media-libs/mesa:=[gbm]
-		x11-base/xwayland:=
-		x11-libs/libxkbcommon:=
-		x11-libs/pixman:=
-	)
 "
 
 RDEPEND="
 	${COMMON_DEPEND}
+	vm-containers? (
+		chromeos-base/crash-reporter
+	)
+	!fuzzer? (
+		chromeos-base/sommelier
+	)
 "
 
 DEPEND="
@@ -60,7 +57,6 @@ src_install() {
 	if use vm-containers; then
 		dobin "${OUT}"/garcon
 		dobin "${OUT}"/notificationd
-		dobin "${OUT}"/sommelier
 		dobin "${OUT}"/upgrade_container
 		dobin "${OUT}"/virtwl_guest_proxy
 		dobin "${OUT}"/wayland_demo
