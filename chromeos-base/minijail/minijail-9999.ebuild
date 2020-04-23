@@ -15,7 +15,7 @@ CROS_COMMON_MK_NATIVE_TEST="yes"
 DISTUTILS_OPTIONAL=1
 DISTUTILS_SINGLE_IMPL=1
 
-inherit cros-debug cros-sanitizers cros-workon cros-common.mk toolchain-funcs multilib distutils-r1
+inherit cros-debug cros-sanitizers cros-workon cros-common.mk toolchain-funcs distutils-r1
 
 DESCRIPTION="helper binary and library for sandboxing & restricting privs of services"
 HOMEPAGE="https://android.googlesource.com/platform/external/minijail"

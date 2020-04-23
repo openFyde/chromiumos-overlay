@@ -14,7 +14,7 @@ CROS_WORKON_PROJECT="toolchain/gcc"
 CROS_WORKON_LOCALNAME=../aosp/toolchain/gcc
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit eutils cros-workon binutils-funcs multilib
+inherit eutils cros-workon binutils-funcs
 
 DESCRIPTION="The GNU Compiler Collection.  This builds and installs the libgcc, libstdc++, and libgo libraries.  It is board-specific."
 

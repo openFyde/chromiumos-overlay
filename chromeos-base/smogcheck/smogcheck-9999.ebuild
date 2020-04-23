@@ -9,7 +9,7 @@ CROS_WORKON_SUBTREE="common-mk smogcheck .gn"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 
-inherit cros-common.mk cros-sanitizers cros-workon cros-debug multilib
+inherit cros-common.mk cros-sanitizers cros-workon cros-debug
 
 DESCRIPTION="TPM SmogCheck library"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/smogcheck/"

@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="libbrillo"
 # but this package should not have the dependency.
 WANT_LIBBRILLO="no"
 
-inherit cros-workon multilib platform
+inherit cros-workon platform
 
 DESCRIPTION="Base library for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libbrillo/"

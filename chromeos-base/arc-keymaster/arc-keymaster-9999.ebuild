@@ -28,7 +28,7 @@ BORINGSSL_OUTDIR="${WORKDIR}/boringssl_outputs/"
 CMAKE_USE_DIR="${WORKDIR}/${BORINGSSL_P}"
 BUILD_DIR="${WORKDIR}/${BORINGSSL_P}_build"
 
-inherit flag-o-matic cmake-utils multilib cros-workon platform user
+inherit flag-o-matic cmake-utils cros-workon platform user
 
 DESCRIPTION="Android keymaster service in Chrome OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/keymaster"

@@ -15,7 +15,7 @@ CROS_WORKON_SUBTREE="common-mk vm_tools/proto .gn"
 
 PLATFORM_SUBDIR="vm_tools/proto"
 
-inherit cros-go cros-workon multilib platform
+inherit cros-go cros-workon platform
 
 DESCRIPTION="Chrome OS VM protobuf API"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/proto"

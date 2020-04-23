@@ -9,7 +9,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_SUBTREE="arc/vm/libvda/rust"
 
-inherit cros-workon cros-rust multilib
+inherit cros-workon cros-rust
 
 DESCRIPTION="Rust wrapper for chromeos-base/libvda"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/libvda/rust"

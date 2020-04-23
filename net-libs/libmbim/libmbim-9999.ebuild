@@ -4,7 +4,7 @@
 EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
 
-inherit autotools cros-sanitizers cros-workon multilib
+inherit autotools cros-sanitizers cros-workon
 
 DESCRIPTION="MBIM modem protocol helper library"
 HOMEPAGE="http://cgit.freedesktop.org/libmbim/"

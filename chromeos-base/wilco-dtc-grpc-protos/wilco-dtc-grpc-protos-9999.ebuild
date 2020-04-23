@@ -17,7 +17,7 @@ PLATFORM_SUBDIR="diagnostics/grpc"
 
 WANT_LIBCHROME="no"
 WANT_LIBBRILLO="no"
-inherit cros-go cros-workon multilib platform
+inherit cros-go cros-workon platform
 
 DESCRIPTION="Chrome OS Wilco DTC proto/gRPC API"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics/grpc"
