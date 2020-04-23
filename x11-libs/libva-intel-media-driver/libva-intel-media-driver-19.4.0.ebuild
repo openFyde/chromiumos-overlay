@@ -50,6 +50,7 @@ PATCHES=(
 	"${FILESDIR}"/0004-Fix-Clang-Warning.patch
 	"${FILESDIR}"/0005-use-gmmlib-calculate-the-NV12-surface-offset.patch
 	"${FILESDIR}"/0006-Ignore-the-private-VP9-status-buffer.patch
+	"${FILESDIR}"/0007-add-SW-WA-to-diable-calculation-of-the-UV-offset-by-gmmlib-on-TGL.patch
 )
 
 src_configure() {
