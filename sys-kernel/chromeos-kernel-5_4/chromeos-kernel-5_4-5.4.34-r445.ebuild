@@ -1,20 +1,20 @@
-# Copyright (c) 2017 The Chromium OS Authors. All rights reserved.
+# Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c998d53486c0b71fbc4aefb55d5402cde786a6e6"
-CROS_WORKON_TREE="3247564bd298f385186020fff1daf3ccd20a56b6"
+
+CROS_WORKON_COMMIT="9278b8d204b629b39e25739b3feb211a11cef997"
+CROS_WORKON_TREE="d741f85320b0870535879989af828587451b70b7"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
-CROS_WORKON_LOCALNAME="kernel/v3.10"
-CROS_WORKON_EGIT_BRANCH="chromeos-3.10"
+CROS_WORKON_LOCALNAME="kernel/v5.4"
+CROS_WORKON_EGIT_BRANCH="chromeos-5.4"
 
 # This must be inherited *after* EGIT/CROS_WORKON variables defined
 inherit cros-workon cros-kernel2
 
 HOMEPAGE="https://www.chromium.org/chromium-os/chromiumos-design-docs/chromium-os-kernel"
-DESCRIPTION="Chrome OS Linux Kernel 3.10"
+DESCRIPTION="Chrome OS Linux Kernel 5.4"
 KEYWORDS="*"
-RDEPEND="!sys-kernel/kernel-freon"
 
 # Change the following (commented out) number to the next prime number
 # when you change "cros-kernel2.eclass" to work around http://crbug.com/220902
@@ -25,4 +25,4 @@ RDEPEND="!sys-kernel/kernel-freon"
 # Don't forget to update the comment in _all_ chromeos-kernel-x_x-9999.ebuild
 # files (!!!)
 #
-# The coolest prime number is: 131
+# The coolest prime number is: 137
