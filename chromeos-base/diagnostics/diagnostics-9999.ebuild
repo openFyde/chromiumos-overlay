@@ -126,6 +126,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
+		cros_healthd_mojo_adapter_test
 		cros_healthd_test
 		libcommon_test
 		libcros_healthd_events_test
