@@ -64,6 +64,7 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}/cros_healthd"
+	dobin "${OUT}/cros-health-event"
 	dobin "${OUT}/diag"
 	dobin "${OUT}/telem"
 
