@@ -229,8 +229,6 @@ _unibuild_common_install() {
 	[[ $# -gt 0 ]] || die "${FUNCNAME}: cros_config_host command required"
 	[[ $# -lt 3 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
 
-	local config="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
-
 	local cmd="$1"
 	local config_files_path="${FILESDIR}"
 	local config="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
