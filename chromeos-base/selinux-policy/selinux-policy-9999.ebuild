@@ -311,9 +311,7 @@ src_compile() {
 		) > file_contexts || die "failed to combine *_file_contexts files"
 
 	else
-		# Chrome OS without ARC++ only. Chrome OS with Android N doesn't
-		# fall here. Chrome OS with Android N currently has Android
-		# policy only.
+		# Chrome OS without ARC++ only.
 		einfo "Use Chrome OS-only SELinux policy."
 
 		secilc "${SECILC_ARGS[@]}" chromeos.raw.cil || die "fail to build sepolicy"
