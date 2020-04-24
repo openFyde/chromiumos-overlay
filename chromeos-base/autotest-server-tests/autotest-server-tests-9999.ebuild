@@ -313,6 +313,7 @@ SERVER_IUSE_TESTS="
 	+tests_servo_LabControlVerification
 	+tests_servo_LabstationVerification
 	+tests_servo_USBMuxVerification
+	+tests_servo_LogGrab
 	+tests_servohost_Reboot
 	+tests_stress_ClientTestReboot
 	+tests_stress_EnrollmentRetainment
