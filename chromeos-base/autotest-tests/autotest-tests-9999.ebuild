@@ -13,7 +13,7 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups +encrypted_stateful hammerd +network_time -ppp +passive_metrics +profile vaapi"
+IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups +encrypted_stateful hammerd +network_time +passive_metrics +profile vaapi"
 # Enable autotest by default.
 IUSE="${IUSE} +autotest"
 
@@ -139,23 +139,13 @@ CLIENT_IUSE_TESTS="
 	+tests_infra_FirmwareAutoupdate
 	+tests_kernel_AsyncDriverProbe
 	+tests_kernel_FirmwareRequest
-	+tests_kernel_CheckArmErrata
-	ppp? ( +tests_kernel_ConfigVerifyPPP )
-	+tests_kernel_CpufreqMinMax
-	+tests_kernel_CrosECSysfs
 	+tests_kernel_CrosECSysfsAccel
 	+tests_kernel_Delay
-	+tests_kernel_fs_Inplace
 	+tests_kernel_fs_Punybench
-	+tests_kernel_HdParm
-	+tests_kernel_IgnoreGptOptionServer
 	+tests_kernel_Ktime
 	+tests_kernel_Lmbench
-	+tests_kernel_LowMemNotify
 	+tests_kernel_Memory_Ramoop
-	profile? ( +tests_kernel_PerfEventRename )
 	+tests_kernel_SchedBandwith
-	+tests_kernel_VbootContextEC
 	crash_reporting? (
 		+tests_logging_CrashSender
 		+tests_logging_KernelCrash
