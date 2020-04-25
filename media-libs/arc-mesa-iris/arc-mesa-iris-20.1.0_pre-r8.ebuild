@@ -43,6 +43,12 @@ DEPEND="
 
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	epatch "${FILESDIR}/CHROMIUM-Limit-vulkan-version-to-1.1-for-Android.patch"
+	epatch "${FILESDIR}/CHROMIUM-anv-Disable-vulkan-extensions.patch"
+	default
+}
+
 src_configure() {
 	arc-build-select-clang
 
