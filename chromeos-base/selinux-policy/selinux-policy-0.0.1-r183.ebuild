@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6008bed49350c099673f2f2002d31ebfe248b57c"
+CROS_WORKON_COMMIT="17c722586d7fe9b230ac39392809aa407d3342e9"
 CROS_WORKON_TREE="35c43814e5fd23d485a87bd4a0fac2696024854a"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -313,9 +313,7 @@ src_compile() {
 		) > file_contexts || die "failed to combine *_file_contexts files"
 
 	else
-		# Chrome OS without ARC++ only. Chrome OS with Android N doesn't
-		# fall here. Chrome OS with Android N currently has Android
-		# policy only.
+		# Chrome OS without ARC++ only.
 		einfo "Use Chrome OS-only SELinux policy."
 
 		secilc "${SECILC_ARGS[@]}" chromeos.raw.cil || die "fail to build sepolicy"
