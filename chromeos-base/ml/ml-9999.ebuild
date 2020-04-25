@@ -40,12 +40,16 @@ SRC_URI="
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer"
+IUSE="
+	fuzzer
+	ondevice_handwriting
+"
 
 RDEPEND="
 	chromeos-base/chrome-icu:=
 	chromeos-base/libbrillo:=
 	chromeos-base/metrics:=
+	dev-libs/libhandwriting:=
 	dev-libs/libtextclassifier:=
 	sci-libs/tensorflow:=
 "
