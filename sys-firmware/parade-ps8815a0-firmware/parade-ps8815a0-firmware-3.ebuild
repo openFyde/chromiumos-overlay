@@ -6,8 +6,7 @@ EAPI=6
 DESCRIPTION="PS8815-A0 Firmware Binary"
 SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tar.xz"
 
-# TODO(b/148306737): switch to vendor license before R84
-LICENSE="Google-TOS"
+LICENSE="Google-Partners-Website"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
