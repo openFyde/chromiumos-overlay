@@ -41,7 +41,6 @@ IUSE="
 	dlc_test
 	dptf
 	eclog
-	esim
 	+fonts
 	fuzzer
 	fwupd
@@ -190,7 +189,6 @@ RDEPEND="
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
 	hammerd? ( chromeos-base/hammerd )
-	esim? ( chromeos-base/hermes )
 	media_perception? ( chromeos-base/mri_package )
 	memd? ( chromeos-base/memd )
 	power_management? ( chromeos-base/power_manager )
