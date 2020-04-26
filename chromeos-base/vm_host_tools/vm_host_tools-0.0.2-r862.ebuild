@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="efc32db97f51b8349c39b94c985b305687386ab5"
+CROS_WORKON_COMMIT="3f2f37921fb077bbfa3f0bff230ee9bea681a709"
 CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "7d2fd2f1d6b8639f27151e59ae0a17319b249677" "e1a4819c0ba353886a17c3b206352d99ab302bb6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,11 +29,11 @@ REQUIRED_USE="kvm_host"
 COMMON_DEPEND="
 	app-arch/libarchive:=
 	!!chromeos-base/vm_tools
-	chromeos-base/arc-networkd:=
 	chromeos-base/chunnel:=
 	chromeos-base/crosvm:=
 	chromeos-base/metrics:=
 	chromeos-base/minijail:=
+	chromeos-base/patchpanel:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
 "
