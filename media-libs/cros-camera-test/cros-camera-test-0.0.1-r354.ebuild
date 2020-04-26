@@ -3,11 +3,11 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="db9605d6b189720f1fd26306bf117ccc8927496a"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "8516552b212edcfe2cb9fe9d65ae39c0b4cea2ec" "6ac6dc0c3d44a132e46a11f6fb67cba4670b4da5" "c7f5244a179c725846279bc67ff964a91e232330" "2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559")
+CROS_WORKON_COMMIT="81233ce0e25910fae39fe329b41b003d6da4a3c1"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "bfb71b9eda8605e47e0db334744af2e709b9a536" "ce85b5cdaf4d7cf910e88152418008d6ce591c3c" "c7f5244a179c725846279bc67ff964a91e232330" "093c7a01cb65cb24871c5a2ce7c2bdd0a536fccf" "2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/camera3_test camera/common camera/include common-mk"
+CROS_WORKON_SUBTREE=".gn camera/build camera/camera3_test camera/common camera/include camera/mojo common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
