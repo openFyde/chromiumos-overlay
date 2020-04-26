@@ -6,7 +6,7 @@ EAPI=6
 DESCRIPTION="PS8751-A3 Firmware Binary"
 SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tar.xz"
 
-LICENSE="Google-TOS"
+LICENSE="Google-Partners-Website"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
