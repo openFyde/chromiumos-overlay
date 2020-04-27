@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3f2f37921fb077bbfa3f0bff230ee9bea681a709"
+CROS_WORKON_COMMIT="30b821cf5ec6334f544dde1e50b5bc80c9c1e6b0"
 CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "01888212280e0bb367e461f35cd81b630c2a71f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,6 +35,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/permission_broker-client:=
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 pkg_preinst() {
