@@ -86,6 +86,7 @@ multilib_src_configure() {
 		-Degl-lib-suffix=_mesa
 		-Dgles-lib-suffix=_mesa
 		-Dvulkan-drivers=$(usex vulkan intel '')
+		--buildtype $(usex debug debug release)
 		--cross-file="${ARC_CROSS_FILE}"
 		-Dplatform-sdk-version="${ARC_PLATFORM_SDK_VERSION}"
 	)
