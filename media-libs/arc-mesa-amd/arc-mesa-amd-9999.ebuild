@@ -33,7 +33,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	android_aep android-container-nyc android-container-pi -android_gles2
+	android_aep android-container-pi -android_gles2
 	-android_gles30 -android_gles31 +android_gles32 -android_vulkan_compute_0
 	cheets +classic debug dri +egl +gallium
 	-gbm +gles1 +gles2 +llvm +nptl pic selinux +shared-glapi vulkan X xlib-glx
@@ -396,7 +396,7 @@ multilib_src_install_all_cheets() {
 		fi
 	fi
 
-	if use android_vulkan_compute_0 && ! use android-container-nyc; then
+	if use android_vulkan_compute_0; then
 		einfo "Using android vulkan_compute_0."
 		insinto "${ARC_PREFIX}/vendor/etc/permissions"
 		doins "${FILESDIR}/android.hardware.vulkan.compute-0.xml"
