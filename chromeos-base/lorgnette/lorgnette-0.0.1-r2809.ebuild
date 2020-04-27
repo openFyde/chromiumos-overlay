@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2e3f9f03a216da299d77011d3ae35b5c945afe46"
-CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "853d9ca25999ac4775135bcc5e90d08d89e4d3a3" "7d2fd2f1d6b8639f27151e59ae0a17319b249677" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ab604c1227fef9cefaaa09cda40fc50d30b10be3"
+CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "bc38808f6fc176cbe464ca82be732a3bf458a825" "7d2fd2f1d6b8639f27151e59ae0a17319b249677" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -49,6 +49,8 @@ src_install() {
 	doins dbus_permissions/org.chromium.lorgnette.conf
 	insinto /usr/share/dbus-1/system-services
 	doins dbus_service/org.chromium.lorgnette.service
+	insinto /etc/init
+	doins init/lorgnette.conf
 }
 
 platform_pkg_test() {
