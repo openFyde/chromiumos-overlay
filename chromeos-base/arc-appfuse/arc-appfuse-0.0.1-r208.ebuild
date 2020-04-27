@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="86bcf17f5d3fce2ea2e6f4d21ef7ca3b5a393ed2"
-CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "7ca4abfe9270110d79b740cfcdd3ca5bad49ae33" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="bfb57c59eeb74e6cbf4c5f93725b9b1fa5f7d6dc"
+CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "9e4755bd0cd43c8bab6c9e38c618cd98a4d8e230" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -35,16 +35,7 @@ BDEPEND="
 "
 
 src_install() {
-	dobin "${OUT}/arc-appfuse-provider"
-
-	insinto /etc/dbus-1/system.d
-	doins org.chromium.ArcAppfuseProvider.conf
-
-	insinto /etc/init
-	doins init/arc-appfuse-provider.conf
-
-	insinto /usr/share/policy
-	newins "seccomp/arc-appfuse-provider-seccomp-${ARCH}.policy" arc-appfuse-provider-seccomp.policy
+	platform_install
 }
 
 pkg_preinst() {
@@ -53,5 +44,5 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/arc-appfuse_testrunner"
+	platform test_all
 }
