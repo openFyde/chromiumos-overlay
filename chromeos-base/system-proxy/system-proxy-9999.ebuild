@@ -20,6 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/system
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -57,6 +58,11 @@ src_install() {
 	insinto /usr/share/policy
 	newins seccomp/system-proxy-seccomp-"${ARCH}".policy system-proxy-seccomp.policy
 	newins seccomp/system-proxy-worker-seccomp-"${ARCH}".policy system-proxy-worker-seccomp.policy
+
+	if use fuzzer; then
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/system_proxy_connect_headers_parser_fuzzer
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/system_proxy_worker_config_fuzzer
+	fi
 }
 
 platform_pkg_test() {
