@@ -127,6 +127,7 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-1.14.0-0002-linker-option-z-defs.patch"
 	"${FILESDIR}/tensorflow-1.14.0-0003-eigen-include-sstream.patch"
 	"${FILESDIR}/tensorflow-1.14.0-0004-neon-2-sse-header.patch"
+	"${FILESDIR}/tensorflow-1.14.0-0005-nnapi-android-sdk-version.patch"
 )
 DOCS=( AUTHORS CONTRIBUTING.md ISSUE_TEMPLATE.md README.md RELEASE.md )
 CHECKREQS_MEMORY="5G"
