@@ -24,7 +24,7 @@ CROS_GO_WORKSPACE=(
 
 CROS_GO_TEST=(
 	# Also test support packages that live above remote/bundles/.
-	"chromiumos/tast/remote/..."
+	"chromiumos/tast/..."
 )
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
