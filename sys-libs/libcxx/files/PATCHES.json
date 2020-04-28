@@ -1,10 +1,5 @@
 [
     {
-        "comment": "libcxx tensorflow sstream workaround",
-        "rel_patch_path": "libcxx-sstream.patch",
-        "start_version": 385170
-    },
-    {
         "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
         "rel_patch_path": "libcxx-10-use-libgcc_eh.patch",
         "start_version": 374056
