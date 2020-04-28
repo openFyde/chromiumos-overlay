@@ -4,11 +4,11 @@ DEPEND=chromeos-base/tast-build-deps:= dev-lang/go dev-go/crypto
 DESCRIPTION=Bundle of remote integration tests for Chrome OS
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast-tests/
-IUSE=cros_host cros_workon_tree_45ebaa3d6f563342aecb64798913d237a1df0e21_06ef2587a29e6d4e713911d5ac3d8fd4c4aeb1b9_94c7b07ef9769b87dd1b977079d5aa40330cab99
+IUSE=cros_host cros_workon_tree_ce933737b0c77b6317359b2d7e947f6c9421010b_06ef2587a29e6d4e713911d5ac3d8fd4c4aeb1b9_94c7b07ef9769b87dd1b977079d5aa40330cab99
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=app-arch/tar
-SLOT=0/0.0.1-r2508
+SLOT=0/0.0.1-r2510
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-go	157c7bac0e032e424ec1c3316c127db8	cros-workon	a472e157d58fc9e2b928bb2c3ae2e6f2	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	tast-bundle	c46886fc2f5ff29b5b5d756f12a99489	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=c37c9227f395fb3e4535d206b618eaa3
+_md5_=c4ad305a902809040b2198c4118ee046
