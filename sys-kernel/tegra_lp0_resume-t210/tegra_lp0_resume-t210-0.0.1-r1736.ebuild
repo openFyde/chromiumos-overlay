@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="99af6eceaa1196447ea496f5b9d087b655cc53c5"
-CROS_WORKON_TREE="145027401e328eb95801bd9820b1ec579a95a72b"
+CROS_WORKON_COMMIT="b3f761cabe1437393dd1c1dc28f7f872db032975"
+CROS_WORKON_TREE="b4f6c5875fa452707b46dd25922cc4ee710a7d42"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 
 DESCRIPTION="lp0 resume blob for Tegra"
@@ -20,12 +20,16 @@ CROS_WORKON_LOCALNAME="coreboot"
 inherit cros-workon
 
 src_compile() {
-	emake -C src/soc/nvidia/tegra132/lp0 \
+	emake -C src/soc/nvidia/tegra210/lp0 \
 		GCC_PREFIX="${CHOST}-" || \
 		die "tegra_lp0_resume build failed"
 }
 
 src_install() {
-	insinto /lib/firmware/tegra13x/
-	doins src/soc/nvidia/tegra132/lp0/tegra_lp0_resume.fw
+	insinto /lib/firmware/nvidia/tegra210/
+	doins src/soc/nvidia/tegra210/lp0/tegra_lp0_resume.fw
+
+	# Also install into /firmware so it can be picked up for signing
+	insinto /firmware
+	doins src/soc/nvidia/tegra210/lp0/tegra_lp0_resume.fw
 }
