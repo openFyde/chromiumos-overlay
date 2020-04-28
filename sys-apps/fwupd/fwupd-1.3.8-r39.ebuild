@@ -19,7 +19,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="agent amt consolekit dell gtk-doc elogind +minimal +gpg introspection +man nls nvme pkcs7 redfish synaptics systemd test +thunderbolt uefi"
+IUSE="agent amt consolekit dell gtk-doc elogind +minimal +gpg introspection +man nls nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	^^ ( consolekit elogind minimal systemd )
 	dell? ( uefi )

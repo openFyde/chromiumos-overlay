@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ca6b17e1e4a8382ae4b6d7a17686cc9c237020c7"
-CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "067357d3111e0c026aeaf73e79553170b142b6ca" "dc7df58c01fb8fb0dfb8647a9ab968689da61f23" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="463df55184e606df7a80d283f2bda7ae35738397"
+CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "067357d3111e0c026aeaf73e79553170b142b6ca" "7e0a71e2e14e3339bb1ef9c28d3772fb59b89af3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -66,6 +66,7 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}/cros_healthd"
+	dobin "${OUT}/cros-health-event"
 	dobin "${OUT}/diag"
 	dobin "${OUT}/telem"
 
@@ -129,6 +130,7 @@ platform_pkg_test() {
 	local tests=(
 		cros_healthd_test
 		libcommon_test
+		libcros_healthd_events_test
 		libcros_healthd_utils_test
 		routine_test
 	)
