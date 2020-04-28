@@ -3,25 +3,21 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT=("9414ae03a5f7b1f587420b6245b40a79c0407c80" "9a3ac8c86c2c84b3c94f70db5a36261f86677ee2")
-CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "067357d3111e0c026aeaf73e79553170b142b6ca" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4268e40f957f5a32846fc1c402c1feb378e6d119" "433476818c8d76c065a0d34559b17a47d7540fbd" "cafda0ebc9db62fbbae29370a5f8179bf312cbdb")
+CROS_WORKON_COMMIT="ca6b17e1e4a8382ae4b6d7a17686cc9c237020c7"
+CROS_WORKON_TREE=("2b7b46ab1083cdcc8b17bd7f5b05ddff336b0559" "067357d3111e0c026aeaf73e79553170b142b6ca" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4268e40f957f5a32846fc1c402c1feb378e6d119")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
-	"chromiumos/config"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform2"
-	"config"
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk chromeos-config .gn power_manager"
-	"python test"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
-	"${S}/config"
 )
 PLATFORM_SUBDIR="chromeos-config"
 

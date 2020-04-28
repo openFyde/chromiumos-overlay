@@ -4,14 +4,14 @@
 EAPI=7
 
 # We can drop this if cros-uniboard stops using cros-board.
-CROS_WORKON_COMMIT="96d315bd1527ba64cdcd6814c58ea90bf2fa38f1"
-CROS_WORKON_TREE="6219124b55770dbf4871f36abad0af8c45aee6fb"
+CROS_WORKON_COMMIT="3a01873e59ec25ecb10d1b07ff9816e69f3bbfee"
+CROS_WORKON_TREE="8ce164efd78fcb4a68e898d8c92c7579657a49b1"
 CROS_BOARDS=( none )
 
 # This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
 # the canonical empty project.
-CROS_WORKON_PROJECT="chromiumos/config"
-CROS_WORKON_LOCALNAME="config"
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="../platform/empty-project"
 
 inherit cros-unibuild toolchain-funcs cros-workon
 
