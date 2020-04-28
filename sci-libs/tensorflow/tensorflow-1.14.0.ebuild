@@ -16,7 +16,7 @@ HOMEPAGE="https://www.tensorflow.org/"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cuda mpi minimal +python"
+IUSE="cuda mpi minimal +python label_image"
 CPU_USE_FLAGS_X86="sse sse2 sse3 sse4_1 sse4_2 avx avx2 fma3 fma4"
 for i in $CPU_USE_FLAGS_X86; do
 	IUSE+=" cpu_flags_x86_$i"
@@ -303,7 +303,8 @@ src_compile() {
 			//tensorflow:libtensorflow_cc.so') \
 		//tensorflow/lite:libtensorflowlite.so \
 		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
-		$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')
+		"$(usex label_image '//tensorflow/lite/examples/label_image:label_image' '')" \
+		"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')"
 
 	ebazel build \
 		$(usex minimal '' '
@@ -311,7 +312,8 @@ src_compile() {
 			//tensorflow:libtensorflow.so
 			//tensorflow:libtensorflow_cc.so') \
 		//tensorflow/lite:libtensorflowlite.so \
-		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers
+		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
+		"$(usex label_image '//tensorflow/lite/examples/label_image:label_image' '')"
 
 	do_compile() {
 		ebazel build //tensorflow/tools/pip_package:build_pip_package
@@ -393,6 +395,11 @@ src_install() {
 
 	einfo "Installing TF lite libraries"
 	dolib.so bazel-bin/tensorflow/lite/lib${PN}lite.so
+
+	if use label_image; then
+		einfo "Install label_image example"
+		dobin bazel-bin/tensorflow/lite/examples/label_image/label_image
+	fi
 
 	einstalldocs
 }
