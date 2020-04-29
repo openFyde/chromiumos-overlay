@@ -97,16 +97,14 @@ cr50_set_sn_bits() {
 }
 
 main() {
-  local sn_source=zero_touch_sn
   local sn
-  sn="$(vpd_get_value "${sn_source}" 2>/dev/null)"
-  if [ -z "${sn}" ]; then
-    sn_source=serial_number
-    sn="$(vpd_get_value "${sn_source}" 2>/dev/null)"
+  if ! sn="$(vpd -g attested_device_id 2>/dev/null)"; then
+    echo "WARNING: Please provide attested_device_id. Using serial_number as backup."
+    sn="$(vpd -g serial_number 2>/dev/null)"
   fi
 
   if [ -z "${sn}" ]; then
-      die "No serial number assigned in zero_touch_sn or serial_number yet."
+    die "The value of attested_device_id must not be empty."
   fi
 
   # Compute desired SN Bits, check that they can be set, and set them.
@@ -117,7 +115,7 @@ main() {
   cr50_check_sn_bits "${sn_bits}"
   cr50_set_sn_bits "${sn_bits}"
 
-  echo "Successfully updated SN Bits for ${sn} from ${sn_source}."
+  echo "Successfully updated SN Bits for ${sn}."
 }
 
 main
