@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6e1b6f968f9cbb421b854d1aee3c383087d5382e"
+CROS_WORKON_COMMIT="55e91e6b57fe872f06bbd57812658da72031aa65"
 CROS_WORKON_TREE=("7245f4d174460f6025f6a648c63598dbaf990ecb" "c73e1f37fdaafa35e9ffaf067aca34722c2144cd" "7d2fd2f1d6b8639f27151e59ae0a17319b249677" "9a14cac7553e55740d160117f309c552414467c2" "e67456820b2a91ecc77bba335c261baa6225b001" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -58,6 +58,12 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=[fuzzer?]
 	vpn? ( chromeos-base/vpn-manager:= )"
 
+pkg_setup() {
+	enewgroup "shill"
+	enewuser "shill"
+	cros-workon_pkg_setup
+}
+
 pkg_preinst() {
 	enewgroup "shill-crypto"
 	enewuser "shill-crypto"
@@ -65,8 +71,6 @@ pkg_preinst() {
 	enewuser "shill-scripts"
 	enewgroup "nfqueue"
 	enewuser "nfqueue"
-	enewgroup "shill"
-	enewuser "shill"
 }
 
 get_dependent_services() {
@@ -215,6 +219,12 @@ src_install() {
 	doins setuid_restrictions/shill_whitelist.txt
 
 	udev_dorules udev/*.rules
+
+	# Shill keeps profiles inside the user's cryptohome.
+	local daemon_store="/etc/daemon-store/shill"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners shill:shill "${daemon_store}"
 
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
