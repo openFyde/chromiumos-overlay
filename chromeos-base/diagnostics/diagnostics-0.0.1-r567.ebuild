@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bbdbf48fd5c5aceb8056387807937505bce804b"
+CROS_WORKON_COMMIT="3d62314e5a4ecaa52af3913b0fb36ac70ef63973"
 CROS_WORKON_TREE=("7245f4d174460f6025f6a648c63598dbaf990ecb" "b25e1bd7cac4397205d79f87104375083a40549d" "80dc77fd57f6e619f456f5032fa7bb26fe72d1a2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -128,6 +128,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
+		cros_healthd_mojo_adapter_test
 		cros_healthd_test
 		libcommon_test
 		libcros_healthd_events_test

@@ -13,7 +13,7 @@ DESCRIPTION="Chrome OS DRM Tests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/drm-tests/"
 SRC_URI=""
 
-LICENSE="BSD"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 IUSE="vulkan"

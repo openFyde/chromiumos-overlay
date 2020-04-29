@@ -15,7 +15,7 @@ inherit toolchain-funcs multilib cros-debug cros-sanitizers cros-workon cros-com
 DESCRIPTION="evdev userspace library"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/libevdev"
 
-LICENSE="BSD"
+LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="-asan"
 
