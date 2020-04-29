@@ -141,6 +141,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-egl-android-require-ANDROID_native_fence_sync-for-bu.patch
 	epatch "${FILESDIR}"/UPSTREAM-egl-android-enable-disable-KHR_partial_update-correc.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-report-that-multi-plane-formats-are-s.patch
+
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Fix-compute-copies-for-subsampled-formats.patch
+
 	default
 }
 

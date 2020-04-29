@@ -1,0 +1,80 @@
+From 68d1757420be28e99e4e919ed2e0c6062e2460c5 Mon Sep 17 00:00:00 2001
+From: Bas Nieuwenhuizen <basni@chromium.org>
+Date: Tue, 18 Feb 2020 15:22:39 +0100
+Subject: [PATCH] radeonsi: Fix compute copies for subsampled formats.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+We cannot do image stores (or render) to subsampled formats.
+
+Reinterpret as R32_UINT instead.
+
+si_set_shader_image_desc already uses the blockwidth from
+the view formats, so the image width adjustments are
+already implemented.
+
+This is still icky with mipmapping on GFX9+ though, but
+since it is mostly a video format I don't think that will
+be much of an issue and broken mipmapping is still better
+than broken everything.
+
+Fixes: e5167a9276d "radeonsi: disable SDMA on gfx8 to fix corruption on RX 580"
+Closes: https://gitlab.freedesktop.org/mesa/mesa/issues/2535
+Reviewed-by: Marek Olšák <marek.olsak@amd.com>
+Tested-by: Marge Bot <https://gitlab.freedesktop.org/mesa/mesa/merge_requests/3853>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/merge_requests/3853>
+---
+ .../drivers/radeonsi/si_compute_blit.c        | 21 ++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
+
+diff --git a/src/gallium/drivers/radeonsi/si_compute_blit.c b/src/gallium/drivers/radeonsi/si_compute_blit.c
+index 3e544d68500..73020f9d3b4 100644
+--- a/src/gallium/drivers/radeonsi/si_compute_blit.c
++++ b/src/gallium/drivers/radeonsi/si_compute_blit.c
+@@ -392,8 +392,23 @@ void si_compute_copy_image(struct si_context *sctx,
+ 	unsigned width = src_box->width;
+ 	unsigned height = src_box->height;
+ 	unsigned depth = src_box->depth;
++	enum pipe_format src_format = util_format_linear(src->format);
++	enum pipe_format dst_format = util_format_linear(dst->format);
+ 
+-	unsigned data[] = {src_box->x, src_box->y, src_box->z, 0, dstx, dsty, dstz, 0};
++	assert(util_format_is_subsampled_422(src_format) ==
++	       util_format_is_subsampled_422(dst_format));
++
++	if (util_format_is_subsampled_422(src_format))
++		src_format = dst_format = PIPE_FORMAT_R32_UINT;
++
++	unsigned x_div = util_format_get_blockwidth(src->format) /
++	                 util_format_get_blockwidth(src_format);
++	assert(src_box->x % x_div == 0);
++	assert(width % x_div == 0);
++
++	unsigned data[] = {src_box->x / x_div, src_box->y, src_box->z, 0,
++	                   dstx / x_div, dsty, dstz, 0};
++	width /= x_div;
+ 
+ 	if (width == 0 || height == 0)
+ 		return;
+@@ -430,7 +445,7 @@ void si_compute_copy_image(struct si_context *sctx,
+ 	struct pipe_image_view image[2] = {0};
+ 	image[0].resource = src;
+ 	image[0].shader_access = image[0].access = PIPE_IMAGE_ACCESS_READ;
+-	image[0].format = util_format_linear(src->format);
++	image[0].format = src_format;
+ 	image[0].u.tex.level = src_level;
+ 	image[0].u.tex.first_layer = 0;
+ 	image[0].u.tex.last_layer =
+@@ -438,7 +453,7 @@ void si_compute_copy_image(struct si_context *sctx,
+ 						: (unsigned)(src->array_size - 1);
+ 	image[1].resource = dst;
+ 	image[1].shader_access = image[1].access = PIPE_IMAGE_ACCESS_WRITE;
+-	image[1].format = util_format_linear(dst->format);
++	image[1].format = dst_format;
+ 	image[1].u.tex.level = dst_level;
+ 	image[1].u.tex.first_layer = 0;
+ 	image[1].u.tex.last_layer =
+-- 
+2.25.0.265.gbab2e86ba0-goog
+
