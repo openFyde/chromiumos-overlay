@@ -107,6 +107,7 @@ CROS_COMMON_RDEPEND="
 	)
 	dev-lang/python:2.7
 	dev-lang/python:3.6
+	dev-libs/opensc
 	p2p? ( dev-python/dpkt )
 	cr50_onboard? ( dev-util/u2f-ref-code )
 	net-misc/rsync
