@@ -216,7 +216,7 @@ cros_config_host_local() {
 }
 
 # @FUNCTION: _unibuild_common_install
-# @USAGE: command [project_path]
+# @USAGE: command [config_file]
 # @INTERNAL
 # @DESCRIPTION:
 # Common installation function.
@@ -224,17 +224,17 @@ cros_config_host_local() {
 # root.
 # Args:
 #   $1: Command to pass to cros_config_host to get the files
-#   $2: (optional) Project path to config and file contents
+#   $2: (optional) Config file used by cros_config_host
 _unibuild_common_install() {
 	[[ $# -gt 0 ]] || die "${FUNCNAME}: cros_config_host command required"
-	[[ $# -lt 3 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
+	[[ $# -lt 3 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
 	local cmd="$1"
 	local config_files_path="${FILESDIR}"
 	local config="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
 	if [[ $# -gt 1 ]]; then
-		config_files_path="$2"
-		config="$2/generated/platform/chromeos-config/project-config.json"
+		config_files_path="."
+		config="$2"
 	fi
 	einfo "unibuild: Installing ${cmd} based on ${config}"
 	local source dest origfile
@@ -255,14 +255,14 @@ _unibuild_common_install() {
 }
 
 # @FUNCTION: unibuild_install_thermal_files
-# @USAGE: [project_path]
+# @USAGE: [config_file]
 # @DESCRIPTION:
 # Install files related to thermal operation. Currently this is only the DPTF
 # (Dynamic Platform and Thermal Framework) datavaults, typically called dptf.dv
 # Args:
-#   $1: (optional) Project path to config and file contents
+#   $1: (optional) Config file used by cros_config_host
 unibuild_install_thermal_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
 	_unibuild_common_install get-thermal-files "$@"
 }
@@ -324,14 +324,14 @@ unibuild_install_detachable_base_files() {
 }
 
 # @FUNCTION: unibuild_install_audio_files
-# @USAGE: [project_path]
+# @USAGE: [config_file]
 # @DESCRIPTION:
 # Install files related to audio. This includes cras, alsa and hotwording
 # topology firmware.
 # Args:
-#   $1: (optional) Project path to config and file contents
+#   $1: (optional) Config file used by cros_config_host
 unibuild_install_audio_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
 	_unibuild_common_install get-audio-files "$@"
 }
@@ -342,7 +342,7 @@ unibuild_install_audio_files() {
 # Args:
 #   $1: (optional) Source file directory path - default: ${FILESDIR}
 unibuild_install_arc_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
 	einfo "unibuild: Installing arc++ files"
 	local source dest
@@ -357,13 +357,13 @@ unibuild_install_arc_files() {
 }
 
 # @FUNCTION: unibuild_install_bluetooth_files
-# @USAGE: [project_path]
+# @USAGE: [config_file]
 # @DESCRIPTION:
 # Install files related to bluetooth config.
 # Args:
-#   $1: (optional) Project path to config and file contents
+#   $1: (optional) Config file used by cros_config_host
 unibuild_install_bluetooth_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
 	_unibuild_common_install get-bluetooth-files "$@"
 }
@@ -433,14 +433,14 @@ platform_json_install() {
 }
 
 # @FUNCTION: unibuild_install_autobrightness_files
-# @USAGE: [project_path]
+# @USAGE: [config_file]
 # @DESCRIPTION:
 # Install files related to autobrightness. This installs model_params.json
 # which specifies autobrightness policy.
 # Args:
-#   $1: (optional) Project path to config and file contents
+#   $1: (optional) Config file used by cros_config_host
 unibuild_install_autobrightness_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional project path arg allowed"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
 	_unibuild_common_install get-autobrightness-files "$@"
 }
