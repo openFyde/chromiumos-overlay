@@ -41,8 +41,6 @@ src_install() {
 		insinto /opt/google/containers/android
 		if use android-container-rvc; then
 			doins arc/container-bundle/rvc/config.json
-		elif use android-container-qt; then
-			doins arc/container-bundle/qt/config.json
 		elif use android-container-pi; then
 			doins arc/container-bundle/pi/config.json
 		else

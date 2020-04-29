@@ -14,7 +14,6 @@ DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="
-	android-container-qt
 	android-container-pi
 	android-vm-rvc
 	selinux_audit_all selinux_develop selinux_experimental
@@ -23,7 +22,6 @@ IUSE="
 	cheets_user cheets_user_64
 "
 DEPEND="
-	android-container-qt? ( chromeos-base/android-container-qt:0= )
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
 	android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
 "
@@ -117,15 +115,13 @@ version_cil() {
 }
 
 has_arc() {
-	use android-container-qt || use android-container-pi || use android-vm-rvc
+	use android-container-pi || use android-vm-rvc
 }
 
 gen_m4_flags() {
 	M4_COMMON_FLAGS=()
 	local arc_version="none"
-	if use android-container-qt; then
-		arc_version="q"
-	elif use android-container-pi; then
+	if use android-container-pi; then
 		arc_version="p"
 	elif use android-vm-rvc; then
 		arc_version="r"
