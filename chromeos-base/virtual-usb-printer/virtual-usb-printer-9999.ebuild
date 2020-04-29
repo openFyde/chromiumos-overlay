@@ -28,6 +28,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 platform_pkg_test() {
+	platform_test "run" "${OUT}/http-util-testrunner"
 	platform_test "run" "${OUT}/ipp-util-testrunner"
 	platform_test "run" "${OUT}/load-config-testrunner"
 	platform_test "run" "${OUT}/smart-buffer-testrunner"
