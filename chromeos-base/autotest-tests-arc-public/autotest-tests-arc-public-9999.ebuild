@@ -15,9 +15,6 @@ SLOT="0"
 KEYWORDS="~*"
 
 CLIENT_TESTS="
-	!android-container-master-arc-dev? (
-		+tests_cheets_StartAndroid
-	)
 	+tests_graphics_Gralloc
 "
 
@@ -33,7 +30,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE="
-	android-container-master-arc-dev
 	+autotest
 	${IUSE_TESTS}
 "
