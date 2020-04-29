@@ -305,7 +305,7 @@ start() {
     local table
     table="0 $(blockdev --getsz "${swap_device}") crypt aes-cbc-essiv:sha256 \
       $(tr -dc 'A-F0-9' < /dev/urandom | fold -w 32 | head -n 1) \
-      0 ${swap_device} 0 1 allow_discards"
+      0 ${swap_device} 0 2 allow_discards submit_from_crypt_cpus"
     /sbin/dmsetup create enc-swap --table "${table}" ||
       die "/sbin/dmsetup create enc-swap failed"
     mkswap "/dev/mapper/enc-swap" ||
