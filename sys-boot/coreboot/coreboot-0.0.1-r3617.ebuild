@@ -33,6 +33,15 @@ CROS_WORKON_DESTDIR=(
 	"${S}/util/nvidia/cbootimage"
 )
 
+CROS_WORKON_EGIT_BRANCH=(
+	"chromeos-2016.05"
+	"master"
+	"master"
+	"master"
+	"master"
+	"master"
+)
+
 inherit cros-board cros-workon toolchain-funcs cros-unibuild coreboot-sdk
 
 DESCRIPTION="coreboot firmware"
