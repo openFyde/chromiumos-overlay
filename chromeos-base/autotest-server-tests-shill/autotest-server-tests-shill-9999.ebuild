@@ -82,7 +82,6 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_SSIDSwitchBack
 	+tests_network_WiFi_SuspendStress
 	+tests_network_WiFi_StressTest
-	+tests_network_WiFi_TDLSPing
 	+tests_network_WiFi_Throttle
 	+tests_network_WiFi_UpdateRouter
 	+tests_network_WiFi_VerifyRouter
