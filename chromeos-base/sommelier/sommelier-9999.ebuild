@@ -37,6 +37,8 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	dev-util/meson
+	dev-util/ninja
 "
 
 src_install() {
@@ -52,4 +54,13 @@ platform_pkg_test() {
 	for test_bin in "${tests[@]}"; do
 		platform_test "run" "${OUT}/${test_bin}"
 	done
+
+	# Ensure the meson build script continues to work.
+	if ! use x86 && ! use amd64 ; then
+		elog "Skipping meson tests on non-x86 platform"
+	else
+		meson tmp_build_dir || die "Failed to configure meson build"
+		ninja -C tmp_build_dir || die "Failed to build sommelier with meson"
+		[ -f tmp_build_dir/sommelier ] || die "Target 'sommelier' was not built by meson"
+	fi
 }
