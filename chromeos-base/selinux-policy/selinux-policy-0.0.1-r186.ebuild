@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c573d76c6881e4620cdfa387efcf6a2e87efefe0"
+CROS_WORKON_COMMIT="496a7a6e0ce94347a20df6723441974fa7465466"
 CROS_WORKON_TREE="c45defbd9932ba69d34cedf3a1a93b66b464a786"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,19 +19,12 @@ IUSE="
 	android-container-qt
 	android-container-pi android-container-master-arc-dev
 	android-vm-rvc
-	+combine_chromeos_policy selinux_audit_all selinux_develop selinux_experimental
+	selinux_audit_all selinux_develop selinux_experimental
 	arc_first_release_n
 	nocheck
 	cheets_user cheets_user_64
 	arm arm64
 "
-# When developers are doing something not Android. This required use is to let
-# the developer know, disabling combine_chromeos_policy flag doesn't change
-# anything.
-REQUIRED_USE="
-	!combine_chromeos_policy? ( ^^ ( android-container-qt android-container-pi android-container-master-arc-dev android-vm-rvc ) )
-"
-
 DEPEND="
 	android-container-qt? ( chromeos-base/android-container-qt:0= )
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
@@ -289,24 +282,15 @@ src_compile() {
 	local cilpath="$(pwd)/intermediate_policy"
 
 	if has_arc; then
-		if use combine_chromeos_policy; then
-			einfo "Removing duplicate nnp_nosuid_transition policycap from Android cil"
-			sed -i '/^(policycap nnp_nosuid_transition)$/d' "${cilpath}"/*.cil || die
+		einfo "Removing duplicate nnp_nosuid_transition policycap from Android cil"
+		sed -i '/^(policycap nnp_nosuid_transition)$/d' "${cilpath}"/*.cil || die
 
-			einfo "Combining Chrome OS and Android SELinux policy"
-			secilc "${SECILC_ARGS[@]}" "${cilpath}/plat_sepolicy.cil" \
-				"${cilpath}/mapping.cil" \
-				"${cilpath}/plat_pub_versioned.cil" \
-				"${cilpath}/vendor_sepolicy.cil" \
-				chromeos.cil || die "fail to build sepolicy"
-		else
-			einfo "use ARC++ policy"
-
-			secilc "${SECILC_ARGS[@]}" "${cilpath}/plat_sepolicy.cil" \
-				"${cilpath}/mapping.cil" \
-				"${cilpath}/plat_pub_versioned.cil" \
-				"${cilpath}/vendor_sepolicy.cil" || die "fail to build sepolicy"
-		fi
+		einfo "Combining Chrome OS and Android SELinux policy"
+		secilc "${SECILC_ARGS[@]}" "${cilpath}/plat_sepolicy.cil" \
+			"${cilpath}/mapping.cil" \
+			"${cilpath}/plat_pub_versioned.cil" \
+			"${cilpath}/vendor_sepolicy.cil" \
+			chromeos.cil || die "fail to build sepolicy"
 
 		# Add header/footer around ARC++ contexts, so they can be
 		# correctly replaced when pushing new Android builds using
