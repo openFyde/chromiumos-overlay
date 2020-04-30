@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="patchpanel"
 inherit cros-workon libchrome platform user
 
 DESCRIPTION="Patchpanel network connectivity management daemon"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/network/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/patchpanel/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="fuzzer"
@@ -51,12 +51,12 @@ src_install() {
 	dobin "${OUT}"/patchpaneld
 
 	# Libraries.
-	dolib.so "${OUT}"/lib/libarcnetwork-util.so
+	dolib.so "${OUT}"/lib/libpatchpanel-util.so
 	dolib.so "${OUT}"/lib/libpatchpanel-client.so
 
 	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	doins "${OUT}"/libarcnetwork-util.pc
+	doins "${OUT}"/libpatchpanel-util.pc
 	doins "${OUT}"/libpatchpanel-client.pc
 
 	insinto /usr/include/chromeos/patchpanel/
@@ -88,6 +88,6 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/arc_network_testrunner"
+	platform_test "run" "${OUT}/patchpanel_testrunner"
 }
 
