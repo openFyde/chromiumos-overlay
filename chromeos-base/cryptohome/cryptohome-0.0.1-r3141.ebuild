@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="112038f946b9ae0d3241379e2bd0691dd599157f"
-CROS_WORKON_TREE=("3ab71b2ced958c4afe0eb1a4b8904ca490bcfb5f" "7245f4d174460f6025f6a648c63598dbaf990ecb" "844c47c30a4059f7b233a6f42b6394d54fc22da7" "d33af452545894a4015d3e685ef122cea924019c" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e44b397c2889a852bbbe4415ae3871e1f91a82e0"
+CROS_WORKON_TREE=("3ab71b2ced958c4afe0eb1a4b8904ca490bcfb5f" "7245f4d174460f6025f6a648c63598dbaf990ecb" "b5fb9e6beb5e60ce286a26165dc0e76c39f6e219" "d33af452545894a4015d3e685ef122cea924019c" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -82,6 +82,7 @@ src_install() {
 		lockbox-cache tpm-manager
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
+	dosbin encrypted-reboot-vault
 	if use tpm2; then
 		dosbin bootlockboxd bootlockboxtool
 	fi
