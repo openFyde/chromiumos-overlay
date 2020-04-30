@@ -70,7 +70,7 @@ src_install() {
 	patchpanel_header subnet_pool.h
 
 	insinto /etc/init
-	doins "${S}"/init/arc-network-bridge.conf
+	doins "${S}"/init/patchpanel.conf
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
