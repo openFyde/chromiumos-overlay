@@ -1706,6 +1706,7 @@ kmake() {
 		CROSS_COMPILE_COMPAT="${cross_compat}" \
 		KCFLAGS="${kcflags}" \
 		emake \
+		V="${VERBOSE:-0}" \
 		O="$(cros-workon_get_build_dir)" \
 		"$@"
 }
