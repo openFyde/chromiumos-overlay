@@ -98,6 +98,7 @@ src_unpack() {
 }
 
 src_configure() {
+	local platform_intf=""
 	local emesonargs=(
 		$(meson_use unibuild use_cros_config)
 		-Darch=$(tc-arch)
@@ -106,6 +107,18 @@ src_configure() {
 	if use unibuild; then
 		emesonargs+=(
 			"-Dcros_config_data_src=${SYSROOT}${UNIBOARD_C_CONFIG}"
+		)
+		platform_intf="$(cros_config_host get-mosys-platform)"
+	else
+		# TODO(jrosenth): hard code some board to platform_intf
+		# mappings here for legacy non-unibuild boards.  For now, this
+		# feature is unibuild only.
+		true
+	fi
+
+	if [[ -n "${platform_intf}" ]]; then
+		emesonargs+=(
+			"-Dplatform_intf=${platform_intf}"
 		)
 	fi
 
