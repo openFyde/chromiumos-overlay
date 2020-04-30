@@ -57,6 +57,7 @@ PATCHES=(
 	"${FILESDIR}"/0011-Media-Common-Fix-tiling-issue.patch
 	"${FILESDIR}"/0012-Media-Common-Modify-the-default-tile-type.patch
 	"${FILESDIR}"/0013-Add-external-surface-support.patch
+	"${FILESDIR}"/0014-VP-Fix-memory-corruption-due-to-improper-typecast.patch
 )
 
 src_configure() {
