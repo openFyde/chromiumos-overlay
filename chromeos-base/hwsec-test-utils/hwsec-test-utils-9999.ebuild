@@ -41,6 +41,15 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
+
 	# Installs attestation-injected-keys
 	dobin "${OUT}/attestation-injected-keys"
+
+	# Installs hwsec-test-va
+	dobin "${OUT}/hwsec-test-va"
+
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/hwsec-test-utils_testrunner"
 }
