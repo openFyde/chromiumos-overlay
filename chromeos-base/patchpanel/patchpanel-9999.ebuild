@@ -83,8 +83,8 @@ src_install() {
 
 pkg_preinst() {
 	# Service account used for privilege separation.
-	enewuser arc-networkd
-	enewgroup arc-networkd
+	enewuser patchpaneld
+	enewgroup patchpaneld
 }
 
 platform_pkg_test() {
