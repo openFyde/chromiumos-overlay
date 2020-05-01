@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ae205ec8d2eded679d28a3782574cdac55f48b7a"
-CROS_WORKON_TREE=("7245f4d174460f6025f6a648c63598dbaf990ecb" "5c9930e0c8b8fda333b0ca1d1e1324cd65214f10" "4377db2d126a2966c6e62c934fd4b629b76ec9ab" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="aa4a9edccf69a8fccde7ddd893e74b368aca55b5"
+CROS_WORKON_TREE=("7245f4d174460f6025f6a648c63598dbaf990ecb" "b37074bcba0e7afecf72c5c9536ff98776b2fa06" "4377db2d126a2966c6e62c934fd4b629b76ec9ab" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -16,7 +16,7 @@ PLATFORM_SUBDIR="patchpanel"
 inherit cros-workon libchrome platform user
 
 DESCRIPTION="Patchpanel network connectivity management daemon"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/network/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/patchpanel/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="fuzzer"
@@ -53,12 +53,12 @@ src_install() {
 	dobin "${OUT}"/patchpaneld
 
 	# Libraries.
-	dolib.so "${OUT}"/lib/libarcnetwork-util.so
+	dolib.so "${OUT}"/lib/libpatchpanel-util.so
 	dolib.so "${OUT}"/lib/libpatchpanel-client.so
 
 	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	doins "${OUT}"/libarcnetwork-util.pc
+	doins "${OUT}"/libpatchpanel-util.pc
 	doins "${OUT}"/libpatchpanel-client.pc
 
 	insinto /usr/include/chromeos/patchpanel/
@@ -90,6 +90,6 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/arc_network_testrunner"
+	platform_test "run" "${OUT}/patchpanel_testrunner"
 }
 
