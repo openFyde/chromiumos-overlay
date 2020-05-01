@@ -348,7 +348,7 @@ ALL_BOARDS=(
 	sarien
 	sarien-kvm
 	scarlet
-	scarlet-arcnext
+	#scarlet-arcnext
 	sentry
 	setzer
 	shogun
