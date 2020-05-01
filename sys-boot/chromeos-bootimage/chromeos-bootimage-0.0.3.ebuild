@@ -29,10 +29,6 @@ IUSE="${IUSE} generated_cros_config"
 IUSE="${IUSE} ec_ro_sync"
 IUSE="${IUSE} +depthcharge"
 
-REQUIRED_USE="
-	^^ ( ${BOARDS} arm mips )
-"
-
 BDEPEND="chromeos-base/vboot_reference"
 
 # TODO(sjg@chromium.org): Drop this zork stuff when the code is upstream
