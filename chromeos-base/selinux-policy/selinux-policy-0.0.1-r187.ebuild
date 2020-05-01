@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="496a7a6e0ce94347a20df6723441974fa7465466"
+CROS_WORKON_COMMIT="e2f3b9f702541caf44368e0ac214fa9c31202fcd"
 CROS_WORKON_TREE="c45defbd9932ba69d34cedf3a1a93b66b464a786"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="
 	android-container-qt
-	android-container-pi android-container-master-arc-dev
+	android-container-pi
 	android-vm-rvc
 	selinux_audit_all selinux_develop selinux_experimental
 	arc_first_release_n
@@ -28,7 +28,6 @@ IUSE="
 DEPEND="
 	android-container-qt? ( chromeos-base/android-container-qt:0= )
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
-	android-container-master-arc-dev? ( chromeos-base/android-container-master-arc-dev:0= )
 	android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
 "
 
@@ -122,7 +121,7 @@ version_cil() {
 
 has_arc() {
 	# TODO(yusukes): Reenable ARCVM R ARM.
-	use android-container-qt || use android-container-pi || use android-container-master-arc-dev || (use android-vm-rvc && ! use arm && ! use arm64)
+	use android-container-qt || use android-container-pi || (use android-vm-rvc && ! use arm && ! use arm64)
 }
 
 gen_m4_flags() {
@@ -134,8 +133,6 @@ gen_m4_flags() {
 		arc_version="p"
 	elif use android-vm-rvc; then
 		arc_version="r"
-	elif use android-container-master-arc-dev; then
-		arc_version="master"
 	fi
 	M4_COMMON_FLAGS+=(
 		"-Darc_version=${arc_version}"
@@ -356,12 +353,6 @@ src_test() {
 	local neverallowjava="${SYSROOT}/etc/selinux/intermediates/SELinuxNeverallowRulesTest.java"
 	if [ ! -f "${SYSROOT}/etc/selinux/intermediates/SELinuxNeverallowRulesTest.java" ]; then
 		ewarn "No SELinuxNeverallowRulesTest.java found. CTS neverallow pre-test is skipped."
-		return
-	fi
-	if use android-container-master-arc-dev; then
-		ewarn "master-arc-dev is known to include policies that breaks CTS neverallow rules."
-		ewarn "search arc_cts_fails_release in platform2/sepolicy for more details."
-		ewarn "CTS pre-test is skipped."
 		return
 	fi
 
