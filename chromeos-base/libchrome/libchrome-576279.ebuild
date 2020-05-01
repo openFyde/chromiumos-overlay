@@ -88,9 +88,8 @@ src_prepare() {
 	# r616020.
 	epatch "${FILESDIR}"/${PN}-dbus-Support-UnexportMethod-from-an-exported-object.patch
 
-	# r617572 and r626151
-	epatch "${FILESDIR}"/${PN}-components-timers-fix-fd-leak-in-AlarmTimer.patch
-	# epatch "${FILESDIR}"/${PN}-Refactor-AlarmTimer-to-report-error-to-the-caller.patch
+	# Add support for SimpleAlarmTimer::Create{,ForTesting} to reflect changes in r626151.
+	epatch "${FILESDIR}"/${PN}-Refactor-AlarmTimer-to-report-error-to-the-caller.patch
 
 	# For backward compatibility.
 	# TODO(crbug.com/909719): Remove this patch after clients are updated.

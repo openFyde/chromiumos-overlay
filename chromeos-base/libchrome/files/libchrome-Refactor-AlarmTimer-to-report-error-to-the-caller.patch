@@ -20,6 +20,13 @@ We used to test just fall-back code paths.
 
 In addition, this CL fixes the FD leak on destruction.
 
+This patch modified the original upstream patch, by
+ - keeping the old constructor for backward-compatibility.
+ - keeping CanWakeFromSuspend, and calls of CanWakeFromSuspend from Stop
+   and Reset, for backward-compatibility, so that unittest won't fail
+   due to -1 alarm_fd_ from default constructor when there's no
+   capability to alarm.
+
 BUG=None
 TEST=Build and run components_unittests --gtest_filter=AlarmTimerTest*. Run try.
 
@@ -39,7 +46,7 @@ diff --git a/components/timers/alarm_timer_chromeos.cc b/components/timers/alarm
 index 0b43134..371eb67 100644
 --- a/components/timers/alarm_timer_chromeos.cc
 +++ b/components/timers/alarm_timer_chromeos.cc
-@@ -15,13 +15,40 @@
+@@ -15,13 +15,43 @@
  #include "base/debug/task_annotator.h"
  #include "base/files/file_util.h"
  #include "base/logging.h"
@@ -49,8 +56,9 @@ index 0b43134..371eb67 100644
  
  namespace timers {
  
--SimpleAlarmTimer::SimpleAlarmTimer()
--    : alarm_fd_(timerfd_create(CLOCK_REALTIME_ALARM, 0)), weak_factory_(this) {}
++// Keep for backward compatibility to uprev r576279.
+ SimpleAlarmTimer::SimpleAlarmTimer()
+     : alarm_fd_(timerfd_create(CLOCK_REALTIME_ALARM, 0)), weak_factory_(this) {}
 +// static
 +std::unique_ptr<SimpleAlarmTimer> SimpleAlarmTimer::Create() {
 +  return CreateInternal(CLOCK_REALTIME_ALARM);
@@ -82,30 +90,6 @@ index 0b43134..371eb67 100644
  
  SimpleAlarmTimer::~SimpleAlarmTimer() {
    DCHECK(origin_task_runner_->RunsTasksInCurrentSequence());
-@@ -34,11 +61,6 @@ void SimpleAlarmTimer::Stop() {
-   if (!IsRunning())
-     return;
- 
--  if (!CanWakeFromSuspend()) {
--    base::RetainingOneShotTimer::Stop();
--    return;
--  }
--
-   // Cancel any previous callbacks.
-   weak_factory_.InvalidateWeakPtrs();
- 
-@@ -51,11 +73,6 @@ void SimpleAlarmTimer::Reset() {
-   DCHECK(origin_task_runner_->RunsTasksInCurrentSequence());
-   DCHECK(!base::RetainingOneShotTimer::user_task().is_null());
- 
--  if (!CanWakeFromSuspend()) {
--    base::RetainingOneShotTimer::Reset();
--    return;
--  }
--
-   // Cancel any previous callbacks and stop watching |alarm_fd_|.
-   weak_factory_.InvalidateWeakPtrs();
-   alarm_fd_watcher_.reset();
 @@ -80,7 +97,7 @@ void SimpleAlarmTimer::Reset() {
    alarm_time.it_value.tv_nsec =
        (delay.InMicroseconds() % base::Time::kMicrosecondsPerSecond) *
@@ -133,15 +117,6 @@ index 0b43134..371eb67 100644
      PLOG(DFATAL) << "Unable to read from timer file descriptor.";
  
    OnTimerFired();
-@@ -136,8 +153,4 @@ void SimpleAlarmTimer::OnTimerFired() {
-     Stop();
- }
- 
--bool SimpleAlarmTimer::CanWakeFromSuspend() const {
--  return alarm_fd_ != -1;
--}
--
- }  // namespace timers
 diff --git a/components/timers/alarm_timer_chromeos.h b/components/timers/alarm_timer_chromeos.h
 index 1ff689e..e1301e9 100644
 --- a/components/timers/alarm_timer_chromeos.h
@@ -164,11 +139,11 @@ index 1ff689e..e1301e9 100644
  //
  // A SimpleAlarmTimer instance can only be used from the sequence on which it
  // was instantiated. Start() and Stop() must be called from a thread that
-@@ -36,7 +36,15 @@ namespace timers {
+@@ -36,7 +36,16 @@ namespace timers {
  // times but not at a regular interval.
  class SimpleAlarmTimer : public base::RetainingOneShotTimer {
   public:
--  SimpleAlarmTimer();
+   SimpleAlarmTimer();
 +  // Creates the SimpleAlarmTimer instance, or returns null on failure, e.g.,
 +  // on a platform without timerfd_* system calls support, or missing
 +  // capability (CAP_WAKE_ALARM).
@@ -193,16 +168,7 @@ index 1ff689e..e1301e9 100644
    // Called when |alarm_fd_| is readable without blocking. Reads data from
    // |alarm_fd_| and calls OnTimerFired().
    void OnAlarmFdReadableWithoutBlocking();
-@@ -51,14 +64,8 @@ class SimpleAlarmTimer : public base::RetainingOneShotTimer {
-   // Called when the timer fires. Runs the callback.
-   void OnTimerFired();
- 
--  // Tracks whether the timer has the ability to wake the system up from
--  // suspend. This is a runtime check because we won't know if the system
--  // supports being woken up from suspend until the constructor actually tries
--  // to set it up.
--  bool CanWakeFromSuspend() const;
--
+@@ -61,5 +74,5 @@ class SimpleAlarmTimer : public base::RetainingOneShotTimer {
    // Timer file descriptor.
 -  const int alarm_fd_;
 +  const base::ScopedFD alarm_fd_;
