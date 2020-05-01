@@ -39,3 +39,8 @@ DEPEND="${RDEPEND}
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 "
+
+src_install() {
+	# Installs attestation-injected-keys
+	dobin "${OUT}/attestation-injected-keys"
+}
