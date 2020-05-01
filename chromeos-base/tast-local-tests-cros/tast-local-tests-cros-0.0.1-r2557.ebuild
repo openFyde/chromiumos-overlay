@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("379c91f9be62bca0f3cc5a393d5999e6d8259722" "2ebb05929e0fc3688230fa505ac106d3fec0b659")
-CROS_WORKON_TREE=("f5a36130ce9ad299a830d8439389a13f5378dd8f" "802deec3b55ac5342858e841b43a061775455ca3")
+CROS_WORKON_COMMIT=("9cff5a83663b8fb7fe6e8dc042bff6adfaf5b78a" "2ebb05929e0fc3688230fa505ac106d3fec0b659")
+CROS_WORKON_TREE=("212e215b36176add05d31f451797ef1c68334b57" "802deec3b55ac5342858e841b43a061775455ca3")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast-tests"
 	"chromiumos/platform/tast"
@@ -23,7 +23,7 @@ CROS_GO_WORKSPACE=(
 
 CROS_GO_TEST=(
 	# Also test support packages that live above local/bundles/.
-	"chromiumos/tast/local/..."
+	"chromiumos/tast/..."
 )
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
@@ -69,7 +69,3 @@ RDEPEND="
 		)
 	)
 "
-
-# Permit files/external_data.conf to pull in files that are located in
-# gs://chromiumos-test-assets-public.
-RESTRICT=nomirror
