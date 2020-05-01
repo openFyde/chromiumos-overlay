@@ -26,6 +26,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config:=
 	chromeos-base/chromeos-config-tools:=
 	dev-libs/protobuf:=
+	net-misc/modemmanager-next:=
 "
 
 RDEPEND="${COMMON_DEPEND}"
