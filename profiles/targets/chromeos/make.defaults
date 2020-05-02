@@ -61,6 +61,10 @@ USE="${USE} udev"
 # Enable fwupd support
 USE="${USE} fwupd"
 
+# Enable bluez-next
+# TODO(b/154866558): Remove when bluez-next becomes "current".
+USE="${USE} bluez-next"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
