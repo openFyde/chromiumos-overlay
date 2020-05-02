@@ -21,7 +21,6 @@ IUSE="
 	arc_first_release_n
 	nocheck
 	cheets_user cheets_user_64
-	arm arm64
 "
 DEPEND="
 	android-container-qt? ( chromeos-base/android-container-qt:0= )
@@ -118,8 +117,7 @@ version_cil() {
 }
 
 has_arc() {
-	# TODO(yusukes): Reenable ARCVM R ARM.
-	use android-container-qt || use android-container-pi || (use android-vm-rvc && ! use arm && ! use arm64)
+	use android-container-qt || use android-container-pi || use android-vm-rvc
 }
 
 gen_m4_flags() {
