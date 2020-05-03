@@ -280,8 +280,6 @@ multilib_src_install_all() {
 
 	keepdir /etc/cups/{interfaces,ppd,ssl}
 
-	use X || rm -r "${ED}"/usr/share/applications
-
 	# create /etc/cups/client.conf, bug #196967 and #266678
 	echo "ServerName ${EPREFIX}/run/cups/cups.sock" >> "${ED}"/etc/cups/client.conf
 	# Cap TLS per https://crbug.com/1088032
@@ -344,15 +342,10 @@ multilib_src_install_all() {
 		"${ED}"etc/cups/*.default \
 		"${ED}"etc/cups/snmp.conf \
 		"${ED}"usr/bin/cancel \
-		"${ED}"usr/bin/cupstestdsc \
 		"${ED}"usr/libexec/cups/backend/snmp \
-		"${ED}"usr/libexec/cups/filter/rastertodymo \
-		"${ED}"usr/sbin/accept \
-		"${ED}"usr/sbin/cupsaddsmb \
 		"${ED}"usr/sbin/cupsctl \
 		"${ED}"usr/sbin/cupsreject \
 		"${ED}"usr/sbin/lpmove \
-		"${ED}"usr/sbin/reject \
 			|| die "failed to remove some files"
 }
 
