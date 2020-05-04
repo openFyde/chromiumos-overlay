@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="b83cb14aafc86e797dedd6eb3d16c2175ca47dd0"
-CROS_WORKON_TREE="d784939f82de36a687957fac3edafbe0af77e6d2"
+CROS_WORKON_COMMIT="d02d3c56e79ecf79845a0e04368ecc3b6ce9ab6e"
+CROS_WORKON_TREE="f21d2ca0e5a5be1b7acb091dbaba0f8deabfcd73"
 CROS_WORKON_PROJECT="chromiumos/platform/tast-tests"
 CROS_WORKON_LOCALNAME="platform/tast-tests"
 CROS_WORKON_SUBTREE="android"

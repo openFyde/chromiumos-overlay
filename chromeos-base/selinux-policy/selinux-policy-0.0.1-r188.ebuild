@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e2f3b9f702541caf44368e0ac214fa9c31202fcd"
+CROS_WORKON_COMMIT="6c9d98a84089fc39c8f8eadbaba1a1e81b45550b"
 CROS_WORKON_TREE="c45defbd9932ba69d34cedf3a1a93b66b464a786"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,7 +23,6 @@ IUSE="
 	arc_first_release_n
 	nocheck
 	cheets_user cheets_user_64
-	arm arm64
 "
 DEPEND="
 	android-container-qt? ( chromeos-base/android-container-qt:0= )
@@ -120,8 +119,7 @@ version_cil() {
 }
 
 has_arc() {
-	# TODO(yusukes): Reenable ARCVM R ARM.
-	use android-container-qt || use android-container-pi || (use android-vm-rvc && ! use arm && ! use arm64)
+	use android-container-qt || use android-container-pi || use android-vm-rvc
 }
 
 gen_m4_flags() {
