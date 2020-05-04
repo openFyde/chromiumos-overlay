@@ -74,7 +74,7 @@ net-libs/glib-networking -gnome -libproxy
 # Also |messages| is for enabling POST processor in the library.
 net-libs/libmicrohttpd	ssl messages
 net-libs/libsoup	-ssl
-net-misc/curl		ares
+net-misc/curl		ares kerberos
 net-misc/dhcpcd		crash
 net-misc/iperf		threads
 # arping is used by some wifi autotests.
