@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c836729c4db2b875e9f328f2e4a645e31828b2e0"
+CROS_WORKON_COMMIT="4bb764285f76e4bdcb1ceadaaab7a7fa21931e6c"
 CROS_WORKON_TREE=("d802ce3091795ebf52e92b317fe508d6d6a1eafc" "900ba9ee2284897ab4cc6024e576b5f21c20fccb" "3e77975595548725f59be02e64151a0caaf87716" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -28,6 +28,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config:=
 	chromeos-base/chromeos-config-tools:=
 	dev-libs/protobuf:=
+	net-misc/modemmanager-next:=
 "
 
 RDEPEND="${COMMON_DEPEND}"
