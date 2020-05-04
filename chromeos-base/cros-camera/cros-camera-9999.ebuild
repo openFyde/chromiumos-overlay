@@ -20,7 +20,7 @@ camera device. It uses unix domain socket to build a synchronous channel."
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="arc-camera1 cheets +cros-camera-algo-sandbox"
+IUSE="arc-camera1 cheets +cros-camera-algo-sandbox -libcamera"
 
 BDEPEND="virtual/pkgconfig"
 
@@ -33,8 +33,11 @@ COMMON_DEPEND="
 	media-libs/cros-camera-libcamera_metadata:=
 	media-libs/libsync:=
 	virtual/cros-camera-effects
-	virtual/cros-camera-hal
-	virtual/cros-camera-hal-configs"
+	libcamera? ( media-libs/libcamera )
+	!libcamera? (
+		virtual/cros-camera-hal
+		virtual/cros-camera-hal-configs
+	)"
 
 RDEPEND="${COMMON_DEPEND}"
 
