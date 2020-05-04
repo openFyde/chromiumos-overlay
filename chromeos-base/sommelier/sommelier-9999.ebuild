@@ -31,6 +31,7 @@ COMMON_DEPEND="
 "
 
 RDEPEND="
+	!<chromeos-base/vm_guest_tools-0.0.2-r722
 	${COMMON_DEPEND}
 "
 
