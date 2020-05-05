@@ -17,10 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/co
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-# TODO(b/73695883): Rename from android-container-master-arc-dev to
-# android-container-master.
 IUSE="
-	android-container-master-arc-dev
 	android-container-pi
 	android-container-qt
 	android-container-rvc
@@ -42,9 +39,7 @@ src_install() {
 
 	if use arcpp; then
 		insinto /opt/google/containers/android
-		if use android-container-master-arc-dev; then
-			doins arc/container-bundle/master/config.json
-		elif use android-container-rvc; then
+		if use android-container-rvc; then
 			doins arc/container-bundle/rvc/config.json
 		elif use android-container-qt; then
 			doins arc/container-bundle/qt/config.json
