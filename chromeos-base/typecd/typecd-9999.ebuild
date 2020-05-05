@@ -28,3 +28,7 @@ pkg_preinst() {
 	enewuser typecd
 	enewgroup typecd
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/typecd_testrunner"
+}
