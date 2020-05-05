@@ -9,7 +9,7 @@ HOMEPAGE="https://www.chromium.org/chromium-os"
 LICENSE="BSD-Google"
 SLOT="0"
 
-SRC_URI="gs://chromeos-localmirror/distfiles/libhandwriting-${PV}.zip"
+SRC_URI="gs://chromeos-localmirror/distfiles/libhandwriting-${PV}.tar.gz"
 
 KEYWORDS="*"
 
@@ -26,6 +26,8 @@ src_install() {
 	doins interface.h
 	insinto /usr/include/chromeos/libhandwriting/proto/
 	doins interface.proto
+	sed -i 's!chrome/knowledge/handwriting/!!g' validate.proto || die
+	doins validate.proto
 
 	if use ondevice_handwriting; then
 		# Install the shared library.
@@ -37,6 +39,6 @@ src_install() {
 		doins latin_indy_conf.tflite latin_indy_seg.tflite
 		# Install the testing data.
 		insinto /build/share/libhandwriting/
-		doins request.pb
+		doins correct_labeled_requests.pb
 	fi
 }
