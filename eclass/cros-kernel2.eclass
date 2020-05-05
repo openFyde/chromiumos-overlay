@@ -64,6 +64,7 @@ IUSE="
 	-kernel_afdo
 	-kernel_afdo_verify
 	test
+	+vdso32
 	-criu
 	-docker
 "
@@ -1607,8 +1608,10 @@ kmake() {
 			;;
 		arm:arm64)
 			cross="aarch64-cros-linux-gnu"
-			cross_compat="armv7a-cros-linux-gnueabihf-"
-			CC_COMPAT="armv7a-cros-linux-gnueabihf-clang"
+			if use vdso32; then
+				cross_compat="armv7a-cros-linux-gnueabihf-"
+				CC_COMPAT="armv7a-cros-linux-gnueabihf-clang"
+			fi
 			;;
 	esac
 
