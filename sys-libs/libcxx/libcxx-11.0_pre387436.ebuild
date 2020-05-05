@@ -14,7 +14,8 @@ DESCRIPTION="New implementation of the C++ standard library, targeting C++11"
 HOMEPAGE="http://libcxx.llvm.org/"
 SRC_URI=""
 
-EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
+EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
+    ${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 LLVM_HASH="c47f971694be0159ffddfee8a75ae515eba91439" # r387436
 LLVM_NEXT_HASH="c47f971694be0159ffddfee8a75ae515eba91439" # r387436

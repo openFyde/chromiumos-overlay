@@ -21,7 +21,8 @@ SRC_URI="
 		llvm-next? ( llvm-next_pgo_use? ( gs://chromeos-localmirror/distfiles/llvm-profdata-${LLVM_NEXT_HASH}.tar.xz ) )
 	)
 "
-EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
+EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
+	${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 LICENSE="UoI-NCSA"
 SLOT="8"
