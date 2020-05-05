@@ -20,6 +20,8 @@ RDEPEND="
 src_configure() {
 	# Disable tautological-compare warnings, crbug.com/1042142
 	append-cppflags "-Wno-tautological-compare"
+	# Needed since libchrome includes cros-debug
+	cros-debug-add-NDEBUG
 	default
 }
 
