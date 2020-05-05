@@ -38,7 +38,6 @@ IUSE_TESTS="
 	+tests_network_DhcpStaticIP
 	+tests_network_DhcpVendorEncapsulatedOptions
 	+tests_network_DhcpWpadNegotiation
-	+tests_network_ShillInitScripts
 	+tests_network_WiFiInvalidParameters
 	+tests_network_WiFiResume
 	+tests_network_WlanDriver
