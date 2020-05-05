@@ -27,8 +27,19 @@ app-doc/xmltoman-1.0
 # Needed for libtool.eclass.
 app-portage/elt-patches-20170815
 
+# Docbook packages are only needed in the SDK based on current designs, and
+# they're only used to generate documentation.  Stub them out until someone
+# needs them for something more (which seems unlikely).
 app-text/build-docbook-catalog-1.4
-app-text/docbook-xsl-stylesheets-1.75.2
+app-text/docbook-dsssl-stylesheets-1.40
+# NB: This package has multiple SLOTs.
+app-text/docbook-xml-dtd-4.1.2
+app-text/docbook-xml-dtd-4.2
+app-text/docbook-xml-dtd-4.3
+app-text/docbook-xml-dtd-4.4
+app-text/docbook-xml-dtd-4.5
+app-text/docbook-xsl-stylesheets-1.79.1
+app-text/sgml-common-0.6.3-r5
 app-text/texi2html-5.0
 
 dev-lang/nasm-2.07
