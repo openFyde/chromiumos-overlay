@@ -25,6 +25,7 @@ COMMON_DEPEND="
 
 RDEPEND="
 	${COMMON_DEPEND}
+	!chromeos-base/arc-networkd-ndproxyd
 "
 
 DEPEND="
