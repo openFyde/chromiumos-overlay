@@ -7,7 +7,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk dlcservice .gn"
+# TODO(crbug.com/809389): Avoid #include-ing platform2 headers directly.
+CROS_WORKON_SUBTREE="common-mk dlcservice metrics .gn"
 
 PLATFORM_SUBDIR="dlcservice"
 
@@ -22,6 +23,7 @@ IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/imageloader:=
+	chromeos-base/metrics:=
 	dev-libs/protobuf:="
 
 DEPEND="${RDEPEND}
