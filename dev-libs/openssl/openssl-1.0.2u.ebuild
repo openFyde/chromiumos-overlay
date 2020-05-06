@@ -23,14 +23,14 @@ SRC_URI="mirror://openssl/source/${MY_P}.tar.gz
 LICENSE="openssl"
 SLOT="legacy"
 KEYWORDS="*"
-IUSE="ap +asm bindist cros_host gmp kerberos msan pita rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
+IUSE="+asm bindist cros_host gmp kerberos msan pita rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
 RESTRICT="!bindist? ( bindist )"
 
 RDEPEND=">=app-misc/c_rehash-1.7-r1
 	gmp? ( >=dev-libs/gmp-5.1.3-r1[static-libs(+)?,${MULTILIB_USEDEP}] )
 	zlib? ( >=sys-libs/zlib-1.2.8-r1[static-libs(+)?,${MULTILIB_USEDEP}] )
 	kerberos? ( >=app-crypt/mit-krb5-1.11.4[${MULTILIB_USEDEP}] )
-	!<dev-libs/openssl-1.1.1g:0
+	!<dev-libs/openssl-1.1.1g-r1:0
 	!<dev-libs/openssl-1.0.2t-r4:0"
 DEPEND="${RDEPEND}
 	>=dev-lang/perl-5
@@ -269,7 +269,7 @@ multilib_src_test() {
 }
 
 compat_only() {
-	! use pita && ! use ap
+	! use pita
 }
 
 multilib_src_install() {
