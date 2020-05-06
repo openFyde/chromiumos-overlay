@@ -80,11 +80,6 @@ SERVER_IUSE_TESTS="
 	android-container-master-arc-dev? ( +tests_cheets_CTS_Q )
 	+tests_component_UpdateFlash
 	debugd? ( +tests_debugd_DevTools )
-	!chromeless_tty? (
-		!chromeless_tests? (
-			+tests_desktopui_CrashyRebootServer
-		)
-	)
 	+tests_crosperf_Wrapper
 	+tests_display_EdidStress
 	+tests_display_HDCPScreen

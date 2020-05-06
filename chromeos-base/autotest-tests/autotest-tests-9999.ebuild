@@ -93,14 +93,6 @@ CLIENT_IUSE_TESTS="
 		+tests_camera_HAL3
 		+tests_camera_HAL3Perf
 	)
-	!chromeless_tty? (
-		!chromeless_tests? (
-			+tests_desktopui_CrashyReboot
-			+tests_desktopui_FontCache
-			+tests_desktopui_HangDetector
-			+tests_desktopui_SpeechSynthesisSemiAuto
-		)
-	)
 	hammerd? (
 		+tests_detachablebase_TriggerHammerd
 	)
