@@ -19,6 +19,12 @@ DEPEND="chromeos-base/libbrillo:="
 
 RDEPEND="${DEPEND}"
 
+src_configure() {
+	# Needed since libchrome includes cros-debug
+	cros-debug-add-NDEBUG
+	default
+}
+
 src_install() {
 	dosbin sis-updater
 	udev_dorules conf/99-sis-usb.rules
