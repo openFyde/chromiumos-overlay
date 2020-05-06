@@ -64,8 +64,6 @@ MULTILIB_WRAPPED_HEADERS=(
 )
 
 pkg_setup() {
-	cros_use_gcc
-
 	[[ ${MERGE_TYPE} == binary ]] && return
 
 	# must check in pkg_setup; sysctl don't work with userpriv!
@@ -175,7 +173,8 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	cros_use_gcc
+	# Use gnu assembler for arm32, https://crbug.com/1078968
+	use arm && append-flags "-fno-integrated-as"
 
 	cros_optimize_package_for_speed
 
