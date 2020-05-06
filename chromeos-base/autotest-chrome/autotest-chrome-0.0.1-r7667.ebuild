@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="5e55a70fd18235b4a45feeb273b7cf13ff0e2067"
-CROS_WORKON_TREE="ceb188e63dff6fd08feae07cfdde4ee6b28f1ecc"
+CROS_WORKON_COMMIT="4961ee9ceea014a8e44ec80ff14b80468807aa49"
+CROS_WORKON_TREE="4982489979df16307cc9ce3d4777b1855c4f6cf4"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -104,7 +104,6 @@ IUSE_TESTS=(
 	+tests_longevity_Tracker
 	+tests_network_CastTDLS
 	+tests_network_ChromeWifiConfigure
-	+tests_network_ChromeWifiTDLS
 	+tests_platform_AddPrinter
 	+tests_platform_ChromeCgroups
 	+tests_platform_InitLoginPerf
