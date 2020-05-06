@@ -22,11 +22,11 @@ IUSE="test"
 COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/metrics:=
+	media-libs/libpng:=
 	media-gfx/sane-backends:=
 "
 
 RDEPEND="${COMMON_DEPEND}
-	media-gfx/pnm2png:=
 	test? (
 		media-gfx/perceptualdiff:=
 	)
