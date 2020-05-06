@@ -36,7 +36,6 @@ DEPEND="${PYTHON_DEPS}
 	virtual/chromeos-bsp-factory
 	virtual/chromeos-regions
 "
-RDEPEND="!chromeos-base/chromeos-factory-mini"
 
 pkg_setup() {
 	cros-workon_pkg_setup
