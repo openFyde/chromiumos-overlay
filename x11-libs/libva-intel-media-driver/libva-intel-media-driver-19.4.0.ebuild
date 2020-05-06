@@ -54,6 +54,9 @@ PATCHES=(
 	"${FILESDIR}"/0008-VP-Explicitly-initialize-maxSrcRect-of-VpHalRenderer.patch
 	"${FILESDIR}"/0009-VP-fix-crash-in-vp8-playback.patch
 	"${FILESDIR}"/0010-VP-fix-illegal-access-and-mem-leak.patch
+	"${FILESDIR}"/0011-Media-Common-Fix-tiling-issue.patch
+	"${FILESDIR}"/0012-Media-Common-Modify-the-default-tile-type.patch
+	"${FILESDIR}"/0013-Add-external-surface-support.patch
 )
 
 src_configure() {
