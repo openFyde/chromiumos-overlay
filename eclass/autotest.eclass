@@ -8,7 +8,7 @@
 
 inherit cros-constants toolchain-funcs
 
-RDEPEND="( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )"
+RDEPEND="autotest? ( chromeos-base/autotest )"
 
 IUSE="+buildcheck autotest opengles"
 
