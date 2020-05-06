@@ -19,7 +19,6 @@ CROS_WORKON_COMMIT="2af5d112872c2b2d644a1d477310147395e75a32"
 CROS_WORKON_TREE="c6c378012079413b352366fdfdb097462f6b1e8d"
 CROS_WORKON_PROJECT="chromiumos/platform/factory"
 CROS_WORKON_LOCALNAME="platform/factory"
-CROS_WORKON_DESTDIR="${S}"
 PYTHON_COMPAT=( python2_7 )
 
 inherit cros-workon python-r1
@@ -38,7 +37,6 @@ DEPEND="${PYTHON_DEPS}
 	virtual/chromeos-bsp-factory
 	virtual/chromeos-regions
 "
-RDEPEND="!chromeos-base/chromeos-factory-mini"
 
 pkg_setup() {
 	cros-workon_pkg_setup
