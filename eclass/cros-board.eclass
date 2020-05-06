@@ -229,6 +229,7 @@ ALL_BOARDS=(
 	klang
 	kukui
 	kukui-arc-r
+	kukui-arc64
 	kumo
 	kunimitsu
 	lakitu
