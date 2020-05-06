@@ -146,7 +146,8 @@
     {
         "comment": "Revert d437fba8ef626b6d8b7928540f630163a9b04021",
         "rel_patch_path": "revert-d437fba8ef626b6d8b7928540f630163a9b04021.patch",
-        "start_version": 383902
+        "start_version": 383902,
+        "end_version": 391452
     },
     {
         "comment": "PR45181: Fix another invalid DIExpression combination",
