@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk metrics .gn"
 
 PLATFORM_SUBDIR="metrics"
 
-inherit cros-constants cros-workon platform systemd user
+inherit cros-constants cros-workon libchrome-version platform systemd user
 
 DESCRIPTION="Metrics aggregation service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/metrics/"
