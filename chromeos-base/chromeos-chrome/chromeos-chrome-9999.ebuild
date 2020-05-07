@@ -243,8 +243,6 @@ set_build_args() {
 		"use_vaapi=$(usetf vaapi)"
 		"use_ozone=true"
 		"use_xkbcommon=$(usetf xkbcommon)"
-		# Use the Chrome OS toolchain and not the one bundled with Chromium.
-		"linux_use_bundled_binutils=false"
 		"enable_remoting=$(usetf chrome_remoting)"
 		"enable_nacl=$(use_nacl; echotf)"
 		"icu_use_data_file=true"
