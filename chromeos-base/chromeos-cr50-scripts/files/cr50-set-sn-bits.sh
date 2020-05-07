@@ -26,6 +26,23 @@ die() {
   die_as "${ERR_GENERAL}" "$*"
 }
 
+device_has_been_rmaed() {
+  if [ -n "${DRY_RUN}" ]; then
+    echo "WARNING: This device has been RMAed, preventing changes to SN Bits."
+  else
+    die_as "This device has been RMAed, SN Bits cannot be set."
+  fi
+}
+
+die_as_already_set() {
+  if [ -n "${DRY_RUN}" ]; then
+    echo "SN Bits have properly been set."
+    exit 0
+  else
+    die_as "${ERR_ALREADY_SET}" "SN Bits have already been set."
+  fi
+}
+
 cr50_compute_updater_sn_bits() {
   local sn="$1"
 
@@ -64,7 +81,7 @@ cr50_check_sn_bits() {
   local device_version_and_rma_bytes="${output%:*}"
   local device_rma_flags="${device_version_and_rma_bytes#*:}"
   if [ "${device_rma_flags}" != ff ]; then
-    die "This device has been RMAed, SN Bits cannot be set."
+    device_has_been_rmaed
   fi
 
   local device_sn_bits="${output##*:}"
@@ -79,7 +96,7 @@ cr50_check_sn_bits() {
       "(${device_sn_bits} vs ${sn_bits})."
   fi
 
-  die_as "${ERR_ALREADY_SET}" "SN Bits have already been set."
+  die_as_already_set
 }
 
 cr50_set_sn_bits() {
@@ -97,6 +114,10 @@ cr50_set_sn_bits() {
 }
 
 main() {
+  if [ "$1" = -n ]; then
+    DRY_RUN=Y
+  fi
+
   local sn
   if ! sn="$(vpd -g attested_device_id 2>/dev/null)"; then
     echo "WARNING: Please provide attested_device_id. Using serial_number as backup."
@@ -113,10 +134,18 @@ main() {
   sn_bits="$(cr50_compute_updater_sn_bits "${sn}")"
 
   cr50_check_sn_bits "${sn_bits}"
-  cr50_set_sn_bits "${sn_bits}"
+  if [ -n "${DRY_RUN}" ]; then
+    printf "SN Bits have not been set yet"
+    if is_board_id_set; then
+      printf " (BoardID is set)"
+    fi
+    echo .
+    exit 0
+  fi
 
+  cr50_set_sn_bits "${sn_bits}"
   echo "Successfully updated SN Bits for ${sn}."
 }
 
-main
+main "$@"
 
