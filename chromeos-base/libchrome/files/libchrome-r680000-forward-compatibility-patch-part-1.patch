@@ -11,6 +11,7 @@ This CL includes:
   of the corresponding method without the Deprecated suffix.
 - Add empty class base::CheckedObserver.
 - Add bool operators == and != for base::RepeatingCallback.
+- ScopedClearLastError (up to r758621)
 
 Change-Id: I6ba15f2938c02729e4fd51e5a4a52cb94e7c2a4e
 ---
@@ -180,6 +181,26 @@ index 000000000..8f3889735
 +}  // namespace base
 +
 +#endif  // BASE_OBSERVER_LIST_TYPES_H_
+diff --git a/base/scoped_clear_last_error.h b/base/scoped_clear_last_error.h
+new file mode 100644
+index 0000000..066730d
+--- /dev/null
++++ b/base/scoped_clear_last_error.h
+@@ -0,0 +1,14 @@
++// Copyright (c) 2013 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef BASE_SCOPED_CLEAR_LAST_ERROR_H_
++#define BASE_SCOPED_CLEAR_LAST_ERROR_H_
++
++#include "base/scoped_clear_errno.h"
++
++namespace base {
++using ScopedClearLastError = base::ScopedClearErrno;
++}
++
++#endif  // BASE_SCOPED_CLEAR_LAST_ERROR_H_
 diff --git a/base/system/sys_info.h b/base/system/sys_info.h
 new file mode 100644
 index 000000000..60676e0e1
