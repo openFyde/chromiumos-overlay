@@ -49,6 +49,11 @@ src_install() {
 	# Installs hwsec-test-va
 	dobin "${OUT}/hwsec-test-va"
 
+	# Install fake pca agent
+	insinto /etc/init
+	doins fake_pca_agent/fake_pca_agentd.conf
+	dobin "${OUT}"/fake_pca_agentd
+
 }
 
 platform_pkg_test() {
