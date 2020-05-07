@@ -18,10 +18,6 @@ IUSE="ondevice_handwriting"
 S="${WORKDIR}"
 
 src_install() {
-	# Always install the header and proto files.
-	# The default generated header of protobuf in Chrome OS is "*.pb.h",
-	# not "*.proto.h".
-	sed -i 's/.proto.h/.pb.h/g' interface.h || die
 	insinto /usr/include/chromeos/libhandwriting/
 	doins interface.h
 	insinto /usr/include/chromeos/libhandwriting/proto/
