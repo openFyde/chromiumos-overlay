@@ -23,6 +23,7 @@ IUSE="
 
 # display_boot_message calls the pango-view program.
 RDEPEND="
+	!app-accessibility/googletts
 	fonts? ( chromeos-base/chromeos-fonts )
 	x11-libs/pango"
 
