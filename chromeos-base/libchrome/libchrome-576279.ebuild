@@ -59,94 +59,94 @@ RDEPEND="${RDEPEND}
 REQUIRED_USE="mojo? ( crypto )"
 
 src_prepare() {
-	# epatch "${FILESDIR}"/${P}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
-	# epatch "${FILESDIR}"/${P}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
-	# epatch "${FILESDIR}"/${P}-dbus-Make-MockObjectManager-useful.patch
-	# epatch "${FILESDIR}"/${P}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
-	# epatch "${FILESDIR}"/${P}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
+	# epatch "${FILESDIR}"/${PN}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
+	# epatch "${FILESDIR}"/${PN}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
+	# epatch "${FILESDIR}"/${PN}-dbus-Make-MockObjectManager-useful.patch
+	# epatch "${FILESDIR}"/${PN}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
+	# epatch "${FILESDIR}"/${PN}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
 
 	# Cherry pick CLs from upstream.
 	# Remove these when the libchrome gets enough new.
 	# r576565.
-	epatch "${FILESDIR}"/${P}-dbus-Add-TryRegisterFallback.patch
+	epatch "${FILESDIR}"/${PN}-dbus-Add-TryRegisterFallback.patch
 
 	# r581937.
-	epatch "${FILESDIR}"/${P}-dbus-Remove-LOG-ERROR-in-ObjectProxy.patch
+	epatch "${FILESDIR}"/${PN}-dbus-Remove-LOG-ERROR-in-ObjectProxy.patch
 
 	# r582324
-	epatch "${FILESDIR}"/${P}-Fix-Wdefaulted-function-deleted-warning-in-MessageLo.patch
+	epatch "${FILESDIR}"/${PN}-Fix-Wdefaulted-function-deleted-warning-in-MessageLo.patch
 
 	# r583543.
-	epatch "${FILESDIR}"/${P}-dbus-Make-Bus-is_connected-mockable.patch
+	epatch "${FILESDIR}"/${PN}-dbus-Make-Bus-is_connected-mockable.patch
 
 	# r596510.
-	epatch "${FILESDIR}"/${P}-Mojo-Check-if-dispatcher-is-null-in-Core-UnwrapPlatf.patch
+	epatch "${FILESDIR}"/${PN}-Mojo-Check-if-dispatcher-is-null-in-Core-UnwrapPlatf.patch
 
 	# This no_destructor.h is taken from r599267.
-	epatch "${FILESDIR}"/${P}-Add-base-NoDestructor-T.patch
+	epatch "${FILESDIR}"/${PN}-Add-base-NoDestructor-T.patch
 
 	# r616020.
-	epatch "${FILESDIR}"/${P}-dbus-Support-UnexportMethod-from-an-exported-object.patch
+	epatch "${FILESDIR}"/${PN}-dbus-Support-UnexportMethod-from-an-exported-object.patch
 
 	# r617572 and r626151
-	epatch "${FILESDIR}"/${P}-components-timers-fix-fd-leak-in-AlarmTimer.patch
-	# epatch "${FILESDIR}"/${P}-Refactor-AlarmTimer-to-report-error-to-the-caller.patch
+	epatch "${FILESDIR}"/${PN}-components-timers-fix-fd-leak-in-AlarmTimer.patch
+	# epatch "${FILESDIR}"/${PN}-Refactor-AlarmTimer-to-report-error-to-the-caller.patch
 
 	# For backward compatibility.
 	# TODO(crbug.com/909719): Remove this patch after clients are updated.
-	epatch "${FILESDIR}"/${P}-libchrome-Add-EmptyResponseCallback-for-backward-com.patch
+	epatch "${FILESDIR}"/${PN}-libchrome-Add-EmptyResponseCallback-for-backward-com.patch
 
 	# Undo gn_helper sys.path update.
-	epatch "${FILESDIR}"/${P}-libchrome-Unpatch-sys.path-update.patch
+	epatch "${FILESDIR}"/${PN}-libchrome-Unpatch-sys.path-update.patch
 
 	# Introduce stub ConvertableToTraceFormat for task_scheduler.
-	epatch "${FILESDIR}"/${P}-libchrome-Introduce-stub-ConvertableToTraceFormat.patch
+	epatch "${FILESDIR}"/${PN}-libchrome-Introduce-stub-ConvertableToTraceFormat.patch
 
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685
-	use_sanitizers && epatch "${FILESDIR}"/${P}-Disable-memory-allocator.patch
+	use_sanitizers && epatch "${FILESDIR}"/${PN}-Disable-memory-allocator.patch
 
 	# Disable object lifetime tracking since it cuases memory leaks in
 	# sanitizer builds, https://crbug.com/908138
 	# TODO
-	# epatch "${FILESDIR}"/${P}-Disable-object-tracking.patch
+	# epatch "${FILESDIR}"/${PN}-Disable-object-tracking.patch
 
 	# Remove this patch after libchrome uprev past r626151.
 
 	# Fix timing issue with dbus::ObjectManager.
 	# # TODO(bingxue): Remove after libchrome uprev past r684392.
-	epatch "${FILESDIR}"/${P}-Connect-to-NameOwnerChanged-signal-when-setting-call.patch
+	epatch "${FILESDIR}"/${PN}-Connect-to-NameOwnerChanged-signal-when-setting-call.patch
 
 	# Remove glib dependency.
 	# TODO(hidehiko): Fix the config in AOSP libchrome.
-	epatch "${FILESDIR}"/${P}-libchrome-Remove-glib-dependency.patch
+	epatch "${FILESDIR}"/${PN}-libchrome-Remove-glib-dependency.patch
 
 	# Fix FileDescriptorWatcher leak
 	# TODO(fqj): Remove after libchrome past r627021.
-	epatch "${FILESDIR}"/${P}-fix-fd-watcher-leak.patch
+	epatch "${FILESDIR}"/${PN}-fix-fd-watcher-leak.patch
 
 	# Use correct shebang for these python2-only scripts.
 	find "${S}"/mojo/ -name '*.py' \
 		-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
 
 	# Misc fix to build older crypto library.
-	epatch "${FILESDIR}"/${P}-libchrome-Update-crypto.patch
+	epatch "${FILESDIR}"/${PN}-libchrome-Update-crypto.patch
 
 	# Enable location source to add function_name
-	epatch "${FILESDIR}"/${P}-enable-location-source.patch
+	epatch "${FILESDIR}"/${PN}-enable-location-source.patch
 
 	# Add WaitForServiceToBeAvailable back for MockObjectProxy
-	epatch "${FILESDIR}"/${P}-WaitForServiceToBeAvailable.patch
+	epatch "${FILESDIR}"/${PN}-WaitForServiceToBeAvailable.patch
 
 	# TODO(crbug.com/1044363): Remove after uprev >= r586219.
-	epatch "${FILESDIR}"/${P}-Fix-TimeDelta.patch
+	epatch "${FILESDIR}"/${PN}-Fix-TimeDelta.patch
 
 	# TODO(crbug.com/1065504): Remove after uprev to 754979.
-	epatch "${FILESDIR}"/${P}-libchrome-fix-integer-overflow-if-microseconds-is-IN.patch
+	epatch "${FILESDIR}"/${PN}-libchrome-fix-integer-overflow-if-microseconds-is-IN.patch
 
 	# Forward compatibility for r680000
-	epatch "${FILESDIR}"/${P}-r680000-forward-compatibility-patch-part-1.patch
-	epatch "${FILESDIR}"/${P}-r680000-forward-compatibility-patch-part-2.patch
+	epatch "${FILESDIR}"/${PN}-r680000-forward-compatibility-patch-part-1.patch
+	epatch "${FILESDIR}"/${PN}-r680000-forward-compatibility-patch-part-2.patch
 }
 
 src_install() {
