@@ -52,6 +52,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.0j-parallel_install_fix.patch #671602
 	"${FILESDIR}"/${P}-blacklist.patch
 	"${FILESDIR}"/${P}-chromium-compatibility.patch
+	"${FILESDIR}"/${P}-ARM-assembly-pack.patch
 )
 
 S="${WORKDIR}/${MY_P}"
@@ -173,9 +174,6 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	# Use gnu assembler for arm32, https://crbug.com/1078968
-	use arm && append-flags "-fno-integrated-as"
-
 	cros_optimize_package_for_speed
 
 	unset APPS #197996

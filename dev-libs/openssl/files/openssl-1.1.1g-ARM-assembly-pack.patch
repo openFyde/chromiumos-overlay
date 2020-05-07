@@ -1,0 +1,854 @@
+From 3405db97e5448c784729b56837f3f8c776a01067 Mon Sep 17 00:00:00 2001
+From: Andy Polyakov <appro@openssl.org>
+Date: Fri, 15 Feb 2019 09:44:39 +0100
+Subject: [PATCH] ARM assembly pack: make it Windows-friendly.
+
+"Windows friendliness" means a) flipping .thumb and .text directives,
+b) always generate Thumb-2 code when asked(*); c) Windows-specific
+references to external OPENSSL_armcap_P.
+
+(*) so far *some* modules were compiled as .code 32 even if Thumb-2
+was targeted. It works at hardware level because processor can alternate
+between the modes with no overhead. But clang --target=arm-windows's
+builtin assembler just refuses to compile .code 32...
+
+Reviewed-by: Paul Dale <paul.dale@oracle.com>
+Reviewed-by: Richard Levitte <levitte@openssl.org>
+(Merged from https://github.com/openssl/openssl/pull/8252)
+---
+ crypto/aes/asm/aes-armv4.pl           |  3 +-
+ crypto/aes/asm/aesv8-armx.pl          | 24 ++++++++++----
+ crypto/aes/asm/bsaes-armv7.pl         |  7 ++--
+ crypto/armv4cpuid.pl                  |  3 +-
+ crypto/bn/asm/armv4-gf2m.pl           | 13 ++++++--
+ crypto/bn/asm/armv4-mont.pl           | 17 +++++++---
+ crypto/chacha/asm/chacha-armv4.pl     | 11 ++++--
+ crypto/ec/asm/ecp_nistz256-armv4.pl   |  4 ++-
+ crypto/modes/asm/ghash-armv4.pl       |  3 +-
+ crypto/modes/asm/ghashv8-armx.pl      | 26 +++++++++++----
+ crypto/perlasm/arm-xlate.pl           |  7 ++++
+ crypto/poly1305/asm/poly1305-armv4.pl | 48 +++++++++++++--------------
+ crypto/sha/asm/keccak1600-armv4.pl    | 34 +++++++++++++++++--
+ crypto/sha/asm/sha1-armv4-large.pl    | 20 +++++++----
+ crypto/sha/asm/sha256-armv4.pl        | 18 +++++++---
+ crypto/sha/asm/sha512-armv4.pl        | 20 ++++++++---
+ 16 files changed, 185 insertions(+), 73 deletions(-)
+
+diff --git a/crypto/aes/asm/aes-armv4.pl b/crypto/aes/asm/aes-armv4.pl
+index abb2cc79a3b6..456a46967917 100644
+--- a/crypto/aes/asm/aes-armv4.pl
++++ b/crypto/aes/asm/aes-armv4.pl
+@@ -76,7 +76,6 @@
+ # define __ARM_ARCH__ __LINUX_ARM_ARCH__
+ #endif
+ 
+-.text
+ #if defined(__thumb2__) && !defined(__APPLE__)
+ .syntax	unified
+ .thumb
+@@ -85,6 +84,8 @@
+ #undef __thumb2__
+ #endif
+ 
++.text
++
+ .type	AES_Te,%object
+ .align	5
+ AES_Te:
+diff --git a/crypto/aes/asm/aesv8-armx.pl b/crypto/aes/asm/aesv8-armx.pl
+index 9ab2158c7db7..81bc1cbf1c22 100755
+--- a/crypto/aes/asm/aesv8-armx.pl
++++ b/crypto/aes/asm/aesv8-armx.pl
+@@ -53,18 +53,27 @@
+ 
+ $prefix="aes_v8";
+ 
++$_byte = ($flavour =~ /win/ ? "DCB" : ".byte");
++
+ $code=<<___;
+ #include "arm_arch.h"
+ 
+ #if __ARM_MAX_ARCH__>=7
+-.text
+ ___
+-$code.=".arch	armv8-a+crypto\n"			if ($flavour =~ /64/);
++$code.=".arch	armv8-a+crypto\n.text\n"		if ($flavour =~ /64/);
+ $code.=<<___						if ($flavour !~ /64/);
+ .arch	armv7-a	// don't confuse not-so-latest binutils with argv8 :-)
+ .fpu	neon
++#ifdef	__thumb2__
++.syntax	unified
++.thumb
++# define INST(a,b,c,d)	$_byte	c,d|0xc,a,b
++#else
+ .code	32
+-#undef	__thumb2__
++# define INST(a,b,c,d)	$_byte	a,b,c,d
++#endif
++
++.text
+ ___
+ 
+ # Assembler mnemonics are an eclectic mix of 32- and 64-bit syntax,
+@@ -955,7 +964,7 @@ ()
+ 	    # since ARMv7 instructions are always encoded little-endian.
+ 	    # correct solution is to use .inst directive, but older
+ 	    # assemblers don't implement it:-(
+-	    sprintf ".byte\t0x%02x,0x%02x,0x%02x,0x%02x\t@ %s %s",
++	    sprintf "INST(0x%02x,0x%02x,0x%02x,0x%02x)\t@ %s %s",
+ 			$word&0xff,($word>>8)&0xff,
+ 			($word>>16)&0xff,($word>>24)&0xff,
+ 			$mnemonic,$arg;
+@@ -996,14 +1005,17 @@ ()
+ 	s/\],#[0-9]+/]!/o;
+ 
+ 	s/[v]?(aes\w+)\s+([qv].*)/unaes($1,$2)/geo	or
+-	s/cclr\s+([^,]+),\s*([a-z]+)/mov$2	$1,#0/o	or
++	s/cclr\s+([^,]+),\s*([a-z]+)/mov.$2	$1,#0/o	or
+ 	s/vtbl\.8\s+(.*)/unvtbl($1)/geo			or
+ 	s/vdup\.32\s+(.*)/unvdup32($1)/geo		or
+ 	s/vmov\.32\s+(.*)/unvmov32($1)/geo		or
+ 	s/^(\s+)b\./$1b/o				or
+-	s/^(\s+)mov\./$1mov/o				or
+ 	s/^(\s+)ret/$1bx\tlr/o;
+ 
++	if (s/^(\s+)mov\.([a-z]+)/$1mov$2/) {
++	    print "	it	$2\n";
++	}
++
+ 	print $_,"\n";
+     }
+ }
+diff --git a/crypto/aes/asm/bsaes-armv7.pl b/crypto/aes/asm/bsaes-armv7.pl
+index 5df195b9efb6..7f5219bc7520 100644
+--- a/crypto/aes/asm/bsaes-armv7.pl
++++ b/crypto/aes/asm/bsaes-armv7.pl
+@@ -728,7 +728,6 @@ sub bitslice {
+ .arch	armv7-a
+ .fpu	neon
+ 
+-.text
+ .syntax	unified 	@ ARMv7-capable assembler is expected to handle this
+ #if defined(__thumb2__) && !defined(__APPLE__)
+ .thumb
+@@ -737,6 +736,8 @@ sub bitslice {
+ # undef __thumb2__
+ #endif
+ 
++.text
++
+ .type	_bsaes_decrypt8,%function
+ .align	4
+ _bsaes_decrypt8:
+@@ -1125,9 +1126,9 @@ sub bitslice_key {
+ #ifndef	__thumb__
+ 	blo	AES_cbc_encrypt
+ #else
+-	bhs	1f
++	bhs	.Lcbc_do_bsaes
+ 	b	AES_cbc_encrypt
+-1:
++.Lcbc_do_bsaes:
+ #endif
+ #endif
+ 
+diff --git a/crypto/armv4cpuid.pl b/crypto/armv4cpuid.pl
+index 3a7be6e54136..f8aeec64f0e2 100644
+--- a/crypto/armv4cpuid.pl
++++ b/crypto/armv4cpuid.pl
+@@ -21,7 +21,6 @@
+ $code.=<<___;
+ #include "arm_arch.h"
+ 
+-.text
+ #if defined(__thumb2__) && !defined(__APPLE__)
+ .syntax	unified
+ .thumb
+@@ -30,6 +29,8 @@
+ #undef	__thumb2__
+ #endif
+ 
++.text
++
+ .align	5
+ .global	OPENSSL_atomic_add
+ .type	OPENSSL_atomic_add,%function
+diff --git a/crypto/bn/asm/armv4-gf2m.pl b/crypto/bn/asm/armv4-gf2m.pl
+index 442ae4695399..0bf6f63ec577 100644
+--- a/crypto/bn/asm/armv4-gf2m.pl
++++ b/crypto/bn/asm/armv4-gf2m.pl
+@@ -57,13 +57,14 @@
+ $code=<<___;
+ #include "arm_arch.h"
+ 
+-.text
+ #if defined(__thumb2__)
+ .syntax	unified
+ .thumb
+ #else
+ .code	32
+ #endif
++
++.text
+ ___
+ ################
+ # private interface to mul_1x1_ialu
+@@ -176,11 +177,13 @@
+ #if __ARM_MAX_ARCH__>=7
+ 	stmdb	sp!,{r10,lr}
+ 	ldr	r12,.LOPENSSL_armcap
++# if !defined(_WIN32)
+ 	adr	r10,.LOPENSSL_armcap
+ 	ldr	r12,[r12,r10]
+-#ifdef	__APPLE__
++# endif
++# if defined(__APPLE__) || defined(_WIN32)
+ 	ldr	r12,[r12]
+-#endif
++# endif
+ 	tst	r12,#ARMV7_NEON
+ 	itt	ne
+ 	ldrne	r10,[sp],#8
+@@ -310,7 +313,11 @@
+ #if __ARM_MAX_ARCH__>=7
+ .align	5
+ .LOPENSSL_armcap:
++# ifdef	_WIN32
++.word	OPENSSL_armcap_P
++# else
+ .word	OPENSSL_armcap_P-.
++# endif
+ #endif
+ .asciz	"GF(2^m) Multiplication for ARMv4/NEON, CRYPTOGAMS by <appro\@openssl.org>"
+ .align	5
+diff --git a/crypto/bn/asm/armv4-mont.pl b/crypto/bn/asm/armv4-mont.pl
+index b4f6c06633b4..7e0a4d814597 100644
+--- a/crypto/bn/asm/armv4-mont.pl
++++ b/crypto/bn/asm/armv4-mont.pl
+@@ -97,7 +97,6 @@
+ $code=<<___;
+ #include "arm_arch.h"
+ 
+-.text
+ #if defined(__thumb2__)
+ .syntax	unified
+ .thumb
+@@ -105,10 +104,16 @@
+ .code	32
+ #endif
+ 
++.text
++
+ #if __ARM_MAX_ARCH__>=7
+ .align	5
+ .LOPENSSL_armcap:
++# ifdef	_WIN32
++.word	OPENSSL_armcap_P
++# else
+ .word	OPENSSL_armcap_P-.Lbn_mul_mont
++# endif
+ #endif
+ 
+ .global	bn_mul_mont
+@@ -122,12 +127,14 @@
+ #if __ARM_MAX_ARCH__>=7
+ 	tst	ip,#7
+ 	bne	.Lialu
+-	adr	r0,.Lbn_mul_mont
+-	ldr	r2,.LOPENSSL_armcap
++	ldr	r0,.LOPENSSL_armcap
++#if !defined(_WIN32)
++	adr	r2,.Lbn_mul_mont
+ 	ldr	r0,[r0,r2]
+-#ifdef	__APPLE__
++# endif
++# if defined(__APPLE__) || defined(_WIN32)
+ 	ldr	r0,[r0]
+-#endif
++# endif
+ 	tst	r0,#ARMV7_NEON		@ NEON available?
+ 	ldmia	sp, {r0,r2}
+ 	beq	.Lialu
+diff --git a/crypto/chacha/asm/chacha-armv4.pl b/crypto/chacha/asm/chacha-armv4.pl
+index 9bbfc6b376cd..c4402961d47c 100755
+--- a/crypto/chacha/asm/chacha-armv4.pl
++++ b/crypto/chacha/asm/chacha-armv4.pl
+@@ -171,7 +171,6 @@ sub ROUND {
+ $code.=<<___;
+ #include "arm_arch.h"
+ 
+-.text
+ #if defined(__thumb2__) || defined(__clang__)
+ .syntax	unified
+ #endif
+@@ -185,6 +184,8 @@ sub ROUND {
+ #define ldrhsb	ldrbhs
+ #endif
+ 
++.text
++
+ .align	5
+ .Lsigma:
+ .long	0x61707865,0x3320646e,0x79622d32,0x6b206574	@ endian-neutral
+@@ -192,7 +193,11 @@ sub ROUND {
+ .long	1,0,0,0
+ #if __ARM_MAX_ARCH__>=7
+ .LOPENSSL_armcap:
++# ifdef	_WIN32
++.word	OPENSSL_armcap_P
++# else
+ .word   OPENSSL_armcap_P-.LChaCha20_ctr32
++# endif
+ #else
+ .word	-1
+ #endif
+@@ -219,8 +224,10 @@ sub ROUND {
+ 	cmp	r2,#192			@ test len
+ 	bls	.Lshort
+ 	ldr	r4,[r14,#-32]
++# if !defined(_WIN32)
+ 	ldr	r4,[r14,r4]
+-# ifdef	__APPLE__
++# endif
++# if defined(__APPLE__) || defined(_WIN32)
+ 	ldr	r4,[r4]
+ # endif
+ 	tst	r4,#ARMV7_NEON
+diff --git a/crypto/ec/asm/ecp_nistz256-armv4.pl b/crypto/ec/asm/ecp_nistz256-armv4.pl
+index 4005a6fbdcf8..43a675b4b2d0 100755
+--- a/crypto/ec/asm/ecp_nistz256-armv4.pl
++++ b/crypto/ec/asm/ecp_nistz256-armv4.pl
+@@ -51,7 +51,6 @@
+ $code.=<<___;
+ #include "arm_arch.h"
+ 
+-.text
+ #if defined(__thumb2__)
+ .syntax	unified
+ .thumb
+@@ -80,6 +79,7 @@
+ die "insane number of elements" if ($#arr != 64*16*37-1);
+ 
+ $code.=<<___;
++.rodata
+ .globl	ecp_nistz256_precomputed
+ .type	ecp_nistz256_precomputed,%object
+ .align	12
+@@ -104,6 +104,8 @@
+ }
+ $code.=<<___;
+ .size	ecp_nistz256_precomputed,.-ecp_nistz256_precomputed
++
++.text
+ .align	5
+ .LRR:	@ 2^512 mod P precomputed for NIST P256 polynomial
+ .long	0x00000003, 0x00000000, 0xffffffff, 0xfffffffb
+diff --git a/crypto/modes/asm/ghash-armv4.pl b/crypto/modes/asm/ghash-armv4.pl
+index 759d29c49fdb..1391b1b6e014 100644
+--- a/crypto/modes/asm/ghash-armv4.pl
++++ b/crypto/modes/asm/ghash-armv4.pl
+@@ -142,7 +142,6 @@ ()
+ $code=<<___;
+ #include "arm_arch.h"
+ 
+-.text
+ #if defined(__thumb2__) || defined(__clang__)
+ .syntax	unified
+ #define ldrplb  ldrbpl
+@@ -154,6 +153,8 @@ ()
+ .code	32
+ #endif
+ 
++.text
++
+ .type	rem_4bit,%object
+ .align	5
+ rem_4bit:
+diff --git a/crypto/modes/asm/ghashv8-armx.pl b/crypto/modes/asm/ghashv8-armx.pl
+index ea05950309d1..e89158331209 100644
+--- a/crypto/modes/asm/ghashv8-armx.pl
++++ b/crypto/modes/asm/ghashv8-armx.pl
+@@ -66,18 +66,26 @@
+ {
+ my ($Xl,$Xm,$Xh,$IN)=map("q$_",(0..3));
+ my ($t0,$t1,$t2,$xC2,$H,$Hhl,$H2)=map("q$_",(8..14));
++my $_byte = ($flavour =~ /win/ ? "DCB" : ".byte");
+ 
+ $code=<<___;
+ #include "arm_arch.h"
+ 
+ #if __ARM_MAX_ARCH__>=7
+-.text
+ ___
+-$code.=".arch	armv8-a+crypto\n"	if ($flavour =~ /64/);
+-$code.=<<___				if ($flavour !~ /64/);
++$code.=".arch	armv8-a+crypto\n.text\n"	if ($flavour =~ /64/);
++$code.=<<___					if ($flavour !~ /64/);
+ .fpu	neon
+-.code	32
+-#undef	__thumb2__
++#ifdef __thumb2__
++.syntax        unified
++.thumb
++# define INST(a,b,c,d) $_byte  c,0xef,a,b
++#else
++.code  32
++# define INST(a,b,c,d) $_byte  a,b,c,0xf2
++#endif
++
++.text
+ ___
+ 
+ ################################################################################
+@@ -752,7 +760,7 @@
+ 	    # since ARMv7 instructions are always encoded little-endian.
+ 	    # correct solution is to use .inst directive, but older
+ 	    # assemblers don't implement it:-(
+-	    sprintf ".byte\t0x%02x,0x%02x,0x%02x,0x%02x\t@ %s %s",
++	    sprintf "INST(0x%02x,0x%02x,0x%02x,0x%02x)\t@ %s %s",
+ 			$word&0xff,($word>>8)&0xff,
+ 			($word>>16)&0xff,($word>>24)&0xff,
+ 			$mnemonic,$arg;
+@@ -767,13 +775,17 @@
+ 	# fix up remaining new-style suffixes
+ 	s/\],#[0-9]+/]!/o;
+ 
+-	s/cclr\s+([^,]+),\s*([a-z]+)/mov$2	$1,#0/o			or
++	s/cclr\s+([^,]+),\s*([a-z]+)/mov.$2	$1,#0/o			or
+ 	s/vdup\.32\s+(.*)/unvdup32($1)/geo				or
+ 	s/v?(pmull2?)\.p64\s+(.*)/unvpmullp64($1,$2)/geo		or
+ 	s/\bq([0-9]+)#(lo|hi)/sprintf "d%d",2*$1+($2 eq "hi")/geo	or
+ 	s/^(\s+)b\./$1b/o						or
+ 	s/^(\s+)ret/$1bx\tlr/o;
+ 
++	if (s/^(\s+)mov\.([a-z]+)/$1mov$2/) {
++	    print "     it      $2\n";
++	}
++
+ 	print $_,"\n";
+     }
+ }
+diff --git a/crypto/perlasm/arm-xlate.pl b/crypto/perlasm/arm-xlate.pl
+index d78a8baac128..b953f1fc19ef 100755
+--- a/crypto/perlasm/arm-xlate.pl
++++ b/crypto/perlasm/arm-xlate.pl
+@@ -28,6 +28,13 @@
+     if ($flavour =~ /linux/)	{ ".fpu\t".join(',',@_); }
+     else			{ ""; }
+ };
++my $rodata = sub {
++    SWITCH: for ($flavour) {
++	/linux/		&& return ".section\t.rodata";
++	/ios/		&& return ".section\t__TEXT,__const";
++	last;
++    }
++};
+ my $hidden = sub {
+     if ($flavour =~ /ios/)	{ ".private_extern\t".join(',',@_); }
+     else			{ ".hidden\t".join(',',@_); }
+diff --git a/crypto/poly1305/asm/poly1305-armv4.pl b/crypto/poly1305/asm/poly1305-armv4.pl
+index 7003cc7770af..38622af1ab0e 100755
+--- a/crypto/poly1305/asm/poly1305-armv4.pl
++++ b/crypto/poly1305/asm/poly1305-armv4.pl
+@@ -48,7 +48,6 @@
+ $code.=<<___;
+ #include "arm_arch.h"
+ 
+-.text
+ #if defined(__thumb2__)
+ .syntax	unified
+ .thumb
+@@ -56,6 +55,8 @@
+ .code	32
+ #endif
+ 
++.text
++
+ .globl	poly1305_emit
+ .globl	poly1305_blocks
+ .globl	poly1305_init
+@@ -100,8 +101,10 @@
+ 	and	r4,r4,r10
+ 
+ #if	__ARM_MAX_ARCH__>=7
++# if !defined(_WIN32)
+ 	ldr	r12,[r11,r12]		@ OPENSSL_armcap_P
+-# ifdef	__APPLE__
++# endif
++# if defined(__APPLE__) || defined(_WIN32)
+ 	ldr	r12,[r12]
+ # endif
+ #endif
+@@ -116,31 +119,21 @@
+ 
+ #if	__ARM_MAX_ARCH__>=7
+ 	tst	r12,#ARMV7_NEON		@ check for NEON
+-# ifdef	__APPLE__
+-	adr	r9,poly1305_blocks_neon
+-	adr	r11,poly1305_blocks
+-#  ifdef __thumb2__
+-	it	ne
+-#  endif
++# ifdef	__thumb2__
++	adr	r9,.Lpoly1305_blocks_neon
++	adr	r11,.Lpoly1305_blocks
++	adr	r12,.Lpoly1305_emit
++	adr	r10,.Lpoly1305_emit_neon
++	itt	ne
+ 	movne	r11,r9
+-	adr	r12,poly1305_emit
+-	adr	r10,poly1305_emit_neon
+-#  ifdef __thumb2__
+-	it	ne
+-#  endif
+ 	movne	r12,r10
++	orr	r11,r11,#1	@ thumb-ify address
++	orr	r12,r12,#1
+ # else
+-#  ifdef __thumb2__
+-	itete	eq
+-#  endif
+-	addeq	r12,r11,#(poly1305_emit-.Lpoly1305_init)
+-	addne	r12,r11,#(poly1305_emit_neon-.Lpoly1305_init)
+-	addeq	r11,r11,#(poly1305_blocks-.Lpoly1305_init)
+-	addne	r11,r11,#(poly1305_blocks_neon-.Lpoly1305_init)
+-# endif
+-# ifdef	__thumb2__
+-	orr	r12,r12,#1	@ thumb-ify address
+-	orr	r11,r11,#1
++	addeq	r12,r11,#(.Lpoly1305_emit-.Lpoly1305_init)
++	addne	r12,r11,#(.Lpoly1305_emit_neon-.Lpoly1305_init)
++	addeq	r11,r11,#(.Lpoly1305_blocks-.Lpoly1305_init)
++	addne	r11,r11,#(.Lpoly1305_blocks_neon-.Lpoly1305_init)
+ # endif
+ #endif
+ 	ldrb	r9,[$inp,#11]
+@@ -352,6 +345,7 @@
+ .type	poly1305_emit,%function
+ .align	5
+ poly1305_emit:
++.Lpoly1305_emit:
+ 	stmdb	sp!,{r4-r11}
+ .Lpoly1305_emit_enter:
+ 
+@@ -671,6 +665,7 @@
+ .type	poly1305_blocks_neon,%function
+ .align	5
+ poly1305_blocks_neon:
++.Lpoly1305_blocks_neon:
+ 	ldr	ip,[$ctx,#36]		@ is_base2_26
+ 	ands	$len,$len,#-16
+ 	beq	.Lno_data_neon
+@@ -1157,6 +1152,7 @@
+ .type	poly1305_emit_neon,%function
+ .align	5
+ poly1305_emit_neon:
++.Lpoly1305_emit_neon:
+ 	ldr	ip,[$ctx,#36]		@ is_base2_26
+ 
+ 	stmdb	sp!,{r4-r11}
+@@ -1229,7 +1225,11 @@
+ .Lzeros:
+ .long	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+ .LOPENSSL_armcap:
++# ifdef	_WIN32
++.word	OPENSSL_armcap_P
++# else
+ .word	OPENSSL_armcap_P-.Lpoly1305_init
++# endif
+ #endif
+ ___
+ }	}
+diff --git a/crypto/sha/asm/keccak1600-armv4.pl b/crypto/sha/asm/keccak1600-armv4.pl
+index 44504fa8acdd..be411ed74b00 100755
+--- a/crypto/sha/asm/keccak1600-armv4.pl
++++ b/crypto/sha/asm/keccak1600-armv4.pl
+@@ -113,8 +113,6 @@
+ $code.=<<___;
+ #include "arm_arch.h"
+ 
+-.text
+-
+ #if defined(__thumb2__)
+ .syntax	unified
+ .thumb
+@@ -122,6 +120,8 @@
+ .code	32
+ #endif
+ 
++.text
++
+ .type	iotas32, %object
+ .align	5
+ iotas32:
+@@ -691,7 +691,14 @@ sub Round {
+ $code.=<<___;
+ 	blo	.Lround2x
+ 
++#if __ARM_ARCH__>=5
+ 	ldr	pc,[sp,#440]
++#else
++	ldr	lr,[sp,#440]
++	tst	lr,#1
++	moveq	pc,lr		@ be binary compatible with V4, yet
++	bx	lr		@ interoperable with Thumb ISA:-)
++#endif
+ .size	KeccakF1600_int,.-KeccakF1600_int
+ 
+ .type	KeccakF1600, %function
+@@ -730,7 +737,14 @@ sub Round {
+ 	stmia	@E[1], {@C[0]-@C[9]}
+ 
+ 	add	sp,sp,#440+20
++#if __ARM_ARCH__>=5
+ 	ldmia	sp!,{r4-r11,pc}
++#else
++	ldmia	sp!,{r4-r11,lr}
++	tst	lr,#1
++	moveq	pc,lr		@ be binary compatible with V4, yet
++	bx	lr		@ interoperable with Thumb ISA:-)
++#endif
+ .size	KeccakF1600,.-KeccakF1600
+ ___
+ { my ($A_flat,$inp,$len,$bsz) = map("r$_",(10..12,14));
+@@ -905,7 +919,14 @@ sub Round {
+ .Labsorb_abort:
+ 	add	sp,sp,#456+32
+ 	mov	r0,$len			@ return value
++#if __ARM_ARCH__>=5
+ 	ldmia	sp!,{r4-r12,pc}
++#else
++	ldmia	sp!,{r4-r12,lr}
++	tst	lr,#1
++	moveq	pc,lr		@ be binary compatible with V4, yet
++	bx	lr		@ interoperable with Thumb ISA:-)
++#endif
+ .size	SHA3_absorb,.-SHA3_absorb
+ ___
+ }
+@@ -1055,7 +1076,14 @@ sub Round {
+ .align	4
+ .Lsqueeze_done:
+ 	add	sp,sp,#24
++#if __ARM_ARCH__>=5
+ 	ldmia	sp!,{r4-r10,pc}
++#else
++	ldmia	sp!,{r4-r10,lr}
++	tst	lr,#1
++	moveq	pc,lr		@ be binary compatible with V4, yet
++	bx	lr		@ interoperable with Thumb ISA:-)
++#endif
+ .size	SHA3_squeeze,.-SHA3_squeeze
+ ___
+ }
+@@ -1265,7 +1293,7 @@ sub Round {
+ 	subs	r3, r3, #1
+ 	bne	.Loop_neon
+ 
+-	bx	lr
++	ret
+ .size	KeccakF1600_neon,.-KeccakF1600_neon
+ 
+ .global	SHA3_absorb_neon
+diff --git a/crypto/sha/asm/sha1-armv4-large.pl b/crypto/sha/asm/sha1-armv4-large.pl
+index cdacbd4633cd..cd0b95ade8d5 100644
+--- a/crypto/sha/asm/sha1-armv4-large.pl
++++ b/crypto/sha/asm/sha1-armv4-large.pl
+@@ -187,7 +187,6 @@ sub BODY_40_59 {
+ $code=<<___;
+ #include "arm_arch.h"
+ 
+-.text
+ #if defined(__thumb2__)
+ .syntax	unified
+ .thumb
+@@ -195,6 +194,8 @@ sub BODY_40_59 {
+ .code	32
+ #endif
+ 
++.text
++
+ .global	sha1_block_data_order
+ .type	sha1_block_data_order,%function
+ 
+@@ -202,12 +203,14 @@ sub BODY_40_59 {
+ sha1_block_data_order:
+ #if __ARM_MAX_ARCH__>=7
+ .Lsha1_block:
+-	adr	r3,.Lsha1_block
+ 	ldr	r12,.LOPENSSL_armcap
++# if !defined(_WIN32)
++	adr	r3,.Lsha1_block
+ 	ldr	r12,[r3,r12]		@ OPENSSL_armcap_P
+-#ifdef	__APPLE__
++# endif
++# if defined(__APPLE__) || defined(_WIN32)
+ 	ldr	r12,[r12]
+-#endif
++# endif
+ 	tst	r12,#ARMV8_SHA1
+ 	bne	.LARMv8
+ 	tst	r12,#ARMV7_NEON
+@@ -311,7 +314,11 @@ sub BODY_40_59 {
+ .LK_60_79:	.word	0xca62c1d6
+ #if __ARM_MAX_ARCH__>=7
+ .LOPENSSL_armcap:
++# ifdef	_WIN32
++.word	OPENSSL_armcap_P
++# else
+ .word	OPENSSL_armcap_P-.Lsha1_block
++# endif
+ #endif
+ .asciz	"SHA1 block transform for ARMv4/NEON/ARMv8, CRYPTOGAMS by <appro\@openssl.org>"
+ .align	5
+@@ -613,14 +620,15 @@ ()
+ my @MSG=map("q$_",(4..7));
+ my @Kxx=map("q$_",(8..11));
+ my ($W0,$W1,$ABCD_SAVE)=map("q$_",(12..14));
++my $_byte = ($flavour =~ /win/ ? "DCB" : ".byte");
+ 
+ $code.=<<___;
+ #if __ARM_MAX_ARCH__>=7
+ 
+ # if defined(__thumb2__)
+-#  define INST(a,b,c,d)	.byte	c,d|0xf,a,b
++#  define INST(a,b,c,d)	$_byte	c,d|0xf,a,b
+ # else
+-#  define INST(a,b,c,d)	.byte	a,b,c,d|0x10
++#  define INST(a,b,c,d)	$_byte	a,b,c,d|0x10
+ # endif
+ 
+ .type	sha1_block_data_order_armv8,%function
+diff --git a/crypto/sha/asm/sha256-armv4.pl b/crypto/sha/asm/sha256-armv4.pl
+index e0512b4d411f..cd01fcb57bb9 100644
+--- a/crypto/sha/asm/sha256-armv4.pl
++++ b/crypto/sha/asm/sha256-armv4.pl
+@@ -181,7 +181,6 @@ sub BODY_16_XX {
+ # define __ARM_MAX_ARCH__ 7
+ #endif
+ 
+-.text
+ #if defined(__thumb2__)
+ .syntax unified
+ .thumb
+@@ -189,6 +188,8 @@ sub BODY_16_XX {
+ .code   32
+ #endif
+ 
++.text
++
+ .type	K256,%object
+ .align	5
+ K256:
+@@ -212,7 +213,11 @@ sub BODY_16_XX {
+ .word	0				@ terminator
+ #if __ARM_MAX_ARCH__>=7 && !defined(__KERNEL__)
+ .LOPENSSL_armcap:
++# ifdef	_WIN32
++.word	OPENSSL_armcap_P
++# else
+ .word	OPENSSL_armcap_P-.Lsha256_block_data_order
++# endif
+ #endif
+ .align	5
+ 
+@@ -227,10 +232,12 @@ sub BODY_16_XX {
+ #endif
+ #if __ARM_MAX_ARCH__>=7 && !defined(__KERNEL__)
+ 	ldr	r12,.LOPENSSL_armcap
++# if !defined(_WIN32)
+ 	ldr	r12,[r3,r12]		@ OPENSSL_armcap_P
+-#ifdef	__APPLE__
++# endif
++# if defined(__APPLE__) || defined(_WIN32)
+ 	ldr	r12,[r12]
+-#endif
++# endif
+ 	tst	r12,#ARMV8_SHA256
+ 	bne	.LARMv8
+ 	tst	r12,#ARMV7_NEON
+@@ -598,14 +605,15 @@ ()
+ my @MSG=map("q$_",(8..11));
+ my ($W0,$W1,$ABCD_SAVE,$EFGH_SAVE)=map("q$_",(12..15));
+ my $Ktbl="r3";
++my $_byte = ($flavour =~ /win/ ? "DCB" : ".byte");
+ 
+ $code.=<<___;
+ #if __ARM_MAX_ARCH__>=7 && !defined(__KERNEL__)
+ 
+ # if defined(__thumb2__)
+-#  define INST(a,b,c,d)	.byte	c,d|0xc,a,b
++#  define INST(a,b,c,d)	$_byte	c,d|0xc,a,b
+ # else
+-#  define INST(a,b,c,d)	.byte	a,b,c,d
++#  define INST(a,b,c,d)	$_byte	a,b,c,d
+ # endif
+ 
+ .type	sha256_block_data_order_armv8,%function
+diff --git a/crypto/sha/asm/sha512-armv4.pl b/crypto/sha/asm/sha512-armv4.pl
+index 795c4cbb459e..39c943b4499e 100644
+--- a/crypto/sha/asm/sha512-armv4.pl
++++ b/crypto/sha/asm/sha512-armv4.pl
+@@ -196,6 +196,9 @@ ()
+ 	add	$Ktbl,$Ktbl,#8
+ ___
+ }
++
++my $_word = ($flavour =~ /win/ ? "DCDU" : ".word");
++
+ $code=<<___;
+ #ifndef __KERNEL__
+ # include "arm_arch.h"
+@@ -211,14 +214,13 @@ ()
+ #ifdef __ARMEL__
+ # define LO 0
+ # define HI 4
+-# define WORD64(hi0,lo0,hi1,lo1)	.word	lo0,hi0, lo1,hi1
++# define WORD64(hi0,lo0,hi1,lo1)	$_word	lo0,hi0, lo1,hi1
+ #else
+ # define HI 0
+ # define LO 4
+-# define WORD64(hi0,lo0,hi1,lo1)	.word	hi0,lo0, hi1,lo1
++# define WORD64(hi0,lo0,hi1,lo1)	$_word	hi0,lo0, hi1,lo1
+ #endif
+ 
+-.text
+ #if defined(__thumb2__)
+ .syntax unified
+ .thumb
+@@ -227,6 +229,8 @@ ()
+ .code	32
+ #endif
+ 
++.text
++
+ .type	K512,%object
+ .align	5
+ K512:
+@@ -273,7 +277,11 @@ ()
+ .size	K512,.-K512
+ #if __ARM_MAX_ARCH__>=7 && !defined(__KERNEL__)
+ .LOPENSSL_armcap:
++# ifdef	_WIN32
++.word	OPENSSL_armcap_P
++# else
+ .word	OPENSSL_armcap_P-.Lsha512_block_data_order
++# endif
+ .skip	32-4
+ #else
+ .skip	32
+@@ -290,10 +298,12 @@ ()
+ #endif
+ #if __ARM_MAX_ARCH__>=7 && !defined(__KERNEL__)
+ 	ldr	r12,.LOPENSSL_armcap
++# if !defined(_WIN32)
+ 	ldr	r12,[r3,r12]		@ OPENSSL_armcap_P
+-#ifdef	__APPLE__
++# endif
++# if defined(__APPLE__) || defined(_WIN32)
+ 	ldr	r12,[r12]
+-#endif
++# endif
+ 	tst	r12,#ARMV7_NEON
+ 	bne	.LNEON
+ #endif
