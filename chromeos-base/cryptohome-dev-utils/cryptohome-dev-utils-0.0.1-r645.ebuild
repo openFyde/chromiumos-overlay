@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="75996645146ff9a26264bdcc7ba8d4404eea6f43"
-CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "333c0741b15e2a663f0db8bab97ed76d9f4697c6" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9aa0644b8851ac3dbc13ed8e3a1b462858492ab6"
+CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "f6cfb2880a4b9361956ad167191dae6befeef4bf" "33fc41d2d47d9fd8f442ab58a772d154aea15d06" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk cryptohome secure_erase_file .gn"
+CROS_WORKON_SUBTREE="common-mk biod cryptohome secure_erase_file .gn"
 
 PLATFORM_SUBDIR="cryptohome/dev-utils"
 

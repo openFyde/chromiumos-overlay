@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="4520da41d65a810e91517222f30362f31f952532"
-CROS_WORKON_TREE="3628054e0d866fe908947633fc5197de69db4b6a"
+CROS_WORKON_COMMIT="b203d0bbde4895f5720569d0308676c45dd6e7e0"
+CROS_WORKON_TREE="5d43cf0d92ae3378d188c2a888a0794f7f5a6e84"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit libchrome cros-workon autotest
@@ -94,14 +94,6 @@ CLIENT_IUSE_TESTS="
 	arc-camera3? (
 		+tests_camera_HAL3
 		+tests_camera_HAL3Perf
-	)
-	!chromeless_tty? (
-		!chromeless_tests? (
-			+tests_desktopui_CrashyReboot
-			+tests_desktopui_FontCache
-			+tests_desktopui_HangDetector
-			+tests_desktopui_SpeechSynthesisSemiAuto
-		)
 	)
 	hammerd? (
 		+tests_detachablebase_TriggerHammerd

@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="8e8ba1c6bc414e6588d636fd9504f375398eb1eb"
-CROS_WORKON_TREE="30153af7c15d7eab695625a9dad90248bb0ca0cb"
+CROS_WORKON_COMMIT="b203d0bbde4895f5720569d0308676c45dd6e7e0"
+CROS_WORKON_TREE="5d43cf0d92ae3378d188c2a888a0794f7f5a6e84"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -82,11 +82,6 @@ SERVER_IUSE_TESTS="
 	android-container-master-arc-dev? ( +tests_cheets_CTS_Q )
 	+tests_component_UpdateFlash
 	debugd? ( +tests_debugd_DevTools )
-	!chromeless_tty? (
-		!chromeless_tests? (
-			+tests_desktopui_CrashyRebootServer
-		)
-	)
 	+tests_crosperf_Wrapper
 	+tests_display_EdidStress
 	+tests_display_HDCPScreen
