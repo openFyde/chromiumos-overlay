@@ -87,6 +87,11 @@ src_install() {
 	doins common/print_interface_proto.h
 	doins common/print_keystore_proto.h
 
+	# Install the generated dbus-binding for fake pca agent.
+	# It does no harm to install the header even for non-test image build.
+	insinto /usr/include/attestation/pca-agent/dbus_adaptors
+	doins "${OUT}"/gen/include/attestation/pca-agent/dbus_adaptors/org.chromium.PcaAgent.h
+
 	insinto /usr/share/policy
 	newins "pca_agent/server/pca_agentd-seccomp-${ARCH}.policy" pca_agentd-seccomp.policy
 }
