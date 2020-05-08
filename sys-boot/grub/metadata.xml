@@ -23,4 +23,8 @@
 		Enable support for <pkg>sys-fs/zfs</pkg>
 	</flag>
 </use>
+<upstream>
+	<remote-id type="sourceforge">dejavu</remote-id>
+	<remote-id type="cpe">cpe:/a:gnu:grub</remote-id>
+</upstream>
 </pkgmetadata>

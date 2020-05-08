@@ -5,6 +5,7 @@
     <bugs-to>mailto:dev-portage@gentoo.org</bugs-to>
     <changelog>http://git.overlays.gentoo.org/gitweb/?p=proj/portage.git;a=blob_plain;f=RELEASE-NOTES</changelog>
     <doc>http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=3</doc>
+    <remote-id type="cpe">cpe:/a:gentoo:portage</remote-id>
   </upstream>
   <maintainer>
     <email>dev-portage@gentoo.org</email>
