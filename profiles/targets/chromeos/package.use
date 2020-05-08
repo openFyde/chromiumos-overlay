@@ -203,17 +203,13 @@ dev-python/elementtree python_targets_python2_7
 dev-python/entrypoints python_targets_python2_7
 dev-python/fasteners python_targets_python2_7
 dev-python/future python_targets_python2_7
-dev-python/gcs-oauth2-boto-plugin python_targets_python2_7
 dev-python/gevent python_targets_python2_7
 dev-python/gnupg python_targets_python2_7
 dev-python/google-api-core python_targets_python2_7
-dev-python/google-api-python-client python_targets_python2_7
-dev-python/google-apitools python_targets_python2_7
 dev-python/google-auth python_targets_python2_7
 dev-python/google-cloud-core python_targets_python2_7
 dev-python/google-cloud-pubsub python_targets_python2_7
 dev-python/google-cloud-storage python_targets_python2_7
-dev-python/google-reauth-python python_targets_python2_7
 dev-python/google-resumable-media python_targets_python2_7
 dev-python/googleapis-common-protos python_targets_python2_7
 dev-python/greenlet python_targets_python2_7
@@ -248,7 +244,6 @@ dev-python/namespace-jaraco python_targets_python2_7
 dev-python/netifaces python_targets_python2_7
 dev-python/numpy python_targets_python2_7
 dev-python/oauth python_targets_python2_7
-dev-python/oauth2client python_targets_python2_7
 dev-python/packaging python_targets_python2_7
 dev-python/parallel-ssh python_targets_python2_7
 dev-python/paramiko python_targets_python2_7
@@ -336,7 +331,6 @@ net-fs/samba python_targets_python2_7
 net-ftp/pybootd python_targets_python2_7
 net-libs/libproxy python_targets_python2_7
 net-libs/nodejs python_targets_python2_7
-net-misc/gsutil python_targets_python2_7
 net-print/cups python_targets_python2_7
 net-print/hplip python_targets_python2_7
 sci-geosciences/gpsd python_targets_python2_7
