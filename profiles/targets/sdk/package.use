@@ -122,7 +122,6 @@ dev-libs/libxml2 python_targets_python2_7
 dev-libs/libxslt python_targets_python2_7
 dev-python/pyahocorasick python_targets_python2_7
 dev-python/asn1crypto python_targets_python2_7
-dev-python/astroid python_targets_python2_7
 dev-python/atomicwrites python_targets_python2_7
 dev-python/attrs python_targets_python2_7
 dev-python/backports python_targets_python2_7
@@ -143,7 +142,6 @@ dev-python/django python_targets_python2_7
 dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
 dev-python/ecdsa python_targets_python2_7
-dev-python/flake8 python_targets_python2_7
 dev-python/future python_targets_python2_7
 dev-python/grpcio python_targets_python2_7
 dev-python/grpcio-tools python_targets_python2_7
@@ -164,7 +162,6 @@ dev-python/lxml python_targets_python2_7
 dev-python/m2crypto python_targets_python2_7
 dev-python/mako python_targets_python2_7
 dev-python/markupsafe python_targets_python2_7
-dev-python/mccabe python_targets_python2_7
 dev-python/mock python_targets_python2_7
 dev-python/more-itertools python_targets_python2_7
 dev-python/mysqlclient python_targets_python2_7
@@ -193,7 +190,6 @@ dev-python/pyelftools python_targets_python2_7
 dev-python/pyflakes python_targets_python2_7
 dev-python/pygments python_targets_python2_7
 dev-python/pygobject python_targets_python2_7
-dev-python/pylint python_targets_python2_7
 dev-python/pyopenssl python_targets_python2_7
 dev-python/pyparsing python_targets_python2_7
 dev-python/py python_targets_python2_7
@@ -239,7 +235,6 @@ dev-python/vcversioner python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
 dev-python/webcolors python_targets_python2_7
-dev-python/wrapt python_targets_python2_7
 dev-python/ws4py python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-python/zope-interface python_targets_python2_7
@@ -255,7 +250,6 @@ virtual/python-cffi python_targets_python2_7
 # TODO(crbug.com/1007152): Trim this entirely!
 dev-python/backports-functools-lru-cache python_targets_python2_7 -python_targets_python3_6
 dev-python/backports-lzma python_targets_python2_7 -python_targets_python3_6
-dev-python/configparser python_targets_python2_7 -python_targets_python3_6
 dev-python/ctypesgen python_targets_python2_7 -python_targets_python3_6
 dev-python/enum34 python_targets_python2_7 -python_targets_python3_6
 dev-python/funcsigs python_targets_python2_7
