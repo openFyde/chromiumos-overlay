@@ -200,20 +200,13 @@ dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
 dev-python/ecdsa python_targets_python2_7
 dev-python/elementtree python_targets_python2_7
-dev-python/entrypoints python_targets_python2_7
 dev-python/fasteners python_targets_python2_7
 dev-python/future python_targets_python2_7
 dev-python/gevent python_targets_python2_7
 dev-python/gnupg python_targets_python2_7
-dev-python/google-api-core python_targets_python2_7
-dev-python/google-auth python_targets_python2_7
-dev-python/google-cloud-core python_targets_python2_7
-dev-python/google-cloud-pubsub python_targets_python2_7
-dev-python/google-cloud-storage python_targets_python2_7
 dev-python/google-resumable-media python_targets_python2_7
 dev-python/googleapis-common-protos python_targets_python2_7
 dev-python/greenlet python_targets_python2_7
-dev-python/grpc-google-iam-v1 python_targets_python2_7
 dev-python/grpcio python_targets_python2_7
 dev-python/httplib2 python_targets_python2_7
 dev-python/idna python_targets_python2_7
@@ -224,7 +217,6 @@ dev-python/jsonpatch python_targets_python2_7
 dev-python/jsonpointer python_targets_python2_7
 dev-python/jsonrpclib python_targets_python2_7
 dev-python/jsonschema python_targets_python2_7
-dev-python/keyring python_targets_python2_7
 dev-python/kiwisolver python_targets_python2_7
 dev-python/lazy-object-proxy python_targets_python2_7
 dev-python/linecache2 python_targets_python2_7
@@ -287,7 +279,6 @@ dev-python/regex python_targets_python2_7
 dev-python/requests python_targets_python2_7
 dev-python/retry-decorator python_targets_python2_7
 dev-python/rfc3987 python_targets_python2_7
-dev-python/rsa python_targets_python2_7
 dev-python/rtslib-fb python_targets_python2_7
 dev-python/scandir python_targets_python2_7
 dev-python/secretstorage python_targets_python2_7

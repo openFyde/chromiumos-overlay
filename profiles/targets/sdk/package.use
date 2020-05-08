@@ -143,7 +143,6 @@ dev-python/django python_targets_python2_7
 dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
 dev-python/ecdsa python_targets_python2_7
-dev-python/entrypoints python_targets_python2_7
 dev-python/flake8 python_targets_python2_7
 dev-python/future python_targets_python2_7
 dev-python/grpcio python_targets_python2_7
@@ -157,7 +156,6 @@ dev-python/jaraco-functools python_targets_python2_7
 dev-python/jinja python_targets_python2_7
 dev-python/jsonrpclib python_targets_python2_7
 dev-python/jsonschema python_targets_python2_7
-dev-python/keyring python_targets_python2_7
 dev-python/kiwisolver python_targets_python2_7
 dev-python/lazy-object-proxy python_targets_python2_7
 dev-python/linecache2 python_targets_python2_7
@@ -216,7 +214,6 @@ dev-python/redis-py python_targets_python2_7
 dev-python/regex python_targets_python2_7
 dev-python/requests python_targets_python2_7
 dev-python/rfc3987 python_targets_python2_7
-dev-python/rsa python_targets_python2_7
 dev-python/rtslib-fb python_targets_python2_7
 dev-python/scandir python_targets_python2_7
 dev-python/secretstorage python_targets_python2_7
