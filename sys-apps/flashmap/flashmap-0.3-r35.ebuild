@@ -9,7 +9,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/flashmap"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
-inherit cros-workon toolchain-funcs multilib python-r1
+inherit cros-workon toolchain-funcs python-r1
 
 DESCRIPTION="Utility for manipulating firmware ROM mapping data structure"
 HOMEPAGE="http://flashmap.googlecode.com"

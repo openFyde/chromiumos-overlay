@@ -1,44 +1,33 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=6
-CROS_WORKON_COMMIT="3ded20802faab538bd115d683285a11e3b80b4cf"
-CROS_WORKON_TREE="870289d069bf04e7688509b307bbf802fc5e2479"
+CROS_WORKON_COMMIT="7f53adfb3f6773e1dcccd2c19bf9b15740a95ab8"
+CROS_WORKON_TREE="6959f873fa935f1b3488c761b6f6329f91f39c6a"
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
-CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.6"
+CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.8"
+CROS_WORKON_EGIT_BRANCH="wpa_supplicant-2.8"
 
-inherit cros-workon eutils toolchain-funcs qmake-utils multilib systemd user
+inherit cros-workon eutils toolchain-funcs qmake-utils systemd user
 
 DESCRIPTION="IEEE 802.1X/WPA supplicant for secure wireless transfers"
-# HOMEPAGE="http://hostap.epitest.fi/wpa_supplicant/"
-# SRC_URI="http://hostap.epitest.fi/releases/${P}.tar.gz"
+# HOMEPAGE="https://w1.fi/wpa_supplicant/"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/hostap"
-SRC_URI=""
 LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="ap dbus debug gnutls eap-sim fasteap +hs2-0 libressl madwifi p2p ps3 qt4 qt5 readline selinux smartcard ssl systemd +tdls uncommon-eap-types wps kernel_linux kernel_FreeBSD wimax"
+IUSE="ap dbus debug gnutls eap-sim fasteap +hs2-0 libressl p2p ps3 qt5 readline selinux smartcard ssl systemd +tdls uncommon-eap-types wifi_hostap_test wps kernel_linux kernel_FreeBSD wimax"
 REQUIRED_USE="fasteap? ( !gnutls !ssl ) smartcard? ( ssl )"
 
 CDEPEND="
 	chromeos-base/minijail
 	dbus? ( sys-apps/dbus )
 	kernel_linux? (
-		madwifi? ( ||
-			( >net-wireless/madwifi-ng-tools-0.9.3
-			net-wireless/madwifi-old )
-		)
-		dev-libs/libnl:0
+		dev-libs/libnl:3
 		net-wireless/crda
 	)
 	!kernel_linux? ( net-libs/libpcap )
-	qt4? (
-		dev-qt/qtcore:4
-		dev-qt/qtgui:4
-		dev-qt/qtsvg:4
-	)
 	qt5? (
 		dev-qt/qtcore:5
 		dev-qt/qtgui:5
@@ -66,7 +55,7 @@ DEPEND="${CDEPEND}
 	virtual/pkgconfig
 "
 RDEPEND="${CDEPEND}
-	!net-wireless/wpa_supplicant-2_8
+	!net-wireless/wpa_supplicant
 	selinux? ( sec-policy/selinux-networkmanager )
 "
 
@@ -87,6 +76,9 @@ Kconfig_style_config() {
 			sed -i "/^# *$CONFIG_PARAM=/s/^# *//" .config || echo "Kconfig_style_config error uncommenting $CONFIG_PARAM"
 			#set item = $setting (defaulting to y)
 			sed -i "/^$CONFIG_PARAM/s/=.*/=$setting/" .config || echo "Kconfig_style_config error setting $CONFIG_PARAM=$setting"
+			if [ -z "$( grep ^$CONFIG_PARAM= .config )" ] ; then
+				echo "$CONFIG_PARAM=$setting" >>.config
+			fi
 		else
 			#ensure item commented out
 			sed -i "/^$CONFIG_PARAM/s/$CONFIG_PARAM/# $CONFIG_PARAM/" .config || echo "Kconfig_style_config error commenting $CONFIG_PARAM"
@@ -100,6 +92,7 @@ pkg_setup() {
 }
 
 src_prepare() {
+	default
 	cros-workon_src_prepare
 
 	# net/bpf.h needed for net-libs/libpcap on Gentoo/FreeBSD
@@ -120,15 +113,11 @@ src_prepare() {
 		-e "s:/usr/lib/pkcs11:/usr/$(get_libdir):" \
 		wpa_supplicant.conf || die
 
-	#if use dbus; then
-	#	epatch "${FILESDIR}/${P}-dbus-path-fix.patch"
-	#fi
-
 	# systemd entries to D-Bus service files (bug #372877)
 	# echo 'SystemdService=wpa_supplicant.service' \
 	# 	| tee -a dbus/*.service >/dev/null || die
 
-	cd "${WORKDIR}/${P}"
+	cd "${WORKDIR}/${P}" || die
 
 	if use wimax; then
 		# generate-libeap-peer.patch comes before
@@ -136,7 +125,7 @@ src_prepare() {
 		# epatch "${FILESDIR}/${P}-generate-libeap-peer.patch"
 
 		# multilib-strict fix (bug #373685)
-		sed -e "s/\/usr\/lib/\/usr\/$(get_libdir)/" -i src/eap_peer/Makefile
+		sed -e "s/\/usr\/lib/\/usr\/$(get_libdir)/" -i src/eap_peer/Makefile || die
 	fi
 
 	# bug (320097)
@@ -155,7 +144,7 @@ src_configure() {
 	# Toolchain setup
 	tc-export CC
 
-	cp defconfig .config
+	cp defconfig .config || die
 
 	# Basic setup
 	Kconfig_style_config CTRL_IFACE
@@ -290,6 +279,14 @@ src_configure() {
 		Kconfig_style_config WPS_UPNP
 		# Near Field Communication
 		Kconfig_style_config WPS_NFC
+	else
+		# (ChromeOS) Explicitly disable to override enabling from defconfig.
+		Kconfig_style_config WPS      n
+		Kconfig_style_config WPS2     n
+		Kconfig_style_config WPS_UFD  n
+		Kconfig_style_config WPS_ER   n
+		Kconfig_style_config WPS_UPNP n
+		Kconfig_style_config WPS_NFC  n
 	fi
 
 	# Wi-Fi Direct (WiDi)
@@ -306,22 +303,19 @@ src_configure() {
 		Kconfig_style_config AP
 		# only AP currently support mesh networks.
 		Kconfig_style_config MESH
-		# AP does not support smart card and associated library.
-		Kconfig_style_config SMARTCARD n
+	else
+		# (ChromeOS) Explicitly disable to override enabling from defconfig.
+		Kconfig_style_config AP        n
+		Kconfig_style_config MESH      n
 	fi
 
 	# Enable mitigation against certain attacks against TKIP
 	Kconfig_style_config DELAYED_MIC_ERROR_REPORT
 
-	if use qt4 ; then
-		pushd "${S}"/wpa_gui-qt4 > /dev/null
-		eqmake4 wpa_gui.pro
-		popd > /dev/null
-	fi
 	if use qt5 ; then
-		pushd "${S}"/wpa_gui-qt4 > /dev/null
+		pushd "${S}"/wpa_gui-qt4 > /dev/null || die
 		eqmake5 wpa_gui.pro
-		popd > /dev/null
+		popd > /dev/null || die
 	fi
 }
 
@@ -334,11 +328,9 @@ src_compile() {
 		emake -C ../src/eap_peer
 	fi
 
-	if use qt4 || use qt5; then
-		pushd "${S}"/wpa_gui-qt4 > /dev/null
+	if use qt5; then
 		einfo "Building wpa_gui"
-		emake
-		popd > /dev/null
+		emake -C "${S}"/wpa_gui-qt4
 	fi
 }
 
@@ -359,11 +351,6 @@ src_install() {
 		newconfd "${FILESDIR}/${PN}-conf.d" wpa_supplicant
 	fi
 
-	# Missing patch?
-	#  !!! newexe: /mnt/host/source/src/private-overlays/project-jetstream-private/net-wireless/wpa_supplicant/files/wpa_cli.sh does not exist
-	# exeinto /etc/wpa_supplicant/
-	# newexe "${FILESDIR}/wpa_cli.sh" wpa_cli.sh
-
 	dodoc ChangeLog {eap_testing,todo}.txt README{,-WPS} \
 		wpa_supplicant.conf
 
@@ -372,7 +359,7 @@ src_install() {
 	# CHROMIUM: sorry, don't want docs installed
 	# doman doc/docbook/*.{5,8}
 
-	if use qt4 || use qt5 ; then
+	if use qt5 ; then
 		into /usr
 		dobin wpa_gui-qt4/wpa_gui
 		doicon wpa_gui-qt4/icons/wpa_gui.svg
@@ -394,7 +381,14 @@ src_install() {
 		insinto /usr/share/dbus-1/interfaces
 		doins ${FILESDIR}/dbus_bindings/fi.w1.wpa_supplicant1.xml || die
 		insinto /etc/dbus-1/system.d
-		doins ${FILESDIR}/dbus_permissions/fi.w1.wpa_supplicant1.conf || die
+		# Allow (but don't require) wpa_supplicant to run as root only
+		# when building hwsim targets.
+		if use wifi_hostap_test; then
+			newins "${FILESDIR}"/dbus_permissions/root_fi.w1.wpa_supplicant1.conf \
+				fi.w1.wpa_supplicant1.conf
+		else
+			doins "${FILESDIR}"/dbus_permissions/fi.w1.wpa_supplicant1.conf
+		fi
 
 		popd > /dev/null
 	fi

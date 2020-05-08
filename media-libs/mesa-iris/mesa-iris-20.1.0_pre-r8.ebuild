@@ -1,17 +1,19 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=6
 
-CROS_WORKON_COMMIT="56516b3804094aba005de60961b8bd7b6ad089e4"
-CROS_WORKON_TREE="8c0958b695487ddf4a24aad0e30811fdefb604dd"
+CROS_WORKON_COMMIT="768c1933927febb78d5685d9c7ccbcdd804f4d41"
+CROS_WORKON_TREE="1661d44a355d824d10e597ba1afab81a0073b7c4"
+MESON_AUTO_DEPEND=no
+
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="mesa-freedreno"
-CROS_WORKON_EGIT_BRANCH="chromeos-freedreno"
+CROS_WORKON_LOCALNAME="mesa-iris"
+CROS_WORKON_EGIT_BRANCH="chromeos-iris"
 
 KEYWORDS="*"
 
-inherit base meson multilib flag-o-matic toolchain-funcs cros-workon
+inherit base meson flag-o-matic toolchain-funcs cros-workon
 
 DESCRIPTION="The Mesa 3D Graphics Library"
 HOMEPAGE="http://mesa3d.org/"
@@ -19,23 +21,20 @@ HOMEPAGE="http://mesa3d.org/"
 # Most of the code is MIT/X11.
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
+SLOT="0"
 
-IUSE="debug vulkan"
+IUSE="debug vulkan tools"
 
-COMMON_DEPEND="
-	dev-libs/expat:=
-	dev-libs/libxml2:=
-	virtual/libudev:=
-	>=x11-libs/libdrm-2.4.94:=
+# keep correct libdrm dep
+# keep blocks in rdepend for binpkg
+RDEPEND="
+	dev-libs/expat
+	virtual/udev
+	>=x11-libs/libdrm-2.4.94
 "
 
-RDEPEND="${COMMON_DEPEND}
-"
-
-DEPEND="${COMMON_DEPEND}
-"
-
-BDEPEND="
+DEPEND="${RDEPEND}
+	dev-libs/libxml2
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig
@@ -53,14 +52,13 @@ src_configure() {
 		-Dgles2=true
 		-Dshared-glapi=true
 		-Ddri-drivers=
-		-Dgallium-drivers=freedreno
+		-Dgallium-drivers=iris
 		-Dgallium-vdpau=false
 		-Dgallium-xa=false
 		-Dplatforms=surfaceless
-		-Dtools=freedreno
+		-Dtools=$(usex tools intel '')
 		--buildtype $(usex debug debug release)
-		-Dvulkan-drivers=$(usex vulkan freedreno '')
-		-DI-love-half-baked-turnips=$(usex vulkan true false)
+ 		-Dvulkan-drivers=$(usex vulkan intel '')
 	)
 
 	meson_src_configure
@@ -69,6 +67,5 @@ src_configure() {
 src_install() {
 	meson_src_install
 
-	find "${ED}" -name '*kgsl*' -exec rm -f {} +
-	rm -v -rf "${ED}/usr/include"
+	rm -v -rf "${ED}usr/include"
 }

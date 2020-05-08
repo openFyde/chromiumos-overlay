@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("75996645146ff9a26264bdcc7ba8d4404eea6f43" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_COMMIT=("5420cea62c243bc8c9873096f032c3bca14e6362" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
 CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "ac09dfeae565377b6bda3d94bdd2298a02bb7de5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 inherit cros-constants
 
@@ -30,7 +30,7 @@ BORINGSSL_OUTDIR="${WORKDIR}/boringssl_outputs/"
 CMAKE_USE_DIR="${WORKDIR}/${BORINGSSL_P}"
 BUILD_DIR="${WORKDIR}/${BORINGSSL_P}_build"
 
-inherit flag-o-matic cmake-utils multilib cros-workon platform user
+inherit flag-o-matic cmake-utils cros-workon platform user
 
 DESCRIPTION="Android keymaster service in Chrome OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/keymaster"

@@ -7,7 +7,7 @@ CROS_WORKON_TREE="a433811c8b3728156bf01b6550d72be7c7ba6a03"
 CROS_WORKON_PROJECT="chromiumos/third_party/hdctools"
 PYTHON_COMPAT=( python2_7 )
 
-inherit cros-workon distutils-r1 toolchain-funcs multilib udev
+inherit cros-workon distutils-r1 toolchain-funcs udev
 
 DESCRIPTION="Software to communicate with servo/miniservo debug boards"
 HOMEPAGE="https://www.chromium.org/chromium-os/servo"

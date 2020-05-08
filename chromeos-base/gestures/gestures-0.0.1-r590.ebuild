@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/gestures"
 CROS_WORKON_LOCALNAME="platform/gestures"
 CROS_WORKON_USE_VCSID=1
 
-inherit toolchain-funcs multilib cros-debug cros-sanitizers cros-workon
+inherit toolchain-funcs cros-debug cros-sanitizers cros-workon
 
 DESCRIPTION="Gesture recognizer library"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/gestures/"

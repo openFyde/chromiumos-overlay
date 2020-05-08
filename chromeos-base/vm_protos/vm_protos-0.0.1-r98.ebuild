@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="75996645146ff9a26264bdcc7ba8d4404eea6f43"
+CROS_WORKON_COMMIT="5420cea62c243bc8c9873096f032c3bca14e6362"
 CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "3ab9d99510978fcb2380aff8d1248cac8bb7e366" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/vm_tools/..."
@@ -17,7 +17,7 @@ CROS_WORKON_SUBTREE="common-mk vm_tools/proto .gn"
 
 PLATFORM_SUBDIR="vm_tools/proto"
 
-inherit cros-go cros-workon multilib platform
+inherit cros-go cros-workon platform
 
 DESCRIPTION="Chrome OS VM protobuf API"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/proto"

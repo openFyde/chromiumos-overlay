@@ -10,7 +10,7 @@ CROS_WORKON_USE_VCSID=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform/libevdev"
 
-inherit toolchain-funcs multilib cros-debug cros-sanitizers cros-workon cros-common.mk
+inherit toolchain-funcs cros-debug cros-sanitizers cros-workon cros-common.mk
 
 DESCRIPTION="evdev userspace library"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/libevdev"

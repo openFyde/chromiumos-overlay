@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fae117d85c052b587e4c4804e39c03ff1adb9e1c"
+CROS_WORKON_COMMIT="5420cea62c243bc8c9873096f032c3bca14e6362"
 CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "f906c2144e40ca9fffaf146eae29d9668ded749f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,7 @@ PLATFORM_SUBDIR="libbrillo"
 # but this package should not have the dependency.
 WANT_LIBBRILLO="no"
 
-inherit cros-workon multilib platform
+inherit cros-workon platform
 
 DESCRIPTION="Base library for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libbrillo/"

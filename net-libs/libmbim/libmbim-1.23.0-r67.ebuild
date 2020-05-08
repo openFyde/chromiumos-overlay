@@ -6,7 +6,7 @@ CROS_WORKON_COMMIT="d2b6a27fedc42e668b37edb4a2d613b7ce3c6f88"
 CROS_WORKON_TREE="fe93d9f752d8756304679f7da27aeea49c9a1137"
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
 
-inherit autotools cros-sanitizers cros-workon multilib
+inherit autotools cros-sanitizers cros-workon
 
 DESCRIPTION="MBIM modem protocol helper library"
 HOMEPAGE="http://cgit.freedesktop.org/libmbim/"

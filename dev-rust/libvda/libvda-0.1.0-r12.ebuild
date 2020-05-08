@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fabad43f1182bf71b3771735b4488180d08f3d59"
+CROS_WORKON_COMMIT="5420cea62c243bc8c9873096f032c3bca14e6362"
 CROS_WORKON_TREE="ff5afc604af0ab8dd4fd7e38d115ef3facc9379a"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -11,7 +11,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_SUBTREE="arc/vm/libvda/rust"
 
-inherit cros-workon cros-rust multilib
+inherit cros-workon cros-rust
 
 DESCRIPTION="Rust wrapper for chromeos-base/libvda"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/libvda/rust"
