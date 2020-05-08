@@ -207,5 +207,10 @@
         "rel_patch_path": "cherry/4e0fe038f438ae1679eae9e156e1f248595b2373.patch",
         "start_version": 386616,
         "end_version": 387517
+    },
+    {
+        "comment": "Revert \"[ARM] Improve codegen of volatile load/store of i64\"",
+        "rel_patch_path": "revert-8a12553223180246eeafaa0fa7bfa11e834d34b6.patch",
+        "start_version": 386906
     }
 ]
