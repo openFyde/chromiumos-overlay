@@ -119,6 +119,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_CorruptRecoveryCache
 	+tests_firmware_Cr50BID
 	+tests_firmware_Cr50CCDServoCap
+	+tests_firmware_Cr50CCDUartStress
 	+tests_firmware_Cr50CheckCap
 	+tests_firmware_Cr50ConsoleCommands
 	+tests_firmware_Cr50DeepSleepStress
