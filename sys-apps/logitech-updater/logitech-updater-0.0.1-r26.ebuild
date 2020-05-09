@@ -6,7 +6,7 @@ CROS_WORKON_COMMIT="7a0452255e1562936beca7895b8077294978a58c"
 CROS_WORKON_TREE="7a643366896b151cfc67e426c6ecce8640df7b2b"
 CROS_WORKON_PROJECT="chromiumos/third_party/logitech-updater"
 
-inherit cros-workon libchrome udev user
+inherit cros-debug cros-workon libchrome udev user
 
 DESCRIPTION="Logitech firmware updater"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/logitech-updater"
@@ -21,6 +21,12 @@ COMMON_DEPEND="chromeos-base/libbrillo:=
 
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
+
+src_configure() {
+	# See crbug/1078297
+	cros-debug-add-NDEBUG
+	default
+}
 
 src_install() {
 	dosbin logitech-updater

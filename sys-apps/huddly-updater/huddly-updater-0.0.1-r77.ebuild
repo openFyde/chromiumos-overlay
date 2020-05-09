@@ -6,7 +6,7 @@ CROS_WORKON_COMMIT="9276abac2308c7fb7f1d559b092cfa5a55857942"
 CROS_WORKON_TREE="15c12de8f15b80442f243e7f1f78971e18b23c16"
 CROS_WORKON_PROJECT="chromiumos/third_party/huddly-updater"
 
-inherit cros-workon libchrome udev user
+inherit cros-debug cros-workon libchrome udev user
 
 DESCRIPTION="A utility to update Huddly camera firmware"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/huddly-updater"
@@ -29,6 +29,12 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	app-arch/unzip
 "
+
+src_configure() {
+	# See crbug/1078297
+	cros-debug-add-NDEBUG
+	default
+}
 
 src_test() {
 	if use amd64; then
