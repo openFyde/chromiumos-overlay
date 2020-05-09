@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="75996645146ff9a26264bdcc7ba8d4404eea6f43"
-CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "5397b2c2b24d89513c61ab025ae15eec570de34d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a8b97f9988e48cde56240489125b7f3269c2ad42"
+CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "814f5a3cf1c1aae7fb41914d13a21e39961aa651" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -41,3 +41,17 @@ DEPEND="${RDEPEND}
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 "
+
+src_install() {
+
+	# Installs attestation-injected-keys
+	dobin "${OUT}/attestation-injected-keys"
+
+	# Installs hwsec-test-va
+	dobin "${OUT}/hwsec-test-va"
+
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/hwsec-test-utils_testrunner"
+}

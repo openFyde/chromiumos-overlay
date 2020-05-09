@@ -1,12 +1,12 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="4332c7b0d5e5da36ae72e29a22d78afbd392b9f7"
-CROS_WORKON_TREE="11e321cf10f2a38f1ca940cc824528a5de4018bc"
+EAPI=7
+CROS_WORKON_COMMIT="4660a3536a55f3c2ec19cab48e6380ba8defeede"
+CROS_WORKON_TREE="1f56258ddfa8ff9db44a062bfbb178e06ed24fd0"
 CROS_WORKON_PROJECT="chromiumos/third_party/aver-updater"
 
-inherit cros-workon libchrome udev user
+inherit cros-workon cros-common.mk libchrome udev user
 
 DESCRIPTION="AVer firmware updater"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/aver-updater"
@@ -19,16 +19,17 @@ RDEPEND="
 	chromeos-base/libbrillo:=
 "
 
+DEPEND="${RDEPEND}"
+
 src_configure() {
 	# Disable tautological-compare warnings, crbug.com/1042142
 	append-cppflags "-Wno-tautological-compare"
-	# Needed since libchrome includes cros-debug
-	cros-debug-add-NDEBUG
+	cros-common.mk_src_configure
 	default
 }
 
 src_install() {
-	dosbin aver-updater
+	dosbin "${OUT}/aver-updater"
 	udev_dorules conf/99-run-aver-updater.rules
 }
 
