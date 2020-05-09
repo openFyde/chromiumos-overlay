@@ -46,6 +46,7 @@ RDEPEND="${DEPEND}"
 src_prepare() {
 	epatch "${FILESDIR}/CHROMIUM-Limit-vulkan-version-to-1.1-for-Android.patch"
 	epatch "${FILESDIR}/CHROMIUM-anv-Disable-vulkan-extensions.patch"
+	epatch "${FILESDIR}/CHROMIUM-egl-Limit-egl-to-1.4.patch"
 	default
 }
 
