@@ -140,6 +140,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/gestures
 	chromeos-base/libevdev
 	fonts? ( chromeos-base/chromeos-fonts )
+	chrome_internal? ( chromeos-base/quickoffice )
 	dev-libs/nspr
 	>=dev-libs/nss-3.12.2
 	dev-libs/libxml2
@@ -1289,17 +1290,9 @@ src_install() {
 			-4k-align -root-mode 0755 -no-progress \
 			|| die "Failed to create Quickoffice squashfs"
 
+		# The squashfs will be mounted at boot time by an upstart script
+		# installed by chromeos-base/quickoffice.
 		doins "${WORKDIR}/quickoffice.squash"
-		# Create the directory where the Quickoffice squashfs will be
-		# mounted.
-		keepdir "${qo_install_root}"/_platform_specific
-		# Install the upstart scripts that will automatically
-		# mount/unmount the Quickoffice squashfs when Chrome
-		# starts/stops.
-		insinto /etc/init
-		doins "${QUICKOFFICE}"/upstart/quickoffice-start.conf
-		doins "${QUICKOFFICE}"/upstart/quickoffice-stop.conf
-
 	fi
 
 	# Chrome test resources
