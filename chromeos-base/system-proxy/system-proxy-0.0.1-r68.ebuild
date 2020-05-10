@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c65f99b9d7e3ec6789c560af2a6e6be87df61aa1"
+CROS_WORKON_COMMIT="f8c0d1f43c844ac26f655d3724780c1022fbb4be"
 CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "f60bd5623fc5a3e0590ee69d8df6c9b5a9ed6969" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,6 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/system
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -59,6 +60,11 @@ src_install() {
 	insinto /usr/share/policy
 	newins seccomp/system-proxy-seccomp-"${ARCH}".policy system-proxy-seccomp.policy
 	newins seccomp/system-proxy-worker-seccomp-"${ARCH}".policy system-proxy-worker-seccomp.policy
+
+	if use fuzzer; then
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/system_proxy_connect_headers_parser_fuzzer
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/system_proxy_worker_config_fuzzer
+	fi
 }
 
 platform_pkg_test() {
