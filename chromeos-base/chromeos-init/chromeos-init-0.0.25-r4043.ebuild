@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="300405fd87323cf9256832d7b2942df1f3df39d2"
-CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "cb5aa40b8239170fc1ed1e1689f2ff22837eac7d" "268155991079313bf0f2387e2ed8180b638991d4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1b0c187309bf10efa0165741489c2386ef76e867"
+CROS_WORKON_TREE=("e76553bebb9315ff46405a1bd1045256117802c4" "f71136ab28f4d283ed940a86c8cc1f36602b89a0" "268155991079313bf0f2387e2ed8180b638991d4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -24,7 +24,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
 IUSE="
-	cros_embedded +debugd +encrypted_stateful frecon
+	arcpp arcvm cros_embedded +debugd +encrypted_stateful frecon
 	kernel-3_8 kernel-3_10 kernel-3_14 kernel-3_18 +midi
 	-s3halt +syslog systemd +udev vivid vtconsole"
 
@@ -120,6 +120,12 @@ src_install_upstart() {
 		fi
 	else
 		doins upstart/*.conf
+
+		if ! use arcpp && use arcvm; then
+			sed -i '/^env IS_ARCVM=/s:=0:=1:' \
+				"${D}/etc/init/rt-limits.conf" || \
+				die "Failed to replace is_arcvm in rt-limits.conf"
+		fi
 
 		dosbin chromeos-disk-metrics
 		dosbin chromeos-send-kernel-errors
