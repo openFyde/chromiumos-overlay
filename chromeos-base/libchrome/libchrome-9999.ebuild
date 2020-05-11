@@ -59,42 +59,6 @@ src_prepare() {
 	# epatch "${FILESDIR}"/${PN}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
 	# epatch "${FILESDIR}"/${PN}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
 
-	# Cherry pick CLs from upstream.
-	# Remove these when the libchrome gets enough new.
-	# r576565.
-	epatch "${FILESDIR}"/${PN}-dbus-Add-TryRegisterFallback.patch
-
-	# r581937.
-	epatch "${FILESDIR}"/${PN}-dbus-Remove-LOG-ERROR-in-ObjectProxy.patch
-
-	# r582324
-	epatch "${FILESDIR}"/${PN}-Fix-Wdefaulted-function-deleted-warning-in-MessageLo.patch
-
-	# r583543.
-	epatch "${FILESDIR}"/${PN}-dbus-Make-Bus-is_connected-mockable.patch
-
-	# r596510.
-	epatch "${FILESDIR}"/${PN}-Mojo-Check-if-dispatcher-is-null-in-Core-UnwrapPlatf.patch
-
-	# This no_destructor.h is taken from r599267.
-	epatch "${FILESDIR}"/${PN}-Add-base-NoDestructor-T.patch
-
-	# r616020.
-	epatch "${FILESDIR}"/${PN}-dbus-Support-UnexportMethod-from-an-exported-object.patch
-
-	# Add support for SimpleAlarmTimer::Create{,ForTesting} to reflect changes in r626151.
-	epatch "${FILESDIR}"/${PN}-Refactor-AlarmTimer-to-report-error-to-the-caller.patch
-
-	# For backward compatibility.
-	# TODO(crbug.com/909719): Remove this patch after clients are updated.
-	epatch "${FILESDIR}"/${PN}-libchrome-Add-EmptyResponseCallback-for-backward-com.patch
-
-	# Undo gn_helper sys.path update.
-	epatch "${FILESDIR}"/${PN}-libchrome-Unpatch-sys.path-update.patch
-
-	# Introduce stub ConvertableToTraceFormat for task_scheduler.
-	epatch "${FILESDIR}"/${PN}-libchrome-Introduce-stub-ConvertableToTraceFormat.patch
-
 	# Disable custom memory allocator when asan is used.
 	# https://crbug.com/807685
 	use_sanitizers && epatch "${FILESDIR}"/${PN}-Disable-memory-allocator.patch
@@ -104,42 +68,15 @@ src_prepare() {
 	# TODO
 	# epatch "${FILESDIR}"/${PN}-Disable-object-tracking.patch
 
-	# Remove this patch after libchrome uprev past r626151.
-
-	# Fix timing issue with dbus::ObjectManager.
-	# # TODO(bingxue): Remove after libchrome uprev past r684392.
-	epatch "${FILESDIR}"/${PN}-Connect-to-NameOwnerChanged-signal-when-setting-call.patch
-
-	# Remove glib dependency.
-	# TODO(hidehiko): Fix the config in AOSP libchrome.
-	epatch "${FILESDIR}"/${PN}-libchrome-Remove-glib-dependency.patch
-
-	# Fix FileDescriptorWatcher leak
-	# TODO(fqj): Remove after libchrome past r627021.
-	epatch "${FILESDIR}"/${PN}-fix-fd-watcher-leak.patch
+	# Apply patches
+	while read -r patch; do
+		epatch "${S}/libchrome_tools/patches/${patch}"
+	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
 
 	# Use correct shebang for these python2-only scripts.
 	find "${S}"/mojo/ -name '*.py' \
 		-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
 
-	# Misc fix to build older crypto library.
-	epatch "${FILESDIR}"/${PN}-libchrome-Update-crypto.patch
-
-	# Enable location source to add function_name
-	epatch "${FILESDIR}"/${PN}-enable-location-source.patch
-
-	# Add WaitForServiceToBeAvailable back for MockObjectProxy
-	epatch "${FILESDIR}"/${PN}-WaitForServiceToBeAvailable.patch
-
-	# TODO(crbug.com/1044363): Remove after uprev >= r586219.
-	epatch "${FILESDIR}"/${PN}-Fix-TimeDelta.patch
-
-	# TODO(crbug.com/1065504): Remove after uprev to 754979.
-	epatch "${FILESDIR}"/${PN}-libchrome-fix-integer-overflow-if-microseconds-is-IN.patch
-
-	# Forward compatibility for r680000
-	epatch "${FILESDIR}"/${PN}-r680000-forward-compatibility-patch-part-1.patch
-	epatch "${FILESDIR}"/${PN}-r680000-forward-compatibility-patch-part-2.patch
 }
 
 src_install() {
