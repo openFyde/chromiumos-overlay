@@ -73,12 +73,14 @@ cr50_reset() {
   # Remove whitespace and newline from challenge.
   ch="$(echo "${ch}" | tr -d '[:space:]')"
 
-  # Calculate challenge string.
+  # Calculate challenge URL and display it.
   local chstr="${RMA_SERVER}?challenge=${ch}&hwid=${hwid}"
+  echo
+  echo "URL: ${chstr}"
 
   # Create qrcode and display it.
-  qrencode -o "${chg_str_path}/chg.png" "${chstr}"
-  printf "\033]image:file=/chg.png;scale=2\033\\" > /run/frecon/vt0
+  qrencode -s 5 -o "${chg_str_path}/chg.png" "${chstr}"
+  printf "\033]image:file=/chg.png\033\\" > /run/frecon/vt0
 
   local n=0
   local ac
