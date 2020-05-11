@@ -1,7 +1,7 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
 
@@ -11,7 +11,6 @@ DESCRIPTION="Chrome OS Factory Installer"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory_installer/"
 SRC_URI=""
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
 USE_PREFIX="tty_console_"
@@ -59,17 +58,17 @@ PROVIDED_DEPEND="
 # dependency because pkg_postinst in this ebuild edits specifc jobs
 # in that package.
 COMMON_DEPEND="
-	chromeos-base/chromeos-init
+	chromeos-base/chromeos-init:=
 	!chromeos-base/chromeos-factoryinstall
 	!chromeos-base/chromeos-factory"
 
-DEPEND="$COMMON_DEPEND
-	test? ( chromeos-base/secure-wipe )
-	chromeos-base/factory
-	x86? ( sys-boot/syslinux )"
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/factory:=
+	test? ( chromeos-base/secure-wipe:= )
+	x86? ( sys-boot/syslinux:= )"
 
-RDEPEND="$COMMON_DEPEND
-	$PROVIDED_DEPEND
+RDEPEND="${COMMON_DEPEND}
+	${PROVIDED_DEPEND}
 	app-arch/lbzip2
 	app-arch/pigz
 	app-misc/jq

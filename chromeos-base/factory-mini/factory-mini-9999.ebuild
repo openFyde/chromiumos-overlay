@@ -14,10 +14,10 @@
 # containing the necessary subset of factory Python code, and symlinks
 # from /usr/local/bin to that file.
 
-EAPI=5
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/factory"
 CROS_WORKON_LOCALNAME="platform/factory"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{4,5,6,7} )
 
 inherit cros-workon python-r1
 
@@ -33,16 +33,15 @@ SRC_URI="${WEBGL_AQUARIUM_URI} ${WS4PY_MODULE_URL}"
 DESCRIPTION="Subset of factory software to be installed in test images"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
 DEPEND="${PYTHON_DEPS}
-	dev-python/jsonrpclib
-	dev-python/pyyaml
-	dev-python/protobuf-python
-	virtual/chromeos-bsp-factory
-	virtual/chromeos-regions
+	dev-python/jsonrpclib:=
+	dev-python/pyyaml:=
+	dev-python/protobuf-python:=
+	virtual/chromeos-bsp-factory:=
+	virtual/chromeos-regions:=
 "
 
 pkg_setup() {
