@@ -26,7 +26,6 @@ COMMON_DEPEND="
 
 RDEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/chromeos-nat-init
 	net-firewall/iptables
 	net-misc/bridge-utils
 	sys-apps/iproute2
