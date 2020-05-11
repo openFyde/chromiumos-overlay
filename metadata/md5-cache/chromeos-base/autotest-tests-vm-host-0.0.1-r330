@@ -3,11 +3,11 @@ DEPEND=dev-vcs/git
 DESCRIPTION=kvm host autotests
 EAPI=5
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/autotest/
-IUSE=+autotest +tests_vm_CrosVmStart cros_host cros_workon_tree_1b0cb8d0306a38a1b0112f0240c5b29973ad8293 +buildcheck autotest opengles
+IUSE=+autotest +tests_vm_CrosVmStart cros_host cros_workon_tree_2ac9adb5779d52726145b2b8b501532e978de410 +buildcheck autotest opengles
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=( autotest? ( >=chromeos-base/autotest-0.0.1-r3 ) )
 SLOT=0
 _eclasses_=autotest	1eb16ddc463fad9d76c25c1e8e285bd4	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	b4fe5b52df5e942181066125ced64e4d	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	c7c0b5bffd28d4d0b3c7816c7980250f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=9a73175f1c783adab4ff8d53bfa68ebf
+_md5_=cea05a5292bb74e1e8fbf51e2fe7a058
