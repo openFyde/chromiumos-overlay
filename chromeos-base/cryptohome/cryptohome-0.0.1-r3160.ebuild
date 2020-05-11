@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="786dcdffd70d51b00b372fb1ae0f3aba938a4b9b"
+CROS_WORKON_COMMIT="edb7c8e4a6a8f7e809abe386d1e9608f98e85596"
 CROS_WORKON_TREE=("f6cfb2880a4b9361956ad167191dae6befeef4bf" "e76553bebb9315ff46405a1bd1045256117802c4" "1ceb952fe3fe609deefd4a6edaece6346142c46d" "d33af452545894a4015d3e685ef122cea924019c" "a6d4fca3db878377b5ababec63bde6714fa580dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -153,6 +153,7 @@ src_install() {
 	doins cryptohome_userdataauth_interface.conf
 	exeinto /usr/libexec/cryptohome
 	doexe shall-use-userdataauth.sh
+	doexe update_userdataauth_from_features.sh
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
