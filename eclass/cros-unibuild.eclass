@@ -287,40 +287,58 @@ _unibuild_install_fw() {
 }
 
 # @FUNCTION: _unibuild_install_fw_common
-# @USAGE: [config_name]
+# @USAGE: [cmd] [config_file]
 # @INTERNAL
 # @DESCRIPTION:
 # Install the firmware and create a symlink for the files which query from
 # the cros_config_host.
+# Args:
+#   $1: Command to pass to cros_config_host to get the files
+#   $2: (optional) Config file used by cros_config_host
 _unibuild_install_fw_common() {
-	local config_name="$1"
+	[[ $# -gt 0 ]] || die "${FUNCNAME}: cros_config_host command required"
+	[[ $# -lt 3 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
-	einfo "unibuild: Installing symlinked files"
+	local cmd="$1"
+	local files_path="${FILESDIR}"
+	local config="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
+	if [[ $# -gt 1 ]]; then
+		files_path="."
+		config="$2"
+	fi
+
+	einfo "unibuild: Installing ${cmd} based on ${config}"
 	set -o pipefail
-	cros_config_host "${config_name}" |
+	cros_config_host -c "${config}" "${cmd}" |
 	( while read -r source; do
 		read -r dest
 		read -r symlink
-		_unibuild_install_fw "${FILESDIR}/${source}" "${dest}" "${symlink}"
+		_unibuild_install_fw "${files_path}/${source}" "${dest}" "${symlink}"
 	done ) || die "Failed to read config"
 }
 
 # @FUNCTION: unibuild_install_touch_files
-# @USAGE:
+# @USAGE: [config_file]
 # @DESCRIPTION:
 # Install files related to touch firmware. This includes firmware for the
 # touchscreen, touchpad and stylus.
+# Args:
+#   $1: (optional) Config file used by cros_config_host
 unibuild_install_touch_files() {
-	_unibuild_install_fw_common "get-touch-firmware-files"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
+	_unibuild_install_fw_common "get-touch-firmware-files" "$@"
 }
 
 # @FUNCTION: unibuild_install_detachable_base_files
-# @USAGE:
+# @USAGE: [config_file]
 # @DESCRIPTION:
 # Install files related to detachable base firmware. This includes firmware
 # for the detachable base ec and touchpad binary
+# Args:
+#   $1: (optional) Config file used by cros_config_host
 unibuild_install_detachable_base_files() {
-	_unibuild_install_fw_common "get-detachable-base-firmware-files"
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
+	_unibuild_install_fw_common "get-detachable-base-firmware-files" "$@"
 }
 
 # @FUNCTION: unibuild_install_audio_files
