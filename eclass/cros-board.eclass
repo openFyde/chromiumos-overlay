@@ -150,6 +150,7 @@ ALL_BOARDS=(
 	eve-arm64
 	#eve-bertha
 	eve-campfire
+	eve-kernelnext
 	eve-kvm
 	eve-lacros
 	eve-manatee
