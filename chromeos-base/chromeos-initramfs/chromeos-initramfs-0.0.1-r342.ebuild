@@ -5,7 +5,7 @@ EAPI="6"
 CROS_WORKON_COMMIT="015a3de3fd526816df4a1b646e13febad52183f7"
 CROS_WORKON_TREE="4bd6cbfb5f507f38b34766f50a0c3a0e5b64d11f"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
-CROS_WORKON_LOCALNAME="initramfs"
+CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 
 inherit cros-workon cros-board cros-constants
@@ -69,6 +69,7 @@ FACTORY_NETBOOT_DEPENDS="
 	dev-util/xxd
 	net-misc/curl
 	net-misc/htpdate
+	net-misc/uftp
 	net-misc/wget
 	sys-apps/coreutils
 	sys-apps/flashrom
