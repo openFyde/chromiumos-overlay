@@ -15,16 +15,27 @@ HOMEPAGE="https://www.libcamera.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="arc-camera3 doc test udev"
+IUSE="arc-camera3 doc ipu3 rkisp1 test udev"
 
 RDEPEND="udev? ( virtual/libudev )"
 DEPEND="${RDEPEND}"
 
 src_configure() {
+	local pipelines=(
+		"uvcvideo"
+		$(usev ipu3)
+		$(usev rkisp1)
+	)
+
+	pipeline_list() {
+		printf '%s,' "$@" | sed 's:,$::'
+	}
+
 	local emesonargs=(
 		$(meson_use arc-camera3 android)
 		$(meson_use doc documentation)
 		$(meson_use test)
+		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
 	)
 	meson_src_configure
 }
