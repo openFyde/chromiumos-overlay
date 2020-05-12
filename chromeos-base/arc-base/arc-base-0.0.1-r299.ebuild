@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0c4760a9fe3dc79c37ca9f631cad35f6eb491259"
+CROS_WORKON_COMMIT="b2c2aed36852e63fd4e98a879a3aa9928b170c59"
 CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "107eb5577172bfec26b93c3f8e8c643c0d2f3f5e" "851376910e45c705b2a959b525fbee72cdd38833" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -43,8 +43,6 @@ src_install() {
 		insinto /opt/google/containers/android
 		if use android-container-rvc; then
 			doins arc/container-bundle/rvc/config.json
-		elif use android-container-qt; then
-			doins arc/container-bundle/qt/config.json
 		elif use android-container-pi; then
 			doins arc/container-bundle/pi/config.json
 		else

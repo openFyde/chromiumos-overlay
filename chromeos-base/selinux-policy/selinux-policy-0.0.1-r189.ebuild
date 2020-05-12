@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6c9d98a84089fc39c8f8eadbaba1a1e81b45550b"
+CROS_WORKON_COMMIT="b2c2aed36852e63fd4e98a879a3aa9928b170c59"
 CROS_WORKON_TREE="c45defbd9932ba69d34cedf3a1a93b66b464a786"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -16,7 +16,6 @@ DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="
-	android-container-qt
 	android-container-pi
 	android-vm-rvc
 	selinux_audit_all selinux_develop selinux_experimental
@@ -25,7 +24,6 @@ IUSE="
 	cheets_user cheets_user_64
 "
 DEPEND="
-	android-container-qt? ( chromeos-base/android-container-qt:0= )
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
 	android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
 "
@@ -119,15 +117,13 @@ version_cil() {
 }
 
 has_arc() {
-	use android-container-qt || use android-container-pi || use android-vm-rvc
+	use android-container-pi || use android-vm-rvc
 }
 
 gen_m4_flags() {
 	M4_COMMON_FLAGS=()
 	local arc_version="none"
-	if use android-container-qt; then
-		arc_version="q"
-	elif use android-container-pi; then
+	if use android-container-pi; then
 		arc_version="p"
 	elif use android-vm-rvc; then
 		arc_version="r"
