@@ -78,6 +78,7 @@ CONFIG_CHECK="~PERF_EVENTS ~KALLSYMS"
 PATCHES=(
 	"${FILESDIR}/5.3.7-Fix-hugepage-text.patch"
 	"${FILESDIR}/5.3.7-Don-t-install-self-tests.patch"
+	"${FILESDIR}/5.3.7-Fix-exit-on-signal.patch"
 )
 
 pkg_setup() {
