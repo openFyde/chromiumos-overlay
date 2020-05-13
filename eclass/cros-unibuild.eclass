@@ -355,23 +355,14 @@ unibuild_install_audio_files() {
 }
 
 # @FUNCTION: unibuild_install_arc_files
-# @USAGE:
-# @DESCRIPTION: Install files related to arc++.
+# @USAGE: [config_file]
+# @DESCRIPTION: Install files related to arc.
 # Args:
-#   $1: (optional) Source file directory path - default: ${FILESDIR}
+#   $1: (optional) Config file used by cros_config_host
 unibuild_install_arc_files() {
 	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
-	einfo "unibuild: Installing arc++ files"
-	local source dest
-	(cros_config_host get-arc-files "$1" || die) |
-	while read -r source; do
-		read -r dest
-		einfo "   - ${source}"
-		insinto "$(dirname "${dest}")"
-		newins "${FILESDIR}/${source}" "$(basename "${dest}")"
-		chmod 755 "${D}/${dest}"
-	done
+	_unibuild_common_install get-arc-files "$@"
 }
 
 # @FUNCTION: unibuild_install_bluetooth_files
