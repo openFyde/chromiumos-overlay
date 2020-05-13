@@ -16,7 +16,7 @@ LICENSE="GPL-2"
 SLOT="0/0"
 KEYWORDS="~*"
 IUSE="+atahpt +bitbang_spi +buspirate_spi dediprog +drkaiser
-+dummy +fdtmap +ft2232_spi +gfxnvidia +internal +linux_i2c +linux_mtd +linux_spi
++dummy +fdtmap +ft2232_spi +gfxnvidia +internal +linux_mtd +linux_spi
 +nic3com +nicintel +nicintel_spi +nicnatsemi +nicrealtek +ogp_spi
 +raiden_debug_spi +rayer_spi +satasii +satamv +serprog static use_os_timer +wiki"
 
@@ -60,7 +60,7 @@ src_compile() {
 	# Programmer
 	flashrom_enable \
 		atahpt bitbang_spi buspirate_spi dediprog drkaiser fdtmap \
-		ft2232_spi gfxnvidia linux_i2c linux_mtd linux_spi \
+		ft2232_spi gfxnvidia linux_mtd linux_spi \
 		nic3com nicintel nicintel_spi nicnatsemi nicrealtek ogp_spi \
 		raiden_debug_spi rayer_spi  satasii satamv serprog internal \
 		dummy
