@@ -1,9 +1,13 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
+
+# TODO(crbug.com/1007152): This is the last LTS release of cherrypy that
+#     supports both Python 2 & 3. Don't upgrade this package past this version
+#     until all users are migrated to Python 3.
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7} pypy3 )
+PYTHON_COMPAT=( python2_7 python3_{6,7} )
 
 inherit distutils-r1
 
@@ -14,7 +18,7 @@ HOMEPAGE="https://www.cherrypy.org https://pypi.org/project/CherryPy/"
 SRC_URI="mirror://pypi/C/CherryPy/${MY_P}.tar.gz"
 
 LICENSE="BSD"
-SLOT="3.6"
+SLOT="0"
 KEYWORDS="*"
 IUSE="ssl"
 # IUSE="ssl test"
@@ -22,12 +26,15 @@ IUSE="ssl"
 # for this release.
 RESTRICT="test"
 
-RDEPEND=">=dev-python/cheroot-6.2.4[${PYTHON_USEDEP}]
+RDEPEND=">=dev-python/six-1.11.0[${PYTHON_USEDEP}]
+	>=dev-python/cheroot-6.2.4[${PYTHON_USEDEP}]
 	>=dev-python/portend-2.1.1[${PYTHON_USEDEP}]
 	dev-python/more-itertools[${PYTHON_USEDEP}]
 	dev-python/zc-lockfile[${PYTHON_USEDEP}]
+	dev-python/contextlib2[${PYTHON_USEDEP}]
 	ssl? ( dev-python/pyopenssl[${PYTHON_USEDEP}] )
-	!dev-python/cherrypy:0"
+	!dev-python/cherrypy:2.7
+	!dev-python/cherrypy:3.6"
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	dev-python/setuptools_scm[${PYTHON_USEDEP}]"
@@ -39,17 +46,11 @@ DEPEND="${RDEPEND}
 #	dev-python/objgraph[${PYTHON_USEDEP}]
 #		dev-python/pytest[${PYTHON_USEDEP}]
 #		dev-python/pytest-cov[${PYTHON_USEDEP}]
-#		dev-python/pytest-services[${PYTHON_USEDEP}]
 #		dev-python/pytest-sugar[${PYTHON_USEDEP}]
 #		dev-python/backports-unittest-mock[${PYTHON_USEDEP}]
 #		dev-python/path-py[${PYTHON_USEDEP}]
-#		dev-python/requests-toolbelt[${PYTHON_USEDEP}]
 #	)"
 S="${WORKDIR}/${MY_P}"
-
-PATCHES=(
-	"${FILESDIR}"/cherrypy-18.1.0-r1-setup.patch
-)
 
 python_prepare_all() {
 	# UnicodeEncodeError: 'ascii' codec can't encode character u'\u2603' in position 0: ordinal not in range(128)
@@ -61,4 +62,3 @@ python_prepare_all() {
 # python_test() {
 #	py.test -v || die "tests failed under ${EPTYHON}"
 # }
-

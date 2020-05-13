@@ -171,8 +171,7 @@ RDEPEND="${RDEPEND}
 	dev-libs/protobuf-c
 	dev-libs/wayland
 	dev-python/cffi
-	dev-python/cherrypy:2.7
-	dev-python/cherrypy:3.6
+	dev-python/cherrypy
 	dev-python/ctypesgen
 	dev-python/dbus-python
 	dev-python/dpkt
