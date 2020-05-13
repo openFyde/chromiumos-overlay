@@ -3,19 +3,19 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8a06756512355f60f936dcd99b20604d2963cf8a"
-CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "88f8b8e0145bb4e24d0895979814c59a087e6758" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="136c5ce09155ce120c6a8c58136d5ae88e69c0db"
+CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "abebfeab75ffcd787c6eeaad806148d1e355b774" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk patchpanel .gn"
 
-PLATFORM_SUBDIR="patchpanel/ndproxyd"
+PLATFORM_SUBDIR="patchpanel/mcastd"
 
 inherit cros-workon libchrome platform
 
-DESCRIPTION="NDProxy daemon"
+DESCRIPTION="Multicast forwarder daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/network/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -27,7 +27,7 @@ COMMON_DEPEND="
 
 RDEPEND="
 	${COMMON_DEPEND}
-	!chromeos-base/arc-networkd-ndproxyd
+	!chromeos-base/arc-networkd-mcastd
 "
 
 DEPEND="
@@ -35,6 +35,5 @@ DEPEND="
 "
 
 src_install() {
-	dobin "${OUT}"/ndproxyd
+	dobin "${OUT}"/mcastd
 }
-
