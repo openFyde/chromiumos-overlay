@@ -202,6 +202,7 @@ RDEPEND="${RDEPEND}
 	dev-python/ws4py
 	dev-util/bazel
 	dev-util/cmake
+	dev-util/dwarves
 	dev-util/gob
 	dev-util/gdbus-codegen
 	dev-util/gperf
