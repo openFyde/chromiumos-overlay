@@ -20,6 +20,7 @@ openat: 1
 pipe2: 1
 ppoll: 1
 read: 1
+restart_syscall: 1
 recvfrom: 1
 rt_sigaction: 1
 sendto: 1

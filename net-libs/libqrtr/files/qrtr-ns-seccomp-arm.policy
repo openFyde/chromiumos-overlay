@@ -21,6 +21,7 @@ openat: 1
 pipe: 1
 poll: 1
 read: 1
+restart_syscall: 1
 recv: 1
 recvfrom: 1
 rt_sigaction: 1
