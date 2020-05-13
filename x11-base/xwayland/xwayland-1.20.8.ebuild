@@ -44,6 +44,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/0001-xwayland-virtwl-with-dmabuf-for-1.20.1.patch
 	epatch "${FILESDIR}"/0001-Eliminate-conflict-with-X11-Xlib.h-with-khronos-eglp.patch
 	epatch "${FILESDIR}"/0001-xwayland-sysmacros.patch
+	epatch "${FILESDIR}"/0001-xwayland-Fall-back-to-gbm_bo_create-if-no-modifiers-.patch
 
 	# Needed for patches that modify configure.ac
 	eautoreconf
