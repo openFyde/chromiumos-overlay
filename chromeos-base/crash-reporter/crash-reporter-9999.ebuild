@@ -135,4 +135,6 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/crash_reporter_test" "1" \
 		"${gtest_filter_root_tests}"
 	platform_test "run" "${OUT}/anomaly_detector_test"
+	platform_test "run" "${OUT}/anomaly_detector_text_file_reader_test"
+	platform_test "run" "${OUT}/anomaly_detector_log_reader_test"
 }
