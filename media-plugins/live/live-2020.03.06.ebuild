@@ -11,6 +11,10 @@ LICENSE="LGPL-2.1"
 KEYWORDS="*"
 IUSE="libressl ssl"
 
+PATCHES=(
+	"${FILESDIR}/${PN}-${PV}-Expose-RTP-Timestamp-in-RTPSource.patch"
+)
+
 DEPEND="
 	ssl? (
 		!libressl? ( dev-libs/openssl:0= )
@@ -32,7 +36,6 @@ S="${WORKDIR}/live"
 
 src_prepare() {
 	default
-
 	cp "${FILESDIR}/config.gentoo-so-r3" "${S}/config.gentoo-so-r1" || die
 
 	# This is all legacy stuff which needs to be cleaned up
