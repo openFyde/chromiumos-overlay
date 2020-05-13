@@ -259,5 +259,4 @@ RDEPEND="${CROS_COMMON_RDEPEND}
 # unit tests
 DEPEND="
 	chromeos-base/chromite
-	unibuild? ( chromeos-base/chromeos-config-file-dump-test )
 "
