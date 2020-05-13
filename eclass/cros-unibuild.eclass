@@ -282,7 +282,7 @@ _unibuild_install_fw() {
 
 	elog "   - ${source} with symlink from ${symlink}"
 	insinto "$(dirname "${dest}")"
-	doins "${source}"
+	newins "${source}" "$(basename "${dest}")"
 	dosym "${dest}" "${symlink}"
 }
 
