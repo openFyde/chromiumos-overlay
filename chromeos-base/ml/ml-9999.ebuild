@@ -49,7 +49,7 @@ RDEPEND="
 	chromeos-base/chrome-icu:=
 	chromeos-base/libbrillo:=
 	chromeos-base/metrics:=
-	dev-libs/libhandwriting:=
+	dev-libs/libhandwriting:=[ondevice_handwriting=]
 	dev-libs/libtextclassifier:=
 	sci-libs/tensorflow:=
 "
