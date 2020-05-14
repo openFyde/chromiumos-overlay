@@ -12,7 +12,7 @@ DESCRIPTION="Chrome OS verified boot tools"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros_host dev_debug_force fuzzer pd_sync tpmtests tpm tpm2"
+IUSE="cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm2"
 
 REQUIRED_USE="?? ( tpm2 tpm )"
 
@@ -37,10 +37,17 @@ src_configure() {
 		sanitizers-setup-env
 	)
 	if use_sanitizers; then
-		# Disable alignment sanitization and memory leak checks,
-		# https://crbug.com/1015908 .
+		# Disable alignment sanitization, https://crbug.com/1015908 .
 		SANITIZER_CFLAGS+=" -fno-sanitize=alignment"
-		export ASAN_OPTIONS+=":detect_leaks=0:detect_odr_violation=0:"
+
+		# Suppressions for unit tests.
+		if use test; then
+			# Do not check memory leaks or odr violations in address sanitizer.
+			# https://crbug.com/1015908 .
+			export ASAN_OPTIONS+=":detect_leaks=0:detect_odr_violation=0:"
+			# Suppress array bound checks, https://crbug.com/1082636 .
+			SANITIZER_CFLAGS+=" -fno-sanitize=array-bounds"
+		fi
 	fi
 	cros-debug-add-NDEBUG
 	default
