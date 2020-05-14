@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="635cfaf528d59aa0f485475fb94db545cc986839"
+CROS_WORKON_COMMIT="605988d15b31718b8c8f81cc16be4e9850169f38"
 CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "b4214db22981200b7069ff8d67d0da01342e2045" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -51,7 +51,7 @@ RDEPEND="
 	chromeos-base/chrome-icu:=
 	chromeos-base/libbrillo:=
 	chromeos-base/metrics:=
-	dev-libs/libhandwriting:=
+	dev-libs/libhandwriting:=[ondevice_handwriting=]
 	dev-libs/libtextclassifier:=
 	sci-libs/tensorflow:=
 "
