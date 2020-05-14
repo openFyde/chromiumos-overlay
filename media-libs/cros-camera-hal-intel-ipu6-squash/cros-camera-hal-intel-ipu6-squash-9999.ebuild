@@ -39,8 +39,10 @@ DEPEND="${RDEPEND}
 src_unpack() {
 	platform_src_unpack
 	cd "${P}/platform2" || die
-	# Generate the patch under platform2 by 'git format-patch HEAD^'
-	epatch -p1 "${FILESDIR}/0001-intel-ipu6-Add-initial-code.patch"
+	if [ "${PV}" != "9999" ]; then
+		# Generate the patch under platform2 by 'git format-patch HEAD^'
+		epatch -p1 "${FILESDIR}/0001-intel-ipu6-Add-initial-code.patch"
+	fi
 }
 
 src_install() {
