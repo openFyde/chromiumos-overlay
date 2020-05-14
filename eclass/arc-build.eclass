@@ -168,9 +168,6 @@ arc-build-select-clang() {
 		export CXX="${CXX} -stdlib=libc++"
 		append-cxxflags -stdlib=libc++
 	else
-		if [[ ${ARC_BASE} != *master* ]]; then
-			die "Expecting path for master branch but got ${ARC_BASE}"
-		fi
 		append-cxxflags -nostdinc++ -I${ARC_SYSROOT}/usr/include/c++/4.9
 	fi
 }
