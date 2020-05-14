@@ -1,7 +1,7 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/khronos"
 CROS_WORKON_LOCALNAME="khronos"
 
@@ -11,12 +11,11 @@ DESCRIPTION="OpenGL|ES headers."
 HOMEPAGE="http://www.khronos.org/opengles/2_X/"
 SRC_URI=""
 LICENSE="SGI-B-2.0"
-SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
 # libX11 needs to be in RDEPEND because we depend on the header being present
-RDEPEND="x11-libs/libX11"
+RDEPEND="x11-libs/libX11:="
 DEPEND="${RDEPEND}"
 
 src_install() {
