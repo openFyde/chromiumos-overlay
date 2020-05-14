@@ -47,4 +47,8 @@ src_install() {
 	doins "${S}/include/CL/cl_gl_ext.h"
 	doins "${S}/include/CL/cl_platform.h"
 	doins "${S}/include/CL/opencl.h"
+	insinto /usr/include/spirv/unified1
+	doins "${S}/include/spirv/unified1/spirv.h"
+	doins "${S}/include/spirv/unified1/spirv.hpp"
+	doins "${S}/include/spirv/unified1/spirv.hpp11"
 }
