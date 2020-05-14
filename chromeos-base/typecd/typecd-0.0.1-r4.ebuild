@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="0c4760a9fe3dc79c37ca9f631cad35f6eb491259"
-CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "34b3594059ca997b56ca950d778bc68c6a67560c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9a77f4b67665aee29d7a813c3c4a2ef4d98c3391"
+CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "13c3d39321c3d6f2d6b981877b06b20f999fb89c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,4 +29,8 @@ src_install() {
 pkg_preinst() {
 	enewuser typecd
 	enewgroup typecd
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/typecd_testrunner"
 }
