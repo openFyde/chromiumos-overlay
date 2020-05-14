@@ -36,13 +36,11 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="generated_cros_config unibuild"
 
-# We need util-linux for libuuid.
 RDEPEND="unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
 	dev-util/cmocka
-	sys-apps/util-linux
 	>=sys-apps/flashmap-0.3-r4
 	chromeos-base/minijail"
 DEPEND="${RDEPEND}"
