@@ -21,17 +21,19 @@ KEYWORDS="*"
 IUSE="aio avahi libiio_all"
 
 RDEPEND="dev-libs/libxml2:=
-	virtual/libusb:1=
 	aio? ( dev-libs/libaio:= )
-	avahi? ( net-dns/avahi )
+	libiio_all? (
+		avahi? ( net-dns/avahi )
+	)
 	!dev-libs/libiio"
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	use libiio_all || mycmakeargs+=( -DWITH_IIOD=OFF -DWITH_TESTS=OFF )
+	# For test purposes, compile iiod and test tools, and allow connection over network.
+	use libiio_all || mycmakeargs+=( -DWITH_IIOD=OFF -DWITH_TESTS=OFF -DWITH_NETWORK_BACKEND=OFF)
 
-	# Remove udev rules to detect sensors on USB devices.
-	mycmakeargs+=( -DINSTALL_UDEV_RULE=OFF )
+	# Remove udev rules to detect sensors on USB devices, USB and serial backends.
+	mycmakeargs+=( -DINSTALL_UDEV_RULE=OFF -DWITH_USB_BACKEND=OFF -DWITH_SERIAL_BACKEND=OFF)
 
 	cmake-utils_src_configure
 	default
