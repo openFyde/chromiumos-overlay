@@ -1,10 +1,11 @@
-This feature profile enables the debug USE flag for every chromeos-kernel
-package. It is intended to be used for CrOS automated debug kernel testing.
+This feature profile enables the debug and kcov USE flags for every chromeos-kernel
+package. It is intended to be used for CrOS automated debug kernel testing
+(go/cros-automated-debug-kernel-testing) and go/ctp-syzkaller.
 
 Debug kernel testing is designed to uncover bugs that are hidden in our
 regularly tested kernel which is optimized for performance. Enabling the kernel
 debug flag will turn on necessary assertions and debug options to expose such
-bugs.
+bugs. USE=kcov must be enabled to run Syzkaller on lab DUTs for go/ctp-syzkaller.
 
 To add a debug kernel profile to an existing overlay, take the following steps:
 1) Create a new subdirectory within the given overlay's "profiles" directory.
@@ -16,5 +17,5 @@ To add a debug kernel profile to an existing overlay, take the following steps:
 
 The first line specifies that the new profile will inherit from the overlay's
 base profile. The second line will mix in this debug feature profile which
-enables the debug USE flag for the chromeos-kernel package, independent of
+enables the debug and kcov USE flags for the chromeos-kernel package, independent of
 which kernel version the overlay uses.
