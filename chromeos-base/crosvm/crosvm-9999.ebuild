@@ -23,6 +23,7 @@ IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf fuzzer tpm2 ar
 COMMON_DEPEND="
 	sys-apps/dtc:=
 	sys-libs/libcap:=
+	chromeos-base/libvda:=
 	chromeos-base/minijail:=
 	crosvm-gpu? (
 		dev-libs/wayland:=
@@ -46,6 +47,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/futures-0.3*:=
 	~dev-rust/getopts-0.2.18:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
+	dev-rust/libvda:=
 	dev-rust/minijail-sys:=
 	~dev-rust/num_cpus-1.9.0:=
 	=dev-rust/paste-0.1*:=
