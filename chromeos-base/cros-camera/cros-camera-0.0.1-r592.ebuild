@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="41994d9552134f7d6ca439a8ce5d0c26593cf42f"
+CROS_WORKON_COMMIT="796e6a075a8a0d4166a5c09ab6e7520618e3ddfd"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "72427d874c5b7e36da462bb21036de672eeb4075" "7cb28eb405966c596015971649f12d9f24a43997" "5a3c33358d2e1a0dbc2f0bcde701e309c8a5262f" "49ebbb04271c8adf7488fdfb4c30b4a08c85a414" "093c7a01cb65cb24871c5a2ce7c2bdd0a536fccf" "beaa4ae826abb3520fd39561f6556ff65c85078d" "f2476844d73365333531645393bbcbe0e4082023")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,7 +22,7 @@ camera device. It uses unix domain socket to build a synchronous channel."
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="arc-camera1 cheets +cros-camera-algo-sandbox"
+IUSE="arc-camera1 cheets +cros-camera-algo-sandbox -libcamera"
 
 BDEPEND="virtual/pkgconfig"
 
@@ -35,8 +35,11 @@ COMMON_DEPEND="
 	media-libs/cros-camera-libcamera_metadata:=
 	media-libs/libsync:=
 	virtual/cros-camera-effects
-	virtual/cros-camera-hal
-	virtual/cros-camera-hal-configs"
+	libcamera? ( media-libs/libcamera )
+	!libcamera? (
+		virtual/cros-camera-hal
+		virtual/cros-camera-hal-configs
+	)"
 
 RDEPEND="${COMMON_DEPEND}"
 
