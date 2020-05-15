@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT=("90165df7bb51d6f7a04a8345a2bdb9d6030ec836" "547ab159834aceda78e883ac38c4940e2cfe959d")
-CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "a1dbf4ade9eeb2d91e940d0d39e71e5e94c9950c")
+CROS_WORKON_COMMIT=("e118efdf451af6346811cfa74a8aa3f176277736" "aac2879d86497da9ed480af29d0ba41d5c8b8788")
+CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "1be75064f0be7abe5100b31cfbe9e2efc4c441c1")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"chromiumos/platform/mosys"
@@ -25,75 +25,29 @@ CROS_WORKON_SUBTREE=(
 
 MESON_AUTO_DEPEND=no
 
-CRATES="
-aho-corasick-0.6.3
-ansi_term-0.9.0
-atty-0.2.3
-bindgen-0.31.3
-bitflags-0.9.1
-cexpr-0.2.2
-cfg-if-0.1.2
-clang-sys-0.21.1
-clap-2.27.1
-env_logger-0.4.3
-getopts-0.2.21
-glob-0.2.11
-kernel32-sys-0.2.2
-lazy_static-0.2.11
-lazy_static-1.4.0
-libc-0.2.33
-libloading-0.4.2
-log-0.3.8
-memchr-1.0.2
-nom-3.2.1
-peeking_take_while-0.1.2
-quote-0.3.15
-redox_syscall-0.1.31
-redox_termios-0.1.1
-regex-0.2.2
-regex-syntax-0.4.1
-strsim-0.6.0
-termion-1.5.1
-textwrap-0.9.0
-thread_local-0.3.4
-unicode-width-0.1.6
-unreachable-1.0.0
-utf8-ranges-1.0.0
-vec_map-0.8.0
-void-1.0.2
-which-1.0.3
-winapi-0.2.8
-winapi-build-0.1.1
-"
-
 WANT_LIBCHROME="no"
 WANT_LIBBRILLO="no"
 
-inherit cargo flag-o-matic meson toolchain-funcs cros-unibuild cros-workon platform
+inherit meson flag-o-matic toolchain-funcs cros-unibuild cros-workon platform
 
 DESCRIPTION="Utility for obtaining various bits of low-level system info"
 HOMEPAGE="http://mosys.googlecode.com/"
-
-SRC_URI="$(cargo_crate_uris ${CRATES})"
 
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
 SLOT="0"
 KEYWORDS="*"
 IUSE="generated_cros_config unibuild"
 
-# We need util-linux for libuuid.
 RDEPEND="unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
 	dev-util/cmocka
-	sys-apps/util-linux
 	>=sys-apps/flashmap-0.3-r4
 	chromeos-base/minijail"
 DEPEND="${RDEPEND}"
 
 src_unpack() {
-	cargo_src_unpack
 	cros-workon_src_unpack
 	PLATFORM_TOOLDIR="${S}/platform2/common-mk"
 	S+="/platform/mosys"
@@ -124,14 +78,14 @@ src_configure() {
 		)
 	fi
 
+	# Necessary to enable LTO.  See crbug.com/1082378.
+	append-ldflags "-O2"
+
 	meson_src_configure
 }
 
 src_compile() {
 	meson_src_compile
-	cd ${S}/platform/mosys
-	export RUSTFLAGS="-C default-linker-libraries"
-	MESON_BUILD_ROOT="${BUILD_DIR}" cargo_src_compile
 }
 
 platform_pkg_test() {
@@ -148,10 +102,7 @@ platform_pkg_test() {
 }
 
 src_install() {
-	# cargo doesn't know how to install cross-compiled binaries. Manually
-	# install mosys instead.
-	local build_dir="${WORKDIR}/${CHOST}/$(usex debug debug release)"
-	dosbin "${build_dir}/mosys"
+	dosbin "${BUILD_DIR}/mains/mosys"
 
 	insinto /usr/share/policy
 	newins "seccomp/mosys-seccomp-${ARCH}.policy" mosys-seccomp.policy
