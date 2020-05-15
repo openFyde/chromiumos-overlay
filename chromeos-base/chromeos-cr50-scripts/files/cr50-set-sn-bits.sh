@@ -13,7 +13,7 @@ GSCTOOL="/usr/sbin/gsctool"
 ERR_GENERAL=1
 ERR_ALREADY_SET=2
 ERR_ALREADY_SET_DIFFERENT=3
-ERR_FORBIDDEN_TO_SET=4
+ERR_MISSING_VPD_KEY=4
 
 die_as() {
   local exit_value="$1"
@@ -118,14 +118,12 @@ main() {
     DRY_RUN=Y
   fi
 
+  local VPD_KEY=attested_device_id
   local sn
-  if ! sn="$(vpd -g attested_device_id 2>/dev/null)"; then
-    echo "WARNING: Please provide attested_device_id. Using serial_number as backup."
-    sn="$(vpd -g serial_number 2>/dev/null)"
-  fi
-
+  sn="$(vpd -g "${VPD_KEY}" 2>/dev/null)"
   if [ -z "${sn}" ]; then
-    die "The value of attested_device_id must not be empty."
+    die_as "${ERR_MISSING_VPD_KEY}" \
+      "The RO VPD key ${VPD_KEY} must present and not empty."
   fi
 
   # Compute desired SN Bits, check that they can be set, and set them.
