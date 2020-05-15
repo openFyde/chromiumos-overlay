@@ -49,6 +49,7 @@ ALL_BOARDS=(
 	asuka
 	asurada
 	atlas
+	atlas-arm64
 	atlas-blueznext
 	atlas-kvm
 	auron
@@ -278,6 +279,7 @@ ALL_BOARDS=(
 	#newbie
 	ninja
 	nocturne
+	nocturne-arm64
 	novato
 	novato-arc64
 	novato-arcnext
