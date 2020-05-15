@@ -8,7 +8,6 @@ _ARC_BUILD_CONSTANTS_ECLASS=1
 ANDROID_CONTAINER_VERS=(
 	android-container-pi
 	android-container-qt
-	android-container-rvc
 )
 
 # USE flags corresponding to different VM versions.

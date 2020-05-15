@@ -20,7 +20,6 @@ KEYWORDS="~*"
 IUSE="
 	android-container-pi
 	android-container-qt
-	android-container-rvc
 	arcpp
 	arcvm
 	"
@@ -39,9 +38,7 @@ src_install() {
 
 	if use arcpp; then
 		insinto /opt/google/containers/android
-		if use android-container-rvc; then
-			doins arc/container-bundle/rvc/config.json
-		elif use android-container-pi; then
+		if use android-container-pi; then
 			doins arc/container-bundle/pi/config.json
 		else
 			echo "Unknown container version" >&2
