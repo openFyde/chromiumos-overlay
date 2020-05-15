@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="000c6c0ef4923e3835b756af6856879fa2e235ae"
-CROS_WORKON_TREE="0e77927f1fbf86bf96f844a98b23f189eded7fae"
+CROS_WORKON_COMMIT="f1adfe192bf2863a9efc0d8517b43a69c46146b5"
+CROS_WORKON_TREE="307304f10e10d249e38ea83af5d311d5a9f13951"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit libchrome cros-workon autotest
@@ -15,7 +15,7 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups +encrypted_stateful hammerd +network_time -ppp +passive_metrics +profile vaapi"
+IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups +encrypted_stateful hammerd +network_time +passive_metrics +profile vaapi"
 # Enable autotest by default.
 IUSE="${IUSE} +autotest"
 
@@ -141,23 +141,13 @@ CLIENT_IUSE_TESTS="
 	+tests_infra_FirmwareAutoupdate
 	+tests_kernel_AsyncDriverProbe
 	+tests_kernel_FirmwareRequest
-	+tests_kernel_CheckArmErrata
-	ppp? ( +tests_kernel_ConfigVerifyPPP )
-	+tests_kernel_CpufreqMinMax
-	+tests_kernel_CrosECSysfs
 	+tests_kernel_CrosECSysfsAccel
 	+tests_kernel_Delay
-	+tests_kernel_fs_Inplace
 	+tests_kernel_fs_Punybench
-	+tests_kernel_HdParm
-	+tests_kernel_IgnoreGptOptionServer
 	+tests_kernel_Ktime
 	+tests_kernel_Lmbench
-	+tests_kernel_LowMemNotify
 	+tests_kernel_Memory_Ramoop
-	profile? ( +tests_kernel_PerfEventRename )
 	+tests_kernel_SchedBandwith
-	+tests_kernel_VbootContextEC
 	crash_reporting? (
 		+tests_logging_CrashSender
 		+tests_logging_KernelCrash
