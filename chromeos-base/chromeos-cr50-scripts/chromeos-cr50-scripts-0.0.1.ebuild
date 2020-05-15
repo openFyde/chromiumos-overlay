@@ -10,7 +10,6 @@ DESCRIPTION="Ebuild to support the Chrome OS Cr50 device."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="zero_touch"
 
 RDEPEND="
 	chromeos-base/ec-utils
@@ -48,12 +47,10 @@ src_install() {
 		cr50-read-rma-sn-bits.sh
 		cr50-reset.sh
 		cr50-set-board-id.sh
+		cr50-set-sn-bits.sh
 		cr50-update.sh
 		cr50-verify-ro.sh
 	)
-	if use zero_touch; then
-		files+=(cr50-set-sn-bits.sh)
-	fi
 	for f in "${files[@]}"; do
 		doexe "${FILESDIR}/${f}"
 	done
