@@ -60,12 +60,23 @@ src_install() {
 	einfo "Installing Android headers."
 	insinto /usr/include/aosp
 	doins -r includes/*
+	doins -r ../aosp/system/core/base/include/*
 	doins -r ../aosp/system/core/libcutils/include/*
+	doins -r ../aosp/system/core/libutils/include/*
 
 	einfo "Installing static libraries."
-	dolib.a "${OUT}/libcutils.a"
+	dolib.a "${OUT}/libnnapi-base.a"
+	dolib.a "${OUT}/libnnapi-cutils.a"
+	dolib.a "${OUT}/libnnapi-utils.a"
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/libcutils_testrunner"
+	local tests=(
+		base cutils utils
+	)
+
+	local test_target
+	for test_target in "${tests[@]}"; do
+		platform_test "run" "${OUT}/libnnapi-${test_target}_testrunner"
+	done
 }
