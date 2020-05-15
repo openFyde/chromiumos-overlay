@@ -11,7 +11,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="vm-init"
 
 S="${WORKDIR}"
 
@@ -29,18 +29,24 @@ DEPEND="
 "
 
 src_install() {
+	local tools=(
+		"/usr/bin/chunnel"
+		"/usr/bin/garcon"
+		"/usr/bin/notificationd"
+		"/usr/bin/sommelier"
+		"/usr/bin/wayland_demo"
+		"/usr/bin/Xwayland"
+		"/usr/bin/x11_demo"
+		"/usr/bin/xkbcomp"
+		"/usr/sbin/vshd"
+	)
+	if use vm-init; then
+		tools+=("/sbin/init")
+	fi
 	"${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --bindir=/bin \
 			--libdir=/lib --generate-wrappers \
 			--copy-to-tree="${WORKDIR}"/container_pkg/ \
-			/usr/bin/chunnel \
-			/usr/bin/garcon \
-			/usr/bin/notificationd \
-			/usr/bin/sommelier \
-			/usr/bin/wayland_demo \
-			/usr/bin/Xwayland \
-			/usr/bin/x11_demo \
-			/usr/bin/xkbcomp \
-			/usr/sbin/vshd
+			"${tools[@]}"
 
 	# These libraries are dlopen()'d so lddtree doesn't know about them.
 	local dlopen_libs=(
