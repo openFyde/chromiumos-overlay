@@ -6,7 +6,7 @@ EAPI="5"
 DESCRIPTION="Firmware for tools based on Chromium OS EC"
 HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 
-C2D2_NAME="c2d2_v2.4.14-e63a7924c"
+C2D2_NAME="c2d2_v2.4.24-c281b1c5d"
 SERVO_MICRO_NAME="servo_micro_v2.4.17-df61092c3"  # servo-firmware-R81-12768.20.0
 SERVO_V4_NAME="servo_v4_v2.4.17-df61092c3"        # servo-firmware-R81-12768.20.0
 SERVO_V41_NAME="servo_v41_v2.0.3735+440cf71e0"    # Local builds are temporary b/153464312
