@@ -18,7 +18,7 @@ SRC_URI="test? ( https://storage.googleapis.com/crosvm-testing/x86_64/${KERNEL_P
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
 
 COMMON_DEPEND="
 	sys-apps/dtc:=
@@ -119,6 +119,8 @@ src_compile() {
 	local features=(
 		$(usex crosvm-gpu gpu "")
 		$(usex crosvm-plugin plugin "")
+		$(usex crosvm-video-decoder video-decoder "")
+		$(usex crosvm-video-encoder video-encoder "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
 	)
