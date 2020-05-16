@@ -32,6 +32,7 @@ IUSE="
 	cros_embedded
 	kvm_host
 	hammerd
+	ml_service
 	opengl
 	opengles
 	p2p
@@ -90,6 +91,7 @@ CROS_COMMON_RDEPEND="
 	chromeos-base/factory-deps
 	biod? ( virtual/chromeos-fpmcu-test )
 	hammerd? ( chromeos-base/hammerd-test-utils )
+	ml_service? ( chromeos-base/ml-cmdline )
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
 	chromeos-base/tast-local-tests
