@@ -21,6 +21,7 @@ KEYWORDS="~*"
 # TODO(youkichihosoi): Remove this blocker after a while.
 RDEPEND="
 	${RDEPEND}
+	chromeos-base/arc-setup
 	!chromeos-base/arcvm-launch
 "
 
