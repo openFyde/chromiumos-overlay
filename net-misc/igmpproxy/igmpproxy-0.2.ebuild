@@ -18,6 +18,7 @@ CONFIG_CHECK="~IP_MULTICAST ~IP_MROUTE"
 
 src_prepare() {
 	epatch "${FILESDIR}/patches/${PN}-0.2-send-updated-report.patch"
+	epatch "${FILESDIR}/patches/${PN}-0.2-configure-queryinterval-and-reportforwarding.patch"
 }
 
 src_install() {

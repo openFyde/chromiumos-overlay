@@ -6,7 +6,7 @@ as their infrastructure might timeout if the reports are not received
 periodically. This patch ensures that every received membership
 report from downstream is forwarded upstream as well.
 
-Reviewed on https://chromium-review.googlesource.com/2192981
+Reviewed on https://chromium-review.googlesource.com/2182981
 
 ---
 diff -Naur -U 10 --show-c-function src/rttable.c src-new/rttable.c
