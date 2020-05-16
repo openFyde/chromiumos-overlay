@@ -300,7 +300,10 @@ cros-rust_src_configure() {
 
 	use cros-debug && rustflags+=( -Cdebug-assertions=on )
 
-	use asan && rustflags+=( -Csanitizer=address )
+	# Rust compiler is not exporting the __asan_* symbols needed in
+	# asan builds. Force export-dynamic linker flag to export __asan_* symbols
+	# https://crbug.com/1085546
+	use asan && rustflags+=( -Csanitizer=address -Clink-arg="-Wl,-export-dynamic" )
 	use lsan && rustflags+=( -Csanitizer=leak )
 	use msan && rustflags+=( -Csanitizer=memory )
 	use tsan && rustflags+=( -Csanitizer=thread )
