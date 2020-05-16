@@ -31,7 +31,12 @@ DEPEND="
 
 RDEPEND="${DEPEND}"
 
-pkg_pretend() {
+src_unpack() {
+	cros-workon_src_unpack
+	S+="/hostapd"
+}
+
+src_configure() {
 	if use internal-tls; then
 		if use libressl; then
 			elog "libressl flag takes precedence over internal-tls"
@@ -39,14 +44,7 @@ pkg_pretend() {
 			ewarn "internal-tls implementation is experimental and provides fewer features"
 		fi
 	fi
-}
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/hostapd"
-}
-
-src_configure() {
 	local CONFIG="${S}/.config"
 
 	restore_config "${CONFIG}"
