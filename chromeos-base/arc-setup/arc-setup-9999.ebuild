@@ -75,8 +75,9 @@ src_install() {
 	dosbin "${OUT}"/arc-remove-data
 	dosbin "${OUT}"/arc-remove-stale-data
 
-	# arc-create-data is only for ARCVM
+	# Some binaries are only for ARCVM
 	if use arcvm; then
+		dosbin "${OUT}"/arc-apply-per-board-config
 		dosbin "${OUT}"/arc-create-data
 		insinto /etc/init
 		doins etc/arc-create-data.conf
