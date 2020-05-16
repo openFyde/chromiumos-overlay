@@ -1749,6 +1749,11 @@ cros-kernel2_src_prepare() {
 		apply_private_patches
 	fi
 	use clang || cros_use_gcc
+
+	if [[ ${CROS_WORKON_INCREMENTAL_BUILD} != "1" ]]; then
+		mkdir -p "$(cros-workon_get_build_dir)"
+	fi
+
 	default
 }
 
