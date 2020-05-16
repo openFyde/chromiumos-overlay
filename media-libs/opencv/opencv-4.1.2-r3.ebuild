@@ -239,16 +239,13 @@ PATCHES=(
 	"${FILESDIR}/${P}-add-sstream-include.patch"
 )
 
-pkg_pretend() {
-	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
-}
-
 pkg_setup() {
-	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
 	java-pkg-opt-2_pkg_setup
 }
 
 src_prepare() {
+	use openmp && tc-check-openmp
+
 	cmake-utils_src_prepare
 
 	# remove bundled stuff
