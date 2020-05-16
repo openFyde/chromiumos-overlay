@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fa93a67cd320070a83b4d2eb72d65f1f0c8505f7"
+CROS_WORKON_COMMIT="8b122bb35d283ffcc301570112e52947e729dc74"
 CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "c2ad2d11478e03f8c4fc3094729fe6bc0f37e31f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,6 +23,7 @@ KEYWORDS="*"
 # TODO(youkichihosoi): Remove this blocker after a while.
 RDEPEND="
 	${RDEPEND}
+	chromeos-base/arc-setup
 	!chromeos-base/arcvm-launch
 "
 

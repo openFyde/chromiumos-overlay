@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1d364397a4fcd0f4a3f7eb49cde3e5551971c8f1"
-CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "ba82e0174a35115af4a52ee1eab66646e9805dc3" "a4cbe16af032e773d01aee2117a82abad86b49c0" "f2476844d73365333531645393bbcbe0e4082023" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8b122bb35d283ffcc301570112e52947e729dc74"
+CROS_WORKON_TREE=("beaa4ae826abb3520fd39561f6556ff65c85078d" "ef401768634b4ff4b94adc5feae3f7a03e123169" "a4cbe16af032e773d01aee2117a82abad86b49c0" "f2476844d73365333531645393bbcbe0e4082023" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -77,8 +77,9 @@ src_install() {
 	dosbin "${OUT}"/arc-remove-data
 	dosbin "${OUT}"/arc-remove-stale-data
 
-	# arc-create-data is only for ARCVM
+	# Some binaries are only for ARCVM
 	if use arcvm; then
+		dosbin "${OUT}"/arc-apply-per-board-config
 		dosbin "${OUT}"/arc-create-data
 		insinto /etc/init
 		doins etc/arc-create-data.conf
