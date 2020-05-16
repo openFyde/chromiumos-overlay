@@ -14,7 +14,7 @@
 # gclient is expected to be in ~/depot_tools if EGCLIENT is not set
 # to gclient path.
 
-EAPI="5"
+EAPI=7
 
 # TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
 PYTHON_COMPAT=( python2_7 )
@@ -192,7 +192,6 @@ AUTOTEST_DEPS_LIST="chrome_test page_cycler_dep perf_data_dep telemetry_dep"
 
 IUSE="${IUSE} +autotest"
 
-export CHROMIUM_HOME=/usr/$(get_libdir)/chromium-browser
 
 QA_TEXTRELS="*"
 QA_EXECSTACK="*"
@@ -244,8 +243,6 @@ set_build_args() {
 		"use_vaapi=$(usetf vaapi)"
 		"use_ozone=true"
 		"use_xkbcommon=$(usetf xkbcommon)"
-		# Use the Chrome OS toolchain and not the one bundled with Chromium.
-		"linux_use_bundled_binutils=false"
 		"enable_remoting=$(usetf chrome_remoting)"
 		"enable_nacl=$(use_nacl; echotf)"
 		"icu_use_data_file=true"
@@ -663,6 +660,9 @@ add_api_keys() {
 }
 
 src_prepare() {
+	# Must call eapply_user in EAPI 7, but this function is a no-op here.
+	eapply_user
+
 	if [[ "${CHROME_ORIGIN}" != "LOCAL_SOURCE" &&
 			"${CHROME_ORIGIN}" != "SERVER_SOURCE" ]]; then
 		return
