@@ -52,8 +52,6 @@ asan-setup-env() {
 	fi
 	local asan_flags=(
 		-fsanitize=address
-		-fsanitize=alignment
-		-fsanitize=shift
 	)
 	append-flags "${asan_flags[@]}"
 	append-ldflags "${asan_flags[@]}"
