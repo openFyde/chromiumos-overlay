@@ -19,8 +19,9 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="+atahpt +bitbang_spi +buspirate_spi dediprog +drkaiser
 +dummy +fdtmap +ft2232_spi +gfxnvidia +internal +linux_mtd +linux_spi
-+nic3com +nicintel +nicintel_spi +nicnatsemi +nicrealtek +ogp_spi
-+raiden_debug_spi +rayer_spi +satasii +satamv +serprog static use_os_timer +wiki"
++lspcon_i2c_spi +nic3com +nicintel +nicintel_spi +nicnatsemi
++nicrealtek +ogp_spi +raiden_debug_spi +rayer_spi +realtek_mst_i2c_spi
++satasii +satamv +serprog static use_os_timer +wiki"
 
 LIB_DEPEND="atahpt? ( sys-apps/pciutils[static-libs(+)] )
 	dediprog? ( virtual/libusb:0[static-libs(+)] )
@@ -62,10 +63,10 @@ src_compile() {
 	# Programmer
 	flashrom_enable \
 		atahpt bitbang_spi buspirate_spi dediprog drkaiser fdtmap \
-		ft2232_spi gfxnvidia linux_mtd linux_spi \
+		ft2232_spi gfxnvidia linux_mtd linux_spi lspcon_i2c_spi \
 		nic3com nicintel nicintel_spi nicnatsemi nicrealtek ogp_spi \
-		raiden_debug_spi rayer_spi  satasii satamv serprog internal \
-		dummy
+		raiden_debug_spi rayer_spi realtek_mst_i2c_spi satasii satamv \
+		serprog internal dummy
 	_flashrom_enable wiki PRINT_WIKI
 
 	# You have to specify at least one programmer, and if you specify more than
