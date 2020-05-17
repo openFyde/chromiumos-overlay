@@ -38,6 +38,7 @@ IUSE="
 	compupdates
 	disable_background_blur
 	disable_cros_video_decoder
+	disable_explicit_dma_fences
 	disable_flash_hw_video_decode
 	drm_atomic
 	edge_touch_filtering
