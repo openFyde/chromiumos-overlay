@@ -45,7 +45,7 @@ _emake() {
 
 src_configure() {
 	use static && append-ldflags -static
-	tc-export CC
+	tc-export CC PKG_CONFIG
 }
 
 is_x86() {
