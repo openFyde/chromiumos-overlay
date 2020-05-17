@@ -131,25 +131,6 @@ pkg_postinst() {
 		ewarn ""
 	fi
 
-	if use x64-macos; then
-		elog "You might want to install tuntaposx for TAP interface support:"
-		elog "http://tuntaposx.sourceforge.net"
-	fi
-
-	elog "The openvpn init script expects to find the configuration file"
-	elog "openvpn.conf in /etc/openvpn along with any extra files it may need."
-	elog ""
-	elog "To create more VPNs, simply create a new .conf file for it and"
-	elog "then create a symlink to the openvpn init script from a link called"
-	elog "openvpn.newconfname - like so"
-	elog "   cd /etc/openvpn"
-	elog "   ${EDITOR##*/} foo.conf"
-	elog "   cd /etc/init.d"
-	elog "   ln -s openvpn openvpn.foo"
-	elog ""
-	elog "You can then treat openvpn.foo as any other service, so you can"
-	elog "stop one vpn and start another if you need to."
-
 	if grep -Eq "^[ \t]*(up|down)[ \t].*" "${ROOT}/etc/openvpn"/*.conf 2>/dev/null ; then
 		ewarn ""
 		ewarn "WARNING: If you use the remote keyword then you are deemed to be"
