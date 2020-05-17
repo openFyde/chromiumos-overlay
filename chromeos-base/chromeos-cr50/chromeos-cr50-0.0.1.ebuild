@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI="7"
 
 DESCRIPTION="Ebuild to support the Chrome OS CR50 device."
 
@@ -34,7 +34,7 @@ src_install() {
 
 	insinto /opt/google/cr50/firmware
 
-	elog "Will install ${PRE_PVT_IMAGE} and ${PROD_IMAGE}"
+	einfo "Will install ${PRE_PVT_IMAGE} and ${PROD_IMAGE}"
 
 	newins "${PRE_PVT_IMAGE}"/*.bin.prod cr50.bin.prepvt
 	newins "${PROD_IMAGE}"/*.bin.prod cr50.bin.prod
