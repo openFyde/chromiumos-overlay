@@ -101,7 +101,7 @@ src_compile() {
 
 	# WARNERROR=no, bug 347879
 	# FIXME(dhendrix): Actually, we want -Werror for CrOS.
-	tc-export AR CC RANLIB
+	tc-export AR CC PKG_CONFIG RANLIB
 	# emake WARNERROR=no ${args}	# upstream gentoo
 
 	_flashrom_enable static STATIC
