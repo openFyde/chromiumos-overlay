@@ -22,6 +22,10 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE="-asan"
 
+RDEPEND="sys-libs/libcap:="
+
+DEPEND="${RDEPEND}"
+
 domake() {
 	emake -C tools/power/x86/turbostat \
 		BUILD_OUTPUT="$(cros-workon_get_build_dir)" DESTDIR="${D}" \
