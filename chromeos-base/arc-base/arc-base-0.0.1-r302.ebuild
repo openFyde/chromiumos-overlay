@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="352e61e15c8a294b4c8903556015c49ca1c175f0"
+CROS_WORKON_COMMIT="30f53f25f24969c0b4e7afe12600b87fcd17ebf5"
 CROS_WORKON_TREE=("2117aff37f7d1324e283d78595a793c34f98ca7c" "107eb5577172bfec26b93c3f8e8c643c0d2f3f5e" "851376910e45c705b2a959b525fbee72cdd38833" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,7 +22,6 @@ KEYWORDS="*"
 IUSE="
 	android-container-pi
 	android-container-qt
-	android-container-rvc
 	arcpp
 	arcvm
 	"
@@ -41,9 +40,7 @@ src_install() {
 
 	if use arcpp; then
 		insinto /opt/google/containers/android
-		if use android-container-rvc; then
-			doins arc/container-bundle/rvc/config.json
-		elif use android-container-pi; then
+		if use android-container-pi; then
 			doins arc/container-bundle/pi/config.json
 		else
 			echo "Unknown container version" >&2
