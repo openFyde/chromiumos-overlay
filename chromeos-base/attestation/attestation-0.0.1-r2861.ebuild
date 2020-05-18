@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="352e61e15c8a294b4c8903556015c49ca1c175f0"
+CROS_WORKON_COMMIT="1e49afcbc8f158952a55171e9bfeec9d9ace4d3a"
 CROS_WORKON_TREE=("2117aff37f7d1324e283d78595a793c34f98ca7c" "1b5d77f723af4da1be0d8f67b666d5baacc6aa9b" "ea7ac619bfda87efcfb5e63f88d62ed0c2613ebe" "e81ebd7a3fb917a2b8bf6329717e1f9c413ea327" "f0ed796bc0b919e020ec95dfc18c6a7b8acab3b8" "3622e6a84bd408545c5185b1e63c7894e3a3aed5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -88,6 +88,11 @@ src_install() {
 	doins common/print_attestation_ca_proto.h
 	doins common/print_interface_proto.h
 	doins common/print_keystore_proto.h
+
+	# Install the generated dbus-binding for fake pca agent.
+	# It does no harm to install the header even for non-test image build.
+	insinto /usr/include/attestation/pca-agent/dbus_adaptors
+	doins "${OUT}"/gen/include/attestation/pca-agent/dbus_adaptors/org.chromium.PcaAgent.h
 
 	insinto /usr/share/policy
 	newins "pca_agent/server/pca_agentd-seccomp-${ARCH}.policy" pca_agentd-seccomp.policy

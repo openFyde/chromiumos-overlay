@@ -4,13 +4,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="352e61e15c8a294b4c8903556015c49ca1c175f0"
-CROS_WORKON_TREE=("2117aff37f7d1324e283d78595a793c34f98ca7c" "b6cdcb7b81463d472338bc9edffca707207875b8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1e49afcbc8f158952a55171e9bfeec9d9ace4d3a"
+CROS_WORKON_TREE=("1b5d77f723af4da1be0d8f67b666d5baacc6aa9b" "2117aff37f7d1324e283d78595a793c34f98ca7c" "c0261a2ee727e1f5dae902b7d4cf152af503e5c1" "3622e6a84bd408545c5185b1e63c7894e3a3aed5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk hwsec-test-utils .gn"
+CROS_WORKON_SUBTREE="attestation common-mk hwsec-test-utils trunks .gn"
 
 PLATFORM_SUBDIR="hwsec-test-utils"
 
@@ -37,6 +37,7 @@ DEPEND="${RDEPEND}
 	tpm2? (
 		chromeos-base/trunks:=[test?]
 	)
+	chromeos-base/attestation:=
 	chromeos-base/system_api:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
@@ -49,6 +50,11 @@ src_install() {
 
 	# Installs hwsec-test-va
 	dobin "${OUT}/hwsec-test-va"
+
+	# Install fake pca agent
+	insinto /etc/init
+	doins fake_pca_agent/fake_pca_agentd.conf
+	dobin "${OUT}"/fake_pca_agentd
 
 }
 
