@@ -129,6 +129,7 @@ src_install() {
 		base/test/simple_test_tick_clock.h \
 		base/test/test_mock_time_task_runner.h \
 		base/test/test_pending_task.h \
+		base/test/test_timeouts.h \
 
 	if use crypto; then
 		insinto /usr/include/base-${BASE_VER}/crypto
