@@ -191,7 +191,7 @@ ALL_BOARDS=(
 	guado-cfm
 	guado-macrophage
 	guado_moblab
-	guado-kernelnext
+	#guado-kernelnext
 	guado_labstation
 	hana
 	hana-kernelnext
@@ -344,7 +344,7 @@ ALL_BOARDS=(
 	sama5d3
 	samus
 	samus-cheets
-	samus-kernelnext
+	#samus-kernelnext
 	sand
 	sarien
 	sarien-kvm
