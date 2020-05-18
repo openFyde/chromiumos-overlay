@@ -389,6 +389,14 @@ src_install() {
 		insinto "/usr/include/${PN}/${i%/*}"
 		doins "${i}"
 	done
+	if use minimal; then
+		einfo "Installing selected TF core headers"
+		for i in "${PN}/core/lib/bfloat16/bfloat16.h" \
+			"${PN}/core/platform/byte_order.h"; do
+			insinto "/usr/include/${PN}/${i%/*}"
+			doins "${i}"
+		done
+	fi
 
 	einfo "Installing NNAPI headers"
 	insinto /usr/include/${PN}/nnapi/
