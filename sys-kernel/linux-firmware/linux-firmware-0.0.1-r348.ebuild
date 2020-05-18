@@ -102,7 +102,8 @@ IUSE_LINUX_FIRMWARE=(
 	rtl8168g-2
 	rtl8168h-1
 	rtl8168h-2
-	rtl_bt-8822c
+	rtl_bt-8822ce-uart
+	rtl_bt-8822ce-usb
 	rtw8822c
 	venus-52
 	venus-54
@@ -163,7 +164,8 @@ LICENSE="
 	linux_firmware_rtl8168g-2? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8168h-1? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8168h-2? ( LICENCE.rtl_nic )
-	linux_firmware_rtl_bt-8822c? ( LICENCE.rtlwifi_firmware )
+	linux_firmware_rtl_bt-8822ce-uart? ( LICENCE.rtlwifi_firmware )
+	linux_firmware_rtl_bt-8822ce-usb? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtw8822c? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_venus-52? ( LICENSE.qcom )
 	linux_firmware_venus-54? ( LICENSE.qcom )
@@ -278,7 +280,8 @@ src_install() {
 	use_fw rtl8168g-2 && doins_subdir rtl_nic/rtl8168g-2.fw
 	use_fw rtl8168h-1 && doins_subdir rtl_nic/rtl8168h-1.fw
 	use_fw rtl8168h-2 && doins_subdir rtl_nic/rtl8168h-2.fw
-	use_fw rtl_bt-8822c && doins_subdir rtl_bt/rtl8822c*.bin
+	use_fw rtl_bt-8822ce-uart && doins_subdir rtl_bt/rtl8822cs*.bin
+	use_fw rtl_bt-8822ce-usb && doins_subdir rtl_bt/rtl8822cu*.bin
 	use_fw rtw8822c && doins_subdir rtw88/rtw8822c*.bin
 	use_fw venus-52 && doins_subdir qcom/venus-5.2/*
 	use_fw venus-54 && doins_subdir qcom/venus-5.4/*
