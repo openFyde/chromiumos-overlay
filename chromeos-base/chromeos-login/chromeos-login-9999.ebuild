@@ -114,6 +114,12 @@ src_install() {
 	insinto /etc
 	doins chrome_dev.conf
 
+	# Create daemon store directories.
+	local daemon_store="/etc/daemon-store/session_manager"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners root:root "${daemon_store}"
+
 	local fuzzers=(
 		login_manager_validator_utils_fuzzer
 		login_manager_validator_utils_policy_desc_fuzzer
