@@ -38,11 +38,15 @@ DEPEND="${RDEPEND}
 "
 
 _emake() {
-	emake TOOLLDFLAGS="${LDFLAGS}" "$@"
+	emake \
+		TOOLLDFLAGS="${LDFLAGS}" \
+		CC="${CC}" \
+		"$@"
 }
 
 src_configure() {
 	use static && append-ldflags -static
+	tc-export CC
 }
 
 is_x86() {
@@ -50,21 +54,20 @@ is_x86() {
 }
 
 src_compile() {
-	tc-export CC
 	_emake -C util/cbfstool obj="${PWD}/util/cbfstool"
 	if use cros_host; then
-		_emake -C util/archive CC="${CC}"
+		_emake -C util/archive
 	else
-		_emake -C util/cbmem CC="${CC}"
+		_emake -C util/cbmem
 	fi
 	if is_x86; then
 		if use cros_host; then
 			_emake -C util/ifdtool
 		else
-			_emake -C util/superiotool CC="${CC}" \
+			_emake -C util/superiotool \
 				CONFIG_PCI=$(usex pci)
-			_emake -C util/inteltool CC="${CC}"
-			_emake -C util/nvramtool CC="${CC}"
+			_emake -C util/inteltool
+			_emake -C util/nvramtool
 		fi
 	fi
 }
