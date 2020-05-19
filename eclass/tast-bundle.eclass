@@ -92,6 +92,15 @@ tast-bundle_src_compile() {
 	done | jq -s -R -S 'split("\n")|map(split(" ")|{(.[0]): .[1]})|add' \
 		> "${TAST_BUNDLE_NAME}.sig.json" \
 		|| die "Generating signatures failed"
+
+	# Build bundle executable for the host arch and get metadata dump.
+	local source="chromiumos/tast/${TAST_BUNDLE_TYPE}/bundles/${TAST_BUNDLE_NAME}"
+	local host_exec="host_${TAST_BUNDLE_NAME}"
+	GOPATH="$(cros-go_gopath)" go build -v \
+		${CROS_GO_VERSION:+"-ldflags=-X main.Version=${CROS_GO_VERSION}"} \
+		-o "${host_exec}" \
+		"${source}" || die "Generating bundle for host"
+	"./${host_exec}" -exportmetadata > "${TAST_BUNDLE_NAME}.pb" || die "Exporting test metadata"
 }
 
 # @FUNCTION: tast-bundle_src_test
@@ -130,7 +139,10 @@ tast-bundle_src_install() {
 			die "Failed to copy ${datadir} to ${dest}"
 		chmod -R u=rwX,go=rX "${dest}" || die "Failed to chmod ${dest}"
 	done
-	popd >/dev/null
+	popd >/dev/null || die
+
+	insinto ${TAST_BUNDLE_PREFIX}/share/tast/metadata/${TAST_BUNDLE_TYPE}
+	doins "${TAST_BUNDLE_NAME}.pb"
 }
 
 EXPORT_FUNCTIONS pkg_setup src_prepare src_compile src_test src_install
