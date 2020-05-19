@@ -27,7 +27,7 @@ DLC_PRELOAD=true
 
 src_unpack() {
 	# Because we are not pulling in any sources, we need to have an empty
-	# source directory to satisy the build success.
+	# source directory to satisfy the build success.
 	S="${WORKDIR}"
 }
 
@@ -51,6 +51,8 @@ src_install() {
 	RANDOM="${seed}"
 
 	# Setup DLC paths.
+	# Note: |dlc_get_path| is a function, not a variable, so it's surrounded by
+	#  parenthesis instead of brackets.
 	into "$(dlc_get_path)/opt/dummy-dlc/"
 	insinto "$(dlc_get_path)/opt/dummy-dlc/"
 	exeinto "$(dlc_get_path)/opt/dummy-dlc/"
