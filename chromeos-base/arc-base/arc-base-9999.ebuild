@@ -19,7 +19,6 @@ KEYWORDS="~*"
 
 IUSE="
 	android-container-pi
-	android-container-qt
 	arcpp
 	arcvm
 	"
