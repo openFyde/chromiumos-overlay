@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e4fb861dd1192419db0ab4184abe94be3a7886cf"
+CROS_WORKON_COMMIT="fdad04b8169aa3064c6a73cfab884fba8d8e6a6d"
 CROS_WORKON_TREE=("616646cf7a5e8625e89935875611c7f3de5a608c" "3c6f0a290b022c6c50aa16ec5ea8478413dbc97b" "271149b9f1e2617df41a5968210b918f9c716bd3")
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/v5.4"
@@ -23,6 +23,10 @@ LICENSE="GPL-2"
 SLOT="0/0"
 KEYWORDS="*"
 IUSE="-asan"
+
+RDEPEND="sys-libs/libcap:="
+
+DEPEND="${RDEPEND}"
 
 domake() {
 	emake -C tools/power/x86/turbostat \
