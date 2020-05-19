@@ -31,7 +31,6 @@ IUSE="
 	arm
 	arm64
 	asan
-	atlas
 	betty
 	biod
 	chrome_internal
