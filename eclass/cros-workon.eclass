@@ -57,7 +57,7 @@ SLOT="0/${PVR}"
 #   of items as other array variables when CROS_WORKON_SUBTREE is used.
 #   See the variable description below for more details.
 ARRAY_VARIABLES=(
-	CROS_WORKON_{SUBTREE,REPO,PROJECT,LOCALNAME,DESTDIR,COMMIT,SRCPATH,EGIT_BRANCH} )
+	CROS_WORKON_{SUBTREE,REPO,PROJECT,LOCALNAME,DESTDIR,COMMIT,SRCPATH,EGIT_BRANCH,OPTIONAL_CHECKOUT} )
 
 # @ECLASS-VARIABLE: CROS_WORKON_SUBTREE
 # @DESCRIPTION:
@@ -234,6 +234,23 @@ ARRAY_VARIABLES=(
 # Chrome OS specific source locations.
 : ${CROS_WORKON_SRCPATH:=}
 
+# @ECLASS-VARIABLE: CROS_WORKON_OPTIONAL_CHECKOUT
+# @DESCRIPTION:
+# Command to determine whether the corresponding CROS_WORKON_PROJECT is
+# included. More precisely, CROS_WORKON_PROJECT[i] is included iff
+# CROS_WORKON_OPTIONAL_CHECKOUT[i] returns 0.
+#
+# A common pattern is using these commands to evaluate USE flags, for example,
+#
+# CROS_WORKON_PROJECT=(a b c)
+# CROS_WORKON_OPTIONAL_CHECKOUT=("true" "use checkoutb" "use checkoutc")
+#
+# would always checkout project a, and checkout projects b and c if the
+# checkoutb and checkout c USE flags were set, respectively.
+#
+# The default value is "true" meaning all projects are checked out.
+: ${CROS_WORKON_OPTIONAL_CHECKOUT:="true"}
+
 # Join the tree commits to produce a unique identifier
 CROS_WORKON_TREE_COMPOSITE=$(IFS="_"; echo "${CROS_WORKON_TREE[*]}")
 IUSE="cros_host cros_workon_tree_$CROS_WORKON_TREE_COMPOSITE"
@@ -308,6 +325,43 @@ array_vars_autocomplete() {
 		fi
 		eval einfo "${var}: \${${var}[@]}"
 	done
+}
+
+# Filter ARRAY_VARIABLES based on CROS_WORKON_OPTIONAL_CHECKOUT. This function
+# possibly modifies all of ARRAY_VARIABLES and project_count inplace.
+filter_optional_projects() {
+	local kept_indices=()
+	local i
+	for (( i = 0; i < project_count; ++i )); do
+		local cmd=${CROS_WORKON_OPTIONAL_CHECKOUT[i]}
+		if ${cmd}; then
+			kept_indices+=( "${i}" )
+		else
+			einfo "Filtering out project ${CROS_WORKON_PROJECT[i]}: '${cmd}' returned false"
+		fi
+	done
+
+	if [[ "${#kept_indices[@]}" -eq "${project_count}" ]]; then
+		return
+	fi
+
+	if [[ "${#kept_indices[@]}" -eq 0 ]]; then
+		die "Must have at least one value of CROS_WORKON_OPTIONAL_CHECKOUT be true."
+	fi
+
+	local var
+	for var in "${ARRAY_VARIABLES[@]}"; do
+		local filtered_var=()
+		for i in "${kept_indices[@]}"; do
+			local value
+			eval "value=\"\${${var}[i]}\""
+			filtered_var+=( "${value}" )
+		done
+
+		eval "${var}"='( "${filtered_var[@]}" )'
+	done
+
+	project_count=${#kept_indices[@]}
 }
 
 # Calculate path where code should be checked out.
@@ -449,6 +503,8 @@ cros-workon_src_unpack() {
 
 	# Fix array variables
 	array_vars_autocomplete
+
+	filter_optional_projects
 
 	# Make sure all CROS_WORKON_DESTDIR are under S.
 	local p r i
