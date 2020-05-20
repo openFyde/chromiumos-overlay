@@ -197,6 +197,7 @@ ALL_BOARDS=(
 	hana-kernelnext
 	hatch
 	hatch-arc-r
+	hatch-arc-r-userdebug
 	hatch-diskswap
 	hatch-kernelnext
 	heli
