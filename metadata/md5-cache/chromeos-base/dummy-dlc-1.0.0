@@ -9,4 +9,4 @@ LICENSE=BSD-Google
 REQUIRED_USE=dlc
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	80fb91de2d33a8a07eedd273eba04613
-_md5_=cbad839b3482ee807b3a10104248c1da
+_md5_=6f5668653a582599c001e16e89aee09f
