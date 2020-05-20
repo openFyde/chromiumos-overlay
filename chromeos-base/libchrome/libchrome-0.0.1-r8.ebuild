@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("1e49afcbc8f158952a55171e9bfeec9d9ace4d3a" "9f3106ec2d14905c16532d54b06ec69de4b583f8")
-CROS_WORKON_TREE=("2117aff37f7d1324e283d78595a793c34f98ca7c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e030d66656c08d242e930187c399cf7520397835")
+CROS_WORKON_COMMIT=("f5dafcc344fae03a37f0f25e479031e0745d1405" "9980d31bd58d63de21fa8edd675a79276ac9d23a")
+CROS_WORKON_TREE=("2117aff37f7d1324e283d78595a793c34f98ca7c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d8ba1f9a714dac9f6e971bbf061bf78966292403")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
@@ -131,6 +131,7 @@ src_install() {
 		base/test/simple_test_tick_clock.h \
 		base/test/test_mock_time_task_runner.h \
 		base/test/test_pending_task.h \
+		base/test/test_timeouts.h \
 
 	if use crypto; then
 		insinto /usr/include/base-${BASE_VER}/crypto
