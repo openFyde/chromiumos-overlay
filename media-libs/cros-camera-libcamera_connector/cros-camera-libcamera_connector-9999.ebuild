@@ -28,11 +28,11 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers
+	media-libs/cros-camera-libcamera_connector_headers
 	x11-libs/libdrm"
 
 src_install() {
 	dolib.so "${OUT}/lib/libcamera_connector.so"
 	cros-camera_dopc ../libcamera_connector.pc.template
-	cros-camera_doheader ../../include/cros-camera/camera_service_connector.h
 }
 
