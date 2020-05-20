@@ -90,6 +90,9 @@ src_install() {
 		doins init/wilco_dtc_dispatcher.conf
 		doins init/wilco_dtc_supportd.conf
 		doins init/wilco_dtc.conf
+
+		# Install udev rules.
+		udev_dorules udev/99-ec_driver_files.rules
 	fi
 
 	# Install seccomp policy files.
@@ -117,7 +120,7 @@ src_install() {
 	doexe "${OUT}/urandom"
 
 	# Install udev rules.
-	udev_dorules udev/*.rules
+	udev_dorules udev/99-chown_dmi_dir.rules
 
 	# Install fuzzers.
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_block_device_fuzzer
