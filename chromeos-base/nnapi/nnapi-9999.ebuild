@@ -63,6 +63,8 @@ src_install() {
 	doins -r ../aosp/system/core/base/include/*
 	doins -r ../aosp/system/core/libcutils/include/*
 	doins -r ../aosp/system/core/libutils/include/*
+	doins -r ../aosp/system/libhidl/base/include/*
+	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
 
 	einfo "Installing static libraries."
 	dolib.a "${OUT}/libnnapi-base.a"
