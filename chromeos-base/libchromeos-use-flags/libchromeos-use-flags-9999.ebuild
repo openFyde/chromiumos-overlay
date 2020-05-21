@@ -1,13 +1,22 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
+
+# This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
+# the canonical empty project.
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="../platform/empty-project"
+
+inherit cros-workon
 
 DESCRIPTION="Text file listing USE flags for chromeos-base/libchromeos"
 
 LICENSE="BSD-Google"
-SLOT="0"
-KEYWORDS="*"
+# Nothing depends on this package for build info.  All the files are used at
+# runtime only by design.
+SLOT="0/0"
+KEYWORDS="~*"
 
 # NB: Flags listed here are off by default unless prefixed with a '+'.
 # This list is lengthy since it determines the USE flags that will be written to
@@ -76,8 +85,6 @@ IUSE="
 	+X
 "
 
-S=${WORKDIR}
-
 src_install() {
 	# Install a file containing a list of currently-set USE flags that
 	# ChromiumCommandBuilder reads at runtime while constructing Chrome's
@@ -91,7 +98,7 @@ EOF
 	# If you need to use a new flag, add it to $IUSE at the top of the file.
 	local flags=( ${IUSE} )
 	local flag
-	for flag in ${flags[@]/#[-+]} ; do
+	for flag in "${flags[@]/#[-+]}" ; do
 		usev ${flag}
 	done | sort -u >>"${path}"
 
