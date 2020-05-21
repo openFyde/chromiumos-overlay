@@ -23,6 +23,15 @@ PYTHON_COMPAT=( python2_7 )
 
 inherit cros-workon python-r1
 
+# TODO(b/155841952): Merge installer and factory-mini.par
+
+# External dependencies (sync with factory.ebuild)
+LOCAL_MIRROR_URL="http://commondatastorage.googleapis.com/chromeos-localmirror/"
+WEBGL_AQUARIUM_URI="${LOCAL_MIRROR_URL}/distfiles/webgl-aquarium-20130524.tar.bz2"
+WS4PY_VERSION="0.5.1"
+WS4PY_MODULE_URL="${LOCAL_MIRROR_URL}/distfiles/ws4py-${WS4PY_VERSION}.tar.gz"
+SRC_URI="${WEBGL_AQUARIUM_URI} ${WS4PY_MODULE_URL}"
+
 DESCRIPTION="Subset of factory software to be installed in test images"
 
 LICENSE="BSD-Google"
@@ -43,6 +52,11 @@ pkg_setup() {
 	python_setup
 }
 
+src_unpack() {
+	cros-workon_src_unpack
+	default
+}
+
 src_configure() {
 	default
 
@@ -51,10 +65,18 @@ src_configure() {
 	export PYTHON_SITEDIR="${ESYSROOT}$(python_get_sitedir)"
 	export SRCROOT="${CROS_WORKON_SRCROOT}"
 	export FROM_EBUILD=1
+
+	# Export factory toolkit build settings
+	export BOARD="${SYSROOT##*/}"
+	export TARGET_DIR=/usr/local/factory
+	export WEBGL_AQUARIUM_DIR="${WORKDIR}/webgl_aquarium_static"
+	export WS4PY_MODULE_DIR="${WORKDIR}/ws4py-${WS4PY_VERSION}"
 }
 
 src_compile() {
 	emake par MAKE_PAR_ARGS=--mini PAR_NAME=factory-mini.par
+
+	emake toolkit
 }
 
 src_install() {
@@ -70,4 +92,7 @@ src_install() {
 	"${S}/bin/install_symlinks" \
 		--mode mini --target ../factory-mini/factory-mini.par \
 		"${D}"/usr/local/bin || die
+
+	exeinto /usr/local/factory-toolkit
+	doexe build/install_factory_toolkit.run
 }
