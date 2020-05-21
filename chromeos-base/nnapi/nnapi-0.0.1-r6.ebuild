@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("00c1c357241e7f6363f556fdb0d2cf2386347008" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "911852c231f779d1aee1e759c146e63f05e00d8f")
+CROS_WORKON_COMMIT=("f397272fcfa96f0f642d609571178028234c5942" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "911852c231f779d1aee1e759c146e63f05e00d8f")
 CROS_WORKON_TREE=("e2a3a6742f6acdc76df13145ab31b6471243d736" "dc7c009b59dd133f82dde94301834f4bdf6fc71c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "43a23f8182e90441b011501ddd6b5284200552b0")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -42,7 +42,7 @@ CROS_WORKON_SUBTREE=(
 
 PLATFORM_SUBDIR="nnapi"
 
-inherit cros-workon platform
+inherit cros-workon platform epatch
 
 DESCRIPTION="Chrome OS support utils for Android Neural Network API"
 HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
@@ -57,6 +57,20 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 "
+
+PATCHES=(
+	"${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
+)
+
+src_prepare() {
+	# The workdir is platform2/nnapi - we need to pop up one level in the stack
+	# to apply our patches.
+	pushd .. || exit
+	eapply -p2 "${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
+	popd || exit
+
+	eapply_user
+}
 
 src_install() {
 	einfo "Installing Android headers."
