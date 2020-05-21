@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="14daf910e02f8e8a05636bc8baea9b2995593749"
+CROS_WORKON_COMMIT="8794690a1b9b17def6681c94f343e6f293d5593f"
 CROS_WORKON_TREE=("e2a3a6742f6acdc76df13145ab31b6471243d736" "77ec58455166cd913b8f1197f8f44b75f18f2f5e" "9345628b589f2b0be3fef49a0e77787f631ffd06" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -92,6 +92,9 @@ src_install() {
 		doins init/wilco_dtc_dispatcher.conf
 		doins init/wilco_dtc_supportd.conf
 		doins init/wilco_dtc.conf
+
+		# Install udev rules.
+		udev_dorules udev/99-ec_driver_files.rules
 	fi
 
 	# Install seccomp policy files.
@@ -119,7 +122,7 @@ src_install() {
 	doexe "${OUT}/urandom"
 
 	# Install udev rules.
-	udev_dorules udev/*.rules
+	udev_dorules udev/99-chown_dmi_dir.rules
 
 	# Install fuzzers.
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_block_device_fuzzer
