@@ -52,11 +52,12 @@ DEPEND="${RDEPEND}
 PATCHES=(
 	"${FILESDIR}/${PN}-1.17.8-gstoraster-tmpfile.patch"
 	"${FILESDIR}/${PN}-1.21.6-trim-convs-file.patch"
+	"${FILESDIR}/${PN}-1.21.6-asan-pacifier.patch"
 	"${FILESDIR}/${PN}-1.23.0-pdftops-monochrome.patch"
 	"${FILESDIR}/${PN}-1.25.5-use-public-ghostscript-method.patch"
 	"${FILESDIR}/${PN}-1.25.5-fix-segfault-when-running-by-hand.patch"
 	"${FILESDIR}/${PN}-1.25.5-fill-arg.patch"
-	"${FILESDIR}/${PN}-1.21.6-asan-pacifier.patch"
+	"${FILESDIR}/${PN}-1.27.4-two-sided.patch"
 )
 
 src_prepare() {

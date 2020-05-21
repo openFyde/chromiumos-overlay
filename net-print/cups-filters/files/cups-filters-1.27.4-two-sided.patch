@@ -1,0 +1,28 @@
+From 6aa3fa4e96e126ed15c0f8d98894e228b9e5a186 Mon Sep 17 00:00:00 2001
+From: Sean Kau <skau@chromium.org>
+Date: Thu, 21 May 2020 15:08:11 -0700
+Subject: [PATCH] Map two-sided-short-edge to DuplexTumble
+
+two-sided-short-edge and two-sided-long-edge were both mapped to
+DuplexNoTumble.  DuplexNoTumble should be mapped to the long-edge
+tumble and short-edge to DuplexTumble.
+---
+ filter/foomatic-rip/foomaticrip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/filter/foomatic-rip/foomaticrip.c b/filter/foomatic-rip/foomaticrip.c
+index b60c1e78..1cf3770c 100644
+--- a/filter/foomatic-rip/foomaticrip.c
++++ b/filter/foomatic-rip/foomaticrip.c
+@@ -401,7 +401,7 @@ void process_cmdline_options()
+                             if ((opt2 = find_option("Binding")))
+                                 option_set_value(opt2, optset, "ShortEdge");
+                             else
+-                                option_set_value(opt, optset, "DuplexNoTumble");
++                                option_set_value(opt, optset, "DuplexTumble");
+                         }
+                     }
+                 }
+-- 
+2.27.0.rc0.183.gde8f92d652-goog
+
