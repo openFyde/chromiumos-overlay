@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
 CROS_WORKON_COMMIT="630e05b6af5f76bd7f063840e543186bde40ff0a"
 CROS_WORKON_TREE="42c814a9b71ac7619efa0d47b68cb55fef759095"
@@ -11,7 +11,7 @@ CROS_WORKON_LOCALNAME="platform/core"
 CROS_WORKON_PROJECT="platform/system/core"
 CROS_WORKON_REPO="https://android.googlesource.com"
 
-inherit cros-workon multilib
+inherit cros-workon
 
 DESCRIPTION="Library and cli tools for Android sparse files"
 HOMEPAGE="https://android.googlesource.com/platform/system/core"
@@ -21,11 +21,9 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	sys-libs/zlib
+	sys-libs/zlib:=
 "
-DEPEND="
-	sys-libs/zlib
-"
+DEPEND="${RDEPEND}"
 
 src_unpack() {
 	cros-workon_src_unpack
@@ -33,6 +31,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	default
 	cp "${FILESDIR}/Makefile" "${S}" || die "Copying Makefile"
 }
 
