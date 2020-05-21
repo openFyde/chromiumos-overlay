@@ -58,6 +58,7 @@ PATCHES=(
 	"${FILESDIR}"/0012-Media-Common-Modify-the-default-tile-type.patch
 	"${FILESDIR}"/0013-Add-external-surface-support.patch
 	"${FILESDIR}"/0014-VP-Fix-memory-corruption-due-to-improper-typecast.patch
+	"${FILESDIR}"/0015-Support-up-to-8Kx8K-VP9-encoding-on-GEN12.patch
 )
 
 src_configure() {
