@@ -89,7 +89,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
-		base cutils utils
+		base cutils hidl utils
 	)
 
 	local test_target
