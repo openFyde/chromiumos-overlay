@@ -46,7 +46,7 @@ src_configure() {
 }
 
 src_compile() {
-	tc-export AR CC RANLIB
+	tc-export AR CC PKG_CONFIG RANLIB
 	# In platform/ec Makefile, it uses "CC" to specify target chipset and
 	# "HOSTCC" to compile the utility program because it assumes developers
 	# want to run the utility from same host (build machine).

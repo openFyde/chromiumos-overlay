@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/flashrom/flashrom-0.9.4.ebuild,v 1.5 2011/09/20 16:03:21 nativemad Exp $
 
 EAPI=7
-CROS_WORKON_COMMIT="18fe18fb67b65edad573ed608630ebcf6561166e"
-CROS_WORKON_TREE="672a51bed12091983267477acb2731923bd2bd53"
+CROS_WORKON_COMMIT="5a7ae7ac652a69956be4144488bb182c26de8cc1"
+CROS_WORKON_TREE="677c018a6f4b1a4ebae430a4d1ca52231daaedd5"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 
 inherit cros-workon toolchain-funcs
@@ -103,7 +103,7 @@ src_compile() {
 
 	# WARNERROR=no, bug 347879
 	# FIXME(dhendrix): Actually, we want -Werror for CrOS.
-	tc-export AR CC RANLIB
+	tc-export AR CC PKG_CONFIG RANLIB
 	# emake WARNERROR=no ${args}	# upstream gentoo
 
 	_flashrom_enable static STATIC

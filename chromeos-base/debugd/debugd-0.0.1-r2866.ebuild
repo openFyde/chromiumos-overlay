@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="352e61e15c8a294b4c8903556015c49ca1c175f0"
-CROS_WORKON_TREE=("2117aff37f7d1324e283d78595a793c34f98ca7c" "0a25519b67c6620114c70cd1e3deb7270ba7591f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="5e4915d8cfc777fa1bcea14f127aba805f6ffad5"
+CROS_WORKON_TREE=("2117aff37f7d1324e283d78595a793c34f98ca7c" "8aa97b4a22dbedd695948ae43cc5a01179148bcd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,8 +25,6 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/shill-client:=
 	chromeos-base/vboot_reference:=
-	dev-libs/re2:=
-	dev-libs/libpcre:=
 	dev-libs/protobuf:=
 	net-libs/libpcap:=
 	net-wireless/iw:=
