@@ -40,7 +40,7 @@ CROS_WORKON_SUBTREE=(
 
 PLATFORM_SUBDIR="nnapi"
 
-inherit cros-workon platform
+inherit cros-workon platform epatch
 
 DESCRIPTION="Chrome OS support utils for Android Neural Network API"
 HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
@@ -55,6 +55,20 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 "
+
+PATCHES=(
+	"${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
+)
+
+src_prepare() {
+	# The workdir is platform2/nnapi - we need to pop up one level in the stack
+	# to apply our patches.
+	pushd .. || exit
+	eapply -p2 "${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
+	popd || exit
+
+	eapply_user
+}
 
 src_install() {
 	einfo "Installing Android headers."
