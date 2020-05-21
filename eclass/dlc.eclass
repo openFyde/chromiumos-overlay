@@ -95,17 +95,20 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # are "system" and "user". (Default is "system".)
 : "${DLC_USED_BY:=system}"
 
-# @FUNCTION: dlc_get_path
-# @USAGE:
+# @FUNCTION: dlc_add_path
+# @USAGE: <path to add the DLC prefix to>
 # @RETURN:
-# Returns the path where the DLC files are being installed.
-dlc_get_path() {
+# Adds the DLC path prefix to the argument based on the value of |DLC_ENABLED|
+# and returns that value.
+dlc_add_path() {
+	[[ $# -eq 1 ]] || die "${FUNCNAME}: takes one argument"
+	local input_path="$1"
 	if [[ "${DLC_ENABLED}" != "true" ]]; then
-		echo "/"
+		echo "/${input_path}"
 	else
 		[[ -z "${DLC_ID}" ]] && die "DLC_ID undefined"
 		[[ -z "${DLC_PACKAGE}" ]] && die "DLC_PACKAGE undefined"
-		echo "/${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root"
+		echo "/${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root/${input_path}"
 	fi
 }
 

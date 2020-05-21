@@ -51,11 +51,9 @@ src_install() {
 	RANDOM="${seed}"
 
 	# Setup DLC paths.
-	# Note: |dlc_get_path| is a function, not a variable, so it's surrounded by
-	#  parenthesis instead of brackets.
-	into "$(dlc_get_path)/opt/dummy-dlc/"
-	insinto "$(dlc_get_path)/opt/dummy-dlc/"
-	exeinto "$(dlc_get_path)/opt/dummy-dlc/"
+	into "$(dlc_add_path /opt/dummy-dlc/)"
+	insinto "$(dlc_add_path /opt/dummy-dlc/)"
+	exeinto "$(dlc_add_path /opt/dummy-dlc/)"
 
 	echo seed | newins - seed
 
