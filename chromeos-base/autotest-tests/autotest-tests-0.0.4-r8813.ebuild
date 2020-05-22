@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="bdb23176c5c970a9ee653488f86058fbf835db8e"
-CROS_WORKON_TREE="327540347cb182b45fb42235173078be5f9c8031"
+CROS_WORKON_COMMIT="cd8d4e0364b7f94fd06f728262097054fb528e7a"
+CROS_WORKON_TREE="20ea565ac55c72fdee042b85f1c28ea0c7c62101"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit libchrome cros-workon autotest
@@ -20,7 +20,6 @@ IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups +
 IUSE="${IUSE} +autotest"
 
 # pygobject is used in the following tests:
-#   firmware_TouchMTB
 #   platform_CrosDisks*
 RDEPEND="
 	>=chromeos-base/autotest-deps-0.0.3
@@ -105,7 +104,6 @@ CLIENT_IUSE_TESTS="
 	+tests_firmware_LockedME
 	+tests_firmware_RomSize
 	+tests_firmware_SetFWMP
-	+tests_firmware_TouchMTB
 	+tests_firmware_VbootCrypto
 	+tests_flaky_test
 	+tests_hardware_Badblocks
