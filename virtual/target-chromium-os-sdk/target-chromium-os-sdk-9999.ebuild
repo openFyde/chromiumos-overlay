@@ -109,6 +109,7 @@ RDEPEND="${RDEPEND}
 	sys-devel/arc-cache-builder
 	sys-devel/arc-toolchain-master
 	sys-devel/arc-toolchain-p
+	sys-devel/arc-toolchain-r
 	sys-devel/dex2oatds
 	"
 
