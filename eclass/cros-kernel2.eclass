@@ -2007,7 +2007,8 @@ _cros-kernel2_compile() {
 	# from the output in the next incremental build.  Nuke all dtbs so we
 	# don't include stale files.  We use 'find' to handle old and new
 	# locations (see comments in install below).
-	find "$(cros-workon_get_build_dir)/arch" -name '*.dtb' -delete
+	local arch_dir="$(cros-workon_get_build_dir)/arch"
+	[[ -d "${arch_dir}" ]] && find "${arch_dir}" -name '*.dtb' -delete
 
 	if use test && [[ -e "${SMATCH_ERROR_FILE}" ]]; then
 		local make_check_cmd="smatch -p=kernel"
