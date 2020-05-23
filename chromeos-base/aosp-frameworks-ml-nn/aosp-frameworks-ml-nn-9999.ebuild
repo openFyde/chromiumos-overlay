@@ -35,13 +35,13 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
-	chromeos-base/nnapi
 	dev-libs/openssl:=
 	sci-libs/tensorflow:=
 "
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/nnapi
 "
 
 platform_pkg_test() {

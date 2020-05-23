@@ -80,10 +80,11 @@ src_install() {
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
 
-	einfo "Installing static libraries."
-	dolib.a "${OUT}/libnnapi-base.a"
-	dolib.a "${OUT}/libnnapi-cutils.a"
-	dolib.a "${OUT}/libnnapi-utils.a"
+	einfo "Installing static library."
+	dolib.a "${OUT}/libnnapi-support.a"
+
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${OUT}/obj/nnapi/libnnapi-support.pc"
 }
 
 platform_pkg_test() {
@@ -93,6 +94,6 @@ platform_pkg_test() {
 
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/libnnapi-${test_target}_testrunner"
+		platform_test "run" "${OUT}/lib${test_target}_testrunner"
 	done
 }
