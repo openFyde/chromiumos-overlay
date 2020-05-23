@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b2ca24c97b0084b805f7da28804b4c430c151ccb"
-CROS_WORKON_TREE="e6f41612c2bb5643ecf601807028f80ecadefabb"
+CROS_WORKON_COMMIT="be5824412cec9e55fdfb523c80e33393e1054140"
+CROS_WORKON_TREE="b45c3d57c1cc9c35286e9e4bad45597482ab7564"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -20,7 +20,7 @@ SRC_URI="test? ( https://storage.googleapis.com/crosvm-testing/x86_64/${KERNEL_P
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
 
 COMMON_DEPEND="
 	sys-apps/dtc:=
@@ -121,6 +121,8 @@ src_compile() {
 	local features=(
 		$(usex crosvm-gpu gpu "")
 		$(usex crosvm-plugin plugin "")
+		$(usex crosvm-video-decoder video-decoder "")
+		$(usex crosvm-video-encoder video-encoder "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
 	)
