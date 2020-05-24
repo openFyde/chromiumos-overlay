@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("152caff28bd486d5e02c4e0dd54d217ac55b237f" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "911852c231f779d1aee1e759c146e63f05e00d8f")
-CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "8f8a045d9a2a4e4f33d20562be00b3113995aa87" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "43a23f8182e90441b011501ddd6b5284200552b0")
+CROS_WORKON_COMMIT=("6f5f2677cb81ab8f7de8e6b5fb956f2465a61003" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "911852c231f779d1aee1e759c146e63f05e00d8f")
+CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "d25d650cdcd4ab4f8799ce9ae23ca2b29725ebfb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "43a23f8182e90441b011501ddd6b5284200552b0")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/system/core/base"
@@ -82,10 +82,11 @@ src_install() {
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
 
-	einfo "Installing static libraries."
-	dolib.a "${OUT}/libnnapi-base.a"
-	dolib.a "${OUT}/libnnapi-cutils.a"
-	dolib.a "${OUT}/libnnapi-utils.a"
+	einfo "Installing static library."
+	dolib.a "${OUT}/libnnapi-support.a"
+
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${OUT}/obj/nnapi/libnnapi-support.pc"
 }
 
 platform_pkg_test() {
@@ -95,6 +96,6 @@ platform_pkg_test() {
 
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/libnnapi-${test_target}_testrunner"
+		platform_test "run" "${OUT}/lib${test_target}_testrunner"
 	done
 }
