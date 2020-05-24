@@ -173,6 +173,7 @@ perf_make() {
 	# FIXME: NO_LIBBABELTRACE
 	emake V=1 VF=1 \
 		CC="$(tc-getCC)" CXX="$(tc-getCXX)" AR="$(tc-getAR)" LD="$(tc-getLD)" \
+		HOSTCC="$(tc-getBUILD_CC)" \
 		PKG_CONFIG="$(tc-getPKG_CONFIG)" \
 		prefix="${EPREFIX}/usr" bindir_relative="bin" \
 		EXTRA_CFLAGS="${CFLAGS}" \
