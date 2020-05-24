@@ -462,11 +462,6 @@ RDEPEND="${RDEPEND}
 	sys-firmware/fw-engprod-tools
 	"
 
-# Host dependencies for virtualbox-guest-additions
-RDEPEND="${RDEPEND}
-	dev-util/kbuild
-	"
-
 # Host dependencies for audio topology generation
 RDEPEND="${RDEPEND}
 	media-sound/alsa-utils"
