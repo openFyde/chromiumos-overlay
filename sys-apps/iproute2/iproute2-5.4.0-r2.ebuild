@@ -39,6 +39,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.1.0-mtu.patch #291907
+	"${FILESDIR}"/${P}-ip-addr-optimistic.patch
 	"${FILESDIR}"/${P}-jetstream-nss-qdisc.patch
 	"${FILESDIR}"/${P}-tc-add-support-for-new-qdisc-arl.patch
 )
