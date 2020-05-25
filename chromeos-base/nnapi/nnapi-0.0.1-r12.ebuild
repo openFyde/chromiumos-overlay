@@ -2,16 +2,18 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("2b1d9aa84939d5264eb79a34fbed84e5ba3ac85e" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "911852c231f779d1aee1e759c146e63f05e00d8f")
-CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "b5da3cc9f973adf2e479425dfff0f2a08c804676" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "43a23f8182e90441b011501ddd6b5284200552b0")
+CROS_WORKON_COMMIT=("26c63c2374ab55d6508779bf822115e53f28f45e" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "911852c231f779d1aee1e759c146e63f05e00d8f")
+CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "9fdc5e6ecd0f8bdb9186861429f3377caf958020" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "43a23f8182e90441b011501ddd6b5284200552b0")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/system/core/base"
 	"aosp/platform/system/core/libcutils"
+	"aosp/platform/system/core/liblog"
 	"aosp/platform/system/core/libutils"
 	"aosp/platform/system/libhidl"
 )
 CROS_WORKON_REPO=(
+	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
@@ -22,6 +24,7 @@ CROS_WORKON_LOCALNAME=(
 	"platform2"
 	"aosp/system/core/base"
 	"aosp/system/core/libcutils"
+	"aosp/system/core/liblog"
 	"aosp/system/core/libutils"
 	"aosp/system/libhidl"
 )
@@ -29,11 +32,13 @@ CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/aosp/system/core/base"
 	"${S}/platform2/aosp/system/core/libcutils"
+	"${S}/platform2/aosp/system/core/liblog"
 	"${S}/platform2/aosp/system/core/libutils"
 	"${S}/platform2/aosp/system/libhidl"
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk nnapi .gn"
+	""
 	""
 	""
 	""
@@ -78,6 +83,7 @@ src_install() {
 	doins -r includes/*
 	doins -r ../aosp/system/core/base/include/*
 	doins -r ../aosp/system/core/libcutils/include/*
+	doins -r ../aosp/system/core/liblog/include/*
 	doins -r ../aosp/system/core/libutils/include/*
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
