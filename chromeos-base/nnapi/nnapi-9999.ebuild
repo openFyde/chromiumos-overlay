@@ -6,10 +6,12 @@ CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/system/core/base"
 	"aosp/platform/system/core/libcutils"
+	"aosp/platform/system/core/liblog"
 	"aosp/platform/system/core/libutils"
 	"aosp/platform/system/libhidl"
 )
 CROS_WORKON_REPO=(
+	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
@@ -20,6 +22,7 @@ CROS_WORKON_LOCALNAME=(
 	"platform2"
 	"aosp/system/core/base"
 	"aosp/system/core/libcutils"
+	"aosp/system/core/liblog"
 	"aosp/system/core/libutils"
 	"aosp/system/libhidl"
 )
@@ -27,11 +30,13 @@ CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/aosp/system/core/base"
 	"${S}/platform2/aosp/system/core/libcutils"
+	"${S}/platform2/aosp/system/core/liblog"
 	"${S}/platform2/aosp/system/core/libutils"
 	"${S}/platform2/aosp/system/libhidl"
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk nnapi .gn"
+	""
 	""
 	""
 	""
@@ -76,6 +81,7 @@ src_install() {
 	doins -r includes/*
 	doins -r ../aosp/system/core/base/include/*
 	doins -r ../aosp/system/core/libcutils/include/*
+	doins -r ../aosp/system/core/liblog/include/*
 	doins -r ../aosp/system/core/libutils/include/*
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
