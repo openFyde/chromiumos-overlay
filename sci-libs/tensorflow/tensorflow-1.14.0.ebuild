@@ -391,10 +391,10 @@ src_install() {
 	done
 	if use minimal; then
 		einfo "Installing selected TF core headers"
-		for i in "${PN}/core/lib/bfloat16/bfloat16.h" \
-			"${PN}/core/platform/byte_order.h"; do
-			insinto "/usr/include/${PN}/${i%/*}"
-			doins "${i}"
+		local selected=( lib/bfloat16/bfloat16.h platform/byte_order.h platform/macros.h )
+		for i in "${selected[@]}"; do
+			insinto "/usr/include/${PN}/${PN}/core/${i%/*}"
+			doins "${PN}/core/${i}"
 		done
 	fi
 
