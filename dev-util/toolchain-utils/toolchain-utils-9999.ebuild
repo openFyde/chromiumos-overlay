@@ -35,4 +35,6 @@ src_install() {
 	newbin afdo_redaction/redact_profile.py redact_textual_afdo_profile
 
 	newbin afdo_redaction/remove_indirect_calls.py remove_indirect_calls
+
+	newbin afdo_redaction/remove_cold_functions.py remove_cold_functions
 }
