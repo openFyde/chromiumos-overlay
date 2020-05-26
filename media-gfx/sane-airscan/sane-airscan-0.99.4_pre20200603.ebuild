@@ -22,8 +22,9 @@ COMMON_DEPEND="
 DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
 
-SRC_URI="sane-airscan-${PV}.tar.gz"
-S="${WORKDIR}/${PN}"
+GIT_HASH="1586e5e005759ca6031235be66a4ffd24b2c75ca"
+SRC_URI="https://github.com/alexpevzner/sane-airscan/archive/${GIT_HASH}.tar.gz -> ${PN}-${GIT_HASH}.tar.gz"
+S="${WORKDIR}/${PN}-${GIT_HASH}"
 
 src_install() {
 	dobin "${BUILD_DIR}/airscan-discover"
