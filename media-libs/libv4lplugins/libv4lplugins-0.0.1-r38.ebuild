@@ -1,14 +1,14 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 
 CROS_WORKON_COMMIT="a4286c4564b9e1557ce5a9440096665887fa13fe"
 CROS_WORKON_TREE="a17b1841ff0f13b956704fe28506711345c64894"
 CROS_WORKON_PROJECT="chromiumos/third_party/libv4lplugins"
 inherit autotools cros-workon eutils
 
-MY_P=v4l-utils-1.6.0
+MY_P=v4l-utils-1.18.1
 
 DESCRIPTION="Separate plugin library from upstream v4l-utils package"
 HOMEPAGE="http://git.linuxtv.org/v4l-utils.git"
