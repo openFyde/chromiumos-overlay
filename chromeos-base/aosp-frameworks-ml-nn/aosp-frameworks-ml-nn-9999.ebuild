@@ -42,6 +42,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/nnapi
+	>=dev-cpp/eigen-3
 "
 
 src_configure() {
