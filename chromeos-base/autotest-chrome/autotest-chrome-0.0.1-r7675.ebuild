@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="da19ff7ce0a2a60abbbf5613c9945406cd66c196"
-CROS_WORKON_TREE="a897fb3b72d3f86258c851dff3ff9b112b64a713"
+CROS_WORKON_COMMIT="6f854a09c665ecfe9812155fd67ef5e8c1e2e3a8"
+CROS_WORKON_TREE="21e950240b35ca197224b491dee08b44341d14b4"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -119,7 +119,6 @@ IUSE_TESTS=(
 	+tests_platform_ScrollTest
 	+tests_policy_AccessibilityTest
 	+tests_policy_AllowDeletingBrowserHistory
-	+tests_policy_AllowDinosaurEasterEgg
 	+tests_policy_AllowScreenLock
 	+tests_policy_AlternateErrorPages
 	+tests_policy_ArcAudioCaptureAllowed
@@ -165,7 +164,6 @@ IUSE_TESTS=(
 	+tests_policy_HomepageLocation
 	+tests_policy_ImagesAllowedForUrls
 	+tests_policy_ImagesBlockedForUrls
-	+tests_policy_IncognitoModeAvailability
 	+tests_policy_JavaScriptAllowedForUrls
 	+tests_policy_JavaScriptBlockedForUrls
 	+tests_policy_KeyboardDefaultToFunctionKeys
@@ -198,8 +196,6 @@ IUSE_TESTS=(
 	+tests_policy_ShowHomeButton
 	+tests_policy_SystemTimezone
 	+tests_policy_TranslateEnabled
-	+tests_policy_URLBlacklist
-	+tests_policy_URLWhitelist
 	+tests_policy_UserNativePrintersAllowed
 	+tests_policy_VirtualMachinesAllowed
 	+tests_policy_WilcoOnNonWilcoDevice
