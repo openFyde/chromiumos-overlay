@@ -33,13 +33,12 @@ src_configure() {
 	cros_optimize_package_for_speed
 	sanitizers-setup-env
 	export USE_X11=$(usex X 1 0)
+	tc-export CXX PKG_CONFIG
+	cros-debug-add-NDEBUG
 	default
 }
 
 src_compile() {
-	tc-export CXX
-	cros-debug-add-NDEBUG
-
 	emake clean  # TODO(adlr): remove when a better solution exists
 	emake
 }
