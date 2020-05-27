@@ -26,7 +26,8 @@ KEYWORDS="~*"
 # attestation for 1.2 devices.
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption distributed_cryptohome double_extend_pcr_issue fuzzer
-	pinweaver selinux systemd test tpm tpm2 user_session_isolation"
+	generated_cros_config pinweaver selinux systemd test tpm tpm2
+	unibuild user_session_isolation"
 
 REQUIRED_USE="
 	device_mapper
@@ -46,6 +47,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/attestation:=
 	chromeos-base/chaps:=
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libhwsec:=
 	chromeos-base/libscrypt:=
 	chromeos-base/metrics:=
@@ -55,10 +57,15 @@ COMMON_DEPEND="
 	dev-libs/glib:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
+	sys-apps/flashmap:=
 	sys-apps/keyutils:=
 	sys-fs/e2fsprogs:=
 	sys-fs/ecryptfs-utils:=
 	sys-fs/lvm2:=
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 "
 
 RDEPEND="${COMMON_DEPEND}"
