@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("9c17e4047997325bb067fc36c19ed7c4f3d4bb85" "7fa93e492bac4c6107692b4bec60255cc4659f65")
+CROS_WORKON_COMMIT=("b89f8690df77af00617f6f27731766bbf7e80ddf" "7fa93e492bac4c6107692b4bec60255cc4659f65")
 CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d31994347eccf3bea4831065e24cdd507c8d16a4")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -27,14 +27,14 @@ CROS_WORKON_SUBTREE=(
 
 PLATFORM_SUBDIR="aosp/frameworks/ml/nn"
 
-inherit cros-workon platform
+inherit cros-workon platform flag-o-matic
 
 DESCRIPTION="Chrome OS port of the Android Neural Network API"
 HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="*"
-IUSE=""
+IUSE="cpu_flags_x86_avx2"
 
 RDEPEND="
 	dev-libs/openssl:=
@@ -45,6 +45,18 @@ DEPEND="
 	${RDEPEND}
 	chromeos-base/nnapi
 "
+
+src_configure() {
+	if use x86 || use amd64; then
+		append-cxxflags "-D_Float16=__fp16"
+		append-cxxflags "-Xclang=-fnative_half-type"
+		append-cxxflags "-Xclang=-fallow-half-arguments-and-returns"
+	fi
+	if use cpu_flags_x86_avx2; then
+		append-cxxflags "-mavx2 -mfma"
+	fi
+	platform_src_configure
+}
 
 platform_pkg_test() {
 	local tests=(
