@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("b89f8690df77af00617f6f27731766bbf7e80ddf" "7fa93e492bac4c6107692b4bec60255cc4659f65")
-CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d31994347eccf3bea4831065e24cdd507c8d16a4")
+CROS_WORKON_COMMIT=("5956f142fb9899ea94db7ea1c0ae5fc9941896d2" "42a5aa1cb599a72a18af1c87ce7f8c37514e0bd7")
+CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a4e715cbd4918af4bc83292f15eb02fa2253b06b")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
@@ -44,6 +44,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/nnapi
+	>=dev-cpp/eigen-3
 "
 
 src_configure() {
