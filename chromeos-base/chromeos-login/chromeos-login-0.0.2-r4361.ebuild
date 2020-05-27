@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2abed8a60d5e759523fdf2a957819ecaf4aaa572"
+CROS_WORKON_COMMIT="39230205c782f8d1aa86873762abb5534e4b5260"
 CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "77ec58455166cd913b8f1197f8f44b75f18f2f5e" "c0b816f19570ba7f0f522c1ff7a29bae14b8be22" "98c0db7e92836fcb71403a83973a9b5018fe6177" "e3c98f14effdc74f0cda0dd228d0d5ce12d338ee" "8a3e86c27ace781edecf3100d378a95cc9a7b385" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -115,6 +115,12 @@ src_install() {
 
 	insinto /etc
 	doins chrome_dev.conf
+
+	# Create daemon store directories.
+	local daemon_store="/etc/daemon-store/session_manager"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners root:root "${daemon_store}"
 
 	local fuzzers=(
 		login_manager_validator_utils_fuzzer
