@@ -18,13 +18,17 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 
-IUSE=""
+IUSE="arcvm arcpp"
 RDEPEND="app-misc/jq"
 DEPEND=""
 
 src_install() {
-	dosbin arc/scripts/android-sh
-	dosbin arc/scripts/android-sh-vm
+	if use arcpp; then
+		dosbin arc/scripts/android-sh
+	fi
+	if use arcvm; then
+		newsbin arc/scripts/android-sh-vm android-sh
+	fi
 
 	insinto /etc/init
 	doins arc/scripts/arc-remove-data.conf
