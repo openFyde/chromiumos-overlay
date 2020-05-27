@@ -87,6 +87,7 @@ CROS_BOARDS=(
 	tglrvp
 	tidus
 	tricky
+	trogdor
 	veyron_brain
 	veyron_danger
 	veyron_jerry
