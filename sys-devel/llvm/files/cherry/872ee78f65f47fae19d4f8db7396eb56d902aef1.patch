@@ -1,10 +1,19 @@
-commit f71d00cf9c5d65b3b5eca11d5d452cc0520e27bf
-Author: Tiancong Wang <tcwang@google.com>
-Date:   Thu May 7 23:30:20 2020 -0700
+commit b53cac3143c4b284634bbe1b5370e56ecc99950d
+Author: Victor Campos <victor.campos@arm.com>
+Date:   Fri May 22 10:03:18 2020 +0100
 
     Revert "[ARM] Improve codegen of volatile load/store of i64"
     
     This reverts commit 8a12553223180246eeafaa0fa7bfa11e834d34b6.
+    
+    A bug has been found when generating code for Thumb2. In some very
+    specific cases, the prologue/epilogue emitter generates erroneous stack
+    offsets for the new LDRD instructions that access the stack.
+    
+    This bug does not seem to be caused by the reverted patch though. Likely
+    the latter has made an undiscovered issue emerge in the
+    prologue/epilogue emission pass. Nevertheless, this reversion is
+    necessary since it is blocking users of the ARM backend.
 
 diff --git a/llvm/lib/Target/ARM/ARMExpandPseudoInsts.cpp b/llvm/lib/Target/ARM/ARMExpandPseudoInsts.cpp
 index 4dcb1f62577..25eabf53dee 100644

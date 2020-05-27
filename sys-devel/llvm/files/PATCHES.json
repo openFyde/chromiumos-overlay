@@ -211,8 +211,9 @@
     },
     {
         "comment": "Revert \"[ARM] Improve codegen of volatile load/store of i64\"",
-        "rel_patch_path": "revert-8a12553223180246eeafaa0fa7bfa11e834d34b6.patch",
-        "start_version": 386906
+        "rel_patch_path": "cherry/872ee78f65f47fae19d4f8db7396eb56d902aef1.patch",
+        "start_version": 386906,
+        "end_version": 393974
     },
     {
         "comment": "Revert \"[CodeGen][ARM] Error when writing to specific reserved registers in inline asm\"",
