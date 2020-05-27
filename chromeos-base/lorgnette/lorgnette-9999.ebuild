@@ -20,13 +20,13 @@ KEYWORDS="~*"
 IUSE="test"
 
 COMMON_DEPEND="
-	chromeos-base/minijail:=
 	chromeos-base/metrics:=
 	media-libs/libpng:=
 	media-gfx/sane-backends:=
 "
 
 RDEPEND="${COMMON_DEPEND}
+	chromeos-base/minijail
 	test? (
 		media-gfx/perceptualdiff:=
 	)
