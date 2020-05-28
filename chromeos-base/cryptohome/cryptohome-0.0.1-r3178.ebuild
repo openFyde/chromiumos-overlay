@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1cf0f3a223c28f68565accc279897c88128c25a7"
+CROS_WORKON_COMMIT="c3f12d4f55772e2d8c07222bf0ea6c4f2948b149"
 CROS_WORKON_TREE=("5c166c57bfa8221e0220045d504b0e4e7e58de21" "6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "6204d2c113003d27c008b2e4453e221015518c51" "e81ebd7a3fb917a2b8bf6329717e1f9c413ea327" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,7 +28,8 @@ KEYWORDS="*"
 # attestation for 1.2 devices.
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption distributed_cryptohome double_extend_pcr_issue fuzzer
-	pinweaver selinux systemd test tpm tpm2 user_session_isolation"
+	generated_cros_config pinweaver selinux systemd test tpm tpm2
+	unibuild user_session_isolation"
 
 REQUIRED_USE="
 	device_mapper
@@ -48,6 +49,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/attestation:=
 	chromeos-base/chaps:=
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libhwsec:=
 	chromeos-base/libscrypt:=
 	chromeos-base/metrics:=
@@ -57,10 +59,15 @@ COMMON_DEPEND="
 	dev-libs/glib:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
+	sys-apps/flashmap:=
 	sys-apps/keyutils:=
 	sys-fs/e2fsprogs:=
 	sys-fs/ecryptfs-utils:=
 	sys-fs/lvm2:=
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
 "
 
 RDEPEND="${COMMON_DEPEND}"
