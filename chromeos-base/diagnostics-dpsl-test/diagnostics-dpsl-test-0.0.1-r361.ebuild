@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="c59fb4be1cf27cc254887ff846eb1060c67d684f"
-CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "df7a31ec8503031eda0980b4e463405c25a0c593" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8be9ff0884643f0b45c61c1b6bf3cc70f04f5e82"
+CROS_WORKON_TREE=("6eabf6c16a6c482fcc6c234aa5f1e36293a9b92e" "417c02d6b61fc8668d9fc5aa4cffdc9445b35244" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -32,7 +32,6 @@ RDEPEND="
 "
 
 src_install() {
-	dobin "${OUT}/diagnostics_dpsl_demo_vm"
 	dobin "${OUT}/diagnostics_dpsl_test_listener"
 	dobin "${OUT}/diagnostics_dpsl_test_requester"
 }
