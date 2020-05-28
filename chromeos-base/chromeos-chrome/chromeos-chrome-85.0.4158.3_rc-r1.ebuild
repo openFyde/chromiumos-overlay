@@ -140,6 +140,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/gestures
 	chromeos-base/libevdev
 	fonts? ( chromeos-base/chromeos-fonts )
+	chrome_internal? ( chromeos-base/quickoffice )
 	dev-libs/nspr
 	>=dev-libs/nss-3.12.2
 	dev-libs/libxml2
@@ -241,27 +242,16 @@ set_build_args() {
 		"use_v4l2_codec=$(usetf v4l2_codec)"
 		"use_v4lplugin=$(usetf v4lplugin)"
 		"use_vaapi=$(usetf vaapi)"
-		"use_ozone=true"
 		"use_xkbcommon=$(usetf xkbcommon)"
 		"enable_remoting=$(usetf chrome_remoting)"
 		"enable_nacl=$(use_nacl; echotf)"
-		"icu_use_data_file=true"
 		# use_system_minigbm is set below.
-		# HarfBuzz and FreeType need to be built together in a specific way
-		# to get FreeType autohinting to work properly. Chromium bundles
-		# FreeType and HarfBuzz to meet that need.
-		# See crbug.com/694137 .
-		"use_system_harfbuzz=false"
-		"use_system_freetype=false"
-		"use_bundled_fontconfig=false"
 
 		# Clang features.
 		"is_asan=$(usetf asan)"
 		"is_msan=$(usetf msan)"
 		"is_ubsan=$(usetf ubsan)"
 		"is_clang=true"
-		"cros_host_is_clang=true"
-		"cros_v8_snapshot_is_clang=true"
 		"use_thin_lto=$(usetf thinlto)"
 		"use_goma_thin_lto=${use_goma_thin_lto}"
 		"is_cfi=$(usetf cfi)"
@@ -1289,17 +1279,9 @@ src_install() {
 			-4k-align -root-mode 0755 -no-progress \
 			|| die "Failed to create Quickoffice squashfs"
 
+		# The squashfs will be mounted at boot time by an upstart script
+		# installed by chromeos-base/quickoffice.
 		doins "${WORKDIR}/quickoffice.squash"
-		# Create the directory where the Quickoffice squashfs will be
-		# mounted.
-		keepdir "${qo_install_root}"/_platform_specific
-		# Install the upstart scripts that will automatically
-		# mount/unmount the Quickoffice squashfs when Chrome
-		# starts/stops.
-		insinto /etc/init
-		doins "${QUICKOFFICE}"/upstart/quickoffice-start.conf
-		doins "${QUICKOFFICE}"/upstart/quickoffice-stop.conf
-
 	fi
 
 	# Chrome test resources
