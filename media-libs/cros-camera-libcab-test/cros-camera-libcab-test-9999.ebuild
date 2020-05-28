@@ -28,5 +28,5 @@ DEPEND="${RDEPEND}"
 
 src_install() {
 	dobin "${OUT}/libcab_test"
-	dolib.so "${OUT}/lib/libcam_algo.so"
+	dolib.so "${OUT}/lib/libcam_algo_test.so"
 }
