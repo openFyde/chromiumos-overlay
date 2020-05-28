@@ -67,3 +67,7 @@ platform_pkg_test() {
 		platform_test "run" "${OUT}/${test_target}_testrunner"
 	done
 }
+
+src_install() {
+	dolib.so "${OUT}/lib/libneuralnetworks.so"
+}
