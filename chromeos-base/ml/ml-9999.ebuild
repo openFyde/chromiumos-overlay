@@ -42,6 +42,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="
 	fuzzer
+	nnapi
 	ondevice_handwriting
 "
 
@@ -49,6 +50,7 @@ RDEPEND="
 	chromeos-base/chrome-icu:=
 	chromeos-base/libbrillo:=
 	chromeos-base/metrics:=
+	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
 	dev-libs/libhandwriting:=[ondevice_handwriting=]
 	dev-libs/libtextclassifier:=
 	sci-libs/tensorflow:=
