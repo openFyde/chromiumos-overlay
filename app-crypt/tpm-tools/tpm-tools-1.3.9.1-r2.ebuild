@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools flag-o-matic
+inherit autotools flag-o-matic cros-sanitizers
 
 DESCRIPTION="TrouSerS' support tools for the Trusted Platform Modules"
 HOMEPAGE="http://trousers.sourceforge.net"
@@ -41,6 +41,7 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	append-cppflags $(usex debug -DDEBUG -DNDEBUG)
 
 	econf \
