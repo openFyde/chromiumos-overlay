@@ -1,8 +1,8 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-PYTHON_COMPAT=( python3_{5,6,7} )
+PYTHON_COMPAT=( python3_{6,7,8} )
 PYTHON_REQ_USE='threads(+),xml(+)'
 
 inherit python-single-r1 waf-utils multilib-minimal linux-info systemd pam
@@ -24,8 +24,8 @@ LICENSE="GPL-3"
 SLOT="0"
 
 IUSE="acl addc addns ads ceph client cluster cups debug dmapi fam gpg iprint 
-json ldap pam perl profiling-data python quota selinux syslog system-heimdal 
-+system-mitkrb5 systemd test winbind zeroconf"
+json ldap pam perl profiling-data python quota selinux snapper syslog
+system-heimdal +system-mitkrb5 systemd test winbind zeroconf"
 
 MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/samba-4.0/policy.h
@@ -46,14 +46,16 @@ CDEPEND="
 	dev-libs/libbsd[${MULTILIB_USEDEP}]
 	dev-libs/libgcrypt:0
 	dev-libs/iniparser:0
+	dev-libs/libtasn1[${MULTILIB_USEDEP}]
 	dev-libs/popt[${MULTILIB_USEDEP}]
 	python? ( dev-python/subunit[${PYTHON_USEDEP},${MULTILIB_USEDEP}] )
 	>=dev-util/cmocka-1.1.1[${MULTILIB_USEDEP}]
 	>=net-libs/gnutls-3.2.0
 	net-libs/libnsl:=[${MULTILIB_USEDEP}]
 	sys-apps/attr[${MULTILIB_USEDEP}]
-	>=sys-libs/ldb-2.0.7[ldap(+)?,python?,${PYTHON_USEDEP},${MULTILIB_USEDEP}]
-	<sys-libs/ldb-2.2.0[ldap(+)?,python?,${PYTHON_USEDEP},${MULTILIB_USEDEP}]
+	sys-libs/e2fsprogs-libs[${MULTILIB_USEDEP}]
+	>=sys-libs/ldb-2.0.10[ldap(+)?,python?,${PYTHON_USEDEP},${MULTILIB_USEDEP}]
+	<sys-libs/ldb-2.1.0[ldap(+)?,python?,${PYTHON_USEDEP},${MULTILIB_USEDEP}]
 	sys-libs/libcap
 	sys-libs/ncurses:0=[${MULTILIB_USEDEP}]
 	sys-libs/readline:0=
@@ -85,6 +87,7 @@ CDEPEND="
 	gpg? ( app-crypt/gpgme )
 	json? ( dev-libs/jansson )
 	ldap? ( net-nds/openldap[${MULTILIB_USEDEP}] )
+	snapper? ( sys-apps/dbus )
 	system-heimdal? ( >=app-crypt/heimdal-1.5[-ssl,${MULTILIB_USEDEP}] )
 	system-mitkrb5? ( >=app-crypt/mit-krb5-1.15.1[${MULTILIB_USEDEP}] )
 	systemd? ( sys-apps/systemd:0= )
@@ -138,15 +141,16 @@ S="${WORKDIR}/${MY_P}"
 PATCHES=(
 	"${FILESDIR}/${PN}-4.4.0-pam.patch"
 	"${FILESDIR}/${PN}-4.9.2-timespec.patch"
+	"${FILESDIR}/${PN}-4.13-winexe_option.patch"
+	"${FILESDIR}/${PN}-4.13-vfs_snapper_configure_option.patch"
 
-	"${FILESDIR}/${PN}-4.11.2-machinepass_stdin.patch"
-	"${FILESDIR}/${PN}-4.11.2-machinepass_expire.patch"
-	"${FILESDIR}/${PN}-4.11.2-reuse_existing_computer_account.patch"
-	"${FILESDIR}/${PN}-4.11.2-add-exec-args-in-test-exec.patch"
+	"${FILESDIR}/${PN}-4.11.9-machinepass_stdin.patch"
+	"${FILESDIR}/${PN}-4.11.9-machinepass_expire.patch"
+	"${FILESDIR}/${PN}-4.11.9-reuse_existing_computer_account.patch"
 
 	# Temporary workaround until we fix Samba/OpenLDAP issues (see
 	# https://crbug.com/953613).
-	"${FILESDIR}/${PN}-4.11.2-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
+	"${FILESDIR}/${PN}-4.11.9-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
@@ -207,6 +211,7 @@ multilib_src_configure() {
 		--disable-rpath-install
 		--nopyc
 		--nopyo
+		--without-winexe
 		--without-regedit
 		--with-libiconv="${SYSROOT}/usr"
 		$(multilib_native_use_with acl acl-support)
@@ -224,6 +229,7 @@ multilib_src_configure() {
 		$(multilib_native_use_with pam)
 		$(multilib_native_usex pam "--with-pammodulesdir=${EPREFIX}/$(get_libdir)/security" '')
 		$(multilib_native_use_with quota quotas)
+		$(multilib_native_use_enable snapper)
 		$(multilib_native_use_with syslog)
 		$(multilib_native_use_with systemd)
 		$(multilib_native_use_with winbind)
@@ -234,6 +240,8 @@ multilib_src_configure() {
 		$(use_with debug lttng)
 		$(use_with ldap)
 		$(use_with profiling-data)
+		# Gentoo bug #683148
+		--jobs 1
 	)
 
 	multilib_is_native_abi && myconf+=( --with-shared-modules=${SHAREDMODS} )
@@ -314,7 +322,7 @@ multilib_src_test() {
 }
 
 pkg_postinst() {
-	ewarn "Be aware the this release contains the best of all of Samba's"
+	ewarn "Be aware that this release contains the best of all of Samba's"
 	ewarn "technology parts, both a file server (that you can reasonably expect"
 	ewarn "to upgrade existing Samba 3.x releases to) and the AD domain"
 	ewarn "controller work previously known as 'samba4'."
