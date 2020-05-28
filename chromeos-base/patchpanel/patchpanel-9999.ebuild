@@ -17,7 +17,9 @@ DESCRIPTION="Patchpanel network connectivity management daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/patchpanel/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer"
+
+# These USE flags are used in patchpanel/BUILD.gn
+IUSE="fuzzer arcvm"
 
 COMMON_DEPEND="
 	dev-libs/protobuf:=
