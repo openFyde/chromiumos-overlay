@@ -62,6 +62,7 @@ IUSE="
 	native_gpu_memory_buffers
 	natural_scroll_default
 	ndk_translation
+	ndk_translation64
 	neon
 	nocturne
 	oobe_skip_postlogin
