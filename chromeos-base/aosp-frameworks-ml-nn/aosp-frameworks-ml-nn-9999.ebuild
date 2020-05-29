@@ -48,8 +48,8 @@ DEPEND="
 src_configure() {
 	if use x86 || use amd64; then
 		append-cxxflags "-D_Float16=__fp16"
-		append-cxxflags "-Xclang=-fnative_half-type"
-		append-cxxflags "-Xclang=-fallow-half-arguments-and-returns"
+		append-cxxflags "-Xclang -fnative-half-type"
+		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
 	fi
 	if use cpu_flags_x86_avx2; then
 		append-cxxflags "-mavx2 -mfma"
