@@ -21,7 +21,7 @@ SRC_URI="gs://chromeos-localmirror/distfiles/${CREDITS_SRC}"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 # The crosvm-wl-dmabuf USE flag is used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer"
+IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco"
 REQUIRED_USE="kvm_host"
 
 COMMON_DEPEND="
@@ -47,6 +47,22 @@ DEPEND="
 	chromeos-base/vm_protos:=
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
+
+get_vmlog_forwarder_start_services() {
+	local start_services="starting vm_concierge"
+	if use wilco; then
+		start_services+=" or starting wilco_dtc_dispatcher"
+	fi
+	echo "${start_services}"
+}
+
+get_vmlog_forwarder_stop_services() {
+	local stop_services="stopped vm_concierge"
+	if use wilco; then
+		stop_services+=" and stopped wilco_dtc_dispatcher"
+	fi
+	echo "${stop_services}"
+}
 
 src_unpack() {
 	platform_src_unpack
@@ -84,7 +100,12 @@ src_install() {
 	doins init/seneschal.conf
 	doins init/vm_cicerone.conf
 	doins init/vm_concierge.conf
-	doins init/vmlog_forwarder.conf
+
+	# Modify vmlog_forwarder starting and stopping conditions based on USE flags.
+	sed \
+		"-e s,@dependent_start_services@,$(get_vmlog_forwarder_start_services),"\
+		"-e s,@dependent_stop_services@,$(get_vmlog_forwarder_stop_services)," \
+		init/vmlog_forwarder.conf.in | newins - vmlog_forwarder.conf
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
