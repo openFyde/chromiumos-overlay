@@ -142,6 +142,9 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Fix-compute-copies-for-subsampled-formats.patch
 
+	# b/152378755
+	epatch "${FILESDIR}"/UPSTREAM-frontend-dri-Implement-mapping-individual-planes.patch
+
 	default
 }
 
