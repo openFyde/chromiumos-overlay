@@ -17,7 +17,8 @@ TEMP="$(mktemp -d)"
 BUILD_BOARD="/build/${BOARD}"
 DLC_ROOTFS_META_DIR="rootfs_meta"
 DLC_PAYLOADS_DIR="payloads"
-DLC_IMAGE_DIR="build/rootfs/dlc"
+DLC_IMAGES_DIR="images"
+DLC_BUILD_ROOTFS_DIR="build/rootfs/dlc"
 DLC_PACKAGE="test-package"
 DLC_PAYLOAD="dlcservice_test-dlc.payload"
 LSB_RELEASE="etc/lsb-release"
@@ -37,11 +38,11 @@ generate_file() {
 }
 
 
-mkdir -p "${DLC_PAYLOADS_DIR}" "${DLC_ROOTFS_META_DIR}"
+mkdir -p "${DLC_PAYLOADS_DIR}" "${DLC_ROOTFS_META_DIR}" "${DLC_IMAGES_DIR}"
 for N in {1..2}; do
   DLC_ID="test${N}-dlc"
   DLC_PATH="${DLC_ID}/${DLC_PACKAGE}"
-  DLC_FILES_DIR="${TEMP}/${DLC_IMAGE_DIR}/${DLC_ID}/${DLC_PACKAGE}/root"
+  DLC_FILES_DIR="${TEMP}/${DLC_BUILD_ROOTFS_DIR}/${DLC_ID}/${DLC_PACKAGE}/root"
 
   mkdir -p "${DLC_FILES_DIR}/dir"  "${TEMP}"/etc
   # Don't create unreadable files as tests check based on readability.
@@ -51,7 +52,7 @@ for N in {1..2}; do
 
   args=(
     --install-root-dir "${TEMP}"
-    --pre-allocated-blocks "20"
+    --pre-allocated-blocks "5"
     --version "1.0.0"
     --id "${DLC_ID}"
     --package "${DLC_PACKAGE}"
@@ -64,6 +65,10 @@ for N in {1..2}; do
   if [[ "${N}" == 1 ]]; then
     args+=( --used-by "user" )
   fi
+  # For the second DLC, make preloadable.
+  if [[ "${N}" == 2 ]]; then
+    args+=( --preload )
+  fi
 
   build_dlc "${args[@]}"
 
@@ -74,9 +79,14 @@ for N in {1..2}; do
 
   cp -r "${TEMP}/opt/google/dlc"/* "${DLC_ROOTFS_META_DIR}/"
 
+  DLC_IMG_PATH="${TEMP}/build/rootfs/dlc/${DLC_PATH}/dlc.img"
+  DLC_IMAGES_PATH="${DLC_IMAGES_DIR}/${DLC_PATH}"
+  mkdir -p "${DLC_IMAGES_PATH}"
+  cp "${DLC_IMG_PATH}" "${DLC_IMAGES_PATH}"
+
   PAYLOAD_NAME="${DLC_ID}_${DLC_PACKAGE}_${DLC_PAYLOAD}"
   cros_generate_update_payload \
-      --tgt-image "${TEMP}/build/rootfs/dlc/${DLC_PATH}/dlc.img" \
+      --tgt-image "${DLC_IMG_PATH}" \
       --output "${TEMP}/${PAYLOAD_NAME}"
 
   # Remove the AppID because it is static and nebraska won't be able to get it

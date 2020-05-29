@@ -23,4 +23,6 @@ src_install() {
 	doins -r "${FILESDIR}/rootfs_meta"/*
 	insinto "/usr/local/dlc"
 	doins -r "${FILESDIR}/payloads"/*
+	insinto "/usr/local/dlc"
+	doins -r "${FILESDIR}/images"/*
 }
