@@ -334,7 +334,7 @@ filter_optional_projects() {
 	local i
 	for (( i = 0; i < project_count; ++i )); do
 		local cmd=${CROS_WORKON_OPTIONAL_CHECKOUT[i]}
-		if ${cmd}; then
+		if eval "${cmd}"; then
 			kept_indices+=( "${i}" )
 		else
 			einfo "Filtering out project ${CROS_WORKON_PROJECT[i]}: '${cmd}' returned false"
