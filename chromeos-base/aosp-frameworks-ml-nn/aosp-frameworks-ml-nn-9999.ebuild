@@ -42,6 +42,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/nnapi
+	dev-libs/libtextclassifier
 	>=dev-cpp/eigen-3
 "
 
