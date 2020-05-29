@@ -44,6 +44,7 @@ IUSE="
 	cups
 	diagnostics
 	disable_cros_video_decoder
+	dptf
 	elm-kernelnext
 	+display_backlight
 	dlc_test
