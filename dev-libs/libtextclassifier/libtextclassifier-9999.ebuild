@@ -70,6 +70,7 @@ src_install() {
 		"utils/container/string-set.h"
 		"utils/flatbuffers.h"
 		"utils/flatbuffers_generated.h"
+		"utils/hash/farmhash.h"
 		"utils/i18n/language-tag_generated.h"
 		"utils/i18n/locale.h"
 		"utils/intents/intent-config_generated.h"
