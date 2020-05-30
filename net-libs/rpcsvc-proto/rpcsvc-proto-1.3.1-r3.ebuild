@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools
+inherit autotools toolchain-funcs
 
 DESCRIPTION="rpcsvc protocol definitions from glibc"
 HOMEPAGE="https://github.com/thkukuk/rpcsvc-proto"
@@ -20,6 +20,10 @@ src_prepare(){
 	default
 	eapply "${FILESDIR}"/${P}-old-preprocessor.patch #650852
 	eapply "${FILESDIR}"/${P}-cross-compile.patch #crbug.com/898516
+
+	# Use ${CHOST}-cpp, not 'cpp': bug #718138
+	# Ideally we should use @CPP@ but rpcgen makes it hard to use '${CHOST}-gcc -E'
+	sed -i -s "s/CPP = \"cpp\";/CPP = \"${CHOST}-cpp\";/" rpcgen/rpc_main.c || die
 	eautoreconf
 }
 
