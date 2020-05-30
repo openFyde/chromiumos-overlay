@@ -422,9 +422,9 @@ RDEPEND="${RDEPEND}
 	dev-python/python-gnupg
 	dev-python/requests
 	dev-python/sphinx
-	!dev-python/twisted
-	dev-python/twisted-core
-	dev-python/twisted-web
+	dev-python/twisted
+	!dev-python/twisted-core
+	!dev-python/twisted-web
 	www-servers/nginx
 	"
 
