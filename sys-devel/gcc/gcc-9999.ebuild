@@ -404,7 +404,7 @@ EOF
 		use_ccache_index="$(usex wrapper_ccache 1 0)"
 		local sysroot_wrapper_file="${sysroot_wrapper_file_prefix}.${ccache_suffixes[${use_ccache_index}]}"
 
-		for x in c++ cpp g++ gcc; do
+		for x in c++ g++ gcc; do
 			if [[ -f "${CTARGET}-${x}" ]]; then
 				mv "${CTARGET}-${x}" "${CTARGET}-${x}.real"
 				dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${CTARGET}-${x}" || die
@@ -428,7 +428,7 @@ EOF
 			--use_llvm_next="${use_llvm_next}" \
 			--output_file="${D}$(get_bin_dir)/${sysroot_wrapper_file}" || die
 
-		for x in c++ cpp g++ gcc; do
+		for x in c++ g++ gcc; do
 			if [[ -f "${CTARGET}-${x}" ]]; then
 				mv "${CTARGET}-${x}" "${CTARGET}-${x}.real"
 				dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${CTARGET}-${x}" || die
