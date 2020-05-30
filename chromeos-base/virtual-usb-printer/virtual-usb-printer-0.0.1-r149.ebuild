@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("5a358390bae7175524aa2f08796fcd124702e01c" "5462dd95bdaaf9046011f4f9c93958ecdf913ee8")
-CROS_WORKON_TREE=("7af66dac55260dbe54518e1c164b88af55fb6af0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "3db432b876ea98a2aa829af17ebb2d151ae949f3")
+CROS_WORKON_COMMIT=("6719c8f07ff8c541bed7e82fcdc666a814a83c9d" "f7ac8468d5773c5fde9df2c466a2b9dd219d08f2")
+CROS_WORKON_TREE=("7af66dac55260dbe54518e1c164b88af55fb6af0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b96363a8add02b6c3e734c67488985353884bb75")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/virtual-usb-printer")
