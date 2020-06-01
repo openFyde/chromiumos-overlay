@@ -51,9 +51,6 @@ src_configure() {
 		append-cxxflags "-Xclang -fnative-half-type"
 		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
 	fi
-	if use cpu_flags_x86_avx2; then
-		append-cxxflags "-mavx2 -mfma"
-	fi
 	platform_src_configure
 }
 
