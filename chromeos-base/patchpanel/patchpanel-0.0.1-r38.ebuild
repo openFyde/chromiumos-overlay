@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="850a471caa2977c272db3c8b504de4e1244e450b"
+CROS_WORKON_COMMIT="6b7a9aa61051525d2d3381eb7891cb0081118a1e"
 CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "eef8e5af5d6e530802f7086cea7c1cf0487f6b8f" "6f4a303f835bd5aa2ac3cf89e4136442da5aab56" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,7 +19,9 @@ DESCRIPTION="Patchpanel network connectivity management daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/patchpanel/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="fuzzer"
+
+# These USE flags are used in patchpanel/BUILD.gn
+IUSE="fuzzer arcvm"
 
 COMMON_DEPEND="
 	dev-libs/protobuf:=
