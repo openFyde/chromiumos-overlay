@@ -135,6 +135,7 @@ platform_pkg_test() {
 		libcros_healthd_events_test
 		libcros_healthd_utils_test
 		routine_test
+		system_config_test
 	)
 	if use wilco; then
 		tests+=(
