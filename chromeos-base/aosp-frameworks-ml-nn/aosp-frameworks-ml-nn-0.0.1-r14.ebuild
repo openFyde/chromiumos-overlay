@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("682cb03170c0fc03f0800537dfc6bde4eb54c7a6" "a2b80425ef4237c487a9b152e2e90feabe2b2e8b")
+CROS_WORKON_COMMIT=("0fabf1e261854d649ca9f9a636806341a49a9352" "a2b80425ef4237c487a9b152e2e90feabe2b2e8b")
 CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "50746e70b11a6a634b8e50aeffaafda1704bbe9c")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -52,9 +52,6 @@ src_configure() {
 		append-cxxflags "-D_Float16=__fp16"
 		append-cxxflags "-Xclang -fnative-half-type"
 		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
-	fi
-	if use cpu_flags_x86_avx2; then
-		append-cxxflags "-mavx2 -mfma"
 	fi
 	platform_src_configure
 }
