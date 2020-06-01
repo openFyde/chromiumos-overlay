@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="cf6f070bc03aeb095444dff399cb53c67e6c1168"
-CROS_WORKON_TREE="6b6b0b2e3de3361de2cbd5bf018d550cefdcd67f"
+CROS_WORKON_COMMIT="1766efbca9be7cd2d24dacde95deb17532af808b"
+CROS_WORKON_TREE="2c8f6e1f8d249ffc9359b2ce4e8e8b345ceeeeab"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras-sys/Cargo.toml is
