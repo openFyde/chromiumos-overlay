@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="682cb03170c0fc03f0800537dfc6bde4eb54c7a6"
-CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "8a3e86c27ace781edecf3100d378a95cc9a7b385" "26b05d117223b27b16be4e8d5cbc691ab611178b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="4f142baf9440f48f1d30a6af18437f2eda2ad035"
+CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "8a3e86c27ace781edecf3100d378a95cc9a7b385" "56d167da7cd8e47572e2788d0d190ae359a99e22" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -23,7 +23,7 @@ SRC_URI="gs://chromeos-localmirror/distfiles/${CREDITS_SRC}"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 # The crosvm-wl-dmabuf USE flag is used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer"
+IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco"
 REQUIRED_USE="kvm_host"
 
 COMMON_DEPEND="
@@ -49,6 +49,22 @@ DEPEND="
 	chromeos-base/vm_protos:=
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
+
+get_vmlog_forwarder_start_services() {
+	local start_services="starting vm_concierge"
+	if use wilco; then
+		start_services+=" or starting wilco_dtc_dispatcher"
+	fi
+	echo "${start_services}"
+}
+
+get_vmlog_forwarder_stop_services() {
+	local stop_services="stopped vm_concierge"
+	if use wilco; then
+		stop_services+=" and stopped wilco_dtc_dispatcher"
+	fi
+	echo "${stop_services}"
+}
 
 src_unpack() {
 	platform_src_unpack
@@ -86,7 +102,12 @@ src_install() {
 	doins init/seneschal.conf
 	doins init/vm_cicerone.conf
 	doins init/vm_concierge.conf
-	doins init/vmlog_forwarder.conf
+
+	# Modify vmlog_forwarder starting and stopping conditions based on USE flags.
+	sed \
+		"-e s,@dependent_start_services@,$(get_vmlog_forwarder_start_services),"\
+		"-e s,@dependent_stop_services@,$(get_vmlog_forwarder_stop_services)," \
+		init/vmlog_forwarder.conf.in | newins - vmlog_forwarder.conf
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
