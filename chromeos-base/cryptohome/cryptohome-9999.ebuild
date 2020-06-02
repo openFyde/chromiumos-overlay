@@ -74,6 +74,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/attestation-client:=
 	chromeos-base/bootlockbox-client:=
 	chromeos-base/cryptohome-client:=
+	chromeos-base/power_manager-client:=
 	chromeos-base/protofiles:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/tpm_manager-client:=
