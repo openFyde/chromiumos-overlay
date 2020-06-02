@@ -36,7 +36,11 @@ RDEPEND="dev-libs/glib:2=
 		dev-libs/protobuf:=
 	)
 	dev-libs/re2:=
-	!~chromeos-base/libchrome-${BASE_VER}
+	!~chromeos-base/libchrome-576279
+	!chromeos-base/libchrome:576279
+	!chromeos-base/libchrome:462023
+	!chromeos-base/libchrome:456626
+	!chromeos-base/libchrome:395517
 "
 DEPEND="${RDEPEND}
 	dev-cpp/gtest:=
