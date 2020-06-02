@@ -139,7 +139,6 @@ platform_pkg_test() {
 	)
 	if use wilco; then
 		tests+=(
-			libgrpc_async_adapter_test
 			wilco_dtc_supportd_test
 		)
 	fi
