@@ -44,6 +44,7 @@ IUSE="
 	dptf
 	elm-kernelnext
 	+display_backlight
+	dlc
 	dlc_test
 	+drivefs
 	drm_atomic
