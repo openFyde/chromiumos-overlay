@@ -54,7 +54,8 @@ LICENSE="GPL-2"
 KEYWORDS="*"
 IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
 IUSE="${IUSE} +bmpblk +intel_mrc qca-framework quiet unibuild verbose"
-IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge generated_cros_config"
+IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
+IUSE="${IUSE} generated_cros_config"
 # coreboot's build system handles stripping the binaries and producing a
 # separate .debug file with the symbols. This flag prevents portage from
 # stripping the .debug symbols
@@ -62,12 +63,14 @@ RESTRICT="strip"
 
 RDEPEND=""
 DEPEND="
+	!!sys-boot/coreboot-zork
 	mtc? ( sys-boot/mtc:= )
 	virtual/coreboot-private-files
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
 	intel_mrc? ( x86? ( sys-boot/chromeos-mrc:= )
 		amd64? ( sys-boot/chromeos-mrc:= ) )
 	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
+	chipset_picasso? ( >=sys-boot/amd-picasso-fsp-0.0.2:= )
 	qca-framework? ( sys-boot/qca-framework:= )
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
