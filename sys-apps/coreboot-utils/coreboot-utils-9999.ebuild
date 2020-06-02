@@ -55,7 +55,7 @@ is_x86() {
 src_compile() {
 	_emake -C util/cbfstool obj="${PWD}/util/cbfstool"
 	if use cros_host; then
-		_emake -C util/archive
+		_emake -C util/archive HOSTCC="${CC}"
 	else
 		_emake -C util/cbmem
 	fi
