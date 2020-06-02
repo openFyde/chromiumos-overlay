@@ -12,7 +12,7 @@ if [[ ${PV} == 9999 ]]; then
 	# x11-misc/util-macros only required on live ebuilds
 	LIVE_DEPEND=">=x11-misc/util-macros-1.18"
 else
-	SRC_URI="${XORG_BASE_INDIVIDUAL_URI}/data/${PN}/${P}.tar.gz"
+	SRC_URI="${XORG_BASE_INDIVIDUAL_URI}/data/${PN}/${P}.tar.bz2"
 	KEYWORDS="*"
 fi
 
