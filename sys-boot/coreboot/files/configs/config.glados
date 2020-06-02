@@ -1,5 +1,6 @@
 CONFIG_USE_BLOBS=y
 CONFIG_VENDOR_GOOGLE=y
+# CONFIG_FSP_USE_REPO is not set
 CONFIG_FSP_FILE="3rdparty/blobs/mainboard/google/glados/fsp/FSP.fd"
 CONFIG_HAVE_IFD_BIN=y
 CONFIG_HAVE_ME_BIN=y
