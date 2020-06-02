@@ -27,7 +27,7 @@ inherit cros-constants eutils git-r3 python-any-r1
 EGIT_REPO_URIS=(
 	"cloud/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"981b8ee3af984aee47ec51a105b0f640a3aaef48"
+	"f394e6aaf4cf13d166e84b6ed3671567c5e7a391"
 
 	# If you uprev these repos, please also:
 	# - Update files/VERSION to the corresponding revision of
@@ -56,7 +56,7 @@ IUSE=""
 
 POLICY_DIR="${S}/cloud/policy"
 
-# A sorted list of the static protobuf files that exist in Chromium.
+# A list of the static protobuf files that exist in Chromium.
 POLICY_DIR_PROTO_FILES=(
 	"chrome_device_policy.proto"
 	"chrome_extension_policy.proto"
@@ -64,6 +64,7 @@ POLICY_DIR_PROTO_FILES=(
 	"install_attributes.proto"
 	"policy_common_definitions.proto"
 	"policy_signing_key.proto"
+	"record_constants.proto"
 )
 
 RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
