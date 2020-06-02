@@ -422,6 +422,7 @@ ALL_BOARDS=(
 	viking
 	viking-poc2
 	volteer
+	volteer-kernelnext
 	#waluigi
 	whirlwind
 	whlrvp
@@ -456,6 +457,7 @@ ALL_BOARDS=(
 	zako
 	zoombini
 	zork
+	zork-kernelnext
 )
 
 # Use the CROS_BOARDS defined by ebuild, otherwise use ALL_BOARDS.
