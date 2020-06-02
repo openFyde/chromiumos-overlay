@@ -18,5 +18,6 @@
 	<flag name='kerberos_daemon'>Enable Chrome OS Kerberos system daemon</flag>
 	<flag name='opengles'>Enables OpenGL ES.</flag>
 	<flag name='smbprovider'>Enable SMB file share service.</flag>
+	<flag name='system_proxy'>Enable System-proxy daemon</flag>
 </use>
 </pkgmetadata>

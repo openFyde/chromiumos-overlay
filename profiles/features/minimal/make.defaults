@@ -36,7 +36,7 @@ USE="${USE} -lorgnette -memd -mist -ml_service -pam -passive_metrics"
 USE="${USE} -power_management -scanner -tpm -usb_bouncer -usbguard -vpn -wimax"
 
 # Disable auth frameworks.
-USE="${USE} -kerberos -kerberos_daemon"
+USE="${USE} -kerberos -kerberos_daemon -system_proxy"
 
 # Disable filesystem extensions.
 USE="${USE} -drivefs -samba -smbprovider"
