@@ -183,7 +183,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 		wired_8021x? ( net-wireless/hostapd )
 	)
 	!chromeless_tests? ( chromeos-base/telemetry )
-	chromeos-base/touchbot
 	chromeos-base/toolchain-tests
 	dev-embedded/dfu-programmer
 	dev-libs/re2
