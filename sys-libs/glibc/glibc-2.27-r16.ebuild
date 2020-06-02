@@ -161,7 +161,7 @@ do_compile_test() {
 	rm -f glibc-test*
 	printf '%b' "$*" > glibc-test.c
 
-	nonfatal emake -s glibc-test
+	nonfatal emake -s glibc-test CC="${CC}"
 	ret=$?
 
 	popd >/dev/null
