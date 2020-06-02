@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("fc9178f13bbb7be7285cdb7feeec53945a5e3af0" "70ccf55019201f0b3f70316ec373b617426b833d")
-CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "179860464cd642c986ba661eafbfafcbaa7f61da")
+CROS_WORKON_COMMIT=("ec4343c5bcbfaba7539e4a13140b01b7337d7455" "0c77280bf7b68369aa9d86d607e66fa0a092f594")
+CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b5322487b4d6211e1c0b64d804129cd9b50b706f")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/virtual-usb-printer")
@@ -32,6 +32,7 @@ DEPEND="${RDEPEND}"
 platform_pkg_test() {
 	platform_test "run" "${OUT}/escl-manager-testrunner"
 	platform_test "run" "${OUT}/http-util-testrunner"
+	platform_test "run" "${OUT}/ipp-manager-testrunner"
 	platform_test "run" "${OUT}/ipp-util-testrunner"
 	platform_test "run" "${OUT}/load-config-testrunner"
 	platform_test "run" "${OUT}/smart-buffer-testrunner"
