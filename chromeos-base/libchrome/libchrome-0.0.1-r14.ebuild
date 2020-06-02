@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("ec4343c5bcbfaba7539e4a13140b01b7337d7455" "144774bb4c8d73cc610760d7826ed43a9076b99a")
+CROS_WORKON_COMMIT=("b069cd07e1b50557c0d20f24f71c310c315808ee" "144774bb4c8d73cc610760d7826ed43a9076b99a")
 CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "346085a8f958097ce20c0d1b80c9d23d58dada0a")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -38,7 +38,11 @@ RDEPEND="dev-libs/glib:2=
 		dev-libs/protobuf:=
 	)
 	dev-libs/re2:=
-	!~chromeos-base/libchrome-${BASE_VER}
+	!~chromeos-base/libchrome-576279
+	!chromeos-base/libchrome:576279
+	!chromeos-base/libchrome:462023
+	!chromeos-base/libchrome:456626
+	!chromeos-base/libchrome:395517
 "
 DEPEND="${RDEPEND}
 	dev-cpp/gtest:=
