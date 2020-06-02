@@ -1,30 +1,33 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit cmake-utils
 
 DESCRIPTION="Library to randomly mutate protobuffers."
 HOMEPAGE="https://github.com/google/libprotobuf-mutator"
-GIT_REV="c4fa591567458556be7c5d8fc871469e9f8611f4"
+GIT_REV="1c91e7253084730a3f6f85fca7ac39be4b91b09c"
 SRC_URI="https://github.com/google/${PN}/archive/${GIT_REV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="+static-libs"
 RESTRICT="test"
 
-RDEPEND="dev-libs/protobuf:="
-DEPEND="${RDEPEND}"
+DEPEND="dev-libs/protobuf:="
+RDEPEND="${DEPEND}"
+BDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}-${GIT_REV}/"
 
 src_configure() {
 	local mycmakeargs=(
 		-DTHREADS_PTHREAD_ARG=-pthread
+		-DBUILD_SHARED_LIBS:BOOL=$(usex static-libs OFF ON)
 	)
+
 	cmake-utils_src_configure
 }
 
@@ -33,16 +36,24 @@ src_compile() {
 }
 
 src_install() {
-	insinto /usr/include/libprotobuf-mutator/port
+	local inst_dir="/usr/include/libprotobuf-mutator"
+	insinto "${inst_dir}/port"
 	doins port/*.h
-	insinto /usr/include/libprotobuf-mutator/src
+	insinto "${inst_dir}/src"
 	doins src/*.h
-	insinto /usr/include/libprotobuf-mutator/src/libfuzzer
+	insinto "${inst_dir}/src/libfuzzer"
 	doins src/libfuzzer/*.h
 
 	insinto /usr/share/pkgconfig
 	doins "${FILESDIR}/${PN}.pc"
 
-	dolib.a "${BUILD_DIR}/src/libprotobuf-mutator.a"
-	dolib.a "${BUILD_DIR}/src/libfuzzer/libprotobuf-mutator-libfuzzer.a"
+	local base_lib="${BUILD_DIR}/src/libprotobuf-mutator"
+	local fuzzer_lib="${BUILD_DIR}/src/libfuzzer/libprotobuf-mutator-libfuzzer"
+	if use static-libs; then
+		dolib.a "${base_lib}.a"
+		dolib.a "${fuzzer_lib}.a"
+	else
+		dolib.so "${base_lib}.so"
+		dolib.so "${fuzzer_lib}.so"
+	fi
 }
