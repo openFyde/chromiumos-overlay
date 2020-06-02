@@ -6,13 +6,13 @@ EAPI=6
 
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="1ad0ce42de5b60e13513853dab3126225d6a82f2"
-CROS_WORKON_TREE="cde5431fb6fb5b6843049a5df677de47050df448"
+CROS_WORKON_COMMIT="7de17e2520f1f264b721b72e5a77cca19d69409e"
+CROS_WORKON_TREE="b8d78e509c717d068a0199e10811bffd817f2dd4"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_BLACKLIST="1"
-CROS_WORKON_EGIT_BRANCH="mesa-20.0"
+CROS_WORKON_EGIT_BRANCH="mesa-20.1"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
@@ -112,7 +112,6 @@ src_prepare() {
 	# This should be fixed in a future meson release.  See:
 	# https://github.com/mesonbuild/meson/issues/7276
 	epatch "${FILESDIR}"/0001-Revert-meson-update-llvm-dependency-logic-for-meson-.patch
-	epatch "${FILESDIR}"/0002-Revert-meson-Use-cmake-to-find-LLVM-when-building-fo.patch
 
 	default
 }
