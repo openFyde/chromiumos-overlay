@@ -57,7 +57,7 @@ src_configure() {
 
 platform_pkg_test() {
 	local tests=(
-		chromeos
+		chromeos runtime
 	)
 
 	local test_target
