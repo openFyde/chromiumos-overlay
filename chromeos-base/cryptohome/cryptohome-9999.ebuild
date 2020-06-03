@@ -46,6 +46,7 @@ COMMON_DEPEND="
 		sys-libs/libselinux:=
 	)
 	chromeos-base/attestation:=
+	chromeos-base/biod_proxy:=
 	chromeos-base/chaps:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libhwsec:=
