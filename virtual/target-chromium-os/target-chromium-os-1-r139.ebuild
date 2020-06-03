@@ -71,6 +71,7 @@ IUSE="
 	smbprovider
 	+syslog
 	+system_locales
+	system_proxy
 	systemd
 	touchview
 	+tpm
@@ -214,6 +215,7 @@ RDEPEND="
 	cups? ( virtual/chromium-os-printing )
 	touchview? ( chromeos-base/chromeos-accelerometer-init )
 	system_locales? ( chromeos-base/system-locales )
+	system_proxy? ( chromeos-base/system-proxy )
 	eclog? ( chromeos-base/timberslide )
 	chromeos-base/chromeos-machine-id-regen
 	systemd? ( sys-apps/systemd )
