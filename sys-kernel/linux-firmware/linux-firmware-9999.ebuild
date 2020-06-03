@@ -272,7 +272,7 @@ install_iwlwifi() {
 		iwlwifi-Qu-c0) doins "${x}-hr-b0-55.ucode" ;;
 		iwlwifi-QuZ)
 			case "${kernel}" in
-			kernel-4_19) doins "${x}-a0-hr-b0-53.ucode" ;;
+			kernel-4_19) doins "${x}-a0-hr-b0-55.ucode" ;;
 			kernel-5_4)  doins "${x}-a0-hr-b0-55.ucode" ;;
 			*)
 				ewarn "Unexpected kernel version '${kernel}'."
