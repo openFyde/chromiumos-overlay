@@ -87,6 +87,11 @@ src_install() {
 	dobin "${OUT}"/vmlog_forwarder
 	dobin "${OUT}"/vsh
 
+	# TODO(b/153934386): Add back arm64 when pstore works.
+	if use arcvm && use amd64; then
+		dobin "${OUT}"/vm_pstore_dump
+	fi
+
 	if use arcvm; then
 		arc-build-constants-configure
 		exeinto "${ARC_VM_VENDOR_DIR}/bin"
@@ -148,6 +153,11 @@ platform_pkg_test() {
 		concierge_test
 		syslog_forwarder_test
 	)
+	if use arcvm; then
+		tests+=(
+			vm_pstore_dump_test
+		)
+	fi
 
 	# Running a gRPC server under qemu-user causes flake, at least with the
 	# combination of gRPC 1.16.1 and qemu 3.0.0. Disable TerminaVmTest.* while
