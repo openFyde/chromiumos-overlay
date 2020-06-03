@@ -28,6 +28,7 @@ IUSE="
 	+cras
 	cros_ec
 	cros_embedded
+	dlc
 	kvm_host
 	hammerd
 	ml_service
@@ -208,6 +209,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	dev-python/ws4py
 	dev-util/stressapptest
 	dev-util/trace-cmd
+	dlc? ( sys-fs/squashfs-tools )
 	games-util/joystick
 	media-gfx/imagemagick[jpeg,png,svg,tiff]
 	media-gfx/perceptualdiff
