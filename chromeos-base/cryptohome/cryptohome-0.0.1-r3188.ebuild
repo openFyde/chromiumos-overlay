@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b630d98f6db0fff45041133db5b50f6d8372e327"
+CROS_WORKON_COMMIT="3c7587248b7ee221b215ca514b58331674512de5"
 CROS_WORKON_TREE=("5c166c57bfa8221e0220045d504b0e4e7e58de21" "4c23cb26be092f90ba8160118d643548e3a14a89" "b8c6e66e3789b2a127f58fcccc97ce348f2ec862" "e81ebd7a3fb917a2b8bf6329717e1f9c413ea327" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -76,6 +76,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/attestation-client:=
 	chromeos-base/bootlockbox-client:=
 	chromeos-base/cryptohome-client:=
+	chromeos-base/power_manager-client:=
 	chromeos-base/protofiles:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/tpm_manager-client:=
