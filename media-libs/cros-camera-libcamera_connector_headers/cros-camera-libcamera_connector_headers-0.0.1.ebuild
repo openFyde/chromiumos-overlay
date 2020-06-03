@@ -11,6 +11,9 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 S="${WORKDIR}/${PN}"
+# Versions before r62 install camera_service_connector.h, which causes a file
+# conflict with this package.
+RDEPEND="!<media-libs/cros-camera-libcamera_connector-0.0.1-r62"
 
 src_install() {
 	insinto "/usr/include/cros-camera"
