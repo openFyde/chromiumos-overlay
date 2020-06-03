@@ -145,6 +145,9 @@ src_prepare() {
 	# b/152378755
 	epatch "${FILESDIR}"/UPSTREAM-frontend-dri-Implement-mapping-individual-planes.patch
 
+	# b/152173082
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-expose-16xAA-on-chips-with-1-RB-due-t.patch
+
 	default
 }
 
