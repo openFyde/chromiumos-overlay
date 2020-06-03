@@ -437,6 +437,10 @@ EOF
 				ln "${CTARGET}-${x}.real" "${x}.real" || die
 				rm "${x}" || die
 				dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${x}" || die
+				# Add a cc.real symlink that points to gcc.real, https://crbug.com/1090449
+				if [[ "${x}" == "gcc" ]]; then
+					dosym "${x}.real" "$(get_bin_dir)/cc.real"
+				fi
 			fi
 		done
 	fi
