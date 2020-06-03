@@ -489,13 +489,6 @@ cros-workon_src_unpack() {
 		die "Sorry, but \$S cannot be set to \$WORKDIR"
 	fi
 
-	# Setting CROS_WORKON_COMMIT in 9999 ebuilds doesn't make sense nor is
-	# supported, so reject it up front.
-	# TODO(vapier): We allow "master" atm as that's the global default.
-	if [[ "${PV}" == "9999" ]] && [[ "${CROS_WORKON_COMMIT}" != "master" || -n "${CROS_WORKON_TREE}" ]]; then
-		die "9999 ebuilds must not set CROS_WORKON_COMMIT or CROS_WORKON_TREE"
-	fi
-
 	# Set the default of CROS_WORKON_DESTDIR. This is done here because S is
 	# sometimes overridden in ebuilds and we cannot rely on the global state
 	# (and therefore ordering of eclass inherits and local ebuild overrides).
@@ -511,6 +504,34 @@ cros-workon_src_unpack() {
 	for p in "${CROS_WORKON_DESTDIR[@]}"; do
 		if [[ "${p}" != "${S}" && "${p}" != "${S}"/* ]]; then
 			die "CROS_WORKON_DESTDIR=${p} must be under S=${S}"
+		fi
+	done
+
+	# Verify CROS_WORKON_COMMIT settings.
+	for (( i = 0; i < project_count; ++i )); do
+		r="${CROS_WORKON_COMMIT[i]}"
+		local tree="${CROS_WORKON_TREE[i]}"
+		if [[ "${PV}" == "9999" ]]; then
+			# Setting CROS_WORKON_COMMIT in 9999 ebuilds doesn't make sense nor is
+			# supported, so reject it up front.
+			# TODO(vapier): We allow "master" atm as that's the global default.
+			if [[ "${r}" != "master" || -n "${tree}" ]]; then
+				die "9999 ebuilds must not set CROS_WORKON_COMMIT or CROS_WORKON_TREE"
+			fi
+		else
+			# Enforce that a full commit id is used to avoid possible collisions
+			# in the future.  This comes up with hand edited ebuilds sometimes.
+			if [[ "${r}" == refs/tags/* ]]; then
+				# Allow tags when the ebuild is not auto-uprevving.
+				if [[ "${CROS_WORKON_BLACKLIST}" != "1" ]]; then
+					die "CROS_WORKON_COMMIT may use git tags only with CROS_WORKON_BLACKLIST=1"
+				fi
+			elif ! echo "${r}" | grep -Eq '^[0-9a-f]{40}$'; then
+				die "CROS_WORKON_COMMIT must be a full commit id to avoid collisions, not '${r}'"
+			fi
+			if [[ -n "${tree}" ]] && ! echo "${tree}" | grep -Eq '^[0-9a-f]{40}$'; then
+				die "CROS_WORKON_TREE must be a full commit id to avoid collisions, not '${tree}'"
+			fi
 		fi
 	done
 
