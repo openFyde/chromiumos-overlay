@@ -25,6 +25,7 @@ DEPEND="
 	dev-go/crypto
 	dev-go/dbus
 	dev-go/golint
+	dev-go/gopacket
 	dev-go/gopsutil
 	dev-go/go-matroska
 	dev-go/grpc
