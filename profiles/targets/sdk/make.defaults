@@ -30,6 +30,9 @@ USE="${USE} -power_management"
 # We don't boot things inside the sdk.
 USE="${USE} -openrc"
 
+# Disable vala inside the sdk
+USE="${USE} -vala"
+
 # We only have one rootfs.
 USE="${USE} -split-usr"
 

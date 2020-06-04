@@ -59,6 +59,9 @@ USE="${USE} frecon"
 # Enable udev support
 USE="${USE} udev"
 
+# Disable vala
+USE="${USE} -vala"
+
 # Enable fwupd support
 USE="${USE} fwupd"
 
