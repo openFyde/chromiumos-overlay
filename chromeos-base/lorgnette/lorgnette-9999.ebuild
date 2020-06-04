@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk lorgnette metrics .gn"
 
 PLATFORM_SUBDIR="lorgnette"
 
-inherit cros-workon platform user
+inherit cros-workon platform user udev
 
 DESCRIPTION="Document Scanning service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/lorgnette/"
@@ -38,7 +38,8 @@ DEPEND="${COMMON_DEPEND}
 "
 
 pkg_preinst() {
-	enewgroup "ippusb"
+	enewgroup ippusb
+	enewgroup usbprinter
 }
 
 src_install() {
@@ -49,6 +50,7 @@ src_install() {
 	doins dbus_service/org.chromium.lorgnette.service
 	insinto /etc/init
 	doins init/lorgnette.conf
+	udev_dorules udev/*.rules
 }
 
 platform_pkg_test() {
