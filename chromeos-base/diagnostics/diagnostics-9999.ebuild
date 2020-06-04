@@ -64,9 +64,7 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}/cros_healthd"
-	dobin "${OUT}/cros-health-event"
-	dobin "${OUT}/diag"
-	dobin "${OUT}/telem"
+	dobin "${OUT}/cros-health-tool"
 
 	if use wilco; then
 		dobin "${OUT}/wilco_dtc_supportd"
