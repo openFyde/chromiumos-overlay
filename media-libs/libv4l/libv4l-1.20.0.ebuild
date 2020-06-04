@@ -37,7 +37,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-clang-fixes.patch
 	epatch "${FILESDIR}"/${P}-increase-v4l2-max-devices.patch
 	epatch "${FILESDIR}"/${P}-remove-glob.patch
 	eautoreconf
