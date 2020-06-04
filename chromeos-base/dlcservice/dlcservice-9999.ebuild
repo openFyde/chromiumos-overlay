@@ -54,6 +54,7 @@ src_install() {
 
 	into /usr/local
 	dobin "${OUT}/dlcservice_util"
+	dobin "${S}/tools/dlctool"
 }
 
 platform_pkg_test() {
