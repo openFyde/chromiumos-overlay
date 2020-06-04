@@ -47,6 +47,12 @@ DEPEND="${RDEPEND}
 	tpm2? ( chromeos-base/trunks:=[test?] )
 	"
 
+pkg_setup() {
+	enewgroup "chronos-access"
+	enewuser "chaps"
+	cros-workon_pkg_setup
+}
+
 src_install() {
 	dosbin "${OUT}"/chapsd
 	dobin "${OUT}"/chaps_client
@@ -101,6 +107,12 @@ src_install() {
 
 	insinto /usr/include/chaps/pkcs11
 	doins pkcs11/*.h
+
+	# Chaps keeps database inside the user's cryptohome.
+	local daemon_store="/etc/daemon-store/chaps"
+	dodir "${daemon_store}"
+	fperms 0750 "${daemon_store}"
+	fowners chaps:chronos-access "${daemon_store}"
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_attributes_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_object_store_fuzzer
