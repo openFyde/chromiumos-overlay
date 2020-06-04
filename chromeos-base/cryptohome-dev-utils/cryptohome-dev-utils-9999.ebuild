@@ -32,6 +32,7 @@ COMMON_DEPEND="
 		chromeos-base/trunks:=
 	)
 	chromeos-base/attestation:=
+	chromeos-base/biod:=
 	chromeos-base/chaps:=
 	chromeos-base/libscrypt:=
 	chromeos-base/metrics:=
