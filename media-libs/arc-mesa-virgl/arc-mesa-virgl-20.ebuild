@@ -4,8 +4,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="e352b4d650d37730e5087792b9a74ef31d1974ab"
-CROS_WORKON_TREE="a98ccdccd2a7e3bc8edbed79ffacfb75458f63b7"
+CROS_WORKON_COMMIT="e925e97746afa471b86e4f9608498f15fe9b2956"
+CROS_WORKON_TREE="cde5431fb6fb5b6843049a5df677de47050df448"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="arc-mesa-virgl"
 CROS_WORKON_BLACKLIST="1"
@@ -129,39 +129,13 @@ src_prepare() {
 		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
 
-	epatch "${FILESDIR}"/BACKPORT-egl-android-Only-keep-BGRA-EGL-configs-as-fallback.patch
-
-	epatch "${FILESDIR}"/FROMLIST-egl-android-require-ANDROID_native_fence_sy.patch
-	epatch "${FILESDIR}"/CHROMIUM-egl-android-more-color_buffers.patch
-
-	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
-	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
-
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
 
-	epatch "${FILESDIR}"/UPSTREAM-st-mesa-Allow-zero-as-level-layer-_override.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-virgl-Fix-pipe_resource-leaks-under-multi-sample.patch
-
-	if use android-container-nyc; then
-		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
-		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
-	fi
-
-	epatch "${FILESDIR}"/UPSTREAM-state_tracker-winsys_handle-Add-plane-input-field.patch
-	epatch "${FILESDIR}"/UPSTREAM-gallium-screen-Add-pipe_screen-resource_get_param.patch
-	epatch "${FILESDIR}"/UPSTREAM-gallium-dri2-Support-images-with-multiple-planes-for.patch
-	epatch "${FILESDIR}"/UPSTREAM-virgl-remove-stride-from-virgl_hw_res.patch
-	epatch "${FILESDIR}"/UPSTREAM-virgl-modify-resource_create_from_handle-.-callback.patch
-	epatch "${FILESDIR}"/UPSTREAM-virgl-modify-internal-structures-to-track-winsys-sup.patch
-	epatch "${FILESDIR}"/UPSTREAM-virgl-replace-fprintf-with-_debug_printf.patch
-	epatch "${FILESDIR}"/UPSTREAM-virgl-honor-winsys-supplied-metadata.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-Remove-our-own-reference-to-buffers.patch
-	epatch "${FILESDIR}"/UPSTREAM-virgl-Remove-formats-with-unusual-sample-count.patch
-	epatch "${FILESDIR}"/UPSTREAM-meson-Do-not-use-GLX_USE_TLS-on-Android.patch
-	epatch "${FILESDIR}"/UPSTREAM-mapi-Adapted-libglvnd-x86-tsd-changes.patch
-	epatch "${FILESDIR}"/UPSTREAM-virgl-support-emulating-planar-image-sampling.patch
 	epatch "${FILESDIR}"/UPSTREAM-egl-android-set-window-usage-flags.patch
+
+	epatch "${FILESDIR}"/FROMLIST-egl-android-Increase-preferred-buffer-count-to-4.patch
+
+	epatch "${FILESDIR}"/UPSTREAM-virgl-Use-ETC2-formats-directly-when-possible.patch 
 
 	default
 }
