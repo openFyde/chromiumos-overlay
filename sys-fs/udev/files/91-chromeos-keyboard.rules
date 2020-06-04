@@ -29,10 +29,10 @@ SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
 # Kata has new top row layout
 SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
   ATTRS{id/vendor}=="046d", ATTRS{id/product}=="b35d", \
-  ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="2"
+  ENV{FUNCTION_ROW_PHYSMAP}="c0224 c0227 c0232 c029f c0070 c006f c00cd c00e2 c00ea c00e9"
 SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", \
   ATTRS{id/vendor}=="046d", ATTRS{id/product}=="408c", \
-  ENV{CROS_KEYBOARD_TOP_ROW_LAYOUT}="2"
+  ENV{FUNCTION_ROW_PHYSMAP}="c0224 c0227 c0232 c029f c0070 c006f c00cd c00e2 c00ea c00e9"
 
 # LG USB Keyboard for Chrome OS (SK6822).
 # This keyboard has original top row layout.
