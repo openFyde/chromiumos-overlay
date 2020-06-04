@@ -293,6 +293,7 @@ SERVER_IUSE_TESTS="
 	+tests_policy_WilcoServerUSBPowershare
 	+tests_power_BrightnessResetAfterReboot
 	+tests_power_ChargeControlWrapper
+	+tests_power_MeetCall
 	+tests_power_Monitoring
 	+tests_power_LW
 	+tests_power_PowerlogWrapper

@@ -208,6 +208,7 @@ IUSE_TESTS=(
 	+tests_power_IdleSuspend
 	+tests_power_LoadTest
 	+tests_power_LowMemorySuspend
+	+tests_power_MeetClient
 	+tests_power_Speedometer2
 	+tests_power_ThermalLoad
 	+tests_power_UiResume
