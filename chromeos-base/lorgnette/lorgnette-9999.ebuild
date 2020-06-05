@@ -27,6 +27,7 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/minijail
+	media-gfx/sane-airscan
 	test? (
 		media-gfx/perceptualdiff:=
 	)
