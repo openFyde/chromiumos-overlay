@@ -16,7 +16,7 @@ HOMEPAGE="https://www.tensorflow.org/"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cuda mpi minimal +python label_image"
+IUSE="cuda mpi minimal +python label_image benchmark_model"
 CPU_USE_FLAGS_X86="sse sse2 sse3 sse4_1 sse4_2 avx avx2 fma3 fma4"
 for i in $CPU_USE_FLAGS_X86; do
 	IUSE+=" cpu_flags_x86_$i"
@@ -304,7 +304,10 @@ src_compile() {
 			//tensorflow:libtensorflow_cc.so') \
 		//tensorflow/lite:libtensorflowlite.so \
 		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
-		"$(usex label_image '//tensorflow/lite/examples/label_image:label_image' '')" \
+		"$(usex label_image '
+			//tensorflow/lite/examples/label_image:label_image' '')" \
+		"$(usex benchmark_model '
+			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
 		"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')"
 
 	ebazel build \
@@ -314,7 +317,10 @@ src_compile() {
 			//tensorflow:libtensorflow_cc.so') \
 		//tensorflow/lite:libtensorflowlite.so \
 		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
-		"$(usex label_image '//tensorflow/lite/examples/label_image:label_image' '')"
+		"$(usex label_image '
+			//tensorflow/lite/examples/label_image:label_image' '')" \
+		"$(usex benchmark_model '
+			//tensorflow/lite/tools/benchmark:benchmark_model' '')"
 
 	do_compile() {
 		ebazel build //tensorflow/tools/pip_package:build_pip_package
@@ -409,7 +415,10 @@ src_install() {
 		einfo "Install label_image example"
 		dobin bazel-bin/tensorflow/lite/examples/label_image/label_image
 	fi
+	if use benchmark_model; then
+		einfo "Install benchmark_model tool"
+		dobin bazel-bin/tensorflow/lite/tools/benchmark/benchmark_model
+	fi
 
 	einstalldocs
 }
-
