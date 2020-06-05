@@ -8,4 +8,6 @@
 # the package, and it prints a string on stdout with the numerical version
 # number for said repo.
 
-echo "0.7"
+# $1 inside single quotes for awk is intentional.
+# shellcheck disable=2016
+exec awk '$1 == "Version:" {print $NF}' "$1/ShellCheck.cabal"
