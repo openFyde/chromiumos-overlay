@@ -57,6 +57,7 @@ src_prepare() {
 	epatch "${FILESDIR}/${PN}-2.4.1-large-passwords.patch"
 	epatch "${FILESDIR}/${PN}-2.4.1-pkcs11-slot.patch"
 	epatch "${FILESDIR}/${PN}-2.4.1-redirect-gateway.patch"
+	epatch "${FILESDIR}/${PN}-2.4.4-fix-illegal-client-float-CVE-2020-11810.patch"
 
 	default
 	eautoreconf
