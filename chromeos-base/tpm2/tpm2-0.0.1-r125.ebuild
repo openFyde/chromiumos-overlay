@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5d907ad7a7fea55ccf1cf6708183a68403ef954a"
-CROS_WORKON_TREE="7b138e5e811405b8610452aba1fb84053546e617"
+CROS_WORKON_COMMIT="872d8d0beabd9a81c08fc34ec83285c690228aa8"
+CROS_WORKON_TREE="f70af34770002df8ef3951dfdf5a6c18d42a5dda"
 CROS_WORKON_PROJECT="chromiumos/third_party/tpm2"
 CROS_WORKON_LOCALNAME="third_party/tpm2"
 
