@@ -4,11 +4,11 @@ DEPEND=>=dev-cpp/gflags-2.0:= media-libs/libpng:= virtual/opengles:= media-libs/
 DESCRIPTION=Microbenchmark for opengl/gles
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/glbench/
-IUSE=opengl opengles cros_host cros_workon_tree_cc023fd3586f276bcfdbb5ebf0236debc8264161
+IUSE=opengl opengles cros_host cros_workon_tree_7cdaa03d308c5a215d7e2006727a1910e63f93c2
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=>=dev-cpp/gflags-2.0:= media-libs/libpng:= virtual/opengles:= media-libs/waffle:=
-SLOT=0/0.0.1-r11
+SLOT=0/0.0.1-r12
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=be56330a7aa15afad576847010482084
+_md5_=39819aaa4021cc1f7ff5b39791d3e585
