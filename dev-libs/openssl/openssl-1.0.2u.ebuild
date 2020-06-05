@@ -23,7 +23,7 @@ SRC_URI="mirror://openssl/source/${MY_P}.tar.gz
 LICENSE="openssl"
 SLOT="legacy"
 KEYWORDS="*"
-IUSE="+asm bindist cros_host gmp kerberos msan rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
+IUSE="+asm bindist cros_host gmp kerberos msan oldssl rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
 RESTRICT="!bindist? ( bindist )"
 
 RDEPEND=">=app-misc/c_rehash-1.7-r1
@@ -269,7 +269,7 @@ multilib_src_test() {
 }
 
 compat_only() {
-	true
+	! use oldssl
 }
 
 multilib_src_install() {

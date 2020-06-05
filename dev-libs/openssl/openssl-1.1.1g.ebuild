@@ -28,15 +28,15 @@ LICENSE="openssl"
 SLOT="0/1.1" # .so version of libssl/libcrypto
 [[ "${PV}" = *_pre* ]] || \
 KEYWORDS="*"
-IUSE="+asm bindist cros_host elibc_musl rfc3779 sctp cpu_flags_x86_sse2 sslv3 static-libs test tls-heartbeat vanilla zlib"
+IUSE="+asm bindist cros_host elibc_musl oldssl rfc3779 sctp cpu_flags_x86_sse2 sslv3 static-libs test tls-heartbeat vanilla zlib"
 RESTRICT="!bindist? ( bindist )"
 
 RDEPEND=">=app-misc/c_rehash-1.7-r1
 	zlib? ( >=sys-libs/zlib-1.2.8-r1[static-libs(+)?,${MULTILIB_USEDEP}] )"
 # Hack: Pull in the previous OpenSSL version to avoid breaking dynamic linking.
 RDEPEND+="
-	=dev-libs/openssl-1.0.2u-r6:legacy
-	!<dev-libs/openssl-1.0.2u-r6:legacy
+	=dev-libs/openssl-1.0.2u-r7:legacy
+	!<dev-libs/openssl-1.0.2u-r7:legacy
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
@@ -275,7 +275,7 @@ multilib_src_test() {
 }
 
 compat_only() {
-	false
+	use oldssl
 }
 
 multilib_src_install() {
