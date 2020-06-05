@@ -180,6 +180,9 @@ src_install() {
 		done
 	fi
 
+	exeinto /usr/local/bin
+	doexe "util/ap_ro_hash.py"
+
 	if [[ "${EC_BOARDS[0]}" != "reef" ]]; then
 		elog "Not installing Cr50 binaries"
 		return
