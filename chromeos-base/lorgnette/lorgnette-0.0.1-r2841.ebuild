@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="fbcaf72257ddfc4d605e87b47a10c99f702596ae"
-CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "516602fc5322687c11d40ff70f1579af4a913467" "8a3e86c27ace781edecf3100d378a95cc9a7b385" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9715a7bf553f77f4a75bc5be6da9d235407750c7"
+CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "c1c2c88fb4153c4d533ad50bb9775fb2485969b2" "8a3e86c27ace781edecf3100d378a95cc9a7b385" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk lorgnette metrics .gn"
 
 PLATFORM_SUBDIR="lorgnette"
 
-inherit cros-workon platform user
+inherit cros-workon platform user udev
 
 DESCRIPTION="Document Scanning service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/lorgnette/"
@@ -40,7 +40,8 @@ DEPEND="${COMMON_DEPEND}
 "
 
 pkg_preinst() {
-	enewgroup "ippusb"
+	enewgroup ippusb
+	enewgroup usbprinter
 }
 
 src_install() {
@@ -51,6 +52,7 @@ src_install() {
 	doins dbus_service/org.chromium.lorgnette.service
 	insinto /etc/init
 	doins init/lorgnette.conf
+	udev_dorules udev/*.rules
 }
 
 platform_pkg_test() {
