@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c8eae1d77671e40bd4599a096fd44c765b85e213"
-CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "c7d17cd987eb6e6c6124e7c89527fb74abd0b159" "9f82a09b33f303f307c3207937245aaaefdcbc4e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="75007484b5d43683cbf7c13c849e369aa32cf06b"
+CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "c7d17cd987eb6e6c6124e7c89527fb74abd0b159" "105ed44eb3e39c389f7a053357450f1461242132" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -137,6 +137,7 @@ platform_pkg_test() {
 		libcros_healthd_events_test
 		libcros_healthd_utils_test
 		routine_test
+		system_config_test
 	)
 	if use wilco; then
 		tests+=(
