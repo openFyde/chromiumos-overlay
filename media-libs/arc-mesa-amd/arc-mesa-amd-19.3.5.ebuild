@@ -151,6 +151,9 @@ src_prepare() {
 	# b/152173082
 	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-expose-16xAA-on-chips-with-1-RB-due-t.patch
 
+	# b/157274950
+	epatch "${FILESDIR}"/UPSTREAM-radeonsi-disable-dcc-for-2x-MSAA-surface-and-bpe-4.patch
+
 	default
 }
 
