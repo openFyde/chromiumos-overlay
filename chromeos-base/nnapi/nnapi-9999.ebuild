@@ -4,6 +4,7 @@
 EAPI=7
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
+	"aosp/platform/frameworks/native"
 	"aosp/platform/system/core/base"
 	"aosp/platform/system/core/libcutils"
 	"aosp/platform/system/core/liblog"
@@ -22,6 +23,7 @@ CROS_WORKON_REPO=(
 )
 CROS_WORKON_LOCALNAME=(
 	"platform2"
+	"aosp/frameworks/native"
 	"aosp/system/core/base"
 	"aosp/system/core/libcutils"
 	"aosp/system/core/liblog"
@@ -31,6 +33,7 @@ CROS_WORKON_LOCALNAME=(
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
+	"${S}/platform2/aosp/frameworks/native"
 	"${S}/platform2/aosp/system/core/base"
 	"${S}/platform2/aosp/system/core/libcutils"
 	"${S}/platform2/aosp/system/core/liblog"
@@ -90,6 +93,8 @@ src_install() {
 	einfo "Installing Android headers."
 	insinto /usr/include/aosp
 	doins -r includes/*
+	doins -r ../aosp/frameworks/native/libs/arect/include/*
+	doins -r ../aosp/frameworks/native/libs/nativewindow/include/*
 	doins -r ../aosp/system/core/base/include/*
 	doins -r ../aosp/system/core/libcutils/include/*
 	doins -r ../aosp/system/core/liblog/include/*
