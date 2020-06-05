@@ -37,6 +37,13 @@ COMMON_DEPEND="
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
 "
+
+# For biod_client_tool. The biod_proxy library will be built on all boards but
+# biod_client_tool will be built only on boards with biod.
+COMMON_DEPEND+="
+	chromeos-base/biod_proxy:=
+"
+
 RDEPEND="
 	${COMMON_DEPEND}
 	sys-apps/flashrom
