@@ -7,6 +7,7 @@ CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
+CROS_WORKON_BLACKLIST=1
 
 WANT_LIBCHROME="no"
 inherit cros-workon libchrome-version platform
