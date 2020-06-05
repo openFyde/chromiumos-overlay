@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="cd364a2971ef1a3671dcb0a27c6cb1597260ff5b"
-CROS_WORKON_TREE="325afe480e6049054e3edbda7b22af911929a424"
+CROS_WORKON_COMMIT="94a4aaae50c204eb614e8f9f368c7b83f94d7ae1"
+CROS_WORKON_TREE="944c4a6eeeb31d293b849fa7eb2f942757c3700d"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -295,6 +295,7 @@ SERVER_IUSE_TESTS="
 	+tests_policy_WilcoServerUSBPowershare
 	+tests_power_BrightnessResetAfterReboot
 	+tests_power_ChargeControlWrapper
+	+tests_power_MeetCall
 	+tests_power_Monitoring
 	+tests_power_LW
 	+tests_power_PowerlogWrapper
