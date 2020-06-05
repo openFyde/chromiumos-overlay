@@ -374,7 +374,10 @@ unibuild_install_arc_files() {
 unibuild_install_bluetooth_files() {
 	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
-	_unibuild_common_install get-bluetooth-files "$@"
+	# Board-specific BlueZ config file is no longer required.
+	# Temporarily making this function a no-op until all references to this
+	# function are removed.
+	# TODO(b/152526402): Remove this function.
 }
 
 # @FUNCTION: unibuild_build_configfs_file
