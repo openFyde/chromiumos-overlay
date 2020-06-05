@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crypto
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="tpm tpm2"
+IUSE="biod tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
@@ -32,7 +32,9 @@ COMMON_DEPEND="
 		chromeos-base/trunks:=
 	)
 	chromeos-base/attestation:=
-	chromeos-base/biod:=
+	biod? (
+		chromeos-base/biod:=
+	)
 	chromeos-base/chaps:=
 	chromeos-base/libscrypt:=
 	chromeos-base/metrics:=
