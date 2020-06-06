@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ddb93a7a46c73d38b031cfc9d0cc565b46c97007"
+CROS_WORKON_COMMIT="f7cd13dee575b56d509a241ac237716774ad51ff"
 CROS_WORKON_TREE=("4c23cb26be092f90ba8160118d643548e3a14a89" "5c166c57bfa8221e0220045d504b0e4e7e58de21" "37200cb46a6c7dcbae23af4a4f7cd5090255f8fe" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crypto
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="tpm tpm2"
+IUSE="biod tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
@@ -34,7 +34,9 @@ COMMON_DEPEND="
 		chromeos-base/trunks:=
 	)
 	chromeos-base/attestation:=
-	chromeos-base/biod:=
+	biod? (
+		chromeos-base/biod:=
+	)
 	chromeos-base/chaps:=
 	chromeos-base/libscrypt:=
 	chromeos-base/metrics:=
