@@ -114,6 +114,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/0004-GL_MESA_framebuffer_flip_y-gallium-Enable-MESA_framebuffer_flip_y.patch
 	epatch "${FILESDIR}"/0005-GL_MESA_framebuffer_flip_y-st-mesa-Fix-inverted-polygon-stipple-condition.patch
 	epatch "${FILESDIR}"/0001-BACKPORT-EGL-image-storage.patch
+	epatch "${FILESDIR}"/0001-meson-Force-the-use-of-config-tool-for-llvm.patch
 
 	default
 }
