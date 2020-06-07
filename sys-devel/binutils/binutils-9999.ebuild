@@ -38,7 +38,7 @@ is_cross() { [[ ${CHOST} != ${CTARGET} ]] ; }
 DESCRIPTION="Tools necessary to build programs"
 HOMEPAGE="http://sources.redhat.com/binutils/"
 LICENSE="|| ( GPL-3 LGPL-3 )"
-IUSE="hardened mounted_binutils multitarget nls test vanilla
+IUSE="cros_host hardened mounted_binutils multitarget nls test vanilla
 	next_binutils prev_binutils"
 REQUIRED_USE="next_binutils? ( !prev_binutils )"
 
@@ -404,6 +404,9 @@ src_install() {
 }
 
 pkg_postinst() {
+	# Do not run binutils-config for non-SDK builds.
+	use cros_host || return
+
 	# Manual binutils installation (usually via "cros_workon --host
 	# xxx/binutls && sudo emerge xxx/binutils"), unlike setup_board and
 	# build_packages which invoke cros_setup_toolchains to properly config
@@ -427,6 +430,9 @@ pkg_postinst() {
 }
 
 pkg_postrm() {
+	# Do not run binutils-config for non-SDK builds.
+	use cros_host || return
+
 	local current_profile=$(binutils-config -c ${CTARGET})
 
 	# If no other versions exist, then uninstall for this
