@@ -2,6 +2,3 @@
 # needs this facility on systems using SELinux. Provide a non-virtual package
 # to avoid confusing warnings.
 sys-apps/opentmpfiles-0.2
-
-# app-crypt/sbsigntool depends on binutils-libs.
-sys-libs/binutils-libs-0
