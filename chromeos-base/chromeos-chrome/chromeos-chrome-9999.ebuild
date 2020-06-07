@@ -189,7 +189,7 @@ PATCHES=()
 
 AUTOTEST_COMMON="src/chrome/test/chromeos/autotest/files"
 AUTOTEST_DEPS="${AUTOTEST_COMMON}/client/deps"
-AUTOTEST_DEPS_LIST="chrome_test page_cycler_dep perf_data_dep telemetry_dep"
+AUTOTEST_DEPS_LIST="chrome_test telemetry_dep"
 
 IUSE="${IUSE} +autotest"
 
@@ -1014,8 +1014,6 @@ src_compile() {
 
 	if use build_tests; then
 		install_chrome_test_resources "${WORKDIR}/test_src"
-		install_page_cycler_dep_resources "${WORKDIR}/page_cycler_src"
-		install_perf_data_dep_resources "${WORKDIR}/perf_data_src"
 		install_telemetry_dep_resources "${WORKDIR}/telemetry_src"
 
 		# NOTE: Since chrome is built inside distfiles, we have to get
@@ -1025,12 +1023,6 @@ src_compile() {
 
 		rm -rf "${deps}/chrome_test/test_src"
 		mv "${WORKDIR}/test_src" "${deps}/chrome_test/"
-
-		rm -rf "${deps}/page_cycler_dep/test_src"
-		mv "${WORKDIR}/page_cycler_src" "${deps}/page_cycler_dep/test_src"
-
-		rm -rf "${deps}/perf_data_dep/test_src"
-		mv "${WORKDIR}/perf_data_src" "${deps}/perf_data_dep/test_src"
 
 		rm -rf "${deps}/telemetry_dep/test_src"
 		mv "${WORKDIR}/telemetry_src" "${deps}/telemetry_dep/test_src"
@@ -1154,27 +1146,6 @@ install_chrome_test_resources() {
 
 	cp -a "${CHROME_ROOT}"/"${AUTOTEST_DEPS}"/chrome_test/setup_test_links.sh \
 		"${dest}"
-}
-
-install_page_cycler_dep_resources() {
-	local test_dir="${1}"
-
-	if [[ -r "${CHROME_ROOT}/src/data/page_cycler" ]]; then
-		echo "Copying Page Cycler Data into ${test_dir}"
-		mkdir -p "${test_dir}"
-		install_test_resources "${test_dir}" \
-			data/page_cycler
-	fi
-}
-
-install_perf_data_dep_resources() {
-	local test_dir="${1}"
-
-	if [[ -r "${CHROME_ROOT}/src/tools/perf/data" ]]; then
-		echo "Copying Perf Data into ${test_dir}"
-		mkdir -p "${test_dir}"
-		install_test_resources "${test_dir}" tools/perf/data
-	fi
 }
 
 install_telemetry_dep_resources() {
