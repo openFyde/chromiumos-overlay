@@ -64,6 +64,7 @@ DEPEND="
 PATCHES=(
 	"${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
 	"${FILESDIR}/00002-libhidl-callstack.patch"
+	"${FILESDIR}/00003-libutils-callstack.patch"
 )
 
 src_prepare() {
@@ -72,6 +73,7 @@ src_prepare() {
 	pushd .. || exit
 	eapply -p2 "${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
 	eapply -p2 "${FILESDIR}/00002-libhidl-callstack.patch"
+	eapply -p2 "${FILESDIR}/00003-libutils-callstack.patch"
 	popd || exit
 
 	eapply_user
