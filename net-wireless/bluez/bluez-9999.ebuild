@@ -132,13 +132,7 @@ src_install() {
 
 	# Install the config files.
 	insinto "/etc/bluetooth"
-	# TODO(b/150951215): Remove the fork once our branch converges with
-	# upstream.
-	if ! use bluez-next; then
-		# TODO(b/152526402): bluez-next should install main.conf after
-		# all per-board main.conf files have been removed.
-		doins "${S}/src/main_common.conf"
-	fi
+	doins "${FILESDIR}/main.conf"
 	doins "${FILESDIR}/input.conf"
 
 	# We don't preserve /var/lib in images, so nuke anything we preseed.
