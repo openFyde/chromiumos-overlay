@@ -1,4 +1,3 @@
-From 9f6225fd4f95f4303fe8ab5ff8b1b5dbe46fd5cd Mon Sep 17 00:00:00 2001
 From: DavieV <davidvalleau@gmail.com>
 Date: Fri, 20 Oct 2017 11:33:18 -0700
 Subject: [PATCH] Adding support for unix domain sockets to the ippusbxd daemon
@@ -13,17 +12,6 @@ Since this change required some Chrome OS specific changes in order for it to
 work properly, the author has decided that they would rather not upstream any
 of these changes.
 ---
- src/CMakeLists.txt |   1 +
- src/ippusbxd.c     | 196 +++++++++++++++++++++++++++++++++-----------
- src/ippusbxd.h     |   2 +
- src/logging.h      |   9 +-
- src/options.h      |   5 ++
- src/uds.c          | 200 +++++++++++++++++++++++++++++++++++++++++++++
- src/uds.h          |  51 ++++++++++++
- src/usb.c          |   4 +
- 8 files changed, 418 insertions(+), 50 deletions(-)
- create mode 100644 src/uds.c
- create mode 100644 src/uds.h
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index e6809b5..b59f3da 100644
@@ -38,7 +26,7 @@ index e6809b5..b59f3da 100644
  target_link_libraries(ippusbxd ${CMAKE_THREAD_LIBS_INIT})
  target_link_libraries(ippusbxd ${LIBUSB_LIBRARIES})
 diff --git a/src/ippusbxd.c b/src/ippusbxd.c
-index 413be5c..a270ee5 100644
+index 413be5c..6aac59e 100644
 --- a/src/ippusbxd.c
 +++ b/src/ippusbxd.c
 @@ -25,6 +25,7 @@
@@ -161,7 +149,7 @@ index 413be5c..a270ee5 100644
  
    /* Execute clean-up handler. */
    pthread_cleanup_pop(1);
-@@ -297,29 +342,38 @@ void service_socket_connection(struct service_thread_param *params)
+@@ -297,29 +342,46 @@ void service_socket_connection(struct service_thread_param *params)
  {
    uint32_t thread_num = params->thread_num;
  
@@ -176,6 +164,7 @@ index 413be5c..a270ee5 100644
 -      return;
 -    } else if (result == 0) {
 -      continue;
+-    }
 +    if (g_options.unix_socket_mode) {
 +      int poll_result = uds_poll_connection(params->uds->fd);
 +      if (poll_result < 0) {
@@ -188,18 +177,25 @@ index 413be5c..a270ee5 100644
 +      // is data to be read.
 +      pkt = uds_packet_get(params->uds);
 +    } else {
-+      pkt = tcp_packet_get(params->tcp);
-     }
++      int poll_result = poll_tcp_socket(params->tcp);
++      if (poll_result < 0 || !is_socket_open(params)) {
++        NOTE("Thread #%u: Client closed connection", thread_num);
++        return;
++      } else if (poll_result == 0) {
++        continue;
++      }
  
 -    struct http_packet_t *pkt = tcp_packet_get(params->tcp);
-     if (pkt == NULL) {
+-    if (pkt == NULL) {
 -      NOTE("Thread #%u: There was an error reading from the socket",
 -           thread_num);
 -      return;
--    }
--
++      pkt = tcp_packet_get(params->tcp);
+     }
+ 
 -    if (!is_socket_open(params)) {
 -      NOTE("Thread #%u: Client closed connection", thread_num);
++    if (pkt == NULL) {
 +      if (!is_socket_open(params))
 +        NOTE("Thread: #%u: Client closed connection", thread_num);
 +      else
@@ -216,7 +212,7 @@ index 413be5c..a270ee5 100644
  
      /* Send pkt to printer. */
      usb_conn_packet_send(params->usb_conn, pkt);
-@@ -334,6 +388,8 @@ void *service_printer_connection(void *params_void)
+@@ -334,6 +396,8 @@ void *service_printer_connection(void *params_void)
        (struct service_thread_param *)params_void;
    uint32_t thread_num = params->thread_num;
  
@@ -225,7 +221,7 @@ index 413be5c..a270ee5 100644
    /* Register clean-up handler. */
    pthread_cleanup_push(cleanup_handler, &thread_num);
  
-@@ -475,9 +531,12 @@ static uint16_t open_tcp_socket(void)
+@@ -475,9 +539,12 @@ static uint16_t open_tcp_socket(void)
  
  int allocate_socket_connection(struct service_thread_param *param)
  {
@@ -240,7 +236,7 @@ index 413be5c..a270ee5 100644
      ERR("Preparing thread #%u: Failed to allocate space for cups connection",
          param->thread_num);
      return -1;
-@@ -488,9 +547,20 @@ int allocate_socket_connection(struct service_thread_param *param)
+@@ -488,9 +555,20 @@ int allocate_socket_connection(struct service_thread_param *param)
  
  int setup_socket_connection(struct service_thread_param *param)
  {
@@ -264,7 +260,7 @@ index 413be5c..a270ee5 100644
    return 0;
  }
  
-@@ -546,7 +616,11 @@ struct libusb_callback_data *setup_libusb_callback_data(
+@@ -546,7 +624,11 @@ struct libusb_callback_data *setup_libusb_callback_data(
    data->thread_num = thread_param->thread_num;
    data->read_inflight_mutex = read_inflight_mutex;
    data->read_inflight_cond = thread_param->cond;
@@ -277,7 +273,7 @@ index 413be5c..a270ee5 100644
  
    return data;
  }
-@@ -568,6 +642,8 @@ void set_read_inflight(int val, pthread_mutex_t *mtx, int *read_inflight)
+@@ -568,6 +650,8 @@ void set_read_inflight(int val, pthread_mutex_t *mtx, int *read_inflight)
  }
  
  int is_socket_open(const struct service_thread_param *param) {
@@ -286,7 +282,7 @@ index 413be5c..a270ee5 100644
    return !param->tcp->is_closed;
  }
  
-@@ -591,26 +667,35 @@ static void start_daemon()
+@@ -591,26 +675,35 @@ static void start_daemon()
    usb_sock = usb_open();
    if (usb_sock == NULL) goto cleanup_usb;
  
@@ -340,7 +336,7 @@ index 413be5c..a270ee5 100644
  
    /* Lose connection to caller */
    uint16_t pid;
-@@ -651,7 +736,7 @@ static void start_daemon()
+@@ -651,7 +744,7 @@ static void start_daemon()
       that cups-browsed and ippfind will discover it */
    if (g_options.nobroadcast == 0) {
      if (dnssd_init() == -1)
@@ -349,7 +345,7 @@ index 413be5c..a270ee5 100644
    }
  
    /* Main loop */
-@@ -667,7 +752,8 @@ static void start_daemon()
+@@ -667,7 +760,8 @@ static void start_daemon()
      args->thread_num = i;
      args->usb_sock = usb_sock;
  
@@ -359,7 +355,7 @@ index 413be5c..a270ee5 100644
      if (allocate_socket_connection(args))
        goto cleanup_thread;
  
-@@ -688,12 +774,14 @@ static void start_daemon()
+@@ -688,12 +782,14 @@ static void start_daemon()
      if (args != NULL) {
        if (args->tcp != NULL)
  	tcp_conn_close(args->tcp);
@@ -375,7 +371,7 @@ index 413be5c..a270ee5 100644
    /* Stop DNS-SD advertising of the printer */
    if (g_options.dnssd_data != NULL)
      dnssd_shutdown();
-@@ -720,6 +808,10 @@ static void start_daemon()
+@@ -720,6 +816,10 @@ static void start_daemon()
    if (g_options.tcp6_socket!= NULL)
      tcp_close(g_options.tcp6_socket);
  
@@ -386,7 +382,7 @@ index 413be5c..a270ee5 100644
   cleanup_usb:
    /* USB clean-up and final reset of the printer */
    if (usb_sock != NULL)
-@@ -757,6 +849,7 @@ int main(int argc, char *argv[])
+@@ -757,6 +857,7 @@ int main(int argc, char *argv[])
      {"from-port",    required_argument, 0,  'P' },
      {"only-port",    required_argument, 0,  'p' },
      {"interface",    required_argument, 0,  'i' },
@@ -394,7 +390,7 @@ index 413be5c..a270ee5 100644
      {"logging",      no_argument,       0,  'l' },
      {"debug",        no_argument,       0,  'd' },
      {"verbose",      no_argument,       0,  'q' },
-@@ -774,6 +867,7 @@ int main(int argc, char *argv[])
+@@ -774,6 +875,7 @@ int main(int argc, char *argv[])
    g_options.product_id = 0;
    g_options.bus = 0;
    g_options.device = 0;
@@ -402,7 +398,7 @@ index 413be5c..a270ee5 100644
  
    while ((c = getopt_long(argc, argv, "qnhdp:P:i:s:lv:m:B",
  			  long_options, &option_index)) != -1) {
-@@ -851,6 +945,10 @@ int main(int argc, char *argv[])
+@@ -851,6 +953,10 @@ int main(int argc, char *argv[])
      case 'B':
        g_options.nobroadcast = 1;
        break;
@@ -774,6 +770,7 @@ index a47aa98..21c84d4 100644
 +
      exit(0);
    }
+ 
  
 -- 
 2.25.0.341.g760bfbb309-goog
