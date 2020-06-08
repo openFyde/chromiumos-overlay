@@ -11,7 +11,8 @@ CROS_GO_BINARIES=(
 	# Add more apps here.
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
 	"trace_profiling/cmd/analyze:${INSTALL_DIR}/analyze"
-	"trace_profiling/cmd/merge:${INSTALL_DIR}/harvest"
+	"trace_profiling/cmd/gen_db_result:${INSTALL_DIR}/gen_db_result"
+	"trace_profiling/cmd/harvest:${INSTALL_DIR}/harvest"
 	"trace_profiling/cmd/merge:${INSTALL_DIR}/merge"
 	"trace_profiling/cmd/profile:${INSTALL_DIR}/profile"
 	"trace_replay/cmd/trace_replay:${INSTALL_DIR}/trace_replay"
@@ -20,6 +21,7 @@ CROS_GO_BINARIES=(
 CROS_GO_TEST=(
 	"sanity/cmd/pass"
 	"trace_profiling/cmd/analyze"
+	"trace_profiling/cmd/gen_db_result"
 	"trace_profiling/cmd/merge"
 	"trace_profiling/cmd/profile"
 	"trace_replay/cmd/trace_replay"
@@ -41,12 +43,14 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	chromeos-base/cros-config-api
 	dev-go/crypto
 	dev-go/fogleman-gg
 	dev-go/go-image
 	dev-go/gofpdf
 	dev-go/golang-freetype
 	dev-go/gonum-plot
+	dev-go/protobuf
 	dev-go/readline
 	dev-go/svgo
 "
