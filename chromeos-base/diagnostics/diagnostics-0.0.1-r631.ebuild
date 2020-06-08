@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="25ce3550a14c5075b1438527a8ae161bdcba1edd"
+CROS_WORKON_COMMIT="c7dc30bf4d66f8086e92fb0ef3f3d54a12fd2dc4"
 CROS_WORKON_TREE=("7df66f898dfe1a70a7d79878e16378ce37cf6996" "7da208832a379edd36d6415ead34ffb35181dea9" "207d1b15fb46d25d8ca1209dc181531f14dbce4e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -141,7 +141,6 @@ platform_pkg_test() {
 	)
 	if use wilco; then
 		tests+=(
-			libgrpc_async_adapter_test
 			wilco_dtc_supportd_test
 		)
 	fi

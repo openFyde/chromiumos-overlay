@@ -10,8 +10,8 @@
 # of the many models successfully builds.
 
 EAPI=7
-CROS_WORKON_COMMIT="2bb86028ddaa556fcb5edbaf0d44697e4e3bae22"
-CROS_WORKON_TREE="7d38807a051b87e50fc269bfe9ad7ec8fb32df90"
+CROS_WORKON_COMMIT="766553c62683bd93bea403f25219e3ae5ab921e5"
+CROS_WORKON_TREE="54636ac06cbc51bbba2b231b5fad6ef0fdd76a8c"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 
