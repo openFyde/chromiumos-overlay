@@ -79,6 +79,7 @@ PATCHES=(
 	"${FILESDIR}/5.3.7-Fix-hugepage-text.patch"
 	"${FILESDIR}/5.3.7-Don-t-install-self-tests.patch"
 	"${FILESDIR}/5.3.7-Fix-exit-on-signal.patch"
+	"${FILESDIR}/5.3.7-Fix-libbfd-api.patch"
 )
 
 pkg_setup() {
