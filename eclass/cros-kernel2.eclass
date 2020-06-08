@@ -1185,6 +1185,7 @@ builtin_fw_x86_byt_ucode_files=(
 builtin_fw_x86_glk_ucode_desc="Intel ucode for GLK"
 builtin_fw_x86_glk_ucode_files=(
 	intel-ucode/06-7a-01
+	intel-ucode/06-7a-08
 )
 
 builtin_fw_x86_kbl_ucode_desc="Intel ucode for KBL"
