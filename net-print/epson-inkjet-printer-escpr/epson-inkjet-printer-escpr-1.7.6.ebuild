@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit cros-sanitizers eutils
+inherit cros-sanitizers eutils autotools
 
 DESCRIPTION="Epson Inkjet Printer Driver (ESC/P-R)"
 HOMEPAGE="http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX"
@@ -26,6 +26,7 @@ PATCHES=(
 src_prepare() {
 	epatch "${PATCHES[@]}"
 	epatch_user
+	eautoreconf
 }
 
 src_configure() {
