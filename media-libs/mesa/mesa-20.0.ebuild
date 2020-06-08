@@ -106,6 +106,13 @@ src_prepare() {
 			configure.ac || die
 	fi
 
+	# Current meson 'auto' method does not work properly with cross
+	# compiling, so revert back to hard-coded 'config-tool' method.
+	# This should be fixed in a future meson release.  See:
+	# https://github.com/mesonbuild/meson/issues/7276
+	epatch "${FILESDIR}"/0001-Revert-meson-update-llvm-dependency-logic-for-meson-.patch
+	epatch "${FILESDIR}"/0002-Revert-meson-Use-cmake-to-find-LLVM-when-building-fo.patch
+
 	default
 }
 
