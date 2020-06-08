@@ -3,7 +3,7 @@ DEPEND=>=sys-devel/binutils-config-1.9 test? ( dev-util/dejagnu ) nls? ( sys-dev
 DESCRIPTION=Tools necessary to build programs
 EAPI=5
 HOMEPAGE=http://sources.redhat.com/binutils/
-IUSE=hardened mounted_binutils multitarget nls test vanilla next_binutils prev_binutils cros_host cros_workon_tree_
+IUSE=cros_host hardened mounted_binutils multitarget nls test vanilla next_binutils prev_binutils cros_host cros_workon_tree_
 KEYWORDS=~*
 LICENSE=|| ( GPL-3 LGPL-3 )
 PROPERTIES=live
@@ -12,4 +12,4 @@ REQUIRED_USE=next_binutils? ( !prev_binutils )
 RESTRICT=fetch test
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff9970684d10d2d8723e60d6060d5068	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	gnuconfig	9200bfc8e0184357abfb86a08edd4fc3	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
-_md5_=d8ab6add76cef4422e96eb461a833de6
+_md5_=0f268a011231f4ba07d25a94f2f1b020
