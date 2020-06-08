@@ -67,6 +67,7 @@ RDEPEND="
 		x11-libs/libXdamage
 		x11-libs/libXext
 		x11-libs/libXrandr
+		x11-libs/libxshmfence
 		x11-libs/libXxf86vm
 	)
 	llvm? ( virtual/libelf )
