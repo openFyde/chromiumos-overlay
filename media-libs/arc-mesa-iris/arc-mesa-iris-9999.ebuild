@@ -70,7 +70,7 @@ multilib_src_configure() {
 		-Ddri-search-path="/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri"
 		-Dllvm=false
 		-Ddri3=false
-		-Dshader-cache=false
+		-Dshader-cache=true
 		-Dglx=disabled
 		-Degl=true
 		-Dgbm=false
