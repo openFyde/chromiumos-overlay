@@ -15,18 +15,21 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
 # Enable autotest by default.
-IUSE="+autotest"
+IUSE="+autotest -chromeless_tty"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
 	chromeos-base/audiotest
+	!chromeless_tty? ( chromeos-base/telemetry )
 "
 DEPEND="${RDEPEND}"
 
+# audio_AudioInputGain depends on telemetry.
 IUSE_TESTS="
 	+tests_audio_Aconnect
 	+tests_audio_AlsaLoopback
 	+tests_audio_Aplay
+	!chromeless_tty? ( +tests_audio_AudioInputGain )
 	+tests_audio_CRASFormatConversion
 	+tests_audio_CrasDevSwitchStress
 	+tests_audio_CrasLoopback
@@ -38,3 +41,15 @@ IUSE_TESTS="
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
+
+src_prepare() {
+	if ! use chromeless_tty; then
+		# Telemetry tests require the path to telemetry source to exist in order to
+		# build. Copy the telemetry source to a temporary directory that is writable,
+		# so that file removals in Telemetry source can be performed properly.
+		export TMP_DIR="$(mktemp -d)"
+		cp -r "${SYSROOT}/usr/local/telemetry" "${TMP_DIR}"
+		export PYTHONPATH="${TMP_DIR}/telemetry/src/third_party/catapult/telemetry"
+	fi
+	autotest_src_prepare
+}
