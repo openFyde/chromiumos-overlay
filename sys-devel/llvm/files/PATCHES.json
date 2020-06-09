@@ -216,11 +216,6 @@
         "end_version": 393974
     },
     {
-        "comment": "Revert \"[TargetLoweringObjectFileImpl] Produce .text.hot. instead of .text.hot for -fno-unique-section-names\"",
-        "rel_patch_path": "revert-66055230bf6673b76e7330fef76d752a1ea8638e.patch",
-        "start_version": 393087
-    },
-    {
         "comment": "[LV] Make sure the MaxVF is a power-of-2 by rounding down.",
         "rel_patch_path": "cherry/b446ec56a2987ba02dc2c80d42100be4a4689215.patch",
         "start_version": 394115,
