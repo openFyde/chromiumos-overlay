@@ -22,8 +22,6 @@ IUSE="debug vulkan"
 
 COMMON_DEPEND="
 	dev-libs/expat:=
-	dev-libs/libxml2:=
-	virtual/libudev:=
 	>=x11-libs/libdrm-2.4.94:=
 "
 
@@ -58,7 +56,6 @@ src_configure() {
 		-Dtools=freedreno
 		--buildtype $(usex debug debug release)
 		-Dvulkan-drivers=$(usex vulkan freedreno '')
-		-DI-love-half-baked-turnips=$(usex vulkan true false)
 	)
 
 	meson_src_configure
