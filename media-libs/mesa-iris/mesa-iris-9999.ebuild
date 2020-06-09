@@ -1,9 +1,7 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-
-MESON_AUTO_DEPEND=no
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-iris"
@@ -19,20 +17,21 @@ HOMEPAGE="http://mesa3d.org/"
 # Most of the code is MIT/X11.
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
-SLOT="0"
 
 IUSE="debug vulkan tools"
 
-# keep correct libdrm dep
-# keep blocks in rdepend for binpkg
-RDEPEND="
-	dev-libs/expat
-	virtual/udev
-	>=x11-libs/libdrm-2.4.94
+COMMON_DEPEND="
+	dev-libs/expat:=
+	>=x11-libs/libdrm-2.4.94:=
 "
 
-DEPEND="${RDEPEND}
-	dev-libs/libxml2
+RDEPEND="${COMMON_DEPEND}
+"
+
+DEPEND="${COMMON_DEPEND}
+"
+
+BDEPEND="
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig
@@ -65,5 +64,5 @@ src_configure() {
 src_install() {
 	meson_src_install
 
-	rm -v -rf "${ED}usr/include"
+	rm -v -rf "${ED}/usr/include"
 }
