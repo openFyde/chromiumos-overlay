@@ -2155,7 +2155,7 @@ cros-kernel2_src_install() {
 	fi
 
 	dodir /boot
-	kmake INSTALL_PATH="${D}/boot" install
+	kmake INSTALL_MOD_PATH="${D}" INSTALL_PATH="${D}/boot" install
 
 	if use device_tree; then
 		_cros-kernel2_compress_fit_kernel \
