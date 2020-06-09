@@ -13,15 +13,15 @@ inherit cros-constants git-r3 python-any-r1
 EGIT_REPO_URIS=(
 	"third_party/tlslite"
 	"${CROS_GIT_HOST_URL}/chromium/src/third_party/tlslite.git"
-	"0bc3364c7e8ead43c2fbd26d98d1fdfb683019fc"
+	"4b50b6b2c03869fbdbe03eb1ece5a23a2ded99cc"
 
 	"net/tools/testserver"
 	"${CROS_GIT_HOST_URL}/chromium/src/net/tools/testserver.git"
-	"776b695eba0f404a72bbb5925ebfe9250e72b01b"
+	"1e3338b724b0a36fc453901ca8846bd0d406d988"
 
 	"components/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"bd7bf2e3af79a371bed27cb3158d30c4ad400516"
+	"9c560d32ca3cefb832cd84e6641c6dec9795ff5b"
 )
 
 DESCRIPTION="Dependencies needed by the policy_testserver"
