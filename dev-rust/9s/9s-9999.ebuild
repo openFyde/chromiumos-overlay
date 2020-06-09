@@ -9,6 +9,8 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="vm_tools/9s"
 
+CROS_RUST_CRATE_NAME="p9s"
+
 inherit cros-workon cros-rust
 
 DESCRIPTION="Server binary for the 9P file system protocol"
@@ -53,7 +55,7 @@ src_test() {
 }
 
 src_install() {
-	dobin "$(cros-rust_get_build_dir)/9s"
+	newbin "$(cros-rust_get_build_dir)/p9s" 9s
 
 	insinto /usr/share/policy
 	newins "seccomp/9s-seccomp-${ARCH}.policy" 9s-seccomp.policy
