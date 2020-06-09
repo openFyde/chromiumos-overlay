@@ -7,12 +7,21 @@ if [[ ${PV} = *9999* ]]; then
 	GIT_ECLASS="git-r3"
 fi
 
-inherit ${GIT_ECLASS} meson
+if [[ ${PV} != *9999* ]]; then
+	CROS_WORKON_COMMIT=f49ebeee9f54d6f23c60a842f75f65561d452ab0
+	CROS_WORKON_TREE=3aff21700e194b385c800f63c88e8a381763ecce
+fi
+
+CROS_WORKON_PROJECT=chromiumos/third_party/igt-gpu-tools
+CROS_WORKON_BLACKLIST=1
+
+inherit ${GIT_ECLASS} meson cros-workon
 
 DESCRIPTION="Intel GPU userland tools"
 
 HOMEPAGE="https://01.org/linuxgraphics https://gitlab.freedesktop.org/drm/igt-gpu-tools"
 if [[ ${PV} = *9999* ]]; then
+	KEYWORDS="~*"
 	SRC_URI=""
 else
 	KEYWORDS="*"
