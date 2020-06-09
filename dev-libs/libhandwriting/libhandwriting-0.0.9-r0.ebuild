@@ -29,12 +29,17 @@ src_install() {
 		# Install the shared library.
 		mv "libhandwriting-${ARCH}.so" "libhandwriting.so" || die
 		dolib.so "libhandwriting.so"
-		# Install the model files.
+		# Install the model files for english recognition.
 		insinto /opt/google/chrome/ml_models/handwriting/
 		doins latin_indy.compact.fst latin_indy.pb latin_indy.tflite
 		doins latin_indy_conf.tflite latin_indy_seg.tflite
+		# Install the model files for gesture recognition.
+		mv gic20190510.tflite gic.reco_model.tflite || die
+		mv gic20190510_cros.ondevice.recospec.pb gic.recospec.pb || die
+		doins gic.reco_model.tflite gic.recospec.pb
 		# Install the testing data.
 		insinto /build/share/libhandwriting/
-		doins correct_labeled_requests.pb
+		doins handwriting_labeled_requests.pb
+		doins gesture_labeled_requests.pb
 	fi
 }
