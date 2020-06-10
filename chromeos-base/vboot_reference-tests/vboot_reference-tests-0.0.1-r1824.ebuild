@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="9a923c7dba003a5ddbc55937469c975689effa62"
-CROS_WORKON_TREE="a693fb4906d0ebb8b53e40a5747a18d6bcf2d099"
+CROS_WORKON_COMMIT="a85dfbc994fd1d66c4d2fdbe0e32ea531e29eaf9"
+CROS_WORKON_TREE="25af1aa3eb8642ef59c43201d8beaa04e5b96b29"
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 
 inherit cros-workon autotest
 
-DESCRIPTION="tpm check test"
+DESCRIPTION="vboot tests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/vboot_reference/"
 SRC_URI=""
 LICENSE="BSD-Google"
@@ -18,7 +18,7 @@ KEYWORDS="*"
 IUSE="${IUSE} +autotest"
 
 IUSE_TESTS="
-	+tests_hardware_TPMCheck
+	+tests_firmware_VbootCrypto
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
@@ -27,3 +27,9 @@ CROS_WORKON_LOCALNAME=platform/vboot_reference
 
 # path from root of repo
 AUTOTEST_CLIENT_SITE_TESTS=autotest/client
+
+src_compile() {
+	# for Makefile
+	export VBOOT_SRC_DIR=${WORKDIR}/${P}
+	autotest_src_compile
+}
