@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="kvm_guest vm-containers fuzzer"
+IUSE="kvm_guest vm-containers fuzzer vm_borealis"
 
 # This ebuild should only be used on VM guest boards.
 REQUIRED_USE="kvm_guest"
