@@ -22,3 +22,5 @@ RDEPEND=">=dev-lang/ghc-7.4.1:=
 DEPEND="${RDEPEND}
 	>=dev-haskell/cabal-1.10
 "
+
+CABAL_CORE_LIB_GHC_PV="PM:8.6.5-r1"
