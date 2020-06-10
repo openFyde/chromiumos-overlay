@@ -31,6 +31,7 @@ DEPEND="
 	dev-go/mdns
 	dev-go/mp4
 	dev-go/oauth2
+	dev-go/perfetto-protos
 	dev-go/protobuf
 	dev-go/selinux
 	dev-go/subcommands
