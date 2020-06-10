@@ -52,7 +52,10 @@ src_unpack() {
 	# Setting S has the effect of changing the temporary build directory
 	# here onwards. Choose "bluez/next" or "bluez/current" subdir depending on
 	# the USE flag.
-	S+="/$(usex bluez-next bluez/next bluez/current)"
+	local checkout="$(usex bluez-next bluez/next bluez/current)"
+	S+="/${checkout}"
+	local version="$("${FILESDIR}"/chromeos-version.sh "${S}")"
+	einfo "Using checkout ${checkout} (version ${version})"
 }
 
 src_prepare() {
