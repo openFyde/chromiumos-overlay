@@ -117,6 +117,8 @@ create_config() {
 	if [[ -s "${FILESDIR}/configs/config.${BOARD}" ]]; then
 
 		cp -v "${FILESDIR}/configs/config.${BOARD}" "${CONFIG}"
+		# handle the case when "${CONFIG}" does not have a newline in the end.
+		echo >> "${CONFIG}"
 
 		# Override mainboard vendor if needed.
 		if [[ -n "${SYSTEM_OEM}" ]]; then
@@ -188,8 +190,6 @@ EOF
 	echo "CONFIG_RUN_FSP_GOP=y" >> "${CONFIG}"
 
 	cp "${CONFIG}" "${CONFIG_SERIAL}"
-	# handle the case when "${CONFIG}" does not have a newline in the end.
-	echo >> "${CONFIG_SERIAL}"
 	file="${FILESDIR}/configs/fwserial.${BOARD}"
 	if [ ! -f "${file}" ] && [ -n "${base_board}" ]; then
 		file="${FILESDIR}/configs/fwserial.${base_board}"
@@ -198,6 +198,8 @@ EOF
 		file="${FILESDIR}/configs/fwserial.default"
 	fi
 	cat "${file}" >> "${CONFIG_SERIAL}" || die
+	# handle the case when "${CONFIG_SERIAL}" does not have a newline in the end.
+	echo >> "${CONFIG_SERIAL}"
 
 	einfo "Configured ${CONFIG} for board ${BOARD} in ${BUILD_DIR}"
 }
