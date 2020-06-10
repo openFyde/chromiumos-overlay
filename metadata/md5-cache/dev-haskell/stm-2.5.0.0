@@ -10,4 +10,4 @@ RDEPEND=>=dev-lang/ghc-7.4.1:=
 SLOT=0/2.5.0.0
 SRC_URI=mirror://hackage/packages/archive/stm/2.5.0.0/stm-2.5.0.0.tar.gz
 _eclasses_=eapi7-ver	756b3f27d8e46131d5cf3c51bd876446	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	ghc-package	cfc8267c6151d804d0c34bf9e180533f	haskell-cabal	433b5153bec6b0ffe21c7be2210e8396	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=1f1e7f58186f7ef7b8c847eba4ed4f21
+_md5_=4ef4f1b3ab4555b02b7d2fcc446de5ff
