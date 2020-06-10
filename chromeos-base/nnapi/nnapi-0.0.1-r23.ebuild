@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("25ce3550a14c5075b1438527a8ae161bdcba1edd" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "911852c231f779d1aee1e759c146e63f05e00d8f")
-CROS_WORKON_TREE=("7df66f898dfe1a70a7d79878e16378ce37cf6996" "0d2582c87bf547dff02efdecf849b0cd493127ca" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "43a23f8182e90441b011501ddd6b5284200552b0")
+CROS_WORKON_COMMIT=("c2c8bd29127c854526ed64acc16e46bc6e35b3de" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "911852c231f779d1aee1e759c146e63f05e00d8f")
+CROS_WORKON_TREE=("7df66f898dfe1a70a7d79878e16378ce37cf6996" "f06a89ddfa95ef828004ef52fa806374c7f42a0b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "43a23f8182e90441b011501ddd6b5284200552b0")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/system/core/base"
@@ -66,6 +66,7 @@ DEPEND="
 PATCHES=(
 	"${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
 	"${FILESDIR}/00002-libhidl-callstack.patch"
+	"${FILESDIR}/00003-libutils-callstack.patch"
 )
 
 src_prepare() {
@@ -74,6 +75,7 @@ src_prepare() {
 	pushd .. || exit
 	eapply -p2 "${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
 	eapply -p2 "${FILESDIR}/00002-libhidl-callstack.patch"
+	eapply -p2 "${FILESDIR}/00003-libutils-callstack.patch"
 	popd || exit
 
 	eapply_user
