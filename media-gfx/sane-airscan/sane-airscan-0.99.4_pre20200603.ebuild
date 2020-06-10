@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit meson
+inherit meson cros-sanitizers
 
 DESCRIPTION="eSCL and WSD SANE backend"
 HOMEPAGE="https://github.com/alexpevzner/sane-airscan"
@@ -25,6 +25,11 @@ RDEPEND="${COMMON_DEPEND}"
 GIT_HASH="1586e5e005759ca6031235be66a4ffd24b2c75ca"
 SRC_URI="https://github.com/alexpevzner/sane-airscan/archive/${GIT_HASH}.tar.gz -> ${PN}-${GIT_HASH}.tar.gz"
 S="${WORKDIR}/${PN}-${GIT_HASH}"
+
+src_configure() {
+	sanitizers-setup-env
+	meson_src_configure
+}
 
 src_install() {
 	dobin "${BUILD_DIR}/airscan-discover"
