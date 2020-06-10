@@ -182,8 +182,6 @@ src_configure() {
 		glx="disabled"
 	fi
 
-	append-flags "-UENABLE_SHADER_CACHE"
-
 	if use kvm_guest; then
 		emesonargs+=( -Ddri-search-path=/opt/google/cros-containers/lib )
 	fi
@@ -192,6 +190,7 @@ src_configure() {
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
+		-Dshader-cache=false
 		$(meson_use egl)
 		$(meson_use gbm)
 		$(meson_use X gl)
