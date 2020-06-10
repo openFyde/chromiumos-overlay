@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="70dcb19287d90489683d54cbc4338f5fad6e31d9"
-CROS_WORKON_TREE="9837fc2410e123254b50985a8e5070ee1a1e0acb"
+CROS_WORKON_COMMIT="5afbab00692b7d73313e5c0507cb3dc038639126"
+CROS_WORKON_TREE="c1d8b3058ad0b8160cf7adeb09fe6628c2a83a69"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -89,6 +89,7 @@ CROS_BOARDS=(
 	tglrvp
 	tidus
 	tricky
+	trogdor
 	veyron_brain
 	veyron_danger
 	veyron_jerry
