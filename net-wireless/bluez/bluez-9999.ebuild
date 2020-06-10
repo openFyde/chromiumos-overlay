@@ -7,10 +7,15 @@ EAPI="7"
 # projects are declared. During emerge, both project sources are copied to
 # their respective destination directories, and one is chosen as the
 # "working directory" in src_unpack() below based on bluez-next USE flag.
-CROS_WORKON_LOCALNAME=("bluez/current" "bluez/next")
-CROS_WORKON_PROJECT=("chromiumos/third_party/bluez" "chromiumos/third_party/bluez")
-CROS_WORKON_DESTDIR=("${S}/bluez/current" "${S}/bluez/next")
-CROS_WORKON_EGIT_BRANCH=("chromeos-5.44" "chromeos-5.54")
+CROS_WORKON_LOCALNAME=("bluez/current" "bluez/next" "bluez/upstream")
+CROS_WORKON_PROJECT=("chromiumos/third_party/bluez" "chromiumos/third_party/bluez" "chromiumos/third_party/bluez")
+CROS_WORKON_OPTIONAL_CHECKOUT=(
+	"use !bluez-next && use !bluez-upstream"
+	"use bluez-next"
+	"use bluez-upstream"
+)
+CROS_WORKON_DESTDIR=("${S}/bluez/current" "${S}/bluez/next" "${S}/bluez/upstream")
+CROS_WORKON_EGIT_BRANCH=("chromeos-5.44" "chromeos-5.54" "upstream/master")
 
 inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon flag-o-matic
 
@@ -20,7 +25,8 @@ HOMEPAGE="http://www.bluez.org/"
 
 LICENSE="GPL-2 LGPL-2.1"
 KEYWORDS="~*"
-IUSE="asan bluez-next cups debug systemd readline bt_deprecated_tools"
+IUSE="asan bluez-next bluez-upstream cups debug systemd readline bt_deprecated_tools"
+REQUIRED_USE="?? ( bluez-next bluez-upstream )"
 
 CDEPEND="
 	>=dev-libs/glib-2.14:2=
@@ -52,7 +58,7 @@ src_unpack() {
 	# Setting S has the effect of changing the temporary build directory
 	# here onwards. Choose "bluez/next" or "bluez/current" subdir depending on
 	# the USE flag.
-	local checkout="$(usex bluez-next bluez/next bluez/current)"
+	local checkout="bluez/$(usex bluez-next next $(usex bluez-upstream upstream current))"
 	S+="/${checkout}"
 	local version="$("${FILESDIR}"/chromeos-version.sh "${S}")"
 	einfo "Using checkout ${checkout} (version ${version})"
