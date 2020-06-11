@@ -8,9 +8,11 @@ CROS_WORKON_PROJECT=(
 	"aosp/platform/system/core/libcutils"
 	"aosp/platform/system/core/liblog"
 	"aosp/platform/system/core/libutils"
+	"aosp/platform/system/libfmq"
 	"aosp/platform/system/libhidl"
 )
 CROS_WORKON_REPO=(
+	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
@@ -24,6 +26,7 @@ CROS_WORKON_LOCALNAME=(
 	"aosp/system/core/libcutils"
 	"aosp/system/core/liblog"
 	"aosp/system/core/libutils"
+	"aosp/system/libfmq"
 	"aosp/system/libhidl"
 )
 CROS_WORKON_DESTDIR=(
@@ -32,10 +35,12 @@ CROS_WORKON_DESTDIR=(
 	"${S}/platform2/aosp/system/core/libcutils"
 	"${S}/platform2/aosp/system/core/liblog"
 	"${S}/platform2/aosp/system/core/libutils"
+	"${S}/platform2/aosp/system/libfmq"
 	"${S}/platform2/aosp/system/libhidl"
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk nnapi .gn"
+	""
 	""
 	""
 	""
@@ -65,6 +70,7 @@ PATCHES=(
 	"${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
 	"${FILESDIR}/00002-libhidl-callstack.patch"
 	"${FILESDIR}/00003-libutils-callstack.patch"
+	"${FILESDIR}/00004-libfmq-page-size.patch"
 )
 
 src_prepare() {
@@ -74,6 +80,7 @@ src_prepare() {
 	eapply -p2 "${FILESDIR}/00001-libbase-fix-stderr-logging.patch"
 	eapply -p2 "${FILESDIR}/00002-libhidl-callstack.patch"
 	eapply -p2 "${FILESDIR}/00003-libutils-callstack.patch"
+	eapply -p2 "${FILESDIR}/00004-libfmq-page-size.patch"
 	popd || exit
 
 	eapply_user
@@ -87,6 +94,7 @@ src_install() {
 	doins -r ../aosp/system/core/libcutils/include/*
 	doins -r ../aosp/system/core/liblog/include/*
 	doins -r ../aosp/system/core/libutils/include/*
+	doins -r ../aosp/system/libfmq/include/*
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
 
