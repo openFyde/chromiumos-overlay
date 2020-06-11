@@ -67,6 +67,7 @@ IUSE="
 	kernel-4_14
 	kernel-4_19
 	kernel-5_4
+	kernel-5_7
 	kukui
 	kvm_host
 	kvm_transition
