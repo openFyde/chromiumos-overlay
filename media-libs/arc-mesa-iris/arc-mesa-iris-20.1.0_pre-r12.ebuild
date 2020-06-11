@@ -4,15 +4,15 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="14ca96a79aafc59ac7e8e9149131b07157e4e35f"
-CROS_WORKON_TREE="3fdd58fa2f3d954e45dd27259c3c1e59fbcec79b"
+CROS_WORKON_COMMIT="768c1933927febb78d5685d9c7ccbcdd804f4d41"
+CROS_WORKON_TREE="1661d44a355d824d10e597ba1afab81a0073b7c4"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="mesa-freedreno"
+CROS_WORKON_LOCALNAME="mesa-iris"
 
-inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
+inherit base meson multilib-minimal flag-o-matic cros-workon arc-build
 
-DESCRIPTION="OpenGL-like graphic library for Linux"
-HOMEPAGE="http://mesa3d.sourceforge.net/"
+DESCRIPTION="The Mesa 3D Graphics Library"
+HOMEPAGE="http://mesa3d.org/"
 
 KEYWORDS="*"
 
@@ -26,11 +26,14 @@ IUSE="
 	cheets_user
 	cheets_user_64
 	debug
-	-vulkan
+	vulkan
+	android_vulkan_compute_0
+	android_aep
 "
 
 REQUIRED_USE="
 	cheets
+	android_vulkan_compute_0? ( vulkan )
 "
 
 DEPEND="
@@ -40,10 +43,11 @@ DEPEND="
 
 RDEPEND="${DEPEND}"
 
-pkg_pretend() {
-	if use vulkan; then
-		die "${PN} does not yet support vulkan"
-	fi
+src_prepare() {
+	epatch "${FILESDIR}/CHROMIUM-Limit-vulkan-version-to-1.1-for-Android.patch"
+	epatch "${FILESDIR}/CHROMIUM-anv-Disable-vulkan-extensions.patch"
+	epatch "${FILESDIR}/CHROMIUM-egl-Limit-egl-to-1.4.patch"
+	default
 }
 
 src_configure() {
@@ -60,10 +64,7 @@ multilib_src_configure() {
 		CPPFLAGS+=" -DANDROID_API_LEVEL=${ARC_PLATFORM_SDK_VERSION}"
 	fi
 
-	tc-getPROG PKG_CONFIG pkg-config
-
-	# Need std=gnu++11 to build with libc++. crbug.com/750831
-	append-cxxflags "-std=gnu++11"
+	arc-build-create-cross-file
 
 	emesonargs+=(
 		--prefix="${ARC_PREFIX}/vendor"
@@ -71,7 +72,7 @@ multilib_src_configure() {
 		-Ddri-search-path="/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri"
 		-Dllvm=false
 		-Ddri3=false
-		-Dshader-cache=false
+		-Dshader-cache=true
 		-Dglx=disabled
 		-Degl=true
 		-Dgbm=false
@@ -79,14 +80,16 @@ multilib_src_configure() {
 		-Dgles2=true
 		-Dshared-glapi=true
 		-Ddri-drivers=
-		-Dgallium-drivers=freedreno
+		-Dgallium-drivers=iris
 		-Dgallium-vdpau=false
 		-Dgallium-xa=false
 		-Dplatforms=android
 		-Degl-lib-suffix=_mesa
 		-Dgles-lib-suffix=_mesa
+		-Dvulkan-drivers=$(usex vulkan intel '')
 		--buildtype $(usex debug debug release)
-		-Dvulkan-drivers=$(usex vulkan freedreno '')
+		--cross-file="${ARC_CROSS_FILE}"
+		-Dplatform-sdk-version="${ARC_PLATFORM_SDK_VERSION}"
 	)
 
 	meson_src_configure
@@ -108,7 +111,12 @@ multilib_src_install() {
 	newexe "${BUILD_DIR}/src/mapi/es2api/libGLESv2_mesa.so" libGLESv2_mesa.so
 
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/dri"
-	newexe "${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so" msm_dri.so
+	newexe "${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so" iris_dri.so
+
+	if use vulkan; then
+		exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/hw"
+		newexe "${BUILD_DIR}/src/intel/vulkan/libvulkan_intel.so" vulkan.cheets.so
+	fi
 }
 
 multilib_src_install_all() {
@@ -120,8 +128,31 @@ multilib_src_install_all() {
 
 	# Install init files to advertise supported API versions.
 	insinto "${ARC_PREFIX}/vendor/etc/init"
-	doins "${FILESDIR}/gles30.rc"
+	doins "${FILESDIR}/gles32.rc"
 
+	# Install vulkan files
+	if use vulkan; then
+		einfo "Using android vulkan."
+		insinto "${ARC_PREFIX}/vendor/etc/init"
+		doins "${FILESDIR}/vulkan.rc"
+
+		insinto "${ARC_PREFIX}/vendor/etc/permissions"
+		doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
+		doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
+
+		if use android_vulkan_compute_0; then
+			einfo "Using android vulkan_compute_0."
+			insinto "${ARC_PREFIX}/vendor/etc/permissions"
+			doins "${FILESDIR}/android.hardware.vulkan.compute-0.xml"
+		fi
+	fi
+
+	# Install permission file to declare opengles aep support.
+	if use android_aep; then
+		einfo "Using android aep."
+		insinto "${ARC_PREFIX}/vendor/etc/permissions"
+		doins "${FILESDIR}/android.hardware.opengles.aep.xml"
+	fi
 	# Install the dri header for arc-cros-gralloc
 	insinto "${ARC_PREFIX}/vendor/include/GL"
 	doins -r "${S}/include/GL/internal"
