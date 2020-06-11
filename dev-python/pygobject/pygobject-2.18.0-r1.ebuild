@@ -8,7 +8,7 @@ GNOME2_LA_PUNT="yes"
 GNOME_TARBALL_SUFFIX="bz2"
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools gnome2 python-r1 virtualx
+inherit autotools gnome2 python-r1 virtualx toolchain-funcs
 
 DESCRIPTION="GLib's GObject library bindings for Python"
 HOMEPAGE="http://www.pygtk.org/"
@@ -60,8 +60,10 @@ src_prepare() {
 }
 
 src_configure() {
+	# Use "${CBUILD}-gcc" for host builds, crbug.com/1093668
 	python_foreach_impl run_in_build_dir \
 		gnome2_src_configure \
+			CC_FOR_BUILD="${CBUILD}-gcc" \
 			$(use_enable cairo) \
 			$(use_enable threads thread)
 }
