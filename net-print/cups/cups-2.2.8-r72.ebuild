@@ -289,6 +289,8 @@ multilib_src_install_all() {
 
 	# create /etc/cups/client.conf, bug #196967 and #266678
 	echo "ServerName ${EPREFIX}/run/cups/cups.sock" >> "${ED}"/etc/cups/client.conf
+	# Cap TLS per https://crbug.com/1088032
+	echo "MaxTLS1.2" >> "${ED}/etc/cups/client.conf"
 
 	# the following file is now provided by cups-filters:
 	rm -r "${ED}"/usr/share/cups/banners || die

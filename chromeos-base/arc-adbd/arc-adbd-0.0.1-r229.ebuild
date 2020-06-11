@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="25ce3550a14c5075b1438527a8ae161bdcba1edd"
-CROS_WORKON_TREE=("7df66f898dfe1a70a7d79878e16378ce37cf6996" "27f2d5b6166af1d08533fd9c456b495880c24451" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="202a0263b9aba4c9a554cd6fa3f1897df4312f72"
+CROS_WORKON_TREE=("aa4099e2a1b826fa721c1a1d69268c30ba0b40fc" "7df66f898dfe1a70a7d79878e16378ce37cf6996" "7663b6b16e4abec8a327a9d7311943437f0c086b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/adbd .gn"
+CROS_WORKON_SUBTREE="arc/adbd common-mk patchpanel .gn"
 
 PLATFORM_SUBDIR="arc/adbd"
 
@@ -20,9 +20,20 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/ad
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="+seccomp fuzzer"
+IUSE="+seccomp fuzzer arcvm"
+
+VM_DEPEND="
+	chromeos-base/patchpanel
+"
+
+VM_RDEPEND=${VM_DEPEND}
+
+DEPEND="
+	arcvm? ( ${VM_DEPEND} )
+"
 
 RDEPEND="
+	arcvm? ( ${VM_RDEPEND} )
 	chromeos-base/minijail
 "
 
