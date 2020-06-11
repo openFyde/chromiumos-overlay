@@ -161,6 +161,13 @@ src_install() {
 	doexe shall-use-userdataauth.sh
 	doexe update_userdataauth_from_features.sh
 
+	# Disable the kill switch if the use flag is on.
+	if use cryptohome_userdataauth_interface; then
+		sed -i 's/killswitch=on/killswitch=off/' \
+			"${D}/usr/libexec/cryptohome/shall-use-userdataauth.sh" ||
+			die "Can't disable kill switch in shall-use-userdataauth.sh"
+	fi
+
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
 		fuzzers/data/*
