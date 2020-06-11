@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="aeff6d1592075d16c41696a57c7d872410ef685e"
+CROS_WORKON_COMMIT="949a697c475413be1c12982a1221dc8167c0c47e"
 CROS_WORKON_TREE=("7df66f898dfe1a70a7d79878e16378ce37cf6996" "ea7ac619bfda87efcfb5e63f88d62ed0c2613ebe" "8a3e86c27ace781edecf3100d378a95cc9a7b385" "a6f407634a997b5e8601eba92cf78ac91a286e85" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -48,6 +48,12 @@ DEPEND="${RDEPEND}
 	fuzzer? ( dev-libs/libprotobuf-mutator )
 	tpm2? ( chromeos-base/trunks:=[test?] )
 	"
+
+pkg_setup() {
+	enewgroup "chronos-access"
+	enewuser "chaps"
+	cros-workon_pkg_setup
+}
 
 src_install() {
 	dosbin "${OUT}"/chapsd
@@ -103,6 +109,12 @@ src_install() {
 
 	insinto /usr/include/chaps/pkcs11
 	doins pkcs11/*.h
+
+	# Chaps keeps database inside the user's cryptohome.
+	local daemon_store="/etc/daemon-store/chaps"
+	dodir "${daemon_store}"
+	fperms 0750 "${daemon_store}"
+	fowners chaps:chronos-access "${daemon_store}"
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_attributes_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_object_store_fuzzer
