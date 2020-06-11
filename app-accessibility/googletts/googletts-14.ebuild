@@ -21,22 +21,36 @@ S="${WORKDIR}"
 
 src_install() {
 	local tts_path=/usr/share/chromeos-assets/speech_synthesis
-	mkdir -p patts
-	cp *.{css,html,js,json,png,svg,zvoice} patts/
+	mkdir -p "patts" || die
+
 	if use amd64 ; then
-		cp libchrometts_x86_64.so patts/libchrometts.so
+		cp "libchrometts_x86_64.so" "patts/libchrometts.so" || die
+	elif use arm64 ; then
+		cp "libchrometts_arm64.so" "patts/libchrometts.so" || die
 	elif use arm ; then
-		cp libchrometts_armv7.so patts/libchrometts.so
+		cp "libchrometts_armv7.so" "patts/libchrometts.so" || die
+	else
+		ewarn "Text-to-speech unsupported on this architecture."
+		return
 	fi
 
-	chmod -R 755 patts
+	cp ./*.{css,html,js,json,png,svg,zvoice} "patts/" || die
+
+	chmod 644 patts/* || die
+	chmod 755 patts/libchrometts.so || die
 
 	# Create and install a squashfs file.
-	mksquashfs ${WORKDIR}/patts ${WORKDIR}/patts.squash
+	mksquashfs "patts" "patts.squash" 			-all-root \
+		-noappend -no-recovery -no-exports -exit-on-error -comp lzo \
+		-b 1M -4k-align -root-mode 0755 -no-progress || die
+
 	keepdir "${tts_path}"/patts
-	insinto /usr/share/chromeos-assets/speech_synthesis
-	doins patts.squash
-		insinto /etc/init
-	doins googletts-start.conf
-	doins googletts-stop.conf
+	insinto "${tts_path}"
+	doins "patts.squash"
+
+	# Install Upstart scripts that mount and unmount the squash file when
+	# Chrome UI starts and stops.
+	insinto "/etc/init"
+	doins "googletts-start.conf"
+	doins "googletts-stop.conf"
 }
