@@ -11,7 +11,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="vm-init"
+IUSE="vm_borealis"
 
 S="${WORKDIR}"
 
@@ -40,7 +40,7 @@ src_install() {
 		"/usr/bin/xkbcomp"
 		"/usr/sbin/vshd"
 	)
-	if use vm-init; then
+	if use vm_borealis; then
 		tools+=("/sbin/init")
 	fi
 	"${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --bindir=/bin \
