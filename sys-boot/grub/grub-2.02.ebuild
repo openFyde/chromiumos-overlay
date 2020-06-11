@@ -43,6 +43,7 @@ src_configure() {
 			# platform; explicitly set it to nothing to install unprefixed
 			# tools.  https://savannah.gnu.org/bugs/?39818
 			ECONF_SOURCE="${S}" multijob_child_init econf \
+				TARGET_CC="$(tc-getCC)" \
 				--disable-werror \
 				--disable-grub-mkfont \
 				--disable-grub-mount \
