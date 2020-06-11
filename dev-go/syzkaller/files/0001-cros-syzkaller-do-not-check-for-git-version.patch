@@ -1,0 +1,41 @@
+From a531b4d2916019ca6a8f507e893c79b2467c75b6 Mon Sep 17 00:00:00 2001
+From: Zubin Mithra <zsm@chromium.org>
+Date: Fri, 12 Jun 2020 11:46:28 -0700
+Subject: [PATCH] cros-syzkaller: do not check for git version
+
+---
+ syz-fuzzer/testing.go  | 3 ---
+ syz-manager/manager.go | 3 ---
+ 2 files changed, 6 deletions(-)
+
+diff --git a/syz-fuzzer/testing.go b/syz-fuzzer/testing.go
+index 2ed615c8..849960b2 100644
+--- a/syz-fuzzer/testing.go
++++ b/syz-fuzzer/testing.go
+@@ -121,9 +121,6 @@ func checkMachine(args *checkArgs) (*rpctype.CheckArgs, error) {
+ 	done := make(chan bool)
+ 	defer close(done)
+ 	go checkMachineHeartbeats(done)
+-	if err := checkRevisions(args); err != nil {
+-		return nil, err
+-	}
+ 	features, err := host.Check(args.target)
+ 	if err != nil {
+ 		return nil, err
+diff --git a/syz-manager/manager.go b/syz-manager/manager.go
+index 7c275e28..51f1dff7 100644
+--- a/syz-manager/manager.go
++++ b/syz-manager/manager.go
+@@ -112,9 +112,6 @@ type Crash struct {
+ }
+ 
+ func main() {
+-	if prog.GitRevision == "" {
+-		log.Fatalf("Bad syz-manager build. Build with make, run bin/syz-manager.")
+-	}
+ 	flag.Parse()
+ 	log.EnableLogCaching(1000, 1<<20)
+ 	cfg, err := mgrconfig.LoadFile(*flagConfig)
+-- 
+2.27.0.290.gba653c62da-goog
+
