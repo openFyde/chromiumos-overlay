@@ -116,7 +116,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
-		base cutils hidl log utils
+		base cutils hidl hwbuf log utils
 	)
 
 	local test_target
