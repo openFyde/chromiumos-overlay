@@ -162,6 +162,7 @@ CONFIG_FRAGMENTS=(
 	hypervisor_guest
 	i2cdev
 	iscsi
+	lockdown
 	kasan
 	kcov
 	kernel_compress_xz
@@ -651,6 +652,14 @@ CONFIG_MPILIB=y
 CONFIG_OID_REGISTRY=y
 '
 
+lockdown_desc="Enable kernel lockdown module"
+lockdown_config='
+CONFIG_SECURITY_LOCKDOWN_LSM=y
+# CONFIG_SECURITY_LOCKDOWN_LSM_EARLY is not set
+CONFIG_LOCK_DOWN_KERNEL_FORCE_NONE=y
+# CONFIG_LOCK_DOWN_KERNEL_FORCE_INTEGRITY is not set
+# CONFIG_LOCK_DOWN_KERNEL_FORCE_CONFIDENTIALITY is not set
+'
 nested_l3_kvm_desc="Configuration for nested VMs. This configuration is intended to be used by L3 VMs."
 nested_l3_kvm_config="
 CONFIG_HZ_100=y
