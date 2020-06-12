@@ -204,6 +204,7 @@ perf_make() {
 		NO_LZMA=$(puse lzma) \
 		NO_ZLIB= \
 		WERROR=0 \
+		XMLTO="$(usex doc xmlto '')" \
 		LIBDIR="/usr/libexec/perf-core" \
 		"$@"
 }
