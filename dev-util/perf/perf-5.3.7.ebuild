@@ -237,7 +237,8 @@ src_install() {
 
 	dodoc *txt Documentation/*.txt
 	if use doc ; then
-		HTML_DOCS="Documentation/*.html" einstalldocs
+		docinto html
+		dodoc Documentation/*.html
 		doman Documentation/*.1
 	fi
 }
