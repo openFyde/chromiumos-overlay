@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="02a4cc7fd42e443b63d1ef92546ee35dd47d1d0e"
-CROS_WORKON_TREE=("cdef43f78358fd6a09f7c99f0f24b233fa2c1ad7" "87b02addb9d8ad92ccf74f62881e560e37e77540" "fe74456a275a55edfb65dad82ab7375ba2a61408" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a556f9bb3c95b0879002f3462ecfb86647f79448"
+CROS_WORKON_TREE=("cdef43f78358fd6a09f7c99f0f24b233fa2c1ad7" "87b02addb9d8ad92ccf74f62881e560e37e77540" "264a3c19075e522cc5419a0ecef0d094fc5815ae" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -66,9 +66,7 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}/cros_healthd"
-	dobin "${OUT}/cros-health-event"
-	dobin "${OUT}/diag"
-	dobin "${OUT}/telem"
+	dobin "${OUT}/cros-health-tool"
 
 	if use wilco; then
 		dobin "${OUT}/wilco_dtc_supportd"
