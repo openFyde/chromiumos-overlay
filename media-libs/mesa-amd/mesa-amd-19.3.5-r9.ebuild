@@ -4,20 +4,20 @@
 
 EAPI=6
 
+CROS_WORKON_COMMIT="c11cc64c1cace2b4a9cbb493025dbd04218a78be"
+CROS_WORKON_TREE="39b06e747d5b733d86714314632c1f5c84959296"
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="4ef9bd07c59c47dff551d6cd8e0e64fb489b04aa"
-CROS_WORKON_TREE="7ad3c68f2e6638fa01b1774fd2d0738984ef7a9b"
-
-EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
+CROS_WORKON_LOCALNAME="mesa-amd"
+CROS_WORKON_EGIT_BRANCH="chromeos-amd"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
 	EXPERIMENTAL="true"
 fi
 
-inherit base multilib flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
+inherit base flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
 
 FOLDER="${PV/_rc*/}"
 [[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
@@ -109,56 +109,8 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	# From https://patchwork.freedesktop.org/patch/343687/
-	epatch "${FILESDIR}"/FROMLIST-radeonsi-Add-support-for-midstream-bitrate-change-in.patch
-
-	# b/145784205
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-disable-dcc-for-2x-MSAA-surface-and-bpe-4.patch
-
-	# b/146765340
-	epatch "${FILESDIR}"/UPSTREAM-radeon-vcn-Handle-crop-parameters-for-encoder.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-report-that-multi-plane-formats-are-s.patch
-
-	# b/148922252
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Fix-compute-copies-for-subsampled-formats.patch
-
-	# b/148752246
-	epatch "${FILESDIR}"/UPSTREAM-st-va-GetConfigAttributes-check-profile-and-entrypoi.patch
-
-	# b/148988984, b/150709236
-	epatch "${FILESDIR}"/BACKPORT-UPSTREAM-radeonsi-test-subsampled-format-in-testdma.patch
-	epatch "${FILESDIR}"/BACKPORT-UPSTREAM-format-add-format_to_chroma_format.patch
-	epatch "${FILESDIR}"/UPSTREAM-gallium-video-remove-pipe_video_buffer.chroma_format.patch
-	epatch "${FILESDIR}"/UPSTREAM-gallium-vl-add-4-2-2-support.patch
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-fix-surf_pitch-for-subsampled-surface.patch
-	epatch "${FILESDIR}"/UPSTREAM-st-va-enable-4-2-2-chroma-format.patch
-	epatch "${FILESDIR}"/UPSTREAM-st-va-add-support-YUY2.patch
-	epatch "${FILESDIR}"/UPSTREAM-radeon-jpeg-fix-the-jpeg-dt_pitch-with-YUYV-format.patch
-
-	# b/152177291, b/151165954, can be removed with a 20.0 uprev
-	epatch "${FILESDIR}"/UPSTREAM-radv-fix-random-depth-range-unrestricted-failures-du.patch
-	epatch "${FILESDIR}"/UPSTREAM-amd-llvm-Fix-divergent-descriptor-indexing.-v3.patch
-	epatch "${FILESDIR}"/UPSTREAM-amd-llvm-Fix-divergent-descriptor-regressions-with-r.patch
-
-	# b/152177291, b/151165954, b/149839737
-	epatch "${FILESDIR}"/FROMLIST-radv-Store-64-bit-availability-bools-if-requested.patch
-
-	# b/153334828
-	epatch "${FILESDIR}"/FROMLIST-radv-Consider-maximum-sample-distances-for-entire-gr.patch
-
-	# b/145882519
-	epatch "${FILESDIR}"/FROMLIST-radeon-radeon_vce-fix-out-of-target-bitrate-in-CBR-m.patch
-
-	# b/152378755
-	epatch "${FILESDIR}"/UPSTREAM-winsys-amdgpu-Retrieve-WC-flags-from-imported-buffer.patch
-
-	# b/152173082
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-expose-16xAA-on-chips-with-1-RB-due-t.patch
-
-	# b/152378755
-	epatch "${FILESDIR}"/UPSTREAM-frontend-dri-Implement-mapping-individual-planes.patch
-
+	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
+	echo '#define MESA_GIT_SHA1 "git-0000000"' > src/git_sha1.h
 	default
 }
 

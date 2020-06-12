@@ -4,14 +4,12 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="4ef9bd07c59c47dff551d6cd8e0e64fb489b04aa"
-CROS_WORKON_TREE="7ad3c68f2e6638fa01b1774fd2d0738984ef7a9b"
-CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="mesa"
-
-EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
-
+CROS_WORKON_COMMIT="c11cc64c1cace2b4a9cbb493025dbd04218a78be"
+CROS_WORKON_TREE="39b06e747d5b733d86714314632c1f5c84959296"
 MESON_AUTO_DEPEND=no
+
+CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
+CROS_WORKON_LOCALNAME="mesa-amd"
 
 inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
@@ -137,22 +135,6 @@ src_prepare() {
 		epatch "${FILESDIR}"/CHROMIUM-egl-Limit-to-EGL-1.4.patch
 	fi
 
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-require-ANDROID_native_fence_sync-for-bu.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-enable-disable-KHR_partial_update-correc.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-report-that-multi-plane-formats-are-s.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-Fix-compute-copies-for-subsampled-formats.patch
-
-	# b/152378755
-	epatch "${FILESDIR}"/UPSTREAM-frontend-dri-Implement-mapping-individual-planes.patch
-
-	# b/152173082
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-don-t-expose-16xAA-on-chips-with-1-RB-due-t.patch
-
-	# b/157274950
-	epatch "${FILESDIR}"/UPSTREAM-radeonsi-disable-dcc-for-2x-MSAA-surface-and-bpe-4.patch
-
 	default
 }
 
@@ -180,6 +162,8 @@ multilib_src_configure() {
 
 	if use classic; then
 	# Configurable DRI drivers
+		driver_enable swrast
+
 		# Intel code
 		driver_enable video_cards_intel i965
 
@@ -401,21 +385,11 @@ multilib_src_install_all_cheets() {
 		doins "${FILESDIR}/vulkan.rc"
 
 		insinto "${ARC_PREFIX}/vendor/etc/permissions"
-
+		doins "${FILESDIR}/android.hardware.vulkan.version-1_0_3.xml"
 		if use video_cards_intel; then
 			doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
 		else
 			doins "${FILESDIR}/android.hardware.vulkan.level-0.xml"
-		fi
-
-		# Limit the Vulkan version to 1.0 before Android Pie. The
-		# Nougat and Oreo CTS reject 1.1 in test
-		# android.graphics.cts.VulkanFeaturesTest#testVulkanHardwareFeatures.
-		# (See b/136215923).
-		if use video_cards_intel; then
-			doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
-		else
-			doins "${FILESDIR}/android.hardware.vulkan.version-1_0_3.xml"
 		fi
 	fi
 
