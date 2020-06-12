@@ -5,7 +5,7 @@
 EAPI=5
 
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
-CROS_WORKON_EGIT_BRANCH="cups-2-2-8"
+CROS_WORKON_EGIT_BRANCH="v2.3"
 
 PYTHON_COMPAT=( python2_7 )
 
