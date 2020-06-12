@@ -4,7 +4,7 @@
 # Don't use Makefile.external here as it fetches from the network.
 EAPI=7
 
-CROS_WORKON_COMMIT="d80dcfcab1123bfa1bae9fcebcb08521116644f4"
+CROS_WORKON_COMMIT="5aaff7e8a1bec37130893247cfc448f1e4c68778"
 CROS_WORKON_TREE=("1b35c43f4fc972f1ee5ea532c50eec8765d2af3c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
@@ -20,7 +20,7 @@ inherit cros-workon platform
 
 DESCRIPTION="quipper: chromiumos wide profiling"
 HOMEPAGE="http://www.chromium.org/chromium-os/profiling-in-chromeos"
-GIT_SHA1="b38f3de7d1cd44ee7f24adc1dcb2cd785b1903f5"
+GIT_SHA1="75564b225722d164aba99e0d628b4a9af6e0e063"
 SRC="quipper-${GIT_SHA1}.tar.gz"
 SRC_URI="gs://chromeos-localmirror/distfiles/${SRC}"
 SRC_DIR="src/${PN}"

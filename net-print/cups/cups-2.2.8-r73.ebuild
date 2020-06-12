@@ -28,11 +28,8 @@ HOMEPAGE="http://www.cups.org/"
 LICENSE="GPL-2"
 SLOT="0"
 IUSE="acl dbus debug java kerberos pam
-	python +seccomp selinux +ssl static-libs systemd +threads upstart usb X xinetd zeroconf"
-# TODO: 'IUSE=kernel_linux' should be handled implicitly (e.g., with
-# IUSE_IMPLICIT), but this doesn't work with 'cros deploy' right now. See
-# http://crbug.com/579661
-IUSE="${IUSE} kernel_linux asan fuzzer"
+	python +seccomp selinux +ssl static-libs systemd +threads upstart usb X xinetd zeroconf
+	asan fuzzer"
 
 LANGS="ca cs de es fr it ja ru"
 for X in ${LANGS} ; do
