@@ -58,7 +58,8 @@ RDEPEND="audit? ( sys-process/audit )
 	zlib? ( sys-libs/zlib )
 	dev-libs/elfutils"
 DEPEND="${RDEPEND}
-	>=sys-kernel/linux-headers-4.4
+	>=sys-kernel/linux-headers-4.4"
+BDEPEND="
 	${LINUX_PATCH+dev-util/patchutils}
 	sys-devel/bison
 	sys-devel/flex
