@@ -129,10 +129,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-1.1-on-ANDROID.patch
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-ycbcr-support.patch
 
-	if use android-container-pi; then
-		epatch "${FILESDIR}"/CHROMIUM-egl-Limit-to-EGL-1.4.patch
-	fi
-
 	default
 }
 
