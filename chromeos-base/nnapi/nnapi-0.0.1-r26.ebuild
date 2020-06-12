@@ -22,6 +22,7 @@ CROS_WORKON_REPO=(
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
+	"${CROS_GIT_HOST_URL}"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform2"
@@ -45,6 +46,7 @@ CROS_WORKON_DESTDIR=(
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk nnapi .gn"
+	""
 	""
 	""
 	""
