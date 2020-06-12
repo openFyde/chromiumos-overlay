@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit flag-o-matic multilib-minimal systemd toolchain-funcs udev user
+inherit flag-o-matic autotools multilib-minimal systemd toolchain-funcs udev user
 
 # gphoto and v4l are handled by their usual USE flags.
 # The pint backend was disabled because I could not get it to compile.
@@ -121,8 +121,8 @@ REQUIRED_USE="
 
 DESCRIPTION="Scanner Access Now Easy - Backends"
 HOMEPAGE="http://www.sane-project.org/"
-FRS_ID="4224"
-SRC_URI="https://alioth.debian.org/frs/download.php/file/${FRS_ID}/${P}.tar.gz"
+SRC_URI="https://gitlab.com/sane-project/backends/-/archive/${PV}/backends-${PV}.tar.gz -> ${P}.tar.gz"
+S="${WORKDIR}/backends-${PV}"
 
 LICENSE="GPL-2 public-domain"
 SLOT="0"
@@ -179,7 +179,15 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-1.0.29-genesys-test-headers.patch
 
 	# From Arch
-	eapply "${FILESDIR}"/${PN}-1.0.27-network.patch
+	eapply "${FILESDIR}"/${PN}-1.0.30-network.patch
+
+	# Upstream sometimes forgets to remove the "git describe" check
+	# in the version, which then fails because .git isn't included in the
+	# released tarball.  Replace it with the plain version number.
+	sed -i \
+		-e "s/^\(AC_INIT([^,]*,\)m4_esyscmd_s([^)]*),/\1${PV},/" \
+		configure.ac || die
+	eautoreconf
 
 	# Fix for "make check".  Upstream sometimes forgets to update this.
 	local ver=$(./configure --version | awk '{print $NF; exit 0}')
