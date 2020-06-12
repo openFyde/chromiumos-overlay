@@ -22,9 +22,10 @@ COMMON_DEPEND="
 DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
 
-GIT_HASH="1586e5e005759ca6031235be66a4ffd24b2c75ca"
-SRC_URI="https://github.com/alexpevzner/sane-airscan/archive/${GIT_HASH}.tar.gz -> ${PN}-${GIT_HASH}.tar.gz"
-S="${WORKDIR}/${PN}-${GIT_HASH}"
+# SHA-1 or tag will both work.
+GIT_REF="0.99.5"
+SRC_URI="https://github.com/alexpevzner/sane-airscan/archive/${GIT_REF}.tar.gz -> ${PN}-${GIT_REF}.tar.gz"
+S="${WORKDIR}/${PN}-${GIT_REF}"
 
 src_configure() {
 	sanitizers-setup-env
