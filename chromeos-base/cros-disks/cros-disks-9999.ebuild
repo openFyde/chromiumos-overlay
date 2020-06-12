@@ -61,6 +61,9 @@ pkg_preinst() {
 	enewuser "fuse-rar2fs"
 	enewgroup "fuse-rar2fs"
 
+	enewuser "fuse-zip"
+	enewgroup "fuse-zip"
+
 	enewuser "fuse-sshfs"
 	enewgroup "fuse-sshfs"
 
