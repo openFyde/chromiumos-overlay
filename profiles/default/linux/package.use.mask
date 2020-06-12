@@ -67,3 +67,7 @@ sys-libs/libcap pam
 
 # We don't care about smartcard support in GPG, and USB is only used for that.
 app-crypt/gnupg smartcard usb
+
+# Pulls in packages we don't have or want, like app-crypt/p11-kit. But we may
+# enable 'smartcard' for the sake of other packages.
+net-libs/glib-networking smartcard
