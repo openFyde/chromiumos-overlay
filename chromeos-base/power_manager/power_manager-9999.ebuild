@@ -7,7 +7,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk buffet chromeos-config metrics power_manager .gn"
+CROS_WORKON_SUBTREE="common-mk buffet chromeos-config iioservice metrics power_manager .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="power_manager"
@@ -19,7 +19,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco trogdor_sar_hack"
+IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco trogdor_sar_hack"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -38,6 +38,7 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/ec-utils
+	iioservice? ( chromeos-base/libiioservice_ipc:= )
 	mosys_eventlog? ( sys-apps/mosys )
 	trogdor_sar_hack? ( net-libs/libqrtr:= )
 "
