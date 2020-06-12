@@ -3,14 +3,14 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="bbf34a14e2a76d05303f944fd08f1a98a2040099"
-CROS_WORKON_TREE="fff2953408e1d96584d061d3c4da1f0ba3a1c493"
+CROS_WORKON_COMMIT="c86d06c65e9ee79de517ce025ea7c89735cf9e83"
+CROS_WORKON_TREE="54d61f01989df3b021d3bc7eafb05665aa24bdd9"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
 # Prevent automatic uprevs of this package since upstream is out of our control.
 CROS_WORKON_BLACKLIST="1"
 
-inherit cros-fuzzer cros-sanitizers eutils flag-o-matic meson toolchain-funcs cros-workon
+inherit cros-fuzzer cros-sanitizers eutils flag-o-matic meson cros-workon
 
 DESCRIPTION="library used implement a virtual 3D GPU used by qemu"
 HOMEPAGE="https://virgil3d.github.io/"
