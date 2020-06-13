@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c8123fd2eaecdc280f375d67144f2019866fab16"
-CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "0b2d43043a3731578ca537c011fd6baebc0b80f5" "d641e62137756d9d6d39beff438674f4da9f11cd" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0e60ec7f5fed3ebb3020b588b5ce2c6d47c442af"
+CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "3a621e40392df6807316dda63f50b97f8a7b8be6" "d641e62137756d9d6d39beff438674f4da9f11cd" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -39,6 +39,13 @@ COMMON_DEPEND="
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
 "
+
+# For biod_client_tool. The biod_proxy library will be built on all boards but
+# biod_client_tool will be built only on boards with biod.
+COMMON_DEPEND+="
+	chromeos-base/biod_proxy:=
+"
+
 RDEPEND="
 	${COMMON_DEPEND}
 	sys-apps/flashrom

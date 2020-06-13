@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c8123fd2eaecdc280f375d67144f2019866fab16"
-CROS_WORKON_TREE=("0b2d43043a3731578ca537c011fd6baebc0b80f5" "f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "7c2ec67670b3bf4ac9dd51e870bcf6c5afb7684a" "e81ebd7a3fb917a2b8bf6329717e1f9c413ea327" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0e60ec7f5fed3ebb3020b588b5ce2c6d47c442af"
+CROS_WORKON_TREE=("3a621e40392df6807316dda63f50b97f8a7b8be6" "f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "937dff6bb92f8f37babb88f3d727c7caeade4ff5" "e81ebd7a3fb917a2b8bf6329717e1f9c413ea327" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -48,6 +48,7 @@ COMMON_DEPEND="
 		sys-libs/libselinux:=
 	)
 	chromeos-base/attestation:=
+	chromeos-base/biod_proxy:=
 	chromeos-base/chaps:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libhwsec:=
