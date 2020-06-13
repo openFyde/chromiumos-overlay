@@ -216,11 +216,6 @@
         "end_version": 393974
     },
     {
-        "comment": "Revert \"[CodeGen][ARM] Error when writing to specific reserved registers in inline asm\"",
-        "rel_patch_path": "revert-d85b3877dcd283feb6075162765664173cf1488f.patch",
-        "start_version": 390364
-    },
-    {
         "comment": "Revert \"[TargetLoweringObjectFileImpl] Produce .text.hot. instead of .text.hot for -fno-unique-section-names\"",
         "rel_patch_path": "revert-66055230bf6673b76e7330fef76d752a1ea8638e.patch",
         "start_version": 393087
