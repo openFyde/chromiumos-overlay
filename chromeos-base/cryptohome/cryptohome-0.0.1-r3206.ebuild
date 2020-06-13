@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0419e23a2017dc141eb167a14d308b8a499894fd"
-CROS_WORKON_TREE=("0b2d43043a3731578ca537c011fd6baebc0b80f5" "cdef43f78358fd6a09f7c99f0f24b233fa2c1ad7" "bcca278d969e34a89ea43f428113e82007e28d7a" "e81ebd7a3fb917a2b8bf6329717e1f9c413ea327" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9424edf4ce6d3fc3ca1a318907347563b27d4ec9"
+CROS_WORKON_TREE=("0b2d43043a3731578ca537c011fd6baebc0b80f5" "cdef43f78358fd6a09f7c99f0f24b233fa2c1ad7" "7c2ec67670b3bf4ac9dd51e870bcf6c5afb7684a" "e81ebd7a3fb917a2b8bf6329717e1f9c413ea327" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -162,6 +162,13 @@ src_install() {
 	exeinto /usr/libexec/cryptohome
 	doexe shall-use-userdataauth.sh
 	doexe update_userdataauth_from_features.sh
+
+	# Disable the kill switch if the use flag is on.
+	if use cryptohome_userdataauth_interface; then
+		sed -i 's/killswitch=on/killswitch=off/' \
+			"${D}/usr/libexec/cryptohome/shall-use-userdataauth.sh" ||
+			die "Can't disable kill switch in shall-use-userdataauth.sh"
+	fi
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
