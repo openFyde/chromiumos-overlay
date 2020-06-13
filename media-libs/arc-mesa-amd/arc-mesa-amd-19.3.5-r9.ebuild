@@ -4,8 +4,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="c11cc64c1cace2b4a9cbb493025dbd04218a78be"
-CROS_WORKON_TREE="39b06e747d5b733d86714314632c1f5c84959296"
+CROS_WORKON_COMMIT="7b1d2c99c28e30fc0695c4d31c538102188e5e93"
+CROS_WORKON_TREE="9889dea78131033e318e9b3bb674b27440d641d0"
 MESON_AUTO_DEPEND=no
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
@@ -130,10 +130,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-extensions-not-supported-by-nd.patch
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-1.1-on-ANDROID.patch
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-ycbcr-support.patch
-
-	if use android-container-pi; then
-		epatch "${FILESDIR}"/CHROMIUM-egl-Limit-to-EGL-1.4.patch
-	fi
 
 	default
 }
