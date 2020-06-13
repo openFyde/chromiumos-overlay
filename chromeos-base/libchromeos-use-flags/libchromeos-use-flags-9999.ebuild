@@ -71,6 +71,8 @@ IUSE="
 	opengles
 	passive_event_listeners
 	pita
+	pita-camera
+	pita-microphone
 	rialto
 	scheduler_configuration_performance
 	screenshare_sw_codec
