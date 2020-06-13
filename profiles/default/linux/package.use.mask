@@ -60,6 +60,9 @@ gnome-base/librsvg gtk
 dev-libs/openssl bindist
 # openssh tracks USE=bindist only because openssl does.
 net-misc/openssh bindist
+# We want WPA3 features, which currently aren't available with openssl's
+# USE=bindist.
+net-wireless/wpa_supplicant-2_9 bindist
 
 # Resolve circular dependency between libcap and pam.
 # http://crbug.com/508630 (see #8)
