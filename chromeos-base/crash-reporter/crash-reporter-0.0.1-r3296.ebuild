@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="adaffd360f762687079da84bd054563ac9bf475e"
-CROS_WORKON_TREE=("cdef43f78358fd6a09f7c99f0f24b233fa2c1ad7" "25247c396b419b6a3fc6340761af5ad307f50654" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c6b46658938b7dfc6571169a5e08943b85254419"
+CROS_WORKON_TREE=("cdef43f78358fd6a09f7c99f0f24b233fa2c1ad7" "0431558ab38c052dfa312cdfa02700111722751a" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -137,4 +137,6 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/crash_reporter_test" "1" \
 		"${gtest_filter_root_tests}"
 	platform_test "run" "${OUT}/anomaly_detector_test"
+	platform_test "run" "${OUT}/anomaly_detector_text_file_reader_test"
+	platform_test "run" "${OUT}/anomaly_detector_log_reader_test"
 }
