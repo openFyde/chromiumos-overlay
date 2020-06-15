@@ -225,5 +225,11 @@
         "rel_patch_path": "cherry/b446ec56a2987ba02dc2c80d42100be4a4689215.patch",
         "start_version": 394115,
         "end_version": 394897
+    },
+    {
+        "comment": "[ELF] --gdb-index: support .debug_loclists",
+        "rel_patch_path": "cherry/1ccde533425a4ba9d379510206ad680ff9702129.patch",
+        "start_version": 391452,
+        "end_version": 391929
     }
 ]
