@@ -40,6 +40,7 @@ IUSE="
 	disable_cros_video_decoder
 	disable_explicit_dma_fences
 	disable_flash_hw_video_decode
+	disable_instant_tethering
 	disable_yuv420_biplanar
 	drm_atomic
 	edge_touch_filtering
@@ -52,7 +53,6 @@ IUSE="
 	gpu_sandbox_start_early
 	houdini
 	houdini64
-	instant_tethering
 	kvm_guest
 	kvm_host
 	kvm_transition
