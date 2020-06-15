@@ -162,7 +162,6 @@ cros_pre_pkg_setup_sysroot_build_bin_dir() {
 # and never have Python 4 :).
 cros_post_pkg_setup_python_eclass_hack() {
 	rm -f "${T}"/python2.*/bin/python3
-	rm -f "${T}"/python3.*/bin/python2
 }
 # A few packages run this during src_* phases.
 cros_post_src_compile_python_eclass_hack() {
