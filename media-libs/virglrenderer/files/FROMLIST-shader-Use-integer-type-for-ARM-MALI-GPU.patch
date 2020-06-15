@@ -1,0 +1,307 @@
+From 995d55b34c2ccd56e03d9e246983775935ecc732 Mon Sep 17 00:00:00 2001
+From: Lepton Wu <lepton@chromium.org>
+Date: Tue, 19 May 2020 16:25:59 -0700
+Subject: [PATCH] shader: Use integer type for ARM (MALI GPU)
+
+Currently, even the input/output buffers are integer formats, we still
+use float type for them. This is actually undefined behavior and MALI
+GPU will do type conversion and cause unexpected results. To fix this,
+we check the input buffer format for vertex shader and also color buffer
+format for fragment shader, if they are integer types, just use integer
+types in generated shaders. Since the old way works fine on other GPU,
+only enable this fix for ARM MALI.
+
+Signed-off-by: Lepton Wu <lepton@chromium.org>
+---
+ src/vrend_renderer.c | 43 +++++++++++++++++++++++++--
+ src/vrend_shader.c   | 71 ++++++++++++++++++++++++++++++++++++++++----
+ src/vrend_shader.h   |  5 ++++
+ 3 files changed, 111 insertions(+), 8 deletions(-)
+
+diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
+index 5bf2b3be..33042be4 100644
+--- a/src/vrend_renderer.c
++++ b/src/vrend_renderer.c
+@@ -283,6 +283,7 @@ struct global_renderer_state {
+    bool finishing;
+    bool use_gles;
+    bool use_core_profile;
++   bool use_integer;
+ 
+    bool features[feat_last];
+ 
+@@ -482,6 +483,8 @@ struct vrend_vertex_element_array {
+    unsigned count;
+    struct vrend_vertex_element elements[PIPE_MAX_ATTRIBS];
+    GLuint id;
++   uint32_t signed_int_bitmask;
++   uint32_t unsigned_int_bitmask;
+ };
+ 
+ struct vrend_constants {
+@@ -646,6 +649,7 @@ struct vrend_context {
+    bool in_error;
+    bool ctx_switch_pending;
+    bool pstip_inited;
++   bool drawing;
+ 
+    GLuint pstipple_tex_id;
+ 
+@@ -2657,8 +2661,15 @@ int vrend_create_vertex_elements_state(struct vrend_context *ctx,
+       for (i = 0; i < num_elements; i++) {
+          struct vrend_vertex_element *ve = &v->elements[i];
+ 
+-         if (util_format_is_pure_integer(ve->base.src_format))
++         if (util_format_is_pure_integer(ve->base.src_format)) {
++            if (vrend_state.use_integer) {
++               if (util_format_is_pure_uint(ve->base.src_format))
++                  v->unsigned_int_bitmask |= (1 << i);
++               else
++                  v->signed_int_bitmask |= (1 << i);
++            }
+             glVertexAttribIFormat(i, ve->nr_chan, ve->type, ve->base.src_offset);
++         }
+          else
+             glVertexAttribFormat(i, ve->nr_chan, ve->type, ve->norm, ve->base.src_offset);
+          glVertexAttribBinding(i, ve->base.vertex_buffer_index);
+@@ -3129,13 +3140,25 @@ static inline void vrend_fill_shader_key(struct vrend_context *ctx,
+       int i;
+       bool add_alpha_test = true;
+       key->cbufs_are_a8_bitmask = 0;
++      // Only use integer info when drawing to avoid stale info.
++      if (vrend_state.use_integer && ctx->drawing) {
++         key->attrib_signed_int_bitmask = ctx->sub->ve->signed_int_bitmask;
++         key->attrib_unsigned_int_bitmask = ctx->sub->ve->unsigned_int_bitmask;
++      }
+       for (i = 0; i < ctx->sub->nr_cbufs; i++) {
+          if (!ctx->sub->surf[i])
+             continue;
+          if (vrend_format_is_emulated_alpha(ctx->sub->surf[i]->format))
+             key->cbufs_are_a8_bitmask |= (1 << i);
+-         if (util_format_is_pure_integer(ctx->sub->surf[i]->format))
++         if (util_format_is_pure_integer(ctx->sub->surf[i]->format)) {
+             add_alpha_test = false;
++            if (vrend_state.use_integer) {
++               if (util_format_is_pure_uint(ctx->sub->surf[i]->format))
++                  key->cbufs_unsigned_int_bitmask |= (1 << i);
++               else
++                  key->cbufs_signed_int_bitmask |= (1 << i);
++            }
++         }
+          key->surface_component_bits[i] = util_format_get_component_bits(ctx->sub->surf[i]->format, UTIL_FORMAT_COLORSPACE_RGB, 0);
+       }
+       if (add_alpha_test) {
+@@ -4372,7 +4395,9 @@ int vrend_draw_vbo(struct vrend_context *ctx,
+          return 0;
+       }
+ 
++      ctx->drawing = true;
+       vrend_shader_select(ctx, ctx->sub->shaders[PIPE_SHADER_VERTEX], &vs_dirty);
++      ctx->drawing = false;
+ 
+       if (ctx->sub->shaders[PIPE_SHADER_TESS_CTRL] && ctx->sub->shaders[PIPE_SHADER_TESS_CTRL]->tokens)
+          vrend_shader_select(ctx, ctx->sub->shaders[PIPE_SHADER_TESS_CTRL], &tcs_dirty);
+@@ -5850,6 +5875,16 @@ vrend_renderer_get_pipe_callbacks(void)
+    return &callbacks;
+ }
+ 
++static bool use_integer() {
++   if (getenv("VIRGL_USE_INTEGER"))
++      return true;
++
++   const char * a = (const char *) glGetString(GL_VENDOR);
++   if (strcmp(a, "ARM") == 0)
++      return true;
++   return false;
++}
++
+ int vrend_renderer_init(struct vrend_if_cbs *cbs, uint32_t flags)
+ {
+    bool gles;
+@@ -5910,6 +5945,9 @@ int vrend_renderer_init(struct vrend_if_cbs *cbs, uint32_t flags)
+       vrend_printf( "gl_version %d - compat profile\n", gl_ver);
+    }
+ 
++   if (use_integer())
++      vrend_state.use_integer = true;
++
+    init_features(gles ? 0 : gl_ver,
+                  gles ? gl_ver : 0);
+ 
+@@ -6142,6 +6180,7 @@ struct vrend_context *vrend_create_context(int id, uint32_t nlen, const char *de
+    grctx->shader_cfg.has_gpu_shader5 = has_feature(feat_gpu_shader5);
+    grctx->shader_cfg.has_es31_compat = has_feature(feat_gles31_compatibility);
+    grctx->shader_cfg.has_conservative_depth = has_feature(feat_conservative_depth);
++   grctx->shader_cfg.use_integer = vrend_state.use_integer;
+ 
+    vrend_renderer_create_sub_ctx(grctx, 0);
+    vrend_renderer_set_sub_ctx(grctx, 0);
+diff --git a/src/vrend_shader.c b/src/vrend_shader.c
+index 03ad71bd..aae4f2fc 100644
+--- a/src/vrend_shader.c
++++ b/src/vrend_shader.c
+@@ -100,6 +100,8 @@ struct vrend_shader_io {
+    bool glsl_gl_block;
+    bool override_no_wm;
+    bool is_int;
++   bool is_ivec;
++   bool is_uvec;
+    bool fbfetch_used;
+    char glsl_name[128];
+    unsigned stream;
+@@ -915,6 +917,12 @@ iter_declaration(struct tgsi_iterate_context *iter,
+       }
+       if (iter->processor.Processor == TGSI_PROCESSOR_VERTEX) {
+          ctx->attrib_input_mask |= (1 << decl->Range.First);
++         if (ctx->key->attrib_signed_int_bitmask &
++             (1 << decl->Range.First))
++            ctx->inputs[i].is_ivec = true;
++         else if (ctx->key->attrib_unsigned_int_bitmask &
++                  (1 << decl->Range.First))
++            ctx->inputs[i].is_uvec = true;
+       }
+       ctx->inputs[i].name = decl->Semantic.Name;
+       ctx->inputs[i].sid = decl->Semantic.Index;
+@@ -1265,6 +1273,13 @@ iter_declaration(struct tgsi_iterate_context *iter,
+          }
+          break;
+       case TGSI_SEMANTIC_COLOR:
++         if (iter->processor.Processor == TGSI_PROCESSOR_FRAGMENT) {
++            if (ctx->key->cbufs_signed_int_bitmask & (1 << ctx->outputs[i].sid))
++                ctx->outputs[i].is_ivec = true;
++            else if (ctx->key->cbufs_unsigned_int_bitmask & (1 << ctx->outputs[i].sid))
++                ctx->outputs[i].is_uvec = true;
++          }
++
+          if (iter->processor.Processor == TGSI_PROCESSOR_VERTEX) {
+             if (ctx->glsl_ver_required < 140) {
+                ctx->outputs[i].glsl_no_index = true;
+@@ -3572,6 +3587,16 @@ get_destination_info(struct dump_ctx *ctx,
+                         dinfo->dtypeprefix = FLOAT_BITS_TO_INT;
+                      dinfo->dstconv = INT;
+                   }
++                  else if (ctx->outputs[j].is_uvec) {
++                     if (dinfo->dtypeprefix == TYPE_CONVERSION_NONE)
++                        dinfo->dtypeprefix = FLOAT_BITS_TO_UINT;
++                     dinfo->dstconv = dinfo->udstconv;
++                  }
++                  else if (ctx->outputs[j].is_ivec) {
++                     if (dinfo->dtypeprefix == TYPE_CONVERSION_NONE)
++                        dinfo->dtypeprefix = FLOAT_BITS_TO_INT;
++                     dinfo->dstconv = dinfo->idstconv;
++                  }
+                   if (ctx->outputs[j].name == TGSI_SEMANTIC_PSIZE) {
+                      dinfo->dstconv = FLOAT;
+                      break;
+@@ -3868,6 +3893,16 @@ get_source_info(struct dump_ctx *ctx,
+                   if ((stype == TGSI_TYPE_UNSIGNED || stype == TGSI_TYPE_SIGNED) &&
+                       ctx->inputs[j].is_int)
+                      srcstypeprefix = TYPE_CONVERSION_NONE;
++                  else if (ctx->inputs[j].is_ivec || ctx->inputs[j].is_uvec) {
++                     if (stype == TGSI_TYPE_UNSIGNED)
++                        srcstypeprefix = UVEC4;
++                     else if (stype == TGSI_TYPE_SIGNED)
++                        srcstypeprefix = IVEC4;
++                     else if (ctx->inputs[j].is_ivec)
++                        srcstypeprefix = INT_BITS_TO_FLOAT;
++                     else // ctx->inputs[j].is_uvec
++                        srcstypeprefix = UINT_BITS_TO_FLOAT;
++                  }
+ 
+                   if (inst->Instruction.Opcode == TGSI_OPCODE_INTERP_SAMPLE && i == 1) {
+                      strbuf_fmt(src_buf, "floatBitsToInt(%s%s%s%s)", prefix, ctx->inputs[j].glsl_name, arrayname, swizzle);
+@@ -5902,11 +5937,22 @@ emit_ios_generic(struct dump_ctx *ctx, enum io_type iot,  const char *prefix,
+                  const struct vrend_shader_io *io, const char *inout,
+                  const char *postfix)
+ {
+-   const char type[4][6] = {"float", " vec2", " vec3", " vec4"};
++   const char *itype[4] = {"  int", "ivec2", "ivec3", "ivec4"};
++   const char *utype[4] = {" uint", "uvec2", "uvec3", "uvec4"};
++   const char *ftype[4] = {"float", " vec2", " vec3", " vec4"};
+    const char *t = " vec4";
++   const char **type = ftype;
+ 
+    char layout[128] = "";
+ 
++   if (io->is_uvec) {
++      t = "uvec4";
++      type = utype;
++   } else if (io->is_ivec) {
++      t = "ivec4";
++      type = itype;
++   }
++
+    if (io->layout_location > 0) {
+       /* we need to define a layout here because interleaved arrays might be emited */
+       if (io->swizzle_offset)
+@@ -6072,7 +6118,13 @@ static void emit_ios_vs(struct dump_ctx *ctx)
+          }
+          if (ctx->inputs[i].first != ctx->inputs[i].last)
+             snprintf(postfix, sizeof(postfix), "[%d]", ctx->inputs[i].last - ctx->inputs[i].first + 1);
+-         emit_hdrf(ctx, "in vec4 %s%s;\n", ctx->inputs[i].glsl_name, postfix);
++         const char *vtype = "vec4";
++         if (ctx->inputs[i].is_ivec)
++             vtype = "ivec4";
++         else if (ctx->inputs[i].is_uvec)
++             vtype = "uvec4";
++         emit_hdrf(ctx, "in %s %s%s;\n",
++                   vtype, ctx->inputs[i].glsl_name, postfix);
+       }
+    }
+ 
+@@ -6208,18 +6260,25 @@ static void emit_ios_fs(struct dump_ctx *ctx)
+    }
+ 
+    if (ctx->write_all_cbufs) {
++      const char* type = "vec4";
++      if (ctx->key->cbufs_unsigned_int_bitmask)
++         type = "uvec4";
++      else if (ctx->key->cbufs_signed_int_bitmask)
++         type = "ivec4";
++
+       for (i = 0; i < (uint32_t)ctx->cfg->max_draw_buffers; i++) {
+          if (ctx->cfg->use_gles) {
+             if (ctx->key->fs_logicop_enabled)
+-               emit_hdrf(ctx, "vec4 fsout_tmp_c%d;\n", i);
++               emit_hdrf(ctx, "%s fsout_tmp_c%d;\n", type, i);
+ 
+             if (logiop_require_inout(ctx->key)) {
+                const char *noncoherent = ctx->key->fs_logicop_emulate_coherent ? "" : ", noncoherent";
+-               emit_hdrf(ctx, "layout (location=%d%s) inout highp vec4 fsout_c%d;\n", i, noncoherent, i);
++               emit_hdrf(ctx, "layout (location=%d%s) inout highp %s fsout_c%d;\n", i, noncoherent, type, i);
+             } else
+-               emit_hdrf(ctx, "layout (location=%d) out vec4 fsout_c%d;\n", i, i);
++               emit_hdrf(ctx, "layout (location=%d) out %s fsout_c%d;\n", i,
++			 type, i);
+          } else
+-            emit_hdrf(ctx, "out vec4 fsout_c%d;\n", i);
++            emit_hdrf(ctx, "out %s fsout_c%d;\n", type, i);
+       }
+    } else {
+       for (i = 0; i < ctx->num_outputs; i++) {
+diff --git a/src/vrend_shader.h b/src/vrend_shader.h
+index 8c94e250..3a098280 100644
+--- a/src/vrend_shader.h
++++ b/src/vrend_shader.h
+@@ -118,6 +118,10 @@ struct vrend_shader_key {
+    uint8_t prev_stage_num_cull_out;
+    bool next_stage_pervertex_in;
+    uint32_t cbufs_are_a8_bitmask;
++   uint32_t cbufs_signed_int_bitmask;
++   uint32_t cbufs_unsigned_int_bitmask;
++   uint32_t attrib_signed_int_bitmask;
++   uint32_t attrib_unsigned_int_bitmask;
+    uint8_t num_indirect_generic_outputs;
+    uint8_t num_indirect_patch_outputs;
+    uint8_t num_indirect_generic_inputs;
+@@ -137,6 +141,7 @@ struct vrend_shader_cfg {
+    bool has_gpu_shader5;
+    bool has_es31_compat;
+    bool has_conservative_depth;
++   bool use_integer;
+ };
+ 
+ struct vrend_context;
+-- 
+2.26.2
+
