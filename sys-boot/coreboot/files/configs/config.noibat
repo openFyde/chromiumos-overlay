@@ -19,6 +19,8 @@ CONFIG_IFD_BIN_PATH="3rdparty/blobs/baseboard/puff/descriptor-noibat.bin"
 
 # FSP blobs
 CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/cml/fsp/Include/"
+CONFIG_HAVE_INTEL_FSP_REPO=y
+# CONFIG_FSP_USE_REPO is not set
 CONFIG_FSP_M_FILE="3rdparty/blobs/intel/cml/fsp/Fsp_M.fd"
 CONFIG_FSP_S_FILE="3rdparty/blobs/intel/cml/fsp/Fsp_S.fd"
 CONFIG_ADD_FSP_BINARIES=y
