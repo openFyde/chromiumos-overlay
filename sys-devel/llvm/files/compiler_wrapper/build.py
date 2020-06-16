@@ -25,19 +25,7 @@ def parse_args():
   parser.add_argument(
       '--use_llvm_next', required=True, choices=['true', 'false'])
   parser.add_argument('--output_file', required=True, type=str)
-  parser.add_argument(
-      '--static',
-      choices=['true', 'false'],
-      help='If true, produce a static wrapper. Autodetects a good value if '
-      'unspecified.')
-  args = parser.parse_args()
-
-  if args.static is None:
-    args.static = 'cros' not in args.config
-  else:
-    args.static = args.static == 'true'
-
-  return args
+  return parser.parse_args()
 
 
 def calc_go_args(args, version):
@@ -54,7 +42,7 @@ def calc_go_args(args, version):
 
   # If the wrapper is intended for Chrome OS, we need to use libc's exec.
   extra_args = []
-  if not args.static:
+  if 'cros' in args.config:
     extra_args = ['-tags', 'libc_exec']
 
   return [
