@@ -392,18 +392,13 @@ EOF
 		# ccache for simplechrome toolchains.
 		local ccache_suffixes=(noccache ccache)
 		local ccache_option_values=(false true)
-		# The noccache wrapper is used outside of the chroot, so we also
-		# statically link it (crbug.com/1087435)
-		local static_option_values=(true false)
 		for ccache_index in {0,1}; do
 			local ccache_suffix="${ccache_suffixes[${ccache_index}]}"
 			local ccache_option="${ccache_option_values[${ccache_index}]}"
-			local static_option="${static_option_values[${ccache_index}]}"
 			# Build new golang wrapper
 			"${FILESDIR}/compiler_wrapper/build.py" --config="${sysroot_wrapper_config}" \
 				--use_ccache="${ccache_option}" \
 				--use_llvm_next="${use_llvm_next}" \
-				--static="${static_option}" \
 				--output_file="${D}$(get_bin_dir)/${sysroot_wrapper_file_prefix}.${ccache_suffix}" || die
 		done
 
