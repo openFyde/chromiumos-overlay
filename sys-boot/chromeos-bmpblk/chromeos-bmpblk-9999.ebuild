@@ -103,8 +103,7 @@ CROS_BOARDS=(
 	zork
 )
 
-# TODO(crbug.com/1011520): Port this to Python 3.
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{6..8} )
 inherit cros-workon cros-board python-any-r1
 
 DESCRIPTION="Chrome OS Firmware Bitmap Block"
