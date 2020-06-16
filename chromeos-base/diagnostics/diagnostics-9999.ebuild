@@ -131,6 +131,7 @@ platform_pkg_test() {
 		cros_healthd_test
 		libcommon_test
 		libcros_healthd_events_test
+		libcros_healthd_fetchers_test
 		libcros_healthd_utils_test
 		routine_test
 		system_config_test
