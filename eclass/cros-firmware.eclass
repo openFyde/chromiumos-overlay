@@ -383,17 +383,6 @@ _expand_list() {
 	IFS="${ifs}" read -r -a ${var} <<<"${*:3}"
 }
 
-# Add any files mentioned in the master configuration to SRC_URI so that they
-# will be downloaded if unibuild is enabled.
-cros-firmware_setup_source_unibuild() {
-	local uri_list
-
-	uri_list=$(cros_config_host_local get-firmware-uris)
-	if [[ -n "${uri_list// }" ]]; then
-		SRC_URI+="unibuild? ( ${uri_list} )"
-	fi
-}
-
 # @FUNCTION: cros-firmware_setup_source
 # @DESCRIPTION:
 # Configures all firmware binary source files to SRC_URI, and updates local
@@ -431,9 +420,6 @@ cros-firmware_setup_source() {
 	if [[ -n "${uris// }" ]]; then
 		SRC_URI+="!unibuild? ( ${uris} ) "
 	fi
-
-	# Now add files for use if USE=unibuild is enabled.
-	cros-firmware_setup_source_unibuild
 }
 
 # If "inherit cros-firmware" appears at end of ebuild file, build source URI

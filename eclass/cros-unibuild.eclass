@@ -191,30 +191,6 @@ verify_file_match() {
 	einfo "Successfully verified ${expected_file} matches ${actual_file}"
 }
 
-# @FUNCTION: cros_config_host_local
-# @USAGE:
-# @DESCRIPTION:
-# Invokes cros_config_host using the config directly from
-# chromeos-config-bsp/files
-# Args:
-#   $1: Command to pass to cros_config_host
-cros_config_host_local() {
-	# This function is called before FILESDIR is set so figure it out from
-	# the ebuild filename.
-	local basedir="${EBUILD%/*/..}"
-	local configdir="${basedir}/chromeos-config-bsp/files"
-	local files
-
-	if [[ -e "${configdir}/model.yaml" ]]; then
-		echo $(cros_config_host -c "${configdir}/model.yaml" "$1")
-	else
-		# We cannot die here if there are no config files as this function is
-		# called by non-unibuild boards. We just need to output an empty
-		# config. But do skip this if there is no config BSP directory at all.
-		echo ""
-	fi
-}
-
 # @FUNCTION: _unibuild_common_install
 # @USAGE: command [config_file]
 # @INTERNAL
