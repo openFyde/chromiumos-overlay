@@ -20,12 +20,10 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="
 	+fonts
-	+tts
 "
 
 # display_boot_message calls the pango-view program.
 RDEPEND="
-	!app-accessibility/googletts
 	fonts? ( chromeos-base/chromeos-fonts )
 	x11-libs/pango"
 
@@ -53,36 +51,4 @@ src_install() {
 
 	# These files aren't used at runtime.
 	find "${D}" -name '*.grd' -delete
-
-	#
-	# Speech synthesis
-	#
-	if use tts ; then
-		insinto /usr/share/chromeos-assets/speech_synthesis/patts
-
-		doins speech_synthesis/patts/*.{css,html,js,json,png,svg,zvoice}
-		doins speech_synthesis/patts/tts_service.nmf
-
-		# Speech synthesis engine (platform-specific native client module).
-		pushd "${D}"/usr/share/chromeos-assets/speech_synthesis/patts >/dev/null || die
-		if use arm ; then
-			unzip "${S}"/speech_synthesis/patts/tts_service_arm.nexe.zip || die
-		elif use x86 ; then
-			unzip "${S}"/speech_synthesis/patts/tts_service_x86_32.nexe.zip || die
-		elif use amd64 ; then
-			unzip "${S}"/speech_synthesis/patts/tts_service_x86_64.nexe.zip || die
-		fi
-
-		if readelf --wide --section-headers ./*.nexe | grep -qE '\s\.(symtab|strtab)\s'; then
-			# For the reasons detailed above, we can't strip NaCl executables locally.
-			# It's up to the user(s) who built the binary to ensure it's properly
-			# `strip`ed before it lands in CrOS. At last measurement, the cost of
-			# shipping an unstripped tts_service.nexe was 14-32MB of rootfs space.
-			die "tts_service doesn't appear to be properly stripped"
-		fi
-
-		# We don't need these to be executable, and some autotests will fail it.
-		chmod 0644 ./*.nexe || die
-		popd >/dev/null
-	fi
 }
