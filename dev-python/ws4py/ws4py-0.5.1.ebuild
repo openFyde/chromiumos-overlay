@@ -31,7 +31,6 @@ RESTRICT="!test? ( test )"
 
 RDEPEND=">=dev-python/greenlet-0.4.1[${PYTHON_USEDEP}]
 		>=dev-python/cython-0.19.1[${PYTHON_USEDEP}]
-		client? ( >=www-servers/tornado-3.1[${PYTHON_USEDEP}] )
 		server? ( >=dev-python/cherrypy-3.2.4[${PYTHON_USEDEP}] )"
 DEPEND="test? (
 		>=dev-python/cherrypy-3.2.4[${PYTHON_USEDEP}]
