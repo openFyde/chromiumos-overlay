@@ -25,6 +25,7 @@ PATCHES=(
 	"${FILESDIR}/unix-socket.patch"
 	"${FILESDIR}/keep-alive.patch"
 	"${FILESDIR}/larger-buffer.patch"
+	"${FILESDIR}/log-usb-acquire-error.patch"
 )
 
 src_prepare() {
