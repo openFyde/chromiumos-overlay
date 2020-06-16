@@ -58,6 +58,7 @@ IUSE="
 	kernel_warning_level_2
 	kernel_warning_level_3
 	+lld
+	+llvm_ias
 	nfc
 	${WIRELESS_SUFFIXES[@]/#/-wireless}
 	-wifi_testbed_ap
@@ -78,6 +79,7 @@ REQUIRED_USE="
 	compilation_database? ( clang )
 	?? ( fit_compression_kernel_lz4 fit_compression_kernel_lzma )
 	lld? ( clang )
+	llvm_ias? ( clang )
 "
 STRIP_MASK="
 	/lib/modules/*/kernel/*
@@ -1699,6 +1701,11 @@ kmake() {
 			fi
 			;;
 	esac
+
+	# Assemble with LLVM's integrated assembler on x86_64 and aarch64
+	if use llvm_ias; then
+		export LLVM_IAS=1
+	fi
 
 	if [[ "${CHOST}" != "${cross}" ]]; then
 		unset CC CXX LD STRIP OBJCOPY
