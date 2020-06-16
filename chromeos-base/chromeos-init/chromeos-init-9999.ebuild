@@ -65,7 +65,6 @@ RDEPEND="${COMMON_DEPEND}
 
 platform_pkg_test() {
 	local shell_tests=(
-		periodic_scheduler_unittest
 		killers_unittest
 		tests/chromeos-disk-metrics-test.sh
 		tests/send-kernel-errors-test.sh
@@ -79,6 +78,7 @@ platform_pkg_test() {
 	local cpp_tests=(
 		clobber_state_test
 		file_attrs_cleaner_test
+		periodic_scheduler_test
 		usermode-helper_test
 	)
 
@@ -157,7 +157,7 @@ src_install_upstart() {
 
 src_install() {
 	# Install helper to run periodic tasks.
-	dobin periodic_scheduler
+	dobin "${OUT}"/periodic_scheduler
 
 	if use syslog; then
 		# Install log cleaning script and run it daily.
