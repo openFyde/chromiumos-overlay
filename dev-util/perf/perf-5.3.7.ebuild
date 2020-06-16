@@ -45,7 +45,7 @@ RDEPEND="audit? ( sys-process/audit )
 		sys-devel/clang:*
 		sys-devel/llvm:*
 	)
-	demangle? ( sys-devel/binutils:= )
+	demangle? ( sys-libs/binutils-libs:= )
 	gtk? ( x11-libs/gtk+:2 )
 	java? ( virtual/jre:* )
 	lzma? ( app-arch/xz-utils )
