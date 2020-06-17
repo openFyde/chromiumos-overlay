@@ -12,4 +12,4 @@ REQUIRED_USE=python? ( ^^ ( python_single_target_python2_7 ) python_single_targe
 SLOT=0
 SRC_URI=https://www.kernel.org/pub/linux/kernel/v5.x/patch-5.3.7.xz https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.3.tar.xz
 _eclasses_=bash-completion-r1	47a7402d95930413ce25ba8d857339bb	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	linux-info	6accc0e19163336db48a3c346993eb16	multilib	b2f01ad412baf81650c23fcf0975fa33	python-single-r1	75ce0f715133825e020f9777032d1376	python-utils-r1	931c328767d245c08a16a3f87be9ce9c	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=e3cc9b7c17b8fdc3f24df55640fbe1ae
+_md5_=ea70287e27386b97d70d58f8a149d6d1
