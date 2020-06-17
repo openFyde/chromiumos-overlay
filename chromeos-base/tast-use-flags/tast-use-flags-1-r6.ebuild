@@ -25,6 +25,7 @@ IUSE="
 	amd64
 	android-container-pi
 	android-vm-pi
+	android-vm-rvc
 	arc
 	arc-camera1
 	arc-camera3
