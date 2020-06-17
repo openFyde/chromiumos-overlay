@@ -55,11 +55,6 @@ src_install() {
 	# Install libbrillo with and without version number as a temporary
 	# measure.
 	doins "${OUT}"/obj/libbrillo/libbrillo*.pc
-	# Add symbolic links libpolicy-${LIBCHROME_VERS[0]}.so (points to
-	# libpolicy.so) and libinstallattributes-${LIBCHROME_VERS[0]}.so
-	# (points to libinstallattributes.so).
-	dosym libpolicy.so /usr/$(get_libdir)/libpolicy-${LIBCHROME_VERS[0]}.so
-	dosym libinstallattributes.so /usr/$(get_libdir)/libinstallattributes-${LIBCHROME_VERS[0]}.so
 
 	# Install all the header files from libbrillo/brillo/*.h into
 	# /usr/include/brillo (recursively, with sub-directories).
