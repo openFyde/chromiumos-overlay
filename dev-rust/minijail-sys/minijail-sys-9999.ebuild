@@ -14,6 +14,7 @@ CROS_WORKON_BLACKLIST=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
 CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
+CROS_WORKON_SUBTREE="rust/minijail-sys"
 
 inherit cros-workon cros-rust
 
@@ -39,6 +40,8 @@ DEPEND="
 src_unpack() {
 	# Unpack both the minijail and Rust dependency source code.
 	cros-workon_src_unpack
+	S+="/rust/minijail-sys"
+
 	cros-rust_src_unpack
 }
 

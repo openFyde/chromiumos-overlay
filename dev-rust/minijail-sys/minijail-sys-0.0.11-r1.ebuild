@@ -10,12 +10,13 @@ EAPI=7
 
 inherit cros-constants
 
-CROS_WORKON_COMMIT="dbb8948ebe348ea4480e17ad397fc1d92b7c8e30"
-CROS_WORKON_TREE="db0fbef7625dfc5f44ca804ff654a713bb9f2e1b"
+CROS_WORKON_COMMIT="96dd14e0abd27f2aaac1dc5b8ff40f17e79605f0"
+CROS_WORKON_TREE="c12462bccb06babed5abc2a8e153f3ff5b04d259"
 CROS_WORKON_BLACKLIST=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
 CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
+CROS_WORKON_SUBTREE="rust/minijail-sys"
 
 inherit cros-workon cros-rust
 
@@ -41,6 +42,8 @@ DEPEND="
 src_unpack() {
 	# Unpack both the minijail and Rust dependency source code.
 	cros-workon_src_unpack
+	S+="/rust/minijail-sys"
+
 	cros-rust_src_unpack
 }
 
