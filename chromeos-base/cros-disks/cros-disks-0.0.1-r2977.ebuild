@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c8123fd2eaecdc280f375d67144f2019866fab16"
-CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "2b98e2d74f6df9b12d5f341a1d9790f1ab0d1a89" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="32f2f11e5f00cebcdc765fad1f0e183b981b586d"
+CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "d6c1c919416b4aa4c34393ebc7eaecd99b97c0dd" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -62,6 +62,9 @@ pkg_preinst() {
 
 	enewuser "fuse-rar2fs"
 	enewgroup "fuse-rar2fs"
+
+	enewuser "fuse-zip"
+	enewgroup "fuse-zip"
 
 	enewuser "fuse-sshfs"
 	enewgroup "fuse-sshfs"
