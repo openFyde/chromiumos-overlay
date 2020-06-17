@@ -22,6 +22,7 @@ DEPEND="chromeos-base/system_api-rust:=
 	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
 	dev-rust/remain:=
 	>=dev-rust/rustyline-5.0.4:= <dev-rust/rustyline-6.0.0
+	dev-rust/shell-words:=
 	dev-rust/sys_util:=
 	dev-rust/tempfile:=
 	dev-rust/tlsdate_dbus:=
