@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("9ee5bb8bbd85546db869875cd3ad05fdd742adbe" "24de2f9bd78b9d73ab15b9b7c3d9a88615112ff2")
-CROS_WORKON_TREE=("4bbe9b7b8d413746372402d8188b679a48cc5ed3" "1a937d0a7b51823fece64e1c36873f4ecaab0430")
+CROS_WORKON_COMMIT=("7842aa6220d5a3d8301be76cf4df7037dd27fdf1" "24de2f9bd78b9d73ab15b9b7c3d9a88615112ff2")
+CROS_WORKON_TREE=("870e19693cdb283115e45b9e76acd0dec2e86834" "1a937d0a7b51823fece64e1c36873f4ecaab0430")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/autotest"
 	"chromiumos/platform/fw-testing-configs"
