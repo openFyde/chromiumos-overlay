@@ -106,6 +106,9 @@ src_install() {
 	doins -r ../aosp/system/libfmq/include/*
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
+	# Selectively install one off headers
+	insinto /usr/include/aosp/android
+	doins ../aosp/frameworks/native/include/android/sharedmem.h
 
 	einfo "Installing static library."
 	dolib.a "${OUT}/libnnapi-support.a"
