@@ -9,7 +9,8 @@
 EAPI=7
 
 FIRMWARE_EC_BOARD="bloonchipper"
-FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
+# Temporarily disable for b/159054925.
+#FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
