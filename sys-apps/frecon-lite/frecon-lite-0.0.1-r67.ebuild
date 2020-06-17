@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bc49d6efa03ec3b45de882979730683c47128c6d"
-CROS_WORKON_TREE="5cb6b946acfbb0fdbf4e905c1665d7dcf369f4f8"
+CROS_WORKON_COMMIT="42de73be04a4f7b07c9cedf11ac2b8275fa76bd9"
+CROS_WORKON_TREE="3d33111677bfa34cd2094b48c070ab5e0ddab1e7"
 CROS_WORKON_PROJECT="chromiumos/platform/frecon"
 CROS_WORKON_LOCALNAME="../platform/frecon"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -12,7 +12,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-sanitizers cros-workon cros-common.mk
 
-DESCRIPTION="Chrome OS KMS console"
+DESCRIPTION="Chrome OS KMS console (without DBUS/UDEV support)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/frecon"
 
 LICENSE="BSD-Google"
@@ -21,25 +21,17 @@ IUSE="-asan"
 
 BDEPEND="virtual/pkgconfig"
 
-COMMON_DEPEND="virtual/udev
-	sys-apps/dbus:=
-	media-libs/libpng:0=
-	sys-apps/libtsm:=
-	x11-libs/libdrm:="
+COMMON_DEPEND="media-libs/libpng:0=
+	sys-apps/libtsm:="
 
 RDEPEND="${COMMON_DEPEND}"
 
 DEPEND="${COMMON_DEPEND}
 	media-sound/adhd:=
-"
+	x11-libs/libdrm:="
 
 src_configure() {
+	export FRECON_LITE=1
 	sanitizers-setup-env
 	cros-common.mk_src_configure
-}
-
-src_install() {
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.frecon.conf
-	default
 }
