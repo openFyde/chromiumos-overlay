@@ -69,6 +69,7 @@ net-fs/samba		ads acl gnutls ldap winbind -addc -addns -ceph -cluster -gpg -pam 
 # C++ library of gnutls uses exceptions, which breaks with -fno-exceptions flag.
 # Clients don't need the C++ library anyway, so disabling it...
 net-libs/gnutls	-cxx
+net-libs/glib-networking -gnome -libproxy
 # We want HTTPS support in web server based on libmicrohttpd.
 # Also |messages| is for enabling POST processor in the library.
 net-libs/libmicrohttpd	ssl messages
