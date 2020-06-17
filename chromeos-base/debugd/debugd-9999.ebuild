@@ -16,7 +16,7 @@ DESCRIPTION="Chrome OS debugging service"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/debugd/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cellular iwlwifi_dump nvme sata tpm"
+IUSE="arcvm cellular iwlwifi_dump nvme sata tpm"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login:=
