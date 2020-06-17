@@ -169,6 +169,7 @@ RDEPEND="${RDEPEND}
 	accessibility? (
 		app-accessibility/brltty
 		app-accessibility/espeak-ng
+		app-accessibility/googletts
 	)
 	libcxx? (
 		sys-libs/libcxxabi
@@ -949,10 +950,10 @@ chrome_make() {
 
 	# If goma is enabled, increase the number of parallel run to
 	# 10 * {number of processors}. Though, if it is too large the
-	# performance gets slow down, so limit by 80 heuristically.
+	# performance gets slow down, so limit by 200 heuristically.
 	if use_goma; then
 		local num_parallel=$(($(nproc) * 10))
-		local j_limit=80
+		local j_limit=200
 		set -- -j $((num_parallel < j_limit ? num_parallel : j_limit)) "$@"
 	fi
 	local command=(
