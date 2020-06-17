@@ -76,11 +76,6 @@ src_prepare() {
 	while read -r patch; do
 		epatch "${S}/libchrome_tools/patches/${patch}"
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
-
-	# Use correct shebang for these python2-only scripts.
-	find "${S}"/mojo/ -name '*.py' \
-		-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
-
 }
 
 src_install() {
