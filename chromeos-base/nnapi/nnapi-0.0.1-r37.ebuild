@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("ab72e84c3396675c52563e51c0b28785a504a2c1" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
+CROS_WORKON_COMMIT=("4f7ffe0cc1856e885690dee2bac290db2c054a01" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
 CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "8d716aedd6b40e34607ae942b3d3679dea2ab097" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d59698b9aacd42201a585bee90f33719caa6338b" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "934fe42dbc7182e5775cb5717e7cb29644a6eae8" "3e10262144e64652e5c70fe978e1d6bae433ab27")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -108,6 +108,9 @@ src_install() {
 	doins -r ../aosp/system/libfmq/include/*
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
+	# Selectively install one off headers
+	insinto /usr/include/aosp/android
+	doins ../aosp/frameworks/native/include/android/sharedmem.h
 
 	einfo "Installing static library."
 	dolib.a "${OUT}/libnnapi-support.a"

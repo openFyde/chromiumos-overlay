@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT="489422709ad49e6ba687b5bec1698eef0e1567f1"
 CROS_WORKON_TREE="986c6d24e6bd4de2f22c72540c2c248e8528e047"
 CROS_WORKON_PROJECT="chromiumos/platform/factory"
@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME="platform/factory"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
 # TODO(crbug.com/999876): Upgrade to Python 3 at some point.
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{4,5,6,7} )
 
 inherit cros-workon python-r1 cros-constants cros-factory
 
@@ -22,15 +22,14 @@ DESCRIPTION="Chrome OS Factory Software Platform"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory/"
 SRC_URI="${WEBGL_AQUARIUM_URI} ${WS4PY_MODULE_URL}"
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="*"
 
-DEPEND="virtual/chromeos-bsp-factory
-	virtual/chromeos-regions
-	dev-python/enum34
-	dev-python/jsonrpclib
-	dev-python/pyyaml
-	dev-python/protobuf-python
+DEPEND="virtual/chromeos-bsp-factory:=
+	virtual/chromeos-regions:=
+	dev-python/enum34:=
+	dev-python/jsonrpclib:=
+	dev-python/pyyaml:=
+	dev-python/protobuf-python:=
 "
 
 BUILD_DIR="${WORKDIR}/build"
