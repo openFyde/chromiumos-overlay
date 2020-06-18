@@ -1,10 +1,10 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile configure info install postinst prepare prerm setup test unpack
-DEPEND=chromeos-base/system_api-rust:= >=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0 >=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0 dev-rust/remain:= >=dev-rust/rustyline-5.0.4:= <dev-rust/rustyline-6.0.0 dev-rust/sys_util:= dev-rust/tempfile:= dev-rust/tlsdate_dbus:= >=virtual/rust-1.39.0:=
+DEPEND=chromeos-base/system_api-rust:= >=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0 >=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0 dev-rust/remain:= >=dev-rust/rustyline-5.0.4:= <dev-rust/rustyline-6.0.0 dev-rust/shell-words:= dev-rust/sys_util:= dev-rust/tempfile:= dev-rust/tlsdate_dbus:= >=virtual/rust-1.39.0:=
 DESCRIPTION=Chrome OS developer command-line shell
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosh/
-IUSE=rust-crosh cros_host cros_workon_tree_3d394857c62ee1e2749673a090ea6fa61a6fd109 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+IUSE=rust-crosh cros_host cros_workon_tree_1617e9fa22efa8d8ceb708cf9194dde88e171127 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
@@ -12,4 +12,4 @@ RDEPEND=app-admin/sudo chromeos-base/vboot_reference net-misc/iputils net-misc/o
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6c932660592776fd43e794e3a9e0d7c8	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=b517213171a74bb3f902f1c84ea00009
+_md5_=e2bfd978f6fda6862ddb8e1ba13549eb
