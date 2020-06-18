@@ -24,6 +24,8 @@ case "${EAPI:-0}" in
 *) ;;
 esac
 
+inherit cros-ec-utils
+
 # Make sure that private files ebuild has run since it creates the symlink
 # used in the src_install step below.
 DEPEND="virtual/chromeos-ec-private-files"
@@ -49,16 +51,11 @@ cros-ec-merge-ro_do_merge() {
 	einfo "Merging RO firmware"
 
 	# Print RO and RW versions.
-	local fmap_frid
-	local fmap_fwid
-	IFS=" " read -r -a fmap_frid <<< "$(dump_fmap -p "${ec_ro}" RO_FRID || die)"
-	IFS=" " read -r -a fmap_fwid <<< "$(dump_fmap -p "${ec_rw}" RW_FWID || die)"
-	# fmap_frid[0]="RO_FRID" fmap_frid[1]=offset fmap_frid[2]=size (decimal)
-	# Same for fmap_fwid.
-	local ro_version_string="$(dd bs=1 skip="${fmap_frid[1]}" \
-		count="${fmap_frid[2]}" if="${ec_ro}" status=none || die)"
-	local rw_version_string="$(dd bs=1 skip="${fmap_fwid[1]}" \
-		count="${fmap_fwid[2]}" if="${ec_rw}" status=none || die)"
+	local ro_version_string
+	local rw_version_string
+
+	ro_version_string="$(cros-ec-utils-get_firmware_ro_version "${ec_ro}" || die)"
+	rw_version_string="$(cros-ec-utils-get_firmware_rw_version "${ec_rw}" || die)"
 
 	einfo "Using firmware RO version: ${ro_version_string}"
 	einfo "Using firmware RW version: ${rw_version_string}"
