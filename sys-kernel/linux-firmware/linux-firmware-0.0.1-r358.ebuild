@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="b4a81c9e793e9218e8cfe81c4cfac71fc5aa3e02"
-CROS_WORKON_TREE="52eaa6c93d993fc3f9bd6c323c50a1535c2832b0"
+CROS_WORKON_COMMIT="00700848643964660141ff95719afd5dfe59c99c"
+CROS_WORKON_TREE="333eacc14761cc9c61d5f0ad11163af610e4965f"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
@@ -274,7 +274,7 @@ install_iwlwifi() {
 		iwlwifi-Qu-c0) doins "${x}-hr-b0-55.ucode" ;;
 		iwlwifi-QuZ)
 			case "${kernel}" in
-			kernel-4_19) doins "${x}-a0-hr-b0-53.ucode" ;;
+			kernel-4_19) doins "${x}-a0-hr-b0-55.ucode" ;;
 			kernel-5_4)  doins "${x}-a0-hr-b0-55.ucode" ;;
 			*)
 				ewarn "Unexpected kernel version '${kernel}'."
