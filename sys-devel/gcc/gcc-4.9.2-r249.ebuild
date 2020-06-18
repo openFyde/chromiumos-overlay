@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-devel/gcc/gcc-4.4.3-r3.ebuild,v 1.1 2010/06/19 01:53:09 zorry Exp $
 
-EAPI="5"
+EAPI="7"
 CROS_WORKON_COMMIT="ac6128e0a17a52f011797f33ac3e7d6273a9368d"
 CROS_WORKON_TREE="aff2e49c815be09f20e4346cc98144b604388cb7"
 CROS_WORKON_REPO="https://android.googlesource.com"
@@ -42,6 +42,7 @@ DEPEND="${RDEPEND}
 	>=sys-apps/texinfo-4.8
 	>=sys-devel/bison-1.875"
 PDEPEND=">=sys-devel/gcc-config-1.7"
+BDEPEND="${CATEGORY}/binutils"
 
 RESTRICT="mirror strip"
 

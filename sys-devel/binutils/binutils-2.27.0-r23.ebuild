@@ -1,7 +1,7 @@
 # Copyright (c) 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
 # FIXME: We have fixed a bug where gold generates inefficient
 # code for 32-bit armv8 CPUs, on upstream AOSP.
@@ -22,7 +22,7 @@ NEXT_BINUTILS=cros/binutils-2_25-google
 # If that is a bad commit, override this to point to the last known good commit.
 PREV_BINUTILS="cros/master^"
 
-inherit eutils libtool flag-o-matic gnuconfig multilib versionator cros-constants cros-workon
+inherit eutils libtool flag-o-matic gnuconfig multilib cros-constants cros-workon
 
 KEYWORDS="*"
 
@@ -60,15 +60,13 @@ RESTRICT="fetch test"
 
 GITDIR=${WORKDIR}/gitdir
 
-LIBPATH=/usr/$(get_libdir)/binutils/${CTARGET}/${BVER}
-INCPATH=${LIBPATH}/include
-DATAPATH=/usr/share/binutils-data/${CTARGET}/${BVER}
 MY_BUILDDIR=${WORKDIR}/build
-if is_cross ; then
-	BINPATH=/usr/${CHOST}/${CTARGET}/binutils-bin/${BVER}
-else
-	BINPATH=/usr/${CTARGET}/binutils-bin/${BVER}
-fi
+
+PATCHES=(
+	"${FILESDIR}/${P}-sht_relr.patch"
+	"${FILESDIR}/${P}-smallpie.patch"
+	"${FILESDIR}/${P}-apply_dynamic_relocs.patch"
+)
 
 # It is not convenient that cros_workon.eclass does not accept a branch name in
 # CROS_WORKON_COMMIT/TREE, because sometimes the git repository is cloned via
@@ -119,7 +117,7 @@ src_unpack() {
 		if [[ ${PV} == 9999 ]]; then
 			subdir="binutils-2.25"
 		else
-			subdir="${PN}-$(get_version_component_range 1-2)"
+			subdir="${PN}-$(ver_cut 1-2)"
 		fi
 		if [[ -d "${S}/${subdir}" ]] ; then
 			S="${S}/${subdir}"
@@ -127,12 +125,6 @@ src_unpack() {
 	fi
 
 	mkdir -p "${MY_BUILDDIR}"
-}
-
-src_prepare() {
-	epatch "${FILESDIR}/${P}-sht_relr.patch"
-	epatch "${FILESDIR}/${P}-smallpie.patch"
-	epatch "${FILESDIR}/${P}-apply_dynamic_relocs.patch"
 }
 
 toolchain-binutils_bugurl() {
@@ -152,6 +144,16 @@ toolchain_mips_use_sysv_gnuhash() {
 }
 
 src_configure() {
+	export LIBPATH=/usr/$(get_libdir)/binutils/${CTARGET}/${BVER}
+	export INCPATH=${LIBPATH}/include
+	export DATAPATH=/usr/share/binutils-data/${CTARGET}/${BVER}
+
+	if is_cross ; then
+		export BINPATH=/usr/${CHOST}/${CTARGET}/binutils-bin/${BVER}
+	else
+		export BINPATH=/usr/${CTARGET}/binutils-bin/${BVER}
+	fi
+
 	cros_optimize_package_for_speed
 
 	# Use gcc to build binutils.
