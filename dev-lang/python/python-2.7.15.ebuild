@@ -242,6 +242,13 @@ src_configure() {
 		use hardened && replace-flags -O3 -O2
 	fi
 
+	# python2 build is running cross-compiled x86_64 binaries on build
+	# machine that may not have same ISA. Filter architecture specific
+	# flags as a workaround, https://crbug.com/1091706 .
+	if use amd64 && tc-is-cross-compiler; then
+		filter-flags '-march=*'
+	fi
+
 	if tc-is-cross-compiler; then
 		# Force some tests that try to poke fs paths.
 		export ac_cv_file__dev_ptc=no
