@@ -12,7 +12,8 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 RDEPEND="
-	net-wireless/wpa_supplicant-2_8:=[dbus]
+	net-wireless/wpa_supplicant-2_9:=[dbus]
+	!net-wireless/wpa_supplicant-2_8
 	!net-wireless/wpa_supplicant
 "
 DEPEND="${RDEPEND}"
