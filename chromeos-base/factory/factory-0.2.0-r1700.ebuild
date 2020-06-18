@@ -63,7 +63,7 @@ src_configure() {
 	export BUILD_DIR="${WORKDIR}/build"
 
 	# The path of bundle is defined in chromite/cbuildbot/commands.py
-	export BUNDLE_DIR="${ED}usr/local/factory/bundle"
+	export BUNDLE_DIR="${ED}/usr/local/factory/bundle"
 }
 
 src_unpack() {
