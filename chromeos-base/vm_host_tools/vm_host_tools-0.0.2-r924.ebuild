@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5a0a4c4bfa18bc275627e7492a67139f9245aacf"
+CROS_WORKON_COMMIT="f99126debfe496872f3c43681e82f82fcf192df9"
 CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "7e189936f29d145c4191ea147e48256c92fac75d" "31fdae6716981438b87667c26cf76a22ff2a1a4a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -141,9 +141,14 @@ platform_pkg_test() {
 		syslog_forwarder_test
 	)
 
+	# Running a gRPC server under qemu-user causes flake, at least with the
+	# combination of gRPC 1.16.1 and qemu 3.0.0. Disable TerminaVmTest.* while
+	# running under qemu to avoid triggering this flake.
+	# TODO(crbug.com/1066425): Reenable gRPC server tests under qemu-user.
+	local qemu_gtest_filter="-TerminaVmTest.*"
 	local test_bin
 	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
+		platform_test "run" "${OUT}/${test_bin}" "0" "" "${qemu_gtest_filter}"
 	done
 }
 
