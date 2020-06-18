@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("d226576c582716e3538ab1c9926a3075c7c96f81" "2d1624c689d2b907b29226fb4ca1ca0832df961e")
-CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b9a979e799ba7de646312f5af91696d958f6627e")
+CROS_WORKON_COMMIT=("b54ddd873668bd42f6f35e5f091f9e748095825e" "fbaae40d0949077903e3dddd076e6aa5a1057986")
+CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "106ec355b80dbab14f0fc2c82fb995d49d384109")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
@@ -59,7 +59,7 @@ src_configure() {
 
 platform_pkg_test() {
 	local tests=(
-		chromeos driver_cache runtime
+		chromeos common_operations driver_cache runtime
 	)
 
 	local test_target
