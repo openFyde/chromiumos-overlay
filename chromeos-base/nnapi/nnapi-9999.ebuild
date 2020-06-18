@@ -77,6 +77,7 @@ PATCHES=(
 	"${FILESDIR}/00003-libutils-callstack.patch"
 	"${FILESDIR}/00004-libfmq-page-size.patch"
 	"${FILESDIR}/00005-libcutils-ashmemtests.patch"
+	"${FILESDIR}/00006-libhidl-cast-interface.patch"
 )
 
 src_prepare() {
@@ -88,6 +89,7 @@ src_prepare() {
 	eapply -p2 "${FILESDIR}/00003-libutils-callstack.patch"
 	eapply -p2 "${FILESDIR}/00004-libfmq-page-size.patch"
 	eapply -p2 "${FILESDIR}/00005-libcutils-ashmemtests.patch"
+	eapply -p2 "${FILESDIR}/00006-libhidl-cast-interface.patch"
 	popd || exit
 
 	eapply_user
