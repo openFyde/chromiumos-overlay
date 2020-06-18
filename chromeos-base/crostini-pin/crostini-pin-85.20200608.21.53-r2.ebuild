@@ -38,7 +38,7 @@ src_compile() {
 	"name": "container_rootfs",
 	"version": "${PV}",
 	"filename": "container_rootfs.tar.xz",
-	"gsuri": "gs://cros-containers-staging/${milestone}/images/debian/stretch/${container_arch}/test/${container_timestamp}/rootfs.tar.xz"
+	"gsuri": "gs://cros-containers-staging/${milestone}/images/debian/buster/${container_arch}/test/${container_timestamp}/rootfs.tar.xz"
 }
 EOF
 
@@ -47,7 +47,7 @@ cat > crostini_metadata.json <<EOF
 	"name": "container_metadata",
 	"version": "${PV}",
 	"filename": "container_metadata.tar.xz",
-	"gsuri": "gs://cros-containers-staging/${milestone}/images/debian/stretch/${container_arch}/test/${container_timestamp}/lxd.tar.xz"
+	"gsuri": "gs://cros-containers-staging/${milestone}/images/debian/buster/${container_arch}/test/${container_timestamp}/lxd.tar.xz"
 }
 EOF
 }
