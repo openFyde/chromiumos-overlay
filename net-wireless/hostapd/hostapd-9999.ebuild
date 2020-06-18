@@ -14,7 +14,7 @@ SRC_URI=""
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="internal-tls ipv6 libressl logwatch netlink sqlite +wps +crda"
+IUSE="internal-tls ipv6 libressl logwatch netlink sqlite +suiteb +wps +crda"
 
 DEPEND="
 	libressl? ( dev-libs/libressl:0= )
@@ -60,6 +60,14 @@ src_configure() {
 	echo "CONFIG_EAP=y" >> ${CONFIG}
 	echo "CONFIG_ERP=y" >> ${CONFIG}
 	echo "CONFIG_EAP_MD5=y" >> ${CONFIG}
+	echo "CONFIG_SAE=y" >> ${CONFIG}
+	echo "CONFIG_OWE=y" >> ${CONFIG}
+	echo "CONFIG_DPP=y" >> ${CONFIG}
+
+	if use suiteb; then
+		echo "CONFIG_SUITEB=y" >> ${CONFIG}
+		echo "CONFIG_SUITEB192=y" >> ${CONFIG}
+	fi
 
 	if use internal-tls && ! use libressl; then
 		echo "CONFIG_TLS=internal" >> ${CONFIG}
@@ -99,8 +107,6 @@ src_configure() {
 	echo "CONFIG_EAP_GPSK_SHA256=y" >> ${CONFIG}
 	echo "CONFIG_EAP_UNAUTH_TLS=y" >> ${CONFIG}
 	echo "CONFIG_EAP_VENDOR_TEST=y" >> ${CONFIG}
-	echo "CONFIG_SUITEB=y" >> ${CONFIG}
-	echo "CONFIG_SUITEB192=y" >> ${CONFIG}
 
 	einfo "Enabling drivers: "
 
@@ -136,9 +142,6 @@ src_configure() {
 	echo "CONFIG_FST=y" >> ${CONFIG}
 	echo "CONFIG_FST_TEST=y" >> ${CONFIG}
 	echo "CONFIG_ACS=y" >> ${CONFIG}
-
-	# WPA3
-	echo "CONFIG_SAE=y" >> ${CONFIG}
 
 	if use netlink; then
 		# Netlink support
