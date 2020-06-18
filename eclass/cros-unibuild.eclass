@@ -356,6 +356,18 @@ unibuild_install_bluetooth_files() {
 	# TODO(b/152526402): Remove this function.
 }
 
+# @FUNCTION: unibuild_install_camera_files
+# @USAGE: [config_file]
+# @DESCRIPTION:
+# Install files related to camera config.
+# Args:
+#   $1: (optional) Config file used by cros_config_host
+unibuild_install_camera_files() {
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
+
+	_unibuild_common_install get-camera-files "$@"
+}
+
 # @FUNCTION: unibuild_build_configfs_file
 # @USAGE:
 # @DESCRIPTION:
