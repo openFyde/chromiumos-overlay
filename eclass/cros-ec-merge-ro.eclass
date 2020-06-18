@@ -28,6 +28,13 @@ esac
 # used in the src_install step below.
 DEPEND="virtual/chromeos-ec-private-files"
 
+# @ECLASS-VARIABLE: FIRMWARE_EC_RELEASE_RO_VERSION
+# @DEFAULT_UNSET
+# @DESCRIPTION:
+# RO version of firmware to use. If unspecified, the default version will be
+# used.
+: "${FIRMWARE_EC_RELEASE_RO_VERSION:=}"
+
 # @FUNCTION: cros-ec-merge-ro_do_merge
 # @USAGE: <RO firmware path> <RW firmware path>
 # @INTERNAL
@@ -92,8 +99,27 @@ cros-ec-merge-ro_src_install() {
 		return 0
 	fi
 
+	# If FIRMWARE_EC_RELEASE_RO_VERSION is specified then use it.
+	# Otherwise, validate that there is exactly one RO binary.
+	local ro_version="${FIRMWARE_EC_RELEASE_RO_VERSION}"
 	local fw_target="${target%%_fp}"
-	local ro_fw="$(ls "${firmware_bin_dir}/${fw_target}/"*.bin || die)"
+
+	local ro_fw
+	if [[ -n ${ro_version} ]]; then
+		einfo "RO version specified: ${ro_version}."
+		ro_fw="$(ls "${firmware_bin_dir}/${fw_target}/RO/${ro_version}.bin" || die)"
+	else
+		einfo "No RO version specified; using default."
+		local ro_fw_count=0
+		ro_bin_files=("${firmware_bin_dir}/${fw_target}/RO/"*.bin)
+		ro_fw_count=${#ro_bin_files[@]}
+		if [[ ${ro_fw_count} -ne 1 ]]; then
+			eerror "Incorrect number of RO firmware files found: ${ro_fw_count}"
+			die
+		fi
+
+		ro_fw="${ro_bin_files[0]}"
+	fi
 
 	local rw_fw="${WORKDIR}/build_${target}/${target}/ec.bin"
 	local merged_fw="$(cros-ec-merge-ro_do_merge "${ro_fw}" "${rw_fw}")"
