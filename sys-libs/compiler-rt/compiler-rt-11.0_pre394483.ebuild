@@ -9,7 +9,7 @@ inherit eutils toolchain-funcs cros-constants cmake-utils git-2 cros-llvm
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
 	${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
-LLVM_HASH="a8e5dcb072b1f794883ae8125fb08c06db678d56" # r391452
+LLVM_HASH="b726d071b4aa46004228fc38ee5bfd167f999bfe" # r394483
 LLVM_NEXT_HASH="b726d071b4aa46004228fc38ee5bfd167f999bfe" # r394483
 
 DESCRIPTION="Compiler runtime library for clang"
