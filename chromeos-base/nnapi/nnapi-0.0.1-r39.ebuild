@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("6e61c1208b937b4296a82d0d9243e76591791963" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
-CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "ecc234f13d7086b5604109b7856e1086bf025b74" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d59698b9aacd42201a585bee90f33719caa6338b" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "934fe42dbc7182e5775cb5717e7cb29644a6eae8" "3e10262144e64652e5c70fe978e1d6bae433ab27")
+CROS_WORKON_COMMIT=("f99126debfe496872f3c43681e82f82fcf192df9" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
+CROS_WORKON_TREE=("f089191a0d3d6b85e2d71b4dbba970e0fc4966e1" "f400ac4165c8036a8ed782e454de37e4ea0da532" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d59698b9aacd42201a585bee90f33719caa6338b" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "934fe42dbc7182e5775cb5717e7cb29644a6eae8" "3e10262144e64652e5c70fe978e1d6bae433ab27")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/native"
@@ -79,6 +79,7 @@ PATCHES=(
 	"${FILESDIR}/00003-libutils-callstack.patch"
 	"${FILESDIR}/00004-libfmq-page-size.patch"
 	"${FILESDIR}/00005-libcutils-ashmemtests.patch"
+	"${FILESDIR}/00006-libhidl-cast-interface.patch"
 )
 
 src_prepare() {
@@ -90,6 +91,7 @@ src_prepare() {
 	eapply -p2 "${FILESDIR}/00003-libutils-callstack.patch"
 	eapply -p2 "${FILESDIR}/00004-libfmq-page-size.patch"
 	eapply -p2 "${FILESDIR}/00005-libcutils-ashmemtests.patch"
+	eapply -p2 "${FILESDIR}/00006-libhidl-cast-interface.patch"
 	popd || exit
 
 	eapply_user
