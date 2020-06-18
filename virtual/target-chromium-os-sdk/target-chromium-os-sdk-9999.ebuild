@@ -401,6 +401,11 @@ RDEPEND="${RDEPEND}
 	dev-util/gn
 	"
 
+# Host dependencies for building
+RDEPEND="${RDEPEND}
+	dev-util/tclint
+	"
+
 # Uninstall these packages.
 RDEPEND="${RDEPEND}
 	!net-misc/dhcpcd
