@@ -26,6 +26,7 @@ IUSE="
 	arc
 	arc_adb_sideloading
 	arc_force_2x_scaling
+	arc_native_bridge_64bit_support_experiment
 	arc_transition_m_to_n
 	arcpp
 	arcvm
