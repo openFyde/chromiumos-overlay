@@ -88,6 +88,10 @@ src_prepare() {
 	# In libdbus, raise SIGTERM when the connection is dropped.
 	epatch "${FILESDIR}"/${PN}-1.6.8-raise-SIGTERM-on-connection-lost.patch
 
+	# Fix for CVE-2020-12049.
+	# Upstream commit: https://gitlab.freedesktop.org/dbus/dbus/-/commit/3418f4e500e6589e21bfcc545b3d4d1d70b17390
+	epatch "${FILESDIR}/${PN}-1.10.12-sysdeps-unix-On-MSG_CTRUNC-close-the-fds-we-did-rece.patch"
+
 	# required for asneeded patch but also for bug 263909, cross-compile so
 	# don't remove eautoreconf
 	eautoreconf
