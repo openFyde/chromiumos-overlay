@@ -199,6 +199,7 @@ ALL_BOARDS=(
 	hatch
 	hatch-arc-r
 	hatch-arc-r-userdebug
+	hatch-borealis
 	hatch-diskswap
 	hatch-kernelnext
 	heli
