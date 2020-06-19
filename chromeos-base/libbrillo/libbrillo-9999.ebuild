@@ -29,6 +29,7 @@ COMMON_DEPEND="
 	dbus? ( dev-libs/dbus-glib:= )
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
+	net-libs/grpc:=
 	net-misc/curl:=
 	sys-apps/rootdev:=
 	device_mapper? ( sys-fs/lvm2:= )
