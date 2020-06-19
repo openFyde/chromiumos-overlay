@@ -21,6 +21,11 @@ CROS_WORKON_DESTDIR=(
 	"${S}/third_party/tpm2"
 	"${S}/third_party/cryptoc"
 )
+CROS_WORKON_EGIT_BRANCH=(
+	"cr50_stab"
+	"master"
+	"master"
+)
 
 inherit coreboot-sdk cros-ec-board cros-workon toolchain-funcs
 
