@@ -175,7 +175,6 @@ CLIENT_IUSE_TESTS="
 	+tests_platform_ImageLoader
 	+tests_platform_ImageLoaderServer
 	+tests_platform_KernelVersion
-	+tests_platform_KernelVersionByBoard
 	+tests_platform_LibCBench
 	+tests_platform_LogDupSuppression
 	+tests_platform_LogNonKernelKmsg
