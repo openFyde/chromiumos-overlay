@@ -14,11 +14,10 @@ inherit cros-workon python-r1 cros-constants cros-factory
 # External dependencies
 LOCAL_MIRROR_URL=http://commondatastorage.googleapis.com/chromeos-localmirror/
 WEBGL_AQUARIUM_URI=${LOCAL_MIRROR_URL}/distfiles/webgl-aquarium-20130524.tar.bz2
-WS4PY_MODULE_URL=${LOCAL_MIRROR_URL}/distfiles/ws4py-0.5.1.tar.gz
 
 DESCRIPTION="Chrome OS Factory Software Platform"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory/"
-SRC_URI="${WEBGL_AQUARIUM_URI} ${WS4PY_MODULE_URL}"
+SRC_URI="${WEBGL_AQUARIUM_URI}"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
@@ -54,7 +53,6 @@ src_configure() {
 	export SRCROOT="${CROS_WORKON_SRCROOT}"
 	export TARGET_DIR=/usr/local/factory
 	export WEBGL_AQUARIUM_DIR="${WORKDIR}/webgl_aquarium_static"
-	export WS4PY_MODULE_DIR="${WORKDIR}/ws4py-0.5.1"
 	export FROM_EBUILD=1
 
 	# Support out-of-tree build.
