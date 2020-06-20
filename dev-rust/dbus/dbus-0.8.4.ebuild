@@ -1,7 +1,7 @@
-# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Copyright 2020 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit cros-rust
 
@@ -13,7 +13,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/libc-0.2.7:=
-	>=dev-rust/libdbus-sys-0.1.2:= <dev-rust/libdbus-sys-0.2
-	>=dev-rust/tempdir-0.3.0:=
+DEPEND=">=dev-rust/libc-0.2.66:= <dev-rust/libc-0.3
+	=dev-rust/libdbus-sys-0.2*:=
+	=dev-rust/futures-0.3.1:=
 "
