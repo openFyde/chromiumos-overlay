@@ -3,11 +3,11 @@ DEFINED_PHASES=compile info install setup test unpack
 DEPEND=android-container-pi? ( chromeos-base/android-container-pi:0= ) android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
 DESCRIPTION=Chrome OS SELinux Policy Package
 EAPI=7
-IUSE=android-container-pi android-vm-rvc selinux_audit_all selinux_develop selinux_experimental arc_first_release_n nocheck cheets_user cheets_user_64 cros_host cros_workon_tree_95505255ffe35aaab8cd15913564148c3d72c52c
+IUSE=android-container-pi android-vm-rvc selinux_audit_all selinux_develop selinux_experimental arc_first_release_n nocheck cheets_user cheets_user_64 cros_host cros_workon_tree_145d9c9c004350d93e936376d0a7c455d6c48a09
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=android-container-pi? ( chromeos-base/android-container-pi:0= ) android-vm-rvc? ( chromeos-base/android-vm-rvc:0= ) sys-apps/restorecon sys-process/audit
-SLOT=0/0.0.1-r199
+SLOT=0/0.0.1-r200
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848	udev	452708c3f55cf6e918b045adb949a9e6
-_md5_=58c2bdb374e07e6eba0ee9adb5d5afeb
+_md5_=3e946949a78a593b4130b4c36c2d542a
