@@ -22,10 +22,8 @@ DEPEND="chromeos-base/system_api
 	=dev-rust/lazy_static-1*:=
 	>=dev-rust/libc-0.2.44:=
 	!>=dev-rust/libc-0.3
-	>=dev-rust/protobuf-2.8:=
-	!>=dev-rust/protobuf-3
-	>=dev-rust/protoc-rust-2.8:=
-	!>=dev-rust/protoc-rust-3
+	>=dev-rust/protobuf-2.16:= <dev-rust/protobuf-3
+	>=dev-rust/protoc-rust-2.16:= <dev-rust/protoc-rust-3
 "
 
 src_unpack() {
