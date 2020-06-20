@@ -35,6 +35,7 @@ RDEPEND="
 	sys-fs/dosfstools
 	sys-fs/exfat-utils
 	sys-fs/fuse-exfat
+	sys-fs/fuse-zip
 	sys-fs/ntfs3g
 	sys-fs/rar2fs
 	virtual/udev
@@ -81,6 +82,7 @@ src_install() {
 	# Install seccomp policy files.
 	insinto /usr/share/policy
 	use seccomp && newins avfsd-seccomp-${ARCH}.policy avfsd-seccomp.policy
+	use seccomp && newins fuse-zip-seccomp-${ARCH}.policy fuse-zip-seccomp.policy
 	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 
 	# Install upstart config file.
