@@ -4,12 +4,12 @@ DEPEND=esdfs? ( chromeos-base/arc-sdcard ) chromeos-base/bootstat:= chromeos-bas
 DESCRIPTION=Set up environment to run ARC.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/setup
-IUSE=arcpp arcvm esdfs fuzzer generated_cros_config houdini houdini64 native_bridge_64bit_support_experiment ndk_translation unibuild cros_host cros_workon_tree_f9717b507c2df65dc05165b9415ccd3154b01ecc_7cb404af9b6da9896fe347eca893122caf5af319_55117e4ce6fbcf6e11e6b9e79a4032a45610453d_7e189936f29d145c4191ea147e48256c92fac75d_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_f9717b507c2df65dc05165b9415ccd3154b01ecc_7cb404af9b6da9896fe347eca893122caf5af319_55117e4ce6fbcf6e11e6b9e79a4032a45610453d_7e189936f29d145c4191ea147e48256c92fac75d_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug compilation_database cros_host test
+IUSE=arcpp arcvm esdfs fuzzer generated_cros_config houdini houdini64 native_bridge_64bit_support_experiment ndk_translation unibuild cros_host cros_workon_tree_f9717b507c2df65dc05165b9415ccd3154b01ecc_3c4256dc3d29db73dc5a5f9293af4c314f0c3ad8_55117e4ce6fbcf6e11e6b9e79a4032a45610453d_7e189936f29d145c4191ea147e48256c92fac75d_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_f9717b507c2df65dc05165b9415ccd3154b01ecc_3c4256dc3d29db73dc5a5f9293af4c314f0c3ad8_55117e4ce6fbcf6e11e6b9e79a4032a45610453d_7e189936f29d145c4191ea147e48256c92fac75d_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug compilation_database cros_host test
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
 RDEPEND=esdfs? ( chromeos-base/arc-sdcard ) chromeos-base/bootstat:= chromeos-base/chromeos-config-tools:= chromeos-base/cryptohome-client:= chromeos-base/metrics:= dev-libs/dbus-glib:= dev-libs/protobuf:= sys-libs/libselinux:= chromeos-base/minijail:= chromeos-base/patchpanel arcvm? ( chromeos-base/crosvm ) arcpp? ( chromeos-base/swap-init esdfs? ( sys-apps/restorecon ) ) >=chromeos-base/libchrome-0.0.1-r21:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:=
 REQUIRED_USE=|| ( arcpp arcvm )
-SLOT=0/0.0.1-r968
+SLOT=0/0.0.1-r969
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	d8ac4376c842695b79a360107b1f50ac	libchrome-version	070e3915e2c56045b12610c94becc4da	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	ba3ad2753d55effd07958e57c9ca2267	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=841dd891beea1ef051e40c8d8d1929f5
+_md5_=f29883df6877567ab212345a3701be1d
