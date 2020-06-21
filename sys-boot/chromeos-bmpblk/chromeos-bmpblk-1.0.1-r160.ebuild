@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="71e96ae287c13c85d30b3fe04197952af4633480"
-CROS_WORKON_TREE="349a5dd2ee68e488467723b5a66265e3029dcb67"
+CROS_WORKON_COMMIT="d71b445771c4d275556482bfa5991050ff71e252"
+CROS_WORKON_TREE="58bbde5654c6e897042f899bf9f812a286346d80"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -105,8 +105,7 @@ CROS_BOARDS=(
 	zork
 )
 
-# TODO(crbug.com/1011520): Port this to Python 3.
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{6..8} )
 inherit cros-workon cros-board python-any-r1
 
 DESCRIPTION="Chrome OS Firmware Bitmap Block"
