@@ -32,7 +32,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="~*"
-IUSE="cpu_flags_x86_avx2"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal"
 
 RDEPEND="
 	dev-libs/openssl:=
@@ -68,4 +68,8 @@ platform_pkg_test() {
 
 src_install() {
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
+
+	if ! use vendor-nnhal ; then
+		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
+	fi
 }
