@@ -28,7 +28,6 @@ IUSE="
 	generated_cros_config
 	houdini
 	houdini64
-	native_bridge_64bit_support_experiment
 	ndk_translation
 	unibuild"
 
