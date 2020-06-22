@@ -186,6 +186,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	!chromeless_tests? ( chromeos-base/telemetry )
 	chromeos-base/toolchain-tests
 	dev-embedded/dfu-programmer
+	dev-go/syzkaller
 	dev-libs/re2
 	dev-python/protobuf-python
 	dev-python/btsocket
