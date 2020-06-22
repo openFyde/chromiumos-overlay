@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4660a3536a55f3c2ec19cab48e6380ba8defeede"
-CROS_WORKON_TREE="1f56258ddfa8ff9db44a062bfbb178e06ed24fd0"
+CROS_WORKON_COMMIT="39a1705d94fa1a148d11835e05e5cdf576715930"
+CROS_WORKON_TREE="4907dba5c10817de4276887b0b8f289844dfcd14"
 CROS_WORKON_PROJECT="chromiumos/third_party/aver-updater"
 
 inherit cros-workon cros-common.mk libchrome udev user
