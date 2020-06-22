@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b914be697accebb44238273b530f3cbbbef176db"
+CROS_WORKON_COMMIT="086625d7674d246a95c8f71f6e7c48d05fe7e277"
 CROS_WORKON_TREE=("f9717b507c2df65dc05165b9415ccd3154b01ecc" "79994fda545e3e88b2504a717addba9a68d3a905" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,6 +31,7 @@ COMMON_DEPEND="
 	dbus? ( dev-libs/dbus-glib:= )
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
+	net-libs/grpc:=
 	net-misc/curl:=
 	sys-apps/rootdev:=
 	device_mapper? ( sys-fs/lvm2:= )
