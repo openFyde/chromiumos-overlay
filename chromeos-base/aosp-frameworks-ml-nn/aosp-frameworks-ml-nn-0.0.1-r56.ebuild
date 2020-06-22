@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("3f7d5646e5849a634935e2f3fb478b382e1d9b61" "87dba982c8f7059a57816f5e4c1e84288253f198")
-CROS_WORKON_TREE=("f9717b507c2df65dc05165b9415ccd3154b01ecc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "1d9b8bff7219b2bf334698ee5fdd4bf25de94d2d")
+CROS_WORKON_COMMIT=("90b71642fe45fb954ccf6a928065c05a1425f1a7" "7ec3cab47f816d651039597a7f4c6b651af6d910")
+CROS_WORKON_TREE=("f9717b507c2df65dc05165b9415ccd3154b01ecc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "dc263ebca85e0daaf6f65e16e195077cf0a46125")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
