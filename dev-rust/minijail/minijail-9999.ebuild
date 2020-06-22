@@ -39,7 +39,9 @@ src_unpack() {
 }
 
 src_compile() {
-	use test && ecargo_test --no-run
+	if use x86 || use amd64; then
+		use test && ecargo_test --no-run
+	fi
 }
 
 src_test() {
