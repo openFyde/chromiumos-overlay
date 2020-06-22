@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("086625d7674d246a95c8f71f6e7c48d05fe7e277" "87dba982c8f7059a57816f5e4c1e84288253f198")
+CROS_WORKON_COMMIT=("3f7d5646e5849a634935e2f3fb478b382e1d9b61" "87dba982c8f7059a57816f5e4c1e84288253f198")
 CROS_WORKON_TREE=("f9717b507c2df65dc05165b9415ccd3154b01ecc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "1d9b8bff7219b2bf334698ee5fdd4bf25de94d2d")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -34,7 +34,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="*"
-IUSE="cpu_flags_x86_avx2"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal"
 
 RDEPEND="
 	dev-libs/openssl:=
@@ -70,4 +70,8 @@ platform_pkg_test() {
 
 src_install() {
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
+
+	if ! use vendor-nnhal ; then
+		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
+	fi
 }
