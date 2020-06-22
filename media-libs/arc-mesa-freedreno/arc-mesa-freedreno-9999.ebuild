@@ -118,7 +118,7 @@ multilib_src_install_all() {
 
 	# Install init files to advertise supported API versions.
 	insinto "${ARC_PREFIX}/vendor/etc/init"
-	doins "${FILESDIR}/gles30.rc"
+	doins "${FILESDIR}/gles31.rc"
 
 	# Install the dri header for arc-cros-gralloc
 	insinto "${ARC_PREFIX}/vendor/include/GL"
