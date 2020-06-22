@@ -57,7 +57,7 @@ src_configure() {
 
 platform_pkg_test() {
 	local tests=(
-		chromeos common common_operations driver_cache runtime
+		chromeos common common_operations driver_cache runtime runtime_generated
 	)
 
 	local test_target
