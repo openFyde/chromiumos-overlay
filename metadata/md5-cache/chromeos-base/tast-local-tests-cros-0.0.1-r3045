@@ -4,11 +4,11 @@ DEPEND=chromeos-base/tast-build-deps:= dev-lang/go dev-go/crypto
 DESCRIPTION=Bundle of local integration tests for Chrome OS
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast-tests/
-IUSE=arc chromeless_tty chromeless_tests kernel-3_8 kernel-3_10 kernel-3_14 cros_host cros_workon_tree_eacc47ec00172bf6df75f135774048f562ae51ec_c340199194808c94f6e65cb98dae1f46e2166e8b
+IUSE=arc chromeless_tty chromeless_tests kernel-3_8 kernel-3_10 kernel-3_14 cros_host cros_workon_tree_92f46fba3cb3433355ed74e270fc8c8536bdfbb7_c340199194808c94f6e65cb98dae1f46e2166e8b
 KEYWORDS=*
 LICENSE=Apache-2.0 BSD-Google
 PROPERTIES=live
 RDEPEND=chromeos-base/policy-testserver chromeos-base/tast-local-helpers-cros chromeos-base/wprgo !chromeless_tty? ( !chromeless_tests? ( chromeos-base/drm-tests ) ) dev-libs/openssl:0= arc? ( chromeos-base/tast-local-apks-cros dev-util/android-tools dev-util/android-uiautomator-server ) net-misc/curl sys-apps/memtester sys-apps/rootdev virtual/udev !kernel-3_14? ( !kernel-3_10? ( !kernel-3_8? ( chromeos-base/virtual-usb-printer ) ) ) app-arch/tar
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-go	157c7bac0e032e424ec1c3316c127db8	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	b2f01ad412baf81650c23fcf0975fa33	tast-bundle	bc410bcb993795eb7269ad5ba875aa55	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
-_md5_=9138abdf949cc9b41d46315ca115c882
+_md5_=56c4ce9f2f9c406ff80f8d7077baab85
