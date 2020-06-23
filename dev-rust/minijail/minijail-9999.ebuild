@@ -23,7 +23,7 @@ HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test"
+IUSE="asan test"
 
 DEPEND="
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
@@ -45,7 +45,10 @@ src_compile() {
 }
 
 src_test() {
-	if use x86 || use amd64; then
+	if cros-rust_use_sanitizers; then
+		# crbug.com/1097761 The unit tests for this package leak threads.
+		elog "Skipping rust unit tests for ASAN because fork leaks threads."
+	elif use x86 || use amd64; then
 		ecargo_test
 	else
 		elog "Skipping rust unit tests on non-x86 platform"

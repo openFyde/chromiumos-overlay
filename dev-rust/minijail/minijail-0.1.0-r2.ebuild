@@ -10,8 +10,8 @@ EAPI=7
 
 inherit cros-constants
 
-CROS_WORKON_COMMIT="96dd14e0abd27f2aaac1dc5b8ff40f17e79605f0"
-CROS_WORKON_TREE="c12462bccb06babed5abc2a8e153f3ff5b04d259"
+CROS_WORKON_COMMIT="afb7a139a6090944f10b4c4a1d71da21af6f4bcb"
+CROS_WORKON_TREE="2abc5d67948c10abd34e524a1168aa0c749924dd"
 CROS_WORKON_BLACKLIST=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
@@ -25,7 +25,7 @@ HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test"
+IUSE="asan test"
 
 DEPEND="
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
@@ -47,7 +47,10 @@ src_compile() {
 }
 
 src_test() {
-	if use x86 || use amd64; then
+	if cros-rust_use_sanitizers; then
+		# crbug.com/1097761 The unit tests for this package leak threads.
+		elog "Skipping rust unit tests for ASAN because fork leaks threads."
+	elif use x86 || use amd64; then
 		ecargo_test
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
