@@ -42,3 +42,8 @@ DEPEND="
 		dev-go/sync
 	)"
 RDEPEND="dev-go/websocket"
+
+src_prepare() {
+	EPATCH_OPTS="-d src/github.com/mafredri/cdp"
+	epatch "${FILESDIR}"/0001-Check-for-websocket.CloseError-in-session.Manager.wa.patch
+}
