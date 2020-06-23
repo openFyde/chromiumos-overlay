@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0a534ed17b2ac70df4d5e458bdcf1c11a8c52570"
+CROS_WORKON_COMMIT="ddb689874b4eca1839c2bf65ae2585428eaf16c3"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "715a34328f727c14cfe3e4674383158794e8070a" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,6 +37,9 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	dosbin "${OUT}/dlcservice"
+	# Technically we don't need the dlcservice_util in rootfs, but the QA team
+	# will need this to test with dummy-dlc.
+	dobin "${OUT}/dlcservice_util"
 
 	# Seccomp policy files.
 	insinto /usr/share/policy
@@ -55,7 +58,6 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer
 
 	into /usr/local
-	dobin "${OUT}/dlcservice_util"
 	dobin "${S}/tools/dlctool"
 }
 
