@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="228dac9861b4df02de291e270450bd4689715e0d"
-CROS_WORKON_TREE=("f9717b507c2df65dc05165b9415ccd3154b01ecc" "8e27fc4ab3fcfd1b815bda760dfbaf2188211d40" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="44b066a007e77927324c8f2bc66a31e82c894336"
+CROS_WORKON_TREE=("f9717b507c2df65dc05165b9415ccd3154b01ecc" "f6debf3b52e753589e9bbd4d83beb55660dff54b" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -67,7 +67,6 @@ RDEPEND="${COMMON_DEPEND}
 
 platform_pkg_test() {
 	local shell_tests=(
-		periodic_scheduler_unittest
 		killers_unittest
 		tests/chromeos-disk-metrics-test.sh
 		tests/send-kernel-errors-test.sh
@@ -81,6 +80,7 @@ platform_pkg_test() {
 	local cpp_tests=(
 		clobber_state_test
 		file_attrs_cleaner_test
+		periodic_scheduler_test
 		usermode-helper_test
 	)
 
@@ -159,7 +159,7 @@ src_install_upstart() {
 
 src_install() {
 	# Install helper to run periodic tasks.
-	dobin periodic_scheduler
+	dobin "${OUT}"/periodic_scheduler
 
 	if use syslog; then
 		# Install log cleaning script and run it daily.
