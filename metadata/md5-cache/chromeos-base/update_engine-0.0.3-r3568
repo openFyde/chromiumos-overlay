@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git dev-vcs/git virtual/pkgconfig
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=app-arch/xz-utils:= chromeos-base/debugd-client:= dlc? ( chromeos-base/dlcservice-client:= ) chromeos-base/power_manager-client:= chromeos-base/session_manager-client:= chromeos-base/shill-client:= chromeos-base/system_api:=[fuzzer?] chromeos-base/update_engine-client:= sys-fs/e2fsprogs:= test? ( sys-fs/squashfs-tools:= ) app-arch/bzip2:= chromeos-base/chromeos-ca-certificates:= chromeos-base/metrics:= chromeos-base/vboot_reference:= cros_p2p? ( chromeos-base/p2p:= ) dev-libs/expat:= dev-libs/openssl:= dev-libs/protobuf:= dev-libs/xz-embedded:= dev-util/bsdiff:= dev-util/puffin:= net-misc/curl:= sys-apps/rootdev:= >=chromeos-base/libchrome-0.0.1-r21:0=[cros-debug=] cros_host? ( dev-util/gn ) dev-cpp/gtest:=
+DESCRIPTION=Chrome OS Update Engine
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/aosp/platform/system/update_engine/
+IUSE=cfm cros_p2p +dbus dlc fuzzer -hwid_override +power_management systemd cros-debug cros_host cros_workon_tree_eec5ce9cfadd268344b02efdbec7465fbc391a9e_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb_1940fd6d0176c1a377c0763e7991827025b5c9d7 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_eec5ce9cfadd268344b02efdbec7465fbc391a9e_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb_1940fd6d0176c1a377c0763e7991827025b5c9d7 cros-debug compilation_database cros_host test
+KEYWORDS=*
+LICENSE=Apache-2.0
+PROPERTIES=live live
+RDEPEND=chromeos-base/chromeos-installer app-arch/bzip2:= chromeos-base/chromeos-ca-certificates:= chromeos-base/metrics:= chromeos-base/vboot_reference:= cros_p2p? ( chromeos-base/p2p:= ) dev-libs/expat:= dev-libs/openssl:= dev-libs/protobuf:= dev-libs/xz-embedded:= dev-util/bsdiff:= dev-util/puffin:= net-misc/curl:= sys-apps/rootdev:= cros_host? ( app-arch/unzip app-arch/xz-utils app-shells/bash dev-util/shflags sys-fs/e2fsprogs sys-fs/squashfs-tools ) power_management? ( chromeos-base/power_manager ) virtual/update-policy >=chromeos-base/libchrome-0.0.1-r21:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:=
+SLOT=0/0.0.3-r3568
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	d8ac4376c842695b79a360107b1f50ac	libchrome-version	070e3915e2c56045b12610c94becc4da	multilib	b2f01ad412baf81650c23fcf0975fa33	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	ba3ad2753d55effd07958e57c9ca2267	systemd	71fd8d2065d102753fb9e4d20eaf3e9f	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=484b3fadee6a8b36d4ad699b28238e3f
