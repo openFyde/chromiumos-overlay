@@ -35,6 +35,9 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	dosbin "${OUT}/dlcservice"
+	# Technically we don't need the dlcservice_util in rootfs, but the QA team
+	# will need this to test with dummy-dlc.
+	dobin "${OUT}/dlcservice_util"
 
 	# Seccomp policy files.
 	insinto /usr/share/policy
@@ -53,7 +56,6 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer
 
 	into /usr/local
-	dobin "${OUT}/dlcservice_util"
 	dobin "${S}/tools/dlctool"
 }
 
