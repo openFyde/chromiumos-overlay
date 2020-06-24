@@ -38,6 +38,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
+	=dev-rust/async-trait-0.1*:=
 	fuzzer? (
 		dev-rust/cros_fuzz:=
 		=dev-rust/rand-0.6*:=
