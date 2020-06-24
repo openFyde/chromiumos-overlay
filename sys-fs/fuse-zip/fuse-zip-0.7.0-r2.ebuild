@@ -27,6 +27,7 @@ DOCS=( changelog README.md )
 PATCHES=(
 	"${FILESDIR}/${PN}-0.4.5-makefile.patch"
 	"${FILESDIR}/${PN}-0.7.0-makefile.patch"
+	"${FILESDIR}/${PN}-0.7.0-fix-unknown-file-types.patch"
 )
 
 src_compile() {
