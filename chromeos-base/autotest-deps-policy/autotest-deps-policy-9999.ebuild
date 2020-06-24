@@ -23,7 +23,7 @@ AUTOTEST_DEPS_LIST="policy_protos"
 AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
 DEPEND="
-	>=chromeos-base/protofiles-0.0.37:=
+	>=chromeos-base/protofiles-0.0.39:=
 	chromeos-base/system_api
 	dev-libs/protobuf:=
 "

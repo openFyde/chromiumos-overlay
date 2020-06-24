@@ -43,7 +43,7 @@ COMMON_DEPEND="chromeos-base/bootstat:=
 RDEPEND="${COMMON_DEPEND}"
 
 DEPEND="${COMMON_DEPEND}
-	>=chromeos-base/protofiles-0.0.35:=
+	>=chromeos-base/protofiles-0.0.39:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vboot_reference:=
 "

@@ -23,7 +23,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 DEPEND="
-	>=chromeos-base/protofiles-0.0.35:=
+	>=chromeos-base/protofiles-0.0.39:=
 	dev-go/protobuf:=
 	dev-libs/protobuf:=
 "
