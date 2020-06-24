@@ -24,9 +24,13 @@ RESTRICT="test"
 
 DOCS=( changelog README.md )
 
-PATCHES=( "${FILESDIR}/${PN}-0.4.5-makefile.patch" )
+PATCHES=(
+	"${FILESDIR}/${PN}-0.4.5-makefile.patch"
+	"${FILESDIR}/${PN}-0.7.0-makefile.patch"
+)
 
 src_compile() {
+	tc-export PKG_CONFIG
 	emake CXX="$(tc-getCXX)" CXXFLAGS="${CXXFLAGS} ${LDFLAGS}"
 }
 
