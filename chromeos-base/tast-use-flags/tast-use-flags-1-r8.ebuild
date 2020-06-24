@@ -103,7 +103,6 @@ IUSE="
 	vaapi
 	veyron_mickey
 	veyron_rialto
-	virtio_gpu
 	vulkan
 	watchdog
 	wifi_hostap_test
