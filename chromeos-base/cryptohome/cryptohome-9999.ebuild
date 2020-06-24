@@ -47,6 +47,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/attestation:=
 	chromeos-base/biod_proxy:=
+	chromeos-base/cbor:=
 	chromeos-base/chaps:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libhwsec:=
