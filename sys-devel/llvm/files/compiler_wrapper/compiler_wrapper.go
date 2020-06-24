@@ -90,16 +90,29 @@ func callCompilerInternal(env env, cfg *config, inputCmd *command) (exitCode int
 			return 0, newErrorwithSourceLocf("unsupported compiler: %s", mainBuilder.target.compiler)
 		}
 	} else if mainBuilder.target.compilerType == clangType {
-		cSrcFile, useClangTidy := processClangTidyFlags(mainBuilder)
+		cSrcFile, tidyMode := processClangTidyFlags(mainBuilder)
 		err := prepareClangCommand(mainBuilder)
 		if err != nil {
 			return 0, err
 		}
 		allowCCache := true
-		if useClangTidy {
+		if tidyMode != tidyModeNone {
 			allowCCache = false
 			clangCmdWithoutGomaAndCCache := mainBuilder.build()
-			if err := runClangTidy(env, clangCmdWithoutGomaAndCCache, cSrcFile); err != nil {
+			var err error
+			switch tidyMode {
+			case tidyModeTricium:
+				if cfg.triciumNitsDir == "" {
+					return 0, newErrorwithSourceLocf("tricium linting was requested, but no nits directory is configured")
+				}
+				err = runClangTidyForTricium(env, clangCmdWithoutGomaAndCCache, cSrcFile, cfg.triciumNitsDir)
+			case tidyModeAll:
+				err = runClangTidy(env, clangCmdWithoutGomaAndCCache, cSrcFile)
+			default:
+				panic(fmt.Sprintf("Unknown tidy mode: %v", tidyMode))
+			}
+
+			if err != nil {
 				return 0, err
 			}
 		}
@@ -239,9 +252,13 @@ func printCompilerError(writer io.Writer, compilerErr error) {
 	if _, ok := compilerErr.(userError); ok {
 		fmt.Fprintf(writer, "%s\n", compilerErr)
 	} else {
+		emailAccount := "chromeos-toolchain"
+		if isAndroidConfig() {
+			emailAccount = "android-llvm"
+		}
 		fmt.Fprintf(writer,
-			"Internal error. Please report to chromeos-toolchain@google.com.\n%s\n",
-			compilerErr)
+			"Internal error. Please report to %s@google.com.\n%s\n",
+			emailAccount, compilerErr)
 	}
 }
 
