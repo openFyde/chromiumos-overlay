@@ -16,6 +16,7 @@ RDEPEND="
 	chromeos-base/ippusb_manager
 	net-print/cups
 	net-print/cups-filters
+	net-print/dymo-cups-drivers
 	net-print/epson-inkjet-printer-escpr
 	net-print/starcupsdrv
 	internal? ( net-print/konica-minolta-printing-license )
