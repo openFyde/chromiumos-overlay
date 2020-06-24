@@ -15,6 +15,8 @@ app-shells/bash		-net
 # Drop this once we audit code to make sure we aren't using `echo -n` or `echo -e`.
 app-shells/dash	vanilla
 app-text/poppler	cairo
+app-text/tessdata_fast  osd
+app-text/tesseract      -doc jpeg -opencl -openmp png -static-libs tiff -training -webp
 dev-cpp/glog		gflags
 dev-db/sqlite		-extensions
 # Disable Segger J-Link for building openocd-0.10.0. We currently
@@ -51,6 +53,7 @@ media-libs/freeimage	png
 # TODO(derat): Unset glib for harfbuzz if/when pango is no longer needed:
 # http://crbug.com/691477
 media-libs/harfbuzz	-cairo -introspection
+media-libs/leptonica    zlib -gif jpeg  -jpeg2k png -static-libs -test tiff -utils -webp
 media-libs/libdvdread	-css
 media-libs/libsndfile	minimal
 # disabled in profiles/default/linux/package.use
