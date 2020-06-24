@@ -29,6 +29,7 @@ PATCHES=(
 	"${FILESDIR}"/0005-VP-Fix-memory-corruption.patch
 	"${FILESDIR}"/0006-Decoder-VP9-GEN-9-10-11-12-Fix-the-GPU-hang-due-to-w.patch
 	"${FILESDIR}"/0007-Decoder-VP9-GEN9-Disable-HPR-VP9-mode-switch-to-avoi.patch
+	"${FILESDIR}"/0008-VP-Fix-JSL-EHL-output-green-issues.patch
 )
 
 src_configure() {
