@@ -276,6 +276,7 @@ cros-rust_src_configure() {
 	# Since cargo will overwrites $HOST with "" when building pkg-config, we
 	# need to set it regardless of the value of tc-is-cross-compiler here.
 	export PKG_CONFIG_ALLOW_CROSS=1
+	export PKG_CONFIG="$(tc-getPKG_CONFIG)"
 	export TARGET="${CHOST}"
 	export TARGET_CC="$(tc-getCC)"
 
