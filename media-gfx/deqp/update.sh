@@ -17,7 +17,7 @@ declare -A git_repos=(
 
 for module in "${!git_repos[@]}"; do
     # Pull the git sha1 out of fetch_sources.py
-    revision=$(PYTHONPATH=$deqp_repo/external python -c "import fetch_sources; \
+    revision=$(PYTHONPATH=$deqp_repo/external python2 -c "import fetch_sources; \
 	print [p for p in fetch_sources.PACKAGES if p.baseDir == '$module'.lower()][0].revision")
 
     var=${module/-/_}
