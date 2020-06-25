@@ -143,7 +143,7 @@ ALL_BOARDS=(
 	enguarde
 	#envoy-jerry
 	eve
-	eve-arcdual
+	#eve-arcdual
 	eve-arcnext
 	eve-arc-r
 	eve-arcvm
