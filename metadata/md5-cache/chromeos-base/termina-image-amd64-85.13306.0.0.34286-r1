@@ -6,5 +6,5 @@ LICENSE=BSD-Google
 RDEPEND=!!chromeos-base/termina-image-arm
 RESTRICT=nomirror
 SLOT=0
-SRC_URI=gs://termina-component-testing/uprev-test/amd64/85.13304.0.0.34243/guest-vm-base.tbz -> termina-vm-amd64-85.13304.0.0.34243.tbz
+SRC_URI=gs://termina-component-testing/uprev-test/amd64/85.13306.0.0.34286/guest-vm-base.tbz -> termina-vm-amd64-85.13306.0.0.34286.tbz
 _md5_=46aa43e85453bbca1dc04ca8bbbcc269
