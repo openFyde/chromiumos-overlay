@@ -2,11 +2,11 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI="6"
-CROS_WORKON_COMMIT="fa6d593fc7f598de25fb3fbdc25a00fd0621eac7"
-CROS_WORKON_TREE="4171281676cb4c80d63ace4054f64b72c2fac60b"
+EAPI="7"
+CROS_WORKON_COMMIT="7b5cdbe2205ef23907e0cf30867013a5c8d0dffb"
+CROS_WORKON_TREE="be67916bc5a7eb2be0cc55683e3d5c4c06f32cfe"
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
-CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.8"
+CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.9"
 
 PYTHON_COMPAT=( python3_{6,7} )
 
@@ -23,7 +23,7 @@ IUSE="dbus"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 DEPEND="
-	dev-libs/libnl:3
+	dev-libs/libnl:3=
 	dev-libs/openssl:0=
 	net-libs/libpcap:=
 "

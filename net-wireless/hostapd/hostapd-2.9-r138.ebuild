@@ -2,10 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="fa6d593fc7f598de25fb3fbdc25a00fd0621eac7"
-CROS_WORKON_TREE="4171281676cb4c80d63ace4054f64b72c2fac60b"
+CROS_WORKON_COMMIT="7b5cdbe2205ef23907e0cf30867013a5c8d0dffb"
+CROS_WORKON_TREE="be67916bc5a7eb2be0cc55683e3d5c4c06f32cfe"
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
-CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.8"
+CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.9"
 
 inherit cros-workon toolchain-funcs savedconfig
 
@@ -16,7 +16,7 @@ SRC_URI=""
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
-IUSE="internal-tls ipv6 libressl logwatch netlink sqlite +wps +crda"
+IUSE="internal-tls ipv6 libressl logwatch netlink sqlite +suiteb +wps +crda"
 
 DEPEND="
 	libressl? ( dev-libs/libressl:0= )
@@ -62,6 +62,14 @@ src_configure() {
 	echo "CONFIG_EAP=y" >> ${CONFIG}
 	echo "CONFIG_ERP=y" >> ${CONFIG}
 	echo "CONFIG_EAP_MD5=y" >> ${CONFIG}
+	echo "CONFIG_SAE=y" >> ${CONFIG}
+	echo "CONFIG_OWE=y" >> ${CONFIG}
+	echo "CONFIG_DPP=y" >> ${CONFIG}
+
+	if use suiteb; then
+		echo "CONFIG_SUITEB=y" >> ${CONFIG}
+		echo "CONFIG_SUITEB192=y" >> ${CONFIG}
+	fi
 
 	if use internal-tls && ! use libressl; then
 		echo "CONFIG_TLS=internal" >> ${CONFIG}
@@ -101,8 +109,6 @@ src_configure() {
 	echo "CONFIG_EAP_GPSK_SHA256=y" >> ${CONFIG}
 	echo "CONFIG_EAP_UNAUTH_TLS=y" >> ${CONFIG}
 	echo "CONFIG_EAP_VENDOR_TEST=y" >> ${CONFIG}
-	echo "CONFIG_SUITEB=y" >> ${CONFIG}
-	echo "CONFIG_SUITEB192=y" >> ${CONFIG}
 
 	einfo "Enabling drivers: "
 
@@ -138,9 +144,6 @@ src_configure() {
 	echo "CONFIG_FST=y" >> ${CONFIG}
 	echo "CONFIG_FST_TEST=y" >> ${CONFIG}
 	echo "CONFIG_ACS=y" >> ${CONFIG}
-
-	# WPA3
-	echo "CONFIG_SAE=y" >> ${CONFIG}
 
 	if use netlink; then
 		# Netlink support
