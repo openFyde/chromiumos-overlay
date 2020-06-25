@@ -95,6 +95,14 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # are "system" and "user". (Default is "system".)
 : "${DLC_USED_BY:=system}"
 
+# @ECLASS-VARIABLE: DLC_MOUNT_FILE_REQUIRED
+# @DESCRIPTION:
+# By default, DLC mount points should be retrieved from the DBUS install method.
+# Places where DBus isn't accessible, use this flag to generate a file holding
+# the mount point as an indirect method of retrieving the DLC mount point.
+# (Default is false.)
+: "${DLC_MOUNT_FILE_REQUIRED:="false"}"
+
 # @FUNCTION: dlc_add_path
 # @USAGE: <path to add the DLC prefix to>
 # @RETURN:
@@ -134,6 +142,8 @@ dlc_src_install() {
 	[[ -z "${DLC_VERSION}" ]] && die "DLC_VERSION undefined"
 	[[ "${DLC_PRELOAD}" =~ ^(true|false)$ ]] || die "Invalid DLC_PRELOAD value"
 	[[ -z "${DLC_USED_BY}" ]] && die "DLC_USED_BY undefined"
+	[[ "${DLC_MOUNT_FILE_REQUIRED}" =~ ^(true|false)$ ]] \
+		|| die "Invalid DLC_MOUNT_FILE_REQUIRED value"
 
 	local args=(
 		--install-root-dir="${D}"
@@ -157,6 +167,10 @@ dlc_src_install() {
 
 	if [[ -n "${DLC_USED_BY}" ]]; then
 		args+=( --used-by="${DLC_USED_BY}" )
+	fi
+
+	if [[ "${DLC_MOUNT_FILE_REQUIRED}" == "true" ]]; then
+		args+=( --mount-file-required )
 	fi
 
 	"${CHROMITE_BIN_DIR}"/build_dlc "${args[@]}" \
