@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d06a2addc36213a4f33a2afecdda8b14a76f67af"
+CROS_WORKON_COMMIT="f893e46fb86e93ddd978c6545b58648ac0679195"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "f6e0b3ee8331ff95471b11ca8209319fbe3cb54e" "c0b816f19570ba7f0f522c1ff7a29bae14b8be22" "98c0db7e92836fcb71403a83973a9b5018fe6177" "33d78f54d89f3d574d0860c5f6adf96b2b7d5b87" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -45,7 +45,7 @@ COMMON_DEPEND="chromeos-base/bootstat:=
 RDEPEND="${COMMON_DEPEND}"
 
 DEPEND="${COMMON_DEPEND}
-	>=chromeos-base/protofiles-0.0.35:=
+	>=chromeos-base/protofiles-0.0.39:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vboot_reference:=
 "
