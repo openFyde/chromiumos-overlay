@@ -17,12 +17,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-# Previously this ebuild was named "chromeos-base/arcvm-launch".
-# TODO(youkichihosoi): Remove this blocker after a while.
 RDEPEND="
 	${RDEPEND}
 	chromeos-base/arc-setup
-	!chromeos-base/arcvm-launch
+	chromeos-base/arcvm-mount-media-dirs
 "
 
 src_install() {
