@@ -44,13 +44,13 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 
 # @ECLASS-VARIABLE: DLC_DESCRIPTION
 # @DESCRIPTION:
-# A human readable description for DLC. (Default is ${DESCRIPTION}.)
+# A human readable description for DLC.
 
 # @ECLASS-VARIABLE: DLC_ID
 # @DESCRIPTION:
 # Unique ID for the DLC among all DLCs. Needed to generate metadata for
 # imageloader. Used in creating directories for the image file and metadata. It
-# cannot contain '_' or '/'. (Default is ${PN}.)
+# cannot contain '_' or '/'.
 : "${DLC_ID:=${PN}}"
 
 # @ECLASS-VARIABLE: DLC_PACKAGE
@@ -58,12 +58,11 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # Unique ID for the package in the DLC. Each DLC can have multiple
 # packages. Needed to generate metadata for imageloader. Used in creating
 # directories for the image file and metadata. It cannot contain '_' or '/'.
-# (Default is "package".)
 : "${DLC_PACKAGE:=package}"
 
 # @ECLASS-VARIABLE: DLC_VERSION
 # @DESCRIPTION:
-# Version of the DLC being built. (Default is ${PVR}.)
+# Version of the DLC being built.
 : "${DLC_VERSION:=${PVR}}"
 
 # @ECLASS-VARIABLE: DLC_FS_TYPE
@@ -75,7 +74,7 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # @ECLASS-VARIABLE: DLC_PRELOAD
 # @DESCRIPTION:
 # Determines whether to preload the DLC for test images. A boolean must be
-# passed in. (Default is false.)
+# passed in.
 : "${DLC_PRELOAD:="false"}"
 
 # @ECLASS-VARIABLE: DLC_ENABLED
@@ -85,14 +84,13 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # ${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root, but if the variable is set to
 # "false", all the functions will ignore the path suffix and everything that
 # would have been installed inside the DLC, gets installed in the rootfs.
-# (Default is true.)
 : "${DLC_ENABLED:="true"}"
 
 # @ECLASS-VARIABLE: DLC_USED_BY
 # @DESCRIPTION:
 # Determines the user of the DLC, e.g. device users vs. system, so
 # dlcservice/UI can make predictable actions based on that. Acceptable values
-# are "system" and "user". (Default is "system".)
+# are "system" and "user".
 : "${DLC_USED_BY:=system}"
 
 # @ECLASS-VARIABLE: DLC_MOUNT_FILE_REQUIRED
@@ -100,7 +98,6 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # By default, DLC mount points should be retrieved from the DBUS install method.
 # Places where DBus isn't accessible, use this flag to generate a file holding
 # the mount point as an indirect method of retrieving the DLC mount point.
-# (Default is false.)
 : "${DLC_MOUNT_FILE_REQUIRED:="false"}"
 
 # @FUNCTION: dlc_add_path
