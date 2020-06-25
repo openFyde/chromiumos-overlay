@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile info install postinst prepare setup unpack
+DEPEND=!<chromeos-base/autotest-deps-0.0.4 dev-python/dpkt
+DESCRIPTION=Autotest p2p deps
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/autotest/
+IUSE=+autotest cros_host cros_workon_tree_dcb5d691c5a1cc9b45df6bf570acdfc01ffe7e60 +buildcheck autotest opengles
+KEYWORDS=*
+LICENSE=GPL-2
+PROPERTIES=live
+RDEPEND=!<chromeos-base/autotest-deps-0.0.4 dev-python/dpkt autotest? ( chromeos-base/autotest )
+SLOT=0
+_eclasses_=autotest	605b7cb5c6f24c3d362106dee3d4b20e	autotest-deponly	9b1e5d19c437abea0e7c0fa90c192abd	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	b2f01ad412baf81650c23fcf0975fa33	python-any-r1	4900ae970f827a22d33d41bd8b8f9ace	python-utils-r1	931c328767d245c08a16a3f87be9ce9c	toolchain-funcs	3cb0797c46fb39c3e7c1aa9962ba6848
+_md5_=ae353c5f48cac09ba9bd55b6c27d269a
