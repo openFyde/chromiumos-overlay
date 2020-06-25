@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d06a2addc36213a4f33a2afecdda8b14a76f67af"
+CROS_WORKON_COMMIT="2a1e4bf11126c6911f994f37cee6798b37a79cbd"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "8e9bcaf3e5b3ce97b8aa186fbfdd4a77576b418d" "f6e0b3ee8331ff95471b11ca8209319fbe3cb54e" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,7 +30,6 @@ IUSE="
 	generated_cros_config
 	houdini
 	houdini64
-	native_bridge_64bit_support_experiment
 	ndk_translation
 	unibuild"
 

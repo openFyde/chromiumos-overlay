@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="a6fe3c42e351eb07ab2508eff1a602e56501f8eb"
-CROS_WORKON_TREE="4af1aad73608b58aa4c6155a7cfb6bdb18611e7e"
+CROS_WORKON_COMMIT="2a1e4bf11126c6911f994f37cee6798b37a79cbd"
+CROS_WORKON_TREE="7b9b958444461dbad59569baa6017c9a78734413"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="vm_tools/crostini_client"
