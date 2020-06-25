@@ -35,6 +35,7 @@ IUSE="
 	opengl
 	opengles
 	p2p
+	scanner
 	+shill
 	+tpm
 	tpm2
@@ -90,6 +91,7 @@ CROS_COMMON_RDEPEND="
 	chromeos-base/factory-deps
 	biod? ( virtual/chromeos-fpmcu-test )
 	hammerd? ( chromeos-base/hammerd-test-utils )
+	scanner? ( chromeos-base/lorgnette_cli )
 	ml_service? ( chromeos-base/ml-cmdline )
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
