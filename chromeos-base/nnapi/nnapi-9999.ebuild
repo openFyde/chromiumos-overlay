@@ -112,8 +112,8 @@ src_install() {
 	insinto /usr/include/aosp/android
 	doins ../aosp/frameworks/native/include/android/sharedmem.h
 
-	einfo "Installing static library."
-	dolib.a "${OUT}/libnnapi-support.a"
+	einfo "Installing the shared library."
+	dolib.so "${OUT}/lib/libnnapi-support.so"
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}/obj/nnapi/libnnapi-support.pc"
