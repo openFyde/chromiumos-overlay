@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e8999b134ae1f3a266907195001894ff1b5b2f3e"
+CROS_WORKON_COMMIT="29099f9ef65f1c5f58ea747e4958d55a233fc48e"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "375bcc96d122f17a1a6121c9b58ab421d76873fc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -83,4 +83,5 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/libbrillo_tests" "" "" "${gtest_filter_qemu}"
 	platform_test "run" "${OUT}/libinstallattributes_tests"
 	platform_test "run" "${OUT}/libpolicy_tests"
+	platform_test "run" "${OUT}/libbrillo-grpc_tests"
 }
