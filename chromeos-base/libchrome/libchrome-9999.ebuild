@@ -9,6 +9,7 @@ CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 WANT_LIBCHROME="no"
+IS_LIBCHROME="yes"
 inherit cros-workon libchrome-version platform
 
 DESCRIPTION="Chrome base/ and dbus/ libraries extracted for use on Chrome OS"

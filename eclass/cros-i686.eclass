@@ -38,6 +38,7 @@ board_setup_32bit_au_env()
 		append-ldflags "-Xclang-only=-Wl,--allow-multiple-definition"
 	fi
 	__AU_OLD_SYSROOT=${SYSROOT}
+	export LIBCHROME_SYSROOT=${SYSROOT}
 	export SYSROOT=/usr/${CHOST}
 	append-ldflags -L"${__AU_OLD_SYSROOT}"/usr/lib
 	append-cppflags -isystem "${__AU_OLD_SYSROOT}"/usr/include
@@ -71,6 +72,7 @@ board_teardown_32bit_au_env()
 		# glibc.
 		filter-flags "-Xclang-only=-Wl,--allow-multiple-definition"
 	fi
+	unset LIBCHROME_SYSROOT
 }
 
 # An ebuild inheriting from "cros-i686" should also build i686 binaries if this

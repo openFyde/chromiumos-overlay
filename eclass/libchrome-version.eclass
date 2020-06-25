@@ -11,5 +11,24 @@
 # @DESCRIPTION:
 # This eclass manages the libchrome version.
 
-[[ -z ${LIBCHROME_VERS} ]] && LIBCHROME_VERS=( 679961 )
+# LIBCHROME_VERS and BASE_VER are deprecated. Use libchrome_ver instead.
+LIBCHROME_VERS=( 679961 )
 export BASE_VER="${LIBCHROME_VERS[0]}"
+
+# @FUNCTION: libchrome_ver
+# @DESCRIPTION:
+# Output current libchrome BASE_VER, from SYSROOT-installed BASE_VER file.
+# IS_LIBCHROME or LIBCHROME_SYSROOT can be set.
+# If IS_LIBCHROME is set, it read ${S}/BASE_VER instead.
+# If LIBCHROME_SYSROOT is set, it read $LIBCHROME_SYSROOT-installed BASE_VER
+# file.
+libchrome_ver() {
+	local basever_file="${SYSROOT}/usr/share/libchrome/BASE_VER"
+	if [[ -n "${IS_LIBCHROME}" ]]; then
+		basever_file="${S}/BASE_VER"
+	fi
+	if [[ -n "${LIBCHROME_SYSROOT}" ]]; then
+		basever_file="${LIBCHROME_SYSROOT}/usr/share/libchrome/BASE_VER"
+	fi
+	cat "${basever_file}" || die "cat ${basever_file} error. Please depends on libchrome if you use it."
+}

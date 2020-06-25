@@ -130,6 +130,9 @@ platform() {
 		libdir="/vendor/$(get_libdir)"
 		cache_dir="${BUILD_DIR}"
 	fi
+	if [[ "${WANT_LIBCHROME}" == "yes" || -n "${IS_LIBCHROME}" ]]; then
+		export BASE_VER="$(libchrome_ver)"
+	fi
 	local cmd=(
 		"${platform2_py}"
 		$(platform_get_target_args)
