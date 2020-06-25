@@ -86,6 +86,7 @@ src_prepare() {
 }
 
 src_install() {
+	export BASE_VER="$(cat BASE_VER)"
 	dolib.so "${OUT}"/lib/libbase*-"${BASE_VER}".so
 	dolib.a "${OUT}"/libbase*-"${BASE_VER}".a
 
@@ -236,4 +237,7 @@ src_install() {
 		insinto /usr/share/libchrome/mojom_type_mappings_typemapping
 		doins "${OUT}"/gen/libchrome/mojom_type_mappings_typemapping
 	fi
+
+	insinto /usr/share/libchrome
+	doins BASE_VER
 }
