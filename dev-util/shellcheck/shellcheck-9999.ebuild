@@ -16,9 +16,6 @@ CABAL_EXTRA_CONFIGURE_FLAGS="--disable-executable-dynamic
 
 inherit cros-workon haskell-cabal
 
-MY_PN="ShellCheck"
-MY_P="${MY_PN}-${PV}"
-
 DESCRIPTION="Shell script analysis tool"
 HOMEPAGE="https://www.shellcheck.net/"
 
