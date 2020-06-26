@@ -33,7 +33,7 @@ BDEPEND="chromeos-base/vboot_reference"
 
 # TODO(sjg@chromium.org): Drop this zork stuff when the code is upstream
 DEPEND="
-	zork? ( || ( sys-boot/coreboot-zork:= sys-boot/coreboot:= ) )
+	zork? ( || ( sys-boot/coreboot:= sys-boot/coreboot-zork:= ) )
 	!zork? ( sys-boot/coreboot:= )
 	depthcharge? ( sys-boot/depthcharge:= )
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
