@@ -26,9 +26,6 @@ src_install() {
 
 	dobin host/start_devserver
 
-	dosym /build /var/lib/devserver/static/pkgroot
-	dosym /var/lib/devserver/static /usr/lib/devserver/static
-
 	# Install Mob* Monitor checkfiles for the devserver.
 	insinto "/etc/mobmonitor/checkfiles/devserver/"
 	doins -r "${S}/checkfiles/devserver/"*
