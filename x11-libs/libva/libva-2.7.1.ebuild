@@ -26,11 +26,9 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
-# TODO(b/159825228): depend on libva-intel-media-driver-20.1.1 once that
-# package is upreved.
 PDEPEND="
 	video_cards_intel? ( !video_cards_iHD? ( >=x11-libs/libva-intel-driver-2.0.0[${MULTILIB_USEDEP}] ) )
-	video_cards_iHD? ( ~x11-libs/libva-intel-media-driver-19.4.0[${MULTILIB_USEDEP}] )
+	video_cards_iHD? ( ~x11-libs/libva-intel-media-driver-20.1.1[${MULTILIB_USEDEP}] )
 	video_cards_amdgpu? ( virtual/opengles[${MULTILIB_USEDEP}] )
 	utils? ( media-video/libva-utils )
 "
