@@ -60,6 +60,7 @@ PATCHES=(
 	"${FILESDIR}"/0014-VP-Fix-memory-corruption-due-to-improper-typecast.patch
 	"${FILESDIR}"/0015-Support-up-to-8Kx8K-VP9-encoding-on-GEN12.patch
 	"${FILESDIR}"/0016-Decoder-VP9-GEN-9-10-11-12-Fix-the-GPU-hang-due-to-w.patch
+	"${FILESDIR}"/0017-Decoder-VP9-GEN9-Disable-HPR-VP9-mode-switch-to-avoi.patch
 )
 
 src_configure() {
