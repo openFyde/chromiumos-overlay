@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2a1e4bf11126c6911f994f37cee6798b37a79cbd"
+CROS_WORKON_COMMIT="4daccb748fdd6385f593068dc84773f7bf7c4a9f"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "7e189936f29d145c4191ea147e48256c92fac75d" "26b7d886fdda8b3bdd9e8172052a45438ef3d7bd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,8 +17,6 @@ inherit cros-workon platform udev user arc-build-constants
 
 DESCRIPTION="VM host tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
-CREDITS_SRC="linux_credits-10895.tar.bz2"
-SRC_URI="gs://chromeos-localmirror/distfiles/${CREDITS_SRC}"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -64,12 +62,6 @@ get_vmlog_forwarder_stop_services() {
 		stop_services+=" and stopped wilco_dtc_dispatcher"
 	fi
 	echo "${stop_services}"
-}
-
-src_unpack() {
-	platform_src_unpack
-
-	unpack "${CREDITS_SRC}"
 }
 
 src_install() {
@@ -122,15 +114,6 @@ src_install() {
 
 	udev_dorules udev/99-vm.rules
 
-	# TODO(crbug.com/876898): Remove hardcoded credits file.
-	local credits_arch="unknown"
-	case ${ARCH} in
-		amd64) credits_arch=x86;;
-		arm) credits_arch=arm;;
-		arm64) credits_arch=arm;;
-	esac
-	insinto /opt/google/chrome/resources
-	newins "${WORKDIR}/credits_${credits_arch}.html" linux_credits.html
 	keepdir /opt/google/vms
 }
 

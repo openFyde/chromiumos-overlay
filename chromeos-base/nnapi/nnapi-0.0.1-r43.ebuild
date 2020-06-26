@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("c142078820d0707858873cedb290a78d36f531af" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
-CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "0f095d7a9081a05a18054d35110633ace808d704" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d59698b9aacd42201a585bee90f33719caa6338b" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "934fe42dbc7182e5775cb5717e7cb29644a6eae8" "3e10262144e64652e5c70fe978e1d6bae433ab27")
+CROS_WORKON_COMMIT=("4daccb748fdd6385f593068dc84773f7bf7c4a9f" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
+CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "05962187c8896f54496078446c8eea6118cf7ffd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d59698b9aacd42201a585bee90f33719caa6338b" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "934fe42dbc7182e5775cb5717e7cb29644a6eae8" "3e10262144e64652e5c70fe978e1d6bae433ab27")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/native"
@@ -114,8 +114,8 @@ src_install() {
 	insinto /usr/include/aosp/android
 	doins ../aosp/frameworks/native/include/android/sharedmem.h
 
-	einfo "Installing static library."
-	dolib.a "${OUT}/libnnapi-support.a"
+	einfo "Installing the shared library."
+	dolib.so "${OUT}/lib/libnnapi-support.so"
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}/obj/nnapi/libnnapi-support.pc"
