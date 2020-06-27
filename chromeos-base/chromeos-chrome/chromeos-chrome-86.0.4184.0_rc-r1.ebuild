@@ -144,13 +144,11 @@ RDEPEND="${RDEPEND}
 	chrome_internal? ( chromeos-base/quickoffice )
 	dev-libs/nspr
 	>=dev-libs/nss-3.12.2
-	dev-libs/libxml2
 	>=media-libs/alsa-lib-1.0.19
 	media-libs/fontconfig
 	media-libs/libsync
 	x11-libs/libdrm
 	ozone_platform_gbm? ( media-libs/minigbm )
-	media-libs/libpng
 	v4lplugin? ( media-libs/libv4lplugins )
 	>=media-sound/adhd-0.0.1-r310
 	net-print/cups
@@ -161,7 +159,6 @@ RDEPEND="${RDEPEND}
 	virtual/udev
 	sys-libs/libcap
 	chrome_remoting? ( sys-libs/pam )
-	sys-libs/zlib
 	vaapi? ( x11-libs/libva )
 	xkbcommon? (
 		x11-libs/libxkbcommon
