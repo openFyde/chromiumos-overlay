@@ -16,8 +16,12 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/how-tos-and-troubleshooting/using-
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
-RDEPEND="!<chromeos-base/cros-devutils-0.0.4
-	chromeos-base/devserver-deps
+RDEPEND="
+	dev-lang/python
+	dev-python/protobuf-python
+	dev-python/cherrypy
+	net-misc/gsutil
+	dev-python/rtslib-fb
 "
 DEPEND="
 	dev-python/psutil
