@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="23c9de2ae278ee869c6557c76fd3f1c05016aed3"
-CROS_WORKON_TREE="01b1b77a408bbd04b53f7da19663f9bd128454ca"
+CROS_WORKON_COMMIT="cdd63949de7c01735bb4aaa50baccf143a08f47f"
+CROS_WORKON_TREE="e082480e1799466cfba040a0b86a4bd92ae94e35"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="platform/dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -27,9 +27,6 @@ src_install() {
 	emake install DESTDIR="${D}"
 
 	dobin host/start_devserver
-
-	dosym /build /var/lib/devserver/static/pkgroot
-	dosym /var/lib/devserver/static /usr/lib/devserver/static
 
 	# Install Mob* Monitor checkfiles for the devserver.
 	insinto "/etc/mobmonitor/checkfiles/devserver/"
