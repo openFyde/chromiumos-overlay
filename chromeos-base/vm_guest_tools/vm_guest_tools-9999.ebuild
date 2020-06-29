@@ -56,6 +56,7 @@ src_install() {
 
 	if use vm-containers; then
 		dobin "${OUT}"/garcon
+		dobin "${OUT}"/guest_service_failure_notifier
 		dobin "${OUT}"/notificationd
 		dobin "${OUT}"/upgrade_container
 		dobin "${OUT}"/virtwl_guest_proxy

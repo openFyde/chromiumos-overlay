@@ -32,6 +32,7 @@ src_install() {
 	local tools=(
 		"/usr/bin/chunnel"
 		"/usr/bin/garcon"
+		"/usr/bin/guest_service_failure_notifier"
 		"/usr/bin/notificationd"
 		"/usr/bin/sommelier"
 		"/usr/bin/wayland_demo"
