@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("054fbb5a6f9a89ac5fa6029e091c040191afc1dd" "8d6531edce175c1d9f90fa69b4699f70f26ab81f")
+CROS_WORKON_COMMIT=("8e30ee31d083e282a1068d5e79434439545ccea6" "8d6531edce175c1d9f90fa69b4699f70f26ab81f")
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "41849b495daa50e4e7be06dbd21f806034500be4")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -37,13 +37,13 @@ KEYWORDS="*"
 IUSE="cpu_flags_x86_avx2 vendor-nnhal"
 
 RDEPEND="
+	chromeos-base/nnapi:=
 	dev-libs/openssl:=
 	sci-libs/tensorflow:=
 "
 
 DEPEND="
 	${RDEPEND}
-	chromeos-base/nnapi
 	dev-libs/libtextclassifier
 	>=dev-cpp/eigen-3
 "
