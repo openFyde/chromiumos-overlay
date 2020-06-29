@@ -22,6 +22,9 @@ KEYWORDS="~*"
 
 src_install() {
 	dobin "${OUT}"/typecd
+
+	insinto /etc/init
+	doins init/*.conf
 }
 
 pkg_preinst() {
