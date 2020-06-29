@@ -26,6 +26,7 @@ PATCHES=(
 	"${FILESDIR}/keep-alive.patch"
 	"${FILESDIR}/larger-buffer.patch"
 	"${FILESDIR}/log-usb-acquire-error.patch"
+	"${FILESDIR}/usb-race.patch"
 )
 
 src_prepare() {
