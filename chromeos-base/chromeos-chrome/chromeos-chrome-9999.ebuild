@@ -46,7 +46,7 @@ IUSE="
 	+debug_fission
 	+fonts
 	goma
-	goma_thinlto
+	+goma_thinlto
 	+highdpi
 	internal_gles_conform
 	+libcxx
