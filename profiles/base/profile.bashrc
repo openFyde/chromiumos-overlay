@@ -180,30 +180,84 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		return
 	fi
 
+	# Note: Do not add any more packages to these lists.  Fix the bugs instead.
+
 	# TODO(vapier): Finish fixing these packages.
-	case ${CATEGORY}/${PN} in
-	*/gdb) return ;;
-	# Haskell has some internal logic that invokes `pkg-config --version`.
-	app-admin/haskell-updater) return ;;
-	dev-embedded/u-boot-tools) return ;;
-	dev-util/shellcheck) return ;;
-	dev-haskell/*) return ;;
-	dev-lang/ghc) return ;;
-	dev-lang/ruby) return ;;
-	dev-lang/rust) return ;;
-	dev-python/pycairo) return ;;
-	media-video/ffmpeg) return ;;
-	net-analyzer/wireshark) return ;;
-	# Used during `aclocal` to find glib macros.
-	x11-libs/cairo) return ;;
-	esac
+	_build_filter_pkg_config() {
+		case ${CATEGORY}/${PN} in
+		*/gdb) return 1;;
+		# Haskell has some internal logic that invokes `pkg-config --version`.
+		app-admin/haskell-updater) return 1;;
+		dev-embedded/u-boot-tools) return 1;;
+		dev-util/shellcheck) return 1;;
+		dev-haskell/*) return 1;;
+		dev-lang/ghc) return 1;;
+		dev-lang/ruby) return 1;;
+		dev-lang/rust) return 1;;
+		dev-python/pycairo) return 1;;
+		media-video/ffmpeg) return 1;;
+		net-analyzer/wireshark) return 1;;
+		# Used during `aclocal` to find glib macros.
+		x11-libs/cairo) return 1;;
+		esac
+	}
+	_build_filter_cc() {
+		case ${CATEGORY}/${PN} in
+		*/binutils|\
+		*/gcc|\
+		app-text/xmlto|\
+		dev-embedded/u-boot-tools|\
+		dev-libs/libffi|\
+		dev-libs/libusb-compat|\
+		dev-libs/lzo|\
+		dev-python/grpcio|\
+		dev-python/psutil|\
+		dev-util/patchutils|\
+		net-libs/libmnl|\
+		sys-apps/groff|\
+		sys-devel/m4|\
+		sys-libs/binutils-libs|\
+		x11-libs/gdk-pixbuf) return 1;;
+		esac
+	}
+	_build_filter_gcc() {
+		case ${CATEGORY}/${PN} in
+		cross-*/glibc|\
+		*/linux-headers|\
+		chromeos-base/ec-utils|\
+		dev-embedded/u-boot-tools|\
+		dev-python/numpy|\
+		dev-util/ragel|\
+		net-misc/socat|\
+		sys-boot/grub|\
+		sys-boot/syslinux|\
+		sys-libs/binutils-libs|\
+		sys-libs/libselinux) return 1;;
+		esac
+	}
+	_build_filter_g++() {
+		return 0
+	}
+	_build_filter_clang() {
+		case ${CATEGORY}/${PN} in
+		chromeos-base/ec-devutils) return 1;;
+		esac
+	}
+	_build_filter_clang++() {
+		return 0
+	}
 
 	local dir="${T}/build-toolchain-wrappers"
 	mkdir -p "${dir}"
 	local tool tcvar
-	for tool in pkg-config; do
+	for tool in clang clang++ c++ g++ cc gcc pkg-config; do
 		tcvar=${tool^^}
 		tcvar=${tcvar//-/_}
+
+		case ${tool} in
+		cc|clang|clang++|g++|gcc|pkg-config) _build_filter_${tool//-/_} || continue;;
+		esac
+
 		cat <<EOF > "${dir}/${tool}"
 #!/bin/sh
 $(which eerror) "\$(
