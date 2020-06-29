@@ -35,13 +35,13 @@ KEYWORDS="~*"
 IUSE="cpu_flags_x86_avx2 vendor-nnhal"
 
 RDEPEND="
+	chromeos-base/nnapi:=
 	dev-libs/openssl:=
 	sci-libs/tensorflow:=
 "
 
 DEPEND="
 	${RDEPEND}
-	chromeos-base/nnapi
 	dev-libs/libtextclassifier
 	>=dev-cpp/eigen-3
 "
