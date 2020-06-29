@@ -21,11 +21,14 @@ KEYWORDS="~*"
 RDEPEND=""
 
 DEPEND="
+	chromeos-base/libbrillo:=
 	chromeos-base/system_api:=
 "
 
 src_install() {
 	dolib.so "${OUT}"/lib/libbiod_proxy.so
+	insinto /usr/include/biod/biod_proxy/
+	doins ./*.h
 }
 
 platform_pkg_test() {
