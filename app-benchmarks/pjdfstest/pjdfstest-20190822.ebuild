@@ -30,7 +30,7 @@ S="${WORKDIR}/${PN}-${GIT_HASH}"
 src_prepare() {
 	default
 	# This test passes on 64-bit hosts but not on 32-bit hosts.
-	use amd64 || eapply "${FILESDIR}/${P}-fix-2038.patch"
+	use amd64 || use arm64 || eapply "${FILESDIR}/${P}-fix-2038.patch"
 	eautoreconf
 }
 
