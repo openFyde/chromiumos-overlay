@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a368bcaed77ea0a3d363264280545048dc678aff"
-CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "98c0db7e92836fcb71403a83973a9b5018fe6177" "7e189936f29d145c4191ea147e48256c92fac75d" "1540d4d32fca11e3e8611d6480479ba8d8e05eb2" "3beedc5f4dfdaee00a216accee58e807058e10fe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c9f6c3082c0a6c999639ad58c4a4a287c6b39e3a"
+CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "98c0db7e92836fcb71403a83973a9b5018fe6177" "7e189936f29d145c4191ea147e48256c92fac75d" "12163c3ea9e383bf1e4b958871b3ac7b64f7a047" "3beedc5f4dfdaee00a216accee58e807058e10fe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -216,7 +216,7 @@ src_install() {
 	doexe init/*.sh
 
 	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/shill_whitelist.txt
+	doins setuid_restrictions/shill_allowed.txt
 
 	udev_dorules udev/*.rules
 
