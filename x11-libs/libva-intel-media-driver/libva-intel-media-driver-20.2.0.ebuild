@@ -24,6 +24,7 @@ RDEPEND="${DEPEND}"
 PATCHES=(
 	"${FILESDIR}"/0001-Disable-IPC-usage.patch
 	"${FILESDIR}"/0002-Decoder-VP9-GEN9-Disable-HPR-VP9-mode-switch-to-avoi.patch
+	"${FILESDIR}"/0003-ENCODE-change-slice-header-prefix-for-AVC-Vdenc.patch
 )
 
 src_configure() {
