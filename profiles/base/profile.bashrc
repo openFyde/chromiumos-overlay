@@ -174,16 +174,17 @@ cros_post_src_compile_python_eclass_hack() {
 # x86_64 boards (since the SDK is x86_64), but it's still unreliable.
 # https://crbug.com/985180
 cros_pre_src_prepare_build_toolchain_catch() {
-	# TODO(vapier): Only enabled for the SDK currently.  Boards have too many
-	# failing packages currently.
-	if [[ $(cros_target) != "cros_host" ]]; then
-		return
+	local targetenv
+	if [[ $(cros_target) == "cros_host" ]]; then
+		targetenv="sdk"
+	else
+		targetenv="board"
 	fi
 
 	# Note: Do not add any more packages to these lists.  Fix the bugs instead.
 
 	# TODO(vapier): Finish fixing these packages.
-	_build_filter_pkg_config() {
+	_sdk_build_filter_pkg_config() {
 		case ${CATEGORY}/${PN} in
 		*/gdb) return 1;;
 		# Haskell has some internal logic that invokes `pkg-config --version`.
@@ -201,7 +202,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		x11-libs/cairo) return 1;;
 		esac
 	}
-	_build_filter_cc() {
+	_sdk_build_filter_cc() {
 		case ${CATEGORY}/${PN} in
 		*/binutils|\
 		*/gcc|\
@@ -223,7 +224,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		x11-libs/gdk-pixbuf) return 1;;
 		esac
 	}
-	_build_filter_gcc() {
+	_sdk_build_filter_gcc() {
 		case ${CATEGORY}/${PN} in
 		cross-*/glibc|\
 		*/linux-headers|\
@@ -238,18 +239,18 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-libs/libselinux) return 1;;
 		esac
 	}
-	_build_filter_g++() {
+	_sdk_build_filter_g++() {
 		return 0
 	}
-	_build_filter_clang() {
+	_sdk_build_filter_clang() {
 		case ${CATEGORY}/${PN} in
 		chromeos-base/ec-devutils) return 1;;
 		esac
 	}
-	_build_filter_clang++() {
+	_sdk_build_filter_clang++() {
 		return 0
 	}
-	_build_filter_ld() {
+	_sdk_build_filter_ld() {
 		case ${CATEGORY}/${PN} in
 		app-crypt/nss|\
 		cross-*/gcc|\
@@ -260,10 +261,187 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		dev-util/perf) return 1;;
 		esac
 	}
-	_build_filter_as() {
+	_sdk_build_filter_as() {
 		case ${CATEGORY}/${PN} in
 		dev-embedded/coreboot-sdk|\
 		dev-libs/nspr) return 1;;
+		esac
+	}
+
+	_board_build_filter_pkg_config() {
+		case ${CATEGORY}/${PN} in
+		app-benchmarks/lmbench|\
+		app-emulation/docker|\
+		app-text/ghostscript-gpl|\
+		chromeos-base/autotest-tests-lakitu|\
+		media-libs/arc-cros-gralloc|\
+		media-libs/arc-img-ddk|\
+		media-libs/arc-mali-drivers|\
+		media-libs/arc-mali-drivers-bifrost|\
+		media-libs/arc-mesa|\
+		media-libs/arc-mesa-amd|\
+		media-libs/arc-mesa-freedreno|\
+		media-libs/arc-mesa-img|\
+		media-libs/arc-mesa-iris|\
+		media-libs/arc-mesa-virgl|\
+		media-libs/mali-drivers-bifrost|\
+		media-libs/mali-drivers-valhall|\
+		media-libs/mesa|\
+		media-libs/mesa-amd|\
+		media-libs/mesa-llvmpipe|\
+		net-analyzer/wireshark|\
+		net-dns/dnsmasq|\
+		net-misc/dhcpcd|\
+		net-misc/improxy|\
+		net-print/cups|\
+		sys-apps/cavium-n3fips-driver|\
+		sys-apps/fwupd|\
+		sys-apps/loadpin-trigger|\
+		sys-apps/snaggletooth-drivers|\
+		sys-boot/coreboot|\
+		sys-boot/depthcharge|\
+		sys-boot/libpayload|\
+		sys-boot/loonix-u-boot|\
+		sys-boot/u-boot|\
+		sys-devel/arc-llvm|\
+		sys-devel/gdb|\
+		sys-fs/avfs|\
+		sys-kernel/arcvm-kernel-*|\
+		sys-kernel/chromeos-kernel-*|\
+		sys-kernel/dump-capture-kernel|\
+		sys-kernel/gw-kernel-*|\
+		sys-kernel/kernel-beaglebone-*|\
+		sys-kernel/lakitu-kernel-*|\
+		sys-kernel/loonix-kernel-*|\
+		sys-kernel/raspberrypi-kernel|\
+		sys-kernel/ti-nokia-kernel|\
+		sys-kernel/upstream-kernel-*|\
+		sys-libs/efivar|\
+		x11-base/xwayland|\
+		x11-libs/arc-libdrm|\
+		x11-libs/cairo) return 1;;
+		esac
+	}
+	_board_build_filter_cc() {
+		case ${CATEGORY}/${PN} in
+		app-benchmarks/sysbench|\
+		dev-libs/libdaemon|\
+		dev-libs/libffi|\
+		dev-libs/libusb-compat|\
+		dev-python/grpcio|\
+		dev-python/psutil|\
+		media-libs/libogg|\
+		net-dns/avahi|\
+		net-libs/libmnl|\
+		net-libs/libnetfilter_cthelper|\
+		net-libs/libnetfilter_cttimeout|\
+		net-libs/libnetfilter_queue|\
+		net-libs/libnfnetlink|\
+		net-misc/nldaemon|\
+		net-wireless/openthread|\
+		net-wireless/ot-br-posix|\
+		sys-apps/groff|\
+		sys-apps/kbd|\
+		sys-apps/ureadahead|\
+		sys-block/parted|\
+		sys-boot/arria10-u-boot|\
+		sys-boot/loonix-u-boot|\
+		sys-devel/binutils|\
+		sys-devel/gdb|\
+		sys-devel/m4|\
+		sys-fs/rar2fs|\
+		sys-libs/gcc-libs|\
+		x11-libs/gdk-pixbuf) return 1;;
+		esac
+	}
+	_board_build_filter_gcc() {
+		case ${CATEGORY}/${PN} in
+		app-benchmarks/lmbench|\
+		app-emulation/docker|\
+		chromeos-base/autotest-tests|\
+		chromeos-base/chromeos-ec|\
+		chromeos-base/chromeos-ish|\
+		chromeos-base/ec-utils|\
+		dev-go/syzkaller|\
+		dev-python/numpy|\
+		media-libs/arc-img-ddk|\
+		media-libs/img-ddk|\
+		media-sound/gsm|\
+		net-fs/autofs|\
+		net-misc/socat|\
+		sys-apps/cavium-n3fips-tools|\
+		sys-block/blktrace|\
+		sys-boot/chromeos-mrc|\
+		sys-boot/coreboot|\
+		sys-boot/depthcharge|\
+		sys-boot/grub-lakitu|\
+		sys-boot/libpayload|\
+		sys-boot/qca-framework|\
+		sys-boot/syslinux|\
+		sys-firmware/chromeos-fpmcu-release-bloonchipper|\
+		sys-firmware/chromeos-fpmcu-release-dartmonkey|\
+		sys-firmware/chromeos-fpmcu-release-nami|\
+		sys-firmware/chromeos-fpmcu-release-nocturne|\
+		sys-fs/mdadm|\
+		sys-kernel/linux-headers|\
+		sys-libs/efivar) return 1;;
+		esac
+	}
+	_board_build_filter_g++() {
+		case ${CATEGORY}/${PN} in
+		media-libs/img-ddk|\
+		net-print/hplip|\
+		sys-boot/qca-framework) return 1;;
+		esac
+	}
+	_board_build_filter_clang() {
+		case ${CATEGORY}/${PN} in
+		chromeos-base/autotest-tests-lakitu|\
+		chromeos-base/chromeos-ec|\
+		chromeos-base/ec-devutils|\
+		media-libs/arc-mali-drivers-bifrost|\
+		media-libs/mali-drivers-bifrost|\
+		media-libs/mali-drivers-valhall|\
+		net-libs/nodejs|\
+		sys-boot/coreboot|\
+		sys-boot/libpayload|\
+		sys-devel/arc-llvm|\
+		sys-devel/llvm) return 1;;
+		esac
+	}
+	_board_build_filter_clang++() {
+		case ${CATEGORY}/${PN} in
+		media-libs/arc-mali-drivers-bifrost|\
+		media-libs/mali-drivers-bifrost|\
+		media-libs/mali-drivers-valhall|\
+		net-libs/nodejs|\
+		sys-devel/arc-llvm|\
+		sys-devel/llvm) return 1;;
+		esac
+	}
+	_board_build_filter_ld() {
+		case ${CATEGORY}/${PN} in
+		app-crypt/nss|\
+		dev-libs/nss|\
+		dev-util/perf|\
+		media-libs/arc-mali-drivers-bifrost|\
+		media-libs/mali-drivers-bifrost|\
+		sys-kernel/arcvm-kernel-*|\
+		sys-kernel/chromeos-kernel-*|\
+		sys-kernel/dump-capture-kernel|\
+		sys-kernel/lakitu-kernel-*|\
+		sys-kernel/raspberrypi-kernel|\
+		sys-kernel/upstream-kernel-*|\
+		sys-libs/gcc-libs) return 1;;
+		esac
+	}
+	_board_build_filter_as() {
+		case ${CATEGORY}/${PN} in
+		dev-embedded/coreboot-sdk|\
+		dev-libs/nspr|\
+		net-misc/nldaemon|\
+		sys-boot/coreboot|\
+		sys-boot/libpayload) return 1;;
 		esac
 	}
 
@@ -276,7 +454,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 
 		case ${tool} in
 		as|cc|clang|clang++|g++|gcc|ld|pkg-config)
-			_build_filter_${tool//-/_} || continue
+			_${targetenv}_build_filter_${tool//-/_} || continue
 			;;
 		esac
 
