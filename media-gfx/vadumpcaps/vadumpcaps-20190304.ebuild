@@ -16,22 +16,13 @@ DOCS="README.md"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+drm test wayland X"
 
 RDEPEND="
-	>=x11-libs/libva-2.1.0[drm?,wayland?,X?]
-	drm? ( >=x11-libs/libdrm-2.4 )
-	X? (
-		>=x11-libs/libX11-1.6.2
-		>=x11-libs/libXext-1.3.2
-		>=x11-libs/libXfixes-5.0.1
-	)
-	wayland? ( >=dev-libs/wayland-1.0.6 )"
+	>=x11-libs/libva-2.1.0
+	>=x11-libs/libdrm-2.4"
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
-
-REQUIRED_USE="|| ( drm wayland X )"
 
 src_prepare() {
 	epatch "${FILESDIR}"/avoid_using_VAProcFilterHighDynamicRangeToneMapping.patch
