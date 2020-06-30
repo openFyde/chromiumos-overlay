@@ -73,8 +73,9 @@ QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 # Think about: ggi, fbcon, no-X configs
 
 driver_list() {
-	local drivers="$(sort -u <<< "${1// /$'\n'}")"
-	echo "${drivers//$'\n'/,}"
+	local uniq_driver=($(printf "%s\n" "$@" | sort -u))
+	local IFS=,
+	echo "${uniq_driver[*]}"
 }
 
 pkg_setup() {
@@ -243,8 +244,6 @@ multilib_src_configure() {
 		-Dgallium-vdpau=false
 		-Dgallium-xvmc=false
 		-Dgallium-omx=disabled
-		-Dgallum-xa=false
-		-Dasm=false
 		-Dglx=disabled
 		-Ddri3=false
 		-Dgles-lib-suffix=_mesa
@@ -257,9 +256,9 @@ multilib_src_configure() {
 		$(meson_use gles2)
 		$(meson_use selinux)
 		$(meson_use shared-glapi)
-		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
-		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
-		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
+		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[@]}")
+		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[@]}")
+		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[@]}")
 		--buildtype $(usex debug debug release)
 		$(use cheets && echo "--cross-file=${ARC_CROSS_FILE}")
 		$(use cheets && echo "-Dplatform-sdk-version=${ARC_PLATFORM_SDK_VERSION}")
@@ -458,14 +457,12 @@ driver_enable() {
 	case $# in
 		# for enabling unconditionally
 		1)
-			DRI_DRIVERS+=",$1"
+			DRI_DRIVERS+=("$1")
 			;;
 		*)
 			if use $1; then
 				shift
-				for i in $@; do
-					DRI_DRIVERS+=",${i}"
-				done
+				DRI_DRIVERS+=("$@")
 			fi
 			;;
 	esac
@@ -475,14 +472,12 @@ gallium_enable() {
 	case $# in
 		# for enabling unconditionally
 		1)
-			GALLIUM_DRIVERS+=",$1"
+			GALLIUM_DRIVERS+=("$1")
 			;;
 		*)
 			if use $1; then
 				shift
-				for i in $@; do
-					GALLIUM_DRIVERS+=",${i}"
-				done
+				GALLIUM_DRIVERS+=("$@")
 			fi
 			;;
 	esac
@@ -492,14 +487,12 @@ vulkan_enable() {
 	case $# in
 		# for enabling unconditionally
 		1)
-			VULKAN_DRIVERS+=",$1"
+			VULKAN_DRIVERS+=("$1")
 			;;
 		*)
 			if use $1; then
 				shift
-				for i in $@; do
-					VULKAN_DRIVERS+=",${i}"
-				done
+				VULKAN_DRIVERS+=("$@")
 			fi
 			;;
 	esac
