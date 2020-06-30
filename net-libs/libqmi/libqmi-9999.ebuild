@@ -12,7 +12,7 @@ HOMEPAGE="http://cgit.freedesktop.org/libqmi/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-asan doc mbim static-libs"
+IUSE="-asan doc mbim qrtr static-libs"
 
 RDEPEND=">=dev-libs/glib-2.36
 	mbim? ( >=net-libs/libmbim-1.18.0 )"
@@ -33,7 +33,7 @@ src_configure() {
 	econf \
 		--enable-qmi-username='modem' \
 		--enable-compile-warnings=yes \
-		--enable-qrtr \
+		$(use_enable qrtr) \
 		$(use_enable mbim mbim-qmux) \
 		$(use_enable static{-libs,}) \
 		$(use_enable {,gtk-}doc)
