@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="c142078820d0707858873cedb290a78d36f531af"
+CROS_WORKON_COMMIT="53aa6dbb69b3346f45ff99d944e46def3e8678de"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "fd7a6c735bbeba7d9bbb626fd692f2b44f374aef" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -39,6 +39,8 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	dev-util/meson
+	dev-util/ninja
 "
 
 src_install() {
@@ -54,4 +56,13 @@ platform_pkg_test() {
 	for test_bin in "${tests[@]}"; do
 		platform_test "run" "${OUT}/${test_bin}"
 	done
+
+	# Ensure the meson build script continues to work.
+	if ! use x86 && ! use amd64 ; then
+		elog "Skipping meson tests on non-x86 platform"
+	else
+		meson tmp_build_dir || die "Failed to configure meson build"
+		ninja -C tmp_build_dir || die "Failed to build sommelier with meson"
+		[ -f tmp_build_dir/sommelier ] || die "Target 'sommelier' was not built by meson"
+	fi
 }
