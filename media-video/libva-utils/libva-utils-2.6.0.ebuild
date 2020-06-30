@@ -29,22 +29,14 @@ else
 	KEYWORDS=""
 fi
 
-IUSE="+drm test wayland X"
+IUSE="test"
 
 RDEPEND="
-	>=x11-libs/libva-2.1.0[drm?,wayland?,X?]
-	drm? ( >=x11-libs/libdrm-2.4 )
-	X? (
-		>=x11-libs/libX11-1.6.2
-		>=x11-libs/libXext-1.3.2
-		>=x11-libs/libXfixes-5.0.1
-	)
-	wayland? ( >=dev-libs/wayland-1.0.6 )"
+	>=x11-libs/libva-2.1.0
+	>=x11-libs/libdrm-2.4"
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
-
-REQUIRED_USE="|| ( drm wayland X )"
 
 DOCS=( CONTRIBUTING.md README.md )
 
@@ -59,11 +51,11 @@ src_prepare() {
 
 src_configure() {
 	local myeconfargs=(
-		$(use_enable X x11)
-		$(use_enable wayland)
-		$(use_enable drm)
-		$(use_enable test tests)
-		$(use_enable test vendor_intel)
+		--disable-x11
+		--disable-wayland
+		--enable-drm
+		"$(use_enable test tests)"
+		"$(use_enable test vendor_intel)"
 	)
 	autotools-utils_src_configure
 }
