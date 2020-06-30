@@ -523,12 +523,8 @@ src_configure() {
 	export CC_host=$(tc-getBUILD_CC)
 	export CXX_host=$(tc-getBUILD_CXX)
 	export NM_host=$(tc-getBUILD_NM)
-	export READELF="${CHOST}-readelf"
-	export READELF_host="${CBUILD}-readelf"
-	# Temporarily use llvm-objcopy to generate split-debug file with non-debug
-	# sections preserved, b/127337806. This workaround only works because
-	# llvm-objcopy currently does not support "--only-keep-debug" flag.
-	export OBJCOPY=llvm-objcopy
+	export READELF="llvm-readelf"
+	export READELF_host="llvm-readelf"
 
 	# Use C++ compiler as the linker driver.
 	export LD="${CXX}"
