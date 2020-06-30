@@ -140,6 +140,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50RejectUpdate
 	+tests_firmware_Cr50RMAOpen
 	+tests_firmware_Cr50SetBoardId
+	+tests_firmware_Cr50ShortECC
 	+tests_firmware_Cr50Testlab
 	+tests_firmware_Cr50TpmManufactured
 	+tests_firmware_Cr50TpmMode
