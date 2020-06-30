@@ -1,3 +1,5 @@
+AR=llvm-ar
+AR_FOR_BUILD=llvm-ar
 BUILD_CC=x86_64-pc-linux-gnu-clang
 BUILD_CXX=x86_64-pc-linux-gnu-clang++
 BUILD_LD=x86_64-pc-linux-gnu-ld.lld
