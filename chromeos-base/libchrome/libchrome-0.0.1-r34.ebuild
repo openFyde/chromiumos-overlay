@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("3132d8e32d87ba8a913dd8f8f24af5ab25b55684" "7a3d4ad5854121c3a244bea60ed0ec1da4cc4aa7")
-CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "dca99db37217b564c74e17aacba47b63547b1706")
+CROS_WORKON_COMMIT=("303d7631d00b01e77e41b5766796466d0762a6c7" "e39e75c8d0a761fa3c34038ca6b392d97c3ee6d9")
+CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "bd012875ecbcc40370d6838e77315b47097f460d")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
@@ -78,11 +78,6 @@ src_prepare() {
 	while read -r patch; do
 		epatch "${S}/libchrome_tools/patches/${patch}"
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
-
-	# Use correct shebang for these python2-only scripts.
-	find "${S}"/mojo/ -name '*.py' \
-		-exec sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' {} +
-
 }
 
 src_install() {
