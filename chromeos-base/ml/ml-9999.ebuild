@@ -59,6 +59,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api:=[fuzzer?]
+	dev-cpp/absl:=
 "
 
 src_install() {
