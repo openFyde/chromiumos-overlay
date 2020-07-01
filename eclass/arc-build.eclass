@@ -102,6 +102,12 @@ arc-build-select-clang() {
 		ARC_GCC_TUPLE=x86_64-linux-android
 		ARC_GCC_BASE="${ARC_BASE}/arc-gcc/x86_64/${ARC_GCC_TUPLE}-4.9"
 
+		# The clang version used by ARC is too old to recognize certain
+		# recent microarchitectures like tremont. Filter it out for now.
+		# TODO(b/161353194) If clang is uprevved, please remove this 
+		# filter and see if the build succeeds.
+		filter-flags -march=tremont
+
 		# multilib.eclass does not use CFLAGS_${DEFAULT_ABI}, but
 		# we need to add some flags valid only for amd64, so we trick
 		# it to think that neither x86 nor amd64 is the default.
