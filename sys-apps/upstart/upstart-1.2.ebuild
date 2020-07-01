@@ -119,6 +119,9 @@ src_install() {
 	insinto /etc/init
 	# Always use our own upstart-socket-bridge.conf.
 	doins "${FILESDIR}"/init/upstart-socket-bridge.conf
+	# Install D-Bus XML files.
+	insinto /usr/share/dbus-1/interfaces/
+	doins "${S}"/dbus/*.xml
 	# Restore udev bridge if requested.
 	use udev_bridge && doins extra/conf/upstart-udev-bridge.conf
 }
