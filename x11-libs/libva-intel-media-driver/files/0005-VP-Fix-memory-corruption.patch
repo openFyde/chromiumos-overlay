@@ -1,0 +1,84 @@
+From 3d9958087933fc91b9b44d540265189556102edb Mon Sep 17 00:00:00 2001
+From: Yu Kang Ku <yu.kang.ku@intel.com>
+Date: Wed, 11 Mar 2020 22:09:13 -0700
+Subject: [PATCH 5/5] [VP] Fix memory corruption
+
+When KernelDll_BuildKernel_CmFc() calls cm_fc_combine_kernels()
+(see [1]), one of the inputs is &dwEstimatedKernelSize.  It is a
+uint32_t pointer but is typecasted to a size_t pointer.
+
+On platforms where size_t is a 64-bit integer, subsequent write
+operations using this size_t pointer results in 4 bytes of
+memory corruption.
+
+[1] https://github.com/intel/media-driver/blob/master/media_driver/agnostic/common/vp/kdll/hal_kerneldll.c#L5045
+
+(cherry picked from commit 3783175d95a4d27cc3be6d69e144b5f7d521cbbf)
+---
+ .../agnostic/common/vp/kdll/hal_kerneldll.c        | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/media_driver/agnostic/common/vp/kdll/hal_kerneldll.c b/media_driver/agnostic/common/vp/kdll/hal_kerneldll.c
+index ddd665ce..a348ae8f 100644
+--- a/media_driver/agnostic/common/vp/kdll/hal_kerneldll.c
++++ b/media_driver/agnostic/common/vp/kdll/hal_kerneldll.c
+@@ -4916,7 +4916,7 @@ bool KernelDll_BuildKernel_CmFc(Kdll_State *pState, Kdll_SearchState *pSearchSta
+     int32_t           iOffset;
+     uint32_t          dwResolveOffset[DL_MAX_EXPORT_COUNT];
+     uint32_t          dwTotalKernelCount;
+-    uint32_t          dwEstimatedKernelSize;
++    size_t            stEstimatedKernelSize;
+     int32_t           iKUID;
+     bool              bResolveDone;
+     int32_t           i;
+@@ -4947,7 +4947,7 @@ bool KernelDll_BuildKernel_CmFc(Kdll_State *pState, Kdll_SearchState *pSearchSta
+ 
+     MOS_ZeroMemory(Cm_Fc_kernels, sizeof(Cm_Fc_kernels));
+     dwTotalKernelCount = 0;
+-    dwEstimatedKernelSize = 0;
++    stEstimatedKernelSize = 0;
+ 
+ #if EMUL || VPHAL_LIB || _DEBUG
+     VPHAL_RENDER_NORMALMESSAGE("Component Kernels:");
+@@ -4965,7 +4965,7 @@ bool KernelDll_BuildKernel_CmFc(Kdll_State *pState, Kdll_SearchState *pSearchSta
+         // Append/Patch kernel from internal cache
+         res = Kdll_AddKernelList(pKernelCache, pPatchCache, pSearchState, *pKernelID, pKernelPatch, pPatchData, &Cm_Fc_kernels[dwTotalKernelCount]);
+ 
+-        dwEstimatedKernelSize += Cm_Fc_kernels[dwTotalKernelCount].binary_size;
++        stEstimatedKernelSize += Cm_Fc_kernels[dwTotalKernelCount].binary_size;
+ 
+         if (*pKernelID == IDR_VP_EOT)
+         {
+@@ -5032,17 +5032,17 @@ bool KernelDll_BuildKernel_CmFc(Kdll_State *pState, Kdll_SearchState *pSearchSta
+         } // for
+     } while (!bResolveDone);
+ 
+-    if (dwEstimatedKernelSize > DL_MAX_KERNEL_SIZE)
++    if (stEstimatedKernelSize > DL_MAX_KERNEL_SIZE)
+     {
+         res = false;
+         VPHAL_RENDER_NORMALMESSAGE("Kernel size exceeded kdll limitatin.");
+         goto finish;
+     }
+ 
+-    dwEstimatedKernelSize = DL_MAX_KERNEL_SIZE;
++    stEstimatedKernelSize = DL_MAX_KERNEL_SIZE;
+ 
+     // Get combine kernel binary from CMFC lib
+-    if (CM_FC_OK != cm_fc_combine_kernels(dwTotalKernelCount, Cm_Fc_kernels, (char *)pSearchState->Kernel, (size_t *)&dwEstimatedKernelSize, nullptr))
++    if (CM_FC_OK != cm_fc_combine_kernels(dwTotalKernelCount, Cm_Fc_kernels, (char *)pSearchState->Kernel, &stEstimatedKernelSize, nullptr))
+     {
+         res = false;
+         VPHAL_RENDER_NORMALMESSAGE("cm_fc_combine_kernels() function call failed.");
+@@ -5050,7 +5050,7 @@ bool KernelDll_BuildKernel_CmFc(Kdll_State *pState, Kdll_SearchState *pSearchSta
+     }
+ 
+     // Get combine kernel binary size from CMFC lib
+-    pSearchState->KernelSize = dwEstimatedKernelSize;
++    pSearchState->KernelSize = (int) stEstimatedKernelSize;
+ 
+     res = true;
+ 
+-- 
+2.26.2
+
