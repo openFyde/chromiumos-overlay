@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile configure info install setup test unpack
-DEPEND=dev-libs/dbus-glib dev-libs/glib sys-apps/rootdev chromeos-base/system_api >=chromeos-base/libchrome-0.0.1-r21:0=[cros-debug=] cros_host? ( dev-util/gn ) dev-cpp/gtest:=
+DEPEND=dev-libs/dbus-glib dev-libs/glib sys-apps/rootdev chromeos-base/system_api >=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=] cros_host? ( dev-util/gn ) dev-cpp/gtest:=
 DESCRIPTION=Image-burning service for Chromium OS
 EAPI=5
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/image-burner/
@@ -7,7 +7,7 @@ IUSE=cros_host cros_workon_tree_eec5ce9cfadd268344b02efdbec7465fbc391a9e_eb6a136
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
-RDEPEND=dev-libs/dbus-glib dev-libs/glib sys-apps/rootdev >=chromeos-base/libchrome-0.0.1-r21:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:=
+RDEPEND=dev-libs/dbus-glib dev-libs/glib sys-apps/rootdev >=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:=
 SLOT=0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	d8ac4376c842695b79a360107b1f50ac	libchrome-version	070e3915e2c56045b12610c94becc4da	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	ba3ad2753d55effd07958e57c9ca2267	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	7db5b03b7ca5337406c3d24a0e096e9c	libchrome-version	e6da2797824cba5cbf8df7636c22624c	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	e32be3e77add97a882c5c99bad53fb11	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
 _md5_=f0a31b87abfcccc04c5142fee5ec6bed
