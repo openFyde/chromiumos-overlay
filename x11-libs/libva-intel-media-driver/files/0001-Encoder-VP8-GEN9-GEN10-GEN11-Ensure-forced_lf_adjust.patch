@@ -1,0 +1,59 @@
+From 48ee98961d0d627c79bd22f722d2e96a2fae9d9f Mon Sep 17 00:00:00 2001
+From: Sreerenj Balachandran <sreerenj.balachandran@intel.com>
+Date: Tue, 3 Sep 2019 12:08:18 -0800
+Subject: [PATCH] Encoder: VP8: GEN9/GEN10/GEN11: Ensure forced_lf_adjustment
+ update in media kernel
+
+Ensure the submission of forced_lf_adjustment in mode probablity
+update kernel curbe for gen9, gen10 and gen11.This will help to fix
+the ffmpeg decoder output md5 mismatch with vpxdec for
+the Intel encoded video samples.
+
+Reported, Tested and Verified by Hirokazu Honda<hiroh@google.com>
+
+(cherry picked from commit 2452327d78d2513595274c0aaa93d57a1cc83c8c)
+---
+ .../agnostic/gen10/codec/hal/codechal_encode_vp8_g10.cpp         | 1 +
+ .../agnostic/gen11/codec/hal/codechal_encode_vp8_g11.cpp         | 1 +
+ media_driver/agnostic/gen9/codec/hal/codechal_encode_vp8_g9.cpp  | 1 +
+ 3 files changed, 3 insertions(+)
+
+diff --git a/media_driver/agnostic/gen10/codec/hal/codechal_encode_vp8_g10.cpp b/media_driver/agnostic/gen10/codec/hal/codechal_encode_vp8_g10.cpp
+index 4c96cacb..c73bddd4 100644
+--- a/media_driver/agnostic/gen10/codec/hal/codechal_encode_vp8_g10.cpp
++++ b/media_driver/agnostic/gen10/codec/hal/codechal_encode_vp8_g10.cpp
+@@ -7839,6 +7839,7 @@ MOS_STATUS CodechalEncodeVp8G10::SetMpuCurbe(struct CodechalVp8MpuCurbeParams* p
+     cmd.DW1.SharpnessLevel = picParams->sharpness_level;
+     cmd.DW1.LoopFilterAdjustmentOn = picParams->loop_filter_adj_enable;
+     cmd.DW1.MBNoCoeffiscientSkip = picParams->mb_no_coeff_skip;
++    cmd.DW1.ForcedLFUpdateForKeyFrame = picParams->forced_lf_adjustment;
+ 
+     // DDI spec is not mapping to codechal directly. It should be mapping as below
+     if (picParams->refresh_golden_frame == 1)
+diff --git a/media_driver/agnostic/gen11/codec/hal/codechal_encode_vp8_g11.cpp b/media_driver/agnostic/gen11/codec/hal/codechal_encode_vp8_g11.cpp
+index 1b2f9da7..25a20520 100644
+--- a/media_driver/agnostic/gen11/codec/hal/codechal_encode_vp8_g11.cpp
++++ b/media_driver/agnostic/gen11/codec/hal/codechal_encode_vp8_g11.cpp
+@@ -8548,6 +8548,7 @@ MOS_STATUS CodechalEncodeVp8G11::SetMpuCurbe(struct CodechalVp8MpuCurbeParams* p
+     cmd.DW1.SharpnessLevel = picParams->sharpness_level;
+     cmd.DW1.LoopFilterAdjustmentOn = picParams->loop_filter_adj_enable;
+     cmd.DW1.MBNoCoeffiscientSkip = picParams->mb_no_coeff_skip;
++    cmd.DW1.ForcedLFUpdateForKeyFrame = picParams->forced_lf_adjustment;
+ 
+     // DDI spec is not mapping to codechal directly. It should be mapping as below
+     if (picParams->refresh_golden_frame == 1)
+diff --git a/media_driver/agnostic/gen9/codec/hal/codechal_encode_vp8_g9.cpp b/media_driver/agnostic/gen9/codec/hal/codechal_encode_vp8_g9.cpp
+index 0a2df792..3a0a6a9f 100644
+--- a/media_driver/agnostic/gen9/codec/hal/codechal_encode_vp8_g9.cpp
++++ b/media_driver/agnostic/gen9/codec/hal/codechal_encode_vp8_g9.cpp
+@@ -7839,6 +7839,7 @@ MOS_STATUS CodechalEncodeVp8G9::SetMpuCurbe(struct CodechalVp8MpuCurbeParams* pa
+     cmd.DW1.SharpnessLevel = picParams->sharpness_level;
+     cmd.DW1.LoopFilterAdjustmentOn = picParams->loop_filter_adj_enable;
+     cmd.DW1.MBNoCoeffiscientSkip = picParams->mb_no_coeff_skip;
++    cmd.DW1.ForcedLFUpdateForKeyFrame = picParams->forced_lf_adjustment;
+ 
+     // DDI spec is not mapping to codechal directly. It should be mapping as below
+     if (picParams->refresh_golden_frame == 1)
+-- 
+2.26.2
+

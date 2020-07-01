@@ -21,6 +21,10 @@ DEPEND=">=media-libs/gmmlib-${PV}
 "
 RDEPEND="${DEPEND}"
 
+PATCHES=(
+	"${FILESDIR}"/0001-Encoder-VP8-GEN9-GEN10-GEN11-Ensure-forced_lf_adjust.patch
+)
+
 src_configure() {
 	local mycmakeargs=(
 		-DMEDIA_RUN_TEST_SUITE=OFF
