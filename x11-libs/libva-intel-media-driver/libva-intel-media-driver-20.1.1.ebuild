@@ -27,6 +27,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-VP-Explicitly-initialize-maxSrcRect-of-VphalRenderer.patch
 	"${FILESDIR}"/0004-VP-fix-crash-in-vp8-playback.patch
 	"${FILESDIR}"/0005-VP-Fix-memory-corruption.patch
+	"${FILESDIR}"/0006-Decoder-VP9-GEN-9-10-11-12-Fix-the-GPU-hang-due-to-w.patch
 )
 
 src_configure() {
