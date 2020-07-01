@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("d46bd9705af448645517a3846d70aaf28505db3c" "a7830898a39e3d7e8aa72593ddac083cd8eac501")
-CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "cbd57bc12869692143d03dffa974772e79ce78a1")
+CROS_WORKON_COMMIT=("44828cd6c7c7c1acfb125e6e835b0836c6713883" "a215a2fed865132b15e272b92e855488173b45d4")
+CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "3d1e4b1c4935961b6c18c5d1bb3b0a029d3b292a")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
@@ -47,6 +47,13 @@ DEPEND="
 	dev-libs/libtextclassifier
 	>=dev-cpp/eigen-3
 "
+
+cros-debug-add-NDEBUG() {
+	# Don't set NDEBUG, overriding from cros-debug eclass.
+	# If this is set, tests will fail and is also explicitly checked in
+	# runtime/test/RequireDebug.cpp
+	use cros-debug || echo "Not doing append-cppflags -NDEBUG";
+}
 
 src_configure() {
 	if use x86 || use amd64; then
