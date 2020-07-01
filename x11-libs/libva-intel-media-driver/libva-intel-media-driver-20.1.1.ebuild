@@ -13,7 +13,7 @@ HOMEPAGE="https://github.com/intel/media-driver"
 
 LICENSE="MIT BSD"
 SLOT="0"
-IUSE=""
+IUSE="ihd_cmrtlib"
 
 DEPEND=">=media-libs/gmmlib-${PV}
 	>=x11-libs/libva-2.7.1
@@ -34,7 +34,7 @@ PATCHES=(
 src_configure() {
 	local mycmakeargs=(
 		-DMEDIA_RUN_TEST_SUITE=OFF
-		-DBUILD_CMRTLIB=OFF
+		-DBUILD_CMRTLIB="$(usex ihd_cmrtlib ON OFF)"
 		-DCMAKE_DISABLE_FIND_PACKAGE_X11=TRUE
 	)
 
