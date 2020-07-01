@@ -28,6 +28,7 @@ PATCHES=(
 	"${FILESDIR}"/0004-VP-fix-crash-in-vp8-playback.patch
 	"${FILESDIR}"/0005-VP-Fix-memory-corruption.patch
 	"${FILESDIR}"/0006-Decoder-VP9-GEN-9-10-11-12-Fix-the-GPU-hang-due-to-w.patch
+	"${FILESDIR}"/0007-Decoder-VP9-GEN9-Disable-HPR-VP9-mode-switch-to-avoi.patch
 )
 
 src_configure() {
