@@ -29,6 +29,9 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0.7.0-makefile.patch"
 	"${FILESDIR}/${PN}-0.7.0-fix-unknown-file-types.patch"
 	"${FILESDIR}/${PN}-0.7.0-fix-utf8-filenames.patch"
+	"${FILESDIR}/${PN}-0.7.0-error-reporting.patch"
+	"${FILESDIR}/${PN}-0.7.0-lazy-caching.patch"
+	"${FILESDIR}/${PN}-0.7.0-password.patch"
 )
 
 src_compile() {

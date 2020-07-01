@@ -1,0 +1,763 @@
+From 0ea408e4a0159faf0c0da386cad145d0251a46d2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
+Date: Thu, 18 Jun 2020 23:35:55 +1000
+Subject: [PATCH] Lazy caching of files
+
+Only cache a file in memory if it needs to be cached and if it is less than 1GB.
+---
+ lib/Makefile      |   4 +-
+ lib/bigBuffer.cpp | 360 ++++++++++++++++++++++++----------------------
+ lib/bigBuffer.h   |  89 +++++++-----
+ lib/dataNode.cpp  |   7 +-
+ lib/dataNode.h    |   3 +-
+ lib/fileNode.cpp  |   2 +-
+ lib/fileNode.h    |   2 +-
+ lib/fuse-zip.cpp  |   4 +-
+ 8 files changed, 252 insertions(+), 219 deletions(-)
+
+diff --git a/lib/Makefile b/lib/Makefile
+index d092e0e..af2df55 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -1,8 +1,8 @@
+ DEST=libfusezip.a
+ PKG_CONFIG?=pkg-config
+ LIBS=$(shell $(PKG_CONFIG) fuse --libs) $(shell $(PKG_CONFIG) libzip --libs)
+-CXXFLAGS=-g -O0 -Wall -Wextra -Wconversion -Wsign-conversion -Wlogical-op -Wshadow -pedantic -Werror -std=c++11
+-RELEASE_CXXFLAGS=-O2 -Wall -Wextra -Wconversion -Wsign-conversion -Wlogical-op -Wshadow -pedantic -Werror -std=c++11
++CXXFLAGS=-g -O0 -Wall -Wextra -Wconversion -Wno-sign-compare -Wlogical-op -Wshadow -pedantic -Werror -std=c++11
++RELEASE_CXXFLAGS=-O2 -Wall -Wextra -Wconversion -Wno-sign-compare -Wlogical-op -Wshadow -pedantic -Werror -std=c++11
+ FUSEFLAGS=$(shell $(PKG_CONFIG) fuse --cflags)
+ ZIPFLAGS=$(shell $(PKG_CONFIG) libzip --cflags)
+ SOURCES=$(sort $(wildcard *.cpp))
+diff --git a/lib/bigBuffer.cpp b/lib/bigBuffer.cpp
+index 109d2f0..6f05262 100644
+--- a/lib/bigBuffer.cpp
++++ b/lib/bigBuffer.cpp
+@@ -17,6 +17,8 @@
+ //  along with this program.  If not, see <https://www.gnu.org/licenses/>.//
+ ////////////////////////////////////////////////////////////////////////////
+ 
++#include "bigBuffer.h"
++
+ #include <cassert>
+ #include <cerrno>
+ #include <cstdlib>
+@@ -28,67 +30,54 @@
+ #include <limits.h>
+ #include <syslog.h>
+ 
+-#include "bigBuffer.h"
++#include "util.h"
+ 
+ /**
+- * Class that keep chunk of file data.
++ * Operate with chunks of 4 KiB.
+  */
+-class BigBuffer::ChunkWrapper {
+-private:
+-    /**
+-     * Pointer that keeps data for chunk. Can be NULL.
+-     */
+-    char *m_ptr;
++static const unsigned int chunkBits = 12;
++static const unsigned int chunkSize = 1u << chunkBits;
+ 
+-public:
+-    /**
+-     * By default internal buffer is NULL, so this can be used for creating
+-     * sparse files.
+-     */
+-    ChunkWrapper(): m_ptr(NULL) {
+-    }
++/**
++ * Return number of chunks needed to keep 'size' bytes.
++ */
++inline size_t chunksCount(size_t size) {
++    return (size + (chunkSize - 1)) >> chunkBits;
++}
+ 
+-    /**
+-     * Take ownership on internal pointer from 'other' object.
+-     */
+-    ChunkWrapper(const ChunkWrapper &other) {
+-        m_ptr = other.m_ptr;
+-        const_cast<ChunkWrapper*>(&other)->m_ptr = NULL;
+-    }
++/**
++ * Return number of chunk where 'offset'-th byte is located.
++ */
++inline size_t chunkNumber(size_t offset) { return offset >> chunkBits; }
+ 
+-    /**
+-     * Free pointer if allocated.
+-     */
+-    ~ChunkWrapper() {
+-        if (m_ptr != NULL) {
+-            free(m_ptr);
+-        }
+-    }
++/**
++ * Return offset inside chunk to 'offset'-th byte.
++ */
++inline unsigned int chunkOffset(size_t offset) {
++    return offset & (chunkSize - 1);
++}
+ 
++/**
++ * Class that keep chunk of file data.
++ */
++class BigBuffer::Chunk {
++  private:
+     /**
+-     * Take ownership on internal pointer from 'other' object.
++     * Pointer that keeps data for chunk. Can be NULL.
+      */
+-    ChunkWrapper &operator=(const ChunkWrapper &other) {
+-        if (&other != this) {
+-            m_ptr = other.m_ptr;
+-            const_cast<ChunkWrapper*>(&other)->m_ptr = NULL;
+-        }
+-        return *this;
+-    }
++    std::unique_ptr<char[]> m_ptr;
+ 
++  public:
+     /**
+      * Return pointer to internal storage and initialize it if needed.
+      * @throws
+      *      std::bad_alloc  If memory can not be allocated
+      */
+-    char *ptr(bool init = false) {
+-        if (init && m_ptr == NULL) {
+-            m_ptr = (char *)malloc(chunkSize);
+-            if (m_ptr == NULL) {
+-                throw std::bad_alloc();
+-            }
++    char *ptr() {
++        if (!m_ptr) {
++            m_ptr.reset(new char[chunkSize]{});
+         }
+-        return m_ptr;
++        return m_ptr.get();
+     }
+ 
+     /**
+@@ -106,8 +95,8 @@ public:
+         if (offset + count > chunkSize) {
+             count = chunkSize - offset;
+         }
+-        if (m_ptr != NULL) {
+-            memcpy(dest, m_ptr + offset, count);
++        if (m_ptr) {
++            memcpy(dest, m_ptr.get() + offset, count);
+         } else {
+             memset(dest, 0, count);
+         }
+@@ -132,16 +121,7 @@ public:
+         if (offset + count > chunkSize) {
+             count = chunkSize - offset;
+         }
+-        if (m_ptr == NULL) {
+-            m_ptr = (char *)malloc(chunkSize);
+-            if (m_ptr == NULL) {
+-                throw std::bad_alloc();
+-            }
+-            if (offset > 0) {
+-                memset(m_ptr, 0, offset);
+-            }
+-        }
+-        memcpy(m_ptr + offset, src, count);
++        memcpy(ptr() + offset, src, count);
+         return count;
+     }
+ 
+@@ -149,192 +129,228 @@ public:
+      * Clear tail of internal buffer with zeroes starting from 'offset'.
+      */
+     void clearTail(unsigned int offset) {
+-        if (m_ptr != NULL && offset < chunkSize) {
+-            memset(m_ptr + offset, 0, chunkSize - offset);
++        if (m_ptr && offset < chunkSize) {
++            memset(m_ptr.get() + offset, 0, chunkSize - offset);
+         }
+     }
+-
+ };
+ 
+-BigBuffer::BigBuffer(): len(0) {
++BigBuffer::~BigBuffer() {}
++
++BigBuffer::BigBuffer() {}
++
++BigBuffer::BigBuffer(zip *archive, zip_uint64_t nodeId, off_t length)
++    : archive_(archive), nodeId_(nodeId), file_(OpenFile()), len(length) {}
++
++ZipFile BigBuffer::OpenFile() const {
++    if (zip_file *file = zip_fopen_index(archive_, nodeId_, 0))
++        return ZipFile(file);
++
++    throw ZipError("Cannot open file at index " + std::to_string(nodeId_),
++                   archive_);
+ }
+ 
+-BigBuffer::BigBuffer(struct zip *z, zip_uint64_t nodeId, size_t length):
+-        len(length) {
+-    struct zip_file *zf = zip_fopen_index(z, nodeId, 0);
+-    if (zf == NULL) {
+-        syslog(LOG_WARNING, "%s", zip_strerror(z));
+-        throw std::runtime_error(zip_strerror(z));
+-    }
+-    size_t ccount = chunksCount(length);
+-    chunks.resize(ccount, ChunkWrapper());
+-    size_t chunk = 0;
+-    while (length > 0) {
+-        size_t readSize = chunkSize;
+-        if (readSize > length) {
+-            readSize = length;
+-        }
+-        zip_int64_t nr = zip_fread(zf, chunks[chunk].ptr(true), readSize);
+-        if (nr < 0) {
+-            std::string err = zip_file_strerror(zf);
+-            syslog(LOG_WARNING, "%s", err.c_str());
+-            zip_fclose(zf);
+-            throw std::runtime_error(err);
++void BigBuffer::CacheInMemory() {
++    if (!archive_)
++        return;
++
++    // Don't cache files bigger than 1 GiB.
++    if ((len >> 30) > 0)
++        throw std::bad_alloc();
++
++    file_.reset();
++    chunks_.clear();
++    chunks_.reserve(len / chunkSize + 1);
++    const ZipFile file = OpenFile();
++    archive_ = nullptr;
++    len = 0;
++    Chunk chunk;
++    zip_int64_t nr;
++    do {
++        nr = zip_fread(file.get(), chunk.ptr(), chunkSize);
++        if (nr < 0)
++            throw std::runtime_error(zip_file_strerror(file.get()));
++
++        len += nr;
++        chunks_.push_back(std::move(chunk));
++    } while (nr == chunkSize);
++
++    if (nr == 0)
++        chunks_.pop_back();
++}
++
++int BigBuffer::read(char *buf, size_t size, off_t offset) {
++    size = std::min<size_t>(size, std::numeric_limits<int>::max());
++
++    if (offset < 0)
++        throw std::runtime_error("Negative offset");
++
++    if (file_) {
++        if (pos_ != offset) {
++            // Try to adjust the actual position in the file.
++            if (zip_fseek(file_.get(), offset, SEEK_SET) < 0) {
++                // Cannot adjust position. The file is probably compressed.
++                // We'll have to cache it in memory.
++                file_.reset();
++            } else {
++                // Adjust recorded position.
++                pos_ = offset;
++            }
+         }
+-        ++chunk;
+-        length -= static_cast<size_t>(nr);
+-        if ((nr == 0 || chunk == ccount) && length != 0) {
+-            // Allocated memory are exhausted, but there are unread bytes (or
+-            // file is longer that given length). Possibly CRC error.
+-            zip_fclose(zf);
+-            syslog(LOG_WARNING, "length of file %s differ from data length",
+-                    zip_get_name(z, nodeId, ZIP_FL_ENC_GUESS));
+-            throw std::runtime_error("data length differ");
++
++        if (file_) {
++            // Read from file.
++            assert(pos_ == offset);
++            const zip_int64_t n = zip_fread(file_.get(), buf, size);
++            if (n < 0) {
++                throw std::runtime_error(zip_file_strerror(file_.get()));
++            }
++
++            // Adjust recorded position.
++            pos_ += n;
++            return static_cast<int>(n);
+         }
+     }
+-    if (zip_fclose(zf)) {
+-        syslog(LOG_WARNING, "%s", zip_strerror(z));
+-        throw std::runtime_error(zip_strerror(z));
+-    }
+-}
+ 
+-BigBuffer::~BigBuffer() {
+-}
++    assert(!file_);
++    CacheInMemory();
+ 
+-int BigBuffer::read(char *buf, size_t size, size_t offset) const {
+-    if (offset > len) {
++    if (offset >= len)
+         return 0;
+-    }
+-    size_t chunk = chunkNumber(offset);
+-    unsigned int pos = chunkOffset(offset);
+-    if (size > len - offset) {
+-        size = len - offset;
+-    }
+-    if (size > INT_MAX)
+-        size = INT_MAX;
+-    int nread = static_cast<int>(size);
+-    while (size > 0) {
+-        size_t r = chunks[chunk].read(buf, pos, size);
+ 
++    // Read from in-memory cache.
++    size = std::min<off_t>(size, len - offset);
++    Chunks::const_iterator chunk = chunks_.cbegin() + chunkNumber(offset);
++    unsigned int pos_in_chunk = chunkOffset(offset);
++    const int nread = static_cast<int>(size);
++
++    while (size > 0) {
++        const size_t r = chunk->read(buf, pos_in_chunk, size);
++        assert(r <= size);
+         size -= r;
+         buf += r;
+         ++chunk;
+-        pos = 0;
++        pos_in_chunk = 0;
+     }
++
+     return nread;
+ }
+ 
+ int BigBuffer::write(const char *buf, size_t size, size_t offset) {
++    CacheInMemory();
++    size = std::min<size_t>(size, std::numeric_limits<int>::max());
+     size_t chunk = chunkNumber(offset);
+     unsigned int pos = chunkOffset(offset);
+-    if (size > INT_MAX)
+-        size = INT_MAX;
+-    int nwritten = static_cast<int>(size);
++    const int nwritten = static_cast<int>(size);
+ 
+     if (offset > len) {
+         if (chunkNumber(len) < chunksCount(len)) {
+-            chunks[chunkNumber(len)].clearTail(chunkOffset(len));
++            chunks_[chunkNumber(len)].clearTail(chunkOffset(len));
+         }
+         len = size + offset;
+-    } else if (size > unsigned(len - offset)) {
++    } else if (size > len - offset) {
+         len = size + offset;
+     }
+-    chunks.resize(chunksCount(len));
++    chunks_.resize(chunksCount(len));
+     while (size > 0) {
+-        size_t w = chunks[chunk].write(buf, pos, size);
++        size_t w = chunks_[chunk].write(buf, pos, size);
+ 
+         size -= w;
+         buf += w;
+-        ++ chunk;
++        ++chunk;
+         pos = 0;
+     }
+     return nwritten;
+ }
+ 
+ void BigBuffer::truncate(size_t offset) {
+-    chunks.resize(chunksCount(offset));
++    CacheInMemory();
++    chunks_.resize(chunksCount(offset));
+ 
+     if (offset > len && chunkNumber(len) < chunksCount(len)) {
+         // Fill end of last non-empty chunk with zeroes
+-        chunks[chunkNumber(len)].clearTail(chunkOffset(len));
++        chunks_[chunkNumber(len)].clearTail(chunkOffset(len));
+     }
+ 
+     len = offset;
+ }
+ 
+ zip_int64_t BigBuffer::zipUserFunctionCallback(void *state, void *data,
+-        zip_uint64_t len, enum zip_source_cmd cmd) {
+-    CallBackStruct *b = (CallBackStruct*)state;
++                                               zip_uint64_t len,
++                                               enum zip_source_cmd cmd) {
++    CallBackStruct *b = static_cast<CallBackStruct *>(state);
+     switch (cmd) {
+-        case ZIP_SOURCE_OPEN: {
+-            b->pos = 0;
+-            return 0;
+-        }
+-        case ZIP_SOURCE_READ: {
+-            size_t rlen = std::numeric_limits<size_t>::max();
+-            if (len < rlen)
+-                rlen = static_cast<size_t>(len);
+-            int r = b->buf->read((char*)data, rlen, b->pos);
+-            b->pos += static_cast<unsigned int>(r);
+-            return r;
+-        }
+-        case ZIP_SOURCE_STAT: {
+-            struct zip_stat *st = (struct zip_stat*)data;
+-            zip_stat_init(st);
+-            st->valid = ZIP_STAT_SIZE | ZIP_STAT_MTIME;
+-            st->size = b->buf->len;
+-            st->mtime = b->mtime;
+-            return sizeof(struct zip_stat);
+-        }
+-        case ZIP_SOURCE_FREE: {
+-            delete b;
+-            return 0;
+-        }
+-        case ZIP_SOURCE_CLOSE:
+-            return 0;
+-        case ZIP_SOURCE_ERROR: {
+-            // This code should not be called in normal case because none of
+-            // implemented functions raises error flag.
+-            int *errs = static_cast<int *>(data);
+-            errs[0] = ZIP_ER_OPNOTSUPP;
+-            errs[1] = EINVAL;
+-            return 2 * sizeof(int);
+-        }
+-        case ZIP_SOURCE_SUPPORTS:
+-            return ZIP_SOURCE_SUPPORTS_READABLE;
+-        default:
+-            // indicate unsupported operation
+-            return -1;
++    case ZIP_SOURCE_OPEN: {
++        b->pos = 0;
++        return 0;
++    }
++    case ZIP_SOURCE_READ: {
++        size_t rlen = std::numeric_limits<size_t>::max();
++        if (len < rlen)
++            rlen = static_cast<size_t>(len);
++        const int r = b->buf->read(static_cast<char *>(data), rlen, b->pos);
++        b->pos += r;
++        return r;
++    }
++    case ZIP_SOURCE_STAT: {
++        struct zip_stat *st = static_cast<struct zip_stat *>(data);
++        zip_stat_init(st);
++        st->valid = ZIP_STAT_SIZE | ZIP_STAT_MTIME;
++        st->size = b->buf->len;
++        st->mtime = b->mtime;
++        return sizeof(struct zip_stat);
++    }
++    case ZIP_SOURCE_FREE: {
++        delete b;
++        return 0;
++    }
++    case ZIP_SOURCE_CLOSE:
++        return 0;
++    case ZIP_SOURCE_ERROR: {
++        // This code should not be called in normal case because none of
++        // implemented functions raises error flag.
++        int *errs = static_cast<int *>(data);
++        errs[0] = ZIP_ER_OPNOTSUPP;
++        errs[1] = EINVAL;
++        return 2 * sizeof(int);
++    }
++    case ZIP_SOURCE_SUPPORTS:
++        return ZIP_SOURCE_SUPPORTS_READABLE;
++    default:
++        // indicate unsupported operation
++        return -1;
+     }
+ }
+ 
+ int BigBuffer::saveToZip(time_t mtime, struct zip *z, const char *fname,
+-        bool newFile, zip_int64_t &index) {
+-    struct zip_source *s;
+-    struct CallBackStruct *cbs = new CallBackStruct();
++                         bool newFile, zip_int64_t &index) {
++    CallBackStruct *const cbs = new CallBackStruct();
+     cbs->buf = this;
+     cbs->mtime = mtime;
+-    if ((s=zip_source_function(z, zipUserFunctionCallback, cbs)) == NULL) {
++    zip_source *const s = zip_source_function(z, zipUserFunctionCallback, cbs);
++    if (!s) {
+         delete cbs;
+         return -ENOMEM;
+     }
++
+     if (newFile) {
+-        zip_int64_t nid = zip_file_add(z, fname, s, ZIP_FL_ENC_GUESS);
++        const zip_int64_t nid = zip_file_add(z, fname, s, ZIP_FL_ENC_GUESS);
+         if (nid < 0) {
+             delete cbs;
+             zip_source_free(s);
+             return -ENOMEM;
+-        } else {
+-            // indices are actually in range [0..2^63-1]
+-            index = nid;
+         }
++
++        // indices are actually in range [0..2^63-1]
++        index = nid;
+     } else {
+         assert(index >= 0);
+-        if (zip_file_replace(z, static_cast<zip_uint64_t>(index), s, ZIP_FL_ENC_GUESS) < 0) {
++        if (zip_file_replace(z, index, s, ZIP_FL_ENC_GUESS) < 0) {
+             delete cbs;
+             zip_source_free(s);
+             return -ENOMEM;
+         }
+     }
++
+     return 0;
+ }
+diff --git a/lib/bigBuffer.h b/lib/bigBuffer.h
+index 2ec92d6..b5ad3fc 100644
+--- a/lib/bigBuffer.h
++++ b/lib/bigBuffer.h
+@@ -20,60 +20,84 @@
+ #ifndef BIG_BUFFER_H
+ #define BIG_BUFFER_H
+ 
+-#include <zip.h>
+ #include <unistd.h>
++#include <zip.h>
+ 
++#include <memory>
+ #include <vector>
+ 
+ #include "types.h"
+ 
+-class BigBuffer {
+-private:
+-    //TODO: use >> and <<
+-    static const unsigned int chunkSize = 4*1024; //4 Kilobytes
+-
+-    class ChunkWrapper;
++struct ZipClose {
++    void operator()(zip_file_t *const file) const { zip_fclose(file); }
++};
+ 
+-    typedef std::vector<ChunkWrapper> chunks_t;
++using ZipFile = std::unique_ptr<zip_file_t, ZipClose>;
+ 
++class BigBuffer {
++  private:
+     struct CallBackStruct {
+-        size_t pos;
+-        const BigBuffer *buf;
++        off_t pos;
++        BigBuffer *buf;
+         time_t mtime;
+     };
+ 
+-    chunks_t chunks;
+-
+     /**
+      * Callback for zip_source_function.
+      * See zip_source_function(3) for details.
+      */
+     static zip_int64_t zipUserFunctionCallback(void *state, void *data,
+-            zip_uint64_t len, enum zip_source_cmd cmd);
++                                               zip_uint64_t len,
++                                               enum zip_source_cmd cmd);
+ 
+     /**
+-     * Return number of chunks needed to keep 'size' bytes.
++     * Opens the file at index nodeId_ in archive_.
++     * @throws std::runtime_error on error.
+      */
+-    inline static size_t chunksCount(size_t size) {
+-        return (size + chunkSize - 1) / chunkSize;
+-    }
++    ZipFile OpenFile() const;
+ 
+     /**
+-     * Return number of chunk where 'offset'-th byte is located.
++     * Cache file in memory if it isn't cached yet.
++     * @throws
++     *      std::bad_alloc if there is not enough memory.
++     *      std::runtime_error on file read error.
+      */
+-    inline static size_t chunkNumber(size_t offset) {
+-        return offset / chunkSize;
+-    }
++    void CacheInMemory();
++
++    class Chunk;
++    using Chunks = std::vector<Chunk>;
+ 
+     /**
+-     * Return offset inside chunk to 'offset'-th byte.
++     * Pointer to the ZIP archive.
++     * Becomes null when file is cached in memory.
+      */
+-    inline static unsigned int chunkOffset(size_t offset) {
+-        return offset % chunkSize;
+-    }
++    zip *archive_ = nullptr;
+ 
+-public:
+-    size_t len;
++    /**
++     * Index of the file in the ZIP archive.
++     */
++    const zip_uint64_t nodeId_ = 0;
++
++    /**
++     * File being streamed.
++     * Becomes null when file is cached in memory.
++     */
++    ZipFile file_ = nullptr;
++
++    /**
++     * Current position of the file being streamed.
++     * Not used when file is cached in memory.
++     */
++    off_t pos_ = 0;
++
++    /**
++     * Cached file in memory.
++     * Used only when archive_ is null.
++     */
++    Chunks chunks_;
++
++  public:
++    off_t len = 0;
+ 
+     /**
+      * Create new file buffer without mapping to file in a zip archive
+@@ -86,11 +110,11 @@ public:
+      * @param z         Zip file
+      * @param nodeId    Node index inside zip file
+      * @param length    File length
+-     * @throws 
++     * @throws
+      *      std::exception  On file read error
+      *      std::bad_alloc  On memory insufficiency
+      */
+-    BigBuffer(struct zip *z, zip_uint64_t nodeId, size_t length);
++    BigBuffer(struct zip *z, zip_uint64_t nodeId, off_t length);
+ 
+     ~BigBuffer();
+ 
+@@ -105,7 +129,7 @@ public:
+      * @param offset    offset to start reading from
+      * @return number of bytes read
+      */
+-    int read(char *buf, size_t size, size_t offset) const;
++    int read(char *buf, size_t size, off_t offset);
+ 
+     /**
+      * Dispatch write request to chunks of a file and grow 'chunks' vector if
+@@ -135,8 +159,8 @@ public:
+      *      0       If successfull
+      *      -ENOMEM If there are no memory
+      */
+-    int saveToZip(time_t mtime, struct zip *z, const char *fname,
+-            bool newFile, zip_int64_t &index);
++    int saveToZip(time_t mtime, struct zip *z, const char *fname, bool newFile,
++                  zip_int64_t &index);
+ 
+     /**
+      * Truncate buffer at position offset.
+@@ -151,4 +175,3 @@ public:
+ };
+ 
+ #endif
+-
+diff --git a/lib/dataNode.cpp b/lib/dataNode.cpp
+index 0efd7bc..07f0f84 100644
+--- a/lib/dataNode.cpp
++++ b/lib/dataNode.cpp
+@@ -116,17 +116,14 @@ int DataNode::open(struct zip *zip) {
+     if (_state == NodeState::CLOSED) {
+         _open_count = 1;
+         assert(zip != NULL);
+-        if (_size > std::numeric_limits<size_t>::max()) {
+-            return -ENOMEM;
+-        }
+         assert(_id != FAKE_ID);
+-        _buffer.reset(new BigBuffer(zip, _id, static_cast<size_t>(_size)));
++        _buffer.reset(new BigBuffer(zip, _id, _size));
+         _state = NodeState::OPENED;
+     }
+     return 0;
+ }
+ 
+-int DataNode::read(char *buf, size_t sz, size_t offset) {
++int DataNode::read(char *buf, size_t sz, off_t offset) {
+     _atime = currentTime();
+     return _buffer->read(buf, sz, offset);
+ }
+diff --git a/lib/dataNode.h b/lib/dataNode.h
+index 7489ec9..550593c 100644
+--- a/lib/dataNode.h
++++ b/lib/dataNode.h
+@@ -73,7 +73,7 @@ public:
+     static std::shared_ptr<DataNode> createExisting(struct zip *zip, zip_uint64_t id, mode_t mode);
+ 
+     int open(struct zip *zip);
+-    int read(char *buf, size_t size, size_t offset);
++    int read(char *buf, size_t size, off_t offset);
+     int write(const char *buf, size_t size, size_t offset);
+     int close();
+ 
+@@ -166,4 +166,3 @@ public:
+     zip_uint64_t size() const;
+ };
+ #endif
+-
+diff --git a/lib/fileNode.cpp b/lib/fileNode.cpp
+index 30c2975..aeb66ec 100644
+--- a/lib/fileNode.cpp
++++ b/lib/fileNode.cpp
+@@ -191,7 +191,7 @@ int FileNode::open() {
+     return _data->open(zip);
+ }
+ 
+-int FileNode::read(char *buf, size_t sz, size_t offset) {
++int FileNode::read(char *buf, size_t sz, off_t offset) {
+     return _data->read(buf, sz, offset);
+ }
+ 
+diff --git a/lib/fileNode.h b/lib/fileNode.h
+index 998bc9e..ab07cd9 100644
+--- a/lib/fileNode.h
++++ b/lib/fileNode.h
+@@ -111,7 +111,7 @@ public:
+     void rename (const char *new_name);
+ 
+     int open();
+-    int read(char *buf, size_t size, size_t offset);
++    int read(char *buf, size_t size, off_t offset);
+     int write(const char *buf, size_t size, size_t offset);
+     int close();
+ 
+diff --git a/lib/fuse-zip.cpp b/lib/fuse-zip.cpp
+index 73ea2fa..4c4c2a4 100644
+--- a/lib/fuse-zip.cpp
++++ b/lib/fuse-zip.cpp
+@@ -269,8 +269,7 @@ int fusezip_read(const char *path, char *buf, size_t size, off_t offset,
+                  struct fuse_file_info *fi) try {
+     if (offset < 0)
+         return -EINVAL;
+-    return reinterpret_cast<FileNode *>(fi->fh)->read(
+-        buf, size, static_cast<size_t>(offset));
++    return reinterpret_cast<FileNode *>(fi->fh)->read(buf, size, offset);
+ } catch (...) {
+     return exceptionToError("read file", path);
+ }
+@@ -662,4 +661,3 @@ int fusezip_symlink(const char *dest, const char *path) {
+     node->close();
+     return (res < 0) ? -ENOMEM : 0;
+ }
+-
+-- 
+2.27.0.383.g050319c2ae-goog
+
