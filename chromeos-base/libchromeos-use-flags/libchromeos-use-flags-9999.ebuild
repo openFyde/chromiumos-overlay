@@ -66,7 +66,6 @@ IUSE="
 	ndk_translation
 	ndk_translation64
 	neon
-	nocturne
 	oobe_skip_postlogin
 	oobe_skip_to_login
 	opengles
