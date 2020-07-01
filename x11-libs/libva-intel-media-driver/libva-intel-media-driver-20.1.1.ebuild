@@ -25,6 +25,7 @@ PATCHES=(
 	"${FILESDIR}"/0001-Encoder-VP8-GEN9-GEN10-GEN11-Ensure-forced_lf_adjust.patch
 	"${FILESDIR}"/0002-Disable-IPC-usage.patch
 	"${FILESDIR}"/0003-VP-Explicitly-initialize-maxSrcRect-of-VphalRenderer.patch
+	"${FILESDIR}"/0004-VP-fix-crash-in-vp8-playback.patch
 )
 
 src_configure() {
