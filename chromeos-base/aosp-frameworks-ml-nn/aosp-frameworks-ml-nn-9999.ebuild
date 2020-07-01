@@ -69,7 +69,28 @@ platform_pkg_test() {
 
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_target}_testrunner"
+		local gtest_excl_filter="-"
+
+		if ! use x86 && ! use amd64; then
+			# When running in qemu, these tests freeze the emulator when hitting
+			# EventFlag::wake from libfmq. The error printed is:
+			# Error in event flag wake attempt: Function not implemented
+			# This is a known issue, see:
+			# https://chromium.googlesource.com/chromiumos/docs/+/master/testing/running_unit_tests.md#caveats
+			gtest_excl_filter+="Flavor/ExecutionTest12.Wait/0:"
+			gtest_excl_filter+="Flavor/ExecutionTest13.Wait/0:"
+			gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/0:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/12:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/15:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/18:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/21:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/24:"
+			gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionTiming:"
+			gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeout:"
+			gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeoutMaximum:"
+		fi
+
+		platform_test "run" "${OUT}/${test_target}_testrunner" "0" "${gtest_excl_filter}"
 	done
 }
 
