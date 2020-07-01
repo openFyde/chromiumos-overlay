@@ -23,6 +23,7 @@ RDEPEND="${DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}"/0001-Encoder-VP8-GEN9-GEN10-GEN11-Ensure-forced_lf_adjust.patch
+	"${FILESDIR}"/0002-Disable-IPC-usage.patch
 )
 
 src_configure() {
