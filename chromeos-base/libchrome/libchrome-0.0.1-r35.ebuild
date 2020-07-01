@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("303d7631d00b01e77e41b5766796466d0762a6c7" "e39e75c8d0a761fa3c34038ca6b392d97c3ee6d9")
+CROS_WORKON_COMMIT=("22529c13e487f1c5d6f5dc769820debed8e52e33" "e39e75c8d0a761fa3c34038ca6b392d97c3ee6d9")
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "bd012875ecbcc40370d6838e77315b47097f460d")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -11,6 +11,7 @@ CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 WANT_LIBCHROME="no"
+IS_LIBCHROME="yes"
 inherit cros-workon libchrome-version platform
 
 DESCRIPTION="Chrome base/ and dbus/ libraries extracted for use on Chrome OS"
