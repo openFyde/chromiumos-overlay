@@ -30,12 +30,11 @@ if [ "${PV%9999}" = "${PV}" ] ; then
 else
 	KEYWORDS=""
 fi
-IUSE="+drm wayland X hybrid_codec"
+IUSE="hybrid_codec"
 
-RDEPEND=">=x11-libs/libva-2.1.0[X?,wayland?,drm?]
+RDEPEND=">=x11-libs/libva-2.1.0
 	>=x11-libs/libdrm-2.4.46[video_cards_intel]
-	hybrid_codec? ( media-libs/intel-hybrid-driver )
-	wayland? ( >=media-libs/mesa-9.1.6[egl] >=dev-libs/wayland-1.0.6 )"
+	hybrid_codec? ( media-libs/intel-hybrid-driver )"
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
@@ -65,10 +64,9 @@ src_prepare() {
 
 multilib_src_configure() {
 	local myeconfargs=(
-		$(use_enable drm)
-		$(use_enable wayland)
-		$(use_enable X x11)
-		$(use_enable hybrid_codec)
+		--disable-wayland
+		--disable-x11
+		"$(use_enable hybrid_codec)"
 	)
 	autotools-utils_src_configure
 }
