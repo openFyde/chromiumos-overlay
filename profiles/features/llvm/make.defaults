@@ -9,3 +9,5 @@ CCLD_FOR_BUILD=x86_64-pc-linux-gnu-clang
 CXXLD_FOR_BUILD=x86_64-pc-linux-gnu-clang++
 READELF=llvm-readelf
 READELF_FOR_BUILD=llvm-readelf
+STRINGS=llvm-strings
+STRINGS_FOR_BUILD=llvm-strings
