@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c142078820d0707858873cedb290a78d36f531af"
+CROS_WORKON_COMMIT="868c845c32749a2fbede4986fa0031da77601ed2"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "ac80bd0f60e5010b7453f7373facbef482b56fdc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -61,6 +61,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api:=[fuzzer?]
+	dev-cpp/absl:=
 "
 
 src_install() {
