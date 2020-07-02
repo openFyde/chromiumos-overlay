@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("868c845c32749a2fbede4986fa0031da77601ed2" "8612841c256785e6e95f81ed96749830c018e73d")
+CROS_WORKON_COMMIT=("eea01f9e77c03b62561691305b468096a881dcf0" "8612841c256785e6e95f81ed96749830c018e73d")
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9250a348c790f79a57a77c0a79fe29f2688cd1d9")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -71,7 +71,28 @@ platform_pkg_test() {
 
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_target}_testrunner"
+		local gtest_excl_filter="-"
+
+		if ! use x86 && ! use amd64; then
+			# When running in qemu, these tests freeze the emulator when hitting
+			# EventFlag::wake from libfmq. The error printed is:
+			# Error in event flag wake attempt: Function not implemented
+			# This is a known issue, see:
+			# https://chromium.googlesource.com/chromiumos/docs/+/master/testing/running_unit_tests.md#caveats
+			gtest_excl_filter+="Flavor/ExecutionTest12.Wait/0:"
+			gtest_excl_filter+="Flavor/ExecutionTest13.Wait/0:"
+			gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/0:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/12:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/15:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/18:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/21:"
+			gtest_excl_filter+="Unfenced/TimingTest.Test/24:"
+			gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionTiming:"
+			gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeout:"
+			gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeoutMaximum:"
+		fi
+
+		platform_test "run" "${OUT}/${test_target}_testrunner" "0" "${gtest_excl_filter}"
 	done
 }
 
