@@ -141,8 +141,8 @@ cros-ec_make_ec() {
 		extra_opts+=( "BOOTBLOCK=${bootblock}" )
 	fi
 
-	BOARD=${target} emake "${EC_OPTS[@]}" clean
-	BOARD=${target} emake "${EC_OPTS[@]}" "${extra_opts[@]}" all
+	BOARD=${board} emake "${EC_OPTS[@]}" clean
+	BOARD=${board} emake "${EC_OPTS[@]}" "${extra_opts[@]}" all
 	# Since the ec codebase does not allow specifying a target build
 	# directory, move its build directory to the requested location.
 	rm -rf "${build_dir}"
