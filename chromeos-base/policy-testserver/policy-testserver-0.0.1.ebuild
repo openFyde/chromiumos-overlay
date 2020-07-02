@@ -21,7 +21,7 @@ EGIT_REPO_URIS=(
 
 	"components/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"9c560d32ca3cefb832cd84e6641c6dec9795ff5b"
+	"6bed99ebb2035b0ad6cdc6ed841157e42e4b0a1f"
 )
 
 DESCRIPTION="Dependencies needed by the policy_testserver"
