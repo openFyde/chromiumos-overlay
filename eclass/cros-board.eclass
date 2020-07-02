@@ -399,6 +399,7 @@ ALL_BOARDS=(
 	tidus
 	tricky
 	trogdor
+	trogdor-kernelnext
 	ultima
 	umaro
 	#urara
