@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c9f6c3082c0a6c999639ad58c4a4a287c6b39e3a"
-CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "8f52ae0aced185b12aec07689071dc7cbc5bbc42" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c6ce5ccf9c6310c03d4a4f957102b3a7629957d4"
+CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "f2bf6ae043b20c7e134a520985328b7bd10e6481" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk hammerd .gn"
 
 PLATFORM_SUBDIR="hammerd"
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{6..8} )
 
 inherit cros-workon platform distutils-r1
 
