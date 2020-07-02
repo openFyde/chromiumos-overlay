@@ -26,13 +26,11 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 
 	# Install libraries.
-	local v
-	for v in "${LIBCHROME_VERS[@]}"; do
-		./preinstall.sh "${OUT}" "${v}"
-		dolib.so "${OUT}"/lib/libweave-"${v}".so
-		doins "${OUT}"/lib/libweave-*"${v}".pc
-		dolib.a "${OUT}"/libweave-test-"${v}".a
-	done
+	local v="$(libchrome_ver)"
+	./preinstall.sh "${OUT}" "${v}"
+	dolib.so "${OUT}"/lib/libweave-"${v}".so
+	doins "${OUT}"/lib/libweave-*"${v}".pc
+	dolib.a "${OUT}"/libweave-test-"${v}".a
 
 	# Install header files.
 	insinto /usr/include/weave/

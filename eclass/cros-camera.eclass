@@ -62,7 +62,7 @@ cros-camera_dopc() {
 	local lib_dir="/usr/$(get_libdir)"
 
 	sed -e "s|@INCLUDE_DIR@|${include_dir}|" -e "s|@LIB_DIR@|${lib_dir}|" \
-		-e "s|@LIBCHROME_VERS@|${LIBCHROME_VERS}|" \
+		-e "s|@LIBCHROME_VERS@|$(libchrome_ver)|" \
 		"${in_pc_file}" > "${out_pc_file}"
 	(
 		insinto "${lib_dir}/pkgconfig"

@@ -38,12 +38,10 @@ pkg_preinst() {
 
 src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	local v
-	for v in "${LIBCHROME_VERS[@]}"; do
-		libwebserv/preinstall.sh "${OUT}" "${v}"
-		dolib.so "${OUT}/lib/libwebserv-${v}.so"
-		doins "${OUT}/lib/libwebserv-${v}.pc"
-	done
+	local v="$(libchrome_ver)"
+	libwebserv/preinstall.sh "${OUT}" "${v}"
+	dolib.so "${OUT}/lib/libwebserv-${v}.so"
+	doins "${OUT}/lib/libwebserv-${v}.pc"
 
 	# Install header files from libwebserv
 	insinto /usr/include/libwebserv

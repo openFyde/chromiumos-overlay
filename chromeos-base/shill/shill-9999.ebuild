@@ -92,12 +92,10 @@ src_configure() {
 src_install() {
 	# Install libshill-net library.
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	local v
-	for v in "${LIBCHROME_VERS[@]}"; do
-		./net/preinstall.sh "${OUT}" "${v}"
-		dolib.so "${OUT}/lib/libshill-net-${v}.so"
-		doins "${OUT}/lib/libshill-net-${v}.pc"
-	done
+	local v="$(libchrome_ver)"
+	./net/preinstall.sh "${OUT}" "${v}"
+	dolib.so "${OUT}/lib/libshill-net-${v}.so"
+	doins "${OUT}/lib/libshill-net-${v}.pc"
 
 	# Install header files from libshill-net.
 	insinto /usr/include/shill/net

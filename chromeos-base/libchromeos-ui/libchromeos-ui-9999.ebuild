@@ -24,14 +24,12 @@ RDEPEND="chromeos-base/bootstat"
 DEPEND=""
 
 src_install() {
-	local v
+	local v="$(libchrome_ver)"
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	for v in "${LIBCHROME_VERS[@]}"; do
-		./platform2_preinstall.sh "${OUT}" "${v}"
-		dolib.so "${OUT}"/lib/libchromeos-ui-"${v}".so
-		doins "${OUT}"/lib/libchromeos-ui-"${v}".pc
-	done
+	./platform2_preinstall.sh "${OUT}" "${v}"
+	dolib.so "${OUT}"/lib/libchromeos-ui-"${v}".so
+	doins "${OUT}"/lib/libchromeos-ui-"${v}".pc
 
 	insinto /usr/include/chromeos/ui
 	doins "${S}"/chromeos/ui/*.h
