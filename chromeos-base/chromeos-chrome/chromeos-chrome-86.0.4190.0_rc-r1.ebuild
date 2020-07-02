@@ -46,7 +46,7 @@ IUSE="
 	+debug_fission
 	+fonts
 	goma
-	goma_thinlto
+	+goma_thinlto
 	+highdpi
 	internal_gles_conform
 	+libcxx
@@ -836,8 +836,8 @@ src_configure() {
 	export CC_host=$(tc-getBUILD_CC)
 	export CXX_host=$(tc-getBUILD_CXX)
 	export NM_host=$(tc-getBUILD_NM)
-	export READELF="${CHOST}-readelf"
-	export READELF_host="${CBUILD}-readelf"
+	export READELF="llvm-readelf"
+	export READELF_host="llvm-readelf"
 
 	# Use C++ compiler as the linker driver.
 	export LD="${CXX}"
