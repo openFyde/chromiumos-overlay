@@ -2,9 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-# Build qemu with bfd linker temporarily, http://crbug.com/1035694
-cros_pre_src_configure_use_bfd() {
-	append-ldflags "-fuse-ld=bfd" || die
-	# Disable ICF because BFD does not support it, https://crbug.com/1022226
-	filter-ldflags "-Wl,--icf=all"
+cros_pre_src_prepare_qemu_cflags() {
+	# TODO(crbug.com/1103492): Temporary disable new pass manager.
+	append-cflags "-fno-experimental-new-pass-manager" || die
 }
