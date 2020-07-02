@@ -73,7 +73,7 @@ USE="${USE} bluez-next bt_deprecated_tools"
 TTY_CONSOLE="-tty2"
 
 # Ozone platforms to build into Chrome.
-OZONE_PLATFORM="gbm"
+OZONE_PLATFORM="gbm headless"
 
 # Of the above, platform to use by default at runtime.
 OZONE_PLATFORM_DEFAULT="gbm"
