@@ -3,11 +3,12 @@
 
 EAPI=5
 
-# The dev-go/luci-* packages are all built from this repo.  They should
+# The dev-go/luci-* packages are all built from this repo. They should
 # be updated together.
 CROS_GO_SOURCE="chromium.googlesource.com/infra/luci/luci-go:go.chromium.org/luci 77b23ce4c9189484e14035690f439c97f7629c2e"
 
 CROS_GO_PACKAGES=(
+	"go.chromium.org/luci/common/cli"
 	"go.chromium.org/luci/common/clock"
 	"go.chromium.org/luci/common/clock/clockflag"
 	"go.chromium.org/luci/common/data/chunkstream"
@@ -29,13 +30,14 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/common/proto/git"
 	"go.chromium.org/luci/common/proto/google"
 	"go.chromium.org/luci/common/proto/milo"
-	"go.chromium.org/luci/common/runtime/goroutine"
-	"go.chromium.org/luci/common/runtime/paniccatcher"
 	"go.chromium.org/luci/common/retry"
 	"go.chromium.org/luci/common/retry/transient"
+	"go.chromium.org/luci/common/runtime/goroutine"
+	"go.chromium.org/luci/common/runtime/paniccatcher"
 	"go.chromium.org/luci/common/sync/cancelcond"
 	"go.chromium.org/luci/common/sync/parallel"
 	"go.chromium.org/luci/common/system/environ"
+	"go.chromium.org/luci/common/system/exitcode"
 	"go.chromium.org/luci/common/system/terminal"
 	"go.chromium.org/luci/lucictx"
 )
@@ -57,6 +59,7 @@ DEPEND="
 	dev-go/crypto
 	dev-go/gapi-googleapi
 	dev-go/gcp-pubsub
+	dev-go/maruel-subcommands
 	dev-go/net
 	dev-go/oauth2
 	dev-go/op-logging

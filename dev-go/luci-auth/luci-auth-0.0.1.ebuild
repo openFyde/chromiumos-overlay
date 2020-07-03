@@ -3,14 +3,15 @@
 
 EAPI=5
 
-# The dev-go/luci-* packages are all built from this repo.  They should
+# The dev-go/luci-* packages are all built from this repo. They should
 # be updated together.
 CROS_GO_SOURCE="chromium.googlesource.com/infra/luci/luci-go:go.chromium.org/luci 77b23ce4c9189484e14035690f439c97f7629c2e"
 
 CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/auth"
+	"go.chromium.org/luci/auth/client/..."
 	"go.chromium.org/luci/auth/internal"
-	"go.chromium.org/luci/auth/integration/localauth/rpcs"
+	"go.chromium.org/luci/auth/integration/..."
 )
 
 inherit cros-go
@@ -30,6 +31,7 @@ DEPEND="
 	dev-go/gcp-compute
 	dev-go/grpc
 	dev-go/luci-common
+	dev-go/maruel-subcommands
 	dev-go/net
 	dev-go/oauth2
 "

@@ -23,5 +23,11 @@ IUSE=""
 
 DEPEND="
 	chromeos-base/cros-config-api:=
+	dev-go/luci-chromeinfra:=
+	dev-go/luci-auth:=
 	dev-go/luci-common:=
 "
+
+src_configure() {
+	$(cros-workon_get_build_dir)/generate_metadata.sh
+}
