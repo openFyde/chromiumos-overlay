@@ -1,0 +1,61 @@
+Retrieves android properties from system environment varaibles.
+
+- Converts the key names to capital letters.
+- Replaces '.' with '-', as '.' is not supported in env variable names.
+
+
+diff --git a/platform2/aosp/system/core/base/properties.cpp b/platform2/aosp/system/core/base/properties.cpp
+index 5c9ec7e..b93da98 100644
+--- a/platform2/aosp/system/core/base/properties.cpp
++++ b/platform2/aosp/system/core/base/properties.cpp
+@@ -20,6 +20,9 @@
+ #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
+ #include <sys/system_properties.h>
+ #include <sys/_system_properties.h>
++#else
++#include <stdlib.h>
++#include <cstring>
+ #endif
+
+ #include <algorithm>
+@@ -79,6 +82,24 @@ static int __system_property_set(const char* key, const char* value) {
+   g_properties[key] = value;
+   return 0;
+ }
++
++// Convert a key name to a format acceptible for an envronment variable
++std::string ConvertKeyToEnvVar(const std::string& key) {
++  std::string result = key;
++  // Convert to upper case
++  std::transform(result.begin(), result.end(), result.begin(), ::toupper);
++  // Convert '.' to '_'
++  std::replace(result.begin(), result.end(), '.', '_');
++
++  return result;
++}
++
++std::string GetPropertyFromEnvVar(const std::string& key, const std::string& default_value) {
++  std::string env_key = ConvertKeyToEnvVar(key);
++  char* env_value = getenv(env_key.c_str());
++  return env_value ? std::string(env_value) : default_value;
++}
++
+ #endif
+
+ std::string GetProperty(const std::string& key, const std::string& default_value) {
+@@ -94,9 +115,13 @@ std::string GetProperty(const std::string& key, const std::string& default_value
+                                   },
+                                   &property_value);
+ #else
++
+   auto it = g_properties.find(key);
+-  if (it == g_properties.end()) return default_value;
+-  property_value = it->second;
++  if (it != g_properties.end()) {
++    property_value = it->second;
++  } else {
++    property_value = GetPropertyFromEnvVar(key, default_value);
++  }
+ #endif
+   // If the property exists but is empty, also return the default value.
+   // Since we can't remove system properties, "empty" is traditionally
