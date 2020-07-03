@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="195d0284cce1f736e0301fdb13a22a4c7b3c0060"
-CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "ffc302962fa064f5a0b364c1b2b4a461e14972ed" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="43d556f08b51977bba46481265026bbfcb6ae51f"
+CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "8cef41aa25ce971632e18a2c2ad10e0c99d8c6e1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -58,6 +58,7 @@ src_install() {
 
 	if use vm-containers; then
 		dobin "${OUT}"/garcon
+		dobin "${OUT}"/guest_service_failure_notifier
 		dobin "${OUT}"/notificationd
 		dobin "${OUT}"/upgrade_container
 		dobin "${OUT}"/virtwl_guest_proxy
