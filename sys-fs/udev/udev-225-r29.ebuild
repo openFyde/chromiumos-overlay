@@ -75,6 +75,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-225-sysmacros.patch
 	"${FILESDIR}"/${PN}-225-50-udev-default.rules-set-default-group-for-udmabuf.patch
 	"${FILESDIR}"/${PN}-225-50-udev-default.rules-disable-REMOVE_CMD-support.patch
+	"${FILESDIR}"/${PN}-225-udev-rules-no-slash-run.patch
 )
 
 check_default_rules() {
