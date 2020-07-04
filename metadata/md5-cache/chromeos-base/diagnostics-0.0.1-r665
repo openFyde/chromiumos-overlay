@@ -4,11 +4,11 @@ DEPEND=unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config:= ) g
 DESCRIPTION=Device telemetry and diagnostics for Chrome OS
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics
-IUSE=fuzzer wilco generated_cros_config unibuild cros_host cros_workon_tree_eec5ce9cfadd268344b02efdbec7465fbc391a9e_1ae1073d119e7c0ccf8b35a9ac3f93e810804df8_d7dd7763e6b3e7078e2ae88bff52f08118a04788_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_eec5ce9cfadd268344b02efdbec7465fbc391a9e_1ae1073d119e7c0ccf8b35a9ac3f93e810804df8_d7dd7763e6b3e7078e2ae88bff52f08118a04788_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug compilation_database cros_host test
+IUSE=fuzzer wilco generated_cros_config unibuild cros_host cros_workon_tree_eec5ce9cfadd268344b02efdbec7465fbc391a9e_58674bef78f9c569fd120a3220a9559a6b8a6f00_d7dd7763e6b3e7078e2ae88bff52f08118a04788_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_eec5ce9cfadd268344b02efdbec7465fbc391a9e_58674bef78f9c569fd120a3220a9559a6b8a6f00_d7dd7763e6b3e7078e2ae88bff52f08118a04788_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug compilation_database cros_host test
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
 RDEPEND=unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config:= ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) chromeos-base/chromeos-config-tools:= dev-libs/protobuf:= dev-libs/re2:= net-libs/grpc:= virtual/libudev:= chromeos-base/minijail dev-util/stressapptest sys-block/fio wilco? ( chromeos-base/chromeos-dtc-vm chromeos-base/vpd ) >=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:= sys-apps/baselayout
-SLOT=0/0.0.1-r664
+SLOT=0/0.0.1-r665
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	7db5b03b7ca5337406c3d24a0e096e9c	libchrome-version	e6da2797824cba5cbf8df7636c22624c	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	e32be3e77add97a882c5c99bad53fb11	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	udev	452708c3f55cf6e918b045adb949a9e6	user	7c566af8c48023219fd63246e88d6621
-_md5_=0c5b5ae804d74c7cf2ad5b498ccb7441
+_md5_=5b2c870221e3861d7aa7ed47879df284
