@@ -246,29 +246,16 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	_build_filter_clang++() {
 		return 0
 	}
-	_build_filter_ld() {
-		case ${CATEGORY}/${PN} in
-		app-crypt/nss|\
-		dev-lang/go|\
-		dev-libs/nss|\
-		dev-util/perf) return 1;;
-		esac
-	}
-	_build_filter_as() {
-		case ${CATEGORY}/${PN} in
-		dev-libs/nspr) return 1;;
-		esac
-	}
 
 	local dir="${T}/build-toolchain-wrappers"
 	mkdir -p "${dir}"
 	local tool tcvar
-	for tool in as ld clang clang++ c++ g++ cc gcc pkg-config; do
+	for tool in clang clang++ c++ g++ cc gcc pkg-config; do
 		tcvar=${tool^^}
 		tcvar=${tcvar//-/_}
 
 		case ${tool} in
-		as|cc|clang|clang++|g++|gcc|ld|pkg-config) _build_filter_${tool//-/_} || continue;;
+		cc|clang|clang++|g++|gcc|pkg-config) _build_filter_${tool//-/_} || continue;;
 		esac
 
 		cat <<EOF > "${dir}/${tool}"
