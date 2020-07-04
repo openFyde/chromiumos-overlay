@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="262deb99d6c74393af32e761b2bd921d29be4e31"
+CROS_WORKON_COMMIT="637b07dbe6a3e07dcf5a1b2cfcc5e4e0145e6405"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "b13f38cd275ff6a0853504c8866ea2577602f01b" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -31,9 +31,7 @@ COMMON_DEPEND="
 
 RDEPEND="
 	${COMMON_DEPEND}
-	app-arch/unrar
 	net-fs/sshfs
-	sys-fs/avfs
 	sys-fs/dosfstools
 	sys-fs/exfat-utils
 	sys-fs/fuse-exfat
@@ -54,9 +52,6 @@ pkg_preinst() {
 
 	enewuser "ntfs-3g"
 	enewgroup "ntfs-3g"
-
-	enewuser "avfs"
-	enewgroup "avfs"
 
 	enewuser "fuse-exfat"
 	enewgroup "fuse-exfat"
@@ -83,7 +78,6 @@ src_install() {
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
-	use seccomp && newins avfsd-seccomp-${ARCH}.policy avfsd-seccomp.policy
 	use seccomp && newins fuse-zip-seccomp-${ARCH}.policy fuse-zip-seccomp.policy
 	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 
