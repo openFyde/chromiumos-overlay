@@ -132,6 +132,9 @@ src_install() {
 
 	if use wilco; then
 		udev_dorules udev/optional/93-powerd-wilco-ec-files.rules
+
+		exeinto /usr/share/cros/init/optional
+		doexe init/shared/optional/powerd-pre-start-wilco.sh
 	fi
 
 	# Init scripts
