@@ -205,8 +205,10 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		case ${CATEGORY}/${PN} in
 		*/binutils|\
 		*/gcc|\
+		*/gdb|\
 		app-text/xmlto|\
 		dev-embedded/u-boot-tools|\
+		dev-lang/rust|\
 		dev-libs/libffi|\
 		dev-libs/libusb-compat|\
 		dev-libs/lzo|\
