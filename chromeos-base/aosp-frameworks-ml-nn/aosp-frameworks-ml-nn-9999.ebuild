@@ -32,7 +32,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="~*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -55,9 +55,12 @@ cros-debug-add-NDEBUG() {
 
 src_configure() {
 	if use x86 || use amd64; then
-		append-cxxflags "-D_Float16=__fp16"
+		append-cppflags "-D_Float16=__fp16"
 		append-cxxflags "-Xclang -fnative-half-type"
 		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
+	fi
+	if use minimal-driver; then
+		append-cppflags "-DNNAPI_USE_MINIMAL_DRIVER"
 	fi
 	platform_src_configure
 }
