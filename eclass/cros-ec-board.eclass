@@ -41,74 +41,30 @@ esac
 EC_BOARD_USE_PREFIX="ec_firmware_"
 EC_EXTRA_BOARD_USE_PREFIX="ec_firmware_extra_"
 
-# EC firmware board names for overlay with special configuration
+# Board names to check for based on USE flags.
+# This is used for **pre-unibuild legacy boards only**!  Unibuild developments
+# are configured in chromeos-config.  Adjust /firmware/build-targets in your
+# model.yaml or Boxster file instead of appending to the list below.
 EC_BOARD_NAMES=(
-	asurada
-	atlas
-	atlas_ish
 	bds
-	cheza
-	coral
 	cr50
 	cyan
-	dedede
 	dingdong
-	dragonegg
 	elm
-	endeavour
-	eve
-	eve_fp
-	fizz
-	flapjack
 	glkrvp
-	grunt
 	hadoken
 	hammer
-	hatch
-	hatch_fp
 	hoho
-	jacuzzi
 	jerry
-	kalista
-	kukui
-	llama
-	lux
-	meowth
-	meowth_fp
-	minimuffin
-	mushu
-	nami
-	nami_fp
-	nautilus
-	nefario
-	nocturne
-	nocturne_fp
 	oak
 	oak_pd
-	octopus
-	orchestra
-	palkia
 	plankton
 	poppy
-	rammus
-	reef
-	ryu
-	ryu_p4p5
-	ryu_sh
-	ryu_sh_loader
 	samus
 	samus_pd
-	scarlet
-	soraka
-	staff
 	strago
-	trogdor
-	twinkie
 	wand
-	whiskers
 	zinger
-	zoombini
-	zork
 )
 
 IUSE_FIRMWARES="${EC_BOARD_NAMES[@]/#/${EC_BOARD_USE_PREFIX}}"
