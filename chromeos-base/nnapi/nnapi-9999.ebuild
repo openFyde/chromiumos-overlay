@@ -126,8 +126,16 @@ platform_pkg_test() {
 		base cutils fmq hidl hwbuf log utils
 	)
 
+	# When running in qemu, these tests freeze the emulator when hitting
+	# EventFlag::wake from libfmq. The error printed is:
+	# Error in event flag wake attempt: Function not implemented
+	# This is a known issue, see:
+	# https://chromium.googlesource.com/chromiumos/docs/+/master/testing/running_unit_tests.md#caveats
+	local qemu_gtest_excl_filter="-"
+	qemu_gtest_excl_filter+="BlockingReadWrites.SmallInputTest1:"
+
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/lib${test_target}_testrunner"
+		platform_test "run" "${OUT}/lib${test_target}_testrunner" "0" "" "${qemu_gtest_excl_filter}"
 	done
 }
