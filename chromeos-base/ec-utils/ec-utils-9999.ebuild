@@ -1,19 +1,11 @@
 # Copyright 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-# A note about this ebuild: this ebuild is Unified Build enabled but
-# not in the way in which most other ebuilds with Unified Build
-# knowledge are: the primary use for this ebuild is for engineer-local
-# work or firmware builder work. In both cases, the build might be
-# happening on a branch in which only one of many of the models are
-# available to build. The logic in this ebuild succeeds so long as one
-# of the many models successfully builds.
-
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 
-inherit cros-workon cros-ec-board user
+inherit cros-workon user
 
 DESCRIPTION="Chrome OS EC Utility"
 
@@ -22,7 +14,7 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="static unibuild -updater_utils"
+IUSE="static -updater_utils"
 IUSE="${IUSE} cros_host +cros_ec_utils"
 
 COMMON_DEPEND="dev-embedded/libftdi:=
@@ -36,34 +28,7 @@ pkg_preinst() {
 }
 
 src_compile_cros_ec_utils() {
-	get_ec_boards
-	local board
-	local some_board_built=false
-
-	for board in "${EC_BOARDS[@]}"; do
-		# We need to test whether the board make target
-		# exists. For Unified Build EC_BOARDS, the engineer or
-		# the firmware builder might be checked out on a
-		# firmware branch where only one of the many models in
-		# a family are actually available to build at the
-		# moment. make fails with exit code 2 when the target
-		# doesn't resolve due to error. For non-unibuilds, all
-		# EC_BOARDS targets should exist and build.
-		BOARD=${board} make -q clean
-
-		if [[ $? -ne 2 ]]; then
-			some_board_built=true
-			BOARD=${board} emake utils-host
-
-			# We only need one board for ec-utils
-			break
-		fi
-	done
-
-	if [[ ${some_board_built} == false ]]; then
-		die "We were not able to find a board target to build from the \
-set '${EC_BOARDS[*]}'"
-	fi
+	BOARD=host emake utils-host
 }
 
 src_compile() {
@@ -82,26 +47,11 @@ src_compile() {
 }
 
 src_install_cros_ec_utils() {
-	get_ec_boards
-	local board
-	local some_board_installed=false
-
-	for board in "${EC_BOARDS[@]}"; do
-		if [[ -d "${S}/build/${board}" ]]; then
-			some_board_installed=true
-			if use cros_host; then
-				dobin "build/${board}/util/cbi-util"
-			else
-				dosbin "build/$board/util/ectool"
-				dosbin "build/$board/util/ec_sb_firmware_update"
-			fi
-			break
-		fi
-	done
-
-	if [[ ${some_board_installed} == false ]]; then
-		die "We were not able to install at least one board from the \
-set '${EC_BOARDS[*]}'"
+	if use cros_host; then
+		dobin "build/host/util/cbi-util"
+	else
+		dosbin "build/host/util/ectool"
+		dosbin "build/host/util/ec_sb_firmware_update"
 	fi
 }
 
