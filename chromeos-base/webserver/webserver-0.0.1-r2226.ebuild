@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ba02e97029e2193d99801861d34d0c262f4fee5f"
+CROS_WORKON_COMMIT="e120a38324e6a4f913141f6cf31bccdb4d17caa2"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "420573281f25e737e0f006ae23a329b3b1402457" "d497496b2f212c664da45d40ac141034d6d973e7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -40,12 +40,10 @@ pkg_preinst() {
 
 src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	local v
-	for v in "${LIBCHROME_VERS[@]}"; do
-		libwebserv/preinstall.sh "${OUT}" "${v}"
-		dolib.so "${OUT}/lib/libwebserv-${v}.so"
-		doins "${OUT}/lib/libwebserv-${v}.pc"
-	done
+	local v="$(libchrome_ver)"
+	libwebserv/preinstall.sh "${OUT}" "${v}"
+	dolib.so "${OUT}/lib/libwebserv-${v}.so"
+	doins "${OUT}/lib/libwebserv-${v}.pc"
 
 	# Install header files from libwebserv
 	insinto /usr/include/libwebserv

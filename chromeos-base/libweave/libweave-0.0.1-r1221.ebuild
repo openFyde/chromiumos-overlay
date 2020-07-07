@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("c142078820d0707858873cedb290a78d36f531af" "c0efdc07edb6044fff866e2c4724229a951a4fbf")
+CROS_WORKON_COMMIT=("e120a38324e6a4f913141f6cf31bccdb4d17caa2" "c0efdc07edb6044fff866e2c4724229a951a4fbf")
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "207a66b6ccdc5ba610c7117e3e6d9e4e405c9b6c")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME=("platform2" "weave/libweave")
@@ -28,13 +28,11 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 
 	# Install libraries.
-	local v
-	for v in "${LIBCHROME_VERS[@]}"; do
-		./preinstall.sh "${OUT}" "${v}"
-		dolib.so "${OUT}"/lib/libweave-"${v}".so
-		doins "${OUT}"/lib/libweave-*"${v}".pc
-		dolib.a "${OUT}"/libweave-test-"${v}".a
-	done
+	local v="$(libchrome_ver)"
+	./preinstall.sh "${OUT}" "${v}"
+	dolib.so "${OUT}"/lib/libweave-"${v}".so
+	doins "${OUT}"/lib/libweave-*"${v}".pc
+	dolib.a "${OUT}"/libweave-test-"${v}".a
 
 	# Install header files.
 	insinto /usr/include/weave/

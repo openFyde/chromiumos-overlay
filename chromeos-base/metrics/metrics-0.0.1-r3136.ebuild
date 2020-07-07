@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c142078820d0707858873cedb290a78d36f531af"
+CROS_WORKON_COMMIT="e120a38324e6a4f913141f6cf31bccdb4d17caa2"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "7e189936f29d145c4191ea147e48256c92fac75d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -63,11 +63,10 @@ src_install() {
 	fi
 
 	insinto /usr/$(get_libdir)/pkgconfig
-	for v in "${LIBCHROME_VERS[@]}"; do
-		./platform2_preinstall.sh "${OUT}" "${v}"
-		dolib.so "${OUT}/lib/libmetrics-${v}.so"
-		doins "${OUT}/lib/libmetrics-${v}.pc"
-	done
+	local v="$(libchrome_ver)"
+	./platform2_preinstall.sh "${OUT}" "${v}"
+	dolib.so "${OUT}/lib/libmetrics-${v}.so"
+	doins "${OUT}/lib/libmetrics-${v}.pc"
 
 	insinto /usr/include/metrics
 	doins c_metrics_library.h \

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cc215b697c1b8fb5b75fc1c9145496bd4e2ac953"
+CROS_WORKON_COMMIT="e120a38324e6a4f913141f6cf31bccdb4d17caa2"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "98c0db7e92836fcb71403a83973a9b5018fe6177" "7e189936f29d145c4191ea147e48256c92fac75d" "f58c7c67629c689636699e638b8953a6cbf834fc" "3beedc5f4dfdaee00a216accee58e807058e10fe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -94,12 +94,10 @@ src_configure() {
 src_install() {
 	# Install libshill-net library.
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	local v
-	for v in "${LIBCHROME_VERS[@]}"; do
-		./net/preinstall.sh "${OUT}" "${v}"
-		dolib.so "${OUT}/lib/libshill-net-${v}.so"
-		doins "${OUT}/lib/libshill-net-${v}.pc"
-	done
+	local v="$(libchrome_ver)"
+	./net/preinstall.sh "${OUT}" "${v}"
+	dolib.so "${OUT}/lib/libshill-net-${v}.so"
+	doins "${OUT}/lib/libshill-net-${v}.pc"
 
 	# Install header files from libshill-net.
 	insinto /usr/include/shill/net

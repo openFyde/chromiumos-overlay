@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4bcf9fa29321c8e311a65e63e29405fc023062de"
+CROS_WORKON_COMMIT="259f022bc0aea8c1258f8f28909de6e84d1775c2"
 CROS_WORKON_TREE="6c56a58a6808e59bd763896a3b4e5fc1228d1c94"
 CROS_WORKON_LOCALNAME="third_party/cups"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
@@ -38,8 +38,9 @@ src_configure() {
 	sanitizers-setup-env || die
 	fuzzer-setup-binary || die
 	append-ldflags "$(${CHOST}-cups-config --libs)"
-	append-ldflags "$($(tc-getPKG_CONFIG) --libs libchrome-${BASE_VER})"
-	append-cppflags "$($(tc-getPKG_CONFIG) --cflags libchrome-${BASE_VER})"
+	local v="$(libchrome_ver)"
+	append-ldflags "$($(tc-getPKG_CONFIG) --libs libchrome-"${v}")"
+	append-cppflags "$($(tc-getPKG_CONFIG) --cflags libchrome-"${v}")"
 }
 
 src_compile() {

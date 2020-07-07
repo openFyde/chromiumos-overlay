@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="84a464cd0f446a7a47cf3c8340466e1ec0e0b0c1"
+CROS_WORKON_COMMIT="e120a38324e6a4f913141f6cf31bccdb4d17caa2"
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "63b44e3686f0442c1912e91acfe36a7f40295f6b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,14 +26,12 @@ RDEPEND="chromeos-base/bootstat"
 DEPEND=""
 
 src_install() {
-	local v
+	local v="$(libchrome_ver)"
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	for v in "${LIBCHROME_VERS[@]}"; do
-		./platform2_preinstall.sh "${OUT}" "${v}"
-		dolib.so "${OUT}"/lib/libchromeos-ui-"${v}".so
-		doins "${OUT}"/lib/libchromeos-ui-"${v}".pc
-	done
+	./platform2_preinstall.sh "${OUT}" "${v}"
+	dolib.so "${OUT}"/lib/libchromeos-ui-"${v}".so
+	doins "${OUT}"/lib/libchromeos-ui-"${v}".pc
 
 	insinto /usr/include/chromeos/ui
 	doins "${S}"/chromeos/ui/*.h
