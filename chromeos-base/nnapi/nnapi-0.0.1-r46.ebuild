@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("6cdddcc3b26f2eb3dad6e08d9f8e056ba44e6c5b" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
+CROS_WORKON_COMMIT=("e91e6abd0abc66801bd7b30fc00b26b8e9cbe224" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
 CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "6ce5174303d011bac1b15ddf51c35f31899aee57" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d59698b9aacd42201a585bee90f33719caa6338b" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "934fe42dbc7182e5775cb5717e7cb29644a6eae8" "3e10262144e64652e5c70fe978e1d6bae433ab27")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -128,8 +128,16 @@ platform_pkg_test() {
 		base cutils fmq hidl hwbuf log utils
 	)
 
+	# When running in qemu, these tests freeze the emulator when hitting
+	# EventFlag::wake from libfmq. The error printed is:
+	# Error in event flag wake attempt: Function not implemented
+	# This is a known issue, see:
+	# https://chromium.googlesource.com/chromiumos/docs/+/master/testing/running_unit_tests.md#caveats
+	local qemu_gtest_excl_filter="-"
+	qemu_gtest_excl_filter+="BlockingReadWrites.SmallInputTest1:"
+
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/lib${test_target}_testrunner"
+		platform_test "run" "${OUT}/lib${test_target}_testrunner" "0" "" "${qemu_gtest_excl_filter}"
 	done
 }
