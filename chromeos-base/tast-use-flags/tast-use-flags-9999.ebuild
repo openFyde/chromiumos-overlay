@@ -80,6 +80,7 @@ IUSE="
 	msan
 	ndk_translation
 	ndk_translation64
+	nnapi
 	nyan_kitty
 	octopus
 	pita
