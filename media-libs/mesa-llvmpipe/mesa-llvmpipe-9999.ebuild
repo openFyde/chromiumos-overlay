@@ -66,6 +66,10 @@ RDEPEND="
 		x11-libs/libXrandr
 		x11-libs/libXxf86vm
 	)
+	wayland? (
+		dev-libs/wayland
+		>=dev-libs/wayland-protocols-1.8
+	)
 	llvm? ( virtual/libelf )
 	!media-libs/mesa
 	dev-libs/expat
@@ -80,7 +84,6 @@ DEPEND="${RDEPEND}
 	sys-devel/flex
 	virtual/pkgconfig
 	x11-base/xorg-proto
-	wayland? ( >=dev-libs/wayland-protocols-1.8 )
 	llvm? ( sys-devel/llvm )
 "
 
