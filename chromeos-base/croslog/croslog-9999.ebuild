@@ -23,6 +23,9 @@ IUSE=""
 
 src_install() {
 	platform_install
+
+	insinto /etc/init
+	doins etc/log-bootid-on-boot.conf
 }
 
 platform_pkg_test() {
