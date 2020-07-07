@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="756d7bdf1bf91f8ce5d32a37467c1eb68dcfa867"
-CROS_WORKON_TREE="658ecd88349be32b445644954e399b1c8a719207"
+CROS_WORKON_COMMIT="33392eee6e2ab95632c5078b4e3f8637ad027aea"
+CROS_WORKON_TREE="eda22a9d32fc23478a0375ca2ee83c57fd3ea143"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -31,7 +31,6 @@ IUSE_TESTS="
 	+tests_firmware_Cr50U2fPowerwash
 	+tests_hardware_TPMCheck
 	+tests_kernel_TPMStress
-	+tests_platform_Attestation
 	+tests_platform_Pkcs11InitUnderErrors
 	+tests_platform_Pkcs11ChangeAuthData
 	+tests_platform_Pkcs11Events
