@@ -37,6 +37,7 @@ IUSE="
 	+build_tests
 	+chrome_debug
 	+cfi
+	cfm
 	chrome_debug_tests
 	chrome_internal
 	chrome_media
@@ -245,6 +246,8 @@ set_build_args() {
 		"enable_remoting=$(usetf chrome_remoting)"
 		"enable_nacl=$(use_nacl; echotf)"
 		# use_system_minigbm is set below.
+
+		"is_cfm=$(usetf cfm)"
 
 		# Clang features.
 		"is_asan=$(usetf asan)"
