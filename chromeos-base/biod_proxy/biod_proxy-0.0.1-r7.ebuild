@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c142078820d0707858873cedb290a78d36f531af"
-CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "cab303d898330a3aba9a704cab6e1ea1b2315024" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9b312dcccb792598be7f6848f54d469d0a452081"
+CROS_WORKON_TREE=("eec5ce9cfadd268344b02efdbec7465fbc391a9e" "d976cad29494daaa43f5b4806faec13ac9684285" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,11 +23,14 @@ KEYWORDS="*"
 RDEPEND=""
 
 DEPEND="
+	chromeos-base/libbrillo:=
 	chromeos-base/system_api:=
 "
 
 src_install() {
 	dolib.so "${OUT}"/lib/libbiod_proxy.so
+	insinto /usr/include/biod/biod_proxy/
+	doins ./*.h
 }
 
 platform_pkg_test() {
