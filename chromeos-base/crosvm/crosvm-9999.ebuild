@@ -125,6 +125,7 @@ src_compile() {
 		$(usex crosvm-video-encoder video-encoder "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
+		chromeos
 	)
 
 	local packages=(
