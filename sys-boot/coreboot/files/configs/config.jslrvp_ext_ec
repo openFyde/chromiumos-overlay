@@ -12,7 +12,7 @@ CONFIG_HAVE_INTEL_FSP_REPO=y
 # CONFIG_FSP_USE_REPO is not set
 CONFIG_FSP_M_FILE="3rdparty/blobs/intel/jsl/fsp/fspm.bin"
 CONFIG_FSP_S_FILE="3rdparty/blobs/intel/jsl/fsp/fsps.bin"
-CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/jsl/fsp/Include/"
+# CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/jsl/fsp/Include/"
 CONFIG_USE_COREBOOT_NATIVE_MP_INIT=y
 CONFIG_FAST_SPI_DISABLE_WRITE_STATUS=y
 CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
