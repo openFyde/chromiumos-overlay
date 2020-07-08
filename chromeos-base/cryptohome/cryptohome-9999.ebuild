@@ -22,10 +22,8 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-# The flag distributed_cryptohome is for turning on tpm_manager and
-# attestation for 1.2 devices.
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
-	-direncryption distributed_cryptohome double_extend_pcr_issue fuzzer
+	-direncryption double_extend_pcr_issue fuzzer
 	generated_cros_config pinweaver selinux systemd test tpm tpm2
 	unibuild user_session_isolation"
 

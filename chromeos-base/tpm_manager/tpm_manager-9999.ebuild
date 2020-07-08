@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_ma
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="distributed_cryptohome test tpm tpm2"
+IUSE="test tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
