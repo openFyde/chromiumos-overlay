@@ -22,12 +22,13 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 IUSE="
-	arcpp arcvm cros_embedded +encrypted_stateful +encrypted_reboot_vault
-	frecon lvm_stateful_partition +oobe_config -s3halt +syslog
-	systemd +udev vivid vtconsole"
+	arcpp arcvm cros_embedded direncryption +encrypted_stateful
+	+encrypted_reboot_vault frecon fsverity lvm_stateful_partition
+	+oobe_config prjquota -s3halt +syslog systemd tpm2 +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
 COMMON_DEPEND="
+	chromeos-base/bootstat:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/secure-erase-file:=
 	chromeos-base/vboot_reference:=
@@ -46,7 +47,6 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	app-arch/tar
 	app-misc/jq
-	chromeos-base/bootstat
 	!chromeos-base/chromeos-disableecho
 	chromeos-base/chromeos-common-script
 	chromeos-base/tty
@@ -83,6 +83,7 @@ platform_pkg_test() {
 		file_attrs_cleaner_test
 		periodic_scheduler_test
 		usermode-helper_test
+		utils_test
 	)
 
 	for test_bin in "${cpp_tests[@]}"; do
@@ -181,7 +182,9 @@ src_install() {
 	dosbin "${OUT}"/usermode-helper
 
 	# Install startup/shutdown scripts.
-	dosbin chromeos_startup chromeos_shutdown
+	dosbin "${OUT}"/chromeos_startup
+	dosbin chromeos_startup.sh
+	dosbin chromeos_shutdown
 
 	# Disable encrypted reboot vault if it is not used.
 	if ! use encrypted_reboot_vault; then
