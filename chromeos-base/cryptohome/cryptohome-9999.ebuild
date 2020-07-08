@@ -126,18 +126,12 @@ src_install() {
 		insinto /etc/init
 		doins init/*.conf
 		if use tpm2; then
-			sed -i 's/started tcsd/started attestationd/' \
-				"${D}/etc/init/cryptohomed.conf" ||
-				die "Can't replace tcsd with attestationd in cryptohomed.conf"
 			insinto /usr/share/policy
 			newins bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy \
 				bootlockboxd-seccomp.policy
 			insinto /etc/init
 			doins bootlockbox/bootlockboxd.conf
 		else
-			sed -i 's/started tcsd/started attestationd/' \
-				"${D}/etc/init/cryptohomed.conf" ||
-				die "Can't replace tcsd with attestationd in cryptohomed.conf"
 			sed -i '/env DISTRIBUTED_MODE_FLAG=/s:=.*:="--attestation_mode=dbus":' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't activate distributed mode in cryptohomed.conf"
