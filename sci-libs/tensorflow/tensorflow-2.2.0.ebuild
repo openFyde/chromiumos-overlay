@@ -139,6 +139,7 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-2.2.0-0002-disable-xnpack.patch"
 	"${FILESDIR}/tensorflow-2.2.0-0003-nnapi-android-sdk-version.patch"
 	"${FILESDIR}/tensorflow-2.2.0-0004-nnapi-delegates.patch"
+	"${FILESDIR}/tensorflow-2.2.0-0005-ashmem-create.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
