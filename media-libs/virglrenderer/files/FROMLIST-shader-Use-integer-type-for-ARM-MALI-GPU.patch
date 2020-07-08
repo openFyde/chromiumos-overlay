@@ -1,4 +1,4 @@
-From 995d55b34c2ccd56e03d9e246983775935ecc732 Mon Sep 17 00:00:00 2001
+From cfe7e1610bda7fbdc466ea7d7abbcc4f5bf208f2 Mon Sep 17 00:00:00 2001
 From: Lepton Wu <lepton@chromium.org>
 Date: Tue, 19 May 2020 16:25:59 -0700
 Subject: [PATCH] shader: Use integer type for ARM (MALI GPU)
@@ -9,7 +9,8 @@ GPU will do type conversion and cause unexpected results. To fix this,
 we check the input buffer format for vertex shader and also color buffer
 format for fragment shader, if they are integer types, just use integer
 types in generated shaders. Since the old way works fine on other GPU,
-only enable this fix for ARM MALI.
+only enable this fix for ARM MALI for now. The plan is to enable this
+for other GPU also with auto detection.
 
 Signed-off-by: Lepton Wu <lepton@chromium.org>
 ---
@@ -19,18 +20,18 @@ Signed-off-by: Lepton Wu <lepton@chromium.org>
  3 files changed, 111 insertions(+), 8 deletions(-)
 
 diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
-index 5bf2b3be..33042be4 100644
+index 9d465871..857621bb 100644
 --- a/src/vrend_renderer.c
 +++ b/src/vrend_renderer.c
-@@ -283,6 +283,7 @@ struct global_renderer_state {
-    bool finishing;
+@@ -289,6 +289,7 @@ struct global_renderer_state {
     bool use_gles;
     bool use_core_profile;
+    bool use_external_blob;
 +   bool use_integer;
  
     bool features[feat_last];
  
-@@ -482,6 +483,8 @@ struct vrend_vertex_element_array {
+@@ -490,6 +491,8 @@ struct vrend_vertex_element_array {
     unsigned count;
     struct vrend_vertex_element elements[PIPE_MAX_ATTRIBS];
     GLuint id;
@@ -39,7 +40,7 @@ index 5bf2b3be..33042be4 100644
  };
  
  struct vrend_constants {
-@@ -646,6 +649,7 @@ struct vrend_context {
+@@ -655,6 +658,7 @@ struct vrend_context {
     bool in_error;
     bool ctx_switch_pending;
     bool pstip_inited;
@@ -47,7 +48,7 @@ index 5bf2b3be..33042be4 100644
  
     GLuint pstipple_tex_id;
  
-@@ -2657,8 +2661,15 @@ int vrend_create_vertex_elements_state(struct vrend_context *ctx,
+@@ -2628,8 +2632,15 @@ int vrend_create_vertex_elements_state(struct vrend_context *ctx,
        for (i = 0; i < num_elements; i++) {
           struct vrend_vertex_element *ve = &v->elements[i];
  
@@ -64,7 +65,7 @@ index 5bf2b3be..33042be4 100644
           else
              glVertexAttribFormat(i, ve->nr_chan, ve->type, ve->norm, ve->base.src_offset);
           glVertexAttribBinding(i, ve->base.vertex_buffer_index);
-@@ -3129,13 +3140,25 @@ static inline void vrend_fill_shader_key(struct vrend_context *ctx,
+@@ -3100,13 +3111,25 @@ static inline void vrend_fill_shader_key(struct vrend_context *ctx,
        int i;
        bool add_alpha_test = true;
        key->cbufs_are_a8_bitmask = 0;
@@ -91,7 +92,7 @@ index 5bf2b3be..33042be4 100644
           key->surface_component_bits[i] = util_format_get_component_bits(ctx->sub->surf[i]->format, UTIL_FORMAT_COLORSPACE_RGB, 0);
        }
        if (add_alpha_test) {
-@@ -4372,7 +4395,9 @@ int vrend_draw_vbo(struct vrend_context *ctx,
+@@ -4352,7 +4375,9 @@ int vrend_draw_vbo(struct vrend_context *ctx,
           return 0;
        }
  
@@ -101,7 +102,7 @@ index 5bf2b3be..33042be4 100644
  
        if (ctx->sub->shaders[PIPE_SHADER_TESS_CTRL] && ctx->sub->shaders[PIPE_SHADER_TESS_CTRL]->tokens)
           vrend_shader_select(ctx, ctx->sub->shaders[PIPE_SHADER_TESS_CTRL], &tcs_dirty);
-@@ -5850,6 +5875,16 @@ vrend_renderer_get_pipe_callbacks(void)
+@@ -5830,6 +5855,16 @@ vrend_renderer_get_pipe_callbacks(void)
     return &callbacks;
  }
  
@@ -118,7 +119,7 @@ index 5bf2b3be..33042be4 100644
  int vrend_renderer_init(struct vrend_if_cbs *cbs, uint32_t flags)
  {
     bool gles;
-@@ -5910,6 +5945,9 @@ int vrend_renderer_init(struct vrend_if_cbs *cbs, uint32_t flags)
+@@ -5890,6 +5925,9 @@ int vrend_renderer_init(struct vrend_if_cbs *cbs, uint32_t flags)
        vrend_printf( "gl_version %d - compat profile\n", gl_ver);
     }
  
@@ -128,7 +129,7 @@ index 5bf2b3be..33042be4 100644
     init_features(gles ? 0 : gl_ver,
                   gles ? gl_ver : 0);
  
-@@ -6142,6 +6180,7 @@ struct vrend_context *vrend_create_context(int id, uint32_t nlen, const char *de
+@@ -6125,6 +6163,7 @@ struct vrend_context *vrend_create_context(int id, uint32_t nlen, const char *de
     grctx->shader_cfg.has_gpu_shader5 = has_feature(feat_gpu_shader5);
     grctx->shader_cfg.has_es31_compat = has_feature(feat_gles31_compatibility);
     grctx->shader_cfg.has_conservative_depth = has_feature(feat_conservative_depth);
@@ -137,7 +138,7 @@ index 5bf2b3be..33042be4 100644
     vrend_renderer_create_sub_ctx(grctx, 0);
     vrend_renderer_set_sub_ctx(grctx, 0);
 diff --git a/src/vrend_shader.c b/src/vrend_shader.c
-index 03ad71bd..aae4f2fc 100644
+index c025bb8e..23e9557e 100644
 --- a/src/vrend_shader.c
 +++ b/src/vrend_shader.c
 @@ -100,6 +100,8 @@ struct vrend_shader_io {
@@ -210,7 +211,7 @@ index 03ad71bd..aae4f2fc 100644
  
                    if (inst->Instruction.Opcode == TGSI_OPCODE_INTERP_SAMPLE && i == 1) {
                       strbuf_fmt(src_buf, "floatBitsToInt(%s%s%s%s)", prefix, ctx->inputs[j].glsl_name, arrayname, swizzle);
-@@ -5902,11 +5937,22 @@ emit_ios_generic(struct dump_ctx *ctx, enum io_type iot,  const char *prefix,
+@@ -5908,11 +5943,22 @@ emit_ios_generic(struct dump_ctx *ctx, enum io_type iot,  const char *prefix,
                   const struct vrend_shader_io *io, const char *inout,
                   const char *postfix)
  {
@@ -234,7 +235,7 @@ index 03ad71bd..aae4f2fc 100644
     if (io->layout_location > 0) {
        /* we need to define a layout here because interleaved arrays might be emited */
        if (io->swizzle_offset)
-@@ -6072,7 +6118,13 @@ static void emit_ios_vs(struct dump_ctx *ctx)
+@@ -6078,7 +6124,13 @@ static void emit_ios_vs(struct dump_ctx *ctx)
           }
           if (ctx->inputs[i].first != ctx->inputs[i].last)
              snprintf(postfix, sizeof(postfix), "[%d]", ctx->inputs[i].last - ctx->inputs[i].first + 1);
@@ -249,7 +250,7 @@ index 03ad71bd..aae4f2fc 100644
        }
     }
  
-@@ -6208,18 +6260,25 @@ static void emit_ios_fs(struct dump_ctx *ctx)
+@@ -6214,18 +6266,25 @@ static void emit_ios_fs(struct dump_ctx *ctx)
     }
  
     if (ctx->write_all_cbufs) {
@@ -280,7 +281,7 @@ index 03ad71bd..aae4f2fc 100644
     } else {
        for (i = 0; i < ctx->num_outputs; i++) {
 diff --git a/src/vrend_shader.h b/src/vrend_shader.h
-index 8c94e250..3a098280 100644
+index 3ec0e84a..352b2b8b 100644
 --- a/src/vrend_shader.h
 +++ b/src/vrend_shader.h
 @@ -118,6 +118,10 @@ struct vrend_shader_key {
@@ -294,7 +295,7 @@ index 8c94e250..3a098280 100644
     uint8_t num_indirect_generic_outputs;
     uint8_t num_indirect_patch_outputs;
     uint8_t num_indirect_generic_inputs;
-@@ -137,6 +141,7 @@ struct vrend_shader_cfg {
+@@ -140,6 +144,7 @@ struct vrend_shader_cfg {
     bool has_gpu_shader5;
     bool has_es31_compat;
     bool has_conservative_depth;
@@ -303,5 +304,5 @@ index 8c94e250..3a098280 100644
  
  struct vrend_context;
 -- 
-2.26.2
+GitLab
 
