@@ -33,7 +33,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	android_aep android-container-nyc -android_gles2 -android_gles30
+	android_aep -android_gles2 -android_gles30
 	+android_gles31 -android_gles32 -android_vulkan_compute_0
 	cheets +classic debug dri egl +gallium
 	-gbm gles1 gles2 +llvm +nptl pic selinux shared-glapi vulkan X xlib-glx
@@ -54,10 +54,7 @@ REQUIRED_USE="
 
 DEPEND="cheets? (
 		>=x11-libs/arc-libdrm-2.4.82[${MULTILIB_USEDEP}]
-		llvm? (
-			android-container-nyc? ( sys-devel/arc-llvm:8=[${MULTILIB_USEDEP}] )
-			!android-container-nyc? ( >=sys-devel/arc-llvm-9:=[${MULTILIB_USEDEP}] )
-		)
+		llvm? ( >=sys-devel/arc-llvm-9:=[${MULTILIB_USEDEP}] )
 		video_cards_amdgpu? (
 			dev-libs/arc-libelf[${MULTILIB_USEDEP}]
 		)
@@ -171,11 +168,6 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/BACKPORT-egl-Enable-eglGetPlatformDisplay-on-Android.patch
 
-	if use android-container-nyc; then
-		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
-		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
-	fi
-
 	epatch "${FILESDIR}"/FROMLIST-anv-Fix-vulkan-build-in-meson.patch
 	epatch "${FILESDIR}"/FROMLIST-anv-Add-android-dependencies-on-android.patch
 	epatch "${FILESDIR}"/FROMLIST-radv-Fix-vulkan-build-in-meson.patch
@@ -194,10 +186,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/BACKPORT-dri-Add-fp16-formats.patch
 	epatch "${FILESDIR}"/UPSTREAM-gbm-Add-buffer-handling-and-visuals-for-fp1.patch
 	epatch "${FILESDIR}"/BACKPORT-i965-Add-handling-for-fp16-configs.patch
-	if ! use android-container-nyc; then
-		epatch "${FILESDIR}"/UPSTREAM-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_FP.patch
-		epatch "${FILESDIR}"/BACKPORT-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_10.patch
-	fi
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_FP.patch
+	epatch "${FILESDIR}"/BACKPORT-egl-android-Enable-HAL_PIXEL_FORMAT_RGBA_10.patch
 	epatch "${FILESDIR}"/UPSTREAM-intel-compiler-force-simd8-when-dual-src-blending-on.patch
 
 	epatch "${FILESDIR}"/UPSTREAM-i965-setup-sized-internalformat-for-MESA_FO.patch
@@ -466,7 +456,7 @@ multilib_src_install_all_cheets() {
 		fi
 	fi
 
-	if use android_vulkan_compute_0 && ! use android-container-nyc; then
+	if use android_vulkan_compute_0; then
 		einfo "Using android vulkan_compute_0."
 		insinto "${ARC_CONTAINER_PREFIX}/vendor/etc/permissions"
 		doins "${FILESDIR}/android.hardware.vulkan.compute-0.xml"
