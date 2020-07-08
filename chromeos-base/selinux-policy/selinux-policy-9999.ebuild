@@ -15,6 +15,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="
 	android-container-pi
+	android-vm-master
 	android-vm-rvc
 	selinux_audit_all selinux_develop selinux_experimental
 	arc_first_release_n
@@ -23,6 +24,7 @@ IUSE="
 "
 DEPEND="
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
+	android-vm-master? ( chromeos-base/android-vm-master:0= )
 	android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
 "
 
@@ -115,7 +117,7 @@ version_cil() {
 }
 
 has_arc() {
-	use android-container-pi || use android-vm-rvc
+	use android-container-pi || use android-vm-rvc || use android-vm-master
 }
 
 gen_m4_flags() {
@@ -125,6 +127,8 @@ gen_m4_flags() {
 		arc_version="p"
 	elif use android-vm-rvc; then
 		arc_version="r"
+	elif use android-vm-master; then
+		arc_version="master"
 	fi
 	M4_COMMON_FLAGS+=(
 		"-Darc_version=${arc_version}"
@@ -351,7 +355,7 @@ src_test() {
 	# Extract 'String neverallowRule = "neverallow ...";' lines from the Java source code and
 	# write the extracted lines to ./neverallows. We have two scripts below as Android P and R+
 	# use slightly different code styles.
-	if use android-vm-rvc; then
+	if use android-vm-rvc || use android-vm-master; then
 		(
 			grep "boolean compatiblePropertyOnly = false;" -B 3 |
 			grep "boolean launchingWithROnly = false;" -B 2 |
@@ -372,7 +376,7 @@ src_test() {
 	if [[ "${loc}" -lt "100" ]]; then
 		die "too few test cases. something is wrong."
 	fi
-	if use android-vm-rvc; then
+	if use android-vm-rvc || use android-vm-master; then
 		# We only run SELinux CTS against the guest-side policy. Skipping the test.
 		return
 	fi
