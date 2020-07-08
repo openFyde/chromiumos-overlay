@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
 IUSE="cras nvme pam opengl +power_management +profile
-	+shill tpm tpm2 usb vaapi video_cards_intel
+	+shill tpm tpm2 usb vaapi video_cards_amdgpu video_cards_intel
 	chromeless_tty"
 
 # The dependencies here are meant to capture "all the packages
@@ -52,6 +52,7 @@ CROS_X86_RDEPEND="
 		media-gfx/vadumpcaps
 		media-video/libva-utils
 	)
+	video_cards_amdgpu? ( x11-apps/igt-gpu-tools )
 	video_cards_intel? ( x11-apps/igt-gpu-tools )
 "
 
