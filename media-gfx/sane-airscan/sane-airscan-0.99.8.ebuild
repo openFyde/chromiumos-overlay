@@ -23,7 +23,7 @@ DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
 
 # SHA-1 or tag will both work.
-GIT_REF="0.99.5"
+GIT_REF="0.99.8"
 SRC_URI="https://github.com/alexpevzner/sane-airscan/archive/${GIT_REF}.tar.gz -> ${PN}-${GIT_REF}.tar.gz"
 S="${WORKDIR}/${PN}-${GIT_REF}"
 
