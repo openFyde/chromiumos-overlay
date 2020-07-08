@@ -25,6 +25,7 @@ BDEPEND="virtual/pkgconfig"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.8-missing_header.patch
+	"${FILESDIR}"/${PN}-1.2.1-alsaucm-Fix-ending-with-quotes-commands.patch
 )
 
 src_configure() {
