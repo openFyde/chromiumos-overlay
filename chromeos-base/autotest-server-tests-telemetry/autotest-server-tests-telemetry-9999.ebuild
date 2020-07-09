@@ -27,7 +27,6 @@ SERVER_IUSE_TESTS="
 	+tests_telemetry_Benchmarks
 	+tests_telemetry_Crosperf
 	+tests_telemetry_CrosTests
-	+tests_telemetry_GpuTests
 "
 
 IUSE_TESTS="${IUSE_TESTS}
