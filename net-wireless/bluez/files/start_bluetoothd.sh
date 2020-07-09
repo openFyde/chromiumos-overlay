@@ -15,4 +15,4 @@ config_file_param="--configfile=${conf_file}"
 exec /sbin/minijail0 -u bluetooth -g bluetooth -G \
   -c 3500 -n -- \
   /usr/libexec/bluetooth/bluetoothd ${BLUETOOTH_DAEMON_OPTION} --nodetach \
-  ${config_file_param}
+  -P battery ${config_file_param}
