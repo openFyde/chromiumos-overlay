@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("33cf4d2ed71bccbc0fa9869804c43c99f3cf9af1" "58af3a81c74511678039bf6a17f21f4aae54eae3")
-CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "debc0344fe932d71dd37515f6fd39ce72638529a")
+CROS_WORKON_COMMIT=("a75f864c5b9425cd681939aa2585b697ac859fb2" "7bdd7e99b6f24d01e8fd08a588333bfbcd3d62c2")
+CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "428027dd5ea59b526d8dc571cb5d549184e4d49f")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
