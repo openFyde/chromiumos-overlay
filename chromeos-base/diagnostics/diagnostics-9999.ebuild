@@ -38,12 +38,16 @@ DEPEND="
 	chromeos-base/debugd-client:=
 	chromeos-base/system_api:=[fuzzer?]
 "
+
+# TODO(crbug/1085169): Replace sys-block/fio dependency with an alternative as
+# it is very large. It is currently only a dependency of wilco as it is
+# currently the only client.
 RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/minijail
 	dev-util/stressapptest
-	sys-block/fio
 	wilco? (
+		sys-block/fio
 		chromeos-base/chromeos-dtc-vm
 		chromeos-base/vpd
 	)
