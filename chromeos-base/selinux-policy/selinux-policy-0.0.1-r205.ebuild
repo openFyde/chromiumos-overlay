@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2866e1794a6f11dbee324a45104c23d9616ea6e2"
+CROS_WORKON_COMMIT="311f355dec289b597f71fefd79091c54ee20612a"
 CROS_WORKON_TREE="5c50efa4591c791225896ea1fbb415e39116bb2d"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,6 +17,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="
 	android-container-pi
+	android-vm-master
 	android-vm-rvc
 	selinux_audit_all selinux_develop selinux_experimental
 	arc_first_release_n
@@ -25,6 +26,7 @@ IUSE="
 "
 DEPEND="
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
+	android-vm-master? ( chromeos-base/android-vm-master:0= )
 	android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
 "
 
@@ -117,7 +119,7 @@ version_cil() {
 }
 
 has_arc() {
-	use android-container-pi || use android-vm-rvc
+	use android-container-pi || use android-vm-rvc || use android-vm-master
 }
 
 gen_m4_flags() {
@@ -127,6 +129,8 @@ gen_m4_flags() {
 		arc_version="p"
 	elif use android-vm-rvc; then
 		arc_version="r"
+	elif use android-vm-master; then
+		arc_version="master"
 	fi
 	M4_COMMON_FLAGS+=(
 		"-Darc_version=${arc_version}"
@@ -353,7 +357,7 @@ src_test() {
 	# Extract 'String neverallowRule = "neverallow ...";' lines from the Java source code and
 	# write the extracted lines to ./neverallows. We have two scripts below as Android P and R+
 	# use slightly different code styles.
-	if use android-vm-rvc; then
+	if use android-vm-rvc || use android-vm-master; then
 		(
 			grep "boolean compatiblePropertyOnly = false;" -B 3 |
 			grep "boolean launchingWithROnly = false;" -B 2 |
@@ -374,7 +378,7 @@ src_test() {
 	if [[ "${loc}" -lt "100" ]]; then
 		die "too few test cases. something is wrong."
 	fi
-	if use android-vm-rvc; then
+	if use android-vm-rvc || use android-vm-master; then
 		# We only run SELinux CTS against the guest-side policy. Skipping the test.
 		return
 	fi
