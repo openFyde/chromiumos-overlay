@@ -20,6 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 # DOWNLOADABLE_MODELS if they are downloaded via component updater (downloadable
 # models).
 MODELS_TO_INSTALL=(
+	"gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite"
@@ -60,6 +61,7 @@ DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api:=[fuzzer?]
 	dev-cpp/absl:=
+	dev-libs/libutf:=
 "
 
 src_install() {
