@@ -32,12 +32,11 @@ src_configure() {
 	# Determine sanitizer flags. This is necessary because the Makefile
 	# purposely ignores CFLAGS from the environment. So we collect the
 	# sanitizer flags and pass just them to the Makefile explicitly.
-	SANITIZER_CFLAGS=$(
-		append-flags() {
-			printf "%s" "$* "
-		}
-		sanitizers-setup-env
-	)
+	SANITIZER_CFLAGS=
+	append-flags() {
+		SANITIZER_CFLAGS+=" $*"
+	}
+	sanitizers-setup-env
 	if use_sanitizers; then
 		# Disable alignment sanitization, https://crbug.com/1015908 .
 		SANITIZER_CFLAGS+=" -fno-sanitize=alignment"
