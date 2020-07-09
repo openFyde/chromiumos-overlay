@@ -6,7 +6,7 @@ EAPI=7
 DESCRIPTION="Installs header files for cros-camera-libcamera_connector."
 SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tar.gz"
 
-LICENSE="LICENSE.corel"
+LICENSE="LICENSE.parallels"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
