@@ -229,12 +229,11 @@ src_prepare() {
 	if use unibuild; then
 		local build_target
 
-		local fields="coreboot,ec"
+		local fields="coreboot"
 		local cmd="get-firmware-build-combinations"
 		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
-			read -r ec
 			set_build_env "${coreboot}" "${name}"
 			create_config "$(get_board)"
 		done
@@ -428,12 +427,11 @@ src_install() {
 	local build_target
 
 	if use unibuild; then
-		local fields="coreboot,ec"
+		local fields="coreboot"
 		local cmd="get-firmware-build-combinations"
 		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
-			read -r ec
 
 			set_build_env "${coreboot}" "${name}"
 			do_install ${coreboot}
