@@ -40,6 +40,12 @@
 # Set to yes if the package is built by ARC toolchain.
 : ${PLATFORM_ARC_BUILD:="no"}
 
+# @ECLASS-VARIABLE: OUT
+# @DESCRIPTION:
+# Path where build artifacts will end up.  Exported from this eclass when
+# platform_src_unpack is called; not intended to be set in ebuilds that inherit
+# this eclass.
+
 inherit cros-debug cros-fuzzer cros-sanitizers cros-workon flag-o-matic toolchain-funcs multiprocessing
 
 [[ "${WANT_LIBCHROME}" == "yes" ]] && inherit libchrome
