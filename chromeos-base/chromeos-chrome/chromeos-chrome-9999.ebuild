@@ -745,7 +745,7 @@ setup_compile_flags() {
 
 	# The chrome makefiles specify -O and -g flags already, so remove the
 	# portage flags.
-	filter-flags -g -O*
+	filter-flags -g "-O*"
 
 	# Remove unsupported arm64 linker flag on arm32 builds.
 	# https://crbug.com/889079
