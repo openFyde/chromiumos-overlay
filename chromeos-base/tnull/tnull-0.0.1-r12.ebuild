@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="436d156e722e894241b14d657cd70f849fca4d0c"
-CROS_WORKON_TREE="30a6c30a563ee2b37f6a535f21d0b14f1f6bb587"
+CROS_WORKON_COMMIT="597dafb20965e6acc2148d1e587de65e6bfd0677"
+CROS_WORKON_TREE="017adaad35b6cf545105d23ee74c2ba317abc4e9"
 CROS_WORKON_PROJECT="chromiumos/infra/tnull"
 CROS_WORKON_LOCALNAME="../infra/tnull"
 
