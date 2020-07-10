@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a7c45255357550669db8211e9f3406fcb48d4f17"
-CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "03cbefff1ac7c34e3207b0ee094c67ff8de60ed6" "8a424a75e11d7920d32c970717d3eff3e60db0ec" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="fb743ea41ab514e8e147a15c1ef2e1ff7fa886ea"
+CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "d933263dd916249a4afc4f428392640d6e608ae5" "8a424a75e11d7920d32c970717d3eff3e60db0ec" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -128,18 +128,12 @@ src_install() {
 		insinto /etc/init
 		doins init/*.conf
 		if use tpm2; then
-			sed -i 's/started tcsd/started attestationd/' \
-				"${D}/etc/init/cryptohomed.conf" ||
-				die "Can't replace tcsd with attestationd in cryptohomed.conf"
 			insinto /usr/share/policy
 			newins bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy \
 				bootlockboxd-seccomp.policy
 			insinto /etc/init
 			doins bootlockbox/bootlockboxd.conf
 		else
-			sed -i 's/started tcsd/started attestationd/' \
-				"${D}/etc/init/cryptohomed.conf" ||
-				die "Can't replace tcsd with attestationd in cryptohomed.conf"
 			sed -i '/env DISTRIBUTED_MODE_FLAG=/s:=.*:="--attestation_mode=dbus":' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't activate distributed mode in cryptohomed.conf"
