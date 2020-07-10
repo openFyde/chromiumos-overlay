@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="16d4205245810951d7db1f4f584bd99f4206438e"
-CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "677b75140e4ae1b1d889f929c630579a8b13357e" "a3f5ba63eea058fad5fcab6671f690a35328329d" "8a424a75e11d7920d32c970717d3eff3e60db0ec" "b0803859a28264270dbda45f840272b5211502c7" "dae00c69637e0e94b3ccfca22c7ecb62d4f63675" "9fd99bf51279bfd5841cde5997f0379182410b03" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="78de3279ae61f369043124fd563eeb993f05fec8"
+CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "f1b705ee66061c2b8404f3530293d9d8f44c362b" "a3f5ba63eea058fad5fcab6671f690a35328329d" "8a424a75e11d7920d32c970717d3eff3e60db0ec" "b0803859a28264270dbda45f840272b5211502c7" "dae00c69637e0e94b3ccfca22c7ecb62d4f63675" "9fd99bf51279bfd5841cde5997f0379182410b03" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -62,9 +62,6 @@ src_install() {
 
 	insinto /etc/init
 	doins server/attestationd.conf
-	sed -i 's/started tcsd/started tpm_managerd/' \
-		"${D}/etc/init/attestationd.conf" ||
-		die "Can't replace tcsd with tpm_managerd in attestationd.conf"
 
 	dosbin "${OUT}"/attestationd
 	dobin "${OUT}"/attestation_client
