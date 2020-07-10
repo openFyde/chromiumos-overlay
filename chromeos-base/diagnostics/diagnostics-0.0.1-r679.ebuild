@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="eb763d31dba01af4292699ed512f42242819b378"
-CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "957cd340def64e10a69a5c56285e40df001dad6a" "e54f425c895c401c7ef6b7120fc4a6ed07026414" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c07b57d679bd44fe47f60009c22b6f65aac17e27"
+CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "957cd340def64e10a69a5c56285e40df001dad6a" "cfc9b23d472c7dfc65fc03eb56d0c1694ecddd6e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -40,12 +40,16 @@ DEPEND="
 	chromeos-base/debugd-client:=
 	chromeos-base/system_api:=[fuzzer?]
 "
+
+# TODO(crbug/1085169): Replace sys-block/fio dependency with an alternative as
+# it is very large. It is currently only a dependency of wilco as it is
+# currently the only client.
 RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/minijail
 	dev-util/stressapptest
-	sys-block/fio
 	wilco? (
+		sys-block/fio
 		chromeos-base/chromeos-dtc-vm
 		chromeos-base/vpd
 	)
