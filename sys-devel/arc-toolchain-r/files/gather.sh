@@ -60,7 +60,7 @@ ARC_ARCH_UAPI=('x86' 'arm' 'x86' 'arm64')
 # 2. The dir to which the artifacts tarball (downloaded from go/ab) was
 # extracted. Pick a -userdebug build.
 # Now we support two platforms: 32/64-bit arm and 32/64-bit x86.
-: "${ARTIFACTS_DIR_X86_64:="${ANDROID_TREE}/arm64_target_files/"}"
+: "${ARTIFACTS_DIR_ARM64:="${ANDROID_TREE}/arm64_target_files/"}"
 : "${ARTIFACTS_DIR_X86_64:="${ANDROID_TREE}/x86_64_target_files/"}"
 
 ARTIFACTS_DIR_ARRAY=(
@@ -183,7 +183,9 @@ for (( a = 0; a < ${len}; ++a )); do
 
 	lib_crt="${ARC_ARCH_LIB_CRT_DIR[${a}]}"
 	for f in crtbegin_static.o crtbegin_dynamic.o crtend_android.o crtbegin_so.o crtend_so.o; do
-		absolute_f="${ANDROID_TREE}/prebuilts/ndk/current/platforms/android-24"
+                # android-30 does not exist yet(?) for rvc-arc-dev so we pick 29
+                # instead
+		absolute_f="${ANDROID_TREE}/prebuilts/ndk/current/platforms/android-29"
 		absolute_f+="/arch-${arch}/usr/${lib_crt}/${f}"
 		if [[ ! -e "${absolute_f}" ]]; then
 			echo "${absolute_f} not found, perhaps you forgot to check it out?"\
@@ -303,10 +305,11 @@ done
 ### 5. Copy compiler over.
 
 ### 5.1 clang.
-runcmd mkdir -p "${TO_DIR_BASE}/arc-llvm/9.0.3"
+ARC_LLVM_VERSION="11.0.2"
+runcmd mkdir -p "${TO_DIR_BASE}/arc-llvm/${ARC_LLVM_VERSION}"
 runcmd cp -pPr \
-	"${ANDROID_TREE}/prebuilts/clang/host/linux-x86/clang-r377782c"/* \
-	"${TO_DIR_BASE}/arc-llvm/9.0.3" || echo "Please update clang version manually"
+	"${ANDROID_TREE}/prebuilts/clang/host/linux-x86/clang-r383902b"/* \
+	"${TO_DIR_BASE}/arc-llvm/${ARC_LLVM_VERSION}" || echo "Please update clang version manually"
 
 ### 5.2 gcc.
 runcmd mkdir -p "${TO_DIR_BASE}/arc-gcc"
