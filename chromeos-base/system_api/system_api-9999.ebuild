@@ -53,6 +53,7 @@ src_install() {
 	# include directory. Users will need to include the corresponding client
 	# library to access these files.
 	local dir dirs=(
+		arc-data-snapshotd
 		anomaly_detector
 		attestation
 		biod
