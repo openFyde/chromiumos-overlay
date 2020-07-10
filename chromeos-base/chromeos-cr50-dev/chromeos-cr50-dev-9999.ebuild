@@ -35,7 +35,7 @@ SRC_URI="${CR50_ROS[*]/#/${MIRROR_PATH}}"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="quiet verbose fuzzer asan msan ubsan"
+IUSE="asan cros_host fuzzer msan quiet ubsan verbose"
 
 COMMON_DEPEND="
 	dev-libs/openssl:0=
@@ -75,7 +75,7 @@ set_build_env() {
 
 	export CROSS_COMPILE=${COREBOOT_SDK_PREFIX_arm}
 
-	tc-export CC BUILD_CC
+	tc-export CC BUILD_CC PKG_CONFIG
 	export HOSTCC=${CC}
 	export BUILDCC=${BUILD_CC}
 
@@ -185,8 +185,10 @@ src_install() {
 		done
 	fi
 
-	exeinto /usr/local/bin
-	doexe "util/ap_ro_hash.py"
+	if ! use cros_host; then
+		exeinto /usr/local/bin
+		doexe "util/ap_ro_hash.py"
+	fi
 
 	if [[ "${EC_BOARDS[0]}" != "reef" ]]; then
 		elog "Not installing Cr50 binaries"
