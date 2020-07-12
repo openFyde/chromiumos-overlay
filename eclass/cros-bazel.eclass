@@ -47,256 +47,296 @@ BAZEL_CC_CONFIG_DIR="ebazel_cc_config"
 # shellcheck disable=SC2016
 BAZEL_CC_BUILD='package(default_visibility = ["//visibility:public"])
 
+filegroup(name = "empty")
+
+# We should really be using @platforms//cpu:x86_64 and friends, but
+# to keep this compatible with Bazel 0.24.1, we need to use the legacy
+# definitions.
+# TODO(crbug/1102798): Once Bazel is uprevved, change these to the @platforms defs.
+amd64_constraints = [
+	"@bazel_tools//platforms:x86_64",
+	"@bazel_tools//platforms:linux",
+]
+
+k8_constraints = amd64_constraints
+
+arm_constraints = [
+	"@bazel_tools//platforms:arm",
+	"@bazel_tools//platforms:linux",
+]
+
+platform(
+	name = "amd64_platform",
+	constraint_values = amd64_constraints,
+)
+
+platform(
+	name = "k8_platform",
+	constraint_values = k8_constraints,
+)
+
+platform(
+	name = "arm_platform",
+	constraint_values = arm_constraints,
+)
+
 cc_toolchain_suite(
 	name = "toolchain",
 	toolchains = {
-		"${cpu_str}|local": "portage_toolchain",
+		"amd64|local": "portage_toolchain",
+		"arm|local": "portage_toolchain",
+		"arm64|local": "portage_toolchain",
+		"k8|local": "portage_toolchain",
 	},
 )
 
-filegroup(name = "empty")
-
 cc_toolchain(
-		name = "portage_toolchain",
-		all_files = ":empty",
-		compiler_files = ":empty",
-		cpu = "${cpu_str}",
-		dwp_files = ":empty",
-		linker_files = ":empty",
-		objcopy_files = ":empty",
-		strip_files = ":empty",
-		supports_param_files = 0,
+	name = "portage_toolchain",
+	toolchain_identifier = "portage-toolchain",
+	toolchain_config = ":portage_toolchain_config",
+	all_files = ":empty",
+	compiler_files = ":empty",
+	dwp_files = ":empty",
+	linker_files = ":empty",
+	objcopy_files = ":empty",
+	strip_files = ":empty",
+	supports_param_files = 0,
 )
+
+toolchain(
+	name = "cc-toolchain-${cpu_str}",
+	# compilation execution is always on the host, hence amd64
+	exec_compatible_with = amd64_constraints,
+	target_compatible_with = ${cpu_str}_constraints,
+	toolchain = ":portage_toolchain",
+	toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+)
+
+load(":cc_toolchain_config.bzl", "cc_toolchain_config")
+cc_toolchain_config(name = "portage_toolchain_config")
 '
 
-# @ECLASS-VARIABLE: BAZEL_CC_TOOLCHAIN
+# @ECLASS-VARIABLE: BAZEL_CC_TOOLCHAIN_CONFIG
 # @INTERNAL
 # @DESCRIPTION:
-# A template (with Bash-style variable placeholders) used to populate CROSSTOOL
-# files for both the "host" and "target" architectures. Specifies the details
-# of the compiler and default flags / settings to use when compiling C/C++
-# code.
-# shellcheck disable=SC2016
-BAZEL_CC_CROSSTOOL='major_version: "local"
-minor_version: ""
-default_target_cpu: "same_as_host"
+# Skylark implementation of the cc toolchain, using Bash-style variables
+# to populate the build file.
+BAZEL_CC_TOOLCHAIN_CONFIG='
+load("@bazel_tools//tools/build_defs/cc:action_names.bzl", "ACTION_NAMES")
+load(
+  "@bazel_tools//tools/cpp:cc_toolchain_config_lib.bzl",
+  "feature",
+  "flag_group",
+  "flag_set",
+  "tool_path",
+)
 
-default_toolchain {
-	cpu: "${cpu_str}"
-	toolchain_identifier: "portage_toolchain"
-}
+features = [
+  feature(name="supports_pic", enabled=True),
+  feature(
+    name="determinism",
+    flag_sets = [
+      flag_set(
+        actions = [ACTION_NAMES.c_compile, ACTION_NAMES.cpp_compile],
+        flag_groups = [
+          flag_group(
+            flags = [
+              # Make C++ compilation deterministic. Use linkstamping instead of these
+              # compiler symbols.
+              "-Wno-builtin-macro-redefined",
+              "-D__DATE__=\"redacted\"",
+              "-D__TIMESTAMP__=\"redacted\"",
+              "-D__TIME__=\"redacted\"",
+            ]
+          )
+        ]
+      ),
+    ]
+  ),
+  feature(
+    name="hardening",
+    flag_sets = [
+      flag_set(
+        actions = [ACTION_NAMES.c_compile, ACTION_NAMES.cpp_compile],
+        flag_groups = [
+          flag_group(
+            flags = [
+              # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
+              # We need to undef it before redefining it as some distributions now
+              # have it enabled by default.
+              "-U_FORTIFY_SOURCE",
+              "-D_FORTIFY_SOURCE=1",
+              "-fstack-protector",
+            ]
+          )
+        ]
+      ),
+      flag_set(
+        actions = [
+          ACTION_NAMES.cpp_link_dynamic_library,
+          ACTION_NAMES.cpp_link_nodeps_dynamic_library,
+        ],
+        flag_groups = [flag_group(flags = ["-Wl,-z,relro,-z,now"])]
+      ),
+      flag_set(
+        actions = [
+          ACTION_NAMES.cpp_link_executable,
+        ],
+        flag_groups = [flag_group(flags = ["-pie", "-Wl,-z,relro,-z,now"])]
+      ),
+    ]
+  ),
+  feature(
+    name="warnings",
+    flag_sets = [
+      flag_set(
+        actions = [ACTION_NAMES.c_compile, ACTION_NAMES.cpp_compile],
+        flag_groups = [
+          flag_group(
+            flags = [
+              # All warnings are enabled. Maybe enable -Werror as well?
+              "-Wall",
+              # Add another warning that is not part of -Wall.
+              "-Wunused-but-set-parameter",
+              # But disable some that are problematic.
+              "-Wno-free-nonheap-object" # has false positives
+            ]
+          )
+        ]
+      ),
+    ]
+  ),
+  feature(
+    name="no-canonical-prefixes",
+    flag_sets = [
+      flag_set(
+        actions = [
+          ACTION_NAMES.c_compile,
+          ACTION_NAMES.cpp_compile,
+          ACTION_NAMES.cpp_link_dynamic_library,
+          ACTION_NAMES.cpp_link_nodeps_dynamic_library,
+          ACTION_NAMES.cpp_link_executable,
+        ],
+        flag_groups = [flag_group(flags = ["-no-canonical-prefixes"])]
+      ),
+    ]
+  ),
+  feature(
+    name="linker-bin-path",
+    flag_sets = [
+      flag_set(
+        actions = [
+          ACTION_NAMES.cpp_link_dynamic_library,
+          ACTION_NAMES.cpp_link_nodeps_dynamic_library,
+          ACTION_NAMES.cpp_link_executable,
+        ],
+        flag_groups = [flag_group(flags = ["-B/usr/bin/"])]
+      ),
+    ]
+  ),
+  feature(
+    name="disable-assertions",
+    flag_sets = [
+      flag_set(
+        actions = [ACTION_NAMES.c_compile, ACTION_NAMES.cpp_compile],
+        flag_groups = [flag_group(flags = ["-DNDEBUG"])]
+      ),
+    ]
+  ),
+  feature(
+    name="common",
+    implies=[
+      "determinism",
+      "hardening",
+      "warnings",
+      "no-canonical-prefixes",
+      "linker-bin-path"
+    ],
+  ),
+  feature(
+    name="opt",
+    implies=["common", "disable-assertions"],
+    flag_sets = [
+      flag_set(
+        actions = [ACTION_NAMES.c_compile, ACTION_NAMES.cpp_compile],
+        flag_groups = [
+          flag_group(
+            flags = ["-g0", "-O2", "-ffunction-sections", "-fdata-sections"]
+          )
+        ]
+      ),
+      flag_set(
+        actions = [
+          ACTION_NAMES.cpp_link_dynamic_library,
+          ACTION_NAMES.cpp_link_nodeps_dynamic_library,
+          ACTION_NAMES.cpp_link_executable,
+        ],
+        flag_groups = [
+          flag_group(
+            flags = ["-Wl,--gc-sections"]
+          )
+        ]
+      )
+    ]
+  ),
+  feature(
+    name="fastbuild",
+    implies=["common"],
+  ),
+  feature(
+    name="dbg",
+    implies=["common"],
+    flag_sets = [
+      flag_set(
+        actions = [ACTION_NAMES.c_compile, ACTION_NAMES.cpp_compile],
+        flag_groups = [
+          flag_group(
+            flags = ["-g"]
+          )
+        ]
+      )
+    ]
+  ),
+]
 
-toolchain {
-	abi_version: "local"
-	abi_libc_version: "local"
-	compiler: "local"
-	host_system_name: "local"
-	needsPic: true
-	target_libc: "local"
-	target_cpu: "${cpu_str}"
-	target_system_name: "local"
-	toolchain_identifier: "portage_toolchain"
+def _impl(ctx):
+  tool_paths = [
+    tool_path(name = "gcc", path = "${env_cc}"),
+    tool_path(name = "ar", path = "${env_ar}"),
+    tool_path(name = "compat-ld", path = "${env_ld}"),
+    tool_path(name = "cpp", path = "${env_cpp}"),
+    tool_path(name = "dwp", path = "${env_dwp}"),
+    tool_path(name = "gcov", path = "${env_gcov}"),
+    tool_path(name = "ld", path = "${env_ld}"),
+    tool_path(name = "nm", path = "${env_nm}"),
+    tool_path(name = "objcopy", path = "${env_objcopy}"),
+    tool_path(name = "objdump", path = "${env_objdump}"),
+    tool_path(name = "strip", path = "${env_strip}"),
+  ]
 
-	feature {
-		name: "determinism"
-		flag_set {
-			action: "c-compile"
-			action: "c++-compile"
-			flag_group {
-				# Make C++ compilation deterministic. Use linkstamping instead of these
-				# compiler symbols.
-				flag: "-Wno-builtin-macro-redefined"
-				flag: "-D__DATE__=\"redacted\""
-				flag: "-D__TIMESTAMP__=\"redacted\""
-				flag: "-D__TIME__=\"redacted\""
-			}
-		}
-	}
+  return cc_common.create_cc_toolchain_config_info(
+    ctx = ctx,
+    features = features,
+    cxx_builtin_include_directories = [
+      ${builtin_include_dirs}
+    ],
+    builtin_sysroot="${env_sysroot}",
+    toolchain_identifier = "portage-toolchain",
+    host_system_name = "local",
+    target_system_name = "local",
+    target_cpu = "${cpu_str}",
+    target_libc = "local",
+    compiler = "local",
+    abi_version = "local",
+    abi_libc_version = "local",
+    tool_paths = tool_paths,
+  )
 
-	feature {
-		name: "pic"
-		flag_set {
-			action: "c-compile"
-			action: "c++-compile"
-			flag_group {
-				expand_if_all_available: "pic"
-				flag: "-fPIC"
-			}
-			flag_group {
-				expand_if_none_available: "pic"
-				flag: "-fPIE"
-			}
-		}
-	}
-
-	# Security hardening on by default.
-	feature {
-		name: "hardening"
-		flag_set {
-			action: "c-compile"
-			action: "c++-compile"
-			flag_group {
-				# Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
-				# We need to undef it before redefining it as some distributions now
-				# have it enabled by default.
-				flag: "-U_FORTIFY_SOURCE"
-				flag: "-D_FORTIFY_SOURCE=1"
-				flag: "-fstack-protector"
-			}
-		}
-		flag_set {
-			action: "c++-link-dynamic-library"
-			action: "c++-link-nodeps-dynamic-library"
-			flag_group {
-				flag: "-Wl,-z,relro,-z,now"
-			}
-		}
-		flag_set {
-			action: "c++-link-executable"
-			flag_group {
-				flag: "-pie"
-				flag: "-Wl,-z,relro,-z,now"
-			}
-		}
-	}
-
-	feature {
-		name: "warnings"
-		flag_set {
-			action: "c-compile"
-			action: "c++-compile"
-			flag_group {
-				# All warnings are enabled. Maybe enable -Werror as well?
-				flag: "-Wall"
-				# Add another warning that is not part of -Wall.
-				flag: "-Wunused-but-set-parameter"
-				# But disable some that are problematic.
-				flag: "-Wno-free-nonheap-object" # has false positives
-			}
-		}
-	}
-
-	# Anticipated future default.
-	feature {
-		name: "no-canonical-prefixes"
-		flag_set {
-			action: "c-compile"
-			action: "c++-compile"
-			action: "c++-link-executable"
-			action: "c++-link-dynamic-library"
-			action: "c++-link-nodeps-dynamic-library"
-			flag_group {
-				flag: "-no-canonical-prefixes"
-			}
-		}
-	}
-
-	feature {
-		name: "disable-assertions"
-		flag_set {
-			action: "c-compile"
-			action: "c++-compile"
-			flag_group {
-				flag: "-DNDEBUG"
-			}
-		}
-	}
-
-	feature {
-		name: "linker-bin-path"
-
-		flag_set {
-			action: "c++-link-executable"
-			action: "c++-link-dynamic-library"
-			action: "c++-link-nodeps-dynamic-library"
-			flag_group {
-				flag: "-B/usr/bin/"
-			}
-		}
-	}
-
-	feature {
-		name: "common"
-		implies: "determinism"
-		implies: "pic"
-		implies: "hardening"
-		implies: "warnings"
-		implies: "no-canonical-prefixes"
-		implies: "linker-bin-path"
-	}
-
-	feature {
-		name: "opt"
-		implies: "common"
-		implies: "disable-assertions"
-
-		flag_set {
-			action: "c-compile"
-			action: "c++-compile"
-			flag_group {
-				# No debug symbols.
-				# Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt
-				# or even generally? However, that cant happen here, as it requires
-				# special handling in Bazel.
-				flag: "-g0"
-
-				# Conservative choice for -O
-				# -O3 can increase binary size and even slow down the resulting binaries.
-				# Profile first and / or use FDO if you need better performance than this.
-				flag: "-O2"
-
-				# Removal of unused code and data at link time (can this increase binary size in some cases?).
-				flag: "-ffunction-sections"
-				flag: "-fdata-sections"
-			}
-		}
-		flag_set {
-			action: "c++-link-dynamic-library"
-			action: "c++-link-nodeps-dynamic-library"
-			action: "c++-link-executable"
-			flag_group {
-				flag: "-Wl,--gc-sections"
-			}
-		}
-	}
-
-	feature {
-		name: "fastbuild"
-		implies: "common"
-	}
-
-	feature {
-		name: "dbg"
-		implies: "common"
-		flag_set {
-			action: "c-compile"
-			action: "c++-compile"
-			flag_group {
-				flag: "-g"
-			}
-		}
-	}
-
-	tool_path { name: "gcc" path: "${env_cc}" }
-
-	tool_path { name: "ar" path: "${env_ar}" }
-	tool_path { name: "compat-ld" path: "${env_ld}" }
-	tool_path { name: "cpp" path: "${env_cpp}" }
-	tool_path { name: "dwp" path: "${env_dwp}" }
-	tool_path { name: "gcov" path: "${env_gcov}" }
-	tool_path { name: "ld" path: "${env_ld}" }
-	tool_path { name: "nm" path: "${env_nm}" }
-	tool_path { name: "objcopy" path: "${env_objcopy}" }
-	tool_path { name: "objdump" path: "${env_objdump}" }
-	tool_path { name: "strip" path: "${env_strip}" }
-
-	# Enabled dynamic linking.
-	linking_mode_flags { mode: DYNAMIC }
-
-${builtin_include_dirs}
-
-	builtin_sysroot: "${env_sysroot}"
-}
+cc_toolchain_config = rule(
+  implementation = _impl,
+  attrs = {},
+  provides = [CcToolchainConfigInfo],
+)
 '
 
 # @FUNCTION: bazel_get_builtin_include_dirs
@@ -304,8 +344,7 @@ ${builtin_include_dirs}
 # @RETURN:
 # A list of the directories that are searched by default on invocation of the
 # given compiler's preprocessor. These directories are normalized (e.g.
-# parsing "..") and formatted as cxx_builtin_include_directory fields of the
-# CToolchain proto message.
+# parsing "..") and formatted as a python list of strings.
 # @MAINTAINER:
 # Michael Martis <martis@chromium.org>
 # @INTERNAL
@@ -332,7 +371,7 @@ bazel_get_builtin_include_dirs() {
 		norm_dir="$(cd "${include_dir}" && pwd || die)"
 
 		# Print the normalized path as a proto field.
-		echo "	cxx_builtin_include_directory: \"${norm_dir}\""
+		echo "\"${norm_dir}\","
 	done <<< "${include_dirs}"
 }
 
@@ -364,8 +403,7 @@ bazel_populate_crosstool_target() {
 	cpu_str="${cpu_str}" \
 	envsubst <<< "${BAZEL_CC_BUILD}" > "${output_dir}/BUILD" || die
 
-	# Write out the CROSSTOOL file for this configuration, including formatted
-	# include directories and compiler / linker flags from the environment.
+	# Write out the toolchain_config file for this configuration.
 	#
 	# We call tc-getPROG directly for cpp, since we require a program that directly
 	# performs preprocessing (i.e. takes no flags), whereas tc-getCPP returns an
@@ -383,7 +421,8 @@ bazel_populate_crosstool_target() {
 	env_objcopy="$(command -v "$("tc-get${env_prefix}OBJCOPY")" || die)" \
 	env_objdump="$(command -v "$("tc-get${env_prefix}OBJDUMP")" || die)" \
 	env_strip="$(command -v "$("tc-get${env_prefix}STRIP")" || die)" \
-	envsubst <<< "${BAZEL_CC_CROSSTOOL}" > "${output_dir}/CROSSTOOL" || die
+	envsubst <<< "${BAZEL_CC_TOOLCHAIN_CONFIG}" > \
+	"${output_dir}/cc_toolchain_config.bzl" || die
 }
 
 # @FUNCTION: bazel_get_stdlib_linkflag
@@ -445,6 +484,12 @@ bazel_setup_crosstool() {
 	build --package_path="%workspace%:${BAZEL_PORTAGE_PACKAGE_DIR}"
 	build --host_crosstool_top="//${BAZEL_CC_CONFIG_DIR}/host:toolchain" --crosstool_top="//${BAZEL_CC_CONFIG_DIR}/target:toolchain"
 	build --host_cpu="${host_cpu_str}" --cpu="${target_cpu_str}" --compiler=local --host_compiler=local
+	build --host_platform="//${BAZEL_CC_CONFIG_DIR}/host:${host_cpu_str}_platform"
+	build --platforms="//${BAZEL_CC_CONFIG_DIR}/target:${target_cpu_str}_platform"
+	build --extra_toolchains="//${BAZEL_CC_CONFIG_DIR}/target:cc-toolchain-${target_cpu_str}"
+
+	# This is super helpful for figuring out how the toolchain is determined
+	# build --toolchain_resolution_debug
 
 	# Add correct standard library link flags.
 	build --linkopt="$(bazel_get_stdlib_linkflag "$(tc-get-compiler-type)" || die)"
