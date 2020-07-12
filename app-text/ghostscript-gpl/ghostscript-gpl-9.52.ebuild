@@ -167,7 +167,7 @@ src_configure() {
 	# See the readme.txt file in the autotest directory to learn how the list
 	# was created.
 	local devices=(
-		ap3250 bj10e bj200 bjc600 bjc800 bjc880j bjccolor cdj500
+		ap3250 bit bj10e bj200 bjc600 bjc800 bjc880j bjccolor cdj500
 		cdj550 cdnj500 cljet5c declj250 djet500 dnj650c epl2050 eplcolor
 		eps9high eps9mid epson epsonc hl1250 ibmpro imagen jetp3852 laserjet
 		lbp8 lips2p lips3 lips4 ljet2p ljet3 ljet4 ljetplus lp1800 lp1900
