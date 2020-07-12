@@ -102,6 +102,7 @@ set_build_args() {
 	#          unnecessary feature
 	#       3. Set "is_cfi=false".
 	BUILD_ARGS=(
+		"is_chromeos_device=true"
 		"icu_disable_thin_archive=true"
 
 		# is_official_build sometimes implies extra optimizations (e.g. it will allow
