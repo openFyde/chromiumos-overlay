@@ -50,7 +50,6 @@ src_install() {
 	udev_dorules "${FILESDIR}/99-hidraw.rules"
 
 	# Fuzzer.
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firewall_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/port_tracker_fuzzer
 }
 
