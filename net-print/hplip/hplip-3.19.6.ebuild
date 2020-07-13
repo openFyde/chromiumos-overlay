@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -202,6 +202,7 @@ src_configure() {
 		fi
 	fi
 
+	cups_config="${SYSROOT}/usr/bin/cups-config"
 	# disable class driver for now
 	econf \
 		--disable-cups11-build \
@@ -212,8 +213,8 @@ src_configure() {
 		--disable-qt3 \
 		--disable-qt4 \
 		--disable-udev_sysfs_rules \
-		--with-cupsbackenddir=$(cups-config --serverbin)/backend \
-		--with-cupsfilterdir=$(cups-config --serverbin)/filter \
+		--with-cupsbackenddir=$("${cups_config}" --serverbin)/backend \
+		--with-cupsfilterdir=$("${cups_config}" --serverbin)/filter \
 		--with-docdir=/usr/share/doc/${PF} \
 		--with-htmldir=/usr/share/doc/${PF}/html \
 		--disable-network-build \
