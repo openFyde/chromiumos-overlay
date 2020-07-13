@@ -163,3 +163,23 @@ video_cards_voodoo
 # Bug #184563, 18 Sep 2007 
 # Robin H. Johnson <robbat2@gentoo.org>
 audit
+
+# Some SANE backends that we want to disable to conserve disk space
+# TODO(b/161252439): synchronize with x86.
+sane_backends_hp3900
+sane_backends_plustek
+sane_backends_snapscan
+sane_backends_umax
+sane_backends_mustek_usb
+sane_backends_avision
+sane_backends_gt68xx
+sane_backends_rts8891
+sane_backends_u12
+sane_backends_kvs1025
+sane_backends_artec_eplus48u
+sane_backends_hp5590
+sane_backends_hp5400
+sane_backends_hp4200
+sane_backends_hp4200
+sane_backends_hpljm1005
+sane_backends_ma1509
