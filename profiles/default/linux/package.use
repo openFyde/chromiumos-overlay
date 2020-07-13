@@ -72,6 +72,7 @@ dev-libs/openssl -sslv2 -sslv3 -tls-heartbeat
 
 # Build selected kernels with AutoFDO
 sys-kernel/chromeos-kernel-4_19 kernel_afdo
+sys-kernel/chromeos-kernel-4_14 kernel_afdo
 sys-kernel/chromeos-kernel-4_4 kernel_afdo
 sys-kernel/chromeos-kernel-3_18 kernel_afdo
 sys-kernel/chromeos-kernel-3_14 kernel_afdo
