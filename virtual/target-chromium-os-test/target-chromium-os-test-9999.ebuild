@@ -33,6 +33,7 @@ IUSE="
 	kvm_host
 	hammerd
 	ml_service
+	nnapi
 	opengl
 	opengles
 	p2p
@@ -94,6 +95,7 @@ CROS_COMMON_RDEPEND="
 	hammerd? ( chromeos-base/hammerd-test-utils )
 	scanner? ( chromeos-base/lorgnette_cli )
 	ml_service? ( chromeos-base/ml-cmdline )
+	nnapi? ( chromeos-base/ml-test-assets )
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
 	chromeos-base/tast-local-tests
