@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="35d4c379d39a296b8677f5a909d8f40e1d9c1cba"
+CROS_WORKON_COMMIT="8afe3a4937acd3cea60b8b2359aadf3bb61b74ff"
 CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "8e9afad52d67255aca6666e6be6e452b559afd9b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -24,6 +24,9 @@ KEYWORDS="*"
 
 src_install() {
 	dobin "${OUT}"/typecd
+
+	insinto /etc/init
+	doins init/*.conf
 }
 
 pkg_preinst() {
