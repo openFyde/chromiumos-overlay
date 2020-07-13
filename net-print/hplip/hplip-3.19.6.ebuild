@@ -202,7 +202,7 @@ src_configure() {
 		fi
 	fi
 
-	cups_config="${SYSROOT}/usr/bin/cups-config"
+	local cups_config="${SYSROOT}/usr/bin/cups-config"
 	# disable class driver for now
 	econf \
 		--disable-cups11-build \
