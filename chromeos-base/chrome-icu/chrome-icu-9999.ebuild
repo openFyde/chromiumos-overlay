@@ -145,6 +145,7 @@ set_build_args() {
 		"clang_use_chrome_plugins=false"
 		"is_cfi=false"
 		"use_cfi_cast=false"
+		"use_cras=false"
 
 		# Disable some unnecessary dependencies to avoid some trybot failure.
 		"use_xkbcommon=false"
