@@ -4,15 +4,14 @@
 # Increment the "eclass bug workaround count" below when you change
 # "cros-ec-release.eclass" to work around http://crbug.com/220902.
 #
-# eclass bug workaround count: 1
+# eclass bug workaround count: 2
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("22ad3ce20ae199e9177a1cc63d2d170fa63f9eea" "872d8d0beabd9a81c08fc34ec83285c690228aa8" "1e2e9d7183f545eefd1a86a07b0ab6f91d837a6c")
-CROS_WORKON_TREE=("2acece20af8307f916adbe1850384fe42f618e4f" "f70af34770002df8ef3951dfdf5a6c18d42a5dda" "fdbc51bbd5a7ee9d532ea1aa30cf21e57ca199db")
-FIRMWARE_EC_BOARD="bloonchipper"
+CROS_WORKON_COMMIT=("9c45fb4b3d9beb53fcca077752725207d364b755" "6ab308b4578233be5c65d3a334be48419ea677a9" "1e2e9d7183f545eefd1a86a07b0ab6f91d837a6c")
+CROS_WORKON_TREE=("e1bf1102d6a4ea7e7491995ce8344da837ae265f" "98903755df471bb11d43a1140a4c06e521d301bc" "fdbc51bbd5a7ee9d532ea1aa30cf21e57ca199db")
+FIRMWARE_EC_BOARD="dartmonkey"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
-FIRMWARE_EC_RELEASE_RO_VERSION="${FPMCU_FIRMWARE_BLOONCHIPPER_RO_VERSION}"
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
@@ -21,7 +20,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"../platform/release-firmware/fpmcu-bloonchipper"
+	"../platform/release-firmware/fpmcu-dartmonkey"
 	"tpm2"
 	"cryptoc"
 )
@@ -33,7 +32,7 @@ CROS_WORKON_DESTDIR=(
 )
 
 CROS_WORKON_EGIT_BRANCH=(
-	"firmware-fpmcu-bloonchipper-release"
+	"firmware-fpmcu-dartmonkey-release"
 	"master"
 	"master"
 )
