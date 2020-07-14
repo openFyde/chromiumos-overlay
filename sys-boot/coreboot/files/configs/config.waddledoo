@@ -24,7 +24,6 @@ CONFIG_HAVE_INTEL_FSP_REPO=y
 # CONFIG_FSP_USE_REPO is not set
 CONFIG_FSP_M_FILE="3rdparty/blobs/intel/jsl/fsp/fspm.bin"
 CONFIG_FSP_S_FILE="3rdparty/blobs/intel/jsl/fsp/fsps.bin"
-# TODO(b/148411686): Include the header after fix for c#2
 # CONFIG_FSP_HEADER_PATH is not set
 
 # Enable VBT
