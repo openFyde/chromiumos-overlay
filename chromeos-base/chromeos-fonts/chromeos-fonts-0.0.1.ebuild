@@ -1,7 +1,9 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
+
+inherit cros-constants
 
 DESCRIPTION="Chrome OS Fonts (meta package)"
 HOMEPAGE="http://src.chromium.org"
@@ -27,121 +29,89 @@ IUSE="cros_host internal"
 # to fixing http://crbug.com/205424.
 DEPEND="
 	internal? (
-		chromeos-base/monotype-fonts
-		chromeos-base/google-sans-fonts
+		chromeos-base/monotype-fonts:=
+		chromeos-base/google-sans-fonts:=
 	)
-	media-fonts/croscorefonts
-	media-fonts/crosextrafonts
-	media-fonts/crosextrafonts-carlito
-	media-fonts/noto-cjk
-	media-fonts/notofonts
-	media-fonts/ko-nanumfonts
-	media-fonts/lohitfonts-cros
-	media-fonts/robotofonts
-	media-fonts/tibt-jomolhari
-	media-libs/fontconfig
-	!cros_host? ( sys-libs/gcc-libs )
-	cros_host? ( sys-libs/glibc )
+	media-fonts/croscorefonts:=
+	media-fonts/crosextrafonts:=
+	media-fonts/crosextrafonts-carlito:=
+	media-fonts/noto-cjk:=
+	media-fonts/notofonts:=
+	media-fonts/ko-nanumfonts:=
+	media-fonts/lohitfonts-cros:=
+	media-fonts/robotofonts:=
+	media-fonts/tibt-jomolhari:=
+	media-libs/fontconfig:=
+	!cros_host? ( sys-libs/gcc-libs:= )
+	cros_host? ( sys-libs/glibc:= )
 	"
 RDEPEND="${DEPEND}"
 
+BDEPEND="chromeos-base/minijail"
+
 S=${WORKDIR}
 
-# Don't 'die' in here, because our callers want to catch errors.
-qemu_run() {
-	# Run the emulator to execute command. It needs to be copied
-	# temporarily into the sysroot because we chroot to it.
-	local qemu=()
-	case "${ARCH}" in
-		amd64)
-			# Note that qemu is not actually run below in this case.
-			qemu=( qemu-x86_64 -cpu max )
-			;;
-		arm)
-			qemu=( qemu-arm )
-			;;
-		arm64)
-			qemu=( qemu-aarch64 )
-			;;
-		mips)
-			qemu=( qemu-mipsel )
-			;;
-		x86)
-			qemu=( qemu-i386 -cpu max )
-			;;
-		*)
-			eerror "Unable to determine QEMU from ARCH."
-			return 1
-	esac
-
-	# The following code uses sudo to generate the font-cache.  It is almost
-	# always not a good idea to use sudo in your ebuild.  This ebuild is an
-	# exception for the following reasons:
-	#
-	# - fc-cache was designed with the generic linux distribution use case
-	#   in mind where package maintainers have no idea what fonts are actually
-	#   installed on the system.  As a result fc-cache operates directly on
-	#   the target file system and needs permission to modify its cache
-	#   directory (/usr/share/cache/fontconfig), which is owned by root.
-	# - When cross-compiling, the generated font caches need to be compatible
-	#   with the architecture on which they will be used.  To properly do
-	#   this, we need to run the architecture appropriate copy of fc-cache,
-	#   which may link against other arch-specific libraries, which means
-	#   we need to chroot it in the board sysroot and chrooting requires
-	#   root permissions.
-	#
-	# By themselves the above two reasons are not sufficient to justify
-	# using sudo in the ebuild.  What makes this OK is that fc-cache takes
-	# a really long time when run under qemu for ARM (4 - 7 minutes), which
-	# is a very large percentage of the overall time spent in build_image.
-	# It doesn't make sense to force each developer to spend a bunch of time
-	# generating the exact same font cache on their machine every time they
-	# want to build an image.  And even then, we can only do this because
-	# chromeos-fonts is a specialized ebuild for chrome os only.
-	#
-	# All of which is to say: don't use sudo in your ebuild.  You have been
-	# warned.  -- chirantan
-
-	local chroot_dir="${WORKDIR#${SYSROOT}}"
-	if ! cp "/usr/bin/${qemu[0]}" "${WORKDIR}"; then
-		eerror "Failed to copy /usr/bin/${qemu[0]} -> ${WORKDIR}"
-		return 1
-	fi
-	if ! sudo chroot "${SYSROOT}" "${chroot_dir}/${qemu[0]}" "${qemu[@]:1}" "$@"; then
-		eerror "Failed to run QEMU (args $*)"
-		return 1
-	fi
-	if ! rm "${WORKDIR}/${qemu[0]}"; then
-		eerror "Failed to clean up QEMU"
-		return 1
-	fi
-}
-
+# The following code uses sudo to generate the font-cache.  It is almost
+# always not a good idea to use sudo in your ebuild.  This ebuild is an
+# exception for the following reasons:
+#
+# - fc-cache was designed with the generic linux distribution use case
+#   in mind where package maintainers have no idea what fonts are actually
+#   installed on the system.  As a result fc-cache operates directly on
+#   the target file system and needs permission to modify its cache
+#   directory (/usr/share/cache/fontconfig).
+# - /usr/share/cache/fontconfig normally is owned by root, but for various
+#   reasons, we bind mount our own work directory on top of it. The bind
+#   mounting requires root privileges.
+# - When cross-compiling, the generated font caches need to be compatible
+#   with the architecture on which they will be used.  To properly do
+#   this, we need to run the architecture appropriate copy of fc-cache,
+#   which may link against other arch-specific libraries, which means
+#   we need to chroot it in the board sysroot and chrooting requires
+#   root permissions.
+#
+# By themselves the above reasons are not sufficient to justify using sudo in
+# the ebuild.  What makes this OK is that fc-cache takes a really long time
+# when run under qemu for ARM (4 - 7 minutes), which is a very large percentage
+# of the overall time spent in build_image. It doesn't make sense to force each
+# developer to spend a bunch of time generating the exact same font cache on
+# their machine every time they want to build an image.  And even then, we can
+# only do this because chromeos-fonts is a specialized ebuild for Chrome OS
+# only.
+#
+# All of which is to say: don't use sudo in your ebuild.  You have been
+# warned.  -- chirantan
 generate_font_cache() {
-	# Bind mount over the cache directory so that we don't scribble over the
-	# $SYSROOT.  Same warning as above applies: don't use sudo in your ebuild.
-	mkdir -p "${WORKDIR}/out"
-	if grep -q "${SYSROOT%/}/usr/share/cache/fontconfig" /proc/mounts; then
-		sudo umount "${SYSROOT}/usr/share/cache/fontconfig" || die
-	fi
-	sudo mount --bind "${WORKDIR}/out" "${SYSROOT}/usr/share/cache/fontconfig" || die
+	mkdir -p "${WORKDIR}/out" || die
 
-	# If we're running directly on the target (e.g. gmerge), we don't need
-	# to chroot or use qemu. Don't 'die' on errors so we can clean up the
-	# bind mount even if fc-cache fails.
-	if [[ "${SYSROOT:-/}" == "/" ]]; then
-		sudo /usr/bin/fc-cache -f -v
-	elif [[ "${ARCH}" == "amd64" ]]; then
-		# Uses the host's fc-cache binary to build the font
-		# cache on the target.
-		sudo /usr/bin/fc-cache --sysroot="${SYSROOT}" -f -v
+	# Run fc-cache in a mount namespace, to handle isolation and graceful
+	# cleanup.
+	#
+	# platform2_test: helpful because it's a pain to open-code QEMU usage
+	#   (needed for ARCHes that don't match the build system).
+	# minijail0: helpful because platform2_test does not provide custom
+	#   bind-mounting facilities.
+	#   -v: mount namespace
+	#   -K: don't change root mount propagation (not possible in a chroot,
+	#     where chroot isn't a mount)
+	#   -k ... 0x5000: MS_BIND|MS_PRIVATE
+	local jail_args=(
+		-vK
+		-k "${WORKDIR}/out,${SYSROOT}/usr/share/cache/fontconfig,none,0x5000"
+	)
+	if [[ "${ARCH}" == "amd64" ]]; then
+		# Special-case for amd64: the target ISA may not match our
+		# build host (so we can't run natively;
+		# https://crbug.com/856686), and we may not have QEMU support
+		# for the full ISA either. Just run the SDK binary instead.
+		sudo minijail0 "${jail_args[@]}" \
+			/usr/bin/fc-cache -f -v --sysroot "${SYSROOT:-/}" || die
+
 	else
-		qemu_run /usr/bin/fc-cache -f -v
+		sudo minijail0 "${jail_args[@]}" \
+			"${CHROOT_SOURCE_ROOT}"/src/platform2/common-mk/platform2_test.py \
+			--sysroot "${SYSROOT}" -- /usr/bin/fc-cache -f -v || die
 	fi
-	local retval=$?
-
-	sudo umount "${SYSROOT}/usr/share/cache/fontconfig" || die
-	[[ ${retval} == 0 ]] || die "fc-cache failed"
 }
 
 # TODO(cjmcdonald): crbug/913317 These .uuid files need to exist when fc-cache
