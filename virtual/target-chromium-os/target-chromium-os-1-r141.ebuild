@@ -61,6 +61,7 @@ IUSE="
 	+network_time
 	nfc
 	pam
+	perfetto
 	postscript
 	+power_management
 	+profile
@@ -178,6 +179,7 @@ RDEPEND="
 	fonts? ( chromeos-base/chromeos-fonts )
 	chromeos-base/chromeos-installer
 	chromeos-base/dev-install
+	perfetto? ( chromeos-base/perfetto )
 	crash_reporting? ( chromeos-base/crash-reporter )
 	mist? ( chromeos-base/mist )
 	modemfwd? ( chromeos-base/modemfwd )

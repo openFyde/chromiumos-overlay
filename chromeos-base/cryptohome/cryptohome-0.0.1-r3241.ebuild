@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2cf1a28278c07bd90f5abb94a0b586be8cf6ad52"
+CROS_WORKON_COMMIT="be920d1628328d2974222ccfc43125dad360d83b"
 CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "a03af467f999b6767356522178bcc51f584dd35c" "8a424a75e11d7920d32c970717d3eff3e60db0ec" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,10 +24,8 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
-# The flag distributed_cryptohome is for turning on tpm_manager and
-# attestation for 1.2 devices.
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
-	-direncryption distributed_cryptohome double_extend_pcr_issue fuzzer
+	-direncryption double_extend_pcr_issue fuzzer
 	generated_cros_config pinweaver selinux systemd test tpm tpm2
 	unibuild user_session_isolation"
 

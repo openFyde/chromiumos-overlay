@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="55c895226b6b0388bbe6b8bc98cb7af67182d5bd"
+CROS_WORKON_COMMIT="be920d1628328d2974222ccfc43125dad360d83b"
 CROS_WORKON_TREE=("b1c6245dddc7b5e10da108b13f7c3883aa0b6c2c" "8a424a75e11d7920d32c970717d3eff3e60db0ec" "c95b7c2c34a5b6e497150c6d30abbd5a1928f3d4" "b0803859a28264270dbda45f840272b5211502c7" "bd2ca2caa580007b48df6e17ddc3db34f67e9332" "9fd99bf51279bfd5841cde5997f0379182410b03" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,7 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_ma
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="distributed_cryptohome test tpm tpm2"
+IUSE="test tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
