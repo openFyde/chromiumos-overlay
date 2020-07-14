@@ -11,10 +11,6 @@
 # @DESCRIPTION:
 # This eclass manages the libchrome version.
 
-# LIBCHROME_VERS and BASE_VER are deprecated. Use libchrome_ver instead.
-LIBCHROME_VERS=( 679961 )
-export BASE_VER="${LIBCHROME_VERS[0]}"
-
 # @FUNCTION: libchrome_ver
 # @DESCRIPTION:
 # Output current libchrome BASE_VER, from SYSROOT-installed BASE_VER file.
