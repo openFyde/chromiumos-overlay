@@ -126,7 +126,7 @@ src_install() {
 
 	# Install fuzzers.
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_block_device_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_cached_vpd_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_system_info_fuzzer
 }
 
 platform_pkg_test() {
