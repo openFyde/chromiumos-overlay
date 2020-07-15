@@ -11,7 +11,7 @@ CROS_GO_BINARIES=(
 	# Add more apps here.
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
 	"trace_profiling/cmd/analyze:${INSTALL_DIR}/analyze"
-	"trace_profiling/cmd/gen_db_result:${INSTALL_DIR}/gen_db_result"
+	"trace_profiling/cmd/gen_db_result:${INSTALL_DIR}/get_device_info"
 	"trace_profiling/cmd/harvest:${INSTALL_DIR}/harvest"
 	"trace_profiling/cmd/merge:${INSTALL_DIR}/merge"
 	"trace_profiling/cmd/profile:${INSTALL_DIR}/profile"
