@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+CROS_WORKON_PROJECT="chromiumos/third_party/qemu"
+CROS_WORKON_BLACKLIST="1"
 
 PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 PYTHON_REQ_USE="ncurses,readline"
@@ -10,28 +12,22 @@ PLOCALES="bg de_DE fr_FR hu it tr zh_CN"
 
 FIRMWARE_ABI_VERSION="4.0.0-r50"
 
-inherit eutils linux-info toolchain-funcs multilib python-r1 \
+inherit cros-workon eutils linux-info toolchain-funcs multilib python-r1 \
 	udev fcaps readme.gentoo-r1 pax-utils l10n xdg-utils flag-o-matic
-
-if [[ ${PV} = *9999* ]]; then
-	EGIT_REPO_URI="https://git.qemu.org/git/qemu.git"
-	EGIT_SUBMODULES=(
-		slirp
-		tests/fp/berkeley-{test,soft}float-3
-		ui/keycodemapdb
-	)
-	inherit git-r3
-	SRC_URI=""
-else
-	SRC_URI="https://download.qemu.org/${P}.tar.xz"
-	KEYWORDS="*"
-fi
 
 DESCRIPTION="QEMU + Kernel-based Virtual Machine userland tools"
 HOMEPAGE="http://www.qemu.org http://www.linux-kvm.org"
+SLIRP_REV="2faae0f778f818fadc873308f983289df697eb93"
+TESTFLOAT_REV="5a59dcec19327396a011a17fd924aed4fec416b3"
+KEYCODEMAPDB_REV="6b3d716e2b6472eb7189d3220552280ef3d832ce"
+
+SRC_URI="https://gitlab.freedesktop.org/slirp/libslirp/repository/archive.tar.gz?ref=${SLIRP_REV} -> ${PN}-20200729-slirp.tar.gz
+https://github.com/cota/berkeley-testfloat-3/archive/${TESTFLOAT_REV}.tar.gz -> ${PN}-20200729-berkeley-testfloat-3.tar.gz
+https://github.com/qemu/keycodemapdb/archive/${KEYCODEMAPDB_REV}.tar.gz -> ${PN}-20200718-keycodemapdb.tar.gz"
 
 LICENSE="GPL-2 LGPL-2 BSD-2"
 SLOT="0"
+KEYWORDS="~*"
 
 IUSE="accessibility +aio alsa bzip2 capstone +caps +curl debug doc
 	+fdt glusterfs gnutls gtk infiniband iscsi io-uring
@@ -163,11 +159,14 @@ SOFTMMU_TOOLS_DEPEND="
 	zstd? ( >=app-arch/zstd-1.4.0[static-libs(+)] )
 "
 
+# NOTE: ~sys-firmware/edk2-ovmf-201905[binary] and
+# ~sys-firmware/seabios-1.12.0[binary,seavgabios] were in the
+# pin-upstream-blobs list but I took them out because of lack of ebuild
+# TODO: uprev seabios to 1.12 instead of hacking it to use 1.11 here below
 X86_FIRMWARE_DEPEND="
 	pin-upstream-blobs? (
-		~sys-firmware/edk2-ovmf-201905[binary]
 		~sys-firmware/ipxe-1.0.0_p20190728[binary]
-		~sys-firmware/seabios-1.12.0[binary,seavgabios]
+		~sys-firmware/seabios-1.11.0[binary,seavgabios]
 		~sys-firmware/sgabios-0.1_pre8[binary]
 	)
 	!pin-upstream-blobs? (
@@ -216,13 +215,6 @@ DEPEND="${CDEPEND}
 RDEPEND="${CDEPEND}
 	acct-group/kvm
 	selinux? ( sec-policy/selinux-qemu )"
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-2.11.1-capstone_include_path.patch
-	"${FILESDIR}"/${PN}-4.0.0-mkdir_systemtap.patch #684902
-	"${FILESDIR}"/${PN}-4.2.0-cflags.patch
-	"${FILESDIR}"/${PN}-5.0.0-epoll-strace.patch
-)
 
 QA_PREBUILT="
 	usr/share/qemu/hppa-firmware.img
@@ -366,6 +358,17 @@ handle_locales() {
 		# Cheap hack to disable gettext .mo generation.
 		rm -f po/*.po
 	fi
+}
+
+src_unpack() {
+	mkdir -p "${S}" "${S}"/tests/fp "${S}"/ui || die
+
+	unpack "${A}" || die
+	mv "libslirp-${SLIRP_REV}-${SLIRP_REV}" "${S}"/slirp || die
+	mv "berkeley-testfloat-3-${TESTFLOAT_REV}" "${S}"/tests/fp/berkeley-testfloat-3 || die
+	mv "keycodemapdb-${KEYCODEMAPDB_REV}" "${S}"/ui/keycodemapdb || die
+
+	cros-workon_src_unpack
 }
 
 src_prepare() {
