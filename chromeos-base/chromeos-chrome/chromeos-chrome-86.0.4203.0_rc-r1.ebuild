@@ -37,6 +37,7 @@ IUSE="
 	+build_tests
 	+chrome_debug
 	+cfi
+	cfm
 	chrome_debug_tests
 	chrome_internal
 	chrome_media
@@ -46,7 +47,7 @@ IUSE="
 	+debug_fission
 	+fonts
 	goma
-	+goma_thinlto
+	goma_thinlto
 	+highdpi
 	internal_gles_conform
 	+libcxx
@@ -81,7 +82,7 @@ REQUIRED_USE="
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
-OZONE_PLATFORMS=(gbm cast test egltest caca)
+OZONE_PLATFORMS=(gbm cast headless egltest caca)
 IUSE_OZONE_PLATFORMS="${OZONE_PLATFORMS[@]/#/${OZONE_PLATFORM_PREFIX}}"
 IUSE+=" ${IUSE_OZONE_PLATFORMS}"
 OZONE_PLATFORM_DEFAULT_PREFIX=ozone_platform_default_
@@ -245,6 +246,8 @@ set_build_args() {
 		"enable_remoting=$(usetf chrome_remoting)"
 		"enable_nacl=$(use_nacl; echotf)"
 		# use_system_minigbm is set below.
+
+		"is_cfm=$(usetf cfm)"
 
 		# Clang features.
 		"is_asan=$(usetf asan)"
@@ -742,7 +745,7 @@ setup_compile_flags() {
 
 	# The chrome makefiles specify -O and -g flags already, so remove the
 	# portage flags.
-	filter-flags -g -O*
+	filter-flags -g "-O*"
 
 	# Remove unsupported arm64 linker flag on arm32 builds.
 	# https://crbug.com/889079

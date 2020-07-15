@@ -102,6 +102,7 @@ set_build_args() {
 	#          unnecessary feature
 	#       3. Set "is_cfi=false".
 	BUILD_ARGS=(
+		"is_chromeos_device=true"
 		"icu_disable_thin_archive=true"
 
 		# is_official_build sometimes implies extra optimizations (e.g. it will allow
@@ -144,6 +145,7 @@ set_build_args() {
 		"clang_use_chrome_plugins=false"
 		"is_cfi=false"
 		"use_cfi_cast=false"
+		"use_cras=false"
 
 		# Disable some unnecessary dependencies to avoid some trybot failure.
 		"use_xkbcommon=false"
