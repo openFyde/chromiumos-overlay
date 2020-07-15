@@ -14,6 +14,7 @@ IUSE="internal postscript"
 
 RDEPEND="
 	chromeos-base/ippusb_manager
+	chromeos-base/lexmark-fax-pnh
 	net-print/cups
 	net-print/cups-filters
 	net-print/dymo-cups-drivers
