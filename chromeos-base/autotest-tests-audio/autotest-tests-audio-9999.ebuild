@@ -24,12 +24,15 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
-# audio_AudioInputGain depends on telemetry.
+# audio_AudioInputGain and audio_CrasGetNodes depend on telemetry.
 IUSE_TESTS="
 	+tests_audio_Aconnect
 	+tests_audio_AlsaLoopback
 	+tests_audio_Aplay
-	!chromeless_tty? ( +tests_audio_AudioInputGain )
+	!chromeless_tty? (
+		+tests_audio_AudioInputGain
+		+tests_audio_CrasGetNodes
+	)
 	+tests_audio_CRASFormatConversion
 	+tests_audio_CrasDevSwitchStress
 	+tests_audio_CrasLoopback
