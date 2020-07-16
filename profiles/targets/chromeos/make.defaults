@@ -95,10 +95,6 @@ FEATURES="allow-missing-manifests buildpkg clean-logs -collision-protect
           parallel-install -preserve-libs sandbox splitdebug -strict userfetch
           userpriv usersandbox -unknown-features-warn network-sandbox"
 
-# Enable license processing during our emerge hook:
-#   src/scripts/hooks/install/gen-package-licenses.sh.
-ENABLE_LICENSING="Y"
-
 # We reset compiler settings as the base ones are generic (just -O2) and our
 # common make.conf already adds those and more.
 CFLAGS=""
