@@ -25,7 +25,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
 "
-
+# TODO(andrescj): depend on libva-intel-media-driver-20.2.0.
 PDEPEND="
 	video_cards_intel? ( !video_cards_iHD? ( >=x11-libs/libva-intel-driver-2.0.0[${MULTILIB_USEDEP}] ) )
 	video_cards_iHD? ( ~x11-libs/libva-intel-media-driver-20.1.1[${MULTILIB_USEDEP}] )
