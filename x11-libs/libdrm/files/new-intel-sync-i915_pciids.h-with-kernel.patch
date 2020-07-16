@@ -1,0 +1,51 @@
+From 669e1087ab60637744ae0f3f15b8c1608d2a8653 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
+Date: Wed, 8 Jul 2020 10:44:53 -0700
+Subject: [PATCH] intel: sync i915_pciids.h with kernel
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Two new patches landed in kernel adding new PCI ids:
+123f62de419f ("drm/i915/rkl: Add RKL platform info and PCI ids")
+52797a8e8529 ("drm/i915/ehl: Add new PCI ids")
+
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
+---
+ intel/i915_pciids.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/intel/i915_pciids.h b/intel/i915_pciids.h
+index 662d8351c87a..d6cb28992ba0 100644
+--- a/intel/i915_pciids.h
++++ b/intel/i915_pciids.h
+@@ -588,7 +588,11 @@
+ 	INTEL_VGA_DEVICE(0x4551, info), \
+ 	INTEL_VGA_DEVICE(0x4541, info), \
+ 	INTEL_VGA_DEVICE(0x4E71, info), \
++	INTEL_VGA_DEVICE(0x4557, info), \
++	INTEL_VGA_DEVICE(0x4555, info), \
+ 	INTEL_VGA_DEVICE(0x4E61, info), \
++	INTEL_VGA_DEVICE(0x4E57, info), \
++	INTEL_VGA_DEVICE(0x4E55, info), \
+ 	INTEL_VGA_DEVICE(0x4E51, info)
+ 
+ /* TGL */
+@@ -605,4 +609,13 @@
+ 	INTEL_VGA_DEVICE(0x9AD9, info), \
+ 	INTEL_VGA_DEVICE(0x9AF8, info)
+ 
++/* RKL */
++#define INTEL_RKL_IDS(info) \
++	INTEL_VGA_DEVICE(0x4C80, info), \
++	INTEL_VGA_DEVICE(0x4C8A, info), \
++	INTEL_VGA_DEVICE(0x4C8B, info), \
++	INTEL_VGA_DEVICE(0x4C8C, info), \
++	INTEL_VGA_DEVICE(0x4C90, info), \
++	INTEL_VGA_DEVICE(0x4C9A, info)
++
+ #endif /* _I915_PCIIDS_H */
+-- 
+2.7.4
+
