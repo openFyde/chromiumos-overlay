@@ -21,6 +21,7 @@ KEYWORDS="~*"
 IUSE="
 	arc-camera3
 	biod
+	cdm_factory_daemon
 	-chromeless_tests
 	cheets
 	chromeless_tty
@@ -165,6 +166,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/autotest-client
 	cras? ( chromeos-base/audiotest )
 	chromeos-base/avtest_label_detect
+	cdm_factory_daemon? ( chromeos-base/cdm-oemcrypto-hw-test )
 	chromeos-base/chrome-binary-tests
 	chromeos-base/cros-camera-tool
 	chromeos-base/cros-config-test
