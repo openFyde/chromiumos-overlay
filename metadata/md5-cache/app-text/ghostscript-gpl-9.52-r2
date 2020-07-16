@@ -10,4 +10,4 @@ RDEPEND=app-text/libpaper media-libs/fontconfig >=media-libs/freetype-2.4.9:2= >
 SLOT=0
 SRC_URI=https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs952/ghostscript-9.52.tar.xz
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	1790470c95f416653a627475b8864394	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
-_md5_=93d13f43ecbf09431d361a1457db5597
+_md5_=878ee1e0c8bf1907586375617ade8868
