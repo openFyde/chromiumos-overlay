@@ -48,9 +48,8 @@ src_install() {
 	insinto "${tts_path}"
 	doins "patts.squash"
 
-	# Install Upstart scripts that mount and unmount the squash file when
-	# Chrome UI starts and stops.
+	# Install an Upstart script that mount and unmount the squash file when
+	# system-services start and stop.
 	insinto "/etc/init"
-	doins "googletts-start.conf"
-	doins "googletts-stop.conf"
+	doins "googletts.conf"
 }
