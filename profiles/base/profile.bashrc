@@ -401,6 +401,13 @@ cros_post_src_install_coverage_logs() {
 		# Return if there are no elf files with coverage data.
 		[[ "${#cov_args[@]}" -eq 0 ]] && return
 
+		# Generate json format coverage report.
+		llvm-cov export "${cov_args[@]}" \
+			-instr-profile="${cov_dir}/${PN}.profdata" \
+			-skip-expansions \
+			-skip-functions \
+			> ${cov_dir}/coverage.json || die
+
 		# Generate html format coverage report.
 		llvm-cov show "${cov_args[@]}" -format=html \
 			-instr-profile="${cov_dir}/${PN}.profdata" \
