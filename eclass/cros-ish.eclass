@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE.makefile file.
 
-# @ECLASS: cros-ec.eclass
+# @ECLASS: cros-ish.eclass
 # @MAINTAINER:
 # Chromium OS Firmware Team
 # @BUGREPORTS:
