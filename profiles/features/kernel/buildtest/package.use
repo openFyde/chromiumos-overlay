@@ -5,7 +5,8 @@ sys-kernel/chromeos-kernel-3_10 buildtest -clang -lld
 sys-kernel/chromeos-kernel-3_14 buildtest -clang -lld
 sys-kernel/chromeos-kernel-3_18 buildtest -clang -lld
 sys-kernel/chromeos-kernel-4_4 buildtest -clang -lld
-sys-kernel/chromeos-kernel-4_14 buildtest -clang -lld -kernel_afdo
+# We can build chromeos-4.14 with clang, but not with lld
+sys-kernel/chromeos-kernel-4_14 buildtest -lld -kernel_afdo
 # For chromeos-4.19 and later we can build with clang and lld.
 sys-kernel/chromeos-kernel-4_19 buildtest
 sys-kernel/chromeos-kernel-5_4 buildtest
