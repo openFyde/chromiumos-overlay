@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Jason Zaman
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DISTUTILS_OPTIONAL=1
 PYTHON_COMPAT=( python2_7 python{3_5,3_6,3_7} )
