@@ -1,7 +1,7 @@
-From a531b4d2916019ca6a8f507e893c79b2467c75b6 Mon Sep 17 00:00:00 2001
+From 66a44206e555deaf93b18e6a82e65dc88cc40960 Mon Sep 17 00:00:00 2001
 From: Zubin Mithra <zsm@chromium.org>
-Date: Fri, 12 Jun 2020 11:46:28 -0700
-Subject: [PATCH] cros-syzkaller: do not check for git version
+Date: Sat, 18 Jul 2020 21:14:13 -0700
+Subject: [PATCH 1/2] cros-syzkaller: do not check for git version
 
 ---
  syz-fuzzer/testing.go  | 3 ---
@@ -9,7 +9,7 @@ Subject: [PATCH] cros-syzkaller: do not check for git version
  2 files changed, 6 deletions(-)
 
 diff --git a/syz-fuzzer/testing.go b/syz-fuzzer/testing.go
-index 2ed615c8..849960b2 100644
+index 2ed615c80..849960b22 100644
 --- a/syz-fuzzer/testing.go
 +++ b/syz-fuzzer/testing.go
 @@ -121,9 +121,6 @@ func checkMachine(args *checkArgs) (*rpctype.CheckArgs, error) {
@@ -23,7 +23,7 @@ index 2ed615c8..849960b2 100644
  	if err != nil {
  		return nil, err
 diff --git a/syz-manager/manager.go b/syz-manager/manager.go
-index 7c275e28..51f1dff7 100644
+index 9ed3ff0e0..4d485c861 100644
 --- a/syz-manager/manager.go
 +++ b/syz-manager/manager.go
 @@ -112,9 +112,6 @@ type Crash struct {
@@ -31,11 +31,11 @@ index 7c275e28..51f1dff7 100644
  
  func main() {
 -	if prog.GitRevision == "" {
--		log.Fatalf("Bad syz-manager build. Build with make, run bin/syz-manager.")
+-		log.Fatalf("bad syz-manager build: build with make, run bin/syz-manager")
 -	}
  	flag.Parse()
  	log.EnableLogCaching(1000, 1<<20)
  	cfg, err := mgrconfig.LoadFile(*flagConfig)
 -- 
-2.27.0.290.gba653c62da-goog
+2.28.0.rc0.105.gf9edc3c819-goog
 
