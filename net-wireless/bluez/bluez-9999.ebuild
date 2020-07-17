@@ -86,6 +86,7 @@ src_configure() {
 
 	use readline || export ac_cv_header_readline_readline_h=no
 
+	export BASE_VER="$(libchrome_ver)"
 	econf \
 		--enable-tools \
 		--localstatedir=/var \
