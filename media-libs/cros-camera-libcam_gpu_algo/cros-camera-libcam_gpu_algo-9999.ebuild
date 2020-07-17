@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -16,19 +16,12 @@ inherit cros-camera cros-workon platform
 DESCRIPTION="Chrome OS camera GPU algorithm library."
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
 
-RDEPEND=""
+RDEPEND="media-libs/cros-camera-effect-portrait-mode"
 
 DEPEND="${RDEPEND}"
 
 src_install() {
 	dolib.so "${OUT}/lib/libcam_gpu_algo.so"
-
-	insinto /etc/init
-	doins ../init/cros-camera-gpu-algo.conf
-
-	insinto "/usr/share/policy"
-	newins "../cros-camera-gpu-algo-${ARCH}.policy" cros-camera-gpu-algo.policy
 }

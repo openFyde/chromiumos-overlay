@@ -1,7 +1,7 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -17,11 +17,12 @@ DESCRIPTION="Camera algorithm bridge library for proprietary camera algorithm
 isolation"
 
 LICENSE="BSD-Google"
-SLOT="0"
 KEYWORDS="~*"
+IUSE="camera_feature_portrait_mode ihd_cmrtlib"
 
 RDEPEND="
 	!media-libs/arc-camera3-libcab
+	camera_feature_portrait_mode? ( media-libs/cros-camera-libcam_gpu_algo )
 	media-libs/cros-camera-libcamera_common
 	media-libs/cros-camera-libcamera_ipc"
 
@@ -45,4 +46,14 @@ src_install() {
 
 	insinto "/usr/share/policy"
 	newins "../cros-camera-algo-${ARCH}.policy" cros-camera-algo.policy
+
+	# The sandboxed GPU service runs the camera GPU algorithm library and
+	# the CMRT library.
+	if use camera_feature_portrait_mode || use ihd_cmrtlib ; then
+		insinto /etc/init
+		doins ../init/cros-camera-gpu-algo.conf
+
+		insinto "/usr/share/policy"
+		newins "../cros-camera-gpu-algo-${ARCH}.policy" cros-camera-gpu-algo.policy
+	fi
 }

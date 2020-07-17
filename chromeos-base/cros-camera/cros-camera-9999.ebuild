@@ -32,7 +32,6 @@ COMMON_DEPEND="
 	media-libs/cros-camera-libcamera_ipc:=
 	media-libs/cros-camera-libcamera_metadata:=
 	media-libs/libsync:=
-	virtual/cros-camera-effects
 	libcamera? ( media-libs/libcamera )
 	!libcamera? (
 		virtual/cros-camera-hal
