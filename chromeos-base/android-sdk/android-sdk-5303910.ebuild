@@ -32,12 +32,16 @@ LICENSE="
 	"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="android-container-pi"
 RESTRICT="strip"
 
 DEPEND=""
+# Android P depends on Java 8 or 9. Android R depends on Java 9 or later.
+# !android-container-pi includes all the android-vm-* versions like:
+#   android-vm-rvc and android-vm-master
 RDEPEND="
-	>=virtual/jdk-1.5
+	android-container-pi? ( <=virtual/jdk-9 )
+	!android-container-pi? ( >=virtual/jdk-9 )
 	>=dev-java/ant-core-1.6.5
 	sys-libs/zlib"
 BDEPEND=""
