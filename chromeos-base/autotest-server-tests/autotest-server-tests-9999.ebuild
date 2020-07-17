@@ -69,7 +69,6 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_Rollback
 	has-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
 	is-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
-	+tests_brillo_gTests
 	cellular? ( +tests_cellular_StaleModemReboot )
 	android-container-pi? (
 		+tests_cheets_CTS_Instant
