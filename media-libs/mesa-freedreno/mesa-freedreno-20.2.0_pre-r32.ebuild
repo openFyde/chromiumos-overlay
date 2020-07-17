@@ -41,20 +41,20 @@ BDEPEND="
 
 src_configure() {
 	emesonargs+=(
-		-Dllvm=false
-		-Ddri3=false
-		-Dshader-cache=false
+		-Dllvm=disabled
+		-Ddri3=disabled
+		-Dshader-cache=disabled
 		-Dglx=disabled
-		-Degl=true
-		-Dgbm=false
-		-Dgles1=false
-		-Dgles2=true
-		-Dshared-glapi=true
+		-Degl=enabled
+		-Dgbm=disabled
+		-Dgles1=disabled
+		-Dgles2=enabled
+		-Dshared-glapi=enabled
 		-Ddri-drivers=
 		-Dgallium-drivers=freedreno
-		-Dgallium-vdpau=false
-		-Dgallium-xa=false
-		-Dplatforms=surfaceless
+		-Dgallium-vdpau=disabled
+		-Dgallium-xa=disabled
+		-Dplatforms=
 		-Dtools=freedreno
 		--buildtype $(usex debug debug release)
 		-Dvulkan-drivers=$(usex vulkan freedreno '')
