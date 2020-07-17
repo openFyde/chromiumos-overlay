@@ -23,8 +23,8 @@ dev-db/sqlite		-extensions
 # don't use J-Link. It requires upgrading libjaylink, which is not yet
 # supported by official Gentoo portage repository.
 dev-embedded/openocd	-jlink
-dev-lang/perl		-berkdb gdbm
-dev-lang/python		-berkdb gdbm -sqlite
+dev-lang/perl		gdbm
+dev-lang/python		gdbm -sqlite
 dev-libs/dbus-glib	tools
 dev-libs/elfutils	-utils
 dev-libs/expat		-unicode
@@ -128,9 +128,10 @@ sys-kernel/chromeos-kernel-3_10 -clang -lld
 sys-kernel/chromeos-kernel-3_14 -clang -lld
 sys-kernel/chromeos-kernel-3_18 -clang -lld
 sys-kernel/linux-firmware	linux_firmware_keyspan_usb
+# We disable berkdb in general, but we need gdbm to provide the API.
+sys-libs/gdbm		berkdb
 sys-libs/ldb		-python -lmdb
 sys-libs/ncurses	-cxx -unicode minimal tinfo
-sys-libs/pam		-berkdb
 sys-libs/talloc		-python
 sys-libs/tdb		-python
 sys-libs/tevent		-python

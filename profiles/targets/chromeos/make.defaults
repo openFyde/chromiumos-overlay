@@ -69,6 +69,9 @@ USE="${USE} fwupd"
 # TODO(b/154866558): Remove when bluez-next becomes "current".
 USE="${USE} bluez-next bt_deprecated_tools"
 
+# We don't provide this package anymore due to AGPL usage.
+USE="${USE} -berkdb"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
