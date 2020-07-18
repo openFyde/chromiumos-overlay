@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="b72e12eef29cfd0f82a8a89acf7f029de5d358b8"
-CROS_WORKON_TREE="5e003ff3b80069623e197d13323159cbbf5c9548"
+CROS_WORKON_COMMIT="fbb8fdd4ebbf8e7d5bd29602b3721e6acb950e4c"
+CROS_WORKON_TREE="5b139cb17779d66357ea68f9680248a6afd82ca8"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -71,7 +71,6 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_Rollback
 	has-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
 	is-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
-	+tests_brillo_gTests
 	cellular? ( +tests_cellular_StaleModemReboot )
 	android-container-pi? (
 		+tests_cheets_CTS_Instant
