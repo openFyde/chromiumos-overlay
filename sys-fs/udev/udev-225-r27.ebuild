@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit autotools bash-completion-r1 eutils linux-info multilib multilib-minimal toolchain-funcs udev user versionator
+inherit autotools bash-completion-r1 eutils multilib multilib-minimal toolchain-funcs udev user versionator
 
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="git://anongit.freedesktop.org/systemd/systemd"
@@ -86,27 +86,6 @@ check_default_rules() {
 		eerror "50-udev-default.rules has been updated, please validate!"
 		eerror "md5sum: ${MD5}"
 		die "50-udev-default.rules has been updated, please validate!"
-	fi
-}
-
-pkg_setup() {
-	if [[ ${MERGE_TYPE} != buildonly ]]; then
-		CONFIG_CHECK="~BLK_DEV_BSG ~DEVTMPFS ~!IDE ~INOTIFY_USER ~!SYSFS_DEPRECATED ~!SYSFS_DEPRECATED_V2 ~SIGNALFD ~EPOLL ~FHANDLE ~NET ~!FW_LOADER_USER_HELPER ~UNIX"
-		linux-info_pkg_setup
-
-		# CONFIG_FHANDLE was introduced by 2.6.39
-		local MINKV=2.6.39
-
-		if kernel_is -lt ${MINKV//./ }; then
-			eerror "Your running kernel is too old to run this version of ${P}"
-			eerror "You need to upgrade kernel at least to ${MINKV}"
-		fi
-
-		if kernel_is -lt 3 7; then
-			ewarn "Your running kernel is too old to have firmware loader and"
-			ewarn "this version of ${P} doesn't have userspace firmware loader"
-			ewarn "If you need firmware support, you need to upgrade kernel at least to 3.7"
-		fi
 	fi
 }
 
