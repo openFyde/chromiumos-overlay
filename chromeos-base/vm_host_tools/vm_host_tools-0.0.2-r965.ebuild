@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c5e60576921bc095d5ff4bbaf6fdcc485452a0c7"
-CROS_WORKON_TREE=("cf397e9600a0b2d153f579c58419577cfca75ab7" "b0803859a28264270dbda45f840272b5211502c7" "7c360a667a81b2fecf8d1156c3fdba5325eb7a23" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ac2fce74913d5590b98d3a689bb59d3bccf39adb"
+CROS_WORKON_TREE=("cf397e9600a0b2d153f579c58419577cfca75ab7" "b0803859a28264270dbda45f840272b5211502c7" "d7e635416ed8c5f3f9a6b8147ff387787e545e60" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -64,6 +64,15 @@ get_vmlog_forwarder_stop_services() {
 	echo "${stop_services}"
 }
 
+pkg_setup() {
+	# Duplicated from the crosvm ebuild. These are necessary here in order
+	# to create the daemon-store folder for concierge in src_install().
+	enewuser crosvm
+	enewgroup crosvm
+	enewuser pluginvm
+	cros-workon_pkg_setup
+}
+
 src_install() {
 	platform_install_compilation_database
 
@@ -115,6 +124,17 @@ src_install() {
 	udev_dorules udev/99-vm.rules
 
 	keepdir /opt/google/vms
+
+	# Create daemon store folder for crosvm and pvm
+	local crosvm_store="/etc/daemon-store/crosvm"
+	dodir "${crosvm_store}"
+	fperms 0700 "${crosvm_store}"
+	fowners crosvm:crosvm "${crosvm_store}"
+
+	local pvm_store="/etc/daemon-store/pvm"
+	dodir "${pvm_store}"
+	fperms 0770 "${pvm_store}"
+	fowners pluginvm:crosvm "${pvm_store}"
 }
 
 platform_pkg_test() {
