@@ -274,6 +274,7 @@ set_build_args() {
 		"pkg_config=$(tc-getPKG_CONFIG)"
 		"target_os=chromeos"
 		"host_pkg_config=$(tc-getBUILD_PKG_CONFIG)"
+		"clang_diagnostic_dir=/tmp/clang_crash_diagnostics"
 	)
 	use internal_gles_conform && BUILD_ARGS+=( "internal_gles2_conform_tests=true" )
 
