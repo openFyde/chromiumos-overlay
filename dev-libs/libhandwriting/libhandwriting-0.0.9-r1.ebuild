@@ -6,7 +6,7 @@ EAPI=7
 DESCRIPTION="Google handwriting recognition library for Chrome OS"
 HOMEPAGE="https://www.chromium.org/chromium-os"
 
-LICENSE="BSD-Google"
+LICENSE="BSD-Google Apache-2.0 MPL-2.0 icu-58"
 SLOT="0"
 
 SRC_URI="gs://chromeos-localmirror/distfiles/libhandwriting-${PV}.tar.gz"
