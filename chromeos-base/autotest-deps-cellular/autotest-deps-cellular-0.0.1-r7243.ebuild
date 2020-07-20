@@ -1,16 +1,15 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-CROS_WORKON_COMMIT="11dbcabcd65d72cf58d9525ed2cd70ef5c7f7bff"
-CROS_WORKON_TREE="e565b4c2d9cf9870d2cfe23672d5d8a7fa83cd59"
+EAPI=7
+CROS_WORKON_COMMIT="eee7f1b9c13dc6549c507b8573e22b13f68604b0"
+CROS_WORKON_TREE="df71ab2822de5820ade9076f8ad7b429f2c56ac7"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-PYTHON_COMPAT=( python2_7 )
-inherit cros-workon autotest-deponly python-any-r1
+inherit cros-workon autotest-deponly
 
-DESCRIPTION="Autotest p2p deps"
+DESCRIPTION="Autotest cellular deps"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 LICENSE="GPL-2"
@@ -20,15 +19,23 @@ KEYWORDS="*"
 # Autotest enabled by default.
 IUSE="+autotest"
 
-AUTOTEST_DEPS_LIST="lansim"
+AUTOTEST_DEPS_LIST="fakegudev fakemodem"
+AUTOTEST_CONFIG_LIST=
+AUTOTEST_PROFILERS_LIST=
 
 # NOTE: For deps, we need to keep *.a
 AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
-RDEPEND="!<chromeos-base/autotest-deps-0.0.4"
+RDEPEND="!<chromeos-base/autotest-deps-0.0.3"
 
-# deps/lansim
+# deps/fakegudev
 RDEPEND="${RDEPEND}
-	dev-python/dpkt
+	virtual/libgudev
+"
+
+# deps/fakemodem
+RDEPEND="${RDEPEND}
+	chromeos-base/autotest-fakemodem-conf
+	dev-libs/dbus-glib
 "
 DEPEND="${RDEPEND}"
