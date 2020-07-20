@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="0c814ece11a50512bd229dc0ddcec46c698519d0"
+CROS_WORKON_COMMIT="18ae266de8530897d3e18fcf176a2a4308aa4620"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "b0da971238b332e6575c161f2f7b394c994ea3aa" "d08b0de17491f94bdaf6aa7564df6f074fb18383" "cf397e9600a0b2d153f579c58419577cfca75ab7")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -36,6 +36,7 @@ src_install() {
 
 	cros-camera_doheader ../../include/cros-camera/common.h \
 		../../include/cros-camera/constants.h \
+		../../include/cros-camera/cros_camera_hal.h \
 		../../include/cros-camera/export.h \
 		../../include/cros-camera/future.h \
 		../../include/cros-camera/future_internal.h \
