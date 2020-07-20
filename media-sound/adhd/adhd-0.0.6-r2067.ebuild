@@ -74,7 +74,8 @@ src_configure() {
 			$(use_enable cras-apm webrtc-apm) \
 			--enable-metrics \
 			--with-system-cras-rust \
-			$(use_enable amd64 fuzzer)
+			$(use_enable amd64 fuzzer) \
+			BASE_VER="$(libchrome_ver)"
 	fi
 }
 
