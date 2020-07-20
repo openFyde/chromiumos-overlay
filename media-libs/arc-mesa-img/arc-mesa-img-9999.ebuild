@@ -34,7 +34,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	android_aep android-container-nyc -android_gles2 -android_gles30
+	android_aep -android_gles2 -android_gles30
 	+android_gles31 -android_gles32 -android_vulkan_compute_0
 	cheets +classic debug dri egl -gallium
 	-gbm gles1 gles2 -llvm +nptl pic selinux shared-glapi vulkan X xlib-glx
@@ -163,11 +163,6 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
 	epatch "${FILESDIR}"/CHROMIUM-anv-Clamp-apiVersion-to-1.0.3-on-Android-Oreo.patch
-
-	if use android-container-nyc; then
-		epatch "${FILESDIR}"/CHROMIUM-disable-intel_miptree_unmap_tiled_memcpy-for-ge.patch
-		epatch "${FILESDIR}"/CHROMIUM-Revert-anv-Use-absolute-timeouts-in-wait_for_bo_fenc.patch
-	fi
 
 	#
 	# No IMG patches in the *-9999.ebuild as pvr dri isn't upstream
