@@ -39,7 +39,7 @@ done
 ARC_PLATFORM_SDK_VERSION=28
 
 IUSE="${IUSE_VIDEO_CARDS}
-	android_aep android-container-nyc -android_gles2 -android_gles30
+	android_aep -android_gles2 -android_gles30
 	+android_gles31 -android_gles32	-android_vulkan_compute_0
 	+cheets classic debug dri +egl +gallium
 	-gbm +gles1 +gles2 -llvm +nptl pic selinux +shared-glapi -vulkan -X xlib-glx
@@ -391,6 +391,7 @@ multilib_src_install_all_cheets() {
 	fi
 
 	# Install vulkan related files.
+	# TODO(b/164152220): Enable vulkan for virtio gpu.
 	if use vulkan; then
 		einfo "Using android vulkan."
 		insinto "${ARC_VM_PREFIX}/vendor/etc/init"
@@ -404,11 +405,7 @@ multilib_src_install_all_cheets() {
 			doins "${FILESDIR}/android.hardware.vulkan.level-0.xml"
 		fi
 
-		# Limit the Vulkan version to 1.0 before Android Pie. The
-		# Nougat and Oreo CTS reject 1.1 in test
-		# android.graphics.cts.VulkanFeaturesTest#testVulkanHardwareFeatures.
-		# (See b/136215923).
-		if ! use android-container-nyc && use video_cards_intel; then
+		if use video_cards_intel; then
 			doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
 		else
 			doins "${FILESDIR}/android.hardware.vulkan.version-1_0_3.xml"
