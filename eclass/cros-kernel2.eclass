@@ -2295,9 +2295,10 @@ cros-kernel2_src_install() {
 		dostrip -x /usr/lib/debug/boot/vmlinux /usr/src/
 	fi
 	if use kgdb && [[ -d "$(cros-workon_get_build_dir)/scripts/gdb" ]]; then
-		cp "$(cros-workon_get_build_dir)/vmlinux-gdb.py" "${D}"/usr/lib/debug/boot/ || die
+		insinto /usr/lib/debug/boot/
+		doins "$(cros-workon_get_build_dir)/vmlinux-gdb.py"
 		mkdir "${D}"/usr/lib/debug/boot/scripts || die
-		rsync -rKL \
+		rsync -rKLp --chmod=a+r \
 			--include='*/' --include='*.py' --exclude='*' \
 			"$(cros-workon_get_build_dir)/scripts/gdb/" "${D}"/usr/lib/debug/boot/scripts/gdb || die
 	fi
