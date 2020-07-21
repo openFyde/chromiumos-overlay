@@ -37,11 +37,11 @@ CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard-dedede/ucode.bin"
 
 # SPI Descriptor
 CONFIG_HAVE_IFD_BIN=y
-CONFIG_IFD_BIN_PATH="3rdparty/blobs/baseboard-dedede/descriptor-drawcia.bin"
+CONFIG_IFD_BIN_PATH="3rdparty/blobs/baseboard-dedede/descriptor-drawcia_legacy.bin"
 
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
-CONFIG_ME_BIN_PATH="3rdparty/blobs/baseboard-dedede/me-drawcia.bin"
+CONFIG_ME_BIN_PATH="3rdparty/blobs/baseboard-dedede/me-drawcia_legacy.bin"
 # CONFIG_LOCK_MANAGEMENT_ENGINE is not set
 
 # CONFIG_CONSOLE_SERIAL is not set
