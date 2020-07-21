@@ -3,11 +3,11 @@ DEPEND=udev? ( virtual/libudev ) >=dev-util/meson-0.48.2 >=dev-util/ninja-1.7.2
 DESCRIPTION=Camera support library for Linux
 EAPI=6
 HOMEPAGE=https://www.libcamera.org
-IUSE=arc-camera3 doc ipu3 rkisp1 test udev cros_host cros_workon_tree_579857871a6bff875f06579b5faf3910c24c90ce
+IUSE=arc-camera3 doc ipu3 rkisp1 test udev cros_host cros_workon_tree_c0665fda3cc1895f5a34e7db35e3cbe4252f6dc2
 KEYWORDS=*
 LICENSE=LGPL-2.1+
 PROPERTIES=live
 RDEPEND=udev? ( virtual/libudev )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	meson	b5ee7a05833ab91225acf30ffdeed006	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	931c328767d245c08a16a3f87be9ce9c	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=806719c89c4c89c33b0241d79dc1b316
+_md5_=2a167cb3180bd3eb0a5f76153f269d53
