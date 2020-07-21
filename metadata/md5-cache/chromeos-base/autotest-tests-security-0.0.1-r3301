@@ -3,11 +3,11 @@ DEPEND=!<chromeos-base/autotest-tests-0.0.3 containers? ( tests_security_Libcont
 DESCRIPTION=Security autotests
 EAPI=5
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/autotest/
-IUSE=+autotest -chromeless_tests -chromeless_tty containers +seccomp selinux !chromeless_tty? ( !chromeless_tests? ( +tests_security_RendererSandbox +tests_security_SessionManagerDbusEndpoints ) ) seccomp? ( +tests_security_SeccompSyscallFilters ) containers? ( +tests_security_Libcontainer ) +tests_security_NosymfollowMountOption +tests_security_ProcessManagementPolicy +tests_security_RootfsOwners +tests_security_SysVIPC x86? ( +tests_security_x86Registers ) amd64? ( +tests_security_x86Registers ) cros_host cros_workon_tree_75a8a48ec317a4f1381300fe3271b88f7aea3e59 +buildcheck autotest opengles cros-debug
+IUSE=+autotest -chromeless_tests -chromeless_tty containers +seccomp selinux !chromeless_tty? ( !chromeless_tests? ( +tests_security_RendererSandbox +tests_security_SessionManagerDbusEndpoints ) ) seccomp? ( +tests_security_SeccompSyscallFilters ) containers? ( +tests_security_Libcontainer ) +tests_security_NosymfollowMountOption +tests_security_ProcessManagementPolicy +tests_security_RootfsOwners +tests_security_SysVIPC x86? ( +tests_security_x86Registers ) amd64? ( +tests_security_x86Registers ) cros_host cros_workon_tree_88aeb70b515a41f329432d545d85f3b8a883666a +buildcheck autotest opengles cros-debug
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=!<chromeos-base/autotest-tests-0.0.3 containers? ( tests_security_Libcontainer? ( chromeos-base/minijail chromeos-base/libcontainer ) ) autotest? ( chromeos-base/autotest ) >=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=]
 SLOT=0
 _eclasses_=autotest	605b7cb5c6f24c3d362106dee3d4b20e	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	7db5b03b7ca5337406c3d24a0e096e9c	libchrome-version	e6da2797824cba5cbf8df7636c22624c	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=988f04f2c2fbc989293f8647f688256d
+_md5_=2aeb60f4bea372116cd9b916997d21d8
