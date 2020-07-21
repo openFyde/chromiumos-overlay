@@ -12,11 +12,10 @@ KEYWORDS="*"
 
 IUSE=""
 
-RDEPEND=""
-
 # TODO(bmgordon): Remove chromeos-base/chromeos-config-bsp once all the
 #                 boards using unibuild are adjusted to use virtual package.
 DEPEND="
-	${RDEPEND}
 	chromeos-base/chromeos-config-bsp
 "
+
+RDEPEND="${DEPEND}"
