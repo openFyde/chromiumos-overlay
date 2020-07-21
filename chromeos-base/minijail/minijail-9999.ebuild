@@ -30,7 +30,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	cros_host? (
 		${PYTHON_DEPS}
-		dev-python/setuptools[${PYTHON_USEDEP}]
+		$(python_gen_cond_dep 'dev-python/setuptools[${PYTHON_USEDEP}]')
 	)
 	test? (
 		dev-cpp/gtest:=
