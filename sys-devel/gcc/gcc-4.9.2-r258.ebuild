@@ -21,7 +21,7 @@ GCC_FILESDIR="${PORTDIR}/sys-devel/gcc/files"
 
 DESCRIPTION="The GNU Compiler Collection.  Includes C/C++, java compilers, pie+ssp extensions, Haj Ten Brugge runtime bounds checking. This Compiler is based off of Crosstoolv14."
 
-LICENSE="GPL-3 LGPL-3 || ( GPL-3 libgcc libstdc++ gcc-runtime-library-exception-3.1 ) FDL-1.2"
+LICENSE="GPL-3 LGPL-3 libgcc FDL-1.2"
 KEYWORDS="*"
 
 RDEPEND=">=sys-libs/zlib-1.1.4
