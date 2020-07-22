@@ -461,21 +461,19 @@ unpack_chrome() {
 }
 
 decide_chrome_origin() {
-	local chrome_workon="=chromeos-base/chromeos-chrome-9999"
-	local cros_workon_file="${SYSROOT}/etc/portage/package.keywords/cros-workon"
-	if [[ -e "${cros_workon_file}" ]] && grep -q "${chrome_workon}" "${cros_workon_file}"; then
-		# LOCAL_SOURCE is the default for cros_workon
-		# Warn the user if CHROME_ORIGIN is already set
+	if [[ "${PV}" == "9999" ]]; then
+		# LOCAL_SOURCE is the default for cros_workon.
+		# Warn the user if CHROME_ORIGIN is already set.
 		if [[ -n "${CHROME_ORIGIN}" && "${CHROME_ORIGIN}" != LOCAL_SOURCE ]]; then
 			ewarn "CHROME_ORIGIN is already set to ${CHROME_ORIGIN}."
 			ewarn "This will prevent you from building from your local checkout."
 			ewarn "Please run 'unset CHROME_ORIGIN' to reset Chrome"
 			ewarn "to the default source location."
 		fi
-		: ${CHROME_ORIGIN:=LOCAL_SOURCE}
+		: "${CHROME_ORIGIN:=LOCAL_SOURCE}"
 	else
-		# By default, pull from server
-		: ${CHROME_ORIGIN:=SERVER_SOURCE}
+		# By default, pull from server.
+		: "${CHROME_ORIGIN:=SERVER_SOURCE}"
 	fi
 }
 

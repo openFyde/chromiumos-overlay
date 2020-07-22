@@ -284,10 +284,7 @@ unpack_chrome() {
 }
 
 decide_chrome_origin() {
-	# [Mod] change "chromeos-chrome-9999" to "chrome-icu-9999".
-	local chrome_workon="=chromeos-base/chrome-icu-9999"
-	local cros_workon_file="${SYSROOT}/etc/portage/package.keywords/cros-workon"
-	if [[ -e "${cros_workon_file}" ]] && grep -q "${chrome_workon}" "${cros_workon_file}"; then
+	if [[ "${PV}" == "9999" ]]; then
 		# LOCAL_SOURCE is the default for cros_workon
 		# Warn the user if CHROME_ORIGIN is already set
 		if [[ -n "${CHROME_ORIGIN}" && "${CHROME_ORIGIN}" != LOCAL_SOURCE ]]; then

@@ -65,21 +65,19 @@ chromium_source_compute_origin() {
 		CHROMIUM_SOURCE_ORIGIN=${CHROME_ORIGIN}
 	fi
 
-	local chrome_workon="=${CATEGORY}/${PN}-9999"
-	local cros_workon_file="${ROOT}etc/portage/package.keywords/cros-workon"
-	if [[ -e "${cros_workon_file}" ]] && grep -q "${chrome_workon}" "${cros_workon_file}"; then
-		# LOCAL_SOURCE is the default for cros_workon
-		# Warn the user if CHROMIUM_SOURCE_ORIGIN is already set
+	if [[ "${PV}" == "9999" ]]; then
+		# LOCAL_SOURCE is the default for cros_workon.
+		# Warn the user if CHROMIUM_SOURCE_ORIGIN is already set.
 		if [[ -n "${CHROMIUM_SOURCE_ORIGIN}" && "${CHROMIUM_SOURCE_ORIGIN}" != LOCAL_SOURCE ]]; then
 			ewarn "CHROMIUM_SOURCE_ORIGIN is already set to ${CHROMIUM_SOURCE_ORIGIN}."
 			ewarn "This will prevent you from building from your local checkout."
 			ewarn "Please run 'unset CHROMIUM_SOURCE_ORIGIN' to reset the build"
 			ewarn "to the default source location."
 		fi
-		: ${CHROMIUM_SOURCE_ORIGIN:=LOCAL_SOURCE}
+		: "${CHROMIUM_SOURCE_ORIGIN:=LOCAL_SOURCE}"
 	else
-		# By default, pull from server
-		: ${CHROMIUM_SOURCE_ORIGIN:=SERVER_SOURCE}
+		# By default, pull from server.
+		: "${CHROMIUM_SOURCE_ORIGIN:=SERVER_SOURCE}"
 	fi
 
 	case "${CHROMIUM_SOURCE_ORIGIN}" in
