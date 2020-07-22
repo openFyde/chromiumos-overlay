@@ -130,26 +130,6 @@ chromium_source_check_out_source() {
 		cmd+=( --gclient_template="${CHROMIUM_GCLIENT_TEMPLATE}" )
 	fi
 
-	# TODO(engeg): Delete this logic once the git-cache locking is solved.
-	einfo "We're checking for stale locks in git-cache: crbug.com/1069842"
-	einfo "We'll heuristically ignore them based on their age and a short nap."
-	local locks="$(find_git_cache_locks "30")"
-	if [[ -n ${locks} ]]; then
-		ewarn "Running sync ignoring locks on git cache, may cause issues."
-		cmd+=( --ignore_locks )
-	else
-		locks="$(find_git_cache_locks "0")"
-		if [[ -n ${locks} ]]; then
-			ewarn "Found new locks on git cache, sleeping 15 min."
-			sleep 900
-			if [[ -n $(find_git_cache_locks "0") ]]; then
-				ewarn "Locks still present after 15 minute nap. ignoring them."
-				cmd+=( --ignore_locks )
-			fi
-		fi
-	fi
-	# // End engeg todo to delete.
-
 	# --reset tells sync_chrome to blow away local changes and to feel
 	# free to delete any directories that get in the way of syncing. This
 	# is needed for unattended operation.
