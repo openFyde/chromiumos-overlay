@@ -95,9 +95,39 @@ platform_pkg_test() {
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeout:"
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeoutMaximum:"
 
+	local gtest_excl_filter="-"
+	if use asan; then
+		# Some tests do not correctly clean up the Exceution object and it is
+		# left 'in-flight', which gets ignored by ANeuralNetworksExecution_free.
+		# See b/161844605.
+		# Look for 'passed an in-flight ANeuralNetworksExecution' in log output
+		gtest_excl_filter+="Fenced/TimingTest.Test/2:"
+		gtest_excl_filter+="Fenced/TimingTest.Test/19:"
+		gtest_excl_filter+="Flavor/ExecutionTest10.Wait/1:"
+		gtest_excl_filter+="Flavor/ExecutionTest10.Wait/2:"
+		gtest_excl_filter+="Flavor/ExecutionTest10.Wait/4:"
+		gtest_excl_filter+="Flavor/ExecutionTest11.Wait/1:"
+		gtest_excl_filter+="Flavor/ExecutionTest11.Wait/2:"
+		gtest_excl_filter+="Flavor/ExecutionTest11.Wait/4:"
+		gtest_excl_filter+="Flavor/ExecutionTest12.Wait/1:"
+		gtest_excl_filter+="Flavor/ExecutionTest12.Wait/2:"
+		gtest_excl_filter+="Flavor/ExecutionTest12.Wait/4:"
+		gtest_excl_filter+="Flavor/ExecutionTest13.Wait/1:"
+		gtest_excl_filter+="Flavor/ExecutionTest13.Wait/2:"
+		gtest_excl_filter+="Flavor/ExecutionTest13.Wait/4:"
+		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/1:"
+		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/2:"
+		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/4:"
+
+		# This is due to a leak caused when copying the memory pools
+		# into the request object in this test. lsan_suppressions doesn't
+		# work due to the lack of /usr/bin/llvm-symbolizer, so just exclude.
+		gtest_excl_filter+="ComplianceTest.DeviceMemory:"
+	fi
+
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_target}_testrunner" "0" "" "${qemu_gtest_excl_filter}"
+		platform_test "run" "${OUT}/${test_target}_testrunner" "0" "${gtest_excl_filter}" "${qemu_gtest_excl_filter}"
 	done
 }
 
