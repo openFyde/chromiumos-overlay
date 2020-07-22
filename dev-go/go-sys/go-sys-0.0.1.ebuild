@@ -3,9 +3,11 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="go.googlesource.com/sys:golang.org/x/sys 3a4b5fb9f71f5874b2374ae059bc0e0bcb52e145"
+CROS_GO_SOURCE="go.googlesource.com/sys:golang.org/x/sys cb9d2d5c56667600bda8ad719c756f125ad55083"
 
 CROS_GO_PACKAGES=(
+	"golang.org/x/sys/cpu"
+	"golang.org/x/sys/internal/unsafeheader"
 	"golang.org/x/sys/unix"
 )
 
