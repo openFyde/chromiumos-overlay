@@ -136,8 +136,28 @@ platform_pkg_test() {
 	local qemu_gtest_excl_filter="-"
 	qemu_gtest_excl_filter+="BlockingReadWrites.SmallInputTest1:"
 
+	local gtest_excl_filter="-"
+	if use asan; then
+		# The sharedbuffer tests deliberately allocate too much memory:
+		# AddressSanitizer: requested allocation size 0xfffffffffffffffe
+		# We can't use allocator_may_return_null=1 as it prints a warning that the
+		# toolchain considers an error.
+		gtest_excl_filter+="SharedBufferTest.TestAlloc:"
+		gtest_excl_filter+="SharedBufferTest.TestEditResize:"
+
+		# ForkSafe leaves some threads running which results in warning printed:
+		# ==26==Running thread 23 was not suspended. False leaks are possible.
+		# Toolchain considers anything in the asan output as an error.
+		gtest_excl_filter+="logging.ForkSafe:"
+
+		# The queue created in this test cannot be deleted without crashing in
+		# the hidl library. lsan_suppressions doesn't work due to the lack of
+		# /usr/bin/llvm-symbolizer, so just exclude the test.
+		gtest_excl_filter+="BadQueueConfig.QueueSizeTooLarge:"
+	fi
+
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/lib${test_target}_testrunner" "0" "" "${qemu_gtest_excl_filter}"
+		platform_test "run" "${OUT}/lib${test_target}_testrunner" "0" "${gtest_excl_filter}" "${qemu_gtest_excl_filter}"
 	done
 }
