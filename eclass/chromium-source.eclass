@@ -32,6 +32,27 @@ inherit cros-constants cros-credentials
 # @DESCRIPTION: (Optional) Template gclient file passed to sync_chrome
 : ${CHROMIUM_GCLIENT_TEMPLATE:=}
 
+# @ECLASS-VARIABLE: DEPOT_TOOLS
+# @DESCRIPTION: Fixed path to the latest depot_tools code.  The build tools will
+# bind mount this from the outside env.  We do not use the pinned copy in our
+# manifest.
+DEPOT_TOOLS="/mnt/host/depot_tools"
+
+# @ECLASS-VARIABLE: EGCLIENT
+# @DESCRIPTION: Fixed path to the latest gclient tool.
+EGCLIENT="${DEPOT_TOOLS}/gclient"
+
+# @ECLASS-VARIABLE: ENINJA
+# @DESCRIPTION: Fixed path to the latest ninja tool.  We use the bundled one to
+# avoid version skew between our copy & Chromium's copy.
+ENINJA="${DEPOT_TOOLS}/ninja"
+
+# Prevents gclient from updating self.
+export DEPOT_TOOLS_UPDATE=0
+
+# Prevent gclient metrics collection.
+export DEPOT_TOOLS_METRICS=0
+
 IUSE="chrome_internal"
 
 # If we're cros_workon'ing the ebuild, default to LOCAL_SOURCE,
@@ -106,10 +127,6 @@ find_git_cache_locks() {
 # Check out Chromium source code.
 chromium_source_check_out_source() {
 	[[ "${CHROMIUM_SOURCE_ORIGIN}" == LOCAL_SOURCE ]] && return
-
-	local WHOAMI=$(whoami)
-	export EGCLIENT="${EGCLIENT:-/home/${WHOAMI}/depot_tools/gclient}"
-	export DEPOT_TOOLS_UPDATE=0
 
 	# Portage version without optional portage suffix.
 	CHROMIUM_VERSION="${PV/_*/}"

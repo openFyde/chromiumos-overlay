@@ -11,14 +11,12 @@
 # If building from LOCAL_SOURCE or LOCAL_BINARY specifying BUILDTYPE
 # will allow you to specify "Debug" or another build type; "Release" is
 # the default.
-# gclient is expected to be in ~/depot_tools if EGCLIENT is not set
-# to gclient path.
 
 EAPI=7
 
 # TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
 PYTHON_COMPAT=( python2_7 )
-inherit autotest-deponly binutils-funcs cros-credentials cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1
+inherit autotest-deponly binutils-funcs chromium-source cros-credentials cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://www.chromium.org/"
@@ -108,7 +106,6 @@ CHROME_DIR=/opt/google/chrome
 D_CHROME_DIR="${D}/${CHROME_DIR}"
 
 # For compilation/local chrome
-DEPOT_TOOLS=/mnt/host/depot_tools
 BUILDTYPE="${BUILDTYPE:-Release}"
 BOARD="${BOARD:-${SYSROOT##/build/}}"
 BUILD_OUT="${BUILD_OUT:-out_${BOARD}}"
@@ -504,14 +501,6 @@ src_unpack() {
 
 	tc-export CC CXX
 	local WHOAMI=$(whoami)
-	export EGCLIENT="${EGCLIENT:-${DEPOT_TOOLS}/gclient}"
-	export ENINJA="${ENINJA:-${DEPOT_TOOLS}/ninja}"
-
-	# Prevents gclient from updating self.
-	export DEPOT_TOOLS_UPDATE=0
-
-	# Prevent gclient metrics collection.
-	export DEPOT_TOOLS_METRICS=0
 
 	CHROME_SRC="chrome-src"
 	if use chrome_internal; then
@@ -885,7 +874,6 @@ src_configure() {
 	# TODO(rcui): crosbug.com/20435. Investigate removal of runhooks
 	# useflag when chrome build switches to Ninja inside the chroot.
 	if use runhooks; then
-		[[ -f "${EGCLIENT}" ]] || die "EGCLIENT at '${EGCLIENT}' does not exist"
 		local cmd=( "${EGCLIENT}" runhooks --force )
 		echo "${cmd[@]}"
 		CFLAGS="${CFLAGS} ${EBUILD_CFLAGS[*]}" \
