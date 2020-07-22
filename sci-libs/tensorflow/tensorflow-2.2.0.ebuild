@@ -17,10 +17,6 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 IUSE="cuda mpi minimal +python xla label_image benchmark_model"
-CPU_USE_FLAGS_X86="sse sse2 sse3 sse4_1 sse4_2 avx avx2 fma3 fma4"
-for i in ${CPU_USE_FLAGS_X86}; do
-	IUSE+=" cpu_flags_x86_${i}"
-done
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
@@ -193,7 +189,7 @@ src_prepare() {
 	eapply "${WORKDIR}"/patches/*.patch
 
 	# Relax version checks in setup.py
-	sed -i "/^    '/s/==/>=/g" tensorflow/tools/pip_package/setup.py
+	sed -i "/^    \'/s/==/>=/g" tensorflow/tools/pip_package/setup.py
 
 	bazel_setup_bazelrc
 	bazel_setup_crosstool "$(get-cpu-str "${CBUILD}")" "$(get-cpu-str "${CHOST}")"
