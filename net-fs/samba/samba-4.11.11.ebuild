@@ -139,6 +139,8 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.13-winexe_option.patch"
 	"${FILESDIR}/${PN}-4.13-vfs_snapper_configure_option.patch"
 
+	"${FILESDIR}/${PN}-4.11-async-dns-lookup.patch"
+
 	"${FILESDIR}/${PN}-4.11.11-machinepass_stdin.patch"
 	"${FILESDIR}/${PN}-4.11.11-machinepass_expire.patch"
 	"${FILESDIR}/${PN}-4.11.11-reuse_existing_computer_account.patch"
