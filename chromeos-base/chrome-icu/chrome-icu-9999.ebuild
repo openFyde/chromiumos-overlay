@@ -406,9 +406,6 @@ src_unpack() {
 	export EGN="${EGN:-${CHROME_ROOT}/src/buildtools/linux64/gn}"
 	einfo "Using GN from ${EGN}"
 
-	# [Mod] License file is required for installation.
-	cp "${CHROME_ROOT}/src/third_party/icu/LICENSE" "${WORKDIR}"
-
 	# [Mod] Use flags internal_gles_conform, afdo_use, afdo_verify,
 	# orderfile_verify and orderfile_use are all disabled.
 	BUILD_STRING_ARGS+=( "chrome_orderfile_path=" )
