@@ -3,11 +3,15 @@ on nightly builds of the compiler.  We would like to enable fuzzing on chrome
 os anyway so move the sanitizer option under `-C` instead since we don't build
 the toolchain in nightly mode.
 
+The changes this patch makes are:
+ - changing debugging_opts.sanitizer to cg.sanitizer.
+ - add the appropriate options to options.rs.
+
 diff --git a/src/librustc_codegen_llvm/attributes.rs b/src/librustc_codegen_llvm/attributes.rs
-index a9e4fdba030..df78eaa7a75 100644
+index a4e17a5f675..0b109d392bf 100644
 --- a/src/librustc_codegen_llvm/attributes.rs
 +++ b/src/librustc_codegen_llvm/attributes.rs
-@@ -49,7 +49,7 @@ fn inline(cx: &CodegenCx<'ll, '_>, val: &'ll Value, inline: InlineAttr) {
+@@ -46,7 +46,7 @@ fn inline(cx: &CodegenCx<'ll, '_>, val: &'ll Value, inline: InlineAttr) {
  /// Apply LLVM sanitize attributes.
  #[inline]
  pub fn sanitize(cx: &CodegenCx<'ll, '_>, codegen_fn_flags: CodegenFnAttrFlags, llfn: &'ll Value) {
@@ -16,52 +20,30 @@ index a9e4fdba030..df78eaa7a75 100644
          match *sanitizer {
              Sanitizer::Address => {
                  if !codegen_fn_flags.contains(CodegenFnAttrFlags::NO_SANITIZE_ADDRESS) {
-@@ -141,7 +141,7 @@ fn set_probestack(cx: &CodegenCx<'ll, '_>, llfn: &'ll Value) {
+@@ -123,7 +123,7 @@ fn set_probestack(cx: &CodegenCx<'ll, '_>, llfn: &'ll Value) {
      // Currently stack probes seem somewhat incompatible with the address
      // sanitizer and thread sanitizer. With asan we're already protected from
      // stack overflow anyway so we don't really need stack probes regardless.
 -    match cx.sess().opts.debugging_opts.sanitizer {
 +    match cx.sess().opts.cg.sanitizer {
-         Some(Sanitizer::Address) | Some(Sanitizer::Thread) => return,
+         Some(Sanitizer::Address | Sanitizer::Thread) => return,
          _ => {}
      }
-diff --git a/src/librustc_codegen_llvm/builder.rs b/src/librustc_codegen_llvm/builder.rs
-index 32604d5601d..fd6176ed061 100644
---- a/src/librustc_codegen_llvm/builder.rs
-+++ b/src/librustc_codegen_llvm/builder.rs
-@@ -1244,7 +1244,7 @@ impl Builder<'a, 'll, 'tcx> {
-         }
- 
-         let opts = &self.cx.sess().opts;
--        let emit = match opts.debugging_opts.sanitizer {
-+        let emit = match opts.cg.sanitizer {
-             // Some sanitizer use lifetime intrinsics. When they are in use,
-             // emit lifetime intrinsics regardless of optimization level.
-             Some(Sanitizer::Address) | Some(Sanitizer::Memory) => true,
 diff --git a/src/librustc_codegen_ssa/back/link.rs b/src/librustc_codegen_ssa/back/link.rs
-index 0dd2f029e8d..2ada4518cc7 100644
+index dcce1d45298..ef5e7d2a42a 100644
 --- a/src/librustc_codegen_ssa/back/link.rs
 +++ b/src/librustc_codegen_ssa/back/link.rs
-@@ -507,7 +507,7 @@ fn link_natively<'a, B: ArchiveBuilder<'a>>(
-     cmd.args(&sess.opts.debugging_opts.pre_link_arg);
- 
-     if sess.target.target.options.is_like_fuchsia {
--        let prefix = match sess.opts.debugging_opts.sanitizer {
-+        let prefix = match sess.opts.cg.sanitizer {
-             Some(Sanitizer::Address) => "asan/",
-             _ => "",
-         };
-@@ -746,7 +746,7 @@ fn link_natively<'a, B: ArchiveBuilder<'a>>(
+@@ -718,7 +718,7 @@ fn link_natively<'a, B: ArchiveBuilder<'a>>(
  }
  
- fn link_sanitizer_runtime(sess: &Session, crate_type: config::CrateType, linker: &mut dyn Linker) {
+ fn link_sanitizer_runtime(sess: &Session, crate_type: CrateType, linker: &mut dyn Linker) {
 -    let sanitizer = match &sess.opts.debugging_opts.sanitizer {
 +    let sanitizer = match &sess.opts.cg.sanitizer {
          Some(s) => s,
          None => return,
      };
-@@ -780,7 +780,11 @@ fn link_sanitizer_runtime(sess: &Session, crate_type: config::CrateType, linker:
-             linker.args(&["-Wl,-rpath".into(), "-Xlinker".into(), rpath.into()]);
+@@ -752,7 +752,11 @@ fn link_sanitizer_runtime(sess: &Session, crate_type: CrateType, linker: &mut dy
+             linker.args(&["-Wl,-rpath", "-Xlinker", rpath]);
              linker.link_dylib(Symbol::intern(&libname));
          }
 -        "x86_64-unknown-linux-gnu" | "x86_64-fuchsia" | "aarch64-fuchsia" => {
@@ -73,11 +55,20 @@ index 0dd2f029e8d..2ada4518cc7 100644
              let filename = format!("librustc{}_rt.{}.a", channel, name);
              let path = default_tlib.join(&filename);
              linker.link_whole_rlib(&path);
+@@ -1509,7 +1513,7 @@ fn linker_with_args<'a, B: ArchiveBuilder<'a>>(
+ 
+     // NO-OPT-OUT, OBJECT-FILES-NO, AUDIT-ORDER
+     if sess.target.target.options.is_like_fuchsia && crate_type == CrateType::Executable {
+-        let prefix = match sess.opts.debugging_opts.sanitizer {
++        let prefix = match sess.opts.cg.sanitizer {
+             Some(Sanitizer::Address) => "asan/",
+             _ => "",
+         };
 diff --git a/src/librustc_codegen_ssa/back/symbol_export.rs b/src/librustc_codegen_ssa/back/symbol_export.rs
-index 3fe256ce25b..1604704ce6d 100644
+index 970d13b30c0..50a82461fef 100644
 --- a/src/librustc_codegen_ssa/back/symbol_export.rs
 +++ b/src/librustc_codegen_ssa/back/symbol_export.rs
-@@ -204,7 +204,7 @@ fn exported_symbols_provider_local(
+@@ -202,7 +202,7 @@ fn exported_symbols_provider_local(
          }));
      }
  
@@ -87,23 +78,23 @@ index 3fe256ce25b..1604704ce6d 100644
          const MSAN_WEAK_SYMBOLS: [&str; 2] = ["__msan_track_origins", "__msan_keep_going"];
  
 diff --git a/src/librustc_codegen_ssa/back/write.rs b/src/librustc_codegen_ssa/back/write.rs
-index 3afa4758253..5d0f7435374 100644
+index cb5c95c11fa..a040013901a 100644
 --- a/src/librustc_codegen_ssa/back/write.rs
 +++ b/src/librustc_codegen_ssa/back/write.rs
-@@ -369,7 +369,7 @@ pub fn start_async_codegen<B: ExtraBackendMethods>(
+@@ -189,7 +189,7 @@ impl ModuleConfig {
+             ),
+             pgo_use: if_regular!(sess.opts.cg.profile_use.clone(), None),
  
-     modules_config.pgo_gen = sess.opts.cg.profile_generate.clone();
-     modules_config.pgo_use = sess.opts.cg.profile_use.clone();
--    modules_config.sanitizer = sess.opts.debugging_opts.sanitizer.clone();
-+    modules_config.sanitizer = sess.opts.cg.sanitizer.clone();
-     modules_config.sanitizer_recover = sess.opts.debugging_opts.sanitizer_recover.clone();
-     modules_config.sanitizer_memory_track_origins =
-         sess.opts.debugging_opts.sanitizer_memory_track_origins;
+-            sanitizer: if_regular!(sess.opts.debugging_opts.sanitizer.clone(), None),
++            sanitizer: if_regular!(sess.opts.cg.sanitizer.clone(), None),
+             sanitizer_recover: if_regular!(
+                 sess.opts.debugging_opts.sanitizer_recover.clone(),
+                 vec![]
 diff --git a/src/librustc_mir/transform/inline.rs b/src/librustc_mir/transform/inline.rs
-index b6802505df7..40608fd94ff 100644
+index 35d55c4cb9b..e167ca3da51 100644
 --- a/src/librustc_mir/transform/inline.rs
 +++ b/src/librustc_mir/transform/inline.rs
-@@ -231,7 +231,7 @@ impl Inliner<'tcx> {
+@@ -232,7 +232,7 @@ impl Inliner<'tcx> {
  
          // Avoid inlining functions marked as no_sanitize if sanitizer is enabled,
          // since instrumentation might be enabled and performed on the caller.
@@ -113,10 +104,10 @@ index b6802505df7..40608fd94ff 100644
                  if codegen_fn_attrs.flags.contains(CodegenFnAttrFlags::NO_SANITIZE_ADDRESS) {
                      return false;
 diff --git a/src/librustc_session/config.rs b/src/librustc_session/config.rs
-index c273e7fdbf9..1e0f80d9e83 100644
+index 5bdd7b67723..41569753010 100644
 --- a/src/librustc_session/config.rs
 +++ b/src/librustc_session/config.rs
-@@ -716,7 +716,7 @@ pub fn default_configuration(sess: &Session) -> CrateConfig {
+@@ -726,7 +726,7 @@ pub fn default_configuration(sess: &Session) -> CrateConfig {
              }
          }
      }
@@ -126,32 +117,23 @@ index c273e7fdbf9..1e0f80d9e83 100644
          ret.insert((sym::sanitize, Some(symbol)));
      }
 diff --git a/src/librustc_session/options.rs b/src/librustc_session/options.rs
-index a1ecf4e8528..9cfc99b8ae2 100644
+index a38e7f063d7..838fd26700f 100644
 --- a/src/librustc_session/options.rs
 +++ b/src/librustc_session/options.rs
-@@ -699,6 +699,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
-         "allow the linker to link its default libraries"),
-     linker_flavor: Option<LinkerFlavor> = (None, parse_linker_flavor, [UNTRACKED],
-                                            "linker flavor"),
+@@ -759,6 +759,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
+         "print remarks for these optimization passes (space separated, or \"all\")"),
+     rpath: bool = (false, parse_bool, [UNTRACKED],
+         "set rpath values in libs/exes (default: no)"),
 +    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
-+                                    "use a sanitizer"),
-     linker_plugin_lto: LinkerPluginLto = (LinkerPluginLto::Disabled,
-         parse_linker_plugin_lto, [TRACKED],
-         "generate build artifacts that are compatible with linker-based LTO."),
-@@ -860,8 +862,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
-         "take the breaks off const evaluation. NOTE: this is unsound"),
-     osx_rpath_install_name: bool = (false, parse_bool, [TRACKED],
-         "pass `-install_name @rpath/...` to the macOS linker"),
--    sanitizer: Option<Sanitizer> = (None, parse_sanitizer, [TRACKED],
--                                    "use a sanitizer"),
-     sanitizer_recover: Vec<Sanitizer> = (vec![], parse_sanitizer_list, [TRACKED],
-         "Enable recovery for selected sanitizers"),
-     sanitizer_memory_track_origins: usize = (0, parse_sanitizer_memory_track_origins, [TRACKED],
++        "use a sanitizer"),
+     save_temps: bool = (false, parse_bool, [UNTRACKED],
+         "save all temporary output files during compilation (default: no)"),
+     soft_float: bool = (false, parse_bool, [TRACKED],
 diff --git a/src/librustc_session/session.rs b/src/librustc_session/session.rs
-index 173b120e1f6..62a4389f167 100644
+index 048033846a1..b09e6acb981 100644
 --- a/src/librustc_session/session.rs
 +++ b/src/librustc_session/session.rs
-@@ -520,7 +520,7 @@ impl Session {
+@@ -650,7 +650,7 @@ impl Session {
              || self.opts.output_types.contains_key(&OutputType::Bitcode);
  
          // Address sanitizer and memory sanitizer use alloca name when reporting an issue.
@@ -160,7 +142,16 @@ index 173b120e1f6..62a4389f167 100644
              Some(Sanitizer::Address) => true,
              Some(Sanitizer::Memory) => true,
              _ => more_names,
-@@ -1136,18 +1136,32 @@ fn validate_commandline_args_with_session_available(sess: &Session) {
+@@ -1017,7 +1017,7 @@ impl Session {
+ 
+     /// Checks if LLVM lifetime markers should be emitted.
+     pub fn emit_lifetime_markers(&self) -> bool {
+-        match self.opts.debugging_opts.sanitizer {
++        match self.opts.cg.sanitizer {
+             // AddressSanitizer uses lifetimes to detect use after scope bugs.
+             // MemorySanitizer uses lifetimes to detect use of uninitialized stack variables.
+             Some(Sanitizer::Address | Sanitizer::Memory) => true,
+@@ -1354,18 +1354,32 @@ fn validate_commandline_args_with_session_available(sess: &Session) {
      }
  
      // Sanitizers can only be used on some tested platforms.
@@ -199,3 +190,4 @@ index 173b120e1f6..62a4389f167 100644
  
          let supported_targets = match *sanitizer {
              Sanitizer::Address => ASAN_SUPPORTED_TARGETS,
+

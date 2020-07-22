@@ -301,7 +301,17 @@ cros-rust_src_configure() {
 		-Copt-level=3
 	)
 
-	use lto && rustflags+=( -Clto )
+	if use lto
+	then
+		rustflags+=( -Clto )
+		# rustc versions >= 1.45 support -Cembed-bitcode, which Cargo sets to
+		# no because it does not know that we want to use LTO.
+		# Because -Clto requires -Cembed-bitcode=yes, set it explicitly.
+		if [[ $(rustc --version | awk '{ gsub(/\./, ""); print $2 }') -ge 1450 ]]
+		then
+			rustflags+=( -Cembed-bitcode=yes )
+		fi
+	fi
 
 	# We don't want to abort during tests.
 	use test || rustflags+=( -Cpanic=abort )
