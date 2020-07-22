@@ -358,6 +358,7 @@ ALL_BOARDS=(
 	#scarlet-arcnext
 	sentry
 	setzer
+	shadowkeep
 	shogun
 	sklrvp
 	#slippy
