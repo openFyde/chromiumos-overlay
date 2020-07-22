@@ -49,6 +49,7 @@ src_configure() {
 	use mocktpm && append-cppflags -DMOCK_TPM
 
 	cros-debug-add-NDEBUG
+	export BASE_VER="$(libchrome_ver)"
 	econf
 }
 
