@@ -1,9 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=AVer firmware
-EAPI=5
-KEYWORDS=*
-LICENSE=BSD
-RDEPEND=sys-apps/aver-updater
-SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles/aver-cam520-0.0.0018.36.tar.xz gs://chromeos-localmirror/distfiles/aver-cam540-0.0.6002.84.tar.xz gs://chromeos-localmirror/distfiles/aver-cam340plus-0.0.1000.22.tar.xz
-_md5_=0a334b5137b5c0afa5e1d3bbb376f4c5
