@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("892eb243eb9b80bc2f635ab41ed14ca586ff25e3" "e67778139fb908a45ac2825b2a2c8d5e914283c0")
+CROS_WORKON_COMMIT=("0760631288ebc9a0a1f2d448b9a917b961c6993d" "e67778139fb908a45ac2825b2a2c8d5e914283c0")
 CROS_WORKON_TREE=("cf397e9600a0b2d153f579c58419577cfca75ab7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "edfc4c147ef405b1fedfa6b4dc6d51274d1ea549")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -97,9 +97,39 @@ platform_pkg_test() {
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeout:"
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeoutMaximum:"
 
+	local gtest_excl_filter="-"
+	if use asan; then
+		# Some tests do not correctly clean up the Exceution object and it is
+		# left 'in-flight', which gets ignored by ANeuralNetworksExecution_free.
+		# See b/161844605.
+		# Look for 'passed an in-flight ANeuralNetworksExecution' in log output
+		gtest_excl_filter+="Fenced/TimingTest.Test/2:"
+		gtest_excl_filter+="Fenced/TimingTest.Test/19:"
+		gtest_excl_filter+="Flavor/ExecutionTest10.Wait/1:"
+		gtest_excl_filter+="Flavor/ExecutionTest10.Wait/2:"
+		gtest_excl_filter+="Flavor/ExecutionTest10.Wait/4:"
+		gtest_excl_filter+="Flavor/ExecutionTest11.Wait/1:"
+		gtest_excl_filter+="Flavor/ExecutionTest11.Wait/2:"
+		gtest_excl_filter+="Flavor/ExecutionTest11.Wait/4:"
+		gtest_excl_filter+="Flavor/ExecutionTest12.Wait/1:"
+		gtest_excl_filter+="Flavor/ExecutionTest12.Wait/2:"
+		gtest_excl_filter+="Flavor/ExecutionTest12.Wait/4:"
+		gtest_excl_filter+="Flavor/ExecutionTest13.Wait/1:"
+		gtest_excl_filter+="Flavor/ExecutionTest13.Wait/2:"
+		gtest_excl_filter+="Flavor/ExecutionTest13.Wait/4:"
+		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/1:"
+		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/2:"
+		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/4:"
+
+		# This is due to a leak caused when copying the memory pools
+		# into the request object in this test. lsan_suppressions doesn't
+		# work due to the lack of /usr/bin/llvm-symbolizer, so just exclude.
+		gtest_excl_filter+="ComplianceTest.DeviceMemory:"
+	fi
+
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_target}_testrunner" "0" "" "${qemu_gtest_excl_filter}"
+		platform_test "run" "${OUT}/${test_target}_testrunner" "0" "${gtest_excl_filter}" "${qemu_gtest_excl_filter}"
 	done
 }
 

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("6c0165ddb4b2a1143c693cdf84190fe27f53b36b" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
+CROS_WORKON_COMMIT=("0760631288ebc9a0a1f2d448b9a917b961c6993d" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8b529c2a6a966c93de4e89f08e746da4a4307e04" "357ba7427eb2b49467d39c09d57439fab3898467" "cce41c55319e81218ef5c6f1a322adcd249c5abb" "ba4dc98b0cd901b9a138a8941900753c3e4154e2" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
 CROS_WORKON_TREE=("cf397e9600a0b2d153f579c58419577cfca75ab7" "cd508e4b305db1ebd30813a705ffc3ed897bb63e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d59698b9aacd42201a585bee90f33719caa6338b" "4256bcdd9e9435828bf8159d85af015450112aff" "b4147760c8f1da9f6749f61748d2cacf89237717" "dc37c5c3ce7989055b7a2d5a2dcc5d605ee189d7" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "934fe42dbc7182e5775cb5717e7cb29644a6eae8" "3e10262144e64652e5c70fe978e1d6bae433ab27")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -81,6 +81,7 @@ PATCHES=(
 	"${FILESDIR}/00005-libcutils-ashmemtests.patch"
 	"${FILESDIR}/00006-libhidl-cast-interface.patch"
 	"${FILESDIR}/00007-libbase-get-property-from-envvar.patch"
+	"${FILESDIR}/00008-libutils-memory-leak.patch"
 )
 
 src_prepare() {
@@ -94,6 +95,7 @@ src_prepare() {
 	eapply -p2 "${FILESDIR}/00005-libcutils-ashmemtests.patch"
 	eapply -p2 "${FILESDIR}/00006-libhidl-cast-interface.patch"
 	eapply -p2 "${FILESDIR}/00007-libbase-get-property-from-envvar.patch"
+	eapply -p2 "${FILESDIR}/00008-libutils-memory-leak.patch"
 	popd || exit
 
 	eapply_user
@@ -136,8 +138,28 @@ platform_pkg_test() {
 	local qemu_gtest_excl_filter="-"
 	qemu_gtest_excl_filter+="BlockingReadWrites.SmallInputTest1:"
 
+	local gtest_excl_filter="-"
+	if use asan; then
+		# The sharedbuffer tests deliberately allocate too much memory:
+		# AddressSanitizer: requested allocation size 0xfffffffffffffffe
+		# We can't use allocator_may_return_null=1 as it prints a warning that the
+		# toolchain considers an error.
+		gtest_excl_filter+="SharedBufferTest.TestAlloc:"
+		gtest_excl_filter+="SharedBufferTest.TestEditResize:"
+
+		# ForkSafe leaves some threads running which results in warning printed:
+		# ==26==Running thread 23 was not suspended. False leaks are possible.
+		# Toolchain considers anything in the asan output as an error.
+		gtest_excl_filter+="logging.ForkSafe:"
+
+		# The queue created in this test cannot be deleted without crashing in
+		# the hidl library. lsan_suppressions doesn't work due to the lack of
+		# /usr/bin/llvm-symbolizer, so just exclude the test.
+		gtest_excl_filter+="BadQueueConfig.QueueSizeTooLarge:"
+	fi
+
 	local test_target
 	for test_target in "${tests[@]}"; do
-		platform_test "run" "${OUT}/lib${test_target}_testrunner" "0" "" "${qemu_gtest_excl_filter}"
+		platform_test "run" "${OUT}/lib${test_target}_testrunner" "0" "${gtest_excl_filter}" "${qemu_gtest_excl_filter}"
 	done
 }
