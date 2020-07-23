@@ -8,7 +8,7 @@ CROS_WORKON_SUBTREE="metrics/memd"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit cros-rust cros-workon
+inherit cros-workon cros-rust
 
 DESCRIPTION="Fine-grain memory metrics collector"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/metrics/memd/"

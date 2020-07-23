@@ -74,7 +74,7 @@ inherit toolchain-funcs cros-debug cros-sanitizers
 IUSE="asan fuzzer lsan +lto msan test tsan ubsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
-EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_install pkg_postinst pkg_prerm
+EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_install pkg_postinst pkg_prerm
 
 DEPEND="
 	>=virtual/rust-1.39.0:=
@@ -95,7 +95,14 @@ ASAN_OPTIONS="detect_odr_violation=0"
 # function is required to support binary packages shared across boards by moving
 # the reference to PORTAGE_TMPDIR out of global scope.
 cros-rust_get_reg_lock() {
-	echo "${PORTAGE_TMPDIR}/cros-rust-registry.lock"
+	echo "${PORTAGE_TMPDIR}/cros-rust-registry/lock"
+}
+
+# @FUNCTION: cros-rust_pkg_setup
+# @DESCRIPTION:
+# Sets up the package. Particularly, makes sure the rust registry lock exits.
+cros-rust_pkg_setup() {
+	_cros-rust_prepare_lock "$(cros-rust_get_reg_lock)"
 }
 
 # @FUNCTION: cros-rust_src_unpack
@@ -487,6 +494,23 @@ cros-rust_src_install() {
 	cros-rust_publish
 }
 
+# @FUNCTION: _cros-rust_prepare_lock
+# @INTERNAL
+# @USAGE: <path to lock>
+# @DESCRIPTION:
+# Create the specified lock file. This should only be called inside pkg_*
+# functions to ensure the lock file is owned by root. The permissions are set to
+# 644 so that $PORTAGE_USERNAME:portage will be able to obtain a shared lock
+# inside src_* functions.
+_cros-rust_prepare_lock() {
+	if [ "$(id -u)" -ne 0 ]; then
+		die "_cros-rust_prepare_lock should only be called inside pkg_* functions."
+	fi
+	mkdir -m 755 -p "$(dirname "$1")" || die
+	touch "$1" || die
+	chmod 644 "$1" || die
+}
+
 # @FUNCTION: _cleanup_registry_link
 # @INTERNAL
 # @USAGE: [crate name] [crate version]
@@ -509,6 +533,7 @@ _cleanup_registry_link() {
 	if [[ -L "${link}" ]]; then
 		einfo "Removing ${crate} from Cargo registry"
 		# Acquire a exclusive lock since this modifies the registry.
+		_cros-rust_prepare_lock "$(cros-rust_get_reg_lock)"
 		flock --no-fork --exclusive "$(cros-rust_get_reg_lock)" \
 			sh -c 'rm -f "$0"' "${link}" || die
 	fi

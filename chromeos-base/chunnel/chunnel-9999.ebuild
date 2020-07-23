@@ -6,7 +6,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="vm_tools/chunnel"
 
-inherit cros-rust cros-workon user
+inherit cros-workon cros-rust user
 
 DESCRIPTION="Tunnel between localhost in different netns"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/chunnel"
