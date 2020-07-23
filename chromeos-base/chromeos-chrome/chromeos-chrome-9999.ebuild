@@ -1355,7 +1355,7 @@ src_install() {
 			fi
 			source="${i}"
 			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp" || die
-		done < <(scanelf -BRyF '%F' ".")
+		done < <(scanelf -ByF '%F' ".")
 	fi
 
 	if use build_tests; then
