@@ -11,7 +11,7 @@ DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
 HOMEPAGE="https://android.googlesource.com/platform/external/deqp"
 
 # This corresponds to a commit near ToT.
-MY_DEQP_COMMIT='31c5eed5b15ac535a166339474ef8b9cbd6a6a32'
+MY_DEQP_COMMIT='a3d4f2bdc5414efa20b0288e1bf75a4c1bd758c0'
 
 # To uprev deqp, follow these commands:
 # wget https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz
@@ -21,10 +21,10 @@ MY_DEQP_COMMIT='31c5eed5b15ac535a166339474ef8b9cbd6a6a32'
 # dependencies be unpacked into the source tree. See ${S}/external/fetch_sources.py
 # in the dEQP for the required dependencies. Upload these tarballs to the ChromeOS mirror too and
 # update the manifest.
-MY_AMBER_COMMIT='a40bef4dba98d2d80b48e5a940d8574fbfceb197'
-MY_GLSLANG_COMMIT='b5f003d7a3ece37db45578a8a3140b370036fc64'
-MY_SPIRV_TOOLS_COMMIT='d2b486219495594f2e5d0e8d457fc234a3460b3b'
-MY_SPIRV_HEADERS_COMMIT='f8bf11a0253a32375c32cad92c841237b96696c0'
+MY_AMBER_COMMIT='62ef3e4e056d80f848baadee745cc176f6252cc3'
+MY_GLSLANG_COMMIT='1ff0c181bb37b06371e2ffa2810d473c5e01c9b7'
+MY_SPIRV_TOOLS_COMMIT='2c0111e6eba779cf30e8c7f5a733ea0762895ba0'
+MY_SPIRV_HEADERS_COMMIT='842ec90674627ed2ffef609e3cd79d1562eded01'
 
 SRC_URI="https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz -> deqp-${MY_DEQP_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/glslang/archive/${MY_GLSLANG_COMMIT}.tar.gz -> glslang-${MY_GLSLANG_COMMIT}.tar.gz
@@ -62,6 +62,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	epatch "${FILESDIR}"/Fix-clang-compiler-error.patch
 	default
 }
 
