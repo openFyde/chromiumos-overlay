@@ -14,12 +14,15 @@
 #
 # For P, the binary was copied from:
 # https://android-build.googleplex.com/builds/submitted/5016670/cheets_x86_64-user/latest
+# For RVC, the binary is build from rvc-arc-dev art commit
+# 337cf0aa8a455479ca0bcb53a484fd9046c06a91 mmma art/
 
 EAPI="5"
 
 DESCRIPTION="Ebuild which pulls in binaries of dex2oatds"
 SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tbz2
-	gs://chromeos-localmirror/distfiles/${P}-pi.tbz2"
+	gs://chromeos-localmirror/distfiles/${P}-pi.tbz2
+	gs://chromeos-localmirror/distfiles/${P}-rvc.tbz2"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -31,4 +34,5 @@ S="${WORKDIR}"
 src_install() {
 	dobin dex2oatds
 	dobin dex2oatds-pi
+	dobin dex2oats-rvc
 }
