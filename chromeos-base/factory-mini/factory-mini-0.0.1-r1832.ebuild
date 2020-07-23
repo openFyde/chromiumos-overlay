@@ -15,8 +15,8 @@
 # from /usr/local/bin to that file.
 
 EAPI=7
-CROS_WORKON_COMMIT="fa8323cbd56233e5abf2ad2dfe62fcce5ee87007"
-CROS_WORKON_TREE="a55aae4fe816059db1d0a82a14d1f7bcf4b2149c"
+CROS_WORKON_COMMIT="ed5d7e27a2a279fd04e5cbc62fc519b7213f25b9"
+CROS_WORKON_TREE="08663da639dbaae43c8717e8d8f130e54f5545bb"
 CROS_WORKON_PROJECT="chromiumos/platform/factory"
 CROS_WORKON_LOCALNAME="platform/factory"
 PYTHON_COMPAT=( python3_{4,5,6,7} )
