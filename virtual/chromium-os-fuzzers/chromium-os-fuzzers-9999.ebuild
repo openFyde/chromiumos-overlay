@@ -67,6 +67,7 @@ RDEPEND="
 	asan? ( dev-rust/p9[fuzzer] )
 	dev-util/bsdiff[fuzzer]
 	dev-util/puffin[fuzzer]
+	media-gfx/sane-airscan[fuzzer]
 	media-libs/virglrenderer[fuzzer]
 	media-sound/adhd[fuzzer]
 	net-dns/avahi[fuzzer]
