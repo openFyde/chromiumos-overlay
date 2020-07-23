@@ -12,7 +12,7 @@ PLATFORM_SUBDIR="ippusb_manager"
 
 inherit cros-workon platform udev user
 
-DESCRIPTION="Service which manages communication between ippusbxd and cups."
+DESCRIPTION="Service which manages communication between ippusb printers and cups."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ippusb_manager/"
 
 LICENSE="BSD-Google"
@@ -21,10 +21,12 @@ IUSE=""
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
-	net-print/ippusbxd:=
 	virtual/libusb:1=
 "
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/ippusb_bridge
+"
 DEPEND="${COMMON_DEPEND}"
 
 pkg_preinst() {
