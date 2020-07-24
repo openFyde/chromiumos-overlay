@@ -54,7 +54,7 @@ CDEPEND="
 	net-libs/libnsl:=[${MULTILIB_USEDEP}]
 	sys-apps/attr[${MULTILIB_USEDEP}]
 	sys-libs/e2fsprogs-libs[${MULTILIB_USEDEP}]
-	>=sys-libs/ldb-2.0.10[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
+	>=sys-libs/ldb-2.0.12[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
 	<sys-libs/ldb-2.1.0[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
 	sys-libs/libcap
 	sys-libs/ncurses:0=[${MULTILIB_USEDEP}]
@@ -139,13 +139,13 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.13-winexe_option.patch"
 	"${FILESDIR}/${PN}-4.13-vfs_snapper_configure_option.patch"
 
-	"${FILESDIR}/${PN}-4.11.9-machinepass_stdin.patch"
-	"${FILESDIR}/${PN}-4.11.9-machinepass_expire.patch"
-	"${FILESDIR}/${PN}-4.11.9-reuse_existing_computer_account.patch"
+	"${FILESDIR}/${PN}-4.11.11-machinepass_stdin.patch"
+	"${FILESDIR}/${PN}-4.11.11-machinepass_expire.patch"
+	"${FILESDIR}/${PN}-4.11.11-reuse_existing_computer_account.patch"
 
 	# Temporary workaround until we fix Samba/OpenLDAP issues (see
 	# https://crbug.com/953613).
-	"${FILESDIR}/${PN}-4.11.9-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
+	"${FILESDIR}/${PN}-4.11.11-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
