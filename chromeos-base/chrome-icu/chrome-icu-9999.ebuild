@@ -391,9 +391,6 @@ src_unpack() {
 
 	ln -sf "${CHROME_ROOT}" "${WORKDIR}/${P}"
 
-	export EGN="${EGN:-${CHROME_ROOT}/src/buildtools/linux64/gn}"
-	einfo "Using GN from ${EGN}"
-
 	# [Mod] Use flags internal_gles_conform, afdo_use, afdo_verify,
 	# orderfile_verify and orderfile_use are all disabled.
 	BUILD_STRING_ARGS+=( "chrome_orderfile_path=" )
@@ -592,9 +589,13 @@ src_configure() {
 	done
 	export GN_ARGS="${BUILD_ARGS[*]}"
 	einfo "GN_ARGS = ${GN_ARGS}"
-
-	${EGN} gen "${CHROME_ROOT}/src/${BUILD_OUT_SYM}/${BUILDTYPE}" \
-		--args="${GN_ARGS}" --root="${CHROME_ROOT}/src" || die
+	local gn=(
+		"${CHROME_ROOT}/src/buildtools/linux64/gn" gen
+		"${CHROME_ROOT}/src/${BUILD_OUT_SYM}/${BUILDTYPE}"
+		--args="${GN_ARGS}" --root="${CHROME_ROOT}/src"
+	)
+	echo "${gn[@]}"
+	"${gn[@]}" || die
 
 	# [Mod] setup_test_lists and clang_tidy are removed.
 }

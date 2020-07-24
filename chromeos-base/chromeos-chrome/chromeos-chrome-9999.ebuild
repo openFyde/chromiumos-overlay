@@ -577,9 +577,6 @@ src_unpack() {
 	# a symlink here to add compatibility with autotest eclass which uses this.
 	ln -sf "${CHROME_ROOT}" "${WORKDIR}/${P}"
 
-	export EGN="${EGN:-${CHROME_ROOT}/src/buildtools/linux64/gn}"
-	einfo "Using GN from ${EGN}"
-
 	if use internal_gles_conform; then
 		local CHROME_GLES2_CONFORM=${CHROME_ROOT}/src/third_party/gles2_conform
 		local CROS_GLES2_CONFORM=/home/${WHOAMI}/trunk/src/third_party/gles2_conform
@@ -922,8 +919,13 @@ src_configure() {
 	done
 	export GN_ARGS="${BUILD_ARGS[*]}"
 	einfo "GN_ARGS = ${GN_ARGS}"
-	${EGN} gen "${CHROME_ROOT}/src/${BUILD_OUT_SYM}/${BUILDTYPE}" \
-		--args="${GN_ARGS}" --root="${CHROME_ROOT}/src" || die
+	local gn=(
+		"${CHROME_ROOT}/src/buildtools/linux64/gn" gen
+		"${CHROME_ROOT}/src/${BUILD_OUT_SYM}/${BUILDTYPE}"
+		--args="${GN_ARGS}" --root="${CHROME_ROOT}/src"
+	)
+	echo "${gn[@]}"
+	"${gn[@]}" || die
 
 	setup_test_lists
 
