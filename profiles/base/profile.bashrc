@@ -193,7 +193,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		dev-util/shellcheck) return 1;;
 		dev-haskell/*) return 1;;
 		dev-lang/ghc) return 1;;
-		dev-lang/ruby) return 1;;
 		dev-lang/rust) return 1;;
 		dev-python/pycairo) return 1;;
 		media-video/ffmpeg) return 1;;
