@@ -24,10 +24,12 @@ DEPEND="
 	dev-go/cmp
 	dev-go/crypto
 	dev-go/dbus
+	dev-go/fscrypt
 	dev-go/golint
 	dev-go/gopacket
 	dev-go/gopsutil
 	dev-go/go-matroska
+	dev-go/go-sys
 	dev-go/grpc
 	dev-go/mdns
 	dev-go/mp4
