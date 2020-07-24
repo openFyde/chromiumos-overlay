@@ -135,7 +135,10 @@ chromium_source_check_out_source() {
 	# is needed for unattended operation.
 	cmd+=( --reset --gclient="${EGCLIENT}" "${CHROMIUM_SOURCE_DIR}" )
 	elog "Running: ${cmd[*]}"
-	"${cmd[@]}" || die
+	# TODO(crbug.com/1103048): Disable the sandbox when syncing the code.
+	# It seems to break gclient execution at random for unknown reasons.
+	# Children stop being tracked, or no git repos actually get cloned.
+	SANDBOX_ON=0 "${cmd[@]}" || die
 }
 
 chromium-source_src_unpack() {
