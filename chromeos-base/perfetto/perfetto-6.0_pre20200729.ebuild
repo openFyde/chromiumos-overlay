@@ -7,7 +7,7 @@ inherit ninja-utils toolchain-funcs
 DESCRIPTION="An open-source project for performance instrumentation and tracing."
 HOMEPAGE="https://perfetto.dev/"
 
-GIT_SHA1="b66b830b89d9e74d20b02739abf6ff05f6f4f83f"
+GIT_SHA1="0d11642a1bc14a98188d706297e838bda2f9bfdc"
 SRC_URI="https://github.com/google/perfetto/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 KEYWORDS="*"
@@ -38,6 +38,7 @@ src_configure() {
 
 	# Cross-compilation args.
 	GN_ARGS="
+is_system_compiler=true
 ar=\"${BUILD_AR}\"
 cc=\"${BUILD_CC}\"
 cxx=\"${BUILD_CXX}\"
