@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="892eb243eb9b80bc2f635ab41ed14ca586ff25e3"
+CROS_WORKON_COMMIT="534f1445cef6c98a94fa17b0c9496a26edc12968"
 CROS_WORKON_TREE="9ecbfbf065afc0fe58e76896e9016295f97e36cb"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="metrics/memd"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit cros-rust cros-workon
+inherit cros-workon cros-rust
 
 DESCRIPTION="Fine-grain memory metrics collector"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/metrics/memd/"

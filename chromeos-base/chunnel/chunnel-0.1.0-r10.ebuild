@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2833bbeddcee2131c0051c409a19c3d51054e059"
+CROS_WORKON_COMMIT="534f1445cef6c98a94fa17b0c9496a26edc12968"
 CROS_WORKON_TREE="e6a19d66642822ea81050746041409c324f84fde"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="vm_tools/chunnel"
 
-inherit cros-rust cros-workon user
+inherit cros-workon cros-rust user
 
 DESCRIPTION="Tunnel between localhost in different netns"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/chunnel"
