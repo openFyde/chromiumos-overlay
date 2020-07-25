@@ -484,11 +484,6 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	chromeos-base/android-relocation-packer"
 
-# Dependencies for testing Puppet
-RDEPEND="${RDEPEND}
-	app-admin/puppet
-	dev-lang/ruby"
-
 # Host dependencies for generating and testing update payloads
 RDEPEND="${RDEPEND}
 	chromeos-base/update_payload"
