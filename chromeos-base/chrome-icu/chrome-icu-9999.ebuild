@@ -30,7 +30,7 @@ inherit binutils-funcs chromium-source cros-constants cros-sanitizers flag-o-mat
 DESCRIPTION="The ICU library copied from chrome/third_party"
 HOMEPAGE="https://cs.chromium.org/chromium/src/third_party/icu/"
 
-LICENSE="BSD"
+LICENSE="icu-58"
 
 SLOT="0/${PVR}"
 KEYWORDS="~*"
