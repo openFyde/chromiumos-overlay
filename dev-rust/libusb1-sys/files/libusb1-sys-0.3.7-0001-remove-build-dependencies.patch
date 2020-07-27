@@ -1,12 +1,15 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -29,15 +29,9 @@
- [build-dependencies.cc]
- version = "1.0"
- 
+@@ -26,21 +26,11 @@
+ repository = "https://github.com/a1ien/libusb1-sys.git"
+ [dependencies.libc]
+ version = "0.2"
+-[build-dependencies.cc]
+-version = "1.0"
+-
 -[build-dependencies.libflate]
 -version = "0.1"
--
+ 
  [build-dependencies.pkg-config]
  version = "0.3"
  
@@ -15,7 +18,10 @@
 -
  [features]
  vendored = []
- [target."cfg(target_env = \"msvc\")".build-dependencies.vcpkg]
+-[target."cfg(target_env = \"msvc\")".build-dependencies.vcpkg]
+-version = "0.2"
+ [badges.travis-ci]
+ repository = "a1ien/libusb1-sys"
 
 --- a/build.rs
 +++ b/build.rs
