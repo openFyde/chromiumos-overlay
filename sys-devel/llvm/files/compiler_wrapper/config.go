@@ -123,7 +123,6 @@ var crosHardenedConfig = &config{
 	// "-fno-common", crbug.com/1060413.
 	clangFlags: []string{
 		"-Qunused-arguments",
-		"-grecord-gcc-switches",
 		"-fno-addrsig",
 		"-fcommon",
 		"-Wno-tautological-constant-compare",
@@ -190,7 +189,6 @@ var crosHostConfig = &config{
 	// "-fno-common", crbug.com/1060413.
 	clangFlags: []string{
 		"-Qunused-arguments",
-		"-grecord-gcc-switches",
 		"-fno-addrsig",
 		"-fcommon",
 		"-fuse-ld=lld",
