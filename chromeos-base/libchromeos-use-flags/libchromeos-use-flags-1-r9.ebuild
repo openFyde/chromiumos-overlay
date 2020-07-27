@@ -36,6 +36,7 @@ IUSE="
 	background_blur
 	big_little
 	biod
+	borealis_host
 	cfm_enabled_device
 	cheets
 	compupdates

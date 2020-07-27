@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=4
-CROS_WORKON_COMMIT="88443486b9cea81b351c376ec15868005381953f"
-CROS_WORKON_TREE="8536dbed772e5dcca2e481c873a78c09ed48aa40"
+CROS_WORKON_COMMIT="91ab3f36e67151b09058cf446c8c6f966e8aa53f"
+CROS_WORKON_TREE="2417302b4ac8ff031d84cd16175fc20f75f7ea1c"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -26,12 +26,15 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
-# audio_AudioInputGain depends on telemetry.
+# audio_AudioInputGain and audio_CrasGetNodes depend on telemetry.
 IUSE_TESTS="
 	+tests_audio_Aconnect
 	+tests_audio_AlsaLoopback
 	+tests_audio_Aplay
-	!chromeless_tty? ( +tests_audio_AudioInputGain )
+	!chromeless_tty? (
+		+tests_audio_AudioInputGain
+		+tests_audio_CrasGetNodes
+	)
 	+tests_audio_CRASFormatConversion
 	+tests_audio_CrasDevSwitchStress
 	+tests_audio_CrasLoopback
