@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit flag-o-matic autotools multilib-minimal systemd toolchain-funcs udev user
+inherit flag-o-matic autotools multilib-minimal systemd toolchain-funcs udev \
+	user cros-sanitizers
 
 # gphoto and v4l are handled by their usual USE flags.
 # The pint backend was disabled because I could not get it to compile.
@@ -197,6 +198,10 @@ src_prepare() {
 }
 
 src_configure() {
+	# Sanitizers don't link properly, but we want to fuzz dependent
+	# packages (b/160181793).
+	filter_sanitizers
+
 	# genesys backend doesn't build without exceptions.
 	cros_enable_cxx_exceptions
 	append-flags -fno-strict-aliasing # From Fedora
