@@ -1,30 +1,42 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-CROS_WORKON_PROJECT="chromiumos/third_party/libiio"
-CROS_WORKON_INCREMENTAL_BUILD=1
+EAPI=7
 
-inherit cmake-utils cros-workon
+inherit cmake-utils
 
 DESCRIPTION="Library for interfacing with IIO devices"
 HOMEPAGE="https://github.com/analogdevicesinc/libiio"
+if [[ "${PV}" == "99999999" ]]; then
+	EGIT_REPO_URI="https://github.com/analogdevicesinc/libiio"
+	inherit git-r3
+else
+	SRC_URI="https://github.com/analogdevicesinc/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+fi
 
+KEYWORDS="*"
 LICENSE="LGPL-2.1"
 SLOT="0/${PV}"
-KEYWORDS="~*"
 
 # By default, only libiio is installed.
 # For testing, use USE=libiio_all to compile tests and iiod daemon.
-IUSE="aio avahi libiio_all"
+IUSE="aio iioservice libiio_all zeroconf"
 
 RDEPEND="dev-libs/libxml2:=
-	aio? ( dev-libs/libaio:= )
+	aio? ( dev-libs/libaio )
 	libiio_all? (
-		avahi? ( net-dns/avahi )
+		zeroconf? ( net-dns/avahi )
 	)
 	!dev-libs/libiio"
+
 DEPEND="${RDEPEND}"
+
+src_prepare() {
+	use iioservice || epatch "${FILESDIR}"/${PN}-cros-ec-ring-workaround.patch
+
+	cmake-utils_src_prepare
+	default
+}
 
 src_configure() {
 	# For test purposes, compile iiod and test tools, and allow connection over network.
