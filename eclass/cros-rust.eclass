@@ -580,8 +580,8 @@ cros-rust_pkg_postinst() {
 		local dest="${registry_dir}/${crate}"
 		einfo "Linking ${crate} into Cargo registry at ${registry_dir}"
 		mkdir -p "${registry_dir}"
-		# This modifies the registry in a safe way so a lock isn't needed.
-		ln -srT "${crate_dir}" "${dest}" || die
+		flock --no-fork --exclusive "$(cros-rust_get_reg_lock)" \
+			ln -srT "${crate_dir}" "${dest}" || die
 	fi
 }
 
