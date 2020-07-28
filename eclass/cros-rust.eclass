@@ -102,7 +102,11 @@ cros-rust_get_reg_lock() {
 # @DESCRIPTION:
 # Sets up the package. Particularly, makes sure the rust registry lock exits.
 cros-rust_pkg_setup() {
+	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_setup" ]]; then
+		die "${FUNCNAME}() should only be used in pkg_setup() phase"
+	fi
 	_cros-rust_prepare_lock "$(cros-rust_get_reg_lock)"
+	_cleanup_registry_link "$@"
 }
 
 # @FUNCTION: cros-rust_src_unpack
