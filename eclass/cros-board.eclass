@@ -188,6 +188,7 @@ ALL_BOARDS=(
 	gonzo
 	gru
 	grunt
+	grunt-arc-r
 	grunt-kernelnext
 	guado
 	guado-accelerator
