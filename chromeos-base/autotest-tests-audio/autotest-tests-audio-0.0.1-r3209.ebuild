@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
-CROS_WORKON_COMMIT="91ab3f36e67151b09058cf446c8c6f966e8aa53f"
-CROS_WORKON_TREE="2417302b4ac8ff031d84cd16175fc20f75f7ea1c"
+EAPI=7
+CROS_WORKON_COMMIT="48c83fe5f161ab5bbdddd02a15612bdeecdca29d"
+CROS_WORKON_TREE="51cfe9dbd19428d981b8e37c4911a579f22fe7b9"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -29,7 +29,6 @@ DEPEND="${RDEPEND}"
 # audio_AudioInputGain and audio_CrasGetNodes depend on telemetry.
 IUSE_TESTS="
 	+tests_audio_Aconnect
-	+tests_audio_AlsaLoopback
 	+tests_audio_Aplay
 	!chromeless_tty? (
 		+tests_audio_AudioInputGain
@@ -37,10 +36,8 @@ IUSE_TESTS="
 	)
 	+tests_audio_CRASFormatConversion
 	+tests_audio_CrasDevSwitchStress
-	+tests_audio_CrasLoopback
 	+tests_audio_CrasPinnedStream
 	+tests_audio_CrasStress
-	+tests_audio_LoopbackLatency
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
