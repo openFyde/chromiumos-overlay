@@ -19,7 +19,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="direncryption"
+IUSE="direncryption fsverity"
 
 DEPEND=""
 
@@ -32,5 +32,10 @@ src_install() {
 		sed -i '/local direncryption_enabled=/s/false/true/' \
 			"${D}/usr/share/misc/chromeos-common.sh" ||
 			die "Can not set directory encryption in common library"
+	fi
+	if use fsverity; then
+		sed -i '/local fsverity_enabled=/s/false/true/' \
+			"${D}/usr/share/misc/chromeos-common.sh" ||
+			die "Can not set fs-verity in common library"
 	fi
 }
