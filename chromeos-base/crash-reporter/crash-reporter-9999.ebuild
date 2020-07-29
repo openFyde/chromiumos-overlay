@@ -33,7 +33,6 @@ COMMON_DEPEND="
 "
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ca-certificates
-	|| ( sys-apps/journald:= sys-apps/systemd:= )
 	direncryption? ( sys-apps/keyutils:= )
 	cros_ec? ( chromeos-base/ec-utils )
 "
