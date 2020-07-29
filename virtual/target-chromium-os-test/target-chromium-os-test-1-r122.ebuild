@@ -96,7 +96,10 @@ CROS_COMMON_RDEPEND="
 	biod? ( virtual/chromeos-fpmcu-test )
 	hammerd? ( chromeos-base/hammerd-test-utils )
 	scanner? ( chromeos-base/lorgnette_cli )
-	ml_service? ( chromeos-base/ml-cmdline )
+	ml_service? (
+		chromeos-base/ml-cmdline
+		chromeos-base/ml_benchmark
+	)
 	nnapi? ( chromeos-base/ml-test-assets )
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
