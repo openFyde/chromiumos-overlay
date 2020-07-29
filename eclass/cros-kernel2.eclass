@@ -2283,28 +2283,6 @@ cros-kernel2_src_install() {
 	# size limit as the image is downloaded over network.
 	local kernel_image_size=$(stat -c '%s' -L "${D}"/boot/vmlinuz)
 	einfo "Kernel image size is ${kernel_image_size} bytes."
-	if use factory_netboot_ramfs; then
-		# No need to check kernel image size.
-		true
-	else
-		local cut_version=$(ver_cut 1-2 "${version}")
-		if ver_test 3.18 -le "${cut_version}" ; then
-			kern_max=32
-			kern_warn=12
-		elif ver_test 3.10 -le "${cut_version}" ; then
-			kern_max=16
-			kern_warn=12
-		else
-			kern_max=8
-			kern_warn=7
-		fi
-
-		if [[ ${kernel_image_size} -gt $((kern_max * 1024 * 1024)) ]]; then
-			die "Kernel image is larger than ${kern_max} MB."
-		elif [[ ${kernel_image_size} -gt $((kern_warn * 1024 * 1024)) ]]; then
-			ewarn "Kernel image is larger than ${kern_warn} MB. Limit is ${kern_max} MB."
-		fi
-	fi
 
 	# Install uncompressed kernel for debugging purposes.
 	insinto /usr/lib/debug/boot
