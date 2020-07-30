@@ -121,6 +121,8 @@ var crosHardenedConfig = &config{
 	// Disable "-faddrsig" since it produces object files that strip doesn't understand, chromium:915742.
 	// Pass "-fcommon" till the packages are fixed to work with new clang default
 	// "-fno-common", crbug.com/1060413.
+	// crbug.com/1103065: -grecord-gcc-switches pollutes the Goma cache;
+	//   removed that flag for now.
 	clangFlags: []string{
 		"-Qunused-arguments",
 		"-fno-addrsig",
@@ -134,6 +136,7 @@ var crosHardenedConfig = &config{
 		"-Wno-final-dtor-non-final-class",
 		"-Werror=poison-system-directories",
 		"-fcrash-diagnostics-dir=/tmp/clang_crash_diagnostics",
+		"-fexperimental-new-pass-manager",
 	},
 	clangPostFlags: []string{
 		"-Wno-implicit-int-float-conversion",
@@ -165,6 +168,7 @@ var crosNonHardenedConfig = &config{
 		"-Wno-final-dtor-non-final-class",
 		"-Werror=poison-system-directories",
 		"-fcrash-diagnostics-dir=/tmp/clang_crash_diagnostics",
+		"-fexperimental-new-pass-manager",
 	},
 	clangPostFlags: []string{
 		"-Wno-implicit-int-float-conversion",
@@ -187,6 +191,8 @@ var crosHostConfig = &config{
 	// Temporarily add no-unknown-warning-option to deal with old clang versions.
 	// Pass "-fcommon" till the packages are fixed to work with new clang default
 	// "-fno-common", crbug.com/1060413.
+	// crbug.com/1103065: -grecord-gcc-switches pollutes the Goma cache;
+	//   removed that flag for now.
 	clangFlags: []string{
 		"-Qunused-arguments",
 		"-fno-addrsig",
@@ -200,6 +206,7 @@ var crosHostConfig = &config{
 		"-Werror=poison-system-directories",
 		"-Wno-unknown-warning-option",
 		"-fcrash-diagnostics-dir=/tmp/clang_crash_diagnostics",
+		"-fexperimental-new-pass-manager",
 	},
 	clangPostFlags: []string{
 		"-Wno-implicit-int-float-conversion",
