@@ -67,7 +67,7 @@ src_configure() {
 
 platform_pkg_test() {
 	local tests=(
-		chromeos common common_operations driver_cache runtime runtime_generated
+		chromeos common driver_cache runtime runtime_generated
 	)
 
 	# When running in qemu, these tests freeze the emulator when hitting
