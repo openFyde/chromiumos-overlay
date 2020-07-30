@@ -12,7 +12,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="iioservice/daemon"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="Chrome OS sensor HAL IPC util."
 
@@ -28,8 +28,17 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api:=
 "
 
+pkg_preinst() {
+	enewuser "iioservice"
+	enewgroup "iioservice"
+}
+
 src_install() {
 	dosbin "${OUT}"/iioservice
+
+	# Install upstart configuration.
+	insinto /etc/init
+	doins init/iioservice.conf
 }
 
 platform_pkg_test() {
