@@ -177,6 +177,8 @@ src_install() {
 pkg_preinst() {
 	enewuser "bootlockboxd"
 	enewgroup "bootlockboxd"
+	enewuser "cryptohome"
+	enewgroup "cryptohome"
 }
 
 platform_pkg_test() {
