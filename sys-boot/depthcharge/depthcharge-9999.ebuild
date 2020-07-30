@@ -96,6 +96,7 @@ make_depthcharge() {
 	local builddir="$2"
 	local base_defconfig="board/${board}/defconfig"
 	local defconfig="${T}/${board}-defconfig"
+	local config="${builddir}/depthcharge.config"
 
 	if [[ -e "${base_defconfig}" ]]; then
 		cp "${base_defconfig}" "${defconfig}"
@@ -128,12 +129,15 @@ make_depthcharge() {
 
 	[[ ${PV} == "9999" ]] && dc_make distclean "${builddir}" libpayload
 	dc_make defconfig "${builddir}" libpayload \
-		KBUILD_DEFCONFIG="${defconfig}"
-	cp .config "${builddir}/depthcharge.config"
+		KBUILD_DEFCONFIG="${defconfig}" \
+		DOTCONFIG="${config}"
 
-	dc_make depthcharge "${builddir}" libpayload
-	dc_make dev "${builddir}" libpayload_gdb
-	dc_make netboot "${builddir}" libpayload_gdb
+	dc_make depthcharge "${builddir}" libpayload \
+		DOTCONFIG="${config}"
+	dc_make dev "${builddir}" libpayload_gdb \
+		DOTCONFIG="${config}"
+	dc_make netboot "${builddir}" libpayload_gdb \
+		DOTCONFIG="${config}"
 }
 
 src_compile() {
