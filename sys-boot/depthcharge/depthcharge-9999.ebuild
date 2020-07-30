@@ -31,7 +31,7 @@ BDEPEND="
 
 CROS_WORKON_LOCALNAME=("../platform/depthcharge" "../platform/vboot_reference")
 VBOOT_REFERENCE_DESTDIR="${S}/vboot_reference"
-CROS_WORKON_DESTDIR=("${S}" "${VBOOT_REFERENCE_DESTDIR}")
+CROS_WORKON_DESTDIR=("${S}/depthcharge" "${VBOOT_REFERENCE_DESTDIR}")
 
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
@@ -138,6 +138,9 @@ src_compile() {
 		export CROSS_COMPILE=${CHOST}-
 	fi
 
+	pushd depthcharge >/dev/null || \
+		die "Failed to change into ${PWD}/depthcharge"
+
 	if use unibuild; then
 		local combinations="coreboot,depthcharge"
 		local cmd="get-firmware-build-combinations"
@@ -171,6 +174,8 @@ src_compile() {
 		fi
 		make_depthcharge "$(get_board)" build
 	fi
+
+	popd >/dev/null  || die
 }
 
 do_install() {
@@ -195,11 +200,14 @@ do_install() {
 	insinto "${dstdir}/depthcharge"
 	doins "${files_to_copy[@]}"
 
-	popd >/dev/null
+	popd >/dev/null || die
 }
 
 src_install() {
 	local build_target
+
+	pushd depthcharge >/dev/null || \
+		die "Failed to change into ${PWD}/depthcharge"
 
 	if use unibuild; then
 		for build_target in $(cros_config_host \
@@ -209,4 +217,6 @@ src_install() {
 	else
 		do_install "$(get_board)" build
 	fi
+
+	popd >/dev/null || die
 }
