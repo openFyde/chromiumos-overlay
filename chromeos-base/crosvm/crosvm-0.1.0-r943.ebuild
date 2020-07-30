@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="82d7b9f094cd80d7cb3931a3a108f37a11f0fc17"
-CROS_WORKON_TREE="586a26c82658c3ca9042d9e8e3310a4565bb2243"
+CROS_WORKON_COMMIT="be88444c55d12c9836658faa2424629e021090a5"
+CROS_WORKON_TREE="83342a68c6f15c2bf1ba166b8934b0e8584df24b"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -40,6 +40,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
+	=dev-rust/async-trait-0.1*:=
 	fuzzer? (
 		dev-rust/cros_fuzz:=
 		=dev-rust/rand-0.6*:=
