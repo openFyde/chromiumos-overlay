@@ -30,7 +30,7 @@ inherit binutils-funcs chromium-source cros-constants cros-sanitizers flag-o-mat
 DESCRIPTION="The ICU library copied from chrome/third_party"
 HOMEPAGE="https://cs.chromium.org/chromium/src/third_party/icu/"
 
-LICENSE="BSD"
+LICENSE="icu-58"
 
 SLOT="0/${PVR}"
 KEYWORDS="*"
@@ -405,9 +405,6 @@ src_unpack() {
 
 	export EGN="${EGN:-${CHROME_ROOT}/src/buildtools/linux64/gn}"
 	einfo "Using GN from ${EGN}"
-
-	# [Mod] License file is required for installation.
-	cp "${CHROME_ROOT}/src/third_party/icu/LICENSE" "${WORKDIR}"
 
 	# [Mod] Use flags internal_gles_conform, afdo_use, afdo_verify,
 	# orderfile_verify and orderfile_use are all disabled.

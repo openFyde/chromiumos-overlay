@@ -457,7 +457,10 @@ unpack_chrome() {
 	# is needed for unattended operation.
 	cmd+=( --reset "--gclient=${EGCLIENT}" "${CHROME_DISTDIR}" )
 	elog "${cmd[*]}"
-	"${cmd[@]}" || die
+	# TODO(crbug.com/1103048): Disable the sandbox when syncing the code.
+	# It seems to break gclient execution at random for unknown reasons.
+	# Children stop being tracked, or no git repos actually get cloned.
+	SANDBOX_ON=0 "${cmd[@]}" || die
 }
 
 decide_chrome_origin() {
@@ -1355,7 +1358,7 @@ src_install() {
 			fi
 			source="${i}"
 			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp" || die
-		done < <(scanelf -BRyF '%F' ".")
+		done < <(scanelf -ByF '%F' ".")
 	fi
 
 	if use build_tests; then
