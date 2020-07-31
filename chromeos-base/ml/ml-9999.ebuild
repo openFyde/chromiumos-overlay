@@ -45,6 +45,7 @@ IUSE="
 	fuzzer
 	nnapi
 	ondevice_handwriting
+	ondevice_handwriting_dlc
 "
 
 RDEPEND="
@@ -52,7 +53,7 @@ RDEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/metrics:=
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
-	dev-libs/libhandwriting:=[ondevice_handwriting=]
+	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
 	dev-libs/libtextclassifier:=
 	sci-libs/tensorflow:=
 "
