@@ -59,7 +59,6 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_OverlappingBSSScan
 	+tests_network_WiFi_Perf
 	+tests_network_WiFi_PMKSACaching
-	+tests_network_WiFi_Powersave
 	+tests_network_WiFi_Prefer5Ghz
 	+tests_network_WiFi_ProfileBasic
 	+tests_network_WiFi_ProfileGUID
