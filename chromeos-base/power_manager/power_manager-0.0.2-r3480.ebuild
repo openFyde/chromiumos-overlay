@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="60003c8aeebe3e99de783181152332afbffcb1f5"
-CROS_WORKON_TREE=("cf397e9600a0b2d153f579c58419577cfca75ab7" "03aecfc1ac4d322587fe2a5efc6c3e3abf118627" "44e99392f4b8055b31bf40b94597df7b8510b6bb" "709e2f96b8d31f04d0a56329a33306288e10310b" "3005e60f1cbf903885303769d97214364bbde44e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3afcb23de6e55746fff87f2854e9259d210e9cfc"
+CROS_WORKON_TREE=("cf397e9600a0b2d153f579c58419577cfca75ab7" "03aecfc1ac4d322587fe2a5efc6c3e3abf118627" "44e99392f4b8055b31bf40b94597df7b8510b6bb" "709e2f96b8d31f04d0a56329a33306288e10310b" "f8c391c9b7d31ad9d8e2ef7806c2d98121f0de13" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -134,6 +134,9 @@ src_install() {
 
 	if use wilco; then
 		udev_dorules udev/optional/93-powerd-wilco-ec-files.rules
+
+		exeinto /usr/share/cros/init/optional
+		doexe init/shared/optional/powerd-pre-start-wilco.sh
 	fi
 
 	# Init scripts
