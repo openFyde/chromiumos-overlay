@@ -54,7 +54,6 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_HiddenScan
 	+tests_network_WiFi_LinkMonitorFailure
 	+tests_network_WiFi_MalformedProbeResp
-	+tests_network_WiFi_MissingBeacons
 	+tests_network_WiFi_MultiAuth
 	+tests_network_WiFi_OverlappingBSSScan
 	+tests_network_WiFi_Perf
