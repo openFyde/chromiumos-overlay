@@ -19,12 +19,17 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/typecd
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
+IUSE="+seccomp"
 
 src_install() {
 	dobin "${OUT}"/typecd
 
 	insinto /etc/init
 	doins init/*.conf
+
+	# Install seccomp policy file.
+	insinto /usr/share/policy
+	use seccomp && newins "seccomp/typecd-seccomp-${ARCH}.policy" typecd-seccomp.policy
 }
 
 pkg_preinst() {
