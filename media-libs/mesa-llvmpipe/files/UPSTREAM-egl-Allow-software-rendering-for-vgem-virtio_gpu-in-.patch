@@ -1,0 +1,60 @@
+From 81c0e2ab63d7ee823d9a096019243797f071410b Mon Sep 17 00:00:00 2001
+From: Lepton Wu <lepton@chromium.org>
+Date: Thu, 9 Jul 2020 11:49:33 -0700
+Subject: [PATCH] egl: Allow software rendering for vgem/virtio_gpu in
+ platform_device
+
+Then user could explicitly choose the underlying device for software
+rendering when both vgem/virtio_vga are there.
+
+Signed-off-by: Lepton Wu <lepton@chromium.org>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5830>
+---
+ src/egl/drivers/dri2/platform_device.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/src/egl/drivers/dri2/platform_device.c b/src/egl/drivers/dri2/platform_device.c
+index 3aac62f2679..7c12b4792c2 100644
+--- a/src/egl/drivers/dri2/platform_device.c
++++ b/src/egl/drivers/dri2/platform_device.c
+@@ -41,6 +41,7 @@
+ 
+ #include "egl_dri2.h"
+ #include "loader.h"
++#include "util/debug.h"
+ 
+ static __DRIimage*
+ device_alloc_image(struct dri2_egl_display *dri2_dpy,
+@@ -252,8 +253,9 @@ static bool
+ device_probe_device(_EGLDisplay *disp)
+ {
+    struct dri2_egl_display *dri2_dpy = disp->DriverData;
++   bool request_software = env_var_as_boolean("LIBGL_ALWAYS_SOFTWARE", false);
+ 
+-   if (disp->Options.ForceSoftware)
++   if (request_software)
+       _eglLog(_EGL_WARNING, "Not allowed to force software rendering when "
+                             "API explicitly selects a hardware device.");
+    dri2_dpy->fd = device_get_fd(disp, disp->Device);
+@@ -264,6 +266,18 @@ device_probe_device(_EGLDisplay *disp)
+    if (!dri2_dpy->driver_name)
+       goto err_name;
+ 
++   /* When doing software rendering, some times user still want to explicitly
++    * choose the render node device since cross node import doesn't work between
++    * vgem/virtio_gpu yet. It would be nice to have a new EXTENSION for this.
++    * For now, just fallback to kms_swrast. */
++   if (disp->Options.ForceSoftware && !request_software &&
++       (strcmp(dri2_dpy->driver_name, "vgem") == 0 ||
++        strcmp(dri2_dpy->driver_name, "virtio_gpu") == 0)) {
++      free(dri2_dpy->driver_name);
++      _eglLog(_EGL_WARNING, "NEEDS EXTENSION: falling back to kms_swrast");
++      dri2_dpy->driver_name = strdup("kms_swrast");
++   }
++
+    if (!dri2_load_driver_dri3(disp))
+       goto err_load;
+ 
+-- 
+2.28.0.402.g5ffc5be6b7-goog
+

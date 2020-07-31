@@ -6,8 +6,8 @@ EAPI=6
 
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="b43b55d4619489e603780adf3c92a36dadcc362b"
-CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
+CROS_WORKON_COMMIT="663fa46287dc7c3c03b784ac2162ee5081083e3a"
+CROS_WORKON_TREE="b8d78e509c717d068a0199e10811bffd817f2dd4"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
@@ -110,14 +110,13 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	epatch "${FILESDIR}"/UPSTREAM-mesa-Expose-EXT_texture_query_lod-and-add-support-fo.patch
-	epatch "${FILESDIR}"/0001-GL_MESA_framebuffer_flip_y-include-GLES2-Sync-GLES2-headers-with-Khronos.patch
-	epatch "${FILESDIR}"/0002-GL_MESA_framebuffer_flip_y-mesa-GetFramebufferParameteriv-spelling.patch
-	epatch "${FILESDIR}"/0003-GL_MESA_framebuffer_flip_y-mesa-Allow-MESA_framebuffer_flip_y-for-GLES-3.patch
-	epatch "${FILESDIR}"/0004-GL_MESA_framebuffer_flip_y-gallium-Enable-MESA_framebuffer_flip_y.patch
-	epatch "${FILESDIR}"/0005-GL_MESA_framebuffer_flip_y-st-mesa-Fix-inverted-polygon-stipple-condition.patch
-	epatch "${FILESDIR}"/0001-BACKPORT-EGL-image-storage.patch
-	epatch "${FILESDIR}"/0001-meson-Force-the-use-of-config-tool-for-llvm.patch
+	# Current meson 'auto' method does not work properly with cross
+	# compiling, so revert back to hard-coded 'config-tool' method.
+	# This should be fixed in a future meson release.  See:
+	# https://github.com/mesonbuild/meson/issues/7276
+	epatch "${FILESDIR}"/0001-Revert-meson-update-llvm-dependency-logic-for-meson-.patch
+
+	epatch "${FILESDIR}"/UPSTREAM-egl-Allow-software-rendering-for-vgem-virtio_gpu-in-.patch
 
 	default
 }
