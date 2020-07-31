@@ -28,6 +28,7 @@ BOARD_USE_PREFIX="board_use_"
 # they won't be accidentally recycled in the future.
 ALL_BOARDS=(
 	acorn
+	ambassador
 	amd64-corei7
 	#amd64-drm
 	amd64-generic
@@ -176,6 +177,7 @@ ALL_BOARDS=(
 	#fox_wtm2
 	gale
 	gandof
+	genesis
 	#gizmo
 	glados
 	glados-cheets
