@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="99099684f7a233dd66bcb3d6362d43a6d231e032"
-CROS_WORKON_TREE=("cf397e9600a0b2d153f579c58419577cfca75ab7" "2e6d0af73b9d141b0d6934161d2d415717ffc5cd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f1151198ce918d45f5ce40ca4bf99e6bdaaab8d6"
+CROS_WORKON_TREE=("cf397e9600a0b2d153f579c58419577cfca75ab7" "729b5c980d6dafd422c07d576ec2905d8007f0c5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="ippusb_manager"
 
 inherit cros-workon platform udev user
 
-DESCRIPTION="Service which manages communication between ippusbxd and cups."
+DESCRIPTION="Service which manages communication between ippusb printers and cups."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ippusb_manager/"
 
 LICENSE="BSD-Google"
@@ -23,10 +23,12 @@ IUSE=""
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
-	net-print/ippusbxd:=
 	virtual/libusb:1=
 "
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/ippusb_bridge
+"
 DEPEND="${COMMON_DEPEND}"
 
 pkg_preinst() {
