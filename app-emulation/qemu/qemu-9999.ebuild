@@ -363,7 +363,8 @@ handle_locales() {
 src_unpack() {
 	mkdir -p "${S}" "${S}"/tests/fp "${S}"/ui || die
 
-	unpack "${A}" || die
+	default
+
 	mv "libslirp-${SLIRP_REV}-${SLIRP_REV}" "${S}"/slirp || die
 	mv "berkeley-testfloat-3-${TESTFLOAT_REV}" "${S}"/tests/fp/berkeley-testfloat-3 || die
 	mv "keycodemapdb-${KEYCODEMAPDB_REV}" "${S}"/ui/keycodemapdb || die
