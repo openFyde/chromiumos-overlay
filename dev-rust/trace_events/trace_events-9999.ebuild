@@ -24,6 +24,12 @@ DEPEND="=dev-rust/libc-0.2*:=
 
 RDEPEND="!!<=dev-rust/trace_events-0.1.0-r2"
 
+pkg_setup() {
+	cros-rust_pkg_setup trace_events
+	cros-rust_pkg_setup json_tracer
+	cros-rust_pkg_setup trace_events_macros
+}
+
 src_unpack() {
 	cros-workon_src_unpack
 	S+="/trace_events"

@@ -33,6 +33,11 @@ get_crate_version() {
 	awk '/^version = / { print $3 }' "$1/Cargo.toml" | head -n1 | tr -d '"'
 }
 
+pkg_setup() {
+	cros-rust_pkg_setup wire_format_derive
+	cros-rust_pkg_setup p9
+}
+
 src_unpack() {
 	cros-workon_src_unpack
 	S+="/vm_tools/p9"
