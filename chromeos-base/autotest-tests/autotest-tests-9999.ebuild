@@ -43,7 +43,6 @@ RDEPEND="${RDEPEND}
 	tests_hardware_MemoryThroughput? ( app-benchmarks/lmbench )
 	tests_hardware_MemoryZRAMThroughput? ( app-benchmarks/microbenchmarks )
 	tests_kernel_Lmbench? ( app-benchmarks/lmbench )
-	tests_security_SMMLocked? ( sys-apps/pciutils )
 	arc-camera3? (
 		tests_camera_HAL3? ( chromeos-base/autotest-deps-camera-hal3 )
 		tests_camera_HAL3Perf? ( chromeos-base/autotest-deps-camera-hal3 )
@@ -55,7 +54,6 @@ RDEPEND="${RDEPEND}
 DEPEND="${RDEPEND}"
 
 X86_IUSE_TESTS="
-	+tests_security_SMMLocked
 	+tests_xfsFilesystemTestSuite
 	+tests_hardware_UnsafeMemory
 "
