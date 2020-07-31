@@ -1,4 +1,4 @@
-From 8ff7a1c957999d8e84d0b1ffd5b91e976754cc8b Mon Sep 17 00:00:00 2001
+From 66482303f6d19f1e498b31626c3cbae75e44e957 Mon Sep 17 00:00:00 2001
 From: Lepton Wu <lepton@chromium.org>
 Date: Mon, 22 Jun 2020 15:33:32 -0700
 Subject: [PATCH] mapi: x86: Fix dynamic entries in x86 tsd stubs.
@@ -8,6 +8,7 @@ asm stubs.
 
 Fixes: 45206d7673a ("mapi: Adapted libglvnd x86 tsd changes")
 Signed-off-by: Lepton Wu <lepton@chromium.org>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5598>
 ---
  src/mapi/entry_x86_tsd.h | 50 +++++++++++++++++++++++++++++++++-------
  1 file changed, 42 insertions(+), 8 deletions(-)
@@ -122,5 +123,5 @@ index 1cf3ea2964e..f5d9c41253f 100644
  
     return entry;
 -- 
-2.26.2
+2.28.0.163.g6104cc2f0b6-goog
 
