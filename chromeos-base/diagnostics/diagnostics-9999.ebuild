@@ -139,6 +139,7 @@ platform_pkg_test() {
 		libcros_healthd_fetchers_test
 		libcros_healthd_utils_test
 		network_test
+		network_diagnostics_test
 		routine_test
 		system_config_test
 	)
