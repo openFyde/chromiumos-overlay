@@ -237,5 +237,17 @@
         "rel_patch_path": "cherry/1da9834557cd4302a5183b8228ce063e69f82602.patch",
         "start_version": 398304,
         "end_version": 400503
+    },
+    {
+        "comment": "Fix a crash when the sample profile uses md5 and -sample-profile-merge-inlinee is enabled.",
+        "rel_patch_path": "cherry/836991d3676fda06d0f07c816ba855c8a0c3e0aa.patch",
+        "start_version": 398649,
+        "end_version": 401013
+    },
+    {
+        "comment": "[AutoFDO] Avoid merging inlinee samples multiple times",
+        "rel_patch_path": "cherry/d23c1d6a8dddf0e1b9b9fa64726941e402ede8af.patch",
+        "start_version": 398649,
+        "end_version": 401056
     }
 ]
