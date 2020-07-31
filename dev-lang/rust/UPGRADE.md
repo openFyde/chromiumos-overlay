@@ -11,10 +11,36 @@ DEL_VERSION=1.33.0 # Previous version (to be deleted)
 OLD_VERSION=1.34.0 # Current version
 NEW_VERSION=1.35.0 # New version
 
+# Be sure cross-compilers have been emerged.
+target_triples=( $(awk '/^RUSTC_TARGET_TRIPLES=\(/ { emit=1; next } /^)/ { if (emit) exit } /-cros-/ { if (emit) { print $1 } }') "rust-${OLD_VERSION}.ebuild" )
+for x in "${target_triples[@]}"; do command -v "${x}-clang" >/dev/null || sudo emerge -G "cross-${x}/gcc"; done
+
 # Copy ebuild for the new version.
 cp rust-${OLD_VERSION}.ebuild rust-${NEW_VERSION}.ebuild
 git add rust-${NEW_VERSION}.ebuild
 git rm rust-${DEL_VERSION}.ebuild
+
+# Download Rust's source.
+rust_src="$(mktemp)"
+src_tarfile_name="rustc-${NEW_VERSION}-src.tar.gz"
+curl -f "https://static.rust-lang.org/dist/${src_tarfile_name}" -o "${rust_src}"
+
+# Verify the signature of the source
+sig_file="/tmp/rustc_sig.asc"
+curl -f "https://static.rust-lang.org/dist/${src_tarfile_name}.asc" -o "${sig_file}"
+gpg --verify "${sig_file}" "${rust_src}"
+
+# ^^ If the above fails with:
+# ```
+# gpg: Can't check signature: No public key
+# ```
+# then you need to import the rustc key:
+# curl https://keybase.io/rust/pgp_keys.asc | gpg --import
+#
+# Once you've done that, please try again.
+
+# Copy source to localmirror.
+gsutil cp -n -a public-read "${rust_src}" "gs://chromeos-localmirror/distfiles/${src_tarfile_name}"
 
 # Copy patches for the new version.
 for x in files/rust-${OLD_VERSION}-*.patch; do cp $x ${x//${OLD_VERSION}/${NEW_VERSION}}; done
@@ -66,17 +92,6 @@ git rm ../../virtual/rust/rust-${DEL_VERSION}.ebuild
 
 - Update this document with additional tips or any steps that have changed.
 - Upload change for review. CC reviewers from previous upgrade.
-
-> Before sending to CQ, ensure every file in the `Manifest` is in localmirror
-> or gentoo mirror. First check for the file in
-> `gs://chromeos-mirror/gentoo/distfiles/` and then check in
-> `gs://chromeos-localmirror/distfiles/`. If the file is not in either one,
-> upload it using:
-
-```shell
-gsutil cp -a public-read \
-    /var/cache/chromeos-cache/distfiles/host/<file from manifest> \
-    gs://chromeos-localmirror/distfiles/
-```
+- Remember to add `Cq-Include-Trybots: chromeos/cq:cq-llvm-orchestrator` to your commit message
 
 - Kick off try-job: `cros tryjob -g <cl number> chromiumos-sdk-tryjob`.
