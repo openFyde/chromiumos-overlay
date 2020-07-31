@@ -66,6 +66,8 @@ IUSE="
 	ndk_translation
 	ndk_translation64
 	neon
+	ondevice_handwriting
+	ondevice_handwriting_dlc
 	oobe_skip_postlogin
 	oobe_skip_to_login
 	opengles
