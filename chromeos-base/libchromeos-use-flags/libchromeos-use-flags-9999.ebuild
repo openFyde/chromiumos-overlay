@@ -49,7 +49,6 @@ IUSE="
 	enable_heuristic_palm_detection_filter
 	enable_neural_palm_detection_filter
 	force_breakpad
-	force_crashpad
 	gpu_sandbox_allow_sysv_shm
 	gpu_sandbox_failures_not_fatal
 	gpu_sandbox_start_early
