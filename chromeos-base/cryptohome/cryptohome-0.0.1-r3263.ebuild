@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2d7ef64bda42428fdc56458905860e4f6787f92f"
+CROS_WORKON_COMMIT="ef3616f80d427851007539fb3b46221b634e1bfc"
 CROS_WORKON_TREE=("cf397e9600a0b2d153f579c58419577cfca75ab7" "c3fbe1859ce32652decd2fc42a8c142eee10fc35" "8a424a75e11d7920d32c970717d3eff3e60db0ec" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -179,6 +179,8 @@ src_install() {
 pkg_preinst() {
 	enewuser "bootlockboxd"
 	enewgroup "bootlockboxd"
+	enewuser "cryptohome"
+	enewgroup "cryptohome"
 }
 
 platform_pkg_test() {
