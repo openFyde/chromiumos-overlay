@@ -124,7 +124,7 @@ index 000000000..0bb40cb65
 +    }
 +
 +  grub_snprintf (priority_str, sizeof(priority_str), "%" PRIuGRUB_UINT64_T,
-+                 (part->gpt_attrib >> 48) & 0xfULL);
++                 (part->gpt_attrib >> 48) & 0xf);
 +
 +  if (argc == 3)
 +    {
