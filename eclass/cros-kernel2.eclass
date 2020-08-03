@@ -52,6 +52,9 @@ IUSE="
 	fit_compression_kernel_lzma
 	firmware_install
 	-kernel_sources
+	kernel_warning_level_1
+	kernel_warning_level_2
+	kernel_warning_level_3
 	+lld
 	nfc
 	${WIRELESS_SUFFIXES[@]/#/-wireless}
@@ -1730,6 +1733,20 @@ kmake() {
 	unset CFLAGS
 	unset LDFLAGS
 
+	local kernel_warning_level=""
+	if use kernel_warning_level_1; then
+		kernel_warning_level+=1
+	fi
+	if use kernel_warning_level_2; then
+		kernel_warning_level+=2
+	fi
+	if use kernel_warning_level_3; then
+		kernel_warning_level+=3
+	fi
+	if [[ -n "${kernel_warning_level}" ]]; then
+		kernel_warning_level="W=${kernel_warning_level}"
+	fi
+
 	ARCH=${kernel_arch} \
 		CROSS_COMPILE="${cross}-" \
 		CROSS_COMPILE_COMPAT="${cross_compat}" \
@@ -1737,6 +1754,7 @@ kmake() {
 		emake \
 		V="${VERBOSE:-0}" \
 		O="$(cros-workon_get_build_dir)" \
+		${kernel_warning_level} \
 		"$@"
 }
 
