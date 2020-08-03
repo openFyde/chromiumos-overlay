@@ -76,6 +76,7 @@ IUSE="
 	+tpm
 	-tpm2
 	+trim_supported
+	typecd
 	usb_bouncer
 	usbguard
 	+vpn
@@ -254,6 +255,7 @@ RDEPEND="
 		chromeos-base/smbfs
 		chromeos-base/smbprovider
 	)
+	typecd? ( chromeos-base/typecd )
 "
 
 ################################################################################
