@@ -127,7 +127,6 @@ make_depthcharge() {
 		echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
 	fi
 
-	[[ ${PV} == "9999" ]] && dc_make distclean "${builddir}" libpayload
 	dc_make defconfig "${builddir}" libpayload \
 		KBUILD_DEFCONFIG="${defconfig}" \
 		DOTCONFIG="${config}"
