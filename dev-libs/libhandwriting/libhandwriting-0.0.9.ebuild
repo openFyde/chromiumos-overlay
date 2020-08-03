@@ -45,11 +45,11 @@ src_install() {
 		local handwritinglib_path="$(dlc_add_path /opt/handwriting-dlc/)"
 	fi
 
-	# Install the shared library.
-	into "${handwritinglib_path}"
-	newlib.so "libhandwriting-${ARCH}.so" "libhandwriting.so"
-
 	insinto "${handwritinglib_path}"
+	# Install the shared library.
+	insopts -m0755
+	newins "libhandwriting-${ARCH}.so" "libhandwriting.so"
+	insopts -m0644
 	# Install the model files for english.
 	doins latin_indy.compact.fst latin_indy.pb latin_indy.tflite
 	doins latin_indy_conf.tflite latin_indy_seg.tflite
