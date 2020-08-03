@@ -115,8 +115,6 @@ IUSE_TESTS=(
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
 	+tests_policy_AccessibilityTest
-	+tests_policy_AllowDeletingBrowserHistory
-	+tests_policy_AllowScreenLock
 	+tests_policy_AlternateErrorPages
 	+tests_policy_ArcAudioCaptureAllowed
 	+tests_policy_ArcBackupRestoreServiceEnabled
@@ -171,7 +169,6 @@ IUSE_TESTS=(
 	+tests_policy_NewTabPageLocation
 	+tests_policy_NotificationsAllowedForUrls
 	+tests_policy_NotificationsBlockedForUrls
-	+tests_policy_PasswordManager
 	+tests_policy_PinnedLauncherApps
 	+tests_policy_PlatformKeys
 	+tests_policy_PluginsAllowedForUrls
