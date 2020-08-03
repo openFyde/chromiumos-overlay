@@ -101,6 +101,7 @@ src_install_upstart() {
 		doins upstart/system-services.conf
 		doins upstart/uinput.conf
 		doins upstart/sysrq-init.conf
+		doins upstart/ext-pci-drivers-allowlist.conf
 
 		if use syslog; then
 			doins upstart/log-rotate.conf upstart/syslog.conf upstart/journald.conf
@@ -180,6 +181,7 @@ src_install() {
 
 	# Install various helper programs.
 	dosbin "${OUT}"/cros_sysrq_init
+	dosbin "${OUT}"/ext_pci_drivers_allowlist_init
 	dosbin "${OUT}"/static_node_tool
 	dosbin "${OUT}"/net_poll_tool
 	dosbin "${OUT}"/file_attrs_cleaner_tool
