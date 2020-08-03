@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="62e83ad5ab1db0cdd9f14d6f52b9da840e62bfbe"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "e8361dab54d0d6fb2cd71f388b8d47e0b58cf5b1" "d08b0de17491f94bdaf6aa7564df6f074fb18383" "92d01801d46df3272f6e06dddbebf5a809aa5f64" "188e5c31b6ae427039a0fb626441d7eba6d4b88a" "e689450ad3b8a87c3519bc7575b9504001dea652")
+CROS_WORKON_COMMIT="9e642dcd79d2dfa77f8a49fe9d5e01a2b6aea4b1"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "e8361dab54d0d6fb2cd71f388b8d47e0b58cf5b1" "d08b0de17491f94bdaf6aa7564df6f074fb18383" "92d01801d46df3272f6e06dddbebf5a809aa5f64" "42251adbbd7ed74de654543f59d4c33cbb835ee9" "e689450ad3b8a87c3519bc7575b9504001dea652")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/v4l2_test chromeos-config common-mk"
