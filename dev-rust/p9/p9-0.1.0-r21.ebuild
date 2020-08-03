@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c042abbb75ed3f1977a13a0c6e10da1dabe79609"
+CROS_WORKON_COMMIT="d565cc29fe7617433189357337f0010c560bf83c"
 CROS_WORKON_TREE="669973c2b0a7d99198fd9bc83e22407323b0ad8e"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -33,6 +33,11 @@ RDEPEND="!!<=dev-rust/p9-0.1.0-r14"
 get_crate_version() {
 	local crate="$1"
 	awk '/^version = / { print $3 }' "$1/Cargo.toml" | head -n1 | tr -d '"'
+}
+
+pkg_setup() {
+	cros-rust_pkg_setup wire_format_derive
+	cros-rust_pkg_setup p9
 }
 
 src_unpack() {

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ef93e73ca16f1171431fcb19fb4fc74ff78d247f"
+CROS_WORKON_COMMIT="d565cc29fe7617433189357337f0010c560bf83c"
 CROS_WORKON_TREE="e509681943a4a652c4575e6da2260621c04c8500"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,6 +25,12 @@ DEPEND="=dev-rust/libc-0.2*:=
 "
 
 RDEPEND="!!<=dev-rust/trace_events-0.1.0-r2"
+
+pkg_setup() {
+	cros-rust_pkg_setup trace_events
+	cros-rust_pkg_setup json_tracer
+	cros-rust_pkg_setup trace_events_macros
+}
 
 src_unpack() {
 	cros-workon_src_unpack
