@@ -159,12 +159,9 @@ src_install() {
 	insinto /usr/share/policy
 	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
 
-	# Disable the kill switch if the use flag is on.
-	if use cryptohome_userdataauth_interface; then
-		sed -i 's/killswitch=on/killswitch=off/' \
-			"${D}/usr/libexec/cryptohome/shall-use-userdataauth.sh" ||
-			die "Can't disable kill switch in shall-use-userdataauth.sh"
-	fi
+	sed -i 's/killswitch=on/killswitch=off/' \
+		"${D}/usr/libexec/cryptohome/shall-use-userdataauth.sh" ||
+		die "Can't disable kill switch in shall-use-userdataauth.sh"
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
