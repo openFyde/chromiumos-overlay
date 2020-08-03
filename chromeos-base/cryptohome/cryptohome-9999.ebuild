@@ -155,6 +155,10 @@ src_install() {
 	doexe shall-use-userdataauth.sh
 	doexe update_userdataauth_from_features.sh
 
+	# Install seccomp policy for cryptohome-proxy
+	insinto /usr/share/policy
+	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
+
 	# Disable the kill switch if the use flag is on.
 	if use cryptohome_userdataauth_interface; then
 		sed -i 's/killswitch=on/killswitch=off/' \
