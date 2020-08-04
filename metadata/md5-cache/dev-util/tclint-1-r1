@@ -1,0 +1,10 @@
+DEFINED_PHASES=install
+DESCRIPTION=Linter for Chrome OS test configuration data
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/infra/infra/+/HEAD/go/src/infra/cros/cmd/tclint
+KEYWORDS=-* amd64
+LICENSE=BSD-Google
+RESTRICT=mirror
+SLOT=0
+SRC_URI=cipd://chromiumos/infra/tclint/linux-amd64:O4btRfV3d9-QpZcWagaH08KXzjfRkw848EswbM6ReFkC -> tclint-1.zip
+_md5_=b2227990f5af9178c9d4c330e756c333
