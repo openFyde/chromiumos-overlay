@@ -156,5 +156,6 @@ src_install() {
 		dobin "${OUT}/cros_nnapi_vts_1_1"
 		dobin "${OUT}/cros_nnapi_vts_1_2"
 		dobin "${OUT}/cros_nnapi_vts_1_3"
+		dobin "${OUT}/cros_nnapi_cts"
 	fi
 }
