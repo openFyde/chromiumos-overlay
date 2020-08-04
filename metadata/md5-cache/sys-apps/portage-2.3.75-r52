@@ -3,7 +3,7 @@ DEPEND=!build? ( python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7[ssl(
 DESCRIPTION=Portage is the package management and distribution system for Gentoo
 EAPI=5
 HOMEPAGE=https://wiki.gentoo.org/wiki/Project:Portage
-IUSE=build doc epydoc gentoo-dev +ipc +native-extensions -rsync-verify selinux xattr python_targets_python2_7 python_targets_python3_6 python_targets_python3_7 cros_host cros_workon_tree_9e1e829a872a71f5eb7281b750207baefd157118
+IUSE=build doc epydoc gentoo-dev +ipc +native-extensions -rsync-verify selinux xattr python_targets_python2_7 python_targets_python3_6 python_targets_python3_7 cros_host cros_workon_tree_5309a39025e6ff9e27c633939210b826f275805d
 KEYWORDS=*
 LICENSE=GPL-2
 PDEPEND=!build? ( >=net-misc/rsync-2.6.4 userland_GNU? ( >=sys-apps/coreutils-6.4 ) )
@@ -12,4 +12,4 @@ RDEPEND=>=app-arch/tar-1.27 dev-lang/python-exec:2 !build? ( >=sys-apps/sed-4.0.
 REQUIRED_USE=epydoc? ( python_targets_python2_7 ) || ( python_targets_python2_7 python_targets_python3_6 python_targets_python3_7 )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff9970684d10d2d8723e60d6060d5068	distutils-r1	198e3b9ddb55ae36b2a50b07ca2877ef	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multibuild	40fe59465edacd730c644ec2bc197809	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	python-r1	ce1cd23cfdc1848e8e32743efe34f299	python-utils-r1	931c328767d245c08a16a3f87be9ce9c	systemd	71fd8d2065d102753fb9e4d20eaf3e9f	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
-_md5_=8e986adf250a7f33883030b986dfc0b4
+_md5_=e0cc7c322c9bc890670e672685038c04
