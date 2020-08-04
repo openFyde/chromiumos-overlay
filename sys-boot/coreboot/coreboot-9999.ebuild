@@ -61,7 +61,6 @@ RESTRICT="strip"
 
 RDEPEND=""
 DEPEND="
-	!!sys-boot/coreboot-zork
 	mtc? ( sys-boot/mtc:= )
 	virtual/coreboot-private-files
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
