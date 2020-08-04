@@ -51,10 +51,12 @@ IUSE="
 	dlc_test
 	+drivefs
 	drm_atomic
+	elm
 	fizz
 	force_breakpad
 	force_crashpad
 	grunt
+	hana
 	hana-kernelnext
 	houdini
 	houdini64
