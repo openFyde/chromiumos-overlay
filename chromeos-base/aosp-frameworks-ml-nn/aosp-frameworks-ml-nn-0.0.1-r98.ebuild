@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("3bedb01f0bbf8767db84c3dace0a1a126ce304b5" "2f77d75a52ef631c3b1f593f91b3b019c0b36c84")
-CROS_WORKON_TREE=("d66915ca353c66057a35f8c816bb78c9771bfaa0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "f287f30e608d58ca963a65a62a4276479bceb4e0")
+CROS_WORKON_COMMIT=("4e330169a9bb20cd5373c54e6e75e9c0508773e2" "c5de94c38295bd970833d1e146960667ab3e110f")
+CROS_WORKON_TREE=("d66915ca353c66057a35f8c816bb78c9771bfaa0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "1972a4e836e05b01d59049479e079c9ab28b3f95")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
@@ -69,7 +69,7 @@ src_configure() {
 
 platform_pkg_test() {
 	local tests=(
-		chromeos common common_operations driver_cache runtime runtime_generated
+		chromeos common driver_cache runtime runtime_generated
 	)
 
 	# When running in qemu, these tests freeze the emulator when hitting
