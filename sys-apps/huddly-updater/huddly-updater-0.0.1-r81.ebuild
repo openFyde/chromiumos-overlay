@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="797753504ef9e88a756e117e2e63a10a722a0969"
-CROS_WORKON_TREE="04178e36e55486816271ad43dff064be5aceaf75"
+CROS_WORKON_COMMIT="c5eb867922e7b4d7b7f1f9bbd95ffa0eb723dd2b"
+CROS_WORKON_TREE="d853a52eecc43ddf317fcad5abcbefb47d64b31f"
 CROS_WORKON_PROJECT="chromiumos/third_party/huddly-updater"
 
 inherit cros-debug cros-workon libchrome udev user
