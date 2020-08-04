@@ -63,8 +63,14 @@ src_install() {
 	insinto /usr/$(get_libdir)/pkgconfig
 	local v="$(libchrome_ver)"
 	./platform2_preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}/lib/libmetrics-${v}.so"
+	dolib.so "${OUT}/lib/libmetrics.so"
+	doins "${OUT}/lib/libmetrics.pc"
+
+	# TODO(crbug/920513): Remove after all usages of libmetrics-$v are removed.
+	# For packages using libmetrics-$v.pc.
 	doins "${OUT}/lib/libmetrics-${v}.pc"
+	# For package using -lmetrics-$v directly.
+	dosym libmetrics.so "/usr/$(get_libdir)/libmetrics-${v}.so"
 
 	insinto /usr/include/metrics
 	doins c_metrics_library.h \
