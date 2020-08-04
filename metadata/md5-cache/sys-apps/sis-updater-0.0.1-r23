@@ -1,14 +1,14 @@
 BDEPEND=dev-vcs/git virtual/pkgconfig
 DEFINED_PHASES=compile configure info install preinst prepare setup test unpack
 DEPEND=chromeos-base/libbrillo:= >=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=] sys-apps/baselayout
-DESCRIPTION=AVer firmware updater
+DESCRIPTION=A tool to update SiS firmware on Mimo from Chromium OS.
 EAPI=7
-HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/aver-updater
-IUSE=cros_host cros_workon_tree_a15b0af24600c3d3eb32806f6e9a9e990aa2ba96 cros-debug
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/sis-updater
+IUSE=cros_host cros_workon_tree_a07f2821b65a8efaf65fe51eab693e0459d981d6 cros-debug
 KEYWORDS=*
-LICENSE=BSD
+LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=chromeos-base/libbrillo:= >=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=] sys-apps/baselayout
 SLOT=0
 _eclasses_=cros-common.mk	0d2a9d7d20c4d4ab08fc94b6ca128a88	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	7db5b03b7ca5337406c3d24a0e096e9c	libchrome-version	e6da2797824cba5cbf8df7636c22624c	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	udev	452708c3f55cf6e918b045adb949a9e6	user	7c566af8c48023219fd63246e88d6621
-_md5_=1e0bf9d1f6d3a74e9c0a037419f1ff85
+_md5_=bf337a80cd2307f896948b98f89bd91c
