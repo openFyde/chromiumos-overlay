@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5d09da682db7af24a938a38d333c69b48334d888"
-CROS_WORKON_TREE="93769ec1391c3f8c81f3184e7db55007801f18fc"
+CROS_WORKON_COMMIT="9b5e854a2e948d0671da65d578f4f7ca8d486231"
+CROS_WORKON_TREE="9899149e7e44baf75749c0864c54f48ed6d691ae"
 CROS_WORKON_PROJECT="chromiumos/third_party/mimo-updater"
 
 inherit cros-debug cros-workon libchrome udev user
