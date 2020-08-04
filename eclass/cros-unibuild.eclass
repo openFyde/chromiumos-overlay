@@ -341,21 +341,6 @@ unibuild_install_arc_files() {
 	_unibuild_common_install get-arc-files "$@"
 }
 
-# @FUNCTION: unibuild_install_bluetooth_files
-# @USAGE: [config_file]
-# @DESCRIPTION:
-# Install files related to bluetooth config.
-# Args:
-#   $1: (optional) Config file used by cros_config_host
-unibuild_install_bluetooth_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
-
-	# Board-specific BlueZ config file is no longer required.
-	# Temporarily making this function a no-op until all references to this
-	# function are removed.
-	# TODO(b/152526402): Remove this function.
-}
-
 # @FUNCTION: unibuild_install_camera_files
 # @USAGE: [config_file]
 # @DESCRIPTION:
