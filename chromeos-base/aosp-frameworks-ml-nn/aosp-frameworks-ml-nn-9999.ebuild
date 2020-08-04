@@ -123,6 +123,13 @@ platform_pkg_test() {
 		# into the request object in this test. lsan_suppressions doesn't
 		# work due to the lack of /usr/bin/llvm-symbolizer, so just exclude.
 		gtest_excl_filter+="ComplianceTest.DeviceMemory:"
+
+		# Disable asan container overflow checks that are coming from gtest,
+		# not our code. Strangely this only started happening once we made
+		# common a shared library.
+		# See: https://crbug.com/1067977, https://crbug.com/1069722
+		# https://github.com/google/sanitizers/wiki/AddressSanitizerContainerOverflow#false-positives
+		export ASAN_OPTIONS+=":detect_container_overflow=0:"
 	fi
 
 	local test_target
@@ -133,6 +140,7 @@ platform_pkg_test() {
 
 src_install() {
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
+	dolib.so "${OUT}/lib/libnn-common.so"
 
 	if ! use vendor-nnhal ; then
 		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
