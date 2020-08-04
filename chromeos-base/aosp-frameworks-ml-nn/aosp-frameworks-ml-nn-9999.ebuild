@@ -5,22 +5,27 @@ EAPI=7
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
+	"aosp/platform/hardware/interfaces/neuralnetworks"
 )
 CROS_WORKON_REPO=(
+	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform2"
 	"aosp/frameworks/ml"
+	"aosp/hardware/interfaces/neuralnetworks"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/aosp/frameworks/ml"
+	"${S}/platform2/aosp/hardware/interfaces/neuralnetworks"
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk .gn"
 	"nn"
+	""
 )
 
 PLATFORM_SUBDIR="aosp/frameworks/ml/nn"
@@ -32,7 +37,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="~*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver nnapi_driver_tests"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -144,5 +149,12 @@ src_install() {
 
 	if ! use vendor-nnhal ; then
 		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
+	fi
+
+	if use nnapi_driver_tests; then
+		dobin "${OUT}/cros_nnapi_vts_1_0"
+		dobin "${OUT}/cros_nnapi_vts_1_1"
+		dobin "${OUT}/cros_nnapi_vts_1_2"
+		dobin "${OUT}/cros_nnapi_vts_1_3"
 	fi
 }
