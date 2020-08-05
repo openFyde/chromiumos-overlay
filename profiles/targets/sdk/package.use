@@ -109,7 +109,6 @@ dev-lang/ruby -rdoc
 
 # We don't need Python in these packages, so save some space.
 dev-libs/boost -python
-sys-apps/dtc -python
 
 # Freeze Python 2.7 versions for all existing packages.  We'll slowly trim this
 # list down as packages don't need them.  New packages should *not* be added

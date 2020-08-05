@@ -3,7 +3,7 @@
 
 EAPI=5
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 DISTUTILS_OPTIONAL="1"
 inherit multilib toolchain-funcs eutils distutils-r1
 
