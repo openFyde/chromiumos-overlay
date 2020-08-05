@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("f7b001c353f69b933119640da1d55e9727d378ca" "835c77a831325edd3184bdd99558ecfea3650a8b")
-CROS_WORKON_TREE=("638bfde957a502ad58d182712c1ebdf335f9a3da" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "3cb3583ae68e975ea52097ecbc30688b6b4c6142")
+CROS_WORKON_COMMIT=("e118af22dc05246b8f1ea8a85f9f1ff5c0702ccd" "a90fe88ca4efc73fc60390d6ccf3b807726446f0")
+CROS_WORKON_TREE=("638bfde957a502ad58d182712c1ebdf335f9a3da" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "287ac76c1d23340d0650f5cefe0340d93795dd3c")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
@@ -125,6 +125,13 @@ platform_pkg_test() {
 		# into the request object in this test. lsan_suppressions doesn't
 		# work due to the lack of /usr/bin/llvm-symbolizer, so just exclude.
 		gtest_excl_filter+="ComplianceTest.DeviceMemory:"
+
+		# Disable asan container overflow checks that are coming from gtest,
+		# not our code. Strangely this only started happening once we made
+		# common a shared library.
+		# See: https://crbug.com/1067977, https://crbug.com/1069722
+		# https://github.com/google/sanitizers/wiki/AddressSanitizerContainerOverflow#false-positives
+		export ASAN_OPTIONS+=":detect_container_overflow=0:"
 	fi
 
 	local test_target
@@ -135,6 +142,7 @@ platform_pkg_test() {
 
 src_install() {
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
+	dolib.so "${OUT}/lib/libnn-common.so"
 
 	if ! use vendor-nnhal ; then
 		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
