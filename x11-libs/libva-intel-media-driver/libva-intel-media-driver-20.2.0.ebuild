@@ -27,6 +27,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-ENCODE-change-slice-header-prefix-for-AVC-Vdenc.patch
 	"${FILESDIR}"/0004-Disable-IPC-in-media-driver-next.patch
 	"${FILESDIR}"/0005-Media-Common-Enable-new-device-config-for-EHL.patch
+	"${FILESDIR}"/0006-Encode-VP9-VDEnc-fix-width-and-height-settings-preve.patch
 )
 
 src_configure() {
