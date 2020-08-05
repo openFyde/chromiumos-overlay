@@ -52,9 +52,6 @@ src_prepare() {
 		-e "/^LIBDIR =/s:=.*:= \$(PREFIX)/$(get_libdir):" \
 		Makefile || die
 
-	tc-export AR CC
-	export V=1
-
 	if use python ; then
 		cd pylibfdt
 		distutils-r1_src_prepare
@@ -62,6 +59,9 @@ src_prepare() {
 }
 
 src_configure() {
+	tc-export AR CC PKG_CONFIG
+	export V=1
+
 	if use python ; then
 		cd pylibfdt
 		distutils-r1_src_configure

@@ -1,4 +1,4 @@
-From 4d9522764985462741c7bb4af1ab231b9251476b Mon Sep 17 00:00:00 2001
+From f7e8949bf0acaf5cab61d5e154e87748ad125626 Mon Sep 17 00:00:00 2001
 From: Mike Frysinger <vapier@chromium.org>
 Date: Wed, 10 Jan 2018 00:41:43 -0500
 Subject: [PATCH] dtdiff: change to POSIX shell
@@ -8,25 +8,30 @@ reading with pipes.  It relies on /dev/fd or /proc/self/fd existing.
 
 URL: https://crbug.com/756559
 Signed-off-by: Mike Frysinger <vapier@chromium.org>
+Signed-off-by: Simon Glass <sjg@chromium.org>
 ---
- dtdiff | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+
+ dtdiff | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/dtdiff b/dtdiff
-index 5fa772b0ab62..4d1b71756c2f 100644
+index cdbf079..7699e7a 100644
 --- a/dtdiff
 +++ b/dtdiff
-@@ -1,8 +1,4 @@
+@@ -1,11 +1,6 @@
 -#! /bin/bash
--
++#! /bin/sh
+ # SPDX-License-Identifier: GPL-2.0-or-later
+ 
 -# This script uses the bash <(...) extension.
 -# If you want to change this to work with a generic /bin/sh, make sure
 -# you fix that.
-+#! /bin/sh
- 
- 
+-
+-
  DTC=dtc
-@@ -35,4 +31,15 @@ if [ $# != 2 ]; then
+ 
+ source_and_sort () {
+@@ -36,4 +31,15 @@ if [ $# != 2 ]; then
      exit 1
  fi
  
@@ -44,5 +49,5 @@ index 5fa772b0ab62..4d1b71756c2f 100644
 +    source_and_sort "$2" | diff -u "${dir}/3" "${dir}/0"
 +)
 -- 
-2.15.1
+2.17.1
 
