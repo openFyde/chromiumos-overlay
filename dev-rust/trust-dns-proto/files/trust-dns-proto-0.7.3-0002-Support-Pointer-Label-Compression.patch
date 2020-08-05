@@ -1,4 +1,4 @@
-Support pointer ending label compression.
+Support pointer ending label compression. Upstream issue: https://github.com/bluejekyll/trust-dns/issues/1179
 --- a/src/serialize/binary/encoder.rs
 +++ b/src/serialize/binary/encoder.rs
 @@ -92,7 +92,7 @@ pub struct BinEncoder<'a> {
@@ -10,15 +10,6 @@ Support pointer ending label compression.
      mode: EncodeMode,
      canonical_names: bool,
  }
-@@ -131,7 +131,7 @@ impl<'a> BinEncoder<'a> {
-             offset: offset as usize,
-             // FIXME: add max_size to signature
-             buffer: private::MaximalBuf::new(u16::max_value(), buf),
--            name_pointers: Vec::new(),
-+            name_pointers: Vec::<(usize, Vec<u8>)>::new(),
-             mode,
-             canonical_names: false,
-         }
 @@ -212,7 +212,7 @@ impl<'a> BinEncoder<'a> {
          let offset = self.offset;
          self.buffer.truncate(offset);
