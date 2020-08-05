@@ -18,7 +18,7 @@ inherit cros-workon platform
 
 DESCRIPTION="quipper: chromiumos wide profiling"
 HOMEPAGE="http://www.chromium.org/chromium-os/profiling-in-chromeos"
-GIT_SHA1="75564b225722d164aba99e0d628b4a9af6e0e063"
+GIT_SHA1="f2342a4ef58a99e70a82fa63bdfea539477a4a8a"
 SRC="quipper-${GIT_SHA1}.tar.gz"
 SRC_URI="gs://chromeos-localmirror/distfiles/${SRC}"
 SRC_DIR="src/${PN}"
