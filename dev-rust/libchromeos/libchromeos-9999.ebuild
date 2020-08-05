@@ -5,7 +5,6 @@ EAPI=7
 
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="libchromeos-rs"
 
 inherit cros-workon cros-rust
