@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=net-misc/curl:= test? ( dev-cpp/gtest:= )
+DESCRIPTION=Google crash reporting
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/breakpad/breakpad
+IUSE=-alltests cros_host test cros_host cros_workon_tree_527c1cc9cec5920ce709102e4be226381df00c1c_84dd0fabdc4d0729885dc7ce3ac35903504ba5e6 cros_i686 cros_host cros_workon_tree_527c1cc9cec5920ce709102e4be226381df00c1c_84dd0fabdc4d0729885dc7ce3ac35903504ba5e6
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live live
+RDEPEND=net-misc/curl:=
+SLOT=0/2020.08.05.194238-r188
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-i686	f43f8a091d6660ef9bb87afde6c2cb67	cros-workon	ff9970684d10d2d8723e60d6060d5068	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=d97b3e207ea4d469cf9a9f2b6e5814b1
