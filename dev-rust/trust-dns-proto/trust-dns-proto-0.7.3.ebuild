@@ -42,4 +42,5 @@ DEPEND="
 
 PATCHES=(
 	"${FILESDIR}/${P}-0001-Remove-optional-features.patch"
+	"${FILESDIR}/${P}-0002-Support-Pointer-Label-Compression.patch"
 )
