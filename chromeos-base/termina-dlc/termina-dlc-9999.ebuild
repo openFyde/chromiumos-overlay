@@ -20,7 +20,7 @@ SLOT="0"
 KEYWORDS="~*"
 S="${WORKDIR}"
 
-IUSE="+kvm_host +dlc amd64 arm"
+IUSE="kvm_host dlc amd64 arm"
 REQUIRED_USE="
 	dlc
 	kvm_host
