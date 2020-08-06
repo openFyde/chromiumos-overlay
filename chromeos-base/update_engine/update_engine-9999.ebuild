@@ -48,16 +48,13 @@ DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/update_engine-client:=
-	sys-fs/e2fsprogs:=
-	test? ( sys-fs/squashfs-tools:= )
+	test? ( sys-fs/squashfs-tools )
 	${COMMON_DEPEND}"
 
 DELTA_GENERATOR_RDEPEND="
-	app-arch/unzip
-	app-arch/xz-utils
-	app-shells/bash
-	dev-util/shflags
-	sys-fs/e2fsprogs
+	app-arch/unzip:=
+	app-arch/xz-utils:=
+	sys-libs/e2fsprogs-libs:=
 	sys-fs/squashfs-tools
 "
 
@@ -65,8 +62,8 @@ RDEPEND="
 	chromeos-base/chromeos-installer
 	${COMMON_DEPEND}
 	cros_host? ( ${DELTA_GENERATOR_RDEPEND} )
-	power_management? ( chromeos-base/power_manager )
-	virtual/update-policy
+	power_management? ( chromeos-base/power_manager:= )
+	virtual/update-policy:=
 "
 
 platform_pkg_test() {
