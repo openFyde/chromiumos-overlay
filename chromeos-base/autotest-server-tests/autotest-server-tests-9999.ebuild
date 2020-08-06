@@ -77,7 +77,6 @@ SERVER_IUSE_TESTS="
 		+tests_cheets_GTS
 		+tests_cheets_VTS
 	)
-	+tests_component_UpdateFlash
 	debugd? ( +tests_debugd_DevTools )
 	+tests_crosperf_Wrapper
 	+tests_display_EdidStress
