@@ -19,6 +19,7 @@ IUSE="test"
 DEPEND="chromeos-base/system_api:=
 	sys-apps/dbus:=
 	=dev-rust/dbus-0.6*:=
+	=dev-rust/intrusive-collections-0.9*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
 	>=dev-rust/protobuf-2.1:=
