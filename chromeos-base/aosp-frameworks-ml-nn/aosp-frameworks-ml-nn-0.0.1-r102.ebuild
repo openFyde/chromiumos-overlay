@@ -2,27 +2,32 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("e118af22dc05246b8f1ea8a85f9f1ff5c0702ccd" "a90fe88ca4efc73fc60390d6ccf3b807726446f0")
-CROS_WORKON_TREE=("638bfde957a502ad58d182712c1ebdf335f9a3da" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "287ac76c1d23340d0650f5cefe0340d93795dd3c")
+CROS_WORKON_COMMIT=("92f1171bc48041e3603922c049d34a287719f819" "7ac8df639e06d6a88e6fe1ce17336a7b0bbb8d38" "e5c1dfc419bec2f682a9c17a4f8d75cabd69f848")
+CROS_WORKON_TREE=("638bfde957a502ad58d182712c1ebdf335f9a3da" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2a0c878dfae5bd4d6fa74ef4b5559e6b74161060" "bbf597e1cd2e3f49a8a2aab9f85c903867311558")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
+	"aosp/platform/hardware/interfaces/neuralnetworks"
 )
 CROS_WORKON_REPO=(
+	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform2"
 	"aosp/frameworks/ml"
+	"aosp/hardware/interfaces/neuralnetworks"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/aosp/frameworks/ml"
+	"${S}/platform2/aosp/hardware/interfaces/neuralnetworks"
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk .gn"
 	"nn"
+	""
 )
 
 PLATFORM_SUBDIR="aosp/frameworks/ml/nn"
@@ -34,7 +39,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver nnapi_driver_tests"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -146,5 +151,12 @@ src_install() {
 
 	if ! use vendor-nnhal ; then
 		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
+	fi
+
+	if use nnapi_driver_tests; then
+		dobin "${OUT}/cros_nnapi_vts_1_0"
+		dobin "${OUT}/cros_nnapi_vts_1_1"
+		dobin "${OUT}/cros_nnapi_vts_1_2"
+		dobin "${OUT}/cros_nnapi_vts_1_3"
 	fi
 }
