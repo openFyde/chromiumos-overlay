@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("92f1171bc48041e3603922c049d34a287719f819" "7ac8df639e06d6a88e6fe1ce17336a7b0bbb8d38" "e5c1dfc419bec2f682a9c17a4f8d75cabd69f848")
-CROS_WORKON_TREE=("638bfde957a502ad58d182712c1ebdf335f9a3da" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2a0c878dfae5bd4d6fa74ef4b5559e6b74161060" "bbf597e1cd2e3f49a8a2aab9f85c903867311558")
+CROS_WORKON_COMMIT=("9d5c2f722f79d4949aec8bbd5d811d6f444d6fb1" "47596fdb7f1a30228e775155eaf374a3c0bf72d0" "e5c1dfc419bec2f682a9c17a4f8d75cabd69f848")
+CROS_WORKON_TREE=("638bfde957a502ad58d182712c1ebdf335f9a3da" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "42dc674f938a2c868f1bfc73e7c6aeb8e58b6fc1" "bbf597e1cd2e3f49a8a2aab9f85c903867311558")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
@@ -158,5 +158,6 @@ src_install() {
 		dobin "${OUT}/cros_nnapi_vts_1_1"
 		dobin "${OUT}/cros_nnapi_vts_1_2"
 		dobin "${OUT}/cros_nnapi_vts_1_3"
+		dobin "${OUT}/cros_nnapi_cts"
 	fi
 }
