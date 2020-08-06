@@ -24,7 +24,7 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption double_extend_pcr_issue fuzzer
-	generated_cros_config pinweaver selinux systemd test tpm tpm2
+	generated_cros_config mount_oop pinweaver selinux systemd test tpm tpm2
 	unibuild user_session_isolation"
 
 REQUIRED_USE="
