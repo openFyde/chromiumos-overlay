@@ -39,6 +39,8 @@ pkg_preinst() {
 src_install() {
 	dobin "${OUT}"/ocr_service
 
+	dobin "${OUT}"/ocr_tool
+
 	# Install upstart configuration.
 	insinto /etc/init
 	doins init/ocr_service.conf
