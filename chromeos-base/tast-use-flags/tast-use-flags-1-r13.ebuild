@@ -54,7 +54,6 @@ IUSE="
 	elm
 	fizz
 	force_breakpad
-	force_crashpad
 	grunt
 	hana
 	hana-kernelnext
