@@ -183,7 +183,10 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_FAFTModeTransitions
 	+tests_firmware_FAFTRPC
 	+tests_firmware_FAFTSetup
-	biod? ( +tests_firmware_Fingerprint )
+	biod? (
+		+tests_firmware_Fingerprint
+		+tests_firmware_FingerprintSigner
+	)
 	+tests_firmware_FMap
 	+tests_firmware_FWMPDisableCCD
 	+tests_firmware_FwScreenCloseLid
