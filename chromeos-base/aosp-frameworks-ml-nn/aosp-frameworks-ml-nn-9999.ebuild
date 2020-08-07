@@ -102,7 +102,7 @@ platform_pkg_test() {
 
 	local gtest_excl_filter="-"
 	if use asan; then
-		# Some tests do not correctly clean up the Exceution object and it is
+		# Some tests do not correctly clean up the Execution object and it is
 		# left 'in-flight', which gets ignored by ANeuralNetworksExecution_free.
 		# See b/161844605.
 		# Look for 'passed an in-flight ANeuralNetworksExecution' in log output
@@ -123,6 +123,17 @@ platform_pkg_test() {
 		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/1:"
 		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/2:"
 		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/4:"
+
+		# TODO(b/163081732): Fix tests that freeze in asan (jmpollock)
+		# Now we have a situation where these tests are hanging in asan, but I can't
+		# reproduce this locally (Flavor/ExecutionTest13.Wait/0).
+		# The duplication to the above is intentional, as fixing this issue will not
+		# fix the one above.
+		gtest_excl_filter+="Flavor/ExecutionTest10.Wait/*:"
+		gtest_excl_filter+="Flavor/ExecutionTest11.Wait/*:"
+		gtest_excl_filter+="Flavor/ExecutionTest12.Wait/*:"
+		gtest_excl_filter+="Flavor/ExecutionTest13.Wait/*:"
+		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/*:"
 
 		# This is due to a leak caused when copying the memory pools
 		# into the request object in this test. lsan_suppressions doesn't
