@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f8d0f6ce00239e339c164c792481e996d3948ee1"
-CROS_WORKON_TREE=("638bfde957a502ad58d182712c1ebdf335f9a3da" "ec73a00693eb4b63b8b5d70cc49af62e6329aa3f" "91706461a4f7df4e4ab575a096caff01b3413248" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3526f6d330874b1e3f955c71af3ea6e84421fc07"
+CROS_WORKON_TREE=("638bfde957a502ad58d182712c1ebdf335f9a3da" "ec73a00693eb4b63b8b5d70cc49af62e6329aa3f" "bd1cebb9f027ff62e187ec8c4f944a90ed53944a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -139,6 +139,7 @@ platform_pkg_test() {
 		libcros_healthd_events_test
 		libcros_healthd_fetchers_test
 		libcros_healthd_utils_test
+		network_test
 		routine_test
 		system_config_test
 	)
