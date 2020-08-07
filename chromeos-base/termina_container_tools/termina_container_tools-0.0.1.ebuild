@@ -42,7 +42,10 @@ src_install() {
 		"/usr/sbin/vshd"
 	)
 	if use vm_borealis; then
-		tools+=("/sbin/init")
+		tools+=(
+			"/sbin/init"
+			"/usr/bin/vm_syslog"
+		)
 	fi
 	"${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --bindir=/bin \
 			--libdir=/lib --generate-wrappers \
