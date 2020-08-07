@@ -1,7 +1,7 @@
-# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Copyright 2020 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit cros-rust
 
@@ -10,16 +10,12 @@ HOMEPAGE="https://github.com/stepancheg/rust-protobuf/protoc-rust/"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
-SLOT="${PV}/${PR}"
+SLOT="0/${PVR}"
 KEYWORDS="*"
 
 DEPEND="
 	~dev-rust/protobuf-${PV}:=
 	~dev-rust/protobuf-codegen-${PV}:=
 	~dev-rust/protoc-${PV}:=
-	dev-rust/tempfile:=
-"
-
-RDEPEND="
-	!dev-rust/protoc-rust:2.3.0
+	=dev-rust/tempfile-3*:=
 "

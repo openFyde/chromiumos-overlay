@@ -24,8 +24,8 @@ DEPEND="
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
-	=dev-rust/protobuf-2*:=
-	=dev-rust/protoc-rust-2*:=
+	>=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3
+	>=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3
 	=dev-rust/tempfile-3*:=
 	=dev-rust/remain-0.2*:=
 	sys-apps/dbus:=
