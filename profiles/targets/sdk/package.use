@@ -114,7 +114,6 @@ dev-libs/boost -python
 # list down as packages don't need them.  New packages should *not* be added
 # here as new code should be using Python 3.
 # TODO(crbug.com/1007152): Trim this entirely!
-app-portage/gentoolkit python_targets_python2_7
 chromeos-base/chromite-sdk python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 dev-libs/libnl python_targets_python2_7
@@ -248,7 +247,6 @@ dev-util/scons python_targets_python2_7
 net-libs/nodejs python_targets_python2_7
 sys-apps/file python_targets_python2_7
 sys-apps/flashmap python_targets_python2_7
-sys-apps/portage python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
 
 # These packages only support Python 2.7.  They aren't needed in Python 3.6+.
