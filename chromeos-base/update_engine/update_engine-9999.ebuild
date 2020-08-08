@@ -11,8 +11,6 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="update_engine"
-# Some unittests crash when run through qemu/arm.  Should figure this out.
-PLATFORM_NATIVE_TEST="yes"
 
 inherit cros-debug cros-workon platform systemd
 
