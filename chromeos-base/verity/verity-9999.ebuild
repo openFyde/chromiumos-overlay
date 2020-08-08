@@ -3,28 +3,21 @@
 
 EAPI=7
 
-CROS_WORKON_PROJECT="chromiumos/platform/dm-verity"
-CROS_WORKON_LOCALNAME="platform/verity"
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk verity .gn"
 
-inherit cros-workon cros-common.mk
+PLATFORM_SUBDIR="verity"
+
+inherit cros-workon platform cros-common.mk
 
 DESCRIPTION="File system integrity image generator for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dm-verity"
-
-# Override default S as verity source code must be compiled in a directory
-# where the last leaf is 'verity'.
-S="${WORKDIR}/${PN}"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/verity/"
 
 LICENSE="BSD-Google GPL-2"
 KEYWORDS="~*"
-IUSE="test"
-
-RDEPEND=""
-DEPEND="${RDEPEND}
-	test? (
-		dev-cpp/gtest:=
-	)"
 
 src_install() {
 	dolib.a "${OUT}"/libdm-bht.a
