@@ -152,50 +152,58 @@ src_compile() {
 src_test() {
 	# Some of the tests will use /dev/kvm.
 	addwrite /dev/kvm
-	if ! use x86 && ! use amd64 ; then
-		elog "Skipping unit tests on non-x86 platform"
-	else
-		local feature_excludes=()
-		use tpm2 || feature_excludes+=( --exclude tpm2 --exclude tpm2-sys )
+	local test_opts=()
+	use tpm2 || test_opts+=( --exclude tpm2 --exclude tpm2-sys )
 
-		# io_jail tests fork the process, which cause memory leak errors when
-		# run under sanitizers.
-		cros-rust_use_sanitizers && feature_excludes+=( --exclude io_jail )
+	# io_jail tests fork the process, which cause memory leak errors when
+	# run under sanitizers.
+	cros-rust_use_sanitizers && test_opts+=( --exclude io_jail )
 
-		export CROSVM_CARGO_TEST_KERNEL_BINARY="${DISTDIR}/crosvm-bzImage-${KERNEL_PREBUILT_DATE}"
-		[[ -e "${CROSVM_CARGO_TEST_KERNEL_BINARY}" ]] || \
-			die "expected to find kernel binary at ${CROSVM_CARGO_TEST_KERNEL_BINARY}"
+	export CROSVM_CARGO_TEST_KERNEL_BINARY="${DISTDIR}/crosvm-bzImage-${KERNEL_PREBUILT_DATE}"
+	[[ -e "${CROSVM_CARGO_TEST_KERNEL_BINARY}" ]] || \
+		die "expected to find kernel binary at ${CROSVM_CARGO_TEST_KERNEL_BINARY}"
 
-		local skip_tests=()
-		# The memfd_create() system call first appeared in Linux 3.17.  Skip
-		# the boot test, which relies on this functionality, on older kernels.
-		local cut_version=$(ver_cut 1-2 "$(uname -r)")
-		if ver_test 3.17 -gt "${cut_version}"; then
-			skip_tests+=( --skip "boot" )
-		fi
+	local skip_tests=()
+	# The memfd_create() system call first appeared in Linux 3.17.  Skip
+	# the boot test, which relies on this functionality, on older kernels.
+	local cut_version=$(ver_cut 1-2 "$(uname -r)")
+	if ver_test 3.17 -gt "${cut_version}"; then
+		skip_tests+=( --skip "boot" )
+	fi
 
-		# Excluding tests that run on a different arch, use /dev/dri,
-		# /dev/net/tun, or wayland access because the bots don't support these.
-		# Also exclude sys_util since they already run as part of the
-		# dev-rust/sys_util package.
-		ecargo_test --all -v \
-			--exclude net_util \
-			--exclude aarch64 \
-			--exclude gpu_buffer \
-			--exclude gpu_display \
-			--exclude gpu_renderer \
-			--exclude sys_util \
-			"${feature_excludes[@]}" \
-			-- --test-threads=1 \
-			"${skip_tests[@]}" \
-			|| die "cargo test failed"
+	if ! use x86 && ! use amd64; then
+		test_opts+=( --exclude "x86_64" )
+		test_opts+=( --no-run )
+	fi
 
-		# Plugin tests all require /dev/kvm, but we want to make sure they build
-		# at least.
-		if use crosvm-plugin; then
-			ecargo_test --no-run --features plugin \
-				|| die "cargo build with plugin feature failed"
-		fi
+	if ! use arm64; then
+		test_opts+=( --exclude "aarch64" )
+	fi
+
+	if ! use crosvm-plugin; then
+		test_opts+=( --exclude "crosvm_plugin" )
+	fi
+
+	# Excluding tests that run on a different arch, use /dev/dri,
+	# /dev/net/tun, or wayland access because the bots don't support these.
+	# Also exclude sys_util since they already run as part of the
+	# dev-rust/sys_util package.
+	ecargo_test --all -v \
+		--exclude net_util \
+		--exclude gpu_buffer \
+		--exclude gpu_display \
+		--exclude gpu_renderer \
+		--exclude sys_util \
+		"${test_opts[@]}" \
+		-- --test-threads=1 \
+		"${skip_tests[@]}" \
+		|| die "cargo test failed"
+
+	# Plugin tests all require /dev/kvm, but we want to make sure they build
+	# at least.
+	if use crosvm-plugin; then
+		ecargo_test --no-run --features plugin \
+			|| die "cargo build with plugin feature failed"
 	fi
 }
 
