@@ -40,6 +40,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
+	=dev-rust/android_log-sys-0.2*:=
 	=dev-rust/async-trait-0.1*:=
 	fuzzer? (
 		dev-rust/cros_fuzz:=
