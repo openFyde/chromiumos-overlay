@@ -31,6 +31,8 @@ type config struct {
 	newWarningsDir string
 	// Directory to store nits in when using `WITH_TIDY=tricium`.
 	triciumNitsDir string
+	// Directory to store crash artifacts in.
+	crashArtifactsDir string
 	// Version. Only used for printing via -print-cmd.
 	version string
 }
@@ -135,14 +137,14 @@ var crosHardenedConfig = &config{
 		"-fuse-ld=lld",
 		"-Wno-final-dtor-non-final-class",
 		"-Werror=poison-system-directories",
-		"-fcrash-diagnostics-dir=/tmp/clang_crash_diagnostics",
 		"-fexperimental-new-pass-manager",
 	},
 	clangPostFlags: []string{
 		"-Wno-implicit-int-float-conversion",
 	},
-	newWarningsDir: "/tmp/fatal_clang_warnings",
-	triciumNitsDir: "/tmp/linting_output/clang-tidy",
+	newWarningsDir:    "/tmp/fatal_clang_warnings",
+	triciumNitsDir:    "/tmp/linting_output/clang-tidy",
+	crashArtifactsDir: "/tmp/clang_crash_diagnostics",
 }
 
 // Flags to be added to non-hardened toolchain.
@@ -167,14 +169,14 @@ var crosNonHardenedConfig = &config{
 		"-static-libgcc",
 		"-Wno-final-dtor-non-final-class",
 		"-Werror=poison-system-directories",
-		"-fcrash-diagnostics-dir=/tmp/clang_crash_diagnostics",
 		"-fexperimental-new-pass-manager",
 	},
 	clangPostFlags: []string{
 		"-Wno-implicit-int-float-conversion",
 	},
-	newWarningsDir: "/tmp/fatal_clang_warnings",
-	triciumNitsDir: "/tmp/linting_output/clang-tidy",
+	newWarningsDir:    "/tmp/fatal_clang_warnings",
+	triciumNitsDir:    "/tmp/linting_output/clang-tidy",
+	crashArtifactsDir: "/tmp/clang_crash_diagnostics",
 }
 
 // Flags to be added to host toolchain.
@@ -205,24 +207,25 @@ var crosHostConfig = &config{
 		"-Wno-final-dtor-non-final-class",
 		"-Werror=poison-system-directories",
 		"-Wno-unknown-warning-option",
-		"-fcrash-diagnostics-dir=/tmp/clang_crash_diagnostics",
 		"-fexperimental-new-pass-manager",
 	},
 	clangPostFlags: []string{
 		"-Wno-implicit-int-float-conversion",
 	},
-	newWarningsDir: "/tmp/fatal_clang_warnings",
-	triciumNitsDir: "/tmp/linting_output/clang-tidy",
+	newWarningsDir:    "/tmp/fatal_clang_warnings",
+	triciumNitsDir:    "/tmp/linting_output/clang-tidy",
+	crashArtifactsDir: "/tmp/clang_crash_diagnostics",
 }
 
 var androidConfig = &config{
-	isHostWrapper:    false,
-	isAndroidWrapper: true,
-	rootRelPath:      "./",
-	commonFlags:      []string{},
-	gccFlags:         []string{},
-	clangFlags:       []string{},
-	clangPostFlags:   []string{},
-	newWarningsDir:   "",
-	triciumNitsDir:   "",
+	isHostWrapper:     false,
+	isAndroidWrapper:  true,
+	rootRelPath:       "./",
+	commonFlags:       []string{},
+	gccFlags:          []string{},
+	clangFlags:        []string{},
+	clangPostFlags:    []string{},
+	newWarningsDir:    "",
+	triciumNitsDir:    "",
+	crashArtifactsDir: "",
 }
