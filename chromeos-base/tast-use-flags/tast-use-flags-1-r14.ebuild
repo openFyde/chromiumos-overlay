@@ -76,6 +76,7 @@ IUSE="
 	kvm_transition
 	lxc
 	memd
+	ml_benchmark_drivers
 	ml_service
 	moblab
 	mocktpm
