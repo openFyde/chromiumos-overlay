@@ -1,0 +1,128 @@
+Remove unneeded repositories that fail to get downloaded correctly. Some of
+this has been done upstream, but not yet released:
+https://github.com/tensorflow/tensorflow/commit/6a6071412a2fd19ec9b23f2cc3e2c9d5e20a9c45
+
+diff --git a/WORKSPACE b/WORKSPACE
+index ea741c31..454e201a 100644
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -29,25 +29,6 @@ load("//third_party/toolchains/preconfig/generate:archives.bzl",
+
+ bazel_toolchains_archive()
+
+-load(
+-    "@bazel_toolchains//repositories:repositories.bzl",
+-    bazel_toolchains_repositories = "repositories",
+-)
+-
+-bazel_toolchains_repositories()
+-
+-load(
+-    "@io_bazel_rules_docker//repositories:repositories.bzl",
+-    container_repositories = "repositories",
+-)
+-
+-container_repositories()
+-
+-load("//third_party/toolchains/preconfig/generate:workspace.bzl",
+-     "remote_config_workspace")
+-
+-remote_config_workspace()
+-
+ # Use `swift_rules_dependencies` to fetch the toolchains. With the
+ # `git_repository` rules above, the following call will skip redefining them.
+ load("@build_bazel_rules_swift//swift:repositories.bzl", "swift_rules_dependencies")
+@@ -142,10 +123,6 @@ load(
+
+ apple_support_dependencies()
+
+-load("@upb//bazel:repository_defs.bzl", "bazel_version_repository")
+-
+-bazel_version_repository(name = "bazel_version")
+-
+ load("//third_party/googleapis:repository_rules.bzl", "config_googleapis")
+
+ config_googleapis()
+diff --git a/third_party/toolchains/preconfig/generate/workspace.bzl b/third_party/toolchains/preconfig/generate/workspace.bzl
+deleted file mode 100644
+index 81b57dfa..00000000
+--- a/third_party/toolchains/preconfig/generate/workspace.bzl
++++ /dev/null
+@@ -1,77 +0,0 @@
+-load(
+-    "@io_bazel_rules_docker//repositories:repositories.bzl",
+-    container_repositories = "repositories",
+-)
+-load(
+-    "@io_bazel_rules_docker//container:container.bzl",
+-    "container_pull",
+-)
+-load(":containers.bzl", "container_digests")
+-
+-def _remote_config_workspace():
+-    container_repositories()
+-
+-    container_pull(
+-        name = "centos6",
+-        registry = "gcr.io",
+-        repository = "tensorflow-testing/nosla-centos6",
+-        digest = container_digests["centos6"],
+-    )
+-
+-    container_pull(
+-        name = "ubuntu16.04",
+-        registry = "gcr.io",
+-        repository = "tensorflow-testing/nosla-ubuntu16.04",
+-        digest = container_digests["ubuntu16.04"],
+-    )
+-
+-    container_pull(
+-        name = "cuda10.0-cudnn7-ubuntu14.04",
+-        registry = "gcr.io",
+-        repository = "tensorflow-testing/nosla-cuda10.0-cudnn7-ubuntu14.04",
+-        digest = container_digests["cuda10.0-cudnn7-ubuntu14.04"],
+-    )
+-
+-    container_pull(
+-        name = "cuda10.0-cudnn7-centos6",
+-        registry = "gcr.io",
+-        repository = "tensorflow-testing/nosla-cuda10.0-cudnn7-centos6",
+-        digest = container_digests["cuda10.0-cudnn7-centos6"],
+-    )
+-
+-    container_pull(
+-        name = "cuda10.1-cudnn7-centos6",
+-        registry = "gcr.io",
+-        repository = "tensorflow-testing/nosla-cuda10.1-cudnn7-centos6",
+-        digest = container_digests["cuda10.1-cudnn7-centos6"],
+-    )
+-
+-    container_pull(
+-        name = "ubuntu16.04-manylinux2010",
+-        registry = "gcr.io",
+-        repository = "tensorflow-testing/nosla-ubuntu16.04-manylinux2010",
+-        digest = container_digests["ubuntu16.04-manylinux2010"],
+-    )
+-
+-    container_pull(
+-        name = "cuda10.0-cudnn7-ubuntu16.04-manylinux2010",
+-        registry = "gcr.io",
+-        repository = "tensorflow-testing/nosla-cuda10.0-cudnn7-ubuntu16.04-manylinux2010",
+-        digest = container_digests["cuda10.0-cudnn7-ubuntu16.04-manylinux2010"],
+-    )
+-
+-    container_pull(
+-        name = "cuda10.1-cudnn7-ubuntu16.04-manylinux2010",
+-        registry = "gcr.io",
+-        repository = "tensorflow-testing/nosla-cuda10.1-cudnn7-ubuntu16.04-manylinux2010",
+-        digest = container_digests["cuda10.1-cudnn7-ubuntu16.04-manylinux2010"],
+-    )
+-
+-    container_pull(
+-        name = "rocm-ubuntu16.04",
+-        registry = "gcr.io",
+-        repository = "tensorflow-testing/nosla-rocm-ubuntu16.04",
+-        digest = container_digests["rocm-ubuntu16.04"],
+-    )
+-
+-remote_config_workspace = _remote_config_workspace

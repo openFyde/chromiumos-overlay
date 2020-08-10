@@ -9,21 +9,15 @@ Our implementation handles this better, and this ensures all of the ashmem
 functionlity is consistenly served from our implementation.
 
 diff --git a/tensorflow/lite/nnapi/nnapi_implementation.cc b/tensorflow/lite/nnapi/nnapi_implementation.cc
-index 1f8c7df9..5fb74871 100644
+index 862c4ba2..e275f266 100644
 --- a/tensorflow/lite/nnapi/nnapi_implementation.cc
 +++ b/tensorflow/lite/nnapi/nnapi_implementation.cc
-@@ -179,12 +179,9 @@ const NnApi LoadNnApi() {
-     }
-   }
- #else
--  // Mock ASharedMemory_create only if libneuralnetworks.so was successfully
--  // loaded. This ensures identical behaviour on platforms which use this
--  // implementation, but don't have libneuralnetworks.so library, and
--  // platforms which use nnapi_implementation_disabled.cc stub.
+@@ -170,7 +170,8 @@ const NnApi LoadNnApi() {
+   // implementation, but don't have libneuralnetworks.so library, and
+   // platforms which use nnapi_implementation_disabled.cc stub.
    if (libneuralnetworks != nullptr) {
 -    nnapi.ASharedMemory_create = ASharedMemory_create;
 +    LOAD_FUNCTION_RENAME(libneuralnetworks, ASharedMemory_create,
-+                        "ashmem_create_region");
++                         "ashmem_create_region");
    }
  #endif  // __ANDROID__
-

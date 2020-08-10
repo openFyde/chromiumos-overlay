@@ -1,0 +1,147 @@
+Patch the code in the tools directory so that it loads the NNAPI delegate
+correctly without needing to define __ANDROID__
+
+diff --git a/tensorflow/lite/tools/delegates/nnapi_delegate_provider.cc b/tensorflow/lite/tools/delegates/nnapi_delegate_provider.cc
+index bde9c0e0..ddbbfe60 100644
+--- a/tensorflow/lite/tools/delegates/nnapi_delegate_provider.cc
++++ b/tensorflow/lite/tools/delegates/nnapi_delegate_provider.cc
+@@ -16,9 +16,7 @@ limitations under the License.
+
+ #include "tensorflow/lite/tools/delegates/delegate_provider.h"
+ #include "tensorflow/lite/tools/evaluation/utils.h"
+-#if defined(__ANDROID__)
+ #include "tensorflow/lite/nnapi/nnapi_util.h"
+-#endif
+
+ namespace tflite {
+ namespace tools {
+@@ -26,7 +24,6 @@ namespace tools {
+ class NnapiDelegateProvider : public DelegateProvider {
+  public:
+   NnapiDelegateProvider() {
+-#if defined(__ANDROID__)
+     default_params_.AddParam("use_nnapi", ToolParam::Create<bool>(false));
+     default_params_.AddParam("nnapi_execution_preference",
+                              ToolParam::Create<std::string>(""));
+@@ -36,7 +33,6 @@ class NnapiDelegateProvider : public DelegateProvider {
+                              ToolParam::Create<bool>(false));
+     default_params_.AddParam("nnapi_allow_fp16",
+                              ToolParam::Create<bool>(false));
+-#endif
+   }
+
+   std::vector<Flag> CreateFlags(ToolParams* params) const final;
+@@ -51,7 +47,6 @@ REGISTER_DELEGATE_PROVIDER(NnapiDelegateProvider);
+
+ std::vector<Flag> NnapiDelegateProvider::CreateFlags(ToolParams* params) const {
+   std::vector<Flag> flags = {
+-#if defined(__ANDROID__)
+     CreateFlag<bool>("use_nnapi", params, "use nnapi delegate api"),
+     CreateFlag<std::string>("nnapi_execution_preference", params,
+                             "execution preference for nnapi delegate. Should "
+@@ -64,14 +59,12 @@ std::vector<Flag> NnapiDelegateProvider::CreateFlags(ToolParams* params) const {
+                      "Disable the NNAPI CPU device"),
+     CreateFlag<bool>("nnapi_allow_fp16", params,
+                      "Allow fp32 computation to be run in fp16")
+-#endif
+   };
+
+   return flags;
+ }
+
+ void NnapiDelegateProvider::LogParams(const ToolParams& params) const {
+-#if defined(__ANDROID__)
+   TFLITE_LOG(INFO) << "Use nnapi : [" << params.Get<bool>("use_nnapi") << "]";
+   if (params.Get<bool>("use_nnapi")) {
+     if (!params.Get<std::string>("nnapi_execution_preference").empty()) {
+@@ -97,13 +90,11 @@ void NnapiDelegateProvider::LogParams(const ToolParams& params) const {
+                        << params.Get<bool>("nnapi_allow_fp16") << "]";
+     }
+   }
+-#endif
+ }
+
+ TfLiteDelegatePtr NnapiDelegateProvider::CreateTfLiteDelegate(
+     const ToolParams& params) const {
+   TfLiteDelegatePtr delegate(nullptr, [](TfLiteDelegate*) {});
+-#if defined(__ANDROID__)
+   if (params.Get<bool>("use_nnapi")) {
+     StatefulNnApiDelegate::Options options;
+     std::string accelerator_name =
+@@ -163,7 +154,6 @@ TfLiteDelegatePtr NnapiDelegateProvider::CreateTfLiteDelegate(
+                      << params.Get<std::string>("nnapi_execution_preference")
+                      << ") to be used.";
+   }
+-#endif
+   return delegate;
+ }
+
+diff --git a/tensorflow/lite/tools/evaluation/BUILD b/tensorflow/lite/tools/evaluation/BUILD
+index 85dfb183..92478a3d 100644
+--- a/tensorflow/lite/tools/evaluation/BUILD
++++ b/tensorflow/lite/tools/evaluation/BUILD
+@@ -46,7 +46,9 @@ cc_library(
+             "//tensorflow/lite/delegates/gpu:delegate",
+             "//tensorflow/lite/delegates/nnapi:nnapi_delegate",
+         ],
+-        "//conditions:default": [],
++        "//conditions:default": [
++            "//tensorflow/lite/delegates/nnapi:nnapi_delegate",
++        ],
+     }) + select({
+         "//tensorflow:android_arm": [
+             "//tensorflow/lite/delegates/hexagon:hexagon_delegate",
+diff --git a/tensorflow/lite/tools/evaluation/utils.cc b/tensorflow/lite/tools/evaluation/utils.cc
+index c766a932..d3880647 100644
+--- a/tensorflow/lite/tools/evaluation/utils.cc
++++ b/tensorflow/lite/tools/evaluation/utils.cc
+@@ -95,24 +95,18 @@ TfLiteStatus GetSortedFileNames(
+
+ // TODO(b/138448769): Migrate delegate helper APIs to lite/testing.
+ TfLiteDelegatePtr CreateNNAPIDelegate() {
+-#if defined(__ANDROID__)
+   return TfLiteDelegatePtr(
+       NnApiDelegate(),
+       // NnApiDelegate() returns a singleton, so provide a no-op deleter.
+       [](TfLiteDelegate*) {});
+-#else
+-  return CreateNullDelegate();
+-#endif  // defined(__ANDROID__)
+ }
+
+-#if defined(__ANDROID__)
+ TfLiteDelegatePtr CreateNNAPIDelegate(StatefulNnApiDelegate::Options options) {
+   return TfLiteDelegatePtr(
+       new StatefulNnApiDelegate(options), [](TfLiteDelegate* delegate) {
+         delete reinterpret_cast<StatefulNnApiDelegate*>(delegate);
+       });
+ }
+-#endif  // defined(__ANDROID__)
+
+ #if defined(__ANDROID__)
+ TfLiteDelegatePtr CreateGPUDelegate(TfLiteGpuDelegateOptionsV2* options) {
+diff --git a/tensorflow/lite/tools/evaluation/utils.h b/tensorflow/lite/tools/evaluation/utils.h
+index 5d9920cf..5dbc035c 100644
+--- a/tensorflow/lite/tools/evaluation/utils.h
++++ b/tensorflow/lite/tools/evaluation/utils.h
+@@ -21,9 +21,9 @@ limitations under the License.
+ #include <unordered_set>
+ #include <vector>
+
++#include "tensorflow/lite/delegates/nnapi/nnapi_delegate.h"
+ #if defined(__ANDROID__)
+ #include "tensorflow/lite/delegates/gpu/delegate.h"
+-#include "tensorflow/lite/delegates/nnapi/nnapi_delegate.h"
+ #if (defined(__arm__) || defined(__aarch64__))
+ #include "tensorflow/lite/delegates/hexagon/hexagon_delegate.h"
+ #endif
+@@ -62,9 +62,7 @@ inline TfLiteStatus GetSortedFileNames(const std::string& directory,
+ }
+
+ TfLiteDelegatePtr CreateNNAPIDelegate();
+-#if defined(__ANDROID__)
+ TfLiteDelegatePtr CreateNNAPIDelegate(StatefulNnApiDelegate::Options options);
+-#endif
+
+ TfLiteDelegatePtr CreateGPUDelegate();
+ #if defined(__ANDROID__)
