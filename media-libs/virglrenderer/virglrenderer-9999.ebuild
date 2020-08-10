@@ -32,10 +32,6 @@ DEPEND="${RDEPEND}
 	fuzzer? ( >=dev-libs/check-0.9.4 )
 	test? ( >=dev-libs/check-0.9.4 )"
 
-PATCHES=(
-	"${FILESDIR}"/FROMLIST-shader-Use-integer-type-for-ARM-MALI-GPU.patch
-)
-
 src_prepare() {
 	default
 }
