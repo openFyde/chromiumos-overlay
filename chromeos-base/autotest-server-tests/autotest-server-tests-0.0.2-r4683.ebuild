@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="d18e7b31f2ab281aa55f4d836fd86f49bc44b17e"
-CROS_WORKON_TREE="82b6ab48d53f5756ed171cc29444521707f6707e"
+CROS_WORKON_COMMIT="c8c35cc1d93d38ff51860073f6fb699f8d79c393"
+CROS_WORKON_TREE="b11d95b36745c1435dcbacff82bd9dce604af7ff"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -79,7 +79,6 @@ SERVER_IUSE_TESTS="
 		+tests_cheets_GTS
 		+tests_cheets_VTS
 	)
-	+tests_component_UpdateFlash
 	debugd? ( +tests_debugd_DevTools )
 	+tests_crosperf_Wrapper
 	+tests_display_EdidStress
