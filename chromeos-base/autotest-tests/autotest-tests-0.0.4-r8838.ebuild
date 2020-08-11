@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="a2315b5648599037b4869ac5e13e657344173d06"
-CROS_WORKON_TREE="990836dfd9f2940ee851f37c8a92d877db343990"
+CROS_WORKON_COMMIT="e63c76e0f744f4c4c73c739e5c63d94b7ca3333a"
+CROS_WORKON_TREE="dc999ccfcf0d495c7f21cea2302bbdfaf7daf254"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit libchrome cros-workon autotest
@@ -45,7 +45,6 @@ RDEPEND="${RDEPEND}
 	tests_hardware_MemoryThroughput? ( app-benchmarks/lmbench )
 	tests_hardware_MemoryZRAMThroughput? ( app-benchmarks/microbenchmarks )
 	tests_kernel_Lmbench? ( app-benchmarks/lmbench )
-	tests_security_SMMLocked? ( sys-apps/pciutils )
 	arc-camera3? (
 		tests_camera_HAL3? ( chromeos-base/autotest-deps-camera-hal3 )
 		tests_camera_HAL3Perf? ( chromeos-base/autotest-deps-camera-hal3 )
@@ -57,7 +56,6 @@ RDEPEND="${RDEPEND}
 DEPEND="${RDEPEND}"
 
 X86_IUSE_TESTS="
-	+tests_security_SMMLocked
 	+tests_xfsFilesystemTestSuite
 	+tests_hardware_UnsafeMemory
 "
