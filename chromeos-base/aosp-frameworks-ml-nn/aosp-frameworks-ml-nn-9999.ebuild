@@ -139,6 +139,8 @@ platform_pkg_test() {
 		# into the request object in this test. lsan_suppressions doesn't
 		# work due to the lack of /usr/bin/llvm-symbolizer, so just exclude.
 		gtest_excl_filter+="ComplianceTest.DeviceMemory:"
+		gtest_excl_filter+="ValidateRequestTest.ScalarOutput:"
+		gtest_excl_filter+="ValidateRequestTest.UnknownOutputRank:"
 
 		# Disable asan container overflow checks that are coming from gtest,
 		# not our code. Strangely this only started happening once we made
