@@ -107,7 +107,6 @@ RESTRICT="mirror"
 # Local variables.
 
 UPDATE_SCRIPT="chromeos-firmwareupdate"
-LEGACY_VARS_NAME="legacy_firmware_updater_vars.json"
 FW_IMAGE_LOCATION=""
 FW_RW_IMAGE_LOCATION=""
 EC_IMAGE_LOCATION=""
@@ -254,31 +253,6 @@ _add_bool_param() {
 	[[ -n "${value}" ]] && _append_var "${var}" "${flag}"
 }
 
-# Generate JSON content for /etc/legacy_firmware_updater_vars.json
-_generate_legacy_firmware_vars() {
-	local vars="{}"
-
-	if [[ -n "${CROS_FIRMWARE_MAIN_IMAGE}" ]]; then
-		vars="$(jq ".[\"main-ro-image\"] = \"${CROS_FIRMWARE_MAIN_IMAGE}\"" <<<"${vars}")"
-	fi
-
-	if [[ -n "${CROS_FIRMWARE_MAIN_RW_IMAGE}" ]]; then
-		vars="$(jq ".[\"main-rw-image\"] = \"${CROS_FIRMWARE_MAIN_RW_IMAGE}\"" <<<"${vars}")"
-	elif [[ -n "${CROS_FIRMWARE_MAIN_IMAGE}" ]]; then
-		vars="$(jq ".[\"main-rw-image\"] = \"${CROS_FIRMWARE_MAIN_IMAGE}\"" <<<"${vars}")"
-	fi
-
-	if [[ -n "${CROS_FIRMWARE_EC_IMAGE}" ]]; then
-		vars="$(jq ".[\"ec-ro-image\"] = \"${CROS_FIRMWARE_EC_IMAGE}\"" <<<"${vars}")"
-	fi
-
-	if [[ -n "${CROS_FIRMWARE_PD_IMAGE}" ]]; then
-		vars="$(jq ".[\"pd-ro-image\"] = \"${CROS_FIRMWARE_PD_IMAGE}\"" <<<"${vars}")"
-	fi
-
-	echo "${vars}"
-}
-
 cros-firmware_src_compile() {
 	# image_cmd will be reset when creating local updaters.
 	# ext_cmd will be reused when creating local updaters.
@@ -298,9 +272,6 @@ cros-firmware_src_compile() {
 		_add_param image_cmd -e "${EC_IMAGE_LOCATION}"
 		_add_param image_cmd -p "${PD_IMAGE_LOCATION}"
 		_add_param image_cmd -w "${FW_RW_IMAGE_LOCATION}"
-
-		# Generate firmware vars for pre-unibuild tests.
-		_generate_legacy_firmware_vars >"${WORKDIR}/${LEGACY_VARS_NAME}"
 	fi
 
 	if [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
@@ -383,12 +354,6 @@ cros-firmware_src_install() {
 	# install ${FILESDIR}/sbin/* (usually board-setgoodfirmware).
 	if [[ -d "${FILESDIR}"/sbin ]]; then
 		dosbin "${FILESDIR}"/sbin/*
-	fi
-
-	# Install the updater vars for pre-unibuild.
-	if ! use unibuild; then
-		insinto /etc
-		doins "${WORKDIR}/${LEGACY_VARS_NAME}"
 	fi
 }
 
