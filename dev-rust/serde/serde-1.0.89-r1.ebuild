@@ -14,5 +14,5 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/serde_derive-1.0*:=
+	~dev-rust/serde_derive-1.0.89:=
 "

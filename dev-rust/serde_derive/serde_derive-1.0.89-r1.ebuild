@@ -1,1 +1,0 @@
-serde_derive-1.0.89.ebuild

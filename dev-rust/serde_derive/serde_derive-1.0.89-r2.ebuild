@@ -3,6 +3,8 @@
 
 EAPI="6"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="Serde is a framework for serializing and deserializing Rust data structures efficiently and generically"
@@ -18,12 +20,3 @@ DEPEND="
 	>=dev-rust/quote-0.6.3:= <dev-rust/quote-0.7
 	>=dev-rust/syn-0.15.22:= <dev-rust/syn-0.16
 "
-
-src_prepare() {
-	cros-rust_src_prepare
-
-	# Delete the serde dev dependency. Allowing the dependency introduces a
-	# circular dependency, but serde has a legitimate dependency on
-	# serde_derive.
-	sed -i '/\[dev-dependencies.serde\]/{N;d;}' "${S}/Cargo.toml"
-}
