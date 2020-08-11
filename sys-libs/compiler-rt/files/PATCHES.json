@@ -7,5 +7,11 @@
     {
         "comment": "Sets the ASAN message to go to /va/log/asan${pid} by\ndefault",
         "rel_patch_path": "clang-4.0-asan-default-path.patch"
+    },
+    {
+        "comment": "[msan] Support %ms in scanf.",
+        "rel_patch_path": "aa57cabae2fc5abc08ab3e17b45f2890fc7c9e42.patch",
+        "start_version": 394483,
+        "end_version": 401725
     }
 ]

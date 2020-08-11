@@ -50,7 +50,6 @@ func processClangFlags(builder *commandBuilder) error {
 		"-mno-movbe":                  true,
 		"-pass-exit-codes":            true,
 		"-Wclobbered":                 true,
-		"-Wno-psabi":                  true,
 		"-Wlogical-op":                true,
 		"-Wmissing-parameter-type":    true,
 		"-Wold-style-declaration":     true,

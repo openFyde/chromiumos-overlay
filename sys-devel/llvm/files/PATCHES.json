@@ -249,5 +249,35 @@
         "rel_patch_path": "cherry/d23c1d6a8dddf0e1b9b9fa64726941e402ede8af.patch",
         "start_version": 398649,
         "end_version": 401056
+    },
+    {
+        "comment": "[ELF]: --icf: don't fold sections referencing sections with LCDA after D84610",
+        "rel_patch_path": "cherry/164a02d0fa461c623446bb5e3ee15516bcfad13c.patch",
+        "start_version": 401512,
+        "end_version": 401838
+    },
+    {
+        "comment": "[ELF] Support .cfi_signal_frame",
+        "rel_patch_path": "cherry/d30d46193876102a6bc99b527dfaf79be4b09515.patch",
+        "start_version": 401512,
+        "end_version": 401875
+    },
+    {
+        "comment": "[msan] Support %ms in scanf.",
+        "rel_patch_path": "cherry/aa57cabae2fc5abc08ab3e17b45f2890fc7c9e42.patch",
+        "start_version": 394483,
+        "end_version": 401725
+    },
+    {
+        "comment": "[ELF] Change tombstone values to (.debug_ranges/.debug_loc) 1 and (other .debug_*) 0",
+        "rel_patch_path": "cherry/004be4037e1e9c6092323c5c9268acb3ecf9176c.patch",
+        "start_version": 397144,
+        "end_version": 401729
+    },
+    {
+        "comment": "Implement AVX ABI Warning/error",
+        "rel_patch_path": "cherry/2831a317b689c7f005a29f008a8e4c24485c0711.patch",
+        "start_version": 394483,
+        "end_version": 398009
     }
 ]
