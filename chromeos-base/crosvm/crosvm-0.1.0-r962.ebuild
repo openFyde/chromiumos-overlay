@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="1cd8099477b3835054a84902f23ad8d14c676306"
-CROS_WORKON_TREE="cb039c27c10dd3d61fef2f95563dad04cfa9c9db"
+CROS_WORKON_COMMIT="c1a962ed31042a38bcc02d2d918b2b72ae73f986"
+CROS_WORKON_TREE="56a5889b7115ac37152f1666b80ce285f1813734"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -127,6 +127,7 @@ src_compile() {
 		$(usex crosvm-video-encoder video-encoder "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
+		chromeos
 	)
 
 	local packages=(
