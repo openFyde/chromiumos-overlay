@@ -51,7 +51,8 @@ src_test() {
 		# crbug.com/1097761 The unit tests for this package leak threads.
 		elog "Skipping rust unit tests for ASAN because fork leaks threads."
 	elif use x86 || use amd64; then
-		ecargo_test
+		# TODO(crbug/1115287) Include the wait_* tests once they don't hang.
+		ecargo_test -- --skip tests::wait_
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
