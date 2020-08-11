@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="6c65747833c5897d4ab739e8b4d799f41d7475c6"
-CROS_WORKON_TREE="eb947abe014e7ac329de0083844e8be7b9200958"
+CROS_WORKON_COMMIT="f292af8983b68502b238066ae07509ffa38fe2d7"
+CROS_WORKON_TREE="9fb7824d05053833fd17ac06201e73ea45c634d2"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
 # Prevent automatic uprevs of this package since upstream is out of our control.
@@ -33,10 +33,6 @@ DEPEND="${RDEPEND}
 	sys-devel/autoconf-archive
 	fuzzer? ( >=dev-libs/check-0.9.4 )
 	test? ( >=dev-libs/check-0.9.4 )"
-
-PATCHES=(
-	"${FILESDIR}"/FROMLIST-shader-Use-integer-type-for-ARM-MALI-GPU.patch
-)
 
 src_prepare() {
 	default
