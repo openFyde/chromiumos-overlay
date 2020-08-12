@@ -57,6 +57,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/gen9_vp9_encoder-Ensure-brc-reset-irrespective-of-th.patch
 	epatch "${FILESDIR}"/0001-Remove-blitter-usage-from-driver.patch
 	epatch "${FILESDIR}"/gen9_vp9_encoder-Relax-the-compressed-frames-minimum.patch
+	epatch "${FILESDIR}"/Handle-the-odd-resolution.patch
 
 	sed -e 's/intel-gen4asm/\0diSaBlEd/g' -i configure.ac || die
 	autotools-multilib_src_prepare
