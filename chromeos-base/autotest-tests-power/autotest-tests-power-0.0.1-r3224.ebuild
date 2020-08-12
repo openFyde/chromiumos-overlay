@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=4
-CROS_WORKON_COMMIT="0bf2e9219a1bf2bc4066de6458b8fa5c95fd6691"
-CROS_WORKON_TREE="83c9cddbbe553c1cdd9de67a35bf850c9329a459"
+CROS_WORKON_COMMIT="d65947289062069d1c3caa74be03e347e9e6924f"
+CROS_WORKON_TREE="c8ade820adccce6bbaf784875a25f293b2f3d9e0"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -33,7 +33,6 @@ IUSE_TESTS="
 	+tests_power_BacklightControl
 	+tests_power_BacklightSuspend
 	+tests_power_BatteryCharge
-	+tests_power_CameraSuspend
 	+tests_power_CheckAC
 	+tests_power_CheckAfterSuspend
 	+tests_power_CPUFreq
