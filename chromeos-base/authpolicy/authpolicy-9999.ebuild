@@ -61,7 +61,7 @@ src_install() {
 	insinto /usr/share/policy
 	doins seccomp_filters/*.policy
 	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/authpolicyd_whitelist.txt
+	doins setuid_restrictions/authpolicyd_uid_allowlist.txt
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders

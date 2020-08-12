@@ -197,7 +197,7 @@ src_install() {
 	dotmpfiles tmpfiles.d/*.conf
 
 	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/shill_allowed.txt
+	doins setuid_restrictions/shill_uid_allowlist.txt
 
 	udev_dorules udev/*.rules
 

@@ -64,7 +64,7 @@ src_install() {
 	newins seccomp/kerberosd-seccomp-"${ARCH}".policy kerberosd-seccomp.policy
 
 	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/kerberosd_whitelist.txt
+	doins setuid_restrictions/kerberosd_uid_allowlist.txt
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders

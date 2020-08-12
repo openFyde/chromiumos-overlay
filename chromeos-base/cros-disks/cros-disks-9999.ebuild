@@ -98,7 +98,7 @@ src_install() {
 
 	# Install setuid restrictions file.
 	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/cros_disks_whitelist.txt
+	doins setuid_restrictions/cros_disks_uid_allowlist.txt
 
 	# Install powerd prefs for FUSE freeze ordering.
 	insinto /usr/share/power_manager
