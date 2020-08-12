@@ -76,6 +76,7 @@ RDEPEND="${RDEPEND}
 		net-analyzer/netperf
 		dev-util/perf
 	)
+	app-benchmarks/stress-ng
 	app-crypt/nss
 	tpm? ( app-crypt/tpm-tools )
 	app-editors/nano
