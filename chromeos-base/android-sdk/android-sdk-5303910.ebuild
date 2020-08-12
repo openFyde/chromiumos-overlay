@@ -36,7 +36,7 @@ IUSE=""
 RESTRICT="strip"
 
 DEPEND=""
-# Android P depends on Java 8 or 9. Android R depends on Java 9 or later.
+# CTS P depends on Java 8 or 9. CTS R depends on Java 9 or later.
 # Include both JDK8 and JDK11 in the chroot.
 RDEPEND="
 	<=virtual/jdk-9
