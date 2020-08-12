@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("46d5ae209c0ce100ce2687a1dac5f1f68f8b4233" "32d9f581f3296111ca98dd6716cecd32bcd3a1db" "e5c1dfc419bec2f682a9c17a4f8d75cabd69f848")
-CROS_WORKON_TREE=("0d8ac1008cbdcffb0b0403ed8c647c8a5084336a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "540f80012ade8500a46ad16c609409b6d5ec550f" "bbf597e1cd2e3f49a8a2aab9f85c903867311558")
+CROS_WORKON_COMMIT=("1b0faf565c66af50e4546cf58365b5a2396add57" "3fb2b401a24265bc5df8332dff25094dc4bc0f43" "e5c1dfc419bec2f682a9c17a4f8d75cabd69f848")
+CROS_WORKON_TREE=("0d8ac1008cbdcffb0b0403ed8c647c8a5084336a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "dc5a455789147de65d40e93587ad9f5bf504d0a9" "bbf597e1cd2e3f49a8a2aab9f85c903867311558")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/ml"
@@ -141,6 +141,8 @@ platform_pkg_test() {
 		# into the request object in this test. lsan_suppressions doesn't
 		# work due to the lack of /usr/bin/llvm-symbolizer, so just exclude.
 		gtest_excl_filter+="ComplianceTest.DeviceMemory:"
+		gtest_excl_filter+="ValidateRequestTest.ScalarOutput:"
+		gtest_excl_filter+="ValidateRequestTest.UnknownOutputRank:"
 
 		# Disable asan container overflow checks that are coming from gtest,
 		# not our code. Strangely this only started happening once we made
