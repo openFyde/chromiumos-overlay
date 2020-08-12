@@ -259,6 +259,7 @@ setup_altfw() {
 	local target="$1"
 	local rom="$2"
 	local bl_list="${T}/altfw"
+	local have_default
 
 	einfo "Adding alternative firmware"
 
@@ -285,15 +286,23 @@ setup_altfw() {
 	if use tianocore; then
 		einfo "- Adding TianoCore"
 
-		do_cbfstool "${rom}" add-payload -r RW_LEGACY -n altfw/tianocore -c \
-			lzma -f "${CROS_FIRMWARE_ROOT}/tianocore/UEFIPAYLOAD.fd"
-		hash_altfw_payload "${rom}" tianocore
-		echo "2;altfw/tianocore;TianoCore;TianoCore bootloader" \
-			>> "${bl_list}"
+		# Some boards only have 1MB of RW_LEGACY space but UEFI is over
+		# 800KB. Allow this to fail, in which case we just don't add it.
+		if cbfstool "${rom}" add-payload -r RW_LEGACY \
+				-n altfw/tianocore -c lzma -f \
+				"${CROS_FIRMWARE_ROOT}/tianocore/UEFIPAYLOAD.fd"; then
+			hash_altfw_payload "${rom}" tianocore
+			echo "2;altfw/tianocore;TianoCore;TianoCore bootloader" \
+				>> "${bl_list}"
 
-		# For now, use TianoCore as the default
-		echo "0;altfw/tianocore;TianoCore;TianoCore bootloader" \
-			>> "${bl_list}"
+			# For now, use TianoCore as the default.
+			echo "0;altfw/tianocore;TianoCore;TianoCore bootloader" \
+				>> "${bl_list}"
+			have_default=y
+			einfo "  (sing TianoCore as default)"
+		else
+			ewarn "Not enough space for TianoCore: omitted"
+		fi
 	fi
 
 	# Add SeaBIOS if enabled
@@ -335,9 +344,11 @@ setup_altfw() {
 			>> "${bl_list}"
 
 		# Use Diag as the default if tianocore is not enabled
-		if ! use tianocore; then
+		if [[ -z "${have_default}" ]]; then
 			echo "0;altfw/diag;Diagnostics;System Diagnostics" \
 				>> "${bl_list}"
+			have_default=y
+			einfo "  (using Diagnostics as default)"
 		fi
 	fi
 
