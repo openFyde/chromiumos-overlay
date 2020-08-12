@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="3bc04540839db698bb914138b688c37c5964ab58"
-CROS_WORKON_TREE=("769fb4f49054e9865b1f33ae4e56510f00074285" "4650f57379acb06cc4da0182ac4ee866e2318550" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f80e5b66a301eb14eb7c36e9d6f4a1c3873f9833"
+CROS_WORKON_TREE=("769fb4f49054e9865b1f33ae4e56510f00074285" "17f9c028acddc2e40fba081ac7e82e8b3929ae9d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -28,6 +28,9 @@ src_install() {
 
 	insinto /etc/init
 	doins etc/log-bootid-on-boot.conf
+
+	exeinto /usr/share/cros/init
+	doexe scripts/upstart/*.sh
 }
 
 platform_pkg_test() {
