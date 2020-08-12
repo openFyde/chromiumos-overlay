@@ -4,6 +4,7 @@
 
 brk: 1
 bind: 1
+clock_gettime: 1
 close: 1
 connect: 1
 execve: 1
