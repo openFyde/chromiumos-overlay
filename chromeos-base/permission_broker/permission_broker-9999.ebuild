@@ -30,7 +30,6 @@ COMMMON_DEPEND="
 
 RDEPEND="${COMMMON_DEPEND}"
 DEPEND="${COMMMON_DEPEND}
-	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	sys-kernel/linux-headers:=
 "
