@@ -18,6 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/virtua
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="arcvm"
 
 RDEPEND="
 	sys-fs/fuse:=
@@ -30,7 +31,11 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	dobin "${OUT}"/virtual-file-provider
-	newbin virtual-file-provider-jailed.sh virtual-file-provider-jailed
+	if use arcvm; then
+		newbin virtual-file-provider-jailed-arcvm.sh virtual-file-provider-jailed
+	else
+		newbin virtual-file-provider-jailed.sh virtual-file-provider-jailed
+	fi
 
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.VirtualFileProvider.conf
