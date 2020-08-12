@@ -34,6 +34,7 @@ IUSE="
 	dlc
 	kvm_host
 	hammerd
+	ml_benchmark_drivers
 	ml_service
 	nnapi
 	opengl
@@ -97,6 +98,7 @@ CROS_COMMON_RDEPEND="
 	biod? ( virtual/chromeos-fpmcu-test )
 	hammerd? ( chromeos-base/hammerd-test-utils )
 	scanner? ( chromeos-base/lorgnette_cli )
+	ml_benchmark_drivers? ( chromeos-base/ml_benchmark_drivers )
 	ml_service? (
 		chromeos-base/ml-cmdline
 		chromeos-base/ml_benchmark
