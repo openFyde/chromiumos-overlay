@@ -17,7 +17,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="agent amt consolekit dell gtk-doc elogind +minimal +gpg introspection +man nls nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
+IUSE="agent amt consolekit dell gtk-doc elogind flashrom_i2c +minimal +gpg introspection +man nls nvme pkcs7 redfish synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	^^ ( consolekit elogind minimal systemd )
 	dell? ( uefi )
@@ -125,6 +125,7 @@ src_configure() {
 		$(meson_use test tests)
 		$(meson_use thunderbolt plugin_thunderbolt)
 		$(meson_use uefi plugin_uefi)
+		$(meson_use flashrom_i2c plugin_flashrom_i2c)
 		# Requires libflashrom which our sys-apps/flashrom
 		# package does not provide
 		-Dplugin_flashrom="false"
