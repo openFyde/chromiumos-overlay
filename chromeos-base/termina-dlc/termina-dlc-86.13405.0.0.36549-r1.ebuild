@@ -11,6 +11,7 @@ DESCRIPTION="DLC package for termina."
 SRC_URI="
 	amd64? ( gs://termina-component-testing/uprev-test/amd64/${PV}/guest-vm-base.tbz -> termina_amd64.tbz )
 	arm? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tbz -> termina_arm.tbz )
+	arm64? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tbz -> termina_arm.tbz )
 "
 
 RESTRICT="nomirror"
@@ -20,11 +21,11 @@ SLOT="0"
 KEYWORDS="*"
 S="${WORKDIR}"
 
-IUSE="+kvm_host +dlc amd64 arm"
+IUSE="kvm_host dlc amd64 arm"
 REQUIRED_USE="
 	dlc
 	kvm_host
-	^^ ( amd64 arm )
+	^^ ( amd64 arm arm64 )
 "
 
 # Termina is ~350MB at present, so 1 GB is very conservative.
