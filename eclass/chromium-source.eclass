@@ -40,7 +40,8 @@ DEPOT_TOOLS="/mnt/host/depot_tools"
 
 # @ECLASS-VARIABLE: EGCLIENT
 # @DESCRIPTION: Fixed path to the latest gclient tool.
-EGCLIENT="${DEPOT_TOOLS}/gclient"
+# TODO(crbug.com/1114821): We use .py to run directly & bypass vpython usage.
+EGCLIENT="${DEPOT_TOOLS}/gclient.py"
 
 # @ECLASS-VARIABLE: ENINJA
 # @DESCRIPTION: Fixed path to the latest ninja tool.  We use the bundled one to
