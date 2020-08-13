@@ -362,6 +362,40 @@ setup_altfw() {
 	# TODO(kitching): Get hash and sign.
 }
 
+# Check whether assets will fit in the image.
+#
+# Estimate the total size of compressed assets, uncompressed assets, and the
+# compressed payload.  Warn when the size exceeds free space available in
+# RO or RW CBFS regions.  Note that this is purely informational and doesn't
+# actually trigger failure.
+#
+# Args:
+#   $1: Filename of image to add to (use serial image for best coverage)
+#   $2: Payload to add to both RO and RW regions
+check_assets() {
+	local rom="$1"
+	local payload="$2"
+
+	local payload_size=$(xz -9 -c "${payload}" | wc -c)
+
+	local rw_assets_size=$(find compressed-assets-rw "raw-assets-rw/${build_name}" -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
+	local rw_size=$((rw_assets_size + payload_size))
+	local rw_free=$(($(do_cbfstool "${rom}" print -r FW_MAIN_A | awk '$1 ~ /empty/ {s+=$4} END {print s}') - payload_size))
+
+	# RW assets are also added to RO region.
+	local ro_assets_size=$(find compressed-assets-ro -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
+	local ro_size=$((ro_assets_size + rw_assets_size + payload_size))
+	local ro_free=$(($(do_cbfstool "${rom}" print -r COREBOOT | awk '$1 ~ /empty/ {s+=$4} END {print s}') - payload_size))
+
+	einfo "assets (RO): $((ro_size / 1024)) KiB ($((ro_free / 1024)) KiB free) ${build_name}"
+	[[ ${ro_size} -gt ${ro_free} ]] &&
+		ewarn "WARNING: RO estimated $(((ro_size - ro_free) / 1024)) KiB over limit ${build_name}"
+
+	einfo "assets (RW): $((rw_size / 1024)) KiB ($((rw_free / 1024)) KiB free) ${build_name}"
+	[[ ${rw_size} -gt ${rw_free} ]] &&
+		ewarn "WARNING: RW estimated $(((rw_size - rw_free) / 1024)) KiB over limit ${build_name}"
+}
+
 # Add Chrome OS assets to the base and serial images:
 #       compressed-assets-ro/*   - fonts, images and screens for recovery mode
 #                                  originally from cbfs-ro-compress/*,
@@ -374,7 +408,6 @@ setup_altfw() {
 #                                  used for extra wifi_sar files
 # Args:
 #  $1: Filename of image to add to
-
 add_assets() {
 	local rom="$1"
 
@@ -467,9 +500,6 @@ build_images() {
 		depthcharge_config="${depthcharge_prefix}/depthcharge.config"
 	fi
 
-	add_assets "${coreboot_file}"
-	add_assets "${coreboot_file}.serial"
-
 	if [[ -d ${froot}/cbfs ]]; then
 		die "something is still using ${froot}/cbfs, which is deprecated."
 	fi
@@ -501,6 +531,10 @@ build_images() {
 
 	setup_altfw "${coreboot_build_target}" "${coreboot_file}"
 	setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
+
+	check_assets "${coreboot_file}.serial" "${depthcharge_dev}"
+	add_assets "${coreboot_file}"
+	add_assets "${coreboot_file}.serial"
 
 	build_image "" "${coreboot_file}" "${depthcharge}" "${depthcharge}"
 
