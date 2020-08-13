@@ -29,7 +29,7 @@ COMMON_DEPEND="
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
 	chromeos-base/chromeos-config-tools:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/libnl:=
 	dev-libs/protobuf:=
 	cras? ( media-sound/adhd:= )

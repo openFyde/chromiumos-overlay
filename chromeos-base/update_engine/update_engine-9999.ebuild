@@ -27,7 +27,7 @@ IUSE="cfm cros_p2p +dbus dlc fuzzer -hwid_override +power_management systemd"
 COMMON_DEPEND="
 	app-arch/bzip2:=
 	chromeos-base/chromeos-ca-certificates:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/vboot_reference:=
 	cros_p2p? ( chromeos-base/p2p:= )
 	dev-libs/expat:=

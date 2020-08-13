@@ -23,7 +23,7 @@ IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/imageloader:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/protobuf:="
 
 DEPEND="${RDEPEND}

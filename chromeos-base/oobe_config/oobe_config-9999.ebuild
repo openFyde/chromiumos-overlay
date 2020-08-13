@@ -24,7 +24,7 @@ REQUIRED_USE="?? ( tpm tpm2 )"
 
 COMMMON_DEPEND="
 	chromeos-base/libtpmcrypto:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/openssl:0=
 	sys-apps/dbus:=
 "

@@ -24,7 +24,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 DEPEND="
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/system_api:=
 	chromeos-base/vboot_reference:=
 	dev-go/protobuf

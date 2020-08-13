@@ -20,7 +20,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	chromeos-base/metrics
+	>=chromeos-base/metrics-0.0.1-r3152
 	dev-cpp/gtest:=
 	media-libs/cros-camera-libcamera_common
 	media-libs/cros-camera-libcamera_exif
@@ -30,7 +30,7 @@ RDEPEND="
 	media-libs/libyuv"
 
 DEPEND="${RDEPEND}
-	chromeos-base/metrics
+	>=chromeos-base/metrics-0.0.1-r3152
 	media-libs/libyuv
 	media-libs/cros-camera-android-headers"
 

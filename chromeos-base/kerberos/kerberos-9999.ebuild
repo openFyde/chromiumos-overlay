@@ -25,7 +25,7 @@ COMMON_DEPEND="
 	app-crypt/mit-krb5:=
 	chromeos-base/libbrillo:=[asan?,fuzzer?]
 	chromeos-base/libpasswordprovider:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 	dev-libs/dbus-glib:=

@@ -29,7 +29,7 @@ RDEPEND="
 	tpm2? (
 		chromeos-base/trunks
 	)
-	chromeos-base/metrics
+	>=chromeos-base/metrics-0.0.1-r3152
 	chromeos-base/minijail
 	chromeos-base/libhwsec
 	chromeos-base/libtpmcrypto

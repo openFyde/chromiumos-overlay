@@ -26,7 +26,7 @@ COMMON_DEPEND="
 	chromeos-base/attestation-client:=
 	chromeos-base/cbor:=
 	chromeos-base/libhwsec:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/trunks:=
 	dev-libs/hidapi:=

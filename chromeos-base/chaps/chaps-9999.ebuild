@@ -33,7 +33,7 @@ RDEPEND="
 		chromeos-base/trunks:=
 	)
 	chromeos-base/minijail:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	!dev-db/leveldb
 	dev-libs/leveldb:=
 	dev-libs/openssl:=

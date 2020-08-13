@@ -28,7 +28,7 @@ RDEPEND="
 # but another rule in that BUILD.gn requires libcbm upon opening the .gn file.
 # See crbug.com/995162 for detail.
 DEPEND="${RDEPEND}
-	chromeos-base/metrics
+	>=chromeos-base/metrics-0.0.1-r3152
 	media-libs/cros-camera-libcbm
 	media-libs/libyuv
 	virtual/pkgconfig"

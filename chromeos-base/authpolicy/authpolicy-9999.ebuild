@@ -25,7 +25,7 @@ IUSE="+samba asan fuzzer"
 COMMMON_DEPEND="
 	app-crypt/mit-krb5:=
 	chromeos-base/libbrillo:=[asan?,fuzzer?]
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	>=chromeos-base/minijail-0.0.1-r1477:=
 	dev-libs/protobuf:=
 	dev-libs/dbus-glib:=

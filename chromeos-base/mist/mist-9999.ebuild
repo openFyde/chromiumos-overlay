@@ -23,7 +23,7 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/libbrillo:=[udev]
-	chromeos-base/metrics
+	>=chromeos-base/metrics-0.0.1-r3152
 	dev-libs/protobuf:=
 	net-dialup/ppp
 	virtual/libusb:1

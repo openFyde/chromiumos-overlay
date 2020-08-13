@@ -24,7 +24,7 @@ IUSE="cheets chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzze
 COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/google-breakpad:=[cros_i686?]
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/libpcre:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=

@@ -35,7 +35,7 @@ RDEPEND="
 RDEPEND="${RDEPEND}
 	tests_dbench? ( dev-libs/libaio )
 	tests_platform_MetricsUploader? (
-		chromeos-base/metrics
+		>=chromeos-base/metrics-0.0.1-r3152
 		dev-python/protobuf-python
 	)
 	tests_platform_SecureEraseFile? ( chromeos-base/secure-erase-file )

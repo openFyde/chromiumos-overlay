@@ -20,7 +20,7 @@ KEYWORDS="~*"
 IUSE="test"
 
 COMMON_DEPEND="
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/libpng:=
 	media-gfx/sane-backends:=
 "

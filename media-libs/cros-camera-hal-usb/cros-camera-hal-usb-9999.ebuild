@@ -43,7 +43,7 @@ RDEPEND="
 	chromeos-base/chromeos-config-tools"
 
 DEPEND="${RDEPEND}
-	chromeos-base/metrics
+	>=chromeos-base/metrics-0.0.1-r3152
 	media-libs/cros-camera-android-headers
 	media-libs/libyuv
 	virtual/pkgconfig"

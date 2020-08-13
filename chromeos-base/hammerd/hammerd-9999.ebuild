@@ -22,7 +22,7 @@ IUSE="-hammerd_api fuzzer"
 
 RDEPEND="
 	chromeos-base/ec-utils:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/vboot_reference:=
 	dev-libs/openssl:0=
 	sys-apps/flashmap:=

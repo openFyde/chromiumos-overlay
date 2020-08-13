@@ -24,7 +24,7 @@ IUSE="fuzzer"
 
 COMMON_DEPEND="
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	dev-libs/openssl:0=
 	sys-apps/usbguard:=

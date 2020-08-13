@@ -17,7 +17,7 @@ KEYWORDS="~*"
 IUSE="asan +cras-apm fuzzer generated_cros_config selinux systemd unibuild"
 
 COMMON_DEPEND="
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/iniparser:=
 	cras-apm? ( media-libs/webrtc-apm:= )
 	>=media-libs/alsa-lib-1.1.6-r3:=

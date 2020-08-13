@@ -17,7 +17,7 @@ SLOT="0"
 IUSE="asan doc mocktpm systemd tss_trace"
 
 COMMON_DEPEND="
-	chromeos-base/metrics
+	>=chromeos-base/metrics-0.0.1-r3152
 	>=dev-libs/openssl-0.9.7:0="
 
 RDEPEND="${COMMON_DEPEND}"

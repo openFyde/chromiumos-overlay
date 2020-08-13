@@ -30,7 +30,7 @@ IUSE="
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	sys-apps/flashmap:=
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )

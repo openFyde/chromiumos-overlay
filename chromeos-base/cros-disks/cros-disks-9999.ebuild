@@ -20,7 +20,7 @@ KEYWORDS="~*"
 IUSE="chromeless_tty fuzzer +seccomp"
 
 COMMON_DEPEND="
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	chromeos-base/session_manager-client:=
 	sys-apps/rootdev:=

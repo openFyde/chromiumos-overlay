@@ -38,7 +38,7 @@ COMMON_DEPEND="
 	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cryptohome-client:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/dbus-glib:=
 	dev-libs/protobuf:=
 	sys-libs/libselinux:=

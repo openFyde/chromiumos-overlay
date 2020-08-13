@@ -23,7 +23,7 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
-COMMON_DEPEND="chromeos-base/metrics:=
+COMMON_DEPEND=">=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/glib:=
 	net-dns/avahi-daemon:=
 	net-firewall/iptables:="

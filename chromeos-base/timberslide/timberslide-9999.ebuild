@@ -22,7 +22,7 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/re2:=
 "
 

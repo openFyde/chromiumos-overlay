@@ -33,7 +33,7 @@ COMMON_DEPEND="chromeos-base/bootstat:=
 	chromeos-base/libchromeos-ui:=
 	chromeos-base/libcontainer:=
 	chromeos-base/libpasswordprovider:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/nss:=
 	dev-libs/protobuf:=
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )

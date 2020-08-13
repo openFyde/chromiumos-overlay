@@ -35,7 +35,7 @@ CDEPEND="
 	virtual/libudev:=
 	cups? ( net-print/cups:= )
 	readline? ( sys-libs/readline:= )
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 "
 DEPEND="${CDEPEND}"
 

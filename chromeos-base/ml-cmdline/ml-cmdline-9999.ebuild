@@ -20,7 +20,7 @@ SLOT="0/0"
 
 RDEPEND="
 	chromeos-base/chrome-icu:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/ml:=
 	sci-libs/tensorflow:=
 "

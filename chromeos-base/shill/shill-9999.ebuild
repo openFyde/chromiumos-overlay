@@ -27,7 +27,7 @@ COMMON_DEPEND="
 	tpm? ( chromeos-base/chaps:= )
 	chromeos-base/minijail:=
 	chromeos-base/libpasswordprovider:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/nsswitch:=
 	dev-libs/re2:=
 	cellular? ( net-dialup/ppp:= )

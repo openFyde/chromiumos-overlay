@@ -41,7 +41,7 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}"
 
 DEPEND="${COMMON_DEPEND}
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/cros-camera-android-headers:=
 	media-libs/minigbm:=
 	x11-libs/libdrm:="

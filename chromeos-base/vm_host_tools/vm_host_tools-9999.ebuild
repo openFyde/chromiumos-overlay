@@ -27,7 +27,7 @@ COMMON_DEPEND="
 	!!chromeos-base/vm_tools
 	chromeos-base/chunnel:=
 	chromeos-base/crosvm:=
-	chromeos-base/metrics:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
 	net-libs/grpc:=
