@@ -84,6 +84,7 @@ IUSE="
 	ndk_translation64
 	nnapi
 	nyan_kitty
+	ocr
 	octopus
 	pita
 	rialto
