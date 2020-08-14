@@ -690,6 +690,11 @@ cros-workon_src_unpack() {
 			EGIT_PROJECT="${project[i]}${CROS_WORKON_GIT_SUFFIX}"
 			EGIT_SOURCEDIR="${destdir[i]}"
 			EGIT_COMMIT="${CROS_WORKON_COMMIT[i]}"
+			# If the logic above checked out the repo (only one failed), then skip it.
+			if [[ -d "${EGIT_SOURCEDIR}/.git" ]]; then
+				einfo "Skipping existing checkout of ${EGIT_PROJECT} in ${EGIT_SOURCEDIR}"
+				continue
+			fi
 			# Clones to /var, copies src tree to the /build/<board>/tmp.
 			# Make sure git-2 does not run `unpack` for us automatically.
 			# The normal cros-workon flow above doesn't do it, so don't
