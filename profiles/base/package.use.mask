@@ -168,3 +168,7 @@ media-video/mplayer cpudetection custom-cpuopts bindist vdpau
 # Security issues wrt #190835
 games-fps/doom-data doomsday
 games-fps/freedoom doomsday
+
+# These are only used on 32-bit ARM targets.
+sys-devel/gcc hardfp thumb
+sys-libs/gcc-libs hardfp thumb

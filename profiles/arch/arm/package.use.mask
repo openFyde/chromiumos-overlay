@@ -33,3 +33,7 @@ media-plugins/gst-plugins-meta lame taglib
 # David Hendricks <dhendrix@chromium.org> (10 Oct 2011)
 # libpci will cause program to exit(1) during init if PCI not present in system
 sys-apps/flashrom drkaiser gfxnvidia nicintel nicintel_spi nicrealtek ogp_spi satasii
+
+# These are only used on 32-bit ARM targets.
+sys-devel/gcc -hardfp -thumb
+sys-libs/gcc-libs -hardfp -thumb
