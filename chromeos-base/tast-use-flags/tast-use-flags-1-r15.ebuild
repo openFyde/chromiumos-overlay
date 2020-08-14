@@ -36,6 +36,7 @@ IUSE="
 	asan
 	betty
 	biod
+	borealis_host
 	chrome_internal
 	chromeless_tty
 	containers
