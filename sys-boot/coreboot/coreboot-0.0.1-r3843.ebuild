@@ -40,7 +40,7 @@ CROS_WORKON_EGIT_BRANCH=(
 	"chromeos-2016.05"
 	"master"
 	"master"
-	"upstream/master"
+	"chromeos"
 	"master"
 	"master"
 	"master"
