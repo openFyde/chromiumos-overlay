@@ -517,3 +517,8 @@ RDEPEND="${RDEPEND}
 # to speed up builds.  https://crbug.com/1008932
 RDEPEND="${RDEPEND}
 	sys-power/cpupower"
+
+# CTS P depends on Java 8 or 9, CTS R depends on Java 9 or later.
+# Include android-sdk to contain both JDK8 and JDK11 in the chroot.
+RDEPEND="${RDEPEND}
+	chromeos-base/android-sdk"
