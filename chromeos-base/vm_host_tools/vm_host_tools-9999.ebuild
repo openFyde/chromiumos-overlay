@@ -111,8 +111,12 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
 
-	insinto /etc
+	insinto /usr/local/vms/etc
 	doins init/arcvm_dev.conf
+
+	# TODO(b/159953121): File and steps below should be removed later.
+	insinto /etc
+	newins init/arcvm_dev.conf_deprecated arcvm_dev.conf
 
 	insinto /usr/share/policy
 	if use seccomp; then
