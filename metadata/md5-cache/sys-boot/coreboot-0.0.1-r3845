@@ -9,6 +9,6 @@ KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RESTRICT=strip
-SLOT=0/0.0.1-r3844
+SLOT=0/0.0.1-r3845
 _eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-board	0b6a7cecf625c1803b4674507465ad6d	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-unibuild	8656ff4485a57be3b5ac242b15acc2a5	cros-workon	37241286b8d45feed6b802ff02e8d778	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
 _md5_=011d6861795130974a90e5094e2cf3aa
