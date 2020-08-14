@@ -103,6 +103,9 @@ platform_pkg_test() {
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeout:"
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeoutMaximum:"
 
+	# TODO(crbug.com/1115586): Test is found to be hanging on bots.
+	qemu_gtest_excl_filter+="Flavor/ExecutionTest13.Wait/1:"
+
 	local gtest_excl_filter="-"
 	if use asan; then
 		# Some tests do not correctly clean up the Execution object and it is
