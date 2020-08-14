@@ -53,17 +53,7 @@ src_configure() {
 }
 
 multilib_src_configure() {
-	# The AOSP build system defines the Make variable PLATFORM_SDK_VERSION,
-	# and Mesa's Android.mk files use it to define the macro
-	# ANDROID_API_LEVEL. Arc emulates that here.
-	if [[ -n "${ARC_PLATFORM_SDK_VERSION}" ]]; then
-		CPPFLAGS+=" -DANDROID_API_LEVEL=${ARC_PLATFORM_SDK_VERSION}"
-	fi
-
 	tc-getPROG PKG_CONFIG pkg-config
-
-	# Need std=gnu++11 to build with libc++. crbug.com/750831
-	append-cxxflags "-std=gnu++11"
 
 	emesonargs+=(
 		--prefix="${ARC_PREFIX}/vendor"
@@ -83,6 +73,7 @@ multilib_src_configure() {
 		-Dgallium-vdpau=disabled
 		-Dgallium-xa=disabled
 		-Dplatforms=android
+		-Dplatform-sdk-version="${ARC_PLATFORM_SDK_VERSION}"
 		-Degl-lib-suffix=_mesa
 		-Dgles-lib-suffix=_mesa
 		--buildtype $(usex debug debug release)
