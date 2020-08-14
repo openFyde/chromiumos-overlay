@@ -12,7 +12,7 @@ Last-Update: 2016-09-24
  AC_CHECK_LIB(cups, cupsMarkOptions, , AC_ERROR([Can't find cups library]))
  AC_CHECK_LIB(cupsimage, cupsRasterReadHeader, , AC_ERROR([Can't find cupsimage library]))
 -AC_CHECK_HEADERS([cups/cups.h cups/raster.h],, AC_ERROR([Can't find cups headers]))
-+AC_CHECK_HEADERS([cups/cups.h cups/raster.h cups/ppd.h],, AC_ERROR([Can't find cups headers]))
++AC_CHECK_HEADERS([cups/cups.h cups/raster.h cups/ppd.h cups/sidechannel.h],, AC_ERROR([Can't find cups headers]))
  
  #CUPS_LIBS=`cups-config --image --libs`
  #CUPS_LIBS="-lcups -lcupsimage"
@@ -26,6 +26,16 @@ Last-Update: 2016-09-24
  #include <memory>
  #include <string>
  #include "CupsPrintEnvironment.h"
+--- a/src/common/CupsPrintEnvironment.cpp
++++ b/src/common/CupsPrintEnvironment.cpp
+@@ -23,6 +23,7 @@
+ #include "CupsPrintEnvironment.h"
+ #include <errno.h>
+ #include <cups/cups.h>
++#include <cups/sidechannel.h>
+ #include <cassert>
+ 
+ namespace DymoPrinterDriver
 --- a/src/lm/CupsFilterLabelManager.h
 +++ b/src/lm/CupsFilterLabelManager.h
 @@ -23,6 +23,7 @@
