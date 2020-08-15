@@ -1,0 +1,15 @@
+BDEPEND=>=chromeos-base/chromeos-config-host-0.0.2 dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile info install prepare setup test unpack
+DEPEND=unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= ) test? ( dev-libs/openssl:= dev-libs/protobuf:= ) dev-embedded/libftdi:1= fuzzer? ( dev-libs/libprotobuf-mutator:= ) test? ( dev-libs/libprotobuf-mutator:= ) virtual/chromeos-ec-private-files virtual/chromeos-ec-touch-firmware unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) bootblock_in_ec? ( sys-boot/coreboot )
+DESCRIPTION=Embedded Controller firmware code
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md
+IUSE=ec_firmware_bds ec_firmware_cr50 ec_firmware_cyan ec_firmware_dingdong ec_firmware_elm ec_firmware_glkrvp ec_firmware_hadoken ec_firmware_hammer ec_firmware_hoho ec_firmware_jerry ec_firmware_oak ec_firmware_oak_pd ec_firmware_plankton ec_firmware_poppy ec_firmware_samus ec_firmware_samus_pd ec_firmware_strago ec_firmware_wand ec_firmware_zinger ec_firmware_extra_bds ec_firmware_extra_cr50 ec_firmware_extra_cyan ec_firmware_extra_dingdong ec_firmware_extra_elm ec_firmware_extra_glkrvp ec_firmware_extra_hadoken ec_firmware_extra_hammer ec_firmware_extra_hoho ec_firmware_extra_jerry ec_firmware_extra_oak ec_firmware_extra_oak_pd ec_firmware_extra_plankton ec_firmware_extra_poppy ec_firmware_extra_samus ec_firmware_extra_samus_pd ec_firmware_extra_strago ec_firmware_extra_wand ec_firmware_extra_zinger cros_host unibuild generated_cros_config cros_host cros_workon_tree_173e52563c05388073bf889a847cf3ba93982534_fdbc51bbd5a7ee9d532ea1aa30cf21e57ca199db quiet verbose coreboot-sdk unibuild generated_cros_config fuzzer bootblock_in_ec asan msan ubsan test cros_host cros_workon_tree_173e52563c05388073bf889a847cf3ba93982534_fdbc51bbd5a7ee9d532ea1aa30cf21e57ca199db
+KEYWORDS=*
+LICENSE=CrOS-EC
+PROPERTIES=live live
+RDEPEND=fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= ) test? ( dev-libs/openssl:= dev-libs/protobuf:= )
+RESTRICT=binchecks
+SLOT=0/0.0.2-r7976
+_eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-ec	6826ac03cdc0108accc2f5fcaae03e33	cros-ec-board	a4af6505ff4c30e36bb75a310eae3535	cros-unibuild	8656ff4485a57be3b5ac242b15acc2a5	cros-workon	37241286b8d45feed6b802ff02e8d778	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=14942a1cdb17033138c7d3e7a022175d
