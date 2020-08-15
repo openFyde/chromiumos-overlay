@@ -89,6 +89,7 @@ RDEPEND="${RDEPEND}
 	app-admin/sudo
 	app-crypt/efitools
 	app-crypt/sbsigntools
+	dev-embedded/binman
 	dev-embedded/cbootimage
 	dev-embedded/tegrarcm
 	dev-embedded/u-boot-tools
