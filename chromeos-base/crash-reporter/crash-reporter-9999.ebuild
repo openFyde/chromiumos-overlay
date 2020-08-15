@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk crash-reporter metrics .gn"
 
 PLATFORM_SUBDIR="crash-reporter"
 
-inherit cros-i686 cros-workon platform systemd udev user
+inherit cros-arm64 cros-i686 cros-workon platform systemd udev user
 
 DESCRIPTION="Crash reporting service that uploads crash reports with debug information"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/"
@@ -23,7 +23,7 @@ IUSE="cheets chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzze
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
-	chromeos-base/google-breakpad:=[cros_i686?]
+	chromeos-base/google-breakpad:=[cros_i686?,cros_arm64?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/libpcre:=
 	dev-libs/protobuf:=
@@ -50,11 +50,13 @@ DEPEND="
 src_configure() {
 	platform_src_configure
 	use cheets && use_i686 && platform_src_configure_i686
+	use cheets && use_arm64 && platform_src_configure_arm64
 }
 
 src_compile() {
 	platform_src_compile
 	use cheets && use_i686 && platform_src_compile_i686 "core_collector"
+	use cheets && use_arm64 && platform_src_compile_arm64 "core_collector"
 }
 
 pkg_setup() {
@@ -90,6 +92,7 @@ src_install() {
 	if use cheets; then
 		dobin "${OUT}"/core_collector
 		use_i686 && newbin "$(platform_out_i686)"/core_collector "core_collector32"
+		use_arm64 && newbin "$(platform_out_arm64)"/core_collector "core_collector64"
 	fi
 
 	if use systemd; then
