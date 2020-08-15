@@ -16,7 +16,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/src/third_party/lss"
 )
 
-inherit cros-i686 cros-workon flag-o-matic multiprocessing
+inherit cros-arm64 cros-i686 cros-workon flag-o-matic multiprocessing
 
 DESCRIPTION="Google crash reporting"
 HOMEPAGE="https://chromium.googlesource.com/breakpad/breakpad"
@@ -56,7 +56,7 @@ src_configure() {
 
 	if use cros_host || use_i686; then
 		# The mindump code is still wordsize specific.  Needs to be redone
-		# like https://code.google.com/p/google-breakpad/source/detail?r=987.
+		# like https://chromium.googlesource.com/breakpad/breakpad/+/4116671cbff9e99fbd834a1b2cdd174226b78c7c
 		einfo "Configuring 32-bit build"
 		mkdir work32
 		pushd work32 >/dev/null
@@ -69,6 +69,22 @@ src_configure() {
 		filter-lfs-flags
 		use_i686 && pop_i686_env
 		use cros_host && filter-flags "-m32"
+		popd >/dev/null
+	fi
+
+	if use_arm64; then
+		# The mindump code is still wordsize specific.  Needs to be redone
+		# like https://chromium.googlesource.com/breakpad/breakpad/+/4116671cbff9e99fbd834a1b2cdd174226b78c7c
+		einfo "Configuring 64-bit build"
+		mkdir work64
+		pushd work64 >/dev/null
+		use_arm64 && push_arm64_env
+		# Can be dropped once this is merged upstream:
+		# https://breakpad.appspot.com/619002/
+		append-lfs-flags # crbug.com/266064
+		ECONF_SOURCE=${S} multijob_child_init econf
+		filter-lfs-flags
+		use_arm64 && pop_arm64_env
 		popd >/dev/null
 	fi
 
@@ -89,6 +105,13 @@ src_compile() {
 		push_i686_env
 		emake -C work32 src/client/linux/libbreakpad_client.a
 		pop_i686_env
+	fi
+
+	if use_arm64; then
+		einfo "Building 64-bit library"
+		push_arm64_env
+		emake -C work64 src/client/linux/libbreakpad_client.a
+		pop_arm64_env
 	fi
 }
 
@@ -128,5 +151,11 @@ src_install() {
 		push_i686_env
 		dolib.a work32/src/client/linux/libbreakpad_client.a
 		pop_i686_env
+	fi
+
+	if use_arm64; then
+		push_arm64_env
+		dolib.a work64/src/client/linux/libbreakpad_client.a
+		pop_arm64_env
 	fi
 }
