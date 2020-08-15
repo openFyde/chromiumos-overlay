@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("7bf6f30d24a2eb15b59227f7013f3567c54dd7ca" "ebe1486751716cd3afe9ba0abd5b956691e08d65" "e5c1dfc419bec2f682a9c17a4f8d75cabd69f848")
+CROS_WORKON_COMMIT=("46dfd50c89680a56c0bad89aba2263feb1d45066" "ebe1486751716cd3afe9ba0abd5b956691e08d65" "e5c1dfc419bec2f682a9c17a4f8d75cabd69f848")
 CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b5114210658de30ee4537023c3d356e1e26378df" "bbf597e1cd2e3f49a8a2aab9f85c903867311558")
 inherit cros-constants
 
@@ -104,6 +104,9 @@ platform_pkg_test() {
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionTiming:"
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeout:"
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeoutMaximum:"
+
+	# TODO(crbug.com/1115586): Test is found to be hanging on bots.
+	qemu_gtest_excl_filter+="Flavor/ExecutionTest13.Wait/1:"
 
 	local gtest_excl_filter="-"
 	if use asan; then
