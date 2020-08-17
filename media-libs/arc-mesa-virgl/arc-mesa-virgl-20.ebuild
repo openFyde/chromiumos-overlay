@@ -139,12 +139,14 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/FROMLIST-egl-android-Increase-preferred-buffer-count-to-4.patch
 
-	epatch "${FILESDIR}"/UPSTREAM-virgl-Use-ETC2-formats-directly-when-possible.patch 
+	epatch "${FILESDIR}"/UPSTREAM-virgl-Use-ETC2-formats-directly-when-possible.patch
 
 	epatch "${FILESDIR}"/BACKPORT-mapi-x86-Fix-dynamic-entries-in-x86-tsd-stubs.patch
 	# It's also fixed at Android master with http://ag/11992933. We can't
 	# merge it to R, so let' work around it at mesa side here.
 	epatch "${FILESDIR}"/UPSTREAM-mapi-Return-NULL-function-pointers-for-GL_EXT_debug_.patch
+
+	epatch "${FILESDIR}"/FROMLIST-util-ralloc-fix-ralloc-alignment.patch
 
 	default
 }
