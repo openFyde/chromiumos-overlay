@@ -11,7 +11,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2"
-IUSE="dbus debug elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs systemtap test utils xattr"
+IUSE="cros_host dbus debug doc elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs systemtap test utils xattr"
 RESTRICT="!test? ( test )"
 
 KEYWORDS="*"
@@ -36,14 +36,16 @@ RDEPEND="
 	kernel_linux? ( >=sys-apps/util-linux-2.23[${MULTILIB_USEDEP}] )
 	selinux? ( >=sys-libs/libselinux-2.2.2-r5[${MULTILIB_USEDEP}] )
 	xattr? ( !elibc_glibc? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] ) )
-	virtual/libelf:0=
+	cros_host? ( virtual/libelf:0= )
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
 "
 DEPEND="${RDEPEND}"
 # libxml2 used for optional tests that get automatically skipped
 BDEPEND="
-	app-text/docbook-xsl-stylesheets
-	dev-libs/libxslt
+	doc? (
+		app-text/docbook-xsl-stylesheets
+		dev-libs/libxslt
+	)
 	>=sys-devel/gettext-0.19.8
 	gtk-doc? ( >=dev-util/gtk-doc-1.20
 		app-text/docbook-xml-dtd:4.2
@@ -158,7 +160,7 @@ multilib_src_configure() {
 		$(meson_use xattr)
 		-Dlibmount=true # only used if host_system == 'linux'
 		-Dinternal_pcre=false
-		-Dman=true
+		-Dman=$(multilib_native_usex doc true false)
 		$(meson_use systemtap dtrace)
 		$(meson_use systemtap)
 		-Dgtk_doc=$(multilib_native_usex gtk-doc true false)
@@ -195,18 +197,22 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	einstalldocs
+	if use doc ; then
+		einstalldocs
+	fi
 
 	# These are installed by dev-util/glib-utils
 	# TODO: With patching we might be able to get rid of the python-any deps and removals, and test depend on glib-utils instead; revisit now with meson
 	rm "${ED}/usr/bin/glib-genmarshal" || die
-	rm "${ED}/usr/share/man/man1/glib-genmarshal.1" || die
 	rm "${ED}/usr/bin/glib-mkenums" || die
-	rm "${ED}/usr/share/man/man1/glib-mkenums.1" || die
 	rm "${ED}/usr/bin/gtester-report" || die
-	rm "${ED}/usr/share/man/man1/gtester-report.1" || die
-	# gdbus-codegen manpage installed by dev-util/gdbus-codegen
-	rm "${ED}/usr/share/man/man1/gdbus-codegen.1" || die
+	use doc && (
+		rm "${ED}/usr/share/man/man1/glib-genmarshal.1" || die
+		rm "${ED}/usr/share/man/man1/glib-mkenums.1" || die
+		rm "${ED}/usr/share/man/man1/gtester-report.1" || die
+		# gdbus-codegen manpage installed by dev-util/gdbus-codegen
+		rm "${ED}/usr/share/man/man1/gdbus-codegen.1" || die
+	)
 }
 
 pkg_preinst() {
