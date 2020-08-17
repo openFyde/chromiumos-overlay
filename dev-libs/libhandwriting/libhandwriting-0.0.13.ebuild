@@ -29,11 +29,11 @@ DLC_PREALLOC_BLOCKS="10240"
 
 src_install() {
 	insinto /usr/include/chromeos/libhandwriting/
-	doins interface.h
+	doins handwriting_interface.h
 	insinto /usr/include/chromeos/libhandwriting/proto/
-	doins interface.proto
-	sed -i 's!chrome/knowledge/handwriting/!!g' validate.proto || die
-	doins validate.proto
+	doins handwriting_interface.proto
+	sed -i 's!chrome/knowledge/handwriting/!!g' handwriting_validate.proto || die
+	doins handwriting_validate.proto
 
 	if ! use ondevice_handwriting && ! use ondevice_handwriting_dlc; then
 		return
@@ -70,4 +70,3 @@ src_install() {
 		doins gesture_labeled_requests.pb
 	fi
 }
-
