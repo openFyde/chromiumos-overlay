@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ca383a5b979e1f1f065bc27b6e24faf2fa844513"
-CROS_WORKON_TREE="a6e5da158ddf7a1cf320330188ce4c112c23bbdc"
+CROS_WORKON_COMMIT="0ccc467d8a29eaab9e7d84de0a673a3e93fddb47"
+CROS_WORKON_TREE="d29b8b1ff2b87fdb3142e8d6eedff5059831728e"
 CROS_WORKON_PROJECT="chromiumos/platform/vpd"
 CROS_WORKON_LOCALNAME="platform/vpd"
 
@@ -38,7 +38,7 @@ src_install() {
 	# (no ACPI stuff on ARM for instance)
 	dosbin vpd vpd_s
 	dosbin util/check_rw_vpd util/dump_vpd_log util/update_rw_vpd
-	dosbin util/vpd_get_value
+	dosbin util/vpd_get_value util/vpd_icc
 
 	# install the init script
 	if use systemd; then
