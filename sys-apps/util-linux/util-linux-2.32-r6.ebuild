@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
 
@@ -42,10 +42,12 @@ RDEPEND="caps? ( sys-libs/libcap-ng )
 	slang? ( sys-libs/slang )
 	!build? ( systemd? ( sys-apps/systemd ) )
 	udev? ( virtual/libudev:= )"
-DEPEND="${RDEPEND}
+BDEPEND="
 	virtual/pkgconfig
 	nls? ( sys-devel/gettext )
 	test? ( sys-devel/bc )
+"
+DEPEND="${RDEPEND}
 	virtual/os-headers"
 RDEPEND+="
 	kill? (
