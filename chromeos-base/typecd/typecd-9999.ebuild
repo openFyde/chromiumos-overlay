@@ -30,6 +30,10 @@ src_install() {
 	# Install seccomp policy file.
 	insinto /usr/share/policy
 	use seccomp && newins "seccomp/typecd-seccomp-${ARCH}.policy" typecd-seccomp.policy
+
+	# Install rsyslog config.
+	insinto /etc/rsyslog.d
+	doins rsyslog/rsyslog.typecd.conf
 }
 
 pkg_preinst() {
