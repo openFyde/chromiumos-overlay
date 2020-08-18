@@ -4,7 +4,7 @@ DEPEND=virtual/libusb:1= >=dev-rust/chunked_transfer-1:= <dev-rust/chunked_trans
 DESCRIPTION=A proxy for HTTP traffic over an IPP-USB printer connection
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/ippusb_bridge/
-IUSE=cros_host cros_workon_tree_482344a66e29bcd983fac50827a5f8248fb9a692 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+IUSE=cros_host cros_workon_tree_bf714bb05e07ad69b6003c114a17b4b30135a295 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
@@ -12,4 +12,4 @@ RDEPEND=virtual/libusb:1=
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	b0f444266980127f80d2f8b326b3a1c9	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	bc16c661ba79bdde4268e2a0fc6a1049	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=377d920a17e48b6aac46758d27256c3f
+_md5_=a95fbd395f4da7f75f149697123a356d
