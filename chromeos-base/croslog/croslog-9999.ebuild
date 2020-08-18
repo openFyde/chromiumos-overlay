@@ -26,9 +26,6 @@ src_install() {
 
 	insinto /etc/init
 	doins etc/log-bootid-on-boot.conf
-
-	exeinto /usr/share/cros/init
-	doexe scripts/upstart/*.sh
 }
 
 platform_pkg_test() {
