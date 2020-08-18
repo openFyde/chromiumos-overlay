@@ -81,6 +81,7 @@ SERVER_IUSE_TESTS="
 			+tests_cheets_GTS_R
 		)
 	)
+	+tests_cheets_LabDependencies
 	debugd? ( +tests_debugd_DevTools )
 	+tests_crosperf_Wrapper
 	+tests_display_EdidStress
