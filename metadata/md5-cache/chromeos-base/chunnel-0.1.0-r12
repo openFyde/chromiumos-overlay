@@ -4,12 +4,12 @@ DEPEND=chromeos-base/system_api:= dev-rust/libchromeos:= dev-rust/sys_util:= =de
 DESCRIPTION=Tunnel between localhost in different netns
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/chunnel
-IUSE=kvm_host cros_host cros_workon_tree_ cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
-KEYWORDS=~*
+IUSE=kvm_host cros_host cros_workon_tree_bc62119e1a4cf895b279a883f7785743e9ea215a cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=sys-apps/baselayout
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	b0f444266980127f80d2f8b326b3a1c9	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	bc16c661ba79bdde4268e2a0fc6a1049	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	user	7c566af8c48023219fd63246e88d6621
-_md5_=37ffdf5e63b72d48f0aedf55f15aec67
+_md5_=2a1208e48e1334eb3ab953e00cde8fa7
