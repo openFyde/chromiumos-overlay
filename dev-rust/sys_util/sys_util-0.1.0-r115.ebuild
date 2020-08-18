@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="32f423723a86eb41656e6efda64fb929ca7f9ae9"
-CROS_WORKON_TREE="f3d2959358dee44cbff8feee4e6a6ee3868edc40"
+CROS_WORKON_COMMIT="02a17bb5888003ae05ab87ba08e6d0d0f8709fa0"
+CROS_WORKON_TREE="e752ed5bb4f22db519ead68e67341890ccef63ea"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -26,6 +26,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
+	=dev-rust/android_log-sys-0.2*:=
 	>=dev-rust/libc-0.2.44:=
 	=dev-rust/quote-1*:=
 	=dev-rust/proc-macro2-1*:=
