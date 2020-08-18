@@ -334,6 +334,7 @@ ALL_BOARDS=(
 	rambi
 	rammus
 	rammus-arc-r
+	rammus-arc-r-userdebug
 	raspberrypi
 	reef
 	relm
