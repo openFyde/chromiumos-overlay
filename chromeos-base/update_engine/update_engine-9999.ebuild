@@ -74,11 +74,8 @@ platform_pkg_test() {
 	cd "${OUT}"
 	# The tests also want keys to be in the current dir.
 	# .pub.pem files are generated on the "gen" directory.
-	for f in unittest_key.pub.pem unittest_key2.pub.pem; do
-		cp "${S}"/${f/.pub} ./ || die
-		ln -fs gen/include/update_engine/$f $f  \
-			|| die "Error creating the symlink for $f."
-	done
+	cp "${S}"/unittest_key*.pem ./ || die
+	cp gen/include/update_engine/unittest_key*.pub.pem ./ || die
 
 	# The unit tests check to make sure the minor version value in
 	# update_engine.conf match the constants in update engine, so we need to be
