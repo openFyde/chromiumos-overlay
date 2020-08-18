@@ -227,6 +227,9 @@ RDEPEND="
 		chromeos-base/crosdns
 		chromeos-base/crostini_client
 		chromeos-base/vm_host_tools
+		dlc? (
+			chromeos-base/termina-dlc
+		)
 	)
 	sys-kernel/linux-firmware
 	virtual/chromeos-bsp
