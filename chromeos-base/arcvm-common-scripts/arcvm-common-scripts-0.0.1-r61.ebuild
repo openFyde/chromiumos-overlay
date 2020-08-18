@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c882eb0676a3616226063eaae36fac199b80d3d8"
-CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "c7966ef90d7d8bbc6a1f30709d094a3f86cb6252" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d290beb1740aee1200757cee034ab68db2774f54"
+CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "978d0f831d0c93f7e13fe8fdf8fb48ed88c2df31" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -19,12 +19,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
-# Previously this ebuild was named "chromeos-base/arcvm-launch".
-# TODO(youkichihosoi): Remove this blocker after a while.
 RDEPEND="
 	${RDEPEND}
 	chromeos-base/arc-setup
-	!chromeos-base/arcvm-launch
+	chromeos-base/arcvm-mount-media-dirs
 "
 
 src_install() {
