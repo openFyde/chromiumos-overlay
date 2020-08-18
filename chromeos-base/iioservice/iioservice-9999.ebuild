@@ -18,6 +18,7 @@ DESCRIPTION="Chrome OS sensor HAL IPC util."
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="+seccomp"
 
 RDEPEND="
 	chromeos-base/libiioservice_ipc:=
@@ -39,6 +40,10 @@ src_install() {
 	# Install upstart configuration.
 	insinto /etc/init
 	doins init/iioservice.conf
+
+	# Install seccomp policy file.
+	insinto /usr/share/policy
+	use seccomp && newins "seccomp/iioservice-${ARCH}.policy" iioservice-seccomp.policy
 }
 
 platform_pkg_test() {
