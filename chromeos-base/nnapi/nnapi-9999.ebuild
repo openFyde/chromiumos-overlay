@@ -58,7 +58,7 @@ CROS_WORKON_SUBTREE=(
 
 PLATFORM_SUBDIR="nnapi"
 
-inherit cros-workon platform epatch
+inherit cros-workon platform
 
 DESCRIPTION="Chrome OS support utils for Android Neural Network API"
 HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"

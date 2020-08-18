@@ -20,7 +20,7 @@ USE_EXPAND="ABI_ARM ABI_MIPS ABI_PPC ABI_S390 ABI_X86 ALSA_CARDS APACHE2_MODULES
 
 # USE_EXPAND variables whose contents are not shown in package manager
 # output. Changes need discussion on gentoo-dev.
-USE_EXPAND_HIDDEN="USERLAND KERNEL ELIBC CROSSCOMPILE_OPTS ABI_ARM ABI_MIPS ABI_PPC ABI_S390 ABI_X86 CPU_FLAGS_X86"
+USE_EXPAND_HIDDEN="USERLAND KERNEL ELIBC ABI_ARM ABI_MIPS ABI_PPC ABI_S390 ABI_X86 CPU_FLAGS_X86"
 
 # Basic CONFIG_PROTECT is defined by portage make.globals in /usr/share. That is really bad, kill it here.
 CONFIG_PROTECT="-/etc"

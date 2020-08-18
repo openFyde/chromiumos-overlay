@@ -117,7 +117,7 @@ src_unpack() {
 	else
 		cros-workon_src_unpack
 		update_location_for_aosp
-		[[ ${ABI} == "x32" ]] && epatch "${FILESDIR}"/90_all_gcc-4.7-x32.patch
+		[[ ${ABI} == "x32" ]] && eapply "${FILESDIR}"/90_all_gcc-4.7-x32.patch
 	fi
 
 	COST_PKG_VERSION="$("${FILESDIR}"/chromeos-version.sh "${S}")_cos_gg"
@@ -229,7 +229,7 @@ src_configure() {
 		if [[ -n ${needed_libc} ]]; then
 			if ! has_version ${CATEGORY}/${needed_libc}; then
 				confgcc+=( --disable-shared --disable-threads --without-headers )
-			elif built_with_use --hidden --missing false ${CATEGORY}/${needed_libc} crosscompile_opts_headers-only; then
+			elif has_version "${CATEGORY}/${needed_libc}[crosscompile_opts_headers-only]"; then
 				confgcc+=( --disable-shared --with-sysroot=/usr/${CTARGET} )
 			else
 				confgcc+=( --with-sysroot=/usr/${CTARGET} )
