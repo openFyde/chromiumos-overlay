@@ -2286,6 +2286,22 @@ cros-kernel2_src_install() {
 			soname=$(scanelf -qF'%S#f' "${f}")
 			dosym "linux-gate.so" "${d}/${soname}"
 		done
+	elif [[ "${kernel_arch}" == "arm64" ]]; then
+		local vdso_dir d f soname
+		vdso_dir="$(cros-workon_get_build_dir)/arch/arm64/kernel/vdso"
+		[[ -d ${vdso_dir} ]] || die "could not find arm64 vDSO dir"
+
+		# Use the debug versions (.so.dbg) so portage can run splitdebug on them.
+		for f in "${vdso_dir}"*/vdso*.so.dbg; do
+			d="/lib/modules/${version}/vdso${f#*vdso}"
+			d="${d%/*}"
+
+			exeinto "${d}"
+			newexe "${f}" "linux-gate.so"
+
+			soname=$(scanelf -qF'%S#f' "${f}")
+			dosym "linux-gate.so" "${d}/${soname}"
+		done
 	fi
 
 	if use kernel_sources; then
