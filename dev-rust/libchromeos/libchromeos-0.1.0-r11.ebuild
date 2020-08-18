@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="99ccfc58de72cc05a80a50d7e3aaa536ae3852fe"
+CROS_WORKON_COMMIT="eb7c602a6bb62afe6bbda9a74b1bc068d0851ffa"
 CROS_WORKON_TREE="6dd0e473c4b9e09734923a7d1c7005594ceb8efc"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,6 +21,7 @@ IUSE="test"
 DEPEND="chromeos-base/system_api:=
 	sys-apps/dbus:=
 	=dev-rust/dbus-0.6*:=
+	=dev-rust/intrusive-collections-0.9*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
 	>=dev-rust/protobuf-2.1:=
