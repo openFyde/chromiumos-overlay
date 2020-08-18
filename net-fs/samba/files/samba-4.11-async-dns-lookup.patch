@@ -1,185 +1,7 @@
-From 8e68939e8c637cd1e8276e02b8e9df8954c86a72 Mon Sep 17 00:00:00 2001
-From: Jeremy Allison <jra@samba.org>
-Date: Fri, 10 Jul 2020 15:09:33 -0700
-Subject: [PATCH 01/60] s4: torture: Add smb2.notify.handle-permissions test.
-
-Add knownfail entry.
-
-CVE-2020-14318
-
-BUG: https://bugzilla.samba.org/show_bug.cgi?id=14434
-
-Signed-off-by: Jeremy Allison <jra@samba.org>
----
- .../smb2_notify_handle_permissions            |  2 +
- source4/torture/smb2/notify.c                 | 80 +++++++++++++++++++
- 2 files changed, 82 insertions(+)
- create mode 100644 selftest/knownfail.d/smb2_notify_handle_permissions
-
-diff --git a/selftest/knownfail.d/smb2_notify_handle_permissions b/selftest/knownfail.d/smb2_notify_handle_permissions
-new file mode 100644
-index 00000000000..c0ec8fc8153
---- /dev/null
-+++ b/selftest/knownfail.d/smb2_notify_handle_permissions
-@@ -0,0 +1,2 @@
-+^samba3.smb2.notify.handle-permissions
-+
-diff --git a/source4/torture/smb2/notify.c b/source4/torture/smb2/notify.c
-index d8aa44f5d4c..8894ed94c5c 100644
---- a/source4/torture/smb2/notify.c
-+++ b/source4/torture/smb2/notify.c
-@@ -2649,6 +2649,83 @@ done:
- 	return ok;
- }
- 
-+/*
-+  Test asking for a change notify on a handle without permissions.
-+*/
-+
-+#define BASEDIR_HPERM BASEDIR "_HPERM"
-+
-+static bool torture_smb2_notify_handle_permissions(
-+		struct torture_context *torture,
-+		struct smb2_tree *tree)
-+{
-+	bool ret = true;
-+	NTSTATUS status;
-+	union smb_notify notify;
-+	union smb_open io;
-+	struct smb2_handle h1 = {{0}};
-+	struct smb2_request *req;
-+
-+	smb2_deltree(tree, BASEDIR_HPERM);
-+	smb2_util_rmdir(tree, BASEDIR_HPERM);
-+
-+	torture_comment(torture,
-+		"TESTING CHANGE NOTIFY "
-+		"ON A HANDLE WITHOUT PERMISSIONS\n");
-+
-+	/*
-+	  get a handle on the directory
-+	*/
-+	ZERO_STRUCT(io.smb2);
-+	io.generic.level = RAW_OPEN_SMB2;
-+	io.smb2.in.create_flags = 0;
-+	io.smb2.in.desired_access = SEC_FILE_READ_ATTRIBUTE;
-+	io.smb2.in.create_options = NTCREATEX_OPTIONS_DIRECTORY;
-+	io.smb2.in.file_attributes = FILE_ATTRIBUTE_NORMAL;
-+	io.smb2.in.share_access = NTCREATEX_SHARE_ACCESS_READ |
-+				NTCREATEX_SHARE_ACCESS_WRITE;
-+	io.smb2.in.alloc_size = 0;
-+	io.smb2.in.create_disposition = NTCREATEX_DISP_CREATE;
-+	io.smb2.in.impersonation_level = SMB2_IMPERSONATION_ANONYMOUS;
-+	io.smb2.in.security_flags = 0;
-+	io.smb2.in.fname = BASEDIR_HPERM;
-+
-+	status = smb2_create(tree, torture, &io.smb2);
-+	CHECK_STATUS(status, NT_STATUS_OK);
-+	h1 = io.smb2.out.file.handle;
-+
-+	/* ask for a change notify,
-+	   on file or directory name changes */
-+	ZERO_STRUCT(notify.smb2);
-+	notify.smb2.level = RAW_NOTIFY_SMB2;
-+	notify.smb2.in.buffer_size = 1000;
-+	notify.smb2.in.completion_filter = FILE_NOTIFY_CHANGE_NAME;
-+	notify.smb2.in.file.handle = h1;
-+	notify.smb2.in.recursive = true;
-+
-+	req = smb2_notify_send(tree, &notify.smb2);
-+	torture_assert_goto(torture,
-+			req != NULL,
-+			ret,
-+			done,
-+			"smb2_notify_send failed\n");
-+
-+	/*
-+	 * Cancel it, we don't really want to wait.
-+	 */
-+	smb2_cancel(req);
-+	status = smb2_notify_recv(req, torture, &notify.smb2);
-+	/* Handle h1 doesn't have permissions for ChangeNotify. */
-+	CHECK_STATUS(status, NT_STATUS_ACCESS_DENIED);
-+
-+done:
-+	if (!smb2_util_handle_empty(h1)) {
-+		smb2_util_close(tree, h1);
-+	}
-+	smb2_deltree(tree, BASEDIR_TD);
-+	return ret;
-+}
-+
- /*
-    basic testing of SMB2 change notify
- */
-@@ -2682,6 +2759,9 @@ struct torture_suite *torture_smb2_notify_init(TALLOC_CTX *ctx)
- 				     torture_smb2_notify_rmdir3);
- 	torture_suite_add_2smb2_test(suite, "rmdir4",
- 				     torture_smb2_notify_rmdir4);
-+	torture_suite_add_1smb2_test(suite,
-+				    "handle-permissions",
-+				    torture_smb2_notify_handle_permissions);
- 
- 	suite->description = talloc_strdup(suite, "SMB2-NOTIFY tests");
- 
--- 
-2.20.1
-
-
-From e567a1230cb5126655f7f42dfa5113df0da94f06 Mon Sep 17 00:00:00 2001
-From: Jeremy Allison <jra@samba.org>
-Date: Tue, 7 Jul 2020 18:25:23 -0700
-Subject: [PATCH 02/60] s3: smbd: Ensure change notifies can't get set unless
- the directory handle is open for SEC_DIR_LIST.
-
-Remove knownfail entry.
-
-CVE-2020-14318
-
-BUG: https://bugzilla.samba.org/show_bug.cgi?id=14434
-
-Signed-off-by: Jeremy Allison <jra@samba.org>
----
- selftest/knownfail.d/smb2_notify_handle_permissions | 2 --
- source3/smbd/notify.c                               | 8 ++++++++
- 2 files changed, 8 insertions(+), 2 deletions(-)
- delete mode 100644 selftest/knownfail.d/smb2_notify_handle_permissions
-
-diff --git a/selftest/knownfail.d/smb2_notify_handle_permissions b/selftest/knownfail.d/smb2_notify_handle_permissions
-deleted file mode 100644
-index c0ec8fc8153..00000000000
---- a/selftest/knownfail.d/smb2_notify_handle_permissions
-+++ /dev/null
-@@ -1,2 +0,0 @@
--^samba3.smb2.notify.handle-permissions
--
-diff --git a/source3/smbd/notify.c b/source3/smbd/notify.c
-index b36a4c0003a..68553686fa2 100644
---- a/source3/smbd/notify.c
-+++ b/source3/smbd/notify.c
-@@ -289,6 +289,14 @@ NTSTATUS change_notify_create(struct files_struct *fsp,
- 	char fullpath[len+1];
- 	NTSTATUS status = NT_STATUS_NOT_IMPLEMENTED;
- 
-+	/*
-+	 * Setting a changenotify needs READ/LIST access
-+	 * on the directory handle.
-+	 */
-+	if (!(fsp->access_mask & SEC_DIR_LIST)) {
-+		return NT_STATUS_ACCESS_DENIED;
-+	}
-+
- 	if (fsp->notify != NULL) {
- 		DEBUG(1, ("change_notify_create: fsp->notify != NULL, "
- 			  "fname = %s\n", fsp->fsp_name->base_name));
--- 
-2.20.1
-
-
-From 9cb2ade634d67533e388547fff2af00a25396dd1 Mon Sep 17 00:00:00 2001
+From ce0ba3f64766805992c7c93f28fb399301c9f23c Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 11:43:03 -0700
-Subject: [PATCH 03/60] s3: lib: Cleanup - all the ipstr_XXX() functions are
+Subject: [PATCH 01/62] s3: lib: Cleanup - all the ipstr_XXX() functions are
  only used in namecache.c.
 
 Move them there. Will remove from the global namespace next.
@@ -547,10 +369,10 @@ index 082f256bc02..8fc65675db9 100644
 2.20.1
 
 
-From 1a2cbf953e36ee5116621b78973c3f3becaaa130 Mon Sep 17 00:00:00 2001
+From ccb983f3689d841939e835512cf896978f6859f3 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 11:48:30 -0700
-Subject: [PATCH 04/60] s3: lib: Cleanup - nothing uses ipstr_list_free().
+Subject: [PATCH 02/62] s3: lib: Cleanup - nothing uses ipstr_list_free().
  Remove it.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
@@ -598,10 +420,10 @@ index 8fc65675db9..6a4bbc7216f 100644
 2.20.1
 
 
-From 8691ec0b35713dfd72e741a07f81e705ec95f6b3 Mon Sep 17 00:00:00 2001
+From 859f2b701626728b6984bcee043daa6dbfaeba8d Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 11:58:45 -0700
-Subject: [PATCH 05/60] s3: lib: Cleanup - make ipstr_list_make() and
+Subject: [PATCH 03/62] s3: lib: Cleanup - make ipstr_list_make() and
  ipstr_list_parse() private to the only user.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
@@ -652,10 +474,10 @@ index 6a4bbc7216f..3b77c748527 100644
 2.20.1
 
 
-From 7fea1669e07f7510e503e606a45a3a0cdb9ce7c6 Mon Sep 17 00:00:00 2001
+From 86f6249b7d7d26f097b1bf78a2b4517a7f09a39e Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 12:12:23 -0700
-Subject: [PATCH 06/60] s3: libsmb: Cleanup modern coding standards.
+Subject: [PATCH 04/62] s3: libsmb: Cleanup modern coding standards.
  'True/False' -> 'true/false'.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
@@ -767,10 +589,10 @@ index 3b77c748527..832daea1e01 100644
 2.20.1
 
 
-From 554b7195607054b861589879df6ae279c063abbb Mon Sep 17 00:00:00 2001
+From 52405b7dbd76fa3daf5e5e415928ecd4220ae824 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 13:28:33 -0700
-Subject: [PATCH 07/60] s3: libsmb: Cleanup - move talloc frame out of inner
+Subject: [PATCH 05/62] s3: libsmb: Cleanup - move talloc frame out of inner
  scope.
 
 Make it available thoughout the function. Prepare to use
@@ -843,10 +665,10 @@ index 832daea1e01..76d411e87d1 100644
 2.20.1
 
 
-From 0d47b6a4a362c369dc7a2c4faae02d92136edf66 Mon Sep 17 00:00:00 2001
+From cf885843fca6c60fb855b9c56f560bc70536ea1d Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 13:31:38 -0700
-Subject: [PATCH 08/60] s3: libsmb: Cleanup - namecache_store() initialize
+Subject: [PATCH 06/62] s3: libsmb: Cleanup - namecache_store() initialize
  stack variables.
 
 Preparing for common out: exit.
@@ -878,10 +700,10 @@ index 76d411e87d1..1127874c375 100644
 2.20.1
 
 
-From e214f1842ed0919c37b84d642945f90f456295e3 Mon Sep 17 00:00:00 2001
+From a464af6d2363714c631e62e390b5bbef81fa03c0 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 13:33:27 -0700
-Subject: [PATCH 09/60] s3: libsmb: Cleanup - namecache_store() - use common
+Subject: [PATCH 07/62] s3: libsmb: Cleanup - namecache_store() - use common
  out.
 
 Prepare for moving malloc values to talloc.
@@ -940,10 +762,10 @@ index 1127874c375..a4de493b08e 100644
 2.20.1
 
 
-From 2bf1e9d318a6f9fdefcd79909ced4f2d6120631e Mon Sep 17 00:00:00 2001
+From cb2876a6fc29880c4f8cb50e96fc36cc0eaa1aba Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 13:37:59 -0700
-Subject: [PATCH 10/60] s3: libsmb: Cleanup - make namecache_key() use talloc.
+Subject: [PATCH 08/62] s3: libsmb: Cleanup - make namecache_key() use talloc.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 Reviewed-by: Volker Lendecke <vl@samba.org>
@@ -1039,10 +861,10 @@ index a4de493b08e..5457a9d47cc 100644
 2.20.1
 
 
-From b1af71e4b87bbb31f90c8c22457663d9931d7de3 Mon Sep 17 00:00:00 2001
+From 36bf9a7373d058e5f7b07c3d9f0f7b8661615a62 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 14:38:23 -0700
-Subject: [PATCH 11/60] s3: libsmb: Cleanup - make
+Subject: [PATCH 09/62] s3: libsmb: Cleanup - make
  namecache_status_record_key() use talloc.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
@@ -1140,10 +962,10 @@ index 5457a9d47cc..ed0d116e3bb 100644
 2.20.1
 
 
-From 2ae055940b82d574ce665fc80c04032c095bc4a7 Mon Sep 17 00:00:00 2001
+From c796efc01c89c6da7ab0e1565195aeeee54e04cc Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 14:41:45 -0700
-Subject: [PATCH 12/60] s3: libsmb: Cleanup - Move DEBUG -> DBG_XXX() macros.
+Subject: [PATCH 10/62] s3: libsmb: Cleanup - Move DEBUG -> DBG_XXX() macros.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 Reviewed-by: Volker Lendecke <vl@samba.org>
@@ -1244,10 +1066,10 @@ index ed0d116e3bb..3c1a376b35b 100644
 2.20.1
 
 
-From 608a4b57e1ed69850d837f296443011db7457af8 Mon Sep 17 00:00:00 2001
+From 9a9ed170a5e3ed30cab22daf3a4440ea1350982b Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 15 Jul 2020 15:02:02 -0700
-Subject: [PATCH 13/60] s3: libsmb: Cleanup - Make ipstr_list_make() talloc
+Subject: [PATCH 11/62] s3: libsmb: Cleanup - Make ipstr_list_make() talloc
  rather than malloc.
 
 Remove the excessive and unneeded ipstr_list_add() function,
@@ -1455,10 +1277,10 @@ index 3c1a376b35b..7f534587263 100644
 2.20.1
 
 
-From c5ad0867738f1db28ed62eb8b345dbb979aa0246 Mon Sep 17 00:00:00 2001
+From 7ba2c859ce3f6863da9b31454377d23d6b64fdf8 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Thu, 16 Jul 2020 15:47:04 -0700
-Subject: [PATCH 14/60] s3: libsmb: Namecache. Fix bug missed by me in previous
+Subject: [PATCH 12/62] s3: libsmb: Namecache. Fix bug missed by me in previous
  cleanup.
 
 In ipstr_list_make() we need to look at the correct array entry
@@ -1492,10 +1314,10 @@ index 7f534587263..fb4a4aac8c8 100644
 2.20.1
 
 
-From f441967d537e935c452ecd86aaca35f090086793 Mon Sep 17 00:00:00 2001
+From cd671fcfc167061b2af279e3f138d32600c51ec5 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 20:57:44 -0700
-Subject: [PATCH 15/60] s3: libsmb: Cleanup - ensure we don't try and continue
+Subject: [PATCH 13/62] s3: libsmb: Cleanup - ensure we don't try and continue
  resolving names on failure of convert_ss2service().
 
 Logic change, but correct error cleanup - jump to new 'fail:' label.
@@ -1554,10 +1376,10 @@ index f61e2507cce..eba696b621d 100644
 2.20.1
 
 
-From 3bb783262b6b89a9dce6e4c6b0d993d6ac31a1a2 Mon Sep 17 00:00:00 2001
+From 2909432a288344e5717c1f803bd9f191869eb004 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 16:54:45 -0700
-Subject: [PATCH 16/60] s3: libsmb: Cleanup - change to early continue in
+Subject: [PATCH 14/62] s3: libsmb: Cleanup - change to early continue in
  internal_resolve_name() for resolve_hosts().
 
 No logic change.
@@ -1600,10 +1422,10 @@ index eba696b621d..1af78218bb2 100644
 2.20.1
 
 
-From b8123058074fc9f89d7bc93a2835a0d50c6020c7 Mon Sep 17 00:00:00 2001
+From 350998d49c97c8a8eb7ff942333f324464980d19 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 16:56:14 -0700
-Subject: [PATCH 17/60] s3: libsmb: Cleanup - change to early continue in
+Subject: [PATCH 15/62] s3: libsmb: Cleanup - change to early continue in
  internal_resolve_name() for KDC resolve_ads().
 
 No logic change.
@@ -1640,10 +1462,10 @@ index 1af78218bb2..c4ab345e30a 100644
 2.20.1
 
 
-From 20a6e828d163db36dbe3d42fa10f4bcac83cb202 Mon Sep 17 00:00:00 2001
+From bba87d43b5bea1242d3dd995920c7e14feaf4d34 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 16:57:43 -0700
-Subject: [PATCH 18/60] s3: libsmb: Cleanup - change to early continue in
+Subject: [PATCH 16/62] s3: libsmb: Cleanup - change to early continue in
  internal_resolve_name() for resolve_ads().
 
 No logic change.
@@ -1674,10 +1496,10 @@ index c4ab345e30a..7f105abd402 100644
 2.20.1
 
 
-From 8ba0feea23a4ea1222c45eae9a8951d783c239ab Mon Sep 17 00:00:00 2001
+From 6e11470e88462a657f5a9de27fe3d1f750fce366 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 16:58:46 -0700
-Subject: [PATCH 19/60] s3: libsmb: Cleanup - change to early continue in
+Subject: [PATCH 17/62] s3: libsmb: Cleanup - change to early continue in
  internal_resolve_name() for resolve_lmhosts_file_as_sockaddr().
 
 No logic change.
@@ -1720,10 +1542,10 @@ index 7f105abd402..319ae952d7f 100644
 2.20.1
 
 
-From 75ce24eb59836ed66410ecdc46d218d3bfce2aa2 Mon Sep 17 00:00:00 2001
+From bab5e02b1623b5c24a88a588cce22dcf9a5babde Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 16:59:38 -0700
-Subject: [PATCH 20/60] s3: libsmb: Cleanup - change to early continue in
+Subject: [PATCH 18/62] s3: libsmb: Cleanup - change to early continue in
  internal_resolve_name() for 0x1D name in resolve_wins().
 
 No logic change.
@@ -1776,10 +1598,10 @@ index 319ae952d7f..95d17b6ebea 100644
 2.20.1
 
 
-From 967c9d9ba5afa409f27ea2027de5c06887e4da41 Mon Sep 17 00:00:00 2001
+From 8562a23690aff9098f100584bc0762c3b3941cb7 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:00:35 -0700
-Subject: [PATCH 21/60] s3: libsmb: Cleanup - change to early continue in
+Subject: [PATCH 19/62] s3: libsmb: Cleanup - change to early continue in
  internal_resolve_name() for resolve_wins().
 
 No logic change.
@@ -1822,10 +1644,10 @@ index 95d17b6ebea..ffc36b0acf5 100644
 2.20.1
 
 
-From 77182f52562197bbb617cd445e1bb1afb0041fb4 Mon Sep 17 00:00:00 2001
+From 748afd2d3770e0946034c1fe52734556b31ebf86 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:01:04 -0700
-Subject: [PATCH 22/60] s3: libsmb: Cleanup - change to early continue in
+Subject: [PATCH 20/62] s3: libsmb: Cleanup - change to early continue in
  internal_resolve_name() for name_resolve_bcast().
 
 No logic change.
@@ -1868,10 +1690,10 @@ index ffc36b0acf5..9b459c58b18 100644
 2.20.1
 
 
-From a66566439cd2f4c9bde2c21a6e27f5146bf95dab Mon Sep 17 00:00:00 2001
+From 00a60fbfecc02e4694b979d995387ab384cb9cbe Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:02:15 -0700
-Subject: [PATCH 23/60] s3: libsmb: Cleanup - use helper 'ok' bool for
+Subject: [PATCH 21/62] s3: libsmb: Cleanup - use helper 'ok' bool for
  resolve_hosts().
 
 No logic change.
@@ -1910,10 +1732,10 @@ index 9b459c58b18..a0607269eb4 100644
 2.20.1
 
 
-From 1152a03baad479fe145cdff59fa5169684742920 Mon Sep 17 00:00:00 2001
+From 189bfcf7ac15883eeb3a6533096d73182f294654 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:03:21 -0700
-Subject: [PATCH 24/60] s3: libsmb: Cleanup - use helper 'ok' bool for
+Subject: [PATCH 22/62] s3: libsmb: Cleanup - use helper 'ok' bool for
  resolve_lmhosts_file_as_sockaddr().
 
 No logic change.
@@ -1944,10 +1766,10 @@ index a0607269eb4..ce8f8f30ded 100644
 2.20.1
 
 
-From b5dd0d74c5ce919542e19c94c4889768387f525f Mon Sep 17 00:00:00 2001
+From 319ce53000106a8c352b2fadd2dcc4c4c1f4a9c9 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:04:57 -0700
-Subject: [PATCH 25/60] s3: libsmb: Cleanup - use helper 'ok' bool for
+Subject: [PATCH 23/62] s3: libsmb: Cleanup - use helper 'ok' bool for
  resolve_wins().
 
 No logic change.
@@ -1978,10 +1800,10 @@ index ce8f8f30ded..3cc8e3e3f1b 100644
 2.20.1
 
 
-From 13b47f75d2336cc3962d0259b2053c763b44c802 Mon Sep 17 00:00:00 2001
+From a8d3324b02622f8b8c9126968c14297b2da716f5 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:05:27 -0700
-Subject: [PATCH 26/60] s3: libsmb: Cleanup - use helper 'ok' bool for
+Subject: [PATCH 24/62] s3: libsmb: Cleanup - use helper 'ok' bool for
  name_resolve_bcast().
 
 No logic change.
@@ -2012,10 +1834,10 @@ index 3cc8e3e3f1b..b58d79e2e9d 100644
 2.20.1
 
 
-From 7193f4e2c4e7f78adfa62c3b2ed67fb6c66dfabe Mon Sep 17 00:00:00 2001
+From a8bd335d8de41f86ece4cdc9a9fc94d469ad415d Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:27:13 -0700
-Subject: [PATCH 27/60] s3: libsmb: Cleanup - use helper 'ok' bool for
+Subject: [PATCH 25/62] s3: libsmb: Cleanup - use helper 'ok' bool for
  internal_resolve_name().
 
 No logic change.
@@ -2045,10 +1867,10 @@ index b58d79e2e9d..59643fa52d8 100644
 2.20.1
 
 
-From e8caa2daa6fe583d564b33dfcfa1cf664b7adb83 Mon Sep 17 00:00:00 2001
+From 3418e1c6e76b82ad9d02a9b67f12c6dac4736e56 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:28:41 -0700
-Subject: [PATCH 28/60] s3: libsmb: Cleanup - split allocation and NULL check
+Subject: [PATCH 26/62] s3: libsmb: Cleanup - split allocation and NULL check
  in internal_resolve_name().
 
 No logic change.
@@ -2077,10 +1899,10 @@ index 59643fa52d8..6886d0b3b2a 100644
 2.20.1
 
 
-From 14012540cfef0c6802fdec8c0d159680c0f428c2 Mon Sep 17 00:00:00 2001
+From 9d4ed68695a37ba04a908f99718b8bd9d11f864b Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:32:47 -0700
-Subject: [PATCH 29/60] s3: libsmb: Cleanup - modernize DEBUG -> DBG_ in
+Subject: [PATCH 27/62] s3: libsmb: Cleanup - modernize DEBUG -> DBG_ in
  internal_resolve_name()
 
 No logic change.
@@ -2158,10 +1980,10 @@ index 6886d0b3b2a..f69ad676bb8 100644
 2.20.1
 
 
-From c61c612a2a73bafc151e221bbb350f8943f96560 Mon Sep 17 00:00:00 2001
+From b0e6744808122e2bdaab4ed57ab1a44699411ab3 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:35:22 -0700
-Subject: [PATCH 30/60] s3: libsmb: Cleanup - Remove incorrect comment in
+Subject: [PATCH 28/62] s3: libsmb: Cleanup - Remove incorrect comment in
  resolve_ads(). The DNS code copes fine with IPv6 addresses.
 
 No logic change.
@@ -2187,10 +2009,10 @@ index f69ad676bb8..a71cab8e1bf 100644
 2.20.1
 
 
-From 35e9dc4f687e7f9bac02f8b48a0177d66f8a0be8 Mon Sep 17 00:00:00 2001
+From 576f5a541c858936354560b6f120b7e5f42ee848 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:38:20 -0700
-Subject: [PATCH 31/60] s3: libsmb: Cleanup - reformatting resolve_hosts()
+Subject: [PATCH 29/62] s3: libsmb: Cleanup - reformatting resolve_hosts()
  parameters inside internal_resolve_name().
 
 No logic changes.
@@ -2221,10 +2043,10 @@ index a71cab8e1bf..8c570cebe70 100644
 2.20.1
 
 
-From 62f9748c710dfffb69c44b0c7b00a646eb303a42 Mon Sep 17 00:00:00 2001
+From 539e00d0673877e61715ae2aea7e4161091efb0d Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:39:33 -0700
-Subject: [PATCH 32/60] s3: libsmb: Cleanup - reformatting resolve_ads()
+Subject: [PATCH 30/62] s3: libsmb: Cleanup - reformatting resolve_ads()
  parameters inside internal_resolve_name().
 
 No logic changes.
@@ -2256,10 +2078,10 @@ index 8c570cebe70..16fa764ec65 100644
 2.20.1
 
 
-From 59caf60b887bf9851f8ee9a154437897dbd0363f Mon Sep 17 00:00:00 2001
+From e835d41edf98f294817e90b4d5aea3694d321fc8 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:40:06 -0700
-Subject: [PATCH 33/60] s3: libsmb: Cleanup - reformatting 2nd use of
+Subject: [PATCH 31/62] s3: libsmb: Cleanup - reformatting 2nd use of
  resolve_ads() parameters inside internal_resolve_name().
 
 No logic change.
@@ -2291,10 +2113,10 @@ index 16fa764ec65..2a92e530794 100644
 2.20.1
 
 
-From 5c37a41ae00bf481e10ed9889f737dd953e65062 Mon Sep 17 00:00:00 2001
+From 614e3adeb440f8d45c84bc514412669af3a8760e Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:42:44 -0700
-Subject: [PATCH 34/60] s3: libsmb: Cleanup - reformatting
+Subject: [PATCH 32/62] s3: libsmb: Cleanup - reformatting
  resolve_lmhosts_file_as_sockaddr() parameters inside internal_resolve_name().
 
 No logic changes.
@@ -2327,10 +2149,10 @@ index 2a92e530794..30c16f349a5 100644
 2.20.1
 
 
-From b074e5c334128caf40dcc84b02bd97e42385ffae Mon Sep 17 00:00:00 2001
+From d4757917dc5db5aa0cd24e229cb4165cc3fe0916 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:43:26 -0700
-Subject: [PATCH 35/60] s3: libsmb: Cleanup - reformatting resolve_wins()
+Subject: [PATCH 33/62] s3: libsmb: Cleanup - reformatting resolve_wins()
  parameters inside internal_resolve_name().
 
 No logic changes.
@@ -2358,10 +2180,10 @@ index 30c16f349a5..bd20864a2a9 100644
 2.20.1
 
 
-From dc6e2cbf95a2144e98c779499dd3a7f95e703149 Mon Sep 17 00:00:00 2001
+From acc88b09ae06d2aa8dc58d742fbd07fb4ea4de85 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:44:03 -0700
-Subject: [PATCH 36/60] s3: libsmb: Cleanup - reformatting name_resolve_bcast()
+Subject: [PATCH 34/62] s3: libsmb: Cleanup - reformatting name_resolve_bcast()
  parameters inside internal_resolve_name().
 
 No logic changes.
@@ -2393,10 +2215,10 @@ index bd20864a2a9..1f3eba9f294 100644
 2.20.1
 
 
-From cbe9c06fcff50e4c859b596a7f5c93e35f8bfc01 Mon Sep 17 00:00:00 2001
+From 69e508f79e0782ff5547007773978a861096388c Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:45:44 -0700
-Subject: [PATCH 37/60] s3: libsmb: Cleanup - put talloc parameter first in
+Subject: [PATCH 35/62] s3: libsmb: Cleanup - put talloc parameter first in
  resolve_hosts().
 
 No logic changes.
@@ -2438,10 +2260,10 @@ index 1f3eba9f294..2e5ecc0fb62 100644
 2.20.1
 
 
-From 66383beb83a83453dd30bb9805381a3d5eb5ccf9 Mon Sep 17 00:00:00 2001
+From d018b490a6a6c8b011a899d4fe4d2655d91d70ae Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:50:21 -0700
-Subject: [PATCH 38/60] s3/s4: Cleanup. Move TALLOC_CTX * parameter to be first
+Subject: [PATCH 36/62] s3/s4: Cleanup. Move TALLOC_CTX * parameter to be first
  in resolve_lmhosts_file_as_sockaddr() to match modern conventions.
 
 No logic changes.
@@ -2529,10 +2351,10 @@ index 400cf79f68b..42bdaf962f9 100644
 2.20.1
 
 
-From 672efd8beced614e953785c08ec70fd32826e5a0 Mon Sep 17 00:00:00 2001
+From a2725badf688ca9907bdf730a66090e695b10115 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:53:28 -0700
-Subject: [PATCH 39/60] s3: libsmb: Cleanup - put talloc parameter first in
+Subject: [PATCH 37/62] s3: libsmb: Cleanup - put talloc parameter first in
  resolve_wins().
 
 No logic changes.
@@ -2591,22 +2413,41 @@ index d7bd4d338b4..7e31dc1b632 100644
 2.20.1
 
 
-From ad940524332e5ec938f18fb676a114fefa851d4f Mon Sep 17 00:00:00 2001
+From 2bb6bac68899c19d1fe0034cf66b8540eefe2022 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:56:48 -0700
-Subject: [PATCH 40/60] s3: libsmb: Cleanup - put talloc parameter first in
+Subject: [PATCH 38/62] s3: libsmb: Cleanup - put talloc parameter first in
  name_resolve_bcast().
 
 No logic changes.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
+ source3/libsmb/cliconnect.c | 7 +++++--
  source3/libsmb/libsmb_dir.c | 7 +++++--
  source3/libsmb/namequery.c  | 6 +++---
  source3/libsmb/namequery.h  | 4 ++--
  source3/utils/nmblookup.c   | 8 +++++---
- 4 files changed, 15 insertions(+), 10 deletions(-)
+ 5 files changed, 20 insertions(+), 12 deletions(-)
 
+diff --git a/source3/libsmb/cliconnect.c b/source3/libsmb/cliconnect.c
+index 3df35931bb6..51ca424e206 100644
+--- a/source3/libsmb/cliconnect.c
++++ b/source3/libsmb/cliconnect.c
+@@ -3896,8 +3896,11 @@ struct cli_state *get_ipc_connect_master_ip_bcast(TALLOC_CTX *ctx,
+ 
+         /* Go looking for workgroups by broadcasting on the local network */
+ 
+-	status = name_resolve_bcast(MSBROWSE, 1, talloc_tos(),
+-				    &ip_list, &count);
++	status = name_resolve_bcast(talloc_tos(),
++				MSBROWSE,
++				1,
++				&ip_list,
++				&count);
+         if (!NT_STATUS_IS_OK(status)) {
+                 DEBUG(99, ("No master browsers responded: %s\n",
+ 			   nt_errstr(status)));
 diff --git a/source3/libsmb/libsmb_dir.c b/source3/libsmb/libsmb_dir.c
 index fd42c71b2b8..506bfc56865 100644
 --- a/source3/libsmb/libsmb_dir.c
@@ -2691,10 +2532,10 @@ index c74b6497a35..2f50c5c8f5a 100644
 2.20.1
 
 
-From 3dfb140ce68292e6be28777bd3660d105da72c7e Mon Sep 17 00:00:00 2001
+From 2389720023132ba663fc09d911e3e2b120974238 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 20:27:38 -0700
-Subject: [PATCH 41/60] s3: libsmb: Cleanup - ensure ss_list variables are
+Subject: [PATCH 39/62] s3: libsmb: Cleanup - ensure ss_list variables are
  initialized with NULL.
 
 No logic changes.
@@ -2748,10 +2589,10 @@ index dde49c84d2d..01a2bacb9eb 100644
 2.20.1
 
 
-From 8be5558f192d55ff6cb8d4f4f595ac79fef27dc4 Mon Sep 17 00:00:00 2001
+From 7d7d9e9769c4bf466bcf69bd5ffe2993d7d3d2c9 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 17:59:20 -0700
-Subject: [PATCH 42/60] s3: libsmb: Pass in TALLOC_CTX * parameter to
+Subject: [PATCH 40/62] s3: libsmb: Pass in TALLOC_CTX * parameter to
  resolve_ads() instead of creating one internally.
 
 Pass in talloc_tos() to make it match the other resolve_XXX() functions.
@@ -2864,10 +2705,10 @@ index 01a2bacb9eb..519bd1bf181 100644
 2.20.1
 
 
-From 52d289bf71125d70f617aad8e0943d98bc83a4b7 Mon Sep 17 00:00:00 2001
+From e3cd273a2e55adbf65cd251353646b45cf34a0be Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 18:31:16 -0700
-Subject: [PATCH 43/60] s3: libsmb: Add in (currently unused) function
+Subject: [PATCH 41/62] s3: libsmb: Add in (currently unused) function
  dns_lookup_list().
 
 This function takes a list of names returned from a DNS SRV
@@ -2983,10 +2824,10 @@ index 519bd1bf181..8a274bc5fbc 100644
 2.20.1
 
 
-From 216c9512856e9afd854e0fee0047889bf2bdfd91 Mon Sep 17 00:00:00 2001
+From 6877f2cb238c68e5b2167196824124d0f0c16c6b Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 19:50:04 -0700
-Subject: [PATCH 44/60] s3: libsmb: Rewrite resolve_ads() to use the previously
+Subject: [PATCH 42/62] s3: libsmb: Rewrite resolve_ads() to use the previously
  added dns_lookup_list() function.
 
 Clean up internals - a LOT.
@@ -3304,10 +3145,45 @@ index 8a274bc5fbc..842f82264ba 100644
 2.20.1
 
 
-From f626e211ba9138a5f5c3e7eed487c31d1becfb62 Mon Sep 17 00:00:00 2001
+From 1030c9708f6f89de0b6725414c847a68fb40d21a Mon Sep 17 00:00:00 2001
+From: Volker Lendecke <vl@samba.org>
+Date: Wed, 5 Aug 2020 16:22:10 +0200
+Subject: [PATCH 43/62] libsmb: Fix CID 1465656 Resource leak
+
+This is very likely a false positive, because Coverity does not see
+that we only assign "dns_addrs" when NT_STATUS_IS_OK(status), so we
+might not want this. But it is a fresh finding and looks cleaner this
+way.
+
+Signed-off-by: Volker Lendecke <vl@samba.org>
+Reviewed-by: Jeremy Allison <jra@samba.org>
+
+Autobuild-User(master): Jeremy Allison <jra@samba.org>
+Autobuild-Date(master): Thu Aug  6 20:23:53 UTC 2020 on sn-devel-184
+---
+ source3/libsmb/namequery.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
+index 842f82264ba..20c4c115c61 100644
+--- a/source3/libsmb/namequery.c
++++ b/source3/libsmb/namequery.c
+@@ -2634,6 +2634,7 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
+ 		TALLOC_FREE(dcs);
+ 		TALLOC_FREE(srv_addrs);
+ 		TALLOC_FREE(dns_lookup_names);
++		TALLOC_FREE(dns_addrs);
+ 		return status;
+ 	}
+ 
+-- 
+2.20.1
+
+
+From 2069c53f72654dafa37faf097122dc446af83bda Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 20:17:54 -0700
-Subject: [PATCH 45/60] s3: libsmb: Change resolve_ads() to return a talloc'ed
+Subject: [PATCH 44/62] s3: libsmb: Change resolve_ads() to return a talloc'ed
  ss_list, matching the other name resolution methods.
 
 Now we can move all the convert_ss2service() calls to one place.
@@ -3318,7 +3194,7 @@ Signed-off-by: Jeremy Allison <jra@samba.org>
  1 file changed, 30 insertions(+), 16 deletions(-)
 
 diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
-index 842f82264ba..473eeb92436 100644
+index 20c4c115c61..7d6546347a6 100644
 --- a/source3/libsmb/namequery.c
 +++ b/source3/libsmb/namequery.c
 @@ -2450,7 +2450,7 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
@@ -3357,7 +3233,7 @@ index 842f82264ba..473eeb92436 100644
  	 */
  
  	/* First count the sizes of each array. */
-@@ -2638,9 +2638,9 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
+@@ -2639,9 +2639,9 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
  	}
  
  	/*
@@ -3370,7 +3246,7 @@ index 842f82264ba..473eeb92436 100644
  
  	numaddrs = num_srv_addrs + num_dns_addrs;
  	/* Wrap check + bloody int conversion check :-(. */
-@@ -2653,8 +2653,10 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
+@@ -2654,8 +2654,10 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
  		return NT_STATUS_INVALID_PARAMETER;
  	}
  
@@ -3383,7 +3259,7 @@ index 842f82264ba..473eeb92436 100644
  		TALLOC_FREE(dcs);
  		TALLOC_FREE(srv_addrs);
  		TALLOC_FREE(dns_addrs);
-@@ -2663,12 +2665,10 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
+@@ -2664,12 +2666,10 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
  	}
  
  	for (i = 0; i < num_srv_addrs; i++) {
@@ -3398,7 +3274,7 @@ index 842f82264ba..473eeb92436 100644
  	}
  
  	TALLOC_FREE(dcs);
-@@ -2676,7 +2676,7 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
+@@ -2677,7 +2677,7 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
  	TALLOC_FREE(dns_addrs);
  	TALLOC_FREE(dns_lookup_names);
  
@@ -3407,7 +3283,7 @@ index 842f82264ba..473eeb92436 100644
  	*return_count = numaddrs;
  	return NT_STATUS_OK;
  }
-@@ -2835,11 +2835,12 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2836,11 +2836,12 @@ NTSTATUS internal_resolve_name(const char *name,
  		} else if(strequal( tok, "kdc")) {
  			/* deal with KDC_NAME_TYPE names here.
  			 * This will result in a SRV record lookup */
@@ -3421,7 +3297,7 @@ index 842f82264ba..473eeb92436 100644
  					     return_count);
  			if (!NT_STATUS_IS_OK(status)) {
  				continue;
-@@ -2847,19 +2848,32 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2848,19 +2849,32 @@ NTSTATUS internal_resolve_name(const char *name,
  			/* Ensure we don't namecache
  			 * this with the KDC port. */
  			name_type = KDC_NAME_TYPE;
@@ -3459,10 +3335,10 @@ index 842f82264ba..473eeb92436 100644
 2.20.1
 
 
-From d8a94cd58d8417ba83f10dfe18b3a8461b33de85 Mon Sep 17 00:00:00 2001
+From f095cad5543cde98d700b4e1c84e4544565f6ddb Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 20:40:02 -0700
-Subject: [PATCH 46/60] s3: libsmb: Now all resolution functions return a
+Subject: [PATCH 45/62] s3: libsmb: Now all resolution functions return a
  ss_list on success, we only need one local variable for this.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
@@ -3471,10 +3347,10 @@ Signed-off-by: Jeremy Allison <jra@samba.org>
  1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
-index 473eeb92436..8cbbafd9b4f 100644
+index 7d6546347a6..5a25df56e18 100644
 --- a/source3/libsmb/namequery.c
 +++ b/source3/libsmb/namequery.c
-@@ -2735,6 +2735,7 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2736,6 +2736,7 @@ NTSTATUS internal_resolve_name(const char *name,
  	NTSTATUS status = NT_STATUS_UNSUCCESSFUL;
  	int i;
  	bool ok;
@@ -3482,7 +3358,7 @@ index 473eeb92436..8cbbafd9b4f 100644
  	TALLOC_CTX *frame = NULL;
  
  	*return_iplist = NULL;
-@@ -2815,7 +2816,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2816,7 +2817,6 @@ NTSTATUS internal_resolve_name(const char *name,
  		tok = resolve_order[i];
  
  		if((strequal(tok, "host") || strequal(tok, "hosts"))) {
@@ -3490,7 +3366,7 @@ index 473eeb92436..8cbbafd9b4f 100644
  			status = resolve_hosts(talloc_tos(),
  					       name,
  					       name_type,
-@@ -2835,7 +2835,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2836,7 +2836,6 @@ NTSTATUS internal_resolve_name(const char *name,
  		} else if(strequal( tok, "kdc")) {
  			/* deal with KDC_NAME_TYPE names here.
  			 * This will result in a SRV record lookup */
@@ -3498,7 +3374,7 @@ index 473eeb92436..8cbbafd9b4f 100644
  			status = resolve_ads(talloc_tos(),
  					     name,
  					     KDC_NAME_TYPE,
-@@ -2858,7 +2857,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2859,7 +2858,6 @@ NTSTATUS internal_resolve_name(const char *name,
  		} else if(strequal( tok, "ads")) {
  			/* deal with 0x1c and 0x1b names here.
  			 * This will result in a SRV record lookup */
@@ -3506,7 +3382,7 @@ index 473eeb92436..8cbbafd9b4f 100644
  			status = resolve_ads(talloc_tos(),
  					     name,
  					     name_type,
-@@ -2876,7 +2874,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2877,7 +2875,6 @@ NTSTATUS internal_resolve_name(const char *name,
  			}
  			goto done;
  		} else if (strequal(tok, "lmhosts")) {
@@ -3514,7 +3390,7 @@ index 473eeb92436..8cbbafd9b4f 100644
  			status = resolve_lmhosts_file_as_sockaddr(
  				talloc_tos(),
  				get_dyn_LMHOSTSFILE(),
-@@ -2897,7 +2894,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2898,7 +2895,6 @@ NTSTATUS internal_resolve_name(const char *name,
  			goto done;
  		} else if (strequal(tok, "wins")) {
  			/* don't resolve 1D via WINS */
@@ -3522,7 +3398,7 @@ index 473eeb92436..8cbbafd9b4f 100644
  			if (name_type == 0x1D) {
  				continue;
  			}
-@@ -2918,7 +2914,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2919,7 +2915,6 @@ NTSTATUS internal_resolve_name(const char *name,
  			}
  			goto done;
  		} else if (strequal(tok, "bcast")) {
@@ -3534,10 +3410,10 @@ index 473eeb92436..8cbbafd9b4f 100644
 2.20.1
 
 
-From 2b76ac6a75660112f2e559bf3f5f5ca2748530a1 Mon Sep 17 00:00:00 2001
+From 60de921ecd5f09cc81b6353d8f84aaa3896b5ffd Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Mon, 20 Jul 2020 20:52:58 -0700
-Subject: [PATCH 47/60] s3: libsmb: Move all calls to convert_ss2service() to
+Subject: [PATCH 46/62] s3: libsmb: Move all calls to convert_ss2service() to
  one place now all methods return a sockaddr_storage.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
@@ -3546,10 +3422,10 @@ Signed-off-by: Jeremy Allison <jra@samba.org>
  1 file changed, 8 insertions(+), 42 deletions(-)
 
 diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
-index 8cbbafd9b4f..f1d10bda593 100644
+index 5a25df56e18..6fab3d318e4 100644
 --- a/source3/libsmb/namequery.c
 +++ b/source3/libsmb/namequery.c
-@@ -2824,13 +2824,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2825,13 +2825,6 @@ NTSTATUS internal_resolve_name(const char *name,
  			if (!NT_STATUS_IS_OK(status)) {
  				continue;
  			}
@@ -3563,7 +3439,7 @@ index 8cbbafd9b4f..f1d10bda593 100644
  			goto done;
  		} else if(strequal( tok, "kdc")) {
  			/* deal with KDC_NAME_TYPE names here.
-@@ -2847,12 +2840,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2848,12 +2841,6 @@ NTSTATUS internal_resolve_name(const char *name,
  			/* Ensure we don't namecache
  			 * this with the KDC port. */
  			name_type = KDC_NAME_TYPE;
@@ -3576,7 +3452,7 @@ index 8cbbafd9b4f..f1d10bda593 100644
  			goto done;
  		} else if(strequal( tok, "ads")) {
  			/* deal with 0x1c and 0x1b names here.
-@@ -2866,12 +2853,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2867,12 +2854,6 @@ NTSTATUS internal_resolve_name(const char *name,
  			if (!NT_STATUS_IS_OK(status)) {
  				continue;
  			}
@@ -3589,7 +3465,7 @@ index 8cbbafd9b4f..f1d10bda593 100644
  			goto done;
  		} else if (strequal(tok, "lmhosts")) {
  			status = resolve_lmhosts_file_as_sockaddr(
-@@ -2884,13 +2865,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2885,13 +2866,6 @@ NTSTATUS internal_resolve_name(const char *name,
  			if (!NT_STATUS_IS_OK(status)) {
  				continue;
  			}
@@ -3603,7 +3479,7 @@ index 8cbbafd9b4f..f1d10bda593 100644
  			goto done;
  		} else if (strequal(tok, "wins")) {
  			/* don't resolve 1D via WINS */
-@@ -2905,13 +2879,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2906,13 +2880,6 @@ NTSTATUS internal_resolve_name(const char *name,
  			if (!NT_STATUS_IS_OK(status)) {
  				continue;
  			}
@@ -3617,7 +3493,7 @@ index 8cbbafd9b4f..f1d10bda593 100644
  			goto done;
  		} else if (strequal(tok, "bcast")) {
  			status = name_resolve_bcast(
-@@ -2923,13 +2890,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2924,13 +2891,6 @@ NTSTATUS internal_resolve_name(const char *name,
  			if (!NT_STATUS_IS_OK(status)) {
  				continue;
  			}
@@ -3631,7 +3507,7 @@ index 8cbbafd9b4f..f1d10bda593 100644
  			goto done;
  		} else {
  			DBG_ERR("unknown name switch type %s\n",
-@@ -2939,8 +2899,6 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2940,8 +2900,6 @@ NTSTATUS internal_resolve_name(const char *name,
  
  	/* All of the resolve_* functions above have returned false. */
  
@@ -3640,7 +3516,7 @@ index 8cbbafd9b4f..f1d10bda593 100644
  	TALLOC_FREE(frame);
  	SAFE_FREE(*return_iplist);
  	*return_count = 0;
-@@ -2949,6 +2907,14 @@ NTSTATUS internal_resolve_name(const char *name,
+@@ -2950,6 +2908,14 @@ NTSTATUS internal_resolve_name(const char *name,
  
    done:
  
@@ -3659,23 +3535,25 @@ index 8cbbafd9b4f..f1d10bda593 100644
 2.20.1
 
 
-From 507d7fc99ac285c5c1eac0f0731dc00a7b2f42e5 Mon Sep 17 00:00:00 2001
+From 41b0856b16c8cd16904f97fcd6a602622a0f60ee Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Fri, 17 Jul 2020 14:21:09 -0700
-Subject: [PATCH 48/60] lib: addns: Add code for asynchronously looking up A
+Subject: [PATCH 47/62] lib: addns: Add code for asynchronously looking up A
  records.
+
+Returns an array of struct sockaddr_storage.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
- lib/addns/dnsquery.c | 195 +++++++++++++++++++++++++++++++++++++++++++
+ lib/addns/dnsquery.c | 200 +++++++++++++++++++++++++++++++++++++++++++
  lib/addns/dnsquery.h |  15 ++++
- 2 files changed, 210 insertions(+)
+ 2 files changed, 215 insertions(+)
 
 diff --git a/lib/addns/dnsquery.c b/lib/addns/dnsquery.c
-index 87ae97e3d0b..68101597242 100644
+index 87ae97e3d0b..1b07f6ee347 100644
 --- a/lib/addns/dnsquery.c
 +++ b/lib/addns/dnsquery.c
-@@ -369,6 +369,201 @@ fail:
+@@ -369,6 +369,206 @@ fail:
  	return status;
  }
  
@@ -3696,8 +3574,8 @@ index 87ae97e3d0b..68101597242 100644
 +					 struct tevent_context *ev,
 +					 const char *name)
 +{
-+	struct tevent_req *req, *subreq;
-+	struct ads_dns_lookup_a_state *state;
++	struct tevent_req *req = NULL, *subreq = NULL;
++	struct ads_dns_lookup_a_state *state = NULL;
 +
 +	req = tevent_req_create(mem_ctx, &state,
 +				struct ads_dns_lookup_a_state);
@@ -3727,7 +3605,7 @@ index 87ae97e3d0b..68101597242 100644
 +	struct ads_dns_lookup_a_state *state = tevent_req_data(
 +		req, struct ads_dns_lookup_a_state);
 +	int ret;
-+	struct dns_name_packet *reply;
++	struct dns_name_packet *reply = NULL;
 +	uint16_t i;
 +
 +	ret = dns_lookup_recv(subreq, state, &reply);
@@ -3748,7 +3626,7 @@ index 87ae97e3d0b..68101597242 100644
 +	 * We don't care about CNAME answers here. We're
 +	 * just wanting an async name -> IPv4 lookup.
 +	 */
-+	for (i=0; i<reply->ancount; i++) {
++	for (i = 0; i < reply->ancount; i++) {
 +		if (reply->answers[i].rr_type == DNS_QTYPE_A) {
 +			state->num_names += 1;
 +		}
@@ -3769,8 +3647,9 @@ index 87ae97e3d0b..68101597242 100644
 +
 +	state->num_names = 0;
 +
-+	for (i=0; i<reply->ancount; i++) {
++	for (i = 0; i < reply->ancount; i++) {
 +		bool ok;
++		struct sockaddr_storage ss = {0};
 +		struct dns_res_rec *an = &reply->answers[i];
 +
 +		if (an->rr_type != DNS_QTYPE_A) {
@@ -3784,16 +3663,20 @@ index 87ae97e3d0b..68101597242 100644
 +			/* Can this happen? */
 +			continue;
 +		}
++		ok = dns_res_rec_get_sockaddr(an,
++					      &ss);
++		if (!ok) {
++			continue;
++		}
++		if (is_zero_addr(&ss)) {
++			continue;
++		}
++		state->addrs[state->num_names]= ss;
 +		state->hostnames[state->num_names] = talloc_strdup(
 +							state->hostnames,
 +							an->name);
 +		if (tevent_req_nomem(state->hostnames[state->num_names], req)) {
 +			return;
-+		}
-+		ok = dns_res_rec_get_sockaddr(an,
-+					      &state->addrs[state->num_names]);
-+		if (!ok) {
-+			continue;
 +		}
 +		state->num_names += 1;
 +	}
@@ -3907,23 +3790,25 @@ index bb691f5d55a..229b2134ff7 100644
 2.20.1
 
 
-From 8e84e6dee9d5751507ccb649e5fda104fc78a3aa Mon Sep 17 00:00:00 2001
+From e2a1f350b99f97205a51057455fd6d3825d4f6d4 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Fri, 17 Jul 2020 14:30:02 -0700
-Subject: [PATCH 49/60] lib: addns: Add code for asynchronously looking up AAAA
+Subject: [PATCH 48/62] lib: addns: Add code for asynchronously looking up AAAA
  records.
+
+Returns an array of struct sockaddr_storage.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
- lib/addns/dnsquery.c | 198 +++++++++++++++++++++++++++++++++++++++++++
+ lib/addns/dnsquery.c | 203 +++++++++++++++++++++++++++++++++++++++++++
  lib/addns/dnsquery.h |  16 ++++
- 2 files changed, 214 insertions(+)
+ 2 files changed, 219 insertions(+)
 
 diff --git a/lib/addns/dnsquery.c b/lib/addns/dnsquery.c
-index 68101597242..b91bcbe357c 100644
+index 1b07f6ee347..7795eea53f1 100644
 --- a/lib/addns/dnsquery.c
 +++ b/lib/addns/dnsquery.c
-@@ -565,6 +565,204 @@ fail:
+@@ -570,6 +570,209 @@ fail:
  	return status;
  }
  
@@ -3945,8 +3830,8 @@ index 68101597242..b91bcbe357c 100644
 +					    struct tevent_context *ev,
 +					    const char *name)
 +{
-+	struct tevent_req *req, *subreq;
-+	struct ads_dns_lookup_aaaa_state *state;
++	struct tevent_req *req, *subreq = NULL;
++	struct ads_dns_lookup_aaaa_state *state = NULL;
 +
 +	req = tevent_req_create(mem_ctx, &state,
 +				struct ads_dns_lookup_aaaa_state);
@@ -3976,7 +3861,7 @@ index 68101597242..b91bcbe357c 100644
 +	struct ads_dns_lookup_aaaa_state *state = tevent_req_data(
 +		req, struct ads_dns_lookup_aaaa_state);
 +	int ret;
-+	struct dns_name_packet *reply;
++	struct dns_name_packet *reply = NULL;
 +	uint16_t i;
 +
 +	ret = dns_lookup_recv(subreq, state, &reply);
@@ -3997,7 +3882,7 @@ index 68101597242..b91bcbe357c 100644
 +	 * We don't care about CNAME answers here. We're
 +	 * just wanting an async name -> IPv6 lookup.
 +	 */
-+	for (i=0; i<reply->ancount; i++) {
++	for (i = 0; i < reply->ancount; i++) {
 +		if (reply->answers[i].rr_type == DNS_QTYPE_AAAA) {
 +			state->num_names += 1;
 +		}
@@ -4018,8 +3903,9 @@ index 68101597242..b91bcbe357c 100644
 +
 +	state->num_names = 0;
 +
-+	for (i=0; i<reply->ancount; i++) {
++	for (i = 0; i < reply->ancount; i++) {
 +		bool ok;
++		struct sockaddr_storage ss = {0};
 +		struct dns_res_rec *an = &reply->answers[i];
 +
 +		if (an->rr_type != DNS_QTYPE_AAAA) {
@@ -4033,16 +3919,20 @@ index 68101597242..b91bcbe357c 100644
 +			/* Can this happen? */
 +			continue;
 +		}
++		ok = dns_res_rec_get_sockaddr(an,
++					      &ss);
++		if (!ok) {
++			continue;
++		}
++		if (is_zero_addr(&ss)) {
++			continue;
++		}
++		state->addrs[state->num_names] = ss;
 +		state->hostnames[state->num_names] = talloc_strdup(
 +							state->hostnames,
 +							an->name);
 +		if (tevent_req_nomem(state->hostnames[state->num_names], req)) {
 +			return;
-+		}
-+		ok = dns_res_rec_get_sockaddr(an,
-+					      &state->addrs[state->num_names]);
-+		if (!ok) {
-+			continue;
 +		}
 +		state->num_names += 1;
 +	}
@@ -4094,8 +3984,8 @@ index 68101597242..b91bcbe357c 100644
 +			     char ***hostnames_out,
 +			     struct sockaddr_storage **addrs_out)
 +{
-+	struct tevent_context *ev;
-+	struct tevent_req *req;
++	struct tevent_context *ev = NULL;
++	struct tevent_req *req = NULL;
 +	NTSTATUS status = NT_STATUS_NO_MEMORY;
 +
 +	ev = samba_tevent_context_init(ctx);
@@ -4159,11 +4049,12 @@ index 229b2134ff7..c7d397172f0 100644
 2.20.1
 
 
-From 5eaf8a5aa07b530054f0f94e96377f9baa93a1fe Mon Sep 17 00:00:00 2001
+From b0826162895e795e17e762c2e0216e9eadb44ae7 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Fri, 17 Jul 2020 14:45:45 -0700
-Subject: [PATCH 50/60] WIP: Test harness for async DNS - not really thought
- out.
+Subject: [PATCH 49/62] s3: net: Add new 'net ads dns async <name>' command.
+
+Will test the async DNS lookups in the next commit.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
@@ -4171,17 +4062,17 @@ Signed-off-by: Jeremy Allison <jra@samba.org>
  1 file changed, 82 insertions(+)
 
 diff --git a/source3/utils/net_ads.c b/source3/utils/net_ads.c
-index 19ac9e4533f..11128129ff9 100644
+index 19ac9e4533f..8cbfb59f676 100644
 --- a/source3/utils/net_ads.c
 +++ b/source3/utils/net_ads.c
 @@ -2211,6 +2211,80 @@ static int net_ads_dns_gethostbyname(struct net_context *c, int argc, const char
  	return 0;
  }
  
-+static int net_ads_dns_testasync(struct net_context *c, int argc, const char **argv)
++static int net_ads_dns_async(struct net_context *c, int argc, const char **argv)
 +{
 +	size_t num_names = 0;
-+	char **hostnames;
++	char **hostnames = NULL;
 +	size_t i = 0;
 +	struct sockaddr_storage *addrs = NULL;
 +	NTSTATUS status;
@@ -4191,17 +4082,17 @@ index 19ac9e4533f..11128129ff9 100644
 +			   "    %s\n"
 +			   "    %s\n",
 +			 _("Usage:"),
-+			 _("net ads dns testasync <name>\n"),
++			 _("net ads dns async <name>\n"),
 +			 _("  Async look up hostname from the DNS server\n"
 +			   "    hostname\tName to look up\n"));
 +		return -1;
 +	}
 +
 +	status = ads_dns_lookup_a(talloc_tos(),
-+					   argv[0],
-+					   &num_names,
-+					   &hostnames,
-+					   &addrs);
++				  argv[0],
++				  &num_names,
++				  &hostnames,
++				  &addrs);
 +	if (!NT_STATUS_IS_OK(status)) {
 +		d_printf("Looking up A record for %s got error %s\n",
 +			 argv[0],
@@ -4216,7 +4107,7 @@ index 19ac9e4533f..11128129ff9 100644
 +		print_sockaddr(addr_buf,
 +			       sizeof(addr_buf),
 +			       &addrs[i]);
-+		d_printf("hostname[%u] = %s, addr = %s\n",
++		d_printf("hostname[%u] = %s, IPv4addr = %s\n",
 +			(unsigned int)i,
 +			hostnames[i],
 +			addr_buf);
@@ -4224,10 +4115,10 @@ index 19ac9e4533f..11128129ff9 100644
 +
 +#if defined(HAVE_IPV6)
 +	status = ads_dns_lookup_aaaa(talloc_tos(),
-+					   argv[0],
-+					   &num_names,
-+					   &hostnames,
-+					   &addrs);
++				     argv[0],
++				     &num_names,
++				     &hostnames,
++				     &addrs);
 +	if (!NT_STATUS_IS_OK(status)) {
 +		d_printf("Looking up AAAA record for %s got error %s\n",
 +			 argv[0],
@@ -4242,7 +4133,7 @@ index 19ac9e4533f..11128129ff9 100644
 +		print_sockaddr(addr_buf,
 +			       sizeof(addr_buf),
 +			       &addrs[i]);
-+		d_printf("hostname[%u] = %s, addr = %s\n",
++		d_printf("hostname[%u] = %s, IPv6addr = %s\n",
 +			(unsigned int)i,
 +			hostnames[i],
 +			addr_buf);
@@ -4260,12 +4151,12 @@ index 19ac9e4533f..11128129ff9 100644
  			   "    Look up host")
  		},
 +		{
-+			"testasync",
-+			net_ads_dns_testasync,
++			"async",
++			net_ads_dns_async,
 +			NET_TRANSPORT_ADS,
 +			N_("Look up host"),
-+			N_("net ads dns testasync\n"
-+			   "    Look up host")
++			N_("net ads dns async\n"
++			   "    Look up host using async DNS")
 +		},
  		{NULL, NULL, 0, NULL, NULL}
  	};
@@ -4274,25 +4165,239 @@ index 19ac9e4533f..11128129ff9 100644
 2.20.1
 
 
-From ad954019a679c0dc2e8afe3562165a7dd51b11c3 Mon Sep 17 00:00:00 2001
+From 700f146bdcb6729ca52e12d63499a5a516776bfd Mon Sep 17 00:00:00 2001
+From: Jeremy Allison <jra@samba.org>
+Date: Wed, 5 Aug 2020 15:46:04 -0700
+Subject: [PATCH 50/62] s4: tests: Add new async DNS unit test -
+ samba4.blackbox.net_ads_dns_async(ad_member:local).
+
+Signed-off-by: Jeremy Allison <jra@samba.org>
+---
+ source4/selftest/tests.py                    |  6 ++
+ testprogs/blackbox/test_net_ads_dns_async.sh | 67 ++++++++++++++++++++
+ 2 files changed, 73 insertions(+)
+ create mode 100755 testprogs/blackbox/test_net_ads_dns_async.sh
+
+diff --git a/source4/selftest/tests.py b/source4/selftest/tests.py
+index 73f273d0045..9a86291fb1a 100755
+--- a/source4/selftest/tests.py
++++ b/source4/selftest/tests.py
+@@ -500,6 +500,12 @@ plantestsuite("samba4.blackbox.client_etypes_all(ad_dc:client)", "ad_dc:client",
+ plantestsuite("samba4.blackbox.client_etypes_legacy(ad_dc:client)", "ad_dc:client", [os.path.join(bbdir, "test_client_etypes.sh"), '$DC_SERVER', '$DC_USERNAME', '$DC_PASSWORD', '$PREFIX_ABS', 'legacy', '23'])
+ plantestsuite("samba4.blackbox.client_etypes_strong(ad_dc:client)", "ad_dc:client", [os.path.join(bbdir, "test_client_etypes.sh"), '$DC_SERVER', '$DC_USERNAME', '$DC_PASSWORD', '$PREFIX_ABS', 'strong', '17_18'])
+ plantestsuite("samba4.blackbox.net_ads_dns(ad_member:local)", "ad_member:local", [os.path.join(bbdir, "test_net_ads_dns.sh"), '$DC_SERVER', '$DC_USERNAME', '$DC_PASSWORD', '$REALM', '$USERNAME', '$PASSWORD'])
++plantestsuite("samba4.blackbox.net_ads_dns_async(ad_member:local)",
++        "ad_member:local",
++        [os.path.join(bbdir,
++            "test_net_ads_dns_async.sh"),
++            '$DC_SERVER',
++            '$REALM'])
+ plantestsuite("samba4.blackbox.samba-tool_ntacl(ad_member:local)", "ad_member:local", [os.path.join(bbdir, "test_samba-tool_ntacl.sh"), '$PREFIX', '$DOMSID'])
+ plantestsuite_loadlist("samba4.rpc.echo against NetBIOS alias", "ad_dc_ntvfs", [valgrindify(smbtorture4), "$LISTOPT", "$LOADLIST", 'ncacn_np:$NETBIOSALIAS', '-U$DOMAIN/$USERNAME%$PASSWORD', 'rpc.echo'])
+ # json tests hook into ``chgdcpass'' to make them run in contributor CI on
+diff --git a/testprogs/blackbox/test_net_ads_dns_async.sh b/testprogs/blackbox/test_net_ads_dns_async.sh
+new file mode 100755
+index 00000000000..f0bd0835b4d
+--- /dev/null
++++ b/testprogs/blackbox/test_net_ads_dns_async.sh
+@@ -0,0 +1,67 @@
++#!/bin/sh
++# Blackbox tests for net ads dns async
++# Copyright (C) 2020 Jeremy Allison <jra@samba.org>
++
++if [ $# -lt 2 ]; then
++cat <<EOF
++Usage: test_net_ads_dns_async.sh SERVER REALM
++EOF
++exit 1;
++fi
++
++SERVER=$1
++REALM=$2
++shift 2
++failed=0
++
++samba4bindir="$BINDIR"
++net_tool="$samba4bindir/net"
++
++. `dirname $0`/subunit.sh
++
++# Test looking up SERVER.REALM on server give the
++# same IP via async and non-async DNS.
++echo "Starting ..."
++
++test_async_dns() {
++	#
++	# Do the gethostbyname request. This just prints the IPv4 addr.
++	#
++	cmd_sync='$net_tool ads dns gethostbyname $SERVER $SERVER.$REALM'
++	eval echo "$cmd_sync"
++	ipv4_sync=$(eval $cmd_sync)
++	if [ -z "$ipv4_sync" ]; then
++		return 1
++	fi
++
++	#
++	# Do the async request. This prints out info like:
++	#
++	# Async A record lookup - got 1 names for addc.ADDOM.SAMBA.EXAMPLE.COM
++	# hostname[0] = addc.ADDOM.SAMBA.EXAMPLE.COM, IPv4addr = 10.53.57.30
++	# Async AAAA record lookup - got 1 names for addc.ADDOM.SAMBA.EXAMPLE.COM
++	# hostname[0] = addc.ADDOM.SAMBA.EXAMPLE.COM, IPv6addr = fd00::5357:5f1e
++	#
++	# So we must grep and sed to extract the matching IPv4 address
++	#
++	cmd_async='$net_tool ads dns async $SERVER.$REALM'
++	eval echo "$cmd_async"
++	out_async=$(eval $cmd_async)
++
++	# Drop everything but the IPv4 address.
++	ipv4_async=`echo "$out_async" | grep IPv4addr | sed -e 's/^.*IPv4addr = //'`
++
++	if [ -z "$ipv4_async" ]; then
++		return 1
++	fi
++	if [ "$ipv4_sync" != "$ipv4_async" ]; then
++		echo "DNS lookup mismatch. Sync $ipv4_sync, async $ipv4_async"
++		echo "DNS commands output. out1=$ipv4_sync, out2=$out_async"
++		return 1
++	fi
++	return 0
++}
++
++testit "Check async and non async DNS lookups match " test_async_dns || failed=`expr $failed + 1`
++
++exit $failed
+-- 
+2.20.1
+
+
+From 349bda8c210281a5ee826a0a7c9aa0972cadd089 Mon Sep 17 00:00:00 2001
+From: Jeremy Allison <jra@samba.org>
+Date: Thu, 23 Jul 2020 13:10:12 -0700
+Subject: [PATCH 51/62] s3: Parameters. Add 'async dns timeout' parameter.
+ Default to 10. Minimum value 1.
+
+Signed-off-by: Jeremy Allison <jra@samba.org>
+Reviewed-by: Andreas Schneider <asn@samba.org>
+---
+ .../smbdotconf/tuning/asyncdnstimeout.xml     | 21 +++++++++++++++++++
+ lib/param/loadparm.c                          |  3 +++
+ source3/include/proto.h                       |  1 +
+ source3/param/loadparm.c                      | 16 ++++++++++++++
+ 4 files changed, 41 insertions(+)
+ create mode 100644 docs-xml/smbdotconf/tuning/asyncdnstimeout.xml
+
+diff --git a/docs-xml/smbdotconf/tuning/asyncdnstimeout.xml b/docs-xml/smbdotconf/tuning/asyncdnstimeout.xml
+new file mode 100644
+index 00000000000..6c7ead2b2fd
+--- /dev/null
++++ b/docs-xml/smbdotconf/tuning/asyncdnstimeout.xml
+@@ -0,0 +1,21 @@
++<samba:parameter name="async dns timeout"
++                 context="G"
++                 type="integer"
++                 xmlns:samba="http://www.samba.org/samba/DTD/samba-doc">
++<description>
++    <para>The number of seconds the asynchronous DNS
++    resolver code in Samba will wait for responses.
++    Some of the Samba client library code uses internal
++    asynchronous DNS resolution for A and AAAA records
++    when trying to find Active Directory Domain controllers.
++    This value prevents this name resolution code from
++    waiting for DNS server timeouts.
++    </para>
++    <para>The minimum value of this parameter is clamped
++    at 1 second.
++    zero.</para>
++</description>
++
++<value type="default">10</value>
++<value type="example">20</value>
++</samba:parameter>
+diff --git a/lib/param/loadparm.c b/lib/param/loadparm.c
+index e0c6adec9c8..99bd209fc47 100644
+--- a/lib/param/loadparm.c
++++ b/lib/param/loadparm.c
+@@ -3032,6 +3032,9 @@ struct loadparm_context *loadparm_init(TALLOC_CTX *mem_ctx)
+ 	lpcfg_do_global_parameter(
+ 		lp_ctx, "ldap max search request size", "256000");
+ 
++	/* Async DNS query timeout in seconds. */
++	lpcfg_do_global_parameter(lp_ctx, "async dns timeout", "10");
++
+ 	for (i = 0; parm_table[i].label; i++) {
+ 		if (!(lp_ctx->flags[i] & FLAG_CMDLINE)) {
+ 			lp_ctx->flags[i] |= FLAG_DEFAULT;
+diff --git a/source3/include/proto.h b/source3/include/proto.h
+index 8562317553c..e9d43326914 100644
+--- a/source3/include/proto.h
++++ b/source3/include/proto.h
+@@ -869,6 +869,7 @@ char* lp_perfcount_module(TALLOC_CTX *ctx);
+ void widelinks_warning(int snum);
+ const char *lp_ncalrpc_dir(void);
+ void _lp_set_server_role(int server_role);
++uint32_t lp_get_async_dns_timeout(void);
+ 
+ /* The following definitions come from param/loadparm_ctx.c  */
+ 
+diff --git a/source3/param/loadparm.c b/source3/param/loadparm.c
+index 5ee6d33c7fc..67ac5774999 100644
+--- a/source3/param/loadparm.c
++++ b/source3/param/loadparm.c
+@@ -960,6 +960,9 @@ static void init_globals(struct loadparm_context *lp_ctx, bool reinit_globals)
+ 	Globals.ldap_max_authenticated_request_size = 16777216;
+ 	Globals.ldap_max_search_request_size = 256000;
+ 
++	/* Async DNS query timeout (in seconds). */
++	Globals.async_dns_timeout = 10;
++
+ 	/* Now put back the settings that were set with lp_set_cmdline() */
+ 	apply_lp_set_cmdline();
+ }
+@@ -4681,3 +4684,16 @@ unsigned int * get_flags(void)
+ 
+ 	return flags_list;
+ }
++
++uint32_t lp_get_async_dns_timeout(void)
++{
++	uint32_t val = Globals.async_dns_timeout;
++	/*
++	 * Clamp minimum async dns timeout to 1 second
++	 * as per the man page.
++	 */
++	if (val < 1) {
++		val = 1;
++	}
++	return val;
++}
+-- 
+2.20.1
+
+
+From e4b9841a3a78cb3ceb6b0dee8621ba2b841c1712 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Tue, 21 Jul 2020 12:34:02 -0700
-Subject: [PATCH 51/60] s3: libsmb: Add dns_lookup_list_async().
+Subject: [PATCH 52/62] s3: libsmb: Add dns_lookup_list_async() - not yet used.
 
 Take a list of hostnames and does async A and AAAA (if
 supported) lookups on them. Interface compatible with
-dns_lookup_list() and we'll replace it in the next
-commit.
+dns_lookup_list() (with the addition of one extra
+parameter returning the query name list, for use inside
+dsgetdcname() internals later) and we'll replace it in the next
+commit. Waits for lp_get_async_dns_timeout() seconds to complete.
 
 Commented out as not yet used.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
+Reviewed-by: Andreas Schneider <asn@samba.org>
 ---
- source3/libsmb/namequery.c | 321 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 321 insertions(+)
+ source3/libsmb/namequery.c | 390 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 390 insertions(+)
 
 diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
-index f1d10bda593..c963fe62b33 100644
+index 6fab3d318e4..487a8015d77 100644
 --- a/source3/libsmb/namequery.c
 +++ b/source3/libsmb/namequery.c
 @@ -31,6 +31,7 @@
@@ -4303,7 +4408,7 @@ index f1d10bda593..c963fe62b33 100644
  
  /* nmbd.c sets this to True. */
  bool global_in_nmbd = False;
-@@ -2270,6 +2271,326 @@ fail:
+@@ -2270,6 +2271,395 @@ fail:
  	return status;
  }
  
@@ -4346,23 +4451,28 @@ index f1d10bda593..c963fe62b33 100644
 +				      size_t num_dns_names,
 +				      const char **dns_lookup_names,
 +				      size_t *p_num_addrs,
-+				      struct sockaddr_storage **pp_addrs)
++				      struct sockaddr_storage **pp_addrs,
++				      char ***pp_dns_names)
 +{
 +	struct dns_lookup_list_async_state *state = NULL;
 +	struct tevent_context *ev = NULL;
-+	struct tevent_req *req;
-+	struct tevent_timer *timer;
++	struct tevent_req *req = NULL;
++	struct tevent_timer *timer = NULL;
 +	size_t num_queries_sent = 0;
 +	size_t queries_size = num_dns_names;
 +	size_t i;
 +	size_t num_addrs = 0;
 +	struct sockaddr_storage *addr_out = NULL;
++	char **dns_names_ret = NULL;
 +	NTSTATUS status = NT_STATUS_NO_MEMORY;
 +
 +	/* Nothing to do. */
 +	if (num_dns_names == 0) {
 +		*p_num_addrs = 0;
 +		*pp_addrs = NULL;
++		if (pp_dns_names != NULL) {
++			*pp_dns_names = NULL;
++		}
 +		return NT_STATUS_OK;
 +	}
 +
@@ -4431,10 +4541,11 @@ index f1d10bda593..c963fe62b33 100644
 +#endif
 +	}
 +
-+	/* Set a 10 second timeout. FIXME - lp_dns_timeout() ? */
++	/* We must always have a timeout. */
 +	timer = tevent_add_timer(ev,
 +				 ev,
-+				 timeval_current_ofs(10, 0),
++				 timeval_current_ofs(lp_get_async_dns_timeout(),
++						     0),
 +				 dns_lookup_send_timeout_handler,
 +				 &state->timed_out);
 +	if (timer == NULL) {
@@ -4442,7 +4553,7 @@ index f1d10bda593..c963fe62b33 100644
 +	}
 +
 +	/* Loop until timed out or got all replies. */
-+	while (1) {
++	for(;;) {
 +		int ret;
 +
 +		if (state->timed_out) {
@@ -4481,19 +4592,58 @@ index f1d10bda593..c963fe62b33 100644
 +		goto fail;
 +	}
 +
++	/*
++	 * Did the caller want an array of names back
++	 * that match the IP addresses ? If we provide
++	 * this, dsgetdcname() internals can now use this
++	 * async lookup code also.
++	 */
++	if (pp_dns_names != NULL) {
++		dns_names_ret = talloc_zero_array(ctx,
++						  char *,
++						  num_addrs);
++		if (dns_names_ret == NULL) {
++			goto fail;
++		}
++	}
++
 +	/* Copy what we got back. */
 +	num_addrs = 0;
 +	for (i = 0; i < num_queries_sent; i++) {
++		size_t j;
 +		struct dns_query_state *query = &state->queries[i];
 +
-+		memcpy(&addr_out[num_addrs],
-+			query->addrs,
-+			query->num_addrs * sizeof(query->addrs[0]));
++		if (query->num_addrs == 0) {
++			continue;
++		}
++
++		if (dns_names_ret != NULL) {
++			/*
++			 * If caller wants a name array matched with
++			 * the addrs array, copy the same queried name for
++			 * each IP address returned.
++			 */
++			for (j = 0; j < query->num_addrs; j++) {
++				dns_names_ret[num_addrs + j] = talloc_strdup(
++						ctx,
++						query->query_name);
++				if (dns_names_ret[num_addrs + j] == NULL) {
++					goto fail;
++				}
++			}
++		}
++
++		for (j = 0; j < query->num_addrs; j++) {
++			addr_out[num_addrs] = query->addrs[j];
++		}
 +		num_addrs += query->num_addrs;
 +	}
 +
 +	*p_num_addrs = num_addrs;
 +	*pp_addrs = addr_out;
++	if (pp_dns_names != NULL) {
++		*pp_dns_names = dns_names_ret;
++	}
 +
 +	status = NT_STATUS_OK;
 +
@@ -4520,6 +4670,8 @@ index f1d10bda593..c963fe62b33 100644
 +	uint8_t rcode = 0;
 +	size_t i;
 +	char **hostnames_out = NULL;
++	struct sockaddr_storage *addrs = NULL;
++	size_t num_addrs = 0;
 +	NTSTATUS status;
 +
 +	/* For good or ill, tell the parent we're finished. */
@@ -4528,9 +4680,9 @@ index f1d10bda593..c963fe62b33 100644
 +	status = ads_dns_lookup_a_recv(req,
 +				       state->p_async_state,
 +				       &rcode,
-+				       &state->num_addrs,
++				       &num_addrs,
 +				       &hostnames_out,
-+				       &state->addrs);
++				       &addrs);
 +	if (!NT_STATUS_IS_OK(status)) {
 +		DBG_INFO("async DNS A lookup for %s returned %s\n",
 +			state->query_name,
@@ -4545,14 +4697,21 @@ index f1d10bda593..c963fe62b33 100644
 +		return;
 +	}
 +
-+	if (state->num_addrs == 0) {
++	if (num_addrs == 0) {
 +		DBG_INFO("async DNS A lookup for %s returned 0 addresses.\n",
 +			state->query_name);
 +		return;
 +	}
 +
-+	/* Debug print. */
-+	for (i = 0; i < state->num_addrs; i++) {
++	/* Copy data out. */
++	state->addrs = talloc_zero_array(state->p_async_state,
++					 struct sockaddr_storage,
++					 num_addrs);
++	if (state->addrs == NULL) {
++		return;
++	}
++
++	for (i = 0; i < num_addrs; i++) {
 +		char addr[INET6_ADDRSTRLEN];
 +		DBG_INFO("async DNS A lookup for %s [%zu] got %s -> %s\n",
 +			state->query_name,
@@ -4560,8 +4719,11 @@ index f1d10bda593..c963fe62b33 100644
 +			hostnames_out[i],
 +			print_sockaddr(addr,
 +				sizeof(addr),
-+				&state->addrs[i]));
++				&addrs[i]));
++
++		state->addrs[i] = addrs[i];
 +	}
++	state->num_addrs = num_addrs;
 +}
 +
 +#if defined(HAVE_IPV6)
@@ -4581,6 +4743,8 @@ index f1d10bda593..c963fe62b33 100644
 +	uint8_t rcode = 0;
 +	size_t i;
 +	char **hostnames_out = NULL;
++	struct sockaddr_storage *addrs = NULL;
++	size_t num_addrs = 0;
 +	NTSTATUS status;
 +
 +	/* For good or ill, tell the parent we're finished. */
@@ -4589,9 +4753,9 @@ index f1d10bda593..c963fe62b33 100644
 +	status = ads_dns_lookup_aaaa_recv(req,
 +					  state->p_async_state,
 +					  &rcode,
-+					  &state->num_addrs,
++					  &num_addrs,
 +					  &hostnames_out,
-+					  &state->addrs);
++					  &addrs);
 +	if (!NT_STATUS_IS_OK(status)) {
 +		DBG_INFO("async DNS AAAA lookup for %s returned %s\n",
 +			state->query_name,
@@ -4606,14 +4770,21 @@ index f1d10bda593..c963fe62b33 100644
 +		return;
 +	}
 +
-+	if (state->num_addrs == 0) {
++	if (num_addrs == 0) {
 +		DBG_INFO("async DNS AAAA lookup for %s returned 0 addresses.\n",
 +			state->query_name);
 +		return;
 +	}
 +
-+	/* Debug print. */
-+	for (i = 0; i < state->num_addrs; i++) {
++	/* Copy data out. */
++	state->addrs = talloc_zero_array(state->p_async_state,
++					 struct sockaddr_storage,
++					 num_addrs);
++	if (state->addrs == NULL) {
++		return;
++	}
++
++	for (i = 0; i < num_addrs; i++) {
 +		char addr[INET6_ADDRSTRLEN];
 +		DBG_INFO("async DNS AAAA lookup for %s [%zu] got %s -> %s\n",
 +			state->query_name,
@@ -4621,8 +4792,11 @@ index f1d10bda593..c963fe62b33 100644
 +			hostnames_out[i],
 +			print_sockaddr(addr,
 +				sizeof(addr),
-+				&state->addrs[i]));
++				&addrs[i]));
++
++		state->addrs[i] = addrs[i];
 +	}
++	state->num_addrs = num_addrs;
 +}
 +#endif
 +#endif
@@ -4634,19 +4808,19 @@ index f1d10bda593..c963fe62b33 100644
 2.20.1
 
 
-From 88b3da02ff676f9100bfd995487f391ecb07c56f Mon Sep 17 00:00:00 2001
+From a53a1e343c0a09b97f19df6a5530b32b3393c3cd Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Tue, 21 Jul 2020 12:38:42 -0700
-Subject: [PATCH 52/60] s3: libsmb: Use dns_lookup_list_async() instead of
+Subject: [PATCH 53/62] s3: libsmb: Use dns_lookup_list_async() instead of
  dns_lookup_list().
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
- source3/libsmb/namequery.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ source3/libsmb/namequery.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
-index c963fe62b33..1c1131c67fd 100644
+index 487a8015d77..c25f2de88d5 100644
 --- a/source3/libsmb/namequery.c
 +++ b/source3/libsmb/namequery.c
 @@ -2271,7 +2271,6 @@ fail:
@@ -4657,8 +4831,8 @@ index c963fe62b33..1c1131c67fd 100644
  /********************************************************
   Use ads_dns_lookup_[a|aaaa]_send() calls to look up a
   list of names asynchronously.
-@@ -2589,8 +2588,8 @@ static void dns_lookup_list_aaaa_done(struct tevent_req *req)
- 	}
+@@ -2658,8 +2657,8 @@ static void dns_lookup_list_aaaa_done(struct tevent_req *req)
+ 	state->num_addrs = num_addrs;
  }
  #endif
 -#endif
@@ -4667,7 +4841,7 @@ index c963fe62b33..1c1131c67fd 100644
  /********************************************************
   Resolve a list of DNS names to a list of IP addresses.
   As this is a DC / LDAP / KDC lookup any IP address will
-@@ -2671,6 +2670,7 @@ static NTSTATUS dns_lookup_list(TALLOC_CTX *ctx,
+@@ -2740,6 +2739,7 @@ static NTSTATUS dns_lookup_list(TALLOC_CTX *ctx,
  	*pp_addrs = ret_addrs;
  	return NT_STATUS_OK;
  }
@@ -4675,7 +4849,7 @@ index c963fe62b33..1c1131c67fd 100644
  
  /********************************************************
   Resolve via "hosts" method.
-@@ -2945,7 +2945,7 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
+@@ -3014,11 +3014,12 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
  	}
  
  	/* Lookup the addresses on the dns_lookup_list. */
@@ -4684,14 +4858,20 @@ index c963fe62b33..1c1131c67fd 100644
  				num_dns_names,
  				dns_lookup_names,
  				&num_dns_addrs,
+-				&dns_addrs);
++				&dns_addrs,
++				NULL);
+ 
+ 	if (!NT_STATUS_IS_OK(status)) {
+ 		TALLOC_FREE(dcs);
 -- 
 2.20.1
 
 
-From e912343175e6c060bf0916e1f5bf57cdcdfe439e Mon Sep 17 00:00:00 2001
+From 9474172f7a287073242c0ba2c0a55e7030918be3 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
-Date: Wed, 22 Jul 2020 19:09:21 -0700
-Subject: [PATCH 53/60] s3: libsmb: Remove dns_lookup_list(). No longer used.
+Date: Mon, 17 Aug 2020 21:50:13 -0700
+Subject: [PATCH 54/62] s3: libsmb: Remove dns_lookup_list(). No longer used.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
@@ -4699,10 +4879,10 @@ Signed-off-by: Jeremy Allison <jra@samba.org>
  1 file changed, 83 deletions(-)
 
 diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
-index 1c1131c67fd..4e0ab397c2c 100644
+index c25f2de88d5..bb664ca8d0a 100644
 --- a/source3/libsmb/namequery.c
 +++ b/source3/libsmb/namequery.c
-@@ -2589,89 +2589,6 @@ static void dns_lookup_list_aaaa_done(struct tevent_req *req)
+@@ -2658,89 +2658,6 @@ static void dns_lookup_list_aaaa_done(struct tevent_req *req)
  }
  #endif
  
@@ -4796,257 +4976,14 @@ index 1c1131c67fd..4e0ab397c2c 100644
 2.20.1
 
 
-From afac825e0fe7e8c35c1045a8c8cded086d65cc84 Mon Sep 17 00:00:00 2001
-From: Jeremy Allison <jra@samba.org>
-Date: Tue, 21 Jul 2020 12:48:44 -0700
-Subject: [PATCH 54/60] s3: libsmb: Make resolve_hosts() use new async DNS
- lookup.
-
-Signed-off-by: Jeremy Allison <jra@samba.org>
----
- source3/libsmb/namequery.c | 78 ++++++++++++--------------------------
- 1 file changed, 24 insertions(+), 54 deletions(-)
-
-diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
-index 4e0ab397c2c..3e541aad3a0 100644
---- a/source3/libsmb/namequery.c
-+++ b/source3/libsmb/namequery.c
-@@ -2602,11 +2602,9 @@ static NTSTATUS resolve_hosts(TALLOC_CTX *mem_ctx,
- 	/*
- 	 * "host" means do a localhost, or dns lookup.
- 	 */
--	struct addrinfo hints;
--	struct addrinfo *ailist = NULL;
--	struct addrinfo *res = NULL;
--	int ret = -1;
--	int i = 0;
-+	size_t num_addrs = 0;
-+	struct sockaddr_storage *addrs = NULL;
-+	NTSTATUS status;
- 
- 	if ( name_type != 0x20 && name_type != 0x0) {
- 		DEBUG(5, ("resolve_hosts: not appropriate "
-@@ -2621,60 +2619,32 @@ static NTSTATUS resolve_hosts(TALLOC_CTX *mem_ctx,
- 	DEBUG(3,("resolve_hosts: Attempting host lookup for name %s<0x%x>\n",
- 				name, name_type));
- 
--	ZERO_STRUCT(hints);
--	/* By default make sure it supports TCP. */
--	hints.ai_socktype = SOCK_STREAM;
--	hints.ai_flags = AI_ADDRCONFIG;
--
--#if !defined(HAVE_IPV6)
--	/* Unless we have IPv6, we really only want IPv4 addresses back. */
--	hints.ai_family = AF_INET;
--#endif
-+	/* Lookup the addresses on the dns_lookup_list. */
-+	status = dns_lookup_list_async(mem_ctx,
-+				1,
-+				&name,
-+				&num_addrs,
-+				&addrs);
- 
--	ret = getaddrinfo(name,
--			NULL,
--			&hints,
--			&ailist);
--	if (ret) {
--		DEBUG(3,("resolve_hosts: getaddrinfo failed for name %s [%s]\n",
--			name,
--			gai_strerror(ret) ));
-+	if (!NT_STATUS_IS_OK(status)) {
-+		return status;
- 	}
- 
--	for (res = ailist; res; res = res->ai_next) {
--		struct sockaddr_storage ss;
--
--		if (!res->ai_addr || res->ai_addrlen == 0) {
--			continue;
--		}
--
--		ZERO_STRUCT(ss);
--		memcpy(&ss, res->ai_addr, res->ai_addrlen);
--
--		if (is_zero_addr(&ss)) {
--			continue;
--		}
--
--		*return_count += 1;
--
--		*return_iplist = talloc_realloc(
--			mem_ctx, *return_iplist, struct sockaddr_storage,
--			*return_count);
--		if (!*return_iplist) {
--			DEBUG(3,("resolve_hosts: malloc fail !\n"));
--			freeaddrinfo(ailist);
--			return NT_STATUS_NO_MEMORY;
--		}
--		(*return_iplist)[i] = ss;
--		i++;
--	}
--	if (ailist) {
--		freeaddrinfo(ailist);
-+	*return_count = (int)num_addrs;
-+	if (return_count < 0) {
-+		return NT_STATUS_INVALID_PARAMETER;
- 	}
--	if (*return_count) {
--		return NT_STATUS_OK;
-+	*return_iplist = addrs;
-+	/*
-+	 * resolve_hosts() semantics returns
-+	 * NT_STATUS_UNSUCCESSFUL if no addresses
-+	 * were returned. This allows lookup to
-+	 * continue using another method.
-+	 */
-+	if (*return_count == 0) {
-+		return NT_STATUS_UNSUCCESSFUL;
- 	}
--	return NT_STATUS_UNSUCCESSFUL;
-+	return NT_STATUS_OK;
- }
- 
- /********************************************************
--- 
-2.20.1
-
-
-From 9f2e9021366153b97578e3911039d8d892ea9534 Mon Sep 17 00:00:00 2001
-From: Jeremy Allison <jra@samba.org>
-Date: Tue, 21 Jul 2020 14:49:35 -0700
-Subject: [PATCH 55/60] s3: libsmb: Tweak the interface to
- dns_lookup_list_async() slightly.
-
-Allow a caller to request it to return an array of names that match
-element by element the array of IP addresses returned.
-
-Doing this and making exposing this interface will allow the
-async DNS lookups to be re-used inside the dsgetdcname() internals
-code used by winbindd to find DC's.
-
-Signed-off-by: Jeremy Allison <jra@samba.org>
----
- source3/libsmb/namequery.c | 48 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 45 insertions(+), 3 deletions(-)
-
-diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
-index 3e541aad3a0..bc64e78dac9 100644
---- a/source3/libsmb/namequery.c
-+++ b/source3/libsmb/namequery.c
-@@ -2309,7 +2309,8 @@ static NTSTATUS dns_lookup_list_async(TALLOC_CTX *ctx,
- 				      size_t num_dns_names,
- 				      const char **dns_lookup_names,
- 				      size_t *p_num_addrs,
--				      struct sockaddr_storage **pp_addrs)
-+				      struct sockaddr_storage **pp_addrs,
-+				      char ***pp_dns_names)
- {
- 	struct dns_lookup_list_async_state *state = NULL;
- 	struct tevent_context *ev = NULL;
-@@ -2320,12 +2321,16 @@ static NTSTATUS dns_lookup_list_async(TALLOC_CTX *ctx,
- 	size_t i;
- 	size_t num_addrs = 0;
- 	struct sockaddr_storage *addr_out = NULL;
-+	char **dns_names_ret = NULL;
- 	NTSTATUS status = NT_STATUS_NO_MEMORY;
- 
- 	/* Nothing to do. */
- 	if (num_dns_names == 0) {
- 		*p_num_addrs = 0;
- 		*pp_addrs = NULL;
-+		if (pp_dns_names != NULL) {
-+			*pp_dns_names = NULL;
-+		}
- 		return NT_STATUS_OK;
- 	}
- 
-@@ -2444,11 +2449,43 @@ static NTSTATUS dns_lookup_list_async(TALLOC_CTX *ctx,
- 		goto fail;
- 	}
- 
-+	/*
-+	 * Did the caller want an array of names back
-+	 * that match the IP addresses ? If we provide
-+	 * this, dsgetdcname() internals can now use this
-+	 * async lookup code also.
-+	 */
-+	if (pp_dns_names != NULL) {
-+		dns_names_ret = talloc_zero_array(ctx,
-+						  char *,
-+						  num_addrs);
-+		if (dns_names_ret == NULL) {
-+			goto fail;
-+		}
-+	}
-+
- 	/* Copy what we got back. */
- 	num_addrs = 0;
- 	for (i = 0; i < num_queries_sent; i++) {
- 		struct dns_query_state *query = &state->queries[i];
- 
-+		if (dns_names_ret != NULL) {
-+			/*
-+			 * If caller wants a name array matched with
-+			 * the addrs array, copy the same queried name for
-+			 * each IP address returned.
-+			 */
-+			size_t j;
-+			for (j = 0; j < query->num_addrs; j++) {
-+				dns_names_ret[num_addrs + j] = talloc_strdup(
-+						ctx,
-+						query->query_name);
-+				if (dns_names_ret[num_addrs + j] == NULL) {
-+					goto fail;
-+				}
-+			}
-+		}
-+
- 		memcpy(&addr_out[num_addrs],
- 			query->addrs,
- 			query->num_addrs * sizeof(query->addrs[0]));
-@@ -2457,6 +2494,9 @@ static NTSTATUS dns_lookup_list_async(TALLOC_CTX *ctx,
- 
- 	*p_num_addrs = num_addrs;
- 	*pp_addrs = addr_out;
-+	if (pp_dns_names != NULL) {
-+		*pp_dns_names = dns_names_ret;
-+	}
- 
- 	status = NT_STATUS_OK;
- 
-@@ -2624,7 +2664,8 @@ static NTSTATUS resolve_hosts(TALLOC_CTX *mem_ctx,
- 				1,
- 				&name,
- 				&num_addrs,
--				&addrs);
-+				&addrs,
-+				NULL);
- 
- 	if (!NT_STATUS_IS_OK(status)) {
- 		return status;
-@@ -2836,7 +2877,8 @@ static NTSTATUS resolve_ads(TALLOC_CTX *ctx,
- 				num_dns_names,
- 				dns_lookup_names,
- 				&num_dns_addrs,
--				&dns_addrs);
-+				&dns_addrs,
-+				NULL);
- 
- 	if (!NT_STATUS_IS_OK(status)) {
- 		TALLOC_FREE(dcs);
--- 
-2.20.1
-
-
-From 1e552a75a31fa50535765c7dfa72010c6c482275 Mon Sep 17 00:00:00 2001
+From ee0cf4562bb6e062f5a2887a73fd5ea9912db55f Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Tue, 21 Jul 2020 14:56:47 -0700
-Subject: [PATCH 56/60] s3: libsmb: Make dns_lookup_list_async() available to
+Subject: [PATCH 55/62] s3: libsmb: Make dns_lookup_list_async() available to
  other Samba callers.
 
 This allows the async DNS lookups to be re-used inside the dsgetdcname() internals
-code used by winbindd to find DC's.
+code as previously described.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
@@ -5055,7 +4992,7 @@ Signed-off-by: Jeremy Allison <jra@samba.org>
  2 files changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/source3/libsmb/namequery.c b/source3/libsmb/namequery.c
-index bc64e78dac9..bebc7f847ae 100644
+index bb664ca8d0a..d6ef7dd5146 100644
 --- a/source3/libsmb/namequery.c
 +++ b/source3/libsmb/namequery.c
 @@ -2305,12 +2305,12 @@ static void dns_lookup_list_a_done(struct tevent_req *req);
@@ -5098,20 +5035,23 @@ index aedb043ac81..d6f5d216733 100644
 2.20.1
 
 
-From 896bbf5ae731c2887a6b71e89c701dcdcf001ad0 Mon Sep 17 00:00:00 2001
+From ecb66d3dbd15ea1e5ab7acf0850ee67abf4458c8 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Tue, 21 Jul 2020 22:09:27 -0700
-Subject: [PATCH 57/60] s3: libsmb: Make discover_dc_dns() use async DNS.
+Subject: [PATCH 56/62] s3: libsmb: Make discover_dc_dns() use async DNS.
 
-Change to call dns_lookup_list_async().
+Change to call dns_lookup_list_async(). This is
+doing the samba SRV lookup followed by A and AAAA
+record host lookup as resolve_ads() does and so
+benefits from the same changes to make it async.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
- source3/libsmb/dsgetdcname.c | 224 ++++++++++++++++++++++++++++-------
- 1 file changed, 178 insertions(+), 46 deletions(-)
+ source3/libsmb/dsgetdcname.c | 223 ++++++++++++++++++++++++++++-------
+ 1 file changed, 178 insertions(+), 45 deletions(-)
 
 diff --git a/source3/libsmb/dsgetdcname.c b/source3/libsmb/dsgetdcname.c
-index 08477065f34..ff2ad0ce5ea 100644
+index 08477065f34..cdcefbece3f 100644
 --- a/source3/libsmb/dsgetdcname.c
 +++ b/source3/libsmb/dsgetdcname.c
 @@ -504,14 +504,17 @@ static NTSTATUS discover_dc_dns(TALLOC_CTX *mem_ctx,
@@ -5136,7 +5076,7 @@ index 08477065f34..ff2ad0ce5ea 100644
  
  	if (flags & DS_PDC_REQUIRED) {
  		status = ads_dns_query_pdc(mem_ctx,
-@@ -554,74 +557,203 @@ static NTSTATUS discover_dc_dns(TALLOC_CTX *mem_ctx,
+@@ -554,74 +557,204 @@ static NTSTATUS discover_dc_dns(TALLOC_CTX *mem_ctx,
  	}
  
  	if (!NT_STATUS_IS_OK(status)) {
@@ -5200,8 +5140,8 @@ index 08477065f34..ff2ad0ce5ea 100644
 +		}
  
 -		r->hostname = dcs[i].hostname;
-+		dclist[ret_count].hostname = talloc_move(mem_ctx,
-+						&dcs[i].hostname);
++		dclist[ret_count].hostname =
++			talloc_move(mem_ctx, &dcs[i].hostname);
 +
 +		/*
 +		 * Pick the first IPv4 address,
@@ -5248,8 +5188,8 @@ index 08477065f34..ff2ad0ce5ea 100644
 +			 */
 +			continue;
 +		}
-+		dns_lookups[num_dns_lookups] = talloc_strdup(mem_ctx,
-+							dcs[i].hostname);
++		dns_lookups[num_dns_lookups] =
++			talloc_strdup(mem_ctx, dcs[i].hostname);
 +		if (dns_lookups[num_dns_lookups] == NULL) {
 +			TALLOC_FREE(dcs);
 +			TALLOC_FREE(dclist);
@@ -5294,22 +5234,22 @@ index 08477065f34..ff2ad0ce5ea 100644
 +	 *
 +	 * For example this means for looking up
 +	 * names:
-+	 *	NAME1
-+	 *	NAME2
-+	 *	NAME3
++	 *     NAME1
++	 *     NAME2
++	 *     NAME3
 +	 *
 +	 * The replies might look like:
-+	 * 	NAME1 -> IPv4
-+	 * 	NAME1 -> IPv4
-+	 *	NAME1 -> IPv6
-+	 *	NAME1 -> IPv6
-+	 *	NAME3 -> IPv6
++	 *     NAME1 -> IPv4
++	 *     NAME1 -> IPv4
++	 *     NAME1 -> IPv6
++	 *     NAME1 -> IPv6
++	 *     NAME3 -> IPv6
 +	 *
 +	 * But they will never be in the order:
 +	 *
-+	 *	NAME2
-+	 *	NAME3
-+	 *	NAME1
++	 *     NAME2
++	 *     NAME3
++	 *     NAME1
 +	 *
 +	 * Also in dns_lookup_list_async()
 +	 * we arrange the requests/replies in
@@ -5324,8 +5264,8 @@ index 08477065f34..ff2ad0ce5ea 100644
 +	 */
 +
 +	for (i = 0; i < num_lookups_ret; i++) {
-+		dclist[ret_count].hostname = talloc_move(mem_ctx,
-+						&dns_lookups_ret[i]);
++		dclist[ret_count].hostname =
++			talloc_move(mem_ctx, &dns_lookups_ret[i]);
 +		dclist[ret_count].ss = dns_addrs_ret[i];
 +		/*
 +		 * Is this a duplicate name return.
@@ -5347,7 +5287,8 @@ index 08477065f34..ff2ad0ce5ea 100644
 -			r->ss = dcs[i].ss_s[j];
 -			j++;
  		}
--
++		ret_count++;
+ 
 -		/* make sure it is a valid IP.  I considered checking the
 -		 * negative connection cache, but this is the wrong place for
 -		 * it.  Maybe only as a hack. After think about it, if all of
@@ -5359,7 +5300,6 @@ index 08477065f34..ff2ad0ce5ea 100644
 -		if (!is_zero_addr(&r->ss)) {
 -			count++;
 -			continue;
-+		ret_count++;
 +		if (ret_count == numdcs) {
 +			/* We've filled the return array. */
 +			break;
@@ -5386,64 +5326,236 @@ index 08477065f34..ff2ad0ce5ea 100644
 2.20.1
 
 
-From 690e1a760872ba3767354a135b3f62456e27e162 Mon Sep 17 00:00:00 2001
+From ff5ede32982ec4385874f6a7c7e9dd58ac8852e4 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
-Date: Wed, 22 Jul 2020 15:35:43 -0700
-Subject: [PATCH 58/60] s3: libads: ads_connect can be passed in an ADS_STRUCT
- with an existing IP address.
+Date: Fri, 7 Aug 2020 20:18:50 -0700
+Subject: [PATCH 57/62] s3: libads: Add utility function ads_zero_ldap().
 
-ads_connect can be passed in an ADS_STRUCT
-with an existing ads->ldap.ss IP address that
-is stored by going through ads_find_dc(). Store this off
-before zeroing out ads->ldap so we don't need to do
-multiple calls to ads_find_dc().
+When initializing or re-initializing the ldap part of the ADS_STRUCT,
+we should call this to ensure that ads->ldap.ss is correctly recognized
+as a zero IPaddr by is_zero_addr(). It zeros out the ads->ldap but
+then adds zero_sockaddr() to initialize as AF_INET. Otherwise it's
+left by accident as AF_UNSPEC (0).
 
-If a caller wants a clean ADS_STRUCT they
-will call ads_destroy().
+Not yet used.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
- source3/libads/ldap.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ source3/libads/ads_proto.h |  1 +
+ source3/libads/ldap.c      | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
+diff --git a/source3/libads/ads_proto.h b/source3/libads/ads_proto.h
+index 495ef5d3325..9c21f5470c5 100644
+--- a/source3/libads/ads_proto.h
++++ b/source3/libads/ads_proto.h
+@@ -81,6 +81,7 @@ bool ads_sitename_match(ADS_STRUCT *ads);
+ bool ads_closest_dc(ADS_STRUCT *ads);
+ ADS_STATUS ads_connect(ADS_STRUCT *ads);
+ ADS_STATUS ads_connect_user_creds(ADS_STRUCT *ads);
++void ads_zero_ldap(ADS_STRUCT *ads);
+ void ads_disconnect(ADS_STRUCT *ads);
+ ADS_STATUS ads_do_search_all_fn(ADS_STRUCT *ads, const char *bind_path,
+ 				int scope, const char *expr, const char **attrs,
 diff --git a/source3/libads/ldap.c b/source3/libads/ldap.c
-index 8ad76ed0ae9..5f6a36819ff 100644
+index 8ad76ed0ae9..7e4265bb01f 100644
 --- a/source3/libads/ldap.c
 +++ b/source3/libads/ldap.c
-@@ -576,6 +576,22 @@ ADS_STATUS ads_connect(ADS_STRUCT *ads)
+@@ -738,6 +738,25 @@ ADS_STATUS ads_connect_user_creds(ADS_STRUCT *ads)
+ 	return ads_connect(ads);
+ }
+ 
++/**
++ * Zero out the internal ads->ldap struct and initialize the address to zero IP.
++ * @param ads Pointer to an existing ADS_STRUCT
++ *
++ * Sets the ads->ldap.ss to a valid
++ * zero ip address that can be detected by
++ * our is_zero_addr() function. Otherwise
++ * it is left as AF_UNSPEC (0).
++ **/
++void ads_zero_ldap(ADS_STRUCT *ads)
++{
++	ZERO_STRUCT(ads->ldap);
++	/*
++	 * Initialize the sockaddr_storage so we can use
++	 * sockaddr test functions against it.
++	 */
++	zero_sockaddr(&ads->ldap.ss);
++}
++
+ /**
+  * Disconnect the LDAP server
+  * @param ads Pointer to an existing ADS_STRUCT
+-- 
+2.20.1
+
+
+From e9d633fe85594c14d0be2f22cd674aae019d79d6 Mon Sep 17 00:00:00 2001
+From: Jeremy Allison <jra@samba.org>
+Date: Fri, 7 Aug 2020 20:22:50 -0700
+Subject: [PATCH 58/62] s3: libads: Where we implicitly zero out ads->ldap in
+ ads_init() or ads_destroy() ensure we call ads_zero_ldap() after.
+
+For ads_destroy(), this has a mode where the memory is not destroyed
+but is being re-initialized. Horrid, but that's the way it works right
+now.
+
+This clears out the memory, but also leaves ads->ldap as a valid (zero) IPaddr.
+Otherwise it's left by accident as AF_UNSPEC (0).
+
+Signed-off-by: Jeremy Allison <jra@samba.org>
+---
+ source3/libads/ads_struct.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/source3/libads/ads_struct.c b/source3/libads/ads_struct.c
+index 043a1b21247..accd8900c83 100644
+--- a/source3/libads/ads_struct.c
++++ b/source3/libads/ads_struct.c
+@@ -140,6 +140,9 @@ ADS_STRUCT *ads_init(const char *realm,
+ 
+ 	ads = SMB_XMALLOC_P(ADS_STRUCT);
+ 	ZERO_STRUCTP(ads);
++#ifdef HAVE_LDAP
++	ads_zero_ldap(ads);
++#endif
+ 
+ 	ads->server.realm = realm? SMB_STRDUP(realm) : NULL;
+ 	ads->server.workgroup = workgroup ? SMB_STRDUP(workgroup) : NULL;
+@@ -218,6 +221,9 @@ void ads_destroy(ADS_STRUCT **ads)
+ 		SAFE_FREE((*ads)->config.config_path);
+ 
+ 		ZERO_STRUCTP(*ads);
++#ifdef HAVE_LDAP
++		ads_zero_ldap(*ads);
++#endif
+ 
+ 		if ( is_mine )
+ 			SAFE_FREE(*ads);
+-- 
+2.20.1
+
+
+From 8cd3a0b5aa99f38299e7860445141a26e5931aab Mon Sep 17 00:00:00 2001
+From: Jeremy Allison <jra@samba.org>
+Date: Fri, 7 Aug 2020 20:24:07 -0700
+Subject: [PATCH 59/62] s3: libads: In ads_connect(), and ads_disconnect(),
+ replace ZERO_STRUCT(ads->ldap) with calls to ads_zero_ldap(ads)
+
+This clears out the memory, but also leaves ads->ldap as a valid (zero) IPaddr.
+Otherwise it's left by accident as AF_UNSPEC (0).
+
+Signed-off-by: Jeremy Allison <jra@samba.org>
+---
+ source3/libads/ldap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/source3/libads/ldap.c b/source3/libads/ldap.c
+index 7e4265bb01f..09cfdf7a45e 100644
+--- a/source3/libads/ldap.c
++++ b/source3/libads/ldap.c
+@@ -577,7 +577,7 @@ ADS_STATUS ads_connect(ADS_STRUCT *ads)
+ 	NTSTATUS ntstatus;
+ 	char addr[INET6_ADDRSTRLEN];
+ 
+-	ZERO_STRUCT(ads->ldap);
++	ads_zero_ldap(ads);
+ 	ZERO_STRUCT(ads->ldap_wrap_data);
+ 	ads->ldap.last_attempt	= time_mono(NULL);
+ 	ads->ldap_wrap_data.wrap_type	= ADS_SASLWRAP_TYPE_PLAIN;
+@@ -774,7 +774,7 @@ void ads_disconnect(ADS_STRUCT *ads)
+ 	if (ads->ldap_wrap_data.mem_ctx) {
+ 		talloc_free(ads->ldap_wrap_data.mem_ctx);
+ 	}
+-	ZERO_STRUCT(ads->ldap);
++	ads_zero_ldap(ads);
+ 	ZERO_STRUCT(ads->ldap_wrap_data);
+ }
+ 
+-- 
+2.20.1
+
+
+From f6148b142d355006c95227a79ff0d1063a326bef Mon Sep 17 00:00:00 2001
+From: Jeremy Allison <jra@samba.org>
+Date: Wed, 22 Jul 2020 15:35:43 -0700
+Subject: [PATCH 60/62] s3: libads: ads_connect can be passed in an ADS_STRUCT
+ with an existing IP address.
+
+ads_connect can be passed in a reused ADS_STRUCT
+with an existing ads->ldap.ss IP address that
+is stored by going through ads_find_dc()
+if ads->server.ldap_server was NULL.
+
+If ads->server.ldap_server is still NULL but
+the target address isn't a zero ip address,
+then store it off before zeroing out ads->ldap
+so we don't keep doing multiple calls to
+ads_find_dc() in the reuse case.
+
+If a caller wants a clean ADS_STRUCT they
+will re-initialize by calling ads_init(), or
+call ads_destroy() both of which ensures
+ads->ldap.ss is a correctly zero'ed out IP address
+by using ads_zero_ldap().
+
+Signed-off-by: Jeremy Allison <jra@samba.org>
+---
+ source3/libads/ldap.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+diff --git a/source3/libads/ldap.c b/source3/libads/ldap.c
+index 09cfdf7a45e..dd5c36d124b 100644
+--- a/source3/libads/ldap.c
++++ b/source3/libads/ldap.c
+@@ -576,6 +576,30 @@ ADS_STATUS ads_connect(ADS_STRUCT *ads)
  	ADS_STATUS status;
  	NTSTATUS ntstatus;
  	char addr[INET6_ADDRSTRLEN];
 +	struct sockaddr_storage existing_ss = {0};
 +
 +	/*
-+	 * ads_connect can be passed in an ADS_STRUCT
-+	 * with an existing ads->ldap.ss IP address that
-+	 * is stored by going through ads_find_dc(). Store this off
-+	 * before zeroing out ads->ldap so we don't need to do
-+	 * multiple calls to ads_find_dc().
++	 * ads_connect can be passed in a reused ADS_STRUCT
++	 * with an existing non-zero ads->ldap.ss IP address
++	 * that was stored by going through ads_find_dc()
++	 * if ads->server.ldap_server was NULL.
++	 *
++	 * If ads->server.ldap_server is still NULL but
++	 * the target address isn't the zero address, then
++	 * store that address off off before zeroing out
++	 * ads->ldap so we don't keep doing multiple calls
++	 * to ads_find_dc() in the reuse case.
 +	 *
 +	 * If a caller wants a clean ADS_STRUCT they
-+	 * will call ads_destroy().
++	 * will re-initialize by calling ads_init(), or
++	 * call ads_destroy() both of which ensures
++	 * ads->ldap.ss is a properly zero'ed out valid IP
++	 * address.
 +	 */
-+	if (!is_zero_addr(&ads->ldap.ss)) {
-+		/* We already know who to talk to. */
++	if (ads->server.ldap_server == NULL && !is_zero_addr(&ads->ldap.ss)) {
++		/* Save off the address we previously found by ads_find_dc(). */
 +		existing_ss = ads->ldap.ss;
 +	}
  
- 	ZERO_STRUCT(ads->ldap);
+ 	ads_zero_ldap(ads);
  	ZERO_STRUCT(ads->ldap_wrap_data);
-@@ -622,6 +638,15 @@ ADS_STATUS ads_connect(ADS_STRUCT *ads)
+@@ -622,6 +646,20 @@ ADS_STATUS ads_connect(ADS_STRUCT *ads)
  		}
  	}
  
 +	if (!is_zero_addr(&existing_ss)) {
-+		/* We already know who to talk to. */
-+		bool ok = ads_try_connect(ads, ads->server.gc, &existing_ss);
++		/* We saved off who we should talk to. */
++		bool ok = ads_try_connect(ads,
++					  ads->server.gc,
++					  &existing_ss);
 +		if (ok) {
 +			goto got_connection;
 +		}
-+		/* Keep trying.. */
++		/*
++		 * Keep trying to find a server and fall through
++		 * into ads_find_dc() again.
++		 */
 +	}
 +
  	ntstatus = ads_find_dc(ads);
@@ -5453,26 +5565,28 @@ index 8ad76ed0ae9..5f6a36819ff 100644
 2.20.1
 
 
-From 9e04e7c176a773ffc75737f20ec7890ae4255d01 Mon Sep 17 00:00:00 2001
+From b34d5e5b0d41a3954f56e74cd97eac90ab387a43 Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 22 Jul 2020 19:00:52 -0700
-Subject: [PATCH 59/60] s3: libads: Don't re-do DNS lookups in
+Subject: [PATCH 61/62] s3: libads: Don't re-do DNS lookups in
  ads_current_time() if not needed.
 
 ADS_STRUCT may be being reused after a
-DC lookup, so ads->ldap.ss may already have a
-good address. Only do the DNS lookup if we have to.
+DC lookup from ads_find_dc(), so ads->ldap.ss may already have a
+good address (even if ads->server.ldap_server == NULL).
+Only re-initialize the ADS_STRUCT and redo the ads_find_fc()
+DNS lookups if we have to.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
- source3/libads/ldap.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ source3/libads/ldap.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/source3/libads/ldap.c b/source3/libads/ldap.c
-index 5f6a36819ff..d3cdf178d96 100644
+index dd5c36d124b..0e6c639b37d 100644
 --- a/source3/libads/ldap.c
 +++ b/source3/libads/ldap.c
-@@ -3223,11 +3223,19 @@ ADS_STATUS ads_current_time(ADS_STRUCT *ads)
+@@ -3255,11 +3255,27 @@ ADS_STATUS ads_current_time(ADS_STRUCT *ads)
          /* establish a new ldap tcp session if necessary */
  
  	if ( !ads->ldap.ld ) {
@@ -5484,7 +5598,15 @@ index 5f6a36819ff..d3cdf178d96 100644
 +		/*
 +		 * ADS_STRUCT may be being reused after a
 +		 * DC lookup, so ads->ldap.ss may already have a
-+		 * good address. Only do the DNS lookup if we have to.
++		 * good address. If not, re-initialize the passed-in
++		 * ADS_STRUCT with the given server.XXXX parameters.
++		 *
++		 * Note that this doesn't depend on
++		 * ads->server.ldap_server != NULL,
++		 * as the case where ads->server.ldap_server==NULL and
++		 * ads->ldap.ss != zero_address is precisely the DC
++		 * lookup case where ads->ldap.ss was found by going
++		 * through ads_find_dc() again we want to avoid repeating.
 +		 */
 +		if (is_zero_addr(&ads->ldap.ss)) {
 +			if ((ads_s = ads_init(ads->server.realm,
@@ -5501,26 +5623,28 @@ index 5f6a36819ff..d3cdf178d96 100644
 2.20.1
 
 
-From 0068795a5bd2f8fd94089963ce7bec9bb2fa8d3e Mon Sep 17 00:00:00 2001
+From 084ca0619a9ef14aafa87c377367cbc33a046dfe Mon Sep 17 00:00:00 2001
 From: Jeremy Allison <jra@samba.org>
 Date: Wed, 22 Jul 2020 19:03:23 -0700
-Subject: [PATCH 60/60] s3: libads: Don't re-do DNS lookups in
+Subject: [PATCH 62/62] s3: libads: Don't re-do DNS lookups in
  ads_domain_func_level() if not needed.
 
 ADS_STRUCT may be being reused after a
-DC lookup, so ads->ldap.ss may already have a
-good address. Only do the DNS lookup if we have to.
+DC lookup from ads_find_dc(), so ads->ldap.ss may already have a
+good address (even if ads->server.ldap_server == NULL).
+Only re-initialize the ADS_STRUCT and redo the ads_find_fc()
+DNS lookups if we have to.
 
 Signed-off-by: Jeremy Allison <jra@samba.org>
 ---
- source3/libads/ldap.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ source3/libads/ldap.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/source3/libads/ldap.c b/source3/libads/ldap.c
-index d3cdf178d96..0cadb62e377 100644
+index 0e6c639b37d..d224ffc9eb0 100644
 --- a/source3/libads/ldap.c
 +++ b/source3/libads/ldap.c
-@@ -3293,11 +3293,19 @@ ADS_STATUS ads_domain_func_level(ADS_STRUCT *ads, uint32_t *val)
+@@ -3333,11 +3333,27 @@ ADS_STATUS ads_domain_func_level(ADS_STRUCT *ads, uint32_t *val)
          /* establish a new ldap tcp session if necessary */
  
  	if ( !ads->ldap.ld ) {
@@ -5532,7 +5656,15 @@ index d3cdf178d96..0cadb62e377 100644
 +		/*
 +		 * ADS_STRUCT may be being reused after a
 +		 * DC lookup, so ads->ldap.ss may already have a
-+		 * good address. Only do the DNS lookup if we have to.
++		 * good address. If not, re-initialize the passed-in
++		 * ADS_STRUCT with the given server.XXXX parameters.
++		 *
++		 * Note that this doesn't depend on
++		 * ads->server.ldap_server != NULL,
++		 * as the case where ads->server.ldap_server==NULL and
++		 * ads->ldap.ss != zero_address is precisely the DC
++		 * lookup case where ads->ldap.ss was found by going
++		 * through ads_find_dc() again we want to avoid repeating.
 +		 */
 +		if (is_zero_addr(&ads->ldap.ss)) {
 +			if ((ads_s = ads_init(ads->server.realm,
