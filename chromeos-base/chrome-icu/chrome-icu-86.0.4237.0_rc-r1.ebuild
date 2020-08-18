@@ -66,7 +66,6 @@ CHROME_VERSION="${PV/_*/}"
 CHROME_DIR=/opt/google/chrome
 
 # For compilation
-DEPOT_TOOLS=/mnt/host/depot_tools
 BUILDTYPE="${BUILDTYPE:-Release}"
 BOARD="${BOARD:-${SYSROOT##/build/}}"
 # [Mod] GN output dir is named as "out_icu_${BOARD}".
@@ -320,14 +319,6 @@ sandboxless_ensure_directory() {
 src_unpack() {
 	tc-export CC CXX
 	local WHOAMI=$(whoami)
-	export EGCLIENT="${EGCLIENT:-${DEPOT_TOOLS}/gclient}"
-	export ENINJA="${ENINJA:-${DEPOT_TOOLS}/ninja}"
-
-	# Prevents gclient from updating self.
-	export DEPOT_TOOLS_UPDATE=0
-
-	# Prevent gclient metrics collection.
-	export DEPOT_TOOLS_METRICS=0
 
 	CHROME_SRC="chrome-src"
 	if use chrome_internal; then
@@ -564,7 +555,6 @@ src_configure() {
 	# TODO(rcui): crosbug.com/20435. Investigate removal of runhooks
 	# useflag when chrome build switches to Ninja inside the chroot.
 	if use runhooks; then
-		[[ -f "${EGCLIENT}" ]] || die "EGCLIENT at '${EGCLIENT}' does not exist"
 		local cmd=( "${EGCLIENT}" runhooks --force )
 		echo "${cmd[@]}"
 		CFLAGS="${CFLAGS} ${EBUILD_CFLAGS[*]}" \
