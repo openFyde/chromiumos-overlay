@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="cb454799ede01041e268eadc054aa42000aea856"
-CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "a277230c0e54fd1a74127c740bf1b048fdbe52b6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="28598aacc4f967863ecd4d024505013c97e7cd8f"
+CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "be2ca0807fd10426a0de1b13ba5403c6b4c58200" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -40,6 +40,8 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}"/ocr_service
+
+	dobin "${OUT}"/ocr_tool
 
 	# Install upstart configuration.
 	insinto /etc/init
