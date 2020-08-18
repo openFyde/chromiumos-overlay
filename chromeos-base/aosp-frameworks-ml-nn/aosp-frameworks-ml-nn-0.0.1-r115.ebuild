@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("46dfd50c89680a56c0bad89aba2263feb1d45066" "ebe1486751716cd3afe9ba0abd5b956691e08d65" "e5c1dfc419bec2f682a9c17a4f8d75cabd69f848")
+CROS_WORKON_COMMIT=("f7caa7b53f58dd513219d7eb08e59e1f584aaf3d" "ebe1486751716cd3afe9ba0abd5b956691e08d65" "e5c1dfc419bec2f682a9c17a4f8d75cabd69f848")
 CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b5114210658de30ee4537023c3d356e1e26378df" "bbf597e1cd2e3f49a8a2aab9f85c903867311558")
 inherit cros-constants
 
@@ -85,10 +85,13 @@ platform_pkg_test() {
 	# Error in event flag wake attempt: Function not implemented
 	# This is a known issue, see:
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/testing/running_unit_tests.md#caveats
+	# TODO(http://crbug.com/1117470): tracking bug for qemu fix
 	local qemu_gtest_excl_filter="-"
-	qemu_gtest_excl_filter+="Flavor/ExecutionTest12.Wait/0:"
-	qemu_gtest_excl_filter+="Flavor/ExecutionTest13.Wait/0:"
-	qemu_gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/0:"
+	qemu_gtest_excl_filter+="Flavor/ExecutionTest10.Wait/*:"
+	qemu_gtest_excl_filter+="Flavor/ExecutionTest11.Wait/*:"
+	qemu_gtest_excl_filter+="Flavor/ExecutionTest12.Wait/*:"
+	qemu_gtest_excl_filter+="Flavor/ExecutionTest13.Wait/*:"
+	qemu_gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/*:"
 	qemu_gtest_excl_filter+="Unfenced/TimingTest.Test/12:"
 	qemu_gtest_excl_filter+="Unfenced/TimingTest.Test/15:"
 	qemu_gtest_excl_filter+="Unfenced/TimingTest.Test/18:"
@@ -105,8 +108,6 @@ platform_pkg_test() {
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeout:"
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeoutMaximum:"
 
-	# TODO(crbug.com/1115586): Test is found to be hanging on bots.
-	qemu_gtest_excl_filter+="Flavor/ExecutionTest13.Wait/1:"
 
 	local gtest_excl_filter="-"
 	if use asan; then
