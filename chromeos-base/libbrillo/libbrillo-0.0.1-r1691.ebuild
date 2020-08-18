@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bdd5976abe61dcd4619657746db8486537f2c64"
-CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "8b65496df7346f65b685632aa84a790f1c0be5cf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="46bb7e1f4eabbee45056ff5594d58e9b0df6db40"
+CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "91fff009290834f06fee54b983d517ca192441e4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -45,7 +45,7 @@ RDEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
-	>=chromeos-base/protofiles-0.0.39:=
+	>=chromeos-base/protofiles-0.0.41:=
 	dbus? ( chromeos-base/system_api:=[fuzzer?] )
 	dev-libs/modp_b64:=
 "
