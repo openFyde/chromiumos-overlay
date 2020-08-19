@@ -1,0 +1,217 @@
+commit d051e01f8884619a1e79f34bda22e4dffc793d60
+Author: Richard Hughes <richard@hughsie.com>
+Date:   Tue Aug 18 10:02:37 2020 +0100
+
+    Do not assume g_content_type_guess() always returns valid results
+    
+    On Chrome OS the database of magic is either incomplete or missing and so
+    provide important fallbacks manually.
+
+diff --git a/src/meson.build b/src/meson.build
+index d32c761..0e0ca4e 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -45,6 +45,7 @@ libxmlb = library(
+     'xb-builder-node.c',
+     'xb-builder-source.c',
+     'xb-builder-source-ctx.c',
++    'xb-common.c',
+     'xb-machine.c',
+     'xb-opcode.c',
+     'xb-node.c',
+@@ -115,6 +116,7 @@ if get_option('introspection')
+       'xb-builder-source.h',
+       'xb-builder-source-ctx.c',
+       'xb-builder-source-ctx.h',
++      'xb-common.c',
+       'xb-machine.c',
+       'xb-machine.h',
+       'xb-node.c',
+@@ -195,6 +197,7 @@ if get_option('tests')
+       'xb-builder-node.c',
+       'xb-builder-source.c',
+       'xb-builder-source-ctx.c',
++      'xb-common.c',
+       'xb-machine.c',
+       'xb-node.c',
+       'xb-node-query.c',
+diff --git a/src/xb-builder-source-ctx.c b/src/xb-builder-source-ctx.c
+index 7fef6f7..4ab4840 100644
+--- a/src/xb-builder-source-ctx.c
++++ b/src/xb-builder-source-ctx.c
+@@ -11,6 +11,7 @@
+ #include <gio/gio.h>
+ 
+ #include "xb-builder-source-ctx-private.h"
++#include "xb-common-private.h"
+ 
+ typedef struct {
+ 	GInputStream		*istream;
+@@ -100,39 +101,22 @@ xb_builder_source_ctx_get_content_type (XbBuilderSourceCtx *self,
+ 					GError **error)
+ {
+ 	XbBuilderSourceCtxPrivate *priv = GET_PRIVATE (self);
+-	g_autofree gchar *content_type = NULL;
++	gsize bufsz = 0;
++	guchar buf[4096] = { 0x00 };
+ 
+ 	g_return_val_if_fail (XB_IS_BUILDER_SOURCE_CTX (self), NULL);
+ 
+ 	if (G_IS_SEEKABLE (priv->istream)) {
+-		gsize bufsz = 0;
+-		guchar buf[4096] = { 0x00 };
+ 		if (!g_input_stream_read_all (priv->istream, buf, sizeof(buf),
+ 					      &bufsz, cancellable, error))
+ 			return NULL;
+ 		if (!g_seekable_seek (G_SEEKABLE (priv->istream), 0, G_SEEK_SET,
+ 				      cancellable, error))
+ 			return NULL;
+-		if (bufsz > 0)
+-			content_type = g_content_type_guess (priv->filename, buf, bufsz, NULL);
+ 	}
+-
+-	/* either unseekable, or empty */
+-	if (content_type == NULL)
+-		content_type = g_content_type_guess (priv->filename, NULL, 0, NULL);
+-
+-#ifdef _WIN32
+-	/* map Windows "mime-type" to a content type */
+-	if (g_strcmp0 (content_type, ".gz") == 0)
+-		return g_strdup ("application/gzip");
+-	if (g_strcmp0 (content_type, ".txt") == 0 ||
+-	    g_strcmp0 (content_type, ".xml") == 0)
+-		return g_strdup ("application/xml");
+-	if (g_strcmp0 (content_type, ".desktop") == 0)
+-		return g_strdup ("application/x-desktop");
+-#endif
+-
+-	return g_steal_pointer (&content_type);
++	if (bufsz > 0)
++		return xb_content_type_guess (priv->filename, buf, bufsz);
++	return xb_content_type_guess (priv->filename, NULL, 0);
+ }
+ 
+ /* private */
+diff --git a/src/xb-common-private.h b/src/xb-common-private.h
+new file mode 100644
+index 0000000..1ecbbf5
+--- /dev/null
++++ b/src/xb-common-private.h
+@@ -0,0 +1,13 @@
++/*
++ * Copyright (C) 2020 Richard Hughes <richard@hughsie.com>
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++
++#pragma once
++
++#include <glib.h>
++
++gchar		*xb_content_type_guess			(const gchar	*filename,
++							 const guchar	*buf,
++							 gsize		 bufsz);
+diff --git a/src/xb-common.c b/src/xb-common.c
+new file mode 100644
+index 0000000..e322c7f
+--- /dev/null
++++ b/src/xb-common.c
+@@ -0,0 +1,98 @@
++/*
++ * Copyright (C) 2020 Richard Hughes <richard@hughsie.com>
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++
++#define G_LOG_DOMAIN				"XbCommon"
++
++#include "config.h"
++
++#include <string.h>
++#include <gio/gio.h>
++
++#include "xb-common-private.h"
++
++static const gchar *
++xb_content_type_guess_from_fn (const gchar *filename)
++{
++	gchar *ext; /* no ownership */
++
++	g_return_val_if_fail (filename != NULL, NULL);
++
++	/* get file extension with dot */
++	ext = g_strrstr (filename, ".");
++	if (ext == NULL)
++		return NULL;
++
++	/* map Windows "mime-type" to a content type */
++	if (g_strcmp0 (ext, ".gz") == 0)
++		return "application/gzip";
++	if (g_strcmp0 (ext, ".txt") == 0 ||
++	    g_strcmp0 (ext, ".xml") == 0)
++		return "application/xml";
++	if (g_strcmp0 (ext, ".desktop") == 0)
++		return "application/x-desktop";
++	return NULL;
++}
++
++static gboolean
++xb_content_type_match (const guchar *buf, gsize bufsz, gsize offset,
++		       const gchar *magic, gsize magic_size)
++{
++	/* document too small */
++	if (offset + magic_size > bufsz)
++		return FALSE;
++	return memcmp (buf + offset, magic, magic_size) == 0;
++}
++
++/**
++ * xb_content_type_guess: (skip)
++ * @filename: (nullable): filename
++ * @buf: (nullable): file data buffer
++ * @bufsz: size of file data buffer
++ *
++ * Guesses the content type based on example data. Either @filename or @buf may
++ * be %NULL, in which case the guess will be based solely on the other argument.
++ *
++ * Returns: a string indicating a guessed content type
++ **/
++gchar *
++xb_content_type_guess (const gchar *filename, const guchar *buf, gsize bufsz)
++{
++	g_autofree gchar *content_type = NULL;
++
++	/* check for bad results, e.g. from Chrome OS */
++	content_type = g_content_type_guess (filename, buf, bufsz, NULL);
++	if (g_strcmp0 (content_type, "application/octet-stream") == 0 ||
++	    g_strcmp0 (content_type, "text/plain") == 0) {
++
++		/* magic */
++		if (bufsz > 0) {
++			if (xb_content_type_match (buf, bufsz, 0x0, "\x1f\x8b", 2))
++				return g_strdup ("application/gzip");
++			if (xb_content_type_match (buf, bufsz, 0x0, "<?xml", 5))
++				return g_strdup ("application/xml");
++			if (xb_content_type_match (buf, bufsz, 0x0, "[Desktop Entry]", 15))
++				return g_strdup ("application/x-desktop");
++		}
++
++		/* file extensions */
++		if (filename != NULL) {
++			const gchar *tmp = xb_content_type_guess_from_fn (filename);
++			if (tmp != NULL)
++				return g_strdup (tmp);
++		}
++	}
++
++#ifdef _WIN32
++	/* fall back harder as there is no mime data at all */
++	if (filename != NULL) {
++		const gchar *tmp = xb_content_type_guess_from_fn (filename);
++		if (tmp != NULL)
++			return g_strdup (tmp);
++	}
++#endif
++
++	return g_steal_pointer (&content_type);
++}

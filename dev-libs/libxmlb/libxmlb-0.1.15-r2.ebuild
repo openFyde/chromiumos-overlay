@@ -39,6 +39,10 @@ BDEPEND="
 	)
 "
 
+PATCHES=(
+	"${FILESDIR}/${P}-xb_builder_source_ctx_guess_content.patch"
+)
+
 python_check_deps() {
 	has_version -b "dev-python/setuptools[${PYTHON_USEDEP}]"
 }
