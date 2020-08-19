@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3725efdbb464704582faa360899dc1e31ec3926c"
-CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "21c93aaf19bb3765d34578040cf531c78a41d060" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="29dc850fe1f9534f761fe5fe22786d25ab78a572"
+CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "3d7a6fb1f18bd7c221af7969c2ca5e78f9c8cb7b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -20,6 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/virtua
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+IUSE="arcvm"
 
 RDEPEND="
 	sys-fs/fuse:=
@@ -32,7 +33,11 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	dobin "${OUT}"/virtual-file-provider
-	newbin virtual-file-provider-jailed.sh virtual-file-provider-jailed
+	if use arcvm; then
+		newbin virtual-file-provider-jailed-arcvm.sh virtual-file-provider-jailed
+	else
+		newbin virtual-file-provider-jailed.sh virtual-file-provider-jailed
+	fi
 
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.VirtualFileProvider.conf
