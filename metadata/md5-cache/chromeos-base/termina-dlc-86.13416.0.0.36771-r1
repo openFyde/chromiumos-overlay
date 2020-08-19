@@ -8,6 +8,6 @@ LICENSE=BSD-Google
 REQUIRED_USE=dlc kvm_host ^^ ( amd64 arm arm64 )
 RESTRICT=nomirror
 SLOT=0
-SRC_URI=amd64? ( gs://termina-component-testing/uprev-test/amd64/86.13414.0.0.36734/guest-vm-base.tbz -> termina_amd64.tbz ) arm? ( gs://termina-component-testing/uprev-test/arm/86.13414.0.0.36734/guest-vm-base.tbz -> termina_arm.tbz ) arm64? ( gs://termina-component-testing/uprev-test/arm/86.13414.0.0.36734/guest-vm-base.tbz -> termina_arm.tbz )
+SRC_URI=amd64? ( gs://termina-component-testing/uprev-test/amd64/86.13416.0.0.36771/guest-vm-base.tbz -> termina_amd64.tbz ) arm? ( gs://termina-component-testing/uprev-test/arm/86.13416.0.0.36771/guest-vm-base.tbz -> termina_arm.tbz ) arm64? ( gs://termina-component-testing/uprev-test/arm/86.13416.0.0.36771/guest-vm-base.tbz -> termina_arm.tbz )
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	c539aa2d32aaba22acfb2eb623710a96
 _md5_=ee7d40336ce5832d0d441cbee14e18ee
