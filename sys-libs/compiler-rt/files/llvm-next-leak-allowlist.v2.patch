@@ -1,4 +1,4 @@
-This adds a whiltelist of packages that have known memory leaks.
+This adds an allowlist of packages that have known memory leaks.
 So that the leak detector will not report memory leaks from these packages.
 diff --git a/lib/sanitizer_common/sanitizer_flags.inc b/lib/sanitizer_common/sanitizer_flags.inc
 index 58f7f37..bf97783 100644

@@ -1,7 +1,7 @@
 [
     {
         "comment": "Adds a whitelist of packages that have known memory leaks",
-        "rel_patch_path": "llvm-next-leak-whitelist.v2.patch",
+        "rel_patch_path": "llvm-next-leak-allowlist.v2.patch",
         "start_version": 370808
     },
     {
