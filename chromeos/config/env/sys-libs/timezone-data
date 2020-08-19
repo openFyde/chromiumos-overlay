@@ -12,4 +12,8 @@ if [[ $(cros_target) != "cros_host" ]]; then
 	PKG_INSTALL_MASK+=" ${timezone_mask}"
 	INSTALL_MASK+=" ${timezone_mask}"
 	unset timezone_mask
+
+	# Disable default timezone selection.  The chromeos-base package will
+	# create a symlink at /etc/localtime instead.
+	get_TIMEZONE() { return 1; }
 fi

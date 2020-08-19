@@ -1,17 +1,21 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
-inherit user udev
+# This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
+# the canonical empty project.
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="platform/empty-project"
+
+inherit cros-workon user udev
 
 DESCRIPTION="ChromeOS specific system setup"
-HOMEPAGE="http://src.chromium.org/"
-SRC_URI=""
+HOMEPAGE="https://dev.chromium.org/"
 
 LICENSE="BSD-Google"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE="ac_only chromeless_tty cros_embedded cros_host pam vtconsole"
 
 # We need to make sure timezone-data is merged before us.
@@ -21,7 +25,7 @@ IUSE="ac_only chromeless_tty cros_embedded cros_host pam vtconsole"
 # We don't need dash because only bash modifies ROOT duing
 # pkg_* stages, and depending on dash would disable a little
 # bit of possible parallelism.
-# See http://crosbug.com/38597 for more details.
+# See https://crbug.com/220728 for more details.
 DEPEND=">=sys-apps/baselayout-2
 	!<sys-apps/baselayout-2.0.1-r227
 	!<sys-libs/timezone-data-2011d
@@ -43,17 +47,15 @@ DEPEND=">=sys-apps/baselayout-2
 	)"
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}"
-
 # The user that all user-facing processes will run as.
 SHARED_USER_NAME="chronos"
 
 # Adds a "daemon"-type user/group pair.
 add_daemon_user() {
-       local username="$1"
-       local uid="$2"
-       enewuser "${username}" "${uid}"
-       enewgroup "${username}" "${uid}"
+	local username="$1"
+	local uid="$2"
+	enewuser "${username}" "${uid}"
+	enewgroup "${username}" "${uid}"
 }
 
 pkg_setup() {
