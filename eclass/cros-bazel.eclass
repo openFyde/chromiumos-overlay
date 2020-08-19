@@ -65,6 +65,11 @@ arm_constraints = [
 	"@bazel_tools//platforms:linux",
 ]
 
+aarch64_constraints = [
+	"@bazel_tools//platforms:aarch64",
+	"@bazel_tools//platforms:linux",
+]
+
 platform(
 	name = "amd64_platform",
 	constraint_values = amd64_constraints,
@@ -80,11 +85,17 @@ platform(
 	constraint_values = arm_constraints,
 )
 
+platform(
+	name = "aarch64_platform",
+	constraint_values = aarch64_constraints,
+)
+
 cc_toolchain_suite(
 	name = "toolchain",
 	toolchains = {
 		"amd64|local": "portage_toolchain",
 		"arm|local": "portage_toolchain",
+		"aarch64|local": "portage_toolchain",
 		"arm64|local": "portage_toolchain",
 		"k8|local": "portage_toolchain",
 	},
