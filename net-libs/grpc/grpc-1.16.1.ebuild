@@ -45,6 +45,8 @@ S="${WORKDIR}/${PN}-${MY_PV}"
 
 src_prepare() {
 	sed -i 's@$(prefix)/lib@$(prefix)/$(INSTALL_LIBDIR)@g' Makefile || die "fix libdir"
+	sed -i 's/^install-headers_cxx:$/install-headers_cxx: install-headers_c/g' Makefile \
+		|| die "failed to patch install-headers_cxx"
 	default
 }
 
