@@ -4,7 +4,7 @@ To return to the browser, press:
 
   [ Ctrl ] and [ Alt ] and [ <- ]  (F1)
 
-To use this console, the developer mode switch must be engaged.
+To use this console, developer mode must be enabled.
 Doing so will destroy any saved data on the system.
 
 In developer mode, it is possible to
