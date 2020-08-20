@@ -105,6 +105,7 @@ RDEPEND="${RDEPEND}
 	!chromeless_tty? ( chromeos-base/screenshot )
 	shill? ( chromeos-base/shill-test-scripts )
 	chromeos-base/touch_firmware_test
+	chromeos-base/usi-test
 	dev-vcs/git
 	net-analyzer/tcpdump
 	net-analyzer/traceroute
