@@ -461,21 +461,19 @@ unpack_chrome() {
 }
 
 decide_chrome_origin() {
-	local chrome_workon="=chromeos-base/chromeos-chrome-9999"
-	local cros_workon_file="${SYSROOT}/etc/portage/package.keywords/cros-workon"
-	if [[ -e "${cros_workon_file}" ]] && grep -q "${chrome_workon}" "${cros_workon_file}"; then
-		# LOCAL_SOURCE is the default for cros_workon
-		# Warn the user if CHROME_ORIGIN is already set
+	if [[ "${PV}" == "9999" ]]; then
+		# LOCAL_SOURCE is the default for cros_workon.
+		# Warn the user if CHROME_ORIGIN is already set.
 		if [[ -n "${CHROME_ORIGIN}" && "${CHROME_ORIGIN}" != LOCAL_SOURCE ]]; then
 			ewarn "CHROME_ORIGIN is already set to ${CHROME_ORIGIN}."
 			ewarn "This will prevent you from building from your local checkout."
 			ewarn "Please run 'unset CHROME_ORIGIN' to reset Chrome"
 			ewarn "to the default source location."
 		fi
-		: ${CHROME_ORIGIN:=LOCAL_SOURCE}
+		: "${CHROME_ORIGIN:=LOCAL_SOURCE}"
 	else
-		# By default, pull from server
-		: ${CHROME_ORIGIN:=SERVER_SOURCE}
+		# By default, pull from server.
+		: "${CHROME_ORIGIN:=SERVER_SOURCE}"
 	fi
 }
 
@@ -578,9 +576,6 @@ src_unpack() {
 	# Chrome builds inside distfiles because of speed, so we at least make
 	# a symlink here to add compatibility with autotest eclass which uses this.
 	ln -sf "${CHROME_ROOT}" "${WORKDIR}/${P}"
-
-	export EGN="${EGN:-${CHROME_ROOT}/src/buildtools/linux64/gn}"
-	einfo "Using GN from ${EGN}"
 
 	if use internal_gles_conform; then
 		local CHROME_GLES2_CONFORM=${CHROME_ROOT}/src/third_party/gles2_conform
@@ -924,8 +919,13 @@ src_configure() {
 	done
 	export GN_ARGS="${BUILD_ARGS[*]}"
 	einfo "GN_ARGS = ${GN_ARGS}"
-	${EGN} gen "${CHROME_ROOT}/src/${BUILD_OUT_SYM}/${BUILDTYPE}" \
-		--args="${GN_ARGS}" --root="${CHROME_ROOT}/src" || die
+	local gn=(
+		"${CHROME_ROOT}/src/buildtools/linux64/gn" gen
+		"${CHROME_ROOT}/src/${BUILD_OUT_SYM}/${BUILDTYPE}"
+		--args="${GN_ARGS}" --root="${CHROME_ROOT}/src"
+	)
+	echo "${gn[@]}"
+	"${gn[@]}" || die
 
 	setup_test_lists
 

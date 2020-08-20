@@ -284,10 +284,7 @@ unpack_chrome() {
 }
 
 decide_chrome_origin() {
-	# [Mod] change "chromeos-chrome-9999" to "chrome-icu-9999".
-	local chrome_workon="=chromeos-base/chrome-icu-9999"
-	local cros_workon_file="${SYSROOT}/etc/portage/package.keywords/cros-workon"
-	if [[ -e "${cros_workon_file}" ]] && grep -q "${chrome_workon}" "${cros_workon_file}"; then
+	if [[ "${PV}" == "9999" ]]; then
 		# LOCAL_SOURCE is the default for cros_workon
 		# Warn the user if CHROME_ORIGIN is already set
 		if [[ -n "${CHROME_ORIGIN}" && "${CHROME_ORIGIN}" != LOCAL_SOURCE ]]; then
@@ -393,9 +390,6 @@ src_unpack() {
 	set_build_args
 
 	ln -sf "${CHROME_ROOT}" "${WORKDIR}/${P}"
-
-	export EGN="${EGN:-${CHROME_ROOT}/src/buildtools/linux64/gn}"
-	einfo "Using GN from ${EGN}"
 
 	# [Mod] Use flags internal_gles_conform, afdo_use, afdo_verify,
 	# orderfile_verify and orderfile_use are all disabled.
@@ -595,9 +589,13 @@ src_configure() {
 	done
 	export GN_ARGS="${BUILD_ARGS[*]}"
 	einfo "GN_ARGS = ${GN_ARGS}"
-
-	${EGN} gen "${CHROME_ROOT}/src/${BUILD_OUT_SYM}/${BUILDTYPE}" \
-		--args="${GN_ARGS}" --root="${CHROME_ROOT}/src" || die
+	local gn=(
+		"${CHROME_ROOT}/src/buildtools/linux64/gn" gen
+		"${CHROME_ROOT}/src/${BUILD_OUT_SYM}/${BUILDTYPE}"
+		--args="${GN_ARGS}" --root="${CHROME_ROOT}/src"
+	)
+	echo "${gn[@]}"
+	"${gn[@]}" || die
 
 	# [Mod] setup_test_lists and clang_tidy are removed.
 }
