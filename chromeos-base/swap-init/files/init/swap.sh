@@ -302,16 +302,19 @@ start() {
       sleep 0.1
     done
   else
-    local table
-    table="0 $(blockdev --getsz "${swap_device}") crypt aes-cbc-essiv:sha256 \
-      $(tr -dc 'A-F0-9' < /dev/urandom | fold -w 32 | head -n 1) \
-      0 ${swap_device} 0 2 allow_discards submit_from_crypt_cpus"
-    /sbin/dmsetup create enc-swap --table "${table}" ||
-      die "/sbin/dmsetup create enc-swap failed"
-    mkswap "/dev/mapper/enc-swap" ||
-      die "mkswap /dev/mapper/enc-swap failed"
-    swapon -d "/dev/mapper/enc-swap" ||
-      die "swapon /dev/mapper/enc-swap failed"
+    local key
+    key=$(dd if=/dev/urandom bs=512 count=1 2>/dev/null)
+    echo $key | cryptsetup -q -v --type luks --cipher aes-xts-plain64 \
+                           --key-size 256 --hash sha256 --iter-time 2000 \
+                           --use-urandom --verify-passphrase luksFormat \
+                           --integrity hmac-sha256 --integrity-no-journal \
+                           --key-file - $swap_device
+    echo $key | cryptsetup open --integrity-no-journal --key-file \
+                           - $swap_device enc-int-swap
+    mkswap "/dev/mapper/enc-int-swap" ||
+      die "mkswap /dev/mapper/enc-int-swap failed"
+    swapon -d "/dev/mapper/enc-int-swap" ||
+      die "swapon /dev/mapper/enc-int-swap failed"
     echo 1 > /sys/module/zswap/parameters/enabled
     echo z3fold > /sys/module/zswap/parameters/zpool
     echo 1 > /sys/kernel/mm/chromeos-low_mem/ram_vs_swap_weight
