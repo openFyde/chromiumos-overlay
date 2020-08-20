@@ -164,14 +164,23 @@ platform_pkg_test() {
 }
 
 src_install() {
+	einfo "Installing runtime & common Headers."
+	insinto /usr/include/aosp/frameworks/ml/nn/common
+	doins -r "${S}"/common/include
+	insinto /usr/include/aosp/frameworks/ml/nn/runtime
+	doins -r "${S}"/runtime/include
+
+	einfo "Installing libs."
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
 	dolib.so "${OUT}/lib/libnn-common.so"
 
 	if ! use vendor-nnhal ; then
+		einfo "Installing reference vendor hal."
 		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
 	fi
 
 	if use nnapi_driver_tests; then
+		einfo "Installing hal driver tests."
 		dobin "${OUT}/cros_nnapi_vts_1_0"
 		dobin "${OUT}/cros_nnapi_vts_1_1"
 		dobin "${OUT}/cros_nnapi_vts_1_2"
