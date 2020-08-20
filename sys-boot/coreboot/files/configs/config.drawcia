@@ -43,4 +43,9 @@ CONFIG_HAVE_ME_BIN=y
 CONFIG_ME_BIN_PATH="3rdparty/blobs/baseboard-dedede/me-drawcia.bin"
 # CONFIG_LOCK_MANAGEMENT_ENGINE is not set
 
+# WiFi SAR
+CONFIG_CHROMEOS_WIFI_SAR=y
+# FILEPATH is set to blank to prevent any default SAR file from getting added.
+CONFIG_WIFI_SAR_CBFS_FILEPATH=""
+
 # CONFIG_CONSOLE_SERIAL is not set
