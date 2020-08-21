@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="ef7eee14c3d0e13c341f431a3dc7182711e9ea5c"
+CROS_WORKON_COMMIT="1f1478710a6dda0afd50211d0ee0d65683c18728"
 CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "1047288f5f9bd503ba53713290f2ac3aacf6d404" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -32,6 +32,10 @@ src_install() {
 	# Install seccomp policy file.
 	insinto /usr/share/policy
 	use seccomp && newins "seccomp/typecd-seccomp-${ARCH}.policy" typecd-seccomp.policy
+
+	# Install rsyslog config.
+	insinto /etc/rsyslog.d
+	doins rsyslog/rsyslog.typecd.conf
 }
 
 pkg_preinst() {
