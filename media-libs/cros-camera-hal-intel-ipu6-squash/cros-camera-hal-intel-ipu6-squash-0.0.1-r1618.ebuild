@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a4c94bff16986be8321d7cdfaeefdc5fd20290d0"
-CROS_WORKON_TREE="9083f7ab6255df761b2b83a88123f14911413c95"
+CROS_WORKON_COMMIT="a0538a92ebd8b5410d9a3d63534de048196eeb55"
+CROS_WORKON_TREE="d8b8d0e01c6366f8a6de21dcc89d12af5fcab13f"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -43,7 +43,7 @@ src_unpack() {
 	cd "${P}/platform2" || die
 	if [ "${PV}" != "9999" ]; then
 		# Generate the patch under platform2 by 'git format-patch HEAD^'
-		epatch -p1 "${FILESDIR}/0001-intel-ipu6-Add-initial-code.patch"
+		eapply "${FILESDIR}/0001-intel-ipu6-Add-initial-code.patch"
 	fi
 }
 
