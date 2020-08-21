@@ -132,6 +132,8 @@ sys-kernel/linux-firmware	linux_firmware_keyspan_usb
 sys-libs/gdbm		berkdb
 sys-libs/ldb		-python -lmdb
 sys-libs/ncurses	-cxx -unicode minimal tinfo
+# Readline requires the unicode flag to match sys-libs/ncurses.
+sys-libs/readline	-unicode
 sys-libs/talloc		-python
 sys-libs/tdb		-python
 sys-libs/tevent		-python
