@@ -20,7 +20,6 @@ KEYWORDS="~*"
 IUSE="fuzzer metrics_uploader +passive_metrics systemd"
 
 COMMON_DEPEND="
-	dev-libs/dbus-glib:=
 	dev-libs/libpcre:=
 	dev-libs/protobuf:=
 	sys-apps/rootdev:=
