@@ -146,7 +146,8 @@ src_prepare() {
 	# merge it to R, so let' work around it at mesa side here.
 	epatch "${FILESDIR}"/UPSTREAM-mapi-Return-NULL-function-pointers-for-GL_EXT_debug_.patch
 
-	epatch "${FILESDIR}"/FROMLIST-util-ralloc-fix-ralloc-alignment.patch
+	epatch "${FILESDIR}"/UPSTREAM-util-add-a-alignof-macro.patch
+	epatch "${FILESDIR}"/UPSTREAM-util-ralloc-fix-ralloc-alignment.patch
 
 	default
 }

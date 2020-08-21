@@ -1,0 +1,65 @@
+From a4c708dd24e5ba8ac381973c14db8d23f4ac97bf Mon Sep 17 00:00:00 2001
+From: Lepton Wu <lepton@chromium.org>
+Date: Thu, 13 Aug 2020 19:14:13 -0700
+Subject: [PATCH] util/ralloc: fix ralloc alignment.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+On some malloc implementation, malloc doesn't always align to 16
+bytes even on 64 bits system. To make sure ralloc_header always
+starts at the wanted alignment, just force the size to be aligned at
+the alignment of ralloc_header. This fixes crashed on instruction
+like "movaps %xmm0,0x10(%rax)" which requires aligned memory access.
+
+Signed-off-by: Lepton Wu <lepton@chromium.org>
+Reviewed-by: Marek Olšák <marek.olsak@amd.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6314>
+---
+ src/util/ralloc.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/src/util/ralloc.c b/src/util/ralloc.c
+index f36f8bf3654..4c2cf0772ce 100644
+--- a/src/util/ralloc.c
++++ b/src/util/ralloc.c
+@@ -28,6 +28,9 @@
+ #include <string.h>
+ #include <stdint.h>
+ 
++#include "util/macros.h"
++#include "util/u_math.h"
++
+ /* Some versions of MinGW are missing _vscprintf's declaration, although they
+  * still provide the symbol in the import library. */
+ #ifdef __MINGW32__
+@@ -120,7 +123,15 @@ ralloc_context(const void *ctx)
+ void *
+ ralloc_size(const void *ctx, size_t size)
+ {
+-   void *block = malloc(size + sizeof(ralloc_header));
++   /* Some malloc allocation doesn't always align to 16 bytes even on 64 bits
++    * system, from Android bionic/tests/malloc_test.cpp:
++    *  - Allocations of a size that rounds up to a multiple of 16 bytes
++    *    must have at least 16 byte alignment.
++    *  - Allocations of a size that rounds up to a multiple of 8 bytes and
++    *    not 16 bytes, are only required to have at least 8 byte alignment.
++    */
++   void *block = malloc(align64(size + sizeof(ralloc_header),
++                                alignof(ralloc_header)));
+    ralloc_header *info;
+    ralloc_header *parent;
+ 
+@@ -167,7 +178,8 @@ resize(void *ptr, size_t size)
+    ralloc_header *child, *old, *info;
+ 
+    old = get_header(ptr);
+-   info = realloc(old, size + sizeof(ralloc_header));
++   info = realloc(old, align64(size + sizeof(ralloc_header),
++                               alignof(ralloc_header)));
+ 
+    if (info == NULL)
+       return NULL;
+-- 
+GitLab
+
