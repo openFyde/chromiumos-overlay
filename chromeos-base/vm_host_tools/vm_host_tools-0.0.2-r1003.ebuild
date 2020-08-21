@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ad47663519855e9efa607834fd5694c2f1dea26b"
-CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "2834854981f88e2b81fefd49c590185a31f2b1f1" "33f1d1468c48a8d1080f2c522913381d9a47f97c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1f1478710a6dda0afd50211d0ee0d65683c18728"
+CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "2834854981f88e2b81fefd49c590185a31f2b1f1" "607ca34b324962ad76165238fd53e44b1563e1a1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -113,8 +113,12 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
 
-	insinto /etc
+	insinto /usr/local/vms/etc
 	doins init/arcvm_dev.conf
+
+	# TODO(b/159953121): File and steps below should be removed later.
+	insinto /etc
+	newins init/arcvm_dev.conf_deprecated arcvm_dev.conf
 
 	insinto /usr/share/policy
 	if use seccomp; then

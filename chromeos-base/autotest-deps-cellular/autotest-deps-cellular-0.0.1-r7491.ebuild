@@ -1,16 +1,17 @@
-# Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
+# Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="84dff702bc28a004b08d0a26df0a17f36501ac94"
-CROS_WORKON_TREE="eea7a5a55e989e1103a2bd7fe02c57f3a43c3b6c"
+CROS_WORKON_COMMIT="524336d741cbd1e4a2ff4132548cba6c62251a5c"
+CROS_WORKON_TREE="8b8eecc33cf8ef456916ab22dc6994265a28de90"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest-deponly
 
-DESCRIPTION="Autotest touchpad deps"
+DESCRIPTION="Autotest cellular deps"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
+SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
@@ -18,18 +19,23 @@ KEYWORDS="*"
 # Autotest enabled by default.
 IUSE="+autotest"
 
-AUTOTEST_DEPS_LIST="touchpad-tests"
+AUTOTEST_DEPS_LIST="fakegudev fakemodem"
 AUTOTEST_CONFIG_LIST=
 AUTOTEST_PROFILERS_LIST=
 
 # NOTE: For deps, we need to keep *.a
 AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
-# deps/touchpad-tests
-RDEPEND="
-	x11-drivers/touchpad-tests
-	chromeos-base/touch_firmware_test
-	chromeos-base/mttools
+RDEPEND="!<chromeos-base/autotest-deps-0.0.3"
+
+# deps/fakegudev
+RDEPEND="${RDEPEND}
+	virtual/libgudev
 "
 
+# deps/fakemodem
+RDEPEND="${RDEPEND}
+	chromeos-base/autotest-fakemodem-conf
+	dev-libs/dbus-glib
+"
 DEPEND="${RDEPEND}"
