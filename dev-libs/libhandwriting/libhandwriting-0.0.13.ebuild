@@ -42,7 +42,7 @@ src_install() {
 	if use ondevice_handwriting; then
 		local handwritinglib_path="/opt/google/chrome/ml_models/handwriting/"
 	else
-		local handwritinglib_path="$(dlc_add_path /opt/handwriting-dlc/)"
+		local handwritinglib_path="$(dlc_add_path /)"
 	fi
 
 	insinto "${handwritinglib_path}"
