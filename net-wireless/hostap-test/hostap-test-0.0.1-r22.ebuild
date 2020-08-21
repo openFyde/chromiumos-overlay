@@ -10,7 +10,7 @@ CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.9"
 
 PYTHON_COMPAT=( python3_{6,7} )
 
-inherit cros-workon distutils-r1 toolchain-funcs
+inherit cros-sanitizers cros-workon distutils-r1 toolchain-funcs
 
 DESCRIPTION="Test package for the hostap project, intended for a VM"
 HOMEPAGE="https://w1.fi"
@@ -52,6 +52,7 @@ src_unpack() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	# Toolchain setup
 	tc-export CC
 
