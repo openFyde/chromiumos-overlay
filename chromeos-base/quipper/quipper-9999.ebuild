@@ -50,8 +50,8 @@ src_unpack() {
 	pushd "${S}" >/dev/null
 	unpack ${SRC}
 	mv "${SRC_DIR}"/{.[!.],}* ./ || die
-	epatch "${FILESDIR}"/quipper-disable-flaky-tests.patch
-	epatch "${FILESDIR}"/quipper-arraysize.patch
+	eapply "${FILESDIR}"/quipper-disable-flaky-tests.patch
+	eapply "${FILESDIR}"/quipper-arraysize.patch
 	popd >/dev/null
 }
 
