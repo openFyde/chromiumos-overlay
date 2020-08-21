@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="6b8fb4a8ecaa3b545e773297f885dce690ccae81"
-CROS_WORKON_TREE="9bd26eb66cfdd5be8f3242401ce85e87fca38d75"
+CROS_WORKON_COMMIT="d54cf9765747195a02513f3339f7c67b273496df"
+CROS_WORKON_TREE="cc8fa05feeeaf926bdde648dcad972caf403e26d"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="vm_tools/crostini_client"
@@ -19,15 +19,13 @@ SLOT="0"
 KEYWORDS="*"
 
 DEPEND="chromeos-base/system_api
-	=dev-rust/dbus-0.6*:=
+	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/lazy_static-1*:=
 	>=dev-rust/libc-0.2.44:=
 	!>=dev-rust/libc-0.3
-	>=dev-rust/protobuf-2.8:=
-	!>=dev-rust/protobuf-3
-	>=dev-rust/protoc-rust-2.8:=
-	!>=dev-rust/protoc-rust-3
+	>=dev-rust/protobuf-2.16:= <dev-rust/protobuf-3
+	>=dev-rust/protoc-rust-2.16:= <dev-rust/protoc-rust-3
 "
 
 src_unpack() {
