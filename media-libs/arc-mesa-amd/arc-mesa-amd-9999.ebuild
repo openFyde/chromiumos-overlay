@@ -39,18 +39,16 @@ DEPEND="
 
 RDEPEND="${DEPEND} !media-libs/arc-mesa"
 
+PATCHES=(
+	"${FILESDIR}"/CHROMIUM-radv-Remove-extensions-not-supported-in-P.patch
+	"${FILESDIR}"/CHROMIUM-radv-Disable-extensions-not-supported-by-nd.patch
+	"${FILESDIR}"/CHROMIUM-radv-Disable-1.1-on-ANDROID.patch
+	"${FILESDIR}"/CHROMIUM-radv-Disable-ycbcr-support.patch
+)
+
 driver_list() {
 	local drivers="$(sort -u <<< "${1// /$'\n'}")"
 	echo "${drivers//$'\n'/,}"
-}
-
-src_prepare() {
-	epatch "${FILESDIR}"/CHROMIUM-radv-Remove-extensions-not-supported-in-P.patch
-	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-extensions-not-supported-by-nd.patch
-	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-1.1-on-ANDROID.patch
-	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-ycbcr-support.patch
-
-	default
 }
 
 src_configure() {
