@@ -3,8 +3,8 @@ DEFINED_PHASES=compile configure info install postinst postrm setup unpack
 DEPEND=>=sys-libs/zlib-1.1.4 >=sys-devel/gcc-config-1.6 virtual/libiconv >=dev-libs/gmp-4.3.2 >=dev-libs/mpc-0.8.1 >=dev-libs/mpfr-2.4.2 graphite? ( >=dev-libs/cloog-0.18.0 >=dev-libs/isl-0.11.1 ) test? ( >=dev-util/dejagnu-1.4.4 >=sys-devel/autogen-5.5.4 ) >=sys-apps/texinfo-4.8 >=sys-devel/bison-1.875
 DESCRIPTION=The GNU Compiler Collection. Includes C/C++, java compilers, pie+ssp extensions, Haj Ten Brugge runtime bounds checking. This Compiler is based off of Crosstoolv14.
 EAPI=7
-IUSE=gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm-next llvm-tot mounted_gcc multilib nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache next_gcc prev_gcc cros_host cros_workon_tree_
-KEYWORDS=~*
+IUSE=gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm-next llvm-tot mounted_gcc multilib nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache next_gcc prev_gcc cros_host cros_workon_tree_aff2e49c815be09f20e4346cc98144b604388cb7
+KEYWORDS=*
 LICENSE=GPL-3 LGPL-3 libgcc FDL-1.2
 PDEPEND=>=sys-devel/gcc-config-1.7
 PROPERTIES=live
@@ -13,4 +13,4 @@ REQUIRED_USE=next_gcc? ( !prev_gcc )
 RESTRICT=mirror strip
 SLOT=x86_64-pc-linux-gnu
 _eclasses_=binutils-funcs	6207477a739f6f25d13da27b9cc00160	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	bc16c661ba79bdde4268e2a0fc6a1049	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=b7b8a9a8df0ceb6f384c7a46ff053729
+_md5_=cd4d161b2450a448b7f076181b7b711d
