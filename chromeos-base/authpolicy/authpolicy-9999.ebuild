@@ -28,7 +28,6 @@ COMMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	>=chromeos-base/minijail-0.0.1-r1477:=
 	dev-libs/protobuf:=
-	dev-libs/dbus-glib:=
 	samba? ( >=net-fs/samba-4.5.3-r6:= )
 	sys-apps/dbus:=
 	sys-libs/libcap:=
