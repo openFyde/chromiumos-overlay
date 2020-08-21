@@ -68,7 +68,6 @@ IUSE="
 	tpm2
 	-kernel_afdo
 	-kernel_afdo_verify
-	test
 	+vdso32
 	-criu
 	-docker
@@ -1440,10 +1439,6 @@ cros_chkconfig_present() {
 }
 
 cros-kernel2_pkg_setup() {
-	# This is needed for running src_test().  The kernel code will need to
-	# be rebuilt with `make check`.  If incremental build were enabled,
-	# `make check` would have nothing left to build.
-	use test && export CROS_WORKON_INCREMENTAL_BUILD=0
 	cros-workon_pkg_setup
 }
 
@@ -2064,9 +2059,6 @@ _cros-kernel2_compile() {
 			;;
 	esac
 
-	local src_dir="$(cros-workon_get_build_dir)/source"
-	SMATCH_ERROR_FILE="${src_dir}/chromeos/check/smatch_errors.log"
-
 	# If a .dts file is deleted from the source code it won't disappear
 	# from the output in the next incremental build.  Nuke all dtbs so we
 	# don't include stale files.  We use 'find' to handle old and new
@@ -2074,24 +2066,9 @@ _cros-kernel2_compile() {
 	local arch_dir="$(cros-workon_get_build_dir)/arch"
 	[[ -d "${arch_dir}" ]] && find "${arch_dir}" -name '*.dtb' -delete
 
-	if use test && [[ -e "${SMATCH_ERROR_FILE}" ]]; then
-		local make_check_cmd="smatch -p=kernel"
-		local test_options=(
-			CHECK="${make_check_cmd}"
-			C=1
-		)
-		SMATCH_LOG_FILE="$(cros-workon_get_build_dir)/make.log"
+	kmake -k ${build_targets[@]}
 
-		# The path names in the log file are build-dependent.  Strip out
-		# the part of the path before "kernel/files" and retains what
-		# comes after it: the file, line number, and error message.
-		kmake -k ${build_targets[@]} "${test_options[@]}" |& \
-			tee "${SMATCH_LOG_FILE}"
-	else
-		kmake -k ${build_targets[@]}
-	fi
-
-	if use compilation_database || ( use test && use clang ); then
+	if use compilation_database; then
 		gen_compilation_database
 	fi
 }
@@ -2152,50 +2129,6 @@ cros-kernel2_src_compile() {
 			_cros-kernel2_compile
 		fi
 	fi
-}
-
-cros-kernel2_src_test() {
-	if use buildtest ; then
-		ewarn "Skipping unit tests for buildtest"
-		return 0
-	fi
-
-	[[ -e ${SMATCH_ERROR_FILE} ]] || \
-		die "smatch whitelist file ${SMATCH_ERROR_FILE} not found!"
-	[[ -e ${SMATCH_LOG_FILE} ]] || \
-		die "Log file from src_compile() ${SMATCH_LOG_FILE} not found!"
-
-	local prefix="$(realpath "${S}")/"
-	grep -w error: "${SMATCH_LOG_FILE}" | grep -o "${prefix}.*" \
-		| sed s:"${prefix}"::g > "${SMATCH_LOG_FILE}.errors"
-	local num_errors=$(wc -l < "${SMATCH_LOG_FILE}.errors")
-	local num_warnings=$(egrep -wc "warn:|warning:" "${SMATCH_LOG_FILE}")
-	einfo "smatch found ${num_errors} errors and ${num_warnings} warnings."
-
-	# Create a version of the error database that doesn't have line numbers,
-	# since line numbers will shift as code is added or removed.
-	local build_dir="$(cros-workon_get_build_dir)"
-	local no_line_numbers_file="${build_dir}/no_line_numbers.log"
-	sed -r -e "s/(:[0-9]+){1,2}//" \
-			-e "s/\(see line [0-9]+\)//" \
-			"${SMATCH_ERROR_FILE}" > "${no_line_numbers_file}"
-
-	# For every smatch error that came up during the build, check if it is
-	# in the error database file.
-	local num_unknown_errors=0
-	local line=""
-	while read line; do
-		local no_line_num=$(echo "${line}" | \
-			sed -r -e "s/(:[0-9]+){1,2}//" \
-					-e "s/\(see line [0-9]+\)//")
-		if ! fgrep -q "${no_line_num}" "${no_line_numbers_file}"; then
-			eerror "Non-whitelisted error found: \"${line}\""
-			: $(( ++num_unknown_errors ))
-		fi
-	done < "${SMATCH_LOG_FILE}.errors"
-
-	[[ ${num_unknown_errors} -eq 0 ]] || \
-		die "smatch found ${num_unknown_errors} unknown errors."
 }
 
 cros-kernel2_src_install() {
@@ -2353,7 +2286,7 @@ cros-kernel2_src_install() {
 		dosym "$(cros-workon_get_build_dir)" "/usr/src/linux"
 	fi
 
-	if use compilation_database || ( use test && use clang ); then
+	if use compilation_database; then
 		insinto /build/kernel
 		einfo "Installing kernel compilation databases.
 To use the compilation database with an IDE or other tools outside of the
@@ -2372,4 +2305,4 @@ directory (outside of the chroot) to compile_commands_no_chroot.json."
 	fi
 }
 
-EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install
+EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install
