@@ -664,7 +664,7 @@ src_prepare() {
 
 	# Apply patches for non-localsource builds.
 	if [[ "${CHROME_ORIGIN}" == "SERVER_SOURCE" && ${#PATCHES[@]} -gt 0 ]]; then
-		epatch "${PATCHES[@]}"
+		eapply "${PATCHES[@]}"
 	fi
 
 	local WHOAMI=$(whoami)
