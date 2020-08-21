@@ -268,12 +268,12 @@ install_iwlwifi() {
 		iwlwifi-7265D) doins "${x}-29.ucode" ;;
 		iwlwifi-9000)  doins "${x}-pu-b0-jf-b0-46.ucode" ;;
 		iwlwifi-9260)  doins "${x}-th-b0-jf-b0-46.ucode" ;;
-		iwlwifi-cc)    doins "${x}-a0-57.ucode" ;;
-		iwlwifi-Qu-c0) doins "${x}-hr-b0-57.ucode" ;;
+		iwlwifi-cc)    doins "${x}-a0-58.ucode" ;;
+		iwlwifi-Qu-c0) doins "${x}-hr-b0-58.ucode" ;;
 		iwlwifi-QuZ)
 			case "${kernel}" in
-			kernel-4_19) doins "${x}-a0-hr-b0-57.ucode" ;;
-			kernel-5_4)  doins "${x}-a0-hr-b0-57.ucode" ;;
+			kernel-4_19) doins "${x}-a0-hr-b0-58.ucode" ;;
+			kernel-5_4)  doins "${x}-a0-hr-b0-58.ucode" ;;
 			*)
 				ewarn "Unexpected kernel version '${kernel}'."
 				ewarn "Installing all '${x}' files."
