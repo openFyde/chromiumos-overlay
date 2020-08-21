@@ -28,7 +28,6 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
-	dev-libs/dbus-glib:=
 	sys-apps/dbus:=
 "
 RDEPEND="${COMMON_DEPEND}"
