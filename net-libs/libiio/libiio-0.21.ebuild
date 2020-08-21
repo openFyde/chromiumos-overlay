@@ -32,7 +32,7 @@ RDEPEND="dev-libs/libxml2:=
 DEPEND="${RDEPEND}"
 
 src_prepare() {
-	use iioservice || epatch "${FILESDIR}"/${PN}-cros-ec-ring-workaround.patch
+	use iioservice || eapply "${FILESDIR}"/${PN}-cros-ec-ring-workaround.patch
 
 	cmake-utils_src_prepare
 	default
