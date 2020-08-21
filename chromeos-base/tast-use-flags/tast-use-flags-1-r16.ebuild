@@ -112,6 +112,7 @@ IUSE="
 	wifi_hostap_test
 	wilco
 	+wired_8021x
+	zork
 "
 
 src_install() {
