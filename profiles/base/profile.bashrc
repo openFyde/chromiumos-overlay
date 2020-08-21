@@ -448,8 +448,18 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	mkdir -p "${dir}"
 	local tool tcvar
 	for tool in as ld clang clang++ c++ g++ cc gcc pkg-config; do
-		tcvar=${tool^^}
-		tcvar=${tcvar//-/_}
+		case ${tool} in
+		clang|gcc)
+			tcvar="CC"
+			;;
+		clang++|[cg]++)
+			tcvar="CXX"
+			;;
+		*)
+			tcvar=${tool^^}
+			tcvar=${tcvar//-/_}
+			;;
+		esac
 
 		case ${tool} in
 		as|cc|clang|clang++|g++|gcc|ld|pkg-config)
