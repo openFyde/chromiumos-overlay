@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a1c4ce67cd22f1d28069391cc4ef24ab65aebabd"
+CROS_WORKON_COMMIT="a4c94bff16986be8321d7cdfaeefdc5fd20290d0"
 CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "43768c8b2fe79ec7fda1a196e38b1b4f37f19891" "117e6e318a3518c38f7fe3a010a87020147fd0b1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,7 +37,6 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/permission_broker-client:=
 	chromeos-base/session_manager-client:=
 	chromeos-base/shill:=
 	chromeos-base/shill-client:=
