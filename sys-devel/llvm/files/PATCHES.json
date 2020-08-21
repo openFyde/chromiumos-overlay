@@ -279,5 +279,18 @@
         "rel_patch_path": "cherry/2831a317b689c7f005a29f008a8e4c24485c0711.patch",
         "start_version": 394483,
         "end_version": 398009
+    },
+    {
+        "comment": "Make a test case more flexible on Windows wrt the number of backslashes.",
+        "rel_patch_path": "cherry/9f0225894254c4706519c85d6fc06c5382903fef.patch",
+        "start_version": 400963,
+        "end_version": 401010
+    },
+    {
+        "comment": "Revert \"[ELF] Add --dependency-file option\"",
+        "rel_patch_path": "cherry/0bd918c828feb599b278c1876a33caa9c295be6a.patch",
+        "start_version": 400963,
+        "end_version": 401024
     }
+
 ]
