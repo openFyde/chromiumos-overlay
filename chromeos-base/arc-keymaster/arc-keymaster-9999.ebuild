@@ -85,10 +85,10 @@ src_prepare() {
 	# https://boringssl-review.googlesource.com/c/boringssl/+/37244
 	# https://boringssl-review.googlesource.com/c/boringssl/+/37247
 	cd "${WORKDIR}/${BORINGSSL_P}" || die
-	epatch "${FILESDIR}"/boringssl-clang-fallthru.patch
+	eapply "${FILESDIR}"/boringssl-clang-fallthru.patch
 	# Verify upstream hasn't changed relevant context code.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
-	EPATCH_OPTS="--dry-run" epatch "${FILESDIR}/keymaster-context-hooks.patch"
+	eapply --dry-run "${FILESDIR}/keymaster-context-hooks.patch"
 }
 
 src_configure() {
