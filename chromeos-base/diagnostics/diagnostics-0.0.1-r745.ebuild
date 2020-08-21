@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4aaa540eb141fbec54f7a1b3536e3741cb0c0b9c"
-CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "33d018aec398b4ca1124df857db8f89394d141be" "dd278b53eaff72d6d8fc20b84ed99a0b547e2a70" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="34d9d6b1727c0bd6337db520d2bb276f0bdf32f9"
+CROS_WORKON_TREE=("85e4e098023fcccb8851b45c351a7045fa23f06f" "33d018aec398b4ca1124df857db8f89394d141be" "c23ccef4c3de6c0176c2c2e50077d29d33f516f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -103,9 +103,9 @@ src_install() {
 	insinto /usr/share/policy
 	newins "init/cros_healthd-seccomp-${ARCH}.policy" \
 		cros_healthd-seccomp.policy
-	newins "ectool/ectool_i2cread-seccomp-${ARCH}.policy" \
+	newins "cros_healthd/seccomp/ectool_i2cread-seccomp-${ARCH}.policy" \
 		ectool_i2cread-seccomp.policy
-	newins "ectool/ectool_pwmgetfanrpm-seccomp-${ARCH}.policy" \
+	newins "cros_healthd/seccomp/ectool_pwmgetfanrpm-seccomp-${ARCH}.policy" \
 		ectool_pwmgetfanrpm-seccomp.policy
 
 	# Install D-Bus configuration file.
