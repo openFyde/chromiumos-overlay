@@ -41,7 +41,7 @@ src_unpack() {
 	cd "${P}/platform2" || die
 	if [ "${PV}" != "9999" ]; then
 		# Generate the patch under platform2 by 'git format-patch HEAD^'
-		epatch -p1 "${FILESDIR}/0001-intel-ipu6-Add-initial-code.patch"
+		eapply "${FILESDIR}/0001-intel-ipu6-Add-initial-code.patch"
 	fi
 }
 
