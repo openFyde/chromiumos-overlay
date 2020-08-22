@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("300292b66ec823232b046d9ee4fb24a5fc7d98fc" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_COMMIT=("a6558a7c3609f06b70c9aa49e082a3b09b04b70a" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
 CROS_WORKON_TREE=("a18be0e4067223084eb001e588d475448d48cd4c" "a20e7828b56799e02ff03478691402713f90a094" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 inherit cros-constants
 
@@ -87,10 +87,10 @@ src_prepare() {
 	# https://boringssl-review.googlesource.com/c/boringssl/+/37244
 	# https://boringssl-review.googlesource.com/c/boringssl/+/37247
 	cd "${WORKDIR}/${BORINGSSL_P}" || die
-	epatch "${FILESDIR}"/boringssl-clang-fallthru.patch
+	eapply "${FILESDIR}"/boringssl-clang-fallthru.patch
 	# Verify upstream hasn't changed relevant context code.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
-	EPATCH_OPTS="--dry-run" epatch "${FILESDIR}/keymaster-context-hooks.patch"
+	eapply --dry-run "${FILESDIR}/keymaster-context-hooks.patch"
 }
 
 src_configure() {
