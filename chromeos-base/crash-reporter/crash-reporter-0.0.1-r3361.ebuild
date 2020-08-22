@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="300292b66ec823232b046d9ee4fb24a5fc7d98fc"
-CROS_WORKON_TREE=("a18be0e4067223084eb001e588d475448d48cd4c" "12cd8259ea22452f92a071babe4ff6bdf3ce8c71" "2834854981f88e2b81fefd49c590185a31f2b1f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f17ab1f5b58351f13c95d55b1febc2bdaa6d57ee"
+CROS_WORKON_TREE=("a18be0e4067223084eb001e588d475448d48cd4c" "847ba81657403673394e63f746735faef45ef8ae" "2834854981f88e2b81fefd49c590185a31f2b1f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk crash-reporter metrics .gn"
 
 PLATFORM_SUBDIR="crash-reporter"
 
-inherit cros-i686 cros-workon platform systemd udev user
+inherit cros-arm64 cros-i686 cros-workon platform systemd udev user
 
 DESCRIPTION="Crash reporting service that uploads crash reports with debug information"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/"
@@ -25,7 +25,7 @@ IUSE="cheets chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzze
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
-	chromeos-base/google-breakpad:=[cros_i686?]
+	chromeos-base/google-breakpad:=[cros_i686?,cros_arm64?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/libpcre:=
 	dev-libs/protobuf:=
@@ -52,11 +52,13 @@ DEPEND="
 src_configure() {
 	platform_src_configure
 	use cheets && use_i686 && platform_src_configure_i686
+	use cheets && use_arm64 && platform_src_configure_arm64
 }
 
 src_compile() {
 	platform_src_compile
 	use cheets && use_i686 && platform_src_compile_i686 "core_collector"
+	use cheets && use_arm64 && platform_src_compile_arm64 "core_collector"
 }
 
 pkg_setup() {
@@ -92,6 +94,7 @@ src_install() {
 	if use cheets; then
 		dobin "${OUT}"/core_collector
 		use_i686 && newbin "$(platform_out_i686)"/core_collector "core_collector32"
+		use_arm64 && newbin "$(platform_out_arm64)"/core_collector "core_collector64"
 	fi
 
 	if use systemd; then
