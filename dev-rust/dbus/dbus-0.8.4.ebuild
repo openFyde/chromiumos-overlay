@@ -3,6 +3,8 @@
 
 EAPI="7"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="Rust bindings to D-Bus."
