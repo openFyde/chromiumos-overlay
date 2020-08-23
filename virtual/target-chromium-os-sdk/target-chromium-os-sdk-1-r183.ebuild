@@ -31,6 +31,7 @@ RDEPEND="
 RDEPEND="${RDEPEND}
 	app-arch/bzip2
 	app-arch/cpio
+	app-arch/gcab
 	app-arch/gzip
 	app-arch/p7zip
 	app-arch/tar
