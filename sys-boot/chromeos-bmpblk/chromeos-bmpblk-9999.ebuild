@@ -150,7 +150,11 @@ src_compile() {
 	if use detachable ; then
 		export DETACHABLE=1
 	fi
-	export MENU_UI=1
+	if use menu_ui ; then
+		export MENU_UI=1
+	elif use legacy_menu_ui ; then
+		export LEGACY_MENU_UI=1
+	fi
 
 	# Both diag_payload and minidiag need additional UI images from
 	# chromeos-bmpblk.
