@@ -12,6 +12,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/tpm2/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="tpm2_simulator"
 
 DEPEND="dev-libs/openssl:0="
 
@@ -45,4 +46,7 @@ src_install() {
 	doins swap.h
 	doins tpm_generated.h
 	doins tpm_types.h
+	if use tpm2_simulator; then
+		doins tpm_manufacture.h
+	fi
 }
