@@ -11,7 +11,7 @@ esac
 # Since we use CHROMEOS_KERNEL_CONFIG and CHROMEOS_KERNEL_SPLITCONFIG here,
 # it is not safe to reuse the kernel prebuilts across different boards. Inherit
 # the cros-board eclass to make sure that doesn't happen.
-inherit binutils-funcs cros-board estack toolchain-funcs
+inherit binutils-funcs cros-board toolchain-funcs
 
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
@@ -113,7 +113,7 @@ apply_private_patches() {
 	eshopts_push -s nullglob
 	local patches=( "${FILESDIR}"/*.patch )
 	eshopts_pop
-	[[ ${#patches[@]} -gt 0 ]] && eapply "${patches[@]}"
+	[[ ${#patches[@]} -gt 0 ]] && epatch "${patches[@]}"
 }
 
 # Ignore files under /lib/modules/ as we like to install vdso objects in there.
