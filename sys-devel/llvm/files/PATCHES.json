@@ -291,6 +291,76 @@
         "rel_patch_path": "cherry/0bd918c828feb599b278c1876a33caa9c295be6a.patch",
         "start_version": 400963,
         "end_version": 401024
+    },
+    {
+        "comment": "Revert \"Switch to using -debug-info-kind=constructor as default (from =limited)\"",
+        "rel_patch_path": "cherry/394db2259575ef3cac8d3d37836b11eb2373c435.patch",
+        "start_version": 398830,
+        "end_version": 400648
+    },
+    {
+        "comment": "[InstCombine] Add test for PR46680 (NFC)",
+        "rel_patch_path": "cherry/13ae440de4a408cf9d1a448def09769ecbecfdf7.patch",
+        "start_version": 398993,
+        "end_version": 399711
+    },
+    {
+        "comment": "[InstCombine] Fix store merge worklist management (PR46680)",
+        "rel_patch_path": "cherry/d12ec0f752e7f2c7f7252539da2d124264ec33f7.patch",
+        "start_version": 398993,
+        "end_version": 399722
+    },
+    {
+        "comment": "Reland \"[InstCombine] Lower infinite combine loop detection thresholds\"",
+        "rel_patch_path": "cherry/2f3862eb9f21e8a0d48505637fefe6e5e295c18c.patch",
+        "start_version": 398993,
+        "end_version": 399726
+    },
+    {
+        "comment": "Revert \"[AddressSanitizer] Don't use weak linkage for __{start,stop}_asan_globals\"",
+        "rel_patch_path": "cherry/cf5df40c4cf1a53a02ab1d56a488642e3dda8f6d.patch",
+        "start_version": 395282,
+        "end_version": 399661
+    },
+    {
+        "comment": "Revert \"[SCEV][IndVarSimplify] insert point should not be block front.\"",
+        "rel_patch_path": "cherry/1cd1c1d62edc6693a3854b22d53c9bbc1b149798.patch",
+        "start_version": 398848,
+        "end_version": 399218
+    },
+    {
+        "comment": "Revert \"[InstCombine] Drop debug loc in TryToSinkInstruction (reland)\"",
+        "rel_patch_path": "cherry/3d52b1e81b7b3891d9132d826d4889119fad7d00.patch",
+        "start_version": 397614,
+        "end_version": 399140
+    },
+    {
+        "comment": "[DWARF] Add cuttoff guarding quadratic validThroughout behaviour",
+        "rel_patch_path": "cherry/b9d977b0ca60c54f11615ca9d144c9f08b29fd85.patch",
+        "start_version": 398603,
+        "end_version": 398603
+    },
+    {
+        "comment": "PR44685: DebugInfo: Handle address-use-invalid type units referencing non-type units",
+        "rel_patch_path": "cherry/be3ef93bf58aa5546c7baadfb21d43b75fbb4e24.patch",
+        "start_version": 394483,
+        "end_version": 402778
+    },
+    {
+        "comment": "[GlobalISel][InlineAsm] Fix matching input constraint to physreg",
+        "rel_patch_path": "cherry/d893278bba01b0e1209e8b8accbdd5cfa75a0932.patch",
+        "start_version": 399163,
+        "end_version": 401652
+    },
+    {
+        "comment": "PR47138: Don't crash if the preferred alignment of an invalid record type is requested.",
+        "rel_patch_path": "cherry/269bc3f5df6c3b75de515a48063c6941ef8fbbe6.patch",
+        "start_version": 400541,
+        "end_version": 402304
+    },
+    {
+        "comment": "Revert \"Change the INLINEASM_BR MachineInstr to be a non-terminating instruction.\"",
+        "rel_patch_path": "cherry/revert_4b0aa5724feaa89a9538dcab97e018110b0e4bc3_locally.patch",
+        "start_version": 398032
     }
-
 ]

@@ -1,0 +1,1240 @@
+commit 72712b26f4e361b5c0d6ed8036e7fa4ef48ed7f0
+Author: Jian Cai <jiancai@google.com>
+Date:   Sat Sep 5 11:02:11 2020 -0700
+
+    Revert "Change the INLINEASM_BR MachineInstr to be a non-terminating instruction."
+    
+    This reverts commit 4b0aa5724feaa89a9538dcab97e018110b0e4bc3.
+
+diff --git a/llvm/include/llvm/CodeGen/ISDOpcodes.h b/llvm/include/llvm/CodeGen/ISDOpcodes.h
+index 534f988c5e9..f8849f5743a 100644
+--- a/llvm/include/llvm/CodeGen/ISDOpcodes.h
++++ b/llvm/include/llvm/CodeGen/ISDOpcodes.h
+@@ -870,7 +870,7 @@ enum NodeType {
+   /// SDOperands.
+   INLINEASM,
+ 
+-  /// INLINEASM_BR - Branching version of inline asm. Used by asm-goto.
++  /// INLINEASM_BR - Terminator version of inline asm. Used by asm-goto.
+   INLINEASM_BR,
+ 
+   /// EH_LABEL - Represents a label in mid basic block used to track
+diff --git a/llvm/include/llvm/CodeGen/MachineBasicBlock.h b/llvm/include/llvm/CodeGen/MachineBasicBlock.h
+index b69f6584fe6..849e720fa3b 100644
+--- a/llvm/include/llvm/CodeGen/MachineBasicBlock.h
++++ b/llvm/include/llvm/CodeGen/MachineBasicBlock.h
+@@ -163,8 +163,11 @@ private:
+   // Indicate that this basic block ends a section.
+   bool IsEndSection = false;
+ 
+-  /// Indicate that this basic block is the indirect dest of an INLINEASM_BR.
+-  bool IsInlineAsmBrIndirectTarget = false;
++  /// Default target of the callbr of a basic block.
++  bool InlineAsmBrDefaultTarget = false;
++
++  /// List of indirect targets of the callbr of a basic block.
++  SmallPtrSet<const MachineBasicBlock*, 4> InlineAsmBrIndirectTargets;
+ 
+   /// since getSymbol is a relatively heavy-weight operation, the symbol
+   /// is only computed once and is cached.
+@@ -463,19 +466,31 @@ public:
+   /// Sets the section ID for this basic block.
+   void setSectionID(MBBSectionID V) { SectionID = V; }
+ 
+-  /// Returns true if this block may have an INLINEASM_BR (overestimate, by
+-  /// checking if any of the successors are indirect targets of any inlineasm_br
+-  /// in the function).
+-  bool mayHaveInlineAsmBr() const;
+-
+   /// Returns true if this is the indirect dest of an INLINEASM_BR.
+-  bool isInlineAsmBrIndirectTarget() const {
+-    return IsInlineAsmBrIndirectTarget;
++  bool isInlineAsmBrIndirectTarget(const MachineBasicBlock *Tgt) const {
++    return InlineAsmBrIndirectTargets.count(Tgt);
+   }
+ 
+   /// Indicates if this is the indirect dest of an INLINEASM_BR.
+-  void setIsInlineAsmBrIndirectTarget(bool V = true) {
+-    IsInlineAsmBrIndirectTarget = V;
++  void addInlineAsmBrIndirectTarget(const MachineBasicBlock *Tgt) {
++    InlineAsmBrIndirectTargets.insert(Tgt);
++  }
++
++  /// Transfers indirect targets to INLINEASM_BR's copy block.
++  void transferInlineAsmBrIndirectTargets(MachineBasicBlock *CopyBB) {
++    for (auto *Target : InlineAsmBrIndirectTargets)
++      CopyBB->addInlineAsmBrIndirectTarget(Target);
++    return InlineAsmBrIndirectTargets.clear();
++  }
++
++  /// Returns true if this is the default dest of an INLINEASM_BR.
++  bool isInlineAsmBrDefaultTarget() const {
++    return InlineAsmBrDefaultTarget;
++  }
++
++  /// Indicates if this is the default deft of an INLINEASM_BR.
++  void setInlineAsmBrDefaultTarget() {
++    InlineAsmBrDefaultTarget = true;
+   }
+ 
+   /// Returns true if it is legal to hoist instructions into this block.
+diff --git a/llvm/include/llvm/Target/Target.td b/llvm/include/llvm/Target/Target.td
+index aab5376db45..c628fa8b625 100644
+--- a/llvm/include/llvm/Target/Target.td
++++ b/llvm/include/llvm/Target/Target.td
+@@ -1017,10 +1017,10 @@ def INLINEASM_BR : StandardPseudoInstruction {
+   let OutOperandList = (outs);
+   let InOperandList = (ins variable_ops);
+   let AsmString = "";
+-  // Unlike INLINEASM, this is always treated as having side-effects.
+-  let hasSideEffects = 1;
+-  // Despite potentially branching, this instruction is intentionally _not_
+-  // marked as a terminator or a branch.
++  let hasSideEffects = 0;  // Note side effect is encoded in an operand.
++  let isTerminator = 1;
++  let isBranch = 1;
++  let isIndirectBranch = 1;
+ }
+ def CFI_INSTRUCTION : StandardPseudoInstruction {
+   let OutOperandList = (outs);
+diff --git a/llvm/lib/CodeGen/BranchFolding.cpp b/llvm/lib/CodeGen/BranchFolding.cpp
+index c6d5aa37834..022689c94a3 100644
+--- a/llvm/lib/CodeGen/BranchFolding.cpp
++++ b/llvm/lib/CodeGen/BranchFolding.cpp
+@@ -1083,9 +1083,8 @@ bool BranchFolder::TailMergeBlocks(MachineFunction &MF) {
+       if (!UniquePreds.insert(PBB).second)
+         continue;
+ 
+-      // Skip blocks which may jump to a landing pad or jump from an asm blob.
+-      // Can't tail merge these.
+-      if (PBB->hasEHPadSuccessor() || PBB->mayHaveInlineAsmBr())
++      // Skip blocks which may jump to a landing pad. Can't tail merge these.
++      if (PBB->hasEHPadSuccessor())
+         continue;
+ 
+       // After block placement, only consider predecessors that belong to the
+@@ -1666,15 +1665,13 @@ ReoptimizeBlock:
+ 
+     if (!MBB->isEHPad()) {
+       // Check all the predecessors of this block.  If one of them has no fall
+-      // throughs, and analyzeBranch thinks it _could_ fallthrough to this
+-      // block, move this block right after it.
++      // throughs, move this block right after it.
+       for (MachineBasicBlock *PredBB : MBB->predecessors()) {
+         // Analyze the branch at the end of the pred.
+         MachineBasicBlock *PredTBB = nullptr, *PredFBB = nullptr;
+         SmallVector<MachineOperand, 4> PredCond;
+         if (PredBB != MBB && !PredBB->canFallThrough() &&
+             !TII->analyzeBranch(*PredBB, PredTBB, PredFBB, PredCond, true) &&
+-            (PredTBB == MBB || PredFBB == MBB) &&
+             (!CurFallsThru || !CurTBB || !CurFBB) &&
+             (!CurFallsThru || MBB->getNumber() >= PredBB->getNumber())) {
+           // If the current block doesn't fall through, just move it.
+@@ -1700,24 +1697,21 @@ ReoptimizeBlock:
+     }
+ 
+     if (!CurFallsThru) {
+-      // Check analyzable branch-successors to see if we can move this block
+-      // before one.
+-      if (!CurUnAnalyzable) {
+-        for (MachineBasicBlock *SuccBB : {CurFBB, CurTBB}) {
+-          if (!SuccBB)
+-            continue;
+-          // Analyze the branch at the end of the block before the succ.
+-          MachineFunction::iterator SuccPrev = --SuccBB->getIterator();
+-
+-          // If this block doesn't already fall-through to that successor, and
+-          // if the succ doesn't already have a block that can fall through into
+-          // it, we can arrange for the fallthrough to happen.
+-          if (SuccBB != MBB && &*SuccPrev != MBB &&
+-              !SuccPrev->canFallThrough()) {
+-            MBB->moveBefore(SuccBB);
+-            MadeChange = true;
+-            goto ReoptimizeBlock;
+-          }
++      // Check all successors to see if we can move this block before it.
++      for (MachineBasicBlock *SuccBB : MBB->successors()) {
++        // Analyze the branch at the end of the block before the succ.
++        MachineFunction::iterator SuccPrev = --SuccBB->getIterator();
++
++        // If this block doesn't already fall-through to that successor, and if
++        // the succ doesn't already have a block that can fall through into it,
++        // and if the successor isn't an EH destination, we can arrange for the
++        // fallthrough to happen.
++        if (SuccBB != MBB && &*SuccPrev != MBB &&
++            !SuccPrev->canFallThrough() && !CurUnAnalyzable &&
++            !SuccBB->isEHPad()) {
++          MBB->moveBefore(SuccBB);
++          MadeChange = true;
++          goto ReoptimizeBlock;
+         }
+       }
+ 
+diff --git a/llvm/lib/CodeGen/MachineBasicBlock.cpp b/llvm/lib/CodeGen/MachineBasicBlock.cpp
+index 2d4b60435d9..e8487412264 100644
+--- a/llvm/lib/CodeGen/MachineBasicBlock.cpp
++++ b/llvm/lib/CodeGen/MachineBasicBlock.cpp
+@@ -277,16 +277,8 @@ LLVM_DUMP_METHOD void MachineBasicBlock::dump() const {
+ }
+ #endif
+ 
+-bool MachineBasicBlock::mayHaveInlineAsmBr() const {
+-  for (const MachineBasicBlock *Succ : successors()) {
+-    if (Succ->isInlineAsmBrIndirectTarget())
+-      return true;
+-  }
+-  return false;
+-}
+-
+ bool MachineBasicBlock::isLegalToHoistInto() const {
+-  if (isReturnBlock() || hasEHPadSuccessor() || mayHaveInlineAsmBr())
++  if (isReturnBlock() || hasEHPadSuccessor())
+     return false;
+   return true;
+ }
+@@ -1140,7 +1132,7 @@ bool MachineBasicBlock::canSplitCriticalEdge(
+ 
+   // Splitting the critical edge to a callbr's indirect block isn't advised.
+   // Don't do it in this generic function.
+-  if (Succ->isInlineAsmBrIndirectTarget())
++  if (isInlineAsmBrIndirectTarget(Succ))
+     return false;
+ 
+   const MachineFunction *MF = getParent();
+diff --git a/llvm/lib/CodeGen/MachineSink.cpp b/llvm/lib/CodeGen/MachineSink.cpp
+index 5f958bbc31b..7373e40f856 100644
+--- a/llvm/lib/CodeGen/MachineSink.cpp
++++ b/llvm/lib/CodeGen/MachineSink.cpp
+@@ -733,13 +733,6 @@ MachineSinking::FindSuccToSinkTo(MachineInstr &MI, MachineBasicBlock *MBB,
+   if (SuccToSinkTo && SuccToSinkTo->isEHPad())
+     return nullptr;
+ 
+-  // It ought to be okay to sink instructions into an INLINEASM_BR target, but
+-  // only if we make sure that MI occurs _before_ an INLINEASM_BR instruction in
+-  // the source block (which this code does not yet do). So for now, forbid
+-  // doing so.
+-  if (SuccToSinkTo && SuccToSinkTo->isInlineAsmBrIndirectTarget())
+-    return nullptr;
+-
+   return SuccToSinkTo;
+ }
+ 
+diff --git a/llvm/lib/CodeGen/MachineVerifier.cpp b/llvm/lib/CodeGen/MachineVerifier.cpp
+index c1a2c4e0bc6..5e615174a63 100644
+--- a/llvm/lib/CodeGen/MachineVerifier.cpp
++++ b/llvm/lib/CodeGen/MachineVerifier.cpp
+@@ -584,6 +584,7 @@ MachineVerifier::visitMachineBasicBlockBefore(const MachineBasicBlock *MBB) {
+     // it is an entry block or landing pad.
+     for (const auto &LI : MBB->liveins()) {
+       if (isAllocatable(LI.PhysReg) && !MBB->isEHPad() &&
++          !MBB->isInlineAsmBrDefaultTarget() &&
+           MBB->getIterator() != MBB->getParent()->begin()) {
+         report("MBB has allocatable live-in, but isn't entry or landing-pad.", MBB);
+         report_context(LI.PhysReg);
+@@ -729,7 +730,7 @@ MachineVerifier::visitMachineBasicBlockBefore(const MachineBasicBlock *MBB) {
+         continue;
+       // Also accept successors which are for exception-handling or might be
+       // inlineasm_br targets.
+-      if (SuccMBB->isEHPad() || SuccMBB->isInlineAsmBrIndirectTarget())
++      if (SuccMBB->isEHPad() || MBB->isInlineAsmBrIndirectTarget(SuccMBB))
+         continue;
+       report("MBB has unexpected successors which are not branch targets, "
+              "fallthrough, EHPads, or inlineasm_br targets.",
+diff --git a/llvm/lib/CodeGen/PHIEliminationUtils.cpp b/llvm/lib/CodeGen/PHIEliminationUtils.cpp
+index bae96eb8452..3a2cdaf3bd3 100644
+--- a/llvm/lib/CodeGen/PHIEliminationUtils.cpp
++++ b/llvm/lib/CodeGen/PHIEliminationUtils.cpp
+@@ -26,9 +26,8 @@ llvm::findPHICopyInsertPoint(MachineBasicBlock* MBB, MachineBasicBlock* SuccMBB,
+ 
+   // Usually, we just want to insert the copy before the first terminator
+   // instruction. However, for the edge going to a landing pad, we must insert
+-  // the copy before the call/invoke instruction. Similarly for an INLINEASM_BR
+-  // going to an indirect target.
+-  if (!SuccMBB->isEHPad() && !SuccMBB->isInlineAsmBrIndirectTarget())
++  // the copy before the call/invoke instruction.
++  if (!SuccMBB->isEHPad())
+     return MBB->getFirstTerminator();
+ 
+   // Discover any defs/uses in this basic block.
+diff --git a/llvm/lib/CodeGen/RegisterCoalescer.cpp b/llvm/lib/CodeGen/RegisterCoalescer.cpp
+index 17160a9f42c..27b6436787d 100644
+--- a/llvm/lib/CodeGen/RegisterCoalescer.cpp
++++ b/llvm/lib/CodeGen/RegisterCoalescer.cpp
+@@ -1064,9 +1064,7 @@ bool RegisterCoalescer::removePartialRedundancy(const CoalescerPair &CP,
+     return false;
+ 
+   MachineBasicBlock &MBB = *CopyMI.getParent();
+-  // If this block is the target of an invoke/inlineasm_br, moving the copy into
+-  // the predecessor is tricker, and we don't handle it.
+-  if (MBB.isEHPad() || MBB.isInlineAsmBrIndirectTarget())
++  if (MBB.isEHPad())
+     return false;
+ 
+   if (MBB.pred_size() != 2)
+diff --git a/llvm/lib/CodeGen/SelectionDAG/ScheduleDAGSDNodes.cpp b/llvm/lib/CodeGen/SelectionDAG/ScheduleDAGSDNodes.cpp
+index ce20d506586..731cd2396b6 100644
+--- a/llvm/lib/CodeGen/SelectionDAG/ScheduleDAGSDNodes.cpp
++++ b/llvm/lib/CodeGen/SelectionDAG/ScheduleDAGSDNodes.cpp
+@@ -1033,6 +1033,57 @@ EmitSchedule(MachineBasicBlock::iterator &InsertPos) {
+     }
+   }
+ 
++  // Split after an INLINEASM_BR block with outputs. This allows us to keep the
++  // copy to/from register instructions from being between two terminator
++  // instructions, which causes the machine instruction verifier agita.
++  auto TI = llvm::find_if(*BB, [](const MachineInstr &MI){
++    return MI.getOpcode() == TargetOpcode::INLINEASM_BR;
++  });
++  auto SplicePt = TI != BB->end() ? std::next(TI) : BB->end();
++  if (TI != BB->end() && SplicePt != BB->end() &&
++      TI->getOpcode() == TargetOpcode::INLINEASM_BR &&
++      SplicePt->getOpcode() == TargetOpcode::COPY) {
++    MachineBasicBlock *FallThrough = BB->getFallThrough();
++    if (!FallThrough)
++      for (const MachineOperand &MO : BB->back().operands())
++        if (MO.isMBB()) {
++          FallThrough = MO.getMBB();
++          break;
++        }
++    assert(FallThrough && "Cannot find default dest block for callbr!");
++
++    MachineBasicBlock *CopyBB = MF.CreateMachineBasicBlock(BB->getBasicBlock());
++    MachineFunction::iterator BBI(*BB);
++    MF.insert(++BBI, CopyBB);
++
++    CopyBB->splice(CopyBB->begin(), BB, SplicePt, BB->end());
++    CopyBB->setInlineAsmBrDefaultTarget();
++
++    CopyBB->addSuccessor(FallThrough, BranchProbability::getOne());
++    BB->removeSuccessor(FallThrough);
++    BB->addSuccessor(CopyBB, BranchProbability::getOne());
++
++    // Mark all physical registers defined in the original block as being live
++    // on entry to the copy block.
++    for (const auto &MI : *CopyBB)
++      for (const MachineOperand &MO : MI.operands())
++        if (MO.isReg()) {
++          Register reg = MO.getReg();
++          if (Register::isPhysicalRegister(reg)) {
++            CopyBB->addLiveIn(reg);
++            break;
++          }
++        }
++
++    CopyBB->normalizeSuccProbs();
++    BB->normalizeSuccProbs();
++
++    BB->transferInlineAsmBrIndirectTargets(CopyBB);
++
++    InsertPos = CopyBB->end();
++    return CopyBB;
++  }
++
+   InsertPos = Emitter.getInsertPos();
+   return Emitter.getBlock();
+ }
+diff --git a/llvm/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp b/llvm/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
+index c8b72abb9b7..aafe4a25c81 100644
+--- a/llvm/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
++++ b/llvm/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
+@@ -2903,13 +2903,14 @@ void SelectionDAGBuilder::visitCallBr(const CallBrInst &I) {
+ 
+   // Retrieve successors.
+   MachineBasicBlock *Return = FuncInfo.MBBMap[I.getDefaultDest()];
++  Return->setInlineAsmBrDefaultTarget();
+ 
+   // Update successor info.
+   addSuccessorWithProb(CallBrMBB, Return, BranchProbability::getOne());
+   for (unsigned i = 0, e = I.getNumIndirectDests(); i < e; ++i) {
+     MachineBasicBlock *Target = FuncInfo.MBBMap[I.getIndirectDest(i)];
+     addSuccessorWithProb(CallBrMBB, Target, BranchProbability::getZero());
+-    Target->setIsInlineAsmBrIndirectTarget();
++    CallBrMBB->addInlineAsmBrIndirectTarget(Target);
+   }
+   CallBrMBB->normalizeSuccProbs();
+ 
+@@ -2982,6 +2983,16 @@ void SelectionDAGBuilder::UpdateSplitBlock(MachineBasicBlock *First,
+   for (unsigned i = 0, e = SL->BitTestCases.size(); i != e; ++i)
+     if (SL->BitTestCases[i].Parent == First)
+       SL->BitTestCases[i].Parent = Last;
++
++  // SelectionDAGISel::FinishBasicBlock will add PHI operands for the
++  // successors of the fallthrough block. Here, we add PHI operands for the
++  // successors of the INLINEASM_BR block itself.
++  if (First->getFirstTerminator()->getOpcode() == TargetOpcode::INLINEASM_BR)
++    for (std::pair<MachineInstr *, unsigned> &pair : FuncInfo.PHINodesToUpdate)
++      if (First->isSuccessor(pair.first->getParent()))
++        MachineInstrBuilder(*First->getParent(), pair.first)
++            .addReg(pair.second)
++            .addMBB(First);
+ }
+ 
+ void SelectionDAGBuilder::visitIndirectBr(const IndirectBrInst &I) {
+@@ -7850,6 +7861,7 @@ public:
+   }
+ };
+ 
++using SDISelAsmOperandInfoVector = SmallVector<SDISelAsmOperandInfo, 16>;
+ 
+ } // end anonymous namespace
+ 
+@@ -8095,7 +8107,7 @@ void SelectionDAGBuilder::visitInlineAsm(const CallBase &Call) {
+   const InlineAsm *IA = cast<InlineAsm>(Call.getCalledOperand());
+ 
+   /// ConstraintOperands - Information about all of the constraints.
+-  SmallVector<SDISelAsmOperandInfo, 16> ConstraintOperands;
++  SDISelAsmOperandInfoVector ConstraintOperands;
+ 
+   const TargetLowering &TLI = DAG.getTargetLoweringInfo();
+   TargetLowering::AsmOperandInfoVector TargetConstraints = TLI.ParseConstraints(
+diff --git a/llvm/lib/CodeGen/ShrinkWrap.cpp b/llvm/lib/CodeGen/ShrinkWrap.cpp
+index ce43fb1fbd4..85dd4f59fa1 100644
+--- a/llvm/lib/CodeGen/ShrinkWrap.cpp
++++ b/llvm/lib/CodeGen/ShrinkWrap.cpp
+@@ -494,15 +494,17 @@ bool ShrinkWrap::runOnMachineFunction(MachineFunction &MF) {
+                                "EH Funclets are not supported yet.",
+                                MBB.front().getDebugLoc(), &MBB);
+ 
+-    if (MBB.isEHPad() || MBB.isInlineAsmBrIndirectTarget()) {
+-      // Push the prologue and epilogue outside of the region that may throw (or
+-      // jump out via inlineasm_br), by making sure that all the landing pads
+-      // are at least at the boundary of the save and restore points.  The
+-      // problem is that a basic block can jump out from the middle in these
+-      // cases, which we do not handle.
++    if (MBB.isEHPad()) {
++      // Push the prologue and epilogue outside of
++      // the region that may throw by making sure
++      // that all the landing pads are at least at the
++      // boundary of the save and restore points.
++      // The problem with exceptions is that the throw
++      // is not properly modeled and in particular, a
++      // basic block can jump out from the middle.
+       updateSaveRestorePoints(MBB, RS.get());
+       if (!ArePointsInteresting()) {
+-        LLVM_DEBUG(dbgs() << "EHPad/inlineasm_br prevents shrink-wrapping\n");
++        LLVM_DEBUG(dbgs() << "EHPad prevents shrink-wrapping\n");
+         return false;
+       }
+       continue;
+diff --git a/llvm/lib/CodeGen/SplitKit.cpp b/llvm/lib/CodeGen/SplitKit.cpp
+index 8dec620536a..5a8090881b6 100644
+--- a/llvm/lib/CodeGen/SplitKit.cpp
++++ b/llvm/lib/CodeGen/SplitKit.cpp
+@@ -80,15 +80,10 @@ InsertPointAnalysis::computeLastInsertPoint(const LiveInterval &CurLI,
+   std::pair<SlotIndex, SlotIndex> &LIP = LastInsertPoint[Num];
+   SlotIndex MBBEnd = LIS.getMBBEndIdx(&MBB);
+ 
+-  SmallVector<const MachineBasicBlock *, 1> ExceptionalSuccessors;
+-  bool EHPadSuccessor = false;
+-  for (const MachineBasicBlock *SMBB : MBB.successors()) {
+-    if (SMBB->isEHPad()) {
+-      ExceptionalSuccessors.push_back(SMBB);
+-      EHPadSuccessor = true;
+-    } else if (SMBB->isInlineAsmBrIndirectTarget())
+-      ExceptionalSuccessors.push_back(SMBB);
+-  }
++  SmallVector<const MachineBasicBlock *, 1> EHPadSuccessors;
++  for (const MachineBasicBlock *SMBB : MBB.successors())
++    if (SMBB->isEHPad())
++      EHPadSuccessors.push_back(SMBB);
+ 
+   // Compute insert points on the first call. The pair is independent of the
+   // current live interval.
+@@ -99,17 +94,15 @@ InsertPointAnalysis::computeLastInsertPoint(const LiveInterval &CurLI,
+     else
+       LIP.first = LIS.getInstructionIndex(*FirstTerm);
+ 
+-    // If there is a landing pad or inlineasm_br successor, also find the
+-    // instruction. If there is no such instruction, we don't need to do
+-    // anything special.  We assume there cannot be multiple instructions that
+-    // are Calls with EHPad successors or INLINEASM_BR in a block. Further, we
+-    // assume that if there are any, they will be after any other call
+-    // instructions in the block.
+-    if (ExceptionalSuccessors.empty())
++    // If there is a landing pad successor, also find the call instruction.
++    if (EHPadSuccessors.empty())
+       return LIP.first;
+-    for (auto I = MBB.rbegin(), E = MBB.rend(); I != E; ++I) {
+-      if ((EHPadSuccessor && I->isCall()) ||
+-          I->getOpcode() == TargetOpcode::INLINEASM_BR) {
++    // There may not be a call instruction (?) in which case we ignore LPad.
++    LIP.second = LIP.first;
++    for (MachineBasicBlock::const_iterator I = MBB.end(), E = MBB.begin();
++         I != E;) {
++      --I;
++      if (I->isCall()) {
+         LIP.second = LIS.getInstructionIndex(*I);
+         break;
+       }
+@@ -121,7 +114,7 @@ InsertPointAnalysis::computeLastInsertPoint(const LiveInterval &CurLI,
+   if (!LIP.second)
+     return LIP.first;
+ 
+-  if (none_of(ExceptionalSuccessors, [&](const MachineBasicBlock *EHPad) {
++  if (none_of(EHPadSuccessors, [&](const MachineBasicBlock *EHPad) {
+         return LIS.isLiveInToMBB(CurLI, EHPad);
+       }))
+     return LIP.first;
+diff --git a/llvm/lib/CodeGen/SplitKit.h b/llvm/lib/CodeGen/SplitKit.h
+index 3ab5f2585f3..71ecf90f418 100644
+--- a/llvm/lib/CodeGen/SplitKit.h
++++ b/llvm/lib/CodeGen/SplitKit.h
+@@ -54,7 +54,7 @@ private:
+   /// Last legal insert point in each basic block in the current function.
+   /// The first entry is the first terminator, the second entry is the
+   /// last valid point to insert a split or spill for a variable that is
+-  /// live into a landing pad or inlineasm_br successor.
++  /// live into a landing pad successor.
+   SmallVector<std::pair<SlotIndex, SlotIndex>, 8> LastInsertPoint;
+ 
+   SlotIndex computeLastInsertPoint(const LiveInterval &CurLI,
+diff --git a/llvm/lib/CodeGen/TailDuplicator.cpp b/llvm/lib/CodeGen/TailDuplicator.cpp
+index bd554189f12..36b1809cb33 100644
+--- a/llvm/lib/CodeGen/TailDuplicator.cpp
++++ b/llvm/lib/CodeGen/TailDuplicator.cpp
+@@ -716,7 +716,7 @@ bool TailDuplicator::duplicateSimpleBB(
+                                             TailBB->pred_end());
+   bool Changed = false;
+   for (MachineBasicBlock *PredBB : Preds) {
+-    if (PredBB->hasEHPadSuccessor() || PredBB->mayHaveInlineAsmBr())
++    if (PredBB->hasEHPadSuccessor())
+       continue;
+ 
+     if (bothUsedInPHI(*PredBB, Succs))
+diff --git a/llvm/lib/CodeGen/TargetInstrInfo.cpp b/llvm/lib/CodeGen/TargetInstrInfo.cpp
+index 24f3f96d0b1..9dbd612c7f5 100644
+--- a/llvm/lib/CodeGen/TargetInstrInfo.cpp
++++ b/llvm/lib/CodeGen/TargetInstrInfo.cpp
+@@ -999,10 +999,6 @@ bool TargetInstrInfo::isSchedulingBoundary(const MachineInstr &MI,
+   if (MI.isTerminator() || MI.isPosition())
+     return true;
+ 
+-  // INLINEASM_BR can jump to another block
+-  if (MI.getOpcode() == TargetOpcode::INLINEASM_BR)
+-    return true;
+-
+   // Don't attempt to schedule around any instruction that defines
+   // a stack-oriented pointer, as it's unlikely to be profitable. This
+   // saves compile time, because it doesn't require every single
+diff --git a/llvm/lib/Target/AMDGPU/SIInstrInfo.cpp b/llvm/lib/Target/AMDGPU/SIInstrInfo.cpp
+index 9af8ffedce0..d6e90bb72a7 100644
+--- a/llvm/lib/Target/AMDGPU/SIInstrInfo.cpp
++++ b/llvm/lib/Target/AMDGPU/SIInstrInfo.cpp
+@@ -2996,10 +2996,6 @@ bool SIInstrInfo::isSchedulingBoundary(const MachineInstr &MI,
+   if (MI.isTerminator() || MI.isPosition())
+     return true;
+ 
+-  // INLINEASM_BR can jump to another block
+-  if (MI.getOpcode() == TargetOpcode::INLINEASM_BR)
+-    return true;
+-
+   // Target-independent instructions do not have an implicit-use of EXEC, even
+   // when they operate on VGPRs. Treating EXEC modifications as scheduling
+   // boundaries prevents incorrect movements of such instructions.
+diff --git a/llvm/lib/Target/ARM/ARMBaseInstrInfo.cpp b/llvm/lib/Target/ARM/ARMBaseInstrInfo.cpp
+index 4cc2b6bf7e7..504d0cc4c08 100644
+--- a/llvm/lib/Target/ARM/ARMBaseInstrInfo.cpp
++++ b/llvm/lib/Target/ARM/ARMBaseInstrInfo.cpp
+@@ -2015,10 +2015,6 @@ bool ARMBaseInstrInfo::isSchedulingBoundary(const MachineInstr &MI,
+   if (MI.isTerminator() || MI.isPosition())
+     return true;
+ 
+-  // INLINEASM_BR can jump to another block
+-  if (MI.getOpcode() == TargetOpcode::INLINEASM_BR)
+-    return true;
+-
+   // Treat the start of the IT block as a scheduling boundary, but schedule
+   // t2IT along with all instructions following it.
+   // FIXME: This is a big hammer. But the alternative is to add all potential
+diff --git a/llvm/lib/Target/Hexagon/BitTracker.cpp b/llvm/lib/Target/Hexagon/BitTracker.cpp
+index 7ef23ef35a7..8a07b991ff5 100644
+--- a/llvm/lib/Target/Hexagon/BitTracker.cpp
++++ b/llvm/lib/Target/Hexagon/BitTracker.cpp
+@@ -954,9 +954,6 @@ void BT::visitBranchesFrom(const MachineInstr &BI) {
+     ++It;
+   } while (FallsThrough && It != End);
+ 
+-  if (B.mayHaveInlineAsmBr())
+-    DefaultToAll = true;
+-
+   if (!DefaultToAll) {
+     // Need to add all CFG successors that lead to EH landing pads.
+     // There won't be explicit branches to these blocks, but they must
+diff --git a/llvm/lib/Target/Hexagon/HexagonConstPropagation.cpp b/llvm/lib/Target/Hexagon/HexagonConstPropagation.cpp
+index 77578378b05..5821e72227b 100644
+--- a/llvm/lib/Target/Hexagon/HexagonConstPropagation.cpp
++++ b/llvm/lib/Target/Hexagon/HexagonConstPropagation.cpp
+@@ -754,9 +754,6 @@ void MachineConstPropagator::visitBranchesFrom(const MachineInstr &BrI) {
+     ++It;
+   }
+ 
+-  if (B.mayHaveInlineAsmBr())
+-    EvalOk = false;
+-
+   if (EvalOk) {
+     // Need to add all CFG successors that lead to EH landing pads.
+     // There won't be explicit branches to these blocks, but they must
+@@ -813,12 +810,8 @@ void MachineConstPropagator::visitUsesOf(unsigned Reg) {
+ 
+ bool MachineConstPropagator::computeBlockSuccessors(const MachineBasicBlock *MB,
+       SetVector<const MachineBasicBlock*> &Targets) {
+-  Targets.clear();
+-
+   MachineBasicBlock::const_iterator FirstBr = MB->end();
+   for (const MachineInstr &MI : *MB) {
+-    if (MI.getOpcode() == TargetOpcode::INLINEASM_BR)
+-      return false;
+     if (MI.isDebugInstr())
+       continue;
+     if (MI.isBranch()) {
+@@ -827,6 +820,7 @@ bool MachineConstPropagator::computeBlockSuccessors(const MachineBasicBlock *MB,
+     }
+   }
+ 
++  Targets.clear();
+   MachineBasicBlock::const_iterator End = MB->end();
+ 
+   bool DoNext = true;
+diff --git a/llvm/lib/Target/Hexagon/HexagonInstrInfo.cpp b/llvm/lib/Target/Hexagon/HexagonInstrInfo.cpp
+index d1cd23c3be3..64922d30c41 100644
+--- a/llvm/lib/Target/Hexagon/HexagonInstrInfo.cpp
++++ b/llvm/lib/Target/Hexagon/HexagonInstrInfo.cpp
+@@ -1730,10 +1730,6 @@ bool HexagonInstrInfo::isSchedulingBoundary(const MachineInstr &MI,
+   if (MI.getDesc().isTerminator() || MI.isPosition())
+     return true;
+ 
+-  // INLINEASM_BR can jump to another block
+-  if (MI.getOpcode() == TargetOpcode::INLINEASM_BR)
+-    return true;
+-
+   if (MI.isInlineAsm() && !ScheduleInlineAsm)
+     return true;
+ 
+diff --git a/llvm/lib/Target/PowerPC/PPCBranchCoalescing.cpp b/llvm/lib/Target/PowerPC/PPCBranchCoalescing.cpp
+index 50ae4450a83..109b665e0d5 100644
+--- a/llvm/lib/Target/PowerPC/PPCBranchCoalescing.cpp
++++ b/llvm/lib/Target/PowerPC/PPCBranchCoalescing.cpp
+@@ -272,11 +272,6 @@ bool PPCBranchCoalescing::canCoalesceBranch(CoalescingCandidateInfo &Cand) {
+     return false;
+   }
+ 
+-  if (Cand.BranchBlock->mayHaveInlineAsmBr()) {
+-    LLVM_DEBUG(dbgs() << "Inline Asm Br - skip\n");
+-    return false;
+-  }
+-
+   // For now only consider triangles (i.e, BranchTargetBlock is set,
+   // FalseMBB is null, and BranchTargetBlock is a successor to BranchBlock)
+   if (!Cand.BranchTargetBlock || FalseMBB ||
+diff --git a/llvm/test/CodeGen/AArch64/callbr-asm-label.ll b/llvm/test/CodeGen/AArch64/callbr-asm-label.ll
+index 5a0656e48bb..1ff1464da8d 100644
+--- a/llvm/test/CodeGen/AArch64/callbr-asm-label.ll
++++ b/llvm/test/CodeGen/AArch64/callbr-asm-label.ll
+@@ -6,9 +6,9 @@ define i32 @test1() {
+ ; CHECK-LABEL: test1:
+ ; CHECK:         .word b
+ ; CHECK-NEXT:    .word .Ltmp0
+-; CHECK: // %bb.1:
+-; CHECK: .Ltmp0:
+-; CHECK: .LBB0_2: // %indirect
++; CHECK-LABEL: .LBB0_1: // %cleanup
++; CHECK-LABEL: .Ltmp0:
++; CHECK-LABEL: .LBB0_2: // %indirect
+ entry:
+   callbr void asm sideeffect "1:\0A\09.word b, ${0:l}\0A\09", "X"(i8* blockaddress(@test1, %indirect))
+           to label %cleanup [label %indirect]
+@@ -32,7 +32,7 @@ entry:
+ if.then:
+ ; CHECK:       .word b
+ ; CHECK-NEXT:  .word .Ltmp2
+-; CHECK:       .Ltmp2:
++; CHECK-LABEL: .Ltmp2:
+ ; CHECK-NEXT:  .LBB1_3: // %if.end6
+   callbr void asm sideeffect "1:\0A\09.word b, ${0:l}\0A\09", "X"(i8* blockaddress(@test2, %if.end6))
+           to label %if.then4 [label %if.end6]
+@@ -48,7 +48,7 @@ if.end6:
+   br i1 %phitmp, label %if.end10, label %if.then9
+ 
+ if.then9:
+-; CHECK: .Ltmp4:
++; CHECK-LABEL: .Ltmp4:
+ ; CHECK-NEXT:  .LBB1_5: // %l_yes
+   callbr void asm sideeffect "", "X"(i8* blockaddress(@test2, %l_yes))
+           to label %if.end10 [label %l_yes]
+diff --git a/llvm/test/CodeGen/AArch64/callbr-asm-obj-file.ll b/llvm/test/CodeGen/AArch64/callbr-asm-obj-file.ll
+index 2891143ce58..91ea4edf489 100644
+--- a/llvm/test/CodeGen/AArch64/callbr-asm-obj-file.ll
++++ b/llvm/test/CodeGen/AArch64/callbr-asm-obj-file.ll
+@@ -9,8 +9,9 @@
+ ; CHECK-LABEL: <test1>:
+ ; CHECK-LABEL: <$d.1>:
+ ; CHECK-LABEL: <$x.2>:
+-; CHECK-NEXT:    b 0x2c <$x.4>
++; CHECK-NEXT:    b 0x30 <$x.4+0x4>
+ ; CHECK-LABEL: <$x.4>:
++; CHECK-NEXT:    b 0x30 <$x.4+0x4>
+ ; CHECK-NEXT:    mov w0, wzr
+ ; CHECK-NEXT:    ldr x30, [sp], #16
+ ; CHECK-NEXT:    ret
+@@ -74,6 +75,7 @@ define hidden i32 @test2() local_unnamed_addr {
+ ; CHECK-LABEL: <$x.10>:
+ ; CHECK-NEXT:    b {{.*}} <test3+0x18>
+ ; CHECK-LABEL: <$x.12>:
++; CHECK-NEXT:    b {{.*}} <$x.12+0x4>
+ ; CHECK-NEXT:    mov w0, wzr
+ ; CHECK-NEXT:    ldr x30, [sp], #16
+ ; CHECK-NEXT:    ret
+diff --git a/llvm/test/CodeGen/ARM/ifcvt-diamond-unanalyzable-common.mir b/llvm/test/CodeGen/ARM/ifcvt-diamond-unanalyzable-common.mir
+index a69e70e2a6a..227544961b2 100644
+--- a/llvm/test/CodeGen/ARM/ifcvt-diamond-unanalyzable-common.mir
++++ b/llvm/test/CodeGen/ARM/ifcvt-diamond-unanalyzable-common.mir
+@@ -1,7 +1,6 @@
+ # NOTE: Assertions have been autogenerated by utils/update_mir_test_checks.py
+ # RUN: llc %s -o - -run-pass=if-converter -verify-machineinstrs | FileCheck %s
+-# Make sure we correctly if-convert blocks containing an unanalyzable branch sequence.
+-# (In this case, multiple conditional branches)
++# Make sure we correctly if-convert blocks containing an INLINEASM_BR.
+ 
+ --- |
+   target triple = "thumbv7-unknown-linux-gnueabi"
+@@ -27,12 +26,10 @@ body:             |
+   ; CHECK:   $r0 = t2MOVi 2, 1 /* CC::ne */, $cpsr, $noreg
+   ; CHECK:   $r0 = t2MOVi 3, 0 /* CC::eq */, killed $cpsr, $noreg, implicit killed $r0
+   ; CHECK:   tBL 14 /* CC::al */, $noreg, @fn2, csr_aapcs, implicit-def dead $lr, implicit $sp, implicit killed $r0, implicit killed $r1, implicit-def $sp, implicit-def dead $r0
+-  ; CHECK:   t2CMPri $sp, 34, 14 /* CC::al */, $noreg, implicit-def $cpsr
+-  ; CHECK:   t2Bcc %bb.2, 1 /* CC::ne */, $cpsr
+-  ; CHECK:   t2Bcc %bb.2, 2 /* CC::hs */, killed $cpsr
++  ; CHECK:   INLINEASM_BR &"", 9 /* sideeffect mayload attdialect */, 13 /* imm */, 0, 13 /* imm */, blockaddress(@fn1, %ir-block.l_yes)
+   ; CHECK:   t2B %bb.1, 14 /* CC::al */, $noreg
+   ; CHECK: bb.1:
+-  ; CHECK:   INLINEASM &"", 1
++  ; CHECK:   INLINEASM &"", 1 /* sideeffect attdialect */
+   ; CHECK:   $sp = t2LDMIA_RET $sp, 14 /* CC::al */, $noreg, def $r4, def $pc
+   ; CHECK: bb.2.l_yes (address-taken):
+   ; CHECK:   $sp = t2LDMIA_RET $sp, 14 /* CC::al */, $noreg, def $r4, def $pc
+@@ -50,9 +47,7 @@ body:             |
+ 
+     $r0 = t2MOVi 3, 14, $noreg, $noreg
+     tBL 14, $noreg, @fn2, csr_aapcs, implicit-def dead $lr, implicit $sp, implicit $r0, implicit $r1, implicit-def $sp, implicit-def dead $r0
+-    t2CMPri $sp, 34, 14, $noreg, implicit-def $cpsr
+-    t2Bcc %bb.4, 1, $cpsr
+-    t2Bcc %bb.4, 2, killed $cpsr
++    INLINEASM_BR &"", 9, 13, 0, 13, blockaddress(@fn1, %ir-block.l_yes)
+     t2B %bb.3, 14, $noreg
+ 
+   bb.2:
+@@ -61,9 +56,7 @@ body:             |
+ 
+     $r0 = t2MOVi 2, 14, $noreg, $noreg
+     tBL 14, $noreg, @fn2, csr_aapcs, implicit-def dead $lr, implicit $sp, implicit $r0, implicit $r1, implicit-def $sp, implicit-def dead $r0
+-    t2CMPri $sp, 34, 14, $noreg, implicit-def $cpsr
+-    t2Bcc %bb.4, 1, $cpsr
+-    t2Bcc %bb.4, 2, killed $cpsr
++    INLINEASM_BR &"", 9, 13, 0, 13, blockaddress(@fn1, %ir-block.l_yes)
+     t2B %bb.3, 14, $noreg
+ 
+   bb.3:
+diff --git a/llvm/test/CodeGen/ARM/ifcvt-size.mir b/llvm/test/CodeGen/ARM/ifcvt-size.mir
+index 9730b654156..28391ba8079 100644
+--- a/llvm/test/CodeGen/ARM/ifcvt-size.mir
++++ b/llvm/test/CodeGen/ARM/ifcvt-size.mir
+@@ -525,34 +525,32 @@ tracksRegLiveness: true
+ # CHECK-NEXT: INLINEASM_BR
+ 
+ # DEBUG-LABEL: Ifcvt: function ({{[0-9]+}}) 'fn9'
+-# DEBUG: MeetIfcvtSizeLimit(BranchBytes=2, CommonBytes=8, NumPredicatedInstructions=4, ExtraPredicateBytes=2)
++# DEBUG: MeetIfcvtSizeLimit(BranchBytes=2, CommonBytes=6, NumPredicatedInstructions=4, ExtraPredicateBytes=2)
+ 
+ body:             |
+   bb.0.entry:
+     successors: %bb.1(0x30000000), %bb.3(0x50000000)
+     liveins: $r0, $r1, $r2
+ 
+-    tCMPi8 renamable $r2, 42, 14, $noreg, implicit-def $cpsr
++    tCMPi8 killed renamable $r2, 42, 14, $noreg, implicit-def $cpsr
+     t2Bcc %bb.3, 1, killed $cpsr
+ 
+   bb.1.if.then:
+     successors:  %bb.5(0x7fffffff)
+-    liveins: $r0, $r2
++    liveins: $r0
+ 
+     renamable $r0 = tLDRi killed renamable $r0, 0, 14, $noreg
+     INLINEASM_BR &"b ${0:l}", 1, 13, blockaddress(@fn9, %ir-block.lab1)
+-    tBX_RET 14, $noreg, implicit $r2
+ 
+   bb.3.if.else:
+     successors: %bb.5(0x7fffffff)
+-    liveins: $r1, $r2
++    liveins: $r1
+ 
+     renamable $r0 = tLDRi killed renamable $r1, 0, 14, $noreg
+     renamable $r0 = tLDRi killed renamable $r0, 0, 14, $noreg
+     renamable $r0 = t2LDRSHi12 killed renamable $r0, 0, 14, $noreg
+     INLINEASM_BR &"b ${0:l}", 1, 13, blockaddress(@fn9, %ir-block.lab1)
+-    tBX_RET 14, $noreg, implicit $r2
+-    
++
+   bb.5.lab1 (address-taken):
+     liveins: $r0
+ 
+diff --git a/llvm/test/CodeGen/X86/callbr-asm-blockplacement.ll b/llvm/test/CodeGen/X86/callbr-asm-blockplacement.ll
+index fb658e32d7d..d0af12fa20e 100644
+--- a/llvm/test/CodeGen/X86/callbr-asm-blockplacement.ll
++++ b/llvm/test/CodeGen/X86/callbr-asm-blockplacement.ll
+@@ -48,7 +48,7 @@ define i32 @foo(i32 %arg, i32 (i8*)* %arg3) nounwind {
+ ; CHECK-NEXT:    movabsq $-2305847407260205056, %rbx # imm = 0xDFFFFC0000000000
+ ; CHECK-NEXT:    #APP
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.4: # %bb17
++; CHECK-NEXT:  .LBB0_4: # %bb17
+ ; CHECK-NEXT:    callq widget
+ ; CHECK-NEXT:  .Ltmp0: # Block address taken
+ ; CHECK-NEXT:  .LBB0_5: # %bb18
+diff --git a/llvm/test/CodeGen/X86/callbr-asm-branch-folding.ll b/llvm/test/CodeGen/X86/callbr-asm-branch-folding.ll
+index c978ac3ced2..4842e282e3a 100644
+--- a/llvm/test/CodeGen/X86/callbr-asm-branch-folding.ll
++++ b/llvm/test/CodeGen/X86/callbr-asm-branch-folding.ll
+@@ -58,7 +58,7 @@ define void @n(i32* %o, i32 %p, i32 %u) nounwind {
+ ; CHECK-NEXT:    #NO_APP
+ ; CHECK-NEXT:    jmp .LBB0_10
+ ; CHECK-NEXT:  .Ltmp0: # Block address taken
+-; CHECK-NEXT:  # %bb.8: # %if.then20.critedge
++; CHECK-NEXT:  .LBB0_8: # %if.then20.critedge
+ ; CHECK-NEXT:    movl {{.*}}(%rip), %edi
+ ; CHECK-NEXT:    movslq %eax, %rcx
+ ; CHECK-NEXT:    movl $1, %esi
+diff --git a/llvm/test/CodeGen/X86/callbr-asm-instr-scheduling.ll b/llvm/test/CodeGen/X86/callbr-asm-instr-scheduling.ll
+deleted file mode 100644
+index 4074991bab8..00000000000
+--- a/llvm/test/CodeGen/X86/callbr-asm-instr-scheduling.ll
++++ /dev/null
+@@ -1,85 +0,0 @@
+-; NOTE: Assertions have been autogenerated by utils/update_llc_test_checks.py
+-; RUN: llc -mtriple=x86_64-unknown-linux-gnu -verify-machineinstrs -mcpu=znver2 -O2 -frame-pointer=none < %s | FileCheck %s
+-
+-; Make sure that instructions aren't scheduled after the "callbr". In the
+-; example below, we don't want the "shrxq" through "leaq" instructions to be
+-; moved after the "callbr".
+-
+-%struct.cpuinfo_x86 = type { i8, i8, i8, i8, i32, [3 x i32], i8, i8, i8, i8, i32, i32, %union.anon.83, [16 x i8], [64 x i8], i32, i32, i32, i32, i32, i32, i64, i16, i16, i16, i16, i16, i16, i16, i16, i16, i16, i16, i32, i8, i8 }
+-%union.anon.83 = type { i64, [72 x i8] }
+-%struct.pgd_t = type { i64 }
+-%struct.p4d_t = type { i64 }
+-%struct.pud_t = type { i64 }
+-
+-@boot_cpu_data = external dso_local global %struct.cpuinfo_x86, align 8
+-@page_offset_base = external dso_local local_unnamed_addr global i64, align 8
+-@pgdir_shift = external dso_local local_unnamed_addr global i32, align 4
+-@__force_order = external dso_local global i64, align 8
+-@ptrs_per_p4d = external dso_local local_unnamed_addr global i32, align 4
+-
+-define i64 @early_ioremap_pmd(i64 %addr) {
+-; CHECK-LABEL: early_ioremap_pmd:
+-; CHECK:       # %bb.0: # %entry
+-; CHECK-NEXT:    #APP
+-; CHECK-NEXT:    movq %cr3, %rax
+-; CHECK-EMPTY:
+-; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:    movabsq $9223372036854771712, %rdx # imm = 0x7FFFFFFFFFFFF000
+-; CHECK-NEXT:    andq %rax, %rdx
+-; CHECK-NEXT:    movb {{.*}}(%rip), %al
+-; CHECK-NEXT:    movq {{.*}}(%rip), %rcx
+-; CHECK-NEXT:    shrxq %rax, %rdi, %rax
+-; CHECK-NEXT:    addq %rcx, %rdx
+-; CHECK-NEXT:    andl $511, %eax # imm = 0x1FF
+-; CHECK-NEXT:    leaq (%rdx,%rax,8), %rax
+-; CHECK-NEXT:    #APP
+-; CHECK-NEXT:  .Ltmp2:
+-; CHECK-NEXT:    jmp .Ltmp3
+-; CHECK-NEXT:  .Ltmp4:
+-; CHECK-NEXT:    .zero (-(((.Ltmp5-.Ltmp6)-(.Ltmp4-.Ltmp2))>0))*((.Ltmp5-.Ltmp6)-(.Ltmp4-.Ltmp2)),144
+-; CHECK-NEXT:  .Ltmp7:
+-entry:
+-  %0 = tail call i64 asm sideeffect "mov %cr3,$0\0A\09", "=r,=*m,~{dirflag},~{fpsr},~{flags}"(i64* nonnull @__force_order)
+-  %and.i = and i64 %0, 9223372036854771712
+-  %1 = load i64, i64* @page_offset_base, align 8
+-  %add = add i64 %and.i, %1
+-  %2 = inttoptr i64 %add to %struct.pgd_t*
+-  %3 = load i32, i32* @pgdir_shift, align 4
+-  %sh_prom = zext i32 %3 to i64
+-  %shr = lshr i64 %addr, %sh_prom
+-  %and = and i64 %shr, 511
+-  %arrayidx = getelementptr %struct.pgd_t, %struct.pgd_t* %2, i64 %and
+-  callbr void asm sideeffect "1: jmp 6f\0A2:\0A.skip -(((5f-4f) - (2b-1b)) > 0) * ((5f-4f) - (2b-1b)),0x90\0A3:\0A.section .altinstructions,\22a\22\0A .long 1b - .\0A .long 4f - .\0A .word ${1:P}\0A .byte 3b - 1b\0A .byte 5f - 4f\0A .byte 3b - 2b\0A.previous\0A.section .altinstr_replacement,\22ax\22\0A4: jmp ${5:l}\0A5:\0A.previous\0A.section .altinstructions,\22a\22\0A .long 1b - .\0A .long 0\0A .word ${0:P}\0A .byte 3b - 1b\0A .byte 0\0A .byte 0\0A.previous\0A.section .altinstr_aux,\22ax\22\0A6:\0A testb $2,$3\0A jnz ${4:l}\0A jmp ${5:l}\0A.previous\0A", "i,i,i,*m,X,X,~{dirflag},~{fpsr},~{flags}"(i16 528, i32 117, i32 1, i8* getelementptr inbounds (%struct.cpuinfo_x86, %struct.cpuinfo_x86* @boot_cpu_data, i64 0, i32 12, i32 1, i64 58), i8* blockaddress(@early_ioremap_pmd, %if.end.i), i8* blockaddress(@early_ioremap_pmd, %if.then.i))
+-          to label %_static_cpu_has.exit.thread.i [label %if.end.i, label %if.then.i]
+-
+-_static_cpu_has.exit.thread.i:                    ; preds = %entry
+-  br label %if.end.i
+-
+-if.then.i:                                        ; preds = %entry
+-  %4 = bitcast %struct.pgd_t* %arrayidx to %struct.p4d_t*
+-  br label %p4d_offset.exit
+-
+-if.end.i:                                         ; preds = %_static_cpu_has.exit.thread.i, %entry
+-  %coerce.dive.i = getelementptr inbounds %struct.pgd_t, %struct.pgd_t* %arrayidx, i64 0, i32 0
+-  %5 = load i64, i64* %coerce.dive.i, align 8
+-  %6 = inttoptr i64 %5 to %struct.p4d_t*
+-  %7 = load i32, i32* @ptrs_per_p4d, align 4
+-  %sub.i.i = add i32 %7, 33554431
+-  %8 = and i32 %sub.i.i, 33554431
+-  %and.i1.i = zext i32 %8 to i64
+-  %add.ptr.i = getelementptr %struct.p4d_t, %struct.p4d_t* %6, i64 %and.i1.i
+-  br label %p4d_offset.exit
+-
+-p4d_offset.exit:                                  ; preds = %if.end.i, %if.then.i
+-  %retval.0.i = phi %struct.p4d_t* [ %add.ptr.i, %if.end.i ], [ %4, %if.then.i ]
+-  %coerce.dive.i12 = getelementptr inbounds %struct.p4d_t, %struct.p4d_t* %retval.0.i, i64 0, i32 0
+-  %9 = load i64, i64* %coerce.dive.i12, align 8
+-  %and.i.i13 = and i64 %9, 4503599627366400
+-  %add.i.i14 = add i64 %and.i.i13, %1
+-  %10 = inttoptr i64 %add.i.i14 to %struct.pud_t*
+-  %coerce.dive.i16 = getelementptr %struct.pud_t, %struct.pud_t* %10, i64 511, i32 0
+-  %11 = load i64, i64* %coerce.dive.i16, align 8
+-  %tobool.i.i.i = icmp slt i64 %11, 0
+-  %..i.i.i = select i1 %tobool.i.i.i, i64 4503598553628672, i64 4503599627366400
+-  ret i64 %..i.i.i
+-}
+diff --git a/llvm/test/CodeGen/X86/callbr-asm-label-addr.ll b/llvm/test/CodeGen/X86/callbr-asm-label-addr.ll
+index 70d32359a60..dc0e8363465 100644
+--- a/llvm/test/CodeGen/X86/callbr-asm-label-addr.ll
++++ b/llvm/test/CodeGen/X86/callbr-asm-label-addr.ll
+@@ -4,10 +4,10 @@ define i32 @test1(i32 %x) {
+ ; CHECK-LABEL: test1:
+ ; CHECK:         .quad .Ltmp0
+ ; CHECK-NEXT:    .quad .Ltmp1
+-; CHECK: .Ltmp1:
+-; CHECK-NEXT: # %bb.1: # %bar
++; CHECK-LABEL: .Ltmp1:
++; CHECK-LABEL: .LBB0_1: # %bar
+ ; CHECK-NEXT:    callq foo
+-; CHECK-NEXT: .Ltmp0:
++; CHECK-LABEL: .Ltmp0:
+ ; CHECK-NEXT:  # %bb.2: # %baz
+ entry:
+   callbr void asm sideeffect ".quad ${0:l}\0A\09.quad ${1:l}", "i,X,~{dirflag},~{fpsr},~{flags}"(i8* blockaddress(@test1, %baz), i8* blockaddress(@test1, %bar))
+diff --git a/llvm/test/CodeGen/X86/callbr-asm-outputs-pred-succ.ll b/llvm/test/CodeGen/X86/callbr-asm-outputs-pred-succ.ll
+index 56b376ac2f1..b35aa98e8d8 100644
+--- a/llvm/test/CodeGen/X86/callbr-asm-outputs-pred-succ.ll
++++ b/llvm/test/CodeGen/X86/callbr-asm-outputs-pred-succ.ll
+@@ -4,16 +4,28 @@
+ ; RUN: llc -stop-after=finalize-isel -print-after=finalize-isel -mtriple=i686-- < %s 2>&1 | FileCheck %s
+ 
+ ; The block containting the INLINEASM_BR should have a fallthrough and its
+-; indirect targets as its successors. Fallthrough should have 100% branch weight,
++; indirect targets as its successors. The fallthrough is a block we synthesized
++; in InstrEmitter::EmitMachineNode. Fallthrough should have 100% branch weight,
+ ; while the indirect targets have 0%.
+ ; CHECK: bb.0 (%ir-block.2):
+-; CHECK-NEXT: successors: %bb.1(0x80000000), %bb.4(0x00000000); %bb.1(100.00%), %bb.4(0.00%)
++; CHECK-NEXT: successors: %bb.4(0x00000000), %bb.6(0x80000000); %bb.4(0.00%), %bb.6(100.00%)
+ 
+-; The fallthrough is a block containing a second INLINEASM_BR. Check it has two successors,
+-; and the the probability for fallthrough is 100%.
+-; CHECK: bb.1 (%ir-block.4):
++; The fallthrough block is predaccessed by the block containing INLINEASM_BR,
++; and succeeded by the INLINEASM_BR's original fallthrough block pre-splitting.
++; CHECK: bb.6 (%ir-block.2):
+ ; CHECK-NEXT: predecessors: %bb.0
+-; CHECK-NEXT: successors: %bb.3(0x80000000), %bb.2(0x00000000); %bb.3(100.00%), %bb.2(0.00%)
++; CHECK-NEXT: successors: %bb.1(0x80000000); %bb.1(100.00%)
++
++; Another block containing a second INLINEASM_BR. Check it has two successors,
++; and the the probability for fallthrough is 100%. Predecessor check irrelevant.
++; CHECK: bb.1 (%ir-block.4):
++; CHECK: successors: %bb.2(0x00000000), %bb.7(0x80000000); %bb.2(0.00%), %bb.7(100.00%)
++
++; Check the synthesized fallthrough block for the second INLINEASM_BR is
++; preceded correctly, and has the original successor pre-splitting.
++; CHECK: bb.7 (%ir-block.4):
++; CHECK-NEXT: predecessors: %bb.1
++; CHECK-NEXT: successors: %bb.3(0x80000000); %bb.3(100.00%)
+ 
+ ; Check the second INLINEASM_BR target block is preceded by the block with the
+ ; second INLINEASM_BR.
+diff --git a/llvm/test/CodeGen/X86/callbr-asm-outputs.ll b/llvm/test/CodeGen/X86/callbr-asm-outputs.ll
+index a4447bc15f1..8718363f3fd 100644
+--- a/llvm/test/CodeGen/X86/callbr-asm-outputs.ll
++++ b/llvm/test/CodeGen/X86/callbr-asm-outputs.ll
+@@ -12,7 +12,7 @@ define i32 @test1(i32 %x) {
+ ; CHECK-NEXT:    xorl %eax, %eax
+ ; CHECK-NEXT:    jmp .Ltmp0
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.1: # %normal
++; CHECK-NEXT:  .LBB0_1: # %normal
+ ; CHECK-NEXT:    retl
+ ; CHECK-NEXT:  .Ltmp0: # Block address taken
+ ; CHECK-NEXT:  .LBB0_2: # %abnormal
+@@ -43,35 +43,36 @@ define i32 @test2(i32 %out1, i32 %out2) {
+ ; CHECK-NEXT:    movl {{[0-9]+}}(%esp), %esi
+ ; CHECK-NEXT:    movl $-1, %eax
+ ; CHECK-NEXT:    cmpl %edi, %esi
+-; CHECK-NEXT:    jge .LBB1_2
++; CHECK-NEXT:    jge .LBB1_3
+ ; CHECK-NEXT:  # %bb.1: # %if.then
+ ; CHECK-NEXT:    #APP
+ ; CHECK-NEXT:    testl %esi, %esi
+ ; CHECK-NEXT:    testl %edi, %esi
+ ; CHECK-NEXT:    jne .Ltmp1
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:    jmp .LBB1_3
+-; CHECK-NEXT:  .LBB1_2: # %if.else
+-; CHECK-NEXT:    #APP
+-; CHECK-NEXT:    testl %esi, %edi
+-; CHECK-NEXT:    testl %esi, %edi
+-; CHECK-NEXT:    jne .Ltmp2
+-; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  .LBB1_3:
+-; CHECK-NEXT:    movl %esi, %eax
+-; CHECK-NEXT:    addl %edi, %eax
++; CHECK-NEXT:  .LBB1_2: # %if.then
++; CHECK-NEXT:    movl %edi, %eax
++; CHECK-NEXT:    addl %esi, %eax
+ ; CHECK-NEXT:  .Ltmp2: # Block address taken
+-; CHECK-NEXT:  .LBB1_5: # %return
++; CHECK-NEXT:  .LBB1_6: # %return
+ ; CHECK-NEXT:    popl %esi
+ ; CHECK-NEXT:    .cfi_def_cfa_offset 8
+ ; CHECK-NEXT:    popl %edi
+ ; CHECK-NEXT:    .cfi_def_cfa_offset 4
+ ; CHECK-NEXT:    retl
+-; CHECK-NEXT:  .Ltmp1: # Block address taken
+-; CHECK-NEXT:  .LBB1_4: # %label_true
++; CHECK-NEXT:  .LBB1_3: # %if.else
+ ; CHECK-NEXT:    .cfi_def_cfa_offset 12
++; CHECK-NEXT:    #APP
++; CHECK-NEXT:    testl %esi, %edi
++; CHECK-NEXT:    testl %esi, %edi
++; CHECK-NEXT:    jne .Ltmp2
++; CHECK-NEXT:    #NO_APP
++; CHECK-NEXT:  .LBB1_4: # %if.else
++; CHECK-NEXT:    jmp .LBB1_2
++; CHECK-NEXT:  .Ltmp1: # Block address taken
++; CHECK-NEXT:  .LBB1_5: # %label_true
+ ; CHECK-NEXT:    movl $-2, %eax
+-; CHECK-NEXT:    jmp .LBB1_5
++; CHECK-NEXT:    jmp .LBB1_6
+ entry:
+   %cmp = icmp slt i32 %out1, %out2
+   br i1 %cmp, label %if.then, label %if.else
+@@ -115,7 +116,7 @@ define i32 @test3(i1 %cmp) {
+ ; CHECK-NEXT:    .short %esi
+ ; CHECK-NEXT:    .short %edi
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.2:
++; CHECK-NEXT:  .LBB2_2: # %true
+ ; CHECK-NEXT:    movl %edi, %eax
+ ; CHECK-NEXT:    jmp .LBB2_5
+ ; CHECK-NEXT:  .LBB2_3: # %false
+@@ -123,7 +124,7 @@ define i32 @test3(i1 %cmp) {
+ ; CHECK-NEXT:    .short %eax
+ ; CHECK-NEXT:    .short %edx
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.4:
++; CHECK-NEXT:  .LBB2_4: # %false
+ ; CHECK-NEXT:    movl %edx, %eax
+ ; CHECK-NEXT:  .LBB2_5: # %asm.fallthrough
+ ; CHECK-NEXT:    popl %esi
+@@ -165,13 +166,13 @@ define i32 @test4(i32 %out1, i32 %out2) {
+ ; CHECK-NEXT:    testl %edx, %ecx
+ ; CHECK-NEXT:    jne .Ltmp4
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.1: # %asm.fallthrough
++; CHECK-NEXT:  .LBB3_1: # %asm.fallthrough
+ ; CHECK-NEXT:    #APP
+ ; CHECK-NEXT:    testl %ecx, %edx
+ ; CHECK-NEXT:    testl %ecx, %edx
+ ; CHECK-NEXT:    jne .Ltmp5
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.2: # %asm.fallthrough2
++; CHECK-NEXT:  .LBB3_2: # %asm.fallthrough
+ ; CHECK-NEXT:    addl %edx, %ecx
+ ; CHECK-NEXT:    movl %ecx, %eax
+ ; CHECK-NEXT:    retl
+diff --git a/llvm/test/CodeGen/X86/callbr-asm.ll b/llvm/test/CodeGen/X86/callbr-asm.ll
+index 1df69b6d8db..df7bf3a02be 100644
+--- a/llvm/test/CodeGen/X86/callbr-asm.ll
++++ b/llvm/test/CodeGen/X86/callbr-asm.ll
+@@ -14,7 +14,7 @@ define i32 @test1(i32 %a) {
+ ; CHECK-NEXT:    xorl %eax, %eax
+ ; CHECK-NEXT:    jmp .Ltmp0
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.1: # %normal
++; CHECK-NEXT:  .LBB0_1: # %normal
+ ; CHECK-NEXT:    xorl %eax, %eax
+ ; CHECK-NEXT:    retl
+ ; CHECK-NEXT:  .Ltmp0: # Block address taken
+@@ -89,7 +89,7 @@ define i32 @test3(i32 %a) {
+ ; CHECK-NEXT:    jmp .Ltmp2
+ ; CHECK-NEXT:    jmp .Ltmp3
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.5: # %normal0
++; CHECK-NEXT:  .LBB2_5: # %normal0
+ ; CHECK-NEXT:    # in Loop: Header=BB2_4 Depth=4
+ ; CHECK-NEXT:    #APP
+ ; CHECK-NEXT:    jmp .Ltmp1
+@@ -97,7 +97,7 @@ define i32 @test3(i32 %a) {
+ ; CHECK-NEXT:    jmp .Ltmp3
+ ; CHECK-NEXT:    jmp .Ltmp4
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.6: # %normal1
++; CHECK-NEXT:  .LBB2_6: # %normal1
+ ; CHECK-NEXT:    movl {{[0-9]+}}(%esp), %eax
+ ; CHECK-NEXT:    retl
+ entry:
+@@ -135,11 +135,11 @@ define void @test4() {
+ ; CHECK-LABEL: test4:
+ ; CHECK:       # %bb.0: # %entry
+ ; CHECK-NEXT:    #APP
+-; CHECK-NEXT:    ja .Ltmp5
++; CHECK-NEXT:    ja .Ltmp5{{$}}
+ ; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.1: # %asm.fallthrough
++; CHECK-NEXT:  .LBB3_1: # %asm.fallthrough
+ ; CHECK-NEXT:    #APP
+-; CHECK-NEXT:    ja .Ltmp5
++; CHECK-NEXT:    ja .Ltmp5{{$}}
+ ; CHECK-NEXT:    #NO_APP
+ ; CHECK-NEXT:  .Ltmp5: # Block address taken
+ ; CHECK-NEXT:  .LBB3_3: # %quux
+diff --git a/llvm/test/CodeGen/X86/shrinkwrap-callbr.ll b/llvm/test/CodeGen/X86/shrinkwrap-callbr.ll
+deleted file mode 100644
+index ced7fdbf262..00000000000
+--- a/llvm/test/CodeGen/X86/shrinkwrap-callbr.ll
++++ /dev/null
+@@ -1,61 +0,0 @@
+-; NOTE: Assertions have been autogenerated by utils/update_llc_test_checks.py
+-; RUN: llc < %s -enable-shrink-wrap=true | FileCheck %s
+-
+-;; Ensure that shrink-wrapping understands that INLINEASM_BR may exit
+-;; the block before the end, and you cannot simply place stack
+-;; adjustment at the end of that block.
+-target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+-target triple = "x86_64-unknown-linux-gnu"
+-
+-declare i32 @fn()
+-
+-; Function Attrs: uwtable
+-define i32 @test1(i32 %v) {
+-; CHECK-LABEL: test1:
+-; CHECK:       # %bb.0: # %entry
+-; CHECK-NEXT:    pushq %rax
+-; CHECK-NEXT:    .cfi_def_cfa_offset 16
+-; CHECK-NEXT:    testl %edi, %edi
+-; CHECK-NEXT:    je .LBB0_3
+-; CHECK-NEXT:  # %bb.1: # %if.end
+-; CHECK-NEXT:    callq fn
+-; CHECK-NEXT:    #APP
+-; CHECK-NEXT:    # jump to .Ltmp0
+-; CHECK-NEXT:    #NO_APP
+-; CHECK-NEXT:  # %bb.2: # %return
+-; CHECK-NEXT:    movl $4, %eax
+-; CHECK-NEXT:    popq %rcx
+-; CHECK-NEXT:    .cfi_def_cfa_offset 8
+-; CHECK-NEXT:    retq
+-; CHECK-NEXT:  .LBB0_3: # %ret0
+-; CHECK-NEXT:    .cfi_def_cfa_offset 16
+-; CHECK-NEXT:    xorl %eax, %eax
+-; CHECK-NEXT:    popq %rcx
+-; CHECK-NEXT:    .cfi_def_cfa_offset 8
+-; CHECK-NEXT:    retq
+-; CHECK-NEXT:  .Ltmp0: # Block address taken
+-; CHECK-NEXT:  .LBB0_4: # %two
+-; CHECK-NEXT:    .cfi_def_cfa_offset 16
+-; CHECK-NEXT:    popq %rax
+-; CHECK-NEXT:    .cfi_def_cfa_offset 8
+-; CHECK-NEXT:    jmp fn # TAILCALL
+-entry:
+-  %tobool = icmp eq i32 %v, 0
+-  br i1 %tobool, label %ret0, label %if.end
+-
+-ret0:
+-  ret i32 0
+-
+-if.end:
+-  %call = tail call i32 @fn()
+-  callbr void asm sideeffect "# jump to $0", "X,~{dirflag},~{fpsr},~{flags}"(i8* blockaddress(@test1, %two))
+-          to label %return [label %two]
+-
+-two:
+-  %call1 = tail call i32 @fn()
+-  br label %return
+-
+-return:
+-  %retval.1 = phi i32 [ %call1, %two ], [ 4, %if.end ]
+-  ret i32 %retval.1
+-}
+diff --git a/llvm/test/Verifier/callbr.ll b/llvm/test/Verifier/callbr.ll
+index 6bd0b3ceb25..403cc573d0d 100644
+--- a/llvm/test/Verifier/callbr.ll
++++ b/llvm/test/Verifier/callbr.ll
+@@ -1,11 +1,10 @@
+ ; RUN: not opt -S %s -verify 2>&1 | FileCheck %s
+ 
+ ; CHECK: Indirect label missing from arglist.
+-; CHECK-NEXT: #test1
+-define void @test1() {
++define void @foo() {
+   ; The %4 in the indirect label list is not found in the blockaddresses in the
+   ; arg list (bad).
+-  callbr void asm sideeffect "#test1", "X,X"(i8* blockaddress(@test1, %3), i8* blockaddress(@test1, %2))
++  callbr void asm sideeffect "${0:l} {1:l}", "X,X"(i8* blockaddress(@foo, %3), i8* blockaddress(@foo, %2))
+   to label %1 [label %4, label %2]
+ 1:
+   ret void
+@@ -18,9 +17,9 @@ define void @test1() {
+ }
+ 
+ ; CHECK-NOT: Indirect label missing from arglist.
+-define void @test2() {
++define void @bar() {
+   ; %4 and %2 are both in the indirect label list and the arg list (good).
+-  callbr void asm sideeffect "${0:l} ${1:l}", "X,X"(i8* blockaddress(@test2, %4), i8* blockaddress(@test2, %2))
++  callbr void asm sideeffect "${0:l} ${1:l}", "X,X"(i8* blockaddress(@bar, %4), i8* blockaddress(@bar, %2))
+   to label %1 [label %4, label %2]
+ 1:
+   ret void
+@@ -33,12 +32,12 @@ define void @test2() {
+ }
+ 
+ ; CHECK-NOT: Indirect label missing from arglist.
+-define void @test3() {
++define void @baz() {
+   ; note %2 blockaddress. Such a case is possible when passing the address of
+   ; a label as an input to the inline asm (both address of label and asm goto
+   ; use blockaddress constants; we're testing that the indirect label list from
+   ; the asm goto is in the arg list to the asm).
+-  callbr void asm sideeffect "${0:l} ${1:l} ${2:l}", "X,X,X"(i8* blockaddress(@test3, %4), i8* blockaddress(@test3, %2), i8* blockaddress(@test3, %3))
++  callbr void asm sideeffect "${0:l} ${1:l} ${2:l}", "X,X,X"(i8* blockaddress(@baz, %4), i8* blockaddress(@baz, %2), i8* blockaddress(@baz, %3))
+   to label %1 [label %3, label %4]
+ 1:
+   ret void
+@@ -49,28 +48,3 @@ define void @test3() {
+ 4:
+   ret void
+ }
+-
+-;; Ensure you cannot use the return value of a callbr in indirect targets.
+-; CHECK: Instruction does not dominate all uses!
+-; CHECK-NEXT: #test4
+-define i32 @test4(i1 %var) {
+-entry:
+-  %ret = callbr i32 asm sideeffect "#test4", "=r,X"(i8* blockaddress(@test4, %abnormal)) to label %normal [label %abnormal]
+-
+-normal:
+-  ret i32 0
+-
+-abnormal:
+-  ret i32 %ret
+-}
+-
+-;; Ensure you cannot specify the same label as both normal and indirect targets.
+-; CHECK: Duplicate callbr destination!
+-; CHECK-NEXT: #test5
+-define i32 @test5() {
+-entry:
+-  %ret = callbr i32 asm sideeffect "#test5", "=r,X"(i8* blockaddress(@test5, %both)) to label %both [label %both]
+-
+-both:
+-  ret i32 0
+-}
