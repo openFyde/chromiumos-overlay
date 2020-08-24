@@ -71,6 +71,9 @@ USE="${USE} bt_deprecated_tools"
 # We don't provide this package anymore due to AGPL usage.
 USE="${USE} -berkdb"
 
+# Enable the diagnostics and telemetry daemon.
+USE="${USE} diagnostics"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 

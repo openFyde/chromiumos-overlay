@@ -37,5 +37,9 @@ USE="${USE} -kerberos -kerberos_daemon -system_proxy"
 # Disable filesystem extensions.
 USE="${USE} -drivefs -samba -smbprovider"
 
+# Disable the diagnostics and telemetry daemon. Features not evaluated on
+# embedded devices.
+USE="${USE} -diagnostics"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"

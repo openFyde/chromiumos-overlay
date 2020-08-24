@@ -31,8 +31,8 @@ USE="${USE} -doc -profile -profiling -python"
 
 # Make stuff small.
 USE="${USE} -attestation -buffet -cellular chromeless_tty -crash_reporting"
-USE="${USE} -cros_disks cros_embedded -debugd -encrypted_stateful -gdmwimax"
-USE="${USE} -lorgnette -memd -mist -ml_service -pam -passive_metrics"
+USE="${USE} -cros_disks cros_embedded -diagnostics -debugd -encrypted_stateful"
+USE="${USE} -gdmwimax -lorgnette -memd -mist -ml_service -pam -passive_metrics"
 USE="${USE} -power_management -scanner -tpm -usb_bouncer -usbguard -vpn -wimax"
 
 # Disable auth frameworks.
