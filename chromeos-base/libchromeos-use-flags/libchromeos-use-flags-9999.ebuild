@@ -38,6 +38,7 @@ IUSE="
 	cfm_enabled_device
 	cheets
 	compupdates
+	diagnostics
 	disable_background_blur
 	disable_cros_video_decoder
 	disable_explicit_dma_fences
