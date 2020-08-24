@@ -103,7 +103,13 @@ make_depthcharge() {
 	if use detachable ; then
 		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
 	fi
-	echo "CONFIG_MENU_UI=y" >> "${defconfig}"
+	if use menu_ui ; then
+		echo "CONFIG_MENU_UI=y" >> "${defconfig}"
+	elif use legacy_menu_ui ; then
+		echo "CONFIG_LEGACY_MENU_UI=y" >> "${defconfig}"
+	else
+		echo "CONFIG_LEGACY_CLAMSHELL_UI=y" >> "${defconfig}"
+	fi
 
 	# Both diag_payload and minidiag need special UI.
 	if use diag_payload || use minidiag ; then
