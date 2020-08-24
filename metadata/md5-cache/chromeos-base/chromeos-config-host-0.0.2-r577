@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=>=sys-fs/squashfs-tools-4.3 dev-python/jinja[python_targets_python3_6(-)?,python_targets_python3_7(-)?,-python_single_target_python3_6(-),-python_single_target_python3_7(-)] !<chromeos-base/chromeos-config-tools-0.0.4 dev-python/setuptools[python_targets_python3_6(-)?,python_targets_python3_7(-)?,-python_single_target_python3_6(-),-python_single_target_python3_7(-)] python_targets_python3_6? ( dev-lang/python:3.6 ) python_targets_python3_7? ( dev-lang/python:3.7 ) >=dev-lang/python-exec-2:=[python_targets_python3_6(-)?,python_targets_python3_7(-)?,-python_single_target_python3_6(-),-python_single_target_python3_7(-)] dev-python/setuptools[python_targets_python3_6(-)?,python_targets_python3_7(-)?,-python_single_target_python3_6(-),-python_single_target_python3_7(-)]
+DESCRIPTION=Chrome OS configuration host tools
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-config
+IUSE=cros_host cros_workon_tree_41deaf9d13b69ec9ff50ed7dd151442d1dae145f python_targets_python3_6 python_targets_python3_7
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=>=sys-fs/squashfs-tools-4.3 dev-python/jinja[python_targets_python3_6(-)?,python_targets_python3_7(-)?,-python_single_target_python3_6(-),-python_single_target_python3_7(-)] !<chromeos-base/chromeos-config-tools-0.0.4 python_targets_python3_6? ( dev-lang/python:3.6 ) python_targets_python3_7? ( dev-lang/python:3.7 ) >=dev-lang/python-exec-2:=[python_targets_python3_6(-)?,python_targets_python3_7(-)?,-python_single_target_python3_6(-),-python_single_target_python3_7(-)]
+REQUIRED_USE=|| ( python_targets_python3_6 python_targets_python3_7 ) || ( python_targets_python3_6 python_targets_python3_7 )
+SLOT=0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	283f9d5b283c8e210a5c8fa89c8f722f	distutils-r1	198e3b9ddb55ae36b2a50b07ca2877ef	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multibuild	40fe59465edacd730c644ec2bc197809	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	python-r1	79e26ce8f853c9daebe9a4956e37cc1b	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
+_md5_=5a679cfe34cc491e1f6ca397dcc64543
