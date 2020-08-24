@@ -12,4 +12,4 @@ RESTRICT=!test? ( test )
 SLOT=0
 SRC_URI=https://github.com/hughsie/libxmlb/archive/0.1.15.tar.gz -> libxmlb-0.1.15.tar.gz
 _eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	meson	b5ee7a05833ab91225acf30ffdeed006	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-any-r1	54a3178500786b0a7ede4a23b7f2a6ad	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=8da0ebfccddd1f74a91d157e30dde2e4
+_md5_=be4eee33b8dcb29a0e1dc753aa605304
