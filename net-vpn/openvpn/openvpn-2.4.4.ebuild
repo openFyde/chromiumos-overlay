@@ -126,11 +126,6 @@ pkg_postinst() {
 	enewgroup openvpn
 	enewuser openvpn "" "" "" openvpn
 
-	if path_exists -o "${EROOT%/}"/etc/openvpn/*/local.conf ; then
-		ewarn "WARNING: The openvpn init script has changed"
-		ewarn ""
-	fi
-
 	if grep -Eq "^[ \t]*(up|down)[ \t].*" "${ROOT}/etc/openvpn"/*.conf 2>/dev/null ; then
 		ewarn ""
 		ewarn "WARNING: If you use the remote keyword then you are deemed to be"
