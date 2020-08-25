@@ -29,6 +29,7 @@ COMMON_DEPEND="
 	chromeos-base/libpasswordprovider:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/nsswitch:=
+	chromeos-base/shill-net:=
 	dev-libs/re2:=
 	cellular? ( net-dialup/ppp:= )
 	pppoe? ( net-dialup/ppp:= )
@@ -90,25 +91,6 @@ src_configure() {
 }
 
 src_install() {
-	# Install libshill-net library.
-	insinto "/usr/$(get_libdir)/pkgconfig"
-	local v="$(libchrome_ver)"
-	./net/preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}/lib/libshill-net.so"
-	doins "${OUT}/lib/libshill-net.pc"
-
-	# TODO(crbug/2386886): Remove both.
-	# Backward compatibility before all usages of versioned libraries are
-	# removed.
-	doins "${OUT}/lib/libshill-net-${v}.pc"
-	# Backward compatibility before developers has built their software against
-	# new shill.
-	dosym libshill-net.so "/usr/$(get_libdir)/libshill-net-${v}.so"
-
-	# Install header files from libshill-net.
-	insinto /usr/include/shill/net
-	doins net/*.h
-
 	dobin bin/ff_debug
 
 	if use cellular; then

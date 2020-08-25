@@ -24,10 +24,12 @@ IUSE="fuzzer arcvm jetstream_routing"
 COMMON_DEPEND="
 	dev-libs/protobuf:=
 	!chromeos-base/arc-networkd
+	chromeos-base/shill-net:=
 "
 
 RDEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/shill
 	net-firewall/iptables
 	net-misc/bridge-utils
 	sys-apps/iproute2
@@ -36,7 +38,6 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/session_manager-client:=
-	>=chromeos-base/shill-0.0.1-r2205:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 "
