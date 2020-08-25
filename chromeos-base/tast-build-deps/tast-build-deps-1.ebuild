@@ -26,6 +26,7 @@ DEPEND="
 	dev-go/dbus
 	dev-go/fscrypt
 	dev-go/gapi-drive
+	dev-go/genproto
 	dev-go/golang-evdev
 	dev-go/golint
 	dev-go/gopacket
