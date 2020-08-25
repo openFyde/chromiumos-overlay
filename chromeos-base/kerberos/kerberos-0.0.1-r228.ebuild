@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1fc6dc45713ef8ea64472d0ead4acd3fc6bc61cb"
+CROS_WORKON_COMMIT="2e1e17650d8a74c8b46a76775070fe46f4ee481e"
 CROS_WORKON_TREE=("1c07dc76ec4881aeccc6c6151786dc26bf5f73c0" "3e17f74af9579e584dc89eb05c3640b22c7eadac" "377caa22e8416ce2388b9c099e85be393001947f" "2834854981f88e2b81fefd49c590185a31f2b1f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,7 +30,6 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
-	dev-libs/dbus-glib:=
 	sys-apps/dbus:=
 "
 RDEPEND="${COMMON_DEPEND}"
