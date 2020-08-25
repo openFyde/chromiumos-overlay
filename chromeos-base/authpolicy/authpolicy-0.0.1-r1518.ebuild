@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1fc6dc45713ef8ea64472d0ead4acd3fc6bc61cb"
+CROS_WORKON_COMMIT="3ffddccd2d617f6c8b5b0c56c42644a71c05d545"
 CROS_WORKON_TREE=("1c07dc76ec4881aeccc6c6151786dc26bf5f73c0" "5172233f02ae4c41764c2c2aba0621eb0257705c" "2834854981f88e2b81fefd49c590185a31f2b1f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,7 +30,6 @@ COMMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	>=chromeos-base/minijail-0.0.1-r1477:=
 	dev-libs/protobuf:=
-	dev-libs/dbus-glib:=
 	samba? ( >=net-fs/samba-4.5.3-r6:= )
 	sys-apps/dbus:=
 	sys-libs/libcap:=
