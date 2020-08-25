@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="eaed17704e9752dfd1f60f7f92a8f346ebdf1533"
-CROS_WORKON_TREE="e96de879a97cf69aefbc5b3a1f9ae00f7c340945"
+CROS_WORKON_COMMIT="5d21b27e2ed16db964d947a0a09fa156522a632d"
+CROS_WORKON_TREE="0a4a3fed97bd2f7ba6fdf0809e8fe016ce4a81cc"
 CROS_WORKON_PROJECT="chromiumos/third_party/toolchain-utils"
 CROS_WORKON_LOCALNAME="toolchain-utils"
 
