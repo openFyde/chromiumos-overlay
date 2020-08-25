@@ -38,6 +38,7 @@ IUSE="
 	biod
 	borealis_host
 	chrome_internal
+	chrome_media
 	chromeless_tty
 	containers
 	cr50_onboard
