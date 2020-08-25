@@ -46,12 +46,13 @@ IUSE="
 	nnapi
 	ondevice_handwriting
 	ondevice_handwriting_dlc
+	ondevice_speech
 "
 
 RDEPEND="
 	chromeos-base/chrome-icu:=
-	chromeos-base/libbrillo:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	ondevice_speech? ( chromeos-base/libsoda:= )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
 	dev-libs/libtextclassifier:=
