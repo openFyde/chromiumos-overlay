@@ -3,17 +3,17 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("6de9b290f6f9cbaa368654aa6f96572b8551ab82" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "a2753728d4f1bb7960b76d4cdd03a17afd4f5fd3" "8bdbfb1df38a18de1c4d029df5af67d3e6158a96" "d6b98f0d88a2cd5067037eb3abb736eb980e4675" "85e3eaa08634ad3a73167a0d0f814c64a4d76ec6" "ceff5e345ef65eccd261fdd940f3e4ca67a916ba" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
-CROS_WORKON_TREE=("1c07dc76ec4881aeccc6c6151786dc26bf5f73c0" "eb2fb925eaa3f36ed4140d6ccd0c153ab4ca3b12" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d59698b9aacd42201a585bee90f33719caa6338b" "4256bcdd9e9435828bf8159d85af015450112aff" "9f2ca25b3100a571a717a4a4c94b9131d8cfcd9c" "ebab04f72e15304ca62e4c1092e3cdabf397c792" "56c14098806dda31ef167573b2137a7cde75033f" "dcbde0bbddc02dde72a15bbf5b890da2cc032cc9" "3e10262144e64652e5c70fe978e1d6bae433ab27")
+CROS_WORKON_COMMIT=("b98d6d7d74f2fa6ee3fa8fccf149a1d09e37ab62" "ed38697b9f8e4140802f13e3bb4e174bf7201eed" "8bdbfb1df38a18de1c4d029df5af67d3e6158a96" "d6b98f0d88a2cd5067037eb3abb736eb980e4675" "85e3eaa08634ad3a73167a0d0f814c64a4d76ec6" "78f1c2f83e625bdf66d55b48bdb3a301c20d2fb3" "ceff5e345ef65eccd261fdd940f3e4ca67a916ba" "ce343f293774d1d2f88fc4828a2dc45ff0981feb")
+CROS_WORKON_TREE=("1c07dc76ec4881aeccc6c6151786dc26bf5f73c0" "28196317795c2380b2e4b784abaaa62f1943e087" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d59698b9aacd42201a585bee90f33719caa6338b" "9f2ca25b3100a571a717a4a4c94b9131d8cfcd9c" "ebab04f72e15304ca62e4c1092e3cdabf397c792" "56c14098806dda31ef167573b2137a7cde75033f" "dad753bcaeb57e520a4b9b517b20885fbecd34df" "dcbde0bbddc02dde72a15bbf5b890da2cc032cc9" "3e10262144e64652e5c70fe978e1d6bae433ab27")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/native"
-	"aosp/platform/system/core/base"
 	"aosp/platform/system/core/libcutils"
 	"aosp/platform/system/core/liblog"
 	"aosp/platform/system/core/libutils"
+	"aosp/platform/system/libbase"
 	"aosp/platform/system/libfmq"
 	"aosp/platform/system/libhidl"
 )
@@ -30,20 +30,20 @@ CROS_WORKON_REPO=(
 CROS_WORKON_LOCALNAME=(
 	"platform2"
 	"aosp/frameworks/native"
-	"aosp/system/core/base"
 	"aosp/system/core/libcutils"
 	"aosp/system/core/liblog"
 	"aosp/system/core/libutils"
+	"aosp/system/libbase"
 	"aosp/system/libfmq"
 	"aosp/system/libhidl"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/aosp/frameworks/native"
-	"${S}/platform2/aosp/system/core/base"
 	"${S}/platform2/aosp/system/core/libcutils"
 	"${S}/platform2/aosp/system/core/liblog"
 	"${S}/platform2/aosp/system/core/libutils"
+	"${S}/platform2/aosp/system/libbase"
 	"${S}/platform2/aosp/system/libfmq"
 	"${S}/platform2/aosp/system/libhidl"
 )
@@ -110,10 +110,10 @@ src_install() {
 	doins -r includes/*
 	doins -r ../aosp/frameworks/native/libs/arect/include/*
 	doins -r ../aosp/frameworks/native/libs/nativewindow/include/*
-	doins -r ../aosp/system/core/base/include/*
 	doins -r ../aosp/system/core/libcutils/include/*
 	doins -r ../aosp/system/core/liblog/include/*
 	doins -r ../aosp/system/core/libutils/include/*
+	doins -r ../aosp/system/libbase/include/*
 	doins -r ../aosp/system/libfmq/include/*
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
