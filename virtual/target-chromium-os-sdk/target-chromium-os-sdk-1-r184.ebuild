@@ -523,3 +523,7 @@ RDEPEND="${RDEPEND}
 # Include android-sdk to contain both JDK8 and JDK11 in the chroot.
 RDEPEND="${RDEPEND}
 	chromeos-base/android-sdk"
+
+# Needed to optimise Android APKs shipped in demo_mode_resources.
+RDEPEND="${RDEPEND}
+	sys-devel/zipalign"
