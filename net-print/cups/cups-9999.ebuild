@@ -9,9 +9,7 @@ CROS_WORKON_EGIT_BRANCH="v2.3"
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit cros-workon autotools fdo-mime gnome2-utils flag-o-matic linux-info \
-	multilib multilib-minimal pam python-single-r1 user versionator \
-	java-pkg-opt-2 systemd toolchain-funcs cros-fuzzer cros-sanitizers
+inherit cros-debug cros-workon libchrome-version autotools fdo-mime gnome2-utils flag-o-matic linux-info multilib multilib-minimal pam python-single-r1 user versionator java-pkg-opt-2 systemd toolchain-funcs cros-fuzzer cros-sanitizers
 
 MY_P=${P/_rc/rc}
 MY_P=${MY_P/_beta/b}
@@ -26,7 +24,7 @@ HOMEPAGE="http://www.cups.org/"
 LICENSE="GPL-2"
 SLOT="0"
 IUSE="acl dbus debug java kerberos pam
-	python +seccomp selinux +ssl static-libs systemd +threads upstart usb X xinetd zeroconf
+	python +seccomp selinux +ssl static-libs systemd test +threads upstart usb X xinetd zeroconf
 	asan fuzzer"
 
 LANGS="ca cs de es fr it ja ru"
@@ -65,6 +63,11 @@ CDEPEND="
 
 DEPEND="${CDEPEND}
 	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
+	test? (
+		dev-cpp/gtest
+		>=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=]
+		>=chromeos-base/libbrillo-0.0.1-r1651:=
+	)
 "
 
 RDEPEND="${CDEPEND}
@@ -76,9 +79,6 @@ REQUIRED_USE="
 	usb? ( threads )
 	?? ( systemd upstart )
 "
-
-# upstream includes an interactive test which is a nono for gentoo
-RESTRICT="test"
 
 S="${WORKDIR}/${PN}-release-${MY_PV}"
 
@@ -219,13 +219,26 @@ multilib_src_configure() {
 multilib_src_compile() {
 	if multilib_is_native_abi; then
 		default
+		if use test; then
+			tc-export PKG_CONFIG
+			cros-debug-add-NDEBUG
+			export BASE_VER="$(libchrome_ver)"
+			emake compile-test
+		fi
 	else
 		emake libs
 	fi
 }
 
 multilib_src_test() {
-	multilib_is_native_abi && default
+	multilib_is_native_abi || return 0
+	# ASAN thinks there's a leak in cupsd_main().
+	# This is probably a false positive, so disable leak detection for now.
+	ASAN_OPTIONS=detect_leaks=false:log_path=stderr \
+	UBSAN_OPTIONS=print_stacktrace=1:log_path=stderr \
+	/mnt/host/source/src/platform2/common-mk/platform2_test.py \
+		--sysroot="${SYSROOT}" -- ./scheduler/googletests || \
+		die "tests failed"
 }
 
 multilib_src_install() {
