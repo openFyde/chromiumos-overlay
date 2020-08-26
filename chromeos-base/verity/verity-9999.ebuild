@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk verity .gn"
 
 PLATFORM_SUBDIR="verity"
 
-inherit cros-workon platform cros-common.mk
+inherit cros-workon platform
 
 DESCRIPTION="File system integrity image generator for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/verity/"
@@ -29,4 +29,8 @@ src_install() {
 	cd ..
 	into /
 	dobin "${OUT}"/verity
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/verity_tests"
 }
