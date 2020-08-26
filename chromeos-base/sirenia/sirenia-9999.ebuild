@@ -23,8 +23,10 @@ RDEPEND=""
 DEPEND="${RDEPEND}
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
+	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
 	dev-rust/libchromeos:=
 	dev-rust/minijail:=
+	>=dev-rust/openssl-0.10.22:= <dev-rust/openssl-0.11
 	dev-rust/sys_util:=
 "
 
