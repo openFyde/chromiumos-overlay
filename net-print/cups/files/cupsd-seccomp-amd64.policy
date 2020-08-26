@@ -54,6 +54,7 @@ listen: 1
 lseek: 1
 lstat: 1
 madvise: 1
+memfd_create: 1
 mkdir: 1
 mmap: 1
 mprotect: 1

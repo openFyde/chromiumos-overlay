@@ -68,6 +68,7 @@ lseek: 1
 lstat: 1
 lstat64: 1
 madvise: 1
+memfd_create: 1
 mkdir: 1
 mmap: 1
 mmap2: 1
