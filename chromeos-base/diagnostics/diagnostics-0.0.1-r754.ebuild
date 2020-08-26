@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4a49916f6461bfc12d315fe0d389d9423742b3f3"
-CROS_WORKON_TREE=("1c07dc76ec4881aeccc6c6151786dc26bf5f73c0" "41deaf9d13b69ec9ff50ed7dd151442d1dae145f" "b93032e281b7da7adf1efa0c83ebbded8096a3a9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="222aaf718c645385994f247870ed9612507ad29e"
+CROS_WORKON_TREE=("1c07dc76ec4881aeccc6c6151786dc26bf5f73c0" "41deaf9d13b69ec9ff50ed7dd151442d1dae145f" "731d04a4e156af56b9c2fdf57e73adf515cbccdc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -107,6 +107,7 @@ src_install() {
 		ectool_i2cread-seccomp.policy
 	newins "cros_healthd/seccomp/ectool_pwmgetfanrpm-seccomp-${ARCH}.policy" \
 		ectool_pwmgetfanrpm-seccomp.policy
+	newins "seccomp/memtester-seccomp-${ARCH}.policy" memtester-seccomp.policy
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
