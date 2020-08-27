@@ -39,16 +39,16 @@ DEPEND="${RDEPEND}
 src_unpack() {
 	platform_src_unpack
 	cd "${P}/platform2" || die
-	if [ "${PV}" != "9999" ]; then
-		# Generate the patch under platform2 by 'git format-patch HEAD^'
-		eapply "${FILESDIR}/0001-intel-ipu6-Add-initial-code.patch"
-	fi
+	# Generate the patch under platform2 by 'git format-patch HEAD^'
+	eapply "${FILESDIR}/0001-intel-ipu6-Add-initial-code-1st-part.patch"
+	eapply "${FILESDIR}/0002-intel-ipu6-Add-initial-code-2nd-part.patch"
 }
 
 src_install() {
 	dolib.so "${OUT}/lib/libcamhal.so"
 	cros-camera_dohal "${OUT}/lib/libcamhal.so" intel-ipu6.so
 	dolib.so "${OUT}/lib/libcam_algo.so"
+	dolib.so "${OUT}/lib/libcam_gpu_algo.so"
 
 	udev_dorules "${FILESDIR}/50-ipu-psys0.rules"
 	udev_dorules "${FILESDIR}/99-mipicam.rules"
