@@ -37,7 +37,11 @@ RDEPEND="
 
 src_install() {
 	insinto /etc/init
-	doins init/arc-adbd.conf
+	if use arcvm; then
+		doins init/arcvm-adbd.conf
+	else
+		doins init/arc-adbd.conf
+	fi
 
 	insinto /usr/share/policy
 	use seccomp && newins "seccomp/arc-adbd-${ARCH}.policy" arc-adbd-seccomp.policy
