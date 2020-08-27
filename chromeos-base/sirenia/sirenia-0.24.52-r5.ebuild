@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d3329d0319497decc3071fd0ed49a0f2e28f440a"
-CROS_WORKON_TREE="0058cd4231007dd0afe48ba1203c14552892c41d"
+CROS_WORKON_COMMIT="612dee21d9c285c999cf5e1aad7b7aa3de21bbbf"
+CROS_WORKON_TREE="e6eb95409eba3e6c80555f99d3a48521ca36c059"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="sirenia"
@@ -25,8 +25,10 @@ RDEPEND=""
 DEPEND="${RDEPEND}
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
+	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
 	dev-rust/libchromeos:=
 	dev-rust/minijail:=
+	>=dev-rust/openssl-0.10.22:= <dev-rust/openssl-0.11
 	dev-rust/sys_util:=
 "
 
