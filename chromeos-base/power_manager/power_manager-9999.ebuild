@@ -32,6 +32,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/libnl:=
 	dev-libs/protobuf:=
+	dev-libs/re2:=
 	cras? ( media-sound/adhd:= )
 	virtual/udev"
 
