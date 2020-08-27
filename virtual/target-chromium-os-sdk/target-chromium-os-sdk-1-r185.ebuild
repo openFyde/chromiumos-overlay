@@ -231,7 +231,7 @@ RDEPEND="${RDEPEND}
 	sys-libs/libnih
 	sys-power/iasl
 	virtual/modutils
-	x11-apps/mkfontdir
+	x11-apps/mkfontscale
 	x11-apps/xcursorgen
 	x11-apps/xkbcomp
 	>=x11-misc/util-macros-1.2
