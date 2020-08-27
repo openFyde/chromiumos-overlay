@@ -4,12 +4,12 @@ DEPEND=sys-libs/libcap:= !!<=dev-rust/sys_util-0.1.0-r60 =dev-rust/android_log-s
 DESCRIPTION=Small system utility modules for usage by other modules.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sys_util
-IUSE=test cros_host cros_workon_tree_e752ed5bb4f22db519ead68e67341890ccef63ea cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+IUSE=test cros_host cros_workon_tree_03540a179e42e46f58ab3517336ac6fee7606388 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=sys-libs/libcap:= !!<=dev-rust/sys_util-0.1.0-r60
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r115
+SLOT=0/0.1.0-r116
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	b0f444266980127f80d2f8b326b3a1c9	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	283f9d5b283c8e210a5c8fa89c8f722f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=32eb376237e1d5bdf5fc083ab0963a23
+_md5_=523759d023d8558e4cd895b7413b04d3
