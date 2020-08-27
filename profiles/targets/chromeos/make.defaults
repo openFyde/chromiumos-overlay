@@ -65,9 +65,8 @@ USE="${USE} -vala"
 # Enable fwupd support
 USE="${USE} fwupd"
 
-# Enable bluez-next
-# TODO(b/154866558): Remove when bluez-next becomes "current".
-USE="${USE} bluez-next bt_deprecated_tools"
+# Chrome OS needs deprecated tools: hcitool and hciconfig.
+USE="${USE} bt_deprecated_tools"
 
 # We don't provide this package anymore due to AGPL usage.
 USE="${USE} -berkdb"
