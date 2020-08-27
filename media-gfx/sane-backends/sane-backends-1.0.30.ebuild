@@ -206,10 +206,6 @@ src_configure() {
 	cros_enable_cxx_exceptions
 	append-flags -fno-strict-aliasing # From Fedora
 
-	# enable link-time optimization to reduce size of genesys backend ~20%.
-	append-flags -flto
-	append-ldflags -flto
-
 	# if LINGUAS is set, just use the listed and supported localizations.
 	# shellcheck disable=SC2154
 	if [[ "${LINGUAS+set}" == "set" ]]; then
