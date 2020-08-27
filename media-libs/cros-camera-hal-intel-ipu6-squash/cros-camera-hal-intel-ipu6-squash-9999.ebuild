@@ -51,4 +51,5 @@ src_install() {
 	dolib.so "${OUT}/lib/libcam_algo.so"
 
 	udev_dorules "${FILESDIR}/50-ipu-psys0.rules"
+	udev_dorules "${FILESDIR}/99-mipicam.rules"
 }
