@@ -39,6 +39,8 @@ src_install() {
 	insinto /etc/init
 	if use arcvm; then
 		doins init/arcvm-adbd.conf
+		insinto /etc/dbus-1/system.d
+		doins init/dbus-1/ArcVmAdbd.conf
 	else
 		doins init/arc-adbd.conf
 	fi
