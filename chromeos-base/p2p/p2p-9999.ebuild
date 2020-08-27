@@ -34,7 +34,8 @@ DEPEND="${COMMON_DEPEND}"
 platform_pkg_test() {
 	local tests=(
 		p2p-client-unittests
-		p2p-server-unittests
+		# TODO(crbug.com/1119393): Disabling server tests due to erratic hangs.
+		# p2p-server-unittests
 		p2p-http-server-unittests
 		p2p-common-unittests
 	)
