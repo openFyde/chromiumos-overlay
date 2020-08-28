@@ -4,11 +4,11 @@ DEPEND=chromeos-base/chromeos-login:= chromeos-base/minijail:= chromeos-base/shi
 DESCRIPTION=Chrome OS debugging service
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/debugd/
-IUSE=cellular iwlwifi_dump nvme sata tpm cros_host cros_workon_tree_1c07dc76ec4881aeccc6c6151786dc26bf5f73c0_dc0b5fdb331bb51c82c4d593b3db2c208fa3673a_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_1c07dc76ec4881aeccc6c6151786dc26bf5f73c0_dc0b5fdb331bb51c82c4d593b3db2c208fa3673a_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug compilation_database cros_host test
+IUSE=cellular iwlwifi_dump nvme sata tpm cros_host cros_workon_tree_1c07dc76ec4881aeccc6c6151786dc26bf5f73c0_4c304484afd4253a626e0034b921ef3a440b8075_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_1c07dc76ec4881aeccc6c6151786dc26bf5f73c0_4c304484afd4253a626e0034b921ef3a440b8075_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug compilation_database cros_host test
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
 RDEPEND=chromeos-base/chromeos-login:= chromeos-base/minijail:= chromeos-base/shill-client:= chromeos-base/vboot_reference:= dev-libs/protobuf:= net-libs/libpcap:= net-wireless/iw:= sys-apps/rootdev:= sata? ( sys-apps/smartmontools:= ) iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump ) nvme? ( sys-apps/nvme-cli ) chromeos-base/chromeos-ssh-testkeys chromeos-base/chromeos-sshd-init !chromeos-base/workarounds sys-apps/iproute2 sys-apps/memtester >=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:= sys-apps/baselayout
-SLOT=0/0.0.1-r2906
+SLOT=0/0.0.1-r2907
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	283f9d5b283c8e210a5c8fa89c8f722f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	7db5b03b7ca5337406c3d24a0e096e9c	libchrome-version	f89118941e7f3c3825d2fe216c977c57	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	c7f147db60dd4e03f14264551467e39b	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	user	7c566af8c48023219fd63246e88d6621
-_md5_=c3c60081e06a8b797e3baeb64699f695
+_md5_=a25bb40a2840c0f4539824b75193e2e5
