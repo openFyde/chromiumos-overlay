@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="0e725dc680737379e77881eebdfdd3664980bc28"
-CROS_WORKON_TREE="4dce4b0bb8b6d4131a82ac259a31205734014897"
+CROS_WORKON_COMMIT="2821a7e9871629ff45ae4a4768ea410300ff1cc9"
+CROS_WORKON_TREE="d9e274a3401523456e8c76cb2b03d617e5bb48e3"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -152,11 +152,7 @@ src_compile() {
 	if use detachable ; then
 		export DETACHABLE=1
 	fi
-	if use menu_ui ; then
-		export MENU_UI=1
-	elif use legacy_menu_ui ; then
-		export LEGACY_MENU_UI=1
-	fi
+	export MENU_UI=1
 
 	# Both diag_payload and minidiag need additional UI images from
 	# chromeos-bmpblk.
