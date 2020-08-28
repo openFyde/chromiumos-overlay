@@ -1,4 +1,1 @@
-mcchou@chromium.org
-josephsih@chromium.org
-alainm@chromium.org
-yshavit@chromium.org
+include /net-wireless/bluez/OWNERS
