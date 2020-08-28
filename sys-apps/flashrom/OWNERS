@@ -1,4 +1,1 @@
-martinroth@chromium.org
-pgeorgi@chromium.org
-quasisec@chromium.org
-reinauer@chromium.org
+include chromiumos/third_party/flashrom:/OWNERS
