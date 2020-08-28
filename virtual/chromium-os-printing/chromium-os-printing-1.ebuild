@@ -22,5 +22,6 @@ RDEPEND="
 	net-print/starcupsdrv
 	internal? ( net-print/konica-minolta-printing-license )
 	internal? ( net-print/xerox-printing-license )
+	internal? ( net-print/fuji-xerox-printing-license )
 	postscript? ( net-print/hplip )
 "
