@@ -40,7 +40,7 @@ src_install() {
 	doins init/arc-adbd.conf
 
 	insinto /usr/share/policy
-	use seccomp && newins "seccomp/arc$(usex arcvm vm '')-adbd-${ARCH}.policy" arc-adbd-seccomp.policy
+	use seccomp && newins "seccomp/arc-adbd-${ARCH}.policy" arc-adbd-seccomp.policy
 
 	dosbin "${OUT}/arc-adbd"
 
