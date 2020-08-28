@@ -4,10 +4,9 @@
 # Shellcheck doesn't understand our CONFIG_FRAMGMENTS expansion.
 # shellcheck disable=SC2034
 
-# Check for EAPI 4+
+# Check for EAPI 7+.
 case "${EAPI:-0}" in
-0|1|2|3|4) die "Unsupported EAPI=${EAPI:-0} (too old) for ${ECLASS}" ;;
-5|6) inherit eapi7-ver ;;
+0|1|2|3|4|5|6) die "Unsupported EAPI=${EAPI:-0} (too old) for ${ECLASS}" ;;
 7) ;;
 esac
 
@@ -152,12 +151,7 @@ apply_private_patches() {
 	eshopts_push -s nullglob
 	local patches=( "${FILESDIR}"/*.patch )
 	eshopts_pop
-	if [[ ${#patches[@]} -gt 0 ]]; then
-		case "${EAPI}" in
-		[45]) epatch "${patches[@]}";;
-		*) eapply "${patches[@]}";;
-		esac
-	fi
+	[[ ${#patches[@]} -gt 0 ]] && eapply "${patches[@]}"
 }
 
 # Ignore files under /lib/modules/ as we like to install vdso objects in there.
@@ -2796,10 +2790,8 @@ cros-kernel2_src_install() {
 		kmake INSTALL_MOD_PATH="${install_dir}" INSTALL_MOD_STRIP="magic" \
 			STRIP="$(eclass_dir)/strip_splitdebug" \
 			modules_install
-		if ! has ${EAPI} {4..6}; then
-			dostrip -x "${install_prefix}/lib/modules/${version}/kernel/" \
-				"${install_prefix}/usr/lib/debug/lib/modules/"
-		fi
+		dostrip -x "${install_prefix}/lib/modules/${version}/kernel/" \
+			"${install_prefix}/usr/lib/debug/lib/modules/"
 	fi
 
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
@@ -2882,10 +2874,8 @@ cros-kernel2_src_install() {
 	# Install uncompressed kernel for debugging purposes.
 	insinto "${install_prefix}/usr/lib/debug/boot"
 	newins "$(cros-workon_get_build_dir)/vmlinux" vmlinux.debug
-	if ! has ${EAPI} {4..6}; then
-		dostrip -x "${install_prefix}/usr/lib/debug/boot/vmlinux.debug" \
-			"${install_prefix}/usr/src/"
-	fi
+	dostrip -x "${install_prefix}/usr/lib/debug/boot/vmlinux.debug" \
+		"${install_prefix}/usr/src/"
 	# Be nice to scripts expecting vmlinux.
 	ln -s vmlinux.debug "${install_dir}/usr/lib/debug/boot/vmlinux" || die
 
