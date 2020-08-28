@@ -7,7 +7,8 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk iioservice .gn"
+# TODO(crbug.com/809389): Remove libmems from this list.
+CROS_WORKON_SUBTREE="common-mk iioservice libmems .gn"
 
 PLATFORM_SUBDIR="iioservice/iioservice_simpleclient"
 
@@ -21,6 +22,7 @@ IUSE=""
 
 RDEPEND="
 	chromeos-base/libiioservice_ipc:=
+	chromeos-base/libmems:=
 "
 
 DEPEND="${RDEPEND}
