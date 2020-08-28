@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b19724e757f3e322222ba317309e04305824c4ba"
+CROS_WORKON_COMMIT="00e5333b56c9ca45bfcc4c474d04273550c4c97c"
 CROS_WORKON_TREE=("1c07dc76ec4881aeccc6c6151786dc26bf5f73c0" "2834854981f88e2b81fefd49c590185a31f2b1f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,7 +22,6 @@ KEYWORDS="*"
 IUSE="fuzzer metrics_uploader +passive_metrics systemd"
 
 COMMON_DEPEND="
-	dev-libs/dbus-glib:=
 	dev-libs/libpcre:=
 	dev-libs/protobuf:=
 	sys-apps/rootdev:=
