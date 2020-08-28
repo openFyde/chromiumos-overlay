@@ -46,6 +46,7 @@ RDEPEND="${RDEPEND}
 	sys-apps/findutils
 	sys-apps/gawk
 	sys-apps/grep
+	sys-apps/ripgrep
 	sys-apps/sed
 	sys-apps/shadow
 	sys-apps/texinfo
