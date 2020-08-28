@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="00e5333b56c9ca45bfcc4c474d04273550c4c97c"
+CROS_WORKON_COMMIT="7410a42174aeafe4de3ead723c4d04c7f5ee2dd5"
 CROS_WORKON_TREE=("aec1b0932ea2a0ae804aa891741d71bf9d2f2ad7" "1c07dc76ec4881aeccc6c6151786dc26bf5f73c0" "fecc69c19ae6c954882745d97e05e81bdb0a9fa9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -42,7 +42,7 @@ src_install() {
 	doins init/arc-adbd.conf
 
 	insinto /usr/share/policy
-	use seccomp && newins "seccomp/arc$(usex arcvm vm '')-adbd-${ARCH}.policy" arc-adbd-seccomp.policy
+	use seccomp && newins "seccomp/arc-adbd-${ARCH}.policy" arc-adbd-seccomp.policy
 
 	dosbin "${OUT}/arc-adbd"
 
