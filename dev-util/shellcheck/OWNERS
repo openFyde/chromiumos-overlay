@@ -1,3 +1,1 @@
-set noparent
-
 include chromiumos/third_party/shellcheck:/OWNERS
