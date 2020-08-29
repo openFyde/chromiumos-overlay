@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile info install postinst prepare setup unpack
-DEPEND=media-libs/cros-camera-test
-DESCRIPTION=Dependencies for camera_HAL3 autotest
+DEPEND=chromeos-base/system_api dev-libs/protobuf:=
+DESCRIPTION=Autotest D-Bus deps
 EAPI=5
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/autotest/
-IUSE=+autotest cros_host cros_workon_tree_f59adfe53a5fc2a468576061009613cfc59360e9 +buildcheck autotest opengles
+IUSE=+autotest cros_host cros_workon_tree_75e95babc8c3b1d2f7e393681bb3fb7ae46252c8 +buildcheck autotest opengles
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-RDEPEND=media-libs/cros-camera-test autotest? ( chromeos-base/autotest )
+RDEPEND=autotest? ( chromeos-base/autotest )
 SLOT=0
 _eclasses_=autotest	605b7cb5c6f24c3d362106dee3d4b20e	autotest-deponly	9b1e5d19c437abea0e7c0fa90c192abd	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	283f9d5b283c8e210a5c8fa89c8f722f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=1ae670e9c70705e8d7f7d04aa82c9b9f
+_md5_=3059a390e56472fd6203705f78de04c4
