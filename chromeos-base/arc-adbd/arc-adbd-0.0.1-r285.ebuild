@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fda7723bb7a45184ab59d6f6ec0eed96d1264477"
+CROS_WORKON_COMMIT="eadff03b5dc10988348e6cf7209e75af59bfa147"
 CROS_WORKON_TREE=("aec1b0932ea2a0ae804aa891741d71bf9d2f2ad7" "b6b10e03115551b69ba9e2502b15d5467adcd107" "4841d5366cc9ec4bc8f00f7b15a183f73f934d2e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -41,6 +41,8 @@ src_install() {
 	insinto /etc/init
 	if use arcvm; then
 		doins init/arcvm-adbd.conf
+		insinto /etc/dbus-1/system.d
+		doins init/dbus-1/ArcVmAdbd.conf
 	else
 		doins init/arc-adbd.conf
 	fi
