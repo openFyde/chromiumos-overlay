@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DEPEND=virtual/tast-vars
-DESCRIPTION=All Tast static variables
-EAPI=6
-KEYWORDS=*
-LICENSE=BSD-Google
-RDEPEND=virtual/tast-vars
-SLOT=0
-_md5_=6bab5b03fa1806c96584b284f8592511
