@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8f016d579afe3aaf2406fc7c76bba059165154eb"
-CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "f28fcf6c782445351389a4e49d097ed957f1c003" "659ff958b03625d691bbdac92411d7954413d446" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="975f95c8fcd434d0c55884c4b675061e6f6297d7"
+CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "73c1fcb70810b4bff842bc36465ce7163155adc0" "659ff958b03625d691bbdac92411d7954413d446" "e5d3b93967ab0491498bc90862f9bee73883fea8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -156,6 +156,10 @@ src_install() {
 	exeinto /usr/libexec/cryptohome
 	doexe shall-use-userdataauth.sh
 	doexe update_userdataauth_from_features.sh
+
+	# Install seccomp policy for cryptohome-proxy
+	insinto /usr/share/policy
+	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
 
 	# Disable the kill switch if the use flag is on.
 	if use cryptohome_userdataauth_interface; then
