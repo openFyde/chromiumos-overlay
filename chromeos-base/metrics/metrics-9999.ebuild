@@ -65,10 +65,6 @@ src_install() {
 	dolib.so "${OUT}/lib/libmetrics.so"
 	doins "${OUT}/lib/libmetrics.pc"
 
-	# TODO(crbug/920513): Remove after all usages of libmetrics-$v are removed.
-	# For packages using libmetrics-$v.pc.
-	doins "${OUT}/lib/libmetrics-${v}.pc"
-
 	insinto /usr/include/metrics
 	doins c_metrics_library.h \
 		cumulative_metrics.h \
