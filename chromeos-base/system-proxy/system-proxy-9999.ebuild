@@ -25,6 +25,7 @@ IUSE="fuzzer"
 COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
+	chromeos-base/patchpanel-client:=
 	dev-libs/protobuf:=
 	dev-libs/dbus-glib:=
 	sys-apps/dbus:=

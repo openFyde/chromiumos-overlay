@@ -22,7 +22,7 @@ KEYWORDS="~*"
 IUSE="cfm_enabled_device fuzzer"
 
 COMMMON_DEPEND="
-	chromeos-base/patchpanel:=
+	chromeos-base/patchpanel-client:=
 	sys-apps/dbus:=
 	virtual/libusb:1
 	virtual/udev

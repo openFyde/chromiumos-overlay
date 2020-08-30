@@ -43,7 +43,8 @@ DEPEND="
 
 patchpanel_header() {
 	doins "$1"
-	sed -i '/.pb.h/! s/patchpanel\//chromeos\/patchpanel\//g' "${D}/usr/include/chromeos/patchpanel/$1" || die
+	sed -i '/.pb.h/! s:patchpanel/:chromeos/patchpanel/:g' \
+		"${D}/usr/include/chromeos/patchpanel/$1" || die
 }
 
 src_install() {
@@ -52,16 +53,13 @@ src_install() {
 
 	# Libraries.
 	dolib.so "${OUT}"/lib/libpatchpanel-util.so
-	dolib.so "${OUT}"/lib/libpatchpanel-client.so
 
 	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/libpatchpanel-util.pc
-	doins "${OUT}"/libpatchpanel-client.pc
 
 	insinto /usr/include/chromeos/patchpanel/
 	patchpanel_header address_manager.h
-	patchpanel_header client.h
 	patchpanel_header mac_address_generator.h
 	patchpanel_header net_util.h
 	patchpanel_header socket.h

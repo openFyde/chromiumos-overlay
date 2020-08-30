@@ -30,6 +30,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
+	chromeos-base/patchpanel-client:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
 "
