@@ -73,7 +73,7 @@ src_configure() {
 
 	if use video_cards_virgl; then
 		export DRV_VIRGL=1
-		append-cppflags -DDRV_VIRGL
+		append-cppflags -DDRV_VIRGL -DVIRTIO_GPU_NEXT
 	fi
 
 	multilib-minimal_src_configure
