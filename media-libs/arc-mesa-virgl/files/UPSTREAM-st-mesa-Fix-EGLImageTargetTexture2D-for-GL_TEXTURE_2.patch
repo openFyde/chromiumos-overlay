@@ -1,0 +1,45 @@
+From 5e4d69ec786e56794a995be869b5a9b80d050f2d Mon Sep 17 00:00:00 2001
+From: Woody Chow <woodychow@google.com>
+Date: Wed, 19 Aug 2020 14:19:12 +0900
+Subject: [PATCH] st/mesa: Fix EGLImageTargetTexture2D for GL_TEXTURE_2D
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Before this change, internalFormat was defaulted to GL_RGBA (
+unsized internal format). Therefore, subsequent glTexSubImage2D
+call with type != GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT_4_4_4_4 or
+GL_UNSIGNED_SHORT_5_5_5_1 would give GL_INVALID_OPERATION.
+
+This fixes
+
+android.graphics.cts.BitmapColorSpaceTest#test16bitHardware
+android.graphics.cts.ImageDecoderTest#testDecodeBitmap*
+android.graphics.cts.BitmapTest#testNdkFormatsHardware
+
+in CtsGraphicsTestCases
+
+Reviewed-by: Marek Olšák <marek.olsak@amd.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6382>
+---
+ src/mesa/state_tracker/st_cb_eglimage.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/mesa/state_tracker/st_cb_eglimage.c b/src/mesa/state_tracker/st_cb_eglimage.c
+index 5b03c5eb580..bf25e313091 100644
+--- a/src/mesa/state_tracker/st_cb_eglimage.c
++++ b/src/mesa/state_tracker/st_cb_eglimage.c
+@@ -327,7 +327,9 @@ st_egl_image_target_texture_2d(struct gl_context *ctx, GLenum target,
+                          &native_supported))
+       return;
+ 
+-   st_bind_egl_image(ctx, texObj, texImage, &stimg, false, native_supported);
++   st_bind_egl_image(ctx, texObj, texImage, &stimg,
++                     target != GL_TEXTURE_EXTERNAL_OES,
++                     native_supported);
+    pipe_resource_reference(&stimg.texture, NULL);
+ }
+ 
+-- 
+2.28.0.402.g5ffc5be6b7-goog
+

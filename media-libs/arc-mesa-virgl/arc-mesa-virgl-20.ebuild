@@ -148,6 +148,7 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/UPSTREAM-util-add-a-alignof-macro.patch
 	epatch "${FILESDIR}"/UPSTREAM-util-ralloc-fix-ralloc-alignment.patch
+	epatch "${FILESDIR}"/UPSTREAM-st-mesa-Fix-EGLImageTargetTexture2D-for-GL_TEXTURE_2.patch
 
 	default
 }
