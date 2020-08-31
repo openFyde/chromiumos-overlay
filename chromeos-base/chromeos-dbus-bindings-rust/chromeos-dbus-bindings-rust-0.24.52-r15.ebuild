@@ -1,9 +1,9 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT="3bedb01f0bbf8767db84c3dace0a1a126ce304b5"
+CROS_WORKON_COMMIT="bb5f2f8335ffa4d1fdee9b57c99bdc89dfb69d1a"
 CROS_WORKON_TREE="4909040c8731bf804f30dde895ab74fbf4a27187"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,6 +18,8 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chrome
 LICENSE="BSD-Google"
 SLOT="0/${PVR}"
 KEYWORDS="*"
+
+BDEPEND=dev-rust/dbus-codegen
 
 src_unpack() {
 	cros-workon_src_unpack
