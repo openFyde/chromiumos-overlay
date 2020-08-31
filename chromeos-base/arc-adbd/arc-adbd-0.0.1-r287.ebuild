@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e5c2d83f15e05d8db12777350725dde696e01f15"
-CROS_WORKON_TREE=("aec1b0932ea2a0ae804aa891741d71bf9d2f2ad7" "b6b10e03115551b69ba9e2502b15d5467adcd107" "d8be447462e5d133ba2519e16d7b8e5c68ca69bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e4b69356e57c6a7c037161ea0297f5d868e6dc6d"
+CROS_WORKON_TREE=("282ca8eac5dfd9b077452f3f1dcc381853ca6b66" "b6b10e03115551b69ba9e2502b15d5467adcd107" "d8be447462e5d133ba2519e16d7b8e5c68ca69bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -48,7 +48,7 @@ src_install() {
 	fi
 
 	insinto /usr/share/policy
-	use seccomp && newins "seccomp/arc-adbd-${ARCH}.policy" arc-adbd-seccomp.policy
+	use seccomp && newins "seccomp/arc$(usex arcvm vm '')-adbd-${ARCH}.policy" "arc$(usex arcvm vm '')-adbd-seccomp.policy"
 
 	dosbin "${OUT}/arc-adbd"
 
