@@ -38,6 +38,7 @@ IUSE="
 	opengles
 	p2p
 	+perfetto
+	python_targets_python2_7
 	scanner
 	+shill
 	+tpm
@@ -119,7 +120,7 @@ CROS_COMMON_RDEPEND="
 	wifi_testbed_ap? (
 		dev-python/btsocket
 	)
-	dev-lang/python:2.7
+	python_targets_python2_7? ( dev-lang/python:2.7 )
 	dev-lang/python:3.6
 	dev-libs/opensc
 	p2p? ( dev-python/dpkt )

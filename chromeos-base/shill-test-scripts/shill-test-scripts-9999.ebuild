@@ -17,12 +17,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="python_targets_python2_7"
 
 DEPEND="
 	dev-lang/python
 	dev-python/dbus-python
-	dev-python/pygobject"
+	python_targets_python2_7? ( dev-python/pygobject )"
 
 RDEPEND="${DEPEND}
 	>=chromeos-base/shill-0.0.1-r2205

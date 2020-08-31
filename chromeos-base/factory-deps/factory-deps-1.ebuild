@@ -19,12 +19,9 @@ FACTORY_FRAMEWORK_RDEPEND="
 	dev-lang/python
 	dev-python/dbus-python
 	dev-python/dpkt
-	dev-python/enum34
-	dev-python/imaging
 	dev-python/jsonrpclib
 	dev-python/jsonschema
 	dev-python/netifaces
-	dev-python/pygobject
 	dev-python/pyyaml
 	dev-python/setproctitle
 	dev-python/ws4py
@@ -46,7 +43,6 @@ FACTORY_TEST_RDEPEND="
 	dev-python/pyudev
 	dev-python/requests
 	dev-util/stressapptest
-	net-ftp/pybootd
 	net-misc/htpdate
 	sys-apps/iproute2
 	sys-apps/lshw

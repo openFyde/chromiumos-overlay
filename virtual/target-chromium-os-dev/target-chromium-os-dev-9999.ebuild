@@ -17,7 +17,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
-IUSE="cras nvme pam opengl +power_management +profile
+IUSE="cras nvme pam opengl +power_management +profile python_targets_python2_7
 	+shill tpm tpm2 usb vaapi video_cards_amdgpu video_cards_intel
 	chromeless_tty"
 
@@ -104,7 +104,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/protofiles
 	!chromeless_tty? ( chromeos-base/screenshot )
 	shill? ( chromeos-base/shill-test-scripts )
-	chromeos-base/touch_firmware_test
+	python_targets_python2_7? ( chromeos-base/touch_firmware_test )
 	chromeos-base/usi-test
 	dev-vcs/git
 	net-analyzer/tcpdump
@@ -118,14 +118,14 @@ RDEPEND="${RDEPEND}
 	net-misc/rsync
 	net-wireless/iw
 	net-wireless/wireless-tools
-	dev-lang/python:2.7
+	python_targets_python2_7? ( dev-lang/python:2.7 )
 	dev-lang/python:3.6
 	dev-libs/libgpiod
 	dev-python/protobuf-python
 	dev-python/cherrypy
 	dev-python/dbus-python
 	dev-python/hid-tools
-	dev-util/hdctools
+	python_targets_python2_7? ( dev-util/hdctools )
 	dev-util/mem
 	dev-util/strace
 	media-tv/v4l-utils

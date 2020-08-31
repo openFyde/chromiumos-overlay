@@ -378,3 +378,11 @@ virtual/python-futures python_targets_python2_7
 virtual/python-ipaddress python_targets_python2_7
 virtual/python-pathlib python_targets_python2_7
 virtual/python-typing python_targets_python2_7
+
+# To permit images without Python2.7, these packages must only depend
+# conditionally on Python2-only packages. These entries keep those
+# dependencies enabled by default.
+chromeos-base/shill-test-scripts python_targets_python2_7
+virtual/target-chromium-os-dev python_targets_python2_7
+virtual/target-chromium-os-test python_targets_python2_7
+
