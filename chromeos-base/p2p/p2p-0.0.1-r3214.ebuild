@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="21f7f5e03d3e15d644e42653b31204990b825c4f"
+CROS_WORKON_COMMIT="377b9886291fa9c8c3d8d84e639b39811a6bfed6"
 CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "86cbea444f4155f2ac059fd59747fe5000df718d" "e66e3361d73a6edd09ce21083f14932af5f098c4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,8 +36,7 @@ DEPEND="${COMMON_DEPEND}"
 platform_pkg_test() {
 	local tests=(
 		p2p-client-unittests
-		# TODO(crbug.com/1119393): Disabling server tests due to erratic hangs.
-		# p2p-server-unittests
+		p2p-server-unittests
 		p2p-http-server-unittests
 		p2p-common-unittests
 	)
