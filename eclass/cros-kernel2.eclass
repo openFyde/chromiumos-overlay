@@ -170,6 +170,7 @@ CONFIG_FRAGMENTS=(
 	highmem
 	hypervisor_guest
 	i2cdev
+	irqsoff_tracer
 	iscsi
 	lockdown
 	kasan
@@ -193,6 +194,7 @@ CONFIG_FRAGMENTS=(
 	pcserial
 	plan9
 	ppp
+	preempt_tracer
 	pvrdebug
 	qmi
 	realtekpstor
@@ -418,6 +420,11 @@ CONFIG_KVM_GUEST=y
 i2cdev_desc="I2C device interface"
 i2cdev_config="
 CONFIG_I2C_CHARDEV=y
+"
+
+irqsoff_tracer_desc="irqsoff tracer"
+irqsoff_tracer_config="
+CONFIG_IRQSOFF_TRACER=y
 "
 
 iscsi_desc="iSCSI initiator and target drivers"
@@ -739,6 +746,11 @@ CONFIG_PPP_BSDCOMP=m
 CONFIG_PPP_DEFLATE=m
 CONFIG_PPP_MPPE=m
 CONFIG_PPP_SYNC_TTY=m
+"
+
+preempt_tracer_desc=""
+preempt_tracer_config="
+CONFIG_PREEMPT_TRACER=y
 "
 
 qmi_desc="QMI WWAN driver"
