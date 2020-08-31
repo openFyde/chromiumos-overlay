@@ -1,0 +1,215 @@
+diff --git a/src/librustc_codegen_llvm/attributes.rs b/src/librustc_codegen_llvm/attributes.rs
+index 89b548a9c5a..a0e9c2db7ef 100644
+--- a/src/librustc_codegen_llvm/attributes.rs
++++ b/src/librustc_codegen_llvm/attributes.rs
+@@ -46,7 +46,7 @@ fn inline(cx: &CodegenCx<'ll, '_>, val: &'ll Value, inline: InlineAttr) {
+ /// Apply LLVM sanitize attributes.
+ #[inline]
+ pub fn sanitize(cx: &CodegenCx<'ll, '_>, no_sanitize: SanitizerSet, llfn: &'ll Value) {
+-    let enabled = cx.tcx.sess.opts.debugging_opts.sanitizer - no_sanitize;
++    let enabled = cx.tcx.sess.opts.cg.sanitizer - no_sanitize;
+     if enabled.contains(SanitizerSet::ADDRESS) {
+         llvm::Attribute::SanitizeAddress.apply_llfn(Function, llfn);
+     }
+@@ -113,13 +113,7 @@ fn set_probestack(cx: &CodegenCx<'ll, '_>, llfn: &'ll Value) {
+     // Currently stack probes seem somewhat incompatible with the address
+     // sanitizer and thread sanitizer. With asan we're already protected from
+     // stack overflow anyway so we don't really need stack probes regardless.
+-    if cx
+-        .sess()
+-        .opts
+-        .debugging_opts
+-        .sanitizer
+-        .intersects(SanitizerSet::ADDRESS | SanitizerSet::THREAD)
+-    {
++    if cx.sess().opts.cg.sanitizer.intersects(SanitizerSet::ADDRESS | SanitizerSet::THREAD) {
+         return;
+     }
+ 
+diff --git a/src/librustc_codegen_ssa/back/link.rs b/src/librustc_codegen_ssa/back/link.rs
+index eed068e2933..3946be6ab57 100644
+--- a/src/librustc_codegen_ssa/back/link.rs
++++ b/src/librustc_codegen_ssa/back/link.rs
+@@ -781,7 +781,7 @@ fn link_sanitizers(sess: &Session, crate_type: CrateType, linker: &mut dyn Linke
+     if crate_type != CrateType::Executable {
+         return;
+     }
+-    let sanitizer = sess.opts.debugging_opts.sanitizer;
++    let sanitizer = sess.opts.cg.sanitizer;
+     if sanitizer.contains(SanitizerSet::ADDRESS) {
+         link_sanitizer_runtime(sess, linker, "asan");
+     }
+@@ -818,7 +818,9 @@ fn link_sanitizer_runtime(sess: &Session, linker: &mut dyn Linker, name: &str) {
+         "aarch64-fuchsia"
+         | "aarch64-unknown-linux-gnu"
+         | "x86_64-fuchsia"
+-        | "x86_64-unknown-linux-gnu" => {
++        | "x86_64-unknown-linux-gnu"
++        | "x86_64-cros-linux-gnu"
++        | "x86_64-pc-linux-gnu" => {
+             let filename = format!("librustc{}_rt.{}.a", channel, name);
+             let path = default_tlib.join(&filename);
+             linker.link_whole_rlib(&path);
+@@ -1589,11 +1591,8 @@ fn linker_with_args<'a, B: ArchiveBuilder<'a>>(
+ 
+     // NO-OPT-OUT, OBJECT-FILES-NO, AUDIT-ORDER
+     if sess.target.target.options.is_like_fuchsia && crate_type == CrateType::Executable {
+-        let prefix = if sess.opts.debugging_opts.sanitizer.contains(SanitizerSet::ADDRESS) {
+-            "asan/"
+-        } else {
+-            ""
+-        };
++        let prefix =
++            if sess.opts.cg.sanitizer.contains(SanitizerSet::ADDRESS) { "asan/" } else { "" };
+         cmd.arg(format!("--dynamic-linker={}ld.so.1", prefix));
+     }
+ 
+diff --git a/src/librustc_codegen_ssa/back/symbol_export.rs b/src/librustc_codegen_ssa/back/symbol_export.rs
+index 2efbfcb9950..ea97a78b263 100644
+--- a/src/librustc_codegen_ssa/back/symbol_export.rs
++++ b/src/librustc_codegen_ssa/back/symbol_export.rs
+@@ -204,7 +204,7 @@ fn exported_symbols_provider_local(
+         }));
+     }
+ 
+-    if tcx.sess.opts.debugging_opts.sanitizer.contains(SanitizerSet::MEMORY) {
++    if tcx.sess.opts.cg.sanitizer.contains(SanitizerSet::MEMORY) {
+         // Similar to profiling, preserve weak msan symbol during LTO.
+         const MSAN_WEAK_SYMBOLS: [&str; 2] = ["__msan_track_origins", "__msan_keep_going"];
+ 
+diff --git a/src/librustc_codegen_ssa/back/write.rs b/src/librustc_codegen_ssa/back/write.rs
+index 23e0b9344ec..47a6dd0492f 100644
+--- a/src/librustc_codegen_ssa/back/write.rs
++++ b/src/librustc_codegen_ssa/back/write.rs
+@@ -195,7 +195,7 @@ impl ModuleConfig {
+             ),
+             pgo_use: if_regular!(sess.opts.cg.profile_use.clone(), None),
+ 
+-            sanitizer: if_regular!(sess.opts.debugging_opts.sanitizer, SanitizerSet::empty()),
++            sanitizer: if_regular!(sess.opts.cg.sanitizer, SanitizerSet::empty()),
+             sanitizer_recover: if_regular!(
+                 sess.opts.debugging_opts.sanitizer_recover,
+                 SanitizerSet::empty()
+diff --git a/src/librustc_mir/transform/inline.rs b/src/librustc_mir/transform/inline.rs
+index c03be2a8fcd..61041da1b2c 100644
+--- a/src/librustc_mir/transform/inline.rs
++++ b/src/librustc_mir/transform/inline.rs
+@@ -238,7 +238,7 @@ impl Inliner<'tcx> {
+ 
+         // Avoid inlining functions marked as no_sanitize if sanitizer is enabled,
+         // since instrumentation might be enabled and performed on the caller.
+-        if self.tcx.sess.opts.debugging_opts.sanitizer.intersects(codegen_fn_attrs.no_sanitize) {
++        if self.tcx.sess.opts.cg.sanitizer.intersects(codegen_fn_attrs.no_sanitize) {
+             return false;
+         }
+ 
+diff --git a/src/librustc_session/config.rs b/src/librustc_session/config.rs
+index c5a866817cb..a9f8c810be9 100644
+--- a/src/librustc_session/config.rs
++++ b/src/librustc_session/config.rs
+@@ -748,7 +748,7 @@ pub fn default_configuration(sess: &Session) -> CrateConfig {
+         }
+     }
+ 
+-    for s in sess.opts.debugging_opts.sanitizer {
++    for s in sess.opts.cg.sanitizer {
+         let symbol = Symbol::intern(&s.to_string());
+         ret.insert((sym::sanitize, Some(symbol)));
+     }
+diff --git a/src/librustc_session/options.rs b/src/librustc_session/options.rs
+index 2ad7d09cbf4..9613a4bb8cd 100644
+--- a/src/librustc_session/options.rs
++++ b/src/librustc_session/options.rs
+@@ -762,6 +762,8 @@ options! {CodegenOptions, CodegenSetter, basic_codegen_options,
+         "print remarks for these optimization passes (space separated, or \"all\")"),
+     rpath: bool = (false, parse_bool, [UNTRACKED],
+         "set rpath values in libs/exes (default: no)"),
++    sanitizer: SanitizerSet = (SanitizerSet::empty(), parse_sanitizers, [TRACKED],
++        "use a sanitizer"),
+     save_temps: bool = (false, parse_bool, [UNTRACKED],
+         "save all temporary output files during compilation (default: no)"),
+     soft_float: bool = (false, parse_bool, [TRACKED],
+@@ -979,8 +981,6 @@ options! {DebuggingOptions, DebuggingSetter, basic_debugging_options,
+     // soon.
+     run_dsymutil: bool = (true, parse_bool, [TRACKED],
+         "if on Mac, run `dsymutil` and delete intermediate object files (default: yes)"),
+-    sanitizer: SanitizerSet = (SanitizerSet::empty(), parse_sanitizers, [TRACKED],
+-        "use a sanitizer"),
+     sanitizer_memory_track_origins: usize = (0, parse_sanitizer_memory_track_origins, [TRACKED],
+         "enable origins tracking in MemorySanitizer"),
+     sanitizer_recover: SanitizerSet = (SanitizerSet::empty(), parse_sanitizers, [TRACKED],
+diff --git a/src/librustc_session/session.rs b/src/librustc_session/session.rs
+index fcd5dab94a6..f43b83b00b1 100644
+--- a/src/librustc_session/session.rs
++++ b/src/librustc_session/session.rs
+@@ -652,7 +652,7 @@ impl Session {
+         let more_names = self.opts.output_types.contains_key(&OutputType::LlvmAssembly)
+             || self.opts.output_types.contains_key(&OutputType::Bitcode)
+             // AddressSanitizer and MemorySanitizer use alloca name when reporting an issue.
+-            || self.opts.debugging_opts.sanitizer.intersects(SanitizerSet::ADDRESS | SanitizerSet::MEMORY);
++            || self.opts.cg.sanitizer.intersects(SanitizerSet::ADDRESS | SanitizerSet::MEMORY);
+ 
+         self.opts.debugging_opts.fewer_names || !more_names
+     }
+@@ -1018,7 +1018,7 @@ impl Session {
+         self.opts.optimize != config::OptLevel::No
+         // AddressSanitizer uses lifetimes to detect use after scope bugs.
+         // MemorySanitizer uses lifetimes to detect use of uninitialized stack variables.
+-        || self.opts.debugging_opts.sanitizer.intersects(SanitizerSet::ADDRESS | SanitizerSet::MEMORY)
++        || self.opts.cg.sanitizer.intersects(SanitizerSet::ADDRESS | SanitizerSet::MEMORY)
+     }
+ }
+ 
+@@ -1363,16 +1363,32 @@ fn validate_commandline_args_with_session_available(sess: &Session) {
+         "x86_64-apple-darwin",
+         "x86_64-fuchsia",
+         "x86_64-unknown-linux-gnu",
++        "x86_64-cros-linux-gnu",
++        "x86_64-pc-linux-gnu",
++    ];
++    const LSAN_SUPPORTED_TARGETS: &[&str] = &[
++        "aarch64-unknown-linux-gnu",
++        "x86_64-apple-darwin",
++        "x86_64-unknown-linux-gnu",
++        "x86_64-cros-linux-gnu",
++        "x86_64-pc-linux-gnu",
++    ];
++    const MSAN_SUPPORTED_TARGETS: &[&str] = &[
++        "aarch64-unknown-linux-gnu",
++        "x86_64-unknown-linux-gnu",
++        "x86_64-cros-linux-gnu",
++        "x86_64-pc-linux-gnu",
++    ];
++    const TSAN_SUPPORTED_TARGETS: &[&str] = &[
++        "aarch64-unknown-linux-gnu",
++        "x86_64-apple-darwin",
++        "x86_64-unknown-linux-gnu",
++        "x86_64-cros-linux-gnu",
++        "x86_64-pc-linux-gnu",
+     ];
+-    const LSAN_SUPPORTED_TARGETS: &[&str] =
+-        &["aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu"];
+-    const MSAN_SUPPORTED_TARGETS: &[&str] =
+-        &["aarch64-unknown-linux-gnu", "x86_64-unknown-linux-gnu"];
+-    const TSAN_SUPPORTED_TARGETS: &[&str] =
+-        &["aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu"];
+ 
+     // Sanitizers can only be used on some tested platforms.
+-    for s in sess.opts.debugging_opts.sanitizer {
++    for s in sess.opts.cg.sanitizer {
+         let supported_targets = match s {
+             SanitizerSet::ADDRESS => ASAN_SUPPORTED_TARGETS,
+             SanitizerSet::LEAK => LSAN_SUPPORTED_TARGETS,
+@@ -1387,10 +1403,10 @@ fn validate_commandline_args_with_session_available(sess: &Session) {
+                 supported_targets.join(", ")
+             ));
+         }
+-        let conflicting = sess.opts.debugging_opts.sanitizer - s;
++        let conflicting = sess.opts.cg.sanitizer - s;
+         if !conflicting.is_empty() {
+             sess.err(&format!(
+-                "`-Zsanitizer={}` is incompatible with `-Zsanitizer={}`",
++                "`-Csanitizer={}` is incompatible with `-Csanitizer={}`",
+                 s, conflicting,
+             ));
+             // Don't report additional errors.
