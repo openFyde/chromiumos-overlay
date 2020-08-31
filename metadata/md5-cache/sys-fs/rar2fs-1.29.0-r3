@@ -9,4 +9,4 @@ LICENSE=GPL-3
 RDEPEND=>=app-arch/unrar-5:= sys-fs/fuse:0
 SLOT=0
 SRC_URI=https://github.com/hasse69/rar2fs/releases/download/v1.29.0/rar2fs-1.29.0.tar.gz
-_md5_=d619070c863370c47f464206fef9ea28
+_md5_=9412938f2aecb37c387060b7a5bdea88
