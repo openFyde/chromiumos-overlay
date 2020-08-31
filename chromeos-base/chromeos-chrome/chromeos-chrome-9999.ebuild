@@ -696,6 +696,9 @@ setup_test_lists() {
 		sandbox_linux_unittests
 		video_decode_accelerator_perf_tests
 		video_decode_accelerator_tests
+		video_encode_accelerator_perf_tests
+		video_encode_accelerator_tests
+		# TODO(crbug.com/1045825): Remove video_encode_accelerator_unittest.
 		video_encode_accelerator_unittest
 		wayland_client_perftests
 	)
