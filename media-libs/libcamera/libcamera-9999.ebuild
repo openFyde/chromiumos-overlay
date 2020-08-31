@@ -5,7 +5,6 @@ EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/libcamera"
 CROS_WORKON_INCREMENTAL_BUILD="1"
-CROS_WORKON_OUTOFTREE_BUILD="1"
 
 inherit cros-workon meson
 
@@ -30,6 +29,8 @@ src_configure() {
 	pipeline_list() {
 		printf '%s,' "$@" | sed 's:,$::'
 	}
+
+	BUILD_DIR="$(cros-workon_get_build_dir)"
 
 	local emesonargs=(
 		$(meson_use doc documentation)
