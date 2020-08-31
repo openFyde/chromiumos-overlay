@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="a778ddc285de2ea294480dd785c9e718d4fe0f83"
-CROS_WORKON_TREE="8156a5b88ad23766aec20df0168b3e2e8f44e3db"
+CROS_WORKON_COMMIT="1939b47819eee36672597060f1cf9254d4cf646d"
+CROS_WORKON_TREE="8e2f4a76dc7e1dca5c2060d404a15ec39a4c3cbe"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 
 DESCRIPTION="coreboot's coreinfo payload"
