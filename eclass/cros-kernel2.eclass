@@ -738,10 +738,13 @@ CONFIG_9P_FS_POSIX_ACL=y
 CONFIG_9P_FS_SECURITY=y
 "
 
+# NB: CONFIG_PPP must be built-in, because it provides the /dev/ppp alias
+# (MODULE_ALIAS_CHARDEV()), which otherwise doesn't play nicely with our udev
+# rules to change its permissions. See also: b/166388882 and crbug.com/864474.
 ppp_desc="PPPoE and ppp support"
 ppp_config="
 CONFIG_PPPOE=m
-CONFIG_PPP=m
+CONFIG_PPP=y
 CONFIG_PPP_BSDCOMP=m
 CONFIG_PPP_DEFLATE=m
 CONFIG_PPP_MPPE=m
