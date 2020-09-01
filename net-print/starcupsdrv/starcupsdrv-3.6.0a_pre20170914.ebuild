@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit eutils
+inherit eutils cros-sanitizers
 
 DESCRIPTION="CUPS filter and PPD files for Star Micronics printers"
 HOMEPAGE="http://www.starmicronics.com"
@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="net-print/cups"
+DEPEND="net-print/cups:="
 RDEPEND="${DEPEND}"
 
 PATCHES=(
@@ -30,6 +30,11 @@ src_unpack() {
 src_prepare() {
 	epatch "${PATCHES[@]}"
 	epatch_user
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_install() {
