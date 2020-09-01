@@ -21,5 +21,6 @@ RDEPEND="
 	dev-rust/dbus-codegen
 	dev-rust/protobuf-codegen
 	sys-apps/mosys
+	sys-apps/ripgrep
 	dev-embedded/coreboot-sdk
 "
