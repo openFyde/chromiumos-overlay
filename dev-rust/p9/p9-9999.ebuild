@@ -5,7 +5,6 @@ EAPI=7
 
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="vm_tools/p9"
 
@@ -46,6 +45,12 @@ src_unpack() {
 }
 
 src_compile() {
+	pushd wire_format_derive > /dev/null || die
+	ecargo_build
+	use test && ecargo_test --no-run
+	popd > /dev/null || die
+
+	ecargo_build
 	use test && ecargo_test --no-run
 
 	if use fuzzer; then
@@ -63,10 +68,10 @@ src_test() {
 }
 
 src_install() {
-	pushd wire_format_derive > /dev/null
+	pushd wire_format_derive > /dev/null || die
 	local version="$(get_crate_version .)"
 	cros-rust_publish wire_format_derive "${version}"
-	popd > /dev/null
+	popd > /dev/null || die
 
 	version="$(get_crate_version .)"
 	cros-rust_publish p9 "${version}"
