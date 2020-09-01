@@ -55,6 +55,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
 	"${FILESDIR}/${P}-no-test-on-build.patch"
 	"${FILESDIR}/${P}-sanitizer-supported.patch"
+	"${FILESDIR}/${P}-cc.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"

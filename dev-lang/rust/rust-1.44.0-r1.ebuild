@@ -56,6 +56,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-no-test-on-build.patch"
 	"${FILESDIR}/${P}-sanitizer-supported.patch"
 	"${FILESDIR}/${P}-cpuid-preserve-rbx.patch"
+	"${FILESDIR}/${P}-cc.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"

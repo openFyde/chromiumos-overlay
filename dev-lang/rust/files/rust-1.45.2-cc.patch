@@ -1,0 +1,50 @@
+If the CC environment variable is set, use its value instead of hardcoding "cc".
+This fixes crbug.com/1090829.
+
+diff --git a/src/librustc_codegen_ssa/back/link.rs b/src/librustc_codegen_ssa/back/link.rs
+index dcce1d4..cf306a4 100644
+--- a/src/librustc_codegen_ssa/back/link.rs
++++ b/src/librustc_codegen_ssa/back/link.rs
+@@ -789,12 +789,12 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
+             (Some(linker), Some(flavor)) => Some((linker, flavor)),
+             // only the linker flavor is known; use the default linker for the selected flavor
+             (None, Some(flavor)) => Some((
+-                PathBuf::from(match flavor {
++                match flavor {
+                     LinkerFlavor::Em => {
+                         if cfg!(windows) {
+-                            "emcc.bat"
++                            "emcc.bat".into()
+                         } else {
+-                            "emcc"
++                            "emcc".into()
+                         }
+                     }
+                     LinkerFlavor::Gcc => {
+@@ -805,16 +805,19 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
+                             // and many modern illumos distributions today
+                             // ship GCC as "gcc" without also making it
+                             // available as "cc".
+-                            "gcc"
++                            "gcc".into()
+                         } else {
+-                            "cc"
++                            match env::var_os("CC") {
++                                Some(path) => path.into(),
++                                None => "cc".into()
++                            }
+                         }
+                     }
+-                    LinkerFlavor::Ld => "ld",
+-                    LinkerFlavor::Msvc => "link.exe",
+-                    LinkerFlavor::Lld(_) => "lld",
+-                    LinkerFlavor::PtxLinker => "rust-ptx-linker",
+-                }),
++                    LinkerFlavor::Ld => "ld".into(),
++                    LinkerFlavor::Msvc => "link.exe".into(),
++                    LinkerFlavor::Lld(_) => "lld".into(),
++                    LinkerFlavor::PtxLinker => "rust-ptx-linker".into(),
++                },
+                 flavor,
+             )),
+             (Some(linker), None) => {
