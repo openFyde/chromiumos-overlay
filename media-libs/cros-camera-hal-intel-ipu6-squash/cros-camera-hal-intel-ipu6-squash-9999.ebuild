@@ -26,6 +26,7 @@ RDEPEND="dev-libs/expat
 	media-libs/cros-camera-libcamera_exif
 	media-libs/cros-camera-libcamera_metadata
 	media-libs/cros-camera-libcamera_v4l2_device
+	ipu6se? ( x11-libs/libva-intel-media-driver )
 	media-libs/libyuv
 	media-libs/libsync"
 
@@ -39,7 +40,7 @@ DEPEND="${RDEPEND}
 src_unpack() {
 	platform_src_unpack
 	cd "${P}/platform2" || die
-	# Generate the patch under platform2 by 'git format-patch HEAD^'
+	# Generate the patches under platform2 by 'git format-patch <parent_commit>'
 	eapply "${FILESDIR}/0001-intel-ipu6-Add-initial-code-1st-part.patch"
 	eapply "${FILESDIR}/0002-intel-ipu6-Add-initial-code-2nd-part.patch"
 }
@@ -48,7 +49,10 @@ src_install() {
 	dolib.so "${OUT}/lib/libcamhal.so"
 	cros-camera_dohal "${OUT}/lib/libcamhal.so" intel-ipu6.so
 	dolib.so "${OUT}/lib/libcam_algo.so"
-	dolib.so "${OUT}/lib/libcam_gpu_algo.so"
+
+	if use ipu6se; then
+		dolib.so "${OUT}/lib/libcam_gpu_algo.so"
+	fi
 
 	udev_dorules "${FILESDIR}/50-ipu-psys0.rules"
 	udev_dorules "${FILESDIR}/99-mipicam.rules"

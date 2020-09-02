@@ -1,7 +1,7 @@
-From 2f4305a0c633ce074bf6ca502455be474a25616c Mon Sep 17 00:00:00 2001
+From fe9b736c010223bfbaed42e4587d37f50a604a77 Mon Sep 17 00:00:00 2001
 From: Tianshu Qiu <tian.shu.qiu@intel.com>
 Date: Wed, 30 Oct 2019 10:03:39 +0800
-Subject: [PATCH 1/2] intel:ipu6: Add initial code (1st part)
+Subject: [PATCH] intel:ipu6: Add initial code (1st part)
 
 Add initial code in src/platform2/camera/hal/intel/ipu6
 1.HAL code
@@ -11,7 +11,7 @@ Add initial code in src/platform2/camera/hal/intel/ipu6
 Change-Id: Ie8fbf5df647e72c2733a67c07d82f9d565b17d1a
 Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
 ---
- camera/hal/intel/ipu6/BUILD.gn                |  482 +++
+ camera/hal/intel/ipu6/BUILD.gn                |  475 +++
  .../hal/intel/ipu6/aal/Camera3AMetadata.cpp   |  132 +
  camera/hal/intel/ipu6/aal/Camera3AMetadata.h  |   51 +
  camera/hal/intel/ipu6/aal/Camera3HAL.cpp      |  249 ++
@@ -60,7 +60,7 @@ Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
  .../intel/ipu6/modules/algowrapper/IntelMkn.h |   35 +
  .../ipu6/modules/algowrapper/IntelPGParam.cpp | 1196 ++++++++
  .../ipu6/modules/algowrapper/IntelPGParam.h   |  237 ++
- .../ipu6/modules/algowrapper/IntelTNR7US.cpp  |  184 ++
+ .../ipu6/modules/algowrapper/IntelTNR7US.cpp  |  190 ++
  .../ipu6/modules/algowrapper/IntelTNR7US.h    |  108 +
  .../ipu6/modules/algowrapper/StatsTypes.h     |   46 +
  .../algowrapper/graph/GraphConfigImpl.cpp     |  859 ++++++
@@ -117,7 +117,7 @@ Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
  .../ipu6/modules/sandboxing/client/IntelMkn.h |   54 +
  .../sandboxing/client/IntelPGParam.cpp        |  294 ++
  .../modules/sandboxing/client/IntelPGParam.h  |   71 +
- .../modules/sandboxing/client/IntelTNR7US.cpp |  161 +
+ .../modules/sandboxing/client/IntelTNR7US.cpp |  162 +
  .../modules/sandboxing/client/IntelTNR7US.h   |   54 +
  .../sandboxing/server/GraphConfigServer.cpp   |  164 +
  .../sandboxing/server/GraphConfigServer.h     |   44 +
@@ -277,8 +277,8 @@ Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
  .../intel/ipu6/src/jpeg/sw/SWJpegEncoder.h    |  186 ++
  .../ipu6/src/metadata/CameraMetadata.cpp      |  435 +++
  .../intel/ipu6/src/metadata/CameraMetadata.h  |  200 ++
- .../ipu6/src/metadata/ParameterGenerator.cpp  |  378 +++
- .../ipu6/src/metadata/ParameterGenerator.h    |  115 +
+ .../ipu6/src/metadata/ParameterGenerator.cpp  |  381 +++
+ .../ipu6/src/metadata/ParameterGenerator.h    |  110 +
  .../ipu6/src/metadata/ParameterHelper.cpp     |   84 +
  .../intel/ipu6/src/metadata/ParameterHelper.h |  142 +
  .../intel/ipu6/src/metadata/Parameters.cpp    | 2026 +++++++++++++
@@ -309,15 +309,15 @@ Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
  .../ipu6/src/platformdata/gc/IGraphConfig.h   |  203 ++
  .../src/platformdata/gc/IGraphConfigManager.h |   43 +
  .../src/platformdata/gc/custom_gcss_keys.h    |   50 +
- .../hal/intel/ipu6/src/v4l2/MediaControl.cpp  | 1116 +++++++
- camera/hal/intel/ipu6/src/v4l2/MediaControl.h |  302 ++
+ .../hal/intel/ipu6/src/v4l2/MediaControl.cpp  | 1155 +++++++
+ camera/hal/intel/ipu6/src/v4l2/MediaControl.h |  305 ++
  camera/hal/intel/ipu6/src/v4l2/NodeInfo.cpp   |   53 +
  camera/hal/intel/ipu6/src/v4l2/NodeInfo.h     |   50 +
  camera/hal/intel/ipu6/src/v4l2/SysCall.cpp    |  212 ++
  camera/hal/intel/ipu6/src/v4l2/SysCall.h      |   87 +
  .../intel/ipu6/src/v4l2/V4l2DeviceFactory.cpp |  126 +
  .../intel/ipu6/src/v4l2/V4l2DeviceFactory.h   |   61 +
- 306 files changed, 82476 insertions(+)
+ 306 files changed, 82516 insertions(+)
  create mode 100644 camera/hal/intel/ipu6/BUILD.gn
  create mode 100644 camera/hal/intel/ipu6/aal/Camera3AMetadata.cpp
  create mode 100644 camera/hal/intel/ipu6/aal/Camera3AMetadata.h
@@ -627,10 +627,10 @@ Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
 
 diff --git a/camera/hal/intel/ipu6/BUILD.gn b/camera/hal/intel/ipu6/BUILD.gn
 new file mode 100644
-index 000000000000..69ad531a0fda
+index 000000000000..c63fdd8413d7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/BUILD.gn
-@@ -0,0 +1,482 @@
+@@ -0,0 +1,475 @@
 +#
 +#  Copyright (C) 2019-2020 Intel Corporation
 +#
@@ -651,8 +651,12 @@ index 000000000000..69ad531a0fda
 +  deps = [
 +    ":libcam_algo",
 +    ":libcamhal",
-+    ":libcam_gpu_algo",
 +  ]
++  if (use.ipu6se) {
++    deps += [
++      ":libcam_gpu_algo",
++    ]
++  }
 +}
 +
 +shared_library("libcamhal") {
@@ -872,10 +876,8 @@ index 000000000000..69ad531a0fda
 +    ]
 +    include_dirs += [
 +      "modules/ia_css/ipu6se/include",
-+      "include/igfxcmrt",
 +    ]
 +    libs += [
-+      "tnr7_cm",
 +      "broxton_ia_pal",
 +    ]
 +    defines += [
@@ -1047,71 +1049,62 @@ index 000000000000..69ad531a0fda
 +  deps = [ "//camera/common/libcamera_ipc:libcamera_ipc_mojom" ]
 +}
 +
-+shared_library("libcam_gpu_algo") {
-+  sources = [
-+    "src/iutils/Utils.cpp",
-+    "src/iutils/Trace.cpp",
-+    "src/iutils/ScopedAtrace.cpp",
-+    "src/iutils/Thread.cpp",
-+    "src/iutils/CameraLog.cpp",
-+    "modules/sandboxing/IPCCommon.cpp",
-+    "modules/sandboxing/server/IntelAlgoServer.cpp",
-+    "modules/sandboxing/server/IntelGPUAlgoServer.cpp",
-+  ]
-+  include_dirs = [
-+    ".",
-+    "include",
-+    "include/api",
-+    "include/utils",
-+    "include/linux",
-+    "src",
-+    "src/core",
-+    "src/platformdata",
-+    "src/3a",
-+    "src/platformdata/gc",
-+    "src/iutils",
-+    "src/metadata",
-+    "src/v4l2",
-+    "include",
-+    "include/ia_imaging",
-+    "include/gcss",
-+  ]
-+  defines = [
-+    "CAL_BUILD",
-+    "IPU_SYSVER_IPU6",
-+    "HAVE_LINUX_OS",
-+    "__STDC_FORMAT_MACROS",
-+    "HAVE_PTHREADS",
-+    "CAMERA_HAL_DEBUG",
-+    "ENABLE_SANDBOXING",
-+    "IPU_SYSVER_ipu6v3",
-+    "GPU_ALGO_SERVER",
-+  ]
-+  libs = [
-+    "ia_log",
-+  ]
-+  pkg_deps = [
-+    "cros-camera-android-headers",
-+    "libcab",
-+    "libmojo-${libbase_ver}",
-+  ]
-+
-+  if (use.ipu6se) {
-+    sources += [
++if (use.ipu6se) {
++  shared_library("libcam_gpu_algo") {
++    sources = [
++      "src/iutils/Utils.cpp",
++      "src/iutils/Trace.cpp",
++      "src/iutils/ScopedAtrace.cpp",
++      "src/iutils/Thread.cpp",
++      "src/iutils/CameraLog.cpp",
++      "modules/sandboxing/IPCCommon.cpp",
++      "modules/sandboxing/server/IntelAlgoServer.cpp",
++      "modules/sandboxing/server/IntelGPUAlgoServer.cpp",
 +      "modules/sandboxing/server/IntelTNRServer.cpp",
 +      "modules/algowrapper/IntelTNR7US.cpp",
 +    ]
-+    defines += [
++    include_dirs = [
++      ".",
++      "include",
++      "include/api",
++      "include/utils",
++      "include/linux",
++      "src",
++      "src/core",
++      "src/platformdata",
++      "src/3a",
++      "src/platformdata/gc",
++      "src/iutils",
++      "src/metadata",
++      "src/v4l2",
++      "include",
++      "include/ia_imaging",
++      "include/gcss",
++    ]
++    defines = [
++      "CAL_BUILD",
++      "IPU_SYSVER_IPU6",
++      "HAVE_LINUX_OS",
++      "__STDC_FORMAT_MACROS",
++      "HAVE_PTHREADS",
++      "CAMERA_HAL_DEBUG",
++      "ENABLE_SANDBOXING",
++      "IPU_SYSVER_ipu6v3",
++      "GPU_ALGO_SERVER",
 +      "TNR7_CM",
 +    ]
-+    libs += [
++    libs = [
++      "ia_log",
 +      "tnr7_cm",
 +    ]
-+    include_dirs += [
-+      "include/igfxcmrt",
++    pkg_deps = [
++      "cros-camera-android-headers",
++      "libcab",
++      "igfxcmrt",
++      "libmojo-${libbase_ver}",
 +    ]
++    deps = [ "//camera/common/libcamera_ipc:libcamera_ipc_mojom" ]
 +  }
-+  deps = [ "//camera/common/libcamera_ipc:libcamera_ipc_mojom" ]
 +}
 diff --git a/camera/hal/intel/ipu6/aal/Camera3AMetadata.cpp b/camera/hal/intel/ipu6/aal/Camera3AMetadata.cpp
 new file mode 100644
@@ -4437,7 +4430,7 @@ index 000000000000..2f7cf7c3b5fe
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/MetadataConvert.cpp b/camera/hal/intel/ipu6/aal/MetadataConvert.cpp
 new file mode 100644
-index 000000000000..8315102ddd60
+index 000000000000..192321348181
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/MetadataConvert.cpp
 @@ -0,0 +1,2247 @@
@@ -5615,12 +5608,6 @@ index 000000000000..8315102ddd60
 +        settings->update(ANDROID_SENSOR_SENSITIVITY, &iso, 1);
 +    }
 +
-+    float fps;
-+    if (parameter.getFrameRate(fps) == icamera::OK) {
-+        int64_t duration = NSEC_PER_SEC / fps;
-+        settings->update(ANDROID_SENSOR_FRAME_DURATION, &duration, 1);
-+    }
-+
 +    icamera::camera_test_pattern_mode_t halTestPatternMode = icamera::TEST_PATTERN_OFF;
 +    if (parameter.getTestPatternMode(halTestPatternMode) == icamera::OK) {
 +        int32_t androidPatternMode = ANDROID_SENSOR_TEST_PATTERN_MODE_OFF;
@@ -5639,6 +5626,12 @@ index 000000000000..8315102ddd60
 +    if (entry.count == 1) {
 +        int64_t rollingShutter = entry.data.i64[0] * 1000;  // us -> ns
 +        settings->update(ANDROID_SENSOR_ROLLING_SHUTTER_SKEW, &rollingShutter, entry.count);
++    }
++
++    tag = CAMERA_SENSOR_FRAME_DURATION;
++    entry = meta.find(tag);
++    if (entry.count == 1) {
++        settings->update(ANDROID_SENSOR_FRAME_DURATION, entry.data.i64, entry.count);
 +    }
 +
 +    return icamera::OK;
@@ -14974,10 +14967,10 @@ index 000000000000..154704d36c22
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.cpp
 new file mode 100644
-index 000000000000..38fc2e9af95a
+index 000000000000..fb23fc0b1cf0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.cpp
-@@ -0,0 +1,184 @@
+@@ -0,0 +1,190 @@
 +/*
 + * Copyright (C) 2020 Intel Corporation
 + *
@@ -15087,6 +15080,8 @@ index 000000000000..38fc2e9af95a
 +
 +int IntelTNR7US::runTnrFrame(const void* inBufAddr, void* outBufAddr, uint32_t inBufSize,
 +                             uint32_t outBufSize, Tnr7Param* tnrParam, bool isUsrPtr) {
++    CheckError(inBufAddr == nullptr || outBufAddr == nullptr || tnrParam == nullptr, UNKNOWN_ERROR,
++               "@%s, buffer is nullptr", __func__);
 +    /* the outBufAddr can be the reference buffer ptr from client or usr data ptr
 +     * isUsrPtr is used to identify the source */
 +    if (tnrParam->bc.is_first_frame) {
@@ -15105,16 +15100,20 @@ index 000000000000..38fc2e9af95a
 +    if (!isUsrPtr) {
 +        // the outBuf is reference buffer ptr, get the it's surface
 +        mRefSurface[mRefBufIndex] = getBufferCMSurface(outBufAddr);
-+        CheckError(mRefSurface[mRefBufIndex] == nullptr, UNKNOWN_ERROR,
-+                   "Failed to get CMSurface for output buffer");
++    } else {
++        mRefSurface[mRefBufIndex] = getBufferCMSurface(mRefBufAddr[mRefBufIndex]);
 +    }
++    CheckError(mRefSurface[mRefBufIndex] == nullptr, UNKNOWN_ERROR,
++               "Failed to get CMSurface for output buffer");
++
 +    /* call Tnr api, it will run tnr for the inSurface and store the result in refSurface[0]
 +    ** in next frame, the refSurface[0] will be the reference buffer, the tnr keeps a pointer
 +    ** to it, and refSurface[1] will used to store the tnr result.
 +    */
-+    run_tnr7us_frame(mWidth, mHeight, mWidth, inSurface, mRefSurface[mRefBufIndex],
-+                     &tnrParam->scale, &tnrParam->ims, &tnrParam->bc, &tnrParam->blend,
-+                     tnrParam->bc.is_first_frame);
++    int ret = run_tnr7us_frame(mWidth, mHeight, mWidth, inSurface, mRefSurface[mRefBufIndex],
++                               &tnrParam->scale, &tnrParam->ims, &tnrParam->bc, &tnrParam->blend,
++                               tnrParam->bc.is_first_frame);
++    CheckError(ret != OK, UNKNOWN_ERROR, "%s, Failed to run TNR", __func__);
 +
 +    if (isUsrPtr) {
 +        /* when the outBufAddr is not from the client, then it is usr data,
@@ -15164,7 +15163,7 @@ index 000000000000..38fc2e9af95a
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.h
 new file mode 100644
-index 000000000000..7d3efd77985a
+index 000000000000..7bb7da7af9c1
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.h
 @@ -0,0 +1,108 @@
@@ -15192,7 +15191,7 @@ index 000000000000..7d3efd77985a
 +#include <unordered_map>
 +extern "C" {
 +#include "ia_pal_types_isp_parameters_autogen.h"
-+#include "tnr7_ipu3_output_interface.h"
++#include "tnr7us_parameters_definition.h"
 +}
 +
 +#include "PlatformData.h"
@@ -15210,9 +15209,9 @@ index 000000000000..7d3efd77985a
 +#pragma clang diagnostic pop
 +
 +extern int run_tnr7us_frame(int width, int height, int stride, CmSurface2DUP*& inputSurface,
-+                            CmSurface2DUP*& outputSurface, tnr_scale_1_0_t* dsPtr_ipu3,
-+                            tnr7_ims_1_0_t* imsPtr_ipu3, tnr7_bc_1_0_t* bcPtr_ipu3,
-+                            tnr7_blend_1_0_t* blendPtr_ipu3, bool first_frame);
++                            CmSurface2DUP*& outputSurface, tnr_scale_1_0_t* dsPtr,
++                            tnr7_ims_1_0_t* imsPtr, tnr7_bc_1_0_t* bcPtr,
++                            tnr7_blend_1_0_t* blendPtr, bool first_frame);
 +
 +extern int32_t createCmSurface2DUP(uint32_t width, uint32_t height, CM_SURFACE_FORMAT format,
 +                                   void* sysMem, CmSurface2DUP*& surface);
@@ -29412,10 +29411,10 @@ index 000000000000..c26a52553224
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelTNR7US.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelTNR7US.cpp
 new file mode 100644
-index 000000000000..89f28d5c3b33
+index 000000000000..bb8e68e5c8c5
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelTNR7US.cpp
-@@ -0,0 +1,161 @@
+@@ -0,0 +1,162 @@
 +/*
 + * Copyright (C) 2020 Intel Corporation
 + *
@@ -29514,7 +29513,7 @@ index 000000000000..89f28d5c3b33
 +}
 +
 +void* IntelTNR7US::allocCamBuf(uint32_t bufSize, int id) {
-+    LOG1("%s size %d", __func__, bufSize);
++    LOG1("Enter %s size %d", __func__, bufSize);
 +    uintptr_t personal = reinterpret_cast<uintptr_t>(this);
 +    std::string initName = "/TnrCam" + std::to_string(personal) + std::to_string(id) + "Shm";
 +    ShmMemInfo shm;
@@ -29528,6 +29527,7 @@ index 000000000000..89f28d5c3b33
 +        return nullptr;
 +    }
 +    mCamBufMems.push_back(shm);
++    LOG1("Exit %s Fd: %d", __func__, shm.mFd);
 +
 +    return shm.mAddr;
 +}
@@ -50356,7 +50356,7 @@ index 000000000000..c0a6af883817
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/core/TNRCommon.h b/camera/hal/intel/ipu6/src/core/TNRCommon.h
 new file mode 100644
-index 000000000000..f5d80ff96e85
+index 000000000000..9032c4539f53
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/TNRCommon.h
 @@ -0,0 +1,45 @@
@@ -50379,7 +50379,7 @@ index 000000000000..f5d80ff96e85
 +#pragma once
 +
 +#include "ia_pal_types_isp_parameters_autogen.h"
-+#include "tnr7_ipu3_output_interface.h"
++#include "tnr7us_parameters_definition.h"
 +
 +#define TNR7US_REFERENCE_BUFFER_COUNT 2
 +#define TNR7US_RESTART_THRESHOLD 3
@@ -67207,10 +67207,10 @@ index 000000000000..6acf03e91989
 +} // namespace android
 diff --git a/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.cpp b/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.cpp
 new file mode 100644
-index 000000000000..0dbdca736e7c
+index 000000000000..8c40513cab1f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.cpp
-@@ -0,0 +1,378 @@
+@@ -0,0 +1,381 @@
 +/*
 + * Copyright (C) 2015-2020 Intel Corporation.
 + *
@@ -67250,7 +67250,6 @@ index 000000000000..0dbdca736e7c
 +
 +ParameterGenerator::ParameterGenerator(int cameraId) :
 +    mCameraId(cameraId),
-+    mLastSequence(-1),
 +    mTonemapMaxCurvePoints(0)
 +{
 +    LOG1("%s, mCameraId = %d", __func__, mCameraId);
@@ -67291,11 +67290,8 @@ index 000000000000..0dbdca736e7c
 +{
 +    LOG1("%s, mCameraId = %d", __func__, mCameraId);
 +    AutoMutex l(mParamsLock);
-+    for (int i = 0; i < kStorageSize; i++) {
-+        mRequestParams[i].reset();
-+    }
++    mRequestParamMap.clear();
 +
-+    mLastSequence = -1;
 +    return OK;
 +}
 +
@@ -67304,17 +67300,24 @@ index 000000000000..0dbdca736e7c
 +    CHECK_REQUEST_ID(requestId);
 +    CHECK_SEQUENCE(sequence);
 +
-+    long index = sequence % kStorageSize;
-+
 +    AutoMutex l(mParamsLock);
-+    mLastSequence = sequence;
 +    if (param)
 +        mLastParam = *param;
 +
 +    LOG2("%s, sequence %ld", __func__, sequence);
-+    mRequestParams[index].sequence = sequence;
-+    mRequestParams[index].requestId = requestId;
-+    mRequestParams[index].param = mLastParam;
++    std::shared_ptr<RequestParam> requestParam = nullptr;
++    if (mRequestParamMap.size() < kStorageSize) {
++        requestParam = std::make_shared<RequestParam>();
++    } else {
++        auto it = mRequestParamMap.begin();
++        requestParam = it->second;
++        mRequestParamMap.erase(it->first);
++    }
++
++    requestParam->requestId = requestId;
++    requestParam->param = mLastParam;
++
++    mRequestParamMap[sequence] = requestParam;
 +    return OK;
 +}
 +
@@ -67323,47 +67326,56 @@ index 000000000000..0dbdca736e7c
 +    CheckError(!param, VOID_VALUE, "The param is nullptr!");
 +
 +    LOG2("%s, sequence %ld", __func__, sequence);
-+    long index = sequence % kStorageSize;
 +
 +    AutoMutex l(mParamsLock);
++    std::shared_ptr<RequestParam> requestParam = nullptr;
++    if (mRequestParamMap.find(sequence) != mRequestParamMap.end()) {
++        requestParam = mRequestParamMap[sequence];
++    } else {
++        auto it = mRequestParamMap.begin();
++        requestParam = it->second;
++        mRequestParamMap.erase(it->first);
++    }
 +    int32_t userRequestId = 0;
 +    int ret = param->getUserRequestId(userRequestId);
 +    if (ret == OK) {
-+        mRequestParams[index].param.setUserRequestId(userRequestId);
++        requestParam->param.setUserRequestId(userRequestId);
 +    }
 +    // Update Jpeg related settings
 +    int rotation = 0;
 +    ret = param->getJpegRotation(rotation);
 +    if (ret == OK) {
-+        mRequestParams[index].param.setJpegRotation(rotation);
++        requestParam->param.setJpegRotation(rotation);
 +    }
 +    uint8_t quality = 0;
 +    ret = param->getJpegQuality(&quality);
 +    if (ret == OK) {
-+        mRequestParams[index].param.setJpegQuality(quality);
++        requestParam->param.setJpegQuality(quality);
 +    }
 +    int64_t timestamp = 0;
 +    ret = param->getJpegGpsTimeStamp(timestamp);
 +    if (ret == OK) {
-+        mRequestParams[index].param.setJpegGpsTimeStamp(timestamp);
++        requestParam->param.setJpegGpsTimeStamp(timestamp);
 +    }
 +    double gpsCoordinates[3] = { 0 };
 +    int retLat = param->getJpegGpsLatitude(gpsCoordinates[0]);
 +    int retLon = param->getJpegGpsLongitude(gpsCoordinates[1]);
 +    int retAlt = param->getJpegGpsAltitude(gpsCoordinates[2]);
 +    if (retLat == OK && retLon == OK && retAlt == OK) {
-+        mRequestParams[index].param.setJpegGpsCoordinates(gpsCoordinates);
++        requestParam->param.setJpegGpsCoordinates(gpsCoordinates);
 +    }
 +    camera_resolution_t res;
 +    ret = param->getJpegThumbnailSize(res);
 +    if (ret == OK) {
-+        mRequestParams[index].param.setJpegThumbnailSize(res);
++        requestParam->param.setJpegThumbnailSize(res);
 +    }
 +    quality = 0;
 +    ret = param->getJpegThumbnailQuality(&quality);
 +    if (ret == OK) {
-+        mRequestParams[index].param.setJpegThumbnailQuality(quality);
++        requestParam->param.setJpegThumbnailQuality(quality);
 +    }
++
++    mRequestParamMap[sequence] = requestParam;
 +}
 +
 +int ParameterGenerator::getParameters(long sequence, Parameters *param, bool resultOnly)
@@ -67373,17 +67385,8 @@ index 000000000000..0dbdca736e7c
 +    if (!resultOnly && sequence < 0) {
 +        *param = mLastParam;
 +    } else if (!resultOnly) {
-+        long pos = -1;
-+        for (long seq = sequence; (seq > (sequence - kStorageSize)) && (seq >= 0); seq--) {
-+            long index = seq % kStorageSize;
-+            if (seq == mRequestParams[index].sequence) {
-+                pos = index;
-+                break;
-+            }
-+        }
-+
-+        if (pos >= 0) {
-+            *param = mRequestParams[pos].param;
++        if (mRequestParamMap.find(sequence) != mRequestParamMap.end()) {
++            *param = mRequestParamMap[sequence]->param;
 +        } else {
 +            LOGE("Can't find settings for seq %ld", sequence);
 +        }
@@ -67396,29 +67399,29 @@ index 000000000000..0dbdca736e7c
 +int ParameterGenerator::getUserRequestId(long sequence, int32_t& userRequestId)
 +{
 +    CHECK_SEQUENCE(sequence);
-+    long index = sequence % kStorageSize;
 +
 +    AutoMutex l(mParamsLock);
-+    CheckError((sequence != mRequestParams[index].sequence), UNKNOWN_ERROR,
-+               "Can't find requestId for seq %ld, saved %ld",
-+               sequence, mRequestParams[index].sequence);
++    if (mRequestParamMap.find(sequence) != mRequestParamMap.end()) {
++        return mRequestParamMap[sequence]->param.getUserRequestId(userRequestId);
++    }
 +
-+    return mRequestParams[index].param.getUserRequestId(userRequestId);
++    LOGE("Can't find user requestId for seq %ld", sequence);
++    return UNKNOWN_ERROR;
 +}
 +
 +int ParameterGenerator::getRequestId(long sequence, long& requestId)
 +{
 +    CHECK_SEQUENCE(sequence);
 +    requestId = -1;
-+    long index = sequence % kStorageSize;
 +
 +    AutoMutex l(mParamsLock);
-+    CheckError((sequence != mRequestParams[index].sequence), UNKNOWN_ERROR,
-+        "Can't find requestId for seq %ld, saved %ld:%ld",
-+        sequence, mRequestParams[index].requestId, mRequestParams[index].sequence);
++    if (mRequestParamMap.find(sequence) != mRequestParamMap.end()) {
++        requestId = mRequestParamMap[sequence]->requestId;
++        return OK;
++    }
 +
-+    requestId = mRequestParams[index].requestId;
-+    return OK;
++    LOGE("Can't find requestId for seq %ld", sequence);
++    return UNKNOWN_ERROR;
 +}
 +
 +int ParameterGenerator::generateParametersL(long sequence, Parameters *params)
@@ -67448,8 +67451,6 @@ index 000000000000..0dbdca736e7c
 +        params->setExposureTime(aiqResult->mAeResults.exposures[0].exposure->exposure_time_us);
 +    }
 +    params->setSensitivityIso(aiqResult->mAeResults.exposures[0].exposure->iso);
-+    float fps = 1000000.0 / aiqResult->mFrameDuration;
-+    params->setFrameRate(fps);
 +
 +    // Update AWB related parameters
 +    updateAwbGainsL(params, aiqResult->mAwbResults);
@@ -67583,6 +67584,8 @@ index 000000000000..0dbdca736e7c
 +    CameraMetadata metadata;
 +
 +    metadata.update(CAMERA_SENSOR_ROLLING_SHUTTER_SKEW, &aiqResult->mRollingShutter, 1);
++    int64_t frameDuration = aiqResult->mFrameDuration * 1000;  // us -> ns
++    metadata.update(CAMERA_SENSOR_FRAME_DURATION, &frameDuration, 1);
 +
 +    ParameterHelper::merge(metadata, params);
 +    return OK;
@@ -67591,10 +67594,10 @@ index 000000000000..0dbdca736e7c
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.h b/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.h
 new file mode 100644
-index 000000000000..91f3c427ee0d
+index 000000000000..20ffcc79c0d3
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.h
-@@ -0,0 +1,115 @@
+@@ -0,0 +1,110 @@
 +/*
 + * Copyright (C) 2015-2020 Intel Corporation.
 + *
@@ -67614,6 +67617,7 @@ index 000000000000..91f3c427ee0d
 +#pragma once
 +
 +#include <memory>
++#include <map>
 +
 +#include "iutils/Thread.h"
 +#include "Parameters.h"
@@ -67675,16 +67679,10 @@ index 000000000000..91f3c427ee0d
 +
 +    class RequestParam {
 +    public:
-+        RequestParam() : sequence(-1), requestId(-1) {}
++        RequestParam() : requestId(-1) {}
 +
 +        ~RequestParam() {}
 +
-+        void reset() {
-+            sequence = -1;
-+            requestId = -1;
-+        }
-+
-+        long sequence;
 +        long requestId;
 +        Parameters param;
 +
@@ -67699,8 +67697,8 @@ index 000000000000..91f3c427ee0d
 +
 +    // Guard for ParameterGenerator public API.
 +    Mutex mParamsLock;
-+    RequestParam mRequestParams[kStorageSize];
-+    long mLastSequence;
++    // first: sequence id, second: RequestParam data
++    std::map<long, std::shared_ptr<RequestParam>> mRequestParamMap;
 +    Parameters mLastParam;
 +
 +    std::unique_ptr<float[]> mTonemapCurveRed;
@@ -82884,10 +82882,10 @@ index 000000000000..624d750c868d
 +GCSS_KEY (MC_ID, mc_id)
 diff --git a/camera/hal/intel/ipu6/src/v4l2/MediaControl.cpp b/camera/hal/intel/ipu6/src/v4l2/MediaControl.cpp
 new file mode 100644
-index 000000000000..0b530c394e90
+index 000000000000..c3b84fde440b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/MediaControl.cpp
-@@ -0,0 +1,1116 @@
+@@ -0,0 +1,1155 @@
 +/*
 + * Copyright (C) 2011 The Android Open Source Project
 + * Copyright (C) 2015-2020 Intel Corporation
@@ -82953,13 +82951,52 @@ index 000000000000..0b530c394e90
 +MediaControl *MediaControl::sInstance = nullptr;
 +Mutex MediaControl::sLock;
 +
++MediaControl* MediaControl::getMediaControlInstance() {
++    MediaControl* mediaControlInstance = nullptr;
++
++    for (int i = 0; i < MEDIA_DEVICE_MAX_NUM; i++) {
++        std::string fileName = MEDIA_CTL_DEV_NAME;
++        fileName.append(std::to_string(i));
++
++        struct stat fileStat = {};
++        int ret = stat(fileName.c_str(), &fileStat);
++        if (ret != 0) {
++            LOG2("%s: There is no file %s", __func__, fileName.c_str());
++            continue;
++        }
++
++        SysCall *sc = SysCall::getInstance();
++        int fd = sc->open(fileName.c_str(), O_RDWR);
++        CheckError(fd < 0, nullptr, "%s: Error open media device %s:%s", __func__, fileName.c_str(),
++                   strerror(errno));
++
++        media_device_info info;
++        ret = sc->ioctl(fd, MEDIA_IOC_DEVICE_INFO, &info);
++        if ((ret != -1) &&
++            (0 == strncmp(info.driver, MEDIA_DRIVER_NAME, strlen(MEDIA_DRIVER_NAME)))) {
++            mediaControlInstance = new MediaControl(fileName.c_str());
++        }
++
++        if (sc->close(fd) < 0) {
++            LOGE("%s: Error close media device %s:%s", __func__, fileName.c_str(), strerror(errno));
++        }
++
++        if (mediaControlInstance) {
++            LOG2("%s: media device name:%s", __func__, fileName.c_str());
++            break;
++        }
++    }
++
++    return mediaControlInstance;
++}
++
 +/*static*/ MediaControl*
 +MediaControl::getInstance()
 +{
 +    LOG1("%s", __func__);
 +    AutoMutex lock(sLock);
 +    if (!sInstance) {
-+        sInstance = new MediaControl(MEDIACTLDEVNAME);
++        sInstance = getMediaControlInstance();
 +    }
 +    return sInstance;
 +}
@@ -84006,10 +84043,10 @@ index 000000000000..0b530c394e90
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/v4l2/MediaControl.h b/camera/hal/intel/ipu6/src/v4l2/MediaControl.h
 new file mode 100644
-index 000000000000..bf2850731f08
+index 000000000000..0e3d284d0a83
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/MediaControl.h
-@@ -0,0 +1,302 @@
+@@ -0,0 +1,305 @@
 +/*
 + * Copyright (C) 2015-2020 Intel Corporation.
 + *
@@ -84058,7 +84095,9 @@ index 000000000000..bf2850731f08
 +struct MediaPad;
 +struct MediaLink;
 +
-+#define MEDIACTLDEVNAME "/dev/media0"
++#define MEDIA_CTL_DEV_NAME "/dev/media"
++#define MEDIA_DRIVER_NAME "intel-ipu"
++#define MEDIA_DEVICE_MAX_NUM 256
 +
 +enum {
 +    FC_FORMAT = 0,
@@ -84264,6 +84303,7 @@ index 000000000000..bf2850731f08
 +    MediaControl(const char *devName);
 +    ~MediaControl();
 +
++    static MediaControl* getMediaControlInstance();
 +    int openDevice();
 +    void closeDevice(int fd);
 +
