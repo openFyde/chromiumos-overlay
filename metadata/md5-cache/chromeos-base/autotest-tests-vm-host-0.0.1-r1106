@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile info install postinst prepare setup unpack
+DESCRIPTION=kvm host autotests
+EAPI=5
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/autotest/
+IUSE=+autotest +tests_vm_CrosVmStart cros_host cros_workon_tree_a364bf414b3dbad40abff43634296642f6ad86ab +buildcheck autotest opengles
+KEYWORDS=*
+LICENSE=GPL-2
+PROPERTIES=live
+RDEPEND=autotest? ( chromeos-base/autotest )
+SLOT=0
+_eclasses_=autotest	605b7cb5c6f24c3d362106dee3d4b20e	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	283f9d5b283c8e210a5c8fa89c8f722f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=c2e0e11c92820ac8bb394b52a7d72520
