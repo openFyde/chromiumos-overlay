@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="13e03ee133f7ee3764c5be8412649e203cdf7956"
-CROS_WORKON_TREE="95a41e8434148a3cb8f7886090bae34ca5f3c9c7"
+CROS_WORKON_COMMIT="f8f4c9b5ae3dc82f0ee2aadfbb3aaaedcf3e0bf9"
+CROS_WORKON_TREE="444693b41f61f1434fc97c8900dabcedb36fa9da"
 CROS_WORKON_PROJECT="chromiumos/third_party/tpm2"
 CROS_WORKON_LOCALNAME="third_party/tpm2"
 
@@ -14,6 +14,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/tpm2/"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+IUSE="tpm2_simulator"
 
 DEPEND="dev-libs/openssl:0="
 
@@ -47,4 +48,7 @@ src_install() {
 	doins swap.h
 	doins tpm_generated.h
 	doins tpm_types.h
+	if use tpm2_simulator; then
+		doins tpm_manufacture.h
+	fi
 }
