@@ -382,6 +382,7 @@ ALL_BOARDS=(
 	stout
 	#stout32
 	strago
+	strongbad
 	stumpy
 	stumpy_moblab
 	stumpy_pico
