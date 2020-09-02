@@ -21,7 +21,7 @@ PLATFORM_SUBDIR="arc/keymaster"
 # This BoringSSL integration follows go/boringssl-cros.
 # DO NOT COPY TO OTHER PACKAGES WITHOUT CONSULTING SECURITY TEAM.
 BORINGSSL_PN="boringssl"
-BORINGSSL_PV="3359"
+BORINGSSL_PV="430a7423039682e4bbc7b522e3b57b2c8dca5e3b"
 BORINGSSL_P="${BORINGSSL_PN}-${BORINGSSL_PV}"
 BORINGSSL_OUTDIR="${WORKDIR}/boringssl_outputs/"
 
@@ -81,11 +81,6 @@ src_prepare() {
 	# Expose BoringSSL headers and outputs.
 	append-cxxflags "-I${WORKDIR}/${BORINGSSL_P}/include"
 	append-ldflags "-L${BORINGSSL_OUTDIR}"
-	# Backport clang fallthru patches to fix newer clang builds.
-	# https://boringssl-review.googlesource.com/c/boringssl/+/37244
-	# https://boringssl-review.googlesource.com/c/boringssl/+/37247
-	cd "${WORKDIR}/${BORINGSSL_P}" || die
-	eapply "${FILESDIR}"/boringssl-clang-fallthru.patch
 	# Verify upstream hasn't changed relevant context code.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
 	eapply --dry-run "${FILESDIR}/keymaster-context-hooks.patch"
@@ -93,6 +88,8 @@ src_prepare() {
 	# keymaster that contains https://r.android.com/1412947.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
 	eapply "${FILESDIR}/0001-keymaster-fix-C-17-compilation.patch"
+	# Make P Keymaster compatible with latest BoringSSL.
+	eapply "${FILESDIR}/keymaster-boringssl-update.patch"
 }
 
 src_configure() {
