@@ -27,6 +27,8 @@ DEPEND="${RDEPEND}
 	dev-rust/libchromeos:=
 	dev-rust/minijail:=
 	>=dev-rust/openssl-0.10.22:= <dev-rust/openssl-0.11
+	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
+	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
 "
 
