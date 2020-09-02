@@ -1,0 +1,50 @@
+From 35c035fac26e32048155e33354f1d35b83487ce3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
+Date: Wed, 2 Sep 2020 19:52:36 +1000
+Subject: [PATCH] No symlinks
+
+Do not show symbolic links recorded in the ZIP.
+Pretend they don't exist.
+---
+ lib/fuse-zip.cpp    | 2 ++
+ lib/fuseZipData.cpp | 4 ++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/lib/fuse-zip.cpp b/lib/fuse-zip.cpp
+index 4c4c2a4..f8674ef 100644
+--- a/lib/fuse-zip.cpp
++++ b/lib/fuse-zip.cpp
+@@ -613,6 +613,8 @@ int fusezip_access(const char *, int) {
+ }
+ 
+ int fusezip_readlink(const char *path, char *buf, size_t size) {
++    return -ENOENT;
++
+     if (*path == '\0') {
+         return -ENOENT;
+     }
+diff --git a/lib/fuseZipData.cpp b/lib/fuseZipData.cpp
+index 3d3a3dd..be14297 100644
+--- a/lib/fuseZipData.cpp
++++ b/lib/fuseZipData.cpp
+@@ -106,6 +106,8 @@ void FuseZipData::build_tree(bool readonly) {
+ 
+         bool isHardlink;
+         mode_t mode = getEntryAttributes(id, name, isHardlink);
++        if (S_ISLNK(mode))
++            continue;
+ 
+         if (isHardlink)
+             continue;
+@@ -130,6 +132,8 @@ void FuseZipData::build_tree(bool readonly) {
+         bool isHardlink;
+         const char *name = zip_get_name(m_zip, id, ZIP_FL_ENC_GUESS);
+         mode_t mode = getEntryAttributes(id, name, isHardlink);
++        if (S_ISLNK(mode))
++            continue;
+ 
+         if (!isHardlink)
+             continue;
+-- 
+2.28.0.402.g5ffc5be6b7-goog
+

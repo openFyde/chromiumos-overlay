@@ -32,6 +32,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0.7.0-error-reporting.patch"
 	"${FILESDIR}/${PN}-0.7.0-lazy-caching.patch"
 	"${FILESDIR}/${PN}-0.7.0-password.patch"
+	"${FILESDIR}/${PN}-0.7.0-no-symlinks.patch"
 )
 
 src_compile() {
