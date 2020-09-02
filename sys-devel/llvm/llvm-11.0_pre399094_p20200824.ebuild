@@ -2,13 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=6
+EAPI=7
 
-: ${CMAKE_MAKEFILE_GENERATOR:=ninja}
-PYTHON_COMPAT=( python3_6 )
+PYTHON_COMPAT=( python3_{6..9} )
 
-inherit  cros-constants cmake-utils eutils flag-o-matic git-2 git-r3 \
-	multilib multilib-minimal python-single-r1 toolchain-funcs pax-utils
+inherit cros-constants cmake flag-o-matic git-r3 multilib-minimal  \
+	python-any-r1 pax-utils toolchain-funcs
 
 LLVM_HASH="83080a294ad7d145d758821bcf4354ad0cb7d299" # r399094
 LLVM_NEXT_HASH="83080a294ad7d145d758821bcf4354ad0cb7d299" # r399094
@@ -31,10 +30,10 @@ KEYWORDS="-* amd64"
 # llvm-next with a few extra checks enabled
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi +llvm-crt
 	llvm-next llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot
-	multitarget ncurses ocaml python test +thinlto xml video_cards_radeon"
+	multitarget ncurses ocaml test +thinlto xml video_cards_radeon"
 
 COMMON_DEPEND="
-	sys-libs/zlib:0=
+	sys-libs/zlib:0=[${MULTILIB_USEDEP}]
 	libedit? ( dev-libs/libedit:0=[${MULTILIB_USEDEP}] )
 	libffi? ( >=virtual/libffi-3.0.13-r1:0=[${MULTILIB_USEDEP}] )
 	ncurses? ( >=sys-libs/ncurses-5.9-r3:0=[${MULTILIB_USEDEP}] )
@@ -44,30 +43,27 @@ COMMON_DEPEND="
 		dev-ml/ocaml-ctypes )"
 # configparser-3.2 breaks the build (3.3 or none at all are fine)
 DEPEND="${COMMON_DEPEND}
-	dev-lang/perl
-	>=sys-devel/make-3.81
-	>=sys-devel/flex-2.5.4
-	>=sys-devel/bison-1.875d
-	|| ( >=sys-devel/gcc-3.0 >=sys-devel/llvm-3.5
-		( >=sys-freebsd/freebsd-lib-9.1-r10 sys-libs/libcxx )
-	)
-	|| ( >=sys-devel/binutils-2.18 >=sys-devel/binutils-apple-5.1 )
-	doc? ( dev-python/sphinx )
-	libffi? ( virtual/pkgconfig )
-	!!<dev-python/configparser-3.3.0.2
-	ocaml? ( test? ( dev-ml/ounit ) )
-	${PYTHON_DEPS}"
+	sys-devel/binutils
+	ocaml? ( test? ( dev-ml/ounit ) )"
 RDEPEND="${COMMON_DEPEND}
 	abi_x86_32? ( !<=app-emulation/emul-linux-x86-baselibs-20130224-r2
 		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32(-)] )
 	!<=sys-devel/llvm-8.0_pre
 	!sys-devel/lld
 	!sys-devel/clang"
+BDEPEND="
+	dev-lang/perl
+	libffi? ( virtual/pkgconfig )
+	sys-devel/gnuconfig
+	$(python_gen_any_dep '
+		dev-python/sphinx[${PYTHON_USEDEP}]
+		doc? ( dev-python/recommonmark[${PYTHON_USEDEP}] )
+	')
+"
 
 # pypy gives me around 1700 unresolved tests due to open file limit
 # being exceeded. probably GC does not close them fast enough.
 REQUIRED_USE="
-	${PYTHON_REQUIRED_USE}
 	llvm_pgo_generate? ( !llvm_pgo_use )"
 
 check_lld_works() {
@@ -85,22 +81,13 @@ apply_pgo_profile() {
 src_unpack() {
 	export CMAKE_USE_DIR="${S}/llvm"
 
-	local llvm_hash
-
 	if use llvm-next || use llvm-tot; then
-		llvm_hash="${LLVM_NEXT_HASH}"
+		EGIT_COMMIT="${LLVM_NEXT_HASH}"
 	else
-		llvm_hash="${LLVM_HASH}"
+		EGIT_COMMIT="${LLVM_HASH}"
 	fi
 
-	# Don't unpack profdata file when calling git-2_src_unpack.
-	EGIT_NOUNPACK=1
-
-	# Unpack llvm
-	ESVN_PROJECT="llvm"
-	EGIT_COMMIT="${llvm_hash}"
-
-	git-2_src_unpack
+	git-r3_src_unpack
 
 	if apply_pgo_profile; then
 		cd "${WORKDIR}"
@@ -112,7 +99,6 @@ src_unpack() {
 		fi
 		unpack "llvm-profdata-${profile_hash}.tar.xz"
 	fi
-	EGIT_NOUNPACK=
 }
 
 get_most_recent_revision() {
@@ -134,8 +120,7 @@ src_prepare() {
 		--filesdir_path "${FILESDIR}" \
 		--src_path "${S}" || die
 
-	# User patches
-	eapply_user
+	cmake_src_prepare
 
 	# Native libdir is used to hold LLVMgold.so
 	NATIVE_LIBDIR=$(get_libdir)
@@ -151,6 +136,8 @@ enable_asserts() {
 }
 
 multilib_src_configure() {
+	export CMAKE_BUILD_TYPE="RelWithDebInfo"
+
 	append-flags -Wno-poison-system-directories
 
 	local targets
@@ -176,6 +163,7 @@ multilib_src_configure() {
 		"-DLLVM_BUILD_LLVM_DYLIB=ON"
 		# Link LLVM statically
 		"-DLLVM_LINK_LLVM_DYLIB=OFF"
+		"-DBUILD_SHARED_LIBS=OFF"
 
 		"-DLLVM_ENABLE_TIMESTAMPS=OFF"
 		"-DLLVM_TARGETS_TO_BUILD=${targets}"
@@ -284,13 +272,15 @@ multilib_src_configure() {
 		)
 	fi
 
-	cmake-utils_src_configure
+	if ! use debug; then
+		append-cppflags -DNDEBUG
+	fi
+
+	cmake_src_configure
 }
 
 multilib_src_compile() {
-	cmake-utils_src_compile
-	# TODO: not sure why this target is not correctly called
-	multilib_is_native_abi && use doc && use ocaml && cmake-utils_src_make docs/ocaml_doc
+	cmake_src_compile
 
 	pax-mark m "${BUILD_DIR}"/bin/llvm-rtdyld
 	pax-mark m "${BUILD_DIR}"/bin/lli
@@ -306,8 +296,7 @@ multilib_src_compile() {
 multilib_src_test() {
 	# respect TMPDIR!
 	local -x LIT_PRESERVES_TMP=1
-	local test_targets=( check )
-	cmake-utils_src_make "${test_targets[@]}"
+	cmake_src_test
 }
 
 src_install() {
@@ -324,7 +313,7 @@ src_install() {
 }
 
 multilib_src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 
 	local use_llvm_next=false
 	if use llvm-next || use llvm-tot
