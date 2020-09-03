@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="36343094f3f39e388f66d7378fa14da8457df23b"
+CROS_WORKON_COMMIT="287d6441210f03536f4c15da3d45847b3165f7da"
 CROS_WORKON_TREE="5a4821ee1cf6abf2a59e48bfc7045eba4a69ae4a"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -29,6 +29,8 @@ DEPEND="${RDEPEND}
 	dev-rust/libchromeos:=
 	dev-rust/minijail:=
 	>=dev-rust/openssl-0.10.22:= <dev-rust/openssl-0.11
+	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
+	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
 "
 
