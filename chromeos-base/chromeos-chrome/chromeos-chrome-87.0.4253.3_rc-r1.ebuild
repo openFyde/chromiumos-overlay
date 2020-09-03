@@ -696,6 +696,9 @@ setup_test_lists() {
 		sandbox_linux_unittests
 		video_decode_accelerator_perf_tests
 		video_decode_accelerator_tests
+		video_encode_accelerator_perf_tests
+		video_encode_accelerator_tests
+		# TODO(crbug.com/1045825): Remove video_encode_accelerator_unittest.
 		video_encode_accelerator_unittest
 		wayland_client_perftests
 	)
@@ -783,13 +786,8 @@ setup_compile_flags() {
 	if use orderfile_generate; then
 		local chrome_outdir="${CHROME_CACHE_DIR}/src/${BUILD_OUT}/${BUILDTYPE}"
 		BUILD_STRING_ARGS+=( "dump_call_chain_clustering_order=${chrome_outdir}/chrome.orderfile.txt" )
-	fi
-
-	# Turn off call graph profile sort (C3), when new pass manager is enabled.
-	# Only allow it when we want to generate orderfile.
-	# This is a temporary option and will need to be removed once orderfile is on.
-	if ! use orderfile_generate; then
-		EBUILD_LDFLAGS+=( "-Wl,--no-call-graph-profile-sort" )
+		# Enable call graph profile sort (C3) to generate orderfile.
+		BUILD_ARGS+=( "enable_call_graph_profile_sort=true" )
 	fi
 
 	# Enable std::vector []-operator bounds checking.
