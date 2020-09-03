@@ -79,6 +79,7 @@ ALL_BOARDS=(
 	bolt
 	borealis
 	bruteus
+	brya
 	bubs
 	buddy
 	buddy-cfm
