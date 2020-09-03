@@ -1,14 +1,15 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile configure info install postinst prepare prerm setup test unpack
-DEPEND==dev-rust/getopts-0.2*:= >=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3 >=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2 dev-rust/libchromeos:= dev-rust/minijail:= >=dev-rust/openssl-0.10.22:= <dev-rust/openssl-0.11 dev-rust/sys_util:= >=virtual/rust-1.39.0:=
-DESCRIPTION=The runtime environment and middleware for ManaTEE.
+DEPEND=dev-rust/getopts:= dev-rust/libc:= dev-rust/libchromeos:= dev-rust/log:= dev-rust/p9:= >=virtual/rust-1.39.0:=
+DESCRIPTION=Server binary for the 9P file system protocol
 EAPI=7
-HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/sirenia/
-IUSE=cros_host cros_workon_tree_91d06d5ffb8193b173636d8a2172ede32e5cdfeb cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/9s/
+IUSE=test cros_host cros_workon_tree_5011a6570d961e61bad9165a158fc411e3bc64a8 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
+RDEPEND=!<chromeos-base/crosvm-0.0.1-r260 !dev-rust/9s:0.1.0
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.24.52-r6
+SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	b0f444266980127f80d2f8b326b3a1c9	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	283f9d5b283c8e210a5c8fa89c8f722f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=363e97c29a6717324d0bfd630af92caa
+_md5_=272f63e9f2a25904db04325f553b6e53
