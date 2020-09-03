@@ -54,7 +54,7 @@ main() {
   for i in "${pending[@]}"; do
     # Trigger fwupdtool-update job, which blocks until the job completes.
     /sbin/initctl emit fwupdtool-update GUID="${i##*/}" \
-      PLUGIN="$(cat "${i}")" AT_BOOT="true" || ret=1
+      PLUGIN="$(cat "${i}")" AT_BOOT="true" USE_TOOL="true" || ret=1
     rm "${i}"
   done
 

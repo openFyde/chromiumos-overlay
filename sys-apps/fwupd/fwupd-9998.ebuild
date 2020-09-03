@@ -17,7 +17,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="agent amt archive +bluetooth dell +gnutls gtk-doc +gusb elogind +minimal +gpg flashrom introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
+IUSE="+agent amt archive +bluetooth dell +gnutls gtk-doc +gusb elogind +minimal +gpg flashrom introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	^^ ( elogind minimal systemd )
 	dell? ( uefi )
@@ -105,7 +105,6 @@ src_prepare() {
 src_configure() {
 	local emesonargs=(
 		--localstatedir "${EPREFIX}"/var
-		-Dbuild="$(usex minimal standalone all)"
 		$(meson_use agent)
 		$(meson_use amt plugin_amt)
 		$(meson_use archive libarchive)
@@ -142,13 +141,25 @@ src_configure() {
 src_install() {
 	meson_src_install
 
+	# Disable lvfs remote
+	sed 's/Enabled=true/Enabled=false/' -i "${ED}"/etc/${PN}/remotes.d/lvfs.conf || die
+
 	# Enable vendor-directory remote with local firmware
 	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
 
 	# Install udev rules to fix user permissions.
 	udev_dorules "${FILESDIR}"/90-fwupd.rules
 
+	# Change D-BUS owner for org.freedesktop.fwupd
+	sed 's/root/fwupd/' -i "${ED}"/usr/share/dbus-1/system.d/org.freedesktop.fwupd.conf || die
+
+	# Install D-BUS service for org.freedesktop.fwupd to enable D-BUS activation
+	insinto /usr/share/dbus-1/system-services
+	doins "${FILESDIR}"/org.freedesktop.fwupd.service
+
 	insinto /etc/init
+	# Install upstart script for fwupd daemon.
+	doins "${FILESDIR}"/fwupd.conf
 	# Install upstart script for activating firmware update on logout/shutdown.
 	doins "${FILESDIR}"/fwupdtool-activate.conf
 	# Install upstart script for reloading firmware metadata shown on chrome://system.
