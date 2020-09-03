@@ -111,7 +111,7 @@ src_install() {
 	fi
 
 	insinto /etc
-	doins update_engine.conf
+	doins update_engine.conf.chromeos update_engine.conf
 
 	if use systemd; then
 		systemd_dounit "${FILESDIR}"/update-engine.service
