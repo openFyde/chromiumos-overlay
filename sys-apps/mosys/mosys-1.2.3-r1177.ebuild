@@ -1,9 +1,9 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT=("e6761215a762f19cc3e72e028d6b8f0395436ba2" "e4f784a360408b56287a5b95293f5b4b5b72a9f6")
+CROS_WORKON_COMMIT=("eb6d55ad177127db2e90ac900db81719f595bd2a" "e4f784a360408b56287a5b95293f5b4b5b72a9f6")
 CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "0b1f0c4912c960f38485425a4da03ad343c3b4ff")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -23,8 +23,6 @@ CROS_WORKON_SUBTREE=(
 	""
 )
 
-MESON_AUTO_DEPEND=no
-
 WANT_LIBCHROME="no"
 WANT_LIBBRILLO="no"
 
@@ -34,7 +32,7 @@ DESCRIPTION="Utility for obtaining various bits of low-level system info"
 HOMEPAGE="http://mosys.googlecode.com/"
 
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
-SLOT="0"
+SLOT="0/0"
 KEYWORDS="*"
 IUSE="generated_cros_config unibuild"
 
