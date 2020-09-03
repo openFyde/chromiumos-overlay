@@ -18,7 +18,7 @@ isolation"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="camera_feature_portrait_mode ihd_cmrtlib"
+IUSE="camera_feature_portrait_mode ipu6se"
 
 RDEPEND="
 	!media-libs/arc-camera3-libcab
@@ -47,9 +47,9 @@ src_install() {
 	insinto "/usr/share/policy"
 	newins "../cros-camera-algo-${ARCH}.policy" cros-camera-algo.policy
 
-	# The sandboxed GPU service runs the camera GPU algorithm library and
-	# the CMRT library.
-	if use camera_feature_portrait_mode || use ihd_cmrtlib ; then
+	# The sandboxed GPU service is used by Portrait Mode feature and IPU6SE
+	# camera HAL.
+	if use camera_feature_portrait_mode || use ipu6se ; then
 		insinto /etc/init
 		doins ../init/cros-camera-gpu-algo.conf
 
