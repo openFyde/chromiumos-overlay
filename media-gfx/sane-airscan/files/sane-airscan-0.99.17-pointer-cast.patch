@@ -1,0 +1,100 @@
+commit 291ca30f185bdd47d744c1d616dd50857cd96f9c
+Author: Benjamin Gordon <bmgordon@chromium.org>
+Date:   Thu Sep 3 17:08:30 2020 -0600
+
+    Add explicit pointer casts
+    
+    mem_resize returns a void*, which needs to be explicitly cast to the
+    expected result type when compiler warnings are enabled.
+
+diff --git a/airscan-mdns.c b/airscan-mdns.c
+index 55cae5b..5ef4a46 100644
+--- a/airscan-mdns.c
++++ b/airscan-mdns.c
+@@ -621,7 +621,10 @@ mdns_avahi_browser_callback (AvahiServiceBrowser *b, AvahiIfIndex interface,
+         AvahiLookupResultFlags flags, void* userdata)
+ {
+     mdns_finding    *mdns;
++#pragma clang diagnostics push
+     MDNS_SERVICE    service = (MDNS_SERVICE) userdata;
++#pragma clang diagnostic ignored "-Wvoid-pointer-to-enum-cast"
++#pragma clang diagnostics pop
+     ZEROCONF_METHOD method = mdns_service_to_method(service);
+     bool            initscan = mdns_initscan[service];
+ 
+diff --git a/airscan.h b/airscan.h
+index 75034ac..b196330 100644
+--- a/airscan.h
++++ b/airscan.h
+@@ -328,7 +328,7 @@ __mem_shrink (void *p, size_t len, size_t elsize);
+  */
+ static inline char*
+ str_new (void) {
+-    char *s = mem_resize((char*) NULL, 0, 1);
++    char *s = (char *)mem_resize((char*) NULL, 0, 1);
+     *s = '\0';
+     return s;
+ }
+@@ -339,7 +339,7 @@ static inline char*
+ str_dup (const char *s1)
+ {
+     size_t len = strlen(s1);
+-    char   *s = mem_resize((char*) NULL, len, 1);
++    char   *s = (char *)mem_resize((char*) NULL, len, 1);
+     memcpy(s, s1, len + 1);
+     return s;
+ }
+@@ -376,7 +376,7 @@ str_trunc (char *s)
+ static inline char*
+ str_resize (char *s, size_t len)
+ {
+-    s = mem_resize(s, len, 1);
++    s = (char *)mem_resize(s, len, 1);
+     s[len] = '\0';
+     return s;
+ }
+@@ -392,7 +392,7 @@ str_append_mem (char *s1, const char *s2, size_t l2)
+ {
+     size_t l1 = mem_len(s1);
+ 
+-    s1 = mem_resize(s1, l1 + l2, 1);
++    s1 = (char *)mem_resize(s1, l1 + l2, 1);
+     memcpy(s1 + l1, s2, l2);
+     s1[l1+l2] = '\0';
+ 
+@@ -524,7 +524,7 @@ static inline void**
+ __ptr_array_append (void **a, void *p)
+ {
+     size_t len = mem_len(a) + 1;
+-    a = mem_resize(a, len, 1);
++    a = (void **)mem_resize(a, len, 1);
+     a[len - 1] = p;
+     a[len] = NULL;
+     return a;
+@@ -1875,7 +1875,7 @@ static inline SANE_Word*
+ sane_word_array_append (SANE_Word *a, SANE_Word w)
+ {
+     size_t len = sane_word_array_len(a) + 1;
+-    a = mem_resize(a, len + 1, 0);
++    a = (SANE_Word *)mem_resize(a, len + 1, 0);
+     a[0] = len;
+     a[len] = w;
+     return a;
+@@ -1901,7 +1901,7 @@ sane_word_array_intersect_sorted ( const SANE_Word *a1, const SANE_Word *a2);
+ static inline SANE_String*
+ sane_string_array_new (void)
+ {
+-    return ptr_array_new(SANE_String);
++    return (SANE_String*)ptr_array_new(SANE_String);
+ }
+ 
+ /* Free array of SANE_String
+@@ -1946,7 +1946,7 @@ sane_string_array_max_strlen(const SANE_String *a);
+ static inline const SANE_Device**
+ sane_device_array_new (void)
+ {
+-    return ptr_array_new(SANE_Device*);
++    return (const SANE_Device**)ptr_array_new(SANE_Device*);
+ }
+ 
+ /* Free array of SANE_Device
