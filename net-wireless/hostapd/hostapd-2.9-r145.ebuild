@@ -145,6 +145,20 @@ src_configure() {
 	echo "CONFIG_FST_TEST=y" >> ${CONFIG}
 	echo "CONFIG_ACS=y" >> ${CONFIG}
 
+	# Disable random pool to work-around the slow random entropy
+	# generation on whirlwind. (See: crbug.com/1114912#c9)
+	# This is safe now because:
+	# 1. We now only use hostapd for tests. (on test APs or in
+	#    network.Ethernet8021X.* tests.)
+	# 2. The random pool (and entropy estimations) seem to mostly be
+	#    designed to guard against lack of initial entropy on a fresh
+	#    boot, but they run at every startup. In the presence of many
+	#    hostapd restarts, when "available entropy" gets drained by
+	#    hostapd, /dev/urandom should still be seeded with enough entropy.
+	# However, if we want to launch AP support in CrOS, it would be better
+	# to re-evaluate this with security experts.
+	echo "CONFIG_NO_RANDOM_POOL=y" >> ${CONFIG}
+
 	if use netlink; then
 		# Netlink support
 		echo "CONFIG_VLAN_NETLINK=y" >> ${CONFIG}
