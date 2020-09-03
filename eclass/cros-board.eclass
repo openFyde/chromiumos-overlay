@@ -328,6 +328,7 @@ ALL_BOARDS=(
 	ppcle-32-generic
 	ppcle-64-generic
 	puff
+	puff-macrophage
 	puppy
 	purin
 	pyro
