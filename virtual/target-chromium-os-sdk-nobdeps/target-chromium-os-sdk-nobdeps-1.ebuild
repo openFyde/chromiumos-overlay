@@ -19,4 +19,6 @@ IUSE=""
 # packages.
 RDEPEND="
 	dev-util/shellcheck
+	dev-python/pypy3
+	dev-python/pypy3-exe
 "
