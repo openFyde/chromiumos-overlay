@@ -11,4 +11,4 @@ RDEPEND=dev-libs/libxml2:= media-gfx/sane-backends:= media-libs/libjpeg-turbo:= 
 SLOT=0/0.99.17_pre20200901
 SRC_URI=https://github.com/alexpevzner/sane-airscan-unstable/archive/447b930c908eae36df42d9aeb2e6c2d75cf37144.tar.gz -> sane-airscan-447b930c908eae36df42d9aeb2e6c2d75cf37144.tar.gz
 _eclasses_=cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	1790470c95f416653a627475b8864394	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	meson	b5ee7a05833ab91225acf30ffdeed006	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=253af115a7469871a8d4b6100fd2d907
+_md5_=4ebbf7aef7966fb8bd3bb79aa091dfed
