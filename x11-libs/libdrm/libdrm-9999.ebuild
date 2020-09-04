@@ -42,12 +42,12 @@ src_prepare() {
 	epatch "${FILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
 	epatch "${FILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
 	epatch "${FILESDIR}"/Add-Evdi-module-userspace-api-file.patch
-	#epatch "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
-	#epatch "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
-	#epatch "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
-	#epatch "${FILESDIR}"/FROMLIST-Add-drmModeGetFB2.patch
-	#epatch "${FILESDIR}"/intel-sync-i915_pciids.h-with-kernel.patch
-	#epatch "${FILESDIR}"/new-intel-sync-i915_pciids.h-with-kernel.patch
+	epatch "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
+	epatch "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
+	epatch "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
+	epatch "${FILESDIR}"/FROMLIST-Add-drmModeGetFB2.patch
+	epatch "${FILESDIR}"/intel-sync-i915_pciids.h-with-kernel.patch
+	epatch "${FILESDIR}"/new-intel-sync-i915_pciids.h-with-kernel.patch
 
 	xorg-2_src_prepare
 }
