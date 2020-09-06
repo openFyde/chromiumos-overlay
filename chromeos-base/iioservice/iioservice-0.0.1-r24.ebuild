@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8c439c4d1fe4d4fa503b4feee7266c0d85e2f327"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "490b4dfd281aa5316e918f6195ce87d43c378bb3" "5868de62b85f7f824439fd5ba0fbee2418a2783c" "b6b10e03115551b69ba9e2502b15d5467adcd107")
+CROS_WORKON_COMMIT="d7489c8c5d202872eb5b0207ddc791b5c60eff4a"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "504932c3360dd59e72b26843880153048c109d76" "5868de62b85f7f824439fd5ba0fbee2418a2783c" "b6b10e03115551b69ba9e2502b15d5467adcd107")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/809389): Remove libmems from this list.
@@ -20,6 +20,7 @@ DESCRIPTION="Chrome OS sensor HAL IPC util."
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+IUSE="+seccomp"
 
 RDEPEND="
 	chromeos-base/libiioservice_ipc:=
@@ -41,6 +42,10 @@ src_install() {
 	# Install upstart configuration.
 	insinto /etc/init
 	doins init/iioservice.conf
+
+	# Install seccomp policy file.
+	insinto /usr/share/policy
+	use seccomp && newins "seccomp/iioservice-${ARCH}.policy" iioservice-seccomp.policy
 }
 
 platform_pkg_test() {
