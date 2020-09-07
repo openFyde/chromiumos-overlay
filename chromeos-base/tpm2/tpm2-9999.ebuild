@@ -12,11 +12,14 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/tpm2/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="tpm2_simulator"
+IUSE="tpm2_simulator tpm2_simulator_manufacturer"
 
 DEPEND="dev-libs/openssl:0="
 
 src_compile() {
+	if use tpm2_simulator_manufacturer ; then
+		export TPM2_SIMULATOR_MANUFACTURER=1
+	fi
 	tc-export CC AR RANLIB
 	emake
 }
