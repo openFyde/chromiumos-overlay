@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8fae4c4fc52057018af81eadaa9cab7a395207ea"
-CROS_WORKON_TREE="c7860e8f34e7cbb4c3033d514af252de97264738"
+CROS_WORKON_COMMIT="894bd7af49a8c12b48c7bfb953a7b4d1c1ceb32d"
+CROS_WORKON_TREE="3ba60cbd1083d154084272370e6ea62c88b80345"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 
