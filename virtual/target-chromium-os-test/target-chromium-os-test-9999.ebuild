@@ -99,10 +99,10 @@ CROS_COMMON_RDEPEND="
 	)
 	hammerd? ( chromeos-base/hammerd-test-utils )
 	scanner? ( chromeos-base/lorgnette_cli )
-	ml_benchmark_drivers? ( chromeos-base/ml_benchmark_drivers )
+	ml_benchmark_drivers? ( chromeos-base/ml-benchmark-drivers )
 	ml_service? (
 		chromeos-base/ml-cmdline
-		chromeos-base/ml_benchmark
+		chromeos-base/ml-benchmark
 	)
 	nnapi? ( chromeos-base/ml-test-assets )
 	chromeos-base/recover-duts
