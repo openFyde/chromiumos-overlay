@@ -10,4 +10,4 @@ RESTRICT=test
 SLOT=0
 SRC_URI=https://bitbucket.org/agalanin/fuse-zip/downloads/fuse-zip-0.7.0.tar.gz
 _eclasses_=eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=d995d2986c8eb314c1cfc88286f368ad
+_md5_=c7656f51322004cc7d40afa209e613fd
