@@ -95,7 +95,10 @@ CROS_COMMON_RDEPEND="
 	chromeos-base/ec-utils
 	chromeos-base/ec-utils-test
 	chromeos-base/factory-deps
-	biod? ( virtual/chromeos-fpmcu-test )
+	biod? (
+		virtual/chromeos-fpmcu-test
+		chromeos-base/chromeos-fpmcu-unittests
+	)
 	hammerd? ( chromeos-base/hammerd-test-utils )
 	scanner? ( chromeos-base/lorgnette_cli )
 	ml_benchmark_drivers? ( chromeos-base/ml_benchmark_drivers )
