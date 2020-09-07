@@ -24,6 +24,7 @@ IUSE="dbus +foomatic ipp_autosetup jpeg ldap pclm pdf perl png +postscript stati
 RDEPEND="
 	>=app-text/poppler-0.32:=[cxx,jpeg?,lcms,tiff?,utils]
 	>=app-text/qpdf-8.1.0:=
+	chromeos-base/foomatic_shell
 	dev-libs/glib:2
 	media-libs/fontconfig
 	media-libs/freetype:2
@@ -53,6 +54,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.17.8-gstoraster-tmpfile.patch"
 	"${FILESDIR}/${PN}-1.21.6-trim-convs-file.patch"
 	"${FILESDIR}/${PN}-1.21.6-asan-pacifier.patch"
+	"${FILESDIR}/${PN}-1.21.6-foomatic-shell.patch"
 	"${FILESDIR}/${PN}-1.23.0-pdftops-monochrome.patch"
 	"${FILESDIR}/${PN}-1.25.5-use-public-ghostscript-method.patch"
 	"${FILESDIR}/${PN}-1.25.5-fix-segfault-when-running-by-hand.patch"
