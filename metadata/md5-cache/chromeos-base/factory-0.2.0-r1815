@@ -4,11 +4,11 @@ DEPEND=virtual/chromeos-bsp-factory:= virtual/chromeos-regions:= dev-python/enum
 DESCRIPTION=Chrome OS Factory Software Platform
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/factory/
-IUSE=cros_host cros_workon_tree_1e2d6dcf48ad1a5e1cce19ebe07e2e5c497d34d1 python_targets_python3_6 python_targets_python3_7
+IUSE=cros_host cros_workon_tree_5de05ce896b7095ff57df32963bac4ff0f9cecaa python_targets_python3_6 python_targets_python3_7
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-SLOT=0/0.2.0-r1814
+SLOT=0/0.2.0-r1815
 SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror//distfiles/webgl-aquarium-20130524.tar.bz2
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-factory	1aa91d9fefb0356dd5f1f2a183efce0c	cros-workon	283f9d5b283c8e210a5c8fa89c8f722f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multibuild	40fe59465edacd730c644ec2bc197809	multilib	2477ebe553d3e4d2c606191fe6c33602	python-r1	79e26ce8f853c9daebe9a4956e37cc1b	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=886150a979aff4a066bc8e69daee883c
+_md5_=358c3f693bd887d22592f6d38a4c6b2d
