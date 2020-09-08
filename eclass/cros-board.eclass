@@ -69,7 +69,7 @@ ALL_BOARDS=(
 	betty-arcmaster
 	betty-arcnext
 	betty-arcvm-master
-	betty-arcvm-pi
+	#betty-arcvm-pi
 	betty-pi-arc
 	#betty-qt-arc
 	#bettyvirgl
