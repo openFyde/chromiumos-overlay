@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="eb6d55ad177127db2e90ac900db81719f595bd2a"
-CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "86cbea444f4155f2ac059fd59747fe5000df718d" "f0b7951f306cabed79b6707bf82b3323c2fecf1e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="688989880123b36444654c0dbd9586ab5c287818"
+CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "86cbea444f4155f2ac059fd59747fe5000df718d" "d03d861b21797a28f9259156a8a83d1d8d2f264e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -42,6 +42,7 @@ RDEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/dlcservice-client:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vm_protos:=
