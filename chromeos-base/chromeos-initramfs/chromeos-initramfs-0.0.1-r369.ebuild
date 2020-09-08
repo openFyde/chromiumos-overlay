@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="07bcc9c15a054d78ffee1101276981be3beec21a"
-CROS_WORKON_TREE="707618d72719db42ae9ea8b037bba6f7b6b1690d"
+CROS_WORKON_COMMIT="3ee02976786517b664a8e626c036706471c9200c"
+CROS_WORKON_TREE="4e23ff4c1e813bfe95bb3259e38dbdc4eb454a80"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -85,7 +85,7 @@ FACTORY_NETBOOT_DEPENDS="
 
 # Packages required for building hypervisor initramfs.
 HYPERVISOR_DEPENDS="
-	app-emulation/qemu
+	chromeos-base/crosvm
 	virtual/linux-sources
 	"
 
