@@ -275,12 +275,6 @@ set_build_args() {
 	)
 	use internal_gles_conform && BUILD_ARGS+=( "internal_gles2_conform_tests=true" )
 
-	# Disable tcmalloc on ARMv6 since it fails to build (crbug.com/181385)
-	if [[ ${CHOST} == armv6* ]]; then
-		BUILD_ARGS+=( "arm_version=6" )
-		BUILD_STRING_ARGS+=( "use_allocator=none" )
-	fi
-
 	# Ozone platforms.
 	local platform
 	for platform in ${OZONE_PLATFORMS[@]}; do
