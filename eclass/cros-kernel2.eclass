@@ -494,6 +494,7 @@ kmemleak_desc="Enable kmemleak"
 kmemleak_config="
 CONFIG_DEBUG_KMEMLEAK=y
 CONFIG_DEBUG_KMEMLEAK_EARLY_LOG_SIZE=16384
+CONFIG_DEBUG_KMEMLEAK_TEST=m
 "
 
 lockdebug_desc="Additional lock debug settings"
