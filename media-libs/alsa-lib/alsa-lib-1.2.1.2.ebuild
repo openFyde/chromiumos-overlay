@@ -44,6 +44,8 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	cros_optimize_package_for_speed
+
 	local myeconfargs=(
 		--disable-maintainer-mode
 		--disable-resmgr
