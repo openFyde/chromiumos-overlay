@@ -195,7 +195,7 @@ ARRAY_VARIABLES=(
 # like normal.
 : ${CROS_WORKON_INCREMENTAL_BUILD:=}
 
-# @ECLASS-VARIABLE: CROS_WORKON_BLACKLIST
+# @ECLASS-VARIABLE: CROS_WORKON_MANUAL_UPREV
 # @DESCRIPTION:
 # If set to "1", the cros-workon uprev system on the bots will not automatically
 # revbump your package when changes are made.  This is useful if you want more
@@ -203,9 +203,10 @@ ARRAY_VARIABLES=(
 # ebuild, or if the git repo you're using is not part of the official manifest.
 # e.g. If you set CROS_WORKON_REPO or EGIT_REPO_URI to an external (to Google)
 # site, set this to "1".
-# Note that you must specify the CROS_WORKON_BLACKLIST="1" line in both the
+# Note that you must specify the CROS_WORKON_MANUAL_UPREV="1" line in both the
 # unstable (i.e. 9999) and stable (e.g. 0.0.1-r) ebuild files.
-: ${CROS_WORKON_BLACKLIST:=}
+# TODO(crbug.com/1125947): Drop CROS_WORKON_BLACKLIST once all ebuilds migrate.
+: "${CROS_WORKON_MANUAL_UPREV:=${CROS_WORKON_BLACKLIST}}"
 
 # @ECLASS-VARIABLE: CROS_WORKON_MAKE_COMPILE_ARGS
 # @DESCRIPTION:
@@ -522,8 +523,8 @@ cros-workon_src_unpack() {
 			# in the future.  This comes up with hand edited ebuilds sometimes.
 			if [[ "${r}" == refs/tags/* ]]; then
 				# Allow tags when the ebuild is not auto-uprevving.
-				if [[ "${CROS_WORKON_BLACKLIST}" != "1" ]]; then
-					die "CROS_WORKON_COMMIT may use git tags only with CROS_WORKON_BLACKLIST=1"
+				if [[ "${CROS_WORKON_MANUAL_UPREV}" != "1" ]]; then
+					die "CROS_WORKON_COMMIT may use git tags only with CROS_WORKON_MANUAL_UPREV=1"
 				fi
 			elif ! echo "${r}" | grep -Eq '^[0-9a-f]{40}$'; then
 				die "CROS_WORKON_COMMIT must be a full commit id to avoid collisions, not '${r}'"
