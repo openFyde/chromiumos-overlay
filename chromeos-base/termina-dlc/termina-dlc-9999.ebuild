@@ -44,17 +44,20 @@ DLC_PREALLOC_BLOCKS="$((256 * 1024))"
 # TODO(crbug/953544): When termina's DLC is working, make the test pre-load it.
 # DLC_PRELOAD=true
 
-# We need to inherit from cros-workon so people can do
-# "cros-workon-${BOARD} start termina-dlc", but we don't want to actually run
-# any of the cros-workon steps, so we need to override pkg_setup and
-# src_unpack. Since we don't actually need to do anything in these steps, we
-# just call "true"
+# We need to inherit from cros-workon so people can do "cros-workon-${BOARD}
+# start termina-dlc", but we don't want to actually run any of the cros-workon
+# steps, so we override pkg_setup and src_unpack with the default
+# implementations.
 pkg_setup() {
-	true
+	return
 }
 
 src_unpack() {
-	true
+	if [[ -n ${A} ]]; then
+		# $A should be tokenised here as it may contain multiple files
+		# shellcheck disable=SC2086
+		unpack ${A}
+	fi
 }
 
 src_compile() {
