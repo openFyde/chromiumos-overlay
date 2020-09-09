@@ -12,7 +12,7 @@ OLD_VERSION=1.34.0 # Current version
 NEW_VERSION=1.35.0 # New version
 
 # Be sure cross-compilers have been emerged.
-target_triples=( $(awk '/^RUSTC_TARGET_TRIPLES=\(/ { emit=1; next } /^)/ { if (emit) exit } /-cros-/ { if (emit) { print $1 } }') "rust-${OLD_VERSION}.ebuild" )
+target_triples=( $(awk '/^RUSTC_TARGET_TRIPLES=\(/ { emit=1; next } /^)/ { if (emit) exit } /-cros-/ { if (emit) { print $1 } }' "rust-${OLD_VERSION}.ebuild") )
 for x in "${target_triples[@]}"; do command -v "${x}-clang" >/dev/null || sudo emerge -G "cross-${x}/gcc"; done
 
 # Copy ebuild for the new version.
