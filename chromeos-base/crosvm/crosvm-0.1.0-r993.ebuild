@@ -122,6 +122,7 @@ src_configure() {
 src_compile() {
 	local features=(
 		$(usex crosvm-gpu gpu "")
+		$(usex crosvm-gpu virtio-gpu-next "")
 		$(usex crosvm-plugin plugin "")
 		$(usex crosvm-video-decoder video-decoder "")
 		$(usex crosvm-video-encoder video-encoder "")
