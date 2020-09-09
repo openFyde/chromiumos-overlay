@@ -125,6 +125,7 @@ RDEPEND="${RDEPEND}
 	dev-python/protobuf-python
 	dev-python/cherrypy
 	dev-python/dbus-python
+	dev-python/hid-tools
 	dev-util/hdctools
 	dev-util/mem
 	dev-util/strace
