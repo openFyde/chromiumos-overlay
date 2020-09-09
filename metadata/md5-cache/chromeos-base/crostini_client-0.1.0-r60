@@ -3,11 +3,11 @@ DEPEND=chromeos-base/system_api =dev-rust/dbus-0.8*:= =dev-rust/getopts-0.2*:= =
 DESCRIPTION=Command-line client for controlling crostini
 EAPI=6
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/crostini_client/
-IUSE=cros_host cros_workon_tree_3b7bde14ca058ce73853a235e405107eeac4657f cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+IUSE=cros_host cros_workon_tree_686f12813d4e6a2800be23cec766bc51f88dd0cb cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	b0f444266980127f80d2f8b326b3a1c9	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	283f9d5b283c8e210a5c8fa89c8f722f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=a68e9e142eccd417e59b8c423e81f34a
+_md5_=06af11705c4688233a5573857b7519f0
