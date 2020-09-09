@@ -1,0 +1,8 @@
+DEFINED_PHASES=install
+DESCRIPTION=PS8705-A2 Firmware Binary
+EAPI=7
+KEYWORDS=*
+LICENSE=Google-Partners-Website
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/parade-ps8705a2-firmware-2.tar.xz
+_md5_=199dc39b9740a05aa120fdaa018c48b9
