@@ -42,7 +42,9 @@ src_install() {
 
 src_test() {
 	# Run update_payload unittests.
-	cd scripts
+	cd "${T}" || die
+	unpack "${S}"/sample_images/{sample_payloads.tar.xz,sample_images.tar.bz2}
+	cd "${S}"/scripts || die
 	python_test() {
 		./run_unittests || die
 	}
