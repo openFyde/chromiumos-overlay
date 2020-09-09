@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0d16eea747639324188483983106fb009a44ff96"
-CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "377caa22e8416ce2388b9c099e85be393001947f" "86cbea444f4155f2ac059fd59747fe5000df718d" "68f7b5ff600be6f0e95af5690dd2629fa80e25f0" "963e076a0b7311a4a5e1c14646f9a5d50c209ef7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3720ec9f16f6c6ee353f07350b4fdd8682b61b48"
+CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "377caa22e8416ce2388b9c099e85be393001947f" "86cbea444f4155f2ac059fd59747fe5000df718d" "c906696510a10d2d57fecdef2faa889ec33c8b8d" "963e076a0b7311a4a5e1c14646f9a5d50c209ef7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -96,8 +96,16 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	local v="$(libchrome_ver)"
 	./net/preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}/lib/libshill-net-${v}.so"
+	dolib.so "${OUT}/lib/libshill-net.so"
+	doins "${OUT}/lib/libshill-net.pc"
+
+	# TODO(crbug/2386886): Remove both.
+	# Backward compatibility before all usages of versioned libraries are
+	# removed.
 	doins "${OUT}/lib/libshill-net-${v}.pc"
+	# Backward compatibility before developers has built their software against
+	# new shill.
+	dosym libshill-net.so "/usr/$(get_libdir)/libshill-net-${v}.so"
 
 	# Install header files from libshill-net.
 	insinto /usr/include/shill/net
