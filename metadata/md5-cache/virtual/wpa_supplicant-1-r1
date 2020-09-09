@@ -1,8 +1,0 @@
-DEFINED_PHASES=-
-DEPEND=net-wireless/wpa_supplicant-2_8:=[dbus] !net-wireless/wpa_supplicant
-DESCRIPTION=Virtual to select between different wpa_supplicant revisions
-EAPI=7
-KEYWORDS=*
-RDEPEND=net-wireless/wpa_supplicant-2_8:=[dbus] !net-wireless/wpa_supplicant
-SLOT=0
-_md5_=b2ae3d0027d5d0f8cd686597dce3736c
