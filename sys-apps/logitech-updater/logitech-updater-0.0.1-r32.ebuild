@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6509b3054e27638911cce69805c935b31579d2ce"
-CROS_WORKON_TREE="65fa618132422d755ef2b568d1f312f711e7464e"
+CROS_WORKON_COMMIT="065465dad580acd4caaf605b08810065801f6edd"
+CROS_WORKON_TREE="7e76bdeb11925c004a3075db5e783ab1f54b077e"
 CROS_WORKON_PROJECT="chromiumos/third_party/logitech-updater"
 
 inherit cros-debug cros-workon libchrome udev user
