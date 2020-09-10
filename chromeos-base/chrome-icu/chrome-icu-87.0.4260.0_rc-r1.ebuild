@@ -160,17 +160,6 @@ set_build_args() {
 		"host_pkg_config=$(tc-getBUILD_PKG_CONFIG)"
 	)
 
-	# Disable tcmalloc on ARMv6 since it fails to build (crbug.com/181385)
-	if [[ ${CHOST} == armv6* ]]; then
-		BUILD_ARGS+=( "arm_version=6" )
-		BUILD_STRING_ARGS+=( "use_allocator=none" )
-	fi
-
-	if [[ ${CHOST} == armv6* ]]; then
-		BUILD_ARGS+=( "arm_version=6" )
-		BUILD_STRING_ARGS+=( "use_allocator=none" )
-	fi
-
 	# [Mod] Ozone platform configrations are removed.
 
 	# Set proper build args for the arch
