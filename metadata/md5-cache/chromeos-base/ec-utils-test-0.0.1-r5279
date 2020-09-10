@@ -1,13 +1,13 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile info install setup unpack
-DEPEND=dev-libs/openssl:0=
-DESCRIPTION=TPM2.0 library
+DESCRIPTION=Chrome OS EC Utility Helper
 EAPI=7
-HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/tpm2/
-IUSE=tpm2_simulator tpm2_simulator_manufacturer cros_host cros_workon_tree_
-KEYWORDS=~*
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/ec/
+IUSE=biod -cr50_onboard cros_host cros_workon_tree_9f5b37ba0380f934c2168dd0b2b8f5257c686043
+KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-SLOT=0/9999
+RDEPEND=chromeos-base/ec-utils biod? ( dev-util/shflags )
+SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=b607dc1a55944e9b238baafe54fd50ae
+_md5_=31cfb3437b4f5d824965878a663c803e
