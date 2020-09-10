@@ -397,7 +397,7 @@ do_install() {
 	if [[ -n "${FSP}" ]]; then
 		newins ${FSP} fsp.bin
 	fi
-	# Save the psp_verstage binary for signing
+	# Save the psp_verstage binary for signing on AMD Fam17h platforms
 	if [[ -e "${BUILD_DIR}/psp_verstage.bin" ]]; then
 		newins "${BUILD_DIR}/psp_verstage.bin" psp_verstage.bin
 	fi
