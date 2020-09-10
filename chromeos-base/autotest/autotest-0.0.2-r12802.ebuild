@@ -97,6 +97,9 @@ src_install() {
 	# Set up symlinks so that debug info works for autotests.
 	dodir /usr/lib/debug${AUTOTEST_BASE}/
 	dosym client/site_tests /usr/lib/debug${AUTOTEST_BASE}/tests
+
+	# Punt any nested .git dirs.
+	find "${D}" -name .git -exec rm -rf {} +
 }
 
 src_test() {
