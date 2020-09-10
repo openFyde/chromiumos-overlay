@@ -12,7 +12,7 @@ inherit cros-constants
 
 CROS_WORKON_COMMIT="96dd14e0abd27f2aaac1dc5b8ff40f17e79605f0"
 CROS_WORKON_TREE="c12462bccb06babed5abc2a8e153f3ff5b04d259"
-CROS_WORKON_BLACKLIST=1
+CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
 CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
@@ -30,7 +30,7 @@ IUSE="test"
 COMMON_DEPEND="
 	chromeos-base/minijail:=
 	sys-libs/libcap:=
-   "
+"
 
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="
