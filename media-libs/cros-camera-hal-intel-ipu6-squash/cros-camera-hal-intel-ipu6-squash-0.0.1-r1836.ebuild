@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c406bbae07323be07798e4553f67003f2963920c"
-CROS_WORKON_TREE="488f7f401e9c69b99c97e77ffe619bb656247656"
+CROS_WORKON_COMMIT="c8b48d7dfb0c4714a5e6ec76703701b6055d5eea"
+CROS_WORKON_TREE="ae13694d8ec99d80f39d8f919943efc7009c68eb"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -53,4 +53,5 @@ src_install() {
 	dolib.so "${OUT}/lib/libcam_algo.so"
 
 	udev_dorules "${FILESDIR}/50-ipu-psys0.rules"
+	udev_dorules "${FILESDIR}/99-mipicam.rules"
 }
