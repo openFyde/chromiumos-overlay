@@ -54,8 +54,10 @@ src_install() {
 	dobin "${OUT}"/vm_syslog
 	dosbin "${OUT}"/vshd
 
-	if use vm-containers; then
+	if use vm-containers || use vm_borealis; then
 		dobin "${OUT}"/garcon
+	fi
+	if use vm-containers; then
 		dobin "${OUT}"/guest_service_failure_notifier
 		dobin "${OUT}"/notificationd
 		dobin "${OUT}"/upgrade_container
