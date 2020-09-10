@@ -2,10 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=7
 
 XORG_DOC=doc
-inherit xorg-2
+XORG_EAUTORECONF="yes"
+inherit xorg-3
 
 MY_P="xorg-server-${PV}"
 SRC_URI="https://www.x.org/releases/individual/xserver/${MY_P}.tar.bz2"
@@ -39,12 +40,16 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/${MY_P}"
 
+PATCHES=(
+	"${FILESDIR}"/0001-HACK-make-monotonic-detection-always-succeed-on-cros.patch
+	"${FILESDIR}"/0001-xwayland-virtwl-with-dmabuf-for-1.20.1.patch
+	"${FILESDIR}"/0001-Eliminate-conflict-with-X11-Xlib.h-with-khronos-eglp.patch
+	"${FILESDIR}"/0001-xwayland-sysmacros.patch
+	"${FILESDIR}"/0001-xwayland-Fall-back-to-gbm_bo_create-if-no-modifiers-.patch
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/0001-HACK-make-monotonic-detection-always-succeed-on-cros.patch
-	epatch "${FILESDIR}"/0001-xwayland-virtwl-with-dmabuf-for-1.20.1.patch
-	epatch "${FILESDIR}"/0001-Eliminate-conflict-with-X11-Xlib.h-with-khronos-eglp.patch
-	epatch "${FILESDIR}"/0001-xwayland-sysmacros.patch
-	epatch "${FILESDIR}"/0001-xwayland-Fall-back-to-gbm_bo_create-if-no-modifiers-.patch
+	default
 
 	# Needed for patches that modify configure.ac
 	eautoreconf
@@ -81,5 +86,5 @@ src_configure() {
 		)
 	fi
 
-	xorg-2_src_configure
+	xorg-3_src_configure
 }
