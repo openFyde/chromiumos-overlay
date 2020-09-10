@@ -52,6 +52,7 @@ RDEPEND="
 	chromeos-base/modemfwd[fuzzer]
 	chromeos-base/p2p[fuzzer]
 	chromeos-base/patchpanel[fuzzer]
+	chromeos-base/patchpanel-client[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/power_manager[fuzzer]
 	chromeos-base/runtime_probe[fuzzer]

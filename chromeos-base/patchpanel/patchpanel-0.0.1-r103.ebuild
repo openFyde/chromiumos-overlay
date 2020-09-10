@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1f0bb499a2c4f66525e82faf86e23fb1f5cc893e"
-CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "ba990ee3ed766161175d69f8d37f13523b2aa6b1" "489c4fed271b7073d407a15f1efd53028f4ab416" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="adffbcb6fa522249618bf20a47efa2f6f6c4065c"
+CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "cadacc93f1f6cce03bed5af7c7b77046b011b25b" "489c4fed271b7073d407a15f1efd53028f4ab416" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -45,7 +45,8 @@ DEPEND="
 
 patchpanel_header() {
 	doins "$1"
-	sed -i '/.pb.h/! s/patchpanel\//chromeos\/patchpanel\//g' "${D}/usr/include/chromeos/patchpanel/$1" || die
+	sed -i '/.pb.h/! s:patchpanel/:chromeos/patchpanel/:g' \
+		"${D}/usr/include/chromeos/patchpanel/$1" || die
 }
 
 src_install() {
@@ -54,16 +55,13 @@ src_install() {
 
 	# Libraries.
 	dolib.so "${OUT}"/lib/libpatchpanel-util.so
-	dolib.so "${OUT}"/lib/libpatchpanel-client.so
 
 	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/libpatchpanel-util.pc
-	doins "${OUT}"/libpatchpanel-client.pc
 
 	insinto /usr/include/chromeos/patchpanel/
 	patchpanel_header address_manager.h
-	patchpanel_header client.h
 	patchpanel_header mac_address_generator.h
 	patchpanel_header net_util.h
 	patchpanel_header socket.h

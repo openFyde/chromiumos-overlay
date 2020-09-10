@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0c5c9db0bd225896c484ac9bcbaf07d22691bea9"
-CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "e7242fd4a967b2fb73f276f587127de3b8da2c14" "5e487f0fb10a24d3d42eadc091f156e839de07b5" "86cbea444f4155f2ac059fd59747fe5000df718d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="adffbcb6fa522249618bf20a47efa2f6f6c4065c"
+CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "afa038b5e7b041907d8cb8456330a4459485aba9" "5e487f0fb10a24d3d42eadc091f156e839de07b5" "86cbea444f4155f2ac059fd59747fe5000df718d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -41,6 +41,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cryptohome-client:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/patchpanel-client:=
 	dev-libs/dbus-glib:=
 	dev-libs/protobuf:=
 	sys-libs/libselinux:=

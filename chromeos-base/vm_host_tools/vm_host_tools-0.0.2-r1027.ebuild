@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a790f84930c1cef40e49c2445dc750663a5652b8"
-CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "86cbea444f4155f2ac059fd59747fe5000df718d" "16dc7badb1567d3bcc3de70caf3f8e1db6e6f4aa" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="adffbcb6fa522249618bf20a47efa2f6f6c4065c"
+CROS_WORKON_TREE=("b6b10e03115551b69ba9e2502b15d5467adcd107" "86cbea444f4155f2ac059fd59747fe5000df718d" "95b1a0632da683d4a59c81588e59cf8681f73174" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -32,6 +32,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
+	chromeos-base/patchpanel-client:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
 "
