@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="350ea0b507c3fc06c237590f4db894924fb388ec"
+CROS_WORKON_COMMIT="c406bbae07323be07798e4553f67003f2963920c"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "ec3217d22fb7916f21ba8d63a8ef08eb9bc45916" "4cc600d625ecfdac13d984d9190d63a8970b0a4b" "ab72b93074396d3428b557e2e00d64f487fab1e1" "b6b10e03115551b69ba9e2502b15d5467adcd107")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -20,7 +20,7 @@ isolation"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="camera_feature_portrait_mode ihd_cmrtlib"
+IUSE="camera_feature_portrait_mode ipu6se"
 
 RDEPEND="
 	!media-libs/arc-camera3-libcab
@@ -49,9 +49,9 @@ src_install() {
 	insinto "/usr/share/policy"
 	newins "../cros-camera-algo-${ARCH}.policy" cros-camera-algo.policy
 
-	# The sandboxed GPU service runs the camera GPU algorithm library and
-	# the CMRT library.
-	if use camera_feature_portrait_mode || use ihd_cmrtlib ; then
+	# The sandboxed GPU service is used by Portrait Mode feature and IPU6SE
+	# camera HAL.
+	if use camera_feature_portrait_mode || use ipu6se ; then
 		insinto /etc/init
 		doins ../init/cros-camera-gpu-algo.conf
 
