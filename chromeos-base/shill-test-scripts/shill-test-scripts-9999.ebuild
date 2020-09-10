@@ -25,7 +25,7 @@ DEPEND="
 	dev-python/pygobject"
 
 RDEPEND="${DEPEND}
-	chromeos-base/shill
+	>=chromeos-base/shill-0.0.1-r2205
 	net-dns/dnsmasq
 	sys-apps/iproute2"
 

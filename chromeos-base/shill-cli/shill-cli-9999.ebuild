@@ -22,7 +22,7 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
-	chromeos-base/shill
+	>=chromeos-base/shill-0.0.1-r2205
 "
 
 DEPEND="

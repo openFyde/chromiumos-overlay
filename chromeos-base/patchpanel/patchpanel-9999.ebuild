@@ -36,7 +36,7 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/session_manager-client:=
-	chromeos-base/shill:=
+	>=chromeos-base/shill-0.0.1-r2205:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 "
