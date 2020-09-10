@@ -14,7 +14,8 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="cros_host test"
 
-COMMON_DEPEND=">=dev-embedded/libftdi-0.18:=
+COMMON_DEPEND="
+	>=dev-embedded/libftdi-0.18:=
 	dev-python/numpy:=
 	>=dev-python/pexpect-3.0:=
 	dev-python/pyserial:=
@@ -26,6 +27,7 @@ COMMON_DEPEND=">=dev-embedded/libftdi-0.18:=
 "
 
 RDEPEND="${COMMON_DEPEND}
+	virtual/servo-config-dut-usb3:*
 "
 
 DEPEND="${COMMON_DEPEND}
