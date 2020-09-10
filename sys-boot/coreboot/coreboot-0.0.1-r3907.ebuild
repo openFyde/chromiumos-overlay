@@ -399,6 +399,10 @@ do_install() {
 	if [[ -n "${FSP}" ]]; then
 		newins ${FSP} fsp.bin
 	fi
+	# Save the psp_verstage binary for signing
+	if [[ -e "${BUILD_DIR}/psp_verstage.bin" ]]; then
+		newins "${BUILD_DIR}/psp_verstage.bin" psp_verstage.bin
+	fi
 	if [[ -n "${OPROM}" ]]; then
 		newins ${OPROM} ${CBFSOPROM}
 	fi
