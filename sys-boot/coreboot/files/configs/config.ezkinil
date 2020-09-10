@@ -15,6 +15,10 @@ CONFIG_PAYLOAD_NONE=y
 # CONFIG_CONSOLE_SERIAL is not set
 # CONFIG_PSP_LOAD_MP2_FW is not set
 
+# Signed PSP verstage
+CONFIG_PSP_VERSTAGE_FILE="3rdparty/blobs/mainboard/google/zork/ezkinil_psp_verstage.bin.signed"
+CONFIG_PSP_VERSTAGE_SIGNING_TOKEN="3rdparty/blobs/mainboard/google/zork/PCO_psp_verstagebl_fw_signing.stkn"
+
 # Event Logging
 CONFIG_CMOS_POST=y
 CONFIG_CMOS_POST_OFFSET=0x70
