@@ -36,5 +36,5 @@ src_configure() {
 }
 
 src_install() {
-	emake prefix="${ED}/usr" install
+	emake prefix="${ED}/usr" libdir="\$(prefix)/$(get_libdir)" install
 }
