@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="900360f87b699b890c07d5e2a2201064f4b6f65a"
+CROS_WORKON_COMMIT="ad2ed961d168e5a9db5f0edb9bf9ae0db0e73eee"
 CROS_WORKON_TREE=("b2d7995ab106fbf61493d108c2bfd78d1a721d83" "e0419631c76bfadb1dee2bcda2c68d825087f3f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -66,10 +66,6 @@ src_install() {
 	./platform2_preinstall.sh "${OUT}" "${v}"
 	dolib.so "${OUT}/lib/libmetrics.so"
 	doins "${OUT}/lib/libmetrics.pc"
-
-	# TODO(crbug/920513): Remove after all usages of libmetrics-$v are removed.
-	# For packages using libmetrics-$v.pc.
-	doins "${OUT}/lib/libmetrics-${v}.pc"
 
 	insinto /usr/include/metrics
 	doins c_metrics_library.h \
