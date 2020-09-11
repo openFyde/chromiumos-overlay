@@ -84,6 +84,7 @@ FACTORY_NETBOOT_DEPENDS="
 # Packages required for building hypervisor initramfs.
 HYPERVISOR_DEPENDS="
 	chromeos-base/crosvm
+	chromeos-base/sirenia
 	virtual/linux-sources
 	"
 
