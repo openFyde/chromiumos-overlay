@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="287d6441210f03536f4c15da3d45847b3165f7da"
+CROS_WORKON_COMMIT="ad2ed961d168e5a9db5f0edb9bf9ae0db0e73eee"
 CROS_WORKON_TREE="5a4821ee1cf6abf2a59e48bfc7045eba4a69ae4a"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,6 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/sireni
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+IUSE="cros_host"
 
 RDEPEND=""
 
@@ -52,4 +53,18 @@ src_test() {
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
+}
+
+src_install() {
+	local build_dir="$(cros-rust_get_build_dir)"
+	dobin "${build_dir}/dugong"
+
+	# Needed for initramfs, but not for the root-fs.
+	if use cros_host ; then
+		# /build is not allowed when installing to the host.
+		exeinto "/bin"
+	else
+		exeinto "/build/initramfs"
+	fi
+	doexe "${build_dir}/trichechus"
 }
