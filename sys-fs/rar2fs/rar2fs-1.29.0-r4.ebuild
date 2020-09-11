@@ -21,7 +21,7 @@ DEPEND="${RDEPEND}"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-1.29.0-require-password.patch"
-	"${FILESDIR}/${PN}-1.29.0-password-from-environment.patch"
+	"${FILESDIR}/${PN}-1.29.0-password-from-stdin.patch"
 )
 
 src_configure() {
