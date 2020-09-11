@@ -15,7 +15,7 @@ CROS_WORKON_OPTIONAL_CHECKOUT=(
 	"use bluez-upstream"
 )
 CROS_WORKON_DESTDIR=("${S}/bluez/current" "${S}/bluez/next" "${S}/bluez/upstream")
-CROS_WORKON_EGIT_BRANCH=("chromeos-5.44" "chromeos-5.54" "upstream/master")
+CROS_WORKON_EGIT_BRANCH=("chromeos-5.54" "chromeos-5.54" "upstream/master")
 
 inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon flag-o-matic
 
