@@ -81,6 +81,7 @@ CLIENT_IUSE_TESTS="
 	+tests_autoupdate_CannedOmahaUpdate
 	+tests_autoupdate_DisconnectReconnectNetwork
 	dlc_test? ( +tests_autoupdate_InstallAndUpdateDLC )
+	+tests_autoupdate_PeriodicCheck
 	+tests_autoupdate_UrlSwitch
 	+tests_blktestsSuiteAll
 	+tests_blktestsSuiteLoopOverBlk

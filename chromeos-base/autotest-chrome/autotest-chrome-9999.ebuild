@@ -52,7 +52,6 @@ IUSE_TESTS=(
 	+tests_audio_CrasSanity
 	+tests_audio_PlaybackPower
 	+tests_audio_SeekAudioFeedback
-	+tests_autoupdate_CrashBrowserAfterUpdate
 	+tests_autoupdate_EOL
 	+tests_autoupdate_LoginStartUpdateLogout
 	+tests_autoupdate_StartOOBEUpdate

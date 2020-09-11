@@ -57,6 +57,7 @@ SERVER_IUSE_TESTS="
 	+tests_audio_PowerConsumption
 	+tests_audiovideo_AVSync
 	+tests_autotest_SyncCount
+	+tests_autoupdate_Basic
 	+tests_autoupdate_CatchBadSignatures
 	+tests_autoupdate_Cellular
 	+tests_autoupdate_DataPreserved
@@ -66,6 +67,7 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_NonBlockingOOBEUpdate
 	+tests_autoupdate_OmahaResponse
 	+tests_autoupdate_P2P
+	+tests_autoupdate_Periodic
 	+tests_autoupdate_Rollback
 	dlc_test? ( +tests_autoupdate_WithDLC )
 	has-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
