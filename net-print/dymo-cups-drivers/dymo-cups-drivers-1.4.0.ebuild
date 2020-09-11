@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit eutils autotools
+inherit eutils autotools cros-sanitizers
 
 DESCRIPTION="Dymo SDK for LabelWriter/LabelManager printers"
 HOMEPAGE="https://newellrubbermaid.secure.force.com/dymopkb"
@@ -17,7 +17,7 @@ RESTRICT="!test? ( test )"
 
 KEYWORDS="*"
 
-RDEPEND="net-print/cups"
+RDEPEND="net-print/cups:="
 DEPEND="${RDEPEND}
 	test? ( dev-util/cppunit )
 	usb_modeswitch? ( sys-apps/usb_modeswitch )"
@@ -34,6 +34,11 @@ src_prepare() {
 	default
 	eapply_user
 	eautoreconf
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_install() {
