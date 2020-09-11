@@ -7,7 +7,6 @@ CROS_WORKON_COMMIT="6f09a619cca412f029c124cff8bbf1647d3d68cf"
 CROS_WORKON_TREE="1e2dfd0e54e1c0f95af95bc0e9d97a7b1fafeae2"
 CROS_WORKON_PROJECT="chromiumos/third_party/libcamera"
 CROS_WORKON_INCREMENTAL_BUILD="1"
-CROS_WORKON_OUTOFTREE_BUILD="1"
 
 inherit cros-workon meson
 
@@ -32,6 +31,8 @@ src_configure() {
 	pipeline_list() {
 		printf '%s,' "$@" | sed 's:,$::'
 	}
+
+	BUILD_DIR="$(cros-workon_get_build_dir)"
 
 	local emesonargs=(
 		$(meson_use doc documentation)
