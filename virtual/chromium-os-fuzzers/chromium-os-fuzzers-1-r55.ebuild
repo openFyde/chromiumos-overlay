@@ -56,7 +56,7 @@ RDEPEND="
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/power_manager[fuzzer]
 	chromeos-base/runtime_probe[fuzzer]
-	chromeos-base/shill[fuzzer]
+	>=chromeos-base/shill-0.0.1-r2205[fuzzer]
 	chromeos-base/smbprovider[fuzzer]
 	chromeos-base/system-proxy[fuzzer]
 	chromeos-base/trunks[fuzzer]

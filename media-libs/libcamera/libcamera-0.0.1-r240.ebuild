@@ -17,7 +17,7 @@ HOMEPAGE="https://www.libcamera.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="arc-camera3 doc ipu3 rkisp1 test udev"
+IUSE="doc ipu3 rkisp1 test udev"
 
 RDEPEND="udev? ( virtual/libudev )"
 DEPEND="${RDEPEND}"
@@ -34,9 +34,9 @@ src_configure() {
 	}
 
 	local emesonargs=(
-		$(meson_use arc-camera3 android)
 		$(meson_use doc documentation)
 		$(meson_use test)
+		-Dandroid="true"
 		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
 	)
 	meson_src_configure
@@ -49,7 +49,5 @@ src_compile() {
 src_install() {
 	meson_src_install
 
-	if use arc-camera3 ; then
-		dosym ../libcamera.so "/usr/$(get_libdir)/camera_hal/libcamera.so"
-	fi
+	dosym ../libcamera.so "/usr/$(get_libdir)/camera_hal/libcamera.so"
 }

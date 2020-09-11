@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="2d5e7c9552e32e47063302789ec2c7382f37cc88"
+CROS_WORKON_COMMIT="73d971357f5c6fbe3625febc5dc84a917d6b5506"
 CROS_WORKON_TREE="2aeac53ba60c299115bae900809c074566d9228a"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -27,7 +27,7 @@ DEPEND="
 	dev-python/pygobject"
 
 RDEPEND="${DEPEND}
-	chromeos-base/shill
+	>=chromeos-base/shill-0.0.1-r2205
 	net-dns/dnsmasq
 	sys-apps/iproute2"
 

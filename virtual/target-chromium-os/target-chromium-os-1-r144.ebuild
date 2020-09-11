@@ -199,7 +199,7 @@ RDEPEND="
 	!chromeos-base/platform2
 	profile? ( chromeos-base/quipper )
 	selinux? ( chromeos-base/selinux-policy )
-	shill? ( chromeos-base/shill )
+	shill? ( >=chromeos-base/shill-0.0.1-r2205 )
 	usb_bouncer? ( chromeos-base/usb_bouncer )
 	chromeos-base/update_engine
 	vpn? ( chromeos-base/vpn-manager )

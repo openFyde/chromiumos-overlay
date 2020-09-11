@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f1d892b43c2170b8960364f75585484ed0a4448f"
+CROS_WORKON_COMMIT="73d971357f5c6fbe3625febc5dc84a917d6b5506"
 CROS_WORKON_TREE=("b2d7995ab106fbf61493d108c2bfd78d1a721d83" "cda0d8aecf41b95f6c4af7b6878468fddb3c26fe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,7 +24,7 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	chromeos-base/shill
+	>=chromeos-base/shill-0.0.1-r2205
 "
 
 DEPEND="
