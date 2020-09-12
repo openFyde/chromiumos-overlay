@@ -25,7 +25,10 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 "
 
+# libpatchpanel-client.so and libpatchpanel-client.pc moved from
+# chromeos-base/patchpanel.
 RDEPEND="
+	!<chromeos-base/patchpanel-0.0.2
 	${COMMON_DEPEND}
 "
 
