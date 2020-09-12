@@ -6,8 +6,8 @@
 # VERSION=REVBUMP-0.0.65
 
 EAPI=7
-CROS_WORKON_COMMIT=("ea554c1581b7218ebda18decd2a4ca224be79b5d" "a4c979ade4438dfdd69c1b6e23b64e88eb648183" "750da40fb8a9b6692d2ce6df39e527f5120c128c" "d64066492d3dfff29c50eed8ea8309f9fbafd824" "b267c3608629cd0d9807e1ccbbe32ce318823569" "ee319ae7bc59e88b60142f40a9ec1b46656de4db" "b7d5b2d6a6dd05874d86ee900ff441d261f9034c")
-CROS_WORKON_TREE=("0b8ae49c9931ab932d9e1ee2f55fa4f14629d5f5" "ce9f9fbca51461ef04f8dadcedeed83cadc73fac" "668323f67927964c7a25769a66afd62ae51b982b" "bbe130e2a53ee39f8f8f06ae421630de423ac899" "a70c71fd96de5aadf2da61ffcfa2f9cde502052b" "45d22a8711f85c4310c0c2121d3dc8a72793d375" "c0433b88f972fa26dded401be022c1c026cd644e")
+CROS_WORKON_COMMIT=("ea554c1581b7218ebda18decd2a4ca224be79b5d" "a4c979ade4438dfdd69c1b6e23b64e88eb648183" "750da40fb8a9b6692d2ce6df39e527f5120c128c" "c3cc83e7315d25fa1873ec7374c8724c8df19db7" "20609f91a442339a97c4ca27e291b9cf4e3ee4e8" "ee319ae7bc59e88b60142f40a9ec1b46656de4db" "b7d5b2d6a6dd05874d86ee900ff441d261f9034c")
+CROS_WORKON_TREE=("0b8ae49c9931ab932d9e1ee2f55fa4f14629d5f5" "ce9f9fbca51461ef04f8dadcedeed83cadc73fac" "668323f67927964c7a25769a66afd62ae51b982b" "b8303f94c02d2630135fa80c05f509badddafc9f" "eb24522ce3842c5ddc47a52cf85136eee5c5aaab" "45d22a8711f85c4310c0c2121d3dc8a72793d375" "c0433b88f972fa26dded401be022c1c026cd644e")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
 	"chromiumos/third_party/arm-trusted-firmware"
@@ -399,7 +399,7 @@ do_install() {
 	if [[ -n "${FSP}" ]]; then
 		newins ${FSP} fsp.bin
 	fi
-	# Save the psp_verstage binary for signing
+	# Save the psp_verstage binary for signing on AMD Fam17h platforms
 	if [[ -e "${BUILD_DIR}/psp_verstage.bin" ]]; then
 		newins "${BUILD_DIR}/psp_verstage.bin" psp_verstage.bin
 	fi
