@@ -38,9 +38,9 @@ src_compile() {
 
 src_install() {
 	cd build-opt-local || return
-	dobin atomictest drm_cursor_test gamma_test linear_bo_test \
+	dobin atomictest drm_cursor_test dmabuf_test gamma_test linear_bo_test \
 	mapped_texture_test mmap_test null_platform_test plane_test \
-	synctest swrast_test vgem_test udmabuf_create_test
+	synctest swrast_test udmabuf_create_test
 
 	if use vulkan; then
 		dobin vk_glow
