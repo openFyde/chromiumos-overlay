@@ -751,7 +751,7 @@ CONFIG_PPP_MPPE=m
 CONFIG_PPP_SYNC_TTY=m
 "
 
-preempt_tracer_desc=""
+preempt_tracer_desc="preemption off tracer"
 preempt_tracer_config="
 CONFIG_PREEMPT_TRACER=y
 "
