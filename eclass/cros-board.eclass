@@ -406,6 +406,7 @@ ALL_BOARDS=(
 	tricky
 	trogdor
 	trogdor-kernelnext
+	trogdor64
 	ultima
 	umaro
 	#urara
