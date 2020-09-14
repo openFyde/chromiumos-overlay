@@ -2132,6 +2132,10 @@ cros-kernel2_src_compile() {
 	fi
 }
 
+# @FUNCTION: cros-kernel2_src_install
+# @USAGE: [install_prefix]
+# @DESCRIPTION:
+# install the kernel to the system at ${D}${install_prefix}.
 cros-kernel2_src_install() {
 	if use firmware_install; then
 		die "The firmware_install USE flag is dead."
@@ -2142,8 +2146,10 @@ cros-kernel2_src_install() {
 		return 0
 	fi
 
+	local install_dir="${D}$1"
+
 	dodir /boot
-	kmake INSTALL_MOD_PATH="${D}" INSTALL_PATH="${D}/boot" install
+	kmake INSTALL_MOD_PATH="${install_dir}" INSTALL_PATH="${install_dir}/boot" install
 
 	if use device_tree; then
 		_cros-kernel2_compress_fit_kernel \
@@ -2153,7 +2159,7 @@ cros-kernel2_src_install() {
 	local version=$(kernelrelease)
 
 	if cros_chkconfig_present MODULES; then
-		kmake INSTALL_MOD_PATH="${D}" INSTALL_MOD_STRIP="magic" \
+		kmake INSTALL_MOD_PATH="${install_dir}" INSTALL_MOD_STRIP="magic" \
 			STRIP="$(eclass_dir)/strip_splitdebug" \
 			modules_install
 		if ! has ${EAPI} {4..6}; then
@@ -2162,7 +2168,7 @@ cros-kernel2_src_install() {
 	fi
 
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
-	local kernel_bin="${D}/boot/vmlinuz-${version}"
+	local kernel_bin="${install_dir}/boot/vmlinuz-${version}"
 
 	# We might have compressed in background; wait for it now.
 	wait
@@ -2170,8 +2176,8 @@ cros-kernel2_src_install() {
 	if use arm || use arm64 || use mips; then
 		local kernel_dir="$(cros-workon_get_build_dir)"
 		local boot_dir="${kernel_dir}/arch/${kernel_arch}/boot"
-		local zimage_bin="${D}/boot/zImage-${version}"
-		local image_bin="${D}/boot/Image-${version}"
+		local zimage_bin="${install_dir}/boot/zImage-${version}"
+		local image_bin="${install_dir}/boot/Image-${version}"
 		local dtb_dir="${boot_dir}"
 
 		# Newer kernels (after linux-next 12/3/12) put dtbs in the dts
@@ -2228,14 +2234,14 @@ cros-kernel2_src_install() {
 		esac
 		popd > /dev/null
 	fi
-	if [ ! -e "${D}/boot/vmlinuz" ]; then
-		ln -sf "vmlinuz-${version}" "${D}/boot/vmlinuz" || die
+	if [ ! -e "${install_dir}/boot/vmlinuz" ]; then
+		ln -sf "vmlinuz-${version}" "${install_dir}/boot/vmlinuz" || die
 	fi
 
 	# Check the size of kernel image and issue warning when image size is near
 	# the limit. For netboot initramfs, we don't care about kernel
 	# size limit as the image is downloaded over network.
-	local kernel_image_size=$(stat -c '%s' -L "${D}"/boot/vmlinuz)
+	local kernel_image_size=$(stat -c '%s' -L "${install_dir}"/boot/vmlinuz)
 	einfo "Kernel image size is ${kernel_image_size} bytes."
 
 	# Install uncompressed kernel for debugging purposes.
@@ -2247,10 +2253,11 @@ cros-kernel2_src_install() {
 	if use kgdb && [[ -d "$(cros-workon_get_build_dir)/scripts/gdb" ]]; then
 		insinto /usr/lib/debug/boot/
 		doins "$(cros-workon_get_build_dir)/vmlinux-gdb.py"
-		mkdir "${D}"/usr/lib/debug/boot/scripts || die
+		mkdir "${install_dir}"/usr/lib/debug/boot/scripts || die
 		rsync -rKLp --chmod=a+r \
 			--include='*/' --include='*.py' --exclude='*' \
-			"$(cros-workon_get_build_dir)/scripts/gdb/" "${D}"/usr/lib/debug/boot/scripts/gdb || die
+			"$(cros-workon_get_build_dir)/scripts/gdb/" \
+			"${install_dir}"/usr/lib/debug/boot/scripts/gdb || die
 	fi
 
 	# Also install the vdso shared ELFs for crash reporting.
