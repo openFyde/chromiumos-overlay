@@ -50,3 +50,4 @@ socket: arg0 == PF_FILE || arg0 == PF_INET || arg0 == PF_NETLINK || arg0 == AF_I
 uname: 1
 unlinkat: 1
 write: 1
+writev: 1

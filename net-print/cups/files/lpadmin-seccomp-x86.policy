@@ -50,3 +50,4 @@ time: 1
 uname: 1
 unlink: 1
 write: 1
+writev: 1
