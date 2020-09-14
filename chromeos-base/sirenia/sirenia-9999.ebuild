@@ -22,6 +22,8 @@ IUSE="cros_host"
 RDEPEND=""
 
 DEPEND="${RDEPEND}
+	chromeos-base/chromeos-dbus-bindings-rust:=
+	=dev-rust/dbus-0.6*:=
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
 	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
