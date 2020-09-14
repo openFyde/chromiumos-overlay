@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="576778b4ee9a2990bf9061cb731b43757be93fb8"
+CROS_WORKON_COMMIT="a386d01923b4d03e939560c09b326e5f38ec2ecc"
 CROS_WORKON_TREE="dd33e8f08fb97c0c1153bf5c9ea9bc6e092c73d8"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -46,10 +46,11 @@ src_compile() {
 	ecargo_build
 	use test && ecargo_test --no-run
 }
-
+# We skip the vsock test because it requires the vsock kernel modules to be
+# loaded.
 src_test() {
 	if use x86 || use amd64; then
-		ecargo_test
+		ecargo_test -- --skip transport::tests::vsocktransport
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
