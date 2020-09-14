@@ -44,10 +44,11 @@ src_compile() {
 	ecargo_build
 	use test && ecargo_test --no-run
 }
-
+# We skip the vsock test because it requires the vsock kernel modules to be
+# loaded.
 src_test() {
 	if use x86 || use amd64; then
-		ecargo_test
+		ecargo_test -- --skip transport::tests::vsocktransport
 	else
 		elog "Skipping rust unit tests on non-x86 platform"
 	fi
