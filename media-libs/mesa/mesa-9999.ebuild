@@ -104,6 +104,11 @@ src_prepare() {
 			configure.ac || die
 	fi
 
+	# Patch in the mesa build option to default the shader cache to disabled
+	# while still allowing it to be enabled via environment variable. This is
+	# landed in upstream mesa.
+	epatch "${FILESDIR}"/UPSTREAM-disk_cache-build-option-for-disabled-by-def.patch
+
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
 	echo '#define MESA_GIT_SHA1 "git-0000000"' > src/git_sha1.h
 	default
@@ -190,7 +195,7 @@ src_configure() {
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
-		-Dshader-cache=false
+		-Dshader-cache=default-disabled
 		$(meson_use egl)
 		$(meson_use gbm)
 		$(meson_use X gl)

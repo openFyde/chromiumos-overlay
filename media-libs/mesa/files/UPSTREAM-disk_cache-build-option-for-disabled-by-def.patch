@@ -1,0 +1,150 @@
+From 84cd95ff7d1d92c37bccad9b46bb568de84d9aa4 Mon Sep 17 00:00:00 2001
+From: John Bates <jbates@chromium.org>
+Date: Wed, 30 Sep 2020 18:35:02 -0700
+Subject: [PATCH] UPSTREAM: disk_cache: build option for disabled-by-default
+
+On some systems it is problematic to have the shader cache enabled
+by default. This adds a build option to support the disk cache but
+keep it disabled unless the environment variable
+MESA_GLSL_CACHE_DISABLE=false.
+
+For example, on Chrome OS, Chrome already has it's own shader
+disk cache implementation so it disables the mesa feature. Tests
+do not want the shader disk cache enabled because it can cause
+inconsistent performance results and the default 1GB for the
+disk cache could lead to problems that require more effort to
+work around. The Mesa shader disk cache is useful for VMs though,
+where it is easy to configure the feature with environment
+variables. With the current version of Mesa, Chrome OS would need
+to have a system-wide environment variable to disable the disk
+cache everywhere except where needed. More elegant to just build
+Mesa with the cache feature disabled by default.
+
+Reviewed-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Eric Anholt <eric@anholt.net>
+Change-Id: I3ca1d0aa8597d8e0dfabc45a44758b6ad27abbd6
+---
+ docs/envvars.rst                     |  4 +++-
+ meson.build                          |  5 ++++-
+ meson_options.txt                    |  4 ++--
+ src/compiler/glsl/tests/cache_test.c | 21 +++++++++++++++++++++
+ src/util/disk_cache_os.c             |  7 ++++++-
+ 5 files changed, 36 insertions(+), 5 deletions(-)
+
+diff --git a/docs/envvars.rst b/docs/envvars.rst
+index 08cbea26498..a0beaa8e187 100644
+--- a/docs/envvars.rst
++++ b/docs/envvars.rst
+@@ -141,7 +141,9 @@ Core Mesa environment variables
+    features of the given language version if it's higher than what's
+    normally reported. (for developers only)
+ ``MESA_GLSL_CACHE_DISABLE``
+-   if set to ``true``, disables the GLSL shader cache
++   if set to ``true``, disables the GLSL shader cache. If set to
++   ``false``, enables the GLSL shader cache when it is disabled by
++   default.
+ ``MESA_GLSL_CACHE_MAX_SIZE``
+    if set, determines the maximum size of the on-disk cache of compiled
+    GLSL programs. Should be set to a number optionally followed by
+diff --git a/meson.build b/meson.build
+index b855710e787..1d229f81842 100644
+--- a/meson.build
++++ b/meson.build
+@@ -903,11 +903,14 @@ elif _shader_cache == 'false'
+ endif
+ if _shader_cache != 'disabled'
+   if host_machine.system() == 'windows'
+-    if _shader_cache == 'enabled'
++    if ['enabled', 'default-disabled'].contains(_shader_cache)
+       error('Shader Cache does not currently work on Windows')
+     endif
+   else
+     pre_args += '-DENABLE_SHADER_CACHE'
++    if _shader_cache == 'default-disabled'
++      pre_args += '-DSHADER_CACHE_DISABLE_BY_DEFAULT'
++    endif
+     with_shader_cache = true
+   endif
+ endif
+diff --git a/meson_options.txt b/meson_options.txt
+index bf031eeb11f..3b35c50bdc0 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -179,8 +179,8 @@ option(
+   'shader-cache',
+   type : 'combo',
+   value : 'auto',
+-  choices : ['auto', 'true', 'false', 'enabled', 'disabled'],
+-  description : 'Build with on-disk shader cache support'
++  choices : ['auto', 'true', 'false', 'enabled', 'disabled', 'default-disabled'],
++  description : 'Build with on-disk shader cache support. If set to default-disabled, the feature is only activated when environment variable MESA_GLSL_CACHE_DISABLE is set to false'
+ )
+ option(
+   'vulkan-icd-dir',
+diff --git a/src/compiler/glsl/tests/cache_test.c b/src/compiler/glsl/tests/cache_test.c
+index ab36aa49266..76ea8e8b841 100644
+--- a/src/compiler/glsl/tests/cache_test.c
++++ b/src/compiler/glsl/tests/cache_test.c
+@@ -193,6 +193,19 @@ test_disk_cache_create(void)
+ 
+    unsetenv("MESA_GLSL_CACHE_DISABLE");
+ 
++#ifdef SHADER_CACHE_DISABLE_BY_DEFAULT
++   /* With SHADER_CACHE_DISABLE_BY_DEFAULT, ensure that with
++    * MESA_GLSL_CACHE_DISABLE set to nothing, disk_cache_create returns NULL.
++    */
++   unsetenv("MESA_GLSL_CACHE_DISABLE");
++   cache = disk_cache_create("test", "make_check", 0);
++   expect_null(cache, "disk_cache_create with MESA_GLSL_CACHE_DISABLE unset "
++               " and SHADER_CACHE_DISABLE_BY_DEFAULT build option");
++
++   /* For remaining tests, ensure that the cache is enabled. */
++   setenv("MESA_GLSL_CACHE_DISABLE", "false", 1);
++#endif /* SHADER_CACHE_DISABLE_BY_DEFAULT */
++
+    /* For the first real disk_cache_create() clear these environment
+     * variables to test creation of cache in home directory.
+     */
+@@ -273,6 +286,10 @@ test_put_and_get(void)
+    uint8_t one_KB_key[20], one_MB_key[20];
+    int count;
+ 
++#ifdef SHADER_CACHE_DISABLE_BY_DEFAULT
++   setenv("MESA_GLSL_CACHE_DISABLE", "false", 1);
++#endif /* SHADER_CACHE_DISABLE_BY_DEFAULT */
++
+    cache = disk_cache_create("test", "make_check", 0);
+ 
+    disk_cache_compute_key(cache, blob, sizeof(blob), blob_key);
+@@ -444,6 +461,10 @@ test_put_key_and_get_key(void)
+                         { 0,  1, 42, 43, 44, 45, 46, 47, 48, 49,
+                          50, 55, 52, 53, 54, 55, 56, 57, 58, 59};
+ 
++#ifdef SHADER_CACHE_DISABLE_BY_DEFAULT
++   setenv("MESA_GLSL_CACHE_DISABLE", "false", 1);
++#endif /* SHADER_CACHE_DISABLE_BY_DEFAULT */
++
+    cache = disk_cache_create("test", "make_check", 0);
+ 
+    /* First test that disk_cache_has_key returns false before disk_cache_put_key */
+diff --git a/src/util/disk_cache_os.c b/src/util/disk_cache_os.c
+index b087cd5401f..bdfaeeba344 100644
+--- a/src/util/disk_cache_os.c
++++ b/src/util/disk_cache_os.c
+@@ -874,7 +874,12 @@ disk_cache_enabled()
+       return false;
+ 
+    /* At user request, disable shader cache entirely. */
+-   if (env_var_as_boolean("MESA_GLSL_CACHE_DISABLE", false))
++#ifdef SHADER_CACHE_DISABLE_BY_DEFAULT
++   bool disable_by_default = true;
++#else
++   bool disable_by_default = false;
++#endif
++   if (env_var_as_boolean("MESA_GLSL_CACHE_DISABLE", disable_by_default))
+       return false;
+ 
+    return true;
+-- 
+2.28.0.1011.ga647a8990f-goog
+

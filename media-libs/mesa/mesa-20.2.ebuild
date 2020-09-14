@@ -113,6 +113,11 @@ src_prepare() {
 	# https://github.com/mesonbuild/meson/issues/7276
 	epatch "${FILESDIR}"/0001-Revert-meson-update-llvm-dependency-logic-for-meson-.patch
 
+	# Patch in the mesa build option to default the shader cache to disabled
+	# while still allowing it to be enabled via environment variable. This is
+	# landed in upstream mesa.
+	epatch "${FILESDIR}"/BACKPORT-disk_cache-build-option-for-disabled-by-def.patch
+
 	default
 }
 
@@ -197,7 +202,7 @@ src_configure() {
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
-		-Dshader-cache=false
+		-Dshader-cache=default-disabled
 		$(meson_use egl)
 		$(meson_use gbm)
 		$(meson_use X gl)
