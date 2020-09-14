@@ -115,7 +115,7 @@ BUILD_OUT="${BUILD_OUT:-out_${BOARD}}"
 # Unsetting BUILD_OUT_SYM will revert this behavior
 BUILD_OUT_SYM="c"
 
-UNVETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-prebuilt/afdo-job/orderfiles/unvetted"}
+UNVETTED_ORDERFILE_LOCATION=${AFDO_GS_DIRECTORY:-"gs://chromeos-toolchain-artifacts/orderfile/unvetted"}
 
 # The following entry will be modified automatically for verifying orderfile or AFDO profile.
 UNVETTED_ORDERFILE=""
