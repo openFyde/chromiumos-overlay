@@ -10,6 +10,6 @@ LICENSE=GPL-2 LGPL-2.1
 PROPERTIES=live
 RDEPEND=>=dev-libs/glib-2.14:2= app-arch/bzip2:= sys-apps/dbus:= virtual/libudev:= cups? ( net-print/cups:= ) readline? ( sys-libs/readline:= ) >=chromeos-base/metrics-0.0.1-r3152:= !net-wireless/bluez-hcidump !net-wireless/bluez-libs !net-wireless/bluez-test !net-wireless/bluez-utils sys-apps/baselayout >=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=]
 REQUIRED_USE=?? ( bluez-next bluez-upstream )
-SLOT=0/5.54-r432
+SLOT=0/5.54-r433
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	7db5b03b7ca5337406c3d24a0e096e9c	libchrome-version	f89118941e7f3c3825d2fe216c977c57	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	systemd	71fd8d2065d102753fb9e4d20eaf3e9f	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	udev	452708c3f55cf6e918b045adb949a9e6	user	7c566af8c48023219fd63246e88d6621
 _md5_=419253fa1fcb04f6c9178f5968a421f5
