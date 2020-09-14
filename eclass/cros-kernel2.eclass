@@ -1266,7 +1266,7 @@ builtin_fw_guc_tgl_files=(
 
 builtin_fw_huc_tgl_desc="HuC Firmware for TGL"
 builtin_fw_huc_tgl_files=(
-	i915/tgl_huc_7.0.3.bin
+	i915/tgl_huc_7.0.12.bin
 )
 
 extra_fw_config="
