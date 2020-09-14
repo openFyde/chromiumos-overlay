@@ -28,7 +28,7 @@ CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
 
 # Video Blob
 CONFIG_INTEL_GMA_ADD_VBT=y
-CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/baseboard-volteer/vbt.bin"
+CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/baseboard-volteer/vbt-voxel.bin"
 
 # Serial console disabled by default (do not remove)
 # CONFIG_CONSOLE_SERIAL is not set
