@@ -4,11 +4,11 @@ DEPEND==dev-rust/getopts-0.2*:= >=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3 >=de
 DESCRIPTION=The runtime environment and middleware for ManaTEE.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/sirenia/
-IUSE=cros_host cros_host cros_workon_tree_dd33e8f08fb97c0c1153bf5c9ea9bc6e092c73d8 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+IUSE=cros_host cros_host cros_workon_tree_dd16bb46e162de4868b7a54dbdcd1c528cfce6f0 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.24.52-r11
+SLOT=0/0.24.52-r12
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	b0f444266980127f80d2f8b326b3a1c9	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=d980469c92ba7085aef4e1108027745d
+_md5_=a31f3de1be63891999faec914a8993e3
