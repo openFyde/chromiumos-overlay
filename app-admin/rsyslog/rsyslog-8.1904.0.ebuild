@@ -31,10 +31,13 @@ IUSE+=" mongodb mysql normalize clickhouse omhttp omhttpfs omudpspoof openssl po
 IUSE+=" rabbitmq redis relp rfc3195 rfc5424hmac snmp ssl systemd test usertools +uuid xxhash zeromq"
 RESTRICT="!test? ( test )"
 
+PATCHES=( "${FILESDIR}/001-add-imstdoutsock-plugin.patch" )
+
 RDEPEND="
 	>=dev-libs/libfastjson-0.99.8:=
 	>=dev-libs/libestr-0.1.9
 	>=sys-libs/zlib-1.2.5
+	chromeos-base/syslog-cat
 	curl? ( >=net-misc/curl-7.35.0 )
 	dbi? ( >=dev-db/libdbi-0.8.3 )
 	elasticsearch? ( >=net-misc/curl-7.35.0 )
@@ -113,6 +116,8 @@ src_unpack() {
 	else
 		unpack ${P}.tar.gz
 	fi
+
+	cp -rf "${FILESDIR}/001-add-imstdoutsock-plugin" "./${PN}-${PV}/plugins/imstdoutsock"
 
 	if use doc; then
 		if [[ ${PV} == "9999" ]]; then
