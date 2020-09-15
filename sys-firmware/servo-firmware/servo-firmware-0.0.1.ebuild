@@ -8,7 +8,7 @@ HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 
 C2D2_NAME="c2d2_v2.4.35-f1113c92b"                # servo-firmware-R81-12768.40.0
 SERVO_MICRO_NAME="servo_micro_v2.4.35-f1113c92b"  # servo-firmware-R81-12768.40.0
-SERVO_V4_NAME="servo_v4_v2.4.51-d0df4e7e3"        # servo-firmware-R81-12768.44.0
+SERVO_V4_NAME="servo_v4_v2.4.35-f1113c92b"        # servo-firmware-R81-12768.40.0
 SERVO_V4P1_NAME="servo_v4p1_v2.0.5159-529612865"  # Local builds are temporary b/153464312
 SWEETBERRY_NAME="sweetberry_v2.3.7-096c7ee84"     # servo-firmware-R70-11011.14.0
 UPDATER_PATH="/usr/share/servo_updater/firmware"
@@ -18,7 +18,7 @@ MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
 SRC_URI="
 	${MIRROR_PATH}/${C2D2_NAME}.tar.gz
 	${MIRROR_PATH}/${SERVO_MICRO_NAME}.tar.gz
-	${MIRROR_PATH}/${SERVO_V4_NAME}.tar.xz
+	${MIRROR_PATH}/${SERVO_V4_NAME}.tar.gz
 	${MIRROR_PATH}/${SERVO_V4P1_NAME}.tar.xz
 	${MIRROR_PATH}/${SWEETBERRY_NAME}.tar.gz
 	"
