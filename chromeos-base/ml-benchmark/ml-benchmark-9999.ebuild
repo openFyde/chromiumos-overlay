@@ -28,6 +28,7 @@ IUSE=""
 
 src_install() {
 	dobin "${OUT}"/ml_benchmark
+	dolib.so "${OUT}"/lib/libmlbenchmark_proto.so
 }
 
 platform_pkg_test() {

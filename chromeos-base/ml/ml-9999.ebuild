@@ -6,7 +6,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
 CROS_WORKON_DESTDIR="${S}/platform2"
-CROS_WORKON_SUBTREE="common-mk ml .gn"
+CROS_WORKON_SUBTREE="common-mk ml ml_benchmark .gn"
 
 PLATFORM_SUBDIR="ml"
 
@@ -41,6 +41,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="
 	fuzzer
+	ml_benchmark_drivers
 	nnapi
 	ondevice_grammar
 	ondevice_handwriting
@@ -101,6 +102,13 @@ src_install() {
 	for fuzzer in "${OUT}"/*_fuzzer; do
 		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
 	done
+
+	if use ml_benchmark_drivers; then
+		insinto /usr/local/ml_benchmark/ml_service
+		insopts -m0755
+		doins "${OUT}"/lib/libml_for_benchmark.so
+		insopts -m0644
+	fi
 }
 
 pkg_preinst() {
