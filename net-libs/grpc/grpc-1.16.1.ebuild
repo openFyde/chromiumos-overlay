@@ -39,6 +39,7 @@ PATCHES=(
 	"${FILESDIR}/grpc-1.16.0-Prevent-shell-calls-longer-than-ARG_MAX.patch"
 	"${FILESDIR}/grpc-1.16.1-fix-cross-compilation.patch"
 	"${FILESDIR}/grpc-1.16.1-Support-vsock.patch"
+	"${FILESDIR}/grpc-1.16.1-string-contatenation.patch"
 )
 
 S="${WORKDIR}/${PN}-${MY_PV}"
