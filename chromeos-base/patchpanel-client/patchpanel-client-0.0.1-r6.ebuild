@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="456ee5b5cf369f9040593b47b4321e9711862f16"
+CROS_WORKON_COMMIT="d156cfc563813c0be1cd2c20c5f1a388eb712d56"
 CROS_WORKON_TREE=("b2d7995ab106fbf61493d108c2bfd78d1a721d83" "0e7f8025c0272d96a9ef17f7765d786bd5aa1005" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,7 +27,10 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 "
 
+# libpatchpanel-client.so and libpatchpanel-client.pc moved from
+# chromeos-base/patchpanel.
 RDEPEND="
+	!<chromeos-base/patchpanel-0.0.2
 	${COMMON_DEPEND}
 "
 
