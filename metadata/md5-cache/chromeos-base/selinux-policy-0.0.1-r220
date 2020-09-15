@@ -3,11 +3,11 @@ DEFINED_PHASES=compile info install setup test unpack
 DEPEND=android-container-pi? ( chromeos-base/android-container-pi:0= ) android-vm-master? ( chromeos-base/android-vm-master:0= ) android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
 DESCRIPTION=Chrome OS SELinux Policy Package
 EAPI=7
-IUSE=android-container-pi android-vm-master android-vm-rvc selinux_audit_all selinux_develop selinux_experimental arc_first_release_n nocheck cheets_user cheets_user_64 cros_host cros_workon_tree_3d6230b0e6d6c8a55365953b830797c16f259263
+IUSE=android-container-pi android-vm-master android-vm-rvc selinux_audit_all selinux_develop selinux_experimental arc_first_release_n nocheck cheets_user cheets_user_64 cros_host cros_workon_tree_0f9883b09a97e10b04c6412e01c34ff4f07a21e2
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=android-container-pi? ( chromeos-base/android-container-pi:0= ) android-vm-master? ( chromeos-base/android-vm-master:0= ) android-vm-rvc? ( chromeos-base/android-vm-rvc:0= ) sys-apps/restorecon sys-process/audit
-SLOT=0/0.0.1-r219
+SLOT=0/0.0.1-r220
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	udev	452708c3f55cf6e918b045adb949a9e6
-_md5_=9a96de80c1d8865e0138ed7f9923598e
+_md5_=499fac5b1c7f37ad442d82b66bb04200
