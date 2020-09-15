@@ -1,22 +1,24 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-CROS_WORKON_COMMIT="9b763c4c97260c976214bd386b1dd4511897caef"
-CROS_WORKON_TREE="74699a9c73ae20b236f9031164def0631151f776"
+EAPI=6
+CROS_WORKON_COMMIT="240cb8214397fc9e08b27af29c98cf2685f6e7a4"
+CROS_WORKON_TREE="0406e55a76c2afc3942a37c110ad9077087d18bd"
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
-CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.9"
-CROS_WORKON_EGIT_BRANCH="wpa_supplicant-2.9"
+CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.8"
+CROS_WORKON_EGIT_BRANCH="wpa_supplicant-2.8"
 
-inherit cros-workon eutils qmake-utils systemd toolchain-funcs user
+inherit cros-sanitizers cros-workon eutils toolchain-funcs qmake-utils systemd user
 
 DESCRIPTION="IEEE 802.1X/WPA supplicant for secure wireless transfers"
-HOMEPAGE="https://w1.fi/wpa_supplicant/"
+# HOMEPAGE="https://w1.fi/wpa_supplicant/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/hostap"
 LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl p2p ps3 qt5 readline selinux smartcard systemd +tdls uncommon-eap-types wifi_hostap_test wps kernel_linux kernel_FreeBSD wimax"
+IUSE="ap dbus debug gnutls eap-sim fasteap +hs2-0 libressl p2p ps3 qt5 readline selinux smartcard ssl systemd +tdls uncommon-eap-types wifi_hostap_test wps kernel_linux kernel_FreeBSD wimax"
+REQUIRED_USE="fasteap? ( !gnutls !ssl ) smartcard? ( ssl )"
 
 CDEPEND="
 	chromeos-base/minijail
@@ -29,23 +31,31 @@ CDEPEND="
 	qt5? (
 		dev-qt/qtcore:5
 		dev-qt/qtgui:5
-		dev-qt/qtsvg:5
 		dev-qt/qtwidgets:5
+		dev-qt/qtsvg:5
 	)
 	readline? (
 		sys-libs/ncurses:0
 		sys-libs/readline:0
 	)
-	!libressl? ( dev-libs/openssl:0=[bindist=] )
-	libressl? ( dev-libs/libressl:0= )
+	ssl? (
+		!libressl? ( dev-libs/openssl:0= )
+		libressl? ( dev-libs/libressl )
+	)
 	smartcard? ( dev-libs/engine_pkcs11 )
+	!ssl? (
+		gnutls? (
+			net-libs/gnutls
+			dev-libs/libgcrypt
+		)
+		!gnutls? ( dev-libs/libtommath )
+	)
 "
 DEPEND="${CDEPEND}
 	virtual/pkgconfig
 "
 RDEPEND="${CDEPEND}
 	!net-wireless/wpa_supplicant
-	!net-wireless/wpa_supplicant-2_8
 	selinux? ( sec-policy/selinux-networkmanager )
 "
 
@@ -65,14 +75,20 @@ Kconfig_style_config() {
 			#first remove any leading "# " if $2 is not n
 			sed -i "/^# *$CONFIG_PARAM=/s/^# *//" .config || echo "Kconfig_style_config error uncommenting $CONFIG_PARAM"
 			#set item = $setting (defaulting to y)
-			sed -i "/^$CONFIG_PARAM\>/s/=.*/=$setting/" .config || echo "Kconfig_style_config error setting $CONFIG_PARAM=$setting"
+			sed -i "/^$CONFIG_PARAM/s/=.*/=$setting/" .config || echo "Kconfig_style_config error setting $CONFIG_PARAM=$setting"
 			if [ -z "$( grep ^$CONFIG_PARAM= .config )" ] ; then
 				echo "$CONFIG_PARAM=$setting" >>.config
 			fi
 		else
 			#ensure item commented out
-			sed -i "/^$CONFIG_PARAM\>/s/$CONFIG_PARAM/# $CONFIG_PARAM/" .config || echo "Kconfig_style_config error commenting $CONFIG_PARAM"
+			sed -i "/^$CONFIG_PARAM/s/$CONFIG_PARAM/# $CONFIG_PARAM/" .config || echo "Kconfig_style_config error commenting $CONFIG_PARAM"
 		fi
+}
+
+pkg_setup() {
+	if use gnutls && use ssl ; then
+		elog "You have both 'gnutls' and 'ssl' USE flags enabled: defaulting to USE=\"ssl\""
+	fi
 }
 
 src_prepare() {
@@ -123,6 +139,7 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	# Toolchain setup
 	tc-export CC
 
@@ -130,7 +147,6 @@ src_configure() {
 
 	# Basic setup
 	Kconfig_style_config CTRL_IFACE
-	Kconfig_style_config MATCH_IFACE
 	Kconfig_style_config BACKEND file
 	Kconfig_style_config IBSS_RSN
 	Kconfig_style_config IEEE80211W
@@ -138,12 +154,6 @@ src_configure() {
 	Kconfig_style_config IEEE80211N
 	Kconfig_style_config IEEE80211AC
 	Kconfig_style_config WNM
-	Kconfig_style_config HT_OVERRIDES
-	Kconfig_style_config VHT_OVERRIDES
-	Kconfig_style_config OCV
-	Kconfig_style_config TLSV11
-	Kconfig_style_config TLSV12
-	Kconfig_style_config GETRANDOM
 
 	# Basic authentication methods
 	# NOTE: we don't set GPSK or SAKE as they conflict
@@ -161,7 +171,6 @@ src_configure() {
 	Kconfig_style_config EAP_LEAP
 	Kconfig_style_config EAP_MSCHAPV2
 	Kconfig_style_config EAP_PEAP
-	Kconfig_style_config EAP_TEAP
 	Kconfig_style_config EAP_TLS
 	Kconfig_style_config EAP_TTLS
 
@@ -169,14 +178,14 @@ src_configure() {
 	Kconfig_style_config BGSCAN_SIMPLE
 	Kconfig_style_config BGSCAN_LEARN
 
+	# Allow VHT/HT parameters to be overriden; required by ChromiumOS
+	Kconfig_style_config VHT_OVERRIDES
+	Kconfig_style_config HT_OVERRIDES
+
 	if use dbus ; then
 		Kconfig_style_config CTRL_IFACE_DBUS
 		Kconfig_style_config CTRL_IFACE_DBUS_NEW
 		Kconfig_style_config CTRL_IFACE_DBUS_INTRO
-	else
-		Kconfig_style_config CTRL_IFACE_DBUS n
-		Kconfig_style_config CTRL_IFACE_DBUS_NEW n
-		Kconfig_style_config CTRL_IFACE_DBUS_INTRO n
 	fi
 
 	# Enable support for writing debug info to a log file and syslog.
@@ -208,6 +217,10 @@ src_configure() {
 		Kconfig_style_config BUILD_WPA_CLIENT_SO
 	fi
 
+	if use fasteap ; then
+		Kconfig_style_config EAP_FAST
+	fi
+
 	if use readline ; then
 		# readline/history support for wpa_cli
 		Kconfig_style_config READLINE
@@ -216,24 +229,18 @@ src_configure() {
 		Kconfig_style_config WPA_CLI_EDIT
 	fi
 
-	Kconfig_style_config TLS openssl
-	Kconfig_style_config FST
-	if ! use bindist || use libressl; then
-		Kconfig_style_config EAP_PWD
-		#WPA3
-		Kconfig_style_config OWE
-		Kconfig_style_config SAE
-		Kconfig_style_config DPP
-		Kconfig_style_config SUITEB192
-	fi
-	if ! use bindist && ! use libressl; then
-		Kconfig_style_config SUITEB
+	# SSL authentication methods
+	if use ssl ; then
+		Kconfig_style_config TLS openssl
+	elif use gnutls ; then
+		Kconfig_style_config TLS gnutls
+		Kconfig_style_config GNUTLS_EXTRA
+	else
+		Kconfig_style_config TLS internal
 	fi
 
 	if use smartcard ; then
 		Kconfig_style_config SMARTCARD
-	else
-		Kconfig_style_config SMARTCARD n
 	fi
 
 	if use tdls ; then
@@ -272,12 +279,13 @@ src_configure() {
 		# Near Field Communication
 		Kconfig_style_config WPS_NFC
 	else
-		Kconfig_style_config WPS n
-		Kconfig_style_config WPS2 n
-		Kconfig_style_config WPS_UFD n
-		Kconfig_style_config WPS_ER n
+		# (ChromeOS) Explicitly disable to override enabling from defconfig.
+		Kconfig_style_config WPS      n
+		Kconfig_style_config WPS2     n
+		Kconfig_style_config WPS_UFD  n
+		Kconfig_style_config WPS_ER   n
 		Kconfig_style_config WPS_UPNP n
-		Kconfig_style_config WPS_NFC n
+		Kconfig_style_config WPS_NFC  n
 	fi
 
 	# Wi-Fi Direct (WiDi)
@@ -347,6 +355,9 @@ src_install() {
 
 	newdoc .config build-config
 
+	# CHROMIUM: sorry, don't want docs installed
+	# doman doc/docbook/*.{5,8}
+
 	if use qt5 ; then
 		into /usr
 		dobin wpa_gui-qt4/wpa_gui
@@ -398,21 +409,29 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
+	elog "If this is a clean installation of wpa_supplicant, you"
+	elog "have to create a configuration file named"
+	elog "/etc/wpa_supplicant/wpa_supplicant.conf"
+	elog
+	elog "An example configuration file is available for reference in"
+	elog "/usr/share/doc/${PF}/"
+
 	if [[ -e ${ROOT}etc/wpa_supplicant.conf ]] ; then
 		echo
 		ewarn "WARNING: your old configuration file ${ROOT}etc/wpa_supplicant.conf"
 		ewarn "needs to be moved to ${ROOT}etc/wpa_supplicant/wpa_supplicant.conf"
 	fi
 
-	if use bindist; then
-		if ! use libressl; then
-			ewarn "Using bindist use flag presently breaks WPA3 (specifically SAE, OWE, DPP, and FILS)."
-			ewarn "This is incredibly undesirable"
-		fi
-	fi
-	if use libressl; then
-		ewarn "Libressl doesn't support SUITEB (part of WPA3)"
-		ewarn "but it does support SUITEB192 (the upgraded strength version of the same)"
-		ewarn "You probably don't care.  Patches welcome"
-	fi
+	# Mea culpa, feel free to remove that after some time --mgorny.
+	# local fn
+	# for fn in wpa_supplicant{,@wlan0}.service; do
+	# 	if [[ -e "${ROOT}"/etc/systemd/system/network.target.wants/${fn} ]]
+	# 	then
+	# 		ebegin "Moving ${fn} to multi-user.target"
+	# 		mv "${ROOT}"/etc/systemd/system/network.target.wants/${fn} \
+	# 			"${ROOT}"/etc/systemd/system/multi-user.target.wants/
+	# 		eend ${?} \
+	# 			"Please try to re-enable ${fn}"
+	# 	fi
+	# done
 }
