@@ -65,6 +65,7 @@ IUSE="
 	postscript
 	+power_management
 	+profile
+	racc
 	+readahead
 	scanner
 	selinux
@@ -193,6 +194,10 @@ RDEPEND="
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
 	hammerd? ( chromeos-base/hammerd )
+	racc? (
+		chromeos-base/hardware_verifier
+		chromeos-base/runtime_probe
+	)
 	iioservice? ( chromeos-base/iioservice )
 	media_perception? ( chromeos-base/mri_package )
 	memd? ( chromeos-base/memd )
