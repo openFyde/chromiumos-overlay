@@ -353,6 +353,18 @@ unibuild_install_camera_files() {
 	_unibuild_common_install get-camera-files "$@"
 }
 
+# @FUNCTION: unibuild_install_intel_wifi_sar_files
+# @USAGE: [config_file]
+# @DESCRIPTION:
+# Install intel wifi sar files.
+# Args:
+#   $1: (optional) Config file used by cros_config_host
+unibuild_install_intel_wifi_sar_files() {
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
+
+	_unibuild_common_install get-intel-wifi-sar-files "$@"
+}
+
 # @FUNCTION: unibuild_build_configfs_file
 # @USAGE:
 # @DESCRIPTION:
