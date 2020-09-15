@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_s
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE=""
+IUSE="iioservice"
 
 COMMON_DEPEND="
 	chromeos-base/libmems:=
