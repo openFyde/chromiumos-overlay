@@ -23,6 +23,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/libpng:=
 	media-gfx/sane-backends:=
+	virtual/libusb:1
 "
 
 RDEPEND="${COMMON_DEPEND}
