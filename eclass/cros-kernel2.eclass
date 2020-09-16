@@ -415,6 +415,7 @@ hypervisor_guest_config="
 CONFIG_HYPERVISOR_GUEST=y
 CONFIG_PARAVIRT=y
 CONFIG_KVM_GUEST=y
+CONFIG_VIRTIO_VSOCKETS=m
 "
 
 i2cdev_desc="I2C device interface"
