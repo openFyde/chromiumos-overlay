@@ -37,9 +37,14 @@ REQUIRED_USE="
 	^^ ( amd64 arm arm64 )
 "
 
-# Termina is ~350MB at present, so 1 GB is very conservative.
-# 1GB = 256 x 1024 x 4KB blocks
-DLC_PREALLOC_BLOCKS="$((256 * 1024))"
+# Termina is ~87MiB compressed at present, so 100 MiB should be plenty for
+# now. Double this for test builds so we can fit test utilities in.
+# 100MiB = 256 x 1024 x 4KB blocks
+if [[ ${PV} == 9999 ]]; then
+	DLC_PREALLOC_BLOCKS="$((200 * 256))"
+else
+	DLC_PREALLOC_BLOCKS="$((100 * 256))"
+fi
 
 # TODO(crbug/953544): When termina's DLC is working, make the test pre-load it.
 # DLC_PRELOAD=true
