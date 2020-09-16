@@ -43,6 +43,7 @@ IUSE="
 	fuzzer
 	fwupd
 	hammerd
+	iioservice
 	ime
 	input_devices_evdev
 	intel_lpe
@@ -192,6 +193,7 @@ RDEPEND="
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
 	hammerd? ( chromeos-base/hammerd )
+	iioservice? ( chromeos-base/iioservice )
 	media_perception? ( chromeos-base/mri_package )
 	memd? ( chromeos-base/memd )
 	power_management? ( chromeos-base/power_manager )
