@@ -4,7 +4,7 @@
 # Increment the "eclass bug workaround count" below when you change
 # "cros-ec-release.eclass" to work around http://crbug.com/220902.
 #
-# eclass bug workaround count: 2
+# eclass bug workaround count: 3
 
 EAPI=7
 

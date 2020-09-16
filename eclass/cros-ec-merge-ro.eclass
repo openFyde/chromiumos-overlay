@@ -20,7 +20,7 @@ _ECLASS_CROS_EC_MERGE_RO="1"
 
 # Check for EAPI 6+
 case "${EAPI:-0}" in
-0|1|2|3|4|5) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+0|1|2|3|4|5|6) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 *) ;;
 esac
 
@@ -28,14 +28,14 @@ inherit cros-ec-utils
 
 # Make sure that private files ebuild has run since it creates the symlink
 # used in the src_install step below.
-DEPEND="virtual/chromeos-ec-private-files"
-
-# @ECLASS-VARIABLE: FIRMWARE_EC_RELEASE_RO_VERSION
-# @DEFAULT_UNSET
-# @DESCRIPTION:
-# RO version of firmware to use. If unspecified, the default version will be
-# used.
-: "${FIRMWARE_EC_RELEASE_RO_VERSION:=}"
+# We also use cros_config_host below.
+DEPEND="
+	virtual/chromeos-ec-private-files
+	virtual/chromeos-config-bsp
+"
+BDEPEND="
+	chromeos-base/chromeos-config-host
+"
 
 # @FUNCTION: cros-ec-merge-ro_do_merge
 # @USAGE: <RO firmware path> <RW firmware path>
@@ -96,10 +96,15 @@ cros-ec-merge-ro_src_install() {
 		return 0
 	fi
 
-	# If FIRMWARE_EC_RELEASE_RO_VERSION is specified then use it.
-	# Otherwise, validate that there is exactly one RO binary.
-	local ro_version="${FIRMWARE_EC_RELEASE_RO_VERSION}"
+	# If cros_config provides RO firmware version, then use it. The RO firmware
+	# version does not have to be specified, in which case cros_config_host will
+	# exit with success and not print any firmware version.
+	# In that case, we want to use the "default" RO firmware, so validate
+	# that there is exactly one RO binary.
 	local fw_target="${target%%_fp}"
+	local ro_version
+	ro_version="$(cros_config_host \
+		get-fpmcu-firmware-ro-version "${fw_target}" || die)"
 
 	local ro_fw
 	if [[ -n ${ro_version} ]]; then

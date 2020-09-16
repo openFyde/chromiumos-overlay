@@ -4,13 +4,12 @@
 # Increment the "eclass bug workaround count" below when you change
 # "cros-ec-release.eclass" to work around http://crbug.com/220902.
 #
-# eclass bug workaround count: 1
+# eclass bug workaround count: 3
 
 EAPI=7
 
 FIRMWARE_EC_BOARD="bloonchipper"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
-FIRMWARE_EC_RELEASE_RO_VERSION="${FPMCU_FIRMWARE_BLOONCHIPPER_RO_VERSION}"
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
