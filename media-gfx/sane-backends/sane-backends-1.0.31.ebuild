@@ -19,6 +19,7 @@ IUSE_SANE_BACKENDS="
 	canon
 	canon630u
 	canon_dr
+	canon_lide70
 	canon_pp
 	cardscan
 	coolscan
@@ -163,7 +164,7 @@ MULTILIB_CHOST_TOOLS=(
 
 pkg_setup() {
 	enewgroup scanner
-	enewuser saned -1 -1 -1 scanner
+	enewuser saned -1 -1 -1 scanner	
 }
 
 src_prepare() {
@@ -195,13 +196,13 @@ src_prepare() {
 	sed -i \
 		-e "/by sane-desc 3.5 from sane-backends/s:sane-backends .*:sane-backends ${ver}:" \
 		testsuite/tools/data/html* || die
+
 }
 
 src_configure() {
 	# Sanitizers don't link properly, but we want to fuzz dependent
 	# packages (b/160181793).
 	filter_sanitizers
-
 	# genesys backend doesn't build without exceptions.
 	cros_enable_cxx_exceptions
 	append-flags -fno-strict-aliasing # From Fedora
@@ -218,6 +219,7 @@ src_configure() {
 }
 
 multilib_src_configure() {
+
 	# the blank is intended - an empty string would result in building ALL backends.
 	local BACKENDS=" "
 
@@ -261,8 +263,9 @@ multilib_src_configure() {
 		"$(use_with v4l)" \
 		"$(use_enable ipv6)" \
 		"$(use_enable threads pthread)" \
-		"$(use_enable zeroconf avahi)" \
+		"$(use_with zeroconf avahi)" \
 		"${myconf[@]}"
+
 }
 
 multilib_src_compile() {

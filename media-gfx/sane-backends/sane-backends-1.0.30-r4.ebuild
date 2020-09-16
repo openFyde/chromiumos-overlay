@@ -1,1 +1,0 @@
-sane-backends-1.0.30.ebuild
