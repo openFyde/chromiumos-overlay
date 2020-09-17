@@ -17,7 +17,7 @@ LICENSE="BSD-Google"
 SLOT="0/${PVR}"
 KEYWORDS="~*"
 
-BDEPEND=dev-rust/dbus-codegen
+BDEPEND=">=dev-rust/dbus-codegen-0.5.0"
 
 src_unpack() {
 	cros-workon_src_unpack
