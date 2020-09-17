@@ -89,6 +89,10 @@ src_prepare() {
 	# Verify upstream hasn't changed relevant context code.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
 	eapply --dry-run "${FILESDIR}/keymaster-context-hooks.patch"
+	# Fix C++17 compilation. Can be removed once we update to newer version of
+	# keymaster that contains https://r.android.com/1412947.
+	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
+	eapply "${FILESDIR}/0001-keymaster-fix-C-17-compilation.patch"
 }
 
 src_configure() {
