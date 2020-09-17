@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8bda4e6d8c1d1d2fb0ed2874542070e9605a750d"
-CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "377caa22e8416ce2388b9c099e85be393001947f" "e0419631c76bfadb1dee2bcda2c68d825087f3f9" "f6f1218f384c792d37abe3858d51f624fcc8bbed" "963e076a0b7311a4a5e1c14646f9a5d50c209ef7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2df581a4b0b4433a35cadb013401b85c4f53b2ea"
+CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "377caa22e8416ce2388b9c099e85be393001947f" "e0419631c76bfadb1dee2bcda2c68d825087f3f9" "512b876565ba42bf90d1e4a3067c164c57f44a9b" "963e076a0b7311a4a5e1c14646f9a5d50c209ef7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,6 +31,7 @@ COMMON_DEPEND="
 	chromeos-base/libpasswordprovider:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/nsswitch:=
+	chromeos-base/shill-net:=
 	dev-libs/re2:=
 	cellular? ( net-dialup/ppp:= )
 	pppoe? ( net-dialup/ppp:= )
@@ -48,12 +49,14 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
+	chromeos-base/patchpanel
 	net-misc/dhcpcd
 	dhcpv6? ( net-misc/dhcpcd[ipv6] )
 	vpn? ( net-vpn/openvpn )
 "
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
+	chromeos-base/patchpanel-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	vpn? ( chromeos-base/vpn-manager:= )"
@@ -92,25 +95,6 @@ src_configure() {
 }
 
 src_install() {
-	# Install libshill-net library.
-	insinto "/usr/$(get_libdir)/pkgconfig"
-	local v="$(libchrome_ver)"
-	./net/preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}/lib/libshill-net.so"
-	doins "${OUT}/lib/libshill-net.pc"
-
-	# TODO(crbug/2386886): Remove both.
-	# Backward compatibility before all usages of versioned libraries are
-	# removed.
-	doins "${OUT}/lib/libshill-net-${v}.pc"
-	# Backward compatibility before developers has built their software against
-	# new shill.
-	dosym libshill-net.so "/usr/$(get_libdir)/libshill-net-${v}.so"
-
-	# Install header files from libshill-net.
-	insinto /usr/include/shill/net
-	doins net/*.h
-
 	dobin bin/ff_debug
 
 	if use cellular; then

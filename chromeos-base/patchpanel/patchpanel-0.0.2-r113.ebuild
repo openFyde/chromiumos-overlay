@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="63b51b8b9202b3963c87df283f49d53cf961ba98"
-CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "0e7f8025c0272d96a9ef17f7765d786bd5aa1005" "a5a6bdbd1298f994763cb22b308cd3af4f584f3e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2df581a4b0b4433a35cadb013401b85c4f53b2ea"
+CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "0e7f8025c0272d96a9ef17f7765d786bd5aa1005" "5d5e405eab09b29c43db777f61650b9187b8bce3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -26,10 +26,12 @@ IUSE="fuzzer arcvm jetstream_routing"
 COMMON_DEPEND="
 	dev-libs/protobuf:=
 	!chromeos-base/arc-networkd
+	chromeos-base/shill-net:=
 "
 
 RDEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/shill
 	net-firewall/iptables
 	net-misc/bridge-utils
 	sys-apps/iproute2
@@ -38,7 +40,6 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/session_manager-client:=
-	>=chromeos-base/shill-0.0.1-r2205:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 "
