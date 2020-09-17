@@ -52,6 +52,7 @@ IUSE="
 	kerberos_daemon
 	kernel-3_8
 	kvm_host
+	manatee
 	media_perception
 	memd
 	mist
@@ -200,6 +201,7 @@ RDEPEND="
 	profile? ( chromeos-base/quipper )
 	selinux? ( chromeos-base/selinux-policy )
 	shill? ( >=chromeos-base/shill-0.0.1-r2205 )
+	manatee? ( chromeos-base/sirenia )
 	usb_bouncer? ( chromeos-base/usb_bouncer )
 	chromeos-base/update_engine
 	vpn? ( chromeos-base/vpn-manager )
