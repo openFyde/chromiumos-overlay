@@ -2152,9 +2152,14 @@ cros-kernel2_src_install() {
 		return 0
 	fi
 
-	local install_dir="${D}$1"
+	local install_prefix=${1}
+	local install_dir="${D}${install_prefix}"
 
-	dodir /boot
+	if use kernel_sources && [[ -n "${install_prefix}" ]]; then
+		die "The install_prefix option is not supported with USE kernel_sources flag."
+	fi
+
+	dodir "${install_prefix}/boot"
 	kmake INSTALL_MOD_PATH="${install_dir}" INSTALL_PATH="${install_dir}/boot" install
 
 	if use device_tree; then
@@ -2169,7 +2174,8 @@ cros-kernel2_src_install() {
 			STRIP="$(eclass_dir)/strip_splitdebug" \
 			modules_install
 		if ! has ${EAPI} {4..6}; then
-			dostrip -x "/lib/modules/${version}/kernel/" /usr/lib/debug/lib/modules/
+			dostrip -x "${install_prefix}/lib/modules/${version}/kernel/" \
+				"${install_prefix}/usr/lib/debug/lib/modules/"
 		fi
 	fi
 
@@ -2214,7 +2220,7 @@ cros-kernel2_src_install() {
 				#
 				# TODO(jrbarnette):  Really, this should use a
 				# FIT image, same as other boards.
-				insinto /boot/dts
+				insinto "${install_prefix}/boot/dts"
 				doins "${dtb_dir}"/*.dtb
 			fi
 		fi
@@ -2251,13 +2257,14 @@ cros-kernel2_src_install() {
 	einfo "Kernel image size is ${kernel_image_size} bytes."
 
 	# Install uncompressed kernel for debugging purposes.
-	insinto /usr/lib/debug/boot
+	insinto "${install_prefix}/usr/lib/debug/boot"
 	doins "$(cros-workon_get_build_dir)/vmlinux"
 	if ! has ${EAPI} {4..6}; then
-		dostrip -x /usr/lib/debug/boot/vmlinux /usr/src/
+		dostrip -x "${install_prefix}/usr/lib/debug/boot/vmlinux" \
+			"${install_prefix}/usr/src/"
 	fi
 	if use kgdb && [[ -d "$(cros-workon_get_build_dir)/scripts/gdb" ]]; then
-		insinto /usr/lib/debug/boot/
+		insinto "${install_prefix}/usr/lib/debug/boot/"
 		doins "$(cros-workon_get_build_dir)/vmlinux-gdb.py"
 		mkdir "${install_dir}"/usr/lib/debug/boot/scripts || die
 		rsync -rKLp --chmod=a+r \
@@ -2284,7 +2291,7 @@ cros-kernel2_src_install() {
 
 		# Use the debug versions (.so.dbg) so portage can run splitdebug on them.
 		for f in "${vdso_dir}"/vdso*.so.dbg; do
-			d="/lib/modules/${version}/vdso/${f##*/}"
+			d="${install_prefix}/lib/modules/${version}/vdso/${f##*/}"
 
 			exeinto "${d}"
 			newexe "${f}" "linux-gate.so"
@@ -2299,7 +2306,7 @@ cros-kernel2_src_install() {
 
 		# Use the debug versions (.so.dbg) so portage can run splitdebug on them.
 		for f in "${vdso_dir}"*/vdso*.so.dbg; do
-			d="/lib/modules/${version}/vdso${f#*vdso}"
+			d="${install_prefix}/lib/modules/${version}/vdso${f#*vdso}"
 			d="${d%/*}"
 
 			exeinto "${d}"
@@ -2313,11 +2320,11 @@ cros-kernel2_src_install() {
 	if use kernel_sources; then
 		install_kernel_sources
 	else
-		dosym "$(cros-workon_get_build_dir)" "/usr/src/linux"
+		dosym "$(cros-workon_get_build_dir)" "${install_prefix}/usr/src/linux"
 	fi
 
 	if use compilation_database; then
-		insinto /build/kernel
+		insinto "${install_prefix}/build/kernel"
 		einfo "Installing kernel compilation databases.
 To use the compilation database with an IDE or other tools outside of the
 chroot create a symlink named 'compile_commands.json' in the kernel source
@@ -2330,7 +2337,7 @@ directory (outside of the chroot) to compile_commands_no_chroot.json."
 		# Deliver the profile we just verified.  The upload artifacts
 		# step in the builder will collect the (now verified) AFDO
 		# profile from here.
-		insinto /usr/lib/debug/boot
+		insinto "${install_prefix}/usr/lib/debug/boot"
 		doins "${DISTDIR}/${AFDO_GCOV}.xz"
 	fi
 }
