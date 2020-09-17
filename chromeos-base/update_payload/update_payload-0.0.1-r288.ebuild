@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8055010b2c0379c7f5a34c1c96f6b4988d3878a2"
-CROS_WORKON_TREE="86bf2ff8202b62d71db3c07add8f93a0089b9942"
+CROS_WORKON_COMMIT="fbc57355f863b5476ae1739375bb8ce026c8a629"
+CROS_WORKON_TREE="337a84512cf770e1fb7e0d32bd99ec138d2ea4c4"
 PYTHON_COMPAT=( python3_{6,7} )
 
 CROS_WORKON_LOCALNAME="aosp/system/update_engine"
@@ -44,7 +44,9 @@ src_install() {
 
 src_test() {
 	# Run update_payload unittests.
-	cd scripts
+	cd "${T}" || die
+	unpack "${S}"/sample_images/{sample_payloads.tar.xz,sample_images.tar.bz2}
+	cd "${S}"/scripts || die
 	python_test() {
 		./run_unittests || die
 	}
