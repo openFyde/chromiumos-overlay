@@ -18,8 +18,8 @@ KEYWORDS="~*"
 RDEPEND=""
 
 DEPEND="${RDEPEND}
-	chromeos-base/chromeos-dbus-bindings-rust:=
-	=dev-rust/dbus-0.6*:=
+	>chromeos-base/chromeos-dbus-bindings-rust-0.24.52-r16:=
+	=dev-rust/dbus-0.8*:=
 "
 
 src_unpack() {
