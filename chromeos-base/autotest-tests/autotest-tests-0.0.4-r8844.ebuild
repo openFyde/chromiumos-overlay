@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="3fe8d2756ce5f08ea896aa4ef3601350c1a03aec"
-CROS_WORKON_TREE="e284277478910297894703e908b09c3779b51214"
+CROS_WORKON_COMMIT="d3007d28dbe805d954d6d1dc1c0c72d2f7fca76d"
+CROS_WORKON_TREE="36ddaad580dac726a3ccf045d0c0162c3e206ed0"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit libchrome cros-workon autotest
@@ -83,6 +83,7 @@ CLIENT_IUSE_TESTS="
 	+tests_autoupdate_CannedOmahaUpdate
 	+tests_autoupdate_DisconnectReconnectNetwork
 	dlc_test? ( +tests_autoupdate_InstallAndUpdateDLC )
+	+tests_autoupdate_PeriodicCheck
 	+tests_autoupdate_UrlSwitch
 	+tests_blktestsSuiteAll
 	+tests_blktestsSuiteLoopOverBlk

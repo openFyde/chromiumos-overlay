@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="2337639c34de93e5bc8a93506afd649ea36c3e86"
-CROS_WORKON_TREE="789d8696e1da5182a0ca4a5a9463a24181b4db1b"
+CROS_WORKON_COMMIT="d3007d28dbe805d954d6d1dc1c0c72d2f7fca76d"
+CROS_WORKON_TREE="36ddaad580dac726a3ccf045d0c0162c3e206ed0"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -59,6 +59,7 @@ SERVER_IUSE_TESTS="
 	+tests_audio_PowerConsumption
 	+tests_audiovideo_AVSync
 	+tests_autotest_SyncCount
+	+tests_autoupdate_Basic
 	+tests_autoupdate_CatchBadSignatures
 	+tests_autoupdate_Cellular
 	+tests_autoupdate_DataPreserved
@@ -68,6 +69,7 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_NonBlockingOOBEUpdate
 	+tests_autoupdate_OmahaResponse
 	+tests_autoupdate_P2P
+	+tests_autoupdate_Periodic
 	+tests_autoupdate_Rollback
 	dlc_test? ( +tests_autoupdate_WithDLC )
 	has-kernelnext? ( +tests_autoupdate_StatefulCompatibility )

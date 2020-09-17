@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="aefae03e0dc06020f41d5a143643468373dbfc94"
-CROS_WORKON_TREE="1d4cec36aec097875c8c24045ff3525055200fd6"
+CROS_WORKON_COMMIT="d3007d28dbe805d954d6d1dc1c0c72d2f7fca76d"
+CROS_WORKON_TREE="36ddaad580dac726a3ccf045d0c0162c3e206ed0"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -54,7 +54,6 @@ IUSE_TESTS=(
 	+tests_audio_CrasSanity
 	+tests_audio_PlaybackPower
 	+tests_audio_SeekAudioFeedback
-	+tests_autoupdate_CrashBrowserAfterUpdate
 	+tests_autoupdate_EOL
 	+tests_autoupdate_LoginStartUpdateLogout
 	+tests_autoupdate_StartOOBEUpdate
