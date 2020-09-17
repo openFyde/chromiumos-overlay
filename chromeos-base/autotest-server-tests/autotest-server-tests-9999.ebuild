@@ -80,7 +80,11 @@ SERVER_IUSE_TESTS="
 	)
 	android-vm-rvc? (
 		cheets_user_64? (
+			+tests_cheets_CTS_R
 			+tests_cheets_GTS_R
+		)
+		!cheets_user_64? (
+			+tests_cheets_VTS_R
 		)
 	)
 	+tests_cheets_LabDependencies
