@@ -1,0 +1,21 @@
+Ensure that sanitizer runtimes are built for all our supported x86_64
+platforms.
+
+Now that we patch in our own custom -cros and -pc targets instead
+of falling back to -unknown, we need to add builds for those
+targets as well to allow the linker to find the correct versions
+of the librustc_[almt]san static libraries.
+
+diff --git a/src/bootstrap/native.rs b/src/bootstrap/native.rs
+index a796685f9dd..20a7f0d8e59 100644
+--- a/src/bootstrap/native.rs
++++ b/src/bootstrap/native.rs
+@@ -660,7 +660,7 @@ fn supported_sanitizers(out_dir: &Path, target: Interned<String>) -> Vec<Sanitiz
+                 });
+             }
+         }
+-        "x86_64-unknown-linux-gnu" => {
++        "x86_64-unknown-linux-gnu" | "x86_64-cros-linux-gnu" | "x86_64-pc-linux-gnu" => {
+             for s in &["asan", "lsan", "msan", "tsan"] {
+                 result.push(SanitizerRuntime {
+                     cmake_target: format!("clang_rt.{}-x86_64", s),
