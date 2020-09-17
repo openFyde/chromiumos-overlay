@@ -118,6 +118,8 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/UPSTREAM-egl-Allow-software-rendering-for-vgem-virtio_gpu-in-.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-st-mesa-set-compressed_data-to-NULL-when-freed.patch
+
 	default
 }
 

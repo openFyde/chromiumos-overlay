@@ -1,0 +1,29 @@
+From 51bdaf0b601522dfc599bd352806e66ef56876a3 Mon Sep 17 00:00:00 2001
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Date: Thu, 9 Jul 2020 16:59:39 +0200
+Subject: [PATCH] st/mesa: set compressed_data to NULL when freed
+
+Reported-by: Karol Herbst <kherbst@redhat.com>
+Fixes: b6db703e0f0 ("st/mesa: make texture views inherit compressed_data storage")
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
+Tested-by: Dave Airlie <airlied@redhat.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5821>
+---
+ src/mesa/state_tracker/st_cb_texture.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/mesa/state_tracker/st_cb_texture.c b/src/mesa/state_tracker/st_cb_texture.c
+index 72274579187..b0ea844c071 100644
+--- a/src/mesa/state_tracker/st_cb_texture.c
++++ b/src/mesa/state_tracker/st_cb_texture.c
+@@ -235,6 +235,7 @@ st_FreeTextureImageBuffer(struct gl_context *ctx,
+        pipe_reference(&stImage->compressed_data->reference, NULL)) {
+       free(stImage->compressed_data->ptr);
+       free(stImage->compressed_data);
++      stImage->compressed_data = NULL;
+    }
+ 
+    /* if the texture image is being deallocated, the structure of the
+-- 
+2.28.0.681.g6f77f65b4e-goog
+
