@@ -111,8 +111,8 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/bmpblk/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="detachable menu_ui legacy_menu_ui diag_payload minidiag
-	physical_presence_power physical_presence_recovery"
+IUSE="detachable diag_payload minidiag physical_presence_power
+	physical_presence_recovery"
 
 BDEPEND="${PYTHON_DEPS}"
 DEPEND="virtual/chromeos-vendor-strings"
@@ -150,7 +150,6 @@ src_compile() {
 	if use detachable ; then
 		export DETACHABLE=1
 	fi
-	export MENU_UI=1
 
 	# Both diag_payload and minidiag need additional UI images from
 	# chromeos-bmpblk.
