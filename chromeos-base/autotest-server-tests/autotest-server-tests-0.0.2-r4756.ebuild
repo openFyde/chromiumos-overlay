@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="14a931e1b269fd5743147b6adc3310094a810dba"
-CROS_WORKON_TREE="a3e50c39ba1a789e795cafab44125888e4dd6c72"
+CROS_WORKON_COMMIT="d2b607af3f8d8888e1bec8911d3a48d61efb696a"
+CROS_WORKON_TREE="b09556297db6051ae77a9696538792a4979e2359"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -314,12 +314,12 @@ SERVER_IUSE_TESTS="
 	+tests_power_RPMTest
 	+tests_power_ServoChargeStress
 	+tests_power_ServodWrapper
-	+tests_provision_AutoUpdate
 	+tests_provision_CheetsUpdate
 	+tests_provision_Cr50TOT
 	+tests_provision_Cr50Update
 	+tests_provision_FactoryImage
 	+tests_provision_FirmwareUpdate
+	+tests_provision_QuickProvision
 	+tests_rlz_CheckPing
 	+tests_security_kASLR
 	+tests_sequences
