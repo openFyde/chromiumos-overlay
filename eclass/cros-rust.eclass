@@ -327,7 +327,7 @@ cros-rust_src_configure() {
 	# https://crbug.com/1085546
 	use asan && rustflags+=( -Csanitizer=address -Clink-arg="-Wl,-export-dynamic" )
 	use lsan && rustflags+=( -Csanitizer=leak )
-	use msan && rustflags+=( -Csanitizer=memory )
+	use msan && rustflags+=( -Csanitizer=memory -Clink-arg="-Wl,--allow-shlib-undefined")
 	use tsan && rustflags+=( -Csanitizer=thread )
 	use ubsan && rustflags+=( -Clink-arg=-fsanitize=undefined )
 
