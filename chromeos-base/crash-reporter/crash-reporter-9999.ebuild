@@ -130,6 +130,10 @@ src_install() {
 		--dict "${S}"/crash_sender_fuzzer.dict
 
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/chrome_collector_fuzzer \
+		--dict "${S}"/chrome_collector_fuzzer.dict
+
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/anomaly_detector_fuzzer \
 		--dict "${S}"/anomaly_detector_fuzzer.dict
 }
