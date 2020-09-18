@@ -96,6 +96,7 @@ func getConfig(configName string, useCCache bool, useLlvmNext bool, version stri
 	cfg.useLlvmNext = useLlvmNext
 	if useLlvmNext {
 		cfg.clangFlags = append(cfg.clangFlags, llvmNextFlags...)
+		cfg.clangPostFlags = append(cfg.clangPostFlags, llvmNextPostFlags...)
 	}
 	cfg.version = version
 	return &cfg, nil
