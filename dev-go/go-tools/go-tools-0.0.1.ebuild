@@ -8,8 +8,16 @@ CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools 65e3620a7ae7ac25e84
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/ast/astutil"
+	"golang.org/x/tools/go/buildutil"
 	"golang.org/x/tools/go/gcexportdata"
+	"golang.org/x/tools/go/internal/cgo"
 	"golang.org/x/tools/go/internal/gcimporter"
+	"golang.org/x/tools/go/internal/packagesdriver"
+	"golang.org/x/tools/go/loader"
+	"golang.org/x/tools/go/packages"
+	"golang.org/x/tools/internal/fastwalk"
+	"golang.org/x/tools/internal/gopathwalk"
+	"golang.org/x/tools/internal/semver"
 )
 
 CROS_GO_TEST=(
@@ -35,5 +43,8 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/net"
-RDEPEND=""
+DEPEND="
+	dev-go/net
+	dev-go/xerrors
+"
+RDEPEND="${DEPEND}"
