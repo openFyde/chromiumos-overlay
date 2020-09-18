@@ -199,6 +199,7 @@ CONFIG_FRAGMENTS=(
 	realtekpstor
 	recovery_ramfs
 	samsung_serial
+	sched_tracer
 	selinux_develop
 	socketmon
 	systemtap
@@ -770,6 +771,11 @@ samsung_serial_desc="Samsung serialport"
 samsung_serial_config="
 CONFIG_SERIAL_SAMSUNG=y
 CONFIG_SERIAL_SAMSUNG_CONSOLE=y
+"
+
+sched_tracer_desc="scheduling latency tracer"
+sched_tracer_config="
+CONFIG_SCHED_TRACER=y
 "
 
 selinux_develop_desc="SELinux developer mode"
