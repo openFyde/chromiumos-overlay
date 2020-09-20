@@ -35,7 +35,7 @@ src_configure() {
 	local emesonargs=(
 		$(meson_use doc documentation)
 		$(meson_use test)
-		-Dandroid="true"
+		-Dandroid="enabled"
 		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
 	)
 	meson_src_configure
