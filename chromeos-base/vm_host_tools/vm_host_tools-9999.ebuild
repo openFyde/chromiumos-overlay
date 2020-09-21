@@ -74,7 +74,7 @@ pkg_setup() {
 }
 
 src_install() {
-	platform_install_compilation_database
+	platform_src_install
 
 	dobin "${OUT}"/cicerone_client
 	dobin "${OUT}"/concierge_client

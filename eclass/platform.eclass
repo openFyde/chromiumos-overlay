@@ -283,6 +283,10 @@ platform_src_test() {
 	platform_test "post_test"
 }
 
+platform_src_install() {
+	use compilation_database && platform_install_compilation_database
+}
+
 platform_install_dbus_client_lib() {
 	local libname=${1:-${PN}}
 
@@ -312,13 +316,11 @@ platform_install_dbus_client_lib() {
 # Installs compilation database files to
 # /build/compilation_database/${CATEGORY}/${PN}.
 platform_install_compilation_database() {
-	if use compilation_database; then
-		insinto "/build/compilation_database/${CATEGORY}/${PN}"
+	insinto "/build/compilation_database/${CATEGORY}/${PN}"
 
-		doins "${OUT}/compile_commands.txt"
-		doins "${OUT}/compile_commands_chroot.json"
-		doins "${OUT}/compile_commands_no_chroot.json"
-	fi
+	doins "${OUT}/compile_commands.txt"
+	doins "${OUT}/compile_commands_chroot.json"
+	doins "${OUT}/compile_commands_no_chroot.json"
 }
 
-EXPORT_FUNCTIONS src_compile src_test src_configure src_unpack
+EXPORT_FUNCTIONS src_compile src_test src_configure src_unpack src_install
