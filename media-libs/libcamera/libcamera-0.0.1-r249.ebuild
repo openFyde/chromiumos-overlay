@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="54557e25f2d478623839fe17f82700bb97fff0b2"
-CROS_WORKON_TREE="2f93ba0a45e6d86cd63ef67780b3de9356dcd37d"
+CROS_WORKON_COMMIT="e390f9f618ec694e5327ebe93cdfc0ba89ab5a86"
+CROS_WORKON_TREE="a9d7e586af86304a722f1d66f255ec631f0d5a03"
 CROS_WORKON_PROJECT="chromiumos/third_party/libcamera"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -37,7 +37,7 @@ src_configure() {
 	local emesonargs=(
 		$(meson_use doc documentation)
 		$(meson_use test)
-		-Dandroid="true"
+		-Dandroid="enabled"
 		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
 	)
 	meson_src_configure
