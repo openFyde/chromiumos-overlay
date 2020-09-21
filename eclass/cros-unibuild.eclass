@@ -230,19 +230,6 @@ _unibuild_common_install() {
 	done
 }
 
-# @FUNCTION: unibuild_install_thermal_files
-# @USAGE: [config_file]
-# @DESCRIPTION:
-# Install files related to thermal operation. Currently this is only the DPTF
-# (Dynamic Platform and Thermal Framework) datavaults, typically called dptf.dv
-# Args:
-#   $1: (optional) Config file used by cros_config_host
-unibuild_install_thermal_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
-
-	_unibuild_common_install get-thermal-files "$@"
-}
-
 # @FUNCTION: _unibuild_install_fw
 # @USAGE: [source] [dest] [symlink path]
 # @INTERNAL
@@ -317,54 +304,6 @@ unibuild_install_detachable_base_files() {
 	_unibuild_install_fw_common "get-detachable-base-firmware-files" "$@"
 }
 
-# @FUNCTION: unibuild_install_audio_files
-# @USAGE: [config_file]
-# @DESCRIPTION:
-# Install files related to audio. This includes cras, alsa and hotwording
-# topology firmware.
-# Args:
-#   $1: (optional) Config file used by cros_config_host
-unibuild_install_audio_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
-
-	_unibuild_common_install get-audio-files "$@"
-}
-
-# @FUNCTION: unibuild_install_arc_files
-# @USAGE: [config_file]
-# @DESCRIPTION: Install files related to arc.
-# Args:
-#   $1: (optional) Config file used by cros_config_host
-unibuild_install_arc_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
-
-	_unibuild_common_install get-arc-files "$@"
-}
-
-# @FUNCTION: unibuild_install_camera_files
-# @USAGE: [config_file]
-# @DESCRIPTION:
-# Install files related to camera config.
-# Args:
-#   $1: (optional) Config file used by cros_config_host
-unibuild_install_camera_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
-
-	_unibuild_common_install get-camera-files "$@"
-}
-
-# @FUNCTION: unibuild_install_intel_wifi_sar_files
-# @USAGE: [config_file]
-# @DESCRIPTION:
-# Install intel wifi sar files.
-# Args:
-#   $1: (optional) Config file used by cros_config_host
-unibuild_install_intel_wifi_sar_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
-
-	_unibuild_common_install get-intel-wifi-sar-files "$@"
-}
-
 # @FUNCTION: unibuild_build_configfs_file
 # @USAGE:
 # @DESCRIPTION:
@@ -429,15 +368,20 @@ platform_json_install() {
 	doins "${WORKDIR}/project-config.json"
 }
 
-# @FUNCTION: unibuild_install_autobrightness_files
+# @FUNCTION: unibuild_install_files
 # @USAGE: [config_file]
 # @DESCRIPTION:
-# Install files related to autobrightness. This installs model_params.json
-# which specifies autobrightness policy.
+# Install files as specified in project config.
 # Args:
-#   $1: (optional) Config file used by cros_config_host
-unibuild_install_autobrightness_files() {
-	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
+#   $1: Which files to install, translates to a command to pass to
+#       cros_config_host to get the files
+#   $2: (optional) Config file used by cros_config_host
+unibuild_install_files() {
+	[[ $# -gt 0 ]] || die "${FUNCNAME}: files to install arg required"
+	[[ $# -lt 3 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 
-	_unibuild_common_install get-autobrightness-files "$@"
+	local file_set="$1"
+	shift
+
+	_unibuild_common_install "get-${file_set}" "$@"
 }
