@@ -1,4 +1,4 @@
-From 87e38597e01034c5f3b364bddb5198c8d531fde7 Mon Sep 17 00:00:00 2001
+From 7325908b2c832e75ebbb703ae4edc491706b1eaf Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Mon, 29 Jun 2020 00:29:00 +1000
 Subject: [PATCH] Better error reporting via exceptions
@@ -22,9 +22,9 @@ applied to the rest of these FUSE callbacks.
  lib/fileNode.cpp    |  31 ------
  lib/fuse-zip.cpp    | 240 ++++++++++++++++++++++----------------------
  lib/fuseZipData.cpp |  30 +++---
- lib/util.h          |  39 +++++++
+ lib/util.h          |  50 +++++++++
  main.cpp            |  17 ++--
- 6 files changed, 193 insertions(+), 194 deletions(-)
+ 6 files changed, 204 insertions(+), 194 deletions(-)
 
 diff --git a/lib/dataNode.cpp b/lib/dataNode.cpp
 index 17c94c2..0efd7bc 100644
@@ -185,7 +185,7 @@ index bd1538c..30c2975 100644
      }
  
 diff --git a/lib/fuse-zip.cpp b/lib/fuse-zip.cpp
-index 065ba2e..73ea2fa 100644
+index 0db402e..ec9c3f8 100644
 --- a/lib/fuse-zip.cpp
 +++ b/lib/fuse-zip.cpp
 @@ -41,70 +41,61 @@
@@ -298,7 +298,7 @@ index 065ba2e..73ea2fa 100644
  }
  
  void *fusezip_init(struct fuse_conn_info *conn) {
-@@ -214,7 +205,7 @@ int fusezip_statfs(const char *path, struct statvfs *buf) {
+@@ -208,7 +199,7 @@ int fusezip_statfs(const char *path, struct statvfs *buf) {
      return 0;
  }
  
@@ -307,7 +307,7 @@ index 065ba2e..73ea2fa 100644
      if (*path == '\0') {
          return -ENOENT;
      }
-@@ -227,18 +218,13 @@ int fusezip_open(const char *path, struct fuse_file_info *fi) {
+@@ -221,18 +212,13 @@ int fusezip_open(const char *path, struct fuse_file_info *fi) {
      }
      fi->fh = (uint64_t)node;
  
@@ -331,7 +331,7 @@ index 065ba2e..73ea2fa 100644
      if (*path == '\0') {
          return -EACCES;
      }
-@@ -246,18 +232,20 @@ int fusezip_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
+@@ -240,18 +226,20 @@ int fusezip_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
      if (node != NULL) {
          return -EEXIST;
      }
@@ -356,7 +356,7 @@ index 065ba2e..73ea2fa 100644
      if (*path == '\0') {
          return -EACCES;
      }
-@@ -265,47 +253,55 @@ int fusezip_mknod(const char *path, mode_t mode, dev_t dev) {
+@@ -259,47 +247,55 @@ int fusezip_mknod(const char *path, mode_t mode, dev_t dev) {
      if (node != NULL) {
          return -EEXIST;
      }
@@ -432,7 +432,7 @@ index 065ba2e..73ea2fa 100644
      if (*path == '\0') {
          return -EACCES;
      }
-@@ -327,6 +323,8 @@ int fusezip_truncate(const char *path, off_t offset) {
+@@ -321,6 +317,8 @@ int fusezip_truncate(const char *path, off_t offset) {
          return -res;
      }
      return node->close();
@@ -441,7 +441,7 @@ index 065ba2e..73ea2fa 100644
  }
  
  int fusezip_unlink(const char *path) {
-@@ -377,7 +375,7 @@ int fusezip_mkdir(const char *path, mode_t mode) {
+@@ -371,7 +369,7 @@ int fusezip_mkdir(const char *path, mode_t mode) {
      return 0;
  }
  
@@ -450,7 +450,7 @@ index 065ba2e..73ea2fa 100644
      if (*path == '\0') {
          return -ENOENT;
      }
-@@ -391,7 +389,7 @@ int fusezip_rename(const char *path, const char *new_path) {
+@@ -385,7 +383,7 @@ int fusezip_rename(const char *path, const char *new_path) {
      FileNode *new_node = get_file_node(new_path + 1);
      if (new_node != NULL) {
          int res = get_data()->removeNode(new_node);
@@ -459,7 +459,7 @@ index 065ba2e..73ea2fa 100644
              return -res;
          }
      }
-@@ -409,48 +407,46 @@ int fusezip_rename(const char *path, const char *new_path) {
+@@ -403,48 +401,46 @@ int fusezip_rename(const char *path, const char *new_path) {
          new_name.push_back('/');
      }
  
@@ -642,10 +642,10 @@ index 6852678..52acdff 100644
      converted.append(start);
  }
 diff --git a/lib/util.h b/lib/util.h
-index 94ac191..82ff39e 100644
+index 94ac191..1fe63be 100644
 --- a/lib/util.h
 +++ b/lib/util.h
-@@ -20,8 +20,47 @@
+@@ -20,8 +20,58 @@
  #ifndef UTIL_H
  #define UTIL_H
  
@@ -665,6 +665,10 @@ index 94ac191..82ff39e 100644
 +        : std::runtime_error(MakeMessage(std::move(message), archive)),
 +          code_(zip_error_code_zip(zip_get_error(archive))) {}
 +
++    ZipError(std::string message, zip_file_t *const file)
++        : std::runtime_error(MakeMessage(std::move(message), file)),
++          code_(zip_error_code_zip(zip_file_get_error(file))) {}
++
 +    ZipError(std::string message, const int code)
 +        : std::runtime_error(MakeMessage(std::move(message), code)),
 +          code_(code) {}
@@ -675,6 +679,13 @@ index 94ac191..82ff39e 100644
 +    static std::string MakeMessage(std::string message, zip_t *const archive) {
 +        message += ": ";
 +        message += zip_strerror(archive);
++        return message;
++    }
++
++    static std::string MakeMessage(std::string message,
++                                   zip_file_t *const file) {
++        message += ": ";
++        message += zip_file_strerror(file);
 +        return message;
 +    }
 +
@@ -742,5 +753,5 @@ index cb19ac5..1503523 100644
  }
  
 -- 
-2.27.0.383.g050319c2ae-goog
+2.28.0.681.g6f77f65b4e-goog
 
