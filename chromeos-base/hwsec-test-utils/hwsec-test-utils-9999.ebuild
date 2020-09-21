@@ -54,10 +54,6 @@ src_install() {
 	doins fake_pca_agent/fake_pca_agentd.conf
 	dobin "${OUT}"/fake_pca_agentd
 
-	# Install performance test
-	insinto /etc/init
-	doins performance_test/cryptohome-dbus-perf.conf
-
 }
 
 platform_pkg_test() {
