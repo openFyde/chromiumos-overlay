@@ -28,6 +28,10 @@ DEPEND="
 	dev-libs/protobuf:=
 "
 
+src_install() {
+	cros-go_src_install
+}
+
 src_unpack() {
 	platform_src_unpack
 	CROS_GO_WORKSPACE="${OUT}/gen/go"
