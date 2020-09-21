@@ -12,7 +12,7 @@ CROS_WORKON_LOCALNAME=(
 	"platform2"
 )
 CROS_WORKON_SUBTREE=(
-	"common-mk chromeos-config .gn power_manager"
+	".clang-format common-mk chromeos-config .gn power_manager"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
