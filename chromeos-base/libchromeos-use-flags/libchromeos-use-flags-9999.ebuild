@@ -45,6 +45,7 @@ IUSE="
 	disable_flash_hw_video_decode
 	disable_instant_tethering
 	disable_yuv420_biplanar
+	dlc
 	drm_atomic
 	edge_touch_filtering
 	enable_heuristic_palm_detection_filter
