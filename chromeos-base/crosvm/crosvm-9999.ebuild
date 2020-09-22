@@ -39,6 +39,7 @@ RDEPEND="${COMMON_DEPEND}
 
 DEPEND="${COMMON_DEPEND}
 	=dev-rust/android_log-sys-0.2*:=
+	>=dev-rust/anyhow-1.0.32:= <dev-rust/anyhow-2.0
 	=dev-rust/async-trait-0.1*:=
 	fuzzer? (
 		dev-rust/cros_fuzz:=
@@ -63,6 +64,7 @@ DEPEND="${COMMON_DEPEND}
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/quote-1*:=
 	=dev-rust/syn-1*:=
+	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	dev-rust/trace_events:=
 	dev-rust/remain:=
 	tpm2? (
