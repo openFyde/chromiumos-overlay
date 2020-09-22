@@ -6,7 +6,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/809389): Remove libmems from this list.
-CROS_WORKON_SUBTREE=".gn iioservice libmems common-mk"
+CROS_WORKON_SUBTREE=".gn iioservice libmems common-mk metrics"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -22,6 +22,7 @@ IUSE="+seccomp"
 
 RDEPEND="
 	!chromeos-base/chromeos-accelerometer-init
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/libmems:=
 	chromeos-base/mems_setup
