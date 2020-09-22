@@ -36,7 +36,12 @@ src_configure() {
 	local is_debug="false"
 	use cros-debug && is_debug="true"
 
-	local warn_flags="-Wno-suggest-destructor-override -Wno-suggest-override"
+	local warn_flags=(
+		"-Wno-suggest-destructor-override"
+		"-Wno-suggest-override"
+		"-Wno-shorten-64-to-32"
+		"-Wno-sign-conversion"
+	)
 	# Cross-compilation args.
 	GN_ARGS="
 is_system_compiler=true
@@ -48,8 +53,8 @@ target_cc=\"${CC}\"
 target_cxx=\"${CXX}\"
 target_cpu=\"${target_cpu}\"
 target_triplet=\"${CHOST}\"
-extra_target_cflags=\"${CFLAGS} ${warn_flags}\"
-extra_target_cxxflags=\"${CXXFLAGS} ${warn_flags}\"
+extra_target_cflags=\"${CFLAGS} ${warn_flags[*]}\"
+extra_target_cxxflags=\"${CXXFLAGS} ${warn_flags[*]}\"
 extra_target_ldflags=\"${LDFLAGS}\"
 "
 
