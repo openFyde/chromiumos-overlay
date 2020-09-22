@@ -45,6 +45,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/attestation:=
 	chromeos-base/biod_proxy:=
+	chromeos-base/bootlockbox-client:=
 	chromeos-base/cbor:=
 	chromeos-base/chaps:=
 	chromeos-base/chromeos-config-tools:=
@@ -72,7 +73,6 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	tpm2? ( chromeos-base/trunks:=[test?] )
 	chromeos-base/attestation-client:=
-	chromeos-base/bootlockbox-client:=
 	chromeos-base/cryptohome-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/protofiles:=

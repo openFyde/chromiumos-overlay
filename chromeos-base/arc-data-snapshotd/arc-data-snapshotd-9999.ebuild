@@ -20,15 +20,20 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/data
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="+seccomp"
+IUSE="+seccomp selinux"
 
 RDEPEND="
+	chromeos-base/bootlockbox-client:=
 	chromeos-base/minijail:=
 "
 
 DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api:=
+	dev-libs/protobuf:=
+	selinux? (
+		sys-libs/libselinux:=
+	)
 "
 
 src_install() {
