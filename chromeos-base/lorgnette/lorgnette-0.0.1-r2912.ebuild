@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="63b51b8b9202b3963c87df283f49d53cf961ba98"
+CROS_WORKON_COMMIT="1d0542c624d1290482a1a414d22d6c641a818c3f"
 CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "ec9642ae007468ddb1e248fa3f3b7b7db0cce8c6" "e0419631c76bfadb1dee2bcda2c68d825087f3f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,6 +25,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/libpng:=
 	media-gfx/sane-backends:=
+	virtual/libusb:1
 "
 
 RDEPEND="${COMMON_DEPEND}
