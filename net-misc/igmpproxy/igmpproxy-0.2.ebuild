@@ -20,6 +20,7 @@ src_prepare() {
 	epatch "${FILESDIR}/patches/${PN}-0.2-send-updated-report.patch"
 	epatch "${FILESDIR}/patches/${PN}-0.2-configure-queryinterval-and-reportforwarding.patch"
 	epatch "${FILESDIR}/patches/${PN}-0.2-fix-timer-issues.patch"
+	epatch "${FILESDIR}/patches/${PN}-0.2-configure-router-robustness-value.patch"
 }
 
 src_install() {
