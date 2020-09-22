@@ -18,7 +18,6 @@ IUSE="test"
 
 DEPEND="chromeos-base/system_api:=
 	sys-apps/dbus:=
-	=dev-rust/dbus-0.6*:=
 	=dev-rust/futures-0.3*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/intrusive-collections-0.9*:=
