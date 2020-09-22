@@ -57,6 +57,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-sanitizer-supported.patch"
 	"${FILESDIR}/${P}-cc.patch"
 	"${FILESDIR}/${P}-revert-libunwind-build.patch"
+	"${FILESDIR}/${P}-ld-argv0.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"
