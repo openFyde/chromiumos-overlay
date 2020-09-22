@@ -85,7 +85,7 @@ src_compile() {
 		fi
 	fi
 
-	args+="CONFIG_DEFAULT_PROGRAMMER=PROGRAMMER_INTERNAL"
+	args+=" CONFIG_DEFAULT_PROGRAMMER=PROGRAMMER_INTERNAL"
 
 	# Configure Flashrom to use OS timer instead of calibrated delay loop
 	# if USE flag is specified or if a certain board requires it.
