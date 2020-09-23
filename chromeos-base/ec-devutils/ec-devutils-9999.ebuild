@@ -4,7 +4,7 @@
 EAPI="7"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python3_6 )
 
 inherit cros-workon distutils-r1
 
