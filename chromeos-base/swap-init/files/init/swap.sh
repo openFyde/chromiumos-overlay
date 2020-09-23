@@ -186,28 +186,6 @@ disk_based_swap_supported() {
   ${disk_based_swap_enabled}
 }
 
-readonly INTEL_VENDOR_ID=0x8086
-readonly INTEL_OPTANE_MEM_DEVICE_ID=0x8510
-
-swap_to_optane() {
-  local optane_swap=false
-
-  # Return true if optane device exists.
-  if [ -b "/dev/nvme1n1" ]; then
-    local dev_dir vendor_id device_id
-    dev_dir="/sys/block/nvme1n1"
-    vendor_id="$(sed -E 's/[ \t]+$//' "${dev_dir}"/device/device/subsystem_vendor)"
-    device_id="$(sed -E 's/[ \t]+$//' "${dev_dir}"/device/device/subsystem_device)"
-    if [ "${vendor_id}" = "${INTEL_VENDOR_ID}" ] && \
-       [ "${device_id}" = "${INTEL_OPTANE_MEM_DEVICE_ID}" ]; then
-      optane_swap=true
-    fi
-  else
-    optane_swap=false
-  fi
-  ${optane_swap}
-}
-
 swap_to_micron() {
   local micron_swap=false
 
@@ -275,9 +253,7 @@ start() {
 
   local swap_device=
 
-  if disk_based_swap_supported && swap_to_optane; then
-    swap_device=/dev/nvme1n1
-  elif disk_based_swap_supported && swap_to_micron; then
+  if disk_based_swap_supported && swap_to_micron; then
     swap_device=/dev/nvme0n1
   fi
 
