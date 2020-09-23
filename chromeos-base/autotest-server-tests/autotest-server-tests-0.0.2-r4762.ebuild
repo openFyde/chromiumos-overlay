@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="fefe2ed2f35e5eacf1a4d3e77b74646e206bf0af"
-CROS_WORKON_TREE="499567ef05b588c3a478deaf2737b60b5d318118"
+CROS_WORKON_COMMIT="60a3dc27296a67627df813b4e4f1aed13bbdc57e"
+CROS_WORKON_TREE="4c2c46335b63a518fbf96d265afc964ce01806c4"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -82,7 +82,11 @@ SERVER_IUSE_TESTS="
 	)
 	android-vm-rvc? (
 		cheets_user_64? (
+			+tests_cheets_CTS_R
 			+tests_cheets_GTS_R
+		)
+		!cheets_user_64? (
+			+tests_cheets_VTS_R
 		)
 	)
 	+tests_cheets_LabDependencies
