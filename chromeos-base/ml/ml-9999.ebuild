@@ -85,9 +85,10 @@ src_install() {
 	insinto /etc/init
 	doins init/*.conf
 
-	# Install seccomp policy file.
+	# Install seccomp policy files.
 	insinto /usr/share/policy
 	newins "seccomp/ml_service-seccomp-${ARCH}.policy" ml_service-seccomp.policy
+	newins "seccomp/ml_service-WebPlatformHandwritingModel-seccomp-${ARCH}.policy" ml_service-WebPlatformHandwritingModel-seccomp.policy
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
@@ -125,6 +126,8 @@ src_install() {
 pkg_preinst() {
 	enewuser "ml-service"
 	enewgroup "ml-service"
+	enewuser "ml-service-dbus"
+	enewgroup "ml-service-dbus"
 }
 
 platform_pkg_test() {
