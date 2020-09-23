@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="58a1b8d4a0f6e3e34524185dac47b064e218c81f"
-CROS_WORKON_TREE=("3ac5056e8f73cbb04a3434397e3968f521269017" "825512278f3738ba8ac7c5f167aacd4677cfebf7" "b72ac166f659edb21f533fd55c0f7a885a85fd5e" "e8a973464784e588992988988eb26cfa0cf5f67b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="00405cc7cdd216fa5923ce0c05a867736e2332fd"
+CROS_WORKON_TREE=("3ac5056e8f73cbb04a3434397e3968f521269017" "825512278f3738ba8ac7c5f167aacd4677cfebf7" "467459e542e5307deefa42ac1e5b69994a978b73" "e8a973464784e588992988988eb26cfa0cf5f67b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -55,10 +55,6 @@ src_install() {
 	insinto /etc/init
 	doins fake_pca_agent/fake_pca_agentd.conf
 	dobin "${OUT}"/fake_pca_agentd
-
-	# Install performance test
-	insinto /etc/init
-	doins performance_test/cryptohome-dbus-perf.conf
 
 }
 
