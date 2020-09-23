@@ -12,7 +12,7 @@ HOMEPAGE="https://github.com/andersson/qrtr"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-asan"
+IUSE="-asan -qrtr_ns"
 
 DEPEND="
 	sys-kernel/linux-headers
@@ -31,11 +31,14 @@ src_configure() {
 src_install() {
 	emake DESTDIR="${D}" prefix="${EPREFIX}/usr" install
 
-	insinto /etc/init
-	doins "${FILESDIR}/qrtr-ns.conf"
+	if use qrtr_ns; then
+		insinto /etc/init
+		doins "${FILESDIR}/qrtr-ns.conf"
 
-	insinto /usr/share/policy
-	newins "${FILESDIR}/qrtr-ns-seccomp-${ARCH}.policy" qrtr-ns-seccomp.policy
+		insinto /usr/share/policy
+		newins "${FILESDIR}/qrtr-ns-seccomp-${ARCH}.policy" \
+			qrtr-ns-seccomp.policy
+	fi
 }
 
 src_test() {
@@ -44,6 +47,8 @@ src_test() {
 }
 
 pkg_preinst() {
-	enewuser "qrtr"
-	enewgroup "qrtr"
+	if use qrtr_ns; then
+		enewuser "qrtr"
+		enewgroup "qrtr"
+	fi
 }
