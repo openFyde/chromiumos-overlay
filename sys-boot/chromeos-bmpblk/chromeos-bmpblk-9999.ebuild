@@ -166,7 +166,7 @@ src_compile() {
 	else
 		export PHYSICAL_PRESENCE="keyboard"
 	fi
-	emake OUTPUT="${WORKDIR}" "${BOARD}"
+	emake OUTPUT="${WORKDIR}" BOARD="${BOARD}"
 	emake OUTPUT="${WORKDIR}/${BOARD}" ARCHIVER="/usr/bin/archive" archive
 	if [[ "${BOARD}" == "${ARCH}-generic" ]]; then
 		printf "1" > "${WORKDIR}/${BOARD}/vbgfx_not_scaled"
