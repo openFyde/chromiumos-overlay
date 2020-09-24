@@ -1,6 +1,6 @@
-From 2fa7c561af29b910664bb011f0aef58ba9dabb92 Mon Sep 17 00:00:00 2001
+From 902402fcd69a8208766568c898fd719b43c9eeeb Mon Sep 17 00:00:00 2001
 From: Azhar Shaikh <azhar.shaikh@intel.com>
-Date: Wed, 6 Feb 2019 11:54:11 -0800
+Date: Thu, 19 Nov 2020 11:22:49 -0700
 Subject: [PATCH] Add a flag to build 'vendor'
 
 Make compiling vendor specific code optional.
@@ -13,7 +13,7 @@ Signed-off-by: Azhar Shaikh <azhar.shaikh@intel.com>
  2 files changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile.am b/Makefile.am
-index d28175ae527a..4eea2b147a43 100644
+index d28175a..4eea2b1 100644
 --- a/Makefile.am
 +++ b/Makefile.am
 @@ -24,7 +24,7 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
@@ -38,10 +38,10 @@ index d28175ae527a..4eea2b147a43 100644
  MAINTAINERCLEANFILES = \
  	aclocal.m4 compile config.guess config.sub \
 diff --git a/configure.ac b/configure.ac
-index 9b64683b91c8..bcaf202a5f1f 100644
+index 7a4d97f..13249fa 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -97,6 +97,11 @@ AC_ARG_ENABLE([tests],
+@@ -94,6 +94,11 @@ AC_ARG_ENABLE([tests],
      [], [enable_tests="no"])
  
  
@@ -53,7 +53,7 @@ index 9b64683b91c8..bcaf202a5f1f 100644
  LT_INIT
  AC_DISABLE_STATIC
  AC_PROG_CC
-@@ -205,6 +210,7 @@ if test "$USE_DRM:$USE_X11:$USE_WAYLAND" = "no:no:no"; then
+@@ -215,6 +220,7 @@ if test "$USE_DRM:$USE_X11:$USE_WAYLAND" = "no:no:no"; then
  fi
  
  AM_CONDITIONAL(ENABLE_TESTS, test "$enable_tests" = "yes")
@@ -61,7 +61,7 @@ index 9b64683b91c8..bcaf202a5f1f 100644
  
  AC_OUTPUT([
      Makefile
-@@ -232,5 +238,6 @@ echo
+@@ -242,5 +248,6 @@ echo
  echo Libva VA-API version ............. : $LIBVA_API_VERSION
  echo Installation prefix .............. : $prefix
  echo Extra window systems ............. : $BACKENDS
@@ -70,5 +70,5 @@ index 9b64683b91c8..bcaf202a5f1f 100644
 +echo Enable vendor-Intel .............. : $enable_vendor_intel
  echo
 -- 
-2.19.0
+2.17.1
 
