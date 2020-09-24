@@ -53,5 +53,5 @@ CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard-octopus/ucode.bin"
 
 # WiFi SAR
 CONFIG_WIFI_SAR_CBFS=y
-CONFIG_WIFI_SAR_CBFS_FILEPATH="3rdparty/blobs/baseboard-octopus/wifi_sar/wifi_sar-fleex.hex"
+CONFIG_WIFI_SAR_CBFS_FILEPATH=""
 CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
