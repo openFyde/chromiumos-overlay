@@ -4,9 +4,14 @@
 # Please refer to README.md for more details.
 
 # HW decoding
+## We mark a device with hw_dec_av1_1080_30 capability if it supports
+## HW decoding for 1080p@30fps av1 formatted videos. _Xbpp is an _optional_
+## suffix that may or may not be there. If it's there, then it restricts the
+## previous codec+resolution+frame_rate to such bit depth. If it's not there,
+## the typical bit depth of the codec is supported, for example, 8 bits for
+## h264 and vp9 and 10bits for vp9-2.
+
 ## H264
-## We mark a device with hw_dec_h264_1080_30 capability if it supports
-## HW decoding for 1080p@30fps h264 formatted videos. Same for vp8 and vp9.
 - hw_dec_h264_1080_30
 - hw_dec_h264_1080_60
 - hw_dec_h264_2160_30
@@ -30,6 +35,15 @@
 - hw_dec_vp9-2_2160_30
 - hw_dec_vp9-2_2160_60
 
+## AV1 (Profile Main)
+- hw_dec_av1_1080_30
+- hw_dec_av1_1080_60
+- hw_dec_av1_2160_30
+- hw_dec_av1_2160_60
+- hw_dec_av1_1080_30_10bpp
+- hw_dec_av1_1080_60_10bpp
+- hw_dec_av1_2160_30_10bpp
+- hw_dec_av1_2160_60_10bpp
 
 ## JPEG
 ## hw_dec_jpeg is marked if a device supports JPEG HW decoding.
