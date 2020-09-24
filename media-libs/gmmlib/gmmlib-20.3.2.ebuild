@@ -16,7 +16,3 @@ LICENSE="MIT"
 SLOT="0"
 
 RDEPEND="${DEPEND}"
-
-PATCHES=(
-	"${FILESDIR}"/Add-new-JSL-Device-ID-s.patch
-)
