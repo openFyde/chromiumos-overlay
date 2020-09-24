@@ -11,6 +11,11 @@ inherit dlc cros-workon
 # cros-workon ebuilds.
 CROS_WORKON_BLACKLIST="1"
 
+# "cros_workon info" expects these variables to be set, but we don't have a git
+# repo, so use the standard empty project.
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="../platform/empty-project"
+
 DESCRIPTION="DLC package for termina."
 
 if [[ ${PV} == 9999 ]]; then
