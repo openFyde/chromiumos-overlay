@@ -9,4 +9,4 @@ LICENSE=GPL-2 Stanford
 SLOT=0
 SRC_URI=https://github.com/pali/igmpproxy/releases/download/0.2/igmpproxy-0.2.tar.gz
 _eclasses_=eapi7-ver	756b3f27d8e46131d5cf3c51bd876446	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	linux-info	327865b9921771330775d971263dc234	multilib	2477ebe553d3e4d2c606191fe6c33602	systemd	71fd8d2065d102753fb9e4d20eaf3e9f	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=d7ba5990d3cdcfb1673e34e104ed5a24
+_md5_=73f3fea65a838700af2f019f9dfa883c
