@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="58404bb52a638e7a36b87c146a4e9aecae2ebe36"
-CROS_WORKON_TREE="b32243f475dc162541c33f3d61d0de00c7a1a47a"
+CROS_WORKON_COMMIT="5194035d43eb3d1067a82f5bb37cb05bdf2362f9"
+CROS_WORKON_TREE="adc9627b88a5b96cd7f1103669d024748afe2ec0"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -113,8 +113,8 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/bmpblk/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="detachable menu_ui legacy_menu_ui diag_payload minidiag
-	physical_presence_power physical_presence_recovery"
+IUSE="detachable diag_payload minidiag physical_presence_power
+	physical_presence_recovery"
 
 BDEPEND="${PYTHON_DEPS}"
 DEPEND="virtual/chromeos-vendor-strings"
@@ -152,7 +152,6 @@ src_compile() {
 	if use detachable ; then
 		export DETACHABLE=1
 	fi
-	export MENU_UI=1
 
 	# Both diag_payload and minidiag need additional UI images from
 	# chromeos-bmpblk.
