@@ -15,21 +15,10 @@ LICENSE="MIT BSD"
 SLOT="0"
 IUSE="ihd_cmrtlib"
 
-DEPEND=">=media-libs/gmmlib-${PV}
-	>=x11-libs/libva-2.8.0
-	>=x11-libs/libpciaccess-0.10:=
+DEPEND=">=media-libs/gmmlib-20.3.2
+	>=x11-libs/libva-2.9.0
 "
 RDEPEND="${DEPEND}"
-
-PATCHES=(
-	"${FILESDIR}"/0001-Disable-IPC-usage.patch
-	"${FILESDIR}"/0002-Decoder-VP9-GEN9-Disable-HPR-VP9-mode-switch-to-avoi.patch
-	"${FILESDIR}"/0003-ENCODE-change-slice-header-prefix-for-AVC-Vdenc.patch
-	"${FILESDIR}"/0004-Disable-IPC-in-media-driver-next.patch
-	"${FILESDIR}"/0005-Media-Common-Enable-new-device-config-for-EHL.patch
-	"${FILESDIR}"/0006-Encode-VP9-VDEnc-fix-width-and-height-settings-preve.patch
-	"${FILESDIR}"/0007-Explicitly-disable-media-compression.patch
-)
 
 src_configure() {
 	local mycmakeargs=(
