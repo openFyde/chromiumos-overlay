@@ -1,12 +1,12 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2020 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
 
 inherit flag-o-matic eutils python-single-r1 versionator
 
-GIT_SHAI="4d64623fc5a88a041fbb0ad5f4ad9d65cb0d4b47"
+GIT_SHAI="234e271db36e2a8be022f7a4bbabfa1623a6ae9a"   # GDB 9.2
 SRC_URI="https://android.googlesource.com/toolchain/gdb/+archive/${GIT_SHAI}.tar.gz -> ${P}.tar.gz"
 
 export CTARGET=${CTARGET:-${CHOST}}
@@ -50,6 +50,13 @@ DEPEND="${RDEPEND}
 		nls? ( sys-devel/gettext )
 	)"
 
+GDB_BUILD_DIR="${WORKDIR}/${P}-build"
+
+PATCHES=(
+	"${FILESDIR}"/gdb-9.2-sht_relr.patch
+	"${FILESDIR}"/gdb-9.2-python.patch
+	"${FILESDIR}"/gdb-9.2-aarch64-tdesc.patch
+)
 
 pkg_setup() {
 	use python && python-single-r1_pkg_setup
@@ -71,13 +78,11 @@ src_unpack() {
 
 src_prepare() {
 	[[ -n ${RPM} ]] && rpm_spec_epatch "${WORKDIR}"/gdb.spec
-	! use vanilla && [[ -n ${PATCH_VER} ]] && EPATCH_SUFFIX="patch" epatch "${WORKDIR}"/patch
-	epatch "${FILESDIR}"/gdb-8.3-sht_relr.patch
-	epatch "${FILESDIR}"/gdb-8.3-python.patch
+	! use vanilla && [[ -n ${PATCH_VER} ]] && EPATCH_SUFFIX="patch" eapply "${WORKDIR}"/patch
 
 	default
 
-	strip-linguas -u gdb-8.3/bfd/po gdb-8.3/opcodes/po
+	strip-linguas -u gdb-9.2/bfd/po gdb-9.2/opcodes/po
 }
 
 gdb_branding() {
@@ -152,22 +157,31 @@ src_configure() {
 		myconf+=( --disable-largefile )
 	fi
 
+	mkdir "${GDB_BUILD_DIR}" || die
+	pushd "${GDB_BUILD_DIR}" || die
+	ECONF_SOURCE=${S}
 	econf "${myconf[@]}"
+	popd || die
+}
+
+src_compile() {
+	emake -C "${GDB_BUILD_DIR}"
 }
 
 src_test() {
-	nonfatal emake check || ewarn "tests failed"
+	nonfatal emake -C "${GDB_BUILD_DIR}" check || ewarn "tests failed"
 }
 
 src_install() {
 	if use server && ! use client; then
-		cd gdb/gdbserver || die
+		emake -C "${GDB_BUILD_DIR}"/gdb/gdbserver DESTDIR="${D}" install
+	else
+		emake -C "${GDB_BUILD_DIR}" DESTDIR="${D}" install
 	fi
-	default
+
 	if use client; then
 		find "${ED}"/usr -name libiberty.a -delete || die
 	fi
-	cd "${S}" || die
 
 	# Delete translations that conflict with binutils-libs. #528088
 	# Note: Should figure out how to store these in an internal gdb dir.
@@ -192,7 +206,7 @@ src_install() {
 	# https://sourceware.org/ml/gdb-patches/2011-12/msg00915.html
 	# Only install if it exists due to the twisted behavior (see
 	# notes in src_configure above).
-	[[ -e gdb/gdbserver/gdbreplay ]] && dobin gdb/gdbserver/gdbreplay
+	[[ -e "${GDB_BUILD_DIR}"/gdb/gdbserver/gdbreplay ]] && dobin "${GDB_BUILD_DIR}"/gdb/gdbserver/gdbreplay
 
 	if use client ; then
 		docinto gdb

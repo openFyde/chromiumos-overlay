@@ -7,10 +7,10 @@ https://android-review.googlesource.com/c/toolchain/gdb/+/515189
 
 BUG: crbug.com/1051736
 
-diff --git a/gdb-8.3/gdb/defs.h b/gdb-8.3/gdb/defs.h
+diff --git a/gdb/defs.h b/gdb/defs.h
 index a44e18690..392126c36 100644
---- a/gdb-8.3/gdb/defs.h
-+++ b/gdb-8.3/gdb/defs.h
+--- a/gdb/defs.h
++++ b/gdb/defs.h
 @@ -669,4 +669,8 @@ DEF_ENUM_FLAGS_TYPE (enum user_selected_what_flag, user_selected_what);
  
  #include "utils.h"
@@ -20,10 +20,10 @@ index a44e18690..392126c36 100644
 +#endif
 +
  #endif /* #ifndef DEFS_H */
-diff --git a/gdb-8.3/gdb/python/py-auto-load.c b/gdb-8.3/gdb/python/py-auto-load.c
+diff --git a/gdb/python/py-auto-load.c b/gdb/python/py-auto-load.c
 index c7b9afdb1..db53acae9 100644
---- a/gdb-8.3/gdb/python/py-auto-load.c
-+++ b/gdb-8.3/gdb/python/py-auto-load.c
+--- a/gdb/python/py-auto-load.c
++++ b/gdb/python/py-auto-load.c
 @@ -46,6 +46,8 @@ show_auto_load_python_scripts (struct ui_file *file, int from_tty,
  int
  gdbpy_auto_load_enabled (const struct extension_language_defn *extlang)
@@ -33,10 +33,10 @@ index c7b9afdb1..db53acae9 100644
    return auto_load_python_scripts;
  }
  
-diff --git a/gdb-8.3/gdb/python/py-prettyprint.c b/gdb-8.3/gdb/python/py-prettyprint.c
+diff --git a/gdb/python/py-prettyprint.c b/gdb/python/py-prettyprint.c
 index 8effa81d5..62b3e08a4 100644
---- a/gdb-8.3/gdb/python/py-prettyprint.c
-+++ b/gdb-8.3/gdb/python/py-prettyprint.c
+--- a/gdb/python/py-prettyprint.c
++++ b/gdb/python/py-prettyprint.c
 @@ -664,7 +664,7 @@ gdbpy_apply_val_pretty_printer (const struct extension_language_defn *extlang,
    if (!value_bytes_available (val, embedded_offset, TYPE_LENGTH (type)))
      return EXT_LANG_RC_NOP;
@@ -46,10 +46,10 @@ index 8effa81d5..62b3e08a4 100644
      return EXT_LANG_RC_NOP;
  
    gdbpy_enter enter_py (gdbarch, language);
-diff --git a/gdb-8.3/gdb/python/python.c b/gdb-8.3/gdb/python/python.c
+diff --git a/gdb/python/python.c b/gdb/python/python.c
 index c23db2c12..6bf492dd5 100644
---- a/gdb-8.3/gdb/python/python.c
-+++ b/gdb-8.3/gdb/python/python.c
+--- a/gdb/python/python.c
++++ b/gdb/python/python.c
 @@ -33,6 +33,13 @@
  #include "python.h"
  #include "extension-priv.h"
@@ -138,10 +138,10 @@ index c23db2c12..6bf492dd5 100644
    gdbpy_enter enter_py (get_current_arch (), current_language);
  
    if (!do_finish_initialization (extlang))
-diff --git a/gdb-8.3/gdb/varobj.c b/gdb-8.3/gdb/varobj.c
+diff --git a/gdb/varobj.c b/gdb/varobj.c
 index b03307068..13a6fa3bf 100644
---- a/gdb-8.3/gdb/varobj.c
-+++ b/gdb-8.3/gdb/varobj.c
+--- a/gdb/varobj.c
++++ b/gdb/varobj.c
 @@ -542,7 +542,7 @@ varobj_get_display_hint (const struct varobj *var)
    gdb::unique_xmalloc_ptr<char> result;
  
