@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="arc/adbd common-mk patchpanel .gn"
+CROS_WORKON_SUBTREE="arc/adbd common-mk .gn"
 
 PLATFORM_SUBDIR="arc/adbd"
 
@@ -20,18 +20,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="+seccomp fuzzer arcvm"
 
-VM_DEPEND="
-	chromeos-base/patchpanel
-"
-
-VM_RDEPEND=${VM_DEPEND}
-
-DEPEND="
-	arcvm? ( ${VM_DEPEND} )
-"
-
 RDEPEND="
-	arcvm? ( ${VM_RDEPEND} )
 	chromeos-base/minijail
 "
 
