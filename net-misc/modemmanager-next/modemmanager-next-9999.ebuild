@@ -78,6 +78,7 @@ src_prepare() {
 src_configure() {
 	sanitizers-setup-env
 	append-flags -Xclang-only=-Wno-unneeded-internal-declaration
+	append-flags -DWITH_NEWEST_QMI_COMMANDS
 	econf \
 		--with-html-dir="\${datadir}/doc/${PF}/html" \
 		--enable-compile-warnings=yes \
