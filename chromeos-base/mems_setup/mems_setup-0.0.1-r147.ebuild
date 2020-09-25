@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="63b51b8b9202b3963c87df283f49d53cf961ba98"
-CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "088df1e4336b60c647f4abd2a4f43a68de1fd344" "5868de62b85f7f824439fd5ba0fbee2418a2783c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="dfb02725b2faa31a52302f579c46e11ee3303465"
+CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "9de2381d8cd46d2fcb4ea920cacc25947f5a0f81" "5868de62b85f7f824439fd5ba0fbee2418a2783c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_s
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE=""
+IUSE="iioservice"
 
 COMMON_DEPEND="
 	chromeos-base/libmems:=
