@@ -343,6 +343,22 @@ multilib_src_install_all() {
 		insinto /etc/xinetd.d
 		doins "${FILESDIR}"/saned
 	fi
+
+	# Move the test backend into /usr/local so that it won't be installed
+	# on non-test images. The sane-backends-test package will be
+	# responsible for creating the proper symlinks for the dll backend to
+	# find the test backend.
+	local sane_lib_dir="${ED}/usr/$(get_libdir)/sane"
+	local test_lib_names="
+		libsane-test.so
+		libsane-test.so.$(ver_cut 1 ${PV})
+		libsane-test.so.${PV}
+	"
+	into /usr/local
+	for lib in ${test_lib_names}; do
+		dolib.so "${sane_lib_dir}/${lib}" || die
+		rm "${sane_lib_dir}/${lib}" || die
+	done
 }
 
 pkg_postinst() {
