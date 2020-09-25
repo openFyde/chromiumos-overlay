@@ -1,0 +1,42 @@
+From bf7d70eaf2bf737cb82b331f3b8141dc098e69d9 Mon Sep 17 00:00:00 2001
+From: Yu Kang Ku <yu.kang.ku@intel.com>
+Date: Thu, 8 Oct 2020 10:00:23 -0700
+Subject: [PATCH] Explicitly disable media compression
+
+Disable media compression until decompression is available.
+---
+ media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp  | 3 +++
+ media_driver/linux/gen12/ddi/media_sysinfo_g12.cpp | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp b/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp
+index 66549bbc..f7de4263 100644
+--- a/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp
++++ b/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp
+@@ -249,6 +249,9 @@ static bool InitTglMediaSku(struct GfxDeviceInfo *devInfo,
+         disableMMC = true;
+     }
+ 
++    // Explicitly disable media compression until decompression is available
++    disableMMC = true;
++
+     if (disableMMC)
+     {
+         MEDIA_WR_SKU(skuTable, FtrE2ECompression, 0);
+diff --git a/media_driver/linux/gen12/ddi/media_sysinfo_g12.cpp b/media_driver/linux/gen12/ddi/media_sysinfo_g12.cpp
+index d5b4164c..1ab16095 100644
+--- a/media_driver/linux/gen12/ddi/media_sysinfo_g12.cpp
++++ b/media_driver/linux/gen12/ddi/media_sysinfo_g12.cpp
+@@ -134,6 +134,9 @@ static bool InitTglShadowSku(struct GfxDeviceInfo *devInfo,
+         disableMMC = true;
+     }
+ 
++    // Explicitly disable media compression until decompression is available
++    disableMMC = true;
++
+     if (disableMMC)
+     {
+         skuTable->FtrE2ECompression = 0;
+-- 
+2.17.1
+

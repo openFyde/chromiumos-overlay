@@ -23,6 +23,7 @@ RDEPEND="${DEPEND}"
 PATCHES=(
 	"${FILESDIR}"/0001-Disable-IPC-usage.patch
 	"${FILESDIR}"/0002-ENCODE-change-slice-header-prefix-for-AVC-Vdenc.patch
+	"${FILESDIR}"/0003-Explicitly-disable-media-compression.patch
 )
 
 src_configure() {
