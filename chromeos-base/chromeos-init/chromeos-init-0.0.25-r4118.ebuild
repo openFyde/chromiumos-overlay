@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="13905a49439799dddc4ac530f1afc85308c23992"
-CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "3670ecff9d15dad8fb209bf7a811d56d63b13cbf" "e0419631c76bfadb1dee2bcda2c68d825087f3f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8ea0961f6378a03950a6ca8e1dead403977abb8d"
+CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "c62285cf78256acfb95e80b3e9d53367337f1c73" "e0419631c76bfadb1dee2bcda2c68d825087f3f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -24,8 +24,8 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
 IUSE="
-	arcpp arcvm cros_embedded +debugd +encrypted_stateful frecon
-	kernel-3_8 kernel-3_10 kernel-3_14 kernel-3_18 +midi
+	arcpp arcvm cros_embedded +debugd +encrypted_stateful +encrypted_reboot_vault
+	frecon kernel-3_8 kernel-3_10 kernel-3_14 kernel-3_18 +midi
 	-s3halt +syslog systemd +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
@@ -191,6 +191,14 @@ src_install() {
 
 	# Install startup/shutdown scripts.
 	dosbin chromeos_startup chromeos_shutdown
+
+	# Disable encrypted reobot vault if it is not used.
+	if ! use encrypted_reboot_vault; then
+		sed -i '/USE_ENCRYPTED_REBOOT_VAULT=/s:=1:=0:' \
+			"${D}/sbin/chromeos_startup" ||
+			die "Failed to replace USE_ENCRYPTED_REBOOT_VAULT in chromeos_startup"
+	fi
+
 
 	dosbin "${OUT}"/clobber-state
 
