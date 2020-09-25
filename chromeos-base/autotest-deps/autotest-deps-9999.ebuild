@@ -42,6 +42,11 @@ RDEPEND="${RDEPEND}
 	>=dev-python/grpcio-1.19
 "
 
+# deps/psutil
+RDEPEND="${RDEPEND}
+	>=dev-python/psutil-5.5.0
+"
+
 RDEPEND="${RDEPEND}
 	sys-devel/binutils
 "
