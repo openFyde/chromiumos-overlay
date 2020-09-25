@@ -7,27 +7,24 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk croslog .gn"
+CROS_WORKON_SUBTREE="common-mk bootid-logger .gn"
 
-PLATFORM_SUBDIR="croslog"
+PLATFORM_SUBDIR="bootid-logger"
 
 inherit cros-workon platform
 
 DESCRIPTION="Log viewer for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/croslog"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/bootid-logger"
 
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="chromeos-base/bootid-logger"
-
 src_install() {
 	platform_install
-}
 
-platform_pkg_test() {
-	platform test_all
+	insinto /etc/init
+	doins log-bootid-on-boot.conf
 }
 
