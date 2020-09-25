@@ -36,6 +36,7 @@ PATCHES=( "${FILESDIR}/001-add-imstdoutsock-plugin.patch" )
 RDEPEND="
 	>=dev-libs/libfastjson-0.99.8:=
 	>=dev-libs/libestr-0.1.9
+	>=sys-admin/syslog-cat
 	>=sys-libs/zlib-1.2.5
 	chromeos-base/syslog-cat
 	curl? ( >=net-misc/curl-7.35.0 )
