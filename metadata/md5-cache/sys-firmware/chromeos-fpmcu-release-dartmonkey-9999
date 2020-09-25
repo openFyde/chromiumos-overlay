@@ -1,6 +1,6 @@
-BDEPEND=dev-vcs/git dev-vcs/git
+BDEPEND=dev-vcs/git dev-vcs/git chromeos-base/chromeos-config-host
 DEFINED_PHASES=compile info install prepare setup test unpack
-DEPEND=unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= ) test? ( dev-libs/openssl:= dev-libs/protobuf:= ) dev-embedded/libftdi:1= fuzzer? ( dev-libs/libprotobuf-mutator:= ) test? ( dev-libs/libprotobuf-mutator:= ) virtual/chromeos-ec-private-files virtual/chromeos-ec-touch-firmware unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) bootblock_in_ec? ( sys-boot/coreboot ) virtual/chromeos-ec-private-files
+DEPEND=unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= ) test? ( dev-libs/openssl:= dev-libs/protobuf:= ) dev-embedded/libftdi:1= fuzzer? ( dev-libs/libprotobuf-mutator:= ) test? ( dev-libs/libprotobuf-mutator:= ) virtual/chromeos-ec-private-files virtual/chromeos-ec-touch-firmware unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) ) bootblock_in_ec? ( sys-boot/coreboot ) virtual/chromeos-ec-private-files virtual/chromeos-config-bsp
 DESCRIPTION=Chrome OS EC release firmware for dartmonkey.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md
@@ -11,5 +11,5 @@ PROPERTIES=live live
 RDEPEND=fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= ) test? ( dev-libs/openssl:= dev-libs/protobuf:= )
 RESTRICT=binchecksbinchecks strip
 SLOT=0/9999
-_eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-ec	a24eddafb550679987b7e6aa4d3edfb5	cros-ec-board	a4af6505ff4c30e36bb75a310eae3535	cros-ec-merge-ro	c6572d86ce5cb2c06bb2f6ee56c75db4	cros-ec-release	9a95b7bb0fefbcec0803c657f36fa8df	cros-ec-utils	5498f49404d3d05041dad891c1fd163c	cros-unibuild	4ba56dd381b1f79b9078a024bf028afd	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=87d752fe188a440023f283c733a202d9
+_eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-ec	a24eddafb550679987b7e6aa4d3edfb5	cros-ec-board	a4af6505ff4c30e36bb75a310eae3535	cros-ec-merge-ro	a4d1c4dc442bcc9b1d3b46603cdafbd4	cros-ec-release	9a95b7bb0fefbcec0803c657f36fa8df	cros-ec-utils	5498f49404d3d05041dad891c1fd163c	cros-unibuild	4ba56dd381b1f79b9078a024bf028afd	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=67657e7d5f0de46bfcd5cec06ebe2c84
