@@ -54,6 +54,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/libvda:=
 	dev-rust/minijail:=
 	~dev-rust/num_cpus-1.9.0:=
+	dev-rust/p9:=
 	=dev-rust/paste-0.1*:=
 	=dev-rust/pin-utils-0.1*:=
 	~dev-rust/pkg-config-0.3.11:=
