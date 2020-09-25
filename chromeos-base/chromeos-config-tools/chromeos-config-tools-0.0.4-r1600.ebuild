@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="6786ac63afd04a8568314a22f1194d38661619a9"
-CROS_WORKON_TREE=("825512278f3738ba8ac7c5f167aacd4677cfebf7" "31f76eb67769d2176cd6a066a513bdf2e0db9a8e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6017d835e9525f9025d4fdd6a89bc78324f3c648")
+CROS_WORKON_COMMIT="82575390eb0b819930ea1bca081eaa317bc8be34"
+CROS_WORKON_TREE=("4fdfdbe461ccedeaaf176391c0bbb0f74943be45" "825512278f3738ba8ac7c5f167aacd4677cfebf7" "f8b07b64cb7fa4ecc2e902aef32c0fc6a495187c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6017d835e9525f9025d4fdd6a89bc78324f3c648")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
 CROS_WORKON_PROJECT=(
@@ -14,7 +14,7 @@ CROS_WORKON_LOCALNAME=(
 	"platform2"
 )
 CROS_WORKON_SUBTREE=(
-	"common-mk chromeos-config .gn power_manager"
+	".clang-format common-mk chromeos-config .gn power_manager"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
