@@ -479,7 +479,8 @@ RDEPEND="${RDEPEND}
 	chromeos-base/sepolicy-analyze
 	sys-apps/checkpolicy
 	sys-apps/restorecon
-	sys-apps/secilc"
+	sys-apps/secilc
+	sys-apps/selinux-python"
 
 # Host dependencies that are needed for chromite/bin/cros_generate_android_breakpad_symbols
 RDEPEND="${RDEPEND}
