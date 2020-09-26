@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="63b9520b188b4f06af354f69774c718ca4b61f62"
-CROS_WORKON_TREE="d716e5dc04efa305075346029ceaf4a21a25a3b4"
+CROS_WORKON_COMMIT="c57e1e3485254f226766004be61b1006095bb693"
+CROS_WORKON_TREE="9eea024bffecc8b8338af686a12d14c241d76166"
 CROS_WORKON_PROJECT="chromiumos/third_party/hdctools"
 PYTHON_COMPAT=( python2_7 )
 
@@ -16,7 +16,8 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="cros_host test"
 
-COMMON_DEPEND=">=dev-embedded/libftdi-0.18:=
+COMMON_DEPEND="
+	>=dev-embedded/libftdi-0.18:=
 	dev-python/numpy:=
 	>=dev-python/pexpect-3.0:=
 	dev-python/pyserial:=
@@ -28,6 +29,7 @@ COMMON_DEPEND=">=dev-embedded/libftdi-0.18:=
 "
 
 RDEPEND="${COMMON_DEPEND}
+	virtual/servo-config-dut-usb3:*
 "
 
 DEPEND="${COMMON_DEPEND}
