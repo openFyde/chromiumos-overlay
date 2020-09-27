@@ -379,10 +379,11 @@ check_assets() {
 	local payload_size=$(xz -9 -c "${payload}" | wc -c)
 
 	local rw_assets_size=$(find compressed-assets-rw "raw-assets-rw/${build_name}" -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
-	local rw_size=$((rw_assets_size + payload_size))
+	local rw_override_assets_size=$(find compressed-assets-rw-override -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
+	local rw_size=$((rw_assets_size + rw_override_assets_size + payload_size))
 	local rw_free=$(($(do_cbfstool "${rom}" print -r FW_MAIN_A | awk '$1 ~ /empty/ {s+=$4} END {print s}') - payload_size))
 
-	# RW assets are also added to RO region.
+	# Most RW assets are also added to RO region.
 	local ro_assets_size=$(find compressed-assets-ro -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
 	local ro_size=$((ro_assets_size + rw_assets_size + payload_size))
 	local ro_free=$(($(do_cbfstool "${rom}" print -r COREBOOT | awk '$1 ~ /empty/ {s+=$4} END {print s}') - payload_size))
@@ -397,15 +398,19 @@ check_assets() {
 }
 
 # Add Chrome OS assets to the base and serial images:
-#       compressed-assets-ro/*   - fonts, images and screens for recovery mode
-#                                  originally from cbfs-ro-compress/*,
-#                                  pre-compressed in src_compile
-#       compressed-assets-rw/*   - files originally from cbfs-rw-compress/*,
-#                                  pre-compressed in src_compile
-#                                  used for vbt*.bin
-#       raw-assets-rw/* -          files originally from
-#                                  cbfs-rw-raw/*,
-#                                  used for extra wifi_sar files
+#       compressed-assets-ro/*
+#         - fonts, images and screens for recovery mode, originally from
+#           cbfs-ro-compress/*; pre-compressed in src_compile()
+#       compressed-assets-rw/*
+#         - files originally from cbfs-rw-compress/*; pre-compressed
+#           in src_compile(); used for vbt*.bin
+#       compressed-assets-rw-override/*
+#         - updated images for screens, originally from
+#           cbfs-rw-compress-override/*; pre-compressed in src_compile(); used
+#           for rw_locale*.bin
+#       raw-assets-rw/*
+#         - files originally from cbfs-rw-raw/*, used for extra wifi_sar files
+#
 # Args:
 #  $1: Filename of image to add to
 add_assets() {
@@ -421,6 +426,12 @@ add_assets() {
 			-f "${file}" -n "$(basename "${file}")" -t raw \
 			-c precompression
 	done < <(find compressed-assets-rw -type f -print0)
+
+	while IFS= read -r -d '' file; do
+		do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B \
+			-f "${file}" -n "$(basename "${file}")" -t raw \
+			-c precompression
+	done < <(find compressed-assets-rw-override -type f -print0)
 
 	while IFS= read -r -d '' file; do
 		do_cbfstool "${rom}" add -r COREBOOT,FW_MAIN_A,FW_MAIN_B \
@@ -599,6 +610,15 @@ src_compile() {
 		xargs -0 -n 1 -P $(nproc) -I '{}' \
 		cbfs-compression-tool compress ${froot}/cbfs-rw-compress/'{}' \
 			compressed-assets-rw/'{}' LZMA
+
+	# files from cbfs-rw-compress-override/ are installed in
+	# all images' RW CBFS, compressed
+	mkdir compressed-assets-rw-override
+	find ${froot}/cbfs-rw-compress-override -mindepth 1 -maxdepth 1 -printf "%P\0" \
+		2>/dev/null | \
+		xargs -0 -n 1 -P $(nproc) -I '{}' \
+		cbfs-compression-tool compress ${froot}/cbfs-rw-compress-override/'{}' \
+			compressed-assets-rw-override/'{}' LZMA
 
 	if use unibuild; then
 		local fields="coreboot,depthcharge,ec"
