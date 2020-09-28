@@ -145,9 +145,6 @@ set_build_args() {
 		"is_cfi=false"
 		"use_cfi_cast=false"
 		"use_cras=false"
-
-		# Disable some unnecessary dependencies to avoid some trybot failure.
-		"use_xkbcommon=false"
 	)
 
 	# BUILD_STRING_ARGS needs appropriate quoting. So, we keep them separate and
