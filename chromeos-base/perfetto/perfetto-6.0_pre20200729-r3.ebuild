@@ -1,1 +1,0 @@
-perfetto-6.0_pre20200729.ebuild
