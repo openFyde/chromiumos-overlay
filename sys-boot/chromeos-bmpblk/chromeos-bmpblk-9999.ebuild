@@ -111,7 +111,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/bmpblk/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="detachable diag_payload minidiag physical_presence_power
+IUSE="detachable diag_payload +minidiag physical_presence_power
 	physical_presence_recovery"
 
 BDEPEND="${PYTHON_DEPS}"
