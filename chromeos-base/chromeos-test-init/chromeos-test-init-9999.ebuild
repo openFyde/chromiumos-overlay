@@ -18,6 +18,9 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="+encrypted_stateful tpm2"
 
+# File cryptohome-dbus-perf.conf moved from hwsec-test-utils.
+RDEPEND="!<chromeos-base/hwsec-test-utils-0.0.1-r83"
+
 src_unpack() {
 	cros-workon_src_unpack
 	S+="/init"
