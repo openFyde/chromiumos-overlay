@@ -29,6 +29,7 @@ COMMON_DEPEND="
 	chromeos-base/libpasswordprovider:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/nsswitch:=
+	chromeos-base/patchpanel-client:=
 	chromeos-base/shill-net:=
 	dev-libs/re2:=
 	cellular? ( net-dialup/ppp:= )
@@ -54,7 +55,6 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
-	chromeos-base/patchpanel-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	vpn? ( chromeos-base/vpn-manager:= )"
