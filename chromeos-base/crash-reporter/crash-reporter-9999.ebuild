@@ -122,10 +122,15 @@ src_install() {
 
 	udev_dorules 99-crash-reporter.rules
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/crash_sender_fuzzer \
+	# Install metrics/OWNERS as the owners file for the fuzzers.
+	# The owners files need to have actual email addresses, not
+	# an include-link.
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/crash_sender_fuzzer \
 		--dict "${S}"/crash_sender_fuzzer.dict
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/anomaly_detector_fuzzer \
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/anomaly_detector_fuzzer \
 		--dict "${S}"/anomaly_detector_fuzzer.dict
 }
 
