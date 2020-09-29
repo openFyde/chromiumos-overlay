@@ -27,7 +27,7 @@ MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v706.fb"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711.fb"
 )
 
 DOWNLOADABLE_MODELS=(
