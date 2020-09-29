@@ -17,3 +17,5 @@ READELF=llvm-readelf
 READELF_FOR_BUILD=llvm-readelf
 STRINGS=llvm-strings
 STRINGS_FOR_BUILD=llvm-strings
+STRIP=llvm-strip
+STRIP_FOR_BUILD=llvm-strip
