@@ -11,8 +11,8 @@ CROS_GO_PACKAGES=(
 inherit cros-go
 
 DESCRIPTION="AOSP frameworks/base protobuf files"
-HOMEPAGE="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android10-dev/core/proto/"
-GIT_COMMIT="873f1727e5c7af9174ca662ad26ba5b95096d1f8"
+HOMEPAGE="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android11-dev/core/proto/"
+GIT_COMMIT="c29468777021f4970ab20b38601448fe81ecdcbb"
 SRC_URI="https://android.googlesource.com/platform/frameworks/base/+archive/${GIT_COMMIT}/core/proto.tar.gz -> aosp-frameworks-base-core-proto-${PV}.tar.gz"
 
 LICENSE="Apache-2.0"
@@ -56,6 +56,8 @@ src_compile() {
 	# files must use the "android.com" import prefix.
 	local imports_to_remap=(
 		"${core_path}/app/activitymanager.proto"
+		"${core_path}/app/appexit_enums.proto"
+		"${core_path}/app/appexitinfo.proto"
 		"${core_path}/app/enums.proto"
 		"${core_path}/app/notification.proto"
 		"${core_path}/app/profilerinfo.proto"
@@ -78,10 +80,11 @@ src_compile() {
 		"${core_path}/os/patternmatcher.proto"
 		"${core_path}/os/powermanager.proto"
 		"${core_path}/privacy.proto"
+		"${core_path}/server/activitymanagerservice.proto"
 		"${core_path}/server/animationadapter.proto"
-		"${core_path}/server/appwindowthumbnail.proto"
 		"${core_path}/server/intentresolver.proto"
 		"${core_path}/server/surfaceanimator.proto"
+		"${core_path}/server/windowcontainerthumbnail.proto"
 		"${core_path}/server/windowmanagerservice.proto"
 		"${core_path}/util/common.proto"
 		"${core_path}/view/display.proto"
@@ -116,6 +119,8 @@ src_compile() {
 		--go_out="${map},import_path=android.com/${core_path}/app:${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/app/activitymanager.proto" \
+		"${cp}/app/appexit_enums.proto" \
+		"${cp}/app/appexitinfo.proto" \
 		"${cp}/app/enums.proto" \
 		"${cp}/app/notification.proto" \
 		"${cp}/app/profilerinfo.proto" \
@@ -165,9 +170,9 @@ src_compile() {
 		--proto_path="${WORKDIR}" \
 		"${cp}/server/activitymanagerservice.proto" \
 		"${cp}/server/animationadapter.proto" \
-		"${cp}/server/appwindowthumbnail.proto" \
 		"${cp}/server/intentresolver.proto" \
 		"${cp}/server/surfaceanimator.proto" \
+		"${cp}/server/windowcontainerthumbnail.proto" \
 		"${cp}/server/windowmanagerservice.proto" \
 		|| die
 
