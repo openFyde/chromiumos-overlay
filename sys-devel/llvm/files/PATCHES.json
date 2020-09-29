@@ -354,6 +354,18 @@
         "end_version": 402304
     },
     {
+        "comment": "Revert \"Canonicalize declaration pointers when forming APValues.\"",
+        "rel_patch_path": "cherry/15d94a7d0f8f0d6b3b5308fff51b286957e45650.patch",
+        "start_version": 405408,
+        "end_version": 405976
+    },
+    {
+        "comment": "Revert \"Canonicalize declaration pointers when forming APValues.\"",
+        "rel_patch_path": "cherry/7b0332389afd705f46b02fcf87ec3414b8dece34.patch",
+        "start_version": 404252,
+        "end_version": 404294
+    },
+    {
         "comment": "Revert \"Change the INLINEASM_BR MachineInstr to be a non-terminating instruction.\"",
         "rel_patch_path": "cherry/revert_4b0aa5724feaa89a9538dcab97e018110b0e4bc3_locally.patch",
         "start_version": 398032
