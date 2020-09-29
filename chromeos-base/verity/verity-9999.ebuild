@@ -21,14 +21,12 @@ KEYWORDS="~*"
 
 src_install() {
 	dolib.a "${OUT}"/libdm-bht.a
+	dobin "${OUT}"/verity
+
 	insinto /usr/include/verity
 	doins dm-bht.h dm-bht-userspace.h
-	insinto /usr/include/verity
-	cd include
-	doins -r linux asm asm-generic crypto
-	cd ..
-	into /
-	dobin "${OUT}"/verity
+	cd include || die
+	doins -r linux asm asm-generic
 }
 
 platform_pkg_test() {
