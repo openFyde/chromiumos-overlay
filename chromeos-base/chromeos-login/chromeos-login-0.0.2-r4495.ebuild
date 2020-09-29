@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6c018bc6f95d9ffd79e57f2ca8346ccb7736620b"
-CROS_WORKON_TREE=("e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "7fe445c82b3a801c9f87857432d850d335a73af7" "04a8a0274b23f4bbf01eb2645630f252331db474" "377caa22e8416ce2388b9c099e85be393001947f" "96103a3c907993a7de07f0cbf2994bb23b9f36fc" "952b7d317448f2092c7d4f05122839f01b032024" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c4a4d99b849ddf5fe14020e9bf851ca0394c9cf3"
+CROS_WORKON_TREE=("e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "7fe445c82b3a801c9f87857432d850d335a73af7" "04a8a0274b23f4bbf01eb2645630f252331db474" "377caa22e8416ce2388b9c099e85be393001947f" "fd02f0e9b79e0b548799fe179fcf4d27a41986ae" "952b7d317448f2092c7d4f05122839f01b032024" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -115,6 +115,9 @@ src_install() {
 
 	insinto /etc
 	doins chrome_dev.conf
+
+	insinto /usr/share/power_manager
+	doins powerd_prefs/suspend_freezer_deps_*
 
 	# Create daemon store directories.
 	local daemon_store="/etc/daemon-store/session_manager"
