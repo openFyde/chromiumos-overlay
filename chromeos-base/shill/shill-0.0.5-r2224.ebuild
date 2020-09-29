@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4b0d9f063bc6168890f4561a06c6b89bdb209c56"
+CROS_WORKON_COMMIT="bc5ebb29696e378f26737133bb4bd471bd96ceb0"
 CROS_WORKON_TREE=("e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "377caa22e8416ce2388b9c099e85be393001947f" "952b7d317448f2092c7d4f05122839f01b032024" "7a0a60400cf103d2ee87b8171040db1adb42cae0" "963e076a0b7311a4a5e1c14646f9a5d50c209ef7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -31,6 +31,7 @@ COMMON_DEPEND="
 	chromeos-base/libpasswordprovider:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/nsswitch:=
+	chromeos-base/patchpanel-client:=
 	chromeos-base/shill-net:=
 	dev-libs/re2:=
 	cellular? ( net-dialup/ppp:= )
@@ -56,7 +57,6 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
-	chromeos-base/patchpanel-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	vpn? ( chromeos-base/vpn-manager:= )"
