@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="13905a49439799dddc4ac530f1afc85308c23992"
+CROS_WORKON_COMMIT="ef321a50f8e06a7bfb3439c21b2c2a7e0e7225ef"
 CROS_WORKON_TREE="2f29d2fb07aded06a517b2c828c25133d679de2d"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,6 +19,9 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 IUSE="+encrypted_stateful tpm2"
+
+# File cryptohome-dbus-perf.conf moved from hwsec-test-utils.
+RDEPEND="!<chromeos-base/hwsec-test-utils-0.0.1-r83"
 
 src_unpack() {
 	cros-workon_src_unpack
