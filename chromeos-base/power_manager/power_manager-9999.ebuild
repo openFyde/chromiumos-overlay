@@ -19,7 +19,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco"
+IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco trogdor_sar_hack"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -39,11 +39,13 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/ec-utils
 	mosys_eventlog? ( sys-apps/mosys )
+	trogdor_sar_hack? ( net-libs/libqrtr:= )
 "
 
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ec-headers:=
-	chromeos-base/system_api:=[fuzzer?]"
+	chromeos-base/system_api:=[fuzzer?]
+"
 
 pkg_setup() {
 	# Create the 'power' user and group here in pkg_setup as src_install needs
@@ -64,6 +66,7 @@ src_install() {
 	dobin "${OUT}"/powerd_setuid_helper
 	dobin "${OUT}"/power_supply_info  # feedback
 	dobin "${OUT}"/set_cellular_transmit_power
+	use trogdor_sar_hack && dobin "${OUT}"/set_cellular_transmit_power_trogdor
 	dobin "${OUT}"/set_wifi_transmit_power
 	fowners root:power /usr/bin/powerd_setuid_helper
 	fperms 4750 /usr/bin/powerd_setuid_helper
