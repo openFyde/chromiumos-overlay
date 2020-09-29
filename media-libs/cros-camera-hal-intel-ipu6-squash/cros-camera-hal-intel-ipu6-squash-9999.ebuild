@@ -19,16 +19,24 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="ipu6 ipu6se"
 
-RDEPEND="dev-libs/expat
-	media-libs/cros-camera-libcbm
+RDEPEND="
+	chromeos-base/chromeos-config-tools
+	chromeos-base/metrics
+	dev-libs/expat
+	!ipu6se? ( media-libs/intel-ipu6-libs-bin )
+	ipu6se? (
+		media-libs/intel-ipu6se-libs-bin
+		x11-libs/libva-intel-media-driver
+	)
 	media-libs/cros-camera-libcamera_client
 	media-libs/cros-camera-libcamera_common
 	media-libs/cros-camera-libcamera_exif
 	media-libs/cros-camera-libcamera_metadata
 	media-libs/cros-camera-libcamera_v4l2_device
-	ipu6se? ( x11-libs/libva-intel-media-driver )
+	media-libs/cros-camera-libcbm
+	media-libs/libsync
 	media-libs/libyuv
-	media-libs/libsync"
+"
 
 DEPEND="${RDEPEND}
 	media-libs/cros-camera-libcab
