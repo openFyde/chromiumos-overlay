@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("d220427c70327dc24b7251466bf1b01a6e2b29e4" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_COMMIT=("4b0d9f063bc6168890f4561a06c6b89bdb209c56" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
 CROS_WORKON_TREE=("e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "8e20bb2f75d932f889b631c1680e6e4b1887f23a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 inherit cros-constants
 
@@ -91,6 +91,10 @@ src_prepare() {
 	# Verify upstream hasn't changed relevant context code.
 	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
 	eapply --dry-run "${FILESDIR}/keymaster-context-hooks.patch"
+	# Fix C++17 compilation. Can be removed once we update to newer version of
+	# keymaster that contains https://r.android.com/1412947.
+	cd "${WORKDIR}/${P}/aosp/system/keymaster" || die
+	eapply "${FILESDIR}/0001-keymaster-fix-C-17-compilation.patch"
 }
 
 src_configure() {
