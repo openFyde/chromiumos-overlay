@@ -5,7 +5,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/touch_firmware_test"
 CROS_WORKON_LOCALNAME="platform/touch_firmware_test"
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python3_{6..8} )
 inherit cros-sanitizers cros-workon cros-constants cros-debug distutils-r1
 
 DESCRIPTION="Chromium OS multitouch utilities"
