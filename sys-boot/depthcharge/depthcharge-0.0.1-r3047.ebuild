@@ -14,7 +14,7 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
 IUSE="detachable menu_ui legacy_menu_ui diag_payload fwconsole mocktpm pd_sync
-	unibuild verbose debug generated_cros_config minidiag
+	unibuild verbose debug generated_cros_config +minidiag
 	physical_presence_power physical_presence_recovery"
 
 DEPEND="
