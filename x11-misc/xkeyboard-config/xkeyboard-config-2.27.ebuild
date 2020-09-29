@@ -45,6 +45,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-jp-default-layout.patch
 	"${FILESDIR}"/${P}-hr.patch
 	"${FILESDIR}"/${P}-ee.patch
+	"${FILESDIR}"/${P}-latam.patch
 )
 
 src_prepare() {
