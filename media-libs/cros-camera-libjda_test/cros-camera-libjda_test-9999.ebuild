@@ -25,5 +25,6 @@ DEPEND="${RDEPEND}
 	media-libs/cros-camera-libjda"
 
 src_install() {
+	platform_src_install
 	dobin "${OUT}/libjda_test"
 }

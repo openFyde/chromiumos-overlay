@@ -26,6 +26,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
 	dolib.so "${OUT}/lib/libcamera_ipc.so"
 	dolib.a "${OUT}/libcamera_ipc_mojom.a"
 

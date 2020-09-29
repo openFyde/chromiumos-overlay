@@ -34,6 +34,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
 	dolib.a "${OUT}/libjda.pic.a"
 
 	cros-camera_doheader ../../../include/cros-camera/jpeg_decode_accelerator.h

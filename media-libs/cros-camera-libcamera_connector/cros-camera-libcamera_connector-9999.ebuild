@@ -32,6 +32,7 @@ DEPEND="${RDEPEND}
 	x11-libs/libdrm"
 
 src_install() {
+	platform_src_install
 	dolib.so "${OUT}/lib/libcamera_connector.so"
 	cros-camera_dopc ../libcamera_connector.pc.template
 }

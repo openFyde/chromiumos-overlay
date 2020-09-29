@@ -32,6 +32,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
 	dolib.so "${OUT}/lib/libcbm.so"
 
 	cros-camera_doheader ../../include/cros-camera/camera_buffer_manager.h

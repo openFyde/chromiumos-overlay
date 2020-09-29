@@ -26,6 +26,7 @@ DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers"
 
 src_install() {
+	platform_src_install
 	local INCLUDE_DIR="/usr/include/android"
 	local LIB_DIR="/usr/$(get_libdir)"
 	local PC_FILE_TEMPLATE="libcamera_metadata.pc.template"

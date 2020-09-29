@@ -30,6 +30,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
 	dolib.so "${OUT}/lib/libcamera_common.so"
 
 	cros-camera_doheader ../../include/cros-camera/common.h \

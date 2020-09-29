@@ -35,5 +35,6 @@ DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers"
 
 src_install() {
+	platform_src_install
 	dobin "${OUT}/libjea_test"
 }

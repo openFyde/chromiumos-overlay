@@ -21,5 +21,6 @@ KEYWORDS="~*"
 BDEPEND="virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
 	dobin "${OUT}/cros-camera-tool"
 }

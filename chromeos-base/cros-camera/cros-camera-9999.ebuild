@@ -47,6 +47,7 @@ DEPEND="${COMMON_DEPEND}
 	x11-libs/libdrm:="
 
 src_install() {
+	platform_src_install
 	dobin "${OUT}/cros_camera_service"
 
 	insinto /etc/init

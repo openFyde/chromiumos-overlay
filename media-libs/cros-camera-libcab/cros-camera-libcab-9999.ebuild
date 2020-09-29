@@ -29,6 +29,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
+	platform_src_install
 	dobin "${OUT}/cros_camera_algo"
 
 	dolib.a "${OUT}/libcab.pic.a"

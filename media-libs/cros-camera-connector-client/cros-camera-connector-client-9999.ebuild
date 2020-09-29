@@ -26,5 +26,6 @@ DEPEND="${RDEPEND}
 BDEPEND="virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
 	dobin "${OUT}/cros_camera_connector_client"
 }
