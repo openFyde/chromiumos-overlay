@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install postinst prepare prerm setup unpack
+DEPEND==dev-rust/proc-macro2-1*:= =dev-rust/quote-1*:= >=dev-rust/syn-1.0.11:= <dev-rust/syn-2.0 >=virtual/rust-1.39.0:=
+DESCRIPTION=Implementation detail of the thiserror crate
+EAPI=7
+HOMEPAGE=https://github.com/thiserror/
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
+LICENSE=|| ( MIT Apache-2.0 )
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=1.0.20/r0
+SRC_URI=https://crates.io/api/v1/crates/thiserror-impl/1.0.20/download -> thiserror-impl-1.0.20.crate
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	fe84a85c511ad2ec055cbe0cc74bb011	cros-sanitizers	1790470c95f416653a627475b8864394	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=1bd5fb985067c60eb2b257d3d107f071

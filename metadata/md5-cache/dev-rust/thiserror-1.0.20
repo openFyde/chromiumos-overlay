@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install postinst prepare prerm setup unpack
+DEPEND=~dev-rust/thiserror-impl-1.0.20:= >=virtual/rust-1.39.0:=
+DESCRIPTION=A convenient derive macro for the standard library's std::error::Error trait.
+EAPI=7
+HOMEPAGE=https://github.com/dtolnay/thiserror
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
+LICENSE=|| ( MIT Apache-2.0 )
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=1.0.20/r0
+SRC_URI=https://crates.io/api/v1/crates/thiserror/1.0.20/download -> thiserror-1.0.20.crate
+_eclasses_=cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	fe84a85c511ad2ec055cbe0cc74bb011	cros-sanitizers	1790470c95f416653a627475b8864394	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=0680505ed96d3b01a4724e61bda744d7
