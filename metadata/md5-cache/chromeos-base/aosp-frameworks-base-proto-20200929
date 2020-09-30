@@ -2,10 +2,10 @@ DEFINED_PHASES=compile install postinst test unpack
 DEPEND=dev-go/protobuf dev-libs/protobuf:= dev-lang/go
 DESCRIPTION=AOSP frameworks/base protobuf files
 EAPI=6
-HOMEPAGE=https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android10-dev/core/proto/
+HOMEPAGE=https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android11-dev/core/proto/
 KEYWORDS=*
 LICENSE=Apache-2.0
 SLOT=0
-SRC_URI=https://android.googlesource.com/platform/frameworks/base/+archive/873f1727e5c7af9174ca662ad26ba5b95096d1f8/core/proto.tar.gz -> aosp-frameworks-base-core-proto-20190912.tar.gz
+SRC_URI=https://android.googlesource.com/platform/frameworks/base/+archive/c29468777021f4970ab20b38601448fe81ecdcbb/core/proto.tar.gz -> aosp-frameworks-base-core-proto-20200929.tar.gz
 _eclasses_=cros-go	157c7bac0e032e424ec1c3316c127db8	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=46ec236a425c5812b758d3e8aadf57ad
+_md5_=dfdf244b8a5b2fa0ce7d6b015f9441fb
