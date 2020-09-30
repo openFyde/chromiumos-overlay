@@ -45,6 +45,7 @@ IUSE="
 	disable_explicit_dma_fences
 	disable_flash_hw_video_decode
 	disable_instant_tethering
+	disable_spectre_variant2_mitigation
 	disable_yuv420_biplanar
 	dlc
 	drm_atomic
