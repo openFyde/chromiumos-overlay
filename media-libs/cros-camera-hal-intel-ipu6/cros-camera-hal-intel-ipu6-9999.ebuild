@@ -30,6 +30,7 @@ RDEPEND="
 		media-libs/intel-ipu6se-libs-bin
 		x11-libs/libva-intel-media-driver
 	)
+	!media-libs/cros-camera-hal-intel-ipu6-squash
 	media-libs/cros-camera-libcamera_client
 	media-libs/cros-camera-libcamera_common
 	media-libs/cros-camera-libcamera_exif
