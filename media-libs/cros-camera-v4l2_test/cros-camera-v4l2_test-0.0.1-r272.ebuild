@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="d220427c70327dc24b7251466bf1b01a6e2b29e4"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "a6ade74a9d1a32708c3844cb5d6577b32f438442" "4cc600d625ecfdac13d984d9190d63a8970b0a4b" "e035b68e0eea0052e771bb56fae05ef6e0f11c7f" "7fe445c82b3a801c9f87857432d850d335a73af7" "e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad")
+CROS_WORKON_COMMIT="9249e1ac1eb0b01d6a86782ab1925d6ea56b0576"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "a6ade74a9d1a32708c3844cb5d6577b32f438442" "4cc600d625ecfdac13d984d9190d63a8970b0a4b" "3f2ee10a205c3f5536485cb276c251689e36c033" "7fe445c82b3a801c9f87857432d850d335a73af7" "e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/hal/usb chromeos-config common-mk"
@@ -38,6 +38,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
 	dobin "${OUT}/media_v4l2_is_capture_device"
 	dobin "${OUT}/media_v4l2_test"
 }

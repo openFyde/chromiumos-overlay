@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="d220427c70327dc24b7251466bf1b01a6e2b29e4"
+CROS_WORKON_COMMIT="9249e1ac1eb0b01d6a86782ab1925d6ea56b0576"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "e35f965a2c3451a2fe74ceb04da2875e20d17f95" "e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -11,34 +11,37 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/android common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera/android/libcamera_client"
+PLATFORM_SUBDIR="camera/android/libcamera_metadata"
 
 inherit cros-camera cros-workon platform
 
-DESCRIPTION="Android libcamera_client"
+DESCRIPTION="Android libcamera_metadata"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
+IUSE="-asan"
 
-RDEPEND="
-	!media-libs/arc-camera3-libcamera_client
-	media-libs/cros-camera-libcamera_metadata"
+RDEPEND="!media-libs/arc-camera3-libcamera_metadata"
 
 DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers"
 
 src_install() {
+	platform_src_install
 	local INCLUDE_DIR="/usr/include/android"
 	local LIB_DIR="/usr/$(get_libdir)"
-	local PC_FILE_TEMPLATE=libcamera_client.pc.template
+	local PC_FILE_TEMPLATE="libcamera_metadata.pc.template"
 	local PC_FILE="${WORKDIR}/${PC_FILE_TEMPLATE##*/}"
 	PC_FILE="${PC_FILE%%.template}"
 
-	dolib.so "${OUT}/lib/libcamera_client.so"
+	dolib.so "${OUT}/lib/libcamera_metadata.so"
 
-	insinto "${INCLUDE_DIR}/camera"
-	doins include/camera/*.h
+	insinto "${INCLUDE_DIR}/system"
+	doins "include/system"/*.h
+	# Install into the system folder to avoid cros lint complaint of "include the
+	# directory when naming .h files"
+	doins "include/camera_metadata_hidden.h"
 
 	sed -e "s|@INCLUDE_DIR@|${INCLUDE_DIR}|" -e "s|@LIB_DIR@|${LIB_DIR}|" \
 		"${PC_FILE_TEMPLATE}" > "${PC_FILE}"

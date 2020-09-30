@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a2468da9ffea26466b1bea6d66b2cff3fbd25403"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "a6ade74a9d1a32708c3844cb5d6577b32f438442" "477a295258d187a04b359314c6a96dcafe9a880a" "e885a36a16305efc80401bbc17d9a304c25e8b79" "4cc600d625ecfdac13d984d9190d63a8970b0a4b" "ab72b93074396d3428b557e2e00d64f487fab1e1" "e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "952b7d317448f2092c7d4f05122839f01b032024")
+CROS_WORKON_COMMIT="9249e1ac1eb0b01d6a86782ab1925d6ea56b0576"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d58be6324ba2a1d0452d23bafb39c869c5ed2cd6" "a6ade74a9d1a32708c3844cb5d6577b32f438442" "d1a09d67583eeffcf9d6773546987686f53e9c7c" "e885a36a16305efc80401bbc17d9a304c25e8b79" "4cc600d625ecfdac13d984d9190d63a8970b0a4b" "ab72b93074396d3428b557e2e00d64f487fab1e1" "e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "952b7d317448f2092c7d4f05122839f01b032024")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/914263): camera/hal is unnecessary for this build but is
@@ -49,6 +49,7 @@ DEPEND="${COMMON_DEPEND}
 	x11-libs/libdrm:="
 
 src_install() {
+	platform_src_install
 	dobin "${OUT}/cros_camera_service"
 
 	insinto /etc/init
