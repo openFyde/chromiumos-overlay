@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d220427c70327dc24b7251466bf1b01a6e2b29e4"
-CROS_WORKON_TREE=("e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "41a36d723a0f6d07e2ab4ea8c7953eb6f698cfd0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0dc07135790e0b8d7642e901a0bb9564dfcf0454"
+CROS_WORKON_TREE=("e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "fbe2824c52ff947a4e8ddbb5f43955fec773daa3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
@@ -29,7 +29,7 @@ MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v706.fb"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711.fb"
 )
 
 DOWNLOADABLE_MODELS=(
