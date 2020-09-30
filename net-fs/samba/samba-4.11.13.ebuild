@@ -23,7 +23,7 @@ LICENSE="GPL-3"
 
 SLOT="0"
 
-IUSE="acl addc addns ads ceph client cluster cups debug dmapi fam gpg iprint 
+IUSE="acl addc addns ads ceph client cluster cups debug dmapi fam gpg iprint
 json ldap pam perl profiling-data python quota selinux snapper syslog
 system-heimdal +system-mitkrb5 systemd test winbind zeroconf"
 
@@ -50,14 +50,14 @@ CDEPEND="
 	dev-libs/popt[${MULTILIB_USEDEP}]
 	python? ( $(python_gen_cond_dep 'dev-python/subunit[${PYTHON_USEDEP},'"${MULTILIB_USEDEP}"']') )
 	>=dev-util/cmocka-1.1.1[${MULTILIB_USEDEP}]
-	>=net-libs/gnutls-3.2.0
+	>=net-libs/gnutls-3.2.0[${MULTILIB_USEDEP}]
 	net-libs/libnsl:=[${MULTILIB_USEDEP}]
 	sys-apps/attr[${MULTILIB_USEDEP}]
 	sys-libs/e2fsprogs-libs[${MULTILIB_USEDEP}]
 	>=sys-libs/ldb-2.0.12[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
 	<sys-libs/ldb-2.1.0[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
 	sys-libs/libcap
-	sys-libs/ncurses:0=[${MULTILIB_USEDEP}]
+	sys-libs/ncurses:0=
 	sys-libs/readline:0=
 	>=sys-libs/talloc-2.2.0[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
 	>=sys-libs/tdb-1.4.2[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
@@ -141,13 +141,13 @@ PATCHES=(
 
 	"${FILESDIR}/${PN}-4.11-async-dns-lookup.patch"
 
-	"${FILESDIR}/${PN}-4.11.11-machinepass_stdin.patch"
-	"${FILESDIR}/${PN}-4.11.11-machinepass_expire.patch"
-	"${FILESDIR}/${PN}-4.11.11-reuse_existing_computer_account.patch"
+	"${FILESDIR}/${PN}-4.11.13-machinepass_stdin.patch"
+	"${FILESDIR}/${PN}-4.11.13-machinepass_expire.patch"
+	"${FILESDIR}/${PN}-4.11.13-reuse_existing_computer_account.patch"
 
 	# Temporary workaround until we fix Samba/OpenLDAP issues (see
 	# https://crbug.com/953613).
-	"${FILESDIR}/${PN}-4.11.11-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
+	"${FILESDIR}/${PN}-4.11.13-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
@@ -158,6 +158,9 @@ WAF_BINARY="${S}/buildtools/bin/waf"
 SHAREDMODS=""
 
 pkg_setup() {
+	# Package fails to build with distcc
+	export DISTCC_DISABLE=1
+
 	python-single-r1_pkg_setup
 	if use cluster ; then
 		SHAREDMODS="idmap_rid,idmap_tdb2,idmap_ad"
