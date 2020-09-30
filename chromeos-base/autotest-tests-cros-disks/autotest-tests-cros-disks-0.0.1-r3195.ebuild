@@ -1,28 +1,35 @@
-# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="fbc49f406c80967f486ed2f0e2d02eeaa38cad82"
-CROS_WORKON_TREE="7a1273a39123e82c06eb32db5941fb784023e773"
+CROS_WORKON_COMMIT="f97bc2af7a2dfe8b924edfc959026ec70bb1413f"
+CROS_WORKON_TREE="fef9f065fb7f34e5205e22bb7b61d7c2d155193e"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest
 
-DESCRIPTION="kvm host autotests"
+DESCRIPTION="cros-disks autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
+# Enable autotest by default.
 IUSE="+autotest"
 
-RDEPEND=""
+RDEPEND="
+	!<chromeos-base/autotest-tests-0.0.3
+"
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_vm_CrosVmStart
+	+tests_platform_CrosDisksArchive
+	+tests_platform_CrosDisksFilesystem
+	+tests_platform_CrosDisksFormat
+	+tests_platform_CrosDisksRename
+	+tests_platform_CrosDisksSshfs
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
