@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} pypy )
+PYTHON_COMPAT=( python3_{6,7,8,9} pypy3 )
 
 inherit distutils-r1
 
@@ -15,6 +15,6 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
-	>=dev-python/google-api-core-1.14.0[${PYTHON_USEDEP}]"
-DEPEND="${RDEPEND}
-	dev-python/setuptools[${PYTHON_USEDEP}]"
+	>=dev-python/google-api-core-1.19.0[${PYTHON_USEDEP}]
+	>=dev-python/grpcio-1.8.2[${PYTHON_USEDEP}]"
+DEPEND="${RDEPEND}"
