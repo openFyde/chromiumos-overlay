@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d290f731c4d623269bf6a259a351bf92eb5f4854"
-CROS_WORKON_TREE=("aa81756947ecfdd38b22f42eed8eeafa40431079" "78ff2392ade54168b9bdd8f27ca303f0da81d6dc" "952b7d317448f2092c7d4f05122839f01b032024" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="599a402643c3a97f9c8b9f055cd4051a154462ba"
+CROS_WORKON_TREE=("aa81756947ecfdd38b22f42eed8eeafa40431079" "92494c417db1f873d819897e9f2ac552a0a19ad9" "952b7d317448f2092c7d4f05122839f01b032024" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -124,10 +124,15 @@ src_install() {
 
 	udev_dorules 99-crash-reporter.rules
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/crash_sender_fuzzer \
+	# Install metrics/OWNERS as the owners file for the fuzzers.
+	# The owners files need to have actual email addresses, not
+	# an include-link.
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/crash_sender_fuzzer \
 		--dict "${S}"/crash_sender_fuzzer.dict
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/anomaly_detector_fuzzer \
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/anomaly_detector_fuzzer \
 		--dict "${S}"/anomaly_detector_fuzzer.dict
 }
 
