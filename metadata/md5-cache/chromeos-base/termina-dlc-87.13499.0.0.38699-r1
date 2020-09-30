@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile info install setup unpack
+DEPEND=chromeos-base/update_engine
+DESCRIPTION=DLC package for termina.
+EAPI=7
+IUSE=kvm_host dlc amd64 arm cros_host cros_workon_tree_
+KEYWORDS=*
+LICENSE=BSD-Google
+REQUIRED_USE=dlc kvm_host ^^ ( amd64 arm arm64 )
+RESTRICT=nomirror
+SLOT=0
+SRC_URI=amd64? ( gs://termina-component-testing/uprev-test/amd64/87.13499.0.0.38699/guest-vm-base.tbz -> termina_amd64.tbz ) arm? ( gs://termina-component-testing/uprev-test/arm/87.13499.0.0.38699/guest-vm-base.tbz -> termina_arm.tbz ) arm64? ( gs://termina-component-testing/uprev-test/arm/87.13499.0.0.38699/guest-vm-base.tbz -> termina_arm.tbz )
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	212b86ee95c1edffe51e7a643c301998	dlc	c539aa2d32aaba22acfb2eb623710a96	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=36341e55ce7ffc178fa869a31d0379c1
