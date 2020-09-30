@@ -3,20 +3,20 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="d220427c70327dc24b7251466bf1b01a6e2b29e4"
-CROS_WORKON_TREE=("e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "a707dc00fb99761f484b9571e929f3070f670448" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c7964db9e8577c261c6855a00a69049d3a7900ae"
+CROS_WORKON_TREE=("e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "664fa34383cd9fe39960fcd4241965835a4e2bff" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk croslog .gn"
+CROS_WORKON_SUBTREE="common-mk bootid-logger .gn"
 
-PLATFORM_SUBDIR="croslog"
+PLATFORM_SUBDIR="bootid-logger"
 
 inherit cros-workon platform
 
 DESCRIPTION="Log viewer for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/croslog"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/bootid-logger"
 
 LICENSE="BSD-Google"
 SLOT="0/0"
@@ -27,10 +27,6 @@ src_install() {
 	platform_install
 
 	insinto /etc/init
-	doins etc/log-bootid-on-boot.conf
-}
-
-platform_pkg_test() {
-	platform test_all
+	doins log-bootid-on-boot.conf
 }
 

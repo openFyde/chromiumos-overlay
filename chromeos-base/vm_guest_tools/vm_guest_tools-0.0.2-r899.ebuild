@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="479ce379f42a99c5a8366be3363fe600c5103edb"
+CROS_WORKON_COMMIT="c7964db9e8577c261c6855a00a69049d3a7900ae"
 CROS_WORKON_TREE=("e878c3ec9ca8c15b6f63f45f4c95e8aaa646f0ad" "13258fdcb43a3ce3af43b51624b8b8ee9d57a42a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -56,8 +56,10 @@ src_install() {
 	dobin "${OUT}"/vm_syslog
 	dosbin "${OUT}"/vshd
 
-	if use vm-containers; then
+	if use vm-containers || use vm_borealis; then
 		dobin "${OUT}"/garcon
+	fi
+	if use vm-containers; then
 		dobin "${OUT}"/guest_service_failure_notifier
 		dobin "${OUT}"/notificationd
 		dobin "${OUT}"/upgrade_container
