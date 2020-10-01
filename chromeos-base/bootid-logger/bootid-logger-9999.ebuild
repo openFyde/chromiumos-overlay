@@ -21,6 +21,8 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
+RDEPEND="!<=chromeos-base/croslog-0.0.1-r44"
+
 src_install() {
 	platform_install
 
