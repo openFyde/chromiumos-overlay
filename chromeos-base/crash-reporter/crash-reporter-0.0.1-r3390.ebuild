@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="131651bf6e32cee833b82cf63cce039816716018"
-CROS_WORKON_TREE=("aa81756947ecfdd38b22f42eed8eeafa40431079" "b57d73637bf4ff77fde88a335db72454e8b4d4f5" "952b7d317448f2092c7d4f05122839f01b032024" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="78e1a9fe5050d1c425a3515d03fc395a8606df84"
+CROS_WORKON_TREE=("aa81756947ecfdd38b22f42eed8eeafa40431079" "77b78739de9d150eea71a620538dfb4133518cec" "952b7d317448f2092c7d4f05122839f01b032024" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -130,6 +130,10 @@ src_install() {
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/crash_sender_fuzzer \
 		--dict "${S}"/crash_sender_fuzzer.dict
+
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/chrome_collector_fuzzer \
+		--dict "${S}"/chrome_collector_fuzzer.dict
 
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/anomaly_detector_fuzzer \
