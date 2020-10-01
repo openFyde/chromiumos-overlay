@@ -100,7 +100,10 @@ CROS_COMMON_RDEPEND="
 		chromeos-base/chromeos-fpmcu-unittests
 	)
 	hammerd? ( chromeos-base/hammerd-test-utils )
-	scanner? ( chromeos-base/lorgnette_cli )
+	scanner? (
+		chromeos-base/lorgnette_cli
+		chromeos-base/sane-backends-test
+	)
 	ml_benchmark_drivers? ( chromeos-base/ml-benchmark-drivers )
 	ml_service? ( chromeos-base/ml-cmdline )
 	nnapi? ( chromeos-base/ml-test-assets )
