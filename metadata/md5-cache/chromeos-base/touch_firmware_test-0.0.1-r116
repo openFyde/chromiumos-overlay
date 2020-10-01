@@ -2,7 +2,7 @@ BDEPEND=dev-vcs/git python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 )
 DEFINED_PHASES=compile configure info install prepare setup test unpack
 DESCRIPTION=Chromium OS multitouch utilities
 EAPI=7
-IUSE=-asan asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_704507af350e04a2f10980fd26c2876d3b713759 cros-debug python_targets_python2_7
+IUSE=-asan asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_a1c442eb8d5fef00ef538745ac78a9787472995d cros-debug python_targets_python2_7
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
@@ -10,4 +10,4 @@ RDEPEND=python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/
 REQUIRED_USE=|| ( python_targets_python2_7 )
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	212b86ee95c1edffe51e7a643c301998	distutils-r1	198e3b9ddb55ae36b2a50b07ca2877ef	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multibuild	40fe59465edacd730c644ec2bc197809	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	python-r1	79e26ce8f853c9daebe9a4956e37cc1b	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=3d6936d6e2957d4e1c7c2534419b7d37
+_md5_=961b3e3512175a2e4525fb799e820aac
