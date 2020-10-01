@@ -13,7 +13,10 @@ PLATFORM_SUBDIR="ml_benchmark"
 
 inherit cros-workon platform
 
-RDEPEND=""
+# chromeos-base/ml_benchmark blocked due to package rename
+RDEPEND="
+	!chromeos-base/ml_benchmark
+"
 
 DEPEND="
 	${RDEPEND}
