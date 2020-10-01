@@ -1,0 +1,33 @@
+commit 6b91de4e289c6165fca8846fee7f6674b99a3590
+Author: Alexander Pevzner <pzz@apevzner.com>
+Date:   Thu Oct 1 20:48:44 2020 +0300
+
+    ESCL: if in Location: URL host is not trusted, scheme is not trusted too (#78)
+    
+        See also https://github.com/alexpevzner/sane-airscan/commit/3bbdef921a885dfeff21015c71a4ded967db777c
+
+diff --git a/airscan-http.c b/airscan-http.c
+index dc25793..fa81da0 100644
+--- a/airscan-http.c
++++ b/airscan-http.c
+@@ -824,7 +824,7 @@ http_uri_set_path (http_uri *uri, const char *path)
+ void
+ http_uri_fix_host (http_uri *uri, const http_uri *base_uri, const char *match)
+ {
+-    http_uri_field host, port;
++    http_uri_field schema, host, port;
+ 
+     if (match != NULL) {
+         host = http_uri_field_get(uri, UF_HOST);
+@@ -833,9 +833,11 @@ http_uri_fix_host (http_uri *uri, const http_uri *base_uri, const char *match)
+         }
+     }
+ 
++    schema = http_uri_field_get(base_uri, UF_SCHEMA);
+     host = http_uri_field_get(base_uri, UF_HOST);
+     port = http_uri_field_get(base_uri, UF_PORT);
+ 
++    http_uri_field_replace_len(uri, UF_SCHEMA, schema.str, schema.len);
+     http_uri_field_replace_len(uri, UF_HOST, host.str, host.len);
+     http_uri_field_replace_len(uri, UF_PORT, port.str, port.len);
+ }

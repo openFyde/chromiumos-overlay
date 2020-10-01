@@ -31,6 +31,7 @@ S="${WORKDIR}/${PN}-unstable-${GIT_REF}"
 PATCHES=(
 	"${FILESDIR}/sane-airscan-0.99.10-fuzzer.patch"
 	"${FILESDIR}/sane-airscan-0.99.17-pointer-cast.patch"
+	"${FILESDIR}/sane-airscan-0.99.17-https-port.patch"
 )
 
 src_prepare() {
