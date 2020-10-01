@@ -1,4 +1,4 @@
-Add a fuzzer target to meson.build.
+Add fuzzer targets to meson.build.
 
 http://b/160181793
 
@@ -11,10 +11,16 @@ diff -ruN a/meson.build b/meson.build
  
  sources = [
    'airscan-array.c',
-@@ -65,6 +65,13 @@
+@@ -65,6 +65,19 @@
    install: true
  )
  
++executable(
++  'airscan_uri_fuzzer',
++  sources + ['airscan_uri_fuzzer.cc'],
++  dependencies: shared_deps,
++  build_by_default: false
++)
 +executable(
 +  'airscan_xml_fuzzer',
 +  sources + ['airscan_xml_fuzzer.cc'],
