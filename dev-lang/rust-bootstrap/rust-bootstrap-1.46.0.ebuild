@@ -6,6 +6,18 @@
 #
 # The version of this ebuild reflects the version of rustc that will
 # ultimately be installed.
+#
+# This ebuild can be used in two modes, controlled by the fullbootstrap
+# USE flag:
+#
+# fullbootstrap: Build everything from source. This can take over
+#   10 hours.
+#
+# -fullbootstrap: Start with a prebuilt from an earlier rust-bootstrap
+#   and build only versions after that from source.
+#
+# The default is -fullbootstrap, so that you only get the 10+ hour build
+# time if you explicitly request it.
 
 EAPI=7
 
@@ -15,9 +27,14 @@ DESCRIPTION="Bootstraps the rustc Rust compiler using mrustc"
 HOMEPAGE="https://github.com/thepowersgang/mrustc"
 MRUSTC_VERSION="0.9"
 MRUSTC_NAME="mrustc-${MRUSTC_VERSION}"
+
+SLOT="0"
+KEYWORDS="*"
+IUSE="-fullbootstrap"
+
 INITIAL_RUSTC_VERSION="1.29.0"
 # Versions of rustc to build after the initial one.
-RUSTC_VERSION_SEQUENCE=(
+RUSTC_FULL_BOOTSTRAP_SEQUENCE=(
 	1.30.0
 	1.31.1
 	1.32.0
@@ -33,55 +50,75 @@ RUSTC_VERSION_SEQUENCE=(
 	1.42.0
 	1.43.1
 	1.44.1
-	${PV}
+	1.45.2
 )
-SRC_URI="gs://chromeos-localmirror/distfiles/${MRUSTC_NAME}.tar.gz
-	gs://chromeos-localmirror/distfiles/rustc-${INITIAL_RUSTC_VERSION}-src.tar.gz"
-for version in "${RUSTC_VERSION_SEQUENCE[@]}"; do
-	SRC_URI+=" gs://chromeos-localmirror/distfiles/rustc-${version}-src.tar.gz"
+# When not using fullbootstrap, use this version as a starting point.
+PREBUILT_VERSION="${RUSTC_FULL_BOOTSTRAP_SEQUENCE[-1]}"
+SRC_URI="gs://chromeos-localmirror/distfiles/rustc-${PV}-src.tar.gz
+	!fullbootstrap? ( gs://chromeos-localmirror/distfiles/rust-bootstrap-${PREBUILT_VERSION}.tbz2 )
+	fullbootstrap? ( gs://chromeos-localmirror/distfiles/${MRUSTC_NAME}.tar.gz )
+	fullbootstrap? ( gs://chromeos-localmirror/distfiles/rustc-${INITIAL_RUSTC_VERSION}-src.tar.gz )"
+for version in "${RUSTC_FULL_BOOTSTRAP_SEQUENCE[@]}"; do
+	SRC_URI+=" fullbootstrap? ( gs://chromeos-localmirror/distfiles/rustc-${version}-src.tar.gz )"
 done
+
 LICENSE="MIT Apache-2.0 BSD-1 BSD-2 BSD-4 UoI-NCSA"
-SLOT="0"
-KEYWORDS="*"
-IUSE=""
 
 DEPEND="dev-libs/openssl
 	net-libs/libssh2"
 RDEPEND="${DEPEND}"
-
-PATCHES=(
-	"${FILESDIR}/${P}-no-curl.patch"
-	"${FILESDIR}/${P}-compilation-fixes.patch"
-	"${FILESDIR}/${P}-8ddb05-invalid-output-constraint.patch"
-	"${FILESDIR}/${P}-libgit2-sys-pkg-config.patch"
-	"${FILESDIR}/${P}-cc.patch"
-	"${FILESDIR}/${P}-libc++.patch"
-	"${FILESDIR}/${P}-printf.patch"
-)
 
 # These tasks take a long time to run for not much benefit: Most of the files
 # they check are never installed. Those that are are only there to bootstrap
 # the rust ebuild, which has the same RESTRICT anyway.
 RESTRICT="binchecks strip"
 
-S="${WORKDIR}/${MRUSTC_NAME}"
+pkg_setup() {
+	if use fullbootstrap; then
+		RUSTC_VERSION_SEQUENCE=( "${RUSTC_FULL_BOOTSTRAP_SEQUENCE[@]}" )
+		PATCHES=(
+			"${FILESDIR}/${P}-no-curl.patch"
+			"${FILESDIR}/${P}-compilation-fixes.patch"
+			"${FILESDIR}/${P}-8ddb05-invalid-output-constraint.patch"
+			"${FILESDIR}/${P}-libgit2-sys-pkg-config.patch"
+			"${FILESDIR}/${P}-cc.patch"
+			"${FILESDIR}/${P}-printf.patch"
+			"${FILESDIR}/${P}-libc++.patch"
+		)
+		S="${WORKDIR}/${MRUSTC_NAME}"
+	else
+		RUSTC_VERSION_SEQUENCE=( )
+		# We manually apply patches to rustcs in the version sequence,
+		# so that we can pass the necessary -p value. To prevent
+		# default from trying and failing to apply patches, we set
+		# PATCHES to empty.
+		PATCHES=( )
+		S="${WORKDIR}/rustc-${PV}-src"
+	fi
+	RUSTC_VERSION_SEQUENCE+=( ${PV} )
+}
 
 src_unpack() {
 	default
-	# Move rustc sources to where mrustc expects them.
-	mv "${WORKDIR}/rustc-${INITIAL_RUSTC_VERSION}-src" "${S}" || die
+	if use fullbootstrap; then
+		# Move rustc sources to where mrustc expects them.
+		mv "${WORKDIR}/rustc-${INITIAL_RUSTC_VERSION}-src" "${S}" || die
+	fi
 }
 
 src_prepare() {
 	# Call the default implementation. This applies PATCHES.
 	default
 
-	# The next few steps mirror what mrustc's Makefile does to configure the
-	# build for a specific rustc version.
-	(cd "rustc-${INITIAL_RUSTC_VERSION}-src" || die; eapply -p0 "${S}/rustc-${INITIAL_RUSTC_VERSION}-src.patch")
-	cd "${S}" || die
-	echo "${INITIAL_RUSTC_VERSION}" > "rust-version" || die
-	cp "rust-version" "rustc-${INITIAL_RUSTC_VERSION}-src/dl-version" || die
+	if use fullbootstrap; then
+
+		# The next few steps mirror what mrustc's Makefile does to configure the
+		# build for a specific rustc version.
+		(cd "rustc-${INITIAL_RUSTC_VERSION}-src" || die; eapply -p0 "${S}/rustc-${INITIAL_RUSTC_VERSION}-src.patch")
+		cd "${S}" || die
+		echo "${INITIAL_RUSTC_VERSION}" > "rust-version" || die
+		cp "rust-version" "rustc-${INITIAL_RUSTC_VERSION}-src/dl-version" || die
+	fi
 
 	# There are some patches that need to be applied to the rustc versions
 	# we build with rustc. Apply them here.
@@ -90,6 +127,18 @@ src_prepare() {
 		einfo "Patching rustc-${version}"
 		(cd "${WORKDIR}/rustc-${version}-src" || die; eapply -p2 "${FILESDIR}/${P}-libc++.patch")
 	done
+}
+
+src_configure() {
+	# Avoid the default implementation, which overwrites vendored
+	# config.guess and config.sub files, which then causes checksum
+	# errors during the build, e.g.
+	# error: the listed checksum of `/var/tmp/portage/dev-lang/rust-bootstrap-1.46.0/work/rustc-1.46.0-src/vendor/backtrace-sys/src/libbacktrace/config.guess` has changed:
+	# expected: 12e217c83267f1ff4bad5d9b2b847032d91e89ec957deb34ec8cb5cef00eba1e
+	# actual:   312ea023101dc1de54aa8c50ed0e82cb9c47276316033475ea403cb86fe88ffe
+	# (The dev-lang/rust ebuilds in Chrome OS and Gentoo also have custom
+	# src_configure implementations.)
+	true
 }
 
 src_compile() {
@@ -105,16 +154,25 @@ src_compile() {
 	export CXX=$(tc-getBUILD_CXX)
 	export PKG_CONFIG=$(tc-getBUILD_PKG_CONFIG)
 	export OPENSSL_DIR="${ESYSROOT}/usr"
-	# Two separate commands, because invoking just the second command leads to race
-	# conditions.
-	emake LLVM_TARGETS=X86 RUSTC_VERSION=${INITIAL_RUSTC_VERSION} output/rustc output/cargo
-	emake LLVM_TARGETS=X86 RUSTC_VERSION=${INITIAL_RUSTC_VERSION} -C run_rustc
+	# Only actually build mrustc when using fullbootstrap.
+	if use fullbootstrap; then
+		# Two separate commands, because invoking just the second command leads to race
+		# conditions.
+		emake LLVM_TARGETS=X86 RUSTC_VERSION=${INITIAL_RUSTC_VERSION} output/rustc output/cargo
+		emake LLVM_TARGETS=X86 RUSTC_VERSION=${INITIAL_RUSTC_VERSION} -C run_rustc
+	fi
 
 	# 2. Build successive versions of rustc using previous rustc
 	# ----------------------------------------------------------
-	local prev_version=${INITIAL_RUSTC_VERSION}
-	local prev_cargo="${S}/run_rustc/output/prefix/bin/cargo"
-	local prev_rustc="${S}/run_rustc/output/prefix/bin/rustc"
+	if use fullbootstrap; then
+		local prev_version=${INITIAL_RUSTC_VERSION}
+		local prev_cargo="${S}/run_rustc/output/prefix/bin/cargo"
+		local prev_rustc="${S}/run_rustc/output/prefix/bin/rustc"
+	else
+		local prev_version=${PREBUILT_VERSION}
+		local prev_cargo="${WORKDIR}/opt/rust-bootstrap-${PREBUILT_VERSION}/bin/cargo"
+		local prev_rustc="${WORKDIR}/opt/rust-bootstrap-${PREBUILT_VERSION}/bin/rustc"
+	fi
 	local next_version rustc_dir
 	for next_version in "${RUSTC_VERSION_SEQUENCE[@]}"; do
 		einfo "Building rustc-${next_version} using rustc-${prev_version}"
