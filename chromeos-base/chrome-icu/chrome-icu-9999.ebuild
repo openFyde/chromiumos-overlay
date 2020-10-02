@@ -48,6 +48,7 @@ IUSE="
 	+thinlto
 	ubsan
 	verbose
+	xkbcommon
 	"
 
 # [Mod] clear REQUIRED_USE.
@@ -83,9 +84,16 @@ CHROME_ICU_POSTFIX="-chrome"
 # [Mod] chrome/icu depends on nothing. Blocking the canonical icu package can
 # let us notice the potential repetitions.
 # [Mod] Old Chrome ebuilds installed icudtl.dat.
+# Add `xkbcommon` related libraries to make xkbcommon handling identical with
+# chromeos-chrome. This will make it more likely to catch potential xkbcommon
+# related chromeos-icu.ebuild failures by testing chromeos-chrome.ebuild.
 RDEPEND="
 	!dev-libs/icu
 	!<chromeos-base/chromeos-chrome-83.0.4098.4
+	xkbcommon? (
+		x11-libs/libxkbcommon
+		x11-misc/xkeyboard-config
+	)
 "
 DEPEND="
 	net-print/cups
@@ -122,6 +130,10 @@ set_build_args() {
 		"enable_nacl=false"
 		"enable_nacl=false"
 		"icu_use_data_file=true"
+		# Add this to make xkbcommon handling identical with chromeos-chrome.
+		# This will make it more likely to catch potential xkbcommon related
+		# chromeos-icu.ebuild failures by testing chromeos-chrome.ebuild
+		"use_xkbcommon=$(usetf xkbcommon)"
 		# use_system_minigbm is set below.
 		# HarfBuzz and FreeType need to be built together in a specific way
 		# to get FreeType autohinting to work properly. Chromium bundles
