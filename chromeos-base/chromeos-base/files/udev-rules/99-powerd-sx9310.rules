@@ -1,5 +1,4 @@
 ACTION=="add", SUBSYSTEM=="iio", ATTR{name}=="sx9310|sx9311", \
 ATTR{label}=="proximity-*" \
   SYMLINK+="%s{label}" \
-  GROUP="power", \
-  ATTR{events/in_proximity1_thresh_either_en}="1"
+  GROUP="power"
