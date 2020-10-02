@@ -20,6 +20,7 @@ RDEPEND="
 "
 DEPEND="
 	chromeos-base/chunnel
+	chromeos-base/sommelier
 	chromeos-base/vm_guest_tools
 	net-libs/grpc:=
 	dev-libs/protobuf:=
