@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="0bb78736f7ad8714c30b92486e3c848ea61b7138"
-CROS_WORKON_TREE="2fae84a50fa2a549a8b672737c9af55e22f83273"
+CROS_WORKON_COMMIT="3fafe7ee134e9462d8c9d737ea15a9ae0be2e995"
+CROS_WORKON_TREE="0c2b1f89ba962ad28992e1a4ccdb364ec2b78aa6"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -19,15 +19,15 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="+rust-crosh"
 
-DEPEND="chromeos-base/system_api-rust:=
-	>=dev-rust/dbus-0.6.1:= <dev-rust/dbus-0.7.0
+DEPEND=">chromeos-base/system_api-rust-0.24.52-r261:=
+	=dev-rust/dbus-0.8*:=
 	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
 	dev-rust/remain:=
 	>=dev-rust/rustyline-5.0.4:= <dev-rust/rustyline-6.0.0
 	dev-rust/shell-words:=
 	dev-rust/sys_util:=
 	dev-rust/tempfile:=
-	dev-rust/tlsdate_dbus:=
+	>dev-rust/tlsdate_dbus-0.24.52-r8:=
 "
 RDEPEND="app-admin/sudo
 	chromeos-base/vboot_reference

@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="911fccb56a699eea34c9283bbb82cbea97814515"
-CROS_WORKON_TREE=("a0d8550678a1ed2a4ab62782049032a024bf40df" "135144614b37b7eff5e012dd90d7cbdefbba5d6a" "d289fda3c8ee1448b8cdf3425062327cde39dd8c" "81a11296fa5acade5035e76fe615e831b2cd8ca8")
+CROS_WORKON_COMMIT="3fafe7ee134e9462d8c9d737ea15a9ae0be2e995"
+CROS_WORKON_TREE=("a0d8550678a1ed2a4ab62782049032a024bf40df" "135144614b37b7eff5e012dd90d7cbdefbba5d6a" "d289fda3c8ee1448b8cdf3425062327cde39dd8c" "5d69cddbb685554738be4c271a07e645e7281630")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="authpolicy/dbus_bindings debugd/dbus_bindings login_manager/dbus_bindings system_api"
@@ -24,8 +24,8 @@ KEYWORDS="*"
 RDEPEND=""
 
 DEPEND="${RDEPEND}
-	chromeos-base/chromeos-dbus-bindings-rust:=
-	=dev-rust/dbus-0.6*:=
+	>chromeos-base/chromeos-dbus-bindings-rust-0.24.52-r16:=
+	=dev-rust/dbus-0.8*:=
 "
 
 src_unpack() {

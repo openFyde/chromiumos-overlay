@@ -39,6 +39,7 @@ IUSE="
 	borealis_host
 	cfm_enabled_device
 	cheets
+	clear_fast_ink_buffer
 	compupdates
 	diagnostics
 	disable_background_blur

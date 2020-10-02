@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9c18c3465d5ffd3a8f9bd69c869855aa720af5c5"
-CROS_WORKON_TREE="b25e1122dfb26b985a75816628122b2fc3ba9a37"
+CROS_WORKON_COMMIT="3fafe7ee134e9462d8c9d737ea15a9ae0be2e995"
+CROS_WORKON_TREE="af0686b23b50ef56914dbf3ab0f577f608b91f44"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="chromeos-dbus-bindings"
@@ -19,7 +19,7 @@ LICENSE="BSD-Google"
 SLOT="0/${PVR}"
 KEYWORDS="*"
 
-BDEPEND=dev-rust/dbus-codegen
+BDEPEND=">=dev-rust/dbus-codegen-0.5.0"
 
 src_unpack() {
 	cros-workon_src_unpack
