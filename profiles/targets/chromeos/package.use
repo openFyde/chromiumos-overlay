@@ -96,7 +96,6 @@ net-proxy/squid		-ssl
 net-proxy/tsocks	tordns
 # No support for bluetooth printing.
 net-wireless/bluez	-cups
-net-wireless/wpa_supplicant-2_8	dbus debug -readline smartcard ssl
 net-wireless/wpa_supplicant-2_9	dbus debug -readline smartcard
 sci-geosciences/gpsd	-python -ntp -X dbus garmin minimal ocean tntc usb -sockets
 # Build only TF lite to save disk space.

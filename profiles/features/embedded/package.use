@@ -1,6 +1,5 @@
 chromeos-base/chromeos-chrome	-accessibility -autotest -build_tests -chrome_remoting -nacl -reorder
 chromeos-base/chromeos-init	vt
 media-sound/adhd		-cras-apm
-net-wireless/wpa_supplicant-2_8	-smartcard
 net-wireless/wpa_supplicant-2_9	-smartcard
 sys-libs/uuid			static-libs
