@@ -26,7 +26,7 @@ src_install() {
 	insinto /usr/include/verity
 	doins dm-bht.h dm-bht-userspace.h
 	cd include || die
-	doins -r linux asm asm-generic
+	doins -r linux asm-generic
 }
 
 platform_pkg_test() {
