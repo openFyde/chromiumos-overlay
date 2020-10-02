@@ -184,12 +184,11 @@ main() {
   esac
 
   # To provision board ID, we use RLZ brand code which is a four letter code
-  # (see full list on go/crosrlz) from VPD or hardware straps, and can be
-  # retrieved by command 'mosys platform brand'.
+  # (see full list on go/crosrlz) from cros_config.
   if [ -z "${rlz}" ] ; then
-    rlz="$(mosys platform brand)"
+    rlz="$(cros_config / brand-code)"
     if [ $? != 0 ]; then
-      die "Failed at 'mosys' command."
+      die "cros_config returned non-zero."
     fi
   fi
   case "${#rlz}" in
