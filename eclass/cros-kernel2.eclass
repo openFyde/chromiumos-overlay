@@ -182,6 +182,7 @@ CONFIG_FRAGMENTS=(
 	kvm_host
 	kvm_nested
 	lockdebug
+	lockstat
 	mbim
 	memory_debug
 	module_sign
@@ -499,6 +500,11 @@ CONFIG_DEBUG_KMEMLEAK_EARLY_LOG_SIZE=16384
 CONFIG_DEBUG_KMEMLEAK_TEST=m
 "
 
+lockstat_desc="Lock usage statistics"
+lockstat_config="
+CONFIG_LOCK_STAT=y
+"
+
 lockdebug_desc="Additional lock debug settings"
 lockdebug_config="
 CONFIG_DEBUG_RT_MUTEXES=y
@@ -507,6 +513,7 @@ CONFIG_DEBUG_MUTEXES=y
 CONFIG_PROVE_RCU=y
 CONFIG_PROVE_LOCKING=y
 CONFIG_DEBUG_ATOMIC_SLEEP=y
+${lockstat_config}
 "
 
 nfc_desc="Enable NFC support"
