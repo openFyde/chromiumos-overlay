@@ -186,7 +186,6 @@ CONFIG_FRAGMENTS=(
 	mbim
 	memory_debug
 	module_sign
-	nested_l3_kvm
 	nfc
 	nfs
 	nowerror
@@ -685,16 +684,6 @@ CONFIG_LOCK_DOWN_KERNEL_FORCE_NONE=y
 # CONFIG_LOCK_DOWN_KERNEL_FORCE_INTEGRITY is not set
 # CONFIG_LOCK_DOWN_KERNEL_FORCE_CONFIDENTIALITY is not set
 '
-nested_l3_kvm_desc="Configuration for nested VMs. This configuration is intended to be used by L3 VMs."
-nested_l3_kvm_config="
-CONFIG_HZ_100=y
-# CONFIG_HZ_250 is not set
-# CONFIG_HZ_300 is not set
-# CONFIG_HZ_1000 is not set
-CONFIG_HZ=100
-
-# CONFIG_KVM_GUEST is not set
-"
 
 nfs_desc="NFS"
 nfs_config="
