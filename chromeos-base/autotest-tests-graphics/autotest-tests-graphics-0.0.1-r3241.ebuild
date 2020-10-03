@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="933e6468b8f213afe9feaca6c39bb7f58f330ded"
-CROS_WORKON_TREE="351b54172e899e93c98ef90a9420a356aefaeabc"
+CROS_WORKON_COMMIT="2936d3c727f13232607d4dd3394ff0cc7af051c8"
+CROS_WORKON_TREE="09a95383c969c7d99e993ef859db2a6179cccb88"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -41,6 +41,7 @@ IUSE_TESTS="
 	+tests_graphics_PerfControl
 	+tests_graphics_SanAngeles
 	+tests_graphics_SyncControlTest
+	+tests_graphics_SystemMonitor
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
