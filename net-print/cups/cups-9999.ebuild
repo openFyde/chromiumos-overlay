@@ -232,9 +232,7 @@ multilib_src_compile() {
 
 multilib_src_test() {
 	multilib_is_native_abi || return 0
-	# ASAN thinks there's a leak in cupsd_main().
-	# This is probably a false positive, so disable leak detection for now.
-	ASAN_OPTIONS=detect_leaks=false:log_path=stderr \
+	ASAN_OPTIONS=log_path=stderr \
 	UBSAN_OPTIONS=print_stacktrace=1:log_path=stderr \
 	/mnt/host/source/src/platform2/common-mk/platform2_test.py \
 		--sysroot="${SYSROOT}" -- ./scheduler/googletests || \
