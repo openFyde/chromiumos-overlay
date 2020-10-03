@@ -2,44 +2,28 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="524012c64c07f8673998428cca7f80e01a387f48"
-CROS_WORKON_TREE="d011d454951af2d6dbcf7d4dc7af53a31cc883db"
+CROS_WORKON_COMMIT="4c523ed10f25de872ac0513ebd6ca53d3970b9de"
+CROS_WORKON_TREE="e8bcb22da0a7713b55413f424096ae5d97e70b99"
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 
 inherit cros-workon autotest
 
-DESCRIPTION="TPM firmware tests"
+DESCRIPTION="tpm check test"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/vboot_reference/"
 SRC_URI=""
 LICENSE="BSD-Google"
-SLOT="0/0"
 KEYWORDS="*"
-DEPEND="
-	app-crypt/trousers:=
-	chromeos-base/tpm:=
-"
 
 # Enable autotest by default.
 IUSE="${IUSE} +autotest"
 
 IUSE_TESTS="
-	+tests_hardware_TPMFirmware
-	+tests_hardware_TPMFirmwareServer
+	+tests_hardware_TPMCheck
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
 
-CROS_WORKON_LOCALNAME=vboot_reference
+CROS_WORKON_LOCALNAME=platform/vboot_reference
 
 # path from root of repo
 AUTOTEST_CLIENT_SITE_TESTS=autotest/client
-AUTOTEST_SERVER_SITE_TESTS=autotest/server
-
-function src_compile {
-	# for Makefile
-	export VBOOT_DIR=${WORKDIR}/${P}
-	export MINIMAL=1  # Makefile requires this for cross-compiling
-	autotest_src_compile
-}
-
-
