@@ -1,13 +1,13 @@
-BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile info install postinst prepare setup unpack
-DESCRIPTION=Dependencies for WebGL many planets deep test
-EAPI=7
+DEPEND=>=chromeos-base/protofiles-0.0.39:= chromeos-base/system_api dev-libs/protobuf:=
+DESCRIPTION=Autotest policy deps
+EAPI=5
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/autotest/
-IUSE=+autotest cros_host cros_workon_tree_09a95383c969c7d99e993ef859db2a6179cccb88 +buildcheck autotest opengles
+IUSE=+autotest cros_host cros_workon_tree_00d580342b06bec1a94fb0f4d83999720fec8b47 +buildcheck autotest opengles
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=autotest? ( chromeos-base/autotest )
-SLOT=0/0.0.1-r8262
+SLOT=0
 _eclasses_=autotest	605b7cb5c6f24c3d362106dee3d4b20e	autotest-deponly	9b1e5d19c437abea0e7c0fa90c192abd	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=5a66ef17fcc45e56b06196c8c0ab72ed
+_md5_=407311d79f9226e9fac22591ada3beb4
