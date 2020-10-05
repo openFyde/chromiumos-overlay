@@ -518,6 +518,10 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	sys-power/cpupower"
 
+# Base layout for java that installs cacerts
+RDEPEND="${RDEPEND}
+	sys-apps/baselayout-java"
+
 # CTS P depends on Java 8 or 9, CTS R depends on Java 9 or later.
 # Include android-sdk to contain both JDK8 and JDK11 in the chroot.
 RDEPEND="${RDEPEND}
