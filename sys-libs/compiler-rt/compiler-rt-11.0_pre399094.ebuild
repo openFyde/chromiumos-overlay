@@ -10,7 +10,7 @@ EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
 	${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 
 LLVM_HASH="83080a294ad7d145d758821bcf4354ad0cb7d299" # r399094
-LLVM_NEXT_HASH="83080a294ad7d145d758821bcf4354ad0cb7d299" # r399094
+LLVM_NEXT_HASH="2dd9a4d855f6a6d3e84dd4d1e489e6265d206732" # r404259
 
 DESCRIPTION="Compiler runtime library for clang"
 HOMEPAGE="http://compiler-rt.llvm.org/"
