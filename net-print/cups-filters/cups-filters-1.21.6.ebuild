@@ -60,6 +60,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.25.5-fix-segfault-when-running-by-hand.patch"
 	"${FILESDIR}/${PN}-1.25.5-fill-arg.patch"
 	"${FILESDIR}/${PN}-1.27.4-two-sided.patch"
+	"${FILESDIR}/${PN}-1.21.6-total-page-count.patch"
 )
 
 src_prepare() {
