@@ -21,6 +21,7 @@ BDEPEND="sys-apps/debianutils"
 DEPEND="sys-kernel/linux-firmware
 	factory_netboot_ramfs? ( chromeos-base/chromeos-initramfs[factory_netboot_ramfs] )
 	factory_shim_ramfs? ( chromeos-base/chromeos-initramfs[factory_shim_ramfs] )
+	minios_ramfs? ( chromeos-base/chromeos-initramfs[minios_ramfs] )
 	recovery_ramfs? ( chromeos-base/chromeos-initramfs[recovery_ramfs] )
 	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
@@ -185,6 +186,7 @@ CONFIG_FRAGMENTS=(
 	lockstat
 	mbim
 	memory_debug
+	minios_ramfs
 	module_sign
 	nfc
 	nfs
@@ -560,6 +562,12 @@ CONFIG_INITRAMFS_COMPRESSION_XZ=y
 factory_shim_ramfs_desc="Initramfs for factory installer shim"
 factory_shim_ramfs_config='
 CONFIG_INITRAMFS_SOURCE="%ROOT%/var/lib/initramfs/factory_shim_ramfs.cpio.xz"
+CONFIG_INITRAMFS_COMPRESSION_XZ=y
+'
+
+minios_ramfs_desc="Initramfs for minios image"
+minios_ramfs_config='
+CONFIG_INITRAMFS_SOURCE="%ROOT%/var/lib/initramfs/minios_ramfs.cpio.xz"
 CONFIG_INITRAMFS_COMPRESSION_XZ=y
 '
 
@@ -1281,7 +1289,7 @@ CONFIG_EXTRA_FIRMWARE_DIR=\"%ROOT%/lib/firmware\"
 # Add all config and firmware fragments as off by default
 IUSE="${IUSE} ${CONFIG_FRAGMENTS[@]} ${FIRMWARE_BINARIES[@]}"
 REQUIRED_USE="${REQUIRED_USE}
-	?? ( factory_netboot_ramfs factory_shim_ramfs recovery_ramfs )
+	?? ( factory_netboot_ramfs factory_shim_ramfs minios_ramfs recovery_ramfs )
 	factory_netboot_ramfs? ( i2cdev )
 	factory_shim_ramfs? ( i2cdev )
 	recovery_ramfs? ( i2cdev )

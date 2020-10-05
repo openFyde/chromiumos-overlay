@@ -25,6 +25,7 @@ TARGETS_IUSE="
 	factory_shim_ramfs
 	hypervisor_ramfs
 	recovery_ramfs
+	minios_ramfs
 "
 IUSE+=" ${TARGETS_IUSE}"
 REQUIRED_USE="|| ( ${TARGETS_IUSE} )"
@@ -32,6 +33,24 @@ REQUIRED_USE="|| ( ${TARGETS_IUSE} )"
 # Packages required for building recovery initramfs.
 RECOVERY_DEPENDS="
 	chromeos-base/chromeos-installer
+	chromeos-base/common-assets
+	chromeos-base/vboot_reference
+	chromeos-base/vpd
+	sys-apps/flashrom
+	sys-apps/pv
+	virtual/assets
+	virtual/chromeos-regions
+	"
+
+MINIOS_DEPENDS="
+	dev-util/strace
+	net-misc/curl
+	net-misc/dhcp
+	net-misc/dhcpcd
+	net-wireless/wpa_supplicant-2_9
+	chromeos-base/minijail
+	chromeos-base/chromeos-installer
+	chromeos-base/factory_installer
 	chromeos-base/common-assets
 	chromeos-base/vboot_reference
 	chromeos-base/vpd
@@ -93,6 +112,7 @@ DEPEND="
 	factory_shim_ramfs? ( ${FACTORY_SHIM_DEPENDS} )
 	recovery_ramfs? ( ${RECOVERY_DEPENDS} )
 	hypervisor_ramfs? ( ${HYPERVISOR_DEPENDS} )
+	minios_ramfs? ( ${MINIOS_DEPENDS} )
 	sys-apps/busybox[-make-symlinks]
 	sys-fs/lvm2
 	virtual/chromeos-bsp-initramfs
