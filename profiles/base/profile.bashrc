@@ -304,7 +304,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-boot/u-boot|\
 		sys-devel/arc-llvm|\
 		sys-devel/gdb|\
-		sys-fs/avfs|\
 		sys-kernel/arcvm-kernel-*|\
 		sys-kernel/chromeos-kernel-*|\
 		sys-kernel/dump-capture-kernel|\
