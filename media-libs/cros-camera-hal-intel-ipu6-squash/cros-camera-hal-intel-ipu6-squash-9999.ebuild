@@ -43,6 +43,7 @@ src_unpack() {
 	# Generate the patches under platform2 by 'git format-patch <parent_commit>'
 	eapply "${FILESDIR}/0001-intel-ipu6-Add-initial-code-1st-part.patch"
 	eapply "${FILESDIR}/0002-intel-ipu6-Add-initial-code-2nd-part.patch"
+	eapply "${FILESDIR}/0003-camera-intel-ipu6-Correctly-handle-devices-without-M.patch"
 }
 
 src_install() {
