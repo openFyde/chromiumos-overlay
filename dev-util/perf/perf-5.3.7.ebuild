@@ -35,7 +35,7 @@ SRC_URI+=" https://www.kernel.org/pub/linux/kernel/v${LINUX_V}/${LINUX_SOURCES}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="audit clang crypt debug +demangle +doc gtk java lzma numa perl python slang systemtap unwind zlib"
+IUSE="audit clang coresight crypt debug +demangle +doc gtk java lzma numa perl python slang systemtap unwind zlib"
 # TODO babeltrace
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
@@ -45,6 +45,7 @@ RDEPEND="audit? ( sys-process/audit )
 		sys-devel/clang:*
 		sys-devel/llvm:*
 	)
+	coresight? ( dev-libs/opencsd )
 	demangle? ( sys-libs/binutils-libs:= )
 	gtk? ( x11-libs/gtk+:2 )
 	java? ( virtual/jre:* )
@@ -171,7 +172,6 @@ perf_make() {
 	local arch=$(tc-arch-kernel)
 	local java_dir
 	use java && java_dir="/etc/java-config-2/current-system-vm"
-	# FIXME: NO_CORESIGHT
 	# FIXME: NO_LIBBABELTRACE
 	emake V=1 VF=1 \
 		CC="$(tc-getCC)" CXX="$(tc-getCXX)" AR="$(tc-getAR)" LD="$(tc-getLD)" \
@@ -180,11 +180,11 @@ perf_make() {
 		prefix="${EPREFIX}/usr" bindir_relative="bin" \
 		EXTRA_CFLAGS="${CFLAGS}" \
 		ARCH="${arch}" \
+		CORESIGHT=$(usex coresight 1 "") \
 		JDIR="${java_dir}" \
 		LIBCLANGLLVM=$(usex clang 1 "") \
 		NO_AUXTRACE="" \
 		NO_BACKTRACE="" \
-		NO_CORESIGHT=1 \
 		NO_DEMANGLE=$(puse demangle) \
 		NO_GTK2=$(puse gtk) \
 		NO_JVMTI=$(puse java) \
