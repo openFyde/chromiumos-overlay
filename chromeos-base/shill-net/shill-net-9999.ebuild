@@ -34,14 +34,6 @@ src_install() {
 	dolib.so "${OUT}/lib/libshill-net.so"
 	doins "${OUT}/lib/libshill-net.pc"
 
-	# TODO(crbug/920513): Remove both.
-	# Backward compatibility before all usages of versioned libraries are
-	# removed.
-	doins "${OUT}/lib/libshill-net-${v}.pc"
-	# Backward compatibility before developers has built their software against
-	# new shill.
-	dosym libshill-net.so "/usr/$(get_libdir)/libshill-net-${v}.so"
-
 	# Install header files from libshill-net.
 	insinto /usr/include/shill/net
 	doins ./*.h
