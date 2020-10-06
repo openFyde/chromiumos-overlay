@@ -95,10 +95,6 @@ src_install() {
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/cros_disks_whitelist.txt
 
-	# Install powerd prefs for FUSE freeze ordering.
-	insinto /usr/share/power_manager
-	doins powerd_prefs/suspend_freezer_deps_*
-
 	local fuzzers=(
 		mount_options_fuzzer
 		filesystem_label_fuzzer
