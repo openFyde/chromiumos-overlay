@@ -39,7 +39,7 @@ DEPEND="
 
 patchpanel_client_header() {
 	doins "$1"
-	sed -i '/.pb.h/! s:patchpanel/:chromeos/patchpanel/dbus/:g' \
+	sed -i '/.pb.h/! s:patchpanel/:chromeos/patchpanel/:g' \
 		"${D}/usr/include/chromeos/patchpanel/dbus/$1" || die
 }
 
@@ -53,6 +53,7 @@ src_install() {
 
 	insinto /usr/include/chromeos/patchpanel/dbus
 	patchpanel_client_header client.h
+	patchpanel_client_header fake_client.h
 
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
