@@ -343,3 +343,18 @@ IUSE_TESTS="${IUSE_TESTS}
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
+
+INIT_FILE="__init__.py"
+
+src_install() {
+	# Make sure we install all |SERVER_IUSE_TESTS| first.
+	autotest_src_install
+	# Autotest depends on a few strategically placed INIT_FILEs to allow
+	# importing python code. In particular we want to allow importing
+	# server.site_tests.tast to be able to launch tast local tests.
+	# This INIT_FILE exists in git, but needs to be installed and finally
+	# packaged via chromite/lib/autotest_util.py into
+	# autotest_server_package.tar.bz2 to be served by devservers.
+	insinto "${AUTOTEST_BASE}/${AUTOTEST_SERVER_SITE_TESTS}"
+	doins "${AUTOTEST_SERVER_SITE_TESTS}/${INIT_FILE}"
+}
