@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="a15838e4566205d9c8b58c26836dc6d54816af4a"
-CROS_WORKON_TREE="3f31fcc29b09462fd8a6eb6bfef036abcf781b58"
+CROS_WORKON_COMMIT="1a79cb485dfe71652ed6715ff41900e9bbeb2bd0"
+CROS_WORKON_TREE="cc29a85ddce34eca86fa5a6da59801f1e49a9862"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 
 # Prevent automatic uprevs of this package since upstream is out of our control.
