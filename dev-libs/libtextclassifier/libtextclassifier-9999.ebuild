@@ -23,13 +23,13 @@ IUSE=""
 RDEPEND="
 	chromeos-base/chrome-icu:=
 	dev-libs/flatbuffers:=
-	dev-libs/libutf:=
 	sci-libs/tensorflow:=
 	sys-libs/zlib:=
 "
 
 DEPEND="
 	${RDEPEND}
+	dev-libs/libutf:=
 "
 
 src_install() {
@@ -61,6 +61,7 @@ src_install() {
 		"annotator/installed_app/installed-app-engine-dummy.h"
 		"annotator/installed_app/installed-app-engine.h"
 		"annotator/knowledge/knowledge-engine-dummy.h"
+		"annotator/knowledge/knowledge-engine-types.h"
 		"annotator/knowledge/knowledge-engine.h"
 		"annotator/model-executor.h"
 		"annotator/model_generated.h"
@@ -68,9 +69,13 @@ src_install() {
 		"annotator/person_name/person-name-engine-dummy.h"
 		"annotator/person_name/person-name-engine.h"
 		"annotator/person_name/person_name_model_generated.h"
+		"annotator/pod_ner/pod-ner.h"
+		"annotator/pod_ner/pod-ner-dummy.h"
 		"annotator/strip-unpaired-brackets.h"
 		"annotator/translate/translate.h"
 		"annotator/types.h"
+		"annotator/vocab/vocab-annotator.h"
+		"annotator/vocab/vocab-annotator-dummy.h"
 		"annotator/zlib-utils.h"
 		"lang_id/common/embedding-network-params.h"
 		"lang_id/common/fel/task-context.h"
@@ -100,10 +105,14 @@ src_install() {
 		"utils/calendar/calendar.h"
 		"utils/codepoint-range.h"
 		"utils/codepoint-range_generated.h"
+		"utils/container/bit-vector_generated.h"
+		"utils/container/bit-vector.h"
 		"utils/container/sorted-strings-table.h"
 		"utils/container/string-set.h"
-		"utils/flatbuffers.h"
-		"utils/flatbuffers_generated.h"
+		"utils/flatbuffers/flatbuffers.h"
+		"utils/flatbuffers/flatbuffers_generated.h"
+		"utils/flatbuffers/mutable.h"
+		"utils/flatbuffers/reflection.h"
 		"utils/grammar/callback-delegate.h"
 		"utils/grammar/lexer.h"
 		"utils/grammar/match.h"
