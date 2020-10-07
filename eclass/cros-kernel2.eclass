@@ -74,8 +74,7 @@ IUSE="
 "
 REQUIRED_USE="
 	compilation_database? ( clang )
-	fit_compression_kernel_lz4? ( !fit_compression_kernel_lzma )
-	fit_compression_kernel_lzma? ( !fit_compression_kernel_lz4 )
+	?? ( fit_compression_kernel_lz4 fit_compression_kernel_lzma )
 	lld? ( clang )
 "
 STRIP_MASK="
@@ -1281,9 +1280,7 @@ CONFIG_EXTRA_FIRMWARE_DIR=\"%ROOT%/lib/firmware\"
 # Add all config and firmware fragments as off by default
 IUSE="${IUSE} ${CONFIG_FRAGMENTS[@]} ${FIRMWARE_BINARIES[@]}"
 REQUIRED_USE="${REQUIRED_USE}
-	factory_netboot_ramfs? ( !recovery_ramfs !factory_shim_ramfs )
-	factory_shim_ramfs? ( !recovery_ramfs !factory_netboot_ramfs )
-	recovery_ramfs? ( !factory_netboot_ramfs !factory_shim_ramfs )
+	?? ( factory_netboot_ramfs factory_shim_ramfs recovery_ramfs )
 	factory_netboot_ramfs? ( i2cdev )
 	factory_shim_ramfs? ( i2cdev )
 	recovery_ramfs? ( i2cdev )
