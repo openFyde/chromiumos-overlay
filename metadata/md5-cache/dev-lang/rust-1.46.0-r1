@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install prepare setup
+DEPEND=|| ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-libs/libxml2-2.9.6 >=dev-lang/perl-5.0
+DESCRIPTION=Systems programming language from Mozilla
+EAPI=5
+HOMEPAGE=http://www.rust-lang.org/
+KEYWORDS=*
+LICENSE=|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA
+RDEPEND=!dev-util/cargo
+REQUIRED_USE=amd64
+RESTRICT=binchecks strip
+SLOT=stable/1.46
+SRC_URI=https://static.rust-lang.org/dist/rustc-1.46.0-src.tar.gz -> rustc-1.46.0-src.tar.gz https://static.rust-lang.org/dist/2020-08-03/rust-std-1.45.2-x86_64-unknown-linux-gnu.tar.gz https://static.rust-lang.org/dist/rustc-1.45.2-x86_64-unknown-linux-gnu.tar.gz https://static.rust-lang.org/dist/cargo-0.46.1-x86_64-unknown-linux-gnu.tar.gz
+_eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	python-any-r1	54a3178500786b0a7ede4a23b7f2a6ad	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	versionator	26ca8a8bd95d6a74122c08ba98a4ee72
+_md5_=daf80d8d345472b39d547b86c0c906ec
