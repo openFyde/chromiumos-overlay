@@ -469,6 +469,7 @@ ALL_BOARDS=(
 	zako
 	zoombini
 	zork
+	zork-arc-r
 	zork-borealis
 	zork-kernelnext
 )
