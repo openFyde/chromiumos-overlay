@@ -32,6 +32,7 @@ IUSE="
 	input_devices_elan_i2chid
 	input_devices_melfas
 	input_devices_emright
+	input_devices_eps2pstiap
 "
 
 # Third party firmware updaters usually belong in sys-apps/.  If you just
@@ -53,6 +54,7 @@ RDEPEND="
 	input_devices_elan_i2chid? ( chromeos-base/elan_i2chid_tools )
 	input_devices_melfas? ( chromeos-base/mfs-console-tool )
 	input_devices_emright? ( chromeos-base/emright_fw_updater )
+	input_devices_eps2pstiap? ( chromeos-base/epstps2iap )
 "
 
 pkg_preinst() {
@@ -79,6 +81,10 @@ pkg_preinst() {
 	if use input_devices_cirque; then
 		enewgroup cirque
 		enewuser cirque
+	fi
+	if use input_devices_eps2pstiap; then
+		enewgroup fwupdate-serio
+		enewuser fwupdate-serio
 	fi
 }
 
