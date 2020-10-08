@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3fafe7ee134e9462d8c9d737ea15a9ae0be2e995"
-CROS_WORKON_TREE="9a063ea0ed0ea73f51180b3f4f69e481c034ca54"
+CROS_WORKON_COMMIT="0eb2db9192372be22b3754471b369e6c3062d911"
+CROS_WORKON_TREE="f7507193ddd38825f5251ae5a8e89d33ebc0e263"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="sirenia"
@@ -25,6 +25,7 @@ RDEPEND=""
 
 DEPEND="${RDEPEND}
 	>chromeos-base/chromeos-dbus-bindings-rust-0.24.52-r16:=
+	=dev-rust/chrono-0.4*:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
