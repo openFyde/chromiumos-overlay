@@ -103,6 +103,13 @@ cros-zephyr_src_configure() {
 	ZEPHYR_CHROME=""
 	ZEPHYR_MODULES=()
 
+	# Verify that the SDK is installed.
+	if [[ ! -s /opt/zephyr-sdk/sdk_version ]]; then
+		>&2 echo "ERROR: Zephyr SDK doesn't appear to be installed"
+		>&2 echo "       Run src/platform/zephyr-chrome/import-sdk.py"
+		die
+	fi
+
 	# We make assumptions about the purpose of each repo by the paths
 	# in CROS_WORKON_DESTDIR.
 	local destdir
@@ -137,7 +144,6 @@ cros-zephyr_src_configure() {
 
 	# Zephyr environment variables.
 	export ZEPHYR_BASE
-	export ZEPHYR_TOOLCHAIN_VARIANT=cross-compile
 
 	# We have to nuke all of the system environment variables, as
 	# these won't work with target (bare metal) architecture.
