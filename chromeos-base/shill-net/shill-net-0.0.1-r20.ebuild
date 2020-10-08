@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3d3791b5628e546314f2dfec2cd8a954f6da1492"
+CROS_WORKON_COMMIT="accf3cdfe0627417c1e0632b9da124f2160e3863"
 CROS_WORKON_TREE=("f8af72338aabb6766a39a3a323624a050d01d159" "3b9c723fd0f62740a6063d7d863ef4cc22fb7d1b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,14 +35,6 @@ src_install() {
 	./preinstall.sh "${OUT}" "${v}"
 	dolib.so "${OUT}/lib/libshill-net.so"
 	doins "${OUT}/lib/libshill-net.pc"
-
-	# TODO(crbug/920513): Remove both.
-	# Backward compatibility before all usages of versioned libraries are
-	# removed.
-	doins "${OUT}/lib/libshill-net-${v}.pc"
-	# Backward compatibility before developers has built their software against
-	# new shill.
-	dosym libshill-net.so "/usr/$(get_libdir)/libshill-net-${v}.so"
 
 	# Install header files from libshill-net.
 	insinto /usr/include/shill/net
