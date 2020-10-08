@@ -23,6 +23,7 @@ RDEPEND=""
 
 DEPEND="${RDEPEND}
 	>chromeos-base/chromeos-dbus-bindings-rust-0.24.52-r16:=
+	=dev-rust/chrono-0.4*:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
