@@ -4,12 +4,12 @@ DEPEND=>=dev-rust/libc-0.2.44:= dev-rust/data_model:= dev-rust/sys_util:= media-
 DESCRIPTION=Rust version libcras
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/adhd/+/master/cras/client/libcras
-IUSE=test cros_host cros_workon_tree_11b3200d6a54b9af5a5f2b322e1500081d5fd708 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+IUSE=test cros_host cros_workon_tree_0d380b56fc877d1d33f919c5799feb4ee18cd592 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=!<=media-sound/libcras-0.1.0-r21
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r47
+SLOT=0/0.1.0-r48
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	fe84a85c511ad2ec055cbe0cc74bb011	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=0cc32346b38dfe169228b454569b7a75
+_md5_=5dd21305e2b7bdb9742b2e2fb26007e1
