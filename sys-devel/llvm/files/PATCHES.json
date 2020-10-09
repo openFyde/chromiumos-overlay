@@ -378,6 +378,48 @@
         "end_version": 399638
     },
     {
+        "comment": "Revert \"Outline non returning functions unless a longjmp\"",
+        "rel_patch_path": "cherry/9afb1c566e8cb396da495e2fbbbc53e1814cc3a1.patch",
+        "start_version": 401139,
+        "end_version": 407147
+    },
+    {
+        "comment": "Reland [SimplifyCFG][LoopRotate] SimplifyCFG: disable common instruction hoisting by default, enable late in pipeline",
+        "rel_patch_path": "cherry/bb7d3af1139c36270bc9948605e06f40e4c51541.patch",
+        "start_version": 403178,
+        "end_version": 404489
+    },
+    {
+        "comment": "Revert \"RegAllocFast: Record internal state based on register units\"",
+        "rel_patch_path": "cherry/a21387c65470417c58021f8d3194a4510bb64f46.patch",
+        "start_version": 404250,
+        "end_version": 405159
+    },
+    {
+        "comment": "[NFC][Asan] Rename internal enum value.",
+        "rel_patch_path": "cherry/99a93c3a223e3bfc9a9781bfbf98d2fd4551f923.patch",
+        "start_version": 404249,
+        "end_version": 404300
+    },
+    {
+        "comment": "[NFC][Asan] Inline enum doc strings",
+        "rel_patch_path": "cherry/a9c0bf04043462d43013bc5616aa48f6d3e16b88.patch",
+        "start_version": 404249,
+        "end_version": 404300
+    },
+    {
+        "comment": "[NFC][Asan] Reformat some allocator code",
+        "rel_patch_path": "cherry/48ac5b4833b60f00f0923db11ea31e7316bc78c6.patch",
+        "start_version": 404249,
+        "end_version": 404300
+    },
+    {
+        "comment": "Revert \"[Asan] Cleanup atomic usage in allocator\"",
+        "rel_patch_path": "cherry/dbf04aaade235a0d76c6ad549c091c9fd0ada0e8.patch",
+        "start_version": 404249,
+        "end_version": 404300
+    },
+    {
         "comment": "PR47468: Fix findPHICopyInsertPoint, so that copies aren't incorrectly inserted after an INLINEASM_BR.",
         "rel_patch_path": "cherry/f7a53d82c0902147909f28a9295a9d00b4b27d38.patch",
         "start_version": 398032,
