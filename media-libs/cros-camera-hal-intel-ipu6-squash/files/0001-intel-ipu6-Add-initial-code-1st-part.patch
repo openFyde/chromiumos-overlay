@@ -1,7 +1,7 @@
-From fe9b736c010223bfbaed42e4587d37f50a604a77 Mon Sep 17 00:00:00 2001
+From 251302ca41862bd7ea7c17d674801a23ab68b7c6 Mon Sep 17 00:00:00 2001
 From: Tianshu Qiu <tian.shu.qiu@intel.com>
 Date: Wed, 30 Oct 2019 10:03:39 +0800
-Subject: [PATCH] intel:ipu6: Add initial code (1st part)
+Subject: [PATCH 1/2] intel:ipu6: Add initial code (1st part)
 
 Add initial code in src/platform2/camera/hal/intel/ipu6
 1.HAL code
@@ -16,11 +16,11 @@ Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
  camera/hal/intel/ipu6/aal/Camera3AMetadata.h  |   51 +
  camera/hal/intel/ipu6/aal/Camera3HAL.cpp      |  249 ++
  camera/hal/intel/ipu6/aal/Camera3HAL.h        |   68 +
- .../hal/intel/ipu6/aal/Camera3HALModule.cpp   |  299 ++
+ .../hal/intel/ipu6/aal/Camera3HALModule.cpp   |  297 ++
  camera/hal/intel/ipu6/aal/Camera3Stream.cpp   |  653 ++++
  camera/hal/intel/ipu6/aal/Camera3Stream.h     |  177 ++
  camera/hal/intel/ipu6/aal/HALv3Interface.h    |   32 +
- camera/hal/intel/ipu6/aal/HALv3Utils.cpp      |  161 +
+ camera/hal/intel/ipu6/aal/HALv3Utils.cpp      |  176 ++
  camera/hal/intel/ipu6/aal/HALv3Utils.h        |   78 +
  .../intel/ipu6/aal/IntelAEStateMachine.cpp    |  285 ++
  .../hal/intel/ipu6/aal/IntelAEStateMachine.h  |  136 +
@@ -293,7 +293,7 @@ Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
  .../intel/ipu6/src/platformdata/CameraTypes.h |  228 ++
  .../ipu6/src/platformdata/ParserBase.cpp      |  165 +
  .../intel/ipu6/src/platformdata/ParserBase.h  |  102 +
- .../ipu6/src/platformdata/PlatformData.cpp    | 1369 +++++++++
+ .../ipu6/src/platformdata/PlatformData.cpp    | 1371 +++++++++
  .../ipu6/src/platformdata/PlatformData.h      | 1159 +++++++
  .../ipu6/src/platformdata/PolicyParser.cpp    |  226 ++
  .../ipu6/src/platformdata/PolicyParser.h      |   73 +
@@ -303,21 +303,21 @@ Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
  .../ipu6/src/platformdata/gc/GraphConfig.h    |   88 +
  .../platformdata/gc/GraphConfigManager.cpp    |  179 ++
  .../src/platformdata/gc/GraphConfigManager.h  |   85 +
- .../ipu6/src/platformdata/gc/GraphUtils.cpp   |  112 +
+ .../ipu6/src/platformdata/gc/GraphUtils.cpp   |  110 +
  .../ipu6/src/platformdata/gc/GraphUtils.h     |   27 +
  .../ipu6/src/platformdata/gc/HalStream.h      |   74 +
  .../ipu6/src/platformdata/gc/IGraphConfig.h   |  203 ++
  .../src/platformdata/gc/IGraphConfigManager.h |   43 +
  .../src/platformdata/gc/custom_gcss_keys.h    |   50 +
  .../hal/intel/ipu6/src/v4l2/MediaControl.cpp  | 1155 +++++++
- camera/hal/intel/ipu6/src/v4l2/MediaControl.h |  305 ++
+ camera/hal/intel/ipu6/src/v4l2/MediaControl.h |  304 ++
  camera/hal/intel/ipu6/src/v4l2/NodeInfo.cpp   |   53 +
  camera/hal/intel/ipu6/src/v4l2/NodeInfo.h     |   50 +
  camera/hal/intel/ipu6/src/v4l2/SysCall.cpp    |  212 ++
  camera/hal/intel/ipu6/src/v4l2/SysCall.h      |   87 +
- .../intel/ipu6/src/v4l2/V4l2DeviceFactory.cpp |  126 +
+ .../intel/ipu6/src/v4l2/V4l2DeviceFactory.cpp |  124 +
  .../intel/ipu6/src/v4l2/V4l2DeviceFactory.h   |   61 +
- 306 files changed, 82516 insertions(+)
+ 306 files changed, 82526 insertions(+)
  create mode 100644 camera/hal/intel/ipu6/BUILD.gn
  create mode 100644 camera/hal/intel/ipu6/aal/Camera3AMetadata.cpp
  create mode 100644 camera/hal/intel/ipu6/aal/Camera3AMetadata.h
@@ -627,7 +627,7 @@ Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
 
 diff --git a/camera/hal/intel/ipu6/BUILD.gn b/camera/hal/intel/ipu6/BUILD.gn
 new file mode 100644
-index 000000000000..c63fdd8413d7
+index 0000000000..c63fdd8413
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/BUILD.gn
 @@ -0,0 +1,475 @@
@@ -1108,7 +1108,7 @@ index 000000000000..c63fdd8413d7
 +}
 diff --git a/camera/hal/intel/ipu6/aal/Camera3AMetadata.cpp b/camera/hal/intel/ipu6/aal/Camera3AMetadata.cpp
 new file mode 100644
-index 000000000000..ba7dcc86ea5d
+index 0000000000..ba7dcc86ea
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/Camera3AMetadata.cpp
 @@ -0,0 +1,132 @@
@@ -1246,7 +1246,7 @@ index 000000000000..ba7dcc86ea5d
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/Camera3AMetadata.h b/camera/hal/intel/ipu6/aal/Camera3AMetadata.h
 new file mode 100644
-index 000000000000..c85e5a768e16
+index 0000000000..c85e5a768e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/Camera3AMetadata.h
 @@ -0,0 +1,51 @@
@@ -1303,7 +1303,7 @@ index 000000000000..c85e5a768e16
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/Camera3HAL.cpp b/camera/hal/intel/ipu6/aal/Camera3HAL.cpp
 new file mode 100644
-index 000000000000..1ec9d2056bd2
+index 0000000000..1ec9d2056b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/Camera3HAL.cpp
 @@ -0,0 +1,249 @@
@@ -1558,7 +1558,7 @@ index 000000000000..1ec9d2056bd2
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/Camera3HAL.h b/camera/hal/intel/ipu6/aal/Camera3HAL.h
 new file mode 100644
-index 000000000000..45c12f0af056
+index 0000000000..45c12f0af0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/Camera3HAL.h
 @@ -0,0 +1,68 @@
@@ -1632,10 +1632,10 @@ index 000000000000..45c12f0af056
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/Camera3HALModule.cpp b/camera/hal/intel/ipu6/aal/Camera3HALModule.cpp
 new file mode 100644
-index 000000000000..53612add6539
+index 0000000000..696d9ddccc
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/Camera3HALModule.cpp
-@@ -0,0 +1,299 @@
+@@ -0,0 +1,297 @@
 +/*
 + * Copyright (C) 2017-2020 Intel Corporation
 + *
@@ -1692,6 +1692,7 @@ index 000000000000..53612add6539
 +// sCameraMetadata buffer won't be free in CAL
 +static android::CameraMetadata* sCameraMetadata[MAX_CAMERAS] = {nullptr};
 +
++static int sCameraNumber = 0;
 +/**
 + * Global mutex used to protect sInstanceCount and sInstances
 + */
@@ -1723,7 +1724,7 @@ index 000000000000..53612add6539
 +static int hal_get_number_of_cameras(void) {
 +    LOG1("@%s", __func__);
 +
-+    return icamera::get_number_of_cameras();
++    return sCameraNumber;
 +}
 +
 +static int hal_get_camera_info(int cameraId, struct camera_info* cameraInfo) {
@@ -1836,23 +1837,20 @@ index 000000000000..53612add6539
 +               "%s, Connect to algo service fails", __func__);
 +#endif
 +
-+    // Initialize PlatformData
-+    int ret = icamera::camera_hal_init();
-+    CheckError(ret != icamera::OK, -EINVAL, "@%s, camera_hal_init fails, ret:%d", __func__, ret);
-+
-+    int currentCameraNum = icamera::PlatformData::numberOfCameras();
-+    CheckError(currentCameraNum == 0, -EINVAL, "@%s, camera is not ready", __func__);
-+
-+    int hwCameraNum = camera3::HalV3Utils::getHwCameraNumber();
++    int crosCameraNum = camera3::HalV3Utils::getCrosConfigCameraNumber();
 +    int xmlCameraNum = icamera::PlatformData::getXmlCameraNumber();
-+    if (xmlCameraNum != 0) {
-+        CheckError(xmlCameraNum != currentCameraNum, -EINVAL,
-+                   "@%s, expected %d cameras defined in XML, found %d", __func__, xmlCameraNum,
-+                   currentCameraNum);
-+    } else if (hwCameraNum != 0) {
-+        CheckError(hwCameraNum != currentCameraNum, -EINVAL,
-+                   "@%s, expected %d cameras defined in device config, found %d", __func__,
-+                   hwCameraNum, currentCameraNum);
++    int currentCameraNum = icamera::PlatformData::numberOfCameras();
++
++    sCameraNumber = (xmlCameraNum != -1) ? xmlCameraNum : crosCameraNum;
++    CheckError(currentCameraNum < sCameraNumber, -EINVAL,
++               "@%s, expected cameras number: %d, found: %d", __func__, sCameraNumber,
++               currentCameraNum);
++
++    if (sCameraNumber != 0) {
++        // Initialize PlatformData
++        int ret = icamera::camera_hal_init();
++        CheckError(ret != icamera::OK, -EINVAL, "@%s, camera_hal_init fails, ret:%d",
++                   __func__, ret);
 +    }
 +
 +    return 0;
@@ -1937,7 +1935,7 @@ index 000000000000..53612add6539
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/Camera3Stream.cpp b/camera/hal/intel/ipu6/aal/Camera3Stream.cpp
 new file mode 100644
-index 000000000000..a43ec5c2c635
+index 0000000000..ff9525318b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/Camera3Stream.cpp
 @@ -0,0 +1,653 @@
@@ -2168,7 +2166,7 @@ index 000000000000..a43ec5c2c635
 +    }
 +
 +    icamera::camera_buffer_t outCamBuf = {};
-+    shared_ptr<Camera3Buffer> outCam3Buf = nullptr;
++    std::shared_ptr<Camera3Buffer> outCam3Buf = nullptr;
 +
 +    // start process buffers, HAL stream and listeners will do the same process
 +    if (!inputCam3Buf) {
@@ -2596,7 +2594,7 @@ index 000000000000..a43ec5c2c635
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/Camera3Stream.h b/camera/hal/intel/ipu6/aal/Camera3Stream.h
 new file mode 100644
-index 000000000000..66cd05de56fb
+index 0000000000..66cd05de56
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/Camera3Stream.h
 @@ -0,0 +1,177 @@
@@ -2779,7 +2777,7 @@ index 000000000000..66cd05de56fb
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/HALv3Interface.h b/camera/hal/intel/ipu6/aal/HALv3Interface.h
 new file mode 100644
-index 000000000000..28276dc0f2ed
+index 0000000000..28276dc0f2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/HALv3Interface.h
 @@ -0,0 +1,32 @@
@@ -2817,10 +2815,10 @@ index 000000000000..28276dc0f2ed
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/HALv3Utils.cpp b/camera/hal/intel/ipu6/aal/HALv3Utils.cpp
 new file mode 100644
-index 000000000000..4dc094d6693d
+index 0000000000..e3882488cd
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/HALv3Utils.cpp
-@@ -0,0 +1,161 @@
+@@ -0,0 +1,176 @@
 +/*
 + * Copyright (C) 2019-2020 Intel Corporation
 + *
@@ -2838,11 +2836,13 @@ index 000000000000..4dc094d6693d
 + */
 +
 +#define LOG_TAG "HalV3Utils"
-+#include <chromeos-config/libcros_config/cros_config.h>
 +#include <linux/videodev2.h>
 +
 +#include <memory>
 +#include <string>
++
++#include <base/strings/stringprintf.h>
++#include <chromeos-config/libcros_config/cros_config.h>
 +
 +#include "Errors.h"
 +#include "HALv3Utils.h"
@@ -2851,9 +2851,6 @@ index 000000000000..4dc094d6693d
 +
 +namespace camera3 {
 +namespace HalV3Utils {
-+
-+constexpr char kCrosConfigCameraPath[] = "/camera";
-+constexpr char kCrosConfigCount[] = "count";
 +
 +static const char* Camera3StreamTypes[] = {"OUTPUT",         // CAMERA3_STREAM_OUTPUT
 +                                           "INPUT",          // CAMERA3_STREAM_INPUT
@@ -2964,27 +2961,43 @@ index 000000000000..4dc094d6693d
 +    return icamera::OK;
 +}
 +
-+// Only when /run/chromos-config/v1/camera/count exists on the board, it returns
-+// the real camera number, otherwise it returns 0.
-+int getHwCameraNumber() {
++// Only when /camera/devices exists in CrOS config on the board, it returns the
++// real camera number, otherwise it returns 0.
++int getCrosConfigCameraNumber() {
 +    int cameraNumber = 0;
 +    brillo::CrosConfig crosConfig;
 +    bool status = crosConfig.Init();
 +    CheckWarning(!status, 0, "@%s, Failed to initialize CrOS config", __func__);
 +
-+    std::string cameraCount;
-+    status = crosConfig.GetString(kCrosConfigCameraPath, kCrosConfigCount, &cameraCount);
-+    CheckWarning(!status, 0, "@%s, Failed to get camera number", __func__);
-+    cameraNumber = atoi(cameraCount.c_str());
++    // Get MIPI camera count from "devices" array in Chrome OS config. The structure looks like:
++    //     camera - devices + 0 + interface (mipi, usb)
++    //                      |   + facing (front, back)
++    //                      |   + orientation (0, 90, 180, 270)
++    //                      |   ...
++    //                      + 1 + interface
++    //                          ...
++    bool isCameraNumberAvailable = false;
++    for (int i = 0;; ++i) {
++        std::string interface;
++        if (!crosConfig.GetString(base::StringPrintf("/camera/devices/%i", i), "interface",
++                                  &interface)) {
++            break;
++        }
++        isCameraNumberAvailable = true;
++        if (interface == "mipi") {
++            ++cameraNumber;
++        }
++    }
++    CheckWarning(!isCameraNumberAvailable, 0,
++                 "@%s, Can't get MIPI camera count from CrOS config", __func__);
 +
 +    return cameraNumber;
 +}
-+
 +}  // namespace HalV3Utils
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/HALv3Utils.h b/camera/hal/intel/ipu6/aal/HALv3Utils.h
 new file mode 100644
-index 000000000000..59b6b02311cf
+index 0000000000..13ff22b26e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/HALv3Utils.h
 @@ -0,0 +1,78 @@
@@ -3062,13 +3075,13 @@ index 000000000000..59b6b02311cf
 +int HALFormatToV4l2Format(int cameraId, int halFormat, int usage);
 +int getRotationDegrees(const camera3_stream_t& stream);
 +int fillHALStreams(int cameraId, const camera3_stream_t& camera3Stream, icamera::stream_t* stream);
-+int getHwCameraNumber();
++int getCrosConfigCameraNumber();
 +}  // namespace HalV3Utils
 +
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/IntelAEStateMachine.cpp b/camera/hal/intel/ipu6/aal/IntelAEStateMachine.cpp
 new file mode 100644
-index 000000000000..1b79130ae2be
+index 0000000000..1b79130ae2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/IntelAEStateMachine.cpp
 @@ -0,0 +1,285 @@
@@ -3359,7 +3372,7 @@ index 000000000000..1b79130ae2be
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/IntelAEStateMachine.h b/camera/hal/intel/ipu6/aal/IntelAEStateMachine.h
 new file mode 100644
-index 000000000000..83de125b8937
+index 0000000000..83de125b89
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/IntelAEStateMachine.h
 @@ -0,0 +1,136 @@
@@ -3501,7 +3514,7 @@ index 000000000000..83de125b8937
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/IntelAFStateMachine.cpp b/camera/hal/intel/ipu6/aal/IntelAFStateMachine.cpp
 new file mode 100644
-index 000000000000..c409afeb3378
+index 0000000000..c409afeb33
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/IntelAFStateMachine.cpp
 @@ -0,0 +1,415 @@
@@ -3922,7 +3935,7 @@ index 000000000000..c409afeb3378
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/IntelAFStateMachine.h b/camera/hal/intel/ipu6/aal/IntelAFStateMachine.h
 new file mode 100644
-index 000000000000..a8eaac9a18d1
+index 0000000000..a8eaac9a18
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/IntelAFStateMachine.h
 @@ -0,0 +1,142 @@
@@ -4070,7 +4083,7 @@ index 000000000000..a8eaac9a18d1
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/IntelAWBStateMachine.cpp b/camera/hal/intel/ipu6/aal/IntelAWBStateMachine.cpp
 new file mode 100644
-index 000000000000..2f87680f5336
+index 0000000000..2f87680f53
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/IntelAWBStateMachine.cpp
 @@ -0,0 +1,214 @@
@@ -4290,7 +4303,7 @@ index 000000000000..2f87680f5336
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/IntelAWBStateMachine.h b/camera/hal/intel/ipu6/aal/IntelAWBStateMachine.h
 new file mode 100644
-index 000000000000..2f7cf7c3b5fe
+index 0000000000..2f7cf7c3b5
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/IntelAWBStateMachine.h
 @@ -0,0 +1,134 @@
@@ -4430,7 +4443,7 @@ index 000000000000..2f7cf7c3b5fe
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/MetadataConvert.cpp b/camera/hal/intel/ipu6/aal/MetadataConvert.cpp
 new file mode 100644
-index 000000000000..192321348181
+index 0000000000..1923213481
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/MetadataConvert.cpp
 @@ -0,0 +1,2247 @@
@@ -6683,7 +6696,7 @@ index 000000000000..192321348181
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/MetadataConvert.h b/camera/hal/intel/ipu6/aal/MetadataConvert.h
 new file mode 100644
-index 000000000000..ba4021af2af2
+index 0000000000..ba4021af2a
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/MetadataConvert.h
 @@ -0,0 +1,142 @@
@@ -6831,7 +6844,7 @@ index 000000000000..ba4021af2af2
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/PostProcessor.cpp b/camera/hal/intel/ipu6/aal/PostProcessor.cpp
 new file mode 100644
-index 000000000000..962486a278dc
+index 0000000000..962486a278
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/PostProcessor.cpp
 @@ -0,0 +1,193 @@
@@ -7030,7 +7043,7 @@ index 000000000000..962486a278dc
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/PostProcessor.h b/camera/hal/intel/ipu6/aal/PostProcessor.h
 new file mode 100644
-index 000000000000..736e7104a970
+index 0000000000..736e7104a9
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/PostProcessor.h
 @@ -0,0 +1,60 @@
@@ -7096,7 +7109,7 @@ index 000000000000..736e7104a970
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/RequestManager.cpp b/camera/hal/intel/ipu6/aal/RequestManager.cpp
 new file mode 100644
-index 000000000000..26785775d77e
+index 0000000000..dd25520063
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/RequestManager.cpp
 @@ -0,0 +1,788 @@
@@ -7742,7 +7755,7 @@ index 000000000000..26785775d77e
 +                                     icamera::stream_t* halStreamList) {
 +    int activeHALNum = 0;
 +    int avaVideoSlot = icamera::PlatformData::getVideoStreamNum(mCameraId);
-+    vector<icamera::stream_t*> videoHALStream;
++    std::vector<icamera::stream_t*> videoHALStream;
 +    int videoMaxResStreamIndex = -1;
 +    int stillHALStreamIndex = -1;
 +
@@ -7890,7 +7903,7 @@ index 000000000000..26785775d77e
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/RequestManager.h b/camera/hal/intel/ipu6/aal/RequestManager.h
 new file mode 100644
-index 000000000000..c4a169b0cfe1
+index 0000000000..c4a169b0cf
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/RequestManager.h
 @@ -0,0 +1,115 @@
@@ -8011,7 +8024,7 @@ index 000000000000..c4a169b0cfe1
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/ResultProcessor.cpp b/camera/hal/intel/ipu6/aal/ResultProcessor.cpp
 new file mode 100644
-index 000000000000..26d70812ef53
+index 0000000000..26d70812ef
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/ResultProcessor.cpp
 @@ -0,0 +1,512 @@
@@ -8529,7 +8542,7 @@ index 000000000000..26d70812ef53
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/ResultProcessor.h b/camera/hal/intel/ipu6/aal/ResultProcessor.h
 new file mode 100644
-index 000000000000..9d81a132bcf1
+index 0000000000..9d81a132bc
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/ResultProcessor.h
 @@ -0,0 +1,196 @@
@@ -8731,7 +8744,7 @@ index 000000000000..9d81a132bcf1
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/aal/chrome/HALv3Header.h b/camera/hal/intel/ipu6/aal/chrome/HALv3Header.h
 new file mode 100644
-index 000000000000..3fc2deff906b
+index 0000000000..3fc2deff90
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/aal/chrome/HALv3Header.h
 @@ -0,0 +1,20 @@
@@ -8757,7 +8770,7 @@ index 000000000000..3fc2deff906b
 +#include <camera/camera_metadata.h>
 diff --git a/camera/hal/intel/ipu6/include/api/ICamera.h b/camera/hal/intel/ipu6/include/api/ICamera.h
 new file mode 100644
-index 000000000000..6e75e1b0311a
+index 0000000000..6e75e1b031
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/include/api/ICamera.h
 @@ -0,0 +1,578 @@
@@ -9341,7 +9354,7 @@ index 000000000000..6e75e1b0311a
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/include/api/Parameters.h b/camera/hal/intel/ipu6/include/api/Parameters.h
 new file mode 100644
-index 000000000000..1cfce85b4c27
+index 0000000000..1cfce85b4c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/include/api/Parameters.h
 @@ -0,0 +1,2630 @@
@@ -11977,7 +11990,7 @@ index 000000000000..1cfce85b4c27
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/include/cameranvm.h b/camera/hal/intel/ipu6/include/cameranvm.h
 new file mode 100644
-index 000000000000..64cbbf2af24d
+index 0000000000..64cbbf2af2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/include/cameranvm.h
 @@ -0,0 +1,112 @@
@@ -12095,7 +12108,7 @@ index 000000000000..64cbbf2af24d
 +#endif /* CAMERANVM_H_ */
 diff --git a/camera/hal/intel/ipu6/include/linux/ipu-isys.h b/camera/hal/intel/ipu6/include/linux/ipu-isys.h
 new file mode 100644
-index 000000000000..7ecf35c49040
+index 0000000000..7ecf35c490
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/include/linux/ipu-isys.h
 @@ -0,0 +1,51 @@
@@ -12152,7 +12165,7 @@ index 000000000000..7ecf35c49040
 +#endif
 diff --git a/camera/hal/intel/ipu6/include/utils/ScopedAtrace.h b/camera/hal/intel/ipu6/include/utils/ScopedAtrace.h
 new file mode 100644
-index 000000000000..043f60f0743e
+index 0000000000..043f60f074
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/include/utils/ScopedAtrace.h
 @@ -0,0 +1,73 @@
@@ -12231,7 +12244,7 @@ index 000000000000..043f60f0743e
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelAiq.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelAiq.cpp
 new file mode 100644
-index 000000000000..9b4b900cac0b
+index 0000000000..9b4b900cac
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelAiq.cpp
 @@ -0,0 +1,131 @@
@@ -12368,7 +12381,7 @@ index 000000000000..9b4b900cac0b
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelAiq.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelAiq.h
 new file mode 100644
-index 000000000000..7fd89a30b214
+index 0000000000..7fd89a30b2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelAiq.h
 @@ -0,0 +1,49 @@
@@ -12423,7 +12436,7 @@ index 000000000000..7fd89a30b214
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelCmc.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelCmc.cpp
 new file mode 100644
-index 000000000000..fa86fb1bb7ff
+index 0000000000..fa86fb1bb7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelCmc.cpp
 @@ -0,0 +1,62 @@
@@ -12491,7 +12504,7 @@ index 000000000000..fa86fb1bb7ff
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelCmc.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelCmc.h
 new file mode 100644
-index 000000000000..3a338d1d1936
+index 0000000000..3a338d1d19
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelCmc.h
 @@ -0,0 +1,38 @@
@@ -12535,7 +12548,7 @@ index 000000000000..3a338d1d1936
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelDvs.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelDvs.cpp
 new file mode 100644
-index 000000000000..4b066173d89e
+index 0000000000..4b066173d8
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelDvs.cpp
 @@ -0,0 +1,186 @@
@@ -12727,7 +12740,7 @@ index 000000000000..4b066173d89e
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelDvs.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelDvs.h
 new file mode 100644
-index 000000000000..f31b391aa72b
+index 0000000000..f31b391aa7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelDvs.h
 @@ -0,0 +1,55 @@
@@ -12788,7 +12801,7 @@ index 000000000000..f31b391aa72b
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelFaceDetection.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelFaceDetection.cpp
 new file mode 100644
-index 000000000000..78fb986f4dae
+index 0000000000..78fb986f4d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelFaceDetection.cpp
 @@ -0,0 +1,141 @@
@@ -12935,7 +12948,7 @@ index 000000000000..78fb986f4dae
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelFaceDetection.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelFaceDetection.h
 new file mode 100644
-index 000000000000..da738efa5a96
+index 0000000000..da738efa5a
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelFaceDetection.h
 @@ -0,0 +1,44 @@
@@ -12985,7 +12998,7 @@ index 000000000000..da738efa5a96
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelIspParamAdaptor.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelIspParamAdaptor.cpp
 new file mode 100644
-index 000000000000..84c92ed9bf80
+index 0000000000..84c92ed9bf
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelIspParamAdaptor.cpp
 @@ -0,0 +1,140 @@
@@ -13131,7 +13144,7 @@ index 000000000000..84c92ed9bf80
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelIspParamAdaptor.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelIspParamAdaptor.h
 new file mode 100644
-index 000000000000..564fe37a95fa
+index 0000000000..564fe37a95
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelIspParamAdaptor.h
 @@ -0,0 +1,44 @@
@@ -13181,7 +13194,7 @@ index 000000000000..564fe37a95fa
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelLard.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelLard.cpp
 new file mode 100644
-index 000000000000..084a6859fcee
+index 0000000000..084a6859fc
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelLard.cpp
 @@ -0,0 +1,71 @@
@@ -13258,7 +13271,7 @@ index 000000000000..084a6859fcee
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelLard.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelLard.h
 new file mode 100644
-index 000000000000..fa9d99d13098
+index 0000000000..fa9d99d130
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelLard.h
 @@ -0,0 +1,34 @@
@@ -13298,7 +13311,7 @@ index 000000000000..fa9d99d13098
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelLtm.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelLtm.cpp
 new file mode 100644
-index 000000000000..dc4102c36c2a
+index 0000000000..dc4102c36c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelLtm.cpp
 @@ -0,0 +1,64 @@
@@ -13368,7 +13381,7 @@ index 000000000000..dc4102c36c2a
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelLtm.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelLtm.h
 new file mode 100644
-index 000000000000..f6f280b93ed5
+index 0000000000..f6f280b93e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelLtm.h
 @@ -0,0 +1,32 @@
@@ -13406,7 +13419,7 @@ index 000000000000..f6f280b93ed5
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelMkn.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelMkn.cpp
 new file mode 100644
-index 000000000000..041c277c0380
+index 0000000000..041c277c03
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelMkn.cpp
 @@ -0,0 +1,69 @@
@@ -13481,7 +13494,7 @@ index 000000000000..041c277c0380
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelMkn.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelMkn.h
 new file mode 100644
-index 000000000000..72133f4c1ffc
+index 0000000000..72133f4c1f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelMkn.h
 @@ -0,0 +1,35 @@
@@ -13522,7 +13535,7 @@ index 000000000000..72133f4c1ffc
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelPGParam.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelPGParam.cpp
 new file mode 100644
-index 000000000000..ca254361cc32
+index 0000000000..ca254361cc
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelPGParam.cpp
 @@ -0,0 +1,1196 @@
@@ -14724,7 +14737,7 @@ index 000000000000..ca254361cc32
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelPGParam.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelPGParam.h
 new file mode 100644
-index 000000000000..154704d36c22
+index 0000000000..154704d36c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelPGParam.h
 @@ -0,0 +1,237 @@
@@ -14967,7 +14980,7 @@ index 000000000000..154704d36c22
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.cpp b/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.cpp
 new file mode 100644
-index 000000000000..fb23fc0b1cf0
+index 0000000000..fb23fc0b1c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.cpp
 @@ -0,0 +1,190 @@
@@ -15163,7 +15176,7 @@ index 000000000000..fb23fc0b1cf0
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.h b/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.h
 new file mode 100644
-index 000000000000..7bb7da7af9c1
+index 0000000000..7bb7da7af9
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/IntelTNR7US.h
 @@ -0,0 +1,108 @@
@@ -15277,7 +15290,7 @@ index 000000000000..7bb7da7af9c1
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/StatsTypes.h b/camera/hal/intel/ipu6/modules/algowrapper/StatsTypes.h
 new file mode 100644
-index 000000000000..4ea0e26d724e
+index 0000000000..4ea0e26d72
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/StatsTypes.h
 @@ -0,0 +1,46 @@
@@ -15329,7 +15342,7 @@ index 000000000000..4ea0e26d724e
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigImpl.cpp b/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigImpl.cpp
 new file mode 100644
-index 000000000000..c53cf662a4ae
+index 0000000000..c53cf662a4
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigImpl.cpp
 @@ -0,0 +1,859 @@
@@ -16194,7 +16207,7 @@ index 000000000000..c53cf662a4ae
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigImpl.h b/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigImpl.h
 new file mode 100644
-index 000000000000..9158172f20ec
+index 0000000000..9158172f20
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigImpl.h
 @@ -0,0 +1,183 @@
@@ -16383,7 +16396,7 @@ index 000000000000..9158172f20ec
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigPipe.cpp b/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigPipe.cpp
 new file mode 100644
-index 000000000000..6c0c064aaa36
+index 0000000000..6c0c064aaa
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigPipe.cpp
 @@ -0,0 +1,2008 @@
@@ -18397,7 +18410,7 @@ index 000000000000..6c0c064aaa36
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigPipe.h b/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigPipe.h
 new file mode 100644
-index 000000000000..b9a044713c94
+index 0000000000..b9a044713c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/algowrapper/graph/GraphConfigPipe.h
 @@ -0,0 +1,313 @@
@@ -18716,7 +18729,7 @@ index 000000000000..b9a044713c94
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/memory/Camera3BufferPool.cpp b/camera/hal/intel/ipu6/modules/memory/Camera3BufferPool.cpp
 new file mode 100644
-index 000000000000..40b81822132b
+index 0000000000..40b8182213
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/memory/Camera3BufferPool.cpp
 @@ -0,0 +1,127 @@
@@ -18849,7 +18862,7 @@ index 000000000000..40b81822132b
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/modules/memory/Camera3BufferPool.h b/camera/hal/intel/ipu6/modules/memory/Camera3BufferPool.h
 new file mode 100644
-index 000000000000..e08bdc9b7136
+index 0000000000..e08bdc9b71
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/memory/Camera3BufferPool.h
 @@ -0,0 +1,53 @@
@@ -18908,7 +18921,7 @@ index 000000000000..e08bdc9b7136
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/modules/memory/chrome/Camera3Buffer.cpp b/camera/hal/intel/ipu6/modules/memory/chrome/Camera3Buffer.cpp
 new file mode 100644
-index 000000000000..7be88eb6d2ae
+index 0000000000..7be88eb6d2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/memory/chrome/Camera3Buffer.cpp
 @@ -0,0 +1,527 @@
@@ -19441,7 +19454,7 @@ index 000000000000..7be88eb6d2ae
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/modules/memory/chrome/Camera3Buffer.h b/camera/hal/intel/ipu6/modules/memory/chrome/Camera3Buffer.h
 new file mode 100644
-index 000000000000..2fc59af592ff
+index 0000000000..2fc59af592
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/memory/chrome/Camera3Buffer.h
 @@ -0,0 +1,159 @@
@@ -19606,7 +19619,7 @@ index 000000000000..2fc59af592ff
 +}  // namespace camera3
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCCommon.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCCommon.cpp
 new file mode 100644
-index 000000000000..edbd5998cf93
+index 0000000000..edbd5998cf
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCCommon.cpp
 @@ -0,0 +1,116 @@
@@ -19728,7 +19741,7 @@ index 000000000000..edbd5998cf93
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCCommon.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCCommon.h
 new file mode 100644
-index 000000000000..72dc0158c6e8
+index 0000000000..72dc0158c6
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCCommon.h
 @@ -0,0 +1,125 @@
@@ -19859,7 +19872,7 @@ index 000000000000..72dc0158c6e8
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCGraphConfig.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCGraphConfig.cpp
 new file mode 100644
-index 000000000000..3903ae6ab51d
+index 0000000000..3903ae6ab5
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCGraphConfig.cpp
 @@ -0,0 +1,490 @@
@@ -20355,7 +20368,7 @@ index 000000000000..3903ae6ab51d
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCGraphConfig.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCGraphConfig.h
 new file mode 100644
-index 000000000000..08fdce465fd1
+index 0000000000..08fdce465f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCGraphConfig.h
 @@ -0,0 +1,171 @@
@@ -20532,7 +20545,7 @@ index 000000000000..08fdce465fd1
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelAiq.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelAiq.cpp
 new file mode 100644
-index 000000000000..b532e3b90b28
+index 0000000000..b532e3b90b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelAiq.cpp
 @@ -0,0 +1,1121 @@
@@ -21659,7 +21672,7 @@ index 000000000000..b532e3b90b28
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelAiq.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelAiq.h
 new file mode 100644
-index 000000000000..4b911b7b4b00
+index 0000000000..4b911b7b4b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelAiq.h
 @@ -0,0 +1,351 @@
@@ -22016,7 +22029,7 @@ index 000000000000..4b911b7b4b00
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelCmc.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelCmc.cpp
 new file mode 100644
-index 000000000000..ed0995a18a2b
+index 0000000000..ed0995a18a
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelCmc.cpp
 @@ -0,0 +1,258 @@
@@ -22280,7 +22293,7 @@ index 000000000000..ed0995a18a2b
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelCmc.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelCmc.h
 new file mode 100644
-index 000000000000..4c296172f095
+index 0000000000..4c296172f0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelCmc.h
 @@ -0,0 +1,95 @@
@@ -22381,7 +22394,7 @@ index 000000000000..4c296172f095
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelDvs.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelDvs.cpp
 new file mode 100644
-index 000000000000..8ac131e8e42d
+index 0000000000..8ac131e8e4
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelDvs.cpp
 @@ -0,0 +1,704 @@
@@ -23091,7 +23104,7 @@ index 000000000000..8ac131e8e42d
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelDvs.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelDvs.h
 new file mode 100644
-index 000000000000..6ce6ae6ba519
+index 0000000000..6ce6ae6ba5
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelDvs.h
 @@ -0,0 +1,239 @@
@@ -23336,7 +23349,7 @@ index 000000000000..6ce6ae6ba519
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelFD.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelFD.cpp
 new file mode 100644
-index 000000000000..825d07269d40
+index 0000000000..825d07269d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelFD.cpp
 @@ -0,0 +1,63 @@
@@ -23405,7 +23418,7 @@ index 000000000000..825d07269d40
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelFD.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelFD.h
 new file mode 100644
-index 000000000000..ebfabfa07620
+index 0000000000..ebfabfa076
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelFD.h
 @@ -0,0 +1,32 @@
@@ -23443,7 +23456,7 @@ index 000000000000..ebfabfa07620
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLard.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLard.cpp
 new file mode 100644
-index 000000000000..f3b3e1c40bd4
+index 0000000000..f3b3e1c40b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLard.cpp
 @@ -0,0 +1,298 @@
@@ -23747,7 +23760,7 @@ index 000000000000..f3b3e1c40bd4
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLard.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLard.h
 new file mode 100644
-index 000000000000..eb6a94696906
+index 0000000000..eb6a946969
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLard.h
 @@ -0,0 +1,104 @@
@@ -23857,7 +23870,7 @@ index 000000000000..eb6a94696906
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLtm.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLtm.cpp
 new file mode 100644
-index 000000000000..6918c2b4e7d0
+index 0000000000..6918c2b4e7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLtm.cpp
 @@ -0,0 +1,331 @@
@@ -24194,7 +24207,7 @@ index 000000000000..6918c2b4e7d0
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLtm.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLtm.h
 new file mode 100644
-index 000000000000..9d5d3c590fc4
+index 0000000000..9d5d3c590f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelLtm.h
 @@ -0,0 +1,117 @@
@@ -24317,7 +24330,7 @@ index 000000000000..9d5d3c590fc4
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelMkn.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelMkn.cpp
 new file mode 100644
-index 000000000000..f247fdec94bc
+index 0000000000..f247fdec94
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelMkn.cpp
 @@ -0,0 +1,79 @@
@@ -24402,7 +24415,7 @@ index 000000000000..f247fdec94bc
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelMkn.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelMkn.h
 new file mode 100644
-index 000000000000..0e714a34afe7
+index 0000000000..0e714a34af
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelMkn.h
 @@ -0,0 +1,62 @@
@@ -24470,7 +24483,7 @@ index 000000000000..0e714a34afe7
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelPGParam.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelPGParam.cpp
 new file mode 100644
-index 000000000000..68ebaf957f9a
+index 0000000000..68ebaf957f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelPGParam.cpp
 @@ -0,0 +1,543 @@
@@ -25019,7 +25032,7 @@ index 000000000000..68ebaf957f9a
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelPGParam.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelPGParam.h
 new file mode 100644
-index 000000000000..f69cd29d9df1
+index 0000000000..f69cd29d9d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIntelPGParam.h
 @@ -0,0 +1,180 @@
@@ -25205,7 +25218,7 @@ index 000000000000..f69cd29d9df1
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIspParamAdaptor.cpp b/camera/hal/intel/ipu6/modules/sandboxing/IPCIspParamAdaptor.cpp
 new file mode 100644
-index 000000000000..29c487739fb7
+index 0000000000..29c487739f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIspParamAdaptor.cpp
 @@ -0,0 +1,554 @@
@@ -25765,7 +25778,7 @@ index 000000000000..29c487739fb7
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/IPCIspParamAdaptor.h b/camera/hal/intel/ipu6/modules/sandboxing/IPCIspParamAdaptor.h
 new file mode 100644
-index 000000000000..25b3279963d2
+index 0000000000..25b3279963
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/IPCIspParamAdaptor.h
 @@ -0,0 +1,170 @@
@@ -25941,7 +25954,7 @@ index 000000000000..25b3279963d2
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/GraphConfigImpl.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/GraphConfigImpl.cpp
 new file mode 100644
-index 000000000000..0081ea574a8c
+index 0000000000..0081ea574a
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/GraphConfigImpl.cpp
 @@ -0,0 +1,186 @@
@@ -26133,7 +26146,7 @@ index 000000000000..0081ea574a8c
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/GraphConfigImpl.h b/camera/hal/intel/ipu6/modules/sandboxing/client/GraphConfigImpl.h
 new file mode 100644
-index 000000000000..77d928a3b256
+index 0000000000..77d928a3b2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/GraphConfigImpl.h
 @@ -0,0 +1,75 @@
@@ -26214,7 +26227,7 @@ index 000000000000..77d928a3b256
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAiq.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAiq.cpp
 new file mode 100644
-index 000000000000..9ab424756a89
+index 0000000000..9ab424756a
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAiq.cpp
 @@ -0,0 +1,319 @@
@@ -26539,7 +26552,7 @@ index 000000000000..9ab424756a89
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAiq.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAiq.h
 new file mode 100644
-index 000000000000..109881543c00
+index 0000000000..109881543c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAiq.h
 @@ -0,0 +1,70 @@
@@ -26615,7 +26628,7 @@ index 000000000000..109881543c00
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoClient.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoClient.cpp
 new file mode 100644
-index 000000000000..ae2de6332fa1
+index 0000000000..ae2de6332f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoClient.cpp
 @@ -0,0 +1,432 @@
@@ -27053,7 +27066,7 @@ index 000000000000..ae2de6332fa1
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoClient.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoClient.h
 new file mode 100644
-index 000000000000..e076573acc8d
+index 0000000000..e076573acc
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoClient.h
 @@ -0,0 +1,134 @@
@@ -27193,7 +27206,7 @@ index 000000000000..e076573acc8d
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoCommon.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoCommon.cpp
 new file mode 100644
-index 000000000000..6211a3d84e8e
+index 0000000000..6211a3d84e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoCommon.cpp
 @@ -0,0 +1,131 @@
@@ -27330,7 +27343,7 @@ index 000000000000..6211a3d84e8e
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoCommon.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoCommon.h
 new file mode 100644
-index 000000000000..5634528dc929
+index 0000000000..5634528dc9
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelAlgoCommon.h
 @@ -0,0 +1,63 @@
@@ -27399,7 +27412,7 @@ index 000000000000..5634528dc929
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelCmc.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelCmc.cpp
 new file mode 100644
-index 000000000000..94406539310a
+index 0000000000..9440653931
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelCmc.cpp
 @@ -0,0 +1,107 @@
@@ -27512,7 +27525,7 @@ index 000000000000..94406539310a
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelCmc.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelCmc.h
 new file mode 100644
-index 000000000000..be5544bfbacb
+index 0000000000..be5544bfba
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelCmc.h
 @@ -0,0 +1,58 @@
@@ -27576,7 +27589,7 @@ index 000000000000..be5544bfbacb
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelDvs.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelDvs.cpp
 new file mode 100644
-index 000000000000..ce5bd9a37e8d
+index 0000000000..ce5bd9a37e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelDvs.cpp
 @@ -0,0 +1,336 @@
@@ -27918,7 +27931,7 @@ index 000000000000..ce5bd9a37e8d
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelDvs.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelDvs.h
 new file mode 100644
-index 000000000000..0b4354f9280f
+index 0000000000..0b4354f928
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelDvs.h
 @@ -0,0 +1,78 @@
@@ -28002,7 +28015,7 @@ index 000000000000..0b4354f9280f
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelFaceDetection.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelFaceDetection.cpp
 new file mode 100644
-index 000000000000..194be112bf6e
+index 0000000000..194be112bf
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelFaceDetection.cpp
 @@ -0,0 +1,121 @@
@@ -28129,7 +28142,7 @@ index 000000000000..194be112bf6e
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelFaceDetection.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelFaceDetection.h
 new file mode 100644
-index 000000000000..4f6b567e0cdb
+index 0000000000..4f6b567e0c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelFaceDetection.h
 @@ -0,0 +1,48 @@
@@ -28183,7 +28196,7 @@ index 000000000000..4f6b567e0cdb
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelIspParamAdaptor.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelIspParamAdaptor.cpp
 new file mode 100644
-index 000000000000..8675432b67bf
+index 0000000000..8675432b67
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelIspParamAdaptor.cpp
 @@ -0,0 +1,196 @@
@@ -28385,7 +28398,7 @@ index 000000000000..8675432b67bf
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelIspParamAdaptor.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelIspParamAdaptor.h
 new file mode 100644
-index 000000000000..164c256a3234
+index 0000000000..164c256a32
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelIspParamAdaptor.h
 @@ -0,0 +1,59 @@
@@ -28450,7 +28463,7 @@ index 000000000000..164c256a3234
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLard.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLard.cpp
 new file mode 100644
-index 000000000000..3b12340b4bf0
+index 0000000000..3b12340b4b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLard.cpp
 @@ -0,0 +1,137 @@
@@ -28593,7 +28606,7 @@ index 000000000000..3b12340b4bf0
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLard.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLard.h
 new file mode 100644
-index 000000000000..3d2473ec4957
+index 0000000000..3d2473ec49
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLard.h
 @@ -0,0 +1,52 @@
@@ -28651,7 +28664,7 @@ index 000000000000..3d2473ec4957
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLtm.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLtm.cpp
 new file mode 100644
-index 000000000000..c3a3bf0001c0
+index 0000000000..c3a3bf0001
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLtm.cpp
 @@ -0,0 +1,133 @@
@@ -28790,7 +28803,7 @@ index 000000000000..c3a3bf0001c0
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLtm.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLtm.h
 new file mode 100644
-index 000000000000..c394b201c703
+index 0000000000..c394b201c7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelLtm.h
 @@ -0,0 +1,53 @@
@@ -28849,7 +28862,7 @@ index 000000000000..c394b201c703
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelMkn.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelMkn.cpp
 new file mode 100644
-index 000000000000..4b792af9f718
+index 0000000000..4b792af9f7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelMkn.cpp
 @@ -0,0 +1,119 @@
@@ -28974,7 +28987,7 @@ index 000000000000..4b792af9f718
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelMkn.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelMkn.h
 new file mode 100644
-index 000000000000..caf4a883caa6
+index 0000000000..caf4a883ca
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelMkn.h
 @@ -0,0 +1,54 @@
@@ -29034,7 +29047,7 @@ index 000000000000..caf4a883caa6
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelPGParam.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelPGParam.cpp
 new file mode 100644
-index 000000000000..ac0fd0bdd9f9
+index 0000000000..ac0fd0bdd9
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelPGParam.cpp
 @@ -0,0 +1,294 @@
@@ -29334,7 +29347,7 @@ index 000000000000..ac0fd0bdd9f9
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelPGParam.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelPGParam.h
 new file mode 100644
-index 000000000000..c26a52553224
+index 0000000000..c26a525532
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelPGParam.h
 @@ -0,0 +1,71 @@
@@ -29411,7 +29424,7 @@ index 000000000000..c26a52553224
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelTNR7US.cpp b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelTNR7US.cpp
 new file mode 100644
-index 000000000000..bb8e68e5c8c5
+index 0000000000..bb8e68e5c8
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelTNR7US.cpp
 @@ -0,0 +1,162 @@
@@ -29579,7 +29592,7 @@ index 000000000000..bb8e68e5c8c5
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/client/IntelTNR7US.h b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelTNR7US.h
 new file mode 100644
-index 000000000000..0630c7e5b9a8
+index 0000000000..0630c7e5b9
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/client/IntelTNR7US.h
 @@ -0,0 +1,54 @@
@@ -29639,7 +29652,7 @@ index 000000000000..0630c7e5b9a8
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/GraphConfigServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/GraphConfigServer.cpp
 new file mode 100644
-index 000000000000..c0b7f25c7632
+index 0000000000..c0b7f25c76
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/GraphConfigServer.cpp
 @@ -0,0 +1,164 @@
@@ -29809,7 +29822,7 @@ index 000000000000..c0b7f25c7632
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/GraphConfigServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/GraphConfigServer.h
 new file mode 100644
-index 000000000000..6a0996b03b42
+index 0000000000..6a0996b03b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/GraphConfigServer.h
 @@ -0,0 +1,44 @@
@@ -29859,7 +29872,7 @@ index 000000000000..6a0996b03b42
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAiqServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAiqServer.cpp
 new file mode 100644
-index 000000000000..00484c2a5cc3
+index 0000000000..00484c2a5c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAiqServer.cpp
 @@ -0,0 +1,327 @@
@@ -30192,7 +30205,7 @@ index 000000000000..00484c2a5cc3
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAiqServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAiqServer.h
 new file mode 100644
-index 000000000000..4fe58770d237
+index 0000000000..4fe58770d2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAiqServer.h
 @@ -0,0 +1,49 @@
@@ -30247,7 +30260,7 @@ index 000000000000..4fe58770d237
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAlgoServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAlgoServer.cpp
 new file mode 100644
-index 000000000000..6166b3125cba
+index 0000000000..6166b3125c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAlgoServer.cpp
 @@ -0,0 +1,241 @@
@@ -30494,7 +30507,7 @@ index 000000000000..6166b3125cba
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAlgoServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAlgoServer.h
 new file mode 100644
-index 000000000000..50952801a7fe
+index 0000000000..50952801a7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelAlgoServer.h
 @@ -0,0 +1,106 @@
@@ -30606,7 +30619,7 @@ index 000000000000..50952801a7fe
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCPUAlgoServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCPUAlgoServer.cpp
 new file mode 100644
-index 000000000000..ab9354b62594
+index 0000000000..ab9354b625
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCPUAlgoServer.cpp
 @@ -0,0 +1,307 @@
@@ -30919,7 +30932,7 @@ index 000000000000..ab9354b62594
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCPUAlgoServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCPUAlgoServer.h
 new file mode 100644
-index 000000000000..f026af3f9f17
+index 0000000000..f026af3f9f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCPUAlgoServer.h
 @@ -0,0 +1,63 @@
@@ -30988,7 +31001,7 @@ index 000000000000..f026af3f9f17
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCmcServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCmcServer.cpp
 new file mode 100644
-index 000000000000..c0d64aa75eda
+index 0000000000..c0d64aa75e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCmcServer.cpp
 @@ -0,0 +1,91 @@
@@ -31085,7 +31098,7 @@ index 000000000000..c0d64aa75eda
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCmcServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCmcServer.h
 new file mode 100644
-index 000000000000..5df41e6c5157
+index 0000000000..5df41e6c51
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelCmcServer.h
 @@ -0,0 +1,40 @@
@@ -31131,7 +31144,7 @@ index 000000000000..5df41e6c5157
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelDvsServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelDvsServer.cpp
 new file mode 100644
-index 000000000000..a32b5dd86bea
+index 0000000000..a32b5dd86b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelDvsServer.cpp
 @@ -0,0 +1,312 @@
@@ -31449,7 +31462,7 @@ index 000000000000..a32b5dd86bea
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelDvsServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelDvsServer.h
 new file mode 100644
-index 000000000000..4016cc5f8b0b
+index 0000000000..4016cc5f8b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelDvsServer.h
 @@ -0,0 +1,54 @@
@@ -31509,7 +31522,7 @@ index 000000000000..4016cc5f8b0b
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelFDServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelFDServer.cpp
 new file mode 100644
-index 000000000000..73da85c48293
+index 0000000000..73da85c482
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelFDServer.cpp
 @@ -0,0 +1,63 @@
@@ -31578,7 +31591,7 @@ index 000000000000..73da85c48293
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelFDServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelFDServer.h
 new file mode 100644
-index 000000000000..053f5bbbefc3
+index 0000000000..053f5bbbef
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelFDServer.h
 @@ -0,0 +1,39 @@
@@ -31623,7 +31636,7 @@ index 000000000000..053f5bbbefc3
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelGPUAlgoServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelGPUAlgoServer.cpp
 new file mode 100644
-index 000000000000..c665f5e522c9
+index 0000000000..c665f5e522
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelGPUAlgoServer.cpp
 @@ -0,0 +1,110 @@
@@ -31739,7 +31752,7 @@ index 000000000000..c665f5e522c9
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelGPUAlgoServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelGPUAlgoServer.h
 new file mode 100644
-index 000000000000..6447306cdcd3
+index 0000000000..6447306cdc
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelGPUAlgoServer.h
 @@ -0,0 +1,50 @@
@@ -31795,7 +31808,7 @@ index 000000000000..6447306cdcd3
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLardServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLardServer.cpp
 new file mode 100644
-index 000000000000..f462795152e5
+index 0000000000..f462795152
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLardServer.cpp
 @@ -0,0 +1,112 @@
@@ -31913,7 +31926,7 @@ index 000000000000..f462795152e5
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLardServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLardServer.h
 new file mode 100644
-index 000000000000..aca05cf9c241
+index 0000000000..aca05cf9c2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLardServer.h
 @@ -0,0 +1,39 @@
@@ -31958,7 +31971,7 @@ index 000000000000..aca05cf9c241
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLtmServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLtmServer.cpp
 new file mode 100644
-index 000000000000..31310e12b69c
+index 0000000000..31310e12b6
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLtmServer.cpp
 @@ -0,0 +1,105 @@
@@ -32069,7 +32082,7 @@ index 000000000000..31310e12b69c
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLtmServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLtmServer.h
 new file mode 100644
-index 000000000000..65a7e99b2576
+index 0000000000..65a7e99b25
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelLtmServer.h
 @@ -0,0 +1,40 @@
@@ -32115,7 +32128,7 @@ index 000000000000..65a7e99b2576
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelMknServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelMknServer.cpp
 new file mode 100644
-index 000000000000..f34cb60b9c81
+index 0000000000..f34cb60b9c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelMknServer.cpp
 @@ -0,0 +1,124 @@
@@ -32245,7 +32258,7 @@ index 000000000000..f34cb60b9c81
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelMknServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelMknServer.h
 new file mode 100644
-index 000000000000..2f2947e34dcb
+index 0000000000..2f2947e34d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelMknServer.h
 @@ -0,0 +1,45 @@
@@ -32296,7 +32309,7 @@ index 000000000000..2f2947e34dcb
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelPGParamServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelPGParamServer.cpp
 new file mode 100644
-index 000000000000..5c1f3620d58e
+index 0000000000..5c1f3620d5
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelPGParamServer.cpp
 @@ -0,0 +1,229 @@
@@ -32531,7 +32544,7 @@ index 000000000000..5c1f3620d58e
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelPGParamServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelPGParamServer.h
 new file mode 100644
-index 000000000000..fdd11337a0a2
+index 0000000000..fdd11337a0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelPGParamServer.h
 @@ -0,0 +1,56 @@
@@ -32593,7 +32606,7 @@ index 000000000000..fdd11337a0a2
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelTNRServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelTNRServer.cpp
 new file mode 100644
-index 000000000000..44ffee804f51
+index 0000000000..44ffee804f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelTNRServer.cpp
 @@ -0,0 +1,71 @@
@@ -32670,7 +32683,7 @@ index 000000000000..44ffee804f51
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IntelTNRServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelTNRServer.h
 new file mode 100644
-index 000000000000..33f129939e9b
+index 0000000000..33f129939e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IntelTNRServer.h
 @@ -0,0 +1,41 @@
@@ -32717,7 +32730,7 @@ index 000000000000..33f129939e9b
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IspParamAdaptorServer.cpp b/camera/hal/intel/ipu6/modules/sandboxing/server/IspParamAdaptorServer.cpp
 new file mode 100644
-index 000000000000..3e69120009e9
+index 0000000000..3e69120009
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IspParamAdaptorServer.cpp
 @@ -0,0 +1,155 @@
@@ -32878,7 +32891,7 @@ index 000000000000..3e69120009e9
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/modules/sandboxing/server/IspParamAdaptorServer.h b/camera/hal/intel/ipu6/modules/sandboxing/server/IspParamAdaptorServer.h
 new file mode 100644
-index 000000000000..15fc4530ed83
+index 0000000000..15fc4530ed
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/modules/sandboxing/server/IspParamAdaptorServer.h
 @@ -0,0 +1,44 @@
@@ -32928,7 +32941,7 @@ index 000000000000..15fc4530ed83
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqCore.cpp b/camera/hal/intel/ipu6/src/3a/AiqCore.cpp
 new file mode 100644
-index 000000000000..5bc25fd3c4af
+index 0000000000..5bc25fd3c4
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqCore.cpp
 @@ -0,0 +1,961 @@
@@ -33895,7 +33908,7 @@ index 000000000000..5bc25fd3c4af
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqCore.h b/camera/hal/intel/ipu6/src/3a/AiqCore.h
 new file mode 100644
-index 000000000000..931c4f7e1b65
+index 0000000000..931c4f7e1b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqCore.h
 @@ -0,0 +1,214 @@
@@ -34115,7 +34128,7 @@ index 000000000000..931c4f7e1b65
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqEngine.cpp b/camera/hal/intel/ipu6/src/3a/AiqEngine.cpp
 new file mode 100644
-index 000000000000..8fe8efcc4f71
+index 0000000000..8fe8efcc4f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqEngine.cpp
 @@ -0,0 +1,522 @@
@@ -34643,7 +34656,7 @@ index 000000000000..8fe8efcc4f71
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqEngine.h b/camera/hal/intel/ipu6/src/3a/AiqEngine.h
 new file mode 100644
-index 000000000000..d4ce931e337d
+index 0000000000..d4ce931e33
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqEngine.h
 @@ -0,0 +1,149 @@
@@ -34798,7 +34811,7 @@ index 000000000000..d4ce931e337d
 +
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqResult.cpp b/camera/hal/intel/ipu6/src/3a/AiqResult.cpp
 new file mode 100644
-index 000000000000..d67b1f1a54e1
+index 0000000000..d67b1f1a54
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqResult.cpp
 @@ -0,0 +1,182 @@
@@ -34986,7 +34999,7 @@ index 000000000000..d67b1f1a54e1
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqResult.h b/camera/hal/intel/ipu6/src/3a/AiqResult.h
 new file mode 100644
-index 000000000000..e9e117e89218
+index 0000000000..e9e117e892
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqResult.h
 @@ -0,0 +1,109 @@
@@ -35101,7 +35114,7 @@ index 000000000000..e9e117e89218
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqResultStorage.cpp b/camera/hal/intel/ipu6/src/3a/AiqResultStorage.cpp
 new file mode 100644
-index 000000000000..5d98a639c3c4
+index 0000000000..5d98a639c3
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqResultStorage.cpp
 @@ -0,0 +1,286 @@
@@ -35393,7 +35406,7 @@ index 000000000000..5d98a639c3c4
 +
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqResultStorage.h b/camera/hal/intel/ipu6/src/3a/AiqResultStorage.h
 new file mode 100644
-index 000000000000..432ecc1632aa
+index 0000000000..432ecc1632
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqResultStorage.h
 @@ -0,0 +1,246 @@
@@ -35645,7 +35658,7 @@ index 000000000000..432ecc1632aa
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqSetting.cpp b/camera/hal/intel/ipu6/src/3a/AiqSetting.cpp
 new file mode 100644
-index 000000000000..35f793f27e31
+index 0000000000..35f793f27e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqSetting.cpp
 @@ -0,0 +1,379 @@
@@ -36030,7 +36043,7 @@ index 000000000000..35f793f27e31
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqSetting.h b/camera/hal/intel/ipu6/src/3a/AiqSetting.h
 new file mode 100644
-index 000000000000..3e6ddf2ef3d0
+index 0000000000..3e6ddf2ef3
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqSetting.h
 @@ -0,0 +1,155 @@
@@ -36191,7 +36204,7 @@ index 000000000000..3e6ddf2ef3d0
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqStatistics.cpp b/camera/hal/intel/ipu6/src/3a/AiqStatistics.cpp
 new file mode 100644
-index 000000000000..a5e55db45ed0
+index 0000000000..a5e55db45e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqStatistics.cpp
 @@ -0,0 +1,147 @@
@@ -36344,7 +36357,7 @@ index 000000000000..a5e55db45ed0
 +
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqStatistics.h b/camera/hal/intel/ipu6/src/3a/AiqStatistics.h
 new file mode 100644
-index 000000000000..da4a2ec34ef3
+index 0000000000..da4a2ec34e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqStatistics.h
 @@ -0,0 +1,58 @@
@@ -36408,7 +36421,7 @@ index 000000000000..da4a2ec34ef3
 +
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqUnit.cpp b/camera/hal/intel/ipu6/src/3a/AiqUnit.cpp
 new file mode 100644
-index 000000000000..9bc6cfe67c82
+index 0000000000..9bc6cfe67c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqUnit.cpp
 @@ -0,0 +1,257 @@
@@ -36671,7 +36684,7 @@ index 000000000000..9bc6cfe67c82
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqUnit.h b/camera/hal/intel/ipu6/src/3a/AiqUnit.h
 new file mode 100644
-index 000000000000..7584e48581f0
+index 0000000000..7584e48581
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqUnit.h
 @@ -0,0 +1,155 @@
@@ -36832,7 +36845,7 @@ index 000000000000..7584e48581f0
 +
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqUtils.cpp b/camera/hal/intel/ipu6/src/3a/AiqUtils.cpp
 new file mode 100644
-index 000000000000..b55692db6723
+index 0000000000..b55692db67
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqUtils.cpp
 @@ -0,0 +1,660 @@
@@ -37498,7 +37511,7 @@ index 000000000000..b55692db6723
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/AiqUtils.h b/camera/hal/intel/ipu6/src/3a/AiqUtils.h
 new file mode 100644
-index 000000000000..7def8de88ddb
+index 0000000000..7def8de88d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/AiqUtils.h
 @@ -0,0 +1,185 @@
@@ -37689,7 +37702,7 @@ index 000000000000..7def8de88ddb
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/3a/Dvs.cpp b/camera/hal/intel/ipu6/src/3a/Dvs.cpp
 new file mode 100644
-index 000000000000..2b881e526607
+index 0000000000..46b9543e6f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/Dvs.cpp
 @@ -0,0 +1,616 @@
@@ -37902,8 +37915,8 @@ index 000000000000..2b881e526607
 +    config->envelope_bq.width_bq = mEnvelopeResolution.width / 2 - config->ispfilter_bq.width_bq;
 +    config->envelope_bq.height_bq = mEnvelopeResolution.height / 2 - config->ispfilter_bq.height_bq;
 +    // envelope should be larger than 0
-+    config->envelope_bq.width_bq = max(0, config->envelope_bq.width_bq);
-+    config->envelope_bq.height_bq = max(0, config->envelope_bq.height_bq);
++    config->envelope_bq.width_bq = std::max(0, config->envelope_bq.width_bq);
++    config->envelope_bq.height_bq = std::max(0, config->envelope_bq.height_bq);
 +
 +    if (config->source_bq.width_bq - config->envelope_bq.width_bq -
 +        config->ispfilter_bq.width_bq > bq_max_width)
@@ -38311,7 +38324,7 @@ index 000000000000..2b881e526607
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/3a/Dvs.h b/camera/hal/intel/ipu6/src/3a/Dvs.h
 new file mode 100644
-index 000000000000..60901c4818ae
+index 0000000000..60901c4818
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/Dvs.h
 @@ -0,0 +1,119 @@
@@ -38436,7 +38449,7 @@ index 000000000000..60901c4818ae
 +}  /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/DvsResult.cpp b/camera/hal/intel/ipu6/src/3a/DvsResult.cpp
 new file mode 100644
-index 000000000000..c9a80301621e
+index 0000000000..c9a8030162
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/DvsResult.cpp
 @@ -0,0 +1,105 @@
@@ -38547,7 +38560,7 @@ index 000000000000..c9a80301621e
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/3a/DvsResult.h b/camera/hal/intel/ipu6/src/3a/DvsResult.h
 new file mode 100644
-index 000000000000..1be7b5b3bec2
+index 0000000000..1be7b5b3be
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/DvsResult.h
 @@ -0,0 +1,48 @@
@@ -38601,7 +38614,7 @@ index 000000000000..1be7b5b3bec2
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/3a/I3AControlFactory.cpp b/camera/hal/intel/ipu6/src/3a/I3AControlFactory.cpp
 new file mode 100644
-index 000000000000..8eaac4ab5145
+index 0000000000..8eaac4ab51
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/I3AControlFactory.cpp
 @@ -0,0 +1,35 @@
@@ -38642,7 +38655,7 @@ index 000000000000..8eaac4ab5145
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/I3AControlFactory.h b/camera/hal/intel/ipu6/src/3a/I3AControlFactory.h
 new file mode 100644
-index 000000000000..93482cc2996c
+index 0000000000..93482cc299
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/I3AControlFactory.h
 @@ -0,0 +1,44 @@
@@ -38692,7 +38705,7 @@ index 000000000000..93482cc2996c
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/ImagingControl.h b/camera/hal/intel/ipu6/src/3a/ImagingControl.h
 new file mode 100644
-index 000000000000..74fa2289a34c
+index 0000000000..74fa2289a3
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/ImagingControl.h
 @@ -0,0 +1,46 @@
@@ -38744,7 +38757,7 @@ index 000000000000..74fa2289a34c
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/3a/LensManager.cpp b/camera/hal/intel/ipu6/src/3a/LensManager.cpp
 new file mode 100644
-index 000000000000..7bc95176543b
+index 0000000000..7bc9517654
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/LensManager.cpp
 @@ -0,0 +1,101 @@
@@ -38851,7 +38864,7 @@ index 000000000000..7bc95176543b
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/LensManager.h b/camera/hal/intel/ipu6/src/3a/LensManager.h
 new file mode 100644
-index 000000000000..cbd1de401d28
+index 0000000000..cbd1de401d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/LensManager.h
 @@ -0,0 +1,77 @@
@@ -38934,7 +38947,7 @@ index 000000000000..cbd1de401d28
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/Ltm.cpp b/camera/hal/intel/ipu6/src/3a/Ltm.cpp
 new file mode 100644
-index 000000000000..e3c0667581a9
+index 0000000000..e3c0667581
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/Ltm.cpp
 @@ -0,0 +1,545 @@
@@ -39485,7 +39498,7 @@ index 000000000000..e3c0667581a9
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/Ltm.h b/camera/hal/intel/ipu6/src/3a/Ltm.h
 new file mode 100644
-index 000000000000..1f97e1975f96
+index 0000000000..1f97e1975f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/Ltm.h
 @@ -0,0 +1,185 @@
@@ -39676,7 +39689,7 @@ index 000000000000..1f97e1975f96
 +
 diff --git a/camera/hal/intel/ipu6/src/3a/MakerNote.cpp b/camera/hal/intel/ipu6/src/3a/MakerNote.cpp
 new file mode 100644
-index 000000000000..cf93dd336345
+index 0000000000..cf93dd3363
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/MakerNote.cpp
 @@ -0,0 +1,126 @@
@@ -39808,7 +39821,7 @@ index 000000000000..cf93dd336345
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/3a/MakerNote.h b/camera/hal/intel/ipu6/src/3a/MakerNote.h
 new file mode 100644
-index 000000000000..201d696222aa
+index 0000000000..201d696222
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/MakerNote.h
 @@ -0,0 +1,116 @@
@@ -39930,7 +39943,7 @@ index 000000000000..201d696222aa
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/3a/SensorManager.cpp b/camera/hal/intel/ipu6/src/3a/SensorManager.cpp
 new file mode 100644
-index 000000000000..1abd08dcdab7
+index 0000000000..1abd08dcda
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/SensorManager.cpp
 @@ -0,0 +1,327 @@
@@ -40263,7 +40276,7 @@ index 000000000000..1abd08dcdab7
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/SensorManager.h b/camera/hal/intel/ipu6/src/3a/SensorManager.h
 new file mode 100644
-index 000000000000..bb42a306ffd3
+index 0000000000..bb42a306ff
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/SensorManager.h
 @@ -0,0 +1,111 @@
@@ -40380,7 +40393,7 @@ index 000000000000..bb42a306ffd3
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/intel3a/Intel3AParameter.cpp b/camera/hal/intel/ipu6/src/3a/intel3a/Intel3AParameter.cpp
 new file mode 100644
-index 000000000000..b76c3b6c7f12
+index 0000000000..b76c3b6c7f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/intel3a/Intel3AParameter.cpp
 @@ -0,0 +1,714 @@
@@ -41100,7 +41113,7 @@ index 000000000000..b76c3b6c7f12
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/3a/intel3a/Intel3AParameter.h b/camera/hal/intel/ipu6/src/3a/intel3a/Intel3AParameter.h
 new file mode 100644
-index 000000000000..a3675a490502
+index 0000000000..a3675a4905
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/3a/intel3a/Intel3AParameter.h
 @@ -0,0 +1,104 @@
@@ -41210,7 +41223,7 @@ index 000000000000..a3675a490502
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/core/BufferQueue.cpp b/camera/hal/intel/ipu6/src/core/BufferQueue.cpp
 new file mode 100644
-index 000000000000..32c160e46074
+index 0000000000..32c160e460
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/BufferQueue.cpp
 @@ -0,0 +1,286 @@
@@ -41502,7 +41515,7 @@ index 000000000000..32c160e46074
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/BufferQueue.h b/camera/hal/intel/ipu6/src/core/BufferQueue.h
 new file mode 100644
-index 000000000000..a8ab5d337688
+index 0000000000..a8ab5d3376
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/BufferQueue.h
 @@ -0,0 +1,206 @@
@@ -41714,7 +41727,7 @@ index 000000000000..a8ab5d337688
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/CameraBuffer.cpp b/camera/hal/intel/ipu6/src/core/CameraBuffer.cpp
 new file mode 100644
-index 000000000000..596172263ee5
+index 0000000000..596172263e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CameraBuffer.cpp
 @@ -0,0 +1,407 @@
@@ -42127,7 +42140,7 @@ index 000000000000..596172263ee5
 +}//namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/CameraBuffer.h b/camera/hal/intel/ipu6/src/core/CameraBuffer.h
 new file mode 100644
-index 000000000000..c2361dfdd7cb
+index 0000000000..c2361dfdd7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CameraBuffer.h
 @@ -0,0 +1,170 @@
@@ -42303,7 +42316,7 @@ index 000000000000..c2361dfdd7cb
 +}
 diff --git a/camera/hal/intel/ipu6/src/core/CameraDevice.cpp b/camera/hal/intel/ipu6/src/core/CameraDevice.cpp
 new file mode 100644
-index 000000000000..6133c2103f8e
+index 0000000000..6133c2103f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CameraDevice.cpp
 @@ -0,0 +1,1182 @@
@@ -43491,7 +43504,7 @@ index 000000000000..6133c2103f8e
 +
 diff --git a/camera/hal/intel/ipu6/src/core/CameraDevice.h b/camera/hal/intel/ipu6/src/core/CameraDevice.h
 new file mode 100644
-index 000000000000..43d28f31a5ff
+index 0000000000..43d28f31a5
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CameraDevice.h
 @@ -0,0 +1,284 @@
@@ -43781,7 +43794,7 @@ index 000000000000..43d28f31a5ff
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/CameraEvent.cpp b/camera/hal/intel/ipu6/src/core/CameraEvent.cpp
 new file mode 100644
-index 000000000000..18317091e1e7
+index 0000000000..18317091e1
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CameraEvent.cpp
 @@ -0,0 +1,84 @@
@@ -43871,7 +43884,7 @@ index 000000000000..18317091e1e7
 +}
 diff --git a/camera/hal/intel/ipu6/src/core/CameraEvent.h b/camera/hal/intel/ipu6/src/core/CameraEvent.h
 new file mode 100644
-index 000000000000..4a15167cd799
+index 0000000000..4a15167cd7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CameraEvent.h
 @@ -0,0 +1,50 @@
@@ -43927,7 +43940,7 @@ index 000000000000..4a15167cd799
 +}
 diff --git a/camera/hal/intel/ipu6/src/core/CameraEventType.h b/camera/hal/intel/ipu6/src/core/CameraEventType.h
 new file mode 100644
-index 000000000000..bb6a017a5cda
+index 0000000000..bb6a017a5c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CameraEventType.h
 @@ -0,0 +1,111 @@
@@ -44044,7 +44057,7 @@ index 000000000000..bb6a017a5cda
 +}
 diff --git a/camera/hal/intel/ipu6/src/core/CameraStream.cpp b/camera/hal/intel/ipu6/src/core/CameraStream.cpp
 new file mode 100644
-index 000000000000..70da89fdd0dd
+index 0000000000..70da89fdd0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CameraStream.cpp
 @@ -0,0 +1,239 @@
@@ -44289,7 +44302,7 @@ index 000000000000..70da89fdd0dd
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/CameraStream.h b/camera/hal/intel/ipu6/src/core/CameraStream.h
 new file mode 100644
-index 000000000000..5ac9472d4254
+index 0000000000..5ac9472d42
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CameraStream.h
 @@ -0,0 +1,118 @@
@@ -44413,7 +44426,7 @@ index 000000000000..5ac9472d4254
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/CaptureUnit.cpp b/camera/hal/intel/ipu6/src/core/CaptureUnit.cpp
 new file mode 100644
-index 000000000000..50301e6e0c05
+index 0000000000..50301e6e0c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CaptureUnit.cpp
 @@ -0,0 +1,477 @@
@@ -44896,7 +44909,7 @@ index 000000000000..50301e6e0c05
 +
 diff --git a/camera/hal/intel/ipu6/src/core/CaptureUnit.h b/camera/hal/intel/ipu6/src/core/CaptureUnit.h
 new file mode 100644
-index 000000000000..08062ec8bc51
+index 0000000000..08062ec8bc
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/CaptureUnit.h
 @@ -0,0 +1,194 @@
@@ -45096,7 +45109,7 @@ index 000000000000..08062ec8bc51
 +
 diff --git a/camera/hal/intel/ipu6/src/core/DeviceBase.cpp b/camera/hal/intel/ipu6/src/core/DeviceBase.cpp
 new file mode 100644
-index 000000000000..df5958a4a20f
+index 0000000000..df5958a4a2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/DeviceBase.cpp
 @@ -0,0 +1,442 @@
@@ -45544,7 +45557,7 @@ index 000000000000..df5958a4a20f
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/DeviceBase.h b/camera/hal/intel/ipu6/src/core/DeviceBase.h
 new file mode 100644
-index 000000000000..753604c7550d
+index 0000000000..753604c755
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/DeviceBase.h
 @@ -0,0 +1,171 @@
@@ -45721,7 +45734,7 @@ index 000000000000..753604c7550d
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/IspParamAdaptor.cpp b/camera/hal/intel/ipu6/src/core/IspParamAdaptor.cpp
 new file mode 100644
-index 000000000000..0a766200b8d8
+index 0000000000..0a766200b8
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/IspParamAdaptor.cpp
 @@ -0,0 +1,964 @@
@@ -46691,7 +46704,7 @@ index 000000000000..0a766200b8d8
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/IspParamAdaptor.h b/camera/hal/intel/ipu6/src/core/IspParamAdaptor.h
 new file mode 100644
-index 000000000000..f621cea2d798
+index 0000000000..f621cea2d7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/IspParamAdaptor.h
 @@ -0,0 +1,153 @@
@@ -46850,7 +46863,7 @@ index 000000000000..f621cea2d798
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/IspSettings.h b/camera/hal/intel/ipu6/src/core/IspSettings.h
 new file mode 100644
-index 000000000000..803c5bc17c86
+index 0000000000..803c5bc17c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/IspSettings.h
 @@ -0,0 +1,46 @@
@@ -46902,7 +46915,7 @@ index 000000000000..803c5bc17c86
 +
 diff --git a/camera/hal/intel/ipu6/src/core/LensHw.cpp b/camera/hal/intel/ipu6/src/core/LensHw.cpp
 new file mode 100644
-index 000000000000..a2588e25a5f2
+index 0000000000..a2588e25a5
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/LensHw.cpp
 @@ -0,0 +1,159 @@
@@ -47067,7 +47080,7 @@ index 000000000000..a2588e25a5f2
 +}   // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/LensHw.h b/camera/hal/intel/ipu6/src/core/LensHw.h
 new file mode 100644
-index 000000000000..997cc13dcf76
+index 0000000000..997cc13dcf
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/LensHw.h
 @@ -0,0 +1,63 @@
@@ -47136,7 +47149,7 @@ index 000000000000..997cc13dcf76
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/PSysProcessor.cpp b/camera/hal/intel/ipu6/src/core/PSysProcessor.cpp
 new file mode 100644
-index 000000000000..7640f9a041ea
+index 0000000000..7640f9a041
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/PSysProcessor.cpp
 @@ -0,0 +1,903 @@
@@ -48045,7 +48058,7 @@ index 000000000000..7640f9a041ea
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/PSysProcessor.h b/camera/hal/intel/ipu6/src/core/PSysProcessor.h
 new file mode 100644
-index 000000000000..7f52b31284e0
+index 0000000000..7f52b31284
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/PSysProcessor.h
 @@ -0,0 +1,133 @@
@@ -48184,7 +48197,7 @@ index 000000000000..7f52b31284e0
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/ProcessorManager.cpp b/camera/hal/intel/ipu6/src/core/ProcessorManager.cpp
 new file mode 100644
-index 000000000000..ccb204dbc8b9
+index 0000000000..ccb204dbc8
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/ProcessorManager.cpp
 @@ -0,0 +1,125 @@
@@ -48315,7 +48328,7 @@ index 000000000000..ccb204dbc8b9
 +
 diff --git a/camera/hal/intel/ipu6/src/core/ProcessorManager.h b/camera/hal/intel/ipu6/src/core/ProcessorManager.h
 new file mode 100644
-index 000000000000..d11cb14877a4
+index 0000000000..d11cb14877
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/ProcessorManager.h
 @@ -0,0 +1,71 @@
@@ -48392,7 +48405,7 @@ index 000000000000..d11cb14877a4
 +} // end of namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/RequestThread.cpp b/camera/hal/intel/ipu6/src/core/RequestThread.cpp
 new file mode 100644
-index 000000000000..fbbef98ba252
+index 0000000000..fbbef98ba2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/RequestThread.cpp
 @@ -0,0 +1,542 @@
@@ -48940,7 +48953,7 @@ index 000000000000..fbbef98ba252
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/RequestThread.h b/camera/hal/intel/ipu6/src/core/RequestThread.h
 new file mode 100644
-index 000000000000..dba2fd19c90a
+index 0000000000..dba2fd19c9
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/RequestThread.h
 @@ -0,0 +1,154 @@
@@ -49100,7 +49113,7 @@ index 000000000000..dba2fd19c90a
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/SensorHwCtrl.cpp b/camera/hal/intel/ipu6/src/core/SensorHwCtrl.cpp
 new file mode 100644
-index 000000000000..7af50e24b747
+index 0000000000..7af50e24b7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/SensorHwCtrl.cpp
 @@ -0,0 +1,331 @@
@@ -49437,7 +49450,7 @@ index 000000000000..7af50e24b747
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/SensorHwCtrl.h b/camera/hal/intel/ipu6/src/core/SensorHwCtrl.h
 new file mode 100644
-index 000000000000..c05f5329eff7
+index 0000000000..c05f5329ef
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/SensorHwCtrl.h
 @@ -0,0 +1,99 @@
@@ -49542,7 +49555,7 @@ index 000000000000..c05f5329eff7
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/SofSource.cpp b/camera/hal/intel/ipu6/src/core/SofSource.cpp
 new file mode 100644
-index 000000000000..58d1f42c2b88
+index 0000000000..883f1b53bb
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/SofSource.cpp
 @@ -0,0 +1,201 @@
@@ -49695,7 +49708,7 @@ index 000000000000..58d1f42c2b88
 +    pollDevs.push_back(mIsysReceiverSubDev);
 +    V4L2DevicePoller poller {pollDevs, -1};
 +
-+    vector<V4L2Device*> readyDevices;
++    std::vector<V4L2Device*> readyDevices;
 +
 +    LOG2("@%s", __func__);
 +
@@ -49749,7 +49762,7 @@ index 000000000000..58d1f42c2b88
 +}
 diff --git a/camera/hal/intel/ipu6/src/core/SofSource.h b/camera/hal/intel/ipu6/src/core/SofSource.h
 new file mode 100644
-index 000000000000..3b7ddf02556a
+index 0000000000..3b7ddf0255
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/SofSource.h
 @@ -0,0 +1,63 @@
@@ -49818,7 +49831,7 @@ index 000000000000..3b7ddf02556a
 +}
 diff --git a/camera/hal/intel/ipu6/src/core/StreamSource.h b/camera/hal/intel/ipu6/src/core/StreamSource.h
 new file mode 100644
-index 000000000000..1fff90dacdb7
+index 0000000000..1fff90dacd
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/StreamSource.h
 @@ -0,0 +1,48 @@
@@ -49872,7 +49885,7 @@ index 000000000000..1fff90dacdb7
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/SwImageProcessor.cpp b/camera/hal/intel/ipu6/src/core/SwImageProcessor.cpp
 new file mode 100644
-index 000000000000..9652d6558405
+index 0000000000..9652d65584
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/SwImageProcessor.cpp
 @@ -0,0 +1,158 @@
@@ -50036,7 +50049,7 @@ index 000000000000..9652d6558405
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/SwImageProcessor.h b/camera/hal/intel/ipu6/src/core/SwImageProcessor.h
 new file mode 100644
-index 000000000000..caf832608a73
+index 0000000000..caf832608a
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/SwImageProcessor.h
 @@ -0,0 +1,46 @@
@@ -50088,7 +50101,7 @@ index 000000000000..caf832608a73
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/SyncManager.cpp b/camera/hal/intel/ipu6/src/core/SyncManager.cpp
 new file mode 100644
-index 000000000000..0ebf7d52b471
+index 0000000000..0ebf7d52b4
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/SyncManager.cpp
 @@ -0,0 +1,198 @@
@@ -50292,7 +50305,7 @@ index 000000000000..0ebf7d52b471
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/SyncManager.h b/camera/hal/intel/ipu6/src/core/SyncManager.h
 new file mode 100644
-index 000000000000..c0a6af883817
+index 0000000000..c0a6af8838
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/SyncManager.h
 @@ -0,0 +1,58 @@
@@ -50356,7 +50369,7 @@ index 000000000000..c0a6af883817
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/core/TNRCommon.h b/camera/hal/intel/ipu6/src/core/TNRCommon.h
 new file mode 100644
-index 000000000000..9032c4539f53
+index 0000000000..9032c4539f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/TNRCommon.h
 @@ -0,0 +1,45 @@
@@ -50407,7 +50420,7 @@ index 000000000000..9032c4539f53
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/GPUExecutor.cpp b/camera/hal/intel/ipu6/src/core/psysprocessor/GPUExecutor.cpp
 new file mode 100644
-index 000000000000..a2ef2034514c
+index 0000000000..340e4000ca
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/GPUExecutor.cpp
 @@ -0,0 +1,482 @@
@@ -50850,7 +50863,7 @@ index 000000000000..a2ef2034514c
 +
 +int GPUExecutor::dumpTnrParameters(uint32_t sequence) {
 +    const int DUMP_FILE_SIZE = 0x1000;
-+    std::string dumpFileName = std::string("/home/tnr7-") + to_string(sequence) + string(".txt");
++    std::string dumpFileName = std::string("/home/tnr7-") + std::to_string(sequence) + std::string(".txt");
 +
 +    LOG1("%s save tnr7 parameters to file %s", __func__, dumpFileName.c_str());
 +    tnr7_bc_1_0_t* tnr7_bc = &(mTnr7usParam->bc);
@@ -50887,7 +50900,7 @@ index 000000000000..a2ef2034514c
 +        fwrite(dumpData, shift, 1, parFile);
 +        fclose(parFile);
 +    } else {
-+        LOGW("tnr7 failed to open dump file %s", (dumpFileName + to_string(sequence)).c_str());
++        LOGW("tnr7 failed to open dump file %s", (dumpFileName + std::to_string(sequence)).c_str());
 +    }
 +    free(dumpData);
 +    return OK;
@@ -50895,7 +50908,7 @@ index 000000000000..a2ef2034514c
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/GPUExecutor.h b/camera/hal/intel/ipu6/src/core/psysprocessor/GPUExecutor.h
 new file mode 100644
-index 000000000000..e6851d26235d
+index 0000000000..e6851d2623
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/GPUExecutor.h
 @@ -0,0 +1,60 @@
@@ -50961,7 +50974,7 @@ index 000000000000..e6851d26235d
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PGCommon.cpp b/camera/hal/intel/ipu6/src/core/psysprocessor/PGCommon.cpp
 new file mode 100644
-index 000000000000..03b841e7d149
+index 0000000000..03b841e7d1
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PGCommon.cpp
 @@ -0,0 +1,1235 @@
@@ -52202,7 +52215,7 @@ index 000000000000..03b841e7d149
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PGCommon.h b/camera/hal/intel/ipu6/src/core/psysprocessor/PGCommon.h
 new file mode 100644
-index 000000000000..92f86012254f
+index 0000000000..92f8601225
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PGCommon.h
 @@ -0,0 +1,240 @@
@@ -52448,7 +52461,7 @@ index 000000000000..92f86012254f
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PGUtils.cpp b/camera/hal/intel/ipu6/src/core/psysprocessor/PGUtils.cpp
 new file mode 100644
-index 000000000000..e79d01a9948d
+index 0000000000..e79d01a994
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PGUtils.cpp
 @@ -0,0 +1,194 @@
@@ -52648,7 +52661,7 @@ index 000000000000..e79d01a9948d
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PGUtils.h b/camera/hal/intel/ipu6/src/core/psysprocessor/PGUtils.h
 new file mode 100644
-index 000000000000..7e8ccfce6b99
+index 0000000000..7e8ccfce6b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PGUtils.h
 @@ -0,0 +1,86 @@
@@ -52740,7 +52753,7 @@ index 000000000000..7e8ccfce6b99
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PSysDAG.cpp b/camera/hal/intel/ipu6/src/core/psysprocessor/PSysDAG.cpp
 new file mode 100644
-index 000000000000..9eca3f8b1924
+index 0000000000..9eca3f8b19
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PSysDAG.cpp
 @@ -0,0 +1,759 @@
@@ -53505,7 +53518,7 @@ index 000000000000..9eca3f8b1924
 +}
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PSysDAG.h b/camera/hal/intel/ipu6/src/core/psysprocessor/PSysDAG.h
 new file mode 100644
-index 000000000000..399535159a5b
+index 0000000000..399535159a
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PSysDAG.h
 @@ -0,0 +1,155 @@
@@ -53666,7 +53679,7 @@ index 000000000000..399535159a5b
 +}
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PipeLiteExecutor.cpp b/camera/hal/intel/ipu6/src/core/psysprocessor/PipeLiteExecutor.cpp
 new file mode 100644
-index 000000000000..a4b7f3eb10de
+index 0000000000..a4b7f3eb10
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PipeLiteExecutor.cpp
 @@ -0,0 +1,1127 @@
@@ -54799,7 +54812,7 @@ index 000000000000..a4b7f3eb10de
 +
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PipeLiteExecutor.h b/camera/hal/intel/ipu6/src/core/psysprocessor/PipeLiteExecutor.h
 new file mode 100644
-index 000000000000..3fbce9a9607b
+index 0000000000..3fbce9a960
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PipeLiteExecutor.h
 @@ -0,0 +1,191 @@
@@ -54996,7 +55009,7 @@ index 000000000000..3fbce9a9607b
 +}
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PolicyManager.cpp b/camera/hal/intel/ipu6/src/core/psysprocessor/PolicyManager.cpp
 new file mode 100644
-index 000000000000..e51d012daa76
+index 0000000000..e51d012daa
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PolicyManager.cpp
 @@ -0,0 +1,168 @@
@@ -55170,7 +55183,7 @@ index 000000000000..e51d012daa76
 +
 diff --git a/camera/hal/intel/ipu6/src/core/psysprocessor/PolicyManager.h b/camera/hal/intel/ipu6/src/core/psysprocessor/PolicyManager.h
 new file mode 100644
-index 000000000000..3bef4a8421c3
+index 0000000000..3bef4a8421
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/core/psysprocessor/PolicyManager.h
 @@ -0,0 +1,79 @@
@@ -55255,7 +55268,7 @@ index 000000000000..3bef4a8421c3
 +}
 diff --git a/camera/hal/intel/ipu6/src/fd/FaceBase.h b/camera/hal/intel/ipu6/src/fd/FaceBase.h
 new file mode 100644
-index 000000000000..1405e9ccac93
+index 0000000000..1405e9ccac
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/fd/FaceBase.h
 @@ -0,0 +1,81 @@
@@ -55342,7 +55355,7 @@ index 000000000000..1405e9ccac93
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/fd/FaceDetection.cpp b/camera/hal/intel/ipu6/src/fd/FaceDetection.cpp
 new file mode 100644
-index 000000000000..d75a6664d42e
+index 0000000000..d75a6664d4
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/fd/FaceDetection.cpp
 @@ -0,0 +1,530 @@
@@ -55878,7 +55891,7 @@ index 000000000000..d75a6664d42e
 +
 diff --git a/camera/hal/intel/ipu6/src/fd/FaceDetection.h b/camera/hal/intel/ipu6/src/fd/FaceDetection.h
 new file mode 100644
-index 000000000000..9cc2433b05d3
+index 0000000000..9cc2433b05
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/fd/FaceDetection.h
 @@ -0,0 +1,120 @@
@@ -56004,7 +56017,7 @@ index 000000000000..9cc2433b05d3
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/hal/CameraHal.cpp b/camera/hal/intel/ipu6/src/hal/CameraHal.cpp
 new file mode 100644
-index 000000000000..53dd2c1e6ec8
+index 0000000000..53dd2c1e6e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/hal/CameraHal.cpp
 @@ -0,0 +1,268 @@
@@ -56278,7 +56291,7 @@ index 000000000000..53dd2c1e6ec8
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/hal/CameraHal.h b/camera/hal/intel/ipu6/src/hal/CameraHal.h
 new file mode 100644
-index 000000000000..1d46319862dd
+index 0000000000..1d46319862
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/hal/CameraHal.h
 @@ -0,0 +1,85 @@
@@ -56369,7 +56382,7 @@ index 000000000000..1d46319862dd
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/hal/ICamera.cpp b/camera/hal/intel/ipu6/src/hal/ICamera.cpp
 new file mode 100644
-index 000000000000..4fdad9b8a940
+index 0000000000..4fdad9b8a9
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/hal/ICamera.cpp
 @@ -0,0 +1,371 @@
@@ -56746,7 +56759,7 @@ index 000000000000..4fdad9b8a940
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/IImageProcessor.h b/camera/hal/intel/ipu6/src/image_process/IImageProcessor.h
 new file mode 100644
-index 000000000000..c4b2d2fb8603
+index 0000000000..c4b2d2fb86
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/IImageProcessor.h
 @@ -0,0 +1,46 @@
@@ -56798,7 +56811,7 @@ index 000000000000..c4b2d2fb8603
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/ImageConverter.cpp b/camera/hal/intel/ipu6/src/image_process/ImageConverter.cpp
 new file mode 100644
-index 000000000000..8e600ba937de
+index 0000000000..8e600ba937
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/ImageConverter.cpp
 @@ -0,0 +1,799 @@
@@ -57603,7 +57616,7 @@ index 000000000000..8e600ba937de
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/ImageConverter.h b/camera/hal/intel/ipu6/src/image_process/ImageConverter.h
 new file mode 100644
-index 000000000000..f55479a57b63
+index 0000000000..f55479a57b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/ImageConverter.h
 @@ -0,0 +1,59 @@
@@ -57668,7 +57681,7 @@ index 000000000000..f55479a57b63
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/ImageScalerCore.cpp b/camera/hal/intel/ipu6/src/image_process/ImageScalerCore.cpp
 new file mode 100644
-index 000000000000..1ea6f7104266
+index 0000000000..1ea6f71042
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/ImageScalerCore.cpp
 @@ -0,0 +1,959 @@
@@ -58633,7 +58646,7 @@ index 000000000000..1ea6f7104266
 +
 diff --git a/camera/hal/intel/ipu6/src/image_process/ImageScalerCore.h b/camera/hal/intel/ipu6/src/image_process/ImageScalerCore.h
 new file mode 100644
-index 000000000000..eaeb536e4430
+index 0000000000..eaeb536e44
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/ImageScalerCore.h
 @@ -0,0 +1,78 @@
@@ -58717,7 +58730,7 @@ index 000000000000..eaeb536e4430
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/PostProcessorBase.cpp b/camera/hal/intel/ipu6/src/image_process/PostProcessorBase.cpp
 new file mode 100644
-index 000000000000..3c3777bbdfe7
+index 0000000000..3c3777bbdf
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/PostProcessorBase.cpp
 @@ -0,0 +1,318 @@
@@ -59041,7 +59054,7 @@ index 000000000000..3c3777bbdfe7
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/PostProcessorBase.h b/camera/hal/intel/ipu6/src/image_process/PostProcessorBase.h
 new file mode 100644
-index 000000000000..2039e38a0080
+index 0000000000..2039e38a00
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/PostProcessorBase.h
 @@ -0,0 +1,118 @@
@@ -59165,7 +59178,7 @@ index 000000000000..2039e38a0080
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/PostProcessorCore.cpp b/camera/hal/intel/ipu6/src/image_process/PostProcessorCore.cpp
 new file mode 100644
-index 000000000000..f25e37f634c9
+index 0000000000..f25e37f634
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/PostProcessorCore.cpp
 @@ -0,0 +1,141 @@
@@ -59312,7 +59325,7 @@ index 000000000000..f25e37f634c9
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/PostProcessorCore.h b/camera/hal/intel/ipu6/src/image_process/PostProcessorCore.h
 new file mode 100644
-index 000000000000..6871a1705750
+index 0000000000..6871a17057
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/PostProcessorCore.h
 @@ -0,0 +1,68 @@
@@ -59386,7 +59399,7 @@ index 000000000000..6871a1705750
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/ProcessType.h b/camera/hal/intel/ipu6/src/image_process/ProcessType.h
 new file mode 100644
-index 000000000000..d7354ddd1268
+index 0000000000..d7354ddd12
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/ProcessType.h
 @@ -0,0 +1,30 @@
@@ -59422,7 +59435,7 @@ index 000000000000..d7354ddd1268
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/image_process/chrome/ImageProcessorCore.cpp b/camera/hal/intel/ipu6/src/image_process/chrome/ImageProcessorCore.cpp
 new file mode 100644
-index 000000000000..c3156ddca111
+index 0000000000..c3156ddca1
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/chrome/ImageProcessorCore.cpp
 @@ -0,0 +1,234 @@
@@ -59662,7 +59675,7 @@ index 000000000000..c3156ddca111
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/image_process/chrome/ImageProcessorCore.h b/camera/hal/intel/ipu6/src/image_process/chrome/ImageProcessorCore.h
 new file mode 100644
-index 000000000000..d874f371a696
+index 0000000000..d874f371a6
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/image_process/chrome/ImageProcessorCore.h
 @@ -0,0 +1,44 @@
@@ -59712,7 +59725,7 @@ index 000000000000..d874f371a696
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/iutils/CameraDump.cpp b/camera/hal/intel/ipu6/src/iutils/CameraDump.cpp
 new file mode 100644
-index 000000000000..58676a31f0a7
+index 0000000000..58676a31f0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/CameraDump.cpp
 @@ -0,0 +1,409 @@
@@ -60127,7 +60140,7 @@ index 000000000000..58676a31f0a7
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/CameraDump.h b/camera/hal/intel/ipu6/src/iutils/CameraDump.h
 new file mode 100644
-index 000000000000..3b51c84468b9
+index 0000000000..3b51c84468
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/CameraDump.h
 @@ -0,0 +1,170 @@
@@ -60303,7 +60316,7 @@ index 000000000000..3b51c84468b9
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/CameraLog.cpp b/camera/hal/intel/ipu6/src/iutils/CameraLog.cpp
 new file mode 100644
-index 000000000000..01f7d29c3e11
+index 0000000000..01f7d29c3e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/CameraLog.cpp
 @@ -0,0 +1,270 @@
@@ -60579,7 +60592,7 @@ index 000000000000..01f7d29c3e11
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/CameraLog.h b/camera/hal/intel/ipu6/src/iutils/CameraLog.h
 new file mode 100644
-index 000000000000..c105cd0bbd6a
+index 0000000000..c105cd0bbd
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/CameraLog.h
 @@ -0,0 +1,206 @@
@@ -60791,7 +60804,7 @@ index 000000000000..c105cd0bbd6a
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/Errors.h b/camera/hal/intel/ipu6/src/iutils/Errors.h
 new file mode 100644
-index 000000000000..8ef824f04fcc
+index 0000000000..8ef824f04f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/Errors.h
 @@ -0,0 +1,65 @@
@@ -60862,7 +60875,7 @@ index 000000000000..8ef824f04fcc
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/RWLock.h b/camera/hal/intel/ipu6/src/iutils/RWLock.h
 new file mode 100644
-index 000000000000..2082811ec9be
+index 0000000000..2082811ec9
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/RWLock.h
 @@ -0,0 +1,98 @@
@@ -60966,7 +60979,7 @@ index 000000000000..2082811ec9be
 +// ---------------------------------------------------------------------------
 diff --git a/camera/hal/intel/ipu6/src/iutils/ScopedAtrace.cpp b/camera/hal/intel/ipu6/src/iutils/ScopedAtrace.cpp
 new file mode 100644
-index 000000000000..13533c7bc43d
+index 0000000000..13533c7bc4
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/ScopedAtrace.cpp
 @@ -0,0 +1,63 @@
@@ -61035,7 +61048,7 @@ index 000000000000..13533c7bc43d
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/SwImageConverter.cpp b/camera/hal/intel/ipu6/src/iutils/SwImageConverter.cpp
 new file mode 100644
-index 000000000000..a6e63c6beffd
+index 0000000000..a6e63c6bef
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/SwImageConverter.cpp
 @@ -0,0 +1,406 @@
@@ -61447,7 +61460,7 @@ index 000000000000..a6e63c6beffd
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/SwImageConverter.h b/camera/hal/intel/ipu6/src/iutils/SwImageConverter.h
 new file mode 100644
-index 000000000000..591f5b4029a8
+index 0000000000..591f5b4029
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/SwImageConverter.h
 @@ -0,0 +1,42 @@
@@ -61495,7 +61508,7 @@ index 000000000000..591f5b4029a8
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/Thread.cpp b/camera/hal/intel/ipu6/src/iutils/Thread.cpp
 new file mode 100644
-index 000000000000..919f5a1cf6e0
+index 0000000000..919f5a1cf6
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/Thread.cpp
 @@ -0,0 +1,222 @@
@@ -61723,7 +61736,7 @@ index 000000000000..919f5a1cf6e0
 +
 diff --git a/camera/hal/intel/ipu6/src/iutils/Thread.h b/camera/hal/intel/ipu6/src/iutils/Thread.h
 new file mode 100644
-index 000000000000..91623dca8b21
+index 0000000000..91623dca8b
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/Thread.h
 @@ -0,0 +1,198 @@
@@ -61927,7 +61940,7 @@ index 000000000000..91623dca8b21
 +
 diff --git a/camera/hal/intel/ipu6/src/iutils/Trace.cpp b/camera/hal/intel/ipu6/src/iutils/Trace.cpp
 new file mode 100644
-index 000000000000..d50ab513eb2e
+index 0000000000..d50ab513eb
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/Trace.cpp
 @@ -0,0 +1,54 @@
@@ -61987,7 +62000,7 @@ index 000000000000..d50ab513eb2e
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/Trace.h b/camera/hal/intel/ipu6/src/iutils/Trace.h
 new file mode 100644
-index 000000000000..849a6f19106b
+index 0000000000..849a6f1910
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/Trace.h
 @@ -0,0 +1,241 @@
@@ -62234,7 +62247,7 @@ index 000000000000..849a6f19106b
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/Utils.cpp b/camera/hal/intel/ipu6/src/iutils/Utils.cpp
 new file mode 100644
-index 000000000000..d6d61f2c7c43
+index 0000000000..d6d61f2c7c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/Utils.cpp
 @@ -0,0 +1,740 @@
@@ -62980,7 +62993,7 @@ index 000000000000..d6d61f2c7c43
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/iutils/Utils.h b/camera/hal/intel/ipu6/src/iutils/Utils.h
 new file mode 100644
-index 000000000000..0bae788fa802
+index 0000000000..0bae788fa8
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/iutils/Utils.h
 @@ -0,0 +1,277 @@
@@ -63263,7 +63276,7 @@ index 000000000000..0bae788fa802
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/EXIFMaker.cpp b/camera/hal/intel/ipu6/src/jpeg/EXIFMaker.cpp
 new file mode 100644
-index 000000000000..0cd7f6712fd0
+index 0000000000..0cd7f6712f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/EXIFMaker.cpp
 @@ -0,0 +1,620 @@
@@ -63889,7 +63902,7 @@ index 000000000000..0cd7f6712fd0
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/EXIFMaker.h b/camera/hal/intel/ipu6/src/jpeg/EXIFMaker.h
 new file mode 100644
-index 000000000000..adad8d072710
+index 0000000000..adad8d0727
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/EXIFMaker.h
 @@ -0,0 +1,72 @@
@@ -63967,7 +63980,7 @@ index 000000000000..adad8d072710
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/EXIFMetaData.cpp b/camera/hal/intel/ipu6/src/jpeg/EXIFMetaData.cpp
 new file mode 100644
-index 000000000000..6c1bd04ffe86
+index 0000000000..6c1bd04ffe
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/EXIFMetaData.cpp
 @@ -0,0 +1,57 @@
@@ -64030,7 +64043,7 @@ index 000000000000..6c1bd04ffe86
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/EXIFMetaData.h b/camera/hal/intel/ipu6/src/jpeg/EXIFMetaData.h
 new file mode 100644
-index 000000000000..7cd37f319ebc
+index 0000000000..7cd37f319e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/EXIFMetaData.h
 @@ -0,0 +1,68 @@
@@ -64104,7 +64117,7 @@ index 000000000000..7cd37f319ebc
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/Exif.h b/camera/hal/intel/ipu6/src/jpeg/Exif.h
 new file mode 100644
-index 000000000000..4ccca42545c1
+index 0000000000..4ccca42545
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/Exif.h
 @@ -0,0 +1,343 @@
@@ -64453,7 +64466,7 @@ index 000000000000..4ccca42545c1
 +} exif_attribute_t;
 diff --git a/camera/hal/intel/ipu6/src/jpeg/ExifCreater.cpp b/camera/hal/intel/ipu6/src/jpeg/ExifCreater.cpp
 new file mode 100644
-index 000000000000..34f885ae48f8
+index 0000000000..34f885ae48
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/ExifCreater.cpp
 @@ -0,0 +1,542 @@
@@ -65001,7 +65014,7 @@ index 000000000000..34f885ae48f8
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/ExifCreater.h b/camera/hal/intel/ipu6/src/jpeg/ExifCreater.h
 new file mode 100644
-index 000000000000..bf90e260567e
+index 0000000000..bf90e26056
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/ExifCreater.h
 @@ -0,0 +1,114 @@
@@ -65121,7 +65134,7 @@ index 000000000000..bf90e260567e
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/IJpegEncoder.h b/camera/hal/intel/ipu6/src/jpeg/IJpegEncoder.h
 new file mode 100644
-index 000000000000..9e810b07f13d
+index 0000000000..9e810b07f1
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/IJpegEncoder.h
 @@ -0,0 +1,78 @@
@@ -65205,7 +65218,7 @@ index 000000000000..9e810b07f13d
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/JpegMaker.cpp b/camera/hal/intel/ipu6/src/jpeg/JpegMaker.cpp
 new file mode 100644
-index 000000000000..bbfe08556d8d
+index 0000000000..bbfe08556d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/JpegMaker.cpp
 @@ -0,0 +1,222 @@
@@ -65433,7 +65446,7 @@ index 000000000000..bbfe08556d8d
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/JpegMaker.h b/camera/hal/intel/ipu6/src/jpeg/JpegMaker.h
 new file mode 100644
-index 000000000000..8f5036216c54
+index 0000000000..8f5036216c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/JpegMaker.h
 @@ -0,0 +1,56 @@
@@ -65495,7 +65508,7 @@ index 000000000000..8f5036216c54
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/chrome/JpegEncoderCore.cpp b/camera/hal/intel/ipu6/src/jpeg/chrome/JpegEncoderCore.cpp
 new file mode 100644
-index 000000000000..ed89d935f7fe
+index 0000000000..ed89d935f7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/chrome/JpegEncoderCore.cpp
 @@ -0,0 +1,74 @@
@@ -65575,7 +65588,7 @@ index 000000000000..ed89d935f7fe
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/chrome/JpegEncoderCore.h b/camera/hal/intel/ipu6/src/jpeg/chrome/JpegEncoderCore.h
 new file mode 100644
-index 000000000000..bb9187f0b0b7
+index 0000000000..bb9187f0b0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/chrome/JpegEncoderCore.h
 @@ -0,0 +1,41 @@
@@ -65622,7 +65635,7 @@ index 000000000000..bb9187f0b0b7
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/sw/SWJpegEncoder.cpp b/camera/hal/intel/ipu6/src/jpeg/sw/SWJpegEncoder.cpp
 new file mode 100644
-index 000000000000..0aafef8c185f
+index 0000000000..0aafef8c18
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/sw/SWJpegEncoder.cpp
 @@ -0,0 +1,740 @@
@@ -66368,7 +66381,7 @@ index 000000000000..0aafef8c185f
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/jpeg/sw/SWJpegEncoder.h b/camera/hal/intel/ipu6/src/jpeg/sw/SWJpegEncoder.h
 new file mode 100644
-index 000000000000..170dfdbb023e
+index 0000000000..170dfdbb02
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/jpeg/sw/SWJpegEncoder.h
 @@ -0,0 +1,186 @@
@@ -66560,7 +66573,7 @@ index 000000000000..170dfdbb023e
 +}  // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/metadata/CameraMetadata.cpp b/camera/hal/intel/ipu6/src/metadata/CameraMetadata.cpp
 new file mode 100644
-index 000000000000..9aa26c9ca706
+index 0000000000..9aa26c9ca7
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/CameraMetadata.cpp
 @@ -0,0 +1,435 @@
@@ -67001,7 +67014,7 @@ index 000000000000..9aa26c9ca706
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/metadata/CameraMetadata.h b/camera/hal/intel/ipu6/src/metadata/CameraMetadata.h
 new file mode 100644
-index 000000000000..6acf03e91989
+index 0000000000..6acf03e919
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/CameraMetadata.h
 @@ -0,0 +1,200 @@
@@ -67207,7 +67220,7 @@ index 000000000000..6acf03e91989
 +} // namespace android
 diff --git a/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.cpp b/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.cpp
 new file mode 100644
-index 000000000000..8c40513cab1f
+index 0000000000..8c40513cab
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.cpp
 @@ -0,0 +1,381 @@
@@ -67594,7 +67607,7 @@ index 000000000000..8c40513cab1f
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.h b/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.h
 new file mode 100644
-index 000000000000..20ffcc79c0d3
+index 0000000000..20ffcc79c0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/ParameterGenerator.h
 @@ -0,0 +1,110 @@
@@ -67710,7 +67723,7 @@ index 000000000000..20ffcc79c0d3
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/metadata/ParameterHelper.cpp b/camera/hal/intel/ipu6/src/metadata/ParameterHelper.cpp
 new file mode 100644
-index 000000000000..578557f5caca
+index 0000000000..578557f5ca
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/ParameterHelper.cpp
 @@ -0,0 +1,84 @@
@@ -67800,7 +67813,7 @@ index 000000000000..578557f5caca
 +} // end of namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/metadata/ParameterHelper.h b/camera/hal/intel/ipu6/src/metadata/ParameterHelper.h
 new file mode 100644
-index 000000000000..8e5cf6e25f81
+index 0000000000..8e5cf6e25f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/ParameterHelper.h
 @@ -0,0 +1,142 @@
@@ -67948,7 +67961,7 @@ index 000000000000..8e5cf6e25f81
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/metadata/Parameters.cpp b/camera/hal/intel/ipu6/src/metadata/Parameters.cpp
 new file mode 100644
-index 000000000000..e62c1f8fc4d9
+index 0000000000..e62c1f8fc4
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/Parameters.cpp
 @@ -0,0 +1,2026 @@
@@ -69980,7 +69993,7 @@ index 000000000000..e62c1f8fc4d9
 +} // end of namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/metadata/icamera_metadata_base.cpp b/camera/hal/intel/ipu6/src/metadata/icamera_metadata_base.cpp
 new file mode 100644
-index 000000000000..52ffd86ded71
+index 0000000000..52ffd86ded
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/icamera_metadata_base.cpp
 @@ -0,0 +1,976 @@
@@ -70962,7 +70975,7 @@ index 000000000000..52ffd86ded71
 +}
 diff --git a/camera/hal/intel/ipu6/src/metadata/icamera_metadata_base.h b/camera/hal/intel/ipu6/src/metadata/icamera_metadata_base.h
 new file mode 100644
-index 000000000000..77f02d0ae038
+index 0000000000..77f02d0ae0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/icamera_metadata_base.h
 @@ -0,0 +1,445 @@
@@ -71413,7 +71426,7 @@ index 000000000000..77f02d0ae038
 +#endif
 diff --git a/camera/hal/intel/ipu6/src/metadata/icamera_metadata_tag_info.c b/camera/hal/intel/ipu6/src/metadata/icamera_metadata_tag_info.c
 new file mode 100644
-index 000000000000..491348aba397
+index 0000000000..491348aba3
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/icamera_metadata_tag_info.c
 @@ -0,0 +1,2698 @@
@@ -74117,7 +74130,7 @@ index 000000000000..491348aba397
 +#define ICAMERA_METADATA_ENUM_STRING_MAX_SIZE 24
 diff --git a/camera/hal/intel/ipu6/src/metadata/icamera_metadata_tags.h b/camera/hal/intel/ipu6/src/metadata/icamera_metadata_tags.h
 new file mode 100644
-index 000000000000..f8223c898db9
+index 0000000000..f8223c898d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/metadata/icamera_metadata_tags.h
 @@ -0,0 +1,1019 @@
@@ -75142,7 +75155,7 @@ index 000000000000..f8223c898db9
 +
 diff --git a/camera/hal/intel/ipu6/src/platformdata/AiqInitData.cpp b/camera/hal/intel/ipu6/src/platformdata/AiqInitData.cpp
 new file mode 100644
-index 000000000000..909fd9e59120
+index 0000000000..a369cf1327
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/AiqInitData.cpp
 @@ -0,0 +1,583 @@
@@ -75613,7 +75626,7 @@ index 000000000000..909fd9e59120
 +    mMakerNote(nullptr)
 +{
 +    CLEAR(mNvmData);
-+    mMakerNote = unique_ptr<MakerNote>(new MakerNote);
++    mMakerNote = std::unique_ptr<MakerNote>(new MakerNote);
 +}
 +
 +AiqInitData::~AiqInitData()
@@ -75731,7 +75744,7 @@ index 000000000000..909fd9e59120
 +}
 diff --git a/camera/hal/intel/ipu6/src/platformdata/AiqInitData.h b/camera/hal/intel/ipu6/src/platformdata/AiqInitData.h
 new file mode 100644
-index 000000000000..f6d090a847a9
+index 0000000000..f6d090a847
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/AiqInitData.h
 @@ -0,0 +1,235 @@
@@ -75972,7 +75985,7 @@ index 000000000000..f6d090a847a9
 +}
 diff --git a/camera/hal/intel/ipu6/src/platformdata/CameraParser.cpp b/camera/hal/intel/ipu6/src/platformdata/CameraParser.cpp
 new file mode 100644
-index 000000000000..303bb8d44301
+index 0000000000..303bb8d443
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/CameraParser.cpp
 @@ -0,0 +1,1903 @@
@@ -77881,7 +77894,7 @@ index 000000000000..303bb8d44301
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/CameraParser.h b/camera/hal/intel/ipu6/src/platformdata/CameraParser.h
 new file mode 100644
-index 000000000000..4a0d42cf6f0e
+index 0000000000..4a0d42cf6f
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/CameraParser.h
 @@ -0,0 +1,127 @@
@@ -78014,7 +78027,7 @@ index 000000000000..4a0d42cf6f0e
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/CameraTypes.h b/camera/hal/intel/ipu6/src/platformdata/CameraTypes.h
 new file mode 100644
-index 000000000000..61119ac701f9
+index 0000000000..bd494a8733
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/CameraTypes.h
 @@ -0,0 +1,228 @@
@@ -78191,7 +78204,7 @@ index 000000000000..61119ac701f9
 +    bool isGpuTnrEnabled;
 +    int cameraNumber;
 +
-+    CommonConfig() { xmlVersion = 1.0; isGpuTnrEnabled = false; cameraNumber = 0;}
++    CommonConfig() { xmlVersion = 1.0; isGpuTnrEnabled = false; cameraNumber = -1;}
 +};
 +
 +struct OBSetting {
@@ -78248,7 +78261,7 @@ index 000000000000..61119ac701f9
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/platformdata/ParserBase.cpp b/camera/hal/intel/ipu6/src/platformdata/ParserBase.cpp
 new file mode 100644
-index 000000000000..92c3f76ed0d8
+index 0000000000..92c3f76ed0
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/ParserBase.cpp
 @@ -0,0 +1,165 @@
@@ -78419,7 +78432,7 @@ index 000000000000..92c3f76ed0d8
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/ParserBase.h b/camera/hal/intel/ipu6/src/platformdata/ParserBase.h
 new file mode 100644
-index 000000000000..c6ccaff7dd38
+index 0000000000..c6ccaff7dd
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/ParserBase.h
 @@ -0,0 +1,102 @@
@@ -78527,10 +78540,10 @@ index 000000000000..c6ccaff7dd38
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/PlatformData.cpp b/camera/hal/intel/ipu6/src/platformdata/PlatformData.cpp
 new file mode 100644
-index 000000000000..b42f436b218d
+index 0000000000..8441d6dc1e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/PlatformData.cpp
-@@ -0,0 +1,1369 @@
+@@ -0,0 +1,1371 @@
 +/*
 + * Copyright (C) 2015-2020 Intel Corporation.
 + *
@@ -78594,7 +78607,9 @@ index 000000000000..b42f436b218d
 +{
 +    LOG1("@%s", __func__);
 +    MediaControl *mc = MediaControl::getInstance();
-+    mc->initEntities();
++    if (mc) {
++        mc->initEntities();
++    }
 +
 +    CameraParser CameraParser(mc, &mStaticCfg);
 +    PolicyParser PolicyParser(&mStaticCfg);
@@ -79902,7 +79917,7 @@ index 000000000000..b42f436b218d
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/PlatformData.h b/camera/hal/intel/ipu6/src/platformdata/PlatformData.h
 new file mode 100644
-index 000000000000..a40f2c0a4d4e
+index 0000000000..a40f2c0a4d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/PlatformData.h
 @@ -0,0 +1,1159 @@
@@ -81067,7 +81082,7 @@ index 000000000000..a40f2c0a4d4e
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/platformdata/PolicyParser.cpp b/camera/hal/intel/ipu6/src/platformdata/PolicyParser.cpp
 new file mode 100644
-index 000000000000..f799f21a8ec8
+index 0000000000..f799f21a8e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/PolicyParser.cpp
 @@ -0,0 +1,226 @@
@@ -81299,7 +81314,7 @@ index 000000000000..f799f21a8ec8
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/PolicyParser.h b/camera/hal/intel/ipu6/src/platformdata/PolicyParser.h
 new file mode 100644
-index 000000000000..ca5b13e26a83
+index 0000000000..ca5b13e26a
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/PolicyParser.h
 @@ -0,0 +1,73 @@
@@ -81378,7 +81393,7 @@ index 000000000000..ca5b13e26a83
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/FormatUtils.cpp b/camera/hal/intel/ipu6/src/platformdata/gc/FormatUtils.cpp
 new file mode 100644
-index 000000000000..76ba798a7d44
+index 0000000000..76ba798a7d
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/FormatUtils.cpp
 @@ -0,0 +1,338 @@
@@ -81722,7 +81737,7 @@ index 000000000000..76ba798a7d44
 +} // namespace graphconfig
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/FormatUtils.h b/camera/hal/intel/ipu6/src/platformdata/gc/FormatUtils.h
 new file mode 100644
-index 000000000000..d6f3a03ad9dd
+index 0000000000..d6f3a03ad9
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/FormatUtils.h
 @@ -0,0 +1,34 @@
@@ -81762,7 +81777,7 @@ index 000000000000..d6f3a03ad9dd
 +}  // namespace graphconfig
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfig.cpp b/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfig.cpp
 new file mode 100644
-index 000000000000..1fb4ed262100
+index 0000000000..1fb4ed2621
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfig.cpp
 @@ -0,0 +1,199 @@
@@ -81967,7 +81982,7 @@ index 000000000000..1fb4ed262100
 +}  // icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfig.h b/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfig.h
 new file mode 100644
-index 000000000000..03c306f5683d
+index 0000000000..03c306f568
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfig.h
 @@ -0,0 +1,88 @@
@@ -82061,7 +82076,7 @@ index 000000000000..03c306f5683d
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfigManager.cpp b/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfigManager.cpp
 new file mode 100644
-index 000000000000..3b792e0f8600
+index 0000000000..3b792e0f86
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfigManager.cpp
 @@ -0,0 +1,179 @@
@@ -82246,7 +82261,7 @@ index 000000000000..3b792e0f8600
 +}  // icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfigManager.h b/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfigManager.h
 new file mode 100644
-index 000000000000..68b5066ed200
+index 0000000000..68b5066ed2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/GraphConfigManager.h
 @@ -0,0 +1,85 @@
@@ -82337,10 +82352,10 @@ index 000000000000..68b5066ed200
 +} // icamera
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/GraphUtils.cpp b/camera/hal/intel/ipu6/src/platformdata/gc/GraphUtils.cpp
 new file mode 100644
-index 000000000000..7f822e6b20c6
+index 0000000000..db9c2d6d8c
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/GraphUtils.cpp
-@@ -0,0 +1,112 @@
+@@ -0,0 +1,110 @@
 +/*
 + * Copyright (C) 2018-2019 Intel Corporation
 + *
@@ -82365,8 +82380,6 @@ index 000000000000..7f822e6b20c6
 +#define psys_2600_pg_uid(id) ia_fourcc(((id & 0xFF00) >> 8),id,'G','0')
 +#define psys_2600_pg_id_from_uid(uid) ((uid & 0xFFFF0000) >> 16)
 +#define psys_2600_term_idx_from_uid(uid) ((uid & 0x0000FFFF) - 1)
-+
-+using namespace std;
 +
 +namespace icamera {
 +
@@ -82455,7 +82468,7 @@ index 000000000000..7f822e6b20c6
 +}
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/GraphUtils.h b/camera/hal/intel/ipu6/src/platformdata/gc/GraphUtils.h
 new file mode 100644
-index 000000000000..86686c576e1c
+index 0000000000..86686c576e
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/GraphUtils.h
 @@ -0,0 +1,27 @@
@@ -82488,7 +82501,7 @@ index 000000000000..86686c576e1c
 +}
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/HalStream.h b/camera/hal/intel/ipu6/src/platformdata/gc/HalStream.h
 new file mode 100644
-index 000000000000..139125a46552
+index 0000000000..139125a465
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/HalStream.h
 @@ -0,0 +1,74 @@
@@ -82568,7 +82581,7 @@ index 000000000000..139125a46552
 +} /* namespace icamera */
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/IGraphConfig.h b/camera/hal/intel/ipu6/src/platformdata/gc/IGraphConfig.h
 new file mode 100644
-index 000000000000..8771706dc447
+index 0000000000..8771706dc4
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/IGraphConfig.h
 @@ -0,0 +1,203 @@
@@ -82777,7 +82790,7 @@ index 000000000000..8771706dc447
 +}
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/IGraphConfigManager.h b/camera/hal/intel/ipu6/src/platformdata/gc/IGraphConfigManager.h
 new file mode 100644
-index 000000000000..fa55c57ab2d1
+index 0000000000..fa55c57ab2
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/IGraphConfigManager.h
 @@ -0,0 +1,43 @@
@@ -82826,7 +82839,7 @@ index 000000000000..fa55c57ab2d1
 +}
 diff --git a/camera/hal/intel/ipu6/src/platformdata/gc/custom_gcss_keys.h b/camera/hal/intel/ipu6/src/platformdata/gc/custom_gcss_keys.h
 new file mode 100644
-index 000000000000..624d750c868d
+index 0000000000..624d750c86
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/platformdata/gc/custom_gcss_keys.h
 @@ -0,0 +1,50 @@
@@ -82882,7 +82895,7 @@ index 000000000000..624d750c868d
 +GCSS_KEY (MC_ID, mc_id)
 diff --git a/camera/hal/intel/ipu6/src/v4l2/MediaControl.cpp b/camera/hal/intel/ipu6/src/v4l2/MediaControl.cpp
 new file mode 100644
-index 000000000000..c3b84fde440b
+index 0000000000..c3b84fde44
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/MediaControl.cpp
 @@ -0,0 +1,1155 @@
@@ -84043,10 +84056,10 @@ index 000000000000..c3b84fde440b
 +} // namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/v4l2/MediaControl.h b/camera/hal/intel/ipu6/src/v4l2/MediaControl.h
 new file mode 100644
-index 000000000000..0e3d284d0a83
+index 0000000000..f3e2d65b07
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/MediaControl.h
-@@ -0,0 +1,305 @@
+@@ -0,0 +1,304 @@
 +/*
 + * Copyright (C) 2015-2020 Intel Corporation.
 + *
@@ -84088,7 +84101,6 @@ index 000000000000..0e3d284d0a83
 +
 +#include "NodeInfo.h"
 +
-+using namespace std;
 +namespace icamera {
 +
 +struct MediaEntity;
@@ -84285,7 +84297,7 @@ index 000000000000..0e3d284d0a83
 +
 +    int resetAllLinks();
 +
-+    int getLensName(string *lensName);
++    int getLensName(std::string *lensName);
 +    bool checkAvailableSensor(const std::string &sensorEntityName,
 +                              const std::string &sinkEntityName);
 +    /**
@@ -84354,7 +84366,7 @@ index 000000000000..0e3d284d0a83
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/v4l2/NodeInfo.cpp b/camera/hal/intel/ipu6/src/v4l2/NodeInfo.cpp
 new file mode 100644
-index 000000000000..2709861a757d
+index 0000000000..2709861a75
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/NodeInfo.cpp
 @@ -0,0 +1,53 @@
@@ -84413,7 +84425,7 @@ index 000000000000..2709861a757d
 +}
 diff --git a/camera/hal/intel/ipu6/src/v4l2/NodeInfo.h b/camera/hal/intel/ipu6/src/v4l2/NodeInfo.h
 new file mode 100644
-index 000000000000..c5905603a4c5
+index 0000000000..c5905603a4
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/NodeInfo.h
 @@ -0,0 +1,50 @@
@@ -84469,7 +84481,7 @@ index 000000000000..c5905603a4c5
 +extern VideoNodeType GetNodeType(const char* nodeName);
 diff --git a/camera/hal/intel/ipu6/src/v4l2/SysCall.cpp b/camera/hal/intel/ipu6/src/v4l2/SysCall.cpp
 new file mode 100644
-index 000000000000..2f82704d143b
+index 0000000000..2f82704d14
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/SysCall.cpp
 @@ -0,0 +1,212 @@
@@ -84687,7 +84699,7 @@ index 000000000000..2f82704d143b
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/v4l2/SysCall.h b/camera/hal/intel/ipu6/src/v4l2/SysCall.h
 new file mode 100644
-index 000000000000..4ef9c058455d
+index 0000000000..4ef9c05845
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/SysCall.h
 @@ -0,0 +1,87 @@
@@ -84780,10 +84792,10 @@ index 000000000000..4ef9c058455d
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/v4l2/V4l2DeviceFactory.cpp b/camera/hal/intel/ipu6/src/v4l2/V4l2DeviceFactory.cpp
 new file mode 100644
-index 000000000000..90950d2d04c8
+index 0000000000..10fb71e082
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/V4l2DeviceFactory.cpp
-@@ -0,0 +1,126 @@
+@@ -0,0 +1,124 @@
 +/*
 + * Copyright (C) 2015-2020 Corporation.
 + *
@@ -84808,11 +84820,9 @@ index 000000000000..90950d2d04c8
 +
 +#include "V4l2DeviceFactory.h"
 +
-+using namespace std;
-+
 +namespace icamera {
 +
-+map<int, V4l2DeviceFactory*> V4l2DeviceFactory::sInstances;
++std::map<int, V4l2DeviceFactory*> V4l2DeviceFactory::sInstances;
 +Mutex V4l2DeviceFactory::sLock;
 +
 +V4l2DeviceFactory::V4l2DeviceFactory(int cameraId) : mCameraId(cameraId)
@@ -84858,7 +84868,7 @@ index 000000000000..90950d2d04c8
 + *
 + * Return a not nullptr sub device pointer
 + */
-+V4L2Subdevice* V4l2DeviceFactory::getSubDev(int cameraId, const string& devName)
++V4L2Subdevice* V4l2DeviceFactory::getSubDev(int cameraId, const std::string& devName)
 +{
 +    AutoMutex lock(sLock);
 +    V4l2DeviceFactory* factory = getInstance(cameraId);
@@ -84912,7 +84922,7 @@ index 000000000000..90950d2d04c8
 +} //namespace icamera
 diff --git a/camera/hal/intel/ipu6/src/v4l2/V4l2DeviceFactory.h b/camera/hal/intel/ipu6/src/v4l2/V4l2DeviceFactory.h
 new file mode 100644
-index 000000000000..115187d5fa37
+index 0000000000..115187d5fa
 --- /dev/null
 +++ b/camera/hal/intel/ipu6/src/v4l2/V4l2DeviceFactory.h
 @@ -0,0 +1,61 @@
@@ -84978,5 +84988,5 @@ index 000000000000..115187d5fa37
 +
 +} //namespace icamera
 -- 
-2.17.1
+2.28.0.1011.ga647a8990f-goog
 
