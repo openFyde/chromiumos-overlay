@@ -44,6 +44,7 @@ KEYWORDS="~*"
 IUSE="
 	fuzzer
 	nnapi
+	ondevice_grammar
 	ondevice_handwriting
 	ondevice_handwriting_dlc
 	ondevice_speech
@@ -54,6 +55,7 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	ondevice_speech? ( chromeos-base/libsoda:= )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
+	dev-libs/libgrammar:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
 	dev-libs/libtextclassifier:=
 	sci-libs/tensorflow:=
