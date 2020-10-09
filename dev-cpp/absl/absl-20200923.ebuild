@@ -23,6 +23,7 @@ ABSLDIR="${WORKDIR}/${P}_build/absl"
 src_configure() {
 	local mycmakeargs=(
 		-DBUILD_SHARED_LIBS=on
+		-DCMAKE_CXX_STANDARD=17
 	)
 
 	cmake-utils_src_configure
