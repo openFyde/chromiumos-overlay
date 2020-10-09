@@ -22,9 +22,9 @@ else
 fi
 
 
-STAGE0_VERSION="1.$(($(get_version_component_range 2) - 1)).0"
-STAGE0_VERSION_CARGO="0.$(($(get_version_component_range 2))).0"
-STAGE0_DATE="2020-06-04"
+STAGE0_VERSION="1.46.0"
+STAGE0_VERSION_CARGO="0.47.0"
+STAGE0_DATE="2020-08-27"
 RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
@@ -56,6 +56,9 @@ PATCHES=(
 	"${FILESDIR}/${P}-no-test-on-build.patch"
 	"${FILESDIR}/${P}-sanitizer-supported.patch"
 	"${FILESDIR}/${P}-cc.patch"
+	"${FILESDIR}/${P}-revert-libunwind-build.patch"
+	"${FILESDIR}/${P}-ld-argv0.patch"
+	"${FILESDIR}/${P}-no-weak-symbols.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"
@@ -189,7 +192,8 @@ EOF
 }
 
 src_compile() {
-	${EPYTHON} x.py build --config cros-config.toml || die
+	# FIXME: upstream is now using `dist` instead of `build` -- should we do the same?
+	${EPYTHON} x.py build --stage 2 --config cros-config.toml || die
 }
 
 src_install() {

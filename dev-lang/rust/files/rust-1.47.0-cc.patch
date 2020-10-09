@@ -2,10 +2,10 @@ If the CC environment variable is set, use its value instead of hardcoding "cc".
 This fixes crbug.com/1090829.
 
 diff --git a/src/librustc_codegen_ssa/back/link.rs b/src/librustc_codegen_ssa/back/link.rs
-index dcce1d4..cf306a4 100644
+index 8725bfa..5984569 100644
 --- a/src/librustc_codegen_ssa/back/link.rs
 +++ b/src/librustc_codegen_ssa/back/link.rs
-@@ -789,12 +789,12 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
+@@ -752,12 +752,12 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
              (Some(linker), Some(flavor)) => Some((linker, flavor)),
              // only the linker flavor is known; use the default linker for the selected flavor
              (None, Some(flavor)) => Some((
@@ -21,7 +21,7 @@ index dcce1d4..cf306a4 100644
                          }
                      }
                      LinkerFlavor::Gcc => {
-@@ -805,16 +805,19 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
+@@ -768,16 +768,19 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
                              // and many modern illumos distributions today
                              // ship GCC as "gcc" without also making it
                              // available as "cc".
