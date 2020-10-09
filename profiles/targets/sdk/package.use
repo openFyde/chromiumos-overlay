@@ -46,7 +46,8 @@ sys-apps/usbutils	-python
 # We don't use any of the python files this package installs.
 dev-util/boost-build	-python
 # USE=doc is needed for basic `perf --help` output.
-dev-util/perf	audit doc -python tui -unwind
+# USE=coresight enables Arm's CoreSight trace decoding.
+dev-util/perf	audit coresight doc -python tui -unwind
 
 # Disable Segger J-Link for building openocd-0.10.0. We currently
 # don't use J-Link. It requires upgrading libjaylink, which is not yet
