@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("360cb388cf9e379de2e09b5046b18b8daeb23ae7" "ce99ee79f77887c5b680b1503490484632201ca7")
+CROS_WORKON_COMMIT=("2ea3576714365a8faf0a973b82da8583181eac9d" "ce99ee79f77887c5b680b1503490484632201ca7")
 CROS_WORKON_TREE=("f8af72338aabb6766a39a3a323624a050d01d159" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "70dfe552707129908e4e15c1f71e04f350a2b974")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
@@ -13,8 +13,6 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="update_engine"
-# Some unittests crash when run through qemu/arm.  Should figure this out.
-PLATFORM_NATIVE_TEST="yes"
 
 inherit cros-debug cros-workon platform systemd
 
