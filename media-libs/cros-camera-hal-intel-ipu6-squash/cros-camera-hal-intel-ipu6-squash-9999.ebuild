@@ -45,6 +45,7 @@ src_unpack() {
 	eapply "${FILESDIR}/0002-intel-ipu6-Add-initial-code-2nd-part.patch"
 	eapply "${FILESDIR}/0003-camera-intel-ipu6-Correctly-handle-devices-without-M.patch"
 	eapply "${FILESDIR}/0004-Remove-using-namespace-std-to-fix-C-17-build-std-byt.patch"
+	eapply "${FILESDIR}/0005-camera-intel-ipu6-Fix-camera-count-from-XML-file.patch"
 }
 
 src_install() {
