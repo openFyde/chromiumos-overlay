@@ -8,7 +8,7 @@ CROS_WORKON_EGIT_BRANCH="fwupd-1.4.5"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
-inherit cros-workon linux-info meson python-single-r1 user vala xdg
+inherit cros-workon linux-info meson python-single-r1 udev user vala xdg
 
 DESCRIPTION="Aims to make updating firmware on Linux automatic, safe and reliable"
 HOMEPAGE="https://fwupd.org"
@@ -143,6 +143,9 @@ src_install() {
 
 	# Enable vendor-directory remote with local firmware
 	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
+
+	# Install udev rules to fix user permissions.
+	udev_dorules "${FILESDIR}"/99-fwupd.rules
 
 	insinto /etc/init
 	# Install upstart script for activating firmware update on logout/shutdown.
