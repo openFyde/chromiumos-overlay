@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="d177b5236c532a2f8d27932544711681e1f94c6f"
-CROS_WORKON_TREE="9f252cb2149b5a5d2239449d285a2f925a14d031"
+CROS_WORKON_COMMIT="bd01f6a008e669f11e2bf1af944267de476ec01b"
+CROS_WORKON_TREE="b5724ec9e1598c90c09c480f06c6f3dcd76c3b17"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -345,3 +345,18 @@ IUSE_TESTS="${IUSE_TESTS}
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
+
+INIT_FILE="__init__.py"
+
+src_install() {
+	# Make sure we install all |SERVER_IUSE_TESTS| first.
+	autotest_src_install
+	# Autotest depends on a few strategically placed INIT_FILEs to allow
+	# importing python code. In particular we want to allow importing
+	# server.site_tests.tast to be able to launch tast local tests.
+	# This INIT_FILE exists in git, but needs to be installed and finally
+	# packaged via chromite/lib/autotest_util.py into
+	# autotest_server_package.tar.bz2 to be served by devservers.
+	insinto "${AUTOTEST_BASE}/${AUTOTEST_SERVER_SITE_TESTS}"
+	doins "${AUTOTEST_SERVER_SITE_TESTS}/${INIT_FILE}"
+}
