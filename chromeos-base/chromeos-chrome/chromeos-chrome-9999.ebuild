@@ -573,7 +573,7 @@ src_unpack() {
 		# Use AFDO profile downloaded in Chromium source code
 		# If needed profiles other than "silvermont", please set the variable
 		# ${AFDO_PROFILE_SOURCE} accordingly.
-		local afdo_src="${AFDO_PROFILE_SOURCE:-silvermont}"
+		local afdo_src="${AFDO_PROFILE_SOURCE:-atom}"
 		BUILD_ARGS+=( "clang_use_default_sample_profile=true" )
 		BUILD_STRING_ARGS+=( "chromeos_afdo_platform=${afdo_src}" )
 	fi
