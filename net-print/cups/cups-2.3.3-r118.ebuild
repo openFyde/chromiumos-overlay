@@ -234,11 +234,17 @@ multilib_src_compile() {
 
 multilib_src_test() {
 	multilib_is_native_abi || return 0
-	ASAN_OPTIONS=log_path=stderr \
-	UBSAN_OPTIONS=print_stacktrace=1:log_path=stderr \
-	/mnt/host/source/src/platform2/common-mk/platform2_test.py \
-		--sysroot="${SYSROOT}" -- ./scheduler/googletests || \
-		die "tests failed"
+	local tests=(
+		./cups/googletests
+		./scheduler/googletests
+	)
+	local t
+	for t in "${tests[@]}"; do
+		ASAN_OPTIONS=log_path=stderr \
+		UBSAN_OPTIONS=print_stacktrace=1:log_path=stderr \
+		/mnt/host/source/src/platform2/common-mk/platform2_test.py \
+		--sysroot="${SYSROOT}" -- "${t}" || die "${t} failed"
+	done
 }
 
 multilib_src_install() {
