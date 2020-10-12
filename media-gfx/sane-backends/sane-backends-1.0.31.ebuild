@@ -183,6 +183,11 @@ src_prepare() {
 	# From Arch
 	eapply "${FILESDIR}"/${PN}-1.0.30-network.patch
 
+	# Fix memory leaks in the test and dll backends.
+	eapply "${FILESDIR}"/sane-backends-1.0.31-dll-load.patch
+	eapply "${FILESDIR}"/sane-backends-1.0.31-free-string-options.patch
+	eapply "${FILESDIR}"/sane-backends-1.0.31-initial-values.patch
+
 	# Upstream sometimes forgets to remove the "git describe" check
 	# in the version, which then fails because .git isn't included in the
 	# released tarball.  Replace it with the plain version number.
