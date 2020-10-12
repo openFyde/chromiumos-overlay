@@ -27,11 +27,15 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
-	dolib.a "${OUT}"/libglib_bridge.a
+	dolib.so "${OUT}"/lib/libglib_bridge.so
 
 	# Install headers.
-	insinto /usr/include/glib_bridge
+	insinto /usr/include/glib-bridge
 	doins *.h
+
+	# Install pc file.
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${OUT}"/obj/glib-bridge/libglib_bridge.pc
 }
 
 
