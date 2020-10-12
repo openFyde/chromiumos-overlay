@@ -20,10 +20,12 @@ src_compile() {
 	cros_enable_cxx_exceptions
 	use debug && DEBUG_OPT=1
 
-	emake -C decoder/build/linux/ \
+	# Opencsd build is flaky at times, use "-j1" to avoid any races.
+	emake -j1 -C decoder/build/linux/ \
 		LINUX64=1 DEBUG=${DEBUG_OPT} \
 		MASTER_CC="$(tc-getCC)" \
 		MASTER_CXX="$(tc-getCXX)" \
+		MASTER_LIB="$(tc-getAR)" \
 		MASTER_LINKER="$(tc-getCXX)"
 }
 
