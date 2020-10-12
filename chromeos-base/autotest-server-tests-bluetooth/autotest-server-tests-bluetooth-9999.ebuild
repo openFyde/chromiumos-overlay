@@ -22,20 +22,21 @@ RDEPEND="
 "
 
 SERVER_IUSE_TESTS="
-	+tests_bluetooth_AdapterAdvSanity
-	+tests_bluetooth_AdapterAUSanity
-	+tests_bluetooth_AdapterCLSanity
+	+tests_bluetooth_AdapterAdvHealth
+	+tests_bluetooth_AdapterAudioLink
+	+tests_bluetooth_AdapterAUHealth
+	+tests_bluetooth_AdapterCLHealth
 	+tests_bluetooth_AdapterLEAdvertising
 	+tests_bluetooth_AdapterLEBetterTogether
-	+tests_bluetooth_AdapterLEHIDSanity
-	+tests_bluetooth_AdapterLESanity
-	+tests_bluetooth_AdapterMDSanity
+	+tests_bluetooth_AdapterLEHIDHealth
+	+tests_bluetooth_AdapterLEHealth
+	+tests_bluetooth_AdapterMDHealth
 	+tests_bluetooth_AdapterMTBF
 	+tests_bluetooth_AdapterPowerMeasure
-	+tests_bluetooth_AdapterQuickSanity
-	+tests_bluetooth_AdapterSASanity
+	+tests_bluetooth_AdapterQuickHealth
+	+tests_bluetooth_AdapterSAHealth
 	+tests_bluetooth_PeerUpdate
-	+tests_bluetooth_AdapterSRSanity
+	+tests_bluetooth_AdapterSRHealth
 "
 
 IUSE_TESTS="${IUSE_TESTS}
