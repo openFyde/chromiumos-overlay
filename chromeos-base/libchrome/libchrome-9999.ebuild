@@ -79,6 +79,11 @@ src_prepare() {
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
 }
 
+src_configure() {
+	cros_optimize_package_for_speed
+	platform_src_configure
+}
+
 src_install() {
 	export BASE_VER="$(cat BASE_VER)"
 	dolib.so "${OUT}"/lib/libbase*-"${BASE_VER}".so
