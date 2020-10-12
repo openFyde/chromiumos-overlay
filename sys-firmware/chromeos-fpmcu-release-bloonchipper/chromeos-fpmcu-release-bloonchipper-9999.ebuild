@@ -9,7 +9,7 @@
 EAPI=7
 
 FIRMWARE_EC_BOARD="bloonchipper"
-FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
+FIRMWARE_EC_RELEASE_REPLACE_RO="no"
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
