@@ -33,6 +33,7 @@ IUSE="
 	asan
 	+authpolicy
 	+build_tests
+	cdm_factory_daemon
 	+chrome_debug
 	+cfi
 	cfm
@@ -236,6 +237,7 @@ set_build_args() {
 
 		"is_debug=false"
 		"${EXTRA_GN_ARGS}"
+		"use_chromeos_protected_media=$(usetf cdm_factory_daemon)"
 		"use_v4l2_codec=$(usetf v4l2_codec)"
 		"use_v4lplugin=$(usetf v4lplugin)"
 		"use_vaapi=$(usetf vaapi)"
