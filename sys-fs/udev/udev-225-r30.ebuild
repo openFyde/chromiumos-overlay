@@ -76,6 +76,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-225-50-udev-default.rules-set-default-group-for-udmabuf.patch
 	"${FILESDIR}"/${PN}-225-50-udev-default.rules-disable-REMOVE_CMD-support.patch
 	"${FILESDIR}"/${PN}-225-udev-rules-no-slash-run.patch
+	"${FILESDIR}"/${PN}-225-udev-use-interface-before-the-string-that-interface-.patch
+	"${FILESDIR}"/${PN}-225-udev-stop-freeing-value-after-using-it-for-setting-s.patch
 )
 
 check_default_rules() {
