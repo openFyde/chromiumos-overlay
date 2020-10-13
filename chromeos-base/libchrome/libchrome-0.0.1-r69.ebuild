@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("9554e8d83773312458ed671cd936408d438021ff" "60fc99391787704bb175e27f2ebd3765a3216fe4")
+CROS_WORKON_COMMIT=("2b9f091c755f8ff73da83866d1ebd262eef4b7bc" "60fc99391787704bb175e27f2ebd3765a3216fe4")
 CROS_WORKON_TREE=("f8af72338aabb6766a39a3a323624a050d01d159" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9f8ff69d2fc6019dd53214facebae773d4198972")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -79,6 +79,11 @@ src_prepare() {
 	while read -r patch; do
 		epatch "${S}/libchrome_tools/patches/${patch}"
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
+}
+
+src_configure() {
+	cros_optimize_package_for_speed
+	platform_src_configure
 }
 
 src_install() {
