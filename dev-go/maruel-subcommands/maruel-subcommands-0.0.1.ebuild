@@ -4,12 +4,10 @@
 EAPI=7
 
 CROS_GO_SOURCE=(
-	"github.com/texttheater/golang-levenshtein eb6844b05fc6f7e10932b0621c7f5f7e8890541d"
 	"github.com/maruel/subcommands de1d40e70d4b89b9c560a4d308e0bc9f5c9e18d7"
 )
 
 CROS_GO_PACKAGES=(
-	"github.com/texttheater/golang-levenshtein/levenshtein"
 	"github.com/maruel/subcommands"
 )
 
