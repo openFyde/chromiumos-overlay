@@ -350,6 +350,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-devel/m4|\
 		sys-fs/rar2fs|\
 		sys-libs/gcc-libs|\
+		sys-libs/binutils-libs|\
 		x11-libs/gdk-pixbuf) return 1;;
 		esac
 	}
