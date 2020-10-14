@@ -335,6 +335,7 @@ CONFIG_ZSWAP=y
 
 dmadebug_desc="Enable DMA debugging"
 dmadebug_config="
+CONFIG_DEBUG_SG=y
 CONFIG_DMA_API_DEBUG=y
 "
 
