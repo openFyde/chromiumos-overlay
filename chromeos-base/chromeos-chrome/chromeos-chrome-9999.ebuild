@@ -414,23 +414,6 @@ set_build_args() {
 		fi
 	fi
 
-	# With ThinLTO, the linking landscape is very different than regular
-	# linking. Some links (e.g., Chrome) can be very heavy and require
-	# 40GB+ of RAM. Since we don't use ThinLTO's cache (crbug.com/964328),
-	# heavy links are always going to be heavy, so it's faster to give them
-	# ${ncpu} each and only have 1 happening at once.
-	if use thinlto; then
-		local thinlto_link_job_count
-
-		if thinlto_link_job_count="$(grep -c ^processor /proc/cpuinfo)"; then
-			BUILD_ARGS+=(
-				"max_jobs_per_link=${thinlto_link_job_count}"
-				"concurrent_links=1"
-			)
-		fi
-
-	fi
-
 	if use tpm_fallback; then
 		BUILD_ARGS+=( "tpm_fallback=true" )
 	fi
