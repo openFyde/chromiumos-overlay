@@ -24,9 +24,12 @@ src_install() {
 	doins grammar_interface.proto
 
 	if use ondevice_grammar; then
-		dolib.so "libgrammar-amd64.so"
-		# Install the model files.
 		insinto /opt/google/chrome/ml_models/grammar/
+		# Install the shared library.
+		insopts -m0755
+		newins "libgrammar-${ARCH}.so" "libgrammar.so"
+		insopts -m0644
+		# Install the model files.
 		doins translation_model.pb translation_model.pbtxt
 		doins translation_model_*.bipe
 		doins -r resources
