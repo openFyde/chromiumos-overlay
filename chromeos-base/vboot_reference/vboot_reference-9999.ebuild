@@ -39,6 +39,9 @@ src_configure() {
 		# Disable alignment sanitization, https://crbug.com/1015908 .
 		SANITIZER_CFLAGS+=" -fno-sanitize=alignment"
 
+		# Run sanitizers with useful log output.
+		SANITIZER_CFLAGS+=" -DVBOOT_DEBUG"
+
 		# Suppressions for unit tests.
 		if use test; then
 			# Do not check memory leaks or odr violations in address sanitizer.
