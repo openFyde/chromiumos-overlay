@@ -3,7 +3,7 @@ DEPEND=media-libs/libv4l >=app-portage/elt-patches-20170815 !<sys-devel/gettext-
 DESCRIPTION=Separate plugin library from upstream v4l-utils package
 EAPI=5
 HOMEPAGE=http://git.linuxtv.org/v4l-utils.git
-IUSE=rockchip rockchip_v2 cros_host cros_workon_tree_694d607ee703be3eca76e8c7d5359e21813c7daf
+IUSE=rockchip rockchip_v2 cros_host cros_workon_tree_7c66df737852487714c0118de5b77cf7ec7e6898
 KEYWORDS=*
 LICENSE=LGPL-2.1
 PROPERTIES=live
@@ -12,4 +12,4 @@ REQUIRED_USE=^^ ( rockchip rockchip_v2 )
 SLOT=0
 SRC_URI=http://linuxtv.org/downloads/v4l-utils/v4l-utils-1.18.1.tar.bz2
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=23eb5b8359e3a4d212ba1e098206d462
+_md5_=14fea56b90072d72278206ebafb2e8c8
