@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("3d3791b5628e546314f2dfec2cd8a954f6da1492" "adbbad2e0138453af45cc08cb3d04317ae2b8ba1")
-CROS_WORKON_TREE=("f8af72338aabb6766a39a3a323624a050d01d159" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "cf3b02ca5d761ceb01a6247d04a44c867aba06f2")
+CROS_WORKON_COMMIT=("ac7e0c7fad4c7f1e75f077ee175004aef5668449" "ecd17cc57afaa19571a371cfd9aef3f868004835")
+CROS_WORKON_TREE=("f8af72338aabb6766a39a3a323624a050d01d159" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b45c8cb8e1de873b9fa5439b1bd58317793b57b1")
 CROS_WORKON_LOCALNAME=("../platform2" "libtextclassifier")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/libtextclassifier")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libtextclassifier")
@@ -25,13 +25,13 @@ IUSE=""
 RDEPEND="
 	chromeos-base/chrome-icu:=
 	dev-libs/flatbuffers:=
-	dev-libs/libutf:=
 	sci-libs/tensorflow:=
 	sys-libs/zlib:=
 "
 
 DEPEND="
 	${RDEPEND}
+	dev-libs/libutf:=
 "
 
 src_install() {
@@ -63,6 +63,7 @@ src_install() {
 		"annotator/installed_app/installed-app-engine-dummy.h"
 		"annotator/installed_app/installed-app-engine.h"
 		"annotator/knowledge/knowledge-engine-dummy.h"
+		"annotator/knowledge/knowledge-engine-types.h"
 		"annotator/knowledge/knowledge-engine.h"
 		"annotator/model-executor.h"
 		"annotator/model_generated.h"
@@ -70,9 +71,13 @@ src_install() {
 		"annotator/person_name/person-name-engine-dummy.h"
 		"annotator/person_name/person-name-engine.h"
 		"annotator/person_name/person_name_model_generated.h"
+		"annotator/pod_ner/pod-ner.h"
+		"annotator/pod_ner/pod-ner-dummy.h"
 		"annotator/strip-unpaired-brackets.h"
 		"annotator/translate/translate.h"
 		"annotator/types.h"
+		"annotator/vocab/vocab-annotator.h"
+		"annotator/vocab/vocab-annotator-dummy.h"
 		"annotator/zlib-utils.h"
 		"lang_id/common/embedding-network-params.h"
 		"lang_id/common/fel/task-context.h"
@@ -102,10 +107,14 @@ src_install() {
 		"utils/calendar/calendar.h"
 		"utils/codepoint-range.h"
 		"utils/codepoint-range_generated.h"
+		"utils/container/bit-vector_generated.h"
+		"utils/container/bit-vector.h"
 		"utils/container/sorted-strings-table.h"
 		"utils/container/string-set.h"
-		"utils/flatbuffers.h"
-		"utils/flatbuffers_generated.h"
+		"utils/flatbuffers/flatbuffers.h"
+		"utils/flatbuffers/flatbuffers_generated.h"
+		"utils/flatbuffers/mutable.h"
+		"utils/flatbuffers/reflection.h"
 		"utils/grammar/callback-delegate.h"
 		"utils/grammar/lexer.h"
 		"utils/grammar/match.h"
