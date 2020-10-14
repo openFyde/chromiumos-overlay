@@ -49,6 +49,7 @@ DEPEND="${COMMON_DEPEND}
 	)
 	=dev-rust/bitflags-1*:=
 	~dev-rust/cc-1.0.25:=
+	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/futures-0.3*:=
 	~dev-rust/getopts-0.2.18:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
