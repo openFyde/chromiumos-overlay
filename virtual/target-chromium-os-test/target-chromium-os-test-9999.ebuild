@@ -251,6 +251,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	net-misc/iputils
 	net-misc/openssh
 	net-misc/radvd
+	net-proxy/tinyproxy
 	wifi_hostap_test? ( net-wireless/hostap-test )
 	sci-geosciences/gpsd
 	sys-apps/coreutils
