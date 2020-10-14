@@ -20,14 +20,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 # DOWNLOADABLE_MODELS if they are downloaded via component updater (downloadable
 # models).
 MODELS_TO_INSTALL=(
-	"gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711.fb"
 )
 
 DOWNLOADABLE_MODELS=(

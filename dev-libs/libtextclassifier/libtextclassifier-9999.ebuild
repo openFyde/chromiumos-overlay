@@ -15,6 +15,13 @@ inherit cros-workon platform
 DESCRIPTION="Library for classifying text"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/libtextclassifier/"
 
+MODEL_URI=(
+	"gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711.fb"
+)
+
+SRC_URI="${MODEL_URI[*]}"
+
 LICENSE="Apache-2.0"
 SLOT="0/${PVR}"
 KEYWORDS="~*"
@@ -33,9 +40,16 @@ DEPEND="
 "
 
 src_install() {
+	# Installs the model files.
+	insinto /opt/google/chrome/ml_models
+	local model_files=( "${MODEL_URI[@]##*/}" )
+	local distfile_array=( "${model_files[@]/#/${DISTDIR}/}" )
+	doins "${distfile_array[@]}"
+
+	# Installs the library.
 	dolib.a "${OUT}/libtextclassifier.a"
 
-	# Install the header files to /usr/include/libtextclassifier/.
+	# Installs the header files to /usr/include/libtextclassifier/.
 	local header_files=(
 		"annotator/annotator.h"
 		"annotator/cached-features.h"
