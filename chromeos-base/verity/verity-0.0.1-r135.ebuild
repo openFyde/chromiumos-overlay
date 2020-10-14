@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3d3791b5628e546314f2dfec2cd8a954f6da1492"
-CROS_WORKON_TREE=("f8af72338aabb6766a39a3a323624a050d01d159" "cc6a9b2c7ed2e1621d92a4422db8b30beed861f7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a682599f4c01fcc5cc8f5bc5472b08a6b2009462"
+CROS_WORKON_TREE=("f8af72338aabb6766a39a3a323624a050d01d159" "5b0dfe231de96a19e51bbd8ce04685af77725d4f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,7 +28,7 @@ src_install() {
 	insinto /usr/include/verity
 	doins dm-bht.h dm-bht-userspace.h
 	cd include || die
-	doins -r linux asm asm-generic
+	doins -r asm-generic
 }
 
 platform_pkg_test() {
