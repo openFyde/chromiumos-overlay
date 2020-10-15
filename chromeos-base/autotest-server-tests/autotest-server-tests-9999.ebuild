@@ -324,7 +324,6 @@ SERVER_IUSE_TESTS="
 	+tests_provision_FirmwareUpdate
 	+tests_provision_QuickProvision
 	+tests_rlz_CheckPing
-	+tests_security_kASLR
 	+tests_sequences
 	+tests_servo_LabControlVerification
 	+tests_servo_LabstationVerification
