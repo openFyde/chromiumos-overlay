@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="3ebdbb560c3b41d2405324e7550fe250b36b9451"
-CROS_WORKON_TREE="6430c4d08950fa89c7b6feafd539ccd60773a867"
+CROS_WORKON_COMMIT="a6003ee782ec72bea6ec7158023afbfc0546f4c6"
+CROS_WORKON_TREE="11dcd3e49bc3ef1ff2d5d8e73f1c527fde33c014"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -129,7 +129,6 @@ IUSE_TESTS=(
 	+tests_policy_CookiesBlockedForUrls
 	+tests_policy_CookiesSessionOnlyForUrls
 	+tests_policy_DefaultGeolocationSetting
-	+tests_policy_DefaultImagesSetting
 	+tests_policy_DefaultJavaScriptSetting
 	+tests_policy_DefaultNotificationsSetting
 	+tests_policy_DefaultSearchProvider
@@ -157,8 +156,6 @@ IUSE_TESTS=(
 	+tests_policy_ForceYouTubeRestrict
 	+tests_policy_ForceYouTubeSafetyMode
 	+tests_policy_HomepageLocation
-	+tests_policy_ImagesAllowedForUrls
-	+tests_policy_ImagesBlockedForUrls
 	+tests_policy_JavaScriptAllowedForUrls
 	+tests_policy_JavaScriptBlockedForUrls
 	+tests_policy_KeyboardDefaultToFunctionKeys
@@ -166,7 +163,6 @@ IUSE_TESTS=(
 	+tests_policy_KioskModeEnabled
 	+tests_policy_ManagedBookmarks
 	+tests_policy_NativePrintersBulkAccessMode
-	+tests_policy_NewTabPageLocation
 	+tests_policy_NotificationsAllowedForUrls
 	+tests_policy_NotificationsBlockedForUrls
 	+tests_policy_PinnedLauncherApps
@@ -174,24 +170,12 @@ IUSE_TESTS=(
 	+tests_policy_PluginsAllowedForUrls
 	+tests_policy_PluginsBlockedForUrls
 	+tests_policy_PolicyRefreshRate
-	+tests_policy_PopupsAllowedForUrls
-	+tests_policy_PopupsBlockedForUrls
 	+tests_policy_PowerManagementIdleSettings
 	+tests_policy_PrintingEnabled
-	+tests_policy_PromptForDownloadLocation
 	+tests_policy_ProxySettings
 	+tests_policy_ReportUploadFrequency
 	+tests_policy_RestoreOnStartupURLs
-	+tests_policy_SafeBrowsingEnabled
-	+tests_policy_SavingBrowserHistoryDisabled
-	+tests_policy_ScreenBrightnessPercent
-	+tests_policy_SearchSuggestEnabled
-	+tests_policy_SecondaryGoogleAccountSigninAllowed
-	+tests_policy_ShowLogoutButtonInTray
-	+tests_policy_ShowHomeButton
 	+tests_policy_SystemTimezone
-	+tests_policy_TranslateEnabled
-	+tests_policy_UserNativePrintersAllowed
 	+tests_policy_VirtualMachinesAllowed
 	+tests_policy_WilcoOnNonWilcoDevice
 	+tests_policy_WilcoUSBPowershare
