@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("7da35ee4d8a694f2b735828f27343bbcaae9cd32" "61f833030a58b18a64f513b5841c571e501f05c5")
-CROS_WORKON_TREE=("f8af72338aabb6766a39a3a323624a050d01d159" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "994568e085537c731130706a35306a1771e66f8a")
+CROS_WORKON_COMMIT=("0ec5ce335710bbe4848d85bea5304556796c599b" "2e1102359eeaaa29af3468d5a108fcb1022e4a10")
+CROS_WORKON_TREE=("f8af72338aabb6766a39a3a323624a050d01d159" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6845c3f2891e75c8dd2e4f9cbf9b048183c5d3cb")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
@@ -27,7 +27,9 @@ PLATFORM_SUBDIR="libchrome"
 # TODO(avakulenko): Put dev-libs/nss behind a USE flag to make sure NSS is
 # pulled only into the configurations that require it.
 # TODO(fqj): remove !chromeos-base/libchrome-${BASE_VER} on next uprev to r680000.
-RDEPEND="dev-libs/glib:2=
+RDEPEND="
+	dev-libs/double-conversion:=
+	dev-libs/glib:2=
 	dev-libs/libevent:=
 	dev-libs/modp_b64:=
 	crypto? (
@@ -77,7 +79,7 @@ src_prepare() {
 
 	# Apply patches
 	while read -r patch; do
-		epatch "${S}/libchrome_tools/patches/${patch}"
+		epatch "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
 }
 
@@ -134,7 +136,8 @@ src_install() {
 	insinto /usr/include/base-"${BASE_VER}"/base/test
 	doins \
 		base/test/bind_test_util.h \
-		base/test/scoped_task_environment.h \
+		base/test/task_environment.h \
+		base/test/scoped_run_loop_timeout.h \
 		base/test/simple_test_clock.h \
 		base/test/simple_test_tick_clock.h \
 		base/test/task_environment.h \
@@ -200,6 +203,7 @@ src_install() {
 		# TODO(hidehiko): Clean up tools' install directory.
 		insinto /usr/src/libmojo-"${BASE_VER}"/mojo
 		doins -r mojo/public/tools/bindings/*
+		doins -r mojo/public/tools/mojom/*
 		doins build/gn_helpers.py
 		doins -r build/android/gyp/util
 		doins -r build/android/pylib
@@ -214,7 +218,8 @@ src_install() {
 		# Mark scripts executable.
 		fperms +x \
 			/usr/src/libmojo-"${BASE_VER}"/mojo/generate_type_mappings.py \
-			/usr/src/libmojo-"${BASE_VER}"/mojo/mojom_bindings_generator.py
+			/usr/src/libmojo-"${BASE_VER}"/mojo/mojom_bindings_generator.py \
+			/usr/src/libmojo-"${BASE_VER}"/mojo/mojom_parser.py
 	fi
 
 	# Install header files.
@@ -234,11 +239,12 @@ src_install() {
 		# doins "${OUT}"/gen/include/"${d}"/*.p
 	done
 
+	# TODO(fqj): Revisit later for type mapping (see libchrome/BUILD.gn)
 	# Install libchrome base type mojo mapping
-	if use mojo; then
-		insinto /usr/share/libchrome/mojom_type_mappings_typemapping
-		doins "${OUT}"/gen/libchrome/mojom_type_mappings_typemapping
-	fi
+	# if use mojo; then
+		# insinto /usr/share/libchrome/mojom_type_mappings_typemapping
+		# doins "${OUT}"/gen/libchrome/mojom_type_mappings_typemapping
+	# fi
 
 	insinto /usr/share/libchrome
 	doins BASE_VER
