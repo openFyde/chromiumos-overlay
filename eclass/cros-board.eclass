@@ -210,6 +210,7 @@ ALL_BOARDS=(
 	hatch
 	hatch-arc-r
 	hatch-arc-r-ack
+	hatch-arc-r-signed
 	hatch-arc-r-userdebug
 	hatch-arc-s
 	hatch-blueznext
@@ -246,6 +247,7 @@ ALL_BOARDS=(
 	klang
 	kukui
 	kukui-arc-r
+	kukui-arc-r-signed
 	kukui-arc64
 	kumo
 	kunimitsu
