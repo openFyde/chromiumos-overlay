@@ -36,7 +36,7 @@ DEPEND="${RDEPEND}
 src_install() {
 	dosbin "${OUT}/dlcservice"
 	# Technically we don't need the dlcservice_util in rootfs, but the QA team
-	# will need this to test with dummy-dlc.
+	# will need this to test with sample-dlc.
 	dobin "${OUT}/dlcservice_util"
 
 	# Seccomp policy files.

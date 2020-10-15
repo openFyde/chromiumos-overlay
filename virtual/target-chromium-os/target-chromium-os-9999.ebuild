@@ -167,7 +167,7 @@ RDEPEND="
 	compupdates? ( chromeos-base/imageloader )
 	dlc? ( chromeos-base/dlcservice )
 	dlc_test? (
-		chromeos-base/dummy-dlc
+		chromeos-base/sample-dlc
 		chromeos-base/test-dlc
 	)
 	bluetooth? ( chromeos-base/bluetooth )
