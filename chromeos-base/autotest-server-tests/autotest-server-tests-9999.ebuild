@@ -56,7 +56,6 @@ SERVER_IUSE_TESTS="
 	+tests_audio_MediaBasicVerification
 	+tests_audio_PowerConsumption
 	+tests_audiovideo_AVSync
-	+tests_autotest_SyncCount
 	+tests_autoupdate_Basic
 	+tests_autoupdate_CatchBadSignatures
 	+tests_autoupdate_Cellular
