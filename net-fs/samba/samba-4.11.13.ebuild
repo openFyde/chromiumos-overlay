@@ -140,6 +140,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.13-vfs_snapper_configure_option.patch"
 
 	"${FILESDIR}/${PN}-4.11-async-dns-lookup.patch"
+	"${FILESDIR}/${PN}-4.11-async-krb5-locator-plugin.patch"
 
 	"${FILESDIR}/${PN}-4.11.13-machinepass_stdin.patch"
 	"${FILESDIR}/${PN}-4.11.13-machinepass_expire.patch"
@@ -260,6 +261,10 @@ multilib_src_install() {
 
 	# Make all .so files executable
 	find "${ED}" -type f -name "*.so" -exec chmod +x {} + || die
+
+	# Install async dns plugin to custom plugin directory, so only selected services can use it.
+	insinto "/usr/$(get_libdir)/krb5/locator_plugin/libkrb5/"
+	newins bin/default/nsswitch/libasync-dns-krb5-locator.inst.so libasync-dns-krb5-locator.so
 
 	if multilib_is_native_abi ; then
 		# install ldap schema for server (bug #491002)
