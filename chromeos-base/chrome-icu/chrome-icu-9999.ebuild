@@ -253,23 +253,6 @@ set_build_args() {
 	BUILD_ARGS+=( "use_goma=false" )
 
 	# [Mod] chrome_debug and debug_fission configurations are removed.
-
-	# With ThinLTO, the linking landscape is very different than regular
-	# linking. Some links (e.g., Chrome) can be very heavy and require
-	# 40GB+ of RAM. Since we don't use ThinLTO's cache (crbug.com/964328),
-	# heavy links are always going to be heavy, so it's faster to give them
-	# ${ncpu} each and only have 1 happening at once.
-	if use thinlto; then
-		local thinlto_link_job_count
-
-		if thinlto_link_job_count="$(grep -c ^processor /proc/cpuinfo)"; then
-			BUILD_ARGS+=(
-				"max_jobs_per_link=${thinlto_link_job_count}"
-				"concurrent_links=1"
-			)
-		fi
-
-	fi
 }
 
 # [Mod] Main content of unpack_chrome() is replaced by the unpack function in
