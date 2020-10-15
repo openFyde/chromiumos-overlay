@@ -99,7 +99,7 @@ platform_pkg_test() {
 		notificationd_test
 	)
 
-	if use vm-containers; then
+	if use vm-containers || use vm_borealis; then
 		tests+=( "${container_tests[@]}" )
 	fi
 
