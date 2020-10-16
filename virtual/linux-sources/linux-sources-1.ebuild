@@ -27,7 +27,8 @@ IUSE_KERNEL_VERS=(
 	kernel-upstream-next
 )
 IUSE="${IUSE_KERNEL_VERS[*]}"
-REQUIRED_USE="?? ( ${IUSE_KERNEL_VERS[*]} )"
+# exactly one of foo, bar, or baz must be set, but not several
+REQUIRED_USE="^^ ( ${IUSE_KERNEL_VERS[*]} )"
 
 RDEPEND="
 	kernel-3_8? ( sys-kernel/chromeos-kernel-3_8 )
@@ -53,6 +54,7 @@ RDEPEND+="
 "
 
 # Default to the latest kernel if none has been selected.
+# TODO: This defaulting does not work. Fix or remove.
 RDEPEND_DEFAULT="sys-kernel/chromeos-kernel-5_4"
 # Here be dragons!
 RDEPEND+="
