@@ -59,7 +59,7 @@ do_osrelease_field() {
 dometricsproductid() {
 	[[ $# -eq 1 && -n $1 ]] || die "Usage: ${FUNCNAME} <product_id>"
 	local product_id="$1"
-	isdigit "${product_id}" || die "The product id must be a number."
+	[[ -z ${product_id//[0-9]} ]] || die "The product id must be a number."
 
 	do_osrelease_field "GOOGLE_METRICS_PRODUCT_ID" "${product_id}"
 }
