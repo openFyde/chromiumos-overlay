@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="7f6639a5cccb5e3a1b937291e713e6d41bb751d4"
-CROS_WORKON_TREE="9b39634e829b9fd2b4a0d6ce72f63a1374f9be6e"
+CROS_WORKON_COMMIT="0b57847fd8dc549cefc1fc7997483b5e67197f87"
+CROS_WORKON_TREE="61cc44054766b1cb6ea533956212cc9cacdfad88"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -185,18 +185,23 @@ doins_if_exist() {
 }
 
 src_install() {
-	# Bitmaps need to reside in the RO CBFS only. Many boards do
-	# not have enough space in the RW CBFS regions to contain
-	# all image files.
+	# Most bitmaps need to reside in the RO CBFS only. Many boards do
+	# not have enough space in the RW CBFS regions to contain all
+	# image files.
 	insinto /firmware/cbfs-ro-compress
 	# These files aren't necessary for debug builds. When these files
 	# are missing, Depthcharge will render text-only screens. They look
 	# obviously not ready for release.
 	doins_if_exist "${WORKDIR}/${BOARD}"/vbgfx.bin
 	doins_if_exist "${WORKDIR}/${BOARD}"/locales
-	doins_if_exist "${WORKDIR}/${BOARD}"/locale_*.bin
+	doins_if_exist "${WORKDIR}/${BOARD}"/locale/ro/locale_*.bin
 	doins_if_exist "${WORKDIR}/${BOARD}"/font.bin
 	# This flag tells the firmware_Bmpblk test to flag this build as
 	# not ready for release.
 	doins_if_exist "${WORKDIR}/${BOARD}"/vbgfx_not_scaled
+
+	# However, if specific bitmaps need to be updated via RW update,
+	# we should also install here.
+	insinto /firmware/cbfs-rw-compress-override
+	doins_if_exist "${WORKDIR}/${BOARD}"/locale/rw/rw_locale_*.bin
 }
