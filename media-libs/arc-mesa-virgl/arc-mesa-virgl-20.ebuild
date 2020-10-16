@@ -416,7 +416,7 @@ multilib_src_install_all_cheets() {
 		fi
 	fi
 
-	if use android_vulkan_compute_0 && ! use android-container-nyc; then
+	if use android_vulkan_compute_0; then
 		einfo "Using android vulkan_compute_0."
 		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
 		doins "${FILESDIR}/android.hardware.vulkan.compute-0.xml"
