@@ -18,8 +18,18 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="doc ipu3 rkisp1 test udev"
 
-RDEPEND="udev? ( virtual/libudev )"
-DEPEND="${RDEPEND}"
+RDEPEND="
+	media-libs/libjpeg-turbo
+	media-libs/libexif
+	>=net-libs/gnutls-3.3:=
+	udev? ( virtual/libudev )
+"
+
+DEPEND="
+	${RDEPEND}
+	dev-libs/openssl
+	>=dev-python/pyyaml-3:=
+"
 
 src_configure() {
 	local pipelines=(
@@ -35,8 +45,8 @@ src_configure() {
 	BUILD_DIR="$(cros-workon_get_build_dir)"
 
 	local emesonargs=(
-		$(meson_use doc documentation)
 		$(meson_use test)
+		$(meson_feature doc documentation)
 		-Dandroid="enabled"
 		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
 	)
