@@ -8,5 +8,5 @@ KEYWORDS=*
 LICENSE=BSD
 SLOT=0
 SRC_URI=https://github.com/jedisct1/Blogbench/archive/d000aaf9390100bb3024e6b4aed9d945256259d5.tar.gz -> blogbench-1.1.20200218.tar.gz
-_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
 _md5_=82271049425d7ff83d1ea8448a10c7fe

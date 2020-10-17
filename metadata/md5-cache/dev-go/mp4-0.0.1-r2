@@ -8,5 +8,5 @@ LICENSE=MIT
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/abema/go-mp4/archive/9f0321600240dd93cb681da2d8d5adbfd87913a6.tar.gz -> github.com-abema-go-mp4-9f0321600240dd93cb681da2d8d5adbfd87913a6.tar.gz
-_eclasses_=cros-go	157c7bac0e032e424ec1c3316c127db8	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_eclasses_=cros-go	157c7bac0e032e424ec1c3316c127db8	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
 _md5_=fb923985c1a51d04ef37bf2320ff0a3d

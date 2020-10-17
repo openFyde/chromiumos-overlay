@@ -9,5 +9,5 @@ LICENSE=BSD
 RDEPEND=dev-libs/c-tap-harness dev-libs/openssl
 SLOT=0
 SRC_URI=https://github.com/pjd/pjdfstest/archive/ee51841e0d99d25ab18027770f6b6f0596a07574.tar.gz -> pjdfstest-20190822.tar.gz
-_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	06133990e861be0fe60c2b428fd025d9	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
 _md5_=8f551a499ab6c7e48997a9501269ac1a
