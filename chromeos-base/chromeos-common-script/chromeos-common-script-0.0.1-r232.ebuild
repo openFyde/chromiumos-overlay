@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="10cb5439e0fb4c84150942916eade924c6d72719"
+CROS_WORKON_COMMIT="85da38aa3031bc2bdae26753e20f1bf2013b56e2"
 CROS_WORKON_TREE=("dd4323fe3640909500f29f7acde8c0868024c48a" "a1b78a4c1c2f7db9105d4c4f7a631c352a043cd6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,9 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="direncryption fsverity"
+IUSE="direncryption fsverity kernel-3_18 kernel-4_4 prjquota"
+
+REQUIRED_USE="prjquota? ( !kernel-4_4 !kernel-3_18 )"
 
 DEPEND=""
 
@@ -39,5 +41,10 @@ src_install() {
 		sed -i '/local fsverity_enabled=/s/false/true/' \
 			"${D}/usr/share/misc/chromeos-common.sh" ||
 			die "Can not set fs-verity in common library"
+	fi
+	if use prjquota; then
+		sed -i '/local prjquota_enabled=/s/false/true/' \
+			"${D}/usr/share/misc/chromeos-common.sh" ||
+			die "Can not set project quota in common library"
 	fi
 }
