@@ -67,6 +67,8 @@ src_prepare() {
 	# TODO(jshin): Evaluate the impact of disabling stem-darkening.
 	epatch "${FILESDIR}"/${PN}-2.6.2-enable-cff-stem-darkening.patch
 
+	epatch "${FILESDIR}"/${PN}-2.9-pngshim-bitmap-overflow.patch
+
 	# Will be the new default for >=freetype-2.7.0
 
 	if use infinality && use cleartype_hinting; then
