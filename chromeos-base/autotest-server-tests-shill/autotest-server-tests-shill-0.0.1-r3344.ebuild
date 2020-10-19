@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="4"
-CROS_WORKON_COMMIT="e6bf02f5a7526c17d622002a38995176adcdb505"
-CROS_WORKON_TREE="9382bc09b1829aa41f64db30ade9844d78c24c65"
+CROS_WORKON_COMMIT="95be77c7470c1e54917d1264b11022e942a1cb5b"
+CROS_WORKON_TREE="5c55b76d75045be96df791aa9791cafc0461b8e3"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -73,7 +73,6 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_RoamDbus
 	+tests_network_WiFi_RoamFT
 	+tests_network_WiFi_RoamSuspendTimeout
-	+tests_network_WiFi_ScanPerformance
 	+tests_network_WiFi_SecChange
 	+tests_network_WiFi_SetOptionalDhcpProperties
 	+tests_network_WiFi_SimpleConnect
