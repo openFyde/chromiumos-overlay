@@ -10,5 +10,6 @@ LICENSE=Apache-2.0
 PROPERTIES=live live
 RDEPEND=chromeos-base/chrome-icu:= dev-libs/flatbuffers:= sci-libs/tensorflow:= sys-libs/zlib:= >=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:=
 SLOT=0/9999
+SRC_URI=gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711.fb
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	7db5b03b7ca5337406c3d24a0e096e9c	libchrome-version	f89118941e7f3c3825d2fe216c977c57	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	platform	cd60a3aa853d28001988f2b07bf2e56c	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=ed32c0255a6bcac54bd35d547f6eeb4d
+_md5_=948fb4d4dbc73f8f0004025bb53b8bf6
