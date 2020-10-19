@@ -49,8 +49,6 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins dbus_service/org.chromium.ImageLoader.service
 	insinto /etc/init
-	# TODO(kerrnel): Remove pepper-flash-player.conf.
-	doins init/pepper-flash-player.conf
 	doins init/imageloader.conf
 	doins init/imageloader-shutdown.conf
 
