@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("10cb5439e0fb4c84150942916eade924c6d72719" "ecd17cc57afaa19571a371cfd9aef3f868004835")
+CROS_WORKON_COMMIT=("3f99ff1b6c4e11ad6d7cac319f36fd6a58dfb1e6" "ecd17cc57afaa19571a371cfd9aef3f868004835")
 CROS_WORKON_TREE=("dd4323fe3640909500f29f7acde8c0868024c48a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b45c8cb8e1de873b9fa5439b1bd58317793b57b1")
 CROS_WORKON_LOCALNAME=("../platform2" "libtextclassifier")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/libtextclassifier")
@@ -16,6 +16,13 @@ inherit cros-workon platform
 
 DESCRIPTION="Library for classifying text"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/libtextclassifier/"
+
+MODEL_URI=(
+	"gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711.fb"
+)
+
+SRC_URI="${MODEL_URI[*]}"
 
 LICENSE="Apache-2.0"
 SLOT="0/${PVR}"
@@ -35,9 +42,16 @@ DEPEND="
 "
 
 src_install() {
+	# Installs the model files.
+	insinto /opt/google/chrome/ml_models
+	local model_files=( "${MODEL_URI[@]##*/}" )
+	local distfile_array=( "${model_files[@]/#/${DISTDIR}/}" )
+	doins "${distfile_array[@]}"
+
+	# Installs the library.
 	dolib.a "${OUT}/libtextclassifier.a"
 
-	# Install the header files to /usr/include/libtextclassifier/.
+	# Installs the header files to /usr/include/libtextclassifier/.
 	local header_files=(
 		"annotator/annotator.h"
 		"annotator/cached-features.h"

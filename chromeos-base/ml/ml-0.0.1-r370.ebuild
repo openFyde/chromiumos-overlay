@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="10cb5439e0fb4c84150942916eade924c6d72719"
-CROS_WORKON_TREE=("dd4323fe3640909500f29f7acde8c0868024c48a" "654e85a9d9e948a34ed6afbabc14ae705e0a14bc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3f99ff1b6c4e11ad6d7cac319f36fd6a58dfb1e6"
+CROS_WORKON_TREE=("dd4323fe3640909500f29f7acde8c0868024c48a" "5dbd8e64453d7ccb23fdcd3bab664152450d1f70" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
@@ -22,14 +22,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 # DOWNLOADABLE_MODELS if they are downloaded via component updater (downloadable
 # models).
 MODELS_TO_INSTALL=(
-	"gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-top_cat-20190722.tflite"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711.fb"
 )
 
 DOWNLOADABLE_MODELS=(
