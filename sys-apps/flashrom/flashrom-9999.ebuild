@@ -19,7 +19,7 @@ IUSE="+atahpt +bitbang_spi +buspirate_spi dediprog +drkaiser
 +dummy +fdtmap +ft2232_spi +gfxnvidia +internal +linux_mtd +linux_spi
 +lspcon_i2c_spi +nic3com +nicintel +nicintel_spi +nicnatsemi
 +nicrealtek +ogp_spi +raiden_debug_spi +rayer_spi +realtek_mst_i2c_spi
-+satasii +satamv +serprog +mec1308 tatic +wiki"
++satasii +satamv +serprog +mec1308 +ene_lpc static +wiki"
 
 LIB_DEPEND="atahpt? ( sys-apps/pciutils[static-libs(+)] )
 	dediprog? ( virtual/libusb:0[static-libs(+)] )
@@ -65,7 +65,7 @@ src_compile() {
 		nic3com nicintel nicintel_spi nicnatsemi nicrealtek ogp_spi \
 		raiden_debug_spi rayer_spi realtek_mst_i2c_spi satasii satamv \
 		serprog internal dummy \
-		mec1308
+		mec1308 ene_lpc
 	_flashrom_enable wiki PRINT_WIKI
 
 	# You have to specify at least one programmer, and if you specify more than
