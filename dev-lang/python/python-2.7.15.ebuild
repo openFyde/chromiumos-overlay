@@ -149,7 +149,7 @@ src_prepare() {
 	epatch "${FILESDIR}/python-2.7.10-cross-compile-warn-test.patch"
 	epatch "${FILESDIR}/python-2.7.10-system-libffi.patch"
 	epatch "${FILESDIR}/python-2.7.15-sigint-handler.patch"
-
+	epatch "${FILESDIR}/python-2.7.15-no-override-system-CC.patch"
 	epatch_user
 
 	sed -i -e "s:@@GENTOO_LIBDIR@@:$(get_libdir):g" \
