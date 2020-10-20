@@ -32,12 +32,13 @@ HOMEPAGE="http://mosys.googlecode.com/"
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="generated_cros_config unibuild"
+IUSE="generated_cros_config unibuild vpd_file_cache"
 
 RDEPEND="unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
+	vpd_file_cache? ( chromeos-base/vpd )
 	dev-util/cmocka
 	>=sys-apps/flashmap-0.3-r4
 	chromeos-base/minijail"
@@ -53,6 +54,7 @@ src_configure() {
 	local platform_intf=""
 	local emesonargs=(
 		$(meson_use unibuild use_cros_config)
+		"$(meson_use vpd_file_cache use_vpd_file_cache)"
 		-Darch=$(tc-arch)
 	)
 
