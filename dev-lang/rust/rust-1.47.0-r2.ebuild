@@ -22,19 +22,13 @@ else
 fi
 
 
-STAGE0_VERSION="1.46.0"
-STAGE0_VERSION_CARGO="0.47.0"
-STAGE0_DATE="2020-08-27"
-RUST_STAGE0_amd64="rustc-${STAGE0_VERSION}-x86_64-unknown-linux-gnu"
+BOOTSTRAP_VERSION="1.46.0"
+RUST_BOOTSTRAP_amd64="rustc-${BOOTSTRAP_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
 HOMEPAGE="http://www.rust-lang.org/"
 
-SRC_URI="https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz
-	https://static.rust-lang.org/dist/${STAGE0_DATE}/rust-std-${STAGE0_VERSION}-x86_64-unknown-linux-gnu.tar.gz
-	https://static.rust-lang.org/dist/${RUST_STAGE0_amd64}.tar.gz
-	https://static.rust-lang.org/dist/cargo-${STAGE0_VERSION_CARGO}-x86_64-unknown-linux-gnu.tar.gz
-"
+SRC_URI="https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz"
 
 LICENSE="|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA"
 
@@ -46,6 +40,7 @@ DEPEND="${PYTHON_DEPS}
 	>=dev-lang/perl-5.0
 "
 
+BDEPEND="=dev-lang/rust-bootstrap-${BOOTSTRAP_VERSION}"
 RDEPEND="!dev-util/cargo"
 
 PATCHES=(
@@ -94,12 +89,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	local stagename="RUST_STAGE0_${ARCH}"
-	local stage0="${!stagename}"
-
-	cp -r "${WORKDIR}"/rust-std-${STAGE0_VERSION}-x86_64-unknown-linux-gnu/rust-std-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu \
-		"${WORKDIR}"/${stage0}/rustc/lib/rustlib || die
-
 	# Copy "unknown" vendor targets to create cros_sdk target triple
 	# variants as referred to in 0001-add-cros-targets.patch and RUSTC_TARGET_TRIPLES.
 	# armv7a is treated specially because the cros toolchain differs in
@@ -139,9 +128,6 @@ src_prepare() {
 }
 
 src_configure() {
-	local stagename="RUST_STAGE0_${ARCH}"
-	local stage0="${!stagename}"
-
 	local targets=""
 	local tt
 	for tt in "${RUSTC_TARGET_TRIPLES[@]}" "${RUSTC_BARE_TARGET_TRIPLES[@]}" ; do
@@ -152,8 +138,8 @@ src_configure() {
 	cat > "${config}" <<EOF
 [build]
 target = [${targets}]
-cargo = "${WORKDIR}/cargo-${STAGE0_VERSION_CARGO}-x86_64-unknown-linux-gnu/cargo/bin/cargo"
-rustc = "${WORKDIR}/${stage0}/rustc/bin/rustc"
+cargo = "/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/cargo"
+rustc = "/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/rustc"
 docs = false
 submodules = false
 python = "${EPYTHON}"
@@ -191,6 +177,11 @@ EOF
 
 src_compile() {
 	${EPYTHON} x.py build --stage 2 --config cros-config.toml || die
+
+	# Remove the src/rust symlink which will be dangling after sources are
+	# removed, and the containing src directory.
+	rm "${S}/build/x86_64-unknown-linux-gnu/stage2/lib/rustlib/src/rust" || die
+	rmdir "${S}/build/x86_64-unknown-linux-gnu/stage2/lib/rustlib/src" || die
 }
 
 src_install() {
