@@ -5,15 +5,11 @@
 		<email>perfinion@gentoo.org</email>
 		<name>Jason Zaman</name>
 	</maintainer>
-	<longdescription lang="en">
-		An open source machine learning framework for everyone
-	</longdescription>
 	<use>
 		<flag name="cuda">Enable support for nVidia CUDA</flag>
-		<flag name="mpi">Enable support for MPI</flag>
-		<flag name="jemalloc">Enable support for <pkg>dev-libs/jemalloc</pkg></flag>
 		<flag name="python">Build the TensorFlow Python library</flag>
 		<flag name="minimal">Build TensorFlow lite only</flag>
+		<flag name="xla">XLA (Accelerated Linear Algebra) Optimizing Compiler for TensorFlow</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">tensorflow/tensorflow</remote-id>
