@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="44c10a73469819554d8081ae3e3657bd91285b85"
-CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "b5506183f669d3ac351bc7584751f332a238c6e8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7ba5b2e8d3e034f726368c426f551b900d6c5434"
+CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "ac093c7fa730037e2fc669a2d1df467d0c602431" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 inherit cros-constants
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
@@ -22,15 +22,20 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/data
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="+seccomp"
+IUSE="+seccomp selinux"
 
 RDEPEND="
+	chromeos-base/bootlockbox-client:=
 	chromeos-base/minijail:=
 "
 
 DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api:=
+	dev-libs/protobuf:=
+	selinux? (
+		sys-libs/libselinux:=
+	)
 "
 
 src_install() {

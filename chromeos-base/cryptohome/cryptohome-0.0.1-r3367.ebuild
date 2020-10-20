@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="44c10a73469819554d8081ae3e3657bd91285b85"
-CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "f364b7999079fe4530ede9c3a9f5811872e7c257" "59ded4c8a6ec924cce82ba942070e51132ca1161" "6b6ef5508fa314869c1fa0c0847a11651143f224" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7ba5b2e8d3e034f726368c426f551b900d6c5434"
+CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "5e08af3e9bc0536f294f5e35cd171ed499277f99" "59ded4c8a6ec924cce82ba942070e51132ca1161" "6b6ef5508fa314869c1fa0c0847a11651143f224" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -47,6 +47,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/attestation:=
 	chromeos-base/biod_proxy:=
+	chromeos-base/bootlockbox-client:=
 	chromeos-base/cbor:=
 	chromeos-base/chaps:=
 	chromeos-base/chromeos-config-tools:=
@@ -74,7 +75,6 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	tpm2? ( chromeos-base/trunks:=[test?] )
 	chromeos-base/attestation-client:=
-	chromeos-base/bootlockbox-client:=
 	chromeos-base/cryptohome-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/protofiles:=
