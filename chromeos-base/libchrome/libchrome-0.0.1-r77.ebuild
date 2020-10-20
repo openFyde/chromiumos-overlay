@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("44c10a73469819554d8081ae3e3657bd91285b85" "c0ab005e51f529c431a4238bdd36232ab39688dc")
-CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d3daac451c8dc1ee146810650e672db1a2f152a2")
+CROS_WORKON_COMMIT=("66e1a347711b3e92d054962e771fc8252d1900a5" "ac41c31f4ada1da50cbefde8584283af580c6277")
+CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "3ca88282c70c12ae097c75a4813fa55b9411a05d")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
@@ -90,8 +90,18 @@ src_configure() {
 
 src_install() {
 	export BASE_VER="$(cat BASE_VER)"
-	dolib.so "${OUT}"/lib/libbase*-"${BASE_VER}".so
-	dolib.a "${OUT}"/libbase*-"${BASE_VER}".a
+	dolib.so "${OUT}"/lib/libbase*.so
+	pushd "${OUT}/lib" || die
+	for sofile in libbase*.so; do
+		dosym "${sofile}" "/usr/$(get_libdir)/${sofile%.so}-${BASE_VER}.so"
+	done
+	popd || die
+	dolib.a "${OUT}"/libbase*.a
+	pushd "${OUT}" || die
+	for afile in libbase*.a; do
+		dosym "${afile}" "/usr/$(get_libdir)/${afile%.a}-${BASE_VER}.a"
+	done
+	popd || die
 
 	local mojom_dirs=()
 	local header_dirs=(
@@ -170,12 +180,18 @@ src_install() {
 	fi
 
 	insinto /usr/$(get_libdir)/pkgconfig
-	doins "${OUT}"/obj/libchrome/libchrome*-"${BASE_VER}".pc
+	doins "${OUT}"/obj/libchrome/libchrome*.pc
+	pushd "${OUT}"/obj/libchrome/ || die
+	for pcfile in libchrome*.pc; do
+		newins "${pcfile}" "${pcfile%.pc}-${BASE_VER}.pc"
+	done
+	popd || die
 
 	# Install libmojo.
 	if use mojo; then
 		# Install binary.
-		dolib.a "${OUT}"/libmojo-"${BASE_VER}".a
+		dolib.a "${OUT}"/libmojo.a
+		dosym libmojo.a "/usr/$(get_libdir)/libmojo-${BASE_VER}.a"
 
 		# Install headers.
 		header_dirs+=(
@@ -197,10 +213,12 @@ src_install() {
 
 		# Install libmojo.pc.
 		insinto /usr/$(get_libdir)/pkgconfig
-		doins "${OUT}"/obj/libchrome/libmojo-"${BASE_VER}".pc
+		doins "${OUT}"/obj/libchrome/libmojo.pc
+		newins "${OUT}"/obj/libchrome/libmojo.pc "libmojo-${BASE_VER}.pc"
 
 		# Install generate_mojom_bindings.
 		# TODO(hidehiko): Clean up tools' install directory.
+		# TODO(fqj): Use unversioned path.
 		insinto /usr/src/libmojo-"${BASE_VER}"/mojo
 		doins -r mojo/public/tools/bindings/*
 		doins -r mojo/public/tools/mojom/*
@@ -223,6 +241,7 @@ src_install() {
 	fi
 
 	# Install header files.
+	# TODO(fqj): Use unversioned path.
 	local d
 	for d in "${header_dirs[@]}" ; do
 		insinto /usr/include/base-"${BASE_VER}"/"${d}"
