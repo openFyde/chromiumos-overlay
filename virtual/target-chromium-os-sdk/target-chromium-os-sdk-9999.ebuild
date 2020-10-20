@@ -88,6 +88,7 @@ RDEPEND="${RDEPEND}
 	app-admin/sudo
 	app-crypt/efitools
 	app-crypt/sbsigntools
+	chromeos-base/zephyr-build-tools
 	dev-embedded/binman
 	dev-embedded/cbootimage
 	dev-embedded/tegrarcm
