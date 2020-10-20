@@ -91,6 +91,7 @@ platform_pkg_test() {
 		file_unittest
 		math_unittest
 		platform_unittest
+		vpd_unittest
 	)
 	local test_bin
 	for test_bin in "${tests[@]}"; do
