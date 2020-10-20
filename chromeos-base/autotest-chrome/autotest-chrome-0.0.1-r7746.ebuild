@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="5b9ab05e2a5761d0f84e25bdc2192345d7303eb9"
-CROS_WORKON_TREE="2f6d1bc31bf3d45fb40fb4bd98ad874ef2162e0c"
+CROS_WORKON_COMMIT="33e21e5e9b30e3d09ff39304a9db3a03eb45cbb4"
+CROS_WORKON_TREE="dc0bc5b301695214f86ef339285bbd3c6ddee977"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -60,7 +60,7 @@ IUSE_TESTS=(
 	+tests_autoupdate_UpdateFromUI
 	+tests_autoupdate_UserData
 	+tests_bluetooth_AdapterReboot
-	+tests_bluetooth_AdapterSanity
+	+tests_bluetooth_AdapterHealth
 	+tests_bluetooth_IDCheck
 	+tests_bluetooth_RegressionClient
 	+tests_bluetooth_TurnOnOffUI

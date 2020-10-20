@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="95056a4e6e01520b6f497b1039e2d30c50399944"
-CROS_WORKON_TREE="32db06a5a1e3a032145d8a05a0375ea448b98ce8"
+CROS_WORKON_COMMIT="33e21e5e9b30e3d09ff39304a9db3a03eb45cbb4"
+CROS_WORKON_TREE="dc0bc5b301695214f86ef339285bbd3c6ddee977"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -24,20 +24,21 @@ RDEPEND="
 "
 
 SERVER_IUSE_TESTS="
-	+tests_bluetooth_AdapterAdvSanity
-	+tests_bluetooth_AdapterAUSanity
-	+tests_bluetooth_AdapterCLSanity
+	+tests_bluetooth_AdapterAdvHealth
+	+tests_bluetooth_AdapterAudioLink
+	+tests_bluetooth_AdapterAUHealth
+	+tests_bluetooth_AdapterCLHealth
 	+tests_bluetooth_AdapterLEAdvertising
 	+tests_bluetooth_AdapterLEBetterTogether
-	+tests_bluetooth_AdapterLEHIDSanity
-	+tests_bluetooth_AdapterLESanity
-	+tests_bluetooth_AdapterMDSanity
+	+tests_bluetooth_AdapterLEHIDHealth
+	+tests_bluetooth_AdapterLEHealth
+	+tests_bluetooth_AdapterMDHealth
 	+tests_bluetooth_AdapterMTBF
 	+tests_bluetooth_AdapterPowerMeasure
-	+tests_bluetooth_AdapterQuickSanity
-	+tests_bluetooth_AdapterSASanity
+	+tests_bluetooth_AdapterQuickHealth
+	+tests_bluetooth_AdapterSAHealth
 	+tests_bluetooth_PeerUpdate
-	+tests_bluetooth_AdapterSRSanity
+	+tests_bluetooth_AdapterSRHealth
 "
 
 IUSE_TESTS="${IUSE_TESTS}
