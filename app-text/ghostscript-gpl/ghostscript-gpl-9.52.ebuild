@@ -59,8 +59,9 @@ DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
 "
 
+# We need urw-fonts for the 35 base postscript level 2 fonts,
+# eg CenturySchL-Roma is not included in the Noto fonts.
 RDEPEND="${COMMON_DEPEND}
-	!crosfonts? ( >=app-text/poppler-data-0.4.7 )
 	!crosfonts? ( >=media-fonts/urw-fonts-2.4.9 )
 	linguas_ja? ( media-fonts/kochi-substitute )
 	linguas_ko? ( media-fonts/baekmuk-fonts )
@@ -87,9 +88,7 @@ src_prepare() {
 	rm -r "${S}"/libpng || die
 	rm -r "${S}"/tiff || die
 	rm -r "${S}"/zlib || die
-	# remove internal CMaps (CMaps from poppler-data are used instead)
-	rm -r "${S}"/Resource/CMap || die
-	
+
 	# Enable compilation of select contributed drivers,
 	# but prune ones with incompatible or unclear licenses
 	# (c.f. commit 0334118d6279640cb860f2f4a9af64b0fd008b49).
@@ -111,9 +110,9 @@ src_prepare() {
 			-i "${S}"/base/unix-dll.mak || die "sed failed"
 	fi
 
-	if use crosfonts ; then
-		rm -rf "${S}/Resource/Font"
-		rm -rf "${S}/Resource/CIDFSubst"
+	if use crosfonts; then
+		rm -rf "${S}/Resource/Font" || die
+		cat "${FILESDIR}/Fontmap.cros" >> "${S}/Resource/Init/Fontmap.GS" || die
 	fi
 
 	# Force the include dirs to a neutral location.
@@ -148,14 +147,9 @@ src_configure() {
 
 	local FONTPATH
 	for path in \
-		"${EPREFIX}"/usr/share/fonts/urw-fonts \
-		"${EPREFIX}"/usr/share/fonts/Type1 \
-		"${EPREFIX}"/usr/share/fonts \
-		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-CNS1 \
-		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-GB1 \
-		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-Japan1 \
-		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-Japan2 \
-		"${EPREFIX}"/usr/share/poppler/cMap/Adobe-Korea1
+		/usr/share/fonts/urw-fonts \
+		/usr/share/fonts/Type1 \
+		/usr/share/fonts
 	do
 		FONTPATH="$FONTPATH${FONTPATH:+:}${EPREFIX}$path"
 	done
@@ -190,7 +184,7 @@ src_configure() {
 		--enable-freetype \
 		--enable-fontconfig \
 		--enable-openjpeg \
-		--disable-compile-inits \
+		$(use_enable crosfonts compile-inits) \
 		--with-drivers="$(printf %s, "${devices[@]}")" \
 		--with-fontpath="$FONTPATH" \
 		--with-ijs \
@@ -229,15 +223,7 @@ src_install() {
 	cd "${S}/ijs" || die
 	emake DESTDIR="${D}" install
 
-	# rename the original cidfmap to cidfmap.GS
-	mv "${ED}/usr/share/ghostscript/${PVM}/Resource/Init/cidfmap"{,.GS} || die
-
 	insinto /usr/share/ghostscript/${PVM}/Resource/Init
-
-	# install the CMaps from poppler-data properly, bug #409361
-	if ! use crosfonts; then
-		dosym ../../../poppler/cMaps "/usr/share/ghostscript/${PVM}/Resource/CMap"
-	fi
 
 	if ! use static-libs; then
 		find "${ED}" -name '*.la' -delete || die
@@ -247,7 +233,6 @@ src_install() {
 		rm -r "${ED}"/usr/share/man/de || die
 	fi
 
-	if use crosfonts; then
-		cat "${FILESDIR}"/Fontmap.cros >> "${ED}"/usr/share/ghostscript/${PVM}/Resource/Init/Fontmap.GS
-	fi
+	# set environment variables
+	doenvd "${FILESDIR}"/02ghostscript
 }
