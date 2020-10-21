@@ -51,7 +51,7 @@ src_install() {
 	dolib.so "${OUT}/lib/libcam_algo.so"
 
 	if use ipu6se; then
-		dolib.so "${OUT}/lib/libcam_gpu_algo.so"
+		dolib.so "${OUT}/lib/libcam_algo_vendor_gpu.so"
 	fi
 
 	udev_dorules "${FILESDIR}/50-ipu-psys0.rules"
