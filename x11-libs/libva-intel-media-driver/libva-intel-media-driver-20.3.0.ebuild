@@ -25,6 +25,7 @@ PATCHES=(
 	"${FILESDIR}"/0002-ENCODE-change-slice-header-prefix-for-AVC-Vdenc.patch
 	"${FILESDIR}"/0003-Explicitly-disable-media-compression.patch
 	"${FILESDIR}"/0004-Decode-Driver-will-derive-width-height_in_sbs_minus_.patch
+	"${FILESDIR}"/0005-Decode-Add-robustness-check-for-superresScaleDenomin.patch
 )
 
 src_configure() {
