@@ -11,7 +11,7 @@ DESCRIPTION="coreboot's depthcharge payload"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="~*"
-IUSE="detachable menu_ui legacy_menu_ui diag_payload fwconsole mocktpm pd_sync
+IUSE="detachable diag_payload fwconsole mocktpm pd_sync
 	unibuild verbose debug generated_cros_config +minidiag
 	physical_presence_power physical_presence_recovery"
 
@@ -101,7 +101,6 @@ make_depthcharge() {
 	if use detachable ; then
 		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
 	fi
-	echo "CONFIG_MENU_UI=y" >> "${defconfig}"
 
 	# Both diag_payload and minidiag need special UI.
 	if use diag_payload || use minidiag ; then
