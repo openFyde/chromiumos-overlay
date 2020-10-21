@@ -112,6 +112,7 @@ src_install() {
 	doins -r ../aosp/system/core/libutils/include/*
 	doins -r ../aosp/system/libbase/include/*
 	doins -r ../aosp/system/libfmq/include/*
+	doins -r ../aosp/system/libfmq/base/*
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
 	doins -r ../aosp/system/logging/liblog/include/*
