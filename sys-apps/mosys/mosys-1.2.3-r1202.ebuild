@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("44c10a73469819554d8081ae3e3657bd91285b85" "4621ee3eb07525f5e137db7517c647f00709dac4")
-CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "5bd2a282e1b994192e28f4b306bcb8bdc4a447a9")
+CROS_WORKON_COMMIT=("b4e642100a2f2fbe3a3017cd22004700248168b1" "2ba80623d3a8089573280cf9d74ad01cc6efbf30")
+CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "be8b53ad514616aca5d77352baf44a760428cd25")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"chromiumos/platform/mosys"
@@ -34,12 +34,13 @@ HOMEPAGE="http://mosys.googlecode.com/"
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="generated_cros_config unibuild"
+IUSE="generated_cros_config unibuild vpd_file_cache"
 
 RDEPEND="unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
+	vpd_file_cache? ( chromeos-base/vpd )
 	dev-util/cmocka
 	>=sys-apps/flashmap-0.3-r4
 	chromeos-base/minijail"
@@ -55,6 +56,7 @@ src_configure() {
 	local platform_intf=""
 	local emesonargs=(
 		$(meson_use unibuild use_cros_config)
+		"$(meson_use vpd_file_cache use_vpd_file_cache)"
 		-Darch=$(tc-arch)
 	)
 
@@ -91,6 +93,7 @@ platform_pkg_test() {
 		file_unittest
 		math_unittest
 		platform_unittest
+		vpd_unittest
 	)
 	local test_bin
 	for test_bin in "${tests[@]}"; do
