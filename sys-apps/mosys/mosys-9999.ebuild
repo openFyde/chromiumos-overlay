@@ -40,7 +40,6 @@ RDEPEND="unibuild? (
 	)
 	vpd_file_cache? ( chromeos-base/vpd )
 	dev-util/cmocka
-	>=sys-apps/flashmap-0.3-r4
 	chromeos-base/minijail"
 DEPEND="${RDEPEND}"
 
