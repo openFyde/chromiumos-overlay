@@ -22,6 +22,7 @@ RDEPEND="${DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-20.2.2_conditional_testing.patch
+	"${FILESDIR}"/0001-Fix-uninitialized-ExpectedQpitch-Warning-28.patch
 )
 
 multilib_src_configure() {
