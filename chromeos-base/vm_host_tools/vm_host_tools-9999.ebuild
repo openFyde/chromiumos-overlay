@@ -18,8 +18,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-# The crosvm-wl-dmabuf USE flag is used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco"
+# The crosvm-wl-dmabuf and crosvm-virtio-video USE flags
+# are used when preprocessing concierge source.
+IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video"
 REQUIRED_USE="kvm_host"
 
 COMMON_DEPEND="
