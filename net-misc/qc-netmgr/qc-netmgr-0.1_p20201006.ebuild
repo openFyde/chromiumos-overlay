@@ -25,6 +25,7 @@ S="${WORKDIR}/modem-data-manager"
 
 PATCHES=(
 	"${FILESDIR}"/0001-Fix-modem-configuration.patch
+	"${FILESDIR}"/0002-Fix-Makefile-to-add-to-LDFLAGS.patch
 )
 
 src_configure() {
