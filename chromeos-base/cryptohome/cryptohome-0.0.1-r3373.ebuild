@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bc3d19d3898a863aae2fb2d52fe374d0250fd3b"
-CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "87746d7ce966a66d34dc3c584ee9e15082f01dd1" "59ded4c8a6ec924cce82ba942070e51132ca1161" "6b6ef5508fa314869c1fa0c0847a11651143f224" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="71b34b00e040430d6f83560a618d2c1cb78eec45"
+CROS_WORKON_TREE=("a4ac7e852c3c0913e89f5edb694fd3ec3c9a3cc7" "a5f705bc3b52dea1b82adfb5a3d27a4e92b22b44" "59ded4c8a6ec924cce82ba942070e51132ca1161" "6b6ef5508fa314869c1fa0c0847a11651143f224" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -161,12 +161,9 @@ src_install() {
 	insinto /usr/share/policy
 	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
 
-	# Disable the kill switch if the use flag is on.
-	if use cryptohome_userdataauth_interface; then
-		sed -i 's/killswitch=on/killswitch=off/' \
-			"${D}/usr/libexec/cryptohome/shall-use-userdataauth.sh" ||
-			die "Can't disable kill switch in shall-use-userdataauth.sh"
-	fi
+	sed -i 's/killswitch=on/killswitch=off/' \
+		"${D}/usr/libexec/cryptohome/shall-use-userdataauth.sh" ||
+		die "Can't disable kill switch in shall-use-userdataauth.sh"
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
