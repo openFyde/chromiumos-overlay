@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("92eb897921bd9edb3d43d08b92a337c93f1837c5" "772d739ac180e1601d24c47e6f21bb5dcc81c11f")
-CROS_WORKON_TREE=("ce736d9f08fe2a2b47fe2c04a6c3f8f7690e9cae" "9c5061d36d45e8b7e6b91a165617242a57b37ba4")
+CROS_WORKON_COMMIT=("03646c7406c2a71b4994b23978f085e211f60c01" "772d739ac180e1601d24c47e6f21bb5dcc81c11f")
+CROS_WORKON_TREE=("ee52942ed908e0b46c4efe1cb0f1f0ac00ff8e8a" "9c5061d36d45e8b7e6b91a165617242a57b37ba4")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/depthcharge"
 	"chromiumos/platform/vboot_reference"
@@ -13,7 +13,7 @@ DESCRIPTION="coreboot's depthcharge payload"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
-IUSE="detachable menu_ui legacy_menu_ui diag_payload fwconsole mocktpm pd_sync
+IUSE="detachable diag_payload fwconsole mocktpm pd_sync
 	unibuild verbose debug generated_cros_config +minidiag
 	physical_presence_power physical_presence_recovery"
 
@@ -103,7 +103,6 @@ make_depthcharge() {
 	if use detachable ; then
 		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
 	fi
-	echo "CONFIG_MENU_UI=y" >> "${defconfig}"
 
 	# Both diag_payload and minidiag need special UI.
 	if use diag_payload || use minidiag ; then
