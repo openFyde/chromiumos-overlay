@@ -7,4 +7,4 @@
 # the package, and it prints a string on stdout with the numerical version
 # number for said repo.
 
-exec awk '$1 == "RELEASE" { print $NF }' "$1/Makefile"
+echo 0.9.9
