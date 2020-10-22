@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("3aa328e44839593b89e515c899945f2cf1621b54" "2ba80623d3a8089573280cf9d74ad01cc6efbf30")
-CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "be8b53ad514616aca5d77352baf44a760428cd25")
+CROS_WORKON_COMMIT=("23ab59decb7523a8511be34bbe17d1d27bf4229d" "df9917bf970b0cf6b3b738d9105e4372230c552d")
+CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "7fa672e810324331bb1b1fc49abd4ac1082fc38a")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"chromiumos/platform/mosys"
@@ -42,7 +42,6 @@ RDEPEND="unibuild? (
 	)
 	vpd_file_cache? ( chromeos-base/vpd )
 	dev-util/cmocka
-	>=sys-apps/flashmap-0.3-r4
 	chromeos-base/minijail"
 DEPEND="${RDEPEND}"
 
