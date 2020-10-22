@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/libtextclassi
 
 MODEL_URI=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711.fb"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711_vocab-v1.fb"
 )
 
 SRC_URI="${MODEL_URI[*]}"
@@ -44,6 +44,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	dev-libs/libutf:=
+	dev-libs/marisa-aosp:=
 "
 
 src_install() {
@@ -97,6 +98,8 @@ src_install() {
 		"annotator/types.h"
 		"annotator/vocab/vocab-annotator.h"
 		"annotator/vocab/vocab-annotator-dummy.h"
+		"annotator/vocab/vocab-annotator-impl.h"
+		"annotator/vocab/vocab-level-table.h"
 		"annotator/zlib-utils.h"
 		"lang_id/common/embedding-network-params.h"
 		"lang_id/common/fel/task-context.h"

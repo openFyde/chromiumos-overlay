@@ -65,6 +65,7 @@ DEPEND="
 	chromeos-base/system_api:=[fuzzer?]
 	dev-cpp/absl:=
 	dev-libs/libutf:=
+	dev-libs/marisa-aosp:=
 "
 
 src_install() {
