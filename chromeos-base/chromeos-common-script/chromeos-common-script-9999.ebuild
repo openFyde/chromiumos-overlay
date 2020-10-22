@@ -30,6 +30,7 @@ RDEPEND="!<chromeos-base/chromeos-installer-0.0.3"
 src_install() {
 	insinto /usr/share/misc
 	doins share/chromeos-common.sh
+	doins share/lvm-utils.sh
 	if use direncryption; then
 		sed -i '/local direncryption_enabled=/s/false/true/' \
 			"${D}/usr/share/misc/chromeos-common.sh" ||
