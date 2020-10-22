@@ -240,6 +240,7 @@ ALL_BOARDS=(
 	kumo
 	kunimitsu
 	lakitu
+	lakitu-arm64
 	lakitu-gpu
 	#lakitu_mobbuild
 	lakitu-nc
