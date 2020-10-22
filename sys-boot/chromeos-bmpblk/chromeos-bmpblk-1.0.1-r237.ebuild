@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="08e8fdd09bac32fdb21ee66f9551c043b83be505"
-CROS_WORKON_TREE="50b1dd56d3afa93e3ce6666a8a5ac79edd13d2df"
+CROS_WORKON_COMMIT="21f704ea9523860ea5081596c792b59af3965799"
+CROS_WORKON_TREE="9f7351e0a97c7ac6c940421b82eadbd2a4f82c97"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -12,6 +12,7 @@ CROS_WORKON_USE_VCSID="1"
 # TODO(hungte) When "tweaking ebuilds by source repository" is implemented, we
 # can generate this list by some script inside source repo.
 CROS_BOARDS=(
+	asurada
 	atlas
 	auron_paine
 	auron_yuna
