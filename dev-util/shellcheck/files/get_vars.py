@@ -95,9 +95,14 @@ def format_eclasses_as_haskell_map(eclasses):
               initial_indent='    ',
               subsequent_indent='    '))
   return_string = ',\n\n'.join(map_entries)
-  return_string = f'    [\n{return_string}\n    ]'
+  return_string = f"""    Data.Map.fromList
+    [
+{return_string}
+    ]"""
   return f"""{VAR_FILE_HEADER}\n\n
 -- Last Generated: {datetime.datetime.now().strftime("%x")}
+
+import qualified Data.Map
 
 {PORTAGE_AUTO_VAR_NAME} =
 {return_string}"""
