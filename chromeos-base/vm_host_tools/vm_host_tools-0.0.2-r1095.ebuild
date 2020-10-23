@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f79e44b95aa887f5f4692662c08781a06c9f0169"
+CROS_WORKON_COMMIT="5bb308d0619fbc247e2ee4f0142c42714020093a"
 CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "259230387cda7c004f42737f46fb3b1086b54a46" "92baf140be26feb39d73d4e16c831054dcffaa9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -20,8 +20,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_too
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-# The crosvm-wl-dmabuf USE flag is used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco"
+# The crosvm-wl-dmabuf and crosvm-virtio-video USE flags
+# are used when preprocessing concierge source.
+IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video"
 REQUIRED_USE="kvm_host"
 
 COMMON_DEPEND="
