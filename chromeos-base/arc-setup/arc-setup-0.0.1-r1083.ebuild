@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f79e44b95aa887f5f4692662c08781a06c9f0169"
-CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "f7a4822c99ed54a696a80b57dcaba4f568f007c7" "f9b693b699eae01b7d938158bb850e30bdfc6bb3" "259230387cda7c004f42737f46fb3b1086b54a46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9d58ad23995fbbeb3f66c3a6c31d445eaabe7a21"
+CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "b6c38c92500ef380d98bb01cbbf46b4040a7d249" "f9b693b699eae01b7d938158bb850e30bdfc6bb3" "259230387cda7c004f42737f46fb3b1086b54a46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -83,28 +83,28 @@ src_install() {
 		dosbin "${OUT}"/arc-apply-per-board-config
 		dosbin "${OUT}"/arc-create-data
 		insinto /etc/init
-		doins etc/arc-create-data.conf
+		doins init/arc-create-data.conf
 	fi
 
 	# Other files are only for ARC.
 	if use arcpp; then
 		dosbin "${OUT}"/arc-setup
 		insinto /etc/init
-		doins etc/arc-boot-continue.conf
-		doins etc/arc-kmsg-logger.conf
-		doins etc/arc-lifetime.conf
-		doins etc/arc-sensor.conf
-		doins etc/arc-update-restorecon-last.conf
+		doins init/arc-boot-continue.conf
+		doins init/arc-kmsg-logger.conf
+		doins init/arc-lifetime.conf
+		doins init/arc-sensor.conf
+		doins init/arc-update-restorecon-last.conf
 		if use esdfs; then
-			doins etc/arc-sdcard.conf
-			doins etc/arc-sdcard-mount.conf
+			doins init/arc-sdcard.conf
+			doins init/arc-sdcard-mount.conf
 		fi
-		doins etc/arc-sysctl.conf
-		doins etc/arc-system-mount.conf
-		doins etc/arc-ureadahead.conf
+		doins init/arc-sysctl.conf
+		doins init/arc-system-mount.conf
+		doins init/arc-ureadahead.conf
 
 		insinto /usr/share/arc-setup
-		doins etc/config.json
+		doins init/arc-setup/config.json
 
 		if use esdfs; then
 			enable_esdfs "${D}/usr/share/arc-setup/config.json"
@@ -126,7 +126,7 @@ src_install() {
 	fi
 
 	insinto /etc/dbus-1/system.d
-	doins etc/dbus-1/ArcUpstart.conf
+	doins init/dbus-1/ArcUpstart.conf
 }
 
 platform_pkg_test() {
