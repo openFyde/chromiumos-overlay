@@ -34,6 +34,7 @@ RESTRICT="!test? ( test )"
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.1.0-disable_installed_tests.patch
 	"${FILESDIR}"/${PN}-0.1.0-use_right_python.patch
+	"${FILESDIR}"/${PN}-0.1.0-one_engine_ok.patch
 )
 
 src_prepare() {
