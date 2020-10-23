@@ -80,8 +80,6 @@ src_install() {
 	insinto /etc/init
 	doins init/arc-remove-data.conf
 	doins init/arc-stale-directory-remover.conf
-	insinto /etc/dbus-1/system.d
-	doins init/dbus-1/ArcUpstart.conf
 
 	# Some binaries are only for ARCVM
 	if use arcvm; then
@@ -90,6 +88,8 @@ src_install() {
 		insinto /etc/init
 		doins init/arcvm-per-board-features.conf
 		doins init/arc-create-data.conf
+		insinto /etc/dbus-1/system.d
+		doins init/dbus-1/ArcVmSetupUpstart.conf
 	fi
 
 	# Other files are only for ARC.
@@ -104,6 +104,8 @@ src_install() {
 			doins init/arc-sdcard-mount.conf
 		fi
 		doins init/arc-system-mount.conf
+		insinto /etc/dbus-1/system.d
+		doins init/dbus-1/ArcSetupUpstart.conf
 
 		insinto /usr/share/arc-setup
 		doins init/arc-setup/config.json
