@@ -34,6 +34,13 @@ RDEPEND="
 	sys-libs/zlib:=
 "
 
+# Because we are moving model files from ml to here, to avoid collisions we
+# need to block the older version of ml.
+RDEPEND="
+	${RDEPEND}
+	!<chromeos-base/ml-0.0.1-r369
+"
+
 DEPEND="
 	${RDEPEND}
 	dev-libs/libutf:=
