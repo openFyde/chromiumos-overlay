@@ -12,27 +12,7 @@ SRC_URI="https://ci.android.com/builds/submitted/${PV}/sdk/latest/android-sdk_${
 	https://ci.android.com/builds/submitted/4953408/sdk/latest/sdk-repo-linux-platforms-4953408.zip"
 
 LICENSE="
-	Apache-2.0
-	BSD
-	BSD-2
-	BSD-4
-	CPL-1.0
-	EPL-1.0
-	FTL
-	GPL-2
-	IJG
-	ISC
-	icu
-	LGPL-2
-	LGPL-2.1
-	libpng
-	MIT
-	MPL-1.1
-	openssl
-	SGI-B-2.0
-	UoI-NCSA
-	ZLIB
-	W3C
+	AOSP-SDK
 	"
 SLOT="0"
 KEYWORDS="*"
@@ -54,17 +34,18 @@ ANDROID_SDK_DIR="/opt/android-sdk"
 S="${WORKDIR}"
 
 src_install() {
-	# NOTE: The two downloaded zips use "android-Q" for their directories.
+	# NOTE: The two downloaded zips use "android-S" for their directories.
 	# It seems that they take the name of the latest Android SDK at the
 	# moment it was built, even if they were compiled from a different
 	# branch. See build.prop: notice conflict between SDK version and name:
 	# https://ci.android.com/builds/submitted/5303910/sdk/latest/view/build.prop
 
 	# Zips to be installed:
-	#  - Android SDK 28: both build-tools and platforms
+	#  - Android SDK 30: both build-tools and platforms
 	#  - Android SDK 27: only platforms
 
-	# TODO(ricardoq): Rename "android-Q" to "android-28" (and not 29!)
+	# License file for platforms and build-tools is in licenses/AOSP-SDK
+	# TODO(ricardoq): Rename "android-S" to "android-30"
 	insinto "${ANDROID_SDK_DIR}"
 	doins -r ${PN}_${PV}_linux-x86/platforms
 	insopts "-m0755"
