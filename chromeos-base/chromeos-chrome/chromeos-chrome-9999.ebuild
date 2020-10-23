@@ -1155,7 +1155,11 @@ src_install() {
 	# Override default strip flags and lose the '-R .comment'
 	# in order to play nice with the crash server.
 	if [[ -z "${KEEP_CHROME_DEBUG_SYMBOLS}" ]]; then
-		export PORTAGE_STRIP_FLAGS=""
+		if [[ "${STRIP}" == "llvm-strip" ]]; then
+			export PORTAGE_STRIP_FLAGS="--strip-all-gnu"
+		else
+			export PORTAGE_STRIP_FLAGS=""
+		fi
 	else
 		export PORTAGE_STRIP_FLAGS="--strip-debug"
 	fi
