@@ -54,6 +54,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-revert-libunwind-build.patch"
 	"${FILESDIR}/${P}-ld-argv0.patch"
 	"${FILESDIR}/${P}-no-weak-symbols.patch"
+	"${FILESDIR}/${P}-cherry-dee70493-more-precise-spans.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"
