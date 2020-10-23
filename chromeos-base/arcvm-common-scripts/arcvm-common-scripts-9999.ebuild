@@ -19,10 +19,13 @@ KEYWORDS="~*"
 
 RDEPEND="
 	${RDEPEND}
+	!<=chromeos-base/arc-common-scripts-0.0.1-r132
 	chromeos-base/arcvm-mount-media-dirs
 "
 
 src_install() {
+	dosbin arc/vm/scripts/android-sh
+
 	insinto /etc/init
 	doins arc/vm/scripts/init/arcvm-fsverity-certs.conf
 	doins arc/vm/scripts/init/arcvm-host.conf

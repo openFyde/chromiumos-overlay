@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk arc/scripts .gn"
 
 inherit cros-workon
 
-DESCRIPTION="ARC++/ARCVM common scripts."
+DESCRIPTION="ARC++ common scripts."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/scripts"
 
 LICENSE="BSD-Google"
@@ -32,8 +32,5 @@ src_install() {
 		doins arc/scripts/arc-sensor.conf
 		doins arc/scripts/arc-sysctl.conf
 		doins arc/scripts/arc-ureadahead.conf
-	fi
-	if use arcvm; then
-		newsbin arc/scripts/android-sh-vm android-sh
 	fi
 }
