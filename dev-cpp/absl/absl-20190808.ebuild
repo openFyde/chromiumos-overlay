@@ -38,4 +38,7 @@ src_install() {
 	cmake-utils_src_install
 
 	dolib.a "${ABSLDIR}/libabsl.a"
+
+	insinto /usr/$(get_libdir)/pkgconfig
+	doins "${FILESDIR}/absl.pc"
 }
