@@ -18,19 +18,17 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 
-IUSE="arcvm arcpp"
+IUSE="arcpp"
 RDEPEND="
 	!<chromeos-base/arc-setup-0.0.1-r1084
 	app-misc/jq"
 DEPEND=""
 
 src_install() {
-	if use arcpp; then
-		dosbin arc/scripts/android-sh
-		insinto /etc/init
-		doins arc/scripts/arc-kmsg-logger.conf
-		doins arc/scripts/arc-sensor.conf
-		doins arc/scripts/arc-sysctl.conf
-		doins arc/scripts/arc-ureadahead.conf
-	fi
+	dosbin arc/scripts/android-sh
+	insinto /etc/init
+	doins arc/scripts/arc-kmsg-logger.conf
+	doins arc/scripts/arc-sensor.conf
+	doins arc/scripts/arc-sysctl.conf
+	doins arc/scripts/arc-ureadahead.conf
 }
