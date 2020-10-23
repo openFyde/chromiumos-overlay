@@ -402,8 +402,8 @@ cros-firmware_setup_source() {
 	local i uris
 
 	if [[ -f "${files}/srcuris" ]]; then
-		mapfile -t uris -d ' ' < "${files}/srcuris"
-		SRC_URI+=( "${uris[@]}" )
+		mapfile -t uris < "${files}/srcuris"
+		SRC_URI+=( "${uris[*]}" )
 		return
 	fi
 
