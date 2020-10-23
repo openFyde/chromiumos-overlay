@@ -262,9 +262,11 @@ multilib_src_install() {
 	# Make all .so files executable
 	find "${ED}" -type f -name "*.so" -exec chmod +x {} + || die
 
-	# Install async dns plugin to custom plugin directory, so only selected services can use it.
-	insinto "/usr/$(get_libdir)/krb5/locator_plugin/libkrb5/"
-	newins bin/default/nsswitch/libasync-dns-krb5-locator.inst.so libasync-dns-krb5-locator.so
+	# Install async dns plugin only for amd64 architecture for authpolicyd and kerberosd
+	if [[ "${ARCH}" == "amd64" ]]; then
+		insinto "/usr/$(get_libdir)/krb5/plugins/libkrb5/"
+		newins bin/default/nsswitch/libasync-dns-krb5-locator.inst.so libasync-dns-krb5-locator.so
+	fi
 
 	if multilib_is_native_abi ; then
 		# install ldap schema for server (bug #491002)
