@@ -25,6 +25,11 @@ DEPEND=""
 src_install() {
 	if use arcpp; then
 		dosbin arc/scripts/android-sh
+		insinto /etc/init
+		doins arc/scripts/arc-kmsg-logger.conf
+		doins arc/scripts/arc-sensor.conf
+		doins arc/scripts/arc-sysctl.conf
+		doins arc/scripts/arc-ureadahead.conf
 	fi
 	if use arcvm; then
 		newsbin arc/scripts/android-sh-vm android-sh

@@ -89,17 +89,13 @@ src_install() {
 		dosbin "${OUT}"/arc-setup
 		insinto /etc/init
 		doins init/arc-boot-continue.conf
-		doins init/arc-kmsg-logger.conf
 		doins init/arc-lifetime.conf
-		doins init/arc-sensor.conf
 		doins init/arc-update-restorecon-last.conf
 		if use esdfs; then
 			doins init/arc-sdcard.conf
 			doins init/arc-sdcard-mount.conf
 		fi
-		doins init/arc-sysctl.conf
 		doins init/arc-system-mount.conf
-		doins init/arc-ureadahead.conf
 
 		insinto /usr/share/arc-setup
 		doins init/arc-setup/config.json
