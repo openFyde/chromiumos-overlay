@@ -19,7 +19,9 @@ SLOT="0/0"
 KEYWORDS="~*"
 
 IUSE="arcvm arcpp"
-RDEPEND="app-misc/jq"
+RDEPEND="
+	!<chromeos-base/arc-setup-0.0.1-r1084
+	app-misc/jq"
 DEPEND=""
 
 src_install() {

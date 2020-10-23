@@ -47,6 +47,8 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
+	!<chromeos-base/arc-common-scripts-0.0.1-r131
+	!<chromeos-base/arcvm-common-scripts-0.0.1-r77
 	chromeos-base/patchpanel
 	arcvm? ( chromeos-base/crosvm )
 	arcpp? (
