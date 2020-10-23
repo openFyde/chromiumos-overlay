@@ -75,12 +75,18 @@ src_install() {
 	# Used for both ARCVM and ARC.
 	dosbin "${OUT}"/arc-remove-data
 	dosbin "${OUT}"/arc-remove-stale-data
+	insinto /etc/init
+	doins init/arc-remove-data.conf
+	doins init/arc-stale-directory-remover.conf
+	insinto /etc/dbus-1/system.d
+	doins init/dbus-1/ArcUpstart.conf
 
 	# Some binaries are only for ARCVM
 	if use arcvm; then
 		dosbin "${OUT}"/arc-apply-per-board-config
 		dosbin "${OUT}"/arc-create-data
 		insinto /etc/init
+		doins init/arcvm-per-board-features.conf
 		doins init/arc-create-data.conf
 	fi
 
@@ -118,9 +124,6 @@ src_install() {
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_fingerprint_and_sdk_version_fuzzer
 	fi
-
-	insinto /etc/dbus-1/system.d
-	doins init/dbus-1/ArcUpstart.conf
 }
 
 platform_pkg_test() {

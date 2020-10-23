@@ -34,8 +34,4 @@ src_install() {
 	if use arcvm; then
 		newsbin arc/scripts/android-sh-vm android-sh
 	fi
-
-	insinto /etc/init
-	doins arc/scripts/arc-remove-data.conf
-	doins arc/scripts/arc-stale-directory-remover.conf
 }

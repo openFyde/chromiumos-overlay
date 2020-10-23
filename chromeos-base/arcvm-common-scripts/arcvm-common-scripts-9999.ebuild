@@ -19,7 +19,6 @@ KEYWORDS="~*"
 
 RDEPEND="
 	${RDEPEND}
-	chromeos-base/arc-setup
 	chromeos-base/arcvm-mount-media-dirs
 "
 
@@ -27,7 +26,6 @@ src_install() {
 	insinto /etc/init
 	doins arc/vm/scripts/init/arcvm-fsverity-certs.conf
 	doins arc/vm/scripts/init/arcvm-host.conf
-	doins arc/vm/scripts/init/arcvm-per-board-features.conf
 	doins arc/vm/scripts/init/arcvm-ureadahead.conf
 
 	insinto /usr/share/arcvm
@@ -36,7 +34,4 @@ src_install() {
 	insinto /usr/share/arcvm/fsverity-certs
 	doins arc/vm/scripts/init/certs/fsverity-release.x509.der
 	doins arc/vm/scripts/init/certs/play_store_fsi_cert.der
-
-	insinto /etc/dbus-1/system.d
-	doins arc/vm/scripts/init/dbus-1/ArcVmScripts.conf
 }
