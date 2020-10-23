@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d7599a3a62235cbe5c3a073d5736d31e6c57c1e5"
-CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "9f638b05f8e0d4a4f2a5a4485a02e7979eb964ce" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f1c64ae0bbfc7ae2b3bd779c02081aefd6cc5d66"
+CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "92890e6f2f2e2116a9eac7c4f06b693a01007dd0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,6 @@ KEYWORDS="*"
 
 RDEPEND="
 	${RDEPEND}
-	chromeos-base/arc-setup
 	chromeos-base/arcvm-mount-media-dirs
 "
 
@@ -29,7 +28,6 @@ src_install() {
 	insinto /etc/init
 	doins arc/vm/scripts/init/arcvm-fsverity-certs.conf
 	doins arc/vm/scripts/init/arcvm-host.conf
-	doins arc/vm/scripts/init/arcvm-per-board-features.conf
 	doins arc/vm/scripts/init/arcvm-ureadahead.conf
 
 	insinto /usr/share/arcvm
@@ -38,7 +36,4 @@ src_install() {
 	insinto /usr/share/arcvm/fsverity-certs
 	doins arc/vm/scripts/init/certs/fsverity-release.x509.der
 	doins arc/vm/scripts/init/certs/play_store_fsi_cert.der
-
-	insinto /etc/dbus-1/system.d
-	doins arc/vm/scripts/init/dbus-1/ArcVmScripts.conf
 }

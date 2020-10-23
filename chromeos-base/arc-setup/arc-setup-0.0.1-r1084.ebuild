@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9d58ad23995fbbeb3f66c3a6c31d445eaabe7a21"
-CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "b6c38c92500ef380d98bb01cbbf46b4040a7d249" "f9b693b699eae01b7d938158bb850e30bdfc6bb3" "259230387cda7c004f42737f46fb3b1086b54a46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f1c64ae0bbfc7ae2b3bd779c02081aefd6cc5d66"
+CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "b9eff9d72a3c638dd20d300f93d55b006d0dcd4d" "f9b693b699eae01b7d938158bb850e30bdfc6bb3" "259230387cda7c004f42737f46fb3b1086b54a46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -77,12 +77,18 @@ src_install() {
 	# Used for both ARCVM and ARC.
 	dosbin "${OUT}"/arc-remove-data
 	dosbin "${OUT}"/arc-remove-stale-data
+	insinto /etc/init
+	doins init/arc-remove-data.conf
+	doins init/arc-stale-directory-remover.conf
+	insinto /etc/dbus-1/system.d
+	doins init/dbus-1/ArcUpstart.conf
 
 	# Some binaries are only for ARCVM
 	if use arcvm; then
 		dosbin "${OUT}"/arc-apply-per-board-config
 		dosbin "${OUT}"/arc-create-data
 		insinto /etc/init
+		doins init/arcvm-per-board-features.conf
 		doins init/arc-create-data.conf
 	fi
 
@@ -91,17 +97,13 @@ src_install() {
 		dosbin "${OUT}"/arc-setup
 		insinto /etc/init
 		doins init/arc-boot-continue.conf
-		doins init/arc-kmsg-logger.conf
 		doins init/arc-lifetime.conf
-		doins init/arc-sensor.conf
 		doins init/arc-update-restorecon-last.conf
 		if use esdfs; then
 			doins init/arc-sdcard.conf
 			doins init/arc-sdcard-mount.conf
 		fi
-		doins init/arc-sysctl.conf
 		doins init/arc-system-mount.conf
-		doins init/arc-ureadahead.conf
 
 		insinto /usr/share/arc-setup
 		doins init/arc-setup/config.json
@@ -124,9 +126,6 @@ src_install() {
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_fingerprint_and_sdk_version_fuzzer
 	fi
-
-	insinto /etc/dbus-1/system.d
-	doins init/dbus-1/ArcUpstart.conf
 }
 
 platform_pkg_test() {
