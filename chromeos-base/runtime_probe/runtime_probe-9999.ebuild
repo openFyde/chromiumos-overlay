@@ -46,7 +46,6 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}/runtime_probe"
-	dobin "${OUT}/runtime_probe_helper"
 
 	# Install upstart configs and scripts.
 	insinto /etc/init
