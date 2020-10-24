@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0edcfc56815f4284cb424a36f0625c3cca14fd24"
+CROS_WORKON_COMMIT="c6f85a3472584df37fcf2d3d99474081f29256cd"
 CROS_WORKON_TREE="3dd2acee92071c6b517ad0b4683391748d093332"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="sirenia"
 
 START_DIR="sirenia"
 
-inherit cros-workon cros-rust
+inherit cros-workon cros-rust user
 
 CROS_RUST_CRATE_NAME="sirenia"
 DESCRIPTION="The runtime environment and middleware for ManaTEE."
@@ -71,4 +71,10 @@ src_install() {
 		exeinto "/build/initramfs"
 	fi
 	doexe "${build_dir}/trichechus"
+}
+
+pkg_setup() {
+	enewuser dugong
+	enewgroup dugong
+	cros-rust_pkg_setup
 }

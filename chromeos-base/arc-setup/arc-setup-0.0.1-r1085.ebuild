@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f1c64ae0bbfc7ae2b3bd779c02081aefd6cc5d66"
+CROS_WORKON_COMMIT="c6f85a3472584df37fcf2d3d99474081f29256cd"
 CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "b9eff9d72a3c638dd20d300f93d55b006d0dcd4d" "f9b693b699eae01b7d938158bb850e30bdfc6bb3" "259230387cda7c004f42737f46fb3b1086b54a46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -49,6 +49,8 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
+	!<chromeos-base/arc-common-scripts-0.0.1-r131
+	!<chromeos-base/arcvm-common-scripts-0.0.1-r77
 	chromeos-base/patchpanel
 	arcvm? ( chromeos-base/crosvm )
 	arcpp? (
