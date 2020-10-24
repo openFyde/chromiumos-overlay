@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("3aa328e44839593b89e515c899945f2cf1621b54" "ecd17cc57afaa19571a371cfd9aef3f868004835")
+CROS_WORKON_COMMIT=("c6f85a3472584df37fcf2d3d99474081f29256cd" "ecd17cc57afaa19571a371cfd9aef3f868004835")
 CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b45c8cb8e1de873b9fa5439b1bd58317793b57b1")
 CROS_WORKON_LOCALNAME=("../platform2" "libtextclassifier")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/libtextclassifier")
@@ -34,6 +34,13 @@ RDEPEND="
 	dev-libs/flatbuffers:=
 	sci-libs/tensorflow:=
 	sys-libs/zlib:=
+"
+
+# Because we are moving model files from ml to here, to avoid collisions we
+# need to block the older version of ml.
+RDEPEND="
+	${RDEPEND}
+	!<chromeos-base/ml-0.0.1-r369
 "
 
 DEPEND="
