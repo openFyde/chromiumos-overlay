@@ -97,6 +97,7 @@ RDEPEND="
 "
 DEPEND="
 	net-print/cups
+	x11-libs/libdrm
 "
 
 # [Mod] NaCl utilities are removed.
