@@ -41,6 +41,7 @@ IUSE="
 	chrome_media
 	chromeless_tty
 	containers
+	coresched
 	cr50_onboard
 	crosvm-gpu
 	cups
