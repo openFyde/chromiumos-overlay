@@ -19,6 +19,7 @@ KEYWORDS="~*"
 
 RDEPEND="
 	${RDEPEND}
+	!<=chromeos-base/arc-base-0.0.1-r349
 	!<=chromeos-base/arc-common-scripts-0.0.1-r132
 	chromeos-base/arcvm-mount-media-dirs
 "
@@ -37,4 +38,8 @@ src_install() {
 	insinto /usr/share/arcvm/fsverity-certs
 	doins arc/vm/scripts/init/certs/fsverity-release.x509.der
 	doins arc/vm/scripts/init/certs/play_store_fsi_cert.der
+
+	# Redirect ARCVM logs to arc.log.
+	insinto /etc/rsyslog.d
+	doins arc/vm/scripts/rsyslog.arc.conf
 }

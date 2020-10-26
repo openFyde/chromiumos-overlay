@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/container/bundle arc/scripts .gn"
+CROS_WORKON_SUBTREE="common-mk arc/container/bundle .gn"
 
 inherit cros-workon user
 
@@ -30,17 +30,9 @@ DEPEND="${RDEPEND}"
 CONTAINER_ROOTFS="/opt/google/containers/android/rootfs"
 
 src_install() {
-	# Redirect ARC and ARCVM logs to arc.log.
-	insinto /etc/rsyslog.d
-	doins arc/scripts/rsyslog.arc.conf
-
 	if use arcpp; then
 		insinto /opt/google/containers/android
 		doins arc/container/bundle/pi/config.json
-
-		# Install scripts.
-		insinto /etc/sysctl.d
-		doins arc/scripts/01-sysctl-arc.conf
 
 		# Install exception file for FIFO blocking policy on stateful partition.
 		insinto /usr/share/cros/startup/fifo_exceptions
