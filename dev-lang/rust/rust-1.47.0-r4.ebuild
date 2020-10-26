@@ -23,7 +23,6 @@ fi
 
 
 BOOTSTRAP_VERSION="1.46.0"
-RUST_BOOTSTRAP_amd64="rustc-${BOOTSTRAP_VERSION}-x86_64-unknown-linux-gnu"
 
 DESCRIPTION="Systems programming language from Mozilla"
 HOMEPAGE="http://www.rust-lang.org/"
@@ -100,7 +99,7 @@ src_prepare() {
 	sed -e 's:"unknown":"cros":g' x86_64_unknown_linux_gnu.rs >x86_64_cros_linux_gnu.rs || die
 	sed -e 's:"unknown":"cros":g' armv7_unknown_linux_gnueabihf.rs >armv7a_cros_linux_gnueabihf.rs || die
 	sed -e 's:"unknown":"cros":g' aarch64_unknown_linux_gnu.rs >aarch64_cros_linux_gnu.rs || die
-	popd
+	popd || die
 
 	# The miri tool is built because of 'extended = true' in cros-config.toml,
 	# but the build is busted. See the upstream issue: [https://github.com/rust-
@@ -108,7 +107,7 @@ src_prepare() {
 	# script eradicates the command that builds it during the bootstrap script.
 	pushd src/bootstrap || die
 	sed -i 's@tool::Miri,@@g' builder.rs
-	popd
+	popd || die
 
 	# Tsk. Tsk. The rust makefile for LLVM's compiler-rt uses -ffreestanding
 	# but one of the files includes <stdlib.h> causing occasional problems
