@@ -71,6 +71,7 @@ IUSE="
 	racc
 	+readahead
 	resourced
+	rmad
 	scanner
 	selinux
 	+shill
@@ -204,6 +205,7 @@ RDEPEND="
 		chromeos-base/hardware_verifier
 		chromeos-base/runtime_probe
 	)
+	rmad? ( chromeos-base/rmad )
 	iioservice? ( chromeos-base/iioservice )
 	media_perception? ( chromeos-base/mri_package )
 	memd? ( chromeos-base/memd )

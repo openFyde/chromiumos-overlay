@@ -71,6 +71,7 @@ src_install() {
 		pciguard
 		permission_broker
 		power_manager
+		rmad
 		shill
 		smbprovider
 		tpm_manager
