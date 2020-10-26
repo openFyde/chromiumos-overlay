@@ -7,14 +7,14 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/obb-mounter .gn"
+CROS_WORKON_SUBTREE="common-mk arc/container/obb-mounter .gn"
 
-PLATFORM_SUBDIR="arc/obb-mounter"
+PLATFORM_SUBDIR="arc/container/obb-mounter"
 
 inherit cros-workon platform
 
 DESCRIPTION="D-Bus service to mount OBB files"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/obb-mounter"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/obb-mounter"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
