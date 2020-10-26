@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b733c2848a803e1b9a6fd4a71cf94edf76e98be5"
-CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "308a28470686f51374206bb177e0b0ef3299ecfd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="306dd9fefd2919ae3ab92bb904d6a49183b69fa6"
+CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "62ab28cea9982ce45c1ee9b40820f4557f279666" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk arc/scripts .gn"
 
 inherit cros-workon
 
-DESCRIPTION="ARC++/ARCVM common scripts."
+DESCRIPTION="ARC++ common scripts."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/scripts"
 
 LICENSE="BSD-Google"
@@ -34,8 +34,5 @@ src_install() {
 		doins arc/scripts/arc-sensor.conf
 		doins arc/scripts/arc-sysctl.conf
 		doins arc/scripts/arc-ureadahead.conf
-	fi
-	if use arcvm; then
-		newsbin arc/scripts/android-sh-vm android-sh
 	fi
 }

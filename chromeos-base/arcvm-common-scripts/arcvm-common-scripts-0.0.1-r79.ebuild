@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b733c2848a803e1b9a6fd4a71cf94edf76e98be5"
-CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "92890e6f2f2e2116a9eac7c4f06b693a01007dd0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="306dd9fefd2919ae3ab92bb904d6a49183b69fa6"
+CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "438efc3760cc067fca0dcc6da818b34ad7db35cc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,10 +21,13 @@ KEYWORDS="*"
 
 RDEPEND="
 	${RDEPEND}
+	!<=chromeos-base/arc-common-scripts-0.0.1-r132
 	chromeos-base/arcvm-mount-media-dirs
 "
 
 src_install() {
+	dosbin arc/vm/scripts/android-sh
+
 	insinto /etc/init
 	doins arc/vm/scripts/init/arcvm-fsverity-certs.conf
 	doins arc/vm/scripts/init/arcvm-host.conf
