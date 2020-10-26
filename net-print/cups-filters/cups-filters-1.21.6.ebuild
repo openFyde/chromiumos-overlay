@@ -22,7 +22,7 @@ SLOT="0"
 IUSE="dbus +foomatic ipp_autosetup jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
 
 RDEPEND="
-	>=app-text/poppler-0.32:=[cxx,jpeg?,lcms,tiff?,utils]
+	!postscript? ( >=app-text/poppler-0.32:=[cxx,jpeg?,lcms,tiff?,utils] )
 	>=app-text/qpdf-8.1.0:=
 	chromeos-base/foomatic_shell
 	dev-libs/glib:2
@@ -37,7 +37,6 @@ RDEPEND="
 	foomatic? ( !net-print/foomatic-filters )
 	jpeg? ( virtual/jpeg:0 )
 	ldap? ( net-nds/openldap )
-	pclm? ( >=app-text/qpdf-8.1.0:= )
 	pdf? ( app-text/mupdf )
 	perl? ( dev-lang/perl:= )
 	png? ( media-libs/libpng:0= )
@@ -89,10 +88,11 @@ src_configure() {
 		--with-browseremoteprotocols=DNSSD,CUPS
 		--with-cups-rundir="${EPREFIX}"/run/cups
 		--with-fontdir="fonts/conf.avail"
-		--with-pdftops=pdftops
+		--with-pdftops=$(use postscript && echo gs || echo pdftops)
 		--with-rcdir=no
 		--without-php
 		--disable-braille
+		$(use_enable !postscript poppler)
 		$(use_enable dbus)
 		$(use_enable foomatic)
 		$(use_enable ipp_autosetup auto-setup-driverless)
