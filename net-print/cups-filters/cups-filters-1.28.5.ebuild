@@ -1,15 +1,15 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 GENTOO_DEPEND_ON_PERL=no
 
 inherit perl-module systemd flag-o-matic cros-sanitizers
 
 if [[ "${PV}" == "9999" ]] ; then
-	inherit bzr autotools
-	EBZR_REPO_URI="http://bzr.linuxfoundation.org/openprinting/cups-filters"
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/OpenPrinting/cups-filters.git"
 else
 	SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 	KEYWORDS="*"
@@ -21,9 +21,11 @@ LICENSE="MIT GPL-2"
 SLOT="0"
 IUSE="dbus +foomatic ipp_autosetup jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	!postscript? ( >=app-text/poppler-0.32:=[cxx,jpeg?,lcms,tiff?,utils] )
-	>=app-text/qpdf-8.1.0:=
+	>=app-text/qpdf-8.3.0:=
 	chromeos-base/foomatic_shell
 	dev-libs/glib:2
 	media-libs/fontconfig
@@ -44,23 +46,16 @@ RDEPEND="
 	tiff? ( media-libs/tiff:0 )
 	zeroconf? ( net-dns/avahi[dbus] )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+
+BDEPEND="
 	dev-util/gdbus-codegen
+	>=sys-devel/gettext-0.18.3
+	virtual/pkgconfig
 	test? ( media-fonts/dejavu )
 "
 
-PATCHES=(
-	"${FILESDIR}/${PN}-1.17.8-gstoraster-tmpfile.patch"
-	"${FILESDIR}/${PN}-1.21.6-trim-convs-file.patch"
-	"${FILESDIR}/${PN}-1.21.6-asan-pacifier.patch"
-	"${FILESDIR}/${PN}-1.21.6-foomatic-shell.patch"
-	"${FILESDIR}/${PN}-1.23.0-pdftops-monochrome.patch"
-	"${FILESDIR}/${PN}-1.25.5-use-public-ghostscript-method.patch"
-	"${FILESDIR}/${PN}-1.25.5-fix-segfault-when-running-by-hand.patch"
-	"${FILESDIR}/${PN}-1.25.5-fill-arg.patch"
-	"${FILESDIR}/${PN}-1.27.4-two-sided.patch"
-	"${FILESDIR}/${PN}-1.21.6-total-page-count.patch"
-)
+PATCHES=("${FILESDIR}")
 
 src_prepare() {
 	default
