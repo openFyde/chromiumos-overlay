@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c6f85a3472584df37fcf2d3d99474081f29256cd"
-CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "b9eff9d72a3c638dd20d300f93d55b006d0dcd4d" "f9b693b699eae01b7d938158bb850e30bdfc6bb3" "259230387cda7c004f42737f46fb3b1086b54a46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a4a70baa5df4e9871cce36ab949e5a6255899c2d"
+CROS_WORKON_TREE=("6cadd9f53ad2c518aa18312d8ea45915a3dd112a" "0f447cfbd6c18e6605167ae0a35f9f2d62887e62" "f9b693b699eae01b7d938158bb850e30bdfc6bb3" "259230387cda7c004f42737f46fb3b1086b54a46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -82,8 +82,6 @@ src_install() {
 	insinto /etc/init
 	doins init/arc-remove-data.conf
 	doins init/arc-stale-directory-remover.conf
-	insinto /etc/dbus-1/system.d
-	doins init/dbus-1/ArcUpstart.conf
 
 	# Some binaries are only for ARCVM
 	if use arcvm; then
@@ -92,6 +90,8 @@ src_install() {
 		insinto /etc/init
 		doins init/arcvm-per-board-features.conf
 		doins init/arc-create-data.conf
+		insinto /etc/dbus-1/system.d
+		doins init/dbus-1/ArcVmSetupUpstart.conf
 	fi
 
 	# Other files are only for ARC.
@@ -106,6 +106,8 @@ src_install() {
 			doins init/arc-sdcard-mount.conf
 		fi
 		doins init/arc-system-mount.conf
+		insinto /etc/dbus-1/system.d
+		doins init/dbus-1/ArcSetupUpstart.conf
 
 		insinto /usr/share/arc-setup
 		doins init/arc-setup/config.json
