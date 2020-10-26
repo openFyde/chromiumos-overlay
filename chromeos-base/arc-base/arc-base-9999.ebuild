@@ -7,12 +7,12 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/container-bundle arc/scripts .gn"
+CROS_WORKON_SUBTREE="common-mk arc/container/bundle arc/scripts .gn"
 
 inherit cros-workon user
 
 DESCRIPTION="Container to run Android."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container-bundle"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/bundle"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -38,7 +38,7 @@ src_install() {
 	if use arcpp; then
 		insinto /opt/google/containers/android
 		if use android-container-pi; then
-			doins arc/container-bundle/pi/config.json
+			doins arc/container/bundle/pi/config.json
 		else
 			echo "Unknown container version" >&2
 			exit 1
@@ -50,11 +50,11 @@ src_install() {
 
 		# Install exception file for FIFO blocking policy on stateful partition.
 		insinto /usr/share/cros/startup/fifo_exceptions
-		doins arc/container-bundle/arc-fifo-exceptions.txt
+		doins arc/container/bundle/arc-fifo-exceptions.txt
 
 		# Install exception file for symlink blocking policy on stateful partition.
 		insinto /usr/share/cros/startup/symlink_exceptions
-		doins arc/container-bundle/arc-symlink-exceptions.txt
+		doins arc/container/bundle/arc-symlink-exceptions.txt
 	fi
 }
 
