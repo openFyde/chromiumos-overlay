@@ -854,8 +854,8 @@ index 000000000000..179da0747a88
 +    "libcamera_metadata",
 +    "libcamera_v4l2_device",
 +    "libcbm",
-+    "libchrome-${libbase_ver}",
-+    "libmojo-${libbase_ver}",
++    "libchrome",
++    "libmojo",
 +    "libsync",
 +    "libyuv",
 +  ]
@@ -1028,7 +1028,7 @@ index 000000000000..179da0747a88
 +  pkg_deps = [
 +    "cros-camera-android-headers",
 +    "libcab",
-+    "libmojo-${libbase_ver}",
++    "libmojo",
 +  ]
 +  if (use.ipu6se) {
 +    libs += [
@@ -1105,7 +1105,7 @@ index 000000000000..179da0747a88
 +      "cros-camera-android-headers",
 +      "libcab",
 +      "igfxcmrt",
-+      "libmojo-${libbase_ver}",
++      "libmojo",
 +    ]
 +    deps = [ "//camera/common/libcamera_ipc:libcamera_ipc_mojom" ]
 +  }
