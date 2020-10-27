@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f1c64ae0bbfc7ae2b3bd779c02081aefd6cc5d66"
-CROS_WORKON_TREE="548ab39b9119c4e45353aa0561ad147e698b4216"
+CROS_WORKON_COMMIT="d2552f8e7b949f57d4f84b7cbbb158f03a453639"
+CROS_WORKON_TREE="151d9c18467422600146e41e9f06c7e848c4a525"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="libchromeos-rs"
@@ -20,6 +20,7 @@ IUSE="test"
 
 DEPEND="chromeos-base/system_api:=
 	sys-apps/dbus:=
+	dev-rust/data_model:=
 	=dev-rust/futures-0.3*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/intrusive-collections-0.9*:=

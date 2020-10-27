@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a386d01923b4d03e939560c09b326e5f38ec2ecc"
+CROS_WORKON_COMMIT="d2552f8e7b949f57d4f84b7cbbb158f03a453639"
 CROS_WORKON_TREE="bd9f3415406a689221fa329b5e367075c6579fae"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,6 +21,7 @@ IUSE="fuzzer test"
 
 DEPEND="
 	dev-rust/libc:=
+	dev-rust/libchromeos:=
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/quote-1*:=
 	=dev-rust/syn-1*:=
