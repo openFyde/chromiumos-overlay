@@ -12,7 +12,7 @@ DESCRIPTION="Chrome OS verified boot tools"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm2"
+IUSE="cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm2 tpm2_simulator"
 
 REQUIRED_USE="?? ( tpm2 tpm )"
 
@@ -64,6 +64,7 @@ vemake() {
 		TPM2_MODE=$(usev tpm2) \
 		PD_SYNC=$(usev pd_sync) \
 		DEV_DEBUG_FORCE=$(usev dev_debug_force) \
+		TPM2_SIMULATOR="$(usev tpm2_simulator)" \
 		FUZZ_FLAGS="${SANITIZER_CFLAGS}" \
 		"$@"
 }
