@@ -7,14 +7,14 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/sdcard .gn"
+CROS_WORKON_SUBTREE="common-mk arc/container/sdcard .gn"
 
-PLATFORM_SUBDIR="arc/sdcard"
+PLATFORM_SUBDIR="arc/container/sdcard"
 
 inherit cros-workon platform
 
 DESCRIPTION="Container to run Android's sdcard daemon."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/sdcard"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/sdcard"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
