@@ -3,18 +3,18 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="306dd9fefd2919ae3ab92bb904d6a49183b69fa6"
+CROS_WORKON_COMMIT="fc1af2b637609bfcb1068aac7bf90d46c4d66452"
 CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "db01bef3f173c69a40670602345d43fe22b6e43a" "62ab28cea9982ce45c1ee9b40820f4557f279666" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/container-bundle arc/scripts .gn"
+CROS_WORKON_SUBTREE="common-mk arc/container/bundle arc/scripts .gn"
 
 inherit cros-workon user
 
 DESCRIPTION="Container to run Android."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container-bundle"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/bundle"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -40,7 +40,7 @@ src_install() {
 	if use arcpp; then
 		insinto /opt/google/containers/android
 		if use android-container-pi; then
-			doins arc/container-bundle/pi/config.json
+			doins arc/container/bundle/pi/config.json
 		else
 			echo "Unknown container version" >&2
 			exit 1
@@ -52,11 +52,11 @@ src_install() {
 
 		# Install exception file for FIFO blocking policy on stateful partition.
 		insinto /usr/share/cros/startup/fifo_exceptions
-		doins arc/container-bundle/arc-fifo-exceptions.txt
+		doins arc/container/bundle/arc-fifo-exceptions.txt
 
 		# Install exception file for symlink blocking policy on stateful partition.
 		insinto /usr/share/cros/startup/symlink_exceptions
-		doins arc/container-bundle/arc-symlink-exceptions.txt
+		doins arc/container/bundle/arc-symlink-exceptions.txt
 	fi
 }
 
