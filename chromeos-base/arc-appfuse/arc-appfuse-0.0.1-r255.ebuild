@@ -3,20 +3,20 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b733c2848a803e1b9a6fd4a71cf94edf76e98be5"
-CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "5515558dd55173f59ebcd779c56fb3371a9bf6bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a563f13ea319a5fa817a866577ef10cdd003a16b"
+CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "6fc1251278d823572e22339c6d140ded0702f3af" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/appfuse .gn"
+CROS_WORKON_SUBTREE="common-mk arc/container/appfuse .gn"
 
-PLATFORM_SUBDIR="arc/appfuse"
+PLATFORM_SUBDIR="arc/container/appfuse"
 
 inherit cros-workon platform user
 
 DESCRIPTION="D-Bus service to provide ARC Appfuse"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/appfuse"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/appfuse"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
