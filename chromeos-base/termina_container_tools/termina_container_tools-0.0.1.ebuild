@@ -22,6 +22,7 @@ DEPEND="
 	chromeos-base/chunnel
 	chromeos-base/sommelier
 	chromeos-base/vm_guest_tools
+	vm_borealis? ( chromeos-base/crash-reporter )
 	net-libs/grpc:=
 	dev-libs/protobuf:=
 	media-libs/mesa
@@ -45,6 +46,7 @@ src_install() {
 	if use vm_borealis; then
 		tools+=(
 			"/sbin/init"
+			"/sbin/crash_reporter"
 			"/usr/bin/vm_syslog"
 		)
 	fi
