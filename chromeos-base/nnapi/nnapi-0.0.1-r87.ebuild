@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("b733c2848a803e1b9a6fd4a71cf94edf76e98be5" "e9ef20b988f629406f6a8d7fe22ae5f006abdbd2" "c1e30221aa92e7979cf0a0ee65914849db8b2dcb" "e2ccff249b3be3583ffb0e9be35db7be54715ec9" "08495901b78c7c3d9a1a81e541897c2ec114fe34" "ceff5e345ef65eccd261fdd940f3e4ca67a916ba" "87b7bf52b25d47ad6757ad21726623abbebfde1d" "59f317632862d15b59278a0235eb901270c2889d")
-CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "b9c36e714c10e9332b137c2bada673093c4d1edf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "53a4656104a89df4072d3101327f51fcf6c9cbb2" "b4147760c8f1da9f6749f61748d2cacf89237717" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "cbb1596cd3157db5ffe44d03d24c30cc9ed53e38" "dcbde0bbddc02dde72a15bbf5b890da2cc032cc9" "210179df2a3eaa7300deb9b0c195cbb87848d247" "2ea48bccbe24f13f304b13776b86028ca6022818")
+CROS_WORKON_COMMIT=("ca9e6322d8788ccbf1ce23108c280ec784717c7b" "e9ef20b988f629406f6a8d7fe22ae5f006abdbd2" "c1e30221aa92e7979cf0a0ee65914849db8b2dcb" "e2ccff249b3be3583ffb0e9be35db7be54715ec9" "08495901b78c7c3d9a1a81e541897c2ec114fe34" "f0356097d584b884e24b67c789b4800ec6895bd2" "83caf7c58917b971de049e882ec9b23816f12ca1" "59f317632862d15b59278a0235eb901270c2889d")
+CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "61de0b7eb719be892216b59602534319e1b0eba3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "53a4656104a89df4072d3101327f51fcf6c9cbb2" "b4147760c8f1da9f6749f61748d2cacf89237717" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "cbb1596cd3157db5ffe44d03d24c30cc9ed53e38" "6d3d9da9942b38f318bc49866e0dca5ffefd99c8" "95bef85dda5cf0836566c16c6b0651ae91cca7e2" "2ea48bccbe24f13f304b13776b86028ca6022818")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -114,6 +114,7 @@ src_install() {
 	doins -r ../aosp/system/core/libutils/include/*
 	doins -r ../aosp/system/libbase/include/*
 	doins -r ../aosp/system/libfmq/include/*
+	doins -r ../aosp/system/libfmq/base/*
 	doins -r ../aosp/system/libhidl/base/include/*
 	doins -r ../aosp/system/libhidl/libhidlmemory/include/*
 	doins -r ../aosp/system/logging/liblog/include/*
