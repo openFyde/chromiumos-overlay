@@ -7,14 +7,14 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/appfuse .gn"
+CROS_WORKON_SUBTREE="common-mk arc/container/appfuse .gn"
 
-PLATFORM_SUBDIR="arc/appfuse"
+PLATFORM_SUBDIR="arc/container/appfuse"
 
 inherit cros-workon platform user
 
 DESCRIPTION="D-Bus service to provide ARC Appfuse"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/appfuse"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/appfuse"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
