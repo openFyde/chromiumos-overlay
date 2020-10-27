@@ -3,20 +3,20 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b733c2848a803e1b9a6fd4a71cf94edf76e98be5"
-CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "4a54e801b1f173938792396f73e1721f27850df9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="226a30463dc266b2edfb64fec5b7ff32bf538e78"
+CROS_WORKON_TREE=("824835433089136b9e63f6cfd441ed8c093fa54c" "98e11b50232d467ec9f3eee9d784977e90d8b745" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/obb-mounter .gn"
+CROS_WORKON_SUBTREE="common-mk arc/container/obb-mounter .gn"
 
-PLATFORM_SUBDIR="arc/obb-mounter"
+PLATFORM_SUBDIR="arc/container/obb-mounter"
 
 inherit cros-workon platform
 
 DESCRIPTION="D-Bus service to mount OBB files"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/obb-mounter"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/obb-mounter"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
