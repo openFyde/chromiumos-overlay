@@ -8,7 +8,6 @@
 # development.  We have to add board-specific rules manually.
 
 EXPORT_FUNCTIONS src_compile src_install
-REQUIRED_USE="racc"
 
 # @ECLASS-VARIABLE: CROS_RACC_MODEL
 # @DESCRIPTION:
