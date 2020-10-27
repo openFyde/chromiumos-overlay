@@ -1,15 +1,15 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile configure info install postinst prepare prerm setup test unpack
-DEPEND=chromeos-base/system_api:= sys-apps/dbus:= =dev-rust/futures-0.3*:= =dev-rust/getopts-0.2*:= =dev-rust/intrusive-collections-0.9*:= =dev-rust/libc-0.2*:= =dev-rust/log-0.4*:= >=dev-rust/protobuf-2.1:= !>=dev-rust/protobuf-3.0:= >=virtual/rust-1.39.0:=
+DEPEND=chromeos-base/system_api:= sys-apps/dbus:= dev-rust/data_model:= =dev-rust/futures-0.3*:= =dev-rust/getopts-0.2*:= =dev-rust/intrusive-collections-0.9*:= =dev-rust/libc-0.2*:= =dev-rust/log-0.4*:= >=dev-rust/protobuf-2.1:= !>=dev-rust/protobuf-3.0:= >=virtual/rust-1.39.0:=
 DESCRIPTION=A Rust utility library for Chrome OS
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/libchromeos-rs/
-IUSE=test cros_host cros_workon_tree_548ab39b9119c4e45353aa0561ad147e698b4216 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+IUSE=test cros_host cros_workon_tree_151d9c18467422600146e41e9f06c7e848c4a525 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=!!<=dev-rust/libchromeos-0.1.0-r2
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r18
+SLOT=0/0.1.0-r19
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	fe84a85c511ad2ec055cbe0cc74bb011	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=45198574f802a01def2385e243ad1140
+_md5_=167ebae2615638034b4153b2ff958d5e
