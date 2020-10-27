@@ -18,7 +18,6 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 IUSE="
-	android-container-pi
 	arcpp
 	arcvm
 	"
@@ -37,12 +36,7 @@ src_install() {
 
 	if use arcpp; then
 		insinto /opt/google/containers/android
-		if use android-container-pi; then
-			doins arc/container/bundle/pi/config.json
-		else
-			echo "Unknown container version" >&2
-			exit 1
-		fi
+		doins arc/container/bundle/pi/config.json
 
 		# Install scripts.
 		insinto /etc/sysctl.d
