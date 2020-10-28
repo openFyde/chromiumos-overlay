@@ -12,8 +12,8 @@ EAPI=7
 # 5. Set the ACL of the file to public-read
 # 6. Update manifest of the package by ebuild manifest command.
 
-# released-2020-08-07
-TCLINT_VERSION="JWbE1OOypcIR7PTWuJsDP_WMIoKE2jujjfCGBu_h9zsC"
+# released-20201029
+TCLINT_VERSION="sjRn9w13x8uDUepDyVXBmIdIjqmF0M2cw6QxTiUIihYC"
 SRC_URI="cipd://chromiumos/infra/tclint/linux-amd64:${TCLINT_VERSION} -> ${P}.zip"
 
 DESCRIPTION="Linter for Chrome OS test configuration data"
