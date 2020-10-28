@@ -20,25 +20,26 @@ DEPEND=""
 S="${WORKDIR}/abseil-cpp-${PV}"
 ABSLDIR="${WORKDIR}/${P}_build/absl"
 
+src_configure() {
+	local mycmakeargs=(
+		-DBUILD_SHARED_LIBS=on
+	)
+
+	cmake-utils_src_configure
+}
+
 src_compile() {
 	cmake-utils_src_compile
 
-	cd "${ABSLDIR}"
-	# Combine absl libraries into a single archive.
-	(
-		echo "CREATE libabsl.a"
-		printf 'ADDLIB %s\n' */*.a
-		echo "SAVE"
-		echo "END"
-	) >archive_script
-	$(tc-getAR) -M < archive_script || die
+	local libs=( "${ABSLDIR}"/*/libabsl_*.so )
+	[[ ${#libs[@]} -le 1 ]] && die
+	local linklibs="$(echo "${libs[*]}" | sed -E -e 's|[^ ]*/lib([^ ]*)\.so|-l\1|g')"
+	sed -e "s/@LIBS@/${linklibs}/g" "${FILESDIR}/absl.pc.in" > absl.pc || die
 }
 
 src_install() {
 	cmake-utils_src_install
 
-	dolib.a "${ABSLDIR}/libabsl.a"
-
 	insinto /usr/$(get_libdir)/pkgconfig
-	doins "${FILESDIR}/absl.pc"
+	doins absl.pc
 }
