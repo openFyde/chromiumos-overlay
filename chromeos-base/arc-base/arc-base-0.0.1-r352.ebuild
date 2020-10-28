@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c24751e7b54732387b6da5896a990a12a870e65"
-CROS_WORKON_TREE=("3f47c000ac2656a574bb06b430a66f6783c3842a" "db01bef3f173c69a40670602345d43fe22b6e43a" "62ab28cea9982ce45c1ee9b40820f4557f279666" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a7a017591a88dc3eb61d32f2ce7f1cc281dcc566"
+CROS_WORKON_TREE=("3f47c000ac2656a574bb06b430a66f6783c3842a" "db01bef3f173c69a40670602345d43fe22b6e43a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/container/bundle arc/scripts .gn"
+CROS_WORKON_SUBTREE="common-mk arc/container/bundle .gn"
 
 inherit cros-workon user
 
@@ -32,17 +32,9 @@ DEPEND="${RDEPEND}"
 CONTAINER_ROOTFS="/opt/google/containers/android/rootfs"
 
 src_install() {
-	# Redirect ARC and ARCVM logs to arc.log.
-	insinto /etc/rsyslog.d
-	doins arc/scripts/rsyslog.arc.conf
-
 	if use arcpp; then
 		insinto /opt/google/containers/android
 		doins arc/container/bundle/pi/config.json
-
-		# Install scripts.
-		insinto /etc/sysctl.d
-		doins arc/scripts/01-sysctl-arc.conf
 
 		# Install exception file for FIFO blocking policy on stateful partition.
 		insinto /usr/share/cros/startup/fifo_exceptions

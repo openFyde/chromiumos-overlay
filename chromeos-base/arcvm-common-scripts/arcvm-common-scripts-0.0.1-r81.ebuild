@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c24751e7b54732387b6da5896a990a12a870e65"
-CROS_WORKON_TREE=("3f47c000ac2656a574bb06b430a66f6783c3842a" "438efc3760cc067fca0dcc6da818b34ad7db35cc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a7a017591a88dc3eb61d32f2ce7f1cc281dcc566"
+CROS_WORKON_TREE=("3f47c000ac2656a574bb06b430a66f6783c3842a" "2aff142f69e405971ae4ac36444b82d99078f293" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,6 +21,7 @@ KEYWORDS="*"
 
 RDEPEND="
 	${RDEPEND}
+	!<=chromeos-base/arc-base-0.0.1-r349
 	!<=chromeos-base/arc-common-scripts-0.0.1-r132
 	chromeos-base/arcvm-mount-media-dirs
 "
@@ -39,4 +40,8 @@ src_install() {
 	insinto /usr/share/arcvm/fsverity-certs
 	doins arc/vm/scripts/init/certs/fsverity-release.x509.der
 	doins arc/vm/scripts/init/certs/play_store_fsi_cert.der
+
+	# Redirect ARCVM logs to arc.log.
+	insinto /etc/rsyslog.d
+	doins arc/vm/scripts/rsyslog.arc.conf
 }
