@@ -4,10 +4,10 @@ DEPEND=dev-libs/openssl:0=
 DESCRIPTION=TPM2.0 library
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/tpm2/
-IUSE=tpm2_simulator tpm2_simulator_manufacturer cros_host cros_workon_tree_f3618d301e99a5f52e91bb483844ffc9ec7c871e
+IUSE=tpm2_simulator tpm2_simulator_manufacturer cros_host cros_workon_tree_cc1a5821d0a092159a9c07f4d0289b0b39105a86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-SLOT=0/0.0.1-r130
+SLOT=0/0.0.1-r131
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=60fcd585a15fdc3bd25a8885ff861f8d
+_md5_=fc1ea47c9ca33c39ade0ac4e131fd204
