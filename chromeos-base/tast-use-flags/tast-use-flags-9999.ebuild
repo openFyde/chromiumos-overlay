@@ -27,6 +27,7 @@ IUSE="
 	arc
 	arc-camera1
 	arc-camera3
+	arc_uses_cros_video_decoder
 	arcpp
 	arcvm
 	arm
