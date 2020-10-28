@@ -3,7 +3,7 @@
 # found in the LICENSE file.
 
 PKG_CONFIG ?= pkg-config
-PC_DEPS = dbus-1 libchrome-$(BASE_VER) libmojo-$(BASE_VER) libcras
+PC_DEPS = dbus-1 libchrome libmojo libcras
 PKG_CONFIG_CFLAGS := $(shell $(PKG_CONFIG) --cflags $(PC_DEPS))
 PKG_CONFIG_LIBS := $(shell $(PKG_CONFIG) --libs $(PC_DEPS))
 
