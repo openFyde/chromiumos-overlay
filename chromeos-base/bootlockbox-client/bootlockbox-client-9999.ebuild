@@ -37,7 +37,6 @@ src_install() {
 	doins "${OUT}"/gen/include/cryptohome/bootlockbox/*.h
 
 	dolib.a "${OUT}"/libbootlockbox-proto.a
-	dolib.a "${OUT}"/libbootlockbox-generated-proto.a
 	# Install libbootlockbox-client.so:
 	dolib.so "${OUT}"/lib/libbootlockbox-client.so
 
