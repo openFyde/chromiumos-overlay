@@ -24,13 +24,12 @@ DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
 
 # SHA-1 or tag will both work.
-GIT_REF="0.99.18"
+GIT_REF="0.99.19"
 SRC_URI="https://github.com/alexpevzner/sane-airscan/archive/${GIT_REF}.tar.gz -> ${PN}-${GIT_REF}.tar.gz"
 S="${WORKDIR}/${PN}-${GIT_REF}"
 
 PATCHES=(
 	"${FILESDIR}/sane-airscan-0.99.10-fuzzer.patch"
-	"${FILESDIR}/sane-airscan-0.99.17-pointer-cast.patch"
 )
 
 src_prepare() {
