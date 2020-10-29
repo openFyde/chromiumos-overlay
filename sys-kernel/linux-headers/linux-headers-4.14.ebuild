@@ -58,6 +58,7 @@ PATCHES=(
 	"${FILESDIR}/0035-BACKPORT-Input-Add-FULL_SCREEN-ASPECT_RATIO-SELECTIV.patch"
 	"${FILESDIR}/0036-CHROMIUM-Add-fscrypt-header.patch"
 	"${FILESDIR}/0037-BACKPORT-v4l2-add-V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS.patch"
+	"${FILESDIR}/0038-BACKPORT-Add-io_uring-IO-interface.patch"
 )
 
 src_unpack() {
