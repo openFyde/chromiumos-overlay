@@ -5,7 +5,9 @@ EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_DESTDIR="${S}/platform2"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/intel/ipu6 camera/include camera/mojo chromeos-config common-mk metrics"
+CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/hal/intel/ipu6"
@@ -44,14 +46,6 @@ DEPEND="${RDEPEND}
 	media-libs/cros-camera-android-headers
 	virtual/jpeg:0
 	virtual/pkgconfig"
-
-src_unpack() {
-	platform_src_unpack
-	cd "${P}/platform2" || die
-	# Generate the patches under platform2 by 'git format-patch <parent_commit>'
-	eapply "${FILESDIR}/0001-intel-ipu6-Add-initial-code-1st-part.patch"
-	eapply "${FILESDIR}/0002-intel-ipu6-Add-initial-code-2nd-part.patch"
-}
 
 src_install() {
 	dolib.so "${OUT}/lib/libcamhal.so"
