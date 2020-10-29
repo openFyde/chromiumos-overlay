@@ -25,7 +25,7 @@ KEYWORDS="~*"
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption double_extend_pcr_issue fuzzer
 	generated_cros_config mount_oop pinweaver selinux systemd test tpm tpm2
-	unibuild user_session_isolation"
+	tpm2_simulator unibuild user_session_isolation"
 
 REQUIRED_USE="
 	device_mapper
@@ -122,7 +122,18 @@ src_install() {
 		systemd_enable_service ui.target lockbox-cache.service
 	else
 		insinto /etc/init
-		doins init/*.conf
+		doins init/cryptohomed-client.conf
+		doins init/cryptohomed.conf
+		doins init/cryptohome-proxy.conf
+		doins init/cryptohome-update-userdataauth.conf
+		doins init/init-homedirs.conf
+		doins init/mount-encrypted.conf
+		doins init/send-mount-encrypted-metrics.conf
+		if use tpm2_simulator; then
+			newins init/lockbox-cache.conf.tpm2_simulator lockbox-cache.conf
+		else
+			doins init/lockbox-cache.conf
+		fi
 		if use tpm2; then
 			insinto /usr/share/policy
 			newins bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy \
@@ -141,7 +152,11 @@ src_install() {
 		fi
 	fi
 	exeinto /usr/share/cros/init
-	doexe init/lockbox-cache.sh
+	if use tpm2_simulator; then
+		newexe init/lockbox-cache.sh.tpm2_simulator lockbox-cache.sh
+	else
+		doexe init/lockbox-cache.sh
+	fi
 	if use cert_provision; then
 		insinto /usr/include/cryptohome
 		doins cert_provision.h
