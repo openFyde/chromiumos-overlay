@@ -11,7 +11,6 @@ ANDROID_CONTAINER_VERS=(
 
 # USE flags corresponding to different VM versions.
 ANDROID_VM_VERS=(
-	android-vm-pi
 	android-vm-rvc
 	android-vm-master
 )
@@ -55,15 +54,12 @@ arc-build-constants-configure() {
 	ARC_VM_PREFIX="/opt/google/vms/android"
 	ARC_CONTAINER_PREFIX="/opt/google/containers/android"
 
-	if use arcpp && use arcvm; then
-		# When building ARC++ and ARCVM together, the path to which common packages
-		# will install to will point to a union path jointed during build_images.
-		ARC_PREFIX="/build/rootfs/opt/google/union/android"
-		ARC_VM_PREFIX="/usr/local/vms/android"
-	elif use arcvm; then
+	if use arcvm; then
 		ARC_PREFIX="${ARC_VM_PREFIX}"
-	else
+	elif use arcpp; then
 		ARC_PREFIX="${ARC_CONTAINER_PREFIX}"
+	else
+		die "USE=arcvm or USE=arcpp is required"
 	fi
 
 	# Always finalize *_DIR's only after setting the PREFIX*'s to allow for
