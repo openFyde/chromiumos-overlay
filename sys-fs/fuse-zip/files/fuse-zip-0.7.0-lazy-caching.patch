@@ -1,4 +1,4 @@
-From 0ea408e4a0159faf0c0da386cad145d0251a46d2 Mon Sep 17 00:00:00 2001
+From 69b7010995534bef058d2a7e2b2c7e18bb760222 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Thu, 18 Jun 2020 23:35:55 +1000
 Subject: [PATCH] Lazy caching of files
@@ -6,14 +6,14 @@ Subject: [PATCH] Lazy caching of files
 Only cache a file in memory if it needs to be cached and if it is less than 1GB.
 ---
  lib/Makefile      |   4 +-
- lib/bigBuffer.cpp | 360 ++++++++++++++++++++++++----------------------
+ lib/bigBuffer.cpp | 362 ++++++++++++++++++++++++----------------------
  lib/bigBuffer.h   |  89 +++++++-----
  lib/dataNode.cpp  |   7 +-
  lib/dataNode.h    |   3 +-
  lib/fileNode.cpp  |   2 +-
  lib/fileNode.h    |   2 +-
  lib/fuse-zip.cpp  |   4 +-
- 8 files changed, 252 insertions(+), 219 deletions(-)
+ 8 files changed, 254 insertions(+), 219 deletions(-)
 
 diff --git a/lib/Makefile b/lib/Makefile
 index d092e0e..af2df55 100644
@@ -31,7 +31,7 @@ index d092e0e..af2df55 100644
  ZIPFLAGS=$(shell $(PKG_CONFIG) libzip --cflags)
  SOURCES=$(sort $(wildcard *.cpp))
 diff --git a/lib/bigBuffer.cpp b/lib/bigBuffer.cpp
-index 109d2f0..6f05262 100644
+index 109d2f0..268807a 100644
 --- a/lib/bigBuffer.cpp
 +++ b/lib/bigBuffer.cpp
 @@ -17,6 +17,8 @@
@@ -172,7 +172,7 @@ index 109d2f0..6f05262 100644
          return count;
      }
  
-@@ -149,192 +129,228 @@ public:
+@@ -149,192 +129,230 @@ public:
       * Clear tail of internal buffer with zeroes starting from 'offset'.
       */
      void clearTail(unsigned int offset) {
@@ -241,7 +241,8 @@ index 109d2f0..6f05262 100644
 +    do {
 +        nr = zip_fread(file.get(), chunk.ptr(), chunkSize);
 +        if (nr < 0)
-+            throw std::runtime_error(zip_file_strerror(file.get()));
++            throw ZipError("Cannot read file " + std::to_string(nodeId_),
++                           file.get());
 +
 +        len += nr;
 +        chunks_.push_back(std::move(chunk));
@@ -284,7 +285,8 @@ index 109d2f0..6f05262 100644
 +            assert(pos_ == offset);
 +            const zip_int64_t n = zip_fread(file_.get(), buf, size);
 +            if (n < 0) {
-+                throw std::runtime_error(zip_file_strerror(file_.get()));
++                throw ZipError("Cannot read file " + std::to_string(nodeId_),
++                               file_.get());
 +            }
 +
 +            // Adjust recorded position.
@@ -714,10 +716,10 @@ index 7489ec9..550593c 100644
  #endif
 -
 diff --git a/lib/fileNode.cpp b/lib/fileNode.cpp
-index 30c2975..aeb66ec 100644
+index efe1105..62723d6 100644
 --- a/lib/fileNode.cpp
 +++ b/lib/fileNode.cpp
-@@ -191,7 +191,7 @@ int FileNode::open() {
+@@ -189,7 +189,7 @@ int FileNode::open() {
      return _data->open(zip);
  }
  
@@ -740,10 +742,10 @@ index 998bc9e..ab07cd9 100644
      int close();
  
 diff --git a/lib/fuse-zip.cpp b/lib/fuse-zip.cpp
-index 73ea2fa..4c4c2a4 100644
+index 061cc6d..113065c 100644
 --- a/lib/fuse-zip.cpp
 +++ b/lib/fuse-zip.cpp
-@@ -269,8 +269,7 @@ int fusezip_read(const char *path, char *buf, size_t size, off_t offset,
+@@ -262,8 +262,7 @@ int fusezip_read(const char *path, char *buf, size_t size, off_t offset,
                   struct fuse_file_info *fi) try {
      if (offset < 0)
          return -EINVAL;
@@ -753,11 +755,11 @@ index 73ea2fa..4c4c2a4 100644
  } catch (...) {
      return exceptionToError("read file", path);
  }
-@@ -662,4 +661,3 @@ int fusezip_symlink(const char *dest, const char *path) {
+@@ -655,4 +654,3 @@ int fusezip_symlink(const char *dest, const char *path) {
      node->close();
      return (res < 0) ? -ENOMEM : 0;
  }
 -
 -- 
-2.27.0.383.g050319c2ae-goog
+2.29.1.341.ge80a0c044ae-goog
 
