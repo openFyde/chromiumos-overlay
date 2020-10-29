@@ -1,10 +1,10 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=5
 
 PYTHON_COMPAT=( python2_7 )
-inherit python-any-r1 toolchain-funcs
+inherit python-any-r1 versionator toolchain-funcs
 
 if [[ ${PV} = *beta* ]]; then
 	betaver=${PV//*beta}
@@ -14,7 +14,7 @@ if [[ ${PV} = *beta* ]]; then
 	SRC="${BETA_SNAPSHOT}/rustc-beta-src.tar.gz"
 	KEYWORDS=""
 else
-	ABI_VER="$(ver_cut 1-2)"
+	ABI_VER="$(get_version_component_range 1-2)"
 	SLOT="stable/${ABI_VER}"
 	MY_P="rustc-${PV}"
 	SRC="${MY_P}-src.tar.gz"
@@ -127,6 +127,8 @@ src_prepare() {
 	sed -e 's:#include <stdlib.h>:void abort(void);:g' \
 		-i "${ECONF_SOURCE:-.}"/src/llvm-project/compiler-rt/lib/builtins/int_util.c || die
 
+	epatch "${PATCHES[@]}"
+
 	# For the librustc_llvm module, the build will link with -nodefaultlibs and manually choose the
 	# std C++ library. For x86_64 Linux, the build script always chooses libstdc++ which will not
 	# work if LLVM was built with USE="default-libcxx". This snippet changes that choice to libc++
@@ -190,6 +192,7 @@ EOF
 }
 
 src_compile() {
+	# FIXME: upstream is now using `dist` instead of `build` -- should we do the same?
 	${EPYTHON} x.py build --stage 2 --config cros-config.toml || die
 }
 
