@@ -25,7 +25,6 @@ KEYWORDS="*"
 
 DEPEND="virtual/chromeos-bsp-factory:=
 	virtual/chromeos-regions:=
-	dev-python/enum34:=
 	dev-python/jsonrpclib:=
 	dev-python/pyyaml:=
 	dev-python/protobuf-python:=

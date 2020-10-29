@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="73d971357f5c6fbe3625febc5dc84a917d6b5506"
+CROS_WORKON_COMMIT="dc73352d681464d3bffed1228498ce8c55a4eb92"
 CROS_WORKON_TREE="2aeac53ba60c299115bae900809c074566d9228a"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -19,12 +19,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="python_targets_python2_7"
 
 DEPEND="
 	dev-lang/python
 	dev-python/dbus-python
-	dev-python/pygobject"
+	python_targets_python2_7? ( dev-python/pygobject )"
 
 RDEPEND="${DEPEND}
 	>=chromeos-base/shill-0.0.1-r2205
