@@ -4,7 +4,7 @@
 # Don't use Makefile.external here as it fetches from the network.
 EAPI=7
 
-CROS_WORKON_COMMIT="3c24751e7b54732387b6da5896a990a12a870e65"
+CROS_WORKON_COMMIT="0251514bc0529247034550c8d670b987f9fc63fe"
 CROS_WORKON_TREE=("3f47c000ac2656a574bb06b430a66f6783c3842a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
@@ -54,6 +54,8 @@ src_unpack() {
 	mv "${SRC_DIR}"/{.[!.],}* ./ || die
 	eapply "${FILESDIR}"/quipper-disable-flaky-tests.patch
 	eapply "${FILESDIR}"/quipper-arraysize.patch
+	# TODO(crbug/920513): remove when tarball from SRC_URI has it.
+	eapply "${FILESDIR}"/quipper-use-unversioned-libchrome.patch
 	popd >/dev/null
 }
 
