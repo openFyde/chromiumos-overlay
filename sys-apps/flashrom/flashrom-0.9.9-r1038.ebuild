@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/flashrom/flashrom-0.9.4.ebuild,v 1.5 2011/09/20 16:03:21 nativemad Exp $
 
 EAPI=7
-CROS_WORKON_COMMIT="07d73808c4f758a9962d6a33329b536abaec9106"
-CROS_WORKON_TREE="e4b3b072a1226cc2451698a5eae32cf1f66b7edd"
+CROS_WORKON_COMMIT="ef451a5a9d4216806f5e909221dec5a6b3164a4b"
+CROS_WORKON_TREE="fde2ce1cb6e8ff2c488c178527eeb38c58585107"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 
 inherit cros-workon toolchain-funcs
