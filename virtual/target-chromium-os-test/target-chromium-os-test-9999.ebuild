@@ -45,6 +45,7 @@ IUSE="
 	tpm2
 	unibuild
 	vaapi
+	vulkan
 	wifi_hostap_test
 	wifi_testbed_ap
 	+wired_8021x
@@ -198,6 +199,9 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	)
 	!chromeless_tests? ( chromeos-base/telemetry )
 	chromeos-base/toolchain-tests
+	vulkan? (
+		chromeos-base/vkbench
+	)
 	dev-embedded/dfu-programmer
 	dev-go/syzkaller
 	dev-libs/re2
