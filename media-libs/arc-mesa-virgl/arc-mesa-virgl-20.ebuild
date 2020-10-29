@@ -150,6 +150,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-util-ralloc-fix-ralloc-alignment.patch
 	epatch "${FILESDIR}"/UPSTREAM-st-mesa-Fix-EGLImageTargetTexture2D-for-GL_TEXTURE_2.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-dri_util-Update-internal_format-to-GL_RGB8-for-MESA_.patch
+
 	default
 }
 
