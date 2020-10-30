@@ -48,6 +48,7 @@ PROVIDED_DEPEND="
 	app-arch/sharutils
 	app-arch/tar
 	app-misc/figlet
+	chromeos-base/chromeos-config-tools
 	chromeos-base/vboot_reference
 	sys-apps/mosys
 	sys-apps/util-linux"
