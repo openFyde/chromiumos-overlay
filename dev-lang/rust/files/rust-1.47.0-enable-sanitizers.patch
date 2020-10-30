@@ -36,7 +36,7 @@ index 227a87ff819..7d9682883a8 100644
      }
  
 diff --git a/src/librustc_codegen_ssa/back/link.rs b/src/librustc_codegen_ssa/back/link.rs
-index bfcf979d125..5c353856bd5 100644
+index bfcf979d125..3f279259402 100644
 --- a/src/librustc_codegen_ssa/back/link.rs
 +++ b/src/librustc_codegen_ssa/back/link.rs
 @@ -785,7 +785,7 @@ fn link_sanitizers(sess: &Session, crate_type: CrateType, linker: &mut dyn Linke
@@ -48,8 +48,12 @@ index bfcf979d125..5c353856bd5 100644
      if sanitizer.contains(SanitizerSet::ADDRESS) {
          link_sanitizer_runtime(sess, linker, "asan");
      }
-@@ -823,7 +823,9 @@ fn link_sanitizer_runtime(sess: &Session, linker: &mut dyn Linker, name: &str) {
+@@ -821,9 +821,13 @@ fn link_sanitizer_runtime(sess: &Session, linker: &mut dyn Linker, name: &str) {
+         }
+         "aarch64-fuchsia"
          | "aarch64-unknown-linux-gnu"
++        | "aarch64-cros-linux-gnu"
++        | "armv7a-cros-linux-gnueabihf"
          | "x86_64-fuchsia"
          | "x86_64-unknown-freebsd"
 -        | "x86_64-unknown-linux-gnu" => {
@@ -59,7 +63,7 @@ index bfcf979d125..5c353856bd5 100644
              let filename = format!("librustc{}_rt.{}.a", channel, name);
              let path = default_tlib.join(&filename);
              linker.link_whole_rlib(&path);
-@@ -1596,11 +1598,8 @@ fn linker_with_args<'a, B: ArchiveBuilder<'a>>(
+@@ -1596,11 +1600,8 @@ fn linker_with_args<'a, B: ArchiveBuilder<'a>>(
  
      // NO-OPT-OUT, OBJECT-FILES-NO, AUDIT-ORDER
      if sess.target.target.options.is_like_fuchsia && crate_type == CrateType::Executable {
@@ -148,7 +152,7 @@ index d05f1a3f34b..3ace7f77a70 100644
          "enable origins tracking in MemorySanitizer"),
      sanitizer_recover: SanitizerSet = (SanitizerSet::empty(), parse_sanitizers, [TRACKED],
 diff --git a/src/librustc_session/session.rs b/src/librustc_session/session.rs
-index c006e593e47..beecf41d9e5 100644
+index c006e593e47..4298eeee9fa 100644
 --- a/src/librustc_session/session.rs
 +++ b/src/librustc_session/session.rs
 @@ -656,7 +656,7 @@ impl Session {
@@ -169,7 +173,13 @@ index c006e593e47..beecf41d9e5 100644
      }
  
      pub fn mark_attr_known(&self, attr: &Attribute) {
-@@ -1449,20 +1449,34 @@ fn validate_commandline_args_with_session_available(sess: &Session) {
+@@ -1445,24 +1445,46 @@ fn validate_commandline_args_with_session_available(sess: &Session) {
+     const ASAN_SUPPORTED_TARGETS: &[&str] = &[
+         "aarch64-fuchsia",
+         "aarch64-unknown-linux-gnu",
++        "aarch64-cros-linux-gnu",
++        "armv7a-cros-linux-gnueabihf",
+         "x86_64-apple-darwin",
          "x86_64-fuchsia",
          "x86_64-unknown-freebsd",
          "x86_64-unknown-linux-gnu",
@@ -178,6 +188,8 @@ index c006e593e47..beecf41d9e5 100644
 +    ];
 +    const LSAN_SUPPORTED_TARGETS: &[&str] = &[
 +        "aarch64-unknown-linux-gnu",
++        "aarch64-cros-linux-gnu",
++        "armv7a-cros-linux-gnueabihf",
 +        "x86_64-apple-darwin",
 +        "x86_64-cros-linux-gnu",
 +        "x86_64-pc-linux-gnu",
@@ -185,6 +197,8 @@ index c006e593e47..beecf41d9e5 100644
 +    ];
 +    const MSAN_SUPPORTED_TARGETS: &[&str] = &[
 +        "aarch64-unknown-linux-gnu",
++        "aarch64-cros-linux-gnu",
++        "armv7a-cros-linux-gnueabihf",
 +        "x86_64-cros-linux-gnu",
 +        "x86_64-pc-linux-gnu",
 +        "x86_64-unknown-freebsd",
@@ -196,6 +210,8 @@ index c006e593e47..beecf41d9e5 100644
 -        &["aarch64-unknown-linux-gnu", "x86_64-unknown-freebsd", "x86_64-unknown-linux-gnu"];
      const TSAN_SUPPORTED_TARGETS: &[&str] = &[
          "aarch64-unknown-linux-gnu",
++        "aarch64-cros-linux-gnu",
++        "armv7a-cros-linux-gnueabihf",
          "x86_64-apple-darwin",
 +        "x86_64-cros-linux-gnu",
 +        "x86_64-pc-linux-gnu",
@@ -209,7 +225,7 @@ index c006e593e47..beecf41d9e5 100644
          let supported_targets = match s {
              SanitizerSet::ADDRESS => ASAN_SUPPORTED_TARGETS,
              SanitizerSet::LEAK => LSAN_SUPPORTED_TARGETS,
-@@ -1477,10 +1491,10 @@ fn validate_commandline_args_with_session_available(sess: &Session) {
+@@ -1477,10 +1499,10 @@ fn validate_commandline_args_with_session_available(sess: &Session) {
                  supported_targets.join(", ")
              ));
          }
