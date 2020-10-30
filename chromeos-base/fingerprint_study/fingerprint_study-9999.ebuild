@@ -41,4 +41,11 @@ src_install() {
 
 	insinto /etc/init
 	doins init/fingerprint_study.conf
+	doins init/syslog_fingerprint_study.conf
+
+	insinto /etc/bash/bashrc.d
+	doins shell-audit.sh
+
+	insinto /etc/rsyslog.d
+	doins rsyslog.fpstudy-audit.conf
 }
