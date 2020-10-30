@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("814324661465ef3c5fda5ef8134ab3d0679c4a18" "ecd17cc57afaa19571a371cfd9aef3f868004835")
-CROS_WORKON_TREE=("3a989be8b720701c4023d8b52d50648e01cf9dd2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "b45c8cb8e1de873b9fa5439b1bd58317793b57b1")
+CROS_WORKON_COMMIT=("30c6561ff7cce46cce65a696d3ced567da4d1615" "9668a42ec01952d5fa0080d49cc1ecd31994ef96")
+CROS_WORKON_TREE=("3a989be8b720701c4023d8b52d50648e01cf9dd2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2c3e608ec12f807fd8b085b39a94facd459cb406")
 CROS_WORKON_LOCALNAME=("../platform2" "libtextclassifier")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/libtextclassifier")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libtextclassifier")
@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/libtextclassi
 
 MODEL_URI=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711.fb"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711_vocab-v1.fb"
 )
 
 SRC_URI="${MODEL_URI[*]}"
@@ -46,6 +46,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	dev-libs/libutf:=
+	dev-libs/marisa-aosp:=
 "
 
 src_install() {
@@ -99,6 +100,8 @@ src_install() {
 		"annotator/types.h"
 		"annotator/vocab/vocab-annotator.h"
 		"annotator/vocab/vocab-annotator-dummy.h"
+		"annotator/vocab/vocab-annotator-impl.h"
+		"annotator/vocab/vocab-level-table.h"
 		"annotator/zlib-utils.h"
 		"lang_id/common/embedding-network-params.h"
 		"lang_id/common/fel/task-context.h"
