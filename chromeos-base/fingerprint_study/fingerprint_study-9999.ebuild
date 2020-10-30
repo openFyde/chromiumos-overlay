@@ -40,5 +40,5 @@ src_install() {
 	doins html/fingerprint.svg
 
 	insinto /etc/init
-	doins fingerprint_study.conf
+	doins init/fingerprint_study.conf
 }
