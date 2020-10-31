@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="814324661465ef3c5fda5ef8134ab3d0679c4a18"
+CROS_WORKON_COMMIT="a6d2f6a8e1590ca1fd5ac0b914160dec10c70a49"
 CROS_WORKON_TREE=("3a989be8b720701c4023d8b52d50648e01cf9dd2" "c331c02d814e79f71d8272c8fcf2373416eedddf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -51,6 +51,7 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins dbus_service/org.chromium.ImageLoader.service
 	insinto /etc/init
+	# TODO(kerrnel): Remove pepper-flash-player.conf.
 	doins init/pepper-flash-player.conf
 	doins init/imageloader.conf
 	doins init/imageloader-shutdown.conf
