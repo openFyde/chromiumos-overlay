@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8afa55e581aa11e947de4f3f13a194afa4e0cee0"
-CROS_WORKON_TREE=("3a989be8b720701c4023d8b52d50648e01cf9dd2" "088006360bd727348e7c4409ce084fdd52208c03" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="4d2811432df10d0c7615c85eeed88543c2435dd8"
+CROS_WORKON_TREE=("3a989be8b720701c4023d8b52d50648e01cf9dd2" "657832991380c3281bf6594625f1c5947f98e938" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -39,7 +39,6 @@ src_install() {
 	doins "${OUT}"/gen/include/cryptohome/bootlockbox/*.h
 
 	dolib.a "${OUT}"/libbootlockbox-proto.a
-	dolib.a "${OUT}"/libbootlockbox-generated-proto.a
 	# Install libbootlockbox-client.so:
 	dolib.so "${OUT}"/lib/libbootlockbox-client.so
 
