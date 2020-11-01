@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI=6
+EAPI=7
 
 MESON_AUTO_DEPEND=no
 
@@ -93,13 +93,6 @@ driver_list() {
 }
 
 src_prepare() {
-	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
-		EPATCH_FORCE="yes" \
-		EPATCH_SOURCE="${WORKDIR}/patches" \
-		EPATCH_SUFFIX="patch" \
-		epatch
-	fi
 	# FreeBSD 6.* doesn't have posix_memalign().
 	if [[ ${CHOST} == *-freebsd6.* ]]; then
 		sed -i \
@@ -111,12 +104,12 @@ src_prepare() {
 	# compiling, so revert back to hard-coded 'config-tool' method.
 	# This should be fixed in a future meson release.  See:
 	# https://github.com/mesonbuild/meson/issues/7276
-	epatch "${FILESDIR}"/0001-Revert-meson-update-llvm-dependency-logic-for-meson-.patch
+	eapply "${FILESDIR}"/0001-Revert-meson-update-llvm-dependency-logic-for-meson-.patch
 
 	# Patch in the mesa build option to default the shader cache to disabled
 	# while still allowing it to be enabled via environment variable. This is
 	# landed in upstream mesa.
-	epatch "${FILESDIR}"/BACKPORT-disk_cache-build-option-for-disabled-by-def.patch
+	eapply "${FILESDIR}"/BACKPORT-disk_cache-build-option-for-disabled-by-def.patch
 
 	default
 }

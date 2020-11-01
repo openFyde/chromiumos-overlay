@@ -90,13 +90,6 @@ driver_list() {
 }
 
 src_prepare() {
-	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
-		EPATCH_FORCE="yes" \
-		EPATCH_SOURCE="${WORKDIR}/patches" \
-		EPATCH_SUFFIX="patch" \
-		epatch
-	fi
 	# FreeBSD 6.* doesn't have posix_memalign().
 	if [[ ${CHOST} == *-freebsd6.* ]]; then
 		sed -i \
@@ -107,7 +100,7 @@ src_prepare() {
 	# Patch in the mesa build option to default the shader cache to disabled
 	# while still allowing it to be enabled via environment variable. This is
 	# landed in upstream mesa.
-	epatch "${FILESDIR}"/UPSTREAM-disk_cache-build-option-for-disabled-by-def.patch
+	eapply "${FILESDIR}"/UPSTREAM-disk_cache-build-option-for-disabled-by-def.patch
 
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
 	echo '#define MESA_GIT_SHA1 "git-0000000"' > src/git_sha1.h
