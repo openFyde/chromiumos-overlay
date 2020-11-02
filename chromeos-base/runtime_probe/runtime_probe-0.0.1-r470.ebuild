@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7293341a35bde323e4c6daaaabb6060c86155609"
-CROS_WORKON_TREE=("912515235dd01370feac9f51e1153d4684513354" "a74366253f104fe685e9cd7debd8f1a6e59b3c2c" "d509350f317587b57cf91e2a7f13473594c7e547" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0d82b44c1e0d7cbce0ab95f4a962d1b503c06ff9"
+CROS_WORKON_TREE=("912515235dd01370feac9f51e1153d4684513354" "a74366253f104fe685e9cd7debd8f1a6e59b3c2c" "82f2093c54e665beae97c30fed709897a1a0b217" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -48,7 +48,6 @@ pkg_preinst() {
 
 src_install() {
 	dobin "${OUT}/runtime_probe"
-	dobin "${OUT}/runtime_probe_helper"
 
 	# Install upstart configs and scripts.
 	insinto /etc/init
