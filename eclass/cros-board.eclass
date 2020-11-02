@@ -375,6 +375,7 @@ ALL_BOARDS=(
 	snappy
 	sonic
 	soraka
+	soraka-libcamera
 	#space
 	squawks
 	stelvio
