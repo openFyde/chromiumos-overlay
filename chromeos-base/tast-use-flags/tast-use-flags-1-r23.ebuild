@@ -38,6 +38,7 @@ IUSE="
 	betty
 	biod
 	borealis_host
+	cert_provision
 	chrome_internal
 	chrome_media
 	chromeless_tty

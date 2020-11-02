@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7293341a35bde323e4c6daaaabb6060c86155609"
-CROS_WORKON_TREE=("912515235dd01370feac9f51e1153d4684513354" "831638f2ed18deee35c16bbd7079d62cac1d7ccf" "989d840598227b15d78525d5f92c806011a9c158" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e62d2d345add6d9efd8dc4e59111d82ea28139af"
+CROS_WORKON_TREE=("912515235dd01370feac9f51e1153d4684513354" "a32cc7c753a9290bea6cbe7cd7533227800fef09" "989d840598227b15d78525d5f92c806011a9c158" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -27,7 +27,7 @@ KEYWORDS="*"
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption double_extend_pcr_issue fuzzer
 	generated_cros_config mount_oop pinweaver selinux systemd test tpm tpm2
-	unibuild user_session_isolation"
+	tpm2_simulator unibuild user_session_isolation"
 
 REQUIRED_USE="
 	device_mapper
@@ -124,7 +124,18 @@ src_install() {
 		systemd_enable_service ui.target lockbox-cache.service
 	else
 		insinto /etc/init
-		doins init/*.conf
+		doins init/cryptohomed-client.conf
+		doins init/cryptohomed.conf
+		doins init/cryptohome-proxy.conf
+		doins init/cryptohome-update-userdataauth.conf
+		doins init/init-homedirs.conf
+		doins init/mount-encrypted.conf
+		doins init/send-mount-encrypted-metrics.conf
+		if use tpm2_simulator; then
+			newins init/lockbox-cache.conf.tpm2_simulator lockbox-cache.conf
+		else
+			doins init/lockbox-cache.conf
+		fi
 		if use tpm2; then
 			insinto /usr/share/policy
 			newins bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy \
@@ -143,7 +154,11 @@ src_install() {
 		fi
 	fi
 	exeinto /usr/share/cros/init
-	doexe init/lockbox-cache.sh
+	if use tpm2_simulator; then
+		newexe init/lockbox-cache.sh.tpm2_simulator lockbox-cache.sh
+	else
+		doexe init/lockbox-cache.sh
+	fi
 	if use cert_provision; then
 		insinto /usr/include/cryptohome
 		doins cert_provision.h
