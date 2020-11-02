@@ -1675,6 +1675,8 @@ kmake() {
 	tc-export_build_env BUILD_{CC,CXX}
 	CHOST=${cross} tc-export CC CXX LD STRIP OBJCOPY
 	if use clang; then
+		STRIP=llvm-strip
+		OBJCOPY=llvm-objcopy
 		CHOST=${cross} clang-setup-env
 	fi
 	local binutils_path=$(LD=${cross}-ld get_binutils_path_ld)
@@ -1686,6 +1688,8 @@ kmake() {
 
 	set -- \
 		LD="${linker}" \
+		OBJCOPY="${OBJCOPY}" \
+		STRIP="${STRIP}" \
 		CC="${CC} -B${binutils_path}" \
 		CC_COMPAT="${CC_COMPAT}" \
 		CXX="${CXX} -B${binutils_path}" \
