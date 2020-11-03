@@ -7,7 +7,7 @@ CROS_RUST_EMPTY_CRATE=1
 
 inherit cros-rust
 
-DESCRIPTION="Empty version_check crate"
+DESCRIPTION="Empty ${PN} crate"
 HOMEPAGE=""
 
 LICENSE="BSD-Google"
