@@ -185,9 +185,11 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_blob_to_hex_fuzzer
 
-	platform_fuzzer_install "${S}"/OWNERS \
-		"${OUT}"/cryptohome_tpm1_cmk_migration_parser_fuzzer \
-		fuzzers/data/*
+	if use tpm; then
+		platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/cryptohome_tpm1_cmk_migration_parser_fuzzer \
+			fuzzers/data/*
+	fi
 }
 
 pkg_preinst() {
