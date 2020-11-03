@@ -91,6 +91,7 @@ IUSE="
 	ocr
 	octopus
 	pita
+	racc
 	rialto
 	rk3399
 	selinux
