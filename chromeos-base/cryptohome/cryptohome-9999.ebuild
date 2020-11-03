@@ -37,6 +37,9 @@ COMMON_DEPEND="
 	tpm? (
 		app-crypt/trousers:=
 	)
+	fuzzer? (
+		app-crypt/trousers:=
+	)
 	tpm2? (
 		chromeos-base/trunks:=
 	)
@@ -185,11 +188,9 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_blob_to_hex_fuzzer
 
-	if use tpm; then
-		platform_fuzzer_install "${S}"/OWNERS \
-			"${OUT}"/cryptohome_tpm1_cmk_migration_parser_fuzzer \
-			fuzzers/data/*
-	fi
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/cryptohome_tpm1_cmk_migration_parser_fuzzer \
+		fuzzers/data/*
 }
 
 pkg_preinst() {
