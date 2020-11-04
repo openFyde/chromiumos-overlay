@@ -338,6 +338,15 @@ cros-ec_src_test() {
 
 	# Verify compilation of all boards.
 	emake "${EC_OPTS[@]}" buildall
+
+	# Verify compilation of the on-device unit test binaries.
+	# TODO(b/172501728) These should build  for all boards, but they've bit
+	# rotted, so we only build the ones that compile.
+	local -a unit_test_boards=("bloonchipper")
+	for board in "${unit_test_boards[@]}"; do
+		einfo "Building unit tests for ${board}"
+		BOARD=${board} emake "${EC_OPTS[@]}" tests
+	done
 }
 
 EXPORT_FUNCTIONS src_unpack src_prepare src_compile src_test src_install
