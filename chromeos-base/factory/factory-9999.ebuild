@@ -66,8 +66,15 @@ src_unpack() {
 	default
 }
 
-src_install() {
+src_compile() {
 	emake bundle
+}
+
+src_test() {
+	emake ebuild-test
+}
+
+src_install() {
 	insinto "${CROS_FACTORY_BOARD_RESOURCES_DIR}"
 	doins "${BUILD_DIR}/resource/installer.tar"
 }
