@@ -1,7 +1,9 @@
-# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Copyright 2020 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
+
+CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
@@ -14,8 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/crossbeam-utils-0.6.5:= <dev-rust/crossbeam-utils-0.7.0
-	>=dev-rust/smallvec-0.6.2:=
-	=dev-rust/rand-0.6*:=
-	>=dev-rust/signal-hook-0.1.5:=
+	=dev-rust/cfg-if-1*:=
+	>=dev-rust/crossbeam-utils-0.8.0:= <dev-rust/crossbeam-utils-0.9.0
+	=dev-rust/rand-0.7*:=
 "
