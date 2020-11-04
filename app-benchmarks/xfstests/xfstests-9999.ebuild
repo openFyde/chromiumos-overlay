@@ -3,7 +3,7 @@
 
 EAPI=5
 CROS_WORKON_PROJECT="external/git.kernel.org/fs/xfs/xfstests-dev"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_MANUAL_UPREV="1"
 
 inherit autotools cros-workon
 
