@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="63f1b0b117d4d85f69c4bc0ab490551712ce5938"
-CROS_WORKON_TREE="c7db4e14e208ec3abc137d83cf4ef0a3bd52f414"
+CROS_WORKON_COMMIT="70a569b4d3c39247cdcafe06ea1531ed79789557"
+CROS_WORKON_TREE="65539b94936a31285f1a431d38c2f2cdd8ceb3ac"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="biod/study"
@@ -42,5 +42,12 @@ src_install() {
 	doins html/fingerprint.svg
 
 	insinto /etc/init
-	doins fingerprint_study.conf
+	doins init/fingerprint_study.conf
+	doins init/syslog_fingerprint_study.conf
+
+	insinto /etc/bash/bashrc.d
+	doins shell-audit.sh
+
+	insinto /etc/rsyslog.d
+	doins rsyslog.fpstudy-audit.conf
 }
