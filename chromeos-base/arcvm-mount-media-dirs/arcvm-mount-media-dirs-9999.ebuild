@@ -25,7 +25,4 @@ src_install() {
 	insinto /etc/init
 	doins arc/vm/scripts/init/mount-media-dirs/arcvm-mount-myfiles.conf
 	doins arc/vm/scripts/init/mount-media-dirs/arcvm-mount-removable-media.conf
-
-	insinto /etc/dbus-1/system.d
-	doins arc/vm/scripts/init/mount-media-dirs/dbus-1/ArcVmMountMediaDirs.conf
 }
