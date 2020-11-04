@@ -430,5 +430,11 @@
         "rel_patch_path": "cherry/18432bea764863d1c42fd569bd3846673ee4e802.patch",
         "start_version": 399094,
         "end_version": 407943
+    },
+    {
+        "comment": "[Inliner] Run always-inliner in inliner-wrapper",
+        "rel_patch_path": "cherry/0291e2c9330930bd74bfb8206cf6447a84bf492c.patch",
+        "start_version": 399094,
+        "end_version": 408784
     }
 ]
