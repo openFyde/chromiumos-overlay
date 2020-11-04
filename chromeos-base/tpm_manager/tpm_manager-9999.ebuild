@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_ma
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="test tpm tpm2"
+IUSE="test tpm tpm2 fuzzer"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
