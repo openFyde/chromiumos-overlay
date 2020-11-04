@@ -14,7 +14,7 @@ CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/external/bsdiff")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/bsdiff")
 CROS_WORKON_REPO=("${CROS_GIT_HOST_URL}" "${CROS_GIT_AOSP_URL}")
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_BLACKLIST=1
+CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 PLATFORM_SUBDIR="bsdiff"
