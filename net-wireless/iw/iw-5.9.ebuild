@@ -18,6 +18,14 @@ RDEPEND="dev-libs/libnl:="
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 
+PATCHES=(
+	"${FILESDIR}/${PN}-5.9-iw-handle-positive-error-codes-gracefully.patch"
+	"${FILESDIR}/${PN}-5.9-iw-scan-add-extension-tag-parsing.patch"
+	"${FILESDIR}/${PN}-5.9-iw-util-factor-out-HE-capability-parser.patch"
+	"${FILESDIR}/${PN}-5.9-iw-scan-parse-HE-capabilities.patch"
+	"${FILESDIR}/${PN}-5.9-iw-scan-fixup-HE-caps-whitespace.patch"
+)
+
 src_prepare() {
 	default
 	tc-export CC LD PKG_CONFIG
