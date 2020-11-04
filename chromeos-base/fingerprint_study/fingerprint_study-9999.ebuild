@@ -20,6 +20,7 @@ RDEPEND="
 	${PYTHON_DEPS}
 	chromeos-base/ec-utils
 	dev-python/cherrypy[${PYTHON_USEDEP}]
+	dev-python/python-gnupg[${PYTHON_USEDEP}]
 	dev-python/ws4py[${PYTHON_USEDEP}]
 	"
 
