@@ -13,7 +13,7 @@ if [[ ${PV} != *9999* ]]; then
 fi
 
 CROS_WORKON_PROJECT=chromiumos/third_party/igt-gpu-tools
-CROS_WORKON_BLACKLIST=1
+CROS_WORKON_MANUAL_UPREV=1
 
 inherit ${GIT_ECLASS} meson cros-workon
 
