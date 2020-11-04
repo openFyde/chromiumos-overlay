@@ -11,7 +11,7 @@ DESCRIPTION="Interpreter for the PostScript language and PDF"
 HOMEPAGE="https://ghostscript.com/"
 
 MY_P=${P/-gpl}
-PVM=$(get_version_component_range 1-2)
+PVM=$(get_version_component_range 1-3)
 PVM_S=$(replace_all_version_separators "" ${PVM})
 
 SRC_URI="
