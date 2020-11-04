@@ -1,15 +1,15 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile configure info install postinst prepare prerm setup test unpack
-DEPEND=chromeos-base/minijail:= sys-libs/libcap:= >=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0 >=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0 >=virtual/rust-1.39.0:=
-DESCRIPTION=rust bindings for minijail
+DEPEND=dev-rust/getopts:= dev-rust/libc:= dev-rust/libchromeos:= dev-rust/log:= dev-rust/p9:= >=virtual/rust-1.39.0:=
+DESCRIPTION=Server binary for the 9P file system protocol
 EAPI=7
-HOMEPAGE=https://android.googlesource.com/platform/external/minijail
-IUSE=test cros_host cros_workon_tree_ cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
-KEYWORDS=~*
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/9s/
+IUSE=test cros_host cros_workon_tree_721a5c0f08ec5dabc2fdf2a8e0aec03a5d8942e5 cros-debug asan coverage fuzzer msan tsan ubsan asan fuzzer lsan +lto msan test tsan ubsan
+KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-RDEPEND=chromeos-base/minijail:= sys-libs/libcap:=
+RDEPEND=!<chromeos-base/crosvm-0.0.1-r260 !dev-rust/9s:0.1.0
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/9999
+SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	fe84a85c511ad2ec055cbe0cc74bb011	cros-sanitizers	1790470c95f416653a627475b8864394	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=2f5c8d2f75cabbea6b16e5ea3af1b8fe
+_md5_=00d70794d88889a8ac30e5e3047b998e
