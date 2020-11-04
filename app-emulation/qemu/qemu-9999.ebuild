@@ -3,7 +3,7 @@
 
 EAPI="7"
 CROS_WORKON_PROJECT="chromiumos/third_party/qemu"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_MANUAL_UPREV="1"
 
 PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 PYTHON_REQ_USE="ncurses,readline"
