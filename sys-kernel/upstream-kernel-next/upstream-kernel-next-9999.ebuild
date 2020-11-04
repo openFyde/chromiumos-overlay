@@ -4,7 +4,7 @@
 EAPI=7
 CROS_WORKON_PROJECT="linux-next"
 CROS_WORKON_REPO="https://kernel.googlesource.com/pub/scm/linux/kernel/git/next"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_ALWAYS_LIVE="1"
 
