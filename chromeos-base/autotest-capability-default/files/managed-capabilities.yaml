@@ -51,6 +51,8 @@
 
 
 # HW encoding
+## Not all HW encoders support odd dimension encoding (e.g. trogdor).
+## Those that do are marked with hw_enc_*_odd_dimension.
 ## H264
 ## We mark a device with hw_enc_h264_1080_30 capability if it supports
 ## HW encoding for 1080p@30fps h264 formatted videos. Same for vp8 and vp9.
@@ -58,14 +60,18 @@
 ## HW h264 encoding for 2160p but may not guarantee 30fps. Same for vp8 and vp9.
 - hw_enc_h264_1080_30
 - hw_enc_h264_2160_30
+## Add hw_enc_h264_odd_dimension when video.EncodeAccel has a test
+## exercising odd-dimension encoding.
 
 ## VP8
 - hw_enc_vp8_1080_30
 - hw_enc_vp8_2160_30
+- hw_enc_vp8_odd_dimension
 
 ## VP9
 - hw_enc_vp9_1080_30
 - hw_enc_vp9_2160_30
+- hw_enc_vp9_odd_dimension
 
 ## JPEG
 ## hw_enc_jpeg is marked if a device supports JPEG HW encoding.
