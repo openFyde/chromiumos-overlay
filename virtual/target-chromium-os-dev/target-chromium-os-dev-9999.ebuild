@@ -17,9 +17,23 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
-IUSE="cras nvme pam opengl +power_management +profile python_targets_python2_7
-	+shill tpm tpm2 usb vaapi video_cards_amdgpu video_cards_intel
-	chromeless_tty"
+IUSE="
+	chromeless_tty
+	cras
+	nvme
+	opengl
+	pam
+	+power_management
+	+profile
+	python_targets_python2_7
+	+shill
+	tpm
+	tpm2
+	usb
+	vaapi
+	video_cards_amdgpu
+	video_cards_intel
+"
 
 # The dependencies here are meant to capture "all the packages
 # developers want to use for development, test, or debug".  This
