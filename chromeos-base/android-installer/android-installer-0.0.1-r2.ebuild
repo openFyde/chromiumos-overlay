@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0e6005312ceb4e8abe74abdab8421feb8340ba26"
+CROS_WORKON_COMMIT="1b44908a83c530b45ffe7d830eb18895e31003fc"
 CROS_WORKON_TREE="216851bc8b3bddbf368926cb04ed1160b2be841c"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -15,7 +15,7 @@ inherit cros-workon distutils-r1
 
 DESCRIPTION="Android Installer for Chrome OS"
 LICENSE="BSD-Google"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/arc/android-installer/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/android-installer/"
 SLOT="0"
 KEYWORDS="*"
 

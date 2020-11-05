@@ -17,7 +17,7 @@ CROS_GO_BINARIES=(
 inherit cros-go cros-workon
 
 DESCRIPTION="Tooling related to firmware release testing."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crostestutils/+/refs/heads/master/go/src/firmware/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crostestutils/+/HEAD/go/src/firmware/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"
