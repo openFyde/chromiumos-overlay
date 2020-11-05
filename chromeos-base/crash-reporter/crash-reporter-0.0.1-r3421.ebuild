@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0430ee85363346e036df6f88af08ce3765435f97"
+CROS_WORKON_COMMIT="8eebc8efa540377372dbc1a069e21601ffc9fc90"
 CROS_WORKON_TREE=("abc7e8d3093049ed5a5825a5630870b13d1ad4d2" "a9d111022140579904592b740fc074e648f868e9" "7c49faa8392a94e14ae32a1d4ee7177ab7307c2a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -138,6 +138,12 @@ src_install() {
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/anomaly_detector_fuzzer \
 		--dict "${S}"/anomaly_detector_fuzzer.dict
+
+	# Install crash_serializer into /usr/local/sbin, which is only present
+	# on test images. See:
+	# https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/dev-install/README.md#Environments
+	into /usr/local
+	dosbin "${OUT}"/crash_serializer
 }
 
 platform_pkg_test() {
