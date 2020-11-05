@@ -40,6 +40,7 @@ IUSE="
 	dptf
 	eclog
 	+fonts
+	fpstudy
 	fuzzer
 	fwupd
 	hammerd
@@ -164,6 +165,7 @@ RDEPEND="
 	input_devices_evdev? ( app-misc/evtest )
 	syslog? ( app-admin/rsyslog chromeos-base/croslog sys-apps/journald )
 	biod? ( chromeos-base/biod )
+	fpstudy? ( chromeos-base/fingerprint_study )
 	compupdates? ( chromeos-base/imageloader )
 	dlc? ( chromeos-base/dlcservice )
 	dlc_test? (
