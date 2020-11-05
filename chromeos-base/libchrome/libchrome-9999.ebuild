@@ -27,6 +27,7 @@ PLATFORM_SUBDIR="libchrome"
 # pulled only into the configurations that require it.
 # TODO(fqj): remove !chromeos-base/libchrome-${BASE_VER} on next uprev to r680000.
 RDEPEND="
+	dev-cpp/absl:=
 	dev-libs/double-conversion:=
 	dev-libs/glib:2=
 	dev-libs/libevent:=
@@ -117,6 +118,7 @@ src_install() {
 		base/numerics
 		base/posix
 		base/process
+		base/ranges
 		base/strings
 		base/synchronization
 		base/system
@@ -138,6 +140,7 @@ src_install() {
 		components/policy/core/common
 		testing/gmock/include/gmock
 		testing/gtest/include/gtest
+		third_party/abseil-cpp/absl/types
 	)
 	use dbus && header_dirs+=( dbus )
 	use timers && header_dirs+=( components/timers )
