@@ -40,7 +40,7 @@ USE="${USE} -split-usr"
 # See "man 5 make.conf" for details.
 FEATURES="allow-missing-manifests buildpkg clean-logs -collision-protect
           -ebuild-locks force-mirror -merge-sync -pid-sandbox
-          parallel-install -preserve-libs sandbox -strict userfetch
+          parallel-install preserve-libs sandbox -strict userfetch
           userpriv usersandbox -unknown-features-warn network-sandbox"
 
 # This is used by profiles/base/profile.bashrc to figure out that we
