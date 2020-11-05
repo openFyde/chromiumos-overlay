@@ -206,6 +206,7 @@ multilib_src_configure() {
 		$(multilib_native_use_enable usb libusb) \
 		$(use_enable zeroconf avahi) \
 		--disable-dnssd \
+		--disable-localization \
 		--without-perl \
 		--without-php \
 		$(multilib_is_native_abi && echo --enable-libpaper || echo --disable-libpaper) \
