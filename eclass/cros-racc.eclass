@@ -23,11 +23,13 @@ cros-racc_src_compile() {
 
 	local CMD_MINIFY_JSON=("jq" "-c" ".")
 	local BUILD_ROOT="${WORKDIR}/build"
+	local model
 	for model in "${CROS_RACC_MODEL[@]}"; do
 		local CONFIG="runtime_probe/${model}/probe_config.json"
 		mkdir -p "$(dirname "${BUILD_ROOT}/${CONFIG}")"
 		"${CMD_MINIFY_JSON[@]}" \
-			< "${FILESDIR}/${CONFIG}" > "${BUILD_ROOT}/${CONFIG}"
+			< "${FILESDIR}/${CONFIG}" > "${BUILD_ROOT}/${CONFIG}" ||
+			die "Failed to minify json file: ${CONFIG}"
 	done
 }
 
@@ -38,6 +40,7 @@ cros-racc_src_compile() {
 cros-racc_src_install() {
 	einfo "cros-racc src_install"
 
+	local model
 	for model in "${CROS_RACC_MODEL[@]}"; do
 		insinto "/etc/runtime_probe/${model}"
 		doins "${WORKDIR}/build/runtime_probe/${model}/probe_config.json"
