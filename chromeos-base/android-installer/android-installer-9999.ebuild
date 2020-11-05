@@ -13,7 +13,7 @@ inherit cros-workon distutils-r1
 
 DESCRIPTION="Android Installer for Chrome OS"
 LICENSE="BSD-Google"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/arc/android-installer/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/android-installer/"
 SLOT="0"
 KEYWORDS="~*"
 
