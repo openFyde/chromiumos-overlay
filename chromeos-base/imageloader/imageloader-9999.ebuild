@@ -50,6 +50,7 @@ src_install() {
 	doins dbus_service/org.chromium.ImageLoader.service
 	insinto /etc/init
 	doins init/imageloader.conf
+	doins init/imageloader-init.conf
 	doins init/imageloader-shutdown.conf
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_helper_process_receiver_fuzzer
