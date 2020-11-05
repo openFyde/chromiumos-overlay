@@ -376,7 +376,8 @@ check_assets() {
 	local rom="$1"
 	local payload="$2"
 
-	local payload_size=$(xz -9 -c "${payload}" | wc -c)
+	# The objcopy architecture doesn't really need to match, it just needs any ELF.
+	local payload_size=$(objcopy -I elf32-i386 -O binary "${payload}" /proc/self/fd/1 2>/dev/null | xz -9 -c | wc -c)
 
 	local rw_assets_size=$(find compressed-assets-rw "raw-assets-rw/${build_name}" -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
 	local rw_override_assets_size=$(find compressed-assets-rw-override -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
