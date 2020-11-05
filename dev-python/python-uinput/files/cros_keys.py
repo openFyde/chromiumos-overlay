@@ -203,6 +203,7 @@ _CROS_KEYS_ALL = [
     KEY_ENTER,
     # Forth row.
     KEY_LEFTSHIFT,
+    KEY_102ND,
     KEY_Z,
     KEY_X,
     KEY_C,
