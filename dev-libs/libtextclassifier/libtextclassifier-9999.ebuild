@@ -141,6 +141,7 @@ src_install() {
 		"utils/grammar/lexer.h"
 		"utils/grammar/match.h"
 		"utils/grammar/matcher.h"
+		"utils/grammar/next/semantics/expression_generated.h"
 		"utils/grammar/rules-utils.h"
 		"utils/grammar/rules_generated.h"
 		"utils/grammar/types.h"
