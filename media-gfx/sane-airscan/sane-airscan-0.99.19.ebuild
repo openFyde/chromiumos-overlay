@@ -32,10 +32,17 @@ PATCHES=(
 	"${FILESDIR}/sane-airscan-0.99.19-fuzzer.patch"
 )
 
+FUZZERS=(
+	"airscan_query_fuzzer"
+	"airscan_uri_fuzzer"
+	"airscan_xml_fuzzer"
+)
+
 src_prepare() {
 	default_src_prepare
-	cp "${FILESDIR}/airscan_uri_fuzzer.cc" "${S}" || die
-	cp "${FILESDIR}/airscan_xml_fuzzer.cc" "${S}" || die
+	for fuzzer in "${FUZZERS[@]}"; do
+		cp "${FILESDIR}/${fuzzer}.cc" "${S}" || die
+	done
 }
 
 src_configure() {
@@ -46,7 +53,7 @@ src_configure() {
 
 src_compile() {
 	if use fuzzer; then
-		meson_src_compile airscan_uri_fuzzer airscan_xml_fuzzer
+		meson_src_compile "${FUZZERS[@]}"
 	else
 		meson_src_compile
 	fi
@@ -68,8 +75,8 @@ src_install() {
 
 	# Safe to call even if the fuzzer isn't built because this won't do
 	# anything unless we have USE=fuzzer.
-	fuzzer_install "${FILESDIR}/fuzzers.owners" \
-		"${BUILD_DIR}/airscan_uri_fuzzer"
-	fuzzer_install "${FILESDIR}/fuzzers.owners" \
-		"${BUILD_DIR}/airscan_xml_fuzzer"
+	for fuzzer in "${FUZZERS[@]}"; do
+		fuzzer_install "${FILESDIR}/fuzzers.owners" \
+			"${BUILD_DIR}/${fuzzer}"
+	done
 }
