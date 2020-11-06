@@ -164,8 +164,6 @@ IUSE_TESTS=(
 	+tests_policy_NotificationsBlockedForUrls
 	+tests_policy_PinnedLauncherApps
 	+tests_policy_PlatformKeys
-	+tests_policy_PluginsAllowedForUrls
-	+tests_policy_PluginsBlockedForUrls
 	+tests_policy_PolicyRefreshRate
 	+tests_policy_PowerManagementIdleSettings
 	+tests_policy_PrintingEnabled
