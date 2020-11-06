@@ -6,30 +6,14 @@
 # This script is to maintain cupsd's privileged directories (/var/spool/cups
 # and /var/cache/cups).
 
-stamp=/run/cups/.stamp
-lock=/run/cups/.lock
-
+# cupsd waits for the stamp file before starting.
+stamp=/run/cups/stamp
+rm -f "${stamp}"
+stop cupsd || :
 mkdir -p /run/cups
-(
-  # This script is executed from cups-clear-state.conf and cupsd.conf.
-  # Take the lock to avoid race condition.
-  if ! flock -n 9; then
-    exit 1
-  fi
-
-  # If the privileged directories are already cleaned up, do nothing.
-  # This is to keep, e.g., the printer configuration during the session,
-  # regardless of restarting cupsd.
-  if [ -f "${stamp}" ]; then
-    exit 0
-  fi
-
-  logger -t "${UPSTART_JOB}" "Removing privileged directories"
-  error=$(rm -rf /var/spool/cups /var/cache/cups 2>&1)
-  if [ "$?" -ne 0 ]; then
-    logger -t "${UPSTART_JOB}" \
-      "Failed to remove privileged directories." "${error}"
-    exit 1
-  fi
-  touch "${stamp}"
-) 9>"${lock}"
+logger -t "${UPSTART_JOB}" "Removing privileged directories"
+if ! error=$(rm -rf /var/spool/cups /var/cache/cups 2>&1); then
+  logger -t "${UPSTART_JOB}" "Failed to remove privileged directories." "${error}"
+  exit 1
+fi
+touch "${stamp}"
