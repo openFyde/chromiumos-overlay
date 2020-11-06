@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cf7a059a2509fbca84aa960f503e6858aab5cafa"
-CROS_WORKON_TREE=("abc7e8d3093049ed5a5825a5630870b13d1ad4d2" "7c49faa8392a94e14ae32a1d4ee7177ab7307c2a" "38ca808e073c5c5606e84d15e39f6d66bf2685eb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6b9f992b110a49a3a46db0985d0ddf643147d6bd"
+CROS_WORKON_TREE=("abc7e8d3093049ed5a5825a5630870b13d1ad4d2" "7c49faa8392a94e14ae32a1d4ee7177ab7307c2a" "a8c3a5c169e1b5c9ec8fd03a053b9260a282b76a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -89,6 +89,11 @@ src_install() {
 	dobin "${OUT}"/vmlog_forwarder
 	dobin "${OUT}"/vsh
 
+	# TODO(b/153934386): Add back arm64 when pstore works.
+	if use arcvm && use amd64; then
+		dobin "${OUT}"/vm_pstore_dump
+	fi
+
 	if use arcvm; then
 		arc-build-constants-configure
 		exeinto "${ARC_VM_VENDOR_DIR}/bin"
@@ -150,6 +155,11 @@ platform_pkg_test() {
 		concierge_test
 		syslog_forwarder_test
 	)
+	if use arcvm; then
+		tests+=(
+			vm_pstore_dump_test
+		)
+	fi
 
 	# Running a gRPC server under qemu-user causes flake, at least with the
 	# combination of gRPC 1.16.1 and qemu 3.0.0. Disable TerminaVmTest.* while
