@@ -15,6 +15,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/s
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
+# The fingerprint study can optionally make use of the private package
+# virtual/chromeos-fpmcu-test, which holds the C+python fputils lib.
+# This library is also used for factory tests, thus it was labeled fpmcu-test.
 DEPEND=""
 RDEPEND="
 	${PYTHON_DEPS}
@@ -22,6 +25,7 @@ RDEPEND="
 	dev-python/cherrypy[${PYTHON_USEDEP}]
 	dev-python/python-gnupg[${PYTHON_USEDEP}]
 	dev-python/ws4py[${PYTHON_USEDEP}]
+	virtual/chromeos-fpmcu-test
 	"
 
 src_unpack() {
