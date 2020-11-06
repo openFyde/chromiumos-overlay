@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("954d3c5af0e3fb84c003213beee7bdf166373fe4" "9668a42ec01952d5fa0080d49cc1ecd31994ef96")
-CROS_WORKON_TREE=("abc7e8d3093049ed5a5825a5630870b13d1ad4d2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2c3e608ec12f807fd8b085b39a94facd459cb406")
+CROS_WORKON_COMMIT=("72eafea4f15b15d10b161c92b798419a3a473086" "4c965f1c12b3c7a37f6126cef737a8fe33f4677c")
+CROS_WORKON_TREE=("abc7e8d3093049ed5a5825a5630870b13d1ad4d2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a243a7ff07a53f79bc1acb91dc6890f6e13db061")
 CROS_WORKON_LOCALNAME=("../platform2" "libtextclassifier")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/libtextclassifier")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libtextclassifier")
@@ -143,6 +143,7 @@ src_install() {
 		"utils/grammar/lexer.h"
 		"utils/grammar/match.h"
 		"utils/grammar/matcher.h"
+		"utils/grammar/next/semantics/expression_generated.h"
 		"utils/grammar/rules-utils.h"
 		"utils/grammar/rules_generated.h"
 		"utils/grammar/types.h"

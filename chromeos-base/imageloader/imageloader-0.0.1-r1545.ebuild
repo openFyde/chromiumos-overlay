@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="954d3c5af0e3fb84c003213beee7bdf166373fe4"
-CROS_WORKON_TREE=("abc7e8d3093049ed5a5825a5630870b13d1ad4d2" "79e96191afb58fc5fd9ce80a7b5de4d21116e9ec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="72eafea4f15b15d10b161c92b798419a3a473086"
+CROS_WORKON_TREE=("abc7e8d3093049ed5a5825a5630870b13d1ad4d2" "ef6aa077de7a402e39704ad8e0c2aa319fe93ae0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -52,6 +52,7 @@ src_install() {
 	doins dbus_service/org.chromium.ImageLoader.service
 	insinto /etc/init
 	doins init/imageloader.conf
+	doins init/imageloader-init.conf
 	doins init/imageloader-shutdown.conf
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_helper_process_receiver_fuzzer
