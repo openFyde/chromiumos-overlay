@@ -17,7 +17,7 @@ import textwrap
 VAR_RE = re.compile(r'@(?:ECLASS-)?VARIABLE:\s*(\w+)$')
 
 # Matches a line that declares inheritance.
-INHERIT_RE = re.compile(r'^inherit(\s+(\w|-)+)+$')
+INHERIT_RE = re.compile(r'^[^#]*\binherit((?:\s+[\w-]+)+)$')
 
 VAR_FILE_HEADER = """module ShellCheck.PortageAutoInternalVariables (
   portageAutoInternalVariables
@@ -75,7 +75,7 @@ def process_file(eclass_path):
       else:
         match = INHERIT_RE.search(line)
         if match:
-          for inheritance in re.split(r'\s+', match.string)[1:]:
+          for inheritance in re.split(r'\s+', match.group(1)):
             if inheritance.strip():
               eclass_inheritances.add(inheritance.strip())
 
