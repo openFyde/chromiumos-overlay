@@ -575,6 +575,7 @@ src_configure() {
 		"${CHROME_ROOT}/src/buildtools/linux64/gn" gen
 		"${CHROME_ROOT}/src/${BUILD_OUT_SYM}/${BUILDTYPE}"
 		--args="${GN_ARGS}" --root="${CHROME_ROOT}/src"
+		--root-target="//third_party/icu"
 	)
 	echo "${gn[@]}"
 	"${gn[@]}" || die
