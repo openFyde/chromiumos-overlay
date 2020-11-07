@@ -18,6 +18,7 @@ IUSE="detachable diag_payload fwconsole mocktpm pd_sync
 	physical_presence_power physical_presence_recovery"
 
 DEPEND="
+	sys-boot/coreboot:=
 	chromeos-base/chromeos-ec-headers:=
 	sys-boot/libpayload:=
 	unibuild? (

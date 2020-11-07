@@ -426,11 +426,21 @@ do_install() {
 	insinto "${dest_dir}"/coreboot_serial
 	doins "${BUILD_DIR_SERIAL}"/cbfs/fallback/*.debug
 	nonfatal doins "${BUILD_DIR_SERIAL}"/cbfs/fallback/bootblock.bin
+
+	# coreboot's static_fw_config.h is copied into
+	# /firmware/libpayload/include in order for other firmware to consume
+	# the FW_CONFIG decoder macros. For unibuild, it is renamed to include
+	# the build target.
+	insinto "/firmware/libpayload/include"
+	if use unibuild; then
+		newins "${BUILD_DIR}"/static_fw_config.h "static_fw_config_${build_target}.h"
+	else
+		doins "${BUILD_DIR}"/static_fw_config.h
+	fi
+	einfo "Installed static_fw_config.h into /firmware/libpayload/include"
 }
 
 src_install() {
-	local build_target
-
 	if use unibuild; then
 		local fields="coreboot"
 		local cmd="get-firmware-build-combinations"
@@ -439,7 +449,7 @@ src_install() {
 			read -r coreboot
 
 			set_build_env "${coreboot}" "${name}"
-			do_install ${coreboot}
+			do_install "${coreboot}"
 		done
 	else
 		set_build_env
