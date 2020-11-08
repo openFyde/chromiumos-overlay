@@ -35,14 +35,14 @@ case ${PV} in
 		SRC_URI+=" ftp://ftp.cwru.edu/pub/bash/${MY_P}.tar.gz"
 	;;
 	*)
-		SRC_URI="mirror://gnu/${PN}/${MY_P}.tar.gz $(patches)"
+		SRC_URI="mirror://gnu/${PN}/${MY_P}.tar.gz $(patches) cros_host? ( gs://chromeos-localmirror/distfiles/readline-6.3_p8-r3.tbz2 )"
 	;;
 esac
 
 LICENSE="GPL-3"
-SLOT="0/8"  # subslot matches SONAME major
-KEYWORDS="~*"
-IUSE="static-libs +unicode utils"
+SLOT="0"  # subslot was removed to avoid breaking update_chroot.
+KEYWORDS="*"
+IUSE="cros_host static-libs +unicode utils"
 
 RDEPEND=">=sys-libs/ncurses-5.9-r3:0=[static-libs?,unicode?,${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
@@ -63,6 +63,14 @@ PATCHES=(
 # (which emits annoying and useless error messages)
 src_unpack() {
 	unpack ${MY_P}.tar.gz
+
+	if use cros_host; then
+		# Unpack libreadline 6.3 prebuilt package.
+		mkdir -p "${S}/readline6"
+		cd "${S}/readline6" || die
+		echo "Un-tarring readline 6.3 tarball at ${S}/readline6"
+		unpack readline-6.3_p8-r3.tbz2
+	fi
 }
 
 src_prepare() {
@@ -155,6 +163,12 @@ multilib_src_install() {
 		if use utils && ! tc-is-cross-compiler; then
 			dobin examples/rlfe/rlfe
 		fi
+	fi
+	if use cros_host; then
+		# Temporary workaround: Install libreadline.so.6* files
+		# to avoid breaking users in chroot, crbug/1143738
+		dolib.so "${S}/readline6/usr/lib64/libreadline.so.6.3"
+		dosym  libreadline.so.6.3 "/usr/$(get_libdir)/libreadline.so.6"
 	fi
 }
 
