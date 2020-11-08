@@ -16,6 +16,8 @@ KEYWORDS="~*"
 
 VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
 IUSE="kernel-3_8 kernel-3_14 kernel-3_18 $(printf 'video_cards_%s ' ${VIDEO_CARDS})"
+MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 )
+IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
 
 RDEPEND="
 	x11-libs/arc-libdrm[${MULTILIB_USEDEP}]
@@ -53,10 +55,8 @@ src_configure() {
 	fi
 
 	if use video_cards_mediatek; then
-		if [[ "${MTK_MINIGBM_PLATFORM}" == "MT8183" ]] ; then
-			export MTK_MT8183=1
-			append-cppflags -DMTK_MT8183
-		fi
+		use minigbm_platform_mt8183 && append-cppflags -DMTK_MT8183
+		use minigbm_platform_mt8192 && append-cppflags -DMTK_MT8192
 		export DRV_MEDIATEK=1
 		append-cppflags -DDRV_MEDIATEK
 	fi
