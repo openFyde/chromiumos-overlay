@@ -1,7 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
+inherit autotools
 
 DESCRIPTION="A FUSE based filesystem that can mount one or multiple RAR archive(s)"
 HOMEPAGE="https://hasse69.github.io/rar2fs/ https://github.com/hasse69/rar2fs"
@@ -20,9 +22,13 @@ RDEPEND=">=app-arch/unrar-5:=
 DEPEND="${RDEPEND}"
 
 PATCHES=(
-	"${FILESDIR}/${PN}-1.29.0-require-password.patch"
-	"${FILESDIR}/${PN}-1.29.0-password-from-stdin.patch"
+	"${FILESDIR}/${PN}-1.29.1-password-from-stdin.patch"
 )
+
+src_prepare() {
+	default
+	eautoreconf
+}
 
 src_configure() {
 	export USER_CFLAGS="${CFLAGS}"
