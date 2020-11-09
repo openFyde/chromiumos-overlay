@@ -25,6 +25,11 @@ DEPEND="${RDEPEND}
 	media-libs/cros-camera-libcamera_common
 	virtual/pkgconfig"
 
+src_configure() {
+	cros_optimize_package_for_speed
+	platform_src_configure
+}
+
 src_install() {
 	platform_src_install
 	dolib.so "${OUT}/lib/libcamera_ipc.so"
