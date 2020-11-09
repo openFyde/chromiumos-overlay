@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cheets chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzzer"
+IUSE="cheets chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -36,6 +36,7 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ca-certificates
 	|| ( sys-apps/journald:= sys-apps/systemd:= )
 	direncryption? ( sys-apps/keyutils:= )
+	cros_ec? ( chromeos-base/ec-utils )
 "
 DEPEND="
 	${COMMON_DEPEND}
