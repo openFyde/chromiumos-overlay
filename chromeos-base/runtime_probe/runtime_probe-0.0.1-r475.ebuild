@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b5341385d5981b85aec85749f57f5523a51a59e6"
-CROS_WORKON_TREE=("abc7e8d3093049ed5a5825a5630870b13d1ad4d2" "c6e1d8ecc08f53dd62ccad61bb06d8f2701d8151" "69f58b146222c832dbd55856b7e22d9c24076d99" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="44c352fc79ad93481ebb6cd7591c8c2d2d7f0422"
+CROS_WORKON_TREE=("abc7e8d3093049ed5a5825a5630870b13d1ad4d2" "c6e1d8ecc08f53dd62ccad61bb06d8f2701d8151" "c717c54016b7e1e8a7bb950b94d95943d3ab65d3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -64,7 +64,7 @@ src_install() {
 
 	# Install sandbox information.
 	insinto /etc/runtime_probe/sandbox
-	doins sandbox/*.args
+	doins sandbox/args.json
 	doins sandbox/"${ARCH}"/*-seccomp.policy
 
 	# Install seccomp policy file.
