@@ -5,7 +5,7 @@ EAPI="5"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_LOCALNAME="libdrm"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_MANUAL_UPREV="1"
 
 P=${P#"arc-"}
 PN=${PN#"arc-"}

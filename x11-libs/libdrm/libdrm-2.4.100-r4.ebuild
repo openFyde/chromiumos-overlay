@@ -6,7 +6,7 @@ EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 CROS_WORKON_COMMIT="0190f49a139e7069d7cad6a6890832831da1aa8b"
 CROS_WORKON_TREE="f691fb10ddd5ffefb25682ff89f6f978fe91ec02"
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_MANUAL_UPREV="1"
 
 inherit xorg-2 cros-workon
 
