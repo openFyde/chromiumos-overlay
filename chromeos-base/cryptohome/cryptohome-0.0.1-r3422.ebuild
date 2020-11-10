@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="83eb69280413831982bfb64d41bb656dac67be47"
-CROS_WORKON_TREE=("deae25aff188ab5ba0e93e5a3b5dbdad82b01b02" "78d3568fcc2f2e371e8d15a7c438e60781db57ac" "989d840598227b15d78525d5f92c806011a9c158" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0403d29db27fa10559b9a1bfb4f5ff92b25373cf"
+CROS_WORKON_TREE=("deae25aff188ab5ba0e93e5a3b5dbdad82b01b02" "dc557f709597e6b1714f46fa7ed895d568a057e2" "989d840598227b15d78525d5f92c806011a9c158" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -37,6 +37,9 @@ REQUIRED_USE="
 COMMON_DEPEND="
 	!chromeos-base/chromeos-cryptohome
 	tpm? (
+		app-crypt/trousers:=
+	)
+	fuzzer? (
 		app-crypt/trousers:=
 	)
 	tpm2? (
@@ -187,11 +190,9 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_blob_to_hex_fuzzer
 
-	if use tpm; then
-		platform_fuzzer_install "${S}"/OWNERS \
-			"${OUT}"/cryptohome_tpm1_cmk_migration_parser_fuzzer \
-			fuzzers/data/*
-	fi
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/cryptohome_tpm1_cmk_migration_parser_fuzzer \
+		fuzzers/data/*
 }
 
 pkg_preinst() {
