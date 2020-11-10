@@ -205,8 +205,10 @@ ARRAY_VARIABLES=(
 # site, set this to "1".
 # Note that you must specify the CROS_WORKON_MANUAL_UPREV="1" line in both the
 # unstable (i.e. 9999) and stable (e.g. 0.0.1-r) ebuild files.
-# TODO(crbug.com/1125947): Drop CROS_WORKON_BLACKLIST once all ebuilds migrate.
-: "${CROS_WORKON_MANUAL_UPREV:=${CROS_WORKON_BLACKLIST}}"
+: "${CROS_WORKON_MANUAL_UPREV:=}"
+if [[ -n ${CROS_WORKON_BLACKLIST} ]]; then
+	die "CROS_WORKON_BLACKLIST has been renamed to CROS_WORKON_MANUAL_UPREV"
+fi
 
 # @ECLASS-VARIABLE: CROS_WORKON_MAKE_COMPILE_ARGS
 # @DESCRIPTION:
