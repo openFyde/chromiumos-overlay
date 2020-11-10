@@ -1,0 +1,59 @@
+commit eeeeff90c544982f2a72dcffb86cecb6b7a983b7
+Author: Fletcher Woodruff <fletcherw@chromium.org>
+Date:   Mon Nov 9 13:58:05 2020 -0700
+
+    fix issues found from fuzzing http_query_*
+    
+    Adding fuzzing for http_query found two issues:
+    
+    1. Passing a 0-length request body to http_query_new leaks memory
+    2. A very long log message can cause an out-of-bounds read in
+       log_message, because of a tricky detail about the return value of
+       vsnprintf().
+    
+    This fixes both issues.
+
+diff --git a/airscan-http.c b/airscan-http.c
+index 0ffa1fd..884f6c8 100644
+--- a/airscan-http.c
++++ b/airscan-http.c
+@@ -2162,7 +2162,7 @@ http_query_new_len (http_client *client, http_uri *uri, const char *method,
+     http_query_set_request_header(q, "Connection", "close");
+ 
+     /* Save request body and set Content-Type */
+-    if (body != NULL && body_len != 0) {
++    if (body != NULL) {
+         q->request_data = http_data_new(NULL, body, body_len);
+         if (content_type != NULL) {
+             http_query_set_request_header(q, "Content-Type", content_type);
+diff --git a/airscan-log.c b/airscan-log.c
+index 082535b..dcd3211 100644
+--- a/airscan-log.c
++++ b/airscan-log.c
+@@ -154,7 +154,7 @@ log_message (log_ctx *log, bool trace_only, bool force,
+ {
+     trace *t = log ? log->trace : NULL;
+     char  msg[4096];
+-    int   len = 0, namelen = 0;
++    int   len = 0, namelen = 0, required_bytes = 0;
+     bool  dont_log = trace_only ||
+                      (log_configured && !conf.dbg_enabled && !force);
+ 
+@@ -170,7 +170,16 @@ log_message (log_ctx *log, bool trace_only, bool force,
+         namelen = len;
+     }
+ 
+-    len += vsnprintf(msg + len, sizeof(msg) - len, fmt, ap);
++    required_bytes = vsnprintf(msg + len, sizeof(msg) - len, fmt, ap);
++    // vsnprintf returns the number of bytes required for the whole message,
++    // even if that exceeds the buffer size.
++    // If required_bytes exceeds space remaining in msg, we know msg is full.
++    // Otherwise, we can increment len by required_bytes.
++    if (required_bytes >= sizeof(msg) - len) {
++        len = sizeof(msg) - 1;
++    } else {
++        len += required_bytes;
++    }
+ 
+     while (len > 0 && isspace((unsigned char) msg[len-1])) {
+         len --;

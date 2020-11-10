@@ -30,6 +30,7 @@ S="${WORKDIR}/${PN}-${GIT_REF}"
 
 PATCHES=(
 	"${FILESDIR}/sane-airscan-0.99.19-fuzzer.patch"
+	"${FILESDIR}/sane-airscan-0.99.19-query-fuzzer.patch"
 )
 
 FUZZERS=(
