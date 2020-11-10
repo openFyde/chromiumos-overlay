@@ -85,9 +85,11 @@ src_install() {
 	if use arcvm; then
 		dosbin "${OUT}"/arc-apply-per-board-config
 		dosbin "${OUT}"/arc-create-data
+		dosbin "${OUT}"/arc-handle-upgrade
 		insinto /etc/init
 		doins init/arcvm-per-board-features.conf
 		doins init/arc-create-data.conf
+		doins init/arc-handle-upgrade.conf
 		insinto /etc/dbus-1/system.d
 		doins init/dbus-1/ArcVmSetupUpstart.conf
 	fi
