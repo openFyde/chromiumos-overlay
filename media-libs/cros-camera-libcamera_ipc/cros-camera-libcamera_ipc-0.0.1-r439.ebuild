@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="954d3c5af0e3fb84c003213beee7bdf166373fe4"
+CROS_WORKON_COMMIT="a1af60d6c18dbc35518a1e20001bb48d1edc0c02"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "0c5dd9314b371b69ea4c6552b948251370b301db" "85dcd31292e99125b2eb2744c83442e00dece79f" "7efb7c7abf456762653f85c43a01f05aae4fb7ee" "abc7e8d3093049ed5a5825a5630870b13d1ad4d2")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -26,6 +26,11 @@ RDEPEND="media-libs/cros-camera-libcamera_metadata"
 DEPEND="${RDEPEND}
 	media-libs/cros-camera-libcamera_common
 	virtual/pkgconfig"
+
+src_configure() {
+	cros_optimize_package_for_speed
+	platform_src_configure
+}
 
 src_install() {
 	platform_src_install
