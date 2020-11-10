@@ -7,7 +7,7 @@ inherit cros-constants
 
 CROS_WORKON_PROJECT="aosp/platform/system/core/libsync"
 CROS_WORKON_LOCALNAME="../aosp/system/libsync"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_MANUAL_UPREV="1"
 
 inherit multilib cros-workon
 
