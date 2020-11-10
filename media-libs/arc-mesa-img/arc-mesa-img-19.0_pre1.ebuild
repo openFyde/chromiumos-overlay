@@ -137,9 +137,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-use-swrast-option-in-droid_load_driver.patch
 	epatch "${FILESDIR}"/CHROMIUM-egl-android-fallback-to-software-rendering.patch
 
-	epatch "${FILESDIR}"/CHROMIUM-anv-Reject-unsupported-instance-versions-on.patch
 	epatch "${FILESDIR}"/CHROMIUM-anv-move-anv_GetMemoryAndroidHardwareBufferANDROID-u.patch
-	epatch "${FILESDIR}"/CHROMIUM-anv-fix-build-on-Nougat.patch
 	epatch "${FILESDIR}"/CHROMIUM-remove-unknown-android-extensions.patch
 	epatch "${FILESDIR}"/CHROMIUM-disable-unknown-device-extensions.patch
 	epatch "${FILESDIR}"/CHROMIUM-disable-VK_KHR_draw_indirect_count.patch
@@ -162,7 +160,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/CHROMIUM-Add-HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED-in-vk_fo.patch
 
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
-	epatch "${FILESDIR}"/CHROMIUM-anv-Clamp-apiVersion-to-1.0.3-on-Android-Oreo.patch
 
 	# IMG patches
 	epatch "${FILESDIR}"/0001-dri-pvr-Introduce-PowerVR-DRI-driver.patch
