@@ -9,7 +9,7 @@ inherit dlc cros-workon
 
 # This ebuild is upreved via PuPR, so disable the normal uprev process for
 # cros-workon ebuilds.
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_MANUAL_UPREV="1"
 
 # "cros_workon info" expects these variables to be set, but we don't have a git
 # repo, so use the standard empty project.
