@@ -46,7 +46,7 @@ src_compile() {
 		emake CROSS_COMPILE="${COREBOOT_SDK_PREFIX_arm}" BOARD="${target}" \
 			"${EC_OPTS[@]}" clean
 		emake CROSS_COMPILE="${COREBOOT_SDK_PREFIX_arm}" BOARD="${target}" \
-			"${EC_OPTS[@]}" test-rsa
+			"${EC_OPTS[@]}" tests
 	done
 }
 
