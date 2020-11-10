@@ -11,7 +11,7 @@ CROS_WORKON_TREE="b8d78e509c717d068a0199e10811bffd817f2dd4"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_BLACKLIST="1"
+CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_LOCALNAME="mesa"
 
 if [[ ${PV} = 9999* ]]; then
