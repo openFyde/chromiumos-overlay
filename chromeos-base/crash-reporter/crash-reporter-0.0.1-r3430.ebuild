@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6b72d28d802f68416b7acecf89a1a10c873dd90b"
+CROS_WORKON_COMMIT="5318ac494c1b9d6aa9fac44f4e46a06283e43e01"
 CROS_WORKON_TREE=("d1e1c89fe58e9f33e6385f476ce1b02dfdbdc084" "aba3fde175d65a1e2d984d07d2142e36da5b854d" "7c49faa8392a94e14ae32a1d4ee7177ab7307c2a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cheets chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzzer"
+IUSE="cheets chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -38,6 +38,7 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ca-certificates
 	|| ( sys-apps/journald:= sys-apps/systemd:= )
 	direncryption? ( sys-apps/keyutils:= )
+	cros_ec? ( chromeos-base/ec-utils )
 "
 DEPEND="
 	${COMMON_DEPEND}
