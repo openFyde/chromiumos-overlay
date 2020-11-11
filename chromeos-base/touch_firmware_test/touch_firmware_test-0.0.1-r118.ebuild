@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c9c73e3be1a924175b289f35b03b93ae27d0cd8b"
-CROS_WORKON_TREE="b3a2dd4696a6c467f437404bda96614588669343"
+CROS_WORKON_COMMIT="1db05fad101c7d99455f6e45a3637702bea8d0af"
+CROS_WORKON_TREE="6fad854077ffc77d076c5dc0daf4b6814fb53fd3"
 CROS_WORKON_PROJECT="chromiumos/platform/touch_firmware_test"
 CROS_WORKON_LOCALNAME="platform/touch_firmware_test"
 
