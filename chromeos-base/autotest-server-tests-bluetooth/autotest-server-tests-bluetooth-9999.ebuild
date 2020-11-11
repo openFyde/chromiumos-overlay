@@ -23,6 +23,7 @@ RDEPEND="
 
 SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterAdvHealth
+	+tests_bluetooth_AdapterAdvMonitor
 	+tests_bluetooth_AdapterAudioLink
 	+tests_bluetooth_AdapterAUHealth
 	+tests_bluetooth_AdapterCLHealth
