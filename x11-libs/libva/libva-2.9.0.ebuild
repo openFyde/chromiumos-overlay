@@ -11,7 +11,7 @@ SRC_URI="https://github.com/intel/libva/releases/download/${PV}/${P}.tar.bz2"
 KEYWORDS="*"
 LICENSE="MIT"
 SLOT="0/$(ver_cut 1)"
-IUSE="utils"
+IUSE="utils beanstalk internal intel_ihd_pavp"
 
 VIDEO_CARDS="intel amdgpu iHD"
 for x in ${VIDEO_CARDS}; do
@@ -27,7 +27,16 @@ BDEPEND="
 "
 PDEPEND="
 	video_cards_intel? ( !video_cards_iHD? ( >=x11-libs/libva-intel-driver-2.0.0[${MULTILIB_USEDEP}] ) )
-	video_cards_iHD? ( ~x11-libs/libva-intel-media-driver-20.3.0[${MULTILIB_USEDEP}] )
+	video_cards_iHD? (
+		beanstalk? (
+			internal? ( x11-libs/libva-intel-media-driver-pavp[${MULTILIB_USEDEP}] )
+			!internal? (
+				intel_ihd_pavp? ( x11-libs/libva-intel-media-driver-pavp[${MULTILIB_USEDEP}] )
+				!intel_ihd_pavp? ( ~x11-libs/libva-intel-media-driver-20.3.0[${MULTILIB_USEDEP}] )
+			)
+		)
+		!beanstalk? ( ~x11-libs/libva-intel-media-driver-20.3.0[${MULTILIB_USEDEP}] )
+	)
 	video_cards_amdgpu? ( virtual/opengles[${MULTILIB_USEDEP}] )
 	utils? ( media-video/libva-utils )
 "
@@ -40,6 +49,12 @@ MULTILIB_WRAPPED_HEADERS=(
 /usr/include/va/va_dri2.h
 /usr/include/va/va_dricommon.h
 /usr/include/va/va_glx.h
+)
+
+# TODO(jkardatzke): Remove this patch file when it is merged upstream. If libva
+# needs to be uprev'd before this is removed, please contact me for assistance.
+PATCHES=(
+	"${FILESDIR}"/0001-Protected-content-patches.patch
 )
 
 multilib_src_configure() {
