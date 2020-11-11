@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b3fca20e24b8559d5de157342b89ca44785a3928"
-CROS_WORKON_TREE="9681d5ffbe6d83648d61ee7ce9a45e768988c569"
+CROS_WORKON_COMMIT="0d46a14212592c62d209dc15ac669bc7bbf1b128"
+CROS_WORKON_TREE="bad939e5132ca07a72ddbbc7e7013d23063e1e9b"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -57,7 +57,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/minijail:=
 	~dev-rust/num_cpus-1.9.0:=
 	dev-rust/p9:=
-	=dev-rust/paste-0.1*:=
+	=dev-rust/paste-1*:=
 	=dev-rust/pin-utils-0.1*:=
 	~dev-rust/pkg-config-0.3.11:=
 	=dev-rust/proc-macro2-1*:=
