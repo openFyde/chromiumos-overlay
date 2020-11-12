@@ -86,6 +86,7 @@ src_install() {
 	dobin tools/cpufreq_config
 	dobin tools/print_sysfs_power_supply_data  # feedback
 	dobin tools/send_metrics_on_resume
+	dobin tools/thermal_zone_config
 
 	# Scripts for testing and debugging
 	dobin tools/activate_short_dark_resume
