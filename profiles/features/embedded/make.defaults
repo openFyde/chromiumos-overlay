@@ -41,5 +41,8 @@ USE="${USE} -drivefs -samba -smbprovider"
 # embedded devices.
 USE="${USE} -diagnostics"
 
+# Disable Perfetto daemons on embedded devices.
+USE="${USE} -perfetto"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"

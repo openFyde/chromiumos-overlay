@@ -34,6 +34,7 @@ USE="${USE} -attestation -buffet -cellular chromeless_tty -crash_reporting"
 USE="${USE} -cros_disks cros_embedded -diagnostics -debugd -encrypted_stateful"
 USE="${USE} -gdmwimax -lorgnette -memd -mist -ml_service -pam -passive_metrics"
 USE="${USE} -power_management -scanner -tpm -usb_bouncer -usbguard -vpn -wimax"
+USE="${USE} -perfetto"
 
 # Disable auth frameworks.
 USE="${USE} -kerberos -kerberos_daemon -system_proxy"

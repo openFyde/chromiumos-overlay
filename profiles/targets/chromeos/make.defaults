@@ -74,6 +74,9 @@ USE="${USE} -berkdb"
 # Enable the diagnostics and telemetry daemon.
 USE="${USE} diagnostics"
 
+# Enable Perfetto daemons.
+USE="${USE} perfetto"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
