@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="fa149aba03da3b8b4f3727f590af34416bfa4cfb"
-CROS_WORKON_TREE="9e01d27d477cf271a1d669cdf1fde0fcd52a344f"
+CROS_WORKON_COMMIT="23f9471bc36048201da601dda8df7b0ab4ebf997"
+CROS_WORKON_TREE="7ead6211e29e26ec913683e5eb386786a94d3cca"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -51,6 +51,7 @@ DEPEND="${COMMON_DEPEND}
 	~dev-rust/cc-1.0.25:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/futures-0.3*:=
+	cros-debug? ( =dev-rust/gdbstub-0.4*:= )
 	~dev-rust/getopts-0.2.18:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	dev-rust/libvda:=
@@ -132,6 +133,7 @@ src_compile() {
 		$(usex crosvm-video-encoder video-encoder "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
+		$(usex cros-debug gdb "")
 		chromeos
 	)
 
