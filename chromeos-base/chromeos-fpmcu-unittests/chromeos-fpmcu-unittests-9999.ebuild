@@ -40,6 +40,8 @@ src_compile() {
 	get_target_boards
 
 	# TODO(yichengli): Add other FPMCU boards once the test lab has them.
+	# NOTE: Any changes here must also be reflected in
+	# platform/ec/firmware_builder.py which is used for the ec cq
 	local target
 	einfo "Building FPMCU unittest binary for targets: ${EC_BOARDS[*]}"
 	for target in "${EC_BOARDS[@]}"; do
