@@ -54,6 +54,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-ld-argv0.patch"
 	"${FILESDIR}/${P}-no-weak-symbols.patch"
 	"${FILESDIR}/${P}-cherry-dee70493-more-precise-spans.patch"
+	"${FILESDIR}/${P}-Handle-sparse-git-repo-without-erroring.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"
