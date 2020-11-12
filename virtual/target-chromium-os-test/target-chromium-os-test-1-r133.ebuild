@@ -33,7 +33,6 @@ IUSE="
 	dlc
 	kvm_host
 	hammerd
-	ml_benchmark_drivers
 	ml_service
 	nnapi
 	opengl
@@ -105,7 +104,6 @@ CROS_COMMON_RDEPEND="
 		chromeos-base/lorgnette_cli
 		chromeos-base/sane-backends-test
 	)
-	ml_benchmark_drivers? ( chromeos-base/ml-benchmark-drivers )
 	ml_service? ( chromeos-base/ml-cmdline )
 	nnapi? ( chromeos-base/ml-test-assets )
 	chromeos-base/recover-duts
