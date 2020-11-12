@@ -342,6 +342,8 @@ cros-ec_src_test() {
 	# Verify compilation of the on-device unit test binaries.
 	# TODO(b/172501728) These should build  for all boards, but they've bit
 	# rotted, so we only build the ones that compile.
+	# NOTE: Any changes here must also be reflected in
+	# platform/ec/firmware_builder.py which is used for the ec cq
 	local -a unit_test_boards=("bloonchipper")
 	for board in "${unit_test_boards[@]}"; do
 		einfo "Building unit tests for ${board}"
