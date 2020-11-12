@@ -7,7 +7,7 @@ inherit ninja-utils toolchain-funcs
 DESCRIPTION="An open-source project for performance instrumentation and tracing."
 HOMEPAGE="https://perfetto.dev/"
 
-GIT_SHA1="df3ae5e6f975204d2f35aeed61cbbd0746151d8e"
+GIT_SHA1="53d3c085a784d64808cf67a32cac80182ecd87ef"
 SRC_URI="https://github.com/google/perfetto/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 KEYWORDS="*"
@@ -33,8 +33,10 @@ src_configure() {
 		target_cpu="x64"
 	fi
 
+	# Don't turn on is_debug in building the system tracing service daemon.
+	# Running a debug build traced with a release build producer will likely
+	# cause crashes.
 	local is_debug="false"
-	use cros-debug && is_debug="true"
 
 	local warn_flags=(
 		"-Wno-suggest-destructor-override"
