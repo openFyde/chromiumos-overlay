@@ -56,7 +56,7 @@ RDEPEND="
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
 	dev-libs/libgrammar:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
-	dev-libs/libtextclassifier:=
+	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
 "
 
