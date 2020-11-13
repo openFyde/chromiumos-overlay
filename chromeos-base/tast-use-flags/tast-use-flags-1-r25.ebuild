@@ -29,6 +29,7 @@ IUSE="
 	arc
 	arc-camera1
 	arc-camera3
+	arc-launched-32bit-abi
 	arc_uses_cros_video_decoder
 	arcpp
 	arcvm
@@ -39,6 +40,10 @@ IUSE="
 	biod
 	borealis_host
 	cert_provision
+	cheets_user
+	cheets_user_64
+	cheets_userdebug
+	cheets_userdebug_64
 	chrome_internal
 	chrome_media
 	chromeless_tty
