@@ -51,6 +51,7 @@ DEPEND="${COMMON_DEPEND}
 	~dev-rust/cc-1.0.25:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/futures-0.3*:=
+	=dev-rust/gdbstub-0.4*:=
 	~dev-rust/getopts-0.2.18:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	dev-rust/libvda:=
@@ -132,6 +133,7 @@ src_compile() {
 		$(usex crosvm-video-encoder video-encoder "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
+		$(usex cros-debug gdb "")
 		chromeos
 	)
 
