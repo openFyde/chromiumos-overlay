@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("db6312f6dadc42b69c1ef420ed9c0d602aa102e6" "15e732cb54d9a9c920918fe4cd88b0f361ba3b85")
+CROS_WORKON_COMMIT=("0e8027e8778da060bf5af698f7a8129b9549ca02" "15e732cb54d9a9c920918fe4cd88b0f361ba3b85")
 CROS_WORKON_TREE=("d1e1c89fe58e9f33e6385f476ce1b02dfdbdc084" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7703304c5246e98ce6949f9eb188758dca74bbbe")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -91,17 +91,7 @@ src_configure() {
 src_install() {
 	export BASE_VER="$(cat BASE_VER)"
 	dolib.so "${OUT}"/lib/libbase*.so
-	pushd "${OUT}/lib" || die
-	for sofile in libbase*.so; do
-		dosym "${sofile}" "/usr/$(get_libdir)/${sofile%.so}-${BASE_VER}.so"
-	done
-	popd || die
 	dolib.a "${OUT}"/libbase*.a
-	pushd "${OUT}" || die
-	for afile in libbase*.a; do
-		dosym "${afile}" "/usr/$(get_libdir)/${afile%.a}-${BASE_VER}.a"
-	done
-	popd || die
 
 	local mojom_dirs=()
 	local header_dirs=(
@@ -181,17 +171,11 @@ src_install() {
 
 	insinto /usr/$(get_libdir)/pkgconfig
 	doins "${OUT}"/obj/libchrome/libchrome*.pc
-	pushd "${OUT}"/obj/libchrome/ || die
-	for pcfile in libchrome*.pc; do
-		newins "${pcfile}" "${pcfile%.pc}-${BASE_VER}.pc"
-	done
-	popd || die
 
 	# Install libmojo.
 	if use mojo; then
 		# Install binary.
 		dolib.a "${OUT}"/libmojo.a
-		dosym libmojo.a "/usr/$(get_libdir)/libmojo-${BASE_VER}.a"
 
 		# Install headers.
 		header_dirs+=(
@@ -214,7 +198,6 @@ src_install() {
 		# Install libmojo.pc.
 		insinto /usr/$(get_libdir)/pkgconfig
 		doins "${OUT}"/obj/libchrome/libmojo.pc
-		newins "${OUT}"/obj/libchrome/libmojo.pc "libmojo-${BASE_VER}.pc"
 
 		# Install generate_mojom_bindings.
 		# TODO(hidehiko): Clean up tools' install directory.
