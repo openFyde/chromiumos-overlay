@@ -24,6 +24,7 @@ sys-fs/lvm2 -thin
 # See http://crosbug.com/35162 for details.
 dev-libs/glib static-libs
 dev-libs/libpcre static-libs
+net-libs/nghttp2 static-libs
 sys-apps/attr static-libs
 
 # mksquashfs used in build_image requires lzo support.
