@@ -22,8 +22,10 @@ REQUIRED_USE="vulkan"
 BDEPEND="
 	dev-util/glslang
 "
+
 RDEPEND="
-	media-libs/vulkan-loader
-	virtual/vulkan-icd
+	media-libs/libpng:=
+	media-libs/vulkan-loader:=
+	virtual/vulkan-icd:=
 "
 DEPEND="${RDEPEND}"
