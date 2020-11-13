@@ -199,26 +199,31 @@ src_install() {
 
 		# Install generate_mojom_bindings.
 		# TODO(hidehiko): Clean up tools' install directory.
-		# TODO(fqj): Use unversioned path.
-		insinto /usr/src/libmojo-"${BASE_VER}"/mojo
+		insinto /usr/src/libmojo/mojo
 		doins -r mojo/public/tools/bindings/*
 		doins -r mojo/public/tools/mojom/*
 		doins build/gn_helpers.py
 		doins -r build/android/gyp/util
 		doins -r build/android/pylib
-		exeinto /usr/src/libmojo-"${BASE_VER}"/mojo
+		exeinto /usr/src/libmojo/mojo
 		doexe libchrome_tools/mojom_generate_type_mappings.py
 
-		insinto /usr/src/libmojo-"${BASE_VER}"/third_party
+		insinto /usr/src/libmojo/third_party
 		doins -r third_party/jinja2
 		doins -r third_party/markupsafe
 		doins -r third_party/ply
 
 		# Mark scripts executable.
 		fperms +x \
-			/usr/src/libmojo-"${BASE_VER}"/mojo/generate_type_mappings.py \
-			/usr/src/libmojo-"${BASE_VER}"/mojo/mojom_bindings_generator.py \
-			/usr/src/libmojo-"${BASE_VER}"/mojo/mojom_parser.py
+			/usr/src/libmojo/mojo/generate_type_mappings.py \
+			/usr/src/libmojo/mojo/mojom_bindings_generator.py \
+			/usr/src/libmojo/mojo/mojom_parser.py
+
+		# TODO(fqj): remove wrapper when all calls to these scripts are
+		# migrated to unversioned ones.
+		exeinto /usr/src/libmojo-"${BASE_VER}"/mojo
+		doexe "${FILESDIR}/fake/mojom_bindings_generator.py"
+		doexe "${FILESDIR}/fake/mojom_parser.py"
 	fi
 
 	# Install header files.
