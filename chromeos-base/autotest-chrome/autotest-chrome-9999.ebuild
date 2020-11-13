@@ -18,6 +18,7 @@ IUSE="
 	${IUSE}
 	+autotest
 	+cellular
+	drm_atomic
 	+shill
 	+tpm
 	tpm2
@@ -79,7 +80,6 @@ IUSE_TESTS=(
 	+tests_enterprise_PowerManagement
 	+tests_enterprise_RemoraRequisition
 	+tests_graphics_Chrome
-	+tests_graphics_HwOverlays
 	+tests_graphics_Stress
 	+tests_graphics_VideoRenderingPower
 	+tests_graphics_VTSwitch
@@ -247,12 +247,17 @@ IUSE_TESTS_ARC="
 	+tests_graphics_Idle
 "
 
+IUSE_TESTS_ATOMIC="
+	drm_atomic? ( +tests_graphics_HwOverlays )
+"
+
 IUSE_TESTS="
 	${IUSE_TESTS[*]}
 	${IUSE_TESTS_CELLULAR}
 	${IUSE_TESTS_SHILL}
 	${IUSE_TESTS_TPM}
 	${IUSE_TESTS_ARC}
+	${IUSE_TESTS_ATOMIC}
 "
 
 IUSE="
