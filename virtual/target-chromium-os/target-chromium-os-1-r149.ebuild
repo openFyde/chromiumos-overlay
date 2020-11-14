@@ -322,7 +322,10 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	sys-apps/iproute2
 	sys-apps/pv
 	sys-apps/rootdev
-	!systemd? ( sys-apps/upstart )
+	!systemd? (
+		sys-apps/systemd-tmpfiles
+		sys-apps/upstart
+	)
 	sys-fs/e2fsprogs
 	virtual/assets
 	virtual/cheets
