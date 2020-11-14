@@ -6,8 +6,8 @@ Re-merge of lp:~jamesodhunt/upstart/upstream-add-session-bus-support
 for initctl D-Bus session support.
 
 === modified file 'util/initctl.c'
---- util/initctl.c	2010-02-04 19:08:07 +0000
-+++ util/initctl.c	2011-06-01 09:42:05 +0000
+--- a/util/initctl.c	2010-02-04 19:08:07 +0000
++++ b/util/initctl.c	2011-06-01 09:42:05 +0000
 @@ -63,6 +63,11 @@
  static void   reply_handler       (int *ret, NihDBusMessage *message);
  static void   error_handler       (void *data, NihDBusMessage *message);
@@ -121,8 +121,8 @@ for initctl D-Bus session support.
  	NIH_OPTION_LAST
 
 === modified file 'util/man/initctl.8'
---- util/man/initctl.8	2010-02-04 19:08:07 +0000
-+++ util/man/initctl.8	2011-06-01 09:42:05 +0000
+--- a/util/man/initctl.8	2010-02-04 19:08:07 +0000
++++ b/util/man/initctl.8	2011-06-01 09:42:05 +0000
 @@ -1,4 +1,4 @@
 -.TH initctl 8 2010-02-04 "Upstart"
 +.TH initctl 8 2011-06-01 "Upstart"
@@ -153,8 +153,8 @@ for initctl D-Bus session support.
  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 === modified file 'util/tests/test_initctl.c'
---- util/tests/test_initctl.c	2010-02-04 20:43:33 +0000
-+++ util/tests/test_initctl.c	2011-06-01 09:42:05 +0000
+--- a/util/tests/test_initctl.c	2010-02-04 20:43:33 +0000
++++ b/util/tests/test_initctl.c	2011-06-01 09:42:05 +0000
 @@ -44,7 +44,8 @@
  #include "dbus/upstart.h"
  

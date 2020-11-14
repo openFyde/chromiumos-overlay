@@ -1,6 +1,6 @@
 === modified file 'init/errors.h'
---- init/errors.h	2011-05-05 10:13:49 +0000
-+++ init/errors.h	2011-05-12 20:42:28 +0000
+--- a/init/errors.h	2011-05-05 10:13:49 +0000
++++ b/init/errors.h	2011-05-12 20:42:28 +0000
 @@ -40,6 +40,7 @@
  	/* Errors while parsing configuration files */
  	PARSE_ILLEGAL_INTERVAL,
@@ -19,8 +19,8 @@
  #define PARSE_ILLEGAL_OOM_STR		N_("Illegal oom adjustment, expected -16 to 15 or 'never'")
 
 === modified file 'init/job_class.c'
---- init/job_class.c	2011-05-05 10:13:49 +0000
-+++ init/job_class.c	2011-05-12 20:42:28 +0000
+--- a/init/job_class.c	2011-05-05 10:13:49 +0000
++++ b/init/job_class.c	2011-05-12 20:42:28 +0000
 @@ -26,6 +26,7 @@
  
  #include <errno.h>
@@ -39,8 +39,8 @@
  	class->respawn_limit = JOB_DEFAULT_RESPAWN_LIMIT;
 
 === modified file 'init/job_class.h'
---- init/job_class.h	2011-05-12 19:31:50 +0000
-+++ init/job_class.h	2011-05-12 20:42:28 +0000
+--- a/init/job_class.h	2011-05-12 19:31:50 +0000
++++ b/init/job_class.h	2011-05-12 20:42:28 +0000
 @@ -85,6 +85,7 @@
   * @expect: what to expect before entering the next state after spawned,
   * @task: start requests are not unblocked until instances have finished,
@@ -59,8 +59,8 @@
  	int             respawn_limit;
 
 === modified file 'init/job_process.c'
---- init/job_process.c	2011-05-12 19:31:50 +0000
-+++ init/job_process.c	2011-05-12 20:42:28 +0000
+--- a/init/job_process.c	2011-05-12 19:31:50 +0000
++++ b/init/job_process.c	2011-05-12 20:42:28 +0000
 @@ -802,9 +802,9 @@
   * @process: process to be killed.
   *
@@ -118,8 +118,8 @@
  		nih_free (err);
 
 === modified file 'init/man/init.5'
---- init/man/init.5	2011-05-12 19:31:50 +0000
-+++ init/man/init.5	2011-05-12 20:42:28 +0000
+--- a/init/man/init.5	2011-05-12 19:31:50 +0000
++++ b/init/man/init.5	2011-05-12 20:42:28 +0000
 @@ -563,10 +563,20 @@
  .\"
  .SS Miscellaneous
@@ -145,8 +145,8 @@
  .\"
 
 === modified file 'init/parse_job.c'
---- init/parse_job.c	2011-05-12 19:31:50 +0000
-+++ init/parse_job.c	2011-05-12 20:42:28 +0000
+--- a/init/parse_job.c	2011-05-12 19:31:50 +0000
++++ b/init/parse_job.c	2011-05-12 20:42:28 +0000
 @@ -1782,6 +1782,7 @@
  {
  	size_t          a_pos, a_lineno;
@@ -209,8 +209,8 @@
  	if (lineno)
 
 === modified file 'init/system.c'
---- init/system.c	2010-02-26 15:29:07 +0000
-+++ init/system.c	2011-05-12 20:42:28 +0000
+--- a/init/system.c	2010-02-26 15:29:07 +0000
++++ b/init/system.c	2011-05-12 20:42:28 +0000
 @@ -48,27 +48,21 @@
  /**
   * system_kill:
@@ -246,8 +246,8 @@
  	if (kill (pgid > 0 ? -pgid : pid, signal) < 0)
 
 === modified file 'init/system.h'
---- init/system.h	2010-02-26 15:29:07 +0000
-+++ init/system.h	2011-05-12 20:42:28 +0000
+--- a/init/system.h	2010-02-26 15:29:07 +0000
++++ b/init/system.h	2011-05-12 20:42:28 +0000
 @@ -29,7 +29,7 @@
  
  NIH_BEGIN_EXTERN
@@ -259,8 +259,8 @@
  int system_setup_console (ConsoleType type, int reset)
 
 === modified file 'init/tests/test_job_class.c'
---- init/tests/test_job_class.c	2011-05-05 10:13:49 +0000
-+++ init/tests/test_job_class.c	2011-05-12 20:42:28 +0000
+--- a/init/tests/test_job_class.c	2011-05-05 10:13:49 +0000
++++ b/init/tests/test_job_class.c	2011-05-12 20:42:28 +0000
 @@ -121,6 +121,7 @@
  		TEST_EQ (class->task, FALSE);
  
@@ -271,8 +271,8 @@
  		TEST_EQ (class->respawn_limit, 10);
 
 === modified file 'init/tests/test_parse_job.c'
---- init/tests/test_parse_job.c	2011-05-12 19:31:50 +0000
-+++ init/tests/test_parse_job.c	2011-05-12 20:42:28 +0000
+--- a/init/tests/test_parse_job.c	2011-05-12 19:31:50 +0000
++++ b/init/tests/test_parse_job.c	2011-05-12 20:42:28 +0000
 @@ -4799,6 +4799,39 @@
  	}
  
@@ -432,8 +432,8 @@
  void
 
 === modified file 'init/tests/test_system.c'
---- init/tests/test_system.c	2009-06-23 09:29:35 +0000
-+++ init/tests/test_system.c	2011-05-12 20:42:28 +0000
+--- a/init/tests/test_system.c	2009-06-23 09:29:35 +0000
++++ b/init/tests/test_system.c	2011-05-12 20:42:28 +0000
 @@ -51,7 +51,7 @@
  	setpgid (pid1, pid1);
  	setpgid (pid2, pid1);
@@ -462,21 +462,9 @@
  
  	TEST_EQ (ret, 0);
 
-=== modified file 'po/ChangeLog'
---- po/ChangeLog	2011-03-17 01:03:01 +0000
-+++ po/ChangeLog	2011-05-12 20:42:28 +0000
-@@ -1,3 +1,7 @@
-+2011-05-12  Marc - A. Dahlhaus  <mad@wol.de>
-+
-+	* POTFILES.in: Add errors.h
-+
- 2011-03-16  Scott James Remnant  <scott@netsplit.com>
- 
- 	* Makevars.template (COPYRIGHT_HOLDER): Update copyright.
-
 === modified file 'po/POTFILES.in'
---- po/POTFILES.in	2010-02-04 03:42:29 +0000
-+++ po/POTFILES.in	2011-05-05 09:06:21 +0000
+--- a/po/POTFILES.in	2010-02-04 03:42:29 +0000
++++ b/po/POTFILES.in	2011-05-05 09:06:21 +0000
 @@ -3,6 +3,7 @@
  init/conf.c
  init/control.c

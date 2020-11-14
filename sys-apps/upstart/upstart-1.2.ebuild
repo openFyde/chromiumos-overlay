@@ -1,10 +1,9 @@
 # Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI="5"
+EAPI="7"
 
-inherit autotools eutils flag-o-matic
+inherit autotools flag-o-matic
 
 DESCRIPTION="Upstart is an event-based replacement for the init daemon"
 HOMEPAGE="http://upstart.ubuntu.com/"
@@ -15,17 +14,17 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="debug direncryption examples nls selinux udev_bridge"
 
-RDEPEND=">=sys-apps/dbus-1.2.16
-	>=sys-libs/libnih-1.0.2
+RDEPEND=">=sys-apps/dbus-1.2.16:=
+	>=sys-libs/libnih-1.0.2:=
 	selinux? (
-		sys-libs/libselinux
-		sys-libs/libsepol
+		sys-libs/libselinux:=
+		sys-libs/libsepol:=
 	)
 	udev_bridge? (
-		>=virtual/libudev-146
+		>=virtual/libudev-146:=
 	)
 	direncryption? (
-		sys-apps/keyutils
+		sys-apps/keyutils:=
 	)"
 DEPEND=">=dev-libs/expat-2.0.0
 	nls? ( sys-devel/gettext )
@@ -37,56 +36,58 @@ RDEPEND+="
 	selinux? ( chromeos-base/selinux-policy )"
 
 src_prepare() {
+	default
+
 	# 1.3+ has scary user and chroot session support that we just
 	# don't want to adopt yet, so we're sticking with 1.2 for the
 	# near future. Backport some bug fixes from lp:upstart
 
 	# -r 1326 - fix bug when /dev/console cannot be opened
 	# chromium-os:18739
-	epatch "${FILESDIR}"/upstart-1.2-silent-console.patch
+	eapply "${FILESDIR}"/upstart-1.2-silent-console.patch
 	# -r 1280,1308,1309,1320,1329 - fix shell fd leak (and fix the fix)
-	epatch "${FILESDIR}"/upstart-1.2-fix-shell-redirect.patch
+	eapply "${FILESDIR}"/upstart-1.2-fix-shell-redirect.patch
 	# -r 1281,1325,1327,1328 - update to use /proc/oom_score
-	epatch "${FILESDIR}"/upstart-1.2-oom-score.patch
+	eapply "${FILESDIR}"/upstart-1.2-oom-score.patch
 	# -r 1282 - add "kill signal" stanza (may be useful for us)
-	epatch "${FILESDIR}"/upstart-1.2-kill-signal.patch
+	eapply "${FILESDIR}"/upstart-1.2-kill-signal.patch
 
-	epatch "${FILESDIR}"/upstart-1.2-default-oom_score_adj.patch
+	eapply "${FILESDIR}"/upstart-1.2-default-oom_score_adj.patch
 
 	# chromium-os:33165, make EXIT_STATUS!=* possible
-	epatch "${FILESDIR}"/upstart-1.2-negate-match.patch
+	eapply "${FILESDIR}"/upstart-1.2-negate-match.patch
 
 	# issue EXIT_* in events when exit status is zero for daemons
-	epatch "${FILESDIR}"/upstart-1.2-fail-on-zero-exit.patch
+	eapply "${FILESDIR}"/upstart-1.2-fail-on-zero-exit.patch
 
-	epatch "${FILESDIR}"/${P}-override.patch
+	eapply "${FILESDIR}"/${P}-override.patch
 
 	# Patch to use kmsg at higher verbosity for logging; this is
 	# our own patch because we can't just add --verbose to the
 	# kernel command-line when we need to.
-	use debug && epatch "${FILESDIR}"/upstart-1.2-log-verbosity.patch
+	use debug && eapply "${FILESDIR}"/upstart-1.2-log-verbosity.patch
 
 	# load SELinux policy
-	epatch "${FILESDIR}"/upstart-1.2-selinux.patch
+	eapply "${FILESDIR}"/upstart-1.2-selinux.patch
 
 	# -r 1307 - "Merge of lp:~jamesodhunt/upstart/upstream-udev+socket-bridges."
-	epatch "${FILESDIR}"/upstart-1.2-socket-event.patch
+	eapply "${FILESDIR}"/upstart-1.2-socket-event.patch
 
 	# Inspired by -r 1542; just rewrote it based on 1.2 though
-	epatch "${FILESDIR}"/upstart-1.2-socket-event-SOCKET_PATH.patch
+	eapply "${FILESDIR}"/upstart-1.2-socket-event-SOCKET_PATH.patch
 
 	# Clean up domain sockets on startup and shutdown.
-	epatch "${FILESDIR}"/upstart-1.2-socket-cleanup.patch
+	eapply "${FILESDIR}"/upstart-1.2-socket-cleanup.patch
 
 	# Add base fscrypto ring: to work with File systems that support
 	# directory encryption.
-	epatch "${FILESDIR}"/upstart-1.2-dircrypto.patch
+	eapply "${FILESDIR}"/upstart-1.2-dircrypto.patch
 
 	# Require explicit import of environment variables into job classes.
-	epatch "${FILESDIR}"/upstart-1.2-import-env.patch
+	eapply "${FILESDIR}"/upstart-1.2-import-env.patch
 
-	epatch "${FILESDIR}"/${P}-dbus-session-support.patch
-	epatch "${FILESDIR}"/${P}-initctl-show-config.patch
+	eapply "${FILESDIR}"/${P}-dbus-session-support.patch
+	eapply "${FILESDIR}"/${P}-initctl-show-config.patch
 
 	# The selinux patch changes makefile.am and configure.ac
 	# so we need to run autoreconf, and if we don't the system

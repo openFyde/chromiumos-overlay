@@ -38,8 +38,8 @@ Add "show-config" command to initctl.
 https://bazaar.launchpad.net/~upstart-devel/upstart/trunk/revision/1288.1.1
 
 === modified file 'util/Makefile.am'
---- util/Makefile.am	2011-03-16 22:49:20 +0000
-+++ util/Makefile.am	2011-06-01 11:13:42 +0000
+--- a/util/Makefile.am	2011-03-16 22:49:20 +0000
++++ b/util/Makefile.am	2011-06-01 11:13:42 +0000
 @@ -29,7 +29,7 @@
  	telinit
  
@@ -51,8 +51,8 @@ https://bazaar.launchpad.net/~upstart-devel/upstart/trunk/revision/1288.1.1
  	$(com_ubuntu_Upstart_Job_OUTPUTS) \
 
 === modified file 'util/initctl.c'
---- util/initctl.c	2011-06-01 09:42:05 +0000
-+++ util/initctl.c	2011-06-01 11:13:42 +0000
+--- a/util/initctl.c	2011-06-01 09:42:05 +0000
++++ b/util/initctl.c	2011-06-01 11:13:42 +0000
 @@ -38,6 +38,8 @@
  #include <nih/command.h>
  #include <nih/logging.h>
@@ -520,8 +520,8 @@ https://bazaar.launchpad.net/~upstart-devel/upstart/trunk/revision/1288.1.1
  
 
 === added file 'util/initctl.h'
---- util/initctl.h	1970-01-01 00:00:00 +0000
-+++ util/initctl.h	2011-06-01 11:13:42 +0000
+--- a/util/initctl.h	1970-01-01 00:00:00 +0000
++++ b/util/initctl.h	2011-06-01 11:13:42 +0000
 @@ -0,0 +1,330 @@
 +/* upstart
 + *
@@ -855,8 +855,8 @@ https://bazaar.launchpad.net/~upstart-devel/upstart/trunk/revision/1288.1.1
 +#endif /* INITCTL_H */
 
 === modified file 'util/man/initctl.8'
---- util/man/initctl.8	2011-06-01 09:42:05 +0000
-+++ util/man/initctl.8	2011-06-01 11:13:42 +0000
+--- a/util/man/initctl.8	2011-06-01 09:42:05 +0000
++++ b/util/man/initctl.8	2011-06-01 11:13:42 +0000
 @@ -345,6 +345,81 @@
  .BR init (8)
  daemon will log and ouputs to standard output.
@@ -941,8 +941,8 @@ https://bazaar.launchpad.net/~upstart-devel/upstart/trunk/revision/1288.1.1
  .RB < scott@netsplit.com >
 
 === modified file 'util/tests/test_initctl.c'
---- util/tests/test_initctl.c	2011-06-01 09:42:05 +0000
-+++ util/tests/test_initctl.c	2011-06-01 11:13:42 +0000
+--- a/util/tests/test_initctl.c	2011-06-01 09:42:05 +0000
++++ b/util/tests/test_initctl.c	2011-06-01 11:13:42 +0000
 @@ -27,6 +27,8 @@
  #include <stdio.h>
  #include <signal.h>

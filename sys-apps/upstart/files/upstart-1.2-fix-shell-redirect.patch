@@ -1,6 +1,6 @@
 === modified file 'init/job_process.c'
---- init/job_process.c	2011-03-22 17:46:46 +0000
-+++ init/job_process.c	2011-05-12 19:21:16 +0000
+--- a/init/job_process.c	2011-03-22 17:46:46 +0000
++++ b/init/job_process.c	2011-05-12 19:21:16 +0000
 @@ -145,7 +145,8 @@
  	nih_local char  *script = NULL;
  	char           **e;
@@ -116,8 +116,8 @@
  				  err, _("unable to open console: %s"),
 
 === modified file 'init/job_process.h'
---- init/job_process.h	2009-07-09 11:01:53 +0000
-+++ init/job_process.h	2011-05-12 19:21:16 +0000
+--- a/init/job_process.h	2009-07-09 11:01:53 +0000
++++ b/init/job_process.h	2011-05-12 19:21:16 +0000
 @@ -1,5 +1,6 @@
  /* upstart
   *
@@ -160,8 +160,8 @@
  void   job_process_kill    (Job *job, ProcessType process);
 
 === modified file 'init/tests/test_job_process.c'
---- init/tests/test_job_process.c	2011-03-16 22:18:22 +0000
-+++ init/tests/test_job_process.c	2011-05-12 19:21:16 +0000
+--- a/init/tests/test_job_process.c	2011-03-16 22:18:22 +0000
++++ b/init/tests/test_job_process.c	2011-05-12 19:21:16 +0000
 @@ -822,7 +822,7 @@
  
  	class = job_class_new (NULL, "test");

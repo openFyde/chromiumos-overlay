@@ -36,8 +36,8 @@ support .override files
 	* util/man/initctl.8: Clarified what it means to restart a job.
 
 === modified file 'init/conf.c'
---- init/conf.c	2011-06-03 11:02:18 +0000
-+++ init/conf.c	2011-06-06 13:16:33 +0000
+--- a/init/conf.c	2011-06-03 11:02:18 +0000
++++ b/init/conf.c	2011-06-06 13:16:33 +0000
 @@ -48,7 +48,7 @@
  #include "parse_conf.h"
  #include "conf.h"
@@ -788,8 +788,8 @@ support .override files
 +
 
 === modified file 'init/conf.h'
---- init/conf.h	2011-05-15 12:53:17 +0000
-+++ init/conf.h	2011-06-06 12:52:08 +0000
+--- a/init/conf.h	2011-05-15 12:53:17 +0000
++++ b/init/conf.h	2011-06-06 12:52:08 +0000
 @@ -127,6 +127,46 @@
  
  JobClass *  conf_select_job    (const char *name);
@@ -839,8 +839,8 @@ support .override files
  #endif /* INIT_CONF_H */
 
 === modified file 'init/man/init.5'
---- init/man/init.5	2011-06-02 10:03:18 +0000
-+++ init/man/init.5	2011-06-06 13:16:33 +0000
+--- a/init/man/init.5	2011-06-02 10:03:18 +0000
++++ b/init/man/init.5	2011-06-06 13:16:33 +0000
 @@ -4,7 +4,7 @@
  init \- Upstart init daemon job configuration
  .\"
@@ -976,8 +976,8 @@ support .override files
  .B expect stop
 
 === modified file 'init/parse_conf.c'
---- init/parse_conf.c	2009-06-23 09:29:35 +0000
-+++ init/parse_conf.c	2011-01-17 15:32:36 +0000
+--- a/init/parse_conf.c	2009-06-23 09:29:35 +0000
++++ b/init/parse_conf.c	2011-01-17 15:32:36 +0000
 @@ -74,6 +74,12 @@
  	nih_assert (file != NULL);
  	nih_assert (pos != NULL);
@@ -993,8 +993,8 @@ support .override files
  		return -1;
 
 === modified file 'init/parse_job.c'
---- init/parse_job.c	2011-05-15 12:57:29 +0000
-+++ init/parse_job.c	2011-06-06 12:52:08 +0000
+--- a/init/parse_job.c	2011-05-15 12:57:29 +0000
++++ b/init/parse_job.c	2011-06-06 12:52:08 +0000
 @@ -264,6 +264,7 @@
  /**
   * parse_job:
@@ -1047,8 +1047,8 @@ support .override files
  
 
 === modified file 'init/parse_job.h'
---- init/parse_job.h	2010-12-10 03:02:57 +0000
-+++ init/parse_job.h	2011-06-06 12:52:08 +0000
+--- a/init/parse_job.h	2010-12-10 03:02:57 +0000
++++ b/init/parse_job.h	2011-06-06 12:52:08 +0000
 @@ -29,7 +29,7 @@
  
  NIH_BEGIN_EXTERN
@@ -1060,8 +1060,8 @@ support .override files
  	__attribute__ ((warn_unused_result, malloc));
 
 === modified file 'init/paths.h'
---- init/paths.h	2011-06-03 11:02:18 +0000
-+++ init/paths.h	2011-06-06 12:52:08 +0000
+--- a/init/paths.h	2011-06-03 11:02:18 +0000
++++ b/init/paths.h	2011-06-06 12:52:08 +0000
 @@ -126,5 +126,55 @@
  #define TELINIT SBINDIR "/telinit"
  #endif
@@ -1120,8 +1120,8 @@ support .override files
  #endif /* INIT_PATHS_H */
 
 === modified file 'init/tests/test_conf.c'
---- init/tests/test_conf.c	2011-06-03 11:02:18 +0000
-+++ init/tests/test_conf.c	2011-06-06 12:52:08 +0000
+--- a/init/tests/test_conf.c	2011-06-03 11:02:18 +0000
++++ b/init/tests/test_conf.c	2011-06-06 12:52:08 +0000
 @@ -46,6 +46,50 @@
  #include "job.h"
  #include "conf.h"
@@ -2449,8 +2449,8 @@ support .override files
  
 
 === modified file 'init/tests/test_parse_job.c'
---- init/tests/test_parse_job.c	2011-05-15 13:16:00 +0000
-+++ init/tests/test_parse_job.c	2011-06-06 12:52:08 +0000
+--- a/init/tests/test_parse_job.c	2011-05-15 13:16:00 +0000
++++ b/init/tests/test_parse_job.c	2011-06-06 12:52:08 +0000
 @@ -64,7 +64,7 @@
  	TEST_ALLOC_FAIL {
  		pos = 0;

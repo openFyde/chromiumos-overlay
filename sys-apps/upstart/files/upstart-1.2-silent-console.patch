@@ -1,6 +1,6 @@
 === modified file 'init/main.c'
---- init/main.c	2011-03-16 22:54:56 +0000
-+++ init/main.c	2011-08-08 21:09:43 +0000
+--- a/init/main.c	2011-03-16 22:54:56 +0000
++++ b/init/main.c	2011-08-08 21:09:43 +0000
 @@ -173,8 +173,23 @@
  	 * resetting it to sane defaults unless we're inheriting from another
  	 * init process which we know left it in a sane state.
@@ -35,7 +35,7 @@
 -		nih_free (nih_error_get ());
 +	if (system_setup_console (CONSOLE_NONE, FALSE) < 0) {
 +		NihError *err;
-+		
++
 +		err = nih_error_get ();
 +		nih_fatal ("%s: %s", _("Unable to setup standard file descriptors"),
 +			   err->message);
