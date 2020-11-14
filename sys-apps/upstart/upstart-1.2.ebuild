@@ -80,7 +80,7 @@ src_prepare() {
 
 	# Add base fscrypto ring: to work with File systems that support
 	# directory encryption.
-	use direncryption && epatch "${FILESDIR}"/upstart-1.2-dircrypto.patch
+	epatch "${FILESDIR}"/upstart-1.2-dircrypto.patch
 
 	# Require explicit import of environment variables into job classes.
 	epatch "${FILESDIR}"/upstart-1.2-import-env.patch
@@ -105,6 +105,7 @@ src_configure() {
 		--exec-prefix= \
 		--includedir='${prefix}/usr/include' \
 		--disable-rpath \
+		$(use_with direncryption dircrypto-keyring) \
 		$(use_enable selinux) \
 		$(use_enable nls)
 }
