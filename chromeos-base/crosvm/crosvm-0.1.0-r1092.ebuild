@@ -32,6 +32,7 @@ COMMON_DEPEND="
 		media-libs/virglrenderer:=
 	)
 	crosvm-wl-dmabuf? ( media-libs/minigbm:= )
+	dev-rust/libchromeos:=
 	virtual/libusb:1=
 "
 
