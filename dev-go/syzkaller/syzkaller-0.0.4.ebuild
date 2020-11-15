@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="github.com/google/syzkaller cba33199be220cbf61f7c0c8223d88a25a913d6f"
+CROS_GO_SOURCE="github.com/google/syzkaller 1bf9a662c66aa432ff2fe3bf2562578cef626c09"
 
 CROS_GO_PACKAGES=(
 	"github.com/google/syzkaller"
@@ -25,8 +25,8 @@ SYZKALLER_PATH="src/github.com/google/syzkaller"
 
 src_prepare() {
 	cd "${SYZKALLER_PATH}" || die "unable to cd to extracted syzkaller directory"
-	eapply "${FILESDIR}"/0001-cros-syzkaller-do-not-check-for-git-version.patch
-	eapply "${FILESDIR}"/0002-cros-syzkaller-do-not-use-go.sum-and-go.mod.patch
+	eapply "${FILESDIR}"/0001-cros-syzkaller-do-not-use-go.sum-and-go.mod.patch
+	eapply "${FILESDIR}"/0002-cros-syzkaller-turn-off-vhci-injection.patch
 	eapply_user
 }
 
