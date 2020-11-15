@@ -33,6 +33,7 @@ IUSE="
 	dlc
 	kvm_host
 	hammerd
+	iioservice
 	ml_service
 	nnapi
 	opengl
@@ -100,6 +101,7 @@ CROS_COMMON_RDEPEND="
 		chromeos-base/chromeos-fpmcu-unittests
 	)
 	hammerd? ( chromeos-base/hammerd-test-utils )
+	iioservice? ( chromeos-base/iioservice_simpleclient )
 	scanner? (
 		chromeos-base/lorgnette_cli
 		chromeos-base/sane-backends-test
