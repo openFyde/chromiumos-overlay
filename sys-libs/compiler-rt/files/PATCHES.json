@@ -13,5 +13,11 @@
         "rel_patch_path": "aa57cabae2fc5abc08ab3e17b45f2890fc7c9e42.patch",
         "start_version": 394483,
         "end_version": 401725
+    },
+    {
+        "comment": "Fix compiler-rt build on Windows after D89640",
+        "rel_patch_path": "a7acee89d68473183cc5021d952a56cdf0ae27d3.patch",
+        "start_version": 408224,
+        "end_version": 408314
     }
 ]
