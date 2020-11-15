@@ -19,5 +19,11 @@
         "rel_patch_path": "a7acee89d68473183cc5021d952a56cdf0ae27d3.patch",
         "start_version": 408224,
         "end_version": 408314
+    },
+    {
+        "comment": "Revert \"[Sanitizers] Remove OpenBSD support\" + 1",
+        "rel_patch_path": "7ecd60bb7022bb681b9dc01a9c232fd93b4b169c.patch",
+        "start_version": 408224,
+        "end_version": 408400
     }
 ]
