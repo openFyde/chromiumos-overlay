@@ -809,6 +809,8 @@ src_configure() {
 	# crbug.com/731335
 	export AR_host="llvm-ar"
 	export RANLIB="llvm-ranlib"
+	# Use llvm's objcopy instead of GNU
+	export OBJCOPY="llvm-objcopy"
 
 	# Set binutils path for goma.
 	CC_host+=" -B$(get_binutils_path "${LD_host}")"
