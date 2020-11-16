@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -28,16 +28,12 @@ LICENSE="openssl"
 SLOT="0/1.1" # .so version of libssl/libcrypto
 [[ "${PV}" = *_pre* ]] || \
 KEYWORDS="*"
-IUSE="+asm bindist cros_host elibc_musl oldssl rfc3779 sctp cpu_flags_x86_sse2 sslv3 static-libs test tls-heartbeat vanilla zlib"
-RESTRICT="!bindist? ( bindist )"
+IUSE="+asm bindist elibc_musl rfc3779 sctp cpu_flags_x86_sse2 sslv3 static-libs test tls-heartbeat vanilla zlib"
+RESTRICT="!bindist? ( bindist )
+	!test? ( test )"
 
 RDEPEND=">=app-misc/c_rehash-1.7-r1
 	zlib? ( >=sys-libs/zlib-1.2.8-r1[static-libs(+)?,${MULTILIB_USEDEP}] )"
-# Hack: Pull in the previous OpenSSL version to avoid breaking dynamic linking.
-RDEPEND+="
-	=dev-libs/openssl-1.0.2u-r7:legacy
-	!<dev-libs/openssl-1.0.2u-r7:legacy
-"
 DEPEND="${RDEPEND}"
 BDEPEND="
 	>=dev-lang/perl-5
@@ -45,6 +41,7 @@ BDEPEND="
 	test? (
 		sys-apps/diffutils
 		sys-devel/bc
+		sys-process/procps
 	)"
 PDEPEND="app-misc/ca-certificates"
 
@@ -68,19 +65,21 @@ pkg_setup() {
 	[[ ${MERGE_TYPE} == binary ]] && return
 
 	# must check in pkg_setup; sysctl don't work with userpriv!
-	if has test ${FEATURES}; then
-		if use sctp; then
-			# test_ssl_new will fail with "Ensure SCTP AUTH chunks are enabled in kernel"
-			# if sctp.auth_enable is not enabled.
-			local sctp_auth_status=$(sysctl -n net.sctp.auth_enable 2>/dev/null)
-			if [[ -z "${sctp_auth_status}" || ${sctp_auth_status} != 1 ]]; then
-				die "FEATURES=test with USE=sctp requires net.sctp.auth_enable=1!"
-			fi
+	if has test ${FEATURES} && use sctp; then
+		# test_ssl_new will fail with "Ensure SCTP AUTH chunks are enabled in kernel"
+		# if sctp.auth_enable is not enabled.
+		local sctp_auth_status=$(sysctl -n net.sctp.auth_enable 2>/dev/null)
+		if [[ -z "${sctp_auth_status}" ]] || [[ ${sctp_auth_status} != 1 ]]; then
+			die "FEATURES=test with USE=sctp requires net.sctp.auth_enable=1!"
 		fi
 	fi
 }
 
 src_prepare() {
+	# allow openssl to be cross-compiled
+	cp "${FILESDIR}"/gentoo.config-1.0.2 gentoo.config || die
+	chmod a+rx gentoo.config || die
+
 	if use bindist; then
 		mv "${WORKDIR}"/bindist-patches/hobble-openssl "${WORKDIR}" || die
 		bash "${WORKDIR}"/hobble-openssl || die
@@ -120,14 +119,10 @@ src_prepare() {
 
 	eapply_user #332661
 
-	if has test ${FEATURES}; then
-		if use sctp; then
-			if has network-sandbox ${FEATURES}; then
-				ebegin "Disabling test '80-test_ssl_new.t' which is known to fail with FEATURES=network-sandbox"
-				rm test/recipes/80-test_ssl_new.t || die
-				eend $?
-			fi
-		fi
+	if has test ${FEATURES} && use sctp && has network-sandbox ${FEATURES}; then
+		ebegin "Disabling test '80-test_ssl_new.t' which is known to fail with FEATURES=network-sandbox"
+		rm test/recipes/80-test_ssl_new.t || die
+		eend $?
 	fi
 
 	# make sure the man pages are suffixed #302165
@@ -147,10 +142,6 @@ src_prepare() {
 	# doesn't have well-split CFLAGS and we're making it even worse
 	# and 'make depend' uses -Werror for added fun (#417795 again)
 	[[ ${CC} == *clang* ]] && append-flags -Qunused-arguments
-
-	# allow openssl to be cross-compiled
-	cp "${FILESDIR}"/gentoo.config-1.0.2 gentoo.config || die
-	chmod a+rx gentoo.config || die
 
 	append-flags -fno-strict-aliasing
 	append-flags $(test-flags-CC -Wa,--noexecstack)
@@ -274,20 +265,7 @@ multilib_src_test() {
 	emake -j1 test
 }
 
-compat_only() {
-	use oldssl
-}
-
 multilib_src_install() {
-	if compat_only; then
-		if use cros_host; then
-			dolib.so libcrypto.so.1.1
-			dolib.so libssl.so.1.1
-		fi
-
-		return
-	fi
-
 	# We need to create $ED/usr on our own to avoid a race condition #665130
 	if [[ ! -d "${ED}/usr" ]]; then
 		# We can only create this directory once
@@ -298,10 +276,6 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	if compat_only; then
-		return
-	fi
-
 	# openssl installs perl version of c_rehash by default, but
 	# we provide a shell version via app-misc/c_rehash
 	rm "${ED}"/usr/bin/c_rehash || die
@@ -352,10 +326,6 @@ multilib_src_install_all() {
 }
 
 pkg_postinst() {
-	if compat_only; then
-		return
-	fi
-
 	ebegin "Running 'c_rehash ${EROOT}${SSL_CNF_DIR}/certs/' to rebuild hashes #333069"
 	c_rehash "${EROOT}${SSL_CNF_DIR}/certs" >/dev/null
 	eend $?
