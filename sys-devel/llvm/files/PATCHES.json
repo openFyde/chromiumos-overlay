@@ -460,5 +460,11 @@
         "rel_patch_path": "cherry/7ecd60bb7022bb681b9dc01a9c232fd93b4b169c.patch",
         "start_version": 408224,
         "end_version": 408400
+    },
+    {
+        "comment": "Revert \"[PM/CC1] Add -f[no-]split-cold-code CC1 option to toggle splitting\"",
+        "rel_patch_path": "cherry/0628bea5137047232f37c94b74bf26aa9b55f605.patch",
+        "start_version": 408079,
+        "end_version": 408302
     }
 ]
