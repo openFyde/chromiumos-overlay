@@ -3,6 +3,9 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+# Pick the first one that exists.
+set -- "$1"/nassh/manifest*.json
+
 exec gawk \
   '$1 == "\"version\":" {print gensub(/[",]/, "", "g", $NF)}' \
-  "$1"/nassh/manifest_v1.5.json
+  "$1"
