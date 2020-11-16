@@ -323,6 +323,7 @@ multilib_src_install_all() {
 
 	insinto /etc/ssl
 	doins "${FILESDIR}"/openssl.cnf.compat
+	doins "${FILESDIR}"/blocklist
 }
 
 pkg_postinst() {
