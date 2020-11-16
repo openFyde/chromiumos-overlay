@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6bc59e14dd19db0e3ad202e7f3044ca0fcaa963d"
-CROS_WORKON_TREE=("f86b3dad942180ce041d9034a4f5f9cceb8afe6b" "0e25f7fad7449f623e2764c7c96c9f196da09bec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="fdb59ce7499ebca2096dd9165a87f7299dff0c2c"
+CROS_WORKON_TREE=("f86b3dad942180ce041d9034a4f5f9cceb8afe6b" "d106d472af4a1a29a6020b3b8e18050d14c072fa" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -35,9 +35,6 @@ src_install() {
 
 	insinto /etc/init
 	doins init/arcvm-server-proxy.conf
-
-	insinto /etc/dbus-1/system.d
-	doins init/dbus-1/ArcVmServerProxy.conf
 }
 
 platform_pkg_test() {
