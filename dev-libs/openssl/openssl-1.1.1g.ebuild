@@ -47,7 +47,7 @@ PDEPEND="app-misc/ca-certificates"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.0j-parallel_install_fix.patch #671602
-	"${FILESDIR}"/${P}-blacklist.patch
+	"${FILESDIR}"/${P}-blocklist.patch
 	"${FILESDIR}"/${P}-chromium-compatibility.patch
 	"${FILESDIR}"/${P}-ARM-assembly-pack.patch
 )

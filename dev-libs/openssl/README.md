@@ -3,7 +3,7 @@ OpenSSL ebuild notes
 
 The Chrome OS openssl ebuild carries the following modifications vs. upstream:
 
- * ${P}-blacklist.patch - a code change that allows blocklisting of certificates
+ * ${P}-blocklist.patch - a code change that allows blocklisting of certificates
    by serial or hash. This is useful for quickly blocking known-bad
    certificates. The patch for this isn't exactly ideal (it checks each cert in
    a chain against the file system), so ideally this would be cleaned up to use
