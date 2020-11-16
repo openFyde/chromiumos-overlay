@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="7"
 
 DESCRIPTION="Generic ebuild which satisifies virtual/chromeos-bsp-factory.
 This is a direct dependency of chromeos-base/factory, but is expected
@@ -19,5 +19,7 @@ IUSE=""
 RDEPEND="|| (
 	chromeos-base/factory-board
 	chromeos-base/chromeos-factory-board
-	)"
+	)
+	chromeos-base/factory-baseboard"
+
 DEPEND="${RDEPEND}"
