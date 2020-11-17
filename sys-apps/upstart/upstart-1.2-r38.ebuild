@@ -3,6 +3,8 @@
 
 EAPI="7"
 
+CROS_WORKON_COMMIT="76a00aaab84bdb079350b2e46e34c4762a0b8b89"
+CROS_WORKON_TREE="705d1432ca0d1e5e0a0408c5aa74d0576dcbfa77"
 CROS_WORKON_PROJECT="chromiumos/third_party/upstart"
 CROS_WORKON_LOCALNAME="../third_party/upstart"
 
