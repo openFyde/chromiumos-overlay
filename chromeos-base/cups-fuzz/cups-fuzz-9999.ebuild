@@ -36,9 +36,8 @@ src_configure() {
 	sanitizers-setup-env || die
 	fuzzer-setup-binary || die
 	append-ldflags "$(${CHOST}-cups-config --libs)"
-	local v="$(libchrome_ver)"
-	append-ldflags "$($(tc-getPKG_CONFIG) --libs libchrome-"${v}")"
-	append-cppflags "$($(tc-getPKG_CONFIG) --cflags libchrome-"${v}")"
+	append-ldflags "$($(tc-getPKG_CONFIG) --libs libchrome)"
+	append-cppflags "$($(tc-getPKG_CONFIG) --cflags libchrome)"
 }
 
 src_compile() {
