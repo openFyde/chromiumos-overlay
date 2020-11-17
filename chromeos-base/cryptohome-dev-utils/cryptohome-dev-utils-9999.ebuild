@@ -34,7 +34,6 @@ COMMON_DEPEND="
 	chromeos-base/attestation:=
 	chromeos-base/biod_proxy:=
 	chromeos-base/chaps:=
-	chromeos-base/libscrypt:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/tpm_manager:=
 	chromeos-base/secure-erase-file:=
