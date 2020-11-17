@@ -33,7 +33,7 @@ src_install() {
 
 	insinto /etc/init
 	doins "${FILESDIR}/rmtfs.conf"
-	doins "${FILESDIR}/udev-trigger-rmtfs.conf"
+	doins "${FILESDIR}/check-rmtfs-early.conf"
 	insinto /lib/udev/rules.d
 	doins "${FILESDIR}/77-rmtfs.rules"
 
