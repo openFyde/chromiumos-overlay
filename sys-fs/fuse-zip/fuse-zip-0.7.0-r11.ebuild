@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit toolchain-funcs
+inherit toolchain-funcs cros-sanitizers
 
 DESCRIPTION="FUSE file system to navigate, extract, create and modify ZIP archives"
 HOMEPAGE="https://bitbucket.org/agalanin/fuse-zip"
@@ -15,6 +15,7 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="
+	chromeos-base/chrome-icu
 	dev-libs/libzip:=
 	sys-fs/fuse:0
 "
@@ -34,9 +35,12 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0.7.0-password.patch"
 	"${FILESDIR}/${PN}-0.7.0-no-symlinks.patch"
 	"${FILESDIR}/${PN}-0.7.0-deduplicate-filenames.patch"
+	"${FILESDIR}/${PN}-0.7.0-guess-encoding.patch"
+	"${FILESDIR}/${PN}-0.7.0-chrome-icu.patch"
 )
 
 src_compile() {
+	sanitizers-setup-env
 	tc-export PKG_CONFIG
 	emake CXX="$(tc-getCXX)" CXXFLAGS="${CXXFLAGS} ${LDFLAGS}"
 }
