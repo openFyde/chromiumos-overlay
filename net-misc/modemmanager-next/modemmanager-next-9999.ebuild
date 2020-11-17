@@ -17,7 +17,7 @@ HOMEPAGE="http://mail.gnome.org/archives/networkmanager-list/2008-July/msg00274.
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="doc mbim systemd qmi"
+IUSE="doc mbim systemd qmi qrtr"
 
 RDEPEND=">=dev-libs/glib-2.36
 	>=sys-apps/dbus-1.2
@@ -84,6 +84,7 @@ src_configure() {
 		--enable-compile-warnings=yes \
 		$(use_enable {,gtk-}doc) \
 		$(use_with mbim) \
+		$(use_enable qrtr plugin-qcom-soc) \
 		$(use_with qmi)
 }
 
@@ -119,6 +120,10 @@ src_install() {
 		telit
 		zte
 	)
+	if use qrtr; then
+		plugins+=(qcom-soc)
+	fi
+
 	local plugins_regex=".*/libmm-plugin-($(IFS='|'; echo "${plugins[*]}")).so"
 
 	find "${D}" -regextype posix-extended \
