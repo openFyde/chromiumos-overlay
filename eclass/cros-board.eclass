@@ -197,6 +197,7 @@ ALL_BOARDS=(
 	guado_moblab
 	#guado-kernelnext
 	guado_labstation
+	guybrush
 	hana
 	hana-kernelnext
 	hatch
