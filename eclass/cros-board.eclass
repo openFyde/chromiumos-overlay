@@ -263,6 +263,7 @@ ALL_BOARDS=(
 	lumpy
 	#macchiato-ground
 	majolica
+	mancomb
 	mappy
 	#mappy-envoy
 	mappy_flashstation
