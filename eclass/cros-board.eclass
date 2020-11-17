@@ -261,6 +261,7 @@ ALL_BOARDS=(
 	lulu-cheets
 	lumpy
 	#macchiato-ground
+	majolica
 	mappy
 	#mappy-envoy
 	mappy_flashstation
