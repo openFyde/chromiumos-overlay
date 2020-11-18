@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/flashrom/flashrom-0.9.4.ebuild,v 1.5 2011/09/20 16:03:21 nativemad Exp $
 
 EAPI=7
-CROS_WORKON_COMMIT="4ce3bd29d97f36aab7df5b8d2463d2404d965509"
-CROS_WORKON_TREE="ddf04c909e7f7b90e91ce391531a451959093b5b"
+CROS_WORKON_COMMIT="e54c341a49abf80387db41a2a4f4bbf2201be798"
+CROS_WORKON_TREE="6e103d21e853ad1cddcb71ddab57deb880473530"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 
 inherit cros-workon toolchain-funcs
@@ -21,7 +21,7 @@ IUSE="+atahpt +bitbang_spi +buspirate_spi dediprog +drkaiser
 +dummy +fdtmap +ft2232_spi +gfxnvidia +internal +linux_mtd +linux_spi
 +lspcon_i2c_spi +nic3com +nicintel +nicintel_spi +nicnatsemi
 +nicrealtek +ogp_spi +raiden_debug_spi +rayer_spi +realtek_mst_i2c_spi
-+satasii +satamv +serprog +mec1308 +ene_lpc static +wiki"
++satasii +satamv +serprog static +wiki"
 
 LIB_DEPEND="atahpt? ( sys-apps/pciutils[static-libs(+)] )
 	dediprog? ( virtual/libusb:0[static-libs(+)] )
@@ -66,8 +66,7 @@ src_compile() {
 		ft2232_spi gfxnvidia linux_mtd linux_spi lspcon_i2c_spi \
 		nic3com nicintel nicintel_spi nicnatsemi nicrealtek ogp_spi \
 		raiden_debug_spi rayer_spi realtek_mst_i2c_spi satasii satamv \
-		serprog internal dummy \
-		mec1308 ene_lpc
+		serprog internal dummy
 	_flashrom_enable wiki PRINT_WIKI
 
 	# You have to specify at least one programmer, and if you specify more than

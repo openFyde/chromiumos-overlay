@@ -16,8 +16,10 @@ IUSE=""
 DEPEND="sys-boot/gnu-efi"
 
 src_compile() {
+	# Use GNU objcopy as llvm-objcopy does not support
+	# efi-app-x86_64 bfdname (https://crbug.com/1150055) .
+	export OBJCOPY="${CHOST}-objcopy"
 	emake -j1 CC="$(tc-getCC)" LD="$(tc-getLD)" \
-              OBJCOPY="$(tc-getPROG OBJCOPY objcopy)" \
               || die "${SRCPATH} compile failed."
 }
 
