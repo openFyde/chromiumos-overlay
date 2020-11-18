@@ -133,10 +133,6 @@ CROS_COMMON_RDEPEND="
 	sys-apps/memtester
 	virtual/autotest-capability
 	virtual/chromeos-bsp-test
-	kvm_host? (
-		chromeos-base/crostini-pin
-		chromeos-base/termina-pin
-	)
 "
 
 # Packages needed by FAFT.
