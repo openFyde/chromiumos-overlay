@@ -14,7 +14,7 @@ LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="~*"
-IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl p2p ps3 qt5 readline selinux smartcard systemd +tdls uncommon-eap-types wifi_hostap_test wps kernel_linux kernel_FreeBSD wimax"
+IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl mbo p2p ps3 qt5 readline selinux smartcard systemd +tdls uncommon-eap-types wifi_hostap_test wps kernel_linux kernel_FreeBSD wimax"
 
 CDEPEND="
 	chromeos-base/minijail
@@ -186,6 +186,14 @@ src_configure() {
 	if use hs2-0 ; then
 		Kconfig_style_config INTERWORKING
 		Kconfig_style_config HS20
+	fi
+
+	# Enable support for MBO (Multi-Band Operation), see
+	# https://www.wi-fi.org/discover-wi-fi/wi-fi-agile-multiband
+	if use mbo ; then
+		Kconfig_style_config MBO
+	else
+		Kconfig_style_config MBO n
 	fi
 
 	if use uncommon-eap-types; then
