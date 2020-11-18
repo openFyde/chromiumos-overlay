@@ -36,8 +36,7 @@ src_install() {
 	dolib.a "${OUT}/libcamera_ipc_mojom.a"
 
 	cros-camera_doheader \
-		../../include/cros-camera/camera_mojo_channel_manager.h \
-		../../include/cros-camera/ipc_util.h
+		../../include/cros-camera/camera_mojo_channel_manager_token.h
 
 	cros-camera_dopc ../libcamera_ipc.pc.template
 }
