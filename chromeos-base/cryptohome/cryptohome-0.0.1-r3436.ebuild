@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4b5e07dd1040b56e5ca23922e5082db8b3d24a04"
+CROS_WORKON_COMMIT="b6b4e20d47d7a03defd2a3821b21ad3535270214"
 CROS_WORKON_TREE=("f86b3dad942180ce041d9034a4f5f9cceb8afe6b" "b13962b6080bc15bf926709ea21167d5b4e192f6" "989d840598227b15d78525d5f92c806011a9c158" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -55,7 +55,6 @@ COMMON_DEPEND="
 	chromeos-base/chaps:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libhwsec:=
-	chromeos-base/libscrypt:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/secure-erase-file:=
 	chromeos-base/tpm_manager:=
