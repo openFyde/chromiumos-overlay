@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk system-proxy .gn"
+CROS_WORKON_SUBTREE="common-mk libpasswordprovider system-proxy .gn"
 
 PLATFORM_SUBDIR="system-proxy"
 
@@ -23,6 +23,7 @@ KEYWORDS="~*"
 IUSE="fuzzer"
 
 COMMON_DEPEND="
+	chromeos-base/libpasswordprovider:=
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
 	chromeos-base/patchpanel-client:=
