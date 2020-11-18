@@ -14,12 +14,6 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-CLIENT_TESTS="
-	+tests_graphics_Gralloc
-"
-
-IUSE_TESTS="${CLIENT_TESTS}"
-
 RDEPEND="
 	dev-python/pyxattr
 	chromeos-base/chromeos-chrome
@@ -31,7 +25,6 @@ DEPEND="${RDEPEND}"
 
 IUSE="
 	+autotest
-	${IUSE_TESTS}
 "
 
 src_prepare() {
