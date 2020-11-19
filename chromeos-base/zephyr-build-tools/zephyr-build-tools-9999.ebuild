@@ -22,8 +22,12 @@ IUSE=""
 
 BDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND="
-	dev-python/pyyaml
-	dev-python/jsonschema
+	dev-python/colorama[${PYTHON_USEDEP}]
+	dev-python/docopt[${PYTHON_USEDEP}]
+	dev-python/jsonschema[${PYTHON_USEDEP}]
+	dev-python/pykwalify[${PYTHON_USEDEP}]
+	dev-python/pyyaml[${PYTHON_USEDEP}]
+	dev-util/ninja
 "
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
