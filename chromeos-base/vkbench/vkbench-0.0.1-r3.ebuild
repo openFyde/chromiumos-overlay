@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a956e6592ab743c710ad40602b21c3519e3c5feb"
-CROS_WORKON_TREE="37e6e5c6036263030a215e50daed6233274097a4"
+CROS_WORKON_COMMIT="53230a2f6406b51fdaa6e388816df6a16e9ef2f7"
+CROS_WORKON_TREE="87fd691f44cff0bfb97069288c513c14cff26903"
 CROS_WORKON_LOCALNAME="platform/vkbench"
 CROS_WORKON_PROJECT="chromiumos/platform/vkbench"
 
@@ -24,8 +24,10 @@ REQUIRED_USE="vulkan"
 BDEPEND="
 	dev-util/glslang
 "
+
 RDEPEND="
-	media-libs/vulkan-loader
-	virtual/vulkan-icd
+	media-libs/libpng:=
+	media-libs/vulkan-loader:=
+	virtual/vulkan-icd:=
 "
 DEPEND="${RDEPEND}"
