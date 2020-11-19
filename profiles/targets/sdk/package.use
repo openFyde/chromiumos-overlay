@@ -220,7 +220,6 @@ dev-python/selenium python_targets_python2_7
 dev-python/setproctitle python_targets_python2_7
 dev-python/setuptools python_targets_python2_7
 dev-python/setuptools_scm python_targets_python2_7
-dev-python/setuptools_scm_git_archive python_targets_python2_7
 dev-python/simplejson python_targets_python2_7
 dev-python/six python_targets_python2_7
 dev-python/sphinx python_targets_python2_7
