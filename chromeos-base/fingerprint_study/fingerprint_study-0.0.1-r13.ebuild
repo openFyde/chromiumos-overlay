@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d59f6053883aa900344587231187c3c9999a163b"
+CROS_WORKON_COMMIT="d6c01c3a1f72d95d7ecafc0ab9c3fa4bbc7960dd"
 CROS_WORKON_TREE="f795131b8c94f56d9da33ac2cfc3489f84cffc0a"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,6 +22,7 @@ RDEPEND="
 	${PYTHON_DEPS}
 	chromeos-base/ec-utils
 	dev-python/cherrypy[${PYTHON_USEDEP}]
+	dev-python/python-gnupg[${PYTHON_USEDEP}]
 	dev-python/ws4py[${PYTHON_USEDEP}]
 	"
 
