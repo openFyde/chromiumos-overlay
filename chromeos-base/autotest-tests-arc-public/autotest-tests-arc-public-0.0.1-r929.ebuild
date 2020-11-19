@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="643f0f8fbfbeb75da62b431aa56114f6aec27563"
-CROS_WORKON_TREE="91578c16d64ee6c4fdb387a518beb38daf535f03"
+CROS_WORKON_COMMIT="6889a59422c22807e27bf807223722379b19093c"
+CROS_WORKON_TREE="76d4aad0eb2dcc6b3a0a78ac0a398b214063fedf"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -15,12 +15,6 @@ DESCRIPTION="Public ARC autotests"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-
-CLIENT_TESTS="
-	+tests_graphics_Gralloc
-"
-
-IUSE_TESTS="${CLIENT_TESTS}"
 
 RDEPEND="
 	dev-python/pyxattr
@@ -33,7 +27,6 @@ DEPEND="${RDEPEND}"
 
 IUSE="
 	+autotest
-	${IUSE_TESTS}
 "
 
 src_prepare() {
