@@ -40,6 +40,7 @@ SRC_URI="
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="
+	dlc
 	fuzzer
 	ml_benchmark_drivers
 	nnapi
@@ -52,7 +53,7 @@ IUSE="
 RDEPEND="
 	chromeos-base/chrome-icu:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
-	ondevice_speech? ( chromeos-base/libsoda:= )
+	ondevice_speech? ( chromeos-base/libsoda:=[dlc=] )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
 	dev-libs/libgrammar:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
@@ -67,6 +68,9 @@ DEPEND="
 	dev-libs/libutf:=
 	dev-libs/marisa-aosp:=
 "
+
+# SODA will not be supported on rootfs and only be supported through DLC.
+REQUIRED_USE="ondevice_speech? ( dlc )"
 
 src_install() {
 	dobin "${OUT}"/ml_service
