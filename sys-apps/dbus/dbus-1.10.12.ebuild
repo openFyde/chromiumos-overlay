@@ -114,6 +114,12 @@ multilib_src_configure() {
 	esac
 
 	cros_optimize_package_for_speed
+
+	# Use GNU objcopy and strip instead of llvm's objcopy/strip
+	# while we debug why it breaks some VM Tests (https://crbug.com/1150537)
+	export OBJCOPY="${CHOST}-objcopy"
+	export STRIP="${CHOST}-strip"
+
 	# libaudit is *only* used in DBus wrt SELinux support, so disable it, if
 	# not on an SELinux profile.
 	myconf=(
