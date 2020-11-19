@@ -187,7 +187,6 @@ dev-python/cachetools python_targets_python2_7
 dev-python/certifi python_targets_python2_7
 dev-python/cffi python_targets_python2_7
 dev-python/chardet python_targets_python2_7
-dev-python/cheetah python_targets_python2_7
 dev-python/cheroot python_targets_python2_7
 dev-python/cherrypy python_targets_python2_7
 dev-python/configobj python_targets_python2_7
@@ -223,7 +222,6 @@ dev-python/linecache2 python_targets_python2_7
 dev-python/lockfile python_targets_python2_7
 dev-python/lxml python_targets_python2_7
 dev-python/m2crypto python_targets_python2_7
-dev-python/markdown python_targets_python2_7
 dev-python/markupsafe python_targets_python2_7
 dev-python/matplotlib python_targets_python2_7
 dev-python/mkvparse python_targets_python2_7
