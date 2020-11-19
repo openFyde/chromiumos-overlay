@@ -237,7 +237,6 @@ dev-python/netifaces python_targets_python2_7
 dev-python/numpy python_targets_python2_7
 dev-python/oauth python_targets_python2_7
 dev-python/packaging python_targets_python2_7
-dev-python/parallel-ssh python_targets_python2_7
 dev-python/paramiko python_targets_python2_7
 dev-python/pbr python_targets_python2_7
 dev-python/pexpect python_targets_python2_7
@@ -287,7 +286,6 @@ dev-python/setuptools python_targets_python2_7
 dev-python/setuptools_scm python_targets_python2_7
 dev-python/simplejson python_targets_python2_7
 dev-python/six python_targets_python2_7
-dev-python/ssh2-python python_targets_python2_7
 dev-python/strict-rfc3339 python_targets_python2_7
 dev-python/tempora python_targets_python2_7
 dev-python/tftpy python_targets_python2_7
