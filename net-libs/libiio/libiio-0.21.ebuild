@@ -34,6 +34,8 @@ DEPEND="${RDEPEND}"
 src_prepare() {
 	use iioservice || eapply "${FILESDIR}"/${PN}-cros-ec-ring-workaround.patch
 
+	eapply "${FILESDIR}"/${PN}-illuminance.patch
+
 	cmake-utils_src_prepare
 	default
 }
