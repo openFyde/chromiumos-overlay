@@ -6,7 +6,7 @@ CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk biod chromeos-config metrics .gn"
+CROS_WORKON_SUBTREE="common-mk biod chromeos-config libec metrics .gn"
 
 PLATFORM_SUBDIR="biod"
 
@@ -30,6 +30,7 @@ IUSE="
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/libec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	sys-apps/flashmap:=
 	unibuild? (
