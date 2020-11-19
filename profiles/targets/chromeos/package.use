@@ -162,17 +162,14 @@ sys-apps/flashmap -python
 # TODO(crbug.com/1007152): Trim this entirely!
 app-admin/webapp-config python_targets_python2_7
 app-arch/brotli python_targets_python2_7
-app-editors/vim python_targets_python2_7
 chromeos-base/chromite python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/factory python_targets_python2_7
 chromeos-base/factory-mini python_targets_python2_7
 chromeos-base/hammerd-test-utils python_targets_python2_7
-chromeos-base/mobmonitor python_targets_python2_7
 chromeos-base/pywalt python_targets_python2_7
 chromeos-base/telemetry python_targets_python2_7
 chromeos-base/touch_firmware_test python_targets_python2_7
-chromeos-base/touchbot python_targets_python2_7
 dev-lang/yasm python_targets_python2_7
 dev-libs/glib python_targets_python2_7
 dev-libs/libnl python_targets_python2_7
@@ -209,7 +206,6 @@ dev-python/elementtree python_targets_python2_7
 dev-python/fasteners python_targets_python2_7
 dev-python/future python_targets_python2_7
 dev-python/gevent python_targets_python2_7
-dev-python/gnupg python_targets_python2_7
 dev-python/google-resumable-media python_targets_python2_7
 dev-python/googleapis-common-protos python_targets_python2_7
 dev-python/greenlet python_targets_python2_7
@@ -222,7 +218,6 @@ dev-python/jinja python_targets_python2_7
 dev-python/jsonpatch python_targets_python2_7
 dev-python/jsonpointer python_targets_python2_7
 dev-python/jsonrpclib python_targets_python2_7
-dev-python/jsonschema python_targets_python2_7
 dev-python/kiwisolver python_targets_python2_7
 dev-python/lazy-object-proxy python_targets_python2_7
 dev-python/linecache2 python_targets_python2_7
@@ -295,7 +290,6 @@ dev-python/setuptools_scm python_targets_python2_7
 dev-python/setuptools_scm_git_archive python_targets_python2_7
 dev-python/simplejson python_targets_python2_7
 dev-python/six python_targets_python2_7
-dev-python/ssh2 python_targets_python2_7
 dev-python/ssh2-python python_targets_python2_7
 dev-python/strict-rfc3339 python_targets_python2_7
 dev-python/tempora python_targets_python2_7
@@ -306,7 +300,6 @@ dev-python/trollius python_targets_python2_7
 dev-python/uritemplate python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
 dev-python/utm python_targets_python2_7
-dev-python/vcversioner python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
 dev-python/wcwidth python_targets_python2_7
@@ -336,7 +329,6 @@ sys-apps/file python_targets_python2_7
 sys-apps/fwupd python_targets_python2_7
 sys-apps/i2c-tools python_targets_python2_7
 sys-apps/kmod python_targets_python2_7
-sys-apps/moblab-common python_targets_python2_7
 sys-apps/portage python_targets_python2_7
 sys-apps/util-linux python_targets_python2_7
 sys-block/fio python_targets_python2_7
@@ -354,7 +346,6 @@ sys-process/iotop python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
 virtual/python-greenlet python_targets_python2_7
 www-apache/mod_wsgi python_targets_python2_7
-x11-proto/xcb-proto python_targets_python2_7
 
 # These packages only support Python 2.7.  They aren't needed in Python 3.6+.
 # TODO(crbug.com/1007152): Trim this entirely!

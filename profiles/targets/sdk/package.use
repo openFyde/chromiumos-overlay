@@ -156,7 +156,6 @@ dev-python/isort python_targets_python2_7
 dev-python/jaraco-functools python_targets_python2_7
 dev-python/jinja python_targets_python2_7
 dev-python/jsonrpclib python_targets_python2_7
-dev-python/jsonschema python_targets_python2_7
 dev-python/kiwisolver python_targets_python2_7
 dev-python/lazy-object-proxy python_targets_python2_7
 dev-python/linecache2 python_targets_python2_7
@@ -236,7 +235,6 @@ dev-python/twisted-core python_targets_python2_7
 dev-python/twisted-web python_targets_python2_7
 dev-python/unittest2 python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
-dev-python/vcversioner python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
 dev-python/webcolors python_targets_python2_7
@@ -246,7 +244,6 @@ dev-python/zc-lockfile python_targets_python2_7
 dev-python/zope-interface python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 dev-util/scons python_targets_python2_7
-net-libs/nodejs python_targets_python2_7
 sys-apps/file python_targets_python2_7
 sys-apps/flashmap python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
