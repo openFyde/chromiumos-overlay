@@ -259,12 +259,10 @@ dev-python/pyparsing python_targets_python2_7
 dev-python/pyserial python_targets_python2_7
 dev-python/PySocks python_targets_python2_7
 dev-python/pytest python_targets_python2_7
-dev-python/python-daemon python_targets_python2_7
 dev-python/python-dateutil python_targets_python2_7
 dev-python/python-evdev python_targets_python2_7
 dev-python/python-gflags python_targets_python2_7
 dev-python/python-gnupg python_targets_python2_7
-dev-python/python-libusb1 python_targets_python2_7
 dev-python/python-uinput python_targets_python2_7
 dev-python/pytz python_targets_python2_7
 dev-python/pyu2f python_targets_python2_7
@@ -288,13 +286,10 @@ dev-python/simplejson python_targets_python2_7
 dev-python/six python_targets_python2_7
 dev-python/strict-rfc3339 python_targets_python2_7
 dev-python/tempora python_targets_python2_7
-dev-python/tftpy python_targets_python2_7
-dev-python/tqdm python_targets_python2_7
 dev-python/traceback2 python_targets_python2_7
 dev-python/trollius python_targets_python2_7
 dev-python/uritemplate python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
-dev-python/utm python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
 dev-python/wcwidth python_targets_python2_7
