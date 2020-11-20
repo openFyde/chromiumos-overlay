@@ -51,5 +51,8 @@ USE="${USE} -cups"
 # No need for input-methods and app-i18n.
 USE="${USE} -ime"
 
+# No support for zero-copy camera stack in Chrome.
+USE="${USE} -video_capture_use_gpu_memory_buffer"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE=""
