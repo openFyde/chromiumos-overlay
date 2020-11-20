@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9615d75a489457711a68dcc83f21face9908309e"
+CROS_WORKON_COMMIT="d75677d57df7cbc9666d031e1097b59dd1843b7c"
 CROS_WORKON_TREE=("f86b3dad942180ce041d9034a4f5f9cceb8afe6b" "b234b4b7e8a582429c703338318c238f27c0ae01" "f362827ede8713fe521f7b0af5dfdbed5627c34f" "41e588aa09391b289425ae58c40be138298c6cb0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -87,9 +87,11 @@ src_install() {
 	if use arcvm; then
 		dosbin "${OUT}"/arc-apply-per-board-config
 		dosbin "${OUT}"/arc-create-data
+		dosbin "${OUT}"/arc-handle-upgrade
 		insinto /etc/init
 		doins init/arcvm-per-board-features.conf
 		doins init/arc-create-data.conf
+		doins init/arc-handle-upgrade.conf
 		insinto /etc/dbus-1/system.d
 		doins init/dbus-1/ArcVmSetupUpstart.conf
 	fi
