@@ -101,5 +101,7 @@ src_install() {
 		fi
 	done
 
+	dolib.so "${OUT}/lib/libsystem_api.so"
+
 	cros-go_src_install
 }

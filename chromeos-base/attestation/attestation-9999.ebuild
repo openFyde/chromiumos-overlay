@@ -31,6 +31,7 @@ RDEPEND="
 		chromeos-base/trunks:=
 	)
 	chromeos-base/chaps:=
+	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	chromeos-base/tpm_manager:=

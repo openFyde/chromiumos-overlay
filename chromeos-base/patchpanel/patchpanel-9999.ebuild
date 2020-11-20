@@ -25,6 +25,7 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 	!chromeos-base/arc-networkd
 	chromeos-base/shill-net:=
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 RDEPEND="

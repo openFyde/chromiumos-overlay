@@ -33,6 +33,7 @@ RDEPEND="
 	chromeos-base/minijail
 	chromeos-base/libhwsec
 	chromeos-base/libtpmcrypto
+	chromeos-base/system_api:=[fuzzer?]
 	"
 
 DEPEND="${RDEPEND}
