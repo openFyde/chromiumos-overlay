@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk init metrics .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="init"
 
-inherit cros-workon platform user
+inherit tmpfiles cros-workon platform user
 
 DESCRIPTION="Upstart init scripts for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/init/"
@@ -105,10 +105,12 @@ src_install_upstart() {
 
 		if use syslog; then
 			doins upstart/log-rotate.conf upstart/syslog.conf upstart/journald.conf
+			dotmpfiles tmpfiles.d/syslog.conf
 		fi
 		if use !systemd; then
 			doins upstart/cgroups.conf
 			doins upstart/dbus.conf
+			dotmpfiles tmpfiles.d/dbus.conf
 			if use udev; then
 				doins upstart/udev.conf upstart/udev-trigger.conf
 				doins upstart/udev-trigger-early.conf
@@ -119,6 +121,7 @@ src_install_upstart() {
 		fi
 	else
 		doins upstart/*.conf
+		dotmpfiles tmpfiles.d/*.conf
 
 		if ! use arcpp && use arcvm; then
 			sed -i '/^env IS_ARCVM=/s:=0:=1:' \
