@@ -32,9 +32,6 @@ src_install() {
 
 	insinto /etc/init
 	doins arc-host-clock-service.conf
-
-	insinto /etc/dbus-1/system.d
-	doins org.chromium.ArcHostClockService.conf
 }
 
 pkg_preinst() {

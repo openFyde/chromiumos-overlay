@@ -28,9 +28,6 @@ src_install() {
 	insinto /etc/init
 	doins arcvm-boot-notification-server.conf
 
-	insinto /etc/dbus-1/system.d
-	doins dbus-1/ArcVmBootNotificationServer.conf
-
 	insinto /usr/share/policy
 	use seccomp && newins "arcvm_boot_notification_server-seccomp-${ARCH}.policy" arcvm_boot_notification_server-seccomp.policy
 }
