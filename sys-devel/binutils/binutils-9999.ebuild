@@ -64,6 +64,9 @@ PATCHES=(
 	"${FILESDIR}/${P}-sht_relr.patch"
 	"${FILESDIR}/${P}-smallpie.patch"
 	"${FILESDIR}/${P}-apply_dynamic_relocs.patch"
+	"${FILESDIR}/${P}-gold-dwp-dwarfv5-1.patch"
+	"${FILESDIR}/${P}-gold-dwp-dwarfv5-2.patch"
+	"${FILESDIR}/${P}-gold-dwp-dwarfv5-3.patch"
 )
 
 # It is not convenient that cros_workon.eclass does not accept a branch name in
