@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9cd2f53c75376fd32b7c7610a0b066cc587ae930"
+CROS_WORKON_COMMIT="8d996397d3d660327d2123dca8efdeeeadd01711"
 CROS_WORKON_TREE="096e46695d63714714d945b5b9e8378beb18891c"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,6 +22,10 @@ KEYWORDS="*"
 BDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 
 distutils_enable_tests unittest
+
+src_test() {
+	distutils-r1_src_test
+}
 
 src_compile() {
 	S+="/${CROS_WORKON_SUBTREE}"
