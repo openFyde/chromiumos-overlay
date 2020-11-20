@@ -1,15 +1,16 @@
-# Copyright (c) 2014 The Chromium OS Authors. All rights reserved.
+# Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
-CROS_WORKON_COMMIT="c5e0f0e35da8acb9fcf269b0545d61084a98f35d"
-CROS_WORKON_TREE="ef26fec1937b02350d071ac58ffcc12fcbcc8809"
+EAPI="5"
+CROS_WORKON_COMMIT="dd6ac13ce81b52139434cf45f99b650378bbd338"
+CROS_WORKON_TREE="43ad7cbf6f9f26073ee00b52f43067d2b7f74059"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest-deponly
+PYTHON_COMPAT=( python2_7 )
+inherit cros-workon autotest-deponly python-any-r1
 
-DESCRIPTION="Dependencies for graphics autotests"
+DESCRIPTION="Autotest p2p deps"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 LICENSE="GPL-2"
@@ -19,10 +20,15 @@ KEYWORDS="*"
 # Autotest enabled by default.
 IUSE="+autotest"
 
-AUTOTEST_DEPS_LIST="graphics"
+AUTOTEST_DEPS_LIST="lansim"
 
 # NOTE: For deps, we need to keep *.a
 AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
 RDEPEND="!<chromeos-base/autotest-deps-0.0.4"
+
+# deps/lansim
+RDEPEND="${RDEPEND}
+	dev-python/dpkt
+"
 DEPEND="${RDEPEND}"
