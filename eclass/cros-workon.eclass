@@ -170,15 +170,6 @@ ARRAY_VARIABLES=(
 # Most packages do not use this, so unless you're sure you do, do not set it.
 : ${CROS_WORKON_USE_VCSID:=}
 
-# @ECLASS-VARIABLE: CROS_WORKON_GIT_SUFFIX
-# @DESCRIPTION:
-# The git eclass does not do locking on its repo.  That means
-# multiple ebuilds that use the same git repo cannot safely be
-# emerged at the same time.  Until we can get that sorted out,
-# allow ebuilds that know they'll conflict to declare a unique
-# path for storing the local clone.
-: ${CROS_WORKON_GIT_SUFFIX:=}
-
 # @ECLASS-VARIABLE: CROS_WORKON_OUTOFTREE_BUILD
 # @DESCRIPTION:
 # Do not copy the source tree to $S; instead set $S to the
@@ -689,7 +680,7 @@ cros-workon_src_unpack() {
 		for (( i = 0; i < project_count; ++i )); do
 			EGIT_BRANCH="${branch[i]}"
 			EGIT_REPO_URI="${repo[i]}/${project[i]}.git"
-			EGIT_PROJECT="${project[i]}${CROS_WORKON_GIT_SUFFIX}"
+			EGIT_PROJECT="${project[i]}"
 			EGIT_SOURCEDIR="${destdir[i]}"
 			EGIT_COMMIT="${CROS_WORKON_COMMIT[i]}"
 			# If the logic above checked out the repo (only one failed), then skip it.
