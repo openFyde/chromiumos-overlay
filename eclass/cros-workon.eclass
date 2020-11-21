@@ -601,19 +601,12 @@ cros-workon_src_unpack() {
 	fi
 
 	if [[ "${fetch_method}" == "git" ]] ; then
-		all_local() {
-			local p
-			for p in "${path[@]}"; do
-				[[ -d ${p} ]] || return 1
-			done
-			return 0
-		}
+		local creds_setup="false"
 
-		local fetched=0
-		if all_local; then
-			for (( i = 0; i < project_count; ++i )); do
-				# Looks like we already have a local copy of all repositories.
-				# Let's use these and checkout ${CROS_WORKON_COMMIT}.
+		for (( i = 0; i < project_count; ++i )); do
+			if [[ -d "${path[i]}" ]]; then
+				# Looks like we have a local copy of the repository.
+				# Let's use it and checkout ${CROS_WORKON_COMMIT}.
 				#  -s: For speed, share objects between ${path} and ${S}.
 				#  -n: Don't checkout any files from the repository yet. We'll
 				#      checkout the source separately.
@@ -643,59 +636,47 @@ cros-workon_src_unpack() {
 					# code path to fail and explain the problem.
 					git clone -s "${path[i]}" "${destdir[i]}" || \
 						die "Can't clone ${path[i]}."
-					: $(( ++fetched ))
+					continue
 				else
 					git clone -sn "${path[i]}" "${destdir[i]}" || \
 						die "Can't clone ${path[i]}."
-					if ! ( cd ${destdir[i]} && git checkout -q ${CROS_WORKON_COMMIT[i]} ) ; then
+					if ! (cd "${destdir[i]}" && git checkout -q "${CROS_WORKON_COMMIT[i]}") ; then
 						ewarn "Cannot run git checkout ${CROS_WORKON_COMMIT[i]} in ${destdir[i]}."
 						ewarn "Is ${path[i]} up to date? Try running repo sync."
 						rm -rf "${destdir[i]}/.git"
 					else
-						: $(( ++fetched ))
+						continue
 					fi
 				fi
-			done
-			if [[ ${fetched} -eq ${project_count} ]]; then
-				# TODO: Id of all repos?
-				# We should run get_rev in destdir[0] because CROS_WORKON_COMMIT
-				# is only checked out there. Also, we can't use
-				# CROS_WORKON_COMMIT directly because it could be a named or
-				# abbreviated ref.
-				set_vcsid "$(get_rev "${destdir[0]}/.git")"
-				cros-workon_enforce_subtrees
-				return
-			else
-				ewarn "Falling back to git.eclass..."
 			fi
-		fi
 
-		# We have to pull from git, maybe a private repo.
-		cros-credentials_setup
+			if [[ "${creds_setup}" == "false" ]]; then
+				creds_setup="true"
+				# We have to pull from git, maybe a private repo.
+				cros-credentials_setup
+			fi
 
-
-		# Always pull all branches, if we are pulling source via git.
-		EGIT_ALL_BRANCH="1"
-
-		for (( i = 0; i < project_count; ++i )); do
+			# Use a subshell to avoid leaking EGIT vars.
+			(
 			EGIT_BRANCH="${branch[i]}"
 			EGIT_REPO_URI="${repo[i]}/${project[i]}.git"
 			EGIT_PROJECT="${project[i]}"
 			EGIT_SOURCEDIR="${destdir[i]}"
 			EGIT_COMMIT="${CROS_WORKON_COMMIT[i]}"
-			# If the logic above checked out the repo (only one failed), then skip it.
-			if [[ -d "${EGIT_SOURCEDIR}/.git" ]]; then
-				einfo "Skipping existing checkout of ${EGIT_PROJECT} in ${EGIT_SOURCEDIR}"
-				continue
-			fi
 			# Clones to /var, copies src tree to the /build/<board>/tmp.
 			# Make sure git-2 does not run `unpack` for us automatically.
 			# The normal cros-workon flow above doesn't do it, so don't
 			# let git-2 do it either.  http://crosbug.com/38342
 			EGIT_NOUNPACK=true git-2_src_unpack
-			# TODO(zbehan): Support multiple projects for vcsid?
+			)
 		done
-		set_vcsid "${CROS_WORKON_COMMIT[0]}"
+
+		# TODO(zbehan): Support multiple projects for vcsid?
+		# We should run get_rev in destdir[0] because CROS_WORKON_COMMIT
+		# is only checked out there. Also, we can't use
+		# CROS_WORKON_COMMIT directly because it could be a named or
+		# abbreviated ref.
+		set_vcsid "$(get_rev "${destdir[0]}/.git")"
 		cros-workon_enforce_subtrees
 		return
 	fi
