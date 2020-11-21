@@ -138,6 +138,7 @@ multilib_src_configure() {
 		"-DLIBCXX_HAS_GCC_S_LIB=${want_gcc_s}"
 		"-DLIBCXX_USE_COMPILER_RT=$(usex compiler-rt)"
 		"-DLIBCXX_INCLUDE_TESTS=OFF"
+		"-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)"
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
 		"-DCMAKE_SHARED_LINKER_FLAGS=${extra_libs[*]} ${LDFLAGS}"
 	)
