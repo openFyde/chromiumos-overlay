@@ -66,6 +66,7 @@ multilib_src_configure() {
 		"${mycmakeargs[@]}"
 		"-DLLVM_ENABLE_PROJECTS=libunwind"
 		"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
+		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 		"-DLLVM_LIBDIR_SUFFIX=${libdir#lib}"
 		"-DLIBUNWIND_ENABLE_ASSERTIONS=$(should_enable_asserts)"
 		"-DLIBUNWIND_ENABLE_STATIC=$(usex static-libs)"
