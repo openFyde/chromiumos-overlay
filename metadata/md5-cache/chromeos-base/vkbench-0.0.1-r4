@@ -4,12 +4,12 @@ DEPEND=media-libs/libpng:= media-libs/vulkan-loader:= virtual/vulkan-icd:=
 DESCRIPTION=Microbenchmark for vulkan
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/vkbench/
-IUSE=vulkan cros_host cros_workon_tree_87fd691f44cff0bfb97069288c513c14cff26903
+IUSE=vulkan cros_host cros_workon_tree_3f9b6d760774186b4ab09f2532da94991e6c64b1
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=media-libs/libpng:= media-libs/vulkan-loader:= virtual/vulkan-icd:=
 REQUIRED_USE=vulkan
-SLOT=0/0.0.1-r3
+SLOT=0/0.0.1-r4
 _eclasses_=cmake-utils	91d6ef31dc426240577497cacbf2508c	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	212b86ee95c1edffe51e7a643c301998	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	e32940a7b2a9992ad217eccddb84d548	ninja-utils	132cbb376048d079b5a012f5467c4e7f	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
-_md5_=336c6b7127df5eb817732bac7d557da3
+_md5_=8b7dee77da33315e6d56c213fe61af5a
