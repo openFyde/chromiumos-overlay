@@ -86,6 +86,12 @@ src_configure() {
 	platform_src_configure
 }
 
+src_test() {
+	pushd libchrome_tools || die
+	python3 -m unittest check_libchrome_test || die "failed python3 check-libchrome-test.py"
+	popd || die
+}
+
 src_install() {
 	export BASE_VER="$(cat BASE_VER)"
 	dolib.so "${OUT}"/lib/libbase*.so
