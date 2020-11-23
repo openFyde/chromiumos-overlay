@@ -24,26 +24,18 @@ DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
 
 # SHA-1 or tag will both work.
-GIT_REF="0.99.19"
+GIT_REF="${PV}"
 SRC_URI="https://github.com/alexpevzner/sane-airscan/archive/${GIT_REF}.tar.gz -> ${PN}-${GIT_REF}.tar.gz"
 S="${WORKDIR}/${PN}-${GIT_REF}"
 
-PATCHES=(
-	"${FILESDIR}/sane-airscan-0.99.19-fuzzer.patch"
-	"${FILESDIR}/sane-airscan-0.99.19-query-fuzzer.patch"
-)
-
 FUZZERS=(
-	"airscan_query_fuzzer"
-	"airscan_uri_fuzzer"
-	"airscan_xml_fuzzer"
+	"fuzzer-query"
+	"fuzzer-uri"
+	"fuzzer-xml"
 )
 
 src_prepare() {
 	default_src_prepare
-	for fuzzer in "${FUZZERS[@]}"; do
-		cp "${FILESDIR}/${fuzzer}.cc" "${S}" || die
-	done
 }
 
 src_configure() {
@@ -77,7 +69,11 @@ src_install() {
 	# Safe to call even if the fuzzer isn't built because this won't do
 	# anything unless we have USE=fuzzer.
 	for fuzzer in "${FUZZERS[@]}"; do
+		# Rename fuzzers before install because the upstream target
+		# names ended up being different from our naming scheme.
+		local compat_name="airscan_${fuzzer#fuzzer-}_fuzzer"
+		mv "${BUILD_DIR}/${fuzzer}" "${BUILD_DIR}/${compat_name}"
 		fuzzer_install "${FILESDIR}/fuzzers.owners" \
-			"${BUILD_DIR}/${fuzzer}"
+			"${BUILD_DIR}/${compat_name}"
 	done
 }
