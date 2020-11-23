@@ -5,7 +5,8 @@ EAPI=5
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/camera3_test camera/common camera/include camera/mojo common-mk"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE=".gn camera/build camera/camera3_test camera/common camera/include camera/mojo chromeos-config common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -21,6 +22,7 @@ KEYWORDS="~*"
 IUSE="-asan"
 
 RDEPEND="
+	chromeos-base/chromeos-config-tools
 	!media-libs/arc-camera3-test
 	media-libs/cros-camera-libcamera_client
 	media-libs/cros-camera-libcamera_common
