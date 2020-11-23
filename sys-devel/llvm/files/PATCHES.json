@@ -471,5 +471,10 @@
         "comment": "clang: disable assert for DK_Linker diagnostics",
         "rel_patch_path": "disable-dk_linker-assert.patch",
         "start_version": 399095
+    },
+    {
+	"comment": "Revert \"[Driver] -B: don't search for target triple prefixes\"",
+	"rel_patch_path": "revert-3452a0d8c17f7166f479706b293caf6ac76ffd90.patch",
+	"start_version": 399715
     }
 ]
