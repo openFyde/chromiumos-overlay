@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="44ad9c917a82e45c57ba446eed05178f417049c7"
+CROS_WORKON_COMMIT="60394e7b8a57fc0df3503f0e7785be259431d2a9"
 CROS_WORKON_TREE=("f86b3dad942180ce041d9034a4f5f9cceb8afe6b" "544203fc27fbfecc9814a5ab0261a991b3526174" "41e588aa09391b289425ae58c40be138298c6cb0" "d55a6149e65b13528ce22d09ba200634daede61b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -43,7 +43,10 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}
-	test? ( app-arch/gzip )
+	test? (
+		app-arch/gzip
+		app-arch/tar
+	)
 	chromeos-base/system_api:=[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator )
 	tpm2? ( chromeos-base/trunks:=[test?] )
