@@ -625,7 +625,7 @@ src_install() {
 	insinto "${CHROME_DIR}"
 	doins "${build_dir}/icudtl.dat"
 
-	# Install icu header to /usr/include/icu/.
+	# Install icu header to /usr/include/icu${CHROME_ICU_POSTFIX}/.
 	local icu_headers=(
 		"common/unicode/brkiter.h"
 		"common/unicode/bytestream.h"
@@ -638,14 +638,12 @@ src_install() {
 		"common/unicode/platform.h"
 		"common/unicode/ptypes.h"
 		"common/unicode/putil.h"
-		"common/unicode/putil.h"
 		"common/unicode/rep.h"
 		"common/unicode/std_string.h"
 		"common/unicode/strenum.h"
 		"common/unicode/stringoptions.h"
 		"common/unicode/stringpiece.h"
 		"common/unicode/ubrk.h"
-		"common/unicode/uchar.h"
 		"common/unicode/uchar.h"
 		"common/unicode/uconfig.h"
 		"common/unicode/ucpmap.h"
@@ -662,12 +660,8 @@ src_install() {
 		"common/unicode/ures.h"
 		"common/unicode/utext.h"
 		"common/unicode/utf.h"
-		"common/unicode/utf.h"
-		"common/unicode/utf16.h"
 		"common/unicode/utf16.h"
 		"common/unicode/utf8.h"
-		"common/unicode/utf8.h"
-		"common/unicode/utf_old.h"
 		"common/unicode/utf_old.h"
 		"common/unicode/utypes.h"
 		"common/unicode/uvernum.h"
