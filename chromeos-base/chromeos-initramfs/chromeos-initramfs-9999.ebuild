@@ -160,7 +160,7 @@ src_compile() {
 		INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
 		INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
 		DETACHABLE="$(usex detachable 1 0)" \
-		MENU_UI="$(usex legacy_firmware_ui 0 1)" \
+		LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
 		UNIBUILD="$(usex unibuild 1 0)" \
 		PHYSICAL_PRESENCE="${physical_presence}" \
 		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
