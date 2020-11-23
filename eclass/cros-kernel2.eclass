@@ -23,6 +23,7 @@ DEPEND="sys-kernel/linux-firmware
 	factory_shim_ramfs? ( chromeos-base/chromeos-initramfs[factory_shim_ramfs] )
 	minios_ramfs? ( chromeos-base/chromeos-initramfs[minios_ramfs] )
 	recovery_ramfs? ( chromeos-base/chromeos-initramfs[recovery_ramfs] )
+	builtin_fw_mali_g57? ( virtual/opengles )
 	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
@@ -1067,6 +1068,7 @@ CONFIG_WQ_WATCHDOG=y
 
 FIRMWARE_BINARIES=(
 	builtin_fw_amdgpu
+	builtin_fw_mali_g57
 	builtin_fw_t124_xusb
 	builtin_fw_t210_xusb
 	builtin_fw_t210_nouveau
@@ -1135,6 +1137,11 @@ builtin_fw_amdgpu_files=(
 	amdgpu/stoney_sdma.bin
 	amdgpu/stoney_uvd.bin
 	amdgpu/stoney_vce.bin
+)
+
+builtin_fw_mali_g57_desc="Workaround Firmware for Mali-G57"
+builtin_fw_mali_g57_files=(
+	valhall-1691526.wa
 )
 
 builtin_fw_vega12_desc="Firmware for AMD VEGA12"
