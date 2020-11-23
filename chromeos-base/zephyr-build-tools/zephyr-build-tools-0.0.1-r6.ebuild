@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="281f06d482eaac0b04e27cd60ede182487e92420"
+CROS_WORKON_COMMIT="4e66454280e9d61e4736e67740f9bab1306c9e2c"
 CROS_WORKON_TREE="57a2cea02c62592f4c644d8b4e898bacb0f0191b"
 CROS_WORKON_PROJECT="chromiumos/platform/zephyr-chrome"
 CROS_WORKON_LOCALNAME="platform/zephyr-chrome"
@@ -24,8 +24,12 @@ IUSE=""
 
 BDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND="
-	dev-python/pyyaml
-	dev-python/jsonschema
+	dev-python/colorama[${PYTHON_USEDEP}]
+	dev-python/docopt[${PYTHON_USEDEP}]
+	dev-python/jsonschema[${PYTHON_USEDEP}]
+	dev-python/pykwalify[${PYTHON_USEDEP}]
+	dev-python/pyyaml[${PYTHON_USEDEP}]
+	dev-util/ninja
 "
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
