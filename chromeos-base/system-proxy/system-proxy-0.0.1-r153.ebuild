@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f4be3fbf604d2f69b13606e703741b2d0178cebd"
-CROS_WORKON_TREE=("f86b3dad942180ce041d9034a4f5f9cceb8afe6b" "3bf0d6ce9124c15d50284ed0606df460731f6fed" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="78148a0018dcb6075a8faa1244da56948aa09261"
+CROS_WORKON_TREE=("f86b3dad942180ce041d9034a4f5f9cceb8afe6b" "5c6a69ae1a339332642149aa39da47d14efbe3fd" "3bf0d6ce9124c15d50284ed0606df460731f6fed" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk system-proxy .gn"
+CROS_WORKON_SUBTREE="common-mk libpasswordprovider system-proxy .gn"
 
 PLATFORM_SUBDIR="system-proxy"
 
@@ -25,6 +25,7 @@ KEYWORDS="*"
 IUSE="fuzzer"
 
 COMMON_DEPEND="
+	chromeos-base/libpasswordprovider:=
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
 	chromeos-base/patchpanel-client:=
