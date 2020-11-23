@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0e1888ba8632cba4188e63f4e1fe54ae9a798b09"
-CROS_WORKON_TREE=("a0d8550678a1ed2a4ab62782049032a024bf40df" "bf5e7ad44dfa26d1ba76610a42acec3d33aa31b8" "d289fda3c8ee1448b8cdf3425062327cde39dd8c" "256721b628ab34e4a21c3cd1f33dde43e8c8fab2")
+CROS_WORKON_COMMIT="bbd233192253cdf72cc8e22598458beed6b99cce"
+CROS_WORKON_TREE=("a0d8550678a1ed2a4ab62782049032a024bf40df" "bf5e7ad44dfa26d1ba76610a42acec3d33aa31b8" "d289fda3c8ee1448b8cdf3425062327cde39dd8c" "ce83396df378e9e591798dc807ad77adeb24aa87")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="authpolicy/dbus_bindings debugd/dbus_bindings login_manager/dbus_bindings system_api"
