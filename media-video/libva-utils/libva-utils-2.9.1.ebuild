@@ -37,11 +37,13 @@ src_prepare() {
 }
 
 src_configure() {
+	# Building the tests needs its own TR1 library.
+	CXXFLAGS+=" -DGTEST_USE_OWN_TR1_TUPLE=1"
 	local myeconfargs=(
 		--disable-x11
 		--disable-wayland
 		--enable-drm
-		"$(use_enable test tests)"
+		--enable-tests
 		"$(use_enable test vendor_intel)"
 	)
 	econf "${myeconfargs[@]}"
