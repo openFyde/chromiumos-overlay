@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="88bc67ea831e9b73828ede4126c53f965db0770d"
+CROS_WORKON_COMMIT="3687b6cd29e3f657e940dbb16421dfaf13c75194"
 CROS_WORKON_TREE=("f86b3dad942180ce041d9034a4f5f9cceb8afe6b" "a740f0d27eb3af4ef222745e16a9baaf752da9b0" "8722b11e69e00b6b0028816d78f34e3da4030880" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -42,6 +42,7 @@ SRC_URI="
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="
+	dlc
 	fuzzer
 	ml_benchmark_drivers
 	nnapi
@@ -54,7 +55,7 @@ IUSE="
 RDEPEND="
 	chromeos-base/chrome-icu:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
-	ondevice_speech? ( chromeos-base/libsoda:= )
+	ondevice_speech? ( chromeos-base/libsoda:=[dlc=] )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
 	dev-libs/libgrammar:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
@@ -69,6 +70,9 @@ DEPEND="
 	dev-libs/libutf:=
 	dev-libs/marisa-aosp:=
 "
+
+# SODA will not be supported on rootfs and only be supported through DLC.
+REQUIRED_USE="ondevice_speech? ( dlc )"
 
 src_install() {
 	dobin "${OUT}"/ml_service
