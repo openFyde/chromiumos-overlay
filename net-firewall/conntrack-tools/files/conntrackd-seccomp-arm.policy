@@ -39,7 +39,6 @@ unlink: 1
 listen: 1
 recvmsg: 1
 chdir: 1
-connect: 1
 getpid: 1
 
 # architecture-dependent syscalls:
