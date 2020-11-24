@@ -466,5 +466,10 @@
         "rel_patch_path": "cherry/0628bea5137047232f37c94b74bf26aa9b55f605.patch",
         "start_version": 408079,
         "end_version": 408302
+    },
+    {
+        "comment": "clang: disable assert for DK_Linker diagnostics",
+        "rel_patch_path": "disable-dk_linker-assert.patch",
+        "start_version": 399095
     }
 ]
