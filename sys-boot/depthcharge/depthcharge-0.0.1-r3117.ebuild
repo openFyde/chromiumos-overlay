@@ -124,6 +124,9 @@ make_depthcharge() {
 }
 
 src_compile() {
+	local from_root="${SYSROOT}/firmware/libpayload/include/"
+	local to="src/base/static_fw_config.h"
+
 	# Firmware related binaries are compiled with a 32-bit toolchain
 	# on 64-bit platforms
 	if use amd64 ; then
@@ -134,13 +137,36 @@ src_compile() {
 	fi
 
 	if use unibuild; then
+		local combinations="coreboot,depthcharge"
+		local cmd="get-firmware-build-combinations"
+		local build_combinations=$(cros_config_host "${cmd}" "${combinations}" || die)
 		local build_target
 
 		for build_target in $(cros_config_host \
 			get-firmware-build-targets depthcharge); do
+			# install the matching static_fw_config_${board}.h
+			echo "${build_combinations}" | while read -r name; do
+				read -r coreboot
+				read -r depthcharge
+				local from="${from_root}static_fw_config_${coreboot}.h"
+
+				if [[ "${build_target}" == "${depthcharge}" ]] &&
+						[[ -s "${from}" ]]; then
+					cp "${from}" "${to}"
+					einfo "Copying static_fw_config_${coreboot}.h into local tree"
+					break
+				fi
+			done
+
+			# build depthcharge
 			make_depthcharge "${build_target}" "${build_target}"
 		done
 	else
+		local from="${from_root}static_fw_config.h"
+		if [[ -s "${from}" ]]; then
+			cp "${from}" "${to}"
+			einfo "Copying static_fw_config.h into local tree"
+		fi
 		make_depthcharge "$(get_board)" build
 	fi
 }
