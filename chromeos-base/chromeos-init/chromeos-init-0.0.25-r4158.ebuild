@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="fc52deec4ad3815dc904898c9968fde9e51cc20b"
+CROS_WORKON_COMMIT="40093e72a9713c78af981e7e06d7500d4a1edc63"
 CROS_WORKON_TREE=("f86b3dad942180ce041d9034a4f5f9cceb8afe6b" "a62efa8cd2970ea25b030e20aae39cf28c442bfc" "41e588aa09391b289425ae58c40be138298c6cb0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk init metrics .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="init"
 
-inherit cros-workon platform user
+inherit tmpfiles cros-workon platform user
 
 DESCRIPTION="Upstart init scripts for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/init/"
@@ -107,10 +107,12 @@ src_install_upstart() {
 
 		if use syslog; then
 			doins upstart/log-rotate.conf upstart/syslog.conf upstart/journald.conf
+			dotmpfiles tmpfiles.d/syslog.conf
 		fi
 		if use !systemd; then
 			doins upstart/cgroups.conf
 			doins upstart/dbus.conf
+			dotmpfiles tmpfiles.d/dbus.conf
 			if use udev; then
 				doins upstart/udev.conf upstart/udev-trigger.conf
 				doins upstart/udev-trigger-early.conf
@@ -121,6 +123,7 @@ src_install_upstart() {
 		fi
 	else
 		doins upstart/*.conf
+		dotmpfiles tmpfiles.d/*.conf
 
 		if ! use arcpp && use arcvm; then
 			sed -i '/^env IS_ARCVM=/s:=0:=1:' \
