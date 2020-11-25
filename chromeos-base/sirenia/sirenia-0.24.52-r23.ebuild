@@ -63,6 +63,9 @@ src_install() {
 	local build_dir="$(cros-rust_get_build_dir)"
 	dobin "${build_dir}/dugong"
 
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.ManaTEE.conf
+
 	# Needed for initramfs, but not for the root-fs.
 	if use cros_host ; then
 		# /build is not allowed when installing to the host.
