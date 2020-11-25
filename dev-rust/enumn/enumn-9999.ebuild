@@ -16,7 +16,6 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test"
 
 DEPEND="
 	=dev-rust/proc-macro2-1*:=
@@ -26,25 +25,10 @@ DEPEND="
 
 RDEPEND="!!<=dev-rust/enumn-0.0.1-r4"
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/enumn"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
 src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
+	# TODO(crbug.com/1154084) Run on the host until libtest and libstd are
+	# available on the target.
+	cros-rust_get_host_test_executables
 
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
+	cros-rust_src_test
 }

@@ -19,26 +19,3 @@ KEYWORDS="~*"
 IUSE="test"
 
 RDEPEND="!!<=dev-rust/sync-0.1.0-r6"
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/sync"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
-
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
-}

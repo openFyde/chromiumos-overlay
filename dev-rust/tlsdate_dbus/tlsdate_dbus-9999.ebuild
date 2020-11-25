@@ -8,6 +8,8 @@ CROS_WORKON_LOCALNAME="tlsdate"
 
 inherit cros-workon cros-rust
 
+CROS_RUST_SUBDIR=""
+
 DESCRIPTION="Rust D-Bus bindings for tlsdate."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/tlsdate/+/master/"
 
@@ -21,25 +23,3 @@ DEPEND="${RDEPEND}
 	>chromeos-base/chromeos-dbus-bindings-rust-0.24.52-r16:=
 	=dev-rust/dbus-0.8*:=
 "
-
-src_unpack() {
-	cros-workon_src_unpack
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	ecargo_build
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
-
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
-}

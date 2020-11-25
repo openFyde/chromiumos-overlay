@@ -35,13 +35,6 @@ RDEPEND="app-admin/sudo
 	sys-apps/net-tools
 "
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/crosh"
-
-	cros-rust_src_unpack
-}
-
 src_compile() {
 	# File order is important here.
 	sed \
@@ -49,19 +42,14 @@ src_compile() {
 		-e '/^$/d' \
 		inputrc.safe inputrc.extra \
 		> "${WORKDIR}"/inputrc.crosh || die
-	ecargo_build
 
-	use test && ecargo_test --no-run
+	cros-rust_src_compile
 }
 
 src_test() {
 	./run_tests.sh || die
 
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
+	cros-rust_src_test
 }
 
 src_install() {

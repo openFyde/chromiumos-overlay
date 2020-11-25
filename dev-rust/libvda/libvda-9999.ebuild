@@ -9,6 +9,8 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_SUBTREE="arc/vm/libvda/rust"
 
+CROS_RUST_SUBDIR="arc/vm/libvda/rust"
+
 inherit cros-workon cros-rust
 
 DESCRIPTION="Rust wrapper for chromeos-base/libvda"
@@ -29,27 +31,17 @@ DEPEND="
 	dev-rust/enumn:=
 "
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/arc/vm/libvda/rust"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
 src_test() {
-	if use x86 || use amd64; then
-		# TODO(alexlau, keiichiw): Remove LD_LIBRARY_PATH once we can run the
-		# test in a chroot for the build sysroot.
-		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
+	local test_args
+	if ! use amd64; then
+		# (b/174605753) Skip x86_64 specific tests.
+		test_args=(
+			"--"
+			"--skip" "bindgen_test_layout_vda_capabilities"
+			"--skip" "bindgen_test_layout_vda_session_info"
+			"--skip" "bindgen_test_layout_vea_capabilities"
+			"--skip" "bindgen_test_layout_vea_session_info"
+		)
 	fi
-}
-
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
+	cros-rust_src_test "${test_args[@]}"
 }

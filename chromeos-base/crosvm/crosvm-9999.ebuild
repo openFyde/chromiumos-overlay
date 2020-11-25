@@ -199,15 +199,33 @@ src_test() {
 
 	# Excluding tests that run on a different arch, use /dev/dri,
 	# /dev/net/tun, or wayland access because the bots don't support these.
-	# Also exclude sys_util since they already run as part of the
-	# dev-rust/sys_util package.
-	ecargo_test --all -v \
-		--exclude net_util \
-		--exclude gpu_buffer \
-		--exclude gpu_display \
-		--exclude gpu_renderer \
-		--exclude sys_util \
-		"${test_opts[@]}" \
+	local args=(
+		--workspace -v
+		--exclude net_util
+		--exclude gpu_buffer
+		--exclude gpu_display
+		--exclude gpu_renderer
+		# Also exclude the following since their tests are run in their ebuilds.
+		--exclude enumn
+		--exclude sys_util
+		"${test_opts[@]}"
+	)
+
+	# Non-x86 platforms set --no-run to disable executing the tests.
+	if ! has "--no-run" "${args[@]}"; then
+		# Run the "boot" test on the host until the syslog is properly passed
+		# into the sandbox.
+		# TODO(crbug.com/1154084) Run these on the host until libtest and libstd
+		# are available on the target.
+		cros-rust_get_host_test_executables "${args[@]}" --lib --tests
+
+		# TODO Drop this when CROSVM_CARGO_TEST_KERNEL_BINARY is forwarded into
+		# the platform2_test.py environment.
+		ln -s "${CROSVM_CARGO_TEST_KERNEL_BINARY}" \
+			"${CARGO_TARGET_DIR}/ecargo-test/${CHOST}/release/deps/bzImage"
+	fi
+
+	ecargo_test "${args[@]}" \
 		-- --test-threads=1 \
 		"${skip_tests[@]}" \
 		|| die "cargo test failed"

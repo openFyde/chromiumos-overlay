@@ -63,18 +63,39 @@ fi
 # dependencies and help minimize how many dependent packages need to be added.
 : "${CROS_RUST_REMOVE_DEV_DEPS:=}"
 
+# @ECLASS-VARIABLE: CROS_RUST_SUBDIR
+# @DESCRIPTION:
+# Subdir where the package is located. Only used by cros-workon ebuilds.
+: "${CROS_RUST_SUBDIR:=${CROS_RUST_CRATE_NAME}}"
+
 # @ECLASS-VARIABLE: CROS_RUST_TESTS
 # @DESCRIPTION:
 # An array of test executables to be run, which defaults to empty value and is
 # set by invoking cros-rust_get_test_executables.
 : "${CROS_RUST_TESTS:=}"
 
-inherit toolchain-funcs cros-debug cros-sanitizers
+# @ECLASS-VARIABLE: CROS_RUST_HOST_TESTS
+# @DESCRIPTION:
+# An array of test executables that are built for cros-host, which defaults to
+# empty value and is set by invoking cros-rust_get_host_test_executables.
+: "${CROS_RUST_HOST_TESTS:=}"
 
-IUSE="asan fuzzer lsan +lto msan test tsan ubsan"
+# @ECLASS-VARIABLE: CROS_RUST_PLATFORM_TEST_ARGS
+# @DESCRIPTION:
+# An array of arguments to pass to platform2_test.py such as --no-ns-net,
+# --no-ns-pid, or --run_as_root.
+
+# @ECLASS-VARIABLE: CROS_RUST_TEST_DIRECT_EXEC_ONLY
+# @DESCRIPTION:
+# If set to yes, run the test only for amd64 and x86 (i.e. no emulation).
+: "${CROS_RUST_TEST_DIRECT_EXEC_ONLY:="no"}"
+
+inherit toolchain-funcs cros-constants cros-debug cros-sanitizers
+
+IUSE="amd64 asan cros_host fuzzer lsan +lto msan test tsan ubsan x86"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
-EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_install pkg_postinst pkg_prerm
+EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst pkg_prerm
 
 DEPEND="
 	>=virtual/rust-1.39.0:=
@@ -114,6 +135,12 @@ cros-rust_pkg_setup() {
 # Unpacks the package
 cros-rust_src_unpack() {
 	debug-print-function ${FUNCNAME} "$@"
+
+	# If this is a cros-workon ebuild and hasn't been unpacked, then unpack it.
+	if [[ -n "${CROS_WORKON_PROJECT}" && ! -e "${S}" ]]; then
+		cros-workon_src_unpack
+		S+="/${CROS_RUST_SUBDIR}"
+	fi
 
 	local archive
 	for archive in ${A}; do
@@ -410,21 +437,95 @@ ecargo_build_fuzzer() {
 	ecargo rustc --target="${CHOST}" --release "$@" -- "${link_args[@]}"
 }
 
+# @FUNCTION: cros_rust_platform_test
+# @USAGE: <action> <bin> [-- [<test-args> ...]]
+# @DESCRIPTION:
+# Invokes platform2_test.py
+cros_rust_platform_test() {
+	local platform2_test_py="${CHROOT_SOURCE_ROOT}/src/platform2/common-mk/platform2_test.py"
+
+	local action="$1"
+	local bin="$2"
+	if [[ "$#" -gt 2 && "$3" != "--" ]]; then
+		die "Need to use -- to separate program args"
+	fi
+
+	local cmd=(
+		"${platform2_test_py}"
+		--action="${action}"
+	)
+
+	if use cros_host || has "${bin}" "${CROS_RUST_HOST_TESTS[@]}"; then
+		cmd+=( "--host" )
+		if [[ "${EAPI}" == "7" ]]; then
+			cmd+=( --sysroot="${BROOT}" )
+		fi
+	else
+		cmd+=( --sysroot="${SYSROOT}" )
+	fi
+
+	cmd+=( "${CROS_RUST_PLATFORM_TEST_ARGS[@]}" )
+
+	if [[ -n "${bin}" ]]; then
+		# $3 is "--" and anything that follows is passed to the test.
+		cmd+=(
+			"--"
+			"${bin}"
+			"${@:4}"
+		)
+	fi
+	debug-print-function "${cmd[@]}"
+	"${cmd[@]}" || die
+}
+
 # @FUNCTION: ecargo_test
 # @USAGE: <args to cargo test>
 # @DESCRIPTION:
 # Call `cargo test` with the specified command line options.
 ecargo_test() {
-	ecargo test --target="${CHOST}" --target-dir "${CARGO_TARGET_DIR}/ecargo-test" --release "$@"
+	local test_dir="${CARGO_TARGET_DIR}/ecargo-test"
+	if has "--no-run" "$@"; then
+		debug-print-function ecargo test --target="${CHOST}" --target-dir \
+			"${test_dir}" --release "$@"
+		ecargo test --target="${CHOST}" --target-dir "${test_dir}" --release "$@"
+	else
+		cros-rust_get_test_executables "$@"
+
+		local x=0
+		for (( x = 0; x <= $#; x++ )); do
+			if [[ ${!x} == "--" ]]; then
+				break
+			fi
+		done
+		local test_args=( "${@:x}" )
+
+		local testfile
+		for testfile in "${CROS_RUST_TESTS[@]}"; do
+			cros_rust_platform_test run "${testfile}" "${test_args[@]}"
+		done
+	fi
 }
 
 # @FUNCTION: cros-rust_get_test_executables
+# @USAGE: <args to cargo test>
 # @DESCRIPTION:
 # Call `ecargo_test` with '--no-run' and '--message-format=json' arguments.
 # Then, use jq to parse and store all the test executables in a global array.
 cros-rust_get_test_executables() {
-	mapfile -t CROS_RUST_TESTS < <(ecargo_test --no-run --message-format=json | \
-	jq -r 'select(.profile.test == true) | .filenames[]')
+	mapfile -t CROS_RUST_TESTS < \
+		<(ecargo_test --no-run --message-format=json "$@" | \
+		jq -r 'select(.profile.test == true) | .filenames[]')
+}
+
+# @FUNCTION: cros-rust_get_host_test_executables
+# @USAGE: <args to cargo test>
+# @DESCRIPTION:
+# Call `ecargo_test` with '--no-run' and '--message-format=json' arguments.
+# Then, use jq to parse and store the test executables in a global array.
+cros-rust_get_host_test_executables() {
+	mapfile -t CROS_RUST_HOST_TESTS < \
+		<(ecargo_test --no-run --message-format=json "$@" | \
+		jq -r 'select(.profile.test == true) | .filenames[]')
 }
 
 # @FUNCTION: cros-rust_publish
@@ -434,6 +535,10 @@ cros-rust_get_test_executables() {
 # from within a src_install() function.
 cros-rust_publish() {
 	debug-print-function ${FUNCNAME} "$@"
+
+	if [[ "${EBUILD_PHASE_FUNC}" != "src_install" ]]; then
+		die "${FUNCNAME}() should only be used in src_install() phase"
+	fi
 
 	local default_version="${CROS_RUST_CRATE_VERSION}"
 	if [[ "${default_version}" == "9999" ]]; then
@@ -502,6 +607,32 @@ cros-rust_get_build_dir() {
 	echo "${CARGO_TARGET_DIR}/${CHOST}/release"
 }
 
+# @FUNCTION: cros_rust_is_direct_exec
+# @DESCRIPTION:
+# Return true if the compiled executables are expected to run on this platform.
+cros_rust_is_direct_exec() {
+	use amd64 || use x86
+}
+
+cros-rust_src_compile() {
+	# Skip non cros-workon packages.
+	[[ -z "${CROS_WORKON_PROJECT}" ]] && return 0
+
+	ecargo_build "$@"
+	use test && ecargo_test --no-run "$@"
+}
+
+cros-rust_src_test() {
+	if [[ "${CROS_RUST_TEST_DIRECT_EXEC_ONLY}" == "yes" ]] && ! cros_rust_is_direct_exec; then
+		ewarn "Skipping unittests for non-x86: ${PN}"
+		return 0
+	fi
+
+	cros_rust_platform_test "pre_test"
+	ecargo_test "$@"
+	cros_rust_platform_test "post_test"
+}
+
 cros-rust_src_install() {
 	debug-print-function ${FUNCNAME} "$@"
 
@@ -517,7 +648,7 @@ cros-rust_src_install() {
 # 644 so that $PORTAGE_USERNAME:portage will be able to obtain a shared lock
 # inside src_* functions.
 _cros-rust_prepare_lock() {
-	if [ "$(id -u)" -ne 0 ]; then
+	if [[ "$(id -u)" -ne 0 ]]; then
 		die "_cros-rust_prepare_lock should only be called inside pkg_* functions."
 	fi
 	mkdir -m 755 -p "$(dirname "$1")" || die
