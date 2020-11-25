@@ -74,6 +74,7 @@ ALL_BOARDS=(
 	#bettyvirgl
 	blackwall
 	bob
+	bob-arc64
 	bobcat
 	bolt
 	borealis
@@ -137,6 +138,7 @@ ALL_BOARDS=(
 	duck
 	edgar
 	elm
+	elm-arc64
 	elm-cheets
 	elm-kernelnext
 	#emeraldlake2
@@ -188,6 +190,7 @@ ALL_BOARDS=(
 	gonzo
 	gru
 	grunt
+	grunt-arc64
 	grunt-arc-r
 	grunt-kernelnext
 	guado
@@ -199,6 +202,7 @@ ALL_BOARDS=(
 	guado_labstation
 	guybrush
 	hana
+	hana-arc64
 	hana-kernelnext
 	hatch
 	hatch-arc-r
@@ -213,6 +217,7 @@ ALL_BOARDS=(
 	#iclrvp
 	ironhide
 	jacuzzi
+	jacuzzi-arc64
 	#jadeite
 	#jaguar
 	jecht
@@ -362,8 +367,10 @@ ALL_BOARDS=(
 	#samus-kernelnext
 	sand
 	sarien
+	sarien-arc64
 	sarien-kvm
 	scarlet
+	scarlet-arc64
 	#scarlet-arcnext
 	sentry
 	setzer
