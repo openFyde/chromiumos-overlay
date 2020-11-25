@@ -39,6 +39,7 @@ IUSE="
 	diagnostics
 	dlc
 	dlc_test
+	dns-proxy
 	dptf
 	eclog
 	+fonts
@@ -297,6 +298,7 @@ RDEPEND="
 	minios? ( chromeos-base/minios )
 	secanomalyd? ( chromeos-base/secanomalyd )
 	lacros_rootfs? ( chromeos-base/chromeos-lacros )
+	dns-proxy? ( chromeos-base/dns-proxy )
 "
 
 ################################################################################

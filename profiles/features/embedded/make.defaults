@@ -65,5 +65,8 @@ USE="${USE} -dlc"
 # Disable rootfs Lacros.
 USE="${USE} -lacros_rootfs"
 
+# Disable dns-proxy.
+USE="${USE} -dns-proxy"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
