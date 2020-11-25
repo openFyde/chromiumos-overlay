@@ -64,6 +64,7 @@ IUSE="
 	elm
 	fizz
 	force_breakpad
+	gboard_decoder
 	grunt
 	hana
 	hana-kernelnext
