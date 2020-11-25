@@ -26,6 +26,8 @@ IUSE="cros_embedded cros_host enable_slow_boot_notify -mtd pam systemd test +oob
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/vboot_reference
+	x11-libs/libxkbcommon:=
+	x11-misc/xkeyboard-config:=
 "
 
 DEPEND="${COMMON_DEPEND}
@@ -59,7 +61,7 @@ src_install() {
 		if use mtd ; then
 			dobin "${OUT}"/nand_partition
 		fi
-		dosbin chromeos-* encrypted_import "${OUT}"/evwaitkey
+		dosbin chromeos-* encrypted_import "${OUT}"/{evwaitkey,key_reader}
 		dosym usr/sbin/chromeos-postinst /postinst
 
 		# Install init scripts.
