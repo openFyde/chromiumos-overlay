@@ -26,14 +26,11 @@ DEPEND="${RDEPEND}
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
-	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
-	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
 	dev-rust/libchromeos:=
-	dev-rust/minijail:=
-	>=dev-rust/openssl-0.10.22:= <dev-rust/openssl-0.11
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
+	chromeos-base/libsirenia:=
 "
 
 src_unpack() {
