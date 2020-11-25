@@ -23,10 +23,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_platform_CrosDisksArchive
-	+tests_platform_CrosDisksFilesystem
 	+tests_platform_CrosDisksFormat
-	+tests_platform_CrosDisksRename
 	+tests_platform_CrosDisksSshfs
 "
 
