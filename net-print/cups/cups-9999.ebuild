@@ -169,6 +169,10 @@ multilib_src_configure() {
 	# We perform further cleanup in multilib_src_install_all().
 	myconf+=( "--with-components=cros-minimal" )
 
+	# The tests use googletest (C++), so make sure correct C++ version is
+	# enabled.
+	append-cxxflags -std=gnu++17
+
 	# explicitly specify compiler wrt bug 524340
 	#
 	# need to override KRB5CONFIG for proper flags
