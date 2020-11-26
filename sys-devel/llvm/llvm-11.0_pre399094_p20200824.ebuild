@@ -207,6 +207,9 @@ multilib_src_configure() {
 		# is built inside llvm ebuild.
 		"-DCOMPILER_RT_LIBCXXABI_PATH=${S}/libcxxabi"
 		"-DCOMPILER_RT_LIBCXX_PATH=${S}/libcxx"
+
+		# crbug/1146898: setting this to ON causes boot failures
+		"-DENABLE_X86_RELAX_RELOCATIONS=OFF"
 	)
 
 	# Update LLVM to 9.0 will cause LLVM to complain GCC
