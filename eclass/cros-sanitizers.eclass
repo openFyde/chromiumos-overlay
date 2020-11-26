@@ -114,6 +114,7 @@ ubsan-setup-env() {
 	fi
 	append-flags "${flags[@]}"
 	append-ldflags "${flags[@]}"
+	append-cppflags -DCHROMEOS_UBSAN_BUILD
 	sanitizer-add-blocklist "ubsan"
 }
 
