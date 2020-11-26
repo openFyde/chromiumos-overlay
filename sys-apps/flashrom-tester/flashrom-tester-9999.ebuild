@@ -7,7 +7,6 @@ CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_LOCALNAME="flashrom"
 CROS_WORKON_SUBTREE="util/flashrom_tester"
-CROS_WORKON_SUBDIRS_TO_COPY="util/flashrom_tester"
 
 inherit cros-workon cros-rust
 
@@ -19,18 +18,18 @@ KEYWORDS="~*"
 DEPEND=">=dev-rust/rand-0.6.4:=
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/clap-2.33*:=
+	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/built-0.3*:=
 	=dev-rust/sys-info-0.5.7:=
 	=dev-rust/serde_json-1*:=
-	=dev-rust/nix-0.14*:=
 "
 
 RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41"
 
 src_unpack() {
 	cros-workon_src_unpack
-	S=$S/$CROS_WORKON_SUBTREE
+	S+="/${CROS_WORKON_SUBTREE}"
 	cros-rust_src_unpack
 }
 
