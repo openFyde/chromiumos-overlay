@@ -12,7 +12,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-	"sort"
 	"strconv"
 	"strings"
 	"syscall"
@@ -248,7 +247,6 @@ func collectProcessData(pid int) (args, env []string, parentPid int, err error) 
 		return nil, nil, 0, err
 	}
 	env = strings.Split(envStr, "\x00")
-	sort.Strings(env)
 	return args, env, parentPid, nil
 }
 
