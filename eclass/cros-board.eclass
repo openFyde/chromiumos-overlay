@@ -337,6 +337,7 @@ ALL_BOARDS=(
 	puff
 	puff-borealis
 	puff-macrophage
+	puff-moblab
 	puppy
 	purin
 	pyro
