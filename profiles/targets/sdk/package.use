@@ -17,7 +17,7 @@ net-misc/openssh kerberos hpn
 sys-apps/flashrom dediprog ft2232_spi serprog
 dev-lang/python gdbm
 sys-apps/smartmontools	-daemon
-sys-fs/lvm2 -thin
+sys-fs/lvm2 -udev
 
 # qemu is statically linked with glib when compiled for the host and thus
 # requires glib (and transitively, libpcre) to be compiled with static-libs.
