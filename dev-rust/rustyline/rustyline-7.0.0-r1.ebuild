@@ -15,7 +15,10 @@ LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-PATCHES=( "${FILESDIR}/${PN}-${PV}-rm-optional-features.patch" )
+PATCHES=(
+	"${FILESDIR}/${PN}-${PV}-rm-optional-features.patch"
+	"${FILESDIR}/${PN}-${PV}-upstream-fix-ctrl-right-binding.patch"
+)
 
 DEPEND="
 	>=dev-rust/bitflags-1.2.0:= <dev-rust/bitflags-2.0.0
