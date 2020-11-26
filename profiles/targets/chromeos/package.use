@@ -233,7 +233,6 @@ dev-python/more-itertools python_targets_python2_7
 dev-python/mysqlclient python_targets_python2_7
 dev-python/namespace-google python_targets_python2_7
 dev-python/namespace-jaraco python_targets_python2_7
-dev-python/netifaces python_targets_python2_7
 dev-python/numpy python_targets_python2_7
 dev-python/oauth python_targets_python2_7
 dev-python/packaging python_targets_python2_7
