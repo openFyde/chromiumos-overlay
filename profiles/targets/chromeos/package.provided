@@ -152,3 +152,6 @@ sys-apps/opentmpfiles-0.2
 # Test suites are executed on the SDK's python interpreter, so boards don't need
 # their own copy of pytest.
 dev-python/pytest-4.4
+
+# net-firewall/iptables depends on app-eselect/eselect-iptables for building.
+app-eselect/eselect-iptables-20200508
