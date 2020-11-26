@@ -51,8 +51,7 @@ else
 	DLC_PREALLOC_BLOCKS="$((100 * 256))"
 fi
 
-# TODO(crbug/953544): When termina's DLC is working, make the test pre-load it.
-# DLC_PRELOAD=true
+DLC_PRELOAD=true
 
 # We need to inherit from cros-workon so people can do "cros-workon-${BOARD}
 # start termina-dlc", but we don't want to actually run any of the cros-workon
