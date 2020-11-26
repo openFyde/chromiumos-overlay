@@ -224,12 +224,6 @@ src_install() {
 			/usr/src/libmojo/mojo/generate_type_mappings.py \
 			/usr/src/libmojo/mojo/mojom_bindings_generator.py \
 			/usr/src/libmojo/mojo/mojom_parser.py
-
-		# TODO(fqj): remove wrapper when all calls to these scripts are
-		# migrated to unversioned ones.
-		exeinto /usr/src/libmojo-"${BASE_VER}"/mojo
-		doexe "${FILESDIR}/fake/mojom_bindings_generator.py"
-		doexe "${FILESDIR}/fake/mojom_parser.py"
 	fi
 
 	# Install header files.
