@@ -21,7 +21,7 @@ VIDEO_CARDS="
 	amdgpu exynos intel marvell mediatek msm
 	radeon radeonsi rockchip tegra vc4 virgl
 "
-IUSE="-asan kernel-3_8 kernel-3_14 kernel-3_18"
+IUSE="-asan kernel-3_8 kernel-3_14 kernel-3_18 linear_align_256"
 for card in ${VIDEO_CARDS}; do
 	IUSE+=" video_cards_${card}"
 done
@@ -68,6 +68,7 @@ src_configure() {
 	use video_cards_tegra && append-cppflags -DDRV_TEGRA && export DRV_TEGRA=1
 	use video_cards_vc4 && append-cppflags -DDRV_VC4 && export DRV_VC4=1
 	use video_cards_virgl && append-cppflags -DDRV_VIRGL && export DRV_VIRGL=1
+	use linear_align_256 && append-cppflags -DLINEAR_ALIGN_256
 	cros-common.mk_src_configure
 }
 
