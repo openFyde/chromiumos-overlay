@@ -645,6 +645,7 @@ src_install() {
 		"common/unicode/stringpiece.h"
 		"common/unicode/ubrk.h"
 		"common/unicode/uchar.h"
+		"common/unicode/uclean.h"
 		"common/unicode/ucnv.h"
 		"common/unicode/ucnv_err.h"
 		"common/unicode/uconfig.h"
