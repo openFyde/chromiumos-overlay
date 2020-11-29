@@ -154,6 +154,54 @@ cargo_gen_config() {
 	[[ "${NOCOLOR}" = true || "${NOCOLOR}" = yes ]] && echo "color = 'never'" >> "${ECARGO_HOME}/config"
 }
 
+# @FUNCTION: cargo_src_configure
+# @DESCRIPTION:
+# Configure cargo package features and arguments.
+# Extra positional arguments supplied to this function
+# will be passed to cargo in all phases.
+# Make sure all cargo subcommands support flags passed here.
+#
+# Example for package that explicitly builds only 'baz' binary and
+# enables 'barfeature' and optional 'foo' feature.
+# will pass '--features barfeature --features foo --bin baz'
+# in src_{compile,test,install}
+#
+# @CODE
+# src_configure() {
+#	local myfeatures=(
+#		barfeature
+#		$(usev foo)
+#	)
+# 	cargo_src_configure --bin baz
+# }
+# @CODE
+#
+# In some cases crates may need '--no-default-features' option,
+# as there is no way to disable single feature, except disabling all.
+# It can be passed directly to cargo_src_configure().
+
+cargo_src_configure() {
+	debug-print-function ${FUNCNAME} "$@"
+
+	[[ -z ${myfeatures} ]] && declare -a myfeatures=()
+	local myfeaturestype=$(declare -p myfeatures 2>&-)
+	if [[ "${myfeaturestype}" != "declare -a myfeatures="* ]]; then
+		die "myfeatures must be declared as array"
+	fi
+
+	# transform array from simple feature list
+	# to multiple cargo args:
+	# --features feature1 --features feature2 ...
+	# this format is chosen because 2 other methods of
+	# listing features (space OR comma separated) require
+	# more fiddling with strings we'd like to avoid here.
+	myfeatures=( ${myfeatures[@]/#/--features } )
+
+	readonly ECARGO_ARGS=( ${myfeatures[@]} ${@} ${ECARGO_EXTRA_ARGS} )
+
+	[[ ${ECARGO_ARGS[@]} ]] && einfo "Configured with: ${ECARGO_ARGS[@]}"
+}
+
 # @FUNCTION: cargo_src_compile
 # @DESCRIPTION:
 # Build the package using cargo build
@@ -162,7 +210,7 @@ cargo_src_compile() {
 
 	export CARGO_HOME="${ECARGO_HOME}"
 
-	tc-export AR CC
+	tc-export AR CC CXX PKG_CONFIG
 
 	cargo build $(usex debug "" --release) "$@" \
 		|| die "cargo build failed"
