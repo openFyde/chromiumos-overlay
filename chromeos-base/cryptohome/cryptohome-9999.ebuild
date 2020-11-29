@@ -24,8 +24,9 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption double_extend_pcr_issue fuzzer
-	generated_cros_config mount_oop pinweaver selinux systemd test tpm tpm2
-	tpm2_simulator unibuild user_session_isolation"
+	generated_cros_config mount_oop +vault_legacy_mount +downloads_bind_mount
+	pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
+	user_session_isolation"
 
 REQUIRED_USE="
 	device_mapper
@@ -151,6 +152,16 @@ src_install() {
 			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't replace direncryption flag in cryptohomed.conf"
+		fi
+		if use !vault_legacy_mount; then
+			sed -i '/env NO_LEGACY_MOUNT_FLAG=/s:=.*:="--nolegacymount":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace nolegacymount flag in cryptohomed.conf"
+		fi
+		if use !downloads_bind_mount; then
+			sed -i '/env NO_DOWNLOAD_BINDMOUNT_FLAG=/s:=.*:="--no_downloads_bind_mount":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace no_downloads_bind_mount flag in cryptohomed.conf"
 		fi
 	fi
 	exeinto /usr/share/cros/init
