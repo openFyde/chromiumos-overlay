@@ -1,1 +1,0 @@
-tegaki-zinnia-simplified-chinese-light-0.3.ebuild
