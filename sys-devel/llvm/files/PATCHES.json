@@ -473,8 +473,56 @@
         "start_version": 399095
     },
     {
-	"comment": "Revert \"[Driver] -B: don't search for target triple prefixes\"",
-	"rel_patch_path": "revert-3452a0d8c17f7166f479706b293caf6ac76ffd90.patch",
-	"start_version": 399715
+        "comment": "Revert \"[Driver] -B: don't search for target triple prefixes\"",
+        "rel_patch_path": "revert-3452a0d8c17f7166f479706b293caf6ac76ffd90.patch",
+        "start_version": 399715
+    },
+    {
+        "comment": "Revert \"[ARM][LowOverheadLoops] Adjust Start insertion.\"",
+        "rel_patch_path": "cherry/6dcbc323fd8778ba6db1c4e76c809f93fc82efc5.patch",
+        "start_version": 406792,
+        "end_version": 408442
+    },
+    {
+        "comment": "Revert several changes related to llvm-symbolizer exiting non-zero on failure.",
+        "rel_patch_path": "cherry/a67d164a82bc535025bb65736ee4e5f381500ed8.patch",
+        "start_version": 407995,
+        "end_version": 408654
+    },
+    {
+        "comment": "Revert \"[CodeExtractor] Don't create bitcasts when inserting lifetime markers (NFCI)\"",
+        "rel_patch_path": "cherry/099bffe7f7df41d66195ce33e91888a4a16c6b4a.patch",
+        "start_version": 406638,
+        "end_version": 408753
+    },
+    {
+        "comment": "Revert \"[MBP] Add whole chain to BlockFilterSet instead of individual BB\"",
+        "rel_patch_path": "cherry/e42f6c0ac05bae37be8e2a5fd8861773646eae1b.patch",
+        "start_version": 407951,
+        "end_version": 408780
+    },
+    {
+        "comment": "Revert \"[Statepoints] Allow deopt GC pointer on VReg if gc-live bundle is empty.\"",
+        "rel_patch_path": "cherry/4f7ee55971e7f7a27af69c501e4b395c4079decb.patch",
+        "start_version": 407564,
+        "end_version": 408846
+    },
+    {
+        "comment": "Revert \"[CodeGen] [WinException] Only produce handler data at the end of the function if needed\"",
+        "rel_patch_path": "cherry/cbf25fbed5b46ec47e3ce2799ed9095f2f18ea8f.patch",
+        "start_version": 405820,
+        "end_version": 409948
+    },
+    {
+        "comment": "Revert \"Reland [CFGuard] Add address-taken IAT tables and delay-load support\"",
+        "rel_patch_path": "cherry/418f18c6cdfe56e77669e2f4d3df3bca1020156d.patch",
+        "start_version": 407828,
+        "end_version": 410801
+    },
+    {
+        "comment": "Revert \"[DebugInfo] Improve dbg preservation in LSR.\"",
+        "rel_patch_path": "cherry/808fcfe5944755f08ae88722070302fcf9135e58.patch",
+        "start_version": 407380,
+        "end_version": 412204
     }
 ]
