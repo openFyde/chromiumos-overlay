@@ -26,6 +26,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-Explicitly-disable-media-compression.patch
 	"${FILESDIR}"/0004-Decode-Driver-will-derive-width-height_in_sbs_minus_.patch
 	"${FILESDIR}"/0005-Decode-Add-robustness-check-for-superresScaleDenomin.patch
+	"${FILESDIR}"/0006-Encode-Fix-for-flags-in-PAK_OBJECT_INSERT-command.patch
 )
 
 src_configure() {
