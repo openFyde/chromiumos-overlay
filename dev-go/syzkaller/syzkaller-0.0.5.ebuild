@@ -38,6 +38,7 @@ src_compile() {
 src_install() {
 	local bin_path="${SYZKALLER_PATH}/bin"
 	dobin "${bin_path}"/syz-manager || die "failed to install syz-manager"
+	dobin "${bin_path}"/syz-db || die "failed to install syz-db"
 	dobin "${bin_path}"/linux_amd64/syz-fuzzer || die "failed to install syz-fuzzer"
 	dobin "${bin_path}"/linux_amd64/syz-executor || die "failed to install syz-executor"
 	dobin "${bin_path}"/linux_amd64/syz-execprog || die "failed to install syz-execprog"
