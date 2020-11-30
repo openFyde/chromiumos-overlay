@@ -2,12 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="de18fdf7b13e342dd8c7bcee4af920d3c33b5250"
+CROS_WORKON_COMMIT="a68b2fcc897ab6f19ca5434f4ab859a8e7ee2196"
 CROS_WORKON_TREE="57cf79b9c39885689c59ad437da5785d56d384bf"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="biod/study"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{6,7,8} pypy3 )
 
 inherit cros-workon python-r1
 
