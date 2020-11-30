@@ -21,7 +21,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_embedded cros_host enable_slow_boot_notify -mtd pam systemd test +oobe_config"
+IUSE="cros_embedded cros_host enable_slow_boot_notify -mtd pam systemd test +oobe_config lvm_stateful_partition"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
@@ -63,6 +63,13 @@ src_install() {
 		fi
 		dosbin chromeos-* encrypted_import "${OUT}"/{evwaitkey,key_reader}
 		dosym usr/sbin/chromeos-postinst /postinst
+
+		# Enable lvm stateful partition.
+		if use lvm_stateful_partition; then
+			sed -i '/DEFINE_boolean lvm_stateful "/s:\${FLAGS_FALSE}:\${FLAGS_TRUE}:' \
+				"${D}/usr/sbin/chromeos-install" ||
+				die "Failed to set 'lvm_stateful' in chromeos-install"
+		fi
 
 		# Install init scripts.
 		if use systemd; then
