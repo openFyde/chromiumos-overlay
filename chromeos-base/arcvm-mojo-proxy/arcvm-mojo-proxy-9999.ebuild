@@ -7,19 +7,24 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/vm/vsock_proxy .gn"
+CROS_WORKON_SUBTREE="common-mk arc/vm/mojo_proxy .gn"
 
-PLATFORM_SUBDIR="arc/vm/vsock_proxy"
+PLATFORM_SUBDIR="arc/vm/mojo_proxy"
 
 inherit cros-workon platform
 
-DESCRIPTION="ARCVM vsock proxy."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/vsock_proxy"
+DESCRIPTION="ARCVM mojo proxy."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/mojo_proxy"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
+# This package was renamed from  arcvm-vsock-proxy. Put a blocker to uninstall
+# the old package.
+# TODO(hashimoto): Remove this blocker later.
 RDEPEND="
+	!chromeos-base/arcvm-vsock-proxy
+
 	dev-libs/protobuf:=
 	sys-fs/fuse
 "
@@ -36,5 +41,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/vsock_proxy_test"
+	platform_test "run" "${OUT}/mojo_proxy_test"
 }
