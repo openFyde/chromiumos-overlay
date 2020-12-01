@@ -302,7 +302,6 @@ sys-block/fio python_targets_python2_7
 sys-libs/libapparmor python_targets_python2_7
 sys-libs/libcap-ng python_targets_python2_7
 sys-process/audit python_targets_python2_7
-sys-process/iotop python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
 virtual/python-greenlet python_targets_python2_7
 
