@@ -171,9 +171,6 @@ chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/pywalt python_targets_python2_7
 chromeos-base/telemetry python_targets_python2_7
 chromeos-base/touch_firmware_test python_targets_python2_7
-dev-lang/yasm python_targets_python2_7
-dev-libs/libxml2 python_targets_python2_7
-dev-libs/libxslt python_targets_python2_7
 dev-python/argcomplete python_targets_python2_7
 dev-python/asn1crypto python_targets_python2_7
 dev-python/backports python_targets_python2_7
@@ -292,19 +289,9 @@ dev-python/zc-lockfile python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 dev-util/scons python_targets_python2_7
 media-libs/opencv python_targets_python2_7
-net-dns/avahi python_targets_python2_7
 net-ftp/pybootd python_targets_python2_7
-net-libs/libproxy python_targets_python2_7
 net-libs/nodejs python_targets_python2_7
-sci-geosciences/gpsd python_targets_python2_7
-sys-apps/file python_targets_python2_7
-sys-apps/i2c-tools python_targets_python2_7
-sys-apps/kmod python_targets_python2_7
 sys-apps/portage python_targets_python2_7
-sys-block/fio python_targets_python2_7
-sys-libs/libapparmor python_targets_python2_7
-sys-libs/libcap-ng python_targets_python2_7
-sys-process/audit python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
 virtual/python-greenlet python_targets_python2_7
 
