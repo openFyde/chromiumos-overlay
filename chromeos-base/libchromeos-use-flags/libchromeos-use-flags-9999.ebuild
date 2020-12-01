@@ -92,7 +92,6 @@ IUSE="
 	virtio_gpu
 	webui-tab-strip
 	wilco
-	+X
 "
 
 src_install() {
