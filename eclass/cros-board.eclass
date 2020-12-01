@@ -208,6 +208,7 @@ ALL_BOARDS=(
 	hatch-arc-r
 	hatch-arc-r-ack
 	hatch-arc-r-userdebug
+	hatch-arc-s
 	hatch-blueznext
 	hatch-borealis
 	hatch-diskswap
