@@ -161,7 +161,6 @@ sys-apps/flashmap -python
 # here as new code should be using Python 3.
 # TODO(crbug.com/1007152): Trim this entirely!
 app-admin/webapp-config python_targets_python2_7
-app-arch/brotli python_targets_python2_7
 chromeos-base/chromite python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/factory python_targets_python2_7
