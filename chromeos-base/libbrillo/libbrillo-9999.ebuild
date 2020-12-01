@@ -26,6 +26,7 @@ IUSE="cros_host +dbus +device_mapper fuzzer -lvm_stateful_partition +udev"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
+	chromeos-base/vboot_reference:=
 	dbus? ( dev-libs/dbus-glib:= )
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
