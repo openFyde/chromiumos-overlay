@@ -533,3 +533,7 @@ RDEPEND="${RDEPEND}
 # Needed to optimise Android APKs shipped in demo_mode_resources.
 RDEPEND="${RDEPEND}
 	sys-devel/zipalign"
+
+# Needed to build IPA interface in libcamera.
+RDEPEND="${RDEPEND}
+	dev-python/jinja"
