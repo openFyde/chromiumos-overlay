@@ -22,10 +22,11 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
-	chromeos-base/cros-config-api:=
-	dev-go/luci-chromeinfra:=
-	dev-go/luci-auth:=
-	dev-go/luci-common:=
+	chromeos-base/cros-config-api
+	dev-go/genproto
+	dev-go/grpc
+	dev-go/maruel-subcommands
+	dev-go/protobuf
 "
 
 src_configure() {
