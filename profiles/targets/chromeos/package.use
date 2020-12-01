@@ -332,7 +332,6 @@ sys-process/audit python_targets_python2_7
 sys-process/iotop python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
 virtual/python-greenlet python_targets_python2_7
-www-apache/mod_wsgi python_targets_python2_7
 
 # These packages only support Python 2.7.  They aren't needed in Python 3.6+.
 # TODO(crbug.com/1007152): Trim this entirely!
