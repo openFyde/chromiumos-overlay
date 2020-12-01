@@ -1,13 +1,13 @@
-# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Copyright 2020 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit toolchain-funcs
 
-DESCRIPTION="ELAN TouchPad Firmware Updater (HID-Interface) for B50"
+DESCRIPTION="ELAN TouchPad Firmware Updater (HID-Interface)"
 HOMEPAGE="https://github.com/jinglewu/etphidiap/"
-SRC_URI="https://github.com/jinglewu/etphidiap/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/jinglewu/etphidiap/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -18,10 +18,6 @@ IUSE=""
 # the same files as this package.
 RDEPEND="!<chromeos-base/etphidiap-1.1-r3"
 DEPEND="!<chromeos-base/etphidiap-1.1-r3"
-
-PATCHES=(
-	"${FILESDIR}/${P}-fix-warnings.patch"
-)
 
 src_configure() {
 	tc-export CC
