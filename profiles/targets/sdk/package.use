@@ -224,7 +224,6 @@ dev-python/setuptools python_targets_python2_7
 dev-python/setuptools_scm python_targets_python2_7
 dev-python/simplejson python_targets_python2_7
 dev-python/six python_targets_python2_7
-dev-python/sphinx python_targets_python2_7
 dev-python/sqlalchemy python_targets_python2_7
 dev-python/strict-rfc3339 python_targets_python2_7
 dev-python/tempita python_targets_python2_7
