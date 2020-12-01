@@ -7,7 +7,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk croslog .gn"
+CROS_WORKON_SUBTREE="common-mk croslog metrics .gn"
 
 PLATFORM_SUBDIR="croslog"
 
@@ -21,7 +21,9 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="chromeos-base/bootid-logger"
+DEPEND="
+	>=chromeos-base/metrics-0.0.1-r3152:=
+	"
 
 src_install() {
 	platform_install
