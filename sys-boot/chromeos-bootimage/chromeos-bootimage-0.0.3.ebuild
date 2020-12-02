@@ -379,13 +379,13 @@ check_assets() {
 	# The objcopy architecture doesn't really need to match, it just needs any ELF.
 	local payload_size=$(objcopy -I elf32-i386 -O binary "${payload}" /proc/self/fd/1 2>/dev/null | xz -9 -c | wc -c)
 
-	local rw_assets_size=$(find compressed-assets-rw "raw-assets-rw/${build_name}" -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
-	local rw_override_assets_size=$(find compressed-assets-rw-override -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
+	local rw_assets_size=$(find compressed-assets-rw "compressed-assets-rw/${build_name}" "raw-assets-rw/${build_name}" -maxdepth 1 -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
+	local rw_override_assets_size=$(find compressed-assets-rw-override "compressed-assets-rw-override/${build_name}" -maxdepth 1 -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
 	local rw_size=$((rw_assets_size + rw_override_assets_size + payload_size))
 	local rw_free=$(($(do_cbfstool "${rom}" print -r FW_MAIN_A | awk '$1 ~ /empty/ {s+=$4} END {print s}') - payload_size))
 
 	# Most RW assets are also added to RO region.
-	local ro_assets_size=$(find compressed-assets-ro -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
+	local ro_assets_size=$(find compressed-assets-ro "compressed-assets-ro/${build_name}" -maxdepth 1 -type f -print0 | du --files0-from=- -bc | tail -n1 | cut -f1)
 	local ro_size=$((ro_assets_size + rw_assets_size + payload_size))
 	local ro_free=$(($(do_cbfstool "${rom}" print -r COREBOOT | awk '$1 ~ /empty/ {s+=$4} END {print s}') - payload_size))
 
@@ -396,6 +396,30 @@ check_assets() {
 	einfo "assets (RW): $((rw_size / 1024)) KiB ($((rw_free / 1024)) KiB free) ${build_name}"
 	[[ ${rw_size} -gt ${rw_free} ]] &&
 		ewarn "WARNING: RW estimated $(((rw_size - rw_free) / 1024)) KiB over limit ${build_name}"
+}
+
+# Add compressed assets, both common and target, to CBFS using cbfstool
+# Args:
+#  $1: Path where the compressed assets are present.
+#  $2: CBFS Regions to add the compressed assets to.
+add_compressed_assets() {
+	local asset_path="$1"
+	local cbfs_regions="$2"
+	local build_name="$3"
+
+	while IFS= read -r -d '' file; do
+		do_cbfstool "${rom}" add -r "${cbfs_regions}" -f "${file}" \
+			-n "$(basename "${file}")" -t raw -c precompression
+	done < <(find "${asset_path}" -maxdepth 1 -type f -print0)
+
+	# Pre uni-builds have build_name not set. So check to avoid adding
+	# duplicate assets.
+	if [ -n "${build_name}" ]; then
+		while IFS= read -r -d '' file; do
+			do_cbfstool "${rom}" add -r "${cbfs_regions}" -f "${file}" \
+				-n "$(basename "${file}")" -t raw -c precompression
+		done < <(find "${asset_path}/${build_name}" -maxdepth 1 -type f -print0)
+	fi
 }
 
 # Add Chrome OS assets to the base and serial images:
@@ -417,27 +441,66 @@ check_assets() {
 add_assets() {
 	local rom="$1"
 
-	while IFS= read -r -d '' file; do
-		do_cbfstool "${rom}" add -r COREBOOT -f "${file}" \
-			-n "$(basename "${file}")" -t raw -c precompression
-	done < <(find compressed-assets-ro -type f -print0)
-
-	while IFS= read -r -d '' file; do
-		do_cbfstool "${rom}" add -r COREBOOT,FW_MAIN_A,FW_MAIN_B \
-			-f "${file}" -n "$(basename "${file}")" -t raw \
-			-c precompression
-	done < <(find compressed-assets-rw -type f -print0)
-
-	while IFS= read -r -d '' file; do
-		do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B \
-			-f "${file}" -n "$(basename "${file}")" -t raw \
-			-c precompression
-	done < <(find compressed-assets-rw-override -type f -print0)
+	add_compressed_assets "compressed-assets-ro" "COREBOOT" "${build_name}"
+	add_compressed_assets "compressed-assets-rw" \
+				"COREBOOT,FW_MAIN_A,FW_MAIN_B" "${build_name}"
+	add_compressed_assets "compressed-assets-rw-override" \
+				"FW_MAIN_A,FW_MAIN_B" "${build_name}"
 
 	while IFS= read -r -d '' file; do
 		do_cbfstool "${rom}" add -r COREBOOT,FW_MAIN_A,FW_MAIN_B \
 			-f "${file}" -n "$(basename "${file}")" -t raw
 	done < <(find "raw-assets-rw/${build_name}" -type f -print0)
+}
+
+# Compress static and firmware target specific assets:
+#       compressed-assets-ro/*
+#         - fonts, images and screens for recovery mode, originally from
+#           cbfs-ro-compress/*; pre-compressed in src_compile()
+#       compressed-assets-rw/*
+#         - files originally from cbfs-rw-compress/*; pre-compressed
+#           in src_compile(); used for vbt*.bin
+#       compressed-assets-rw-override/*
+#         - updated images for screens, originally from
+#           cbfs-rw-compress-override/*; pre-compressed in src_compile(); used
+#           for rw_locale*.bin
+# Args:
+#  $1: Root path for the firmware build
+#  $2: Firmware target where the uncompressed assets are present. When nothing
+#      is passed, then static assets are being compressed.
+compress_assets() {
+	local froot="$1"
+	local build_name="$2"
+
+	# files from cbfs-ro-compress/ are installed in
+	# all images' RO CBFS, compressed
+	mkdir -p compressed-assets-ro/"${build_name}"
+	find "${froot}"/cbfs-ro-compress/"${build_name}" -mindepth 1 -maxdepth 1 \
+		-type f -printf "%P\0" 2>/dev/null | \
+		xargs -0 -n 1 -P "$(nproc)" -I '{}' \
+		cbfs-compression-tool compress \
+			"${froot}"/cbfs-ro-compress/"${build_name}"/'{}' \
+			compressed-assets-ro/"${build_name}"/'{}' LZMA
+
+	# files from cbfs-rw-compress/ are installed in
+	# all images' RO/RW CBFS, compressed
+	mkdir -p compressed-assets-rw/"${build_name}"
+	find "${froot}"/cbfs-rw-compress/"${build_name}" -mindepth 1 -maxdepth 1 \
+		-type f -printf "%P\0" 2>/dev/null | \
+		xargs -0 -n 1 -P "$(nproc)" -I '{}' \
+		cbfs-compression-tool compress \
+			"${froot}"/cbfs-rw-compress/"${build_name}"/'{}' \
+			compressed-assets-rw/"${build_name}"/'{}' LZMA
+
+	# files from cbfs-rw-compress-override/ are installed in
+	# all images' RW CBFS, compressed
+	mkdir -p compressed-assets-rw-override/"${build_name}"
+	find "${froot}"/cbfs-rw-compress-override/"${build_name}" -mindepth 1 \
+		-maxdepth 1 -type f -printf "%P\0" 2>/dev/null | \
+		xargs -0 -n 1 -P "$(nproc)" -I '{}' \
+		cbfs-compression-tool compress \
+			"${froot}"/cbfs-rw-compress-override/"${build_name}"/'{}' \
+			compressed-assets-rw-override/"${build_name}"/'{}' LZMA
 }
 
 # Build firmware images for a given board
@@ -594,32 +657,7 @@ src_compile() {
 		die "something is still using ${froot}/rocbfs, which is deprecated."
 	fi
 
-	# files from cbfs-ro-compress/ are installed in
-	# all images' RO CBFS, compressed
-	mkdir compressed-assets-ro
-	find ${froot}/cbfs-ro-compress -mindepth 1 -maxdepth 1 -printf "%P\0" \
-		2>/dev/null | \
-		xargs -0 -n 1 -P $(nproc) -I '{}' \
-		cbfs-compression-tool compress ${froot}/cbfs-ro-compress/'{}' \
-			compressed-assets-ro/'{}' LZMA
-
-	# files from cbfs-rw-compress/ are installed in
-	# all images' RO/RW CBFS, compressed
-	mkdir compressed-assets-rw
-	find ${froot}/cbfs-rw-compress -mindepth 1 -maxdepth 1 -printf "%P\0" \
-		2>/dev/null | \
-		xargs -0 -n 1 -P $(nproc) -I '{}' \
-		cbfs-compression-tool compress ${froot}/cbfs-rw-compress/'{}' \
-			compressed-assets-rw/'{}' LZMA
-
-	# files from cbfs-rw-compress-override/ are installed in
-	# all images' RW CBFS, compressed
-	mkdir compressed-assets-rw-override
-	find ${froot}/cbfs-rw-compress-override -mindepth 1 -maxdepth 1 -printf "%P\0" \
-		2>/dev/null | \
-		xargs -0 -n 1 -P $(nproc) -I '{}' \
-		cbfs-compression-tool compress ${froot}/cbfs-rw-compress-override/'{}' \
-			compressed-assets-rw-override/'{}' LZMA
+	compress_assets "${froot}"
 
 	if use unibuild; then
 		local fields="coreboot,depthcharge,ec"
@@ -629,6 +667,8 @@ src_compile() {
 			read -r coreboot
 			read -r depthcharge
 			read -r ec
+			einfo "Compressing target assets for: ${name}"
+			compress_assets "${froot}" "${name}"
 			einfo "Building image for: ${name}"
 			build_images ${froot} ${name} ${coreboot} ${depthcharge} ${ec}
 		done
