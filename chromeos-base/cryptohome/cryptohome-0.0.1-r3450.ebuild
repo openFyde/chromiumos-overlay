@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d51d2d2641bf4c63c61e1c16075087e1635c56de"
-CROS_WORKON_TREE=("6c9716db399911cdc121210cb221d310182a10f3" "86c7a4626beefb4c1101ac98a84832af5aad68ec" "989d840598227b15d78525d5f92c806011a9c158" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e0caf25ebd63fc07ac8ac5130cc015685d54aae0"
+CROS_WORKON_TREE=("6c9716db399911cdc121210cb221d310182a10f3" "76146c59a97b0f84d11a1e8037344594054c9721" "989d840598227b15d78525d5f92c806011a9c158" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -26,8 +26,9 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption double_extend_pcr_issue fuzzer
-	generated_cros_config mount_oop pinweaver selinux systemd test tpm tpm2
-	tpm2_simulator unibuild user_session_isolation"
+	generated_cros_config mount_oop +vault_legacy_mount +downloads_bind_mount
+	pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
+	user_session_isolation"
 
 REQUIRED_USE="
 	device_mapper
@@ -153,6 +154,16 @@ src_install() {
 			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't replace direncryption flag in cryptohomed.conf"
+		fi
+		if use !vault_legacy_mount; then
+			sed -i '/env NO_LEGACY_MOUNT_FLAG=/s:=.*:="--nolegacymount":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace nolegacymount flag in cryptohomed.conf"
+		fi
+		if use !downloads_bind_mount; then
+			sed -i '/env NO_DOWNLOAD_BINDMOUNT_FLAG=/s:=.*:="--no_downloads_bind_mount":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace no_downloads_bind_mount flag in cryptohomed.conf"
 		fi
 	fi
 	exeinto /usr/share/cros/init
