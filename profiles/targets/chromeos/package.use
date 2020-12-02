@@ -169,7 +169,6 @@ chromeos-base/pywalt python_targets_python2_7
 chromeos-base/telemetry python_targets_python2_7
 chromeos-base/touch_firmware_test python_targets_python2_7
 dev-lang/yasm python_targets_python2_7
-dev-libs/libnl python_targets_python2_7
 dev-libs/libxml2 python_targets_python2_7
 dev-libs/libxslt python_targets_python2_7
 dev-python/argcomplete python_targets_python2_7
