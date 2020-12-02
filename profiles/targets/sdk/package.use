@@ -38,6 +38,8 @@ sys-fs/squashfs-tools lzo lz4 lzma selinux
 # some prebuilt binaries created on Ubuntu like to link against libtinfo.
 sys-libs/ncurses tinfo
 
+# We don't need this, so don't bother enabling.
+dev-libs/libxslt -python
 # icedtea-bin still has some linking issues when built without USE=cups. See
 # https://bugs.gentoo.org/486042 and https://crbug.com/656717
 dev-java/icedtea-bin cups -gtk headless-awt -multilib -webstart
@@ -128,7 +130,6 @@ dev-libs/boost -python
 chromeos-base/chromite-sdk python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 dev-libs/libxml2 python_targets_python2_7
-dev-libs/libxslt python_targets_python2_7
 dev-python/asn1crypto python_targets_python2_7
 dev-python/astroid python_targets_python2_7
 dev-python/atomicwrites python_targets_python2_7
