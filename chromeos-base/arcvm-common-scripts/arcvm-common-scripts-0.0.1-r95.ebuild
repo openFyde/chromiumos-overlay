@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8f87ac8f1ddd9b7f59ee105ebd7fa5efe737e953"
-CROS_WORKON_TREE=("6c9716db399911cdc121210cb221d310182a10f3" "7f2ad2a74dd7862efd6f77c6f7094d06782eb58a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="185a1c748dd7c4fe66eb46df664f141c0621f0a4"
+CROS_WORKON_TREE=("6c9716db399911cdc121210cb221d310182a10f3" "58ff7223d140fd74bc5f4e977fae86b002162b16" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -33,6 +33,7 @@ src_install() {
 	doins arc/vm/scripts/init/arcvm-fsverity-certs.conf
 	doins arc/vm/scripts/init/arcvm-host.conf
 	doins arc/vm/scripts/init/arcvm-post-login-services.conf
+	doins arc/vm/scripts/init/arcvm-post-vm-start-services.conf
 	doins arc/vm/scripts/init/arcvm-pre-login-services.conf
 	doins arc/vm/scripts/init/arcvm-ureadahead.conf
 
