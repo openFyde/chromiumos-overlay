@@ -13,8 +13,8 @@ PLATFORM_SUBDIR="bootid-logger"
 
 inherit cros-workon platform
 
-DESCRIPTION="Log viewer for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/bootid-logger"
+DESCRIPTION="Program to record the current boot ID to the log"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/bootid-logger"
 
 LICENSE="BSD-Google"
 SLOT="0/0"
@@ -28,5 +28,9 @@ src_install() {
 
 	insinto /etc/init
 	doins log-bootid-on-boot.conf
+}
+
+platform_pkg_test() {
+	platform test_all
 }
 
