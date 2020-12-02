@@ -3,26 +3,27 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8f87ac8f1ddd9b7f59ee105ebd7fa5efe737e953"
-CROS_WORKON_TREE=("6c9716db399911cdc121210cb221d310182a10f3" "566824b3b85c77bb088e2ce18a67e80e6b931578" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_SUBTREE="common-mk screenshot .gn"
+CROS_WORKON_SUBTREE="common-mk screen-capture-utils .gn"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-PLATFORM_SUBDIR="screenshot"
+PLATFORM_SUBDIR="screen-capture-utils"
 
 inherit cros-workon platform
 
-DESCRIPTION="Utility to take a screenshot"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/screenshot/"
+DESCRIPTION="Utilities for screen capturing"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/screen-capture-utils/"
 
 LICENSE="BSD-Google"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE=""
 
+# Mark the old screenshot package as blocker so it gets automatically removed in
+# incremental builds.
 RDEPEND="
+	!!chromeos-base/screenshot
 	media-libs/libpng:0=
 	media-libs/minigbm:=
 	x11-libs/libdrm:=
