@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="164782429c6c97f33fb38775fde1558566d5e282"
-CROS_WORKON_TREE="ff900fc22d25d399425abf9d8ca80f490c3c6d2a"
+CROS_WORKON_COMMIT="d49bba9785b495e34ff02af2062383464ddc8d19"
+CROS_WORKON_TREE="ba2ae24be4f8be11de5c7638e5ee1ac67d276b9c"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -20,7 +20,7 @@ SRC_URI="test? ( https://storage.googleapis.com/crosvm-testing/x86_64/${KERNEL_P
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
+IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
 
 COMMON_DEPEND="
 	sys-apps/dtc:=
@@ -79,6 +79,10 @@ DEPEND="${COMMON_DEPEND}
 	)
 	media-sound/audio_streams:=
 	media-sound/libcras:=
+	crosvm-power-monitor-powerd? (
+		chromeos-base/system_api
+		=dev-rust/dbus-0.6*:=
+	)
 "
 
 get_seccomp_path() {
@@ -130,6 +134,7 @@ src_compile() {
 		$(usex crosvm-gpu gpu "")
 		$(usex crosvm-gpu virtio-gpu-next "")
 		$(usex crosvm-plugin plugin "")
+		$(usex crosvm-power-monitor-powerd power-monitor-powerd "")
 		$(usex crosvm-video-decoder video-decoder "")
 		$(usex crosvm-video-encoder video-encoder "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
