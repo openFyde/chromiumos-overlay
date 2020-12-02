@@ -24,8 +24,8 @@ DEPEND="sys-kernel/linux-firmware
 	minios_ramfs? ( chromeos-base/chromeos-initramfs[minios_ramfs] )
 	recovery_ramfs? ( chromeos-base/chromeos-initramfs[recovery_ramfs] )
 	builtin_fw_mali_g57? ( virtual/opengles )
-	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
+	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
 	builtin_fw_x86_apl_ucode? ( chromeos-base/apl-ucode-firmware-private )
 	builtin_fw_x86_bdw_ucode? ( chromeos-base/bdw-ucode-firmware-private )
@@ -1068,15 +1068,18 @@ CONFIG_WQ_WATCHDOG=y
 
 FIRMWARE_BINARIES=(
 	builtin_fw_amdgpu
+	builtin_fw_guc_g9
+	builtin_fw_guc_jsl
+	builtin_fw_guc_tgl
+	builtin_fw_huc_g9
+	builtin_fw_huc_jsl
+	builtin_fw_huc_tgl
 	builtin_fw_mali_g57
 	builtin_fw_t124_xusb
-	builtin_fw_t210_xusb
-	builtin_fw_t210_nouveau
 	builtin_fw_t210_bpmp
-	builtin_fw_guc_jsl
-	builtin_fw_huc_jsl
-	builtin_fw_guc_g9
-	builtin_fw_huc_g9
+	builtin_fw_t210_nouveau
+	builtin_fw_t210_xusb
+	builtin_fw_vega12
 	builtin_fw_x86_aml_ucode
 	builtin_fw_x86_apl_ucode
 	builtin_fw_x86_bdw_ucode
@@ -1088,9 +1091,6 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_kbl_ucode
 	builtin_fw_x86_skl_ucode
 	builtin_fw_x86_whl_ucode
-	builtin_fw_vega12
-	builtin_fw_guc_tgl
-	builtin_fw_huc_tgl
 )
 
 builtin_fw_amdgpu_desc="Firmware for AMD GPU"
@@ -1139,27 +1139,39 @@ builtin_fw_amdgpu_files=(
 	amdgpu/stoney_vce.bin
 )
 
+builtin_fw_guc_g9_desc="GuC Firmware for Gen9"
+builtin_fw_guc_g9_files=(
+	i915/kbl_guc_ver9_39.bin
+)
+
+builtin_fw_guc_jsl_desc="GuC Firmware for JSL"
+builtin_fw_guc_jsl_files=(
+	i915/ehl_guc_33.0.4.bin
+)
+
+builtin_fw_guc_tgl_desc="GuC Firmware for TGL"
+builtin_fw_guc_tgl_files=(
+	i915/tgl_guc_35.2.0.bin
+)
+
+builtin_fw_huc_g9_desc="HuC Firmware for Gen9"
+builtin_fw_huc_g9_files=(
+	i915/kbl_huc_ver02_00_1810.bin
+)
+
+builtin_fw_huc_jsl_desc="HuC Firmware for JSL"
+builtin_fw_huc_jsl_files=(
+	i915/ehl_huc_9.0.0.bin
+)
+
+builtin_fw_huc_tgl_desc="HuC Firmware for TGL"
+builtin_fw_huc_tgl_files=(
+	i915/tgl_huc_7.0.12.bin
+)
+
 builtin_fw_mali_g57_desc="Workaround Firmware for Mali-G57"
 builtin_fw_mali_g57_files=(
 	valhall-1691526.wa
-)
-
-builtin_fw_vega12_desc="Firmware for AMD VEGA12"
-builtin_fw_vega12_files=(
-	amdgpu/vega12_asd.bin
-	amdgpu/vega12_ce.bin
-	amdgpu/vega12_gpu_info.bin
-	amdgpu/vega12_me.bin
-	amdgpu/vega12_mec2.bin
-	amdgpu/vega12_mec.bin
-	amdgpu/vega12_pfp.bin
-	amdgpu/vega12_rlc.bin
-	amdgpu/vega12_sdma1.bin
-	amdgpu/vega12_sdma.bin
-	amdgpu/vega12_smc.bin
-	amdgpu/vega12_sos.bin
-	amdgpu/vega12_uvd.bin
-	amdgpu/vega12_vce.bin
 )
 
 builtin_fw_t124_xusb_desc="Tegra124 XHCI controller"
@@ -1167,9 +1179,9 @@ builtin_fw_t124_xusb_files=(
 	nvidia/tegra124/xusb.bin
 )
 
-builtin_fw_t210_xusb_desc="Tegra210 XHCI controller"
-builtin_fw_t210_xusb_files=(
-	nvidia/tegra210/xusb.bin
+builtin_fw_t210_bpmp_desc="Tegra210 BPMP"
+builtin_fw_t210_bpmp_files=(
+	nvidia/tegra210/bpmp.bin
 )
 
 builtin_fw_t210_nouveau_desc="Tegra210 Nouveau GPU"
@@ -1191,29 +1203,27 @@ builtin_fw_t210_nouveau_files=(
 	nouveau/pmu_sig.bin
 )
 
-builtin_fw_t210_bpmp_desc="Tegra210 BPMP"
-builtin_fw_t210_bpmp_files=(
-	nvidia/tegra210/bpmp.bin
+builtin_fw_t210_xusb_desc="Tegra210 XHCI controller"
+builtin_fw_t210_xusb_files=(
+	nvidia/tegra210/xusb.bin
 )
 
-builtin_fw_guc_jsl_desc="GuC Firmware for JSL"
-builtin_fw_guc_jsl_files=(
-     i915/ehl_guc_33.0.4.bin
-)
-
-builtin_fw_huc_jsl_desc="HuC Firmware for JSL"
-builtin_fw_huc_jsl_files=(
-    i915/ehl_huc_9.0.0.bin
-)
-
-builtin_fw_guc_g9_desc="GuC Firmware for Gen9"
-builtin_fw_guc_g9_files=(
-	i915/kbl_guc_ver9_39.bin
-)
-
-builtin_fw_huc_g9_desc="HuC Firmware for Gen9"
-builtin_fw_huc_g9_files=(
-	i915/kbl_huc_ver02_00_1810.bin
+builtin_fw_vega12_desc="Firmware for AMD VEGA12"
+builtin_fw_vega12_files=(
+	amdgpu/vega12_asd.bin
+	amdgpu/vega12_ce.bin
+	amdgpu/vega12_gpu_info.bin
+	amdgpu/vega12_me.bin
+	amdgpu/vega12_mec2.bin
+	amdgpu/vega12_mec.bin
+	amdgpu/vega12_pfp.bin
+	amdgpu/vega12_rlc.bin
+	amdgpu/vega12_sdma1.bin
+	amdgpu/vega12_sdma.bin
+	amdgpu/vega12_smc.bin
+	amdgpu/vega12_sos.bin
+	amdgpu/vega12_uvd.bin
+	amdgpu/vega12_vce.bin
 )
 
 builtin_fw_x86_aml_ucode_desc="Intel ucode for AML"
@@ -1276,16 +1286,6 @@ builtin_fw_x86_whl_ucode_desc="Intel ucode for WHL"
 builtin_fw_x86_whl_ucode_files=(
 	intel-ucode/06-8e-0b
 	intel-ucode/06-8e-0c
-)
-
-builtin_fw_guc_tgl_desc="GuC Firmware for TGL"
-builtin_fw_guc_tgl_files=(
-	i915/tgl_guc_35.2.0.bin
-)
-
-builtin_fw_huc_tgl_desc="HuC Firmware for TGL"
-builtin_fw_huc_tgl_files=(
-	i915/tgl_huc_7.0.12.bin
 )
 
 extra_fw_config="
