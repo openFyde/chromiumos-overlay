@@ -68,6 +68,7 @@ IUSE_LINUX_FIRMWARE=(
 	ath10k_qca6174a-5
 	ath10k_qca6174a-3
 	ath10k_wcn3990
+	amdgpu_renoir
 	bcm4354-bt
 	cros-pd
 	fw_sst
@@ -182,6 +183,7 @@ LICENSE="
 	$(printf 'linux_firmware_%s? ( LICENCE.broadcom_bcm43xx ) ' "${IUSE_BRCMWIFI[@]}")
 	video_cards_radeon? ( LICENSE.radeon )
 	video_cards_amdgpu? ( LICENSE.amdgpu )
+	linux_firmware_amdgpu_renoir? ( LICENSE.amdgpu )
 "
 
 BDEPEND="
@@ -348,7 +350,12 @@ src_install() {
 	use_fw venus-52 && doins_subdir qcom/venus-5.2/*
 	use_fw venus-54 && doins_subdir qcom/venus-5.4/*
 	use video_cards_radeon && doins_subdir radeon/*
-	use video_cards_amdgpu && doins_subdir amdgpu/{carrizo,picasso,raven_dmcu,raven2,stoney,vega12}*
+
+	if use linux_firmware_amdgpu_renoir; then
+		doins_subdir amdgpu/renoir*
+	elif use video_cards_amdgpu; then
+		doins_subdir amdgpu/{carrizo,picasso,raven_dmcu,raven2,stoney,vega12}*
+	fi
 
 	use_fw rt2870 && doins rt2870.bin
 

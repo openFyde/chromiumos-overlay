@@ -1068,6 +1068,7 @@ CONFIG_WQ_WATCHDOG=y
 
 FIRMWARE_BINARIES=(
 	builtin_fw_amdgpu
+	builtin_fw_amdgpu_renoir
 	builtin_fw_guc_g9
 	builtin_fw_guc_jsl
 	builtin_fw_guc_tgl
@@ -1224,6 +1225,22 @@ builtin_fw_vega12_files=(
 	amdgpu/vega12_sos.bin
 	amdgpu/vega12_uvd.bin
 	amdgpu/vega12_vce.bin
+)
+
+builtin_fw_amdgpu_renoir_desc="Firmware for AMD Renoir"
+builtin_fw_amdgpu_renoir_files=(
+	amdgpu/renoir_asd.bin
+	amdgpu/renoir_ce.bin
+	amdgpu/renoir_dmcub.bin
+	amdgpu/renoir_gpu_info.bin
+	amdgpu/renoir_me.bin
+	amdgpu/renoir_mec2.bin
+	amdgpu/renoir_mec.bin
+	amdgpu/renoir_pfp.bin
+	amdgpu/renoir_rlc.bin
+	amdgpu/renoir_sdma.bin
+	amdgpu/renoir_ta.bin
+	amdgpu/renoir_vcn.bin
 )
 
 builtin_fw_x86_aml_ucode_desc="Intel ucode for AML"
