@@ -244,7 +244,6 @@ dev-python/zope-interface python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 dev-util/scons python_targets_python2_7
 sys-apps/file python_targets_python2_7
-sys-apps/flashmap python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
 
 # These packages only support Python 2.7.  They aren't needed in Python 3.6+.
