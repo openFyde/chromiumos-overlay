@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="e90871b386245dc6ce4ef3f887b15a70f0aff695"
-CROS_WORKON_TREE="ca3dab8f2f5545ae722b3cdd56fb6c5ce9c94dff"
+CROS_WORKON_COMMIT="8ea5467690ff3829abea5cf66646efbbbd8180a2"
+CROS_WORKON_TREE="42c7e4a95899ff3f84ad2247dabfd797c0dbe2ec"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
