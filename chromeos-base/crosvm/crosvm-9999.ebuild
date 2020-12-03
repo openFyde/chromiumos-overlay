@@ -172,9 +172,11 @@ src_test() {
 	# run under sanitizers.
 	cros-rust_use_sanitizers && test_opts+=( --exclude io_jail )
 
-	export CROSVM_CARGO_TEST_KERNEL_BINARY="${DISTDIR}/crosvm-bzImage-${KERNEL_PREBUILT_DATE}"
-	[[ -e "${CROSVM_CARGO_TEST_KERNEL_BINARY}" ]] || \
-		die "expected to find kernel binary at ${CROSVM_CARGO_TEST_KERNEL_BINARY}"
+	local kernel_binary="${DISTDIR}/crosvm-bzImage-${KERNEL_PREBUILT_DATE}"
+	[[ -e "${kernel_binary}" ]] || die "expected to find kernel binary at ${kernel_binary}"
+	CROS_RUST_PLATFORM_TEST_ARGS+=(
+		"--env" "CROSVM_CARGO_TEST_KERNEL_BINARY=${kernel_binary}"
+	)
 
 	local skip_tests=()
 	# The memfd_create() system call first appeared in Linux 3.17.  Skip
@@ -218,11 +220,6 @@ src_test() {
 		# TODO(crbug.com/1154084) Run these on the host until libtest and libstd
 		# are available on the target.
 		cros-rust_get_host_test_executables "${args[@]}" --lib --tests
-
-		# TODO Drop this when CROSVM_CARGO_TEST_KERNEL_BINARY is forwarded into
-		# the platform2_test.py environment.
-		ln -s "${CROSVM_CARGO_TEST_KERNEL_BINARY}" \
-			"${CARGO_TARGET_DIR}/ecargo-test/${CHOST}/release/deps/bzImage"
 	fi
 
 	ecargo_test "${args[@]}" \
