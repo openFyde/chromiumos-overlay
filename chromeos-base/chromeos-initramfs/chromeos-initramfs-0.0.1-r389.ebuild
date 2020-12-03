@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="b2ed47b45ce1d6cb5a3b4eeadb5820745facb67c"
-CROS_WORKON_TREE="ca1f3900c9ba7323eceb8d50d0697355984f00dc"
+CROS_WORKON_COMMIT="b69989010712b1e249c826cd2d09ce83bb1a4e77"
+CROS_WORKON_TREE="2cbf940d4533523c79da04099661644088549897"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -162,7 +162,7 @@ src_compile() {
 		INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
 		INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
 		DETACHABLE="$(usex detachable 1 0)" \
-		MENU_UI="$(usex legacy_firmware_ui 0 1)" \
+		LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
 		UNIBUILD="$(usex unibuild 1 0)" \
 		PHYSICAL_PRESENCE="${physical_presence}" \
 		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
