@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a7d1886067e361eb6bdad691638660f66a640db7"
+CROS_WORKON_COMMIT="22f808ff13e6f472c373382f45410f6dec300596"
 CROS_WORKON_TREE="c489d0d6d955e52ebdfbd3c1f2fe72421a3795c1"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -37,17 +37,6 @@ DEPEND="
 	dev-rust/tempfile:=
 "
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/sys_util"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
 src_test() {
 	local skip_tests=()
 
@@ -63,13 +52,12 @@ src_test() {
 		skip_tests+=( --skip "guest_memory::tests" )
 	fi
 
-	if use x86 || use amd64; then
-		# Some tests must be run single threaded to ensure correctness,
-		# since they rely on wait()ing on threads spawned by the test.
-		ecargo_test -- --test-threads=1 "${skip_tests[@]}"
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
+	# TODO(crbug.com/1154084) Run on the host until libtest and libstd are
+	# available on the target.
+	CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
+	cros-rust_get_host_test_executables
+
+	cros-rust_src_test -- --test-threads=1 "${skip_tests[@]}"
 }
 
 src_install() {
@@ -77,7 +65,7 @@ src_install() {
 	cros-rust_publish poll_token_derive "$(cros-rust_get_crate_version ${S}/poll_token_derive)"
 	popd > /dev/null
 
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
+	cros-rust_src_install
 }
 
 pkg_postinst() {

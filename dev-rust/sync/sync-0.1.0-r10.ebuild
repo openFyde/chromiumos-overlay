@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1375c284b7adce6b19b4b2fe0c4b9ad7e5e987a6"
+CROS_WORKON_COMMIT="22f808ff13e6f472c373382f45410f6dec300596"
 CROS_WORKON_TREE="28852483b877a051ca092e4b811f8831872c49b0"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -21,26 +21,3 @@ KEYWORDS="*"
 IUSE="test"
 
 RDEPEND="!!<=dev-rust/sync-0.1.0-r6"
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/sync"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
-
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
-}

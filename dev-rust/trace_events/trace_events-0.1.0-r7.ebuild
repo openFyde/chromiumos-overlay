@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d565cc29fe7617433189357337f0010c560bf83c"
+CROS_WORKON_COMMIT="6df29eeef4831cf6c69147056a5dac16ffd72a87"
 CROS_WORKON_TREE="e509681943a4a652c4575e6da2260621c04c8500"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -32,23 +32,13 @@ pkg_setup() {
 	cros-rust_pkg_setup trace_events_macros
 }
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/trace_events"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
 src_test() {
-	if ! use x86 && ! use amd64 ; then
-		elog "Skipping unit tests on non-x86 platform"
-	else
-		ecargo_test
-	fi
+	# TODO(crbug.com/1154084) Run on the host until libtest and libstd are
+	# available on the target.
+	CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
+	cros-rust_get_host_test_executables --lib
+
+	cros-rust_src_test
 }
 
 src_install() {
