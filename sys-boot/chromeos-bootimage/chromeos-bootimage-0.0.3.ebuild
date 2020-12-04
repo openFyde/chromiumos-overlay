@@ -630,10 +630,10 @@ build_images() {
 	local name="${build_name:-"${BOARD_USE}"}"
 	local bootfile="${PORTAGE_USERNAME}/${name}/vmlinuz"
 	local argsfile="${PORTAGE_USERNAME}/${name}/cmdline"
-	netboot_firmware_settings.py \
+	"${FILESDIR}/netboot_firmware_settings.py" \
 		-i "${outdir}image${suffix}.net.bin" \
 		--bootfile="${bootfile}" --argsfile="${argsfile}" &&
-		netboot_firmware_settings.py \
+		"${FILESDIR}/netboot_firmware_settings.py" \
 			-i "${outdir}image${suffix}.dev.bin" \
 			--bootfile="${bootfile}" --argsfile="${argsfile}" ||
 		die "failed to preset netboot parameter defaults."
