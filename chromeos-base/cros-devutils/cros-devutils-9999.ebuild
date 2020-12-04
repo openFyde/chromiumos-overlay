@@ -34,7 +34,6 @@ src_install() {
 	local host_tools=(
 		cros_workon_make
 		netboot_firmware_settings.py
-		strip_package
 	)
 	dobin "${host_tools[@]/#/host/}"
 

@@ -20,6 +20,7 @@ RDEPEND="
 	dev-python/cherrypy
 	net-misc/gsutil
 	dev-python/rtslib-fb
+	!<chromeos-base/cros-devutils-1
 "
 DEPEND="
 	dev-python/psutil
@@ -27,8 +28,6 @@ DEPEND="
 
 src_install() {
 	emake install DESTDIR="${D}"
-
-	dobin host/start_devserver
 
 	# Install Mob* Monitor checkfiles for the devserver.
 	insinto "/etc/mobmonitor/checkfiles/devserver/"
