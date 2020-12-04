@@ -45,7 +45,7 @@ IUSE="
 	msan
 	neon
 	+runhooks
-	+thinlto
+	thinlto
 	ubsan
 	verbose
 	xkbcommon
