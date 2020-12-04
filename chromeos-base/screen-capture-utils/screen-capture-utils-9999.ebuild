@@ -23,7 +23,7 @@ IUSE=""
 # Mark the old screenshot package as blocker so it gets automatically removed in
 # incremental builds.
 RDEPEND="
-	!!chromeos-base/screenshot
+	!chromeos-base/screenshot
 	media-libs/libpng:0=
 	media-libs/minigbm:=
 	x11-libs/libdrm:=
