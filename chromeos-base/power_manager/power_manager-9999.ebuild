@@ -94,6 +94,10 @@ src_install() {
 	dobin tools/set_short_powerd_timeouts
 	dobin tools/suspend_stress_test
 
+	# Scripts called from init scripts
+	exeinto /usr/share/cros/init/
+	doexe tools/temp_logger.sh
+
 	# Preferences
 	insinto /usr/share/power_manager
 	doins default_prefs/*
