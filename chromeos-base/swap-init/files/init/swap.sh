@@ -194,7 +194,7 @@ swap_to_micron() {
     local dev_dir model
     dev_dir="/sys/block/nvme0n1"
     model="$(sed -E 's/[ \t]+$//' "${dev_dir}"/device/model)"
-    if [ "${model}" = "MTFDHBK256TDP" ]; then
+    if [ "${model}" = "MTFDHBK256TDP" ] || [ "${model}" = "MTFDHBK128TDP" ]; then
       micron_swap=true
     fi
   else
