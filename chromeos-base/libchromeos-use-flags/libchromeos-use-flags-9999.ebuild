@@ -44,6 +44,7 @@ IUSE="
 	disable_background_blur
 	disable_cros_video_decoder
 	disable_explicit_dma_fences
+	disable_native_gpu_memory_buffers
 	disable_instant_tethering
 	disable_spectre_variant2_mitigation
 	disable_yuv420_biplanar
