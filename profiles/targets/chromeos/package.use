@@ -207,7 +207,6 @@ dev-python/httplib2 python_targets_python2_7
 dev-python/idna python_targets_python2_7
 dev-python/imaging python_targets_python2_7
 dev-python/jaraco-functools python_targets_python2_7
-dev-python/jinja python_targets_python2_7
 dev-python/jsonpatch python_targets_python2_7
 dev-python/jsonpointer python_targets_python2_7
 dev-python/jsonrpclib python_targets_python2_7
