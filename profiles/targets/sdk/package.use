@@ -129,7 +129,6 @@ dev-libs/boost -python
 # TODO(crbug.com/1007152): Trim this entirely!
 chromeos-base/chromite-sdk python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
-dev-libs/libxml2 python_targets_python2_7
 dev-python/asn1crypto python_targets_python2_7
 dev-python/astroid python_targets_python2_7
 dev-python/atomicwrites python_targets_python2_7
