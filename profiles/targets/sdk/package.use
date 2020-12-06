@@ -112,6 +112,12 @@ dev-db/mariadb-connector-c  mysqlcompat
 
 dev-lang/ruby -rdoc
 
+# Required packages for Android ITS. See 2.2.1. Software installation from
+# http://androidxref.com/9.0.0_r3/raw/cts/apps/CameraITS/CameraITS.pdf for
+# details.
+dev-python/pillow jpeg
+media-libs/opencv -openmp png jpeg
+
 # We don't need Python in these packages, so save some space.
 dev-libs/boost -python
 
@@ -150,7 +156,7 @@ dev-python/grpcio python_targets_python2_7
 dev-python/grpcio-tools python_targets_python2_7
 dev-python/httplib2 python_targets_python2_7
 dev-python/idna python_targets_python2_7
-dev-python/imaging python_targets_python2_7 jpeg
+dev-python/imaging python_targets_python2_7
 dev-python/intelhex python_targets_python2_7
 dev-python/isort python_targets_python2_7
 dev-python/jaraco-functools python_targets_python2_7
@@ -263,9 +269,3 @@ virtual/python-ipaddress python_targets_python2_7
 virtual/python-pathlib python_targets_python2_7
 virtual/python-singledispatch python_targets_python2_7
 virtual/python-typing python_targets_python2_7
-
-# Required packages for Android ITS. See 2.2.1. Software installation from
-# http://androidxref.com/9.0.0_r3/raw/cts/apps/CameraITS/CameraITS.pdf for
-# details.
-media-libs/opencv python_targets_python2_7 -openmp png jpeg
-dev-python/matplotlib python_targets_python2_7
