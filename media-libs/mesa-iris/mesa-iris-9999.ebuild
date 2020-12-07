@@ -39,19 +39,19 @@ BDEPEND="
 
 src_configure() {
 	emesonargs+=(
-		-Dllvm=false
-		-Ddri3=false
-		-Dshader-cache=false
+		-Dllvm=disabled
+		-Ddri3=disabled
+		-Dshader-cache=disabled
 		-Dglx=disabled
-		-Degl=true
-		-Dgbm=false
-		-Dgles1=false
-		-Dgles2=true
-		-Dshared-glapi=true
+		-Degl=enabled
+		-Dgbm=disabled
+		-Dgles1=disabled
+		-Dgles2=enabled
+		-Dshared-glapi=enabled
 		-Ddri-drivers=
 		-Dgallium-drivers=iris
-		-Dgallium-vdpau=false
-		-Dgallium-xa=false
+		-Dgallium-vdpau=disabled
+		-Dgallium-xa=disabled
 		-Dplatforms=surfaceless
 		-Dtools=$(usex tools intel '')
 		--buildtype $(usex debug debug release)
