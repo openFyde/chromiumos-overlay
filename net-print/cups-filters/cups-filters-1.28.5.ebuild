@@ -25,7 +25,7 @@ RESTRICT="!test? ( test )"
 
 RDEPEND="
 	!postscript? ( >=app-text/poppler-0.32:=[cxx,jpeg?,lcms,tiff?,utils] )
-	>=app-text/qpdf-8.3.0:=
+	>=app-text/qpdf-10.0.1:=
 	chromeos-base/foomatic_shell
 	dev-libs/glib:2
 	media-libs/fontconfig
