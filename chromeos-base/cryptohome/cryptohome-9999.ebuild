@@ -26,7 +26,7 @@ IUSE="-cert_provision +device_mapper -direncryption +direncription_allow_v2
 	double_extend_pcr_issue fuzzer generated_cros_config is-kernelnext
 	mount_oop +vault_legacy_mount +downloads_bind_mount lvm_stateful_partition
 	pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
-	user_session_isolation"
+	user_session_isolation vtpm_proxy"
 
 REQUIRED_USE="
 	device_mapper
@@ -132,7 +132,7 @@ src_install() {
 		doins init/init-homedirs.conf
 		doins init/mount-encrypted.conf
 		doins init/send-mount-encrypted-metrics.conf
-		if use tpm2_simulator; then
+		if use tpm2_simulator && ! use vtpm_proxy; then
 			newins init/lockbox-cache.conf.tpm2_simulator lockbox-cache.conf
 		else
 			doins init/lockbox-cache.conf
@@ -170,7 +170,7 @@ src_install() {
 		fi
 	fi
 	exeinto /usr/share/cros/init
-	if use tpm2_simulator; then
+	if use tpm2_simulator && ! use vtpm_proxy; then
 		newexe init/lockbox-cache.sh.tpm2_simulator lockbox-cache.sh
 	else
 		doexe init/lockbox-cache.sh
