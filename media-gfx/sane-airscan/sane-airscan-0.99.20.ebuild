@@ -34,9 +34,9 @@ FUZZERS=(
 	"fuzzer-xml"
 )
 
-src_prepare() {
-	default_src_prepare
-}
+PATCHES=(
+	"${FILESDIR}/${PN}-0.9.20-noasan.patch"
+)
 
 src_configure() {
 	sanitizers-setup-env || die
