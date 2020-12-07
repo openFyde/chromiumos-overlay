@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit autotools
+inherit autotools flag-o-matic
 
 DESCRIPTION="Collection of utilities and tests for VA-API"
 HOMEPAGE="https://01.org/linuxmedia/vaapi"
@@ -38,7 +38,7 @@ src_prepare() {
 
 src_configure() {
 	# Building the tests needs its own TR1 library.
-	CXXFLAGS+=" -DGTEST_USE_OWN_TR1_TUPLE=1"
+	append-cppflags "-DGTEST_USE_OWN_TR1_TUPLE=1"
 	local myeconfargs=(
 		--disable-x11
 		--disable-wayland
