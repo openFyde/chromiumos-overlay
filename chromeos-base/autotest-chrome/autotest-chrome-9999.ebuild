@@ -113,7 +113,6 @@ IUSE_TESTS=(
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
 	+tests_policy_AccessibilityTest
-	+tests_policy_AlternateErrorPages
 	+tests_policy_ArcAudioCaptureAllowed
 	+tests_policy_ArcBackupRestoreServiceEnabled
 	+tests_policy_ArcExternalStorageDisabled
@@ -121,14 +120,10 @@ IUSE_TESTS=(
 	+tests_policy_ArcDisableScreenshots
 	+tests_policy_AudioOutputAllowed
 	+tests_policy_AutotestSanity
-	+tests_policy_BookmarkBarEnabled
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
 	+tests_policy_CookiesSessionOnlyForUrls
-	+tests_policy_DefaultGeolocationSetting
-	+tests_policy_DefaultJavaScriptSetting
-	+tests_policy_DefaultNotificationsSetting
 	+tests_policy_DefaultSearchProvider
 	+tests_policy_DeveloperToolsAvailability
 	+tests_policy_DeviceAllowBluetooth
@@ -136,32 +131,20 @@ IUSE_TESTS=(
 	+tests_policy_DeviceCharging
 	+tests_policy_DeviceDockMacAddressSource
 	+tests_policy_DeviceScheduledCharging
-	+tests_policy_DeviceWilcoDtcAllowed
 	+tests_policy_DisableScreenshots
 	+tests_policy_DownloadDirectory
 	+tests_policy_DriveDisabled
-	+tests_policy_EditBookmarksEnabled
 	+tests_policy_DeviceEphemeralUsersEnabled
 	+tests_policy_EnrollmentRetainment
 	+tests_policy_EnterpriseForceInstallCustom
-	+tests_policy_ExtensionAllowedTypes
-	+tests_policy_ExtensionControls
 	+tests_policy_ExtensionPolicy
 	+tests_policy_ExternalStorageDisabled
 	+tests_policy_ExternalStorageReadOnly
-	+tests_policy_ForceGoogleSafeSearch
 	+tests_policy_ForceYouTubeRestrict
 	+tests_policy_ForceYouTubeSafetyMode
-	+tests_policy_HomepageLocation
-	+tests_policy_JavaScriptAllowedForUrls
-	+tests_policy_JavaScriptBlockedForUrls
-	+tests_policy_KeyboardDefaultToFunctionKeys
 	+tests_policy_KeyPermissions
 	+tests_policy_KioskModeEnabled
-	+tests_policy_ManagedBookmarks
 	+tests_policy_NativePrintersBulkAccessMode
-	+tests_policy_NotificationsAllowedForUrls
-	+tests_policy_NotificationsBlockedForUrls
 	+tests_policy_PinnedLauncherApps
 	+tests_policy_PlatformKeys
 	+tests_policy_PolicyRefreshRate
