@@ -431,6 +431,7 @@ ALL_BOARDS=(
 	tidus
 	tricky
 	trogdor
+	trogdor-arc-r
 	trogdor-kernelnext
 	trogdor64
 	trogdor64-manatee
