@@ -455,7 +455,7 @@ ALL_BOARDS=(
 	winky
 	wizpig
 	wolf
-	wooten
+	#wooten
 	wristpin
 	wsb
 	x30evb
