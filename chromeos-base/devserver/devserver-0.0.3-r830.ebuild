@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="624b7aeeab7c2a10f67178272abf6bb05f5cca03"
-CROS_WORKON_TREE="221d06b83f64e74650340254386bb53de1dbcc04"
+CROS_WORKON_COMMIT="73098a3a66d1a71a8f5916e34e32eea3976d4af6"
+CROS_WORKON_TREE="5afd76629fdf41d3c489ffec3642cb97c0d0f9cb"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="platform/dev"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -22,6 +22,7 @@ RDEPEND="
 	dev-python/cherrypy
 	net-misc/gsutil
 	dev-python/rtslib-fb
+	!<chromeos-base/cros-devutils-1
 "
 DEPEND="
 	dev-python/psutil
@@ -29,8 +30,6 @@ DEPEND="
 
 src_install() {
 	emake install DESTDIR="${D}"
-
-	dobin host/start_devserver
 
 	# Install Mob* Monitor checkfiles for the devserver.
 	insinto "/etc/mobmonitor/checkfiles/devserver/"

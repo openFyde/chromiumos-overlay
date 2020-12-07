@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="98c4426137234e17a3809530b74e52dcb3cd519b"
+CROS_WORKON_COMMIT="73098a3a66d1a71a8f5916e34e32eea3976d4af6"
 CROS_WORKON_TREE="3e724cdb38f311b9aa09fdb8279b36c3ad54f723"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
@@ -36,7 +36,6 @@ src_install() {
 	local host_tools=(
 		cros_workon_make
 		netboot_firmware_settings.py
-		strip_package
 	)
 	dobin "${host_tools[@]/#/host/}"
 
