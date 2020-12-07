@@ -22,7 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libbri
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros_host +dbus +device_mapper fuzzer +udev"
+IUSE="cros_host +dbus +device_mapper fuzzer -lvm_stateful_partition +udev"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -33,6 +33,7 @@ COMMON_DEPEND="
 	net-misc/curl:=
 	sys-apps/rootdev:=
 	device_mapper? ( sys-fs/lvm2:= )
+	lvm_stateful_partition? ( sys-fs/lvm2:= )
 	udev? ( virtual/libudev )
 "
 RDEPEND="
