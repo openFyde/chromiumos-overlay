@@ -181,6 +181,7 @@ RDEPEND="${RDEPEND}
 	dev-python/future
 	dev-python/imaging
 	dev-python/intelhex
+	dev-python/kconfiglib
 	dev-python/m2crypto
 	dev-python/mako
 	dev-python/netifaces

@@ -25,6 +25,10 @@ DEPEND="
 	)
 "
 
+BDEPEND="
+	dev-python/kconfiglib
+"
+
 CROS_WORKON_LOCALNAME=("../platform/depthcharge" "../platform/vboot_reference")
 VBOOT_REFERENCE_DESTDIR="${S}/vboot_reference"
 CROS_WORKON_DESTDIR=("${S}" "${VBOOT_REFERENCE_DESTDIR}")
