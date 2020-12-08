@@ -6,7 +6,7 @@ EAPI=6
 CROS_WORKON_COMMIT="f6045f2e45790542866c8442d8ffe151618c5908"
 CROS_WORKON_TREE="df4d660118e60fb04480d680690782565d2f3f30"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.4.5"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.5.0"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
@@ -137,6 +137,7 @@ src_configure() {
 		-Dplugin_tpm="false"
 		-Dtpm="false"
 	)
+	(use x86 || use amd64 ) || emesonargs+=( -Dplugin_msr="false" )
 	export CACHE_DIRECTORY="${T}"
 	meson_src_configure
 }
