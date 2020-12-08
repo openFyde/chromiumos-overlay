@@ -80,7 +80,7 @@ src_compile() {
 		[[ ! -f "${image_path}" ]] && die "Couldn't find VM image, try building a test image for ${vm_board} first"
 
 		/mnt/host/source/src/platform/container-guest-tools/termina/termina_build_image.py "${image_path}" "${S}/vm"
-		mv "${S}/vm"/* "${WORKDIR}"
+		mv "${S}/vm" "${WORKDIR}"
 	fi
 }
 
@@ -91,6 +91,6 @@ src_install() {
 	into "$(dlc_add_path ${install_dir})"
 	insinto "$(dlc_add_path ${install_dir})"
 	exeinto "$(dlc_add_path ${install_dir})"
-	doins "${WORKDIR}"/*
+	doins "${WORKDIR}"/*/*
 	dlc_src_install
 }
