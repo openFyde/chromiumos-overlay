@@ -12,7 +12,7 @@ PYTHON_COMPAT=( python{2_7,3_6,3_7} )
 
 inherit cros-constants cros-workon python-r1
 
-DESCRIPTION="Wrapper for running chromite unit tests"
+DESCRIPTION="Subset of chromite libs for importing on DUTs"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/chromite/"
 
 LICENSE="BSD-Google"
@@ -35,11 +35,14 @@ src_install() {
 		# to specify which files should be installed.
 		cd "${D}/${dir}"
 		rm -rf \
+			api \
 			appengine \
 			contrib \
 			cidb \
 			infra \
 			lib/datafiles/ \
+			service \
+			signing \
 			third_party/pyelftools/examples \
 			third_party/pyelftools/test \
 			mobmonitor \
