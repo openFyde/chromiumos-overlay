@@ -21,8 +21,8 @@ https://ftpmirror.gnu.org/gmp/gmp-6.2.0.tar.xz
 https://ftpmirror.gnu.org/mpfr/mpfr-4.1.0.tar.xz
 https://ftpmirror.gnu.org/mpc/mpc-1.2.0.tar.gz
 https://ftpmirror.gnu.org/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz
-https://ftpmirror.gnu.org/binutils/binutils-2.35.tar.xz
-https://acpica.org/sites/acpica/files/acpica-unix2-20200717.tar.gz
+https://ftpmirror.gnu.org/binutils/binutils-2.35.1.tar.xz
+https://acpica.org/sites/acpica/files/acpica-unix2-20200925.tar.gz
 "
 
 SRC_URI="
