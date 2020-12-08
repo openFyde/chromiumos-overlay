@@ -176,7 +176,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECKeyboardReboot
 	+tests_firmware_ECLidShutdown
 	+tests_firmware_ECLidSwitch
-	+tests_firmware_ECPeci
 	+tests_firmware_ECPowerButton
 	+tests_firmware_ECPowerG3
 	+tests_firmware_ECSharedMem
