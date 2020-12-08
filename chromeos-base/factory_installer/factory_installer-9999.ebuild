@@ -124,7 +124,7 @@ src_install() {
 	fi
 	dosbin "${scripts[@]}" "${service_file}"
 
-	insinto /etc/init
+	insinto /usr/share/factory_installer/init
 	doins init/*.conf
 
 	insinto /root
