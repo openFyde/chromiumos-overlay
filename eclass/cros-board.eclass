@@ -171,6 +171,7 @@ ALL_BOARDS=(
 	fizz-cfm
 	fizz-labstation
 	fizz-moblab
+	fizz-satlab
 	flapjack
 	foster
 	#fox
