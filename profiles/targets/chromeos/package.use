@@ -286,12 +286,10 @@ dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
 dev-python/wcwidth python_targets_python2_7
 dev-python/webcolors python_targets_python2_7
-dev-python/ws4py python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 dev-util/scons python_targets_python2_7
 media-libs/opencv python_targets_python2_7
-net-ftp/pybootd python_targets_python2_7
 net-libs/nodejs python_targets_python2_7
 sys-apps/portage python_targets_python2_7
 virtual/python-cffi python_targets_python2_7
