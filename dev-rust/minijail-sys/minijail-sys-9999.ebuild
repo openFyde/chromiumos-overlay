@@ -35,6 +35,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	>=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0
+	virtual/bindgen:=
 "
 
 src_unpack() {
