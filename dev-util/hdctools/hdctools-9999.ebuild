@@ -23,7 +23,6 @@ COMMON_DEPEND="
 	sys-power/uhubctl
 	virtual/libusb:1
 	chromeos-base/ec-devutils:=
-	dev-python/retry-decorator:=
 "
 
 RDEPEND="${COMMON_DEPEND}
