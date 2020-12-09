@@ -73,4 +73,5 @@ RDEPEND="
 	media-libs/virglrenderer[fuzzer]
 	media-sound/adhd[fuzzer]
 	net-dns/avahi[fuzzer]
+	net-wireless/bluez[fuzzer]
 "

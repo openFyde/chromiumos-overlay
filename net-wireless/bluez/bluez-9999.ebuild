@@ -17,7 +17,7 @@ CROS_WORKON_OPTIONAL_CHECKOUT=(
 CROS_WORKON_DESTDIR=("${S}/bluez/current" "${S}/bluez/next" "${S}/bluez/upstream")
 CROS_WORKON_EGIT_BRANCH=("chromeos-5.54" "chromeos-5.54" "upstream/master")
 
-inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon flag-o-matic
+inherit autotools multilib eutils systemd udev user libchrome cros-fuzzer cros-sanitizers cros-workon flag-o-matic
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="http://www.bluez.org/"
@@ -25,7 +25,7 @@ HOMEPAGE="http://www.bluez.org/"
 
 LICENSE="GPL-2 LGPL-2.1"
 KEYWORDS="~*"
-IUSE="asan bluez-next bluez-upstream cups debug systemd readline bt_deprecated_tools"
+IUSE="asan bluez-next bluez-upstream cups debug fuzzer systemd readline bt_deprecated_tools"
 REQUIRED_USE="?? ( bluez-next bluez-upstream )"
 
 CDEPEND="
@@ -100,6 +100,7 @@ src_configure() {
 		--enable-sixaxis \
 		--disable-network \
 		--disable-datafiles \
+		$(use_enable fuzzer) \
 		$(use_enable bt_deprecated_tools deprecated)
 }
 
@@ -144,6 +145,9 @@ src_install() {
 	insinto "/etc/bluetooth"
 	doins "${FILESDIR}/main.conf"
 	doins "${FILESDIR}/input.conf"
+
+	# Install the fuzzer binaries.
+	fuzzer_install "${S}/fuzzer/OWNERS" fuzzer/bluez_pattern_match_fuzzer
 
 	# We don't preserve /var/lib in images, so nuke anything we preseed.
 	rm -rf "${D}"/var/lib/bluetooth
