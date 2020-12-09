@@ -3,8 +3,9 @@
 
 EAPI=5
 
-# pick go-tools at the current head of release-branch.go1.13
-CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools 65e3620a7ae7ac25e8494a60f0e5ef4e4fba03b3"
+# pick go-tools at the current head of release-branch.go1.15
+# c1934b75d054975b79a8179cb6f0a9b8b3fa33cd (HEAD -> release-branch.go1.15)
+CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools c1934b75d054975b79a8179cb6f0a9b8b3fa33cd"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/ast/astutil"
@@ -15,9 +16,15 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/internal/packagesdriver"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/packages"
+	"golang.org/x/tools/internal/event"
+	"golang.org/x/tools/internal/event/core"
+	"golang.org/x/tools/internal/event/keys"
+	"golang.org/x/tools/internal/event/label"
 	"golang.org/x/tools/internal/fastwalk"
+	"golang.org/x/tools/internal/gocommand"
 	"golang.org/x/tools/internal/gopathwalk"
-	"golang.org/x/tools/internal/semver"
+	"golang.org/x/tools/internal/packagesinternal"
+	"golang.org/x/tools/internal/typesinternal"
 )
 
 CROS_GO_TEST=(
@@ -44,6 +51,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/mod
 	dev-go/net
 	dev-go/xerrors
 "
