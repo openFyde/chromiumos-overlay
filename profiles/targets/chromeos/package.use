@@ -209,8 +209,6 @@ dev-python/httplib2 python_targets_python2_7
 dev-python/idna python_targets_python2_7
 dev-python/imaging python_targets_python2_7
 dev-python/jaraco-functools python_targets_python2_7
-dev-python/jsonpatch python_targets_python2_7
-dev-python/jsonpointer python_targets_python2_7
 dev-python/jsonrpclib python_targets_python2_7
 dev-python/kiwisolver python_targets_python2_7
 dev-python/lazy-object-proxy python_targets_python2_7
@@ -251,7 +249,6 @@ dev-python/pyopenssl python_targets_python2_7
 dev-python/pyparsing python_targets_python2_7
 dev-python/pyserial python_targets_python2_7
 dev-python/PySocks python_targets_python2_7
-dev-python/pytest python_targets_python2_7
 dev-python/python-dateutil python_targets_python2_7
 dev-python/python-evdev python_targets_python2_7
 dev-python/python-gflags python_targets_python2_7
@@ -263,10 +260,8 @@ dev-python/pyudev python_targets_python2_7
 dev-python/pyusb python_targets_python2_7
 dev-python/pyxattr python_targets_python2_7
 dev-python/pyyaml python_targets_python2_7
-dev-python/regex python_targets_python2_7
 dev-python/requests python_targets_python2_7
 dev-python/retry-decorator python_targets_python2_7
-dev-python/rfc3987 python_targets_python2_7
 dev-python/rtslib-fb python_targets_python2_7
 dev-python/scandir python_targets_python2_7
 dev-python/secretstorage python_targets_python2_7
@@ -276,7 +271,6 @@ dev-python/setuptools python_targets_python2_7
 dev-python/setuptools_scm python_targets_python2_7
 dev-python/simplejson python_targets_python2_7
 dev-python/six python_targets_python2_7
-dev-python/strict-rfc3339 python_targets_python2_7
 dev-python/tempora python_targets_python2_7
 dev-python/traceback2 python_targets_python2_7
 dev-python/trollius python_targets_python2_7
@@ -285,7 +279,6 @@ dev-python/urllib3 python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
 dev-python/wcwidth python_targets_python2_7
-dev-python/webcolors python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 dev-util/scons python_targets_python2_7

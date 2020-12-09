@@ -214,9 +214,7 @@ dev-python/pyusb python_targets_python2_7
 dev-python/pyxattr python_targets_python2_7
 dev-python/pyyaml python_targets_python2_7
 dev-python/redis-py python_targets_python2_7
-dev-python/regex python_targets_python2_7
 dev-python/requests python_targets_python2_7
-dev-python/rfc3987 python_targets_python2_7
 dev-python/rtslib-fb python_targets_python2_7
 dev-python/scandir python_targets_python2_7
 dev-python/secretstorage python_targets_python2_7
@@ -227,7 +225,6 @@ dev-python/setuptools_scm python_targets_python2_7
 dev-python/simplejson python_targets_python2_7
 dev-python/six python_targets_python2_7
 dev-python/sqlalchemy python_targets_python2_7
-dev-python/strict-rfc3339 python_targets_python2_7
 dev-python/tempita python_targets_python2_7
 dev-python/tempora python_targets_python2_7
 dev-python/traceback2 python_targets_python2_7
@@ -238,7 +235,6 @@ dev-python/unittest2 python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
-dev-python/webcolors python_targets_python2_7
 dev-python/wrapt python_targets_python2_7
 dev-python/ws4py python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
