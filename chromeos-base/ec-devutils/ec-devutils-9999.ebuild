@@ -26,7 +26,7 @@ RDEPEND="
 	sys-apps/flashrom
 	!<chromeos-base/ec-utils-0.0.1-r6153
 	chromeos-base/ec-utils
-	>=dev-python/pyusb-1.0.2
+	>=dev-python/pyusb-1.0.2[${PYTHON_USEDEP}]
 	"
 BDEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
