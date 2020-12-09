@@ -135,7 +135,11 @@ src_prepare() {
 	default
 
 	pushd "${S_K}" >/dev/null || die
-	eapply "${FILESDIR}"/5.3.7-Fix-configure-tests.patch
+	# The patches below include the changes beyond tools/perf
+	# so they can't be applied with PATCHES.
+	eapply "${FILESDIR}/5.3.7-Fix-configure-tests.patch"
+	eapply "${FILESDIR}/5.3.7-Update-perf-bench.patch"
+	eapply "${FILESDIR}/5.3.7-Fix-perf-bench.patch"
 	if [[ -n ${LINUX_PATCH} ]] ; then
 		eapply "${WORKDIR}"/${P}.patch
 	fi
