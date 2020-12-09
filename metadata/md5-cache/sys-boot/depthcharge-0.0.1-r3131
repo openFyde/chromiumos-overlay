@@ -1,4 +1,4 @@
-BDEPEND=dev-vcs/git
+BDEPEND=dev-python/kconfiglib dev-vcs/git
 DEFINED_PHASES=compile info install setup unpack
 DEPEND=sys-boot/coreboot:= chromeos-base/chromeos-ec-headers:= sys-boot/libpayload:= unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) )
 DESCRIPTION=coreboot's depthcharge payload
@@ -8,6 +8,6 @@ IUSE=detachable diag_payload fwconsole mocktpm pd_sync unibuild verbose debug ge
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
-SLOT=0/0.0.1-r3130
+SLOT=0/0.0.1-r3131
 _eclasses_=cros-board	e7b34eb98a866c6ebb2faacb8de27ff1	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-unibuild	7452b95c0fc7fd99f0aa9972390e8633	cros-workon	3c446e00b1c9dc41ef3953d89c0ba6d2	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=0567659da8422fc255e727cba329f1f0
+_md5_=1d747ebe798001151d0d685ad174403b
