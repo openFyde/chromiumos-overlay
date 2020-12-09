@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="6fb68e118050011bb06e525e8d702bfa6ee88b28"
-CROS_WORKON_TREE=("ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "948d0e0e4323bf8acd1241632cb8e3069442e22f" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9a601bfe871d53b6be5bce7055c6ea547c4a1fe3"
+CROS_WORKON_TREE=("ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "087f99c26108afeadb2debe7ad7805a0eff3b913" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -28,6 +28,8 @@ IUSE="cros_embedded cros_host enable_slow_boot_notify -mtd pam systemd test +oob
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/vboot_reference
+	x11-libs/libxkbcommon:=
+	x11-misc/xkeyboard-config:=
 "
 
 DEPEND="${COMMON_DEPEND}
@@ -61,7 +63,7 @@ src_install() {
 		if use mtd ; then
 			dobin "${OUT}"/nand_partition
 		fi
-		dosbin chromeos-* encrypted_import "${OUT}"/evwaitkey
+		dosbin chromeos-* encrypted_import "${OUT}"/{evwaitkey,key_reader}
 		dosym usr/sbin/chromeos-postinst /postinst
 
 		# Install init scripts.
