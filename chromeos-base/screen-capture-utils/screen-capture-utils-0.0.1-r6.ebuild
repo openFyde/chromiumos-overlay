@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6fb68e118050011bb06e525e8d702bfa6ee88b28"
+CROS_WORKON_COMMIT="b48b7e4912af56f1b631c75139f309cdea0b7896"
 CROS_WORKON_TREE=("ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "cb3d88a62039d33d7f571169c594cdd0eea349e6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,7 +25,7 @@ IUSE=""
 # Mark the old screenshot package as blocker so it gets automatically removed in
 # incremental builds.
 RDEPEND="
-	!!chromeos-base/screenshot
+	!chromeos-base/screenshot
 	media-libs/libpng:0=
 	media-libs/minigbm:=
 	x11-libs/libdrm:=
