@@ -1,0 +1,56 @@
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+EAPI=7
+
+CROS_WORKON_COMMIT=("38981368658817aa15152d5c3aa61e56a9541580" "b9c633d0713a9e7c3123ac419354dc8ee65e8904")
+CROS_WORKON_TREE=("212ac529bfe2eebb996fd5c50a956fd4c5358f18" "eed6d761763b0bd907c3288544789e2bd58fc544")
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/ec"
+	"chromiumos/platform/ec"
+)
+CROS_WORKON_LOCALNAME=(
+	"platform/ec"
+	"platform/cr50"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform/ec"
+	"${S}/platform/cr50"
+)
+CROS_WORKON_EGIT_BRANCH=(
+	"master"
+	"cr50_stab"
+)
+
+CROS_WORKON_INCREMENTAL_BUILD=1
+
+inherit cros-workon
+
+DESCRIPTION="Exported headers from the embedded controller codebase."
+HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
+SRC_URI=""
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE=""
+
+RDEPEND=""
+DEPEND=""
+
+# No configuration or compilation necessary. This is a header only package.
+src_configure() { :; }
+src_compile() { :; }
+
+src_install() {
+	dir_ec=${CROS_WORKON_DESTDIR[0]}
+	dir_cr50=${CROS_WORKON_DESTDIR[1]}
+
+	insinto /usr/include/trunks/cr50_headers/
+	doins "${dir_cr50}"/include/pinweaver_types.h
+	doins "${dir_cr50}"/include/u2f.h
+	doins "${dir_cr50}"/board/cr50/tpm2/virtual_nvmem.h
+	insinto /usr/include/chromeos/ec/
+	doins "${dir_ec}"/include/ec_commands.h
+	doins "${dir_ec}"/util/cros_ec_dev.h
+}
