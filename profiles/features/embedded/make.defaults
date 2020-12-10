@@ -50,5 +50,8 @@ USE="${USE} -video_capture_use_gpu_memory_buffer"
 # Don't run Camera v3 stack.
 USE="${USE} -arc-camera3"
 
+# Disable oobe config.
+USE="${USE} -oobe_config"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
