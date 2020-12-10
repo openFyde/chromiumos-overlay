@@ -38,6 +38,7 @@ IUSE="
 	+cfi
 	cfm
 	chrome_debug_tests
+	chrome_dcheck
 	chrome_internal
 	chrome_media
 	+chrome_remoting
@@ -408,6 +409,10 @@ set_build_args() {
 			# llvm and debug fission properly. crosbug.com/710605
 			append-flags -fno-split-dwarf-inlining
 		fi
+	fi
+
+	if use chrome_dcheck; then
+		BUILD_ARGS+=("dcheck_always_on=true")
 	fi
 }
 
@@ -1341,7 +1346,7 @@ pkg_preinst() {
 
 	# Non-internal builds come with >10MB of unwinding info built-in. Size
 	# checks on those are less profitable.
-	if [[ ${CHROME_SIZE} -ge 250000000 && -z "${KEEP_CHROME_DEBUG_SYMBOLS}" ]] && use chrome_internal; then
+	if [[ ${CHROME_SIZE} -ge 250000000 && -z "${KEEP_CHROME_DEBUG_SYMBOLS}" ]] && use chrome_internal && ! use chrome_dcheck; then
 		die "Installed chrome binary got suspiciously large (size=${CHROME_SIZE})."
 	fi
 	if use arm; then
