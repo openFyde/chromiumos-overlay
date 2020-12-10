@@ -149,6 +149,9 @@ PATCHES=(
 	# Temporary workaround until we fix Samba/OpenLDAP issues (see
 	# https://crbug.com/953613).
 	"${FILESDIR}/${PN}-4.11.13-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
+
+	# Apply latest security patches until 4.11.15 is available upstream.
+	"${FILESDIR}/${PN}-4.11.14-security-2020-10-29.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
