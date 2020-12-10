@@ -1,7 +1,12 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
+
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="../platform/empty-project"
+
+inherit cros-workon
 
 DESCRIPTION="List of packages that are needed inside the SDK, but after we've
 built all the toolchain packages that we install separately via binpkgs.  This
@@ -10,7 +15,7 @@ HOMEPAGE="http://dev.chromium.org/"
 
 LICENSE="BSD-Google"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE=""
 
 # The vast majority of packages should not be listed here!  You most likely
