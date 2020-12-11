@@ -47,5 +47,8 @@ USE="${USE} -perfetto"
 # No support for zero-copy camera stack in Chrome.
 USE="${USE} -video_capture_use_gpu_memory_buffer"
 
+# Don't run Camera v3 stack.
+USE="${USE} -arc-camera3"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
