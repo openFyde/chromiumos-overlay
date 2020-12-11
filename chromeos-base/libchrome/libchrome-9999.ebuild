@@ -137,7 +137,7 @@ src_install() {
 	use dbus && header_dirs+=( dbus )
 	use timers && header_dirs+=( components/timers )
 
-	insinto /usr/include/base-"${BASE_VER}"/base/test
+	insinto /usr/include/libchrome/base/test
 	doins \
 		base/test/bind_test_util.h \
 		base/test/task_environment.h \
@@ -150,7 +150,7 @@ src_install() {
 		base/test/test_timeouts.h \
 
 	if use crypto; then
-		insinto /usr/include/base-${BASE_VER}/crypto
+		insinto /usr/include/libchrome/crypto
 		doins \
 			crypto/crypto_export.h \
 			crypto/hmac.h \
@@ -227,14 +227,13 @@ src_install() {
 	fi
 
 	# Install header files.
-	# TODO(fqj): Use unversioned path.
 	local d
 	for d in "${header_dirs[@]}" ; do
-		insinto /usr/include/base-"${BASE_VER}"/"${d}"
+		insinto /usr/include/libchrome/"${d}"
 		doins "${d}"/*.h
 	done
 	for d in "${mojom_dirs[@]}"; do
-		insinto /usr/include/base-"${BASE_VER}"/"${d}"
+		insinto /usr/include/libchrome/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.h
 		# Not to install mojom and pickle file to prevent misuse until Chromium IPC
 		# team is ready to have a stable mojo_base. see crbug.com/1055379
@@ -243,6 +242,9 @@ src_install() {
 		# insinto /usr/share/libchrome/pickle/"${d}"
 		# doins "${OUT}"/gen/include/"${d}"/*.p
 	done
+
+	# Remove symlink after all files migrated unversioned header path.
+	dosym libchrome /usr/include/base-"${BASE_VER}"
 
 	# TODO(fqj): Revisit later for type mapping (see libchrome/BUILD.gn)
 	# Install libchrome base type mojo mapping
