@@ -11,9 +11,8 @@ CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 inherit cros-workon cros-rust user
 
-CROS_RUST_CRATE_NAME="libsirenia"
 DESCRIPTION="The support library for the ManaTEE runtime environment."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/sirenia/libsirenia"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/libsirenia"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -30,23 +29,3 @@ DEPEND="${RDEPEND}
 	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
 "
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/${CROS_RUST_SUBDIR}"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	ecargo_build
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test -- --skip transport::tests::vsocktransport
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}

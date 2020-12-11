@@ -3,17 +3,19 @@
 
 EAPI=7
 
+CROS_RUST_SUBDIR="vm_tools/9s"
+
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="vm_tools/9s"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 CROS_RUST_CRATE_NAME="p9s"
 
 inherit cros-workon cros-rust
 
 DESCRIPTION="Server binary for the 9P file system protocol"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/9s/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools/9s/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"
@@ -31,27 +33,6 @@ DEPEND="
 	dev-rust/log:=
 	dev-rust/p9:=
 "
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/vm_tools/9s"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	ecargo_build
-
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
 
 src_install() {
 	newbin "$(cros-rust_get_build_dir)/p9s" 9s

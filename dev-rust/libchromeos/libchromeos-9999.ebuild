@@ -3,14 +3,16 @@
 
 EAPI=7
 
+CROS_RUST_SUBDIR="libchromeos-rs"
+
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_SUBTREE="libchromeos-rs"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 inherit cros-workon cros-rust
 
 DESCRIPTION="A Rust utility library for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libchromeos-rs/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libchromeos-rs/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -30,25 +32,9 @@ DEPEND="chromeos-base/system_api:=
 
 RDEPEND="!!<=dev-rust/libchromeos-0.1.0-r2"
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/libchromeos-rs"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
 src_test() {
-	if ! use x86 && ! use amd64 ; then
-		elog "Skipping unit tests on non-x86 platform"
-	else
-		ecargo_test
-	fi
-}
-
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
+	# TODO(1157860) Portage already runs tests in parallel and these tests appear
+	# to be load sensitive. Decide if the failures need fixes or if --test-threads=1
+	# should stay.
+	cros-rust_src_test -- --test-threads=1
 }
