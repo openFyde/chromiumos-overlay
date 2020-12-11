@@ -40,8 +40,11 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	local v="$(libchrome_ver)"
 	libwebserv/preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}/lib/libwebserv-${v}.so"
-	doins "${OUT}/lib/libwebserv-${v}.pc"
+	dolib.so "${OUT}/lib/libwebserv.so"
+	doins "${OUT}/lib/libwebserv.pc"
+
+	# TODO(fqj): Remove symlink after users are migrated to libwebserv.pc
+	dosym libwebserv.pc "/usr/$(get_libdir)/pkgconfig/libwebserv-${v}.pc"
 
 	# Install header files from libwebserv
 	insinto /usr/include/libwebserv
