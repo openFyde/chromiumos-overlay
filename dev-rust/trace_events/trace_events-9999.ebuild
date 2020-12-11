@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="trace_events"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Infrastructure for clients to emit trace events."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trace_events/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/trace_events/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -30,13 +30,14 @@ pkg_setup() {
 	cros-rust_pkg_setup trace_events_macros
 }
 
-src_test() {
-	# TODO(crbug.com/1154084) Run on the host until libtest and libstd are
-	# available on the target.
-	CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
-	cros-rust_get_host_test_executables --lib
+src_compile() {
+	ecargo_build
 
-	cros-rust_src_test
+	use test && ecargo_test --workspace --no-run
+}
+
+src_test() {
+	cros-rust_src_test --workspace
 }
 
 src_install() {

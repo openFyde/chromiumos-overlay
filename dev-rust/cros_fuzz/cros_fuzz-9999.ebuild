@@ -3,16 +3,18 @@
 
 EAPI=7
 
+CROS_RUST_SUBDIR="cros-fuzz"
+
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="cros-fuzz"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} common-mk"
 
 inherit cros-workon cros-rust
 
 DESCRIPTION="Support crate for running rust fuzzers on Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cros-fuzz"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cros-fuzz"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -21,26 +23,3 @@ IUSE="fuzzer test"
 DEPEND="
 	=dev-rust/rand_core-0.4*:=
 "
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/cros-fuzz"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if ! use x86 && ! use amd64 ; then
-		elog "Skipping unit tests on non-x86 platform"
-	else
-		ecargo_test
-	fi
-}
-
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
-}

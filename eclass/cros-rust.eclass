@@ -78,6 +78,8 @@ fi
 # @DESCRIPTION:
 # An array of test executables that are built for cros-host, which defaults to
 # empty value and is set by invoking cros-rust_get_host_test_executables.
+# If it is empty when cros-rust_get_test_executables is called, it will be set
+# to include tests not compiled for ${CHOST}.
 : "${CROS_RUST_HOST_TESTS:=}"
 
 # @ECLASS-VARIABLE: CROS_RUST_PLATFORM_TEST_ARGS
@@ -515,6 +517,16 @@ cros-rust_get_test_executables() {
 	mapfile -t CROS_RUST_TESTS < \
 		<(ecargo_test --no-run --message-format=json "$@" | \
 		jq -r 'select(.profile.test == true) | .filenames[]')
+
+	# Cargo puts tests not compiled for the SYSROOT in ecargo-test/release.
+	if [[ -z "${CROS_RUST_HOST_TESTS}" ]]; then
+		local testfile
+		for testfile in "${CROS_RUST_TESTS[@]}"; do
+			if [[ "${testfile}" == "${CARGO_TARGET_DIR}/ecargo-test/release"* ]]; then
+				CROS_RUST_HOST_TESTS+=( "${testfile}" )
+			fi
+		done
+	fi
 }
 
 # @FUNCTION: cros-rust_get_host_test_executables

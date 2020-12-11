@@ -50,8 +50,7 @@ src_test() {
 		skip_tests+=( --skip "guest_memory::tests" )
 	fi
 
-	# TODO(crbug.com/1154084) Run on the host until libtest and libstd are
-	# available on the target.
+	# TODO(crbug.com/1157570) Remove once syslog module works in sandbox.
 	CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
 	cros-rust_get_host_test_executables
 
