@@ -335,6 +335,15 @@ multilib_src_install() {
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang"
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang++"
 	newexe "${FILESDIR}/ldwrapper_lld.host" "${CHOST}-ld.lld"
+
+	# llvm-strip is a symlink to llvm-objcopy and distinguished by a argv[0] check.
+	# When creating standalone toolchain, argv[0] information is lost and causes
+	# llvm-strip invocations to be treated as llvm-objcopy breaking builds
+	# (crbug.com/1151787). Handle this by making llvm-strip a full binary.
+	if [[ -L "${D}/usr/bin/llvm-strip" ]]; then
+		rm "${D}/usr/bin/llvm-strip" || die
+		newbin "${D}/usr/bin/llvm-objcopy" "llvm-strip"
+	fi
 }
 
 multilib_src_install_all() {
