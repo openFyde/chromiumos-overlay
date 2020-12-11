@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="crash-reporter"
 inherit cros-arm64 cros-i686 cros-workon platform systemd udev user
 
 DESCRIPTION="Crash reporting service that uploads crash reports with debug information"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crash-reporter/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

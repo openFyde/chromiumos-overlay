@@ -31,17 +31,12 @@ board_setup_32bit_au_env()
 	if [[ ${CC} == *"clang"* ]]; then
 		export CC=${CHOST}-clang
 		export CXX=${CHOST}-clang++
-		append-flags "-Xclang-only=-stdlib=libstdc++"
-		append-ldflags "-Xclang-only=-stdlib=libstdc++"
-		# TODO(crbug.com/991024): Work around for lld not linking with 32bit
-		# glibc.
-		append-ldflags "-Xclang-only=-Wl,--allow-multiple-definition"
 	fi
 	__AU_OLD_SYSROOT=${SYSROOT}
 	export LIBCHROME_SYSROOT=${SYSROOT}
 	export SYSROOT=/usr/${CHOST}
 	append-ldflags -L"${__AU_OLD_SYSROOT}"/usr/lib
-	append-cppflags -isystem "${__AU_OLD_SYSROOT}"/usr/include
+	append-cppflags -idirafter "${__AU_OLD_SYSROOT}"/usr/include
 	# Link to libc and libstdc++ statically, because the i686 shared
 	# libraries are not available on x86_64. In addition, disable sanitizers
 	# for 32-bit builds.
@@ -57,7 +52,7 @@ board_teardown_32bit_au_env()
 		die "board_setup_32bit_au_env must be called first"
 
 	filter-ldflags -L"${__AU_OLD_SYSROOT}"/usr/lib
-	filter-flags -isystem "${__AU_OLD_SYSROOT}"/usr/include
+	filter-flags -idirafter "${__AU_OLD_SYSROOT}"/usr/include
 	filter-flags -static -fno-sanitize=all
 	export SYSROOT=${__AU_OLD_SYSROOT}
 	export CHOST=${__AU_OLD_CHOST}
@@ -67,10 +62,6 @@ board_teardown_32bit_au_env()
 	if [[ ${CC} == *"clang"* ]]; then
 		export CC=${__AU_OLD_CC}
 		export CXX=${__AU_OLD_CXX}
-		filter-flags "-Xclang-only=-stdlib=libstdc++"
-		# TODO(crbug.com/991024): Work around for lld not linking with 32bit
-		# glibc.
-		filter-flags "-Xclang-only=-Wl,--allow-multiple-definition"
 	fi
 	unset LIBCHROME_SYSROOT
 }

@@ -29,14 +29,12 @@ board_setup_64bit_au_env()
 	if [[ ${CC} == *"clang"* ]]; then
 		export CC=aarch64-cros-linux-gnu-clang
 		export CXX=aarch64-cros-linux-gnu-clang++
-		append-flags "-Xclang-only=-stdlib=libstdc++"
-		append-ldflags "-Xclang-only=-stdlib=libstdc++"
 	fi
 	__AU_OLD_SYSROOT=${SYSROOT}
 	export LIBCHROME_SYSROOT=${SYSROOT}
 	export SYSROOT=/usr/aarch64-cros-linux-gnu
 	append-ldflags -L"${__AU_OLD_SYSROOT}"/usr/lib64 -L"${SYSROOT}"/usr/lib64
-	append-cppflags -isystem "${SYSROOT}"/usr/include
+	append-cppflags -idirafter "${__AU_OLD_SYSROOT}"/usr/include
 	# Link to libc and libstdc++ statically, because the arm64 shared
 	# libraries are not available on arm. In addition, disable sanitizers
 	# for 64-bit builds.
@@ -52,7 +50,7 @@ board_teardown_64bit_au_env()
 		die "board_setup_64bit_au_env must be called first"
 
 	filter-ldflags -L"${__AU_OLD_SYSROOT}"/usr/lib64 -L"${SYSROOT}"/usr/lib64
-	filter-flags -isystem "${SYSROOT}"/usr/include
+	filter-flags -idirafter "${__AU_OLD_SYSROOT}"/usr/include
 	filter-flags -static -fno-sanitize=all
 	export SYSROOT=${__AU_OLD_SYSROOT}
 	export LIBDIR_arm64=${__AU_OLD_LIBDIR_arm64}
@@ -61,7 +59,6 @@ board_teardown_64bit_au_env()
 	if [[ ${CC} == *"clang"* ]]; then
 		export CC=${__AU_OLD_CC}
 		export CXX=${__AU_OLD_CXX}
-		filter-flags "-Xclang-only=-stdlib=libstdc++"
 	fi
 	unset LIBCHROME_SYSROOT
 }
