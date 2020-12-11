@@ -39,6 +39,12 @@ src_install() {
 pkg_preinst() {
 	enewuser typecd
 	enewgroup typecd
+
+	# This group is required for debugd EC Type C tool to access /dev/cros_ec.
+	enewgroup cros_ec-access
+	# Add user and group for debugd Type C commands.
+	enewuser typecd_ec
+	enewgroup typecd_ec
 }
 
 platform_pkg_test() {
