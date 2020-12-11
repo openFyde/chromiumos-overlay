@@ -28,9 +28,9 @@ src_install() {
 	# Install libraries.
 	local v="$(libchrome_ver)"
 	./preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}"/lib/libweave-"${v}".so
-	doins "${OUT}"/lib/libweave-*"${v}".pc
-	dolib.a "${OUT}"/libweave-test-"${v}".a
+	dolib.so "${OUT}"/lib/libweave.so
+	doins "${OUT}"/lib/libweave{,-test}.pc
+	dolib.a "${OUT}"/libweave-test.a
 
 	# Install header files.
 	insinto /usr/include/weave/
