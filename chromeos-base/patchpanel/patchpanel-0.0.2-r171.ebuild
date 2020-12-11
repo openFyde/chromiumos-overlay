@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c4ac5f9eaadd1e53d3aece9a387314781dbc9bdc"
-CROS_WORKON_TREE=("ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "88d33a12c60db462168c35d7e16d3073b72f805f" "a29a344ca66578502e6000219a9211ac48c09f95" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9e956f7f48f8ca47a22bf6703e2158943332ee0d"
+CROS_WORKON_TREE=("ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "c6c0dd7d3dc66fbb60076f507383674f77ea6cfd" "a29a344ca66578502e6000219a9211ac48c09f95" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -27,6 +27,7 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 	!chromeos-base/arc-networkd
 	chromeos-base/shill-net:=
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 RDEPEND="

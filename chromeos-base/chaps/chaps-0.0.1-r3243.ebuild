@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6fb68e118050011bb06e525e8d702bfa6ee88b28"
-CROS_WORKON_TREE=("ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "beb8278ee030cfba49a3a2e6e1c59493843400dd" "6628b4085c968f48c209cefc76e9c3bfe1751d9a" "2ced48e9b94d92e5ba8378c2c335788f7b8b14c9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9e956f7f48f8ca47a22bf6703e2158943332ee0d"
+CROS_WORKON_TREE=("ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "e1e219b41e9d0bc330971db591d1d2759eab3226" "6628b4085c968f48c209cefc76e9c3bfe1751d9a" "2ced48e9b94d92e5ba8378c2c335788f7b8b14c9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,6 +35,7 @@ RDEPEND="
 		chromeos-base/trunks:=
 	)
 	chromeos-base/minijail:=
+	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	!dev-db/leveldb
 	dev-libs/leveldb:=

@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b48b7e4912af56f1b631c75139f309cdea0b7896"
-CROS_WORKON_TREE=("ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "f00849e1aea0ab5fa4436f7f55f6fa2f8760c8a7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9e956f7f48f8ca47a22bf6703e2158943332ee0d"
+CROS_WORKON_TREE=("ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "3bfd77b4d7da6fd1037fc3ddfc17d75e1326fccd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
@@ -102,6 +102,8 @@ src_install() {
 			dolib.a "${OUT}/libsystem_api-${dir}-protos.a"
 		fi
 	done
+
+	dolib.so "${OUT}/lib/libsystem_api.so"
 
 	cros-go_src_install
 }
