@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6fb68e118050011bb06e525e8d702bfa6ee88b28"
-CROS_WORKON_TREE=("1778c9319c612635fc922878d9b35884b405c93d" "ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b053dd49c5e8209e44fb1b2587ff937f204c00e5"
+CROS_WORKON_TREE=("fbf9621f6ca97a8db24a5f89006306189c2e7199" "ea1c2b11cdf389a2c865c0221f69d6addfe4ded0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -30,8 +30,6 @@ src_install() {
 	insinto /etc/init
 	if use arcvm; then
 		doins init/arcvm-adbd.conf
-		insinto /etc/dbus-1/system.d
-		doins init/dbus-1/ArcVmAdbd.conf
 	else
 		doins init/arc-adbd.conf
 	fi
