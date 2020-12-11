@@ -28,8 +28,8 @@ src_install() {
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	./platform2_preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}"/lib/libchromeos-ui-"${v}".so
-	doins "${OUT}"/lib/libchromeos-ui-"${v}".pc
+	dolib.so "${OUT}"/lib/libchromeos-ui.so
+	doins "${OUT}"/lib/libchromeos-ui.pc
 
 	insinto /usr/include/chromeos/ui
 	doins "${S}"/chromeos/ui/*.h
