@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="9897bebc5c08effaa8391e9d4167bcb720c794e1"
-CROS_WORKON_TREE="d1e48f4626182154c8d63716dd4f28d2f5920136"
+CROS_WORKON_COMMIT="23fc8c22f15c4ffb5a49fa662c4cbb209811413d"
+CROS_WORKON_TREE="8a3130a6460aff26a93951101879aafa20810214"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 PYTHON_COMPAT=( python2_7 python3_6 )
@@ -28,7 +28,7 @@ RDEPEND="
 	sys-apps/flashrom
 	!<chromeos-base/ec-utils-0.0.1-r6153
 	chromeos-base/ec-utils
-	>=dev-python/pyusb-1.0.2
+	>=dev-python/pyusb-1.0.2[${PYTHON_USEDEP}]
 	"
 BDEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
