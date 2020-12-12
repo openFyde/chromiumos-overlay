@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="18251f9fcb5317db6f3578c1ddbc01c53bef1686"
-CROS_WORKON_TREE=("55a053946ecf9046be3a1b4d15127d60bd62af73" "a1b78a4c1c2f7db9105d4c4f7a631c352a043cd6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="83f9d6e42b175813366d37113a1aeb77158bdb94"
+CROS_WORKON_TREE=("55a053946ecf9046be3a1b4d15127d60bd62af73" "f2131ce9c8ad903ceb133ba94152c94b28643590" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -32,6 +32,7 @@ RDEPEND="!<chromeos-base/chromeos-installer-0.0.3"
 src_install() {
 	insinto /usr/share/misc
 	doins share/chromeos-common.sh
+	doins share/lvm-utils.sh
 	if use direncryption; then
 		sed -i '/local direncryption_enabled=/s/false/true/' \
 			"${D}/usr/share/misc/chromeos-common.sh" ||

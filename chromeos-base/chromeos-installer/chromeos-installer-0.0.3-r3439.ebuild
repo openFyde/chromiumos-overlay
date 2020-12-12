@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="18251f9fcb5317db6f3578c1ddbc01c53bef1686"
-CROS_WORKON_TREE=("55a053946ecf9046be3a1b4d15127d60bd62af73" "087f99c26108afeadb2debe7ad7805a0eff3b913" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="83f9d6e42b175813366d37113a1aeb77158bdb94"
+CROS_WORKON_TREE=("55a053946ecf9046be3a1b4d15127d60bd62af73" "a058825ac2b307faa2e707957e70f720ffbc8bf6" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -23,7 +23,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cros_embedded cros_host enable_slow_boot_notify -mtd pam systemd test +oobe_config"
+IUSE="cros_embedded cros_host enable_slow_boot_notify -mtd pam systemd test +oobe_config lvm_stateful_partition"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
@@ -65,6 +65,13 @@ src_install() {
 		fi
 		dosbin chromeos-* encrypted_import "${OUT}"/{evwaitkey,key_reader}
 		dosym usr/sbin/chromeos-postinst /postinst
+
+		# Enable lvm stateful partition.
+		if use lvm_stateful_partition; then
+			sed -i '/DEFINE_boolean lvm_stateful "/s:\${FLAGS_FALSE}:\${FLAGS_TRUE}:' \
+				"${D}/usr/sbin/chromeos-install" ||
+				die "Failed to set 'lvm_stateful' in chromeos-install"
+		fi
 
 		# Install init scripts.
 		if use systemd; then

@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="18251f9fcb5317db6f3578c1ddbc01c53bef1686"
-CROS_WORKON_TREE=("55a053946ecf9046be3a1b4d15127d60bd62af73" "394130e0aba08a0f12ee1adaec751282e6478e05" "853e56035ddc8eed8fe55176525594404096a0c2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="83f9d6e42b175813366d37113a1aeb77158bdb94"
+CROS_WORKON_TREE=("55a053946ecf9046be3a1b4d15127d60bd62af73" "7e8d88b080c70040d59326fb054497faa35e5e79" "853e56035ddc8eed8fe55176525594404096a0c2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -25,8 +25,8 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="
 	arcpp arcvm cros_embedded +debugd +encrypted_stateful +encrypted_reboot_vault
-	frecon kernel-3_8 kernel-3_10 kernel-3_14 kernel-3_18 +midi
-	-s3halt +syslog systemd +udev vivid vtconsole"
+	frecon -lvm_stateful_partition kernel-3_8 kernel-3_10 kernel-3_14
+	kernel-3_18 +midi -s3halt +syslog systemd +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
 COMMON_DEPEND="
@@ -195,13 +195,19 @@ src_install() {
 	# Install startup/shutdown scripts.
 	dosbin chromeos_startup chromeos_shutdown
 
-	# Disable encrypted reobot vault if it is not used.
+	# Disable encrypted reboot vault if it is not used.
 	if ! use encrypted_reboot_vault; then
 		sed -i '/USE_ENCRYPTED_REBOOT_VAULT=/s:=1:=0:' \
 			"${D}/sbin/chromeos_startup" ||
 			die "Failed to replace USE_ENCRYPTED_REBOOT_VAULT in chromeos_startup"
 	fi
 
+	# Enable lvm stateful partition.
+	if use lvm_stateful_partition; then
+		sed -i '/USE_LVM_STATEFUL_PARTITION=/s:=0:=1:' \
+			"${D}/sbin/chromeos_startup" ||
+			die "Failed to replace USE_LVM_STATEFUL_PARTITION in chromeos_startup"
+	fi
 
 	dosbin "${OUT}"/clobber-state
 
@@ -214,6 +220,12 @@ src_install() {
 	insinto /usr/share/cros
 	doins $(usex encrypted_stateful encrypted_stateful \
 		unencrypted_stateful)/startup_utils.sh
+
+	# Install LVM conf files.
+	if use lvm_stateful_partition; then
+		insinto /etc/lvm
+		doins lvm.conf
+	fi
 }
 
 pkg_preinst() {
