@@ -40,13 +40,10 @@ src_configure() {
 		unset CC CXX LD STRIP OBJCOPY PKG_CONFIG
 
 		tc-export_build_env BUILD_{CC,CXX}
-		tc-export CC CXX LD STRIP OBJCOPY PKG_CONFIG
-		local binutils_path=$(LD=${CHOST}-ld get_binutils_path_ld)
 
-		export LD="${LD}"
-		export CC="${CC} -B${binutils_path}"
-		export CC_COMPAT="${CC_COMPAT}"
-		export CXX="${CXX} -B${binutils_path}"
+		export LD="${CHOST}-ld.lld"
+		export CC="${CHOST}-clang"
+		export CXX="${CHOST}-clang++"
 
 		econf_args+=" --with-static"
 		sysroot=""
