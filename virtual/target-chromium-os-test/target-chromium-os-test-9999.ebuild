@@ -237,6 +237,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	media-libs/libexif
 	media-libs/libvpx
 	media-libs/opencv
+	media-libs/openh264
 	!chromeless_tty? ( !chromeless_tests? ( media-gfx/deqp ) )
 	media-libs/tiff
 	opengles? ( media-libs/waffle )
