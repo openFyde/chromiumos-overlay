@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3b181578055aba5a5ebed4257a3e7efd0afd66e2"
+CROS_WORKON_COMMIT="e08b929c25644f067cf337557cc80a71967ef0e5"
 CROS_WORKON_TREE="5c78d0cd1f5089c2ff599af95dccc90a30c529c6"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBDIRS_TO_COPY="data_model"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Crates includes traits and types for safe interaction with raw memory."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/data_model"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/data_model"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -25,26 +25,3 @@ DEPEND="
 "
 
 RDEPEND="!!<=dev-rust/data_model-0.1.0-r13"
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/data_model"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
-
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
-}

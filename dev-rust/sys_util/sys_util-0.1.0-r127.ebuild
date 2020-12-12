@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3b181578055aba5a5ebed4257a3e7efd0afd66e2"
+CROS_WORKON_COMMIT="e08b929c25644f067cf337557cc80a71967ef0e5"
 CROS_WORKON_TREE="87a0b043cb476aba084bb1c5243935fb65d1d18f"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -52,8 +52,7 @@ src_test() {
 		skip_tests+=( --skip "guest_memory::tests" )
 	fi
 
-	# TODO(crbug.com/1154084) Run on the host until libtest and libstd are
-	# available on the target.
+	# TODO(crbug.com/1157570) Remove once syslog module works in sandbox.
 	CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
 	cros-rust_get_host_test_executables
 

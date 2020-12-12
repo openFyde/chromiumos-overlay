@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="22f808ff13e6f472c373382f45410f6dec300596"
+CROS_WORKON_COMMIT="e08b929c25644f067cf337557cc80a71967ef0e5"
 CROS_WORKON_TREE="c5170d4e4312bcef4a4e4e49403be6bc421c18aa"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="enumn"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Convert number to enum"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/enumn"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/enumn"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -26,11 +26,3 @@ DEPEND="
 "
 
 RDEPEND="!!<=dev-rust/enumn-0.0.1-r4"
-
-src_test() {
-	# TODO(crbug.com/1154084) Run on the host until libtest and libstd are
-	# available on the target.
-	cros-rust_get_host_test_executables
-
-	cros-rust_src_test
-}
