@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bf251a02550300da58fa447ad900a1b6901dfa1b"
-CROS_WORKON_TREE="69ab857bea0a395b5aa0e26aafa3eb0b2622897a"
+CROS_WORKON_COMMIT="e268b7302b25db746cbd20e88d82369c9781024a"
+CROS_WORKON_TREE="9227f474c0563377e4c762b3ea82b2ced3ffb30e"
 CROS_WORKON_PROJECT="chromiumos/platform/zephyr-chrome"
 CROS_WORKON_LOCALNAME="platform/zephyr-chrome"
 CROS_WORKON_SUBTREE="util"
@@ -24,12 +24,14 @@ IUSE=""
 
 BDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND="
+	dev-embedded/binman
 	dev-python/colorama[${PYTHON_USEDEP}]
 	dev-python/docopt[${PYTHON_USEDEP}]
 	dev-python/jsonschema[${PYTHON_USEDEP}]
 	dev-python/pykwalify[${PYTHON_USEDEP}]
 	dev-python/pyyaml[${PYTHON_USEDEP}]
 	dev-util/ninja
+	sys-apps/dtc
 "
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
