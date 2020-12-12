@@ -62,11 +62,7 @@ src_configure() {
 		pushd work32 >/dev/null
 		use cros_host && append-flags "-m32"
 		use_i686 && push_i686_env
-		# Can be dropped once this is merged upstream:
-		# https://breakpad.appspot.com/619002/
-		append-lfs-flags # crbug.com/266064
 		ECONF_SOURCE=${S} multijob_child_init econf
-		filter-lfs-flags
 		use_i686 && pop_i686_env
 		use cros_host && filter-flags "-m32"
 		popd >/dev/null
@@ -79,11 +75,7 @@ src_configure() {
 		mkdir work64
 		pushd work64 >/dev/null
 		use_arm64 && push_arm64_env
-		# Can be dropped once this is merged upstream:
-		# https://breakpad.appspot.com/619002/
-		append-lfs-flags # crbug.com/266064
 		ECONF_SOURCE=${S} multijob_child_init econf
-		filter-lfs-flags
 		use_arm64 && pop_arm64_env
 		popd >/dev/null
 	fi
