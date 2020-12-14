@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4170561bec558116fe6f6238606d27a8369180a5"
+CROS_WORKON_COMMIT="3b6509662df140ad1f2f479d046ad822b2151c72"
 CROS_WORKON_TREE=("c9de2eb52379383658eaf7cbc29fdb5d8d32eb98" "c71eae0e49b06e2c9d98a41db13d8318465b7cf9" "8b709631d01f33411578061c0dd8bc0a0b243694" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,7 @@ PLATFORM_SUBDIR="crash-reporter"
 inherit cros-arm64 cros-i686 cros-workon platform systemd udev user
 
 DESCRIPTION="Crash reporting service that uploads crash reports with debug information"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crash-reporter/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crash-reporter/"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
