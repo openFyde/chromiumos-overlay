@@ -29,3 +29,9 @@ DEPEND="${RDEPEND}
 	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
 "
+
+# We skip the vsock test because it requires the vsock kernel modules to be
+# loaded.
+src_test() {
+	cros-rust_src_test -- --skip transport::tests::vsocktransport
+}

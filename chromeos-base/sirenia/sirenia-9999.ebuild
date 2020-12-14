@@ -30,12 +30,6 @@ DEPEND="${RDEPEND}
 	chromeos-base/libsirenia:=
 "
 
-# We skip the vsock test because it requires the vsock kernel modules to be
-# loaded.
-src_test() {
-	cros-rust_src_test -- --skip transport::tests::vsocktransport
-}
-
 src_install() {
 	local build_dir="$(cros-rust_get_build_dir)"
 	dobin "${build_dir}/dugong"
