@@ -19,17 +19,18 @@ DESCRIPTION="Intel IPU6 (Image Processing Unit) Chrome OS camera HAL"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="ipu6se"
+IUSE="ipu6se ipu6ep"
 
 RDEPEND="
 	chromeos-base/chromeos-config-tools
 	chromeos-base/metrics
 	dev-libs/expat
-	!ipu6se? ( media-libs/intel-ipu6-libs-bin )
+	!ipu6se? ( !ipu6ep? ( media-libs/intel-ipu6-libs-bin ) )
 	ipu6se? (
 		media-libs/intel-ipu6se-libs-bin
 		x11-libs/libva-intel-media-driver
 	)
+	ipu6ep? ( media-libs/intel-ipu6ep-libs-bin )
 	!media-libs/cros-camera-hal-intel-ipu6-squash
 	media-libs/cros-camera-libcamera_client
 	media-libs/cros-camera-libcamera_common
