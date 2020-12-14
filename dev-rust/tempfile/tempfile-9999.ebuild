@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="tempfile"
 inherit cros-workon cros-rust
 
 DESCRIPTION="A library for managing temporary files and directories"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/tempfile"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/tempfile"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -27,26 +27,3 @@ DEPEND="
 "
 
 RDEPEND="!!<=dev-rust/tempfile-3.0.7-r2"
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/tempfile"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
-
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
-}

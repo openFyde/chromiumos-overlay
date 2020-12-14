@@ -3,15 +3,17 @@
 
 EAPI=7
 
+CROS_RUST_SUBDIR="vm_tools/p9"
+
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="vm_tools/p9"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 inherit cros-fuzzer cros-workon cros-rust
 
 DESCRIPTION="Server implementation of the 9P file system protocol"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/p9/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools/p9/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -38,13 +40,6 @@ pkg_setup() {
 	cros-rust_pkg_setup p9
 }
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/vm_tools/p9"
-
-	cros-rust_src_unpack
-}
-
 src_compile() {
 	pushd wire_format_derive > /dev/null || die
 	ecargo_build
@@ -61,11 +56,12 @@ src_compile() {
 }
 
 src_test() {
-	if ! use x86 && ! use amd64 ; then
-		elog "Skipping unit tests on non-x86 platform"
-	else
-		ecargo_test
-	fi
+	(
+		cd wire_format_derive || die
+		cros-rust_src_test
+	)
+
+	cros-rust_src_test
 }
 
 src_install() {
