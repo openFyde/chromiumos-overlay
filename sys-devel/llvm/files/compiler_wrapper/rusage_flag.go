@@ -5,16 +5,16 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 	"syscall"
 	"time"
 )
 
 func getRusageLogFilename(env env) string {
-	value, _ := env.getenv("GETRUSAGE")
+	value, _ := env.getenv("TOOLCHAIN_RUSAGE_OUTPUT")
 	return value
 }
 
@@ -38,6 +38,16 @@ func lockFileExclusive(fd uintptr) error {
 	return fmt.Errorf("locking file failed after %d tries", maxTries)
 }
 
+type rusageLog struct {
+	ExitCode        int      `json:"exit_code"`
+	ElapsedRealTime float64  `json:"elapsed_real_time"`
+	ElapsedUserTime float64  `json:"elapsed_user_time"`
+	ElapsedSysTime  float64  `json:"elapsed_sys_time"`
+	MaxMemUsed      int64    `json:"max_mem_used"`
+	Compiler        string   `json:"compiler"`
+	CompilerArgs    []string `json:"compiler_args"`
+}
+
 func logRusage(env env, logFileName string, compilerCmd *command) (exitCode int, err error) {
 	rusageBefore := syscall.Rusage{}
 	if err := syscall.Getrusage(syscall.RUSAGE_CHILDREN, &rusageBefore); err != nil {
@@ -46,7 +56,7 @@ func logRusage(env env, logFileName string, compilerCmd *command) (exitCode int,
 	compilerCmdWithoutRusage := &command{
 		Path:       compilerCmd.Path,
 		Args:       compilerCmd.Args,
-		EnvUpdates: append(compilerCmd.EnvUpdates, "GETRUSAGE="),
+		EnvUpdates: append(compilerCmd.EnvUpdates, "TOOLCHAIN_RUSAGE_OUTPUT="),
 	}
 	startTime := time.Now()
 	exitCode, err = wrapSubprocessErrorWithSourceLoc(compilerCmdWithoutRusage,
@@ -66,15 +76,26 @@ func logRusage(env env, logFileName string, compilerCmd *command) (exitCode int,
 	maxMemUsed := rusageAfter.Maxrss
 	absCompilerPath := getAbsCmdPath(env, compilerCmd)
 
+	// We need to temporarily set umask to 0 to ensure 777 permissions are actually 777
+	// This effects builderbots in particular
+	oldMask := syscall.Umask(0)
+	defer syscall.Umask(oldMask)
+
 	if err := os.MkdirAll(filepath.Dir(logFileName), 0777); err != nil {
 		return 0, wrapErrorwithSourceLocf(err, "error creating rusage log directory %s", logFileName)
 	}
 
 	timeUnit := float64(time.Second)
-	data := fmt.Sprintf("%.5f : %.5f : %.5f : %d : %s : %s\n",
-		float64(elapsedRealTime)/timeUnit, float64(elapsedUserTime)/timeUnit, float64(elapsedSysTime)/timeUnit,
-		maxMemUsed, absCompilerPath,
-		strings.Join(append([]string{filepath.Base(absCompilerPath)}, compilerCmd.Args...), " "))
+
+	logEntry := rusageLog{
+		ExitCode:        exitCode,
+		ElapsedRealTime: float64(elapsedRealTime) / timeUnit,
+		ElapsedUserTime: float64(elapsedUserTime) / timeUnit,
+		ElapsedSysTime:  float64(elapsedSysTime) / timeUnit,
+		MaxMemUsed:      maxMemUsed,
+		Compiler:        absCompilerPath,
+		CompilerArgs:    compilerCmd.Args,
+	}
 
 	// Note: using file mode 0666 so that a root-created log is writable by others.
 	logFile, err := os.OpenFile(logFileName, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
@@ -91,7 +112,11 @@ func logRusage(env env, logFileName string, compilerCmd *command) (exitCode int,
 		return 0, wrapErrorwithSourceLocf(err, "locking rusage logfile %s: %v", logFileName, err)
 	}
 
-	_, err = logFile.WriteString(data)
+	if err := json.NewEncoder(logFile).Encode(logEntry); err != nil {
+		_ = logFile.Close()
+		return 0, wrapErrorwithSourceLocf(err, "converting rusage logfile entry to JSON %v", logEntry)
+	}
+
 	closeErr := logFile.Close()
 	if err != nil {
 		return 0, wrapErrorwithSourceLocf(err, "writing to rusage logfile %s: %v", logFileName, err)
