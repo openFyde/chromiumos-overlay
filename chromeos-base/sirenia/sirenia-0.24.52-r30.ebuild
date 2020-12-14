@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5106cfd0d4eeae62b70cad2fe296f27f7e172e72"
+CROS_WORKON_COMMIT="d3b80405edec33a6c08a9191c6336597064fd479"
 CROS_WORKON_TREE="8e0d5ed0ca2d33c0fe3e933586f74d4e1b94a433"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,12 +31,6 @@ DEPEND="${RDEPEND}
 	dev-rust/sys_util:=
 	chromeos-base/libsirenia:=
 "
-
-# We skip the vsock test because it requires the vsock kernel modules to be
-# loaded.
-src_test() {
-	cros-rust_src_test -- --skip transport::tests::vsocktransport
-}
 
 src_install() {
 	local build_dir="$(cros-rust_get_build_dir)"

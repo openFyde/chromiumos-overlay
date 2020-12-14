@@ -159,6 +159,9 @@ src_install() {
 	# Install upstart script for automatic firmware update on device plug-in.
 	doins "${FILESDIR}"/fwupdtool-update.conf
 
+	exeinto /usr/share/cros/init
+	doexe "${FILESDIR}"/fwupd-at-boot.sh
+
 	if ! use minimal ; then
 		sed "s@%SEAT_MANAGER%@$(usex elogind elogind consolekit)@" \
 			"${FILESDIR}"/${PN}-r1 \
