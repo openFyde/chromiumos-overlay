@@ -2,14 +2,17 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
+CROS_RUST_SUBDIR="vm_tools/chunnel"
+
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE="vm_tools/chunnel"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 inherit cros-workon cros-rust user
 
 DESCRIPTION="Tunnel between localhost in different netns"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/chunnel"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools/chunnel"
 
 LICENSE="BSD-Google"
 SLOT="0/0"
@@ -31,27 +34,13 @@ DEPEND="
 	sys-apps/dbus:=
 "
 
-src_unpack() {
-	# Unpack both the project and dependency source code.
-	cros-workon_src_unpack
-
-	# The compilation happens in the vm_tools/chunnel subdirectory.
-	S+="/vm_tools/chunnel"
-
-	cros-rust_src_unpack
-}
-
 src_compile() {
 	ecargo_build
-	use test && ecargo_test --no-run
+	use test && ecargo_test --no-run --workspace
 }
 
 src_test() {
-	if ! use x86 && ! use amd64 ; then
-		elog "Skipping unit tests on non-x86 platform"
-	else
-		ecargo_test --all
-	fi
+	cros-rust_src_test --workspace
 }
 
 src_install() {

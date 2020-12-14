@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -34,26 +35,6 @@ DEPEND="
 	dev-rust/sys_util:=
 	>=dev-rust/tiny_http-0.7:= <dev-rust/tiny_http-0.8
 "
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/ippusb_bridge"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	ecargo_build
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)"/ippusb_bridge

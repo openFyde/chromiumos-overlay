@@ -2,9 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
+CROS_RUST_SUBDIR="metrics/memd"
+
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE="metrics/memd"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} common-mk"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 
@@ -32,29 +35,6 @@ DEPEND="chromeos-base/system_api:=
 	~dev-rust/time-0.1.40:=
 	=dev-rust/tempfile-3*:=
 	"
-
-src_unpack() {
-	# Unpack both the project and dependency source code.
-	cros-workon_src_unpack
-
-	# The compilation happens in the memd subdirectory.
-	S+="/metrics/memd"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	ecargo_build
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if ! use x86 && ! use amd64 ; then
-		elog "Skipping unit tests on non-x86 platform"
-	else
-		ecargo_test --all || die "memd test failed"
-	fi
-}
 
 src_install() {
 	# cargo doesn't know how to install cross-compiled binaries.  It will
