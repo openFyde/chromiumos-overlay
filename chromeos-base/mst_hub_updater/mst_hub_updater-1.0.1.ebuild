@@ -14,6 +14,8 @@ S="${WORKDIR}/RTIspSourceCodeLinux_V${PV}"
 
 MST_TOOL_INSTALL_PATH="/opt/google/display/mst_hub/tools"
 
+PATCHES=( "${FILESDIR}/001-makefile-clang.patch" )
+
 src_configure() {
 	cros_enable_cxx_exceptions
 }
