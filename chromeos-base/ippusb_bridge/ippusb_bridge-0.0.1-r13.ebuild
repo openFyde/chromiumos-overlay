@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8a4bfd69631171f4a4a95249d02c91b1493f46b9"
+
+CROS_WORKON_COMMIT="178d940c8fa20666117208b3a6e40ed28579f122"
 CROS_WORKON_TREE="47e1af9ab53267f4ae483933f7acd7f1f0c30a53"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,26 +37,6 @@ DEPEND="
 	dev-rust/sys_util:=
 	>=dev-rust/tiny_http-0.7:= <dev-rust/tiny_http-0.8
 "
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/ippusb_bridge"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	ecargo_build
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)"/ippusb_bridge
