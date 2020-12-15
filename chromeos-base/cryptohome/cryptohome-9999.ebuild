@@ -25,7 +25,7 @@ KEYWORDS="~*"
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption double_extend_pcr_issue fuzzer
 	generated_cros_config mount_oop +vault_legacy_mount +downloads_bind_mount
-	pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
+	lvm_stateful_partition pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
 	user_session_isolation"
 
 REQUIRED_USE="
@@ -63,6 +63,7 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 	sys-apps/flashmap:=
 	sys-apps/keyutils:=
+	sys-apps/rootdev:=
 	sys-fs/e2fsprogs:=
 	sys-fs/ecryptfs-utils:=
 	sys-fs/lvm2:=
