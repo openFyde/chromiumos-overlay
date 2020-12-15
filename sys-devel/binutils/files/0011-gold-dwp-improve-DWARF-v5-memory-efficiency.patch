@@ -1,12 +1,25 @@
+From 97939ea9b2ae102c9ad650bd43449ba7e2b0c7ac Mon Sep 17 00:00:00 2001
+From: Caroline Tice <cmtice@google.com>
+Date: Fri, 20 Nov 2020 11:05:19 -0800
+Subject: [PATCH 11/13] gold: dwp: improve DWARF v5 memory efficiency
+
 Apply basic patch by David Blaikie to update gold dwp tool to handle
 DWARF v5. This is the second of three patches for DWARF v5.
 
-This has some memory efficiency improvements.
-
 This patch created for Chrome OS by Caroline Tice.
 Date: 20-Nov-2020
+[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: regenerated as proper git format-patch.]
+
+Change-Id: I1f6fb66478d8e9eb9848e9628e2d2976b8d5be1d
+---
+ gold/dwp.cc        | 54 +++++++++++++++++++++++++++++++++-------------
+ gold/stringpool.cc | 32 +++++++++++++++++++++++++++
+ gold/stringpool.h  |  6 ++++++
+ 3 files changed, 77 insertions(+), 15 deletions(-)
+
 diff --git a/gold/dwp.cc b/gold/dwp.cc
-index 5501985c..60de58bc 100644
+index 29aa57c4308..2beaa51879f 100644
 --- a/gold/dwp.cc
 +++ b/gold/dwp.cc
 @@ -32,7 +32,7 @@
@@ -98,7 +111,7 @@ index 5501985c..60de58bc 100644
      gold_fatal(_("%s: error writing section '%s'"), this->name_, section_name);
    this->next_file_offset_ = file_offset + len;
  }
-@@ -2680,14 +2693,25 @@ main(int argc, char** argv)
+@@ -2676,14 +2689,25 @@ main(int argc, char** argv)
  
    // Process each file, adding its contents to the output file.
    Dwp_output_file output_file(output_filename.c_str());
@@ -126,25 +139,8 @@ index 5501985c..60de58bc 100644
 +
    return EXIT_SUCCESS;
  }
-diff --git a/gold/stringpool.h b/gold/stringpool.h
-index b7ac54f5..3288772a 100644
---- a/gold/stringpool.h
-+++ b/gold/stringpool.h
-@@ -285,6 +285,12 @@ class Stringpool_template
-   void
-   write_to_buffer(unsigned char* buffer, section_size_type buffer_size);
- 
-+  // Write the string table into the specified file at the specified
-+  // offset.
-+  void
-+  write_to_file(FILE *fd, off_t file_offset, const char *name,
-+		const char *section_name);
-+
-   // Dump statistical information to stderr.
-   void
-   print_stats(const char*) const;
 diff --git a/gold/stringpool.cc b/gold/stringpool.cc
-index 8d438a4e..b8565c0b 100644
+index 8918f6f054f..406733cd99b 100644
 --- a/gold/stringpool.cc
 +++ b/gold/stringpool.cc
 @@ -491,6 +491,38 @@ Stringpool_template<Stringpool_char>::write_to_buffer(
@@ -186,3 +182,23 @@ index 8d438a4e..b8565c0b 100644
  // Write the ELF strtab into the output file at the specified offset.
  
  template<typename Stringpool_char>
+diff --git a/gold/stringpool.h b/gold/stringpool.h
+index 9217b17910f..f4d0030758e 100644
+--- a/gold/stringpool.h
++++ b/gold/stringpool.h
+@@ -285,6 +285,12 @@ class Stringpool_template
+   void
+   write_to_buffer(unsigned char* buffer, section_size_type buffer_size);
+ 
++  // Write the string table into the specified file at the specified
++  // offset.
++  void
++  write_to_file(FILE *fd, off_t file_offset, const char *name,
++		const char *section_name);
++
+   // Dump statistical information to stderr.
+   void
+   print_stats(const char*) const;
+-- 
+2.30.0
+

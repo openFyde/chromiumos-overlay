@@ -1,3 +1,8 @@
+From 131ab45a266a71d0cd4c4e124a891949c885e9f2 Mon Sep 17 00:00:00 2001
+From: Caroline Tice <cmtice@google.com>
+Date: Fri, 18 Dec 2020 00:59:16 -0800
+Subject: [PATCH 13/13] gold: dwp: implement read DW_FORM_strx and co
+
 Apply additional patch by David Blaikie to update the gold dwp tool
 to handle DWARF v5.  This patch teaches dwp to read DW_FORM_strx (and
 its variations), so it can read and use the str_offsets_base value to
@@ -8,11 +13,21 @@ read the .dwo file names out of the compilation unit DIEs.
 
 This patch created for Chrome OS by Caroline Tice.
 Date: 17-Dec-2020
+[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: regenerated as proper git format-patch.]
+
+Change-Id: I3bf5924bcd650123914297443323a9eb140f9272
+---
+ elfcpp/elfcpp_swap.h |  47 ++++++++++++++++++
+ gold/dwarf_reader.cc | 115 ++++++++++++++++++++++++++++++++++++++++++-
+ gold/dwarf_reader.h  |  53 ++++++++++++++++++--
+ 3 files changed, 211 insertions(+), 4 deletions(-)
+
 diff --git a/elfcpp/elfcpp_swap.h b/elfcpp/elfcpp_swap.h
-index 8906029f..898e4852 100644
+index 61b3ba57520..f67f4735780 100644
 --- a/elfcpp/elfcpp_swap.h
 +++ b/elfcpp/elfcpp_swap.h
-@@ -125,6 +125,13 @@ struct Valtype_base<16>
+@@ -131,6 +131,13 @@ struct Valtype_base<16>
    typedef int16_t Signed_valtype;
  };
  
@@ -26,7 +41,7 @@ index 8906029f..898e4852 100644
  template<>
  struct Valtype_base<32>
  {
-@@ -324,6 +331,46 @@ struct Swap_unaligned<16, true>
+@@ -330,6 +337,46 @@ struct Swap_unaligned<16, true>
    }
  };
  
@@ -73,8 +88,228 @@ index 8906029f..898e4852 100644
  template<>
  struct Swap_unaligned<32, false>
  {
+diff --git a/gold/dwarf_reader.cc b/gold/dwarf_reader.cc
+index 56e0ad0895c..6e5fa3df268 100644
+--- a/gold/dwarf_reader.cc
++++ b/gold/dwarf_reader.cc
+@@ -33,6 +33,7 @@
+ #include "dwarf_reader.h"
+ #include "int_encoding.h"
+ #include "compressed_output.h"
++#include "../elfcpp/dwarf.h"
+ 
+ namespace gold {
+ 
+@@ -651,7 +652,7 @@ Dwarf_die::Dwarf_die(
+     child_offset_(0), sibling_offset_(0), abbrev_code_(NULL), attributes_(),
+     attributes_read_(false), name_(NULL), name_off_(-1), linkage_name_(NULL),
+     linkage_name_off_(-1), string_shndx_(0), specification_(0),
+-    abstract_origin_(0)
++    abstract_origin_(0), string_offsets_base_(0)
+ {
+   size_t len;
+   const unsigned char* pdie = dwinfo->buffer_at_offset(die_offset);
+@@ -789,6 +790,8 @@ Dwarf_die::read_attributes()
+ 	    break;
+ 	  case elfcpp::DW_FORM_data1:
+ 	  case elfcpp::DW_FORM_flag:
++	  case elfcpp::DW_FORM_strx1:
++	  case elfcpp::DW_FORM_addrx1:
+ 	    attr_value.val.intval = *pattr++;
+ 	    break;
+ 	  case elfcpp::DW_FORM_ref1:
+@@ -796,6 +799,8 @@ Dwarf_die::read_attributes()
+ 	    ref_form = true;
+ 	    break;
+ 	  case elfcpp::DW_FORM_data2:
++	  case elfcpp::DW_FORM_strx2:
++	  case elfcpp::DW_FORM_addrx2:
+ 	    attr_value.val.intval =
+ 		this->dwinfo_->read_from_pointer<16>(&pattr);
+ 	    break;
+@@ -804,7 +809,22 @@ Dwarf_die::read_attributes()
+ 		this->dwinfo_->read_from_pointer<16>(&pattr);
+ 	    ref_form = true;
+ 	    break;
++	  case elfcpp::DW_FORM_strx3:
++	  case elfcpp::DW_FORM_addrx3:
++            {
++              //FIXME: Deal with endianness here - probably have to add
++              //functionality to Dwarf_info_reader to expose non-power-of-2
++              //endian-adjusting reading
++              //const unsigned char a = *pattr++, b = *pattr++, c = *pattr++;
++              // attr_value.val.intval = ...;
++              gold_assert(false);
++              attr_value.val.intval =
++                  this->dwinfo_->read_from_pointer<24>(&pattr);
++              break;
++            }
+ 	  case elfcpp::DW_FORM_data4:
++	  case elfcpp::DW_FORM_strx4:
++	  case elfcpp::DW_FORM_addrx4:
+ 	    {
+ 	      off_t sec_off;
+ 	      sec_off = this->dwinfo_->read_from_pointer<32>(&pattr);
+@@ -858,6 +878,9 @@ Dwarf_die::read_attributes()
+ 	  case elfcpp::DW_FORM_udata:
+ 	  case elfcpp::DW_FORM_GNU_addr_index:
+ 	  case elfcpp::DW_FORM_GNU_str_index:
++	  case elfcpp::DW_FORM_strx:
++	  case elfcpp::DW_FORM_addrx:
++	  case elfcpp::DW_FORM_rnglistx:
+ 	    attr_value.val.uintval = read_unsigned_LEB_128(pattr, &len);
+ 	    pattr += len;
+ 	    break;
+@@ -908,6 +931,10 @@ Dwarf_die::read_attributes()
+ 	    if (ref_form)
+ 	      this->abstract_origin_ = attr_value.val.refval;
+ 	    break;
++	  case elfcpp::DW_AT_str_offsets_base:
++	    if (ref_form)
++	      this->string_offsets_base_ = attr_value.val.refval;
++	    break;
+ 	  case elfcpp::DW_AT_sibling:
+ 	    if (ref_form && attr_value.aux.shndx == 0)
+ 	      this->sibling_offset_ = attr_value.val.refval;
+@@ -992,15 +1019,25 @@ Dwarf_die::skip_attributes()
+ 	    }
+ 	  case elfcpp::DW_FORM_data1:
+ 	  case elfcpp::DW_FORM_ref1:
++	  case elfcpp::DW_FORM_strx1:
++	  case elfcpp::DW_FORM_addrx1:
+ 	  case elfcpp::DW_FORM_flag:
+ 	    pattr += 1;
+ 	    break;
+ 	  case elfcpp::DW_FORM_data2:
+ 	  case elfcpp::DW_FORM_ref2:
++	  case elfcpp::DW_FORM_strx2:
++	  case elfcpp::DW_FORM_addrx2:
+ 	    pattr += 2;
+ 	    break;
++	  case elfcpp::DW_FORM_strx3:
++	  case elfcpp::DW_FORM_addrx3:
++            pattr += 3;
++            break;
+ 	  case elfcpp::DW_FORM_data4:
+ 	  case elfcpp::DW_FORM_ref4:
++	  case elfcpp::DW_FORM_strx4:
++	  case elfcpp::DW_FORM_addrx4:
+ 	    pattr += 4;
+ 	    break;
+ 	  case elfcpp::DW_FORM_data8:
+@@ -1012,6 +1049,8 @@ Dwarf_die::skip_attributes()
+ 	  case elfcpp::DW_FORM_udata:
+ 	  case elfcpp::DW_FORM_GNU_addr_index:
+ 	  case elfcpp::DW_FORM_GNU_str_index:
++	  case elfcpp::DW_FORM_strx:
++	  case elfcpp::DW_FORM_addrx:
+ 	    read_unsigned_LEB_128(pattr, &len);
+ 	    pattr += len;
+ 	    break;
+@@ -1078,6 +1117,16 @@ Dwarf_die::string_attribute(unsigned int attr)
+     return NULL;
+   switch (attr_val->form)
+     {
++      case elfcpp::DW_FORM_strx:
++      case elfcpp::DW_FORM_strx1:
++      case elfcpp::DW_FORM_strx2:
++      case elfcpp::DW_FORM_strx3:
++      case elfcpp::DW_FORM_strx4:
++        {
++          unsigned int index = attr_val->val.uintval;
++          off_t offset = this->dwinfo_->get_string_offset(index, 0);
++          return this->dwinfo_->get_string(offset, 0);
++        }
+       case elfcpp::DW_FORM_string:
+         return attr_val->val.stringval;
+       case elfcpp::DW_FORM_strp:
+@@ -1391,6 +1440,7 @@ Dwarf_info_reader::do_parse()
+ 			 NULL);
+       if (root_die.tag() != 0)
+ 	{
++          this->string_offsets_base_ = root_die.string_offsets_base();
+ 	  // Visit the CU or TU.
+ 	  if (this->is_type_unit_)
+ 	    this->visit_type_unit(section_offset + this->cu_offset_,
+@@ -1457,6 +1507,48 @@ Dwarf_info_reader::do_read_string_table(unsigned int string_shndx)
+   return true;
+ }
+ 
++
++// Read the string offsets table
++bool
++Dwarf_info_reader::do_read_string_offsets_table(unsigned int string_offsets_shndx)
++{
++  Relobj* object = this->object_;
++
++  if (string_offsets_shndx == 0)
++    {
++      for (unsigned int i = 1; i < this->object_->shnum(); ++i)
++	{
++	  std::string name = object->section_name(i);
++	  if (name == ".debug_str_offsets" || name == ".zdebug_str_offsets")
++	    {
++	      string_offsets_shndx = i;
++	      this->string_offsets_output_section_offset_ =
++		  object->output_section_offset(i);
++	      break;
++	    }
++	}
++      if (string_offsets_shndx == 0)
++	return false;
++    }
++
++  if (this->owns_string_offsets_buffer_ && this->string_offsets_buffer_ != NULL)
++    {
++      delete[] this->string_offsets_buffer_;
++      this->owns_string_offsets_buffer_ = false;
++    }
++
++  // Get the secton contents and decompress if necessary.
++  section_size_type buffer_size;
++  const unsigned char* buffer =
++      object->decompressed_section_contents(string_offsets_shndx,
++					    &buffer_size,
++					    &this->owns_string_offsets_buffer_);
++  this->string_offsets_buffer_ = buffer;
++  this->string_offsets_buffer_end_ = this->string_offsets_buffer_ + buffer_size;
++  this->string_offsets_shndx_ = string_offsets_shndx;
++  return true;
++}
++
+ // Read a possibly unaligned integer of SIZE.
+ template <int valsize>
+ inline typename elfcpp::Valtype_base<valsize>::Valtype
+@@ -1523,6 +1615,27 @@ Dwarf_info_reader::get_string(off_t str_off, unsigned int string_shndx)
+   return p;
+ }
+ 
++
++off_t //
++Dwarf_info_reader::get_string_offset(unsigned int index,
++    unsigned int string_offsets_shndx)
++{
++  if (!this->read_string_offsets_table(string_offsets_shndx))
++    return -1;
++
++  unsigned int offset_size = this->offset_size();
++
++  const unsigned char* offsets_start = this->string_offsets_buffer_ + this->string_offsets_base_;
++
++  if ((index + 1) * offset_size > (string_offsets_buffer_end_ - offsets_start))
++    return -1;
++
++  const unsigned char* offset = offsets_start + index * offset_size;
++
++  return offset_size == 4 ? this->read_from_pointer<32>(offset)
++                          : this->read_from_pointer<64>(offset);
++}
++
+ // The following are default, do-nothing, implementations of the
+ // hook methods normally provided by a derived class.  We provide
+ // default implementations rather than no implementation so that
 diff --git a/gold/dwarf_reader.h b/gold/dwarf_reader.h
-index 087b88aa..21c4a1dc 100644
+index 3a28974b882..904f32b08c4 100644
 --- a/gold/dwarf_reader.h
 +++ b/gold/dwarf_reader.h
 @@ -568,6 +568,15 @@ class Dwarf_die
@@ -139,7 +374,7 @@ index 087b88aa..21c4a1dc 100644
    // Return the size of a DWARF offset.
    unsigned int
    offset_size() const
-@@ -871,6 +890,22 @@ class Dwarf_info_reader
+@@ -878,6 +897,22 @@ class Dwarf_info_reader
    bool
    do_read_string_table(unsigned int string_shndx);
  
@@ -162,7 +397,7 @@ index 087b88aa..21c4a1dc 100644
    // True if this is a type unit; false for a compilation unit.
    bool is_type_unit_;
    // The object containing the .debug_info or .debug_types input section.
-@@ -889,6 +924,8 @@ class Dwarf_info_reader
+@@ -896,6 +931,8 @@ class Dwarf_info_reader
    unsigned int abbrev_shndx_;
    // Index of the .debug_str section.
    unsigned int string_shndx_;
@@ -171,7 +406,7 @@ index 087b88aa..21c4a1dc 100644
    // The buffer for the debug info.
    const unsigned char* buffer_;
    const unsigned char* buffer_end_;
-@@ -918,6 +955,16 @@ class Dwarf_info_reader
+@@ -925,6 +962,16 @@ class Dwarf_info_reader
    // from relocated data will be relative to the output section, and need
    // to be corrected before reading data from the input section.
    uint64_t string_output_section_offset_;
@@ -188,288 +423,6 @@ index 087b88aa..21c4a1dc 100644
  };
  
  // We can't do better than to keep the offsets in a sorted vector.
-diff --git a/gold/dwarf_reader.cc b/gold/dwarf_reader.cc
-index 74b886d0..c698e652 100644
---- a/gold/dwarf_reader.cc
-+++ b/gold/dwarf_reader.cc
-@@ -34,6 +34,7 @@
- #include "dwarf_reader.h"
- #include "int_encoding.h"
- #include "compressed_output.h"
-+#include "../elfcpp/dwarf.h"
- 
- namespace gold {
- 
-@@ -652,7 +653,7 @@ Dwarf_die::Dwarf_die(
-     child_offset_(0), sibling_offset_(0), abbrev_code_(NULL), attributes_(),
-     attributes_read_(false), name_(NULL), name_off_(-1), linkage_name_(NULL),
-     linkage_name_off_(-1), string_shndx_(0), specification_(0),
--    abstract_origin_(0)
-+    abstract_origin_(0), string_offsets_base_(0)
- {
-   size_t len;
-   const unsigned char* pdie = dwinfo->buffer_at_offset(die_offset);
-@@ -777,6 +778,8 @@ Dwarf_die::read_attributes()
- 	    break;
- 	  case elfcpp::DW_FORM_data1:
- 	  case elfcpp::DW_FORM_flag:
-+	  case elfcpp::DW_FORM_strx1:
-+	  case elfcpp::DW_FORM_addrx1:
- 	    attr_value.val.intval = *pattr++;
- 	    break;
- 	  case elfcpp::DW_FORM_ref1:
-@@ -784,6 +787,8 @@ Dwarf_die::read_attributes()
- 	    ref_form = true;
- 	    break;
- 	  case elfcpp::DW_FORM_data2:
-+	  case elfcpp::DW_FORM_strx2:
-+	  case elfcpp::DW_FORM_addrx2:
- 	    attr_value.val.intval =
- 		this->dwinfo_->read_from_pointer<16>(&pattr);
- 	    break;
-@@ -792,7 +797,22 @@ Dwarf_die::read_attributes()
- 		this->dwinfo_->read_from_pointer<16>(&pattr);
- 	    ref_form = true;
- 	    break;
-+	  case elfcpp::DW_FORM_strx3:
-+	  case elfcpp::DW_FORM_addrx3:
-+            {
-+              //FIXME: Deal with endianness here - probably have to add
-+              //functionality to Dwarf_info_reader to expose non-power-of-2
-+              //endian-adjusting reading
-+              //const unsigned char a = *pattr++, b = *pattr++, c = *pattr++;
-+              // attr_value.val.intval = ...;
-+              gold_assert(false);
-+              attr_value.val.intval =
-+                  this->dwinfo_->read_from_pointer<24>(&pattr);
-+              break;
-+            }
- 	  case elfcpp::DW_FORM_data4:
-+	  case elfcpp::DW_FORM_strx4:
-+	  case elfcpp::DW_FORM_addrx4:
- 	    {
- 	      off_t sec_off;
- 	      sec_off = this->dwinfo_->read_from_pointer<32>(&pattr);
-@@ -846,6 +866,9 @@ Dwarf_die::read_attributes()
- 	  case elfcpp::DW_FORM_udata:
- 	  case elfcpp::DW_FORM_GNU_addr_index:
- 	  case elfcpp::DW_FORM_GNU_str_index:
-+	  case elfcpp::DW_FORM_strx:
-+	  case elfcpp::DW_FORM_addrx:
-+	  case elfcpp::DW_FORM_rnglistx:
- 	    attr_value.val.uintval = read_unsigned_LEB_128(pattr, &len);
- 	    pattr += len;
- 	    break;
-@@ -903,6 +925,10 @@ Dwarf_die::read_attributes()
- 	    if (ref_form)
- 	      this->abstract_origin_ = attr_value.val.refval;
- 	    break;
-+	  case elfcpp::DW_AT_str_offsets_base:
-+	    if (ref_form)
-+	      this->string_offsets_base_ = attr_value.val.refval;
-+	    break;
- 	  case elfcpp::DW_AT_sibling:
- 	    if (ref_form && attr_value.aux.shndx == 0)
- 	      this->sibling_offset_ = attr_value.val.refval;
-@@ -985,15 +1011,25 @@ Dwarf_die::skip_attributes()
- 	    }
- 	  case elfcpp::DW_FORM_data1:
- 	  case elfcpp::DW_FORM_ref1:
-+	  case elfcpp::DW_FORM_strx1:
-+	  case elfcpp::DW_FORM_addrx1:
- 	  case elfcpp::DW_FORM_flag:
- 	    pattr += 1;
- 	    break;
- 	  case elfcpp::DW_FORM_data2:
- 	  case elfcpp::DW_FORM_ref2:
-+	  case elfcpp::DW_FORM_strx2:
-+	  case elfcpp::DW_FORM_addrx2:
- 	    pattr += 2;
- 	    break;
-+	  case elfcpp::DW_FORM_strx3:
-+	  case elfcpp::DW_FORM_addrx3:
-+            pattr += 3;
-+            break;
- 	  case elfcpp::DW_FORM_data4:
- 	  case elfcpp::DW_FORM_ref4:
-+	  case elfcpp::DW_FORM_strx4:
-+	  case elfcpp::DW_FORM_addrx4:
- 	    pattr += 4;
- 	    break;
- 	  case elfcpp::DW_FORM_data8:
-@@ -1005,6 +1041,8 @@ Dwarf_die::skip_attributes()
- 	  case elfcpp::DW_FORM_udata:
- 	  case elfcpp::DW_FORM_GNU_addr_index:
- 	  case elfcpp::DW_FORM_GNU_str_index:
-+	  case elfcpp::DW_FORM_strx:
-+	  case elfcpp::DW_FORM_addrx:
- 	    read_unsigned_LEB_128(pattr, &len);
- 	    pattr += len;
- 	    break;
-@@ -1071,6 +1109,16 @@ Dwarf_die::string_attribute(unsigned int attr)
-     return NULL;
-   switch (attr_val->form)
-     {
-+      case elfcpp::DW_FORM_strx:
-+      case elfcpp::DW_FORM_strx1:
-+      case elfcpp::DW_FORM_strx2:
-+      case elfcpp::DW_FORM_strx3:
-+      case elfcpp::DW_FORM_strx4:
-+        {
-+          unsigned int index = attr_val->val.uintval;
-+          off_t offset = this->dwinfo_->get_string_offset(index, 0);
-+          return this->dwinfo_->get_string(offset, 0);
-+        }
-       case elfcpp::DW_FORM_string:
-         return attr_val->val.stringval;
-       case elfcpp::DW_FORM_strp:
-@@ -1384,6 +1432,7 @@ Dwarf_info_reader::do_parse()
- 			 NULL);
-       if (root_die.tag() != 0)
- 	{
-+          this->string_offsets_base_ = root_die.string_offsets_base();
- 	  // Visit the CU or TU.
- 	  if (this->is_type_unit_)
- 	    this->visit_type_unit(section_offset + this->cu_offset_,
-@@ -1450,6 +1499,48 @@ Dwarf_info_reader::do_read_string_table(unsigned int string_shndx)
-   return true;
- }
- 
-+
-+// Read the string offsets table
-+bool
-+Dwarf_info_reader::do_read_string_offsets_table(unsigned int string_offsets_shndx)
-+{
-+  Relobj* object = this->object_;
-+
-+  if (string_offsets_shndx == 0)
-+    {
-+      for (unsigned int i = 1; i < this->object_->shnum(); ++i)
-+	{
-+	  std::string name = object->section_name(i);
-+	  if (name == ".debug_str_offsets" || name == ".zdebug_str_offsets")
-+	    {
-+	      string_offsets_shndx = i;
-+	      this->string_offsets_output_section_offset_ =
-+		  object->output_section_offset(i);
-+	      break;
-+	    }
-+	}
-+      if (string_offsets_shndx == 0)
-+	return false;
-+    }
-+
-+  if (this->owns_string_offsets_buffer_ && this->string_offsets_buffer_ != NULL)
-+    {
-+      delete[] this->string_offsets_buffer_;
-+      this->owns_string_offsets_buffer_ = false;
-+    }
-+
-+  // Get the secton contents and decompress if necessary.
-+  section_size_type buffer_size;
-+  const unsigned char* buffer =
-+      object->decompressed_section_contents(string_offsets_shndx,
-+					    &buffer_size,
-+					    &this->owns_string_offsets_buffer_);
-+  this->string_offsets_buffer_ = buffer;
-+  this->string_offsets_buffer_end_ = this->string_offsets_buffer_ + buffer_size;
-+  this->string_offsets_shndx_ = string_offsets_shndx;
-+  return true;
-+}
-+
- // Read a possibly unaligned integer of SIZE.
- template <int valsize>
- inline typename elfcpp::Valtype_base<valsize>::Valtype
-@@ -1516,6 +1607,27 @@ Dwarf_info_reader::get_string(off_t str_off, unsigned int string_shndx)
-   return p;
- }
- 
-+
-+off_t //
-+Dwarf_info_reader::get_string_offset(unsigned int index,
-+    unsigned int string_offsets_shndx)
-+{
-+  if (!this->read_string_offsets_table(string_offsets_shndx))
-+    return -1;
-+
-+  unsigned int offset_size = this->offset_size();
-+
-+  const unsigned char* offsets_start = this->string_offsets_buffer_ + this->string_offsets_base_;
-+
-+  if ((index + 1) * offset_size > (string_offsets_buffer_end_ - offsets_start))
-+    return -1;
-+
-+  const unsigned char* offset = offsets_start + index * offset_size;
-+
-+  return offset_size == 4 ? this->read_from_pointer<32>(offset)
-+                          : this->read_from_pointer<64>(offset);
-+}
-+
- // The following are default, do-nothing, implementations of the
- // hook methods normally provided by a derived class.  We provide
- // default implementations rather than no implementation so that
-diff --git a/include/dwarf2.def b/include/dwarf2.def
-index 69b3ba91..1e97e5b8 100644
---- a/include/dwarf2.def
-+++ b/include/dwarf2.def
-@@ -203,7 +203,24 @@ DW_FORM (DW_FORM_exprloc, 0x18)
- DW_FORM (DW_FORM_flag_present, 0x19)
- DW_FORM (DW_FORM_ref_sig8, 0x20)
- /* DWARF 5.  */
-+DW_FORM (DW_FORM_strx, 0x1a)
-+DW_FORM (DW_FORM_addrx, 0x1b)
-+DW_FORM (DW_FORM_ref_sup4, 0x1c)
-+DW_FORM (DW_FORM_strp_sup, 0x1d)
-+DW_FORM (DW_FORM_data16, 0x1e)
- DW_FORM (DW_FORM_line_strp, 0x1f)
-+DW_FORM (DW_FORM_implicit_const, 0x21)
-+DW_FORM (DW_FORM_loclistx, 0x22)
-+DW_FORM (DW_FORM_rnglistx, 0x23)
-+DW_FORM (DW_FORM_ref_sup8, 0x24)
-+DW_FORM (DW_FORM_strx1, 0x25)
-+DW_FORM (DW_FORM_strx2, 0x26)
-+DW_FORM (DW_FORM_strx3, 0x27)
-+DW_FORM (DW_FORM_strx4, 0x28)
-+DW_FORM (DW_FORM_addrx1, 0x29)
-+DW_FORM (DW_FORM_addrx2, 0x2a)
-+DW_FORM (DW_FORM_addrx3, 0x2b)
-+DW_FORM (DW_FORM_addrx4, 0x2c)
- /* Extensions for Fission.  See http://gcc.gnu.org/wiki/DebugFission.  */
- DW_FORM (DW_FORM_GNU_addr_index, 0x1f01)
- DW_FORM (DW_FORM_GNU_str_index, 0x1f02)
-@@ -311,8 +328,35 @@ DW_AT (DW_AT_const_expr, 0x6c)
- DW_AT (DW_AT_enum_class, 0x6d)
- DW_AT (DW_AT_linkage_name, 0x6e)
- /* DWARF 5.  */
-+DW_AT (DW_AT_string_length_bit_size, 0x6f)
-+DW_AT (DW_AT_string_length_byte_size, 0x70)
-+DW_AT (DW_AT_rank, 0x71)
-+DW_AT (DW_AT_str_offsets_base, 0x72)
-+DW_AT (DW_AT_addr_base, 0x73)
-+DW_AT (DW_AT_rnglists_base, 0x74)
- DW_AT (DW_AT_dwo_name, 0x76)
-+DW_AT (DW_AT_reference, 0x77)
-+DW_AT (DW_AT_rvalue_reference, 0x78)
-+DW_AT (DW_AT_macros, 0x79)
-+DW_AT (DW_AT_call_all_calls, 0x7a)
-+DW_AT (DW_AT_call_all_source_calls, 0x7b)
-+DW_AT (DW_AT_call_all_tail_calls, 0x7c)
-+DW_AT (DW_AT_call_return_pc, 0x7d)
-+DW_AT (DW_AT_call_value, 0x7e)
-+DW_AT (DW_AT_call_origin, 0x7f)
-+DW_AT (DW_AT_call_parameter, 0x80)
-+DW_AT (DW_AT_call_pc, 0x81)
-+DW_AT (DW_AT_call_tail_call, 0x82)
-+DW_AT (DW_AT_call_target, 0x83)
-+DW_AT (DW_AT_call_target_clobbered, 0x84)
-+DW_AT (DW_AT_call_data_location, 0x85)
-+DW_AT (DW_AT_call_data_value, 0x86)
- DW_AT (DW_AT_noreturn, 0x87)
-+DW_AT (DW_AT_alignment, 0x88)
-+DW_AT (DW_AT_export_symbols, 0x89)
-+DW_AT (DW_AT_deleted, 0x8a)
-+DW_AT (DW_AT_defaulted, 0x8b)
-+DW_AT (DW_AT_loclists_base, 0x8c)
- 
- DW_AT_DUP (DW_AT_lo_user, 0x2000) /* Implementation-defined range start.  */
- DW_AT_DUP (DW_AT_hi_user, 0x3fff) /* Implementation-defined range end.  */
+-- 
+2.30.0
+

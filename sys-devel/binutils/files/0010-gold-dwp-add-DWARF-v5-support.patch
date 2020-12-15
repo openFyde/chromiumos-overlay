@@ -1,3 +1,8 @@
+From 5d3fad2f5884f86af69b5fc1d83bdff8ae62aca7 Mon Sep 17 00:00:00 2001
+From: Caroline Tice <cmtice@google.com>
+Date: Fri, 20 Nov 2020 11:05:19 -0800
+Subject: [PATCH 10/13] gold: dwp: add DWARF v5 support
+
 Apply basic patch by David Blaikie to update gold dwp tool to handle
 DWARF v5. This is the first of three patches for DWARF v5.
 
@@ -5,8 +10,243 @@ This does the main work of updating dwp to handle DWARF v5.
 
 This patch created for Chrome OS by Caroline Tice.
 Date: 19-Nov-2020
+[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: regenerated as proper git format-patch.]
+
+Change-Id: I6e12e87747d0a005d8897eefd9639b50265e12d2
+---
+ binutils/dwarf.c     |  14 +-
+ elfcpp/dwarf.h       |  26 ++-
+ gold/dwarf_reader.cc |  52 ++++--
+ gold/dwarf_reader.h  |   7 +-
+ gold/dwp.cc          | 422 +++++++++++++++++++++++++++++++++----------
+ gold/gdb-index.cc    |   4 +-
+ include/dwarf2.h     |  13 +-
+ 7 files changed, 413 insertions(+), 125 deletions(-)
+
+diff --git a/binutils/dwarf.c b/binutils/dwarf.c
+index f39aa3d3ba5..b33bd532bdb 100644
+--- a/binutils/dwarf.c
++++ b/binutils/dwarf.c
+@@ -1723,7 +1723,7 @@ find_cu_tu_set_v2 (dwarf_vma cu_offset, int do_types)
+     {
+       p = tu_sets;
+       nsets = tu_count;
+-      dw_sect = DW_SECT_TYPES;
++      dw_sect = LEGACY_DW_SECT_TYPES;
+     }
+   else
+     {
+@@ -2568,7 +2568,7 @@ read_and_display_attr_value (unsigned long           attribute,
+ 		  debug_info_p->max_loc_offsets = lmax;
+ 		}
+ 	      if (this_set != NULL)
+-		uvalue += this_set->section_offsets [DW_SECT_LOC];
++		uvalue += this_set->section_offsets [LEGACY_DW_SECT_LOC];
+ 	      debug_info_p->have_frame_base [num] = have_frame_base;
+ 	      if (attribute != DW_AT_GNU_locviews)
+ 		{
+@@ -3440,8 +3440,8 @@ process_debug_info (struct dwarf_section *           section,
+ 		      dwarf_vmatoa ("x", offsets [DW_SECT_LINE]),
+ 		      dwarf_vmatoa ("x", sizes [DW_SECT_LINE]));
+ 	      printf (_("    .debug_loc.dwo:          0x%s  0x%s\n"),
+-		      dwarf_vmatoa ("x", offsets [DW_SECT_LOC]),
+-		      dwarf_vmatoa ("x", sizes [DW_SECT_LOC]));
++		      dwarf_vmatoa ("x", offsets [LEGACY_DW_SECT_LOC]),
++		      dwarf_vmatoa ("x", sizes [LEGACY_DW_SECT_LOC]));
+ 	      printf (_("    .debug_str_offsets.dwo:  0x%s  0x%s\n"),
+ 		      dwarf_vmatoa ("x", offsets [DW_SECT_STR_OFFSETS]),
+ 		      dwarf_vmatoa ("x", sizes [DW_SECT_STR_OFFSETS]));
+@@ -9866,17 +9866,17 @@ get_DW_SECT_short_name (unsigned int dw_sect)
+     {
+       case DW_SECT_INFO:
+ 	return "info";
+-      case DW_SECT_TYPES:
++      case LEGACY_DW_SECT_TYPES:
+ 	return "types";
+       case DW_SECT_ABBREV:
+ 	return "abbrev";
+       case DW_SECT_LINE:
+ 	return "line";
+-      case DW_SECT_LOC:
++      case LEGACY_DW_SECT_LOC:
+ 	return "loc";
+       case DW_SECT_STR_OFFSETS:
+ 	return "str_off";
+-      case DW_SECT_MACINFO:
++      case LEGACY_DW_SECT_MACINFO:
+ 	return "macinfo";
+       case DW_SECT_MACRO:
+ 	return "macro";
+diff --git a/elfcpp/dwarf.h b/elfcpp/dwarf.h
+index 1221f37f8a6..ba669b647af 100644
+--- a/elfcpp/dwarf.h
++++ b/elfcpp/dwarf.h
+@@ -117,6 +117,19 @@ namespace elfcpp
+ #undef DW_IDX_DUP
+ #undef DW_END_IDX
+ 
++/* Unit types in unit_type unit header field.  */
++enum dwarf_unit_type
++  {
++    DW_UT_compile = 0x01,
++    DW_UT_type = 0x02,
++    DW_UT_partial = 0x03,
++    DW_UT_skeleton = 0x04,
++    DW_UT_split_compile = 0x05,
++    DW_UT_split_type = 0x06,
++    DW_UT_lo_user = 0x80,
++    DW_UT_hi_user = 0xff
++  };
++
+ // Frame unwind information.
+ 
+ enum DW_EH_PE
+@@ -244,14 +257,17 @@ enum DW_LANG
+ enum DW_SECT
+ {
+   DW_SECT_INFO = 1,
+-  DW_SECT_TYPES = 2,
++  DW_SECT_TYPES = 2, // removed in v5
+   DW_SECT_ABBREV = 3,
+   DW_SECT_LINE = 4,
+-  DW_SECT_LOC = 5,
++  DW_SECT_LOCLISTS = 5, // was LOC pre-v5
+   DW_SECT_STR_OFFSETS = 6,
+-  DW_SECT_MACINFO = 7,
+-  DW_SECT_MACRO = 8,
+-  DW_SECT_MAX = DW_SECT_MACRO,
++  DW_SECT_MACRO = 7, // was MACINFO pre-v5
++  DW_SECT_RNGLISTS = 8,  // was MACRO pre-v5
++  LEGACY_DW_SECT_TYPES = 20,
++  LEGACY_DW_SECT_LOC = 21,
++  LEGACY_DW_SECT_MACINFO = 22,
++  DW_SECT_MAX = LEGACY_DW_SECT_MACINFO
+ };
+ 
+ } // End namespace elfcpp.
+diff --git a/gold/dwarf_reader.cc b/gold/dwarf_reader.cc
+index ac9fbad5482..56e0ad0895c 100644
+--- a/gold/dwarf_reader.cc
++++ b/gold/dwarf_reader.cc
+@@ -1313,6 +1313,21 @@ Dwarf_info_reader::do_parse()
+ 	  elfcpp::Swap_unaligned<16, big_endian>::readval(pinfo);
+       pinfo += 2;
+ 
++      unsigned char unit_type;
++      if (this->cu_version_ >= 5)
++	{
++	  // Read unit type (1 byte).
++	  unit_type = elfcpp::Swap_unaligned<8, big_endian>::readval(pinfo);
++	  pinfo += 1;
++
++	  // unit_type should be either DW_UT_split_compile or DW_UT_split_type
++	  this->is_type_unit_ = unit_type == elfcpp::DW_UT_split_type;
++
++	  // Read address_size (1 byte).
++	  this->address_size_ = *pinfo++;
++	}
++
++      // For type units, read the two extra fields.
+       // Read debug_abbrev_offset (4 or 8 bytes).
+       if (this->offset_size_ == 4)
+ 	abbrev_offset = elfcpp::Swap_unaligned<32, big_endian>::readval(pinfo);
+@@ -1333,29 +1348,37 @@ Dwarf_info_reader::do_parse()
+ 	}
+       pinfo += this->offset_size_;
+ 
+-      // Read address_size (1 byte).
+-      this->address_size_ = *pinfo++;
++      if (this->cu_version_ < 5)
++	{
++	  // Read address_size (1 byte).
++	  this->address_size_ = *pinfo++;
++	}
+ 
+       // For type units, read the two extra fields.
+       uint64_t signature = 0;
+       off_t type_offset = 0;
+-      if (this->is_type_unit_)
++      if (this->is_type_unit_ || this->cu_version_ >= 5)
+         {
+-	  if (!this->check_buffer(pinfo + 8 + this->offset_size_))
++	  if (!this->check_buffer(pinfo + 8))
+ 	    break;
+ 
+ 	  // Read type_signature (8 bytes).
+ 	  signature = elfcpp::Swap_unaligned<64, big_endian>::readval(pinfo);
+ 	  pinfo += 8;
+ 
+-	  // Read type_offset (4 or 8 bytes).
+-	  if (this->offset_size_ == 4)
+-	    type_offset =
+-		elfcpp::Swap_unaligned<32, big_endian>::readval(pinfo);
+-	  else
+-	    type_offset =
+-		elfcpp::Swap_unaligned<64, big_endian>::readval(pinfo);
+-	  pinfo += this->offset_size_;
++	  if (this->is_type_unit_)
++	    {
++	      if (!this->check_buffer(pinfo + this->offset_size_))
++		break;
++	      // Read type_offset (4 or 8 bytes).
++	      if (this->offset_size_ == 4)
++		type_offset
++		  = elfcpp::Swap_unaligned<32, big_endian>::readval(pinfo);
++	      else
++		type_offset
++		  = elfcpp::Swap_unaligned<64, big_endian>::readval(pinfo);
++	      pinfo += this->offset_size_;
++	    }
+ 	}
+ 
+       // Read the .debug_abbrev table.
+@@ -1375,7 +1398,8 @@ Dwarf_info_reader::do_parse()
+ 				  &root_die);
+ 	  else
+ 	    this->visit_compilation_unit(section_offset + this->cu_offset_,
+-					 cu_end - cu_start, &root_die);
++					 cu_end - cu_start, signature,
++					 &root_die);
+ 	}
+ 
+       // Advance to the next CU.
+@@ -1508,7 +1532,7 @@ Dwarf_info_reader::get_string(off_t str_off, unsigned int string_shndx)
+ // Process a compilation unit and parse its child DIE.
+ 
+ void
+-Dwarf_info_reader::visit_compilation_unit(off_t, off_t, Dwarf_die*)
++Dwarf_info_reader::visit_compilation_unit(off_t, off_t, uint64_t, Dwarf_die*)
+ {
+ }
+ 
+diff --git a/gold/dwarf_reader.h b/gold/dwarf_reader.h
+index 9b140e7878e..3a28974b882 100644
+--- a/gold/dwarf_reader.h
++++ b/gold/dwarf_reader.h
+@@ -771,6 +771,10 @@ class Dwarf_info_reader
+   ref_addr_size() const
+   { return this->cu_version_ > 2 ? this->offset_size_ : this->address_size_; }
+ 
++  unsigned int
++  cu_version() const
++  { return this->cu_version_; }
++
+   // Set the section index of the .debug_abbrev section.
+   // We use this if there are no relocations for the .debug_info section.
+   // If not set, the code parse() routine will search for the section by name.
+@@ -807,7 +811,8 @@ class Dwarf_info_reader
+ 
+   // Visit a compilation unit.
+   virtual void
+-  visit_compilation_unit(off_t cu_offset, off_t cu_length, Dwarf_die* root_die);
++  visit_compilation_unit(off_t cu_offset, off_t cu_length, uint64_t signature,
++			 Dwarf_die* root_die);
+ 
+   // Visit a type unit.
+   virtual void
 diff --git a/gold/dwp.cc b/gold/dwp.cc
-index df771e8b..5501985c 100644
+index 7c4eef090d4..29aa57c4308 100644
 --- a/gold/dwp.cc
 +++ b/gold/dwp.cc
 @@ -22,6 +22,7 @@
@@ -747,233 +987,8 @@ index df771e8b..5501985c 100644
  }
  
  }; // End namespace gold
-diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-index 8307e57e..0bf24e79 100644
---- a/binutils/dwarf.c
-+++ b/binutils/dwarf.c
-@@ -1525,7 +1525,7 @@ find_cu_tu_set_v2 (dwarf_vma cu_offset, int do_types)
-     {
-       p = tu_sets;
-       nsets = tu_count;
--      dw_sect = DW_SECT_TYPES;
-+      dw_sect = LEGACY_DW_SECT_TYPES;
-     }
-   else
-     {
-@@ -1931,7 +1931,7 @@ read_and_display_attr_value (unsigned long attribute,
- 		  debug_info_p->max_loc_offsets = lmax;
- 		}
- 	      if (this_set != NULL)
--		uvalue += this_set->section_offsets [DW_SECT_LOC];
-+		uvalue += this_set->section_offsets [LEGACY_DW_SECT_LOC];
- 	      debug_info_p->loc_offsets [num] = uvalue;
- 	      debug_info_p->have_frame_base [num] = have_frame_base;
- 	      debug_info_p->num_loc_offsets++;
-@@ -2538,8 +2538,8 @@ process_debug_info (struct dwarf_section *section,
- 		      dwarf_vmatoa ("x", offsets [DW_SECT_LINE]),
- 		      dwarf_vmatoa ("x", sizes [DW_SECT_LINE]));
- 	      printf (_("    .debug_loc.dwo:          0x%s  0x%s\n"),
--		      dwarf_vmatoa ("x", offsets [DW_SECT_LOC]),
--		      dwarf_vmatoa ("x", sizes [DW_SECT_LOC]));
-+		      dwarf_vmatoa ("x", offsets [LEGACY_DW_SECT_LOC]),
-+		      dwarf_vmatoa ("x", sizes [LEGACY_DW_SECT_LOC]));
- 	      printf (_("    .debug_str_offsets.dwo:  0x%s  0x%s\n"),
- 		      dwarf_vmatoa ("x", offsets [DW_SECT_STR_OFFSETS]),
- 		      dwarf_vmatoa ("x", sizes [DW_SECT_STR_OFFSETS]));
-@@ -7390,17 +7390,17 @@ get_DW_SECT_short_name (unsigned int dw_sect)
-     {
-       case DW_SECT_INFO:
- 	return "info";
--      case DW_SECT_TYPES:
-+      case LEGACY_DW_SECT_TYPES:
- 	return "types";
-       case DW_SECT_ABBREV:
- 	return "abbrev";
-       case DW_SECT_LINE:
- 	return "line";
--      case DW_SECT_LOC:
-+      case LEGACY_DW_SECT_LOC:
- 	return "loc";
-       case DW_SECT_STR_OFFSETS:
- 	return "str_off";
--      case DW_SECT_MACINFO:
-+      case LEGACY_DW_SECT_MACINFO:
- 	return "macinfo";
-       case DW_SECT_MACRO:
- 	return "macro";
-diff --git a/elfcpp/dwarf.h b/elfcpp/dwarf.h
-index f3873594..13e065e5 100644
---- a/elfcpp/dwarf.h
-+++ b/elfcpp/dwarf.h
-@@ -104,6 +104,19 @@ namespace elfcpp
- #undef DW_CFA
- #undef DW_END_CFA
- 
-+/* Unit types in unit_type unit header field.  */
-+enum dwarf_unit_type
-+  {
-+    DW_UT_compile = 0x01,
-+    DW_UT_type = 0x02,
-+    DW_UT_partial = 0x03,
-+    DW_UT_skeleton = 0x04,
-+    DW_UT_split_compile = 0x05,
-+    DW_UT_split_type = 0x06,
-+    DW_UT_lo_user = 0x80,
-+    DW_UT_hi_user = 0xff
-+  };
-+
- // Frame unwind information.
- 
- enum DW_EH_PE
-@@ -237,15 +250,18 @@ enum DW_LANG
- enum DW_SECT
- {
-   DW_SECT_INFO = 1,
--  DW_SECT_TYPES = 2,
-+  DW_SECT_TYPES = 2, // removed in v5
-   DW_SECT_ABBREV = 3,
-   DW_SECT_LINE = 4,
--  DW_SECT_LOC = 5,
-+  DW_SECT_LOCLISTS = 5, // was LOC pre-v5
-   DW_SECT_STR_OFFSETS = 6,
--  DW_SECT_MACINFO = 7,
--  DW_SECT_MACRO = 8,
--  DW_SECT_MAX = DW_SECT_MACRO,
--};
-+  DW_SECT_MACRO = 7, // was MACINFO pre-v5
-+  DW_SECT_RNGLISTS = 8,  // was MACRO pre-v5
-+  LEGACY_DW_SECT_TYPES = 20,
-+  LEGACY_DW_SECT_LOC = 21,
-+  LEGACY_DW_SECT_MACINFO = 22,
-+  DW_SECT_MAX = LEGACY_DW_SECT_MACINFO
-+};
- 
- enum DW_LNCT
- {
-diff --git a/gold/dwarf_reader.cc b/gold/dwarf_reader.cc
-index 6c2b0082..f0f0d913 100644
---- a/gold/dwarf_reader.cc
-+++ b/gold/dwarf_reader.cc
-@@ -1299,6 +1299,21 @@ Dwarf_info_reader::do_parse()
- 	  elfcpp::Swap_unaligned<16, big_endian>::readval(pinfo);
-       pinfo += 2;
- 
-+      unsigned char unit_type;
-+      if (this->cu_version_ >= 5)
-+	{
-+	  // Read unit type (1 byte).
-+	  unit_type = elfcpp::Swap_unaligned<8, big_endian>::readval(pinfo);
-+	  pinfo += 1;
-+
-+	  // unit_type should be either DW_UT_split_compile or DW_UT_split_type
-+	  this->is_type_unit_ = unit_type == elfcpp::DW_UT_split_type;
-+
-+	  // Read address_size (1 byte).
-+	  this->address_size_ = *pinfo++;
-+	}
-+
-+      // For type units, read the two extra fields.
-       // Read debug_abbrev_offset (4 or 8 bytes).
-       if (this->offset_size_ == 4)
- 	abbrev_offset = elfcpp::Swap_unaligned<32, big_endian>::readval(pinfo);
-@@ -1319,29 +1334,37 @@ Dwarf_info_reader::do_parse()
- 	}
-       pinfo += this->offset_size_;
- 
--      // Read address_size (1 byte).
--      this->address_size_ = *pinfo++;
-+      if (this->cu_version_ < 5)
-+	{
-+	  // Read address_size (1 byte).
-+	  this->address_size_ = *pinfo++;
-+	}
- 
-       // For type units, read the two extra fields.
-       uint64_t signature = 0;
-       off_t type_offset = 0;
--      if (this->is_type_unit_)
-+      if (this->is_type_unit_ || this->cu_version_ >= 5)
-         {
--	  if (!this->check_buffer(pinfo + 8 + this->offset_size_))
-+	  if (!this->check_buffer(pinfo + 8))
- 	    break;
- 
- 	  // Read type_signature (8 bytes).
- 	  signature = elfcpp::Swap_unaligned<64, big_endian>::readval(pinfo);
- 	  pinfo += 8;
- 
--	  // Read type_offset (4 or 8 bytes).
--	  if (this->offset_size_ == 4)
--	    type_offset =
--		elfcpp::Swap_unaligned<32, big_endian>::readval(pinfo);
--	  else
--	    type_offset =
--		elfcpp::Swap_unaligned<64, big_endian>::readval(pinfo);
--	  pinfo += this->offset_size_;
-+	  if (this->is_type_unit_)
-+	    {
-+	      if (!this->check_buffer(pinfo + this->offset_size_))
-+		break;
-+	      // Read type_offset (4 or 8 bytes).
-+	      if (this->offset_size_ == 4)
-+		type_offset
-+		  = elfcpp::Swap_unaligned<32, big_endian>::readval(pinfo);
-+	      else
-+		type_offset
-+		  = elfcpp::Swap_unaligned<64, big_endian>::readval(pinfo);
-+	      pinfo += this->offset_size_;
-+	    }
- 	}
- 
-       // Read the .debug_abbrev table.
-@@ -1361,7 +1384,8 @@ Dwarf_info_reader::do_parse()
- 				  &root_die);
- 	  else
- 	    this->visit_compilation_unit(section_offset + this->cu_offset_,
--					 cu_end - cu_start, &root_die);
-+					 cu_end - cu_start, signature,
-+					 &root_die);
- 	}
- 
-       // Advance to the next CU.
-@@ -1494,7 +1518,7 @@ Dwarf_info_reader::get_string(off_t str_off, unsigned int string_shndx)
- // Process a compilation unit and parse its child DIE.
- 
- void
--Dwarf_info_reader::visit_compilation_unit(off_t, off_t, Dwarf_die*)
-+Dwarf_info_reader::visit_compilation_unit(off_t, off_t, uint64_t, Dwarf_die*)
- {
- }
- 
-diff --git a/gold/dwarf_reader.h b/gold/dwarf_reader.h
-index 90a799ed..087b88aa 100644
---- a/gold/dwarf_reader.h
-+++ b/gold/dwarf_reader.h
-@@ -764,7 +764,11 @@ class Dwarf_info_reader
-   address_size() const
-   { return this->address_size_; }
- 
--  // Set the section index of the .debug_abbrev section.
-+  unsigned int
-+  cu_version() const
-+  { return this->cu_version_; }
-+
-+   // Set the section index of the .debug_abbrev section.
-   // We use this if there are no relocations for the .debug_info section.
-   // If not set, the code parse() routine will search for the section by name.
-   void
-@@ -800,7 +804,8 @@ class Dwarf_info_reader
- 
-   // Visit a compilation unit.
-   virtual void
--  visit_compilation_unit(off_t cu_offset, off_t cu_length, Dwarf_die* root_die);
-+  visit_compilation_unit(off_t cu_offset, off_t cu_length, uint64_t signature,
-+			 Dwarf_die* root_die);
- 
-   // Visit a type unit.
-   virtual void
 diff --git a/gold/gdb-index.cc b/gold/gdb-index.cc
-index e1df0698..cdf80d1e 100644
+index d19b0446bb9..cf2d25b3ff9 100644
 --- a/gold/gdb-index.cc
 +++ b/gold/gdb-index.cc
 @@ -199,7 +199,8 @@ class Gdb_index_info_reader : public Dwarf_info_reader
@@ -994,23 +1009,11 @@ index e1df0698..cdf80d1e 100644
  					      Dwarf_die* root_die)
  {
    ++Gdb_index_info_reader::dwarf_cu_count;
-diff --git a/include/dwarf2.def b/include/dwarf2.def
-index 4d479f6e..69b3ba91 100644
---- a/include/dwarf2.def
-+++ b/include/dwarf2.def
-@@ -311,6 +311,7 @@ DW_AT (DW_AT_const_expr, 0x6c)
- DW_AT (DW_AT_enum_class, 0x6d)
- DW_AT (DW_AT_linkage_name, 0x6e)
- /* DWARF 5.  */
-+DW_AT (DW_AT_dwo_name, 0x76)
- DW_AT (DW_AT_noreturn, 0x87)
- 
- DW_AT_DUP (DW_AT_lo_user, 0x2000) /* Implementation-defined range start.  */
 diff --git a/include/dwarf2.h b/include/dwarf2.h
-index 9e69cd5a..7248db64 100644
+index 6b963d25324..b61a424a82e 100644
 --- a/include/dwarf2.h
 +++ b/include/dwarf2.h
-@@ -411,14 +411,17 @@ enum dwarf_macro_record_type
+@@ -503,14 +503,17 @@ enum dwarf_unit_type
  enum dwarf_sect
    {
      DW_SECT_INFO = 1,
@@ -1033,3 +1036,6 @@ index 9e69cd5a..7248db64 100644
    };
  
  #ifdef __cplusplus
+-- 
+2.30.0
+

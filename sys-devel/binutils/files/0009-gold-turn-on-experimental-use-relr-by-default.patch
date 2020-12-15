@@ -1,0 +1,29 @@
+From 11cdfffc2a18044104ec7bf0f227d8132197520f Mon Sep 17 00:00:00 2001
+From: Rahul Chaudhry <rahulchaudhry@google.com>
+Date: Sat, 17 Mar 2018 15:31:31 -0800
+Subject: [PATCH 09/13] gold: turn on --experimental-use-relr by default.
+
+[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: regenerated as proper git format-patch.]
+
+Change-Id: I20cb32ebec8283017b8399d29fe8841a5c78aa0e
+---
+ gold/options.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gold/options.h b/gold/options.h
+index 73f3eb12b59..7fa269b5c62 100644
+--- a/gold/options.h
++++ b/gold/options.h
+@@ -846,7 +846,7 @@ class General_options
+ 		 N_("Exclude libraries from automatic export"),
+ 		 N_(("lib,lib ...")));
+ 
+-  DEFINE_bool(experimental_use_relr, options::TWO_DASHES, '\0', false,
++  DEFINE_bool(experimental_use_relr, options::TWO_DASHES, '\0', true,
+ 	      N_("Generate RELR dynamic relocations"),
+ 	      N_("Do not generate RELR dynamic relocations"));
+ 
+-- 
+2.30.0
+
