@@ -3,12 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f77f943544c588040e79789d30b8a181348b99c8"
+CROS_WORKON_COMMIT="0387c261f0fe0dbffa2d126ad09b5068b6a4ca4e"
 CROS_WORKON_TREE="7f2a6742d55adf60b4a1cb46f316e30050c1a59c"
+CROS_RUST_SUBDIR="util/flashrom_tester"
+
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_LOCALNAME="flashrom"
-CROS_WORKON_SUBTREE="util/flashrom_tester"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 inherit cros-workon cros-rust
 
@@ -29,12 +31,6 @@ DEPEND=">=dev-rust/rand-0.6.4:=
 
 RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41"
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/${CROS_WORKON_SUBTREE}"
-	cros-rust_src_unpack
-}
-
 src_compile() {
 	# Override HOST_CFLAGS so that build dependencies use the correct
 	# flags on cross-compiled targets using cc-rs.
@@ -42,18 +38,12 @@ src_compile() {
 	export HOST_CFLAGS="${BUILD_CFLAGS}"
 	ecargo_build
 	if use test; then
-		ecargo_test --no-run
-		ecargo_test --no-run -p flashrom
+		ecargo_test --no-run --workspace
 	fi
 }
 
 src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-		ecargo_test -p flashrom
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
+	cros-rust_src_test --workspace
 }
 
 src_install() {

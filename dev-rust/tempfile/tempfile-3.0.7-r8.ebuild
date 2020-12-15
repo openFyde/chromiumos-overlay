@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f4a260d3dfea0bf9c0e5ac164b3d0ea96f5dadf0"
+CROS_WORKON_COMMIT="853ecdb355d476d15bcdea4d9f5da9761100ede7"
 CROS_WORKON_TREE="4d1019d4ba75c8d6c18310a8bce67bcda0eceab5"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="tempfile"
 inherit cros-workon cros-rust
 
 DESCRIPTION="A library for managing temporary files and directories"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/tempfile"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/tempfile"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -29,26 +29,3 @@ DEPEND="
 "
 
 RDEPEND="!!<=dev-rust/tempfile-3.0.7-r2"
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/tempfile"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
-
-src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
-}
