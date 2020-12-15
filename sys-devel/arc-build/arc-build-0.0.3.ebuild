@@ -53,7 +53,7 @@ export PKG_CONFIG_SYSROOT_DIR="\${SYSROOT%${ARC_PREFIX}}"
 # Undo that logic.
 unset PKG_CONFIG_PATH
 
-exec pkg-config "\$@"
+exec /usr/bin/pkg-config "\$@"
 EOF
 }
 
