@@ -10,7 +10,7 @@
 # then they should be done in the Chromium repository, and the commits below
 # should be updated.
 
-EAPI="5"
+EAPI="7"
 
 # We don't need the history at all.
 EGIT_CLONE_TYPE="shallow"
@@ -53,6 +53,10 @@ LICENSE="BSD-Google"
 SLOT="0/${PV}"
 KEYWORDS="*"
 IUSE=""
+
+PATCHES=(
+	"${FILESDIR}/${PN}-start-up-flags.patch"
+)
 
 POLICY_DIR="${S}/cloud/policy"
 
