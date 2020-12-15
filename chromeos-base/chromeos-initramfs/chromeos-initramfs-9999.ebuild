@@ -17,7 +17,7 @@ KEYWORDS="~*"
 IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} physical_presence_power physical_presence_recovery"
-IUSE="${IUSE} unibuild"
+IUSE="${IUSE} unibuild +oobe_config"
 
 # Build Targets
 TARGETS_IUSE="
@@ -162,6 +162,7 @@ src_compile() {
 		DETACHABLE="$(usex detachable 1 0)" \
 		LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
 		UNIBUILD="$(usex unibuild 1 0)" \
+		OOBE_CONFIG="$(usex oobe_config 1 0)" \
 		PHYSICAL_PRESENCE="${physical_presence}" \
 		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
 		LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[@]}"
