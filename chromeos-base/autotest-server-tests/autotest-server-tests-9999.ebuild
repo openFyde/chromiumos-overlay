@@ -259,7 +259,6 @@ SERVER_IUSE_TESTS="
 	+tests_kernel_ExternalUsbPeripheralsDetectionTest
 	+tests_kernel_IdlePerf
 	+tests_kernel_MemoryRamoop
-	+tests_logging_GenerateCrashFiles
 	moblab? (
 		+tests_moblab_RunSuite
 		+tests_moblab_StorageQual
