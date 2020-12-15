@@ -152,6 +152,21 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/UPSTREAM-dri_util-Update-internal_format-to-GL_RGB8-for-MESA_.patch
 
+	# merge request 6055
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Call-createImageFromDmaBufs-directly.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Look-up-prime-fds-in-droid_create_image_.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Drop-unused-ctx-argument.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Simplify-droid_create_image_from_name-pa.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Move-droid_create_image_from_prime_fds-f.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Use-droid_create_image_from_prime_fds-in.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-Add-support-for-CrOS-buffer-info-perform.patch
+
+	# merge request 7805
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-don-t-pass-loaderPriv-in-get_front_bo.patch
+	epatch "${FILESDIR}"/UPSTREAM-dri-add-image-cleanup-callback-to-loader-extensions.patch
+	epatch "${FILESDIR}"/BACKPORT-frontend-dri-plumb-loader-image-cleanup-callback.patch
+	epatch "${FILESDIR}"/BACKPORT-egl-android-implement-image-cleanup-callback.patch
+
 	default
 }
 
