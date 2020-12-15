@@ -26,8 +26,10 @@ IUSE="cros_embedded cros_host enable_slow_boot_notify -mtd pam systemd test +oob
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/vboot_reference
-	x11-libs/libxkbcommon:=
-	x11-misc/xkeyboard-config:=
+	!cros_host? (
+		x11-libs/libxkbcommon:=
+		x11-misc/xkeyboard-config:=
+	)
 "
 
 DEPEND="${COMMON_DEPEND}
