@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("51a4cfa94c4d9755d787cdf97e11a83d0fd5e48e" "46f431b03554439a90b4e034023a6e4c5e61054e")
-CROS_WORKON_TREE=("c9de2eb52379383658eaf7cbc29fdb5d8d32eb98" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e7f72f330e6a4600a4af0810699ab7650cc4a709")
+CROS_WORKON_COMMIT=("4b2d5b29c42d5d97536783fe2739031d18e01643" "f1a9721ad7459893ba09a0daa2b99a66ada87fce")
+CROS_WORKON_TREE=("c9de2eb52379383658eaf7cbc29fdb5d8d32eb98" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "f6762dfeced55b091c5b443026fcdb6522b22a25")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
@@ -139,7 +139,7 @@ src_install() {
 	use dbus && header_dirs+=( dbus )
 	use timers && header_dirs+=( components/timers )
 
-	insinto /usr/include/base-"${BASE_VER}"/base/test
+	insinto /usr/include/libchrome/base/test
 	doins \
 		base/test/bind_test_util.h \
 		base/test/task_environment.h \
@@ -152,7 +152,7 @@ src_install() {
 		base/test/test_timeouts.h \
 
 	if use crypto; then
-		insinto /usr/include/base-${BASE_VER}/crypto
+		insinto /usr/include/libchrome/crypto
 		doins \
 			crypto/crypto_export.h \
 			crypto/hmac.h \
@@ -229,14 +229,13 @@ src_install() {
 	fi
 
 	# Install header files.
-	# TODO(fqj): Use unversioned path.
 	local d
 	for d in "${header_dirs[@]}" ; do
-		insinto /usr/include/base-"${BASE_VER}"/"${d}"
+		insinto /usr/include/libchrome/"${d}"
 		doins "${d}"/*.h
 	done
 	for d in "${mojom_dirs[@]}"; do
-		insinto /usr/include/base-"${BASE_VER}"/"${d}"
+		insinto /usr/include/libchrome/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.h
 		# Not to install mojom and pickle file to prevent misuse until Chromium IPC
 		# team is ready to have a stable mojo_base. see crbug.com/1055379
@@ -245,6 +244,9 @@ src_install() {
 		# insinto /usr/share/libchrome/pickle/"${d}"
 		# doins "${OUT}"/gen/include/"${d}"/*.p
 	done
+
+	# Remove symlink after all files migrated unversioned header path.
+	dosym libchrome /usr/include/base-"${BASE_VER}"
 
 	# TODO(fqj): Revisit later for type mapping (see libchrome/BUILD.gn)
 	# Install libchrome base type mojo mapping
