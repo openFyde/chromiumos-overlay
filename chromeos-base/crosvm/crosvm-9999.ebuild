@@ -25,8 +25,8 @@ COMMON_DEPEND="
 	sys-libs/libcap:=
 	chromeos-base/libvda:=
 	chromeos-base/minijail:=
+	dev-libs/wayland:=
 	crosvm-gpu? (
-		dev-libs/wayland:=
 		media-libs/virglrenderer:=
 	)
 	crosvm-wl-dmabuf? ( media-libs/minigbm:= )
@@ -129,8 +129,8 @@ src_configure() {
 
 src_compile() {
 	local features=(
-		$(usex crosvm-gpu gpu "")
-		$(usex crosvm-gpu virtio-gpu-next "")
+		$(usex crosvm-gpu virgl_renderer "")
+		$(usex crosvm-gpu virgl_renderer_next "")
 		$(usex crosvm-plugin plugin "")
 		$(usex crosvm-power-monitor-powerd power-monitor-powerd "")
 		$(usex crosvm-video-decoder video-decoder "")
