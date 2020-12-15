@@ -6,7 +6,7 @@ EAPI=6
 DESCRIPTION="ANX3429 Firmware Binary"
 SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tar.xz"
 
-LICENSE="Google-TOS"
+LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
