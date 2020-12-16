@@ -303,7 +303,7 @@ index 55302e91d0..513d60a8c4 100644
 +#ifdef __FORTIFY_ARG_PACK_OK
 +/* clang doesn't have __va_arg_pack, so we need to defer to the va_arg versions
 +   of these functions.  */
-+__fortify_potential_overload int
++__fortify_potential_overload __attribute__ ((__format__ (__printf__, 2, 3))) int
 +__NTH (sprintf (char *__restrict const __clang_pass_object_size __s,
 +		const char *__restrict __fmt, ...))
  {
