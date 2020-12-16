@@ -54,7 +54,7 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	ondevice_speech? ( chromeos-soda/libsoda:=[dlc=] )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
-	>=dev-libs/libgrammar-0.0.2:=[ondevice_grammar=]
+	>=dev-libs/libgrammar-0.0.3:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
 	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
