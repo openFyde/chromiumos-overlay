@@ -51,16 +51,6 @@ src_prepare() {
 
 src_configure() {
 	setup_cross_toolchain
-	# Need libgcc for bootstrapping.
-	append-flags "-rtlib=libgcc"
-	# Compiler-rt libraries need to be built before libc++ when
-	# libc++ is default in clang.
-	# Compiler-rt builtins are C only.
-	# Even though building compiler-rt libraries does not require C++ compiler,
-	# CMake does not like a non-working C++ compiler.
-	# Avoid CMake complains about non-working C++ compiler
-	# by using libstdc++ since libc++ is built after compiler-rt in crossdev.
-	append-cxxflags "-stdlib=libstdc++"
 	append-flags "-fomit-frame-pointer"
 	if [[ ${CTARGET} == armv7a* ]]; then
 		# Use vfpv3 to be able to target non-neon targets
@@ -76,14 +66,18 @@ src_configure() {
 
 	local mycmakeargs=(
 		"-DLLVM_ENABLE_PROJECTS=compiler-rt"
-
+		"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
 		# crbug/855759
 		"-DCOMPILER_RT_BUILD_CRT=$(usex llvm-crt)"
+		"-DCOMPILER_RT_USE_LIBCXX=yes"
+		"-DCOMPILER_RT_LIBCXXABI_PATH=${S}/libcxxabi"
+		"-DCOMPILER_RT_LIBCXX_PATH=${S}/libcxx"
+		"-DCOMPILER_RT_HAS_GNU_VERSION_SCRIPT_COMPAT=no"
+		"-DCOMPILER_RT_BUILD_LIBFUZZER=no"
 	)
 
 	if [[ ${CTARGET} == *-eabi ]]; then
 		mycmakeargs+=(
-			"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
 			"-DCOMPILER_RT_OS_DIR=baremetal"
 			"-DCOMPILER_RT_BAREMETAL_BUILD=yes"
 			"-DCMAKE_C_COMPILER_TARGET=${CTARGET}"

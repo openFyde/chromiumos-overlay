@@ -123,11 +123,12 @@ multilib_src_configure() {
 		fi
 	fi
 
-	append-flags "-stdlib=libstdc++"
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		"-DLLVM_ENABLE_PROJECTS=libcxx"
 		"-DLIBCXX_LIBDIR_SUFFIX=${libdir#lib}"
+		"-DCMAKE_C_COMPILER_WORKS=yes"
+		"-DCMAKE_CXX_COMPILER_WORKS=yes"
 		"-DLIBCXX_ENABLE_SHARED=ON"
 		"-DLIBCXX_ENABLE_STATIC=$(usex static-libs)"
 		"-DLIBCXX_CXX_ABI=${cxxabi}"
