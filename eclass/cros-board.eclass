@@ -64,6 +64,8 @@ ALL_BOARDS=(
 	beaglebone_vv1
 	beltino
 	betty
+	betty-arc-r
+	betty-arc-s
 	betty-arc64
 	betty-arcmaster
 	betty-arcnext
