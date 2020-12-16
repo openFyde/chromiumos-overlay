@@ -45,6 +45,7 @@ RECOVERY_DEPENDS="
 	"
 
 MINIOS_DEPENDS="
+	chromeos-base/minios
 	dev-util/strace
 	net-misc/curl
 	net-misc/dhcp
