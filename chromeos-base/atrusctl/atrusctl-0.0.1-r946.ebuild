@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("b05e4a6b92b2cfe608b6cd8d5d37168680fc080e" "208deab991d44b8ee7e44178523274c703a192da")
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "57316388d694574a7609aa55d46812e8fab1e30c")
+CROS_WORKON_COMMIT=("3878b0f0387af837629fbf9b68fb4c7bf6e29c6c" "c50a9b98e7025a59f10f7d1d9f844dc48dd05645")
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "bf3ca2cf751d3dcbf605278a8a41d0851e52d360")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/atrusctl")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/atrusctl")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/atrusctl")
