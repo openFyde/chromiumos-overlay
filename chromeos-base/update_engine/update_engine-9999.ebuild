@@ -20,7 +20,7 @@ SRC_URI=""
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="cfm cros_p2p +dbus dlc fuzzer -hwid_override +power_management systemd"
+IUSE="cfm cros_p2p dlc fuzzer -hwid_override +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
