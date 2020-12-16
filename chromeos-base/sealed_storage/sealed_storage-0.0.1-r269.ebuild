@@ -1,0 +1,49 @@
+# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="b05e4a6b92b2cfe608b6cd8d5d37168680fc080e"
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "d4f0dc8e33c1019088a8da237bd6137500894675" "a33cb2ef1e36a1d6c4c593dd3c575cfadca384dd" "20ed8021024637e492670d20fa5969a2ad75e4b6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk sealed_storage tpm_manager trunks .gn"
+
+PLATFORM_SUBDIR="sealed_storage"
+
+inherit cros-workon platform
+
+DESCRIPTION="Library for sealing data to device identity and state"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/sealed_storage"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+
+IUSE="test tpm2"
+
+REQUIRED_USE="tpm2"
+COMMON_DEPEND="
+	chromeos-base/tpm_manager:=[test?]
+	chromeos-base/trunks:=[test?]
+"
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/protofiles:=
+	chromeos-base/system_api:=
+"
+
+src_install() {
+	dosbin "${OUT}"/sealed_storage_tool
+	dolib.a "${OUT}"/libsealed_storage.a
+	dolib.so "${OUT}"/lib/libsealed_storage_wrapper.so
+
+	insinto /usr/include/chromeos/sealed_storage
+	doins sealed_storage.h
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/sealed_storage_testrunner"
+}
