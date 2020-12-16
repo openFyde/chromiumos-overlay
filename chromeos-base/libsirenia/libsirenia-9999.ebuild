@@ -28,6 +28,7 @@ DEPEND="${RDEPEND}
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
+	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
 
 # We skip the vsock test because it requires the vsock kernel modules to be

@@ -20,6 +20,7 @@ RDEPEND=""
 
 DEPEND="${RDEPEND}
 	>chromeos-base/chromeos-dbus-bindings-rust-0.24.52-r16:=
+	chromeos-base/libsirenia:=
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
@@ -27,7 +28,7 @@ DEPEND="${RDEPEND}
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
-	chromeos-base/libsirenia:=
+	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
 
 src_install() {
