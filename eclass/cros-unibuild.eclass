@@ -265,9 +265,16 @@ _unibuild_install_fw_common() {
 	local cmd="$1"
 	local files_path="${FILESDIR}"
 	local config="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
+
 	if [[ $# -gt 1 ]]; then
 		files_path="."
 		config="$2"
+	fi
+
+	# Determine if using files or workdir for the path.
+	if [[ "${cmd}" == "get-touch-firmware-workdir" ]]; then
+		cmd="get-touch-firmware-files"
+		files_path="${WORKDIR}"
 	fi
 
 	einfo "unibuild: Installing ${cmd} based on ${config}"
@@ -284,12 +291,24 @@ _unibuild_install_fw_common() {
 # @USAGE: [config_file]
 # @DESCRIPTION:
 # Install files related to touch firmware. This includes firmware for the
-# touchscreen, touchpad and stylus.
+# touchscreen, touchpad and stylus.  These files are expected in files dir.
 # Args:
 #   $1: (optional) Config file used by cros_config_host
 unibuild_install_touch_files() {
 	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 	_unibuild_install_fw_common "get-touch-firmware-files" "$@"
+}
+
+# @FUNCTION: unibuild_install_touch_workdir
+# @USAGE: [config_file]
+# @DESCRIPTION:
+# Install files related to touch firmware. This includes firmware for the
+# touchscreen, touchpad and stylus. These files are expected in work dir.
+# Args:
+#   $1: (optional) Config file used by cros_config_host
+unibuild_install_touch_workdir() {
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
+	_unibuild_install_fw_common "get-touch-firmware-workdir" "$@"
 }
 
 # @FUNCTION: unibuild_install_detachable_base_files
