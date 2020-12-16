@@ -28,10 +28,6 @@ DEPEND="sys-devel/bison
 	doc? ( app-doc/doxygen )"
 RDEPEND="X? ( >=x11-libs/libxcb-1.10[${MULTILIB_USEDEP},xkb] )"
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-provide-0.4.3-compat-versions-for-select-symbols.patch
-)
-
 pkg_setup() {
 	XORG_CONFIGURE_OPTIONS=(
 		--with-xkb-config-root="${EPREFIX}/usr/share/X11/xkb"
