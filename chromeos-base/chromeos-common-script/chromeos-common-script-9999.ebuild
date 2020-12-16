@@ -23,10 +23,6 @@ IUSE="direncryption fsverity kernel-3_18 kernel-4_4 prjquota"
 
 REQUIRED_USE="prjquota? ( !kernel-4_4 !kernel-3_18 )"
 
-DEPEND=""
-
-RDEPEND="!<chromeos-base/chromeos-installer-0.0.3"
-
 src_install() {
 	insinto /usr/share/misc
 	doins share/chromeos-common.sh

@@ -20,7 +20,7 @@ SRC_URI=""
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="cfm cros_p2p dlc fuzzer -hwid_override +power_management systemd"
+IUSE="cfm cros_host cros_p2p dlc fuzzer -hwid_override +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
@@ -57,7 +57,7 @@ DELTA_GENERATOR_RDEPEND="
 "
 
 RDEPEND="
-	chromeos-base/chromeos-installer
+	!cros_host? ( chromeos-base/chromeos-installer )
 	${COMMON_DEPEND}
 	cros_host? ( ${DELTA_GENERATOR_RDEPEND} )
 	power_management? ( chromeos-base/power_manager:= )

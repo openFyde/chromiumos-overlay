@@ -25,7 +25,6 @@ DEPEND=""
 
 RDEPEND="${DEPEND}
 	chromeos-base/chromeos-common-script
-	!<chromeos-base/chromeos-installer-0.0.3
 	sata? ( sys-apps/hdparm sys-apps/smartmontools )
 	nvme? ( sys-apps/smartmontools )
 	mmc? ( sys-apps/mmc-utils )"
