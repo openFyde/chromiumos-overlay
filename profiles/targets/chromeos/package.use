@@ -177,7 +177,6 @@ chromeos-base/touch_firmware_test python_targets_python2_7
 dev-python/argcomplete python_targets_python2_7
 dev-python/asn1crypto python_targets_python2_7
 dev-python/backports python_targets_python2_7
-dev-python/bcrypt python_targets_python2_7
 dev-python/boto python_targets_python2_7
 dev-python/bottle python_targets_python2_7
 dev-python/btsocket python_targets_python2_7
@@ -229,7 +228,6 @@ dev-python/namespace-jaraco python_targets_python2_7
 dev-python/numpy python_targets_python2_7
 dev-python/oauth python_targets_python2_7
 dev-python/packaging python_targets_python2_7
-dev-python/paramiko python_targets_python2_7
 dev-python/pbr python_targets_python2_7
 dev-python/pexpect python_targets_python2_7
 dev-python/ply python_targets_python2_7
@@ -245,7 +243,6 @@ dev-python/pyblake2 python_targets_python2_7
 dev-python/pycparser python_targets_python2_7
 dev-python/pygments python_targets_python2_7
 dev-python/pygobject python_targets_python2_7
-dev-python/pynacl python_targets_python2_7
 dev-python/pyopenssl python_targets_python2_7
 dev-python/pyparsing python_targets_python2_7
 dev-python/pyserial python_targets_python2_7
