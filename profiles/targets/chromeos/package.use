@@ -174,10 +174,8 @@ chromeos-base/chromite python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/telemetry python_targets_python2_7
 chromeos-base/touch_firmware_test python_targets_python2_7
-dev-python/argcomplete python_targets_python2_7
 dev-python/asn1crypto python_targets_python2_7
 dev-python/backports python_targets_python2_7
-dev-python/boto python_targets_python2_7
 dev-python/bottle python_targets_python2_7
 dev-python/btsocket python_targets_python2_7
 dev-python/cachetools python_targets_python2_7
@@ -188,7 +186,6 @@ dev-python/cheroot python_targets_python2_7
 dev-python/cherrypy python_targets_python2_7
 dev-python/configobj python_targets_python2_7
 dev-python/contextlib2 python_targets_python2_7
-dev-python/crcmod python_targets_python2_7
 dev-python/cryptography python_targets_python2_7
 dev-python/cycler python_targets_python2_7
 dev-python/cython python_targets_python2_7
@@ -198,7 +195,6 @@ dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
 dev-python/ecdsa python_targets_python2_7
 dev-python/elementtree python_targets_python2_7
-dev-python/fasteners python_targets_python2_7
 dev-python/future python_targets_python2_7
 dev-python/gevent python_targets_python2_7
 dev-python/google-resumable-media python_targets_python2_7
@@ -220,7 +216,6 @@ dev-python/markupsafe python_targets_python2_7
 dev-python/matplotlib python_targets_python2_7
 dev-python/mkvparse python_targets_python2_7
 dev-python/mock python_targets_python2_7
-dev-python/monotonic python_targets_python2_7
 dev-python/more-itertools python_targets_python2_7
 dev-python/mysqlclient python_targets_python2_7
 dev-python/namespace-google python_targets_python2_7
@@ -259,7 +254,6 @@ dev-python/pyusb python_targets_python2_7
 dev-python/pyxattr python_targets_python2_7
 dev-python/pyyaml python_targets_python2_7
 dev-python/requests python_targets_python2_7
-dev-python/retry-decorator python_targets_python2_7
 dev-python/scandir python_targets_python2_7
 dev-python/secretstorage python_targets_python2_7
 dev-python/selenium python_targets_python2_7
