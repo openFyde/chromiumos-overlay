@@ -215,7 +215,6 @@ dev-python/pyxattr python_targets_python2_7
 dev-python/pyyaml python_targets_python2_7
 dev-python/redis-py python_targets_python2_7
 dev-python/requests python_targets_python2_7
-dev-python/rtslib-fb python_targets_python2_7
 dev-python/scandir python_targets_python2_7
 dev-python/secretstorage python_targets_python2_7
 dev-python/selenium python_targets_python2_7

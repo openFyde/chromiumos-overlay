@@ -19,7 +19,6 @@ RDEPEND="
 	dev-python/protobuf-python
 	dev-python/cherrypy
 	net-misc/gsutil
-	dev-python/rtslib-fb
 	!<chromeos-base/cros-devutils-1
 "
 DEPEND="
