@@ -59,6 +59,7 @@ PATCHES=(
 	"${FILESDIR}/0036-CHROMIUM-Add-fscrypt-header.patch"
 	"${FILESDIR}/0037-BACKPORT-v4l2-add-V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS.patch"
 	"${FILESDIR}/0038-BACKPORT-Add-io_uring-IO-interface.patch"
+	"${FILESDIR}/0039-BACKPORT-net-qualcomm-rmnet-Export-mux_id-and-flags-to-netlink.patch"
 )
 
 src_unpack() {
