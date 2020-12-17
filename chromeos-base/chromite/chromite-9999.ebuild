@@ -35,6 +35,8 @@ src_install() {
 		rm -rf \
 			api \
 			appengine \
+			bin \
+			config \
 			contrib \
 			cidb \
 			cros_bisect \
@@ -44,6 +46,7 @@ src_install() {
 			licensing \
 			service \
 			signing \
+			test \
 			third_party/pyelftools/examples \
 			third_party/pyelftools/test \
 			mobmonitor \
