@@ -41,6 +41,7 @@ RDEPEND="
 	kernel-4_19? ( sys-kernel/chromeos-kernel-4_19 )
 	kernel-4_19-ht? ( sys-kernel/chromeos-kernel-4_19-ht )
 	kernel-5_4? ( sys-kernel/chromeos-kernel-5_4 )
+	kernel-5_10? ( sys-kernel/chromeos-kernel-5_10 )
 	kernel-experimental? ( sys-kernel/chromeos-kernel-experimental )
 	kernel-next? ( sys-kernel/chromeos-kernel-next )
 	kernel-upstream? ( sys-kernel/chromeos-kernel-upstream )
