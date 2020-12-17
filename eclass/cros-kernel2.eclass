@@ -141,6 +141,7 @@ MULTILIB_STRICT_EXEMPT+="|modules"
 
 CONFIG_FRAGMENTS=(
 	acpi_ac
+	acpi_debug
 	allocator_slab
 	apex
 	binder
@@ -236,6 +237,10 @@ CONFIG_ACPI_AC=y
 "
 acpi_ac_config_disable="
 # CONFIG_ACPI_AC is not set
+"
+acpi_debug_desc="Enable ACPI DEBUG"
+acpi_debug_config="
+CONFIG_ACPI_DEBUG=y
 "
 
 allocator_slab_desc="Turn on SLAB allocator"
