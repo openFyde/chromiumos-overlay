@@ -20,47 +20,64 @@ IUSE="debug cros_arm64"
 RDEPEND="dev-libs/libaio"
 DEPEND="${RDEPEND}"
 
+need_static_arm64() {
+	use cros_arm64 && use arm
+}
+
 src_prepare() {
 	eapply "${FILESDIR}"/${PN}-gnu_cxx-namespace.patch
 	eapply "${FILESDIR}"/0001-include-stdint.h.patch
 	eapply_user
+
+	# To build 64-bit version for arm64.
+	if need_static_arm64; then
+		export S64="${S}_64"
+		cp -r "${S}" "${S64}" || die
+	fi
 }
 
 src_configure() {
-	local econf_args="--disable-default-optimizations"
-	local sysroot="${SYSROOT}"
-
-	if use cros_arm64 && use arm; then
-		unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
-
-		# The following logic is copied from cros-kernel2.eclass
-		export CHOST=aarch64-cros-linux-gnu
-		export CTARGET=aarch64-cros-linux-gnu
-		export ABI=arm64
-		unset CC CXX LD STRIP OBJCOPY PKG_CONFIG
-
-		tc-export_build_env BUILD_{CC,CXX}
-
-		export LD="${CHOST}-ld.lld"
-		export CC="${CHOST}-clang"
-		export CXX="${CHOST}-clang++"
-
-		econf_args+=" --with-static"
-		sysroot=""
-	fi
-
 	# Matches the configure & sat.cc logic.
 	use debug || append-cppflags -DNDEBUG -DCHECKOPTS
-	SYSROOT="${sysroot}" econf ${econf_args}
+	econf --disable-default-optimizations
+}
+
+build_static_arm64() {
+	unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
+
+	# Use headers and libraries from "/" instead of "/build/${BOARD}"
+	export SYSROOT=""
+
+	# The following logic is copied from cros-kernel2.eclass
+	export CHOST=aarch64-cros-linux-gnu
+	export CTARGET=aarch64-cros-linux-gnu
+	export ABI=arm64
+	unset CC CXX LD STRIP OBJCOPY PKG_CONFIG
+
+	tc-export_build_env BUILD_{CC,CXX}
+
+	export LD="${CHOST}-ld.lld"
+	export CC="${CHOST}-clang"
+	export CXX="${CHOST}-clang++"
+
+	cd "${S64}" || die
+	use debug || append-cppflags -DNDEBUG -DCHECKOPTS
+	econf --disable-default-optimizations --with-static
+	emake
 }
 
 src_compile() {
-	local sysroot="${SYSROOT}"
+	default
 
-	if use cros_arm64 && use arm; then
-		# Use headers and libraries from "/" instead of "/build/${BOARD}"
-		sysroot=""
+	if need_static_arm64; then
+		build_static_arm64
 	fi
+}
 
-	SYSROOT="${sysroot}" emake
+src_install() {
+	default
+
+	if need_static_arm64; then
+		newbin "${S64}/src/stressapptest" "stressapptest64"
+	fi
 }
