@@ -1,0 +1,52 @@
+From bd4264f2c9e14869011495202894449cbf9da6cc Mon Sep 17 00:00:00 2001
+From: Sreerenj Balachandran <sreerenj.balachandran@intel.com>
+Date: Fri, 13 Sep 2019 10:27:10 -0800
+Subject: [PATCH] vp8 encoder: Workaround to force perforamce mode encode
+
+This is a tradeoff between quality and performance to
+save power. Use quality-level two as the default
+which will disable a couple of high intensity operations.
+For eg: There won't be 16xMe layer in the hierarhical motion
+estimations which should save significant number of cycles.
+Also number of pak passes are now limited to 1.
+---
+ src/i965_encoder.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/src/i965_encoder.c b/src/i965_encoder.c
+index 7bf20ea..127b74b 100644
+--- a/src/i965_encoder.c
++++ b/src/i965_encoder.c
+@@ -841,6 +841,10 @@ intel_encoder_check_misc_parameter(VADriverContextP ctx,
+         VAEncMiscParameterBufferQualityLevel* param_quality_level = (VAEncMiscParameterBufferQualityLevel*)pMiscParam->data;
+         encoder_context->quality_level = param_quality_level->quality_level;
+ 
++        //workaround: Force performace mode encode for vp8
++        if (profile == VAProfileVP8Version0_3)
++            encoder_context->quality_level = ENCODER_LOW_QUALITY;
++
+         if (encoder_context->quality_level == 0) {
+             switch (profile) {
+             case VAProfileH264ConstrainedBaseline:
+@@ -858,6 +862,10 @@ intel_encoder_check_misc_parameter(VADriverContextP ctx,
+                 encoder_context->quality_level = ENCODER_DEFAULT_QUALITY_HEVC;
+                 break;
+ 
++            case VAProfileVP8Version0_3:
++                encoder_context->quality_level = ENCODER_LOW_QUALITY;
++                break;
++
+             default:
+                 encoder_context->quality_level = ENCODER_DEFAULT_QUALITY;
+                 break;
+@@ -1632,6 +1640,7 @@ intel_enc_hw_context_init(VADriverContextP ctx,
+     case VAProfileVP8Version0_3:
+         encoder_context->codec = CODEC_VP8;
+         encoder_context->quality_range = ENCODER_QUALITY_RANGE;
++        encoder_context->quality_level = ENCODER_LOW_QUALITY;
+ 
+         break;
+ 
+-- 
+2.20.1
+

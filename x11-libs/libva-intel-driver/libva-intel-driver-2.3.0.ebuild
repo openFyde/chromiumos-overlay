@@ -53,6 +53,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-update-avc-media-kernel-for-bdw-bsw.patch
 	epatch "${FILESDIR}"/UPSTREAM-Make-vaExportSurfaceHandle-work-for-IMC3.patch
 	epatch "${FILESDIR}"/encoder-vp8-Ensure-forced_lf_adjustment-update-in-me.patch
+	epatch "${FILESDIR}"/vp8-encoder-Workaround-to-force-perforamce-mode-enco.patch
 	epatch "${FILESDIR}"/gen9_vp9_encoder-Ensure-brc-reset-irrespective-of-th.patch
 	epatch "${FILESDIR}"/0001-Remove-blitter-usage-from-driver.patch
 	epatch "${FILESDIR}"/gen9_vp9_encoder-Relax-the-compressed-frames-minimum.patch
