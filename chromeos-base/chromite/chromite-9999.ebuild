@@ -37,8 +37,11 @@ src_install() {
 			appengine \
 			contrib \
 			cidb \
+			cros_bisect \
 			infra \
 			lib/datafiles/ \
+			lib/testdata/ \
+			licensing \
 			service \
 			signing \
 			third_party/pyelftools/examples \
