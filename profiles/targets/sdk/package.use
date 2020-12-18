@@ -174,7 +174,6 @@ dev-python/jaraco-functools python_targets_python2_7
 dev-python/jinja python_targets_python2_7
 dev-python/kiwisolver python_targets_python2_7
 dev-python/linecache2 python_targets_python2_7
-dev-python/logbook python_targets_python2_7
 dev-python/lxml python_targets_python2_7
 dev-python/markupsafe python_targets_python2_7
 dev-python/mock python_targets_python2_7
@@ -195,7 +194,6 @@ dev-python/pycparser python_targets_python2_7
 dev-python/pygobject python_targets_python2_7
 dev-python/pyopenssl python_targets_python2_7
 dev-python/pyparsing python_targets_python2_7
-dev-python/pyshark python_targets_python2_7
 dev-python/PySocks python_targets_python2_7
 dev-python/python-dateutil python_targets_python2_7
 dev-python/pytz python_targets_python2_7
@@ -211,7 +209,6 @@ dev-python/setuptools_scm python_targets_python2_7
 dev-python/six python_targets_python2_7
 dev-python/tempora python_targets_python2_7
 dev-python/traceback2 python_targets_python2_7
-dev-python/trollius python_targets_python2_7
 dev-python/unittest2 python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
