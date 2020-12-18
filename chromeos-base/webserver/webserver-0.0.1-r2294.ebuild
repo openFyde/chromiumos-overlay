@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b05e4a6b92b2cfe608b6cd8d5d37168680fc080e"
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "c5711e94f1e2955d244a0532a8f4026f478c9eaf" "a3a7a1df955f71ee22313f09efbfb83bb6e66bae" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a5af3e76ba6310c8ec0609b2d7801b609bdcb5e8"
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "c5711e94f1e2955d244a0532a8f4026f478c9eaf" "5e113c91839d131b5610c46c24fb2720e664d945" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -42,8 +42,11 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	local v="$(libchrome_ver)"
 	libwebserv/preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}/lib/libwebserv-${v}.so"
-	doins "${OUT}/lib/libwebserv-${v}.pc"
+	dolib.so "${OUT}/lib/libwebserv.so"
+	doins "${OUT}/lib/libwebserv.pc"
+
+	# TODO(fqj): Remove symlink after users are migrated to libwebserv.pc
+	dosym libwebserv.pc "/usr/$(get_libdir)/pkgconfig/libwebserv-${v}.pc"
 
 	# Install header files from libwebserv
 	insinto /usr/include/libwebserv
