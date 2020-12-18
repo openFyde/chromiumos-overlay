@@ -47,6 +47,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/Avoid-GPU-crash-with-malformed-streams.patch
 	epatch "${FILESDIR}"/set_multisample_state_for_gen6.patch
 	epatch "${FILESDIR}"/Disable-VP8-decoder-on-BDW.patch
+	epatch "${FILESDIR}"/0001-Remove-blitter-usage-from-driver.patch
 
 	sed -e 's/intel-gen4asm/\0diSaBlEd/g' -i configure.ac || die
 	autotools-multilib_src_prepare
