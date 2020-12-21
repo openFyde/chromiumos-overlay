@@ -220,6 +220,7 @@ CONFIG_FRAGMENTS=(
 	virtio_balloon
 	vivid
 	vlan
+	vtpm_proxy
 	vmware_guest
 	vtconsole
 	wifi_testbed_ap
@@ -548,6 +549,11 @@ tpm_desc="TPM support"
 tpm_config="
 CONFIG_TCG_TPM=y
 CONFIG_TCG_TIS=y
+"
+
+vtpm_proxy_desc="vTPM proxy support"
+vtpm_proxy_config="
+CONFIG_TCG_VTPM_PROXY=y
 "
 
 recovery_ramfs_desc="Initramfs for recovery image"
