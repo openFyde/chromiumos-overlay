@@ -243,9 +243,6 @@ src_install() {
 		# doins "${OUT}"/gen/include/"${d}"/*.p
 	done
 
-	# Remove symlink after all files migrated unversioned header path.
-	dosym libchrome /usr/include/base-"${BASE_VER}"
-
 	# TODO(fqj): Revisit later for type mapping (see libchrome/BUILD.gn)
 	# Install libchrome base type mojo mapping
 	# if use mojo; then
