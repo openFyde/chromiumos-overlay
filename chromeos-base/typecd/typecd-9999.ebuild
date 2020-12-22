@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="typecd"
 inherit cros-workon platform user
 
 DESCRIPTION="Chrome OS USB Type C daemon"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/typecd/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/typecd/"
 
 LICENSE="BSD-Google"
 SLOT=0
@@ -27,9 +27,12 @@ src_install() {
 	insinto /etc/init
 	doins init/*.conf
 
-	# Install seccomp policy file.
+	# Install seccomp policy files.
 	insinto /usr/share/policy
-	use seccomp && newins "seccomp/typecd-seccomp-${ARCH}.policy" typecd-seccomp.policy
+	if use seccomp; then
+		newins "seccomp/typecd-seccomp-${ARCH}.policy" typecd-seccomp.policy
+		newins "seccomp/ectool_inventory-seccomp-${ARCH}.policy" ectool_inventory-seccomp.policy
+	fi
 
 	# Install rsyslog config.
 	insinto /etc/rsyslog.d
