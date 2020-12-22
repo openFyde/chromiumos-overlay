@@ -26,7 +26,6 @@ RDEPEND="
 	!chromeos-base/screenshot
 	media-libs/libpng:0=
 	media-libs/minigbm:=
-	net-libs/libvncserver
 	x11-libs/libdrm:=
 	virtual/opengles"
 
@@ -34,6 +33,5 @@ DEPEND="${RDEPEND}
 	x11-drivers/opengles-headers"
 
 src_install() {
-	dosbin "${OUT}/kmsvnc"
 	dosbin "${OUT}/screenshot"
 }
