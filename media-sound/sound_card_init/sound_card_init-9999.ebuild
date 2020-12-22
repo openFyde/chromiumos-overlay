@@ -24,9 +24,10 @@ DEPEND="
 	dev-rust/sys_util:=
 	dev-rust/serde_yaml:=
 	dev-rust/remain:=
-	media-sound/cros_alsa:=
 	media-sound/audio_streams:=
+	media-sound/cros_alsa:=
 	media-sound/libcras:=
+	media-sound/sof_sys:=
 "
 
 src_install() {
