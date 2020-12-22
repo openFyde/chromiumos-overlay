@@ -48,7 +48,6 @@ IUSE_IWLWIFI=(
 	iwlwifi-9000
 	iwlwifi-9260
 	iwlwifi-cc
-	iwlwifi-Qu-c0
 	iwlwifi-QuZ
 )
 IUSE_BRCMWIFI=(
@@ -272,7 +271,6 @@ install_iwlwifi() {
 		iwlwifi-9000)  doins "${x}-pu-b0-jf-b0-46.ucode" ;;
 		iwlwifi-9260)  doins "${x}-th-b0-jf-b0-46.ucode" ;;
 		iwlwifi-cc)    doins "${x}-a0-61.ucode" ;;
-		iwlwifi-Qu-c0) doins "${x}-hr-b0-61.ucode" ;;
 		iwlwifi-QuZ)
 			case "${kernel}" in
 			kernel-4_19) doins "${x}-a0-hr-b0-61.ucode" ;;
