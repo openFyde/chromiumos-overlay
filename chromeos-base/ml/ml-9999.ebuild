@@ -29,6 +29,7 @@ MODELS_TO_INSTALL=(
 
 DOWNLOADABLE_MODELS=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20200206-downloadable.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20201022-downloadable.tflite"
 )
 
 SRC_URI="
