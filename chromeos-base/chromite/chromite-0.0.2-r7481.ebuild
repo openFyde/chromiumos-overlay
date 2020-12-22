@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8d33b81b54ca4159981918fe916a23efb3d11fd4"
-CROS_WORKON_TREE="b70a42cd40d538dd4ffebd4fde9707520f5c5191"
+CROS_WORKON_COMMIT="33e27280b24ab1880184615f32da8908d84dee4b"
+CROS_WORKON_TREE="ca8b97deea7e0a9d7af9ca8e7fa89c982597b197"
 CROS_WORKON_PROJECT="chromiumos/chromite"
 CROS_WORKON_LOCALNAME="../chromite"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -39,8 +39,11 @@ src_install() {
 			appengine \
 			contrib \
 			cidb \
+			cros_bisect \
 			infra \
 			lib/datafiles/ \
+			lib/testdata/ \
+			licensing \
 			service \
 			signing \
 			third_party/pyelftools/examples \
