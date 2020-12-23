@@ -72,13 +72,23 @@ src_prepare() {
 
 multilib_src_configure() {
 	local ECONF_SOURCE=${S}
+	local _with_arm_eabi=
+	# We want to support both 32-bit and 64-bit EABIs for now due to the mixed
+	# use on Chrome OS. This can be changed to a simpler
+	# $(use_with arm64 aarch64) if and when we drop 32-bit userspace support.
+	# Nevertheless, vestigial 32-bit EABI support here would likely just be
+	# superfluous and harmless.
+	if [[ "${ARCH}" == "arm"* ]]; then
+		_with_arm_eabi=(--with-arm --with-aarch64)
+	fi
 	econf \
 		--sbindir="${EPREFIX}/sbin" \
 		$(use_enable gssapi gssapi-krb5) \
 		$(use_enable static-libs static) \
 		--enable-systemd \
 		--without-python \
-		--without-python3
+		--without-python3 \
+		"${_with_arm_eabi[@]}"
 
 	if multilib_is_native_abi; then
 		python_configure() {
