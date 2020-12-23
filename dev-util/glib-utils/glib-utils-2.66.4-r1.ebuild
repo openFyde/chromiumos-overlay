@@ -12,7 +12,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2.1+"
 SLOT="0" # /usr/bin utilities that can't be parallel installed by their nature
-IUSE=""
+IUSE="cros-host"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 KEYWORDS="*"
@@ -20,10 +20,12 @@ KEYWORDS="*"
 RDEPEND="${PYTHON_DEPS}
 	!<dev-libs/glib-2.56.2:2
 "
-DEPEND="${RDEPEND}"
 BDEPEND="
 	dev-libs/libxslt
 	app-text/docbook-xsl-stylesheets
+"
+DEPEND="${RDEPEND}
+	cros-host? ( ${BDEPEND} )
 "
 
 src_configure() { :; }
