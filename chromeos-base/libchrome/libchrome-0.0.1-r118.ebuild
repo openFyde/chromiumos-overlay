@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("57779f9c27d62896f66cced9cc88443ae9585372" "013ad467b861503efffea6495a1c7cef761f5e42")
+CROS_WORKON_COMMIT=("d9f0aed011ba9a79f4ba999ff562d7995c9777ca" "013ad467b861503efffea6495a1c7cef761f5e42")
 CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2ba090802d2c1273cc7f04bf8f4c8414cdb5fde4")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -244,9 +244,6 @@ src_install() {
 		# insinto /usr/share/libchrome/pickle/"${d}"
 		# doins "${OUT}"/gen/include/"${d}"/*.p
 	done
-
-	# Remove symlink after all files migrated unversioned header path.
-	dosym libchrome /usr/include/base-"${BASE_VER}"
 
 	# TODO(fqj): Revisit later for type mapping (see libchrome/BUILD.gn)
 	# Install libchrome base type mojo mapping
