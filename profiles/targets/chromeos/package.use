@@ -60,7 +60,6 @@ media-libs/libsndfile	minimal
 media-libs/mesa		gallium classic shared-glapi gles2 egl -gbm
 media-libs/opencv	-gtk python png jpeg -tiff v4l
 media-libs/openh264	utils
-media-libs/piglit	waffle
 media-libs/waffle	gbm
 media-plugins/live      -ssl
 media-sound/sox		alsa ogg
