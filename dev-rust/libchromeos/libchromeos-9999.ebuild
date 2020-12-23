@@ -3,6 +3,8 @@
 
 EAPI=7
 
+# TODO(crbug.com/1157860) Enable non x86_64 tests.
+CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
 CROS_WORKON_LOCALNAME="../platform2"
@@ -33,8 +35,5 @@ DEPEND="chromeos-base/system_api:=
 RDEPEND="!!<=dev-rust/libchromeos-0.1.0-r2"
 
 src_test() {
-	# TODO(1157860) Portage already runs tests in parallel and these tests appear
-	# to be load sensitive. Decide if the failures need fixes or if --test-threads=1
-	# should stay.
 	cros-rust_src_test -- --test-threads=1
 }
