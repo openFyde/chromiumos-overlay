@@ -22,6 +22,7 @@ RDEPEND=""
 
 DEPEND="${RDEPEND}
 	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
+	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
 	dev-rust/libchromeos:=
 	dev-rust/minijail:=
