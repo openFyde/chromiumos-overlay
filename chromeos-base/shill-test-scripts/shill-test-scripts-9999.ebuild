@@ -9,7 +9,9 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="shill/test-scripts"
 
-inherit cros-workon
+PYTHON_COMPAT=( python3_{6..9} )
+
+inherit cros-workon python-single-r1
 
 DESCRIPTION="shill's test scripts"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
@@ -17,14 +19,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="python_targets_python2_7"
+IUSE=""
 
-DEPEND="
-	dev-lang/python
-	dev-python/dbus-python
-	python_targets_python2_7? ( dev-python/pygobject )"
-
-RDEPEND="${DEPEND}
+RDEPEND="${PYTHON_DEPS}
+	$(python_gen_cond_dep 'dev-python/dbus-python[${PYTHON_USEDEP}]')
 	>=chromeos-base/shill-0.0.1-r2205
 	net-dns/dnsmasq
 	sys-apps/iproute2"
