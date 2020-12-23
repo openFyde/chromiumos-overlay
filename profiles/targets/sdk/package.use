@@ -130,10 +130,8 @@ dev-libs/boost -python
 chromeos-base/chromite-sdk python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 dev-python/asn1crypto python_targets_python2_7
-dev-python/astroid python_targets_python2_7
 dev-python/atomicwrites python_targets_python2_7
 dev-python/attrs python_targets_python2_7
-dev-python/backports python_targets_python2_7
 dev-python/btsocket python_targets_python2_7
 dev-python/certifi python_targets_python2_7
 dev-python/cffi python_targets_python2_7
@@ -157,13 +155,11 @@ dev-python/httplib2 python_targets_python2_7
 dev-python/idna python_targets_python2_7
 dev-python/imaging python_targets_python2_7
 dev-python/intelhex python_targets_python2_7
-dev-python/isort python_targets_python2_7
 dev-python/jaraco-functools python_targets_python2_7
 # TODO(b/146155010): Used by assistant.
 dev-python/jinja python_targets_python2_7
 dev-python/jsonrpclib python_targets_python2_7
 dev-python/kiwisolver python_targets_python2_7
-dev-python/lazy-object-proxy python_targets_python2_7
 dev-python/linecache2 python_targets_python2_7
 dev-python/logbook python_targets_python2_7
 dev-python/lxml python_targets_python2_7
@@ -233,7 +229,6 @@ dev-python/unittest2 python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
-dev-python/wrapt python_targets_python2_7
 dev-python/ws4py python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-python/zope-interface python_targets_python2_7
@@ -245,8 +240,6 @@ virtual/python-cffi python_targets_python2_7
 # These packages only support Python 2.7.  They aren't needed in Python 3.6+.
 # TODO(crbug.com/1007152): Trim this entirely!
 dev-python/backports-functools-lru-cache python_targets_python2_7 -python_targets_python3_6
-dev-python/backports-lzma python_targets_python2_7 -python_targets_python3_6
-dev-python/configparser python_targets_python2_7 -python_targets_python3_6
 dev-python/ctypesgen python_targets_python2_7 -python_targets_python3_6
 dev-python/enum34 python_targets_python2_7 -python_targets_python3_6
 dev-python/funcsigs python_targets_python2_7
@@ -255,7 +248,6 @@ dev-python/futures python_targets_python2_7 -python_targets_python3_6
 dev-python/ipaddress python_targets_python2_7 -python_targets_python3_6
 dev-python/mox python_targets_python2_7 -python_targets_python3_6
 dev-python/pathlib python_targets_python2_7 -python_targets_python3_6
-dev-python/singledispatch python_targets_python2_7
 dev-python/subprocess32 python_targets_python2_7 -python_targets_python3_6
 dev-python/typing python_targets_python2_7 -python_targets_python3_6
 virtual/python-enum34 python_targets_python2_7
@@ -263,5 +255,4 @@ virtual/python-funcsigs python_targets_python2_7
 virtual/python-futures python_targets_python2_7
 virtual/python-ipaddress python_targets_python2_7
 virtual/python-pathlib python_targets_python2_7
-virtual/python-singledispatch python_targets_python2_7
 virtual/python-typing python_targets_python2_7
