@@ -132,7 +132,6 @@ dev-libs/boost -python
 # TODO(crbug.com/1007152): Trim this entirely!
 chromeos-base/chromite-sdk python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
-dev-python/asn1crypto python_targets_python2_7
 dev-python/atomicwrites python_targets_python2_7
 dev-python/attrs python_targets_python2_7
 dev-python/btsocket python_targets_python2_7
@@ -150,7 +149,6 @@ dev-python/dbus-python python_targets_python2_7
 dev-python/django python_targets_python2_7
 dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
-dev-python/ecdsa python_targets_python2_7
 dev-python/future python_targets_python2_7
 dev-python/grpcio python_targets_python2_7
 dev-python/grpcio-tools python_targets_python2_7
@@ -177,7 +175,6 @@ dev-python/namespace-zope python_targets_python2_7
 dev-python/numpy python_targets_python2_7
 dev-python/pathlib2 python_targets_python2_7
 dev-python/pbr python_targets_python2_7
-dev-python/pep8 python_targets_python2_7
 dev-python/pexpect python_targets_python2_7
 dev-python/pluggy python_targets_python2_7
 dev-python/ply python_targets_python2_7

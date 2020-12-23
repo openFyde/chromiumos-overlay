@@ -174,16 +174,13 @@ chromeos-base/chromite python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/telemetry python_targets_python2_7
 chromeos-base/touch_firmware_test python_targets_python2_7
-dev-python/asn1crypto python_targets_python2_7
 dev-python/bottle python_targets_python2_7
 dev-python/btsocket python_targets_python2_7
-dev-python/cachetools python_targets_python2_7
 dev-python/certifi python_targets_python2_7
 dev-python/cffi python_targets_python2_7
 dev-python/chardet python_targets_python2_7
 dev-python/cheroot python_targets_python2_7
 dev-python/cherrypy python_targets_python2_7
-dev-python/configobj python_targets_python2_7
 dev-python/contextlib2 python_targets_python2_7
 dev-python/cryptography python_targets_python2_7
 dev-python/cycler python_targets_python2_7
@@ -192,12 +189,8 @@ dev-python/dbus-python python_targets_python2_7
 dev-python/django python_targets_python2_7
 dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
-dev-python/ecdsa python_targets_python2_7
-dev-python/elementtree python_targets_python2_7
 dev-python/future python_targets_python2_7
 dev-python/gevent python_targets_python2_7
-dev-python/google-resumable-media python_targets_python2_7
-dev-python/googleapis-common-protos python_targets_python2_7
 dev-python/greenlet python_targets_python2_7
 dev-python/grpcio python_targets_python2_7
 dev-python/httplib2 python_targets_python2_7
@@ -225,7 +218,6 @@ dev-python/pbr python_targets_python2_7
 dev-python/pexpect python_targets_python2_7
 dev-python/ply python_targets_python2_7
 dev-python/portend python_targets_python2_7
-dev-python/prettytable python_targets_python2_7
 dev-python/protobuf-python python_targets_python2_7
 dev-python/psutil python_targets_python2_7
 dev-python/ptyprocess python_targets_python2_7
