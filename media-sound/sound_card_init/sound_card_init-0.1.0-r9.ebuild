@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="658432e20391414491891450cdb9e3676269fae8"
+CROS_WORKON_COMMIT="5869f01249df06c60bc6e1e498c8f2084304ed55"
 CROS_WORKON_TREE="489dc9b5be888f7a84485953d6560d4f374b3b12"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -15,7 +15,7 @@ CROS_WORKON_SUBTREE="sound_card_init"
 inherit cros-workon cros-rust udev user
 
 DESCRIPTION="Sound Card Initializer"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/master/sound_card_init"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/sound_card_init"
 
 LICENSE="BSD-Google"
 KEYWORDS="-* amd64"
@@ -30,26 +30,6 @@ DEPEND="
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "
-
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/sound_card_init"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	ecargo_build
-	use test && ecargo_test --no-run
-}
-
-src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/sound_card_init"

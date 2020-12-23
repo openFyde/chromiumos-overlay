@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="71fbf3c0e07df51c6c68a3677053d371c47e38cf"
+CROS_WORKON_COMMIT="5869f01249df06c60bc6e1e498c8f2084304ed55"
 CROS_WORKON_TREE="8df34d11e8b707d596006d273308a7bc953387a6"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -15,7 +15,7 @@ CROS_WORKON_SUBTREE="cros_alsa"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Rust version alsa-lib"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/master/cros_alsa"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/cros_alsa"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -31,35 +31,39 @@ DEPEND="
 	dev-rust/remain:=
 "
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/cros_alsa"
-
-	cros-rust_src_unpack
+pkg_setup() {
+	cros-rust_pkg_setup cros_alsa_derive
+	cros-rust_pkg_setup cros_alsa
 }
 
 src_compile() {
-	use test && ecargo_test --no-run
+	(
+		cd cros_alsa_derive || die
+		cros-rust_src_compile
+	)
+
+	cros-rust_src_compile
 }
 
 src_test() {
-	if use x86 || use amd64; then
-		ecargo_test
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
+	(
+		cd cros_alsa_derive || die
+		cros-rust_src_test
+	)
+
+	cros-rust_src_test
 }
 
 src_install() {
-	pushd cros_alsa_derive > /dev/null
-	cros-rust_publish cros_alsa_derive "$(cros-rust_get_crate_version ${S}/cros_alsa_derive)"
-	popd > /dev/null
+	(
+		cd cros_alsa_derive || die
+		cros-rust_publish cros_alsa_derive "$(cros-rust_get_crate_version .)"
+	)
 
 	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
 }
 
 pkg_postinst() {
-
 	cros-rust_pkg_postinst cros_alsa_derive
 	cros-rust_pkg_postinst cros_alsa
 }
