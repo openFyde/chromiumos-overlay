@@ -19,9 +19,9 @@ IUSE="cros_host"
 RDEPEND=""
 
 DEPEND="${RDEPEND}
-	>chromeos-base/chromeos-dbus-bindings-rust-0.24.52-r16:=
 	chromeos-base/libsirenia:=
 	=dev-rust/chrono-0.4*:=
+	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=

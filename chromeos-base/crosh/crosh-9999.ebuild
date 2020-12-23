@@ -17,7 +17,7 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE="+rust-crosh"
 
-DEPEND=">chromeos-base/system_api-rust-0.24.52-r261:=
+DEPEND="
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
@@ -25,6 +25,7 @@ DEPEND=">chromeos-base/system_api-rust-0.24.52-r261:=
 	=dev-rust/rustyline-7*:=
 	dev-rust/shell-words:=
 	dev-rust/sys_util:=
+	dev-rust/system_api:=
 	dev-rust/tempfile:=
 	>dev-rust/tlsdate_dbus-0.24.52-r8:=
 "
