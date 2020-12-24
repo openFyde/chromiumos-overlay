@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="45b9a6d50c855f18fc70e38c1dfd04d6d2c0968c"
+CROS_WORKON_COMMIT="dc2a3fe8d1a0cc593a0532a2d2bd9be4d2507aec"
 CROS_WORKON_TREE="155e00257ce4d3c69e33eb317356caaee2a0977b"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,6 +21,7 @@ IUSE="+rust-crosh"
 
 DEPEND=">chromeos-base/system_api-rust-0.24.52-r261:=
 	=dev-rust/dbus-0.8*:=
+	=dev-rust/getopts-0.2*:=
 	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
 	dev-rust/remain:=
 	=dev-rust/rustyline-7*:=
