@@ -69,6 +69,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-gold-dwp-dwarfv5-1.patch"
 	"${FILESDIR}/${P}-gold-dwp-dwarfv5-2.patch"
 	"${FILESDIR}/${P}-gold-dwp-dwarfv5-3.patch"
+	"${FILESDIR}/${P}-gold-dwp-dwarfv5-4.patch"
 )
 
 # It is not convenient that cros_workon.eclass does not accept a branch name in
