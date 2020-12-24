@@ -167,6 +167,9 @@ src_prepare() {
 	epatch "${FILESDIR}"/BACKPORT-frontend-dri-plumb-loader-image-cleanup-callback.patch
 	epatch "${FILESDIR}"/BACKPORT-egl-android-implement-image-cleanup-callback.patch
 
+	# merge request 8211
+	epatch "${FILESDIR}"/UPSTREAM-egl-dri2-fix-image-loaderPrivate-type-mixup.patch
+
 	default
 }
 
