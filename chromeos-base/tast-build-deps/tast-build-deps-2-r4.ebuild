@@ -33,6 +33,7 @@ DEPEND="
 	dev-go/crypto
 	dev-go/dbus
 	dev-go/dst
+	dev-go/exif
 	dev-go/fscrypt
 	dev-go/gapi-drive
 	dev-go/genproto
