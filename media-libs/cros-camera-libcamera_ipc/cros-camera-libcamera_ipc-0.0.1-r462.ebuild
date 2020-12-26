@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="a02ed57ec904a96482bf76c74b3377917cb904d8"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "4cc584c3493bd813e9013c73f8c48c8e3582f603" "7a1d74c123b017ae77789f0ddc653190329d57d2" "ffccaa8b7bb1b063ae1051517543023ce055ef35" "52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb")
+CROS_WORKON_COMMIT="7829c4a56ac4b2ab01d0742ade61cd6ee5be5f88"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "bc54278f809cf701d0e479575fef5a3081d4a611" "1d1535ce93b5af1f78dbf1665e00cee8364c426a" "ffccaa8b7bb1b063ae1051517543023ce055ef35" "52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk"
@@ -38,8 +38,7 @@ src_install() {
 	dolib.a "${OUT}/libcamera_ipc_mojom.a"
 
 	cros-camera_doheader \
-		../../include/cros-camera/camera_mojo_channel_manager.h \
-		../../include/cros-camera/ipc_util.h
+		../../include/cros-camera/camera_mojo_channel_manager_token.h
 
 	cros-camera_dopc ../libcamera_ipc.pc.template
 }
