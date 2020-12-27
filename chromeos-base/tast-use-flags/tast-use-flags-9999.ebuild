@@ -114,6 +114,7 @@ IUSE="
 	ubsan
 	unibuild
 	usbguard
+	v4l2_codec
 	vaapi
 	veyron_mickey
 	veyron_rialto
