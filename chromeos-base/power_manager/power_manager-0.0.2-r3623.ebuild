@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="681a3f1d167065455e2e0d96834496e7207b15e7"
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "da25eefd3c0c9f59c7ef606fbc9c4ac8dacf0228" "9d86e7ec6a43a7ef09d1c859379be1a06a1b3429" "0ee90a62b1b2f6fe8fbdc016bbf733bcd4d58617" "08bf5ebe0dbed35e849d802a4a5deb0dc68cd6bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1edab60bf52128aef2d0c3208e4f37798c213f12"
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "da25eefd3c0c9f59c7ef606fbc9c4ac8dacf0228" "9d86e7ec6a43a7ef09d1c859379be1a06a1b3429" "0ee90a62b1b2f6fe8fbdc016bbf733bcd4d58617" "8b8ec3236b35a3d7f7261715a96d555b2f4d2dd1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -95,6 +95,10 @@ src_install() {
 	dobin tools/debug_sleep_quickly
 	dobin tools/set_short_powerd_timeouts
 	dobin tools/suspend_stress_test
+
+	# Scripts called from init scripts
+	exeinto /usr/share/cros/init/
+	doexe tools/temp_logger.sh
 
 	# Preferences
 	insinto /usr/share/power_manager
