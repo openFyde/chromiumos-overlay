@@ -31,7 +31,7 @@ src_install() {
 	insinto /usr/share/policy
 	if use seccomp; then
 		newins "seccomp/typecd-seccomp-${ARCH}.policy" typecd-seccomp.policy
-		newins "seccomp/ectool_inventory-seccomp-${ARCH}.policy" ectool_inventory-seccomp.policy
+		newins "seccomp/ectool_typec-seccomp-${ARCH}.policy" ectool_typec-seccomp.policy
 	fi
 
 	# Install rsyslog config.
