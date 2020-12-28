@@ -11,6 +11,9 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
+# TODO remove this ebuild once annealing includes https://crrev.com/c/2602582.
+CROS_WORKON_MANUAL_UPREV=1
+
 inherit cros-workon cros-rust
 
 CROS_RUST_CRATE_NAME="chromeos_dbus_bindings"
