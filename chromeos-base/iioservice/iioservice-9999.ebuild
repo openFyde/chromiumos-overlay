@@ -41,6 +41,9 @@ src_install() {
 	insinto /etc/init
 	doins init/iioservice.conf
 
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.Iioservice.conf
+
 	# Install seccomp policy file.
 	insinto /usr/share/policy
 	use seccomp && newins "seccomp/iioservice-${ARCH}.policy" iioservice-seccomp.policy
