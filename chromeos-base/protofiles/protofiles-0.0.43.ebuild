@@ -27,7 +27,7 @@ inherit cros-constants eutils git-r3 python-any-r1
 EGIT_REPO_URIS=(
 	"cloud/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"cd0f3e50ec649b79e36b1a1594b3c32116eb1f33"
+	"34464769017ead291e9e09e43293860742f39cb6"
 
 	# If you uprev these repos, please also:
 	# - Update files/VERSION to the corresponding revision of
@@ -44,6 +44,17 @@ EGIT_REPO_URIS=(
 	#   User policy is generated and doesn't have to be updated manually.
 	# - Bump the package version:
 	#     git mv protofiles-0.0.N.ebuild protofiles-0.0.N+1.ebuild
+
+	# private_membership and shell_encryption are not used in Chrome OS at
+	# the moment. They are just required to compile the proto files. An
+	# uprev will only be necessary if the respective proto files change.
+	"private_membership"
+	"${CROS_GIT_HOST_URL}/chromium/src/third_party/private_membership.git"
+	"f24c4a0abf6c2d4786ed1bc266865d81501b6d76"
+
+	"shell_encryption"
+	"${CROS_GIT_HOST_URL}/chromium/src/third_party/shell-encryption.git"
+	"8a71975ae608edd9aa6f7fef07d7e9c25b25854d"
 )
 
 DESCRIPTION="Protobuf installer for the device policy proto definitions."
@@ -54,11 +65,10 @@ SLOT="0/${PV}"
 KEYWORDS="*"
 IUSE=""
 
-PATCHES=(
-	"${FILESDIR}/${PN}-start-up-flags.patch"
-)
-
 POLICY_DIR="${S}/cloud/policy"
+
+PRIVATE_MEMBERSHIP_DIR="${S}/private_membership/src"
+SHELL_ENCRYPTION_DIR="${S}/shell_encryption/src"
 
 # A list of the static protobuf files that exist in Chromium.
 POLICY_DIR_PROTO_FILES=(
@@ -102,11 +112,17 @@ src_install() {
 	doins "${POLICY_DIR}"/proto/install_attributes.proto
 	doins "${POLICY_DIR}"/proto/policy_signing_key.proto
 	doins "${POLICY_DIR}"/proto/device_management_backend.proto
+	doins "${PRIVATE_MEMBERSHIP_DIR}"/private_membership_rlwe.proto
+	doins "${PRIVATE_MEMBERSHIP_DIR}"/private_membership.proto
+	doins "${SHELL_ENCRYPTION_DIR}"/serialization.proto
 	insinto /usr/share/protofiles
 	doins "${POLICY_DIR}"/proto/chrome_device_policy.proto
 	doins "${POLICY_DIR}"/proto/policy_common_definitions.proto
 	doins "${POLICY_DIR}"/proto/device_management_backend.proto
 	doins "${POLICY_DIR}"/proto/chrome_extension_policy.proto
+	doins "${PRIVATE_MEMBERSHIP_DIR}"/private_membership_rlwe.proto
+	doins "${PRIVATE_MEMBERSHIP_DIR}"/private_membership.proto
+	doins "${SHELL_ENCRYPTION_DIR}"/serialization.proto
 	doins "${WORKDIR}"/cloud_policy.proto
 	dobin "${FILESDIR}"/policy_reader
 	insinto /usr/share/policy_resources

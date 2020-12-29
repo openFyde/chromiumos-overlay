@@ -21,7 +21,18 @@ EGIT_REPO_URIS=(
 
 	"components/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"80ecffd9093caa604b348bef86f6fb692d188e2c"
+	"34464769017ead291e9e09e43293860742f39cb6"
+
+	# private_membership and shell_encryption are not used in Chrome OS at
+	# the moment. They are just required to compile the proto files. An
+	# uprev will only be necessary if the respective proto files change.
+	"private_membership"
+	"${CROS_GIT_HOST_URL}/chromium/src/third_party/private_membership.git"
+	"f24c4a0abf6c2d4786ed1bc266865d81501b6d76"
+
+	"shell_encryption"
+	"${CROS_GIT_HOST_URL}/chromium/src/third_party/shell-encryption.git"
+	"8a71975ae608edd9aa6f7fef07d7e9c25b25854d"
 )
 
 DESCRIPTION="Dependencies needed by the policy_testserver"
@@ -30,6 +41,9 @@ SLOT="0"
 KEYWORDS="*"
 
 POLICY_DIR="${S}/components/policy"
+
+PRIVATE_MEMBERSHIP_DIR="${S}/private_membership/src"
+SHELL_ENCRYPTION_DIR="${S}/shell_encryption/src"
 
 # Destination on DUT is /usr/local/share/policy_testserver.
 TESTSERVER_DIR="/usr/share/policy_testserver"
@@ -65,11 +79,17 @@ src_compile() {
 		|| die
 
 	# Create Python bindings needed for policy_testserver.py.
-	protoc --proto_path="${POLICY_DIR}/proto" --python_out="${WORKDIR}" \
+	protoc --proto_path="${POLICY_DIR}/proto" \
+		--proto_path="${PRIVATE_MEMBERSHIP_DIR}"\
+		--proto_path="${SHELL_ENCRYPTION_DIR}"\
+		--python_out="${WORKDIR}" \
 		"${POLICY_DIR}/proto/chrome_device_policy.proto" \
 		"${POLICY_DIR}/proto/device_management_backend.proto" \
 		"${POLICY_DIR}/proto/chrome_extension_policy.proto" \
 		"${POLICY_DIR}/proto/policy_common_definitions.proto" \
+		"${PRIVATE_MEMBERSHIP_DIR}/private_membership_rlwe.proto" \
+		"${PRIVATE_MEMBERSHIP_DIR}/private_membership.proto" \
+		"${SHELL_ENCRYPTION_DIR}/serialization.proto" \
 		|| die
 	protoc --proto_path="${WORKDIR}" --proto_path="${POLICY_DIR}/proto" \
 		--python_out="${WORKDIR}" \
@@ -90,4 +110,7 @@ src_install() {
 	doins "${WORKDIR}/chrome_extension_policy_pb2.py"
 	doins "${WORKDIR}/policy_common_definitions_pb2.py"
 	doins "${WORKDIR}/cloud_policy_pb2.py"
+	doins "${WORKDIR}/private_membership_rlwe_pb2.py"
+	doins "${WORKDIR}/private_membership_pb2.py"
+	doins "${WORKDIR}/serialization_pb2.py"
 }

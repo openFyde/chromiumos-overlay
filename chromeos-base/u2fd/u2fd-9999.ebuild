@@ -36,6 +36,7 @@ RDEPEND="${COMMON_DEPEND}"
 
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/attestation-client:=
+	>=chromeos-base/protofiles-0.0.43:=
 	chromeos-base/system_api:=[fuzzer?]
 "
 
