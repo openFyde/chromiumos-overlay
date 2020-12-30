@@ -21,6 +21,8 @@ SLOT=0
 KEYWORDS="~*"
 IUSE="+seccomp"
 
+DEPEND="chromeos-base/debugd-client:="
+
 src_install() {
 	dobin "${OUT}"/typecd
 
