@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="24426c529bdfcd791494473507d0279b99fd954d"
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "81a5d1f3bb54cf4a465c58cc8f7bae450e61dccc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ef6239b2adc593ced44e19680591e666843f2d3b"
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "5d3b421c3dfc0a00ae58d410eae1c4d84d5d78fd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -33,7 +33,7 @@ src_install() {
 	insinto /usr/share/policy
 	if use seccomp; then
 		newins "seccomp/typecd-seccomp-${ARCH}.policy" typecd-seccomp.policy
-		newins "seccomp/ectool_inventory-seccomp-${ARCH}.policy" ectool_inventory-seccomp.policy
+		newins "seccomp/ectool_typec-seccomp-${ARCH}.policy" ectool_typec-seccomp.policy
 	fi
 
 	# Install rsyslog config.
