@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8840f287da7df46a7046491f7d2faeeeffef8b52"
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "e29238b1d8e59bf73107bff39e3942f72d27fa41" "989d840598227b15d78525d5f92c806011a9c158" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3f609c370a14de534cd75801699cadbfabb0198d"
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "35a00dd8e17f8b2a1aa1c3543d3ea437f7a54bb6" "989d840598227b15d78525d5f92c806011a9c158" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -27,7 +27,7 @@ KEYWORDS="*"
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
 	-direncryption double_extend_pcr_issue fuzzer
 	generated_cros_config mount_oop +vault_legacy_mount +downloads_bind_mount
-	pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
+	lvm_stateful_partition pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
 	user_session_isolation"
 
 REQUIRED_USE="
@@ -65,6 +65,7 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 	sys-apps/flashmap:=
 	sys-apps/keyutils:=
+	sys-apps/rootdev:=
 	sys-fs/e2fsprogs:=
 	sys-fs/ecryptfs-utils:=
 	sys-fs/lvm2:=
