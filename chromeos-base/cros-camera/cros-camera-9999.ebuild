@@ -13,7 +13,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/hal_adapter"
 
-inherit cros-camera cros-constants cros-workon platform user
+inherit cros-camera cros-constants cros-workon platform user udev
 
 DESCRIPTION="Chrome OS camera service. The service is in charge of accessing
 camera device. It uses unix domain socket to build a synchronous channel."
@@ -52,6 +52,8 @@ src_install() {
 
 	insinto /etc/init
 	doins init/cros-camera.conf
+
+	udev_dorules udev/99-camera.rules
 
 	# Install seccomp policy file.
 	insinto /usr/share/policy

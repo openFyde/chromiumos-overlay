@@ -59,5 +59,4 @@ src_install() {
 	fi
 
 	udev_dorules "${FILESDIR}/50-ipu-psys0.rules"
-	udev_dorules "${FILESDIR}/99-mipicam.rules"
 }
