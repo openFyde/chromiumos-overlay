@@ -1,0 +1,33 @@
+Patch the code in the tools directory so that it loads the NNAPI delegate
+correctly without needing to define __ANDROID__
+
+diff --git a/tensorflow/lite/tools/evaluation/utils.cc b/tensorflow/lite/tools/evaluation/utils.cc
+index 56562210..bd91c16b 100644
+--- a/tensorflow/lite/tools/evaluation/utils.cc
++++ b/tensorflow/lite/tools/evaluation/utils.cc
+@@ -95,25 +95,17 @@ TfLiteStatus GetSortedFileNames(
+ 
+ // TODO(b/138448769): Migrate delegate helper APIs to lite/testing.
+ TfLiteDelegatePtr CreateNNAPIDelegate() {
+-#if defined(__ANDROID__)
+   return TfLiteDelegatePtr(
+       NnApiDelegate(),
+       // NnApiDelegate() returns a singleton, so provide a no-op deleter.
+       [](TfLiteDelegate*) {});
+-#else
+-  return CreateNullDelegate();
+-#endif  // defined(__ANDROID__)
+ }
+ 
+ TfLiteDelegatePtr CreateNNAPIDelegate(StatefulNnApiDelegate::Options options) {
+-#if defined(__ANDROID__)
+   return TfLiteDelegatePtr(
+       new StatefulNnApiDelegate(options), [](TfLiteDelegate* delegate) {
+         delete reinterpret_cast<StatefulNnApiDelegate*>(delegate);
+       });
+-#else
+-  return CreateNullDelegate();
+-#endif  // defined(__ANDROID__)
+ }
+ 
+ #if TFLITE_SUPPORTS_GPU_DELEGATE

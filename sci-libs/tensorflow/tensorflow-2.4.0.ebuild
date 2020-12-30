@@ -28,7 +28,7 @@ benchmark_model_uris="
 	https://github.com/Maratyszcza/FXdiv/archive/b408327ac2a15ec3e43352421954f5b1967701d1.zip -> FXdiv-b408327ac2a15ec3e43352421954f5b1967701d1.zip
 	https://github.com/Maratyszcza/pthreadpool/archive/029c88620802e1361ccf41d1970bd5b07fd6b7bb.zip -> pthreadpool-029c88620802e1361ccf41d1970bd5b07fd6b7bb.zip
 	https://github.com/Maratyszcza/psimd/archive/072586a71b55b7f8c584153d223e95687148a900.zip -> psimd-072586a71b55b7f8c584153d223e95687148a900.zip
-	https://github.com/google/XNNPACK/archive/8b283aa30a3186c6e640aed520543e9c067132d2.zip -> XNNPACK-8b283aa30a3186c6e640aed520543e9c067132d2.zip
+	https://github.com/google/XNNPACK/archive/68447302abcfad0d4b6b19a1efe7d7eef8833f4a.zip -> XNNPACK-68447302abcfad0d4b6b19a1efe7d7eef8833f4a.zip
 	"
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
@@ -38,22 +38,15 @@ bazel_external_uris="
 		https://github.com/googleapis/googleapis/archive/541b1ded4abadcc38e8178680b0677f65594ea6f.zip -> googleapis-541b1ded4abadcc38e8178680b0677f65594ea6f.zip
 	)
 	https://github.com/petewarden/OouraFFT/archive/v1.0.tar.gz -> OouraFFT-v1.0.tar.gz
-	https://gitlab.com/libeigen/eigen/-/archive/386d809bde475c65b7940f290efe80e6a05878c4/eigen-386d809bde475c65b7940f290efe80e6a05878c4.tar.gz
+	https://gitlab.com/libeigen/eigen/-/archive/011e0db31d1bed8b7f73662be6d57d9f30fa457a/eigen-011e0db31d1bed8b7f73662be6d57d9f30fa457a.tar.gz
 	https://github.com/abseil/abseil-cpp/archive/df3ea785d8c30a9503321a3d35ee7d35808f190d.tar.gz -> abseil-cpp-df3ea785d8c30a9503321a3d35ee7d35808f190d.tar.gz
 	https://github.com/bazelbuild/bazel-skylib/releases/download/0.9.0/bazel_skylib-0.9.0.tar.gz
 	https://github.com/bazelbuild/rules_apple/archive/5131f3d46794bf227d296c82f30c2499c9de3c5b.tar.gz -> bazelbuild-rules_apple-5131f3d46794bf227d296c82f30c2499c9de3c5b.tar.gz
 	https://github.com/bazelbuild/rules_android/archive/v0.1.1.zip -> bazelbuild-rules_android-v0.1.1.zip
 	https://github.com/bazelbuild/apple_support/archive/501b4afb27745c4813a88ffa28acd901408014e4.tar.gz -> bazelbuild-apple_support-501b4afb27745c4813a88ffa28acd901408014e4.tar.gz
-	https://github.com/bazelbuild/bazel-toolchains/archive/92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz -> bazel-toolchains-92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz
 	https://github.com/bazelbuild/rules_cc/archive/01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip -> bazelbuild-rules_cc-01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip
 	https://github.com/bazelbuild/rules_closure/archive/308b05b2419edb5c8ee0471b67a40403df940149.tar.gz -> bazelbuild-rules_closure-308b05b2419edb5c8ee0471b67a40403df940149.tar.gz
-	!minimal? (
-		https://github.com/bazelbuild/rules_docker/releases/download/v0.10.0/rules_docker-v0.10.0.tar.gz -> bazelbuild-rules_docker-v0.10.0.tar.gz
-	)
 	https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip
-	!minimal? (
-		https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz -> bazelbuild-rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz
-	)
 	https://github.com/bazelbuild/rules_python/releases/download/0.0.1/rules_python-0.0.1.tar.gz -> bazelbuild-rules_python-0.0.1.tar.gz
 	https://github.com/bazelbuild/rules_swift/archive/3eeeb53cebda55b349d64c9fc144e18c5f7c0eb8.tar.gz -> bazelbuild-rules_swift-3eeeb53cebda55b349d64c9fc144e18c5f7c0eb8.tar.gz
 	https://github.com/dmlc/dlpack/archive/3efc489b55385936531a06ff83425b719387ec63.tar.gz -> dlpack-3efc489b55385936531a06ff83425b719387ec63.tar.gz
@@ -62,14 +55,14 @@ bazel_external_uris="
 	https://github.com/google/highwayhash/archive/fd3d9af80465e4383162e4a7c5e2f406e82dd968.tar.gz -> highwayhash-fd3d9af80465e4383162e4a7c5e2f406e82dd968.tar.gz
 	https://github.com/google/re2/archive/506cfa4bffd060c06ec338ce50ea3468daa6c814.tar.gz -> re2-506cfa4bffd060c06ec338ce50ea3468daa6c814.tar.gz
 	https://github.com/joe-kuo/sobol_data/archive/835a7d7b1ee3bc83e575e302a985c66ec4b65249.tar.gz -> sobol_data-835a7d7b1ee3bc83e575e302a985c66ec4b65249.tar.gz
-	https://github.com/llvm/llvm-project/archive/7e825abd5704ce28b166f9463d4bd304348fd2a9.tar.gz -> llvm-7e825abd5704ce28b166f9463d4bd304348fd2a9.tar.gz
+	https://github.com/llvm/llvm-project/archive/f402e682d0ef5598eeffc9a21a691b03e602ff58.tar.gz -> llvm-f402e682d0ef5598eeffc9a21a691b03e602ff58.tar.gz
 	https://github.com/mborgerding/kissfft/archive/36dbc057604f00aacfc0288ddad57e3b21cfc1b8.tar.gz -> kissfft-36dbc057604f00aacfc0288ddad57e3b21cfc1b8.tar.gz
-	https://github.com/google/ruy/archive/34ea9f4993955fa1ff4eb58e504421806b7f2e8f.zip -> ruy-34ea9f4993955fa1ff4eb58e504421806b7f2e8f.zip
+	https://github.com/google/ruy/archive/5bb02fbf90824c2eb6cd7418f766c593106a332b.zip -> ruy-5bb02fbf90824c2eb6cd7418f766c593106a332b.zip
 	https://github.com/pytorch/cpuinfo/archive/d5e37adf1406cf899d7d9ec1d317c47506ccb970.tar.gz -> pytorch-cpuinfo-d5e37adf1406cf899d7d9ec1d317c47506ccb970.tar.gz
 	https://github.com/pytorch/cpuinfo/archive/6cecd15784fcb6c5c0aa7311c6248879ce2cb8b2.zip -> pytorch-cpuinfo-6cecd15784fcb6c5c0aa7311c6248879ce2cb8b2.zip
 	cuda? (
-		https://github.com/nvidia/nccl/archive/5949d96f36d050e59d05872f8bbffd2549318e95.tar.gz -> nvidia-nccl-5949d96f36d050e59d05872f8bbffd2549318e95.tar.gz
-		https://github.com/NVlabs/cub/archive/1.8.0.zip -> cub-1.8.0.zip
+		https://github.com/nvidia/nccl/archive/195232556936b39b01cc908296e1650b80d4a3e9.tar.gz -> nvidia-nccl-195232556936b39b01cc908296e1650b80d4a3e9.tar.gz
+		https://github.com/NVlabs/cub/archive/1.9.9.zip -> cub-1.9.9.zip
 	)
 	https://github.com/intel/ARM_NEON_2_x86_SSE/archive/1200fe90bb174a6224a525ee60148671a786a71f.tar.gz -> ARM_NEON_2_x86_SSE-1200fe90bb174a6224a525ee60148671a786a71f.tar.gz
 	python? (
@@ -77,9 +70,11 @@ bazel_external_uris="
 		https://pypi.python.org/packages/bc/cc/3cdb0a02e7e96f6c70bd971bc8a90b8463fda83e264fa9c5c1c98ceabd81/backports.weakref-1.0rc1.tar.gz
 	)"
 
-SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
-		https://dev.gentoo.org/~perfinion/patches/tensorflow-patches-${PVR}.tar.bz2
-		${bazel_external_uris}"
+SRC_URI="
+	https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
+	https://dev.gentoo.org/~perfinion/patches/tensorflow-patches-${PVR}.tar.bz2
+	${bazel_external_uris}
+	"
 
 RDEPEND="
 	!minimal? (
@@ -112,11 +107,11 @@ RDEPEND="
 	)
 	cuda? (
 		|| (
-		        ( =dev-util/nvidia-cuda-toolkit-10.2*[profiler] =dev-libs/cudnn-7* )
-		        ( =dev-util/nvidia-cuda-toolkit-10.1*[profiler] =dev-libs/cudnn-7* )
-		        ( =dev-util/nvidia-cuda-toolkit-10.0*[profiler] =dev-libs/cudnn-7.4* )
-		        ( =dev-util/nvidia-cuda-toolkit-9.2*[profiler] =dev-libs/cudnn-7.1* )
-		        ( =dev-util/nvidia-cuda-toolkit-9.1*[profiler] =dev-libs/cudnn-7.0* )
+			( =dev-util/nvidia-cuda-toolkit-10.2*[profiler] =dev-libs/cudnn-7* )
+			( =dev-util/nvidia-cuda-toolkit-10.1*[profiler] =dev-libs/cudnn-7* )
+			( =dev-util/nvidia-cuda-toolkit-10.0*[profiler] =dev-libs/cudnn-7.4* )
+			( =dev-util/nvidia-cuda-toolkit-9.2*[profiler] =dev-libs/cudnn-7.1* )
+			( =dev-util/nvidia-cuda-toolkit-9.1*[profiler] =dev-libs/cudnn-7.0* )
 		)
 	)
 	mpi? ( virtual/mpi )
@@ -172,11 +167,10 @@ BDEPEND="
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 PATCHES=(
-	"${FILESDIR}/tensorflow-2.3.1-0001-workspace.patch"
-	"${FILESDIR}/tensorflow-2.3.1-0002-nnapi-android-sdk-version.patch"
-	"${FILESDIR}/tensorflow-2.3.1-0003-ashmem-create.patch"
-	"${FILESDIR}/tensorflow-2.3.1-0004-nnapi-delegates.patch"
-	"${FILESDIR}/tensorflow-2.3.1-0005-cpuinfo-arm-fix.patch"
+	"${FILESDIR}/tensorflow-2.4.0-0001-workspace.patch"
+	"${FILESDIR}/tensorflow-2.4.0-0002-ashmem-create.patch"
+	"${FILESDIR}/tensorflow-2.4.0-0003-nnapi-delegates.patch"
+	"${FILESDIR}/tensorflow-2.4.0-0004-cpuinfo-arm-fix.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
@@ -463,7 +457,7 @@ src_install() {
 		done
 		if use minimal; then
 			einfo "Installing selected TF core headers"
-			local selected=( lib/bfloat16/bfloat16.h platform/byte_order.h platform/macros.h )
+			local selected=( lib/bfloat16/bfloat16.h platform/byte_order.h platform/macros.h platform/bfloat16.h )
 			for i in "${selected[@]}"; do
 				insinto "/usr/include/${PN}/${PN}/core/${i%/*}"
 				doins "${PN}/core/${i}"
@@ -472,7 +466,6 @@ src_install() {
 
 		einfo "Installing NNAPI headers"
 		insinto /usr/include/${PN}/nnapi/
-		doins -r bazel-bin/tensorflow/lite/kernels/internal/include
 		doins -r bazel-bin/tensorflow/lite/kernels/internal/include
 
 		einfo "Installing ruy headers"
