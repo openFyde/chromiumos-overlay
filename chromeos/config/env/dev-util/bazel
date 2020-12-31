@@ -2,7 +2,10 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-# Build bazel with gcc until clang errors are fixed. See crbug.com/820295.
-cros_pre_src_prepare_use_gcc() {
-	cros_use_gcc
+# Provide correct std lib linking flag when compiling with Clang. Bazel uses
+# clang (not clang++) even when compiling C++ code, which fails to link with
+# the correct standard library without manual intervention. See
+# crbug.com/820295. 
+cros_pre_src_configure_stdlib_linkflag() {
+	tc-is-clang && LDFLAGS="${LDFLAGS} -lc++"
 }
