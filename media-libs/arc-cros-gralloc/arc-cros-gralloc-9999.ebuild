@@ -93,3 +93,9 @@ multilib_src_install() {
 	into "/usr/local/"
 	newbin "${BUILD_DIR}"/gralloctest "gralloctest_${ABI}"
 }
+
+multilib_src_install_all() {
+	# Install cros_gralloc header files for arc-mali-* packages
+	insinto "/usr/include/cros_gralloc"
+	doins "${S}/cros_gralloc/cros_gralloc_handle.h"
+}
