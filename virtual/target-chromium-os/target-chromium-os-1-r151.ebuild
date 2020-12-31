@@ -64,6 +64,7 @@ IUSE="
 	+network_time
 	nfc
 	pam
+	pciguard
 	perfetto
 	postscript
 	+power_management
@@ -272,6 +273,7 @@ RDEPEND="
 		chromeos-base/smbprovider
 	)
 	typecd? ( chromeos-base/typecd )
+	pciguard? ( chromeos-base/pciguard )
 "
 
 ################################################################################
