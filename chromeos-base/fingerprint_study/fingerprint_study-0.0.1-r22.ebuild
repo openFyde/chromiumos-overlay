@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="53590283183a83197a2b292bfa74ea840b1d5749"
+CROS_WORKON_COMMIT="ebc24ae24dae21874490b5f72276c15d84dda797"
 CROS_WORKON_TREE="afee4473a9c288cc45346a5081f7aca47980fcd2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,6 +17,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/s
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
+# The fingerprint study can optionally make use of the private package
+# virtual/chromeos-fpmcu-test, which holds the C+python fputils lib.
+# This library is also used for factory tests, thus it was labeled fpmcu-test.
 DEPEND=""
 RDEPEND="
 	${PYTHON_DEPS}
@@ -24,6 +27,7 @@ RDEPEND="
 	dev-python/cherrypy[${PYTHON_USEDEP}]
 	dev-python/python-gnupg[${PYTHON_USEDEP}]
 	dev-python/ws4py[${PYTHON_USEDEP}]
+	virtual/chromeos-fpmcu-test
 	"
 
 src_unpack() {
