@@ -80,9 +80,5 @@ src_install() {
 	insinto "${EPREFIX}/etc/udev/rules.d"
 	doins "${FILESDIR}/50-vgem.rules"
 
-	# Install cros_gralloc header files for arc-mali-* packages
-	insinto "${EPREFIX}/usr/include/cros_gralloc"
-	doins "${S}/cros_gralloc/cros_gralloc_handle.h"
-
 	default
 }
