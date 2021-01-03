@@ -12,11 +12,9 @@ if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/google/googletest"
 else
-	# Chromium & breakpad use a newer version than the latest upstream release.
-	GIT_COMMIT="5ec7f0c4a113e2f18ac2c6cc7df51ad6afc24081"
-	SRC_URI="https://github.com/google/googletest/archive/${GIT_COMMIT}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/google/googletest/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="*"
-	S="${WORKDIR}"/googletest-${GIT_COMMIT}
+	S="${WORKDIR}"/googletest-${PV%.?}.x
 fi
 
 DESCRIPTION="Google C++ Testing Framework"
@@ -29,11 +27,6 @@ IUSE="doc examples test"
 RDEPEND="!dev-cpp/gmock"
 DEPEND="${RDEPEND}
 	test? ( ${PYTHON_DEPS} )"
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-9999-fix-gcc6-undefined-behavior.patch
-	"${FILESDIR}"/${PN}-1.8.0-increase-clone-stack-size.patch
-)
 
 pkg_setup() {
 	use test && python-any-r1_pkg_setup

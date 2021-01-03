@@ -1,1 +1,0 @@
-gtest-1.8.2_pre.ebuild
