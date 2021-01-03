@@ -97,11 +97,6 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	# Patch in the mesa build option to default the shader cache to disabled
-	# while still allowing it to be enabled via environment variable. This is
-	# landed in upstream mesa.
-	eapply "${FILESDIR}"/UPSTREAM-disk_cache-build-option-for-disabled-by-def.patch
-
 	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
 	echo '#define MESA_GIT_SHA1 "git-0000000"' > src/git_sha1.h
 	default
@@ -159,12 +154,6 @@ src_configure() {
 
 	local egl_platforms=""
 	if use egl; then
-		egl_platforms="surfaceless"
-
-		if use drm; then
-			egl_platforms="${egl_platforms},drm"
-		fi
-
 		if use wayland; then
 			egl_platforms="${egl_platforms},wayland"
 		fi
@@ -173,6 +162,7 @@ src_configure() {
 			egl_platforms="${egl_platforms},x11"
 		fi
 	fi
+	egl_platforms="${egl_platforms##,}"
 
 	if use X; then
 		glx="dri"
@@ -188,12 +178,11 @@ src_configure() {
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
-		-Dshader-cache=default-disabled
-		$(meson_use egl)
-		$(meson_use gbm)
-		$(meson_use X gl)
-		$(meson_use gles1)
-		$(meson_use gles2)
+		-Dshader-cache-default=false
+		$(meson_feature egl)
+		$(meson_feature gbm)
+		$(meson_feature gles1)
+		$(meson_feature gles2)
 		$(meson_use selinux)
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
