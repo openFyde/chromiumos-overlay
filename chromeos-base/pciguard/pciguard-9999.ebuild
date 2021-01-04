@@ -20,6 +20,10 @@ LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
 
+DEPEND="
+	chromeos-base/system_api:=
+"
+
 src_install() {
 	# Install the binary
 	dosbin "${OUT}"/pciguard
@@ -31,6 +35,10 @@ src_install() {
 	# Install the upstart configuration files
 	insinto /etc/init
 	doins "${S}"/init/pciguard.conf
+
+	# Install the dbus configuration
+	insinto /etc/dbus-1/system.d
+	doins "${S}/dbus/pciguard-dbus.conf"
 }
 
 pkg_preinst() {

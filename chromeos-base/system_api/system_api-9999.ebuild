@@ -68,6 +68,7 @@ src_install() {
 		lorgnette
 		oobe_config
 		runtime_probe
+		pciguard
 		permission_broker
 		power_manager
 		shill
