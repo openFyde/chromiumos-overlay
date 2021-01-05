@@ -30,6 +30,8 @@ DEPEND="chromeos-base/system_api:=
 	=dev-rust/log-0.4*:=
 	>=dev-rust/protobuf-2.1:=
 	!>=dev-rust/protobuf-3.0:=
+	dev-rust/system_api:=
+	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0.0
 "
 
 RDEPEND="!!<=dev-rust/libchromeos-0.1.0-r2"
