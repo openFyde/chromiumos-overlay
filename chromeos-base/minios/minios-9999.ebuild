@@ -24,6 +24,10 @@ REQUIRED_USE="minios"
 RDEPEND=""
 DEPEND=""
 
+platform_pkg_test() {
+	platform_test "run" "${OUT}/minios_test"
+}
+
 src_install() {
 	dobin "${OUT}/minios"
 }
