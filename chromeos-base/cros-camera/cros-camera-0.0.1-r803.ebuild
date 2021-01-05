@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="633645b0602de01bc35916c041af9fdef2fc3aea"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "bc54278f809cf701d0e479575fef5a3081d4a611" "94931686bea56007260442f6c054e70c15856dd1" "80b1494ac05af004b2f40535e117fd49d44f5121" "a1b29c5affaf32e0ccf704ea2376739de5c36547" "ffccaa8b7bb1b063ae1051517543023ce055ef35" "52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "91bab993773ad1f95dd276029c7f11a0043d7e94")
+CROS_WORKON_COMMIT="f51f845e168d04b9e5f99fed51a8198797f15b4f"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "bdb84f83b17afeab1feaeb05971243369625d105" "b9b576580e3e7f89a086e7104efde1dc8feca645" "738749eddb9319475d3c68f0c86764ed368bea47" "a1b29c5affaf32e0ccf704ea2376739de5c36547" "ffccaa8b7bb1b063ae1051517543023ce055ef35" "52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "91bab993773ad1f95dd276029c7f11a0043d7e94")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/914263): camera/hal is unnecessary for this build but is
@@ -15,7 +15,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/hal_adapter"
 
-inherit cros-camera cros-constants cros-workon platform user
+inherit cros-camera cros-constants cros-workon platform user udev
 
 DESCRIPTION="Chrome OS camera service. The service is in charge of accessing
 camera device. It uses unix domain socket to build a synchronous channel."
@@ -54,6 +54,8 @@ src_install() {
 
 	insinto /etc/init
 	doins init/cros-camera.conf
+
+	udev_dorules udev/99-camera.rules
 
 	# Install seccomp policy file.
 	insinto /usr/share/policy
