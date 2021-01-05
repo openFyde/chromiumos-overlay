@@ -120,6 +120,9 @@ dev-lang/ruby -rdoc
 dev-python/pillow jpeg
 media-libs/opencv -openmp png jpeg
 
+# LibYAML offers significant speedup for cros_config_host.
+dev-python/pyyaml libyaml
+
 # We don't need Python in these packages, so save some space.
 dev-libs/boost -python
 
