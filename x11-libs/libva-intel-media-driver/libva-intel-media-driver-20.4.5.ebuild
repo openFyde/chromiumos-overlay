@@ -22,6 +22,7 @@ RDEPEND="${DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}"/0001-Disable-IPC-usage.patch
+	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
 )
 
 src_configure() {
