@@ -91,6 +91,7 @@ IUSE="
 	moblab
 	mocktpm
 	msan
+	+nacl
 	ndk_translation
 	ndk_translation64
 	nnapi
