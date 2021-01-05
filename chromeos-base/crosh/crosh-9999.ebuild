@@ -20,6 +20,7 @@ IUSE="+rust-crosh"
 DEPEND="
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
+	dev-rust/libchromeos:=
 	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
 	dev-rust/remain:=
 	=dev-rust/rustyline-7*:=
