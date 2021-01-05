@@ -1,9 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit multilib-minimal
+inherit autotools multilib-minimal
 
 DESCRIPTION="Video Acceleration (VA) API for Linux"
 HOMEPAGE="https://01.org/linuxmedia/vaapi"
@@ -51,12 +51,15 @@ MULTILIB_WRAPPED_HEADERS=(
 /usr/include/va/va_glx.h
 )
 
-# TODO(jkardatzke): Remove this patch file when it is merged upstream. If libva
-# needs to be uprev'd before this is removed, please contact me for assistance.
 PATCHES=(
-	"${FILESDIR}"/0001-Protected-content-patches.patch
-	"${FILESDIR}"/0002-Compatibility-patch-for-upstream-differences.patch
+	"${FILESDIR}"/0001-Add-a-configuration-attribute-to-advertise-AV1d-LST-.patch
+	"${FILESDIR}"/0002-LibVA-Protected-Content-API.patch
 )
+
+src_prepare() {
+	default
+	eautoreconf
+}
 
 multilib_src_configure() {
 	local myeconfargs=(
@@ -65,10 +68,12 @@ multilib_src_configure() {
 		--disable-x11
 		--disable-glx
 		--disable-wayland
+		--enable-va-messaging
 	)
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}"
 }
 
 multilib_src_install_all() {
+	default
 	find "${ED}" -type f -name "*.la" -delete || die
 }
