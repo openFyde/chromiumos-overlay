@@ -51,6 +51,7 @@ RUSTC_FULL_BOOTSTRAP_SEQUENCE=(
 	1.43.1
 	1.44.1
 	1.45.2
+	1.46.0
 )
 # When not using fullbootstrap, use this version as a starting point.
 PREBUILT_VERSION="${RUSTC_FULL_BOOTSTRAP_SEQUENCE[-1]}"

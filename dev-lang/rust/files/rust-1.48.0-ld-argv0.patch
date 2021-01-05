@@ -3,10 +3,10 @@ makes /proc/self/exe not point to the right place. If we detect that we're in
 that situation in `current_exe()`, we _should_ have `LD_ARGV0_REL` in an env
 var. This is the path to the _original_ binary, relative to ld.so.
 
-diff --git a/src/libstd/sys/unix/os.rs b/src/libstd/sys/unix/os.rs
+diff --git a/library/std/src/sys/unix/os.rs b/library/std/src/sys/unix/os.rs
 index a9cd509..92dd6b9 100644
---- a/src/libstd/sys/unix/os.rs
-+++ b/src/libstd/sys/unix/os.rs
+--- a/library/std/src/sys/unix/os.rs
++++ b/library/std/src/sys/unix/os.rs
 @@ -327,12 +327,45 @@ pub fn current_exe() -> io::Result<PathBuf> {
  
  #[cfg(any(target_os = "linux", target_os = "android", target_os = "emscripten"))]

@@ -6,10 +6,10 @@ Quote the open upstream CL (https://github.com/rust-lang/rust/issues/76026):
 I'm not sure what exact problem #72746 is supposed to fix, but it's probably incomplete as it breaks the build of 1.46.0 with llvm-libunwind enabled
 
 
-diff --git a/src/libunwind/build.rs b/src/libunwind/build.rs
+diff --git a/library/unwind/build.rs b/library/unwind/build.rs
 index 31d235cf679..d4bcd2ed4e8 100644
---- a/src/libunwind/build.rs
-+++ b/src/libunwind/build.rs
+--- a/library/unwind/build.rs
++++ b/library/unwind/build.rs
 @@ -116,8 +116,6 @@ mod llvm_libunwind {
              cfg.flag("-fstrict-aliasing");
              cfg.flag("-funwind-tables");
