@@ -50,13 +50,13 @@ main() {
 
   prev_stamp="$(cat "${TIMESTAMP_FILE}")"
 
-  # Log lines returned by gsctool -L consist of the header followed by the
-  # space separated bytes of the log entry . The header is two colon separated
-  # fields, the first field - the entry timestamp, the second field - the log
-  # event ID.
+  # Log lines returned by gsctool -ML consist of the header followed by the
+  # space separated bytes of the log entry . 'M' ensures the header is two colon
+  # separated fields, the first field - the entry timestamp, the second field -
+  # the log event ID.
   #
   # After awk processing below just the header is printed for each line.
-  gsctool -a -L "${prev_stamp}" | sed 's/:/ /g' | while read -r entry; do
+  gsctool -a -M -L "${prev_stamp}" | sed 's/:/ /g' | while read -r entry; do
     local event_id
     local new_stamp
 
