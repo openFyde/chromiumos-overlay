@@ -43,7 +43,6 @@ src_install() {
 	doexe "${BINARY_DIR}/wayland_client_perftests"
 
 	if use vaapi; then
-		doexe "${BINARY_DIR}/decode_test"
 		doexe "${BINARY_DIR}/vaapi_unittest"
 	fi
 }
