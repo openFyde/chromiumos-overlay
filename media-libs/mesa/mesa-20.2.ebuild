@@ -111,6 +111,9 @@ src_prepare() {
 	# landed in upstream mesa.
 	eapply "${FILESDIR}"/BACKPORT-disk_cache-build-option-for-disabled-by-def.patch
 
+	# Cherry-pick an anv dma-buf fix for virglrenderer Vulkan
+	eapply "${FILESDIR}"/UPSTREAM-anv-Add-DRM_RDWR-flag-in-anv_gem_handle_to_fd.patch
+
 	default
 }
 
