@@ -16,6 +16,7 @@ CROS_BOARDS=(
 	auron_paine
 	auron_yuna
 	banjo
+	brya
 	buddy
 	butterfly
 	candy
