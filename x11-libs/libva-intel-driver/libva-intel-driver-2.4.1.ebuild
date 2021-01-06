@@ -46,7 +46,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/no_explicit_sync_in_va_sync_surface.patch
 	epatch "${FILESDIR}"/Avoid-GPU-crash-with-malformed-streams.patch
 	epatch "${FILESDIR}"/set_multisample_state_for_gen6.patch
-	epatch "${FILESDIR}"/Disable-VP8-decoder-on-BDW.patch
 	epatch "${FILESDIR}"/0001-Remove-blitter-usage-from-driver.patch
 	epatch "${FILESDIR}"/Handle-the-odd-resolution.patch
 
