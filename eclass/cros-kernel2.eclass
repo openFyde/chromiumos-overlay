@@ -1081,7 +1081,11 @@ CONFIG_WQ_WATCHDOG=y
 
 FIRMWARE_BINARIES=(
 	builtin_fw_amdgpu
+	builtin_fw_amdgpu_carrizo
+	builtin_fw_amdgpu_picasso
+	builtin_fw_amdgpu_raven2
 	builtin_fw_amdgpu_renoir
+	builtin_fw_amdgpu_stoney
 	builtin_fw_guc_g9
 	builtin_fw_guc_jsl
 	builtin_fw_guc_tgl
@@ -1107,8 +1111,8 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_whl_ucode
 )
 
-builtin_fw_amdgpu_desc="Firmware for AMD GPU"
-builtin_fw_amdgpu_files=(
+builtin_fw_amdgpu_carrizo_desc="Firmware for AMD Carizzo"
+builtin_fw_amdgpu_carrizo_files=(
 	amdgpu/carrizo_ce.bin
 	amdgpu/carrizo_me.bin
 	amdgpu/carrizo_mec.bin
@@ -1119,6 +1123,10 @@ builtin_fw_amdgpu_files=(
 	amdgpu/carrizo_sdma1.bin
 	amdgpu/carrizo_uvd.bin
 	amdgpu/carrizo_vce.bin
+)
+
+builtin_fw_amdgpu_picasso_desc="Firmware for AMD Picasso"
+builtin_fw_amdgpu_picasso_files=(
 	amdgpu/picasso_asd.bin
 	amdgpu/picasso_ce.bin
 	amdgpu/picasso_gpu_info.bin
@@ -1131,6 +1139,10 @@ builtin_fw_amdgpu_files=(
 	amdgpu/picasso_sdma.bin
 	amdgpu/picasso_vcn.bin
 	amdgpu/picasso_ta.bin
+)
+
+builtin_fw_amdgpu_raven2_desc="Firmware for AMD Raven 2"
+builtin_fw_amdgpu_raven2_files=(
 	amdgpu/raven_dmcu.bin
 	amdgpu/raven2_asd.bin
 	amdgpu/raven2_ce.bin
@@ -1143,6 +1155,26 @@ builtin_fw_amdgpu_files=(
 	amdgpu/raven2_sdma.bin
 	amdgpu/raven2_vcn.bin
 	amdgpu/raven2_ta.bin
+)
+
+builtin_fw_amdgpu_renoir_desc="Firmware for AMD Renoir"
+builtin_fw_amdgpu_renoir_files=(
+	amdgpu/renoir_asd.bin
+	amdgpu/renoir_ce.bin
+	amdgpu/renoir_dmcub.bin
+	amdgpu/renoir_gpu_info.bin
+	amdgpu/renoir_me.bin
+	amdgpu/renoir_mec2.bin
+	amdgpu/renoir_mec.bin
+	amdgpu/renoir_pfp.bin
+	amdgpu/renoir_rlc.bin
+	amdgpu/renoir_sdma.bin
+	amdgpu/renoir_ta.bin
+	amdgpu/renoir_vcn.bin
+)
+
+builtin_fw_amdgpu_stoney_desc="Firmware for AMD Stoney"
+builtin_fw_amdgpu_stoney_files=(
 	amdgpu/stoney_ce.bin
 	amdgpu/stoney_me.bin
 	amdgpu/stoney_mec.bin
@@ -1151,6 +1183,14 @@ builtin_fw_amdgpu_files=(
 	amdgpu/stoney_sdma.bin
 	amdgpu/stoney_uvd.bin
 	amdgpu/stoney_vce.bin
+)
+
+builtin_fw_amdgpu_desc="Firmware for AMD GPU (Deprecated)"
+builtin_fw_amdgpu_files=(
+	"${builtin_fw_amdgpu_carrizo_files[@]}"
+	"${builtin_fw_amdgpu_picasso_files[@]}"
+	"${builtin_fw_amdgpu_raven2_files[@]}"
+	"${builtin_fw_amdgpu_stoney_files[@]}"
 )
 
 builtin_fw_guc_g9_desc="GuC Firmware for Gen9"
@@ -1238,22 +1278,6 @@ builtin_fw_vega12_files=(
 	amdgpu/vega12_sos.bin
 	amdgpu/vega12_uvd.bin
 	amdgpu/vega12_vce.bin
-)
-
-builtin_fw_amdgpu_renoir_desc="Firmware for AMD Renoir"
-builtin_fw_amdgpu_renoir_files=(
-	amdgpu/renoir_asd.bin
-	amdgpu/renoir_ce.bin
-	amdgpu/renoir_dmcub.bin
-	amdgpu/renoir_gpu_info.bin
-	amdgpu/renoir_me.bin
-	amdgpu/renoir_mec2.bin
-	amdgpu/renoir_mec.bin
-	amdgpu/renoir_pfp.bin
-	amdgpu/renoir_rlc.bin
-	amdgpu/renoir_sdma.bin
-	amdgpu/renoir_ta.bin
-	amdgpu/renoir_vcn.bin
 )
 
 builtin_fw_x86_aml_ucode_desc="Intel ucode for AML"
