@@ -22,6 +22,7 @@ MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 )
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
 
 RDEPEND="
+	!<media-libs/minigbm-0.0.1-r438
 	x11-libs/arc-libdrm[${MULTILIB_USEDEP}]
 "
 DEPEND="
