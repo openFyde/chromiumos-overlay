@@ -23,7 +23,7 @@ DEPEND="
 	chromeos-base/system_api:=
 	dev-rust/libchromeos:=
 	dev-rust/sys_util:=
-	=dev-rust/dbus-0.6*:=
+	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
@@ -31,7 +31,6 @@ DEPEND="
 	>=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3
 	=dev-rust/tempfile-3*:=
 	=dev-rust/remain-0.2*:=
-	sys-apps/dbus:=
 "
 
 src_compile() {
