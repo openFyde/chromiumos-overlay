@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="ef6239b2adc593ced44e19680591e666843f2d3b"
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "5d3b421c3dfc0a00ae58d410eae1c4d84d5d78fd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a69d6e8b82445f955a48e02d5042eabf32ffb1c6"
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "1ae06add4cde24af14ee33933ac5fbccf19cb54d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,6 +22,8 @@ LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="*"
 IUSE="+seccomp"
+
+DEPEND="chromeos-base/debugd-client:="
 
 src_install() {
 	dobin "${OUT}"/typecd
