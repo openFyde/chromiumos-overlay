@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b05e4a6b92b2cfe608b6cd8d5d37168680fc080e"
+CROS_WORKON_COMMIT="4ab8379eec6f206edc2208132fccf8c92671c59a"
 CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "c58b76a89fc9862c107de270fa5dae543d1e67ce" "b0594df587e27bf992a07f2f2ebe4f6b24f19921" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -56,7 +56,7 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	ondevice_speech? ( chromeos-soda/libsoda:=[dlc=] )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
-	>=dev-libs/libgrammar-0.0.2:=[ondevice_grammar=]
+	>=dev-libs/libgrammar-0.0.3:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
 	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
