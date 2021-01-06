@@ -4,6 +4,7 @@ its variations), so it can read and use the str_offsets_base value to
 read the .dwo file names out of the compilation unit DIEs.
 
 (see https://critique-ng.corp.google.com/cl/348045503 for original patch)
+(also see https://critique-ng.corp.google.com/cl/350363411)
 
 This patch created for Chrome OS by Caroline Tice.
 Date: 17-Dec-2020
@@ -249,12 +250,13 @@ index 74b886d0..c698e652 100644
  	    {
  	      off_t sec_off;
  	      sec_off = this->dwinfo_->read_from_pointer<32>(&pattr);
-@@ -846,6 +866,8 @@ Dwarf_die::read_attributes()
+@@ -846,6 +866,9 @@ Dwarf_die::read_attributes()
  	  case elfcpp::DW_FORM_udata:
  	  case elfcpp::DW_FORM_GNU_addr_index:
  	  case elfcpp::DW_FORM_GNU_str_index:
 +	  case elfcpp::DW_FORM_strx:
 +	  case elfcpp::DW_FORM_addrx:
++	  case elfcpp::DW_FORM_rnglistx:
  	    attr_value.val.uintval = read_unsigned_LEB_128(pattr, &len);
  	    pattr += len;
  	    break;
