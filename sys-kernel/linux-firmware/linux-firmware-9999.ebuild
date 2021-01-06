@@ -67,7 +67,12 @@ IUSE_LINUX_FIRMWARE=(
 	ath10k_qca6174a-5
 	ath10k_qca6174a-3
 	ath10k_wcn3990
+	amdgpu_carrizo
+	amdgpu_picasso
+	amdgpu_raven2
 	amdgpu_renoir
+	amdgpu_stoney
+	amdgpu_vega12
 	bcm4354-bt
 	cros-pd
 	fw_sst
@@ -128,6 +133,12 @@ LICENSE="
 	linux_firmware_adsp_glk? ( LICENCE.adsp_sst )
 	linux_firmware_adsp_kbl? ( LICENCE.adsp_sst )
 	linux_firmware_adsp_skl? ( LICENCE.adsp_sst )
+	linux_firmware_amdgpu_carrizo? ( LICENSE.amdgpu )
+	linux_firmware_amdgpu_picasso? ( LICENSE.amdgpu )
+	linux_firmware_amdgpu_raven2? ( LICENSE.amdgpu )
+	linux_firmware_amdgpu_renoir? ( LICENSE.amdgpu )
+	linux_firmware_amdgpu_stoney? ( LICENSE.amdgpu )
+	linux_firmware_amdgpu_vega12? ( LICENSE.amdgpu )
 	linux_firmware_ath3k-all? ( LICENCE.atheros_firmware )
 	linux_firmware_ath3k-ar3011? ( LICENCE.atheros_firmware )
 	linux_firmware_ath3k-ar3012? ( LICENCE.atheros_firmware )
@@ -182,7 +193,6 @@ LICENSE="
 	$(printf 'linux_firmware_%s? ( LICENCE.broadcom_bcm43xx ) ' "${IUSE_BRCMWIFI[@]}")
 	video_cards_radeon? ( LICENSE.radeon )
 	video_cards_amdgpu? ( LICENSE.amdgpu )
-	linux_firmware_amdgpu_renoir? ( LICENSE.amdgpu )
 "
 
 BDEPEND="
@@ -349,9 +359,41 @@ src_install() {
 	use_fw venus-54 && doins_subdir qcom/venus-5.4/*
 	use video_cards_radeon && doins_subdir radeon/*
 
-	if use linux_firmware_amdgpu_renoir; then
+	local ignore_legacy_amdgpu=0
+
+	if use_fw amdgpu_carrizo; then
+		doins_subdir amdgpu/carrizo*
+		ignore_legacy_amdgpu=1
+	fi
+
+	if use_fw amdgpu_picasso; then
+		doins_subdir amdgpu/picasso*
+		ignore_legacy_amdgpu=1
+	fi
+
+	if use_fw amdgpu_raven2; then
+		doins_subdir amdgpu/raven_dmcu*
+		doins_subdir amdgpu/raven2*
+		ignore_legacy_amdgpu=1
+	fi
+
+	if use_fw amdgpu_renoir; then
 		doins_subdir amdgpu/renoir*
-	elif use video_cards_amdgpu; then
+		ignore_legacy_amdgpu=1
+	fi
+
+	if use_fw amdgpu_stoney; then
+		doins_subdir amdgpu/stoney*
+		ignore_legacy_amdgpu=1
+	fi
+
+	if use_fw amdgpu_vega12; then
+		doins_subdir amdgpu/vega12*
+		ignore_legacy_amdgpu=1
+	fi
+
+	# This use flag is deprecated and being removed
+	if [[ "${ignore_legacy_amdgpu}" -eq 0 ]] && use video_cards_amdgpu; then
 		doins_subdir amdgpu/{carrizo,picasso,raven_dmcu,raven2,stoney,vega12}*
 	fi
 
