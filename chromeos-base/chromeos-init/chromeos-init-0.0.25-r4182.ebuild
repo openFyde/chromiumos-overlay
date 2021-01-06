@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="94ece9ebf19435642dc1b8d59a2eff6c195b5e8c"
+CROS_WORKON_COMMIT="7c222b86f1df81317a83ed0c49199e0bc8ac1ce8"
 CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "0be9b01657e3488badf97e2e2160b2c16db87cef" "91bab993773ad1f95dd276029c7f11a0043d7e94" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -103,7 +103,6 @@ src_install_upstart() {
 		doins upstart/system-services.conf
 		doins upstart/uinput.conf
 		doins upstart/sysrq-init.conf
-		doins upstart/ext-pci-drivers-allowlist.conf
 
 		if use syslog; then
 			doins upstart/log-rotate.conf upstart/syslog.conf upstart/journald.conf
@@ -186,7 +185,6 @@ src_install() {
 
 	# Install various helper programs.
 	dosbin "${OUT}"/cros_sysrq_init
-	dosbin "${OUT}"/ext_pci_drivers_allowlist_init
 	dosbin "${OUT}"/static_node_tool
 	dosbin "${OUT}"/net_poll_tool
 	dosbin "${OUT}"/file_attrs_cleaner_tool
