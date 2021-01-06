@@ -89,20 +89,13 @@ get_board() {
 }
 
 set_build_env() {
+	# This variable is used by create_config
 	BOARD="$1"
-	BUILD_TARGET_NAME="$2"
 
-	if use unibuild; then
-		CONFIG=".config-${BOARD}"
-		CONFIG_SERIAL=".config_serial-${BOARD}"
-		BUILD_DIR="build-${BUILD_TARGET_NAME}"
-		BUILD_DIR_SERIAL="build_serial-${BUILD_TARGET_NAME}"
-	else
-		CONFIG=".config"
-		CONFIG_SERIAL=".config_serial"
-		BUILD_DIR="build"
-		BUILD_DIR_SERIAL="build_serial"
-	fi
+	CONFIG=".config-${BOARD}"
+	CONFIG_SERIAL=".config_serial-${BOARD}"
+	BUILD_DIR="build-${BOARD}"
+	BUILD_DIR_SERIAL="build_serial-${BOARD}"
 }
 
 # Create the coreboot configuration files for a particular board. This
@@ -233,7 +226,7 @@ src_prepare() {
 		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
-			set_build_env "${coreboot}" "${name}"
+			set_build_env "${coreboot}"
 			create_config "$(get_board)"
 		done
 	else
@@ -358,7 +351,7 @@ src_compile() {
 		while read -r name; do
 			read -r coreboot
 
-			set_build_env "${coreboot}" "${name}"
+			set_build_env "${coreboot}"
 			make_coreboot "${BUILD_DIR}" "${CONFIG}" "${name}"
 
 			# Build a second ROM with serial support for developers.
@@ -446,11 +439,11 @@ src_install() {
 		while read -r name; do
 			read -r coreboot
 
-			set_build_env "${coreboot}" "${name}"
+			set_build_env "${coreboot}"
 			do_install "${coreboot}"
 		done
 	else
-		set_build_env
+		set_build_env "$(get_board)"
 		do_install
 	fi
 }
