@@ -84,21 +84,81 @@ cr50_set_board_id_and_flag() {
   fi
 }
 
-# Exit if cr50 is running an image with a minor version less than the given
-# number. The two arguments are the lowest minor version the DUT should be
-# running and a description of the feature.
-check_cr50_support() {
-  local target="${1}"
-  local exit_status=0
-  local output=""
-  local desc="${2}"
+# Check if a string version has a valid format.
+# Convert string version representation into ordinal number.
+# String version representation is of the form
+#
+# <epoch>.<major>.<minor>
+#
+# Where each field is a number
+check_version_valid() {
+  local version="$1"
 
-  output=$("${UPDATER}" -a -f -M 2>&1) || exit_status="$?"
+  if ! echo "${version}" | grep -qE "^([0-9]+\.){2}[0-9]+" ; then
+    die "Wrong version string format: ${version}"
+  fi
+}
+
+# Convert string version representation into ordinal number.
+# This function verifies the version format and prints a single number which is
+# calculated as
+#
+# (epoch * 256 + major) * 256 + minor
+version_to_ord() {
+  local version="$1"
+  local epoch
+  local major
+  local minor
+  local scale=256
+
+  check_version_valid "${version}"
+
+  epoch="$(echo "${version}" | cut -d '.' -f 1)"
+  major="$(echo "${version}" | cut -d '.' -f 2)"
+  minor="$(echo "${version}" | cut -d '.' -f 3)"
+  echo "$(( (epoch * scale + major) * scale + minor ))"
+}
+
+# Check if a string version is a prod image.
+# This function verifies the version format and checks if the major version is
+# an odd number.
+check_version_prod() {
+  local version="$1"
+  local major
+
+  check_version_valid "${version}"
+
+  major="$(echo "${version}" | cut -d '.' -f 2)"
+  return $(( (major & 1) ^ 1 ))
+}
+
+# Exit if cr50 is running an image with a version less than the given prod or
+# prepvt version. The arguments are the lowest prod version the DUT should be
+# running, the lowest prepvt version the DUT should be running, and a
+# description of the feature.
+check_cr50_support() {
+  local target_prod="$1"
+  local target_prepvt="$2"
+  local desc="$3"
+  local output
+  local exit_status=0
+  local rw_version
+  local target
+
+  output="$("${UPDATER}" -a -f -M 2>&1)" || exit_status="$?"
   if [ "${exit_status}" != "0" ]; then
     die "Failed to get the version."
   fi
-  rw_version=$(echo "${output}" | grep RW_FW_VER | cut -d = -f 2)
-  if [ "${rw_version##*.}" -lt "${target}" ]; then
+
+  rw_version="$(echo "${output}" | grep RW_FW_VER | cut -d = -f 2)"
+  if check_version_prod "${rw_version}"; then
+    target="${target_prod}"
+  else
+    target="${target_prepvt}"
+  fi
+
+  if [ "$(version_to_ord "${rw_version}")" -lt \
+       "$(version_to_ord "${target}")" ]; then
     die "Running cr50 ${rw_version}. ${desc} support was added in .${target}."
   fi
 }
@@ -154,12 +214,13 @@ main() {
       # Whitelabel flags are set by using 0xffffffff as the rlz and the
       # whitelabel flags. Cr50 images that support partial board id will ignore
       # the board id type if it's 0xffffffff and only set the flags.
-      # Partial board id support was added in 0.X.24. Before that images won't
-      # ever ignore the type field. They always set board_id_type_inv to
-      # ~board_id_type. Trying the whitelabel command on these old images would
-      # blow the board id type in addition to the flags, and prevent setting the
-      # RLZ later. Exit here if the image doesn't support partial board id.
-      check_cr50_support "24" "partial board id"
+      # Partial board id support was added in 0.3.24 and 0.4.24. Before that
+      # images won't ever ignore the type field. They always set
+      # board_id_type_inv to ~board_id_type. Trying the whitelabel_flags command
+      # on these old images would blow the board id type in addition to the
+      # flags, and prevent setting the RLZ later. Exit here if the image doesn't
+      # support partial board id.
+      check_cr50_support "0.3.24" "0.4.24" "partial board id"
 
       rlz="0xffffffff"
       flag="0x3f80"
