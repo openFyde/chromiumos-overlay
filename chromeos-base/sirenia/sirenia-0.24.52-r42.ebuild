@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3115b08da384a046e6a5b9026ca7e03c96227fcb"
-CROS_WORKON_TREE="26e6c74844a83a317b075af286291f6281f4a5fc"
+CROS_WORKON_COMMIT="0cc18569fb95eb88ea2fc495d1891c9f1c90af3b"
+CROS_WORKON_TREE="01534d4c2821a03a69dcd4106f098896eace4856"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="sirenia"
@@ -29,6 +29,7 @@ DEPEND="${RDEPEND}
 	dev-rust/libchromeos:=
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	=dev-rust/serde_derive-1*:=
+	dev-rust/sync:=
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
