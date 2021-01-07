@@ -22,6 +22,15 @@ KEYWORDS="~*"
 SLOT="0/0"
 IUSE="+seccomp"
 
+RDEPEND="
+	dev-libs/protobuf:=
+"
+DEPEND="
+	${RDEPEND}
+	chromeos-base/system_api:=
+	chromeos-base/vm_protos:=
+"
+
 src_install() {
 	newsbin "${OUT}/arcvm-forward-pstore" arcvm-forward-pstore
 
