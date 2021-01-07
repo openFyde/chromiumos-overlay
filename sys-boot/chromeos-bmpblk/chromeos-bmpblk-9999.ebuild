@@ -83,6 +83,7 @@ CROS_BOARDS=(
 	soraka
 	squawks
 	stout
+	strongbad
 	stumpy
 	sumo
 	swanky
