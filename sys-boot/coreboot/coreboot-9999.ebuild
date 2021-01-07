@@ -258,13 +258,7 @@ add_fw_blob() {
 make_coreboot() {
 	local builddir="$1"
 	local config_fname="$2"
-	local build_target="$3"
-	local froot="${SYSROOT}/firmware"
-	local fblobroot="${SYSROOT}/firmware"
 
-	if use unibuild; then
-		froot+="/${build_target}"
-	fi
 	rm -rf "${builddir}" .xcompile
 
 	local CB_OPTS=( "DOTCONFIG=${config_fname}" )
@@ -293,6 +287,20 @@ make_coreboot() {
 		einfo "Enabling em100 mode via ifdttool (slower SPI flash)"
 		ifdtool --em100 "${builddir}/coreboot.rom" || die
 		mv "${builddir}/coreboot.rom"{.new,} || die
+	fi
+}
+
+# Add fw blobs to the coreboot.rom.
+#   $1: Build directory to use (e.g. "build_serial")
+#   $2: Build target build (e.g. "pyro"), for USE=unibuild only.
+add_fw_blobs() {
+	local builddir="$1"
+	local build_target="$2"
+	local froot="${SYSROOT}/firmware"
+	local fblobroot="${SYSROOT}/firmware"
+
+	if use unibuild; then
+		froot+="/${build_target}"
 	fi
 
 	local blob
@@ -352,17 +360,21 @@ src_compile() {
 			read -r coreboot
 
 			set_build_env "${coreboot}"
-			make_coreboot "${BUILD_DIR}" "${CONFIG}" "${name}"
+			make_coreboot "${BUILD_DIR}" "${CONFIG}"
+			add_fw_blobs "${BUILD_DIR}" "${coreboot}"
 
 			# Build a second ROM with serial support for developers.
-			make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}" "${name}"
+			make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}"
+			add_fw_blobs "${BUILD_DIR_SERIAL}" "${coreboot}"
 		done
 	else
 		set_build_env "$(get_board)"
 		make_coreboot "${BUILD_DIR}" "${CONFIG}"
+		add_fw_blobs "${BUILD_DIR}"
 
 		# Build a second ROM with serial support for developers.
 		make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}"
+		add_fw_blobs "${BUILD_DIR_SERIAL}"
 	fi
 }
 
