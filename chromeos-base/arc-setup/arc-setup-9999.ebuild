@@ -75,9 +75,11 @@ enable_esdfs() {
 
 src_install() {
 	# Used for both ARCVM and ARC.
+	dosbin "${OUT}"/arc-prepare-host-generated-dir
 	dosbin "${OUT}"/arc-remove-data
 	dosbin "${OUT}"/arc-remove-stale-data
 	insinto /etc/init
+	doins init/arc-prepare-host-generated-dir.conf
 	doins init/arc-remove-data.conf
 	doins init/arc-stale-directory-remover.conf
 
