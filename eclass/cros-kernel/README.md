@@ -95,7 +95,7 @@ that support.
 1.  Build your kernel as usual. e.g.:
 
     ```
-    cros_workon-${BOARD} start chromeos-kernel-X_Y
+    cros-workon-${BOARD} start chromeos-kernel-X_Y
     emerge-${BOARD} chromeos-kernel-X_Y
     ```
 
