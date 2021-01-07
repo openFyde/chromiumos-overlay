@@ -3,26 +3,27 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="dcaea7ce7d94bf82a7a1e5c217472bc66127e3e2"
-CROS_WORKON_TREE="1a9afa7c3f14ede77af96747b99df211c2a66561"
+CROS_WORKON_COMMIT="3115b08da384a046e6a5b9026ca7e03c96227fcb"
+CROS_WORKON_TREE="6a7a82146ff6afb78b482210de647798aa4def0c"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
-inherit cros-workon cros-rust user
+inherit cros-workon cros-rust
 
 DESCRIPTION="The support library for the ManaTEE runtime environment."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/libsirenia"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cros_host"
+IUSE=""
 
 RDEPEND=""
 
 DEPEND="${RDEPEND}
+	chromeos-base/sirenia-rpc-macros:=
 	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
@@ -38,4 +39,11 @@ DEPEND="${RDEPEND}
 # loaded.
 src_test() {
 	cros-rust_src_test -- --skip transport::tests::vsocktransport
+
+	# Run tests for sirenia-rpc-macros here since the tests depend on libsirenia
+	# and libsirenia depends on sirenia-rpc-macros.
+	(
+		cd sirenia-rpc-macros || die
+		cros-rust_src_test
+	)
 }
