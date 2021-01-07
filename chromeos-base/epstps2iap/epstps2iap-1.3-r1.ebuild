@@ -8,9 +8,7 @@ inherit toolchain-funcs
 DESCRIPTION="ELAN Standalone Trackpoint Firmware Update"
 GIT_TAG="v${PV}"
 HOMEPAGE="https://github.com/jinglewu/epstps2iap/"
-MY_P="epstps2iap-${PV}"
 SRC_URI="https://github.com/jinglewu/epstps2iap/archive/${GIT_TAG}.tar.gz -> ${P}.tar.gz"
-S="${WORKDIR}/${MY_P}/epstps2_updater"
 
 LICENSE="Apache-2.0"
 SLOT="0"
