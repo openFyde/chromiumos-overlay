@@ -42,15 +42,24 @@ src_configure() {
 		"-Wno-suggest-destructor-override"
 		"-Wno-suggest-override"
 	)
+	# Specify the linker to be used, this will be invoked by
+	# perfetto build as link argument "-fuse-ld=<>" so it needs to be
+	# the linker name bfd/gold/lld etc. that clang/gcc understand.
+	local linker_name="bfd"
+	tc-ld-is-gold && linker_name="gold"
+	tc-ld-is-lld && linker_name="lld"
+
 	# Cross-compilation args.
 	GN_ARGS="
 is_system_compiler=true
 ar=\"${BUILD_AR}\"
 cc=\"${BUILD_CC}\"
 cxx=\"${BUILD_CXX}\"
+linker=\"${linker_name}\"
 target_ar=\"${AR}\"
 target_cc=\"${CC}\"
 target_cxx=\"${CXX}\"
+target_linker=\"${linker_name}\"
 target_cpu=\"${target_cpu}\"
 target_triplet=\"${CHOST}\"
 extra_target_cflags=\"${CFLAGS} ${warn_flags[*]}\"
