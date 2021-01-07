@@ -224,14 +224,11 @@ src_prepare() {
 	if use unibuild; then
 		local build_target
 
-		local fields="coreboot"
-		local cmd="get-firmware-build-combinations"
-		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
 			set_build_env "${coreboot}"
 			create_config "${coreboot}" "$(get_board)"
-		done
+		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 	else
 		set_build_env "$(get_board)"
 		create_config "$(get_board)"
@@ -353,9 +350,6 @@ src_compile() {
 	use verbose && elog "Toolchain:\n$(sh util/xcompile/xcompile)\n"
 
 	if use unibuild; then
-		local fields="coreboot"
-		local cmd="get-firmware-build-combinations"
-		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
 
@@ -366,7 +360,7 @@ src_compile() {
 			# Build a second ROM with serial support for developers.
 			make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}"
 			add_fw_blobs "${BUILD_DIR_SERIAL}" "${coreboot}"
-		done
+		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 	else
 		set_build_env "$(get_board)"
 		make_coreboot "${BUILD_DIR}" "${CONFIG}"
@@ -444,15 +438,12 @@ do_install() {
 
 src_install() {
 	if use unibuild; then
-		local fields="coreboot"
-		local cmd="get-firmware-build-combinations"
-		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
 
 			set_build_env "${coreboot}"
 			do_install "${coreboot}"
-		done
+		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 	else
 		set_build_env "$(get_board)"
 		do_install
