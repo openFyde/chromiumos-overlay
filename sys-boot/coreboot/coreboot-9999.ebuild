@@ -91,10 +91,11 @@ get_board() {
 set_build_env() {
 	local board="$1"
 
-	CONFIG=".config-${board}"
-	CONFIG_SERIAL=".config_serial-${board}"
-	BUILD_DIR="build-${board}"
-	BUILD_DIR_SERIAL="build_serial-${board}"
+	CONFIG="$(cros-workon_get_build_dir)/${board}.config"
+	CONFIG_SERIAL="$(cros-workon_get_build_dir)/${board}-serial.config"
+	# Strip the .config suffix
+	BUILD_DIR="${CONFIG%.config}"
+	BUILD_DIR_SERIAL="${CONFIG_SERIAL%.config}"
 }
 
 # Create the coreboot configuration files for a particular board. This
@@ -203,6 +204,8 @@ src_prepare() {
 
 	default
 
+	mkdir "$(cros-workon_get_build_dir)"
+
 	if [[ -d "${privdir}" ]]; then
 		while read -d $'\0' -r file; do
 			rsync --recursive --links --executability \
@@ -281,9 +284,6 @@ make_coreboot() {
 
 	# Expand FW_MAIN_* since we might add some files
 	cbfstool "${builddir}/coreboot.rom" expand -r FW_MAIN_A,FW_MAIN_B
-
-	# Record the config that we used.
-	cp "${config_fname}" "${builddir}/${config_fname}"
 
 	# Modify firmware descriptor if building for the EM100 emulator on
 	# Intel platforms.
@@ -403,8 +403,8 @@ do_install() {
 			doins $mapfile
 		done
 	fi
-	newins "${BUILD_DIR}/${CONFIG}" coreboot.config
-	newins "${BUILD_DIR_SERIAL}/${CONFIG_SERIAL}" coreboot_serial.config
+	newins "${CONFIG}" coreboot.config
+	newins "${CONFIG_SERIAL}" coreboot_serial.config
 
 	# Keep binaries with debug symbols around for crash dump analysis
 	if [[ -s "${BUILD_DIR}/bl31.elf" ]]; then
