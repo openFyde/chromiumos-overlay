@@ -91,33 +91,26 @@ get_board() {
 }
 
 set_build_env() {
-	BOARD="$1"
-	BUILD_TARGET_NAME="$2"
+	local board="$1"
 
-	if use unibuild; then
-		CONFIG=".config-${BOARD}"
-		CONFIG_SERIAL=".config_serial-${BOARD}"
-		BUILD_DIR="build-${BUILD_TARGET_NAME}"
-		BUILD_DIR_SERIAL="build_serial-${BUILD_TARGET_NAME}"
-	else
-		CONFIG=".config"
-		CONFIG_SERIAL=".config_serial"
-		BUILD_DIR="build"
-		BUILD_DIR_SERIAL="build_serial"
-	fi
+	CONFIG=".config-${board}"
+	CONFIG_SERIAL=".config_serial-${board}"
+	BUILD_DIR="build-${board}"
+	BUILD_DIR_SERIAL="build_serial-${board}"
 }
 
 # Create the coreboot configuration files for a particular board. This
 # creates a standard config and a serial config.
 # Args:
-#   $1: Base board name, if any (used for unified builds)
+#   $1: board name
+#   $2: Base board name, if any (used for unified builds)
 create_config() {
-	# TODO(teravest): Remove this arg and replace with family lookup.
-	local base_board="$1"
+	local board="$1"
+	local base_board="$2"
 
-	if [[ -s "${FILESDIR}/configs/config.${BOARD}" ]]; then
+	if [[ -s "${FILESDIR}/configs/config.${board}" ]]; then
 
-		cp -v "${FILESDIR}/configs/config.${BOARD}" "${CONFIG}"
+		cp -v "${FILESDIR}/configs/config.${board}" "${CONFIG}"
 		# handle the case when "${CONFIG}" does not have a newline in the end.
 		echo >> "${CONFIG}"
 
@@ -138,12 +131,12 @@ create_config() {
 		# In case config comes from a symlink we are likely building
 		# for an overlay not matching this config name. Enable adding
 		# a CBFS based board ID for coreboot.
-		if [[ -L "${FILESDIR}/configs/config.${BOARD}" ]]; then
+		if [[ -L "${FILESDIR}/configs/config.${board}" ]]; then
 			echo "CONFIG_BOARD_ID_MANUAL=y" >> "${CONFIG}"
 			echo "CONFIG_BOARD_ID_STRING=\"${BOARD_USE}\"" >> "${CONFIG}"
 		fi
 	else
-		ewarn "Could not find existing config for ${BOARD}."
+		ewarn "Could not find existing config for ${board}."
 	fi
 
 	if use rmt; then
@@ -191,7 +184,7 @@ EOF
 	echo "CONFIG_RUN_FSP_GOP=y" >> "${CONFIG}"
 
 	cp "${CONFIG}" "${CONFIG_SERIAL}"
-	file="${FILESDIR}/configs/fwserial.${BOARD}"
+	file="${FILESDIR}/configs/fwserial.${board}"
 	if [ ! -f "${file}" ] && [ -n "${base_board}" ]; then
 		file="${FILESDIR}/configs/fwserial.${base_board}"
 	fi
@@ -202,7 +195,7 @@ EOF
 	# handle the case when "${CONFIG_SERIAL}" does not have a newline in the end.
 	echo >> "${CONFIG_SERIAL}"
 
-	einfo "Configured ${CONFIG} for board ${BOARD} in ${BUILD_DIR}"
+	einfo "Configured ${CONFIG} for board ${board} in ${BUILD_DIR}"
 }
 
 src_prepare() {
@@ -235,12 +228,12 @@ src_prepare() {
 		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
-			set_build_env "${coreboot}" "${name}"
-			create_config "$(get_board)"
+			set_build_env "${coreboot}"
+			create_config "${coreboot}" "$(get_board)"
 		done
 	else
 		set_build_env "$(get_board)"
-		create_config
+		create_config "$(get_board)"
 	fi
 }
 
@@ -360,7 +353,7 @@ src_compile() {
 		while read -r name; do
 			read -r coreboot
 
-			set_build_env "${coreboot}" "${name}"
+			set_build_env "${coreboot}"
 			make_coreboot "${BUILD_DIR}" "${CONFIG}" "${name}"
 
 			# Build a second ROM with serial support for developers.
@@ -448,11 +441,11 @@ src_install() {
 		while read -r name; do
 			read -r coreboot
 
-			set_build_env "${coreboot}" "${name}"
+			set_build_env "${coreboot}"
 			do_install "${coreboot}"
 		done
 	else
-		set_build_env
+		set_build_env "$(get_board)"
 		do_install
 	fi
 }
