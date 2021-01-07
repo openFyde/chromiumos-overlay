@@ -52,6 +52,7 @@ src_install() {
 
 	insinto /etc/init
 	doins init/cros-camera.conf
+	doins init/cros-camera-failsafe.conf
 
 	udev_dorules udev/99-camera.rules
 
