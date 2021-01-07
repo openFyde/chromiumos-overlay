@@ -21,7 +21,7 @@ fi
 # the pinned version via: ebuild $(equery w libepoxy) manifest
 #RESTRICT=nomirror
 
-PYTHON_COMPAT=( python{2_7,3_4,3_5} )
+PYTHON_COMPAT=( python3_{6,7,8,9} )
 PYTHON_REQ_USE='xml(+)'
 inherit autotools-multilib ${GIT_ECLASS} python-any-r1
 
