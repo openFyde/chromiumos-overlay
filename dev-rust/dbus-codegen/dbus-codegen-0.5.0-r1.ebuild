@@ -24,6 +24,7 @@ DEPEND="
 # Block previous versions because 0.3.0-r0 had the incorrect slot.
 RDEPEND="
 	!<dev-rust/dbus-codegen-0.5.0
+	sys-apps/dbus
 "
 
 src_compile() {

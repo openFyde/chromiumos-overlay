@@ -26,6 +26,8 @@ DEPEND="chromeos-base/system_api
 	>=dev-rust/protoc-rust-2.16:= <dev-rust/protoc-rust-3
 "
 
+RDEPEND="sys-apps/dbus"
+
 src_unpack() {
 	cros-workon_src_unpack
 	# The compilation happens in the crostini_client subdirectory.

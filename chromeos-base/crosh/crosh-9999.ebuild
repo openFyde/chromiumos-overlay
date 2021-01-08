@@ -35,6 +35,7 @@ RDEPEND="app-admin/sudo
 	net-misc/iputils
 	net-misc/openssh
 	net-wireless/iw
+	sys-apps/dbus
 	sys-apps/net-tools
 "
 

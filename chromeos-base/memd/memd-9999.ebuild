@@ -36,6 +36,8 @@ DEPEND="chromeos-base/system_api:=
 	=dev-rust/tempfile-3*:=
 	"
 
+RDEPEND="sys-apps/dbus"
+
 src_install() {
 	# cargo doesn't know how to install cross-compiled binaries.  It will
 	# always install native binaries for the host system.  Install manually

@@ -16,7 +16,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="cros_host"
 
-RDEPEND=""
+RDEPEND="sys-apps/dbus"
 
 DEPEND="${RDEPEND}
 	chromeos-base/libsirenia:=

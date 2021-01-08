@@ -36,6 +36,8 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	!chromeos-base/crosvm-bin
+	crosvm-power-monitor-powerd? ( sys-apps/dbus )
+	tpm2? ( sys-apps/dbus )
 "
 
 DEPEND="${COMMON_DEPEND}
