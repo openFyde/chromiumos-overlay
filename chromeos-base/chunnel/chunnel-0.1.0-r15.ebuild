@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="178d940c8fa20666117208b3a6e40ed28579f122"
-CROS_WORKON_TREE="4e2937d79e5021b5b73aa61d0581ae72a7fc229d"
+CROS_WORKON_COMMIT="56e0355c73c1cc3da04bf96014df7d094e62a382"
+CROS_WORKON_TREE="3500e9b09b6a848a59446fbd4b38b1df9cdd0f8e"
 CROS_RUST_SUBDIR="vm_tools/chunnel"
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,7 +25,7 @@ DEPEND="
 	chromeos-base/system_api:=
 	dev-rust/libchromeos:=
 	dev-rust/sys_util:=
-	=dev-rust/dbus-0.6*:=
+	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
@@ -33,7 +33,6 @@ DEPEND="
 	>=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3
 	=dev-rust/tempfile-3*:=
 	=dev-rust/remain-0.2*:=
-	sys-apps/dbus:=
 "
 
 src_compile() {
