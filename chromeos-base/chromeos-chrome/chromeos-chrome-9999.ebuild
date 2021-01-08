@@ -1332,6 +1332,10 @@ src_install() {
 			into /usr/local/
 			dolib.so "${FROM}"/libassistant_debug.so
 		fi
+
+		# Install a testing script to run Lacros from command line.
+		into /usr/local
+		dobin "${CHROME_ROOT}"/src/build/lacros/mojo_connection_lacros_launcher.py
 	fi
 	# The icu data is used by both chromeos-base/chrome-icu and this package.
 	# chromeos-base/chrome-icu is responsible for installing the icu
