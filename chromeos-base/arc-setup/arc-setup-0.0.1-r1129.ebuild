@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="79bc647da203400781882be88ded17c40c03916d"
+CROS_WORKON_COMMIT="4be16e461e497bf9b46ce4d1d15e3f1595364e8e"
 CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "83d3e31e6f05c507dfd66d10557997723fa96665" "a34f2f8cdf568304be064218376ec69dec08f95e" "91bab993773ad1f95dd276029c7f11a0043d7e94" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -131,6 +131,7 @@ src_install() {
 
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_fingerprint_and_sdk_version_fuzzer
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_property_util_expand_property_contents_fuzzer
 	fi
 }
 
