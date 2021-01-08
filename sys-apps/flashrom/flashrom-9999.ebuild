@@ -46,10 +46,10 @@ IUSE="
 
 LIB_DEPEND="
 	atahpt? ( sys-apps/pciutils[static-libs(+)] )
-	dediprog? ( virtual/libusb:0[static-libs(+)] )
+	dediprog? ( virtual/libusb:1[static-libs(+)] )
 	drkaiser? ( sys-apps/pciutils[static-libs(+)] )
 	fdtmap? ( sys-apps/dtc[static-libs(+)] )
-	ft2232_spi? ( dev-embedded/libftdi[static-libs(+)] )
+	ft2232_spi? ( dev-embedded/libftdi:=[static-libs(+)] )
 	gfxnvidia? ( sys-apps/pciutils[static-libs(+)] )
 	internal? ( sys-apps/pciutils[static-libs(+)] )
 	nic3com? ( sys-apps/pciutils[static-libs(+)] )
@@ -111,10 +111,6 @@ src_compile() {
 	fi
 
 	args+=" CONFIG_DEFAULT_PROGRAMMER=PROGRAMMER_INTERNAL"
-
-	# Suppress -Wunused-function since we will see a lot of PCI-related
-	# warnings on non-x86 platforms (PCI structs are pervasive in the code).
-	append-flags "-Wall -Wno-unused-function"
 
 	# WARNERROR=no, bug 347879
 	# FIXME(dhendrix): Actually, we want -Werror for CrOS.
