@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4ab8379eec6f206edc2208132fccf8c92671c59a"
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "e8fafd3a2c2b59c190759206d05a7ea6915b8b45" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="06ffabe7e43d4e89ddcb6761b99ef4ea556e3382"
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "5c68b952f4797e1b6e4fbb98d7e06167104e4567" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,6 +25,10 @@ REQUIRED_USE="minios"
 
 RDEPEND=""
 DEPEND=""
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/minios_test"
+}
 
 src_install() {
 	dobin "${OUT}/minios"
