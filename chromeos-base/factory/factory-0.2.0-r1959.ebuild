@@ -59,8 +59,7 @@ src_configure() {
 	# Support out-of-tree build.
 	export BUILD_DIR="${WORKDIR}/build"
 
-	# The path of bundle is defined in chromite/cbuildbot/commands.py
-	export BUNDLE_DIR="${ED}/usr/local/factory/bundle"
+	export BUNDLE_DIR="${WORKDIR}/bundle"
 }
 
 src_unpack() {
@@ -77,6 +76,9 @@ src_test() {
 }
 
 src_install() {
+	# The path of bundle is defined in chromite/cbuildbot/commands.py
+	insinto "/usr/local/factory"
+	doins -r "${WORKDIR}/bundle"
 	insinto "${CROS_FACTORY_BOARD_RESOURCES_DIR}"
 	doins "${BUILD_DIR}/resource/installer.tar"
 }
