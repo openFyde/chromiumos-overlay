@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b003026db0e97e020b7f80fceeb48f22eb2fda1d"
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "32d97f922189430849c5a551befe9f01a4fc155a" "91bab993773ad1f95dd276029c7f11a0043d7e94" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="88906625309817187e71b4510b7237ec98191696"
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "120ce6b069474b5ae05802405c5591a0b86dcc9c" "91bab993773ad1f95dd276029c7f11a0043d7e94" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -27,7 +27,6 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/google-breakpad:=[cros_i686?,cros_arm64?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
-	dev-libs/libpcre:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	kvm_guest? ( net-libs/grpc:= )
