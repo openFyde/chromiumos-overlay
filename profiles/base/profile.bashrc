@@ -694,7 +694,8 @@ filter_unsupported_gcc_flags() {
 	local var flag flags=()
 	for var in CFLAGS CXXFLAGS LDFLAGS; do
 		for flag in ${!var}; do
-			if [[ ${flag} != "-Xcompiler" ]]; then
+			if [[ ${flag} != "-Xcompiler" && \
+			      ${flag} != "-Wl,--icf=all" ]]; then
 				flags+=("${flag}")
 			fi
 		done
