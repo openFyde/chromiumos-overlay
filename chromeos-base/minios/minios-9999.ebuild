@@ -21,8 +21,13 @@ KEYWORDS="~*"
 IUSE="minios"
 REQUIRED_USE="minios"
 
-RDEPEND=""
-DEPEND=""
+COMMON_DEPEND="
+	x11-libs/libxkbcommon:=
+	x11-misc/xkeyboard-config:=
+"
+
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/minios_test"
