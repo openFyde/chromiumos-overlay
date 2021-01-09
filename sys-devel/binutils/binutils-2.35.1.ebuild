@@ -44,6 +44,7 @@ PATCHES=(
 	"${FILESDIR}/0012-gold-dwp-further-improve-DWARF-v5-memory-efficiency.patch"
 	"${FILESDIR}/0013-gold-dwp-implement-read-DW_FORM_strx-and-co.patch"
 	"${FILESDIR}/0014-gold-dwp-fix-null-dereference-on-executable-with-no-.patch"
+	"${FILESDIR}/0015-gold-add-option-to-install-only-the-dwp-tool.patch"
 )
 
 RDEPEND=">=sys-devel/binutils-config-3"
@@ -102,12 +103,9 @@ src_configure() {
 	cd "${MY_BUILDDIR}"
 	local myconf=( --enable-plugins )
 
-	# enable gold if available (installed as ld.gold)
-	if [[ ${CTARGET} == mips* ]] ; then
-		myconf+=( --disable-gold )
-	else
-		myconf+=( --enable-gold )
-	fi
+	# enable only the DWP tool which is part of gold, but don't
+	# install the gold linker because it is deprecated
+	myconf+=( --enable-gold=dwp )
 
 	use nls \
 		&& myconf+=( --without-included-gettext ) \
