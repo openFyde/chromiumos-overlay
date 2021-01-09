@@ -637,6 +637,28 @@ cros_use_gcc() {
 	filter_sanitizers
 }
 
+# Use a frozen 4.9.2 GCC for packages that can't use latest GCC
+# for compatibility reasons.
+# Please do not use without contacting toolchain team.
+cros_use_frozen_gcc() {
+	local frozen_gcc_path="/opt/gcc-bin-4.9.2"
+
+	ewarn "Building using old GCC from ${frozen_gcc_path}."
+	ewarn "This GCC is frozen and no bug fixes are planned for it."
+	ewarn "Any bugs should be handled by the package owners."
+
+	local abis=(
+		"aarch64-cros-linux-gnu"
+		"armv7a-cros-linux-gnueabihf"
+		"x86_64-cros-linux-gnu"
+	)
+	local abi
+	for abi in "${abis[@]}"; do
+		PATH="${frozen_gcc_path}/${abi}/bin:${PATH}"
+	done
+	cros_use_gcc
+}
+
 # Enforce use of libstdc++ instead of libc++ when building with clang.
 cros_use_libstdcxx() {
 	if [[ $(basename "${CC:-clang}") == *"clang"* ]]; then
