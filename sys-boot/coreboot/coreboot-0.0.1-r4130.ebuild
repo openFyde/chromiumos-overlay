@@ -93,10 +93,11 @@ get_board() {
 set_build_env() {
 	local board="$1"
 
-	CONFIG=".config-${board}"
-	CONFIG_SERIAL=".config_serial-${board}"
-	BUILD_DIR="build-${board}"
-	BUILD_DIR_SERIAL="build_serial-${board}"
+	CONFIG="$(cros-workon_get_build_dir)/${board}.config"
+	CONFIG_SERIAL="$(cros-workon_get_build_dir)/${board}-serial.config"
+	# Strip the .config suffix
+	BUILD_DIR="${CONFIG%.config}"
+	BUILD_DIR_SERIAL="${CONFIG_SERIAL%.config}"
 }
 
 # Create the coreboot configuration files for a particular board. This
@@ -205,6 +206,8 @@ src_prepare() {
 
 	default
 
+	mkdir "$(cros-workon_get_build_dir)"
+
 	if [[ -d "${privdir}" ]]; then
 		while read -d $'\0' -r file; do
 			rsync --recursive --links --executability \
@@ -223,14 +226,11 @@ src_prepare() {
 	if use unibuild; then
 		local build_target
 
-		local fields="coreboot"
-		local cmd="get-firmware-build-combinations"
-		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
 			set_build_env "${coreboot}"
 			create_config "${coreboot}" "$(get_board)"
-		done
+		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 	else
 		set_build_env "$(get_board)"
 		create_config "$(get_board)"
@@ -250,51 +250,33 @@ add_fw_blob() {
 		-f "${hash}" -n "${cbhash}" || die
 }
 
-# Build coreboot with a supplied configuration and output directory.
-#   $1: Build directory to use (e.g. "build_serial")
-#   $2: Config file to use (e.g. ".config_serial")
-#   $3: Build target build (e.g. "pyro"), for USE=unibuild only.
+# Build coreboot in parallel
+#   $@: Configs to build
 make_coreboot() {
+	local CB_OPTS=(
+		HOSTCC="$(tc-getBUILD_CC)"
+		HOSTPKGCONFIG="$(tc-getBUILD_PKG_CONFIG)"
+	)
+	use quiet && CB_OPTS+=( "V=0" )
+	use verbose && CB_OPTS+=( "V=1" )
+	if ! use amd_cpu && use em100-mode; then
+		CB_OPTS+=(EM100_IDF=1)
+	fi
+
+	emake -f "${FILESDIR}/coreboot.make" "${CB_OPTS[@]}" configs="$*"
+}
+
+# Add fw blobs to the coreboot.rom.
+#   $1: Build directory to use (e.g. "build_serial")
+#   $2: Build target build (e.g. "pyro"), for USE=unibuild only.
+add_fw_blobs() {
 	local builddir="$1"
-	local config_fname="$2"
-	local build_target="$3"
+	local build_target="$2"
 	local froot="${SYSROOT}/firmware"
 	local fblobroot="${SYSROOT}/firmware"
 
 	if use unibuild; then
 		froot+="/${build_target}"
-	fi
-	rm -rf "${builddir}" .xcompile
-
-	local CB_OPTS=( "DOTCONFIG=${config_fname}" )
-	use quiet && CB_OPTS+=( "V=0" )
-	use verbose && CB_OPTS+=( "V=1" )
-	use quiet && REDIR="/dev/null" || REDIR="/dev/stdout"
-
-	# Configure and build coreboot.
-	yes "" | emake oldconfig "${CB_OPTS[@]}" obj="${builddir}" >${REDIR}
-	if grep -q "CONFIG_VENDOR_EMULATION=y" "${config_fname}"; then
-		local config_file
-		config_file="${FILESDIR}/configs/config.$(get_board)"
-		die "Working with a default configuration. ${config_file} incorrect?"
-	fi
-	emake "${CB_OPTS[@]}" obj="${builddir}" HOSTCC="$(tc-getBUILD_CC)" \
-		HOSTPKGCONFIG="$(tc-getBUILD_PKG_CONFIG)"
-
-	# Expand FW_MAIN_* since we might add some files
-	cbfstool "${builddir}/coreboot.rom" expand -r FW_MAIN_A,FW_MAIN_B
-
-	# Record the config that we used.
-	cp "${config_fname}" "${builddir}/${config_fname}"
-
-	# Modify firmware descriptor if building for the EM100 emulator on
-	# Intel platforms.
-	# TODO(crbug.com/863396): Should we have an 'intel' USE flag? Do we
-	# still have any Intel platforms that don't use ifdtool?
-	if ! use amd_cpu && use em100-mode; then
-		einfo "Enabling em100 mode via ifdttool (slower SPI flash)"
-		ifdtool --em100 "${builddir}/coreboot.rom" || die
-		mv "${builddir}/coreboot.rom"{.new,} || die
 	fi
 
 	local blob
@@ -346,25 +328,36 @@ src_compile() {
 
 	use verbose && elog "Toolchain:\n$(sh util/xcompile/xcompile)\n"
 
+	local -a configs
+
 	if use unibuild; then
-		local fields="coreboot"
-		local cmd="get-firmware-build-combinations"
-		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
 
 			set_build_env "${coreboot}"
-			make_coreboot "${BUILD_DIR}" "${CONFIG}" "${name}"
-
-			# Build a second ROM with serial support for developers.
-			make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}" "${name}"
-		done
+			configs+=("${CONFIG}")
+			configs+=("${CONFIG_SERIAL}")
+		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 	else
 		set_build_env "$(get_board)"
-		make_coreboot "${BUILD_DIR}" "${CONFIG}"
+		configs+=("${CONFIG}")
+		configs+=("${CONFIG_SERIAL}")
+	fi
 
-		# Build a second ROM with serial support for developers.
-		make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}"
+	make_coreboot "${configs[@]}"
+
+	if use unibuild; then
+		while read -r name; do
+			read -r coreboot
+
+			set_build_env "${coreboot}"
+			add_fw_blobs "${BUILD_DIR}" "${coreboot}"
+			add_fw_blobs "${BUILD_DIR_SERIAL}" "${coreboot}"
+		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
+	else
+		set_build_env "$(get_board)"
+		add_fw_blobs "${BUILD_DIR}"
+		add_fw_blobs "${BUILD_DIR_SERIAL}"
 	fi
 }
 
@@ -382,13 +375,12 @@ do_install() {
 	newins "${BUILD_DIR}/coreboot.rom" coreboot.rom
 	newins "${BUILD_DIR_SERIAL}/coreboot.rom" coreboot.rom.serial
 
-	local config_file="${FILESDIR}/configs/config.$(get_board)"
 	OPROM=$( awk 'BEGIN{FS="\""} /CONFIG_VGA_BIOS_FILE=/ { print $2 }' \
-		"${config_file}" )
+		"${CONFIG}" )
 	CBFSOPROM=pci$( awk 'BEGIN{FS="\""} /CONFIG_VGA_BIOS_ID=/ { print $2 }' \
-		"${config_file}" ).rom
+		"${CONFIG}" ).rom
 	FSP=$( awk 'BEGIN{FS="\""} /CONFIG_FSP_FILE=/ { print $2 }' \
-		"${config_file}" )
+		"${CONFIG}" )
 	if [[ -n "${FSP}" ]]; then
 		newins ${FSP} fsp.bin
 	fi
@@ -405,8 +397,8 @@ do_install() {
 			doins $mapfile
 		done
 	fi
-	newins "${BUILD_DIR}/${CONFIG}" coreboot.config
-	newins "${BUILD_DIR_SERIAL}/${CONFIG_SERIAL}" coreboot_serial.config
+	newins "${CONFIG}" coreboot.config
+	newins "${CONFIG_SERIAL}" coreboot_serial.config
 
 	# Keep binaries with debug symbols around for crash dump analysis
 	if [[ -s "${BUILD_DIR}/bl31.elf" ]]; then
@@ -435,15 +427,12 @@ do_install() {
 
 src_install() {
 	if use unibuild; then
-		local fields="coreboot"
-		local cmd="get-firmware-build-combinations"
-		(cros_config_host "${cmd}" "${fields}" || die) |
 		while read -r name; do
 			read -r coreboot
 
 			set_build_env "${coreboot}"
 			do_install "${coreboot}"
-		done
+		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 	else
 		set_build_env "$(get_board)"
 		do_install
