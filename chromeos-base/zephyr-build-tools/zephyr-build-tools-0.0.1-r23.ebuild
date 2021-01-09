@@ -4,11 +4,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bacea2e3e62c41000e5bdb4ed6433f24386d14bf"
+CROS_WORKON_COMMIT="2fa27104aa0e97f3c750aa3b04acfc76db5e7123"
 CROS_WORKON_TREE="35574a82609b6762337fdc98842605f9ee33af1d"
-CROS_WORKON_PROJECT="chromiumos/platform/zephyr-chrome"
-CROS_WORKON_LOCALNAME="platform/zephyr-chrome"
-CROS_WORKON_SUBTREE="util"
+CROS_WORKON_PROJECT="chromiumos/platform/ec"
+CROS_WORKON_LOCALNAME="platform/ec"
+CROS_WORKON_SUBTREE="zephyr/zmake"
 
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
@@ -38,5 +38,5 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 src_unpack() {
 	cros-workon_src_unpack
-	S+="/util"
+	S+="/zephyr/zmake"
 }
