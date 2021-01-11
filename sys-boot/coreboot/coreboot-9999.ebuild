@@ -248,20 +248,43 @@ add_fw_blob() {
 		-f "${hash}" -n "${cbhash}" || die
 }
 
-# Build coreboot in parallel
-#   $@: Configs to build
+# Build coreboot with a supplied configuration and output directory.
+#   $1: Build directory to use (e.g. "build_serial")
+#   $2: Config file to use (e.g. ".config_serial")
+#   $3: Build target build (e.g. "pyro"), for USE=unibuild only.
 make_coreboot() {
-	local CB_OPTS=(
-		HOSTCC="$(tc-getBUILD_CC)"
-		HOSTPKGCONFIG="$(tc-getBUILD_PKG_CONFIG)"
-	)
+	local builddir="$1"
+	local config_fname="$2"
+
+	rm -rf "${builddir}" .xcompile
+
+	local CB_OPTS=( "DOTCONFIG=${config_fname}" )
 	use quiet && CB_OPTS+=( "V=0" )
 	use verbose && CB_OPTS+=( "V=1" )
-	if ! use amd_cpu && use em100-mode; then
-		CB_OPTS+=(EM100_IDF=1)
-	fi
+	use quiet && REDIR="/dev/null" || REDIR="/dev/stdout"
 
-	emake -f "${FILESDIR}/coreboot.make" "${CB_OPTS[@]}" configs="$*"
+	# Configure and build coreboot.
+	yes "" | emake oldconfig "${CB_OPTS[@]}" obj="${builddir}" >${REDIR}
+	if grep -q "CONFIG_VENDOR_EMULATION=y" "${config_fname}"; then
+		local config_file
+		config_file="${FILESDIR}/configs/config.$(get_board)"
+		die "Working with a default configuration. ${config_file} incorrect?"
+	fi
+	emake "${CB_OPTS[@]}" obj="${builddir}" HOSTCC="$(tc-getBUILD_CC)" \
+		HOSTPKGCONFIG="$(tc-getBUILD_PKG_CONFIG)"
+
+	# Expand FW_MAIN_* since we might add some files
+	cbfstool "${builddir}/coreboot.rom" expand -r FW_MAIN_A,FW_MAIN_B
+
+	# Modify firmware descriptor if building for the EM100 emulator on
+	# Intel platforms.
+	# TODO(crbug.com/863396): Should we have an 'intel' USE flag? Do we
+	# still have any Intel platforms that don't use ifdtool?
+	if ! use amd_cpu && use em100-mode; then
+		einfo "Enabling em100 mode via ifdttool (slower SPI flash)"
+		ifdtool --em100 "${builddir}/coreboot.rom" || die
+		mv "${builddir}/coreboot.rom"{.new,} || die
+	fi
 }
 
 # Add fw blobs to the coreboot.rom.
@@ -326,35 +349,25 @@ src_compile() {
 
 	use verbose && elog "Toolchain:\n$(sh util/xcompile/xcompile)\n"
 
-	local -a configs
-
 	if use unibuild; then
 		while read -r name; do
 			read -r coreboot
 
 			set_build_env "${coreboot}"
-			configs+=("${CONFIG}")
-			configs+=("${CONFIG_SERIAL}")
-		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
-	else
-		set_build_env "$(get_board)"
-		configs+=("${CONFIG}")
-		configs+=("${CONFIG_SERIAL}")
-	fi
-
-	make_coreboot "${configs[@]}"
-
-	if use unibuild; then
-		while read -r name; do
-			read -r coreboot
-
-			set_build_env "${coreboot}"
+			make_coreboot "${BUILD_DIR}" "${CONFIG}"
 			add_fw_blobs "${BUILD_DIR}" "${coreboot}"
+
+			# Build a second ROM with serial support for developers.
+			make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}"
 			add_fw_blobs "${BUILD_DIR_SERIAL}" "${coreboot}"
 		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 	else
 		set_build_env "$(get_board)"
+		make_coreboot "${BUILD_DIR}" "${CONFIG}"
 		add_fw_blobs "${BUILD_DIR}"
+
+		# Build a second ROM with serial support for developers.
+		make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}"
 		add_fw_blobs "${BUILD_DIR_SERIAL}"
 	fi
 }
