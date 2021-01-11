@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk libhwsec trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec metrics trunks .gn"
 
 PLATFORM_SUBDIR="trunks"
 
@@ -24,6 +24,7 @@ IUSE="cr50_onboard fuzzer ftdi_tpm test tpm2_simulator"
 # whenever the protobuf library is updated since generated source files may be
 # incompatible across different versions of the protobuf library.
 COMMON_DEPEND="
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	chromeos-base/power_manager-client:=
 	ftdi_tpm? ( dev-embedded/libftdi:= )
