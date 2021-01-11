@@ -49,6 +49,7 @@ IUSE="
 	goma
 	goma_thinlto
 	+highdpi
+	iioservice
 	internal_gles_conform
 	+libcxx
 	mojo
@@ -172,6 +173,7 @@ RDEPEND="${RDEPEND}
 		sys-libs/libcxx
 	)
 	oobe_config? ( chromeos-base/oobe_config )
+	iioservice? ( chromeos-base/iioservice )
 	"
 
 DEPEND="${DEPEND}
@@ -237,6 +239,7 @@ set_build_args() {
 		"is_debug=false"
 		"${EXTRA_GN_ARGS}"
 		"use_chromeos_protected_media=$(usetf cdm_factory_daemon)"
+		"use_iioservice=$(usetf iioservice)"
 		"use_v4l2_codec=$(usetf v4l2_codec)"
 		"use_v4lplugin=$(usetf v4lplugin)"
 		"use_vaapi=$(usetf vaapi)"
