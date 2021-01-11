@@ -20,8 +20,8 @@ KEYWORDS="~*"
 IUSE="fuzzer metrics_uploader +passive_metrics systemd"
 
 COMMON_DEPEND="
-	dev-libs/libpcre:=
 	dev-libs/protobuf:=
+	dev-libs/re2:=
 	sys-apps/rootdev:=
 	"
 
