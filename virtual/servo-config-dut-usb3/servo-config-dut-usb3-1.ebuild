@@ -11,7 +11,7 @@
 EAPI="7"
 
 DESCRIPTION="List DUT USB 3 capability of Servo devices (virtual)."
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 KEYWORDS="*"
 IUSE="internal"
 SLOT="0/${PVR}"

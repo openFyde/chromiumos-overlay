@@ -8,7 +8,7 @@ This is a direct dependency of chromeos-base/chromeos-ec, and it is overridden
 in private overlay to retrieve the private sources for the EC build."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/"
 
-LICENSE="BSD"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

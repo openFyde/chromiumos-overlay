@@ -8,7 +8,7 @@ represents the system being operationnal and ready to use.
 Boards should override it to define their own boot-complete."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE="cros_embedded"

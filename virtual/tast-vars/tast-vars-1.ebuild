@@ -6,7 +6,7 @@ EAPI=6
 DESCRIPTION="Virtual package for private Tast variables.
 This package can be overridden by overlays to bring in private variables."
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

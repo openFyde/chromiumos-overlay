@@ -1,0 +1,1 @@
+chromeos-vendor-strings-1.ebuild

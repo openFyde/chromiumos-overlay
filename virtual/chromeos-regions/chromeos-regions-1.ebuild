@@ -6,7 +6,7 @@ EAPI=4
 DESCRIPTION="Chrome OS Regions virtual package"
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

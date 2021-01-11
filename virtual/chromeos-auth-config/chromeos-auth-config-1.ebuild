@@ -7,7 +7,7 @@ DESCRIPTION="ChromeOS auth virtual package. This package will RDEPEND
 on the actual package that installs the ChromeOS PAM configs."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

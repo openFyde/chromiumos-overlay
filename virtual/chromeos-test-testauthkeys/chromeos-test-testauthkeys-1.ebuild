@@ -8,7 +8,7 @@ This is a direct dependency of chromeos-base/chromeos-test-testauthkeys, but is
 expected to be overridden in an overlay for some specialized board."
 HOMEPAGE="http://www.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

@@ -6,7 +6,7 @@ EAPI=6
 DESCRIPTION="Chrome OS ARC++ hardware features virtual package."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

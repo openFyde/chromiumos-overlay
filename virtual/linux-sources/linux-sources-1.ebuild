@@ -6,7 +6,7 @@ EAPI="5"
 DESCRIPTION="Chrome OS Kernel virtual package"
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="GPL-2"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

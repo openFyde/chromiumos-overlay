@@ -5,7 +5,7 @@ EAPI=5
 
 DESCRIPTION="Virtual package installing files define the capability of DUTs. We
 run or skip test cases base on those capabilities. See README.md for details."
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

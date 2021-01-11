@@ -9,7 +9,7 @@ firewall. Any board overlays that wish to change the firewall settings can
 do so with their own virtual package and corresponding ebuild."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

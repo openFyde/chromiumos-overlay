@@ -7,6 +7,6 @@ DESCRIPTION="Autotest tests virtual package. This package can be overriden by
 an overlay to bring in Autotest tests."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"

@@ -5,6 +5,7 @@ EAPI=4
 
 DESCRIPTION="Coreboot private files virtual package"
 
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

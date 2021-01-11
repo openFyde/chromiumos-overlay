@@ -5,7 +5,7 @@
 DESCRIPTION="Virtual for OpenGL utility library"
 HOMEPAGE=""
 SRC_URI=""
-LICENSE=""
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

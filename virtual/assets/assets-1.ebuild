@@ -7,7 +7,7 @@ DESCRIPTION="Additional assets for a given target; common assets should go in
 chromeos-assets."
 HOMEPAGE="http://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

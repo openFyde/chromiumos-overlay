@@ -3,9 +3,10 @@
 
 EAPI=6
 
-DESCRIPTION="Generic ebuild which satisfies virtual/chromeos-fpmcu-test.
+DESCRIPTION="Generic ebuild which satisfies virtual/chromeos-firmware-fpmcu.
 Overridden in the private overlay."
 
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

@@ -7,7 +7,7 @@ DESCRIPTION="Virtual package installing the update engine's policy manager
 configuration. Boards can override it to install their own configuration."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE="cros_embedded"

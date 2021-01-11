@@ -11,6 +11,7 @@ EAPI=5
 DESCRIPTION="Virtual for presence of a Vulkan ICD (Installable Client Driver)"
 SRC_URI=""
 
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

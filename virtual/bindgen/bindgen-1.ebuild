@@ -9,7 +9,7 @@ DESCRIPTION="Prevent needing to build dev-rust/bindgen for each board."
 # This will trigger a rebuild when the slot of dev-rust/bindgen changes
 # without requiring the package to DEPEND on dev-rust/bindgen directly.
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 KEYWORDS="*"
 
 SLOT="0/${PVR}"

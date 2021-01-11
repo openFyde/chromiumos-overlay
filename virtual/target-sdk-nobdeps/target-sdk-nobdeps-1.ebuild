@@ -8,7 +8,7 @@ want to install a binpkg.  We never want to install build-time deps or recompile
 from source unless the user explicitly requests it."
 HOMEPAGE="http://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

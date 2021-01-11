@@ -7,7 +7,7 @@ DESCRIPTION="Virtual package for private Tast local test bundles.
 This package can be overridden by overlays to bring in private tests."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast/"
 
-LICENSE="Apache-2.0 BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

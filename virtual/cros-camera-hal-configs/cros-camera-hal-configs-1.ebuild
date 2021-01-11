@@ -6,6 +6,6 @@ EAPI=5
 DESCRIPTION="Chrome OS camera HAL configs virtual package"
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"

@@ -6,7 +6,7 @@ EAPI=4
 DESCRIPTION="Chrome OS ArcCodec virtual package"
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

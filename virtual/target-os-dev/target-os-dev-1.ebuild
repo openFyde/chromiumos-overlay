@@ -9,7 +9,7 @@ Note: When building a dev image, the build system pulls in all packages from the
 base image as well."
 HOMEPAGE="http://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

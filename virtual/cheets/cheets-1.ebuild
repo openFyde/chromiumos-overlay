@@ -8,7 +8,7 @@ enables the Play Store on Chrome OS. This is a direct dependency of
 virtual/target-chromium-os, but is expected to be overridden in other overlays,
 so today this depends on nothing."
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

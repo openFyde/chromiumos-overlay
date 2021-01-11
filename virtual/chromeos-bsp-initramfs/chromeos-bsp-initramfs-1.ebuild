@@ -7,7 +7,7 @@ DESCRIPTION="This package can be overriden to bring in additional configurations
 for initramfs. See platform/initramfs/recovery/README for details."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

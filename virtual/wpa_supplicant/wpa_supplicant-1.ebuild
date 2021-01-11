@@ -7,7 +7,7 @@ DESCRIPTION="Virtual to select between different wpa_supplicant revisions"
 HOMEPAGE=""
 SRC_URI=""
 
-LICENSE=""
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

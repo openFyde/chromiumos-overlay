@@ -11,7 +11,7 @@ and executables which are not suitable for inclusion on the root partition in a
 generic board overlay."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

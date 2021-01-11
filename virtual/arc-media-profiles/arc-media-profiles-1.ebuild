@@ -6,7 +6,7 @@ EAPI=4
 DESCRIPTION="Chrome OS Arc media profiles virtual package"
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

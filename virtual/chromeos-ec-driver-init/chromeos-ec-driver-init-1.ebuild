@@ -8,6 +8,6 @@ This is a direct dependency of chromeos-base/chromeos-accelerometer-init,
 and it is overridden in private overlay to load cros-ec stack for special ECs."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/"
 
-LICENSE="BSD"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"

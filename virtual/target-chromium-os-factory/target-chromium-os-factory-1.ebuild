@@ -7,7 +7,7 @@ DESCRIPTION="List of packages that are needed inside the Chromium OS factory
 image."
 HOMEPAGE="http://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

@@ -11,7 +11,7 @@ To satisfy this virtual, a package should cause to be installed everything
 a user would need to interact with the system locally."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE="-chromeless_tty"

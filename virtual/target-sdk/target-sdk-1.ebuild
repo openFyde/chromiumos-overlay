@@ -7,7 +7,7 @@ DESCRIPTION="List of packages that are needed inside the sdk to build everything
 by default, we build a Chromium OS SDK"
 HOMEPAGE="http://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

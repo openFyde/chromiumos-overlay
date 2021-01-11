@@ -14,7 +14,7 @@ DESCRIPTION="List of packages that are needed inside the Chromium OS test image;
 Note: test images are a superset of dev images."
 HOMEPAGE="https://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-test.

@@ -6,7 +6,7 @@ EAPI=4
 DESCRIPTION="Chrome OS u-boot virtual package"
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="GPL-2"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

@@ -6,7 +6,7 @@ EAPI="5"
 DESCRIPTION="Intel(R) Dynamic Platform & Thermal Framework"
 HOMEPAGE="https://01.org/dptf/"
 
-LICENSE="Apache-2.0 GPL-2 BSD"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="-* amd64 x86"
 

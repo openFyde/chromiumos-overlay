@@ -6,6 +6,7 @@ EAPI=4
 DESCRIPTION="Ebuild which pulls in any necessary ebuilds as dependencies
 or portage actions."
 
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="-* amd64 x86"
 S="${WORKDIR}"
@@ -16,7 +17,7 @@ RDEPEND="
 	cnl_lpe? ( sys-kernel/linux-firmware[linux_firmware_adsp_cnl] )
 	glk_lpe? ( sys-kernel/linux-firmware[linux_firmware_adsp_glk] )
 	kbl_lpe? ( sys-kernel/linux-firmware[linux_firmware_adsp_kbl] )
-        media-libs/lpe-support-topology
+	media-libs/lpe-support-topology
 	media-libs/lpe-support-blacklist
 	skl_lpe? ( sys-kernel/linux-firmware[linux_firmware_adsp_skl] )
 "

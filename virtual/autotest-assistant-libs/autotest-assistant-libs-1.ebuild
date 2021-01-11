@@ -6,6 +6,6 @@ EAPI=6
 DESCRIPTION="This package can be overriden to bring in additional
 assistant autotest libraries"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"

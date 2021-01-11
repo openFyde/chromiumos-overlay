@@ -6,7 +6,7 @@ EAPI="5"
 DESCRIPTION="List of packages required for the Chromium OS Printing subsystem"
 HOMEPAGE="http://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

@@ -31,7 +31,7 @@ system function."
 
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE=""
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

@@ -13,7 +13,7 @@ built all the toolchain packages that we install separately via binpkgs.  This
 avoids circular dependencies when bootstrapping."
 HOMEPAGE="http://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~*"
 IUSE=""

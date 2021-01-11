@@ -10,7 +10,7 @@ to the EC build system at compile time (e.g. to generate hashes to be included
 in RW section)."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/"
 
-LICENSE="BSD"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

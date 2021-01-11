@@ -6,7 +6,7 @@ EAPI="6"
 DESCRIPTION="Virtual for the Rust language compiler"
 HOMEPAGE=""
 
-LICENSE=""
+LICENSE="metapackage"
 SLOT="0/${PV}"
 KEYWORDS="*"
 

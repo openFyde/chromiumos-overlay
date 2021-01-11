@@ -7,6 +7,6 @@ DESCRIPTION="This package can be overriden to bring in additional
 (e.g. board-specific) autotest infrastructure."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"

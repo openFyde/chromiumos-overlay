@@ -7,7 +7,7 @@ DESCRIPTION="List of packages that make up the factory shim OS image;
 by default, we build a Chromium OS factory shim image"
 HOMEPAGE="http://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

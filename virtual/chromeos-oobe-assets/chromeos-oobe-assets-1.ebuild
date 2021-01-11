@@ -5,7 +5,7 @@ EAPI=5
 
 DESCRIPTION="Chrome OS OOBE assets virtual package"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

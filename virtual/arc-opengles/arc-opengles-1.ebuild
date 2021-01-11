@@ -6,6 +6,7 @@ EAPI=5
 DESCRIPTION="Virtual for ARC OpenGLES implementations"
 SRC_URI=""
 
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

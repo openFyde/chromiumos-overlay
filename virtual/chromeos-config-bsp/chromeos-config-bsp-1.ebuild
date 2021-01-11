@@ -6,7 +6,7 @@ EAPI=5
 DESCRIPTION="Chrome OS BSP config virtual package"
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 

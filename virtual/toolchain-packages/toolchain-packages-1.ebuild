@@ -12,7 +12,7 @@ test changes) and that don't fit nicely in to Portage's dependency model (for
 bootstrap problems/circular dependencies/other reasons)."
 HOMEPAGE="http://dev.chromium.org/chromium-os"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

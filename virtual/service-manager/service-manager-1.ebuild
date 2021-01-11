@@ -11,7 +11,7 @@ To satisfy this virtual, a package should cause to be installed everything
 required to bring the system up and start managing system services."
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE=""
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""

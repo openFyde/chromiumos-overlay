@@ -13,7 +13,7 @@ inherit cros-workon
 DESCRIPTION="List of packages that should be fuzzed"
 HOMEPAGE="https://dev.chromium.org/"
 
-LICENSE="BSD-Google"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="asan msan"
