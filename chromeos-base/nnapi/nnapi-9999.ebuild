@@ -85,6 +85,7 @@ PATCHES=(
 	"${FILESDIR}/00006-libhidl-cast-interface.patch"
 	"${FILESDIR}/00007-libbase-get-property-from-envvar.patch"
 	"${FILESDIR}/00008-libutils-memory-leak.patch"
+	"${FILESDIR}/00009-libutils-timer-cast.patch"
 )
 
 src_prepare() {
@@ -99,6 +100,7 @@ src_prepare() {
 	eapply -p2 "${FILESDIR}/00006-libhidl-cast-interface.patch"
 	eapply -p2 "${FILESDIR}/00007-libbase-get-property-from-envvar.patch"
 	eapply -p2 "${FILESDIR}/00008-libutils-memory-leak.patch"
+	eapply -p2 "${FILESDIR}/00009-libutils-timer-cast.patch"
 	popd || exit
 
 	eapply_user
@@ -148,8 +150,9 @@ platform_pkg_test() {
 		# AddressSanitizer: requested allocation size 0xfffffffffffffffe
 		# We can't use allocator_may_return_null=1 as it prints a warning that the
 		# toolchain considers an error.
-		gtest_excl_filter+="SharedBufferTest.TestAlloc:"
-		gtest_excl_filter+="SharedBufferTest.TestEditResize:"
+		gtest_excl_filter+="SharedBufferTest.alloc_null:"
+		gtest_excl_filter+="SharedBufferTest.editResize_null:"
+		gtest_excl_filter+="SharedBufferTest.editResize_death:"
 
 		# ForkSafe leaves some threads running which results in warning printed:
 		# ==26==Running thread 23 was not suspended. False leaks are possible.

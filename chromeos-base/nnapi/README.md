@@ -1,4 +1,9 @@
-# NNAPI Dependency Updating Instructions
+# NNAPI Updating Instructions
+
+## Quick Note
+
+If you're just updating code within `platform2/nnapi`, skip down to
+[Uprev the ebuild](#uprev-the-ebuild).
 
 ## Background
 
@@ -82,27 +87,56 @@ git merge cros/upstream/master --no-ff
 repo upload --cbr . --no-verify
 ```
 
-### Update the Copybara repo
+### Update the aosp/system/core repo
 
 As described earlier, `aosp/system/core/libcutils` and
 `aosp/system/core/libutils` are updated by merging upstream into the master
-of `aosp/platform/system/core`. Given the amount of changes in this repo,
-it is best to ask the git admins to do this.
+of `aosp/platform/system/core`. This is a bit more involved than the previous
+cases, since this repo isn't mapped into the ChromeOS tree. It's quite
+similar though...
 
-#### Raise a bug for Git admins
+Steps:
 
-Use http://go/git-admin-bug to raise an Infra-Git ticket template
-with the following details:
+1.  Check out the core repo.
+1.  Create a merge branch from `origin/master`.
+1.  Do a non-ff git merge from `origin/upstream`.
+1.  Upload to gerrit.
+1.  Force submit / 'chump' the change since CQ won't process it.
+1.  Within a few minutes, copybara should update `libcutils` and `libutils`.
+1.  Check the [Copybara dashboard](https://copybara.corp.google.com/list-jobs?piperConfigPath=%2F%2Fdepot%2Fgoogle3%2Fthird_party%2Fcopybara-gsubtreed%2Faosp%2Fcopy.bara.sky).
 
-> Summary: "Please fast-forward master to upstream for aosp/system/core".
+```bash
+cd /tmp
+git clone https://chromium.googlesource.com/aosp/platform/system/core
+# Set up the commit hooks
+cd core
+f=`git rev-parse --git-dir`/hooks/commit-msg
+mkdir -p $(dirname $f)
+curl -Lo $f https://gerrit-review.googlesource.com/tools/hooks/commit-msg
+chmod +x $f
+# Done setting up the repo
+git checkout -b merge
+git merge origin/upstream --no-ff
+# This will ask for an appropriate commit msg
+git commit
+# This will upload to gerrit
+git push origin HEAD:refs/for/master
+```
 
-> * googlesource host (e.g. chromium, chrome-internal): chromium
-> * name of the repo: https://chromium.googlesource.com/aosp/platform/system/core
-> * permissions: default
->
-> Please fast-forward master to the tip of upstream, thank you!
+### Uprev the ebuild
 
-### Update the commit id and tree id in the ebuild
+Once you have any code changes and dependencies submitted via CQ, do a
+`repo sync` and you'll be able to uprev the ebuild. This is important, since
+you will not be able to get the git commit id's you need until this is done.
 
-TODO once I have the CROS_WORKON_MANUAL_UPREV change committed and can actually
-do this and get the steps exactly right.
+There is a script in this directory, `get_git_ids.sh` that will print out the
+two lines you need to replace.
+
+Steps:
+
+1.  Run `get_git_ids.sh`.
+1.  Rename `nnapi-0.0.2-r<N>.ebuild` to `nnapi-0.0.2-r<N+1>.ebuild`.
+1.  Replace CROS_WORKON_COMMIT and CROS_WORKON_TREE in that ebuild with the
+    output of the `get_gid_ids.sh` script.
+1.  Fix any build issues by creating ebuild patches (see the `files` dir).
+1.  Upload to gerrit and review as normal.

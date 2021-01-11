@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("b05e4a6b92b2cfe608b6cd8d5d37168680fc080e" "e9ef20b988f629406f6a8d7fe22ae5f006abdbd2" "c1e30221aa92e7979cf0a0ee65914849db8b2dcb" "e2ccff249b3be3583ffb0e9be35db7be54715ec9" "08495901b78c7c3d9a1a81e541897c2ec114fe34" "f0356097d584b884e24b67c789b4800ec6895bd2" "83caf7c58917b971de049e882ec9b23816f12ca1" "59f317632862d15b59278a0235eb901270c2889d")
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "febb5c918e5047e2dd8a2bd416944894f76e41b3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "53a4656104a89df4072d3101327f51fcf6c9cbb2" "b4147760c8f1da9f6749f61748d2cacf89237717" "078088f837cd0a9b1c3123b5d93904f4ec2f2af6" "cbb1596cd3157db5ffe44d03d24c30cc9ed53e38" "6d3d9da9942b38f318bc49866e0dca5ffefd99c8" "95bef85dda5cf0836566c16c6b0651ae91cca7e2" "2ea48bccbe24f13f304b13776b86028ca6022818")
+CROS_WORKON_COMMIT=("85109a843d7310588ec7feea6775ace121125882" "23e2bf511667b4fa5859812a4e7945c8638f6603" "ab4ff9c1ded692a3529e9c03ea6943fe094df0f9" "a14d63edf6f0058f6c478093b8e90e35fa3314ec" "b7f8cf0f0beab62bc5a391226ebd835c2fe377dc" "8e369832671de86e05cbbd3eeb7ddfe7df95f1ec" "6b79fa280312109216ce8b3a4893f266775cddc2" "e386a40d816e794c12040936608d252ab96077a7")
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "febb5c918e5047e2dd8a2bd416944894f76e41b3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d0c498cd8aacda36a50685194a4f11a5538c36ec" "f3727b50e53c0a9f165bce6d96002698678ebe1b" "97c692ea262a87836db5893fc63567ed30eadea6" "4007f79bbd89b30be582cb0cdb1292ce377f34e1" "077dba53acf2e9a7a56288ee75d515afa7541b94" "bcea173391bb1aa3b0978ecc33a27d447e59eb18" "6a8c1be1913e7a9ccf5141a072ad595a1e9d3add")
 inherit cros-constants
 
 CROS_WORKON_MANUAL_UPREV="1"
@@ -87,6 +87,7 @@ PATCHES=(
 	"${FILESDIR}/00006-libhidl-cast-interface.patch"
 	"${FILESDIR}/00007-libbase-get-property-from-envvar.patch"
 	"${FILESDIR}/00008-libutils-memory-leak.patch"
+	"${FILESDIR}/00009-libutils-timer-cast.patch"
 )
 
 src_prepare() {
@@ -101,6 +102,7 @@ src_prepare() {
 	eapply -p2 "${FILESDIR}/00006-libhidl-cast-interface.patch"
 	eapply -p2 "${FILESDIR}/00007-libbase-get-property-from-envvar.patch"
 	eapply -p2 "${FILESDIR}/00008-libutils-memory-leak.patch"
+	eapply -p2 "${FILESDIR}/00009-libutils-timer-cast.patch"
 	popd || exit
 
 	eapply_user
@@ -150,8 +152,9 @@ platform_pkg_test() {
 		# AddressSanitizer: requested allocation size 0xfffffffffffffffe
 		# We can't use allocator_may_return_null=1 as it prints a warning that the
 		# toolchain considers an error.
-		gtest_excl_filter+="SharedBufferTest.TestAlloc:"
-		gtest_excl_filter+="SharedBufferTest.TestEditResize:"
+		gtest_excl_filter+="SharedBufferTest.alloc_null:"
+		gtest_excl_filter+="SharedBufferTest.editResize_null:"
+		gtest_excl_filter+="SharedBufferTest.editResize_death:"
 
 		# ForkSafe leaves some threads running which results in warning printed:
 		# ==26==Running thread 23 was not suspended. False leaks are possible.
