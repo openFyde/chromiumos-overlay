@@ -138,6 +138,10 @@ src_install() {
 	[[ "${found_plugins}" == "${#plugins[@]}" ]] || \
 		die "Expects ${#plugins[@]} plugins, but ${found_plugins} found."
 
+	# Seccomp policy file.
+	insinto /usr/share/policy
+	newins "${FILESDIR}/modemmanager-${ARCH}.policy" modemmanager.policy
+
 	# Install init scripts.
 	if use systemd; then
 		systemd_dounit "${FILESDIR}/modemmanager.service"
