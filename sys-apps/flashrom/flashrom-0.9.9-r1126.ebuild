@@ -10,36 +10,61 @@ CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 inherit cros-workon toolchain-funcs
 
 DESCRIPTION="Utility for reading, writing, erasing and verifying flash ROM chips"
-HOMEPAGE="http://flashrom.org/"
+HOMEPAGE="https://flashrom.org/"
 #SRC_URI="http://download.flashrom.org/releases/${P}.tar.bz2"
 SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="+atahpt +bitbang_spi +buspirate_spi dediprog +drkaiser
-+dummy +fdtmap +ft2232_spi +gfxnvidia +internal +linux_mtd +linux_spi
-+lspcon_i2c_spi +nic3com +nicintel +nicintel_spi +nicnatsemi
-+nicrealtek +ogp_spi +raiden_debug_spi +rayer_spi +realtek_mst_i2c_spi
-+satasii +satamv +serprog static +wiki"
+IUSE="
+	atahpt
+	+bitbang_spi
+	+buspirate_spi
+	dediprog
+	+drkaiser
+	+dummy
+	+fdtmap
+	+ft2232_spi
+	+gfxnvidia
+	+internal
+	+linux_mtd
+	+linux_spi
+	+lspcon_i2c_spi
+	+nic3com
+	+nicintel
+	+nicintel_spi
+	+nicnatsemi
+	+nicrealtek
+	+ogp_spi
+	+raiden_debug_spi
+	+rayer_spi
+	+realtek_mst_i2c_spi
+	+satasii
+	+satamv
+	+serprog static
+	+wiki
+"
 
-LIB_DEPEND="atahpt? ( sys-apps/pciutils[static-libs(+)] )
-	dediprog? ( virtual/libusb:0[static-libs(+)] )
+LIB_DEPEND="
+	atahpt? ( sys-apps/pciutils[static-libs(+)] )
+	dediprog? ( virtual/libusb:1[static-libs(+)] )
 	drkaiser? ( sys-apps/pciutils[static-libs(+)] )
 	fdtmap? ( sys-apps/dtc[static-libs(+)] )
-	ft2232_spi? ( dev-embedded/libftdi[static-libs(+)] )
+	ft2232_spi? ( dev-embedded/libftdi:=[static-libs(+)] )
 	gfxnvidia? ( sys-apps/pciutils[static-libs(+)] )
 	internal? ( sys-apps/pciutils[static-libs(+)] )
 	nic3com? ( sys-apps/pciutils[static-libs(+)] )
-	nicintel? ( sys-apps/pciutils[static-libs(+)] )
 	nicintel_spi? ( sys-apps/pciutils[static-libs(+)] )
+	nicintel? ( sys-apps/pciutils[static-libs(+)] )
 	nicnatsemi? ( sys-apps/pciutils[static-libs(+)] )
 	nicrealtek? ( sys-apps/pciutils[static-libs(+)] )
 	raiden_debug_spi? ( virtual/libusb:1[static-libs(+)] )
+	ogp_spi? ( sys-apps/pciutils[static-libs(+)] )
 	rayer_spi? ( sys-apps/pciutils[static-libs(+)] )
-	satasii? ( sys-apps/pciutils[static-libs(+)] )
 	satamv? ( sys-apps/pciutils[static-libs(+)] )
-	ogp_spi? ( sys-apps/pciutils[static-libs(+)] )"
+	satasii? ( sys-apps/pciutils[static-libs(+)] )
+"
 RDEPEND="!static? ( ${LIB_DEPEND//\[static-libs(+)]} )"
 DEPEND="${RDEPEND}
 	static? ( ${LIB_DEPEND} )"
@@ -88,10 +113,6 @@ src_compile() {
 	fi
 
 	args+=" CONFIG_DEFAULT_PROGRAMMER=PROGRAMMER_INTERNAL"
-
-	# Suppress -Wunused-function since we will see a lot of PCI-related
-	# warnings on non-x86 platforms (PCI structs are pervasive in the code).
-	append-flags "-Wall -Wno-unused-function"
 
 	# WARNERROR=no, bug 347879
 	# FIXME(dhendrix): Actually, we want -Werror for CrOS.
