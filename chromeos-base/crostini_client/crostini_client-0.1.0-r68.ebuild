@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="f4903a557cd791956be0c786d8d0014c8996cc63"
+CROS_WORKON_COMMIT="e2ae0b1627d081187ae2cb21c1b76663a1d9eab4"
 CROS_WORKON_TREE="60c2e566309cbc45609497df23ada5ab2bbfe25f"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,6 +27,8 @@ DEPEND="chromeos-base/system_api
 	>=dev-rust/protobuf-2.16:= <dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.16:= <dev-rust/protoc-rust-3
 "
+
+RDEPEND="sys-apps/dbus"
 
 src_unpack() {
 	cros-workon_src_unpack

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="56e0355c73c1cc3da04bf96014df7d094e62a382"
+CROS_WORKON_COMMIT="e2ae0b1627d081187ae2cb21c1b76663a1d9eab4"
 CROS_WORKON_TREE="3500e9b09b6a848a59446fbd4b38b1df9cdd0f8e"
 CROS_RUST_SUBDIR="vm_tools/chunnel"
 
@@ -34,6 +34,8 @@ DEPEND="
 	=dev-rust/tempfile-3*:=
 	=dev-rust/remain-0.2*:=
 "
+
+RDEPEND="sys-apps/dbus"
 
 src_compile() {
 	ecargo_build

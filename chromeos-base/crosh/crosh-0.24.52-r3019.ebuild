@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="56e0355c73c1cc3da04bf96014df7d094e62a382"
+CROS_WORKON_COMMIT="e2ae0b1627d081187ae2cb21c1b76663a1d9eab4"
 CROS_WORKON_TREE="34d50984bb4e132cf0b8a2ef37f394616135d720"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,6 +37,7 @@ RDEPEND="app-admin/sudo
 	net-misc/iputils
 	net-misc/openssh
 	net-wireless/iw
+	sys-apps/dbus
 	sys-apps/net-tools
 "
 

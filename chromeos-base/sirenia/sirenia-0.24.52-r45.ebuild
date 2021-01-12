@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1e7cbea362a5ab6e281e3ce4a25cc4f9e538536f"
+CROS_WORKON_COMMIT="e2ae0b1627d081187ae2cb21c1b76663a1d9eab4"
 CROS_WORKON_TREE="df2c19452d483d533eaac00f8e1f845e09fa5d82"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,7 +18,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="cros_host"
 
-RDEPEND=""
+RDEPEND="sys-apps/dbus"
 
 DEPEND="${RDEPEND}
 	chromeos-base/libsirenia:=

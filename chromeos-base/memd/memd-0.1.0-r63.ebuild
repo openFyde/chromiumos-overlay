@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b05e4a6b92b2cfe608b6cd8d5d37168680fc080e"
+CROS_WORKON_COMMIT="e2ae0b1627d081187ae2cb21c1b76663a1d9eab4"
 CROS_WORKON_TREE=("f6601370d273ede0bc6b3a93a4211ab90c98ebdc" "52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb")
 CROS_RUST_SUBDIR="metrics/memd"
 
@@ -37,6 +37,8 @@ DEPEND="chromeos-base/system_api:=
 	~dev-rust/time-0.1.40:=
 	=dev-rust/tempfile-3*:=
 	"
+
+RDEPEND="sys-apps/dbus"
 
 src_install() {
 	# cargo doesn't know how to install cross-compiled binaries.  It will
