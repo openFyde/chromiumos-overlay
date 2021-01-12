@@ -27,4 +27,8 @@ DEPEND="${COMMON_DEPEND}"
 src_install() {
 	dobin "${OUT}"/mount-passthrough
 	dobin mount-passthrough-jailed
+	dobin mount-passthrough-jailed-play
+
+	insinto /usr/share/arc
+	doins mount-passthrough-jailed-utils.sh
 }
