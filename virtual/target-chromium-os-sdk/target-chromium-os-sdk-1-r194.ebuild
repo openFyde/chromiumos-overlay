@@ -539,3 +539,7 @@ RDEPEND="${RDEPEND}
 # Needed to build IPA interface in libcamera.
 RDEPEND="${RDEPEND}
 	dev-python/jinja"
+
+# Needed for packages that need older 4.9.2 GCC.
+RDEPEND="${RDEPEND}
+	sys-devel/gcc-bin"
