@@ -130,6 +130,11 @@ cros-rust_pkg_setup() {
 	fi
 	_cros-rust_prepare_lock "$(cros-rust_get_reg_lock)"
 	_cleanup_registry_link "$@"
+
+	# This is needed for CROS_WORKON_INCREMENTAL_BUILD to be honored.
+	if [[ -n "${cros-workon_pkg_setup}" ]]; then
+		cros-workon_pkg_setup
+	fi
 }
 
 # @FUNCTION: cros-rust_src_unpack
@@ -307,7 +312,11 @@ cros-rust_src_configure() {
 	sanitizers-setup-env
 	cros-debug-add-NDEBUG
 
-	export CARGO_TARGET_DIR="${WORKDIR}"
+	if [[ -n "${cros-workon_get_build_dir}" ]]; then
+		export CARGO_TARGET_DIR="$(cros-workon_get_build_dir)"
+	else
+		export CARGO_TARGET_DIR="${WORKDIR}"
+	fi
 	export CARGO_HOME="${ECARGO_HOME}"
 	export HOST="${CBUILD}"
 	export HOST_CC="$(tc-getBUILD_CC)"
