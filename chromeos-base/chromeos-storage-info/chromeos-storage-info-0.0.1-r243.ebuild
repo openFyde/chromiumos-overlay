@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b05e4a6b92b2cfe608b6cd8d5d37168680fc080e"
+CROS_WORKON_COMMIT="0f4f2e09dc2ab3255685c3005d3f60081f3a2a09"
 CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "8d5d5e575da16bb48f735ef93feedcfae4b1586e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,7 +27,6 @@ DEPEND=""
 
 RDEPEND="${DEPEND}
 	chromeos-base/chromeos-common-script
-	!<chromeos-base/chromeos-installer-0.0.3
 	sata? ( sys-apps/hdparm sys-apps/smartmontools )
 	nvme? ( sys-apps/smartmontools )
 	mmc? ( sys-apps/mmc-utils )"

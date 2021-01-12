@@ -147,7 +147,6 @@ RDEPEND="${RDEPEND}
 	chromeos-base/google-breakpad
 	chromeos-base/chromeos-base
 	>=chromeos-base/chromeos-config-host-0.0.2-r491
-	chromeos-base/chromeos-installer
 	chromeos-base/chromite-sdk
 	chromeos-base/cros-devutils[cros_host]
 	chromeos-base/cros-testutils
