@@ -27,6 +27,7 @@ RDEPEND="
 	dev-python/docopt[${PYTHON_USEDEP}]
 	dev-python/jsonschema[${PYTHON_USEDEP}]
 	dev-python/pykwalify[${PYTHON_USEDEP}]
+	dev-python/pytest[${PYTHON_USEDEP}]
 	dev-python/pyyaml[${PYTHON_USEDEP}]
 	dev-util/ninja
 	sys-apps/dtc
@@ -37,4 +38,8 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 src_unpack() {
 	cros-workon_src_unpack
 	S+="/zephyr/zmake"
+}
+
+src_test() {
+	pytest "${S}" || die "Tests fail with ${EPYTHON}"
 }
