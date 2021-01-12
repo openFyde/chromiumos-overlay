@@ -30,6 +30,9 @@ src_install() {
 	insinto /usr/include
 	doins -r modp_b64
 
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${OUT}/obj/modp_b64/libmodp_b64.pc"
+
 	fuzzer_install "${S}/OWNERS.fuzzer" "${OUT}"/modp_b64_decode_fuzzer
 	fuzzer_install "${S}/OWNERS.fuzzer" "${OUT}"/modp_b64_encode_fuzzer
 }
