@@ -1313,10 +1313,14 @@ src_install() {
 		# Iterate over all ELF files in current directory
 		while read i; do
 			cd "${FROM}"
-			# There two files does not build with -gsplit-dwarf,
-			# so we do not need to get .dwp file from them.
-			if [[ "${i}" == "./nacl_helper_nonsfi" ]] ||
-				[[ "${i}" == "./nacl_irt_x86_32.nexe" ]] ; then
+			# These files do not build with -gsplit-dwarf,
+			# so we do not need to get a .dwp file from them.
+			if [[ "${i}" == "./nacl_helper_nonsfi"		|| \
+				"${i}" == "./nacl_helper_bootstrap"	|| \
+				"${i}" == "./nacl_irt_arm.nexe"		|| \
+				"${i}" == "./nacl_irt_x86_64.exe"	|| \
+				"${i}" == "./libmojo_core_arc64.so"	|| \
+				"${i}" == "./libmojo_core_arc32.so" ]] ; then
 				continue
 			fi
 			source="${i}"
