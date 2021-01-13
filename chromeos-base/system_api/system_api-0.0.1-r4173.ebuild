@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f2a083a59388940eae9bd41b943e86a773c26b2c"
-CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "76c4460e6b0d7dba57cc789ee35def103a721af4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="bec689a83d442623fd0f110b8f5ca411aa59a9fd"
+CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "1e86ae7258c10a98e93e9aa14365bf545021a1e5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
@@ -70,6 +70,7 @@ src_install() {
 		lorgnette
 		oobe_config
 		runtime_probe
+		pciguard
 		permission_broker
 		power_manager
 		shill
