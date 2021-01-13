@@ -15,6 +15,8 @@ HOMEPAGE="https://fwupd.org/lvfs/devices/"
 FILENAMES=(
 	# Dell WD19/WD19DC/WD19TB
 	"4e3f12fc1901c05790ab17ff2223a79631477aa87979498874c4c262cfafc144-WD19FirmwareUpdateLinux_01.00.21.cab"
+	# Lenovo MiniDock
+	"9950c7162ef41c770bca803b5455bd7bd82c9820b4ca2075bdf5bce4ac91a895-Lenovo-Mini_Dock-2020-10-29-155326_release.cab"
 	# Lenovo ThinkPad USB-C Dock Gen2
 	"29835d73b07590db964d796e508058e512c55ff0ca2a75b9c8ac2ed1fe305de5-Lenovo-ThinkPad-USBCGen2Dock-PDFirmware-0.0.34.cab"
 	"ac37f23af002e91df11094b08fd2e076cf9c8cb4f08930be8eefe35850097a60-Lenovo-ThinkPad-USBCGen2Dock-DP-Firmware-5.05.00.cab"
