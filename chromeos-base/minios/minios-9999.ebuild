@@ -27,7 +27,8 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}"
-DEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/system_api:="
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/minios_test"
@@ -36,4 +37,8 @@ platform_pkg_test() {
 src_install() {
 	dobin "${OUT}/minios"
 	dobin "${OUT}/minios_init"
+
+	# D-Bus configuration
+	insinto /etc/dbus-1/system.d
+	doins org.chromium.MiniOs.conf
 }
