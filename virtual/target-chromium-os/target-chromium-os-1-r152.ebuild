@@ -58,6 +58,7 @@ IUSE="
 	media_perception
 	memd
 	mist
+	minios
 	modemfwd
 	ml_service
 	mtd
@@ -274,6 +275,7 @@ RDEPEND="
 	)
 	typecd? ( chromeos-base/typecd )
 	pciguard? ( chromeos-base/pciguard )
+	minios? ( chromeos-base/minios )
 "
 
 ################################################################################
