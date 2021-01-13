@@ -26,10 +26,10 @@ IUSE="cros_embedded enable_slow_boot_notify -mtd pam systemd +oobe_config lvm_st
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/vboot_reference
+	chromeos-base/verity
 "
 
 DEPEND="${COMMON_DEPEND}
-	chromeos-base/verity
 	dev-libs/openssl:0=
 "
 
