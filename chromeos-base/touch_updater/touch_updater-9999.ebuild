@@ -31,6 +31,7 @@ IUSE="
 	input_devices_melfas
 	input_devices_emright
 	input_devices_eps2pstiap
+	input_devices_zinitix
 "
 
 # Third party firmware updaters usually belong in sys-apps/.  If you just
@@ -53,10 +54,11 @@ RDEPEND="
 	input_devices_melfas? ( chromeos-base/mfs-console-tool )
 	input_devices_emright? ( chromeos-base/emright_fw_updater )
 	input_devices_eps2pstiap? ( chromeos-base/epstps2iap )
+	input_devices_zinitix? ( chromeos-base/zinitix_fw_updater )
 "
 
 pkg_preinst() {
-	if use input_devices_elan_i2chid || use input_devices_melfas || use input_devices_emright; then
+	if use input_devices_elan_i2chid || use input_devices_melfas || use input_devices_emright || use input_devices_zinitix; then
 		enewgroup fwupdate-hidraw
 		enewuser fwupdate-hidraw
 	fi
