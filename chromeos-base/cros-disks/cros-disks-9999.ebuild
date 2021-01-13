@@ -96,7 +96,6 @@ src_install() {
 	doins setuid_restrictions/cros_disks_whitelist.txt
 
 	local fuzzers=(
-		mount_options_fuzzer
 		filesystem_label_fuzzer
 	)
 
