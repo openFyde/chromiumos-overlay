@@ -530,5 +530,35 @@
         "rel_patch_path": "cherry/808fcfe5944755f08ae88722070302fcf9135e58.patch",
         "start_version": 407380,
         "end_version": 412204
+    },
+    {
+        "comment": "[ARM] Implement harden-sls-retbr for ARM mode",
+        "rel_patch_path": "cherry/195f44278c4361a4a32377a98a1e3a15203d3647.patch",
+        "start_version": 412851,
+        "end_version": 414302
+    },
+    {
+        "comment": "[ARM] Implement harden-sls-retbr for Thumb mode",
+        "rel_patch_path": "cherry/320fd3314e378ae6242a2dde97250a8a94d68e27.patch",
+        "start_version": 412851,
+        "end_version": 414304
+    },
+    {
+        "comment": "[ARM] Harden indirect calls against SLS",
+        "rel_patch_path": "cherry/a4c1f5160e6d1de9a9959ecbf329c2acf4f3ed31.patch",
+        "start_version": 412851,
+        "end_version": 414305
+    },
+    {
+        "comment": "[ARM] harden-sls-blr: avoid r12 and lr in indirect calls.",
+        "rel_patch_path": "cherry/df8ed3928377edc6e9241a56680b694ffa9f4d6d.patch",
+        "start_version": 412851,
+        "end_version": 414306
+    },
+    {
+        "comment": "[ARM] Add clang command line support for -mharden-sls=",
+        "rel_patch_path": "cherry/9c895aea118a2f50ca8413372363c3ff6ecc21bf.patch",
+        "start_version": 412851,
+        "end_version": 414307
     }
 ]
