@@ -11,7 +11,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/common/libcbm"
 CROS_CAMERA_TESTS=(
-	"cbm_unittest"
+	"cbm_test"
 )
 
 inherit cros-camera cros-workon platform
