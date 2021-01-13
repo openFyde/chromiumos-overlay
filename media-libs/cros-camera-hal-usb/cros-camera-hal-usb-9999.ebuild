@@ -11,9 +11,6 @@ CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/hal/usb"
-CROS_CAMERA_TESTS=(
-	"image_processor_test"
-)
 
 inherit cros-camera cros-workon platform
 
@@ -51,4 +48,14 @@ DEPEND="${RDEPEND}
 src_install() {
 	platform_src_install
 	cros-camera_dohal "${OUT}/lib/libcamera_hal.so" usb.so
+}
+
+platform_pkg_test() {
+	local tests=(
+		image_processor_test
+	)
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test run "${OUT}/${test_bin}"
+	done
 }

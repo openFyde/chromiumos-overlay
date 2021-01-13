@@ -12,11 +12,6 @@
 # Packages in src/platform2/camera are in active development. We want builds
 # to be incremental and fast. This centralized the logic needed for this.
 
-# @ECLASS-VARIABLE: CROS_CAMERA_TESTS
-# @DESCRIPTION:
-# An array of tests to run when FEATURES=test is set.
-: ${CROS_CAMERA_TESTS:=}
-
 inherit multilib platform
 
 # @FUNCTION: cros-camera_doheader
@@ -68,11 +63,4 @@ cros-camera_dopc() {
 		insinto "${lib_dir}/pkgconfig"
 		doins "${out_pc_file}"
 	)
-}
-
-platform_pkg_test() {
-	local test_bin
-	for test_bin in "${CROS_CAMERA_TESTS[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
 }

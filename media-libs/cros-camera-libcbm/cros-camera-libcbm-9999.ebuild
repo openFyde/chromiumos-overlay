@@ -10,9 +10,6 @@ CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/common/libcbm"
-CROS_CAMERA_TESTS=(
-	"cbm_test"
-)
 
 inherit cros-camera cros-workon platform
 
@@ -38,4 +35,14 @@ src_install() {
 	cros-camera_doheader ../../include/cros-camera/camera_buffer_manager.h
 
 	cros-camera_dopc ../libcbm.pc.template
+}
+
+platform_pkg_test() {
+	local tests=(
+		cbm_test
+	)
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test run "${OUT}/${test_bin}"
+	done
 }

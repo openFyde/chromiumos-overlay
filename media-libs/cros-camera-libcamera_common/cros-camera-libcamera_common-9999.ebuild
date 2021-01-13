@@ -10,9 +10,6 @@ CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/common/libcamera_common"
-CROS_CAMERA_TESTS=(
-	"future_test"
-)
 
 inherit cros-camera cros-workon platform
 
@@ -42,4 +39,14 @@ src_install() {
 		../../include/cros-camera/camera_thread.h
 
 	cros-camera_dopc ../libcamera_common.pc.template
+}
+
+platform_pkg_test() {
+	local tests=(
+		future_test
+	)
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test run "${OUT}/${test_bin}"
+	done
 }
