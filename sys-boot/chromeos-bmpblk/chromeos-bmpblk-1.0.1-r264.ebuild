@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="354a70045645ef77a05aa887f84fdf4480a989cb"
-CROS_WORKON_TREE="b801f99e6fb711f9a7ca3405bf492061c9f2785b"
+CROS_WORKON_COMMIT="9493b76a1c5a6b520c64811e110f319839b2a09f"
+CROS_WORKON_TREE="25682679eeff95571ad86628e48a10348e7ba650"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -18,6 +18,7 @@ CROS_BOARDS=(
 	auron_paine
 	auron_yuna
 	banjo
+	brya
 	buddy
 	butterfly
 	candy
