@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="74a18769fbd5903778ea23c3be2db076c01b4dec"
+CROS_WORKON_COMMIT="2d4bfe07dbbf6ce72542ee79545ce618699fdb78"
 CROS_WORKON_TREE=("52a8a8b6d3bbca5e90d4761aa308a5541d52b1bb" "c999696bc9bfa63fa68ba921f03c3e84c3fd4267" "8d228c8e702aebee142bcbf0763a15786eb5b3bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -98,7 +98,6 @@ src_install() {
 	doins setuid_restrictions/cros_disks_whitelist.txt
 
 	local fuzzers=(
-		mount_options_fuzzer
 		filesystem_label_fuzzer
 	)
 
