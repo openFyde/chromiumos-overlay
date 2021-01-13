@@ -25,12 +25,12 @@ RDEPEND="
 	chromeos-base/cros-camera-libs
 	chromeos-base/cros-camera-android-deps
 	dev-libs/expat
-	!ipu6se? ( !ipu6ep? ( media-libs/intel-ipu6-libs-bin ) )
+	!ipu6se? ( !ipu6ep? ( media-libs/intel-ipu6-camera-bins ) )
 	ipu6se? (
-		media-libs/intel-ipu6se-libs-bin
+		media-libs/intel-ipu6se-camera-bins
 		x11-libs/libva-intel-media-driver
 	)
-	ipu6ep? ( media-libs/intel-ipu6ep-libs-bin )
+	ipu6ep? ( media-libs/intel-ipu6ep-camera-bins )
 	!media-libs/cros-camera-hal-intel-ipu6-squash
 	media-libs/libsync
 	media-libs/libyuv
