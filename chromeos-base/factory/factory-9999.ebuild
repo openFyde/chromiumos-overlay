@@ -75,8 +75,10 @@ src_test() {
 
 src_install() {
 	# The path of bundle is defined in chromite/cbuildbot/commands.py
-	insinto "/usr/local/factory"
-	doins -r "${WORKDIR}/bundle"
+	local bundle_dest
+	bundle_dest="${ED}/usr/local/factory"
+	mkdir -p "${bundle_dest}"
+	mv "${WORKDIR}/bundle" "${bundle_dest}"
 	insinto "${CROS_FACTORY_BOARD_RESOURCES_DIR}"
 	doins "${BUILD_DIR}/resource/installer.tar"
 }
