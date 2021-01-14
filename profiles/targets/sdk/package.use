@@ -93,6 +93,7 @@ dev-libs/openssl	static-libs
 media-libs/jpeg		static-libs
 media-libs/libjpeg-turbo	static-libs
 media-libs/libpng	static-libs
+net-libs/libslirp	static-libs
 net-misc/curl		static-libs
 sys-apps/attr		static-libs
 sys-apps/dtc		static-libs
