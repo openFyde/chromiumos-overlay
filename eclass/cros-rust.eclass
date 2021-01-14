@@ -94,7 +94,7 @@ fi
 
 inherit toolchain-funcs cros-constants cros-debug cros-sanitizers
 
-IUSE="amd64 asan cros_host fuzzer lsan +lto msan test tsan ubsan x86"
+IUSE="amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst pkg_prerm
@@ -121,6 +121,14 @@ cros-rust_get_reg_lock() {
 	echo "${PORTAGE_TMPDIR}/cros-rust-registry/lock"
 }
 
+# @FUNCTION: cros-rust_get_sccache_dir
+# @DESCRIPTION:
+# Return the path to the directory used for the sccache cache. This cannot be in
+# global scope for the reason above.
+cros-rust_get_sccache_dir() {
+	echo "${PORTAGE_TMPDIR}/sccache"
+}
+
 # @FUNCTION: cros-rust_pkg_setup
 # @DESCRIPTION:
 # Sets up the package. Particularly, makes sure the rust registry lock exits.
@@ -135,6 +143,11 @@ cros-rust_pkg_setup() {
 	if [[ -n "${CROS_WORKON_PROJECT}" ]]; then
 		cros-workon_pkg_setup
 	fi
+
+	local sccache_dir="$(cros-rust_get_sccache_dir)"
+	addwrite "${sccache_dir}"
+	mkdir -p -m 755 "${sccache_dir}"
+	chown "${PORTAGE_USERNAME}:${PORTAGE_GRPNAME}" "${sccache_dir}" "${sccache_dir%/*}"
 }
 
 # @FUNCTION: cros-rust_src_unpack
@@ -197,7 +210,7 @@ cros-rust_src_unpack() {
 
 	cat <<- EOF > "${ECARGO_HOME}/config"
 	[source.chromeos]
-	directory = "${SYSROOT}/${CROS_RUST_REGISTRY_INST_DIR}"
+	directory = "${SYSROOT}${CROS_RUST_REGISTRY_INST_DIR}"
 
 	[source.crates-io]
 	replace-with = "chromeos"
@@ -326,6 +339,7 @@ cros-rust_src_configure() {
 	# need to set it regardless of the value of tc-is-cross-compiler here.
 	export PKG_CONFIG_ALLOW_CROSS=1
 	export PKG_CONFIG="$(tc-getPKG_CONFIG)"
+	export SCCACHE_DIR="$(cros-rust_get_sccache_dir)"
 	export TARGET="${CHOST}"
 	export TARGET_CC="$(tc-getCC)"
 
@@ -384,6 +398,12 @@ cros-rust_src_configure() {
 		)
 	fi
 
+	local sccache="/usr/bin/sccache"
+	if use sccache; then
+		export RUSTC_WRAPPER="${sccache}"
+		addwrite "$(cros-rust_get_sccache_dir)"
+	fi
+
 	export RUSTFLAGS="${rustflags[*]}"
 	default
 }
@@ -410,7 +430,18 @@ ecargo() {
 	rm -f Cargo.lock
 
 	# Acquire a shared (read only) lock since this does not modify the registry.
-	flock --shared "$(cros-rust_get_reg_lock)" cargo -v "$@" || die
+	flock --shared "$(cros-rust_get_reg_lock)" cargo -v "$@"
+	local status="$?"
+
+	# This needs to be executed on both success and failure.
+	local sccache="/usr/bin/sccache"
+	if use sccache; then
+		sccache --stop-server
+	fi
+
+	if [[ "${status}" != 0 ]]; then
+		die
+	fi
 
 	# Now remove any Cargo.lock files that cargo pointlessly created.
 	rm -f Cargo.lock
