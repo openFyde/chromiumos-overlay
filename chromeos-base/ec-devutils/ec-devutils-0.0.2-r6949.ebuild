@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="6b148b4e6f7f8aac1a9c87585f904724ebb300f8"
-CROS_WORKON_TREE="f62a855485a89d2cdd61aa3a527e89ebcb377414"
+CROS_WORKON_COMMIT="99739dbdcc5fdecb09e4bd8d633a21e803725b7a"
+CROS_WORKON_TREE="e4c73694b8cab498a55eaed86a68b7aa4cd00dd6"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 PYTHON_COMPAT=( python2_7 python3_6 )
