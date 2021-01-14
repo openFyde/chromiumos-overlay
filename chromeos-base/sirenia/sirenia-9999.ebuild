@@ -14,12 +14,13 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros_host"
+IUSE="cros_host manatee"
 
 RDEPEND="sys-apps/dbus"
 
 DEPEND="${RDEPEND}
 	chromeos-base/libsirenia:=
+	chromeos-base/sirenia-rpc-macros:=
 	=dev-rust/chrono-0.4*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
@@ -46,7 +47,14 @@ src_install() {
 	else
 		exeinto "/build/initramfs"
 	fi
-	doexe "${build_dir}/trichechus"
+
+	if use manatee ;  then
+		insinto /etc/init
+		doins upstart/dugong.conf
+		doexe "${build_dir}/trichechus"
+	else
+		dobin "${build_dir}/trichechus"
+	fi
 }
 
 pkg_setup() {
