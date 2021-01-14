@@ -239,6 +239,7 @@ ALL_BOARDS=(
 	kevin-arc64
 	#kevin-bertha
 	kevin-tpm2
+	kevin-userdebug
 	kidd
 	#kiev
 	kip
