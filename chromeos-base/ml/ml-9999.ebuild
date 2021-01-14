@@ -51,6 +51,7 @@ IUSE="
 	ondevice_handwriting
 	ondevice_handwriting_dlc
 	ondevice_speech
+	ondevice_text_suggestions
 "
 
 RDEPEND="
@@ -60,6 +61,7 @@ RDEPEND="
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
 	>=dev-libs/libgrammar-0.0.3:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
+	dev-libs/libsuggest:=[ondevice_text_suggestions=]
 	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
 "
