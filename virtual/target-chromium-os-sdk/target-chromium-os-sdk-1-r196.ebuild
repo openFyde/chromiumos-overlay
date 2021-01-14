@@ -146,6 +146,7 @@ RDEPEND="${RDEPEND}
 	app-text/xmlto
 	chromeos-base/google-breakpad
 	chromeos-base/chromeos-base
+	chromeos-base/chromeos-common-script
 	>=chromeos-base/chromeos-config-host-0.0.2-r491
 	chromeos-base/chromite-sdk
 	chromeos-base/cros-devutils[cros_host]

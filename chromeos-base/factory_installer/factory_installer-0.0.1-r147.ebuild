@@ -53,6 +53,14 @@ PROVIDED_DEPEND="
 	sys-apps/mosys
 	sys-apps/util-linux"
 
+# Tests are run on the build host and execute the "secure-wipe.sh" from
+# the build directory.  Unfortunately that script, in turn, includes
+# "/usr/share/misc/chromeos-common.sh" via an absolute path which requires
+# the script to be present on the build host itself.  Let's make sure it's
+# there.
+BDEPEND="
+	test? ( chromeos-base/chromeos-common-script )"
+
 # COMMON_DEPEND tracks dependencies common to both DEPEND and
 # RDEPEND.
 #
