@@ -53,6 +53,7 @@ IUSE="
 	+fit_compression_kernel_lz4
 	fit_compression_kernel_lzma
 	firmware_install
+	frozen_gcc
 	-kernel_sources
 	kernel_warning_level_1
 	kernel_warning_level_2
@@ -78,6 +79,7 @@ IUSE="
 REQUIRED_USE="
 	compilation_database? ( clang )
 	?? ( fit_compression_kernel_lz4 fit_compression_kernel_lzma )
+	frozen_gcc? ( !clang )
 	lld? ( clang )
 	llvm_ias? ( clang )
 "
@@ -1753,20 +1755,26 @@ kmake() {
 		OBJCOPY=llvm-objcopy
 		CHOST=${cross} clang-setup-env
 	fi
-	local binutils_path=$(LD=${cross}-ld get_binutils_path_ld)
 	# Use ld.lld instead of ${cross}-ld.lld, ${cross}-ld.lld has userspace
 	# specific options. Linux kernel already specifies the type by "-m <type>".
 	# It also matches upstream (https://github.com/ClangBuiltLinux) and
 	# Android usage.
-	local linker=$(usex lld "ld.lld" "${binutils_path}/ld")
+	local linker=$(usex lld "ld.lld" "${cross}-ld.bfd")
+
+	# Linux kernel can't be built with gold linker. Explicitly use bfd linker
+	# when invoked through compiler and LLD is not used.
+	local linker_arg=""
+	if ! use lld; then
+		linker_arg="-fuse-ld=bfd"
+	fi
 
 	set -- \
 		LD="${linker}" \
 		OBJCOPY="${OBJCOPY}" \
 		STRIP="${STRIP}" \
-		CC="${CC} -B${binutils_path}" \
+		CC="${CC} ${linker_arg}" \
 		CC_COMPAT="${CC_COMPAT}" \
-		CXX="${CXX} -B${binutils_path}" \
+		CXX="${CXX} ${linker_arg}" \
 		HOSTCC="${BUILD_CC}" \
 		HOSTCXX="${BUILD_CXX}" \
 		"$@"
@@ -1894,7 +1902,13 @@ cros-kernel2_src_prepare() {
 	if [[ "${PV}" != "9999" ]] || use apply_patches; then
 		apply_private_patches
 	fi
-	use clang || cros_use_gcc
+	if ! use clang; then
+		if use frozen_gcc; then
+			cros_use_frozen_gcc
+		else
+			cros_use_gcc
+		fi
+	fi
 
 	if [[ ${CROS_WORKON_INCREMENTAL_BUILD} != "1" ]]; then
 		mkdir -p "$(cros-workon_get_build_dir)"
