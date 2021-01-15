@@ -38,8 +38,6 @@ src_install() {
 	doexe "${BINARY_DIR}/video_decode_accelerator_tests"
 	doexe "${BINARY_DIR}/video_encode_accelerator_perf_tests"
 	doexe "${BINARY_DIR}/video_encode_accelerator_tests"
-	# TODO(crbug.com/1045825): Remove video_encode_accelerator_unittest.
-	doexe "${BINARY_DIR}/video_encode_accelerator_unittest"
 	doexe "${BINARY_DIR}/wayland_client_perftests"
 
 	if use vaapi; then
