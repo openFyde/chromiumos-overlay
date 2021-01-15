@@ -16,7 +16,7 @@ EAPI=7
 
 # TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
 PYTHON_COMPAT=( python2_7 )
-inherit autotest-deponly binutils-funcs chromium-source cros-credentials cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1
+inherit autotest-deponly binutils-funcs chromium-source cros-credentials cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1 multiprocessing
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://www.chromium.org/"
@@ -923,8 +923,8 @@ chrome_make() {
 		set -- -j $((num_parallel < j_limit ? num_parallel : j_limit)) "$@"
 	fi
 	local command=(
-		${ENINJA}
-		${MAKEOPTS}
+		"${ENINJA}"
+		-j"$(makeopts_jobs)"
 		-C "${build_dir}"
 		$(usex verbose -v "")
 		"$@"

@@ -25,7 +25,7 @@ EAPI=5
 
 # TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
 PYTHON_COMPAT=( python2_7 )
-inherit binutils-funcs chromium-source cros-constants cros-sanitizers flag-o-matic multilib toolchain-funcs python-any-r1
+inherit binutils-funcs chromium-source cros-constants cros-sanitizers flag-o-matic multilib toolchain-funcs python-any-r1 multiprocessing
 
 DESCRIPTION="The ICU library copied from chrome/third_party"
 HOMEPAGE="https://cs.chromium.org/chromium/src/third_party/icu/"
@@ -594,7 +594,7 @@ chrome_make() {
 
 	local command=(
 		"${ENINJA}"
-		"${MAKEOPTS}"
+		-j"$(makeopts_jobs)"
 		-C "${build_dir}"
 		$(usex verbose -v "")
 		"$@"
