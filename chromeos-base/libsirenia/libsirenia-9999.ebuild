@@ -38,10 +38,15 @@ DEPEND="${RDEPEND}
 src_test() {
 	cros-rust_src_test -- --skip transport::tests::vsocktransport
 
-	# Run tests for sirenia-rpc-macros here since the tests depend on libsirenia
-	# and libsirenia depends on sirenia-rpc-macros.
-	(
-		cd sirenia-rpc-macros || die
-		cros-rust_src_test
-	)
+	if cros_rust_is_direct_exec; then
+		# Run tests for sirenia-rpc-macros here since the tests depend on libsirenia
+		# and libsirenia depends on sirenia-rpc-macros.
+		(
+			cd sirenia-rpc-macros || die
+			# sirenia-rpc-macros includes libsirenia by path so disable sccache
+			# because of its mount namespace.
+			CROS_RUST_DISABLE_SCCACHE=1
+			cros-rust_src_test
+		)
+	fi
 }
