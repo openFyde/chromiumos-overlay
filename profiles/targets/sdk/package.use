@@ -155,16 +155,13 @@ dev-python/grpcio-tools python_targets_python2_7
 dev-python/httplib2 python_targets_python2_7
 dev-python/idna python_targets_python2_7
 dev-python/imaging python_targets_python2_7
-dev-python/intelhex python_targets_python2_7
 dev-python/jaraco-functools python_targets_python2_7
 # TODO(b/146155010): Used by assistant.
 dev-python/jinja python_targets_python2_7
-dev-python/jsonrpclib python_targets_python2_7
 dev-python/kiwisolver python_targets_python2_7
 dev-python/linecache2 python_targets_python2_7
 dev-python/logbook python_targets_python2_7
 dev-python/lxml python_targets_python2_7
-dev-python/m2crypto python_targets_python2_7
 dev-python/markupsafe python_targets_python2_7
 dev-python/mock python_targets_python2_7
 dev-python/more-itertools python_targets_python2_7
@@ -200,9 +197,7 @@ dev-python/PySocks python_targets_python2_7
 dev-python/pytest python_targets_python2_7
 dev-python/python-dateutil python_targets_python2_7
 dev-python/python-evdev python_targets_python2_7
-dev-python/python-gnupg python_targets_python2_7
 dev-python/pytz python_targets_python2_7
-dev-python/pyu2f python_targets_python2_7
 dev-python/pyudev python_targets_python2_7
 dev-python/pyusb python_targets_python2_7
 dev-python/pyxattr python_targets_python2_7
@@ -210,12 +205,10 @@ dev-python/pyyaml python_targets_python2_7
 dev-python/redis-py python_targets_python2_7
 dev-python/requests python_targets_python2_7
 dev-python/scandir python_targets_python2_7
-dev-python/secretstorage python_targets_python2_7
 dev-python/selenium python_targets_python2_7
 dev-python/setproctitle python_targets_python2_7
 dev-python/setuptools python_targets_python2_7
 dev-python/setuptools_scm python_targets_python2_7
-dev-python/simplejson python_targets_python2_7
 dev-python/six python_targets_python2_7
 dev-python/sqlalchemy python_targets_python2_7
 dev-python/tempita python_targets_python2_7
@@ -228,7 +221,6 @@ dev-python/unittest2 python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
-dev-python/ws4py python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-python/zope-interface python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
