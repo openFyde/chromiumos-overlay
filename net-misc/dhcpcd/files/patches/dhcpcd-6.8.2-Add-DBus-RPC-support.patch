@@ -1362,8 +1362,8 @@ index a486ac2..b36cdc7 100644
 +void
 +dhcpcd_stop_interfaces(struct dhcpcd_ctx *ctx)
 +{
-+	struct interface *ifp;
-+	TAILQ_FOREACH(ifp, ctx->ifaces, next) {
++	struct interface *ifp, *ifn;
++	TAILQ_FOREACH_SAFE(ifp, ctx->ifaces, next, ifn) {
 +		stop_interface(ifp);
 +	}
 +}
