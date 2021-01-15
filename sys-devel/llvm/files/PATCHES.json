@@ -532,6 +532,12 @@
         "end_version": 412204
     },
     {
+        "comment": "Revert \"[AMDGPU][HIP] Switch default DWARF version to 5\"",
+        "rel_patch_path": "cherry/ffba47df76460905965df4b54cf6ba945d2eb1ce.patch",
+        "start_version": 408148,
+        "end_version": 414416
+    },
+    {
         "comment": "[ARM] Implement harden-sls-retbr for ARM mode",
         "rel_patch_path": "cherry/195f44278c4361a4a32377a98a1e3a15203d3647.patch",
         "start_version": 412851,
@@ -560,5 +566,11 @@
         "rel_patch_path": "cherry/9c895aea118a2f50ca8413372363c3ff6ecc21bf.patch",
         "start_version": 412851,
         "end_version": 414307
+    },
+    {
+        "comment": "[Driver] -gsplit-dwarf: Produce .dwo regardless of -gN for -fthinlto-index=",
+        "rel_patch_path": "cherry/53b34601abf1d48e8df210ab8127b16fd35e275a.patch",
+        "start_version": 413220,
+        "end_version": 415982
     }
 ]
