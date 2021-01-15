@@ -11,7 +11,7 @@ SRC_URI="http://roy.marples.name/downloads/${PN}/${MY_P}.tar.bz2"
 KEYWORDS="*"
 S="${WORKDIR}/${MY_P}"
 
-inherit eutils systemd toolchain-funcs user
+inherit cros-sanitizers eutils systemd toolchain-funcs user
 
 DESCRIPTION="A fully featured, yet light weight RFC2131 compliant DHCP client"
 HOMEPAGE="http://roy.marples.name/projects/dhcpcd/"
@@ -56,6 +56,8 @@ src_prepare()
 
 src_configure()
 {
+	sanitizers-setup-env
+
 	local dev hooks
 	use udev || dev="--without-dev --without-udev"
 	if ! use dbus ; then
