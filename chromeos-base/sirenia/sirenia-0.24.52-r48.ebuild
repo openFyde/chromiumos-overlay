@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d5bd453b7a24f4bc5b93408a793da3149406a526"
-CROS_WORKON_TREE="8142910ebe1039f79b7c8e33260b6428bbee5ef3"
+CROS_WORKON_COMMIT="c492b5dc9e41deafa842f13ca43f226f36916e13"
+CROS_WORKON_TREE="85ab9153aea7bf3ed4bce6c23ca2157f936a097a"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="sirenia"
@@ -16,12 +16,13 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cros_host"
+IUSE="cros_host manatee"
 
 RDEPEND="sys-apps/dbus"
 
 DEPEND="${RDEPEND}
 	chromeos-base/libsirenia:=
+	chromeos-base/sirenia-rpc-macros:=
 	=dev-rust/chrono-0.4*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
@@ -48,7 +49,14 @@ src_install() {
 	else
 		exeinto "/build/initramfs"
 	fi
-	doexe "${build_dir}/trichechus"
+
+	if use manatee ;  then
+		insinto /etc/init
+		doins upstart/dugong.conf
+		doexe "${build_dir}/trichechus"
+	else
+		dobin "${build_dir}/trichechus"
+	fi
 }
 
 pkg_setup() {
