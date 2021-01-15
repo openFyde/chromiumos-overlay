@@ -43,9 +43,6 @@ src_install() {
 	dolib.so "${OUT}/lib/libwebserv.so"
 	doins "${OUT}/lib/libwebserv.pc"
 
-	# TODO(fqj): Remove symlink after users are migrated to libwebserv.pc
-	dosym libwebserv.pc "/usr/$(get_libdir)/pkgconfig/libwebserv-${v}.pc"
-
 	# Install header files from libwebserv
 	insinto /usr/include/libwebserv
 	doins libwebserv/*.h
