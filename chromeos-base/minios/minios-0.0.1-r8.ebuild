@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="44de53b64dd4a6975415747b9bc97f83ce00574c"
-CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "7b5886413278a82efc9726fe8d06e9e246f3f07a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="eaaabbca816b290be7db52b93c2fc5535991ceb3"
+CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "cb93004291d4c403378422ffd3e082eb84e22541" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,8 +23,13 @@ KEYWORDS="*"
 IUSE="minios"
 REQUIRED_USE="minios"
 
-RDEPEND=""
-DEPEND=""
+COMMON_DEPEND="
+	x11-libs/libxkbcommon:=
+	x11-misc/xkeyboard-config:=
+"
+
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/minios_test"

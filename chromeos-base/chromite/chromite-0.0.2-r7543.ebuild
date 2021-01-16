@@ -38,14 +38,22 @@ src_install() {
 			api \
 			appengine \
 			bin \
+			cbuildbot/builders \
+			cbuildbot/stages \
+			cli/cros/cros_{build,firmware}_ap* \
+			cli/cros/tests \
 			config \
 			contrib \
 			cidb \
+			cros \
 			cros_bisect \
 			infra \
 			lib/datafiles/ \
+			lib/firmware/ \
 			lib/testdata/ \
 			licensing \
+			scripts/cbuildbot* \
+			sdk \
 			service \
 			signing \
 			test \
@@ -62,6 +70,7 @@ src_install() {
 			-name '*.md' \
 			')' -delete || die
 		find -name '.git' -exec rm -rf {} + || die
+		find -depth -type d -exec rmdir {} + 2>/dev/null
 	}
 	python_foreach_impl install_python
 }

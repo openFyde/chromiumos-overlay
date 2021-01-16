@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="44de53b64dd4a6975415747b9bc97f83ce00574c"
-CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "04eb33e4a1a28c4e52176cad04e7d44c0fc80b33" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="eaaabbca816b290be7db52b93c2fc5535991ceb3"
+CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "b7535eccf9bcc80e53de8c5bd84e03ab16fc9096" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -28,8 +28,6 @@ IUSE="cros_embedded enable_slow_boot_notify -mtd pam systemd +oobe_config lvm_st
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/vboot_reference
-	x11-libs/libxkbcommon:=
-	x11-misc/xkeyboard-config:=
 "
 
 DEPEND="${COMMON_DEPEND}
@@ -58,7 +56,7 @@ src_install() {
 	if use mtd ; then
 		dobin "${OUT}"/nand_partition
 	fi
-	dosbin chromeos-* encrypted_import "${OUT}"/{evwaitkey,key_reader}
+	dosbin chromeos-* encrypted_import "${OUT}"/evwaitkey
 	dosym usr/sbin/chromeos-postinst /postinst
 
 	# Enable lvm stateful partition.
