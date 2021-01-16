@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="44de53b64dd4a6975415747b9bc97f83ce00574c"
-CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "989d840598227b15d78525d5f92c806011a9c158" "20ed8021024637e492670d20fa5969a2ad75e4b6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6d727218c84515e34a3677f09a96f5aaee021d55"
+CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "989d840598227b15d78525d5f92c806011a9c158" "8d228c8e702aebee142bcbf0763a15786eb5b3bb" "b7362d7cddee295dc23d72def9e72e8412e034fc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk libhwsec trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec metrics trunks .gn"
 
 PLATFORM_SUBDIR="trunks"
 
@@ -26,6 +26,7 @@ IUSE="cr50_onboard fuzzer ftdi_tpm test tpm2_simulator"
 # whenever the protobuf library is updated since generated source files may be
 # incompatible across different versions of the protobuf library.
 COMMON_DEPEND="
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	chromeos-base/power_manager-client:=
 	ftdi_tpm? ( dev-embedded/libftdi:= )
