@@ -14,7 +14,7 @@ LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="~*"
-IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl mbo p2p ps3 qt5 readline selinux smartcard systemd +tdls uncommon-eap-types wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
+IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl mbo p2p ps3 qt5 readline +seccomp selinux smartcard systemd +tdls uncommon-eap-types wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
 
 CDEPEND="
 	chromeos-base/minijail
@@ -401,6 +401,18 @@ src_install() {
 	else
 		insinto /etc/init
 		doins ${FILESDIR}/init/wpasupplicant.conf
+		if use seccomp; then
+			local policy="${FILESDIR}/seccomp/wpa_supplicant-${ARCH}.policy"
+			local policy_out="${ED}/usr/share/policy/wpa_supplicant.bpf"
+			dodir /usr/share/policy
+			compile_seccomp_policy \
+				--arch-json "${SYSROOT}/build/share/constants.json" \
+				--default-action trap "${policy}" "${policy_out}" \
+				|| die "failed to compile seccomp policy ${policy}"
+		else
+			sed -i '/^env seccomp_flags=/s:=.*:="":' \
+				"${ED}"/etc/init/wpasupplicant.conf || die
+		fi
 	fi
 }
 
