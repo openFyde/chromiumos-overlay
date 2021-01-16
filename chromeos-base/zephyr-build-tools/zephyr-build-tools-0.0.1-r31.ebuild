@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="40134002ef735d5e6f2351e7af0d6af2197a9633"
+CROS_WORKON_COMMIT="bca7737997eecb517dbbc94fd95d034f0f5cde56"
 CROS_WORKON_TREE="e55fac8a0d84e32fe3bb8456a64f9863f59d100f"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
@@ -29,6 +29,7 @@ RDEPEND="
 	dev-python/docopt[${PYTHON_USEDEP}]
 	dev-python/jsonschema[${PYTHON_USEDEP}]
 	dev-python/pykwalify[${PYTHON_USEDEP}]
+	dev-python/pytest[${PYTHON_USEDEP}]
 	dev-python/pyyaml[${PYTHON_USEDEP}]
 	dev-util/ninja
 	sys-apps/dtc
@@ -39,4 +40,8 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 src_unpack() {
 	cros-workon_src_unpack
 	S+="/zephyr/zmake"
+}
+
+src_test() {
+	pytest "${S}" || die "Tests fail with ${EPYTHON}"
 }
