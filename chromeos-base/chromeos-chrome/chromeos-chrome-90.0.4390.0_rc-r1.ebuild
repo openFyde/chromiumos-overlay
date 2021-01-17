@@ -16,7 +16,7 @@ EAPI=7
 
 # TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
 PYTHON_COMPAT=( python2_7 )
-inherit autotest-deponly binutils-funcs chromium-source cros-credentials cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1
+inherit autotest-deponly binutils-funcs chromium-source cros-credentials cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1 multiprocessing
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://www.chromium.org/"
@@ -49,6 +49,7 @@ IUSE="
 	goma
 	goma_thinlto
 	+highdpi
+	iioservice
 	internal_gles_conform
 	+libcxx
 	mojo
@@ -172,6 +173,7 @@ RDEPEND="${RDEPEND}
 		sys-libs/libcxx
 	)
 	oobe_config? ( chromeos-base/oobe_config )
+	iioservice? ( chromeos-base/iioservice )
 	"
 
 DEPEND="${DEPEND}
@@ -237,6 +239,7 @@ set_build_args() {
 		"is_debug=false"
 		"${EXTRA_GN_ARGS}"
 		"use_chromeos_protected_media=$(usetf cdm_factory_daemon)"
+		"use_iioservice=$(usetf iioservice)"
 		"use_v4l2_codec=$(usetf v4l2_codec)"
 		"use_v4lplugin=$(usetf v4lplugin)"
 		"use_vaapi=$(usetf vaapi)"
@@ -920,8 +923,8 @@ chrome_make() {
 		set -- -j $((num_parallel < j_limit ? num_parallel : j_limit)) "$@"
 	fi
 	local command=(
-		${ENINJA}
-		${MAKEOPTS}
+		"${ENINJA}"
+		-j"$(makeopts_jobs)"
 		-C "${build_dir}"
 		$(usex verbose -v "")
 		"$@"
@@ -1310,10 +1313,14 @@ src_install() {
 		# Iterate over all ELF files in current directory
 		while read i; do
 			cd "${FROM}"
-			# There two files does not build with -gsplit-dwarf,
-			# so we do not need to get .dwp file from them.
-			if [[ "${i}" == "./nacl_helper_nonsfi" ]] ||
-				[[ "${i}" == "./nacl_irt_x86_32.nexe" ]] ; then
+			# These files do not build with -gsplit-dwarf,
+			# so we do not need to get a .dwp file from them.
+			if [[ "${i}" == "./nacl_helper_nonsfi"		|| \
+				"${i}" == "./nacl_helper_bootstrap"	|| \
+				"${i}" == "./nacl_irt_arm.nexe"		|| \
+				"${i}" == "./nacl_irt_x86_64.exe"	|| \
+				"${i}" == "./libmojo_core_arc64.so"	|| \
+				"${i}" == "./libmojo_core_arc32.so" ]] ; then
 				continue
 			fi
 			source="${i}"
