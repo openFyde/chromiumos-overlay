@@ -147,12 +147,9 @@ dev-python/cycler python_targets_python2_7
 dev-python/cython python_targets_python2_7
 dev-python/dbus-python python_targets_python2_7
 dev-python/django python_targets_python2_7
-dev-python/docutils python_targets_python2_7
 dev-python/dpkt python_targets_python2_7
-dev-python/future python_targets_python2_7
 dev-python/grpcio python_targets_python2_7
 dev-python/grpcio-tools python_targets_python2_7
-dev-python/httplib2 python_targets_python2_7
 dev-python/idna python_targets_python2_7
 dev-python/imaging python_targets_python2_7
 dev-python/jaraco-functools python_targets_python2_7
@@ -168,7 +165,6 @@ dev-python/more-itertools python_targets_python2_7
 dev-python/mysqlclient python_targets_python2_7
 dev-python/namespace-google python_targets_python2_7
 dev-python/namespace-jaraco python_targets_python2_7
-dev-python/namespace-zope python_targets_python2_7
 dev-python/numpy python_targets_python2_7
 dev-python/pathlib2 python_targets_python2_7
 dev-python/pbr python_targets_python2_7
@@ -179,14 +175,11 @@ dev-python/portend python_targets_python2_7
 dev-python/protobuf-python python_targets_python2_7
 dev-python/psutil python_targets_python2_7
 dev-python/ptyprocess python_targets_python2_7
-dev-python/pyasn1-modules python_targets_python2_7
 dev-python/pyasn1 python_targets_python2_7
+dev-python/pyasn1-modules python_targets_python2_7
 dev-python/pyblake2 python_targets_python2_7
-dev-python/pycairo python_targets_python2_7
-dev-python/pycodestyle python_targets_python2_7
 dev-python/pycparser python_targets_python2_7
 dev-python/pyelftools python_targets_python2_7
-dev-python/pygments python_targets_python2_7
 dev-python/pygobject python_targets_python2_7
 dev-python/pyopenssl python_targets_python2_7
 dev-python/pyparsing python_targets_python2_7
@@ -196,7 +189,6 @@ dev-python/pyshark python_targets_python2_7
 dev-python/PySocks python_targets_python2_7
 dev-python/pytest python_targets_python2_7
 dev-python/python-dateutil python_targets_python2_7
-dev-python/python-evdev python_targets_python2_7
 dev-python/pytz python_targets_python2_7
 dev-python/pyudev python_targets_python2_7
 dev-python/pyusb python_targets_python2_7
@@ -206,7 +198,6 @@ dev-python/redis-py python_targets_python2_7
 dev-python/requests python_targets_python2_7
 dev-python/scandir python_targets_python2_7
 dev-python/selenium python_targets_python2_7
-dev-python/setproctitle python_targets_python2_7
 dev-python/setuptools python_targets_python2_7
 dev-python/setuptools_scm python_targets_python2_7
 dev-python/six python_targets_python2_7
@@ -215,18 +206,14 @@ dev-python/tempita python_targets_python2_7
 dev-python/tempora python_targets_python2_7
 dev-python/traceback2 python_targets_python2_7
 dev-python/trollius python_targets_python2_7
-dev-python/twisted-core python_targets_python2_7
-dev-python/twisted-web python_targets_python2_7
 dev-python/unittest2 python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/virtualenv python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
-dev-python/zope-interface python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 dev-util/scons python_targets_python2_7
 sys-apps/file python_targets_python2_7
-virtual/python-cffi python_targets_python2_7
 
 # These packages only support Python 2.7.  They aren't needed in Python 3.6+.
 # TODO(crbug.com/1007152): Trim this entirely!
@@ -240,10 +227,6 @@ dev-python/ipaddress python_targets_python2_7 -python_targets_python3_6
 dev-python/mox python_targets_python2_7 -python_targets_python3_6
 dev-python/pathlib python_targets_python2_7 -python_targets_python3_6
 dev-python/subprocess32 python_targets_python2_7 -python_targets_python3_6
-dev-python/typing python_targets_python2_7 -python_targets_python3_6
 virtual/python-enum34 python_targets_python2_7
 virtual/python-funcsigs python_targets_python2_7
 virtual/python-futures python_targets_python2_7
-virtual/python-ipaddress python_targets_python2_7
-virtual/python-pathlib python_targets_python2_7
-virtual/python-typing python_targets_python2_7
