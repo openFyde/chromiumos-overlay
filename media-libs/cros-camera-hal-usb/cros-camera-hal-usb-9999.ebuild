@@ -19,7 +19,7 @@ DESCRIPTION="Chrome OS USB camera HAL v3."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="usb_camera_monocle generated_cros_config unibuild"
+IUSE="usb_camera_monocle"
 
 RDEPEND="
 	chromeos-base/cros-camera-android-deps
@@ -27,10 +27,6 @@ RDEPEND="
 	dev-libs/re2
 	usb_camera_monocle? ( media-libs/librealtek-sdk )
 	media-libs/libsync
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp )
-	)
 	chromeos-base/chromeos-config-tools"
 
 DEPEND="${RDEPEND}

@@ -18,7 +18,6 @@ DESCRIPTION="Chrome OS camera V4L2 test."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="generated_cros_config unibuild"
 
 RDEPEND="
 	chromeos-base/chromeos-config-tools
@@ -26,10 +25,6 @@ RDEPEND="
 	dev-cpp/gtest:=
 	dev-libs/re2:=
 	media-libs/libyuv
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp )
-	)
 	virtual/jpeg:0"
 
 DEPEND="${RDEPEND}
