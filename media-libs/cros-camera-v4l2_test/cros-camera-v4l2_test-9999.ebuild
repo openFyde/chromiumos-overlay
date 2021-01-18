@@ -37,6 +37,7 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	platform_src_install
+	dobin "${OUT}/camera_characteristics_test"
 	dobin "${OUT}/media_v4l2_is_capture_device"
 	dobin "${OUT}/media_v4l2_test"
 }
