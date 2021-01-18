@@ -51,5 +51,6 @@ src_install() {
 	doins tpm_types.h
 	if use tpm2_simulator; then
 		doins tpm_manufacture.h
+		doins tpm_simulator.hpp
 	fi
 }
