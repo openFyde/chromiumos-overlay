@@ -1084,6 +1084,7 @@ CONFIG_WQ_WATCHDOG=y
 FIRMWARE_BINARIES=(
 	builtin_fw_amdgpu
 	builtin_fw_amdgpu_carrizo
+	builtin_fw_amdgpu_green_sardine
 	builtin_fw_amdgpu_picasso
 	builtin_fw_amdgpu_raven2
 	builtin_fw_amdgpu_renoir
@@ -1125,6 +1126,21 @@ builtin_fw_amdgpu_carrizo_files=(
 	amdgpu/carrizo_sdma1.bin
 	amdgpu/carrizo_uvd.bin
 	amdgpu/carrizo_vce.bin
+)
+
+builtin_fw_amdgpu_green_sardine_desc="Firmware for AMD Green Sardine"
+builtin_fw_amdgpu_green_sardine_files=(
+	amdgpu/green_sardine_asd.bin
+	amdgpu/green_sardine_ce.bin
+	amdgpu/green_sardine_dmcub.bin
+	amdgpu/green_sardine_me.bin
+	amdgpu/green_sardine_mec2.bin
+	amdgpu/green_sardine_mec.bin
+	amdgpu/green_sardine_pfp.bin
+	amdgpu/green_sardine_rlc.bin
+	amdgpu/green_sardine_sdma.bin
+	amdgpu/green_sardine_ta.bin
+	amdgpu/green_sardine_vcn.bin
 )
 
 builtin_fw_amdgpu_picasso_desc="Firmware for AMD Picasso"
