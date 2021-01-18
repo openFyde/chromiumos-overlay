@@ -114,6 +114,9 @@ src_prepare() {
 	# Cherry-pick an anv dma-buf fix for virglrenderer Vulkan
 	eapply "${FILESDIR}"/UPSTREAM-anv-Add-DRM_RDWR-flag-in-anv_gem_handle_to_fd.patch
 
+	#Fix for deqp failures on CML GT1
+	eapply "${FILESDIR}"/UPSTREAM-intel-change-urb-max-shader-geometry-for-CML-GT1.patch
+
 	default
 }
 
