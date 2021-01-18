@@ -1315,12 +1315,14 @@ src_install() {
 			cd "${FROM}"
 			# These files do not build with -gsplit-dwarf,
 			# so we do not need to get a .dwp file from them.
-			if [[ "${i}" == "./nacl_helper_nonsfi"		|| \
+			if [[ "${i}" == "./libassistant.so"		|| \
+				"${i}" == "./nacl_helper_nonsfi"	|| \
 				"${i}" == "./nacl_helper_bootstrap"	|| \
 				"${i}" == "./nacl_irt_arm.nexe"		|| \
 				"${i}" == "./nacl_irt_x86_64.exe"	|| \
 				"${i}" == "./libmojo_core_arc64.so"	|| \
-				"${i}" == "./libmojo_core_arc32.so" ]] ; then
+				"${i}" == "./libmojo_core_arc32.so"	|| \
+				"${i}" == "./libwidevinecdm.so" ]] ; then
 				continue
 			fi
 			source="${i}"
