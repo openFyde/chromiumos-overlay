@@ -129,7 +129,6 @@ src_install() {
 		doins init/cryptohomed-client.conf
 		doins init/cryptohomed.conf
 		doins init/cryptohome-proxy.conf
-		doins init/cryptohome-update-userdataauth.conf
 		doins init/init-homedirs.conf
 		doins init/mount-encrypted.conf
 		doins init/send-mount-encrypted-metrics.conf
@@ -176,21 +175,9 @@ src_install() {
 		doins cert_provision.h
 	fi
 
-	# Install the configuration file and utility for detecting if the new
-	# (UserDataAuth) or old interface is used.
-	insinto /etc/
-	doins cryptohome_userdataauth_interface.conf
-	exeinto /usr/libexec/cryptohome
-	doexe shall-use-userdataauth.sh
-	doexe update_userdataauth_from_features.sh
-
 	# Install seccomp policy for cryptohome-proxy
 	insinto /usr/share/policy
 	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
-
-	sed -i 's/killswitch=on/killswitch=off/' \
-		"${D}/usr/libexec/cryptohome/shall-use-userdataauth.sh" ||
-		die "Can't disable kill switch in shall-use-userdataauth.sh"
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
