@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="839336817fc0b3a217b90e66bdc7d06b5fb0d4f0"
+CROS_WORKON_COMMIT="68f8a0b6b3a16261ec0371345dd3fabb10f2dc60"
 CROS_WORKON_TREE="280f91d6cf454430ff068dde12ed532020e23bb5"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
@@ -40,10 +40,15 @@ DEPEND="${RDEPEND}
 src_test() {
 	cros-rust_src_test -- --skip transport::tests::vsocktransport
 
-	# Run tests for sirenia-rpc-macros here since the tests depend on libsirenia
-	# and libsirenia depends on sirenia-rpc-macros.
-	(
-		cd sirenia-rpc-macros || die
-		cros-rust_src_test
-	)
+	if cros_rust_is_direct_exec; then
+		# Run tests for sirenia-rpc-macros here since the tests depend on libsirenia
+		# and libsirenia depends on sirenia-rpc-macros.
+		(
+			cd sirenia-rpc-macros || die
+			# sirenia-rpc-macros includes libsirenia by path so disable sccache
+			# because of its mount namespace.
+			CROS_RUST_DISABLE_SCCACHE=1
+			cros-rust_src_test
+		)
+	fi
 }
