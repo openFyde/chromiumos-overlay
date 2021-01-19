@@ -97,7 +97,7 @@ inherit toolchain-funcs cros-constants cros-debug cros-sanitizers
 IUSE="amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
-EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_postinst pkg_prerm
+EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_preinst pkg_postinst pkg_prerm
 
 DEPEND="
 	>=virtual/rust-1.39.0:=
@@ -133,6 +133,7 @@ cros-rust_get_sccache_dir() {
 # @DESCRIPTION:
 # Sets up the package. Particularly, makes sure the rust registry lock exits.
 cros-rust_pkg_setup() {
+	debug-print-function ${FUNCNAME} "$@"
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_setup" ]]; then
 		die "${FUNCNAME}() should only be used in pkg_setup() phase"
 	fi
@@ -239,6 +240,7 @@ cros-rust_src_unpack() {
 # and Cargo.toml will be modified in place. If the macro is used in
 # ${S}/Cargo.toml, CROS_WORKON_OUTOFTREE_BUILD can't be set to 1 in its ebuild.
 cros-rust_src_prepare() {
+	debug-print-function ${FUNCNAME} "$@"
 	if grep -q "# provided by ebuild" "${S}/Cargo.toml"; then
 		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" == 1 ]]; then
 			die 'CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using' \
@@ -322,6 +324,7 @@ cros-rust_src_prepare() {
 # Configures the source and exports any environment variables needed during the
 # build.
 cros-rust_src_configure() {
+	debug-print-function ${FUNCNAME} "$@"
 	sanitizers-setup-env
 	cros-debug-add-NDEBUG
 
@@ -667,6 +670,7 @@ cros_rust_is_direct_exec() {
 }
 
 cros-rust_src_compile() {
+	debug-print-function ${FUNCNAME} "$@"
 	# Skip non cros-workon packages.
 	[[ -z "${CROS_WORKON_PROJECT}" ]] && return 0
 
@@ -675,6 +679,7 @@ cros-rust_src_compile() {
 }
 
 cros-rust_src_test() {
+	debug-print-function ${FUNCNAME} "$@"
 	if [[ "${CROS_RUST_TEST_DIRECT_EXEC_ONLY}" == "yes" ]] && ! cros_rust_is_direct_exec; then
 		ewarn "Skipping unittests for non-x86: ${PN}"
 		return 0
@@ -742,6 +747,7 @@ _cleanup_registry_link() {
 # Make sure a library crate isn't linked in the local registry prior to the
 # install step to avoid races.
 cros-rust_pkg_preinst() {
+	debug-print-function ${FUNCNAME} "$@"
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_preinst" ]]; then
 		die "${FUNCNAME}() should only be used in pkg_preinst() phase"
 	fi
@@ -755,6 +761,7 @@ cros-rust_pkg_preinst() {
 # Install a library crate in the local registry store into the registry,
 # making it visible to Cargo.
 cros-rust_pkg_postinst() {
+	debug-print-function ${FUNCNAME} "$@"
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_postinst" ]]; then
 		die "${FUNCNAME}() should only be used in pkg_postinst() phase"
 	fi
@@ -787,6 +794,7 @@ cros-rust_pkg_postinst() {
 # @DESCRIPTION:
 # Unlink a library crate from the local registry.
 cros-rust_pkg_prerm() {
+	debug-print-function ${FUNCNAME} "$@"
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_prerm" ]]; then
 		die "${FUNCNAME}() should only be used in pkg_prerm() phase"
 	fi
