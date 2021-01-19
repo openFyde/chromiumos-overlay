@@ -5,7 +5,7 @@ EAPI=5
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk"
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -20,9 +20,8 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	dev-cpp/gtest:=
-	!media-libs/arc-camera3-libcab-test
-	media-libs/cros-camera-libcab"
+	chromeos-base/cros-camera-libs
+	dev-cpp/gtest:="
 
 DEPEND="${RDEPEND}"
 

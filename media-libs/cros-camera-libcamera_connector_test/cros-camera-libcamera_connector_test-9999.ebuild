@@ -19,8 +19,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 RDEPEND="
-	media-libs/cros-camera-libcamera_common
-	media-libs/cros-camera-libcamera_connector
+	chromeos-base/cros-camera-libs:=
 	dev-cpp/gtest:=
 	media-libs/libyuv
 	virtual/jpeg:0"

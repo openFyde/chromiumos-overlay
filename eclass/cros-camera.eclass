@@ -12,18 +12,7 @@
 # Packages in src/platform2/camera are in active development. We want builds
 # to be incremental and fast. This centralized the logic needed for this.
 
-inherit multilib platform
-
-# @FUNCTION: cros-camera_doheader
-# @USAGE: <header files...>
-# @DESCRIPTION:
-# Install the given header files to /usr/include/cros-camera.
-cros-camera_doheader() {
-	(
-		insinto "/usr/include/cros-camera"
-		doins "$@"
-	)
-}
+inherit multilib
 
 # @FUNCTION: cros-camera_dohal
 # @USAGE: <source HAL file> <destination HAL file>
@@ -38,29 +27,5 @@ cros-camera_dohal() {
 	(
 		insinto "/usr/$(get_libdir)/camera_hal"
 		newins "${src}" "${dst}"
-	)
-}
-
-# @FUNCTION: cros-camera_dopc
-# @USAGE: <pkg-config template file>
-# @DESCRIPTION:
-# Generate the pkg-config file by replacing @INCLUDE_DIR@, @LIB_DIR@, and
-# @LIBCHROME_VERS@ with the values detected at build time, then install the
-# generated pkg-config file.
-cros-camera_dopc() {
-	[[ $# -eq 1 ]] || die "Usage: ${FUNCNAME} <pc file template>"
-
-	local in_pc_file=$1
-	local out_pc_file="${WORKDIR}/${in_pc_file##*/}"
-	out_pc_file="${out_pc_file%%.template}"
-	local include_dir="/usr/include/cros-camera"
-	local lib_dir="/usr/$(get_libdir)"
-
-	sed -e "s|@INCLUDE_DIR@|${include_dir}|" -e "s|@LIB_DIR@|${lib_dir}|" \
-		-e "s|@LIBCHROME_VERS@|$(libchrome_ver)|" \
-		"${in_pc_file}" > "${out_pc_file}"
-	(
-		insinto "${lib_dir}/pkgconfig"
-		doins "${out_pc_file}"
 	)
 }

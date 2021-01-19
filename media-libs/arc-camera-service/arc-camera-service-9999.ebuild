@@ -25,8 +25,7 @@ KEYWORDS="~*"
 IUSE="-asan"
 
 RDEPEND="
-	!chromeos-base/arc-camera-service
-	media-libs/cros-camera-libcamera_timezone
+	chromeos-base/cros-camera-libs
 	virtual/cros-camera-hal-configs"
 
 DEPEND="${RDEPEND}

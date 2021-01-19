@@ -20,8 +20,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-RDEPEND="
-	media-libs/cros-camera-libcamera_timezone"
+RDEPEND=""
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"

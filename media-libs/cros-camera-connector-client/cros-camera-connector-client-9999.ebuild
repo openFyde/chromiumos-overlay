@@ -18,7 +18,7 @@ DESCRIPTION="A simple package that exercises cros-camera-libcamera_connector"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-RDEPEND="media-libs/cros-camera-libcamera_connector"
+RDEPEND="chromeos-base/cros-camera-libs"
 
 DEPEND="${RDEPEND}
 	x11-libs/libdrm"

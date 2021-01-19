@@ -5,7 +5,7 @@ EAPI=5
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk"
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -22,7 +22,7 @@ KEYWORDS="~*"
 RDEPEND="dev-cpp/gtest"
 
 DEPEND="${RDEPEND}
-	media-libs/cros-camera-libjda"
+	chromeos-base/cros-camera-libs"
 
 src_install() {
 	platform_src_install
