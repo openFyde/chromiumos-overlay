@@ -20,14 +20,14 @@ RDEPEND="
 "
 DEPEND="
 	chromeos-base/chunnel
-	chromeos-base/sommelier
+	!vm_borealis? ( chromeos-base/sommelier )
 	chromeos-base/vm_guest_tools
 	vm_borealis? ( chromeos-base/crash-reporter )
 	net-libs/grpc:=
 	dev-libs/protobuf:=
-	media-libs/mesa
-	x11-apps/xkbcomp
-	x11-base/xwayland
+	!vm_borealis? ( media-libs/mesa )
+	!vm_borealis? ( x11-apps/xkbcomp )
+	!vm_borealis? ( x11-base/xwayland )
 "
 
 src_install() {
@@ -36,11 +36,6 @@ src_install() {
 		"/usr/bin/garcon"
 		"/usr/bin/guest_service_failure_notifier"
 		"/usr/bin/notificationd"
-		"/usr/bin/sommelier"
-		"/usr/bin/wayland_demo"
-		"/usr/bin/Xwayland"
-		"/usr/bin/x11_demo"
-		"/usr/bin/xkbcomp"
 		"/usr/sbin/vshd"
 	)
 	if use vm_borealis; then
@@ -48,6 +43,14 @@ src_install() {
 			"/sbin/init"
 			"/sbin/crash_reporter"
 			"/usr/bin/vm_syslog"
+		)
+	else
+		tools+=(
+			"/usr/bin/sommelier"
+			"/usr/bin/wayland_demo"
+			"/usr/bin/Xwayland"
+			"/usr/bin/x11_demo"
+			"/usr/bin/xkbcomp"
 		)
 	fi
 	"${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --bindir=/bin \
@@ -57,19 +60,25 @@ src_install() {
 
 	# These libraries are dlopen()'d so lddtree doesn't know about them.
 	local dlopen_libs=(
-		$("${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --list \
-			"/usr/$(get_libdir)/dri/i965_dri.so" \
-			"/usr/$(get_libdir)/dri/swrast_dri.so" \
-			"/usr/$(get_libdir)/dri/virtio_gpu_dri.so" \
-			"/usr/$(get_libdir)/libwayland-egl.so.1" \
-			"/usr/$(get_libdir)/libEGL.so.1" \
-			"/usr/$(get_libdir)/libGLESv2.so.2" \
-			"/$(get_libdir)/libnss_compat.so.2" \
-			"/$(get_libdir)/libnss_files.so.2" \
-			"/$(get_libdir)/libnss_nis.so.2" \
-			"/$(get_libdir)/libnss_dns.so.2"
-		)
+		"/$(get_libdir)/libnss_compat.so.2" \
+		"/$(get_libdir)/libnss_files.so.2" \
+		"/$(get_libdir)/libnss_nis.so.2" \
+		"/$(get_libdir)/libnss_dns.so.2"
 	)
+	if ! use vm_borealis; then
+		dlopen_libs+=(
+			$("${CHROMITE_BIN_DIR}"/lddtree \
+				--root="${SYSROOT}" \
+				--list \
+				"/usr/$(get_libdir)/dri/i965_dri.so" \
+				"/usr/$(get_libdir)/dri/swrast_dri.so" \
+				"/usr/$(get_libdir)/dri/virtio_gpu_dri.so" \
+				"/usr/$(get_libdir)/libwayland-egl.so.1" \
+				"/usr/$(get_libdir)/libEGL.so.1" \
+				"/usr/$(get_libdir)/libGLESv2.so.2" \
+			)
+		)
+	fi
 	cp -aL "${dlopen_libs[@]}" "${WORKDIR}"/container_pkg/lib/
 
 	# These are scripts, so lddtree doesn't like them.
