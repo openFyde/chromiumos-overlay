@@ -44,6 +44,9 @@ EGIT_REPO_URIS=(
 	#   User policy is generated and doesn't have to be updated manually.
 	# - Bump the package version:
 	#     git mv protofiles-0.0.N.ebuild protofiles-0.0.N+1.ebuild
+	# - Bump the DEPEND version number for protofiles in all ebuilds for
+	#   packages that rely on the new policies. If you added new device
+	#   policy encodings above that will at least be authpolicy.
 
 	# private_membership and shell_encryption are not used in Chrome OS at
 	# the moment. They are just required to compile the proto files. An
