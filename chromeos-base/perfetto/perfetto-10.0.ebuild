@@ -7,7 +7,7 @@ inherit ninja-utils toolchain-funcs user
 DESCRIPTION="An open-source project for performance instrumentation and tracing."
 HOMEPAGE="https://perfetto.dev/"
 
-GIT_SHA1="53d3c085a784d64808cf67a32cac80182ecd87ef"
+GIT_SHA1="9fe10b3198793183862d47366ed6d92d26c1066d"
 SRC_URI="https://github.com/google/perfetto/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 KEYWORDS="*"
@@ -86,6 +86,10 @@ enable_perfetto_version_gen=false
 
 src_compile() {
 	eninja -C  "${BUILD_OUTPUT}" traced traced_probes perfetto
+
+	(set -x; $(tc-getCXX) ${CXXFLAGS} -Wall -Werror -c -pthread \
+		"${S}/sdk/perfetto.cc" -o sdk/perfetto.o) || die
+	(set -x; ${AR} rvsc sdk/libperfetto_sdk.a sdk/perfetto.o) || die
 }
 
 src_install() {
@@ -100,6 +104,13 @@ src_install() {
 	insinto /usr/share/policy
 	newins "${FILESDIR}/seccomp/traced-${ARCH}.policy" traced.policy
 	newins "${FILESDIR}/seccomp/traced_probes-${ARCH}.policy" traced_probes.policy
+
+	# TODO(b/177664944) Separate perfetto SDK version from perfetto daemons.
+	insinto /usr/include/perfetto
+	# Both source and lib are provided for convenience.
+	doins "${S}/sdk/perfetto.cc"
+	doins "${S}/sdk/perfetto.h"
+	dolib.a "${S}/sdk/libperfetto_sdk.a"
 }
 
 pkg_preinst() {
