@@ -45,6 +45,7 @@ IUSE="
 	clang_tidy
 	component_build
 	+debug_fission
+	dwarf5
 	+fonts
 	goma
 	goma_thinlto
@@ -258,6 +259,7 @@ set_build_args() {
 		"use_thin_lto=$(usetf thinlto)"
 		"use_goma_thin_lto=${use_goma_thin_lto}"
 		"is_cfi=$(usetf cfi)"
+		"use_dwarf5=$(usetf dwarf5)"
 
 		# Assistant integration tests are only run on the Chromium bots,
 		# but they increase the size of libassistant.so by 1.3MB so we
