@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c7aa52317b353f7466611efc05377d8cad035beb"
-CROS_WORKON_TREE="79424b6e8e4fd054ceb7dcda7f8800d2d0c332a5"
+CROS_WORKON_COMMIT="0797a55462d8c0f03fa014936f15c28ec42e1260"
+CROS_WORKON_TREE="2e7e7fd7e4bb879770efc2ac3f74acfc7564fc2e"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -12,11 +12,20 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-fuzzer cros-rust cros-workon user
 
-KERNEL_PREBUILT_DATE="2019_10_10_00_22"
+PREBUILT_VERSION="r0000"
+KERNEL_FILE="crosvm-testing-bzimage-x86_64-${PREBUILT_VERSION}"
+ROOTFS_FILE="crosvm-testing-rootfs-x86_64-${PREBUILT_VERSION}"
+
+PREBUILT_URL="https://storage.googleapis.com/chromeos-localmirror"
 
 DESCRIPTION="Utility for running VMs on Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/"
-SRC_URI="test? ( https://storage.googleapis.com/crosvm-testing/x86_64/${KERNEL_PREBUILT_DATE}/bzImage -> crosvm-bzImage-${KERNEL_PREBUILT_DATE} )"
+SRC_URI="
+	test? (
+		${PREBUILT_URL}/${KERNEL_FILE}
+		${PREBUILT_URL}/${ROOTFS_FILE}
+	)
+"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -177,10 +186,19 @@ src_test() {
 	# run under sanitizers.
 	cros-rust_use_sanitizers && test_opts+=( --exclude io_jail )
 
-	local kernel_binary="${DISTDIR}/crosvm-bzImage-${KERNEL_PREBUILT_DATE}"
+	# Pass kernel/rootfs prebuilts to integration tests.
+	# See crosvm/integration_tests/README.md for details.
+	local CROSVM_CARGO_TEST_PREBUILT_VERSION="${PREBUILT_VERSION}"
+	local kernel_binary="${DISTDIR}/${KERNEL_FILE}"
 	[[ -e "${kernel_binary}" ]] || die "expected to find kernel binary at ${kernel_binary}"
 	CROS_RUST_PLATFORM_TEST_ARGS+=(
 		"--env" "CROSVM_CARGO_TEST_KERNEL_BINARY=${kernel_binary}"
+	)
+
+	local rootfs_image="${DISTDIR}/${ROOTFS_FILE}"
+	[[ -e "${rootfs_image}" ]] || die "expected to find rootfs image at ${rootfs_image}"
+	CROS_RUST_PLATFORM_TEST_ARGS+=(
+		"--env" "CROSVM_CARGO_TEST_ROOTFS_IMAGE=${rootfs_image}"
 	)
 
 	local skip_tests=()
@@ -189,6 +207,7 @@ src_test() {
 	local cut_version=$(ver_cut 1-2 "$(uname -r)")
 	if ver_test 3.17 -gt "${cut_version}"; then
 		skip_tests+=( --skip "boot" )
+		skip_tests+=( --skip "integration_tests" )
 	fi
 
 	if ! use x86 && ! use amd64; then
