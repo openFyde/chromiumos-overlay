@@ -1,4 +1,4 @@
-DEFINED_PHASES=compile configure install postinst prepare prerm setup test unpack
+DEFINED_PHASES=compile configure install postinst preinst prepare prerm setup test unpack
 DEPEND=>=dev-rust/bitflags-1.2.0:= <dev-rust/bitflags-2.0.0 =dev-rust/fs2-0.4*:= =dev-rust/libc-0.2*:= =dev-rust/log-0.4*:= =dev-rust/memchr-2*:= =dev-rust/nix-0.19*:= =dev-rust/unicode-segmentation-1*:= =dev-rust/unicode-width-0.1*:= =dev-rust/utf8parse-0.2*:= >=virtual/rust-1.39.0:=
 DESCRIPTION=Rustyline, a readline implementation based on Antirez's Linenoise.
 EAPI=7
@@ -9,5 +9,5 @@ LICENSE=MIT
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=7.0.0/r1
 SRC_URI=https://crates.io/api/v1/crates/rustyline/7.0.0/download -> rustyline-7.0.0.crate
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	de6812973518ab4cd2fb9549687c0e2b	cros-sanitizers	57b514c0d35fe88c97590a2a19e95e4d	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	72c8c93c929cef7d066c387fadc7baf9	cros-sanitizers	57b514c0d35fe88c97590a2a19e95e4d	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
 _md5_=379f215c671112caa93430d5397b148d

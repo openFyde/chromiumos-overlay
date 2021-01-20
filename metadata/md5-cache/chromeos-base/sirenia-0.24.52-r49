@@ -1,5 +1,5 @@
 BDEPEND=dev-vcs/git
-DEFINED_PHASES=compile configure info install postinst prepare prerm setup test unpack
+DEFINED_PHASES=compile configure info install postinst preinst prepare prerm setup test unpack
 DEPEND=sys-apps/dbus chromeos-base/libsirenia:= chromeos-base/sirenia-rpc-macros:= =dev-rust/chrono-0.4*:= dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.8*:= =dev-rust/getopts-0.2*:= dev-rust/libchromeos:= >=dev-rust/serde-1.0.114:= <dev-rust/serde-2 =dev-rust/serde_derive-1*:= dev-rust/sync:= dev-rust/sys_util:= >=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0 >=virtual/rust-1.39.0:= sys-apps/baselayout
 DESCRIPTION=The runtime environment and middleware for ManaTEE.
 EAPI=7
@@ -11,5 +11,5 @@ PROPERTIES=live
 RDEPEND=sys-apps/dbus sys-apps/baselayout
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/0.24.52-r49
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	de6812973518ab4cd2fb9549687c0e2b	cros-sanitizers	57b514c0d35fe88c97590a2a19e95e4d	cros-workon	3c446e00b1c9dc41ef3953d89c0ba6d2	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	user	7c566af8c48023219fd63246e88d6621
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	72c8c93c929cef7d066c387fadc7baf9	cros-sanitizers	57b514c0d35fe88c97590a2a19e95e4d	cros-workon	3c446e00b1c9dc41ef3953d89c0ba6d2	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	user	7c566af8c48023219fd63246e88d6621
 _md5_=41af44eaa6e80f1bdceae142acf35406
