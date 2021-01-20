@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="e4ee4cdad672180e0588c56f58a584836c1e27cb"
-CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "61655b89383ad6282217bf8c0fce0a5580f11e35" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="4667a68197e9e74e4eda82308fdbff95d9cbe46f"
+CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "1d71b086c855f2d5ae2ba466ef84b822cfde4f31" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -52,11 +52,19 @@ platform_pkg_test() {
 }
 
 src_install() {
-	dobin "${OUT}"/{cros_installer,cros_oobe_crypto}
+	dobin "${OUT}"/cros_oobe_crypto
+	newsbin "${OUT}"/cros_installer chromeos-install
 	if use mtd ; then
 		dobin "${OUT}"/nand_partition
 	fi
-	dosbin chromeos-* encrypted_import "${OUT}"/evwaitkey
+
+	dosbin \
+		chromeos-postinst \
+		chromeos-recovery \
+		chromeos-setdevpasswd \
+		chromeos-setgoodkernel \
+		encrypted_import \
+		"${OUT}"/evwaitkey
 	dosym usr/sbin/chromeos-postinst /postinst
 
 	# Enable lvm stateful partition.
@@ -78,4 +86,9 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/crx-import.sh
+
+	# TODO(b/176492189): This is a temporary measure while we're migrating the
+	# chromeos-install into C++.
+	exeinto /usr/libexec/
+	doexe chromeos-install
 }
