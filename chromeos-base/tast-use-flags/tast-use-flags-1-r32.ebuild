@@ -98,6 +98,7 @@ IUSE="
 	ndk_translation
 	ndk_translation64
 	nnapi
+	nvme
 	nyan_kitty
 	ocr
 	octopus
@@ -105,6 +106,7 @@ IUSE="
 	racc
 	rialto
 	rk3399
+	sata
 	selinux
 	selinux_experimental
 	sirenia
