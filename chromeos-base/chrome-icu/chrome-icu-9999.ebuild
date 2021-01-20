@@ -23,8 +23,7 @@
 
 EAPI=5
 
-# TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{6..8} )
 inherit binutils-funcs chromium-source cros-constants cros-sanitizers flag-o-matic multilib toolchain-funcs python-any-r1 multiprocessing
 
 DESCRIPTION="The ICU library copied from chrome/third_party"
@@ -523,10 +522,6 @@ src_configure() {
 	export PATH=${PATH}:${DEPOT_TOOLS}
 
 	export DEPOT_TOOLS_GSUTIL_BIN_DIR="${CHROME_CACHE_DIR}/gsutil_bin"
-	# The venv logic seems to misbehave when cross-compiling.  Since our SDK
-	# should include all the necessary modules, just disable it (for now).
-	# https://crbug.com/808434
-	export VPYTHON_BYPASS="manually managed python not supported by chrome operations"
 
 	# TODO(rcui): crosbug.com/20435. Investigate removal of runhooks
 	# useflag when chrome build switches to Ninja inside the chroot.
