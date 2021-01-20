@@ -1,0 +1,44 @@
+From b4266a3fea116e731bfc9ef43b0a951768b260cc Mon Sep 17 00:00:00 2001
+From: Ryan T Huang <ryan.t.huang@intel.com>
+Date: Wed, 20 Jan 2021 10:51:49 -0800
+Subject: [PATCH] [VP] Avoid returning error when not setting
+ VAProcPipelineParameterBuffer
+
+Change-Id: I69edf22f8ce0eab19dfc7add24427cc71c25e877
+---
+ .../agnostic/common/codec/hal/codechal_decode_sfc.cpp       | 6 ++++++
+ .../linux/common/codec/ddi/media_ddi_decode_base.cpp        | 1 +
+ 2 files changed, 7 insertions(+)
+
+diff --git a/media_driver/agnostic/common/codec/hal/codechal_decode_sfc.cpp b/media_driver/agnostic/common/codec/hal/codechal_decode_sfc.cpp
+index 86be9ca9..183a8f00 100644
+--- a/media_driver/agnostic/common/codec/hal/codechal_decode_sfc.cpp
++++ b/media_driver/agnostic/common/codec/hal/codechal_decode_sfc.cpp
+@@ -743,6 +743,12 @@ bool CodechalSfcState::IsSfcOutputSupported(
+         return false;
+     }
+ 
++    if (Mos_ResourceIsNull(&decodeProcParams->pOutputSurface->OsResource))
++    {
++        CODECHAL_DECODE_NORMALMESSAGE("No VAProcPipelineParameterBuffer set");
++        return false;
++    }
++
+     PMOS_SURFACE srcSurface = decodeProcParams->pInputSurface;
+     PMOS_SURFACE destSurface = decodeProcParams->pOutputSurface;
+ 
+diff --git a/media_driver/linux/common/codec/ddi/media_ddi_decode_base.cpp b/media_driver/linux/common/codec/ddi/media_ddi_decode_base.cpp
+index 0ee98728..3fe50ec5 100644
+--- a/media_driver/linux/common/codec/ddi/media_ddi_decode_base.cpp
++++ b/media_driver/linux/common/codec/ddi/media_ddi_decode_base.cpp
+@@ -689,6 +689,7 @@ VAStatus DdiMediaDecode::ExtraDownScaling(
+         CodechalDecode *decoder = dynamic_cast<CodechalDecode *>(m_ddiDecodeCtx->pCodecHal);
+         DDI_CHK_NULL(decoder, "nullptr decoder", VA_STATUS_ERROR_INVALID_PARAMETER);
+         if(m_ddiDecodeCtx->DecodeParams.m_procParams &&
++            m_procBuf &&
+             !decoder->IsVdSfcSupported())
+         {
+             //check vp context
+-- 
+2.30.0
+
