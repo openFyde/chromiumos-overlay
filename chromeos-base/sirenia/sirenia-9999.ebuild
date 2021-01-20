@@ -16,9 +16,12 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="cros_host manatee"
 
-RDEPEND="sys-apps/dbus"
+RDEPEND="
+	chromeos-base/cronista
+	sys-apps/dbus
+"
 
-DEPEND="${RDEPEND}
+DEPEND="
 	chromeos-base/libsirenia:=
 	chromeos-base/sirenia-rpc-macros:=
 	=dev-rust/chrono-0.4*:=
