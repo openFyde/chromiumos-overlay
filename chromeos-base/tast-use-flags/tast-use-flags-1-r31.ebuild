@@ -87,6 +87,7 @@ IUSE="
 	kvm_host
 	kvm_transition
 	lxc
+	manatee
 	memd
 	ml_benchmark_drivers
 	ml_service
@@ -106,6 +107,7 @@ IUSE="
 	rk3399
 	selinux
 	selinux_experimental
+	sirenia
 	skate
 	smartdim
 	snow
