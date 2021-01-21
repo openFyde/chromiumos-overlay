@@ -50,19 +50,11 @@ platform_pkg_test() {
 }
 
 src_install() {
-	dobin "${OUT}"/cros_oobe_crypto
-	newsbin "${OUT}"/cros_installer chromeos-install
+	dobin "${OUT}"/{cros_installer,cros_oobe_crypto}
 	if use mtd ; then
 		dobin "${OUT}"/nand_partition
 	fi
-
-	dosbin \
-		chromeos-postinst \
-		chromeos-recovery \
-		chromeos-setdevpasswd \
-		chromeos-setgoodkernel \
-		encrypted_import \
-		"${OUT}"/evwaitkey
+	dosbin chromeos-* encrypted_import "${OUT}"/evwaitkey
 	dosym usr/sbin/chromeos-postinst /postinst
 
 	# Enable lvm stateful partition.
@@ -84,9 +76,4 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/crx-import.sh
-
-	# TODO(b/176492189): This is a temporary measure while we're migrating the
-	# chromeos-install into C++.
-	exeinto /usr/libexec/
-	doexe chromeos-install
 }
