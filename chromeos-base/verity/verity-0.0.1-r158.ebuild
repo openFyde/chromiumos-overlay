@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="44de53b64dd4a6975415747b9bc97f83ce00574c"
-CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d44ef22aaac292533478cf8e8c5bc4b30b930de3"
+CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "769bbb45c3fca6c18202030e1b87d2b43e697d74" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,11 +22,14 @@ LICENSE="BSD-Google GPL-2"
 KEYWORDS="*"
 
 src_install() {
-	dolib.a "${OUT}"/libdm-bht.a
 	dobin "${OUT}"/verity
 
+	dolib.so "${OUT}"/lib/libdm-bht.so
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins libdm-bht.pc
+
 	insinto /usr/include/verity
-	doins dm-bht.h dm-bht-userspace.h
+	doins dm-bht.h dm-bht-userspace.h file_hasher.h
 	cd include || die
 	doins -r asm-generic
 }

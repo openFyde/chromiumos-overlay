@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="4667a68197e9e74e4eda82308fdbff95d9cbe46f"
-CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "1d71b086c855f2d5ae2ba466ef84b822cfde4f31" "2b6d4230c92e83e39209823855064483eed04754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d44ef22aaac292533478cf8e8c5bc4b30b930de3"
+CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "86ff713ff586e20b6a0e4e0c4f90face8f636450" "769bbb45c3fca6c18202030e1b87d2b43e697d74" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -28,10 +28,10 @@ IUSE="cros_embedded enable_slow_boot_notify -mtd pam systemd +oobe_config lvm_st
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/vboot_reference
+	chromeos-base/verity
 "
 
 DEPEND="${COMMON_DEPEND}
-	chromeos-base/verity
 	dev-libs/openssl:0=
 "
 
