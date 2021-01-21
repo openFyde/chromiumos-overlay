@@ -4,7 +4,7 @@
 EAPI=7
 
 CROS_WORKON_PROJECT=(
-	"chromiumos/platform/google-breakpad"
+	"breakpad/breakpad"
 	"linux-syscall-support"
 )
 CROS_WORKON_LOCALNAME=(
