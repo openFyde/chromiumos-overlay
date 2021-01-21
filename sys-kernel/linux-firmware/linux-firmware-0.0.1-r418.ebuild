@@ -70,6 +70,7 @@ IUSE_LINUX_FIRMWARE=(
 	ath10k_qca6174a-3
 	ath10k_wcn3990
 	amdgpu_carrizo
+	amdgpu_green_sardine
 	amdgpu_picasso
 	amdgpu_raven2
 	amdgpu_renoir
@@ -136,6 +137,7 @@ LICENSE="
 	linux_firmware_adsp_kbl? ( LICENCE.adsp_sst )
 	linux_firmware_adsp_skl? ( LICENCE.adsp_sst )
 	linux_firmware_amdgpu_carrizo? ( LICENSE.amdgpu )
+	linux_firmware_amdgpu_green_sardine? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_picasso? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_raven2? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_renoir? ( LICENSE.amdgpu )
@@ -365,6 +367,11 @@ src_install() {
 
 	if use_fw amdgpu_carrizo; then
 		doins_subdir amdgpu/carrizo*
+		ignore_legacy_amdgpu=1
+	fi
+
+	if use_fw amdgpu_green_sardine; then
+		doins_subdir amdgpu/green_sardine*
 		ignore_legacy_amdgpu=1
 	fi
 
