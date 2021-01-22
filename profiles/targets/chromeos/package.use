@@ -172,7 +172,6 @@ sys-apps/flashmap -python
 chromeos-base/chromite python_targets_python2_7
 chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/telemetry python_targets_python2_7
-chromeos-base/touch_firmware_test python_targets_python2_7
 dev-python/btsocket python_targets_python2_7
 dev-python/certifi python_targets_python2_7
 dev-python/cffi python_targets_python2_7
