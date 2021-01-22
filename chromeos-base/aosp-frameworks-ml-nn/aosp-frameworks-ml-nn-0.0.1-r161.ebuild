@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("0825b26ca3ad73f3746e65c97b860100e9250ae3" "2475f2030fbf7f5c9715eab4f3e52ec7b3a366f0" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
+CROS_WORKON_COMMIT=("9854e9e26d57128340960f15a599e1c025f0e346" "2475f2030fbf7f5c9715eab4f3e52ec7b3a366f0" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
 CROS_WORKON_TREE=("07bc49d879bc7ffc12a1729033a952d791f7364c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "16d139ae427829ea5ccee2fb55aff298a6ccdd85" "7a08574830b90bb538e281ba8c2240d2826fefb9")
 inherit cros-constants
 
@@ -79,6 +79,8 @@ platform_pkg_test() {
 	local tests=(
 		chromeos common driver_cache runtime runtime_generated
 	)
+	local gtest_excl_filter="-"
+	local qemu_gtest_excl_filter="-"
 
 	# When running in qemu, these tests freeze the emulator when hitting
 	# EventFlag::wake from libfmq. The error printed is:
@@ -86,7 +88,6 @@ platform_pkg_test() {
 	# This is a known issue, see:
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/testing/running_unit_tests.md#caveats
 	# TODO(http://crbug.com/1117470): tracking bug for qemu fix
-	local qemu_gtest_excl_filter="-"
 	qemu_gtest_excl_filter+="Flavor/ExecutionTest10.Wait/*:"
 	qemu_gtest_excl_filter+="Flavor/ExecutionTest11.Wait/*:"
 	qemu_gtest_excl_filter+="Flavor/ExecutionTest12.Wait/*:"
@@ -108,8 +109,11 @@ platform_pkg_test() {
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeout:"
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeoutMaximum:"
 
+	# The ExecutionTest's are sporadically failing which is timing out builds.
+	# This is annoying for everyone, so really need to figure it out. It's very hard
+	# to reproduce locally, so tracking that in crbug/1168686.
+	gtest_excl_filter+="Flavor/ExecutionTest*:"
 
-	local gtest_excl_filter="-"
 	if use asan; then
 		# Some tests do not correctly clean up the Execution object and it is
 		# left 'in-flight', which gets ignored by ANeuralNetworksExecution_free.
