@@ -73,6 +73,7 @@ IUSE="
 	scanner
 	selinux
 	+shill
+	sirenia
 	smbprovider
 	+syslog
 	+system_locales
@@ -211,6 +212,7 @@ RDEPEND="
 	selinux? ( chromeos-base/selinux-policy )
 	shill? ( >=chromeos-base/shill-0.0.1-r2205 )
 	manatee? ( chromeos-base/sirenia )
+	sirenia? ( chromeos-base/sirenia )
 	usb_bouncer? ( chromeos-base/usb_bouncer )
 	chromeos-base/update_engine
 	vpn? ( chromeos-base/vpn-manager )

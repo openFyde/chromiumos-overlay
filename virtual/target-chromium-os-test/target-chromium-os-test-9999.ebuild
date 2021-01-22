@@ -41,7 +41,6 @@ IUSE="
 	python_targets_python2_7
 	scanner
 	+shill
-	sirenia
 	+tpm
 	tpm2
 	unibuild
@@ -194,7 +193,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 		chromeos-base/shill-test-scripts
 		wired_8021x? ( net-wireless/hostapd )
 	)
-	sirenia? ( chromeos-base/sirenia )
 	!chromeless_tests? ( chromeos-base/telemetry )
 	chromeos-base/toolchain-tests
 	vulkan? (
