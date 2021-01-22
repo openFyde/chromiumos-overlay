@@ -34,7 +34,7 @@ src_install() {
 
 	# Install the upstart configuration files
 	insinto /etc/init
-	doins "${S}"/init/pciguard.conf
+	doins "${S}"/init/*.conf
 
 	# Install the dbus configuration
 	insinto /etc/dbus-1/system.d
