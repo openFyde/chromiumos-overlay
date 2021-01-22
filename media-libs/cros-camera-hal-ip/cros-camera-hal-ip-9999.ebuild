@@ -19,13 +19,11 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 RDEPEND="
+	chromeos-base/cros-camera-android-deps
 	chromeos-base/cros-camera-libs
 	media-libs/libsync"
 
 DEPEND="${RDEPEND}
-	media-libs/cros-camera-android-headers
-	media-libs/cros-camera-libcamera_client
-	media-libs/cros-camera-libcamera_metadata
 	virtual/pkgconfig"
 
 src_install() {

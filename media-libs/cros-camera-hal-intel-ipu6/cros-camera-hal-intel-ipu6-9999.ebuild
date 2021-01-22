@@ -23,6 +23,7 @@ IUSE="ipu6se ipu6ep"
 RDEPEND="
 	chromeos-base/chromeos-config-tools
 	chromeos-base/cros-camera-libs
+	chromeos-base/cros-camera-android-deps
 	dev-libs/expat
 	!ipu6se? ( !ipu6ep? ( media-libs/intel-ipu6-libs-bin ) )
 	ipu6se? (
@@ -31,15 +32,12 @@ RDEPEND="
 	)
 	ipu6ep? ( media-libs/intel-ipu6ep-libs-bin )
 	!media-libs/cros-camera-hal-intel-ipu6-squash
-	media-libs/cros-camera-libcamera_client
-	media-libs/cros-camera-libcamera_metadata
 	media-libs/libsync
 	media-libs/libyuv
 "
 
 DEPEND="${RDEPEND}
 	sys-kernel/linux-headers
-	media-libs/cros-camera-android-headers
 	virtual/jpeg:0
 	virtual/pkgconfig"
 

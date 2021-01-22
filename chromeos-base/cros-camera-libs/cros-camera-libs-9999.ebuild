@@ -37,8 +37,8 @@ CONFLICTING_PACKAGES="
 
 RDEPEND="
 	${CONFLICTING_PACKAGES}
+	chromeos-base/cros-camera-android-deps:=
 	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )
-	media-libs/cros-camera-libcamera_metadata:=
 	media-libs/libexif:=
 	media-libs/libsync:=
 	media-libs/minigbm:=
@@ -49,7 +49,6 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	>=chromeos-base/metrics-0.0.1-r3152:=
-	media-libs/cros-camera-android-headers:=
 	media-libs/cros-camera-libcamera_connector_headers:=
 	media-libs/libyuv:=
 "

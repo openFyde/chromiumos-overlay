@@ -25,9 +25,9 @@ IUSE="arc-camera1 cheets -libcamera"
 BDEPEND="virtual/pkgconfig"
 
 RDEPEND="
+	chromeos-base/cros-camera-android-deps:=
 	chromeos-base/cros-camera-libs:=
 	media-libs/cros-camera-hal-usb:=
-	media-libs/cros-camera-libcamera_metadata:=
 	media-libs/libsync:=
 	libcamera? ( media-libs/libcamera )
 	!libcamera? (
@@ -37,7 +37,6 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	>=chromeos-base/metrics-0.0.1-r3152:=
-	media-libs/cros-camera-android-headers:=
 	media-libs/minigbm:=
 	x11-libs/libdrm:="
 

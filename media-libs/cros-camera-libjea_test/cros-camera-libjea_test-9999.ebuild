@@ -20,13 +20,12 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
+	chromeos-base/cros-camera-android-deps
 	chromeos-base/cros-camera-libs
 	dev-cpp/gtest:=
-	media-libs/cros-camera-libcamera_metadata
 	media-libs/libyuv"
 
-DEPEND="${RDEPEND}
-	media-libs/cros-camera-android-headers"
+DEPEND="${RDEPEND}"
 
 src_install() {
 	platform_src_install

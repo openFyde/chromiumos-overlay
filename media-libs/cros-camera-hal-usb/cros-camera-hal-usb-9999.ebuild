@@ -22,10 +22,9 @@ KEYWORDS="~*"
 IUSE="usb_camera_monocle generated_cros_config unibuild"
 
 RDEPEND="
+	chromeos-base/cros-camera-android-deps
 	chromeos-base/cros-camera-libs
 	dev-libs/re2
-	media-libs/cros-camera-libcamera_client
-	media-libs/cros-camera-libcamera_metadata
 	usb_camera_monocle? ( media-libs/librealtek-sdk )
 	media-libs/libsync
 	unibuild? (
@@ -35,7 +34,6 @@ RDEPEND="
 	chromeos-base/chromeos-config-tools"
 
 DEPEND="${RDEPEND}
-	media-libs/cros-camera-android-headers
 	media-libs/libyuv
 	virtual/pkgconfig"
 

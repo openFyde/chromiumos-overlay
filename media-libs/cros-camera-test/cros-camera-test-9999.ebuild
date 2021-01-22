@@ -24,8 +24,7 @@ IUSE="-asan"
 RDEPEND="
 	chromeos-base/chromeos-config-tools
 	chromeos-base/cros-camera-libs
-	media-libs/cros-camera-libcamera_client
-	media-libs/cros-camera-libcamera_metadata
+	chromeos-base/cros-camera-android-deps
 	media-libs/libexif
 	media-libs/libsync
 	media-libs/minigbm
@@ -33,7 +32,6 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	dev-cpp/gtest:=
-	media-libs/cros-camera-android-headers
 	media-libs/libyuv
 	virtual/pkgconfig"
 
