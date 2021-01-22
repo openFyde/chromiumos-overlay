@@ -272,8 +272,8 @@ _unibuild_install_fw_common() {
 	fi
 
 	# Determine if using files or workdir for the path.
-	if [[ "${cmd}" == "get-touch-firmware-workdir" ]]; then
-		cmd="get-touch-firmware-files"
+	if [[ "${cmd}" == *"-workdir" ]]; then
+		cmd="${cmd%-workdir}"
 		files_path="${WORKDIR}"
 	fi
 
@@ -303,12 +303,12 @@ unibuild_install_touch_files() {
 # @USAGE: [config_file]
 # @DESCRIPTION:
 # Install files related to touch firmware. This includes firmware for the
-# touchscreen, touchpad and stylus. These files are expected in work dir.
+# touchscreen, touchpad and stylus. These files are expected in workdir.
 # Args:
 #   $1: (optional) Config file used by cros_config_host
 unibuild_install_touch_workdir() {
 	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
-	_unibuild_install_fw_common "get-touch-firmware-workdir" "$@"
+	_unibuild_install_fw_common "get-touch-firmware-files-workdir" "$@"
 }
 
 # @FUNCTION: unibuild_install_detachable_base_files
@@ -321,6 +321,19 @@ unibuild_install_touch_workdir() {
 unibuild_install_detachable_base_files() {
 	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
 	_unibuild_install_fw_common "get-detachable-base-firmware-files" "$@"
+}
+
+# @FUNCTION: unibuild_install_detachable_base_files_workdir
+# @USAGE: [config_file]
+# @DESCRIPTION:
+# Install files related to detachable base firmware. This includes firmware
+# for the detachable base ec and touchpad binary.
+# These files are expected in workdir.
+# Args:
+#   $1: (optional) Config file used by cros_config_host
+unibuild_install_detachable_base_files_workdir() {
+	[[ $# -lt 2 ]] || die "${FUNCNAME}: Only optional config file arg allowed"
+	_unibuild_install_fw_common "get-detachable-base-firmware-files-workdir" "$@"
 }
 
 # @FUNCTION: unibuild_build_configfs_file
