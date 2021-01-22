@@ -47,5 +47,4 @@ fstat: 1
 fcntl: 1
 prctl: 1
 gettimeofday: 1
-sendto: 1
 pselect6: 1
