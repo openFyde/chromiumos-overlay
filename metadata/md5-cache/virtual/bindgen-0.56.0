@@ -1,8 +1,0 @@
-BDEPEND==dev-rust/bindgen-0.56.0
-DEFINED_PHASES=-
-DESCRIPTION=Prevent needing to build dev-rust/bindgen for each board.
-EAPI=7
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0/0.56.0
-_md5_=d0cbcb2e22fc3168f29c4815afdc0f28

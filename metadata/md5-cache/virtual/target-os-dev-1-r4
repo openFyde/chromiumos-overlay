@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=List of additional packages for the developer OS image; by default, we build a Chromium OS dev image. Note: When building a dev image, the build system pulls in all packages from the base image as well.
-EAPI=6
-HOMEPAGE=http://dev.chromium.org/
-KEYWORDS=*
-LICENSE=BSD-Google
-RDEPEND=virtual/target-chromium-os-dev
-SLOT=0
-_md5_=3f5039658f6b0a13e5f3899a4e9232d5
