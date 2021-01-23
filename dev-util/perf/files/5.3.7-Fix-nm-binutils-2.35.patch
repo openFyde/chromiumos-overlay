@@ -1,0 +1,30 @@
+Fix build with GNU nm 2.35 and LLVM-12 nm.
+This is a squashed diff of following patches:
+https://github.com/torvalds/linux/commit/82a2f88458d70704be843961e10b5cef9a6e95d3
+https://github.com/torvalds/linux/commit/39efdd94e314336f4acbac4c07e0f37bdc3bef71
+
+diff --git a/traceevent/Makefile b/traceevent/Makefile
+index 3292c29..11f9d6b 100644
+--- a/tools/lib/traceevent/Makefile
++++ b/tools/lib/traceevent/Makefile
+@@ -266,13 +266,13 @@ endef
+ 
+ define do_generate_dynamic_list_file
+ 	symbol_type=`$(NM) -u -D $1 | awk 'NF>1 {print $$1}' | \
+-	xargs echo "U W w" | tr ' ' '\n' | sort -u | xargs echo`;\
+-	if [ "$$symbol_type" = "U W w" ];then				\
+-		(echo '{';						\
+-		$(NM) -u -D $1 | awk 'NF>1 {print "\t"$$2";"}' | sort -u;\
+-		echo '};';						\
+-		) > $2;							\
+-	else								\
++	xargs echo "U w W" | tr 'w ' 'W\n' | sort -u | xargs echo`;\
++	if [ "$$symbol_type" = "U W" ];then				\
++		(echo '{';                                              \
++		$(NM) -u -D $1 | awk 'NF>1 {sub("@.*", "", $$2); print "\t"$$2";"}' | sort -u;\
++		echo '};';                                              \
++		) > $2;                                                 \
++	else                                                            \
+ 		(echo Either missing one of [$1] or bad version of $(NM)) 1>&2;\
+ 	fi
+ endef

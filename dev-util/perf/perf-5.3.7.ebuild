@@ -140,6 +140,7 @@ src_prepare() {
 	eapply "${FILESDIR}/5.3.7-Fix-configure-tests.patch"
 	eapply "${FILESDIR}/5.3.7-Update-perf-bench.patch"
 	eapply "${FILESDIR}/5.3.7-Fix-perf-bench.patch"
+	eapply "${FILESDIR}/5.3.7-Fix-nm-binutils-2.35.patch"
 	if [[ -n ${LINUX_PATCH} ]] ; then
 		eapply "${WORKDIR}"/${P}.patch
 	fi
