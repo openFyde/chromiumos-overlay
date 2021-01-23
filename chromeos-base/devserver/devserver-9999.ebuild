@@ -27,10 +27,6 @@ DEPEND="
 
 src_install() {
 	emake install DESTDIR="${D}"
-
-	# Install Mob* Monitor checkfiles for the devserver.
-	insinto "/etc/mobmonitor/checkfiles/devserver/"
-	doins -r "${S}/checkfiles/devserver/"*
 }
 
 src_test() {
