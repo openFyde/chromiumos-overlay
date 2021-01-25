@@ -20,6 +20,7 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/assertions:=
+	dev-rust/libc:=
 "
 
 RDEPEND="!!<=dev-rust/data_model-0.1.0-r13"
