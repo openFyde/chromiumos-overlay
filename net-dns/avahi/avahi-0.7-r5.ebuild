@@ -71,7 +71,7 @@ RDEPEND="
 
 MULTILIB_WRAPPED_HEADERS=( /usr/include/avahi-qt5/qt-watch.h )
 
-PATCHES=( "${FILESDIR}/${P}-qt5.patch" "${FILESDIR}/${P}-fuzzer.patch"  )
+PATCHES=( "${FILESDIR}/${P}-qt5.patch" "${FILESDIR}/${P}-fuzzer.patch" "${FILESDIR}/${P}-log-address-resolution.patch" )
 
 pkg_preinst() {
 	enewgroup netdev
