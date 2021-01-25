@@ -6,6 +6,7 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"path/filepath"
@@ -74,6 +75,8 @@ func callCompilerInternal(env env, cfg *config, inputCmd *command) (exitCode int
 	env = mainBuilder.env
 	var compilerCmd *command
 	clangSyntax := processClangSyntaxFlag(mainBuilder)
+
+	workAroundKernelBugWithRetries := false
 	if cfg.isAndroidWrapper {
 		mainBuilder.path = calculateAndroidWrapperPath(mainBuilder.path, mainBuilder.absWrapperPath)
 		switch mainBuilder.target.compilerType {
@@ -139,43 +142,111 @@ func callCompilerInternal(env env, cfg *config, inputCmd *command) (exitCode int
 			if err != nil {
 				return 0, err
 			}
+			workAroundKernelBugWithRetries = true
 		}
 	}
+
 	rusageLogfileName := getRusageLogFilename(env)
 	bisectStage := getBisectStage(env)
-	if shouldForceDisableWerror(env, cfg) {
-		if rusageLogfileName != "" {
-			return 0, newUserErrorf("TOOLCHAIN_RUSAGE_OUTPUT is meaningless with FORCE_DISABLE_WERROR")
-		}
+
+	if rusageLogfileName != "" {
+		compilerCmd = removeRusageFromCommand(compilerCmd)
+	}
+
+	if shouldForceDisableWerror(env, cfg, mainBuilder.target.compilerType) {
 		if bisectStage != "" {
 			return 0, newUserErrorf("BISECT_STAGE is meaningless with FORCE_DISABLE_WERROR")
 		}
-		return doubleBuildWithWNoError(env, cfg, compilerCmd)
+		return doubleBuildWithWNoError(env, cfg, compilerCmd, rusageLogfileName)
 	}
 	if shouldCompileWithFallback(env) {
 		if rusageLogfileName != "" {
-			return 0, newUserErrorf("TOOLCHAIN_RUSAGE_OUTPUT is meaningless with FORCE_DISABLE_WERROR")
+			return 0, newUserErrorf("TOOLCHAIN_RUSAGE_OUTPUT is meaningless with ANDROID_LLVM_PREBUILT_COMPILER_PATH")
 		}
 		if bisectStage != "" {
-			return 0, newUserErrorf("BISECT_STAGE is meaningless with FORCE_DISABLE_WERROR")
+			return 0, newUserErrorf("BISECT_STAGE is meaningless with ANDROID_LLVM_PREBUILT_COMPILER_PATH")
 		}
 		return compileWithFallback(env, cfg, compilerCmd, mainBuilder.absWrapperPath)
 	}
-	if rusageLogfileName != "" {
-		if bisectStage != "" {
-			return 0, newUserErrorf("BISECT_STAGE is meaningless with TOOLCHAIN_RUSAGE_OUTPUT")
-		}
-		return logRusage(env, rusageLogfileName, compilerCmd)
-	}
 	if bisectStage != "" {
+		if rusageLogfileName != "" {
+			return 0, newUserErrorf("TOOLCHAIN_RUSAGE_OUTPUT is meaningless with BISECT_STAGE")
+		}
 		compilerCmd, err = calcBisectCommand(env, cfg, bisectStage, compilerCmd)
 		if err != nil {
 			return 0, err
 		}
 	}
-	// Note: We return an exit code only if the underlying env is not
-	// really doing an exec, e.g. commandRecordingEnv.
-	return wrapSubprocessErrorWithSourceLoc(compilerCmd, env.exec(compilerCmd))
+
+	errRetryCompilation := errors.New("compilation retry requested")
+	var runCompiler func(willLogRusage bool) (int, error)
+	if !workAroundKernelBugWithRetries {
+		runCompiler = func(willLogRusage bool) (int, error) {
+			var err error
+			if willLogRusage {
+				err = env.run(compilerCmd, env.stdin(), env.stdout(), env.stderr())
+			} else {
+				// Note: We return from this in non-fatal circumstances only if the
+				// underlying env is not really doing an exec, e.g. commandRecordingEnv.
+				err = env.exec(compilerCmd)
+			}
+			return wrapSubprocessErrorWithSourceLoc(compilerCmd, err)
+		}
+	} else {
+		getStdin, err := prebufferStdinIfNeeded(env, compilerCmd)
+		if err != nil {
+			return 0, wrapErrorwithSourceLocf(err, "prebuffering stdin: %v", err)
+		}
+
+		stdoutBuffer := &bytes.Buffer{}
+		stderrBuffer := &bytes.Buffer{}
+		retryAttempt := 0
+		runCompiler = func(willLogRusage bool) (int, error) {
+			retryAttempt++
+			stdoutBuffer.Reset()
+			stderrBuffer.Reset()
+
+			exitCode, compilerErr := wrapSubprocessErrorWithSourceLoc(compilerCmd,
+				env.run(compilerCmd, getStdin(), stdoutBuffer, stderrBuffer))
+
+			if compilerErr != nil || exitCode != 0 {
+				if retryAttempt < kernelBugRetryLimit && (errorContainsTracesOfKernelBug(compilerErr) || containsTracesOfKernelBug(stdoutBuffer.Bytes()) || containsTracesOfKernelBug(stderrBuffer.Bytes())) {
+					return exitCode, errRetryCompilation
+				}
+			}
+			_, stdoutErr := stdoutBuffer.WriteTo(env.stdout())
+			_, stderrErr := stderrBuffer.WriteTo(env.stderr())
+			if stdoutErr != nil {
+				return exitCode, wrapErrorwithSourceLocf(err, "writing stdout: %v", stdoutErr)
+			}
+			if stderrErr != nil {
+				return exitCode, wrapErrorwithSourceLocf(err, "writing stderr: %v", stderrErr)
+			}
+			return exitCode, compilerErr
+		}
+	}
+
+	for {
+		var exitCode int
+		commitRusage, err := maybeCaptureRusage(env, rusageLogfileName, compilerCmd, func(willLogRusage bool) error {
+			var err error
+			exitCode, err = runCompiler(willLogRusage)
+			return err
+		})
+
+		switch {
+		case err == errRetryCompilation:
+			// Loop around again.
+		case err != nil:
+			return exitCode, err
+		default:
+			if err := commitRusage(exitCode); err != nil {
+				return exitCode, fmt.Errorf("commiting rusage: %v", err)
+			}
+
+			return exitCode, err
+		}
+	}
 }
 
 func prepareClangCommand(builder *commandBuilder) (err error) {
@@ -207,9 +278,7 @@ func calcGccCommand(builder *commandBuilder) (*command, error) {
 		processSysrootFlag(builder)
 	}
 	builder.addPreUserArgs(builder.cfg.gccFlags...)
-	if !builder.cfg.isHostWrapper {
-		calcCommonPreUserArgs(builder)
-	}
+	calcCommonPreUserArgs(builder)
 	processGccFlags(builder)
 	if !builder.cfg.isHostWrapper {
 		allowCCache := true
