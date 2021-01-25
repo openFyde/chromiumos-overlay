@@ -87,6 +87,10 @@ enable_perfetto_version_gen=false
 src_compile() {
 	eninja -C  "${BUILD_OUTPUT}" traced traced_probes perfetto
 
+	# If not building with cros-debug, the SDK should be built with NDEBUG as
+	# well.
+	use cros-debug || append-cxxflags -DNDEBUG
+
 	(set -x; $(tc-getCXX) ${CXXFLAGS} -Wall -Werror -c -pthread \
 		"${S}/sdk/perfetto.cc" -o sdk/perfetto.o) || die
 	(set -x; ${AR} rvsc sdk/libperfetto_sdk.a sdk/perfetto.o) || die
