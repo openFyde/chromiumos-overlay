@@ -138,6 +138,7 @@ sys-libs/ncurses	-cxx -unicode minimal tinfo
 # Readline requires the unicode flag to match sys-libs/ncurses.
 sys-libs/readline	-unicode
 sys-libs/talloc		-python
+sys-libs/timezone-data	zic-slim
 sys-libs/tdb		-python
 sys-libs/tevent		-python
 sys-libs/zlib		static-libs
