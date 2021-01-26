@@ -98,18 +98,18 @@ Any user who wants to print must be in the lp group.
 pkg_setup() {
 	use !minimal && python-single-r1_pkg_setup
 
-	use scanner && ! use X && ewarn "You need USE=X for the scanner GUI."
+	use scanner && ! use X && einfo "You need USE=X for the scanner GUI."
 
 	if ! use hpcups && ! use hpijs ; then
-		ewarn "Installing neither hpcups (USE=-hpcups) nor hpijs (USE=-hpijs) driver,"
-		ewarn "which is probably not what you want."
-		ewarn "You will almost certainly not be able to print."
+		einfo "Installing neither hpcups (USE=-hpcups) nor hpijs (USE=-hpijs) driver,"
+		einfo "which is probably not what you want."
+		einfo "You will almost certainly not be able to print."
 	fi
 
 	if use minimal ; then
-		ewarn "Installing driver portions only, make sure you know what you are doing."
-		ewarn "Depending on the USE flags set for hpcups or hpijs the appropiate driver"
-		ewarn "is installed. If both USE flags are set hpijs overrides hpcups."
+		einfo "Installing driver portions only, make sure you know what you are doing."
+		einfo "Depending on the USE flags set for hpcups or hpijs the appropiate driver"
+		einfo "is installed. If both USE flags are set hpijs overrides hpcups."
 	else
 		use parport && linux-info_pkg_setup
 	fi
