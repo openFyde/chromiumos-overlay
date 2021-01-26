@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("0de749172817084d6c0867f1c9c4ce46b64c7c3d" "2475f2030fbf7f5c9715eab4f3e52ec7b3a366f0" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
+CROS_WORKON_COMMIT=("1846ca3a49eeee20d57a9cf2217960829ac61d02" "2475f2030fbf7f5c9715eab4f3e52ec7b3a366f0" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
 CROS_WORKON_TREE=("92fa6c1373050d9593236b88ef883cf2b7d0a85a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "16d139ae427829ea5ccee2fb55aff298a6ccdd85" "7a08574830b90bb538e281ba8c2240d2826fefb9")
 inherit cros-constants
 
@@ -112,7 +112,7 @@ platform_pkg_test() {
 	# The ExecutionTest's are sporadically failing which is timing out builds.
 	# This is annoying for everyone, so really need to figure it out. It's very hard
 	# to reproduce locally, so tracking that in crbug/1168686.
-	gtest_excl_filter+="Flavor/ExecutionTest*:"
+	gtest_excl_filter+="*ExecutionTest*:"
 
 	if use asan; then
 		# Some tests do not correctly clean up the Execution object and it is
