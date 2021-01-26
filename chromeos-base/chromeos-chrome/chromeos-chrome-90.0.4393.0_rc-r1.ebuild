@@ -45,7 +45,6 @@ IUSE="
 	clang_tidy
 	component_build
 	+debug_fission
-	dwarf5
 	+fonts
 	goma
 	goma_thinlto
@@ -259,7 +258,6 @@ set_build_args() {
 		"use_thin_lto=$(usetf thinlto)"
 		"use_goma_thin_lto=${use_goma_thin_lto}"
 		"is_cfi=$(usetf cfi)"
-		"use_dwarf5=$(usetf dwarf5)"
 
 		# Assistant integration tests are only run on the Chromium bots,
 		# but they increase the size of libassistant.so by 1.3MB so we
@@ -1317,14 +1315,12 @@ src_install() {
 			cd "${FROM}"
 			# These files do not build with -gsplit-dwarf,
 			# so we do not need to get a .dwp file from them.
-			if [[ "${i}" == "./libassistant.so"		|| \
-				"${i}" == "./nacl_helper_nonsfi"	|| \
+			if [[ "${i}" == "./nacl_helper_nonsfi"		|| \
 				"${i}" == "./nacl_helper_bootstrap"	|| \
 				"${i}" == "./nacl_irt_arm.nexe"		|| \
 				"${i}" == "./nacl_irt_x86_64.exe"	|| \
 				"${i}" == "./libmojo_core_arc64.so"	|| \
-				"${i}" == "./libmojo_core_arc32.so"	|| \
-				"${i}" == "./libwidevinecdm.so" ]] ; then
+				"${i}" == "./libmojo_core_arc32.so" ]] ; then
 				continue
 			fi
 			source="${i}"
