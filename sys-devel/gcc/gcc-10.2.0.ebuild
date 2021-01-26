@@ -3,21 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/sys-devel/gcc/gcc-4.4.3-r3.ebuild,v 1.1 2010/06/19 01:53:09 zorry Exp $
 
 EAPI="7"
-CROS_WORKON_COMMIT="ac6128e0a17a52f011797f33ac3e7d6273a9368d"
-CROS_WORKON_TREE="aff2e49c815be09f20e4346cc98144b604388cb7"
-CROS_WORKON_REPO="https://android.googlesource.com"
-CROS_WORKON_PROJECT="toolchain/gcc"
-CROS_WORKON_LOCALNAME=../aosp/toolchain/gcc
-NEXT_GCC="origin/svn-mirror/google/gcc-4_9"
-NEXT_GCC_REPO="https://chromium.googlesource.com/chromiumos/third_party/gcc.git"
 
-# By default, PREV_GCC points to the parent of current tip of origin/master.
-# If that is a bad commit, override this to point to the last known good commit.
-PREV_GCC="origin/master^"
-
-inherit eutils cros-workon binutils-funcs
-
-GCC_FILESDIR="${PORTDIR}/sys-devel/gcc/files"
+inherit eutils binutils-funcs
 
 DESCRIPTION="The GNU Compiler Collection.  Includes C/C++, java compilers, pie+ssp extensions, Haj Ten Brugge runtime bounds checking. This Compiler is based off of Crosstoolv14."
 
@@ -41,15 +28,13 @@ DEPEND="${RDEPEND}
 	)
 	>=sys-apps/texinfo-4.8
 	>=sys-devel/bison-1.875"
-PDEPEND=">=sys-devel/gcc-config-1.7"
+PDEPEND=">=sys-devel/gcc-config-2.3"
 BDEPEND="${CATEGORY}/binutils"
 
 RESTRICT="mirror strip"
 
 IUSE="gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm-next llvm-tot mounted_gcc multilib
-	nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache
-	next_gcc prev_gcc"
-REQUIRED_USE="next_gcc? ( !prev_gcc )"
+	nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache"
 
 is_crosscompile() { [[ ${CHOST} != ${CTARGET} ]] ; }
 
@@ -60,82 +45,64 @@ if [[ ${CTARGET} = ${CHOST} ]] ; then
 	fi
 fi
 
+GCC_PV=${TOOLCHAIN_GCC_PV:-${PV}}
+GCC_PVR=${GCC_PV}
+[[ ${PR} != "r0" ]] && GCC_PVR=${GCC_PVR}-${PR}
+
+# GCC_RELEASE_VER must always match 'gcc/BASE-VER' value.
+# It's an internal representation of gcc version used for:
+# - versioned paths on disk
+# - 'gcc -dumpversion' output. Must always match <digit>.<digit>.<digit>.
+GCC_RELEASE_VER=$(ver_cut 1-3 ${GCC_PV})
+
+GCC_BRANCH_VER=$(ver_cut 1-2 ${GCC_PV})
+GCCMAJOR=$(ver_cut 1 ${GCC_PV})
+GCCMINOR=$(ver_cut 2 ${GCC_PV})
+GCCMICRO=$(ver_cut 3 ${GCC_PV})
+
+# Ideally this variable should allow for custom gentoo versioning
+# of binary and gcc-config names not directly tied to upstream
+# versioning. In practive it's hard to untangle from gcc/BASE-VER
+# (GCC_RELEASE_VER) value.
+GCC_CONFIG_VER=${GCC_RELEASE_VER}
+
+PREFIX=${TOOLCHAIN_PREFIX:-${EPREFIX}/usr}
+
+LIBPATH=${TOOLCHAIN_LIBPATH:-${PREFIX}/lib/gcc/${CTARGET}/${GCC_CONFIG_VER}}
+INCLUDEPATH=${TOOLCHAIN_INCLUDEPATH:-${LIBPATH}/include}
+
+if is_crosscompile ; then
+	BINPATH=${TOOLCHAIN_BINPATH:-${PREFIX}/${CHOST}/${CTARGET}/gcc-bin/${GCC_CONFIG_VER}}
+	HOSTLIBPATH=${PREFIX}/${CHOST}/${CTARGET}/lib/${GCC_CONFIG_VER}
+else
+	BINPATH=${TOOLCHAIN_BINPATH:-${PREFIX}/${CTARGET}/gcc-bin/${GCC_CONFIG_VER}}
+fi
+
+DATAPATH=${TOOLCHAIN_DATAPATH:-${PREFIX}/share/gcc-data/${CTARGET}/${GCC_CONFIG_VER}}
+
+# Dont install in /usr/include/g++-v3/, but in gcc internal directory.
+# We will handle /usr/include/g++-v3/ with gcc-config ...
+STDCXX_INCDIR=${TOOLCHAIN_STDCXX_INCDIR:-${LIBPATH}/include/g++-v${GCC_BRANCH_VER/\.*/}}
+
 SLOT="${CTARGET}"
 
-PREFIX=/usr
+PREFIX="/usr"
 
-update_location_for_aosp() {
-	# For aosp gcc repository, the actual gcc directory is 1 more
-	# level down, eg. gcc/gcc-4.9, pick up the newest one in this
-	# case.
-	local gccsub=$(find "${S}" -maxdepth 1 -type d -name "gcc-*" | sort -r | head -1)
-	if [[ -d "${gccsub}" ]] && [[ -d "${gccsub}/gcc/config/arm/" ]]; then
-		S="${gccsub}"
-	fi
-	cd "${S}"
-}
+SRC_URI="mirror://gnu/gcc/gcc-${PV}/gcc-${PV}.tar.xz"
 
-cros_pre_src_prepare_use_gcc() {
-	cros_use_gcc
-}
+PATCHES=(
+	"${FILESDIR}/0001-Fix-emutls.c-to-not-leak-pthread-keys.patch"
+)
 
-src_unpack() {
-	if use mounted_gcc ; then
-		if [[ ! -d "$(get_gcc_dir)" ]] ; then
-			die "gcc dir not mounted/present at: $(get_gcc_dir)"
-		fi
-		S=$(get_gcc_dir)
-	elif use upstream_gcc ; then
-		GCC_MIRROR=ftp://mirrors.kernel.org/gnu/gcc
-		GCC_TARBALL=${GCC_MIRROR}/${P}/${P}.tar.bz2
-		wget $GCC_TARBALL
-		tar xf ${GCC_TARBALL##*/}
-	elif use git_gcc || use next_gcc || use prev_gcc ; then
-		aosp_git="${CROS_WORKON_REPO}/${CROS_WORKON_PROJECT}.git"
-		if use gcc_repo ; then
-			gcc_repository="${GCC_REPO}"
-		elif use next_gcc ; then
-			gcc_repository="${NEXT_GCC_REPO}"
-		else
-			gcc_repository="${aosp_git}"
-		fi
-		git clone --depth 1 --no-single-branch "${gcc_repository}" "${S}"
-		if use next_gcc ; then
-			GCC_GITHASH="${NEXT_GCC}"
-		fi
-		if use prev_gcc ; then
-			GCC_GITHASH="${PREV_GCC}"
-		fi
-		if [[ -n ${GCC_GITHASH} ]] ; then
-			einfo "Checking out: ${GCC_GITHASH}"
-			pushd "$(get_gcc_dir)" >/dev/null
-			git checkout ${GCC_GITHASH} || \
-				die "Couldn't checkout ${GCC_GITHASH}"
-			popd >/dev/null
-		fi
-		if [[ ${gcc_repository} == "${aosp_git}" ]] ; then
-			update_location_for_aosp
-		fi
-	else
-		cros-workon_src_unpack
-		update_location_for_aosp
-		[[ ${ABI} == "x32" ]] && eapply "${FILESDIR}"/90_all_gcc-4.7-x32.patch
-	fi
-
-	COST_PKG_VERSION="$("${FILESDIR}"/chromeos-version.sh "${S}")_cos_gg"
-	if [[ -d ${S}/.git ]]; then
-		COST_PKG_VERSION+="_$(cd ${S}; git describe --always)"
-	elif [[ -n ${VCSID} ]]; then
-		COST_PKG_VERSION+="_${VCSID}"
-	fi
-	COST_PKG_VERSION+="_${PVR}"
-}
+S="${WORKDIR}/gcc-${PV}"
+MY_BUILDDIR="${WORKDIR}/build-${CTARGET}"
 
 src_configure() {
-	if use mounted_gcc && [[ -f $(get_gcc_build_dir)/Makefile ]]; then
+	if [[ -f ${MY_BUILDDIR}/Makefile ]]; then
 		ewarn "Skipping configure due to existing build output"
 		return
 	fi
+	cros_use_gcc
 
 	# GCC builds do not like LD being set, it will find correct LD to use.
 	unset LD BUILD_LD
@@ -145,13 +112,12 @@ src_configure() {
 	use go && gcc_langs+=",go"
 
 	# Set configuration based on path variables
-	local DATAPATH=$(get_data_dir)
 	local confgcc=(
 		--prefix=${PREFIX}
-		--bindir=$(get_bin_dir)
+		--bindir=${BINPATH}
 		--datadir=${DATAPATH}
-		--includedir=$(get_lib_dir)/include
-		--with-gxx-include-dir=$(get_stdcxx_incdir)
+		--includedir=${INCLUDEPATH}
+		--with-gxx-include-dir=${STDCXX_INCDIR}
 		--mandir=${DATAPATH}/man
 		--infodir=${DATAPATH}/info
 		--with-python-dir=${DATAPATH#${PREFIX}}/python
@@ -165,8 +131,7 @@ src_configure() {
 		--enable-checking=release
 		--enable-linker-build-id
 
-		--with-bugurl='http://code.google.com/p/chromium-os/issues/entry'
-		--with-pkgversion="${COST_PKG_VERSION}"
+		--with-bugurl='https://bugs.chromium.org'
 
 		$(use_enable go libatomic)
 		$(use_enable multilib)
@@ -175,6 +140,7 @@ src_configure() {
 		# Disable libs we don't care about.
 		--disable-libcilkrts
 		--disable-libitm
+		--disable-libcc1
 		--disable-libmudflap
 		--disable-libquadmath
 		--disable-libssp
@@ -203,12 +169,20 @@ src_configure() {
 			# Remove endian ('l' / 'eb')
 			[[ ${arm_arch} == *l ]] && arm_arch=${arm_arch%l}
 			[[ ${arm_arch} == *eb ]] && arm_arch=${arm_arch%eb}
+			
 			confgcc+=(
 				--with-arch=${arm_arch}
 				--disable-esp
 			)
 		fi
-		use hardfp && confgcc+=( --with-float=hard )
+		if use hardfp; then
+			confgcc+=( --with-float=hard )
+			case ${CTARGET} in
+				armv6*) confgcc+=( --with-fpu=vfp ) ;;
+				armv7a*) confgcc+=( --with-fpu=vfpv3 ) ;;
+				armv7m*) confgcc+=( --with-fpu=vfpv2 ) ;;
+			esac
+		fi
 		use thumb && confgcc+=( --with-mode=thumb )
 		;;
 	i?86*)
@@ -245,18 +219,18 @@ src_configure() {
 	confgcc+=( ${EXTRA_ECONF} )
 
 	# Build in a separate build tree
-	mkdir -p $(get_gcc_build_dir) || die
-	cd $(get_gcc_build_dir) || die
+	mkdir -p ${MY_BUILDDIR} || die
+	cd ${MY_BUILDDIR} || die
 
 	# and now to do the actual configuration
 	addwrite /dev/zero
 	echo "Running this:"
-	echo "$(get_gcc_dir)"/configure "${confgcc[@]}"
-	"$(get_gcc_dir)"/configure "${confgcc[@]}" || die
+	echo "${S}"/configure "${confgcc[@]}"
+	"${S}"/configure "${confgcc[@]}" || die
 }
 
 src_compile() {
-	cd "$(get_gcc_build_dir)"
+	cd "${MY_BUILDDIR}"
 	GCC_CFLAGS="$(portageq envvar CFLAGS)"
 	TARGET_FLAGS=""
 	TARGET_GO_FLAGS=""
@@ -296,8 +270,6 @@ src_compile() {
 
 # Logic copied from Gentoo's toolchain.eclass.
 toolchain_src_install() {
-	BINPATH=$(get_bin_dir) # cros to Gentoo glue
-
 	# These should be symlinks
 	dodir /usr/bin
 	cd "${D}"${BINPATH}
@@ -326,22 +298,27 @@ toolchain_src_install() {
 }
 
 src_install() {
-	cd "$(get_gcc_build_dir)"
-	emake DESTDIR="${D}" install
+	cd "${MY_BUILDDIR}"
+
+	# Don't allow symlinks in private gcc include dir as this can break the build
+	find gcc/include*/ -type l -delete
+
+	S="${MY_BUILDDIR}" emake DESTDIR="${D}" install || die
 
 	find "${D}" -name libiberty.a -exec rm -f "{}" \;
 
+	# Punt some tools which are really only useful while building gcc
+	find "${ED}" -name install-tools -prune -type d -exec rm -rf "{}" \;
 	# Move the libraries to the proper location
 	gcc_movelibs
 
 	# Move pretty-printers to gdb datadir to shut ldconfig up
 	gcc_move_pretty_printers
 
-	GCC_CONFIG_VER=$(get_gcc_base_ver)
 	dodir /etc/env.d/gcc
 	insinto /etc/env.d/gcc
 
-	local LDPATH=$(get_lib_dir)
+	local LDPATH=${LIBPATH}
 	for SUBDIR in 32 64 ; do
 		if [[ -d ${D}/${LDPATH}/${SUBDIR} ]]
 		then
@@ -351,19 +328,19 @@ src_install() {
 
 	cat <<-EOF > env.d
 LDPATH="${LDPATH}"
-MANPATH="$(get_data_dir)/man"
-INFOPATH="$(get_data_dir)/info"
-STDCXX_INCDIR="$(get_stdcxx_incdir)"
+MANPATH="${DATAPATH}/man"
+INFOPATH="${DATAPATH}/info"
+STDCXX_INCDIR="${STDCXX_INCDIR##*/}"
 CTARGET=${CTARGET}
-GCC_PATH="$(get_bin_dir)"
-GCC_VER="$(get_gcc_base_ver)"
+GCC_PATH="${BINPATH}"
+GCC_VER="${GCC_RELEASE_VER}"
 EOF
 	newins env.d $(get_gcc_config_file)
 	cd -
 
 	toolchain_src_install
 
-	cd "${D}$(get_bin_dir)"
+	cd "${D}${BINPATH}"
 
 	local use_llvm_next=false
 	if use llvm-next || use llvm-tot
@@ -383,9 +360,9 @@ EOF
 			sysroot_wrapper_config=cros.nonhardened
 		fi
 
-		exeinto "$(get_bin_dir)"
+		exeinto "${BINPATH}"
 		cat "${FILESDIR}/bisect_driver.py" > \
-			"${D}$(get_bin_dir)/bisect_driver.py" || die
+			"${D}${BINPATH}/bisect_driver.py" || die
 
 		# Note: We are always producing both versions, with and without ccache,
 		# so we can replace the behavior of the wrapper without rebuilding it.
@@ -400,7 +377,7 @@ EOF
 			"${FILESDIR}/compiler_wrapper/build.py" --config="${sysroot_wrapper_config}" \
 				--use_ccache="${ccache_option}" \
 				--use_llvm_next="${use_llvm_next}" \
-				--output_file="${D}$(get_bin_dir)/${sysroot_wrapper_file_prefix}.${ccache_suffix}" || die
+				--output_file="${D}${BINPATH}/${sysroot_wrapper_file_prefix}.${ccache_suffix}" || die
 		done
 
 		local use_ccache_index
@@ -410,39 +387,39 @@ EOF
 		for x in c++ g++ gcc; do
 			if [[ -f "${CTARGET}-${x}" ]]; then
 				mv "${CTARGET}-${x}" "${CTARGET}-${x}.real"
-				dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${CTARGET}-${x}" || die
+				dosym "${sysroot_wrapper_file}" "${BINPATH}/${CTARGET}-${x}" || die
 			fi
 		done
 		for x in clang clang++; do
-			dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${CTARGET}-${x}" || die
+			dosym "${sysroot_wrapper_file}" "${BINPATH}/${CTARGET}-${x}" || die
 		done
 		if use go; then
 			local wrapper="sysroot_wrapper.gccgo"
 			doexe "${FILESDIR}/${wrapper}" || die
 			mv "${CTARGET}-gccgo" "${CTARGET}-gccgo.real" || die
-			dosym "${wrapper}" "$(get_bin_dir)/${CTARGET}-gccgo" || die
+			dosym "${wrapper}" "${BINPATH}/${CTARGET}-gccgo" || die
 		fi
 	else
 		local sysroot_wrapper_file=host_wrapper
 
-		exeinto "$(get_bin_dir)"
+		exeinto "${BINPATH}"
 
 		"${FILESDIR}/compiler_wrapper/build.py" --config=cros.host --use_ccache=false \
 			--use_llvm_next="${use_llvm_next}" \
-			--output_file="${D}$(get_bin_dir)/${sysroot_wrapper_file}" || die
+			--output_file="${D}${BINPATH}/${sysroot_wrapper_file}" || die
 
 		for x in c++ g++ gcc; do
 			if [[ -f "${CTARGET}-${x}" ]]; then
 				mv "${CTARGET}-${x}" "${CTARGET}-${x}.real"
-				dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${CTARGET}-${x}" || die
+				dosym "${sysroot_wrapper_file}" "${BINPATH}/${CTARGET}-${x}" || die
 			fi
 			if [[ -f "${x}" ]]; then
 				ln "${CTARGET}-${x}.real" "${x}.real" || die
 				rm "${x}" || die
-				dosym "${sysroot_wrapper_file}" "$(get_bin_dir)/${x}" || die
+				dosym "${sysroot_wrapper_file}" "${BINPATH}/${x}" || die
 				# Add a cc.real symlink that points to gcc.real, https://crbug.com/1090449
 				if [[ "${x}" == "gcc" ]]; then
-					dosym "${x}.real" "$(get_bin_dir)/cc.real"
+					dosym "${x}.real" "${BINPATH}/cc.real"
 				fi
 			fi
 		done
@@ -471,61 +448,19 @@ pkg_postrm() {
 	fi
 }
 
-get_gcc_dir() {
-	local GCCDIR
-	if use mounted_gcc ; then
-		GCCDIR=${GCC_SOURCE_PATH:=/usr/local/toolchain_root/gcc}
-	elif use upstream_gcc ; then
-		GCCDIR=${P}
-	else
-		GCCDIR=${S}
-	fi
-	echo "${GCCDIR}"
-}
-
-get_gcc_build_dir() {
-	echo "$(get_gcc_dir)-build-${CTARGET}"
-}
-
-get_gcc_base_ver() {
-	cat "$(get_gcc_dir)/gcc/BASE-VER"
-}
-
-get_stdcxx_incdir() {
-	echo "$(get_lib_dir)/include/g++-v4"
-}
-
-get_lib_dir() {
-	echo "${PREFIX}/lib/gcc/${CTARGET}/$(get_gcc_base_ver)"
-}
-
-get_bin_dir() {
-	if is_crosscompile ; then
-		echo ${PREFIX}/${CHOST}/${CTARGET}/gcc-bin/$(get_gcc_base_ver)
-	else
-		echo ${PREFIX}/${CTARGET}/gcc-bin/$(get_gcc_base_ver)
-	fi
-}
-
-get_data_dir() {
-	echo "${PREFIX}/share/gcc-data/${CTARGET}/$(get_gcc_base_ver)"
-}
-
 get_gcc_config_file() {
 	echo ${CTARGET}-${PV}
 }
 
 # Grab a variable from the build system (taken from linux-info.eclass)
 get_make_var() {
-	local var=$1 makefile=${2:-$(get_gcc_build_dir)/Makefile}
+	local var=$1 makefile=${2:-${MY_BUILDDIR}/Makefile}
 	echo -e "e:\\n\\t@echo \$(${var})\\ninclude ${makefile}" | \
 		r=${makefile%/*} emake --no-print-directory -s -f - 2>/dev/null
 }
 XGCC() { get_make_var GCC_FOR_TARGET ; }
 
 gcc_move_pretty_printers() {
-	LIBPATH=$(get_lib_dir)  # cros to Gentoo glue
-
 	local py gdbdir=/usr/share/gdb/auto-load${LIBPATH}
 	pushd "${D}"${LIBPATH} >/dev/null
 	for py in $(find . -name '*-gdb.py') ; do
@@ -538,60 +473,48 @@ gcc_move_pretty_printers() {
 	popd >/dev/null
 }
 
-# make sure the libtool archives have libdir set to where they actually
-# -are-, and not where they -used- to be.  also, any dependencies we have
-# on our own .la files need to be updated.
-fix_libtool_libdir_paths() {
-	pushd "${D}" >/dev/null
-
-	pushd "./${1}" >/dev/null
-	local dir="${PWD#${D%/}}"
-	local allarchives=$(echo *.la)
-	allarchives="\(${allarchives// /\\|}\)"
-	popd >/dev/null
-
-	sed -i \
-		-e "/^libdir=/s:=.*:='${dir}':" \
-		./${dir}/*.la
-	sed -i \
-		-e "/^dependency_libs=/s:/[^ ]*/${allarchives}:${LIBPATH}/\1:g" \
-		$(find ./${PREFIX}/lib* -maxdepth 3 -name '*.la') \
-		./${dir}/*.la
-
-	popd >/dev/null
-}
-
+# Move around the libs to the right location.  For some reason,
+# when installing gcc, it dumps internal libraries into /usr/lib
+# instead of the private gcc lib path
 gcc_movelibs() {
-	LIBPATH=$(get_lib_dir)	# cros to Gentoo glue
-
-	local multiarg removedirs=""
+	# For all the libs that are built for CTARGET, move them into the
+	# compiler-specific CTARGET internal dir.
+	local x multiarg removedirs=""
 	for multiarg in $($(XGCC) -print-multi-lib) ; do
 		multiarg=${multiarg#*;}
 		multiarg=${multiarg//@/ -}
 
 		local OS_MULTIDIR=$($(XGCC) ${multiarg} --print-multi-os-directory)
 		local MULTIDIR=$($(XGCC) ${multiarg} --print-multi-directory)
-		local TODIR=${D}${LIBPATH}/${MULTIDIR}
+		local TODIR="${D}${LIBPATH}"/${MULTIDIR}
 		local FROMDIR=
 
 		[[ -d ${TODIR} ]] || mkdir -p ${TODIR}
 
 		for FROMDIR in \
-			${LIBPATH}/${OS_MULTIDIR} \
-			${LIBPATH}/../${MULTIDIR} \
-			${PREFIX}/lib/${OS_MULTIDIR} \
-			${PREFIX}/${CTARGET}/lib/${OS_MULTIDIR}
+			"${LIBPATH}"/${OS_MULTIDIR} \
+			"${LIBPATH}"/../${MULTIDIR} \
+			"${PREFIX}"/lib/${OS_MULTIDIR} \
+			"${PREFIX}"/${CTARGET}/lib/${OS_MULTIDIR}
 		do
 			removedirs="${removedirs} ${FROMDIR}"
 			FROMDIR=${D}${FROMDIR}
 			if [[ ${FROMDIR} != "${TODIR}" && -d ${FROMDIR} ]] ; then
 				local files=$(find "${FROMDIR}" -maxdepth 1 ! -type d 2>/dev/null)
 				if [[ -n ${files} ]] ; then
-					mv ${files} "${TODIR}"
+					mv ${files} "${TODIR}" || die
 				fi
 			fi
 		done
 		fix_libtool_libdir_paths "${LIBPATH}/${MULTIDIR}"
+
+		# SLOT up libgcj.pc if it's available (and let gcc-config worry about links)
+		FROMDIR="${PREFIX}/lib/${OS_MULTIDIR}"
+		for x in "${D}${FROMDIR}"/pkgconfig/libgcj*.pc ; do
+			[[ -f ${x} ]] || continue
+			sed -i "/^libdir=/s:=.*:=${LIBPATH}/${MULTIDIR}:" "${x}" || die
+			mv "${x}" "${D}${FROMDIR}"/pkgconfig/libgcj-${GCC_PV}.pc || die
+		done
 	done
 
 	# We remove directories separately to avoid this case:
@@ -601,8 +524,32 @@ gcc_movelibs() {
 	for FROMDIR in ${removedirs} ; do
 		rmdir "${D}"${FROMDIR} >& /dev/null
 	done
-	find "${D}" -type d | xargs rmdir >& /dev/null
+	find -depth "${ED}" -type d -exec rmdir {} + >& /dev/null
 }
 
-# If you need to force a cros_workon uprev, change this number (you can use next
-# uprev): 279
+# make sure the libtool archives have libdir set to where they actually
+# -are-, and not where they -used- to be.  also, any dependencies we have
+# on our own .la files need to be updated.
+fix_libtool_libdir_paths() {
+	local libpath="$1"
+
+	pushd "${D}" >/dev/null
+
+	pushd "./${libpath}" >/dev/null
+	local dir="${PWD#${D%/}}"
+	local allarchives=$(echo *.la)
+	allarchives="\(${allarchives// /\\|}\)"
+	popd >/dev/null
+
+	# The libdir might not have any .la files. #548782
+	find "./${dir}" -maxdepth 1 -name '*.la' \
+		-exec sed -i -e "/^libdir=/s:=.*:='${dir}':" {} + || die
+	# Would be nice to combine these, but -maxdepth can not be specified
+	# on sub-expressions.
+	find "./${PREFIX}"/lib* -maxdepth 3 -name '*.la' \
+		-exec sed -i -e "/^dependency_libs=/s:/[^ ]*/${allarchives}:${libpath}/\1:g" {} + || die
+	find "./${dir}/" -maxdepth 1 -name '*.la' \
+		-exec sed -i -e "/^dependency_libs=/s:/[^ ]*/${allarchives}:${libpath}/\1:g" {} + || die
+
+	popd >/dev/null
+}

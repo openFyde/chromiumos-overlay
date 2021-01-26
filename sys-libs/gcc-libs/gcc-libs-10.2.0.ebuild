@@ -7,56 +7,28 @@
 
 EAPI=7
 
-# These are used to find the project sources. Since the gcc-libs sources are
-# within the gcc source tree, we leave these "gcc" rather than "gcc-libs".
-CROS_WORKON_COMMIT="ac6128e0a17a52f011797f33ac3e7d6273a9368d"
-CROS_WORKON_TREE="aff2e49c815be09f20e4346cc98144b604388cb7"
-CROS_WORKON_REPO="https://android.googlesource.com"
-CROS_WORKON_PROJECT="toolchain/gcc"
-CROS_WORKON_LOCALNAME=../aosp/toolchain/gcc
-CROS_WORKON_OUTOFTREE_BUILD=1
+inherit eutils binutils-funcs
 
-inherit eutils cros-workon binutils-funcs
-
-DESCRIPTION="The GNU Compiler Collection.  This builds and installs the libgcc, libstdc++, and libgo libraries.  It is board-specific."
+DESCRIPTION="The GNU Compiler Collection. This builds and installs the libgcc, libstdc++, and libgo libraries.  It is board-specific."
 
 LICENSE="GPL-3 LGPL-3 FDL-1.2"
 KEYWORDS="*"
-IUSE="go hardened hardfp libatomic mounted_gcc +thumb vtable_verify"
+IUSE="go hardened hardfp libatomic +thumb vtable_verify"
 REQUIRED_USE="go? ( libatomic )"
 
 : ${CTARGET:=${CHOST}}
 
-update_location_for_aosp() {
-	# For aosp gcc repository, the actual gcc directory is 1 more
-	# level down, eg. gcc/gcc-4.9, pick up the newest one in this
-	# case.
-	local gccsub=$(find "${S}" -maxdepth 1 -type d -name "gcc-*" | sort -r | head -1)
-	if [[ -d "${gccsub}" ]] && [[ -d "${gccsub}/gcc/config/arm/" ]]; then
-		S="${gccsub}"
-	fi
-	cd "${S}"
-}
+SLOT="0"
 
-src_unpack() {
-	if use mounted_gcc; then
-		if [[ ! -d "$(get_gcc_dir)" ]]; then
-			die "gcc dir not mounted/present at: $(get_gcc_dir)"
-		fi
-	else
-		cros-workon_src_unpack
-		update_location_for_aosp
-	fi
+PREFIX="/usr"
 
-	# Hack around http://crbug.com/284838
-	local sb=${SANDBOX_ON}
-	export SANDBOX_ON="0"
-	touch "${S}"/gcc/config/arm/arm-{tables.opt,tune.md} || die
-	export SANDBOX_ON="${sb}"
-}
+SRC_URI="mirror://gnu/gcc/gcc-${PV}/gcc-${PV}.tar.xz"
+
+S="${WORKDIR}/gcc-${PV}"
+MY_BUILDDIR="${WORKDIR}/build"
 
 src_configure() {
-	if use mounted_gcc && [[ -f $(get_gcc_build_dir)/Makefile ]]; then
+	if [[ -f ${MY_BUILDDIR}/Makefile ]]; then
 		ewarn "Skipping configure due to existing build output"
 		return
 	fi
@@ -127,7 +99,14 @@ src_configure() {
 				--with-arch=${arm_arch}
 				--disable-esp
 			)
-			use hardfp && confgcc+=( --with-float=hard )
+			if use hardfp; then
+				confgcc+=( --with-float=hard )
+				case ${CTARGET} in
+					armv6*) confgcc+=( --with-fpu=vfp ) ;;
+					armv7a*) confgcc+=( --with-fpu=vfpv3 ) ;;
+					armv7m*) confgcc+=( --with-fpu=vfpv2 ) ;;
+				esac
+			fi
 			use thumb && confgcc+=( --with-mode=thumb )
 		fi
 		;;
@@ -151,8 +130,8 @@ src_configure() {
 	confgcc+=( ${EXTRA_ECONF} )
 
 	# Build in a separate build tree.
-	mkdir -p "$(get_gcc_build_dir)" || die
-	cd "$(get_gcc_build_dir)" || die
+	mkdir -p "${MY_BUILDDIR}" || die
+	cd "${MY_BUILDDIR}" || die
 
 	# This is necessary because the emerge-${BOARD} machinery sometimes
 	# adds machine-specific options to thsee flags that are not
@@ -164,12 +143,12 @@ src_configure() {
 	# and now to do the actual configuration
 	addwrite /dev/zero
 	echo "Running this:"
-	echo "$(get_gcc_dir)"/configure "${confgcc[@]}"
-	"$(get_gcc_dir)"/configure "${confgcc[@]}" || die
+	echo "${S}"/configure "${confgcc[@]}"
+	"${S}"/configure "${confgcc[@]}" || die
 }
 
 src_compile() {
-	cd "$(get_gcc_build_dir)"
+	cd "${MY_BUILDDIR}"
 	GCC_CFLAGS="${CFLAGS}"
 	local target_flags=()
 	local target_go_flags=()
@@ -209,7 +188,7 @@ src_compile() {
 }
 
 src_install() {
-	cd "$(get_gcc_build_dir)"
+	cd "${MY_BUILDDIR}"
 	emake -C "${CTARGET}"/libstdc++-v3/src DESTDIR="${D}" install
 	emake -C "${CTARGET}"/libgcc DESTDIR="${D}" install-shared
 	if use libatomic; then
@@ -230,25 +209,9 @@ src_install() {
 	rm -rf "${D}"/usr/${CTARGET}
 }
 
-get_gcc_dir() {
-	if use mounted_gcc; then
-		echo "${GCC_SOURCE_PATH:=/usr/local/toolchain_root/gcc}"
-	else
-		echo "${S}"
-	fi
-}
-
-get_gcc_build_dir() {
-	if use mounted_gcc; then
-		echo "$(get_gcc_dir)-build-${CTARGET}"
-	else
-		echo "${WORKDIR}/build"
-	fi
-}
-
 # Grab a variable from the build system (taken from linux-info.eclass)
 get_make_var() {
-	local var=$1 makefile=${2:-$(get_gcc_build_dir)/Makefile}
+	local var=$1 makefile=${2:-${MY_BUILDDIR}/Makefile}
 	echo -e "e:\\n\\t@echo \$(${var})\\ninclude ${makefile}" | \
 		r=${makefile%/*} emake --no-print-directory -s -f - 2>/dev/null
 }
