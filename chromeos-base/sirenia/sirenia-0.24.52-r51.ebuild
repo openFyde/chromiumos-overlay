@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="37084473ad1cccd4b0f6b6e7ecad65a6d2e852a9"
+CROS_WORKON_COMMIT="25a3d9b1bc019828128a24a626eec317fd2b7657"
 CROS_WORKON_TREE="9ac451bbff739a89849ab4a31d6b104835e0887f"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,9 +18,12 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="cros_host manatee"
 
-RDEPEND="sys-apps/dbus"
+RDEPEND="
+	chromeos-base/cronista
+	sys-apps/dbus
+"
 
-DEPEND="${RDEPEND}
+DEPEND="
 	chromeos-base/libsirenia:=
 	chromeos-base/sirenia-rpc-macros:=
 	=dev-rust/chrono-0.4*:=
