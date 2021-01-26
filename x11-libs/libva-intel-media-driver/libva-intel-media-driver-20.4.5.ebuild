@@ -25,6 +25,7 @@ PATCHES=(
 	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
 	"${FILESDIR}"/0003-VP-Not-returning-error-when-not-setting-VAProcPipeli.patch
 	"${FILESDIR}"/0004-vaDeriveImage-Enable-WaDisableGmmLibOffsetInDeriveIm.patch
+	"${FILESDIR}"/0005-Decode-Refine-decode-reference-associated-buffer-man.patch
 )
 
 src_configure() {
