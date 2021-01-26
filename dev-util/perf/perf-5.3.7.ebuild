@@ -251,8 +251,8 @@ src_install() {
 
 pkg_postinst() {
 	if ! use doc ; then
-		elog "Without the doc USE flag you won't get any documentation nor man pages."
-		elog "And without man pages, you won't get any --help output for perf and its"
-		elog "sub-tools."
+		einfo "Without the doc USE flag you won't get any documentation nor man pages."
+		einfo "And without man pages, you won't get any --help output for perf and its"
+		einfo "sub-tools."
 	fi
 }
