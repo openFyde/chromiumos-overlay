@@ -110,7 +110,7 @@ platform_pkg_test() {
 	# The ExecutionTest's are sporadically failing which is timing out builds.
 	# This is annoying for everyone, so really need to figure it out. It's very hard
 	# to reproduce locally, so tracking that in crbug/1168686.
-	gtest_excl_filter+="Flavor/ExecutionTest*:"
+	gtest_excl_filter+="*ExecutionTest*:"
 
 	if use asan; then
 		# Some tests do not correctly clean up the Execution object and it is
