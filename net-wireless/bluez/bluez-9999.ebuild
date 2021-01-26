@@ -158,15 +158,4 @@ pkg_postinst() {
 	enewgroup "bluetooth" "218"
 
 	udev_reload
-
-	if ! has_version "net-dialup/ppp"; then
-		elog "To use dial up networking you must install net-dialup/ppp."
-	fi
-
-	if [ "$(rc-config list default | grep bluetooth)" = "" ] ; then
-		elog "You will need to add bluetooth service to default runlevel"
-		elog "for getting your devices detected from startup without needing"
-		elog "to reconnect them. For that please run:"
-		elog "'rc-update add bluetooth default'"
-	fi
 }
