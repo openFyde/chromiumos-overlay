@@ -572,5 +572,11 @@
         "rel_patch_path": "cherry/53b34601abf1d48e8df210ab8127b16fd35e275a.patch",
         "start_version": 413220,
         "end_version": 415982
+    },
+    {
+        "comment": "Revert \"[clang] Change builtin object size when subobject is invalid\"",
+        "rel_patch_path": "cherry/b270fd59f0a86fe737853abc43e76b9d29a67eea.patch",
+        "start_version": 415398,
+        "end_version": 416525
     }
 ]
