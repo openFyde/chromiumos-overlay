@@ -379,31 +379,6 @@ pkg_postinst() {
 	# Update desktop file database and gtk icon cache (bug 370059)
 	gnome2_icon_cache_update
 	fdo-mime_desktop_database_update
-
-	# not slotted - at most one value
-	if ! [[ "${REPLACING_VERSIONS}" ]]; then
-		echo
-		elog "For information about installing a printer and general cups setup"
-		elog "take a look at: https://wiki.gentoo.org/wiki/Printing"
-		echo
-	fi
-
-	if [[ "${REPLACING_VERSIONS}" ]] && [[ "${REPLACING_VERSIONS}" < "1.6" ]]; then
-		echo
-		elog "CUPS-1.6 no longer supports automatic remote printers or implicit classes"
-		elog "via the CUPS, LDAP, or SLP protocols, i.e. \"network browsing\"."
-		elog "You will have to find printers using zeroconf/avahi instead, enter"
-		elog "the location manually, or run cups-browsed from net-print/cups-filters"
-		elog "which re-adds that functionality as a separate daemon."
-		echo
-	fi
-
-	if [[ "${REPLACING_VERSIONS}" == "1.6.2-r4" ]]; then
-		ewarn
-		ewarn "You are upgrading from the broken version net-print/cups-1.6.2-r4."
-		ewarn "Please rebuild net-print/cups-filters now to make sure everything is OK."
-		ewarn
-	fi
 }
 
 pkg_postrm() {
