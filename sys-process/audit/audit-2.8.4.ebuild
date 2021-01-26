@@ -14,7 +14,7 @@ SRC_URI="https://people.redhat.com/sgrubb/audit/${P}.tar.gz"
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="gssapi ldap python static-libs"
+IUSE="cros_host gssapi ldap python static-libs"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 # Testcases are pretty useless as they are built for RedHat users/groups and kernels.
 RESTRICT="test"
@@ -73,12 +73,15 @@ src_prepare() {
 multilib_src_configure() {
 	local ECONF_SOURCE=${S}
 	local _with_arm_eabi=
+	# Enable ARM support when building ARM targets OR building for cros_host
+	# irrespective of target architecture. The latter is useful when
+	# processing audit logs in the Chrome OS SDK chroot.
 	# We want to support both 32-bit and 64-bit EABIs for now due to the mixed
 	# use on Chrome OS. This can be changed to a simpler
 	# $(use_with arm64 aarch64) if and when we drop 32-bit userspace support.
 	# Nevertheless, vestigial 32-bit EABI support here would likely just be
 	# superfluous and harmless.
-	if [[ "${ARCH}" == "arm"* ]]; then
+	if [[ "${ARCH}" == "arm"* ]] || use cros_host; then
 		_with_arm_eabi=(--with-arm --with-aarch64)
 	fi
 	econf \
