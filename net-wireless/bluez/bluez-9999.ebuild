@@ -148,6 +148,7 @@ src_install() {
 
 	# Install the fuzzer binaries.
 	fuzzer_install "${S}/fuzzer/OWNERS" fuzzer/bluez_pattern_match_fuzzer
+	fuzzer_install "${S}/fuzzer/OWNERS" fuzzer/bluez_pattern_new_fuzzer
 
 	# We don't preserve /var/lib in images, so nuke anything we preseed.
 	rm -rf "${D}"/var/lib/bluetooth
