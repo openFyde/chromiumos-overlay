@@ -56,6 +56,7 @@ PATCHES=(
 	"${FILESDIR}"/gdb-9.2-sht_relr.patch
 	"${FILESDIR}"/gdb-9.2-python.patch
 	"${FILESDIR}"/gdb-9.2-aarch64-tdesc.patch
+	"${FILESDIR}"/gdb-9.2-sht_relr-part2.patch
 )
 
 pkg_setup() {
