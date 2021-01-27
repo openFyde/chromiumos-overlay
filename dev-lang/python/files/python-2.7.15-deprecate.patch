@@ -1,0 +1,25 @@
+Warn users whenever `python2` is invoked.
+
+--- a/Modules/main.c
++++ b/Modules/main.c
+@@ -258,6 +258,20 @@ Py_Main(int argc, char **argv)
+     int saw_unbuffered_flag = 0;
+     PyCompilerFlags cf;
+ 
++    {
++    int tty = isatty(2);
++    if (tty)
++        fprintf(stderr, "\e[5;1;31m");
++    fprintf(stderr, "%s: warning: Python 2.7 is deprecated and will be removed from CrOS by end of 2021. All users must migrate ASAP.\n",
++            argv[0]);
++    fprintf(stderr, "%s: commandline:", argv[0]);
++    for (int i = 1; i < argc; ++i)
++        fprintf(stderr, " %s", argv[i]);
++    if (tty)
++        fprintf(stderr, "\e[m");
++    fprintf(stderr, "\n");
++    }
++
+     cf.cf_flags = 0;
+ 
+     orig_argc = argc;           /* For Py_GetArgcArgv() */
