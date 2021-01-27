@@ -578,5 +578,17 @@
         "rel_patch_path": "cherry/b270fd59f0a86fe737853abc43e76b9d29a67eea.patch",
         "start_version": 415398,
         "end_version": 416525
+    },
+    {
+        "comment": "[ARM] Adjust isSaturatingConditional to return a new SDValue. NFC",
+        "rel_patch_path": "cherry/9ae73cdbc1e59fd3149e60efd2b96e68e8d1669b.patch",
+        "start_version": 405885,
+        "end_version": 416715
+    },
+    {
+        "comment": "[ARM] Disable sign extended SSAT pattern recognition.",
+        "rel_patch_path": "cherry/af0332498405b3a4074cef09845bbacfd4fd594f.patch",
+        "start_version": 405885,
+        "end_version": 416728
     }
 ]
