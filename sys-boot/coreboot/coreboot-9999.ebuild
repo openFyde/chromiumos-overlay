@@ -54,6 +54,11 @@ IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
 IUSE="${IUSE} +bmpblk +intel_mrc qca-framework quiet unibuild verbose"
 IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
 IUSE="${IUSE} generated_cros_config"
+# virtual/coreboot-private-files is deprecated. When adding a new board you
+# should add the coreboot-private-files-{board/chipset} ebuilds into the private
+# overlays, and avoid creating virtual packages.
+# See b/178642474
+IUSE="${IUSE} coreboot-private-files-board coreboot-private-files-chipset"
 # coreboot's build system handles stripping the binaries and producing a
 # separate .debug file with the symbols. This flag prevents portage from
 # stripping the .debug symbols
@@ -62,6 +67,8 @@ RESTRICT="strip"
 RDEPEND=""
 DEPEND="
 	mtc? ( sys-boot/mtc:= )
+	coreboot-private-files-board? ( sys-boot/coreboot-private-files-board:= )
+	coreboot-private-files-chipset? ( sys-boot/coreboot-private-files-chipset:= )
 	virtual/coreboot-private-files
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
 	intel_mrc? ( x86? ( sys-boot/chromeos-mrc:= )
