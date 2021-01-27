@@ -86,6 +86,8 @@ PATCHES=(
 	"${FILESDIR}/5.3.7-Update-perf-bench.patch"
 	"${FILESDIR}/5.3.7-Fix-perf-bench.patch"
 	"${FILESDIR}/5.3.7-Fix-nm-binutils-2.35.patch"
+	"${FILESDIR}/5.3.7-Correct-event-attribute-sizes.patch"
+	"${FILESDIR}/5.3.7-Fix-file-corruption-due-to-event-deletion.patch"
 )
 
 pkg_setup() {
