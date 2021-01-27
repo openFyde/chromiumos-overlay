@@ -78,7 +78,7 @@ net-libs/glib-networking -gnome -libproxy
 net-libs/libmicrohttpd	ssl messages
 net-libs/libsoup	-ssl
 # TODO(b/172893124): Enable http2
-net-misc/curl		ares -ftp -imap kerberos -http2 -pop3 -progress-meter -smtp -tftp
+net-misc/curl		adns -ftp -imap kerberos -http2 -pop3 -progress-meter -smtp -tftp
 net-misc/dhcpcd		crash
 net-misc/iperf		threads
 # arping is used by some wifi autotests.
