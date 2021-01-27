@@ -92,12 +92,19 @@ cros_setup_hooks() {
 	[[ ${cros_setup_hooks_run+set} == "set" ]] && return
 
 	local phase
-	for phase in {pre,post}_{src_{unpack,prepare,configure,compile,test,install},pkg_{{pre,post}{inst,rm},setup}} ; do
+	for phase in {pre,post}_{src_{unpack,prepare,configure,compile,test,install},pkg_{{pre,post}{inst,rm},setup,nofetch}} ; do
 		eval "${phase}() { cros_stack_hooks ${phase} ; }"
 	done
 	export cros_setup_hooks_run="booya"
 }
 cros_setup_hooks
+
+cros_post_pkg_nofetch_distdir() {
+	# Let the user know where to find DISTDIR when they need to manually
+	# download a package.
+	einfo "On Chromium OS, DISTDIR is /var/cache/distfiles/ inside the chroot"
+	einfo "and ~/chromiumos/.cache/distfiles/ outside the chroot."
+}
 
 cros_emit_build_metric() {
 	# We only enable build metrics on servers currently, but we need to make
