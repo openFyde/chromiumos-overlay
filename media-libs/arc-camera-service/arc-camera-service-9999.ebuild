@@ -26,7 +26,8 @@ IUSE="-asan"
 
 RDEPEND="
 	!chromeos-base/arc-camera-service
-	media-libs/cros-camera-libcamera_timezone"
+	media-libs/cros-camera-libcamera_timezone
+	virtual/cros-camera-hal-configs"
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
