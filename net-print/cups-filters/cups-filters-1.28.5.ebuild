@@ -80,10 +80,10 @@ src_configure() {
 		--disable-imagefilters
 		--disable-driverless
 		--localstatedir="${EPREFIX}"/var
-		--with-browseremoteprotocols=DNSSD,CUPS
+		--with-browseremoteprotocols="DNSSD,CUPS"
 		--with-cups-rundir="${EPREFIX}"/run/cups
 		--with-fontdir="fonts/conf.avail"
-		--with-pdftops=$(use postscript && echo gs || echo pdftops)
+		--with-pdftops="$(use postscript && echo gs || echo pdftops)"
 		--with-rcdir=no
 		--without-php
 		--disable-braille
@@ -109,10 +109,10 @@ src_compile() {
 	default
 
 	if use perl; then
-		pushd "${S}/scripting/perl" > /dev/null
+		pushd "${S}/scripting/perl" > /dev/null || die
 		perl-module_src_configure
 		perl-module_src_compile
-		popd > /dev/null
+		popd > /dev/null || die
 	fi
 }
 
@@ -120,10 +120,10 @@ src_install() {
 	default
 
 	if use perl; then
-		pushd "${S}/scripting/perl" > /dev/null
+		pushd "${S}/scripting/perl" > /dev/null || die
 		perl-module_src_install
 		perl_delete_localpod
-		popd > /dev/null
+		popd > /dev/null || die
 	fi
 
 	if use postscript; then
