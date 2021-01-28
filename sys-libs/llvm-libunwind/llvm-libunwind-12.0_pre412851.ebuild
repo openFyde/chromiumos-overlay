@@ -10,6 +10,7 @@ HOMEPAGE="https://github.com/llvm-mirror/libunwind"
 SRC_URI=""
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
 	${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
+EGIT_BRANCH=main
 
 LLVM_HASH="7f6f9f4cf966c78a315d15d6e913c43cfa45c47c" # r412851
 LLVM_NEXT_HASH="7f6f9f4cf966c78a315d15d6e913c43cfa45c47c" # r412851
