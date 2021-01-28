@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="0d5c8329c95d45206518b2b0420e9045166b19db"
-CROS_WORKON_TREE=("039ed44189c17a7037215fc778a6f1fcb96b1433" "4135e0bf3363083bd17f441f13cca2be904ea191" "8d228c8e702aebee142bcbf0763a15786eb5b3bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ceaf3793813049ab96ef3e786e5c284cf4d56a05"
+CROS_WORKON_TREE=("039ed44189c17a7037215fc778a6f1fcb96b1433" "1cc598b638a9f81de7bbff756b7a434ec6006828" "8d228c8e702aebee142bcbf0763a15786eb5b3bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -96,6 +96,10 @@ src_install() {
 	# Install setuid restrictions file.
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/cros_disks_whitelist.txt
+
+	# Install powerd prefs for FUSE freeze ordering.
+	insinto /usr/share/power_manager
+	doins powerd_prefs/suspend_freezer_deps_*
 
 	local fuzzers=(
 		filesystem_label_fuzzer

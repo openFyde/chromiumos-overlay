@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0d5c8329c95d45206518b2b0420e9045166b19db"
-CROS_WORKON_TREE=("039ed44189c17a7037215fc778a6f1fcb96b1433" "9bda1701529abe12c4692ef96c11a0e4d5687883" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ceaf3793813049ab96ef3e786e5c284cf4d56a05"
+CROS_WORKON_TREE=("039ed44189c17a7037215fc778a6f1fcb96b1433" "b34d3e5cfee90b125bfe2d42d95a98e3bba6441b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -44,9 +44,13 @@ src_install() {
 
 	insinto /etc/init
 	doins init/virtual-file-provider.conf
+	doins init/virtual-file-provider-cgroup.conf
 
 	insinto /usr/share/dbus-1/system-services
 	doins org.chromium.VirtualFileProvider.service
+
+	insinto /usr/share/power_manager
+	doins powerd_prefs/suspend_freezer_deps_virtual-file-provider
 }
 
 pkg_preinst() {
