@@ -786,7 +786,7 @@ src_prepare() {
 		EPATCH_SUFFIX="patch" EPATCH_FORCE="yes" epatch "${WORKDIR}"/patches
 		einfo "Done."
 	fi
-	EPATCH_SUFFIX="patch" EPATCH_FORCE="yes" epatch "${FILESDIR}"/local
+	EPATCH_SUFFIX="patch" EPATCH_FORCE="yes" epatch "${FILESDIR}"/local/${PN}-${PV}
 
 	default
 
