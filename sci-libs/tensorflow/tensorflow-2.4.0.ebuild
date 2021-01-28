@@ -333,6 +333,12 @@ src_configure() {
 
 		echo 'build --config=noaws --config=nohdfs' >> .bazelrc || die
 		echo 'build --define tensorflow_mkldnn_contraction_kernel=0' >> .bazelrc || die
+
+		# The ruy library is faster than the default libeigen on arm, but
+		# MUCH slower on amd64. See b/178593695 for more discussion.
+		case "${ARCH}" in
+			arm | arm64) echo 'build --define=tflite_with_ruy=true' >> .bazelrc || die ;;
+		esac
 	}
 	if use python; then
 		python_foreach_impl run_in_build_dir do_configure
