@@ -222,6 +222,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	dev-python/setproctitle
 	dev-python/setuptools
 	dev-python/ws4py
+	!chromeless_tty? ( !chromeless_tests? ( dev-util/apitrace ) )
 	dev-util/stressapptest
 	dev-util/trace-cmd
 	dlc? ( sys-fs/squashfs-tools )

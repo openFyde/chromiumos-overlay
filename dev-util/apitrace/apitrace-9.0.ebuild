@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_6 )
 inherit cmake-multilib python-single-r1
 
 DESCRIPTION="Tool for tracing, analyzing, and debugging graphics APIs"
@@ -19,7 +19,6 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="${PYTHON_DEPS}
 	media-libs/libpng:0=
-	media-libs/mesa[egl?,${MULTILIB_USEDEP}]
 	media-libs/waffle
 	sys-libs/zlib:=[${MULTILIB_USEDEP}]
 	sys-process/procps
@@ -40,9 +39,10 @@ DEPEND="${RDEPEND}"
 PATCHES=(
 	"${FILESDIR}"/${PN}-8.0-glxtrace-only.patch
 	"${FILESDIR}"/${PN}-8.0-disable-multiarch.patch
-	"${FILESDIR}"/${PN}-8.0-docs-install.patch
+	"${FILESDIR}"/${PN}-9.0-docs-install.patch
 	"${FILESDIR}"/${PN}-8.0-snappy-license.patch
 	"${FILESDIR}"/0001-Fallback-to-NULL-platform-if-no-X.patch
+	"${FILESDIR}"/${PN}-9.0-egl-environment.patch
 )
 
 src_prepare() {
@@ -95,4 +95,7 @@ src_install() {
 
 	exeinto /usr/$(get_libdir)/${PN}/scripts
 	doexe $(find scripts -type f -executable)
+
+	echo "LDPATH=\"/usr/$(get_libdir)/${PN}/wrappers\"" > "${T}"/99${PN}
+	doenvd "${T}"/99${PN}
 }
