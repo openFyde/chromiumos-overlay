@@ -17,6 +17,11 @@ coreboot-private-files_src_install() {
 	insinto /firmware/coreboot-private
 	local file
 	while read -d $'\0' -r file; do
+		# This file should never be installed and is only used by the
+		# cros_workon uprev script.
+		if [[ "${file}" == "${FILESDIR}/chromeos-version.sh" ]]; then
+			continue;
+		fi
 		doins -r "${file}"
 	done < <(find -H "${srcdir}" -maxdepth 1 -mindepth 1 -print0)
 }
