@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5f72e7504f64ee8575bfcb4c89029cffc7fb159a"
-CROS_WORKON_TREE="78bf2cb49d271b46a6f2cf4d8e98af4ab0569413"
+CROS_WORKON_COMMIT="7eb8739a244b4b7f52ef7b14f2ce97ae9cec714b"
+CROS_WORKON_TREE="fd3ccdacdcbd0c874cbb2132685c916bd4cd62c0"
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 CROS_WORKON_LOCALNAME="platform/vboot_reference"
 
