@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="f66522e95e59d6566aa83dcdf0fb71baabd5338a"
+CROS_WORKON_COMMIT="bfca974fd422c868f161fbc34f8a56bae8ead0d3"
 CROS_WORKON_TREE=("039ed44189c17a7037215fc778a6f1fcb96b1433" "34a3b6c996cf057174a4dc253b137bb0dc7d1cea" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,7 +36,7 @@ src_install() {
 
 	# Install the upstart configuration files
 	insinto /etc/init
-	doins "${S}"/init/pciguard.conf
+	doins "${S}"/init/*.conf
 
 	# Install the dbus configuration
 	insinto /etc/dbus-1/system.d
