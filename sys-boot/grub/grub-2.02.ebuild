@@ -25,6 +25,7 @@ src_prepare() {
 	epatch "${FILESDIR}/0001-Forward-port-ChromeOS-specific-GRUB-environment-vari.patch"
 	epatch "${FILESDIR}/0002-Forward-port-gptpriority-command-to-GRUB-2.00.patch"
 	epatch "${FILESDIR}/0003-tsc-Change-default-tsc-calibration-method-to-pmtimer.patch"
+	epatch "${FILESDIR}/0004-grub-0x4-relocation.patch"
 
 	bash autogen.sh || die
 }
