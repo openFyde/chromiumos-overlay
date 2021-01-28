@@ -75,6 +75,7 @@ IUSE="
 	+vdso32
 	-criu
 	-docker
+	-lxc
 "
 REQUIRED_USE="
 	compilation_database? ( clang )
@@ -179,6 +180,7 @@ CONFIG_FRAGMENTS=(
 	irqsoff_tracer
 	iscsi
 	lockdown
+	lxc
 	kasan
 	kcov
 	kernel_compress_xz
@@ -1047,6 +1049,20 @@ CONFIG_KSTALED=n
 CONFIG_SECURITY_CHROMIUMOS_NO_SYMLINK_MOUNT=n
 # See crbug.com/1050405
 CONFIG_INIT_STACK_ALL=n
+"
+
+lxc_desc="LXC Support (Linux Containers)"
+lxc_config="
+CONFIG_CGROUP_DEVICE=y
+CONFIG_CPUSETS=y
+CONFIG_CGROUP_CPUACCT=y
+CONFIG_RESOURCE_COUNTERS=y
+CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
+CONFIG_MACVLAN=y
+CONFIG_POSIX_MQUEUE=y
+CONFIG_BRIDGE_NETFILTER=y
+CONFIG_NETFILTER_XT_TARGET_CHECKSUM=y
+CONFIG_NETFILTER_XT_MATCH_COMMENT=y
 "
 
 transparent_hugepage_desc="Transparent Hugepage Support"
