@@ -337,6 +337,7 @@ SERVER_IUSE_TESTS="
 	+tests_servohost_Reboot
 	+tests_stress_ClientTestReboot
 	+tests_stress_EnrollmentRetainment
+	+tests_stub_ServerToClientPass
 "
 
 IUSE_TESTS="${IUSE_TESTS}
