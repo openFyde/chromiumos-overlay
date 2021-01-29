@@ -3,6 +3,7 @@
 
 EAPI="7"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
 inherit cros-rust
 
 DESCRIPTION="Beautiful diagnostic reporting for text-based programming languages"
@@ -17,4 +18,6 @@ DEPEND="
 	=dev-rust/termcolor-1*:=
 	=dev-rust/unicode-width-0.1*:=
 	=dev-rust/serde-1*:=
+	=dev-rust/quote-1*:=
+	=dev-rust/syn-1*:=
 "
