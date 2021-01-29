@@ -87,3 +87,7 @@ chromeos-base/chromeos-ec	coreboot-sdk
 
 # clang doesn't recognize gcc pragmas, so libgcrypt needs to turn off -O flags.
 dev-libs/libgcrypt	o-flag-munging
+
+# Use hostname from coreutils so we don't require net-tools anymore.
+sys-apps/coreutils hostname
+sys-apps/net-tools -hostname
