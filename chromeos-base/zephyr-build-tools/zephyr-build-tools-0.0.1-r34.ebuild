@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b47a463be3ca2592540478d2f748e011b67d750a"
+CROS_WORKON_COMMIT="1a4b70394bfe2c859c6221c7bf170508295995ce"
 CROS_WORKON_TREE="15798d83cd76ada6adb337fdb6cd11f0f9a9ffbe"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
@@ -27,6 +27,7 @@ RDEPEND="
 	dev-embedded/binman
 	dev-python/colorama[${PYTHON_USEDEP}]
 	dev-python/docopt[${PYTHON_USEDEP}]
+	dev-python/hypothesis[${PYTHON_USEDEP}]
 	dev-python/jsonschema[${PYTHON_USEDEP}]
 	dev-python/pykwalify[${PYTHON_USEDEP}]
 	dev-python/pytest[${PYTHON_USEDEP}]
