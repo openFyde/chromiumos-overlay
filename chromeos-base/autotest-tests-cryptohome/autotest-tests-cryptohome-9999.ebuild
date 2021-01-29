@@ -46,8 +46,6 @@ IUSE_TESTS="
 	+tests_platform_CryptohomeNonDirs
 	+tests_platform_CryptohomeStress
 	+tests_platform_CryptohomeTestAuth
-	+tests_platform_CryptohomeTpmLiveTest
-	+tests_platform_CryptohomeTpmLiveTestServer
 	+tests_platform_CryptohomeTPMReOwn
 	+tests_platform_CryptohomeTPMReOwnServer
 "
