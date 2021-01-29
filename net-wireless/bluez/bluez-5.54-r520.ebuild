@@ -7,8 +7,8 @@ EAPI="7"
 # projects are declared. During emerge, both project sources are copied to
 # their respective destination directories, and one is chosen as the
 # "working directory" in src_unpack() below based on bluez-next USE flag.
-CROS_WORKON_COMMIT=("1cd36cf12441f7030f1af8703b72bf2a3f724ff0" "1cd36cf12441f7030f1af8703b72bf2a3f724ff0" "39054d59c0ecdb102f8aa352cb7aa6fcbd7f2b6b")
-CROS_WORKON_TREE=("edbca218eacd2fdf3ba04ae99fb7f809de81b5eb" "edbca218eacd2fdf3ba04ae99fb7f809de81b5eb" "6fd5d8ac2220b7e8e188c956b786ba71d1658453")
+CROS_WORKON_COMMIT=("c8385c49b2f86c7ccda86f34dca7e8d1bcc455c3" "c8385c49b2f86c7ccda86f34dca7e8d1bcc455c3" "39054d59c0ecdb102f8aa352cb7aa6fcbd7f2b6b")
+CROS_WORKON_TREE=("afe6aabcd39d433e56ca835291650034da3aab0b" "afe6aabcd39d433e56ca835291650034da3aab0b" "6fd5d8ac2220b7e8e188c956b786ba71d1658453")
 CROS_WORKON_LOCALNAME=("bluez/current" "bluez/next" "bluez/upstream")
 CROS_WORKON_PROJECT=("chromiumos/third_party/bluez" "chromiumos/third_party/bluez" "chromiumos/third_party/bluez")
 CROS_WORKON_OPTIONAL_CHECKOUT=(
@@ -19,7 +19,7 @@ CROS_WORKON_OPTIONAL_CHECKOUT=(
 CROS_WORKON_DESTDIR=("${S}/bluez/current" "${S}/bluez/next" "${S}/bluez/upstream")
 CROS_WORKON_EGIT_BRANCH=("chromeos-5.54" "chromeos-5.54" "upstream/master")
 
-inherit autotools multilib eutils systemd udev user libchrome cros-sanitizers cros-workon flag-o-matic
+inherit autotools multilib eutils systemd udev user libchrome cros-fuzzer cros-sanitizers cros-workon flag-o-matic
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="http://www.bluez.org/"
@@ -27,7 +27,7 @@ HOMEPAGE="http://www.bluez.org/"
 
 LICENSE="GPL-2 LGPL-2.1"
 KEYWORDS="*"
-IUSE="asan bluez-next bluez-upstream cups debug systemd readline bt_deprecated_tools"
+IUSE="asan bluez-next bluez-upstream cups debug fuzzer systemd readline bt_deprecated_tools"
 REQUIRED_USE="?? ( bluez-next bluez-upstream )"
 
 CDEPEND="
@@ -102,6 +102,7 @@ src_configure() {
 		--enable-sixaxis \
 		--disable-network \
 		--disable-datafiles \
+		$(use_enable fuzzer) \
 		$(use_enable bt_deprecated_tools deprecated)
 }
 
@@ -146,6 +147,10 @@ src_install() {
 	insinto "/etc/bluetooth"
 	doins "${FILESDIR}/main.conf"
 	doins "${FILESDIR}/input.conf"
+
+	# Install the fuzzer binaries.
+	fuzzer_install "${S}/fuzzer/OWNERS" fuzzer/bluez_pattern_match_fuzzer
+	fuzzer_install "${S}/fuzzer/OWNERS" fuzzer/bluez_pattern_new_fuzzer
 
 	# We don't preserve /var/lib in images, so nuke anything we preseed.
 	rm -rf "${D}"/var/lib/bluetooth
