@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT=("0d5c8329c95d45206518b2b0420e9045166b19db" "467734f4870d3ab23968f5ebdd461f6112e4103b")
-CROS_WORKON_TREE=("039ed44189c17a7037215fc778a6f1fcb96b1433" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "0d9f5ec1543458ecbe0d97bbabbdd59b79d56c5a")
+CROS_WORKON_COMMIT=("af02c26243e06cfa854e25317e0aa9a21c0f5d5b" "269b6fb8401617b85e2dff7ae8a7b0f97613e2cd")
+CROS_WORKON_TREE=("039ed44189c17a7037215fc778a6f1fcb96b1433" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9473949bc842cc166ac244567638b94150a97865")
 inherit cros-constants
 
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/modp_b64")
@@ -31,6 +31,9 @@ src_install() {
 
 	insinto /usr/include
 	doins -r modp_b64
+
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${OUT}/obj/modp_b64/libmodp_b64.pc"
 
 	fuzzer_install "${S}/OWNERS.fuzzer" "${OUT}"/modp_b64_decode_fuzzer
 	fuzzer_install "${S}/OWNERS.fuzzer" "${OUT}"/modp_b64_encode_fuzzer
