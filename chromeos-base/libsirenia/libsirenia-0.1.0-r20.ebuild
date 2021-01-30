@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="247a5082fa29b3e6051bddcc6ff8132049f158f5"
-CROS_WORKON_TREE="9f56ae111e1a53e03ae970d97ff43de661896002"
+CROS_WORKON_COMMIT="b21274bed3d18567fdc6ebb73593e65833285a4a"
+CROS_WORKON_TREE="994331300d9de7672f64a133c4a8024a0bd75f1d"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -38,16 +38,26 @@ DEPEND="${RDEPEND}
 # We skip the vsock test because it requires the vsock kernel modules to be
 # loaded.
 src_test() {
-	cros-rust_src_test -- --skip transport::tests::vsocktransport
+	cros-rust_src_test -- --skip transport::tests::vsocktransport \
+		--skip sandbox::tests::sandbox_unpriviledged
+
+	# TODO(crbug.com/1171078) Run this with the other tests.
+	(
+		local timeout_millis=5000
+		CROS_RUST_PLATFORM_TEST_ARGS=(
+			"${CROS_RUST_PLATFORM_TEST_ARGS[@]}"
+			--env RUST_TEST_TIME_UNIT="${timeout_millis},${timeout_millis}"
+		)
+		cros-rust_src_test -- --nocapture \
+			-Z unstable-options --ensure-time \
+			sandbox::tests::sandbox_unpriviledged
+	)
 
 	if cros_rust_is_direct_exec; then
 		# Run tests for sirenia-rpc-macros here since the tests depend on libsirenia
 		# and libsirenia depends on sirenia-rpc-macros.
 		(
 			cd sirenia-rpc-macros || die
-			# sirenia-rpc-macros includes libsirenia by path so disable sccache
-			# because of its mount namespace.
-			CROS_RUST_DISABLE_SCCACHE=1
 			cros-rust_src_test
 		)
 	fi
