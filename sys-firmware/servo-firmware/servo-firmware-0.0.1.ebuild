@@ -6,11 +6,13 @@ EAPI="5"
 DESCRIPTION="Firmware for tools based on Chromium OS EC"
 HOMEPAGE="https://www.chromium.org/chromium-os/ec-development"
 
+# stable channel firmware
 C2D2_NAME="c2d2_v2.4.35-f1113c92b"                # servo-firmware-R81-12768.40.0
 SERVO_MICRO_NAME="servo_micro_v2.4.35-f1113c92b"  # servo-firmware-R81-12768.40.0
 SERVO_V4_NAME="servo_v4_v2.4.35-f1113c92b"        # servo-firmware-R81-12768.40.0
 SERVO_V4P1_NAME="servo_v4p1_v2.0.5159-529612865"  # Local builds are temporary b/153464312
 SWEETBERRY_NAME="sweetberry_v2.3.7-096c7ee84"     # servo-firmware-R70-11011.14.0
+
 UPDATER_PATH="/usr/share/servo_updater/firmware"
 
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
@@ -37,17 +39,31 @@ src_install() {
 	insinto "${UPDATER_PATH}"
 
 	doins "${C2D2_NAME}.bin"
-	dosym "${C2D2_NAME}.bin" "${UPDATER_PATH}/c2d2.bin"
+	dosym "${C2D2_NAME}.bin" "${UPDATER_PATH}/c2d2.alpha.bin"
+	dosym "${C2D2_NAME}.bin" "${UPDATER_PATH}/c2d2.stable.bin"
+	dosym "${C2D2_NAME}.bin" "${UPDATER_PATH}/c2d2.dev.bin"
+	dosym "${C2D2_NAME}.bin" "${UPDATER_PATH}/c2d2.prev.bin"
 
 	doins "${SERVO_MICRO_NAME}.bin"
-	dosym "${SERVO_MICRO_NAME}.bin" "${UPDATER_PATH}/servo_micro.bin"
+	dosym "${SERVO_MICRO_NAME}.bin" "${UPDATER_PATH}/servo_micro.alpha.bin"
+	dosym "${SERVO_MICRO_NAME}.bin" "${UPDATER_PATH}/servo_micro.stable.bin"
+	dosym "${SERVO_MICRO_NAME}.bin" "${UPDATER_PATH}/servo_micro.dev.bin"
+	dosym "${SERVO_MICRO_NAME}.bin" "${UPDATER_PATH}/servo_micro.prev.bin"
 
 	doins "${SERVO_V4_NAME}.bin"
-	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.bin"
+	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.alpha.bin"
+	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.stable.bin"
+	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.dev.bin"
+	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.prev.bin"
 
 	doins "${SERVO_V4P1_NAME}.bin"
-	dosym "${SERVO_V4P1_NAME}.bin" "${UPDATER_PATH}/servo_v4p1.bin"
+	dosym "${SERVO_V4P1_NAME}.bin" "${UPDATER_PATH}/servo_v4p1.alpha.bin"
+	dosym "${SERVO_V4P1_NAME}.bin" "${UPDATER_PATH}/servo_v4p1.stable.bin"
+	dosym "${SERVO_V4P1_NAME}.bin" "${UPDATER_PATH}/servo_v4p1.dev.bin"
+	dosym "${SERVO_V4P1_NAME}.bin" "${UPDATER_PATH}/servo_v4p1.prev.bin"
 
 	doins "${SWEETBERRY_NAME}.bin"
-	dosym "${SWEETBERRY_NAME}.bin" "${UPDATER_PATH}/sweetberry.bin"
+	dosym "${SWEETBERRY_NAME}.bin" "${UPDATER_PATH}/sweetberry.alpha.bin"
+	dosym "${SWEETBERRY_NAME}.bin" "${UPDATER_PATH}/sweetberry.stable.bin"
+	dosym "${SWEETBERRY_NAME}.bin" "${UPDATER_PATH}/sweetberry.dev.bin"
 }
