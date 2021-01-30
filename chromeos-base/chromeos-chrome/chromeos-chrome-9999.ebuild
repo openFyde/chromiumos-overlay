@@ -45,7 +45,7 @@ IUSE="
 	clang_tidy
 	component_build
 	+debug_fission
-	dwarf5
+	+dwarf5
 	+fonts
 	goma
 	goma_thinlto
