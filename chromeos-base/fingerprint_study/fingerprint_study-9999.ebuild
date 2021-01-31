@@ -18,10 +18,13 @@ KEYWORDS="~*"
 # The fingerprint study can optionally make use of the private package
 # virtual/chromeos-fpmcu-test, which holds the C+python fputils lib.
 # This library is also used for factory tests, thus it was labeled fpmcu-test.
+# The chromeos-base/ec-utils pkg provides ectool.
+# The chromeos-base/ec-utils-test pkg provides flash_fp_mcu for test operator.
 DEPEND=""
 RDEPEND="
 	${PYTHON_DEPS}
 	chromeos-base/ec-utils
+	chromeos-base/ec-utils-test
 	dev-python/cherrypy[${PYTHON_USEDEP}]
 	dev-python/python-gnupg[${PYTHON_USEDEP}]
 	dev-python/ws4py[${PYTHON_USEDEP}]
