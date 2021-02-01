@@ -125,7 +125,6 @@ sys-fs/udev		-devfs-compat -rule_generator hwdb acl
 sys-kernel/chromeos-kernel-3_18 frozen_gcc -clang -lld -llvm_ias
 sys-kernel/chromeos-kernel-4_4 -llvm_ias
 sys-kernel/chromeos-kernel-4_14 -llvm_ias
-sys-kernel/chromeos-kernel-4_19 -llvm_ias
 sys-kernel/chromeos-kernel-experimental -llvm_ias
 sys-kernel/chromeos-kernel-next -llvm_ias
 sys-kernel/chromeos-kernel-upstream -llvm_ias
