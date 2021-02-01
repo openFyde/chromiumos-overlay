@@ -1,0 +1,109 @@
+# Copyright 2014 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="aebb47adea7ec4bca325bdbca14e26b6d11b8b45"
+CROS_WORKON_TREE=("08bf717c71bd677049a8653e2ed1beb823af949d" "ef8763b7eb85dacada1d6ab4336defab4ea6b98d" "5956de9997bc0735d9aeff6edc4d0098fb571b9b" "989d840598227b15d78525d5f92c806011a9c158" "8d228c8e702aebee142bcbf0763a15786eb5b3bb" "ec4428cdd47293c939b31cd1bd8e0c965491c473" "933e9fdbeef0bbb013d0379465641df058057c37" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk attestation chaps libhwsec metrics tpm_manager trunks .gn"
+
+PLATFORM_SUBDIR="attestation"
+
+inherit cros-workon libchrome platform user
+
+DESCRIPTION="Attestation service for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/attestation/"
+
+LICENSE="Apache-2.0"
+KEYWORDS="*"
+IUSE="test tpm tpm2"
+
+REQUIRED_USE="tpm2? ( !tpm )"
+
+RDEPEND="
+	tpm? (
+		app-crypt/trousers:=
+	)
+	tpm2? (
+		chromeos-base/trunks:=
+	)
+	chromeos-base/chaps:=
+	chromeos-base/system_api:=[fuzzer?]
+	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/minijail:=
+	chromeos-base/tpm_manager:=
+	"
+
+DEPEND="
+	${RDEPEND}
+	test? ( chromeos-base/libhwsec:= )
+	chromeos-base/vboot_reference:=
+	tpm2? (
+		chromeos-base/trunks:=[test?]
+		chromeos-base/chromeos-ec-headers:=
+	)
+	"
+
+pkg_preinst() {
+	# Create user and group for attestation.
+	enewuser "attestation"
+	enewgroup "attestation"
+	# Create group for /mnt/stateful_partition/unencrypted/preserve.
+	enewgroup "preserve"
+}
+
+src_install() {
+	insinto /etc/dbus-1/system.d
+	doins server/org.chromium.Attestation.conf
+
+	insinto /etc/init
+	doins server/attestationd.conf
+
+	dosbin "${OUT}"/attestationd
+	dobin "${OUT}"/attestation_client
+
+	insinto /usr/share/policy
+	newins server/attestationd-seccomp-${ARCH}.policy attestationd-seccomp.policy
+
+	insinto /etc/dbus-1/system.d
+	doins pca_agent/server/org.chromium.PcaAgent.conf
+	insinto /etc/init
+	doins pca_agent/server/pca_agentd.conf
+	dosbin "${OUT}"/pca_agentd
+	dobin "${OUT}"/pca_agent_client
+
+	dolib.so "${OUT}"/lib/libattestation.so
+
+
+	insinto /usr/include/attestation/client
+	doins client/dbus_proxy.h
+	insinto /usr/include/attestation/common
+	doins common/attestation_interface.h
+	doins common/print_attestation_ca_proto.h
+	doins common/print_interface_proto.h
+	doins common/print_keystore_proto.h
+
+	# Install the generated dbus-binding for fake pca agent.
+	# It does no harm to install the header even for non-test image build.
+	insinto /usr/include/attestation/pca-agent/dbus_adaptors
+	doins "${OUT}"/gen/include/attestation/pca-agent/dbus_adaptors/org.chromium.PcaAgent.h
+
+	insinto /usr/share/policy
+	newins "pca_agent/server/pca_agentd-seccomp-${ARCH}.policy" pca_agentd-seccomp.policy
+}
+
+platform_pkg_test() {
+	local tests=(
+		attestation_testrunner
+	)
+
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test "run" "${OUT}/${test_bin}"
+	done
+}
