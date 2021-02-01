@@ -18,7 +18,10 @@ IUSE=""
 
 # libX11 needs to be in RDEPEND because we depend on the header being present
 RDEPEND="x11-libs/libX11:="
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	>=dev-util/spirv-headers-1.5.4.1
+"
 
 src_install() {
 	# headers
@@ -49,8 +52,4 @@ src_install() {
 	doins "${S}/include/CL/cl_gl_ext.h"
 	doins "${S}/include/CL/cl_platform.h"
 	doins "${S}/include/CL/opencl.h"
-	insinto /usr/include/spirv/unified1
-	doins "${S}/include/spirv/unified1/spirv.h"
-	doins "${S}/include/spirv/unified1/spirv.hpp"
-	doins "${S}/include/spirv/unified1/spirv.hpp11"
 }
