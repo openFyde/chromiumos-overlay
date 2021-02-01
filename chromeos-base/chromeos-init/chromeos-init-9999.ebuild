@@ -23,7 +23,7 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE="
 	arcpp arcvm cros_embedded +debugd +encrypted_stateful +encrypted_reboot_vault
-	frecon -lvm_stateful_partition kernel-3_8 kernel-3_10 kernel-3_14
+	frecon lvm_stateful_partition kernel-3_8 kernel-3_10 kernel-3_14
 	kernel-3_18 +midi -s3halt +syslog systemd +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
@@ -218,10 +218,8 @@ src_install() {
 		unencrypted_stateful)/startup_utils.sh
 
 	# Install LVM conf files.
-	if use lvm_stateful_partition; then
-		insinto /etc/lvm
-		doins lvm.conf
-	fi
+	insinto /etc/lvm
+	doins lvm.conf
 }
 
 pkg_preinst() {
