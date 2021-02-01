@@ -7,6 +7,10 @@
 # doesn't compile for arm yet.
 chromeos-base/chromeos-chrome authpolicy
 
+# Denis Nikitin <denik@chromium.org> (1 Feb 2021)
+# Mask debug fission on 64-bit targets, b/178492639.
+chromeos-base/chromeos-chrome debug_fission
+
 # Markus Meier <maekke@gentoo.org> (27 Sep 2009)
 # mask media-gfx/imagemagick[autotrace] as autotrace is not keyworded
 media-gfx/imagemagick autotrace
