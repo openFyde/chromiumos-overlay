@@ -89,9 +89,6 @@ src_configure() {
 }
 
 src_test() {
-	# Disable package unit test to fix CQ and snapshot builders: b/178929527
-	return
-
 	# TODO(benchan): Run unit tests for non-x86 platforms via qemu.
 	if [[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] ; then
 		# This is an ugly hack that happens to work, but should not be copied.
