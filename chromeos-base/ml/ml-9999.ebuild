@@ -27,9 +27,11 @@ MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 )
 
+# TODO(alanlxl): Remove the deprecated 20201022 link after crbug.com/1136331.
 DOWNLOADABLE_MODELS=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20200206-downloadable.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20201022-downloadable.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20210201-downloadable.tflite"
 )
 
 SRC_URI="
