@@ -644,19 +644,6 @@ cros_use_gcc() {
 	filter_sanitizers
 }
 
-# Find number of parallel job in MAKEOPTS.
-# This is a copy of makeopts_jobs from multiprocessing eclass.
-# This can be removed once no longer needed in cros_use_frozen_gcc.
-_cros_makeopts_jobs() {
-	[[ $# -eq 0 ]] && set -- ${MAKEOPTS}
-	# This assumes the first .* will be more greedy than the second .*
-	# since POSIX doesn't specify a non-greedy match (i.e. ".*?").
-	local jobs=$(echo " $* " | sed -r -n \
-		-e 's:.*[[:space:]](-j|--jobs[=[:space:]])[[:space:]]*([0-9]+).*:\2:p' \
-		-e 's:.*[[:space:]](-j|--jobs)[[:space:]].*:999:p')
-	echo ${jobs:-1}
-}
-
 # Use a frozen 4.9.2 GCC for packages that can't use latest GCC
 # for compatibility reasons.
 # Please do not use without contacting toolchain team.
@@ -666,17 +653,6 @@ cros_use_frozen_gcc() {
 	ewarn "Building using old GCC from ${frozen_gcc_path}."
 	ewarn "This GCC is frozen and no bug fixes are planned for it."
 	ewarn "Any bugs should be handled by the package owners."
-
-	# Reduce max make parallel factor to 8 avoid weird
-	# 512 errors in GCC Go wrapper, https://crbug.com/1166017 .
-	# TODO: remove this once the root cause is understood.
-	if [[ -n "${MAKEOPTS}" ]]; then
-		local currentj="$(_cros_makeopts_jobs)"
-		if [[ "${currentj}" -gt 8 ]]; then
-			ewarn "Reducing MAKEOPTS to -j8."
-			MAKEOPTS+=" -j8"
-		fi
-	fi
 
 	local abis=(
 		"aarch64-cros-linux-gnu"
