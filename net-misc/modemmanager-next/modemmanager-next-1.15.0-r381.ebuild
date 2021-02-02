@@ -3,8 +3,8 @@
 # Based on gentoo's modemmanager ebuild
 
 EAPI=6
-CROS_WORKON_COMMIT="7a78613359247291e6e463e90d48d04c95722e82"
-CROS_WORKON_TREE="0292f5b0b0c1866d70bb33bfde9ef3b37497ff79"
+CROS_WORKON_COMMIT="acaafa9202cb7530214a081e683872b64db8cc24"
+CROS_WORKON_TREE="e64f2f0f0094784b9e6da08dcce05eb722155394"
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
 
 inherit eutils autotools cros-sanitizers cros-workon flag-o-matic systemd udev user
@@ -91,9 +91,6 @@ src_configure() {
 }
 
 src_test() {
-	# Disable package unit test to fix CQ and snapshot builders: b/178929527
-	return
-
 	# TODO(benchan): Run unit tests for non-x86 platforms via qemu.
 	if [[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] ; then
 		# This is an ugly hack that happens to work, but should not be copied.
