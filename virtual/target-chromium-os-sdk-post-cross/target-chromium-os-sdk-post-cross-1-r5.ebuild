@@ -28,6 +28,7 @@ RDEPEND="
 	dev-rust/bindgen
 	dev-rust/dbus-codegen
 	dev-rust/protobuf-codegen
+	dev-util/cxxbridge-cmd
 	sys-apps/mosys
 	sys-apps/ripgrep
 	dev-embedded/coreboot-sdk
