@@ -141,7 +141,7 @@ make_depthcharge() {
 
 src_compile() {
 	local from_root="${SYSROOT}/firmware/libpayload/include/"
-	local to="src/base/static_fw_config.h"
+	local to="static_fw_config.h"
 
 	# Firmware related binaries are compiled with a 32-bit toolchain
 	# on 64-bit platforms
@@ -175,7 +175,7 @@ src_compile() {
 
 				if [[ "${build_target}" == "${depthcharge}" ]] &&
 						[[ -s "${from}" ]]; then
-					cp "${from}" "${to}"
+					cp "${from}" "${builddir}/${to}"
 					einfo "Copying static_fw_config_${coreboot}.h into local tree"
 					break
 				fi
@@ -189,7 +189,7 @@ src_compile() {
 
 		local from="${from_root}static_fw_config.h"
 		if [[ -s "${from}" ]]; then
-			cp "${from}" "${to}"
+			cp "${from}" "${builddir}/${to}"
 			einfo "Copying static_fw_config.h into local tree"
 		fi
 
