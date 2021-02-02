@@ -146,9 +146,13 @@ src_compile() {
 		local cmd="get-firmware-build-combinations"
 		local build_combinations=$(cros_config_host "${cmd}" "${combinations}" || die)
 		local build_target
+		local builddir
 
 		for build_target in $(cros_config_host \
 			get-firmware-build-targets depthcharge); do
+			builddir="$(cros-workon_get_build_dir)/${build_target}"
+			mkdir -p "${builddir}"
+
 			# install the matching static_fw_config_${board}.h
 			echo "${build_combinations}" | while read -r name; do
 				read -r coreboot
@@ -163,19 +167,22 @@ src_compile() {
 				fi
 			done
 
-			# build depthcharge
-			make_depthcharge "${build_target}" "${build_target}"
+			make_depthcharge "${build_target}" "${builddir}"
 		done
 	else
+		builddir="$(cros-workon_get_build_dir)"
+		mkdir -p "${builddir}"
+
 		local from="${from_root}static_fw_config.h"
 		if [[ -s "${from}" ]]; then
 			cp "${from}" "${to}"
 			einfo "Copying static_fw_config.h into local tree"
 		fi
-		make_depthcharge "$(get_board)" build
+
+		make_depthcharge "$(get_board)" "${builddir}"
 	fi
 
-	popd >/dev/null  || die
+	popd >/dev/null || die
 }
 
 do_install() {
@@ -204,19 +211,17 @@ do_install() {
 }
 
 src_install() {
-	local build_target
-
-	pushd depthcharge >/dev/null || \
-		die "Failed to change into ${PWD}/depthcharge"
-
 	if use unibuild; then
+		local build_target
+		local builddir
+
 		for build_target in $(cros_config_host \
-			get-firmware-build-targets depthcharge); do
-			do_install "${build_target}" "${build_target}"
+				get-firmware-build-targets depthcharge); do
+			builddir="$(cros-workon_get_build_dir)/${build_target}"
+
+			do_install "${build_target}" "${builddir}"
 		done
 	else
-		do_install "$(get_board)" build
+		do_install "$(get_board)" "$(cros-workon_get_build_dir)"
 	fi
-
-	popd >/dev/null || die
 }
