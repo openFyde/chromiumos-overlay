@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4f59716f43cebdbb5ee21d5dc01a742bbb899190"
-CROS_WORKON_TREE="ff5f7100ff3e70d9084805fbfc11f2d6e25c8f97"
+CROS_WORKON_COMMIT="6db32db512a77aba7f7d1eec65c94ae7c2b630d8"
+CROS_WORKON_TREE="ad4f08693de7549c898485856d9b9a1056e562e2"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since sound_card_init/Cargo.toml
@@ -26,9 +26,10 @@ DEPEND="
 	dev-rust/sys_util:=
 	dev-rust/serde_yaml:=
 	dev-rust/remain:=
-	media-sound/cros_alsa:=
 	media-sound/audio_streams:=
+	media-sound/cros_alsa:=
 	media-sound/libcras:=
+	media-sound/sof_sys:=
 "
 
 src_install() {
