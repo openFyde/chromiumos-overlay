@@ -94,7 +94,17 @@ dc_make() {
 make_depthcharge() {
 	local board="$1"
 	local builddir="$2"
-	local defconfig="board/${board}/defconfig"
+	local base_defconfig="board/${board}/defconfig"
+	local defconfig="${T}/${board}-defconfig"
+
+	if [[ -e "${base_defconfig}" ]]; then
+		cp "${base_defconfig}" "${defconfig}"
+	else
+		ewarn "${base_defconfig} does not exist!"
+		touch "${defconfig}"
+	fi
+
+	chmod +w "${defconfig}"
 
 	if use mocktpm ; then
 		echo "CONFIG_MOCK_TPM=y" >> "${defconfig}"
@@ -117,7 +127,8 @@ make_depthcharge() {
 	fi
 
 	[[ ${PV} == "9999" ]] && dc_make distclean "${builddir}" libpayload
-	dc_make defconfig "${builddir}" libpayload BOARD="${board}"
+	dc_make defconfig "${builddir}" libpayload \
+		KBUILD_DEFCONFIG="${defconfig}"
 	cp .config "${builddir}/depthcharge.config"
 
 	dc_make depthcharge "${builddir}" libpayload
