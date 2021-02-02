@@ -54,7 +54,9 @@ src_configure() {
 		-Dgallium-drivers=iris
 		-Dgallium-vdpau=disabled
 		-Dgallium-xa=disabled
-		-Dplatforms=surfaceless
+		# Set platforms empty to avoid the default "auto" setting. If
+		# platforms is empty meson.build will add surfaceless.
+		-Dplatforms=''
 		-Dtools=$(usex tools intel '')
 		--buildtype $(usex debug debug release)
  		-Dvulkan-drivers=$(usex vulkan intel '')
