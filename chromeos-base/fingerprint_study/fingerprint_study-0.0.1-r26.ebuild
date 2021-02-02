@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b1ee162959349067af5d52dcbcab607706bf77ea"
+CROS_WORKON_COMMIT="b6f9f016e8fa7fa4b806f277b15b7609259e0296"
 CROS_WORKON_TREE="9459b9e5dcbd7af20ef0aa71d1269f6af913eda6"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -20,10 +20,13 @@ KEYWORDS="*"
 # The fingerprint study can optionally make use of the private package
 # virtual/chromeos-fpmcu-test, which holds the C+python fputils lib.
 # This library is also used for factory tests, thus it was labeled fpmcu-test.
+# The chromeos-base/ec-utils pkg provides ectool.
+# The chromeos-base/ec-utils-test pkg provides flash_fp_mcu for test operator.
 DEPEND=""
 RDEPEND="
 	${PYTHON_DEPS}
 	chromeos-base/ec-utils
+	chromeos-base/ec-utils-test
 	dev-python/cherrypy[${PYTHON_USEDEP}]
 	dev-python/python-gnupg[${PYTHON_USEDEP}]
 	dev-python/ws4py[${PYTHON_USEDEP}]
