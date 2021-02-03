@@ -344,7 +344,7 @@ cros-ec_src_test() {
 	# rotted, so we only build the ones that compile.
 	# NOTE: Any changes here must also be reflected in
 	# platform/ec/firmware_builder.py which is used for the ec cq
-	local -a unit_test_boards=("bloonchipper")
+	local -a unit_test_boards=("bloonchipper" "dartmonkey")
 	for board in "${unit_test_boards[@]}"; do
 		einfo "Building unit tests for ${board}"
 		BOARD=${board} emake "${EC_OPTS[@]}" tests
