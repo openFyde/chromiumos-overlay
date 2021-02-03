@@ -33,7 +33,7 @@ BDEPEND="
 
 CROS_WORKON_LOCALNAME=("../platform/depthcharge" "../platform/vboot_reference")
 VBOOT_REFERENCE_DESTDIR="${S}/vboot_reference"
-CROS_WORKON_DESTDIR=("${S}" "${VBOOT_REFERENCE_DESTDIR}")
+CROS_WORKON_DESTDIR=("${S}/depthcharge" "${VBOOT_REFERENCE_DESTDIR}")
 
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
@@ -96,7 +96,18 @@ dc_make() {
 make_depthcharge() {
 	local board="$1"
 	local builddir="$2"
-	local defconfig="board/${board}/defconfig"
+	local base_defconfig="board/${board}/defconfig"
+	local defconfig="${T}/${board}-defconfig"
+	local config="${builddir}/depthcharge.config"
+
+	if [[ -e "${base_defconfig}" ]]; then
+		cp "${base_defconfig}" "${defconfig}"
+	else
+		ewarn "${base_defconfig} does not exist!"
+		touch "${defconfig}"
+	fi
+
+	chmod +w "${defconfig}"
 
 	if use mocktpm ; then
 		echo "CONFIG_MOCK_TPM=y" >> "${defconfig}"
@@ -118,18 +129,21 @@ make_depthcharge() {
 		echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
 	fi
 
-	[[ ${PV} == "9999" ]] && dc_make distclean "${builddir}" libpayload
-	dc_make defconfig "${builddir}" libpayload BOARD="${board}"
-	cp .config "${builddir}/depthcharge.config"
+	dc_make defconfig "${builddir}" libpayload \
+		KBUILD_DEFCONFIG="${defconfig}" \
+		DOTCONFIG="${config}"
 
-	dc_make depthcharge "${builddir}" libpayload
-	dc_make dev "${builddir}" libpayload_gdb
-	dc_make netboot "${builddir}" libpayload_gdb
+	dc_make depthcharge "${builddir}" libpayload \
+		DOTCONFIG="${config}"
+	dc_make dev "${builddir}" libpayload_gdb \
+		DOTCONFIG="${config}"
+	dc_make netboot "${builddir}" libpayload_gdb \
+		DOTCONFIG="${config}"
 }
 
 src_compile() {
 	local from_root="${SYSROOT}/firmware/libpayload/include/"
-	local to="src/base/static_fw_config.h"
+	local to="static_fw_config.h"
 
 	# Firmware related binaries are compiled with a 32-bit toolchain
 	# on 64-bit platforms
@@ -140,14 +154,21 @@ src_compile() {
 		export CROSS_COMPILE=${CHOST}-
 	fi
 
+	pushd depthcharge >/dev/null || \
+		die "Failed to change into ${PWD}/depthcharge"
+
 	if use unibuild; then
 		local combinations="coreboot,depthcharge"
 		local cmd="get-firmware-build-combinations"
 		local build_combinations=$(cros_config_host "${cmd}" "${combinations}" || die)
 		local build_target
+		local builddir
 
 		for build_target in $(cros_config_host \
 			get-firmware-build-targets depthcharge); do
+			builddir="$(cros-workon_get_build_dir)/${build_target}"
+			mkdir -p "${builddir}"
+
 			# install the matching static_fw_config_${board}.h
 			echo "${build_combinations}" | while read -r name; do
 				read -r coreboot
@@ -156,23 +177,28 @@ src_compile() {
 
 				if [[ "${build_target}" == "${depthcharge}" ]] &&
 						[[ -s "${from}" ]]; then
-					cp "${from}" "${to}"
+					cp "${from}" "${builddir}/${to}"
 					einfo "Copying static_fw_config_${coreboot}.h into local tree"
 					break
 				fi
 			done
 
-			# build depthcharge
-			make_depthcharge "${build_target}" "${build_target}"
+			make_depthcharge "${build_target}" "${builddir}"
 		done
 	else
+		builddir="$(cros-workon_get_build_dir)"
+		mkdir -p "${builddir}"
+
 		local from="${from_root}static_fw_config.h"
 		if [[ -s "${from}" ]]; then
-			cp "${from}" "${to}"
+			cp "${from}" "${builddir}/${to}"
 			einfo "Copying static_fw_config.h into local tree"
 		fi
-		make_depthcharge "$(get_board)" build
+
+		make_depthcharge "$(get_board)" "${builddir}"
 	fi
+
+	popd >/dev/null || die
 }
 
 do_install() {
@@ -197,18 +223,21 @@ do_install() {
 	insinto "${dstdir}/depthcharge"
 	doins "${files_to_copy[@]}"
 
-	popd >/dev/null
+	popd >/dev/null || die
 }
 
 src_install() {
-	local build_target
-
 	if use unibuild; then
+		local build_target
+		local builddir
+
 		for build_target in $(cros_config_host \
-			get-firmware-build-targets depthcharge); do
-			do_install "${build_target}" "${build_target}"
+				get-firmware-build-targets depthcharge); do
+			builddir="$(cros-workon_get_build_dir)/${build_target}"
+
+			do_install "${build_target}" "${builddir}"
 		done
 	else
-		do_install "$(get_board)" build
+		do_install "$(get_board)" "$(cros-workon_get_build_dir)"
 	fi
 }
