@@ -21,17 +21,14 @@ KEYWORDS="~*"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
+	!dev-db/leveldb
+	dev-libs/leveldb:=
 	dev-libs/protobuf:=
 "
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	sys-apps/dbus:=
 "
-
-pkg_preinst() {
-	enewuser "dlp"
-	enewgroup "dlp"
-}
 
 src_install() {
 	dosbin "${OUT}"/dlp
@@ -44,8 +41,19 @@ src_install() {
 
 	insinto /etc/init
 	doins init/dlp.conf
+
+	local daemon_store="/etc/daemon-store/dlp"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners dlp:dlp "${daemon_store}"
 }
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/dlp_test"
+}
+
+pkg_setup() {
+	enewuser "dlp"
+	enewgroup "dlp"
+	cros-workon_pkg_setup
 }
