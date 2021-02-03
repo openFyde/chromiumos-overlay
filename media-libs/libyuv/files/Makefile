@@ -42,6 +42,7 @@ LOCAL_OBJS := \
 	source/scale_neon.o        \
 	source/scale_neon64.o      \
 	source/scale_gcc.o         \
+	source/scale_uv.o          \
 	source/video_common.o
 
 $(eval $(call add_object_rules,$(LOCAL_OBJS),CXX,cc,CXXFLAGS))
