@@ -1076,11 +1076,6 @@ install_chrome_test_resources() {
 	# Example:
 	# cp -al "${from}"/test_data/<subdir> "${test_dir}"/out/Release/<subdir>
 
-	# Add the fake bidi locale.
-	mkdir -p "${dest}"/pseudo_locales
-	cp -al "${from}"/pseudo_locales/fake-bidi.pak \
-		"${dest}"/pseudo_locales
-
 	for f in "${PPAPI_TEST_FILES[@]}"; do
 		cp -al "${from}/${f}" "${dest}"
 	done
