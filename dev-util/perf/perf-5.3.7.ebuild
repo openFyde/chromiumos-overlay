@@ -177,6 +177,9 @@ perf_make() {
 	local arch=$(tc-arch-kernel)
 	local java_dir
 	use java && java_dir="/etc/java-config-2/current-system-vm"
+
+	MAKEOPTS="${MAKEOPTS} -j1" # crbug.com/1173859
+
 	# FIXME: NO_LIBBABELTRACE
 	emake V=1 VF=1 \
 		CC="$(tc-getCC)" CXX="$(tc-getCXX)" AR="$(tc-getAR)" LD="$(tc-getLD)" \
