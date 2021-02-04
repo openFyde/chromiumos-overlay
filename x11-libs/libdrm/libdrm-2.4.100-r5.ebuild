@@ -55,6 +55,8 @@ src_prepare() {
 }
 
 src_configure() {
+	cros_optimize_package_for_speed
+
 	XORG_CONFIGURE_OPTIONS=(
 		--enable-install-test-programs
 		$(use_enable video_cards_amdgpu amdgpu)
