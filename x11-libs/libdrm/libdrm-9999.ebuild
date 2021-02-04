@@ -1,7 +1,7 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 if [[ ${PV} != *9999* ]]; then
 	CROS_WORKON_COMMIT="0190f49a139e7069d7cad6a6890832831da1aa8b"
@@ -10,7 +10,7 @@ fi
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_MANUAL_UPREV="1"
 
-inherit xorg-2 cros-workon
+inherit meson cros-workon
 
 DESCRIPTION="X.Org libdrm library"
 HOMEPAGE="http://dri.freedesktop.org/"
@@ -44,40 +44,38 @@ RDEPEND="dev-libs/libpthread-stubs
 
 DEPEND="${RDEPEND}"
 
-XORG_EAUTORECONF=yes
-
 src_prepare() {
-	epatch "${FILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
-	epatch "${FILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
-	epatch "${FILESDIR}"/Add-Evdi-module-userspace-api-file.patch
-	epatch "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
-	epatch "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
-	epatch "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
-	epatch "${FILESDIR}"/FROMLIST-Add-drmModeGetFB2.patch
-	epatch "${FILESDIR}"/intel-sync-i915_pciids.h-with-kernel.patch
-	epatch "${FILESDIR}"/new-intel-sync-i915_pciids.h-with-kernel.patch
+	eapply "${FILESDIR}"/Add-header-for-Rockchip-DRM-userspace.patch
+	eapply "${FILESDIR}"/Add-header-for-Mediatek-DRM-userspace.patch
+	eapply "${FILESDIR}"/Add-Evdi-module-userspace-api-file.patch
+	eapply "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
+	eapply "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
+	eapply "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
+	eapply "${FILESDIR}"/FROMLIST-Add-drmModeGetFB2.patch
+	eapply "${FILESDIR}"/intel-sync-i915_pciids.h-with-kernel.patch
+	eapply "${FILESDIR}"/new-intel-sync-i915_pciids.h-with-kernel.patch
 
-	xorg-2_src_prepare
+	eapply_user
 }
 
 src_configure() {
 	cros_optimize_package_for_speed
 
-	XORG_CONFIGURE_OPTIONS=(
-		--enable-install-test-programs
-		$(use_enable video_cards_amdgpu amdgpu)
-		$(use_enable video_cards_exynos exynos-experimental-api)
-		$(use_enable video_cards_freedreno freedreno)
-		$(use_enable video_cards_intel intel)
-		$(use_enable video_cards_nouveau nouveau)
-		$(use_enable video_cards_omap omap-experimental-api)
-		$(use_enable video_cards_radeon radeon)
-		$(use_enable video_cards_vc4 vc4)
-		$(use_enable video_cards_vmware vmwgfx)
-		$(use_enable libkms)
-		$(use_enable manpages)
-		$(use_enable udev)
-		--disable-cairo-tests
+	local emesonargs=(
+		-Dinstall-test-programs=true
+		$(meson_use video_cards_amdgpu amdgpu)
+		$(meson_use video_cards_exynos exynos-experimental-api)
+		$(meson_use video_cards_freedreno freedreno)
+		$(meson_use video_cards_intel intel)
+		$(meson_use video_cards_nouveau nouveau)
+		$(meson_use video_cards_omap omap-experimental-api)
+		$(meson_use video_cards_radeon radeon)
+		$(meson_use video_cards_vc4 vc4)
+		$(meson_use video_cards_vmware vmwgfx)
+		$(meson_use libkms)
+		$(meson_use manpages man-pages)
+		$(meson_use udev)
+		-Dcairo-tests=false
 	)
-	xorg-2_src_configure
+	meson_src_configure
 }
