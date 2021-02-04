@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="63cebdda7ce90c4861a01456397aaf9e7ab7eabf"
+CROS_WORKON_COMMIT="0afa868d0fe172f2bba7959e4472e4c8043c6816"
 CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "88c9400a42e0559009ee5510a6bc8517d6e3ea5c" "efc0f4d17bd35c49071fe6ef21ff5275d2de54a1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,7 +25,7 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="
 	arcpp arcvm cros_embedded +debugd +encrypted_stateful +encrypted_reboot_vault
-	frecon -lvm_stateful_partition kernel-3_8 kernel-3_10 kernel-3_14
+	frecon lvm_stateful_partition kernel-3_8 kernel-3_10 kernel-3_14
 	kernel-3_18 +midi -s3halt +syslog systemd +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
@@ -220,10 +220,8 @@ src_install() {
 		unencrypted_stateful)/startup_utils.sh
 
 	# Install LVM conf files.
-	if use lvm_stateful_partition; then
-		insinto /etc/lvm
-		doins lvm.conf
-	fi
+	insinto /etc/lvm
+	doins lvm.conf
 }
 
 pkg_preinst() {
