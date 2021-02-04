@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/hal/intel/ipu6 chromeos-config common-mk"
-CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/camera")
+CROS_WORKON_LOCALNAME=("../platform2" "../platform/camera")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/camera_hal")
+CROS_WORKON_SUBTREE=(".gn common-mk" "hal/intel/ipu6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera/hal/intel/ipu6"
+PLATFORM_SUBDIR="camera_hal/hal/intel/ipu6"
 
 inherit cros-camera cros-workon platform udev
 
