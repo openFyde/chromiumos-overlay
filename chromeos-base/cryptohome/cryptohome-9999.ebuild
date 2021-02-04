@@ -23,8 +23,8 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
-	-direncryption double_extend_pcr_issue fuzzer
-	generated_cros_config mount_oop +vault_legacy_mount +downloads_bind_mount
+	-direncryption +direncription_allow_v2 double_extend_pcr_issue fuzzer
+	generated_cros_config is-kernelnext mount_oop +vault_legacy_mount +downloads_bind_mount
 	lvm_stateful_partition pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
 	user_session_isolation"
 
@@ -163,6 +163,11 @@ src_install() {
 			sed -i '/env NO_DOWNLOAD_BINDMOUNT_FLAG=/s:=.*:="--no_downloads_bind_mount":' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't replace no_downloads_bind_mount flag in cryptohomed.conf"
+		fi
+		if use direncription_allow_v2; then
+			sed -i '/env FSCRYPT_V2_FLAG=/s:=.*:="--fscrypt_v2":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace fscrypt_v2 flag in cryptohomed.conf"
 		fi
 	fi
 	exeinto /usr/share/cros/init
