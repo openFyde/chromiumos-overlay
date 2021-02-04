@@ -67,18 +67,17 @@ src_install() {
 	)
 	if ! use vm_borealis; then
 		dlopen_libs+=(
-			$("${CHROMITE_BIN_DIR}"/lddtree \
-				--root="${SYSROOT}" \
-				--list \
-				"/usr/$(get_libdir)/dri/i965_dri.so" \
-				"/usr/$(get_libdir)/dri/swrast_dri.so" \
-				"/usr/$(get_libdir)/dri/virtio_gpu_dri.so" \
-				"/usr/$(get_libdir)/libwayland-egl.so.1" \
-				"/usr/$(get_libdir)/libEGL.so.1" \
-				"/usr/$(get_libdir)/libGLESv2.so.2" \
-			)
+			"/usr/$(get_libdir)/dri/i965_dri.so" \
+			"/usr/$(get_libdir)/dri/swrast_dri.so" \
+			"/usr/$(get_libdir)/dri/virtio_gpu_dri.so" \
+			"/usr/$(get_libdir)/libwayland-egl.so.1" \
+			"/usr/$(get_libdir)/libEGL.so.1" \
+			"/usr/$(get_libdir)/libGLESv2.so.2" \
 		)
 	fi
+
+	mapfile -t dlopen_libs < <("${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --list "${dlopen_libs[@]}")
+
 	cp -aL "${dlopen_libs[@]}" "${WORKDIR}"/container_pkg/lib/
 
 	# These are scripts, so lddtree doesn't like them.
