@@ -1,4 +1,4 @@
-From cbf029a5a64c5380be810737d86ddfe336b0d79c Mon Sep 17 00:00:00 2001
+From 2d55a3f333e6ffcdc0d19ef7e3ae61a73b84f5f3 Mon Sep 17 00:00:00 2001
 From: Cary Coutant <ccoutant@google.com>
 Date: Tue, 23 Dec 2014 15:01:40 -0800
 Subject: [PATCH 03/13] gas: add support for DWARF-5 and experimental two-level
@@ -15,9 +15,9 @@ to binutils-2_27-branch.
 Change-Id: I84e4565576b9b4fbe88c29312cd75e3687a309d8
 ---
  gas/config/obj-elf.c |   2 +
- gas/dwarf2dbg.c      | 821 ++++++++++++++++++++++++++++++++++++++-----
+ gas/dwarf2dbg.c      | 823 ++++++++++++++++++++++++++++++++++++++-----
  gas/dwarf2dbg.h      |  19 +-
- 3 files changed, 756 insertions(+), 86 deletions(-)
+ 3 files changed, 757 insertions(+), 87 deletions(-)
 
 diff --git a/gas/config/obj-elf.c b/gas/config/obj-elf.c
 index de22b5a1da8..f481b540c90 100644
@@ -33,7 +33,7 @@ index de22b5a1da8..f481b540c90 100644
    /* We need to trap the section changing calls to handle .previous.  */
    {"data", obj_elf_data, 0},
 diff --git a/gas/dwarf2dbg.c b/gas/dwarf2dbg.c
-index 6899a840eff..0351f0c7db5 100644
+index 6899a840eff..d72c5a4c017 100644
 --- a/gas/dwarf2dbg.c
 +++ b/gas/dwarf2dbg.c
 @@ -45,6 +45,8 @@
@@ -1169,6 +1169,8 @@ index 6899a840eff..0351f0c7db5 100644
  	}
      }
  
+-  if (empty_debug_line)
+-    out_debug_line (line_seg);
 +  if (logicals_in_use > 0)
 +    {
 +      str_seg = subseg_new (".debug_line_str", 0);
@@ -1182,12 +1184,11 @@ index 6899a840eff..0351f0c7db5 100644
 +      debug_line_str_table.next_offset = 1;
 +    }
 +
-   if (empty_debug_line)
--    out_debug_line (line_seg);
-+    out_debug_line (line_seg, str_seg);
-+
-+  if (str_seg != NULL)
++  if (str_seg != NULL) {
++    if (empty_debug_line)
++      out_debug_line (line_seg, str_seg);
 +    out_string_table (str_seg, &debug_line_str_table);
++  }
  
    /* If this is assembler generated line info, and there is no
       debug_info already, we need .debug_info, .debug_abbrev and

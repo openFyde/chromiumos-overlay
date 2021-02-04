@@ -31,9 +31,6 @@ SRC_URI="mirror://gnu/binutils/binutils-${PV}.tar.xz"
 
 PATCHES=(
 	"${FILESDIR}/0001-gas-add-option-to-enable-disable-incbin-via-allow-in.patch"
-	"${FILESDIR}/0002-dwarf-add-experimental-DWARF-5-values-for-two-level-.patch"
-	"${FILESDIR}/0003-gas-add-support-for-DWARF-5-and-experimental-two-lev.patch"
-	"${FILESDIR}/0004-readelf-add-support-for-DWARF-5-and-experimental-two.patch"
 	"${FILESDIR}/0005-gold-ld-add-support-for-poisoned-system-directories.patch"
 	"${FILESDIR}/0006-gas-enable-mshared-by-default.patch"
 	"${FILESDIR}/0007-gold-readelf-add-experimental-support-for-SHT_RELR-s.patch"
