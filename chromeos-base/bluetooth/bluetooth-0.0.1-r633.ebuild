@@ -1,0 +1,57 @@
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+CROS_WORKON_COMMIT="f94fa4ae6da723e39c479c9414b28f0d2e29d0c4"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "dc74dcbb8dc3aeeef2101c761a20e0f315ddd08e" "1110d3ab53ee11f181e1853ce8d9dfe37b41a8ec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_SUBTREE="common-mk chromeos-config bluetooth .gn"
+
+PLATFORM_SUBDIR="bluetooth"
+
+inherit cros-workon platform
+
+DESCRIPTION="Bluetooth service for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/bluetooth"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE="+bluetooth_suspend_management fuzzer generated_cros_config seccomp unibuild"
+
+RDEPEND="
+	chromeos-base/chromeos-config-tools:=
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
+	net-wireless/bluez:=
+"
+
+DEPEND="${RDEPEND}
+	chromeos-base/system_api:=[fuzzer?]"
+
+src_install() {
+	dobin "${OUT}"/btdispatch
+
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.Bluetooth.conf
+
+	insinto /etc/init
+	doins init/upstart/btdispatch.conf
+
+	if use seccomp; then
+		# Install seccomp policy files.
+		insinto /usr/share/policy
+		newins "seccomp_filters/btdispatch-seccomp-${ARCH}.policy" btdispatch-seccomp.policy
+	else
+		# Remove seccomp flags from minijail parameters.
+		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/btdispatch.conf || die
+	fi
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/bluetooth_test"
+}

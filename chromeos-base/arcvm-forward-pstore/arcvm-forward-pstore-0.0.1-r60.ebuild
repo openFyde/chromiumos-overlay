@@ -1,0 +1,49 @@
+# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+EAPI=7
+
+CROS_WORKON_COMMIT="f94fa4ae6da723e39c479c9414b28f0d2e29d0c4"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "504f2766c25f253283ff1e0827168d40e3e370a9" "e625388417e4e1be9b21d34c4169a35f2116eb6d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_INCREMENTAL_BUILD="1"
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk arc/vm/forward-pstore vm_tools .gn"
+
+PLATFORM_SUBDIR="arc/vm/forward-pstore"
+
+inherit cros-workon platform
+
+DESCRIPTION="Forwards pstore file for ARCVM after upgrade."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/vm/forward-pstore"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+SLOT="0/0"
+IUSE="+seccomp"
+
+RDEPEND="
+	dev-libs/protobuf:=
+"
+DEPEND="
+	${RDEPEND}
+	chromeos-base/system_api:=
+	chromeos-base/vm_protos:=
+"
+
+src_install() {
+	newsbin "${OUT}/arcvm-forward-pstore" arcvm-forward-pstore
+
+	insinto /etc/init
+	doins arcvm-forward-pstore.conf
+
+	# Install DBUS configuration file.
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.ArcVmForwardPstore.conf
+
+	# Install seccomp policy
+	insinto /usr/share/policy
+	use seccomp && newins "seccomp-${ARCH}.policy" arcvm-forward-pstore-seccomp.policy
+}
