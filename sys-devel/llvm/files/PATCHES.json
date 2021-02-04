@@ -590,5 +590,11 @@
         "rel_patch_path": "cherry/af0332498405b3a4074cef09845bbacfd4fd594f.patch",
         "start_version": 405885,
         "end_version": 416728
+    },
+    {
+        "comment": "[ELF] Allow R_386_GOTOFF from .debug_info",
+        "rel_patch_path": "cherry/b3165a70ae83b46dc145f335dfa9690ece361e92.patch",
+        "start_version": 412851,
+        "end_version": 418036
     }
 ]
