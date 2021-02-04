@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="33f90599e3f0a5593a6975006d4323f63ea7c362"
-CROS_WORKON_TREE="8bc8f87033e6b9ced92bdf156f8f3b4585bd9549"
+CROS_WORKON_COMMIT="86e93379322f012d354b9b8a369373ed9b62718c"
+CROS_WORKON_TREE="be57809f064750a84f3d515b20938a30a497b2fa"
 CROS_WORKON_PROJECT="chromiumos/third_party/tpm2"
 CROS_WORKON_LOCALNAME="third_party/tpm2"
 
@@ -53,5 +53,6 @@ src_install() {
 	doins tpm_types.h
 	if use tpm2_simulator; then
 		doins tpm_manufacture.h
+		doins tpm_simulator.hpp
 	fi
 }
