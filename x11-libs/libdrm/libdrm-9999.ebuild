@@ -3,6 +3,10 @@
 
 EAPI="5"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
+if [[ ${PV} != *9999* ]]; then
+	CROS_WORKON_COMMIT="0190f49a139e7069d7cad6a6890832831da1aa8b"
+	CROS_WORKON_TREE="f691fb10ddd5ffefb25682ff89f6f978fe91ec02"
+fi
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_MANUAL_UPREV="1"
 
@@ -17,7 +21,11 @@ SRC_URI=""
 # the Xorg copyright holders and allows license generation to pick them up.
 LICENSE="|| ( MIT X )"
 SLOT="0"
-KEYWORDS="~*"
+if [[ ${PV} = *9999* ]]; then
+	KEYWORDS="~*"
+else
+	KEYWORDS="*"
+fi
 VIDEO_CARDS="amdgpu exynos freedreno intel nouveau omap radeon vc4 vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
