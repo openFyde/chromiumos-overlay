@@ -506,14 +506,19 @@ bazel_setup_crosstool() {
 	build --linkopt="$(bazel_get_stdlib_linkflag "$(tc-get-compiler-type)" || die)"
 	build --host_linkopt="$(bazel_get_stdlib_linkflag "$(tc-get-BUILD_compiler-type)" || die)"
 
-	# Some compiler scripts require SYSROOT defined.
-	build --action_env SYSROOT="${PORTAGE_CONFIGROOT}"
-
 	# In case another config has disabled cross-compilation, re-enable it here.
 	build --distinct_host_configuration
 	EOF
 
 	echo "import ${BAZEL_CC_BAZELRC}" >> "${BAZEL_BAZELRC}" || die
+
+	# Update bazelrc to point to our board build tree.
+	cat >> "${BAZEL_BAZELRC}" <<-EOF
+	# Some compiler scripts require SYSROOT and PREFIX defined.
+	build --action_env SYSROOT="${PORTAGE_CONFIGROOT}"
+	build --define=PREFIX="${PORTAGE_CONFIGROOT}/usr"
+	EOF
+
 }
 
 
