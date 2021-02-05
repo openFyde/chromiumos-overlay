@@ -226,9 +226,8 @@ src_test() {
 	local args=(
 		--workspace -v
 		--exclude net_util
-		--exclude gpu_buffer
 		--exclude gpu_display
-		--exclude gpu_renderer
+		--exclude rutabaga_gfx
 		# Also exclude the following since their tests are run in their ebuilds.
 		--exclude enumn
 		--exclude sys_util
