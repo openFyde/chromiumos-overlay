@@ -28,7 +28,7 @@ IUSE=""
 # The locale files change across glibc versions, so make sure we stay in sync
 # with them.  Pinning the version here forces us to revbump it when we update
 # the glibc version.
-DEPEND=">=sys-libs/glibc-${PV}"
+DEPEND="~sys-libs/glibc-${PV}"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}"
@@ -39,13 +39,6 @@ e() {
 }
 
 src_compile() {
-	# When we update to glibc-2.24+, it has better command line options for
-	# controlling where files get installed to.  For now, hack around it by
-	# assuming specific output paths.
-	#if has_version '>=sys-libs/glibc-2.24'; then
-	#	die "Update the ebuild hack!"
-	#fi
-
 	local args=(
 		# Many locales contain warnings that we don't care about and we can't
 		# really fix here.
@@ -55,13 +48,13 @@ src_compile() {
 		--$(tc-endian)-endian
 	)
 
-	mkdir -p usr/lib64/locale
+	mkdir -p usr/lib/locale
 	e localedef --prefix="${PWD}" "${args[@]}" \
 		--charmap=UTF-8 --inputfile=en_US \
 		en_US.UTF-8
 }
 
 src_install() {
-	insinto /usr/$(get_libdir)/locale
-	doins usr/lib64/locale/locale-archive
+	insinto /usr/lib/locale
+	doins usr/lib/locale/locale-archive
 }
