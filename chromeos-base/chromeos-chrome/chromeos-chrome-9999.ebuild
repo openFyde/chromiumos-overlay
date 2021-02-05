@@ -44,7 +44,7 @@ IUSE="
 	+chrome_remoting
 	clang_tidy
 	component_build
-	+debug_fission
+	debug_fission
 	+dwarf5
 	+fonts
 	goma
@@ -739,9 +739,6 @@ setup_compile_flags() {
 	use arm || append-flags -fdebug-info-for-profiling
 
 	if use thinlto; then
-		if use arm; then
-			EBUILD_LDFLAGS+=( -gsplit-dwarf )
-		fi
 		# if using thinlto, we need to pass the equivalent of
 		# -fdebug-types-section to the backend, to prevent out-of-range
 		# relocations (see
@@ -1299,9 +1296,8 @@ src_install() {
 	LS=$(ls -alhS ${D}/${CHROME_DIR})
 	einfo "CHROME_DIR after deploy_chrome\n${LS}"
 
-	# Keep the .dwp file for debugging.  On AMD64 systems, dwo files aren't
-	# generated even when using debug fission.
-	if use arm && use chrome_debug && use debug_fission; then
+	# Keep the .dwp files with debug fission.
+	if use chrome_debug && use debug_fission; then
 		mkdir -p "${D}/usr/lib/debug/${CHROME_DIR}"
 		DWP="${CHOST}"-dwp
 		cd "${D}/${CHROME_DIR}"
@@ -1315,6 +1311,7 @@ src_install() {
 				"${i}" == "./nacl_helper_bootstrap"	|| \
 				"${i}" == "./nacl_irt_arm.nexe"		|| \
 				"${i}" == "./nacl_irt_x86_64.exe"	|| \
+				"${i}" == "./nacl_irt_x86_64.nexe"	|| \
 				"${i}" == "./libmojo_core_arc64.so"	|| \
 				"${i}" == "./libmojo_core_arc32.so"	|| \
 				"${i}" == "./libwidevinecdm.so" ]] ; then
