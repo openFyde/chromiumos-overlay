@@ -5,11 +5,13 @@
 # found in the LICENSE file.
 #
 # This script creates a tarball that contains toolchains for android
-# master-arc-dev. Before running it, please modify the following 4 variables
+# sc-arc-dev. Before running it, please modify the following 4 variables
 #   - ANDROID_TREE
 #   - ARTIFACTS_DIR_ARM
 #   - ARTIFACTS_DIR_X86_64
 #   - TO_DIR_BASE
+#   - DEAPEXER
+#   - DEBUGFS
 # Then just run it from anywhere with no arguments.
 # The constructed tarball will contain the sysroots under amd64 and arm.
 #
@@ -18,8 +20,8 @@
 #
 # 1. Download prebuilts for ARM and x86_64
 #
-# Go to go/ab, select branch git_master-arc-dev. Pick a -userdebug build for all
-# architectures, then download cheets_${arch}-target_files-${build_id}.zip.
+# Go to go/ab, select branch git_sc-arc-dev. Pick a -userdebug build for all
+# architectures, then download bertha_${arch}-target_files-${build_id}.zip.
 # Extract those files and point ARTIFACTS_DIR_${ARCH} to the respective
 # directories.
 # The prebuilts will provide most of the binaries.
@@ -31,7 +33,13 @@
 # The build artifacts will be created in subdirectories of out/ where the script
 # will find them. Do not delete out/ or rebuild before running the script!
 #
-# 4. Run the script!
+# 4. Download deapexer and debugfs binaries.
+#
+# Go to ab/ub-aapt2-release and choose the latest green static_apexer_tools
+# build. Download the deapexer and debugfs_static artifacts from that build.
+# Set DEAPEXER and DEBUGFS to the path to those artifacts.
+#
+# 5. Run the script!
 #
 # $ ./gather.sh
 #
@@ -39,7 +47,7 @@
 
 set -e
 
-# 1. Location of the android master-arc-dev branch tree.
+# 1. Location of the android sc-arc-dev branch tree.
 : "${ANDROID_TREE:="${HOME}/android"}"
 
 # ARCH names used in sysroot.
@@ -71,8 +79,16 @@ ARTIFACTS_DIR_ARRAY=(
 )
 
 # 3. Destination directory.
-TO_DIR_BASE="${TO_DIR_BASE:-"${ANDROID_TREE}/arc-toolchain-master-dir"}"
+TO_DIR_BASE="${TO_DIR_BASE:-"${ANDROID_TREE}/arc-toolchain-sc-dir"}"
 
+# 4. Path to deapexer and debugfs binaries.
+: "${DEAPEXER:=""}"
+: "${DEBUGFS:=""}"
+
+if [[ ! -f "${DEAPEXER}" ]] || [[ ! -f "${DEBUGFS}" ]]; then
+	echo "Please set \$DEAPEXER and \$DEBUGFS before running."
+	exit 1
+fi
 
 ### Do not change the following.
 
@@ -148,6 +164,14 @@ for (( a = 0; a < ${len}; ++a )); do
 		continue
 	fi
 	runcmd mkdir -p "${arch_to_dir}/usr/${lib}/"
+
+	# Special case: extract runtime apex if there is one (b/179070967).
+	apex_path="${artifacts_system_dir}/apex/com.android.runtime.apex"
+	apex_dir_path="${artifacts_system_dir}/apex/com.android.runtime"
+	if [[ -f "${apex_path}" ]] &&
+		[[ ! -d "${apex_dir_path}" ]]; then
+		"${DEAPEXER}" --debugfs_path="${DEBUGFS}" extract "${apex_path}" "${apex_dir_path}"
+	fi
 
 	for f in "${BINARY_FILES[@]}"; do
 		# For some core libraries, e.g. libc and libm, there are two versions.
@@ -350,7 +374,7 @@ runcmd find "${TO_DIR_BASE}" -type f ! -executable -exec chmod 644 {} \;
 
 ### 6.2. Create the tarball with files owned by root:root
 PACKET_VERSION=$(date --rfc-3339=date | sed 's/-/./g')
-TARBALL="${TO_DIR_BASE}/../arc-toolchain-master-${PACKET_VERSION}.tar.gz"
+TARBALL="${TO_DIR_BASE}/../arc-toolchain-sc-${PACKET_VERSION}.tar.gz"
 runcmd tar zcf "${TARBALL}" --owner=root --group=root -C "${TO_DIR_BASE}" .
 
 ### 7. Manually upload
