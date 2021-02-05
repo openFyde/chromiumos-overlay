@@ -22,6 +22,7 @@ RDEPEND="
 	media-libs/libjpeg-turbo
 	media-libs/libexif
 	>=net-libs/gnutls-3.3:=
+	media-libs/libyuv
 	udev? ( virtual/libudev )
 "
 
