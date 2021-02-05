@@ -1,8 +1,14 @@
 [
     {
-        "comment": "Adds a whitelist of packages that have known memory leaks",
+        "comment": "Adds a allowlist of packages that have known memory leaks",
         "rel_patch_path": "llvm-next-leak-allowlist.v2.patch",
-        "start_version": 370808
+        "start_version": 370808,
+        "end_version": 414798
+    },
+    {
+        "comment": "Adds a allowlist of packages that have known memory leaks",
+        "rel_patch_path": "llvm-leak-allowlist.v3.patch",
+        "start_version": 414798
     },
     {
         "comment": "Sets the ASAN message to go to /va/log/asan${pid} by\ndefault",
