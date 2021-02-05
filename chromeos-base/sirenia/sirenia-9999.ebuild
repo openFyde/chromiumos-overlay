@@ -18,6 +18,7 @@ IUSE="cros_host manatee"
 
 RDEPEND="
 	chromeos-base/cronista
+	dev-rust/manatee-client
 	sys-apps/dbus
 "
 

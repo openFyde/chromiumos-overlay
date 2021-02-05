@@ -23,4 +23,12 @@ RDEPEND=""
 DEPEND="${RDEPEND}
 	=dev-rust/dbus-0.8*:=
 	dev-rust/chromeos-dbus-bindings:=
+	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
+
+src_install() {
+	cros-rust_src_install
+
+	local build_dir="$(cros-rust_get_build_dir)"
+	dobin "${build_dir}/manatee"
+}
