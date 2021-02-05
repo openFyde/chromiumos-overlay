@@ -18,6 +18,7 @@ KEYWORDS="*"
 DEPEND="
 	=dev-rust/anyhow-1*:=
 	>=dev-rust/criterion-0.3.0:= <dev-rust/criterion-0.4.0
+	=dev-rust/junit-report-0.4*:=
 	>=dev-rust/lazy_static-1.4:= <dev-rust/lazy_static-2.0
 	>=dev-rust/rand-0.7.3:= <dev-rust/rand-0.8
 	>=dev-rust/rayon-1.5.0:= <dev-rust/rayon-2.0.0
