@@ -8,9 +8,9 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("197506c10838f9fad2cf9f74dd11e5ddac4cb2cc" "86e93379322f012d354b9b8a369373ed9b62718c" "3830fffbc5c5205bb8fb1b9f366fe44559923592")
-CROS_WORKON_TREE=("6af4af6a53e1bd149f0e4dc8a390a736006af5f1" "be57809f064750a84f3d515b20938a30a497b2fa" "f3d026c790bd3d7121bb96ed2a4932360d698a73")
-FIRMWARE_EC_BOARD="bloonchipper"
+CROS_WORKON_COMMIT=("3dcb099be47b9d1356f541c6f843fe47bd0d8f72" "86e93379322f012d354b9b8a369373ed9b62718c" "3830fffbc5c5205bb8fb1b9f366fe44559923592")
+CROS_WORKON_TREE=("23f4b81bcef4aa8f5094bcb3e95edf059312d29a" "be57809f064750a84f3d515b20938a30a497b2fa" "f3d026c790bd3d7121bb96ed2a4932360d698a73")
+FIRMWARE_EC_BOARD="nami_fp"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
@@ -20,7 +20,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"../platform/release-firmware/fpmcu-bloonchipper"
+	"../platform/release-firmware/fpmcu-nami"
 	"tpm2"
 	"cryptoc"
 )
@@ -32,7 +32,7 @@ CROS_WORKON_DESTDIR=(
 )
 
 CROS_WORKON_EGIT_BRANCH=(
-	"firmware-fpmcu-bloonchipper-release"
+	"firmware-fpmcu-dartmonkey-release"
 	"master"
 	"master"
 )
