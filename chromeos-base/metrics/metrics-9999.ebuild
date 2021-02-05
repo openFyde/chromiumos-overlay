@@ -71,6 +71,7 @@ src_install() {
 		cumulative_metrics.h \
 		metrics_library{,_mock}.h \
 		persistent_integer.h \
+		structured/c_structured_metrics.h \
 		timer{,_mock}.h \
 		"${OUT}"/gen/include/metrics/structured/structured_events.h
 
