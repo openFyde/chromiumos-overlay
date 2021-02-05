@@ -3,7 +3,8 @@
 # found in the LICENSE file.
 
 cros_pre_src_prepare_patches() {
-	epatch "${BASHRC_FILESDIR}"/${PN}-4.3-noexec.patch || die
+  # Not using ${P} to refer to patch to avoid updating it on every _p# change.
+	eapply "${BASHRC_FILESDIR}"/${PN}-4.4-noexec.patch || die
 
 	# Disable this logic for SDK builds.
 	if [[ $(cros_target) == "cros_host" ]]; then
