@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ac7feaed82a7d65ea76d7be1214a85a4b699dc27"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "905765d8469f7e6232915dd80ba69dbf60babdfa" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f964bab8ac8d597273e1a1480448217ab6930e1d"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "4e55b3eb76e4c2c119f567a6826718712f0f6b21" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,10 +28,26 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="
-	chromeos-base/tpm2:=
+	chromeos-base/tpm2:=[tpm2_simulator,tpm2_simulator_manufacturer]
+	chromeos-base/vboot_reference:=[tpm2_simulator]
 	${COMMON_DEPEND}
 	"
 
 src_install() {
+	# Install init scripts
+	insinto /etc/init
+	doins init/tpm2-simulator.conf
+
+	# Install executables
 	dobin "${OUT}"/tpm2-simulator
+	dobin "${OUT}"/tpm2-simulator-init
+
+	# Install seccomp policy for cryptohome-proxy
+	insinto /usr/share/policy
+	newins "seccomp/tpm2-simulator-${ARCH}.policy" tpm2-simulator.policy
+}
+
+pkg_preinst() {
+	enewuser tpm2-simulator
+	enewgroup tpm2-simulator
 }
