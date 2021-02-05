@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk ippusb_manager .gn"
 
 PLATFORM_SUBDIR="ippusb_manager"
 
-inherit cros-workon platform udev user
+inherit cros-workon platform user
 
 DESCRIPTION="Service which manages communication between ippusb printers and cups."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ippusb_manager/"
@@ -40,9 +40,6 @@ platform_pkg_test() {
 
 src_install() {
 	dobin "${OUT}"/ippusb_manager
-
-	# udev rules.
-	udev_dorules udev/*.rules
 
 	# Install policy files.
 	insinto /usr/share/policy
