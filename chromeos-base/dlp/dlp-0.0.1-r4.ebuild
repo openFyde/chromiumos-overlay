@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b42c6acfb44ede75a9b16e7a39dc107ff4f7778f"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "27409016ceb9cdb343ef250c24985bd67b55366e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b48c423283934629d8ab013e02738f96f43f68c8"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "f66a913e128c494d0914be456c4e40af8ea1b2ae" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,17 +23,14 @@ KEYWORDS="*"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
+	!dev-db/leveldb
+	dev-libs/leveldb:=
 	dev-libs/protobuf:=
 "
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	sys-apps/dbus:=
 "
-
-pkg_preinst() {
-	enewuser "dlp"
-	enewgroup "dlp"
-}
 
 src_install() {
 	dosbin "${OUT}"/dlp
@@ -46,8 +43,19 @@ src_install() {
 
 	insinto /etc/init
 	doins init/dlp.conf
+
+	local daemon_store="/etc/daemon-store/dlp"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners dlp:dlp "${daemon_store}"
 }
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/dlp_test"
+}
+
+pkg_setup() {
+	enewuser "dlp"
+	enewgroup "dlp"
+	cros-workon_pkg_setup
 }
