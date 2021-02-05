@@ -6,7 +6,7 @@ EAPI=7
 CROS_WORKON_COMMIT=("a5d7afb38b50c72449dcb3feb39d3b79041bdefc" "fd00dbbd0c06a309c657d89e9430143b179ff6db")
 CROS_WORKON_TREE=("39871d28f78a9ee3b5bc396f9940f724d524743c" "5df994fdcdfab0b9b21d11fa25545442eae001e5")
 CROS_WORKON_PROJECT=(
-	"chromiumos/platform/google-breakpad"
+	"breakpad/breakpad"
 	"linux-syscall-support"
 )
 CROS_WORKON_LOCALNAME=(
