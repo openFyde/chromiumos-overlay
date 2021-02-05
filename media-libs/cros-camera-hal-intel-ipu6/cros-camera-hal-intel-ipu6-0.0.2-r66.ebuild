@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f94fa4ae6da723e39c479c9414b28f0d2e29d0c4"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c89aac02f1e00da43b0739ff69f3fc77a3602341" "dc74dcbb8dc3aeeef2101c761a20e0f315ddd08e" "6aefce87a7cf5e4abd0f0466c5fa211f685a1193")
+CROS_WORKON_COMMIT="c6e90703f3bc3caefefb9ddd698d1f46b2e7814c"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "8069238ed31d497574ca3569118dfbd66a5bd6dd" "dc74dcbb8dc3aeeef2101c761a20e0f315ddd08e" "6aefce87a7cf5e4abd0f0466c5fa211f685a1193")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/hal/intel/ipu6 chromeos-config common-mk"
