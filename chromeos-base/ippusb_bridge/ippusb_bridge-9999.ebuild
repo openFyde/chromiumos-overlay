@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="ippusb_bridge"
 
-inherit cros-workon cros-rust
+inherit cros-workon cros-rust udev user
 
 DESCRIPTION="A proxy for HTTP traffic over an IPP-USB printer connection"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/ippusb_bridge/"
@@ -22,7 +22,10 @@ COMMON_DEPEND="
 	virtual/libusb:1=
 "
 
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}
+	!<chromeos-base/ippusb_manager-0.0.2
+"
 
 DEPEND="
 	${COMMON_DEPEND}
@@ -36,6 +39,11 @@ DEPEND="
 	>=dev-rust/tiny_http-0.7:= <dev-rust/tiny_http-0.8
 "
 
+pkg_preinst() {
+	enewgroup ippusb
+	enewuser ippusb
+}
+
 src_install() {
 	dobin "$(cros-rust_get_build_dir)"/ippusb_bridge
 
@@ -43,4 +51,13 @@ src_install() {
 	insinto /usr/share/policy
 	newins "seccomp/ippusb-bridge-seccomp-${ARCH}.policy" \
 		ippusb-bridge-seccomp.policy
+
+	udev_dorules udev/*.rules
+
+	insinto /etc/init
+	newins "init/ippusb-bridge.conf" "ippusb-bridge.conf"
+
+	exeinto /usr/libexec/ippusb
+	doexe "init/bridge_start"
+	doexe "init/bridge_stop"
 }
