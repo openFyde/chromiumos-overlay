@@ -3,15 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c6e90703f3bc3caefefb9ddd698d1f46b2e7814c"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "8069238ed31d497574ca3569118dfbd66a5bd6dd" "dc74dcbb8dc3aeeef2101c761a20e0f315ddd08e" "6aefce87a7cf5e4abd0f0466c5fa211f685a1193")
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/hal/intel/ipu6 chromeos-config common-mk"
-CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_COMMIT=("603070ff13e103b3dc6293b37ac526852bedbd57" "674fefc8b9bedf8175d9440078555babf561c3ed")
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "6adba3b6e04aa21bad11500c56bc54fd34e7b884")
+CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/camera")
+CROS_WORKON_LOCALNAME=("../platform2" "../platform/camera")
+CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/camera_hal")
+CROS_WORKON_SUBTREE=(".gn common-mk" "hal/intel/ipu6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera/hal/intel/ipu6"
+PLATFORM_SUBDIR="camera_hal/hal/intel/ipu6"
 
 inherit cros-camera cros-workon platform udev
 
