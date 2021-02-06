@@ -31,7 +31,6 @@ IUSE="
 	cros_ec
 	cros_embedded
 	dlc
-	kvm_host
 	hammerd
 	iioservice
 	ml_service
