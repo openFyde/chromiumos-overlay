@@ -27,6 +27,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/futures-0.3*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/intrusive-collections-0.9*:=
+	>=dev-rust/lazy_static-1.4.0:= <dev-rust/lazy_static-2.0.0
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
 	>=dev-rust/pkg-config-0.3.11:= <dev-rust/pkg-config-0.4.0:=
