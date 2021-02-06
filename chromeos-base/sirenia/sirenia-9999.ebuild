@@ -32,7 +32,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	=dev-rust/serde_derive-1*:=
-	dev-rust/sync:=
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
