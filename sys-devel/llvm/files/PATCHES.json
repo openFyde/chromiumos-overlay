@@ -598,6 +598,18 @@
         "end_version": 416728
     },
     {
+        "comment": "[ARM][RegisterScavenging] Don't consider LR liveout if it is not reloaded",
+        "rel_patch_path": "cherry/b9ed8ebe0e2ffa803b0bda60f9bbc9bb26f95000.patch",
+        "start_version": 412851,
+        "end_version": 417334
+    },
+    {
+        "comment": "Revert \"[ConstantFold] Fold more operations to poison\"",
+        "rel_patch_path": "cherry/06829034ca64b8c83a5b20d8abe5ddbfe7af0004.patch",
+        "start_version": 412851,
+        "end_version": 417900
+    },
+    {
         "comment": "[ELF] Allow R_386_GOTOFF from .debug_info",
         "rel_patch_path": "cherry/b3165a70ae83b46dc145f335dfa9690ece361e92.patch",
         "start_version": 412851,
