@@ -71,7 +71,7 @@ index ac7536757743..bb4b5c5a6169 100644
      if (&__lsan_default_suppressions)
        context.Parse(__lsan_default_suppressions());
      context.Parse(kStdSuppressions);
-+    suppression_ctx->Parse(kLSanDefaultSuppressions);
++    context.Parse(kLSanDefaultSuppressions);
    }
  }
  
