@@ -5,19 +5,16 @@
 EAPI=7
 
 CROS_WORKON_PROJECT=(
-	"chromiumos/platform/zephyr-chrome"
 	"chromiumos/third_party/zephyr"
 	"chromiumos/third_party/zephyr/cmsis"
 	"chromiumos/third_party/zephyr/hal_stm32"
 )
 CROS_WORKON_LOCALNAME=(
-	"platform/zephyr-chrome"
 	"third_party/zephyr/main/v2.3"
 	"third_party/zephyr/cmsis/v2.3"
 	"third_party/zephyr/hal_stm32/v2.3"
 )
 CROS_WORKON_DESTDIR=(
-	"${S}/zephyr-chrome"
 	"${S}/zephyr-base"
 	"${S}/modules/cmsis"
 	"${S}/modules/hal_stm32"
