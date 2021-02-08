@@ -3,13 +3,13 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="f94fa4ae6da723e39c479c9414b28f0d2e29d0c4"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "778ee05d75ea54f59117d703ca787ce3b40eabb5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8d1c9b77ba60c108592386779ce5c251994c07ea"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "22178f539e2f44b93e3f1344063523df082aee69" "efc0f4d17bd35c49071fe6ef21ff5275d2de54a1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk croslog .gn"
+CROS_WORKON_SUBTREE="common-mk croslog metrics .gn"
 
 PLATFORM_SUBDIR="croslog"
 
@@ -23,7 +23,9 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND="chromeos-base/bootid-logger"
+DEPEND="
+	>=chromeos-base/metrics-0.0.1-r3152:=
+	"
 
 src_install() {
 	platform_install
