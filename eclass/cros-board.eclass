@@ -217,6 +217,7 @@ ALL_BOARDS=(
 	hatch-borealis
 	hatch-diskswap
 	hatch-kernelnext
+	hatch-manatee
 	heli
 	hsb
 	#iclrvp
