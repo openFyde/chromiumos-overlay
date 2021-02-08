@@ -55,6 +55,7 @@ MULTILIB_WRAPPED_HEADERS=(
 # needs to be uprev'd before this is removed, please contact me for assistance.
 PATCHES=(
 	"${FILESDIR}"/0001-Protected-content-patches.patch
+	"${FILESDIR}"/0002-Compatibility-patch-for-upstream-differences.patch
 )
 
 multilib_src_configure() {
