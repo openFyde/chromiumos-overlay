@@ -28,6 +28,7 @@ PATCHES=(
 	"${FILESDIR}"/0005-Decode-Add-robustness-check-for-superresScaleDenomin.patch
 	"${FILESDIR}"/0006-Encode-Fix-for-flags-in-PAK_OBJECT_INSERT-command.patch
 	"${FILESDIR}"/0007-VP-Avoid-returning-error-when-not-setting-VAProcPipe.patch
+	"${FILESDIR}"/0008-Enable-WaDisableGmmLibOffsetInDeriveImage-JSL.patch
 )
 
 src_configure() {
