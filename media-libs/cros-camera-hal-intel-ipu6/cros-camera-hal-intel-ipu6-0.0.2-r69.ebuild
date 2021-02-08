@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("5d906fa5936311e0d5d2bc27a15e92ee2b1c31b5" "d4f81284da00e201b2a4cf60e5051bf9e3fd6228")
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "15274b236779716cb48ce417b03daa9c38038daf")
+CROS_WORKON_COMMIT=("54f874556b9a8be6714338c59eeca7cb3f48a1ac" "7d827f61727f947923bce047f1c30d6000365574")
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "5d3bb325b9c3298ac4f47114e54e88d45401b233")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/camera")
 CROS_WORKON_LOCALNAME=("../platform2" "../platform/camera")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/camera_hal")
@@ -27,12 +27,12 @@ RDEPEND="
 	chromeos-base/cros-camera-libs
 	chromeos-base/cros-camera-android-deps
 	dev-libs/expat
-	!ipu6se? ( !ipu6ep? ( media-libs/intel-ipu6-libs-bin ) )
+	!ipu6se? ( !ipu6ep? ( media-libs/intel-ipu6-camera-bins ) )
 	ipu6se? (
-		media-libs/intel-ipu6se-libs-bin
+		media-libs/intel-ipu6se-camera-bins
 		x11-libs/libva-intel-media-driver
 	)
-	ipu6ep? ( media-libs/intel-ipu6ep-libs-bin )
+	ipu6ep? ( media-libs/intel-ipu6ep-camera-bins )
 	!media-libs/cros-camera-hal-intel-ipu6-squash
 	media-libs/libsync
 	media-libs/libyuv
