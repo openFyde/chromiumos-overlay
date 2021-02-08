@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ac7feaed82a7d65ea76d7be1214a85a4b699dc27"
+CROS_WORKON_COMMIT="ba9afa5e84c6c43075e3e2296ff264a9cb9cbe0c"
 CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "252b9bc1661545a81256e09e5c2edd47c0ac8e48" "4051c07d8a030dba7e1221d529f57e62ca864790" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,8 +25,8 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
 IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
-	-direncryption double_extend_pcr_issue fuzzer
-	generated_cros_config mount_oop +vault_legacy_mount +downloads_bind_mount
+	-direncryption +direncription_allow_v2 double_extend_pcr_issue fuzzer
+	generated_cros_config is-kernelnext mount_oop +vault_legacy_mount +downloads_bind_mount
 	lvm_stateful_partition pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
 	user_session_isolation"
 
@@ -165,6 +165,11 @@ src_install() {
 			sed -i '/env NO_DOWNLOAD_BINDMOUNT_FLAG=/s:=.*:="--no_downloads_bind_mount":' \
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't replace no_downloads_bind_mount flag in cryptohomed.conf"
+		fi
+		if use direncription_allow_v2; then
+			sed -i '/env FSCRYPT_V2_FLAG=/s:=.*:="--fscrypt_v2":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace fscrypt_v2 flag in cryptohomed.conf"
 		fi
 	fi
 	exeinto /usr/share/cros/init
