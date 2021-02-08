@@ -277,9 +277,3 @@ CROS_RDEPEND="${CROS_RDEPEND}
 RDEPEND="${CROS_COMMON_RDEPEND}
 	!cros_embedded? ( ${CROS_RDEPEND} )
 "
-
-# Packages that are only installed into the sysroot and are needed for running
-# unit tests
-DEPEND="
-	chromeos-base/chromite
-"
