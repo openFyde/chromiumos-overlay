@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ba9afa5e84c6c43075e3e2296ff264a9cb9cbe0c"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "252b9bc1661545a81256e09e5c2edd47c0ac8e48" "4051c07d8a030dba7e1221d529f57e62ca864790" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9a05f53cc99c618451f18357e1aeed9622897941"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "39d49010c12adeb96b1094e90032a5d3b263f3b2" "4051c07d8a030dba7e1221d529f57e62ca864790" "4f428eceb77ddeae2a9cdbc99367fd321c975f15" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -131,7 +131,6 @@ src_install() {
 		doins init/cryptohomed-client.conf
 		doins init/cryptohomed.conf
 		doins init/cryptohome-proxy.conf
-		doins init/cryptohome-update-userdataauth.conf
 		doins init/init-homedirs.conf
 		doins init/mount-encrypted.conf
 		doins init/send-mount-encrypted-metrics.conf
@@ -183,21 +182,9 @@ src_install() {
 		doins cert_provision.h
 	fi
 
-	# Install the configuration file and utility for detecting if the new
-	# (UserDataAuth) or old interface is used.
-	insinto /etc/
-	doins cryptohome_userdataauth_interface.conf
-	exeinto /usr/libexec/cryptohome
-	doexe shall-use-userdataauth.sh
-	doexe update_userdataauth_from_features.sh
-
 	# Install seccomp policy for cryptohome-proxy
 	insinto /usr/share/policy
 	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
-
-	sed -i 's/killswitch=on/killswitch=off/' \
-		"${D}/usr/libexec/cryptohome/shall-use-userdataauth.sh" ||
-		die "Can't disable kill switch in shall-use-userdataauth.sh"
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
