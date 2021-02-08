@@ -4,22 +4,19 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("97839081a4ccd963353f135de519905d499eb1c3" "3d45bbfa2d7a20159cc65eefe8be697f3c5ef4f2" "542b2296e6d515b265e25c6b7208e8fea3014f90" "d1bc80d021f4ebc31f6e8b36f14b738cc26c7b03")
-CROS_WORKON_TREE=("b52652d3efae466695866c34fb7a88e6cdfc626e" "c8b449c296158acf7ce11ac65e2ac577247560da" "c7037905e78a10c0920e0834700c2b5888c8d114" "cbfc2404c2e411908f5e8db083daf3041b408522")
+CROS_WORKON_COMMIT=("3d45bbfa2d7a20159cc65eefe8be697f3c5ef4f2" "542b2296e6d515b265e25c6b7208e8fea3014f90" "d1bc80d021f4ebc31f6e8b36f14b738cc26c7b03")
+CROS_WORKON_TREE=("c8b449c296158acf7ce11ac65e2ac577247560da" "c7037905e78a10c0920e0834700c2b5888c8d114" "cbfc2404c2e411908f5e8db083daf3041b408522")
 CROS_WORKON_PROJECT=(
-	"chromiumos/platform/zephyr-chrome"
 	"chromiumos/third_party/zephyr"
 	"chromiumos/third_party/zephyr/cmsis"
 	"chromiumos/third_party/zephyr/hal_stm32"
 )
 CROS_WORKON_LOCALNAME=(
-	"platform/zephyr-chrome"
 	"third_party/zephyr/main/v2.3"
 	"third_party/zephyr/cmsis/v2.3"
 	"third_party/zephyr/hal_stm32/v2.3"
 )
 CROS_WORKON_DESTDIR=(
-	"${S}/zephyr-chrome"
 	"${S}/zephyr-base"
 	"${S}/modules/cmsis"
 	"${S}/modules/hal_stm32"
