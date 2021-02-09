@@ -17,11 +17,32 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/
 LICENSE="BSD-Google"
 SLOT="0/${PVR}"
 KEYWORDS="~*"
+IUSE="cros_host manatee"
 
 RDEPEND=""
 
 DEPEND="${RDEPEND}
 	chromeos-base/libsirenia:=
+	dev-rust/libchromeos:=
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	dev-rust/sync:=
+	dev-rust/sys_util:=
 "
+
+src_install() {
+	local build_dir="$(cros-rust_get_build_dir)"
+
+	# Needed for initramfs, but not for the root-fs.
+	if use cros_host ; then
+		# /build is not allowed when installing to the host.
+		exeinto "/bin"
+	else
+		exeinto "/build/initramfs"
+	fi
+
+	if use manatee ;  then
+		doexe "${build_dir}/demo_app"
+	else
+		dobin "${build_dir}/demo_app"
+	fi
+}
