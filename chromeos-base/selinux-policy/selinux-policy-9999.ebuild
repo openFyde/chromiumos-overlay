@@ -21,7 +21,6 @@ IUSE="
 	arc_first_release_n
 	nocheck
 	cheets_user cheets_user_64
-	kernel-5_10
 "
 DEPEND="
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
@@ -321,9 +320,7 @@ src_install() {
 	doins file_contexts
 
 	insinto /etc/selinux
-	# TODO(b/177855516): Revert the kernel check once ARC policy is
-	# compatible with 5.10.
-	if use selinux_experimental || use kernel-5_10; then
+	if use selinux_experimental; then
 		newins "${FILESDIR}/selinux_config_experimental" config
 	else
 		newins "${FILESDIR}/selinux_config" config
