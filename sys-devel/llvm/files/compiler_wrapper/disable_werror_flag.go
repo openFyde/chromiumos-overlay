@@ -19,14 +19,9 @@ import (
 
 const numWErrorEstimate = 30
 
-func shouldForceDisableWerror(env env, cfg *config, ty compilerType) bool {
+func shouldForceDisableWerror(env env, cfg *config) bool {
 	if cfg.isAndroidWrapper {
 		return cfg.useLlvmNext
-	}
-
-	// We only want this functionality for clang.
-	if ty != clangType {
-		return false
 	}
 	value, _ := env.getenv("FORCE_DISABLE_WERROR")
 	return value != ""
@@ -61,7 +56,7 @@ func isLikelyAConfTest(cfg *config, cmd *command) bool {
 	return false
 }
 
-func doubleBuildWithWNoError(env env, cfg *config, originalCmd *command, rusageLogfileName string) (exitCode int, err error) {
+func doubleBuildWithWNoError(env env, cfg *config, originalCmd *command) (exitCode int, err error) {
 	originalStdoutBuffer := &bytes.Buffer{}
 	originalStderrBuffer := &bytes.Buffer{}
 	// TODO: This is a bug in the old wrapper that it drops the ccache path
@@ -75,12 +70,8 @@ func doubleBuildWithWNoError(env env, cfg *config, originalCmd *command, rusageL
 		return 0, wrapErrorwithSourceLocf(err, "prebuffering stdin: %v", err)
 	}
 
-	var originalExitCode int
-	commitOriginalRusage, err := maybeCaptureRusage(env, rusageLogfileName, originalCmd, func(willLogRusage bool) error {
-		originalExitCode, err = wrapSubprocessErrorWithSourceLoc(originalCmd,
-			env.run(originalCmd, getStdin(), originalStdoutBuffer, originalStderrBuffer))
-		return err
-	})
+	originalExitCode, err := wrapSubprocessErrorWithSourceLoc(originalCmd,
+		env.run(originalCmd, getStdin(), originalStdoutBuffer, originalStderrBuffer))
 	if err != nil {
 		return 0, err
 	}
@@ -94,9 +85,6 @@ func doubleBuildWithWNoError(env env, cfg *config, originalCmd *command, rusageL
 			bytes.Contains(originalStdoutBufferBytes, []byte("warnings-as-errors")) ||
 			bytes.Contains(originalStdoutBufferBytes, []byte("clang-diagnostic-")))
 	if !shouldRetry {
-		if err := commitOriginalRusage(originalExitCode); err != nil {
-			return 0, fmt.Errorf("commiting rusage: %v", err)
-		}
 		originalStdoutBuffer.WriteTo(env.stdout())
 		originalStderrBuffer.WriteTo(env.stderr())
 		return originalExitCode, nil
@@ -109,30 +97,17 @@ func doubleBuildWithWNoError(env env, cfg *config, originalCmd *command, rusageL
 		Args:       disableWerrorFlags(originalCmd.Args),
 		EnvUpdates: originalCmd.EnvUpdates,
 	}
-
-	var retryExitCode int
-	commitRetryRusage, err := maybeCaptureRusage(env, rusageLogfileName, retryCommand, func(willLogRusage bool) error {
-		retryExitCode, err = wrapSubprocessErrorWithSourceLoc(retryCommand,
-			env.run(retryCommand, getStdin(), retryStdoutBuffer, retryStderrBuffer))
-		return err
-	})
+	retryExitCode, err := wrapSubprocessErrorWithSourceLoc(retryCommand,
+		env.run(retryCommand, getStdin(), retryStdoutBuffer, retryStderrBuffer))
 	if err != nil {
 		return 0, err
 	}
-
 	// If -Wno-error fixed us, pretend that we never ran without -Wno-error. Otherwise, pretend
 	// that we never ran the second invocation.
 	if retryExitCode != 0 {
 		originalStdoutBuffer.WriteTo(env.stdout())
 		originalStderrBuffer.WriteTo(env.stderr())
-		if err := commitOriginalRusage(originalExitCode); err != nil {
-			return 0, fmt.Errorf("commiting rusage: %v", err)
-		}
 		return originalExitCode, nil
-	}
-
-	if err := commitRetryRusage(retryExitCode); err != nil {
-		return 0, fmt.Errorf("commiting rusage: %v", err)
 	}
 
 	retryStdoutBuffer.WriteTo(env.stdout())
