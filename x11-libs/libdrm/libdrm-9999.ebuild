@@ -4,8 +4,8 @@
 EAPI="7"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 if [[ ${PV} != *9999* ]]; then
-	CROS_WORKON_COMMIT="0190f49a139e7069d7cad6a6890832831da1aa8b"
-	CROS_WORKON_TREE="f691fb10ddd5ffefb25682ff89f6f978fe91ec02"
+	CROS_WORKON_COMMIT="a55042e2c677e907da87e523a31682f15a86a30b"
+	CROS_WORKON_TREE="72525f54735098dd4b56018697c3ded938b136b6"
 fi
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_MANUAL_UPREV="1"
@@ -51,9 +51,6 @@ src_prepare() {
 	eapply "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
 	eapply "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
 	eapply "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
-	eapply "${FILESDIR}"/FROMLIST-Add-drmModeGetFB2.patch
-	eapply "${FILESDIR}"/intel-sync-i915_pciids.h-with-kernel.patch
-	eapply "${FILESDIR}"/new-intel-sync-i915_pciids.h-with-kernel.patch
 
 	eapply_user
 }
