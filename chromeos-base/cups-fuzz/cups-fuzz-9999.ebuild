@@ -44,10 +44,12 @@ src_compile() {
 	local build_dir="$(cros-workon_get_build_dir)"
 	VPATH="${S}"/fuzzers emake -C "${build_dir}" cups_ppdopen_fuzzer
 	VPATH="${S}"/fuzzers emake -C "${build_dir}" cups_ippreadio_fuzzer
+	VPATH="${S}"/fuzzers emake -C "${build_dir}" cups_ipp_t_fuzzer
 }
 
 src_install() {
 	local build_dir="$(cros-workon_get_build_dir)"
 	fuzzer_install "${S}"/fuzzers/OWNERS "${build_dir}"/cups_ppdopen_fuzzer
 	fuzzer_install "${S}"/fuzzers/OWNERS "${build_dir}"/cups_ippreadio_fuzzer
+	fuzzer_install "${S}"/fuzzers/OWNERS "${build_dir}"/cups_ipp_t_fuzzer
 }
