@@ -1,7 +1,7 @@
-From c2d672b6a6eef8e55a9f773d5f109e03ec3fc5a3 Mon Sep 17 00:00:00 2001
+From 0a64399d7255c089866acbf89dacec007a366979 Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Tue, 19 Dec 2017 15:31:31 -0800
-Subject: [PATCH 07/13] gold, readelf: add experimental support for SHT_RELR
+Subject: [PATCH 07/15] gold, readelf: add experimental support for SHT_RELR
  sections.
 
 This change adds experimental support for SHT_RELR sections, proposed
@@ -170,7 +170,7 @@ index 312d11b4ff9..b568565ef95 100644
    sizeof (ElfNN_External_Dyn),
    sizeof (Elf_External_Note),
 diff --git a/binutils/readelf.c b/binutils/readelf.c
-index 10a384ab810..437f21d95a1 100644
+index 4af4c0c6e1a..2b052c03f84 100644
 --- a/binutils/readelf.c
 +++ b/binutils/readelf.c
 @@ -1138,6 +1138,80 @@ slurp_rel_relocs (Filedata *            filedata,
@@ -1105,7 +1105,7 @@ index fd5878da18b..8a9d1864a67 100644
    // Add a target-specific dynamic tag with constant value.
    void
 diff --git a/gold/options.h b/gold/options.h
-index 7e9b64d5b27..73f3eb12b59 100644
+index ea379080a97..6e32d5dd6ae 100644
 --- a/gold/options.h
 +++ b/gold/options.h
 @@ -846,6 +846,10 @@ class General_options

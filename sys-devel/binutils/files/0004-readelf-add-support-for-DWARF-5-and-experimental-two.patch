@@ -1,7 +1,7 @@
-From 898898f2e3768e6b07a13d87cf8cdec2aef38793 Mon Sep 17 00:00:00 2001
+From c7bc8ca1af996f2b766c125a7040616ddc6d3115 Mon Sep 17 00:00:00 2001
 From: Cary Coutant <ccoutant@google.com>
 Date: Tue, 6 Jan 2015 16:56:43 -0800
-Subject: [PATCH 04/13] readelf: add support for DWARF-5 and experimental
+Subject: [PATCH 04/15] readelf: add support for DWARF-5 and experimental
  two-level line number tables.
 
 This change is forward-port of commit d80608344a0908445af29b6db5266394c0376076
@@ -20,7 +20,7 @@ Change-Id: I26158b22c6a6652154b317db1ecf6d5c27d29337
  2 files changed, 595 insertions(+), 398 deletions(-)
 
 diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-index cc13fe067f0..f39aa3d3ba5 100644
+index 91b61e3fdfe..eb59da29eaf 100644
 --- a/binutils/dwarf.c
 +++ b/binutils/dwarf.c
 @@ -478,6 +478,9 @@ typedef struct State_Machine_Registers
@@ -133,7 +133,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
      {
        warn (_("DW_FORM_GNU_str_index offset too big: %s vs %s\n"),
  	    dwarf_vmatoa ("x", index_offset),
-@@ -3676,6 +3729,10 @@ load_debug_info (void * file)
+@@ -4010,6 +4063,10 @@ load_debug_info (void * file)
    return 0;
  }
  
@@ -144,7 +144,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  /* Read a DWARF .debug_line section header starting at DATA.
     Upon success returns an updated DATA pointer and the LINFO
     structure and the END_OF_SEQUENCE pointer will be filled in.
-@@ -3686,7 +3743,9 @@ read_debug_line_header (struct dwarf_section * section,
+@@ -4020,7 +4077,9 @@ read_debug_line_header (struct dwarf_section * section,
  			unsigned char * data,
  			unsigned char * end,
  			DWARF2_Internal_LineInfo * linfo,
@@ -155,7 +155,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  {
    unsigned char *hdrptr;
    unsigned int initial_length_size;
-@@ -3710,6 +3769,8 @@ read_debug_line_header (struct dwarf_section * section,
+@@ -4044,6 +4103,8 @@ read_debug_line_header (struct dwarf_section * section,
        linfo->li_offset_size = 4;
        initial_length_size = 4;
      }
@@ -164,7 +164,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  
    if (linfo->li_length + initial_length_size > section->size)
      {
-@@ -3734,17 +3795,25 @@ read_debug_line_header (struct dwarf_section * section,
+@@ -4068,17 +4129,25 @@ read_debug_line_header (struct dwarf_section * section,
    /* Get and check the version number.  */
    SAFE_BYTE_GET_AND_INC (linfo->li_version, hdrptr, 2, end);
  
@@ -192,7 +192,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
      {
        SAFE_BYTE_GET_AND_INC (linfo->li_address_size, hdrptr, 1, end);
  
-@@ -3793,131 +3862,448 @@ read_debug_line_header (struct dwarf_section * section,
+@@ -4127,131 +4196,448 @@ read_debug_line_header (struct dwarf_section * section,
    return hdrptr;
  }
  
@@ -738,7 +738,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  static int
  display_debug_lines_raw (struct dwarf_section *  section,
  			 unsigned char *         data,
-@@ -3925,7 +4311,9 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4259,7 +4645,9 @@ display_debug_lines_raw (struct dwarf_section *  section,
  			 void *                  file)
  {
    unsigned char *start = section->start;
@@ -749,7 +749,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  
    introduce (section, TRUE);
  
-@@ -3933,9 +4321,15 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4267,9 +4655,15 @@ display_debug_lines_raw (struct dwarf_section *  section,
      {
        static DWARF2_Internal_LineInfo saved_linfo;
        DWARF2_Internal_LineInfo linfo;
@@ -765,7 +765,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  
        if (const_strneq (section->name, ".debug_line.")
  	  /* Note: the following does not apply to .debug_line.dwo sections.
-@@ -3952,7 +4346,9 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4286,7 +4680,9 @@ display_debug_lines_raw (struct dwarf_section *  section,
  	     Since the section is a fragment it does not have the details
  	     needed to fill out a LineInfo structure, so instead we use the
  	     details from the last full debug_line section that we processed.  */
@@ -775,7 +775,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  	  standard_opcodes = NULL;
  	  linfo = saved_linfo;
  	  /* PR 17531: file: 0522b371.  */
-@@ -3965,16 +4361,17 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4299,16 +4695,17 @@ display_debug_lines_raw (struct dwarf_section *  section,
  	}
        else
  	{
@@ -797,7 +797,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  	    {
  	      printf (_("  Address size (bytes):        %d\n"), linfo.li_address_size);
  	      printf (_("  Segment selector (bytes):    %d\n"), linfo.li_segment_size);
-@@ -3988,6 +4385,13 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4322,6 +4719,13 @@ display_debug_lines_raw (struct dwarf_section *  section,
  	  printf (_("  Line Range:                  %d\n"), linfo.li_line_range);
  	  printf (_("  Opcode Base:                 %d\n"), linfo.li_opcode_base);
  
@@ -811,7 +811,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  	  /* PR 17512: file: 1665-6428-0.004.  */
  	  if (linfo.li_line_range == 0)
  	    {
-@@ -4015,314 +4419,100 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4349,314 +4753,100 @@ display_debug_lines_raw (struct dwarf_section *  section,
  			      standard_opcodes[i - 1]),
  		    i, standard_opcodes[i - 1]);
  
@@ -819,52 +819,50 @@ index cc13fe067f0..f39aa3d3ba5 100644
  	  data = standard_opcodes + linfo.li_opcode_base - 1;
  
 -	  if (linfo.li_version >= 5)
-+	  if (linfo.li_version == DWARF2_LINE_EXPERIMENTAL_VERSION)
- 	    {
+-	    {
 -	      load_debug_section_with_follow (line_str, file);
-+	      /* Skip the fake directory and filename table.  */
-+	      data += 2;
- 
+-
 -	      data = display_formatted_table (data, start, end, &linfo, section,
 -					      TRUE);
 -	      data = display_formatted_table (data, start, end, &linfo, section,
 -					      FALSE);
 -	    }
 -	  else
--	    {
++	  if (linfo.li_version == DWARF2_LINE_EXPERIMENTAL_VERSION)
+ 	    {
 -	      if (*data == 0)
 -		printf (_("\n The Directory Table is empty.\n"));
 -	      else
 -		{
 -		  unsigned int last_dir_entry = 0;
-+	      /* Skip the fake extended opcode that wraps the rest
-+		 of the section.  */
-+	      data += 5;
- 
+-
 -		  printf (_("\n The Directory Table (offset 0x%lx):\n"),
 -			  (long)(data - start));
-+	      /* Read the logicals table offset and actuals table offset.  */
-+	      SAFE_BYTE_GET_AND_INC (logicals_table_offset, data, offset_size, end);
-+	      SAFE_BYTE_GET_AND_INC (actuals_table_offset, data, offset_size, end);
++	      /* Skip the fake directory and filename table.  */
++	      data += 2;
  
 -		  while (data < end && *data != 0)
 -		    {
 -		      printf ("  %d\t%.*s\n", ++last_dir_entry, (int) (end - data), data);
-+	      start_of_line_program = end_of_header_length + logicals_table_offset;
++	      /* Skip the fake extended opcode that wraps the rest
++		 of the section.  */
++	      data += 5;
  
 -		      data += strnlen ((char *) data, end - data) + 1;
 -		    }
-+	      if (actuals_table_offset > 0)
-+		end_of_logicals = end_of_header_length + actuals_table_offset;
- 
+-
 -		  /* PR 17512: file: 002-132094-0.004.  */
 -		  if (data >= end - 1)
 -		    break;
 -		}
--
++	      /* Read the logicals table offset and actuals table offset.  */
++	      SAFE_BYTE_GET_AND_INC (logicals_table_offset, data, offset_size, end);
++	      SAFE_BYTE_GET_AND_INC (actuals_table_offset, data, offset_size, end);
+ 
 -	      /* Skip the NUL at the end of the table.  */
 -	      data++;
--
++	      start_of_line_program = end_of_header_length + logicals_table_offset;
+ 
 -	      /* Display the contents of the File Name table.  */
 -	      if (*data == 0)
 -		printf (_("\n The File Name Table is empty.\n"));
@@ -873,7 +871,9 @@ index cc13fe067f0..f39aa3d3ba5 100644
 -		  printf (_("\n The File Name Table (offset 0x%lx):\n"),
 -			  (long)(data - start));
 -		  printf (_("  Entry\tDir\tTime\tSize\tName\n"));
--
++	      if (actuals_table_offset > 0)
++		end_of_logicals = end_of_header_length + actuals_table_offset;
+ 
 -		  while (data < end && *data != 0)
 -		    {
 -		      unsigned char *name;
@@ -1199,7 +1199,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
      }
  
    return 1;
-@@ -4346,6 +4536,8 @@ display_debug_lines_decoded (struct dwarf_section *  section,
+@@ -4680,6 +4870,8 @@ display_debug_lines_decoded (struct dwarf_section *  section,
  			     void *                  fileptr)
  {
    static DWARF2_Internal_LineInfo saved_linfo;
@@ -1208,7 +1208,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  
    introduce (section, FALSE);
  
-@@ -4383,7 +4575,9 @@ display_debug_lines_decoded (struct dwarf_section *  section,
+@@ -4717,7 +4909,9 @@ display_debug_lines_decoded (struct dwarf_section *  section,
  	  unsigned char *hdrptr;
  
  	  if ((hdrptr = read_debug_line_header (section, data, end, & linfo,
@@ -1219,7 +1219,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
  	      return 0;
  
  	  /* PR 17531: file: 0522b371.  */
-@@ -5079,6 +5273,8 @@ display_debug_lines (struct dwarf_section *section, void *file)
+@@ -5413,6 +5607,8 @@ display_debug_lines (struct dwarf_section *section, void *file)
    if (do_debug_lines == 0)
      do_debug_lines |= FLAG_DEBUG_LINES_RAW;
  
@@ -1229,7 +1229,7 @@ index cc13fe067f0..f39aa3d3ba5 100644
      retValRaw = display_debug_lines_raw (section, data, end, file);
  
 diff --git a/binutils/readelf.c b/binutils/readelf.c
-index 6057515a89b..10a384ab810 100644
+index 41547a2594b..4af4c0c6e1a 100644
 --- a/binutils/readelf.c
 +++ b/binutils/readelf.c
 @@ -6443,6 +6443,7 @@ process_section_headers (Filedata * filedata)

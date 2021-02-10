@@ -1,7 +1,7 @@
-From 66276daf2bbf51fcc7be5f0627bef9a4e7f2fe42 Mon Sep 17 00:00:00 2001
+From 32cc2338ae85ff7b1b51464c15812a58a0338afa Mon Sep 17 00:00:00 2001
 From: Cary Coutant <ccoutant@google.com>
 Date: Tue, 23 Dec 2014 14:44:58 -0800
-Subject: [PATCH 02/13] dwarf: add experimental DWARF-5 values for two-level
+Subject: [PATCH 02/15] dwarf: add experimental DWARF-5 values for two-level
  line number tables.
 
 This change is forward-port of commit 13a142ce0959837746e61063b6b18ac70344a474
@@ -18,10 +18,10 @@ Change-Id: I9190449f8eee61fe824fe5bd031b5aa7e7629a11
  1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/include/dwarf2.h b/include/dwarf2.h
-index 882453dce08..6b963d25324 100644
+index 3f271fb0f7a..9c4203c22f7 100644
 --- a/include/dwarf2.h
 +++ b/include/dwarf2.h
-@@ -237,7 +237,13 @@ enum dwarf_line_number_ops
+@@ -244,7 +244,13 @@ enum dwarf_line_number_ops
      /* DWARF 3.  */
      DW_LNS_set_prologue_end = 10,
      DW_LNS_set_epilogue_begin = 11,
@@ -36,7 +36,7 @@ index 882453dce08..6b963d25324 100644
    };
  
  /* Line number extended opcodes.  */
-@@ -273,7 +279,7 @@ enum dwarf_line_number_hp_sfc_ops
+@@ -280,7 +286,7 @@ enum dwarf_line_number_hp_sfc_ops
    };
  
  /* Content type codes in line table directory_entry_format
@@ -45,7 +45,7 @@ index 882453dce08..6b963d25324 100644
  enum dwarf_line_number_content_type
    {
      DW_LNCT_path = 0x1,
-@@ -281,6 +287,11 @@ enum dwarf_line_number_content_type
+@@ -288,6 +294,11 @@ enum dwarf_line_number_content_type
      DW_LNCT_timestamp = 0x3,
      DW_LNCT_size = 0x4,
      DW_LNCT_MD5 = 0x5,

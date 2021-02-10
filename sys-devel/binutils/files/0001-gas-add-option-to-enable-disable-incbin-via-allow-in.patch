@@ -1,7 +1,7 @@
-From b306aad387a47173c627b0cfe14da334fcb986bc Mon Sep 17 00:00:00 2001
+From 7d053083dab30d12ceaaea5c0fad47148e987727 Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Thu, 16 Mar 2017 11:11:21 -0700
-Subject: [PATCH 01/13] gas: add option to enable/disable incbin via
+Subject: [PATCH 01/15] gas: add option to enable/disable incbin via
  --allow-incbin.
 
 This change is forward-port of google cl/80426738 and cl/80451836

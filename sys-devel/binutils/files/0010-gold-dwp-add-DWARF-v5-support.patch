@@ -1,7 +1,7 @@
-From 5d3fad2f5884f86af69b5fc1d83bdff8ae62aca7 Mon Sep 17 00:00:00 2001
+From f65b6f2ca8a039758aac37d69b470739dfac488e Mon Sep 17 00:00:00 2001
 From: Caroline Tice <cmtice@google.com>
 Date: Fri, 20 Nov 2020 11:05:19 -0800
-Subject: [PATCH 10/13] gold: dwp: add DWARF v5 support
+Subject: [PATCH 10/15] gold: dwp: add DWARF v5 support
 
 Apply basic patch by David Blaikie to update gold dwp tool to handle
 DWARF v5. This is the first of three patches for DWARF v5.
@@ -10,25 +10,25 @@ This does the main work of updating dwp to handle DWARF v5.
 
 This patch created for Chrome OS by Caroline Tice.
 Date: 19-Nov-2020
-[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: rebased from v2.27 to v2.35.2]
 [Adrian Ratiu: regenerated as proper git format-patch.]
 
 Change-Id: I6e12e87747d0a005d8897eefd9639b50265e12d2
 ---
  binutils/dwarf.c     |  14 +-
- elfcpp/dwarf.h       |  26 ++-
+ elfcpp/dwarf.h       |  13 +-
  gold/dwarf_reader.cc |  52 ++++--
  gold/dwarf_reader.h  |   7 +-
  gold/dwp.cc          | 422 +++++++++++++++++++++++++++++++++----------
  gold/gdb-index.cc    |   4 +-
  include/dwarf2.h     |  13 +-
- 7 files changed, 413 insertions(+), 125 deletions(-)
+ 7 files changed, 400 insertions(+), 125 deletions(-)
 
 diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-index f39aa3d3ba5..b33bd532bdb 100644
+index eb59da29eaf..0d429632bc8 100644
 --- a/binutils/dwarf.c
 +++ b/binutils/dwarf.c
-@@ -1723,7 +1723,7 @@ find_cu_tu_set_v2 (dwarf_vma cu_offset, int do_types)
+@@ -1829,7 +1829,7 @@ find_cu_tu_set_v2 (dwarf_vma cu_offset, int do_types)
      {
        p = tu_sets;
        nsets = tu_count;
@@ -37,7 +37,7 @@ index f39aa3d3ba5..b33bd532bdb 100644
      }
    else
      {
-@@ -2568,7 +2568,7 @@ read_and_display_attr_value (unsigned long           attribute,
+@@ -2800,7 +2800,7 @@ read_and_display_attr_value (unsigned long           attribute,
  		  debug_info_p->max_loc_offsets = lmax;
  		}
  	      if (this_set != NULL)
@@ -46,7 +46,7 @@ index f39aa3d3ba5..b33bd532bdb 100644
  	      debug_info_p->have_frame_base [num] = have_frame_base;
  	      if (attribute != DW_AT_GNU_locviews)
  		{
-@@ -3440,8 +3440,8 @@ process_debug_info (struct dwarf_section *           section,
+@@ -3760,8 +3760,8 @@ process_debug_info (struct dwarf_section *           section,
  		      dwarf_vmatoa ("x", offsets [DW_SECT_LINE]),
  		      dwarf_vmatoa ("x", sizes [DW_SECT_LINE]));
  	      printf (_("    .debug_loc.dwo:          0x%s  0x%s\n"),
@@ -57,7 +57,7 @@ index f39aa3d3ba5..b33bd532bdb 100644
  	      printf (_("    .debug_str_offsets.dwo:  0x%s  0x%s\n"),
  		      dwarf_vmatoa ("x", offsets [DW_SECT_STR_OFFSETS]),
  		      dwarf_vmatoa ("x", sizes [DW_SECT_STR_OFFSETS]));
-@@ -9866,17 +9866,17 @@ get_DW_SECT_short_name (unsigned int dw_sect)
+@@ -10229,17 +10229,17 @@ get_DW_SECT_short_name (unsigned int dw_sect)
      {
        case DW_SECT_INFO:
  	return "info";
@@ -79,30 +79,10 @@ index f39aa3d3ba5..b33bd532bdb 100644
        case DW_SECT_MACRO:
  	return "macro";
 diff --git a/elfcpp/dwarf.h b/elfcpp/dwarf.h
-index 1221f37f8a6..ba669b647af 100644
+index d5e06d4d7d3..3392be6223b 100644
 --- a/elfcpp/dwarf.h
 +++ b/elfcpp/dwarf.h
-@@ -117,6 +117,19 @@ namespace elfcpp
- #undef DW_IDX_DUP
- #undef DW_END_IDX
- 
-+/* Unit types in unit_type unit header field.  */
-+enum dwarf_unit_type
-+  {
-+    DW_UT_compile = 0x01,
-+    DW_UT_type = 0x02,
-+    DW_UT_partial = 0x03,
-+    DW_UT_skeleton = 0x04,
-+    DW_UT_split_compile = 0x05,
-+    DW_UT_split_type = 0x06,
-+    DW_UT_lo_user = 0x80,
-+    DW_UT_hi_user = 0xff
-+  };
-+
- // Frame unwind information.
- 
- enum DW_EH_PE
-@@ -244,14 +257,17 @@ enum DW_LANG
+@@ -253,14 +253,17 @@ enum DW_LANG
  enum DW_SECT
  {
    DW_SECT_INFO = 1,
@@ -126,7 +106,7 @@ index 1221f37f8a6..ba669b647af 100644
  
  } // End namespace elfcpp.
 diff --git a/gold/dwarf_reader.cc b/gold/dwarf_reader.cc
-index ac9fbad5482..56e0ad0895c 100644
+index ba60654393c..d922300a6a1 100644
 --- a/gold/dwarf_reader.cc
 +++ b/gold/dwarf_reader.cc
 @@ -1313,6 +1313,21 @@ Dwarf_info_reader::do_parse()
@@ -1010,10 +990,10 @@ index d19b0446bb9..cf2d25b3ff9 100644
  {
    ++Gdb_index_info_reader::dwarf_cu_count;
 diff --git a/include/dwarf2.h b/include/dwarf2.h
-index 6b963d25324..b61a424a82e 100644
+index 9c4203c22f7..b91977afe4d 100644
 --- a/include/dwarf2.h
 +++ b/include/dwarf2.h
-@@ -503,14 +503,17 @@ enum dwarf_unit_type
+@@ -497,14 +497,17 @@ enum dwarf_range_list_entry
  enum dwarf_sect
    {
      DW_SECT_INFO = 1,

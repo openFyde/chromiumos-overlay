@@ -1,7 +1,7 @@
-From f4066ee1b18764a002d5886d945897d2bdc252c4 Mon Sep 17 00:00:00 2001
+From d7632054d6351e6ea4bc16d4fe0ee8127207bf27 Mon Sep 17 00:00:00 2001
 From: Mike Frysinger <vapier@chromium.org>
 Date: Wed, 20 May 2015 07:09:14 -0400
-Subject: [PATCH 05/13] gold/ld: add support for poisoned system directories.
+Subject: [PATCH 05/15] gold/ld: add support for poisoned system directories.
 
 This is based on the old CodeSourcery patch written by Joseph Myers to add
 support to the link for detecting & rejecting bad -L paths when using a
@@ -34,10 +34,10 @@ Change-Id: If382cc2a24dc033ed3dc8952015456b0fdef1fdc
  11 files changed, 148 insertions(+)
 
 diff --git a/gold/options.cc b/gold/options.cc
-index b13ae71ce14..4fe80284dd4 100644
+index 6b194374c8c..de143501dae 100644
 --- a/gold/options.cc
 +++ b/gold/options.cc
-@@ -1304,6 +1304,39 @@ General_options::finalize()
+@@ -1333,6 +1333,39 @@ General_options::finalize()
    // in the path, as appropriate.
    this->add_sysroot();
  
@@ -78,10 +78,10 @@ index b13ae71ce14..4fe80284dd4 100644
    if (this->shared() && this->is_static())
      gold_fatal(_("-shared and -static are incompatible"));
 diff --git a/gold/options.h b/gold/options.h
-index 3c8d25a6628..7e9b64d5b27 100644
+index 51d3614e6b6..ea379080a97 100644
 --- a/gold/options.h
 +++ b/gold/options.h
-@@ -1379,6 +1379,13 @@ class General_options
+@@ -1385,6 +1385,13 @@ class General_options
    DEFINE_bool(warn_multiple_gp, options::TWO_DASHES, '\0', false,
  	      N_("Ignored"), NULL);
  
@@ -110,7 +110,7 @@ index 2f4e5ea33e3..8fbb29682b2 100644
  #undef EXTRA_SHLIB_EXTENSION
  
 diff --git a/ld/configure b/ld/configure
-index 6be5280621f..759422d4006 100755
+index f060e9dd653..2b7217e5586 100755
 --- a/ld/configure
 +++ b/ld/configure
 @@ -826,6 +826,7 @@ with_lib_path

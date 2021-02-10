@@ -1,7 +1,7 @@
-From 11cdfffc2a18044104ec7bf0f227d8132197520f Mon Sep 17 00:00:00 2001
+From 0d0affaf2b173778cf7e00f420f81eda759b8c7d Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Sat, 17 Mar 2018 15:31:31 -0800
-Subject: [PATCH 09/13] gold: turn on --experimental-use-relr by default.
+Subject: [PATCH 09/15] gold: turn on --experimental-use-relr by default.
 
 [Adrian Ratiu: rebased from v2.27 to v2.35.1]
 [Adrian Ratiu: regenerated as proper git format-patch.]
@@ -12,7 +12,7 @@ Change-Id: I20cb32ebec8283017b8399d29fe8841a5c78aa0e
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/gold/options.h b/gold/options.h
-index 73f3eb12b59..7fa269b5c62 100644
+index 6e32d5dd6ae..9e47e5de999 100644
 --- a/gold/options.h
 +++ b/gold/options.h
 @@ -846,7 +846,7 @@ class General_options

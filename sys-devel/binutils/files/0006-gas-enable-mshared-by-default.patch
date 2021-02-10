@@ -1,7 +1,7 @@
-From 9b91b1174eaf2be558c9a1166fae6f12e3a5a235 Mon Sep 17 00:00:00 2001
+From b888267a4092ce9901c8fc7f214fa7ac3eca50fa Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Fri, 14 Jul 2017 13:16:08 -0700
-Subject: [PATCH 06/13] gas: enable -mshared by default.
+Subject: [PATCH 06/15] gas: enable -mshared by default.
 
 From gas help:
   -mshared        disable branch optimization for shared code.
@@ -23,7 +23,7 @@ Change-Id: Iced04054a7dfd18eef6b42c21f92c34286c215b4
  3 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/gas/config/tc-i386.c b/gas/config/tc-i386.c
-index 037fe4d18b4..cfa4cd38e04 100644
+index 623ac77307e..1499a848d0c 100644
 --- a/gas/config/tc-i386.c
 +++ b/gas/config/tc-i386.c
 @@ -595,7 +595,7 @@ static int use_big_obj = 0;
@@ -35,7 +35,7 @@ index 037fe4d18b4..cfa4cd38e04 100644
  #endif
  
  /* 1 for intel syntax,
-@@ -12718,6 +12718,7 @@ const char *md_shortopts = "qnO::";
+@@ -12735,6 +12735,7 @@ const char *md_shortopts = "qnO::";
  #define OPTION_MLFENCE_AFTER_LOAD (OPTION_MD_BASE + 31)
  #define OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH (OPTION_MD_BASE + 32)
  #define OPTION_MLFENCE_BEFORE_RET (OPTION_MD_BASE + 33)
@@ -43,7 +43,7 @@ index 037fe4d18b4..cfa4cd38e04 100644
  
  struct option md_longopts[] =
  {
-@@ -12729,6 +12730,7 @@ struct option md_longopts[] =
+@@ -12746,6 +12747,7 @@ struct option md_longopts[] =
  #if defined (OBJ_ELF) || defined (OBJ_MAYBE_ELF)
    {"x32", no_argument, NULL, OPTION_X32},
    {"mshared", no_argument, NULL, OPTION_MSHARED},
@@ -51,7 +51,7 @@ index 037fe4d18b4..cfa4cd38e04 100644
    {"mx86-used-note", required_argument, NULL, OPTION_X86_USED_NOTE},
  #endif
    {"divide", no_argument, NULL, OPTION_DIVIDE},
-@@ -12809,6 +12811,10 @@ md_parse_option (int c, const char *arg)
+@@ -12826,6 +12828,10 @@ md_parse_option (int c, const char *arg)
        shared = 1;
        break;
  
@@ -62,7 +62,7 @@ index 037fe4d18b4..cfa4cd38e04 100644
      case OPTION_X86_USED_NOTE:
        if (strcasecmp (arg, "yes") == 0)
          x86_used_note = 1;
-@@ -13496,6 +13502,8 @@ md_show_usage (FILE *stream)
+@@ -13513,6 +13519,8 @@ md_show_usage (FILE *stream)
    fprintf (stream, _("\
    -mshared                disable branch optimization for shared code\n"));
    fprintf (stream, _("\

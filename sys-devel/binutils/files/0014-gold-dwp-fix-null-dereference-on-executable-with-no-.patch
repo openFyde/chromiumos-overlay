@@ -1,7 +1,8 @@
-From 9d41774754b581cd0c21c6665e86f4f42dfa8734 Mon Sep 17 00:00:00 2001
+From 10658a9b45dd39bf1d28cd49941776b5a32d0e54 Mon Sep 17 00:00:00 2001
 From: Adrian Ratiu <adrian.ratiu@collabora.com>
 Date: Tue, 12 Jan 2021 00:46:33 +0200
-Subject: [PATCH] gold: dwp: fix null dereference on executable with no refs
+Subject: [PATCH 14/15] gold: dwp: fix null dereference on executable with no
+ refs
 
 A logic error on input validation causes an empty "files" list to
 be accepted when DWP is called with only an executable without dwo
