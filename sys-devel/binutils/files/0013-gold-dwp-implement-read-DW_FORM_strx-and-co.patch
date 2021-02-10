@@ -34,8 +34,8 @@ index 61b3ba57520..f67f4735780 100644
 +template<>
 +struct Valtype_base<24>
 +{
-+  typedef uint16_t Valtype;
-+  typedef int16_t Signed_valtype;
++  typedef uint32_t Valtype;
++  typedef int32_t Signed_valtype;
 +};
 +
  template<>
@@ -127,23 +127,15 @@ index d922300a6a1..4b3e7e41e80 100644
  	    attr_value.val.intval =
  		this->dwinfo_->read_from_pointer<16>(&pattr);
  	    break;
-@@ -804,7 +809,22 @@ Dwarf_die::read_attributes()
+@@ -804,7 +809,14 @@ Dwarf_die::read_attributes()
  		this->dwinfo_->read_from_pointer<16>(&pattr);
  	    ref_form = true;
  	    break;
 +	  case elfcpp::DW_FORM_strx3:
 +	  case elfcpp::DW_FORM_addrx3:
-+            {
-+              //FIXME: Deal with endianness here - probably have to add
-+              //functionality to Dwarf_info_reader to expose non-power-of-2
-+              //endian-adjusting reading
-+              //const unsigned char a = *pattr++, b = *pattr++, c = *pattr++;
-+              // attr_value.val.intval = ...;
-+              gold_assert(false);
 +              attr_value.val.intval =
 +                  this->dwinfo_->read_from_pointer<24>(&pattr);
 +              break;
-+            }
  	  case elfcpp::DW_FORM_data4:
 +	  case elfcpp::DW_FORM_strx4:
 +	  case elfcpp::DW_FORM_addrx4:
