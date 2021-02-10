@@ -20,7 +20,9 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="fuzzer"
 
-RDEPEND="dev-libs/openssl:=
+RDEPEND="
+	chromeos-base/vboot_reference:=
+	dev-libs/openssl:=
 	dev-libs/protobuf:=
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 	sys-fs/lvm2:="
