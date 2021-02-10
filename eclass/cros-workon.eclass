@@ -621,7 +621,9 @@ cros-workon_src_unpack() {
 				# ${CROS_WORKON_DESTDIR}. More projects either specify an array or go to
 				# ${S}/${project}.
 
-				if [[ "${CROS_WORKON_COMMIT[i]}" == "master" ]]; then
+				# NB: We keep "master" here for use with third_party repos.
+				if [[ "${CROS_WORKON_COMMIT[i]}" == "main" ||
+				      "${CROS_WORKON_COMMIT[i]}" == "master" ]]; then
 					# Since we don't have a CROS_WORKON_COMMIT revision specified,
 					# we don't know what revision the ebuild wants. Let's take the
 					# version of the code that the user has checked out.
@@ -658,6 +660,7 @@ cros-workon_src_unpack() {
 
 			# Use a subshell to avoid leaking EGIT vars.
 			(
+			: "${EGIT_MASTER:=main}"
 			EGIT_BRANCH="${branch[i]}"
 			EGIT_REPO_URI="${repo[i]}/${project[i]}.git"
 			EGIT_PROJECT="${project[i]}"
