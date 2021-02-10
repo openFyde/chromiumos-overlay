@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e68cb1efea01ef761da3cd5b55ef247879d48035"
+CROS_WORKON_COMMIT="beb688a425d1a77e7fa731ba5712b591c0cecba9"
 CROS_WORKON_TREE="dbc27ef37714a95283ae20607ecf81741c32680f"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,7 +23,6 @@ IUSE="
 	arc_first_release_n
 	nocheck
 	cheets_user cheets_user_64
-	kernel-5_10
 "
 DEPEND="
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
@@ -323,9 +322,7 @@ src_install() {
 	doins file_contexts
 
 	insinto /etc/selinux
-	# TODO(b/177855516): Revert the kernel check once ARC policy is
-	# compatible with 5.10.
-	if use selinux_experimental || use kernel-5_10; then
+	if use selinux_experimental; then
 		newins "${FILESDIR}/selinux_config_experimental" config
 	else
 		newins "${FILESDIR}/selinux_config" config
