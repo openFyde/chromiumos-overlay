@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f94fa4ae6da723e39c479c9414b28f0d2e29d0c4"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "fc2abfea0ab03cdff2a2bef1354899233d00afe1" "8bfaa8188199dedc98cc1972bc5318adb8289111" "6aefce87a7cf5e4abd0f0466c5fa211f685a1193")
+CROS_WORKON_COMMIT="30ec26bd1d5934aa28b6cb5bd129c58b928e7460"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6c23c8d642d731a3097dd224fdf12f204d47f32c" "8bfaa8188199dedc98cc1972bc5318adb8289111" "6aefce87a7cf5e4abd0f0466c5fa211f685a1193")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/809389): Remove libmems from this list.
@@ -42,6 +42,9 @@ src_install() {
 	# Install upstart configuration.
 	insinto /etc/init
 	doins init/iioservice.conf
+
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.Iioservice.conf
 
 	# Install seccomp policy file.
 	insinto /usr/share/policy
