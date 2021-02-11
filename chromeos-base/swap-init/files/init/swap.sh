@@ -284,7 +284,7 @@ start() {
                            --key-size 256 --hash sha256 --iter-time 2000 \
                            --use-urandom --verify-passphrase luksFormat \
                            --integrity hmac-sha256 --integrity-no-journal \
-                           --key-file - $swap_device
+                           --sector-size 4096 --key-file - $swap_device
     echo $key | cryptsetup open --integrity-no-journal --key-file \
                            - $swap_device enc-int-swap
     mkswap "/dev/mapper/enc-int-swap" ||
