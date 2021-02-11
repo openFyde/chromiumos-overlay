@@ -33,10 +33,13 @@ DEPEND="${COMMON_DEPEND}
 	app-text/htmltidy
 "
 
-BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
+# TODO(b/173653826): Re-add PYTHON_USEDEP once python2 is dropped.
+BDEPEND="test? ( dev-python/pytest )"
 
 src_test() {
 	python_test() {
+		# TODO(b/173653826): Delete this check once python2 is dropped.
+		python_is_python3 || return
 		py.test -v build/ || die
 	}
 	python_foreach_impl python_test
