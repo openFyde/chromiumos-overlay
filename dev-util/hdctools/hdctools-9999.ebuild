@@ -3,7 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/hdctools"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{2_7,3_{6..9}} )
 
 inherit cros-workon distutils-r1 toolchain-funcs udev
 
