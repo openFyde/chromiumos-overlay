@@ -41,6 +41,7 @@ IUSE_TESTS="
 	+tests_cellular_ServiceName
 	+tests_cellular_Smoke
 	+tests_cellular_StressEnable
+	+tests_cellular_ValidateTestEnvironment
 "
 
 IUSE_MBIM_TESTS="
