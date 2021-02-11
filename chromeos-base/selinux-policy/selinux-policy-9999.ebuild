@@ -17,6 +17,7 @@ IUSE="
 	android-container-pi
 	android-vm-master
 	android-vm-rvc
+	android-vm-sc
 	selinux_audit_all selinux_develop selinux_experimental
 	arc_first_release_n
 	nocheck
@@ -26,6 +27,7 @@ DEPEND="
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
 	android-vm-master? ( chromeos-base/android-vm-master:0= )
 	android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
+	android-vm-sc? ( chromeos-base/android-vm-sc:0= )
 "
 
 RDEPEND="
@@ -127,6 +129,8 @@ gen_m4_flags() {
 		arc_version="p"
 	elif use android-vm-rvc; then
 		arc_version="r"
+	elif use android-vm-sc; then
+		arc_version="s"
 	elif use android-vm-master; then
 		arc_version="master"
 	fi
