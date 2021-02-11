@@ -24,6 +24,7 @@ COMMON_DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/vboot_reference:=
 	dev-libs/protobuf:=
+	dev-libs/re2:=
 	net-libs/libpcap:=
 	net-wireless/iw:=
 	sys-apps/rootdev:=
@@ -77,6 +78,7 @@ src_install() {
 	doexe "${OUT}"/icmp
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
+	doexe "${OUT}"/usb4_devinfo_helper
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
 
