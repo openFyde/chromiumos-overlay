@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("f94fa4ae6da723e39c479c9414b28f0d2e29d0c4" "53c5ad2c2c27dec23c988a832f034ca1dd979f34")
+CROS_WORKON_COMMIT=("d6d9a8fb5dd19d2388d2dd669b0c1f510571f831" "33475e24946089d731e0a971926a6724a47e472e")
 CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c1fa41175af84710f4a22f81faab420dcbb774c5")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/tast-tests")
 CROS_WORKON_LOCALNAME=("platform2" "platform/tast-tests")
@@ -27,7 +27,10 @@ COMMON_DEPEND="
 	media-libs/minigbm:=
 	x11-libs/libdrm:=
 "
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/goldctl
+"
 DEPEND="${RDEPEND}"
 
 src_install() {
