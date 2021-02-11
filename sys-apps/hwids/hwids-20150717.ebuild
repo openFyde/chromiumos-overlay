@@ -74,14 +74,7 @@ src_install() {
 
 	if use hwids-lite; then
 		cd "${D}/$(get_udevdir)/hwdb.d" || die
-		rm 20-OUI.hwdb 20-pci-vendor-model.hwdb 20-usb-vendor-model.hwdb || die
-	fi
-}
-
-pkg_postinst() {
-	if use udev; then
-		udevadm hwdb --update --root="${ROOT%/}"
-		# http://cgit.freedesktop.org/systemd/systemd/commit/?id=1fab57c209035f7e66198343074e9cee06718bda
-		[ "${ROOT:-/}" = "/" ] && udevadm control --reload
+		rm 20-OUI.hwdb 20-pci-vendor-model.hwdb || die
+		use usb && ( rm "${D}/usr/share/misc/usb.ids" || die )
 	fi
 }
