@@ -22,11 +22,12 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="-cert_provision +device_mapper -direncryption +direncription_allow_v2
-	double_extend_pcr_issue fuzzer generated_cros_config is-kernelnext
-	mount_oop +vault_legacy_mount +downloads_bind_mount lvm_stateful_partition
-	pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
-	user_session_isolation vtpm_proxy"
+IUSE="-cert_provision +device_mapper -direncryption -direncription_allow_v2
+	double_extend_pcr_issue fuzzer generated_cros_config kernel-5_4 kernel-5_10
+	kernel-upstream mount_oop +vault_legacy_mount +downloads_bind_mount
+	lvm_stateful_partition pinweaver selinux systemd test
+	tpm tpm2 tpm2_simulator unibuild uprev-4-to-5 user_session_isolation
+	vtpm_proxy"
 
 REQUIRED_USE="
 	device_mapper
@@ -107,6 +108,14 @@ src_install() {
 	doins etc/org.chromium.UserDataAuth.conf
 	if use tpm2; then
 		doins etc/BootLockbox.conf
+	fi
+
+	if use direncription_allow_v2 && ( (use !kernel-5_4 && use !kernel-5_10 && use !kernel-upstream) || use uprev-4-to-5); then
+		die "fscrypt_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
+	fi
+
+	if use !direncription_allow_v2 && (use kernel-5_4 || use kernel-5_10 || use kernel-upstream) && use !uprev-4-to-5; then
+		die "fscrypt_v2 is not enabled where it should be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
 	fi
 
 	# Install init scripts
