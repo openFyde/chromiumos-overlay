@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ee4cb602b07c0d9deb2fe3db75a1b9b9523fb0bf"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "da25eefd3c0c9f59c7ef606fbc9c4ac8dacf0228" "dc74dcbb8dc3aeeef2101c761a20e0f315ddd08e" "efc0f4d17bd35c49071fe6ef21ff5275d2de54a1" "7702209ae6e5503ec2d174fc85bf33e2f3bcff8a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d6d9a8fb5dd19d2388d2dd669b0c1f510571f831"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "da25eefd3c0c9f59c7ef606fbc9c4ac8dacf0228" "dc74dcbb8dc3aeeef2101c761a20e0f315ddd08e" "6c23c8d642d731a3097dd224fdf12f204d47f32c" "efc0f4d17bd35c49071fe6ef21ff5275d2de54a1" "9562612f7d6e30b3c3bdaaa7d1cb1299f06320f6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk buffet chromeos-config metrics power_manager .gn"
+CROS_WORKON_SUBTREE="common-mk buffet chromeos-config iioservice metrics power_manager .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="power_manager"
@@ -21,7 +21,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco trogdor_sar_hack"
+IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco trogdor_sar_hack"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -40,6 +40,7 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/ec-utils
+	iioservice? ( chromeos-base/libiioservice_ipc:= )
 	mosys_eventlog? ( sys-apps/mosys )
 	trogdor_sar_hack? ( net-libs/libqrtr:= )
 "
