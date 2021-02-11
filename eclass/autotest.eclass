@@ -339,6 +339,25 @@ autotest_src_install() {
 		doins -r "${AUTOTEST_WORKDIR}/${dir}"
 	done
 
+	# delete the top level symlink beforehand
+	find ${AUTOTEST_WORKDIR} -name "autotest_lib" -delete \
+		|| die "Top level symlink did not exist!"
+
+
+	# Create the top level symlink (want autotest_lib --> .)
+	dosym ${AUTOTEST_WORKDIR} ${AUTOTEST_WORKDIR}/autotest_lib
+
+	# Delete the client symlink dir and files first (if it exists.)
+	find ${AUTOTEST_WORKDIR}/client/autotest_lib -name "client" -delete
+
+	# Create the client symlink dir
+	mkdir -p ${AUTOTEST_WORKDIR}/client/autotest_lib \
+		|| die "Could not created client/autotest_lib dir"
+	touch ${AUTOTEST_WORKDIR}/client/autotest_lib/__init__.py \
+		|| die "Could not create init in client/autotest_lib"
+	# Create the symlink (want client --> ../)
+	dosym ${AUTOTEST_WORKDIR}/client ${AUTOTEST_WORKDIR}/client/autotest_lib/client
+
 	# Install the deps, configs, profilers.
 	# Difference from above is, we don't install the whole thing, just
 	# the stuff provided by this package, by looking at AUTOTEST_*_LIST.
