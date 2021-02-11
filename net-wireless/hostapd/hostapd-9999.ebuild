@@ -142,6 +142,7 @@ src_configure() {
 	echo "CONFIG_FST=y" >> ${CONFIG}
 	echo "CONFIG_FST_TEST=y" >> ${CONFIG}
 	echo "CONFIG_ACS=y" >> ${CONFIG}
+	echo "CONFIG_MBO=y" >> ${CONFIG}
 
 	# Disable random pool to work-around the slow random entropy
 	# generation on whirlwind. (See: crbug.com/1114912#c9)
