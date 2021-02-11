@@ -14,6 +14,7 @@ if [[ $(cros_target) != "cros_host" ]]; then
     /lib/udev/rules.d/69-dm-lvm-metad.rules
     /usr/lib*/liblvm2app.so*
     /usr/lib*/pkgconfig/lvm2app.pc
+    /usr/lib/tmpfiles.d/lvm2.conf
     /usr/include/lvm2app.h
     /sbin/lvmetad
     /sbin/lvpolld
