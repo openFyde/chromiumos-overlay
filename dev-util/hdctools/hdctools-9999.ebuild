@@ -16,12 +16,12 @@ IUSE="cros_host test"
 
 COMMON_DEPEND="
 	>=dev-embedded/libftdi-0.18:=
-	dev-python/numpy:=[${PYTHON_USEDEP}]
-	>=dev-python/pexpect-3.0:=[${PYTHON_USEDEP}]
-	dev-python/pyserial:=[${PYTHON_USEDEP}]
-	>=dev-python/pyusb-1.0.2:=[${PYTHON_USEDEP}]
+	dev-python/numpy[${PYTHON_USEDEP}]
+	>=dev-python/pexpect-3.0[${PYTHON_USEDEP}]
+	dev-python/pyserial[${PYTHON_USEDEP}]
+	>=dev-python/pyusb-1.0.2[${PYTHON_USEDEP}]
 	sys-power/uhubctl
-	virtual/libusb:1
+	virtual/libusb:1=
 	chromeos-base/ec-devutils:=[${PYTHON_USEDEP}]
 "
 
@@ -30,10 +30,10 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
-	app-text/htmltidy:=
+	app-text/htmltidy
 "
 
-BDEPEND="test? ( dev-python/pytest:=[${PYTHON_USEDEP}] )"
+BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
 
 src_test() {
 	python_test() {
