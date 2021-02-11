@@ -21,8 +21,9 @@ KEYWORDS="~*"
 RDEPEND=""
 
 DEPEND="${RDEPEND}
-	=dev-rust/dbus-0.8*:=
 	dev-rust/chromeos-dbus-bindings:=
+	=dev-rust/dbus-0.8*:=
+	=dev-rust/getopts-0.2*:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
 
