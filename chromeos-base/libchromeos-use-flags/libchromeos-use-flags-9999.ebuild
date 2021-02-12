@@ -51,6 +51,7 @@ IUSE="
 	dlc
 	drm_atomic
 	edge_touch_filtering
+	enable_dsp_hotword
 	enable_heuristic_palm_detection_filter
 	enable_neural_palm_detection_filter
 	force_breakpad
