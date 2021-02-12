@@ -40,7 +40,8 @@ src_install() {
 	cd build-opt-local || return
 	dobin atomictest drm_cursor_test dmabuf_test gamma_test linear_bo_test \
 	mapped_texture_test mmap_test null_platform_test plane_test \
-	synctest swrast_test v4l2_stateful_encoder udmabuf_create_test
+	synctest swrast_test v4l2_stateful_decoder v4l2_stateful_encoder \
+	udmabuf_create_test
 
 	if use vulkan; then
 		dobin vk_glow
