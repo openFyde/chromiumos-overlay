@@ -485,11 +485,6 @@
         "start_version": 399095
     },
     {
-        "comment": "Revert \"[Driver] -B: don't search for target triple prefixes\"",
-        "rel_patch_path": "revert-3452a0d8c17f7166f479706b293caf6ac76ffd90.patch",
-        "start_version": 399715
-    },
-    {
         "comment": "Revert \"[ARM][LowOverheadLoops] Adjust Start insertion.\"",
         "rel_patch_path": "cherry/6dcbc323fd8778ba6db1c4e76c809f93fc82efc5.patch",
         "start_version": 406792,
