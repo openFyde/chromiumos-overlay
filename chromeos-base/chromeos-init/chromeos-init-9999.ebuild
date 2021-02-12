@@ -50,6 +50,7 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-common-script
 	chromeos-base/tty
 	sys-apps/upstart
+	!systemd? ( sys-apps/systemd-tmpfiles )
 	sys-process/lsof
 	virtual/chromeos-bootcomplete
 	!cros_embedded? (
