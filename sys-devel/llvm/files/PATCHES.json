@@ -614,5 +614,23 @@
         "rel_patch_path": "cherry/b3165a70ae83b46dc145f335dfa9690ece361e92.patch",
         "start_version": 412851,
         "end_version": 418036
+    },
+    {
+        "comment": "[Clang] Make nomerge attribute a function attribute as well as a statement attribute.",
+        "rel_patch_path": "cherry/fb0f7288051eb2745bb9211306f53ff9aa6f73e2.patch",
+        "start_version": 412851,
+        "end_version": 414124
+    },
+    {
+        "comment": "test file update for e53bbd9951",
+        "rel_patch_path": "test-nomerge-fd739804e0591468762eb87488a497a3f7d4afb0.patch",
+        "start_version": 412851,
+        "end_version": 414886
+    },
+    {
+        "comment": "[IR] move nomerge attribute from function declaration/definition to callsites",
+        "rel_patch_path": "cherry/e53bbd99516fc7b612df1ae08d48288d0b8784ea.patch",
+        "start_version": 412851,
+        "end_version": 415826
     }
 ]
