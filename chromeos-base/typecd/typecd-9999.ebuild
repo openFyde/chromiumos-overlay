@@ -39,6 +39,10 @@ src_install() {
 	# Install rsyslog config.
 	insinto /etc/rsyslog.d
 	doins rsyslog/rsyslog.typecd.conf
+
+	# Install D-Bus permission config.
+	insinto /etc/dbus-1/system.d
+	doins dbus/typecd.conf
 }
 
 pkg_preinst() {
