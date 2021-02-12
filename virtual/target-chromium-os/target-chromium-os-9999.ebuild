@@ -235,6 +235,7 @@ RDEPEND="
 	eclog? ( chromeos-base/timberslide )
 	chromeos-base/chromeos-machine-id-regen
 	systemd? ( sys-apps/systemd )
+	!systemd? ( sys-apps/systemd-tmpfiles )
 	usbguard? ( sys-apps/usbguard )
 	kvm_host? (
 		chromeos-base/crosdns
@@ -325,10 +326,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	sys-apps/flashrom
 	sys-apps/iproute2
 	sys-apps/rootdev
-	!systemd? (
-		sys-apps/systemd-tmpfiles
-		sys-apps/upstart
-	)
+	!systemd? ( sys-apps/upstart )
 	sys-fs/e2fsprogs
 	virtual/assets
 	virtual/cheets
