@@ -28,6 +28,7 @@ BOARD_USE_PREFIX="board_use_"
 # they won't be accidentally recycled in the future.
 ALL_BOARDS=(
 	acorn
+	adlrvp
 	ambassador
 	amd64-corei7
 	#amd64-drm
