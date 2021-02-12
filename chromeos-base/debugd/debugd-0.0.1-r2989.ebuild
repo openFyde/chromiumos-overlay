@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ef54f5f8aa2e401e126de5e81bd02dd03e74b5d2"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "cb540d8a80cd0a7f77bdb3538e9c0b2875f5ad88" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="42d7430951aa65fd821773327064cf2252a7a4f6"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "fa0d83590e7023f2571b76adafbcf9332c705ba9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ COMMON_DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/vboot_reference:=
 	dev-libs/protobuf:=
+	dev-libs/re2:=
 	net-libs/libpcap:=
 	net-wireless/iw:=
 	sys-apps/rootdev:=
@@ -79,6 +80,7 @@ src_install() {
 	doexe "${OUT}"/icmp
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
+	doexe "${OUT}"/usb4_devinfo_helper
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
 
