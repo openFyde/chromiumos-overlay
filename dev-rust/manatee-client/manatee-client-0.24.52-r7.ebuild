@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ceeaf6e4d7a1270061aa440d91faa3a52b744c30"
-CROS_WORKON_TREE=("c2fe120f7a53b772a14d7477e3aef523b09d1253" "3508d2f3db0647ef3871071db0b2fbfd7b6af042")
+CROS_WORKON_COMMIT="aff8c664176d2b0fb9a344762475789596beffca"
+CROS_WORKON_TREE=("7635a8e2d1db6e542aa2ffcbde3fb56684182bad" "3508d2f3db0647ef3871071db0b2fbfd7b6af042")
 CROS_RUST_SUBDIR="sirenia/manatee-client"
 
 CROS_WORKON_LOCALNAME="../platform2"
@@ -23,8 +23,9 @@ KEYWORDS="*"
 RDEPEND=""
 
 DEPEND="${RDEPEND}
-	=dev-rust/dbus-0.8*:=
 	dev-rust/chromeos-dbus-bindings:=
+	=dev-rust/dbus-0.8*:=
+	=dev-rust/getopts-0.2*:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
 
