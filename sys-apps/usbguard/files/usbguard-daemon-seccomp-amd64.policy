@@ -72,4 +72,6 @@ gettid: 1
 gettimeofday: 1
 open: 1
 rt_sigreturn: 1
+sched_getattr: 1
+sched_setattr: 1
 unlink: 1

@@ -73,6 +73,9 @@ open: 1
 prlimit64: arg2 == 0 && arg3 != 0
 recvfrom: 1
 rt_sigreturn: 1
+tee: 1
+sched_getattr: 1
+sched_setattr: 1
 sendto: 1
 setpgid: 1
 unlink: 1
