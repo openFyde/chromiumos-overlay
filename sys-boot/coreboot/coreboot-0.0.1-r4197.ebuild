@@ -55,7 +55,7 @@ KEYWORDS="*"
 IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
 IUSE="${IUSE} +bmpblk +intel_mrc qca-framework quiet unibuild verbose"
 IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
-IUSE="${IUSE} generated_cros_config"
+IUSE="${IUSE} chipset_cezanne generated_cros_config"
 # virtual/coreboot-private-files is deprecated. When adding a new board you
 # should add the coreboot-private-files-{board/chipset} ebuilds into the private
 # overlays, and avoid creating virtual packages.
@@ -77,6 +77,7 @@ DEPEND="
 		amd64? ( sys-boot/chromeos-mrc:= ) )
 	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
 	chipset_picasso? ( >=sys-boot/amd-picasso-fsp-0.0.2:= )
+	chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= )
 	qca-framework? ( sys-boot/qca-framework:= )
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
