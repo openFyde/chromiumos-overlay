@@ -341,6 +341,9 @@ src_install() {
 		ln -s "../../../bin/idle${PYVER}" \
 			"${D}${PYTHON_SCRIPTDIR}/idle" || die
 	fi
+
+	# Delete unittests as they are a waste of space and are unused.
+	rm -rf "${libdir}/test" "${libdir}"/{ctypes,email,sqlite3,unittest}/test || die
 }
 
 pkg_preinst() {
