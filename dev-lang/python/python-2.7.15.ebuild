@@ -493,6 +493,9 @@ src_install() {
 	# need be.
 	ln "${ED}/usr/include/python${SLOT}/pyconfig.h" "${libdir}/pyconfig_h" || die
 
+	# Delete unittests as they are a waste of space and are unused.
+	rm -rf "${libdir}/test" "${libdir}"/{ctypes,email,sqlite3,unittest}/test || die
+
 	# Workaround https://bugs.gentoo.org/380569
 	keepdir /etc/env.d/python
 }
