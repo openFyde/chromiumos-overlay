@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="38e323160150a23e784273ddbcd3798c5a9dab32"
+CROS_WORKON_COMMIT="fb6beff7f39b46c63e44122c18d5fc6434d751ca"
 CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "e3555f7e931e5fba666e6dfefe63703808fdef2f" "0c2ebc064b0a6c25375024e6768bcb7c4d4b3202" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -52,6 +52,7 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-common-script
 	chromeos-base/tty
 	sys-apps/upstart
+	!systemd? ( sys-apps/systemd-tmpfiles )
 	sys-process/lsof
 	virtual/chromeos-bootcomplete
 	!cros_embedded? (
