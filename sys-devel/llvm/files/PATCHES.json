@@ -651,5 +651,17 @@
         "rel_patch_path": "cherry/1d51c699b9e2ebc5bcfdbe85c74cc871426333d4.patch",
         "start_version": 412851,
         "end_version": 418022
+    },
+    {
+        "comment": "[X86] Add reduced test case for PR49162",
+        "rel_patch_path": "cherry/5ca3ef98a71598d368f6f4aaf0b385b50b67ce4a.patch",
+        "start_version": 416609,
+        "end_version": 418887
+    },
+    {
+        "comment": "[DAG] Fix shift amount limit in SimplifyDemandedBits trunc(shift(x,c)) to truncated bitwidth",
+        "rel_patch_path": "cherry/7ad0c573bd4a68dc81886037457d47daa3d6aa24.patch",
+        "start_version": 416609,
+        "end_version": 418889
     }
 ]
