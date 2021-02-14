@@ -72,9 +72,15 @@ src_compile() {
 
 	cd "${S}/src"
 	einfo "Building the cross compiler for ${CTARGET}."
-	GOOS="linux" GOARCH="$(get_goarch ${CTARGET})" CGO_ENABLED="1" \
-		CC_FOR_TARGET="$(tc-getTARGET_CC)" \
-		CXX_FOR_TARGET="$(tc-getTARGET_CXX)" \
+	local go_target_cc="$(tc-getTARGET_CC)"
+	local go_target_cxx="$(tc-getTARGET_CXX)"
+	if [[ "$(tc-arch "${CBUILD}")" == "$(tc-arch "${CTARGET}")" ]]; then
+		go_target_cc="$(tc-getBUILD_CC)"
+		go_target_cxx="$(tc-getBUILD_CXX)"
+	fi
+	GOOS="linux" GOARCH="$(get_goarch "${CTARGET}")" CGO_ENABLED="1" \
+		CC_FOR_TARGET="${go_target_cc}" \
+		CXX_FOR_TARGET="${go_target_cxx}" \
 		./make.bash || die
 
 	if is_cross ; then
