@@ -266,6 +266,7 @@ ALL_BOARDS=(
 	lakitu-slice
 	lakitu-st
 	lars
+	lars-kernelnext
 	laser
 	lasilla-ground
 	#lasilla-sky
