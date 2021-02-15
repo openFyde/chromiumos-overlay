@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2594e3ed83b337c6c8e3627f546c694ade4e98c9"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "da25eefd3c0c9f59c7ef606fbc9c4ac8dacf0228" "dc74dcbb8dc3aeeef2101c761a20e0f315ddd08e" "836d1d444a0f91c853b8bd0e34f8d9a9b8d4444b" "0c2ebc064b0a6c25375024e6768bcb7c4d4b3202" "b9c51968264749bfdf857dce5c0113fa5cbc4805" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6dda454e19388b70ea7e73bebff8154d1e862a49"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "da25eefd3c0c9f59c7ef606fbc9c4ac8dacf0228" "dc74dcbb8dc3aeeef2101c761a20e0f315ddd08e" "836d1d444a0f91c853b8bd0e34f8d9a9b8d4444b" "0c2ebc064b0a6c25375024e6768bcb7c4d4b3202" "0d88dd77d22f7837f807699c23904cf789be7dd7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -69,7 +69,6 @@ src_install() {
 	dobin "${OUT}"/powerd_setuid_helper
 	dobin "${OUT}"/power_supply_info  # feedback
 	dobin "${OUT}"/set_cellular_transmit_power
-	use trogdor_sar_hack && dobin "${OUT}"/set_cellular_transmit_power_trogdor
 	dobin "${OUT}"/set_wifi_transmit_power
 	fowners root:power /usr/bin/powerd_setuid_helper
 	fperms 4750 /usr/bin/powerd_setuid_helper

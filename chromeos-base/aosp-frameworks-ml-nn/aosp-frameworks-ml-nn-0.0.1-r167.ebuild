@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("f94fa4ae6da723e39c479c9414b28f0d2e29d0c4" "b2ff2115ebba168c055b3aa9719ed7951574abb3" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "16d139ae427829ea5ccee2fb55aff298a6ccdd85" "7a08574830b90bb538e281ba8c2240d2826fefb9")
+CROS_WORKON_COMMIT=("6dda454e19388b70ea7e73bebff8154d1e862a49" "741b1eaffd8e7645b9fececf0fc6effeb91dd357" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5fa9006674302e7ac355e91318e4f69023895938" "7a08574830b90bb538e281ba8c2240d2826fefb9")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -109,11 +109,6 @@ platform_pkg_test() {
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeout:"
 	qemu_gtest_excl_filter+="ValidationTestCompilationForDevices_1.ExecutionSetTimeoutMaximum:"
 
-	# The ExecutionTest's are sporadically failing which is timing out builds.
-	# This is annoying for everyone, so really need to figure it out. It's very hard
-	# to reproduce locally, so tracking that in crbug/1168686.
-	gtest_excl_filter+="*ExecutionTest*:"
-
 	if use asan; then
 		# Some tests do not correctly clean up the Execution object and it is
 		# left 'in-flight', which gets ignored by ANeuralNetworksExecution_free.
@@ -136,17 +131,6 @@ platform_pkg_test() {
 		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/1:"
 		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/2:"
 		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/4:"
-
-		# TODO(b/163081732): Fix tests that freeze in asan (jmpollock)
-		# Now we have a situation where these tests are hanging in asan, but I can't
-		# reproduce this locally (Flavor/ExecutionTest13.Wait/0).
-		# The duplication to the above is intentional, as fixing this issue will not
-		# fix the one above.
-		gtest_excl_filter+="Flavor/ExecutionTest10.Wait/*:"
-		gtest_excl_filter+="Flavor/ExecutionTest11.Wait/*:"
-		gtest_excl_filter+="Flavor/ExecutionTest12.Wait/*:"
-		gtest_excl_filter+="Flavor/ExecutionTest13.Wait/*:"
-		gtest_excl_filter+="IntrospectionFlavor/ExecutionTest13.Wait/*:"
 
 		# This is due to a leak caused when copying the memory pools
 		# into the request object in this test. lsan_suppressions doesn't
