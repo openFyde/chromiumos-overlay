@@ -60,5 +60,15 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/arc-data-snapshotd_test"
+	# Disable tests that invoke arc::data_snapshotd::CopySnapshotDirectory()
+	# on qemu.
+	local gtest_filter_qemu=""
+	gtest_filter_qemu+="-DBusAdaptorTest.TakeSnapshotAndroidDataSymLink:"
+	gtest_filter_qemu+="DBusAdaptorTest.TakeSnapshotDouble:"
+	gtest_filter_qemu+="DBusAdaptorTest.LoadSnapshotUnknownUser:"
+	gtest_filter_qemu+="DBusAdaptorTest.LoadSnapshotSuccess:"
+	gtest_filter_qemu+="DBusAdaptorTest.LoadSnapshotPreviousSuccess:"
+
+	platform_test "run" "${OUT}/arc-data-snapshotd_test" "" "" \
+		"${gtest_filter_qemu}"
 }
