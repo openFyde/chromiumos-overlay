@@ -4,11 +4,11 @@ DEPEND=!static? ( atahpt? ( sys-apps/pciutils ) dediprog? ( virtual/libusb:1 ) d
 DESCRIPTION=Utility for reading, writing, erasing and verifying flash ROM chips
 EAPI=7
 HOMEPAGE=https://flashrom.org/
-IUSE=atahpt +bitbang_spi +buspirate_spi dediprog +drkaiser +dummy +fdtmap +ft2232_spi +gfxnvidia +internal +linux_mtd +linux_spi +lspcon_i2c_spi +nic3com +nicintel +nicintel_spi +nicnatsemi +nicrealtek +ogp_spi +raiden_debug_spi +rayer_spi +realtek_mst_i2c_spi +satasii +satamv +serprog static +wiki cros_host cros_workon_tree_4fb4ac8784fd884d7d253bba511d4f876deade21
+IUSE=atahpt +bitbang_spi +buspirate_spi dediprog +drkaiser +dummy +fdtmap +ft2232_spi +gfxnvidia +internal +linux_mtd +linux_spi +lspcon_i2c_spi +nic3com +nicintel +nicintel_spi +nicnatsemi +nicrealtek +ogp_spi +raiden_debug_spi +rayer_spi +realtek_mst_i2c_spi +satasii +satamv +serprog static +wiki cros_host cros_workon_tree_341228e774e2eb9dfdfae5ef84566f37fe123c8c
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=!static? ( atahpt? ( sys-apps/pciutils ) dediprog? ( virtual/libusb:1 ) drkaiser? ( sys-apps/pciutils ) fdtmap? ( sys-apps/dtc ) ft2232_spi? ( dev-embedded/libftdi:= ) gfxnvidia? ( sys-apps/pciutils ) internal? ( sys-apps/pciutils ) nic3com? ( sys-apps/pciutils ) nicintel_spi? ( sys-apps/pciutils ) nicintel? ( sys-apps/pciutils ) nicnatsemi? ( sys-apps/pciutils ) nicrealtek? ( sys-apps/pciutils ) raiden_debug_spi? ( virtual/libusb:1 ) ogp_spi? ( sys-apps/pciutils ) rayer_spi? ( sys-apps/pciutils ) satamv? ( sys-apps/pciutils ) satasii? ( sys-apps/pciutils ) ) internal? ( sys-apps/dmidecode )
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	e846c3f700629c18772d8d554d27dfab	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=b96b4fbfaae09518c71e88e2bf2c92a6
+_md5_=8f290dc83b4be98c25d366bbd976853d
