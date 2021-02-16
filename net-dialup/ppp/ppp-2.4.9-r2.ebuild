@@ -1,49 +1,49 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit linux-info multilib pam toolchain-funcs udev user
 
-PATCH_VER="6"
+PATCH_TARBALL_NAME="${PN}-2.4.9-patches-02"
 DESCRIPTION="Point-to-Point Protocol (PPP)"
 HOMEPAGE="https://ppp.samba.org/"
-SRC_URI="https://download.samba.org/pub/ppp/${P}.tar.gz
-	https://dev.gentoo.org/~polynomial-c/${P}-patches-${PATCH_VER}.tar.xz
+SRC_URI="https://github.com/paulusmack/ppp/archive/${P}.tar.gz
+	https://dev.gentoo.org/~polynomial-c/${PATCH_TARBALL_NAME}.tar.xz
 	http://www.netservers.net.uk/gpl/ppp-dhcpc.tgz"
 
 LICENSE="BSD GPL-2"
 SLOT="0/${PV}"
 KEYWORDS="*"
-IUSE="activefilter atm dhcp eap-tls gtk ipv6 libressl pam radius"
+IUSE="activefilter atm dhcp gtk ipv6 libressl pam radius"
 
-DEPEND="activefilter? ( net-libs/libpcap )
+DEPEND="
+	activefilter? ( net-libs/libpcap )
 	atm? ( net-dialup/linux-atm )
-	pam? ( virtual/pam )
+	pam? ( sys-libs/pam )
 	gtk? ( x11-libs/gtk+:2 )
-	eap-tls? (
-		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl:= )
-	)"
-RDEPEND="${DEPEND}"
+	!libressl? ( dev-libs/openssl:0= )
+	libressl? ( dev-libs/libressl:= )
+"
+RDEPEND="${DEPEND}
+	!<net-misc/netifrc-0.7.1-r2"
 PDEPEND="net-dialup/ppp-scripts"
+
+S="${WORKDIR}/${PN}-${P}"
 
 src_prepare() {
 	mv "${WORKDIR}/dhcp" "${S}/pppd/plugins" || die
 
-	if ! use eap-tls ; then
-		rm "${WORKDIR}"/patch/8?_all_eaptls-* || die
-	fi
-	eapply "${WORKDIR}"/patch
+	eapply "${WORKDIR}"/patches
 	# Apply Chromium OS specific patch regarding the nosystemconfig option
 	# See https://chromium-review.googlesource.com/#/c/7751/ and
 	# http://crosbug.com/17185 for details.
-	eapply "${FILESDIR}/${PN}-2.4.6-systemconfig.patch"
-	# Fix for clang FORTIFY (crbug.com/640358).
-	eapply "${FILESDIR}/${PN}-remove-ttyname.patch"
-	eapply "${FILESDIR}/${PN}-2.4.6-allow-non-root.patch"
-	eapply "${FILESDIR}/${PN}-2.4.6-specify-runtime-data-dir.patch"
-	eapply "${FILESDIR}/${PN}-2.4.7-no-regain-root.patch"
+	eapply "${FILESDIR}/${PN}-2.4.9-systemconfig.patch"
+	eapply "${FILESDIR}/${PN}-2.4.9-allow-non-root.patch"
+	eapply "${FILESDIR}/${PN}-2.4.9-specify-runtime-data-dir.patch"
+	eapply "${FILESDIR}/${PN}-2.4.9-no-regain-root.patch"
+	eapply "${FILESDIR}/${PN}-2.4.9-fix-cros-sysroot-poison.patch"
+	eapply "${FILESDIR}/${PN}-2.4.9-disable-eaptls.patch"
 
 	if use atm ; then
 		einfo "Enabling PPPoATM support"
@@ -61,9 +61,10 @@ src_prepare() {
 		sed -i '/^#USE_PAM=y/s:^#::' pppd/Makefile.linux || die
 	fi
 
-	if use ipv6 ; then
-		einfo "Enabling IPv6"
-		sed -i '/#HAVE_INET6/s:#::' pppd/Makefile.linux || die
+	if ! use ipv6 ; then
+		einfo "Disabling IPv6"
+		sed -i '/^HAVE_INET6/s:^:#:' pppd/Makefile.linux || die
+	else
 		echo "+ipv6" >> etc.ppp/options || die
 	fi
 
@@ -135,7 +136,7 @@ src_install() {
 	# Install pppd header files
 	emake -C pppd INSTROOT="${D}" install-devel
 
-	dosbin pppd/plugins/rp-pppoe/pppoe-discovery
+	dosbin pppd/plugins/pppoe/pppoe-discovery
 
 	dodir /etc/ppp/peers
 	insinto /etc/ppp
@@ -146,17 +147,18 @@ src_install() {
 	insopts -o shill -g shill -m0644
 	doins etc.ppp/options
 
-	pamd_mimic_system ppp auth account session
+	if use pam; then
+		pamd_mimic_system ppp auth account session
+	fi
 
 	local PLUGINS_DIR="/usr/$(get_libdir)/pppd/${PV}"
-	# closing " for syntax coloring
 	insinto "${PLUGINS_DIR}"
 	insopts -o shill -g shill -m0755
 	doins pppd/plugins/minconn.so
 	doins pppd/plugins/passprompt.so
 	doins pppd/plugins/passwordfd.so
 	doins pppd/plugins/winbind.so
-	doins pppd/plugins/rp-pppoe/rp-pppoe.so
+	doins pppd/plugins/pppoe/pppoe.so
 	doins pppd/plugins/pppol2tp/openl2tp.so
 	doins pppd/plugins/pppol2tp/pppol2tp.so
 	if use atm ; then
@@ -191,10 +193,9 @@ src_install() {
 	doman scripts/pon.1
 
 	# Adding misc. specialized scripts to doc dir
-	insinto /usr/share/doc/${PF}/scripts/chatchat
-	doins scripts/chatchat/*
-	insinto /usr/share/doc/${PF}/scripts
-	doins scripts/*
+	dodoc -r scripts
+	docinto scripts
+	dodoc -r scripts/chatchat
 
 	if use gtk ; then
 		dosbin contrib/pppgetpass/{pppgetpass.vt,pppgetpass.gtk}
@@ -228,8 +229,8 @@ pkg_postinst() {
 		local ERROR_PPP_BSDCOMP="CONFIG_PPP_BSDCOMP:\t missing BSD-Compress compression (optional, but highly recommended)"
 		local WARNING_PPP_MPPE="CONFIG_PPP_MPPE:\t missing MPPE encryption (optional, mostly used by PPTP links)"
 		CONFIG_CHECK="${CONFIG_CHECK} ~PPPOE ~PACKET"
-		local WARNING_PPPOE="CONFIG_PPPOE:\t missing PPPoE support (optional, needed by rp-pppoe plugin)"
-		local WARNING_PACKET="CONFIG_PACKET:\t missing AF_PACKET support (optional, used by rp-pppoe and dhcpc plugins)"
+		local WARNING_PPPOE="CONFIG_PPPOE:\t missing PPPoE support (optional, needed by pppoe plugin)"
+		local WARNING_PACKET="CONFIG_PACKET:\t missing AF_PACKET support (optional, used by pppoe and dhcpc plugins)"
 		if use atm ; then
 			CONFIG_CHECK="${CONFIG_CHECK} ~PPPOATM"
 			local WARNING_PPPOATM="CONFIG_PPPOATM:\t missing PPPoA support (optional, needed by pppoatm plugin)"
@@ -238,16 +239,20 @@ pkg_postinst() {
 	fi
 
 	# create *-secrets files if not exists
-	[ -f "${ROOT}/etc/ppp/pap-secrets" ] || \
-		cp -pP "${ROOT}/etc/ppp/pap-secrets.example" "${ROOT}/etc/ppp/pap-secrets"
-	[ -f "${ROOT}/etc/ppp/chap-secrets" ] || \
-		cp -pP "${ROOT}/etc/ppp/chap-secrets.example" "${ROOT}/etc/ppp/chap-secrets"
+	[[ -f "${EROOT}/etc/ppp/pap-secrets" ]] || \
+		cp -pP "${EROOT}/etc/ppp/pap-secrets.example" "${EROOT}/etc/ppp/pap-secrets"
+	[[ -f "${EROOT}/etc/ppp/chap-secrets" ]] || \
+		cp -pP "${EROOT}/etc/ppp/chap-secrets.example" "${EROOT}/etc/ppp/chap-secrets"
 
 	# lib name has changed
-	sed -i -e "s:^pppoe.so:rp-pppoe.so:" "${ROOT}/etc/ppp/options" || die
+	sed -i -e "s:^rp-\(pppoe.so\):\1:" "${EROOT}/etc/ppp/options" || die
 
 	echo
 	elog "Pon, poff and plog scripts have been supplied for experienced users."
 	elog "Users needing particular scripts (ssh,rsh,etc.) should check out the"
 	elog "/usr/share/doc/${PF}/scripts directory."
+
+	if [[ -n ${REPLACING_VERSIONS} ]] ; then
+		ewarn '"rp-pppoe.so" plugin has been renamed to "pppoe.so"'
+	fi
 }

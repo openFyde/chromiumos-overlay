@@ -1,4 +1,4 @@
-From 9023519ecbd6feabd02f79531e02db2949cbe41f Mon Sep 17 00:00:00 2001
+From dc3867058d672f92598166eacab6ca1a560d50ec Mon Sep 17 00:00:00 2001
 From: Micah Morton <mortonm@chromium.org>
 Date: Fri, 20 Apr 2018 11:54:26 -0700
 Subject: [PATCH] Allow pppd to start as non-root.
@@ -15,10 +15,10 @@ desirable solution.
  2 files changed, 4 insertions(+)
 
 diff --git a/pppd/main.c b/pppd/main.c
-index 6d50d1b..e159876 100644
+index 87a5d29..fc9b322 100644
 --- a/pppd/main.c
 +++ b/pppd/main.c
-@@ -379,6 +379,7 @@ main(argc, argv)
+@@ -359,6 +359,7 @@ main(int argc, char *argv[])
      if (debug)
  	setlogmask(LOG_UPTO(LOG_DEBUG));
  
@@ -26,7 +26,7 @@ index 6d50d1b..e159876 100644
      /*
       * Check that we are running as root.
       */
-@@ -387,6 +388,7 @@ main(argc, argv)
+@@ -367,6 +368,7 @@ main(int argc, char *argv[])
  		     argv[0]);
  	exit(EXIT_NOT_ROOT);
      }
@@ -35,10 +35,10 @@ index 6d50d1b..e159876 100644
      if (!ppp_available()) {
  	option_error("%s", no_ppp_msg);
 diff --git a/pppd/options.c b/pppd/options.c
-index 45fa742..0e1c714 100644
+index f8d6c00..2272912 100644
 --- a/pppd/options.c
 +++ b/pppd/options.c
-@@ -684,11 +684,13 @@ process_option(opt, cmd, argv)
+@@ -694,11 +694,13 @@ process_option(option_t *opt, char *cmd, char **argv)
  		     opt->name, optopt);
  	return 0;
      }
@@ -53,5 +53,5 @@ index 45fa742..0e1c714 100644
  	option_error("%s%s is disabled", opt->name, optopt);
  	return 0;
 -- 
-2.13.5
+2.30.1
 

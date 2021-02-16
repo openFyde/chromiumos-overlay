@@ -5,10 +5,10 @@ We don't want pppd trying to regain root privileges in either of these
 cases.
 
 diff --git a/pppd/main.c b/pppd/main.c
-index 212540a..8217d80 100644
+index 87a5d29..ec1d0ce 100644
 --- a/pppd/main.c
 +++ b/pppd/main.c
-@@ -1830,7 +1830,9 @@ run_program(prog, args, must_exist, done, arg, wait)
+@@ -1779,7 +1779,9 @@ run_program(char *prog, char **args, int must_exist, void (*done)(void *), void
      (void) setsid();	/* No controlling tty. */
      (void) umask (S_IRWXG|S_IRWXO);
      (void) chdir ("/");	/* no current directory. */
@@ -19,10 +19,10 @@ index 212540a..8217d80 100644
  
  #ifdef BSD
 diff --git a/pppd/tty.c b/pppd/tty.c
-index c9a0b33..d76b098 100644
+index 852cee7..57ea76f 100644
 --- a/pppd/tty.c
 +++ b/pppd/tty.c
-@@ -575,8 +575,10 @@ int connect_tty()
+@@ -561,8 +561,10 @@ int connect_tty(void)
  			}
  			real_ttyfd = open(devnam, O_NONBLOCK | O_RDWR, 0);
  			err = errno;

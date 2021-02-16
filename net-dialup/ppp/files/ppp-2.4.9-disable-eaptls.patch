@@ -1,0 +1,47 @@
+From cc5348a10173f0d88ae992dc3ff7eb91590b25ca Mon Sep 17 00:00:00 2001
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+Date: Tue, 16 Feb 2021 19:45:52 +0200
+Subject: [PATCH] pppd: don't hardcode enable eaptls support
+
+Newer PPP unconditionally requires a SSL/TLS implementation because
+it stopped depending on glibc libcrypt (either openssl or libressl
+will do), but it also unconditionally enabled EAPTLS which is not
+required in CrOS, so we use this patch to disable.
+
+Ideally upstream should provide a configure option to set these.
+
+Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+---
+ pppd/Makefile.linux         | 2 +-
+ pppd/plugins/Makefile.linux | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/pppd/Makefile.linux b/pppd/Makefile.linux
+index 3c07a04..88541a2 100644
+--- a/pppd/Makefile.linux
++++ b/pppd/Makefile.linux
+@@ -85,7 +85,7 @@ USE_LIBUTIL=y
+ endif
+ 
+ # Enable EAP-TLS authentication (requires MPPE support, libssl and libcrypto)
+-USE_EAPTLS=y
++# USE_EAPTLS=y
+ 
+ MAXOCTETS=y
+ 
+diff --git a/pppd/plugins/Makefile.linux b/pppd/plugins/Makefile.linux
+index 6403e3d..a8feea8 100644
+--- a/pppd/plugins/Makefile.linux
++++ b/pppd/plugins/Makefile.linux
+@@ -12,7 +12,7 @@ LDFLAGS_SHARED	= -shared
+ INSTALL	= install
+ 
+ # EAP-TLS
+-CFLAGS += -DUSE_EAPTLS=1
++# CFLAGS += -DUSE_EAPTLS=1
+ 
+ SUBDIRS := pppoe pppoatm pppol2tp
+ # Uncomment the next line to include the radius authentication plugin
+-- 
+2.30.1
+

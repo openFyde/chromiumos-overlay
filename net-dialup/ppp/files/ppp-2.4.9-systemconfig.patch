@@ -1,7 +1,17 @@
-diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
---- ppp-2.4.6/pppd/ipcp.c	2014-01-01 20:42:08.000000000 -0800
-+++ ppp-2.4.6.patched/pppd/ipcp.c	2014-08-09 18:02:07.955608522 -0700
-@@ -90,6 +90,7 @@ struct notifier *ip_down_notifier = NULL
+From bc52413756bd663607606291492403b51140a1d2 Mon Sep 17 00:00:00 2001
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+Date: Tue, 16 Feb 2021 20:06:02 +0200
+Subject: [PATCH] pppd: Add option to avoid IP/route configuration
+
+---
+ pppd/ipcp.c | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
+
+diff --git a/pppd/ipcp.c b/pppd/ipcp.c
+index 302ca40..5198ad9 100644
+--- a/pppd/ipcp.c
++++ b/pppd/ipcp.c
+@@ -88,6 +88,7 @@ struct notifier *ip_down_notifier = NULL;
  /* local vars */
  static int default_route_set[NUM_PPP];	/* Have set up a default route */
  static int proxy_arp_set[NUM_PPP];	/* Have created proxy arp entry */
@@ -9,7 +19,7 @@ diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
  static bool usepeerdns;			/* Ask peer for DNS addrs */
  static int ipcp_is_up;			/* have called np_up() */
  static int ipcp_is_open;		/* haven't called np_finished() */
-@@ -210,6 +211,9 @@ static option_t ipcp_option_list[] = {
+@@ -217,6 +218,9 @@ static option_t ipcp_option_list[] = {
      { "usepeerdns", o_bool, &usepeerdns,
        "Ask peer for DNS address(es)", 1 },
  
@@ -19,7 +29,7 @@ diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
      { "netmask", o_special, (void *)setnetmask,
        "set netmask", OPT_PRIO | OPT_A2STRVAL | OPT_STATIC, netmask_str },
  
-@@ -1827,7 +1831,8 @@ ipcp_up(f)
+@@ -1792,7 +1796,8 @@ ipcp_up(fsm *f)
  	script_setenv("DNS2", ip_ntoa(go->dnsaddr[1]), 0);
      if (usepeerdns && (go->dnsaddr[0] || go->dnsaddr[1])) {
  	script_setenv("USEPEERDNS", "1", 0);
@@ -29,7 +39,7 @@ diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
      }
  
      /*
-@@ -1892,8 +1897,12 @@ ipcp_up(f)
+@@ -1859,8 +1864,12 @@ ipcp_up(fsm *f)
  	 */
  	mask = GetMask(go->ouraddr);
  
@@ -43,8 +53,8 @@ diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
  	    if (debug)
  		warn("Interface configuration failed");
  	    ipcp_close(f->unit, "Interface configuration failed");
-@@ -1905,7 +1914,7 @@ ipcp_up(f)
- 	ipcp_script(_PATH_IPPREUP, 1);
+@@ -1881,7 +1890,7 @@ ipcp_up(fsm *f)
+ 	}
  
  	/* bring the interface up for IP */
 -	if (!sifup(f->unit)) {
@@ -52,7 +62,7 @@ diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
  	    if (debug)
  		warn("Interface failed to come up");
  	    ipcp_close(f->unit, "Interface configuration failed");
-@@ -1913,7 +1922,8 @@ ipcp_up(f)
+@@ -1889,7 +1898,8 @@ ipcp_up(fsm *f)
  	}
  
  #if (defined(SVR4) && (defined(SNI) || defined(__USLC__)))
@@ -62,13 +72,14 @@ diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
  	    if (debug)
  		warn("Interface configuration failed");
  	    ipcp_close(f->unit, "Interface configuration failed");
-@@ -1923,12 +1933,13 @@ ipcp_up(f)
+@@ -1899,13 +1909,14 @@ ipcp_up(fsm *f)
  	sifnpmode(f->unit, PPP_IP, NPMODE_PASS);
  
  	/* assign a default route through the interface if required */
 -	if (ipcp_wantoptions[f->unit].default_route) 
 +	if (!neg_systemconfig && ipcp_wantoptions[f->unit].default_route)
- 	    if (sifdefaultroute(f->unit, go->ouraddr, ho->hisaddr))
+ 	    if (sifdefaultroute(f->unit, go->ouraddr, ho->hisaddr,
+ 					 wo->replace_default_route))
  		default_route_set[f->unit] = 1;
  
  	/* Make a proxy ARP entry if requested. */
@@ -78,7 +89,7 @@ diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
  	    if (sifproxyarp(f->unit, ho->hisaddr))
  		proxy_arp_set[f->unit] = 1;
  
-@@ -2000,7 +2011,8 @@ ipcp_down(f)
+@@ -1976,7 +1987,8 @@ ipcp_down(fsm *f)
  	sifnpmode(f->unit, PPP_IP, NPMODE_QUEUE);
      } else {
  	sifnpmode(f->unit, PPP_IP, NPMODE_DROP);
@@ -86,9 +97,9 @@ diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
 +	if (!neg_systemconfig)
 +	    sifdown(f->unit);
  	ipcp_clear_addrs(f->unit, ipcp_gotoptions[f->unit].ouraddr,
- 			 ipcp_hisoptions[f->unit].hisaddr);
+ 			 ipcp_hisoptions[f->unit].hisaddr, 0);
      }
-@@ -2031,7 +2043,8 @@ ipcp_clear_addrs(unit, ouraddr, hisaddr)
+@@ -2012,7 +2024,8 @@ ipcp_clear_addrs(int unit, u_int32_t ouraddr, u_int32_t hisaddr, bool replacedef
  	cifdefaultroute(unit, ouraddr, hisaddr);
  	default_route_set[unit] = 0;
      }
@@ -98,3 +109,6 @@ diff -rupN ppp-2.4.6/pppd/ipcp.c ppp-2.4.6.patched/pppd/ipcp.c
  }
  
  
+-- 
+2.30.1
+
