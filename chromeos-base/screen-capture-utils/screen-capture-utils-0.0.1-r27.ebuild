@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a0911f1f9c3920be5aa6e4daed54d4f88aedf375"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "f0d15f9409c177807fbb13d5536d2f8a3387ca3d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ced7adf0ed26d4bb64eb550bd436e67bd9a6eba5"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "1aabbfb0da2487313d44a5c38c5b38f3d7cf5dcf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="common-mk screen-capture-utils .gn"
