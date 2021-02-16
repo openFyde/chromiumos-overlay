@@ -63,19 +63,6 @@ src_prepare() {
 pkg_setup() {
 	setup_cross_toolchain
 	llvm_pkg_setup
-
-	if ! use libcxxabi && ! use libcxxrt && ! tc-is-gcc ; then
-		eerror "To build ${PN} against libsupc++, you have to use gcc. Other"
-		eerror "compilers are not supported. Please set CC=gcc and CXX=g++"
-		eerror "and try again."
-		die
-	fi
-	if tc-is-gcc && [[ $(gcc-version) < 4.7 ]] ; then
-		eerror "${PN} needs to be built with gcc-4.7 or later (or other"
-		eerror "conformant compilers). Please use gcc-config to switch to"
-		eerror "gcc-4.7 or later version."
-		die
-	fi
 	export CMAKE_USE_DIR="${S}/libcxx"
 }
 
