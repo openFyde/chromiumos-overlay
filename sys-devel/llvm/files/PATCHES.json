@@ -627,5 +627,29 @@
         "rel_patch_path": "cherry/e53bbd99516fc7b612df1ae08d48288d0b8784ea.patch",
         "start_version": 412851,
         "end_version": 415826
+    },
+    {
+        "comment": "[llvm-objcopy] preserve file ownership when overwritten by root",
+        "rel_patch_path": "cherry/c2a84771bb63947695ea50b89160c02b36fb634d.patch",
+        "start_version": 412851,
+        "end_version": 418870
+    },
+    {
+        "comment": "[clang][Arm] Fix handling of -Wa,-implicit-it=",
+        "rel_patch_path": "cherry/a680bc3a31d36d321ccf3801bdcff74d58842bfa.patch",
+        "start_version": 412851,
+        "end_version": 418680
+    },
+    {
+        "comment": "[Thumb2] support `movs pc, lr` alias for `subs pc, lr, #0`/`eret`",
+        "rel_patch_path": "cherry/68945a8686708c6e4c74b9aeb231b8c4e1731181.patch",
+        "start_version": 412851,
+        "end_version": 418542
+    },
+    {
+        "comment": "[clang][Arm] Fix handling of -Wa,-march=",
+        "rel_patch_path": "cherry/1d51c699b9e2ebc5bcfdbe85c74cc871426333d4.patch",
+        "start_version": 412851,
+        "end_version": 418022
     }
 ]
