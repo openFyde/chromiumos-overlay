@@ -4,6 +4,7 @@
 EAPI="7"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_EGIT_BRANCH="master"
 
 inherit cros-workon
 

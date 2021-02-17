@@ -7,6 +7,7 @@ CROS_RUST_SUBDIR="util/flashrom_tester"
 
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
+CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_LOCALNAME="flashrom"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
