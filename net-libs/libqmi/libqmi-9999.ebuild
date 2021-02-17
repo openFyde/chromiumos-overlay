@@ -15,7 +15,9 @@ KEYWORDS="~*"
 IUSE="-asan doc mbim qrtr static-libs"
 
 RDEPEND=">=dev-libs/glib-2.36
-	mbim? ( >=net-libs/libmbim-1.18.0 )"
+	mbim? ( >=net-libs/libmbim-1.18.0 )
+	qrtr? ( net-libs/libqrtr-glib )"
+
 DEPEND="${RDEPEND}
 	doc? ( dev-util/gtk-doc )
 	sys-devel/autoconf-archive
@@ -40,7 +42,7 @@ src_configure() {
 }
 
 src_test() {
-	# TODO(benchan): Run unit tests for non-x86 platforms via qemu.
+	# TODO(b/180536539): Run unit tests for non-x86 platforms via qemu.
 	if [[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] ; then
 		# This is an ugly hack that happens to work, but should not be copied.
 		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" \
