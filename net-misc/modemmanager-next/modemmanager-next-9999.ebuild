@@ -25,6 +25,7 @@ RDEPEND=">=dev-libs/glib-2.36
 	net-dialup/ppp
 	mbim? ( net-libs/libmbim )
 	qmi? ( net-libs/libqmi )
+	qrtr? ( net-libs/libqrtr-glib )
 	!net-misc/modemmanager"
 
 DEPEND="${RDEPEND}
@@ -89,7 +90,7 @@ src_configure() {
 }
 
 src_test() {
-	# TODO(benchan): Run unit tests for non-x86 platforms via qemu.
+	# TODO(b/180536539): Run unit tests for non-x86 platforms via qemu.
 	if [[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] ; then
 		# This is an ugly hack that happens to work, but should not be copied.
 		PATH="${SYSROOT}/usr/bin:${PATH}" \
