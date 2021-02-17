@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="fb6beff7f39b46c63e44122c18d5fc6434d751ca"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "d258de929ce84adbb27ed03c752416af9d7c0cb6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="8da93c82da233d8ca9a323ab40ab01bf3cafde8f"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "2fc0dca62c1149e5b132200abcb36de75661dc3e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -41,6 +41,10 @@ src_install() {
 	# Install rsyslog config.
 	insinto /etc/rsyslog.d
 	doins rsyslog/rsyslog.typecd.conf
+
+	# Install D-Bus permission config.
+	insinto /etc/dbus-1/system.d
+	doins dbus/typecd.conf
 }
 
 pkg_preinst() {
