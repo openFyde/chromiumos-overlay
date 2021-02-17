@@ -25,6 +25,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	=dev-rust/android_log-sys-0.2*:=
+	dev-rust/assertions:=
 	>=dev-rust/libc-0.2.44:=
 	=dev-rust/quote-1*:=
 	=dev-rust/proc-macro2-1*:=
