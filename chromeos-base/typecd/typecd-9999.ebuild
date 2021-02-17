@@ -21,10 +21,16 @@ SLOT=0
 KEYWORDS="~*"
 IUSE="+seccomp"
 
-DEPEND="chromeos-base/debugd-client:="
+DEPEND="
+	chromeos-base/debugd-client:=
+	chromeos-base/system_api:=
+"
 
 src_install() {
 	dobin "${OUT}"/typecd
+
+	insinto /usr/share/dbus-1/system-services
+	doins dbus/org.chromium.typecd.service
 
 	insinto /etc/init
 	doins init/*.conf
