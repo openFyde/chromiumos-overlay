@@ -34,8 +34,8 @@ src_install() {
 	local bf=ps8705_a3.bin
 	local hf=ps8705_a3.hash
 
-	printf '0xa3 0x%02x' "${fw_rev_hex}" | xxd -r > "${hf}"
+	printf "\\xa3%b" "\\x${fw_rev_hex}" > "${hf}"
 	insinto /firmware/ps8705
-	newins "${hf}" "${hf}"
+	doins "${hf}"
 	newins "${P}/ps8705_a3_0x${fw_rev_hex}.bin" "${bf}"
 }
