@@ -30,6 +30,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/use-sysroot-env-var.patch
+	"${FILESDIR}"/grpc-1.22.1-glibc-2.30-compat.patch
 )
 
 python_prepare_all() {
