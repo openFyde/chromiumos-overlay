@@ -72,6 +72,8 @@ pkg_preinst() {
 	enewuser "shill-scripts"
 	enewgroup "nfqueue"
 	enewuser "nfqueue"
+	enewgroup "vpn"
+	enewuser "vpn"
 }
 
 get_dependent_services() {
