@@ -22,7 +22,9 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
+	dev-libs/libxml2:=
 	net-misc/usbip:=
+	virtual/jpeg:0=
 "
 
 DEPEND="${RDEPEND}"
