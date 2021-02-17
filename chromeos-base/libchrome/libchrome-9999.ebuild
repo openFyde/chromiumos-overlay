@@ -128,6 +128,7 @@ src_install() {
 		base/timer
 		base/trace_event
 		base/trace_event/common
+		base/util/type_safety
 		build
 		components/policy
 		components/policy/core/common
