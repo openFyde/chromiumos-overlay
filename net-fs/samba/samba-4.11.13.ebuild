@@ -152,6 +152,9 @@ PATCHES=(
 
 	# Apply latest security patches until 4.11.15 is available upstream.
 	"${FILESDIR}/${PN}-4.11.14-security-2020-10-29.patch"
+
+	# Backport glibc 2.32 nss.h naming conflict fix
+	"${FILESDIR}/${PN}-4.11.13-fix-newer-glibc-nss-breakage.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
