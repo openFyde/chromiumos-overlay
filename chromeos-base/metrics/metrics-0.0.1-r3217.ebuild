@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="eee6ac9bae52232d14358ca9f2313cb3bf584688"
+CROS_WORKON_COMMIT="f8a269c9a738cf5a4c8b3b5998bf96d780ca8ce9"
 CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "b3696790f2a0217d306a4c1f5510cfd070428848" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -66,13 +66,15 @@ src_install() {
 	./platform2_preinstall.sh "${OUT}" "${v}"
 	dolib.so "${OUT}/lib/libmetrics.so"
 	doins "${OUT}/lib/libmetrics.pc"
+	dolib.so "${OUT}/lib/libstructuredmetrics.so"
 
 	insinto /usr/include/metrics
 	doins c_metrics_library.h \
 		cumulative_metrics.h \
 		metrics_library{,_mock}.h \
 		persistent_integer.h \
-		timer{,_mock}.h
+		timer{,_mock}.h \
+		"${OUT}"/gen/include/metrics/structured/structured_events.h
 
 	# Install the protobuf so that autotests can have access to it.
 	insinto /usr/include/metrics/proto
