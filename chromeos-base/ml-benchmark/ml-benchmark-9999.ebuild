@@ -18,8 +18,8 @@ RDEPEND="
 	!chromeos-base/ml_benchmark
 "
 
-DEPEND="
-	${RDEPEND}
+DEPEND="${RDEPEND}
+	dev-libs/protobuf:=
 "
 
 LICENSE="BSD-Google"
