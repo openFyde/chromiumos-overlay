@@ -45,6 +45,8 @@ multilib_src_configure() {
 	# fix out-of-source builds
 	mkdir -p test || die
 
+	cros_optimize_package_for_speed
+
 	ECONF_SOURCE="${S}" \
 	econf \
 		--disable-samples \
