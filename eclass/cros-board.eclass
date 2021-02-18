@@ -455,6 +455,7 @@ ALL_BOARDS=(
 	viking
 	viking-poc2
 	volteer
+	volteer-borealis
 	volteer-kernelnext
 	#waluigi
 	whirlwind
