@@ -4,12 +4,12 @@ DEPEND=chromeos-base/vboot_reference:= dev-rust/data_model:= =dev-rust/futures-0
 DESCRIPTION=A Rust utility library for Chrome OS
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libchromeos-rs/
-IUSE=test cros_host cros_workon_tree_23bdd4609303c64636f8c235e78a99b7821342d8 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=test cros_host cros_workon_tree_e1ec24c4a9f4eb0936e5e47fa2d2ddfa09515f7f cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=chromeos-base/vboot_reference:= !!<=dev-rust/libchromeos-0.1.0-r2
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r36
+SLOT=0/0.1.0-r37
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	72c8c93c929cef7d066c387fadc7baf9	cros-sanitizers	57b514c0d35fe88c97590a2a19e95e4d	cros-workon	e846c3f700629c18772d8d554d27dfab	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=e5bed02005c7297ee3efc618ff94739c
+_md5_=0b20cedafc4851a9cb71dd4691b086ee
