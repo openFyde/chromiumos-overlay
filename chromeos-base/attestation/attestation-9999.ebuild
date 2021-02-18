@@ -77,9 +77,6 @@ src_install() {
 
 	dolib.so "${OUT}"/lib/libattestation.so
 
-
-	insinto /usr/include/attestation/client
-	doins client/dbus_proxy.h
 	insinto /usr/include/attestation/common
 	doins common/attestation_interface.h
 	doins common/print_attestation_ca_proto.h
