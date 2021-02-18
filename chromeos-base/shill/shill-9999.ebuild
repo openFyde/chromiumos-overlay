@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk libpasswordprovider metrics shill vpn-manager .gn
 
 PLATFORM_SUBDIR="shill"
 
-inherit cros-workon platform systemd udev user
+inherit cros-workon platform systemd tmpfiles udev user
 
 DESCRIPTION="Shill Connection Manager for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
@@ -202,6 +202,7 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/*.sh
+	dotmpfiles tmpfiles.d/*.conf
 
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/shill_allowed.txt
