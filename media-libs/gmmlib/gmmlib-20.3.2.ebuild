@@ -14,5 +14,19 @@ S="${WORKDIR}/${PN}-intel-${P}"
 KEYWORDS="*"
 LICENSE="MIT"
 SLOT="0"
+IUSE="test"
+
+RESTRICT="!test? ( test )"
 
 RDEPEND="${DEPEND}"
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-20.2.2_conditional_testing.patch
+)
+
+multilib_src_configure() {
+	local mycmakeargs=(
+		-DBUILD_TESTING=$(usex test)
+	)
+	cmake_src_configure
+}
