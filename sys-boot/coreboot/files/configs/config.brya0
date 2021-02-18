@@ -17,12 +17,11 @@ CONFIG_ADD_FSP_BINARIES=y
 CONFIG_FSP_M_FILE="3rdparty/blobs/intel/adl/fsp/fspm.bin"
 CONFIG_FSP_S_FILE="3rdparty/blobs/intel/adl/fsp/fsps.bin"
 CONFIG_FSP_M_XIP=y
+CONFIG_RUN_FSP_GOP=y
+
 # TODO: b/178846328
 #CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/adl/fsp/Include/"
 #CONFIG_FSP_USE_REPO is not set
-
-## Waiting for update on b/178469386, FSP GFX PEIM is broken
-### CONFIG_RUN_FSP_GOP=y
 
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
