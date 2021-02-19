@@ -22,10 +22,10 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="-cert_provision cryptohome_userdataauth_interface +device_mapper
-	-direncryption +direncription_allow_v2 double_extend_pcr_issue fuzzer
-	generated_cros_config is-kernelnext mount_oop +vault_legacy_mount +downloads_bind_mount
-	lvm_stateful_partition pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
+IUSE="-cert_provision +device_mapper -direncryption +direncription_allow_v2
+	double_extend_pcr_issue fuzzer generated_cros_config is-kernelnext
+	mount_oop +vault_legacy_mount +downloads_bind_mount lvm_stateful_partition
+	pinweaver selinux systemd test tpm tpm2 tpm2_simulator unibuild
 	user_session_isolation"
 
 REQUIRED_USE="
