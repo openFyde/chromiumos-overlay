@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="5dcfdd23ce1bd7aead1e448e76cf14966f04ad46"
-CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "911191790535b441cb3951c5607dfae8fdcb6eb1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="cdee73c8270b210f22b671da8bfb8c1be5be02d0"
+CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "429bff1a89a3849729d46f4d7903739233f6ef30" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,10 +23,16 @@ SLOT=0
 KEYWORDS="*"
 IUSE="+seccomp"
 
-DEPEND="chromeos-base/debugd-client:="
+DEPEND="
+	chromeos-base/debugd-client:=
+	chromeos-base/system_api:=
+"
 
 src_install() {
 	dobin "${OUT}"/typecd
+
+	insinto /usr/share/dbus-1/system-services
+	doins dbus/org.chromium.typecd.service
 
 	insinto /etc/init
 	doins init/*.conf
