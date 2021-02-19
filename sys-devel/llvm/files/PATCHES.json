@@ -663,5 +663,11 @@
         "rel_patch_path": "cherry/7ad0c573bd4a68dc81886037457d47daa3d6aa24.patch",
         "start_version": 416609,
         "end_version": 418889
+    },
+    {
+        "comment": "Revert \"[Sema] Fix -Warray-bounds false negative when casting an out-of-bounds array item\"",
+        "rel_patch_path": "cherry/9083d0a40d980928f2f45236a4616528a7ab19ce.patch",
+        "start_version": 417894,
+        "end_version": 418289
     }
 ]
