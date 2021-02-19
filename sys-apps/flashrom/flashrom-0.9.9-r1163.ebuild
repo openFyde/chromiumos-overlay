@@ -6,6 +6,7 @@ EAPI=7
 CROS_WORKON_COMMIT="39c3a35529fe07d459f049a560f50744f5d84cd1"
 CROS_WORKON_TREE="8114860a31fda487a764722b54bc198f730d13e6"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
+CROS_WORKON_EGIT_BRANCH="master"
 
 inherit cros-workon toolchain-funcs
 
