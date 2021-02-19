@@ -1251,7 +1251,7 @@ builtin_fw_guc_g9_files=(
 
 builtin_fw_guc_jsl_desc="GuC Firmware for JSL"
 builtin_fw_guc_jsl_files=(
-	i915/ehl_guc_33.0.4.bin
+	i915/ehl_guc_49.0.1.bin
 )
 
 builtin_fw_guc_tgl_desc="GuC Firmware for TGL"
