@@ -5,7 +5,7 @@ EAPI=7
 CROS_WORKON_COMMIT="edc1aadc58462a36a9e3fff61de9f19ba5cae254"
 CROS_WORKON_TREE="5104efdb6838168382023ad939b0564bf8b1baa2"
 CROS_WORKON_PROJECT="chromiumos/third_party/hdctools"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{2_7,3_{6..9}} )
 
 inherit cros-workon distutils-r1 toolchain-funcs udev
 
