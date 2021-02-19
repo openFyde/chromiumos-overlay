@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("c9ca4b97fcf733f891b8f3e198e6c4681f7454ec" "129f2fa14a009c604e022089913f146c8509c9ef")
+CROS_WORKON_COMMIT=("ed42467867521015885f4b8d7da11d49fa5fe3a4" "129f2fa14a009c604e022089913f146c8509c9ef")
 CROS_WORKON_TREE=("6aefce87a7cf5e4abd0f0466c5fa211f685a1193" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "95361ef3c8b6186592879caef5c8938221281b5c")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -130,6 +130,7 @@ src_install() {
 		base/timer
 		base/trace_event
 		base/trace_event/common
+		base/util/type_safety
 		build
 		components/policy
 		components/policy/core/common
