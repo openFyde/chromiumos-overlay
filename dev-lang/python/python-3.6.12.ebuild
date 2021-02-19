@@ -1,14 +1,15 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
 WANT_LIBTOOL="none"
 
-inherit autotools flag-o-matic pax-utils python-utils-r1 toolchain-funcs
+inherit autotools flag-o-matic multiprocessing pax-utils \
+	python-utils-r1 toolchain-funcs
 
 MY_P="Python-${PV}"
 PYVER=$(ver_cut 1-2)
-PATCHSET="python-gentoo-patches-3.6.10"
+PATCHSET="python-gentoo-patches-${PV}-r1"
 
 DESCRIPTION="An interpreted, interactive, object-oriented programming language"
 HOMEPAGE="https://www.python.org/"
@@ -65,7 +66,6 @@ src_prepare() {
 
 	local PATCHES=(
 		"${WORKDIR}/${PATCHSET}"
-		"${FILESDIR}/test.support.unlink-ignore-PermissionError.patch"
 	)
 
 	default
@@ -104,6 +104,11 @@ src_prepare() {
 		Modules/getpath.c \
 		configure.ac \
 		setup.py || die "sed failed to replace @@GENTOO_LIBDIR@@"
+
+	# force correct number of jobs
+	# https://bugs.gentoo.org/737660
+	local jobs=$(makeopts_jobs "${MAKEOPTS}" "$(get_nproc)")
+	sed -i -e "/self\.parallel/s:True:${jobs}:" setup.py || die
 
 	eautoreconf
 }
@@ -211,7 +216,7 @@ src_test() {
 	fi
 
 	# Skip failing tests.
-	local skipped_tests="gdb"
+	local skipped_tests="gdb faulthandler"
 
 	for test in ${skipped_tests}; do
 		mv "${S}"/Lib/test/test_${test}.py "${T}"
@@ -219,10 +224,12 @@ src_test() {
 
 	# bug 660358
 	local -x COLUMNS=80
-
 	local -x PYTHONDONTWRITEBYTECODE=
 
-	emake test EXTRATESTOPTS="-u-network" CPPFLAGS= CFLAGS= LDFLAGS= < /dev/tty
+	local jobs=$(makeopts_jobs "${MAKEOPTS}" "$(get_nproc)")
+
+	emake test EXTRATESTOPTS="-u-network -j${jobs}" \
+		CPPFLAGS= CFLAGS= LDFLAGS= < /dev/tty
 	local result=$?
 
 	for test in ${skipped_tests}; do
@@ -305,49 +312,47 @@ src_install() {
 		-i "${ED}/etc/conf.d/pydoc-${PYVER}" \
 		"${ED}/etc/init.d/pydoc-${PYVER}" || die "sed failed"
 
-	# for python-exec
-	local vars=( EPYTHON PYTHON_SITEDIR PYTHON_SCRIPTDIR )
-
+	local -x EPYTHON=python${PYVER}
 	# if not using a cross-compiler, use the fresh binary
 	if ! tc-is-cross-compiler; then
 		local -x PYTHON=./python
 		local -x LD_LIBRARY_PATH=${LD_LIBRARY_PATH+${LD_LIBRARY_PATH}:}${PWD}
 	else
-		vars=( PYTHON "${vars[@]}" )
+		local -x PYTHON=${EPREFIX}/usr/bin/${EPYTHON}
 	fi
 
-	python_export "python${PYVER}" "${vars[@]}"
 	echo "EPYTHON='${EPYTHON}'" > epython.py || die
 	python_domodule epython.py
 
 	# python-exec wrapping support
 	local pymajor=${PYVER%.*}
-	mkdir -p "${D}${PYTHON_SCRIPTDIR}" || die
+	local scriptdir=${D}$(python_get_scriptdir)
+	mkdir -p "${scriptdir}" || die
 	# python and pythonX
 	ln -s "../../../bin/${abiver}" \
-		"${D}${PYTHON_SCRIPTDIR}/python${pymajor}" || die
-	ln -s "python${pymajor}" "${D}${PYTHON_SCRIPTDIR}/python" || die
+		"${scriptdir}/python${pymajor}" || die
+	ln -s "python${pymajor}" "${scriptdir}/python" || die
 	# python-config and pythonX-config
 	# note: we need to create a wrapper rather than symlinking it due
 	# to some random dirname(argv[0]) magic performed by python-config
-	cat > "${D}${PYTHON_SCRIPTDIR}/python${pymajor}-config" <<-EOF || die
+	cat > "${scriptdir}/python${pymajor}-config" <<-EOF || die
 		#!/bin/sh
 		exec "${abiver}-config" "\${@}"
 	EOF
-	chmod +x "${D}${PYTHON_SCRIPTDIR}/python${pymajor}-config" || die
+	chmod +x "${scriptdir}/python${pymajor}-config" || die
 	ln -s "python${pymajor}-config" \
-		"${D}${PYTHON_SCRIPTDIR}/python-config" || die
+		"${scriptdir}/python-config" || die
 	# 2to3, pydoc, pyvenv
 	ln -s "../../../bin/2to3-${PYVER}" \
-		"${D}${PYTHON_SCRIPTDIR}/2to3" || die
+		"${scriptdir}/2to3" || die
 	ln -s "../../../bin/pydoc${PYVER}" \
-		"${D}${PYTHON_SCRIPTDIR}/pydoc" || die
+		"${scriptdir}/pydoc" || die
 	ln -s "../../../bin/pyvenv-${PYVER}" \
-		"${D}${PYTHON_SCRIPTDIR}/pyvenv" || die
+		"${scriptdir}/pyvenv" || die
 	# idle
 	if use tk; then
 		ln -s "../../../bin/idle${PYVER}" \
-			"${D}${PYTHON_SCRIPTDIR}/idle" || die
+			"${scriptdir}/idle" || die
 	fi
 
 	# Delete unittests as they are a waste of space and are unused.
