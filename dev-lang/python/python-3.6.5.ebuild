@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 WANT_LIBTOOL="none"
 
 inherit autotools flag-o-matic pax-utils python-utils-r1 toolchain-funcs
@@ -62,18 +62,15 @@ src_prepare() {
 	rm -fr Modules/_ctypes/libffi*
 	rm -fr Modules/zlib
 
-	if tc-is-cross-compiler; then
-		# Invokes BUILDPYTHON, which is built for the host arch
-		local EPATCH_EXCLUDE="*_regenerate_platform-specific_modules.patch"
-	fi
+	local PATCHES=(
+		"${WORKDIR}/patches"
+		"${FILESDIR}/${PN}-3.5-distutils-OO-build.patch"
+		"${FILESDIR}/3.6.5-disable-nis.patch"
+		"${FILESDIR}/python-3.6.5-libressl-compatibility.patch"
+		"${FILESDIR}/python-3.6.5-hash-unaligned.patch"
+	)
 
-	EPATCH_SUFFIX="patch" EPATCH_FORCE="yes" epatch "${WORKDIR}/patches"
-	epatch "${FILESDIR}/${PN}-3.5-distutils-OO-build.patch"
-	epatch "${FILESDIR}/3.6.5-disable-nis.patch"
-	epatch "${FILESDIR}/python-3.6.5-libressl-compatibility.patch"
-	epatch "${FILESDIR}/python-3.6.5-hash-unaligned.patch"
-
-	epatch_user
+	default
 
 	# START: Chromium OS
 	if tc-is-cross-compiler ; then
