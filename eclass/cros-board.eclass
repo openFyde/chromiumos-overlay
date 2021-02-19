@@ -106,6 +106,7 @@ ALL_BOARDS=(
 	celes-cheets
 	chell
 	chell-cheets
+	cherry
 	cheza
 	cheza-freedreno
 	cheza64
