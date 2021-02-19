@@ -6,6 +6,7 @@ EAPI="6"
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-amd"
+CROS_WORKON_EGIT_BRANCH="chromeos-amd"
 
 inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 

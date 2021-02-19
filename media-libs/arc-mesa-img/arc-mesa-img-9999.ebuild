@@ -7,6 +7,7 @@ EAPI="5"
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa-img"
 CROS_WORKON_LOCALNAME="mesa-img"
+CROS_WORKON_EGIT_BRANCH="mesa-img"
 CROS_WORKON_MANUAL_UPREV="1"
 
 inherit base autotools multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
