@@ -201,6 +201,28 @@ autotest_src_prepare() {
 	mkdir -p "${AUTOTEST_WORKDIR}"/server/tests
 	mkdir -p "${AUTOTEST_WORKDIR}"/server/site_tests
 
+	# Symlinks are needed for new setup_modules
+	# delete the top level symlink beforehand
+	find ${AUTOTEST_WORKDIR} -name "autotest_lib" -delete \
+		|| die "Top level symlink did not exist!"
+
+
+	# Create the top level symlink (want autotest_lib --> .)
+	ln -s ${AUTOTEST_WORKDIR} ${AUTOTEST_WORKDIR}/autotest_lib \
+		|| die "Could not create autotest_lib symlink"
+
+	# Delete the client symlink dir and files first (if it exists.)
+	find ${AUTOTEST_WORKDIR}/client/autotest_lib -name "client" -delete
+
+	# Create the client symlink dir
+	mkdir -p ${AUTOTEST_WORKDIR}/client/autotest_lib \
+		|| die "Could not create client/autotest_lib dir"
+	touch ${AUTOTEST_WORKDIR}/client/autotest_lib/__init__.py \
+		|| die "Could not create init in client/autotest_lib"
+	# Create the symlink (want client --> ../)
+	ln -s ${AUTOTEST_WORKDIR}/client ${AUTOTEST_WORKDIR}/client/autotest_lib/client \
+		|| die "Could not create autotest_lib/client symlink"
+
 	TEST_LIST=$(get_test_list)
 
 	# Pull in the individual test cases.
@@ -338,25 +360,6 @@ autotest_src_install() {
 		insinto ${AUTOTEST_BASE}/$(dirname ${dir})
 		doins -r "${AUTOTEST_WORKDIR}/${dir}"
 	done
-
-	# delete the top level symlink beforehand
-	find ${AUTOTEST_WORKDIR} -name "autotest_lib" -delete \
-		|| die "Top level symlink did not exist!"
-
-
-	# Create the top level symlink (want autotest_lib --> .)
-	dosym ${AUTOTEST_WORKDIR} ${AUTOTEST_WORKDIR}/autotest_lib
-
-	# Delete the client symlink dir and files first (if it exists.)
-	find ${AUTOTEST_WORKDIR}/client/autotest_lib -name "client" -delete
-
-	# Create the client symlink dir
-	mkdir -p ${AUTOTEST_WORKDIR}/client/autotest_lib \
-		|| die "Could not created client/autotest_lib dir"
-	touch ${AUTOTEST_WORKDIR}/client/autotest_lib/__init__.py \
-		|| die "Could not create init in client/autotest_lib"
-	# Create the symlink (want client --> ../)
-	dosym ${AUTOTEST_WORKDIR}/client ${AUTOTEST_WORKDIR}/client/autotest_lib/client
 
 	# Install the deps, configs, profilers.
 	# Difference from above is, we don't install the whole thing, just
