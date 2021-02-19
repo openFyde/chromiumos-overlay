@@ -36,11 +36,11 @@ RESTRICT="mirror strip"
 IUSE="gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm-next llvm-tot mounted_gcc multilib
 	nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache"
 
-is_crosscompile() { [[ ${CHOST} != ${CTARGET} ]] ; }
+is_crosscompile() { [[ ${CHOST} != "${CTARGET}" ]] ; }
 
 export CTARGET=${CTARGET:-${CHOST}}
-if [[ ${CTARGET} = ${CHOST} ]] ; then
-	if [[ ${CATEGORY/cross-} != ${CATEGORY} ]] ; then
+if [[ ${CTARGET} = "${CHOST}" ]] ; then
+	if [[ ${CATEGORY/cross-} != "${CATEGORY}" ]] ; then
 		export CTARGET=${CATEGORY/cross-}
 	fi
 fi
@@ -53,12 +53,9 @@ GCC_PVR=${GCC_PV}
 # It's an internal representation of gcc version used for:
 # - versioned paths on disk
 # - 'gcc -dumpversion' output. Must always match <digit>.<digit>.<digit>.
-GCC_RELEASE_VER=$(ver_cut 1-3 ${GCC_PV})
+GCC_RELEASE_VER=$(ver_cut 1-3 "${GCC_PV}")
 
-GCC_BRANCH_VER=$(ver_cut 1-2 ${GCC_PV})
-GCCMAJOR=$(ver_cut 1 ${GCC_PV})
-GCCMINOR=$(ver_cut 2 ${GCC_PV})
-GCCMICRO=$(ver_cut 3 ${GCC_PV})
+GCC_BRANCH_VER=$(ver_cut 1-2 "${GCC_PV}")
 
 # Ideally this variable should allow for custom gentoo versioning
 # of binary and gcc-config names not directly tied to upstream
@@ -73,7 +70,6 @@ INCLUDEPATH=${TOOLCHAIN_INCLUDEPATH:-${LIBPATH}/include}
 
 if is_crosscompile ; then
 	BINPATH=${TOOLCHAIN_BINPATH:-${PREFIX}/${CHOST}/${CTARGET}/gcc-bin/${GCC_CONFIG_VER}}
-	HOSTLIBPATH=${PREFIX}/${CHOST}/${CTARGET}/lib/${GCC_CONFIG_VER}
 else
 	BINPATH=${TOOLCHAIN_BINPATH:-${PREFIX}/${CTARGET}/gcc-bin/${GCC_CONFIG_VER}}
 fi
@@ -113,19 +109,19 @@ src_configure() {
 
 	# Set configuration based on path variables
 	local confgcc=(
-		--prefix=${PREFIX}
-		--bindir=${BINPATH}
-		--datadir=${DATAPATH}
-		--includedir=${INCLUDEPATH}
-		--with-gxx-include-dir=${STDCXX_INCDIR}
-		--mandir=${DATAPATH}/man
-		--infodir=${DATAPATH}/info
-		--with-python-dir=${DATAPATH#${PREFIX}}/python
+		--prefix="${PREFIX}"
+		--bindir="${BINPATH}"
+		--datadir="${DATAPATH}"
+		--includedir="${INCLUDEPATH}"
+		--with-gxx-include-dir="${STDCXX_INCDIR}"
+		--mandir="${DATAPATH}/man"
+		--infodir="${DATAPATH}/info"
+		--with-python-dir="${DATAPATH#${PREFIX}}/python"
 
-		--build=${CBUILD}
-		--host=${CHOST}
-		--target=${CTARGET}
-		--enable-languages=${gcc_langs}
+		--build="${CBUILD}"
+		--host="${CHOST}"
+		--target="${CTARGET}"
+		--enable-languages="${gcc_langs}"
 		--enable-__cxa_atexit
 		--disable-canonical-system-headers
 		--enable-checking=release
@@ -153,7 +149,7 @@ src_configure() {
 
 	if use vtable_verify; then
 		confgcc+=(
-			--enable-cxx-flags=-Wl,-L../libsupc++/.libs
+			--enable-cxx-flags="-Wl,-L../libsupc++/.libs"
 			--enable-vtable-verify
 		)
 	fi
@@ -169,9 +165,9 @@ src_configure() {
 			# Remove endian ('l' / 'eb')
 			[[ ${arm_arch} == *l ]] && arm_arch=${arm_arch%l}
 			[[ ${arm_arch} == *eb ]] && arm_arch=${arm_arch%eb}
-			
+
 			confgcc+=(
-				--with-arch=${arm_arch}
+				--with-arch="${arm_arch}"
 				--disable-esp
 			)
 		fi
@@ -203,12 +199,12 @@ src_configure() {
 
 		local needed_libc="glibc"
 		if [[ -n ${needed_libc} ]]; then
-			if ! has_version ${CATEGORY}/${needed_libc}; then
+			if ! has_version "${CATEGORY}/${needed_libc}"; then
 				confgcc+=( --disable-shared --disable-threads --without-headers )
 			elif has_version "${CATEGORY}/${needed_libc}[crosscompile_opts_headers-only]"; then
-				confgcc+=( --disable-shared --with-sysroot=/usr/${CTARGET} )
+				confgcc+=( --disable-shared --with-sysroot=/usr/"${CTARGET}" )
 			else
-				confgcc+=( --with-sysroot=/usr/${CTARGET} )
+				confgcc+=( --with-sysroot=/usr/"${CTARGET}" )
 			fi
 		fi
 	else
@@ -216,11 +212,11 @@ src_configure() {
 	fi
 
 	# Finally add the user options (if any).
-	confgcc+=( ${EXTRA_ECONF} )
+	confgcc+=( "${EXTRA_ECONF}" )
 
 	# Build in a separate build tree
-	mkdir -p ${MY_BUILDDIR} || die
-	cd ${MY_BUILDDIR} || die
+	mkdir -p "${MY_BUILDDIR}" || die
+	cd "${MY_BUILDDIR}" || die
 
 	# and now to do the actual configuration
 	addwrite /dev/zero
@@ -230,7 +226,7 @@ src_configure() {
 }
 
 src_compile() {
-	cd "${MY_BUILDDIR}"
+	cd "${MY_BUILDDIR}" || die
 	GCC_CFLAGS="$(portageq envvar CFLAGS)"
 	TARGET_FLAGS=""
 	TARGET_GO_FLAGS=""
@@ -239,8 +235,8 @@ src_compile() {
 		TARGET_FLAGS="${TARGET_FLAGS} -fstack-protector-strong -D_FORTIFY_SOURCE=2"
 	fi
 
-	EXTRA_CFLAGS_FOR_TARGET="${TARGET_FLAGS} ${CFLAGS_FOR_TARGET}"
-	EXTRA_CXXFLAGS_FOR_TARGET="${TARGET_FLAGS} ${CXXFLAGS_FOR_TARGET}"
+	EXTRA_CFLAGS_FOR_TARGET="${TARGET_FLAGS}"
+	EXTRA_CXXFLAGS_FOR_TARGET="${TARGET_FLAGS}"
 
 	if use vtable_verify ; then
 		EXTRA_CXXFLAGS_FOR_TARGET+=" -fvtable-verify=std"
@@ -251,11 +247,11 @@ src_compile() {
 	if [[ ${CTARGET} == arm* ]]; then
 		TARGET_GO_FLAGS="${TARGET_GO_FLAGS} -marm"
 	fi
-	EXTRA_GOCFLAGS_FOR_TARGET="${TARGET_GO_FLAGS} ${GOCFLAGS_FOR_TARGET}"
+	EXTRA_GOCFLAGS_FOR_TARGET="${TARGET_GO_FLAGS}"
 
 	# Do not link libgcc with gold. That is known to fail on internal linker
 	# errors. See crosbug.com/16719
-	local LD_NON_GOLD="$(get_binutils_path_ld ${CTARGET})/ld"
+	local LD_NON_GOLD=$(get_binutils_path_ld "${CTARGET}")/ld
 
 	emake CFLAGS="${GCC_CFLAGS}" \
 		LDFLAGS="-Wl,-O1" \
@@ -272,33 +268,33 @@ src_compile() {
 toolchain_src_install() {
 	# These should be symlinks
 	dodir /usr/bin
-	cd "${D}"${BINPATH}
+	cd "${D}${BINPATH}" || die
 	for x in cpp gcc g++ c++ gcov g77 gcj gcjh gfortran gccgo ; do
 		# For some reason, g77 gets made instead of ${CTARGET}-g77...
 		# this should take care of that
-		[[ -f ${x} ]] && mv ${x} ${CTARGET}-${x}
+		[[ -f ${x} ]] && mv ${x} "${CTARGET}-${x}"
 
 		if [[ -f ${CTARGET}-${x} ]] ; then
 			if ! is_crosscompile ; then
-				ln -sf ${CTARGET}-${x} ${x}
-				dosym ${BINPATH}/${CTARGET}-${x} \
-					/usr/bin/${x}-${GCC_CONFIG_VER}
+				ln -sf "${CTARGET}-${x}" ${x}
+				dosym "${BINPATH}/${CTARGET}-${x}" \
+					/usr/bin/"${x}-${GCC_CONFIG_VER}"
 			fi
 
 			# Create version-ed symlinks
-			dosym ${BINPATH}/${CTARGET}-${x} \
-				/usr/bin/${CTARGET}-${x}-${GCC_CONFIG_VER}
+			dosym "${BINPATH}/${CTARGET}-${x}" \
+				"/usr/bin/${CTARGET}-${x}-${GCC_CONFIG_VER}"
 		fi
 
-		if [[ -f ${CTARGET}-${x}-${GCC_CONFIG_VER} ]] ; then
-			rm -f ${CTARGET}-${x}-${GCC_CONFIG_VER}
-			ln -sf ${CTARGET}-${x} ${CTARGET}-${x}-${GCC_CONFIG_VER}
+		if [[ -f "${CTARGET}-${x}-${GCC_CONFIG_VER}" ]] ; then
+			rm -f "${CTARGET}-${x}-${GCC_CONFIG_VER}"
+			ln -sf "${CTARGET}-${x}" "${CTARGET}-${x}-${GCC_CONFIG_VER}"
 		fi
 	done
 }
 
 src_install() {
-	cd "${MY_BUILDDIR}"
+	cd "${MY_BUILDDIR}" || die
 
 	# Don't allow symlinks in private gcc include dir as this can break the build
 	find gcc/include*/ -type l -delete
@@ -335,12 +331,12 @@ CTARGET=${CTARGET}
 GCC_PATH="${BINPATH}"
 GCC_VER="${GCC_RELEASE_VER}"
 EOF
-	newins env.d $(get_gcc_config_file)
-	cd -
+	newins env.d "$(get_gcc_config_file)"
+	cd - || die
 
 	toolchain_src_install
 
-	cd "${D}${BINPATH}"
+	cd "${D}${BINPATH}" || die
 
 	local use_llvm_next=false
 	if use llvm-next || use llvm-tot
@@ -429,27 +425,27 @@ EOF
 	then
 		TEST_INSTALL_DIR="usr/local/dejagnu/gcc"
 		dodir ${TEST_INSTALL_DIR}
-		cd ${D}/${TEST_INSTALL_DIR}
-		tar -czf "tests.tar.gz" ${WORKDIR}
+		cd "${D}/${TEST_INSTALL_DIR}" || die
+		tar -czf "tests.tar.gz" "${WORKDIR}"
 	fi
 }
 
 pkg_postinst() {
-	gcc-config $(get_gcc_config_file)
+	gcc-config "$(get_gcc_config_file)"
 }
 
 pkg_postrm() {
 	if is_crosscompile ; then
-		if [[ -z $(ls "${ROOT}"/etc/env.d/gcc/${CTARGET}* 2>/dev/null) ]] ; then
-			rm -f "${ROOT}"/etc/env.d/gcc/config-${CTARGET}
-			rm -f "${ROOT}"/etc/env.d/??gcc-${CTARGET}
-			rm -f "${ROOT}"/usr/bin/${CTARGET}-{gcc,{g,c}++}{,32,64}
+		if [[ -z $(ls "${ROOT}/etc/env.d/gcc/${CTARGET}*" 2>/dev/null) ]] ; then
+			rm -f "${ROOT}/etc/env.d/gcc/config-${CTARGET}"
+			rm -f "${ROOT}/etc/env.d/??gcc-${CTARGET}"
+			rm -f "${ROOT}/usr/bin/${CTARGET}-{gcc,{g,c}++}{,32,64}"
 		fi
 	fi
 }
 
 get_gcc_config_file() {
-	echo ${CTARGET}-${PV}
+	echo "${CTARGET}-${PV}"
 }
 
 # Grab a variable from the build system (taken from linux-info.eclass)
@@ -462,15 +458,15 @@ XGCC() { get_make_var GCC_FOR_TARGET ; }
 
 gcc_move_pretty_printers() {
 	local py gdbdir=/usr/share/gdb/auto-load${LIBPATH}
-	pushd "${D}"${LIBPATH} >/dev/null
-	for py in $(find . -name '*-gdb.py') ; do
+	pushd "${D}${LIBPATH}" >/dev/null || die
+	while IFS= read -r -d '' py; do
 		local multidir=${py%/*}
 		insinto "${gdbdir}/${multidir}"
 		sed -i "/^libdir =/s:=.*:= '${LIBPATH}/${multidir}':" "${py}" || die #348128
 		doins "${py}" || die
 		rm "${py}" || die
-	done
-	popd >/dev/null
+	done <   <(find . -name '*-gdb.py' -print0)
+	popd >/dev/null || die
 }
 
 # Move around the libs to the right location.  For some reason,
@@ -484,12 +480,16 @@ gcc_movelibs() {
 		multiarg=${multiarg#*;}
 		multiarg=${multiarg//@/ -}
 
+		# disable overzealous shellcheck because multiarg can be empty and passing
+		# "" as an argument modifies the behaviour of xgcc breaking install paths.
+		# shellcheck disable=SC2086
 		local OS_MULTIDIR=$($(XGCC) ${multiarg} --print-multi-os-directory)
+		# shellcheck disable=SC2086
 		local MULTIDIR=$($(XGCC) ${multiarg} --print-multi-directory)
 		local TODIR="${D}${LIBPATH}"/${MULTIDIR}
 		local FROMDIR=
 
-		[[ -d ${TODIR} ]] || mkdir -p ${TODIR}
+		[[ -d ${TODIR} ]] || mkdir -p "${TODIR}"
 
 		for FROMDIR in \
 			"${LIBPATH}"/${OS_MULTIDIR} \
@@ -500,10 +500,8 @@ gcc_movelibs() {
 			removedirs="${removedirs} ${FROMDIR}"
 			FROMDIR=${D}${FROMDIR}
 			if [[ ${FROMDIR} != "${TODIR}" && -d ${FROMDIR} ]] ; then
-				local files=$(find "${FROMDIR}" -maxdepth 1 ! -type d 2>/dev/null)
-				if [[ -n ${files} ]] ; then
-					mv ${files} "${TODIR}" || die
-				fi
+				find "${FROMDIR}" -maxdepth 1 ! -type d -exec \
+					mv -ft "${TODIR}" {} +
 			fi
 		done
 		fix_libtool_libdir_paths "${LIBPATH}/${MULTIDIR}"
@@ -513,7 +511,7 @@ gcc_movelibs() {
 		for x in "${D}${FROMDIR}"/pkgconfig/libgcj*.pc ; do
 			[[ -f ${x} ]] || continue
 			sed -i "/^libdir=/s:=.*:=${LIBPATH}/${MULTIDIR}:" "${x}" || die
-			mv "${x}" "${D}${FROMDIR}"/pkgconfig/libgcj-${GCC_PV}.pc || die
+			mv "${x}" "${D}${FROMDIR}/pkgconfig/libgcj-${GCC_PV}.pc" || die
 		done
 	done
 
@@ -522,7 +520,7 @@ gcc_movelibs() {
 	#	rmdir SRC/lib/../lib/
 	#	mv SRC/lib/../lib32/*.o DEST  # Bork
 	for FROMDIR in ${removedirs} ; do
-		rmdir "${D}"${FROMDIR} >& /dev/null
+		rmdir "${D}${FROMDIR}" >& /dev/null
 	done
 	find -depth "${ED}" -type d -exec rmdir {} + >& /dev/null
 }
@@ -533,13 +531,13 @@ gcc_movelibs() {
 fix_libtool_libdir_paths() {
 	local libpath="$1"
 
-	pushd "${D}" >/dev/null
+	pushd "${D}" >/dev/null || die
 
-	pushd "./${libpath}" >/dev/null
+	pushd "./${libpath}" >/dev/null || die
 	local dir="${PWD#${D%/}}"
 	local allarchives=$(echo *.la)
 	allarchives="\(${allarchives// /\\|}\)"
-	popd >/dev/null
+	popd >/dev/null || die
 
 	# The libdir might not have any .la files. #548782
 	find "./${dir}" -maxdepth 1 -name '*.la' \
@@ -551,5 +549,5 @@ fix_libtool_libdir_paths() {
 	find "./${dir}/" -maxdepth 1 -name '*.la' \
 		-exec sed -i -e "/^dependency_libs=/s:/[^ ]*/${allarchives}:${libpath}/\1:g" {} + || die
 
-	popd >/dev/null
+	popd >/dev/null || die
 }
