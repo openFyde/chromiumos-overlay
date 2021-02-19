@@ -1256,7 +1256,7 @@ builtin_fw_guc_jsl_files=(
 
 builtin_fw_guc_tgl_desc="GuC Firmware for TGL"
 builtin_fw_guc_tgl_files=(
-	i915/tgl_guc_35.2.0.bin
+	i915/tgl_guc_49.0.1.bin
 )
 
 builtin_fw_huc_g9_desc="HuC Firmware for Gen9"
@@ -1271,7 +1271,7 @@ builtin_fw_huc_jsl_files=(
 
 builtin_fw_huc_tgl_desc="HuC Firmware for TGL"
 builtin_fw_huc_tgl_files=(
-	i915/tgl_huc_7.0.12.bin
+	i915/tgl_huc_7.5.0.bin
 )
 
 builtin_fw_mali_g57_desc="Workaround Firmware for Mali-G57"
