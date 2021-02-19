@@ -46,6 +46,7 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ec-headers:=
 	chromeos-base/system_api:=[fuzzer?]
+	trogdor_sar_hack? ( sys-apps/upstart:= )
 "
 
 pkg_setup() {
