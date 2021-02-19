@@ -248,7 +248,7 @@ multilib_src_configure() {
 
 	# TODO(drinkcat): We should provide a pkg-config file for this.
 	export PVR_CFLAGS="-I${SYSROOT}${ARC_PREFIX}/vendor/include"
-	export PVR_LIBS="-L${SYSROOT}${ARC_PREFIX}/vendor/lib -lcutils -llog -lpvr_dri_support "
+	export PVR_LIBS="-L${SYSROOT}${ARC_PREFIX}/vendor/$(get_libdir) -lcutils -llog -lpvr_dri_support "
 
 	ECONF_SOURCE="${S}" \
 	econf \

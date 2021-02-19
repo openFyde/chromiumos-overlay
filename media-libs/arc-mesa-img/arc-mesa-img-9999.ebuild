@@ -4,18 +4,16 @@
 
 EAPI="5"
 
-EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa-img"
 CROS_WORKON_LOCALNAME="mesa-img"
 CROS_WORKON_EGIT_BRANCH="mesa-img"
 CROS_WORKON_MANUAL_UPREV="1"
 
+EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
+
 inherit base autotools multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
 OPENGL_DIR="xorg-x11"
-
-#FOLDER="${PV/_rc*/}"
-#[[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -78,18 +76,6 @@ QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 pkg_setup() {
 	# workaround toc-issue wrt #386545
 	use ppc64 && append-flags -mminimal-toc
-
-	# Remove symlinks created by an earlier version so we don't have
-	# install conflicts.
-	# TODO: Delete this after June 2019, since everybody should have
-	# upgraded by then.
-	local d
-	for d in EGL GL GLES GLES2 GLES3 KHR; do
-		local replaced_link="${ROOT}${ARC_PREFIX}/vendor/include/${d}"
-		if [[ -L "${replaced_link}" ]]; then
-			rm -f "${replaced_link}"
-		fi
-	done
 }
 
 src_prepare() {
@@ -162,12 +148,22 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/CHROMIUM-radv-Disable-VK_KHR_create_renderpass2.patch
 
-	#
-	# No IMG patches in the *-9999.ebuild as pvr dri isn't upstream
-	#
+	# IMG patches
+	epatch "${FILESDIR}"/0001-dri-pvr-Introduce-PowerVR-DRI-driver.patch
+	epatch "${FILESDIR}"/0003-dri-Add-some-new-DRI-formats-and-fourccs.patch
+	epatch "${FILESDIR}"/0005-GL_EXT_sparse_texture-entry-points.patch
+	epatch "${FILESDIR}"/0006-Add-support-for-various-GLES-extensions.patch
+	epatch "${FILESDIR}"/0011-GL_EXT_shader_pixel_local_storage2-entry-points.patch
+	epatch "${FILESDIR}"/0012-GL_IMG_framebuffer_downsample-entry-points.patch
+	epatch "${FILESDIR}"/0013-GL_OVR_multiview-entry-points.patch
+	epatch "${FILESDIR}"/0014-Add-OVR_multiview_multisampled_render_to_texture.patch
+	epatch "${FILESDIR}"/0019-egl-automatically-call-eglReleaseThread-on-thread-te.patch
+	epatch "${FILESDIR}"/0040-GL_EXT_clip_control-entry-point.patch
+	epatch "${FILESDIR}"/0045-egl-dri2-try-to-bind-old-context-if-bindContext-fail.patch
+	epatch "${FILESDIR}"/0047-mapi-gen-always-use-offsets-from-static-data.patch
+	epatch "${FILESDIR}"/0601-mesa-img-Android-build-fixups.patch
 
 	base_src_prepare
-
 	eautoreconf
 }
 
@@ -188,6 +184,7 @@ src_configure() {
 multilib_src_configure() {
 	tc-getPROG PKG_CONFIG pkg-config
 
+	# IMG code
 	driver_enable pvr
 
 	#
@@ -237,7 +234,7 @@ multilib_src_configure() {
 
 	# TODO(drinkcat): We should provide a pkg-config file for this.
 	export PVR_CFLAGS="-I${SYSROOT}${ARC_PREFIX}/vendor/include"
-	export PVR_LIBS="-L${SYSROOT}${ARC_PREFIX}/vendor/lib -lcutils -llog -lpvr_dri_support "
+	export PVR_LIBS="-L${SYSROOT}${ARC_PREFIX}/vendor/$(get_libdir) -lcutils -llog -lpvr_dri_support "
 
 	ECONF_SOURCE="${S}" \
 	econf \
