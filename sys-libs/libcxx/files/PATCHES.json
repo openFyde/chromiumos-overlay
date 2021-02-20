@@ -8,7 +8,8 @@
     {
         "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
         "rel_patch_path": "libcxx-11-use-libgcc_eh.patch",
-        "start_version": 392069
+        "start_version": 392069,
+        "end_version": 419078
     },
     {
          "comment": "[libc++] Add missing visibility annotation for __base",

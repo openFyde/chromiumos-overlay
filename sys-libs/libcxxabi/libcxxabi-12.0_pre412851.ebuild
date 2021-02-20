@@ -97,6 +97,18 @@ multilib_src_configure() {
 		"-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1"
 	)
 
+	# Building 32-bit libc++abi on host requires using host compiler
+	# with LIBCXXABI_BUILD_32_BITS flag enabled.
+	if use cros_host; then
+		if [[ "${CATEGORY}" != "cross-*" && "$(get_abi_CTARGET)" == "i686"* ]]; then
+			CC="$(tc-getBUILD_CC)"
+			CXX="$(tc-getBUILD_CXX)"
+			mycmakeargs+=(
+				"-DLIBCXXABI_BUILD_32_BITS=ON"
+			)
+		fi
+	fi
+
 	if use msan; then
 		mycmakeargs+=(
 			"-DLLVM_USE_SANITIZER=Memory"
