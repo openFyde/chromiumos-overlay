@@ -4,6 +4,8 @@
 
 EAPI="6"
 
+inherit arc-build-constants
+
 DESCRIPTION="Ureadahead - Read files in advance during boot"
 HOMEPAGE="https://launchpad.net/ureadahead"
 SRC_URI="https://launchpad.net/ureadahead/trunk/${PV}/+download/${P}.tar.gz"
@@ -11,6 +13,7 @@ SRC_URI="https://launchpad.net/ureadahead/trunk/${PV}/+download/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
+IUSE="arcvm"
 
 RDEPEND="
 	sys-apps/util-linux
@@ -43,4 +46,11 @@ src_install() {
 	# install init script
 	insinto /etc/init
 	doins "${FILESDIR}"/init/*.conf
+
+	# install executable into guest vendor image for ARCVM
+	if use arcvm; then
+		arc-build-constants-configure
+		exeinto "${ARC_VM_VENDOR_DIR}/bin"
+		doexe "${WORKDIR}/${P}/src/ureadahead"
+	fi
 }
