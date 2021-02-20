@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="aea41bf497ee433f79bcbfae21af45d4d0c9b181"
+CROS_WORKON_COMMIT="a8c12be415433ead680f673777b8d6d4709af2ce"
 CROS_WORKON_TREE=("2033070eecbd4d9ad2e155923b146484239c18a7" "da25eefd3c0c9f59c7ef606fbc9c4ac8dacf0228" "dc74dcbb8dc3aeeef2101c761a20e0f315ddd08e" "836d1d444a0f91c853b8bd0e34f8d9a9b8d4444b" "a351263bb70613eedff4db73271da05ee6a71dd2" "4682846a4a9ed989029357c036d8cc82f0056bff" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -48,6 +48,7 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ec-headers:=
 	chromeos-base/system_api:=[fuzzer?]
+	trogdor_sar_hack? ( sys-apps/upstart:= )
 "
 
 pkg_setup() {
