@@ -8,6 +8,7 @@ CROS_WORKON_COMMIT="f567c614d7eca35becdc10e1193eb8c4c4a31b8a"
 CROS_WORKON_TREE="9b3fa72a4b561dbe755a5acb746c721f3cb90423"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-iris"
+CROS_WORKON_EGIT_BRANCH="chromeos-iris"
 
 inherit base meson multilib-minimal flag-o-matic cros-workon arc-build
 

@@ -8,6 +8,7 @@ CROS_WORKON_COMMIT="a584e975441d71686d07db3b0f0a9d8f84f59f07"
 CROS_WORKON_TREE="15a399954a194f0a8b61df875558eb8b8787e1b6"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-freedreno"
+CROS_WORKON_EGIT_BRANCH="chromeos-freedreno"
 
 inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
