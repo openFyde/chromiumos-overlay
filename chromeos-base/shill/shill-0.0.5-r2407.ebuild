@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="24644b5b1b325fc7b125a4ec4ce0917cdca519f7"
-CROS_WORKON_TREE=("2033070eecbd4d9ad2e155923b146484239c18a7" "5c6a69ae1a339332642149aa39da47d14efbe3fd" "a351263bb70613eedff4db73271da05ee6a71dd2" "fa6a6c892c1ee767b0003a1a935bd56226e31f69" "e0ed49a505c69afe4a7f216b86744c3dabcd5e4c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="cc02d3944aabfab57321515cc20a718106bf7c1d"
+CROS_WORKON_TREE=("2033070eecbd4d9ad2e155923b146484239c18a7" "5c6a69ae1a339332642149aa39da47d14efbe3fd" "a351263bb70613eedff4db73271da05ee6a71dd2" "6d97e3dd2fca49c09ff7c2af38e73c5cd93cfaaa" "e0ed49a505c69afe4a7f216b86744c3dabcd5e4c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk libpasswordprovider metrics shill vpn-manager .gn
 
 PLATFORM_SUBDIR="shill"
 
-inherit cros-workon platform systemd udev user
+inherit cros-workon platform systemd tmpfiles udev user
 
 DESCRIPTION="Shill Connection Manager for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
@@ -204,6 +204,7 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/*.sh
+	dotmpfiles tmpfiles.d/*.conf
 
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/shill_allowed.txt
