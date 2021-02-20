@@ -42,6 +42,7 @@ RDEPEND="
 	media-libs/libexif:=
 	media-libs/libsync:=
 	media-libs/minigbm:=
+	media-libs/cros-camera-facessd:=
 	virtual/libudev:=
 	x11-libs/libdrm:=
 "
