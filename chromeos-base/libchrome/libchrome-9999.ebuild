@@ -89,6 +89,9 @@ src_configure() {
 src_test() {
 	pushd libchrome_tools || die
 	python3 -m unittest check_libchrome_test || die "failed python3 check-libchrome-test.py"
+	pushd uprev || die
+	python3 ./run_tests.py || die "failed python3 libchrome/uprev/run_tests.py"
+	popd || die
 	popd || die
 }
 
