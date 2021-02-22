@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="886c469a5f3433f7d53e1a5a4c3b3251409af468"
-CROS_WORKON_TREE=("2033070eecbd4d9ad2e155923b146484239c18a7" "d05dcdfd146d56d949cc199925500dc1f08be69e" "990f01231254c69147930d929948d211e1c393fc" "22516c22296d08f9e9ad327c1a4452a6657dc6ea" "e2926e06445f67809b3691da6cf67e2c90422765" "6a71f097ab305e25561dc5a2d033900994b70b68" "825bff5c29fdc54d4b79cf09b0b8008ba64303b4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="aa2b0433e366d1220bb11bdbea77c366bb457436"
+CROS_WORKON_TREE=("2033070eecbd4d9ad2e155923b146484239c18a7" "bcda1c52e7af14c3521fd1481c53c1be7e704ce2" "990f01231254c69147930d929948d211e1c393fc" "22516c22296d08f9e9ad327c1a4452a6657dc6ea" "e2926e06445f67809b3691da6cf67e2c90422765" "6a71f097ab305e25561dc5a2d033900994b70b68" "825bff5c29fdc54d4b79cf09b0b8008ba64303b4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -79,9 +79,6 @@ src_install() {
 
 	dolib.so "${OUT}"/lib/libattestation.so
 
-
-	insinto /usr/include/attestation/client
-	doins client/dbus_proxy.h
 	insinto /usr/include/attestation/common
 	doins common/attestation_interface.h
 	doins common/print_attestation_ca_proto.h
