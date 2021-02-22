@@ -43,6 +43,7 @@ RDEPEND="
 	dev-libs/protobuf:=
 "
 
+# Note: We need dev-libs/nss for the pkcs11 headers.
 DEPEND="${RDEPEND}
 	test? (
 		app-arch/gzip
@@ -51,12 +52,22 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api:=[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator )
 	tpm2? ( chromeos-base/trunks:=[test?] )
+	dev-libs/nss:=
 	"
 
 pkg_setup() {
 	enewgroup "chronos-access"
 	enewuser "chaps"
 	cros-workon_pkg_setup
+}
+
+src_compile() {
+	platform_src_compile
+
+	# After compile, check the output for link dependency on nss.
+	# We should NOT have any link dependency on nss because nss imports chaps.
+	local out=$(scanelf -qRyn "${OUT}" | grep nss)
+	[[ -n "${out}" ]] && die "No link dependency on nss allowed:\n${out}"
 }
 
 src_install() {

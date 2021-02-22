@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("aea41bf497ee433f79bcbfae21af45d4d0c9b181" "129f2fa14a009c604e022089913f146c8509c9ef")
+CROS_WORKON_COMMIT=("886c469a5f3433f7d53e1a5a4c3b3251409af468" "129f2fa14a009c604e022089913f146c8509c9ef")
 CROS_WORKON_TREE=("2033070eecbd4d9ad2e155923b146484239c18a7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "95361ef3c8b6186592879caef5c8938221281b5c")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -91,6 +91,9 @@ src_configure() {
 src_test() {
 	pushd libchrome_tools || die
 	python3 -m unittest check_libchrome_test || die "failed python3 check-libchrome-test.py"
+	pushd uprev || die
+	python3 ./run_tests.py || die "failed python3 libchrome/uprev/run_tests.py"
+	popd || die
 	popd || die
 }
 
