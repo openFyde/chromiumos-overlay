@@ -15,6 +15,7 @@ DESCRIPTION="Android platform tools (adb, fastboot, and mkbootimg)"
 HOMEPAGE="https://android.googlesource.com/platform/system/core.git/"
 # See helper scripts in files/ for creating these tarballs and getting this hash.
 BORINGSSL_SHA1="45210dd4e21ace9d28cb76b3f83303fcdd2efcce"
+GLIBC_GETTID_PATCH="${P}-fix-build-with-glibc-2.30.patch"
 # The ninja file was created by running the ruby script from archlinux by hand and fixing the build vars.
 # No point in depending on something large/uncommon like ruby just to generate a ninja file.
 SRC_URI="https://git.archlinux.org/svntogit/community.git/snapshot/community-0ffb7b41d599741d100a6a00a4bb20e162cd3f90.tar.xz -> ${MY_P}-arch.tar.xz
@@ -24,7 +25,8 @@ SRC_URI="https://git.archlinux.org/svntogit/community.git/snapshot/community-0ff
 	mirror://gentoo/${MY_P}-extras.tar.xz https://dev.gentoo.org/~zmedico/dist/${MY_P}-extras.tar.xz
 	mirror://gentoo/${MY_P}-selinux.tar.xz https://dev.gentoo.org/~zmedico/dist/${MY_P}-selinux.tar.xz
 	mirror://gentoo/${MY_P}-f2fs-tools.tar.xz https://dev.gentoo.org/~zmedico/dist/${MY_P}-f2fs-tools.tar.xz
-	mirror://gentoo/${MY_P}.ninja.xz https://dev.gentoo.org/~zmedico/dist/${MY_P}.ninja.xz"
+	mirror://gentoo/${MY_P}.ninja.xz https://dev.gentoo.org/~zmedico/dist/${MY_P}.ninja.xz
+	https://raw.githubusercontent.com/nmeum/android-tools/8a30dba5768304176fd78aaa131242f6b880f828/patches/core/0022-Use-glibc-s-gettid-when-using-glibc-2.30.patch -> ${GLIBC_GETTID_PATCH}"
 
 # The entire source code is Apache-2.0, except for fastboot which is BSD-2.
 LICENSE="Apache-2.0 BSD-2"
@@ -82,6 +84,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/android-tools-8.1.0_p1-build.patch
 	eapply "${FILESDIR}"/android-tools-9.0.0-vsock.patch
 	eapply "${FILESDIR}"/android-tools-9.0.0-homedir.patch
+	eapply "${DISTDIR}/${GLIBC_GETTID_PATCH}"
 
 	cd "${S}"/selinux || die
 	eapply "${WORKDIR}"/arch/trunk/fix_build_selinux.patch
