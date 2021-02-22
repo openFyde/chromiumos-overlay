@@ -3,8 +3,8 @@
 # Based on gentoo's modemmanager ebuild
 
 EAPI=6
-CROS_WORKON_COMMIT="8aaf955fbd9bb4b6417d6ca98f6a51e942f42fa4"
-CROS_WORKON_TREE="feb2ab9e95d48fa87c958ef1375c7a2a7be9225c"
+CROS_WORKON_COMMIT="24fdbd30069352eddfc645734c80aafbf561f561"
+CROS_WORKON_TREE="5cbe007d5350a2ec1563d847604def8fbabad265"
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
 
 inherit eutils autotools cros-sanitizers cros-workon flag-o-matic systemd udev user
@@ -27,6 +27,7 @@ RDEPEND=">=dev-libs/glib-2.36
 	net-dialup/ppp
 	mbim? ( net-libs/libmbim )
 	qmi? ( net-libs/libqmi )
+	qrtr? ( net-libs/libqrtr-glib )
 	!net-misc/modemmanager"
 
 DEPEND="${RDEPEND}
@@ -91,7 +92,7 @@ src_configure() {
 }
 
 src_test() {
-	# TODO(benchan): Run unit tests for non-x86 platforms via qemu.
+	# TODO(b/180536539): Run unit tests for non-x86 platforms via qemu.
 	if [[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] ; then
 		# This is an ugly hack that happens to work, but should not be copied.
 		PATH="${SYSROOT}/usr/bin:${PATH}" \
