@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit ninja-utils toolchain-funcs user
+inherit ninja-utils tmpfiles toolchain-funcs user
 
 DESCRIPTION="An open-source project for performance instrumentation and tracing."
 HOMEPAGE="https://perfetto.dev/"
@@ -100,6 +100,8 @@ src_install() {
 	dobin "${BUILD_OUTPUT}/traced"
 	dobin "${BUILD_OUTPUT}/traced_probes"
 	dobin "${BUILD_OUTPUT}/perfetto"
+
+	dotmpfiles "${FILESDIR}/tmpfiles.d/traced.conf"
 
 	insinto /etc/init
 	doins "${FILESDIR}/init/traced.conf"
