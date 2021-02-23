@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="aea41bf497ee433f79bcbfae21af45d4d0c9b181"
+CROS_WORKON_COMMIT="8aadafc62394070673383f4ac9eef7e3bdcc2425"
 CROS_WORKON_TREE=("2033070eecbd4d9ad2e155923b146484239c18a7" "d2b619b53bf478483e734ae12d6aaddc9870b386" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk ippusb_manager .gn"
 
 PLATFORM_SUBDIR="ippusb_manager"
 
-inherit cros-workon platform udev user
+inherit cros-workon platform user
 
 DESCRIPTION="Service which manages communication between ippusb printers and cups."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ippusb_manager/"
@@ -42,9 +42,6 @@ platform_pkg_test() {
 
 src_install() {
 	dobin "${OUT}"/ippusb_manager
-
-	# udev rules.
-	udev_dorules udev/*.rules
 
 	# Install policy files.
 	insinto /usr/share/policy
