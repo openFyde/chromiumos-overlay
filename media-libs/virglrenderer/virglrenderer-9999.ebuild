@@ -4,6 +4,7 @@
 EAPI="6"
 
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
+CROS_WORKON_EGIT_BRANCH="master"
 
 # Prevent automatic uprevs of this package since upstream is out of our control.
 CROS_WORKON_MANUAL_UPREV="1"

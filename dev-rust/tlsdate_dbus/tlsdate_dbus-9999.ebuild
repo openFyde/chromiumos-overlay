@@ -4,6 +4,7 @@
 EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/third_party/tlsdate"
+CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_LOCALNAME="tlsdate"
 
 inherit cros-workon cros-rust
