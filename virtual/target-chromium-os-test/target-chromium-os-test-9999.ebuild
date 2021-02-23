@@ -124,7 +124,10 @@ CROS_COMMON_RDEPEND="
 	dev-lang/python:3.6
 	dev-libs/opensc
 	p2p? ( dev-python/dpkt )
-	perfetto? ( chromeos-base/perfetto )
+	perfetto? (
+		chromeos-base/perfetto
+		chromeos-base/perfetto_simple_producer
+	)
 	cr50_onboard? ( dev-util/u2f-ref-code )
 	net-misc/rsync
 	sys-apps/memtester
