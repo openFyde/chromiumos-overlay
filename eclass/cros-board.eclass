@@ -457,6 +457,7 @@ ALL_BOARDS=(
 	volteer
 	volteer-borealis
 	volteer-kernelnext
+	volteer-manatee
 	#waluigi
 	whirlwind
 	whlrvp
