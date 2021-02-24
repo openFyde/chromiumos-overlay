@@ -26,10 +26,30 @@ main() {
   chromeos-boot-alert update_fwupd_firmware &
   local bg_pid=$!
 
-  # Give it a second for USB enumeration to detect devices.
-  sleep 1
-
   local i
+
+  # Give it time for enumeration to detect devices.
+  for i in "${pending[@]}"; do
+    local seconds=0
+    local plugins
+    plugins="$(cat "${i}")"
+
+    local p
+    for p in ${plugins}; do
+      case "${p}" in
+      # USB Peripherals
+      "ccgx"|"synaptics_cxaudio"|"synaptics_mst"|"vli")
+        seconds=2
+        ;;
+      # USB4/TBT Retimer
+      "thunderbolt")
+        sleep 20 # (crrev.com/c/2670719)
+        break 3 # Don't consider other cases as this is max wait time
+      esac
+    done
+    sleep "${seconds}"
+  done
+
   for i in "${pending[@]}"; do
     # Trigger fwupdtool-update job, which blocks until the job completes.
     /sbin/initctl emit fwupdtool-update GUID="${i##*/}" \
