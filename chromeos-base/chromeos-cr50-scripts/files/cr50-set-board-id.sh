@@ -210,7 +210,7 @@ main() {
       # The check_device function will not return
       check_device
       ;;
-    "whitelabel_flags")
+    "whitelabel_pvt_flags")
       # Whitelabel flags are set by using 0xffffffff as the rlz and the
       # whitelabel flags. Cr50 images that support partial board id will ignore
       # the board id type if it's 0xffffffff and only set the flags.
@@ -225,8 +225,20 @@ main() {
       rlz="0xffffffff"
       flag="0x3f80"
       ;;
-    "whitelabel")
+    "whitelabel_dev_flags")
+      # See "whitelabel_pvt_flags" for more details.
+      check_cr50_support "0.3.24" "0.4.24" "partial board id"
+
+      rlz="0xffffffff"
+      # Per discussion in b/179626571
+      flag="0x3f7f"
+      ;;
+    "whitelabel_pvt")
       flag="0x3f80"
+      ;;
+    "whitelabel_dev")
+      # Per discussion in b/179626571
+      flag="0x3f7f"
       ;;
     "unknown")
       flag="0xff00"
