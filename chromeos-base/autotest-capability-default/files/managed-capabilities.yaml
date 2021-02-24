@@ -45,6 +45,16 @@
 - hw_dec_av1_2160_30_10bpp
 - hw_dec_av1_2160_60_10bpp
 
+## HEVC (Profile Main)
+- hw_dec_hevc_1080_30
+- hw_dec_hevc_1080_60
+- hw_dec_hevc_2160_30
+- hw_dec_hevc_2160_60
+- hw_dec_hevc_1080_30_10bpp
+- hw_dec_hevc_1080_60_10bpp
+- hw_dec_hevc_2160_30_10bpp
+- hw_dec_hevc_2160_60_10bpp
+
 ## JPEG
 ## hw_dec_jpeg is marked if a device supports JPEG HW decoding.
 - hw_dec_jpeg
