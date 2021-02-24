@@ -37,9 +37,6 @@ main() {
     rm "${i}"
   done
 
-  # Kill the chromeos-boot-alert in the background process.
-  kill -9 "${bg_pid}"
-
   return "${ret}"
 }
 
