@@ -40,6 +40,7 @@ src_install() {
 	)
 	if use vm_borealis; then
 		tools+=(
+			"/sbin/crash_sender"
 			"/sbin/crash_reporter"
 			"/sbin/init"
 			"/usr/bin/core2md"
@@ -48,6 +49,7 @@ src_install() {
 	else
 		tools+=(
 			"/usr/bin/sommelier"
+			"/usr/bin/upgrade_container"
 			"/usr/bin/wayland_demo"
 			"/usr/bin/Xwayland"
 			"/usr/bin/x11_demo"
@@ -56,6 +58,7 @@ src_install() {
 	fi
 	"${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --bindir=/bin \
 			--libdir=/lib --generate-wrappers \
+			--copy-non-elfs \
 			--copy-to-tree="${WORKDIR}"/container_pkg/ \
 			"${tools[@]}"
 
@@ -81,8 +84,14 @@ src_install() {
 
 	cp -aL "${dlopen_libs[@]}" "${WORKDIR}"/container_pkg/lib/
 
-	# These are scripts, so lddtree doesn't like them.
-	cp -aL "${SYSROOT}/usr/bin/upgrade_container" "${WORKDIR}/container_pkg/bin"
+	if use vm_borealis; then
+		# Borealis's custom build system needs /etc/crash_reporter_logs.conf
+		# packaged with the Termina tools.
+		# TODO(cpelling): Remove once Borealis's copy of crash_reporter is no
+		# longer built via Portage.
+		mkdir -p "${WORKDIR}/container_pkg/etc"
+		cp "${SYSROOT}/etc/crash_reporter_logs.conf" "${WORKDIR}/container_pkg/etc" || die
+	fi
 
 	insinto /opt/google/cros-containers
 	insopts -m0755
