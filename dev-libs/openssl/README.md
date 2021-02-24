@@ -14,8 +14,6 @@ The Chrome OS openssl ebuild carries the following modifications vs. upstream:
    match earlier OpenSSL versions, controlled via environment variables. We
    should really drop this - see b/172208472.
 
- * ${P}-ARM-assembly-pack.patch - fixes assembly to build for arm32
-
  * cros_optimize_package_for_speed - what it says on the label... ;-)
 
  * files/openssl.cnf.compat - Similar to chromium-compatibility.patch, this
