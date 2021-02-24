@@ -669,5 +669,11 @@
         "rel_patch_path": "cherry/9083d0a40d980928f2f45236a4616528a7ab19ce.patch",
         "start_version": 417894,
         "end_version": 418289
+    },
+    {
+        "comment": "[CUDA] Normalize handling of defauled dtor.",
+        "rel_patch_path": "cherry/127091bfd5edf10495fee4724fd21c666e5d79c1.patch",
+        "start_version": 416183,
+        "end_version": 416636
     }
 ]
