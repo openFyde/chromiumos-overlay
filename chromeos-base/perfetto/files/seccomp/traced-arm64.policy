@@ -18,7 +18,6 @@ readv: 1
 write: 1
 writev: 1
 readlinkat: 1
-lseek: 1
 fdatasync: 1
 vmsplice: 1
 
@@ -91,5 +90,5 @@ uname: 1
 # Remove the stale socket file.
 unlinkat: 1
 # Need to set socket permissions.
-chown: 1
-chmod: 1
+fchownat: 1
+fchmodat: 1
