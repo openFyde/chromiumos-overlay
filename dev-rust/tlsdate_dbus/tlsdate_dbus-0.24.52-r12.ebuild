@@ -6,6 +6,7 @@ EAPI=7
 CROS_WORKON_COMMIT="1d52bb98be21fb4773d13be398469570e4b3ba70"
 CROS_WORKON_TREE="9b4af5e6c151008162265b39fd9494ef88c832da"
 CROS_WORKON_PROJECT="chromiumos/third_party/tlsdate"
+CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_LOCALNAME="tlsdate"
 
 inherit cros-workon cros-rust

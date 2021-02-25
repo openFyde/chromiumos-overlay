@@ -3,9 +3,10 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("aea41bf497ee433f79bcbfae21af45d4d0c9b181" "f131d8f851366e6a2f8e8fa8f3042285d021d6c6")
+CROS_WORKON_COMMIT=("0873d654b1ba899624cfd411ab2c6aa39236ee19" "f131d8f851366e6a2f8e8fa8f3042285d021d6c6")
 CROS_WORKON_TREE=("2033070eecbd4d9ad2e155923b146484239c18a7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4c04b0ebf35112629d2f6bc7e478514dcb5805cb")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/lexmark-fax-pnh")
+CROS_WORKON_EGIT_BRANCH=("main" "master")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/lexmark-fax-pnh")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/lexmark-fax-pnh")
 CROS_WORKON_INCREMENTAL_BUILD=1
