@@ -84,6 +84,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	dev-rust/trace_events:=
 	dev-rust/remain:=
+	dev-rust/vmm_vhost:=
 	tpm2? (
 		chromeos-base/tpm2:=
 		chromeos-base/trunks:=
