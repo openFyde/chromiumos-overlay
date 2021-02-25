@@ -39,6 +39,7 @@ IUSE="
 	betty
 	biod
 	borealis_host
+	cdm_factory_daemon
 	cert_provision
 	cheets_user
 	cheets_user_64
