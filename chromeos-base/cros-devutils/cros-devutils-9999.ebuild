@@ -20,7 +20,6 @@ IUSE=""
 
 RDEPEND="app-portage/gentoolkit
 	>=chromeos-base/devserver-0.0.2
-	dev-lang/python
 	dev-util/shflags
 	dev-util/toolchain-utils
 	sys-apps/flashmap
@@ -31,11 +30,7 @@ DEPEND=""
 src_compile() { :; }
 
 src_install() {
-	local host_tools=(
-		cros_workon_make
-		netboot_firmware_settings.py
-	)
-	dobin "${host_tools[@]/#/host/}"
+	dobin host/cros_workon_make
 
 	# Repo and git bash completion.
 	insinto /usr/share/bash-completion
