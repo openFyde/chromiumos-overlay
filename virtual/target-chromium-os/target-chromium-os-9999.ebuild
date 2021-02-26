@@ -62,6 +62,7 @@ IUSE="
 	mtd
 	+network_time
 	nfc
+	os_install_service
 	pam
 	pciguard
 	perfetto
@@ -188,6 +189,7 @@ RDEPEND="
 	fonts? ( chromeos-base/chromeos-fonts )
 	chromeos-base/chromeos-installer
 	chromeos-base/dev-install
+	os_install_service? ( chromeos-base/os_install_service )
 	perfetto? ( chromeos-base/perfetto )
 	crash_reporting? ( chromeos-base/crash-reporter )
 	mist? ( chromeos-base/mist )
