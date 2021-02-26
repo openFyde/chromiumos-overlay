@@ -29,6 +29,7 @@ RDEPEND="
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
+	chromeos-base/percetto
 	sys-devel/autoconf-archive
 	fuzzer? ( >=dev-libs/check-0.9.4 )
 	test? ( >=dev-libs/check-0.9.4 )"
@@ -46,6 +47,7 @@ src_configure() {
 	fi
 
 	emesonargs+=(
+		-Dtracing=percetto
 		-Dminigbm_allocation="true"
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
