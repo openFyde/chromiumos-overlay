@@ -3,8 +3,8 @@
 # Based on gentoo's modemmanager ebuild
 
 EAPI=6
-CROS_WORKON_COMMIT="24fdbd30069352eddfc645734c80aafbf561f561"
-CROS_WORKON_TREE="5cbe007d5350a2ec1563d847604def8fbabad265"
+CROS_WORKON_COMMIT="bfbc026d3f2d7b697f39b409f9aa32e2ff1aa431"
+CROS_WORKON_TREE="c2da897720db775d885c83022774394ca2c33a63"
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
 CROS_WORKON_EGIT_BRANCH="master"
 
