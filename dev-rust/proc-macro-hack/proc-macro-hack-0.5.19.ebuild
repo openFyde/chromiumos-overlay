@@ -1,7 +1,7 @@
-# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
 
@@ -15,8 +15,4 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	=dev-rust/proc-macro2-1*:=
-	=dev-rust/quote-1*:=
-	>=dev-rust/syn-1.0.5:= <dev-rust/syn-2
-"
+RDEPEND="!~dev-rust/${PN}-0.5.11"
