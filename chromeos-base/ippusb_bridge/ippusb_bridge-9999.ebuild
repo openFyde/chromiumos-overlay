@@ -36,7 +36,7 @@ DEPEND="
 	>=dev-rust/rusb-0.6.2:= <dev-rust/rusb-0.7
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	>=dev-rust/tiny_http-0.7:= <dev-rust/tiny_http-0.8
+	>=dev-rust/tiny_http-0.8:= <dev-rust/tiny_http-0.9
 "
 
 pkg_preinst() {

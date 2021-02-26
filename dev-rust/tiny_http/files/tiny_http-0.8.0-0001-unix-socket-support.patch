@@ -6,18 +6,19 @@ Add support for Unix Sockets
   RefinedTcpStreams.
 * add a default SocketAddr value for if the stream returns an error.
 
+Pull Request: https://github.com/tiny-http/tiny-http/pull/187
+
 --- a/src/client.rs
 +++ b/src/client.rs
-@@ -9,7 +9,7 @@ use std::str::FromStr;
- 
+@@ -10,6 +10,7 @@ use std::str::FromStr;
  use common::{HTTPVersion, Method};
+ use util::RefinedTcpStream;
  use util::{SequentialReader, SequentialReaderBuilder, SequentialWriterBuilder};
--use util::RefinedTcpStream;
-+use util::{RefinedTcpStream, Stream};
++use util::Stream;
  
  use Request;
  
-@@ -17,7 +17,7 @@ use Request;
+@@ -17,7 +18,7 @@ use Request;
  /// and return Request objects.
  pub struct ClientConnection {
      // address of the client
@@ -26,52 +27,54 @@ Add support for Unix Sockets
  
      // sequence of Readers to the stream, so that the data is not read in
      //  the wrong order
-@@ -50,10 +50,11 @@ enum ReadError {
+@@ -50,11 +51,11 @@ enum ReadError {
  
  impl ClientConnection {
      /// Creates a new ClientConnection that takes ownership of the TcpStream.
--    pub fn new(write_socket: RefinedTcpStream, mut read_socket: RefinedTcpStream)
--               -> ClientConnection
+-    pub fn new(
+-        write_socket: RefinedTcpStream,
+-        mut read_socket: RefinedTcpStream,
+-    ) -> ClientConnection {
+-        let remote_addr = read_socket.peer_addr();
 +    pub fn new<S>(stream: S) -> ClientConnection
 +        where S: Into<Stream>
-     {
--        let remote_addr = read_socket.peer_addr();
++    {
 +        let (mut read_socket, write_socket) = RefinedTcpStream::new(stream);
 +        let remote_addr = read_socket.peer_addr().unwrap_or(SocketAddr::from(([0,0,0,0], 0)));
          let secure = read_socket.secure();
  
          let mut source = SequentialReaderBuilder::new(BufReader::with_capacity(1024, read_socket));
-@@ -145,7 +146,7 @@ impl ClientConnection {
- 
-         // building the next reader
-         let request = try!(::request::new_request(self.secure, method, path, version.clone(),
--                headers, self.remote_addr.as_ref().unwrap().clone(), data_source, writer)
-+                headers, self.remote_addr, data_source, writer)
-             .map_err(|e| {
-                 use request;
-                 match e {
+@@ -152,7 +153,7 @@ impl ClientConnection {
+             path,
+             version.clone(),
+             headers,
+-            *self.remote_addr.as_ref().unwrap(),
++            self.remote_addr,
+             data_source,
+             writer,
+         )
+diff --git a/src/lib.rs b/src/lib.rs
+index 40b5491..60e8dcc 100644
 --- a/src/lib.rs
 +++ b/src/lib.rs
-@@ -116,8 +116,9 @@ use std::net::{ToSocketAddrs, TcpStream, Shutdown};
+@@ -117,8 +117,9 @@ use std::sync::Arc;
+ use std::thread;
  use std::time::Duration;
- use std::sync::atomic::Ordering::Relaxed;
  
 -use client::ClientConnection;
 +pub use client::ClientConnection;
  use util::MessagesQueue;
 +pub use util::Stream;
  
- pub use common::{Header, HeaderField, HTTPVersion, Method, StatusCode};
- pub use request::{Request, ReadWrite};
-@@ -282,28 +283,23 @@ impl Server {
+ pub use common::{HTTPVersion, Header, HeaderField, Method, StatusCode};
+ pub use request::{ReadWrite, Request};
+@@ -297,27 +298,24 @@ impl Server {
              while !inside_close_trigger.load(Relaxed) {
                  let new_client = match server.accept() {
                      Ok((sock, _)) => {
 -                        use util::RefinedTcpStream;
 -                        let (read_closable, write_closable) = match ssl {
--                            None => {
--                                RefinedTcpStream::new(sock)
--                            },
+-                            None => RefinedTcpStream::new(sock),
 +                        let stream = match ssl {
 +                            None => sock,
                              #[cfg(feature = "ssl")]
@@ -82,21 +85,27 @@ Add support for Unix Sockets
 -                                let sock = match ssl.accept(sock) {
 +                                match ssl.accept(sock) {
                                      Ok(s) => s,
-                                     Err(_) => continue
+-                                    Err(_) => continue,
 -                                };
 -
 -                                RefinedTcpStream::new(sock)
+-                            }
++                                    Err(_) => continue
 +                                }
-                             },
++                            },
                              #[cfg(not(feature = "ssl"))]
                              Some(_) => unreachable!(),
                          };
  
 -                        Ok(ClientConnection::new(write_closable, read_closable))
+-                    }
 +                        Ok(ClientConnection::new(stream))
-                     },
++                    },
                      Err(e) => Err(e),
                  };
+ 
+diff --git a/src/util/mod.rs b/src/util/mod.rs
+index 8abfb64..d775ee6 100644
 --- a/src/util/mod.rs
 +++ b/src/util/mod.rs
 @@ -1,7 +1,7 @@
@@ -105,19 +114,21 @@ Add support for Unix Sockets
  pub use self::messages_queue::MessagesQueue;
 -pub use self::refined_tcp_stream::RefinedTcpStream;
 +pub use self::refined_tcp_stream::{RefinedTcpStream, Stream};
- pub use self::sequential::{SequentialReaderBuilder, SequentialReader};
- pub use self::sequential::{SequentialWriterBuilder, SequentialWriter};
+ pub use self::sequential::{SequentialReader, SequentialReaderBuilder};
+ pub use self::sequential::{SequentialWriter, SequentialWriterBuilder};
  pub use self::task_pool::TaskPool;
+diff --git a/src/util/refined_tcp_stream.rs b/src/util/refined_tcp_stream.rs
+index 0c031a9..942a017 100644
 --- a/src/util/refined_tcp_stream.rs
 +++ b/src/util/refined_tcp_stream.rs
 @@ -1,6 +1,7 @@
- use std::io::{Read, Write};
  use std::io::Result as IoResult;
- use std::net::{SocketAddr, TcpStream, Shutdown};
+ use std::io::{Read, Write};
+ use std::net::{Shutdown, SocketAddr, TcpStream};
 +use std::os::unix::net::UnixStream;
  
  #[cfg(feature = "ssl")]
- use std::sync::{Arc, Mutex};
+ use openssl::ssl::SslStream;
 @@ -17,6 +18,7 @@ pub enum Stream {
      Http(TcpStream),
      #[cfg(feature = "ssl")]
@@ -139,8 +150,8 @@ Add support for Unix Sockets
 +
  impl RefinedTcpStream {
      pub fn new<S>(stream: S) -> (RefinedTcpStream, RefinedTcpStream)
-         where S: Into<Stream>
-@@ -44,6 +53,7 @@ impl RefinedTcpStream {
+     where
+@@ -45,6 +54,7 @@ impl RefinedTcpStream {
              Stream::Http(ref stream) => Stream::Http(stream.try_clone().unwrap()),
              #[cfg(feature = "ssl")]
              Stream::Https(ref stream) => Stream::Https(stream.clone()),
@@ -148,7 +159,7 @@ Add support for Unix Sockets
          };
  
          let read = RefinedTcpStream {
-@@ -68,6 +78,7 @@ impl RefinedTcpStream {
+@@ -69,6 +79,7 @@ impl RefinedTcpStream {
              Stream::Http(_) => false,
              #[cfg(feature = "ssl")]
              Stream::Https(_) => true,
@@ -156,7 +167,7 @@ Add support for Unix Sockets
          }
      }
  
-@@ -76,6 +87,7 @@ impl RefinedTcpStream {
+@@ -77,6 +88,7 @@ impl RefinedTcpStream {
              Stream::Http(ref mut stream) => stream.peer_addr(),
              #[cfg(feature = "ssl")]
              Stream::Https(ref mut stream) => stream.lock().unwrap().get_ref().peer_addr(),
@@ -164,23 +175,23 @@ Add support for Unix Sockets
          }
      }
  }
-@@ -88,6 +100,7 @@ impl Drop for RefinedTcpStream {
-                 Stream::Http(ref mut stream) => stream.shutdown(Shutdown::Read).ok(),
-                 #[cfg(feature = "ssl")]
-                 Stream::Https(ref mut stream) => stream.lock().unwrap().get_mut().shutdown(Shutdown::Read).ok(),
+@@ -94,6 +106,7 @@ impl Drop for RefinedTcpStream {
+                     .get_mut()
+                     .shutdown(Shutdown::Read)
+                     .ok(),
 +                Stream::Unix(ref mut stream) => stream.shutdown(Shutdown::Read).ok(),
              };
          }
  
-@@ -97,6 +110,7 @@ impl Drop for RefinedTcpStream {
-                 Stream::Http(ref mut stream) => stream.shutdown(Shutdown::Write).ok(),
-                 #[cfg(feature = "ssl")]
-                 Stream::Https(ref mut stream) => stream.lock().unwrap().get_mut().shutdown(Shutdown::Write).ok(),
+@@ -108,6 +121,7 @@ impl Drop for RefinedTcpStream {
+                     .get_mut()
+                     .shutdown(Shutdown::Write)
+                     .ok(),
 +                Stream::Unix(ref mut stream) => stream.shutdown(Shutdown::Write).ok(),
              };
          }
      }
-@@ -108,6 +122,7 @@ impl Read for RefinedTcpStream {
+@@ -119,6 +133,7 @@ impl Read for RefinedTcpStream {
              Stream::Http(ref mut stream) => stream.read(buf),
              #[cfg(feature = "ssl")]
              Stream::Https(ref mut stream) => stream.lock().unwrap().read(buf),
@@ -188,7 +199,7 @@ Add support for Unix Sockets
          }
      }
  }
-@@ -118,6 +133,7 @@ impl Write for RefinedTcpStream {
+@@ -129,6 +144,7 @@ impl Write for RefinedTcpStream {
              Stream::Http(ref mut stream) => stream.write(buf),
              #[cfg(feature = "ssl")]
              Stream::Https(ref mut stream) => stream.lock().unwrap().write(buf),
@@ -196,7 +207,7 @@ Add support for Unix Sockets
          }
      }
  
-@@ -126,6 +142,7 @@ impl Write for RefinedTcpStream {
+@@ -137,6 +153,7 @@ impl Write for RefinedTcpStream {
              Stream::Http(ref mut stream) => stream.flush(),
              #[cfg(feature = "ssl")]
              Stream::Https(ref mut stream) => stream.lock().unwrap().flush(),

@@ -1,4 +1,4 @@
-# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -22,8 +22,11 @@ DEPEND="
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/log-0.4*:=
 "
+RDEPEND="${DEPEND}
+	!~dev-rust/tiny_http-0.7.0
+"
 
 PATCHES=(
 	"${FILESDIR}/${P}-0001-unix-socket-support.patch"
-	"${FILESDIR}/${P}-0002-remove-ssl-dependency.patch"
+	"${FILESDIR}/${PN}-0.7.0-0002-remove-ssl-dependency.patch"
 )
