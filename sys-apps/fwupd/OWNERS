@@ -1,1 +1,5 @@
-include chromiumos/third_party/fwupd:/OWNERS
+# This does not point to fwupd repository's OWNERS file due to branch
+# missmatch. chromiumos-overlay is on "main" branch, find owners would
+# look at fwupd's main, but that doesn't exist.
+campello@chromium.org
+bleung@chromium.org
