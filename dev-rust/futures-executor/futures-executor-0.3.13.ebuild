@@ -1,7 +1,9 @@
-# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
+
+CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
@@ -14,8 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/futures-core-0.3.1:= <dev-rust/futures-core-0.4
-	>=dev-rust/futures-task-0.3.1:= <dev-rust/futures-task-0.4
-	>=dev-rust/futures-util-0.3.1:= <dev-rust/futures-util-0.4
+	>=dev-rust/futures-core-0.3.13:= <dev-rust/futures-core-0.4
+	>=dev-rust/futures-task-0.3.13:= <dev-rust/futures-task-0.4
+	>=dev-rust/futures-util-0.3.13:= <dev-rust/futures-util-0.4
 	>=dev-rust/num_cpus-1.8.0:=
+"
+RDEPEND="${DEPEND}
+	!~dev-rust/${PN}-0.3.1
 "

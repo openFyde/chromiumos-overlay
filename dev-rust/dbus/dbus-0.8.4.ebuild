@@ -17,5 +17,6 @@ KEYWORDS="*"
 
 DEPEND=">=dev-rust/libc-0.2.66:= <dev-rust/libc-0.3
 	=dev-rust/libdbus-sys-0.2*:=
-	=dev-rust/futures-0.3.1:=
+	=dev-rust/futures-0.3*:=
 "
+RDEPEND="${DEPEND}"
