@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="1bf1475c5f75d1874174e8b0185b8c84db4dfa83"
+CROS_WORKON_COMMIT="b69a3b6442c4e4acdbbe16f3551ea557a9159e00"
 CROS_WORKON_TREE="69c210f0bcc8749f08b8782fc1413367c25a78b7"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
@@ -22,7 +22,6 @@ IUSE=""
 
 RDEPEND="app-portage/gentoolkit
 	>=chromeos-base/devserver-0.0.2
-	dev-lang/python
 	dev-util/shflags
 	dev-util/toolchain-utils
 	sys-apps/flashmap
@@ -33,11 +32,7 @@ DEPEND=""
 src_compile() { :; }
 
 src_install() {
-	local host_tools=(
-		cros_workon_make
-		netboot_firmware_settings.py
-	)
-	dobin "${host_tools[@]/#/host/}"
+	dobin host/cros_workon_make
 
 	# Repo and git bash completion.
 	insinto /usr/share/bash-completion
