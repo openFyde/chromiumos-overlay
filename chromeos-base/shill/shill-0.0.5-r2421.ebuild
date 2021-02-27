@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8824937bfdcd0a84885deed31a9aed9a9188b7f2"
+CROS_WORKON_COMMIT="a64dac184f67630e2068ab680ff49cc6f902e03e"
 CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "5c6a69ae1a339332642149aa39da47d14efbe3fd" "e2926e06445f67809b3691da6cf67e2c90422765" "a8112f0e31e91c0ac8a514e8826d70bc33a9d010" "6125995093668f912cddd5e977e309cf21df6e28" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -74,6 +74,8 @@ pkg_preinst() {
 	enewuser "shill-scripts"
 	enewgroup "nfqueue"
 	enewuser "nfqueue"
+	enewgroup "vpn"
+	enewuser "vpn"
 }
 
 get_dependent_services() {
