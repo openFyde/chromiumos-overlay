@@ -34,6 +34,7 @@ RDEPEND="
 	chromeos-base/libhwsec
 	chromeos-base/libtpmcrypto
 	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/tpm_manager-client
 	"
 
 DEPEND="${RDEPEND}

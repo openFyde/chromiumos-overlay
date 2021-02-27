@@ -35,6 +35,7 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	chromeos-base/tpm_manager:=
+	chromeos-base/attestation-client
 	"
 
 DEPEND="
