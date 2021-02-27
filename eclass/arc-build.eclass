@@ -104,9 +104,9 @@ arc-build-select-clang() {
 
 		# The clang version used by ARC is too old to recognize certain
 		# recent microarchitectures like tremont. Filter it out for now.
-		# TODO(b/161353194) If clang is uprevved, please remove this 
-		# filter and see if the build succeeds.
-		filter-flags -march=tremont
+		# TODO(b/161353194,b/181375275) If clang is uprevved, please
+		# remove this filter and see if the build succeeds.
+		filter-flags -march=tremont -march=alderlake
 
 		# multilib.eclass does not use CFLAGS_${DEFAULT_ABI}, but
 		# we need to add some flags valid only for amd64, so we trick
