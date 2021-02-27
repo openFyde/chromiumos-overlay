@@ -20,12 +20,9 @@ KEYWORDS="*"
 RDEPEND="${PYTHON_DEPS}
 	!<dev-libs/glib-2.56.2:2
 "
-# crbug/1182728: BDEPEND on packages that invoke build-docbook-catalog
 BDEPEND="
 	dev-libs/libxslt
 	app-text/docbook-xsl-stylesheets
-	app-text/docbook-xml-dtd
-	app-text/build-docbook-catalog
 "
 DEPEND="${RDEPEND}
 	cros-host? ( ${BDEPEND} )
