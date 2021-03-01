@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crash-re
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cheets chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer"
+IUSE="cheets chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer vm-containers"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -75,7 +75,9 @@ pkg_setup() {
 src_install() {
 	into /
 	dosbin "${OUT}"/crash_reporter
-	dosbin "${OUT}"/crash_sender
+	if ! use vm-containers; then
+		dosbin "${OUT}"/crash_sender
+	fi
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.AnomalyEventService.conf
@@ -100,10 +102,12 @@ src_install() {
 		systemd_dounit init/crash-boot-collect.service
 		systemd_enable_service multi-user.target crash-reporter.service
 		systemd_enable_service multi-user.target crash-boot-collect.service
-		systemd_dounit init/crash-sender.service
-		systemd_enable_service multi-user.target crash-sender.service
-		systemd_dounit init/crash-sender.timer
-		systemd_enable_service timers.target crash-sender.timer
+		if ! use vm-containers; then
+			systemd_dounit init/crash-sender.service
+			systemd_enable_service multi-user.target crash-sender.service
+			systemd_dounit init/crash-sender.timer
+			systemd_enable_service timers.target crash-sender.timer
+		fi
 		if ! use cros_embedded; then
 			systemd_dounit init/anomaly-detector.service
 			systemd_enable_service multi-user.target anomaly-detector.service
@@ -113,7 +117,9 @@ src_install() {
 		doins init/crash-reporter.conf
 		doins init/crash-reporter-early-init.conf
 		doins init/crash-boot-collect.conf
-		doins init/crash-sender.conf
+		if ! use vm-containers; then
+			doins init/crash-sender.conf
+		fi
 		use cros_embedded || doins init/anomaly-detector.conf
 	fi
 
