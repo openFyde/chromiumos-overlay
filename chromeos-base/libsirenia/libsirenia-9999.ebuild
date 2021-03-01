@@ -18,9 +18,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND=""
-
-DEPEND="${RDEPEND}
+DEPEND="
 	chromeos-base/sirenia-rpc-macros:=
 	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
 	=dev-rust/getopts-0.2*:=
@@ -32,6 +30,9 @@ DEPEND="${RDEPEND}
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}"
 
 # We skip the vsock test because it requires the vsock kernel modules to be
 # loaded.

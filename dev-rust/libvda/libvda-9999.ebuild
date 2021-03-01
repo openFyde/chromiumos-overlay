@@ -20,15 +20,16 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-RDEPEND="
-	chromeos-base/libvda:=
-	!!<=dev-rust/libvda-0.0.1-r5
-"
-
-DEPEND="
-	${RDEPEND}
+# ebuilds that install executables and depend on dev-rust/libvda need to RDEPEND
+# on chromeos-base/libvda.
+DEPEND="chromeos-base/libvda:=
 	dev-rust/pkg-config:=
 	dev-rust/enumn:=
+"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/libvda-0.0.1-r5
 "
 
 src_test() {

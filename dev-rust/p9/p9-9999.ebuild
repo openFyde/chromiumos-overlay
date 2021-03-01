@@ -27,8 +27,11 @@ DEPEND="
 	=dev-rust/syn-1*:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
-
-RDEPEND="!!<=dev-rust/p9-0.1.0-r14"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/p9-0.1.0-r14
+"
 
 get_crate_version() {
 	local crate="$1"

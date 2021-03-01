@@ -25,5 +25,8 @@ DEPEND="
 	=dev-rust/remove_dir_all-0.5*:=
 	=dev-rust/winapi-0.3*:=
 "
-
-RDEPEND="!!<=dev-rust/tempfile-3.0.7-r2"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/tempfile-3.0.7-r2
+"

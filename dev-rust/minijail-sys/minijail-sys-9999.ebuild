@@ -25,18 +25,18 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-COMMON_DEPEND="
-	chromeos-base/minijail:=
-	sys-libs/libcap:=
-"
-
-RDEPEND="${COMMON_DEPEND}"
+# ebuilds that install executables and depend on minijail-sys need to RDEPEND on
+# chromeos-base/minijail and sys-libs/libcap
 DEPEND="
-	${COMMON_DEPEND}
+	chromeos-base/minijail:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	>=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0
+	sys-libs/libcap:=
 	virtual/bindgen:=
 "
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}"
 
 src_unpack() {
 	# Unpack both the minijail and Rust dependency source code.

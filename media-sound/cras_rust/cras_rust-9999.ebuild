@@ -23,6 +23,9 @@ IUSE="test"
 DEPEND="
 	dev-rust/libc:=
 "
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}"
 
 src_install() {
 	dolib.a "$(cros-rust_get_build_dir)/libcras_rust.a"

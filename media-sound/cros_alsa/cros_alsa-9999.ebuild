@@ -28,6 +28,9 @@ DEPEND="
 	=dev-rust/syn-1*:=
 	dev-rust/remain:=
 "
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}"
 
 pkg_setup() {
 	cros-rust_pkg_setup cros_alsa_derive

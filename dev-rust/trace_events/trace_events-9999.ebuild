@@ -21,8 +21,11 @@ DEPEND="=dev-rust/libc-0.2*:=
 	=dev-rust/criterion-0.2*:=
 	>=dev-rust/serde_json-1:=
 "
-
-RDEPEND="!!<=dev-rust/trace_events-0.1.0-r2"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/trace_events-0.1.0-r2
+"
 
 pkg_setup() {
 	cros-rust_pkg_setup trace_events

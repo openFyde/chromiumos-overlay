@@ -20,13 +20,14 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND=""
-
-DEPEND="${RDEPEND}
+DEPEND="
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/quote-1*:=
 	=dev-rust/syn-1*:=
 "
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}"
 
 # cros-rust_src_compile isn't used because it builds the unit tests.
 src_compile() {

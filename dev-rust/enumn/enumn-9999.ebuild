@@ -22,5 +22,8 @@ DEPEND="
 	=dev-rust/quote-1*:=
 	=dev-rust/syn-1*:=
 "
-
-RDEPEND="!!<=dev-rust/enumn-0.0.1-r4"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/enumn-0.0.1-r4
+"

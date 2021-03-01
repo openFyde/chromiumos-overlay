@@ -10,6 +10,8 @@ EAPI=7
 
 inherit cros-constants
 
+CROS_WORKON_COMMIT="85d797ecbfd7aefbb9486afeaed3cf5f74858562"
+CROS_WORKON_TREE="2ac2853d10ad0e5f4b451d75ea3590649b9ee241"
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
@@ -22,7 +24,7 @@ DESCRIPTION="rust bindings for minijail"
 HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 
 LICENSE="BSD-Google"
-KEYWORDS="~*"
+KEYWORDS="*"
 IUSE="asan test"
 
 DEPEND="

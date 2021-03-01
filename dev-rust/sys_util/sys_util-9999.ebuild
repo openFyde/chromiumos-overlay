@@ -18,12 +18,9 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-RDEPEND="
-	sys-libs/libcap:=
-	!!<=dev-rust/sys_util-0.1.0-r60
-"
+# ebuilds that install executables, import sys_util, and use the libcap
+# functionality need to RDEPEND on libcap
 DEPEND="
-	${RDEPEND}
 	=dev-rust/android_log-sys-0.2*:=
 	dev-rust/assertions:=
 	>=dev-rust/libc-0.2.44:=
@@ -34,6 +31,12 @@ DEPEND="
 	dev-rust/sync:=
 	dev-rust/syscall_defines:=
 	dev-rust/tempfile:=
+	sys-libs/libcap:=
+"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/sys_util-0.1.0-r60
 "
 
 src_test() {
