@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bed9b5517eb3ff0b018776ecd6b4a61d4da9e22d"
-CROS_WORKON_TREE="4bb39986adcbed5164e04d47cf96d027a86627ec"
+CROS_WORKON_COMMIT="bbac5913f709b41b39f7b38505e053f9646abafa"
+CROS_WORKON_TREE="4ce1e8f6e3e69bdfd58da407b9bf06d4c8b40be0"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="sirenia"
@@ -20,6 +20,7 @@ IUSE="cros_host manatee"
 
 RDEPEND="
 	chromeos-base/cronista
+	chromeos-base/manatee-runtime
 	dev-rust/manatee-client
 	sys-apps/dbus
 "
