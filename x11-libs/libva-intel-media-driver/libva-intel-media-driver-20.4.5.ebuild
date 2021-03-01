@@ -26,6 +26,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-VP-Not-returning-error-when-not-setting-VAProcPipeli.patch
 	"${FILESDIR}"/0004-vaDeriveImage-Enable-WaDisableGmmLibOffsetInDeriveIm.patch
 	"${FILESDIR}"/0005-Decode-Refine-decode-reference-associated-buffer-man.patch
+	"${FILESDIR}"/0006-Encode-Report-VAConfigAttribEncPackedHeaders-for-VP9.patch
 )
 
 src_configure() {
