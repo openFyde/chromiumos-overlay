@@ -93,6 +93,7 @@ src_install_upstart() {
 
 	if use cros_embedded; then
 		doins upstart/startup.conf
+		dotmpfiles tmpfiles.d/chromeos.conf
 		doins upstart/embedded-init/boot-services.conf
 
 		doins upstart/report-boot-complete.conf
@@ -105,6 +106,7 @@ src_install_upstart() {
 
 		if use syslog; then
 			doins upstart/log-rotate.conf upstart/syslog.conf upstart/journald.conf
+			dotmpfiles tmpfiles.d/journald.conf
 			dotmpfiles tmpfiles.d/syslog.conf
 		fi
 		if use !systemd; then
