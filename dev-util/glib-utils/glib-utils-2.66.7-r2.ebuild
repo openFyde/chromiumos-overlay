@@ -41,7 +41,7 @@ do_xsltproc_command() {
 		--stringparam man.copyright.section.enabled 0 \
 		-o "${2}" \
 		http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
-		"${1}" || die "manpage generation failed"
+		"${1}" || ewarn "manpage generation failed"
 }
 
 src_compile() {
@@ -61,7 +61,13 @@ src_install() {
 	doexe gobject/glib-genmarshal
 	doexe gobject/glib-mkenums
 	doexe glib/gtester-report
-	doman docs/reference/gobject/glib-genmarshal.1
-	doman docs/reference/gobject/glib-mkenums.1
-	doman docs/reference/glib/gtester-report.1
+	if [[ -f docs/reference/gobject/glib-genmarshal.1 ]]; then
+		doman docs/reference/gobject/glib-genmarshal.1
+	fi
+	if [[ -f docs/reference/gobject/glib-mkenums.1 ]]; then
+		doman docs/reference/gobject/glib-mkenums.1
+	fi
+	if [[ -f docs/reference/glib/gtester-report.1 ]]; then
+		doman docs/reference/glib/gtester-report.1
+	fi
 }
