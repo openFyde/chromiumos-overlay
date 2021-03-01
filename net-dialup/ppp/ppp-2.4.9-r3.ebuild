@@ -15,7 +15,7 @@ SRC_URI="https://github.com/paulusmack/ppp/archive/${P}.tar.gz
 LICENSE="BSD GPL-2"
 SLOT="0/${PV}"
 KEYWORDS="*"
-IUSE="activefilter atm dhcp gtk ipv6 libressl pam radius"
+IUSE="activefilter atm dhcp eap-tls gtk ipv6 libressl pam radius"
 
 DEPEND="
 	activefilter? ( net-libs/libpcap )
@@ -43,7 +43,6 @@ src_prepare() {
 	eapply "${FILESDIR}/${PN}-2.4.9-specify-runtime-data-dir.patch"
 	eapply "${FILESDIR}/${PN}-2.4.9-no-regain-root.patch"
 	eapply "${FILESDIR}/${PN}-2.4.9-fix-cros-sysroot-poison.patch"
-	eapply "${FILESDIR}/${PN}-2.4.9-disable-eaptls.patch"
 
 	if use atm ; then
 		einfo "Enabling PPPoATM support"
@@ -76,6 +75,14 @@ src_prepare() {
 		sed \
 			-e '/^SUBDIRS :=/s:$: dhcp:' \
 			-i pppd/plugins/Makefile.linux || die
+	fi
+
+	if ! use eap-tls ; then
+		einfo "Disabling EAP-TLS pppd auth support"
+		sed -i '/^USE_EAPTLS=y/s:^:#:' pppd/Makefile.linux || die
+		einfo "Disabling EAP-TLS plugin support"
+		sed -i '/^CFLAGS += -DUSE_EAPTLS=1/s:^:#:' \
+			pppd/plugins/Makefile.linux || die
 	fi
 
 	# Set correct libdir
