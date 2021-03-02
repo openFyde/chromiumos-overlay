@@ -711,5 +711,11 @@
         "rel_patch_path": "cherry/61a66e4b5ec18e9e73c2f6334f6b7f7dd4bca77e.patch",
         "start_version": 416931,
         "end_version": 417272
+    },
+    {
+        "comment": "[llvm-objcopy] If input=output, preserve umask bits, otherwise drop S_ISUID/S_ISGID bits",
+        "rel_patch_path": "cherry/17b4e695ce0ef89eac4a37df2df49d4c0e700766.patch",
+        "start_version": 412851,
+        "end_version": 419929
     }
 ]
