@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c13ec79a7808c0a799748697eb8ec308c56b3146"
+CROS_WORKON_COMMIT="2c60e8c0e3a630d89fc2e1ded11474d8436ba218"
 CROS_WORKON_TREE="c40f1462af8e1d7a9ca191c877f7b9a5381b9757"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -351,7 +351,14 @@ src_install() {
 	udev_dorules "${FILESDIR}/50-selinux.rules"
 }
 
+# Check policy violation for neverallow rules extracted from CTS SELinuxNeverallowRulesTest.
 src_test() {
+	if ! use android-container-pi; then
+		# Skipping the test for ARCVM.
+		# We only run SELinux CTS against the guest-side policy of ARCVM.
+		return
+	fi
+
 	local neverallowjava="${SYSROOT}/etc/selinux/intermediates/SELinuxNeverallowRulesTest.java"
 	if [ ! -f "${SYSROOT}/etc/selinux/intermediates/SELinuxNeverallowRulesTest.java" ]; then
 		ewarn "No SELinuxNeverallowRulesTest.java found. CTS neverallow pre-test is skipped."
@@ -359,32 +366,17 @@ src_test() {
 	fi
 
 	# Extract 'String neverallowRule = "neverallow ...";' lines from the Java source code and
-	# write the extracted lines to ./neverallows. We have two scripts below as Android P and R+
-	# use slightly different code styles.
-	if use android-vm-rvc || use android-vm-master; then
-		(
-			grep "boolean compatiblePropertyOnly = false;" -B 3 |
-			grep "boolean launchingWithROnly = false;" -B 2 |
-			grep "boolean fullTrebleOnly = false;" -B 1 |
-			grep neverallowRule |
-			sed -E 's/.*"(neverallow.*)";/\1/g'
-		) < "${neverallowjava}" > neverallows
-	else
-		(
-			grep "boolean compatiblePropertyOnly = false;" -B 2 |
-			grep "boolean fullTrebleOnly = false;" -B 1 |
-			grep neverallowRule |
-			sed -E 's/.*"(neverallow.*)";/\1/g'
-		) < "${neverallowjava}" > neverallows
-	fi
+	# write the extracted lines to ./neverallows.
+	(
+		grep "boolean compatiblePropertyOnly = false;" -B 2 |
+		grep "boolean fullTrebleOnly = false;" -B 1 |
+		grep neverallowRule |
+		sed -E 's/.*"(neverallow.*)";/\1/g'
+	) < "${neverallowjava}" > neverallows
 
 	local loc="$(wc -l neverallows | awk '{print $1;}')"
 	if [[ "${loc}" -lt "100" ]]; then
 		die "too few test cases. something is wrong."
-	fi
-	if use android-vm-rvc || use android-vm-master; then
-		# We only run SELinux CTS against the guest-side policy. Skipping the test.
-		return
 	fi
 	local cur=0
 	while read -r rule; do
