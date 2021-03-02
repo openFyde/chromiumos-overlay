@@ -124,7 +124,7 @@ REQUIRED_USE="
 DESCRIPTION="Scanner Access Now Easy - Backends"
 HOMEPAGE="http://www.sane-project.org/"
 SRC_URI="https://gitlab.com/sane-project/backends/-/archive/${PV}/backends-${PV}.tar.gz -> ${P}.tar.gz"
-S="${WORKDIR}/backends-${PV}"
+S="${WORKDIR}/sane-backends-${PV}"
 
 LICENSE="GPL-2 public-domain"
 SLOT="0"
@@ -164,7 +164,7 @@ MULTILIB_CHOST_TOOLS=(
 
 pkg_setup() {
 	enewgroup scanner
-	enewuser saned -1 -1 -1 scanner	
+	enewuser saned -1 -1 -1 scanner
 }
 
 src_prepare() {
@@ -183,11 +183,6 @@ src_prepare() {
 	# From Arch
 	eapply "${FILESDIR}"/${PN}-1.0.30-network.patch
 
-	# Fix memory leaks in the test and dll backends.
-	eapply "${FILESDIR}"/sane-backends-1.0.31-dll-load.patch
-	eapply "${FILESDIR}"/sane-backends-1.0.31-free-string-options.patch
-	eapply "${FILESDIR}"/sane-backends-1.0.31-initial-values.patch
-
 	# Upstream sometimes forgets to remove the "git describe" check
 	# in the version, which then fails because .git isn't included in the
 	# released tarball.  Replace it with the plain version number.
@@ -201,13 +196,13 @@ src_prepare() {
 	sed -i \
 		-e "/by sane-desc 3.5 from sane-backends/s:sane-backends .*:sane-backends ${ver}:" \
 		testsuite/tools/data/html* || die
-
 }
 
 src_configure() {
 	# Sanitizers don't link properly, but we want to fuzz dependent
 	# packages (b/160181793).
 	filter_sanitizers
+
 	# genesys backend doesn't build without exceptions.
 	cros_enable_cxx_exceptions
 	append-flags -fno-strict-aliasing # From Fedora
@@ -224,7 +219,6 @@ src_configure() {
 }
 
 multilib_src_configure() {
-
 	# the blank is intended - an empty string would result in building ALL backends.
 	local BACKENDS=" "
 
@@ -270,7 +264,6 @@ multilib_src_configure() {
 		"$(use_enable threads pthread)" \
 		"$(use_with zeroconf avahi)" \
 		"${myconf[@]}"
-
 }
 
 multilib_src_compile() {
