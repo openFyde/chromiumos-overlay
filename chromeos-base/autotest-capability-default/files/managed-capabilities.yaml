@@ -59,6 +59,25 @@
 ## hw_dec_jpeg is marked if a device supports JPEG HW decoding.
 - hw_dec_jpeg
 
+# HW protected decoding
+## H264 for CENCv1/3 with AES-CBC/AES-CTR
+- hw_video_prot_cencv1_h264_cbc
+- hw_video_prot_cencv1_h264_ctr
+- hw_video_prot_cencv3_h264_cbc
+- hw_video_prot_cencv3_h264_ctr
+
+## VP9/VP9.2 for CENCv3 with AES-CBC/AES-CTR
+- hw_video_prot_cencv3_vp9_cbc
+- hw_video_prot_cencv3_vp9_ctr
+
+## AV1 for CENCv3 with AES-CBC/AES-CTR
+- hw_video_prot_cencv3_av1_cbc
+- hw_video_prot_cencv3_av1_ctr
+
+## HEVC for CENCv3 with AES-CBC/AES-CTR
+- hw_video_prot_cencv3_hevc_cbc
+- hw_video_prot_cencv3_hevc_ctr
+
 
 # HW encoding
 ## Not all HW encoders support odd dimension encoding (e.g. trogdor).
