@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c13ec79a7808c0a799748697eb8ec308c56b3146"
+CROS_WORKON_COMMIT="14ee790106afa50429cba1bb4ad6be82a13faead"
 CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "b89549944cdec39a858c48a2553a7db75fd88839" "e2926e06445f67809b3691da6cf67e2c90422765" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -95,6 +95,7 @@ src_install_upstart() {
 
 	if use cros_embedded; then
 		doins upstart/startup.conf
+		dotmpfiles tmpfiles.d/chromeos.conf
 		doins upstart/embedded-init/boot-services.conf
 
 		doins upstart/report-boot-complete.conf
@@ -107,6 +108,7 @@ src_install_upstart() {
 
 		if use syslog; then
 			doins upstart/log-rotate.conf upstart/syslog.conf upstart/journald.conf
+			dotmpfiles tmpfiles.d/journald.conf
 			dotmpfiles tmpfiles.d/syslog.conf
 		fi
 		if use !systemd; then
