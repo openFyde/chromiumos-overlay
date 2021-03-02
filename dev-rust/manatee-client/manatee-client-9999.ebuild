@@ -24,7 +24,9 @@ DEPEND="${RDEPEND}
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
+	dev-rust/libchromeos:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	=dev-rust/which-4*:=
 "
 
 src_install() {
