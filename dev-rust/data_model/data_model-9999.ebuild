@@ -21,6 +21,7 @@ IUSE="test"
 DEPEND="
 	dev-rust/assertions:=
 	dev-rust/libc:=
+	=dev-rust/serde-1*:=
 "
 
 RDEPEND="!!<=dev-rust/data_model-0.1.0-r13"
