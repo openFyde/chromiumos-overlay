@@ -43,6 +43,7 @@ BDEPEND="=dev-lang/rust-bootstrap-${BOOTSTRAP_VERSION}"
 RDEPEND="!dev-util/cargo"
 
 PATCHES=(
+	"${FILESDIR}/${P}-aarch64-outline-atomics.patch"
 	"${FILESDIR}/${P}-add-cros-targets.patch"
 	"${FILESDIR}/${P}-fix-rpath.patch"
 	"${FILESDIR}/${P}-enable-sanitizers.patch"
