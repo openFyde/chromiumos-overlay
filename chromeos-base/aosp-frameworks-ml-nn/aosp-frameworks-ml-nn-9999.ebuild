@@ -75,7 +75,7 @@ src_configure() {
 
 platform_pkg_test() {
 	local tests=(
-		chromeos common driver_cache runtime runtime_generated
+		chromeos common runtime runtime_generated
 	)
 	local gtest_excl_filter="-"
 	local qemu_gtest_excl_filter="-"
@@ -157,6 +157,9 @@ src_install() {
 	doins -r "${S}"/common/include
 	insinto /usr/include/aosp/frameworks/ml/nn/runtime
 	doins -r "${S}"/runtime/include
+	insinto /usr/include/aosp/frameworks/ml/nn/driver/cache
+	doins "${S}"/driver/cache/nnCache/nnCache.h
+	doins "${S}"/driver/cache/BlobCache/BlobCache.h
 
 	einfo "Installing libs."
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
