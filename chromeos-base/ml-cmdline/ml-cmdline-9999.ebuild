@@ -17,6 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 SLOT="0/0"
+IUSE="internal"
 
 RDEPEND="
 	chromeos-base/chrome-icu:=

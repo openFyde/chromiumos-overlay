@@ -44,6 +44,7 @@ KEYWORDS="~*"
 IUSE="
 	dlc
 	fuzzer
+	internal
 	ml_benchmark_drivers
 	nnapi
 	ondevice_grammar
@@ -55,7 +56,7 @@ IUSE="
 RDEPEND="
 	chromeos-base/chrome-icu:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
-	ondevice_speech? ( chromeos-soda/libsoda:=[dlc=] )
+	internal? ( ondevice_speech? ( chromeos-soda/libsoda:=[dlc=] ) )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
 	>=dev-libs/libgrammar-0.0.3:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
