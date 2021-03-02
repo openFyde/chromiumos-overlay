@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9a2de0d377fdae131802e2c260721d2203d78009"
-CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "2977377b96d57ba007a9355a68ddd0b95de1966b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="437b21252f1b70a04de13ffabcb563643e1de591"
+CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "26d74ddf721ffcc9833940e82f4639554f7a3a68" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -44,7 +44,5 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.MiniOs.conf
 	insinto "/build/initramfs"
-	doins init/minios.conf
-	doins init/boot-services.conf
-	doins init/tmpfile.conf
+	doins init/*.conf
 }
