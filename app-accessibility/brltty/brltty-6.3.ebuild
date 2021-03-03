@@ -129,7 +129,8 @@ src_install() {
 
 	insinto /etc
 	doins Documents/brltty.conf
-	udev_newrules Autostart/Udev/rules 70-brltty.rules
+	udev_newrules Autostart/Udev/device.rules 70-brltty-device.rules
+	udev_newrules Autostart/Udev/uinput.rules 70-brltty-uinput.rules
 	newinitd "${FILESDIR}"/brltty.rc brltty
 
 	libdir="$(get_libdir)"
@@ -141,12 +142,8 @@ src_install() {
 	mv Manual-BRLTTY/English/BRLTTY.txt BRLTTY-en.txt
 	mv Manual-BRLTTY/French/BRLTTY.txt BRLTTY-fr.txt
 	mv Manual-BrlAPI/English/BrlAPI.txt BrlAPI-en.txt
-	dodoc CONTRIBUTORS ChangeLog HISTORY README* TODO BRLTTY-*.txt
+	dodoc CONTRIBUTORS ChangeLog HISTORY README* TODO
 	dohtml -r Manual-BRLTTY
-	if use doc; then
-		dohtml -r Manual-BrlAPI
-		dodoc BrlAPI-*.txt
-	fi
 
 	insinto /etc/init
 	doins "${FILESDIR}"/etc/init/brltty.conf
