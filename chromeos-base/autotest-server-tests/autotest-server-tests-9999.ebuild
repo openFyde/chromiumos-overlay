@@ -57,6 +57,7 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_Basic
 	+tests_autoupdate_CatchBadSignatures
 	+tests_autoupdate_Cellular
+	+tests_autoupdate_ConsecutiveUpdatesBeforeReboot
 	+tests_autoupdate_DataPreserved
 	+tests_autoupdate_ForcedOOBEUpdate
 	+tests_autoupdate_FromUI
@@ -65,6 +66,7 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_OmahaResponse
 	+tests_autoupdate_P2P
 	+tests_autoupdate_Periodic
+	+tests_autoupdate_RejectDuplicateUpdate
 	+tests_autoupdate_Rollback
 	dlc_test? ( +tests_autoupdate_WithDLC )
 	has-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
