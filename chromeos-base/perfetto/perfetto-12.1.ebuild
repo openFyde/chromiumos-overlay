@@ -7,7 +7,7 @@ inherit ninja-utils tmpfiles toolchain-funcs user
 DESCRIPTION="An open-source project for performance instrumentation and tracing."
 HOMEPAGE="https://perfetto.dev/"
 
-GIT_SHA1="9fe10b3198793183862d47366ed6d92d26c1066d"
+GIT_SHA1="3f02be823cef0f54e720c0382ffc4507f48e6e4b"
 SRC_URI="https://github.com/google/perfetto/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 KEYWORDS="*"
