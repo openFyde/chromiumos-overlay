@@ -36,8 +36,6 @@ src_test() {
 }
 
 src_install() {
-	udev_dorules "${FILESDIR}"/udev/99-cros-ec-accel.rules
-
 	insinto /etc/init
 	doins "${FILESDIR}"/init/cros-ec-accel.conf
 }

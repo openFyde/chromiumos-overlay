@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk iioservice mems_setup libmems .gn"
 
 PLATFORM_SUBDIR="mems_setup"
 
-inherit cros-workon platform
+inherit cros-workon platform udev
 
 DESCRIPTION="MEMS Setup for Chromium OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_setup"
@@ -31,6 +31,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:="
 
 src_install() {
+	udev_dorules 99-mems_setup.rules
 	dosbin "${OUT}"/mems_setup
 }
 
