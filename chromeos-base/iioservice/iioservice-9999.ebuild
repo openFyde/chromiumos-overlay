@@ -23,6 +23,8 @@ IUSE="+seccomp"
 RDEPEND="
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/libmems:=
+	chromeos-base/mems_setup
+	virtual/chromeos-ec-driver-init
 "
 
 DEPEND="${RDEPEND}
@@ -39,7 +41,7 @@ src_install() {
 
 	# Install upstart configuration.
 	insinto /etc/init
-	doins init/iioservice.conf
+	doins init/*.conf
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Iioservice.conf
