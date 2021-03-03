@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("aed5c10777101cde90bbbc214000dc4a6737dd49" "98f11417d6c4433ac8011bc40401354bef69a664" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
-CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a933fd1793c0f729b5c7c40127e724aa1267c682" "7a08574830b90bb538e281ba8c2240d2826fefb9")
+CROS_WORKON_COMMIT=("c7a81f17f3b1239f8b9c65baf50e7f48b68ae927" "6d6b0e6261838edeb7086b0c804b3878f2806b14" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
+CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "31b5e14983b2c2b2169d4f23edfb70d1a96f2e58" "7a08574830b90bb538e281ba8c2240d2826fefb9")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -77,7 +77,7 @@ src_configure() {
 
 platform_pkg_test() {
 	local tests=(
-		chromeos common driver_cache runtime runtime_generated
+		chromeos common runtime runtime_generated
 	)
 	local gtest_excl_filter="-"
 	local qemu_gtest_excl_filter="-"
@@ -159,6 +159,9 @@ src_install() {
 	doins -r "${S}"/common/include
 	insinto /usr/include/aosp/frameworks/ml/nn/runtime
 	doins -r "${S}"/runtime/include
+	insinto /usr/include/aosp/frameworks/ml/nn/driver/cache
+	doins "${S}"/driver/cache/nnCache/nnCache.h
+	doins "${S}"/driver/cache/BlobCache/BlobCache.h
 
 	einfo "Installing libs."
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
