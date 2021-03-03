@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="github.com/google/syzkaller 9a327581917420b67d86559b3caeff52f5813117"
+CROS_GO_SOURCE="github.com/google/syzkaller e1b9a5704d15b1f26f7cae9142c34544768175b2"
 
 CROS_GO_PACKAGES=(
 	"github.com/google/syzkaller"
