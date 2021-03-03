@@ -68,6 +68,15 @@ src_prepare() {
 	done
 	touch "${AUTOTEST_WORK}/client/profilers/__init__.py"
 
+	# Symlinks are needed for new setup_modules
+	# delete the top level symlink beforehand (if it exists).
+	find "${AUTOTEST_WORK}" -name "autotest_lib" -delete \
+		|| echo "Top level symlink did not exist!"
+
+	# Create the top level symlink (want autotest_lib --> .)
+	ln -s . "${AUTOTEST_WORK}/autotest_lib" \
+		|| die "Could not create autotest_lib symlink"
+
 	sed "/^enable_server_prebuild/d" "${S}/global_config.ini" > \
 		"${AUTOTEST_WORK}/global_config.ini"
 	default

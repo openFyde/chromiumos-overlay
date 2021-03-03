@@ -106,7 +106,7 @@ create_autotest_workdir() {
 	local dst=${1}
 
 	# create a working enviroment for pre-building
-	ln -sf "${SYSROOT}"${AUTOTEST_BASE}/{tko,global_config.ini,shadow_config.ini} "${dst}"/
+	ln -sf "${SYSROOT}"${AUTOTEST_BASE}/{tko,global_config.ini,shadow_config.ini,autotest_lib} "${dst}"/
 
 	# NOTE: in order to make autotest not notice it's running from /usr/local/, we need
 	# to make sure the binaries are real, because they do the path magic
@@ -208,20 +208,8 @@ autotest_src_prepare() {
 
 
 	# Create the top level symlink (want autotest_lib --> .)
-	ln -s ${AUTOTEST_WORKDIR} ${AUTOTEST_WORKDIR}/autotest_lib \
+	ln -s . ${AUTOTEST_WORKDIR}/autotest_lib \
 		|| die "Could not create autotest_lib symlink"
-
-	# Delete the client symlink dir and files first (if it exists.)
-	find ${AUTOTEST_WORKDIR}/client/autotest_lib -name "client" -delete
-
-	# Create the client symlink dir
-	mkdir -p ${AUTOTEST_WORKDIR}/client/autotest_lib \
-		|| die "Could not create client/autotest_lib dir"
-	touch ${AUTOTEST_WORKDIR}/client/autotest_lib/__init__.py \
-		|| die "Could not create init in client/autotest_lib"
-	# Create the symlink (want client --> ../)
-	ln -s ${AUTOTEST_WORKDIR}/client ${AUTOTEST_WORKDIR}/client/autotest_lib/client \
-		|| die "Could not create autotest_lib/client symlink"
 
 	TEST_LIST=$(get_test_list)
 
