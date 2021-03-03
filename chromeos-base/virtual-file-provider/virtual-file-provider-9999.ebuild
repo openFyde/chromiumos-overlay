@@ -44,9 +44,6 @@ src_install() {
 	doins init/virtual-file-provider.conf
 	doins init/virtual-file-provider-cgroup.conf
 
-	insinto /usr/share/dbus-1/system-services
-	doins org.chromium.VirtualFileProvider.service
-
 	insinto /usr/share/power_manager
 	doins powerd_prefs/suspend_freezer_deps_virtual-file-provider
 }
