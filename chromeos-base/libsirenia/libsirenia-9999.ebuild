@@ -25,6 +25,7 @@ DEPEND="
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
 	dev-rust/libchromeos:=
 	dev-rust/minijail:=
+	>=dev-rust/openssl-0.10.25:= <dev-rust/openssl-0.11.0
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
