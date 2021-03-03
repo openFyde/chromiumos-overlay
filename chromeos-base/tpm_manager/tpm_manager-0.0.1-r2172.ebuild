@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="62b3bb2a6dfcda27a3af0f4db2b85494ccab6ebf"
+CROS_WORKON_COMMIT="194bf40888d574ff2063aff6b7e7ca3903ae0dcb"
 CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "22516c22296d08f9e9ad327c1a4452a6657dc6ea" "4542bdb602bbab75df9d596e71c9279f89e60ad3" "216a5d3a60a3b3093fb5ad72142a9bbdc12db2c7" "33d321722ad3cf484b13b1534371ca0d9a98dccd" "825bff5c29fdc54d4b79cf09b0b8008ba64303b4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,6 +36,7 @@ RDEPEND="
 	chromeos-base/libhwsec
 	chromeos-base/libtpmcrypto
 	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/tpm_manager-client
 	"
 
 DEPEND="${RDEPEND}

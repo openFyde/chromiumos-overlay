@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="462c59d73c245b788f644fd0c245f74c64727557"
+CROS_WORKON_COMMIT="194bf40888d574ff2063aff6b7e7ca3903ae0dcb"
 CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "d8c0fc526c55504c645c3c254b00e7adbfe2fd36" "659397030465799734b81ba387579048df5e1cac" "22516c22296d08f9e9ad327c1a4452a6657dc6ea" "216a5d3a60a3b3093fb5ad72142a9bbdc12db2c7" "33d321722ad3cf484b13b1534371ca0d9a98dccd" "825bff5c29fdc54d4b79cf09b0b8008ba64303b4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,6 +37,7 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=
 	chromeos-base/tpm_manager:=
+	chromeos-base/attestation-client
 	"
 
 DEPEND="
