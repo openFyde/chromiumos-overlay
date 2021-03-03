@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "comment": "[libunwind] [risc-v] This patch is for fixing immediate build failure when Cross Unwinding enabled. Follow up patch will cleanup some Macros handling.",
+        "rel_patch_path": "5c3fc5093aaf7d9422459d295eb4eb769abcbaa4.patch",
+        "start_version": 420365,
+        "end_version": 420477
+    }
+]
