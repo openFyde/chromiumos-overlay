@@ -21,7 +21,7 @@ SRC_URI=""
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="cfm cros_host cros_p2p dlc fuzzer -hwid_override +power_management systemd"
+IUSE="cfm cros_host cros_p2p dlc fuzzer -hwid_override minios +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
@@ -124,6 +124,13 @@ src_install() {
 	# Install DBus configuration
 	insinto /etc/dbus-1/system.d
 	doins UpdateEngine.conf
+
+	# TODO(b/182168271): Remove minios flag and public key from update_engine.
+	# Add the public key only when signing for MiniOs.
+	if use minios; then
+		insinto "/build/initramfs"
+		doins scripts/update_payload/update-payload-key.pub.pem
+	fi
 
 	platform_fuzzer_install "${S}"/OWNERS \
 				"${OUT}"/update_engine_omaha_request_action_fuzzer \
