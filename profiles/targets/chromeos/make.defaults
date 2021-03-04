@@ -87,6 +87,9 @@ USE="${USE} arc-camera3"
 # Enable Downloadable Content (DLC).
 USE="${USE} dlc"
 
+# Enable security-anomaly detection daemon.
+USE="${USE} secanomalyd"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 

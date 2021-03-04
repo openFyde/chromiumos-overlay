@@ -44,6 +44,9 @@ USE="${USE} -diagnostics"
 # Disable Perfetto daemons on embedded devices.
 USE="${USE} -perfetto"
 
+# Disable security-anomaly detection daemon on embedded devices.
+USE="${USE} -secanomalyd"
+
 # No support for zero-copy camera stack in Chrome.
 USE="${USE} -video_capture_use_gpu_memory_buffer"
 
