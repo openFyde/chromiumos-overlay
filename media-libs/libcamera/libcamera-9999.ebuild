@@ -14,7 +14,7 @@ HOMEPAGE="https://www.libcamera.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="doc ipu3 rkisp1 test udev"
+IUSE="debug doc ipu3 rkisp1 test udev"
 
 RDEPEND="
 	chromeos-base/cros-camera-libs
@@ -50,6 +50,7 @@ src_configure() {
 		-Dandroid="enabled"
 		-Dandroid_platform="cros"
 		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
+		--buildtype "$(usex debug debug plain)"
 	)
 	meson_src_configure
 }
