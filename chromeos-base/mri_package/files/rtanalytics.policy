@@ -46,6 +46,7 @@ poll: 1
 sendmsg: 1
 clock_gettime: 1
 nanosleep: 1
+clock_nanosleep: 1
 futex: 1
 rt_sigaction: 1
 mmap: 1
