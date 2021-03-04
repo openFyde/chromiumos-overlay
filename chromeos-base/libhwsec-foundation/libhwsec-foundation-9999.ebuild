@@ -27,6 +27,17 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
 	"
 
+src_install() {
+	insinto /usr/include/libhwsec-foundation
+	doins ./hwsec-foundation_export.h
+
+	insinto /usr/include/libhwsec-foundation/tpm_error
+	doins ./tpm_error/tpm_error_data.h
+	doins ./tpm_error/handle_auth_failure.h
+
+	dolib.so "${OUT}"/lib/libhwsec-foundation.so
+}
+
 platform_pkg_test() {
 	local tests=(
 		hwsec-foundation_testrunner
