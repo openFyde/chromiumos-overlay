@@ -8,6 +8,7 @@ brk: 1
 chmod: 1
 chown32: 1
 clock_gettime: 1
+clock_gettime64: 1
 clone: 1
 close: 1
 connect: 1
@@ -29,6 +30,7 @@ fstatfs: 1
 fstatfs64: 1
 ftruncate64: 1
 futex: 1
+futex_time64: 1
 getcwd: 1
 getdents: 1
 getdents64: 1
@@ -64,6 +66,7 @@ mremap: 1
 munmap: 1
 nanosleep: 1
 clock_nanosleep: 1
+clock_nanosleep_time64: 1
 open: 1
 openat: 1
 pipe: 1
@@ -108,7 +111,9 @@ symlink: 1
 sysinfo: 1
 timerfd_create: 1
 timerfd_settime: 1
+timerfd_settime64: 1
 timerfd_gettime: 1
+timerfd_gettime64: 1
 times: 1
 tgkill: 1
 umask: 1

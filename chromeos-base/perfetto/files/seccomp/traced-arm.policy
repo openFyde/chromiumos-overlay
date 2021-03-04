@@ -3,11 +3,15 @@
 # found in the LICENSE file.
 
 clock_gettime: 1
+clock_gettime64: 1
 clock_getres: 1
+clock_getres_time64: 1
 clock_nanosleep: 1
+clock_nanosleep_time64: 1
 gettimeofday: 1
 nanosleep: 1
 ppoll: 1
+ppoll_time64: 1
 poll: 1
 
 # Opens /proc/self/stat
@@ -58,6 +62,7 @@ getuid32: 1
 getgid32: 1
 
 futex: 1
+futex_time64: 1
 exit: 1
 exit_group: 1
 # Allow signal to self.
@@ -89,6 +94,7 @@ set_tid_address: 1
 timer_create: 1
 timer_delete: 1
 timer_settime: 1
+timer_settime64: 1
 
 uname: 1
 # Remove the stale socket file.
