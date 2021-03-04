@@ -491,12 +491,32 @@ ecargo() {
 	fi
 }
 
+# @FUNCTION: write_clippy
+# @INTERNAL
+# @DESCRIPTION:
+# Executes cargo clippy and writes lints to file
+_ecargo_write_clippy() {
+	# TODO(crbug.com/1194200): we should stop using /tmp for this sort of thing
+	local clippy_output_base="/tmp/cargo_clippy/${CATEGORY}"
+	mkdir -p "${clippy_output_base}"
+
+	# FIXME(crbug.com/1195313): rustc sysroot may not contain dependencies
+	local sysroot_old="${SYSROOT}"
+	SYSROOT=$(rustc --print sysroot)
+	ecargo clippy ---message-format json --target="${CHOST}" --release \
+		--manifest-path="${S}/Cargo.toml" > "${clippy_output_base}/${PF}.json"
+	export SYSROOT="${sysroot_old}"
+}
+
 # @FUNCTION: ecargo_build
 # @USAGE: <args to cargo build>
 # @DESCRIPTION:
 # Call `cargo build` with the specified command line options.
 ecargo_build() {
 	ecargo build --target="${CHOST}" --release "$@"
+	if [[ -n "${ENABLE_RUST_CLIPPY}" ]]; then
+		_ecargo_write_clippy
+	fi
 }
 
 # @FUNCTION: ecargo_build_fuzzer
