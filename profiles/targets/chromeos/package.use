@@ -43,7 +43,6 @@ dev-python/pyudev	pygobject
 dev-util/dialog		-unicode minimal
 dev-util/perf		-audit -doc -demangle -tui -ncurses -perl -python -slang -unwind
 chromeos-base/chromeos-chrome   build_tests
->=chromeos-base/chromeos-chrome-42.0.2297.0_rc-r1		v4l2_codec
 chromeos-base/nsswitch	zeroconf
 media-gfx/imagemagick	jpeg png svg tiff
 # Disable all SANE backends that don't support USB.
