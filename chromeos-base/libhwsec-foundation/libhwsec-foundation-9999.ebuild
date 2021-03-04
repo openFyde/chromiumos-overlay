@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libhws
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test"
+IUSE="test tpm2"
 
 RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
