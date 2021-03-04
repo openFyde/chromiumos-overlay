@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a91761a8a29675c0c357e28917569beaad775241"
-CROS_WORKON_TREE="1451cb39be4a049ce69503dac4c09657bb92f91a"
+CROS_WORKON_COMMIT="4f3f3322099777d4f2a4f5e86f20ec443be182f3"
+CROS_WORKON_TREE="b9377975506dee9240759670359201062009b63f"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -23,6 +23,7 @@ IUSE="test"
 DEPEND="
 	dev-rust/assertions:=
 	dev-rust/libc:=
+	=dev-rust/serde-1*:=
 "
 
 RDEPEND="!!<=dev-rust/data_model-0.1.0-r13"

@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4f41c7ebc7f89f9e55de90e50bae672b2d2cdc7d"
-CROS_WORKON_TREE="7caeb4a2dc63b5e4f62c6896fcdd7a21d62e51b4"
+CROS_WORKON_COMMIT="4f3f3322099777d4f2a4f5e86f20ec443be182f3"
+CROS_WORKON_TREE="b616f373f3e01ef424befeae0374587940df5bab"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -80,6 +80,8 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/protoc-rust-2.8:=
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/quote-1*:=
+	=dev-rust/serde-1*:=
+	=dev-rust/serde_json-1*:=
 	=dev-rust/syn-1*:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	dev-rust/trace_events:=
