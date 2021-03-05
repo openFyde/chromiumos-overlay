@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="5869f01249df06c60bc6e1e498c8f2084304ed55"
+CROS_WORKON_COMMIT="86e1a560610cb3a8dfbf6cedb7984c85830d6855"
 CROS_WORKON_TREE="56f51edbec0ccbbca4e4cdd4694e849e4ae48f42"
 CROS_RUST_SUBDIR="cras/src/server/rust"
 
@@ -25,6 +25,9 @@ IUSE="test"
 DEPEND="
 	dev-rust/libc:=
 "
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}"
 
 src_install() {
 	dolib.a "$(cros-rust_get_build_dir)/libcras_rust.a"

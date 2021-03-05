@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9a2de0d377fdae131802e2c260721d2203d78009"
+CROS_WORKON_COMMIT="52f7d224416acd115a8d76bf0258d19bd5b0a1cd"
 CROS_WORKON_TREE=("90bf2838f56bffe127636b5ea4988485595819a8" "eaed4f3b0a8201ef3951bf1960728885ff99e772")
 CROS_RUST_SUBDIR="cros-fuzz"
 
@@ -25,3 +25,6 @@ IUSE="fuzzer test"
 DEPEND="
 	=dev-rust/rand_core-0.4*:=
 "
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}"

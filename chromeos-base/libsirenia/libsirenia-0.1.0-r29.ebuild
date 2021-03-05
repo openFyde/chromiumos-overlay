@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bed9b5517eb3ff0b018776ecd6b4a61d4da9e22d"
+CROS_WORKON_COMMIT="52f7d224416acd115a8d76bf0258d19bd5b0a1cd"
 CROS_WORKON_TREE="15e84cd6fde2c6f3042d4073a187263cfb54e7c3"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
@@ -20,9 +20,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND=""
-
-DEPEND="${RDEPEND}
+DEPEND="
 	chromeos-base/sirenia-rpc-macros:=
 	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
 	=dev-rust/getopts-0.2*:=
@@ -34,6 +32,9 @@ DEPEND="${RDEPEND}
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}"
 
 # We skip the vsock test because it requires the vsock kernel modules to be
 # loaded.

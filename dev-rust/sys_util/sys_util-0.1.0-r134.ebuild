@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0074b288ef2804d87e67a68895abb0826faf3a26"
+CROS_WORKON_COMMIT="3c6367b98c28cf367ac301573d2e9d245d1ac7af"
 CROS_WORKON_TREE="6c94b81b66c93beb6283381f2a035683639a4627"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -20,12 +20,9 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
-RDEPEND="
-	sys-libs/libcap:=
-	!!<=dev-rust/sys_util-0.1.0-r60
-"
+# ebuilds that install executables, import sys_util, and use the libcap
+# functionality need to RDEPEND on libcap
 DEPEND="
-	${RDEPEND}
 	=dev-rust/android_log-sys-0.2*:=
 	dev-rust/assertions:=
 	>=dev-rust/libc-0.2.44:=
@@ -36,6 +33,12 @@ DEPEND="
 	dev-rust/sync:=
 	dev-rust/syscall_defines:=
 	dev-rust/tempfile:=
+	sys-libs/libcap:=
+"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/sys_util-0.1.0-r60
 "
 
 src_test() {

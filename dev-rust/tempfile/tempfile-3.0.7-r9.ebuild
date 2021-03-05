@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="853ecdb355d476d15bcdea4d9f5da9761100ede7"
+CROS_WORKON_COMMIT="3c6367b98c28cf367ac301573d2e9d245d1ac7af"
 CROS_WORKON_TREE="4d1019d4ba75c8d6c18310a8bce67bcda0eceab5"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -27,5 +27,8 @@ DEPEND="
 	=dev-rust/remove_dir_all-0.5*:=
 	=dev-rust/winapi-0.3*:=
 "
-
-RDEPEND="!!<=dev-rust/tempfile-3.0.7-r2"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/tempfile-3.0.7-r2
+"

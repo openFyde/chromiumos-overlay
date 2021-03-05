@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5106cfd0d4eeae62b70cad2fe296f27f7e172e72"
+CROS_WORKON_COMMIT="52f7d224416acd115a8d76bf0258d19bd5b0a1cd"
 CROS_WORKON_TREE="e509681943a4a652c4575e6da2260621c04c8500"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,8 +23,11 @@ DEPEND="=dev-rust/libc-0.2*:=
 	=dev-rust/criterion-0.2*:=
 	>=dev-rust/serde_json-1:=
 "
-
-RDEPEND="!!<=dev-rust/trace_events-0.1.0-r2"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/trace_events-0.1.0-r2
+"
 
 pkg_setup() {
 	cros-rust_pkg_setup trace_events

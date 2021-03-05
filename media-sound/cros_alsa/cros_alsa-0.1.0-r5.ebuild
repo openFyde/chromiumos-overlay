@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4f59716f43cebdbb5ee21d5dc01a742bbb899190"
+CROS_WORKON_COMMIT="86e1a560610cb3a8dfbf6cedb7984c85830d6855"
 CROS_WORKON_TREE="527e35f492a820d8d3f1fd5c639d68664b7fcbd9"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -30,6 +30,9 @@ DEPEND="
 	=dev-rust/syn-1*:=
 	dev-rust/remain:=
 "
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}"
 
 pkg_setup() {
 	cros-rust_pkg_setup cros_alsa_derive

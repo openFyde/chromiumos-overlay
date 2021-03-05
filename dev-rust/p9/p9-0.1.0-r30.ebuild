@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cc55fd248b036e2a2feb8a746fb07cb370563dbc"
+CROS_WORKON_COMMIT="52f7d224416acd115a8d76bf0258d19bd5b0a1cd"
 CROS_WORKON_TREE="e1ab1203219f6d23c8922cb65be50f7f30fff5f1"
 CROS_RUST_SUBDIR="vm_tools/p9"
 
@@ -29,8 +29,11 @@ DEPEND="
 	=dev-rust/syn-1*:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
-
-RDEPEND="!!<=dev-rust/p9-0.1.0-r14"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/p9-0.1.0-r14
+"
 
 get_crate_version() {
 	local crate="$1"

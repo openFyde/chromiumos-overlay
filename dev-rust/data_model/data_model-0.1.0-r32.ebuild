@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4f3f3322099777d4f2a4f5e86f20ec443be182f3"
+CROS_WORKON_COMMIT="3c6367b98c28cf367ac301573d2e9d245d1ac7af"
 CROS_WORKON_TREE="b9377975506dee9240759670359201062009b63f"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -25,5 +25,8 @@ DEPEND="
 	dev-rust/libc:=
 	=dev-rust/serde-1*:=
 "
-
-RDEPEND="!!<=dev-rust/data_model-0.1.0-r13"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/data_model-0.1.0-r13
+"

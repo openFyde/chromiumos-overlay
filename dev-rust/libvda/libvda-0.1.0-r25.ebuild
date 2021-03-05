@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cc55fd248b036e2a2feb8a746fb07cb370563dbc"
+CROS_WORKON_COMMIT="52f7d224416acd115a8d76bf0258d19bd5b0a1cd"
 CROS_WORKON_TREE="ef853e60ca368159e6086ff7ad9b3c9a9629af5c"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,15 +22,16 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
-RDEPEND="
-	chromeos-base/libvda:=
-	!!<=dev-rust/libvda-0.0.1-r5
-"
-
-DEPEND="
-	${RDEPEND}
+# ebuilds that install executables and depend on dev-rust/libvda need to RDEPEND
+# on chromeos-base/libvda.
+DEPEND="chromeos-base/libvda:=
 	dev-rust/pkg-config:=
 	dev-rust/enumn:=
+"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!!<=dev-rust/libvda-0.0.1-r5
 "
 
 src_test() {

@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="4b60d55e74e39a8a92235652b45c54e4ea2f5299"
+CROS_WORKON_COMMIT="86e1a560610cb3a8dfbf6cedb7984c85830d6855"
 CROS_WORKON_TREE="c66946a62c2f2eee94bfa0cd0f0c03b4da475040"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -25,5 +25,8 @@ DEPEND="
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 "
-
-RDEPEND="!<=media-sound/audio_streams-0.1.0-r7"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!<=media-sound/audio_streams-0.1.0-r7
+"
