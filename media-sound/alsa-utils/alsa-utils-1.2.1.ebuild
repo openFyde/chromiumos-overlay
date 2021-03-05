@@ -62,17 +62,3 @@ src_install() {
 	# alsaucm: unable to obtain card list: No such file or directory
 	keepdir /usr/share/alsa/ucm
 }
-
-pkg_postinst() {
-	if [[ -z ${REPLACING_VERSIONS} ]]; then
-		elog
-		elog "To take advantage of the init script, and automate the process of"
-		elog "saving and restoring sound-card mixer levels you should"
-		elog "add alsasound to the boot runlevel. You can do this as"
-		elog "root like so:"
-		elog "# rc-update add alsasound boot"
-		ewarn
-		ewarn "The ALSA core should be built into the kernel or loaded through other"
-		ewarn "means. There is no longer any modular auto(un)loading in alsa-utils."
-	fi
-}
