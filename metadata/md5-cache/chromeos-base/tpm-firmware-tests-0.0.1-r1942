@@ -4,11 +4,11 @@ DEPEND=app-crypt/trousers:= chromeos-base/tpm:=
 DESCRIPTION=TPM firmware tests
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/vboot_reference/
-IUSE=+autotest +tests_hardware_TPMFirmware +tests_hardware_TPMFirmwareServer cros_host cros_workon_tree_c9a3de45df16c8e7f1e52f2939ca1c3d6f8c0f83 +buildcheck autotest opengles
+IUSE=+autotest +tests_hardware_TPMFirmware +tests_hardware_TPMFirmwareServer cros_host cros_workon_tree_db04c693cf7a8074fe9a5652a55299d9b36384d1 +buildcheck autotest opengles
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=autotest? ( chromeos-base/autotest )
 SLOT=0/0
 _eclasses_=autotest	feea02259959f7026507fe09d932cd9c	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=3f28b36083c98668423502a54f308145
+_md5_=536b282ba856f4b9a65dc5604c8d12ef
