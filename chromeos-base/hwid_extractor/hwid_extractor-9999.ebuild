@@ -14,6 +14,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="cros_host"
 
 RDEPEND="chromeos-base/vboot_reference
 	chromeos-base/vpd
@@ -23,8 +24,13 @@ RDEPEND="chromeos-base/vboot_reference
 "
 
 src_install() {
+	local lib="/usr/local"
+	if use cros_host; then
+		lib="/usr/lib"
+	fi
 	emake -C py/hwid_extractor \
 		DESTDIR="${D}" \
-		CHROMITE_LIB_PATH="${S}/chromite/lib" \
+		LIB_DIR="${lib}" \
+		CHROMITE_SRC_PATH="${S}/chromite/lib" \
 		install
 }
