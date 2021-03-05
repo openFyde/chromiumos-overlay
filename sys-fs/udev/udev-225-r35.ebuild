@@ -366,41 +366,6 @@ pkg_postinst() {
 		fi
 	done
 
-	elog
-	elog "Starting from version >= 197 the new predictable network interface names are"
-	elog "used by default, see:"
-	elog "https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames"
-	elog "https://cgit.freedesktop.org/systemd/systemd/tree/src/udev/udev-builtin-net_id.c"
-	elog
-	elog "Example command to get the information for the new interface name before booting"
-	elog "(replace <ifname> with, for example, eth0):"
-	elog "# udevadm test-builtin net_id /sys/class/net/<ifname> 2> /dev/null"
-	elog
-	elog "You can use either kernel parameter \"net.ifnames=0\", create empty"
-	elog "file /etc/systemd/network/99-default.link, or symlink it to /dev/null"
-	elog "to disable the feature."
-
-	if has_version 'sys-apps/biosdevname'; then
-		ewarn
-		ewarn "You can replace the functionality of sys-apps/biosdevname which has been"
-		ewarn "detected to be installed with the new predictable network interface names."
-	fi
-
-	ewarn
-	ewarn "You need to restart udev as soon as possible to make the upgrade go"
-	ewarn "into effect."
-	ewarn "The method you use to do this depends on your init system."
-	if has_version 'sys-apps/openrc'; then
-		ewarn "For sys-apps/openrc users it is:"
-		ewarn "# /etc/init.d/udev --nodeps restart"
-	fi
-
-	elog
-	elog "For more information on udev on Gentoo, upgrading, writing udev rules, and"
-	elog "fixing known issues visit:"
-	elog "https://wiki.gentoo.org/wiki/Udev"
-	elog "https://wiki.gentoo.org/wiki/Udev/upgrade"
-
 	# If user has disabled 80-net-name-slot.rules using a empty file or a symlink to /dev/null,
 	# do the same for 80-net-setup-link.rules to keep the old behavior
 	local net_move=no
