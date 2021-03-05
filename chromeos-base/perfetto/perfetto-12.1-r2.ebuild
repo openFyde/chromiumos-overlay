@@ -1,14 +1,24 @@
-# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit ninja-utils tmpfiles toolchain-funcs user
+
+inherit cros-constants
+
+# This ebuild is upreved via PuPR, so disable the normal uprev process for
+# cros-workon ebuilds.
+CROS_WORKON_COMMIT="3f02be823cef0f54e720c0382ffc4507f48e6e4b"
+CROS_WORKON_TREE="23faac9d0737521273423773b45e0b36f876efc6"
+CROS_WORKON_MANUAL_UPREV=1
+CROS_WORKON_LOCALNAME="aosp/external/perfetto"
+CROS_WORKON_PROJECT="platform/external/perfetto"
+CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
+CROS_WORKON_EGIT_BRANCH="master"
+
+inherit cros-workon ninja-utils tmpfiles toolchain-funcs user
 
 DESCRIPTION="An open-source project for performance instrumentation and tracing."
 HOMEPAGE="https://perfetto.dev/"
-
-GIT_SHA1="3f02be823cef0f54e720c0382ffc4507f48e6e4b"
-SRC_URI="https://github.com/google/perfetto/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 KEYWORDS="*"
 IUSE="cros-debug"
@@ -22,8 +32,6 @@ BDEPEND="
 	dev-libs/protobuf
 "
 BUILD_OUTPUT="${WORKDIR}/out_cros/"
-
-S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
 src_configure() {
 	tc-export CC CXX AR BUILD_CC BUILD_CXX BUILD_AR
@@ -87,13 +95,23 @@ enable_perfetto_version_gen=false
 src_compile() {
 	eninja -C  "${BUILD_OUTPUT}" traced traced_probes perfetto
 
-	# If not building with cros-debug, the SDK should be built with NDEBUG as
-	# well.
-	use cros-debug || append-cxxflags -DNDEBUG
+	# Check the existence of the sdk/ directory before building the sdk static
+	# library, as only the release branches contains the sdk sources to be used.
+	if [[ -d "${S}/sdk" ]]; then
+		# If not building with cros-debug, the SDK should be built with NDEBUG as
+		# well.
+		use cros-debug || append-cxxflags -DNDEBUG
 
-	(set -x; $(tc-getCXX) ${CXXFLAGS} -Wall -Werror -c -pthread \
-		"${S}/sdk/perfetto.cc" -o sdk/perfetto.o) || die
-	(set -x; ${AR} rvsc sdk/libperfetto_sdk.a sdk/perfetto.o) || die
+		(set -x; $(tc-getCXX) ${CXXFLAGS} -Wall -Werror -c -pthread \
+			"${S}/sdk/perfetto.cc" -o sdk/perfetto.o) || die
+		(set -x; ${AR} rvsc sdk/libperfetto_sdk.a sdk/perfetto.o) || die
+	else
+		if [[ ${PV} == 9999 ]]; then
+			ewarn "Skip the sdk library as directory perfetto/sdk doesn't exist."
+		else
+			die "The Perfetto SDK doesn't exist."
+		fi
+	fi
 }
 
 src_install() {
@@ -111,12 +129,13 @@ src_install() {
 	newins "${FILESDIR}/seccomp/traced-${ARCH}.policy" traced.policy
 	newins "${FILESDIR}/seccomp/traced_probes-${ARCH}.policy" traced_probes.policy
 
-	# TODO(b/177664944) Separate perfetto SDK version from perfetto daemons.
-	insinto /usr/include/perfetto
-	# Both source and lib are provided for convenience.
-	doins "${S}/sdk/perfetto.cc"
-	doins "${S}/sdk/perfetto.h"
-	dolib.a "${S}/sdk/libperfetto_sdk.a"
+	if [[ -d "${S}/sdk" ]]; then
+		insinto /usr/include/perfetto
+		# Both source and lib are provided for convenience.
+		doins "${S}/sdk/perfetto.cc"
+		doins "${S}/sdk/perfetto.h"
+		dolib.a "${S}/sdk/libperfetto_sdk.a"
+	fi
 }
 
 pkg_preinst() {
