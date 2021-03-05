@@ -3,9 +3,10 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="acf0fe9d99fe15a84e45878efb569cdb41dc6f7b"
-CROS_WORKON_TREE="4a969d64a6706ee01644e5eb60f3f0c76a93f47e"
+CROS_WORKON_COMMIT="d470a2df588d86fca460db889bfe5b2cce7caebb"
+CROS_WORKON_TREE="726f2645d891728eb415bad1f5c73d0186d8fa7a"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
+CROS_WORKON_EGIT_BRANCH="master"
 
 # Prevent automatic uprevs of this package since upstream is out of our control.
 CROS_WORKON_MANUAL_UPREV="1"
@@ -30,6 +31,7 @@ RDEPEND="
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
+	chromeos-base/percetto
 	sys-devel/autoconf-archive
 	fuzzer? ( >=dev-libs/check-0.9.4 )
 	test? ( >=dev-libs/check-0.9.4 )"
@@ -47,6 +49,7 @@ src_configure() {
 	fi
 
 	emesonargs+=(
+		-Dtracing=percetto
 		-Dminigbm_allocation="true"
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
