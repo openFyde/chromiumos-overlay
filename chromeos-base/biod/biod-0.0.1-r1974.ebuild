@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d2b87546790ccb4b9fe12d433c3a05039a5d8909"
+CROS_WORKON_COMMIT="5388505f7c4ae194ef04109c85a1fbc7ae7a9748"
 CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "740281bcf8801d9dd429e334d002b23ef0d917df" "3c5974f96ba0b3c671699d512ef7bf547deead82" "216a5d3a60a3b3093fb5ad72142a9bbdc12db2c7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk biod chromeos-config metrics .gn"
+CROS_WORKON_SUBTREE="common-mk biod chromeos-config libec metrics .gn"
 
 PLATFORM_SUBDIR="biod"
 
@@ -32,6 +32,7 @@ IUSE="
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/libec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	sys-apps/flashmap:=
 	unibuild? (
