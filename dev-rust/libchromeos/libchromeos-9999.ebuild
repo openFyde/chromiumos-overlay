@@ -34,6 +34,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/protobuf-2.1:= !>=dev-rust/protobuf-3.0:=
 	dev-rust/system_api:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0.0
+	>=dev-rust/zeroize-1.2.0:= <dev-rust/zeroize-2.0.0
 "
 
 RDEPEND="${COMMON_DEPEND}
