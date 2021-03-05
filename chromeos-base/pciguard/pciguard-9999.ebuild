@@ -46,3 +46,7 @@ pkg_preinst() {
 	enewgroup pciguard
 	cros-workon_pkg_setup
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/pciguard_testrunner"
+}
