@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs multiprocessing
+inherit bash-completion-r1 eutils toolchain-funcs multiprocessing
 
 DESCRIPTION="GNU GRUB 2 boot loader"
 HOMEPAGE="http://www.gnu.org/software/grub/"
@@ -81,7 +81,7 @@ src_install() {
 	for platform in "${PLATFORMS[@]}" ; do
 		for target in "${TARGETS[@]}" ; do
 			emake -C ${target}-${platform}-build DESTDIR="${D}" \
-				install
+				install bashcompletiondir="$(get_bashcompdir)"
 		done
 	done
 }
