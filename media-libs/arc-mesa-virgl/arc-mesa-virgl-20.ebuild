@@ -171,6 +171,8 @@ src_prepare() {
 	# merge request 8211
 	epatch "${FILESDIR}"/UPSTREAM-egl-dri2-fix-image-loaderPrivate-type-mixup.patch
 
+	epatch "${FILESDIR}"/CHROMIUM-hack-Override-GL_RENDERER-for-kindle-app.patch
+
 	default
 }
 

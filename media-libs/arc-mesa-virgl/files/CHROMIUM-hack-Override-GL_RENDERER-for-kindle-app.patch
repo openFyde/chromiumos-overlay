@@ -1,0 +1,63 @@
+From 2d4b42fd38b336437e0f61a7cb52c0603ef91c17 Mon Sep 17 00:00:00 2001
+From: Lepton Wu <lepton@chromium.org>
+Date: Fri, 5 Mar 2021 16:31:44 -0800
+Subject: [PATCH] CHROMIUM: hack: Override GL_RENDERER for kindle app
+
+We need this hack before Amazon fixes it at their side. We can't use
+dirconf since it's disabled in Android for now. This is a quick hack
+and should be removed soon.
+---
+ src/gallium/drivers/virgl/virgl_screen.c | 10 +++++++++-
+ src/gallium/drivers/virgl/virgl_screen.h |  1 +
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/src/gallium/drivers/virgl/virgl_screen.c b/src/gallium/drivers/virgl/virgl_screen.c
+index 869e25cc46c..67d668bb94d 100644
+--- a/src/gallium/drivers/virgl/virgl_screen.c
++++ b/src/gallium/drivers/virgl/virgl_screen.c
+@@ -23,6 +23,7 @@
+ #include "util/u_memory.h"
+ #include "util/format/u_format.h"
+ #include "util/format/u_format_s3tc.h"
++#include "util/u_process.h"
+ #include "util/u_screen.h"
+ #include "util/u_video.h"
+ #include "util/u_math.h"
+@@ -61,7 +62,11 @@ virgl_get_vendor(struct pipe_screen *screen)
+ static const char *
+ virgl_get_name(struct pipe_screen *screen)
+ {
+-   return "virgl";
++   struct virgl_screen *vscreen = virgl_screen(screen);
++   if (vscreen->renderer_override)
++      return "Intel";
++   else
++      return "virgl";
+ }
+ 
+ static int
+@@ -915,6 +920,9 @@ virgl_create_screen(struct virgl_winsys *vws, const struct pipe_screen_config *c
+                  &screen->caps.caps.v2.supported_readback_formats);
+    fixup_formats(&screen->caps.caps, &screen->caps.caps.v2.scanout);
+ 
++   const char *proc = util_get_process_name();
++   screen->renderer_override = proc && !strcmp("com.amazon.kindle", proc);
++
+    screen->refcnt = 1;
+ 
+    slab_create_parent(&screen->transfer_pool, sizeof(struct virgl_transfer), 16);
+diff --git a/src/gallium/drivers/virgl/virgl_screen.h b/src/gallium/drivers/virgl/virgl_screen.h
+index 3c7c596e1eb..2c91bd02bfc 100644
+--- a/src/gallium/drivers/virgl/virgl_screen.h
++++ b/src/gallium/drivers/virgl/virgl_screen.h
+@@ -55,6 +55,7 @@ struct virgl_screen {
+    uint32_t sub_ctx_id;
+    bool tweak_gles_emulate_bgra;
+    bool tweak_gles_apply_bgra_dest_swizzle;
++   bool renderer_override;
+    int32_t tweak_gles_tf3_value;
+ };
+ 
+-- 
+2.30.1.766.gb4fecdf3b7-goog
+
