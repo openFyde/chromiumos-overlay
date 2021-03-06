@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="690327b250337be06fd9f1c63fbb4e9de9bbd265"
+CROS_WORKON_COMMIT="2325eda2774d3b3e30056328c9481463b3fe0ccb"
 CROS_WORKON_TREE="d1ac5750bd039947614bdd0e52fa572ce17b2a2c"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
@@ -24,7 +24,6 @@ RDEPEND="app-portage/gentoolkit
 	>=chromeos-base/devserver-0.0.2
 	dev-util/shflags
 	dev-util/toolchain-utils
-	sys-apps/flashmap
 	"
 # These are all either bash / python scripts.  No actual builds DEPS.
 DEPEND=""
