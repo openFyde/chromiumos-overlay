@@ -22,7 +22,6 @@ RDEPEND="app-portage/gentoolkit
 	>=chromeos-base/devserver-0.0.2
 	dev-util/shflags
 	dev-util/toolchain-utils
-	sys-apps/flashmap
 	"
 # These are all either bash / python scripts.  No actual builds DEPS.
 DEPEND=""
