@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("9a2de0d377fdae131802e2c260721d2203d78009" "129f2fa14a009c604e022089913f146c8509c9ef")
-CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "95361ef3c8b6186592879caef5c8938221281b5c")
+CROS_WORKON_COMMIT=("5d38a4d964658b5436a3c39f97f08e30e7432b94" "a355c936cf0c386e7b4f37878020fa468c3a7a9e")
+CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d89c70f3171427c34c7d41e5eeecd598a71ba412")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -29,6 +29,7 @@ PLATFORM_SUBDIR="libchrome"
 # pulled only into the configurations that require it.
 # TODO(fqj): remove !chromeos-base/libchrome-${BASE_VER} on next uprev to r680000.
 RDEPEND="
+	dev-cpp/absl:=
 	dev-libs/double-conversion:=
 	dev-libs/glib:2=
 	dev-libs/libevent:=
@@ -119,6 +120,7 @@ src_install() {
 		base/numerics
 		base/posix
 		base/process
+		base/ranges
 		base/strings
 		base/synchronization
 		base/system
@@ -140,6 +142,7 @@ src_install() {
 		components/policy/core/common
 		testing/gmock/include/gmock
 		testing/gtest/include/gtest
+		third_party/abseil-cpp/absl/types
 	)
 	use dbus && header_dirs+=( dbus )
 	use timers && header_dirs+=( components/timers )
