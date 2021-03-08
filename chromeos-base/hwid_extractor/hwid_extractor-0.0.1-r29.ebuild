@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("92558d6d249f0bd9dd30e2628cf9a7b790989ccd" "8674a119e785eed66423fc1ae7dabb4050d3528a")
-CROS_WORKON_TREE=("7f6935adb30c6badcec203ce59f40a230fbe8195" "8a697595054fc12417478a318b192d046fbd0122")
+CROS_WORKON_COMMIT=("976716dab07f71663b203f77faa2253ad3d6aec1" "e7097d3ded1dc884cf041d0bb07906b1fca17c5e")
+CROS_WORKON_TREE=("1d4c877674337b5f44ba7dc720a903dc837fc7e0" "8a697595054fc12417478a318b192d046fbd0122")
 CROS_WORKON_PROJECT=("chromiumos/platform/factory" "chromiumos/chromite")
 CROS_WORKON_LOCALNAME=("platform/factory" "../chromite")
 CROS_WORKON_SUBTREE=("py" "lib")
@@ -16,6 +16,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
+IUSE="cros_host"
 
 RDEPEND="chromeos-base/vboot_reference
 	chromeos-base/vpd
@@ -25,8 +26,13 @@ RDEPEND="chromeos-base/vboot_reference
 "
 
 src_install() {
+	local lib="/usr/local"
+	if use cros_host; then
+		lib="/usr/lib"
+	fi
 	emake -C py/hwid_extractor \
 		DESTDIR="${D}" \
-		CHROMITE_LIB_PATH="${S}/chromite/lib" \
+		LIB_DIR="${lib}" \
+		CHROMITE_SRC_PATH="${S}/chromite/lib" \
 		install
 }
