@@ -86,6 +86,7 @@ PATCHES=(
 	"${FILESDIR}/00007-libbase-get-property-from-envvar.patch"
 	"${FILESDIR}/00008-libutils-memory-leak.patch"
 	"${FILESDIR}/00009-libutils-timer-cast.patch"
+	"${FILESDIR}/00010-libutils-clock-test.patch"
 )
 
 src_prepare() {
@@ -101,6 +102,7 @@ src_prepare() {
 	eapply -p2 "${FILESDIR}/00007-libbase-get-property-from-envvar.patch"
 	eapply -p2 "${FILESDIR}/00008-libutils-memory-leak.patch"
 	eapply -p2 "${FILESDIR}/00009-libutils-timer-cast.patch"
+	eapply -p2 "${FILESDIR}/00010-libutils-clock-test.patch"
 	popd || exit
 
 	eapply_user
