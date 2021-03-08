@@ -46,6 +46,12 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-6.03-sysmacros.patch #579928
 	"${FILESDIR}"/${P}-singleloadsegment.patch #662678
 	"${FILESDIR}"/${P}-fcommon.patch #705730
+	# Quiet the early banner: b/179809020 & b/188763234
+	"${FILESDIR}"/${PN}-6.03-quiet-banner.patch
+	# Remove unused targets that rely on UPX (which is absent)
+	"${FILESDIR}"/${P}-disable-win32-and-dos.patch
+	# Build system abuses LD to pass arguments to the linker in some places
+	"${FILESDIR}"/${PN}-6.03-allow-passing-ld.patch
 )
 
 src_prepare() {
@@ -106,10 +112,13 @@ _emake() {
 src_compile() {
 	# build system abuses the LDFLAGS variable to pass arguments to ld
 	unset LDFLAGS
+	# TODO(b/195301642): Work around by building backends separate from the
+	# installer, before building the installer with the desired backends.
+	_emake bios
 	if [[ ! -z ${loaderarch} ]]; then
 		_emake ${loaderarch}
 	fi
-	_emake ${loaderarch} installer
+	_emake ${loaderarch} bios installer
 }
 
 src_install() {
