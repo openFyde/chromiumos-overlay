@@ -7,7 +7,7 @@ inherit cros-constants
 
 # This ebuild is upreved via PuPR, so disable the normal uprev process for
 # cros-workon ebuilds.
-CROS_WORKON_COMMIT="3f02be823cef0f54e720c0382ffc4507f48e6e4b"
+CROS_WORKON_COMMIT="46e5c3c3c756c7a5e1ba82b2079a8621af635f7b"
 CROS_WORKON_TREE="23faac9d0737521273423773b45e0b36f876efc6"
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="aosp/external/perfetto"
