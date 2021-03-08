@@ -118,6 +118,7 @@ src_install() {
 		base/containers
 		base/debug
 		base/files
+		base/functional
 		base/hash
 		base/i18n
 		base/json
@@ -143,6 +144,7 @@ src_install() {
 		base/timer
 		base/trace_event
 		base/trace_event/common
+		base/types
 		base/util/type_safety
 		build
 		components/policy
@@ -150,6 +152,9 @@ src_install() {
 		testing/gmock/include/gmock
 		testing/gtest/include/gtest
 		third_party/abseil-cpp/absl/types
+		third_party/perfetto/include/perfetto/tracing/
+		third_party/perfetto/include/perfetto/protozero/
+		third_party/perfetto/protos/perfetto/trace/track_event/
 	)
 	use dbus && header_dirs+=( dbus )
 	use timers && header_dirs+=( components/timers )
@@ -157,7 +162,6 @@ src_install() {
 	insinto /usr/include/libchrome/base/test
 	doins \
 		base/test/bind.h \
-		base/test/bind_test_util.h \
 		base/test/task_environment.h \
 		base/test/scoped_chromeos_version_info.h \
 		base/test/scoped_running_on_chromeos.h \
