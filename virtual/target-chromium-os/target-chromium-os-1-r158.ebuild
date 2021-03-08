@@ -72,6 +72,7 @@ IUSE="
 	+profile
 	racc
 	+readahead
+	resourced
 	scanner
 	selinux
 	+shill
@@ -211,6 +212,7 @@ RDEPEND="
 	power_management? ( chromeos-base/power_manager )
 	!chromeos-base/platform2
 	profile? ( chromeos-base/quipper )
+	resourced? ( chromeos-base/resourced )
 	selinux? ( chromeos-base/selinux-policy )
 	shill? ( >=chromeos-base/shill-0.0.1-r2205 )
 	manatee? ( chromeos-base/sirenia )
