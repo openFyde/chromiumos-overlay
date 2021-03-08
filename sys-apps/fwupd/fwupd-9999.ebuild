@@ -4,7 +4,7 @@
 EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.5.5"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.5.7"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
@@ -17,11 +17,12 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="agent amt dell gtk-doc elogind flashrom_i2c +minimal +gpg introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
+IUSE="agent amt archive +bluetooth dell +gnutls gtk-doc +gusb elogind flashrom_i2c +minimal +gpg introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	^^ ( elogind minimal systemd )
 	dell? ( uefi )
 	minimal? ( !introspection )
+	uefi? ( gnutls )
 "
 RESTRICT="!test? ( test )"
 
@@ -44,7 +45,6 @@ RDEPEND=">=app-arch/gcab-1.0
 	dev-libs/json-glib
 	dev-libs/libgpg-error
 	dev-libs/libgudev:=
-	>=dev-libs/libgusb-0.3.5[introspection?]
 	>=dev-libs/libjcat-0.1.0[gpg?,pkcs7?]
 	>=dev-libs/libxmlb-0.1.13:=
 	>=net-libs/libsoup-2.51.92:2.4[introspection?]
@@ -52,15 +52,17 @@ RDEPEND=">=app-arch/gcab-1.0
 	virtual/libelf:0=
 	virtual/udev
 	dell? ( >=sys-libs/libsmbios-2.4.0 )
+	gnutls? ( net-libs/gnutls )
+	gusb? ( >=dev-libs/libgusb-0.3.5[introspection?] )
 	elogind? ( >=sys-auth/elogind-211 )
 	policykit? ( >=sys-auth/polkit-0.103 )
 	systemd? ( >=sys-apps/systemd-211 )
 	uefi? (
 		media-libs/fontconfig
 		media-libs/freetype
-		net-libs/gnutls
 		sys-boot/gnu-efi
 		sys-boot/efibootmgr
+		sys-fs/udisks
 		sys-libs/efivar
 		x11-libs/cairo
 	)
@@ -105,18 +107,23 @@ src_configure() {
 		-Dbuild="$(usex minimal standalone all)"
 		$(meson_use agent)
 		$(meson_use amt plugin_amt)
+		$(meson_use archive libarchive)
+		$(meson_use bluetooth bluez)
 		$(meson_use dell plugin_dell)
 		$(meson_use elogind)
+		$(meson_use gnutls)
 		$(meson_use gtk-doc gtkdoc)
+		$(meson_use gusb)
+		$(meson_use gusb plugin_altos)
 		$(meson_use man)
 		$(meson_use nvme plugin_nvme)
 		$(meson_use introspection)
 		$(meson_use policykit polkit)
-		$(meson_use synaptics plugin_synaptics)
+		$(meson_use synaptics plugin_synaptics_mst)
+		$(meson_use synaptics plugin_synaptics_rmi)
 		$(meson_use systemd)
 		$(meson_use test tests)
 		$(meson_use thunderbolt plugin_thunderbolt)
-		$(meson_use uefi plugin_uefi)
 		$(meson_use uefi plugin_uefi_capsule)
 		$(meson_use uefi plugin_uefi_pk)
 		$(meson_use flashrom_i2c plugin_flashrom_i2c)
@@ -127,6 +134,7 @@ src_configure() {
 		-Dplugin_flashrom="false"
 		# Dependencies are not available (yet?)
 		-Dplugin_modem_manager="false"
+		-Dplugin_tpm="false"
 		-Dtpm="false"
 	)
 	(use x86 || use amd64 ) || emesonargs+=( -Dplugin_msr="false" )
