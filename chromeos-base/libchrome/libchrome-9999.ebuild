@@ -147,6 +147,7 @@ src_install() {
 
 	insinto /usr/include/libchrome/base/test
 	doins \
+		base/test/bind.h \
 		base/test/bind_test_util.h \
 		base/test/task_environment.h \
 		base/test/scoped_run_loop_timeout.h \
