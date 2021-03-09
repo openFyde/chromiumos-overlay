@@ -729,5 +729,11 @@
         "rel_patch_path": "cherry/d36812892c16b551f058774babbc8727737f80cd.patch",
         "start_version": 416183,
         "end_version": 417022
+    },
+    {
+        "comment": "[clang] removes check against integral-to-pointer conversion...",
+        "rel_patch_path": "cherry/9830901b341cfb884cdef00e0335c6e3e62d107a.patch",
+        "start_version": 420025,
+        "end_version": 420692
     }
 ]
