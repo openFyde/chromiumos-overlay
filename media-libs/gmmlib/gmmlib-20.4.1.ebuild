@@ -25,6 +25,7 @@ PATCHES=(
 	"${FILESDIR}"/0001-Fix-uninitialized-ExpectedQpitch-Warning-28.patch
 	"${FILESDIR}"/0002-Fix-Null-and-Aritmatic-Conversion-Warning-27.patch
 	"${FILESDIR}"/0003-Fix-Comparision-overlap-29.patch
+	"${FILESDIR}"/0004-Initialize-PageTable-NodesPerTable-inorder-30.patch
 )
 
 multilib_src_configure() {
