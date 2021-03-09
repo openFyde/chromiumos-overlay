@@ -1,0 +1,14 @@
+BDEPEND=dev-util/ninja >=dev-util/cmake-3.9.6 dev-vcs/git dev-vcs/git >=dev-vcs/git-1.8.2.1[curl]
+DEFINED_PHASES=compile configure info install prepare setup test unpack
+DEPEND=>=chromeos-base/libchrome-0.0.1-r117:0=[cros-debug=] cros_host? ( dev-util/gn ) dev-cpp/gtest:=
+DESCRIPTION=Intel GNA library for Gemini Lake and Tiger Lake
+EAPI=7
+HOMEPAGE=https://github.com/intel/gna
+IUSE=+clang cros_host cros_workon_tree_eaed4f3b0a8201ef3951bf1960728885ff99e772 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_eaed4f3b0a8201ef3951bf1960728885ff99e772 cros-debug compilation_database cros_host test
+KEYWORDS=*
+LICENSE=LGPL-2.1
+PROPERTIES=live live live
+RDEPEND=>=chromeos-base/libchrome-0.0.1-r117:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:=
+SLOT=0
+_eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cmake-utils	91d6ef31dc426240577497cacbf2508c	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	57b514c0d35fe88c97590a2a19e95e4d	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	git-r3	c8f4649ab5a3c07ee2b75b12bc446f6a	libchrome	b0adbfd1a2eae79766f7256eaad1da23	libchrome-version	f89118941e7f3c3825d2fe216c977c57	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	platform	cd60a3aa853d28001988f2b07bf2e56c	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
+_md5_=a2015b8c0a5ebdbf32ef0295f1467b1e
