@@ -51,7 +51,7 @@ asan-setup-env() {
 		die "ASAN is only supported for clang"
 	fi
 	local asan_flags=(
-		-fsanitize=address
+		"-fsanitize=address"
 	)
 	append-flags "${asan_flags[@]}"
 	append-ldflags "${asan_flags[@]}"
@@ -97,19 +97,20 @@ ubsan-setup-env() {
 	# Flags for normal ubsan builds.
 	# TODO: Use same flags as fuzzer builds.
 	local flags=(
-		-fsanitize=alignment,array-bounds,pointer-overflow,shift
-		-fsanitize=integer-divide-by-zero,float-divide-by-zero
-		-fsanitize=signed-integer-overflow,vla-bound
-		-fno-sanitize=vptr
-		-fno-sanitize-recover=all
+		"-fsanitize=alignment,array-bounds,pointer-overflow,shift"
+		"-fsanitize=integer-divide-by-zero,float-divide-by-zero"
+		"-fsanitize=signed-integer-overflow,vla-bound"
+		"-fno-sanitize=vptr"
+		"-fno-sanitize-recover=all"
 	)
 	# Use different flags for fuzzer ubsan builds.
 	if use fuzzer; then
 		flags=(
-			-fsanitize=alignment,array-bounds,function,pointer-overflow
-			-fsanitize=integer-divide-by-zero,float-divide-by-zero
-			-fsanitize=signed-integer-overflow,shift,vla-bound,vptr
-			-fno-sanitize-recover=all
+			"-fsanitize=alignment,array-bounds,function,pointer-overflow"
+			"-fsanitize=integer-divide-by-zero,float-divide-by-zero"
+			"-fsanitize=signed-integer-overflow,shift,vla-bound,vptr"
+			"-fno-sanitize-recover=all"
+			"-frtti"
 		)
 	fi
 	append-flags "${flags[@]}"
