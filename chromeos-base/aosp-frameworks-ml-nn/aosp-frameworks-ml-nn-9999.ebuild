@@ -40,7 +40,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="~*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver nnapi_driver_tests"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -168,14 +168,5 @@ src_install() {
 	if ! use vendor-nnhal ; then
 		einfo "Installing reference vendor hal."
 		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
-	fi
-
-	if use nnapi_driver_tests; then
-		einfo "Installing hal driver tests."
-		dobin "${OUT}/cros_nnapi_vts_1_0"
-		dobin "${OUT}/cros_nnapi_vts_1_1"
-		dobin "${OUT}/cros_nnapi_vts_1_2"
-		dobin "${OUT}/cros_nnapi_vts_1_3"
-		dobin "${OUT}/cros_nnapi_cts"
 	fi
 }
