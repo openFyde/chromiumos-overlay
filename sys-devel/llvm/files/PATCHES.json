@@ -723,5 +723,11 @@
         "rel_patch_path": "cherry/5c3fc5093aaf7d9422459d295eb4eb769abcbaa4.patch",
         "start_version": 420365,
         "end_version": 420477
+    },
+    {
+        "comment": "[GVN] do not repeat PRE on failure to split critical edge",
+        "rel_patch_path": "cherry/d36812892c16b551f058774babbc8727737f80cd.patch",
+        "start_version": 416183,
+        "end_version": 417022
     }
 ]
