@@ -39,6 +39,7 @@ src_install() {
 	# Install executables
 	dobin "${OUT}"/tpm2-simulator
 	dobin "${OUT}"/tpm2-simulator-init
+	dobin "${OUT}"/tpm2-simulator-stop
 
 	# Install seccomp policy for cryptohome-proxy
 	insinto /usr/share/policy
