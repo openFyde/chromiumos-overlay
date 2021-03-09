@@ -179,7 +179,7 @@ IUSE_TESTS=(
 	+tests_power_WifiIdle
 	+tests_security_BundledExtensions
 	+tests_telemetry_AFDOGenerateClient
-	+tests_telemetry_Sanity
+	+tests_telemetry_Check
 	+tests_telemetry_UnitTests
 	+tests_telemetry_UnitTestsServer
 	+tests_touch_GestureNav
