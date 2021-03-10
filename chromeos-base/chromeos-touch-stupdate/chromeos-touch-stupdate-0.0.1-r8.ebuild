@@ -2,16 +2,16 @@
 # Distributed under the terms of the BSD license.
 
 EAPI=7
-CROS_WORKON_COMMIT="acc76020edeac41605cde91789d970b1105d487f"
-CROS_WORKON_TREE="51c91cfbbca13bfd307cc5fa0029028a297fe49a"
+CROS_WORKON_COMMIT="85493d751a0a0b71cb7396ec5f412a8e0adc30a6"
+CROS_WORKON_TREE="d1413b50615c7f886d833f35f1f7caa79a2d55ac"
 CROS_WORKON_PROJECT="chromiumos/platform/touch_updater"
 CROS_WORKON_LOCALNAME="touch_updater"
-CROS_WORKON_SUBTREE="etphidiap"
+CROS_WORKON_SUBTREE="stupdate"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
 inherit cros-workon user
 
-DESCRIPTION="Wrapper for etphidiap touch firmware updater."
+DESCRIPTION="Wrapper for ST touch firmware updater."
 HOMEPAGE="https://www.chromium.org/chromium-os"
 
 LICENSE="BSD-Google"
@@ -20,7 +20,7 @@ KEYWORDS="*"
 
 RDEPEND="
 	chromeos-base/chromeos-touch-common
-	sys-apps/etphidiap
+	sys-apps/st-touch-fw-updater
 	!<chromeos-base/touch_updater-0.0.1-r167
 "
 
@@ -31,10 +31,10 @@ pkg_preinst() {
 
 src_install() {
 	exeinto "/opt/google/touch/scripts"
-	doexe etphidiap/scripts/*.sh
+	doexe stupdate/scripts/*.sh
 
-	if [ -d "etphidiap/policies/${ARCH}" ]; then
+	if [ -d "stupdate/policies/${ARCH}" ]; then
 		insinto "/opt/google/touch/policies"
-		doins etphidiap/policies/"${ARCH}"/*.policy
+		doins stupdate/policies/"${ARCH}"/*.policy
 	fi
 }
