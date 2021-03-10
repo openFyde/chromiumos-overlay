@@ -1,9 +1,9 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI="7"
 
-inherit cros-debug toolchain-funcs
+inherit cros-common.mk cros-debug
 
 DESCRIPTION="YUV library"
 HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv"
@@ -15,31 +15,21 @@ SLOT="0"
 KEYWORDS="*"
 
 DEPEND="virtual/jpeg:0"
-
 RDEPEND="${DEPEND}"
+
 S="${WORKDIR}"
 
-src_prepare() {
-	rsync -a "${FILESDIR}"/. "${S}"/.
-	eapply_user
-}
-
-src_compile() {
-	tc-export CC CXX AR RANLIB LD NM PKG_CONFIG
-	cros-debug-add-NDEBUG
-	emake
+src_unpack() {
+	default
+	cp -a "${FILESDIR}"/* "${S}"/ || die
 }
 
 src_install() {
 	insinto /usr/include
-	doins include/*.h
-	insinto /usr/include/libyuv
-	doins include/libyuv/*.h
+	doins -r include/*
 
-	insinto /usr/$(get_libdir)
 	dolib.a libyuv.pic.a
 
-	sed -e "s:@LIB@:$(get_libdir):g" libyuv.pc.in > libyuv.pc || die
 	insinto /usr/$(get_libdir)/pkgconfig
-	doins libyuv.pc
+	sed -e "s:@LIB@:$(get_libdir):g" libyuv.pc.in | newins - libyuv.pc
 }
