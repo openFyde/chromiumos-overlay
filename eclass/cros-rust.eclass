@@ -110,7 +110,7 @@ CROS_RUST_REGISTRY_INST_DIR="${CROS_RUST_REGISTRY_BASE}/registry"
 
 # Ignore odr violations in unit tests in asan builds
 # (https://github.com/rust-lang/rust/issues/41807).
-ASAN_OPTIONS="detect_odr_violation=0"
+export ASAN_OPTIONS="detect_odr_violation=0"
 
 # @FUNCTION: cros-rust_get_reg_lock
 # @DESCRIPTION:
@@ -133,9 +133,13 @@ cros-rust_get_sccache_dir() {
 # @DESCRIPTION:
 # Sets up the package. Particularly, makes sure the rust registry lock exits.
 cros-rust_pkg_setup() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
+	# This triggers a linter error SC2154 which says:
+	#   "EBUILD_PHASE_FUNC is used but not defined inside this file"
+	# Since EBUILD_PHASE_FUNC comes from outside the file, that's ok
+	# shellcheck disable=SC2154
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_setup" ]]; then
-		die "${FUNCNAME}() should only be used in pkg_setup() phase"
+		die "${FUNCNAME[0]}() should only be used in pkg_setup() phase"
 	fi
 	_cros-rust_prepare_lock "$(cros-rust_get_reg_lock)"
 	_cleanup_registry_link "$@"
@@ -147,7 +151,8 @@ cros-rust_pkg_setup() {
 
 	local sccache_dir="$(cros-rust_get_sccache_dir)"
 	addwrite "${sccache_dir}"
-	mkdir -p -m 755 "${sccache_dir}"
+	mkdir -p "${sccache_dir}"
+	chmod 755 "${sccache_dir}"
 	chown "${PORTAGE_USERNAME}:${PORTAGE_GRPNAME}" "${sccache_dir}" "${sccache_dir%/*}"
 }
 
@@ -155,7 +160,7 @@ cros-rust_pkg_setup() {
 # @DESCRIPTION:
 # Unpacks the package
 cros-rust_src_unpack() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 
 	# If this is a cros-workon ebuild and hasn't been unpacked, then unpack it.
 	if [[ -n "${CROS_WORKON_PROJECT}" && ! -e "${S}" ]]; then
@@ -240,11 +245,15 @@ cros-rust_src_unpack() {
 # and Cargo.toml will be modified in place. If the macro is used in
 # ${S}/Cargo.toml, CROS_WORKON_OUTOFTREE_BUILD can't be set to 1 in its ebuild.
 cros-rust_src_prepare() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 	if grep -q "# provided by ebuild" "${S}/Cargo.toml"; then
+		# This triggers a linter error SC2154 which says:
+		#   "CROS_WORKON_OUTOFTREE_BUILD is used but not defined inside this file"
+		# Since CROS_WORKON_OUTOFTREE_BUILD comes from outside the file, that's ok
+		# shellcheck disable=SC2154
 		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" == 1 ]]; then
-			die 'CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using' \
-				'`provided by ebuild`'
+			die "CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using" \
+				"\`provided by ebuild\`"
 		fi
 
 		# Replace path dependencies with ones provided by their ebuild.
@@ -276,8 +285,8 @@ cros-rust_src_prepare() {
 
 	if grep -q "# ignored by ebuild" "${S}/Cargo.toml"; then
 		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" == 1 ]]; then
-			die 'CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using' \
-				'`ignored by ebuild`'
+			die "CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using" \
+				"\`ignored by ebuild\`"
 		fi
 		# Emerge ignores "out-of-sandbox" [patch.crates-io] lines in
 		# Cargo.toml.
@@ -324,7 +333,7 @@ cros-rust_src_prepare() {
 # Configures the source and exports any environment variables needed during the
 # build.
 cros-rust_src_configure() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 	sanitizers-setup-env
 	cros-debug-add-NDEBUG
 
@@ -397,7 +406,7 @@ cros-rust_src_configure() {
 			-Cllvm-args=-sanitizer-coverage-trace-divs
 			-Cllvm-args=-sanitizer-coverage-trace-geps
 			-Cllvm-args=-sanitizer-coverage-prune-blocks=0
-			-Clink-arg=-Wl,--no-gc-sections
+			-Clink-arg="-Wl,--no-gc-sections"
 		)
 	fi
 
@@ -423,7 +432,7 @@ cros-rust_use_sanitizers() {
 # @DESCRIPTION:
 # Call cargo with the specified command line options.
 ecargo() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 
 	# The cargo developers have decided to make it as painful as possible to
 	# use cargo inside another build system.  So there is no way to tell
@@ -588,15 +597,25 @@ cros-rust_get_host_test_executables() {
 # @DESCRIPTION:
 # Install a library crate to the local registry store.  Should only be called
 # from within a src_install() function.
+# This triggers a linter error SC2120 which says:
+#   "rust_publish references arguments, but none are ever passed"
+# In this case, we will use without arguments to get a default value, but other
+# usages exist in other files that do use arguments, so there is no problem.
+# shellcheck disable=SC2120
 cros-rust_publish() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 
 	if [[ "${EBUILD_PHASE_FUNC}" != "src_install" ]]; then
-		die "${FUNCNAME}() should only be used in src_install() phase"
+		die "${FUNCNAME[0]}() should only be used in src_install() phase"
 	fi
 
 	local default_version="${CROS_RUST_CRATE_VERSION}"
 	if [[ "${default_version}" == "9999" ]]; then
+		# This triggers a linter error SC2119 which says:
+		#   "Use foo "$@" if function's $1 should mean script's $1"
+		# In this case, cros-rust_get_crate_version without arguments retrieves the
+		# default value which is desired, so this warning can be ignored.
+		# shellcheck disable=SC2119
 		default_version="$(cros-rust_get_crate_version)"
 	fi
 
@@ -610,15 +629,21 @@ cros-rust_publish() {
 	local crate="${CARGO_TARGET_DIR}/package/${name}-${version}.crate"
 
 	mkdir -p "${D}/${CROS_RUST_REGISTRY_DIR}"
-	pushd "${D}/${CROS_RUST_REGISTRY_DIR}" > /dev/null
+	pushd "${D}/${CROS_RUST_REGISTRY_DIR}" > /dev/null || die
 	tar xf "${crate}" || die
 
 	# Calculate the sha256sum since cargo will want this later.
-	local shasum="$(sha256sum ${crate} | cut -d ' ' -f 1)"
+	local shasum="$(sha256sum "${crate}" | cut -d ' ' -f 1)"
 	local dir="${name}-${version}"
 	local checksum="${T}/${name}-${version}-checksum.json"
 
 	# Calculate the sha256 hashes of all the files in the crate.
+	# This triggers a linter error SC2207 which says:
+	#   "Prefer mapfile or read -a to split command
+	#    output (or quote to avoid splitting)."
+	# In this case, cros-rust_get_crate_version no argument retrieves the
+	# default value which is desired, so this warning can be ignored.
+	# shellcheck disable=SC2207
 	local files=( $(find "${dir}" -type f) )
 
 	[[ "${#files[@]}" == "0" ]] && die "Could not find crate files for ${name}"
@@ -628,7 +653,7 @@ cros-rust_publish() {
 	local idx=0
 	local f
 	for f in "${files[@]}"; do
-		shasum="$(sha256sum ${f} | cut -d ' ' -f 1)"
+		shasum="$(sha256sum "${f}" | cut -d ' ' -f 1)"
 		printf '\t\t"%s": "%s"' "${f#${dir}/}" "${shasum}" >> "${checksum}"
 
 		# The json parser is unnecessarily strict about not allowing
@@ -641,7 +666,7 @@ cros-rust_publish() {
 		fi
 	done
 	printf "\t}\n}\n" >> "${checksum}"
-	popd > /dev/null
+	popd > /dev/null || die
 
 	insinto "${CROS_RUST_REGISTRY_DIR}/${name}-${version}"
 	newins "${checksum}" .cargo-checksum.json
@@ -670,7 +695,7 @@ cros_rust_is_direct_exec() {
 }
 
 cros-rust_src_compile() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 	# Skip non cros-workon packages.
 	[[ -z "${CROS_WORKON_PROJECT}" ]] && return 0
 
@@ -679,7 +704,7 @@ cros-rust_src_compile() {
 }
 
 cros-rust_src_test() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 	if [[ "${CROS_RUST_TEST_DIRECT_EXEC_ONLY}" == "yes" ]] && ! cros_rust_is_direct_exec; then
 		ewarn "Skipping unittests for non-x86: ${PN}"
 		return 0
@@ -691,8 +716,12 @@ cros-rust_src_test() {
 }
 
 cros-rust_src_install() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 
+	# This triggers a linter error SC2119 which says:
+	#   "Use cros-rust_publish "$@" if function's $1 should mean script's $1"
+	# Here we will use without arguments to get a default value so there is no problem
+	# shellcheck disable=SC2119
 	cros-rust_publish
 }
 
@@ -708,7 +737,8 @@ _cros-rust_prepare_lock() {
 	if [[ "$(id -u)" -ne 0 ]]; then
 		die "_cros-rust_prepare_lock should only be called inside pkg_* functions."
 	fi
-	mkdir -m 755 -p "$(dirname "$1")" || die
+	mkdir -p "$(dirname "$1")" || die
+	chmod 755 "$(dirname "$1")" || die
 	touch "$1" || die
 	chmod 644 "$1" || die
 }
@@ -736,6 +766,11 @@ _cleanup_registry_link() {
 		einfo "Removing ${crate} from Cargo registry"
 		# Acquire a exclusive lock since this modifies the registry.
 		_cros-rust_prepare_lock "$(cros-rust_get_reg_lock)"
+		# This triggers a linter error SC2016 which says:
+		#   "Expressions don't expand in single quotes, use double quotes for that."
+		# In this case, though, that is exactly what we want since we need the string
+		# to be passed to sh without being evaluated first.
+		# shellcheck disable=SC2016
 		flock --no-fork --exclusive "$(cros-rust_get_reg_lock)" \
 			sh -c 'rm -f "$0"' "${link}" || die
 	fi
@@ -747,9 +782,9 @@ _cleanup_registry_link() {
 # Make sure a library crate isn't linked in the local registry prior to the
 # install step to avoid races.
 cros-rust_pkg_preinst() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_preinst" ]]; then
-		die "${FUNCNAME}() should only be used in pkg_preinst() phase"
+		die "${FUNCNAME[0]}() should only be used in pkg_preinst() phase"
 	fi
 
 	_cleanup_registry_link "$@"
@@ -761,9 +796,9 @@ cros-rust_pkg_preinst() {
 # Install a library crate in the local registry store into the registry,
 # making it visible to Cargo.
 cros-rust_pkg_postinst() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_postinst" ]]; then
-		die "${FUNCNAME}() should only be used in pkg_postinst() phase"
+		die "${FUNCNAME[0]}() should only be used in pkg_postinst() phase"
 	fi
 
 	local name="${1:-${CROS_RUST_CRATE_NAME}}"
@@ -794,9 +829,9 @@ cros-rust_pkg_postinst() {
 # @DESCRIPTION:
 # Unlink a library crate from the local registry.
 cros-rust_pkg_prerm() {
-	debug-print-function ${FUNCNAME} "$@"
+	debug-print-function "${FUNCNAME[0]}" "$@"
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_prerm" ]]; then
-		die "${FUNCNAME}() should only be used in pkg_prerm() phase"
+		die "${FUNCNAME[0]}() should only be used in pkg_prerm() phase"
 	fi
 
 	_cleanup_registry_link "$@"
@@ -807,9 +842,14 @@ cros-rust_pkg_prerm() {
 # @DESCRIPTION:
 # Returns the version for a crate by finding the first 'version =' line in the
 # Cargo.toml in the crate.
+# This triggers a linter error SC2120 which says:
+#   "rust_get_crate_version references arguments, but none are ever passed"
+# In this case, we will use without arguments to get a default value, but other
+# usages exist in other files that do use arguments, so there is no problem.
+# shellcheck disable=SC2120
 cros-rust_get_crate_version() {
 	local crate="${1:-${S}}"
-	[[ $# -gt 1 ]] && die "${FUNCNAME}: incorrect number of arguments"
+	[[ $# -gt 1 ]] && die "${FUNCNAME[0]}: incorrect number of arguments"
 	awk '/^version = / { print $3 }' "${crate}/Cargo.toml" | head -n1 | tr -d '"'
 }
 
