@@ -1,11 +1,14 @@
 DEFINED_PHASES=compile configure install postinst preinst prepare prerm setup test unpack
-DEPEND=dev-libs/openssl:0= >=virtual/rust-1.39.0:=
-DESCRIPTION=Empty openssl-src crate that pulls in the openssl headers.
+DEPEND==dev-rust/proc-macro2-1*:= =dev-rust/quote-1*:= =dev-rust/syn-1*:= =dev-rust/unicode-xid-0.2*:= >=virtual/rust-1.39.0:=
+DESCRIPTION=This crate provides helper types for matching against enum variants, and extracting bindings to each of the fields in the deriving Struct or Enum in a generic way
 EAPI=7
+HOMEPAGE=https://crates.io/crates/synstructure
 IUSE=cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
-LICENSE=BSD-Google
+LICENSE=MIT
+RDEPEND==dev-rust/proc-macro2-1*:= =dev-rust/quote-1*:= =dev-rust/syn-1*:= =dev-rust/unicode-xid-0.2*:=
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=111.0.1/r0
+SLOT=0.12.4/r0
+SRC_URI=https://crates.io/api/v1/crates/synstructure/0.12.4/download -> synstructure-0.12.4.crate
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	72c8c93c929cef7d066c387fadc7baf9	cros-sanitizers	57b514c0d35fe88c97590a2a19e95e4d	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=2d89a49fb294a4eaf30d0448ce3a9cc8
+_md5_=c2e1414403da5267fc49ce509106320b
