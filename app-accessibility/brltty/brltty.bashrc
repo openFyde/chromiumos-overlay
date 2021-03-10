@@ -4,6 +4,7 @@
 
 cros_pre_src_prepare_brltty_config() {
 	epatch "${FILESDIR}"/${P}-fix-build.patch
+	epatch "${FILESDIR}"/${P}-aph-firmware-upgrade.patch
 }
 
 cros_post_src_install_brltty_config() {
