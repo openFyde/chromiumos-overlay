@@ -182,6 +182,7 @@ ALL_BOARDS=(
 	#fox_baskingridge
 	#fox_wtm1
 	#fox_wtm2
+	galaxy
 	gale
 	gandof
 	genesis
