@@ -252,6 +252,7 @@ ALL_BOARDS=(
 	kukui-arc-r
 	kukui-arc-r-signed
 	kukui-arc64
+	kukui-kernelnext
 	kumo
 	kunimitsu
 	lakitu
