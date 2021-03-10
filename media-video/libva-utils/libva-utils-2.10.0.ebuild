@@ -29,6 +29,7 @@ DOCS=( NEWS )
 PATCHES=(
 	"${FILESDIR}"/0001-Add-a-flag-to-build-vendor.patch
 	"${FILESDIR}"/0002-Enable-new-caps-for-VAConfigAttribEncryption.patch
+	"${FILESDIR}"/0003-Temporarily-remove-VA-API-1.11.0-check.patch
 )
 
 src_prepare() {
