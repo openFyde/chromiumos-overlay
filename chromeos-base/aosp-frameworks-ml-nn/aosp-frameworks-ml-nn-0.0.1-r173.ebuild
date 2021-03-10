@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("7989f37bb1f9d35254409db7714702676a9e72a0" "3fce6e4af8d40649bb390268ea52e28fbe093154" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
-CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "3f446acad9d06f71d3595a18e75e5b15ace8800b" "7a08574830b90bb538e281ba8c2240d2826fefb9")
+CROS_WORKON_COMMIT=("e515e9002cb2c495cf2fb2203746b4b129f2c230" "561772062e3fa91f9b7e74e135174f5fa88e0699" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
+CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e5ccf419d648872953482e6c727d3a04b5823e01" "7a08574830b90bb538e281ba8c2240d2826fefb9")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -42,7 +42,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver nnapi_driver_tests"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -170,14 +170,5 @@ src_install() {
 	if ! use vendor-nnhal ; then
 		einfo "Installing reference vendor hal."
 		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
-	fi
-
-	if use nnapi_driver_tests; then
-		einfo "Installing hal driver tests."
-		dobin "${OUT}/cros_nnapi_vts_1_0"
-		dobin "${OUT}/cros_nnapi_vts_1_1"
-		dobin "${OUT}/cros_nnapi_vts_1_2"
-		dobin "${OUT}/cros_nnapi_vts_1_3"
-		dobin "${OUT}/cros_nnapi_cts"
 	fi
 }
