@@ -28,6 +28,7 @@ DOCS=( NEWS )
 
 PATCHES=(
 	"${FILESDIR}"/0001-Add-a-flag-to-build-vendor.patch
+	"${FILESDIR}"/0002-Enable-new-caps-for-VAConfigAttribEncryption.patch
 )
 
 src_prepare() {
