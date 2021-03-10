@@ -432,6 +432,7 @@ ALL_BOARDS=(
 	trogdor
 	trogdor-kernelnext
 	trogdor64
+	trogdor64-manatee
 	ultima
 	umaro
 	#urara
