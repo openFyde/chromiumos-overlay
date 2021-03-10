@@ -27,6 +27,9 @@ DEPEND="
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/resourced"
+
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.ResourceManager.conf
 }
 
 pkg_preinst() {
