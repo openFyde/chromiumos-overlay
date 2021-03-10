@@ -1,16 +1,8 @@
-From a53e5a6247f6e2b3115b240874cb9fbc0d2c9ccd Mon Sep 17 00:00:00 2001
 From: Marcin Wojtas <mw@semihalf.com>
-Date: Sat, 3 Apr 2021 00:53:24 +0000
 Subject: [PATCH] Remove from contrib directory all drivers with undefined,
  unclear or forbidden licenses. Configuration files were adjusted accordingly.
 
----
- configure.ac        |  10 +-
- contrib/contrib.mak | 361 +-------------------------------------------
- 2 files changed, 6 insertions(+), 365 deletions(-)
-
-diff --git a/configure.ac b/configure.ac
-index 1532609f3..46ad55694 100644
+Updated to enable the npdl driver.
 --- a/configure.ac
 +++ b/configure.ac
 @@ -2576,14 +2576,14 @@ HP_DEVS='cdj500 djet500 djet500c dnj650c cljet5pr deskjet laserjet ljetplus ljet
@@ -27,14 +19,12 @@ index 1532609f3..46ad55694 100644
 -MISC_PDEVS='uniprint ap3250 atx23 atx24 atx38 itk24i itk38 coslw2p coslwxl declj250 fs600 imagen lj250 m8510 necp6 oce9050 r4081 sj48 tek4696 t4693d2 t4693d4 t4693d8 dl2100 la50 la70 la75 la75plus ln03 xes md2k md5k gdi samsunggdi'
 -OPVP_DEVS='opvp oprp'
 +OKI_DEVS='oki182 okiibm'
-+JAPAN_DEVS='lips4 lips4v ljet4pjl lj4dithp dj505j picty180 lips2p bjc880j'
++JAPAN_DEVS='lips4 lips4v ljet4pjl lj4dithp dj505j picty180 lips2p bjc880j npdl'
 +MISC_PDEVS='uniprint ap3250 atx23 atx24 atx38 itk24i itk38 coslw2p coslwxl declj250 fs600 imagen lj250 m8510 necp6 oce9050 r4081 sj48 tek4696 t4693d2 t4693d4 t4693d8'
 +OPVP_DEVS=''
  
  ETS_HALFTONING_DEVS='rinkj'
  
-diff --git a/contrib/contrib.mak b/contrib/contrib.mak
-index d7965dc9e..16b0ea4de 100644
 --- a/contrib/contrib.mak
 +++ b/contrib/contrib.mak
 @@ -283,25 +283,6 @@ $(DD)chp2200.dev : $(cdeskjet8_) $(DD)page.dev \
@@ -187,7 +177,7 @@ index d7965dc9e..16b0ea4de 100644
  ### ---------------- OpenPrinting Vector Printer Driver ---------------- ###
  ###                                                                      ###
  OPVP_DIR=$(CONTRIBSRC)opvp
-@@ -1007,243 +885,6 @@ pcl3-install:
+@@ -1008,19 +886,6 @@ pcl3-install:
  	$(INSTALL_PROGRAM) $(BINDIR)$(D)pcl3opts$(XE) $(DESTDIR)$(bindir)
  
  
@@ -204,13 +194,13 @@ index d7965dc9e..16b0ea4de 100644
 -                           $(CONTRIB_MAK) $(MAKEDIRS)
 -	$(DEVCC) $(DEVO_)gdevxes.$(OBJ) $(C_) $(CONTRIBSRC)gdevxes.c
 -
--#########################################################################
--### --------------------Japanese printer addons --------------------- ###
--#########################################################################
--
--JAPDIR=$(CONTRIBSRC)japanese
--JAPSRC=$(JAPDIR)$(D)
--
+ #########################################################################
+ ### --------------------Japanese printer addons --------------------- ###
+ #########################################################################
+@@ -1028,140 +893,6 @@ $(DEVOBJ)gdevxes.$(OBJ) : $(CONTRIBSRC)gdevxes.c $(PDEVH) \
+ JAPDIR=$(CONTRIBSRC)japanese
+ JAPSRC=$(JAPDIR)$(D)
+ 
 -### ----------------- The NEC PC-PR201 printer device ----------------- ###
 -
 -pr201_=$(DEVOBJ)gdevp201.$(OBJ) $(DEVOBJ)gdevprn.$(OBJ)
@@ -345,18 +335,13 @@ index d7965dc9e..16b0ea4de 100644
 -$(DEVOBJ)gdevlbp3.$(OBJ) : $(JAPSRC)gdevlbp3.c $(PDEVH)
 -	$(DEVCC) $(O_)$@ $(C_) $(JAPSRC)gdevlbp3.c
 -
--### --- The NEC NPDL language printer device ------ ###
--
--npdl_=$(DEVOBJ)gdevnpdl.$(OBJ) $(DEVOBJ)gdevlprn.$(OBJ)
--
--$(DEVOBJ)gdevnpdl.$(OBJ) : $(JAPSRC)gdevnpdl.c $(LIPS_SRC)gdevlprn.h $(PDEVH) \
--                           $(CONTRIB_MAK) $(MAKEDIRS)
--	$(DEVCC) -DA4 $(DEVO_)gdevnpdl.$(OBJ) $(LIPS_OPT) $(C_) $(JAPSRC)gdevnpdl.c
--
--$(DD)npdl.dev : $(npdl_) $(DD)page.dev \
--                           $(CONTDEV) $(CONTRIB_MAK) $(MAKEDIRS)
--	$(SETPDEV) $(DD)npdl $(npdl_)
--
+ ### --- The NEC NPDL language printer device ------ ###
+ 
+ npdl_=$(DEVOBJ)gdevnpdl.$(OBJ) $(DEVOBJ)gdevlprn.$(OBJ)
+@@ -1174,77 +905,6 @@ $(DD)npdl.dev : $(npdl_) $(DD)page.dev \
+                            $(CONTDEV) $(CONTRIB_MAK) $(MAKEDIRS)
+ 	$(SETPDEV) $(DD)npdl $(npdl_)
+ 
 -### ------- EPSON ESC/Page printer device ----------------- ###
 -
 -escpage_=$(DEVOBJ)gdevespg.$(OBJ) $(DEVOBJ)gdevlprn.$(OBJ) $(DEVOBJ)gdevlips.$(OBJ)

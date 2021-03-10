@@ -93,7 +93,6 @@ src_prepare() {
 	# but prune ones with incompatible or unclear licenses
 	# (c.f. commit 0334118d6279640cb860f2f4a9af64b0fd008b49).
 	rm -r "${S}"/contrib/epson740/ || die
-	rm -r "${S}"/contrib/japanese || die
 	rm -r "${S}"/contrib/md2k_md5k/ || die
 	rm -r "${S}"/contrib/pscolor || die
 	rm -r "${S}"/contrib/uniprint || die
@@ -169,7 +168,7 @@ src_configure() {
 		lp8000c lp8100 lp8200c lp8300c lp8300f lp8400f lp8500c lp8600 lp8600f
 		lp8700 lp8800c lp8900 lp9000b lp9000c lp9100 lp9200b lp9200c lp9300
 		lp9400 lp9500c lp9600 lp9600s lp9800c lps4500 lps6500 lq850 lxm5700m
-		m8510 necp6 oce9050 oki182 okiibm pdfwrite pcl3 picty180 pjxl300
+		m8510 necp6 npdl oce9050 oki182 okiibm pdfwrite pcl3 picty180 pjxl300
 		ps2write pxlcolor pxlmono r4081 sj48 stcolor t4693d4 tek4696 uniprint
 		# The "cups" driver is added if and only if we are building with CUPS.
 		$(usev cups)
