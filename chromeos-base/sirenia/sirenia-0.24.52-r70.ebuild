@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="90eb5702e38c1f3d0511cf3fdede6022db0833f7"
+CROS_WORKON_COMMIT="53933c4e9defba1fe45526c98bc911573aa2f1dd"
 CROS_WORKON_TREE="1726a709c6bea0cb627dda367f07dacb347e1246"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,16 +18,10 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="cros_host manatee"
 
-RDEPEND="
-	chromeos-base/cronista
-	chromeos-base/manatee-runtime
-	dev-rust/manatee-client
-	sys-apps/dbus
-"
-
 DEPEND="
 	chromeos-base/libsirenia:=
 	chromeos-base/sirenia-rpc-macros:=
+	dev-libs/openssl:0=
 	=dev-rust/chrono-0.4*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
@@ -37,6 +31,14 @@ DEPEND="
 	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	chromeos-base/cronista
+	chromeos-base/manatee-runtime
+	dev-rust/manatee-client
+	sys-apps/dbus
 "
 
 src_install() {
