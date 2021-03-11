@@ -13,6 +13,8 @@ inherit cros-workon udev
 DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+
+# Keep this in sync with has_arc().
 IUSE="
 	android-container-pi
 	android-vm-master
@@ -118,8 +120,12 @@ version_cil() {
 	sed -e 's/base_typeattr_\([0-9]*\)/base_typeattr_cros_\1/g'
 }
 
+# Keep this in sync with IUSE/DEPEND.
 has_arc() {
-	use android-container-pi || use android-vm-rvc || use android-vm-master
+	use android-container-pi ||
+	use android-vm-rvc ||
+	use android-vm-sc ||
+	use android-vm-master
 }
 
 gen_m4_flags() {
