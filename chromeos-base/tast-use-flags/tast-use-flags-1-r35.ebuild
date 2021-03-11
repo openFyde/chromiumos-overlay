@@ -104,6 +104,7 @@ IUSE="
 	nyan_kitty
 	ocr
 	octopus
+	ondevice_handwriting
 	pita
 	racc
 	rialto
