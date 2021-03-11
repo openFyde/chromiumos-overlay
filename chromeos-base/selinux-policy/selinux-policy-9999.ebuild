@@ -58,6 +58,8 @@ CHROME_POLICY_FILES_PATTERN=(
 	attributes
 	ioctl_defines
 	ioctl_macros
+	chromeos_ioctl_defines
+	chromeos_ioctl_macros
 	"*.te"
 	roles_decl
 	roles
