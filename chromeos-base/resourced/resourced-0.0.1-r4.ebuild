@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a91bd716e1355dddae287aa3e7037af4b2f351e5"
+CROS_WORKON_COMMIT="53933c4e9defba1fe45526c98bc911573aa2f1dd"
 CROS_WORKON_TREE="a40386441ef71dd4232de72573a252e81f9257e5"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -12,7 +12,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_SUBTREE="resourced"
 
-inherit cros-workon cros-rust
+inherit cros-workon cros-rust user
 
 DESCRIPTION="ChromeOS Resource Management Daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/resourced/"
@@ -29,4 +29,9 @@ DEPEND="
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/resourced"
+}
+
+pkg_preinst() {
+	enewuser "resourced"
+	enewgroup "resourced"
 }
