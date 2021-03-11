@@ -18,6 +18,9 @@ SERVO_MICRO_NAME_PREV="servo_micro_v2.4.35-f1113c92b"  # servo-firmware-R81-1276
 SERVO_V4_NAME_PREV="servo_v4_v2.4.35-f1113c92b"        # servo-firmware-R81-12768.40.0
 SERVO_V4P1_NAME_PREV="servo_v4p1_v2.0.5159-529612865"  # Local builds are temporary b/153464312
 
+# Alpha channel firmware
+SERVO_V4_NAME_ALPHA="servo_v4_v2.4.58-c37246f9c"       # servo-firmware-R81-12768.74.0
+
 UPDATER_PATH="/usr/share/servo_updater/firmware"
 
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
@@ -25,12 +28,13 @@ MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
 SRC_URI="
 	${MIRROR_PATH}/${C2D2_NAME}.tar.gz
 	${MIRROR_PATH}/${SERVO_MICRO_NAME}.tar.xz
-	${MIRROR_PATH}/${SERVO_V4_NAME}.tar.xz
-	${MIRROR_PATH}/${SERVO_V4P1_NAME}.tar.xz
-	${MIRROR_PATH}/${SWEETBERRY_NAME}.tar.gz
 	${MIRROR_PATH}/${SERVO_MICRO_NAME_PREV}.tar.gz
+	${MIRROR_PATH}/${SERVO_V4_NAME}.tar.xz
 	${MIRROR_PATH}/${SERVO_V4_NAME_PREV}.tar.gz
+	${MIRROR_PATH}/${SERVO_V4_NAME_ALPHA}.tar.xz
+	${MIRROR_PATH}/${SERVO_V4P1_NAME}.tar.xz
 	${MIRROR_PATH}/${SERVO_V4P1_NAME_PREV}.tar.xz
+	${MIRROR_PATH}/${SWEETBERRY_NAME}.tar.gz
 	"
 
 LICENSE="BSD-Google"
@@ -61,7 +65,8 @@ src_install() {
 
 	doins "${SERVO_V4_NAME}.bin"
 	doins "${SERVO_V4_NAME_PREV}.bin"
-	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.alpha.bin"
+	doins "${SERVO_V4_NAME_ALPHA}.bin"
+	dosym "${SERVO_V4_NAME_ALPHA}.bin" "${UPDATER_PATH}/servo_v4.alpha.bin"
 	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.stable.bin"
 	dosym "${SERVO_V4_NAME}.bin" "${UPDATER_PATH}/servo_v4.dev.bin"
 	dosym "${SERVO_V4_NAME_PREV}.bin" "${UPDATER_PATH}/servo_v4.prev.bin"
