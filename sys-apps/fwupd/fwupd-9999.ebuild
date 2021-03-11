@@ -149,7 +149,7 @@ src_install() {
 	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
 
 	# Install udev rules to fix user permissions.
-	udev_dorules "${FILESDIR}"/99-fwupd.rules
+	udev_dorules "${FILESDIR}"/90-fwupd.rules
 
 	insinto /etc/init
 	# Install upstart script for activating firmware update on logout/shutdown.
