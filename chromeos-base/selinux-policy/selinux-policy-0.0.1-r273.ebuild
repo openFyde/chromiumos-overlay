@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b3119e7797b88bebfc65940dacfff4d3ea0328a9"
+CROS_WORKON_COMMIT="f34555b204095237c8d083bd2e49478ed2600471"
 CROS_WORKON_TREE="c13d8462c918f690a4bc4316cb196796d371b36d"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -15,6 +15,8 @@ inherit cros-workon udev
 DESCRIPTION="Chrome OS SELinux Policy Package"
 LICENSE="BSD-Google"
 KEYWORDS="*"
+
+# Keep this in sync with has_arc().
 IUSE="
 	android-container-pi
 	android-vm-master
@@ -120,8 +122,12 @@ version_cil() {
 	sed -e 's/base_typeattr_\([0-9]*\)/base_typeattr_cros_\1/g'
 }
 
+# Keep this in sync with IUSE/DEPEND.
 has_arc() {
-	use android-container-pi || use android-vm-rvc || use android-vm-master
+	use android-container-pi ||
+	use android-vm-rvc ||
+	use android-vm-sc ||
+	use android-vm-master
 }
 
 gen_m4_flags() {
