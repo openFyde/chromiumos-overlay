@@ -27,6 +27,7 @@ need_static_arm64() {
 src_prepare() {
 	eapply "${FILESDIR}"/${PN}-gnu_cxx-namespace.patch
 	eapply "${FILESDIR}"/0001-include-stdint.h.patch
+	eapply "${FILESDIR}"/0002-use-memfd_create-instead-of-shm_open.patch
 	eapply_user
 
 	# To build 64-bit version for arm64.
@@ -37,6 +38,8 @@ src_prepare() {
 }
 
 src_configure() {
+	append-lfs-flags
+
 	# Matches the configure & sat.cc logic.
 	use debug || append-cppflags -DNDEBUG -DCHECKOPTS
 	econf --disable-default-optimizations
