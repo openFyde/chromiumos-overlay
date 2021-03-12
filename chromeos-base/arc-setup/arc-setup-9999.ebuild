@@ -34,7 +34,9 @@ IUSE="
 REQUIRED_USE="|| ( arcpp arcvm )"
 
 COMMON_DEPEND="
-	esdfs? ( chromeos-base/arc-sdcard )
+	arcpp? (
+		esdfs? ( chromeos-base/arc-sdcard )
+	)
 	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cryptohome-client:=
