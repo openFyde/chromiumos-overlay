@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d7d02e3d3be256c2f8a276083494cb73428fa44f"
+CROS_WORKON_COMMIT="9e5cd1e8f28001703938eed5abfd1148a3330f74"
 CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "2943bc86b418e1ddf7530b52cdf631681d0408c6" "6e3031590b9a7da2c7bd3d068700d87387129b33" "b0aff38ab54f32cde7c650fc8b2c76674a018970" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,7 +36,9 @@ IUSE="
 REQUIRED_USE="|| ( arcpp arcvm )"
 
 COMMON_DEPEND="
-	esdfs? ( chromeos-base/arc-sdcard )
+	arcpp? (
+		esdfs? ( chromeos-base/arc-sdcard )
+	)
 	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cryptohome-client:=
