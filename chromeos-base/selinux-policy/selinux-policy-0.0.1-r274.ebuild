@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f34555b204095237c8d083bd2e49478ed2600471"
-CROS_WORKON_TREE="c13d8462c918f690a4bc4316cb196796d371b36d"
+CROS_WORKON_COMMIT="636344cfbc11eaedfd030b9259440b4f58478f7b"
+CROS_WORKON_TREE="808764785bce6c8b614e4af9e2ff4eb4ba64a925"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -60,6 +60,8 @@ CHROME_POLICY_FILES_PATTERN=(
 	attributes
 	ioctl_defines
 	ioctl_macros
+	chromeos_ioctl_defines
+	chromeos_ioctl_macros
 	"*.te"
 	roles_decl
 	roles
