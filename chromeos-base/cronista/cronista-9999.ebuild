@@ -14,6 +14,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cronista
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="manatee"
 
 RDEPEND="sys-apps/dbus"
 
@@ -41,4 +42,9 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
 	fowners cronista:cronista "${daemon_store}"
+
+	if use manatee ;  then
+		insinto /etc/init
+		doins upstart/cronista.conf
+	fi
 }
