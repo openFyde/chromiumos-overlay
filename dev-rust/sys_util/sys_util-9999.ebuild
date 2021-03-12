@@ -28,6 +28,8 @@ DEPEND="
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/syn-1*:=
 	dev-rust/data_model:=
+	=dev-rust/serde-1*:=
+	=dev-rust/serde_json-1*:=
 	dev-rust/sync:=
 	dev-rust/syscall_defines:=
 	dev-rust/tempfile:=
