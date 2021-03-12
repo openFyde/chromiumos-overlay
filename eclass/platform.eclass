@@ -96,6 +96,8 @@ platform_gen_compilation_database() {
 	# 3. use standard clang target triples
 	# 4. remove a few compiler options that might not be available
 	#    in the potentially older clang version outside the chroot
+	# 5. Add "-stdlib=libc++" so that the clang outside the chroot can
+	#    find built-in headers like <string> and <memory>
 	#
 	sed -E -e "s:(\.\./|\.\.)*/mnt/host/source/:${EXTERNAL_TRUNK_PATH}/:g" \
 		-e "s:/build/:${ext_chroot_path}/build/:g" \
@@ -111,6 +113,7 @@ platform_gen_compilation_database() {
 		-e "s:-mfentry::g" \
 		\
 		"${db_chroot}" \
+		| jq 'map(.command |= . + " -stdlib=libc++")' \
 		> "${OUT}/compile_commands_no_chroot.json" || die
 
 	echo \
@@ -120,8 +123,11 @@ database format.
 
 To use the compilation database with an IDE or other tools outside of the
 chroot create a symlink named 'compile_commands.json' in the ${PN} source
-directory (outside of the chroot) to compile_commands_no_chroot.json." \
-		> "${OUT}/compile_commands.txt" || die
+directory (outside of the chroot) to compile_commands_no_chroot.json. Also
+make sure that you have libc++ installed:
+
+	$ sudo apt-get install libc++-dev
+" > "${OUT}/compile_commands.txt" || die
 }
 
 platform() {
