@@ -42,4 +42,7 @@ IUSE=""
 # Build-time dependencies should be added to tast-build-deps, not here.
 DEPEND="chromeos-base/tast-build-deps:="
 
-RDEPEND=""
+RDEPEND="
+	dev-python/pillow
+	media-libs/opencv
+"
