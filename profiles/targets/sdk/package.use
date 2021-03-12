@@ -180,7 +180,6 @@ dev-python/pyasn1 python_targets_python2_7
 dev-python/pyasn1-modules python_targets_python2_7
 dev-python/pyblake2 python_targets_python2_7
 dev-python/pycparser python_targets_python2_7
-dev-python/pyelftools python_targets_python2_7
 dev-python/pygobject python_targets_python2_7
 dev-python/pyopenssl python_targets_python2_7
 dev-python/pyparsing python_targets_python2_7
