@@ -21,6 +21,7 @@ CROS_BOARDS=(
 	butterfly
 	candy
 	chell
+	cherry
 	cid
 	clapper
 	cranky
