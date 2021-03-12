@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="53933c4e9defba1fe45526c98bc911573aa2f1dd"
+CROS_WORKON_COMMIT="9e5cd1e8f28001703938eed5abfd1148a3330f74"
 CROS_WORKON_TREE="a40386441ef71dd4232de72573a252e81f9257e5"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -29,6 +29,9 @@ DEPEND="
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/resourced"
+
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.ResourceManager.conf
 }
 
 pkg_preinst() {
