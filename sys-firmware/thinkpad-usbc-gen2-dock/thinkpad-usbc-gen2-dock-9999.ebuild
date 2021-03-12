@@ -8,7 +8,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
 CROS_WORKON_LOCALNAME="../platform/empty-project"
 
-inherit udev cros-workon
+inherit cros-workon cros-fwupd
 
 DESCRIPTION="Installs firmware update files used by fwupd."
 HOMEPAGE="https://fwupd.org/downloads"
@@ -27,39 +27,3 @@ LICENSE="MIT"
 
 DEPEND=""
 RDEPEND="sys-apps/fwupd"
-
-S="${WORKDIR}"
-
-FIRMWARE_INSTALL_ROOT="/usr/share/fwupd/remotes.d/vendor/firmware"
-
-dounpack_license() {
-	local file
-	for file in "$@"; do
-		(
-		cabextract -F LICENSE.txt "${DISTDIR}"/"${file}" ||
-			mv LICENSE.txt license."${file}".txt
-		)
-	done
-}
-
-
-doins_firmware() {
-	local file
-	for file in "$@"; do
-		(
-		insinto "${FIRMWARE_INSTALL_ROOT}"
-		doins "${DISTDIR}"/"${file}"
-		)
-	done
-}
-
-src_unpack() {
-	dounpack_license "${FILENAMES[@]}"
-}
-
-src_install() {
-	doins_firmware "${FILENAMES[@]}"
-
-	# Install udev rules to trigger updates on hotplug.
-	udev_dorules "${FILESDIR}"/91-fwupd.rules
-}
