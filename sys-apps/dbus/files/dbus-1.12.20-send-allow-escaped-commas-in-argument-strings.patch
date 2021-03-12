@@ -1,10 +1,30 @@
+From 3a9bf982abae5aa8729b092e845f4283ec498dca Mon Sep 17 00:00:00 2001
+From: Tim Song <tengs@chromium.org>
+Date: Tue, 14 May 2013 14:32:38 -0700
+Subject: [PATCH] Patch dbus-send to support escaping commas in string elements
+ of arrays.
+
+BUG=chromium:240540
+TEST=Telemetry tests on cros pass with escaped commas in arguments.
+
+Change-Id: I1a284dfa443f2048dddaa85912b518224aaea5d5
+Reviewed-on: https://gerrit.chromium.org/gerrit/51185
+Reviewed-by: Elly Jones <ellyjones@chromium.org>
+Reviewed-by: Achuith Bhandarkar <achuith@chromium.org>
+Tested-by: Tim Song <tengs@chromium.org>
+Commit-Queue: Tim Song <tengs@chromium.org>
+---
+ tools/dbus-send.c | 78 ++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 70 insertions(+), 8 deletions(-)
+
 diff --git a/tools/dbus-send.c b/tools/dbus-send.c
+index a1884837..52623a52 100644
 --- a/tools/dbus-send.c
 +++ b/tools/dbus-send.c
-@@ -149,17 +149,79 @@ append_arg (DBusMessageIter *iter, int type, const char *value)
-     }
+@@ -159,21 +159,83 @@ append_arg (DBusMessageIter *iter, int type, const char *value)
+   handle_oom (ret);
  }
-
+ 
 +// Note: buffer must be pre-allocated and at least as big as str.
 +static int
 +get_next_token (const char *str, int loc, char *buffer)
@@ -70,7 +90,10 @@ diff --git a/tools/dbus-send.c b/tools/dbus-send.c
 -  const char *val;
 -  char *dupval = strdup (value);
 +  char *buffer = strdup (value);
-
+ 
+-  handle_oom (dupval != NULL);
++  handle_oom (buffer != NULL);
+ 
 -  val = strtok (dupval, ",");
 -  while (val != NULL)
 +  int loc = 0;
@@ -88,3 +111,8 @@ diff --git a/tools/dbus-send.c b/tools/dbus-send.c
 -  free (dupval);
 +  free (buffer);
  }
+ 
+ static void
+-- 
+2.30.1
+

@@ -1,4 +1,4 @@
-From 4a5e5de051c690b013ce63a0b57e6786fde6bf05 Mon Sep 17 00:00:00 2001
+From 0b5407b88b75e6923e0fffc96063ead6a8abde33 Mon Sep 17 00:00:00 2001
 From: Derek Basehore <dbasehore@google.com>
 Date: Tue, 23 Mar 2021 19:48:23 -0700
 Subject: [PATCH] increase timeout by 10x
@@ -8,10 +8,10 @@ Subject: [PATCH] increase timeout by 10x
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/dbus/dbus-connection-internal.h b/dbus/dbus-connection-internal.h
-index de4e55b1..9f5d08fd 100644
+index 48357321..b191b0da 100644
 --- a/dbus/dbus-connection-internal.h
 +++ b/dbus/dbus-connection-internal.h
-@@ -42,8 +42,8 @@ typedef enum
+@@ -41,8 +41,8 @@ typedef enum
    DBUS_ITERATION_BLOCK      = 1 << 2  /**< Block if nothing to do. */
  } DBusIterationFlags;
  
@@ -23,5 +23,5 @@ index de4e55b1..9f5d08fd 100644
  typedef void (* DBusPendingFdsChangeFunction) (void *data);
  
 -- 
-2.31.0.208.g409f899ff0-goog
+2.31.1
 

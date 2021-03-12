@@ -1,4 +1,4 @@
-From e8c9b8a8e340a612b4a0a24901526982aa17d61f Mon Sep 17 00:00:00 2001
+From 609375563c02a5ba6d48e5b165224a3ad4b3ef4a Mon Sep 17 00:00:00 2001
 From: Bertrand SIMONNET <bsimonnet@google.com>
 Date: Fri, 18 Dec 2015 16:15:25 -0800
 Subject: [PATCH] dbus: Raise SIGTERM when the connection drops.
@@ -12,9 +12,11 @@ Test: stop dbus. Clients exit cleanly.
 
 Change-Id: I7e1faf1aa8b761b1b05dfde82a48882f61124acb
 ---
+ dbus/dbus-connection.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/dbus/dbus-connection.c b/dbus/dbus-connection.c
-index fb52955..0362288 100644
+index c525b6dc..252629b3 100644
 --- a/dbus/dbus-connection.c
 +++ b/dbus/dbus-connection.c
 @@ -22,6 +22,7 @@
@@ -25,7 +27,7 @@ index fb52955..0362288 100644
  #include "dbus-shared.h"
  #include "dbus-connection.h"
  #include "dbus-list.h"
-@@ -4284,8 +4285,13 @@
+@@ -4331,8 +4332,13 @@ _dbus_connection_update_dispatch_status_and_unlock (DBusConnection    *connectio
            CONNECTION_UNLOCK (connection);            
            
            _dbus_verbose ("Exiting on Disconnected signal\n");
@@ -41,3 +43,6 @@ index fb52955..0362288 100644
          }
      }
    
+-- 
+2.30.1
+
