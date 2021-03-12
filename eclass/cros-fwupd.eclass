@@ -11,10 +11,28 @@ _CROS_FWUPD_ECLASS=1
 
 inherit udev
 
+S="${WORKDIR}"
+
 case "${EAPI:-0}" in
 7) ;;
 *) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
+
+# @FUNCTION: cros-fwupd_src_unpack
+# @DESCRIPTION:
+# Unpack fwupd firmware files to provide license.
+cros-fwupd_src_unpack() {
+	local file
+
+	for file in ${A}; do
+		if [[ ${file} == *.cab ]]; then
+			einfo "Unpack firmware ${file}"
+			cabextract -F LICENSE.txt "${DISTDIR}"/"${file}" || die
+			mv LICENSE.txt license."${file}".txt || \
+				ewarn "Missing LICENSE.txt on ${file}"
+		fi
+	done
+}
 
 # @FUNCTION: cros-fwupd_src_install
 # @DESCRIPTION:
@@ -35,6 +53,6 @@ cros-fwupd_src_install() {
 	done < <(find -H "${srcdir}" -name "*.rules" -maxdepth 1 -mindepth 1 -print0)
 }
 
-EXPORT_FUNCTIONS src_install
+EXPORT_FUNCTIONS src_unpack src_install
 
 fi
