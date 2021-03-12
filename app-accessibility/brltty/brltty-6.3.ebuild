@@ -10,20 +10,21 @@ inherit findlib eutils multilib toolchain-funcs java-pkg-opt-2 flag-o-matic \
 	autotools udev user cros-sanitizers
 
 DESCRIPTION="Daemon that provides access to the Linux/Unix console for a blind person"
-HOMEPAGE="http://mielke.cc/brltty/"
-SRC_URI="http://mielke.cc/brltty/archive/${P}.tar.xz"
+HOMEPAGE="http://brltty.app/"
+SRC_URI="http://brltty.app/archive/${P}.tar.xz"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+api +beeper bluetooth +contracted-braille doc +fm gpm iconv icu
+IUSE="+api +beeper bluetooth +contracted-braille +fm gpm iconv icu
 		java +midi ncurses nls ocaml +pcm python usb +speech
 		tcl X"
-REQUIRED_USE="doc? ( api )
+REQUIRED_USE="
 	java? ( api )
 	ocaml? ( api )
 	python? ( api )
-	tcl? ( api )"
+	tcl? ( api )
+"
 
 COMMON_DEP="bluetooth? ( net-wireless/bluez )
 	gpm? ( >=sys-libs/gpm-1.20 )
@@ -137,13 +138,6 @@ src_install() {
 	mkdir -p "${D}"/usr/${libdir}/
 	mv "${D}"/${libdir}/*.a "${D}"/usr/${libdir}/
 	gen_usr_ldscript libbrlapi.so
-
-	cd Documents
-	mv Manual-BRLTTY/English/BRLTTY.txt BRLTTY-en.txt
-	mv Manual-BRLTTY/French/BRLTTY.txt BRLTTY-fr.txt
-	mv Manual-BrlAPI/English/BrlAPI.txt BrlAPI-en.txt
-	dodoc CONTRIBUTORS ChangeLog HISTORY README* TODO
-	dohtml -r Manual-BRLTTY
 
 	insinto /etc/init
 	doins "${FILESDIR}"/etc/init/brltty.conf
