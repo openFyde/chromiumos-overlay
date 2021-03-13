@@ -32,8 +32,6 @@ src_install() {
 	dobin host/cros_workon_make
 
 	# Repo and git bash completion.
-	insinto /usr/share/bash-completion
-	newins host/repo_bash_completion repo
-	dosym /usr/share/bash-completion/repo /etc/bash_completion.d/repo
+	dosym /usr/share/bash-completion/completions/repo /etc/bash_completion.d/repo
 	dosym /usr/share/bash-completion/completions/git /etc/bash_completion.d/git
 }
