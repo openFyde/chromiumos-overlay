@@ -33,22 +33,25 @@ DEPEND="
 src_unpack() {
 	platform_src_unpack
 
-	EGIT_REPO_URI="https://github.com/RavirajSitaram/nn-hal.git" \
+	EGIT_REPO_URI="https://github.com/intel/nn-hal.git" \
 	EGIT_CHECKOUT_DIR="${S}" \
-	EGIT_COMMIT="56cbf3e949e0e7e910fc45fe33544ec1d425e344" \
-	EGIT_BRANCH="optimize-hal" \
+	EGIT_COMMIT="74b8df4bd43174f16cac18ce1f19cfaae2a3217e" \
+	EGIT_BRANCH="chromeos-gna" \
 	git-r3_src_unpack
 
-	EGIT_REPO_URI="https://github.com/RavirajSitaram/openvino.git" \
+	EGIT_REPO_URI="https://github.com/openvinotoolkit/openvino.git" \
 	EGIT_CHECKOUT_DIR="${S}/../openvino" \
-	EGIT_COMMIT="15c6a9966ef1e2164474d1539c91da60b2f3390a" \
-	EGIT_BRANCH="optimized" \
+	EGIT_COMMIT="a4a1bff1cc5a6b22f806adac8845d2806772dacd" \
+	EGIT_BRANCH="releases/2020/1.chromeos" \
 	git-r3_src_unpack
 }
 
 src_prepare() {
+        eapply "${FILESDIR}/0001-Deinitialize-Runtime-pools.patch"
+      	eapply "${FILESDIR}/0002-optimizations-using-TGL.patch"
 	cros_enable_cxx_exceptions
 	eapply_user
+	
 }
 
 src_install() {

@@ -23,10 +23,10 @@ DEPEND="
 "
 
 src_unpack() {
-	EGIT_REPO_URI="https://github.com/RavirajSitaram/openvino.git" \
+	EGIT_REPO_URI="https://github.com/openvinotoolkit/openvino.git" \
 	EGIT_CHECKOUT_DIR="${S}" \
-	EGIT_COMMIT="11a0fa96db25f96ef79ca03daf602536e818ecc3" \
-	EGIT_BRANCH="optimized" \
+	EGIT_COMMIT="a4a1bff1cc5a6b22f806adac8845d2806772dacd" \
+	EGIT_BRANCH="releases/2020/1.chromeos" \
 	git-r3_src_unpack
 }
 
