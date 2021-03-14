@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bed9b5517eb3ff0b018776ecd6b4a61d4da9e22d"
-CROS_WORKON_TREE="c9f267f155e523e29d20436a70aaf9636d05691d"
+CROS_WORKON_COMMIT="f28ebaea39de034977af8dec4d96ee075539441e"
+CROS_WORKON_TREE="c191904efbce39fd02598e44f8f26783378b6d9e"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="cronista"
@@ -16,6 +16,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cronista
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+IUSE="manatee"
 
 RDEPEND="sys-apps/dbus"
 
@@ -43,4 +44,9 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
 	fowners cronista:cronista "${daemon_store}"
+
+	if use manatee ;  then
+		insinto /etc/init
+		doins upstart/cronista.conf
+	fi
 }
