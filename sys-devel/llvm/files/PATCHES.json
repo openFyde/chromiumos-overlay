@@ -735,5 +735,41 @@
         "rel_patch_path": "cherry/9830901b341cfb884cdef00e0335c6e3e62d107a.patch",
         "start_version": 420025,
         "end_version": 420692
+    },
+    {
+        "comment": "[NFCI][SimplifyCFG] Prefer to add Insert edges before Delete edges into DomTreeUpdater, if reasonable",
+        "rel_patch_path": "cherry/8e8d214c4a6c417e42996faeb9211a5c2e32111f.patch",
+        "start_version": 415439,
+        "end_version": 415620
+    },
+    {
+        "comment": "[Transforms/Utils] Use range-based for loops (NFC)",
+        "rel_patch_path": "cherry/be23012d5a84fefdb6d0a267f9ffb4bafb4804d7.patch",
+        "start_version": 415439,
+        "end_version": 418243
+    },
+    {
+        "comment": "ValueMapper: Rename RF_MoveDistinctMDs => RF_ReuseAndMutateDistinctMDs, NFC",
+        "rel_patch_path": "cherry/fa35c1f80f0ea080a7cbc581416929b0a654f25c.patch",
+        "start_version": 415439,
+        "end_version": 418586
+    },
+    {
+        "comment": "TransformUtils: Fix metadata handling in CloneModule (and improve CloneFunctionInto)",
+        "rel_patch_path": "cherry/22a52dfddcefad4f275eb8ad1cc0e200074c2d8a.patch",
+        "start_version": 415439,
+        "end_version": 419003
+    },
+    {
+        "comment": "Transforms: Clone distinct nodes in metadata mapper unless RF_ReuseAndMutateDistinctMDs",
+        "rel_patch_path": "cherry/01701646d5555409a6fad920f0e4801d79c154ea.patch",
+        "start_version": 415439,
+        "end_version": 419941
+    },
+    {
+        "comment": "Revert \"[SLP]Merge reorder and reuse shuffles.\"",
+        "rel_patch_path": "cherry/e463bd53c03ff9183bd30030477dfe6f3b2fdd0c.patch",
+        "start_version": 413046,
+        "end_version": 416430
     }
 ]
