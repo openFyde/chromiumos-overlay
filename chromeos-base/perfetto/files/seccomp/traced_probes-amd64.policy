@@ -73,3 +73,4 @@ timer_settime: 1
 pread64: 1
 # Need to get directory entries.
 getdents: 1
+getdents64: 1
