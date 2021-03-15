@@ -24,6 +24,7 @@ IUSE=""
 
 RDEPEND="
 	dev-libs/libxml2:=
+	dev-libs/protobuf:=
 	net-misc/usbip:=
 	virtual/jpeg:0=
 "
