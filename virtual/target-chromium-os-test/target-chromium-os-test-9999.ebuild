@@ -104,7 +104,10 @@ CROS_COMMON_RDEPEND="
 		chromeos-base/sane-backends-test
 	)
 	ml_service? ( chromeos-base/ml-cmdline )
-	nnapi? ( chromeos-base/ml-test-assets )
+	nnapi? (
+		chromeos-base/aosp-frameworks-ml-nn-vts
+		chromeos-base/ml-test-assets
+	)
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
 	chromeos-base/tast-local-tests
