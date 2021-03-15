@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2320fc7a839a8a48a92b54e510c6f64768637ee8"
+CROS_WORKON_COMMIT="44f1ffd5de9097a009f5f697c3fc494bf21975f4"
 CROS_WORKON_TREE="cd23691e4a0d1155d74ee8e3f52b25017f4335ce"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -30,6 +30,8 @@ DEPEND="
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/syn-1*:=
 	dev-rust/data_model:=
+	=dev-rust/serde-1*:=
+	=dev-rust/serde_json-1*:=
 	dev-rust/sync:=
 	dev-rust/syscall_defines:=
 	dev-rust/tempfile:=
