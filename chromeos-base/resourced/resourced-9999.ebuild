@@ -18,6 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/resource
 LICENSE="BSD-Google"
 SLOT="0/${PVR}"
 KEYWORDS="~*"
+IUSE="+seccomp"
 
 DEPEND="
 	=dev-rust/anyhow-1*:=
@@ -28,8 +29,19 @@ DEPEND="
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/resourced"
 
+	# D-Bus configuration.
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.ResourceManager.conf
+
+	# init script.
+	insinto /etc/init
+	doins init/resourced.conf
+
+	# seccomp policy file.
+	insinto /usr/share/policy
+	if use seccomp; then
+		newins "seccomp/resourced-seccomp-${ARCH}.policy" resourced-seccomp.policy
+	fi
 }
 
 pkg_preinst() {
