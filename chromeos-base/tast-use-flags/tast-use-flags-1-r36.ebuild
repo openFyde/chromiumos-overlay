@@ -72,6 +72,7 @@ IUSE="
 	hana-kernelnext
 	houdini
 	houdini64
+	iioservice
 	internal
 	+internal_mic
 	+internal_speaker
