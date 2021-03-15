@@ -388,6 +388,7 @@ ALL_BOARDS=(
 	scarlet
 	scarlet-arc64
 	#scarlet-arcnext
+	senor
 	sentry
 	setzer
 	shadowkeep
