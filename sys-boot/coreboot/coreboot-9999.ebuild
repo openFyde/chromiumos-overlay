@@ -168,10 +168,6 @@ EOF
 		echo "CONFIG_MMA=y" >> "${CONFIG}"
 	fi
 
-	# allow using non-coreboot toolchains unless we use it anyway
-	if ! use coreboot-sdk; then
-		echo "CONFIG_ANY_TOOLCHAIN=y" >> "${CONFIG}"
-	fi
 	# disable coreboot's own EC firmware building mechanism
 	echo "CONFIG_EC_GOOGLE_CHROMEEC_FIRMWARE_NONE=y" >> "${CONFIG}"
 	echo "CONFIG_EC_GOOGLE_CHROMEEC_PD_FIRMWARE_NONE=y" >> "${CONFIG}"
@@ -201,6 +197,14 @@ EOF
 	cat "${file}" >> "${CONFIG_SERIAL}" || die
 	# handle the case when "${CONFIG_SERIAL}" does not have a newline in the end.
 	echo >> "${CONFIG_SERIAL}"
+
+	# Check that we're using coreboot-sdk
+	if ! use coreboot-sdk; then
+		die "Enable coreboot-sdk to build coreboot."
+	fi
+	if grep -q "^CONFIG_ANY_TOOLCHAIN=y" "${CONFIG}"; then
+		die "Drop ANY_TOOLCHAIN from ${CONFIG}: we don't support it anymore."
+	fi
 
 	einfo "Configured ${CONFIG} for board ${board} in ${BUILD_DIR}"
 }
