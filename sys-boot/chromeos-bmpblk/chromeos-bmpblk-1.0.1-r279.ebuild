@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="55006c36564c8b71b7dd6858d0a704d33f336cfd"
-CROS_WORKON_TREE="83048b0c44e8592dd340eef51aafae41d0efb8a7"
+CROS_WORKON_COMMIT="728f813ca04d70f7e64b8c8e2e6c42c886ba0cf0"
+CROS_WORKON_TREE="c1e43e1801e0ede129ee02d96120893c8058e0b8"
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -23,6 +23,7 @@ CROS_BOARDS=(
 	butterfly
 	candy
 	chell
+	cherry
 	cid
 	clapper
 	cranky
