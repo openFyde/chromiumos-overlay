@@ -48,7 +48,6 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
-	chromeos-base/patchpanel
 	net-misc/dhcpcd
 	dhcpv6? ( net-misc/dhcpcd[ipv6] )
 	vpn? ( net-vpn/openvpn )
@@ -57,7 +56,9 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
-	vpn? ( chromeos-base/vpn-manager:= )"
+	vpn? ( chromeos-base/vpn-manager:= )
+"
+PDEPEND="chromeos-base/patchpanel"
 
 pkg_setup() {
 	enewgroup "shill"
