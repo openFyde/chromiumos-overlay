@@ -21,6 +21,13 @@ DEPEND="dev-libs/openssl:0=
 	sys-libs/zlib"
 RDEPEND="${DEPEND}"
 
+PATCHES=(
+	# Fix llvm_propeller_mock_whole_program_info dependency on
+	# llvm_propeller_cfg.
+	# TODO(crbug.com/1010171): Upstream the fix and update the package.
+	"${FILESDIR}/${P}-fix-llvm-propeller-cfg-dep.patch"
+)
+
 src_prepare() {
 	cmake_src_prepare
 }
