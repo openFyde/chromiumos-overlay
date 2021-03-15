@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("d13deea2369e4d226cc6a3adff0087b1bcd534f8" "3f6ff5e5b3d284caeb64eec565d29f9b81a5b195")
-CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "14fa94bd66ba67255dc67c521dad1dade4a2e0c7")
+CROS_WORKON_COMMIT=("0768400d4c01b97246f82783e035b89c0bbb6a1f" "5e2ac49a354b6680dd70da7357c520755a996614")
+CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "adfd4cedd2b89b6fbc4dd9f01b6a7c3f6b1de376")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -149,6 +149,7 @@ src_install() {
 
 	insinto /usr/include/libchrome/base/test
 	doins \
+		base/test/bind.h \
 		base/test/bind_test_util.h \
 		base/test/task_environment.h \
 		base/test/scoped_run_loop_timeout.h \
