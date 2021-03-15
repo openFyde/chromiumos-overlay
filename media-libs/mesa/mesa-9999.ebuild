@@ -44,7 +44,8 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
-	kvm_guest llvm +nptl pic selinux shared-glapi +vulkan wayland xlib-glx X"
+	kvm_guest llvm +nptl pic selinux shared-glapi +vulkan wayland xlib-glx X
+	libglvnd"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60:="
 
@@ -70,6 +71,7 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
+	libglvnd? ( media-libs/libglvnd:= )
 "
 
 DEPEND="${COMMON_DEPEND}
@@ -176,6 +178,7 @@ src_configure() {
 
 	emesonargs+=(
 		-Dexecmem=false
+		-Dglvnd=$(usex libglvnd true false)
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
