@@ -79,6 +79,7 @@ src_install() {
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
 	doexe "${OUT}"/usb4_devinfo_helper
+	doexe "${OUT}"/bt_usb_disconnect_helper
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
 
