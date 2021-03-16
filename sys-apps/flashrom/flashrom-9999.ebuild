@@ -6,7 +6,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_EGIT_BRANCH="master"
 
-inherit cros-workon toolchain-funcs
+inherit cros-workon toolchain-funcs meson
 
 DESCRIPTION="Utility for reading, writing, erasing and verifying flash ROM chips"
 HOMEPAGE="https://flashrom.org/"
@@ -18,51 +18,74 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE="
 	atahpt
-	+bitbang_spi
+	atapromise
+	+atavia
 	+buspirate_spi
+	+ch341a_spi
 	dediprog
+	+developerbox_spi
+	+digilent_spi
 	+drkaiser
 	+dummy
-	+fdtmap
+	ene_lpc
 	+ft2232_spi
 	+gfxnvidia
 	+internal
+	+it8212
+	jlink_spi
 	+linux_mtd
 	+linux_spi
 	+lspcon_i2c_spi
+	mec1308
+	mstarddc_spi
 	+nic3com
 	+nicintel
+	+nicintel_eeprom
 	+nicintel_spi
 	+nicnatsemi
 	+nicrealtek
 	+ogp_spi
+	+pickit2_spi
+	+pony_spi
 	+raiden_debug_spi
 	+rayer_spi
 	+realtek_mst_i2c_spi
 	+satasii
 	+satamv
 	+serprog static
+	+stlinkv3_spi
+	+usbblaster_spi
 	+wiki
 "
 
 LIB_DEPEND="
 	atahpt? ( sys-apps/pciutils[static-libs(+)] )
+	atapromise? ( sys-apps/pciutils[static-libs(+)] )
+	atavia? ( sys-apps/pciutils[static-libs(+)] )
+	ch341a_spi? ( virtual/libusb:1[static-libs(+)] )
 	dediprog? ( virtual/libusb:1[static-libs(+)] )
+	developerbox_spi? ( virtual/libusb:1[static-libs(+)] )
+	digilent_spi? ( virtual/libusb:1[static-libs(+)] )
 	drkaiser? ( sys-apps/pciutils[static-libs(+)] )
-	fdtmap? ( sys-apps/dtc[static-libs(+)] )
 	ft2232_spi? ( dev-embedded/libftdi:=[static-libs(+)] )
 	gfxnvidia? ( sys-apps/pciutils[static-libs(+)] )
 	internal? ( sys-apps/pciutils[static-libs(+)] )
+	it8212? ( sys-apps/pciutils[static-libs(+)] )
+	jlink_spi? ( dev-embedded/libjaylink[static-libs(+)] )
 	nic3com? ( sys-apps/pciutils[static-libs(+)] )
+	nicintel_eeprom? ( sys-apps/pciutils[static-libs(+)] )
 	nicintel_spi? ( sys-apps/pciutils[static-libs(+)] )
 	nicintel? ( sys-apps/pciutils[static-libs(+)] )
 	nicnatsemi? ( sys-apps/pciutils[static-libs(+)] )
 	nicrealtek? ( sys-apps/pciutils[static-libs(+)] )
 	raiden_debug_spi? ( virtual/libusb:1[static-libs(+)] )
 	ogp_spi? ( sys-apps/pciutils[static-libs(+)] )
+	pickit2_spi? ( virtual/libusb:0[static-libs(+)] )
 	rayer_spi? ( sys-apps/pciutils[static-libs(+)] )
 	satamv? ( sys-apps/pciutils[static-libs(+)] )
 	satasii? ( sys-apps/pciutils[static-libs(+)] )
+	stlinkv3_spi? ( virtual/libusb:1[static-libs(+)] )
+	usbblaster_spi? ( dev-embedded/libftdi:1=[static-libs(+)] )
 "
 RDEPEND="!static? ( ${LIB_DEPEND//\[static-libs(+)]} )"
 DEPEND="${RDEPEND}
@@ -71,60 +94,63 @@ RDEPEND+=" internal? ( sys-apps/dmidecode )"
 
 BDEPEND="sys-apps/diffutils"
 
-_flashrom_enable() {
-	local c="CONFIG_${2:-$(echo $1 | tr [:lower:] [:upper:])}"
-	args+=" $c=$(usex $1 yes no)"
-}
-flashrom_enable() {
-	local u
-	for u in "$@" ; do _flashrom_enable $u ; done
-}
+DOCS=( README.chromiumos Documentation/ )
 
-src_compile() {
-	local progs=0
-	local args=""
-
-	# Programmer
-	flashrom_enable \
-		atahpt bitbang_spi buspirate_spi dediprog drkaiser fdtmap \
-		ft2232_spi gfxnvidia linux_mtd linux_spi lspcon_i2c_spi \
-		nic3com nicintel nicintel_spi nicnatsemi nicrealtek ogp_spi \
-		raiden_debug_spi rayer_spi realtek_mst_i2c_spi satasii satamv \
-		serprog internal dummy
-	_flashrom_enable wiki PRINT_WIKI
-
-	# You have to specify at least one programmer, and if you specify more than
-	# one programmer you have to include either dummy or internal in the list.
-	for prog in ${IUSE//[+-]} ; do
-		case ${prog} in
-			internal|dummy|wiki) continue ;;
-		esac
-
-		use ${prog} && : $(( progs++ ))
-	done
-	if [[ ${progs} -ne 1 ]] ; then
-		if ! use internal && ! use dummy ; then
-			ewarn "You have to specify at least one programmer, and if you specify"
-			ewarn "more than one programmer, you have to enable either dummy or"
-			ewarn "internal as well.  'internal' will be the default now."
-			args+=" CONFIG_INTERNAL=yes"
-		fi
+src_prepare() {
+	default
+	if use internal; then
+		# Set CONFIG_DEFAULT_PROGRAMMER to PROGRAMMER_INTERNAL
+		sed -e "s/PROGRAMMER_INVALID/PROGRAMMER_INTERNAL/" \
+			-i meson.build || die
 	fi
+}
 
-	args+=" CONFIG_DEFAULT_PROGRAMMER=PROGRAMMER_INTERNAL"
-
-	# WARNERROR=no, bug 347879
-	# FIXME(dhendrix): Actually, we want -Werror for CrOS.
-	tc-export AR CC PKG_CONFIG RANLIB
-	# emake WARNERROR=no ${args}	# upstream gentoo
-
-	_flashrom_enable static STATIC
-	emake ${args}
+src_configure() {
+	local emesonargs=(
+		-Ddefault_library="$(usex static static shared)"
+		$(meson_use atahpt config_atahpt)
+		$(meson_use atapromise config_atapromise)
+		$(meson_use atavia config_atavia)
+		$(meson_use buspirate_spi config_buspirate_spi)
+		$(meson_use ch341a_spi config_ch341a_spi)
+		$(meson_use dediprog config_dediprog)
+		$(meson_use developerbox_spi config_developerbox_spi)
+		$(meson_use digilent_spi config_digilent_spi)
+		$(meson_use drkaiser config_drkaiser)
+		$(meson_use dummy config_dummy)
+		$(meson_use ene_lpc config_ene_lpc)
+		$(meson_use ft2232_spi config_ft2232_spi)
+		$(meson_use gfxnvidia config_gfxnvidia)
+		$(meson_use internal config_internal)
+		$(meson_use it8212 config_it8212)
+		$(meson_use jlink_spi config_jlink_spi)
+		$(meson_use linux_mtd config_linux_mtd)
+		$(meson_use linux_spi config_linux_spi)
+		$(meson_use lspcon_i2c_spi config_lspcon_i2c_spi)
+		$(meson_use mec1308 config_mec1308)
+		$(meson_use mstarddc_spi config_mstarddc_spi)
+		$(meson_use nic3com config_nic3com)
+		$(meson_use nicintel_eeprom config_nicintel_eeprom)
+		$(meson_use nicintel_spi config_nicintel_spi)
+		$(meson_use nicintel config_nicintel)
+		$(meson_use nicnatsemi config_nicnatsemi)
+		$(meson_use nicrealtek config_nicrealtek)
+		$(meson_use ogp_spi config_ogp_spi)
+		$(meson_use pickit2_spi config_pickit2_spi)
+		$(meson_use pony_spi config_pony_spi)
+		$(meson_use raiden_debug_spi config_raiden_debug_spi)
+		$(meson_use rayer_spi config_rayer_spi)
+		$(meson_use realtek_mst_i2c_spi config_realtek_mst_i2c_spi)
+		$(meson_use satamv config_satamv)
+		$(meson_use satasii config_satasii)
+		$(meson_use serprog config_serprog)
+		$(meson_use stlinkv3_spi config_stlinkv3_spi)
+		$(meson_use usbblaster_spi config_usbblaster_spi)
+		$(meson_use wiki print_wiki)
+	)
+	meson_src_configure
 }
 
 src_install() {
-	dosbin flashrom
-	doman flashrom.8
-	doheader libflashrom.h
-	dodoc README.chromiumos Documentation/*.txt
+	meson_src_install
 }
