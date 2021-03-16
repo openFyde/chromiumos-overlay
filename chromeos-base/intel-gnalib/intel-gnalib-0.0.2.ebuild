@@ -3,34 +3,22 @@
 
 EAPI=7
 
-inherit cros-constants
-
-CROS_WORKON_PROJECT=("chromiumos/platform2")
-CROS_WORKON_LOCALNAME=("platform2")
-CROS_WORKON_DESTDIR=("${S}/platform2")
-CROS_WORKON_SUBTREE=("common-mk")
-
-inherit base cmake-utils cros-workon flag-o-matic platform git-r3
+inherit cmake-utils flag-o-matic unpacker
 
 DESCRIPTION="Intel GNA library for Gemini Lake and Tiger Lake"
 HOMEPAGE="https://github.com/intel/gna"
+GIT_HASH="691b58abb87ddfdef9101459e311bdb82620bfa6"
+GIT_SHORT_HASH=${GIT_HASH::8}
+SRC_URI="https://github.com/intel/gna/archive/${GIT_HASH}.tar.gz -> intel-gna-${GIT_SHORT_HASH}.tar.gz"
 
 LICENSE="LGPL-2.1"
-KEYWORDS="~*"
+KEYWORDS="-* amd64"
 IUSE="+clang"
 SLOT="0"
 
+S="${WORKDIR}/gna-${GIT_HASH}"
+
 RDEPEND="${DEPEND}"
-
-src_unpack() {
-	platform_src_unpack
-
-	EGIT_REPO_URI="https://github.com/intel/gna.git" \
-	EGIT_CHECKOUT_DIR="${S}" \
-	EGIT_COMMIT="691b58abb87ddfdef9101459e311bdb82620bfa6" \
-	EGIT_BRANCH="main" \
-	git-r3_src_unpack
-}
 
 src_prepare() {
 	eapply "${FILESDIR}/0001-Enable-changes-needed-for-ChromeOS-build.patch"
@@ -58,6 +46,7 @@ src_compile() {
 	cp -fpru "${S}"/bin/gna-lib/include "${WORKDIR}"
 	cp -fpru "${S}"/src/common/gna*.h "${WORKDIR}"/include
 }
+
 src_install() {
 	dolib.so "${WORKDIR}"/libgna.so.2.0.0.0
 	dolib.so "${WORKDIR}"/libgna.so.2

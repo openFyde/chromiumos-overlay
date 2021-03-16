@@ -3,16 +3,35 @@
 
 EAPI=7
 
-inherit cmake-utils git-r3 flag-o-matic
+inherit cmake-utils flag-o-matic unpacker
 
 DESCRIPTION="Intel OpenVino Toolkit"
 HOMEPAGE="https://github.com/openvinotoolkit/openvino"
+GIT_HASH="a4a1bff1cc5a6b22f806adac8845d2806772dacd"
+GIT_SHORT_HASH=${GIT_HASH::8}
 
-CMAKE_BUILD_TYPE="Debug"
-LICENSE="BSD-Google"
+# This tarball needs to be manually created due to the use of submodules. Downloading
+#   -> https://github.com/openvinotoolkit/openvino/archive/${GIT_HASH}.tar.gz
+# wouldn't work because it will not contain the submodules.
+#
+# Steps to reproduce tarball:
+# $ git clone https://github.com/openvinotoolkit/openvino.git
+# $ cd openvino
+# $ git checkout ${GIT_HASH}
+# $ git submodule init
+# $ git submodule update
+# $ rm -rf .git
+# $ cd ..
+# $ tar -Jcvf intel-openvino-${GIT_SHORT_HASH}.tar.xz openvino
+
+SRC_URI="gs://chromeos-localmirror/distfiles/intel-openvino-${GIT_SHORT_HASH}.tar.xz"
+
+LICENSE="Apache-2.0"
 KEYWORDS="-* amd64"
 IUSE="+clang"
 SLOT="0"
+
+S="${WORKDIR}/openvino"
 
 RDEPEND="
 	chromeos-base/intel-gnalib
@@ -21,15 +40,6 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 "
-
-src_unpack() {
-	EGIT_REPO_URI="https://github.com/openvinotoolkit/openvino.git" \
-	EGIT_CHECKOUT_DIR="${S}" \
-	EGIT_COMMIT="a4a1bff1cc5a6b22f806adac8845d2806772dacd" \
-	EGIT_BRANCH="releases/2020/1.chromeos" \
-	git-r3_src_unpack
-}
-
 
 src_configure() {
 	cros_enable_cxx_exceptions
