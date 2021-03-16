@@ -28,7 +28,10 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 "
 
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/ec-utils
+"
 
 # Add vboot_reference as build time dependency to read cros_debug status
 DEPEND="${COMMON_DEPEND}
