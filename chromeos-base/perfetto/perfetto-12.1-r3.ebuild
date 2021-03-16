@@ -102,7 +102,7 @@ src_compile() {
 		# well.
 		use cros-debug || append-cxxflags -DNDEBUG
 
-		(set -x; $(tc-getCXX) ${CXXFLAGS} -Wall -Werror -c -pthread \
+		(set -x; $(tc-getCXX) ${CXXFLAGS} -Wall -Werror -c -pthread -fPIC \
 			"${S}/sdk/perfetto.cc" -o sdk/perfetto.o) || die
 		(set -x; ${AR} rvsc sdk/libperfetto_sdk.a sdk/perfetto.o) || die
 	else
@@ -136,6 +136,13 @@ src_install() {
 		doins "${S}/sdk/perfetto.h"
 		dolib.a "${S}/sdk/libperfetto_sdk.a"
 	fi
+
+	insinto /usr/include/perfetto
+	doins -r include/perfetto
+	insinto /usr/include/perfetto/protos
+	doins -r "${BUILD_OUTPUT}/gen/protos/perfetto"
+	insinto /usr/include/perfetto/perfetto/base
+	doins "${BUILD_OUTPUT}/gen/build_config/perfetto_build_flags.h"
 }
 
 pkg_preinst() {
