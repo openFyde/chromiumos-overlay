@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="d7d02e3d3be256c2f8a276083494cb73428fa44f"
-CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "dd0390ea72e962ec1f5a43a65822bb798ad0e046" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c58e77ebf28a61aa23cb351294b7ad2eee8e7aa9"
+CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "bf4e943d62d6cb2d4a5d3eacac53a612858d7d71" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -47,4 +47,8 @@ pkg_preinst() {
 	enewuser pciguard
 	enewgroup pciguard
 	cros-workon_pkg_setup
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/pciguard_testrunner"
 }
