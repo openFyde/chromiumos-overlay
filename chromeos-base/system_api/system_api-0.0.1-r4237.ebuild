@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="69381e955cd17a75d4627384a3d56e2746f873d8"
-CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "afaa0f7289ab62e2288d3ca6fa8c14d418d0fc24" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="125e64a9b13bd9a34a187de2c5d89419c1dd5fd8"
+CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "d89c279ed8e011498904a69f3b642b99d7410dd8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
@@ -73,6 +73,7 @@ src_install() {
 		pciguard
 		permission_broker
 		power_manager
+		rmad
 		shill
 		smbprovider
 		tpm_manager
