@@ -29,8 +29,6 @@ SERVER_IUSE_TESTS="
 	+tests_audio_AudioAfterReboot
 	+tests_audio_AudioAfterSuspend
 	+tests_audio_AudioArtifacts
-	+tests_audio_AudioARCPlayback
-	+tests_audio_AudioARCRecord
 	+tests_audio_AudioBasicAssistant
 	+tests_audio_AudioBasicBluetoothPlayback
 	+tests_audio_AudioBasicBluetoothPlaybackRecord
