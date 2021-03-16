@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 #
@@ -8,4 +8,4 @@
 # the package, and it prints a string on stdout with the numerical version
 # number for said repo.
 
-"$1"/configure --version | head -1 | awk '{print $3}'
+echo 2.3.3
