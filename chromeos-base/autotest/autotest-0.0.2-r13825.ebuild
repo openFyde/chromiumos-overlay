@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("9d0b2ca2d27691556b672e0d3a18f5e2611e003c" "d9db1d1010bea48138fec551bc1a3c9035b9355a")
-CROS_WORKON_TREE=("cd9a6891cc8a7682efe60adb9a6bf34ed0b40408" "cd34cb725ec14a00cc7533d9ab2930280423d6dc")
+CROS_WORKON_COMMIT=("bfd84c85b52e0b8d9b92a3165edac88ff41f4268" "d9db1d1010bea48138fec551bc1a3c9035b9355a")
+CROS_WORKON_TREE=("9046af0ae97a8e294dbd58882af02aa6fd1c1f93" "cd34cb725ec14a00cc7533d9ab2930280423d6dc")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/autotest"
 	"chromiumos/platform/fw-testing-configs"
@@ -69,6 +69,15 @@ src_prepare() {
 		touch "${AUTOTEST_WORK}/${dir}"/.keep
 	done
 	touch "${AUTOTEST_WORK}/client/profilers/__init__.py"
+
+	# Symlinks are needed for new setup_modules
+	# delete the top level symlink beforehand (if it exists).
+	find "${AUTOTEST_WORK}" -name "autotest_lib" -delete \
+		|| echo "Top level symlink did not exist!"
+
+	# Create the top level symlink (want autotest_lib --> .)
+	ln -s . "${AUTOTEST_WORK}/autotest_lib" \
+		|| die "Could not create autotest_lib symlink"
 
 	sed "/^enable_server_prebuild/d" "${S}/global_config.ini" > \
 		"${AUTOTEST_WORK}/global_config.ini"
