@@ -23,6 +23,7 @@ REQUIRED_USE="minios"
 
 COMMON_DEPEND="
 	chromeos-base/shill-client:=
+	chromeos-base/update_engine-client:=
 	x11-libs/libxkbcommon:=
 	x11-misc/xkeyboard-config:=
 "
