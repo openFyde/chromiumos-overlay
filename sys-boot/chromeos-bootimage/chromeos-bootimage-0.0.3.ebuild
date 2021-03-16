@@ -31,9 +31,8 @@ IUSE="${IUSE} +depthcharge"
 
 BDEPEND="chromeos-base/vboot_reference"
 
-# TODO(sjg@chromium.org): Drop this zork stuff when the code is upstream
 DEPEND="
-	sys-boot/coreboot
+	sys-boot/coreboot:=
 	depthcharge? ( sys-boot/depthcharge:= )
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
 	tianocore? ( sys-boot/edk2:= )
