@@ -38,3 +38,6 @@ BDEPEND=">=chromeos-base/chromeos-config-host-0.0.2"
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
 DESCRIPTION="Embedded Controller firmware code"
 KEYWORDS="~*"
+
+# Restrict strip because chromeos-ec package installs unstrippable firmware.
+RESTRICT="strip"
