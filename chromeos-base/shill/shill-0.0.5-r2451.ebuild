@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a25121f1c477b6c8cdf64d8c76e514cba512f238"
+CROS_WORKON_COMMIT="9b93c49ab845acf2d0350fbfcb75ffa8676f47e2"
 CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "cd3b9803f87359a69fe445d78ccc7a9374ffcdae" "3404e834b3209b5b45e2dfc6c703370525c76f2f" "e2b9a72999969352d805f918dd99a78671e4e7a9" "5b383efc726ae6677e2a1bf2ff0a1a61fb8371d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -50,7 +50,6 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
-	chromeos-base/patchpanel
 	net-misc/dhcpcd
 	dhcpv6? ( net-misc/dhcpcd[ipv6] )
 	vpn? ( net-vpn/openvpn )
@@ -59,7 +58,9 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
-	vpn? ( chromeos-base/vpn-manager:= )"
+	vpn? ( chromeos-base/vpn-manager:= )
+"
+PDEPEND="chromeos-base/patchpanel"
 
 pkg_setup() {
 	enewgroup "shill"
