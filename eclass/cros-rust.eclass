@@ -338,7 +338,9 @@ cros-rust_src_configure() {
 	cros-debug-add-NDEBUG
 
 	if [[ -n "${CROS_WORKON_PROJECT}" ]]; then
-		export CARGO_TARGET_DIR="$(cros-workon_get_build_dir)"
+		# Use a sub directory to avoid unintended interactions with platform.eclass.
+		export CARGO_TARGET_DIR="$(cros-workon_get_build_dir)/cros-rust"
+		mkdir -p "${CARGO_TARGET_DIR}"
 	else
 		export CARGO_TARGET_DIR="${WORKDIR}"
 	fi
@@ -416,6 +418,25 @@ cros-rust_src_configure() {
 		addwrite "$(cros-rust_get_sccache_dir)"
 	fi
 
+	if [[ -n "${CROS_WORKON_PROJECT}" ]]; then
+		# Force an update the Cargo.lock file.
+		ecargo generate-lockfile
+		if [[ "${CROS_WORKON_INCREMENTAL_BUILD}" == "1" ]]; then
+			local previous_lockfile="${CARGO_TARGET_DIR}/Cargo.lock.prev"
+			# If any of the dependencies have changed, clear the incremental results.
+			if [[ ! -f "${previous_lockfile}" ]] ||
+					! cmp Cargo.lock "${previous_lockfile}" ; then
+				# This will print errors for the .crate files, but that is OK.
+				rm -rf "${CARGO_TARGET_DIR}"
+				mkdir -p "${CARGO_TARGET_DIR}"
+				cp Cargo.lock "${previous_lockfile}" || die
+			fi
+		fi
+	else
+		# Remove 3rd party lockfiles.
+		rm -f Cargo.lock
+	fi
+
 	export RUSTFLAGS="${rustflags[*]}"
 	default
 }
@@ -434,12 +455,7 @@ cros-rust_use_sanitizers() {
 ecargo() {
 	debug-print-function "${FUNCNAME[0]}" "$@"
 
-	# The cargo developers have decided to make it as painful as possible to
-	# use cargo inside another build system.  So there is no way to tell
-	# cargo to just not write this lock file.  Instead we have to bend over
-	# backwards to accommodate cargo.
 	addwrite Cargo.lock
-	rm -f Cargo.lock
 
 	# Acquire a shared (read only) lock since this does not modify the registry.
 	flock --shared "$(cros-rust_get_reg_lock)" cargo -v "$@"
@@ -454,9 +470,6 @@ ecargo() {
 	if [[ "${status}" != 0 ]]; then
 		die
 	fi
-
-	# Now remove any Cargo.lock files that cargo pointlessly created.
-	rm -f Cargo.lock
 }
 
 # @FUNCTION: ecargo_build
