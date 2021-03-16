@@ -198,6 +198,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_FAFTSetup
 	biod? (
 		+tests_firmware_Fingerprint
+		+tests_firmware_FingerprintCrosConfig
 		+tests_firmware_FingerprintSigner
 	)
 	+tests_firmware_FMap
