@@ -33,7 +33,7 @@ COMMON_DEPEND="
 	net-libs/grpc:=
 	net-misc/curl:=
 	sys-apps/rootdev:=
-	device_mapper? ( sys-fs/lvm2:= )
+	device_mapper? ( sys-fs/lvm2:=[thin] )
 	lvm_stateful_partition? ( sys-fs/lvm2:= )
 	udev? ( virtual/libudev )
 "
