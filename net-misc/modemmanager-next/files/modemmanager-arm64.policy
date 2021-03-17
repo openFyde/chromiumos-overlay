@@ -44,6 +44,7 @@ nanosleep: 1
 sigreturn: 1
 clock_nanosleep: 1
 clock_nanosleep_time64: 1
+clock_gettime: 1
 geteuid32: 1
 getegid32: 1
 madvise: 1
