@@ -43,10 +43,6 @@ src_install() {
 	doins -r text/boot_messages
 	dosbin text/display_boot_message
 
-	insinto /usr/share/chromeos-assets
-	doins -r connectivity_diagnostics
-	doins -r connectivity_diagnostics_launcher
-
 	# These files aren't used at runtime.
 	find "${D}" -name '*.grd' -delete
 }
