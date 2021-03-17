@@ -27,7 +27,7 @@ IUSE="-cert_provision +device_mapper -direncryption -direncription_allow_v2
 	kernel-upstream mount_oop +vault_legacy_mount +downloads_bind_mount
 	lvm_stateful_partition pinweaver selinux systemd test
 	tpm tpm2 tpm2_simulator unibuild uprev-4-to-5 user_session_isolation
-	vtpm_proxy"
+	vtpm_proxy slow_mount"
 
 REQUIRED_USE="
 	device_mapper
