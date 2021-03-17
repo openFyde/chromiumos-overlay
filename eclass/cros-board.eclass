@@ -222,6 +222,7 @@ ALL_BOARDS=(
 	hatch-kernelnext
 	hatch-manatee
 	heli
+	herobrine
 	hsb
 	#iclrvp
 	ironhide
