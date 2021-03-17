@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="2167d36da223b9dae9c2699d46caab77fe205fce"
-CROS_WORKON_TREE="64027579f73b432680a0fca8450ace233c20134c"
+CROS_WORKON_COMMIT="8dcc5dcc18f2c0baced894d90025852d7647151a"
+CROS_WORKON_TREE="e94522157e0bc1edf2222146753aea682ea9d8c2"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -48,8 +48,6 @@ IUSE_TESTS="
 	+tests_platform_CryptohomeNonDirs
 	+tests_platform_CryptohomeStress
 	+tests_platform_CryptohomeTestAuth
-	+tests_platform_CryptohomeTpmLiveTest
-	+tests_platform_CryptohomeTpmLiveTestServer
 	+tests_platform_CryptohomeTPMReOwn
 	+tests_platform_CryptohomeTPMReOwnServer
 "
