@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c2e0a76ececf0566758e921a6e1791d201ee30f6"
+CROS_WORKON_COMMIT="ec5c27091d86055fe607d09e4497b9f563138557"
 CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "6e3031590b9a7da2c7bd3d068700d87387129b33" "285471a6031ac075946e7fac4f08f6e941dd074a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,7 +30,10 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 "
 
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/ec-utils
+"
 
 # Add vboot_reference as build time dependency to read cros_debug status
 DEPEND="${COMMON_DEPEND}
