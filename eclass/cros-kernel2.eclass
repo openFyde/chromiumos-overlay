@@ -183,6 +183,7 @@ CONFIG_FRAGMENTS=(
 	lxc
 	kasan
 	kcov
+	kcsan
 	kernel_compress_xz
 	kexec_file
 	kgdb
@@ -475,6 +476,13 @@ kcov_desc="Enable kcov"
 kcov_config="
 CONFIG_KCOV=y
 # CONFIG_RANDOMIZE_BASE is not set
+"
+
+kcsan_desc="Enable KCSAN"
+# KCSAN reports of unknown origin are too frequent and not very useful for now.
+kcsan_config="
+CONFIG_KCSAN=y
+CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=n
 "
 
 kernel_compress_xz_desc="Compresss kernel image with XZ"
