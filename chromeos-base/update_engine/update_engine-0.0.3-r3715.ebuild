@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("edae696653026162e64ee592a384019e33dc8ab6" "d6c8c7e2e96d88d0ae749998c6d09cb4affa6a25")
+CROS_WORKON_COMMIT=("f73780624a8023c8bfd7cc529cc7c20f05c233aa" "d6c8c7e2e96d88d0ae749998c6d09cb4affa6a25")
 CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7c6f6f964ea5d18450f1aba2962b3229ba71b5c5")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
@@ -23,7 +23,7 @@ SRC_URI=""
 
 LICENSE="Apache-2.0"
 KEYWORDS="*"
-IUSE="cfm cros_host cros_p2p dlc fuzzer -hwid_override +power_management systemd"
+IUSE="cfm cros_host cros_p2p dlc fuzzer -hwid_override minios +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
@@ -126,6 +126,13 @@ src_install() {
 	# Install DBus configuration
 	insinto /etc/dbus-1/system.d
 	doins UpdateEngine.conf
+
+	# TODO(b/182168271): Remove minios flag and public key from update_engine.
+	# Add the public key only when signing for MiniOs.
+	if use minios; then
+		insinto "/build/initramfs"
+		doins scripts/update_payload/update-payload-key.pub.pem
+	fi
 
 	platform_fuzzer_install "${S}"/OWNERS \
 				"${OUT}"/update_engine_omaha_request_action_fuzzer \
