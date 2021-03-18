@@ -86,6 +86,7 @@ IUSE="
 	kernel-4_19
 	kernel-5_4
 	kernel-5_10
+	kernel-upstream
 	kukui
 	kvm_host
 	kvm_transition
