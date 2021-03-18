@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("ad77a1f4cf6f53ebd8447bc7ce5f891d96fd47c8" "acbb4e3cc52ea3ff766728e4569acf20a31076ed")
+CROS_WORKON_COMMIT=("c074703f7972704036058f5c8d31f6bd892ebe57" "acbb4e3cc52ea3ff766728e4569acf20a31076ed")
 CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "11ffcb4bb58761f8c2da74045504b3309b3a04d6")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -29,7 +29,7 @@ PLATFORM_SUBDIR="libchrome"
 # pulled only into the configurations that require it.
 # TODO(fqj): remove !chromeos-base/libchrome-${BASE_VER} on next uprev to r680000.
 RDEPEND="
-	dev-cpp/absl:=
+	>=dev-cpp/absl-20200923:=
 	dev-libs/double-conversion:=
 	dev-libs/glib:2=
 	dev-libs/libevent:=
