@@ -37,6 +37,7 @@ readlinkat: 1
 recvfrom: 1
 rt_sigaction: 1
 rt_sigprocmask: 1
+rt_sigreturn: 1
 sendto: 1
 set_robust_list: 1
 setsockopt: 1
