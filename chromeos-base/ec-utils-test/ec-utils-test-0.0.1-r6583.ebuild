@@ -20,8 +20,14 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="biod -cr50_onboard"
 
-RDEPEND="chromeos-base/ec-utils
-	biod? ( dev-util/shflags )"
+# flash_fp_mcu depends on stm32mon (ec-devutils)
+RDEPEND="
+	chromeos-base/ec-utils
+	biod? (
+		chromeos-base/ec-devutils
+		dev-util/shflags
+	      )
+"
 
 src_compile() {
 	tc-export CC

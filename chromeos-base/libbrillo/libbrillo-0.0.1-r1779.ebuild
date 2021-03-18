@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d7d02e3d3be256c2f8a276083494cb73428fa44f"
+CROS_WORKON_COMMIT="e639529936290e3fef4abfaece9079bd7e414870"
 CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "802e38379af3fbb3f21f8ea410528879035b2841" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,7 +35,7 @@ COMMON_DEPEND="
 	net-libs/grpc:=
 	net-misc/curl:=
 	sys-apps/rootdev:=
-	device_mapper? ( sys-fs/lvm2:= )
+	device_mapper? ( sys-fs/lvm2:=[thin] )
 	lvm_stateful_partition? ( sys-fs/lvm2:= )
 	udev? ( virtual/libudev )
 "
