@@ -41,6 +41,13 @@ DEPEND="
 	${RDEPEND}
 "
 
+src_prepare() {
+	eapply "${FILESDIR}/0001-Disable-samples.patch"
+	cros_enable_cxx_exceptions
+	eapply_user
+	cmake-utils_src_prepare
+}
+
 src_configure() {
 	cros_enable_cxx_exceptions
 	append-flags "-frtti -msse4.2"
