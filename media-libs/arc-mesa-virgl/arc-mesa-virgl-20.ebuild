@@ -173,6 +173,8 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/CHROMIUM-hack-Override-GL_RENDERER-for-kindle-app.patch
 
+	epatch "${FILESDIR}"/BACKPORT-virgl-Don-t-destroy-resource-while-it-s-in-use.patch
+
 	default
 }
 
