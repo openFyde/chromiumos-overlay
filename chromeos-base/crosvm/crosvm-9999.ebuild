@@ -54,12 +54,9 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/anyhow-1.0.32:= <dev-rust/anyhow-2.0
 	=dev-rust/async-task-4*:=
 	=dev-rust/async-trait-0.1*:=
-	fuzzer? (
-		dev-rust/cros_fuzz:=
-		=dev-rust/rand-0.6*:=
-	)
 	=dev-rust/bitflags-1*:=
 	~dev-rust/cc-1.0.25:=
+	dev-rust/cros_fuzz:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/futures-0.3*:=
 	=dev-rust/gdbstub-0.4*:=
@@ -78,6 +75,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/protoc-rust-2.8:=
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/quote-1*:=
+	=dev-rust/rand-0.6*:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
 	=dev-rust/syn-1*:=
@@ -231,6 +229,7 @@ src_test() {
 		--exclude net_util
 		--exclude gpu_display
 		--exclude rutabaga_gfx
+		--exclude crosvm-fuzz
 		# Also exclude the following since their tests are run in their ebuilds.
 		--exclude enumn
 		--exclude sys_util
