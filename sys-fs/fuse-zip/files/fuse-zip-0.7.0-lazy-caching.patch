@@ -1,19 +1,25 @@
-From 69b7010995534bef058d2a7e2b2c7e18bb760222 Mon Sep 17 00:00:00 2001
+From 289c4b448989a10f4d814aae413d889b90563a16 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Thu, 18 Jun 2020 23:35:55 +1000
 Subject: [PATCH] Lazy caching of files
 
-Only cache a file in memory if it needs to be cached and if it is less than 1GB.
+Only cache a file in memory if it needs to be cached and if it is less
+than 1GB.
+
+Keep cached uncompressed data in memory, even after the matching file
+has been closed. Some applications keep closing and reopening the same
+file, and we don't want to keep decompressing the same file over and
+over again.
 ---
  lib/Makefile      |   4 +-
  lib/bigBuffer.cpp | 362 ++++++++++++++++++++++++----------------------
  lib/bigBuffer.h   |  89 +++++++-----
- lib/dataNode.cpp  |   7 +-
+ lib/dataNode.cpp  |   9 +-
  lib/dataNode.h    |   3 +-
  lib/fileNode.cpp  |   2 +-
  lib/fileNode.h    |   2 +-
  lib/fuse-zip.cpp  |   4 +-
- 8 files changed, 254 insertions(+), 219 deletions(-)
+ 8 files changed, 255 insertions(+), 220 deletions(-)
 
 diff --git a/lib/Makefile b/lib/Makefile
 index d092e0e..af2df55 100644
@@ -674,10 +680,10 @@ index 2ec92d6..b5ad3fc 100644
  #endif
 -
 diff --git a/lib/dataNode.cpp b/lib/dataNode.cpp
-index 0efd7bc..07f0f84 100644
+index 0efd7bc..4bf4559 100644
 --- a/lib/dataNode.cpp
 +++ b/lib/dataNode.cpp
-@@ -116,17 +116,14 @@ int DataNode::open(struct zip *zip) {
+@@ -116,17 +116,15 @@ int DataNode::open(struct zip *zip) {
      if (_state == NodeState::CLOSED) {
          _open_count = 1;
          assert(zip != NULL);
@@ -686,7 +692,8 @@ index 0efd7bc..07f0f84 100644
 -        }
          assert(_id != FAKE_ID);
 -        _buffer.reset(new BigBuffer(zip, _id, static_cast<size_t>(_size)));
-+        _buffer.reset(new BigBuffer(zip, _id, _size));
++        if (!_buffer)
++            _buffer.reset(new BigBuffer(zip, _id, _size));
          _state = NodeState::OPENED;
      }
      return 0;
@@ -697,6 +704,14 @@ index 0efd7bc..07f0f84 100644
      _atime = currentTime();
      return _buffer->read(buf, sz, offset);
  }
+@@ -144,7 +142,6 @@ int DataNode::write(const char *buf, size_t sz, size_t offset) {
+ int DataNode::close() {
+     _size = _buffer->len;
+     if (_state == NodeState::OPENED && --_open_count == 0) {
+-        _buffer.reset();
+         _state = NodeState::CLOSED;
+     }
+     return 0;
 diff --git a/lib/dataNode.h b/lib/dataNode.h
 index 7489ec9..550593c 100644
 --- a/lib/dataNode.h
@@ -761,5 +776,5 @@ index 061cc6d..113065c 100644
  }
 -
 -- 
-2.29.1.341.ge80a0c044ae-goog
+2.31.0.rc2.261.g7f71774620-goog
 
