@@ -27,6 +27,7 @@ PATCHES=(
 	"${FILESDIR}"/0004-vaDeriveImage-Enable-WaDisableGmmLibOffsetInDeriveIm.patch
 	"${FILESDIR}"/0005-Decode-Refine-decode-reference-associated-buffer-man.patch
 	"${FILESDIR}"/0006-Encode-Report-VAConfigAttribEncPackedHeaders-for-VP9.patch
+	"${FILESDIR}"/0007-Media-Common-Fix-Gen12-Libva-caps.patch
 )
 
 src_configure() {
