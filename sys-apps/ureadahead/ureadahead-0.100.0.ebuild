@@ -34,6 +34,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-large-readahead.patch
 	"${FILESDIR}"/${P}-pack-file-and-path-prefix-filter-options.patch
 	"${FILESDIR}"/${P}-16.patch   # Downloaded from upstream
+	"${FILESDIR}"/${P}-no-debug-tracing.patch
 )
 
 src_configure() {
