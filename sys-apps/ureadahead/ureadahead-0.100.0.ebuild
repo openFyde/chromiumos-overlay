@@ -33,6 +33,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-fileio-overflow.patch # crbug.com/216504
 	"${FILESDIR}"/${P}-large-readahead.patch
 	"${FILESDIR}"/${P}-pack-file-and-path-prefix-filter-options.patch
+	"${FILESDIR}"/${P}-16.patch   # Downloaded from upstream
 )
 
 src_configure() {
