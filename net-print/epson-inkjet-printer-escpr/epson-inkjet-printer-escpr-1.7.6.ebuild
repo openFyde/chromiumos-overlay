@@ -21,6 +21,7 @@ PATCHES=(
 	"${FILESDIR}/1.6.5-warnings.patch"
 	"${FILESDIR}/${PN}-1.6.10-search-filter.patch"
 	"${FILESDIR}/${PN}-1.7.6-cupsRasterHeader.patch"
+	"${FILESDIR}/${PN}-1.7.6-writeToNullFix.patch"
 )
 
 src_prepare() {
