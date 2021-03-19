@@ -39,6 +39,7 @@ IUSE_TESTS="
 	+tests_graphics_PerfControl
 	+tests_graphics_SanAngeles
 	+tests_graphics_SyncControlTest
+	+tests_graphics_parallel_dEQP
 	+tests_graphics_Power
 "
 
