@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4ce3c997f32c5ca8c40cd836771f34be06150d40"
-CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "0e476b3d7ac065a660f6a9e352eb068e5d688452" "374cf61d69fc7aad43a304f4cc9d177791781fff" "52f3994c56cd91f81f8a6ab309cb59979d2296db" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="5c95c5d924b45d4f11ef7a034ce0fe6bde6a0962"
+CROS_WORKON_TREE=("c23e9bd8eaa54cbd599b1a7aca04009fd33af563" "90f7eab671c3a62ca78b919043a4b918c1dd27f0" "374cf61d69fc7aad43a304f4cc9d177791781fff" "c4abb6d71dc5aa8197fa7ef2cd026c842569274b" "52f3994c56cd91f81f8a6ab309cb59979d2296db" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk biod chromeos-config metrics .gn"
+CROS_WORKON_SUBTREE="common-mk biod chromeos-config libec metrics .gn"
 
 PLATFORM_SUBDIR="biod"
 
@@ -32,6 +32,7 @@ IUSE="
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/libec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	sys-apps/flashmap:=
 	unibuild? (
