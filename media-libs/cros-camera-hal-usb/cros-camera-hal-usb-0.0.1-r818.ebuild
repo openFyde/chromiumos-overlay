@@ -1,0 +1,51 @@
+# Copyright 2017 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=5
+
+CROS_WORKON_COMMIT="4ce3c997f32c5ca8c40cd836771f34be06150d40"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "04599939e9e49f0b65a50705a7130dd2ecafbaca" "ba48169e4d9d9e30d6abfd975b71c351964a9e24" "7e13907622f16b68b60b073f621afd29fa4a14ba" "146083de4f96983ea33839cc84a9acc89eb908ae" "374cf61d69fc7aad43a304f4cc9d177791781fff" "c23e9bd8eaa54cbd599b1a7aca04009fd33af563")
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="../platform2"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/usb camera/include camera/mojo chromeos-config common-mk"
+CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_INCREMENTAL_BUILD="1"
+
+PLATFORM_SUBDIR="camera/hal/usb"
+
+inherit cros-camera cros-workon platform
+
+DESCRIPTION="Chrome OS USB camera HAL v3."
+
+LICENSE="BSD-Google"
+SLOT="0"
+KEYWORDS="*"
+IUSE="usb_camera_monocle"
+
+RDEPEND="
+	chromeos-base/cros-camera-android-deps
+	chromeos-base/cros-camera-libs
+	dev-libs/re2
+	usb_camera_monocle? ( media-libs/librealtek-sdk )
+	media-libs/libsync
+	chromeos-base/chromeos-config-tools"
+
+DEPEND="${RDEPEND}
+	media-libs/libyuv
+	virtual/pkgconfig"
+
+src_install() {
+	platform_src_install
+	cros-camera_dohal "${OUT}/lib/libcamera_hal.so" usb.so
+}
+
+platform_pkg_test() {
+	local tests=(
+		image_processor_test
+	)
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test run "${OUT}/${test_bin}"
+	done
+}
