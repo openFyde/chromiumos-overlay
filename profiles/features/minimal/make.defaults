@@ -60,5 +60,8 @@ USE="${USE} -arc-camera3"
 # Disable oobe config.
 USE="${USE} -oobe_config"
 
+# Disable Downloadable Content (DLC).
+USE="${USE} -dlc"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE=""

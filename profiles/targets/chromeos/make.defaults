@@ -84,6 +84,9 @@ USE="${USE} video_capture_use_gpu_memory_buffer"
 # Run Camera v3 stack by default.
 USE="${USE} arc-camera3"
 
+# Enable Downloadable Content (DLC).
+USE="${USE} dlc"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
