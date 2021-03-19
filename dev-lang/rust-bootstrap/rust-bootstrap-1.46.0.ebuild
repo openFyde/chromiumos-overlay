@@ -77,13 +77,13 @@ pkg_setup() {
 	if use fullbootstrap; then
 		RUSTC_VERSION_SEQUENCE=( "${RUSTC_FULL_BOOTSTRAP_SEQUENCE[@]}" )
 		PATCHES=(
-			"${FILESDIR}/${P}-no-curl.patch"
-			"${FILESDIR}/${P}-compilation-fixes.patch"
-			"${FILESDIR}/${P}-8ddb05-invalid-output-constraint.patch"
-			"${FILESDIR}/${P}-libgit2-sys-pkg-config.patch"
-			"${FILESDIR}/${P}-cc.patch"
-			"${FILESDIR}/${P}-printf.patch"
-			"${FILESDIR}/${P}-libc++.patch"
+			"${FILESDIR}/${PN}-no-curl.patch"
+			"${FILESDIR}/${PN}-compilation-fixes.patch"
+			"${FILESDIR}/${PN}-8ddb05-invalid-output-constraint.patch"
+			"${FILESDIR}/${PN}-libgit2-sys-pkg-config.patch"
+			"${FILESDIR}/${PN}-cc.patch"
+			"${FILESDIR}/${PN}-printf.patch"
+			"${FILESDIR}/${PN}-libc++.patch"
 		)
 		S="${WORKDIR}/${MRUSTC_NAME}"
 	else
@@ -125,7 +125,7 @@ src_prepare() {
 	local version
 	for version in "${RUSTC_VERSION_SEQUENCE[@]}"; do
 		einfo "Patching rustc-${version}"
-		(cd "${WORKDIR}/rustc-${version}-src" || die; eapply -p2 "${FILESDIR}/${P}-libc++.patch")
+		(cd "${WORKDIR}/rustc-${version}-src" || die; eapply -p2 "${FILESDIR}/${PN}-libc++.patch")
 	done
 }
 
