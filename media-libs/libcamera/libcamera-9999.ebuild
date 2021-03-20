@@ -34,8 +34,8 @@ DEPEND="
 src_configure() {
 	local pipelines=(
 		"uvcvideo"
-		$(usev ipu3)
-		$(usev rkisp1)
+		"$(usev ipu3)"
+		"$(usev rkisp1)"
 	)
 
 	pipeline_list() {
@@ -45,8 +45,8 @@ src_configure() {
 	BUILD_DIR="$(cros-workon_get_build_dir)"
 
 	local emesonargs=(
-		$(meson_use test)
-		$(meson_feature doc documentation)
+		"$(meson_use test)"
+		"$(meson_feature doc documentation)"
 		-Dandroid="enabled"
 		-Dandroid_platform="cros"
 		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
