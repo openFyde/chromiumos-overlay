@@ -1,14 +1,13 @@
 BDEPEND=dev-vcs/git
-DEFINED_PHASES=info setup unpack
-DEPEND=sys-apps/dbus:=
-DESCRIPTION=Chromium OS modem utilities
+DEFINED_PHASES=compile info install setup unpack
+DESCRIPTION=Chrome OS EC Utility Helper
 EAPI=7
-HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/modem-utilities/
-IUSE=cros_host cros_workon_tree_08fef9bfa37519ae02be747b71f1b2ecfcb9839b
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/ec/
+IUSE=biod -cr50_onboard cros_host cros_workon_tree_42a8699899bb6272ab68e8689d0ae88b7a0d0f4e
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-RDEPEND=sys-apps/dbus:=
-SLOT=0/0.0.1-r2807
+RDEPEND=chromeos-base/ec-utils biod? ( chromeos-base/ec-devutils dev-util/shflags )
+SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=db2ff79021c4f8c203a2d9c262cc557f
+_md5_=2b4100998810b915f198b0b011b5b6b9
