@@ -52,6 +52,7 @@ ALL_BOARDS=(
 	asurada
 	atlas
 	atlas-blueznext
+	atlas-kernelnext
 	atlas-kvm
 	auron
 	auron_paine
