@@ -28,6 +28,7 @@ COMMON_DEPEND="
 	net-libs/libpcap:=
 	net-wireless/iw:=
 	sys-apps/rootdev:=
+	sys-libs/libcap:=
 	sata? ( sys-apps/smartmontools:= )
 "
 RDEPEND="${COMMON_DEPEND}
@@ -89,15 +90,16 @@ src_install() {
 	if use amd64 ; then
 		exeinto /usr/libexec/debugd/helpers
 		doexe "${OUT}"/scheduler_configuration_helper
-
-		insinto /usr/share/policy
-		newins "${debugd_seccomp_dir}/scheduler-configuration-helper-${ARCH}.policy" scheduler-configuration-helper.policy
 	fi
 
-	# Install seccomp policy for the CUPS URI helper.
+	# Install seccomp policies.
 	insinto /usr/share/policy
-	newins "${debugd_seccomp_dir}/cups-uri-helper-${ARCH}.policy" \
-		cups-uri-helper.policy
+	local policy
+	for policy in "${debugd_seccomp_dir}"/*-${ARCH}.policy; do
+		local policy_basename="${policy##*/}"
+		local policy_name="${policy_basename/-${ARCH}}"
+		newins "${policy}" "${policy_name}"
+	done
 
 
 	# Install DBus configuration.
