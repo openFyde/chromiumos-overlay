@@ -32,7 +32,11 @@ IUSE_TESTS="
 	+tests_cellular_DeferredRegistration
 	+tests_cellular_DisableWhileConnecting
 	+tests_cellular_DisconnectFailure
-	+tests_cellular_HermesEuiccEnableDisable
+	+tests_cellular_HermesErrorScenarios
+	+tests_cellular_HermesMM_InstallEnable
+	+tests_cellular_Hermes_MultiProfile
+	+tests_cellular_Hermes_Restart_SlotSwitch
+	+tests_cellular_Hermes_SingleProfile
 	+tests_cellular_Identifiers
 	+tests_cellular_OutOfCreditsSubscriptionState
 	+tests_cellular_SIMLocking
