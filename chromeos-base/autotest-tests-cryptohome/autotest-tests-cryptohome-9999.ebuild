@@ -31,12 +31,10 @@ DEPEND="
 "
 
 IUSE_TESTS="
-	+tests_platform_CryptohomeChangePassword
 	+tests_platform_CryptohomeFio
 	+tests_platform_CryptohomeKeyEviction
 	+tests_platform_CryptohomeLECredentialManager
 	+tests_platform_CryptohomeLECredentialManagerServer
-	+tests_platform_CryptohomeMigrateKey
 	+tests_platform_CryptohomeMount
 	+tests_platform_CryptohomeMultiple
 	+tests_platform_CryptohomeNonDirs
