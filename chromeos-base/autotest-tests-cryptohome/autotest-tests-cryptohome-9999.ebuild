@@ -32,8 +32,6 @@ DEPEND="
 
 IUSE_TESTS="
 	+tests_platform_CryptohomeFio
-	+tests_platform_CryptohomeLECredentialManager
-	+tests_platform_CryptohomeLECredentialManagerServer
 	+tests_platform_CryptohomeStress
 "
 
