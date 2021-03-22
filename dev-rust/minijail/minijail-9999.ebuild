@@ -13,6 +13,7 @@ inherit cros-constants
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
+CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
 CROS_WORKON_SUBTREE="rust/minijail"
 

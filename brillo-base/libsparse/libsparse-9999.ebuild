@@ -3,11 +3,14 @@
 
 EAPI="7"
 
+inherit cros-constants
+
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform/core"
 CROS_WORKON_PROJECT="platform/system/core"
-CROS_WORKON_REPO="https://android.googlesource.com"
+CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
 
 inherit cros-workon
 

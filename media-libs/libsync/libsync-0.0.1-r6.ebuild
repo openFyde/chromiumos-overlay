@@ -8,13 +8,15 @@ inherit cros-constants
 CROS_WORKON_COMMIT="f4f4387b6bf2387efbcfd1453af4892e8982faf6"
 CROS_WORKON_TREE="6735ede3571072051f02df69fdf53bb239ebe6bd"
 CROS_WORKON_PROJECT="aosp/platform/system/core/libsync"
+CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
 CROS_WORKON_LOCALNAME="../aosp/system/libsync"
 CROS_WORKON_MANUAL_UPREV="1"
 
 inherit multilib cros-workon
 
 DESCRIPTION="Library for Android sync objects"
-HOMEPAGE="https://android.googlesource.com/platform/system/core/libsync"
+HOMEPAGE="https://chromium.googlesource.com/aosp/platform/system/core/libsync"
 
 LICENSE="BSD-Google"
 SLOT="0"

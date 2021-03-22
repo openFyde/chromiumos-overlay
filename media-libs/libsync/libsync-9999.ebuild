@@ -6,13 +6,15 @@ EAPI="5"
 inherit cros-constants
 
 CROS_WORKON_PROJECT="aosp/platform/system/core/libsync"
+CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
 CROS_WORKON_LOCALNAME="../aosp/system/libsync"
 CROS_WORKON_MANUAL_UPREV="1"
 
 inherit multilib cros-workon
 
 DESCRIPTION="Library for Android sync objects"
-HOMEPAGE="https://android.googlesource.com/platform/system/core/libsync"
+HOMEPAGE="https://chromium.googlesource.com/aosp/platform/system/core/libsync"
 
 LICENSE="BSD-Google"
 SLOT="0"

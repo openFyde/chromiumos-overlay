@@ -3,12 +3,16 @@
 
 EAPI=7
 
+inherit cros-constants
+
 CROS_WORKON_COMMIT="3a6e925548e1ddb500c0dffdd2d2c591519f02e2"
 CROS_WORKON_TREE="8f0401ffc128cc569f1cf571161e18d32574949f"
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
-CROS_WORKON_REPO="https://android.googlesource.com"
+CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
+
 PYTHON_COMPAT=( python3_{6,7} )
 
 # TODO(crbug.com/689060): Re-enable on ARM.
