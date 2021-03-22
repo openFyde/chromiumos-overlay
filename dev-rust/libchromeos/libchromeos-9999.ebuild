@@ -30,6 +30,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/lazy_static-1.4.0:= <dev-rust/lazy_static-2.0.0
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
+	=dev-rust/num_enum-0.5*:=
 	>=dev-rust/pkg-config-0.3.11:= <dev-rust/pkg-config-0.4.0:=
 	>=dev-rust/protobuf-2.1:= !>=dev-rust/protobuf-3.0:=
 	dev-rust/system_api:=
