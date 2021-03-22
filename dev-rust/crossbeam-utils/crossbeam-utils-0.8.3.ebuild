@@ -1,4 +1,4 @@
-# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -18,5 +18,4 @@ KEYWORDS="*"
 DEPEND="
 	=dev-rust/autocfg-1*:=
 	=dev-rust/cfg-if-1*:=
-	=dev-rust/const_fn-0.4*:=
 	=dev-rust/lazy_static-1*:="
