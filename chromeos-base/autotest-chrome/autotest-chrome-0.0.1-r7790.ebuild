@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="28eff2dff9a80c4681f25251e2a55c7fa921ef61"
-CROS_WORKON_TREE="a7640139998335884d2cead85cafe9a73c26f02a"
+CROS_WORKON_COMMIT="46dcaa31721eba53dfe2de2880de39308d86af4a"
+CROS_WORKON_TREE="989a5514b3f610e18d345085766d0ec49351a497"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -181,7 +181,7 @@ IUSE_TESTS=(
 	+tests_power_WifiIdle
 	+tests_security_BundledExtensions
 	+tests_telemetry_AFDOGenerateClient
-	+tests_telemetry_Sanity
+	+tests_telemetry_Check
 	+tests_telemetry_UnitTests
 	+tests_telemetry_UnitTestsServer
 	+tests_touch_GestureNav
