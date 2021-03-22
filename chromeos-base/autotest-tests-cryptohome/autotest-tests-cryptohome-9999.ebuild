@@ -35,8 +35,6 @@ IUSE_TESTS="
 	+tests_platform_CryptohomeLECredentialManager
 	+tests_platform_CryptohomeLECredentialManagerServer
 	+tests_platform_CryptohomeStress
-	+tests_platform_CryptohomeTPMReOwn
-	+tests_platform_CryptohomeTPMReOwnServer
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
