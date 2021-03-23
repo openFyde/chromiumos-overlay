@@ -4,7 +4,7 @@
 EAPI=7
 
 # TODO(crbug.com/1157860) Enable non x86_64 tests.
-CROS_WORKON_COMMIT="3c641a1d4f3ae4110825f1976c8e04f4ffb0995a"
+CROS_WORKON_COMMIT="21ab88bd75cfc6c3c8de28b831e096ec812f6d64"
 CROS_WORKON_TREE="69d315c52a687b4e647fdb6ab6c29f5feecac420"
 CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
 CROS_RUST_SUBDIR="libchromeos-rs"
@@ -32,6 +32,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/lazy_static-1.4.0:= <dev-rust/lazy_static-2.0.0
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
+	=dev-rust/num_enum-0.5*:=
 	>=dev-rust/pkg-config-0.3.11:= <dev-rust/pkg-config-0.4.0:=
 	>=dev-rust/protobuf-2.1:= !>=dev-rust/protobuf-3.0:=
 	dev-rust/system_api:=
