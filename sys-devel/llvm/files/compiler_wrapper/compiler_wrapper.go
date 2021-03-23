@@ -79,7 +79,7 @@ func callCompilerInternal(env env, cfg *config, inputCmd *command) (exitCode int
 	rusageEnabled := isRusageEnabled(env)
 
 	// Disable goma for rusage logs
-	allowGoma := !rusageEnabled
+	allowGoma := true
 	allowCCache := !rusageEnabled
 
 	workAroundKernelBugWithRetries := false
