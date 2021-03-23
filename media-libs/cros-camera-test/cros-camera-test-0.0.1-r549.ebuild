@@ -1,0 +1,43 @@
+# Copyright 2017 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=5
+
+CROS_WORKON_COMMIT="53eb7dac34bd189fa74f7e18f11a939bdfd33a27"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "75fe0e3189ac61df4982f930052d5f313ac2c691" "321a00e1ed5038d08eca967423f96ebcb20b182e" "0d95fedb4eed7a55632f03295a9e022402bd6971" "374cf61d69fc7aad43a304f4cc9d177791781fff" "a58d199d2c4d0e5da40bb5d453f513f5e2c97ae4")
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="../platform2"
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE=".gn camera/build camera/camera3_test camera/common camera/include chromeos-config common-mk"
+CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_INCREMENTAL_BUILD="1"
+
+PLATFORM_SUBDIR="camera/camera3_test"
+
+inherit cros-camera cros-workon platform
+
+DESCRIPTION="Chrome OS camera HAL native test."
+
+LICENSE="BSD-Google"
+SLOT="0"
+KEYWORDS="*"
+IUSE="-asan"
+
+RDEPEND="
+	chromeos-base/chromeos-config-tools
+	chromeos-base/cros-camera-libs
+	chromeos-base/cros-camera-android-deps
+	media-libs/libexif
+	media-libs/libsync
+	media-libs/minigbm
+	virtual/jpeg:0"
+
+DEPEND="${RDEPEND}
+	dev-cpp/gtest:=
+	media-libs/libyuv
+	virtual/pkgconfig"
+
+src_install() {
+	platform_src_install
+	dobin "${OUT}/cros_camera_test"
+}
