@@ -58,6 +58,20 @@ DEPEND="${RDEPEND}
 RDEPEND+=" !build? ( app-misc/mime-types )"
 PDEPEND=">=app-eselect/eselect-python-20140125-r1"
 
+# Google-specific PGO bits
+#
+# NOTE: If you're looking here because python-*-profile.tar.xz is missing:
+# - thanks for upgrading Python!
+# - files/python3_gen_pgo.sh should be able to generate a PGO profile for you.
+# - only new minor versions of Python should require a new PGO profile.
+#
+# Generally, PGO profile generation should be done as one of the last steps of
+# a Python upgrade, so feel free to turn pgo_use off as a default until things
+# are pretty finalized.
+SRC_URI+=" pgo_use? ( gs://chromeos-localmirror/distfiles/python-$(ver_cut 1-2)-profile.tar.xz )"
+IUSE+=" pgo_generate +pgo_use"
+REQUIRED_USE+=" pgo_generate? ( !pgo_use )"
+
 src_prepare() {
 	# Ensure that internal copies of expat, libffi and zlib are not used.
 	rm -fr Modules/expat || die
@@ -82,6 +96,13 @@ src_prepare() {
 	eapply "${FILESDIR}/python-3.6.5-ldshared.patch"
 	eapply "${FILESDIR}/python-3.6.5-system-libffi.patch"
 	eapply "${FILESDIR}/python-3.6.5-sigint-handler.patch"
+
+	if use pgo_use; then
+		eapply "${FILESDIR}/python-3.6.12-pgo-use.patch"
+		cp "${WORKDIR}/code.profclangd" "${S}" || die
+	elif use pgo_generate; then
+		eapply "${FILESDIR}/python-3.6.12-pgo-generate.patch"
+	fi
 
 	# Undo the @libdir@ change for portage's pym folder as it is always
 	# installed into /usr/lib/ and not the abi libdir.
@@ -183,6 +204,13 @@ src_configure() {
 		--with-system-expat
 		--with-system-ffi
 	)
+
+	if use pgo_generate || use pgo_use; then
+		myeconfargs+=(
+			"LLVM_PROFDATA=$(which llvm-profdata)"
+			--enable-optimizations
+		)
+	fi
 
 	OPT="" econf "${myeconfargs[@]}"
 
