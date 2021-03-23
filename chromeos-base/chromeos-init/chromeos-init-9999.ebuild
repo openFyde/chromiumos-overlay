@@ -113,8 +113,7 @@ src_install_upstart() {
 			doins upstart/dbus.conf
 			dotmpfiles tmpfiles.d/dbus.conf
 			if use udev; then
-				doins upstart/udev.conf upstart/udev-trigger.conf
-				doins upstart/udev-trigger-early.conf
+				doins upstart/udev*.conf
 			fi
 		fi
 		if use frecon; then
