@@ -27,6 +27,7 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterAudioLink
 	+tests_bluetooth_AdapterAUHealth
 	+tests_bluetooth_AdapterCLHealth
+	+tests_bluetooth_AdapterEPHealth
 	+tests_bluetooth_AdapterLEAdvertising
 	+tests_bluetooth_AdapterLEBetterTogether
 	+tests_bluetooth_AdapterLEHIDHealth
@@ -36,8 +37,8 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterPowerMeasure
 	+tests_bluetooth_AdapterQuickHealth
 	+tests_bluetooth_AdapterSAHealth
-	+tests_bluetooth_PeerUpdate
 	+tests_bluetooth_AdapterSRHealth
+	+tests_bluetooth_PeerUpdate
 "
 
 IUSE_TESTS="${IUSE_TESTS}
