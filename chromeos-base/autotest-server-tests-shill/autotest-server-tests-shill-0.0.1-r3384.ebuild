@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="4"
-CROS_WORKON_COMMIT="a45400b84aeaba826f296a097d9b131171587097"
-CROS_WORKON_TREE="83d238e17595fcc2d26cdb6d76e6325391d74fb5"
+CROS_WORKON_COMMIT="cc9ccb3d32ab9e7dd828bee447854fed31a9a26f"
+CROS_WORKON_TREE="d3c7ef466f989dc99fdb798cf7c16dee9f670c5b"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
