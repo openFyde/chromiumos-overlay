@@ -26,6 +26,7 @@ PATCHES=(
 	"${FILESDIR}"/0002-Fix-Null-and-Aritmatic-Conversion-Warning-27.patch
 	"${FILESDIR}"/0003-Fix-Comparision-overlap-29.patch
 	"${FILESDIR}"/0004-Initialize-PageTable-NodesPerTable-inorder-30.patch
+	"${FILESDIR}"/0005-ADL-P-Upstream.patch
 )
 
 multilib_src_configure() {
