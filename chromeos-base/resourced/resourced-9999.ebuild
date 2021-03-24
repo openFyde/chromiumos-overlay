@@ -23,7 +23,7 @@ IUSE="+seccomp"
 DEPEND="
 	=dev-rust/anyhow-1*:=
 	=dev-rust/dbus-0.8*:=
-	=dev-rust/lazy_static-1*:=
+	=dev-rust/once_cell-1.7*:=
 "
 
 src_install() {
