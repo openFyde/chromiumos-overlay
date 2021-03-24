@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="0ffcc07a81d89e3c5d3faf5a41c803930daeb87e"
-CROS_WORKON_TREE="09f5871b58038e46c2a11459855bcc22bdde3191"
+CROS_WORKON_COMMIT="fa4bf1095519be72eba12c6ed800fe4970444ccd"
+CROS_WORKON_TREE="51d5252c1e771c1fa46caf19d1367433fa5ffdda"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -56,12 +56,9 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/anyhow-1.0.32:= <dev-rust/anyhow-2.0
 	=dev-rust/async-task-4*:=
 	=dev-rust/async-trait-0.1*:=
-	fuzzer? (
-		dev-rust/cros_fuzz:=
-		=dev-rust/rand-0.6*:=
-	)
 	=dev-rust/bitflags-1*:=
 	~dev-rust/cc-1.0.25:=
+	dev-rust/cros_fuzz:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/futures-0.3*:=
 	=dev-rust/gdbstub-0.4*:=
@@ -80,6 +77,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/protoc-rust-2.8:=
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/quote-1*:=
+	=dev-rust/rand-0.6*:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
 	=dev-rust/syn-1*:=
@@ -233,6 +231,7 @@ src_test() {
 		--exclude net_util
 		--exclude gpu_display
 		--exclude rutabaga_gfx
+		--exclude crosvm-fuzz
 		# Also exclude the following since their tests are run in their ebuilds.
 		--exclude enumn
 		--exclude sys_util
