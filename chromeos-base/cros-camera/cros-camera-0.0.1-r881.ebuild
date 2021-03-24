@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8cd74abce23e2a2dbf57846e8690be1c50f47cb0"
+CROS_WORKON_COMMIT="3d5c2af6a0aec75e8be105093f3897e407198df1"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "36b88921f860c46b0f45082b01c72d36c05a1608" "05885e29dd785344a5058faf8cc6b61d57828f28" "59fad4fb7b937909b2bf973ebad657adc783ec24" "a5fc347bf1fa838c7a92b0ce70dd4d999860acd1" "6e9f4a850304483820745b999c0d5ad5a7486d51" "a58d199d2c4d0e5da40bb5d453f513f5e2c97ae4")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,8 +27,8 @@ IUSE="arc-camera1 cheets -libcamera"
 BDEPEND="virtual/pkgconfig"
 
 RDEPEND="
+	>=chromeos-base/cros-camera-libs-0.0.1-r34:=
 	chromeos-base/cros-camera-android-deps:=
-	chromeos-base/cros-camera-libs:=
 	media-libs/cros-camera-hal-usb:=
 	media-libs/libsync:=
 	libcamera? ( media-libs/libcamera )
