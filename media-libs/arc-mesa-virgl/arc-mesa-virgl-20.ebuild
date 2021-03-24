@@ -175,6 +175,8 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/BACKPORT-virgl-Don-t-destroy-resource-while-it-s-in-use.patch
 
+	epatch "${FILESDIR}"/BACKPORT-virgl-add-astc-2d-compressed-formats.patch
+
 	default
 }
 
