@@ -305,7 +305,6 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	dev-python/google-cloud-logging
 	dev-python/mysqlclient
-	dev-python/sqlalchemy
 	dev-python/pyparsing
 	dev-python/virtualenv
 	"
