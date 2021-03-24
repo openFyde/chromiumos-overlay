@@ -180,7 +180,6 @@ RDEPEND="${RDEPEND}
 	dev-python/dpkt
 	dev-python/ecdsa
 	dev-python/future
-	dev-python/imaging
 	dev-python/intelhex
 	dev-python/kconfiglib
 	dev-python/m2crypto
