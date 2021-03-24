@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="e4767465f062ed829c99704d5511ab14ce6159be"
-CROS_WORKON_TREE="4e41f0701e73b52945fe3105015bfc4e7e721e19"
+CROS_WORKON_COMMIT="9870bfc0e4c3ece1f152b40f3b10cd169484ec1e"
+CROS_WORKON_TREE="28f571f5f6821c85992163bdec0d61e17260f651"
 CROS_WORKON_PROJECT="chromiumos/platform/assets"
 CROS_WORKON_LOCALNAME="platform/assets"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -44,10 +44,6 @@ src_install() {
 	insinto /usr/share/chromeos-assets/text
 	doins -r text/boot_messages
 	dosbin text/display_boot_message
-
-	insinto /usr/share/chromeos-assets
-	doins -r connectivity_diagnostics
-	doins -r connectivity_diagnostics_launcher
 
 	# These files aren't used at runtime.
 	find "${D}" -name '*.grd' -delete
