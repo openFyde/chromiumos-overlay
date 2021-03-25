@@ -3,6 +3,8 @@
 
 EAPI="7"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
+CROS_WORKON_COMMIT="a55042e2c677e907da87e523a31682f15a86a30b"
+CROS_WORKON_TREE="72525f54735098dd4b56018697c3ded938b136b6"
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_LOCALNAME="libdrm"
 CROS_WORKON_MANUAL_UPREV="1"
@@ -22,8 +24,8 @@ SRC_URI=""
 # the Xorg copyright holders and allows license generation to pick them up.
 LICENSE="|| ( MIT X )"
 SLOT="0"
-KEYWORDS="~*"
-VIDEO_CARDS="amdgpu exynos nouveau omap radeon vc4 vmware"
+KEYWORDS="*"
+VIDEO_CARDS="amdgpu exynos freedreno nouveau omap radeon vc4 vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
@@ -38,6 +40,7 @@ PATCHES=(
 	"${FILESDIR}/Add-header-for-Rockchip-DRM-userspace.patch"
 	"${FILESDIR}/Add-header-for-Mediatek-DRM-userspace.patch"
 	"${FILESDIR}/Add-Evdi-module-userspace-api-file.patch"
+	"${FILESDIR}/Add-Rockchip-AFBC-modifier.patch"
 	"${FILESDIR}/Add-back-VENDOR_NV-name.patch"
 	"${FILESDIR}/CHROMIUM-add-resource-info-header.patch"
 )
@@ -53,6 +56,7 @@ multilib_src_configure() {
 		-Dinstall-test-programs=false
 		$(meson_use video_cards_amdgpu amdgpu)
 		$(meson_use video_cards_exynos exynos-experimental-api)
+		$(meson_use video_cards_freedreno freedreno)
 		$(meson_use video_cards_nouveau nouveau)
 		$(meson_use video_cards_omap omap-experimental-api)
 		$(meson_use video_cards_radeon radeon)
