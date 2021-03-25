@@ -140,7 +140,7 @@ src_install() {
 		doins -r "${BUILD_DIR}/external/vulkancts/modules/vulkan/vulkan"
 	fi
 
-	# Install master control files
+	# Install master control files (deprecated location)
 	insinto "${deqp_dir}/master"
 	doins "android/cts/master/egl-master.txt"
 	doins "android/cts/master/gles2-master.txt"
@@ -148,5 +148,15 @@ src_install() {
 	doins "android/cts/master/gles31-master.txt"
 	if use vulkan; then
 		doins "android/cts/master/vk-master.txt"
+	fi
+
+	# Install caselists
+	insinto "${deqp_dir}/caselists"
+	newins "android/cts/master/egl-master.txt" "egl.txt"
+	newins "android/cts/master/gles2-master.txt" "gles2.txt"
+	newins "android/cts/master/gles3-master.txt" "gles3.txt"
+	newins "android/cts/master/gles31-master.txt" "gles31.txt"
+	if use vulkan; then
+		newins "android/cts/master/vk-master.txt" "vk.txt"
 	fi
 }
