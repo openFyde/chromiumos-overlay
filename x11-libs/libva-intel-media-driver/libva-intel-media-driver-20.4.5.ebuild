@@ -28,6 +28,8 @@ PATCHES=(
 	"${FILESDIR}"/0005-Decode-Refine-decode-reference-associated-buffer-man.patch
 	"${FILESDIR}"/0006-Encode-Report-VAConfigAttribEncPackedHeaders-for-VP9.patch
 	"${FILESDIR}"/0007-Media-Common-Fix-Gen12-Libva-caps.patch
+	"${FILESDIR}"/0008-Decode-ADL_S-open-source-patch.patch
+	"${FILESDIR}"/0009-ADLP-OPEN-SOURCE.patch
 )
 
 src_configure() {
