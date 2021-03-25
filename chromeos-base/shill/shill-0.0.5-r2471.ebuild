@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ada4178f4d4516d972f57413e5ab6b00bc70d50e"
+CROS_WORKON_COMMIT="f2cb2b4f80dac7443eabbd05ed2100f56b9d4b95"
 CROS_WORKON_TREE=("a58d199d2c4d0e5da40bb5d453f513f5e2c97ae4" "eae0546f4ee5132d4544af4770755eb05f60cba6" "a00337a95a9d26a69d66b71b32e39cc552797f8e" "8de76ed668093f6533d0b37f9a1b3d04cf3c1d2a" "5b383efc726ae6677e2a1bf2ff0a1a61fb8371d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cellular dhcpv6 fuzzer kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn wake_on_wifi +wifi +wired_8021x wpa3_sae"
+IUSE="cellular dhcpv6 fuzzer kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x wpa3_sae"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="

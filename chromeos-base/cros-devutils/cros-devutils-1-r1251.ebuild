@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="2325eda2774d3b3e30056328c9481463b3fe0ccb"
+CROS_WORKON_COMMIT="61683728c8774137e9d7f2df7738cb641c3b2427"
 CROS_WORKON_TREE="d1ac5750bd039947614bdd0e52fa572ce17b2a2c"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="dev"
@@ -34,8 +34,6 @@ src_install() {
 	dobin host/cros_workon_make
 
 	# Repo and git bash completion.
-	insinto /usr/share/bash-completion
-	newins host/repo_bash_completion repo
-	dosym /usr/share/bash-completion/repo /etc/bash_completion.d/repo
+	dosym /usr/share/bash-completion/completions/repo /etc/bash_completion.d/repo
 	dosym /usr/share/bash-completion/completions/git /etc/bash_completion.d/git
 }
