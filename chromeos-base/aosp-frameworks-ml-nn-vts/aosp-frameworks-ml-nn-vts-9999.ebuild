@@ -15,6 +15,11 @@ CROS_WORKON_REPO=(
 	"${CROS_GIT_HOST_URL}"
 	"${CROS_GIT_HOST_URL}"
 )
+CROS_WORKON_EGIT_BRANCH=(
+	"main"
+	"master"
+	"master"
+)
 CROS_WORKON_LOCALNAME=(
 	"platform2"
 	"aosp/frameworks/ml"
