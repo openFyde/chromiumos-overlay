@@ -48,7 +48,6 @@ CROS_BOARDS=(
 	grunt
 	guado
 	hatch
-	herobrine
 	jacuzzi
 	kalista
 	kevin
