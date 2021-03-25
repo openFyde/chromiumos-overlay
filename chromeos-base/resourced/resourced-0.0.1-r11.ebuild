@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7a15d1994e4685f125f5506d9871eaae6c3d4a52"
-CROS_WORKON_TREE="6a2ce77cfba93bf5218c13d049eda668205e7efa"
+CROS_WORKON_COMMIT="6bb386c1e2cbfe8edac2b1fcd2671d67485f585b"
+CROS_WORKON_TREE="bbf9663092b768b9bd3946fb4b749222b1346bee"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,7 +25,7 @@ IUSE="+seccomp"
 DEPEND="
 	=dev-rust/anyhow-1*:=
 	=dev-rust/dbus-0.8*:=
-	=dev-rust/lazy_static-1*:=
+	=dev-rust/once_cell-1.7*:=
 "
 
 src_install() {
