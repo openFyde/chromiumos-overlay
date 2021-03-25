@@ -62,6 +62,7 @@ PATCHES=(
 	"${FILESDIR}/0039-BACKPORT-net-qualcomm-rmnet-Export-mux_id-and-flags-to-netlink.patch"
 	"${FILESDIR}/0040-CHROMIUM-v4l2-add-upstream-V4L2-H.264-stateless-cont.patch"
 	"${FILESDIR}/0040-BACKPORT-y2038-add-64-bit-time_t-syscalls-to-all-32-.patch"
+	"${FILESDIR}/0041-CHROMIUM-v4l-add-request-based-VP9-stateless-control.patch"
 )
 
 src_unpack() {
