@@ -16,7 +16,7 @@ LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl mbo p2p ps3 qt5 readline selinux smartcard systemd +tdls uncommon-eap-types wifi_hostap_test wps kernel_linux kernel_FreeBSD wimax"
+IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl mbo p2p ps3 qt5 readline selinux smartcard systemd +tdls uncommon-eap-types wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
 
 CDEPEND="
 	chromeos-base/minijail
@@ -138,7 +138,6 @@ src_configure() {
 	Kconfig_style_config IEEE80211R
 	Kconfig_style_config IEEE80211N
 	Kconfig_style_config IEEE80211AC
-	Kconfig_style_config WNM
 	Kconfig_style_config HT_OVERRIDES
 	Kconfig_style_config VHT_OVERRIDES
 	Kconfig_style_config OCV
@@ -311,6 +310,13 @@ src_configure() {
 
 	# Enable mitigation against certain attacks against TKIP
 	Kconfig_style_config DELAYED_MIC_ERROR_REPORT
+
+	# Turn on 802.11v Wireless Network Management
+	if use wnm ; then
+		Kconfig_style_config WNM
+	else
+		Kconfig_style_config WNM       n
+	fi
 
 	if use qt5 ; then
 		pushd "${S}"/wpa_gui-qt4 > /dev/null || die
