@@ -11,6 +11,7 @@ inherit cros-constants
 # cros-workon expects the repo to be in src/third_party, but is in src/aosp.
 CROS_WORKON_LOCALNAME=("../platform2" "../aosp/external/bsdiff")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "platform/external/bsdiff")
+CROS_WORKON_EGIT_BRANCH=("main" "master")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/bsdiff")
 CROS_WORKON_REPO=("${CROS_GIT_HOST_URL}" "${CROS_GIT_AOSP_URL}")
 CROS_WORKON_INCREMENTAL_BUILD=1
