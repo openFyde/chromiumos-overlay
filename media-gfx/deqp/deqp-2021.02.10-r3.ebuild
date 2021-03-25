@@ -127,6 +127,7 @@ src_install() {
 	doexe "${BUILD_DIR}/execserver/execserver-test"
 	exeinto "${deqp_dir}/executor"
 	doexe "${BUILD_DIR}/executor/executor"
+	doexe "${BUILD_DIR}/executor/testlog-to-xml"
 
 	# Install data files
 	insinto "${deqp_dir}/modules/gles2"
@@ -139,6 +140,8 @@ src_install() {
 		insinto "${deqp_dir}/external/vulkancts/modules/vulkan"
 		doins -r "${BUILD_DIR}/external/vulkancts/modules/vulkan/vulkan"
 	fi
+	insinto "${deqp_dir}"
+	doins -r "doc/testlog-stylesheet"
 
 	# Install master control files (deprecated location)
 	insinto "${deqp_dir}/master"
