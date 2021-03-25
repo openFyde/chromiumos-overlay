@@ -48,8 +48,8 @@ PDEPEND="app-misc/ca-certificates"
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.0j-parallel_install_fix.patch #671602
 	"${FILESDIR}"/${PN}-1.1.1i-riscv32.patch
-	"${FILESDIR}"/${P}-blocklist.patch
-	"${FILESDIR}"/${P}-chromium-compatibility.patch
+	"${FILESDIR}"/${PN}-1.1.1j-blocklist.patch
+	"${FILESDIR}"/${PN}-1.1.1j-chromium-compatibility.patch
 )
 
 S="${WORKDIR}/${MY_P}"
