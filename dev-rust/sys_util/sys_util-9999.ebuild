@@ -23,13 +23,13 @@ IUSE="test"
 DEPEND="
 	=dev-rust/android_log-sys-0.2*:=
 	dev-rust/assertions:=
-	>=dev-rust/libc-0.2.44:=
-	=dev-rust/quote-1*:=
-	=dev-rust/proc-macro2-1*:=
-	=dev-rust/syn-1*:=
 	dev-rust/data_model:=
+	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
+	=dev-rust/proc-macro2-1*:=
+	=dev-rust/quote-1*:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
+	=dev-rust/syn-1*:=
 	dev-rust/sync:=
 	dev-rust/syscall_defines:=
 	dev-rust/tempfile:=
@@ -64,11 +64,17 @@ src_test() {
 }
 
 src_install() {
-	pushd poll_token_derive > /dev/null
-	cros-rust_publish poll_token_derive "$(cros-rust_get_crate_version ${S}/poll_token_derive)"
-	popd > /dev/null
+	(
+		cd poll_token_derive || die
+		cros-rust_publish poll_token_derive "$(cros-rust_get_crate_version .)"
+	)
 
 	cros-rust_src_install
+}
+
+pkg_preinst() {
+	cros-rust_pkg_preinst poll_token_derive
+	cros-rust_pkg_preinst
 }
 
 pkg_postinst() {
@@ -80,4 +86,3 @@ pkg_prerm() {
 	cros-rust_pkg_prerm poll_token_derive
 	cros-rust_pkg_prerm
 }
-
