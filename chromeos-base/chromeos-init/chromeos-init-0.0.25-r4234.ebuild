@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ada4178f4d4516d972f57413e5ab6b00bc70d50e"
-CROS_WORKON_TREE=("a58d199d2c4d0e5da40bb5d453f513f5e2c97ae4" "d41af8de45cdca327863808cadad69a437e85fce" "a00337a95a9d26a69d66b71b32e39cc552797f8e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="32d3ec86a3e9005e025f511f4c68d4fe3b13f83f"
+CROS_WORKON_TREE=("a58d199d2c4d0e5da40bb5d453f513f5e2c97ae4" "c23890e32af52ebb5f73d300d500caab795b960f" "a00337a95a9d26a69d66b71b32e39cc552797f8e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -115,8 +115,7 @@ src_install_upstart() {
 			doins upstart/dbus.conf
 			dotmpfiles tmpfiles.d/dbus.conf
 			if use udev; then
-				doins upstart/udev.conf upstart/udev-trigger.conf
-				doins upstart/udev-trigger-early.conf
+				doins upstart/udev*.conf
 			fi
 		fi
 		if use frecon; then
