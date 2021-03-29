@@ -228,6 +228,7 @@ ALL_BOARDS=(
 	ironhide
 	jacuzzi
 	jacuzzi-arc64
+	jacuzzi-kernelnext
 	#jadeite
 	#jaguar
 	jecht
