@@ -23,6 +23,7 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="
+	chromeos-base/libipp:=
 	dev-libs/libxml2:=
 	dev-libs/protobuf:=
 	net-misc/usbip:=
