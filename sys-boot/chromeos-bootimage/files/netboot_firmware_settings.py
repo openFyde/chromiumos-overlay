@@ -226,6 +226,14 @@ class IpAddress(Setting):
     in_addr = socket.inet_pton(socket.AF_INET, val)
     super(IpAddress, self).__init__(in_addr)
 
+  def pack(self):
+    """Pack the setting by returning its value as a string.
+
+    Returns:
+      The val field as bytes.
+    """
+    return self.val
+
 
 def main(argv):
   options = _ParseArgs(argv)
