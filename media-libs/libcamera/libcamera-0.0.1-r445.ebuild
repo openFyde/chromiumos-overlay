@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_COMMIT="8634c38675a120b3650f9226871e57166aa21b26"
 CROS_WORKON_TREE="43511b171d79e5bbf98e48ec1163973c7948f73e"
@@ -16,10 +16,11 @@ HOMEPAGE="https://www.libcamera.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="debug doc ipu3 rkisp1 test udev"
+IUSE="debug dev doc ipu3 rkisp1 test udev"
 
 RDEPEND="
 	chromeos-base/cros-camera-libs
+	dev? ( dev-libs/libevent[threads] )
 	media-libs/libjpeg-turbo
 	media-libs/libexif
 	>=net-libs/gnutls-3.3:=
@@ -36,8 +37,8 @@ DEPEND="
 src_configure() {
 	local pipelines=(
 		"uvcvideo"
-		$(usev ipu3)
-		$(usev rkisp1)
+		"$(usev ipu3)"
+		"$(usev rkisp1)"
 	)
 
 	pipeline_list() {
@@ -47,8 +48,9 @@ src_configure() {
 	BUILD_DIR="$(cros-workon_get_build_dir)"
 
 	local emesonargs=(
-		$(meson_use test)
-		$(meson_feature doc documentation)
+		"$(meson_use test)"
+		"$(meson_feature dev cam)"
+		"$(meson_feature doc documentation)"
 		-Dandroid="enabled"
 		-Dandroid_platform="cros"
 		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
@@ -65,4 +67,6 @@ src_install() {
 	meson_src_install
 
 	dosym ../libcamera.so "/usr/$(get_libdir)/camera_hal/libcamera.so"
+
+	dostrip -x "/usr/$(get_libdir)/libcamera/"
 }
