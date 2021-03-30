@@ -6,7 +6,7 @@ EAPI=6
 CROS_WORKON_COMMIT="3eccc8f37fd26dcb1890f12e6c0abafed27cfd27"
 CROS_WORKON_TREE="a573db5bf117984598dce4f31ff80d04926fd15e"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.5.7"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.5.8"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
@@ -41,7 +41,6 @@ BDEPEND="virtual/pkgconfig
 	)
 "
 RDEPEND=">=app-arch/gcab-1.0
-	app-arch/libarchive:=
 	dev-db/sqlite
 	>=dev-libs/glib-2.45.8:2
 	dev-libs/json-glib
@@ -53,6 +52,7 @@ RDEPEND=">=app-arch/gcab-1.0
 	net-misc/curl
 	virtual/libelf:0=
 	virtual/udev
+	archive? ( app-arch/libarchive:= )
 	dell? ( >=sys-libs/libsmbios-2.4.0 )
 	gnutls? ( net-libs/gnutls )
 	gusb? ( >=dev-libs/libgusb-0.3.5[introspection?] )
@@ -137,7 +137,6 @@ src_configure() {
 		# Dependencies are not available (yet?)
 		-Dplugin_modem_manager="false"
 		-Dplugin_tpm="false"
-		-Dtpm="false"
 	)
 	(use x86 || use amd64 ) || emesonargs+=( -Dplugin_msr="false" )
 	export CACHE_DIRECTORY="${T}"
