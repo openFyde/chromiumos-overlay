@@ -53,7 +53,8 @@ src_configure() {
 
 	mkdir build
 	pushd build >/dev/null || die
-	ECONF_SOURCE=${S} multijob_child_init econf --enable-system-test-libs
+	ECONF_SOURCE=${S} multijob_child_init econf --enable-system-test-libs \
+		--bindir="$(usex cros_host /usr/bin /usr/local/bin)"
 	popd >/dev/null || die
 
 	if use cros_host || use_i686; then
@@ -118,14 +119,14 @@ src_test() {
 }
 
 src_install() {
-	pushd build >/dev/null
-	emake DESTDIR="${D}" install
-	dobin src/tools/linux/core2md/core2md \
-	      src/tools/linux/md2core/minidump-2-core \
-	      src/tools/linux/dump_syms/dump_syms \
-	      src/tools/linux/symupload/sym_upload \
-	      src/tools/linux/symupload/minidump_upload
-	popd >/dev/null
+	emake -C build DESTDIR="${D}" install
+
+	# Move core2md to the rootfs. It's not only for tests but also used on
+	# shipped devices.
+	dodir /usr/bin
+	if ! use cros_host; then
+		mv "${D}/usr/local/bin/core2md" "${D}/usr/bin/core2md" || die
+	fi
 
 	insinto /usr/include/google-breakpad/client/linux/handler
 	doins src/client/linux/handler/*.h
