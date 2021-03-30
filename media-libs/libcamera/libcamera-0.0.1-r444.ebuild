@@ -16,9 +16,10 @@ HOMEPAGE="https://www.libcamera.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="doc ipu3 rkisp1 test udev"
+IUSE="debug doc ipu3 rkisp1 test udev"
 
 RDEPEND="
+	chromeos-base/cros-camera-libs
 	media-libs/libjpeg-turbo
 	media-libs/libexif
 	>=net-libs/gnutls-3.3:=
@@ -49,7 +50,9 @@ src_configure() {
 		$(meson_use test)
 		$(meson_feature doc documentation)
 		-Dandroid="enabled"
+		-Dandroid_platform="cros"
 		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
+		--buildtype "$(usex debug debug plain)"
 	)
 	meson_src_configure
 }
