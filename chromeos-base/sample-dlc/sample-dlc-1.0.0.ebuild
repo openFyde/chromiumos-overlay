@@ -55,7 +55,7 @@ src_install() {
 	insinto "$(dlc_add_path /opt)"
 	exeinto "$(dlc_add_path /opt)"
 
-	echo seed | newins - seed
+	echo ${seed} | newins - seed
 
 	local n
 	for n in {1..3}; do
