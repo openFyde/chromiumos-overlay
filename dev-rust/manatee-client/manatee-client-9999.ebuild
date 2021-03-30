@@ -5,6 +5,7 @@ EAPI=7
 
 CROS_RUST_SUBDIR="sirenia/manatee-client"
 
+CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} sirenia/dbus_bindings"
@@ -25,6 +26,7 @@ DEPEND="${RDEPEND}
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
+	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	=dev-rust/which-4*:=
 "
