@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="41a50e88c38f303d35749d5d30699f860436cbed"
-CROS_WORKON_TREE=("a58d199d2c4d0e5da40bb5d453f513f5e2c97ae4" "47f6ceba57219100723f2671e0d507bd7605f22f" "b1c5fe3aae2062ac3d7ab4a619655e996a1184c7" "121f7e47f563ed1490cc2d36662978766456b895" "a00337a95a9d26a69d66b71b32e39cc552797f8e" "9baaeff701ff9ff1a5f99018df5a247d2c25c373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="65b3448883b901b691f506f106b1a632f138dae8"
+CROS_WORKON_TREE=("a58d199d2c4d0e5da40bb5d453f513f5e2c97ae4" "47f6ceba57219100723f2671e0d507bd7605f22f" "b1c5fe3aae2062ac3d7ab4a619655e996a1184c7" "121f7e47f563ed1490cc2d36662978766456b895" "a00337a95a9d26a69d66b71b32e39cc552797f8e" "6865e1a790e25aaa5c8cd34592d85a8d723131c9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -124,7 +124,6 @@ src_install() {
 		udev_dorules "${T}"/98-autosuspend.rules
 		udev_dorules udev/optional/98-powerknobs.rules
 		dobin udev/optional/set_blkdev_pm
-		dobin udev/optional/allow_sata_min_power
 	fi
 	if use keyboard_includes_side_buttons; then
 		udev_dorules udev/optional/93-powerd-tags-keyboard-side-buttons.rules
