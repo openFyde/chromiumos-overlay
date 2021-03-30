@@ -21,7 +21,10 @@ SLOT=0
 KEYWORDS="~*"
 IUSE="+seccomp"
 
+RDEPEND=">=chromeos-base/metrics-0.0.1-r3152:="
+
 DEPEND="
+	${RDEPEND}
 	chromeos-base/debugd-client:=
 	chromeos-base/system_api:=
 "
