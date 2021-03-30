@@ -36,6 +36,7 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/escl-manager-testrunner"
 	platform_test "run" "${OUT}/http-util-testrunner"
 	platform_test "run" "${OUT}/ipp-manager-testrunner"
+	platform_test "run" "${OUT}/ipp-matching-testrunner"
 	platform_test "run" "${OUT}/ipp-matching-validation-testrunner"
 	platform_test "run" "${OUT}/ipp-util-testrunner"
 	platform_test "run" "${OUT}/jpeg-util-testrunner"
