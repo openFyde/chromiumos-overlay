@@ -17,7 +17,7 @@ KEYWORDS="*"
 S="${WORKDIR}"
 
 src_install() {
-	dolib.so ./*.so
+	dolib.so ./libfacessd_cros.so
 
 	insinto /usr/include/cros-camera
 	doins ./*.h
