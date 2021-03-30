@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="06bc0be4c2b83391bed1a9ca7218bad57b24ff06"
-CROS_WORKON_TREE="cc37f6836c610ec8696ab2c3674abbd862c766f3"
+CROS_WORKON_COMMIT="a75fa8cde22ad66500161a42a74cfb92f45ba076"
+CROS_WORKON_TREE="cb12b35c378733048c2a1b1ce00485f94199734a"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -34,7 +34,11 @@ IUSE_TESTS="
 	+tests_cellular_DeferredRegistration
 	+tests_cellular_DisableWhileConnecting
 	+tests_cellular_DisconnectFailure
-	+tests_cellular_HermesEuiccEnableDisable
+	+tests_cellular_HermesErrorScenarios
+	+tests_cellular_HermesMM_InstallEnable
+	+tests_cellular_Hermes_MultiProfile
+	+tests_cellular_Hermes_Restart_SlotSwitch
+	+tests_cellular_Hermes_SingleProfile
 	+tests_cellular_Identifiers
 	+tests_cellular_OutOfCreditsSubscriptionState
 	+tests_cellular_SIMLocking
