@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="44c728c123f28d5ec6613c95d6b49581489fc070"
+CROS_WORKON_COMMIT="758503bcb57cde5f30caa9b68ae072bef6073779"
 CROS_WORKON_TREE="7c50404eb7e06fe030c579d47f932391fa138dfd"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -25,13 +25,13 @@ IUSE="test"
 DEPEND="
 	=dev-rust/android_log-sys-0.2*:=
 	dev-rust/assertions:=
-	>=dev-rust/libc-0.2.44:=
-	=dev-rust/quote-1*:=
-	=dev-rust/proc-macro2-1*:=
-	=dev-rust/syn-1*:=
 	dev-rust/data_model:=
+	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
+	=dev-rust/proc-macro2-1*:=
+	=dev-rust/quote-1*:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
+	=dev-rust/syn-1*:=
 	dev-rust/sync:=
 	dev-rust/syscall_defines:=
 	dev-rust/tempfile:=
@@ -66,11 +66,17 @@ src_test() {
 }
 
 src_install() {
-	pushd poll_token_derive > /dev/null
-	cros-rust_publish poll_token_derive "$(cros-rust_get_crate_version ${S}/poll_token_derive)"
-	popd > /dev/null
+	(
+		cd poll_token_derive || die
+		cros-rust_publish poll_token_derive "$(cros-rust_get_crate_version .)"
+	)
 
 	cros-rust_src_install
+}
+
+pkg_preinst() {
+	cros-rust_pkg_preinst poll_token_derive
+	cros-rust_pkg_preinst
 }
 
 pkg_postinst() {
@@ -82,4 +88,3 @@ pkg_prerm() {
 	cros-rust_pkg_prerm poll_token_derive
 	cros-rust_pkg_prerm
 }
-
