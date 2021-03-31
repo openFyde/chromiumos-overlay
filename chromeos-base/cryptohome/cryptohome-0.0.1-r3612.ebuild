@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b2d500e70d7d0347741be88bdb7c895301d190cd"
+CROS_WORKON_COMMIT="54addf822c85bbe7f35e9f46aa81de48ecb358b1"
 CROS_WORKON_TREE=("ae528dee9890ab7346a1fee2e50877007ea3e1c0" "ec3997a05a1af94515d431a7d5dc4ab3c3213f37" "c200c725a537163b64b27b630cb1b67320f627a6" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -113,11 +113,11 @@ src_install() {
 	fi
 
 	if use direncription_allow_v2 && ( (use !kernel-5_4 && use !kernel-5_10 && use !kernel-upstream) || use uprev-4-to-5); then
-		die "fscrypt_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
+		die "direncription_allow_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
 	fi
 
 	if use !direncription_allow_v2 && (use kernel-5_4 || use kernel-5_10 || use kernel-upstream) && use !uprev-4-to-5; then
-		die "fscrypt_v2 is not enabled where it should be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
+		die "direncription_allow_v2 is not enabled where it should be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
 	fi
 
 	# Install init scripts
