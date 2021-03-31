@@ -59,6 +59,7 @@ IUSE="
 	memd
 	mist
 	minios
+	secanomalyd
 	modemfwd
 	ml_service
 	mtd
@@ -281,6 +282,7 @@ RDEPEND="
 	typecd? ( chromeos-base/typecd )
 	pciguard? ( chromeos-base/pciguard )
 	minios? ( chromeos-base/minios )
+	secanomalyd? ( chromeos-base/secanomalyd )
 "
 
 ################################################################################
