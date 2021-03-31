@@ -111,11 +111,11 @@ src_install() {
 	fi
 
 	if use direncription_allow_v2 && ( (use !kernel-5_4 && use !kernel-5_10 && use !kernel-upstream) || use uprev-4-to-5); then
-		die "fscrypt_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
+		die "direncription_allow_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
 	fi
 
 	if use !direncription_allow_v2 && (use kernel-5_4 || use kernel-5_10 || use kernel-upstream) && use !uprev-4-to-5; then
-		die "fscrypt_v2 is not enabled where it should be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
+		die "direncription_allow_v2 is not enabled where it should be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
 	fi
 
 	# Install init scripts
