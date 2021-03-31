@@ -38,6 +38,7 @@ recvmsg: 1
 getsockopt: 1
 # traced_probes only acts as a socket client.
 connect: 1
+shutdown: 1
 
 getpid: 1
 gettid: 1
