@@ -79,6 +79,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-225-udev-use-interface-before-the-string-that-interface-.patch
 	"${FILESDIR}"/${PN}-225-udev-stop-freeing-value-after-using-it-for-setting-s.patch
 	"${FILESDIR}"/${PN}-225-workaround-renameat-syscall-wrapper-misdetection.patch
+	"${FILESDIR}"/${PN}-225-udevadm-add-ping-option-to-control-command.patch
 )
 
 check_default_rules() {
