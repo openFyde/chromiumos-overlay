@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("0201de9c3d50002a91548781966ac56c16a38d72" "41fe352ca11e9fbd3e823e99bc3c0693668fdc61")
-CROS_WORKON_TREE=("583a522e0e325d9e6c908e40407b173540858bf6" "12d121563bc2cd0e2a586d4485d36ede1caee3fb")
+CROS_WORKON_COMMIT=("49287ca3530a45eecba4e17a7e79af5bde0a3646" "923a3bfb3472f4d6aa3b8a05417dd5d6b91820de")
+CROS_WORKON_TREE=("9ca289e7df8213da0da38a84e360122aa7c2b7ff" "12d121563bc2cd0e2a586d4485d36ede1caee3fb")
 CROS_WORKON_PROJECT=("chromiumos/platform/factory" "chromiumos/chromite")
 CROS_WORKON_LOCALNAME=("platform/factory" "../chromite")
 CROS_WORKON_SUBTREE=("py" "lib")
