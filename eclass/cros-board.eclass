@@ -401,6 +401,7 @@ ALL_BOARDS=(
 	smaug-cheets
 	smaug-kasan
 	snappy
+	snappy-kernelnext
 	sonic
 	soraka
 	soraka-libcamera
