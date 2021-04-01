@@ -19,7 +19,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="agent amt archive +bluetooth dell +gnutls gtk-doc +gusb elogind flashrom_i2c +minimal +gpg introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
+IUSE="agent amt archive +bluetooth dell +gnutls gtk-doc +gusb elogind flashrom_i2c +minimal +gpg flashrom introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	^^ ( elogind minimal systemd )
 	dell? ( uefi )
@@ -57,6 +57,7 @@ RDEPEND=">=app-arch/gcab-1.0
 	gnutls? ( net-libs/gnutls )
 	gusb? ( >=dev-libs/libgusb-0.3.5[introspection?] )
 	elogind? ( >=sys-auth/elogind-211 )
+	flashrom? ( sys-apps/flashrom )
 	policykit? ( >=sys-auth/polkit-0.103 )
 	systemd? ( >=sys-apps/systemd-211 )
 	uefi? (
@@ -114,6 +115,7 @@ src_configure() {
 		$(meson_use dell plugin_dell)
 		$(meson_use elogind)
 		$(meson_use gnutls)
+		$(meson_use flashrom plugin_flashrom)
 		$(meson_use gtk-doc gtkdoc)
 		$(meson_use gusb)
 		$(meson_use gusb plugin_altos)
@@ -131,9 +133,6 @@ src_configure() {
 		$(meson_use flashrom_i2c plugin_flashrom_i2c)
 		-Dconsolekit="false"
 		-Dcurl="true"
-		# Requires libflashrom which our sys-apps/flashrom
-		# package does not provide
-		-Dplugin_flashrom="false"
 		# Dependencies are not available (yet?)
 		-Dplugin_modem_manager="false"
 		-Dplugin_tpm="false"
