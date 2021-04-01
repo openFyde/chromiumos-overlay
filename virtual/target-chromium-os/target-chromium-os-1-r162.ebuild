@@ -236,7 +236,9 @@ RDEPEND="
 	watchdog? ( sys-apps/daisydog )
 	mtd? ( sys-fs/mtd-utils )
 	cups? ( virtual/chromium-os-printing )
-	touchview? ( chromeos-base/chromeos-accelerometer-init )
+	touchview? (
+		!iioservice? ( chromeos-base/chromeos-accelerometer-init )
+	)
 	system_locales? ( chromeos-base/system-locales )
 	system_proxy? ( chromeos-base/system-proxy )
 	eclog? ( chromeos-base/timberslide )

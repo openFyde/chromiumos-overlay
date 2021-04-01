@@ -38,7 +38,7 @@ src_unpack() {
 	# "media" directory is stored in the base directory, we install
 	# the Git checkout in platform2.
 	EGIT_SOURCEDIR="${S}/../media/midi" \
-	EGIT_COMMIT="294d224ae7a8a695bb71337be8781b29abb5dafc" \
+	EGIT_COMMIT="06a8cf268baf9530267c9581801b8f8749ec9312" \
 	git-2_src_unpack
 }
 

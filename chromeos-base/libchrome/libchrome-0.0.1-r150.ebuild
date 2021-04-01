@@ -199,7 +199,7 @@ src_install() {
 	# Install libmojo.
 	if use mojo; then
 		# Install binary.
-		dolib.a "${OUT}"/libmojo.a
+		dolib.so "${OUT}"/lib/libmojo.so
 
 		# Install headers.
 		header_dirs+=(
