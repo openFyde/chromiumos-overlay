@@ -40,7 +40,8 @@
     },
     {
         "comment": "Fixes clang.elf calling clang.elf because direct\ncalls to clang.elf misses all environment setup in clang\nwrapper. Calls to clang wrapper instead of clang.elf binary",
-        "rel_patch_path": "llvm-3.8-invocation.patch"
+        "rel_patch_path": "llvm-3.8-invocation.patch",
+        "end_version": 422132
     },
     {
         "comment": "Uses argv[0] to get host system information. Created\na wrapper of LLD and real lld becomes lld.elf so the LLD\ncannot get the host system information and dies",
