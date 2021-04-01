@@ -51,7 +51,7 @@ REQUIRED_USE="
 	android_aep? ( !android_gles2 !android_gles30 )
 	android_vulkan_compute_0? ( vulkan )
 	cheets? (
-		vulkan? ( ^^ ( video_cards_amdgpu video_cards_intel ) )
+		vulkan? ( ^^ ( video_cards_amdgpu video_cards_intel video_cards_virgl ) )
 		video_cards_amdgpu? ( llvm )
 		video_cards_llvmpipe? ( !cheets_user !cheets_user_64 )
 	)"
@@ -153,9 +153,9 @@ src_configure() {
 multilib_src_configure() {
 	tc-getPROG PKG_CONFIG pkg-config
 
-	if use !gallium && use !classic; then
-		ewarn "You enabled neither classic nor gallium USE flags. No hardware"
-		ewarn "drivers will be built."
+	if use !gallium && use !classic && use !vulkan; then
+		ewarn "You enabled neither classic, gallium, nor vulkan "
+		ewarn "USE flags. No hardware drivers will be built."
 	fi
 
 	if use classic; then
@@ -192,6 +192,7 @@ multilib_src_configure() {
 	if use vulkan; then
 		vulkan_enable video_cards_amdgpu amd
 		vulkan_enable video_cards_intel intel
+		vulkan_enable video_cards_virgl virtio-experimental
 	fi
 
 	export LLVM_CONFIG=${SYSROOT}/usr/bin/llvm-config-host
@@ -298,6 +299,9 @@ multilib_src_install_cheets() {
 		if use video_cards_intel; then
 			newexe ${BUILD_DIR}/src/intel/vulkan/libvulkan_intel.so vulkan.cheets.so
 		fi
+		if use video_cards_virgl; then
+			newexe "${BUILD_DIR}"/src/virtio/vulkan/libvulkan_virtio.so vulkan.cheets.so
+		fi
 	fi
 }
 
@@ -385,8 +389,12 @@ multilib_src_install_all_cheets() {
 		doins "${FILESDIR}/vulkan.rc"
 
 		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
-		doins "${FILESDIR}/android.hardware.vulkan.version-1_0_3.xml"
-		if use video_cards_intel; then
+		if use video_cards_virgl; then
+			doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
+		else
+			doins "${FILESDIR}/android.hardware.vulkan.version-1_0_3.xml"
+		fi
+		if use video_cards_intel || use video_cards_virgl; then
 			doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
 		else
 			doins "${FILESDIR}/android.hardware.vulkan.level-0.xml"
