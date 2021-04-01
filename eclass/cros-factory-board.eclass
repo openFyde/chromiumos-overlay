@@ -39,11 +39,15 @@ cros-factory-board_install_project_config() {
 	local config_source_dir
 	for config_source_dir in "${S}"/*/*/"factory/generated"; do
 		local project_dir=$(dirname -- "$(dirname -- "${config_source_dir}")")
+		local overlay_source_dir="${project_dir}/factory/files"
 		local PROGRAM=$(basename -- "$(dirname -- "${project_dir}")")
 		local PROJECT=$(basename -- "${project_dir}")
+		local file
 		for file in "${config_source_dir}"/*; do
+			mkdir -p "${overlay_source_dir}/project_config" || die
 			local new_file="${PROGRAM}_${PROJECT}_$(basename -- "${file}")"
-			cp -f "${file}" "${project_config_workdir}/${new_file}" || die
+			ln -f "${file}" "${project_config_workdir}/${new_file}" || die
+			ln -f "${file}" "${overlay_source_dir}/project_config/${new_file}" || die
 			configs+=("${new_file}")
 		done
 	done
@@ -61,7 +65,9 @@ cros-factory-board_install_project_config() {
 	insinto "/usr/local/factory/bundle/project_config"
 	doins "${package}"
 	# Install project_config into the toolkit directly.
-	factory_create_resource "factory-project-config" "${WORKDIR}" "." \
+	# TODO(cyueh) Remove unibuild-project-config after we enabling downloading
+	# project specific toolkit from CPFE or easy bundle creation.
+	factory_create_resource "unibuild-project-config" "${WORKDIR}" "." \
 		"project_config"
 }
 
@@ -83,9 +89,8 @@ cros-factory-board_install_project_overlay() {
 		local project_dir=$(dirname -- "$(dirname -- "${overlay_source_dir}")")
 		local PROGRAM=$(basename -- "$(dirname -- "${project_dir}")")
 		local PROJECT=$(basename -- "${project_dir}")
-		echo "overlay_source_dir:${overlay_source_dir}"
 		# Install project overlay into the toolkit directly.
-		factory_create_resource "factory-${PROGRAM}-${PROJECT}-overlay" \
+		factory_create_resource "project-${PROGRAM}-${PROJECT}-overlay" \
 			"${overlay_source_dir}" "." "."
 	done
 	shopt -u nullglob
