@@ -162,6 +162,9 @@ src_unpack() {
 }
 
 src_prepare() {
+	cd "${S}/_dist/src/github.com/lxc/lxd"
+	eapply "${FILESDIR}/${P}-Fix-lxd-import-error.patch" # crbug.com/1194406
+
 	cd "${S}/_dist/src/${EGO_PN}"
 	eapply "${FILESDIR}/0001-lxd-util-Add-HasFilesystem.patch" # crbug.com/1024327
 	eapply "${FILESDIR}/0002-lxd-Detect-built-in-shiftfs-too.patch" # crbug.com/1024327
