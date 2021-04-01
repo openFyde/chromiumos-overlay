@@ -1,0 +1,211 @@
+diff --git a/address_mapper.cc b/address_mapper.cc
+index 2287bac5d0ff..11fde4d870d9 100644
+--- a/address_mapper.cc
++++ b/address_mapper.cc
+@@ -8,6 +8,7 @@
+ 
+ #include <vector>
+ 
++#include "base/check.h"
+ #include "base/logging.h"
+ 
+ namespace quipper {
+diff --git a/dso.cc b/dso.cc
+index 955a97935813..22f8a9335714 100644
+--- a/dso.cc
++++ b/dso.cc
+@@ -16,6 +16,7 @@
+ #include <algorithm>
+ #include <vector>
+ 
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "compat/string.h"
+diff --git a/dso_test_utils.cc b/dso_test_utils.cc
+index 14108b01904e..1996c70eb1f3 100644
+--- a/dso_test_utils.cc
++++ b/dso_test_utils.cc
+@@ -15,6 +15,8 @@
+ 
+ #include <vector>
+ 
++#include "base/check.h"
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "binary_data_utils.h"
+diff --git a/file_utils.h b/file_utils.h
+index 0bd0a50e42a8..020d92185d5a 100644
+--- a/file_utils.h
++++ b/file_utils.h
+@@ -7,6 +7,7 @@
+ 
+ #include <vector>
+ 
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "compat/string.h"
+diff --git a/huge_page_deducer.cc b/huge_page_deducer.cc
+index 6905edf814aa..f21530cdf8b5 100644
+--- a/huge_page_deducer.cc
++++ b/huge_page_deducer.cc
+@@ -6,6 +6,8 @@
+ 
+ #include <limits>
+ 
++#include "base/check.h"
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "perf_data_utils.h"
+diff --git a/huge_page_deducer_test.cc b/huge_page_deducer_test.cc
+index e9e26d6e29a9..ce98078bdb48 100644
+--- a/huge_page_deducer_test.cc
++++ b/huge_page_deducer_test.cc
+@@ -4,6 +4,7 @@
+ 
+ #include "huge_page_deducer.h"
+ 
++#include "base/check.h"
+ #include "base/logging.h"
+ 
+ #include "compat/string.h"
+diff --git a/perf_data_utils.cc b/perf_data_utils.cc
+index b1d48f01da59..6c106318b7e6 100644
+--- a/perf_data_utils.cc
++++ b/perf_data_utils.cc
+@@ -7,6 +7,7 @@
+ #include <cstdint>
+ #include <string>
+ 
++#include "base/check.h"
+ #include "base/logging.h"
+ #include "compat/proto.h"
+ #include "kernel/perf_event.h"
+diff --git a/perf_parser.cc b/perf_parser.cc
+index 7c8410d66a0e..c26ba0b02130 100644
+--- a/perf_parser.cc
++++ b/perf_parser.cc
+@@ -16,6 +16,8 @@
+ #include <set>
+ #include <sstream>
+ 
++#include "base/check.h"
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "address_mapper.h"
+diff --git a/perf_parser_test.cc b/perf_parser_test.cc
+index 1cd82d4a6f71..89823b1bffd8 100644
+--- a/perf_parser_test.cc
++++ b/perf_parser_test.cc
+@@ -17,6 +17,7 @@
+ #include <string>
+ #include <vector>
+ 
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "compat/string.h"
+diff --git a/perf_reader.cc b/perf_reader.cc
+index 18a280acd0ef..040a3f29208d 100644
+--- a/perf_reader.cc
++++ b/perf_reader.cc
+@@ -12,6 +12,8 @@
+ #include <algorithm>
+ #include <vector>
+ 
++#include "base/check.h"
++#include "base/check_op.h"
+ #include "base/logging.h"
+ #include "base/macros.h"
+ 
+diff --git a/perf_reader_test.cc b/perf_reader_test.cc
+index 9eb3502a6096..1fe1d9602119 100644
+--- a/perf_reader_test.cc
++++ b/perf_reader_test.cc
+@@ -12,6 +12,7 @@
+ #include <string>
+ #include <vector>
+ 
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "compat/string.h"
+diff --git a/perf_serializer.cc b/perf_serializer.cc
+index 12568bd16a6d..b27fd8c4fc18 100644
+--- a/perf_serializer.cc
++++ b/perf_serializer.cc
+@@ -10,6 +10,8 @@
+ 
+ #include <algorithm>  // for std::copy
+ 
++#include "base/check.h"
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "binary_data_utils.h"
+diff --git a/perf_serializer_test.cc b/perf_serializer_test.cc
+index dee19c051e50..6dc4b25bd477 100644
+--- a/perf_serializer_test.cc
++++ b/perf_serializer_test.cc
+@@ -11,6 +11,7 @@
+ #include <sstream>
+ #include <string>
+ 
++#include "base/check.h"
+ #include "base/logging.h"
+ #include "base/macros.h"
+ 
+diff --git a/run_command.cc b/run_command.cc
+index e549c75fef83..44802158d9b6 100644
+--- a/run_command.cc
++++ b/run_command.cc
+@@ -15,6 +15,8 @@
+ 
+ #include <string>
+ 
++#include "base/check.h"
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "compat/string.h"
+diff --git a/sample_info_reader.cc b/sample_info_reader.cc
+index 73b29ca92358..d37e6d409253 100644
+--- a/sample_info_reader.cc
++++ b/sample_info_reader.cc
+@@ -7,6 +7,8 @@
+ #include <string.h>
+ #include <cstdint>
+ 
++#include "base/check.h"
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "buffer_reader.h"
+diff --git a/test_perf_data.cc b/test_perf_data.cc
+index a76a1c3f2999..4403c7985b76 100644
+--- a/test_perf_data.cc
++++ b/test_perf_data.cc
+@@ -10,6 +10,7 @@
+ #include <ostream>  
+ #include <vector>
+ 
++#include "base/check_op.h"
+ #include "base/logging.h"
+ 
+ #include "binary_data_utils.h"
+diff --git a/test_utils.cc b/test_utils.cc
+index 3b8b255a9fa8..5cadde7c0960 100644
+--- a/test_utils.cc
++++ b/test_utils.cc
+@@ -10,6 +10,7 @@
+ #include <cstdlib>
+ #include <sstream>
+ 
++#include "base/check.h"
+ #include "base/logging.h"
+ 
+ #include "compat/proto.h"

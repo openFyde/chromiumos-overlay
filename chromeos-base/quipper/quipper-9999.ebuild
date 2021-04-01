@@ -52,6 +52,7 @@ src_unpack() {
 	mv "${SRC_DIR}"/{.[!.],}* ./ || die
 	eapply "${FILESDIR}"/quipper-disable-flaky-tests.patch
 	eapply "${FILESDIR}"/quipper-arraysize.patch
+	eapply "${FILESDIR}"/quipper-check-header.patch
 	# TODO(crbug/920513): remove when tarball from SRC_URI has it.
 	eapply "${FILESDIR}"/quipper-use-unversioned-libchrome.patch
 	popd >/dev/null
