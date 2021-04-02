@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="935f179960a9c8fe01ddd80a9b88265293a33279"
-CROS_WORKON_TREE=("b856590ce95df614b3a75d63f98c332881438e35" "f90faffd91d99dc0067cb8d611435ac9bee7240c")
+CROS_WORKON_COMMIT="5e80b44cfc08cadd82c3523184b4b55aaadaec5c"
+CROS_WORKON_TREE=("fa7d21f84077e156efdfef54afcadfbdd4d8481b" "f90faffd91d99dc0067cb8d611435ac9bee7240c")
 CROS_WORKON_PROJECT="chromiumos/platform/touch_updater"
 CROS_WORKON_SUBTREE="policies scripts"
 CROS_WORKON_OUTOFTREE_BUILD=1
