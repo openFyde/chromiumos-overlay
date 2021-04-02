@@ -46,11 +46,11 @@ DEPEND="${RDEPEND}"
 
 IUSE_TESTS=(
 	# Tests that depend on telemetry.
-	+tests_accessibility_Sanity
+	+tests_accessibility_Check
 	+tests_accessibility_ChromeVoxSound
 	+tests_audio_ActiveStreamStress
 	+tests_audio_AudioCorruption
-	+tests_audio_CrasSanity
+	+tests_audio_CrasCheck
 	+tests_audio_PlaybackPower
 	+tests_audio_SeekAudioFeedback
 	+tests_autoupdate_EOL
@@ -65,7 +65,7 @@ IUSE_TESTS=(
 	+tests_bluetooth_TurnOnOffUI
 	+tests_desktopui_AudioFeedback
 	+tests_desktopui_CheckRlzPingSent
-	+tests_desktopui_ChromeSanity
+	+tests_desktopui_ChromeCheck
 	tests_desktopui_ConnectivityDiagnostics
 	+tests_desktopui_MediaAudioFeedback
 	+tests_desktopui_ScreenLocker
@@ -120,7 +120,7 @@ IUSE_TESTS=(
 	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ArcDisableScreenshots
 	+tests_policy_AudioOutputAllowed
-	+tests_policy_AutotestSanity
+	+tests_policy_AutotestCheck
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
