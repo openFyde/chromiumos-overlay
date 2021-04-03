@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="677f72e3953f7cd55a0d6e1fe59456617bfdb792"
-CROS_WORKON_TREE=("ae528dee9890ab7346a1fee2e50877007ea3e1c0" "9d3305545b48fd2834b692a0645dba4eb22d0c99" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="5c4a7da10c820feb7d9d4a80d545c28f72f63d47"
+CROS_WORKON_TREE=("ae528dee9890ab7346a1fee2e50877007ea3e1c0" "92d920aade097823cf6b3b5c77d6bba5c3d20d3c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,7 +23,10 @@ SLOT=0
 KEYWORDS="*"
 IUSE="+seccomp"
 
+RDEPEND=">=chromeos-base/metrics-0.0.1-r3152:="
+
 DEPEND="
+	${RDEPEND}
 	chromeos-base/debugd-client:=
 	chromeos-base/system_api:=
 "
