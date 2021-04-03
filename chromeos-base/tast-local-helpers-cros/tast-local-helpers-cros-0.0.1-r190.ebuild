@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("ca67502f854dfae138ffa74d3b522f831602b584" "9d295d4e7f579ef71046e975f7ec531f89149402")
-CROS_WORKON_TREE=("ae528dee9890ab7346a1fee2e50877007ea3e1c0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2e8013258064ed2ed8ecc376281e58e96b9562ae")
+CROS_WORKON_COMMIT=("5c4a7da10c820feb7d9d4a80d545c28f72f63d47" "f3754d1d670745e3904b76997c16cab669c980b0")
+CROS_WORKON_TREE=("ae528dee9890ab7346a1fee2e50877007ea3e1c0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "28cbb351025522a4f769aec6fc01bfb93d49208b")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/tast-tests")
 CROS_WORKON_LOCALNAME=("platform2" "platform/tast-tests")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/tast-tests")
