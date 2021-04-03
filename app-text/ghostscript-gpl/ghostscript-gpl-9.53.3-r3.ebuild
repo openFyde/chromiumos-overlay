@@ -1,1 +1,0 @@
-ghostscript-gpl-9.53.3.ebuild

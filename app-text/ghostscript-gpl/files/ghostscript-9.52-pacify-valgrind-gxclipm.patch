@@ -1,14 +1,14 @@
-From ab3050411139bfad554dc623e2af698a6b6f2c9a Mon Sep 17 00:00:00 2001
+From 6480cd111eed9cc420c00072bb155975f2dc60b6 Mon Sep 17 00:00:00 2001
 From: Kalvin Lee <kdlee@chromium.org>
 Date: Thu, 8 Oct 2020 13:59:37 -0700
-Subject: [PATCH] activate PACIFY_VALGRIND
+Subject: [PATCH 3/6] activate PACIFY_VALGRIND
 
 ---
  base/gxclipm.c | 4 ----
  1 file changed, 4 deletions(-)
 
 diff --git a/base/gxclipm.c b/base/gxclipm.c
-index 0a98eb0..2bc83c5 100644
+index 59f1e765f..b19a9c62d 100644
 --- a/base/gxclipm.c
 +++ b/base/gxclipm.c
 @@ -261,16 +261,12 @@ mask_clip_copy_mono(gx_device * dev,
@@ -29,5 +29,5 @@ index 0a98eb0..2bc83c5 100644
  /*
   * Define the run enumerator for the other copying operations.  We can't use
 -- 
-2.28.0.1011.ga647a8990f-goog
+2.31.0.208.g409f899ff0-goog
 

@@ -1,6 +1,14 @@
+From 8f1323126b0f1ee3c47132876b1f03d5810eeb1f Mon Sep 17 00:00:00 2001
 From: Pranav Batra <batrapranav@chromium.org>
-Subject: [PATCH] Do not use font resources
+Date: Sat, 3 Apr 2021 00:37:21 +0000
+Subject: [PATCH 5/6] Do not use font resources
 
+---
+ psi/psromfs.mak | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/psi/psromfs.mak b/psi/psromfs.mak
+index 6a336b3e2..9b3e594d9 100644
 --- a/psi/psromfs.mak
 +++ b/psi/psromfs.mak
 @@ -430,5 +430,5 @@ PS_MISC_DEPS=\
@@ -10,3 +18,6 @@ Subject: [PATCH] Do not use font resources
 -	$(PS_FONT_DEPS) $(PS_IDIOMSET_DEPS) $(PS_PROCSET_DEPS) $(PS_INIT_DEPS) $(PS_SUBSTCID_DEPS) \
 +	$(PS_IDIOMSET_DEPS) $(PS_PROCSET_DEPS) $(PS_INIT_DEPS) $(PS_SUBSTCID_DEPS) \
  	$(PS_MISC_DEPS)
+-- 
+2.31.0.208.g409f899ff0-goog
+

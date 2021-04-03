@@ -191,6 +191,7 @@ src_configure() {
 		--with-jbig2dec \
 		--with-libpaper \
 		--without-luratech \
+		--without-tesseract \
 		$(use_enable cups) \
 		$(use_enable dbus) \
 		$(use_enable gtk) \

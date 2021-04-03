@@ -1,171 +1,19 @@
-From 58547b6654f708c191c08df90418f711f137a2b5 Mon Sep 17 00:00:00 2001
-From: Piotr Pawliczek <pawliczek@chromium.org>
-Date: Tue, 9 Oct 2018 16:05:45 -0700
+From a53e5a6247f6e2b3115b240874cb9fbc0d2c9ccd Mon Sep 17 00:00:00 2001
+From: Marcin Wojtas <mw@semihalf.com>
+Date: Sat, 3 Apr 2021 00:53:24 +0000
 Subject: [PATCH] Remove from contrib directory all drivers with undefined,
  unclear or forbidden licenses. Configuration files were adjusted accordingly.
 
 ---
- configure.ac                             |    8 +-
- contrib/contrib.mak                      |  361 +-
- contrib/epson740/README                  |   25 -
- contrib/epson740/printerdb_rh5.2         | 1173 ------
- contrib/epson740/printerdb_rh6.0         | 1166 ------
- contrib/epson740/ps-to-printer.fpi_rh5.2 |   95 -
- contrib/epson740/upp-HowTo-to-be         |   59 -
- contrib/gdevgdi.c                        | 1473 --------
- contrib/gdevln03.c                       |  395 ---
- contrib/gdevlx7.c                        |  844 -----
- contrib/gdevmd2k.c                       |  792 -----
- contrib/gdevop4w.c                       |  283 --
- contrib/gdevxes.c                        |  219 --
- contrib/japanese/doc/Gdevlips.htm        | 1901 ----------
- contrib/japanese/doc/README.gs550j       |   35 -
- contrib/japanese/doc/cdj880.txt          |  120 -
- contrib/japanese/doc/dj505j.txt          |   62 -
- contrib/japanese/doc/gdev10v.txt         |   52 -
- contrib/japanese/doc/gdevalps.txt        |   50 -
- contrib/japanese/doc/gdevcd8.txt         |  146 -
- contrib/japanese/doc/gdevfmlbp.txt       |   81 -
- contrib/japanese/doc/gdevj100.txt        |   28 -
- contrib/japanese/doc/gdevlbp3.txt        |   37 -
- contrib/japanese/doc/gdevmd2k.txt        |  179 -
- contrib/japanese/doc/gdevmjc.txt         |   58 -
- contrib/japanese/doc/gdevml6.txt         |   47 -
- contrib/japanese/doc/gdevp201.txt        |   30 -
- contrib/japanese/dviprlib.h              |  357 --
- contrib/japanese/gdev10v.c               |  347 --
- contrib/japanese/gdevalps.c              |  401 ---
- contrib/japanese/gdevespg.c              |  303 --
- contrib/japanese/gdevfmlbp.c             |  229 --
- contrib/japanese/gdevfmpr.c              |  210 --
- contrib/japanese/gdevj100.c              |  198 --
- contrib/japanese/gdevlbp3.c              |  277 --
- contrib/japanese/gdevmjc.c               | 1840 ----------
- contrib/japanese/gdevmjc.h               | 3220 -----------------
- contrib/japanese/gdevml6.c               |  342 --
- contrib/japanese/gdevnpdl.c              |  710 ----
- contrib/japanese/gdevp201.c              |  291 --
- contrib/japanese/gdevrpdl.c              |  295 --
- contrib/md2k_md5k/README.jis             |  179 -
- contrib/pscolor/Makefile                 |   12 -
- contrib/pscolor/black.pdf                |  Bin 12804 -> 0 bytes
- contrib/pscolor/black.ps                 | 3642 -------------------
- contrib/pscolor/color.pdf                |  Bin 10518 -> 0 bytes
- contrib/pscolor/color.ps                 | 3368 ------------------
- contrib/pscolor/colorsplit.vcproj        |   73 -
- contrib/pscolor/common.mak               |   24 -
- contrib/pscolor/input.ps                 | 4141 ----------------------
- contrib/pscolor/instream.yy              |   23 -
- contrib/pscolor/test.c                   |  342 --
- contrib/pscolor/windows.mak              |   13 -
- contrib/uniprint/PM760p.upp              |   34 -
- contrib/uniprint/PM760pl.upp             |   34 -
- contrib/uniprint/PM820p.upp              |   34 -
- contrib/uniprint/PM820pl.upp             |   34 -
- contrib/uniprint/Stc670p.upp             |   35 -
- contrib/uniprint/Stc670pl.upp            |   35 -
- contrib/uniprint/Stc680p.upp             |   34 -
- contrib/uniprint/Stc680pl.upp            |   34 -
- contrib/uniprint/Stc740p.upp             |   34 -
- contrib/uniprint/Stc740pl.upp            |   35 -
- contrib/uniprint/Stc760p.upp             |   35 -
- contrib/uniprint/Stc760pl.upp            |   34 -
- contrib/uniprint/Stc777p.upp             |   34 -
- contrib/uniprint/Stc777pl.upp            |   34 -
- contrib/uniprint/Stp720p.upp             |   34 -
- contrib/uniprint/Stp720pl.upp            |   34 -
- contrib/uniprint/Stp870p.upp             |   34 -
- contrib/uniprint/Stp870pl.upp            |   34 -
- contrib/uniprint/bjc6000a1.upp           |   48 -
- contrib/uniprint/bjc6000b1.upp           |   48 -
- contrib/uniprint/s400a1.upp              |   44 -
- contrib/uniprint/s400b1.upp              |   48 -
- contrib/uniprint/sharp.upp               |   58 -
- contrib/uniprint/sipixa6.upp             |   23 -
- contrib/uniprint/stc740ih.upp            |   58 -
- 78 files changed, 5 insertions(+), 31494 deletions(-)
- delete mode 100644 contrib/epson740/README
- delete mode 100644 contrib/epson740/printerdb_rh5.2
- delete mode 100644 contrib/epson740/printerdb_rh6.0
- delete mode 100755 contrib/epson740/ps-to-printer.fpi_rh5.2
- delete mode 100644 contrib/epson740/upp-HowTo-to-be
- delete mode 100644 contrib/gdevgdi.c
- delete mode 100644 contrib/gdevln03.c
- delete mode 100644 contrib/gdevlx7.c
- delete mode 100644 contrib/gdevmd2k.c
- delete mode 100644 contrib/gdevop4w.c
- delete mode 100644 contrib/gdevxes.c
- delete mode 100644 contrib/japanese/doc/Gdevlips.htm
- delete mode 100644 contrib/japanese/doc/README.gs550j
- delete mode 100644 contrib/japanese/doc/cdj880.txt
- delete mode 100644 contrib/japanese/doc/dj505j.txt
- delete mode 100644 contrib/japanese/doc/gdev10v.txt
- delete mode 100644 contrib/japanese/doc/gdevalps.txt
- delete mode 100644 contrib/japanese/doc/gdevcd8.txt
- delete mode 100644 contrib/japanese/doc/gdevfmlbp.txt
- delete mode 100644 contrib/japanese/doc/gdevj100.txt
- delete mode 100644 contrib/japanese/doc/gdevlbp3.txt
- delete mode 100644 contrib/japanese/doc/gdevmd2k.txt
- delete mode 100644 contrib/japanese/doc/gdevmjc.txt
- delete mode 100644 contrib/japanese/doc/gdevml6.txt
- delete mode 100644 contrib/japanese/doc/gdevp201.txt
- delete mode 100644 contrib/japanese/dviprlib.h
- delete mode 100644 contrib/japanese/gdev10v.c
- delete mode 100644 contrib/japanese/gdevalps.c
- delete mode 100644 contrib/japanese/gdevespg.c
- delete mode 100644 contrib/japanese/gdevfmlbp.c
- delete mode 100644 contrib/japanese/gdevfmpr.c
- delete mode 100644 contrib/japanese/gdevj100.c
- delete mode 100644 contrib/japanese/gdevlbp3.c
- delete mode 100644 contrib/japanese/gdevmjc.c
- delete mode 100644 contrib/japanese/gdevmjc.h
- delete mode 100644 contrib/japanese/gdevml6.c
- delete mode 100644 contrib/japanese/gdevnpdl.c
- delete mode 100644 contrib/japanese/gdevp201.c
- delete mode 100644 contrib/japanese/gdevrpdl.c
- delete mode 100644 contrib/md2k_md5k/README.jis
- delete mode 100644 contrib/pscolor/Makefile
- delete mode 100644 contrib/pscolor/black.pdf
- delete mode 100644 contrib/pscolor/black.ps
- delete mode 100644 contrib/pscolor/color.pdf
- delete mode 100644 contrib/pscolor/color.ps
- delete mode 100644 contrib/pscolor/colorsplit.vcproj
- delete mode 100644 contrib/pscolor/common.mak
- delete mode 100644 contrib/pscolor/input.ps
- delete mode 100644 contrib/pscolor/instream.yy
- delete mode 100644 contrib/pscolor/test.c
- delete mode 100644 contrib/pscolor/windows.mak
- delete mode 100644 contrib/uniprint/PM760p.upp
- delete mode 100644 contrib/uniprint/PM760pl.upp
- delete mode 100644 contrib/uniprint/PM820p.upp
- delete mode 100644 contrib/uniprint/PM820pl.upp
- delete mode 100644 contrib/uniprint/Stc670p.upp
- delete mode 100644 contrib/uniprint/Stc670pl.upp
- delete mode 100644 contrib/uniprint/Stc680p.upp
- delete mode 100644 contrib/uniprint/Stc680pl.upp
- delete mode 100644 contrib/uniprint/Stc740p.upp
- delete mode 100644 contrib/uniprint/Stc740pl.upp
- delete mode 100644 contrib/uniprint/Stc760p.upp
- delete mode 100644 contrib/uniprint/Stc760pl.upp
- delete mode 100644 contrib/uniprint/Stc777p.upp
- delete mode 100644 contrib/uniprint/Stc777pl.upp
- delete mode 100644 contrib/uniprint/Stp720p.upp
- delete mode 100644 contrib/uniprint/Stp720pl.upp
- delete mode 100644 contrib/uniprint/Stp870p.upp
- delete mode 100644 contrib/uniprint/Stp870pl.upp
- delete mode 100644 contrib/uniprint/bjc6000a1.upp
- delete mode 100644 contrib/uniprint/bjc6000b1.upp
- delete mode 100644 contrib/uniprint/s400a1.upp
- delete mode 100644 contrib/uniprint/s400b1.upp
- delete mode 100644 contrib/uniprint/sharp.upp
- delete mode 100644 contrib/uniprint/sipixa6.upp
- delete mode 100644 contrib/uniprint/stc740ih.upp
+ configure.ac        |  10 +-
+ contrib/contrib.mak | 361 +-------------------------------------------
+ 2 files changed, 6 insertions(+), 365 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index d6f346b76..83b39312a 100644
+index 1532609f3..46ad55694 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -2619,13 +2619,13 @@ HP_DEVS='cdj500 djet500 djet500c dnj650c cljet5pr deskjet laserjet ljetplus ljet
+@@ -2576,14 +2576,14 @@ HP_DEVS='cdj500 djet500 djet500c dnj650c cljet5pr deskjet laserjet ljetplus ljet
  PCLXL_DEVS='pxlmono pxlcolor'
  EPSON_DEVS='eps9high eps9mid epson epsonc escp lp8000 lq850 photoex st800 stcolor alc1900 alc2000 alc4000 alc4100 alc8500 alc8600 alc9100 lp3000c lp8000c lp8200c lp8300c lp8500c lp8800c lp9000c lp9200c lp9500c lp9800c lps6500 epl2050 epl2050p epl2120 epl2500 epl2750 epl5800 epl5900 epl6100 epl6200 lp1800 lp1900 lp2200 lp2400 lp2500 lp7500 lp7700 lp7900 lp8100 lp8300f lp8400f lp8600 lp8600f lp8700 lp8900 lp9000b lp9100 lp9200b lp9300 lp9400 lp9600 lp9600s lps4500 eplcolor eplmono'
  CANON_DEVS='bj10e bj200 bjc600 bjc800 lbp8 lips3 bjcmono bjcgray bjccmyk bjccolor'
@@ -177,17 +25,19 @@ index d6f346b76..83b39312a 100644
 -OKI_DEVS='oki182 okiibm oki4w'
 -JAPAN_DEVS='lips4 lips4v ljet4pjl lj4dithp dj505j picty180 lips2p bjc880j pr201 pr150 pr1000 pr1000_4 jj100 bj10v bj10vh mj700v2c mj500c mj6000c mj8000c fmpr fmlbp ml600 lbp310 lbp320 md50Mono md50Eco md1xMono escpage lp2000 npdl rpdl'
 -MISC_PDEVS='uniprint ap3250 atx23 atx24 atx38 itk24i itk38 coslw2p coslwxl declj250 fs600 imagen lj250 m8510 necp6 oce9050 r4081 sj48 tek4696 t4693d2 t4693d4 t4693d8 dl2100 la50 la70 la75 la75plus ln03 xes md2k md5k gdi samsunggdi'
+-OPVP_DEVS='opvp oprp'
 +OKI_DEVS='oki182 okiibm'
 +JAPAN_DEVS='lips4 lips4v ljet4pjl lj4dithp dj505j picty180 lips2p bjc880j'
 +MISC_PDEVS='uniprint ap3250 atx23 atx24 atx38 itk24i itk38 coslw2p coslwxl declj250 fs600 imagen lj250 m8510 necp6 oce9050 r4081 sj48 tek4696 t4693d2 t4693d4 t4693d8'
++OPVP_DEVS=''
  
- AC_ARG_WITH([openprinting],, OPVP_DEVS='opvp oprp', OPVP_DEVS='')
+ ETS_HALFTONING_DEVS='rinkj'
  
 diff --git a/contrib/contrib.mak b/contrib/contrib.mak
-index 2edee7af4..a81d1a350 100644
+index d7965dc9e..16b0ea4de 100644
 --- a/contrib/contrib.mak
 +++ b/contrib/contrib.mak
-@@ -284,25 +284,6 @@ $(DD)chp2200.dev : $(cdeskjet8_) $(DD)page.dev \
+@@ -283,25 +283,6 @@ $(DD)chp2200.dev : $(cdeskjet8_) $(DD)page.dev \
  	$(SETPDEV2) $(DD)chp2200 $(cdeskjet8_)
  
  
@@ -213,7 +63,7 @@ index 2edee7af4..a81d1a350 100644
  ### ---------------- The Brother HL-1240/HL-1250 printers --------------- ###
  ### These printers are ljet4-compatible, plus support for source tray     ###
  ### selection and special 1200x600 dpi mode.                              ###
-@@ -323,51 +304,6 @@ $(DEVOBJ)gdevhl12.$(OBJ) : $(CONTRIBSRC)gdevhl12.c $(PDEVH) $(gdevdljm_h) \
+@@ -322,51 +303,6 @@ $(DEVOBJ)gdevhl12.$(OBJ) : $(CONTRIBSRC)gdevhl12.c $(PDEVH) $(gdevdljm_h) \
  	$(DEVCC) $(DEVO_)gdevhl12.$(OBJ) $(C_) $(CONTRIBSRC)gdevhl12.c
  
  
@@ -265,7 +115,7 @@ index 2edee7af4..a81d1a350 100644
  ### -------------------------- EPSON Page/Color -------------------------- ###
  ###
  ###
-@@ -590,33 +526,6 @@ $(DD)eplmono.dev: $(escv_) $(DD)page.dev \
+@@ -589,33 +525,6 @@ $(DD)eplmono.dev: $(escv_) $(DD)page.dev \
                             $(CONTDEV) $(CONTRIB_MAK) $(MAKEDIRS)
  	$(SETPDEV) $(DD)eplmono $(escv_)
  
@@ -299,7 +149,7 @@ index 2edee7af4..a81d1a350 100644
  ### ----------- Lexmark 3200 device ------------ ###
  
  lxm3200_=$(DEVOBJ)gdevlx32.$(OBJ)
-@@ -679,37 +588,6 @@ $(DD)bjc880j.dev : $(lipsr_) $(DD)page.dev \
+@@ -678,37 +587,6 @@ $(DD)bjc880j.dev : $(lipsr_) $(DD)page.dev \
  	$(SETPDEV) $(DD)bjc880j $(lipsr_)
  
  
@@ -318,7 +168,7 @@ index 2edee7af4..a81d1a350 100644
 -$(DEVOBJ)gdevmd2k.$(OBJ) : $(CONTRIBSRC)gdevmd2k.c $(PDEVH) $(gsparam_h) \
 -                           $(CONTDEV) $(CONTRIB_MAK) $(MAKEDIRS)
 -	$(DEVCC) $(DEVO_)gdevmd2k.$(OBJ) $(C_) $(CONTRIBSRC)gdevmd2k.c
-- 
+-
 -
 -### ----------------- The Okidata OkiPage 4w+ device ------------------- ###
 -
@@ -337,7 +187,7 @@ index 2edee7af4..a81d1a350 100644
  ### ---------------- OpenPrinting Vector Printer Driver ---------------- ###
  ###                                                                      ###
  OPVP_DIR=$(CONTRIBSRC)opvp
-@@ -1008,243 +886,6 @@ pcl3-install:
+@@ -1007,243 +885,6 @@ pcl3-install:
  	$(INSTALL_PROGRAM) $(BINDIR)$(D)pcl3opts$(XE) $(DESTDIR)$(bindir)
  
  
@@ -413,7 +263,7 @@ index 2edee7af4..a81d1a350 100644
 -
 -
 -##
--## EPSON MachJet driver 
+-## EPSON MachJet driver
 -##
 -
 -mj700v2c_=$(DEVOBJ)gdevmjc.$(OBJ) $(HPPCL)
@@ -582,3 +432,6 @@ index 2edee7af4..a81d1a350 100644
  
 -install-contrib-extras: extra-upp-install
 +install-contrib-extras:
+-- 
+2.31.0.208.g409f899ff0-goog
+
