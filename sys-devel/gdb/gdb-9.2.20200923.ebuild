@@ -58,6 +58,7 @@ PATCHES=(
 	"${FILESDIR}"/gdb-9.2-aarch64-tdesc.patch
 	"${FILESDIR}"/gdb-9.2-sht_relr-part2.patch
 	"${FILESDIR}"/gdb-9.2-sigsys.patch
+	"${FILESDIR}"/gdb-9.2-update-loclists.patch
 )
 
 pkg_setup() {
