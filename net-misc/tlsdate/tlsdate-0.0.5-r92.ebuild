@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="2012e5b767240a9aec9022cff0de6500ba461a76"
-CROS_WORKON_TREE="19a11df2ce5bf407fb03ad0c9fa4c0bd5f8b1db9"
+CROS_WORKON_COMMIT="262b47bd4f6c39ff25d9fa3fe81afb10ad5b3f0f"
+CROS_WORKON_TREE="c2523b84e24ae58536576d2e3ef1e7ed7e0b8ad8"
 CROS_WORKON_PROJECT="chromiumos/third_party/tlsdate"
 
 inherit autotools flag-o-matic toolchain-funcs cros-sanitizers cros-workon cros-debug systemd user
