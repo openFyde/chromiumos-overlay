@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python3_{6..9} )
 inherit cros-constants cmake flag-o-matic git-r3 multilib-minimal  \
 	python-any-r1 pax-utils toolchain-funcs
 
-LLVM_HASH="8456c3a789285079ad35d146e487436b5a27b027" # r416183
+LLVM_HASH="cd442157cff4aad209ae532cbf031abbe10bc1df" # r422132
 LLVM_NEXT_HASH="cd442157cff4aad209ae532cbf031abbe10bc1df" # r422132
 
 DESCRIPTION="Low Level Virtual Machine"

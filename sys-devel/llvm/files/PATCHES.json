@@ -41,7 +41,7 @@
     {
         "comment": "Fixes clang.elf calling clang.elf because direct\ncalls to clang.elf misses all environment setup in clang\nwrapper. Calls to clang wrapper instead of clang.elf binary",
         "rel_patch_path": "llvm-3.8-invocation.patch",
-        "end_version": 422132
+        "end_version": 420001
     },
     {
         "comment": "Uses argv[0] to get host system information. Created\na wrapper of LLD and real lld becomes lld.elf so the LLD\ncannot get the host system information and dies",
@@ -778,5 +778,22 @@
         "rel_patch_path": "cherry/ee8a5e4bc2c986b8e6c07e81fb58dc1e5a5c2d17.patch",
         "start_version": 421934,
         "end_version": 424173
+    },
+    {
+        "comment": "Fixes clang.elf calling clang.elf because direct\ncalls to clang.elf misses all environment setup in clang\nwrapper. Calls to clang wrapper instead of clang.elf binary",
+        "rel_patch_path": "llvm-11.0-invocation.patch",
+        "start_version": 420001
+    },
+    {
+        "comment": "Revert \"Reduce the number of attributes attached to each function\"",
+        "rel_patch_path": "cherry/2cb8c10342ee5d040725abb1166feb92a64c7df6.patch",
+        "start_version": 419850,
+        "end_version": 423928
+    },
+    {
+        "comment": "Revert \"[ArgPromotion] Copy additional metadata for loads.\"",
+        "rel_patch_path": "cherry/4622648a069a988d3b7b3ecd3f1b6993518d85b5.patch",
+        "start_version": 421649,
+        "end_version": 422916
     }
 ]
