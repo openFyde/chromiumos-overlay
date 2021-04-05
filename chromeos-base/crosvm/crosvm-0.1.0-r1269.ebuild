@@ -29,7 +29,7 @@ SRC_URI="
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test cros-debug crosvm-gpu -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
+IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
 
 COMMON_DEPEND="
 	sys-apps/dtc:=
@@ -170,6 +170,13 @@ src_compile() {
 			|| die "cargo build failed"
 	done
 
+	if use crosvm-direct ; then
+		ecargo_build -v \
+			--no-default-features --features="direct" \
+			-p "crosvm" --bin crosvm-direct \
+			|| die "cargo build failed"
+	fi
+
 	if use fuzzer; then
 		cd fuzz
 		local f
@@ -307,6 +314,12 @@ src_install() {
 		insinto "${include_dir}"
 		doins "${S}/crosvm_plugin/crosvm.h"
 		dolib.so "${build_dir}/deps/libcrosvm_plugin.so"
+	fi
+
+	# Install crosvm-direct, when requested.
+	if use crosvm-direct ; then
+		into /build/manatee
+		dobin "${build_dir}/crosvm-direct"
 	fi
 
 	if use fuzzer; then
