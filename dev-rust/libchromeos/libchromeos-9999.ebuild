@@ -3,8 +3,6 @@
 
 EAPI=7
 
-# TODO(crbug.com/1157860) Enable non x86_64 tests.
-CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
 CROS_WORKON_LOCALNAME="../platform2"
