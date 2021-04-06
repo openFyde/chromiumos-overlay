@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="38692ce1024c45e10633e8b9d875a0a54aa54d91"
+CROS_WORKON_COMMIT="ff3cbcfe072dd7dd34f15374bd964b92abe82878"
 CROS_WORKON_TREE="ba0e2dd8630dd30bec9914b25031799f22e8b3b7"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,6 +20,7 @@ KEYWORDS="*"
 IUSE="+rust-crosh"
 
 DEPEND="
+	=dev-rust/chrono-0.4*:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
