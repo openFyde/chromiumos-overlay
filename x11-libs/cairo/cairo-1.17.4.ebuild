@@ -60,6 +60,7 @@ REQUIRED_USE="
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.12.18-disable-test-suite.patch
 	"${FILESDIR}"/${PN}-respect-fontconfig.patch
+	"${FILESDIR}"/${P}-Fix-mask-usage-in-image-compositor.patch # crbug.com/1194021
 )
 
 src_prepare() {
