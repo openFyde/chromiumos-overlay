@@ -3,10 +3,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6f2cd7c53267b0e59b6bf1c1176e2da6f7423871"
-CROS_WORKON_TREE=("198436727a61ac2b0761e7616e1155f42e83f09d" "3508d2f3db0647ef3871071db0b2fbfd7b6af042")
+CROS_WORKON_COMMIT="dc626cd2b695f9ea00c2833a71eb674aeb91ba24"
+CROS_WORKON_TREE=("b2794f78d0f3767843d84df9c2dc422f6aba2248" "3508d2f3db0647ef3871071db0b2fbfd7b6af042")
 CROS_RUST_SUBDIR="sirenia/manatee-client"
 
+CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} sirenia/dbus_bindings"
@@ -27,6 +28,7 @@ DEPEND="${RDEPEND}
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
+	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	=dev-rust/which-4*:=
 "

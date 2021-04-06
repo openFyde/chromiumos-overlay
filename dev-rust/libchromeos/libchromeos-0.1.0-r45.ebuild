@@ -3,10 +3,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fe2708e2a1647352ebb8d1e988bb2be6f2785dce"
-CROS_WORKON_TREE="69d315c52a687b4e647fdb6ab6c29f5feecac420"
+CROS_WORKON_COMMIT="dc626cd2b695f9ea00c2833a71eb674aeb91ba24"
+CROS_WORKON_TREE="e237d320e63e8777188f286f671ad2dc41d3aa77"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
+CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
@@ -30,9 +31,9 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/lazy_static-1.4.0:= <dev-rust/lazy_static-2.0.0
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
-	=dev-rust/num_enum-0.5*:=
 	>=dev-rust/pkg-config-0.3.11:= <dev-rust/pkg-config-0.4.0:=
 	>=dev-rust/protobuf-2.1:= !>=dev-rust/protobuf-3.0:=
+	dev-rust/sys_util:=
 	dev-rust/system_api:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0.0
 	>=dev-rust/zeroize-1.2.0:= <dev-rust/zeroize-2.0.0
