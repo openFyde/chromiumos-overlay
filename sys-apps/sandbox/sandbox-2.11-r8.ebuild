@@ -37,6 +37,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-symbol-table-size.patch # crosbug.com/884234
 	epatch "${FILESDIR}"/${P}-lld.patch # crbug.com/982877
 	epatch "${FILESDIR}"/${P}-allowlist-renameat-symlinkat-as-symlink-f.patch #bugs.gentoo.org/612202
+	epatch "${FILESDIR}"/${P}-retry-PTRACE_GETREGS.patch #1188969
 	epatch_user
 	eautoreconf
 }
