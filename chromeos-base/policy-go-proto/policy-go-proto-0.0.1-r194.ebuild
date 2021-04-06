@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="70ece0ad8d1216a69e9fd9d83bc65c317931edd1"
+CROS_WORKON_COMMIT="40ead8819119231cb225d181411ceb886d983ccf"
 CROS_WORKON_TREE=("ae528dee9890ab7346a1fee2e50877007ea3e1c0" "f6e985347a838bbbdd2997e97c4b4940571f2dd2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/policy/..."
@@ -25,7 +25,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 
 DEPEND="
-	>=chromeos-base/protofiles-0.0.43:=
+	>=chromeos-base/protofiles-0.0.44:=
 	dev-go/protobuf:=
 	dev-libs/protobuf:=
 "
