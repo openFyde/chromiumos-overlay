@@ -3,11 +3,11 @@ DEFINED_PHASES=compile configure info install setup unpack
 DEPEND=python_targets_python3_6? ( dev-lang/python:3.6 ) python_targets_python3_7? ( dev-lang/python:3.7 ) >=dev-lang/python-exec-2:=[python_targets_python3_6(-)?,python_targets_python3_7(-)?,-python_single_target_python3_6(-),-python_single_target_python3_7(-)] dev-python/jsonrpclib:= dev-python/pyyaml:= dev-python/protobuf-python:= virtual/chromeos-bsp-factory:= virtual/chromeos-regions:=
 DESCRIPTION=Subset of factory software to be installed in test images
 EAPI=7
-IUSE=cros_host cros_workon_tree_5a380be044bcc51417fa0cc9f7e2cdd1d06a1662 python_targets_python3_6 python_targets_python3_7
+IUSE=cros_host cros_workon_tree_abd9a7d53a6b90b09f0269146d6b8cb273c0f288 python_targets_python3_6 python_targets_python3_7
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-SLOT=0/0.0.1-r2104
+SLOT=0/0.0.1-r2105
 SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror//distfiles/webgl-aquarium-20130524.tar.bz2
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multibuild	40fe59465edacd730c644ec2bc197809	multilib	2477ebe553d3e4d2c606191fe6c33602	python-r1	79e26ce8f853c9daebe9a4956e37cc1b	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=83d86b9e08c96e1b56c9ffe56aa98bc9
+_md5_=95de632f7a0c63f4d42b903a5483226c
