@@ -1,10 +1,10 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-PYTHON_COMPAT=( python{2_7,3_5,3_6,3_7} )
+EAPI="7"
+PYTHON_COMPAT=( python3_{6..9} )
 
-inherit autotools eutils linux-info python-any-r1 systemd
+inherit autotools linux-info python-any-r1 systemd
 
 DESCRIPTION="An enhanced multi-threaded syslogd with database support and more"
 HOMEPAGE="https://www.rsyslog.com/"
@@ -26,10 +26,28 @@ fi
 
 LICENSE="GPL-3 LGPL-3 Apache-2.0"
 SLOT="0"
-IUSE="curl dbi debug doc elasticsearch +gcrypt gnutls jemalloc kafka kerberos kubernetes libressl mdblookup"
-IUSE+=" mongodb mysql normalize clickhouse omhttp omhttpfs omudpspoof openssl postgres"
-IUSE+=" rabbitmq redis relp rfc3195 rfc5424hmac snmp ssl systemd test usertools +uuid xxhash zeromq"
+
+IUSE="clickhouse curl dbi debug doc elasticsearch +gcrypt gnutls imhttp"
+IUSE+=" impcap jemalloc kafka kerberos kubernetes libressl mdblookup"
+IUSE+=" mongodb mysql normalize omhttp omhttpfs omudpspoof +openssl"
+IUSE+=" postgres rabbitmq redis relp rfc3195 rfc5424hmac snmp +ssl"
+IUSE+=" systemd test usertools +uuid xxhash zeromq"
+
 RESTRICT="!test? ( test )"
+
+REQUIRED_USE="
+	kubernetes? ( normalize )
+	ssl? ( || ( gnutls openssl ) )
+"
+
+BDEPEND=">=sys-devel/autoconf-archive-2015.02.24
+	virtual/pkgconfig
+	elibc_musl? ( sys-libs/queue-standalone )
+	test? (
+		jemalloc? ( <sys-libs/libfaketime-0.9.7 )
+		!jemalloc? ( sys-libs/libfaketime )
+		${PYTHON_DEPS}
+	)"
 
 PATCHES=( "${FILESDIR}/001-add-imstdoutsock-plugin.patch" )
 
@@ -42,15 +60,16 @@ RDEPEND="
 	dbi? ( >=dev-db/libdbi-0.8.3 )
 	elasticsearch? ( >=net-misc/curl-7.35.0 )
 	gcrypt? ( >=dev-libs/libgcrypt-1.5.3:= )
+	imhttp? ( www-servers/civetweb )
+	impcap? ( net-libs/libpcap )
 	jemalloc? ( >=dev-libs/jemalloc-3.3.1:= )
 	kafka? ( >=dev-libs/librdkafka-0.9.0.99:= )
 	kerberos? ( virtual/krb5 )
 	kubernetes? ( >=net-misc/curl-7.35.0 )
 	mdblookup? ( dev-libs/libmaxminddb:= )
 	mongodb? ( >=dev-libs/mongo-c-driver-1.1.10:= )
-	mysql? ( virtual/libmysqlclient:= )
+	mysql? ( dev-db/mysql-connector-c:= )
 	normalize? (
-		>=dev-libs/libee-0.4.0
 		>=dev-libs/liblognorm-2.0.3:=
 	)
 	clickhouse? ( >=net-misc/curl-7.35.0 )
@@ -77,29 +96,18 @@ RDEPEND="
 	uuid? ( sys-apps/util-linux:0= )
 	xxhash? ( dev-libs/xxhash:= )
 	zeromq? (
-		>=net-libs/czmq-3.0.2
+		>=net-libs/czmq-4:=[drafts]
 	)"
 DEPEND="${RDEPEND}
-	>=sys-devel/autoconf-archive-2015.02.24
-	virtual/pkgconfig
-	elibc_musl? ( sys-libs/queue-standalone )
 	test? (
 		>=dev-libs/liblogging-1.0.1[stdlog]
-		jemalloc? ( <sys-libs/libfaketime-0.9.7 )
-		!jemalloc? ( sys-libs/libfaketime )
-		${PYTHON_DEPS}
 	)"
 
-REQUIRED_USE="
-	kubernetes? ( normalize )
-	ssl? ( || ( gnutls openssl ) )
-"
-
 if [[ ${PV} == "9999" ]]; then
-	DEPEND+=" doc? ( >=dev-python/sphinx-1.1.3-r7 )"
-	DEPEND+=" >=sys-devel/flex-2.5.39-r1"
-	DEPEND+=" >=sys-devel/bison-2.4.3"
-	DEPEND+=" >=dev-python/docutils-0.12"
+	BDEPEND+=" doc? ( >=dev-python/sphinx-1.1.3-r7 )"
+	BDEPEND+=" >=sys-devel/flex-2.5.39-r1"
+	BDEPEND+=" >=sys-devel/bison-2.4.3"
+	BDEPEND+=" >=dev-python/docutils-0.12"
 fi
 
 CONFIG_CHECK="~INOTIFY_USER"
@@ -180,12 +188,14 @@ src_configure() {
 		$(use_enable test testbench)
 		$(use_enable test libfaketime)
 		$(use_enable test extended-tests)
-		# Input Plugins without depedencies
+		# Input Plugins without dependencies
+		--enable-imbatchreport
 		--enable-imdiag
 		--enable-imfile
+		--enable-improg
 		--enable-impstats
 		--enable-imptcp
-		# Message Modificiation Plugins without depedencies
+		# Message Modificiation Plugins without dependencies
 		--enable-mmanon
 		--enable-mmaudit
 		--enable-mmcount
@@ -194,6 +204,7 @@ src_configure() {
 		--enable-mmpstrucdata
 		--enable-mmrm1stspace
 		--enable-mmsequence
+		--enable-mmtaghostname
 		--enable-mmutf8fix
 		# Output Modification Plugins without dependencies
 		--enable-mail
@@ -207,6 +218,7 @@ src_configure() {
 		--enable-pmaixforwardedfrom
 		--enable-pmciscoios
 		--enable-pmcisconames
+		--enable-pmdb2diag
 		--enable-pmlastmsg
 		$(use_enable normalize pmnormalize)
 		--enable-pmnull
@@ -227,6 +239,8 @@ src_configure() {
 		$(use_enable curl fmhttp)
 		$(use_enable elasticsearch)
 		$(use_enable gcrypt libgcrypt)
+		$(use_enable imhttp)
+		$(use_enable impcap)
 		$(use_enable jemalloc)
 		$(use_enable kafka imkafka)
 		$(use_enable kafka omkafka)
@@ -309,6 +323,8 @@ src_install() {
 	newconfd "${FILESDIR}/${PN}.confd-r1" ${PN}
 	newinitd "${FILESDIR}/${PN}.initd-r1" ${PN}
 
+	use systemd && systemd_newunit "${FILESDIR}/${PN}.service" ${PN}.service
+
 	keepdir /var/empty/dev
 	keepdir /var/spool/${PN}
 	keepdir /etc/ssl/${PN}
@@ -324,16 +340,16 @@ src_install() {
 	newins "${FILESDIR}/${PN}-r1.logrotate" ${PN}
 
 	if use mysql; then
-		insinto /usr/share/doc/${PF}/scripts/mysql
+		insinto /usr/share/${PN}/scripts/mysql
 		doins plugins/ommysql/createDB.sql
 	fi
 
 	if use postgres; then
-		insinto /usr/share/doc/${PF}/scripts/pgsql
+		insinto /usr/share/${PN}/scripts/pgsql
 		doins plugins/ompgsql/createDB.sql
 	fi
 
-	#prune_libtool_files --modules
+	find "${ED}" -name '*.la' -delete || die
 }
 
 pkg_postinst() {
@@ -373,10 +389,14 @@ pkg_postinst() {
 }
 
 pkg_config() {
-	if ! use ssl ; then
+	if ! use ssl; then
 		einfo "There is nothing to configure for rsyslog unless you"
 		einfo "used USE=ssl to build it."
 		return 0
+	fi
+
+	if ! hash certtool &>/dev/null; then
+		die "certtool not found! Is net-libs/gnutls[tools] is installed?"
 	fi
 
 	# Make sure the certificates directory exists
@@ -390,7 +410,7 @@ pkg_config() {
 	if [[ ! -f "${CERTDIR}/${PN}_ca.cert.pem" ]]; then
 		einfo "No CA key and certificate found in ${CERTDIR}, creating them for you..."
 		certtool --generate-privkey \
-			--outfile "${CERTDIR}/${PN}_ca.privkey.pem" &>/dev/null
+			--outfile "${CERTDIR}/${PN}_ca.privkey.pem" || die
 		chmod 400 "${CERTDIR}/${PN}_ca.privkey.pem"
 
 		cat > "${T}/${PF}.$$" <<- _EOF
@@ -403,7 +423,7 @@ pkg_config() {
 		certtool --generate-self-signed \
 			--load-privkey "${CERTDIR}/${PN}_ca.privkey.pem" \
 			--outfile "${CERTDIR}/${PN}_ca.cert.pem" \
-			--template "${T}/${PF}.$$" &>/dev/null
+			--template "${T}/${PF}.$$" || die
 		chmod 400 "${CERTDIR}/${PN}_ca.privkey.pem"
 
 		# Create the server certificate
@@ -413,7 +433,7 @@ pkg_config() {
 
 		einfo "Creating private key and certificate for server ${CN}..."
 		certtool --generate-privkey \
-			--outfile "${CERTDIR}/${PN}_${CN}.key.pem" &>/dev/null
+			--outfile "${CERTDIR}/${PN}_${CN}.key.pem" || die
 		chmod 400 "${CERTDIR}/${PN}_${CN}.key.pem"
 
 		cat > "${T}/${PF}.$$" <<- _EOF
@@ -442,7 +462,7 @@ pkg_config() {
 
 	einfo "Creating private key and certificate for client ${CN}..."
 	certtool --generate-privkey \
-		--outfile "${CERTDIR}/${PN}_${CN}.key.pem" &>/dev/null
+		--outfile "${CERTDIR}/${PN}_${CN}.key.pem" || die
 	chmod 400 "${CERTDIR}/${PN}_${CN}.key.pem"
 
 	cat > "${T}/${PF}.$$" <<- _EOF
@@ -457,7 +477,7 @@ pkg_config() {
 		--load-privkey "${CERTDIR}/${PN}_${CN}.key.pem" \
 		--load-ca-certificate "${CERTDIR}/${PN}_ca.cert.pem" \
 		--load-ca-privkey "${CERTDIR}/${PN}_ca.privkey.pem" \
-		--template "${T}/${PF}.$$" &>/dev/null
+		--template "${T}/${PF}.$$" || die
 	chmod 400 "${CERTDIR}/${PN}_${CN}.cert.pem"
 
 	rm -f "${T}/${PF}.$$"
