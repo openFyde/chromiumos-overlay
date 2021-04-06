@@ -1109,7 +1109,6 @@ CONFIG_DEBUG_PI_LIST=y
 CONFIG_REFCOUNT_FULL=y
 CONFIG_DEBUG_KOBJECT=y
 CONFIG_DEBUG_KOBJECT_RELEASE=y
-CONFIG_DRM_I915_DEBUG_RUNTIME_PM=y
 "
 
 # Firmware binaries selected by USE flags.  Selected firmware binaries will
