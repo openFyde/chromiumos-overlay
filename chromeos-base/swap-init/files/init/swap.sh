@@ -283,6 +283,7 @@ start() {
     echo $key | cryptsetup -q -v --type luks --cipher aes-xts-plain64 \
                            --key-size 256 --hash sha256 --iter-time 2000 \
                            --use-urandom --verify-passphrase luksFormat \
+                           --pbkdf-memory 256 \
                            --integrity hmac-sha256 --integrity-no-journal \
                            --sector-size 4096 --key-file - $swap_device
     echo $key | cryptsetup open --integrity-no-journal --key-file \
