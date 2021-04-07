@@ -141,7 +141,6 @@ dev-python/cffi python_targets_python2_7
 dev-python/chardet python_targets_python2_7
 dev-python/cheroot python_targets_python2_7
 dev-python/cherrypy python_targets_python2_7
-dev-python/clang-python python_targets_python2_7
 dev-python/contextlib2 python_targets_python2_7
 dev-python/cryptography python_targets_python2_7
 dev-python/cycler python_targets_python2_7
