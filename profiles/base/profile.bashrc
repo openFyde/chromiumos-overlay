@@ -382,7 +382,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-boot/depthcharge|\
 		sys-boot/grub-lakitu|\
 		sys-boot/libpayload|\
-		sys-boot/qca-framework|\
 		sys-boot/syslinux|\
 		sys-firmware/chromeos-fpmcu-release-bloonchipper|\
 		sys-firmware/chromeos-fpmcu-release-dartmonkey|\
