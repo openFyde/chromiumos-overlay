@@ -19,13 +19,11 @@ DESCRIPTION="Chrome OS USB camera HAL v3."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="usb_camera_monocle"
 
 RDEPEND="
 	chromeos-base/cros-camera-android-deps
 	chromeos-base/cros-camera-libs
 	dev-libs/re2
-	usb_camera_monocle? ( media-libs/librealtek-sdk )
 	media-libs/libsync
 	chromeos-base/chromeos-config-tools"
 
