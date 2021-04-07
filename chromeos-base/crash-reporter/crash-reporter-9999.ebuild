@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crash-re
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cheets chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer vm-containers"
+IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer vm-containers"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -48,14 +48,14 @@ DEPEND="
 
 src_configure() {
 	platform_src_configure
-	use cheets && use_i686 && platform_src_configure_i686
-	use cheets && use_arm64 && platform_src_configure_arm64
+	use arcpp && use_i686 && platform_src_configure_i686
+	use arcpp && use_arm64 && platform_src_configure_arm64
 }
 
 src_compile() {
 	platform_src_compile
-	use cheets && use_i686 && platform_src_compile_i686 "core_collector"
-	use cheets && use_arm64 && platform_src_compile_arm64 "core_collector"
+	use arcpp && use_i686 && platform_src_compile_i686 "core_collector"
+	use arcpp && use_arm64 && platform_src_compile_arm64 "core_collector"
 }
 
 pkg_setup() {
@@ -90,7 +90,7 @@ src_install() {
 	use cros_embedded || dobin "${OUT}"/anomaly_detector
 	dosbin kernel_log_collector.sh
 
-	if use cheets; then
+	if use arcpp; then
 		dobin "${OUT}"/core_collector
 		use_i686 && newbin "$(platform_out_i686)"/core_collector "core_collector32"
 		use_arm64 && newbin "$(platform_out_arm64)"/core_collector "core_collector64"
