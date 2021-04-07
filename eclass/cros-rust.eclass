@@ -63,14 +63,6 @@ fi
 # dependencies and help minimize how many dependent packages need to be added.
 : "${CROS_RUST_REMOVE_DEV_DEPS:=}"
 
-# @ECLASS-VARIABLE: CROS_RUST_REMOVE_TARGET_CFG
-# @PRE_INHERIT
-# @DESCRIPTION:
-# Removes all the target.cfg sections from the Cargo.toml except cfg(unix) and
-# cfg(linux). Note that this does not handle more complicated cfg strings, so
-# those cases should be handled manually instead of using this option.
-: "${CROS_RUST_REMOVE_TARGET_CFG:=}"
-
 # @ECLASS-VARIABLE: CROS_RUST_SUBDIR
 # @DESCRIPTION:
 # Subdir where the package is located. Only used by cros-workon ebuilds.
@@ -303,45 +295,34 @@ cros-rust_src_prepare() {
 			"${S}/Cargo.toml" || die
 	fi
 
-	# Remove dev-dependencies and target.cfg sections within the Cargo.toml file
+	# Remove dev-dependencies sections within the Cargo.toml file
 	#
-	# The awk program reads the file line by line. If any line matches one of the
-	# matched section headers, it will skip every line a new section header is
-	# found that does not match one of the matched section headers.
+	# dev_dep_pattern is a regex that matches toml section headers of the
+	# form [token.dev-dependencies], [dev-dependencies.token], and
+	# [dev-dependencies].
+	#
+	# section_pattern is a regex that matches section headers in toml files.
+	#
+	# The awk program reads the file line by line.
+	# If any line matches dev_dep_pattern, it will skip every line until
+	# a line matching section_pattern is found which does not match
+	# dev_dep_pattern, in other words, until it finds a new section which
+	# is not a dev-dependency section.
 	#
 	# Awk cannot do in-place editing, so we write the result to a temporary
 	# file before replacing the input with that temp file.
-	if [[ "${CROS_RUST_REMOVE_DEV_DEPS}" == 1 ]] || [[ "${CROS_RUST_REMOVE_TARGET_CFG}" == 1 ]]; then
-		awk -v rm_dev_dep="${CROS_RUST_REMOVE_DEV_DEPS}" \
-		-v rm_target_cfg="${CROS_RUST_REMOVE_TARGET_CFG}" \
-		'{
-			# Stop skipping for a new section header, but check for another match.
-			if ($0 ~ /^\[/) {
-				skip = 0
-			}
+	if [[ "${CROS_RUST_REMOVE_DEV_DEPS}" == 1 ]]; then
+		local prefixed_dev_dep='([^][]+\.)?dev-dependencies'
+		local suffixed_dev_dep='dev-dependencies(\.[^][]+)?'
+		local dev_dep_pattern="^\\[(${prefixed_dev_dep}|${suffixed_dev_dep})\\]$"
+		local section_pattern='^\['
 
-			# If rm_dev_dep is set, match section headers of the following forms:
-			#   [token.dev-dependencies]
-			#   [dev-dependencies.token]
-			#   [dev-dependencies]
-			if (rm_dev_dep && ($0 ~ /^\[([^][]+\.)?dev-dependencies(\.[^][]+)?\]$/)) {
-				skip = 1
-				next
-			}
-
-			# If rm_target_cfg is set, match section headers of the form
-			# `[target."cfg(` including the single quote case, but exclude matches
-			# that contain either `cfg(unix` or `cfg(linux`.
-			if (rm_target_cfg && ($0 ~ /^\[target[.].cfg[(]/) && ($0 !~ /cfg[(](unix|linux)/)) {
-				skip = 1
-				next
-			}
-
-			if (skip == 0) {
-				print
-			}
-		}' "${S}/Cargo.toml" > "${S}/Cargo.toml.stripped" || die
-		mv "${S}/Cargo.toml.stripped" "${S}/Cargo.toml"|| die
+		awk "{
+			if(\$0 ~ /${dev_dep_pattern}/){skip = 1; next}
+			if( (\$0 ~ /${section_pattern}/) && (\$0 !~ /${dev_dep_pattern}/) ){skip = 0}
+			if(skip == 0){print}
+		}" "${S}/Cargo.toml" > "${S}/Cargo.toml.stripped" || die
+		mv "${S}/Cargo.toml.stripped" "${S}/Cargo.toml"
 	fi
 
 	default
