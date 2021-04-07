@@ -13,7 +13,7 @@ SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.gz"
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="debug doc selinux static-libs systemd test ubsan user-session X"
+IUSE="debug default-dbus-timeout-250 doc selinux static-libs systemd test ubsan user-session X"
 
 CDEPEND="
 	>=dev-libs/expat-2
@@ -91,6 +91,11 @@ src_prepare() {
 	# Fix for CVE-2020-12049.
 	# Upstream commit: https://gitlab.freedesktop.org/dbus/dbus/-/commit/3418f4e500e6589e21bfcc545b3d4d1d70b17390
 	epatch "${FILESDIR}/${PN}-1.10.12-sysdeps-unix-On-MSG_CTRUNC-close-the-fds-we-did-rece.patch"
+
+	# Increase timeouts for emulated systems that are really slow.
+	if use default-dbus-timeout-250; then
+		epatch "${FILESDIR}/${PN}-1.10.12-increase-timeout-by-10x.patch"
+	fi
 
 	# required for asneeded patch but also for bug 263909, cross-compile so
 	# don't remove eautoreconf
