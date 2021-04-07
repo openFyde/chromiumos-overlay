@@ -3,12 +3,12 @@
 
 EAPI=7
 
+CROS_WORKON_COMMIT="b0c51e31a09b48ff2175d5c6398b9d4c79ddef52"
+CROS_WORKON_TREE="6a426edf9bcce1b9806fbdcd7314f8527eea5ecb"
 inherit cros-constants
 
 # This ebuild is upreved via PuPR, so disable the normal uprev process for
 # cros-workon ebuilds.
-CROS_WORKON_COMMIT="46e5c3c3c756c7a5e1ba82b2079a8621af635f7b"
-CROS_WORKON_TREE="23faac9d0737521273423773b45e0b36f876efc6"
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="aosp/external/perfetto"
 CROS_WORKON_PROJECT="platform/external/perfetto"
