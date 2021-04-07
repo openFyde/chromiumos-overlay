@@ -90,6 +90,7 @@ IUSE="
 	kvm_transition
 	lxc
 	manatee
+	mbo
 	memd
 	ml_benchmark_drivers
 	ml_service
