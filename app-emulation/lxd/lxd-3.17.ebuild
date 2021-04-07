@@ -90,7 +90,7 @@ DEPEND="
 RDEPEND="
 	daemon? (
 		app-arch/xz-utils
-		>=app-emulation/lxc-2.0.7[seccomp]
+		>=app-emulation/lxc-2.0.7:0[seccomp]
 		dev-libs/libuv
 		dev-libs/lzo
 		dev-util/xdelta:3
@@ -104,7 +104,7 @@ RDEPEND="
 		net-misc/rsync[xattr]
 		sys-apps/iproute2[ipv6?]
 		sys-fs/fuse
-		sys-fs/lxcfs
+		sys-fs/lxcfs:0
 		sys-fs/squashfs-tools
 		virtual/acl
 	)
