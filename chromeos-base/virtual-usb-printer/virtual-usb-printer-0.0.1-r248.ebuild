@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("ca67502f854dfae138ffa74d3b522f831602b584" "26b6814f6fd8ba41143412e74933b020322f5cb0")
-CROS_WORKON_TREE=("ae528dee9890ab7346a1fee2e50877007ea3e1c0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7d5586db35dc66486c7f6f621b870c78a7ffd401")
+CROS_WORKON_COMMIT=("d70d3a8543d921cdcc52fc06bf27d80da1155458" "9c6912ecab2c72eaef3327147d5582ae3730fe13")
+CROS_WORKON_TREE=("ae528dee9890ab7346a1fee2e50877007ea3e1c0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e3ca062129ac888b4c63f04851da4a51e56097c7")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -38,6 +38,7 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/escl-manager-testrunner"
 	platform_test "run" "${OUT}/http-util-testrunner"
 	platform_test "run" "${OUT}/ipp-manager-testrunner"
+	platform_test "run" "${OUT}/ipp-matching-testrunner"
 	platform_test "run" "${OUT}/ipp-matching-validation-testrunner"
 	platform_test "run" "${OUT}/ipp-util-testrunner"
 	platform_test "run" "${OUT}/jpeg-util-testrunner"
