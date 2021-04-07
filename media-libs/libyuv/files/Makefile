@@ -58,6 +58,12 @@ $(eval $(call add_object_rules,$(LOCAL_TEST_OBJS),CXX,cc,CXXFLAGS))
 CXX_BINARY(libyuv_unittest): LDLIBS += -lgtest -lpthread -pthread
 CXX_BINARY(libyuv_unittest): $(CXX_OBJECTS) $(LOCAL_OBJS) $(LOCAL_TEST_OBJS)
 
-all: CXX_STATIC_LIBRARY(libyuv.pic.a) CXX_BINARY(libyuv_unittest)
+ALL_DEPS := CXX_STATIC_LIBRARY(libyuv.pic.a)
+
+ifneq ($(filter test, ${USE}),)
+ALL_DEPS += CXX_BINARY(libyuv_unittest)
+endif
+
+all: $(ALL_DEPS)
 
 clean: CLEAN(libyuv.pic.a)
