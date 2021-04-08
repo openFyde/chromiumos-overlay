@@ -10,5 +10,5 @@ RDEPEND==dev-rust/derivative-2*:= >=dev-rust/num_enum_derive-0.5.1:= <dev-rust/n
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0.5.1/r1
 SRC_URI=https://crates.io/api/v1/crates/num_enum/0.5.1/download -> num_enum-0.5.1.crate
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	e5051dbd2b398dd29ee7d45b96aba6c8	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	667a148a03dd2a4c7815bf7f755279c0	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
 _md5_=5d2ac09d3c5b9bd893a23d8b139b5d77
