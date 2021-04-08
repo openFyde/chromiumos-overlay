@@ -1,7 +1,7 @@
-From 05cf8eb81f1339eea4f3a5351ea7e9d32e3c1eba Mon Sep 17 00:00:00 2001
+From 69d663d2e2f7f161d09860f622cfe96271eaec1d Mon Sep 17 00:00:00 2001
 From: Adrian Ratiu <adrian.ratiu@collabora.com>
 Date: Sat, 9 Jan 2021 04:06:08 +0200
-Subject: [PATCH 15/15] gold: add option to install only the dwp tool
+Subject: [PATCH 14/14] gold: add option to install only the dwp tool
 
 Distros/build-systems (ChromiumOS/portage, Yocto/bitbake...)
 can have buggy recipes which pick a wrong linker, upstream
@@ -173,10 +173,10 @@ index eca4f01c111..7b3fa05b32c 100644
  AC_PLUGINS
  if test "$plugins" = "yes"; then
 diff --git a/ld/configure b/ld/configure
-index 2b7217e5586..9c010ad1b1e 100755
+index e20f53c414d..bf6877ddd52 100755
 --- a/ld/configure
 +++ b/ld/configure
-@@ -15816,7 +15816,7 @@ if test "${enable_gold+set}" = set; then :
+@@ -15803,7 +15803,7 @@ if test "${enable_gold+set}" = set; then :
     install_as_default=no
     installed_linker=ld.bfd
     ;;
@@ -206,5 +206,5 @@ index b77f8510ca6..a25b903fda5 100644
     installed_linker=ld.bfd
     ;;
 -- 
-2.30.0
+2.31.1
 

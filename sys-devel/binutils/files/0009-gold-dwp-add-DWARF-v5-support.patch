@@ -1,7 +1,7 @@
-From f65b6f2ca8a039758aac37d69b470739dfac488e Mon Sep 17 00:00:00 2001
+From c18475248187e73062b1dbed7550a46dfd623dcb Mon Sep 17 00:00:00 2001
 From: Caroline Tice <cmtice@google.com>
 Date: Fri, 20 Nov 2020 11:05:19 -0800
-Subject: [PATCH 10/15] gold: dwp: add DWARF v5 support
+Subject: [PATCH 09/14] gold: dwp: add DWARF v5 support
 
 Apply basic patch by David Blaikie to update gold dwp tool to handle
 DWARF v5. This is the first of three patches for DWARF v5.
@@ -1017,5 +1017,5 @@ index 9c4203c22f7..b91977afe4d 100644
  
  #ifdef __cplusplus
 -- 
-2.30.0
+2.31.1
 

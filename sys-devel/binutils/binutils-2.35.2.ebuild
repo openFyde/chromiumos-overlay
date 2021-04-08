@@ -8,7 +8,19 @@ inherit eutils libtool flag-o-matic gnuconfig multilib cros-constants
 DESCRIPTION="Tools necessary to build programs"
 HOMEPAGE="http://sources.redhat.com/binutils/"
 LICENSE="|| ( GPL-3 LGPL-3 )"
-IUSE="cros_host hardened multitarget nls test vanilla"
+IUSE="cet cros_host hardened multitarget nls test vanilla"
+
+# Variables that can be set here  (ignored for live ebuilds)
+# PATCH_VER          - the patchset version
+#                      Default: empty, no patching
+# PATCH_BINUTILS_VER - the binutils version in the patchset name
+#                    - Default: PV
+# PATCH_DEV          - Use download URI https://dev.gentoo.org/~{PATCH_DEV}/distfiles/...
+#                      for the patchsets
+PATCH_VER=1
+PATCH_DEV=dilfridge
+PATCH_BINUTILS_VER=${PATCH_BINUTILS_VER:-${PV}}
+PATCH_DEV=${PATCH_DEV:-slyfox}
 
 KEYWORDS="*"
 
@@ -27,22 +39,8 @@ else
 	SLOT="0"
 fi
 
-SRC_URI="mirror://gnu/binutils/binutils-${PV}.tar.xz"
-
-PATCHES=(
-	"${FILESDIR}/0001-gas-add-option-to-enable-disable-incbin-via-allow-in.patch"
-	"${FILESDIR}/0005-gold-ld-add-support-for-poisoned-system-directories.patch"
-	"${FILESDIR}/0006-gas-enable-mshared-by-default.patch"
-	"${FILESDIR}/0007-gold-readelf-add-experimental-support-for-SHT_RELR-s.patch"
-	"${FILESDIR}/0008-move-SHT_RELR-section-type-to-the-generic-range.patch"
-	"${FILESDIR}/0009-gold-turn-on-experimental-use-relr-by-default.patch"
-	"${FILESDIR}/0010-gold-dwp-add-DWARF-v5-support.patch"
-	"${FILESDIR}/0011-gold-dwp-improve-DWARF-v5-memory-efficiency.patch"
-	"${FILESDIR}/0012-gold-dwp-further-improve-DWARF-v5-memory-efficiency.patch"
-	"${FILESDIR}/0013-gold-dwp-implement-read-DW_FORM_strx-and-co.patch"
-	"${FILESDIR}/0014-gold-dwp-fix-null-dereference-on-executable-with-no-.patch"
-	"${FILESDIR}/0015-gold-add-option-to-install-only-the-dwp-tool.patch"
-)
+SRC_URI="mirror://gnu/binutils/binutils-${PV}.tar.xz
+	https://dev.gentoo.org/~${PATCH_DEV}/distfiles/binutils-${PATCH_BINUTILS_VER}-patches-${PATCH_VER}.tar.xz"
 
 RDEPEND=">=sys-devel/binutils-config-3"
 DEPEND="${RDEPEND}
@@ -65,6 +63,25 @@ toolchain_mips_use_sysv_gnuhash() {
 			-e 's:--hash-style=gnu:--hash-style=sysv:' \
 			"${D}/${BINPATH}/$1" || die
 	fi
+}
+
+src_prepare() {
+	local patchsetname
+	patchsetname="${PATCH_BINUTILS_VER}-${PATCH_VER}"
+	if [[ ! -z ${PATCH_VER} ]] ; then
+		if ! use vanilla; then
+			einfo "Applying binutils patchset ${patchsetname}"
+			eapply "${WORKDIR}/patch"
+			einfo "Done."
+		fi
+	fi
+
+	einfo "Applying local CrOS patches"
+	eapply "${FILESDIR}"
+	einfo "Done."
+
+	# Apply things from PATCHES and user dirs
+	default
 }
 
 src_configure() {
@@ -141,6 +158,10 @@ src_configure() {
 		# Strip out broken static link flags.
 		# https://gcc.gnu.org/PR56750
 		--without-stage1-ldflags
+		# Allow user to opt into CET for host libraries.
+		# Ideally we would like automagic-or-disabled here.
+		# But the check does not quite work on i686: bug #760926.
+		$(use_enable cet)
 	)
 
 	echo ./configure "${myconf[@]}"

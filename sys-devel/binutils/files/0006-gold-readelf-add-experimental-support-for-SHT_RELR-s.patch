@@ -1,7 +1,7 @@
-From 0a64399d7255c089866acbf89dacec007a366979 Mon Sep 17 00:00:00 2001
+From 5e133fc4d0f29591715a9b4558664e3631456be4 Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Tue, 19 Dec 2017 15:31:31 -0800
-Subject: [PATCH 07/15] gold, readelf: add experimental support for SHT_RELR
+Subject: [PATCH 06/14] gold, readelf: add experimental support for SHT_RELR
  sections.
 
 This change adds experimental support for SHT_RELR sections, proposed
@@ -60,7 +60,7 @@ index c203e089525..5603caf9106 100644
    /* The size of entries in the .hash section.  */
    unsigned char sizeof_hash_entry;
 diff --git a/bfd/elf.c b/bfd/elf.c
-index fe375e7346e..91196b508a4 100644
+index 9f291663992..d0c9bfa5e8b 100644
 --- a/bfd/elf.c
 +++ b/bfd/elf.c
 @@ -1748,6 +1748,9 @@ _bfd_elf_print_private_bfd_data (bfd *abfd, void *farg)
@@ -138,7 +138,7 @@ index 508f4236932..c45860a62bb 100644
    sizeof (Elf32_External_Dyn),
    sizeof (Elf_External_Note),
 diff --git a/bfd/elfcode.h b/bfd/elfcode.h
-index f4a7829f270..79ce02e0117 100644
+index 54ef8906379..ea9cf6b4108 100644
 --- a/bfd/elfcode.h
 +++ b/bfd/elfcode.h
 @@ -80,6 +80,7 @@
@@ -1936,5 +1936,5 @@ index 230fdabd87a..6a43ebe9daf 100644
  
  typedef struct {
 -- 
-2.30.0
+2.31.1
 

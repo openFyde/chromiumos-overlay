@@ -1,7 +1,7 @@
-From afa1c82ef16fb51d3b86729d135be777c4e2fd18 Mon Sep 17 00:00:00 2001
+From 42ad09e2695365697e7d4432c9ac2d230381d3d2 Mon Sep 17 00:00:00 2001
 From: Caroline Tice <cmtice@google.com>
 Date: Fri, 18 Dec 2020 00:59:16 -0800
-Subject: [PATCH 13/15] gold: dwp: implement read DW_FORM_strx and co
+Subject: [PATCH 12/14] gold: dwp: implement read DW_FORM_strx and co
 
 Apply additional patch by David Blaikie to update the gold dwp tool
 to handle DWARF v5.  This patch teaches dwp to read DW_FORM_strx (and
@@ -18,13 +18,13 @@ Date: 17-Dec-2020
 
 Change-Id: I3bf5924bcd650123914297443323a9eb140f9272
 ---
- elfcpp/elfcpp_swap.h |  47 ++++++++++++++++++
- gold/dwarf_reader.cc | 115 ++++++++++++++++++++++++++++++++++++++++++-
- gold/dwarf_reader.h  |  53 ++++++++++++++++++--
- 3 files changed, 211 insertions(+), 4 deletions(-)
+ elfcpp/elfcpp_swap.h |  47 +++++++++++++++++++
+ gold/dwarf_reader.cc | 107 ++++++++++++++++++++++++++++++++++++++++++-
+ gold/dwarf_reader.h  |  53 +++++++++++++++++++--
+ 3 files changed, 203 insertions(+), 4 deletions(-)
 
 diff --git a/elfcpp/elfcpp_swap.h b/elfcpp/elfcpp_swap.h
-index 61b3ba57520..f67f4735780 100644
+index 61b3ba57520..8f0ea518c44 100644
 --- a/elfcpp/elfcpp_swap.h
 +++ b/elfcpp/elfcpp_swap.h
 @@ -131,6 +131,13 @@ struct Valtype_base<16>
@@ -89,7 +89,7 @@ index 61b3ba57520..f67f4735780 100644
  struct Swap_unaligned<32, false>
  {
 diff --git a/gold/dwarf_reader.cc b/gold/dwarf_reader.cc
-index d922300a6a1..4b3e7e41e80 100644
+index d922300a6a1..9438665c35c 100644
 --- a/gold/dwarf_reader.cc
 +++ b/gold/dwarf_reader.cc
 @@ -33,6 +33,7 @@
@@ -142,7 +142,7 @@ index d922300a6a1..4b3e7e41e80 100644
  	    {
  	      off_t sec_off;
  	      sec_off = this->dwinfo_->read_from_pointer<32>(&pattr);
-@@ -858,6 +878,9 @@ Dwarf_die::read_attributes()
+@@ -858,6 +870,9 @@ Dwarf_die::read_attributes()
  	  case elfcpp::DW_FORM_udata:
  	  case elfcpp::DW_FORM_GNU_addr_index:
  	  case elfcpp::DW_FORM_GNU_str_index:
@@ -152,7 +152,7 @@ index d922300a6a1..4b3e7e41e80 100644
  	    attr_value.val.uintval = read_unsigned_LEB_128(pattr, &len);
  	    pattr += len;
  	    break;
-@@ -908,6 +931,10 @@ Dwarf_die::read_attributes()
+@@ -908,6 +923,10 @@ Dwarf_die::read_attributes()
  	    if (ref_form)
  	      this->abstract_origin_ = attr_value.val.refval;
  	    break;
@@ -163,7 +163,7 @@ index d922300a6a1..4b3e7e41e80 100644
  	  case elfcpp::DW_AT_sibling:
  	    if (ref_form && attr_value.aux.shndx == 0)
  	      this->sibling_offset_ = attr_value.val.refval;
-@@ -992,15 +1019,25 @@ Dwarf_die::skip_attributes()
+@@ -992,15 +1011,25 @@ Dwarf_die::skip_attributes()
  	    }
  	  case elfcpp::DW_FORM_data1:
  	  case elfcpp::DW_FORM_ref1:
@@ -189,7 +189,7 @@ index d922300a6a1..4b3e7e41e80 100644
  	    pattr += 4;
  	    break;
  	  case elfcpp::DW_FORM_data8:
-@@ -1012,6 +1049,8 @@ Dwarf_die::skip_attributes()
+@@ -1012,6 +1041,8 @@ Dwarf_die::skip_attributes()
  	  case elfcpp::DW_FORM_udata:
  	  case elfcpp::DW_FORM_GNU_addr_index:
  	  case elfcpp::DW_FORM_GNU_str_index:
@@ -198,7 +198,7 @@ index d922300a6a1..4b3e7e41e80 100644
  	    read_unsigned_LEB_128(pattr, &len);
  	    pattr += len;
  	    break;
-@@ -1078,6 +1117,16 @@ Dwarf_die::string_attribute(unsigned int attr)
+@@ -1078,6 +1109,16 @@ Dwarf_die::string_attribute(unsigned int attr)
      return NULL;
    switch (attr_val->form)
      {
@@ -215,7 +215,7 @@ index d922300a6a1..4b3e7e41e80 100644
        case elfcpp::DW_FORM_string:
          return attr_val->val.stringval;
        case elfcpp::DW_FORM_strp:
-@@ -1391,6 +1440,7 @@ Dwarf_info_reader::do_parse()
+@@ -1391,6 +1432,7 @@ Dwarf_info_reader::do_parse()
  			 NULL);
        if (root_die.tag() != 0)
  	{
@@ -223,7 +223,7 @@ index d922300a6a1..4b3e7e41e80 100644
  	  // Visit the CU or TU.
  	  if (this->is_type_unit_)
  	    this->visit_type_unit(section_offset + this->cu_offset_,
-@@ -1457,6 +1507,48 @@ Dwarf_info_reader::do_read_string_table(unsigned int string_shndx)
+@@ -1457,6 +1499,48 @@ Dwarf_info_reader::do_read_string_table(unsigned int string_shndx)
    return true;
  }
  
@@ -272,7 +272,7 @@ index d922300a6a1..4b3e7e41e80 100644
  // Read a possibly unaligned integer of SIZE.
  template <int valsize>
  inline typename elfcpp::Valtype_base<valsize>::Valtype
-@@ -1523,6 +1615,27 @@ Dwarf_info_reader::get_string(off_t str_off, unsigned int string_shndx)
+@@ -1523,6 +1607,27 @@ Dwarf_info_reader::get_string(off_t str_off, unsigned int string_shndx)
    return p;
  }
  
@@ -416,5 +416,5 @@ index 3a28974b882..904f32b08c4 100644
  
  // We can't do better than to keep the offsets in a sorted vector.
 -- 
-2.30.0
+2.31.1
 

@@ -1,7 +1,7 @@
-From 10658a9b45dd39bf1d28cd49941776b5a32d0e54 Mon Sep 17 00:00:00 2001
+From 3d61761717d87314f3fbbf751ec81574443af7ec Mon Sep 17 00:00:00 2001
 From: Adrian Ratiu <adrian.ratiu@collabora.com>
 Date: Tue, 12 Jan 2021 00:46:33 +0200
-Subject: [PATCH 14/15] gold: dwp: fix null dereference on executable with no
+Subject: [PATCH 13/14] gold: dwp: fix null dereference on executable with no
  refs
 
 A logic error on input validation causes an empty "files" list to
@@ -44,5 +44,5 @@ index 7acb9b401bc..cc3eb324f2b 100644
    if (verify_only)
      {
 -- 
-2.30.0
+2.31.1
 

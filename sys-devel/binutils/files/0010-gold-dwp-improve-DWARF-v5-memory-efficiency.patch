@@ -1,7 +1,7 @@
-From 3c35126e0a5e12cd79f832e9693c1eced11cb2a6 Mon Sep 17 00:00:00 2001
+From fe74a17d59227b435e92edb60a040357a59a8cf3 Mon Sep 17 00:00:00 2001
 From: Caroline Tice <cmtice@google.com>
 Date: Fri, 20 Nov 2020 11:05:19 -0800
-Subject: [PATCH 11/15] gold: dwp: improve DWARF v5 memory efficiency
+Subject: [PATCH 10/14] gold: dwp: improve DWARF v5 memory efficiency
 
 Apply basic patch by David Blaikie to update gold dwp tool to handle
 DWARF v5. This is the second of three patches for DWARF v5.
@@ -200,5 +200,5 @@ index 9217b17910f..f4d0030758e 100644
    void
    print_stats(const char*) const;
 -- 
-2.30.0
+2.31.1
 

@@ -1,7 +1,7 @@
-From 0d0affaf2b173778cf7e00f420f81eda759b8c7d Mon Sep 17 00:00:00 2001
+From d72141f5b99358984a0d6ffcd3c06534d7077942 Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Sat, 17 Mar 2018 15:31:31 -0800
-Subject: [PATCH 09/15] gold: turn on --experimental-use-relr by default.
+Subject: [PATCH 08/14] gold: turn on --experimental-use-relr by default.
 
 [Adrian Ratiu: rebased from v2.27 to v2.35.1]
 [Adrian Ratiu: regenerated as proper git format-patch.]
@@ -25,5 +25,5 @@ index 6e32d5dd6ae..9e47e5de999 100644
  	      N_("Do not generate RELR dynamic relocations"));
  
 -- 
-2.30.0
+2.31.1
 

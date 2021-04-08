@@ -1,7 +1,7 @@
-From 16b476ff5d2327e8560a037ac554028ad307b57e Mon Sep 17 00:00:00 2001
+From 8bcba7032e380b69ef8a684706473509c1bcb5f7 Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Sat, 17 Mar 2018 15:31:31 -0800
-Subject: [PATCH 08/15] move SHT_RELR section type to the generic range.
+Subject: [PATCH 07/14] move SHT_RELR section type to the generic range.
 
 Proposal for adding SHT_RELR sections in generic-abi is at
 https://groups.google.com/forum/#!topic/generic-abi/bX460iggiKg
@@ -145,5 +145,5 @@ index 83374777d20..79c3a2fbbd5 100644
  #define DT_HIPROC	0x7fffffff
  
 -- 
-2.30.0
+2.31.1
 
