@@ -154,6 +154,7 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-an-incorrect-max_array_access-afte.patch
 	epatch "${FILESDIR}"/FROMLIST-glsl-fix-a-binding-points-assignment-for-ss.patch
+	epatch "${FILESDIR}"/UPSTREAM-glsl-mark-some-builtins-with-correct-glsl-es-version.patch
 
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
 	epatch "${FILESDIR}"/UPSTREAM-intel-Add-support-for-Comet-Lake.patch
