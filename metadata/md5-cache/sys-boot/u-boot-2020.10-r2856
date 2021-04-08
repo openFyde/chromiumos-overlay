@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile configure info install setup unpack
+DEPEND=sandbox? ( media-libs/libsdl:= )
+DESCRIPTION=Das U-Boot boot loader
+EAPI=7
+HOMEPAGE=http://www.denx.de/wiki/U-Boot
+IUSE=dev generated_cros_config sandbox unibuild vboot werror cros_host cros_workon_tree_cc62ac558f2d793f4e7740ad48d87ba5d0da7a90_540f64491237d9a9fde2d43e51a175d906897bc9
+KEYWORDS=*
+LICENSE=GPL-2
+PROPERTIES=live
+RDEPEND=sandbox? ( media-libs/libsdl:= ) chromeos-base/u-boot-scripts !!sys-boot/chromeos-u-boot unibuild? ( !generated_cros_config? ( chromeos-base/chromeos-config ) generated_cros_config? ( chromeos-base/chromeos-config-bsp:= ) )
+SLOT=0/2020.10-r2856
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=d772f0ea4435c70bc9c656199f19b555
