@@ -4,6 +4,9 @@
 
 EAPI="7"
 
+PATCH_VER="6"
+PATCH_DEV=${PATCH_DEV:-slyfox}
+
 inherit eutils binutils-funcs
 
 DESCRIPTION="The GNU Compiler Collection.  Includes C/C++, java compilers, pie+ssp extensions, Haj Ten Brugge runtime bounds checking. This Compiler is based off of Crosstoolv14."
@@ -84,7 +87,8 @@ SLOT="${CTARGET}"
 
 PREFIX="/usr"
 
-SRC_URI="mirror://gnu/gcc/gcc-${PV}/gcc-${PV}.tar.xz"
+SRC_URI="mirror://gnu/gcc/gcc-${PV}/gcc-${PV}.tar.xz
+	https://dev.gentoo.org/~${PATCH_DEV}/distfiles/gcc-${GCC_RELEASE_VER}-patches-${PATCH_VER}.tar.bz2"
 
 PATCHES=(
 	"${FILESDIR}/0001-Fix-emutls.c-to-not-leak-pthread-keys.patch"
@@ -92,6 +96,14 @@ PATCHES=(
 
 S="${WORKDIR}/gcc-${PV}"
 MY_BUILDDIR="${WORKDIR}/build-${CTARGET}"
+
+src_prepare() {
+	einfo "Applying Gentoo GCC patches"
+	eapply "${WORKDIR}/patch"
+
+	# Apply things from PATCHES and user dirs
+	default
+}
 
 src_configure() {
 	if [[ -f ${MY_BUILDDIR}/Makefile ]]; then
