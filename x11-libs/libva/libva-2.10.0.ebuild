@@ -13,7 +13,7 @@ LICENSE="MIT"
 SLOT="0/$(ver_cut 1)"
 IUSE="utils beanstalk internal intel_ihd_pavp"
 
-VIDEO_CARDS="intel amdgpu iHD"
+VIDEO_CARDS="i965 amdgpu iHD"
 for x in ${VIDEO_CARDS}; do
 	IUSE+=" video_cards_${x}"
 done
@@ -26,7 +26,7 @@ BDEPEND="
 	virtual/pkgconfig
 "
 PDEPEND="
-	video_cards_intel? ( !video_cards_iHD? ( >=x11-libs/libva-intel-driver-2.0.0[${MULTILIB_USEDEP}] ) )
+	video_cards_i965? ( >=x11-libs/libva-intel-driver-2.0.0[${MULTILIB_USEDEP}] )
 	video_cards_iHD? (
 		beanstalk? (
 			internal? ( x11-libs/libva-intel-media-driver-pavp[${MULTILIB_USEDEP}] )
