@@ -238,6 +238,7 @@ ALL_BOARDS=(
 	kalista-cfm
 	kayle
 	kblrvp
+	keeby
 	kefka
 	kefka-kernelnext
 	#kennet
