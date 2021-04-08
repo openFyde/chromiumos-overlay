@@ -7,7 +7,7 @@ inherit cros-sanitizers user
 
 DESCRIPTION="QMI Remote File System Server"
 HOMEPAGE="https://github.com/andersson/rmtfs"
-GIT_SHA1="9ef260ba6f550857dd87c3818ba3759343f45d2d"
+GIT_SHA1="293ab8babb27ac0f24247bb101fed9420c629c29"
 SRC_URI="https://github.com/andersson/rmtfs/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
