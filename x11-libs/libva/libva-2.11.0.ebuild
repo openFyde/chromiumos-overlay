@@ -7,7 +7,7 @@ inherit autotools multilib-minimal
 
 DESCRIPTION="Video Acceleration (VA) API for Linux"
 HOMEPAGE="https://01.org/linuxmedia/vaapi"
-SRC_URI="https://github.com/intel/libva/releases/download/${PV}/${P}.tar.bz2"
+SRC_URI="https://github.com/intel/libva/releases/download/${PV}/${P}.tar.gz"
 KEYWORDS="*"
 LICENSE="MIT"
 SLOT="0/$(ver_cut 1)"
@@ -49,11 +49,6 @@ MULTILIB_WRAPPED_HEADERS=(
 /usr/include/va/va_dri2.h
 /usr/include/va/va_dricommon.h
 /usr/include/va/va_glx.h
-)
-
-PATCHES=(
-	"${FILESDIR}"/0001-Add-a-configuration-attribute-to-advertise-AV1d-LST-.patch
-	"${FILESDIR}"/0002-LibVA-Protected-Content-API.patch
 )
 
 src_prepare() {

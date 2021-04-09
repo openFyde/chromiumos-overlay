@@ -16,7 +16,7 @@ SLOT="0"
 IUSE="ihd_cmrtlib"
 
 DEPEND=">=media-libs/gmmlib-21.1.1
-	>=x11-libs/libva-2.10.0
+	>=x11-libs/libva-2.11.0
 "
 RDEPEND="${DEPEND}"
 
