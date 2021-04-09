@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk metrics .gn"
 
 PLATFORM_SUBDIR="metrics"
 
-inherit cros-constants cros-workon libchrome-version platform systemd user
+inherit cros-constants cros-workon libchrome-version platform tmpfiles systemd user
 
 DESCRIPTION="Metrics aggregation service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/metrics/"
@@ -67,6 +67,8 @@ src_install() {
 	dolib.so "${OUT}/lib/libmetrics.so"
 	doins "${OUT}/lib/libmetrics.pc"
 	dolib.so "${OUT}/lib/libstructuredmetrics.so"
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	insinto /usr/include/metrics
 	doins c_metrics_library.h \
