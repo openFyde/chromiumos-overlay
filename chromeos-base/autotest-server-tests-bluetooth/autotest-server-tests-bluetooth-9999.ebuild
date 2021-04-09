@@ -32,6 +32,7 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterLEBetterTogether
 	+tests_bluetooth_AdapterLEHIDHealth
 	+tests_bluetooth_AdapterLEHealth
+	+tests_bluetooth_AdapterLLTHealth
 	+tests_bluetooth_AdapterMDHealth
 	+tests_bluetooth_AdapterMTBF
 	+tests_bluetooth_AdapterPowerMeasure
