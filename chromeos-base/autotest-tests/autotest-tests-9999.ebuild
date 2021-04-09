@@ -96,6 +96,7 @@ CLIENT_IUSE_TESTS="
 	+tests_dummy_Pass
 	+tests_dummy_SynchronousOffload
 	tests_example_UnitTest
+	+tests_firmware_CbfsMcache
 	+tests_firmware_LockedME
 	+tests_firmware_CheckEOPState
 	+tests_firmware_RomSize
