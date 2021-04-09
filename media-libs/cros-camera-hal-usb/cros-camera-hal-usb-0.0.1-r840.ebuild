@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="e2c31be2c6dea118b5f77bc9ec1f4f470abdf6e2"
+CROS_WORKON_COMMIT="ee5a26d9338223fd784b7a92ce7489bf4750d95a"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "44f1ed774fc52ed97e051bade9c6065ec6c151ea" "fb071ce25192ba3e6ae2f96341fdae3b7e06ea51" "97f7e6ca9be5fd78db7f4f1e5a7712f44d0493c5" "406b39dae911e520f34b59d16ab095f5993e8d55" "82d8340080590642acc50dc036328e23cba9c484" "a54d2df3e8853d5a5f1e0854b36d8d850db3611e")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -21,13 +21,11 @@ DESCRIPTION="Chrome OS USB camera HAL v3."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="usb_camera_monocle"
 
 RDEPEND="
 	chromeos-base/cros-camera-android-deps
 	chromeos-base/cros-camera-libs
 	dev-libs/re2
-	usb_camera_monocle? ( media-libs/librealtek-sdk )
 	media-libs/libsync
 	chromeos-base/chromeos-config-tools"
 
