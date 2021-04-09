@@ -1,8 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Google3 face detection library.
-EAPI=7
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0
-SRC_URI=amd64? ( gs://chromeos-localmirror/distfiles/chromeos-facessd-lib-x86_64-2021.03.26.tbz2 ) arm? ( gs://chromeos-localmirror/distfiles/chromeos-facessd-lib-armv7-2021.03.26.tbz2 )
-_md5_=99f928c802a32878f65c3831cfa0fa6c
