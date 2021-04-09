@@ -4,7 +4,7 @@ DEPEND==dev-rust/chrono-0.4*:= =dev-rust/dbus-0.8*:= =dev-rust/getopts-0.2*:= de
 DESCRIPTION=Chrome OS developer command-line shell
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosh/
-IUSE=+rust-crosh cros_host cros_workon_tree_dead1eb50d13ea4e5a35ea36f43973e5cf81693d cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=+rust-crosh cros_host cros_workon_tree_6ac2bae56a4fb28bff9f0d2fa93bc1c950b60079 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
@@ -12,4 +12,4 @@ RDEPEND=app-admin/sudo chromeos-base/vboot_reference net-misc/iputils net-misc/o
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	667a148a03dd2a4c7815bf7f755279c0	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=fa62c1baad601184c6f92ea6363aeb1b
+_md5_=f984b090be0de3a504be80b0da14c0b2
