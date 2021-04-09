@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="5acfb2eacf53ae16a2976645d71e4ef541595c0e"
-CROS_WORKON_TREE="3cc870d4d7579e9ae029a6f9936868e4436148a7"
+CROS_WORKON_COMMIT="3d6cda7e01fd44d92f993360e902d265810a8b3c"
+CROS_WORKON_TREE="e5b800187e02cfebd8dcf75559c97d6cf67fbfcc"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -48,11 +48,11 @@ DEPEND="${RDEPEND}"
 
 IUSE_TESTS=(
 	# Tests that depend on telemetry.
-	+tests_accessibility_Sanity
+	+tests_accessibility_Check
 	+tests_accessibility_ChromeVoxSound
 	+tests_audio_ActiveStreamStress
 	+tests_audio_AudioCorruption
-	+tests_audio_CrasSanity
+	+tests_audio_CrasCheck
 	+tests_audio_PlaybackPower
 	+tests_audio_SeekAudioFeedback
 	+tests_autoupdate_EOL
@@ -67,7 +67,7 @@ IUSE_TESTS=(
 	+tests_bluetooth_TurnOnOffUI
 	+tests_desktopui_AudioFeedback
 	+tests_desktopui_CheckRlzPingSent
-	+tests_desktopui_ChromeSanity
+	+tests_desktopui_ChromeCheck
 	tests_desktopui_ConnectivityDiagnostics
 	+tests_desktopui_MediaAudioFeedback
 	+tests_desktopui_ScreenLocker
@@ -122,7 +122,7 @@ IUSE_TESTS=(
 	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ArcDisableScreenshots
 	+tests_policy_AudioOutputAllowed
-	+tests_policy_AutotestSanity
+	+tests_policy_AutotestCheck
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesAllowedForUrls
 	+tests_policy_CookiesBlockedForUrls
