@@ -17,7 +17,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="agent amt archive +bluetooth dell +gnutls gtk-doc +gusb elogind flashrom_i2c +minimal +gpg flashrom introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
+IUSE="agent amt archive +bluetooth dell +gnutls gtk-doc +gusb elogind +minimal +gpg flashrom introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	^^ ( elogind minimal systemd )
 	dell? ( uefi )
@@ -128,7 +128,6 @@ src_configure() {
 		$(meson_use thunderbolt plugin_thunderbolt)
 		$(meson_use uefi plugin_uefi_capsule)
 		$(meson_use uefi plugin_uefi_pk)
-		$(meson_use flashrom_i2c plugin_flashrom_i2c)
 		-Dconsolekit="false"
 		-Dcurl="true"
 		# Dependencies are not available (yet?)
