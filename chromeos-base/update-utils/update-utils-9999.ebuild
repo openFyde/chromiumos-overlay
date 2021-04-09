@@ -31,6 +31,9 @@ src_compile() { :; }
 src_install() {
 	into /usr/local
 	dobin nebraska/nebraska.py
+
+	insinto /etc/init
+	doins nebraska/nebraska.conf
 }
 
 src_test() {

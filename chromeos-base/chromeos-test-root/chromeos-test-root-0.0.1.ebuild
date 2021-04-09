@@ -22,6 +22,7 @@ IUSE="+bootchart"
 RDEPEND="
 	bootchart? ( app-benchmarks/bootchart )
 	chromeos-base/chromeos-test-init
+	chromeos-base/update-utils
 	virtual/chromeos-test-testauthkeys
 	virtual/chromeos-bsp-test-root
 "
