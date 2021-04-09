@@ -779,6 +779,9 @@ setup_compile_flags() {
 	# Workaround: Disable fatal linker warnings on arm64/lld.
 	# https://crbug.com/913071
 	use arm64 && append-ldflags "-Wl,--no-fatal-warnings"
+	# Workaround: Disable fatal linker warnings on arm/lld.
+	# https://crbug.com/1190544
+	use arm && append-ldflags "-Wl,--no-fatal-warnings"
 	use vtable_verify && append-ldflags -fvtable-verify=preinit
 
 	local flags
