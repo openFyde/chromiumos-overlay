@@ -30,6 +30,7 @@ RDEPEND="
 	dev-python/pykwalify[${PYTHON_USEDEP}]
 	dev-python/pytest[${PYTHON_USEDEP}]
 	dev-python/pyyaml[${PYTHON_USEDEP}]
+	dev-python/testfixtures[${PYTHON_USEDEP}]
 	dev-util/ninja
 	sys-apps/dtc
 "
