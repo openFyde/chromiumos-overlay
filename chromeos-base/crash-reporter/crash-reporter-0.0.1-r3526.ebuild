@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2285568eea073eae8416b1640ff59b01f5bf5800"
-CROS_WORKON_TREE=("a54d2df3e8853d5a5f1e0854b36d8d850db3611e" "0c7d46f7aede26f8142cc43dd41ad39d35c46f8f" "d38e2a858d6a88cdb07d98279bbc84f5abd1a12f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a7f962165b5269d9f5e7acc478caabb6aea55c1b"
+CROS_WORKON_TREE=("a54d2df3e8853d5a5f1e0854b36d8d850db3611e" "79185616659a51a51ddae8b43133480ae2705323" "d38e2a858d6a88cdb07d98279bbc84f5abd1a12f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crash-re
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cheets chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer vm-containers"
+IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer vm-containers"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -50,14 +50,14 @@ DEPEND="
 
 src_configure() {
 	platform_src_configure
-	use cheets && use_i686 && platform_src_configure_i686
-	use cheets && use_arm64 && platform_src_configure_arm64
+	use arcpp && use_i686 && platform_src_configure_i686
+	use arcpp && use_arm64 && platform_src_configure_arm64
 }
 
 src_compile() {
 	platform_src_compile
-	use cheets && use_i686 && platform_src_compile_i686 "core_collector"
-	use cheets && use_arm64 && platform_src_compile_arm64 "core_collector"
+	use arcpp && use_i686 && platform_src_compile_i686 "core_collector"
+	use arcpp && use_arm64 && platform_src_compile_arm64 "core_collector"
 }
 
 pkg_setup() {
@@ -92,7 +92,7 @@ src_install() {
 	use cros_embedded || dobin "${OUT}"/anomaly_detector
 	dosbin kernel_log_collector.sh
 
-	if use cheets; then
+	if use arcpp; then
 		dobin "${OUT}"/core_collector
 		use_i686 && newbin "$(platform_out_i686)"/core_collector "core_collector32"
 		use_arm64 && newbin "$(platform_out_arm64)"/core_collector "core_collector64"
