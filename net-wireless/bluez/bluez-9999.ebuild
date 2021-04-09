@@ -25,7 +25,7 @@ HOMEPAGE="http://www.bluez.org/"
 
 LICENSE="GPL-2 LGPL-2.1"
 KEYWORDS="~*"
-IUSE="asan bluez-next bluez-upstream cups debug fuzzer systemd readline bt_deprecated_tools"
+IUSE="asan bluez-next bluez-upstream cups debug fuzzer hid2hci systemd readline bt_deprecated_tools"
 REQUIRED_USE="?? ( bluez-next bluez-upstream )"
 
 CDEPEND="
@@ -105,6 +105,7 @@ src_configure() {
 		--disable-network \
 		--disable-datafiles \
 		$(use_enable fuzzer) \
+		$(use_enable hid2hci) \
 		$(use_enable bt_deprecated_tools deprecated)
 }
 
