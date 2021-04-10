@@ -25,4 +25,3 @@ src_install() {
 	insinto /usr/share/${PN}
 	doins "${FILESDIR}"/fwid_mapping_table.txt
 }
-
