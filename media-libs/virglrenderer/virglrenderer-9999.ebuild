@@ -17,7 +17,7 @@ HOMEPAGE="https://virgil3d.github.io/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug fuzzer profiling test"
+IUSE="debug fuzzer profiling test vulkan"
 
 RDEPEND="
 	>=x11-libs/libdrm-2.4.50
@@ -26,13 +26,16 @@ RDEPEND="
 	fuzzer? (
 		virtual/opengles
 	)
+	vulkan? ( media-libs/vulkan-loader )
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
 	chromeos-base/percetto
 	sys-devel/autoconf-archive
 	fuzzer? ( >=dev-libs/check-0.9.4 )
-	test? ( >=dev-libs/check-0.9.4 )"
+	test? ( >=dev-libs/check-0.9.4 )
+	vulkan? ( dev-util/vulkan-headers )
+"
 
 src_prepare() {
 	default
@@ -51,6 +54,7 @@ src_configure() {
 		-Dminigbm_allocation="true"
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
+		$(meson_use vulkan venus-experimental)
 		--buildtype $(usex debug debug release)
 	)
 
