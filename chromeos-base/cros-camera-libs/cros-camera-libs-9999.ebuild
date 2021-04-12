@@ -84,6 +84,9 @@ src_install() {
 	# Install libcros_camera required by the camera HAL implementations.
 	insinto /usr/include/cros-camera/
 	doins -r ../include/cros-camera/*
+	# TODO(crbug.com/1197394): Remove after the issue is resolved.
+	mojo_files=$(find "${OUT}"/gen/include/mojo -name '*.mojom.h')
+	einfo "${mojo_files}"
 	doins -r "${OUT}"/gen/include/mojo
 
 	dolib.so "${OUT}"/lib/libcros_camera.so
