@@ -52,6 +52,7 @@ src_prepare()
 	epatch "${FILESDIR}"/patches/${P}-Handle-DHCP-iSNS-option.patch
 	epatch "${FILESDIR}"/patches/${P}-Send-more-DHCPv6-options-over-DBus-RPC.patch
 	epatch "${FILESDIR}"/patches/${P}-Fix-dbus-flags.patch
+	epatch "${FILESDIR}"/patches/${P}-Check-read-callbacks-before-execution.patch
 }
 
 src_configure()
