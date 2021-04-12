@@ -105,6 +105,7 @@ src_install() {
 		doins init/arc-boot-continue.conf
 		doins init/arc-lifetime.conf
 		doins init/arc-update-restorecon-last.conf
+		doins init/arcpp-post-login-services.conf
 		if use esdfs; then
 			doins init/arc-sdcard.conf
 			doins init/arc-sdcard-mount.conf

@@ -35,8 +35,8 @@ MIN_FILELIST_SPECIAL_FILE="/proc/sys/vm/min_filelist_kbytes"
 min_filelist_default_generator() {
   # Check if ARC++ is running.  But don't check if it's not installed.
   if grep -q CHROMEOS_ARC_VERSION /etc/lsb-release && \
-      [ "$(initctl status arc-boot-continue)" = \
-           "arc-boot-continue start/running" ]; then
+      [ "$(initctl status arcpp-post-login-services)" = \
+           "arcpp-post-login-services start/running" ]; then
     echo 400000  # KiB
   else
     echo 100000  # KiB
