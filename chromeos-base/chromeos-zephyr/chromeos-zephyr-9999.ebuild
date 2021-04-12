@@ -28,15 +28,20 @@ inherit cros-workon cros-unibuild coreboot-sdk toolchain-funcs
 DESCRIPTION="Zephyr based Embedded Controller firmware"
 KEYWORDS="~*"
 LICENSE="Apache-2.0 BSD-Google"
-IUSE="generated_cros_config"
+IUSE="unibuild"
+REQUIRED_USE="unibuild"
 
 BDEPEND="
-	chromeos-base/chromeos-config
 	chromeos-base/zephyr-build-tools
 	dev-python/docopt
 	dev-python/pykwalify
 	dev-util/ninja
 "
+
+DEPEND="
+	chromeos-base/chromeos-config
+"
+RDEPEND="${DEPEND}"
 
 ZEPHYR_EC_BUILD_DIRECTORIES=()
 
