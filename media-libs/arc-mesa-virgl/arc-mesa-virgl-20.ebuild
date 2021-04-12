@@ -177,6 +177,8 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/BACKPORT-virgl-add-astc-2d-compressed-formats.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-glsl-mark-some-builtins-with-correct-glsl-es-version.patch
+
 	default
 }
 
