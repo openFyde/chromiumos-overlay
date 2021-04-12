@@ -312,6 +312,7 @@ ALL_BOARDS=(
 	#newbie
 	ninja
 	nocturne
+	nocturne-kernelnext
 	novato
 	novato-arc64
 	novato-arcnext
