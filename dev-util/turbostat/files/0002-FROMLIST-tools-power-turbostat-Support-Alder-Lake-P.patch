@@ -1,0 +1,37 @@
+From 89b647c4efbc51e99c660b2f033226f64e2ce906 Mon Sep 17 00:00:00 2001
+From: Chen Yu <yu.c.chen@intel.com>
+Date: Wed, 3 Feb 2021 16:54:26 +0800
+Subject: [PATCH] FROMLIST: tools/power turbostat: Support Alder Lake P
+
+Share the code between Alder Lake P and Alder Lake S.
+
+Tested-by: Wendy Wang <wendy.wang@intel.com>
+Signed-off-by: Chen Yu <yu.c.chen@intel.com>
+(am from https://lkml.org/lkml/2021/2/3/146)
+
+BUG=b:179283724
+TEST=kernel boots on brya successfully
+
+Signed-off-by: Nathan Ciobanu <nathan.d.ciobanu@intel.corp-partner.google.com>
+Change-Id: Ib74667ea3be60d3786b95fb147cc1393b99681cc
+Reviewed-on: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2684556
+Reviewed-by: Alex Levin <levinale@google.com>
+---
+ tools/power/x86/turbostat/turbostat.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tools/power/x86/turbostat/turbostat.c b/tools/power/x86/turbostat/turbostat.c
+index 389ea5209a83..34628e3e7099 100644
+--- a/tools/power/x86/turbostat/turbostat.c
++++ b/tools/power/x86/turbostat/turbostat.c
+@@ -4986,6 +4986,7 @@ unsigned int intel_model_duplicates(unsigned int model)
+ 	case INTEL_FAM6_ROCKETLAKE:
+ 	case INTEL_FAM6_LAKEFIELD:
+ 	case INTEL_FAM6_ALDERLAKE:
++	case INTEL_FAM6_ALDERLAKE_L:
+ 		return INTEL_FAM6_CANNONLAKE_L;
+ 
+ 	case INTEL_FAM6_ATOM_TREMONT_L:
+-- 
+2.30.2
+
