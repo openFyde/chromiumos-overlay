@@ -86,7 +86,7 @@ multilib_src_configure() {
 		"-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)"
 		"-DLIBCXXABI_INCLUDE_TESTS=OFF"
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
-		"-DLIBCXXABI_LIBCXX_INCLUDES=${S}/libcxx/include"
+		"-DLIBCXXABI_LIBCXX_INCLUDES=libcxx_build/include/c++/v1"
 		"-DLIBCXXABI_USE_COMPILER_RT=$(usex compiler-rt)"
 	)
 
@@ -115,7 +115,37 @@ multilib_src_configure() {
 		)
 	fi
 
+	libcxx_configure
 	cmake-utils_src_configure
+}
+
+# Works around libcxx/libcxxabi cyclic dependency where libcxx needs libcxxabi,
+# but libcxxabi needs libcxx headers by generating the libcxx headers for
+# libcxxabi.
+libcxx_configure() {
+	mkdir -p libcxx_build
+	cd libcxx_build || die
+	local libdir=$(get_libdir)
+	local mycmakeargs=(
+		"-DLLVM_ENABLE_PROJECTS=libcxx"
+		"-DLIBCXX_LIBDIR_SUFFIX=${libdir#lib}"
+		"-DCMAKE_C_COMPILER_WORKS=yes"
+		"-DCMAKE_CXX_COMPILER_WORKS=yes"
+		"-DLIBCXX_ENABLE_SHARED=ON"
+		"-DLIBCXX_ENABLE_STATIC=yes"
+		"-DLIBCXX_CXX_ABI=libcxxabi"
+		# we're using our own mechanism for generating linker scripts
+		"-DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=OFF"
+		"-DLIBCXX_HAS_MUSL_LIBC=off"
+		"-DLIBCXX_HAS_GCC_S_LIB=no"
+		"-DLIBCXX_USE_COMPILER_RT=yes"
+		"-DLIBCXX_INCLUDE_TESTS=OFF"
+		"-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)"
+		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
+	)
+	cmake -GNinja "${S}/libcxx" "${mycmakeargs[@]}"
+	ninja generate-cxx-headers
+	cd .. || die
 }
 
 multilib_src_install_all() {
@@ -125,3 +155,4 @@ multilib_src_install_all() {
 	insinto "${PREFIX}"/include/libcxxabi
 	doins -r "${S}"/libcxxabi/include/.
 }
+
