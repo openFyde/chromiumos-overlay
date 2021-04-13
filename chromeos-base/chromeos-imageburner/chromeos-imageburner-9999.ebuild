@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk image-burner .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="image-burner"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="Image-burning service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/image-burner/"
@@ -29,6 +29,12 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/system_api
 "
+
+pkg_preinst() {
+	# Create user and group for image-burner.
+	enewuser "image-burner"
+	enewgroup "image-burner"
+}
 
 src_install() {
 	dosbin "${OUT}"/image_burner
