@@ -10,7 +10,7 @@ S="${WORKDIR}/${P}"
 : ${CMAKE_MAKEFILE_GENERATOR:=ninja}
 # (needed due to CMAKE_BUILD_TYPE != Gentoo)
 CMAKE_MIN_VERSION=3.7.0-r1
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cmake-utils flag-o-matic multilib-minimal \
 	multiprocessing pax-utils python-any-r1 toolchain-funcs arc-build eapi7-ver
