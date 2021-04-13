@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("6fd6ad631285b0c34d377abe77bceab78700f370" "c3bd2094f92d574377f7af2aec147ae181aa5f8e" "8eb12e4466cc73f2a95292073832878814b8ed31" "aa6e346e6a9268bdcdebb90127c91b4b9097a42d")
-CROS_WORKON_TREE=("9565ad673deddee9f93f3efe1925eb8ac2a40694" "781df7da13c4275a2328c09e75fd937991d80e29" "049362d45a6362cbdede3ebd10c38ed8d446410a" "9de784fc0f26ea628fbd83f39822a205a5c912e3")
+CROS_WORKON_COMMIT=("6fd6ad631285b0c34d377abe77bceab78700f370" "c3bd2094f92d574377f7af2aec147ae181aa5f8e" "8eb12e4466cc73f2a95292073832878814b8ed31" "08c5b95b6f924783b4383ece03ddb12879a9b19a")
+CROS_WORKON_TREE=("9565ad673deddee9f93f3efe1925eb8ac2a40694" "781df7da13c4275a2328c09e75fd937991d80e29" "049362d45a6362cbdede3ebd10c38ed8d446410a" "2c9a48cb49d0f718efb51bc3831427e284bea92f")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/zephyr"
 	"chromiumos/third_party/zephyr/cmsis"
@@ -30,15 +30,20 @@ inherit cros-workon cros-unibuild coreboot-sdk toolchain-funcs
 DESCRIPTION="Zephyr based Embedded Controller firmware"
 KEYWORDS="*"
 LICENSE="Apache-2.0 BSD-Google"
-IUSE="generated_cros_config"
+IUSE="unibuild"
+REQUIRED_USE="unibuild"
 
 BDEPEND="
-	chromeos-base/chromeos-config
 	chromeos-base/zephyr-build-tools
 	dev-python/docopt
 	dev-python/pykwalify
 	dev-util/ninja
 "
+
+DEPEND="
+	chromeos-base/chromeos-config
+"
+RDEPEND="${DEPEND}"
 
 ZEPHYR_EC_BUILD_DIRECTORIES=()
 
