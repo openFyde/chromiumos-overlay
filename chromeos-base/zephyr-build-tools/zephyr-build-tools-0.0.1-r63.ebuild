@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f1d171c416ce1c1dcc009e412ff6d453813e3962"
+CROS_WORKON_COMMIT="33d4fba9daf641d8f52171bc1a1de823a1afb650"
 CROS_WORKON_TREE="63ffc13f6051a6534ea16fc9cb1641ffa6c5020f"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
@@ -32,6 +32,7 @@ RDEPEND="
 	dev-python/pykwalify[${PYTHON_USEDEP}]
 	dev-python/pytest[${PYTHON_USEDEP}]
 	dev-python/pyyaml[${PYTHON_USEDEP}]
+	dev-python/testfixtures[${PYTHON_USEDEP}]
 	dev-util/ninja
 	sys-apps/dtc
 "
