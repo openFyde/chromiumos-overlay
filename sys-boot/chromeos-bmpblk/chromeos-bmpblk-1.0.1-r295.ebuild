@@ -50,6 +50,7 @@ CROS_BOARDS=(
 	hatch
 	jacuzzi
 	kalista
+	keeby
 	kevin
 	kip
 	kukui
