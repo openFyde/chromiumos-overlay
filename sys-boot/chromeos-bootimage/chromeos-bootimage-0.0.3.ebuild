@@ -18,7 +18,7 @@ BOARDS="${BOARDS} kblrvp kunimitsu link lumpy lumpy64 mario meowth mushu nasher 
 BOARDS="${BOARDS} nautilus nocturne octopus palkia panther parrot peppy poppy puff pyro"
 BOARDS="${BOARDS} rambi rammus reef samus sand sarien sklrvp slippy snappy"
 BOARDS="${BOARDS} soraka squawks stout strago stumpy sumo volteer zoombini zork tglrvp"
-IUSE="${BOARDS} diag_payload seabios wilco_ec"
+IUSE="${BOARDS} diag_payload seabios wilco_ec zephyr_ec"
 IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 IUSE="${IUSE} generated_cros_config"
 
@@ -43,6 +43,7 @@ DEPEND="
 	)
 	u-boot? ( sys-boot/u-boot:= )
 	cros_ec? ( chromeos-base/chromeos-ec:= )
+	zephyr_ec? ( chromeos-base/chromeos-zephyr:= )
 	pd_sync? ( chromeos-base/chromeos-ec:= )
 	"
 
@@ -54,6 +55,7 @@ S=${WORKDIR}
 
 do_cbfstool() {
 	local output
+	einfo cbfstool "$@"
 	output=$(cbfstool "$@" 2>&1)
 	if [ $? != 0 ]; then
 		die "Failed cbfstool invocation: cbfstool $@\n${output}"
@@ -168,10 +170,20 @@ add_ec() {
 	fi
 	einfo "Padding ${name}{ro,rw} ${pad} byte."
 
+	local rw_file="${ecroot}/ec.RW.bin"
+	# TODO(jrosenth): can we do this for all EC's (not just Zephyr)?
+	if use zephyr_ec; then
+		( cd "${T}" && dump_fmap -x "${ecroot}/zephyr.bin" EC_RW ) || \
+			die "Unable to extract RW region from FMAP"
+		rw_file="${T}/EC_RW"
+	fi
+	openssl dgst -sha256 -binary "${rw_file}" > "${T}/ecrw.hash" || \
+		die "Unable to compute RW hash"
+
 	do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c "${comp_type}" \
-		-f "${ecroot}/ec.RW.bin" -n "${name}rw" -p "${pad}"
+		-f "${rw_file}" -n "${name}rw" -p "${pad}"
 	do_cbfstool "${rom}" add -r FW_MAIN_A,FW_MAIN_B -t raw -c none \
-		-f "${ecroot}/ec.RW.hash" -n "${name}rw.hash"
+		-f "${T}/ecrw.hash" -n "${name}rw.hash"
 
 	if ! use ec_ro_sync; then
 		einfo "Skip packing EC RO."
@@ -578,7 +590,7 @@ build_images() {
 		die "something is still using ${froot}/cbfs, which is deprecated."
 	fi
 
-	if use cros_ec || use wilco_ec; then
+	if use cros_ec || use wilco_ec || use zephyr_ec; then
 		if use unibuild; then
 			einfo "Adding EC for ${ec_build_target}"
 			add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "ec" "${froot}/${ec_build_target}"
@@ -669,7 +681,12 @@ src_compile() {
 			einfo "Compressing target assets for: ${name}"
 			compress_assets "${froot}" "${name}"
 			einfo "Building image for: ${name}"
-			build_images ${froot} ${name} ${coreboot} ${depthcharge} ${ec}
+			if use zephyr_ec; then
+				# Zephyr installs under ${froot}/${name}/zephyr.bin,
+				# instead of using the EC build target name.
+				ec="${name}"
+			fi
+			build_images "${froot}" "${name}" "${coreboot}" "${depthcharge}" "${ec}"
 		done
 	else
 		build_images "${froot}" "" "" "" ""
