@@ -119,6 +119,7 @@ ALL_BOARDS=(
 	#cnlrvp
 	cobblepot
 	coral
+	coral-kernelnext
 	cosmos
 	cranky
 	cyan
