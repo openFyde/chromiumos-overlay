@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="9dbb940402191779e6bdbe95015c5734d021cfbd"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "ba2eabe248d552170c910a79771403eeb6769b96" "fb071ce25192ba3e6ae2f96341fdae3b7e06ea51" "97f7e6ca9be5fd78db7f4f1e5a7712f44d0493c5" "04a4ec989ae45b0de3dfe5bc738a9a448bf5b259" "e9e355dd313d66e30bbcfbc06f8b378acee5a6db" "fa9dbf5f93a6d9bd6d95bedebb827fe6659eebf2")
+CROS_WORKON_COMMIT="09eba79dec247bc7eec8088eec3b1d3a15dd199f"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "ba2eabe248d552170c910a79771403eeb6769b96" "5d4a3a4dcf247c5013f6459914ee111cbc64c8ad" "97f7e6ca9be5fd78db7f4f1e5a7712f44d0493c5" "04a4ec989ae45b0de3dfe5bc738a9a448bf5b259" "e9e355dd313d66e30bbcfbc06f8b378acee5a6db" "fa9dbf5f93a6d9bd6d95bedebb827fe6659eebf2")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
