@@ -51,6 +51,7 @@ IUSE="
 	iwlwifi_rescan
 	kerberos_daemon
 	kvm_host
+	lacros_rootfs
 	manatee
 	media_perception
 	memd
@@ -284,6 +285,7 @@ RDEPEND="
 	pciguard? ( chromeos-base/pciguard )
 	minios? ( chromeos-base/minios )
 	secanomalyd? ( chromeos-base/secanomalyd )
+	lacros_rootfs? ( chromeos-base/chromeos-lacros )
 "
 
 ################################################################################

@@ -90,6 +90,9 @@ USE="${USE} dlc"
 # Enable security-anomaly detection daemon.
 USE="${USE} secanomalyd"
 
+# Enable rootfs Lacros.
+USE="${USE} lacros_rootfs"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 

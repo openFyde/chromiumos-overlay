@@ -37,3 +37,6 @@ media-plugins/gst-plugins-meta lame taglib
 # David Hendricks <dhendrix@chromium.org> (10 Oct 2011)
 # libpci will cause program to exit(1) during init if PCI not present in system
 sys-apps/flashrom drkaiser gfxnvidia nicintel nicintel_spi nicrealtek ogp_spi satasii
+
+# Masking as Lacros isn't supported on this arch.
+virtual/target-chromium-os lacros_rootfs

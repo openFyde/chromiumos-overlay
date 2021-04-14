@@ -59,5 +59,8 @@ USE="${USE} -oobe_config"
 # Disable Downloadable Content (DLC).
 USE="${USE} -dlc"
 
+# Disable rootfs Lacros.
+USE="${USE} -lacros_rootfs"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
