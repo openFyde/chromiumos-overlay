@@ -1114,9 +1114,11 @@ FIRMWARE_BINARIES=(
 	builtin_fw_amdgpu_raven2
 	builtin_fw_amdgpu_renoir
 	builtin_fw_amdgpu_stoney
+	builtin_fw_guc_adl
 	builtin_fw_guc_g9
 	builtin_fw_guc_jsl
 	builtin_fw_guc_tgl
+	builtin_fw_huc_adl
 	builtin_fw_huc_g9
 	builtin_fw_huc_jsl
 	builtin_fw_huc_tgl
@@ -1236,6 +1238,11 @@ builtin_fw_amdgpu_files=(
 	"${builtin_fw_amdgpu_stoney_files[@]}"
 )
 
+builtin_fw_guc_adl_desc="GuC Firmware for ADL"
+builtin_fw_guc_adl_files=(
+	i915/tgl_guc_49.0.1.bin
+)
+
 builtin_fw_guc_g9_desc="GuC Firmware for Gen9"
 builtin_fw_guc_g9_files=(
 	i915/kbl_guc_ver9_39.bin
@@ -1249,6 +1256,11 @@ builtin_fw_guc_jsl_files=(
 builtin_fw_guc_tgl_desc="GuC Firmware for TGL"
 builtin_fw_guc_tgl_files=(
 	i915/tgl_guc_49.0.1.bin
+)
+
+builtin_fw_huc_adl_desc="HuC Firmware for ADL"
+builtin_fw_huc_adl_files=(
+	i915/tgl_huc_7.5.0.bin
 )
 
 builtin_fw_huc_g9_desc="HuC Firmware for Gen9"
