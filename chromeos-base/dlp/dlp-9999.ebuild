@@ -49,7 +49,11 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/dlp_test"
+	local gtest_filter_user_tests="-*.RunAsRoot*:"
+	local gtest_filter_root_tests="*.RunAsRoot*-"
+
+	platform_test "run" "${OUT}/dlp_test" "0" "${gtest_filter_user_tests}"
+	platform_test "run" "${OUT}/dlp_test" "1" "${gtest_filter_root_tests}"
 }
 
 pkg_setup() {
