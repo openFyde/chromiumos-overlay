@@ -673,7 +673,6 @@ setup_test_lists() {
 		gl_tests
 		jpeg_decode_accelerator_unittest
 		jpeg_encode_accelerator_unittest
-		libyuv_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
 		video_decode_accelerator_perf_tests
