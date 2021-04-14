@@ -51,6 +51,10 @@ src_install() {
 	# Install D-Bus service activation configuration.
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.Rmad.service
+
+	# Install seccomp policy file.
+	insinto /usr/share/policy
+	newins "seccomp/rmad-seccomp-${ARCH}.policy" rmad-seccomp.policy
 }
 
 platform_pkg_test() {
