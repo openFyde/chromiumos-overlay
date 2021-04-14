@@ -8,7 +8,7 @@ EGIT_REPO_URI="git://anongit.freedesktop.org/harfbuzz"
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit eutils flag-o-matic libtool multilib-minimal python-any-r1 xdg-utils
+inherit eutils autotools flag-o-matic libtool multilib-minimal python-any-r1 xdg-utils
 
 DESCRIPTION="An OpenType text shaping engine"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/HarfBuzz"
@@ -70,7 +70,8 @@ src_prepare() {
 			test/api/Makefile.in || die
 	fi
 
-	[[ ${PV} == 9999 ]] && eautoreconf
+	# Always call eautoreconf, crbug.com/1198270
+	eautoreconf
 	elibtoolize # for Solaris
 
 	# failing test, https://bugs.freedesktop.org/show_bug.cgi?id=89190
