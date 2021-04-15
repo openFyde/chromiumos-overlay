@@ -157,6 +157,8 @@ src_install_upstart() {
 		doins upstart/vivid/vivid.conf
 	fi
 
+	doins upstart/devicesettings-migration.conf
+
 	use vtconsole && doins upstart/vtconsole/*.conf
 }
 
