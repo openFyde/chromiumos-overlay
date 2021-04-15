@@ -82,6 +82,10 @@ PATCHES=(
 	"${FILESDIR}/5.3.7-Don-t-install-self-tests.patch"
 	"${FILESDIR}/5.3.7-Fix-exit-on-signal.patch"
 	"${FILESDIR}/5.3.7-Fix-libbfd-api.patch"
+	"${FILESDIR}/5.3.7-Fix-configure-tests.patch"
+	"${FILESDIR}/5.3.7-Update-perf-bench.patch"
+	"${FILESDIR}/5.3.7-Fix-perf-bench.patch"
+	"${FILESDIR}/5.3.7-Fix-nm-binutils-2.35.patch"
 )
 
 pkg_setup() {
@@ -94,6 +98,7 @@ src_unpack() {
 		tools/arch tools/build tools/include tools/lib tools/perf tools/scripts
 		include lib "arch/*/lib"
 	)
+	local p1=(${paths[@]/%/*})
 
 	# We expect the tar implementation to support the -j option (both
 	# GNU tar and libarchive's tar support that).
@@ -104,7 +109,7 @@ src_unpack() {
 	if [[ -n ${LINUX_PATCH} ]] ; then
 		eshopts_push -o noglob
 		ebegin "Filtering partial source patch"
-		filterdiff -p1 ${paths[@]/#/-i } -z "${DISTDIR}"/${LINUX_PATCH} \
+		xz -d -c "${DISTDIR}"/${LINUX_PATCH} | filterdiff -p1 ${p1[@]/#/-i } \
 			> ${P}.patch
 		eend $? || die "filterdiff failed"
 		eshopts_pop
@@ -132,20 +137,14 @@ src_unpack() {
 }
 
 src_prepare() {
-	default
-
 	pushd "${S_K}" >/dev/null || die
-	# The patches below include the changes beyond tools/perf
-	# so they can't be applied with PATCHES.
-	eapply "${FILESDIR}/5.3.7-Fix-configure-tests.patch"
-	eapply "${FILESDIR}/5.3.7-Update-perf-bench.patch"
-	eapply "${FILESDIR}/5.3.7-Fix-perf-bench.patch"
-	eapply "${FILESDIR}/5.3.7-Fix-nm-binutils-2.35.patch"
 	if [[ -n ${LINUX_PATCH} ]] ; then
 		eapply "${WORKDIR}"/${P}.patch
 	fi
+	eapply ${PATCHES[@]}
 	popd || die
 
+	eapply_user
 
 	# Drop some upstream too-developer-oriented flags and fix the
 	# Makefile in general

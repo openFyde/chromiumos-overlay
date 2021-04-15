@@ -39,10 +39,10 @@ Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
  tools/perf/builtin-record.c | 29 +++++++++++++++++++++++++++++
  1 file changed, 29 insertions(+)
 
-diff --git a/builtin-record.c b/builtin-record.c
+diff --git a/tools/perf/builtin-record.c b/tools/perf/builtin-record.c
 index 4d4502b7fea0..47f5fec7fb45 100644
---- a/builtin-record.c
-+++ b/builtin-record.c
+--- a/tools/perf/builtin-record.c
++++ b/tools/perf/builtin-record.c
 @@ -56,6 +56,7 @@
  #include <unistd.h>
  #include <sched.h>

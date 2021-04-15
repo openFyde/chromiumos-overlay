@@ -21,10 +21,10 @@ Date:   Tue Jan 28 23:29:38 2020 +0800
     Cc: Marek Vasut <marex@denx.de>
     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-diff --git a/util/srcline.c b/util/srcline.c
+diff --git a/tools/perf/util/srcline.c b/tools/perf/util/srcline.c
 index 6ccf6f6d09df..5b7d6c16d33f 100644
---- a/util/srcline.c
-+++ b/util/srcline.c
+--- a/tools/perf/util/srcline.c
++++ b/tools/perf/util/srcline.c
 @@ -193,16 +193,30 @@ static void find_address_in_section(bfd *abfd, asection *section, void *data)
  	bfd_vma pc, vma;
  	bfd_size_type size;

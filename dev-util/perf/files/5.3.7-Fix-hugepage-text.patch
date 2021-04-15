@@ -1,7 +1,7 @@
-diff --git a/util/event.c b/util/event.c
+diff --git a/tools/perf/util/event.c b/tools/perf/util/event.c
 index fc690fecbfd66..1fe8728cf5349 100644
---- a/util/event.c
-+++ b/util/event.c
+--- a/tools/perf/util/event.c
++++ b/tools/perf/util/event.c
 @@ -316,6 +316,107 @@ static int perf_event__synthesize_fork(struct perf_tool *tool,
  	return 0;
  }
