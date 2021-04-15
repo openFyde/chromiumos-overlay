@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure install test
+DEPEND=ssl? ( >=dev-libs/libgcrypt-1.5.3:= >=net-libs/gnutls-3.6.14:= )
+DESCRIPTION=ippsample print testing utility
+EAPI=7
+HOMEPAGE=https://github.com/istopwg/ippsample/blob/master/README.md
+IUSE=+ssl
+KEYWORDS=*
+LICENSE=Apache-2.0
+RDEPEND=ssl? ( >=dev-libs/libgcrypt-1.5.3:= >=net-libs/gnutls-3.6.14:= )
+SLOT=0
+SRC_URI=https://github.com/istopwg/ippsample/archive/ecfd14a4b6198a360e2b2ff48acc95ddde501019.zip -> ippsample-1.0.0.zip
+_eclasses_=eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=847b9b2a64172315ff7bb2c345761f42
