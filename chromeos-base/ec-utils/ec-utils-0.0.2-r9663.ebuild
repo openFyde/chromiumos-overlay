@@ -21,6 +21,7 @@ IUSE="${IUSE} cros_host +cros_ec_utils"
 
 COMMON_DEPEND="dev-embedded/libftdi:=
 	dev-libs/openssl:0=
+	sys-libs/zlib:=
 	virtual/libusb:1="
 DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
