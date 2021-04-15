@@ -148,4 +148,3 @@ src_test() {
 		_verify_config_dump private-model.yaml config_dump-private.json
 	fi
 }
-
