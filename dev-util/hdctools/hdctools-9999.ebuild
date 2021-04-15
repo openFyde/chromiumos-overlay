@@ -62,7 +62,4 @@ src_install() {
 	)
 	emake "${makeargs[@]}"
 	distutils-r1_src_install
-
-	# TODO(b/173653826): Re-enable when Python 3 is available.
-	rm -r "${D}"/etc/bash_completion.d || die
 }
