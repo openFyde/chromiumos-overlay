@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bd6911e48efd873bf3ab58163dae75502cebe6d4"
-CROS_WORKON_TREE=("fa9dbf5f93a6d9bd6d95bedebb827fe6659eebf2" "81d958368ad8ae94053d65526dd045ee5393dd03" "e9e355dd313d66e30bbcfbc06f8b378acee5a6db" "51e13079d63e2ba3c69320087f63bfc1780f8ce0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="34f48006b12228a2a9a3ce0585837563db87fa8d"
+CROS_WORKON_TREE=("fa9dbf5f93a6d9bd6d95bedebb827fe6659eebf2" "15d4f99cc0f6c4a7f87e41d6372a745bf8e93bea" "e9e355dd313d66e30bbcfbc06f8b378acee5a6db" "51e13079d63e2ba3c69320087f63bfc1780f8ce0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -107,6 +107,7 @@ src_install() {
 		doins init/arc-boot-continue.conf
 		doins init/arc-lifetime.conf
 		doins init/arc-update-restorecon-last.conf
+		doins init/arcpp-post-login-services.conf
 		if use esdfs; then
 			doins init/arc-sdcard.conf
 			doins init/arc-sdcard-mount.conf
