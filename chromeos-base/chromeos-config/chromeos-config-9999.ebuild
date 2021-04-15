@@ -3,9 +3,6 @@
 
 EAPI=7
 
-# We can drop this if cros-uniboard stops using cros-board.
-CROS_BOARDS=( none )
-
 # This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
 # the canonical empty project.
 CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
