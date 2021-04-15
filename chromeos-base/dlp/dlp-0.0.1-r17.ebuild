@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="442824894a6ac78268b008fd0688b29f83572afa"
+CROS_WORKON_COMMIT="c59465834e405898dcc5caabcee310418433b937"
 CROS_WORKON_TREE=("fa9dbf5f93a6d9bd6d95bedebb827fe6659eebf2" "5330835662be7fe24a71309964eaa07e517cd82c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -51,7 +51,11 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/dlp_test"
+	local gtest_filter_user_tests="-*.RunAsRoot*:"
+	local gtest_filter_root_tests="*.RunAsRoot*-"
+
+	platform_test "run" "${OUT}/dlp_test" "0" "${gtest_filter_user_tests}"
+	platform_test "run" "${OUT}/dlp_test" "1" "${gtest_filter_root_tests}"
 }
 
 pkg_setup() {
