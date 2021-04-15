@@ -388,7 +388,7 @@ cros-rust_src_configure() {
 
 	if use lto
 	then
-		rustflags+=( -Clto )
+		rustflags+=( -Clto=thin )
 		# rustc versions >= 1.45 support -Cembed-bitcode, which Cargo sets to
 		# no because it does not know that we want to use LTO.
 		# Because -Clto requires -Cembed-bitcode=yes, set it explicitly.
