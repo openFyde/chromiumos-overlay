@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="19ef63367be440dca16630ed0a7c459cf9f4d071"
-CROS_WORKON_TREE=("fa9dbf5f93a6d9bd6d95bedebb827fe6659eebf2" "85bc2a5d6a41080489046bbb1591fe753ce597e9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="df1360103dcf5b07254ef831f3dcfa2dcc265226"
+CROS_WORKON_TREE=("fa9dbf5f93a6d9bd6d95bedebb827fe6659eebf2" "2fa1ebd64f4090c8d429706d79c7f5160646ae40" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -81,6 +81,7 @@ src_install() {
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
 	doexe "${OUT}"/usb4_devinfo_helper
+	doexe "${OUT}"/bt_usb_disconnect_helper
 
 	doexe src/helpers/{capture_utility,minijail-setuid-hack,systrace}.sh
 
