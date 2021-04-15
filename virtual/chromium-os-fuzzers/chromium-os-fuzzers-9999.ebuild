@@ -40,7 +40,6 @@ RDEPEND="
 	chromeos-base/ghostscript-fuzz[fuzzer]
 	chromeos-base/hammerd[fuzzer]
 	chromeos-base/imageloader[fuzzer]
-	chromeos-base/ippusb_manager[fuzzer]
 	chromeos-base/kerberos[fuzzer]
 	chromeos-base/libbrillo[fuzzer]
 	chromeos-base/libipp[fuzzer]
