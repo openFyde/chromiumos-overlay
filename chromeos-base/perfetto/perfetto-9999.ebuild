@@ -133,6 +133,15 @@ src_install() {
 		doins "${S}/sdk/perfetto.cc"
 		doins "${S}/sdk/perfetto.h"
 		dolib.a "${S}/sdk/libperfetto_sdk.a"
+
+		insinto "/usr/$(get_libdir)/pkgconfig"
+		local v=$("${S}/tools/write_version_header.py" --stdout)
+		sed \
+			-e "s/@version@/${v}/g" \
+			-e "s/@lib@/$(get_libdir)/g" \
+			"${FILESDIR}/pkg-configs/perfetto.pc.in" > "${S}/sdk/perfetto.pc" \
+			|| die
+		doins "${S}/sdk/perfetto.pc"
 	fi
 
 	insinto /usr/include/perfetto
