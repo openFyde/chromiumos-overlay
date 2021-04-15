@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="442824894a6ac78268b008fd0688b29f83572afa"
+CROS_WORKON_COMMIT="3401f79dbad343140854dc8e7b468a34242e2907"
 CROS_WORKON_TREE=("fa9dbf5f93a6d9bd6d95bedebb827fe6659eebf2" "777ebb8d94df5dc74390eb72cc9b7e7af7f223fb" "d38e2a858d6a88cdb07d98279bbc84f5abd1a12f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -32,6 +32,7 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/minijail
 	media-gfx/sane-airscan
 	test? (
+		chromeos-base/sane-backends-test
 		media-gfx/perceptualdiff:=
 	)
 "
