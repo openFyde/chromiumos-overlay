@@ -54,7 +54,10 @@ python_check_deps() {
 	has_version "dev-python/commonmark[${PYTHON_USEDEP}]"
 }
 
-PATCHES=( "${FILESDIR}/${PN}-3.2.3-glibc-lchmod.patch" )
+PATCHES=(
+	"${FILESDIR}/${PN}-3.2.3-glibc-lchmod.patch"
+	"${FILESDIR}/${PN}-3.2.3-glibc-lchmod-better-fix.patch"
+)
 
 src_prepare() {
 	default
