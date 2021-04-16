@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="df3afa770606d9e2aebba2fcdc1b4a171613e845"
-CROS_WORKON_TREE="d8c1d13ad89bd5307490f9b0078e23268e650511"
+CROS_WORKON_COMMIT="d2b4e9c17f59bb8739bc85df2837b57a2773fcd4"
+CROS_WORKON_TREE="892b18c287c193f6675bcc4ca2ce3613c6f316d5"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit libchrome cros-workon autotest
@@ -98,6 +98,7 @@ CLIENT_IUSE_TESTS="
 	+tests_dummy_Pass
 	+tests_dummy_SynchronousOffload
 	tests_example_UnitTest
+	+tests_firmware_CbfsMcache
 	+tests_firmware_LockedME
 	+tests_firmware_CheckEOPState
 	+tests_firmware_RomSize
