@@ -4,12 +4,12 @@ DEPEND==dev-rust/android_log-sys-0.2*:= dev-rust/assertions:= dev-rust/data_mode
 DESCRIPTION=Small system utility modules for usage by other modules.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sys_util
-IUSE=test cros_host cros_workon_tree_f061a4318a573a2719207102ced26d9d94a26266 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=test cros_host cros_workon_tree_d267b68f5def60d4737701d8699722217e028434 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND==dev-rust/android_log-sys-0.2*:= dev-rust/assertions:= dev-rust/data_model:= >=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0 =dev-rust/proc-macro2-1*:= =dev-rust/quote-1*:= =dev-rust/serde-1*:= =dev-rust/serde_json-1*:= =dev-rust/syn-1*:= dev-rust/sync:= dev-rust/syscall_defines:= dev-rust/tempfile:= sys-libs/libcap:= !!<=dev-rust/sys_util-0.1.0-r60
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r146
+SLOT=0/0.1.0-r147
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	667a148a03dd2a4c7815bf7f755279c0	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=6088839e3be9d21b6c83c65c550e33db
+_md5_=74d479edbdb9cb8d051b5bf63042c17d
