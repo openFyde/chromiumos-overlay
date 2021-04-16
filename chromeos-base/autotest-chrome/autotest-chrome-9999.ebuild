@@ -113,7 +113,6 @@ IUSE_TESTS=(
 	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
-	+tests_policy_AccessibilityTest
 	+tests_policy_ArcAudioCaptureAllowed
 	+tests_policy_ArcBackupRestoreServiceEnabled
 	+tests_policy_ArcExternalStorageDisabled
