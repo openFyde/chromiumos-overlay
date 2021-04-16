@@ -3,15 +3,15 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="e6eba5ff08c60ab02aafb17e0101baaf7a381195"
-CROS_WORKON_TREE="692aec22916efe43374bcea0cbcc3c5b15aee5af"
+CROS_WORKON_COMMIT="ee3ab5eb6e89d62f615a8c190ea903f53daecffb"
+CROS_WORKON_TREE=("3684fde3082804529d5ba45f7503b982eecd76ba" "910677d0c0e2a2f91f6985fdfe282d331dd9eec7")
 CROS_RUST_SUBDIR="cras/client/cras_tests"
 
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras-sys/Cargo.toml is
 # using "provided by ebuild" macro which supported by cros-rust
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} cras/dbus_bindings"
 
 inherit cros-workon cros-rust
 
@@ -23,9 +23,11 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
+	dev-rust/chromeos-dbus-bindings:=
 	>=dev-rust/getopts-0.2.18:=
 	!>=dev-rust/getopts-0.3
 	dev-rust/hound:=
+	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "
@@ -34,3 +36,7 @@ DEPEND="
 RDEPEND="${DEPEND}
 	!<=media-sound/cras_tests-0.1.0-r12
 "
+
+src_install() {
+	dobin "$(cros-rust_get_build_dir)/cras_tests"
+}
