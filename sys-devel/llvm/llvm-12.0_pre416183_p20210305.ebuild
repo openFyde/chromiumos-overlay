@@ -200,6 +200,9 @@ multilib_src_configure() {
 		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 		"-DCLANG_DEFAULT_UNWINDLIB=libgcc"
 
+		# workaround for crbug/1198796
+		"-DCLANG_TOOLING_BUILD_AST_INTROSPECTION=OFF"
+
 		# By default do not enable PGO for compiler-rt
 		"-DCOMPILER_RT_ENABLE_PGO=OFF"
 
