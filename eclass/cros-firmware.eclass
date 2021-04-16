@@ -51,7 +51,7 @@ esac
 
 # $board-overlay/make.conf may contain these flags to always create "firmware
 # from source".
-IUSE="bootimage cros_ec cros_ish tot_firmware unibuild zephyr"
+IUSE="bootimage cros_ec cros_ish tot_firmware unibuild zephyr zephyr_ec"
 
 # "futility update" is needed when building and running updater package.
 COMMON_DEPEND="
@@ -308,7 +308,9 @@ cros-firmware_src_compile() {
 		# exist, we can't use _add_file_param.
 		_add_param image_cmd -b "${local_root}/image-BUILD_TARGET.bin"
 		local_root+="/BUILD_TARGET"
-		if use cros_ec; then
+		if use zephyr_ec; then
+			_add_param image_cmd -e "${local_root}/zephyr.bin"
+		elif use cros_ec; then
 			_add_param image_cmd -e "${local_root}/ec.bin"
 			_add_param image_cmd -p "${local_root}/pd.bin"
 		fi
