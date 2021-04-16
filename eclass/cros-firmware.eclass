@@ -51,7 +51,7 @@ esac
 
 # $board-overlay/make.conf may contain these flags to always create "firmware
 # from source".
-IUSE="bootimage cros_ec cros_ish unibuild zephyr"
+IUSE="bootimage cros_ec cros_ish tot_firmware unibuild zephyr"
 
 # "futility update" is needed when building and running updater package.
 COMMON_DEPEND="
@@ -268,7 +268,9 @@ cros-firmware_src_compile() {
 		_add_param image_cmd -w "${FW_RW_IMAGE_LOCATION}"
 	fi
 
-	if [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
+	if use tot_firmware; then
+		einfo "tot_firmware is enabled, skipping BCS image updater"
+	elif [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
 		# Create an empty update script for the generic case
 		# (no need to update)
 		einfo "Building empty firmware update script"
@@ -398,21 +400,25 @@ cros-firmware_setup_source() {
 	if [[ -f "${files}/srcuris" ]]; then
 		mapfile -t uris < "${files}/srcuris"
 		SRC_URI+=" ${uris[*]}"
-		return
+	else
+		FW_IMAGE_LOCATION="${CROS_FIRMWARE_MAIN_IMAGE}"
+		FW_RW_IMAGE_LOCATION="${CROS_FIRMWARE_MAIN_RW_IMAGE}"
+		EC_IMAGE_LOCATION="${CROS_FIRMWARE_EC_IMAGE}"
+		PD_IMAGE_LOCATION="${CROS_FIRMWARE_PD_IMAGE}"
+
+		# Add these files for use if unibuild is not set.
+		for i in {FW,FW_RW,EC,PD}_IMAGE_LOCATION; do
+			uris+=" $(_add_source ${i})"
+		done
+
+		if [[ -n "${uris// }" ]]; then
+			SRC_URI+="!unibuild? ( ${uris} ) "
+		fi
 	fi
 
-	FW_IMAGE_LOCATION="${CROS_FIRMWARE_MAIN_IMAGE}"
-	FW_RW_IMAGE_LOCATION="${CROS_FIRMWARE_MAIN_RW_IMAGE}"
-	EC_IMAGE_LOCATION="${CROS_FIRMWARE_EC_IMAGE}"
-	PD_IMAGE_LOCATION="${CROS_FIRMWARE_PD_IMAGE}"
-
-	# Add these files for use if unibuild is not set.
-	for i in {FW,FW_RW,EC,PD}_IMAGE_LOCATION; do
-		uris+=" $(_add_source ${i})"
-	done
-
-	if [[ -n "${uris// }" ]]; then
-		SRC_URI+="!unibuild? ( ${uris} ) "
+	# No sources required if only building firmware from ToT.
+	if [[ -n "${SRC_URI}" ]]; then
+		SRC_URI="!tot_firmware? ( ${SRC_URI} )"
 	fi
 }
 
