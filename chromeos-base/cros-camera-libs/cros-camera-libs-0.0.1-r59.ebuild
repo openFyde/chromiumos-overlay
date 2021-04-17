@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="97ca3b91ac3374fb81407dfa6b47f6f78b2f2dbf"
+CROS_WORKON_COMMIT="29230b642a85ff6dde6ec450d02676b85c9f11e4"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "ba2eabe248d552170c910a79771403eeb6769b96" "97f7e6ca9be5fd78db7f4f1e5a7712f44d0493c5" "1c330ae62bdb3b919b99fa644a1efe49c23d78ba" "c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "51e13079d63e2ba3c69320087f63bfc1780f8ce0")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -86,6 +86,9 @@ src_install() {
 	# Install libcros_camera required by the camera HAL implementations.
 	insinto /usr/include/cros-camera/
 	doins -r ../include/cros-camera/*
+	# TODO(crbug.com/1197394): Remove after the issue is resolved.
+	mojo_files=$(find "${OUT}"/gen/include/mojo -name '*.mojom.h')
+	einfo "${mojo_files}"
 	doins -r "${OUT}"/gen/include/mojo
 
 	dolib.so "${OUT}"/lib/libcros_camera.so
