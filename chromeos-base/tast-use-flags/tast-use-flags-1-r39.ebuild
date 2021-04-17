@@ -66,6 +66,7 @@ IUSE="
 	elm
 	fizz
 	force_breakpad
+	fwupd
 	gboard_decoder
 	grunt
 	hana
