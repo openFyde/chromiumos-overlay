@@ -24,14 +24,13 @@ DEPEND="
 	=dev-rust/android_log-sys-0.2*:=
 	dev-rust/assertions:=
 	dev-rust/data_model:=
-	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
+	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/quote-1*:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
 	=dev-rust/syn-1*:=
 	dev-rust/sync:=
-	dev-rust/syscall_defines:=
 	dev-rust/tempfile:=
 	sys-libs/libcap:=
 "
