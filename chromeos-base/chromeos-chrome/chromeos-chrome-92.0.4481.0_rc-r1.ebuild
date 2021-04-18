@@ -672,17 +672,22 @@ setup_test_lists() {
 		dawn_unittests
 		gl_tests
 		jpeg_decode_accelerator_unittest
-		jpeg_encode_accelerator_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
-		video_decode_accelerator_perf_tests
-		video_decode_accelerator_tests
-		video_encode_accelerator_perf_tests
-		video_encode_accelerator_tests
 		wayland_client_perftests
 	)
 
 	TEST_FILES+=( ppapi/examples/video_decode )
+
+	if use vaapi || use v4l2_codec; then
+		TEST_FILES+=(
+			jpeg_encode_accelerator_unittest
+			video_decode_accelerator_perf_tests
+			video_decode_accelerator_tests
+			video_encode_accelerator_perf_tests
+			video_encode_accelerator_tests
+		)
+	fi
 
 	if use vaapi; then
 		TEST_FILES+=(
