@@ -11,7 +11,7 @@ LICENSE="BSD-Google"
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="vaapi"
+IUSE="vaapi v4l2_codec"
 S="${WORKDIR}"
 
 DEPEND="chromeos-base/chromeos-chrome"
@@ -31,14 +31,17 @@ src_install() {
 	doexe "${BINARY_DIR}/dawn_end2end_tests"
 	doexe "${BINARY_DIR}/dawn_unittests"
 	doexe "${BINARY_DIR}/jpeg_decode_accelerator_unittest"
-	doexe "${BINARY_DIR}/jpeg_encode_accelerator_unittest"
 	doexe "${BINARY_DIR}/ozone_gl_unittests"
 	doexe "${BINARY_DIR}/sandbox_linux_unittests"
-	doexe "${BINARY_DIR}/video_decode_accelerator_perf_tests"
-	doexe "${BINARY_DIR}/video_decode_accelerator_tests"
-	doexe "${BINARY_DIR}/video_encode_accelerator_perf_tests"
-	doexe "${BINARY_DIR}/video_encode_accelerator_tests"
 	doexe "${BINARY_DIR}/wayland_client_perftests"
+
+	if use vaapi || use v4l2_codec; then
+		doexe "${BINARY_DIR}/jpeg_encode_accelerator_unittest"
+		doexe "${BINARY_DIR}/video_decode_accelerator_perf_tests"
+		doexe "${BINARY_DIR}/video_decode_accelerator_tests"
+		doexe "${BINARY_DIR}/video_encode_accelerator_perf_tests"
+		doexe "${BINARY_DIR}/video_encode_accelerator_tests"
+	fi
 
 	if use vaapi; then
 		doexe "${BINARY_DIR}/decode_test"
