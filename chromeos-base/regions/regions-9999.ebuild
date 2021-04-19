@@ -17,6 +17,8 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/region
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
+IUSE="cros-debug"
+
 # 'jq' allows command line tools to access the JSON database.
 RDEPEND="app-misc/jq"
 DEPEND=""
@@ -27,7 +29,7 @@ src_unpack() {
 }
 
 src_compile() {
-	./regions.py --format=json --output "${WORKDIR}/cros-regions.json"
+	./regions.py --format=json --output "${WORKDIR}/cros-regions.json" "$(usex cros-debug "--include_pseudolocales" "")"
 }
 
 src_test() {
