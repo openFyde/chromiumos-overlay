@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="97ca3b91ac3374fb81407dfa6b47f6f78b2f2dbf"
+CROS_WORKON_COMMIT="b17a9f6be283ed8c028890cc0789dfe540f397d9"
 CROS_WORKON_TREE=("c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "86c90fbed27189896984647a05f8049f9689c05d" "0708c26e546583ec621cd9afb1eec94932a10621" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -74,6 +74,7 @@ DEPEND="
 	dev-cpp/absl:=
 	dev-libs/libutf:=
 	dev-libs/marisa-aosp:=
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 "
 
 # SODA will not be supported on rootfs and only be supported through DLC.
