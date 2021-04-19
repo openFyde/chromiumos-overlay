@@ -40,11 +40,6 @@ DEPEND="
 
 RDEPEND="${DEPEND} !media-libs/arc-mesa"
 
-PATCHES=(
-	"${FILESDIR}"/CHROMIUM-radv-Disable-extensions-not-supported-by-nd.patch
-	"${FILESDIR}"/CHROMIUM-radv-Disable-1.1-on-ANDROID.patch
-)
-
 driver_list() {
 	local drivers="$(sort -u <<< "${1// /$'\n'}")"
 	echo "${drivers//$'\n'/,}"
