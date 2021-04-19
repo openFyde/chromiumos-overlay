@@ -72,6 +72,7 @@ DEPEND="
 	dev-cpp/absl:=
 	dev-libs/libutf:=
 	dev-libs/marisa-aosp:=
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 "
 
 # SODA will not be supported on rootfs and only be supported through DLC.
