@@ -51,18 +51,16 @@ get_board() {
 }
 
 # Build depthcharge with common options.
-# Usage example: dc_make dev LIBPAYLOAD_DIR="libpayload"
+# Usage example: dc_make dev "${BUILD_DIR}" "${LIBPAYLOAD_DIR}"
 # Args:
 #   $1: Target to build
 #   $2: Build directory to use.
-#   $3: Firmware file to use for LIBPAYLOAD_DIR
+#   $3: Directory where libpayload is located.
 #   $4+: Any other Makefile arguments.
 dc_make() {
 	local target="$1"
 	local builddir="$2"
-	local libpayload
-
-	[[ -n "$3" ]] && libpayload="LIBPAYLOAD_DIR=${SYSROOT}/firmware/$3/"
+	local libpayload="$3"
 
 	shift 3
 
@@ -70,6 +68,7 @@ dc_make() {
 		"EC_HEADERS=${SYSROOT}/usr/include/chromeos/ec"
 		"VB_SOURCE=${VBOOT_REFERENCE_DESTDIR}"
 		"PD_SYNC=$(usev pd_sync)"
+		"LIBPAYLOAD_DIR=${libpayload}/libpayload"
 		"obj=${builddir}"
 	)
 
@@ -77,7 +76,6 @@ dc_make() {
 	use debug && OPTS+=( "SOURCE_DEBUG=1" )
 
 	emake "${OPTS[@]}" \
-		${libpayload} \
 		"${target}" \
 		"$@"
 }
@@ -91,9 +89,12 @@ dc_make() {
 # holds the configuration that was used.
 # Args
 #   $1: board to build for.
+#   $2: build directory
+#   $3: libpayload dir
 make_depthcharge() {
 	local board="$1"
 	local builddir="$2"
+	local libpayload="$3"
 	local base_defconfig="board/${board}/defconfig"
 	local defconfig="${T}/${board}-defconfig"
 	local config="${builddir}/depthcharge.config"
@@ -127,21 +128,37 @@ make_depthcharge() {
 		echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
 	fi
 
-	dc_make defconfig "${builddir}" libpayload \
+	dc_make defconfig "${builddir}" "${libpayload}" \
 		KBUILD_DEFCONFIG="${defconfig}" \
 		DOTCONFIG="${config}"
 
-	dc_make depthcharge "${builddir}" libpayload \
+	dc_make depthcharge "${builddir}" "${libpayload}" \
 		DOTCONFIG="${config}"
-	dc_make dev "${builddir}" libpayload_gdb \
+	dc_make dev "${builddir}" "${libpayload}.gdb" \
 		DOTCONFIG="${config}"
-	dc_make netboot "${builddir}" libpayload_gdb \
+	dc_make netboot "${builddir}" "${libpayload}.gdb" \
 		DOTCONFIG="${config}"
 }
 
+# Copy the fwconfig from libpayload to a path
+# Args:
+#    $1: libpayload dir
+#    $2: depthcharge build directory
+_copy_fwconfig() {
+	local src="${1}/libpayload/include/static_fw_config.h"
+	local dest="${2}/static_fw_config.h"
+
+	if [[ -s "${src}" ]]; then
+		cp "${src}" "${dest}"
+		einfo "Copying ${src} into local tree"
+	else
+		ewarn "${src} does not exist"
+	fi
+}
+
 src_compile() {
-	local from_root="${SYSROOT}/firmware/libpayload/include/"
-	local to="static_fw_config.h"
+	local builddir
+	local libpayload
 
 	# Firmware related binaries are compiled with a 32-bit toolchain
 	# on 64-bit platforms
@@ -156,44 +173,24 @@ src_compile() {
 		die "Failed to change into ${PWD}/depthcharge"
 
 	if use unibuild; then
-		local combinations="coreboot,depthcharge"
-		local cmd="get-firmware-build-combinations"
-		local build_combinations=$(cros_config_host "${cmd}" "${combinations}" || die)
-		local build_target
-		local builddir
+		local name
+		local depthcharge
 
-		for build_target in $(cros_config_host \
-			get-firmware-build-targets depthcharge); do
-			builddir="$(cros-workon_get_build_dir)/${build_target}"
+		while read -r name && read -r depthcharge; do
+			libpayload="${SYSROOT}/firmware/${name}/libpayload"
+			builddir="$(cros-workon_get_build_dir)/${depthcharge}"
 			mkdir -p "${builddir}"
 
-			# install the matching static_fw_config_${board}.h
-			echo "${build_combinations}" | while read -r name; do
-				read -r coreboot
-				read -r depthcharge
-				local from="${from_root}static_fw_config_${coreboot}.h"
-
-				if [[ "${build_target}" == "${depthcharge}" ]] &&
-						[[ -s "${from}" ]]; then
-					cp "${from}" "${builddir}/${to}"
-					einfo "Copying static_fw_config_${coreboot}.h into local tree"
-					break
-				fi
-			done
-
-			make_depthcharge "${build_target}" "${builddir}"
-		done
+			_copy_fwconfig "${libpayload}" "${builddir}"
+			make_depthcharge "${depthcharge}" "${builddir}" "${libpayload}"
+		done < <(cros_config_host get-firmware-build-combinations depthcharge)
 	else
+		libpayload="${SYSROOT}/firmware/legacy/libpayload"
 		builddir="$(cros-workon_get_build_dir)"
 		mkdir -p "${builddir}"
 
-		local from="${from_root}static_fw_config.h"
-		if [[ -s "${from}" ]]; then
-			cp "${from}" "${builddir}/${to}"
-			einfo "Copying static_fw_config.h into local tree"
-		fi
-
-		make_depthcharge "$(get_board)" "${builddir}"
+		_copy_fwconfig "${libpayload}" "${builddir}"
+		make_depthcharge "$(get_board)" "${builddir}" "${libpayload}"
 	fi
 
 	popd >/dev/null || die

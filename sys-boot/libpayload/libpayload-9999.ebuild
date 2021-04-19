@@ -13,7 +13,10 @@ DESCRIPTION="coreboot's libpayload library"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="~*"
-IUSE="coreboot-sdk verbose"
+IUSE="coreboot-sdk unibuild verbose"
+
+DEPEND="unibuild? ( chromeos-base/chromeos-config )"
+RDEPEND="${DEPEND}"
 
 CROS_WORKON_LOCALNAME="coreboot"
 
@@ -22,10 +25,57 @@ STRIP_MASK="*"
 
 inherit cros-workon cros-board toolchain-funcs coreboot-sdk
 
-src_compile() {
-	local src_root="payloads/libpayload"
-	local board=$(get_current_board_with_variant)
+LIBPAYLOAD_BUILD_NAMES=()
+LIBPAYLOAD_BUILD_TARGETS=()
 
+src_unpack() {
+	cros-workon_src_unpack
+	S+="/payloads/libpayload"
+}
+
+src_configure() {
+	local name
+	local target
+
+	if use unibuild; then
+		while read -r name && read -r target; do
+			LIBPAYLOAD_BUILD_NAMES+=("${name}")
+			LIBPAYLOAD_BUILD_TARGETS+=("${target}")
+		done < <(cros_config_host get-firmware-build-combinations libpayload)
+	else
+		local board="$(get_current_board_with_variant)"
+		if [[ ! -s "${FILESDIR}/configs/config.${board}" ]]; then
+			board="$(get_current_board_no_variant)"
+		fi
+
+		LIBPAYLOAD_BUILD_NAMES=(legacy)
+		LIBPAYLOAD_BUILD_TARGETS=("${board}")
+	fi
+
+	for target in "${LIBPAYLOAD_BUILD_TARGETS[@]}"; do
+		if [[ ! -s "${FILESDIR}/configs/config.${target}" ]]; then
+			die "libpayload config does not exist for ${target}"
+		fi
+	done
+}
+
+# build libpayload for a certain config
+#   $1: path to the dotconfig
+#   $2: path to the build directory
+libpayload_compile() {
+	local dotconfig="$(realpath "$1")"
+	local objdir="$(realpath "$2")"
+	local OPTS=(
+		obj="${objdir}"
+		DOTCONFIG="${dotconfig}"
+	)
+	use verbose && OPTS+=( "V=1" )
+
+	yes "" | emake "${OPTS[@]}" oldconfig
+	emake "${OPTS[@]}"
+}
+
+src_compile() {
 	if ! use coreboot-sdk; then
 		tc-getCC
 		# Export the known cross compilers so there isn't a reliance
@@ -49,45 +99,41 @@ src_compile() {
 	# coreboot ignores CFLAGS, libpayload doesn't, so prune it.
 	unset CFLAGS
 
-	if [[ ! -s "${FILESDIR}/configs/config.${board}" ]]; then
-		board=$(get_current_board_no_variant)
-	fi
+	local unique_targets=()
+	readarray -t unique_targets \
+		< <(printf "%s\n" "${LIBPAYLOAD_BUILD_TARGETS[@]}" | sort -u)
 
-	local board_config="$(realpath "${FILESDIR}/configs/config.${board}")"
+	local target
+	local dotconfig
+	local dotconfig_gdb
+	for target in "${unique_targets[@]}"; do
+		dotconfig="${FILESDIR}/configs/config.${target}"
+		cp "${dotconfig}" "${T}/config.${target}"
+		libpayload_compile "${T}/config.${target}" "${T}/${target}"
 
-	[ -f "${board_config}" ] || die "${board_config} does not exist"
-
-	# get into the source directory
-	pushd "${src_root}"
-
-	# nuke build artifacts potentially present in the source directory
-	rm -rf build build_gdb .xcompile
-
-	local OPTS=( objutil="objutil" )
-
-	use verbose && OPTS+=( "V=1" )
-
-	# Configure and build
-	cp "${board_config}" .config
-	yes "" | \
-	emake "${OPTS[@]}" obj="build" oldconfig
-	emake "${OPTS[@]}" obj="build"
-
-	# Build a second set of libraries with GDB support for developers
-	( cat .config; echo "CONFIG_LP_REMOTEGDB=y" ) > .config.gdb
-	yes "" | \
-	emake "${OPTS[@]}" obj="build_gdb" DOTCONFIG=.config.gdb oldconfig
-	emake "${OPTS[@]}" obj="build_gdb" DOTCONFIG=.config.gdb
-
-	popd
+		dotconfig_gdb="${T}/config_gdb.${target}"
+		# Build a second set of libraries with GDB support for developers
+		cp "${dotconfig}" "${dotconfig_gdb}"
+		(
+			echo
+			echo "CONFIG_LP_REMOTEGDB=y"
+		) >>"${dotconfig_gdb}"
+		libpayload_compile "${dotconfig_gdb}" "${T}/${target}.gdb"
+	done
 }
 
 src_install() {
-	local src_root="payloads/libpayload"
+	local i
+	local name
+	local target
 
-	pushd "${src_root}"
+	for i in "${!LIBPAYLOAD_BUILD_TARGETS[@]}"; do
+		name="${LIBPAYLOAD_BUILD_NAMES[${i}]}"
+		target="${LIBPAYLOAD_BUILD_TARGETS[${i}]}"
 
-	emake obj="build_gdb" DESTDIR="${D}/firmware" DOTCONFIG=.config.gdb install
-	mv "${D}/firmware/libpayload" "${D}/firmware/libpayload_gdb"
-	emake obj="build" DESTDIR="${D}/firmware" install
+		emake obj="${T}/${target}" DOTCONFIG="${T}/config.${target}" \
+			DESTDIR="${D}/firmware/${name}/libpayload" install
+		emake obj="${T}/${target}.gdb" DOTCONFIG="${T}/config_gdb.${target}" \
+			DESTDIR="${D}/firmware/${name}/libpayload.gdb" install
+	done
 }

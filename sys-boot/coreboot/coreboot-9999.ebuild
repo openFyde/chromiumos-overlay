@@ -384,8 +384,13 @@ src_compile() {
 	fi
 }
 
+# Install files into /firmware
+# Args:
+#   $1: The build combination name
+#   $2: The coreboot build target
 do_install() {
-	local build_target="$1"
+	local build_combination="$1"
+	local build_target="$2"
 	local dest_dir="/firmware"
 	local mapfile
 
@@ -435,17 +440,15 @@ do_install() {
 	doins "${BUILD_DIR_SERIAL}"/cbfs/fallback/*.debug
 	nonfatal doins "${BUILD_DIR_SERIAL}"/cbfs/fallback/bootblock.bin
 
-	# coreboot's static_fw_config.h is copied into
-	# /firmware/libpayload/include in order for other firmware to consume
-	# the FW_CONFIG decoder macros. For unibuild, it is renamed to include
-	# the build target.
-	insinto "/firmware/libpayload/include"
+	# coreboot's static_fw_config.h is copied into libpayload include
+	# directory.
+	local libpayload_subdir=legacy
 	if use unibuild; then
-		newins "${BUILD_DIR}"/static_fw_config.h "static_fw_config_${build_target}.h"
-	else
-		doins "${BUILD_DIR}"/static_fw_config.h
+		libpayload_subdir="${build_combination}"
 	fi
-	einfo "Installed static_fw_config.h into /firmware/libpayload/include"
+	insinto "/firmware/${libpayload_subdir}/libpayload/libpayload/include"
+	doins "${BUILD_DIR}/static_fw_config.h"
+	einfo "Installed static_fw_config.h into libpayload include directory"
 }
 
 src_install() {
@@ -454,7 +457,7 @@ src_install() {
 			read -r coreboot
 
 			set_build_env "${coreboot}"
-			do_install "${coreboot}"
+			do_install "${name}" "${coreboot}"
 		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 	else
 		set_build_env "$(get_board)"
