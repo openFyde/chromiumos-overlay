@@ -164,7 +164,6 @@ sys-apps/flashmap -python
 # list down as packages don't need them.  New packages should *not* be added
 # here as new code should be using Python 3.
 # TODO(crbug.com/1007152): Trim this entirely!
-chromeos-base/ec-devutils python_targets_python2_7
 chromeos-base/telemetry python_targets_python2_7
 dev-python/btsocket python_targets_python2_7
 dev-python/certifi python_targets_python2_7
