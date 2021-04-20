@@ -36,7 +36,6 @@ FUZZERS=(
 
 PATCHES=(
 	"${FILESDIR}/${PN}-0.9.20-noasan.patch"
-	"${FILESDIR}/${PN}-0.9.24-hostport.patch"
 )
 
 src_configure() {
