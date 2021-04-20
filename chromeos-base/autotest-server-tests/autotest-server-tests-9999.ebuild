@@ -188,6 +188,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECPowerButton
 	+tests_firmware_ECPowerG3
 	+tests_firmware_ECSharedMem
+	+tests_firmware_ECSystemLocked
 	+tests_firmware_ECThermal
 	+tests_firmware_ECUpdateId
 	+tests_firmware_ECUsbPorts
