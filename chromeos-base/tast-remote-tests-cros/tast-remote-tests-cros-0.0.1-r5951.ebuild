@@ -1,0 +1,50 @@
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+CROS_WORKON_COMMIT=("0c4fa3a06370470a1ab15aae6f47c4012423c778" "f91cf6e40d0cc41992dd1b5029af5ba39f09dc6e" "5a61a46f84e245204991b8a897747644c3549d5f")
+CROS_WORKON_TREE=("0540313126bc03adf66a265227af517f7b91417d" "fab6ee5ecd43a853405e0ad0e0ff67d80ecbc042" "dcde81930066b3c47b6d08068c7abcc1a115e42d")
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/tast-tests"
+	"chromiumos/platform/tast"
+	"chromiumos/platform/fw-testing-configs"
+)
+CROS_WORKON_LOCALNAME=(
+	"platform/tast-tests"
+	"platform/tast"
+	"platform/tast-tests/src/chromiumos/tast/remote/firmware/data/fw-testing-configs"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}"
+	"${S}/tast-base"
+	"${S}/src/chromiumos/tast/remote/firmware/data/fw-testing-configs"
+)
+
+CROS_GO_WORKSPACE=(
+	"${CROS_WORKON_DESTDIR[@]}"
+)
+
+CROS_GO_TEST=(
+	# Also test support packages that live above remote/bundles/.
+	"chromiumos/tast/..."
+)
+CROS_GO_VET=(
+	"${CROS_GO_TEST[@]}"
+)
+
+inherit cros-workon tast-bundle
+
+DESCRIPTION="Bundle of remote integration tests for Chrome OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE=""
+
+# Build-time dependencies should be added to tast-build-deps, not here.
+DEPEND="chromeos-base/tast-build-deps:="
+
+RDEPEND="
+	dev-python/pillow
+	media-libs/opencv
+"
