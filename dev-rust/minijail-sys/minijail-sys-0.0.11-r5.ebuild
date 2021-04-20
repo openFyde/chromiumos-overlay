@@ -10,14 +10,16 @@ EAPI=7
 
 inherit cros-constants
 
-CROS_WORKON_COMMIT="85d797ecbfd7aefbb9486afeaed3cf5f74858562"
-CROS_WORKON_TREE="2ac2853d10ad0e5f4b451d75ea3590649b9ee241"
+CROS_RUST_SUBDIR="rust/minijail-sys"
+
+CROS_WORKON_COMMIT="11395a6982fe8b09e3f2b0beb6c10e978266c4fa"
+CROS_WORKON_TREE="ed9e2ba99262f6bc53486bbc24a947f4b894bee2"
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
 CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
-CROS_WORKON_SUBTREE="rust/minijail"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 inherit cros-workon cros-rust
 
@@ -26,38 +28,17 @@ HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="asan test"
+IUSE="test"
 
+# ebuilds that install executables and depend on minijail-sys need to RDEPEND on
+# chromeos-base/minijail and sys-libs/libcap
 DEPEND="
+	chromeos-base/minijail:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
-	dev-rust/minijail-sys:=
+	>=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0
+	sys-libs/libcap:=
+	virtual/bindgen:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}"
-
-src_unpack() {
-	# Unpack both the minijail and Rust dependency source code.
-	cros-workon_src_unpack
-	S+="/rust/minijail"
-
-	cros-rust_src_unpack
-}
-
-src_compile() {
-	if use x86 || use amd64; then
-		use test && ecargo_test --no-run
-	fi
-}
-
-src_test() {
-	if cros-rust_use_sanitizers; then
-		# crbug.com/1097761 The unit tests for this package leak threads.
-		elog "Skipping rust unit tests for ASAN because fork leaks threads."
-	elif use x86 || use amd64; then
-		# TODO(crbug/1115287) Include the wait_* tests once they don't hang.
-		ecargo_test -- --skip tests::wait_
-	else
-		elog "Skipping rust unit tests on non-x86 platform"
-	fi
-}
