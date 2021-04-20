@@ -20,7 +20,8 @@ IUSE="cpu_flags_x86_sse2 neon"
 
 DEPEND="dev-libs/iniparser:=
 	dev-libs/libevent:=
-	dev-libs/protobuf:="
+	dev-libs/protobuf:=
+	chromeos-base/metrics"
 RDEPEND="${DEPEND}"
 
 src_configure() {
