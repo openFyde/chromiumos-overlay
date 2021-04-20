@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="5482f8ab6620e2f178fc5d2840be2e04b920b20f"
-CROS_WORKON_TREE="b9efab4c19d1ab20ccdad2de304ef454dd47ce10"
+CROS_WORKON_COMMIT="ed7fc8ba6a1f83012d1cbb82de92a2784ca986c0"
+CROS_WORKON_TREE="ce72b4bfb2b2af92bd76a5f65cb00a63499068c3"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -115,7 +115,6 @@ IUSE_TESTS=(
 	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
-	+tests_policy_AccessibilityTest
 	+tests_policy_ArcAudioCaptureAllowed
 	+tests_policy_ArcBackupRestoreServiceEnabled
 	+tests_policy_ArcExternalStorageDisabled
