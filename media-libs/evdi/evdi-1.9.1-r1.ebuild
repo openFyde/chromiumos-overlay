@@ -29,6 +29,7 @@ src_unpack() {
 src_compile() {
 	tc-export CC
 	append-cppflags -DCHROMEOS -I../module
+	append-lfs-flags
 	emake -C library
 }
 
