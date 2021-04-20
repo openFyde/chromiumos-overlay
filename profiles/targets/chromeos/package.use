@@ -240,7 +240,6 @@ dev-util/hdctools python_targets_python2_7
 # These packages only support Python 2.7.  They aren't needed in Python 3.6+.
 # TODO(crbug.com/1007152): Trim this entirely!
 dev-python/backports-functools-lru-cache python_targets_python2_7 -python_targets_python3_6
-dev-python/ctypesgen python_targets_python2_7 -python_targets_python3_6
 dev-python/enum34 python_targets_python2_7 -python_targets_python3_6
 dev-python/funcsigs python_targets_python2_7
 dev-python/functools32 python_targets_python2_7 -python_targets_python3_6
