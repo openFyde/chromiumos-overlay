@@ -36,13 +36,15 @@ DEPEND="${COMMON_DEPEND}
 # TODO(b/173653826): Re-add PYTHON_USEDEP once python2 is dropped.
 BDEPEND="test? ( dev-python/pytest )"
 
-src_test() {
-	python_test() {
-		# TODO(b/173653826): Delete this check once python2 is dropped.
-		python_is_python3 || return
-		py.test -v build/ || die
-	}
-	python_foreach_impl python_test
+python_compile() {
+	# TODO(b/173653826): Delete this check once python2 is dropped.
+	if ! python_is_python3; then
+		rm build/servo/data/data_integrity_test.py || die
+	fi
+	distutils-r1_python_compile
+	if ! python_is_python3; then
+		cp servo/data/data_integrity_test.py build/servo/data/data_integrity_test.py || die
+	fi
 }
 
 src_compile() {
@@ -50,6 +52,27 @@ src_compile() {
 	local makeargs=( $(usex cros_host '' EXTRA_DIRS=chromeos) )
 	emake "${makeargs[@]}"
 	distutils-r1_src_compile
+}
+
+python_test() {
+	# TODO(b/173653826): Delete this check once python2 is dropped.
+	python_is_python3 || return
+	py.test -v build/ || die
+}
+
+src_test() {
+	distutils-r1_src_test
+}
+
+python_install() {
+	# TODO(b/173653826): Delete this check once python2 is dropped.
+	if ! python_is_python3; then
+		rm build/servo/data/data_integrity_test.py || die
+	fi
+	distutils-r1_python_install
+	if ! python_is_python3; then
+		cp servo/data/data_integrity_test.py build/servo/data/data_integrity_test.py || die
+	fi
 }
 
 src_install() {
