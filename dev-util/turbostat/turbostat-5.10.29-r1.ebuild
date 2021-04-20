@@ -1,1 +1,0 @@
-turbostat-5.10.29.ebuild
