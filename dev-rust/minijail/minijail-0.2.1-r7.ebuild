@@ -12,6 +12,8 @@ inherit cros-constants
 
 CROS_RUST_SUBDIR="rust/minijail"
 
+CROS_WORKON_COMMIT="6dc224fbd5f68e149877d2594523df8751332ac8"
+CROS_WORKON_TREE="832aaffc3276b8ebfc0960c3d4bc4138ad8a6490"
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
@@ -25,7 +27,7 @@ DESCRIPTION="rust bindings for minijail"
 HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 
 LICENSE="BSD-Google"
-KEYWORDS="~*"
+KEYWORDS="*"
 IUSE="asan test"
 
 DEPEND="

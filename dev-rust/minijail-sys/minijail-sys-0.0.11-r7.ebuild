@@ -10,8 +10,10 @@ EAPI=7
 
 inherit cros-constants
 
-CROS_RUST_SUBDIR="rust/minijail"
+CROS_RUST_SUBDIR="rust/minijail-sys"
 
+CROS_WORKON_COMMIT="6dc224fbd5f68e149877d2594523df8751332ac8"
+CROS_WORKON_TREE="832aaffc3276b8ebfc0960c3d4bc4138ad8a6490"
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
@@ -25,22 +27,18 @@ DESCRIPTION="rust bindings for minijail"
 HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 
 LICENSE="BSD-Google"
-KEYWORDS="~*"
-IUSE="asan test"
+KEYWORDS="*"
+IUSE="test"
 
+# ebuilds that install executables and depend on minijail-sys need to RDEPEND on
+# chromeos-base/minijail and sys-libs/libcap
 DEPEND="
+	chromeos-base/minijail:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
-	dev-rust/minijail-sys:=
+	>=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0
+	sys-libs/libcap:=
+	virtual/bindgen:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}"
-
-src_test() {
-	local args=( -- --test-threads=1 )
-	if ! use amd64; then
-		# TODO(crbug.com/1201377) enable all tests on ARM when supported.
-		args=( --lib "${args[@]}" --skip 'seccomp_no_new_privs' )
-	fi
-	cros-rust_src_test "${args[@]}"
-}
