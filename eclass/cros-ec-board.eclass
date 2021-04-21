@@ -31,10 +31,8 @@ inherit cros-unibuild
 case "${EAPI:-0}" in
 5|6|7)
 	DEPEND+="
-		unibuild? (
-			!generated_cros_config? ( chromeos-base/chromeos-config )
-			generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-		)"
+		unibuild? ( chromeos-base/chromeos-config:= )
+	"
 	;;
 esac
 
@@ -69,7 +67,7 @@ EC_BOARD_NAMES=(
 
 IUSE_FIRMWARES="${EC_BOARD_NAMES[@]/#/${EC_BOARD_USE_PREFIX}}"
 IUSE_EXTRA_FIRMWARES="${EC_BOARD_NAMES[@]/#/${EC_EXTRA_BOARD_USE_PREFIX}}"
-IUSE="${IUSE_FIRMWARES} ${IUSE_EXTRA_FIRMWARES} cros_host unibuild generated_cros_config"
+IUSE="${IUSE_FIRMWARES} ${IUSE_EXTRA_FIRMWARES} cros_host unibuild"
 
 
 # Echo the current boards
