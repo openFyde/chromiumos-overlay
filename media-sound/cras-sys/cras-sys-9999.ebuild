@@ -12,7 +12,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras-sys/Cargo.toml is
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} cras/src/common"
 
 inherit cros-workon cros-rust
 
@@ -24,6 +24,7 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
+	~dev-rust/bindgen-0.56.0:=
 	dev-rust/data_model:=
 	media-sound/audio_streams:=
 "
