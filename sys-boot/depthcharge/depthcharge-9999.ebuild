@@ -12,17 +12,14 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="~*"
 IUSE="detachable diag_payload fwconsole mocktpm pd_sync
-	unibuild verbose debug generated_cros_config +minidiag
+	unibuild verbose debug +minidiag
 	physical_presence_power physical_presence_recovery"
 
 DEPEND="
 	sys-boot/coreboot:=
 	chromeos-base/chromeos-ec-headers:=
 	sys-boot/libpayload:=
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
+	unibuild? ( chromeos-base/chromeos-config:= )
 "
 
 BDEPEND="

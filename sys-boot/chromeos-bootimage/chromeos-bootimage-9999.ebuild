@@ -15,7 +15,6 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="diag_payload seabios wilco_ec zephyr_ec"
 IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
-IUSE="${IUSE} generated_cros_config"
 
 # 'ec_ro_sync' can be a solution for devices that will fail to complete recovery
 # due to TCPC reset (crbug.com/782427#c4), but may not work for every devices
@@ -32,10 +31,7 @@ DEPEND="
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
 	tianocore? ( sys-boot/edk2:= )
 	seabios? ( sys-boot/chromeos-seabios:= )
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
+	unibuild? ( chromeos-base/chromeos-config:= )
 	u-boot? ( sys-boot/u-boot:= )
 	cros_ec? ( chromeos-base/chromeos-ec:= )
 	zephyr_ec? ( chromeos-base/chromeos-zephyr:= )

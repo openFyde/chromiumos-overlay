@@ -15,8 +15,7 @@ LICENSE="GPL-2"
 KEYWORDS="~*"
 IUSE="coreboot-sdk unibuild verbose"
 
-DEPEND="unibuild? ( chromeos-base/chromeos-config )"
-RDEPEND="${DEPEND}"
+DEPEND="unibuild? ( chromeos-base/chromeos-config:= )"
 
 CROS_WORKON_LOCALNAME="coreboot"
 
