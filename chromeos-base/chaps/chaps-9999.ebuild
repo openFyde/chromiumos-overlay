@@ -41,7 +41,7 @@ RDEPEND="
 	dev-libs/protobuf:=
 "
 
-# Note: We need dev-libs/nss for the pkcs11 headers.
+# Note: We need dev-libs/nss and dev-libs/nspr for the pkcs11 headers.
 DEPEND="${RDEPEND}
 	test? (
 		app-arch/gzip
@@ -51,6 +51,7 @@ DEPEND="${RDEPEND}
 	fuzzer? ( dev-libs/libprotobuf-mutator )
 	tpm2? ( chromeos-base/trunks:=[test?] )
 	dev-libs/nss:=
+	dev-libs/nspr:=
 	"
 
 pkg_setup() {
@@ -66,6 +67,9 @@ src_compile() {
 	# We should NOT have any link dependency on nss because nss imports chaps.
 	local out=$(scanelf -qRyn "${OUT}" | grep nss)
 	[[ -n "${out}" ]] && die "No link dependency on nss allowed:\n${out}"
+	# No dependency on nspr as well, same as above.
+	out=$(scanelf -qRyn "${OUT}" | grep nspr)
+	[[ -n "${out}" ]] && die "No link dependency on nspr allowed:\n${out}"
 }
 
 src_install() {
