@@ -177,7 +177,6 @@ RDEPEND="${RDEPEND}
 	dev-libs/wayland
 	dev-python/cffi
 	dev-python/cherrypy
-	dev-python/ctypesgen
 	dev-python/dbus-python
 	dev-python/dpkt
 	dev-python/ecdsa
