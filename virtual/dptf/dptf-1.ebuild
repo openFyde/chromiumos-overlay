@@ -1,7 +1,7 @@
 # Copyright 2015 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
 DESCRIPTION="Intel(R) Dynamic Platform & Thermal Framework"
 HOMEPAGE="https://01.org/dptf/"
@@ -10,23 +10,6 @@ LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="-* amd64 x86"
 
-IUSE_KERNEL_VERS=(
-	kernel-3_10
-)
-IUSE="${IUSE_KERNEL_VERS[*]}"
-REQUIRED_USE="?? ( ${IUSE_KERNEL_VERS[*]} )"
-
 RDEPEND="
-	kernel-3_10? ( sys-power/dptf-3_10 )
-	!kernel-3_10? ( sys-power/dptf )
+	sys-power/dptf
 "
-
-# Add blockers so when migrating between USE flags, the old version gets
-# unmerged automatically.
-RDEPEND+="
-	kernel-3_10? ( !sys-power/dptf )
-	!kernel-3_10? ( !sys-power/dptf-3_10 )
-"
-
-# Default to verison of DPTF that uses upstream drivers if none has been selected
-RDEPEND_DEFAULT="sys-power/dptf"
