@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
-IUSE="kernel-3_8 kernel-3_14 kernel-3_18 $(printf 'video_cards_%s ' ${VIDEO_CARDS})"
+IUSE="kernel-3_18 $(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 )
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
 
@@ -45,7 +45,7 @@ src_configure() {
 	if use video_cards_intel; then
 		export DRV_I915=1
 		append-cppflags -DDRV_I915
-		if ! (use kernel-3_8 || use kernel-3_14 || use kernel-3_18); then
+		if ! use kernel-3_18; then
 			append-cppflags -DI915_SCANOUT_Y_TILED
 		fi
 	fi

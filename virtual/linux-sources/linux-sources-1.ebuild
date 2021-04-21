@@ -11,9 +11,6 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE_KERNEL_VERS=(
-	kernel-3_8
-	kernel-3_10
-	kernel-3_14
 	kernel-3_18
 	kernel-4_4
 	kernel-4_14
@@ -32,9 +29,6 @@ IUSE="${IUSE_KERNEL_VERS[*]}"
 REQUIRED_USE="^^ ( ${IUSE_KERNEL_VERS[*]} )"
 
 RDEPEND="
-	kernel-3_8? ( sys-kernel/chromeos-kernel-3_8 )
-	kernel-3_10? ( sys-kernel/chromeos-kernel-3_10 )
-	kernel-3_14? ( sys-kernel/chromeos-kernel-3_14 )
 	kernel-3_18? ( sys-kernel/chromeos-kernel-3_18 )
 	kernel-4_4? ( sys-kernel/chromeos-kernel-4_4 )
 	kernel-4_14? ( sys-kernel/chromeos-kernel-4_14 )

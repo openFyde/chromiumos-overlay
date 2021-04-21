@@ -35,7 +35,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
 LICENSE="Apache-2.0 BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="arc chromeless_tty chromeless_tests cups kernel-3_8 kernel-3_10 kernel-3_14"
+IUSE="arc chromeless_tty chromeless_tests cups"
 
 # Build-time dependencies should be added to tast-build-deps, not here.
 DEPEND="chromeos-base/tast-build-deps:="
@@ -43,6 +43,7 @@ DEPEND="chromeos-base/tast-build-deps:="
 RDEPEND="
 	chromeos-base/policy-testserver
 	chromeos-base/tast-local-helpers-cros
+	chromeos-base/virtual-usb-printer
 	chromeos-base/wprgo
 	!chromeless_tty? (
 		!chromeless_tests? (
@@ -62,11 +63,4 @@ RDEPEND="
 	sys-apps/memtester
 	sys-apps/rootdev
 	virtual/udev
-	!kernel-3_14? (
-		!kernel-3_10? (
-			!kernel-3_8? (
-				chromeos-base/virtual-usb-printer
-			)
-		)
-	)
 "

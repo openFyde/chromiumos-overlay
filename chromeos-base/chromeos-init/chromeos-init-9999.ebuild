@@ -23,8 +23,8 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE="
 	arcpp arcvm cros_embedded +debugd +encrypted_stateful +encrypted_reboot_vault
-	frecon lvm_stateful_partition kernel-3_8 kernel-3_10 kernel-3_14
-	kernel-3_18 +midi -s3halt +syslog systemd +udev vivid vtconsole"
+	frecon lvm_stateful_partition kernel-3_18 +midi -s3halt +syslog systemd
+	+udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
 COMMON_DEPEND="
@@ -141,7 +141,7 @@ src_install_upstart() {
 	fi
 
 	if use midi; then
-		if use kernel-3_8 || use kernel-3_10 || use kernel-3_14 || use kernel-3_18; then
+		if use kernel-3_18; then
 			doins upstart/workaround-init/midi-workaround.conf
 		fi
 	fi

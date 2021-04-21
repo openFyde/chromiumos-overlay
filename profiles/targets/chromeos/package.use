@@ -122,9 +122,6 @@ sys-fs/lvm2		-lvm1 -readline -static
 sys-fs/mtools		-X
 sys-fs/ntfs3g		-crypt external-fuse ntfsprogs -suid
 sys-fs/udev		-devfs-compat -rule_generator hwdb acl
-sys-kernel/chromeos-kernel-3_8 frozen_gcc -clang -lld -llvm_ias
-sys-kernel/chromeos-kernel-3_10 frozen_gcc -clang -lld -llvm_ias
-sys-kernel/chromeos-kernel-3_14 frozen_gcc -clang -lld -llvm_ias
 sys-kernel/chromeos-kernel-3_18 frozen_gcc -clang -lld -llvm_ias
 sys-kernel/chromeos-kernel-4_4 -llvm_ias
 sys-kernel/chromeos-kernel-4_14 -llvm_ias
