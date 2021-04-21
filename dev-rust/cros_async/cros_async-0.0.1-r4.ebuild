@@ -25,13 +25,12 @@ DEPEND="
 	dev-rust/data_model:=
 	=dev-rust/futures-0.3*:=
 	dev-rust/io_uring:=
-	>=dev-rust/libc-0.2.65:= <dev-rust/libc-0.3
+	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3
 	=dev-rust/paste-1*:=
 	=dev-rust/pin-utils-0.1*:=
 	=dev-rust/slab-0.4*:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	dev-rust/syscall_defines:=
 	dev-rust/tempfile:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2
 "

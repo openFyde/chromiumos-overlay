@@ -24,10 +24,9 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/data_model:=
-	>=dev-rust/libc-0.2.65:=
+	>=dev-rust/libc-0.2.93:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	dev-rust/syscall_defines:=
 	dev-rust/tempfile:=
 "
 RDEPEND="${DEPEND}"

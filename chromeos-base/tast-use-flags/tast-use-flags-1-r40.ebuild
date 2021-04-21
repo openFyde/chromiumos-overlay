@@ -140,7 +140,7 @@ IUSE="
 	wifi_hostap_test
 	wilco
 	+wired_8021x
-	wpa3_sae
+	+wpa3_sae
 	zork
 "
 

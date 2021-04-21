@@ -64,7 +64,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/intrusive-collections:=
 	=dev-rust/gdbstub-0.4*:=
 	~dev-rust/getopts-0.2.18:=
-	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
+	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	dev-rust/libvda:=
 	dev-rust/minijail:=
 	~dev-rust/num_cpus-1.9.0:=
