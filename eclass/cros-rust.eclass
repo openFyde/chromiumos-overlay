@@ -243,6 +243,15 @@ cros-rust_src_unpack() {
 		linker = "$(tc-getBUILD_CC)"
 		EOF
 	fi
+
+	# Tell cargo not to use terminal colors if NOCOLOR is set.
+	if [[ "${NOCOLOR}" == true || "${NOCOLOR}" == yes ]]; then
+		cat <<- EOF >> "${ECARGO_HOME}/config"
+
+		[term]
+		color = "never"
+		EOF
+	fi
 }
 
 # @FUNCTION: cros-rust_src_prepare
