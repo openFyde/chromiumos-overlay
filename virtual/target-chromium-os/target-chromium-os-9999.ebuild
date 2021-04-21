@@ -50,7 +50,6 @@ IUSE="
 	intel_lpe
 	iwlwifi_rescan
 	kerberos_daemon
-	kernel-3_8
 	kvm_host
 	manatee
 	media_perception
@@ -328,7 +327,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/userfeedback
 	chromeos-base/vboot_reference
 	chromeos-base/vpd
-	bluetooth? ( kernel-3_8? ( net-wireless/ath3k ) )
 	net-wireless/crda
 	sys-apps/dbus
 	sys-apps/flashrom
