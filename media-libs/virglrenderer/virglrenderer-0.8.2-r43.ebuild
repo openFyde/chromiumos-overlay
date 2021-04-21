@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="5e2d10463d6b79080c3376138221b73ea6e95186"
-CROS_WORKON_TREE="0c84e43f9cd67c32f5ee4044fa7acfd5fef9e964"
+CROS_WORKON_COMMIT="f4861ea251e8016bb4e1cce50a4244abeaaf83cf"
+CROS_WORKON_TREE="38c2c8e4ed135f861d7ed38c70737d8c849f0097"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -19,7 +19,7 @@ HOMEPAGE="https://virgil3d.github.io/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="*"
-IUSE="debug fuzzer profiling test"
+IUSE="debug fuzzer profiling test vulkan"
 
 RDEPEND="
 	>=x11-libs/libdrm-2.4.50
@@ -28,13 +28,16 @@ RDEPEND="
 	fuzzer? (
 		virtual/opengles
 	)
+	vulkan? ( media-libs/vulkan-loader )
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
 	chromeos-base/percetto
 	sys-devel/autoconf-archive
 	fuzzer? ( >=dev-libs/check-0.9.4 )
-	test? ( >=dev-libs/check-0.9.4 )"
+	test? ( >=dev-libs/check-0.9.4 )
+	vulkan? ( dev-util/vulkan-headers )
+"
 
 src_prepare() {
 	default
@@ -53,6 +56,7 @@ src_configure() {
 		-Dminigbm_allocation="true"
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
+		$(meson_use vulkan venus-experimental)
 		--buildtype $(usex debug debug release)
 	)
 
