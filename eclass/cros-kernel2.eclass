@@ -2120,9 +2120,19 @@ gen_compilation_database() {
 	local build_dir="$(cros-workon_get_build_dir)"
 	local src_dir="${build_dir}/source"
 	local db_chroot="${build_dir}/compile_commands_chroot.json"
+	local script="gen_compile_commands.py"
 
-	"${src_dir}/scripts/gen_compile_commands.py" -d "${build_dir}" \
-		-o "${db_chroot}"|| die
+	# gen_compile_commands.py has been moved into scripts/clang-tools/
+	# since v5.9 kernel.
+	if [[ -f "${src_dir}/scripts/${script}" ]]; then
+		"${src_dir}/scripts/${script}" \
+			-d "${build_dir}" -o "${db_chroot}" || die
+	elif [[ -f "${src_dir}/scripts/clang-tools/${script}" ]]; then
+		"${src_dir}/scripts/clang-tools/${script}" \
+			-d "${build_dir}" -o "${db_chroot}" || die
+	else
+		die "Cannot find ${script}"
+	fi
 
 	# Make relative include paths absolute.
 	sed -i -e "s:-I\./:-I${build_dir}/:g" "${db_chroot}" || die
