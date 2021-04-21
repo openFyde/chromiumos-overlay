@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cellular dhcpv6 fuzzer kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae"
+IUSE="cellular dhcpv6 fuzzer pppoe systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x wpa3_sae"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -37,14 +37,12 @@ COMMON_DEPEND="
 	vpn? ( net-dialup/ppp:= )
 	net-dns/c-ares:=
 	net-libs/libtirpc:=
+	net-firewall/conntrack-tools:=
 	net-firewall/iptables:=
-	net-libs/libnetfilter_queue:=
-	net-libs/libnfnetlink:=
 	wifi? ( virtual/wpa_supplicant )
 	wired_8021x? ( virtual/wpa_supplicant )
 	sys-apps/rootdev:=
 	cellular? ( net-misc/modemmanager-next:= )
-	!kernel-3_10? ( !kernel-3_8? ( net-firewall/conntrack-tools:= ) )
 "
 
 RDEPEND="${COMMON_DEPEND}
@@ -113,23 +111,6 @@ src_install() {
 	fi
 	dobin "${OUT}"/shill
 
-	# Deprecated.  On Linux 3.12+ conntrackd is used instead.
-	local netfilter_queue_helper=no
-	if use kernel-3_8 || use kernel-3_10; then
-		netfilter_queue_helper=yes
-	fi
-
-	if [[ "${netfilter_queue_helper}" == "yes" ]]; then
-		# Netfilter queue helper is run directly from init, so install
-		# in sbin.
-		dosbin "${OUT}"/netfilter-queue-helper
-		dosbin init/netfilter-common
-	fi
-
-	# Install Netfilter queue helper syscall filter policy file.
-	insinto /usr/share/policy
-	use seccomp && newins shims/nfqueue-seccomp-${ARCH}.policy nfqueue-seccomp.policy
-
 	local shims_dir=/usr/$(get_libdir)/shill/shims
 	exeinto "${shims_dir}"
 
@@ -172,11 +153,6 @@ src_install() {
 
 	# Install init scripts
 	if use systemd; then
-		if [[ "${netfilter_queue_helper}" == "yes" ]]; then
-			systemd_dounit init/netfilter-queue.service
-			systemd_enable_service network.target \
-				netfilter-queue.service
-		fi
 		systemd_dounit init/shill-start-user-session.service
 		systemd_dounit init/shill-stop-user-session.service
 
@@ -199,9 +175,6 @@ src_install() {
 			init/shill-start-user-session.conf \
 			init/shill-stop-user-session.conf \
 			init/shill_respawn.conf
-		if [[ "${netfilter_queue_helper}" == "yes" ]]; then
-			doins init/netfilter-queue.conf
-		fi
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/*.sh
