@@ -7,7 +7,7 @@ EAPI=5
 CROS_WORKON_COMMIT="cc395a7c0bfad8f144edcff7929310cbcba60a20"
 CROS_WORKON_TREE="9c84d6f90e04e50864a9b2a52b1f82d62c588a38"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
-CROS_WORKON_EGIT_BRANCH="v2.3"
+CROS_WORKON_EGIT_BRANCH="chromeos"
 
 PYTHON_COMPAT=( python2_7 )
 
@@ -23,7 +23,7 @@ KEYWORDS="*"
 DESCRIPTION="The Common Unix Printing System"
 HOMEPAGE="http://www.cups.org/"
 
-LICENSE="GPL-2"
+LICENSE="Apache-2.0"
 SLOT="0"
 IUSE="acl dbus debug java kerberos pam
 	python +seccomp selinux +ssl static-libs systemd test +threads upstart usb X xinetd zeroconf
