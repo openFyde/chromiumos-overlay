@@ -43,5 +43,5 @@ src_unpack() {
 }
 
 src_test() {
-	pytest "${S}" || die "Tests fail with ${EPYTHON}"
+	python3 -m pytest tests/*.py -v || die "Tests fail with ${EPYTHON}"
 }
