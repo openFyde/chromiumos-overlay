@@ -3,13 +3,16 @@
 
 EAPI=7
 
-inherit cros-debug cros-unibuild
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="../platform/empty-project"
+
+inherit cros-debug cros-unibuild cros-workon
 
 DESCRIPTION="ChromeOS firmware image builder"
 HOMEPAGE="http://www.chromium.org"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE="diag_payload seabios wilco_ec zephyr_ec"
 IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 IUSE="${IUSE} generated_cros_config"
@@ -42,8 +45,6 @@ DEPEND="
 # Directory where the generated files are looked for and placed.
 CROS_FIRMWARE_IMAGE_DIR="/firmware"
 CROS_FIRMWARE_ROOT="${SYSROOT}${CROS_FIRMWARE_IMAGE_DIR}"
-
-S=${WORKDIR}
 
 do_cbfstool() {
 	local output
