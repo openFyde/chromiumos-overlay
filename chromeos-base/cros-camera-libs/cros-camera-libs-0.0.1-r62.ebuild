@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a2d9534698ce05ad2266b54b5b5359344cccd8e3"
+CROS_WORKON_COMMIT="d9c4c9d23d73c31bbc93a12a086b5f3cae394194"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "3ed5d65a6d8e31d24a06ed28e644727a332d65f3" "97f7e6ca9be5fd78db7f4f1e5a7712f44d0493c5" "1c330ae62bdb3b919b99fa644a1efe49c23d78ba" "c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "ffb23c88b2c5733feabc6df713a4baac80a0a417")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -44,6 +44,7 @@ RDEPEND="
 	media-libs/libexif:=
 	media-libs/libsync:=
 	media-libs/minigbm:=
+	media-libs/cros-camera-facessd:=
 	virtual/libudev:=
 	x11-libs/libdrm:=
 "
