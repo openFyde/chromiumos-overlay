@@ -83,6 +83,8 @@ src_configure() {
 	sanitizers-setup-env
 	append-flags -Xclang-only=-Wno-unneeded-internal-declaration
 	append-flags -DWITH_NEWEST_QMI_COMMANDS
+	# TODO(b/183029202): Remove this once we have support for IPv6 only network
+	append-flags -DSUPPORT_MBIM_IPV6_WITH_IPV4_ROAMING
 	econf \
 		--with-html-dir="\${datadir}/doc/${PF}/html" \
 		--enable-compile-warnings=yes \
