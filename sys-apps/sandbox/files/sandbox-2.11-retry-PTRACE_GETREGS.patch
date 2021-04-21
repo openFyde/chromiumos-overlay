@@ -1,4 +1,4 @@
-From b92788912bbba35940d5c7fc2e0968ea18f15d9d Mon Sep 17 00:00:00 2001
+From 9b5da65034da5489edcd0c12330bbf3faf032d71 Mon Sep 17 00:00:00 2001
 From: Jian Cai <jiancai@google.com>
 Date: Thu, 1 Apr 2021 11:37:15 -0700
 Subject: [PATCH] libsandbox: retry ptrace when PTRACE_GETREGS is used.
@@ -12,7 +12,7 @@ Signed-off-by: Jian Cai <jiancai@google.com>
  2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/libsandbox/trace.c b/libsandbox/trace.c
-index 3efef23..a9eef8a 100644
+index 3efef23..c87c4eb 100644
 --- a/libsandbox/trace.c
 +++ b/libsandbox/trace.c
 @@ -56,6 +56,7 @@ static void trace_exit(int status)
@@ -34,13 +34,13 @@ index 3efef23..a9eef8a 100644
  			    request == PTRACE_PEEKUSER)
  				return ret;
 +			// Retry once when PTRACE_GETREGS is used. #1188969
-+                        if (request == PTRACE_GETREGS) {
++			if (request == PTRACE_GETREGS) {
 +				if (!retried && (random() % 10) != 0) {
-+                                        retried = true;
-+                                        goto try_again;
++					retried = true;
++					goto try_again;
 +				}
 +				sb_unwrapped_system("(set -x; uname -a; ps af -o pgid,ppid,pid,etime,cputime,%cpu,command; dmesg | tail -n100;) >/dev/tty 2>&1");
-+                        }
++			}
 +		}
  
  		sb_ebort("ISE:_do_ptrace: ptrace(%s, ..., %p, %p): %s\n",
