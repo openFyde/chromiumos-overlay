@@ -17,3 +17,4 @@ DEPEND=">=dev-rust/fuchsia-zircon-0.3.2:=
 	>=dev-rust/winapi-0.3.0:=
 	>=dev-rust/libc-0.2.0:=
 "
+RDEPEND="${DEPEND}"

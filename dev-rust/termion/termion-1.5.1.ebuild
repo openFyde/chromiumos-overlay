@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit cros-rust
 
@@ -18,3 +18,4 @@ DEPEND="
 	>=dev-rust/redox_syscall-0.1.0:=
 	>=dev-rust/redox_termios-0.1.0:=
 "
+RDEPEND="${DEPEND}"

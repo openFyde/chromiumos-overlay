@@ -24,6 +24,7 @@ DEPEND="
 	=dev-rust/rand_hc-0.2*:=
 	=dev-rust/rand_pcg-0.2*:=
 "
+RDEPEND="${DEPEND}"
 
 src_prepare() {
 	cros-rust_src_prepare

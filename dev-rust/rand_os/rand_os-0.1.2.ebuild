@@ -1,7 +1,9 @@
-# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
+
+CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
@@ -14,13 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/cloudabi-0.0.3:=
-	=dev-rust/fuchsia-cprng-0.1*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
 	~dev-rust/rand_core-0.4.0:=
-	~dev-rust/rdrand-0.4.0:=
 	=dev-rust/stdweb-0.4*:=
-	>=dev-rust/wasm-bindgen-0.2.12:=
-	=dev-rust/winapi-0.3*:=
+	>=dev-rust/wasm-bindgen-0.2.12:= <dev-rust/wasm-bindgen-0.3.0
 "
+RDEPEND="${DEPEND}"

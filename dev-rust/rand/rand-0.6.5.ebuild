@@ -1,7 +1,7 @@
-# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit cros-rust
 
@@ -29,6 +29,7 @@ DEPEND="
 	=dev-rust/rand_os-0.1*:=
 	=dev-rust/winapi-0.3*:=
 "
+RDEPEND="${DEPEND}"
 
 src_prepare() {
 	cros-rust_src_prepare
