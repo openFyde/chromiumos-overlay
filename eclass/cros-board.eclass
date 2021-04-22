@@ -84,6 +84,7 @@ ALL_BOARDS=(
 	borealis
 	bruteus
 	brya
+	brya-manatee
 	bubs
 	buddy
 	buddy-cfm
