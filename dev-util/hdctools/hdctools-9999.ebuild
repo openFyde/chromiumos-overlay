@@ -3,7 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/hdctools"
-PYTHON_COMPAT=( python{2_7,3_{6..9}} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-workon distutils-r1 toolchain-funcs udev
 
@@ -33,19 +33,7 @@ DEPEND="${COMMON_DEPEND}
 	app-text/htmltidy
 "
 
-# TODO(b/173653826): Re-add PYTHON_USEDEP once python2 is dropped.
-BDEPEND="test? ( dev-python/pytest )"
-
-python_compile() {
-	# TODO(b/173653826): Delete this check once python2 is dropped.
-	if ! python_is_python3; then
-		rm build/servo/data/data_integrity_test.py || die
-	fi
-	distutils-r1_python_compile
-	if ! python_is_python3; then
-		cp servo/data/data_integrity_test.py build/servo/data/data_integrity_test.py || die
-	fi
-}
+BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
 
 src_compile() {
 	tc-export CC PKG_CONFIG
@@ -55,24 +43,11 @@ src_compile() {
 }
 
 python_test() {
-	# TODO(b/173653826): Delete this check once python2 is dropped.
-	python_is_python3 || return
 	py.test -v build/ || die
 }
 
 src_test() {
 	distutils-r1_src_test
-}
-
-python_install() {
-	# TODO(b/173653826): Delete this check once python2 is dropped.
-	if ! python_is_python3; then
-		rm build/servo/data/data_integrity_test.py || die
-	fi
-	distutils-r1_python_install
-	if ! python_is_python3; then
-		cp servo/data/data_integrity_test.py build/servo/data/data_integrity_test.py || die
-	fi
 }
 
 src_install() {
