@@ -252,7 +252,7 @@ multilib_src_configure() {
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[@]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[@]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[@]}")
-		--buildtype debug
+		--buildtype $(usex debug debug release)
 		$(use cheets && echo "--cross-file=${ARC_CROSS_FILE}")
 		$(use cheets && echo "-Dplatform-sdk-version=${ARC_PLATFORM_SDK_VERSION}")
 	)
