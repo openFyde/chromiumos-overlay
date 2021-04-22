@@ -1,11 +1,9 @@
 DEFINED_PHASES=-
 DESCRIPTION=Intel(R) Dynamic Platform & Thermal Framework
-EAPI=5
+EAPI=7
 HOMEPAGE=https://01.org/dptf/
-IUSE=kernel-3_10
 KEYWORDS=-* amd64 x86
 LICENSE=metapackage
-RDEPEND=kernel-3_10? ( sys-power/dptf-3_10 ) !kernel-3_10? ( sys-power/dptf ) kernel-3_10? ( !sys-power/dptf ) !kernel-3_10? ( !sys-power/dptf-3_10 )
-REQUIRED_USE=?? ( kernel-3_10 )
+RDEPEND=sys-power/dptf
 SLOT=0
-_md5_=ce56153d14a2f1ba9fd11e07e865f74d
+_md5_=ad800fc192cb3fe242da4242650c0d41
