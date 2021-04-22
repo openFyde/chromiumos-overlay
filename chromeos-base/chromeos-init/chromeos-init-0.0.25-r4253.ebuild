@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="357969259c5793e276680aa11d2579c5798bc062"
+CROS_WORKON_COMMIT="e90512144cfd4615faaa5063fe089e452743e70f"
 CROS_WORKON_TREE=("c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "f1af8ad5723c9c8d0994a7d4ed1c9743f0d6bbd3" "ffb23c88b2c5733feabc6df713a4baac80a0a417" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,8 +25,8 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="
 	arcpp arcvm cros_embedded +debugd +encrypted_stateful +encrypted_reboot_vault
-	frecon lvm_stateful_partition kernel-3_8 kernel-3_10 kernel-3_14
-	kernel-3_18 +midi -s3halt +syslog systemd +udev vivid vtconsole"
+	frecon lvm_stateful_partition kernel-3_18 +midi -s3halt +syslog systemd
+	+udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
 COMMON_DEPEND="
@@ -143,7 +143,7 @@ src_install_upstart() {
 	fi
 
 	if use midi; then
-		if use kernel-3_8 || use kernel-3_10 || use kernel-3_14 || use kernel-3_18; then
+		if use kernel-3_18; then
 			doins upstart/workaround-init/midi-workaround.conf
 		fi
 	fi

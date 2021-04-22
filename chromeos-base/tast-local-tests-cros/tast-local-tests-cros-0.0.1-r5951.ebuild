@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("ca7f70ac0cf2691a1d5058e086510c1e34494140" "4491c69e6d9d47f0eec2a8b180447c9701b53030")
-CROS_WORKON_TREE=("8ccaa02e03b84e71cec009042a63197bb9b047af" "759f533dbe341ca2558bd7d15545507fec601e19")
+CROS_WORKON_COMMIT=("5da0d8ec01c03ca09e20551c687c89963d6a35f6" "4491c69e6d9d47f0eec2a8b180447c9701b53030")
+CROS_WORKON_TREE=("f6508929fe04c8dff045e2ab692f4be99cd89c77" "759f533dbe341ca2558bd7d15545507fec601e19")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast-tests"
 	"chromiumos/platform/tast"
@@ -37,7 +37,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
 LICENSE="Apache-2.0 BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="arc chromeless_tty chromeless_tests cups kernel-3_8 kernel-3_10 kernel-3_14"
+IUSE="arc chromeless_tty chromeless_tests cups"
 
 # Build-time dependencies should be added to tast-build-deps, not here.
 DEPEND="chromeos-base/tast-build-deps:="
@@ -45,6 +45,7 @@ DEPEND="chromeos-base/tast-build-deps:="
 RDEPEND="
 	chromeos-base/policy-testserver
 	chromeos-base/tast-local-helpers-cros
+	chromeos-base/virtual-usb-printer
 	chromeos-base/wprgo
 	!chromeless_tty? (
 		!chromeless_tests? (
@@ -64,11 +65,4 @@ RDEPEND="
 	sys-apps/memtester
 	sys-apps/rootdev
 	virtual/udev
-	!kernel-3_14? (
-		!kernel-3_10? (
-			!kernel-3_8? (
-				chromeos-base/virtual-usb-printer
-			)
-		)
-	)
 "
