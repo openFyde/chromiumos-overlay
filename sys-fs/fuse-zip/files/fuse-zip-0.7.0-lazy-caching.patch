@@ -1,4 +1,4 @@
-From 289c4b448989a10f4d814aae413d889b90563a16 Mon Sep 17 00:00:00 2001
+From a99828c075003eaf08b078d904f4b001af772571 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Thu, 18 Jun 2020 23:35:55 +1000
 Subject: [PATCH] Lazy caching of files
@@ -13,13 +13,13 @@ over again.
 ---
  lib/Makefile      |   4 +-
  lib/bigBuffer.cpp | 362 ++++++++++++++++++++++++----------------------
- lib/bigBuffer.h   |  89 +++++++-----
- lib/dataNode.cpp  |   9 +-
+ lib/bigBuffer.h   |  91 +++++++-----
+ lib/dataNode.cpp  |  11 +-
  lib/dataNode.h    |   3 +-
  lib/fileNode.cpp  |   2 +-
  lib/fileNode.h    |   2 +-
  lib/fuse-zip.cpp  |   4 +-
- 8 files changed, 255 insertions(+), 220 deletions(-)
+ 8 files changed, 259 insertions(+), 220 deletions(-)
 
 diff --git a/lib/Makefile b/lib/Makefile
 index d092e0e..af2df55 100644
@@ -525,10 +525,10 @@ index 109d2f0..268807a 100644
      return 0;
  }
 diff --git a/lib/bigBuffer.h b/lib/bigBuffer.h
-index 2ec92d6..b5ad3fc 100644
+index 2ec92d6..82fe303 100644
 --- a/lib/bigBuffer.h
 +++ b/lib/bigBuffer.h
-@@ -20,60 +20,84 @@
+@@ -20,60 +20,86 @@
  #ifndef BIG_BUFFER_H
  #define BIG_BUFFER_H
  
@@ -574,61 +574,61 @@ index 2ec92d6..b5ad3fc 100644
 -            zip_uint64_t len, enum zip_source_cmd cmd);
 +                                               zip_uint64_t len,
 +                                               enum zip_source_cmd cmd);
- 
-     /**
--     * Return number of chunks needed to keep 'size' bytes.
++
++    /**
 +     * Opens the file at index nodeId_ in archive_.
 +     * @throws std::runtime_error on error.
-      */
--    inline static size_t chunksCount(size_t size) {
--        return (size + chunkSize - 1) / chunkSize;
--    }
++     */
 +    ZipFile OpenFile() const;
- 
-     /**
--     * Return number of chunk where 'offset'-th byte is located.
++
++    /**
 +     * Cache file in memory if it isn't cached yet.
 +     * @throws
 +     *      std::bad_alloc if there is not enough memory.
 +     *      std::runtime_error on file read error.
-      */
--    inline static size_t chunkNumber(size_t offset) {
--        return offset / chunkSize;
--    }
++     */
 +    void CacheInMemory();
 +
 +    class Chunk;
 +    using Chunks = std::vector<Chunk>;
++
++    /**
++     * Pointer to the ZIP archive.
++     * Becomes null when file is cached in memory.
++     */
++    zip *archive_ = nullptr;
+ 
+     /**
+-     * Return number of chunks needed to keep 'size' bytes.
++     * Index of the file in the ZIP archive.
+      */
+-    inline static size_t chunksCount(size_t size) {
+-        return (size + chunkSize - 1) / chunkSize;
+-    }
++    const zip_uint64_t nodeId_ = 0;
+ 
+     /**
+-     * Return number of chunk where 'offset'-th byte is located.
++     * File being streamed.
++     * Becomes null when file is cached in memory.
+      */
+-    inline static size_t chunkNumber(size_t offset) {
+-        return offset / chunkSize;
+-    }
++    ZipFile file_ = nullptr;
  
      /**
 -     * Return offset inside chunk to 'offset'-th byte.
-+     * Pointer to the ZIP archive.
-+     * Becomes null when file is cached in memory.
++     * Current position of the file being streamed.
++     * Not used when file is cached in memory.
       */
 -    inline static unsigned int chunkOffset(size_t offset) {
 -        return offset % chunkSize;
 -    }
-+    zip *archive_ = nullptr;
++    off_t pos_ = 0;
  
 -public:
 -    size_t len;
-+    /**
-+     * Index of the file in the ZIP archive.
-+     */
-+    const zip_uint64_t nodeId_ = 0;
-+
-+    /**
-+     * File being streamed.
-+     * Becomes null when file is cached in memory.
-+     */
-+    ZipFile file_ = nullptr;
-+
-+    /**
-+     * Current position of the file being streamed.
-+     * Not used when file is cached in memory.
-+     */
-+    off_t pos_ = 0;
-+
 +    /**
 +     * Cached file in memory.
 +     * Used only when archive_ is null.
@@ -637,10 +637,12 @@ index 2ec92d6..b5ad3fc 100644
 +
 +  public:
 +    off_t len = 0;
++
++    bool IsCachedInMemory() const { return !archive_; }
  
      /**
       * Create new file buffer without mapping to file in a zip archive
-@@ -86,11 +110,11 @@ public:
+@@ -86,11 +112,11 @@ public:
       * @param z         Zip file
       * @param nodeId    Node index inside zip file
       * @param length    File length
@@ -654,7 +656,7 @@ index 2ec92d6..b5ad3fc 100644
  
      ~BigBuffer();
  
-@@ -105,7 +129,7 @@ public:
+@@ -105,7 +131,7 @@ public:
       * @param offset    offset to start reading from
       * @return number of bytes read
       */
@@ -663,7 +665,7 @@ index 2ec92d6..b5ad3fc 100644
  
      /**
       * Dispatch write request to chunks of a file and grow 'chunks' vector if
-@@ -135,8 +159,8 @@ public:
+@@ -135,8 +161,8 @@ public:
       *      0       If successfull
       *      -ENOMEM If there are no memory
       */
@@ -674,13 +676,13 @@ index 2ec92d6..b5ad3fc 100644
  
      /**
       * Truncate buffer at position offset.
-@@ -151,4 +175,3 @@ public:
+@@ -151,4 +177,3 @@ public:
  };
  
  #endif
 -
 diff --git a/lib/dataNode.cpp b/lib/dataNode.cpp
-index 0efd7bc..4bf4559 100644
+index 0efd7bc..86566cd 100644
 --- a/lib/dataNode.cpp
 +++ b/lib/dataNode.cpp
 @@ -116,17 +116,15 @@ int DataNode::open(struct zip *zip) {
@@ -704,11 +706,13 @@ index 0efd7bc..4bf4559 100644
      _atime = currentTime();
      return _buffer->read(buf, sz, offset);
  }
-@@ -144,7 +142,6 @@ int DataNode::write(const char *buf, size_t sz, size_t offset) {
+@@ -144,7 +142,8 @@ int DataNode::write(const char *buf, size_t sz, size_t offset) {
  int DataNode::close() {
      _size = _buffer->len;
      if (_state == NodeState::OPENED && --_open_count == 0) {
 -        _buffer.reset();
++        if (!_buffer->IsCachedInMemory())
++            _buffer.reset();
          _state = NodeState::CLOSED;
      }
      return 0;
@@ -776,5 +780,5 @@ index 061cc6d..113065c 100644
  }
 -
 -- 
-2.31.0.rc2.261.g7f71774620-goog
+2.31.1.498.g6c1eba8ee3d-goog
 
