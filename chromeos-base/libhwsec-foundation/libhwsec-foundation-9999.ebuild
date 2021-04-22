@@ -25,6 +25,8 @@ IUSE="test tpm2"
 
 RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
+	chromeos-base/system_api
+	chromeos-base/tpm_manager-client
 	"
 
 src_install() {
