@@ -13,7 +13,7 @@ KEYWORDS="*"
 IUSE="internal postscript"
 
 RDEPEND="
-	chromeos-base/ippusb_manager
+	chromeos-base/ippusb_bridge
 	chromeos-base/lexmark-fax-pnh
 	net-print/cups
 	net-print/cups-filters
