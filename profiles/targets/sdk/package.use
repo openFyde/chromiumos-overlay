@@ -189,7 +189,6 @@ dev-python/selenium python_targets_python2_7
 dev-python/setuptools python_targets_python2_7
 dev-python/setuptools_scm python_targets_python2_7
 dev-python/six python_targets_python2_7
-dev-python/sqlalchemy python_targets_python2_7
 dev-python/tempora python_targets_python2_7
 dev-python/traceback2 python_targets_python2_7
 dev-python/trollius python_targets_python2_7
