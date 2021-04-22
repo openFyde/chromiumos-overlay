@@ -2,6 +2,12 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+cros_pre_src_configure_xopensource() {
+	# Workaround to build qemu 5.2 with ncurses 5.
+	# ncurses 6 does not appear to need it.
+	append-cppflags "-D_XOPEN_SOURCE_EXTENDED"
+}
+
 cros_post_src_install_lddtree() {
 	# Create a package we can use outside the SDK.
 	# Only do this for the few tools we use for chromite.lib.vm.
@@ -19,4 +25,5 @@ cros_post_src_install_lddtree() {
 	# QEMU searches for its bios files relative to itself.  Add a symlink so it
 	# can find the installed bios files under /usr/share/qemu/.
 	dosym ../../share/qemu /usr/libexec/qemu/pc-bios
+	dosym ../../share /usr/libexec/qemu/share
 }
