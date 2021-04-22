@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="357969259c5793e276680aa11d2579c5798bc062"
+CROS_WORKON_COMMIT="d545714c74ddd83d4a51e0fe32aa9e1a080e74e8"
 CROS_WORKON_TREE=("c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "0ec18830dbf64761d26219a1cda816862ff3de93" "ffb23c88b2c5733feabc6df713a4baac80a0a417" "d9822fc8fdebf665436cd04b14217bf2bad1abec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -43,7 +43,7 @@ RDEPEND="
 	dev-libs/protobuf:=
 "
 
-# Note: We need dev-libs/nss for the pkcs11 headers.
+# Note: We need dev-libs/nss and dev-libs/nspr for the pkcs11 headers.
 DEPEND="${RDEPEND}
 	test? (
 		app-arch/gzip
@@ -53,6 +53,7 @@ DEPEND="${RDEPEND}
 	fuzzer? ( dev-libs/libprotobuf-mutator )
 	tpm2? ( chromeos-base/trunks:=[test?] )
 	dev-libs/nss:=
+	dev-libs/nspr:=
 	"
 
 pkg_setup() {
@@ -68,6 +69,9 @@ src_compile() {
 	# We should NOT have any link dependency on nss because nss imports chaps.
 	local out=$(scanelf -qRyn "${OUT}" | grep nss)
 	[[ -n "${out}" ]] && die "No link dependency on nss allowed:\n${out}"
+	# No dependency on nspr as well, same as above.
+	out=$(scanelf -qRyn "${OUT}" | grep nspr)
+	[[ -n "${out}" ]] && die "No link dependency on nspr allowed:\n${out}"
 }
 
 src_install() {
