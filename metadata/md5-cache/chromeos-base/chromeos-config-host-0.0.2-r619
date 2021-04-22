@@ -3,7 +3,7 @@ DEPEND=>=sys-fs/squashfs-tools-4.3 dev-python/jinja[python_targets_python3_6(-)?
 DESCRIPTION=Chrome OS configuration host tools
 EAPI=5
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-config
-IUSE=cros_host cros_workon_tree_e7882a66ea4618e715c27a97b5ab5dc5e470fe4f python_targets_python3_6 python_targets_python3_7
+IUSE=cros_host cros_workon_tree_9dfcda6c66b6fc182ec9a2a1a98840c28aded48b python_targets_python3_6 python_targets_python3_7
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
@@ -11,4 +11,4 @@ RDEPEND=>=sys-fs/squashfs-tools-4.3 dev-python/jinja[python_targets_python3_6(-)
 REQUIRED_USE=|| ( python_targets_python3_6 python_targets_python3_7 ) || ( python_targets_python3_6 python_targets_python3_7 )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	desktop	b1d22ac8bdd4679ab79c71aca235009d	distutils-r1	198e3b9ddb55ae36b2a50b07ca2877ef	epatch	ed88001f77c6dd0d5f09e45c1a5b480e	estack	686eaab303305a908fd57b2fd7617800	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	ltprune	2729691420b6deeda2a90b1f1183fb55	multibuild	40fe59465edacd730c644ec2bc197809	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	preserve-libs	ef207dc62baddfddfd39a164d9797648	python-r1	79e26ce8f853c9daebe9a4956e37cc1b	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a	vcs-clean	2a0f74a496fa2b1552c4f3398258b7bf	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
-_md5_=0c4949f8a73e703554fee71ab0052ed4
+_md5_=3de3d0f5844f1e4db6bce182b34ddd3e
