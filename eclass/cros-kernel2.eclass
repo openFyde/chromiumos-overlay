@@ -39,7 +39,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_x86_whl_ucode? ( chromeos-base/whl-ucode-firmware-private )
 "
 
-WIRELESS_VERSIONS=( 3.4 3.8 3.18 4.2 )
+WIRELESS_VERSIONS=( 4.2 )
 WIRELESS_SUFFIXES=( ${WIRELESS_VERSIONS[@]/.} )
 
 IUSE="
@@ -231,7 +231,6 @@ CONFIG_FRAGMENTS=(
 	vtconsole
 	wifi_testbed_ap
 	wifi_diag
-	wireless34
 	x32
 	xen_guest
 )
@@ -920,13 +919,6 @@ CONFIG_MAC80211_WIFI_DIAG=y
 x32_desc="x32 ABI support"
 x32_config="
 CONFIG_X86_X32=y
-"
-
-wireless34_desc="Wireless 3.4 stack"
-wireless34_config="
-CONFIG_ATH9K_BTCOEX=m
-CONFIG_ATH9K_BTCOEX_COMMON=m
-CONFIG_ATH9K_BTCOEX_HW=m
 "
 
 xen_guest_desc="Support running under Xen hypervisor"
