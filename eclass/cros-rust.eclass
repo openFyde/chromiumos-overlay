@@ -150,7 +150,6 @@ cros-rust_pkg_setup() {
 		die "${FUNCNAME[0]}() should only be used in pkg_setup() phase"
 	fi
 	_cros-rust_prepare_lock "$(cros-rust_get_reg_lock)"
-	_cleanup_registry_link "$@"
 
 	# This is needed for CROS_WORKON_INCREMENTAL_BUILD to be honored.
 	if [[ -n "${CROS_WORKON_PROJECT}" ]]; then
