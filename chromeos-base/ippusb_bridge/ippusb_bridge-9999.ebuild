@@ -24,7 +24,7 @@ COMMON_DEPEND="
 
 RDEPEND="
 	${COMMON_DEPEND}
-	!<chromeos-base/ippusb_manager-0.0.2
+	!chromeos-base/ippusb_manager
 "
 
 DEPEND="
