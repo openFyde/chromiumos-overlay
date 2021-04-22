@@ -169,6 +169,7 @@ dev-python/portend python_targets_python2_7
 dev-python/protobuf-python python_targets_python2_7
 dev-python/psutil python_targets_python2_7
 dev-python/ptyprocess python_targets_python2_7
+dev-python/py python_targets_python2_7
 dev-python/pyasn1 python_targets_python2_7
 dev-python/pyasn1-modules python_targets_python2_7
 dev-python/pygobject python_targets_python2_7
