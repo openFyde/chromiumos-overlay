@@ -23,6 +23,7 @@ vmsplice: 1
 
 statx: 1
 fstat: 1
+newfstatat: 1
 # lstat: 1 FIXME
 ftruncate: 1
 

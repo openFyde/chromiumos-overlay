@@ -45,6 +45,7 @@ gettimeofday: 1
 
 # architecture-dependent syscalls:
 mmap: 1
+newfstatat: 1
 fstat: 1
 stat: 1
 fcntl: 1
