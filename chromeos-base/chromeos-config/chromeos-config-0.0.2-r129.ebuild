@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/config/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="fuzzer generated_cros_config"
+IUSE="fuzzer zephyr_ec"
 
 DEPEND="
 	!fuzzer? ( virtual/chromeos-config-bsp:= )
@@ -31,36 +31,38 @@ RDEPEND="${DEPEND}"
 # Merges all of the source YAML config files and generates the
 # corresponding build config and platform config files.
 src_compile() {
-	if use generated_cros_config ; then
-		einfo "Config files already generated, nothing to compile."
-		return 0
-	fi
-
 	local yaml_files=( "${SYSROOT}${UNIBOARD_YAML_DIR}/"*.yaml )
 	local input_yaml_files=()
+	local schema_flags=()
 	local yaml="${WORKDIR}/config.yaml"
 	local c_file="${WORKDIR}/config.c"
 	local configfs_image="${WORKDIR}/configfs.img"
 	local gen_yaml="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
+
 	# Protobuf based configs generate JSON directly with no YAML.
 	if [[ -f "${SYSROOT}${UNIBOARD_YAML_DIR}/project-config.json" ]]; then
-		cp "${SYSROOT}${UNIBOARD_YAML_DIR}/project-config.json" "${yaml}" || die
-	elif [[ "${yaml_files[0]}" =~ .*[a-z_]+\.yaml$ ]]; then
-		echo "# Generated YAML config file" > "${yaml}"
-		for source_yaml in "${yaml_files[@]}"; do
-			if [[ "${source_yaml}" != "${gen_yaml}" ]]; then
-				einfo "Adding source YAML file ${source_yaml}"
-				# Order matters here.  This will control how YAML files
-				# are merged.  To control the order, change the name
-				# of the input files to be in the order desired.
-				input_yaml_files+=("${source_yaml}")
-			fi
-		done
-		cros_config_schema -o "${yaml}" -m "${input_yaml_files[@]}" \
-			|| die "cros_config_schema failed for build config."
+		yaml_files=( "${SYSROOT}${UNIBOARD_YAML_DIR}/project-config.json" )
 	fi
 
-	if [[ -f "${yaml}" ]]; then
+	for source_yaml in "${yaml_files[@]}"; do
+		if [[ -f "${source_yaml}" && "${source_yaml}" != "${gen_yaml}" ]]; then
+			einfo "Adding source YAML file ${source_yaml}"
+			# Order matters here.  This will control how YAML files
+			# are merged.  To control the order, change the name
+			# of the input files to be in the order desired.
+			input_yaml_files+=("${source_yaml}")
+		fi
+	done
+
+	if use zephyr_ec; then
+		schema_flags+=( --zephyr-ec-configs-only )
+	fi
+
+	if [[ "${#input_yaml_files[@]}" -ne 0 ]]; then
+		cros_config_schema "${schema_flags[@]}" -o "${yaml}" \
+			-m "${input_yaml_files[@]}" \
+			|| die "cros_config_schema failed for build config."
+
 		cros_config_schema -c "${yaml}" \
 			--configfs-output "${configfs_image}" -g "${WORKDIR}" -f "True" \
 			|| die "cros_config_schema failed for platform config."
@@ -71,11 +73,6 @@ src_compile() {
 }
 
 src_install() {
-	if use generated_cros_config ; then
-		einfo "Config files already generated, nothing to install."
-		return 0
-	fi
-
 	# Get the directory name only, and use that as the install directory.
 	insinto "${UNIBOARD_JSON_INSTALL_PATH%/*}"
 	if [[ -e "${WORKDIR}/configfs.img" ]]; then
@@ -118,32 +115,7 @@ _verify_config_dump() {
 	fi
 }
 
-# @FUNCTION: _verify_generated_files
-# @USAGE:
-# @INTERNAL
-# @DESCRIPTION:
-# Verifies that all generated files are installed. Should only be called when
-# the generated_cros_config USE flag is set.
-_verify_generated_files() {
-	local expected_files=(
-		"${SYSROOT}${UNIBOARD_JSON_INSTALL_PATH}"
-		"${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
-		"${SYSROOT}${UNIBOARD_YAML_DIR}/config.c"
-	)
-
-	for f in "${expected_files[@]}"; do
-		if [[ ! -e "${f}" ]]; then
-			eerror "${f} not found."
-			die
-		fi
-	done
-}
-
 src_test() {
-	if use generated_cros_config; then
-		_verify_generated_files
-	else
-		_verify_config_dump model.yaml config_dump.json
-		_verify_config_dump private-model.yaml config_dump-private.json
-	fi
+	_verify_config_dump model.yaml config_dump.json
+	_verify_config_dump private-model.yaml config_dump-private.json
 }
