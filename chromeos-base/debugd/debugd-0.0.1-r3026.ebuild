@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="aac2321da41a6a7f8117a591d58ae4b44bbf3ef9"
-CROS_WORKON_TREE=("c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "3ceeb5e3e51852110381643ee0025fa6aa7c1afc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="fe66356b2784fea8064efea57f2cad92c74628e6"
+CROS_WORKON_TREE=("c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "3f262925cfc5f4d8a6214066af9ac5d77ad960c8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,6 +30,7 @@ COMMON_DEPEND="
 	net-libs/libpcap:=
 	net-wireless/iw:=
 	sys-apps/rootdev:=
+	sys-libs/libcap:=
 	sata? ( sys-apps/smartmontools:= )
 "
 RDEPEND="${COMMON_DEPEND}
@@ -91,15 +92,16 @@ src_install() {
 	if use amd64 ; then
 		exeinto /usr/libexec/debugd/helpers
 		doexe "${OUT}"/scheduler_configuration_helper
-
-		insinto /usr/share/policy
-		newins "${debugd_seccomp_dir}/scheduler-configuration-helper-${ARCH}.policy" scheduler-configuration-helper.policy
 	fi
 
-	# Install seccomp policy for the CUPS URI helper.
+	# Install seccomp policies.
 	insinto /usr/share/policy
-	newins "${debugd_seccomp_dir}/cups-uri-helper-${ARCH}.policy" \
-		cups-uri-helper.policy
+	local policy
+	for policy in "${debugd_seccomp_dir}"/*-${ARCH}.policy; do
+		local policy_basename="${policy##*/}"
+		local policy_name="${policy_basename/-${ARCH}}"
+		newins "${policy}" "${policy_name}"
+	done
 
 
 	# Install DBus configuration.
