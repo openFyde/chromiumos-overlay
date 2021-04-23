@@ -1,8 +1,8 @@
 diff --git a/src/libmtp.c b/src/libmtp.c
-index 2338b36..eeb9c8c 100644
+index 180c369..da2cf9a 100644
 --- a/src/libmtp.c
 +++ b/src/libmtp.c
-@@ -1922,15 +1922,15 @@ LIBMTP_mtpdevice_t *LIBMTP_Open_Raw_Device_Uncached(LIBMTP_raw_device_t *rawdevi
+@@ -1939,15 +1939,15 @@ LIBMTP_mtpdevice_t *LIBMTP_Open_Raw_Device_Uncached(LIBMTP_raw_device_t *rawdevi
    /* Check: if this is a PTP device, is it really tagged as MTP? */
    if (current_params->deviceinfo.VendorExtensionID != 0x00000006) {
      LIBMTP_ERROR("LIBMTP WARNING: no MTP vendor extension on device "

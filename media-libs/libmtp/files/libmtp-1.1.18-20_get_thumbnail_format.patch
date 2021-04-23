@@ -1,8 +1,8 @@
 diff --git a/src/libmtp.c b/src/libmtp.c
-index ac4e9c7..3516e8b 100644
+index 0031756..8cbee65 100644
 --- a/src/libmtp.c
 +++ b/src/libmtp.c
-@@ -9310,6 +9310,27 @@ int LIBMTP_TruncateObject(LIBMTP_mtpdevice_t *device, uint32_t const id,
+@@ -9354,6 +9354,27 @@ int LIBMTP_TruncateObject(LIBMTP_mtpdevice_t *device, uint32_t const id,
  }
  
  
@@ -30,24 +30,11 @@ index ac4e9c7..3516e8b 100644
  /**
   * This routine updates an album based on the metadata
   * supplied. If the <code>tracks</code> field of the metadata
-diff --git a/src/libmtp.h b/src/libmtp.h
-index 689bcc6..1c7c71a 100644
---- a/src/libmtp.h
-+++ b/src/libmtp.h
-@@ -968,6 +968,8 @@ int LIBMTP_Get_Representative_Sample(LIBMTP_mtpdevice_t *, uint32_t const,
-                           LIBMTP_filesampledata_t *);
- int LIBMTP_Get_Thumbnail(LIBMTP_mtpdevice_t *, uint32_t const,
-                          unsigned char **data, unsigned int *size);
-+int LIBMTP_Get_Thumbnail_Format(LIBMTP_mtpdevice_t *device, uint32_t const id,
-+                                uint16_t *format);
- 
- /**
-  * @}
 diff --git a/src/libmtp.h.in b/src/libmtp.h.in
-index 56166fa..db055ff 100644
+index 5ed5164..a38a344 100644
 --- a/src/libmtp.h.in
 +++ b/src/libmtp.h.in
-@@ -968,6 +968,8 @@ int LIBMTP_Get_Representative_Sample(LIBMTP_mtpdevice_t *, uint32_t const,
+@@ -971,6 +971,8 @@ int LIBMTP_Get_Representative_Sample(LIBMTP_mtpdevice_t *, uint32_t const,
                            LIBMTP_filesampledata_t *);
  int LIBMTP_Get_Thumbnail(LIBMTP_mtpdevice_t *, uint32_t const,
                           unsigned char **data, unsigned int *size);
@@ -57,10 +44,10 @@ index 56166fa..db055ff 100644
  /**
   * @}
 diff --git a/src/libmtp.sym b/src/libmtp.sym
-index c8bc10f..d4b09f1 100644
+index cc5329a..e00f194 100644
 --- a/src/libmtp.sym
 +++ b/src/libmtp.sym
-@@ -105,6 +105,7 @@ LIBMTP_Set_Playlist_Name
+@@ -106,6 +106,7 @@ LIBMTP_Set_Playlist_Name
  LIBMTP_Set_Album_Name
  LIBMTP_Set_Object_Filename
  LIBMTP_Get_Thumbnail

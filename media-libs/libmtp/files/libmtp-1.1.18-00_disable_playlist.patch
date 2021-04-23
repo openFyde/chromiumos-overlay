@@ -1,8 +1,8 @@
 diff --git a/examples/Makefile.am b/examples/Makefile.am
-index 46ac70f..d59d595 100644
+index 46ac70f..0bac1b3 100644
 --- a/examples/Makefile.am
 +++ b/examples/Makefile.am
-@@ -1,7 +1,7 @@
+@@ -1,6 +1,6 @@
  bin_PROGRAMS=mtp-connect mtp-detect mtp-tracks mtp-files \
 -	mtp-folders mtp-trexist mtp-playlists mtp-getplaylist \
 -	mtp-format mtp-albumart mtp-albums mtp-newplaylist mtp-emptyfolders \
@@ -11,8 +11,7 @@ index 46ac70f..d59d595 100644
  	mtp-thumb mtp-reset mtp-filetree
  
  mtp_connect_SOURCES=connect.c connect.h delfile.c getfile.c newfolder.c \
- 	sendfile.c sendtr.c pathutils.c pathutils.h \
-@@ -11,9 +13,6 @@ mtp_tracks_SOURCES=tracks.c util.c util.h common.h
+@@ -11,9 +11,6 @@ mtp_tracks_SOURCES=tracks.c util.c util.h common.h
  mtp_files_SOURCES=files.c util.c util.h common.h
  mtp_folders_SOURCES=folders.c util.c util.h common.h
  mtp_trexist_SOURCES=trexist.c util.c util.h common.h
@@ -23,7 +22,7 @@ index 46ac70f..d59d595 100644
  mtp_albumart_SOURCES=albumart.c util.c util.h common.h
  mtp_albums_SOURCES=albums.c util.c util.h common.h
 diff --git a/examples/Makefile.in b/examples/Makefile.in
-index 81f5c13..577286d 100644
+index 361e94c..76fe4a6 100644
 --- a/examples/Makefile.in
 +++ b/examples/Makefile.in
 @@ -90,10 +90,10 @@ build_triplet = @build@
@@ -136,7 +135,7 @@ index 7dc1a1a..5494371 100644
  
  if MTPZ_COMPILE
 diff --git a/src/Makefile.in b/src/Makefile.in
-index 2a4310d..31676d2 100644
+index 6d04072..8de3086 100644
 --- a/src/Makefile.in
 +++ b/src/Makefile.in
 @@ -140,8 +140,8 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
@@ -193,7 +192,7 @@ index 2a4310d..31676d2 100644
  @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmtp_la_CFLAGS) $(CFLAGS) -MT libmtp_la-ptp.lo -MD -MP -MF $(DEPDIR)/libmtp_la-ptp.Tpo -c -o libmtp_la-ptp.lo `test -f 'ptp.c' || echo '$(srcdir)/'`ptp.c
  @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmtp_la-ptp.Tpo $(DEPDIR)/libmtp_la-ptp.Plo
 diff --git a/src/libmtp.c b/src/libmtp.c
-index 23bb3d2..2338b36 100644
+index 4f2ec58..180c369 100644
 --- a/src/libmtp.c
 +++ b/src/libmtp.c
 @@ -40,7 +40,9 @@
@@ -206,7 +205,7 @@ index 23bb3d2..2338b36 100644
  #include "util.h"
  
  #include "mtpz.h"
-@@ -7032,6 +7034,7 @@ int LIBMTP_Set_Track_Name(LIBMTP_mtpdevice_t *device,
+@@ -7065,6 +7067,7 @@ int LIBMTP_Set_Track_Name(LIBMTP_mtpdevice_t *device,
    return ret;
  }
  
@@ -214,7 +213,7 @@ index 23bb3d2..2338b36 100644
  /**
   * This function renames a single playlist object file holder.
   * This simply means that the <code>PTP_OPC_ObjectFileName</code>
-@@ -7068,6 +7071,7 @@ int LIBMTP_Set_Playlist_Name(LIBMTP_mtpdevice_t *device,
+@@ -7101,6 +7104,7 @@ int LIBMTP_Set_Playlist_Name(LIBMTP_mtpdevice_t *device,
    playlist->name = strdup(newname);
    return ret;
  }
@@ -222,7 +221,7 @@ index 23bb3d2..2338b36 100644
  
  /**
   * This function renames a single album.
-@@ -7485,6 +7489,7 @@ uint32_t LIBMTP_Create_Folder(LIBMTP_mtpdevice_t *device, char *name,
+@@ -7518,6 +7522,7 @@ uint32_t LIBMTP_Create_Folder(LIBMTP_mtpdevice_t *device, char *name,
    return new_id;
  }
  
@@ -230,7 +229,7 @@ index 23bb3d2..2338b36 100644
  /**
   * This creates a new playlist metadata structure and allocates memory
   * for it. Notice that if you add strings to this structure they
-@@ -7681,6 +7686,7 @@ LIBMTP_playlist_t *LIBMTP_Get_Playlist(LIBMTP_mtpdevice_t *device, uint32_t cons
+@@ -7714,6 +7719,7 @@ LIBMTP_playlist_t *LIBMTP_Get_Playlist(LIBMTP_mtpdevice_t *device, uint32_t cons
  
    return pl;
  }
@@ -238,7 +237,7 @@ index 23bb3d2..2338b36 100644
  
  /**
   * This function creates a new abstract list such as a playlist
-@@ -8237,6 +8243,7 @@ static int update_abstract_list(LIBMTP_mtpdevice_t *device,
+@@ -8270,6 +8276,7 @@ static int update_abstract_list(LIBMTP_mtpdevice_t *device,
  }
  
  
@@ -246,7 +245,7 @@ index 23bb3d2..2338b36 100644
  /**
   * This routine creates a new playlist based on the metadata
   * supplied. If the <code>tracks</code> field of the metadata
-@@ -8335,6 +8342,7 @@ int LIBMTP_Update_Playlist(LIBMTP_mtpdevice_t *device,
+@@ -8368,6 +8375,7 @@ int LIBMTP_Update_Playlist(LIBMTP_mtpdevice_t *device,
  			      metadata->tracks,
  			      metadata->no_tracks);
  }
@@ -255,10 +254,10 @@ index 23bb3d2..2338b36 100644
  /**
   * This creates a new album metadata structure and allocates memory
 diff --git a/src/libmtp.h.in b/src/libmtp.h.in
-index 89d39d9..92325b2 100644
+index 8df68c5..f292ec1 100644
 --- a/src/libmtp.h.in
 +++ b/src/libmtp.h.in
-@@ -1016,6 +1016,7 @@ int LIBMTP_Set_Folder_Name(LIBMTP_mtpdevice_t *, LIBMTP_folder_t *, const char *
+@@ -1019,6 +1019,7 @@ int LIBMTP_Set_Folder_Name(LIBMTP_mtpdevice_t *, LIBMTP_folder_t *, const char *
  /** @} */
  
  
@@ -266,7 +265,7 @@ index 89d39d9..92325b2 100644
  /**
   * @}
   * @defgroup playlists The audio/video playlist management API.
-@@ -1028,6 +1029,7 @@ LIBMTP_playlist_t *LIBMTP_Get_Playlist(LIBMTP_mtpdevice_t *, uint32_t const);
+@@ -1031,6 +1032,7 @@ LIBMTP_playlist_t *LIBMTP_Get_Playlist(LIBMTP_mtpdevice_t *, uint32_t const);
  int LIBMTP_Create_New_Playlist(LIBMTP_mtpdevice_t *, LIBMTP_playlist_t * const);
  int LIBMTP_Update_Playlist(LIBMTP_mtpdevice_t *, LIBMTP_playlist_t * const);
  int LIBMTP_Set_Playlist_Name(LIBMTP_mtpdevice_t *, LIBMTP_playlist_t *, const char *);

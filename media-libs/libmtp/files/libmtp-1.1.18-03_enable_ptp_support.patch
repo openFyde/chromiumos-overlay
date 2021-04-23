@@ -1,5 +1,5 @@
 diff --git a/src/libusb1-glue.c b/src/libusb1-glue.c
-index 636c544..2a8bb61 100644
+index 6ba3eb7..32d5a9e 100644
 --- a/src/libusb1-glue.c
 +++ b/src/libusb1-glue.c
 @@ -224,15 +224,15 @@ static void free_mtpdevice_list(mtpdevice_list_t *devlist)

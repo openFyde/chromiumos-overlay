@@ -1,8 +1,8 @@
 diff --git a/src/ptp.c b/src/ptp.c
-index d66c8f2..192795b 100644
+index 2c0eae6..e1329c2 100644
 --- a/src/ptp.c
 +++ b/src/ptp.c
-@@ -3158,6 +3158,7 @@ ptp_canon_eos_setdevicepropvalueex (PTPParams* params, unsigned char* data, unsi
+@@ -3231,6 +3231,7 @@ ptp_canon_eos_setdevicepropvalueex (PTPParams* params, unsigned char* data, unsi
  	return ptp_transaction(params, &ptp, PTP_DP_SENDDATA, size, &data, NULL);
  }
  
@@ -10,7 +10,7 @@ index d66c8f2..192795b 100644
  uint16_t
  ptp_canon_eos_setdevicepropvalue (PTPParams* params,
  	uint16_t propcode, PTPPropertyValue *value, uint16_t datatype
-@@ -3240,6 +3241,7 @@ ptp_canon_eos_setdevicepropvalue (PTPParams* params,
+@@ -3313,6 +3314,7 @@ ptp_canon_eos_setdevicepropvalue (PTPParams* params,
  	free (data);
  	return ret;
  }
@@ -19,11 +19,11 @@ index d66c8f2..192795b 100644
  /**
   * ptp_canon_getpartialobject:
 diff --git a/src/ptp.h b/src/ptp.h
-index 4dedabf..adfef90 100644
+index 3058d35..061c860 100644
 --- a/src/ptp.h
 +++ b/src/ptp.h
-@@ -3320,8 +3320,10 @@ uint16_t ptp_canon_eos_bulbstart (PTPParams* params);
- uint16_t ptp_canon_eos_bulbend (PTPParams* params);
+@@ -3386,8 +3386,10 @@ uint16_t ptp_canon_eos_bulbend (PTPParams* params);
+ uint16_t ptp_canon_eos_905f (PTPParams* params, uint32_t);
  uint16_t ptp_canon_eos_getdevicepropdesc (PTPParams* params, uint16_t propcode,
  				PTPDevicePropDesc *devicepropertydesc);
 +#if 0

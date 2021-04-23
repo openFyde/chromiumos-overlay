@@ -1,8 +1,8 @@
 diff --git a/src/ptp-pack.c b/src/ptp-pack.c
-index 5319525..1f8c2cb 100644
+index 70da5f9..ea19389 100644
 --- a/src/ptp-pack.c
 +++ b/src/ptp-pack.c
-@@ -675,6 +675,7 @@ ptp_unpack_PTPTIME (const char *str) {
+@@ -706,6 +706,7 @@ ptp_unpack_PTPTIME (const char *str) {
  	char ptpdate[40];
  	char tmp[5];
  	size_t  ptpdatelen;
@@ -10,7 +10,7 @@ index 5319525..1f8c2cb 100644
  	struct tm tm;
  
  	if (!str)
-@@ -711,6 +712,31 @@ ptp_unpack_PTPTIME (const char *str) {
+@@ -742,6 +743,31 @@ ptp_unpack_PTPTIME (const char *str) {
  	tmp[2] = 0;
  	tm.tm_sec = atoi (tmp);
  	tm.tm_isdst = -1;
@@ -42,10 +42,10 @@ index 5319525..1f8c2cb 100644
  	return mktime (&tm);
  }
  
-@@ -755,7 +781,7 @@ ptp_unpack_OI (PTPParams *params, unsigned char* data, PTPObjectInfo *oi, unsign
+@@ -784,7 +810,7 @@ ptp_unpack_OI (PTPParams *params, unsigned char* data, PTPObjectInfo *oi, unsign
  
- 	capture_date = ptp_unpack_string(params, data,
- 		PTP_oi_filenamelen+filenamelen*2+1, len, &capturedatelen);
+ 	ptp_unpack_string(params, data, PTP_oi_filenamelen, len, &filenamelen, &oi->Filename);
+ 	ptp_unpack_string(params, data, PTP_oi_filenamelen+filenamelen*2+1, len, &capturedatelen, &capture_date);
 -	/* subset of ISO 8601, without '.s' tenths of second and 
 +	/* subset of ISO 8601, with optional '.s' tenths of second and
  	 * time zone
