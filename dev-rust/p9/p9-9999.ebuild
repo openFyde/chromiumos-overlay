@@ -21,10 +21,10 @@ IUSE="fuzzer test"
 
 DEPEND="
 	dev-rust/libc:=
-	dev-rust/libchromeos:=
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/quote-1*:=
 	=dev-rust/syn-1*:=
+	dev-rust/sys_util:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
@@ -44,10 +44,11 @@ pkg_setup() {
 }
 
 src_compile() {
-	pushd wire_format_derive > /dev/null || die
-	ecargo_build
-	use test && ecargo_test --no-run
-	popd > /dev/null || die
+	(
+		cd wire_format_derive || die
+		ecargo_build
+		use test && ecargo_test --no-run
+	)
 
 	ecargo_build
 	use test && ecargo_test --no-run
@@ -80,6 +81,11 @@ src_install() {
 		fuzzer_install "${S}/fuzz/OWNERS" \
 			"$(cros-rust_get_build_dir)/p9_tframe_decode_fuzzer"
 	fi
+}
+
+pkg_preinst() {
+	cros-rust_pkg_preinst wire_format_derive
+	cros-rust_pkg_preinst p9
 }
 
 pkg_postinst() {

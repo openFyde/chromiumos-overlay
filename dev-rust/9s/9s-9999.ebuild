@@ -27,11 +27,12 @@ RDEPEND="
 	!dev-rust/9s:0.1.0
 "
 DEPEND="
-	dev-rust/getopts:=
-	dev-rust/libc:=
+	=dev-rust/getopts-0.2*:=
+	=dev-rust/libc-0.2*:=
 	dev-rust/libchromeos:=
-	dev-rust/log:=
+	=dev-rust/log-0.4*:=
 	dev-rust/p9:=
+	dev-rust/sys_util:=
 "
 
 src_install() {

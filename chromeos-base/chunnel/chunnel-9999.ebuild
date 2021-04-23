@@ -29,8 +29,9 @@ DEPEND="
 	=dev-rust/log-0.4*:=
 	>=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3
-	=dev-rust/tempfile-3*:=
 	=dev-rust/remain-0.2*:=
+	dev-rust/sys_util:=
+	=dev-rust/tempfile-3*:=
 "
 
 RDEPEND="sys-apps/dbus"
@@ -68,4 +69,5 @@ pkg_preinst() {
 		enewuser chunneld
 		enewgroup chunneld
 	fi
+	cros-rust_pkg_preinst
 }
