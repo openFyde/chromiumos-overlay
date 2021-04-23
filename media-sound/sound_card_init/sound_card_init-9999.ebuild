@@ -48,4 +48,6 @@ src_install() {
 pkg_preinst() {
 	enewuser "sound_card_init"
 	enewgroup "sound_card_init"
+
+	cros-rust_pkg_preinst
 }

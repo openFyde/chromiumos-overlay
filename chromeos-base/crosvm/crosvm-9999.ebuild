@@ -333,4 +333,6 @@ src_install() {
 pkg_preinst() {
 	enewuser "crosvm"
 	enewgroup "crosvm"
+
+	cros-rust_pkg_preinst
 }

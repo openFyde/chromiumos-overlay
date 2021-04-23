@@ -42,6 +42,8 @@ DEPEND="
 pkg_preinst() {
 	enewgroup ippusb
 	enewuser ippusb
+
+	cros-rust_pkg_preinst
 }
 
 src_install() {

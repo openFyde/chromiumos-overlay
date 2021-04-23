@@ -47,4 +47,6 @@ src_install() {
 pkg_preinst() {
 	enewuser "resourced"
 	enewgroup "resourced"
+
+	cros-rust_pkg_preinst
 }
