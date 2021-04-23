@@ -18,14 +18,6 @@ case "${EAPI:-0}" in
 		die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
-IUSE="racc"
-
-DEPEND="
-	!racc? (
-		chromeos-base/factory_runtime_probe
-	)
-"
-
 # @FUNCTION: cros-factory-board_install_project_config
 # @USAGE:
 # @DESCRIPTION:
@@ -104,26 +96,9 @@ cros-factory-board_install_project_overlay() {
 	shopt -u nullglob
 }
 
-# @FUNCTION: cros-factory-board_install_factory_runtime_probe
-# @USAGE:
-# @DESCRIPTION:
-# Install `factory_runtime_probe` binary and its related libraries as a factory
-# resource.
-cros-factory-board_install_factory_runtime_probe() {
-	local archive_dir="${WORKDIR}/factory_runtime_probe_archive"
-	mkdir -p "${archive_dir}" || die
-	"${SYSROOT}/usr/bin/factory_runtime_probe_installer" \
-		--target "${archive_dir}" || die
-	factory_create_resource "factory-runtime_probe" \
-		"${archive_dir}" "bin/factory_runtime_probe" "."
-}
-
 cros-factory-board_src_install() {
 	cros-factory-board_install_project_config
 	cros-factory-board_install_project_overlay
-	if ! use racc; then
-		cros-factory-board_install_factory_runtime_probe
-	fi
 }
 
 EXPORT_FUNCTIONS src_install
