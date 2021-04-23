@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f96d9972d4d74d48a951d8448efff3590957ac04"
+CROS_WORKON_COMMIT="8d1a53938f464ed0ea7d3046c42b7dc75ce890ce"
 CROS_WORKON_TREE="38c88a14f67feae9355c5c2096dad5f59dab1934"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -44,6 +44,8 @@ DEPEND="
 pkg_preinst() {
 	enewgroup ippusb
 	enewuser ippusb
+
+	cros-rust_pkg_preinst
 }
 
 src_install() {

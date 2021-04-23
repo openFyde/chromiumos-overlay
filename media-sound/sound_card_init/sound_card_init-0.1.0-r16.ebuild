@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2978a012740b35b0476e926111102132ec6c0f6a"
+CROS_WORKON_COMMIT="f1da57a408fe7bae6b81ba637f34f8f6ec84686c"
 CROS_WORKON_TREE="3d44d1d88e2e4a3ae9ef0125d3f25fcf67c36ac2"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -50,4 +50,6 @@ src_install() {
 pkg_preinst() {
 	enewuser "sound_card_init"
 	enewgroup "sound_card_init"
+
+	cros-rust_pkg_preinst
 }

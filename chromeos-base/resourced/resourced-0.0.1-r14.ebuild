@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2b1e5b5315649ddf197a933567c81a11d229ea13"
+CROS_WORKON_COMMIT="8d1a53938f464ed0ea7d3046c42b7dc75ce890ce"
 CROS_WORKON_TREE="d8e2ed46b74a07d7725b372589ee09b9599d8e01"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -49,4 +49,6 @@ src_install() {
 pkg_preinst() {
 	enewuser "resourced"
 	enewgroup "resourced"
+
+	cros-rust_pkg_preinst
 }
