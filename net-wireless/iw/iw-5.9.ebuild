@@ -24,6 +24,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-5.9-iw-util-factor-out-HE-capability-parser.patch"
 	"${FILESDIR}/${PN}-5.9-iw-scan-parse-HE-capabilities.patch"
 	"${FILESDIR}/${PN}-5.9-iw-scan-fixup-HE-caps-whitespace.patch"
+	"${FILESDIR}/${PN}-5.9-iw-retain___stop___cmd.patch"
 )
 
 src_prepare() {
