@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="357969259c5793e276680aa11d2579c5798bc062"
+CROS_WORKON_COMMIT="1987c5376648f829eac6079ebfcc1ca95b522f57"
 CROS_WORKON_TREE=("c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "ffb23c88b2c5733feabc6df713a4baac80a0a417" "c200c725a537163b64b27b630cb1b67320f627a6" "40e8ca94f5f7409d451a55986817991d4f62ed80" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,6 +27,8 @@ IUSE="test tpm2"
 
 RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
+	chromeos-base/system_api
+	chromeos-base/tpm_manager-client
 	"
 
 src_install() {
