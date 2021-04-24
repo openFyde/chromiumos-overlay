@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="411af0aa73bf0981201da020f82203b46ad2fcba"
-CROS_WORKON_TREE="6936f31645d75bd5d6c3fdce0e63a32cd869c243"
+CROS_WORKON_COMMIT="33e0e36354af9d780e3303f8188211ef6853dc21"
+CROS_WORKON_TREE="e35ee5d210f29073d89bcd35d096540c0dbbb565"
 CROS_RUST_SUBDIR="vm_tools/p9"
 
 CROS_WORKON_LOCALNAME="../platform2"
@@ -23,10 +23,10 @@ IUSE="fuzzer test"
 
 DEPEND="
 	dev-rust/libc:=
-	dev-rust/libchromeos:=
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/quote-1*:=
 	=dev-rust/syn-1*:=
+	dev-rust/sys_util:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
@@ -46,10 +46,11 @@ pkg_setup() {
 }
 
 src_compile() {
-	pushd wire_format_derive > /dev/null || die
-	ecargo_build
-	use test && ecargo_test --no-run
-	popd > /dev/null || die
+	(
+		cd wire_format_derive || die
+		ecargo_build
+		use test && ecargo_test --no-run
+	)
 
 	ecargo_build
 	use test && ecargo_test --no-run
@@ -82,6 +83,11 @@ src_install() {
 		fuzzer_install "${S}/fuzz/OWNERS" \
 			"$(cros-rust_get_build_dir)/p9_tframe_decode_fuzzer"
 	fi
+}
+
+pkg_preinst() {
+	cros-rust_pkg_preinst wire_format_derive
+	cros-rust_pkg_preinst p9
 }
 
 pkg_postinst() {

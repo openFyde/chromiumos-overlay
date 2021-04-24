@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="411af0aa73bf0981201da020f82203b46ad2fcba"
-CROS_WORKON_TREE="a25315870f7d4b8a36a43754fc835461452d8b59"
+CROS_WORKON_COMMIT="33e0e36354af9d780e3303f8188211ef6853dc21"
+CROS_WORKON_TREE="3d67f2f4ed8cf897d05e7e9007b5c379df6b4ef4"
 CROS_RUST_SUBDIR="vm_tools/9s"
 
 CROS_WORKON_LOCALNAME="../platform2"
@@ -29,11 +29,12 @@ RDEPEND="
 	!dev-rust/9s:0.1.0
 "
 DEPEND="
-	dev-rust/getopts:=
-	dev-rust/libc:=
+	=dev-rust/getopts-0.2*:=
+	=dev-rust/libc-0.2*:=
 	dev-rust/libchromeos:=
-	dev-rust/log:=
+	=dev-rust/log-0.4*:=
 	dev-rust/p9:=
+	dev-rust/sys_util:=
 "
 
 src_install() {

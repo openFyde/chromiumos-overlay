@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8d313fa7a38397de6e40d04dba8065d5febcd4be"
-CROS_WORKON_TREE="863a6cbb731f0fc362735ba2b9338046b960727d"
+CROS_WORKON_COMMIT="33e0e36354af9d780e3303f8188211ef6853dc21"
+CROS_WORKON_TREE="be3438060c5946cb3ef8ed94c571c11aa2e7d5c6"
 CROS_RUST_SUBDIR="vm_tools/chunnel"
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -31,8 +31,9 @@ DEPEND="
 	=dev-rust/log-0.4*:=
 	>=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3
-	=dev-rust/tempfile-3*:=
 	=dev-rust/remain-0.2*:=
+	dev-rust/sys_util:=
+	=dev-rust/tempfile-3*:=
 "
 
 RDEPEND="sys-apps/dbus"
@@ -70,4 +71,5 @@ pkg_preinst() {
 		enewuser chunneld
 		enewgroup chunneld
 	fi
+	cros-rust_pkg_preinst
 }
