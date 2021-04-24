@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="30ea471cca5f523716bad6423eb2080277c72947"
-CROS_WORKON_TREE=("c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "eae0546f4ee5132d4544af4770755eb05f60cba6" "ffb23c88b2c5733feabc6df713a4baac80a0a417" "e1ece0f49344d4d7c710b0446f3b72b1299c7469" "5b383efc726ae6677e2a1bf2ff0a1a61fb8371d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ea51a39d3c34b25f2375f6d13c2082a18d187739"
+CROS_WORKON_TREE=("c9472e5bf2ef861a0c3b602fb4ae3084a5d96ee8" "eae0546f4ee5132d4544af4770755eb05f60cba6" "ffb23c88b2c5733feabc6df713a4baac80a0a417" "817108b8f572282eeaabec17c9f2756344a088cc" "5b383efc726ae6677e2a1bf2ff0a1a61fb8371d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cellular dhcpv6 fuzzer kernel-3_8 kernel-3_10 pppoe +seccomp systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae"
+IUSE="cellular dhcpv6 fuzzer pppoe systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x wpa3_sae"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -39,14 +39,12 @@ COMMON_DEPEND="
 	vpn? ( net-dialup/ppp:= )
 	net-dns/c-ares:=
 	net-libs/libtirpc:=
+	net-firewall/conntrack-tools:=
 	net-firewall/iptables:=
-	net-libs/libnetfilter_queue:=
-	net-libs/libnfnetlink:=
 	wifi? ( virtual/wpa_supplicant )
 	wired_8021x? ( virtual/wpa_supplicant )
 	sys-apps/rootdev:=
 	cellular? ( net-misc/modemmanager-next:= )
-	!kernel-3_10? ( !kernel-3_8? ( net-firewall/conntrack-tools:= ) )
 "
 
 RDEPEND="${COMMON_DEPEND}
@@ -115,23 +113,6 @@ src_install() {
 	fi
 	dobin "${OUT}"/shill
 
-	# Deprecated.  On Linux 3.12+ conntrackd is used instead.
-	local netfilter_queue_helper=no
-	if use kernel-3_8 || use kernel-3_10; then
-		netfilter_queue_helper=yes
-	fi
-
-	if [[ "${netfilter_queue_helper}" == "yes" ]]; then
-		# Netfilter queue helper is run directly from init, so install
-		# in sbin.
-		dosbin "${OUT}"/netfilter-queue-helper
-		dosbin init/netfilter-common
-	fi
-
-	# Install Netfilter queue helper syscall filter policy file.
-	insinto /usr/share/policy
-	use seccomp && newins shims/nfqueue-seccomp-${ARCH}.policy nfqueue-seccomp.policy
-
 	local shims_dir=/usr/$(get_libdir)/shill/shims
 	exeinto "${shims_dir}"
 
@@ -174,11 +155,6 @@ src_install() {
 
 	# Install init scripts
 	if use systemd; then
-		if [[ "${netfilter_queue_helper}" == "yes" ]]; then
-			systemd_dounit init/netfilter-queue.service
-			systemd_enable_service network.target \
-				netfilter-queue.service
-		fi
 		systemd_dounit init/shill-start-user-session.service
 		systemd_dounit init/shill-stop-user-session.service
 
@@ -201,9 +177,6 @@ src_install() {
 			init/shill-start-user-session.conf \
 			init/shill-stop-user-session.conf \
 			init/shill_respawn.conf
-		if [[ "${netfilter_queue_helper}" == "yes" ]]; then
-			doins init/netfilter-queue.conf
-		fi
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/*.sh
