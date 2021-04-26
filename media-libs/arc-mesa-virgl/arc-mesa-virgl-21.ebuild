@@ -4,8 +4,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="e925e97746afa471b86e4f9608498f15fe9b2956"
-CROS_WORKON_TREE="cde5431fb6fb5b6843049a5df677de47050df448"
+CROS_WORKON_COMMIT="8ec046344b57f7041952f018f14ef626de94fe5d"
+CROS_WORKON_TREE="88bd3b1a95f9324ca0ef06e7bf3a025ce1de8f80"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="arc-mesa-virgl"
 CROS_WORKON_EGIT_BRANCH="master"
@@ -136,48 +136,17 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
 
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-set-window-usage-flags.patch
-
 	epatch "${FILESDIR}"/FROMLIST-egl-android-Increase-preferred-buffer-count-to-4.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-virgl-Use-ETC2-formats-directly-when-possible.patch
-
-	epatch "${FILESDIR}"/BACKPORT-mapi-x86-Fix-dynamic-entries-in-x86-tsd-stubs.patch
-	# It's also fixed at Android master with http://ag/11992933. We can't
-	# merge it to R, so let' work around it at mesa side here.
-	epatch "${FILESDIR}"/UPSTREAM-mapi-Return-NULL-function-pointers-for-GL_EXT_debug_.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-util-add-a-alignof-macro.patch
-	epatch "${FILESDIR}"/UPSTREAM-util-ralloc-fix-ralloc-alignment.patch
-	epatch "${FILESDIR}"/UPSTREAM-st-mesa-Fix-EGLImageTargetTexture2D-for-GL_TEXTURE_2.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-dri_util-Update-internal_format-to-GL_RGB8-for-MESA_.patch
-
-	# merge request 6055
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-Call-createImageFromDmaBufs-directly.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-Look-up-prime-fds-in-droid_create_image_.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-Drop-unused-ctx-argument.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-Simplify-droid_create_image_from_name-pa.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-Move-droid_create_image_from_prime_fds-f.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-Use-droid_create_image_from_prime_fds-in.patch
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-Add-support-for-CrOS-buffer-info-perform.patch
-
-	# merge request 7805
-	epatch "${FILESDIR}"/UPSTREAM-egl-android-don-t-pass-loaderPriv-in-get_front_bo.patch
-	epatch "${FILESDIR}"/UPSTREAM-dri-add-image-cleanup-callback-to-loader-extensions.patch
-	epatch "${FILESDIR}"/BACKPORT-frontend-dri-plumb-loader-image-cleanup-callback.patch
-	epatch "${FILESDIR}"/BACKPORT-egl-android-implement-image-cleanup-callback.patch
-
-	# merge request 8211
-	epatch "${FILESDIR}"/UPSTREAM-egl-dri2-fix-image-loaderPrivate-type-mixup.patch
 
 	epatch "${FILESDIR}"/CHROMIUM-hack-Override-GL_RENDERER-for-kindle-app.patch
 
-	epatch "${FILESDIR}"/BACKPORT-virgl-Don-t-destroy-resource-while-it-s-in-use.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-Don-t-destroy-resource-while-it-s-in-use.patch
 
-	epatch "${FILESDIR}"/BACKPORT-virgl-add-astc-2d-compressed-formats.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-add-astc-2d-compressed-formats.patch
 
-	epatch "${FILESDIR}"/UPSTREAM-glsl-mark-some-builtins-with-correct-glsl-es-version.patch
+	# This is actually a reland of a reverted patch.
+	# See https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/216
+	epatch "${FILESDIR}"/UPSTREAM-virgl-fix-BGRA-emulation-artifacts-during-window-res.patch
 
 	default
 }

@@ -1,4 +1,4 @@
-From 86c406ad6ed15573ab3a48ea0eecea68a357f01b Mon Sep 17 00:00:00 2001
+From 6f4c4df6c2da6b2c055952df78bad8edf83c4dc8 Mon Sep 17 00:00:00 2001
 From: cheyang <cheyang@bytedance.com>
 Date: Fri, 26 Feb 2021 17:47:27 +0800
 Subject: [PATCH] virgl: add astc 2d compressed formats
@@ -8,16 +8,16 @@ Signed-off-by: hexin   <hexin.op@bytedance.com>
 Reviewed-by: Gert Wollny <gert.wollny@collabora.com>
 Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/9306>
 ---
- src/gallium/drivers/virgl/virgl_encode.c | 28 +++++++++++++++++++++
- src/gallium/drivers/virgl/virgl_hw.h     | 32 ++++++++++++++++++++++++
+ src/gallium/drivers/virgl/virgl_encode.c | 28 ++++++++++++++++++++++
  src/gallium/drivers/virgl/virgl_screen.c |  5 ++++
- 3 files changed, 65 insertions(+)
+ src/virtio/virtio-gpu/virgl_hw.h         | 30 ++++++++++++++++++++++++
+ 3 files changed, 63 insertions(+)
 
 diff --git a/src/gallium/drivers/virgl/virgl_encode.c b/src/gallium/drivers/virgl/virgl_encode.c
-index 6d71f5d6574..b2046bf4c5e 100644
+index 47a44c3489f..d93fb85098a 100644
 --- a/src/gallium/drivers/virgl/virgl_encode.c
 +++ b/src/gallium/drivers/virgl/virgl_encode.c
-@@ -258,6 +258,34 @@ static const enum virgl_formats virgl_formats_conv_table[PIPE_FORMAT_COUNT] = {
+@@ -259,6 +259,34 @@ static const enum virgl_formats virgl_formats_conv_table[PIPE_FORMAT_COUNT] = {
     CONV_FORMAT(ETC2_R11_SNORM)
     CONV_FORMAT(ETC2_RG11_UNORM)
     CONV_FORMAT(ETC2_RG11_SNORM)
@@ -52,15 +52,37 @@ index 6d71f5d6574..b2046bf4c5e 100644
  };
  
  enum virgl_formats pipe_to_virgl_format(enum pipe_format format)
-diff --git a/src/gallium/drivers/virgl/virgl_hw.h b/src/gallium/drivers/virgl/virgl_hw.h
-index b2bed9165ef..dfa6ce466b6 100644
---- a/src/gallium/drivers/virgl/virgl_hw.h
-+++ b/src/gallium/drivers/virgl/virgl_hw.h
-@@ -292,6 +292,38 @@ enum virgl_formats {
+diff --git a/src/gallium/drivers/virgl/virgl_screen.c b/src/gallium/drivers/virgl/virgl_screen.c
+index 1189a3e1b59..24c692df405 100644
+--- a/src/gallium/drivers/virgl/virgl_screen.c
++++ b/src/gallium/drivers/virgl/virgl_screen.c
+@@ -670,6 +670,7 @@ virgl_is_format_supported( struct pipe_screen *screen,
+ 
+    if ((format_desc->layout == UTIL_FORMAT_LAYOUT_RGTC ||
+         format_desc->layout == UTIL_FORMAT_LAYOUT_ETC ||
++        format_desc->layout == UTIL_FORMAT_LAYOUT_ASTC ||
+         format_desc->layout == UTIL_FORMAT_LAYOUT_S3TC) &&
+        target == PIPE_TEXTURE_3D)
+       return false;
+@@ -731,6 +732,10 @@ virgl_is_format_supported( struct pipe_screen *screen,
+       goto out_lookup;
+    }
+ 
++   if (format_desc->layout == UTIL_FORMAT_LAYOUT_ASTC) {
++     goto out_lookup;
++   }
++
+    /* Find the first non-VOID channel. */
+    for (i = 0; i < 4; i++) {
+       if (format_desc->channel[i].type != UTIL_FORMAT_TYPE_VOID) {
+diff --git a/src/virtio/virtio-gpu/virgl_hw.h b/src/virtio/virtio-gpu/virgl_hw.h
+index 94997a3b005..c77d1fcec1f 100644
+--- a/src/virtio/virtio-gpu/virgl_hw.h
++++ b/src/virtio/virtio-gpu/virgl_hw.h
+@@ -358,6 +358,36 @@ enum virgl_formats {
     VIRGL_FORMAT_ETC2_RG11_UNORM         = 277,
     VIRGL_FORMAT_ETC2_RG11_SNORM         = 278,
  
-+
 +    /* astc compressed */
 +   VIRGL_FORMAT_ASTC_4x4                = 279,
 +   VIRGL_FORMAT_ASTC_5x4                = 280,
@@ -91,33 +113,9 @@ index b2bed9165ef..dfa6ce466b6 100644
 +   VIRGL_FORMAT_ASTC_12x10_SRGB         = 305,
 +   VIRGL_FORMAT_ASTC_12x12_SRGB         = 306,
 +
-+
     VIRGL_FORMAT_R10G10B10X2_UNORM       = 308,
     VIRGL_FORMAT_A4B4G4R4_UNORM          = 311,
  
-diff --git a/src/gallium/drivers/virgl/virgl_screen.c b/src/gallium/drivers/virgl/virgl_screen.c
-index 235d4280104..cd78afea842 100644
---- a/src/gallium/drivers/virgl/virgl_screen.c
-+++ b/src/gallium/drivers/virgl/virgl_screen.c
-@@ -708,6 +708,7 @@ virgl_is_format_supported( struct pipe_screen *screen,
- 
-    if ((format_desc->layout == UTIL_FORMAT_LAYOUT_RGTC ||
-         format_desc->layout == UTIL_FORMAT_LAYOUT_ETC ||
-+        format_desc->layout == UTIL_FORMAT_LAYOUT_ASTC ||
-         format_desc->layout == UTIL_FORMAT_LAYOUT_S3TC) &&
-        target == PIPE_TEXTURE_3D)
-       return false;
-@@ -769,6 +770,10 @@ virgl_is_format_supported( struct pipe_screen *screen,
-       goto out_lookup;
-    }
- 
-+   if (format_desc->layout == UTIL_FORMAT_LAYOUT_ASTC) {
-+     goto out_lookup;
-+   }
-+
-    /* Find the first non-VOID channel. */
-    for (i = 0; i < 4; i++) {
-       if (format_desc->channel[i].type != UTIL_FORMAT_TYPE_VOID) {
 -- 
-2.20.1
+2.31.1.498.g6c1eba8ee3d-goog
 
