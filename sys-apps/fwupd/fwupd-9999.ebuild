@@ -4,7 +4,7 @@
 EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.5.8"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.6.0"
 
 PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 
@@ -52,10 +52,10 @@ RDEPEND=">=app-arch/gcab-1.0
 	virtual/udev
 	archive? ( app-arch/libarchive:= )
 	dell? ( >=sys-libs/libsmbios-2.4.0 )
-	gnutls? ( net-libs/gnutls )
-	gusb? ( >=dev-libs/libgusb-0.3.5[introspection?] )
 	elogind? ( >=sys-auth/elogind-211 )
 	flashrom? ( sys-apps/flashrom )
+	gnutls? ( net-libs/gnutls )
+	gusb? ( >=dev-libs/libgusb-0.3.5[introspection?] )
 	policykit? ( >=sys-auth/polkit-0.103 )
 	systemd? ( >=sys-apps/systemd-211 )
 	uefi? (
@@ -112,8 +112,8 @@ src_configure() {
 		$(meson_use bluetooth bluez)
 		$(meson_use dell plugin_dell)
 		$(meson_use elogind)
-		$(meson_use gnutls)
 		$(meson_use flashrom plugin_flashrom)
+		$(meson_use gnutls)
 		$(meson_use gtk-doc gtkdoc)
 		$(meson_use gusb)
 		$(meson_use gusb plugin_altos)
@@ -161,7 +161,7 @@ src_install() {
 
 	if ! use minimal ; then
 		sed "s@%SEAT_MANAGER%@elogind@" \
-			"${FILESDIR}"/${PN}-r1 \
+			"${FILESDIR}"/${PN}-r2 \
 			> "${T}"/${PN} || die
 		doinitd "${T}"/${PN}
 
