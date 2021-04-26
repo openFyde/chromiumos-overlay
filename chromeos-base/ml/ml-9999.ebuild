@@ -47,6 +47,7 @@ IUSE="
 	internal
 	ml_benchmark_drivers
 	nnapi
+	ondevice_document_scanner
 	ondevice_grammar
 	ondevice_handwriting
 	ondevice_handwriting_dlc
@@ -59,6 +60,7 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	internal? ( ondevice_speech? ( chromeos-soda/libsoda:=[dlc=] ) )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
+	media-libs/cros-camera-document-scanning:=[ondevice_document_scanner=]
 	>=dev-libs/libgrammar-0.0.4:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
 	dev-libs/libsuggest:=[ondevice_text_suggestions=]
