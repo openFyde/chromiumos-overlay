@@ -10,14 +10,12 @@ EAPI=7
 
 inherit cros-constants
 
-CROS_RUST_SUBDIR="rust/minijail-sys"
-
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
 CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE="rust/minijail-sys"
 
 inherit cros-workon cros-rust
 
@@ -40,3 +38,23 @@ DEPEND="
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}"
+
+src_unpack() {
+	# Unpack both the minijail and Rust dependency source code.
+	cros-workon_src_unpack
+	S+="/rust/minijail-sys"
+
+	cros-rust_src_unpack
+}
+
+src_compile() {
+	use test && ecargo_test --no-run
+}
+
+src_test() {
+	if use x86 || use amd64; then
+		ecargo_test
+	else
+		elog "Skipping rust unit tests on non-x86 platform"
+	fi
+}
