@@ -4,12 +4,12 @@ DEPEND=chromeos-base/minijail:= >=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0 >=
 DESCRIPTION=rust bindings for minijail
 EAPI=7
 HOMEPAGE=https://android.googlesource.com/platform/external/minijail
-IUSE=test cros_host cros_workon_tree_ed9e2ba99262f6bc53486bbc24a947f4b894bee2 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=test cros_host cros_workon_tree_c12462bccb06babed5abc2a8e153f3ff5b04d259 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=chromeos-base/minijail:= >=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0 >=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0 sys-libs/libcap:= virtual/bindgen:=
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.0.11-r5
+SLOT=0/0.0.11-r6
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	f5fc8d9c81a1ec3c2857c9ad5f16bb34	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=40b6bc46c3f041c8f37dbb807e248711
+_md5_=5af106317406cc875b3d3c63dc5d0879
