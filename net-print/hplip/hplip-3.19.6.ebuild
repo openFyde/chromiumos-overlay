@@ -80,6 +80,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.18.6-disable-create-ppd.patch"
 	"${FILESDIR}/${PN}-3.19.6-fix-return.patch"
 	"${FILESDIR}/${PN}-3.19.6-ignore-prebuilt-shared-objects.patch"
+	"${FILESDIR}/${PN}-3.19.6-fix-uninitialized-variable.patch"
 	"${WORKDIR}/patches"
 )
 
