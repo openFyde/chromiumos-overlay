@@ -12,11 +12,8 @@ Change-Id: I041f567b58f513916bcc132c6ff8d260574a9d4f
 Signed-off-by: Anisha Kulkarni <anisha.dattatraya.kulkarni@intel.com>
 ---
  build/cmake/gna_compile_flags.cmake   |  6 +++++-
- src/common/Address.h                  |  2 ++
- src/gna-lib/Shape.h                   |  2 ++
  src/gna-lib/kernels/KernelArguments.h | 16 ++++++++++++++--
- 4 files changed, 23 insertions(+), 3 deletions(-)
-
+ 
 diff --git a/build/cmake/gna_compile_flags.cmake b/build/cmake/gna_compile_flags.cmake
 index 8d4d370..e915b08 100644
 --- a/build/cmake/gna_compile_flags.cmake
@@ -34,32 +31,6 @@ index 8d4d370..e915b08 100644
      endif()
    elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
      if(NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-diff --git a/src/common/Address.h b/src/common/Address.h
-index ea47eeb..ad0528e 100644
---- a/src/common/Address.h
-+++ b/src/common/Address.h
-@@ -119,6 +119,8 @@ template<typename T> class Address<T *> : public Address<T*const>
- {
- public:
-     Address() = default;
-+    ~Address() = default;
-+    Address(const Address&) = default;
-     Address(void * value) :
-         Address<T*const>(value)
-     {}
-diff --git a/src/gna-lib/Shape.h b/src/gna-lib/Shape.h
-index 0f83f69..caf8e39 100644
---- a/src/gna-lib/Shape.h
-+++ b/src/gna-lib/Shape.h
-@@ -40,6 +40,8 @@ struct Shape : public ShapeMap
-     explicit Shape(gna_3d_dimensions shape);
- 
-     Shape & operator=(const Shape & right);
-+    Shape(const Shape&) = default;
-+    ~Shape() = default;
- 
-     ModelValue AsModelValue(char dimension) const;
- 
 diff --git a/src/gna-lib/kernels/KernelArguments.h b/src/gna-lib/kernels/KernelArguments.h
 index a74ec4f..45711ed 100644
 --- a/src/gna-lib/kernels/KernelArguments.h

@@ -7,7 +7,7 @@ inherit cmake-utils flag-o-matic unpacker
 
 DESCRIPTION="Intel GNA library for Gemini Lake and Tiger Lake"
 HOMEPAGE="https://github.com/intel/gna"
-GIT_HASH="691b58abb87ddfdef9101459e311bdb82620bfa6"
+GIT_HASH="6e42dc7a53fff9d7e644ea48dac70c841c72a14b"
 GIT_SHORT_HASH=${GIT_HASH::8}
 SRC_URI="https://github.com/intel/gna/archive/${GIT_HASH}.tar.gz -> intel-gna-${GIT_SHORT_HASH}.tar.gz"
 
