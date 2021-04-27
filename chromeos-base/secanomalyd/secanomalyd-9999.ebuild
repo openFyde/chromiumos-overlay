@@ -28,15 +28,18 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}"
 
 pkg_setup() {
-	# TODO(jorgelo): Add these users.
-	# enewuser "secanomalyd"
-	# enewgroup "secanomalyd"
+	enewuser "secanomaly"
+	enewgroup "secanomaly"
 
 	cros-workon_pkg_setup
 }
 
 src_install() {
 	dosbin "${OUT}"/secanomalyd
+
+	# Install Upstart configuration.
+	insinto /etc/init
+	doins secanomalyd.conf
 }
 
 platform_pkg_test() {
