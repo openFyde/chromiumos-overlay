@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="595bce7d7ce933d7efa85754ecc1cc488a9c8a21"
-CROS_WORKON_TREE="906953f24c9e456e52c27b1f7c912bc180d4a24d"
+CROS_WORKON_COMMIT="fc0817a88b16dd42572245e2e536d0ca216c9b1b"
+CROS_WORKON_TREE=("19d483807c5d629d596d249eb835f5af2fda89c0" "3a06b511aaf6ed40cf452bae796721591f2afef0")
 CROS_RUST_SUBDIR="cras/client/cras-sys"
 # TODO(b/175640259) Fix tests for ARM.
 CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
@@ -14,7 +14,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras-sys/Cargo.toml is
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} cras/src/common"
 
 inherit cros-workon cros-rust
 
@@ -26,6 +26,7 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
+	~dev-rust/bindgen-0.56.0:=
 	dev-rust/data_model:=
 	media-sound/audio_streams:=
 "
