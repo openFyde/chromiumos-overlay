@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="d96d9814dfcee21ddebfa1c2151b631aafe1e7b3"
-CROS_WORKON_TREE="9c58a93fdc65a1eecb09544bae6aea56e499ffd1"
+CROS_WORKON_COMMIT="1c7d2b9b784157aae44df1f50db93c46b52bf3c2"
+CROS_WORKON_TREE="74010d596769c297192f5bbb372e5055d7346a1a"
 CROS_WORKON_PROJECT="chromiumos/platform/drm-tests"
 
 inherit cros-sanitizers cros-workon toolchain-funcs
