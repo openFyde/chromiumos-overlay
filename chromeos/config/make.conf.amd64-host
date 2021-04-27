@@ -4,7 +4,7 @@
 source /mnt/host/source/src/third_party/chromiumos-overlay/chromeos/config/make.conf.common
 
 # We initialize PORTDIR_OVERLAY here to clobber any redefinitions elsewhere.
-# This has to be the first overlay so crossdev finds the correct gcc and 
+# This has to be the first overlay so crossdev finds the correct gcc and
 # glibc ebuilds.
 PORTDIR_OVERLAY="
   /usr/local/portage/crossdev
@@ -18,7 +18,7 @@ PKGDIR="/var/lib/portage/pkgs"
 PORT_LOGDIR="/var/log/portage"
 
 source /usr/local/portage/chromiumos/chromeos/binhost/host/amd64-PREFLIGHT_BINHOST.conf
-FULL_BINHOST="gs://chromeos-prebuilt/host/amd64/amd64-host/chroot-2021.04.23.191753/packages/"
+FULL_BINHOST="gs://chromeos-prebuilt/host/amd64/amd64-host/chroot-2021.04.26.095451/packages/"
 PORTAGE_BINHOST="$PREFLIGHT_BINHOST $FULL_BINHOST"
 
 GENTOO_MIRRORS="https://commondatastorage.googleapis.com/chromeos-localmirror"
