@@ -38,7 +38,6 @@ platform_pkg_test() {
 
 src_install() {
 	dobin "${OUT}/minios"
-	dobin "${OUT}/minios_init"
 	dobin scripts/root_partition_for_recovery
 
 	# D-Bus configuration
