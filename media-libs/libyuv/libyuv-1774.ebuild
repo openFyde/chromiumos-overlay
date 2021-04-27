@@ -13,11 +13,8 @@ SRC_URI="https://chromium.googlesource.com/libyuv/libyuv/+archive/${GIT_SHA1}.ta
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="test"
 
-DEPEND="
-	test? ( dev-cpp/gtest:= )
-	virtual/jpeg:0"
+DEPEND="virtual/jpeg:0"
 
 RDEPEND="${DEPEND}"
 
@@ -36,9 +33,4 @@ src_install() {
 
 	insinto /usr/$(get_libdir)/pkgconfig
 	sed -e "s:@LIB@:$(get_libdir):g" libyuv.pc.in | newins - libyuv.pc
-
-	if use test; then
-		into /usr/local
-		dobin libyuv_unittest
-	fi
 }

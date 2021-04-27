@@ -51,19 +51,6 @@ LDLIBS += -ljpeg
 
 CXX_STATIC_LIBRARY(libyuv.pic.a): $(CXX_OBJECTS) $(LOCAL_OBJS)
 
-LOCAL_TEST_OBJS := $(patsubst %.cc,%.o,$(wildcard unit_test/*.cc))
-
-$(eval $(call add_object_rules,$(LOCAL_TEST_OBJS),CXX,cc,CXXFLAGS))
-
-CXX_BINARY(libyuv_unittest): LDLIBS += -lgtest -lpthread -pthread
-CXX_BINARY(libyuv_unittest): $(CXX_OBJECTS) $(LOCAL_OBJS) $(LOCAL_TEST_OBJS)
-
-ALL_DEPS := CXX_STATIC_LIBRARY(libyuv.pic.a)
-
-ifneq ($(filter test, ${USE}),)
-ALL_DEPS += CXX_BINARY(libyuv_unittest)
-endif
-
-all: $(ALL_DEPS)
+all: CXX_STATIC_LIBRARY(libyuv.pic.a)
 
 clean: CLEAN(libyuv.pic.a)
