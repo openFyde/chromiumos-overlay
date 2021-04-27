@@ -54,6 +54,8 @@ ALL_BOARDS=(
 	atlas-blueznext
 	atlas-kernelnext
 	atlas-kvm
+	aurora
+	aurora-borealis
 	auron
 	auron_paine
 	auron_pearlvalley
