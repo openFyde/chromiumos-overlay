@@ -1,0 +1,52 @@
+From 29c37a23db688ea88ae7d07cca2c4c76bc0b3ac3 Mon Sep 17 00:00:00 2001
+From: Paul Stewart <pstew@chromium.org>
+Date: Mon, 14 Jun 2021 12:32:58 +0000
+Subject: [PATCH 15/18] Ensure gateway probe is broadcast
+
+The arp_new() method does not always return a freshly
+initialized arp_state structure.  For example, if
+dhcp_probe_gw() is called while a probe from
+start_unicast_arp() is still running, the arp_state
+object from the unicast ARP call will be returned by
+arp_new().  This can happen when a DHCP renew succeeds
+while a unicast "GatewayArp" is still in progress.
+
+In the above scenario we need to make sure the dest_hwlen
+field of the arp_state structure is zero.  This signals a
+broadcast ARP, and will ensure that the callbacks that are
+invoked by the ARP state machine know which case we are in.
+
+While here, add a small optimization that skips a
+broadcast gateway ARP if a unicast ARP succeeds.
+
+BUG=chromium:531042
+TEST=Reconnect to WiFi network where ARP fails
+---
+ src/dhcp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/dhcp.c b/src/dhcp.c
+index d002e894..fd198a17 100644
+--- a/src/dhcp.c
++++ b/src/dhcp.c
+@@ -2157,6 +2157,8 @@ dhcp_probe_gw_response(struct arp_state *astate, const struct arp_msg *amsg)
+ 		if (astate->dest_hwlen) {
+ 			/* Response to unicast ARP. */
+ 			rpc_notify_unicast_arp(astate->iface);
++			/* Unicast ARP succeeded; no need for broadcast ARP. */
++			astate->iface->options->options &= ~DHCPCD_ARPGW;
+ 		} else {
+ 			/* Response to arpgw request. */
+ 			save_gateway_addr(astate->iface, amsg->sha);
+@@ -2184,6 +2186,8 @@ dhcp_probe_gw(struct interface *ifp)
+ 			    state->offer, state->offer_len, DHO_ROUTER) == 0) {
+ 		astate = arp_new(ifp, &gateway_addr);
+ 		if (astate) {
++			/* Make sure we're doing a broadcast ARP. */
++			astate->dest_hwlen = 0;
+ 			astate->src_addr.s_addr = state->offer->yiaddr;
+ 			astate->probed_cb = dhcp_probe_gw_timeout;
+ 			astate->conflicted_cb = dhcp_probe_gw_response;
+-- 
+2.32.0.432.gabb21c7263-goog
+
