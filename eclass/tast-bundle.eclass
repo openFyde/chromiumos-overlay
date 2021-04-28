@@ -89,9 +89,9 @@ tast-bundle_src_compile() {
 	local i
 	for (( i = 0; i < ${#CROS_WORKON_PROJECT[@]}; i++ )); do
 		echo "${CROS_WORKON_REPO[i]}/${CROS_WORKON_PROJECT[i]} ${CROS_WORKON_COMMIT[i]}"
-	done | jq -s -R -S 'split("\n")|map(split(" ")|{(.[0]): .[1]})|add' \
-		> "${TAST_BUNDLE_NAME}.sig.json" \
-		|| die "Generating signatures failed"
+	done | jq -s -R -S 'split("\n") |
+		map(split(" ") | select(.[0]) | {(.[0]): .[1]}) |
+		add' > "${TAST_BUNDLE_NAME}.sig.json" || die "Generating signatures failed"
 
 	# Build bundle executable for the host arch and get metadata dump.
 	local source="chromiumos/tast/${TAST_BUNDLE_TYPE}/bundles/${TAST_BUNDLE_NAME}"
