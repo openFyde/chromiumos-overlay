@@ -21,8 +21,8 @@ CROS_WORKON_DESTDIR=(
 )
 CROS_WORKON_EGIT_BRANCH=(
 	"cr50_stab"
-	"master"
-	"master"
+	"main"
+	"main"
 )
 
 inherit coreboot-sdk cros-ec-board cros-workon toolchain-funcs
