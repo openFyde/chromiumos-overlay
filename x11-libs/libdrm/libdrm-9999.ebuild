@@ -8,7 +8,7 @@ if [[ ${PV} != *9999* ]]; then
 	CROS_WORKON_TREE="7d7f7823d7a6c217122b4402ed8c8b77bdec4952"
 fi
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
-CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_EGIT_BRANCH="upstream/master"
 CROS_WORKON_MANUAL_UPREV="1"
 
 inherit meson cros-workon
