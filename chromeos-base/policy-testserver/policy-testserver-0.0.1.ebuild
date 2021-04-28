@@ -21,7 +21,7 @@ EGIT_REPO_URIS=(
 
 	"components/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"82664672208d8b23d034d6c0ee36f3116f7d63d4"
+	"d41300e697b4fe812cb37f4655b059bcc71ad78a"
 
 	# private_membership and shell_encryption are not used in Chrome OS at
 	# the moment. They are just required to compile the proto files. An
