@@ -38,5 +38,4 @@ src_compile() {
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/bindgen"
-	cros-rust_src_install
 }
