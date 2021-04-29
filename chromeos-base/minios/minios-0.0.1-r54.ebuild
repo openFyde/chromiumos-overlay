@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4d5f7c608604272c7bfbba52543d653573465e60"
-CROS_WORKON_TREE=("82ffc96fb6e8d49ae4f8b8988124d565af3be61f" "8e3f5f9ad68d0b5c498004d20771bc32c8af9578" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="fdfa7f1d9f79e53f1c747c89f09450710f0ce037"
+CROS_WORKON_TREE=("82ffc96fb6e8d49ae4f8b8988124d565af3be61f" "e9c88e81130f2330573b56632cad10c4b0ab90f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -40,7 +40,6 @@ platform_pkg_test() {
 
 src_install() {
 	dobin "${OUT}/minios"
-	dobin "${OUT}/minios_init"
 	dobin scripts/root_partition_for_recovery
 
 	# D-Bus configuration
