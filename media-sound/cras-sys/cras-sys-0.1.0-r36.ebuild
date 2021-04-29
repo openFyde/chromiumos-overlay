@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="7dd11dfde937f43ebeb1c6415ea9f96edf1e012f"
-CROS_WORKON_TREE=("19d483807c5d629d596d249eb835f5af2fda89c0" "9de0632254bb4e5e1eb2ebee90546b479d5aed1d")
+CROS_WORKON_COMMIT="08bbdb48beb102fb358c1ddf1b8947b235d9e560"
+CROS_WORKON_TREE=("011f77c5c8324304853b56ec18d4ec98c234c985" "bd3fd9188a296742017825efac0347f1ee6ea494")
 CROS_RUST_SUBDIR="cras/client/cras-sys"
 # TODO(b/175640259) Fix tests for ARM.
 CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
@@ -26,9 +26,9 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
-	~dev-rust/bindgen-0.56.0:=
 	dev-rust/data_model:=
 	media-sound/audio_streams:=
+	virtual/bindgen:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
