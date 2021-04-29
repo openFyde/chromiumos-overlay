@@ -1,8 +1,8 @@
 DEFINED_PHASES=-
-DEPEND=~dev-lang/rust-1.46.0:=
+DEPEND=~dev-lang/rust-1.51.0:=
 DESCRIPTION=Virtual for the Rust language compiler
 EAPI=6
 KEYWORDS=*
 LICENSE=metapackage
-SLOT=0/1.46.0
+SLOT=0/1.51.0
 _md5_=35d0d67d490048d8d51951769978567f
