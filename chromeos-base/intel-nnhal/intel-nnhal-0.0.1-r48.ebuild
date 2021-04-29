@@ -8,8 +8,8 @@ CROS_WORKON_TREE=("82ffc96fb6e8d49ae4f8b8988124d565af3be61f" "e7dba8c91c1f3257c3
 inherit base cros-workon platform unpacker
 
 DESCRIPTION="Intel NNAPI HAL"
-HOMEPAGE="https://github.com/RavirajSitaram/nn-hal"
-NNHAL_GIT_HASH="74b8df4bd43174f16cac18ce1f19cfaae2a3217e"
+HOMEPAGE="https://github.com/intel/nn-hal"
+NNHAL_GIT_HASH="9607e7e7bc36130d22efe8dadaf5a8e51e981825"
 NNHAL_GIT_SHORT_HASH=${NNHAL_GIT_HASH::8}
 OPENVINO_GIT_HASH="a4a1bff1cc5a6b22f806adac8845d2806772dacd"
 OPENVINO_GIT_SHORT_HASH=${OPENVINO_GIT_HASH::8}
@@ -48,9 +48,16 @@ src_unpack() {
 	unpacker_src_unpack
 }
 
+src_configure() {
+	if use x86 || use amd64; then
+		append-cppflags "-D_Float16=__fp16"
+		append-cxxflags "-Xclang -fnative-half-type"
+		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
+	fi
+	platform_src_configure
+}
+
 src_prepare() {
-	eapply "${FILESDIR}/0001-Deinitialize-Runtime-pools.patch"
-	eapply "${FILESDIR}/0002-optimizations-using-TGL.patch"
 	cros_enable_cxx_exceptions
 	eapply_user
 }
