@@ -18,7 +18,7 @@ RETRY_DELAY=10
 gbb_force_dev_mode() {
   # Disable SW WP and set GBB_FLAG_FORCE_DEV_SWITCH_ON (0x8) to force boot in
   # developer mode after RMA reset.
-  flashrom -p host --wp-disable --wp-range 0 0 > /dev/null 2>&1
+  flashrom -p host --wp-disable --wp-range 0,0 > /dev/null 2>&1
   local flags="$(/usr/share/vboot/bin/get_gbb_flags.sh 2>/dev/null \
     | awk '/Chrome OS GBB set flags:/ {print $NF}')"
   local new_flags="$(printf '0x%x' "$(( ${flags} | 0x8 ))")"
