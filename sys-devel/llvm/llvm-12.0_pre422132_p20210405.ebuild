@@ -158,7 +158,7 @@ multilib_src_configure() {
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		"${mycmakeargs[@]}"
-		"-DLLVM_ENABLE_PROJECTS=llvm;clang;lld;compiler-rt;clang-tools-extra"
+		"-DLLVM_ENABLE_PROJECTS=llvm;clang;lld;lldb;compiler-rt;clang-tools-extra"
 		"-DLLVM_LIBDIR_SUFFIX=${libdir#lib}"
 
 		"-DLLVM_BUILD_LLVM_DYLIB=ON"
@@ -347,6 +347,12 @@ multilib_src_install() {
 	if [[ -L "${D}/usr/bin/llvm-strip" ]]; then
 		rm "${D}/usr/bin/llvm-strip" || die
 		newbin "${D}/usr/bin/llvm-objcopy" "llvm-strip"
+	fi
+
+	# Remove this file, if it exists, to avoid installation file collision,
+	# as this file is also generated/installed by the dev-python/six package.
+	if [[ -f "${D}/usr/lib/python3.6/site-packages/six.py" ]]; then
+		rm "${D}/usr/lib/python3.6/site-packages/six.py" || die
 	fi
 }
 
