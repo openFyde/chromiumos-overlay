@@ -30,8 +30,6 @@ src_compile() {
 }
 
 src_install() {
-	emake -C decoder/build/linux/ \
-		PREFIX="${ED}"/usr \
-		LIB_PATH="$(get_libdir)" \
-		install
+	dolib.a decoder/lib/builddir/libopencsd.a decoder/lib/builddir/libopencsd_c_api.a
+	doheader -r decoder/include/opencsd
 }

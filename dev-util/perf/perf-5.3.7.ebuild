@@ -176,6 +176,7 @@ perf_make() {
 	local arch=$(tc-arch-kernel)
 	local java_dir
 	use java && java_dir="/etc/java-config-2/current-system-vm"
+	use coresight && append-ldflags "-lc++" # opencsd requires linking with C++ libraries.
 
 	MAKEOPTS="${MAKEOPTS} -j1" # crbug.com/1173859
 
