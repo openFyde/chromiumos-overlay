@@ -79,6 +79,7 @@ IUSE_LINUX_FIRMWARE=(
 	cros-pd
 	fw_sst
 	fw_sst2
+	i915_adl
 	i915_bxt
 	i915_cnl
 	i915_glk
@@ -157,6 +158,7 @@ LICENSE="
 	linux_firmware_cros-pd? ( BSD-Google )
 	linux_firmware_fw_sst? ( LICENCE.fw_sst )
 	linux_firmware_fw_sst2? ( LICENCE.IntcSST2 )
+	linux_firmware_i915_adl? ( LICENSE.i915 )
 	linux_firmware_i915_bxt? ( LICENSE.i915 )
 	linux_firmware_i915_cnl? ( LICENSE.i915 )
 	linux_firmware_i915_glk? ( LICENSE.i915 )
@@ -332,6 +334,7 @@ src_install() {
 	use_fw cros-pd && doins_subdir cros-pd/*
 	use_fw fw_sst && doins_subdir intel/fw_sst*
 	use_fw fw_sst2 && doins_subdir intel/IntcSST2.bin
+	use_fw i915_adl && doins_subdir i915/adl*
 	use_fw i915_bxt && doins_subdir i915/bxt*
 	use_fw i915_cnl && doins_subdir i915/cnl*
 	use_fw i915_glk && doins_subdir i915/glk*
