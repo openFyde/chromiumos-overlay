@@ -37,6 +37,7 @@ COMMON_DEPEND="
 DEPEND="${COMMON_DEPEND}
 	test? (
 		sys-process/psmisc
+		dev-util/shflags
 		dev-util/shunit2
 		sys-apps/diffutils
 	)
