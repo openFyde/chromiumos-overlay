@@ -84,6 +84,7 @@ IUSE="
 	rialto
 	scheduler_configuration_performance
 	screenshare_sw_codec
+	set_hw_overlay_strategy_none
 	shelf-hotseat
 	smartdim
 	tablet_form_factor
