@@ -1,7 +1,7 @@
-From 6145c2b7fe0b06991ee0748c69e3ebb454959ed9 Mon Sep 17 00:00:00 2001
+From dc1463c684932fbdab47b203b67d8b6f075da254 Mon Sep 17 00:00:00 2001
 From: Amin Hassani <ahassani@google.com>
 Date: Fri, 11 Aug 2017 11:20:02 -0700
-Subject: [PATCH] Generate squashfs image file map using unsquashfs
+Subject: [PATCH 1/3] Generate squashfs image file map using unsquashfs
 
 This CL modifies unsquashfs to generate a file map when given the flag
 -m or -map. The structure of the file map is a list of per-line of the
@@ -22,24 +22,32 @@ for each fragment is '<fragment_i>' with 'i' be the i'th fragment.
 The usage:
 unsquashfs -m(ap) <path_to_file_map> <squashfs_image>
 ---
- squashfs-tools/unsquashfs.c | 62 ++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 59 insertions(+), 3 deletions(-)
+ squashfs-tools/unsquashfs.c | 63 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 58 insertions(+), 5 deletions(-)
 
 diff --git a/squashfs-tools/unsquashfs.c b/squashfs-tools/unsquashfs.c
-index 77c3c07..c3d0c08 100644
+index 65f208d..f82f197 100644
 --- a/squashfs-tools/unsquashfs.c
 +++ b/squashfs-tools/unsquashfs.c
-@@ -79,6 +79,9 @@ unsigned int cur_blocks = 0;
- int inode_number = 1;
- int no_xattrs = XATTR_DEF;
- int user_xattrs = FALSE;
+@@ -78,6 +78,9 @@ int user_xattrs = FALSE;
+ int ignore_errors = FALSE;
+ int strict_errors = FALSE;
+ int use_localtime = TRUE;
 +int lsfilemap = FALSE;
 +char* file_map_path = NULL;
 +FILE* file_map_file = NULL;
  
  int lookup_type[] = {
  	0,
-@@ -514,6 +517,15 @@ char *modestr(char *str, int mode)
+@@ -498,7 +501,6 @@ void dump_cache(struct cache *cache)
+ 	pthread_mutex_unlock(&cache->mutex);
+ }
+ 
+-
+ char *modestr(char *str, int mode)
+ {
+ 	int i;
+@@ -513,6 +515,15 @@ char *modestr(char *str, int mode)
  	return str;
  }
  
@@ -55,7 +63,7 @@ index 77c3c07..c3d0c08 100644
  
  #define TOTALCHARS  25
  int print_filename(char *pathname, struct inode *inode)
-@@ -526,7 +538,20 @@ int print_filename(char *pathname, struct inode *inode)
+@@ -525,7 +536,20 @@ int print_filename(char *pathname, struct inode *inode)
  	struct tm *t;
  
  	if(short_ls) {
@@ -69,7 +77,7 @@ index 77c3c07..c3d0c08 100644
 +				malloc(inode->blocks * sizeof(unsigned int));
 +			if(block_list == NULL)
 +				EXIT_UNSQUASH("print_filename: unable to malloc block list\n");
-+			s_ops.read_block_list(block_list, inode->block_ptr, inode->blocks);
++			s_ops->read_block_list(block_list, inode->block_ptr, inode->blocks);
 +			print_file_map(pathname, inode->start, inode->blocks,
 +							   block_list);
 +			free(block_list);
@@ -77,43 +85,42 @@ index 77c3c07..c3d0c08 100644
  		return 1;
  	}
  
-@@ -1545,7 +1570,7 @@ void dir_scan(char *parent_name, unsigned int start_block, unsigned int offset,
- 		return;
+@@ -1604,7 +1628,7 @@ int dir_scan(char *parent_name, unsigned int start_block, unsigned int offset,
+ 		return FALSE;
  	}
  
--	if(lsonly || info)
-+	if(!lsfilemap && (lsonly || info))
+-	if((lsonly || info) && (!concise || dir->dir_count ==0))
++	if(!lsfilemap && (lsonly || info) && (!concise || dir->dir_count ==0))
  		print_filename(parent_name, i);
  
  	if(!lsonly) {
-@@ -1604,7 +1629,7 @@ void dir_scan(char *parent_name, unsigned int start_block, unsigned int offset,
+@@ -1668,7 +1692,7 @@ int dir_scan(char *parent_name, unsigned int start_block, unsigned int offset,
  
- 			i = s_ops.read_inode(start_block, offset);
+ 			i = s_ops->read_inode(start_block, offset);
  
 -			if(lsonly || info)
 +			if(lsfilemap || lsonly || info)
  				print_filename(pathname, i);
  
- 			if(!lsonly)
-@@ -2627,6 +2652,17 @@ int main(int argc, char *argv[])
- 		} else if(strcmp(argv[i], "-regex") == 0 ||
- 				strcmp(argv[i], "-r") == 0)
- 			use_regex = TRUE;
-+		else if(strcmp(argv[i], "-map") == 0 ||
+ 			if(!lsonly) {
+@@ -2786,6 +2810,16 @@ int main(int argc, char *argv[])
+ 				ERROR("%s: %s missing or invalid offset size\n", argv[0], argv[i - 1]);
+ 				exit(1);
+ 			}
++		} else if(strcmp(argv[i], "-map") == 0 ||
 +				strcmp(argv[i], "-m") == 0) {
 +			if(++i == argc) {
-+				fprintf(stderr, "%s: -map missing filename\n",
++				ERROR("%s: -map missing filename\n",
 +					argv[0]);
 +				exit(1);
 +			}
 +			file_map_path = argv[i];
 +			lsonly = TRUE;
 +			lsfilemap = TRUE;
-+		}
- 		else
+ 		} else
  			goto options;
  	}
-@@ -2690,6 +2726,8 @@ options:
+@@ -2869,6 +2903,8 @@ options:
  				"regular expressions\n");
  			ERROR("\t\t\t\trather than use the default shell "
  				"wildcard\n\t\t\t\texpansion (globbing)\n");
@@ -122,37 +129,42 @@ index 77c3c07..c3d0c08 100644
  			ERROR("\nDecompressors available:\n");
  			display_compressors("", "");
  		}
-@@ -2809,12 +2847,30 @@ options:
- 
- 	enable_progress_bar();
+@@ -2970,10 +3006,24 @@ options:
+ 			printf("%d inodes (%d blocks) to write\n\n", total_inodes,
+ 					total_inodes - total_files + total_blocks);
+ 		}
+-
+ 		enable_progress_bar();
+ 	}
  
 +	if(lsfilemap) {
 +		int i, size;
 +		long long start;
-+		char tmp[20];
++		char tmp[22];
 +		file_map_file = fopen(file_map_path, "w");
 +		if(file_map_file == NULL)
 +			EXIT_UNSQUASH("Failed to open file map \"%s\" because %s\n",
 +				file_map_path, strerror(errno));
 +		for(i = 0; i < sBlk.s.fragments; i++) {
-+			s_ops.read_fragment(i, &start, &size);
-+			snprintf(tmp, 20, "<fragment-%d>", i);
++			s_ops->read_fragment(i, &start, &size);
++			snprintf(tmp, 22, "<fragment-%d>", i);
 +			print_file_map(tmp, start, 1, (unsigned int*)&size);
 +		}
 +	}
 +
- 	dir_scan(dest, SQUASHFS_INODE_BLK(sBlk.s.root_inode),
+ 	res = dir_scan(dest, SQUASHFS_INODE_BLK(sBlk.s.root_inode),
  		SQUASHFS_INODE_OFFSET(sBlk.s.root_inode), paths);
- 
- 	queue_put(to_writer, NULL);
- 	queue_get(from_writer);
+ 	if(res == FALSE)
+@@ -2984,6 +3034,9 @@ options:
+ 	if(res == TRUE)
+ 		exit_code = 1;
  
 +	if(lsfilemap)
 +		fclose(file_map_file);
 +
  	disable_progress_bar();
  
- 	if(!lsonly) {
+ 	if(!quiet && !lsonly) {
 -- 
-2.14.1.480.gb18f417b89-goog
+2.31.1.527.g47e6f16901-goog
 
