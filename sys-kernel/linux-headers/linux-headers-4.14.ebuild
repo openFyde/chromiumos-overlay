@@ -63,6 +63,7 @@ PATCHES=(
 	"${FILESDIR}/0040-CHROMIUM-v4l2-add-upstream-V4L2-H.264-stateless-cont.patch"
 	"${FILESDIR}/0040-BACKPORT-y2038-add-64-bit-time_t-syscalls-to-all-32-.patch"
 	"${FILESDIR}/0041-CHROMIUM-v4l-add-request-based-VP9-stateless-control.patch"
+	"${FILESDIR}/0042-CHROMIUM-linux-headers-update-headers-with-UVC-1.5-R.patch"
 )
 
 src_unpack() {
