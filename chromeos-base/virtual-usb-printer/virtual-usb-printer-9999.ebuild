@@ -47,8 +47,12 @@ platform_pkg_test() {
 }
 
 src_install() {
+	# Install main files into /usr/local even though the ebuild is being
+	# installed on the rootfs.
+	into /usr/local
 	dobin "${OUT}"/virtual-usb-printer
-	insinto /etc/virtual-usb-printer
+
+	insinto /usr/local/etc/virtual-usb-printer
 	doins config/escl_capabilities.json
 	doins config/escl_capabilities_left_justified.json
 	doins config/escl_capabilities_center_justified.json
@@ -56,4 +60,9 @@ src_install() {
 	doins config/ipp_attributes.json
 	doins config/ippusb_printer.json
 	doins config/usb_printer.json
+
+	# Install upstart files into rootfs, since upstart won't look in
+	# /usr/local/etc.
+	insinto /etc/init
+	doins init/virtual-usb-printer.conf
 }
