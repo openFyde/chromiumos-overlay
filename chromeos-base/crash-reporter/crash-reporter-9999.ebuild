@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crash-re
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer vm-containers"
+IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer test vm-containers"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -44,6 +44,9 @@ DEPEND="
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vboot_reference:=
 	chromeos-base/vm_protos:=
+	test? (
+		app-arch/gzip
+	)
 "
 
 src_configure() {
