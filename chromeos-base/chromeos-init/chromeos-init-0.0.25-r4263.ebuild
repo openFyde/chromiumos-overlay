@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="a58e705dd9b2ae2657c87db0ed3e28da2056de28"
+CROS_WORKON_COMMIT="292726228f7e55ade82e048cf3e894d5ac91cba7"
 CROS_WORKON_TREE=("0c3ac991150c21db311300731f54e240235fb7ee" "b59a1afb987dc446d7fcbded1fcf7f9680cc8d96" "18d41bea10643ee37d30fd81dd4c283107442529" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -39,6 +39,7 @@ COMMON_DEPEND="
 DEPEND="${COMMON_DEPEND}
 	test? (
 		sys-process/psmisc
+		dev-util/shflags
 		dev-util/shunit2
 		sys-apps/diffutils
 	)
