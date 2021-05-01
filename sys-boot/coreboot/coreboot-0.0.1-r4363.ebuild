@@ -53,7 +53,7 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
 IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
-IUSE="${IUSE} +bmpblk +intel_mrc qca-framework quiet unibuild verbose"
+IUSE="${IUSE} +bmpblk qca-framework quiet unibuild verbose"
 IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
 IUSE="${IUSE} chipset_cezanne"
 # virtual/coreboot-private-files is deprecated. When adding a new board you
@@ -73,8 +73,6 @@ DEPEND="
 	coreboot-private-files-chipset? ( sys-boot/coreboot-private-files-chipset:= )
 	virtual/coreboot-private-files
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
-	intel_mrc? ( x86? ( sys-boot/chromeos-mrc:= )
-		amd64? ( sys-boot/chromeos-mrc:= ) )
 	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
 	chipset_picasso? ( >=sys-boot/amd-picasso-fsp-0.0.2:= )
 	chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= )
