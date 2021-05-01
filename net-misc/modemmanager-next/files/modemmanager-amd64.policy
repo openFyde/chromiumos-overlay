@@ -79,3 +79,4 @@ clock_nanosleep: 1
 clock_gettime: 1
 gettimeofday: 1
 newfstatat: 1
+tgkill: 1
