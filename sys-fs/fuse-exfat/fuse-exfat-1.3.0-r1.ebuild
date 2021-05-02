@@ -16,6 +16,10 @@ RDEPEND="sys-fs/fuse:0"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
+PATCHES=(
+	"${FILESDIR}/${PN}-1.3.0-timezone-offsets.patch"
+)
+
 src_install() {
 	default
 	dosym mount.exfat-fuse.8 /usr/share/man/man8/mount.exfat.8
