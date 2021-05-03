@@ -54,13 +54,6 @@ DEPEND="
 	${RDEPEND}
 "
 
-cros-debug-add-NDEBUG() {
-	# Don't set NDEBUG, overriding from cros-debug eclass.
-	# If this is set, tests will fail and is also explicitly checked in
-	# runtime/test/RequireDebug.cpp
-	use cros-debug || echo "Not doing append-cppflags -NDEBUG";
-}
-
 src_configure() {
 	if use x86 || use amd64; then
 		append-cppflags "-D_Float16=__fp16"
