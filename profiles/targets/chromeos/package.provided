@@ -137,6 +137,10 @@ dev-util/boost-build-1.65.0
 dev-lang/rust-1.47.0
 dev-lang/rust-1.51.0
 
+# We don't need code generators on the target board.
+dev-rust/bindgen-0.56.0-r2
+dev-rust/dbus-codegen-0.5.0-r1
+
 # We sometimes need ruby for building, but don't yet care about targets.
 dev-lang/ruby-1.9.4
 dev-ruby/rubygems-2.2.2
