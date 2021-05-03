@@ -219,12 +219,6 @@ src_prepare() {
 		done < <(find "${privdir}" -maxdepth 1 -mindepth 1 -print0)
 	fi
 
-	for blob in mrc.bin mrc.elf efi.elf; do
-		if [[ -r "${SYSROOT}/firmware/${blob}" ]]; then
-			cp "${SYSROOT}/firmware/${blob}" 3rdparty/blobs/
-		fi
-	done
-
 	cp -a "${FILESDIR}/3rdparty/"* 3rdparty
 
 	if use unibuild; then
