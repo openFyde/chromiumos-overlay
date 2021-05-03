@@ -339,8 +339,8 @@ cros-rust_src_prepare() {
 
 			# If rm_target_cfg is set, match section headers of the form
 			# `[target."cfg(` including the single quote case, but exclude matches
-			# that contain either `cfg(unix` or `cfg(linux`.
-			if (rm_target_cfg && ($0 ~ /^\[target[.].cfg[(]/) && ($0 !~ /cfg[(](unix|linux)/)) {
+			# that contain either `cfg(unix`, `cfg(linux`, or `cfg(not(windows)`.
+			if (rm_target_cfg && ($0 ~ /^\[target[.].cfg[(]/) && ($0 !~ /cfg[(](unix|linux|not[(]windows[)])/)) {
 				skip = 1
 				next
 			}
