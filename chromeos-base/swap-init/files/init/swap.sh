@@ -282,12 +282,13 @@ start() {
     key=$(dd if=/dev/urandom bs=512 count=1 2>/dev/null)
     echo $key | cryptsetup -q -v --type luks --cipher aes-xts-plain64 \
                            --key-size 256 --hash sha256 --iter-time 2000 \
-                           --use-urandom --verify-passphrase luksFormat \
-                           --pbkdf-memory 256 \
+                           --use-urandom luksFormat \
+                           --pbkdf-memory 256 --integrity-no-wipe \
                            --integrity hmac-sha256 --integrity-no-journal \
-                           --sector-size 4096 --key-file - $swap_device
+                           --sector-size 4096 --key-file - "${swap_device}"
     echo $key | cryptsetup open --integrity-no-journal --key-file \
-                           - $swap_device enc-int-swap
+                           - "${swap_device}" enc-int-swap
+    blkdiscard -z -l 4K "/dev/mapper/enc-int-swap"
     mkswap "/dev/mapper/enc-int-swap" ||
       die "mkswap /dev/mapper/enc-int-swap failed"
     swapon -d "/dev/mapper/enc-int-swap" ||
