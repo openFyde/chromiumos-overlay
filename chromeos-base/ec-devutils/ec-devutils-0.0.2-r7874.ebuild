@@ -6,7 +6,7 @@ CROS_WORKON_COMMIT="55dd35867767d87475ff83b04b41419ddfd6d0f0"
 CROS_WORKON_TREE="82191f5262c79a610cbccb5a451fd5f1076781d1"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
-PYTHON_COMPAT=( python2_7 python3_6 )
+PYTHON_COMPAT=( python3_6 )
 
 inherit cros-workon distutils-r1
 
