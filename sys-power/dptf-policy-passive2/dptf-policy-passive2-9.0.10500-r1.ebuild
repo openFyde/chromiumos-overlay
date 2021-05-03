@@ -6,19 +6,14 @@ EAPI=5
 
 inherit cros-binary
 
-DESCRIPTION="Virtual Sensor Policy for Intel(R) Dynamic Platform & Thermal Framework"
+DESCRIPTION="Passive2 Policy for Intel(R) Dynamic Platform & Thermal Framework"
 
 LICENSE="LICENSE.intel-dptf-private"
 SLOT="0"
 KEYWORDS="*"
 S="${WORKDIR}"
 
-CROS_BINARY_URI="dptf/DptfPolicyVirtualSensor-${PV}.tbz2"
-
-# Need dependency blockers because DPTF binaries moved from dptf-private ebuild.
-RDEPEND="
-	!sys-power/dptf-dedede-private
-	!sys-power/dptf-volteer-private"
+CROS_BINARY_URI="dptf/DptfPolicyPassive2-${PV}.tbz2"
 
 # chipset-kbl binary can be used for all Intel platform.
 cros-binary_add_gs_uri bcs-chipset-kbl-private chipset-kbl-private \
@@ -26,5 +21,5 @@ cros-binary_add_gs_uri bcs-chipset-kbl-private chipset-kbl-private \
 
 src_install() {
 	# Install DPTF policy add-on library.
-	dolib.so DptfPolicyVirtualSensor.so
+	dolib.so DptfPolicyPassive2.so
 }
