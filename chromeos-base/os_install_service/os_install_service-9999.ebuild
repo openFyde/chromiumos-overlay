@@ -16,6 +16,7 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
+	chromeos-base/system_api:=
 	=dev-rust/anyhow-1.0*:=
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/crossbeam-channel-0.5*:=
