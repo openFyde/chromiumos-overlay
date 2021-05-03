@@ -525,6 +525,28 @@ _ecargo_write_clippy() {
 # @DESCRIPTION:
 # Call `cargo build` with the specified command line options.
 ecargo_build() {
+
+	# Intended use case:
+	# - Crate A generates sources when it is emerged from input files
+	#   that are only accessible when it emerges.
+	# - Crate B depends on crate A, and this is reflected in the
+	#   ebuild for crate B.
+	# (Examples: cros-dbus-bindings or bindgen for *-sys)
+	#
+	# The following scenarios are supported and need to work:
+	# - local `cargo build` for crate A
+	# - local `cargo build` for crate B
+	# - emerge A
+	# - emerge B
+	#
+	# Add CROS_RUST environment variable to support the `emerge B`
+	# case, since crate B can't access pre-generated source
+	# in emerge, the build.rs script for crate A will skip the
+	# source generation if both of the following are true:
+	# - The generated source exists
+	# - `CROS_RUST=1`
+	export CROS_RUST="1"
+
 	ecargo build --target="${CHOST}" --release "$@"
 	if [[ -n "${ENABLE_RUST_CLIPPY}" ]]; then
 		_ecargo_write_clippy
