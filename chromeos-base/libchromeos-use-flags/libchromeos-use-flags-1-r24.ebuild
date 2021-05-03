@@ -75,6 +75,7 @@ IUSE="
 	neon
 	ondevice_handwriting
 	ondevice_handwriting_dlc
+	ondevice_speech
 	oobe_skip_postlogin
 	oobe_skip_to_login
 	opengles
