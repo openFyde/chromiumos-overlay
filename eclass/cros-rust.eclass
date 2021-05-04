@@ -100,7 +100,7 @@ fi
 # If set to yes, run the test only for amd64 and x86 (i.e. no emulation).
 : "${CROS_RUST_TEST_DIRECT_EXEC_ONLY:="no"}"
 
-inherit toolchain-funcs cros-constants cros-debug cros-sanitizers
+inherit multiprocessing toolchain-funcs cros-constants cros-debug cros-sanitizers
 
 IUSE="amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
@@ -228,6 +228,9 @@ cros-rust_src_unpack() {
 	[source.crates-io]
 	replace-with = "chromeos"
 	local-registry = "/nonexistent"
+
+	[build]
+	jobs = $(makeopts_jobs)
 
 	[target.${CHOST}]
 	linker = "$(tc-getCC)"
@@ -612,6 +615,16 @@ ecargo_test() {
 			fi
 		done
 		local test_args=( "${@:x}" )
+
+		# Make sure there is a separator before --test-threads.
+		if [[ "${#test_args[@]}" == 0 ]]; then
+			test_args=( -- )
+		fi
+
+		# Limit the number of test threads if they are not limited already.
+		if [[ " ${test_args[*]}" != *" --test-threads"* ]]; then
+			test_args+=( "--test-threads=$(makeopts_jobs)" )
+		fi
 
 		local testfile
 		for testfile in "${CROS_RUST_TESTS[@]}"; do
