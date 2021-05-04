@@ -202,7 +202,7 @@ multilib_src_configure() {
 		$(multilib_native_use_with python python "${PYTHON}") \
 		$(use_enable static-libs static) \
 		$(use_enable threads) \
-		$(use_enable ssl gnutls) \
+		$(use_with ssl tls gnutls) \
 		$(use_enable systemd) \
 		$(use_enable upstart) \
 		$(multilib_native_use_enable usb libusb) \
