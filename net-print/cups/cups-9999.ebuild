@@ -203,8 +203,8 @@ multilib_src_configure() {
 		$(use_enable static-libs static) \
 		$(use_enable threads) \
 		$(use_with ssl tls gnutls) \
-		$(use_enable systemd) \
-		$(use_enable upstart) \
+		$(use_with systemd ondemand systemd) \
+		$(use_with upstart ondemand upstart) \
 		$(multilib_native_use_enable usb libusb) \
 		$(use_enable zeroconf avahi) \
 		--without-dnssd \
