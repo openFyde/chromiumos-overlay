@@ -50,6 +50,10 @@ BDEPEND="${CDEPEND}
 	sys-devel/flex:=
 "
 
+PATCHES=(
+	"${FILESDIR}"/bluez-hid2hci.patch
+)
+
 DOCS=( AUTHORS ChangeLog README )
 
 src_unpack() {
