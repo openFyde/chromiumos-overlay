@@ -21,6 +21,8 @@ IUSE="debug dev doc ipu3 rkisp1 test udev"
 RDEPEND="
 	chromeos-base/cros-camera-libs
 	dev? ( dev-libs/libevent[threads] )
+	dev-libs/libyaml
+	media-libs/libcamera-configs
 	media-libs/libjpeg-turbo
 	media-libs/libexif
 	>=net-libs/gnutls-3.3:=
