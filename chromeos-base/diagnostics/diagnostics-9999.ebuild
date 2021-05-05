@@ -37,6 +37,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/debugd-client:=
 	chromeos-base/system_api:=[fuzzer?]
+	media-sound/adhd:=
 "
 
 # TODO(crbug/1085169): Replace sys-block/fio dependency with an alternative as
