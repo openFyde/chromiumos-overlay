@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="1987c5376648f829eac6079ebfcc1ca95b522f57"
+CROS_WORKON_COMMIT="e5c22d879706aa12f44a1b8c5de20e08c4d66adc"
 CROS_WORKON_TREE="1dcc0a04496edb24287a6e3bb5411bcffbf8e9f5"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,6 +19,8 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/region
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
+IUSE="cros-debug"
+
 # 'jq' allows command line tools to access the JSON database.
 RDEPEND="app-misc/jq"
 DEPEND=""
@@ -29,7 +31,7 @@ src_unpack() {
 }
 
 src_compile() {
-	./regions.py --format=json --output "${WORKDIR}/cros-regions.json"
+	./regions.py --format=json --output "${WORKDIR}/cros-regions.json" "$(usex cros-debug "--include_pseudolocales" "")"
 }
 
 src_test() {
