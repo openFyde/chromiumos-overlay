@@ -142,6 +142,7 @@ RDEPEND="${RDEPEND}
 	python_targets_python2_7? ( dev-util/hdctools )
 	dev-util/mem
 	dev-util/strace
+	media-libs/libyuv-test
 	media-libs/openh264
 	media-tv/v4l-utils
 	media-video/yavta
