@@ -80,7 +80,6 @@ ALL_BOARDS=(
 	#bettyvirgl
 	blackwall
 	bob
-	bob-arc64
 	bobcat
 	bolt
 	borealis
@@ -202,7 +201,6 @@ ALL_BOARDS=(
 	gonzo
 	gru
 	grunt
-	grunt-arc64
 	grunt-arc-r
 	grunt-kernelnext
 	guado
@@ -233,7 +231,6 @@ ALL_BOARDS=(
 	#iclrvp
 	ironhide
 	jacuzzi
-	jacuzzi-arc64
 	jacuzzi-kernelnext
 	#jadeite
 	#jaguar
@@ -250,7 +247,6 @@ ALL_BOARDS=(
 	kevin
 	kevin64
 	#kevin-arcnext
-	kevin-arc64
 	#kevin-bertha
 	kevin-tpm2
 	kevin-userdebug
@@ -261,7 +257,6 @@ ALL_BOARDS=(
 	kukui
 	kukui-arc-r
 	kukui-arc-r-signed
-	kukui-arc64
 	kukui-kernelnext
 	kumo
 	kunimitsu
@@ -392,10 +387,8 @@ ALL_BOARDS=(
 	#samus-kernelnext
 	sand
 	sarien
-	sarien-arc64
 	sarien-kvm
 	scarlet
-	scarlet-arc64
 	#scarlet-arcnext
 	senor
 	sentry
