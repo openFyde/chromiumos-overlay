@@ -237,7 +237,6 @@ dev-util/hdctools python_targets_python2_7
 # TODO(crbug.com/1007152): Trim this entirely!
 dev-python/backports-functools-lru-cache python_targets_python2_7 -python_targets_python3_6
 dev-python/enum34 python_targets_python2_7 -python_targets_python3_6
-dev-python/funcsigs python_targets_python2_7
 dev-python/functools32 python_targets_python2_7 -python_targets_python3_6
 dev-python/futures python_targets_python2_7 -python_targets_python3_6
 dev-python/ipaddress python_targets_python2_7 -python_targets_python3_6
@@ -245,7 +244,6 @@ dev-python/mox python_targets_python2_7 -python_targets_python3_6
 dev-python/pathlib python_targets_python2_7 -python_targets_python3_6
 dev-python/subprocess32 python_targets_python2_7 -python_targets_python3_6
 virtual/python-enum34 python_targets_python2_7
-virtual/python-funcsigs python_targets_python2_7
 virtual/python-futures python_targets_python2_7
 
 # To permit images without Python2.7, these packages must only depend
