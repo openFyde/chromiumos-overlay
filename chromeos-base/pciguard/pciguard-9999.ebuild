@@ -21,6 +21,7 @@ SLOT=0
 KEYWORDS="~*"
 
 DEPEND="
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 "
 

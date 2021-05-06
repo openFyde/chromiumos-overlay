@@ -26,6 +26,7 @@ RDEPEND=">=chromeos-base/metrics-0.0.1-r3152:="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/debugd-client:=
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 "
 
