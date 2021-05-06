@@ -8,7 +8,7 @@ inherit cros-constants
 DESCRIPTION="Client portion of autotest installed at image creation time"
 HOMEPAGE="http://src.chromium.org"
 
-LICENSE="BSD"
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 IUSE="-moblab"
