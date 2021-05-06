@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="710521e036aaed2f2f47caac43179936eca51d25"
-CROS_WORKON_TREE=("0c3ac991150c21db311300731f54e240235fb7ee" "b59a1afb987dc446d7fcbded1fcf7f9680cc8d96" "7d91fe7fb77f6e0207400a49266811e49aa5a9b9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="90706a0517831ced7d0cf228fcba8a897d3fcc6a"
+CROS_WORKON_TREE=("0c3ac991150c21db311300731f54e240235fb7ee" "62ecf407a7888980db18d9ceac0b3b6c054b039d" "7d91fe7fb77f6e0207400a49266811e49aa5a9b9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -158,6 +158,8 @@ src_install_upstart() {
 	if use vivid; then
 		doins upstart/vivid/vivid.conf
 	fi
+
+	doins upstart/devicesettings-migration.conf
 
 	use vtconsole && doins upstart/vtconsole/*.conf
 }
