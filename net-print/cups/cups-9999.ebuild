@@ -207,7 +207,7 @@ multilib_src_configure() {
 		$(use_enable upstart) \
 		$(multilib_native_use_enable usb libusb) \
 		$(use_enable zeroconf avahi) \
-		--disable-dnssd \
+		--without-dnssd \
 		--disable-localization \
 		--without-perl \
 		--without-php \
