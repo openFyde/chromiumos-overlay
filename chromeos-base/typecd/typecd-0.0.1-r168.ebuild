@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="4a82047a4fc487bfd5a74bf9bf540c7952c5230c"
+CROS_WORKON_COMMIT="9232e3ff80e589709d5d7d799190d9080fb98e84"
 CROS_WORKON_TREE=("0c3ac991150c21db311300731f54e240235fb7ee" "7e91c7f1e124805590582f70822bce2dbee590e8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -28,6 +28,7 @@ RDEPEND=">=chromeos-base/metrics-0.0.1-r3152:="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/debugd-client:=
+	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 "
 
