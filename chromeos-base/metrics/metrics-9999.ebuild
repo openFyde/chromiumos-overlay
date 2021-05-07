@@ -44,6 +44,7 @@ src_install() {
 			systemd_enable_service multi-user.target metrics-daemon.service
 			systemd_dotmpfilesd init/metrics.conf
 		else
+			dotmpfiles tmpfiles.d/metrics_daemon_dirs.conf
 			insinto /etc/init
 			doins init/metrics_library.conf init/metrics_daemon.conf
 		fi
@@ -66,7 +67,7 @@ src_install() {
 	doins "${OUT}/lib/libmetrics.pc"
 	dolib.so "${OUT}/lib/libstructuredmetrics.so"
 
-	dotmpfiles tmpfiles.d/*.conf
+	dotmpfiles tmpfiles.d/structured_metrics.conf
 
 	insinto /usr/include/metrics
 	doins c_metrics_library.h \
