@@ -28,8 +28,12 @@ DEPEND="
 	>=dev-rust/proc-macro-hack-0.5.19:= <dev-rust/proc-macro-hack-0.6
 	>=dev-rust/proc-macro-nested-0.1.2:= <dev-rust/proc-macro-nested-0.2
 	>=dev-rust/slab-0.4.2:= <dev-rust/slab-1.0
-	>=dev-rust/tokio-io-0.1.9:= <dev-rust/tokio-io-0.2
 "
+# This DEPEND was removed to break a circular dependency.
+#   ">=dev-rust/tokio-io-0.1.9:= <dev-rust/tokio-io-0.2"
+# It is needed if the io-compat feature is set, an empty crate is substituted to
+# avoid breaking ebuilds that depend on futures-util but do not set io-compat.
+DEPEND+="~dev-rust/tokio-io-0.1.9"
 RDEPEND="
 	${DEPEND}
 	!~dev-rust/${PN}-0.3.1
