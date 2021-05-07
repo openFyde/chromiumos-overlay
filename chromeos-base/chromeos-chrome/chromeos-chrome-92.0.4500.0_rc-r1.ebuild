@@ -44,6 +44,7 @@ IUSE="
 	+chrome_remoting
 	clang_tidy
 	component_build
+	cros-debug
 	debug_fission
 	+dwarf5
 	+fonts
@@ -239,6 +240,7 @@ set_build_args() {
 
 		"is_debug=false"
 		"${EXTRA_GN_ARGS}"
+		"enable_pseudolocales=$(usetf cros-debug)"
 		"use_chromeos_protected_media=$(usetf cdm_factory_daemon)"
 		"use_iioservice=$(usetf iioservice)"
 		"use_v4l2_codec=$(usetf v4l2_codec)"
