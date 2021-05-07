@@ -934,6 +934,7 @@ chrome_make() {
 		-j"$(makeopts_jobs)"
 		-C "${build_dir}"
 		$(usex verbose -v "")
+		-d "keeprsp"
 		"$@"
 	)
 	# If goma is used, log the command, cwd and env vars, which will be
