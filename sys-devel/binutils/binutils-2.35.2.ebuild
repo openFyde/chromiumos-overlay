@@ -301,16 +301,10 @@ src_install() {
 }
 
 pkg_postinst() {
-	# Do not run binutils-config for non-SDK builds.
-	use cros_host || return
-
 	binutils-config ${CTARGET}-${PV}
 }
 
 pkg_postrm() {
-	# Do not run binutils-config for non-SDK builds.
-	use cros_host || return
-
 	local current_profile=$(binutils-config -c ${CTARGET})
 
 	# If no other versions exist, then uninstall for this
@@ -324,7 +318,7 @@ pkg_postrm() {
 		choice=${choice//$'\n'/ }
 		choice=${choice/* }
 		if [[ -z ${choice} ]] ; then
-			env -i binutils-config -u ${CTARGET}
+			binutils-config -u ${CTARGET}
 		else
 			binutils-config ${choice}
 		fi
