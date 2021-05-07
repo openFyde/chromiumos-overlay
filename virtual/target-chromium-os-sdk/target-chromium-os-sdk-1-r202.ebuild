@@ -154,6 +154,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/cros-testutils
 	chromeos-base/ec-devutils
 	chromeos-base/minijail
+	chromeos-base/test-server
 	dev-db/m17n-contrib
 	dev-db/m17n-db
 	dev-go/protobuf
