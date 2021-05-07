@@ -33,4 +33,8 @@ src_prepare() {
 	# down to bindgen and beyond.
 	sed -i '/\[dependencies.packed_simd\]/{N;N;N;d;}' "${S}/Cargo.toml"
 	sed -i '/simd_support/d' "${S}/Cargo.toml"
+
+	# Delete the wasm-only features.
+	sed -i '/stdweb = /d' "${S}/Cargo.toml"
+	sed -i '/wasm-bindgen = /d' "${S}/Cargo.toml"
 }
