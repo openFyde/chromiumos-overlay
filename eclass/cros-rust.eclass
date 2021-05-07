@@ -66,9 +66,10 @@ fi
 # @ECLASS-VARIABLE: CROS_RUST_REMOVE_TARGET_CFG
 # @PRE_INHERIT
 # @DESCRIPTION:
-# Removes all the target.cfg sections from the Cargo.toml except cfg(unix) and
-# cfg(linux). Note that this does not handle more complicated cfg strings, so
-# those cases should be handled manually instead of using this option.
+# Removes all the target. sections from the Cargo.toml except cfg(unix),
+# cfg(linux), cfg(not(windows), and *-linux-gnu. Note that this does not handle
+# more complicated cfg strings, so those cases should be handled manually
+# instead of using this option.
 : "${CROS_RUST_REMOVE_TARGET_CFG:=}"
 
 # @ECLASS-VARIABLE: CROS_RUST_SUBDIR
@@ -340,10 +341,10 @@ cros-rust_src_prepare() {
 				next
 			}
 
-			# If rm_target_cfg is set, match section headers of the form
-			# `[target."cfg(` including the single quote case, but exclude matches
-			# that contain either `cfg(unix`, `cfg(linux`, or `cfg(not(windows)`.
-			if (rm_target_cfg && ($0 ~ /^\[target[.].cfg[(]/) && ($0 !~ /cfg[(](unix|linux|not[(]windows[)])/)) {
+			# If rm_target_cfg is set, match section headers prefixed by `[target.`,
+			# but exclude matches that contain any of `cfg(unix`, `cfg(linux`,
+			# `cfg(not(windows)`, or `-linux-gnu`.
+			if (rm_target_cfg && ($0 ~ /^\[target[.]/) && ($0 !~ /cfg[(](unix|linux|not[(]windows[)])|-linux-gnu/)) {
 				skip = 1
 				next
 			}
