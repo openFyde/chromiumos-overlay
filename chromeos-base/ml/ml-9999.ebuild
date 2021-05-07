@@ -141,5 +141,7 @@ platform_pkg_test() {
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
 	done
 
-	platform_test "run" "${OUT}/ml_service_test"
+	# The third argument equaling 1 means "run as root". This is needed for
+	# multiprocess unit test.
+	platform_test "run" "${OUT}/ml_service_test" 1
 }
