@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit cros-rust
 
@@ -17,3 +17,4 @@ DEPEND="
 	=dev-rust/owning_ref-0.3*:=
 	=dev-rust/parking_lot-0.4*:=
 "
+RDEPEND="${DEPEND}"
