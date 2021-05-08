@@ -1,1 +1,0 @@
-vec_map-0.8.1.ebuild
