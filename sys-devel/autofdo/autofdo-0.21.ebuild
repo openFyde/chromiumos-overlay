@@ -7,7 +7,7 @@ inherit autotools flag-o-matic cmake
 
 DESCRIPTION="Utility for generating AFDO profiles"
 HOMEPAGE="http://gcc.gnu.org/wiki/AutoFDO"
-SRC_URI="https://github.com/google/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/google/${PN}/archive/${PV}.tar.xz -> ${P}.tar.xz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -20,13 +20,6 @@ DEPEND="dev-libs/openssl:0=
 	sys-devel/llvm
 	sys-libs/zlib"
 RDEPEND="${DEPEND}"
-
-PATCHES=(
-	# Fix llvm_propeller_mock_whole_program_info dependency on
-	# llvm_propeller_cfg.
-	# TODO(crbug.com/1010171): Upstream the fix and update the package.
-	"${FILESDIR}/${P}-fix-llvm-propeller-cfg-dep.patch"
-)
 
 src_prepare() {
 	cmake_src_prepare
