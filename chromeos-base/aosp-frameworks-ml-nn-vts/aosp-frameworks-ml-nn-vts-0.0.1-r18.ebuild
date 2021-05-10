@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("bd75b32a1035d7961813c03458871f40da44f68c" "08ef5a3d3e1aecc71cd4fc09e69c336c3a9ab3d6" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
-CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2f63176abc962c0f1076fd15659611df136c3549" "7a08574830b90bb538e281ba8c2240d2826fefb9")
+CROS_WORKON_COMMIT=("37109c5cb15aa551bdc7f6d22df650a4be43b7cc" "9393e8e433ae9255eec4de65671364d363ca6657" "fd0a01eb09dcc34f1a42e5c0f6ebf0f384fd9abd")
+CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "959ba18e6ec52a714ade28722e2f416250391a8f" "7a08574830b90bb538e281ba8c2240d2826fefb9")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -55,13 +55,6 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 "
-
-cros-debug-add-NDEBUG() {
-	# Don't set NDEBUG, overriding from cros-debug eclass.
-	# If this is set, tests will fail and is also explicitly checked in
-	# runtime/test/RequireDebug.cpp
-	use cros-debug || echo "Not doing append-cppflags -NDEBUG";
-}
 
 src_configure() {
 	if use x86 || use amd64; then
