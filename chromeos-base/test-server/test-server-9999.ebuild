@@ -17,14 +17,24 @@ IUSE=""
 
 CROS_GO_WORKSPACE=(
 	"${S}/lib"
+	"${S}/test"
 )
 
 CROS_GO_PACKAGES=(
 	"chromiumos/lro/..."
 )
 
+CROS_GO_BINARIES=(
+	"chromiumos/testservice/cmd/testservice"
+)
+
 CROS_GO_TEST=(
 	"${CROS_GO_PACKAGES[@]}"
+	"chromiumos/testservice/cmd/testservice/..."
+)
+
+CROS_GO_VET=(
+	"${CROS_GO_TEST[@]}"
 )
 
 DEPEND="chromeos-base/tast-cmd:="
