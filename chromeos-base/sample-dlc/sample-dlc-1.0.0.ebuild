@@ -15,8 +15,8 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="dlc"
-REQUIRED_USE="dlc"
+IUSE="dlc dlc_test"
+REQUIRED_USE="dlc dlc_test"
 
 # Required
 DLC_PREALLOC_BLOCKS="1024"
