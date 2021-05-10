@@ -19,9 +19,11 @@ HOMEPAGE=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE=""
+IUSE="cr50_onboard"
 
-RDEPEND=""
+RDEPEND="
+	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+"
 
 DEPEND="
 	${RDEPEND}
