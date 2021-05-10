@@ -22,16 +22,17 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
-	>=dev-rust/getopts-0.2.18:=
-	!>=dev-rust/getopts-0.3
+	=dev-rust/dbus-0.8*:=
+	>=dev-rust/getopts-0.2.18:= <dev-rust/getopts-0.3
 	dev-rust/hound:=
+	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "
-# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
-# installing binpkgs since the full source tree is required to use the crate.
-RDEPEND="${DEPEND}
+# DEPEND isn't needed in RDEPEND because nothing from this ebuild is installed
+# to the cros_rust_registry.
+RDEPEND="
 	!<=media-sound/cras_tests-0.1.0-r12
 "
 
