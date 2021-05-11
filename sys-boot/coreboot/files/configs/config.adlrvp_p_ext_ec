@@ -37,7 +37,8 @@ CONFIG_HAVE_EC_BIN=y
 CONFIG_EC_BIN_PATH="3rdparty/blobs/mainboard/google/brya/ec-adlrvp_p.bin"
 CONFIG_BOARD_INTEL_ADLRVP_P_EXT_EC=y
 
-CONFIG_DEBUG_CONSOLE_INIT=y
+# Serial console disabled by default (do not remove)
+# CONFIG_CONSOLE_SERIAL is not set
 
 # Event Logging
 CONFIG_CMOS_POST=y
