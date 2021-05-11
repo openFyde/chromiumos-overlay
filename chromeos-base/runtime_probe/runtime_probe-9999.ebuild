@@ -65,7 +65,7 @@ src_install() {
 
 	# Install sandbox information.
 	insinto /etc/runtime_probe/sandbox
-	doins sandbox/args.json
+	doins sandbox/"${ARCH}"/args.json
 	doins sandbox/"${ARCH}"/*-seccomp.policy
 
 	# Install seccomp policy file.
