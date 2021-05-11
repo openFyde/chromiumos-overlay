@@ -121,7 +121,7 @@ IUSE="detachable diag_payload +minidiag physical_presence_power
 	physical_presence_recovery"
 
 BDEPEND="${PYTHON_DEPS}"
-DEPEND="virtual/chromeos-vendor-strings"
+DEPEND=""
 
 src_prepare() {
 	export BOARD="$(get_current_board_with_variant "${ARCH}-generic")"
@@ -152,7 +152,6 @@ src_prepare() {
 }
 
 src_compile() {
-	local vendor_strings_dir="${SYSROOT}/firmware/vendor-strings"
 	if use detachable ; then
 		export DETACHABLE=1
 	fi
@@ -161,9 +160,6 @@ src_compile() {
 	# chromeos-bmpblk.
 	if use diag_payload || use minidiag ; then
 		export DIAGNOSTIC_UI=1
-	fi
-	if [[ -f "${vendor_strings_dir}/vendor_format.yaml" ]] ; then
-		export VENDOR_STRINGS_DIR="${vendor_strings_dir}"
 	fi
 	if use physical_presence_power ; then
 		export PHYSICAL_PRESENCE="power"
