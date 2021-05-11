@@ -77,7 +77,7 @@ src_configure() {
 		-Dglx=disabled
 		-Dllvm=true
 		-Dshared-llvm=false
-		-Dplatforms=
+		-Dplatforms=surfaceless
 		-Degl=true
 		-Dgbm=false
 		-Dgl=false

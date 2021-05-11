@@ -1,0 +1,26 @@
+From 8e0890710c14324935b3bdd980b0fd828f8d6fab Mon Sep 17 00:00:00 2001
+From: Drew Davenport <ddavenport@google.com>
+Date: Wed, 11 Nov 2020 15:46:41 -0700
+Subject: [PATCH 2/2] CHROMIUM: radv: Disable 1.1 on ANDROID.
+
+Change-Id: Id8572a159cb9e2db54475ea85624ced1ca6d0f59
+---
+ src/amd/vulkan/radv_extensions.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/amd/vulkan/radv_extensions.py b/src/amd/vulkan/radv_extensions.py
+index 48439579a34..cc050287605 100644
+--- a/src/amd/vulkan/radv_extensions.py
++++ b/src/amd/vulkan/radv_extensions.py
+@@ -44,7 +44,7 @@ MAX_API_VERSION = '1.2.128'
+ # TODO: The patch version should be unified!
+ API_VERSIONS = [
+     ApiVersion('1.0.68',  True),
+-    ApiVersion('1.1.107', True),
++    ApiVersion('1.1.107', '!ANDROID'),
+     ApiVersion('1.2.131', '!ANDROID'),
+ ]
+ 
+-- 
+2.26.2
+
