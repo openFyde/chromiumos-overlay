@@ -9,4 +9,4 @@ LICENSE=MIT
 RDEPEND=cros_host? ( !<x11-apps/xkbcomp-1.2.3 ) !<x11-libs/libX11-1.4.3
 SLOT=0
 SRC_URI=/data/xkeyboard-config/xkeyboard-config-2.27.tar.bz2
-_md5_=742c457218281f57668d021fa4f2a3f4
+_md5_=02cdbaf747f7c1d37c7af4a49489fba1
