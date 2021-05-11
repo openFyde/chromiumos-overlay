@@ -34,7 +34,7 @@ DEPEND="${RDEPEND}
 PDEPEND=">=sys-devel/gcc-config-2.3"
 BDEPEND="${CATEGORY}/binutils"
 
-RESTRICT="mirror strip"
+RESTRICT="strip"
 
 IUSE="gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm-next llvm-tot mounted_gcc multilib
 	nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache"
