@@ -159,6 +159,8 @@ src_install() {
 		base/test/bind.h \
 		base/test/bind_test_util.h \
 		base/test/task_environment.h \
+		base/test/scoped_chromeos_version_info.h \
+		base/test/scoped_running_on_chromeos.h \
 		base/test/scoped_run_loop_timeout.h \
 		base/test/simple_test_clock.h \
 		base/test/simple_test_tick_clock.h \
