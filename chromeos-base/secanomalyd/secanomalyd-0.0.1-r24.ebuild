@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="bd75b32a1035d7961813c03458871f40da44f68c"
+CROS_WORKON_COMMIT="9d26c1c2060e6caf27b17f8f432e25008b42d0c6"
 CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "7d91fe7fb77f6e0207400a49266811e49aa5a9b9" "61f2d2af41e5bc83e544a63c123928b79f038b04" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -30,15 +30,18 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}"
 
 pkg_setup() {
-	# TODO(jorgelo): Add these users.
-	# enewuser "secanomalyd"
-	# enewgroup "secanomalyd"
+	enewuser "secanomaly"
+	enewgroup "secanomaly"
 
 	cros-workon_pkg_setup
 }
 
 src_install() {
 	dosbin "${OUT}"/secanomalyd
+
+	# Install Upstart configuration.
+	insinto /etc/init
+	doins secanomalyd.conf
 }
 
 platform_pkg_test() {
