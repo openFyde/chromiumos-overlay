@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2b2ae750979dfc6f13ca6f36ee9f9d74d00a3cc8"
-CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "572a46ebe810bdb7464e5de0372e25eafabdc391" "0708c26e546583ec621cd9afb1eec94932a10621" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f3c47b3376dd3e20f72f3e3110bb122e1b4828a8"
+CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "ecc662d9b78eba05a0c421241e635f7cfb706af6" "0708c26e546583ec621cd9afb1eec94932a10621" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
@@ -143,5 +143,7 @@ platform_pkg_test() {
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
 	done
 
-	platform_test "run" "${OUT}/ml_service_test"
+	# The third argument equaling 1 means "run as root". This is needed for
+	# multiprocess unit test.
+	platform_test "run" "${OUT}/ml_service_test" 1
 }
