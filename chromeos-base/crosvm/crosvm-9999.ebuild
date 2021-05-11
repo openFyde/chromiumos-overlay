@@ -27,7 +27,7 @@ SRC_URI="
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1 vhost-user-devices"
+IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master arcvm_gce_l1 vhost-user-devices"
 
 COMMON_DEPEND="
 	sys-apps/dtc:=
@@ -162,6 +162,7 @@ src_compile() {
 		$(usex tpm2 tpm "")
 		$(usex cros-debug gdb "")
 		chromeos
+		$(usex android-vm-master composite-disk "")
 	)
 
 	local packages=(
