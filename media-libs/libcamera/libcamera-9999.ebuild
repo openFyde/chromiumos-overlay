@@ -1,4 +1,4 @@
-# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -55,6 +55,7 @@ src_configure() {
 		-Dandroid_platform="cros"
 		-Dpipelines="$(pipeline_list "${pipelines[@]}")"
 		--buildtype "$(usex debug debug plain)"
+		--sysconfdir /etc/camera
 	)
 	meson_src_configure
 }
