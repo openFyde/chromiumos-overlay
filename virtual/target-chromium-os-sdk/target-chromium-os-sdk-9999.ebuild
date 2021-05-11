@@ -149,6 +149,7 @@ RDEPEND="${RDEPEND}
 	>=chromeos-base/chromeos-config-host-0.0.2-r491
 	chromeos-base/chromite-sdk
 	chromeos-base/cros-devutils[cros_host]
+	chromeos-base/cros-testutils
 	chromeos-base/ec-devutils
 	chromeos-base/minijail
 	chromeos-base/test-server
