@@ -30,7 +30,8 @@ IUSE="
 	houdini64
 	iioservice
 	ndk_translation
-	unibuild"
+	unibuild
+	test"
 
 REQUIRED_USE="|| ( arcpp arcvm )"
 
@@ -66,6 +67,7 @@ DEPEND="${COMMON_DEPEND}
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
 	chromeos-base/system_api:=[fuzzer?]
+	test? ( chromeos-base/arc-base )
 "
 
 
