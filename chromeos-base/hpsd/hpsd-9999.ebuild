@@ -32,8 +32,8 @@ pkg_preinst() {
 }
 
 src_install() {
-	# Not yet.
-	# dosbin "${OUT}"/hpsd
+
+	dosbin "${OUT}"/hpsd
 
 	# Install upstart configuration.
 	insinto /etc/init
