@@ -468,6 +468,11 @@ cros-rust_src_configure() {
 		rm -f Cargo.lock
 	fi
 
+	# Add EXTRA_RUSTFLAGS to the current rustflags. This lets us emerge rust
+	# packages with locally exported flags for testing purposes as:
+	# `EXTRA_RUSTFLAGS="<flags>" emerge-$BOARD <package>`
+	rustflags+=( "${EXTRA_RUSTFLAGS:=}" )
+
 	export RUSTFLAGS="${rustflags[*]}"
 	default
 }
