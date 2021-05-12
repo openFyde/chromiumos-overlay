@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bae12922cae4c0ad84fa4b86f039ea7746efbbd"
-CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "84557f49c58985d829cbb0c0986cac60e86162d9" "2ac0005b8bba4030cfd89e672b80631092fd7699" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b64f61306c4a4e84c9624bfccde9744b7d14732d"
+CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "84557f49c58985d829cbb0c0986cac60e86162d9" "53f8b7a6ea5df138c46477fd9db7d6fff8d7834e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -39,6 +39,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/debugd-client:=
 	chromeos-base/system_api:=[fuzzer?]
+	media-sound/adhd:=
 "
 
 # TODO(crbug/1085169): Replace sys-block/fio dependency with an alternative as
