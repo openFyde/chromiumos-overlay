@@ -69,6 +69,12 @@ src_install() {
 	patchpanel_header subnet.h
 	patchpanel_header subnet_pool.h
 
+	insinto /usr/include/chromeos/patchpanel/dns
+	patchpanel_header dns/dns_protocol.h
+	patchpanel_header dns/dns_query.h
+	patchpanel_header dns/dns_response.h
+	patchpanel_header dns/io_buffer.h
+
 	insinto /etc/init
 	doins "${S}"/init/patchpanel.conf
 
@@ -90,4 +96,3 @@ pkg_preinst() {
 platform_pkg_test() {
 	platform_test "run" "${OUT}/patchpanel_testrunner"
 }
-
