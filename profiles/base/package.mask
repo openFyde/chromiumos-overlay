@@ -1,5 +1,6 @@
 # Mask the package by default to force each board to unmask the specific
 # version they require.
+~sys-apps/fwupd-9998
 sys-firmware/analogix-anx3429-firmware
 sys-firmware/parade-ps8751a3-firmware
 sys-firmware/parade-ps8751a3-firmware-canary
