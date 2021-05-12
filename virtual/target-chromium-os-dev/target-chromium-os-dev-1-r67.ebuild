@@ -35,6 +35,7 @@ IUSE="
 	vaapi
 	video_cards_amdgpu
 	video_cards_intel
+	vulkan
 "
 
 # The dependencies here are meant to capture "all the packages
@@ -146,6 +147,7 @@ RDEPEND="${RDEPEND}
 	dev-util/strace
 	media-libs/libyuv-test
 	media-libs/openh264
+	vulkan? ( media-libs/vulkan-layers )
 	media-tv/v4l-utils
 	media-video/yavta
 	net-dialup/lrzsz
