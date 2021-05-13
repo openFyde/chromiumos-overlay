@@ -288,7 +288,7 @@ start() {
                            --sector-size 4096 --key-file - "${swap_device}"
     echo $key | cryptsetup open --integrity-no-journal --key-file \
                            - "${swap_device}" enc-int-swap
-    blkdiscard -z -l 4K "/dev/mapper/enc-int-swap"
+    dd if=/dev/zero of=/dev/mapper/enc-int-swap bs=4K count=1
     mkswap "/dev/mapper/enc-int-swap" ||
       die "mkswap /dev/mapper/enc-int-swap failed"
     swapon -d "/dev/mapper/enc-int-swap" ||
