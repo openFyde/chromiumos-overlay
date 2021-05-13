@@ -22,8 +22,6 @@ KEYWORDS="~*"
 IUSE="user_session_isolation"
 
 RDEPEND="
-	dev-libs/dbus-glib
-	dev-libs/glib
 	sys-apps/rootdev
 "
 DEPEND="${RDEPEND}
