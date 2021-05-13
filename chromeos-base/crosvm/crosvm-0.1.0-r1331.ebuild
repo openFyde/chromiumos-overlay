@@ -29,7 +29,7 @@ SRC_URI="
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1"
+IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 arcvm_gce_l1 vhost-user-devices"
 
 COMMON_DEPEND="
 	sys-apps/dtc:=
@@ -120,6 +120,11 @@ FUZZERS=(
 	crosvm_zimage_fuzzer
 )
 
+# Array of "<features>/<binary name>"
+VHOST_USER_BINARIES=(
+	"net/vhost-user-net-device"
+)
+
 src_unpack() {
 	# Unpack both the project and dependency source code
 	cros-workon_src_unpack
@@ -178,11 +183,25 @@ src_compile() {
 	fi
 
 	if use fuzzer; then
-		cd fuzz
+		cd fuzz || die "failed to move directory"
 		local f
 		for f in "${FUZZERS[@]}"; do
 			ecargo_build_fuzzer --bin "${f}"
 		done
+		cd .. || die "failed to move directory"
+	fi
+
+	if use vhost-user-devices; then
+		cd vhost_user_devices || die "failed to move directory"
+		for tuple in "${VHOST_USER_BINARIES[@]}"; do
+			local vhost_features="${tuple%/*}"
+			local binary="${tuple#*/}"
+			ecargo_build -v \
+				--features "${vhost_features}" \
+				--bin "${binary}" \
+				|| die "cargo build failed"
+		done
+		cd .. || die "failed to move directory"
 	fi
 }
 
@@ -267,6 +286,13 @@ src_test() {
 		ecargo_test --no-run --features plugin \
 			|| die "cargo build with plugin feature failed"
 	fi
+
+	if use vhost-user-devices; then
+		cd vhost_user_devices || die "failed to move directory"
+		ecargo_test --all-targets --all-features \
+			|| die "cargo test vhost-user-devices"
+		cd .. || die "failed to move directory"
+	fi
 }
 
 src_install() {
@@ -323,11 +349,21 @@ src_install() {
 	fi
 
 	if use fuzzer; then
-		cd fuzz
+		cd fuzz || die "failed to move directory"
 		local f
 		for f in "${FUZZERS[@]}"; do
 			fuzzer_install "${S}/fuzz/OWNERS" \
 				"${build_dir}/${f}"
+		done
+		cd .. || die "failed to move directory"
+	fi
+
+	# Install vhost-user device executable.
+	if use vhost-user-devices; then
+		local build_dir="$(cros-rust_get_build_dir)"
+		for tuple in "${VHOST_USER_BINARIES[@]}"; do
+			local binary="${tuple#*/}"
+			dobin "${build_dir}/${binary}"
 		done
 	fi
 }
