@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="e062e91ec3ee9ed42f0e0ca7ab71a6d6e9bb7a0d"
-CROS_WORKON_TREE="98bd74f0062b965a8941544697e6bcd5402b0cc2"
+CROS_WORKON_COMMIT="fd20bf0eff1f6ec09349784567668734a7059aa6"
+CROS_WORKON_TREE="9258045c9920b27da6a7601ffef219629428ce8d"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -81,6 +81,7 @@ IUSE_LINUX_FIRMWARE=(
 	cros-pd
 	fw_sst
 	fw_sst2
+	i915_adl
 	i915_bxt
 	i915_cnl
 	i915_glk
@@ -159,6 +160,7 @@ LICENSE="
 	linux_firmware_cros-pd? ( BSD-Google )
 	linux_firmware_fw_sst? ( LICENCE.fw_sst )
 	linux_firmware_fw_sst2? ( LICENCE.IntcSST2 )
+	linux_firmware_i915_adl? ( LICENSE.i915 )
 	linux_firmware_i915_bxt? ( LICENSE.i915 )
 	linux_firmware_i915_cnl? ( LICENSE.i915 )
 	linux_firmware_i915_glk? ( LICENSE.i915 )
@@ -334,6 +336,7 @@ src_install() {
 	use_fw cros-pd && doins_subdir cros-pd/*
 	use_fw fw_sst && doins_subdir intel/fw_sst*
 	use_fw fw_sst2 && doins_subdir intel/IntcSST2.bin
+	use_fw i915_adl && doins_subdir i915/adl*
 	use_fw i915_bxt && doins_subdir i915/bxt*
 	use_fw i915_cnl && doins_subdir i915/cnl*
 	use_fw i915_glk && doins_subdir i915/glk*
