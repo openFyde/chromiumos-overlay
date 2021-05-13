@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="004910c601c662ae47179653018256c567b6ad65"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5907a542deec99a0adcfb070ad61b278a73cc384" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e")
+CROS_WORKON_COMMIT="91fe86b3fd9d9e9e1d556cf46e307f3ce2b14f93"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c828194897f00a7289bd1d2594e8c6214015d17e" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn hps common-mk"
@@ -34,8 +34,8 @@ pkg_preinst() {
 }
 
 src_install() {
-	# Not yet.
-	# dosbin "${OUT}"/hpsd
+
+	dosbin "${OUT}"/hpsd
 
 	# Install upstart configuration.
 	insinto /etc/init

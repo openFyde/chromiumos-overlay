@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bae12922cae4c0ad84fa4b86f039ea7746efbbd"
+CROS_WORKON_COMMIT="91fe86b3fd9d9e9e1d556cf46e307f3ce2b14f93"
 CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "1579ee57b5f07668e14552039bf38f69ae9a359d" "84557f49c58985d829cbb0c0986cac60e86162d9" "b1bd0e717d7b3aad712b3bb8b508c852740330a8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -32,7 +32,8 @@ IUSE="
 	houdini64
 	iioservice
 	ndk_translation
-	unibuild"
+	unibuild
+	test"
 
 REQUIRED_USE="|| ( arcpp arcvm )"
 
@@ -68,6 +69,7 @@ DEPEND="${COMMON_DEPEND}
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
 	chromeos-base/system_api:=[fuzzer?]
+	test? ( chromeos-base/arc-base )
 "
 
 
