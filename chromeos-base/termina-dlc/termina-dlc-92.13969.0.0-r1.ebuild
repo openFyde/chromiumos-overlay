@@ -42,13 +42,17 @@ REQUIRED_USE="
 	^^ ( amd64 arm arm64 )
 "
 
-# Termina is ~87MiB compressed at present, so 100 MiB should be plenty for
-# now. Double this for test builds so we can fit test utilities in.
-# 100MiB = 256 x 1024 x 4KB blocks
+# Termina now contains 2 copies of LXD, pulling the image size up to
+# ~135 MiB. Test builds need extra space for test utilities.
+#
+# To check the current size, run "file" on a deployed DLC image. The
+# output will tell you the size of the squashfs filesystem.
+#
+# 1MiB = 256 x 4KiB blocks
 if [[ ${PV} == 9999 ]]; then
 	DLC_PREALLOC_BLOCKS="$((200 * 256))"
 else
-	DLC_PREALLOC_BLOCKS="$((100 * 256))"
+	DLC_PREALLOC_BLOCKS="$((150 * 256))"
 fi
 
 DLC_PRELOAD=true
