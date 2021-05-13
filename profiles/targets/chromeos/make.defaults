@@ -78,6 +78,9 @@ USE="${USE} diagnostics"
 # Enable Perfetto daemons.
 USE="${USE} perfetto"
 
+# Enable the missive (ERP) daemon.
+USE="${USE} missive"
+
 # Enable CPU zero-copy for Chrome camera stack.
 USE="${USE} video_capture_use_gpu_memory_buffer"
 

@@ -57,6 +57,7 @@ IUSE="
 	manatee
 	media_perception
 	memd
+	missive
 	mist
 	minios
 	secanomalyd
@@ -197,6 +198,7 @@ RDEPEND="
 	os_install_service? ( chromeos-base/os_install_service )
 	perfetto? ( chromeos-base/perfetto )
 	crash_reporting? ( chromeos-base/crash-reporter )
+	missive? ( chromeos-base/missive )
 	mist? ( chromeos-base/mist )
 	modemfwd? ( chromeos-base/modemfwd )
 	buffet? ( chromeos-base/buffet )

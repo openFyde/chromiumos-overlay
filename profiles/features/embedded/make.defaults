@@ -41,6 +41,9 @@ USE="${USE} -drivefs -samba -smbprovider"
 # embedded devices.
 USE="${USE} -diagnostics"
 
+# Disable the missive. Features not evaluated on embedded devices.
+USE="${USE} -missive"
+
 # Disable Perfetto daemons on embedded devices.
 USE="${USE} -perfetto"
 
