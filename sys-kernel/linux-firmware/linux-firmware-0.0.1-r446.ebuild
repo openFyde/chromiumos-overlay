@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="96efbe34574228634204acb94e3c635aa00b186c"
-CROS_WORKON_TREE="cca6e7ea33c1cd8ecd8d7b714c961a592d641ff7"
+CROS_WORKON_COMMIT="e062e91ec3ee9ed42f0e0ca7ab71a6d6e9bb7a0d"
+CROS_WORKON_TREE="98bd74f0062b965a8941544697e6bcd5402b0cc2"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -293,13 +293,13 @@ install_iwlwifi() {
 		iwlwifi-cc)
 			case "${kernel}" in
 			kernel-upstream) doins "${x}-a0-62.ucode" ;;
-			*)               doins "${x}-a0-63.ucode" ;;
+			*)               doins "${x}-a0-64.ucode" ;;
 			esac
 			;;
 		iwlwifi-QuZ)
 			case "${kernel}" in
-			kernel-4_19) doins "${x}-a0-hr-b0-63.ucode" ;;
-			kernel-5_4)  doins "${x}-a0-hr-b0-63.ucode" ;;
+			kernel-4_19) doins "${x}-a0-hr-b0-64.ucode" ;;
+			kernel-5_4)  doins "${x}-a0-hr-b0-64.ucode" ;;
 			kernel-upstream)  doins "${x}-a0-hr-b0-62.ucode" ;;
 			*)
 				ewarn "Unexpected kernel version '${kernel}'."
