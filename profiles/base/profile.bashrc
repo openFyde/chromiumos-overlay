@@ -308,8 +308,22 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-devel/arc-llvm|\
 		sys-devel/gdb|\
 		sys-kernel/arcvm-kernel-*|\
-		sys-kernel/chromeos-kernel-*|\
+		sys-kernel/chromeos-kernel-3_18|\
+		sys-kernel/chromeos-kernel-4_14|\
+		sys-kernel/chromeos-kernel-4_19|\
+		sys-kernel/chromeos-kernel-4_19-ht|\
+		sys-kernel/chromeos-kernel-4_4|\
+		sys-kernel/chromeos-kernel-5_10|\
+		sys-kernel/chromeos-kernel-5_10-manatee|\
+		sys-kernel/chromeos-kernel-5_4|\
+		sys-kernel/chromeos-kernel-5_4-manatee|\
+		sys-kernel/chromeos-kernel-5_4-shadowkeep|\
+		sys-kernel/chromeos-kernel-experimental|\
+		sys-kernel/chromeos-kernel-falconlite-5_4|\
+		sys-kernel/chromeos-kernel-next|\
+		sys-kernel/chromeos-kernel-upstream|\
 		sys-kernel/dump-capture-kernel|\
+		sys-kernel/gasket|\
 		sys-kernel/gw-kernel-*|\
 		sys-kernel/kernel-beaglebone-*|\
 		sys-kernel/lakitu-kernel-*|\
