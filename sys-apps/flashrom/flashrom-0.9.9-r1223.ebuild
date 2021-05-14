@@ -56,6 +56,7 @@ IUSE="
 	+satamv
 	+serprog static
 	+stlinkv3_spi
+	test
 	+usbblaster_spi
 	+wiki
 "
@@ -91,7 +92,8 @@ LIB_DEPEND="
 "
 RDEPEND="!static? ( ${LIB_DEPEND//\[static-libs(+)]} )"
 DEPEND="${RDEPEND}
-	static? ( ${LIB_DEPEND} )"
+	static? ( ${LIB_DEPEND} )
+	test? ( dev-util/cmocka )"
 RDEPEND+=" internal? ( sys-apps/dmidecode )"
 
 BDEPEND="sys-apps/diffutils"
