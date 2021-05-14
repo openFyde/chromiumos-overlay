@@ -68,6 +68,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/libvda:=
 	dev-rust/minijail:=
 	~dev-rust/num_cpus-1.9.0:=
+	>=dev-rust/once_cell-1.7.2:= <dev-rust/once_cell-2
 	dev-rust/p9:=
 	=dev-rust/paste-1*:=
 	=dev-rust/pin-utils-0.1*:=
