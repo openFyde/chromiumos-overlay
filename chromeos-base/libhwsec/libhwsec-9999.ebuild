@@ -8,7 +8,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation trunks .gn"
 
 PLATFORM_SUBDIR="libhwsec"
 
@@ -25,6 +25,7 @@ COMMON_DEPEND="
 	chromeos-base/libhwsec-foundation
 	dev-libs/openssl:0=
 	!tpm2? ( app-crypt/trousers:= )
+	tpm2? ( chromeos-base/trunks:= )
 "
 
 RDEPEND="${COMMON_DEPEND}"
