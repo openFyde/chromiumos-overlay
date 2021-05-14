@@ -95,6 +95,8 @@ src_configure() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin bin/ff_debug
 
 	if use cellular; then
