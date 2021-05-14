@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DEPEND=sys-boot/chromeos-vendor-strings-null
-DESCRIPTION=Vendor firmware strings virtual package
-EAPI=5
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=sys-boot/chromeos-vendor-strings-null
-SLOT=0
-_md5_=c2449452b9347a076c8ff65c30e9d106
