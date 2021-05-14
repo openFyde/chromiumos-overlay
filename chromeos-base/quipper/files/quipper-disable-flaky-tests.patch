@@ -4,7 +4,7 @@ https://crbug.com/812425
 
 --- a/perf_parser_test.cc
 +++ b/perf_parser_test.cc
-@@ -641,7 +641,7 @@ class RunInMountNamespaceThread : public quipper::Thread {
+@@ -1968,7 +1968,7 @@ class RunInMountNamespaceThread : public quipper::Thread {
  // (Not tried):            /proc/<pid>/root/<path>
  // (Not tried): /<path>
  // Expected buildid for <path>: "deadbeef"
@@ -13,7 +13,7 @@ https://crbug.com/812425
    if (!HaveCapability(CAP_SYS_ADMIN)) return;  // Skip test.
    ScopedTempDir tmpdir("/tmp/quipper_tmp.");
    ScopedTempDir mntdir("/tmp/quipper_mnt.");
-@@ -776,7 +776,7 @@ class RunInMountNamespaceProcess {
+@@ -2103,7 +2103,7 @@ class RunInMountNamespaceProcess {
  // Accept:                 /proc/<pid2>/root/<path>
  // (Not tried): /<path>
  // Expected buildid for <path>: "deadbeef"
@@ -22,7 +22,7 @@ https://crbug.com/812425
    if (!HaveCapability(CAP_SYS_ADMIN)) return;  // Skip test.
    ScopedTempDir tmpdir("/tmp/quipper_tmp.");
    ScopedTempDir mntdir("/tmp/quipper_mnt.");
-@@ -862,7 +862,7 @@ TEST(PerfParserTest, ReadsBuildidsInMountNamespace_TriesOwningProcess) {
+@@ -2189,7 +2189,7 @@ TEST(PerfParserTest, ReadsBuildidsInMountNamespace_TriesOwningProcess) {
  // Reject (doesn't exist): /proc/<pid+10>/root/<path>
  // Accept (same inode): /<path>
  // Expected buildid for <path>: "deadbeef"
@@ -31,7 +31,7 @@ https://crbug.com/812425
    if (!HaveCapability(CAP_SYS_ADMIN)) return;  // Skip test.
    ScopedTempDir tmpdir("/tmp/quipper_tmp.");
    ScopedTempDir mntdir("/tmp/quipper_mnt.");
-@@ -972,7 +972,7 @@ TEST(PerfParserTest, ReadsBuildidsInMountNamespace_TriesRootFs) {
+@@ -2274,7 +2274,7 @@ TEST(PerfParserTest, ReadsBuildidsInMountNamespace_TriesRootFs) {
  // Reject (wrong inode): /proc/<pid>/root/<path>
  // Reject (wrong inode): /<path>
  // Expected buildid for <path>: ""
@@ -40,7 +40,7 @@ https://crbug.com/812425
    if (!HaveCapability(CAP_SYS_ADMIN)) return;  // Skip test.
    ScopedTempDir tmpdir("/tmp/quipper_tmp.");
    ScopedTempDir mntdir("/tmp/quipper_mnt.");
-@@ -1036,7 +1036,7 @@ TEST(PerfParserTest, ReadsBuildidsInMountNamespace_TriesRootFsRejectsInode) {
+@@ -2363,7 +2363,7 @@ TEST(PerfParserTest, ReadsBuildidsInMountNamespace_TriesRootFsRejectsInode) {
  // Reject (not found): /proc/<pid+10>/root/<path>
  // Accept (falsely): /<path>
  // Expected buildid for <path>: "baadf00d" (even though incorrect)
@@ -49,7 +49,7 @@ https://crbug.com/812425
    if (!HaveCapability(CAP_SYS_ADMIN)) return;  // Skip test.
    ScopedTempDir tmpdir("/tmp/quipper_tmp.");
    ScopedTempDir mntdir("/tmp/quipper_mnt.");
-@@ -1133,7 +1133,7 @@ TEST(PerfParserTest, ReadsBuildidsInMountNamespace_TriesRootFsNoInodeToReject) {
+@@ -2460,7 +2460,7 @@ TEST(PerfParserTest, ReadsBuildidsInMountNamespace_TriesRootFsNoInodeToReject) {
  // A better thing to do might be to track a
  // map<tuple<maj,min,ino,path>, DSOInfo>, but even so, it will be impossible
  // to store unambiguously in perf.data.
@@ -63,7 +63,7 @@ https://crbug.com/1000545
 
 --- a/perf_serializer_test.cc
 +++ b/perf_serializer_test.cc
-@@ -452,7 +452,7 @@ TEST_P(SerializePerfDataFiles, TestBuildIDs) {
+@@ -457,7 +457,7 @@ TEST_P(SerializePerfDataFiles, TestBuildIDs) {
    EXPECT_TRUE(deserializer.Deserialize(perf_data_proto));
  }
  
@@ -72,7 +72,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    const size_t data_size =
-@@ -496,7 +496,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesTraceMetadata) {
+@@ -501,7 +501,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesTraceMetadata) {
    EXPECT_EQ(tracing_metadata_str, deserializer.tracing_data());
  }
  
@@ -81,7 +81,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -536,7 +536,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesPerfEventAttrEvent) {
+@@ -541,7 +541,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesPerfEventAttrEvent) {
    EXPECT_EQ(0, perf_data_proto.events().size());
  }
  
@@ -90,7 +90,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -579,7 +579,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesPerfFileAttr) {
+@@ -584,7 +584,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesPerfFileAttr) {
    EXPECT_EQ(0, perf_data_proto.events().size());
  }
  
@@ -99,7 +99,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -646,7 +646,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesMmapEvents) {
+@@ -651,7 +651,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesMmapEvents) {
    }
  }
  
@@ -108,7 +108,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -688,7 +688,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceInfoEvents) {
+@@ -693,7 +693,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceInfoEvents) {
    }
  }
  
@@ -117,7 +117,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -729,7 +729,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceEvents) {
+@@ -734,7 +734,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceEvents) {
    }
  }
  
@@ -126,7 +126,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -789,7 +789,7 @@ TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesAuxtraceErrorEvents)
+@@ -794,7 +794,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesAuxtraceErrorEvents) {
    EXPECT_TRUE(matches) << difference;
  }
  
@@ -135,7 +135,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -835,7 +835,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesThreadMapEvents) {
+@@ -840,7 +840,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesThreadMapEvents) {
    }
  }
  
@@ -144,7 +144,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -905,7 +905,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesStatConfigEvents) {
+@@ -910,7 +910,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesStatConfigEvents) {
    EXPECT_TRUE(matches) << difference;
  }
  
@@ -153,16 +153,16 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -956,7 +956,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesStatEvents) {
+@@ -961,7 +961,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesStatEvents) {
    EXPECT_TRUE(matches) << difference;
  }
  
 -TEST(PerfSerializerTest, SerializesAndDeserializesStatRoundEvents) {
-+TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesStatRoundEvents) {
++TEST(PerfSerializerTest, DISABLEDSerializesAndDeserializesStatRoundEvents) {
    std::stringstream input;
  
    // header
-@@ -1004,7 +1004,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesStatRoundEvents) {
+@@ -1009,7 +1009,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesStatRoundEvents) {
    EXPECT_TRUE(matches) << difference;
  }
  
@@ -171,7 +171,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -1042,7 +1042,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesTimeConvEvents) {
+@@ -1047,7 +1047,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesTimeConvEvents) {
  }
  
  // Regression test for http://crbug.com/501004.
@@ -180,7 +180,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -1173,7 +1173,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesBuildIDs) {
+@@ -1178,7 +1178,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesBuildIDs) {
  }
  
  // Regression test for http://crbug.com/500746.
@@ -189,7 +189,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -1282,7 +1282,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesForkAndExitEvents) {
+@@ -1287,7 +1287,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesForkAndExitEvents) {
    }
  }
  
@@ -198,7 +198,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -1368,7 +1368,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesContextSwitchEvents) {
+@@ -1373,7 +1373,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesContextSwitchEvents) {
    }
  }
  
@@ -207,7 +207,7 @@ https://crbug.com/1000545
    std::stringstream input;
  
    // header
-@@ -1425,7 +1425,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesNamespacesEvents) {
+@@ -1430,7 +1430,7 @@ TEST(PerfSerializerTest, SerializesAndDeserializesNamespacesEvents) {
  }
  
  // Regression test for http://crbug.com/500746.
@@ -224,63 +224,64 @@ https://crbug.com/1021952
 @@ -41,7 +41,7 @@ class PerfRecorderTest : public ::testing::Test {
    PerfRecorder perf_recorder_;
  };
-
+ 
 -TEST_F(PerfRecorderTest, RecordToProtobuf) {
 +TEST_F(PerfRecorderTest, DISABLED_RecordToProtobuf) {
    // Read perf data using the PerfReader class.
    // Dump it to a string and convert to a protobuf.
    // Read the protobuf, and reconstruct the perf data.
-@@ -69,7 +69,7 @@ TEST_F(PerfRecorderTest, RecordToProtobu
+@@ -69,7 +69,7 @@ TEST_F(PerfRecorderTest, RecordToProtobuf) {
    EXPECT_EQ("0.2", command.Get(6).value());
  }
-
+ 
 -TEST_F(PerfRecorderTest, StatToProtobuf) {
 +TEST_F(PerfRecorderTest, DISABLED_StatToProtobuf) {
    // Run perf stat and verify output.
-   string output_string;
+   std::string output_string;
    EXPECT_TRUE(perf_recorder_.RunCommandAndGetSerializedOutput(
-@@ -81,7 +81,7 @@ TEST_F(PerfRecorderTest, StatToProtobuf)
+@@ -81,7 +81,7 @@ TEST_F(PerfRecorderTest, StatToProtobuf) {
    EXPECT_GT(stat.line_size(), 0);
  }
-
+ 
 -TEST_F(PerfRecorderTest, MemRecordToProtobuf) {
 +TEST_F(PerfRecorderTest, DISABLED_MemRecordToProtobuf) {
    if (!IsPerfMemRecordAvailable()) return;
-
+ 
    // Run perf mem record and verify output.
-@@ -94,7 +94,7 @@ TEST_F(PerfRecorderTest, MemRecordToProt
+@@ -94,7 +94,7 @@ TEST_F(PerfRecorderTest, MemRecordToProtobuf) {
    ASSERT_TRUE(perf_data_proto.ParseFromString(output_string));
  }
-
+ 
 -TEST_F(PerfRecorderTest, StatSingleEvent) {
 +TEST_F(PerfRecorderTest, DISABLED_StatSingleEvent) {
-   string output_string;
+   std::string output_string;
    ASSERT_TRUE(perf_recorder_.RunCommandAndGetSerializedOutput(
        {"perf", "stat", "-a", "-e", "cpu-clock"}, 0.2, &output_string));
-@@ -118,7 +118,7 @@ TEST_F(PerfRecorderTest, StatSingleEvent
+@@ -118,7 +118,7 @@ TEST_F(PerfRecorderTest, StatSingleEvent) {
    EXPECT_EQ("cpu-clock", stat.line(0).event_name());
  }
-
+ 
 -TEST_F(PerfRecorderTest, StatMultipleEvents) {
 +TEST_F(PerfRecorderTest, DISABLED_StatMultipleEvents) {
-   string output_string;
+   std::string output_string;
    ASSERT_TRUE(perf_recorder_.RunCommandAndGetSerializedOutput(
        {"perf", "stat", "-a", "-e", "cpu-clock", "-e", "context-switches", "-e",
-@@ -173,7 +173,7 @@ TEST_F(PerfRecorderTest, StatMultipleEve
+@@ -173,7 +173,7 @@ TEST_F(PerfRecorderTest, StatMultipleEvents) {
    EXPECT_EQ("page-faults", stat.line(3).event_name());
  }
-
+ 
 -TEST_F(PerfRecorderTest, DontAllowCommands) {
 +TEST_F(PerfRecorderTest, DISABLED_DontAllowCommands) {
-   string output_string;
+   std::string output_string;
    EXPECT_FALSE(perf_recorder_.RunCommandAndGetSerializedOutput(
        {"perf", "record", "--", "sh", "-c", "echo 'malicious'"}, 0.2,
-@@ -183,7 +183,7 @@ TEST_F(PerfRecorderTest, DontAllowComman
+@@ -183,7 +183,7 @@ TEST_F(PerfRecorderTest, DontAllowCommands) {
        &output_string));
  }
-
+ 
 -TEST(PerfRecorderNoPerfTest, FailsIfPerfDoesntExist) {
 +TEST(PerfRecorderNoPerfTest, DISABLED_FailsIfPerfDoesntExist) {
-   string output_string;
+   std::string output_string;
    PerfRecorder perf_recorder({"sudo", "/doesnt-exist/usr/not-bin/not-perf"});
    EXPECT_FALSE(perf_recorder.RunCommandAndGetSerializedOutput(
+
