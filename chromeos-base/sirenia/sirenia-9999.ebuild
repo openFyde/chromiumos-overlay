@@ -19,9 +19,7 @@ IUSE="cros_host manatee"
 
 DEPEND="
 	chromeos-base/libsirenia:=
-	chromeos-base/sirenia-rpc-macros:=
 	dev-libs/openssl:0=
-	=dev-rust/chrono-0.4*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=

@@ -21,6 +21,7 @@ IUSE=""
 
 DEPEND="
 	chromeos-base/sirenia-rpc-macros:=
+	=dev-rust/chrono-0.4*:=
 	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
