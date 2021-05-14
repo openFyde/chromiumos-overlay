@@ -86,9 +86,10 @@ src_install() {
 	insinto /usr/include/cros-camera/
 	doins -r ../include/cros-camera/*
 	# TODO(crbug.com/1197394): Remove after the issue is resolved.
-	mojo_files=$(find "${OUT}"/gen/include/mojo -name '*.mojom.h')
-	einfo "${mojo_files}"
-	doins -r "${OUT}"/gen/include/mojo
+	camera_mojo_files=$(find "${OUT}"/gen/include/camera/mojo -name '*.mojom.h')
+	einfo "${camera_mojo_files}"
+	insinto /usr/include/cros-camera/mojo/camera
+	doins -r "${OUT}"/gen/include/camera/mojo
 
 	dolib.so "${OUT}"/lib/libcros_camera.so
 	dolib.a "${OUT}"/libcros_camera_mojom.a
