@@ -20,9 +20,9 @@ FONTS_HASHES=(
 )
 NPM_HASHES=(
 	# Current one.
-	bc482f2b229bd0797c104263dc60cb884a1c90f6e65f07050d0b94b165b3a255
-	# Next one.
 	2cd2dd365999ae139b6b0fb62a5a09e2a7fb5ab1c0926cf1968a1dec9b74fea5
+	# Next one.
+	16e0b36c0c3d448c7fd00d1db3ba27ff8477007fb4b0eae31ae25960aeae3fbc
 )
 SRC_URI="
 	https://storage.googleapis.com/chromium-nodejs/14.15.4/b2e40ddbac04d05baafbb007f203c6663c9d4ca9
