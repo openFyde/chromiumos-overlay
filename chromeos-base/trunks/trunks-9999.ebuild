@@ -7,7 +7,9 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk libhwsec metrics trunks .gn"
+# TODO(crbug/1184685): "libhwsec" is not necessary; remove it after solving
+# the bug.
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation metrics trunks .gn"
 
 PLATFORM_SUBDIR="trunks"
 
@@ -52,7 +54,7 @@ RDEPEND="
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	!app-crypt/tpm-tools
-	chromeos-base/libhwsec
+	chromeos-base/libhwsec-foundation
 	"
 
 DEPEND="

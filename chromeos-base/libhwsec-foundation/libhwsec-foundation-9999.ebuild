@@ -37,6 +37,10 @@ src_install() {
 	doins ./tpm_error/tpm_error_data.h
 	doins ./tpm_error/handle_auth_failure.h
 
+	insinto /usr/include/libhwsec-foundation/utility
+	doins ./utility/conversions.h
+	doins ./utility/crypto.h
+
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
 }
 
