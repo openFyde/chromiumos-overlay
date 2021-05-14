@@ -24,7 +24,7 @@ IUSE="test"
 
 RDEPEND="
 	!<chromeos-base/crosvm-0.0.1-r260
-	!dev-rust/9s:0.1.0
+	!dev-rust/9s
 "
 DEPEND="
 	=dev-rust/getopts-0.2*:=

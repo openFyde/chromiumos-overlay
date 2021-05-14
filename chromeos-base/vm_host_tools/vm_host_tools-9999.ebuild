@@ -38,7 +38,7 @@ COMMON_DEPEND="
 
 RDEPEND="
 	${COMMON_DEPEND}
-	dev-rust/9s
+	dev-rust/s9
 "
 DEPEND="
 	${COMMON_DEPEND}
