@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="a7c2fce235ee351f4f23238f2e13ce09ffc40fd7"
+CROS_WORKON_COMMIT="149590a5b97b758c9e55bcdba0be1f816fbe82e4"
 CROS_WORKON_TREE=("5d9800ca5322e6c2b963af9da3b457832c08b33e" "e42cdd4b6dc8e69d03bd5d1fc00bf8ec62cd192f")
 CROS_RUST_SUBDIR="cras/client/cras_tests"
 
@@ -24,16 +24,17 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
-	>=dev-rust/getopts-0.2.18:=
-	!>=dev-rust/getopts-0.3
+	=dev-rust/dbus-0.8*:=
+	>=dev-rust/getopts-0.2.18:= <dev-rust/getopts-0.3
 	dev-rust/hound:=
+	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "
-# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
-# installing binpkgs since the full source tree is required to use the crate.
-RDEPEND="${DEPEND}
+# DEPEND isn't needed in RDEPEND because nothing from this ebuild is installed
+# to the cros_rust_registry.
+RDEPEND="
 	!<=media-sound/cras_tests-0.1.0-r12
 "
 
