@@ -795,5 +795,11 @@
         "rel_patch_path": "cherry/4622648a069a988d3b7b3ecd3f1b6993518d85b5.patch",
         "start_version": 421649,
         "end_version": 422916
+    },
+    {
+        "comment": "[clang] accept -fsanitize-ignorelist= in addition to -fsanitize-blacklist=",
+        "rel_patch_path": "cherry/d7ec48d71bd67118e7996c45e9c7fb1b09d4f59a.patch",
+        "start_version": 422132,
+        "end_version": 426368
     }
 ]

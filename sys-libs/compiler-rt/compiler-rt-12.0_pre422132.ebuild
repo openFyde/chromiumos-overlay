@@ -109,8 +109,8 @@ src_install() {
 	local libdir=$(llvm-config --libdir)
 	rm -rf "${ED}"usr/share || die
 	rm -rf "${ED}${libdir}"/clang/*/include || die
-	rm -f "${ED}${libdir}"/clang/*/*_blacklist.txt || die
-	rm -f "${ED}${libdir}"/clang/*/*/*_blacklist.txt || die
+	rm -f "${ED}${libdir}"/clang/*/*list.txt || die
+	rm -f "${ED}${libdir}"/clang/*/*/*list.txt || die
 	rm -f "${ED}${libdir}"/clang/*/dfsan_abilist.txt || die
 	rm -f "${ED}${libdir}"/clang/*/*/dfsan_abilist.txt || die
 	rm -f "${ED}${libdir}"/clang/*/bin/* || die
