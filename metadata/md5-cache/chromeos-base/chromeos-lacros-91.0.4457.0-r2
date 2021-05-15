@@ -1,13 +1,12 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=info install setup unpack
 EAPI=7
-IUSE=lacros cros_host cros_workon_tree_8ce164efd78fcb4a68e898d8c92c7579657a49b1
+IUSE=cros_host cros_workon_tree_8ce164efd78fcb4a68e898d8c92c7579657a49b1
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-REQUIRED_USE=lacros
-RESTRICT=mirror
+RDEPEND=chromeos-base/chromeos-chrome
 SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles/chromeos-lacros-squash-91.0.4457.0 gs://chromeos-localmirror/distfiles/chromeos-lacros-metadata-91.0.4457.0
+SRC_URI=gs://chrome-unsigned/desktop-5c0tCh/chromeos-lacros-squash-91.0.4457.0 gs://chrome-unsigned/desktop-5c0tCh/chromeos-lacros-metadata-91.0.4457.0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=ae6faa92a6212c49716b877f8a0b0aad
+_md5_=ffd5a89c3029d31be4bbf8e78f357b4c
