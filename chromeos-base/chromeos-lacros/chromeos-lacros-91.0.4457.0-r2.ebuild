@@ -15,24 +15,22 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="lacros"
-REQUIRED_USE="lacros"
-
-RDEPEND=""
+# All runtime dependencies should already be part of
+# chromeos-base/chromeos-chrome, the ones that aren't will be handled in
+# crbug.com/1199441.
+RDEPEND="chromeos-base/chromeos-chrome"
+# Omit DEPEND as nothing is built in this ebuild.
 DEPEND=""
 
-if [[ ${PV} == 9999 ]]; then
-SRC_URI=""
-else
-LACROS_GS_URI_PREFIX="gs://chromeos-localmirror/distfiles"
-LACROS_SQUASHFS="${PN}-squash-${PV}"
-LACROS_METADATA="${PN}-metadata-${PV}"
-SRC_URI="
-	${LACROS_GS_URI_PREFIX}/${LACROS_SQUASHFS}
-	${LACROS_GS_URI_PREFIX}/${LACROS_METADATA}
-"
+if [[ ${PV} != 9999 ]]; then
+	ORIG_GS_URI_PREFIX="gs://chrome-unsigned/desktop-5c0tCh"
+	LACROS_SQUASHFS="${PN}-squash-${PV}"
+	LACROS_METADATA="${PN}-metadata-${PV}"
+	SRC_URI="
+		${ORIG_GS_URI_PREFIX}/${LACROS_SQUASHFS}
+		${ORIG_GS_URI_PREFIX}/${LACROS_METADATA}
+	"
 fi
-RESTRICT="mirror"
 
 src_install() {
 	insinto /opt/google/lacros
