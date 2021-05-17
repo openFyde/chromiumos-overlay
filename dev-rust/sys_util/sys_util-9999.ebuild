@@ -32,6 +32,7 @@ DEPEND="
 	=dev-rust/syn-1*:=
 	dev-rust/sync:=
 	dev-rust/tempfile:=
+	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	sys-libs/libcap:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
