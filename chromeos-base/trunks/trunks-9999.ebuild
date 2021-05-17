@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trunks
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="cr50_onboard fuzzer ftdi_tpm test tpm2_simulator vtpm_proxy"
+IUSE="cr50_onboard fuzzer ftdi_tpm generic_tpm2 test tpm2_simulator vtpm_proxy"
 
 # This depends on protobuf because it uses protoc and needs to be rebuilt
 # whenever the protobuf library is updated since generated source files may be
