@@ -10,5 +10,5 @@ RDEPEND=>=dev-rust/iovec-0.1.1:= <dev-rust/iovec-0.2 >=dev-rust/libc-0.2.42:= <d
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0.6.17/r2
 SRC_URI=https://crates.io/api/v1/crates/mio/0.6.17/download -> mio-0.6.17.crate
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	1edd6219a5fc852fb9684636e5197db4	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	fa6d2d0701d1d7e6a39b8524664b4c68	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
 _md5_=20a92371a17948d001423d0013809a02
