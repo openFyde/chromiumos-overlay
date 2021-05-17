@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="42a76df8ac733d02cfe096375e46bd84a095ad5c"
-CROS_WORKON_TREE=("561a1a00d7697cf049a360a20f6dac10a5f4f239" "3508d2f3db0647ef3871071db0b2fbfd7b6af042")
+CROS_WORKON_COMMIT="3d4877e667c0e58648bbe6414474cd1d8fed8df1"
+CROS_WORKON_TREE=("a1d60d57f61a5bca613446926cc66c65ac62ce8b" "3508d2f3db0647ef3871071db0b2fbfd7b6af042")
 CROS_RUST_SUBDIR="sirenia/manatee-client"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -21,13 +21,15 @@ LICENSE="BSD-Google"
 SLOT="0/${PVR}"
 KEYWORDS="*"
 
-RDEPEND=""
-
+RDEPEND="sys-apps/dbus"
 DEPEND="${RDEPEND}
+	chromeos-base/libsirenia:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
+	=dev-rust/log-0.4*:=
+	=dev-rust/stderrlog-0.5*:=
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	=dev-rust/which-4*:=

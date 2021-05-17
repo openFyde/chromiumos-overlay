@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d3ae408872fafdeaec1b2e82e2cf8b79c2724745"
-CROS_WORKON_TREE="41abef8a9dcda6fc5a05f2667cf312133fdc34f0"
+CROS_WORKON_COMMIT="3d4877e667c0e58648bbe6414474cd1d8fed8df1"
+CROS_WORKON_TREE="05befac9248c4abed08c584936dcb80ed33b98cd"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,9 +21,7 @@ IUSE="cros_host manatee"
 
 DEPEND="
 	chromeos-base/libsirenia:=
-	chromeos-base/sirenia-rpc-macros:=
 	dev-libs/openssl:0=
-	=dev-rust/chrono-0.4*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/getopts-0.2*:=
