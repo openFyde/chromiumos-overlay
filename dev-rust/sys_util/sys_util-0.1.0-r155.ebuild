@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="009afce6d44bf1887d1bf67db5b48fcee1709045"
+CROS_WORKON_COMMIT="82cddfef8efed7d3d1629b2f1e8fdd508ac898b4"
 CROS_WORKON_TREE="de74f3ec1758010a26f34aca1e29feadf2b765db"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -34,6 +34,7 @@ DEPEND="
 	=dev-rust/syn-1*:=
 	dev-rust/sync:=
 	dev-rust/tempfile:=
+	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	sys-libs/libcap:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
