@@ -72,7 +72,5 @@ RUN chown -R chromeos-test:chromeos-test /usr/local/autotest
 # See https://source.corp.google.com/chromeos_public/src/third_party/autotest/files/server/server_job.py;l=940
 ENV container=lxc
 
-# Throw in a test_service mock for POC
-# TODO dbeckett, adjust this for real test service
-RUN mkdir -p /usr/bin/test_service
-COPY test_service/ /usr/bin/test_service/
+# Assumes sudo emerge test-server has been run.
+COPY /usr/bin/testservice /usr/bin/testservice
