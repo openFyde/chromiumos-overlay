@@ -4,8 +4,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="c26fdfb3c4cd9af66c11469b3f180632be3ebddb"
-CROS_WORKON_TREE="fce1d539728317628ed5f263e7ac10f8d3d2b908"
+CROS_WORKON_COMMIT="5b2bb36c95cfdd681d695a41e5fad4fa8a517f55"
+CROS_WORKON_TREE="453b46519ad596b572d70b9c03fd95d2d66442c9"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 
@@ -209,7 +209,7 @@ multilib_src_configure() {
 		$(use_enable upstart) \
 		$(multilib_native_use_enable usb libusb) \
 		$(use_enable zeroconf avahi) \
-		--disable-dnssd \
+		--without-dnssd \
 		--disable-localization \
 		--without-perl \
 		--without-php \
