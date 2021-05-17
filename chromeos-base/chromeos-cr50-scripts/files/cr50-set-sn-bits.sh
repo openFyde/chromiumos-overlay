@@ -6,8 +6,13 @@
 # This script is run in the factory process, which sets serial number bits
 # properly for cr50.
 
+PLATFORM_INDEX=false
+
 READ_RMA_SN_BITS="/usr/share/cros/cr50-read-rma-sn-bits.sh"
+READ_BOARD_ID_BITS="/usr/share/cros/cr50-read-board-id.sh"
 GSCTOOL="/usr/sbin/gsctool"
+TPM_WRITESPACE="/usr/share/cros/tpm2-write-space.sh"
+TPM_LOCKSPACE="/usr/share/cros/tpm2-lock-space.sh"
 
 # The return codes for different failure reasons.
 ERR_GENERAL=1
@@ -55,7 +60,24 @@ cr50_compute_updater_sn_bits() {
     sed -e 's/.*=[^0-9a-f]*//I' -e 's/\(.\{24\}\).*/\1/'
 }
 
+is_board_id_set_generic_tpm2() {
+  local output
+  if ! output="$("${READ_BOARD_ID_BITS}")"; then
+    die "Failed to execute ${READ_BOARD_ID_BITS}."
+  fi
+
+  # Parse the output. E.g., 5a5a4146:a5a5beb9:0000ff00
+  output="${output##* }"
+
+  [ "${output%:*}" != "ffffffff:ffffffff" ]
+}
+
 is_board_id_set() {
+  if [ "${PLATFORM_INDEX}" = true ]; then
+    is_board_id_set_generic_tpm2
+    return
+  fi
+
   local output
   if ! output="$("${GSCTOOL}" -a -i)"; then
     die "Failed to execute ${GSCTOOL} -a -i"
@@ -65,6 +87,19 @@ is_board_id_set() {
   output="${output##* }"
 
   [ "${output%:*}" != "ffffffff:ffffffff" ]
+}
+
+has_rmaed() {
+  local rma_sn_bits="$1"
+  if [ "${PLATFORM_INDEX}" = false ]; then
+    local device_version_and_rma_bytes="${rma_sn_bits%:*}"
+    local device_rma_flags="${device_version_and_rma_bytes#*:}"
+    [ "${device_rma_flags}" != ff ]
+    return
+  fi
+
+  local standalone_rma_flags="{rma_sn_bits##* }"
+  [ "${standalone_rma_flags}" = 0000000000000000 ]
 }
 
 cr50_check_sn_bits() {
@@ -80,11 +115,12 @@ cr50_check_sn_bits() {
 
   local device_version_and_rma_bytes="${output%:*}"
   local device_rma_flags="${device_version_and_rma_bytes#*:}"
-  if [ "${device_rma_flags}" != ff ]; then
+  if has_rmaed "${device_rma_flags}"; then
     device_has_been_rmaed
   fi
 
   local device_sn_bits="${output##*:}"
+  device_sn_bits="${device_sn_bits%% *}"
   if [ "${device_sn_bits}" = "ffffffffffffffffffffffff" ]; then
     # SN Bits are cleared, it's ok to go ahead and set them.
     return 0
@@ -99,10 +135,28 @@ cr50_check_sn_bits() {
   die_as_already_set
 }
 
+generic_tpm2_set_sn_bits() {
+  local sn_bits="$1"
+  # `FFFFFE refers to the version for generic TPM2, which has a stand-alone RMA
+  # byte; `80` is a chosen value that GSC never uses.
+  local SN_BITS_HEADER="FFFFFE80"
+
+  "${TPM_WRITESPACE}" 013FFF01 "${SN_BITS_HEADER}${sn_bits}" || \
+    die "Failed to write SN Bits space."
+
+  "${TPM_LOCKSPACE}" 013FFF01 || die "Failed to lock SN Bits space."
+
+  return 0
+}
+
 cr50_set_sn_bits() {
   local sn_bits="$1"
 
-  "${GSCTOOL}" -a -S "${sn_bits}" 2>&1
+  if [ "${PLATFORM_INDEX}" = true ]; then
+    generic_tpm2_set_sn_bits "${sn_bits}"
+  else
+    "${GSCTOOL}" -a -S "${sn_bits}" 2>&1
+  fi
   local status=$?
   if [ "${status}" -ne 0 ]; then
     local warning

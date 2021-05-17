@@ -10,6 +10,7 @@ DESCRIPTION="Ebuild to support the Chrome OS Cr50 device."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
+IUSE="generic_tpm2"
 
 RDEPEND="
 	chromeos-base/ec-utils
@@ -44,6 +45,7 @@ src_install() {
 	files=(
 		cr50-flash-log.sh
 		cr50-get-name.sh
+		cr50-read-board-id.sh
 		cr50-read-rma-sn-bits.sh
 		cr50-reset.sh
 		cr50-set-board-id.sh
@@ -57,6 +59,11 @@ src_install() {
 	)
 	for f in "${files[@]}"; do
 		doexe "${FILESDIR}/${f}"
+	if use generic_tpm2; then
+		sed -i 's/PLATFORM_INDEX=false/PLATFORM_INDEX=true/' \
+			"${D}/usr/share/cros/${f}" ||
+			die "Can't set PLATFORM_INDEX to true for ${f}"
+	fi
 	done
 
 	insinto /opt/google/cr50/ro_db

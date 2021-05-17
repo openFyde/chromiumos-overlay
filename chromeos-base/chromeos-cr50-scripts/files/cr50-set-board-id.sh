@@ -6,7 +6,12 @@
 # This script is run in the factory process, which sets the board id and
 # flags properly for cr50.
 
+PLATFORM_INDEX=false
+
 UPDATER="/usr/sbin/gsctool"
+BOARD_ID_NVRAM_READER="/usr/share/cros/cr50-read-board-id.sh"
+TPM_WRITESPACE="/usr/share/cros/tpm2-write-space.sh"
+TPM_LOCKSPACE="/usr/share/cros/tpm2-lock-space.sh"
 
 # The return codes for different failure reasons.
 ERR_GENERAL=1
@@ -37,10 +42,12 @@ cr50_check_board_id_and_flag() {
   local new_board_id="$(char_to_hex $1)"
   local new_flag="$2"
 
+  # Note that it is supposed to output the same data layout as `gsctool -a -i`.
   local output
-  output="$("${UPDATER}" -a -i)"
-  if [ $? != 0 ]; then
-    die "Failed to execute ${UPDATER} -a -i"
+  output="$("${BOARD_ID_NVRAM_READER}")"
+  local status="$?"
+  if [ "${status}" != 0 ]; then
+    die "Failed to read board id."
   fi
 
   # Parse the output. E.g., 5a5a4146:a5a5beb9:0000ff00
@@ -82,6 +89,34 @@ cr50_set_board_id_and_flag() {
   if [ $? != 0 ]; then
     die "Failed to update with ${updater_arg}"
   fi
+}
+
+reverse_endian() {
+  local v=$1
+  echo "${v}" | tac -rs .. | tr -d '\n'
+}
+
+generic_tpm2_set_board_id() {
+  local flag="$2"
+
+  local p1
+  p1="$(char_to_hex "$1")"
+  # the second 4 bytes are bitwise inverse of the first part.
+  local p2="0x${p1}"
+  p2="$(printf '%X' "$(( ~ p2 & 0xFFFFFFFF ))" )"
+
+  flag="$(printf '%X' "$(( flag ))" )"
+
+  p1="$(reverse_endian "${p1}")"
+  p2="$(reverse_endian "${p2}")"
+  flag="$(reverse_endian "${flag}")"
+  flag="${flag}0000"
+
+  local board_id="${p1}${p2}${flag}"
+
+  "${TPM_WRITESPACE}" 013FFF00 "${board_id}" || die "Failed to write board id space."
+
+  "${TPM_LOCKSPACE}" 013FFF00 || die "Failed to lock board id space."
 }
 
 # Check if a string version has a valid format.
@@ -283,7 +318,11 @@ main() {
 
   cr50_check_board_id_and_flag "${rlz}" "${flag}"
 
-  cr50_set_board_id_and_flag "${rlz}" "${flag}"
+  if [ "${PLATFORM_INDEX}" = false ]; then
+    cr50_set_board_id_and_flag "${rlz}" "${flag}"
+  else
+    generic_tpm2_set_board_id "${rlz}" "${flag}"
+  fi
   echo "Successfully updated board ID to '${rlz}' with phase '${phase}'."
 }
 
