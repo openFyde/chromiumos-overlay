@@ -50,6 +50,10 @@ src_install() {
 		cr50-set-sn-bits.sh
 		cr50-update.sh
 		cr50-verify-ro.sh
+		tpm2-lock-space.sh
+		tpm2-nv-utils.sh
+		tpm2-read-space.sh
+		tpm2-write-space.sh
 	)
 	for f in "${files[@]}"; do
 		doexe "${FILESDIR}/${f}"
