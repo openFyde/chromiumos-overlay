@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c94e9986e6af50282c45b0edaebd4a4978b44628"
+CROS_WORKON_COMMIT="aff404fa5bb1568d214e34f5e4c700fcd8e78663"
 CROS_WORKON_TREE="a65853288ed3e9a088f071b1946c83222b9a6d3e"
 CROS_RUST_SUBDIR="vm_tools/9s"
 
@@ -26,7 +26,7 @@ IUSE="test"
 
 RDEPEND="
 	!<chromeos-base/crosvm-0.0.1-r260
-	!dev-rust/9s:0.1.0
+	!dev-rust/9s
 "
 DEPEND="
 	=dev-rust/getopts-0.2*:=
