@@ -20,10 +20,13 @@ IUSE="cros_host manatee"
 DEPEND="
 	chromeos-base/libsirenia:=
 	dev-libs/openssl:0=
+	=dev-rust/base64-0.13*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
+	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2.0
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
+	=dev-rust/openssl-0.10*:=
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
