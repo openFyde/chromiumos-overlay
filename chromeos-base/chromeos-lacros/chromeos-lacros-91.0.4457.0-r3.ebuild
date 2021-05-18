@@ -36,4 +36,13 @@ src_install() {
 	insinto /opt/google/lacros
 	newins "${DISTDIR}/${LACROS_SQUASHFS}" lacros.squash
 	newins "${DISTDIR}/${LACROS_METADATA}" metadata.json
+
+	# Upstart configuration
+	insinto /etc/init
+	doins "${FILESDIR}/lacros-mounter.conf"
+	doins "${FILESDIR}/lacros-unmounter.conf"
+
+	# D-Bus configuration
+	insinto /etc/dbus-1/system.d
+	doins "${FILESDIR}/Lacros.conf"
 }

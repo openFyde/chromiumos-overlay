@@ -49,7 +49,6 @@ IUSE="
 	disable_native_gpu_memory_buffers
 	disable_instant_tethering
 	disable_spectre_variant2_mitigation
-	dlc
 	drm_atomic
 	edge_touch_filtering
 	enable_dsp_hotword
