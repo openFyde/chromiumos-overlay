@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/attest
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="test tpm tpm2"
+IUSE="generic_tpm2 test tpm tpm2"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
