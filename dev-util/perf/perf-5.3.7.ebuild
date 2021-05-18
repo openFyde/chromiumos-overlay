@@ -46,7 +46,6 @@ RDEPEND="audit? ( sys-process/audit )
 		sys-devel/llvm:*
 	)
 	coresight? ( dev-libs/opencsd )
-	demangle? ( sys-libs/binutils-libs:= )
 	gtk? ( x11-libs/gtk+:2 )
 	java? ( virtual/jre:* )
 	lzma? ( app-arch/xz-utils )
@@ -57,7 +56,8 @@ RDEPEND="audit? ( sys-process/audit )
 	systemtap? ( dev-util/systemtap )
 	unwind? ( sys-libs/llvm-libunwind )
 	zlib? ( sys-libs/zlib )
-	dev-libs/elfutils"
+	dev-libs/elfutils
+	sys-libs/binutils-libs:="
 DEPEND="${RDEPEND}
 	>=sys-kernel/linux-headers-4.4"
 BDEPEND="
