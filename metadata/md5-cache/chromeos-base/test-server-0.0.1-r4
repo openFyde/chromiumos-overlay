@@ -4,10 +4,10 @@ DEPEND=chromeos-base/tast-cmd:= dev-lang/go
 DESCRIPTION=Test server for device provisioning, test execution, and results capture
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/test
-IUSE=cros_host cros_workon_tree_48547f8b1976f6abfd87274a7eaa0da74cedab9e_47a91091c2ce95b04d2d104abeeb50af8130f682
+IUSE=cros_host cros_workon_tree_48547f8b1976f6abfd87274a7eaa0da74cedab9e_79b6c69ffbc4a36a4e7c898b1f8399c76f1af26c
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-SLOT=0/0.0.1-r3
+SLOT=0/0.0.1-r4
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-go	157c7bac0e032e424ec1c3316c127db8	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=29ef615b86f2cb93802773bc80c07cd1
+_md5_=213af29334040b79bfad5797a975e33b
