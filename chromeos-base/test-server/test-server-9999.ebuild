@@ -25,12 +25,12 @@ CROS_GO_PACKAGES=(
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/testservice/cmd/testservice"
+	"chromiumos/execution/cmd/executionserver"
 )
 
 CROS_GO_TEST=(
 	"${CROS_GO_PACKAGES[@]}"
-	"chromiumos/testservice/cmd/testservice/..."
+	"chromiumos/execution/cmd/executionserver/..."
 )
 
 CROS_GO_VET=(
