@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="60d8bdf485cc853717b3e7961c6a5d43a3a774ac"
+CROS_WORKON_COMMIT="a2011360b1dc54305cf1283fe77b6a5badca7f51"
 CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "1579ee57b5f07668e14552039bf38f69ae9a359d" "fb1f3dfe1f8e2ee99b36f4a817af5cb5e41a0baf" "6413b746c5d283ed1c9951f5e153dbf8949047ee" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -46,7 +46,6 @@ COMMON_DEPEND="
 	chromeos-base/cryptohome-client:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/patchpanel-client:=
-	dev-libs/dbus-glib:=
 	dev-libs/protobuf:=
 	sys-libs/libselinux:=
 	chromeos-base/minijail:=
