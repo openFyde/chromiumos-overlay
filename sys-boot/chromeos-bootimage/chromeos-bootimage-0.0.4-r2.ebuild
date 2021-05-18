@@ -164,9 +164,9 @@ add_ec() {
 	local rw_file="${ecroot}/ec.RW.bin"
 	# TODO(jrosenth): can we do this for all EC's (not just Zephyr)?
 	if use zephyr_ec; then
-		( cd "${T}" && dump_fmap -x "${ecroot}/zephyr.bin" EC_RW ) || \
+		( cd "${T}" && dump_fmap -x "${ecroot}/zephyr.bin" RW_FW ) || \
 			die "Unable to extract RW region from FMAP"
-		rw_file="${T}/EC_RW"
+		rw_file="${T}/RW_FW"
 	fi
 	openssl dgst -sha256 -binary "${rw_file}" > "${T}/ecrw.hash" || \
 		die "Unable to compute RW hash"
