@@ -4,8 +4,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="d694dd242f756dbe4457c7c113b4e51539138c33"
-CROS_WORKON_TREE="3d8f9c6bccf1d7c4e0e11f85655c4df59c8caa8c"
+CROS_WORKON_COMMIT="af7028556a5374f9aaf4983105c4cebdfbfe2eea"
+CROS_WORKON_TREE="716bf9ba2ea463504d94ce16c3587ef761d170f5"
 CROS_WORKON_PROJECT="chromiumos/third_party/webrtc-apm"
 CROS_WORKON_LOCALNAME="webrtc-apm"
 
@@ -22,7 +22,8 @@ IUSE="cpu_flags_x86_sse2 neon"
 
 DEPEND="dev-libs/iniparser:=
 	dev-libs/libevent:=
-	dev-libs/protobuf:="
+	dev-libs/protobuf:=
+	chromeos-base/metrics"
 RDEPEND="${DEPEND}"
 
 src_configure() {
