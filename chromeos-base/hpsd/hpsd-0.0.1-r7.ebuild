@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8b77ed428f3ec70d40a0b5f10aaadb4c9cb86f87"
+CROS_WORKON_COMMIT="aff404fa5bb1568d214e34f5e4c700fcd8e78663"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e1e61d637c8baf47e64a674ec0399a5fef9f1244" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	chromeos-base/system_api:=
+	dev-embedded/libftdi:=
 "
 
 pkg_preinst() {
