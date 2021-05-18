@@ -4,6 +4,7 @@
 
 EAPI=7
 
+CROS_WORKON_USE_VCSID=1
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/zephyr"
 	"chromiumos/third_party/zephyr/cmsis"
