@@ -24,6 +24,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	chromeos-base/system_api:=
+	dev-embedded/libftdi:=
 "
 
 pkg_preinst() {
