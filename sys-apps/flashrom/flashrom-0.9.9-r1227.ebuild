@@ -158,3 +158,7 @@ src_configure() {
 src_install() {
 	meson_src_install
 }
+
+src_test() {
+	meson_src_test
+}
