@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk modem-utilities .gn"
 
 PLATFORM_SUBDIR="modem-utilities"
 
-inherit cros-workon platform
+inherit cros-workon tmpfiles platform
 
 DESCRIPTION="Chromium OS modem utilities"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/modem-utilities/"
@@ -27,8 +27,11 @@ DEPEND="${COMMON_DEPEND}"
 src_install() {
 	dobin modem
 	dobin connectivity
+	dobin config_net_log
 
 	exeinto /usr/lib
 	doexe modem-common.sh
 	doexe connectivity-common.sh
+
+	dotmpfiles tmpfiles.d/*.conf
 }
