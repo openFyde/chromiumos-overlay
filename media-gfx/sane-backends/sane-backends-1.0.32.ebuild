@@ -183,6 +183,9 @@ src_prepare() {
 	# From Arch
 	eapply "${FILESDIR}"/${PN}-1.0.30-network.patch
 
+	# Patches submitted upstream but not yet included.
+	eapply "${FILESDIR}"/${PN}-1.0.31-epson2.patch
+
 	# Upstream sometimes forgets to remove the "git describe" check
 	# in the version, which then fails because .git isn't included in the
 	# released tarball.  Replace it with the plain version number.
