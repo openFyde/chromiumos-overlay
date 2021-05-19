@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="94ca44a3f61982d7b1caa644cbe792954594c6ef"
-CROS_WORKON_TREE="9228b75bd82e141892c6aa588acd31a25d5aec65"
+CROS_WORKON_COMMIT="34b659fbc8947d6b819f0d912d41096a907a17c6"
+CROS_WORKON_TREE="e5d1e8e3475afdef994f87e00e49e19c897345e3"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest

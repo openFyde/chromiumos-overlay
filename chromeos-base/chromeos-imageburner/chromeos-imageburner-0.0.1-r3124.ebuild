@@ -1,8 +1,8 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-CROS_WORKON_COMMIT="bd75b32a1035d7961813c03458871f40da44f68c"
+EAPI="7"
+CROS_WORKON_COMMIT="cd7e23f9eef8bcf5ba2a5cefac15b30e2df34c10"
 CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "f965989d62fde6c887c7dee263392cb1dfa4cf65" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
+IUSE="user_session_isolation"
 
 RDEPEND="
 	dev-libs/dbus-glib
@@ -49,6 +49,11 @@ src_install() {
 
 	insinto /etc/init
 	doins init/image-burner.conf
+
+	# TODO(crbug/766130): Remove the following sed block when non-root mount
+	# namespace is by default enabled.
+	use user_session_isolation || sed -i \
+	s/MNT_NS_ARGS=\".*\"/MNT_NS_ARGS=\"\"/ "${D}"/etc/init/image-burner.conf
 }
 
 platform_pkg_test() {
