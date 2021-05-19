@@ -258,23 +258,39 @@ def build_compiler_rt(llvm_path: Path, compiler_rt_build_dir: Path,
       'enable_execute_stack.c',
   }
 
-  actual_failures = set()
+  had_unexpected_results = False
   for f in compiler_rt_builtins.glob('*.c'):
     # Build the expected failures, since doing so is quick, and if they _do_
     # successfully build, that sounds like smoke to me.
     command = run_clang + [str(f)]
-    suffix = ' (expected to fail)' if f.name in expected_failures else ''
-    print(f'Running {" ".join(shlex.quote(x) for x in command)}{suffix}...')
-    failed = subprocess.call(command, cwd=compiler_rt_build_dir)
+    should_fail = f.name in expected_failures
+    command_string = ' '.join(shlex.quote(x) for x in command)
+    try:
+      stdout = subprocess.check_output(
+          command,
+          cwd=compiler_rt_build_dir,
+          stderr=subprocess.STDOUT,
+          encoding='utf-8',
+      )
+    except subprocess.CalledProcessError as e:
+      if should_fail:
+        logging.info('Running %s failed as expected', command_string)
+        continue
+      logging.error('Running %s failed unexpectedly; output:\n%s',
+                    command_string, e.stdout)
+      had_unexpected_results = True
+    else:
+      if not should_fail:
+        logging.info('Running %s succeeded as expected', command_string)
+        continue
+      logging.error('Running %s succeeded unexpectedly; output:\n%s',
+                    command_string, stdout)
+      had_unexpected_results = True
 
-    if failed:
-      actual_failures.add(f.name)
-
-  if actual_failures != expected_failures:
-    expected_failures = sorted(expected_failures)
-    actual_failures = sorted(actual_failures)
-    raise ValueError('Mismatch between expected failed-to-build files '
-                     f'({expected_failures}) and actual ({actual_failures})')
+  if had_unexpected_results:
+    raise ValueError(
+        "Manual builds of compiler-rt bits didn't go as planned; please see "
+        'logging output')
 
   libdir = find_clang_resource_dir(install_dir)
   link_command = [
