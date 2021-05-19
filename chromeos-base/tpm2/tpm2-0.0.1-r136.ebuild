@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6003a4d22289f86814155b867319e3611a8ebcbc"
-CROS_WORKON_TREE="da49a94e30d1fd858e25756a2a433377acb7d4af"
+CROS_WORKON_COMMIT="37335af9c5488ed349271a8ba9ff209c940a5e2c"
+CROS_WORKON_TREE="679fa8b14bd105ad9959a0f82eaa928d5b18890d"
 CROS_WORKON_PROJECT="chromiumos/third_party/tpm2"
 CROS_WORKON_LOCALNAME="third_party/tpm2"
 
@@ -14,13 +14,16 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/tpm2/"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="tpm2_simulator tpm2_simulator_manufacturer"
+IUSE="generic_tpm2 tpm2_simulator tpm2_simulator_manufacturer"
 
 DEPEND="dev-libs/openssl:0="
 
 src_compile() {
 	if use tpm2_simulator_manufacturer ; then
 		export TPM2_SIMULATOR_MANUFACTURER=1
+	fi
+	if use generic_tpm2 ; then
+		export TCG_EK_CERT_INDICES=1
 	fi
 	tc-export CC AR RANLIB
 	emake
