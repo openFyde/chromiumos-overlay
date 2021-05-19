@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Google3 face detection library."
 
-IUSE="march_goldmont march_armv8"
+IUSE="march_alderlake march_bdver4 march_corei7 march_goldmont march_silvermont march_skylake march_tremont march_znver1 march_armv8"
 
 SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-facessd-lib-${PV}.tar.bz2"
 
@@ -18,8 +18,22 @@ S="${WORKDIR}"
 src_install() {
 	# Specified architecture use flag check should be put before amd64, arm, and
 	# arm64.
-	if use march_goldmont; then
+	if use march_alderlake; then
+		dolib.so ./x86_64-alderlake/libfacessd_cros.so
+	elif use march_bdver4; then
+		dolib.so ./x86_64-bdver4/libfacessd_cros.so
+	elif use march_corei7; then
+		dolib.so ./x86_64-corei7/libfacessd_cros.so
+	elif use march_goldmont; then
 		dolib.so ./x86_64-goldmont/libfacessd_cros.so
+	elif use march_silvermont; then
+		dolib.so ./x86_64-silvermont/libfacessd_cros.so
+	elif use march_skylake; then
+		dolib.so ./x86_64-skylake/libfacessd_cros.so
+	elif use march_tremont; then
+		dolib.so ./x86_64-tremont/libfacessd_cros.so
+	elif use march_znver1; then
+		dolib.so ./x86_64-znver1/libfacessd_cros.so
 	elif use march_armv8; then
 		dolib.so ./armv7-armv8-a+crc/libfacessd_cros.so
 	elif use amd64; then
