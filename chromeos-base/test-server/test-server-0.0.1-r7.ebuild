@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d7537dba97961276742b0d67a984e5a5e47fca5d"
-CROS_WORKON_TREE=("48547f8b1976f6abfd87274a7eaa0da74cedab9e" "79b6c69ffbc4a36a4e7c898b1f8399c76f1af26c")
+CROS_WORKON_COMMIT="1c3bc92c80b93dcebff0f0212e8b302facf0d502"
+CROS_WORKON_TREE=("5bda4343569fa57f5e5a59ecf33300e4f8336d15" "287b690e38596cc858f1dbd566cbdecf4d1ceb39")
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="platform/dev"
 CROS_WORKON_SUBTREE="lib test"
@@ -27,12 +27,12 @@ CROS_GO_PACKAGES=(
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/testservice/cmd/testservice"
+	"chromiumos/execution/cmd/executionserver"
 )
 
 CROS_GO_TEST=(
 	"${CROS_GO_PACKAGES[@]}"
-	"chromiumos/testservice/cmd/testservice/..."
+	"chromiumos/execution/cmd/executionserver/..."
 )
 
 CROS_GO_VET=(
