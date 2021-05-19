@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3d4877e667c0e58648bbe6414474cd1d8fed8df1"
-CROS_WORKON_TREE="05befac9248c4abed08c584936dcb80ed33b98cd"
+CROS_WORKON_COMMIT="b15630d225145b9dc8603b8f500e68954c25fd3f"
+CROS_WORKON_TREE="b022b4fad12779893e12976c22efc90c2570403f"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,10 +22,13 @@ IUSE="cros_host manatee"
 DEPEND="
 	chromeos-base/libsirenia:=
 	dev-libs/openssl:0=
+	=dev-rust/base64-0.13*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
+	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2.0
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
+	=dev-rust/openssl-0.10*:=
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
