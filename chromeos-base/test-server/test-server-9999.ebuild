@@ -16,24 +16,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
-CROS_GO_WORKSPACE=(
-	"${S}/test"
-)
-
-CROS_GO_BINARIES=(
-	"chromiumos/execution/cmd/executionserver"
-)
-
-CROS_GO_TEST=(
-	"chromiumos/execution/cmd/executionserver/..."
-)
-
-CROS_GO_VET=(
-	"${CROS_GO_TEST[@]}"
-)
-
 DEPEND="
-	chromeos-base/tast-cmd:=
-	dev-util/lro-server
+	dev-util/test-exec-server
 "
 RDEPEND="${DEPEND}"
