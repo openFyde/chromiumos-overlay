@@ -83,6 +83,7 @@ IUSE="
 	+system_locales
 	system_proxy
 	systemd
+	ti50_onboard
 	touchview
 	+tpm
 	-tpm2
@@ -264,6 +265,10 @@ RDEPEND="
 	virtual/service-manager
 	cr50_onboard? (
 		chromeos-base/chromeos-cr50
+		chromeos-base/u2fd
+	)
+	ti50_onboard? (
+		chromeos-base/chromeos-ti50
 		chromeos-base/u2fd
 	)
 	ime? (

@@ -18,7 +18,16 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trunks
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="cr50_onboard fuzzer ftdi_tpm generic_tpm2 test tpm2_simulator vtpm_proxy"
+IUSE="
+	cr50_onboard
+	fuzzer
+	ftdi_tpm
+	generic_tpm2
+	test
+	ti50_onboard
+	tpm2_simulator
+	vtpm_proxy
+"
 
 # This depends on protobuf because it uses protoc and needs to be rebuilt
 # whenever the protobuf library is updated since generated source files may be
@@ -41,6 +50,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	!app-crypt/tpm-tools
 	chromeos-base/libhwsec
 	"
@@ -57,7 +67,7 @@ src_install() {
 	insinto /etc/init
 	if use tpm2_simulator && ! use vtpm_proxy; then
 		newins trunksd.conf.tpm2_simulator trunksd.conf
-	elif use cr50_onboard; then
+	elif use cr50_onboard || use ti50_onboard; then
 		newins trunksd.conf.cr50 trunksd.conf
 	else
 		doins trunksd.conf

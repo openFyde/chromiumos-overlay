@@ -19,10 +19,11 @@ HOMEPAGE=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cr50_onboard"
+IUSE="cr50_onboard ti50_onboard"
 
 RDEPEND="
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 "
 
 DEPEND="
