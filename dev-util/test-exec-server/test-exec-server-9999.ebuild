@@ -4,27 +4,27 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="test"
+CROS_WORKON_SUBTREE="src/chromiumos/test/execution"
 
 inherit cros-go cros-workon
 
 DESCRIPTION="Test execution server for running tests and capturing results"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/test/src/chromiumos/lro"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/execution"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
 CROS_GO_WORKSPACE=(
-	"${S}/test"
+	"${S}"
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/execution/cmd/executionserver"
+	"chromiumos/test/execution/cmd/testexecserver"
 )
 
 CROS_GO_TEST=(
-	"chromiumos/execution/cmd/executionserver/..."
+	"chromiumos/test/execution/cmd/testexecserver/..."
 )
 
 CROS_GO_VET=(

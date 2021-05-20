@@ -4,19 +4,19 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="lib"
+CROS_WORKON_SUBTREE="src/chromiumos/lro"
 
 inherit cros-go cros-workon
 
 DESCRIPTION="Common golang library to support google.longrunning.operations server impls"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/lib/src/chromiumos/lro"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/lro"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
 CROS_GO_WORKSPACE=(
-	"${S}/lib"
+	"${S}"
 )
 
 CROS_GO_PACKAGES=(
