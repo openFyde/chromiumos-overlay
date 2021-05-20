@@ -6,7 +6,7 @@
 
 Follow these steps to upgrade the rust ebuild.
 
-```
+```shell
 DEL_VERSION=1.33.0 # Previous version (to be deleted)
 OLD_VERSION=1.34.0 # Current version
 NEW_VERSION=1.35.0 # New version
@@ -31,9 +31,9 @@ curl -f "https://static.rust-lang.org/dist/${src_tarfile_name}.asc" -o "${sig_fi
 gpg --verify "${sig_file}" "${rust_src}"
 
 # ^^ If the above fails with:
-# ```
+#
 # gpg: Can't check signature: No public key
-# ```
+#
 # then you need to import the rustc key:
 # curl https://keybase.io/rust/pgp_keys.asc | gpg --import
 #
@@ -90,8 +90,8 @@ git add ../../virtual/rust/rust-${NEW_VERSION}.ebuild
 git rm ../../virtual/rust/rust-${DEL_VERSION}.ebuild
 ```
 
-- Update this document with additional tips or any steps that have changed.
-- Upload change for review. CC reviewers from previous upgrade.
-- Remember to add `Cq-Include-Trybots: chromeos/cq:cq-llvm-orchestrator` to your commit message
-
-- Kick off try-job: `cros tryjob -g <cl number> chromiumos-sdk-tryjob`.
+-   Update this document with additional tips or any steps that have changed.
+-   Upload change for review. CC reviewers from previous upgrade.
+-   Remember to add `Cq-Include-Trybots: chromeos/cq:cq-llvm-orchestrator` to
+    your commit message.
+-   Kick off try-job: `cros tryjob -g <cl number> chromiumos-sdk-tryjob`.
