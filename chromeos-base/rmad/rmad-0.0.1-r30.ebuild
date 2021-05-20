@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="394834c32c50e0bbdee92650d86ba479f1c50b37"
+CROS_WORKON_COMMIT="bb6a8d2d39a1fa674bf797ca1475c81030cc322f"
 CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "278e357ca8edd09f74f99450cefb7e47e15e71ff" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,10 +21,11 @@ HOMEPAGE=""
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cr50_onboard"
+IUSE="cr50_onboard ti50_onboard"
 
 RDEPEND="
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 "
 
 DEPEND="

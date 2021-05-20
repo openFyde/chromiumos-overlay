@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d4c6e0a9f7617bc5ee03ed9df2186a40023584dc"
+CROS_WORKON_COMMIT="bb6a8d2d39a1fa674bf797ca1475c81030cc322f"
 CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "c200c725a537163b64b27b630cb1b67320f627a6" "6413b746c5d283ed1c9951f5e153dbf8949047ee" "d752e2e5fdda210b34e5eebb56a82578453ba174" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,7 +20,16 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trunks
 
 LICENSE="Apache-2.0"
 KEYWORDS="*"
-IUSE="cr50_onboard fuzzer ftdi_tpm generic_tpm2 test tpm2_simulator vtpm_proxy"
+IUSE="
+	cr50_onboard
+	fuzzer
+	ftdi_tpm
+	generic_tpm2
+	test
+	ti50_onboard
+	tpm2_simulator
+	vtpm_proxy
+"
 
 # This depends on protobuf because it uses protoc and needs to be rebuilt
 # whenever the protobuf library is updated since generated source files may be
@@ -43,6 +52,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	!app-crypt/tpm-tools
 	chromeos-base/libhwsec
 	"
@@ -59,7 +69,7 @@ src_install() {
 	insinto /etc/init
 	if use tpm2_simulator && ! use vtpm_proxy; then
 		newins trunksd.conf.tpm2_simulator trunksd.conf
-	elif use cr50_onboard; then
+	elif use cr50_onboard || use ti50_onboard; then
 		newins trunksd.conf.cr50 trunksd.conf
 	else
 		doins trunksd.conf
