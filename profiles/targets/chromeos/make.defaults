@@ -100,6 +100,9 @@ USE="${USE} lacros_rootfs"
 # Enable dns-proxy daemon.
 USE="${USE} dns-proxy"
 
+# Enable iioservice to gather sensor information.
+USE="${USE} iioservice"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 

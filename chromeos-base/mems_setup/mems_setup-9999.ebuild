@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Remove libmems from this list.
-CROS_WORKON_SUBTREE="common-mk iioservice mems_setup libmems .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config iioservice mems_setup libmems .gn"
 
 PLATFORM_SUBDIR="mems_setup"
 
@@ -19,11 +19,16 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_s
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="iioservice"
+IUSE="generated_cros_config iioservice unibuild"
 
 COMMON_DEPEND="
 	chromeos-base/libmems:=
-	net-libs/libiio:="
+	net-libs/libiio:=
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
+"
 
 RDEPEND="${COMMON_DEPEND}"
 
