@@ -50,8 +50,12 @@ src_install() {
 
 	# TODO(crbug/766130): Remove the following sed block when non-root mount
 	# namespace is by default enabled.
-	use user_session_isolation || sed -i \
-	s/MNT_NS_ARGS=\".*\"/MNT_NS_ARGS=\"\"/ "${D}"/etc/init/image-burner.conf
+	# Remove the env var value related to mount namespace if USE flag
+	# user_session_isolation is not present.
+	if ! use user_session_isolation; then
+		sed -i -e "/env MNT_NS_ARGS=/s:=.*:=:" \
+			"${D}"/etc/init/image-burner.conf || die
+	fi
 }
 
 platform_pkg_test() {
