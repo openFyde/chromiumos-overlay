@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0c09d43cf1e27081c8333a32bad8b5359f6cc1ba"
+CROS_WORKON_COMMIT="7ea8605264786a1d77e3e0708757ff7bcdc1399b"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "9696a94a7fbf4f5e2b41c543f362ed1a22899468" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -33,6 +33,8 @@ src_configure() {
 }
 
 src_install() {
+	platform_src_install
+
 	local include_dir="/usr/include/android"
 
 	insinto "${include_dir}"
