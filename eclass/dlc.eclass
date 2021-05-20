@@ -23,7 +23,6 @@ case "${EAPI:-0}" in
 [012345]) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
-DEPEND="chromeos-base/update_engine"
 DLC_BUILD_DIR="build/rootfs/dlc"
 
 # @ECLASS-VARIABLE: DLC_PREALLOC_BLOCKS
