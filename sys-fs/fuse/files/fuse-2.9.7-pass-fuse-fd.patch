@@ -102,9 +102,9 @@ $ sudo umount /mnt/tmp
 +			fprintf(stderr,
 +				"fuse: Invalid file descriptor /dev/fd/%u\n",
 +				res);
-+			return NULL;
++			res = -1;
 +		}
-+		return res;
++		goto out;
 +	}
 +
  	if (mo.allow_other && mo.allow_root) {
