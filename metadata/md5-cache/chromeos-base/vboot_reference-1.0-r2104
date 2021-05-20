@@ -3,12 +3,12 @@ DEFINED_PHASES=compile configure info install setup test unpack
 DEPEND=dev-libs/libzip:= dev-libs/openssl:= sys-apps/util-linux:=
 DESCRIPTION=Chrome OS verified boot tools
 EAPI=7
-IUSE=cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm2 tpm2_simulator vtpm_proxy cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_578f81609a7ab3e95b31b90f15560d838d2a5141
+IUSE=cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm2 tpm2_simulator vtpm_proxy cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_11192e23da45b41982aecb45ea74f274f6d697a0
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-libs/libzip:= dev-libs/openssl:= sys-apps/util-linux:=
 REQUIRED_USE=?? ( tpm2 tpm )
-SLOT=0/1.0-r2103
+SLOT=0/1.0-r2104
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=5e97d4ec2b9bec9001ee3de2f83d353f
+_md5_=49e219b4806a4c1725b8c5a80d1fc40f
