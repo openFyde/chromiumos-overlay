@@ -9,7 +9,7 @@ CROS_WORKON_SUBTREE=".gn hps common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="hps/daemon"
+PLATFORM_SUBDIR="hps"
 
 inherit cros-workon platform user
 
@@ -38,8 +38,19 @@ src_install() {
 
 	# Install upstart configuration.
 	insinto /etc/init
-	doins init/*.conf
+	doins daemon/init/*.conf
 
 	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Hps.conf
+	doins daemon/dbus/org.chromium.Hps.conf
+}
+
+platform_pkg_test() {
+	local tests=(
+		dev_test
+	)
+
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test run "${OUT}/${test_bin}"
+	done
 }

@@ -12,7 +12,7 @@ PLATFORM_SUBDIR="hps"
 
 inherit cros-workon platform
 
-DESCRIPTION="HPS (Human Presence Sensor) utilities and tool"
+DESCRIPTION="HPS utilities and tool"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/main/hps"
 
 LICENSE="BSD-Google"
