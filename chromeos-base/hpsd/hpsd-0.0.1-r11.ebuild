@@ -3,15 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0f61c6031e6b902493637c108bf89f88575d07a8"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4b618f0ec081c6e0263eef9772039b8044d90391" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e")
+CROS_WORKON_COMMIT="5ae105fda0ef9a1e3dd7d8559de69b8618b89c1a"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "0213f090675d07688e0e86d3ceae8f1f20d83ace" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn hps common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="hps/daemon"
+PLATFORM_SUBDIR="hps"
 
 inherit cros-workon platform user
 
@@ -40,8 +40,19 @@ src_install() {
 
 	# Install upstart configuration.
 	insinto /etc/init
-	doins init/*.conf
+	doins daemon/init/*.conf
 
 	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Hps.conf
+	doins daemon/dbus/org.chromium.Hps.conf
+}
+
+platform_pkg_test() {
+	local tests=(
+		dev_test
+	)
+
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test run "${OUT}/${test_bin}"
+	done
 }
