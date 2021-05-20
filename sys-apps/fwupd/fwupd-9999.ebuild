@@ -17,7 +17,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+agent amt archive +bluetooth dell +gnutls gtk-doc +gusb elogind +minimal +gpg flashrom introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
+IUSE="+agent amt archive +bluetooth dell +dummy +gnutls gtk-doc +gusb elogind +minimal +gpg flashrom introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	^^ ( elogind minimal systemd )
 	dell? ( uefi )
@@ -110,6 +110,7 @@ src_configure() {
 		$(meson_use archive libarchive)
 		$(meson_use bluetooth bluez)
 		$(meson_use dell plugin_dell)
+		$(meson_use dummy plugin_dummy)
 		$(meson_use elogind)
 		$(meson_use flashrom plugin_flashrom)
 		$(meson_use gnutls)
