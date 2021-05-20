@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="aff404fa5bb1568d214e34f5e4c700fcd8e78663"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "e38639039ec20dcc5139cbf81761be1bd87ad0ae" "969b10c665492e4d10f253fd6af59f6e193198ca" "7b71d462e8c527dc1de9758b4901cc95d8717b7c" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "6413b746c5d283ed1c9951f5e153dbf8949047ee")
+CROS_WORKON_COMMIT="313bee944a91af9cf7f9d6d7f91ccfd66706c7b1"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "2e198008d922de93c6b978586cf7b72d314d20d6" "f6fe320e5ec83ddf03f5a93eaf36040b1d20cc80" "846aeef0d09cd785a80845954b24e9ce02aaa1d4" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "6413b746c5d283ed1c9951f5e153dbf8949047ee")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk metrics"
@@ -88,9 +88,10 @@ src_install() {
 	insinto /usr/include/cros-camera/
 	doins -r ../include/cros-camera/*
 	# TODO(crbug.com/1197394): Remove after the issue is resolved.
-	mojo_files=$(find "${OUT}"/gen/include/mojo -name '*.mojom.h')
-	einfo "${mojo_files}"
-	doins -r "${OUT}"/gen/include/mojo
+	camera_mojo_files=$(find "${OUT}"/gen/include/camera/mojo -name '*.mojom.h')
+	einfo "${camera_mojo_files}"
+	insinto /usr/include/cros-camera/mojo/camera
+	doins -r "${OUT}"/gen/include/camera/mojo
 
 	dolib.so "${OUT}"/lib/libcros_camera.so
 	dolib.a "${OUT}"/libcros_camera_mojom.a
