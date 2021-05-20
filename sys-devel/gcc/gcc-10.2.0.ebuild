@@ -36,7 +36,7 @@ BDEPEND="${CATEGORY}/binutils"
 
 RESTRICT="strip"
 
-IUSE="gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm-next llvm-tot mounted_gcc multilib
+IUSE="cet gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm-next llvm-tot mounted_gcc multilib
 	nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache"
 
 is_crosscompile() { [[ ${CHOST} != "${CTARGET}" ]] ; }
@@ -157,6 +157,12 @@ src_configure() {
 		# Enable frame pointer by default for all the boards.
 		# originally only enabled for i686 for chromium-os:23321.
 		--enable-frame-pointer
+
+		# Allow user to opt into CET. Ideally this should be auto-enabled
+		# based on binutils config via the default --enable-cet=auto but it
+		# does not alawys work and binutils has its own problems for which it
+		# added its own cet use flag, so also add it here to be safe and explicit.
+		$(use_enable cet)
 	)
 
 	if use vtable_verify; then
