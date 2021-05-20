@@ -45,7 +45,7 @@ else
 fi
 
 # Major version for Chrome.
-CHROME_BRANCH=92
+CHROME_BRANCH=93
 # Set CHROME values (Used for releases) to pass to chromeos-chrome-bin ebuild
 # URL to chrome archive
 CHROME_BASE=
