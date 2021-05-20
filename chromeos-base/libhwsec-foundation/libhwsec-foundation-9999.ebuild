@@ -47,6 +47,12 @@ src_install() {
 	doins ./utility/conversions.h
 	doins ./utility/crypto.h
 
+	insinto /usr/include/libhwsec-foundation/error
+	doins ./error/error.h
+	doins ./error/caller_info.h
+	doins ./error/error_message.h
+	doins ./error/testing_helper.h
+
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
 }
 
