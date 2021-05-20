@@ -11,4 +11,4 @@ REQUIRED_USE=cheets? ( || ( arcpp arcvm ) arcpp? ( ^^ ( android-container-pi ) )
 SLOT=0
 SRC_URI=https://launchpad.net/ureadahead/trunk/0.100.0/+download/ureadahead-0.100.0.tar.gz
 _eclasses_=arc-build-constants	7fdd7eed9abc3f4a7cb7496a49dca63f
-_md5_=1185a7677a2b936b0e51a30671103efc
+_md5_=3b4dfb2ea3fb4d195df150373772e548
