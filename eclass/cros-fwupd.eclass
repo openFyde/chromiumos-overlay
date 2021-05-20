@@ -58,7 +58,7 @@ EOF
 	gzip ${PN}.metainfo.xml
 
 	cat << EOF > ${PN}.conf
-# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
@@ -75,19 +75,8 @@ EOF
 
 # @FUNCTION: cros-fwupd_src_unpack
 # @DESCRIPTION:
-# Unpack fwupd firmware files to provide license.
+# Unpack fwupd firmware files.
 cros-fwupd_src_unpack() {
-	local file
-
-	for file in ${A}; do
-		if [[ ${file} == *.cab ]]; then
-			einfo "Unpack firmware ${file}"
-			cabextract -F LICENSE.txt "${DISTDIR}"/"${file}" || die
-			mv LICENSE.txt license."${file}".txt || \
-				ewarn "Missing LICENSE.txt on ${file}"
-		fi
-	done
-
 	use remote && _generate_remote_conf
 }
 
