@@ -158,7 +158,7 @@ https://crbug.com/1000545
  }
  
 -TEST(PerfSerializerTest, SerializesAndDeserializesStatRoundEvents) {
-+TEST(PerfSerializerTest, DISABLEDSerializesAndDeserializesStatRoundEvents) {
++TEST(PerfSerializerTest, DISABLED_SerializesAndDeserializesStatRoundEvents) {
    std::stringstream input;
  
    // header
