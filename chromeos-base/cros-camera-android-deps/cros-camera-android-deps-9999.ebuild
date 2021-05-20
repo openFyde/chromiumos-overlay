@@ -31,6 +31,8 @@ src_configure() {
 }
 
 src_install() {
+	platform_src_install
+
 	local include_dir="/usr/include/android"
 
 	insinto "${include_dir}"
