@@ -6,9 +6,11 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="modem-utilities"
+CROS_WORKON_SUBTREE="common-mk modem-utilities .gn"
 
-inherit cros-workon
+PLATFORM_SUBDIR="modem-utilities"
+
+inherit cros-workon platform
 
 DESCRIPTION="Chromium OS modem utilities"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/modem-utilities/"
@@ -22,7 +24,11 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
-src_unpack() {
-	cros-workon_src_unpack
-	S+="/modem-utilities"
+src_install() {
+	dobin modem
+	dobin connectivity
+
+	exeinto /usr/lib
+	doexe modem-common.sh
+	doexe connectivity-common.sh
 }
