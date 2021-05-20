@@ -116,7 +116,7 @@ def _ListCommands():
 
   for cmd_name in sorted(_COMMANDS.keys()):
     func = eval(cmd_name)
-    arg_names = inspect.getargspec(func)[0]
+    arg_names = inspect.signature(func).parameters
     short_doc = func.__doc__.splitlines()[0]
 
     arg_string = ', '.join(arg_names)
@@ -136,7 +136,7 @@ def _CreateParser():
 
   for cmd_name, arg_types in sorted(_COMMANDS.items()):
     func = eval(cmd_name)
-    arg_names = inspect.getargspec(func)[0]
+    arg_names = inspect.signature(func).parameters
     short_doc = func.__doc__.splitlines()[0]
 
     # Get descriptions out assuming single-line descs.
