@@ -4,11 +4,11 @@ DEPEND=dev-libs/expat:= >=x11-libs/libdrm-2.4.94:=
 DESCRIPTION=The Mesa 3D Graphics Library
 EAPI=7
 HOMEPAGE=http://mesa3d.org/
-IUSE=debug vulkan tools cros_host cros_workon_tree_839526bcafc78659db796d1fa28b90526ddd18b3
+IUSE=debug vulkan tools cros_host cros_workon_tree_2218ebefc86febe226ba5a96edd5feb36178f8ff
 KEYWORDS=*
 LICENSE=MIT SGI-B-2.0
 PROPERTIES=live
 RDEPEND=dev-libs/expat:= >=x11-libs/libdrm-2.4.94:=
-SLOT=0/21.1.0_rc1-r23
+SLOT=0/21.1.1-r24
 _eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	meson	b5ee7a05833ab91225acf30ffdeed006	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=d36908910f21d7df2e563f6fec43aa62
+_md5_=72dbbe5b3abd8f16e76aad30f4f62b48
