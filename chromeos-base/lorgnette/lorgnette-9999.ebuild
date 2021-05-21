@@ -22,13 +22,13 @@ IUSE="test"
 COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/libpng:=
+	media-gfx/sane-airscan:=
 	media-gfx/sane-backends:=
 	virtual/libusb:1
 "
 
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/minijail
-	media-gfx/sane-airscan
 	test? (
 		chromeos-base/sane-backends-test
 		media-gfx/perceptualdiff:=

@@ -36,6 +36,7 @@ FUZZERS=(
 
 PATCHES=(
 	"${FILESDIR}/${PN}-0.9.20-noasan.patch"
+	"${FILESDIR}/${PN}-0.9.26-add_justify.patch"
 )
 
 src_configure() {
@@ -76,4 +77,9 @@ src_install() {
 		fuzzer_install "${FILESDIR}/fuzzers.owners" \
 			"${BUILD_DIR}/${compat_name}"
 	done
+
+	# Include sane-airscan/airscan.h in header
+	mkdir "${BUILD_DIR}/sane-airscan"
+	cp "${S}/airscan.h" "${BUILD_DIR}/sane-airscan"
+	doheader -r "${BUILD_DIR}/sane-airscan"
 }
