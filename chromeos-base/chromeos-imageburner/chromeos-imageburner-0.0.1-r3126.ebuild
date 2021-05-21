@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="491b154be4416d37c42f4864e616256d23833990"
+CROS_WORKON_COMMIT="76c6424d8968313de1012a827a0fbe6bd9de4b30"
 CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "f965989d62fde6c887c7dee263392cb1dfa4cf65" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,8 +24,6 @@ KEYWORDS="*"
 IUSE="user_session_isolation"
 
 RDEPEND="
-	dev-libs/dbus-glib
-	dev-libs/glib
 	sys-apps/rootdev
 "
 DEPEND="${RDEPEND}
