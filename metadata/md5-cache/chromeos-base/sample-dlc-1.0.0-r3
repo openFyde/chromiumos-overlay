@@ -1,5 +1,4 @@
 DEFINED_PHASES=install unpack
-DEPEND=chromeos-base/update_engine
 DESCRIPTION=A sample DLC
 EAPI=6
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/dlcservice
@@ -8,5 +7,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 REQUIRED_USE=dlc dlc_test
 SLOT=0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	c539aa2d32aaba22acfb2eb623710a96
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	9613993e5dd9b708268d96bfd6f9b574
 _md5_=b4d090714372ee2e10aa8fc08768b217
