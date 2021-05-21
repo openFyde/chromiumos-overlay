@@ -3,10 +3,10 @@
 
 EAPI=7
 
+CROS_WORKON_COMMIT="2453b1fc097f3a995be8bcc0a2ada1fba616f287"
+CROS_WORKON_TREE="5d7a4ada8dd246f22883e11dd0ad0c42af38dbad"
 inherit cros-constants
 
-CROS_WORKON_COMMIT="6dc224fbd5f68e149877d2594523df8751332ac8"
-CROS_WORKON_TREE="832aaffc3276b8ebfc0960c3d4bc4138ad8a6490"
 CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME="aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
@@ -21,7 +21,7 @@ CROS_COMMON_MK_NATIVE_TEST="yes"
 DISTUTILS_OPTIONAL=1
 DISTUTILS_SINGLE_IMPL=1
 
-inherit cros-debug cros-sanitizers cros-workon cros-common.mk toolchain-funcs multilib distutils-r1
+inherit cros-debug cros-sanitizers cros-workon cros-common.mk toolchain-funcs distutils-r1
 
 DESCRIPTION="helper binary and library for sandboxing & restricting privs of services"
 HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
