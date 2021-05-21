@@ -14,6 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
+	!chromeos-base/iioservice
 	chromeos-base/mems_setup
 	virtual/chromeos-ec-driver-init
 	virtual/modutils

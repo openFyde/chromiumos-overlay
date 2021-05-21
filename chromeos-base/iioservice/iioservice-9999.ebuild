@@ -21,6 +21,7 @@ KEYWORDS="~*"
 IUSE="+seccomp"
 
 RDEPEND="
+	!chromeos-base/chromeos-accelerometer-init
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/libmems:=
 	chromeos-base/mems_setup
