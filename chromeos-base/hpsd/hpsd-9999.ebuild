@@ -47,6 +47,7 @@ src_install() {
 platform_pkg_test() {
 	local tests=(
 		dev_test
+		hps_test
 	)
 
 	local test_bin
