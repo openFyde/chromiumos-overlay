@@ -4,6 +4,7 @@
 
 creat: 1
 dup: 1
+dup2: 1
 epoll_wait: 1
 epoll_ctl: 1
 epoll_create1: 1
@@ -30,6 +31,7 @@ pipe2: 1
 getegid: 1
 getpriority: 1
 chdir: 1
+fchdir: 1
 kill: 1
 wait4: 1
 getdents64: 1
@@ -39,7 +41,7 @@ sched_getparam: 1
 sched_yield: 1
 getrandom: 1
 tgkill: 1
-prctl: arg0 == PR_SET_SECCOMP || arg0 == PR_SET_NO_NEW_PRIVS || arg0 == PR_SET_NAME
+prctl: arg0 == PR_SET_SECCOMP || arg0 == PR_SET_NO_NEW_PRIVS || arg0 == PR_SET_NAME || arg0 == PR_SET_MM_ARG_START
 setitimer: 1
 getitimer: 1
 recvmsg: 1
@@ -79,9 +81,12 @@ close: 1
 # || arg1 == _IOC(_IOC_WRITE, 0xdc, 0x01, 0x10)
 # || arg1 == _IOC(_IOC_WRITE, 0xdc, 0x08, 0x20)
 # || arg1 == _IOC(_IOC_WRITE, 0xdc, 0x09, 0x20)
-ioctl: arg1 == 0x40045612 || arg1 == 0x40045613 || arg1 == 0x80685600 || arg1 == 0xc0445624 || arg1 == 0xc02c5625 || arg1 == 0xc008561b || arg1 == 0xc008561c || arg1 == 0xc0145608 || arg1 == 0xc058560f || arg1 == 0xc0d05605 || arg1 == 0xc0585609 || arg1 == 0xc0585611 || arg1 == 0xc0cc5616 || arg1 == 0xC0405602 || arg1 == 0xC02C564A || arg1 == 0x80045500 || arg1 == 0x80045530 || arg1 == 0xC1205531 || arg1 == 0x81785501 || arg1 == 0x40045532 || arg1 == 0x81204101 || arg1 == 0x80044100 || arg1 == 0x40044103 || arg1 == 0xC2604110 || arg1 == 0xC2604111 || arg1 == 0xC0884113 || arg1 == 0x80184132 || arg1 == 0x4140 || arg1 == 0x4143 || arg1 == 0x4112 || arg1 == 0x4142 || arg1 == 0x4122 || arg1 == 0x80084121 || arg1 == 0xc020dc0b || arg1 == 0x40107f00 || arg1 == 0x4010dc01 || arg1 == 0x4020dc07 || arg1 == 0x4020dc08 || arg1 == 0x4020dc09
+# || arg1 == 0x5401 || arg1 == 0x40047f01 || arg1 == 0x4028dc0c
+ioctl: arg1 == 0x40045612 || arg1 == 0x40045613 || arg1 == 0x80685600 || arg1 == 0xc0445624 || arg1 == 0xc02c5625 || arg1 == 0xc008561b || arg1 == 0xc008561c || arg1 == 0xc0145608 || arg1 == 0xc058560f || arg1 == 0xc0d05605 || arg1 == 0xc0585609 || arg1 == 0xc0585611 || arg1 == 0xc0cc5616 || arg1 == 0xC0405602 || arg1 == 0xC02C564A || arg1 == 0x80045500 || arg1 == 0x80045530 || arg1 == 0xC1205531 || arg1 == 0x81785501 || arg1 == 0x40045532 || arg1 == 0x81204101 || arg1 == 0x80044100 || arg1 == 0x40044103 || arg1 == 0xC2604110 || arg1 == 0xC2604111 || arg1 == 0xC0884113 || arg1 == 0x80184132 || arg1 == 0x4140 || arg1 == 0x4143 || arg1 == 0x4112 || arg1 == 0x4142 || arg1 == 0x4122 || arg1 == 0x80084121 || arg1 == 0xc020dc0b || arg1 == 0x40107f00 || arg1 == 0x4010dc01 || arg1 == 0x4020dc07 || arg1 == 0x4020dc08 || arg1 == 0x4020dc09 || arg1 == 0x5401 || arg1 == 0x40047f01 || arg1 == 0x4028dc0c
 open: 1
 fstat: 1
+fstatfs: 1
+newfstatat: 1
 getcpu: 1
 fcntl: 1
 uname: 1
@@ -107,6 +112,7 @@ getrlimit: 1
 getuid: 1
 bind: 1
 readlink: 1
+readlinkat: 1
 connect: 1
 getsockname: 1
 getdents: 1
@@ -134,3 +140,5 @@ getresuid: 1
 set_tid_address: 1
 getpid: 1
 prlimit64: 1
+sysinfo: 1
+timerfd_create: 1
