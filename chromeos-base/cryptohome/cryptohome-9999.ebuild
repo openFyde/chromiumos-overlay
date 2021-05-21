@@ -59,6 +59,7 @@ COMMON_DEPEND="
 	chromeos-base/secure-erase-file:=
 	chromeos-base/tpm_manager:=
 	dev-libs/dbus-glib:=
+	dev-libs/flatbuffers:=
 	dev-libs/glib:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
