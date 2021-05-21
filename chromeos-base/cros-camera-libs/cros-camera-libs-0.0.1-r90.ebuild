@@ -3,11 +3,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d988ac8923c1ec464195d9bc447acacb011e6eda"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "584eb0e71fc5ba54ae28dc4c7d9043938165c313" "f6fe320e5ec83ddf03f5a93eaf36040b1d20cc80" "846aeef0d09cd785a80845954b24e9ce02aaa1d4" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "ac3c728704742d0682457391f0cf3d83a6d77c2f")
+CROS_WORKON_COMMIT="1ccf75685ea875bd1587be6e136f43be3e7d8758"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c920da127f686c434165b6056b1cd740f228df6b" "18e55474747f442ba45e2c375e18606c52c219ef" "f6fe320e5ec83ddf03f5a93eaf36040b1d20cc80" "6cdd3e4e16d9890ff8b5fe897e4cf5a94620c315" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "0c32b7c859889403e93cba02daed08c9537ba10f" "8a5d33979adbd728a12284355c6e7c03e32479fb" "ac3c728704742d0682457391f0cf3d83a6d77c2f")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk metrics"
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk iioservice/libiioservice_ipc iioservice/mojo metrics"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -92,6 +92,9 @@ src_install() {
 	einfo "${camera_mojo_files}"
 	insinto /usr/include/cros-camera/mojo/camera
 	doins -r "${OUT}"/gen/include/camera/mojo
+
+	insinto /usr/include/cros-camera/mojo/iioservice
+	doins -r "${OUT}"/gen/include/iioservice/mojo
 
 	dolib.so "${OUT}"/lib/libcros_camera.so
 	dolib.a "${OUT}"/libcros_camera_mojom.a
