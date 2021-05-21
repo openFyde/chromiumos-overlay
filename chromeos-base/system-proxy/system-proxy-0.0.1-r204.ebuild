@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bd75b32a1035d7961813c03458871f40da44f68c"
+CROS_WORKON_COMMIT="491b154be4416d37c42f4864e616256d23833990"
 CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "eae0546f4ee5132d4544af4770755eb05f60cba6" "86e72736ebd750048f5c1bbf0a4da68f335ae774" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,7 +30,6 @@ COMMON_DEPEND="
 	chromeos-base/patchpanel:=
 	chromeos-base/patchpanel-client:=
 	dev-libs/protobuf:=
-	dev-libs/dbus-glib:=
 	sys-apps/dbus:=
 	net-misc/curl:=
 "
