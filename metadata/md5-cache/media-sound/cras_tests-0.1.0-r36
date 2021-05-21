@@ -4,12 +4,12 @@ DEPEND=dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.8*:= >=dev-rust/getopt
 DESCRIPTION=Rust version cras test client
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/cras/client/cras_tests
-IUSE=test cros_host cros_workon_tree_5d9800ca5322e6c2b963af9da3b457832c08b33e_e42cdd4b6dc8e69d03bd5d1fc00bf8ec62cd192f cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=test cros_host cros_workon_tree_5d9800ca5322e6c2b963af9da3b457832c08b33e_0f0e1df80f3d5a33d8b0e2926150b4a43c72cae3 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=!<=media-sound/cras_tests-0.1.0-r12
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r35
+SLOT=0/0.1.0-r36
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	fa6d2d0701d1d7e6a39b8524664b4c68	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=c6a1ab7caef5feb117c8b048e13c8919
+_md5_=f06d40fef26f640538e715ee2fb4fee2
