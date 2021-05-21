@@ -27,7 +27,7 @@ CONFIG_ME_BIN_PATH="3rdparty/blobs/baseboard-volteer/csme-volteer2.bin"
 # Management Engine FW update
 CONFIG_SOC_INTEL_CSE_RW_UPDATE=y
 CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/baseboard-volteer/me_rw-volteer2.bin"
-CONFIG_SOC_INTEL_CSE_RW_VERSION="15.0.10.1531"
+CONFIG_SOC_INTEL_CSE_RW_VERSION="15.0.23.1777"
 
 # Microcode
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/baseboard-volteer/ucode.bin"
