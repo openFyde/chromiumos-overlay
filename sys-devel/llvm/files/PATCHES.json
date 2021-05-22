@@ -801,5 +801,11 @@
         "rel_patch_path": "cherry/d7ec48d71bd67118e7996c45e9c7fb1b09d4f59a.patch",
         "start_version": 422132,
         "end_version": 426368
+    },
+    {
+        "comment": "[ARM][AArch64] SLSHardening: make non-comdat thunks possible",
+        "rel_patch_path": "cherry/801ab71032e157eb7bcd38efeb6486742a7c53bb.patch",
+        "start_version": 422132,
+        "end_version": 427980
     }
 ]
