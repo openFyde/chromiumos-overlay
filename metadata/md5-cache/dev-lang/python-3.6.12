@@ -14,4 +14,4 @@ RESTRICT=!test? ( test )
 SLOT=3.6/3.6m
 SRC_URI=https://www.python.org/ftp/python/3.6.12/Python-3.6.12.tar.xz https://dev.gentoo.org/~mgorny/dist/python/python-gentoo-patches-3.6.12-r1.tar.xz pgo_use? ( gs://chromeos-localmirror/distfiles/python-3.6-profile.tar.xz )
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	pax-utils	3551398d6ede2b572568832730cc2a45	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=df32ced99f3797f6fccd605b77762b4f
+_md5_=325530db3a1f7714dc036e50c1b72baf
