@@ -4,13 +4,13 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="platform/dev"
-CROS_WORKON_SUBTREE="lib test"
+CROS_WORKON_SUBTREE="src"
 
 inherit cros-workon
 
 # TODO(shapiroc): Rename package to test-services
 DESCRIPTION="Collection of test services installed into the cros_sdk env"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/test"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
