@@ -24,6 +24,7 @@ COMMON_DEPEND="
 	media-libs/libpng:=
 	media-gfx/sane-airscan:=
 	media-gfx/sane-backends:=
+	virtual/jpeg:0=
 	virtual/libusb:1
 "
 
