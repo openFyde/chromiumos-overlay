@@ -8,7 +8,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="common-mk hps .gn"
 
-PLATFORM_SUBDIR="hps"
+PLATFORM_SUBDIR="hps/util"
 
 inherit cros-workon platform
 
