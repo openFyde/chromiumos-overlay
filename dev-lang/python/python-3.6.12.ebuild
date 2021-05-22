@@ -96,6 +96,7 @@ src_prepare() {
 	eapply "${FILESDIR}/python-3.6.5-ldshared.patch"
 	eapply "${FILESDIR}/python-3.6.5-system-libffi.patch"
 	eapply "${FILESDIR}/python-3.6.5-sigint-handler.patch"
+	eapply "${FILESDIR}/python-3.6-mock.patch"
 
 	if use pgo_use; then
 		eapply "${FILESDIR}/python-3.6.12-pgo-use.patch"

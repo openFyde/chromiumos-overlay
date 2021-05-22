@@ -1,0 +1,13 @@
+Backport fix from Python-3.7.
+
+https://gerrit.chromium.org/gerrit/45771
+
+--- a/Lib/unittest/mock.py
++++ b/Lib/unittest/mock.py
+@@ -130,4 +138,6 @@ def _callable(obj):
+     if isinstance(obj, type):
+         return True
++    if isinstance(obj, (staticmethod, classmethod, MethodType)):
++        return _callable(obj.__func__)
+     if getattr(obj, '__call__', None) is not None:
+         return True
