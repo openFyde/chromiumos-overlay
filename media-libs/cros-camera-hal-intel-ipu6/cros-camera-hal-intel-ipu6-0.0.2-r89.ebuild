@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("f6e2e41af0c6fd019bd82fee74de9c2808cf6eb4" "b18069550889c229a5d16f4f42b4592a0269bbc2")
+CROS_WORKON_COMMIT=("f5c5df76ce59f6004779c6d04a1515f67fa4b1e7" "b87563fad6a6c8c3588526bcdd71087e18d635dd")
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "b6892766819b69353bb8ec383b37fa7deb34f4b1")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/camera")
 CROS_WORKON_LOCALNAME=("../platform2" "../platform/camera")
@@ -44,6 +44,8 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
+
 	dolib.so "${OUT}/lib/libcamhal.so"
 	cros-camera_dohal "${OUT}/lib/libcamhal.so" intel-ipu6.so
 	dolib.so "${OUT}/lib/libcam_algo.so"
