@@ -29,7 +29,7 @@ src_unpack() {
 }
 
 src_compile() {
-	./regions.py --format=json --output "${WORKDIR}/cros-regions.json" "$(usex cros-debug "--include_pseudolocales" "")"
+	./regions.py --format=json --output "${WORKDIR}/cros-regions.json" $(usex cros-debug "--include_pseudolocales" "")
 }
 
 src_test() {
