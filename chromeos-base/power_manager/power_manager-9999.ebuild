@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk buffet chromeos-config iioservice metrics power_m
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="power_manager"
 
-inherit cros-workon platform systemd udev user
+inherit tmpfiles cros-workon platform systemd udev user
 
 DESCRIPTION="Power Manager for Chromium OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
@@ -158,6 +158,8 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/shared/powerd-pre-start.sh
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	if use buffet; then
 		# Buffet command handler definition
