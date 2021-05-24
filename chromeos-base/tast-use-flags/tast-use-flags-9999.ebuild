@@ -117,6 +117,7 @@ IUSE="
 	snow
 	spring
 	+storage_wearout_detect
+	tablet_form_factor
 	touchview
 	tpm2
 	transparent_hugepage
