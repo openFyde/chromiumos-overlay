@@ -73,7 +73,6 @@ IUSE_TESTS=(
 	+tests_desktopui_UrlFetchWithChromeDriver
 	+tests_display_ClientChameleonConnection
 	+tests_display_DisplayContainEdid
-	+tests_dummy_IdleSuspend
 	+tests_enterprise_FakeEnrollment
 	+tests_enterprise_KioskEnrollment
 	+tests_enterprise_OnlineDemoModeEnrollment
@@ -178,6 +177,7 @@ IUSE_TESTS=(
 	+tests_power_WebGL
 	+tests_power_WifiIdle
 	+tests_security_BundledExtensions
+	+tests_stub_IdleSuspend
 	+tests_telemetry_AFDOGenerateClient
 	+tests_telemetry_Check
 	+tests_telemetry_UnitTests
