@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec secure_erase_file .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="cryptohome"
 
-inherit cros-workon platform systemd udev user
+inherit tmpfiles cros-workon platform systemd udev user
 
 DESCRIPTION="Encrypted home directories for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome/"
@@ -193,6 +193,8 @@ src_install() {
 	# Install seccomp policy for cryptohome-proxy
 	insinto /usr/share/policy
 	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
+
+	dotmpfiles tmpfiles.d/cryptohome.conf
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
