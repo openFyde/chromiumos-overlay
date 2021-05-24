@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="4"
-CROS_WORKON_COMMIT="0616f7857db46337bc0cb2f9da7cc80e7bcfcb9d"
-CROS_WORKON_TREE="74a3979e13d638716f62a41bd557c9fab2cb7412"
+CROS_WORKON_COMMIT="a1da785c038730d7d900415945688f6fb76175f4"
+CROS_WORKON_TREE="a0e0d6a8237cfff8d336dce79ae184b0dfd8204e"
 CROS_WORKON_PROJECT="chromiumos/third_party/marvell"
 CROS_WORKON_LOCALNAME="marvell"
 
