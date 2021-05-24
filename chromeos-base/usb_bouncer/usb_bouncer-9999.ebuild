@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk metrics usb_bouncer .gn"
 
 PLATFORM_SUBDIR="usb_bouncer"
 
-inherit cros-workon platform user cros-fuzzer cros-sanitizers
+inherit tmpfiles cros-workon platform user cros-fuzzer cros-sanitizers
 
 DESCRIPTION="Manage the usbguard whitelist"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/usb_bouncer/"
@@ -37,7 +37,9 @@ src_install() {
 	insinto /lib/udev/rules.d
 	doins "${S}/40-usb-bouncer.rules"
 
-	cd "${OUT}"
+	dotmpfiles tmpfiles.d/*.conf
+
+	cd "${OUT}" || die
 	dosbin usb_bouncer
 
 	insinto /etc/dbus-1/system.d
