@@ -1,0 +1,96 @@
+From 20aad66f2fbb535cb51536ca387149f53ffa99fd Mon Sep 17 00:00:00 2001
+From: Dumpeti Sathish Kumar <sdumpeti@codeaurora.org>
+Date: Mon, 19 Apr 2021 15:37:44 +0530
+Subject: [PATCH 3/4] ODL packet formatting support in diag-router
+
+---
+ router/dm.c | 44 +++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 39 insertions(+), 5 deletions(-)
+
+diff --git a/router/dm.c b/router/dm.c
+index b669bef..b9585ba 100644
+--- a/router/dm.c
++++ b/router/dm.c
+@@ -35,6 +35,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <unistd.h>
++#include <error.h>
+ 
+ #include "diag.h"
+ #include "dm.h"
+@@ -128,6 +129,10 @@ static int dm_recv_raw(struct diag_client *dm)
+ 	int saved_errno;
+ 	unsigned char buf[4096];
+ 	ssize_t n;
++	struct hdlc_decoder recv_decoder;
++	struct circ_buf recv_buf;
++	size_t msglen;
++	void *msg;
+ 
+ 	for (;;) {
+ 		n = read(dm->in_fd, buf, sizeof(buf));
+@@ -141,10 +146,13 @@ static int dm_recv_raw(struct diag_client *dm)
+ 			warn("Failed to read from %s\n", dm->name);
+ 			return saved_errno;
+ 		}
+-
+-		diag_client_handle_command(dm, buf, n);
++		memset(&recv_decoder, 0, sizeof(recv_decoder));
++		memcpy(recv_buf.buf, buf+4, n-4);
++		recv_buf.tail = 0;
++		recv_buf.head = n-4;
++		msg = hdlc_decode_one(&recv_decoder, &recv_buf, &msglen);
++		diag_client_handle_command(dm, msg, msglen);
+ 	}
+-
+ 	return 0;
+ }
+ 
+@@ -194,15 +202,41 @@ ssize_t dm_send(struct diag_client *dm, const void *ptr, size_t len)
+  * @len:	length of message
+  * @flow:	flow control context for the peripheral
+  */
+-void dm_broadcast(const void *ptr, size_t len, struct watch_flow *flow)
++void dm_broadcast(const void *buf, size_t len, struct watch_flow *flow)
+ {
+ 	struct diag_client *dm;
+ 	struct list_head *item;
++	size_t outlen;
++	void *outbuf;
++	int user_space_data_type = 32;
++	int remote_proc, data_len;
++	unsigned char *ptr;
++	int num_data_fields = 1, offset = 0;
++	
++	outbuf = hdlc_encode(buf, len, &outlen);
++	if (!outbuf) {
++		printf("failed to allocate hdlc destination buffer\n");
++		return;
++	}
++	
++	data_len = (outlen + sizeof(int)*3);
++	ptr = alloca(data_len);
++	if (!ptr) {
++		printf("diag: In %s failed to allocate memory\n", __func__);
++		return;
++	}
++	memcpy(ptr,&user_space_data_type, sizeof(user_space_data_type));
++	offset = offset + sizeof(user_space_data_type);
++	memcpy(ptr + offset, &num_data_fields, sizeof(num_data_fields));
++	offset = offset + sizeof(num_data_fields);
++	memcpy(ptr + offset, &outlen, sizeof(int));
++	offset = offset + sizeof(int);
++	memcpy(ptr + offset, outbuf, outlen);
+ 
+ 	list_for_each(item, &diag_clients) {
+ 		dm = container_of(item, struct diag_client, node);
+ 
+-		dm_send_flow(dm, ptr, len, flow);
++		dm_send_flow(dm, ptr, data_len, flow);
+ 	}
+ }
+ 
+-- 
+2.7.4
+

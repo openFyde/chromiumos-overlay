@@ -1,11 +1,11 @@
 # Copyright 2019 The Chromium OS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 DESCRIPTION="DIAG channel diagnostics communication tool"
 HOMEPAGE="https://github.com/andersson/diag"
-GIT_SHA1="bf8035f68b0748d1380977aafc4349331b74cbda"
+GIT_SHA1="d06e599d197790c9e84ac41a51bf124a69768c4f"
 SRC_URI="https://github.com/andersson/diag/archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
@@ -21,10 +21,19 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
+src_prepare() {
+	default
+	eapply "${FILESDIR}/0001-ODL-support-in-Makefile.patch"
+	eapply "${FILESDIR}/0001-ODL-support-on-Open-Source-Diag-Router.patch"
+	eapply "${FILESDIR}/0002-Increase-clinet-connection-count.patch"
+	eapply "${FILESDIR}/0003-ODL-packet-formatting-support-in-diag-router.patch"
+}
+
 src_compile() {
 	emake HAVE_LIBUDEV=1 HAVE_LIBQRTR=1
 }
 
 src_install() {
 	emake DESTDIR="${D}" prefix="${EPREFIX}/usr" install
+	insinto /usr/bin
 }

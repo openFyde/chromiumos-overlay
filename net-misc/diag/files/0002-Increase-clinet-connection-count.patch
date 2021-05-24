@@ -1,0 +1,25 @@
+From 5d3cffa5e71a607c5c970491e57f7251240c9ac6 Mon Sep 17 00:00:00 2001
+From: Dumpeti Sathish Kumar <sdumpeti@codeaurora.org>
+Date: Mon, 19 Apr 2021 15:37:24 +0530
+Subject: [PATCH 2/4] Increase clinet connection count
+
+---
+ router/unix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/router/unix.c b/router/unix.c
+index ead9fe0..5b3e41d 100644
+--- a/router/unix.c
++++ b/router/unix.c
+@@ -85,7 +85,7 @@ int diag_unix_open(void)
+ 		return -1;
+ 	}
+ 
+-	ret = listen(fd, 2);
++	ret = listen(fd, 50);
+ 	if (ret < 0) {
+ 		fprintf(stderr, "failed to listen on diag socket\n");
+ 		return -1;
+-- 
+2.7.4
+

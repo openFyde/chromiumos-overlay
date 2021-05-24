@@ -1,0 +1,52 @@
+From ea36269f6a983a03620b5e874fa79d0cb8502666 Mon Sep 17 00:00:00 2001
+From: Dumpeti Sathish Kumar <sdumpeti@codeaurora.org>
+Date: Mon, 19 Apr 2021 15:37:05 +0530
+Subject: [PATCH 1/4] ODL support in Makefile
+
+---
+ Makefile | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 3565102..dc22396 100644
+--- a/Makefile
++++ b/Makefile
+@@ -5,13 +5,14 @@ HAVE_LIBQRTR=1
+ 
+ DIAG := diag-router
+ SEND_DATA := send_data
++LOG_ON_DEVICE:= diag-log_on_device
+ 
+-all: $(DIAG) $(SEND_DATA)
++all: $(DIAG) $(SEND_DATA) $(LOG_ON_DEVICE)
+ 
+ CFLAGS ?= -Wall -g -O2
+ ifeq ($(HAVE_LIBUDEV),1)
+ CFLAGS += -DHAS_LIBUDEV=1
+-LDFLAGS += -ludev
++LDFLAGS += -ludev -lpthread
+ endif
+ ifeq ($(HAVE_LIBQRTR),1)
+ CFLAGS += -DHAS_LIBQRTR=1
+@@ -55,9 +56,16 @@ SEND_DATA_OBJS := $(SEND_DATA_SRCS:.c=.o)
+ $(SEND_DATA): $(SEND_DATA_OBJS)
+ 	$(CC) -o $@ $^ $(LDFLAGS)
+ 
+-install: $(DIAG) $(SEND_DATA)
++LOG_ON_DEVICE_SRCS  := tools/diag-log_on_device.c
++LOG_ON_DEVICE_OBJS  := $(LOG_ON_DEVICE_SRCS:.c=.o)
++
++$(LOG_ON_DEVICE): $(LOG_ON_DEVICE_OBJS)
++	$(CC) -o $@ $^ $(LDFLAGS)
++
++install: $(DIAG) $(SEND_DATA) $(LOG_ON_DEVICE)
+ 	install -D -m 755 $(DIAG) $(DESTDIR)$(prefix)/bin/$(DIAG)
+ 	install -D -m 755 $(SEND_DATA) $(DESTDIR)$(prefix)/bin/$(SEND_DATA)
++	install -D -m 755 $(LOG_ON_DEVICE) $(DESTDIR)$(prefix)/bin/$(LOG_ON_DEVICE)
+ 
+ clean:
+-	rm -f $(DIAG) $(OBJS) $(SEND_DATA) $(SEND_DATA_OBJS)
++	rm -f $(DIAG) $(OBJS) $(SEND_DATA) $(SEND_DATA_OBJS) $(LOG_ON_DEVICE) $(LOG_ON_DEVICE_OBJS)
+-- 
+2.7.4
+
