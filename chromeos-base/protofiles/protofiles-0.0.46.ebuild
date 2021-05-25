@@ -27,7 +27,7 @@ inherit cros-constants eutils git-r3 python-any-r1
 EGIT_REPO_URIS=(
 	"cloud/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"82664672208d8b23d034d6c0ee36f3116f7d63d4"
+	"a7c6ef05a492d12270d4090c1e7168f18a0adcdb"
 
 	# If you uprev these repos, please also:
 	# - Update files/VERSION to the corresponding revision of
