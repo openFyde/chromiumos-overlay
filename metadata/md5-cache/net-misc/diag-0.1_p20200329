@@ -1,11 +1,11 @@
-DEFINED_PHASES=compile install
+DEFINED_PHASES=compile install prepare
 DEPEND=net-libs/libqrtr:= virtual/udev:=
 DESCRIPTION=DIAG channel diagnostics communication tool
-EAPI=6
+EAPI=7
 HOMEPAGE=https://github.com/andersson/diag
 KEYWORDS=*
 LICENSE=BSD
 RDEPEND=net-libs/libqrtr:= virtual/udev:=
 SLOT=0
-SRC_URI=https://github.com/andersson/diag/archive/bf8035f68b0748d1380977aafc4349331b74cbda.tar.gz -> diag-0.1_p20190122.tar.gz
-_md5_=d0f24b9905f842435938a1ef304f395c
+SRC_URI=https://github.com/andersson/diag/archive/d06e599d197790c9e84ac41a51bf124a69768c4f.tar.gz -> diag-0.1_p20200329.tar.gz
+_md5_=89d971ca6bd2fe7996b58f5aed40e04e
