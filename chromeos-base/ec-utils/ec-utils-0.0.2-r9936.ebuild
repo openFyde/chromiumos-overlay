@@ -31,7 +31,7 @@ pkg_preinst() {
 }
 
 src_compile_cros_ec_utils() {
-	BOARD=host emake utils-host
+	BOARD=host emake utils-host CC="${CC}"
 }
 
 src_compile() {
