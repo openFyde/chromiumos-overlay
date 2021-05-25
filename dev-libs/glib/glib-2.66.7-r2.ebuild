@@ -72,6 +72,10 @@ MULTILIB_CHOST_TOOLS=(
 	/usr/bin/gio-querymodules$(get_exeext)
 )
 
+PATCHES=(
+	"${FILESDIR}/glib-2.66.7-CHROMIUM-gdbus-system-bus-address.patch"
+)
+
 pkg_setup() {
 	if use kernel_linux ; then
 		CONFIG_CHECK="~INOTIFY_USER"
