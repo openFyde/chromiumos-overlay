@@ -44,6 +44,7 @@ COMMON_DEPEND="
 	chromeos-base/cryptohome-client:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/patchpanel-client:=
+	dev-libs/libxml2:=
 	dev-libs/protobuf:=
 	sys-libs/libselinux:=
 	chromeos-base/minijail:=
