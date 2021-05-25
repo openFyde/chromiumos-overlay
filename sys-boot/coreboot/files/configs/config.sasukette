@@ -45,7 +45,7 @@ CONFIG_ME_BIN_PATH="3rdparty/blobs/baseboard-dedede/me-sasukette.bin"
 # CSE RW Update Feature
 CONFIG_SOC_INTEL_CSE_RW_UPDATE=y
 CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/baseboard-dedede/me_rw-waddledee.bin"
-CONFIG_SOC_INTEL_CSE_RW_VERSION="13.50.0.1269"
+CONFIG_SOC_INTEL_CSE_RW_VERSION="13.50.11.1304"
 
 # WiFi SAR
 CONFIG_WIFI_SAR_CBFS=y
