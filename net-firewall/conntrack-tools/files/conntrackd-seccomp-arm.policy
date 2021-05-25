@@ -50,6 +50,7 @@ fstat64: 1
 stat64: 1
 fcntl64: 1
 _newselect: 1
+pselect6: 1
 prctl: 1
 gettimeofday: 1
 _llseek: 1

@@ -50,4 +50,5 @@ fstat: 1
 stat: 1
 fcntl: 1
 select: 1
+pselect6: 1
 arch_prctl: 1
