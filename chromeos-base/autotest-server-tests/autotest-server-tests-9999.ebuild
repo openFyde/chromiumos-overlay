@@ -170,6 +170,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50WilcoEcrst
 	+tests_firmware_Cr50WilcoRmaFactoryMode
 	+tests_firmware_Cr50WPG3
+	+tests_firmware_CsmeFwUpdate
 	+tests_firmware_DevBootUSB
 	+tests_firmware_DevDefaultBoot
 	+tests_firmware_DevMode
@@ -194,6 +195,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECUsbPorts
 	+tests_firmware_ECWakeSource
 	+tests_firmware_ECWatchdog
+	+tests_firmware_EmmcWriteLoad
 	+tests_firmware_EventLog
 	+tests_firmware_FAFTPrepare
 	+tests_firmware_FAFTModeTransitions
