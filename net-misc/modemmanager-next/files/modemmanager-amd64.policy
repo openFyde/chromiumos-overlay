@@ -16,6 +16,8 @@ openat: 1
 getrandom: 1
 readlinkat: 1
 access: 1
+faccessat: 1
+faccessat2: 1
 mmap: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 recvmsg: 1
 fcntl: 1

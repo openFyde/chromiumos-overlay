@@ -19,6 +19,7 @@ openat: 1
 close: 1
 getdents64: 1
 faccessat: 1
+faccessat2: 1
 brk: 1
 munmap: 1
 fcntl: 1
