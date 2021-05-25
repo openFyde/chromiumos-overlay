@@ -41,3 +41,4 @@ ioctl: arg1 == SIOCGIFNAME
 # When we catch a SIGTERM, we kill children with SIGTERM too.
 kill: 1
 lseek: 1
+statfs: 1

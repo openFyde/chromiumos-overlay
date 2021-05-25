@@ -44,3 +44,4 @@ kill: 1
 sigreturn: 1
 lseek: 1
 _llseek: 1
+statfs: 1
