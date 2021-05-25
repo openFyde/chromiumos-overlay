@@ -285,6 +285,7 @@ SERVER_IUSE_TESTS="
 	+tests_platform_CorruptRootfs
 	+tests_platform_CrashStateful
 	+tests_platform_ExternalUsbPeripherals
+	+tests_platform_FetchCloudConfig
 	+tests_platform_FlashErasers
 	+tests_platform_Flashrom
 	+tests_platform_HWwatchdog
