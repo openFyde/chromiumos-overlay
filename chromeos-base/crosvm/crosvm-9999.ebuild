@@ -50,6 +50,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
+	dev-libs/wayland-protocols:=
 	=dev-rust/android_log-sys-0.2*:=
 	>=dev-rust/anyhow-1.0.32:= <dev-rust/anyhow-2.0
 	=dev-rust/async-task-4*:=
