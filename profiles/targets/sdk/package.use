@@ -195,7 +195,6 @@ dev-python/trollius python_targets_python2_7
 dev-python/unittest2 python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
-dev-python/virtualenv python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
 dev-util/hdctools python_targets_python2_7
 
