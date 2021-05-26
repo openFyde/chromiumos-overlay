@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5fa517307b1611a4c98822747a00c7d87c58d249"
+CROS_WORKON_COMMIT="9baa29c8f4330a316f37703d96fad9859bfa9c5f"
 CROS_WORKON_TREE=("17e0c199bc647ae6a33554fd9047fa23ff9bfd7e" "ac3c728704742d0682457391f0cf3d83a6d77c2f" "9f781de4e8944fdff5543abd6417266da247783c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 # The crosvm-wl-dmabuf and crosvm-virtio-video USE flags
 # are used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video"
+IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video vulkan"
 REQUIRED_USE="kvm_host"
 
 COMMON_DEPEND="
