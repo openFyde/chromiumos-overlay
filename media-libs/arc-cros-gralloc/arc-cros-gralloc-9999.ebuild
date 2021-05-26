@@ -16,7 +16,7 @@ KEYWORDS="~*"
 
 VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
 IUSE="kernel-3_18 $(printf 'video_cards_%s ' ${VIDEO_CARDS})"
-MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 )
+MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 mt8195 )
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
 
 RDEPEND="
@@ -58,6 +58,7 @@ src_configure() {
 	if use video_cards_mediatek; then
 		use minigbm_platform_mt8183 && append-cppflags -DMTK_MT8183
 		use minigbm_platform_mt8192 && append-cppflags -DMTK_MT8192
+		use minigbm_platform_mt8195 && append-cppflags -DMTK_MT8195
 		export DRV_MEDIATEK=1
 		append-cppflags -DDRV_MEDIATEK
 	fi
