@@ -197,7 +197,6 @@ dev-python/unittest2 python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
-dev-util/hdctools python_targets_python2_7
 
 # Needed by attrs which is needed by pytest.
 dev-python/zope-interface python_targets_python2_7

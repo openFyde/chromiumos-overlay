@@ -227,7 +227,6 @@ dev-python/trollius python_targets_python2_7
 dev-python/urllib3 python_targets_python2_7
 dev-python/versioneer python_targets_python2_7
 dev-python/zc-lockfile python_targets_python2_7
-dev-util/hdctools python_targets_python2_7
 
 # These packages only support Python 2.7.  They aren't needed in Python 3.6+.
 # TODO(crbug.com/1007152): Trim this entirely!
