@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e5c22d879706aa12f44a1b8c5de20e08c4d66adc"
+CROS_WORKON_COMMIT="5e23d6c6c4da55d68ac78000f62824826d8de63d"
 CROS_WORKON_TREE="1dcc0a04496edb24287a6e3bb5411bcffbf8e9f5"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,7 +31,7 @@ src_unpack() {
 }
 
 src_compile() {
-	./regions.py --format=json --output "${WORKDIR}/cros-regions.json" "$(usex cros-debug "--include_pseudolocales" "")"
+	./regions.py --format=json --output "${WORKDIR}/cros-regions.json" $(usex cros-debug "--include_pseudolocales" "")
 }
 
 src_test() {
