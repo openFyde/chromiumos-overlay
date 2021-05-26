@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="7be249428dcf678b239fd8e5bdf1b82bf62e08e6"
-CROS_WORKON_TREE="eff881d8287fac93e87890339cc6cb454f771591"
+CROS_WORKON_COMMIT="0dbbca7ec85ab5e72a06e40fef4ac77d313c645c"
+CROS_WORKON_TREE="b7492fab115ce8b96543a015f96307313123900c"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -172,6 +172,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50WilcoEcrst
 	+tests_firmware_Cr50WilcoRmaFactoryMode
 	+tests_firmware_Cr50WPG3
+	+tests_firmware_CsmeFwUpdate
 	+tests_firmware_DevBootUSB
 	+tests_firmware_DevDefaultBoot
 	+tests_firmware_DevMode
@@ -196,6 +197,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECUsbPorts
 	+tests_firmware_ECWakeSource
 	+tests_firmware_ECWatchdog
+	+tests_firmware_EmmcWriteLoad
 	+tests_firmware_EventLog
 	+tests_firmware_FAFTPrepare
 	+tests_firmware_FAFTModeTransitions
