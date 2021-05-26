@@ -60,6 +60,7 @@ IUSE="
 	secanomalyd
 	modemfwd
 	ml_service
+	hps
 	mtd
 	+network_time
 	nfc
@@ -204,6 +205,7 @@ RDEPEND="
 	kerberos_daemon? ( chromeos-base/kerberos )
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
+	hps? ( chromeos-base/hpsd )
 	hammerd? ( chromeos-base/hammerd )
 	racc? (
 		chromeos-base/hardware_verifier
