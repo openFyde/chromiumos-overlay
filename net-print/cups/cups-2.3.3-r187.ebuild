@@ -4,8 +4,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="9358e68cf5ef07875c6fa68c78f7bbd30fe398af"
-CROS_WORKON_TREE="5904e8552befc1e03b31a6c790206d7cc03eca62"
+CROS_WORKON_COMMIT="58dab2b9561f42537964c24bc12bac076844dd98"
+CROS_WORKON_TREE="8916d59e29445d0f4b71760de394face172f8333"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 
@@ -204,7 +204,7 @@ multilib_src_configure() {
 		$(multilib_native_use_with python python "${PYTHON}") \
 		$(use_enable static-libs static) \
 		$(use_enable threads) \
-		$(use_enable ssl gnutls) \
+		$(use_with ssl tls gnutls) \
 		$(use_enable systemd) \
 		$(use_enable upstart) \
 		$(multilib_native_use_enable usb libusb) \
