@@ -15,6 +15,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
+# shellcheck disable=SC2086
 IUSE="kernel-3_18 $(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 mt8195 )
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
@@ -93,6 +94,7 @@ multilib_src_install() {
 	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/hw/"
 	doexe "${BUILD_DIR}"/gralloc.cros.so
 	into "/usr/local/"
+	# shellcheck disable=SC2154
 	newbin "${BUILD_DIR}"/gralloctest "gralloctest_${ABI}"
 }
 
