@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("c698b4a9ed5fe4827ed0507cb8733d99cf09c03f" "1ad799a7ccc995f1c23b951e0d673bea20c10a4f")
-CROS_WORKON_TREE=("143f88240a9dc7842a0f98b4bc12876439b8d4d9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "687d0675ac201510b30440fe7c62f015230c0d86")
+CROS_WORKON_COMMIT=("5e23d6c6c4da55d68ac78000f62824826d8de63d" "c6586d46b9c48c3e4ff6e29bc2cd3dbaee1bef10")
+CROS_WORKON_TREE=("143f88240a9dc7842a0f98b4bc12876439b8d4d9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "0eeecada8eb6a50899645b4bb9653f5d04b4ec8d")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -35,6 +35,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 platform_pkg_test() {
+	platform_test "run" "${OUT}/cardinality-helper-testrunner"
 	platform_test "run" "${OUT}/escl-manager-testrunner"
 	platform_test "run" "${OUT}/http-util-testrunner"
 	platform_test "run" "${OUT}/ipp-manager-testrunner"
