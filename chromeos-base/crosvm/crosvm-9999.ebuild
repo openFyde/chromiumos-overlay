@@ -123,6 +123,7 @@ FUZZERS=(
 # Array of "<features>/<binary name>"
 VHOST_USER_BINARIES=(
 	"net/vhost-user-net-device"
+	"wl/vhost-user-wl-device"
 )
 
 src_unpack() {
