@@ -132,6 +132,9 @@ src_install() {
 	fi
 	dosbin "${scripts[@]}" "${service_file}"
 
+	insinto /usr/share/factory_installer/tpm
+	doins tpm/*.sh
+
 	insinto /usr/share/factory_installer/init
 	doins init/*.conf
 
