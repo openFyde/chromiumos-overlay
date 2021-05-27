@@ -150,6 +150,13 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/UPSTREAM-virgl-do-not-use-winsys-info-for-guest-storage-of-cl.patch
 
+	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/10685
+	epatch "${FILESDIR}"/BACKPORT-gallium-st-add-a-back-buffer-fallback-for-front-rend.patch
+	epatch "${FILESDIR}"/UPSTREAM-gallium-dri-implement-EGL_KHR_mutable_render_buffer.patch
+	epatch "${FILESDIR}"/UPSTREAM-egl-android-check-front-rendering-support-for-cros-g.patch
+	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/11008
+	epatch "${FILESDIR}"/UPSTREAM-virgl-Fix-the-leak-of-hw_res-used-as-fence.patch
+
 	default
 }
 
