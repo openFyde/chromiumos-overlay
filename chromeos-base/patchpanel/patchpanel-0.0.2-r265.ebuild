@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="93201e7512fe82e8fccdec5b7c05956571e2f43c"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "ad2f59d44fc8300c9ff451efe1de3db5427a21c5" "66642305454ab6401de0c59f26150fb5b04ce35e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b03af350ea718f1483433e2409a2db963ecc2b39"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "4aaebbd9b3c1e4e0058a2be597c47d0c2afa4311" "66642305454ab6401de0c59f26150fb5b04ce35e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -71,6 +71,12 @@ src_install() {
 	patchpanel_header subnet.h
 	patchpanel_header subnet_pool.h
 
+	insinto /usr/include/chromeos/patchpanel/dns
+	patchpanel_header dns/dns_protocol.h
+	patchpanel_header dns/dns_query.h
+	patchpanel_header dns/dns_response.h
+	patchpanel_header dns/io_buffer.h
+
 	insinto /etc/init
 	doins "${S}"/init/patchpanel.conf
 
@@ -92,4 +98,3 @@ pkg_preinst() {
 platform_pkg_test() {
 	platform_test "run" "${OUT}/patchpanel_testrunner"
 }
-
