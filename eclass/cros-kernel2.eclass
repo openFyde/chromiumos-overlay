@@ -189,6 +189,7 @@ CONFIG_FRAGMENTS=(
 	kgdb
 	kmemleak
 	kvm
+	kvm_invept_global
 	kvm_host
 	kvm_nested
 	lockdebug
@@ -625,6 +626,11 @@ CONFIG_VIRTIO_CONSOLE=m
 CONFIG_VIRTIO_RING=m
 CONFIG_VIRTIO_PCI=m
 CONFIG_VIRTUALIZATION=y
+"
+
+kvm_invept_global_desc="Workaround for b/188008861"
+kvm_invept_global_config="
+CONFIG_KVM_INVEPT_GLOBAL=y
 "
 
 kvm_host_desc="Support running virtual machines with KVM"
