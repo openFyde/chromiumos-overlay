@@ -33,4 +33,4 @@ CROS_GO_VET=(
 
 DEPEND="chromeos-base/cros-config-api"
 
-RDEPEND=""
+RDEPEND="!<chromeos-base/test-server-0.0.1-r10"
