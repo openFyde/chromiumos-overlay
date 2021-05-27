@@ -75,6 +75,7 @@ src_configure() {
 		"-DCOMPILER_RT_LIBCXX_PATH=${S}/libcxx"
 		"-DCOMPILER_RT_HAS_GNU_VERSION_SCRIPT_COMPAT=no"
 		"-DCOMPILER_RT_BUILD_LIBFUZZER=no"
+		"-DCOMPILER_RT_BUILTINS_HIDE_SYMBOLS=OFF"
 	)
 
 	if [[ ${CTARGET} == *-eabi ]]; then
