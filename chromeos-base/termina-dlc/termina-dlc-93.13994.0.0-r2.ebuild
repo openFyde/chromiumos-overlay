@@ -81,7 +81,7 @@ src_compile() {
 			vm_board="tael"
 		fi
 		image_path="/mnt/host/source/src/build/images/${vm_board}/latest/chromiumos_test_image.bin"
-		[[ ! -f "${image_path}" ]] && die "Couldn't find VM image, try building a test image for ${vm_board} first"
+		[[ ! -f "${image_path}" ]] && die "Couldn't find VM image at ${image_path}, try building a test image for ${vm_board} first"
 
 		/mnt/host/source/src/platform/container-guest-tools/termina/termina_build_image.py "${image_path}" "${S}/vm"
 		mv "${S}/vm" "${WORKDIR}"
