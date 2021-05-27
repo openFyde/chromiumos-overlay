@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk hardware_verifier metrics .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier metrics .gn"
 
 PLATFORM_SUBDIR="hardware_verifier"
 
@@ -18,8 +18,14 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hardwa
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="generated_cros_config unibuild"
 
 DEPEND="
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config:= )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
+	chromeos-base/chromeos-config-tools:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/system_api:=
 	chromeos-base/vboot_reference:=
