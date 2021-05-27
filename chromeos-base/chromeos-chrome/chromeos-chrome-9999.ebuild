@@ -778,6 +778,7 @@ setup_compile_flags() {
 	append-flags -Wno-unknown-warning-option
 	export CXXFLAGS_host+=" -Wno-unknown-warning-option"
 	export CFLAGS_host+=" -Wno-unknown-warning-option"
+	export LDFLAGS_host+=" --unwindlib=libgcc"
 	if use libcxx; then
 		append-cxxflags "-stdlib=libc++"
 		append-ldflags "-stdlib=libc++"
