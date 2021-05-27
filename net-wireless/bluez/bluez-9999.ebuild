@@ -17,7 +17,7 @@ CROS_WORKON_OPTIONAL_CHECKOUT=(
 CROS_WORKON_DESTDIR=("${S}/bluez/current" "${S}/bluez/next" "${S}/bluez/upstream")
 CROS_WORKON_EGIT_BRANCH=("chromeos-5.54" "chromeos-5.54" "upstream/master")
 
-inherit autotools multilib eutils systemd udev user libchrome cros-fuzzer cros-sanitizers cros-workon flag-o-matic
+inherit autotools multilib eutils systemd udev user libchrome cros-fuzzer cros-sanitizers cros-workon flag-o-matic tmpfiles
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="http://www.bluez.org/"
@@ -136,6 +136,9 @@ src_install() {
 		newins "${FILESDIR}/${PN}-upstart.conf" bluetoothd.conf
 		newins "${FILESDIR}/bluetoothlog-upstart.conf" bluetoothlog.conf
 	fi
+
+	# Install tmpfiles.d config
+	dotmpfiles "${FILESDIR}/bluetoothlog-directories.conf"
 
 	# Install D-Bus config
 	insinto /etc/dbus-1/system.d
