@@ -35,3 +35,7 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins init/dbus-1/org.chromium.ArcSensorService.conf
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/arc_sensor_service_testrunner"
+}
