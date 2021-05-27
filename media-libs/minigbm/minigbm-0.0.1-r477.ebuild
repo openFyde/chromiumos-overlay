@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="cd6e63c12330c09ab4e6f5dfd02e7322652acdf0"
-CROS_WORKON_TREE="322a5dac023896a96feeb0bd0133e8f9e15ac4ee"
+CROS_WORKON_COMMIT="d661228b911c15a6bc6184eb2493e8686d7f3696"
+CROS_WORKON_TREE="ce2731ba513fa035b8dc08dc75463106250086bf"
 CROS_WORKON_PROJECT="chromiumos/platform/minigbm"
 CROS_WORKON_LOCALNAME="../platform/minigbm"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -26,7 +26,7 @@ for card in ${VIDEO_CARDS}; do
 	IUSE+=" video_cards_${card}"
 done
 
-MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 )
+MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 mt8195 )
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
 
 RDEPEND="
@@ -60,6 +60,7 @@ src_configure() {
 	use video_cards_marvell && append-cppflags -DDRV_MARVELL && export DRV_MARVELL=1
 	use minigbm_platform_mt8183 && append-cppflags -DMTK_MT8183
 	use minigbm_platform_mt8192 && append-cppflags -DMTK_MT8192
+	use minigbm_platform_mt8195 && append-cppflags -DMTK_MT8195
 	use video_cards_mediatek && append-cppflags -DDRV_MEDIATEK && export DRV_MEDIATEK=1
 	use video_cards_msm && append-cppflags -DDRV_MSM && export DRV_MSM=1
 	use video_cards_radeon && append-cppflags -DDRV_RADEON && export DRV_RADEON=1
