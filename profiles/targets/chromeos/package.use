@@ -87,6 +87,7 @@ net-misc/ntp		caps
 net-misc/openssh	-hpn -X
 net-vpn/openvpn		pkcs11
 net-vpn/strongswan	cisco nat-transport -strongswan_plugins_unity pkcs11
+net-vpn/wireguard-tools	-wg-quick
 net-nds/openldap	minimal -cxx
 net-print/cups		-dbus zeroconf upstart
 net-print/cups-filters	-dbus -pclm -pdf -zeroconf
