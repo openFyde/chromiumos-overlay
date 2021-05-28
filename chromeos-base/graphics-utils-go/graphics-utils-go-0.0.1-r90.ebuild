@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2ad004cf5e59839b3ecce9cbc05e7637c2caed8d"
-CROS_WORKON_TREE="1df63ee435fa7f03679db4b7356c4563e532c563"
+CROS_WORKON_COMMIT="8b415f767591f9e7253f0029df2c054fd3d647fa"
+CROS_WORKON_TREE="2fb94be25fb0d3a81193f38ce94d038a347b3759"
 CROS_WORKON_PROJECT="chromiumos/platform/graphics"
 CROS_WORKON_LOCALNAME="platform/graphics"
 
@@ -11,6 +11,7 @@ INSTALL_DIR="/usr/local/graphics"
 
 CROS_GO_BINARIES=(
 	# Add more apps here.
+	"platform_decoding/cmd/validate:${INSTALL_DIR}/validate"
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
 	"trace_profiling/cmd/analyze:${INSTALL_DIR}/analyze"
 	"trace_profiling/cmd/gen_db_result:${INSTALL_DIR}/get_device_info"
@@ -21,6 +22,7 @@ CROS_GO_BINARIES=(
 )
 
 CROS_GO_TEST=(
+	"platform_decoding/cmd/validate"
 	"sanity/cmd/pass"
 	"trace_profiling/cmd/analyze"
 	"trace_profiling/cmd/gen_db_result"
