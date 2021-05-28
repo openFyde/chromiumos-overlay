@@ -234,6 +234,10 @@ IUSE_TESTS_ATOMIC="
 	drm_atomic? ( +tests_graphics_HwOverlays )
 "
 
+IUSE_TESTS_CHROMIUM="
+	+tests_chromium
+"
+
 IUSE_TESTS="
 	${IUSE_TESTS[*]}
 	${IUSE_TESTS_CELLULAR}
@@ -241,6 +245,7 @@ IUSE_TESTS="
 	${IUSE_TESTS_TPM}
 	${IUSE_TESTS_ARC}
 	${IUSE_TESTS_ATOMIC}
+	${IUSE_TESTS_CHROMIUM}
 "
 
 IUSE="
