@@ -9,6 +9,7 @@ INSTALL_DIR="/usr/local/graphics"
 
 CROS_GO_BINARIES=(
 	# Add more apps here.
+	"platform_decoding/cmd/validate:${INSTALL_DIR}/validate"
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
 	"trace_profiling/cmd/analyze:${INSTALL_DIR}/analyze"
 	"trace_profiling/cmd/gen_db_result:${INSTALL_DIR}/get_device_info"
@@ -19,6 +20,7 @@ CROS_GO_BINARIES=(
 )
 
 CROS_GO_TEST=(
+	"platform_decoding/cmd/validate"
 	"sanity/cmd/pass"
 	"trace_profiling/cmd/analyze"
 	"trace_profiling/cmd/gen_db_result"
