@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="93201e7512fe82e8fccdec5b7c05956571e2f43c"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "c5ef5f78ec0be073d6a1e3ca545c6c2bfdc098a7" "ac3c728704742d0682457391f0cf3d83a6d77c2f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="068ed91b0b9b852ff433450a6597d32d0a616e06"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "8990b0761ef52cd3d53ecfd588738ab7aac39593" "e443b3521faa95e225332e58a588651d106be0ab" "ac3c728704742d0682457391f0cf3d83a6d77c2f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk hardware_verifier metrics .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier metrics .gn"
 
 PLATFORM_SUBDIR="hardware_verifier"
 
@@ -20,8 +20,14 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hardwa
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+IUSE="generated_cros_config unibuild"
 
 DEPEND="
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config:= )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
+	chromeos-base/chromeos-config-tools:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/system_api:=
 	chromeos-base/vboot_reference:=
