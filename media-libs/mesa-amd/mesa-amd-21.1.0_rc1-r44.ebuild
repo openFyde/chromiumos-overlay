@@ -4,8 +4,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="9fc5ee58de44223e9f92064ad0f547302d1db55f"
-CROS_WORKON_TREE="0c0a8665798413c514408b3b223d3c3e726dfe81"
+CROS_WORKON_COMMIT="e44fe6f2a644ee5d727895cd21bb1dd7e577fad2"
+CROS_WORKON_TREE="b30c242403e4c48a4bc7090d470410c4b76e1d44"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-amd"
 CROS_WORKON_EGIT_BRANCH="chromeos-amd"
@@ -79,7 +79,7 @@ src_configure() {
 		-Dglx=disabled
 		-Dllvm=true
 		-Dshared-llvm=false
-		-Dplatforms=surfaceless
+		-Dplatforms=
 		-Degl=true
 		-Dgbm=false
 		-Dgl=false
