@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="93201e7512fe82e8fccdec5b7c05956571e2f43c"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "b489a7703a65440f159cfba124ed0f5b8b88ba99" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b56ad215b9ba6e03d70bffe5a93dd30243cbc86d"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "9df6a08daecdd72c21153518b893b9f8da389625" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -53,6 +53,10 @@ src_install() {
 	# Install D-Bus service activation configuration.
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.Rmad.service
+
+	# Install seccomp policy file.
+	insinto /usr/share/policy
+	newins "seccomp/rmad-seccomp-${ARCH}.policy" rmad-seccomp.policy
 }
 
 platform_pkg_test() {
