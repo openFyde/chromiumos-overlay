@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config libcontainer libpasswordprovider 
 
 PLATFORM_SUBDIR="login_manager"
 
-inherit cros-workon platform systemd user
+inherit tmpfiles cros-workon platform systemd user
 
 DESCRIPTION="Login manager for Chromium OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-login/"
@@ -99,6 +99,8 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init/
 	doexe init/scripts/*
+
+	dotmpfiles tmpfiles.d/chromeos-login.conf
 
 	# For user session processes.
 	dodir /etc/skel/log
