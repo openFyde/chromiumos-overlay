@@ -24,6 +24,7 @@ readlink: 1
 mprotect: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 stat: 1
 statx: 1
+fstatfs: 1
 brk: 1
 prctl: arg0 == PR_SET_NO_NEW_PRIVS || arg0 == PR_SET_SECCOMP || \
        arg0 == PR_CAPBSET_DROP || arg0 == PR_SET_NAME
