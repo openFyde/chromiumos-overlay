@@ -476,6 +476,7 @@ CONFIG_FRAME_WARN=0
 kcov_desc="Enable kcov"
 kcov_config="
 CONFIG_KCOV=y
+CONFIG_KCOV_ENABLE_COMPARISONS=y
 # CONFIG_RANDOMIZE_BASE is not set
 "
 
