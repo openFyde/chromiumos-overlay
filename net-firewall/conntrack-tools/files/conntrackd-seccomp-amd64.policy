@@ -47,6 +47,7 @@ gettimeofday: 1
 mmap: 1
 newfstatat: 1
 fstat: 1
+fstatfs: 1
 stat: 1
 fcntl: 1
 select: 1

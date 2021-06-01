@@ -45,6 +45,7 @@ getpid: 1
 mmap: 1
 newfstatat: 1
 fstat: 1
+fstatfs: 1
 fcntl: 1
 prctl: 1
 gettimeofday: 1
