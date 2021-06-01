@@ -4,11 +4,11 @@ DEPEND=chromeos-base/cros-camera-libs dev? ( dev-libs/libevent[threads] ) dev-li
 DESCRIPTION=Camera support library for Linux
 EAPI=7
 HOMEPAGE=https://www.libcamera.org
-IUSE=debug dev doc ipu3 rkisp1 test udev cros_host cros_workon_tree_17ed9c70185c626fe94f137482aa3b2cfa2e3210
+IUSE=debug dev doc ipu3 rkisp1 test udev cros_host cros_workon_tree_30b030f02b59023a23a6f96f0f60e7d27a40242e
 KEYWORDS=*
 LICENSE=LGPL-2.1+
 PROPERTIES=live
 RDEPEND=chromeos-base/cros-camera-libs dev? ( dev-libs/libevent[threads] ) dev-libs/libyaml media-libs/libcamera-configs media-libs/libjpeg-turbo media-libs/libexif >=net-libs/gnutls-3.3:= media-libs/libyuv udev? ( virtual/libudev )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	meson	b5ee7a05833ab91225acf30ffdeed006	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=41d3d7e43ed88b3a2bfe73e47c7b49d0
+_md5_=9f06977b72b46475bd023d8f6d3b1aff
