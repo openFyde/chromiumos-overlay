@@ -1,8 +1,22 @@
 Patch the code in the tools directory so that it loads the NNAPI delegate
 correctly without needing to define __ANDROID__
 
+diff --git a/tensorflow/lite/BUILD b/tensorflow/lite/BUILD
+index 8d16389b..30d18fb1 100644
+--- a/tensorflow/lite/BUILD
++++ b/tensorflow/lite/BUILD
+@@ -268,6 +268,8 @@ cc_library(
+         ":string",
+         ":type_to_tflitetype",
+         ":util",
++        "//tensorflow/lite/delegates/nnapi:nnapi_delegate",
++        "//tensorflow/lite/nnapi:nnapi_implementation",
+         "//tensorflow/lite/c:common",
+         "//tensorflow/lite/core/api",
+         "//tensorflow/lite/core/api:verifier",
+
 diff --git a/tensorflow/lite/tools/evaluation/utils.cc b/tensorflow/lite/tools/evaluation/utils.cc
-index 56562210..bd91c16b 100644
+index 730a7d5f..e073a402 100644
 --- a/tensorflow/lite/tools/evaluation/utils.cc
 +++ b/tensorflow/lite/tools/evaluation/utils.cc
 @@ -95,25 +95,17 @@ TfLiteStatus GetSortedFileNames(

@@ -9,10 +9,10 @@ Our implementation handles this better, and this ensures all of the ashmem
 functionlity is consistenly served from our implementation.
 
 diff --git a/tensorflow/lite/nnapi/nnapi_implementation.cc b/tensorflow/lite/nnapi/nnapi_implementation.cc
-index 856cd276..83547180 100644
+index 17635bcd..9e71c899 100644
 --- a/tensorflow/lite/nnapi/nnapi_implementation.cc
 +++ b/tensorflow/lite/nnapi/nnapi_implementation.cc
-@@ -214,7 +214,8 @@ const NnApi LoadNnApi() {
+@@ -221,7 +221,8 @@ const NnApi LoadNnApi() {
    // implementation, but don't have libneuralnetworks.so library, and
    // platforms which use nnapi_implementation_disabled.cc stub.
    if (libneuralnetworks != nullptr) {
