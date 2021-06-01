@@ -1,0 +1,15 @@
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//common-mk/proto_library.gni")
+
+group("all") {
+  deps = [ ":trace_processor-goprotos" ]
+}
+
+goproto_library("trace_processor-goprotos") {
+  proto_in_dir = "../aosp/external/perfetto/protos/perfetto/metrics"
+  proto_out_dir = "go/src/chromiumos/perfetto/trace_processor"
+  sources = [ "${proto_in_dir}/perfetto_merged_metrics.proto" ]
+}

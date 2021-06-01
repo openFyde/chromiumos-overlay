@@ -21,6 +21,7 @@ DEPEND="
 	chromeos-base/aosp-frameworks-base-proto
 	chromeos-base/cros-config-api
 	chromeos-base/hardware_verifier_proto
+	chromeos-base/perfetto_proto
 	chromeos-base/policy-go-proto
 	chromeos-base/system_api
 	chromeos-base/vm_protos
