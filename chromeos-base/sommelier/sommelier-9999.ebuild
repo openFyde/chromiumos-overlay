@@ -46,8 +46,8 @@ src_install() {
 }
 
 platform_pkg_test() {
-	# TODO(hollingum): maybe sommelier would break less if it had any tests...
 	local tests=(
+		sommelier_test
 	)
 
 	local test_bin
@@ -62,5 +62,6 @@ platform_pkg_test() {
 		meson tmp_build_dir || die "Failed to configure meson build"
 		ninja -C tmp_build_dir || die "Failed to build sommelier with meson"
 		[ -f tmp_build_dir/sommelier ] || die "Target 'sommelier' was not built by meson"
+		ninja -C tmp_build_dir test || die "Tests failed"
 	fi
 }
