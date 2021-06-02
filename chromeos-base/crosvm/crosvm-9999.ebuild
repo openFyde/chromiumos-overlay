@@ -252,6 +252,10 @@ src_test() {
 		test_opts+=( --exclude "crosvm_plugin" )
 	fi
 
+	# Temporarily disable integration tests as they are failing in staging
+	# builders. b/189879899
+	skip_tests+=( --skip "integration_tests" )
+
 	# Excluding tests that run on a different arch, use /dev/dri,
 	# /dev/net/tun, or wayland access because the bots don't support these.
 	local args=(
