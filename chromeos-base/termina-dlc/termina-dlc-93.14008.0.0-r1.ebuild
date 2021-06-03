@@ -84,7 +84,6 @@ src_compile() {
 		[[ ! -f "${image_path}" ]] && die "Couldn't find VM image at ${image_path}, try building a test image for ${vm_board} first"
 
 		/mnt/host/source/src/platform/container-guest-tools/termina/termina_build_image.py "${image_path}" "${S}/vm"
-		mv "${S}/vm" "${WORKDIR}"
 	fi
 }
 
