@@ -1,8 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Coreboot private files virtual package
-EAPI=4
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=sys-boot/coreboot-private-files-null
-SLOT=0
-_md5_=d721731171b6124ccfa05923d01edb0a

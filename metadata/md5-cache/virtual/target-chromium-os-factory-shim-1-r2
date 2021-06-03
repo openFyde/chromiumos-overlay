@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=List of packages that are needed inside the Chromium OS factory shim image.
-EAPI=4
-HOMEPAGE=http://dev.chromium.org/
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=chromeos-base/chromeos-installshim
-SLOT=0
-_md5_=af1a81aa34c740f61c8ebaf774b8c6fa

@@ -1,7 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Generic ebuild which satisifies virtual/cheets, the project which enables the Play Store on Chrome OS. This is a direct dependency of virtual/target-chromium-os, but is expected to be overridden in other overlays, so today this depends on nothing.
-EAPI=5
-KEYWORDS=*
-LICENSE=metapackage
-SLOT=0
-_md5_=804ffcdfb27bd4cef7292df80e0f8163

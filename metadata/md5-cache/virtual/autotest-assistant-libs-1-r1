@@ -1,7 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=This package can be overriden to bring in additional assistant autotest libraries
-EAPI=6
-KEYWORDS=*
-LICENSE=metapackage
-SLOT=0
-_md5_=095fa182d5ea05421f66af8d093842f9

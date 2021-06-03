@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=List of packages that make up the factory shim OS image; by default, we build a Chromium OS factory shim image
-EAPI=4
-HOMEPAGE=http://dev.chromium.org/
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=virtual/target-chromium-os-factory-shim
-SLOT=0
-_md5_=83816671afd7f1412316571db82e5a50

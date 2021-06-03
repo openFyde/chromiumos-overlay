@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=List of packages that are needed inside the SDK, but where we only want to install a binpkg. We never want to install build-time deps or recompile from source unless the user explicitly requests it.
-EAPI=6
-HOMEPAGE=http://dev.chromium.org/
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=dev-util/shellcheck dev-python/pypy3 dev-python/pypy3-exe
-SLOT=0
-_md5_=1dca32161c5e11b3ae824c8be85d43d4

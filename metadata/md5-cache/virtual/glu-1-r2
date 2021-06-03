@@ -1,8 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Virtual for OpenGL utility library
-EAPI=0
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=|| ( media-libs/glu media-libs/opengl-apple )
-SLOT=0
-_md5_=38c33bf510886654e4653cbbe6332566

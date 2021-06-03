@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Chrome OS camera HAL virtual package
-EAPI=5
-HOMEPAGE=http://src.chromium.org
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=media-libs/cros-camera-hal-usb
-SLOT=0
-_md5_=1b0f717d6b8eb8e48b4d1c2a73b1ff68

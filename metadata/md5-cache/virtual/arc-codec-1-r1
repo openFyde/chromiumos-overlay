@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Chrome OS ArcCodec virtual package
-EAPI=4
-HOMEPAGE=http://src.chromium.org
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=chromeos-base/arc-codec-software
-SLOT=0
-_md5_=df389962014fd9cd2372830d3d7c059f

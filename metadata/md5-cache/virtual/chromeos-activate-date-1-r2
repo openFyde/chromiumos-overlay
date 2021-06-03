@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Chrome OS Activate Date virtual package
-EAPI=4
-HOMEPAGE=http://src.chromium.org
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=chromeos-base/chromeos-activate-date
-SLOT=0
-_md5_=d8db1f0f6dd1ccfb4562046404ad2d66

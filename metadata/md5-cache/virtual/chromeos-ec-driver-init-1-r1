@@ -1,8 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Generic ebuild which satisfies virtual/chromeos-ec-driver This is a direct dependency of chromeos-base/chromeos-accelerometer-init, and it is overridden in private overlay to load cros-ec stack for special ECs.
-EAPI=6
-HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/ec/
-KEYWORDS=*
-LICENSE=metapackage
-SLOT=0
-_md5_=b01fb3035d1de7b6e89bd42964326971

@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=List of packages that should be fuzzed
-EAPI=5
-HOMEPAGE=http://dev.chromium.org/
-KEYWORDS=*
-LICENSE=metapackage
-RDEPEND=virtual/implicit-system virtual/chromium-os-fuzzers
-SLOT=0
-_md5_=3e0048db6526ae3dc6243714bba63450
