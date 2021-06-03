@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="93201e7512fe82e8fccdec5b7c05956571e2f43c"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "13383c82a7cd032234ff5869b214c36d06d9210d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="70713f24477b19df9f59ee36072bc6a2164e180b"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "0ac4165a67e4d84d9c6386278f5509631cc6f603" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk modem-utilities .gn"
 
 PLATFORM_SUBDIR="modem-utilities"
 
-inherit cros-workon platform
+inherit cros-workon tmpfiles platform
 
 DESCRIPTION="Chromium OS modem utilities"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/modem-utilities/"
@@ -29,8 +29,11 @@ DEPEND="${COMMON_DEPEND}"
 src_install() {
 	dobin modem
 	dobin connectivity
+	dobin config_net_log
 
 	exeinto /usr/lib
 	doexe modem-common.sh
 	doexe connectivity-common.sh
+
+	dotmpfiles tmpfiles.d/*.conf
 }
