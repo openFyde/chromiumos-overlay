@@ -1,7 +1,7 @@
 # Copyright (c) 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 
 DESCRIPTION="Chrome OS Firewall virtual package. This package will RDEPEND
 on the actual package that installs the upstart scripts to configure the

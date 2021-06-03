@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
 DESCRIPTION="Generic ebuild which satisfies virtual/chromeos-ec-private-files.
 This is a direct dependency of chromeos-base/chromeos-ec, and it is overridden

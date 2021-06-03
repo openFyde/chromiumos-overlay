@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="7"
 
 DESCRIPTION="Generic ebuild which satisifies virtual/chromeos-bsp-dev.
 This is a direct dependency of virtual/target-chromium-os-dev, but is expected

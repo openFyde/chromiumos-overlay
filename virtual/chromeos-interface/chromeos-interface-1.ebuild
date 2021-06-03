@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="7"
 
 DESCRIPTION="Generic ebuild which satisifies virtual/chromeos-interface.
 This is a direct dependency of chromeos-base/chromeos, but can

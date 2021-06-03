@@ -1,7 +1,7 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 DESCRIPTION="List of packages that are needed inside the SDK, but where we only
 want to install a binpkg.  We never want to install build-time deps or recompile

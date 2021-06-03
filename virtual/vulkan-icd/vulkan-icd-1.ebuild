@@ -6,7 +6,7 @@
 # a Vulkan implementation. It is merely a loader library for the ICDs, which
 # provide the actual implementation.
 
-EAPI=5
+EAPI=7
 
 DESCRIPTION="Virtual for presence of a Vulkan ICD (Installable Client Driver)"
 SRC_URI=""
