@@ -144,6 +144,8 @@ src_prepare() {
 	# See https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/216
 	epatch "${FILESDIR}"/UPSTREAM-virgl-fix-BGRA-emulation-artifacts-during-window-res.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-Revert-virgl-Cache-depth-and-stencil-buffers.patch
+
 	default
 }
 
