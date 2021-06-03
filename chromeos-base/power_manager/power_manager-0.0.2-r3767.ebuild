@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="bc793c295352c5f9789bb9a7f5873c96d1349b43"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "47f6ceba57219100723f2671e0d507bd7605f22f" "8990b0761ef52cd3d53ecfd588738ab7aac39593" "3e59479efa0b9f75725c950afe6d453e44b787b2" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "815852245b7ef3a3a70426fc4c9961b3d37af0fe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7419ddbee7825d5cb8a313d153845d25b0555955"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "47f6ceba57219100723f2671e0d507bd7605f22f" "8990b0761ef52cd3d53ecfd588738ab7aac39593" "3e59479efa0b9f75725c950afe6d453e44b787b2" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "f2be5b63960849e1da9be51fe292ba20ba95d122" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk buffet chromeos-config iioservice metrics power_m
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="power_manager"
 
-inherit cros-workon platform systemd udev user
+inherit tmpfiles cros-workon platform systemd udev user
 
 DESCRIPTION="Power Manager for Chromium OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
@@ -160,6 +160,8 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/shared/powerd-pre-start.sh
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	if use buffet; then
 		# Buffet command handler definition

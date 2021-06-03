@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="173f7b23a0dbb9fbd959331d69aedba6c2f0192e"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "bf7e90aa013487cb052a137bfc20b812fe52f22b" "c200c725a537163b64b27b630cb1b67320f627a6" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7419ddbee7825d5cb8a313d153845d25b0555955"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "e7ca8113f3b0542ba0c3839d7205b58258dfbc63" "c200c725a537163b64b27b630cb1b67320f627a6" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -15,7 +15,7 @@ CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec secure_erase_file .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="cryptohome"
 
-inherit cros-workon platform systemd udev user
+inherit tmpfiles cros-workon platform systemd udev user
 
 DESCRIPTION="Encrypted home directories for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome/"
@@ -195,6 +195,8 @@ src_install() {
 	# Install seccomp policy for cryptohome-proxy
 	insinto /usr/share/policy
 	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
+
+	dotmpfiles tmpfiles.d/cryptohome.conf
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
