@@ -92,6 +92,12 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # are "system" and "user".
 : "${DLC_USED_BY:=system}"
 
+# @ECLASS-VARIABLE: DLC_DAYS_TO_PURGE
+# @DESCRIPTION:
+# Defines how many days the DLC should be kept before purging it from disk after
+# it has been uninstalled. Default is 5 days.
+: "${DLC_DAYS_TO_PURGE:=5}"
+
 # @ECLASS-VARIABLE: DLC_MOUNT_FILE_REQUIRED
 # @DESCRIPTION:
 # By default, DLC mount points should be retrieved from the DBUS install method.
@@ -151,6 +157,7 @@ dlc_src_install() {
 		--description="${DLC_DESCRIPTION}"
 		--fullnamerev="${CATEGORY}/${PF}"
 		--build-package
+		--days-to-purge="${DLC_DAYS_TO_PURGE}"
 	)
 
 	if [[ -n "${DLC_FS_TYPE}" ]]; then
