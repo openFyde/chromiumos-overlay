@@ -69,6 +69,7 @@ IUSE="
 	fwupd
 	gboard_decoder
 	grunt
+	hammerd
 	hana
 	hana-kernelnext
 	houdini
