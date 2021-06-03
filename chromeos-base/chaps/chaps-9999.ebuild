@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chaps metrics trunks .gn"
+CROS_WORKON_SUBTREE="common-mk chaps metrics trunks tpm_manager .gn"
 
 PLATFORM_SUBDIR="chaps"
 
@@ -35,6 +35,7 @@ RDEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/tpm_manager:=
 	!dev-db/leveldb
 	dev-libs/leveldb:=
 	dev-libs/openssl:=
