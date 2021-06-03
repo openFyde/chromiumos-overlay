@@ -1,6 +1,7 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+
+EAPI="7"
 
 inherit font
 
@@ -16,11 +17,10 @@ FONT_SUFFIX="ttf"
 FONT_S="${S}"
 FONTDIR="/usr/share/fonts/crosextra"
 
-
 # Only installs fonts
 RESTRICT="strip binchecks"
 
 src_install() {
-        # call src_install() in font.eclass.
+	# call src_install() in font.eclass.
 	font_src_install
 }

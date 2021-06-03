@@ -1,8 +1,8 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI=5
+EAPI="7"
+
 inherit font
 
 DESCRIPTION="6 Lohit fonts for Indic scripts"
@@ -17,7 +17,6 @@ IUSE=""
 FONT_SUFFIX="ttf"
 FONT_S="${S}"
 FONTDIR="/usr/share/fonts/lohit-cros"
-
 
 # Only installs fonts
 RESTRICT="strip binchecks"

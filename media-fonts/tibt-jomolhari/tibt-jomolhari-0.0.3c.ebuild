@@ -1,6 +1,7 @@
 # Copyright (c) 2011 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+
+EAPI="7"
 
 inherit font
 
@@ -22,6 +23,6 @@ FONTDIR="/usr/share/fonts/tibt-jomolhari"
 RESTRICT="strip binchecks"
 
 src_install() {
-        # call src_install() in font.eclass.
-        font_src_install
+	# call src_install() in font.eclass.
+	font_src_install
 }
