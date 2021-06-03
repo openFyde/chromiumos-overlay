@@ -19,5 +19,6 @@ IUSE=""
 DEPEND="
 	dev-util/provision-server
 	dev-util/test-exec-server
+	dev-util/dut-server
 "
 RDEPEND="${DEPEND}"
