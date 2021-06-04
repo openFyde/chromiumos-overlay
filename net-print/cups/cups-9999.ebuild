@@ -352,6 +352,7 @@ multilib_src_install_all() {
 		newins "${FILESDIR}/cupsd-seccomp-${ARCH}.policy" cupsd-seccomp.policy
 		newins "${FILESDIR}/cupstestppd-seccomp-${ARCH}.policy" cupstestppd-seccomp.policy
 		newins "${FILESDIR}/lpadmin-seccomp-${ARCH}.policy" lpadmin-seccomp.policy
+		newins "${FILESDIR}/lpstat-seccomp-${ARCH}.policy" lpstat-seccomp.policy
 	else
 		sed -i '/^env seccomp_flags=/s:=.*:="":' "${ED}"/etc/init/cupsd.conf
 	fi
