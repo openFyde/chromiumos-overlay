@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="enumn"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Convert number to enum"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/enumn"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/enumn"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

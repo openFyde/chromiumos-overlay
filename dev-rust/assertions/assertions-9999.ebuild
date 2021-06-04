@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="assertions"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Crates for compile-time assertion macro."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/assertions"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/assertions"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

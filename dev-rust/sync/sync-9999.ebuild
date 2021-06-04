@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="sync"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Containing a type sync::Mutex which wraps the standard library Mutex and mirrors the same methods"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sync"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/sync"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

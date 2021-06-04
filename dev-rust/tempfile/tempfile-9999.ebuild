@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="tempfile"
 inherit cros-workon cros-rust
 
 DESCRIPTION="A library for managing temporary files and directories"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/tempfile"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/tempfile"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

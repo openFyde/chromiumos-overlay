@@ -15,7 +15,7 @@ CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Safe wrappers around the linux kernel's io_uring interface"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/main/io_uring"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/io_uring"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

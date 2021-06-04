@@ -12,7 +12,7 @@ CROS_WORKON_SUBDIRS_TO_COPY="data_model"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Crates includes traits and types for safe interaction with raw memory."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/data_model"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/data_model"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

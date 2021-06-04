@@ -12,7 +12,7 @@ CROS_WORKON_SUBDIRS_TO_COPY="sys_util"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Small system utility modules for usage by other modules."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sys_util"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/sys_util"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
