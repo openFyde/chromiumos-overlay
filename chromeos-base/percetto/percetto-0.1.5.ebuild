@@ -26,6 +26,7 @@ src_configure() {
 
 	local emesonargs=(
 		-Dperfetto-sdk="${SYSROOT}/usr/include/perfetto/"
+		-Dwerror=false
 	)
 	meson_src_configure
 }
