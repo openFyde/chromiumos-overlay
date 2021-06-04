@@ -127,7 +127,6 @@ src_install() {
 	udev_dorules udev/99-chown_dmi_dir.rules
 
 	# Install fuzzers.
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_block_device_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_system_info_fuzzer
 }
 
