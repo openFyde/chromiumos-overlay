@@ -34,6 +34,7 @@ IUSE="
 	hammerd
 	iioservice
 	ml_service
+	hps
 	nnapi
 	opengl
 	opengles
@@ -106,6 +107,7 @@ CROS_COMMON_RDEPEND="
 		chromeos-base/sane-backends-test
 	)
 	ml_service? ( chromeos-base/ml-cmdline )
+	hps? ( chromeos-base/hps-tool )
 	nnapi? (
 		chromeos-base/aosp-frameworks-ml-nn-vts
 		chromeos-base/ml-test-assets
