@@ -94,7 +94,6 @@ FACTORY_NETBOOT_DEPENDS="
 	sys-apps/iproute2
 	sys-apps/mosys
 	sys-apps/util-linux
-	sys-block/parted
 	sys-fs/dosfstools
 	sys-fs/e2fsprogs
 	sys-libs/ncurses
