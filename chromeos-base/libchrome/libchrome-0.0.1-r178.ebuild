@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("1404aae9fa36dfcf3f1ae805d3e58f33ff56cdd8" "e5e55c0f6fa63d196c62238b0835a3a9535575b8")
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5c9a940c86e19d87c436f1e81b237a04cab58945")
+CROS_WORKON_COMMIT=("95d5f7f9aefa2703986b3a96fc02bac4d336c0ad" "a90d3d2ead58b58f8337d5e18ff671c1cad558db")
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c71eac4803325c5d18de476b7a010fab6d06156a")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -120,6 +120,7 @@ src_install() {
 		base/containers
 		base/debug
 		base/files
+		base/functional
 		base/hash
 		base/i18n
 		base/json
@@ -145,6 +146,7 @@ src_install() {
 		base/timer
 		base/trace_event
 		base/trace_event/common
+		base/types
 		base/util/type_safety
 		build
 		components/policy
@@ -152,6 +154,9 @@ src_install() {
 		testing/gmock/include/gmock
 		testing/gtest/include/gtest
 		third_party/abseil-cpp/absl/types
+		third_party/perfetto/include/perfetto/tracing/
+		third_party/perfetto/include/perfetto/protozero/
+		third_party/perfetto/protos/perfetto/trace/track_event/
 	)
 	use dbus && header_dirs+=( dbus )
 	use timers && header_dirs+=( components/timers )
@@ -159,7 +164,6 @@ src_install() {
 	insinto /usr/include/libchrome/base/test
 	doins \
 		base/test/bind.h \
-		base/test/bind_test_util.h \
 		base/test/task_environment.h \
 		base/test/scoped_chromeos_version_info.h \
 		base/test/scoped_running_on_chromeos.h \
