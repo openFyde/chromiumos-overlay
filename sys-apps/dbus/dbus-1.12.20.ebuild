@@ -85,6 +85,11 @@ src_prepare() {
 		-e '/"dispatch"/d' \
 		bus/test-main.c || die
 
+	# Increase timeouts for emulated systems that are really slow.
+	if use default-dbus-timeout-250; then
+		PATCHES+=("${FILESDIR}/${PN}-1.12.20-increase-timeout-by-10x.patch")
+	fi
+
 	default
 
 	if [[ ${CHOST} == *-solaris* ]]; then
@@ -92,11 +97,6 @@ src_prepare() {
 		sed -i \
 			-e 's/_XOPEN_SOURCE=500/_XOPEN_SOURCE=600/' \
 			configure.ac || die
-	fi
-
-	# Increase timeouts for emulated systems that are really slow.
-	if use default-dbus-timeout-250; then
-		epatch "${FILESDIR}/${PN}-1.12.20-increase-timeout-by-10x.patch"
 	fi
 
 	# required for bug 263909, cross-compile so don't remove eautoreconf
