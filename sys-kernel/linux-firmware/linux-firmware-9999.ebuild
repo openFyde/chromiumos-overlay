@@ -59,6 +59,7 @@ IUSE_BRCMWIFI=(
 )
 IUSE_LINUX_FIRMWARE=(
 	adreno-630
+	adreno-660
 	adsp_apl
 	adsp_cnl
 	adsp_glk
@@ -135,6 +136,7 @@ IUSE="
 REQUIRED_USE="?? ( ${IUSE_KERNEL_VERS[*]} )"
 LICENSE="
 	linux_firmware_adreno-630? ( LICENSE.qcom )
+	linux_firmware_adreno-660? ( LICENSE.qcom )
 	linux_firmware_adsp_apl? ( LICENCE.adsp_sst )
 	linux_firmware_adsp_cnl? ( LICENCE.adsp_sst )
 	linux_firmware_adsp_glk? ( LICENCE.adsp_sst )
@@ -215,6 +217,7 @@ BDEPEND="
 
 RDEPEND="
 	linux_firmware_adreno-630? ( !media-libs/a630-fw )
+	linux_firmware_adreno-630? ( !media-libs/a660-fw )
 	linux_firmware_ath3k-all? ( !net-wireless/ath3k )
 	linux_firmware_ath3k-ar3011? ( !net-wireless/ath3k )
 	linux_firmware_ath3k-ar3012? ( !net-wireless/ath3k )
@@ -321,6 +324,7 @@ src_install() {
 	local x
 	insinto "${FIRMWARE_INSTALL_ROOT}"
 	use_fw adreno-630 && doins_subdir qcom/a630*
+	use_fw adreno-660 && doins_subdir qcom/a660*
 	use_fw adsp_apl && doins_subdir intel/dsp_fw_bxtn*
 	use_fw adsp_cnl && doins_subdir intel/dsp_fw_cnl*
 	use_fw adsp_glk && doins_subdir intel/dsp_fw_glk*
