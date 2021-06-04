@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-block/parted/parted-3.1.ebuild,v 1.1 2012/03/04 18:23:21 jer Exp $
 
-EAPI="3"
+EAPI="7"
 
 WANT_AUTOMAKE="1.11"
 
-inherit autotools eutils
+inherit autotools
 
 DESCRIPTION="Create, destroy, resize, check, copy partitions and file systems"
 HOMEPAGE="http://www.gnu.org/software/parted"
@@ -33,7 +33,16 @@ DEPEND="
 	test? ( >=dev-libs/check-0.9.3 )
 "
 
+PATCHES=(
+	# Fix a file descriptor leak due to fsync errors.
+	# See crbug.com/215843 for details.
+	"${FILESDIR}/${P}-fix-file-descriptor-leak.patch"
+	"${FILESDIR}/${P}-sysmacro.patch"
+)
+
 src_prepare() {
+	default
+
 	# Remove tests known to FAIL instead of SKIP without OS/userland support
 	sed -i libparted/tests/Makefile.am \
 		-e 's|t3000-symlink.sh||g' || die "sed failed"
@@ -44,11 +53,6 @@ src_prepare() {
 	# there is no configure flag for controlling the dev-libs/check test
 	sed -i configure.ac \
 		-e "s:have_check=[a-z]*:have_check=$(usex test):g" || die
-
-	# Fix a file descriptor leak due to fsync errors.
-	# See crosbug.com/33674 for details.
-	epatch "${FILESDIR}/${P}-fix-file-descriptor-leak.patch" || die
-	epatch "${FILESDIR}/${P}-sysmacro.patch" || die
 
 	eautoreconf
 }
@@ -75,7 +79,7 @@ src_test() {
 }
 
 src_install() {
-	emake install DESTDIR="${D}" || die "Install failed"
+	emake install DESTDIR="${D}"
 	dodoc AUTHORS BUGS ChangeLog NEWS README THANKS TODO
 	dodoc doc/{API,FAT,USER.jp}
 	find "${ED}" -name '*.la' -exec rm -f '{}' +
