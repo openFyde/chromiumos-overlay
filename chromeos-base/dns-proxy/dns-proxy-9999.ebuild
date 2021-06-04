@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk dns-proxy shill/dbus/client .gn"
+CROS_WORKON_SUBTREE="common-mk dns-proxy metrics shill/dbus/client .gn"
 
 PLATFORM_SUBDIR="dns-proxy"
 
@@ -21,6 +21,7 @@ SLOT="0/0"
 KEYWORDS="~*"
 
 COMMON_DEPEND="
+	chromeos-base/metrics:=
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
 	chromeos-base/patchpanel-client:=
