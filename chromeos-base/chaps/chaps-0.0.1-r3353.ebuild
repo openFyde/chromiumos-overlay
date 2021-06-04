@@ -3,15 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cba55e0974501cb90bc5bf65f2b319aca6484a4e"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "e93b69044ec12a23fa687fe4d41c074fa0755350" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "507d5af9e5ce82f07a90fa0d474852befcb1619d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0b18152a7e69209a787389c668f67c16b970b769"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "e93b69044ec12a23fa687fe4d41c074fa0755350" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "507d5af9e5ce82f07a90fa0d474852befcb1619d" "841f9ad924dabe19839a4fec4aab46ae786861ba" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chaps metrics trunks .gn"
+CROS_WORKON_SUBTREE="common-mk chaps metrics trunks tpm_manager .gn"
 
 PLATFORM_SUBDIR="chaps"
 
@@ -37,6 +37,7 @@ RDEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/tpm_manager:=
 	!dev-db/leveldb
 	dev-libs/leveldb:=
 	dev-libs/openssl:=
