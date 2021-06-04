@@ -7,7 +7,31 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk metrics vm_tools .gn"
+
+PLATFORM2_PATHS=(
+	common-mk
+	metrics
+	.gn
+
+	vm_tools/BUILD.gn
+	vm_tools/host
+	vm_tools/common
+
+	vm_tools/cicerone
+	vm_tools/concierge
+	vm_tools/dbus
+	vm_tools/init
+	vm_tools/maitred/client.cc
+	vm_tools/pstore_dump
+	vm_tools/seneschal
+	vm_tools/syslog
+	vm_tools/udev
+	vm_tools/vsh
+
+	# Required by the fuzzer
+	vm_tools/OWNERS
+)
+CROS_WORKON_SUBTREE="${PLATFORM2_PATHS[*]}"
 
 PLATFORM_SUBDIR="vm_tools"
 

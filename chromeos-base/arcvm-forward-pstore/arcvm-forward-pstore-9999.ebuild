@@ -8,7 +8,17 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/vm/forward-pstore vm_tools .gn"
+
+PLATFORM2_PATHS=(
+	common-mk
+	.gn
+
+	arc/vm/forward-pstore
+
+	vm_tools/BUILD.gn
+	vm_tools/common
+)
+CROS_WORKON_SUBTREE="${PLATFORM2_PATHS[*]}"
 
 PLATFORM_SUBDIR="arc/vm/forward-pstore"
 
