@@ -232,13 +232,13 @@ src_test() {
 		"--env" "CROSVM_CARGO_TEST_ROOTFS_IMAGE=${rootfs_image}"
 	)
 
-	local skip_tests=()
-	# The memfd_create() system call first appeared in Linux 3.17.  Skip
-	# the boot test, which relies on this functionality, on older kernels.
+	# crosvm does not work on kernel versions between 5.1 and 5.10 due to
+	# io_uring bugs. Skip the integration tests on these platforms.
+	# See b/189879899
 	local cut_version=$(ver_cut 1-2 "$(uname -r)")
-	if ver_test 3.17 -gt "${cut_version}"; then
-		skip_tests+=( --skip "boot" )
-		skip_tests+=( --skip "integration_tests" )
+	if ver_test 5.10 -gt "${cut_version}"; then
+		test_opts+=( --exclude "integration_tests" )
+		test_opts+=( --exclude "io_uring" )
 	fi
 
 	if ! use x86 && ! use amd64; then
@@ -253,10 +253,6 @@ src_test() {
 	if ! use crosvm-plugin; then
 		test_opts+=( --exclude "crosvm_plugin" )
 	fi
-
-	# Temporarily disable integration tests as they are failing in staging
-	# builders. b/189879899
-	skip_tests+=( --skip "integration_tests" )
 
 	# Excluding tests that run on a different arch, use /dev/dri,
 	# /dev/net/tun, or wayland access because the bots don't support these.
@@ -283,7 +279,6 @@ src_test() {
 
 	ecargo_test "${args[@]}" \
 		-- --test-threads=1 \
-		"${skip_tests[@]}" \
 		|| die "cargo test failed"
 
 	# Plugin tests all require /dev/kvm, but we want to make sure they build
