@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="a6e5b66d33860676c3da95d3b6a6a64323af888e"
+CROS_WORKON_COMMIT="367b978b068726a51f04b1b1ecee78af3962d734"
 CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "79e720103cfee6e28f8d087f90be724afd961958" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -48,8 +48,8 @@ src_install() {
 }
 
 platform_pkg_test() {
-	# TODO(hollingum): maybe sommelier would break less if it had any tests...
 	local tests=(
+		sommelier_test
 	)
 
 	local test_bin
@@ -64,5 +64,6 @@ platform_pkg_test() {
 		meson tmp_build_dir || die "Failed to configure meson build"
 		ninja -C tmp_build_dir || die "Failed to build sommelier with meson"
 		[ -f tmp_build_dir/sommelier ] || die "Target 'sommelier' was not built by meson"
+		ninja -C tmp_build_dir test || die "Tests failed"
 	fi
 }
