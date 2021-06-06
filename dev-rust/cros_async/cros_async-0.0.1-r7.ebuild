@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="82cddfef8efed7d3d1629b2f1e8fdd508ac898b4"
+CROS_WORKON_COMMIT="76cc214ce771ab7dd0990b403e2a2c98dd0a4c80"
 CROS_WORKON_TREE="cd095493d88d5db42493f6e112eec8180f4c8e7b"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBDIRS_TO_COPY="cros_async"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Rust async tools for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/main/cros_async"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/cros_async"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"

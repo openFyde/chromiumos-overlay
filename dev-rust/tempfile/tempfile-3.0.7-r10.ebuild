@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c6367b98c28cf367ac301573d2e9d245d1ac7af"
+CROS_WORKON_COMMIT="76cc214ce771ab7dd0990b403e2a2c98dd0a4c80"
 CROS_WORKON_TREE="4d1019d4ba75c8d6c18310a8bce67bcda0eceab5"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="tempfile"
 inherit cros-workon cros-rust
 
 DESCRIPTION="A library for managing temporary files and directories"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/tempfile"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/tempfile"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"

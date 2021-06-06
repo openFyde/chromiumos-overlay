@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2ee9dcd4bbb8ac1cb1147c18481575db796d4e29"
+CROS_WORKON_COMMIT="76cc214ce771ab7dd0990b403e2a2c98dd0a4c80"
 CROS_WORKON_TREE="45225500d49ffe6b0cc50397b01585a13c61e9cc"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBDIRS_TO_COPY="sys_util"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Small system utility modules for usage by other modules."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/master/crosvm/sys_util"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/sys_util"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"

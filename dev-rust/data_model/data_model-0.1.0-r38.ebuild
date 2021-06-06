@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="584fc8944d039c3ab9949e27c09cd1264e87a25f"
+CROS_WORKON_COMMIT="76cc214ce771ab7dd0990b403e2a2c98dd0a4c80"
 CROS_WORKON_TREE="559dded7f8554570e0cbbc3d506d5f34fdc6eb86"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBDIRS_TO_COPY="data_model"
 inherit cros-workon cros-rust
 
 DESCRIPTION="Crates includes traits and types for safe interaction with raw memory."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/+/HEAD/crosvm/data_model"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/data_model"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
