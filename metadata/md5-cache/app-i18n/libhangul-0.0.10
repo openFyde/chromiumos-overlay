@@ -1,9 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=libhangul is a generalized and portable library for processing hangul.
-EAPI=0
-HOMEPAGE=http://kldp.net/projects/hangul/
-KEYWORDS=*
-LICENSE=LGPL-2.1
-SLOT=0
-SRC_URI=mirror://gentoo/libhangul-0.0.10.tar.gz
-_md5_=0f1d8c7c46b9869e31c495829a7d6862
