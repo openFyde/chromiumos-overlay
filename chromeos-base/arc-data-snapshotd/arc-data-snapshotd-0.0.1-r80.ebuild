@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8f66bc47464dfe8439d005e19754651f958c51e7"
+CROS_WORKON_COMMIT="5bcdd17dfb2918e6b7cc4f550ec3f3e683d68910"
 CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "a87d64a849461528037405d3b1a1bc5d2b9f9159" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 inherit cros-constants
 
@@ -41,10 +41,12 @@ DEPEND="
 src_install() {
 	insinto /etc/init
 	doins init/arc-data-snapshotd.conf
+	doins init/arc-data-snapshotd-worker.conf
 
 	# Install DBUS configuration file.
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.ArcDataSnapshotd.conf
+	doins dbus/org.chromium.ArcDataSnapshotdWorker.conf
 	doins dbus/ArcDataSnapshotdUpstart.conf
 
 	# Install seccomp policy file.
@@ -54,6 +56,7 @@ src_install() {
 		arc-data-snapshotd-seccomp.policy
 
 	dobin "${OUT}/arc-data-snapshotd"
+	dobin "${OUT}/arc-data-snapshotd-worker"
 }
 
 pkg_preinst() {
@@ -62,7 +65,7 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	# Disable tests that invoke arc::data_snapshotd::CopySnapshotDirectory()
+	# Disable tests that invoke arc::data_snapshotd::CopySnapshotDirectory
 	# on qemu.
 	local gtest_filter_qemu=""
 	gtest_filter_qemu+="-DBusAdaptorTest.TakeSnapshotAndroidDataSymLink:"
@@ -72,5 +75,7 @@ platform_pkg_test() {
 	gtest_filter_qemu+="DBusAdaptorTest.LoadSnapshotPreviousSuccess:"
 
 	platform_test "run" "${OUT}/arc-data-snapshotd_test" "" "" \
+		"${gtest_filter_qemu}"
+	platform_test "run" "${OUT}/arc-data-snapshotd-worker_test" "" "" \
 		"${gtest_filter_qemu}"
 }
