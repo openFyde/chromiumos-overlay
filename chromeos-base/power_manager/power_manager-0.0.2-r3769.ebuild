@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b255cc0249bda06fad8b77af3d23e1bcf6a785b1"
+CROS_WORKON_COMMIT="d8bfd89f95ccd0fca441d84b1981660e663e4b4a"
 CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "47f6ceba57219100723f2671e0d507bd7605f22f" "8990b0761ef52cd3d53ecfd588738ab7aac39593" "3b841776f2ed47cb41f213eebe1b9ba0f4c0d44a" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "f2be5b63960849e1da9be51fe292ba20ba95d122" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="-als buffet +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco trogdor_sar_hack"
+IUSE="-als buffet cellular +cras cros_embedded +display_backlight fuzzer generated_cros_config -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -42,13 +42,13 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/ec-utils
 	iioservice? ( chromeos-base/libiioservice_ipc:= )
 	mosys_eventlog? ( sys-apps/mosys )
-	trogdor_sar_hack? ( net-libs/libqrtr:= )
+	qrtr? ( net-libs/libqrtr:= )
 "
 
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ec-headers:=
 	chromeos-base/system_api:=[fuzzer?]
-	trogdor_sar_hack? ( sys-apps/upstart:= )
+	qrtr? ( sys-apps/upstart:= )
 "
 
 pkg_setup() {
