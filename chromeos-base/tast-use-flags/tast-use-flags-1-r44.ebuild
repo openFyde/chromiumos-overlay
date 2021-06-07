@@ -58,7 +58,6 @@ IUSE="
 	dptf
 	elm-kernelnext
 	direncription_allow_v2
-	+display_backlight
 	dlc
 	dlc_test
 	+drivefs
