@@ -3,13 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bc793c295352c5f9789bb9a7f5873c96d1349b43"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "c200c725a537163b64b27b630cb1b67320f627a6" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "507d5af9e5ce82f07a90fa0d474852befcb1619d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="461d69292bf269dab0180996012a69b83d3e2180"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "81dfbbc1756a3b4224b447e7bf10a916d97c4f66" "dab540c54cd768848b0688ad9989a314e31667f2" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "e857bad3d8e9630eddcc410c90b5deb4dca08db4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk libhwsec metrics trunks .gn"
+# TODO(crbug/1184685): "libhwsec" is not necessary; remove it after solving
+# the bug.
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation metrics trunks .gn"
 
 PLATFORM_SUBDIR="trunks"
 
@@ -54,7 +56,7 @@ RDEPEND="
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	!app-crypt/tpm-tools
-	chromeos-base/libhwsec
+	chromeos-base/libhwsec-foundation
 	"
 
 DEPEND="

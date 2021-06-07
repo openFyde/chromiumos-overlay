@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bc793c295352c5f9789bb9a7f5873c96d1349b43"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "c200c725a537163b64b27b630cb1b67320f627a6" "d7b26c5d01176256d4d16248c9f566077506d0f0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="461d69292bf269dab0180996012a69b83d3e2180"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "81dfbbc1756a3b4224b447e7bf10a916d97c4f66" "dab540c54cd768848b0688ad9989a314e31667f2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -38,6 +38,10 @@ src_install() {
 	insinto /usr/include/libhwsec-foundation/tpm_error
 	doins ./tpm_error/tpm_error_data.h
 	doins ./tpm_error/handle_auth_failure.h
+
+	insinto /usr/include/libhwsec-foundation/utility
+	doins ./utility/conversions.h
+	doins ./utility/crypto.h
 
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
 }
