@@ -76,6 +76,7 @@ IUSE="
 	oobe_skip_postlogin
 	oobe_skip_to_login
 	opengles
+	os_install_service
 	passive_event_listeners
 	pita
 	pita-camera
