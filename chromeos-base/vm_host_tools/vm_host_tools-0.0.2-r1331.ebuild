@@ -3,13 +3,37 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fe42a6c31997e2650ceb79866f33accc6261f780"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "c5cd2b9b2f3620d1700aa2093a38ef7d5f7210c6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e88fec6d3699a021360a88eef2dc17e6ba73e2db"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7ef75a42aba67052842459f221271e681184cc89" "6ac391aa2da8e29cd4de58f7f7b489a9dc053382" "c1bde153626532428bf7409bc0597e79452c5eb8" "29290653e1c185055d8bbffa5e39b3e74fb24106" "c5d1eae73d2df8065e15affd2093f181f21903ee" "769e13f6dee13ebd0c44104daec920b2101d9bed" "50eebbe92f169d998a08ba8710d37dcef439b47d" "edcdfbcab4b3c4525ccb60500aa145d24cafd7f7" "27d31e84486e3c2a8fcf2deb13b46af8311bbae9" "82e4b5c7e0ce0efa9061a09d81555845183e8d63" "dcc85a40b5c9518fac5d6d9b571131998bd62653" "4b930736bc7da8c301f27c7a82718e7d605de289" "04812f95a99341b51d5b838c9470f7915b2a5f11" "91eccc114d7ae139f67d386eae13e0cccb5ce4a3")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk metrics vm_tools .gn"
+
+PLATFORM2_PATHS=(
+	common-mk
+	metrics
+	.gn
+
+	vm_tools/BUILD.gn
+	vm_tools/host
+	vm_tools/common
+
+	vm_tools/cicerone
+	vm_tools/concierge
+	vm_tools/dbus
+	vm_tools/init
+	vm_tools/maitred/client.cc
+	vm_tools/pstore_dump
+	vm_tools/seneschal
+	vm_tools/syslog
+	vm_tools/udev
+	vm_tools/vsh
+
+	# Required by the fuzzer
+	vm_tools/OWNERS
+)
+CROS_WORKON_SUBTREE="${PLATFORM2_PATHS[*]}"
 
 PLATFORM_SUBDIR="vm_tools"
 

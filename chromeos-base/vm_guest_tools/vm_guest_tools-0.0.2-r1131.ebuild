@@ -3,13 +3,37 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fe42a6c31997e2650ceb79866f33accc6261f780"
-CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "c5cd2b9b2f3620d1700aa2093a38ef7d5f7210c6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e88fec6d3699a021360a88eef2dc17e6ba73e2db"
+CROS_WORKON_TREE=("49ec0cc074e4fe5ad441f01547361a8f211118fa" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7ef75a42aba67052842459f221271e681184cc89" "0865c9d3ea1e3df829430fe6bc25ecbc3bc865ca" "c1bde153626532428bf7409bc0597e79452c5eb8" "5159f439e8516f904859190cfd0375b7a4d05db2" "919e81fa931f33957afe7100faf27301f07dc177" "97190407ff6df6ae497a54e632369afdf09cd621" "066ea0eb88fd1a163a045e816f395e9e12b7a153" "40934111a9826b46aca5b0b3309b1cceea46f7a4" "79e720103cfee6e28f8d087f90be724afd961958" "dcc85a40b5c9518fac5d6d9b571131998bd62653" "bf33fa9b44cf05a4e8a416a1a3e8ad2d905daa8e" "889e63b35e958b34d6cf15f62b243d442f1bac83" "04812f95a99341b51d5b838c9470f7915b2a5f11" "91eccc114d7ae139f67d386eae13e0cccb5ce4a3" "a01dc69a1e1fa54805fe9b48ce5c278a7e70de0c")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk vm_tools .gn"
+
+PLATFORM2_PATHS=(
+	common-mk
+	.gn
+
+	vm_tools/BUILD.gn
+	vm_tools/guest
+	vm_tools/common
+
+	vm_tools/demos
+	vm_tools/garcon
+	vm_tools/guest_service_failure_notifier
+	vm_tools/maitred
+	vm_tools/notificationd
+	vm_tools/sommelier
+	vm_tools/syslog
+	vm_tools/upgrade_container
+	vm_tools/virtwl_guest_proxy
+	vm_tools/vsh
+
+	# Required by the fuzzer
+	vm_tools/OWNERS
+	vm_tools/testdata
+)
+CROS_WORKON_SUBTREE="${PLATFORM2_PATHS[*]}"
 
 PLATFORM_SUBDIR="vm_tools"
 
