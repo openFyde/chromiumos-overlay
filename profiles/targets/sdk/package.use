@@ -67,6 +67,9 @@ sys-libs/libcxxabi abi_x86_32
 sys-libs/libcxx abi_x86_32
 sys-libs/llvm-libunwind abi_x86_32
 
+# Disable libgcc_s.so creation for host builds.
+sys-libs/llvm-libunwind -synth_libgcc
+
 # vaapi is not used through ffmpeg on ChromiumOS, avoid dependency for sdk
 media-video/ffmpeg -vaapi
 

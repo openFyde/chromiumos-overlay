@@ -728,7 +728,8 @@ filter_unsupported_gcc_flags() {
 	for var in CFLAGS CXXFLAGS LDFLAGS; do
 		for flag in ${!var}; do
 			if [[ ${flag} != "-Xcompiler" && \
-			      ${flag} != "-Wl,--icf=all" ]]; then
+			      ${flag} != "-Wl,--icf=all" && \
+			      ${flag} != "--unwindlib=libunwind" ]]; then
 				flags+=("${flag}")
 			fi
 		done

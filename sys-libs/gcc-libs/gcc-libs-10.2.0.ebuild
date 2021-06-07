@@ -13,7 +13,7 @@ DESCRIPTION="The GNU Compiler Collection. This builds and installs the libgcc, l
 
 LICENSE="GPL-3 LGPL-3 FDL-1.2"
 KEYWORDS="*"
-IUSE="go hardened hardfp libatomic +thumb vtable_verify"
+IUSE="go hardened hardfp libatomic +thumb vtable_verify libunwind"
 REQUIRED_USE="go? ( libatomic )"
 
 : ${CTARGET:=${CHOST}}
@@ -206,6 +206,7 @@ src_install() {
 	# make this a configure option but hardcode the toolexeclibdir when
 	# they're being cross-compiled.
 	dolib.so "${D}"/usr/${CTARGET}/$(get_libdir)/lib*.so*
+	use libunwind && rm -f "${D}"/usr/$(get_libdir)/libgcc_s*
 	rm -rf "${D}"/usr/${CTARGET}
 }
 
