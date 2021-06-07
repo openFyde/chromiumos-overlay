@@ -391,8 +391,6 @@ src_install() {
 		else
 			doins "${FILESDIR}"/dbus_permissions/fi.w1.wpa_supplicant1.conf
 		fi
-
-		popd > /dev/null
 	fi
 	# Install the init scripts
 	if use systemd; then
