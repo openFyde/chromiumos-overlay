@@ -106,6 +106,7 @@ src_install_upstart() {
 		doins upstart/sysrq-init.conf
 
 		if use syslog; then
+			doins upstart/collect-early-logs.conf
 			doins upstart/log-rotate.conf upstart/syslog.conf
 			dotmpfiles tmpfiles.d/syslog.conf
 		fi
