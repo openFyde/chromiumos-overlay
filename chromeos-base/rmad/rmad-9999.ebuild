@@ -21,14 +21,19 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="cr50_onboard ti50_onboard"
 
+COMMON_DEPEND=""
+
 RDEPEND="
+	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
+	chromeos-base/runtime_probe
 "
 
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPEND}
 	chromeos-base/system_api
+	chromeos-base/vboot_reference
 "
 
 pkg_preinst() {
