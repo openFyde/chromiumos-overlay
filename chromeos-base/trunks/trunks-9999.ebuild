@@ -22,6 +22,7 @@ LICENSE="Apache-2.0"
 KEYWORDS="~*"
 IUSE="
 	cr50_onboard
+	csme_emulator
 	fuzzer
 	ftdi_tpm
 	generic_tpm2
