@@ -25,6 +25,14 @@ if [ ! -d "${chroot}" ]; then
   exit 1
 fi
 
+readonly build_version_arg="$2"
+readonly build_version_default="local-${USER}"
+build_version="${build_version_arg}"
+if [ -z "${build_version}" ]; then
+  echo "No build_version specified, so defaulting to: ${build_version_default}"
+  build_version="${build_version_default}"
+fi
+
 readonly tmpdir=$(mktemp -d)
 trap "rm -rf ${tmpdir}" EXIT
 
@@ -32,4 +40,10 @@ cp "${chroot}/usr/bin/provisionserver" "${tmpdir}"
 
 readonly build_context="${tmpdir}"
 
-sudo docker build -f "${script_dir}/Dockerfile" "${build_context}"
+readonly registry_name="gcr.io/chromeos-bot"
+readonly image_name="provision-server-image"
+readonly image_tag="${registry_name}/${image_name}:${build_version}"
+
+sudo docker build -f "${script_dir}/Dockerfile" -t "${image_tag}" "${build_context}"
+
+# TODO(shapiroc): Authenticate and push
