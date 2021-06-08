@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_ma
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="test tpm tpm2 fuzzer"
+IUSE="pinweaver_csme test tpm tpm2 fuzzer"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
@@ -55,9 +55,13 @@ src_install() {
 	insinto /etc/init
 	doins server/tpm_managerd.conf
 	if use tpm2; then
-		sed -i 's/started tcsd/started trunksd/' \
+		dep_job="trunksd"
+		if use pinweaver_csme; then
+			dep_job="tpm_tunneld"
+		fi
+		sed -i "s/started tcsd/started ${dep_job}/" \
 			"${D}/etc/init/tpm_managerd.conf" ||
-			die "Can't replace tcsd with trunksd in tpm_managerd.conf"
+			die "Can't replace tcsd with ${dep_job} in tpm_managerd.conf"
 	fi
 
 	# Install the executables provided by TpmManager
