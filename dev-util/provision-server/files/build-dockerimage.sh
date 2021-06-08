@@ -40,10 +40,11 @@ cp "${chroot}/usr/bin/provisionserver" "${tmpdir}"
 
 readonly build_context="${tmpdir}"
 
-readonly registry_name="gcr.io/chromeos-bot"
+readonly registry_name="gcr.io"
+readonly cloud_project="chromeos-bot"
 readonly image_name="provision-server-image"
-readonly image_tag="${registry_name}/${image_name}:${build_version}"
+readonly image_path="${registry_name}/${cloud_project}/${image_name}:${build_version}"
 
-sudo docker build -f "${script_dir}/Dockerfile" -t "${image_tag}" "${build_context}"
-
-# TODO(shapiroc): Authenticate and push
+sudo docker build -f "${script_dir}/Dockerfile" -t "${image_path}" "${build_context}"
+sudo docker login -u oauth2accesstoken -p "$(gcloud auth print-access-token)" "https://${registry_name}"
+sudo docker push "${image_path}"
