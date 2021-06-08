@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("3a96f8bd430e9c9f5de9c195effe9e0e77a1c6c6" "b217594b9b67215dd6e663ec46d48ed5f88876e1")
-CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5ed23b2fe7a8d654bd9202f3e0a4cbe935adcdf7")
+CROS_WORKON_COMMIT=("e58c64c6a5ed9facb64daea2a6a5641e1fde43cb" "e922041a3a292360e5dbfacfebbf1db6c2d5aa6e")
+CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "55312d0763586789c6ae6d5800ebedbdf2d5943c")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
