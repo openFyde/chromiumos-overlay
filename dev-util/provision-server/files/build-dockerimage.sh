@@ -9,6 +9,11 @@ readonly script_dir="$(dirname "$(realpath -e "${BASH_SOURCE[0]}")")"
 readonly chroot_arg="$1"
 readonly chroot_default="${script_dir}/../../../../../../chroot"
 
+if [[ -e ${CHROOT_VERSION_FILE} ]]; then
+  echo "Script must run outside the chroot since this depends on docker"
+  exit 1
+fi
+
 chroot="${chroot_arg}"
 if [ -z "${chroot}" ]; then
   echo "No chroot specified, so defaulting to: ${chroot_default}"
