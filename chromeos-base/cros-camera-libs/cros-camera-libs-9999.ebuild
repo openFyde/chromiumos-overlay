@@ -5,7 +5,7 @@ EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk iioservice/libiioservice_ipc iioservice/mojo metrics"
+CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo iioservice/libiioservice_ipc iioservice/mojo"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -17,7 +17,9 @@ DESCRIPTION="Chrome OS camera common libraries."
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="camera_feature_portrait_mode ipu6se"
+
+# 'camera_feature_hdrnet' and 'ipu6ep' are passed to and used in BUILD.gn files.
+IUSE="camera_feature_hdrnet camera_feature_portrait_mode ipu6ep ipu6se"
 
 BDEPEND="virtual/pkgconfig"
 
@@ -38,6 +40,7 @@ CONFLICTING_PACKAGES="
 RDEPEND="
 	${CONFLICTING_PACKAGES}
 	chromeos-base/cros-camera-android-deps:=
+	camera_feature_hdrnet? ( media-libs/cros-camera-libhdr:= )
 	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )
 	media-libs/libexif:=
 	media-libs/libsync:=
