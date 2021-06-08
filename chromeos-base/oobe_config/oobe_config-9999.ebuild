@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk oobe_config libtpmcrypto metrics .gn"
+CROS_WORKON_SUBTREE="common-mk oobe_config metrics .gn"
 
 PLATFORM_SUBDIR="oobe_config"
 
@@ -23,9 +23,7 @@ IUSE="tpm tpm2"
 REQUIRED_USE="?? ( tpm tpm2 )"
 
 COMMMON_DEPEND="
-	chromeos-base/libtpmcrypto:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
-	dev-libs/openssl:0=
 	sys-apps/dbus:=
 "
 RDEPEND="${COMMMON_DEPEND}"
@@ -47,8 +45,6 @@ src_install() {
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
 	dosbin "${OUT}"/rollback_finish_restore
-	dosbin "${OUT}"/finish_oobe_auto_config
-	dosbin "${OUT}"/store_usb_oobe_config
 
 	insinto /etc/dbus-1/system.d
 	doins etc/dbus-1/org.chromium.OobeConfigRestore.conf
