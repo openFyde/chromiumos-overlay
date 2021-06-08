@@ -26,6 +26,7 @@ IUSE="
 	fuzzer
 	ftdi_tpm
 	generic_tpm2
+	pinweaver_csme
 	test
 	ti50_onboard
 	tpm2_simulator
@@ -76,13 +77,13 @@ src_install() {
 		doins trunksd.conf
 	fi
 
-	newins csme/tpm_tunneld.conf tpm_tunneld.conf
+	if use pinweaver_csme && use generic_tpm2; then
+		newins csme/tpm_tunneld.conf tpm_tunneld.conf
+	fi
 
 	dosbin "${OUT}"/pinweaver_client
-	dosbin "${OUT}"/pinweaver_provision
 	dosbin "${OUT}"/trunks_client
 	dosbin "${OUT}"/trunks_send
-	dosbin "${OUT}"/tpm_tunneld
 	dosbin tpm_version
 	dosbin "${OUT}"/trunksd
 	dolib.so "${OUT}"/lib/libtrunks.so
@@ -92,10 +93,15 @@ src_install() {
 		dolib.a "${OUT}"/libtrunks_test.a
 	fi
 
+	if use pinweaver_csme && use generic_tpm2; then
+		dosbin "${OUT}"/pinweaver_provision
+		dosbin "${OUT}"/tpm_tunneld
+	fi
+
 	insinto /usr/share/policy
 	newins trunksd-seccomp-${ARCH}.policy trunksd-seccomp.policy
 
-	if [[ ${ARCH} == "amd64" ]]; then
+	if use pinweaver_csme && use generic_tpm2; then
 		newins csme/tpm_tunneld-seccomp-${ARCH}.policy tpm_tunneld-seccomp.policy
 	fi
 
