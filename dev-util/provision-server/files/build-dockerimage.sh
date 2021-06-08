@@ -25,6 +25,11 @@ if [ ! -d "${chroot}" ]; then
   exit 1
 fi
 
-build_context="${chroot}/usr/bin"
+readonly tmpdir=$(mktemp -d)
+trap "rm -rf ${tmpdir}" EXIT
+
+cp "${chroot}/usr/bin/provisionserver" "${tmpdir}"
+
+readonly build_context="${tmpdir}"
 
 sudo docker build -f "${script_dir}/Dockerfile" "${build_context}"
