@@ -79,6 +79,7 @@ src_install() {
 	newins csme/tpm_tunneld.conf tpm_tunneld.conf
 
 	dosbin "${OUT}"/pinweaver_client
+	dosbin "${OUT}"/pinweaver_provision
 	dosbin "${OUT}"/trunks_client
 	dosbin "${OUT}"/trunks_send
 	dosbin "${OUT}"/tpm_tunneld
