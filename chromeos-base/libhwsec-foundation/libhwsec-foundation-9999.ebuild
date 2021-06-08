@@ -32,6 +32,12 @@ RDEPEND="
 src_install() {
 	insinto /usr/include/libhwsec-foundation
 	doins ./hwsec-foundation_export.h
+	doins ./signature_traits.h
+
+	insinto /usr/include/libhwsec-foundation/syscaller
+	doins ./syscaller/syscaller.h
+	doins ./syscaller/syscaller_impl.h
+	doins ./syscaller/mock_syscaller.h
 
 	insinto /usr/include/libhwsec-foundation/tpm_error
 	doins ./tpm_error/tpm_error_data.h
