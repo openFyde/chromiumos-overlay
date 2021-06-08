@@ -47,6 +47,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/lorgnette
 	insinto /etc/dbus-1/system.d
 	doins dbus_permissions/org.chromium.lorgnette.conf
