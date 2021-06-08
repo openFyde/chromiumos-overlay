@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="8c218717dbb3da26ef7644fc1ce08d2f78273a96"
-CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "81dfbbc1756a3b4224b447e7bf10a916d97c4f66" "5d77de997847c22cb783cc11cd0fab4f6fae59f0" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "841f9ad924dabe19839a4fec4aab46ae786861ba" "19beb6bba8b4dc12c6e4b167956a74cb8e0a92d6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e48b88ce650e35de315612da9022f0ba596c53e6"
+CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "81dfbbc1756a3b4224b447e7bf10a916d97c4f66" "5d77de997847c22cb783cc11cd0fab4f6fae59f0" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "be3649127dd6f4665096282522ab70aedbc37acd" "19beb6bba8b4dc12c6e4b167956a74cb8e0a92d6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -65,21 +65,10 @@ src_install() {
 	# Install the executables provided by TpmManager
 	dosbin "${OUT}"/tpm_managerd
 	dosbin "${OUT}"/local_data_migration
-	dobin "${OUT}"/tpm_manager_client
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
 	newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
-
-	dolib.so "${OUT}"/lib/libtpm_manager.so
-	dolib.a "${OUT}"/libtpm_manager_test.a
-
-
-	# Install header files.
-	insinto /usr/include/tpm_manager/client
-	doins client/*.h
-	insinto /usr/include/tpm_manager/common
-	doins common/*.h
 }
 
 platform_pkg_test() {
