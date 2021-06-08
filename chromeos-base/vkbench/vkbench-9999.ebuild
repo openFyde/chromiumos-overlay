@@ -24,6 +24,7 @@ BDEPEND="
 "
 
 RDEPEND="
+	dev-libs/libfmt:=
 	media-libs/libpng:=
 	media-libs/vulkan-loader:=
 	virtual/vulkan-icd:=
