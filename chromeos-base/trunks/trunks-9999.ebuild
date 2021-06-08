@@ -143,4 +143,8 @@ platform_pkg_test() {
 pkg_preinst() {
 	enewuser trunks
 	enewgroup trunks
+	if use pinweaver_csme && use generic_tpm2; then
+		enewuser tpm_tunneld
+		enewgroup tpm_tunneld
+	fi
 }
