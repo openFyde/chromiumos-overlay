@@ -5,6 +5,7 @@
 EAPI=4
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
+CROS_WORKON_SUBTREE="util/superiotool"
 
 inherit cros-workon toolchain-funcs
 
