@@ -39,6 +39,8 @@ S=${WORKDIR}/${MY_PN}
 
 src_prepare() {
 	cd Source
+	epatch "${FILESDIR}"/${P}-libjpeg-turbo.patch
+	cp LibJPEG/{jpegcomp.h,jpegint.h} . || die
 	cp LibJPEG/{transupp.c,transupp.h,jinclude.h} . || die
 	cp LibTIFF4/{tiffiop,tif_dir}.h . || die
 	rm -rf LibPNG LibMNG LibOpenJPEG ZLib OpenEXR LibRawLite LibTIFF4 LibJPEG || die
@@ -66,6 +68,7 @@ src_prepare() {
 		Makefile.srcs fipMakefile.srcs || die
 	epatch "${FILESDIR}"/${PF}-unbundling.patch
 	epatch "${FILESDIR}"/${P}-libpng-1.2.patch
+	epatch "${FILESDIR}"/${P}-jpeg-rename.patch
 }
 
 foreach_make() {
