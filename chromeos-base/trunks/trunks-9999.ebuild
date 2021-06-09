@@ -76,9 +76,12 @@ src_install() {
 		doins trunksd.conf
 	fi
 
+	newins csme/tpm_tunneld.conf tpm_tunneld.conf
+
 	dosbin "${OUT}"/pinweaver_client
 	dosbin "${OUT}"/trunks_client
 	dosbin "${OUT}"/trunks_send
+	dosbin "${OUT}"/tpm_tunneld
 	dosbin tpm_version
 	dosbin "${OUT}"/trunksd
 	dolib.so "${OUT}"/lib/libtrunks.so
@@ -90,6 +93,10 @@ src_install() {
 
 	insinto /usr/share/policy
 	newins trunksd-seccomp-${ARCH}.policy trunksd-seccomp.policy
+
+	if [[ ${ARCH} == "amd64" ]]; then
+		newins csme/tpm_tunneld-seccomp-${ARCH}.policy tpm_tunneld-seccomp.policy
+	fi
 
 	insinto /usr/include/trunks
 	doins *.h
