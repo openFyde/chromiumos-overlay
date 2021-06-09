@@ -350,42 +350,6 @@ src_install() {
 	find "${ED}" -name '*.la' -delete || die
 }
 
-pkg_postinst() {
-	local advertise_readme=0
-
-	if [[ -z "${REPLACING_VERSIONS}" ]]; then
-		# This is a new installation
-
-		advertise_readme=1
-
-		if use mysql || use postgres; then
-			echo
-			elog "Sample SQL scripts for MySQL & PostgreSQL have been installed to:"
-			elog "  /usr/share/doc/${PF}/scripts"
-		fi
-
-		if use ssl; then
-			echo
-			elog "To create a default CA and certificates for your server and clients, run:"
-			elog "  emerge --config =${PF}"
-			elog "on your logging server. You can run it several times,"
-			elog "once for each logging client. The client certificates will be signed"
-			elog "using the CA certificate generated during the first run."
-		fi
-	fi
-
-	if [[ ${advertise_readme} -gt 0 ]]; then
-		# We need to show the README file location
-
-		echo ""
-		elog "Please read"
-		elog ""
-		elog "  ${EPREFIX}/usr/share/doc/${PF}/README.gentoo*"
-		elog ""
-		elog "for more details."
-	fi
-}
-
 pkg_config() {
 	if ! use ssl; then
 		einfo "There is nothing to configure for rsyslog unless you"
