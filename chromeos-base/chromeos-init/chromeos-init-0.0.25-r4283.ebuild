@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8c218717dbb3da26ef7644fc1ce08d2f78273a96"
-CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "fac86f5a0a367c7d84e1d91154f60d42e2b6ceec" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="516f79935e2c737a9eb7ebd4b2aeaeffe7a3b38d"
+CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "9b4942e9c481a26939b5aa0320818af599ea335c" "cfa7837a4db4f2b3340922723875f772cbf59f3b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -108,6 +108,7 @@ src_install_upstart() {
 		doins upstart/sysrq-init.conf
 
 		if use syslog; then
+			doins upstart/collect-early-logs.conf
 			doins upstart/log-rotate.conf upstart/syslog.conf
 			dotmpfiles tmpfiles.d/syslog.conf
 		fi
