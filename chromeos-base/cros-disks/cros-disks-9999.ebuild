@@ -30,6 +30,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	net-fs/sshfs
+	sys-fs/archivemount
 	sys-fs/dosfstools
 	sys-fs/exfat-utils
 	sys-fs/fuse-exfat
