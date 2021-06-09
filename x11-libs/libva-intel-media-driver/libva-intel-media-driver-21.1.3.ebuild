@@ -24,6 +24,7 @@ RDEPEND="${DEPEND}"
 PATCHES=(
 	"${FILESDIR}"/0001-Disable-IPC-usage.patch
 	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
+	"${FILESDIR}"/0003-Stop-using-mos_bo_subdata.patch
 )
 
 src_configure() {
