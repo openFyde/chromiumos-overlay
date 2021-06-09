@@ -4,9 +4,10 @@
 
 EAPI=4
 CROS_WORKON_COMMIT="af6d54bbb74b9213cb915aae3f7aa8b223905b31"
-CROS_WORKON_TREE="e66159b785e262deb55d62ce9c1e1fa25446e2f1"
+CROS_WORKON_TREE="bfef75f3a17da232f402e1799b42c25c2b1c5176"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
+CROS_WORKON_SUBTREE="util/superiotool"
 
 inherit cros-workon toolchain-funcs
 
