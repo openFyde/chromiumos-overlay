@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8c218717dbb3da26ef7644fc1ce08d2f78273a96"
-CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "fdebd4ec45956a23b0652a35097ab22e33564e51" "4bd930465244809dd74d4f51fbdfb0d8f0d0d5ed" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1fba32ef069d3323d0d2886aab9c2b90408b3eb7"
+CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "fdebd4ec45956a23b0652a35097ab22e33564e51" "95c1e1941f17a829c55a76e41d1c1e2f9b59f3a9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -129,7 +129,6 @@ src_install() {
 	udev_dorules udev/99-chown_dmi_dir.rules
 
 	# Install fuzzers.
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_block_device_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_system_info_fuzzer
 }
 
