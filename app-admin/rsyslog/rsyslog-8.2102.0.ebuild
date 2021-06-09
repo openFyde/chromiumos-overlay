@@ -325,8 +325,6 @@ src_install() {
 
 	use systemd && systemd_newunit "${FILESDIR}/${PN}.service" ${PN}.service
 
-	keepdir /var/empty/dev
-	keepdir /var/spool/${PN}
 	keepdir /etc/ssl/${PN}
 	keepdir /etc/${PN}.d
 
