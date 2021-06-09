@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,7 +11,7 @@ DESCRIPTION="Library to help create and query binary XML blobs"
 HOMEPAGE="https://github.com/hughsie/libxmlb"
 SRC_URI="https://github.com/hughsie/libxmlb/archive/${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="LGPL-2.1+"
-SLOT="0"
+SLOT="0/2" # libxmlb.so version
 
 KEYWORDS="*"
 IUSE="doc introspection stemmer test"
@@ -31,24 +31,20 @@ DEPEND="
 "
 
 BDEPEND="
+	${PYTHON_DEPS}
 	>=dev-util/meson-0.47.0
 	virtual/pkgconfig
 	introspection? (
 		$(python_gen_any_dep 'dev-python/setuptools[${PYTHON_USEDEP}]')
-		${PYTHON_DEPS}
 	)
 "
-
-PATCHES=(
-	"${FILESDIR}/${P}-xb_builder_source_ctx_guess_content.patch"
-)
 
 python_check_deps() {
 	has_version -b "dev-python/setuptools[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {
-	use introspection && python-any-r1_pkg_setup
+	python-any-r1_pkg_setup
 }
 
 src_configure() {
