@@ -93,6 +93,7 @@ SERVER_IUSE_TESTS="
 			+tests_cheets_VTS_R
 		)
 	)
+	+tests_cellular_Callbox_AssertCellularData
 	+tests_cheets_LabDependencies
 	debugd? ( +tests_debugd_DevTools )
 	+tests_crosperf_Wrapper
