@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="953d45a16abb54b2e664b6773a7977fd4d6f06de"
-CROS_WORKON_TREE="80d46b2049408aead4c708da4b4256b3fa42b319"
+CROS_WORKON_COMMIT="6c3722f49a115b6c4401c5769ce37763539bd1df"
+CROS_WORKON_TREE="3cbeff869f46e5b6b85ac811d40755218c756ccd"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="platform/dev"
 CROS_WORKON_SUBTREE="src"
@@ -21,6 +21,7 @@ IUSE=""
 DEPEND="
 	dev-util/provision-server
 	dev-util/test-exec-server
+	dev-util/test-plan
 	dev-util/dut-server
 "
 RDEPEND="${DEPEND}"
