@@ -16,7 +16,7 @@ KEYWORDS="~*"
 IUSE=""
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/plan/cmd"
+	"chromiumos/test/plan/cmd/testplan.go"
 )
 
 CROS_GO_TEST=(
