@@ -71,6 +71,7 @@ IUSE="
 	hana-kernelnext
 	houdini
 	houdini64
+	hps
 	iioservice
 	internal
 	+internal_mic
