@@ -114,7 +114,6 @@ src_configure() {
 		$(meson_use elogind)
 		$(meson_use flashrom plugin_flashrom)
 		$(meson_use gnutls)
-		$(meson_use gtk-doc gtkdoc)
 		$(meson_use gusb)
 		$(meson_use gusb plugin_altos)
 		$(meson_use man)
@@ -130,6 +129,7 @@ src_configure() {
 		$(meson_use uefi plugin_uefi_pk)
 		-Dconsolekit="false"
 		-Dcurl="true"
+		-Ddocs="$(usex gtk-doc gtkdoc none)"
 		# Dependencies are not available (yet?)
 		-Dplugin_modem_manager="false"
 		-Dplugin_tpm="false"
