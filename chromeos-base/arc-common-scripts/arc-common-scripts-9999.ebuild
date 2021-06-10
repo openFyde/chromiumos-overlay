@@ -30,7 +30,6 @@ src_install() {
 	insinto /etc/init
 	doins arc/container/scripts/arc-kmsg-logger.conf
 	use iioservice || doins arc/container/scripts/arc-sensor.conf
-	doins arc/container/scripts/arc-sysctl.conf
 	doins arc/container/scripts/arc-ureadahead.conf
 	insinto /etc/sysctl.d
 	doins arc/container/scripts/01-sysctl-arc.conf
