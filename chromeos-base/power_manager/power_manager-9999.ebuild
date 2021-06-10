@@ -34,7 +34,8 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	cras? ( media-sound/adhd:= )
-	virtual/udev"
+	virtual/udev
+	cellular? ( net-misc/modemmanager-next:= )"
 
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/ec-utils
