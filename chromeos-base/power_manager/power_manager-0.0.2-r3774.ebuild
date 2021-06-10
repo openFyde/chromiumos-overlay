@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d5f6fcf8fe94f66254621f98c2a5a803f2b2c363"
+CROS_WORKON_COMMIT="aab349e600d160b911a60b2181dca0e77afcdd1d"
 CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "47f6ceba57219100723f2671e0d507bd7605f22f" "fdebd4ec45956a23b0652a35097ab22e33564e51" "3b841776f2ed47cb41f213eebe1b9ba0f4c0d44a" "ee7b99d3149e69de14c58c58d6d14a0c2bc6e4a3" "3e1e53d8af883913c4c47a5edefaa2e48adb9c77" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,7 +36,8 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	cras? ( media-sound/adhd:= )
-	virtual/udev"
+	virtual/udev
+	cellular? ( net-misc/modemmanager-next:= )"
 
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/ec-utils
