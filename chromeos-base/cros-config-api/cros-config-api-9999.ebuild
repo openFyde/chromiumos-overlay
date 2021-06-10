@@ -19,9 +19,7 @@ LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
 
-RDEPEND="
-	dev-go/genproto
-"
+RDEPEND=""
 
 DEPEND="
 	${RDEPEND}

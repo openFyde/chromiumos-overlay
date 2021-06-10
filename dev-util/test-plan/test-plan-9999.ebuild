@@ -29,7 +29,6 @@ CROS_GO_VET=(
 
 DEPEND="
 	chromeos-base/cros-config-api
-	dev-go/glog
 	dev-go/luci-go-common
 	dev-go/maruel-subcommands
 	dev-go/protobuf
