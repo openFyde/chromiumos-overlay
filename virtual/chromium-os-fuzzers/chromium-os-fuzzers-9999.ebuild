@@ -25,7 +25,6 @@ RDEPEND="
 	chromeos-base/arc-setup[fuzzer]
 	chromeos-base/authpolicy[fuzzer]
 	chromeos-base/biod[fuzzer]
-	chromeos-base/bluetooth[fuzzer]
 	chromeos-base/chaps[fuzzer]
 	chromeos-base/chromeos-ec[fuzzer]
 	chromeos-base/chromeos-login[fuzzer]

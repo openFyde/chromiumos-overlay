@@ -183,7 +183,7 @@ RDEPEND="
 		chromeos-base/sample-dlc
 		chromeos-base/test-dlc
 	)
-	bluetooth? ( chromeos-base/bluetooth )
+	bluetooth? ( net-wireless/bluez )
 	bootchart? ( app-benchmarks/bootchart )
 	tpm? (
 		!tpm2? ( app-crypt/trousers )
