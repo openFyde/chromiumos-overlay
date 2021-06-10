@@ -143,16 +143,6 @@ src_install() {
 	insinto "${deqp_dir}"
 	doins -r "doc/testlog-stylesheet"
 
-	# Install master control files (deprecated location)
-	insinto "${deqp_dir}/master"
-	doins "android/cts/master/egl-master.txt"
-	doins "android/cts/master/gles2-master.txt"
-	doins "android/cts/master/gles3-master.txt"
-	doins "android/cts/master/gles31-master.txt"
-	if use vulkan; then
-		doins "android/cts/master/vk-master.txt"
-	fi
-
 	# Install caselists
 	insinto "${deqp_dir}/caselists"
 	newins "android/cts/master/egl-master.txt" "egl.txt"
