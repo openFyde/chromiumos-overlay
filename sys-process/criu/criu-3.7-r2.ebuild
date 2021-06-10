@@ -1,1 +1,0 @@
-criu-3.7.ebuild
