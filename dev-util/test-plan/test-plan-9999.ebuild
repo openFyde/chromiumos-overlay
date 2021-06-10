@@ -27,6 +27,8 @@ CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
 )
 
+CROS_GO_VERSION="${PF}"
+
 DEPEND="
 	chromeos-base/cros-config-api
 	dev-go/luci-go-common
