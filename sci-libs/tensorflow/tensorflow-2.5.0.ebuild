@@ -20,7 +20,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 # ChromeOS uses 'minimal' to compile only TensorFlow Lite, compilation without 'minimal' is not supported.
-IUSE="cuda mpi +python xla minimal label_image benchmark_model"
+IUSE="cuda mpi +python xla minimal label_image benchmark_model xnnpack"
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
@@ -37,7 +37,7 @@ bazel_external_uris="
 	https://github.com/google/farmhash/archive/816a4ae622e964763ca0862d9dbd19324a1eaf45.tar.gz -> farmhash-816a4ae622e964763ca0862d9dbd19324a1eaf45.tar.gz
 	https://github.com/google/gemmlowp/archive/fda83bdc38b118cc6b56753bd540caa49e570745.zip -> gemmlowp-fda83bdc38b118cc6b56753bd540caa49e570745.zip
 	https://github.com/google/ruy/archive/54774a7a2cf85963777289193629d4bd42de4a59.zip -> ruy-54774a7a2cf85963777289193629d4bd42de4a59.zip
-	https://github.com/google/XNNPACK/archive/fb8d1f1b2bb2e32c141564528a39748c4631b453.zip -> XNNPACK-fb8d1f1b2bb2e32c141564528a39748c4631b453.zip
+	https://github.com/google/XNNPACK/archive/79cd5f9e18ad0925ac9a050b00ea5a36230072db.zip -> XNNPACK-79cd5f9e18ad0925ac9a050b00ea5a36230072db.zip
 	https://github.com/intel/ARM_NEON_2_x86_SSE/archive/1200fe90bb174a6224a525ee60148671a786a71f.tar.gz -> ARM_NEON_2_x86_SSE-1200fe90bb174a6224a525ee60148671a786a71f.tar.gz	https://github.com/googleapis/googleapis/archive/541b1ded4abadcc38e8178680b0677f65594ea6f.zip -> googleapis-541b1ded4abadcc38e8178680b0677f65594ea6f.zip
 	https://github.com/petewarden/OouraFFT/archive/v1.0.tar.gz -> OouraFFT-v1.0.tar.gz
 	https://github.com/pytorch/cpuinfo/archive/5916273f79a21551890fd3d56fc5375a78d1598d.zip -> pytorch-cpuinfo-5916273f79a21551890fd3d56fc5375a78d1598d.zip
@@ -149,6 +149,7 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-2.5.0-0002-ashmem-create.patch"
 	"${FILESDIR}/tensorflow-2.5.0-0003-nnapi-delegates.patch"
 	"${FILESDIR}/tensorflow-2.5.0-0004-cpuinfo-arm-fix.patch"
+	"${FILESDIR}/tensorflow-2.5.0-0005-xnnpack-update.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
@@ -467,6 +468,25 @@ src_install() {
 			einfo "Install benchmark_model tool"
 			dobin bazel-bin/tensorflow/lite/tools/benchmark/benchmark_model
 		fi
+
+		if use xnnpack; then
+			einfo "Installing XNNPACK headers and libs"
+			local bindir="../tensorflow-${PV}-bazel-base/execroot/org_tensorflow/bazel-out/$(get-cpu-str "${CHOST}")-opt/bin/external/"
+			insinto /usr/include/${PN}/xnnpack/
+			doins "../tensorflow-${PV}-bazel-base/external/XNNPACK/include/xnnpack.h"
+			doins "../tensorflow-${PV}-bazel-base/external/pthreadpool/include/pthreadpool.h"
+			dolib.a "${bindir}/clog/libclog.a"
+			dolib.a "${bindir}/cpuinfo/libcpuinfo_impl.pic.a"
+			dolib.a "${bindir}/pthreadpool/libpthreadpool.a"
+			# The lib names vary wildly between amd64 and arm, so
+			# easier just to scan for them rather than explicitly
+			# listing them and switching on ${ARCH}.
+			find "${bindir}/XNNPACK/" -name "*.a" |
+			while read -r i; do
+				dolib.a "${i}"
+			done
+		fi
+
 	fi
 
 	einstalldocs

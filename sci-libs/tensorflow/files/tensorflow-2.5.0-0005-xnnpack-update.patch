@@ -1,0 +1,33 @@
+diff --git a/tensorflow/lite/delegates/xnnpack/BUILD b/tensorflow/lite/delegates/xnnpack/BUILD
+index 8eb31175..9eafefc6 100644
+--- a/tensorflow/lite/delegates/xnnpack/BUILD
++++ b/tensorflow/lite/delegates/xnnpack/BUILD
+@@ -32,7 +32,7 @@ cc_library(
+         "//tensorflow/lite/schema:schema_fbs",
+         "//tensorflow/lite/tools/optimize/sparsity:format_converter",
+         "@FP16",
+-        "@XNNPACK//:xnnpack_f32",
++        "@XNNPACK//:xnnpack_for_tflite",
+     ],
+ )
+ 
+diff --git a/tensorflow/workspace2.bzl b/tensorflow/workspace2.bzl
+index efc50709..28a0e935 100644
+--- a/tensorflow/workspace2.bzl
++++ b/tensorflow/workspace2.bzl
+@@ -126,11 +126,11 @@ def _tf_repositories():
+     # and update the sha256 with the result.
+     tf_http_archive(
+         name = "XNNPACK",
+-        sha256 = "95b778a920a1a79efdb11bf68dda9b4fd16779a1a0210438582e750f9bfb6351",
+-        strip_prefix = "XNNPACK-fb8d1f1b2bb2e32c141564528a39748c4631b453",
++        sha256 = "dbb28e7ed4c09b6d09d9fcc194081560039994e60bfa753ba7f408f57605672e",
++        strip_prefix = "XNNPACK-79cd5f9e18ad0925ac9a050b00ea5a36230072db",
+         urls = [
+-            "https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/XNNPACK/archive/fb8d1f1b2bb2e32c141564528a39748c4631b453.zip",
+-            "https://github.com/google/XNNPACK/archive/fb8d1f1b2bb2e32c141564528a39748c4631b453.zip",
++            "https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/XNNPACK/archive/79cd5f9e18ad0925ac9a050b00ea5a36230072db.zip",
++            "https://github.com/google/XNNPACK/archive/79cd5f9e18ad0925ac9a050b00ea5a36230072db.zip",
+         ],
+     )
+ 
