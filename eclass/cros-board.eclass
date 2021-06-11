@@ -310,6 +310,7 @@ ALL_BOARDS=(
 	moose
 	mushu
 	nami
+	nami-kernelnext
 	nami-kvm
 	nautilus
 	#nefario
