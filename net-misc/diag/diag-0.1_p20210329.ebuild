@@ -23,10 +23,7 @@ S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
 src_prepare() {
 	default
-	eapply "${FILESDIR}/0001-ODL-support-in-Makefile.patch"
-	eapply "${FILESDIR}/0001-ODL-support-on-Open-Source-Diag-Router.patch"
-	eapply "${FILESDIR}/0002-Increase-clinet-connection-count.patch"
-	eapply "${FILESDIR}/0003-ODL-packet-formatting-support-in-diag-router.patch"
+	eapply "${FILESDIR}/patches/0001-ODL-support-on-Open-Source-Diag-Router.patch"
 }
 
 src_compile() {
@@ -35,5 +32,4 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" prefix="${EPREFIX}/usr" install
-	insinto /usr/bin
 }
