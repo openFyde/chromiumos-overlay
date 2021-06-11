@@ -88,6 +88,12 @@ PATCHES=(
 	"${FILESDIR}/5.3.7-Fix-nm-binutils-2.35.patch"
 	"${FILESDIR}/5.3.7-Correct-event-attribute-sizes.patch"
 	"${FILESDIR}/5.3.7-Fix-file-corruption-due-to-event-deletion.patch"
+	"${FILESDIR}/5.3.7-EL2-fix-1-Update-ETM-metadata-format.patch"
+	"${FILESDIR}/5.3.7-EL2-fix-2-Update-linux-coresight-pmu-h.patch"
+	"${FILESDIR}/5.3.7-EL2-fix-3-Fix-bitmap-for-option.patch"
+	"${FILESDIR}/5.3.7-EL2-fix-4-Support-PID-tracing-in-config.patch"
+	"${FILESDIR}/5.3.7-EL2-fix-5-Add-cs-etm-helper.patch"
+	"${FILESDIR}/5.3.7-EL2-fix-6-Detect-pid-in-VMID.patch"
 )
 
 pkg_setup() {
