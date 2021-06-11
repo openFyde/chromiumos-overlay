@@ -23,6 +23,7 @@ DEPEND=""
 
 RDEPEND="${DEPEND}
 	chromeos-base/chromeos-common-script
+	dev-util/shflags
 	sata? ( sys-apps/hdparm )
 	mmc? ( sys-apps/mmc-utils )
 	nvme? ( sys-apps/nvme-cli )"
