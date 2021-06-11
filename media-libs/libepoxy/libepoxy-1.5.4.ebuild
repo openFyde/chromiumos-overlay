@@ -2,7 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=7
+EAPI=5
+
+AUTOTOOLS_AUTORECONF=yes
+
+EGIT_REPO_URI="git://github.com/anholt/libepoxy.git"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-r3"
@@ -19,7 +23,7 @@ fi
 
 PYTHON_COMPAT=( python3_{6,7,8,9} )
 PYTHON_REQ_USE='xml(+)'
-inherit meson ${GIT_ECLASS} python-any-r1
+inherit autotools-multilib ${GIT_ECLASS} python-any-r1
 
 DESCRIPTION="Epoxy is a library for handling OpenGL function pointer management for you"
 HOMEPAGE="https://github.com/anholt/libepoxy"
@@ -32,17 +36,10 @@ IUSE="test"
 DEPEND="${PYTHON_DEPS}
 	x11-drivers/opengles-headers
 	x11-misc/util-macros
-	x11-libs/libX11"
+	x11-libs/libX11[${MULTILIB_USEDEP}]"
 RDEPEND="virtual/opengles"
 
 src_unpack() {
 	default
-	[[ ${PV} = 9999* ]] && git-r3_src_unpack
-}
-
-src_configure() {
-	local emesonargs=(
-		-Dtests=false
-	)
-	meson_src_configure
+	[[ $PV = 9999* ]] && git-r3_src_unpack
 }
