@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6c3722f49a115b6c4401c5769ce37763539bd1df"
+CROS_WORKON_COMMIT="650ca2f5db73ab8944a7f07ccbc5999e39e77c74"
 CROS_WORKON_TREE="400fc4676408135b9699b2689bc869c7282d1633"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
@@ -18,7 +18,7 @@ KEYWORDS="*"
 IUSE=""
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/plan/cmd"
+	"chromiumos/test/plan/cmd/testplan.go"
 )
 
 CROS_GO_TEST=(
@@ -28,6 +28,8 @@ CROS_GO_TEST=(
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
 )
+
+CROS_GO_VERSION="${PF}"
 
 DEPEND="
 	chromeos-base/cros-config-api

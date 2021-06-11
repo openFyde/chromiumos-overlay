@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2f4d752e6cd86a05af5b761bbfde27d7304dc0f7"
-CROS_WORKON_TREE="476e2dfa4c9f42ef62d4b2d556c1129c83424bd4"
+CROS_WORKON_COMMIT="08f300cae3f5dc34dba099905a67c9098b9003ba"
+CROS_WORKON_TREE="94a16518c3907337ce3f53644c026b5bb188822c"
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
 
@@ -133,6 +133,9 @@ src_install() {
 		einfo "Changed TTY_CONSOLE to ${ports[*]}."
 	fi
 	dosbin "${scripts[@]}" "${service_file}"
+
+	insinto /usr/share/factory_installer/tpm
+	doins tpm/*.sh
 
 	insinto /usr/share/factory_installer/init
 	doins init/*.conf
