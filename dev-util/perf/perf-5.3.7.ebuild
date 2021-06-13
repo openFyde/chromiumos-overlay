@@ -94,6 +94,7 @@ PATCHES=(
 	"${FILESDIR}/5.3.7-Consolidate-symbol-fixup-issue.patch"
 	"${FILESDIR}/5.3.7-Correct-event-attribute-sizes.patch"
 	"${FILESDIR}/5.3.7-Fix-file-corruption-due-to-event-deletion.patch"
+	"${FILESDIR}/5.3.7-Allow-no-CoreSight-sink.patch"
 	"${FILESDIR}/5.3.7-EL2-fix-1-Update-ETM-metadata-format.patch"
 	"${FILESDIR}/5.3.7-EL2-fix-2-Update-linux-coresight-pmu-h.patch"
 	"${FILESDIR}/5.3.7-EL2-fix-3-Fix-bitmap-for-option.patch"
