@@ -1,0 +1,780 @@
+From 85ea7a915c837265bb1a61515ccd37295aa580eb Mon Sep 17 00:00:00 2001
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 4 Jun 2021 12:24:02 -0700
+Subject: [PATCH] vkr: add support for globalFencing
+
+Squashed commit of the following:
+
+commit 86e345c53b4cca905b769a1e33ec973db61a6390 (HEAD)
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Tue Jun 15 23:54:47 2021 -0700
+
+    vkr: allow multiple logical devices in some cases
+
+    When a logical device does not use external memory/fence/semaphore, we
+    know the guest driver does not need queue id 0 to work.  Allow such a
+    logical device to be created.
+
+    This fixes vulkaninfo.
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+
+commit e4f7534699f0fb3fd76145aefe9531889ecaec1a
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Tue Jun 8 12:39:00 2021 -0700
+
+    vkr: advertise globalFencing
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+
+commit 0506e4a0b08a5aefae747a80951bda75a4ccc7f1
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Tue Mar 16 16:22:18 2021 -0700
+
+    virgl: put virgl and venus on the same fence timeline
+
+    In other words, these functions
+
+      virgl_renderer_create_fence
+      virgl_renderer_poll
+      virgl_renderer_export_fence
+      (but not virgl_renderer_get_poll_fd)
+
+    now work with venus.
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+
+commit 1384fa12467de52b43fd82bb0539afe5089f5e18
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Tue Mar 16 16:50:02 2021 -0700
+
+    vkr: add support for queue_id 0
+
+    Becase we advertise only a single VkQueue per-context, we can treat
+    queue id 0 as the single VkQueue.  When the queue hasn't been created,
+    all fences are treated as cpu fences.
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+
+commit 74a2502aeccec88bc864eeddd3aff20ecd0f1f67
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Fri Jun 11 14:33:44 2021 -0700
+
+    vkr: implement virgl_context::export_fence
+
+    This assumes there is only a single VkQueue, which can be relaxed if we
+    choose to.
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+
+commit bfff6a49c1cb369b5354b0b0eb53d91e8c702407
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Fri Jun 11 14:41:52 2021 -0700
+
+    vkr: restrict to a single VkQueue per-context
+
+    This simplifies things when venus joins global fencing.
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+
+commit d23eba4c95b4e954975c64c5c94e72ad92077481
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Tue Mar 16 16:21:35 2021 -0700
+
+    virgl: pass fence flags in fence retire callbacks
+
+    This allows us to set internal flags and check for them in the
+    retire callbacks.
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+
+commit b3cb1942e49dd16cdf4ce37a3e6a2f67dcc52b4b
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Fri Jun 4 12:24:02 2021 -0700
+
+    virgl: add virgl_context::export_fence
+
+    This is needed when we get per-context version of
+    virgl_renderer_export_fence.
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+---
+ src/virgl_context.h  |   6 ++
+ src/virglrenderer.c  | 191 +++++++++++++++++++++++++++++++++++++++++--
+ src/vkr_renderer.c   | 165 ++++++++++++++++++++++++++++++++++++-
+ src/vrend_decode.c   |   6 +-
+ src/vrend_renderer.c |   2 +-
+ src/vrend_renderer.h |   3 +-
+ 6 files changed, 360 insertions(+), 13 deletions(-)
+
+diff --git a/src/virgl_context.h b/src/virgl_context.h
+index ea86b31..871a148 100644
+--- a/src/virgl_context.h
++++ b/src/virgl_context.h
+@@ -51,6 +51,7 @@ struct virgl_context_blob {
+ struct virgl_context;
+ 
+ typedef void (*virgl_context_fence_retire)(struct virgl_context *ctx,
++                                           uint32_t flags,
+                                            uint64_t queue_id,
+                                            void *fence_cookie);
+ 
+@@ -120,6 +121,11 @@ struct virgl_context {
+                        uint32_t flags,
+                        uint64_t queue_id,
+                        void *fence_cookie);
++
++   /* export the fence identified by fence_cookie as a sync fd */
++   int (*export_fence)(struct virgl_context *ctx,
++                       void *fence_cookie,
++                       int *out_fd);
+ };
+ 
+ struct virgl_context_foreach_args {
+diff --git a/src/virglrenderer.c b/src/virglrenderer.c
+index f05eb30..3fd8411 100644
+--- a/src/virglrenderer.c
++++ b/src/virglrenderer.c
+@@ -33,6 +33,7 @@
+ #include <unistd.h>
+ 
+ #include "pipe/p_state.h"
++#include "util/u_double_list.h"
+ #include "util/u_format.h"
+ #include "util/u_math.h"
+ #include "vkr_renderer.h"
+@@ -46,6 +47,18 @@
+ #include "virgl_resource.h"
+ #include "virgl_util.h"
+ 
++#define VIRGL_RENDERER_FENCE_FLAG_TIMELINE (1u << 31)
++
++struct timeline_point {
++   uint32_t fence_id;
++
++   bool signaled;
++   /* can be NULL if has signaled or is using ctx0 fencing */
++   struct virgl_context *context;
++
++   struct list_head head;
++};
++
+ struct global_state {
+    bool client_initialized;
+    void *cookie;
+@@ -57,6 +70,10 @@ struct global_state {
+    bool winsys_initialized;
+    bool vrend_initialized;
+    bool vkr_initialized;
++
++   struct list_head timeline;
++   uint32_t ctx0_retired_fence_id;
++   struct list_head free_points;
+ };
+ 
+ static struct global_state state;
+@@ -175,10 +192,59 @@ void virgl_renderer_fill_caps(uint32_t set, uint32_t version,
+    }
+ }
+ 
++static struct timeline_point *timeline_point_alloc(uint32_t fence_id,
++                                                   struct virgl_context *ctx)
++{
++   struct timeline_point *point;
++   if (LIST_IS_EMPTY(&state.free_points)) {
++      point = malloc(sizeof(*point));
++      if (!point)
++         return NULL;
++   } else {
++      point = LIST_ENTRY(struct timeline_point, state.free_points.next, head);
++      list_del(&point->head);
++   }
++
++   point->fence_id = fence_id;
++   point->signaled = false;
++   point->context = ctx;
++
++   return point;
++}
++
++static void timeline_point_free(struct timeline_point *point)
++{
++   list_add(&point->head, &state.free_points);
++}
++
++static bool timeline_point_match_context(const struct timeline_point *point,
++                                         uint32_t ctx_id)
++{
++   return point->context && point->context->ctx_id == ctx_id;
++}
++
++static void timeline_point_set_signaled(struct timeline_point *point)
++{
++   point->signaled = true;
++   point->context = NULL;
++}
++
++static bool timeline_point_is_signaled(const struct timeline_point *point)
++{
++   return point->signaled ||
++          (!point->context && point->fence_id <= state.ctx0_retired_fence_id);
++}
++
+ static void per_context_fence_retire(struct virgl_context *ctx,
++                                     uint32_t flags,
+                                      uint64_t queue_id,
+                                      void *fence_cookie)
+ {
++   if (flags & VIRGL_RENDERER_FENCE_FLAG_TIMELINE) {
++      timeline_point_set_signaled(fence_cookie);
++      return;
++   }
++
+    state.cbs->write_context_fence(state.cookie,
+                                   ctx->ctx_id,
+                                   queue_id,
+@@ -253,6 +319,13 @@ int virgl_renderer_context_create(uint32_t handle, uint32_t nlen, const char *na
+ void virgl_renderer_context_destroy(uint32_t handle)
+ {
+    TRACE_FUNC();
++
++   struct timeline_point *point;
++   LIST_FOR_EACH_ENTRY(point, &state.timeline, head) {
++      if (timeline_point_match_context(point, handle))
++         timeline_point_set_signaled(point);
++   }
++
+    virgl_context_remove(handle);
+ }
+ 
+@@ -379,13 +452,45 @@ void virgl_renderer_resource_detach_iov(int res_handle, struct iovec **iov_p, in
+    virgl_resource_detach_iov(res);
+ }
+ 
+-int virgl_renderer_create_fence(int client_fence_id, UNUSED uint32_t ctx_id)
++int virgl_renderer_create_fence(int client_fence_id, uint32_t ctx_id)
+ {
+    TRACE_FUNC();
+    const uint32_t fence_id = (uint32_t)client_fence_id;
+-   if (state.vrend_initialized)
+-      return vrend_renderer_create_ctx0_fence(fence_id);
+-   return EINVAL;
++
++   struct virgl_context *ctx;
++   struct timeline_point *point;
++   int ret;
++
++   /* this only works with crosvm because qemu passes garbage for ctx_id */
++   if (ctx_id) {
++      ctx = virgl_context_lookup(ctx_id);
++      if (!ctx)
++         return -EINVAL;
++      /* use per-context fencing only for venus */
++      if (ctx->capset_id != VIRGL_RENDERER_CAPSET_VENUS)
++         ctx = NULL;
++   } else {
++      ctx = NULL;
++   }
++
++   point = timeline_point_alloc(fence_id, ctx);
++   if (!point)
++      return -ENOMEM;
++
++   if (ctx) {
++      ret = ctx->submit_fence(ctx, VIRGL_RENDERER_FENCE_FLAG_TIMELINE, 0, point);
++   } else {
++      ret = state.vrend_initialized ?
++         vrend_renderer_create_ctx0_fence(fence_id) : EINVAL;
++   }
++   if (ret) {
++      timeline_point_free(point);
++      return ret;
++   }
++
++   list_addtail(&point->head, &state.timeline);
++
++   return 0;
+ }
+ 
+ int virgl_renderer_context_create_fence(uint32_t ctx_id,
+@@ -505,11 +610,14 @@ void virgl_renderer_get_rect(int resource_id, struct iovec *iov, unsigned int nu
+ }
+ 
+ 
+-static void ctx0_fence_retire(void *fence_cookie,
++static void ctx0_fence_retire(UNUSED uint32_t flags,
++                              void *fence_cookie,
+                               UNUSED void *retire_data)
+ {
+    const uint32_t fence_id = (uint32_t)(uintptr_t)fence_cookie;
+-   state.cbs->write_fence(state.cookie, fence_id);
++
++   /* defer marking timeline_point signaled */
++   state.ctx0_retired_fence_id = fence_id;
+ }
+ 
+ static virgl_renderer_gl_context create_gl_context(int scanout_idx, struct virgl_gl_ctx_param *param)
+@@ -563,11 +671,38 @@ void *virgl_renderer_get_cursor_data(uint32_t resource_id, uint32_t *width, uint
+                                              height);
+ }
+ 
++static bool timeline_poll(struct virgl_context *ctx, UNUSED void *data)
++{
++   /* we use per-context fencing only for venus */
++   if (ctx->capset_id == VIRGL_RENDERER_CAPSET_VENUS)
++      ctx->retire_fences(ctx);
++   return true;
++}
++
+ void virgl_renderer_poll(void)
+ {
+    TRACE_FUNC();
+    if (state.vrend_initialized)
+       vrend_renderer_check_fences();
++
++   struct virgl_context_foreach_args args;
++   args.callback = timeline_poll;
++   args.data = NULL;
++   virgl_context_foreach(&args);
++
++   uint32_t write_fence_id = 0;
++   struct timeline_point *point, *tmp;
++   LIST_FOR_EACH_ENTRY_SAFE(point, tmp, &state.timeline, head) {
++      if (!timeline_point_is_signaled(point))
++         break;
++
++      write_fence_id = point->fence_id;
++      list_del(&point->head);
++      timeline_point_free(point);
++   }
++
++   if (write_fence_id)
++      state.cbs->write_fence(state.cookie, write_fence_id);
+ }
+ 
+ void virgl_renderer_cleanup(UNUSED void *cookie)
+@@ -687,6 +822,9 @@ int virgl_renderer_init(void *cookie, int flags, struct virgl_renderer_callbacks
+       state.vkr_initialized = true;
+    }
+ 
++   list_inithead(&state.timeline);
++   list_inithead(&state.free_points);
++
+    return 0;
+ 
+ fail:
+@@ -961,9 +1099,48 @@ virgl_renderer_resource_export_blob(uint32_t res_id, uint32_t *fd_type, int *fd)
+    return 0;
+ }
+ 
++static int
++export_signaled_fence(int *fd)
++{
++#ifdef HAVE_EPOXY_EGL_H
++   if (virgl_egl_supports_fences(egl))
++      return virgl_egl_export_signaled_fence(egl, fd);
++#endif
++   return -1;
++}
++
+ int
+ virgl_renderer_export_fence(uint32_t client_fence_id, int *fd)
+ {
+    TRACE_FUNC();
+-   return vrend_renderer_export_ctx0_fence(client_fence_id, fd);
++
++   int ret;
++   if (LIST_IS_EMPTY(&state.timeline)) {
++      ret = 0;
++      *fd = -1;
++   } else {
++      struct timeline_point *point;
++
++      ret = -EINVAL;
++      LIST_FOR_EACH_ENTRY(point, &state.timeline, head) {
++         if (point->fence_id != client_fence_id)
++            continue;
++
++         if (timeline_point_is_signaled(point)) {
++            ret = 0;
++            *fd = -1;
++         } else if (point->context) {
++            ret = point->context->export_fence(point->context, point, fd);
++         } else {
++            ret = vrend_renderer_export_ctx0_fence(client_fence_id, fd);
++         }
++         break;
++      }
++   }
++
++   /* required by crosvm */
++   if (!ret && *fd == -1)
++      ret = export_signaled_fence(fd);
++
++   return ret;
+ }
+diff --git a/src/vkr_renderer.c b/src/vkr_renderer.c
+index a7f4726..2831970 100644
+--- a/src/vkr_renderer.c
++++ b/src/vkr_renderer.c
+@@ -112,6 +112,8 @@ struct vkr_physical_device {
+    bool EXT_external_memory_dma_buf;
+ 
+    bool KHR_external_fence_fd;
++
++   struct vkr_device *queue_id_0_device;
+ };
+ 
+ struct vkr_queue_sync {
+@@ -335,6 +337,9 @@ struct vkr_context {
+    int fence_eventfd;
+    struct list_head busy_queues;
+ 
++   struct vkr_queue *queue_id_0_queue;
++   struct list_head cpu_syncs;
++
+    struct vkr_instance *instance;
+ };
+ 
+@@ -923,6 +928,9 @@ vkr_instance_enumerate_physical_devices(struct vkr_instance *instance)
+    if (result != VK_SUCCESS)
+       return result;
+ 
++   /* enumerate at most 1 physical device */
++   count = 1;
++
+    VkPhysicalDevice *handles = calloc(count, sizeof(*handles));
+    struct vkr_physical_device **physical_devs = calloc(count, sizeof(*physical_devs));
+    if (!handles || !physical_devs) {
+@@ -932,6 +940,8 @@ vkr_instance_enumerate_physical_devices(struct vkr_instance *instance)
+    }
+ 
+    result = vkEnumeratePhysicalDevices(instance->base.handle.instance, &count, handles);
++   if (result == VK_INCOMPLETE)
++      result = VK_SUCCESS;
+    if (result != VK_SUCCESS) {
+       free(physical_devs);
+       free(handles);
+@@ -1245,6 +1255,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties(
+    vkGetPhysicalDeviceQueueFamilyProperties(args->physicalDevice,
+                                             args->pQueueFamilyPropertyCount,
+                                             args->pQueueFamilyProperties);
++
++   if (*args->pQueueFamilyPropertyCount) {
++      *args->pQueueFamilyPropertyCount = 1;
++      if (args->pQueueFamilyProperties)
++         args->pQueueFamilyProperties->queueCount = 1;
++   }
+ }
+ 
+ static void
+@@ -1372,6 +1388,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties2(
+    vkGetPhysicalDeviceQueueFamilyProperties2(args->physicalDevice,
+                                              args->pQueueFamilyPropertyCount,
+                                              args->pQueueFamilyProperties);
++
++   if (*args->pQueueFamilyPropertyCount) {
++      *args->pQueueFamilyPropertyCount = 1;
++      if (args->pQueueFamilyProperties)
++         args->pQueueFamilyProperties->queueFamilyProperties.queueCount = 1;
++   }
+ }
+ 
+ static void
+@@ -1555,6 +1577,8 @@ vkr_queue_destroy(struct vkr_context *ctx, struct vkr_queue *queue)
+ 
+    list_del(&queue->head);
+    list_del(&queue->busy_head);
++   if (ctx->queue_id_0_queue == queue)
++      ctx->queue_id_0_queue = NULL;
+ 
+    util_hash_table_remove_u64(ctx->object_table, queue->base.id);
+ }
+@@ -1617,6 +1641,8 @@ vkr_queue_create(struct vkr_context *ctx,
+ 
+    list_addtail(&queue->head, &dev->queues);
+    list_inithead(&queue->busy_head);
++   if (dev->physical_device->queue_id_0_device == dev)
++      ctx->queue_id_0_queue = queue;
+ 
+    util_hash_table_set_u64(ctx->object_table, queue->base.id, queue);
+ 
+@@ -1636,6 +1662,25 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
+       return;
+    }
+ 
++   /* when external memory/fence/semaphore is enabled, the guest driver
++    * expects queue id 0 to be the queue of this device
++    */
++   bool use_queue_id_0 = false;
++   for (uint32_t i = 0; i < args->pCreateInfo->enabledExtensionCount; i++) {
++      if (!strcmp(args->pCreateInfo->ppEnabledExtensionNames[i],
++                  VK_KHR_EXTERNAL_MEMORY_FD_EXTENSION_NAME) ||
++          !strcmp(args->pCreateInfo->ppEnabledExtensionNames[i],
++                  VK_KHR_EXTERNAL_FENCE_FD_EXTENSION_NAME) ||
++          !strcmp(args->pCreateInfo->ppEnabledExtensionNames[i],
++                  VK_KHR_EXTERNAL_SEMAPHORE_FD_EXTENSION_NAME))
++         use_queue_id_0 = true;
++   }
++
++   if (use_queue_id_0 && physical_dev->queue_id_0_device) {
++      args->ret = VK_ERROR_TOO_MANY_OBJECTS;
++      return;
++   }
++
+    /* append extensions for our own use */
+    const char **exts = NULL;
+    uint32_t ext_count = args->pCreateInfo->enabledExtensionCount;
+@@ -1777,6 +1822,9 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
+    list_inithead(&dev->free_syncs);
+ 
+    util_hash_table_set_u64(ctx->object_table, dev->base.id, dev);
++
++   if (use_queue_id_0)
++      physical_dev->queue_id_0_device = dev;
+ }
+ 
+ static void
+@@ -1806,6 +1854,9 @@ vkr_dispatch_vkDestroyDevice(struct vn_dispatch_context *dispatch,
+    vn_replace_vkDestroyDevice_args_handle(args);
+    vkDestroyDevice(args->device, NULL);
+ 
++   if (dev->physical_device->queue_id_0_device == dev)
++      dev->physical_device->queue_id_0_device = NULL;
++
+    util_hash_table_remove_u64(ctx->object_table, dev->base.id);
+ }
+ 
+@@ -3910,6 +3961,7 @@ vkr_dispatch_vkGetVenusExperimentalFeatureData100000MESA(
+ {
+    const VkVenusExperimentalFeatures100000MESA features = {
+       .memoryResourceAllocationSize = VK_TRUE,
++      .globalFencing = VK_TRUE,
+    };
+ 
+    vn_replace_vkGetVenusExperimentalFeatureData100000MESA_args_handle(args);
+@@ -4236,7 +4288,26 @@ vkr_context_submit_fence_locked(struct virgl_context *base,
+    struct vkr_queue *queue;
+    VkResult result;
+ 
+-   queue = util_hash_table_get_u64(ctx->object_table, queue_id);
++   if (queue_id) {
++      queue = util_hash_table_get_u64(ctx->object_table, queue_id);
++   } else if (ctx->queue_id_0_queue) {
++      queue = ctx->queue_id_0_queue;
++   } else {
++      struct vkr_queue_sync *sync = malloc(sizeof(*sync));
++      if (!sync)
++         return -ENOMEM;
++
++      sync->fence = VK_NULL_HANDLE;
++      sync->flags = flags;
++      sync->fence_cookie = fence_cookie;
++      list_addtail(&sync->head, &ctx->cpu_syncs);
++
++      if (ctx->fence_eventfd >= 0)
++         write_eventfd(ctx->fence_eventfd, 1);
++
++      return 0;
++   }
++
+    if (!queue)
+       return -EINVAL;
+    struct vkr_device *dev = queue->device;
+@@ -4305,6 +4376,82 @@ vkr_context_submit_fence(struct virgl_context *base,
+    return ret;
+ }
+ 
++static struct vkr_queue_sync *
++find_sync(const struct list_head *syncs, void *fence_cookie)
++{
++   struct vkr_queue_sync *sync;
++   LIST_FOR_EACH_ENTRY (sync, syncs, head) {
++      if (sync->fence_cookie == fence_cookie)
++         return sync;
++   }
++   return NULL;
++}
++
++static int
++vkr_context_export_fence_locked(struct virgl_context *base,
++                                void *fence_cookie,
++                                int *out_fd)
++{
++   struct vkr_context *ctx = (struct vkr_context *)base;
++
++   struct vkr_queue_sync *sync = NULL;
++   bool sync_pending = false;
++   if (ctx->queue_id_0_queue) {
++      struct vkr_queue *queue = ctx->queue_id_0_queue;
++
++      if (queue->has_thread) {
++         mtx_lock(&queue->mutex);
++         sync = find_sync(&queue->signaled_syncs, fence_cookie);
++      }
++
++      if (!sync) {
++         sync = find_sync(&queue->pending_syncs, fence_cookie);
++         if (sync)
++            sync_pending = true;
++      }
++
++      if (queue->has_thread)
++         mtx_unlock(&queue->mutex);
++   }
++
++   if (!sync)
++      sync = find_sync(&ctx->cpu_syncs, fence_cookie);
++
++   if (!sync)
++      return -EINVAL;
++
++   if (!sync_pending) {
++      *out_fd = -1;
++      return 0;
++   }
++
++   struct vkr_device *dev = ctx->queue_id_0_queue->device;
++   if (!dev->physical_device->KHR_external_fence_fd)
++      return -1;
++
++   const VkFenceGetFdInfoKHR get_fd_info = {
++      .sType = VK_STRUCTURE_TYPE_FENCE_GET_FD_INFO_KHR,
++      .fence = sync->fence,
++      .handleType = VK_EXTERNAL_FENCE_HANDLE_TYPE_SYNC_FD_BIT,
++   };
++   VkResult result =
++      ctx->instance->get_fence_fd(dev->base.handle.device, &get_fd_info, out_fd);
++
++   return result == VK_SUCCESS ? 0 : -1;
++}
++
++static int
++vkr_context_export_fence(struct virgl_context *base, void *fence_cookie, int *out_fd)
++{
++   struct vkr_context *ctx = (struct vkr_context *)base;
++   int ret;
++
++   mtx_lock(&ctx->mutex);
++   ret = vkr_context_export_fence_locked(base, fence_cookie, out_fd);
++   mtx_unlock(&ctx->mutex);
++   return ret;
++}
++
+ static void
+ vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
+ {
+@@ -4312,6 +4459,12 @@ vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
+    struct vkr_queue_sync *sync, *sync_tmp;
+    struct vkr_queue *queue, *queue_tmp;
+ 
++   LIST_FOR_EACH_ENTRY_SAFE (sync, sync_tmp, &ctx->cpu_syncs, head) {
++      ctx->base.fence_retire(&ctx->base, sync->flags, 0, sync->fence_cookie);
++      list_del(&sync->head);
++      free(sync);
++   }
++
+    /* flush first and once because the per-queue sync threads might write to
+     * it any time
+     */
+@@ -4326,7 +4479,8 @@ vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
+       vkr_queue_retire_syncs(queue, &retired_syncs, &queue_empty);
+ 
+       LIST_FOR_EACH_ENTRY_SAFE (sync, sync_tmp, &retired_syncs, head) {
+-         ctx->base.fence_retire(&ctx->base, queue->base.id, sync->fence_cookie);
++         ctx->base.fence_retire(&ctx->base, sync->flags, queue->base.id,
++                                sync->fence_cookie);
+          list_addtail(&sync->head, &dev->free_syncs);
+       }
+ 
+@@ -4659,6 +4813,10 @@ vkr_context_destroy(struct virgl_context *base)
+    util_hash_table_destroy(ctx->resource_table);
+    util_hash_table_destroy_u64(ctx->object_table);
+ 
++   struct vkr_queue_sync *sync, *tmp;
++   LIST_FOR_EACH_ENTRY_SAFE (sync, tmp, &ctx->cpu_syncs, head)
++      free(sync);
++
+    if (ctx->fence_eventfd >= 0)
+       close(ctx->fence_eventfd);
+ 
+@@ -4683,6 +4841,7 @@ vkr_context_init_base(struct vkr_context *ctx)
+    ctx->base.get_fencing_fd = vkr_context_get_fencing_fd;
+    ctx->base.retire_fences = vkr_context_retire_fences;
+    ctx->base.submit_fence = vkr_context_submit_fence;
++   ctx->base.export_fence = vkr_context_export_fence;
+ }
+ 
+ static void
+@@ -4759,6 +4918,8 @@ vkr_context_create(size_t debug_len, const char *debug_name)
+ 
+    list_inithead(&ctx->busy_queues);
+ 
++   list_inithead(&ctx->cpu_syncs);
++
+    return &ctx->base;
+ 
+ fail:
+diff --git a/src/vrend_decode.c b/src/vrend_decode.c
+index 35ccc23..177fd0a 100644
+--- a/src/vrend_decode.c
++++ b/src/vrend_decode.c
+@@ -1478,11 +1478,12 @@ static int vrend_decode_pipe_resource_set_type(struct vrend_context *ctx, const
+ static void vrend_decode_ctx_init_base(struct vrend_decode_ctx *dctx,
+                                        uint32_t ctx_id);
+ 
+-static void vrend_decode_ctx_fence_retire(void *fence_cookie,
++static void vrend_decode_ctx_fence_retire(uint32_t flags,
++                                          void *fence_cookie,
+                                           void *retire_data)
+ {
+    struct vrend_decode_ctx *dctx = retire_data;
+-   dctx->base.fence_retire(&dctx->base, 0, fence_cookie);
++   dctx->base.fence_retire(&dctx->base, flags, 0, fence_cookie);
+ }
+ 
+ struct virgl_context *vrend_renderer_context_create(uint32_t handle,
+@@ -1758,4 +1759,5 @@ static void vrend_decode_ctx_init_base(struct vrend_decode_ctx *dctx,
+    ctx->get_fencing_fd = vrend_decode_ctx_get_fencing_fd;
+    ctx->retire_fences = vrend_decode_ctx_retire_fences;
+    ctx->submit_fence = vrend_decode_ctx_submit_fence;
++   ctx->export_fence = NULL;
+ }
+diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
+index 1c115ce..6807d5a 100644
+--- a/src/vrend_renderer.c
++++ b/src/vrend_renderer.c
+@@ -9401,7 +9401,7 @@ void vrend_renderer_check_fences(void)
+ 
+    LIST_FOR_EACH_ENTRY_SAFE(fence, stor, &retired_fences, fences) {
+       struct vrend_context *ctx = fence->ctx;
+-      ctx->fence_retire(fence->fence_cookie, ctx->fence_retire_data);
++      ctx->fence_retire(fence->flags, fence->fence_cookie, ctx->fence_retire_data);
+ 
+       free_fence_locked(fence);
+    }
+diff --git a/src/vrend_renderer.h b/src/vrend_renderer.h
+index b132384..37982ff 100644
+--- a/src/vrend_renderer.h
++++ b/src/vrend_renderer.h
+@@ -111,7 +111,8 @@ struct vrend_format_table {
+    uint32_t flags;
+ };
+ 
+-typedef void (*vrend_context_fence_retire)(void *fence_cookie,
++typedef void (*vrend_context_fence_retire)(uint32_t flags,
++                                           void *fence_cookie,
+                                            void *retire_data);
+ 
+ struct vrend_if_cbs {
+-- 
+2.31.0
+
