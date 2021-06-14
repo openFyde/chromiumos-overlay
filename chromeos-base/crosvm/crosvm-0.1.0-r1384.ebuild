@@ -345,6 +345,15 @@ src_install() {
 		dolib.so "${build_dir}/deps/libcrosvm_plugin.so"
 	fi
 
+	# Install vhost-user device executable.
+	if use vhost-user-devices; then
+		local build_dir="$(cros-rust_get_build_dir)"
+		for tuple in "${VHOST_USER_BINARIES[@]}"; do
+			local binary="${tuple#*/}"
+			dobin "${build_dir}/${binary}"
+		done
+	fi
+
 	# Install crosvm-direct, when requested.
 	if use crosvm-direct ; then
 		into /build/manatee
@@ -359,15 +368,6 @@ src_install() {
 				"${build_dir}/${f}"
 		done
 		cd .. || die "failed to move directory"
-	fi
-
-	# Install vhost-user device executable.
-	if use vhost-user-devices; then
-		local build_dir="$(cros-rust_get_build_dir)"
-		for tuple in "${VHOST_USER_BINARIES[@]}"; do
-			local binary="${tuple#*/}"
-			dobin "${build_dir}/${binary}"
-		done
 	fi
 }
 
