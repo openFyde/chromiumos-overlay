@@ -540,3 +540,7 @@ RDEPEND="${RDEPEND}
 # Needed for packages that need older 4.9.2 GCC.
 RDEPEND="${RDEPEND}
 	sys-devel/gcc-bin"
+
+# Needed to build crosvm without ebuild in chroot.
+RDEPEND="${RDEPEND}
+	dev-libs/wayland-protocols"
