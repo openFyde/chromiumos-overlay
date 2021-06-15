@@ -16,6 +16,7 @@ RDEPEND="${DEPEND}"
 PATCHES=(
 	"${FILESDIR}/nodevport.patch"
 	"${FILESDIR}/nodevport-2.patch"
+	"${FILESDIR}/nodevport-3.patch"
 )
 
 pkg_setup() {
