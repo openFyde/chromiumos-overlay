@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="579a3017a1b317e756e81fa3c57bb1684a92d93c"
-CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "eae0546f4ee5132d4544af4770755eb05f60cba6" "e49edf9a1f1a66d3850c9b4758b8bd276dd38e44" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1c2dd81ea7df97b5c1bfc46488ab253f098c75f3"
+CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "eae0546f4ee5132d4544af4770755eb05f60cba6" "ac2c702d6e88f33cacbcd31881866478a1747196" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -65,6 +65,7 @@ src_install() {
 	if use fuzzer; then
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/system_proxy_connect_headers_parser_fuzzer
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/system_proxy_worker_config_fuzzer
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/system_proxy_http_util_fuzzer
 	fi
 }
 
