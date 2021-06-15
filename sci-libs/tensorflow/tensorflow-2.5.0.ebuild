@@ -47,6 +47,8 @@ bazel_external_uris="
 	https://github.com/Maratyszcza/pthreadpool/archive/b8374f80e42010941bda6c85b0e3f1a1bd77a1e0.zip -> pthreadpool-b8374f80e42010941bda6c85b0e3f1a1bd77a1e0.zip
 	https://github.com/tensorflow/toolchains/archive/v1.1.10.tar.gz -> tensorflow_toolchains_v1.1.10.tar.gz
 	https://gitlab.com/libeigen/eigen/-/archive/f612df273689a19d25b45ca4f8269463207c4fee/eigen-f612df273689a19d25b45ca4f8269463207c4fee.tar.gz -> eigen-f612df273689a19d25b45ca4f8269463207c4fee.tar.gz
+	https://github.com/KhronosGroup/OpenCL-Headers/archive/0d5f18c6e7196863bc1557a693f1509adfcee056.tar.gz -> OpenCL-Headers-0d5f18c6e7196863bc1557a693f1509adfcee056.tar.gz
+	https://github.com/KhronosGroup/Vulkan-Headers/archive/ec2db85225ab410bc6829251bef6c578aaed5868.tar.gz -> Vulkan-Headers-ec2db85225ab410bc6829251bef6c578aaed5868.tar.gz
 "
 
 SRC_URI="
@@ -150,6 +152,7 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-2.5.0-0003-nnapi-delegates.patch"
 	"${FILESDIR}/tensorflow-2.5.0-0004-cpuinfo-arm-fix.patch"
 	"${FILESDIR}/tensorflow-2.5.0-0005-xnnpack-update.patch"
+	"${FILESDIR}/tensorflow-2.5.0-0006-gpu.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
@@ -358,7 +361,7 @@ src_compile() {
 			//tensorflow:libtensorflow.so
 		ebazel build //tensorflow:libtensorflow_cc.so
 	else
-		ebazel build \
+		ebazel build --copt=-DTFLITE_SUPPORTS_GPU_DELEGATE=1 --copt=-DEGL_NO_X11 \
 			//tensorflow/lite:libtensorflowlite.so \
 			//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
 			"$(usex label_image '
