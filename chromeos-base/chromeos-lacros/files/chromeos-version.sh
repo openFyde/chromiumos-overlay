@@ -8,4 +8,4 @@
 # at the same time as revving the ebuild to a known version value, editing this
 # version can be useful.
 
-echo 92.0.4511.2
+echo 93.0.4538.0
