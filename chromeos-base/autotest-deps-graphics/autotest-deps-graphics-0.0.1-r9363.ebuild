@@ -1,16 +1,17 @@
-# Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
+# Copyright (c) 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-CROS_WORKON_COMMIT="d88d56c1c9f9d0b8a83eb9aa1e323ce83da8c3b5"
-CROS_WORKON_TREE="8e98f80047e3c871833c4e2e4986c632a205be26"
+EAPI=4
+CROS_WORKON_COMMIT="8b1419149b2b5b7a4e4269a4e57f3094b9448f9d"
+CROS_WORKON_TREE="2fd4679e23ead6380d45f4754063e34b5296918e"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest-deponly
 
-DESCRIPTION="Autotest touchpad deps"
+DESCRIPTION="Dependencies for graphics autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
+SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
@@ -18,18 +19,10 @@ KEYWORDS="*"
 # Autotest enabled by default.
 IUSE="+autotest"
 
-AUTOTEST_DEPS_LIST="touchpad-tests"
-AUTOTEST_CONFIG_LIST=
-AUTOTEST_PROFILERS_LIST=
+AUTOTEST_DEPS_LIST="graphics"
 
 # NOTE: For deps, we need to keep *.a
 AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
-# deps/touchpad-tests
-RDEPEND="
-	x11-drivers/touchpad-tests
-	chromeos-base/touch_firmware_test
-	chromeos-base/mttools
-"
-
+RDEPEND="!<chromeos-base/autotest-deps-0.0.4"
 DEPEND="${RDEPEND}"
