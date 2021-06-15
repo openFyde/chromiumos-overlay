@@ -165,8 +165,6 @@ src_install() {
 	doins "${FILESDIR}"/fwupd.conf
 	# Install upstart script for activating firmware update on logout/shutdown.
 	doins "${FILESDIR}"/fwupdtool-activate.conf
-	# Install upstart script for reloading firmware metadata shown on chrome://system.
-	doins "${FILESDIR}"/fwupdtool-getdevices.conf
 	# Install upstart script for automatic firmware update on device plug-in.
 	doins "${FILESDIR}"/fwupdtool-update.conf
 
