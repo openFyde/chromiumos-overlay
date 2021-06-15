@@ -1,9 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Ebuild to support the Chrome OS TI50 device.
-EAPI=7
-KEYWORDS=*
-LICENSE=BSD-Google
-RDEPEND=chromeos-base/chromeos-cr50-dev chromeos-base/chromeos-cr50-scripts
-SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles//ti50.ro.0.0.14.rw.0.0.9.tar.xz
-_md5_=1740f60e1e2f38e043ad889e34731e09
