@@ -18,11 +18,11 @@ HOMEPAGE="https://fwupd.org/downloads"
 KEYWORDS="*"
 
 FILENAMES=(
-	"06998fa5a9590b7ed0f90ad679ba48a27feba097095ae084e830e5106767d29a-Lenovo-ThinkPad-USBCGen2Dock-PDFirmware-0.0.34.cab"
-	"d619a3c051e33df53094e274fbb672bdfa50d19d950ec337de36a68fe682fe18-Lenovo-ThinkPad-USBCGen2Dock-DP-Firmware-5.05.00.cab"
-	"a5c8f0883f6089b780a25490b53eb8d5d6ba8a1d109ce44f18bd2b2ef3ffe315-Lenovo-ThinkPad-USBCGen2Dock-Firmware-49-0E-14.cab"
-	"fbed8f8eee1e125a47a627724065e36ef8d7d0342c8d03fdba60616c4de3554e-Lenovo-ThinkPad-USBCGen2Dock-USBHUB-Firmware-0D23_7a216856-8a97-550c-882e-8233751c7cf2.cab"
-	"d72204e110613bfacd65ca8e8783bf7f07272f4dfdb785cf1bd1c94b83ac5d33-Lenovo-ThinkPad-USBCGen2Dock-USBHUBQ7-Firmware-0D24_4ec36768-1858-5e9b-9d35-40e6143c3cd4.cab"
+	"29835d73b07590db964d796e508058e512c55ff0ca2a75b9c8ac2ed1fe305de5-Lenovo-ThinkPad-USBCGen2Dock-PDFirmware-0.0.34.cab"
+	"ac37f23af002e91df11094b08fd2e076cf9c8cb4f08930be8eefe35850097a60-Lenovo-ThinkPad-USBCGen2Dock-DP-Firmware-5.05.00.cab"
+	"2e0bf8aaf9c63ca11cfe3444d032277c21ec0d678e5963123a8b33e5dcd37d99-Lenovo-ThinkPad-USBCGen2Dock-Firmware-49-0E-14.cab"
+	"9a13f9fefa59ae42c06e9861dc20a0e53e35d471c6a1c05d6426a011b0fada30-Lenovo-ThinkPad-USBCGen2Dock-USBHUB-Firmware-0D23_7a216856-8a97-550c-882e-8233751c7cf2.cab"
+	"f241ce8c26d83546d5bfd1d67b70b9324f32ea4790acebb2a5e7d5a071eaaa85-Lenovo-ThinkPad-USBCGen2Dock-USBHUBQ7-Firmware-0D24_4ec36768-1858-5e9b-9d35-40e6143c3cd4.cab"
 )
 SRC_URI="${FILENAMES[*]/#/${CROS_FWUPD_URL}/}"
 LICENSE="LVFS-Vendor-Agreement-v1"
