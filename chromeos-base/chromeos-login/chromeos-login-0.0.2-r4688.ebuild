@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f34cf3a06f7b17b7829185630d886a5d9d3f0e75"
-CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "fdebd4ec45956a23b0652a35097ab22e33564e51" "a2ab6048637d439be995dd4cdc3ef91d0291fb42" "eae0546f4ee5132d4544af4770755eb05f60cba6" "1153221debf7860d31ffa0ac889604fe55bea01d" "75d9f73adde5a568885a0bb70db8b6d52bc3c679" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="33193994169c45789be0df31a517c9b360619d7f"
+CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "fdebd4ec45956a23b0652a35097ab22e33564e51" "a2ab6048637d439be995dd4cdc3ef91d0291fb42" "eae0546f4ee5132d4544af4770755eb05f60cba6" "38ddb57f15660ff2d8b8d4027f72afd274504932" "75d9f73adde5a568885a0bb70db8b6d52bc3c679" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config libcontainer libpasswordprovider 
 
 PLATFORM_SUBDIR="login_manager"
 
-inherit cros-workon platform systemd user
+inherit tmpfiles cros-workon platform systemd user
 
 DESCRIPTION="Login manager for Chromium OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-login/"
@@ -101,6 +101,8 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init/
 	doexe init/scripts/*
+
+	dotmpfiles tmpfiles.d/chromeos-login.conf
 
 	# For user session processes.
 	dodir /etc/skel/log
