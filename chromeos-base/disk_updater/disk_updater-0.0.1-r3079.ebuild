@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="8c218717dbb3da26ef7644fc1ce08d2f78273a96"
+CROS_WORKON_COMMIT="14c7e94cc377e79b8cf03de768cde4fb6531a706"
 CROS_WORKON_TREE=("cfe9ee34a132c6716bf20f937076d1e4b1242120" "a84edaa470edc69e27335f718e4784a8fcc883f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,6 +25,7 @@ DEPEND=""
 
 RDEPEND="${DEPEND}
 	chromeos-base/chromeos-common-script
+	dev-util/shflags
 	sata? ( sys-apps/hdparm )
 	mmc? ( sys-apps/mmc-utils )
 	nvme? ( sys-apps/nvme-cli )"
