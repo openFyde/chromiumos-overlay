@@ -17,7 +17,6 @@ socketpair: 1
 setpriority: 1
 recvfrom: 1
 ppoll: 1
-ppoll_time64: 1
 pipe: 1
 inotify_add_watch: 1
 inotify_init1: 1
@@ -48,10 +47,8 @@ recvmsg: 1
 poll: 1
 sendmsg: 1
 clock_gettime: 1
-clock_gettime_time64: 1
 nanosleep: 1
 clock_nanosleep: 1
-clock_nanosleep_time64: 1
 futex: 1
 rt_sigaction: 1
 mmap: 1
@@ -128,7 +125,6 @@ exit: 1
 exit_group: 1
 rt_sigreturn: 1
 clock_getres: 1
-clock_getres_time64: 1
 getresgid: 1
 mkdir: 1
 sched_getaffinity: 1
