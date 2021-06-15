@@ -180,7 +180,10 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	app-misc/utouch-evemu
 	app-mobilephone/dfu-util
 	chromeos-base/autotest-client
-	cras? ( chromeos-base/audiotest )
+	cras? (
+		chromeos-base/audiotest
+		media-sound/cras_bench
+	)
 	chromeos-base/avtest_label_detect
 	chromeos-base/chrome-binary-tests
 	chromeos-base/cros-camera-tool
