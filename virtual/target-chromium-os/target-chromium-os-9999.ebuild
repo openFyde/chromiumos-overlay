@@ -17,6 +17,8 @@ LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os instead.
+# Note: You almost never want to use + here to enable settings by default.
+# Please see https://crrev.com/c/2776455 as an example instead.
 IUSE="
 	arc-camera1
 	arc-camera3
