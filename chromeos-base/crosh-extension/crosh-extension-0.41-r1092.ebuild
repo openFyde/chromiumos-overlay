@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d737688d82d0abe78b1697bd5748e2ca71887dfa"
-CROS_WORKON_TREE=("c8e4301d10abb183fbcae5129cdfb4e39976794e" "62c970ef2bd2e7684fcf95bdfb74f34be8f6b39e" "bc5897dcdf5f6ac1de1fd8836ded9eced4b8487a" "d0acc31ea3395f8ee93a30762441b4aaa5c1ab0d" "6b8af6a0c88be075c60fe9fa728f4f6f998fd1ac")
+CROS_WORKON_COMMIT="9d54a0b24abba30bc99108c770d8cdae0947fa52"
+CROS_WORKON_TREE=("c8e4301d10abb183fbcae5129cdfb4e39976794e" "62c970ef2bd2e7684fcf95bdfb74f34be8f6b39e" "4bb6852abc68b1d336ecb96b59feb1cd00b07dcf" "d0acc31ea3395f8ee93a30762441b4aaa5c1ab0d" "6b8af6a0c88be075c60fe9fa728f4f6f998fd1ac")
 CROS_WORKON_PROJECT="apps/libapps"
 CROS_WORKON_LOCALNAME="third_party/libapps"
 CROS_WORKON_SUBTREE="libdot hterm nassh ssh_client terminal"
