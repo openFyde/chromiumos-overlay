@@ -4,12 +4,12 @@ DEPEND=dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.8*:= >=virtual/rust-1.
 DESCRIPTION=Chrome OS system API D-Bus bindings for Rust.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/system_api/
-IUSE=cros_host cros_workon_tree_ cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
-KEYWORDS=~*
+IUSE=cros_host cros_workon_tree_ddc6ff528ad576a541143cd43967fbe5009959f9_a0d8550678a1ed2a4ab62782049032a024bf40df_c3e1fc5061dcbd62acb501f21d7a3794f41b2160_2c7ac844cf2db48eca0465be0c5ada91c108f177_d38c4ab8c6aed3633c47041d78420f7f372448db cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.8*:= !chromeos-base/system_api-rust
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/9999
+SLOT=0/0.24.53-r173
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	fa6d2d0701d1d7e6a39b8524664b4c68	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=7c66ccac2a419c44c10c000c15aee51c
+_md5_=7b9dcd12bf1ce55569110527f3ca6751
