@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b2d4b0b1abb7428c60be9cb9f9a5d5a2706ea25b"
-CROS_WORKON_TREE=("684e8de537eb499db41c291b7fe38041428701aa" "a0d8550678a1ed2a4ab62782049032a024bf40df" "c3e1fc5061dcbd62acb501f21d7a3794f41b2160" "2c7ac844cf2db48eca0465be0c5ada91c108f177")
+CROS_WORKON_COMMIT="c410642f8f3b60fa0a327cbcf7a9ec3d1a8a6b76"
+CROS_WORKON_TREE=("ddc6ff528ad576a541143cd43967fbe5009959f9" "a0d8550678a1ed2a4ab62782049032a024bf40df" "c3e1fc5061dcbd62acb501f21d7a3794f41b2160" "2c7ac844cf2db48eca0465be0c5ada91c108f177" "d38c4ab8c6aed3633c47041d78420f7f372448db")
 CROS_RUST_SUBDIR="system_api"
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} authpolicy/dbus_bindings debugd/dbus_bindings login_manager/dbus_bindings"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} authpolicy/dbus_bindings debugd/dbus_bindings login_manager/dbus_bindings shill/dbus_bindings"
 
 inherit cros-workon cros-rust
 
