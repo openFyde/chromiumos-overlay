@@ -6,7 +6,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="37ee8a35cda342b112256d354517802e984044af"
+CROS_WORKON_COMMIT="90f9c121c16b267f08c57713cb33479fedbfa642"
 CROS_WORKON_TREE="296d633fa21cbc2f3cdc40895df1feda125c248e"
 PYTHON_COMPAT=( python2_7 python3_{6,7} )
 
@@ -33,6 +33,9 @@ src_compile() { :; }
 src_install() {
 	into /usr/local
 	dobin nebraska/nebraska.py
+
+	insinto /etc/init
+	doins nebraska/nebraska.conf
 }
 
 src_test() {
