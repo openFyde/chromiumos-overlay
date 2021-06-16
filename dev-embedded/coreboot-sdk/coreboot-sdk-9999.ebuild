@@ -68,7 +68,7 @@ src_compile() {
 	export PATH="${S}"/gnat-gpl-2017-x86_64-linux-bin/bin:"${PATH}"
 	export CC=gcc CXX=g++
 
-	local buildgcc_opts=(-j "$(makeopts_jobs)" -l "c,ada" -t)
+	local buildgcc_opts=(-j "$(makeopts_jobs)" -l "c,c++,ada" -t)
 
 	# Build bootstrap compiler to get a reliable compiler base no matter how
 	# versions diverged, but keep it separately, since we only need it
