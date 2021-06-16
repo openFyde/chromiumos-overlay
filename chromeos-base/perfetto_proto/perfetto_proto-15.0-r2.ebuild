@@ -3,12 +3,11 @@
 
 EAPI=7
 
+CROS_WORKON_COMMIT=("8bcf60828725f8b193208770a5eb183b80bc8b04" "109bac964e52bb1501f89c162228d6e09faf2d6b")
+CROS_WORKON_TREE=("1cd38b085705a8afe85025dd49f0f139d778285f" "791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/perfetto/trace_processor/..."
 )
-
-CROS_WORKON_COMMIT=("2f35d6fd1fc0e4c68e1e5188dab0de173de724c8" "1404aae9fa36dfcf3f1ae805d3e58f33ff56cdd8")
-CROS_WORKON_TREE=("b247aba769f84322900406f9d373e8d7856cf6e0" "a9c7ccacc3f49f80a01bb6dd4d544dbf7d4ef49c")
 
 inherit cros-constants
 
