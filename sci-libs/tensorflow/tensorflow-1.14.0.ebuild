@@ -145,19 +145,6 @@ get-cpu-flags() {
 	echo "${f[*]}"
 }
 
-# Echos the CPU string that TensorFlow uses to refer to the given architecture.
-get-cpu-str() {
-	local arch
-	arch="$(tc-arch "${1}")"
-
-	case "${arch}" in
-	amd64) echo "k8";;
-	arm) echo "arm";;
-	arm64) echo "arm";;
-	*) die "Unsupported architecture '${arch}'."
-	esac
-}
-
 pkg_setup() {
 	local num_pythons_enabled
 	num_pythons_enabled=0
@@ -192,7 +179,7 @@ src_prepare() {
 	fi
 
 	bazel_setup_bazelrc
-	bazel_setup_crosstool "$(get-cpu-str "${CBUILD}")" "$(get-cpu-str "${CHOST}")"
+	bazel_setup_crosstool
 
 	default
 	use python && python_copy_sources
