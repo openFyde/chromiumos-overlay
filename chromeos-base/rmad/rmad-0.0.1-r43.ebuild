@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f34cf3a06f7b17b7829185630d886a5d9d3f0e75"
-CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "8e8667b0418950dc4796275ecf7aad2037e1c71b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="29cd77b812e976b5d5d06fa12ebd20180f6e21e4"
+CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "d16bd55bca809cb5fa590994e04a98349cca605a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,14 +23,19 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="cr50_onboard ti50_onboard"
 
+COMMON_DEPEND=""
+
 RDEPEND="
+	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
+	chromeos-base/runtime_probe
 "
 
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPEND}
 	chromeos-base/system_api
+	chromeos-base/vboot_reference
 "
 
 pkg_preinst() {
