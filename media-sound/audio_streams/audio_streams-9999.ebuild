@@ -20,6 +20,8 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
+	>=dev-rust/async-trait-0.1.36:= <dev-rust/async-trait-0.2
+	dev-rust/cros_async:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 "
