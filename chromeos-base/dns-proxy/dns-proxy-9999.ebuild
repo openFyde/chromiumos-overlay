@@ -50,6 +50,10 @@ src_install() {
 
 	insinto /usr/share/policy
 	newins seccomp/dns-proxy-seccomp-"${ARCH}".policy dns-proxy-seccomp.policy
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ares_client_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/doh_curl_client_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/resolver_fuzzer
 }
 
 platform_pkg_test() {
