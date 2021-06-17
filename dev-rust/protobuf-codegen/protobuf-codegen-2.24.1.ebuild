@@ -17,6 +17,8 @@ DEPEND="
 	~dev-rust/protobuf-${PV}:=
 "
 
+RDEPEND="${DEPEND}"
+
 src_compile() {
 	ecargo_build
 }

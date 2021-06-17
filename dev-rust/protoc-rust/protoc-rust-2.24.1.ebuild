@@ -5,16 +5,19 @@ EAPI="7"
 
 inherit cros-rust
 
-DESCRIPTION="Rust implementation of Google protocol buffers"
-HOMEPAGE="https://github.com/stepancheg/rust-protobuf/"
+DESCRIPTION="protoc --rust_out=... available as API."
+HOMEPAGE="https://github.com/stepancheg/rust-protobuf/protoc-rust/"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
-SLOT="${PV}/${PR}"
+SLOT="0/${PVR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bytes-0.5*:=
-	=dev-rust/serde-1*:=
-	=dev-rust/serde_derive-1*:=
+	~dev-rust/protobuf-${PV}:=
+	~dev-rust/protobuf-codegen-${PV}:=
+	~dev-rust/protoc-${PV}:=
+	=dev-rust/tempfile-3*:=
 "
+
+RDEPEND=${DEPEND}
