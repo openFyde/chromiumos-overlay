@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="200d6bc4d4ef76072cfe610d30ffcc18b839b472"
-CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "81dfbbc1756a3b4224b447e7bf10a916d97c4f66" "5d77de997847c22cb783cc11cd0fab4f6fae59f0" "4a99e178e9e5497bfea4c425656cd65141c4b4bb" "be3649127dd6f4665096282522ab70aedbc37acd" "7415ae3b4e903e6c847c2b7a510907e549eb81c9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6a9b7cc20ab27a328a2044fd876d881adc56782c"
+CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "81dfbbc1756a3b4224b447e7bf10a916d97c4f66" "5d77de997847c22cb783cc11cd0fab4f6fae59f0" "4a99e178e9e5497bfea4c425656cd65141c4b4bb" "be3649127dd6f4665096282522ab70aedbc37acd" "2ab6e48080c9bce4650dcdfaca1936f57c5f8818" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_ma
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="test tpm tpm2 fuzzer"
+IUSE="pinweaver_csme test tpm tpm2 fuzzer"
 
 REQUIRED_USE="tpm2? ( !tpm )"
 
@@ -57,9 +57,13 @@ src_install() {
 	insinto /etc/init
 	doins server/tpm_managerd.conf
 	if use tpm2; then
-		sed -i 's/started tcsd/started trunksd/' \
+		dep_job="trunksd"
+		if use pinweaver_csme; then
+			dep_job="tpm_tunneld"
+		fi
+		sed -i "s/started tcsd/started ${dep_job}/" \
 			"${D}/etc/init/tpm_managerd.conf" ||
-			die "Can't replace tcsd with trunksd in tpm_managerd.conf"
+			die "Can't replace tcsd with ${dep_job} in tpm_managerd.conf"
 	fi
 
 	# Install the executables provided by TpmManager
