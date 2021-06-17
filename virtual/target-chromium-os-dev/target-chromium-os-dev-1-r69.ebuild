@@ -22,6 +22,7 @@ KEYWORDS="*"
 IUSE="
 	chromeless_tty
 	cras
+	diag
 	nvme
 	opengl
 	pam
@@ -128,6 +129,7 @@ RDEPEND="${RDEPEND}
 	net-dialup/minicom
 	net-dns/bind-tools
 	net-misc/dhcp
+	diag? ( net-misc/diag )
 	net-misc/iperf:2
 	net-misc/iputils
 	net-misc/openssh
