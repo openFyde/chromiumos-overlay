@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fbb47f8cd3a31b001cb95cd14cc87f4d53be74dd"
-CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "21c7271f79b56283e8fb4d1e0e5beda0d7d4186d" "4a99e178e9e5497bfea4c425656cd65141c4b4bb" "ea10f7fc5fd2aaf3546611483f67982d3e598dfd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c710bccb63c5fe47a26794f8d53f9149497acb3a"
+CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "5b8fa5f0647e951f26b990c4ca32a20dccb0dad5" "4a99e178e9e5497bfea4c425656cd65141c4b4bb" "ea10f7fc5fd2aaf3546611483f67982d3e598dfd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -52,6 +52,10 @@ src_install() {
 
 	insinto /usr/share/policy
 	newins seccomp/dns-proxy-seccomp-"${ARCH}".policy dns-proxy-seccomp.policy
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ares_client_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/doh_curl_client_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/resolver_fuzzer
 }
 
 platform_pkg_test() {
