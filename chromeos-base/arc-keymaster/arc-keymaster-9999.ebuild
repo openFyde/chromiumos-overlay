@@ -41,6 +41,7 @@ IUSE="+seccomp"
 RDEPEND="
 	chromeos-base/chaps:=
 	chromeos-base/cryptohome:=
+	chromeos-base/cryptohome-client:=
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 "
