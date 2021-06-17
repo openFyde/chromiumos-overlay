@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4808150428ed07ac7ef19288da24bd6fa8d82ec9"
+CROS_WORKON_COMMIT="14d8f2dd020d81692c6401aae36a89090d9688a3"
 CROS_WORKON_TREE="ddfb5f2412d9508fe7faa73a3821e781ef3f3158"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
@@ -33,6 +33,7 @@ CROS_GO_VERSION="${PF}"
 
 DEPEND="
 	chromeos-base/cros-config-api
+	dev-go/glog
 	dev-go/luci-go-common
 	dev-go/maruel-subcommands
 	dev-go/protobuf
