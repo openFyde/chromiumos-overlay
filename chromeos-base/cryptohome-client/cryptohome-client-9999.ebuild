@@ -27,11 +27,14 @@ BDEPEND="
 	chromeos-base/chromeos-dbus-bindings
 "
 
+# r3700 because we moved the dbus headers for UserDataAuth from cryptohome into
+# cryptohome-client in that version.
 RDEPEND="
-	!<chromeos-base/cryptohome-0.0.1
+	!<chromeos-base/cryptohome-0.0.1-r3700
 "
 
 src_install() {
 	# Install D-Bus client library.
 	platform_install_dbus_client_lib "cryptohome"
+	platform_install_dbus_client_lib "user_data_auth"
 }
