@@ -20,8 +20,8 @@ CROSSGCC_URIS="
 https://ftpmirror.gnu.org/gmp/gmp-6.2.1.tar.xz
 https://ftpmirror.gnu.org/mpfr/mpfr-4.1.0.tar.xz
 https://ftpmirror.gnu.org/mpc/mpc-1.2.1.tar.gz
-https://ftpmirror.gnu.org/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz
-https://ftpmirror.gnu.org/binutils/binutils-2.35.1.tar.xz
+https://ftpmirror.gnu.org/gcc/gcc-11.2.0/gcc-11.2.0.tar.xz
+https://ftpmirror.gnu.org/binutils/binutils-2.37.tar.xz
 https://acpica.org/sites/acpica/files/acpica-unix2-20210331.tar.gz
 "
 
