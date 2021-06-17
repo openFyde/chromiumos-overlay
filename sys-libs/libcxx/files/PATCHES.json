@@ -33,5 +33,11 @@
         "rel_patch_path": "bab74864168bb5e28ecbc0294fe1095d8da7f569.patch",
         "start_version": 415517,
         "end_version": 417837
+    },
+    {
+        "comment": "[libcxx][atomic] Fix failure mapping in compare_exchange_{strong,weak}.",
+        "rel_patch_path": "6d33362dafb66b3af4717990d9a06450ec13f367.patch",
+        "start_version": 428724,
+        "end_version": 430140
     }
 ]

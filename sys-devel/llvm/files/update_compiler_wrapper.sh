@@ -11,4 +11,4 @@ DIR=$(dirname "$0")
 TOOLCHAIN_UTILS_DIR="${DIR}/../../../../toolchain-utils"
 COMPILER_WRAPPER_DIR="${DIR}/compiler_wrapper"
 
-"${TOOLCHAIN_UTILS_DIR}/compiler_wrapper/bundle.py" "${COMPILER_WRAPPER_DIR}"
+"${TOOLCHAIN_UTILS_DIR}/compiler_wrapper/bundle.py" --output_dir "${COMPILER_WRAPPER_DIR}"

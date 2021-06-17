@@ -807,5 +807,41 @@
         "rel_patch_path": "cherry/801ab71032e157eb7bcd38efeb6486742a7c53bb.patch",
         "start_version": 422132,
         "end_version": 427980
+    },
+    {
+        "comment": "[ThinLTO] Respect ClearDSOLocalOnDeclarations for unimported functions",
+        "rel_patch_path": "cherry/252a1eecc04080d852ba58c6727970c688eb1619.patch",
+        "start_version": 389603,
+        "end_version": 431743
+    },
+    {
+        "comment": "[InstCombine] fix miscompile from vector select substitution",
+        "rel_patch_path": "cherry/7bb8bfa0622b8ee55c3f748004dcf4d83d48cf97.patch",
+        "start_version": 428724,
+        "end_version": 428786
+    },
+    {
+        "comment": "[SLP]Better detection of perfect/shuffles matches for gather nodes.",
+        "rel_patch_path": "cherry/36911971a58d1ba8b15e97790ac816eaadb0603e.patch",
+        "start_version": 428724,
+        "end_version": 428883
+    },
+    {
+        "comment": "[LTO] Fix -fwhole-program-vtables handling after HIP ThinLTO patch",
+        "rel_patch_path": "cherry/d0ee8b64ecf359737ce550d8f47f465ab6657be7.patch",
+        "start_version": 428724,
+        "end_version": 429138
+    },
+    {
+        "comment": "[X86] Check destination element type before forming VTRUNCS/VTRUNCUS in combineTruncateWithSat.",
+        "rel_patch_path": "cherry/765ef4bb2af604ea2bbd6c1bffaa6e1600804c9e.patch",
+        "start_version": 428724,
+        "end_version": 429620
+    },
+    {
+        "comment": "[libcxx][atomic] Fix failure mapping in compare_exchange_{strong,weak}.",
+        "rel_patch_path": "cherry/6d33362dafb66b3af4717990d9a06450ec13f367.patch",
+        "start_version": 428724,
+        "end_version": 430140
     }
 ]
