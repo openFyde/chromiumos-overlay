@@ -19,6 +19,10 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 
+PATCHES=(
+	"${FILESDIR}/archivemount-0.8.12-dev-fd.patch"
+)
+
 src_prepare() {
 	default
 
