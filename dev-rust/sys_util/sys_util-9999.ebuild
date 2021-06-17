@@ -57,7 +57,7 @@ src_test() {
 	fi
 
 	# If syslog isn't available, skip the tests.
-	[[ -S /dev/log ]] && skip_tests+=( --skip "syslog::tests" )
+	[[ -S /dev/log ]] || skip_tests+=( --skip "syslog::tests" )
 
 	# TODO(crbug.com/1157570) Remove once syslog module works in sandbox.
 	CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
