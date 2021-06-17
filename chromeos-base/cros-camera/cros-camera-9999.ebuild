@@ -13,7 +13,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/hal_adapter"
 
-inherit cros-camera cros-constants cros-workon platform user udev
+inherit cros-camera cros-constants cros-workon platform tmpfiles user udev
 
 DESCRIPTION="Chrome OS camera service. The service is in charge of accessing
 camera device. It uses unix domain socket to build a synchronous channel."
@@ -58,6 +58,8 @@ src_install() {
 	# Install seccomp policy file.
 	insinto /usr/share/policy
 	newins "seccomp_filter/cros-camera-${ARCH}.policy" cros-camera.policy
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	if use cheets && ! use arc-camera1; then
 		insinto "${ARC_VENDOR_DIR}/etc/init"
