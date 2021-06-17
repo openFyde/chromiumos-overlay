@@ -13,6 +13,7 @@
 	<flag name='bootchart'>Enables bootchart.</flag>
 	<flag name='bootimage'>Enables firmware bootimage dependencies.</flag>
 	<flag name='compupdates'>Enable component updates.</flag>
+	<flag name="dlp">Enable Data Leak Prevention daemon</flag>
 	<flag name='cros_ec'>Enables CrOS Embedded Controller.</flag>
 	<flag name='gdmwimax'>Enables WiMax dependencies.</flag>
 	<flag name='iioservice'>Enable Chrome OS IIO sensor service daemon.</flag>

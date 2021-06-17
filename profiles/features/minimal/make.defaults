@@ -69,5 +69,8 @@ USE="${USE} -lacros_rootfs"
 # Disable dns-proxy.
 USE="{$USE} -dns-proxy"
 
+# Disable Data Leak Prevention daemon (DLP).
+USE="${USE} -dlp"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE=""
