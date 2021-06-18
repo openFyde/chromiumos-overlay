@@ -25,10 +25,17 @@ REQUIRED_USE="kvm_guest"
 
 COMMON_DEPEND="
 	dev-libs/libevdev:=
-	media-libs/mesa:=[gbm]
-	x11-base/xwayland:=
 	x11-libs/libxkbcommon:=
 	x11-libs/pixman:=
+	x11-libs/libdrm:=
+	dev-libs/wayland:=
+	|| (
+		media-libs/mesa:=[gbm]
+		media-libs/minigbm:=
+	)
+	!fuzzer? (
+		x11-base/xwayland:=
+	)
 "
 
 RDEPEND="
@@ -44,6 +51,8 @@ DEPEND="
 
 src_install() {
 	dobin "${OUT}"/sommelier
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/sommelier_wayland_fuzzer
 }
 
 platform_pkg_test() {
