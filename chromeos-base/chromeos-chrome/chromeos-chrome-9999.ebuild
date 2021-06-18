@@ -683,6 +683,7 @@ setup_test_lists() {
 
 	if use vaapi || use v4l2_codec; then
 		TEST_FILES+=(
+			image_processor_test
 			jpeg_encode_accelerator_unittest
 			video_decode_accelerator_perf_tests
 			video_decode_accelerator_tests
