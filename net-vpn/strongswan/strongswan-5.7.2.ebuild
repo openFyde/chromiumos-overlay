@@ -45,7 +45,7 @@ RDEPEND="${COMMON_DEPEND}
 	!net-vpn/libreswan
 	selinux? ( sec-policy/selinux-ipsec )"
 
-UGID="ipsec"
+UGID="vpn"
 
 pkg_setup() {
 	linux-info_pkg_setup
