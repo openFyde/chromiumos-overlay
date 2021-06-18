@@ -6,6 +6,8 @@ cros_pre_src_prepare_brltty_config() {
 	epatch "${FILESDIR}"/${P}-aph-firmware-upgrade.patch
 	epatch "${FILESDIR}"/${P}-gettext-as-format-string.patch
 	epatch "${FILESDIR}"/${P}-locale-not-found-log.patch
+	epatch "${FILESDIR}"/${P}-use-fchmod-on-socket.patch
+	epatch "${FILESDIR}"/${P}-sticky-brlapi-dir.patch
 }
 
 cros_post_src_prepare_brltty_config() {
