@@ -36,7 +36,9 @@ RDEPEND="
 	sys-devel/binutils
 "
 
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	chromeos-base/cros-config-api
+"
 
 src_prepare() {
 	autotest-deponly_src_prepare
