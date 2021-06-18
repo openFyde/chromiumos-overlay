@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f34cf3a06f7b17b7829185630d886a5d9d3f0e75"
+CROS_WORKON_COMMIT="0b3b283b512922f366a02e2e3ca156636ffa4076"
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "11e77ef04f244b37fb17c7ea85042f19d160fe02" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -32,7 +32,6 @@ src_install() {
 	insinto /etc/init
 	doins arc/container/scripts/arc-kmsg-logger.conf
 	use iioservice || doins arc/container/scripts/arc-sensor.conf
-	doins arc/container/scripts/arc-sysctl.conf
 	doins arc/container/scripts/arc-ureadahead.conf
 	insinto /etc/sysctl.d
 	doins arc/container/scripts/01-sysctl-arc.conf
