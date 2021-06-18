@@ -4,12 +4,12 @@
 # $Header$
 
 EAPI="5"
-CROS_WORKON_COMMIT="99960b759990c2a5a8b19386603e418b048091d4"
-CROS_WORKON_TREE="21a7f6122d5eddc1ee0260ab9aaf295ab221dca4"
+CROS_WORKON_COMMIT="21ea14eb031957f9cf8d00a57dd45a7a1e9dae84"
+CROS_WORKON_TREE="60ed0f862fd08a2c848734d206da47d7666a8524"
 CROS_WORKON_PROJECT="chromiumos/third_party/trousers"
 CROS_WORKON_EGIT_BRANCH="chromeos-0.3.13"
 
-inherit autotools base cros-debug cros-sanitizers cros-workon flag-o-matic libchrome systemd user
+inherit autotools base cros-debug cros-sanitizers cros-workon flag-o-matic libchrome systemd tmpfiles user
 
 DESCRIPTION="An open-source TCG Software Stack (TSS) v1.1 implementation"
 HOMEPAGE="http://trousers.sf.net"
@@ -75,6 +75,7 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/tcsd-pre-start.sh
+	dotmpfiles tmpfiles.d/tcsd.conf
 }
 
 pkg_postinst() {
