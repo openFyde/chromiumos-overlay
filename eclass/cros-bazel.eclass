@@ -450,23 +450,8 @@ bazel_get_stdlib_linkflag() {
 	esac
 }
 
-# @FUNCTION: bazel_get_cpu_str
-# @USAGE: <CBUILD or CHOST>
-# @RETURN: The CPU string to refer to the given architecture for bazel.
-# @INTERNAL
-bazel_get_cpu_str() {
-	local arch
-	arch="$(tc-arch "$1")"
-
-	case "${arch}" in
-	amd64) echo "k8";;
-	arm) echo "arm";;
-	arm64) echo "aarch64";;
-	*) die "Unsupported architecture '${arch}'."
-	esac
-}
-
 # @FUNCTION: bazel_setup_crosstool
+# @USAGE: <host cpu string> <target cpu string>
 # @MAINTAINER:
 # Michael Martis <martis@chromium.org>
 # @DESCRIPTION:
@@ -484,12 +469,12 @@ bazel_setup_crosstool() {
 
 	bazel_setup_bazelrc
 
-	local host_cpu_str="$(bazel_get_cpu_str "${CBUILD}")"
+	local host_cpu_str="${1}"
 	if [[ -z "${host_cpu_str}" ]]; then
 		die "Must specify host CPU string when generating Bazel CROSSTOOL targets."
 	fi
 
-	local target_cpu_str="$(bazel_get_cpu_str "${CHOST}")"
+	local target_cpu_str="${2}"
 	if [[ -z "${target_cpu_str}" ]]; then
 		die "Must specify target CPU string when generating Bazel CROSSTOOL targets."
 	fi

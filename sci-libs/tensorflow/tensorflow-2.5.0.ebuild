@@ -157,6 +157,19 @@ DOCS=( AUTHORS CONTRIBUTING.md ISSUE_TEMPLATE.md README.md RELEASE.md )
 CHECKREQS_MEMORY="5G"
 CHECKREQS_DISK_BUILD="10G"
 
+# Echos the CPU string that TensorFlow uses to refer to the given architecture.
+get-cpu-str() {
+	local arch
+	arch="$(tc-arch "${1}")"
+
+	case "${arch}" in
+	amd64) echo "k8";;
+	arm) echo "arm";;
+	arm64) echo "aarch64";;
+	*) die "Unsupported architecture '${arch}'."
+	esac
+}
+
 pkg_setup() {
 	ewarn "TensorFlow 2.0 is a major release that contains some incompatibilities"
 	ewarn "with TensorFlow 1.x. For more information about migrating to TF2.0 see:"
@@ -187,7 +200,8 @@ src_prepare() {
 	sed -i "/^    '/s/==/>=/g" tensorflow/tools/pip_package/setup.py || die
 
 	bazel_setup_bazelrc
-	bazel_setup_crosstool
+	bazel_setup_crosstool "$(get-cpu-str "${CBUILD}")" "$(get-cpu-str "${CHOST}")"
+
 	default
 	use python && python_copy_sources
 
