@@ -553,7 +553,8 @@ ecargo_build() {
 	export CROS_RUST="1"
 
 	ecargo build --target="${CHOST}" --release "$@"
-	if [[ -n "${ENABLE_RUST_CLIPPY}" ]]; then
+	# FIXME(b/191687433): refactor ENABLE_RUST_CLIPPY to be easier to enable/disable then remove the platform2 check
+	if [[ -n "${ENABLE_RUST_CLIPPY}" && "${CROS_WORKON_PROJECT}" == "chromiumos/platform2" ]]; then
 		_ecargo_write_clippy
 	fi
 }
