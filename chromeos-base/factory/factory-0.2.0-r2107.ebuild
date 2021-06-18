@@ -69,6 +69,7 @@ src_unpack() {
 
 src_compile() {
 	emake bundle
+	emake project-toolkits
 }
 
 src_test() {
@@ -81,6 +82,15 @@ src_install() {
 	bundle_dest="${ED}/usr/local/factory"
 	mkdir -p "${bundle_dest}"
 	mv "${WORKDIR}/bundle" "${bundle_dest}"
+
+	exeinto "${TARGET_DIR}/project_toolkits"
+	local toolkit
+	shopt -s nullglob
+	for toolkit in "${BUILD_DIR}/"*"_install_factory_toolkit.run"; do
+		doexe "${toolkit}"
+	done
+	shopt -u nullglob
+
 	insinto "${CROS_FACTORY_BOARD_RESOURCES_DIR}"
 	doins "${BUILD_DIR}/resource/installer.tar"
 }
