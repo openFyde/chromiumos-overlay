@@ -30,3 +30,4 @@ openat: arg2 in O_RDONLY|O_NONBLOCK|0x10000|0x80000
 read: 1
 stat: 1
 write: 1
+fstatfs: 1

@@ -36,3 +36,4 @@ rt_sigprocmask: 1
 set_tid_address: 1
 set_robust_list: 1
 write: 1
+fstatfs: 1
