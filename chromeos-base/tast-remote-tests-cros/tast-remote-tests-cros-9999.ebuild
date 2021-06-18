@@ -30,6 +30,8 @@ CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
 )
 
+TAST_BUNDLE_EXCLUDE_DATA_FILES="1"
+
 inherit cros-workon tast-bundle
 
 DESCRIPTION="Bundle of remote integration tests for Chrome OS"
@@ -43,6 +45,7 @@ IUSE=""
 DEPEND="chromeos-base/tast-build-deps:="
 
 RDEPEND="
+	chromeos-base/tast-tests-remote-data
 	dev-python/pillow
 	media-libs/opencv
 "

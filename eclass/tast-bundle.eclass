@@ -23,6 +23,13 @@
 # installed to the chroot.
 : ${TAST_BUNDLE_PRIVATE:=0}
 
+# @ECLASS-VARIABLE: TAST_BUNDLE_EXCLUDE_DATA_FILES
+# @DESCRIPTION:
+# If set to "1", test data files are not copied.
+# This must be set to 1 if the ebuild inherits tast-bundle-data.eclass
+# and that eclass copies the data files instead.
+: "${TAST_BUNDLE_EXCLUDE_DATA_FILES:=0}"
+
 inherit cros-go
 
 DEPEND="dev-go/crypto"
@@ -125,23 +132,25 @@ tast-bundle_src_install() {
 	insinto "${TAST_BUNDLE_PREFIX}/share/tast/signature/${TAST_BUNDLE_TYPE}"
 	newins "${TAST_BUNDLE_NAME}.sig.json" "${TAST_BUNDLE_NAME}.json"
 
-	# The base directory where test data files are installed.
-	local basedatadir="${TAST_BUNDLE_PREFIX}/share/tast/data"
+	if [[ "${TAST_BUNDLE_EXCLUDE_DATA_FILES}" -ne 1 ]]; then
+		# The base directory where test data files are installed.
+		local basedatadir="${TAST_BUNDLE_PREFIX}/share/tast/data"
 
-	# Install each test category's data dir.
-	pushd src >/dev/null || die "failed to pushd src"
-	local datadir dest
-	for datadir in "${TAST_BUNDLE_PATH}"/*/data; do
-		[[ -e "${datadir}" ]] || break
+		# Install each test category's data dir.
+		pushd src >/dev/null || die "failed to pushd src"
+		local datadir dest
+		for datadir in "${TAST_BUNDLE_PATH}"/*/data; do
+			[[ -e "${datadir}" ]] || break
 
-		# Dereference symlinks to support shared files: https://crbug.com/927424
-		dest=${ED%/}/${basedatadir#/}/${datadir%/*}
-		mkdir -p "${dest}" || die "Failed to create ${dest}"
-		cp --preserve=mode --dereference -R "${datadir}" "${dest}" || \
-			die "Failed to copy ${datadir} to ${dest}"
-		chmod -R u=rwX,go=rX "${dest}" || die "Failed to chmod ${dest}"
-	done
-	popd >/dev/null || die
+			# Dereference symlinks to support shared files: https://crbug.com/927424
+			dest=${ED%/}/${basedatadir#/}/${datadir%/*}
+			mkdir -p "${dest}" || die "Failed to create ${dest}"
+			cp --preserve=mode --dereference -R "${datadir}" "${dest}" || \
+				die "Failed to copy ${datadir} to ${dest}"
+			chmod -R u=rwX,go=rX "${dest}" || die "Failed to chmod ${dest}"
+		done
+		popd >/dev/null || die
+	fi
 
 	insinto ${TAST_BUNDLE_PREFIX}/share/tast/metadata/${TAST_BUNDLE_TYPE}
 	doins "${TAST_BUNDLE_NAME}.pb"

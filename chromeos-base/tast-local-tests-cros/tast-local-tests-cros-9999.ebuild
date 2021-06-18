@@ -27,6 +27,8 @@ CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
 )
 
+TAST_BUNDLE_EXCLUDE_DATA_FILES="1"
+
 inherit cros-workon tast-bundle
 
 DESCRIPTION="Bundle of local integration tests for Chrome OS"
@@ -43,6 +45,7 @@ DEPEND="chromeos-base/tast-build-deps:="
 RDEPEND="
 	chromeos-base/policy-testserver
 	chromeos-base/tast-local-helpers-cros
+	chromeos-base/tast-tests-local-data
 	chromeos-base/virtual-usb-printer
 	chromeos-base/wprgo
 	!chromeless_tty? (
