@@ -12,6 +12,7 @@ CONFIG_HAVE_IFD_BIN=y
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/baseboard-volteer/descriptor-halvor.bin"
 
 # FSP Blobs
+CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/tgl/fsp/Include"
 CONFIG_ADD_FSP_BINARIES=y
 CONFIG_HAVE_INTEL_FSP_REPO=y
 # CONFIG_FSP_USE_REPO is not set
