@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5e80699a201528932bb7e4a1a988b1a0d8216a8f"
+CROS_WORKON_COMMIT="72a11a010e18ecfafc7f0c1bb7fff5020eba8069"
 CROS_WORKON_TREE="45225500d49ffe6b0cc50397b01585a13c61e9cc"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -59,7 +59,7 @@ src_test() {
 	fi
 
 	# If syslog isn't available, skip the tests.
-	[[ -S /dev/log ]] && skip_tests+=( --skip "syslog::tests" )
+	[[ -S /dev/log ]] || skip_tests+=( --skip "syslog::tests" )
 
 	# TODO(crbug.com/1157570) Remove once syslog module works in sandbox.
 	CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
