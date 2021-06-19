@@ -71,7 +71,7 @@ IUSE="compilation_database cros_host test"
 # dependency is needed outside test as well.
 DEPEND="
 	cros_host? ( dev-util/gn )
-	dev-cpp/gtest:=
+	>=dev-cpp/gtest-1.10.0:=
 "
 
 
