@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
+CROS_WORKON_COMMIT="776277f05c512cf1ff0033b55e58d4629e277cd5"
+CROS_WORKON_TREE="45230f81767e1e2835752c13a07d5ebd03df8a04"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit libchrome cros-workon autotest
@@ -12,7 +14,7 @@ SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups dlc_test +encrypted_stateful +network_time +passive_metrics +profile vaapi"
 # Enable autotest by default.
 IUSE="${IUSE} +autotest"
@@ -144,9 +146,11 @@ CLIENT_IUSE_TESTS="
 	+tests_kernel_Memory_Ramoop
 	+tests_kernel_SchedBandwith
 	crash_reporting? (
+		+tests_logging_CrashSender
 		+tests_logging_KernelCrash
 		+tests_logging_UdevCrash
 		+tests_logging_UserCrash
+		+tests_platform_AnomalyDetector
 	)
 	+tests_network_EthCaps
 	+tests_network_EthernetStressPlug
