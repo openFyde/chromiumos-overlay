@@ -1,0 +1,67 @@
+commit d17ad6011d4235e7d8e20ea40699f6463fe828e7
+Author: Nigel Tao <nigeltao@golang.org>
+Date:   Sun Jun 20 22:20:23 2021 +1000
+
+    Honor raw archives' pathname
+    
+    Libarchive's default is "/data", per archive_read_format_raw_read_header
+    in libarchive/archive_read_support_format_raw.c, but some raw archives
+    provide their own pathname and libarchive passes that on since 2019:
+    https://github.com/libarchive/libarchive/commit/a4744f65
+
+diff --git a/archivemount.c b/archivemount.c
+index 6342d7e..64a3fc2 100755
+--- a/archivemount.c
++++ b/archivemount.c
+@@ -142,6 +142,9 @@ char *mtpt = NULL;
+ char *archiveFile = NULL;
+ pthread_mutex_t lock; /* global node tree lock */
+ 
++const char formatraw_default_path[] = "/data";
++const char* formatraw_path = formatraw_default_path;
++
+ /* Taken from the GNU under the GPL */
+ char *
+ strchrnul (const char *s, int c_in)
+@@ -511,6 +514,9 @@ build_tree(mode_t mtpt_mode)
+ 		if (memcmp(name, "./\0", 3) == 0) {
+ 			/* special case: the directory "./" must be skipped! */
+ 			continue;
++		} else if (options.formatraw && (formatraw_path == formatraw_default_path)) {
++			/* save the first entry's name */
++			formatraw_path = strdup(name);
+ 		}
+ 		if (options.subtree_filter) {
+ 			regex_error = regexec(&subtree, name, 1, &regmatch, REG_NOTEOL);
+@@ -1132,12 +1138,10 @@ _ar_open_raw(void)
+ {
+ 	// open archive and search first entry
+ 
+-	const char path[] = "/data";
+-
+ 	int ret = -1;
+ 	const char *realpath;
+ 	NODE *node;
+-	log("_ar_open_raw called, path: '%s'", path);
++	log("_ar_open_raw called, path: '%s'", formatraw_path);
+ 
+ 
+ 	if (rawcache->opened!=0) {
+@@ -1149,7 +1153,7 @@ _ar_open_raw(void)
+ 
+ 	/* find node */
+ 
+-	node = get_node_for_path(root, path);
++	node = get_node_for_path(root, formatraw_path);
+ 	if (! node) {
+ 		log("get_node_for_path error");
+ 		return -ENOENT;
+@@ -2819,7 +2823,7 @@ main(int argc, char **argv)
+ 		if ((rawcache=init_rawcache()) == NULL)
+ 			return -ENOMEM;
+ 		fprintf(stderr,"Calculating uncompressed file size. Please wait.\n");
+-		rawcache->st.st_size=_ar_getsizeraw("/data");
++		rawcache->st.st_size=_ar_getsizeraw(formatraw_path);
+ 		//log("cache st_size = %ld",rawcache->st.st_size);
+ 	}
+ 

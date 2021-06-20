@@ -21,6 +21,7 @@ BDEPEND="virtual/pkgconfig"
 
 PATCHES=(
 	"${FILESDIR}/archivemount-0.8.12-dev-fd.patch"
+	"${FILESDIR}/archivemount-0.8.12-raw-pathname.patch"
 )
 
 src_prepare() {
