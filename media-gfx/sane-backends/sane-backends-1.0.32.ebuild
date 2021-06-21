@@ -185,6 +185,7 @@ src_prepare() {
 
 	# Patches submitted upstream but not yet included.
 	eapply "${FILESDIR}"/${PN}-1.0.31-epson2.patch
+	eapply "${FILESDIR}"/${PN}-1.0.32-epsonds.patch
 
 	# Upstream sometimes forgets to remove the "git describe" check
 	# in the version, which then fails because .git isn't included in the
