@@ -20,6 +20,16 @@ CROS_WORKON_EGIT_BRANCH=(
 	"main"
 )
 
+# coreboot:src/arch/x85/include/arch: used by inteltool, x86 only
+# coreboot:src/commonlib: used by cbfstool
+# coreboot:src/vendorcode/intel: used by cbfstool
+# coreboot:util/*: tools built by this ebuild
+# vboot: minimum set of files and directories to build vboot_lib for cbfstool
+CROS_WORKON_SUBTREE=(
+	"src/arch/x86/include/arch src/commonlib src/vendorcode/intel util/archive util/cbmem util/cbfstool util/ifdtool util/inteltool util/mma util/nvramtool util/superiotool"
+	"Makefile cgpt host firmware futility"
+)
+
 inherit cros-workon toolchain-funcs
 
 DESCRIPTION="Utilities for modifying coreboot firmware images"
