@@ -69,6 +69,7 @@ IUSE_LINUX_FIRMWARE=(
 	ath10k_qca6174a-5
 	ath10k_qca6174a-3
 	ath10k_wcn3990
+	ath11k_wcn6855
 	amdgpu_carrizo
 	amdgpu_green_sardine
 	amdgpu_picasso
@@ -156,6 +157,7 @@ LICENSE="
 	linux_firmware_ath10k_qca6174a-5? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_ath10k_qca6174a-3? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_ath10k_wcn3990? ( LICENCE.atheros_firmware )
+	linux_firmware_ath11k_wcn6855? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_bcm4354-bt? ( LICENCE.broadcom_bcm43xx )
 	linux_firmware_cros-pd? ( BSD-Google )
 	linux_firmware_fw_sst? ( LICENCE.fw_sst )
@@ -334,6 +336,7 @@ src_install() {
 	use_fw ath10k_qca6174a-5 && doins_subdir ath10k/QCA6174/hw3.0/{firmware-6,board-2}.bin
 	use_fw ath10k_qca6174a-3 && doins_subdir ath10k/QCA6174/hw3.0/{firmware-sdio-6,board-2}.bin
 	use_fw ath10k_wcn3990 && doins_subdir ath10k/WCN3990/hw1.0/*
+	use_fw ath11k_wcn6855 && doins_subdir ath11k/WCN6855/hw2.0/*
 	use_fw bcm4354-bt && doins_subdir brcm/BCM4354_*.hcd
 	use_fw cros-pd && doins_subdir cros-pd/*
 	use_fw fw_sst && doins_subdir intel/fw_sst*
