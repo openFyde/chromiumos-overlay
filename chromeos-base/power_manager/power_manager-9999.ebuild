@@ -30,6 +30,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/chromeos-config-tools:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/tpm_manager-client:=
 	dev-libs/libnl:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
