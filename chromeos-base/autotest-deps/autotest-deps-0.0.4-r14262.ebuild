@@ -32,27 +32,15 @@ AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 # deps/gtest
 RDEPEND="
 	dev-cpp/gtest:=
-"
-
-# deps/iwcap
-RDEPEND="${RDEPEND}
 	dev-libs/libnl:0
-"
-
-# deps/grpcio
-RDEPEND="${RDEPEND}
 	>=dev-python/grpcio-1.19
-"
-
-# deps/psutil
-RDEPEND="${RDEPEND}
 	>=dev-python/psutil-5.5.0
-"
-
-RDEPEND="${RDEPEND}
 	sys-devel/binutils
 "
-DEPEND="${RDEPEND}"
+
+DEPEND="${RDEPEND}
+	chromeos-base/cros-config-api
+"
 
 src_prepare() {
 	autotest-deponly_src_prepare
