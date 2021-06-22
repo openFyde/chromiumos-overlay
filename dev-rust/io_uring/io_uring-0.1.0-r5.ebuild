@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="76cc214ce771ab7dd0990b403e2a2c98dd0a4c80"
+CROS_WORKON_COMMIT="c54cf6c8e9cb9f496d8295efde4ed1f27195461d"
 CROS_WORKON_TREE="3964a781d4aac3a0649b24bcce48011fda8c459a"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -18,7 +18,6 @@ inherit cros-workon cros-rust
 
 DESCRIPTION="Safe wrappers around the linux kernel's io_uring interface"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/io_uring"
-
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
