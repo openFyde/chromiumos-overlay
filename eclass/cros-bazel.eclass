@@ -70,6 +70,8 @@ aarch64_constraints = [
 	"@bazel_tools//platforms:linux",
 ]
 
+arm64_constraints = aarch64_constraints
+
 platform(
 	name = "amd64_platform",
 	constraint_values = amd64_constraints,
@@ -88,6 +90,11 @@ platform(
 platform(
 	name = "aarch64_platform",
 	constraint_values = aarch64_constraints,
+)
+
+platform(
+	name = "arm64_platform",
+	constraint_values = arm64_constraints,
 )
 
 cc_toolchain_suite(
@@ -451,30 +458,34 @@ bazel_get_stdlib_linkflag() {
 }
 
 # @FUNCTION: bazel_setup_crosstool
-# @USAGE: <host cpu string> <target cpu string>
+# @USAGE: [<host cpu string> <target cpu string>]
 # @MAINTAINER:
 # Michael Martis <martis@chromium.org>
 # @DESCRIPTION:
-# Accepts Bazel "host" and "target" CPU strings, and creates Bazel targets
-# (under ${T}) that can be used to configure Bazel C++ compilation based on
-# Portage environment variables.
+# Creates Bazel targets (under ${T}) that can be used to configure
+# Bazel C++ compilation based on Portage environment variables.
 #
 # Also updates the bazelrc to specify the new crosstool targets by default.
 #
 # Should only be called once; subsequent calls will have no effect.
+# (Optional) Accepts Bazel "host" and "target" CPU strings as input arguments.
 bazel_setup_crosstool() {
+	if [[ $# -ne 0 && $# -ne 2 ]]; then
+		die "Must give exactly 0 or 2 arguments."
+	fi
+
 	if [[ -f "${BAZEL_CC_BAZELRC}" ]]; then
 		return
 	fi
 
 	bazel_setup_bazelrc
 
-	local host_cpu_str="${1}"
+	local host_cpu_str="${1:-$(tc-arch "${CBUILD}")}"
 	if [[ -z "${host_cpu_str}" ]]; then
 		die "Must specify host CPU string when generating Bazel CROSSTOOL targets."
 	fi
 
-	local target_cpu_str="${2}"
+	local target_cpu_str="${2:-$(tc-arch "${CHOST}")}"
 	if [[ -z "${target_cpu_str}" ]]; then
 		die "Must specify target CPU string when generating Bazel CROSSTOOL targets."
 	fi
