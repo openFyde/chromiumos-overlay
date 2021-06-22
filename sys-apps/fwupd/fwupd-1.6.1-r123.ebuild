@@ -3,12 +3,12 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="0a3a59567484506d112a03a68a265e9cbb17ab5f"
-CROS_WORKON_TREE="9db26d5a7bd44ffae0a6e5bb5112f29b1fc8bbe7"
+CROS_WORKON_COMMIT="e0efa1e617509aeffcfa7ac986a57636c0881862"
+CROS_WORKON_TREE="c795db73a250ee585ccc4adc2a24a992849cf36f"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.6.0"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.6.1"
 
-PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
+PYTHON_COMPAT=( python2_7 python3_{6..9} )
 
 inherit cros-workon linux-info meson python-single-r1 udev user vala xdg
 
@@ -19,16 +19,18 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+agent amt archive +bluetooth dell +dummy +gnutls gtk-doc +gusb elogind +minimal +gpg flashrom introspection +man nls nvme pkcs7 policykit synaptics systemd test thunderbolt uefi"
+IUSE="+agent amt archive +bluetooth dell +dummy +gnutls gtk-doc +gusb elogind flashrom +gpg lzma minimal introspection +man nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
-	^^ ( elogind minimal systemd )
 	dell? ( uefi )
 	minimal? ( !introspection )
+	spi? ( lzma )
+	synaptics? ( gnutls )
 	uefi? ( gnutls )
 "
 RESTRICT="!test? ( test )"
 
-BDEPEND="virtual/pkgconfig
+BDEPEND="
+	virtual/pkgconfig
 	gtk-doc? ( dev-util/gtk-doc )
 	introspection? ( dev-libs/gobject-introspection )
 	man? (
@@ -40,7 +42,8 @@ BDEPEND="virtual/pkgconfig
 		net-libs/gnutls[tools]
 	)
 "
-RDEPEND=">=app-arch/gcab-1.0
+COMMON_DEPEND="
+	>=app-arch/gcab-1.0
 	dev-db/sqlite
 	>=dev-libs/glib-2.45.8:2
 	dev-libs/json-glib
@@ -58,19 +61,27 @@ RDEPEND=">=app-arch/gcab-1.0
 	flashrom? ( sys-apps/flashrom )
 	gnutls? ( net-libs/gnutls )
 	gusb? ( >=dev-libs/libgusb-0.3.5[introspection?] )
+	lzma? ( app-arch/xz-utils )
 	policykit? ( >=sys-auth/polkit-0.103 )
 	systemd? ( >=sys-apps/systemd-211 )
 	uefi? (
-		media-libs/fontconfig
-		media-libs/freetype
-		sys-boot/gnu-efi
+		sys-apps/fwupd-efi
 		sys-boot/efibootmgr
 		sys-fs/udisks
 		sys-libs/efivar
-		x11-libs/cairo
 	)
 "
-DEPEND="$(vala_depend)
+# Block sci-chemistry/chemical-mime-data for bug #701900
+RDEPEND="
+	!<sci-chemistry/chemical-mime-data-0.1.94-r4
+	${COMMON_DEPEND}
+	sys-apps/dbus
+"
+
+DEPEND="
+	${COMMON_DEPEND}
+	x11-libs/pango
+	$(vala_depend)
 	${PYTHON_DEPS}
 	$(python_gen_cond_dep '
 		dev-python/pillow[${PYTHON_USEDEP}]
@@ -78,11 +89,6 @@ DEPEND="$(vala_depend)
 		dev-python/pygobject:3[cairo,${PYTHON_USEDEP}]
 	' ${PYTHON_COMPAT} )
 	${RDEPEND}
-"
-# Block sci-chemistry/chemical-mime-data for bug #701900
-RDEPEND+="
-	!<sci-chemistry/chemical-mime-data-0.1.94-r4
-	sys-apps/dbus
 "
 
 pkg_setup() {
@@ -97,6 +103,8 @@ src_prepare() {
 	# c.f. https://github.com/fwupd/fwupd/issues/1414
 	sed -e "/test('thunderbolt-self-test', e, env: test_env, timeout : 120)/d" \
 		-i plugins/thunderbolt/meson.build || die
+	sed '/platform-integrity/d' \
+		-i plugins/meson.build || die #753521
 	sed -e "/^gcab/s/^/#/" -i meson.build || die
 	if ! use nls ; then
 		echo > po/LINGUAS || die
@@ -105,38 +113,51 @@ src_prepare() {
 }
 
 src_configure() {
-	local emesonargs=(
-		--localstatedir "${EPREFIX}"/var
-		$(meson_use agent)
+	local plugins=(
 		$(meson_use amt plugin_amt)
-		$(meson_use archive libarchive)
-		$(meson_use bluetooth bluez)
 		$(meson_use dell plugin_dell)
 		$(meson_use dummy plugin_dummy)
-		$(meson_use elogind)
 		$(meson_use flashrom plugin_flashrom)
-		$(meson_use gnutls)
-		$(meson_use gtk-doc gtkdoc)
-		$(meson_use gusb)
 		$(meson_use gusb plugin_altos)
-		$(meson_use man)
 		$(meson_use nvme plugin_nvme)
-		$(meson_use introspection)
-		$(meson_use policykit polkit)
+		$(meson_use spi plugin_intel_spi)
 		$(meson_use synaptics plugin_synaptics_mst)
 		$(meson_use synaptics plugin_synaptics_rmi)
-		$(meson_use systemd)
-		$(meson_use test tests)
 		$(meson_use thunderbolt plugin_thunderbolt)
 		$(meson_use uefi plugin_uefi_capsule)
+		$(meson_use uefi plugin_uefi_capsule_splash)
 		$(meson_use uefi plugin_uefi_pk)
-		-Dconsolekit="false"
-		-Dcurl="true"
+
 		# Dependencies are not available (yet?)
 		-Dplugin_modem_manager="false"
 		-Dplugin_tpm="false"
 	)
-	(use x86 || use amd64 ) || emesonargs+=( -Dplugin_msr="false" )
+	(use x86 || use amd64 ) || plugins+=( -Dplugin_msr="false" )
+
+	local emesonargs=(
+		--localstatedir "${EPREFIX}"/var
+		-Dbuild="$(usex minimal standalone all)"
+		-Dconsolekit="false"
+		-Dcurl="true"
+		-Ddocs="$(usex gtk-doc gtkdoc none)"
+		-Defi_binary="false"
+		-Dsupported_build="true"
+		$(meson_use agent)
+		$(meson_use archive libarchive)
+		$(meson_use bluetooth bluez)
+		$(meson_use elogind)
+		$(meson_use gnutls)
+		$(meson_use gusb)
+		$(meson_use lzma)
+		$(meson_use man)
+		$(meson_use introspection)
+		$(meson_use policykit polkit)
+		$(meson_use systemd)
+		$(meson_use test tests)
+
+		${plugins[@]}
+	)
+	use uefi && emesonargs+=( -Defi_os_dir="gentoo" )
 	export CACHE_DIRECTORY="${T}"
 	meson_src_configure
 }
@@ -172,11 +193,6 @@ src_install() {
 	doexe "${FILESDIR}"/fwupd-at-boot.sh
 
 	if ! use minimal ; then
-		sed "s@%SEAT_MANAGER%@elogind@" \
-			"${FILESDIR}"/${PN}-r2 \
-			> "${T}"/${PN} || die
-		doinitd "${T}"/${PN}
-
 		if ! use systemd ; then
 			# Don't timeout when fwupd is running (#673140)
 			sed '/^IdleTimeout=/s@=[[:digit:]]\+@=0@' \
@@ -188,12 +204,4 @@ src_install() {
 pkg_preinst() {
 	enewuser fwupd
 	enewgroup fwupd
-}
-
-pkg_postinst() {
-	xdg_pkg_postinst
-	elog "In case you are using openrc as init system"
-	elog "and you're upgrading from <fwupd-1.1.0, you"
-	elog "need to start the fwupd daemon via the openrc"
-	elog "init script that comes with this package."
 }
