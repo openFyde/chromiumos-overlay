@@ -20,6 +20,7 @@ IUSE="arcvm cellular iwlwifi_dump nvme sata tpm"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login:=
+	chromeos-base/cryptohome-client:=
 	chromeos-base/minijail:=
 	chromeos-base/shill-client:=
 	chromeos-base/vboot_reference:=
