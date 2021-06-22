@@ -16,7 +16,6 @@ inherit cros-workon cros-rust
 
 DESCRIPTION="Safe wrappers around the linux kernel's io_uring interface"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/io_uring"
-
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
