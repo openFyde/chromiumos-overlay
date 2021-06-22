@@ -4,7 +4,7 @@
 
 EAPI=7
 CROS_WORKON_COMMIT=("14a4eb6e112b3064c2ba0e228193bb3a1eba3036" "4e982f1c39da417100e4021fb1c2c370da5f8dd6")
-CROS_WORKON_TREE=("aa523f3e447d81320474008d6b61b06d4c3ad836" "658c9539ddd1841087da6d742e4c2d999cb3e6e1")
+CROS_WORKON_TREE=("799331977582570b4553d5b8ecf53f17828b8175" "0e26966d3f2069b8ac7134030bcdf1022620e54b" "f1b8475bdf2131616c1e148087f139206604b5de" "7970bef34ce4d0b3023def52ff72e1c4cd2eca85" "1f141a99a47f4c9edd8fdf11508f24cee865b31e" "b4d9967f57ddca241d0a031c5d403e9da7088608" "c4524c42dcd8ee9f61dc34d99e71983e065c591c" "181b7ecc670fb8b8481356d96e48592587a73c68" "e03866d9ecdf3529248f3d4bd0b63499a092f2c3" "974edbc79de4f730edf8c9d01bc9186f97417f1d" "bfef75f3a17da232f402e1799b42c25c2b1c5176" "327b75387dd5fa21a18900c37c6017c6378024be" "f0e6fefacbfcbd78417e52a97ba25032cf8fa1ed" "357d07fc1526ad76c1a186e437b7736e3a254d65" "b7c12429dc024e81ca28d48672718336134c64e5" "362eda536c1c8032f60673bd7943efd3bd9dfb7a")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
 	"chromiumos/platform/vboot_reference"
@@ -20,6 +20,16 @@ CROS_WORKON_DESTDIR=(
 CROS_WORKON_EGIT_BRANCH=(
 	"chromeos-2016.05"
 	"main"
+)
+
+# coreboot:src/arch/x85/include/arch: used by inteltool, x86 only
+# coreboot:src/commonlib: used by cbfstool
+# coreboot:src/vendorcode/intel: used by cbfstool
+# coreboot:util/*: tools built by this ebuild
+# vboot: minimum set of files and directories to build vboot_lib for cbfstool
+CROS_WORKON_SUBTREE=(
+	"src/arch/x86/include/arch src/commonlib src/vendorcode/intel util/archive util/cbmem util/cbfstool util/ifdtool util/inteltool util/mma util/nvramtool util/superiotool"
+	"Makefile cgpt host firmware futility"
 )
 
 inherit cros-workon toolchain-funcs
