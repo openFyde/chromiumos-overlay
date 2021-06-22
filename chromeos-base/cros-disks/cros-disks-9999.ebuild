@@ -52,6 +52,9 @@ pkg_preinst() {
 	enewuser "ntfs-3g"
 	enewgroup "ntfs-3g"
 
+	enewuser "fuse-archivemount"
+	enewgroup "fuse-archivemount"
+
 	enewuser "fuse-exfat"
 	enewgroup "fuse-exfat"
 
@@ -77,6 +80,7 @@ src_install() {
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
+	use seccomp && newins archivemount-seccomp-${ARCH}.policy archivemount-seccomp.policy
 	use seccomp && newins fuse-zip-seccomp-${ARCH}.policy fuse-zip-seccomp.policy
 	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 
