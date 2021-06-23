@@ -7,7 +7,7 @@
 
 EAPI=7
 CROS_WORKON_COMMIT="9ea324c52e5e086de80f16b6a6b812854aad03ff"
-CROS_WORKON_TREE="e6cdf5da8352e413eeadc61053a1a4c2e43c69a6"
+CROS_WORKON_TREE=("b5a9076b809964e8c39cac28e54a2e8ad99169c8" "705ef94c6144066c732bc3b44a3fed2e79debfd5" "3866d5128a8888a5cbbf8e2ea4a546537e16d2ce")
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
 
@@ -20,6 +20,11 @@ IUSE="coreboot-sdk unibuild verbose"
 DEPEND="unibuild? ( chromeos-base/chromeos-config:= )"
 
 CROS_WORKON_LOCALNAME="coreboot"
+
+# kconfig and xcompile are reused from coreboot.
+# Everything else is not supposed to matter for
+# libpayload.
+CROS_WORKON_SUBTREE="payloads/libpayload util/kconfig util/xcompile"
 
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
