@@ -18,6 +18,10 @@ cros_post_src_install_lddtree() {
 		--bindir /bin \
 		--generate-wrappers \
 		"${progs[@]/#/${D}/usr/bin/}" || die
+	# glibc dynamically loads these based on /etc/nsswich.conf, so we have
+	# to copy them over manually.
+	cp "${SYSROOT}/$(get_libdir)/libnss_"{compat,db,dns,files}.so.2 \
+		"${D}/usr/libexec/qemu/lib/" || die
 	# No need to duplicate this in the package itself.
 	for prog in "${progs[@]}"; do
 		dosym ../../../bin/"${prog}" /usr/libexec/qemu/bin/"${prog}".elf
