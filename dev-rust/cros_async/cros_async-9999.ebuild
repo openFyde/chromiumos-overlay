@@ -13,7 +13,6 @@ inherit cros-workon cros-rust
 
 DESCRIPTION="Rust async tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/cros_async"
-
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
