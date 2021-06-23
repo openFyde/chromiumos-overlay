@@ -85,6 +85,7 @@ src_prepare() {
 src_install() {
 	insinto ${AUTOTEST_BASE}
 	doins -r "${AUTOTEST_WORK}"/*
+	python3 ${S}/utils/generate_metadata.py -autotest_path=${S} -output_file="${D}"${AUTOTEST_BASE}/autotest_metadata
 
 	# base __init__.py
 	touch "${D}"${AUTOTEST_BASE}/__init__.py
