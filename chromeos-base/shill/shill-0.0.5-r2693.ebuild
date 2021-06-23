@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c8356149dd3addec8ddef84545cf8a9dc8530f01"
+CROS_WORKON_COMMIT="65240bb3b66b94f15c5c9b5ecde982d5ea9a3f66"
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "eae0546f4ee5132d4544af4770755eb05f60cba6" "a9708ef639f0f7929195d0f3921ebd1a12ad96bd" "e4ee432fec7b2c5babfee3b2867b4e2e721bbf06" "21f1f0db051f75ae383e9fbc5033144420bbbdfe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -97,6 +97,8 @@ src_configure() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin bin/ff_debug
 
 	if use cellular; then
