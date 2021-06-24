@@ -27,3 +27,14 @@ DEPEND="
 	dev-rust/tempfile:=
 "
 RDEPEND="${DEPEND}"
+
+src_test() {
+	# The io_uring implementation on kernels older than 5.10 was buggy so skip
+	# them if we're running on one of those kernels.
+	local cut_version="$(ver_cut 1-2 "$(uname -r)")"
+	if ver_test "${cut_version}" -lt 5.10; then
+		einfo "Skipping io_uring tests on kernel version < 5.10"
+	else
+		cros-rust_src_test
+	fi
+}
