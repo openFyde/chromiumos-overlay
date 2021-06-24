@@ -36,6 +36,7 @@ src_install() {
 	doexe "${BINARY_DIR}/wayland_client_perftests"
 
 	if use vaapi || use v4l2_codec; then
+		doexe "${BINARY_DIR}/image_processor_test"
 		doexe "${BINARY_DIR}/jpeg_encode_accelerator_unittest"
 		doexe "${BINARY_DIR}/video_decode_accelerator_perf_tests"
 		doexe "${BINARY_DIR}/video_decode_accelerator_tests"
