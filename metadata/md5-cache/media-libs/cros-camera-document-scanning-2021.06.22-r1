@@ -1,0 +1,9 @@
+DEFINED_PHASES=install
+DESCRIPTION=Google3 document scanning library.
+EAPI=7
+IUSE=march_goldmont march_armv8 ondevice_document_scanner
+KEYWORDS=*
+LICENSE=BSD-Google
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/chromeos-document-scanning-lib-2021.06.22.tar.bz2
+_md5_=aea3c48e9632fe55ad12e0f62be4d4d4
