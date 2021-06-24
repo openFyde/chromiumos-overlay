@@ -41,6 +41,7 @@ IUSE="
 	diagnostics
 	dlc
 	dlc_test
+	dlp
 	dns-proxy
 	dptf
 	eclog
@@ -209,6 +210,7 @@ RDEPEND="
 	cros_disks? ( chromeos-base/cros-disks )
 	debugd? ( chromeos-base/debugd )
 	diagnostics? ( chromeos-base/diagnostics )
+	dlp? ( chromeos-base/dlp )
 	kerberos_daemon? ( chromeos-base/kerberos )
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
