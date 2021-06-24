@@ -72,6 +72,7 @@ IUSE="
 	ndk_translation
 	ndk_translation64
 	neon
+	ondevice_document_scanner
 	ondevice_handwriting
 	ondevice_handwriting_dlc
 	ondevice_speech
