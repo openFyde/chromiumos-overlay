@@ -81,6 +81,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.19.6-fix-return.patch"
 	"${FILESDIR}/${PN}-3.19.6-ignore-prebuilt-shared-objects.patch"
 	"${FILESDIR}/${PN}-3.19.6-fix-uninitialized-variable.patch"
+	"${FILESDIR}/${PN}-3.19.6-fix-pixel-color-overflow.patch"
 	"${WORKDIR}/patches"
 )
 
