@@ -109,10 +109,6 @@ SERVER_IUSE_TESTS="
 	+tests_display_ServerChameleonConnection
 	+tests_display_SuspendStress
 	+tests_display_SwitchMode
-	+tests_dummy_PassServer
-	+tests_dummy_FailServer
-	+tests_dummy_FlakyTestServer
-	+tests_stub_SynchronousOffloadServer
 	+tests_enterprise_ClearTPM
 	+tests_enterprise_KioskEnrollmentServer
 	+tests_enterprise_LongevityTrackerServer
@@ -346,7 +342,10 @@ SERVER_IUSE_TESTS="
 	+tests_servohost_Reboot
 	+tests_stress_ClientTestReboot
 	+tests_stress_EnrollmentRetainment
+	+tests_stub_FailServer
+	+tests_stub_PassServer
 	+tests_stub_ServerToClientPass
+	+tests_stub_SynchronousOffloadServer
 "
 
 IUSE_TESTS="${IUSE_TESTS}
