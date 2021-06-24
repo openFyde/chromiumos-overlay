@@ -65,6 +65,7 @@ PATCHES=(
 	"${FILESDIR}/0041-CHROMIUM-v4l-add-request-based-VP9-stateless-control.patch"
 	"${FILESDIR}/0042-CHROMIUM-linux-headers-update-headers-with-UVC-1.5-R.patch"
 	"${FILESDIR}/0043-BACKPORT-vfs-add-faccessat2-syscall.patch"
+	"${FILESDIR}/0044-CHROMIUM-v4l2-controls-use-very-high-ID-for-ROI-auto.patch"
 )
 
 src_unpack() {
