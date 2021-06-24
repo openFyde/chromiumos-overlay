@@ -39,7 +39,8 @@ socket: arg0 == AF_NETLINK || arg0 == AF_UNIX || arg0 == AF_QIPCRTR || \
 # 0x8BE4 == SIOCIWFIRSTPRIV_CLEANUP
 ioctl: arg1 == TCGETS || arg1 == SIOCGIFINDEX || arg1 == TIOCEXCL || \
        arg1 == TIOCNXCL || arg1 == TIOCGSERIAL || arg1 == 0x800248a0 || \
-       arg1 == 0x8BE1 || arg1 == 0x8BE2 || arg1 == 0x8BE3 || arg1 == 0x8BE4
+       arg1 == 0x8BE1 || arg1 == 0x8BE2 || arg1 == 0x8BE3 || arg1 == 0x8BE4 || \
+       arg1 == TCFLSH || arg1 == TCSETS
 connect: 1
 clone: 1
 set_robust_list: 1
