@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("b113a6b05a8cc548990ddcf0a055dd13c78636f4" "bb8eec2db8f44e894f23349686b6eef38bbad837")
-CROS_WORKON_TREE=("b9d6ba429880b5ca9f50b598aeacb44068eaff3a" "0d83a3e9add33f945dded638bf41797b945b1dd1")
+CROS_WORKON_COMMIT=("d7261adc766fe2926f6aeca58f9f54909b4856a8" "bb8eec2db8f44e894f23349686b6eef38bbad837")
+CROS_WORKON_TREE=("b96fdcaded6d5d88a06629f79f7fc0d48c996d62" "0d83a3e9add33f945dded638bf41797b945b1dd1")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/autotest"
 	"chromiumos/platform/fw-testing-configs"
@@ -87,6 +87,7 @@ src_prepare() {
 src_install() {
 	insinto ${AUTOTEST_BASE}
 	doins -r "${AUTOTEST_WORK}"/*
+	python3 ${S}/utils/generate_metadata.py -autotest_path=${S} -output_file="${D}"${AUTOTEST_BASE}/autotest_metadata
 
 	# base __init__.py
 	touch "${D}"${AUTOTEST_BASE}/__init__.py
