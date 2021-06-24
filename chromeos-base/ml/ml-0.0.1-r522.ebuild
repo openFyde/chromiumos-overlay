@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5dfd9e4dfe21b6eac6ed7d243bbdaa5e8864715f"
+CROS_WORKON_COMMIT="04062a724af44093e07dca4ecc0fddeb952da690"
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "6b20c54d10302351c9ae338da89009d189ada3bc" "20d593bc4f76d08b642ac2d57ed2f4f9af04ce50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -49,6 +49,7 @@ IUSE="
 	internal
 	ml_benchmark_drivers
 	nnapi
+	ondevice_document_scanner
 	ondevice_grammar
 	ondevice_handwriting
 	ondevice_handwriting_dlc
@@ -61,6 +62,7 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	internal? ( ondevice_speech? ( chromeos-soda/libsoda:=[dlc=] ) )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
+	media-libs/cros-camera-document-scanning:=[ondevice_document_scanner=]
 	>=dev-libs/libgrammar-0.0.4:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
 	dev-libs/libsuggest:=[ondevice_text_suggestions=]
