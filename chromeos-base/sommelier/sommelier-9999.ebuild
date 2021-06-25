@@ -24,6 +24,7 @@ IUSE="kvm_guest"
 REQUIRED_USE="kvm_guest"
 
 COMMON_DEPEND="
+	dev-libs/libevdev:=
 	media-libs/mesa:=[gbm]
 	x11-base/xwayland:=
 	x11-libs/libxkbcommon:=
@@ -59,7 +60,8 @@ platform_pkg_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping meson tests on non-x86 platform"
 	else
-		meson tmp_build_dir || die "Failed to configure meson build"
+		meson tmp_build_dir -Dgamepad=true -Dtracing=true -Dcommit_loop_fix=true \
+				|| die "Failed to configure meson build"
 		ninja -C tmp_build_dir || die "Failed to build sommelier with meson"
 		[ -f tmp_build_dir/sommelier ] || die "Target 'sommelier' was not built by meson"
 		ninja -C tmp_build_dir test || die "Tests failed"
