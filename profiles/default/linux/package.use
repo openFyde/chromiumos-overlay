@@ -89,3 +89,6 @@ dev-libs/libgcrypt	o-flag-munging
 # Use hostname from coreutils so we don't require net-tools anymore.
 sys-apps/coreutils hostname
 sys-apps/net-tools -hostname
+
+# Use the dedicated python-magic package.
+sys-apps/file -python
