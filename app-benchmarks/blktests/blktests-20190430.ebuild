@@ -16,6 +16,10 @@ IUSE="static"
 
 DEPEND=""
 
+PATCHES=(
+	"${FILESDIR}/blktests-20190430-Remove-unnecessary-linux-kvm.h-include.patch"
+)
+
 RDEPEND="sys-fs/e2fsprogs
 	sys-block/blktrace
 	sys-block/fio
