@@ -17,17 +17,16 @@ main() {
   fi
 
   local pending
-  pending="$(find /var/lib/fwupd/pending -type f -size -100c 2>/dev/null)"
+  read -ra pending < \
+    <(find /var/lib/fwupd/pending -type f -size -100c 2>/dev/null | xargs)
   if [ -z "${pending[*]}" ]; then
 	return "${ret}"
   fi
 
-  # Background process that shows boot alert.
-  chromeos-boot-alert update_fwupd_firmware &
-  local bg_pid=$!
+  # Show boot alert.
+  chromeos-boot-alert update_fwupd_firmware
 
   local i
-
   # Give it time for enumeration to detect devices.
   for i in "${pending[@]}"; do
     local seconds=0
