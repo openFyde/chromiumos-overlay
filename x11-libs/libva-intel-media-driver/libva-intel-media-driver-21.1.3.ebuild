@@ -25,6 +25,7 @@ PATCHES=(
 	"${FILESDIR}"/0001-Disable-IPC-usage.patch
 	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
 	"${FILESDIR}"/0003-Stop-using-mos_bo_subdata.patch
+	"${FILESDIR}"/0004-set-the-picture-flag-to-be-invalid-frame-if-the-ref-.patch
 )
 
 src_configure() {

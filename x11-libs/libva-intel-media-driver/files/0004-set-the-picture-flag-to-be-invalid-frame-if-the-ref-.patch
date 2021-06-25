@@ -1,0 +1,28 @@
+From f14fd05d1a010b23e62ceb6e1dfff7908afde55d Mon Sep 17 00:00:00 2001
+From: XinfengZhang <carl.zhang@intel.com>
+Date: Tue, 15 Jun 2021 18:07:24 -0400
+Subject: [PATCH] set the picture flag to be invalid frame if the ref frame is
+ invalid
+
+fixes #1189
+
+Signed-off-by: XinfengZhang <carl.zhang@intel.com>
+---
+ media_driver/linux/common/codec/ddi/media_ddi_encode_avc.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/media_driver/linux/common/codec/ddi/media_ddi_encode_avc.cpp b/media_driver/linux/common/codec/ddi/media_ddi_encode_avc.cpp
+index f398467e..02453ab0 100644
+--- a/media_driver/linux/common/codec/ddi/media_ddi_encode_avc.cpp
++++ b/media_driver/linux/common/codec/ddi/media_ddi_encode_avc.cpp
+@@ -2201,6 +2201,7 @@ void DdiEncodeAvc::GetSlcRefIdx(CODEC_PICTURE *picReference, CODEC_PICTURE *slcR
+         if (i == CODEC_MAX_NUM_REF_FRAME)
+         {
+             slcReference->FrameIdx = CODEC_AVC_NUM_UNCOMPRESSED_SURFACE;
++            slcReference->PicFlags = PICTURE_INVALID;
+         }
+     }
+ }
+-- 
+2.25.1
+
