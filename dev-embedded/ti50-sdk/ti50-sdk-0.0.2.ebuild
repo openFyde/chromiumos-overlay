@@ -24,14 +24,10 @@ SRC_URI="https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles
 # The rust src tarball was manually packed from a checkout of
 # https://github.com/rust-lang/rust at ${RUST_SHA}, using
 # ${FILESDIR}/pack_git_tarball.py with |--post-copy-command 'cargo vendor'|.
-#
-# NOTE that this also had
-# rust-lang/rust@e715c7f234ba25c25b98894c822de9e7cf87558c applied; without
-# that, nothing `dist`s except for rust-std.
 BOOTSTRAP_HOST_TRIPLE="x86_64-unknown-linux-gnu"
-RUST_SHA="0da58007451a"
+RUST_SHA="9111b8ae9793"
 # See https://github.com/rust-lang/rust/tree/${RUST_SHA}/src/stage0.txt
-RUST_STAGE0_DATE="2020-08-26"
+RUST_STAGE0_DATE="2021-05-23"
 
 RUST_PREFIX="rust-${RUST_SHA}"
 RUST_SRC_TARBALL_NAME="rustc-${RUST_SHA}-src"

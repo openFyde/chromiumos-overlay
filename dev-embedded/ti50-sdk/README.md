@@ -48,7 +48,7 @@ gsutil cp -n -a public-read /tmp/llvm-${sha}-src.tar.xz \
     gs://chromeos-localmirror/distfiles/llvm-${sha}-src.tar.xz
 ```
 
-Update the LLVM_SHA variable in ti50-sdk-0.0.1.ebuild to ${sha}.
+Update the LLVM_SHA variable in the ebuild file to ${sha}.
 
 After running `ebuild manifest` as described in the section above, you should be
 able to start testing these changes via `sudo emerge dev-embedded/ti50-sdk`.
@@ -71,7 +71,7 @@ gsutil cp -n -a public-read /tmp/newlib-${sha}-src.tar.xz \
     gs://chromeos-localmirror/distfiles/newlib-${sha}-src.tar.xz
 ```
 
-Update the NEWLIB_SHA variable in ti50-sdk-0.0.1.ebuild to ${sha}.
+Update the NEWLIB_SHA variable in the ebuild file to ${sha}.
 
 After running `ebuild manifest` as described in the section above, you should be
 able to start testing these changes via `sudo emerge dev-embedded/ti50-sdk`.
