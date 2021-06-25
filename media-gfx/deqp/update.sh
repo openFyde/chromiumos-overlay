@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Copyright 2019-2021 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
 deqp_repo=$1
 
 if [ -z "$deqp_repo" ]; then
@@ -17,8 +21,8 @@ declare -A git_repos=(
 
 for module in "${!git_repos[@]}"; do
     # Pull the git sha1 out of fetch_sources.py
-    revision=$(PYTHONPATH=$deqp_repo/external python2 -c "import fetch_sources; \
-	print [p for p in fetch_sources.PACKAGES if p.baseDir == '$module'.lower()][0].revision")
+    revision=$(PYTHONPATH=$deqp_repo/external python3 -c "import fetch_sources; \
+	print([p for p in fetch_sources.PACKAGES if p.baseDir == '$module'.lower()][0].revision)")
 
     var=${module/-/_}
     var="MY_${var^^}_COMMIT"
