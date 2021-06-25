@@ -18,6 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/libevdev"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="-asan"
+SLOT="0/0"
 
 src_configure() {
 	sanitizers-setup-env

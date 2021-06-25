@@ -19,7 +19,7 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="chromeos-base/gestures
-	chromeos-base/libevdev
+	chromeos-base/libevdev:=
 	app-misc/utouch-evemu
 	x11-base/xorg-proto"
 DEPEND=${RDEPEND}
