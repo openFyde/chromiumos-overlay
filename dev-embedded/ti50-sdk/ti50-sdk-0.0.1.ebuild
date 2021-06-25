@@ -20,24 +20,25 @@ LLVM_SHA="bb852a09ae36"
 LLVM_SRC_TARBALL_NAME="llvm-${LLVM_SHA}-src"
 SRC_URI="https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/${LLVM_SRC_TARBALL_NAME}.tar.xz"
 
-BOOTSTRAP_HOST_TRIPLE="x86_64-unknown-linux-gnu"
 
-RUST_STAGE0_DATE="2020-08-26"
-RUST_VERSION="0da58007451a"
-
-RUST_PREFIX="rust-${RUST_VERSION}"
-RUST_SRC_TARBALL_NAME="rustc-${RUST_VERSION}-src"
-RUST_CARGO_TARBALL_NAME="cargo-beta-${BOOTSTRAP_HOST_TRIPLE}"
-RUST_STAGE0_TARBALL_NAME="rustc-beta-${BOOTSTRAP_HOST_TRIPLE}"
-RUST_STD_TARBALL_NAME="rust-std-beta-${BOOTSTRAP_HOST_TRIPLE}"
-RUST_RUSTFMT_TARBALL_NAME="rustfmt-beta-${BOOTSTRAP_HOST_TRIPLE}"
 # The rust src tarball was manually packed from a checkout of
-# https://github.com/rust-lang/rust at ${RUST_VERSION}, using
+# https://github.com/rust-lang/rust at ${RUST_SHA}, using
 # ${FILESDIR}/pack_git_tarball.py with |--post-copy-command 'cargo vendor'|.
 #
 # NOTE that this also had
 # rust-lang/rust@e715c7f234ba25c25b98894c822de9e7cf87558c applied; without
 # that, nothing `dist`s except for rust-std.
+BOOTSTRAP_HOST_TRIPLE="x86_64-unknown-linux-gnu"
+RUST_SHA="0da58007451a"
+# See https://github.com/rust-lang/rust/tree/${RUST_SHA}/src/stage0.txt
+RUST_STAGE0_DATE="2020-08-26"
+
+RUST_PREFIX="rust-${RUST_SHA}"
+RUST_SRC_TARBALL_NAME="rustc-${RUST_SHA}-src"
+RUST_CARGO_TARBALL_NAME="cargo-beta-${BOOTSTRAP_HOST_TRIPLE}"
+RUST_STAGE0_TARBALL_NAME="rustc-beta-${BOOTSTRAP_HOST_TRIPLE}"
+RUST_STD_TARBALL_NAME="rust-std-beta-${BOOTSTRAP_HOST_TRIPLE}"
+RUST_RUSTFMT_TARBALL_NAME="rustfmt-beta-${BOOTSTRAP_HOST_TRIPLE}"
 SRC_URI+="
 	https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/${RUST_PREFIX}-${RUST_SRC_TARBALL_NAME}.tar.xz
 	https://static.rust-lang.org/dist/${RUST_STAGE0_DATE}/${RUST_CARGO_TARBALL_NAME}.tar.xz -> ${RUST_PREFIX}-${RUST_CARGO_TARBALL_NAME}.tar.xz

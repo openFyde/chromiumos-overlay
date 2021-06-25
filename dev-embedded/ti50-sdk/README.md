@@ -15,9 +15,10 @@ tarball to `gs://chromeos-localmirror/distfiles`.
 
 Example per-project invocations of `files/pack_git_tarball.py` are available
 below. It's important to keep in mind that **once you upload a new tarball and
-point the ti50-sdk ebuild at it, you need to run `ebuild $(equery w
-dev-embedded/ti50-sdk) manifest`**. Otherwise, when you try to download these
-files from `gs://chromeos-localmirror`, you'll get file integrity errors.
+point the ti50-sdk ebuild at it, you need to run `FEATURES=-force-mirror ebuild
+$(equery w dev-embedded/ti50-sdk) manifest`**. Otherwise, when you try to
+download these files from `gs://chromeos-localmirror`, you'll get file integrity
+errors.
 
 It's important to note that `chromeos-localmirror` is a large, shared bucket.
 Things uploaded to it aren't "final" (e.g., feel free to update them) until a
@@ -47,6 +48,8 @@ gsutil cp -n -a public-read /tmp/llvm-${sha}-src.tar.xz \
     gs://chromeos-localmirror/distfiles/llvm-${sha}-src.tar.xz
 ```
 
+Update the LLVM_SHA variable in ti50-sdk-0.0.1.ebuild to ${sha}.
+
 After running `ebuild manifest` as described in the section above, you should be
 able to start testing these changes via `sudo emerge dev-embedded/ti50-sdk`.
 
@@ -68,10 +71,21 @@ gsutil cp -n -a public-read /tmp/newlib-${sha}-src.tar.xz \
     gs://chromeos-localmirror/distfiles/newlib-${sha}-src.tar.xz
 ```
 
+Update the NEWLIB_SHA variable in ti50-sdk-0.0.1.ebuild to ${sha}.
+
 After running `ebuild manifest` as described in the section above, you should be
 able to start testing these changes via `sudo emerge dev-embedded/ti50-sdk`.
 
 ## Upgrading rust
+
+First, determine which build of rust you wish to use.  An easy way to ensure
+a buildable version is to visit https://static.rust-lang.org/dist/${build_date}/
+, download rust-${channel}-i686-unknown-linux-gnu.tar.xz, and use its
+git-commit-hash file's content.
+
+${build_date} is in the format yyyy-mm-dd and ${channel} will be one of
+stable|beta|nightly.  They are related to rustup's RUST_TOOLCHAIN_VERSION
+variable via ${channel}-${build_date}.
 
 In order to upgrade rust, you'll need to pull it from [its upstream
 repo](https://github.com/rust-lang/rust). With that at
@@ -82,9 +96,10 @@ things that add complexity here:
 - Vendored dependencies
 
 A convenient shorthand to ensure all submodules are at the correct revision is
-`${dir}/x.py help`. You have to manually ensure all submodules are up-to-date
-before trying to pack rust's sources. Without this, things may be at
-inconsistent versions, which can lead to build errors.
+`git checkout ${git-commit-hash}; ${dir}/x.py help`. You have to manually
+ensure all submodules are up-to-date before trying to pack rust's sources.
+Without this, things may be at inconsistent versions, which can lead to build
+errors.
 
 Dependency vendoring is handled by passing an extra flag to
 `files/pack_git_tarball.py`. Your invocation should look something like:
@@ -102,8 +117,11 @@ can now upload that to gs:
 
 ```
 gsutil cp -n -a public-read /tmp/rustc-${sha}-src.tar.xz \
-    gs://chromeos-localmirror/distfiles/rustc-${sha}-src.tar.xz
+    gs://chromeos-localmirror/distfiles/rust-${sha}-rustc-${sha}-src.tar.xz
 ```
+
+Update RUST_SHA to ${sha}, RUST_STAGE0_DATE to the date in its src/stage0.txt
+in the ebuild file.
 
 After running `ebuild manifest` as described in the section above, you should be
 able to start testing these changes via `sudo emerge dev-embedded/ti50-sdk`.
