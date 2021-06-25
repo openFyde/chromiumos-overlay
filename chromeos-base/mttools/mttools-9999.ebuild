@@ -20,7 +20,7 @@ RESTRICT="test"
 
 RDEPEND="chromeos-base/gestures
 	app-misc/utouch-evemu
-	chromeos-base/libevdev
+	chromeos-base/libevdev:=
 	chromeos-base/touch_firmware_test"
 
 DEPEND=${RDEPEND}
