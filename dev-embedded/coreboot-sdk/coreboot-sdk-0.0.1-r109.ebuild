@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6f1c1fb35097a0b0462f8490be0e6d12e9da2090"
+CROS_WORKON_COMMIT="2c22585ae3b677eddc44c3f765335eaf4c52996b"
 CROS_WORKON_TREE="b47f5c0dc4c30f5e0d8dd1c910278946c334ecad"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
@@ -70,7 +70,7 @@ src_compile() {
 	export PATH="${S}"/gnat-gpl-2017-x86_64-linux-bin/bin:"${PATH}"
 	export CC=gcc CXX=g++
 
-	local buildgcc_opts=(-j "$(makeopts_jobs)" -l "c,ada" -t)
+	local buildgcc_opts=(-j "$(makeopts_jobs)" -l "c,c++,ada" -t)
 
 	# Build bootstrap compiler to get a reliable compiler base no matter how
 	# versions diverged, but keep it separately, since we only need it
