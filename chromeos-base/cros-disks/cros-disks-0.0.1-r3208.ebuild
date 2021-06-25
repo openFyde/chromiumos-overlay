@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="df5da1d049da387c78d2adaa2e2ade7ee6b8f3cd"
+CROS_WORKON_COMMIT="3541f05d2ee8a9d3b099da5e6480dc0e57d9fc8d"
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "60af7e1bf02a44f37227944f310cf9f6fec0b6dc" "a9708ef639f0f7929195d0f3921ebd1a12ad96bd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -54,6 +54,9 @@ pkg_preinst() {
 	enewuser "ntfs-3g"
 	enewgroup "ntfs-3g"
 
+	enewuser "fuse-archivemount"
+	enewgroup "fuse-archivemount"
+
 	enewuser "fuse-exfat"
 	enewgroup "fuse-exfat"
 
@@ -79,6 +82,7 @@ src_install() {
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
+	use seccomp && newins archivemount-seccomp-${ARCH}.policy archivemount-seccomp.policy
 	use seccomp && newins fuse-zip-seccomp-${ARCH}.policy fuse-zip-seccomp.policy
 	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 
