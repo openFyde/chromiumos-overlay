@@ -86,7 +86,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/smallvec-1.6.1:= <dev-rust/smallvec-2
 	=dev-rust/syn-1*:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
-	dev-rust/trace_events:=
 	dev-rust/remain:=
 	dev-rust/vmm_vhost:=
 	tpm2? (
