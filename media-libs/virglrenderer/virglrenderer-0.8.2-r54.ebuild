@@ -39,10 +39,6 @@ DEPEND="${RDEPEND}
 	vulkan? ( dev-util/vulkan-headers )
 "
 
-PATCHES=(
-	"${FILESDIR}"/0001-vkr-add-support-for-globalFencing.patch
-)
-
 src_prepare() {
 	default
 }
