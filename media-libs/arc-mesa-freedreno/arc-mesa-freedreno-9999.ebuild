@@ -110,9 +110,13 @@ multilib_src_install_all() {
 
 	# Install init files to advertise supported API versions.
 	insinto "${ARC_PREFIX}/vendor/etc/init"
-	doins "${FILESDIR}/gles31.rc"
+	doins "${FILESDIR}/gles32.rc"
 
 	# Install the dri header for arc-cros-gralloc
 	insinto "${ARC_PREFIX}/vendor/include/GL"
 	doins -r "${S}/include/GL/internal"
+
+	# Install permission file to declare opengles aep support.
+	insinto "${ARC_PREFIX}/vendor/etc/permissions"
+	doins "${FILESDIR}/android.hardware.opengles.aep.xml"
 }
