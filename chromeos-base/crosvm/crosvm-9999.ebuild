@@ -92,7 +92,6 @@ DEPEND="${COMMON_DEPEND}
 		chromeos-base/trunks:=
 		=dev-rust/dbus-0.6*:=
 	)
-	media-sound/audio_streams:=
 	media-sound/libcras:=
 	crosvm-power-monitor-powerd? (
 		chromeos-base/system_api
