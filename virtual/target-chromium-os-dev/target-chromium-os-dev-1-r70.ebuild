@@ -23,6 +23,7 @@ IUSE="
 	chromeless_tty
 	cras
 	diag
+	lldbserver
 	nvme
 	opengl
 	pam
@@ -144,6 +145,7 @@ RDEPEND="${RDEPEND}
 	dev-python/dbus-python
 	dev-python/hid-tools
 	python_targets_python2_7? ( dev-util/hdctools )
+	lldbserver? ( dev-util/lldb-server )
 	dev-util/mem
 	dev-util/strace
 	media-libs/libyuv-test
