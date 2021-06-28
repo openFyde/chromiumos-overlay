@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="58e091cd2132dff2283affacba17175964fa45d6"
-CROS_WORKON_TREE="36d45015a70fa508f65011ff715aad905cb1a2d6"
+CROS_WORKON_COMMIT="8d00f789df9bd4efce783a46f30d75d742d3e8d4"
+CROS_WORKON_TREE="3eca4243cc1e474869fcb6bb441c0404101a66ae"
 CROS_WORKON_PROJECT="chromiumos/platform/libevdev"
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/libevdev"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="-asan"
-SLOT="0/0"
+SLOT="0/1"
 
 src_configure() {
 	sanitizers-setup-env
