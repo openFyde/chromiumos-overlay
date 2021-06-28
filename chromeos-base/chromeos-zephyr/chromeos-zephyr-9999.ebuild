@@ -4,25 +4,35 @@
 
 EAPI=7
 
+ZEPHYR_VERSIONS=( v2.5 v2.6 )
+
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_PROJECT=(
-	"chromiumos/third_party/zephyr"
 	"chromiumos/third_party/zephyr/cmsis"
 	"chromiumos/third_party/zephyr/hal_stm32"
 	"chromiumos/platform/ec"
 )
+for v in "${ZEPHYR_VERSIONS[@]}"; do
+	CROS_WORKON_PROJECT+=("chromiumos/third_party/zephyr")
+done
+
 CROS_WORKON_LOCALNAME=(
-	"third_party/zephyr/main/v2.5"
-	"third_party/zephyr/cmsis/v2.5"
-	"third_party/zephyr/hal_stm32/v2.5"
+	"third_party/zephyr/cmsis"
+	"third_party/zephyr/hal_stm32"
 	"platform/ec"
 )
+for v in "${ZEPHYR_VERSIONS[@]}"; do
+	CROS_WORKON_LOCALNAME+=("third_party/zephyr/main/${v}")
+done
+
 CROS_WORKON_DESTDIR=(
-	"${S}/zephyr-base"
 	"${S}/modules/cmsis"
 	"${S}/modules/hal_stm32"
 	"${S}/modules/ec"
 )
+for v in "${ZEPHYR_VERSIONS[@]}"; do
+	CROS_WORKON_DESTDIR+=("${S}/zephyr-base/${v}")
+done
 
 inherit cros-workon cros-unibuild coreboot-sdk toolchain-funcs
 
@@ -31,6 +41,9 @@ KEYWORDS="~*"
 LICENSE="Apache-2.0 BSD-Google"
 IUSE="unibuild"
 REQUIRED_USE="unibuild"
+
+# Add instances of vX.Y as 'zephyr_vX_Y' to IUSE
+IUSE="${IUSE} $(for v in "${ZEPHYR_VERSIONS[@]}"; do echo "zephyr_${v//./_}"; done)"
 
 BDEPEND="
 	chromeos-base/zephyr-build-tools
@@ -46,6 +59,19 @@ RDEPEND="${DEPEND}"
 
 ZEPHYR_EC_BUILD_DIRECTORIES=()
 
+get_zephyr_version() {
+	local v
+	for v in "${ZEPHYR_VERSIONS[@]}"; do
+		if use "zephyr_${v//./_}"; then
+			echo "${v}"
+			return 0
+		fi
+	done
+	ewarn "Defaulting to Zephyr v2.5. Please specify a zephyr_vX_X use flag."
+	ewarn "This will error in the future."
+	echo "v2.5"
+}
+
 src_configure() {
 	tc-export CC
 
@@ -58,9 +84,10 @@ src_configure() {
 		fi
 		local build_dir="build-${board}"
 
+		local zephyr_base="${S}/zephyr-base/$(get_zephyr_version)"
 		zmake \
 			--modules-dir "${S}/modules" \
-			--zephyr-base "${S}/zephyr-base" \
+			--zephyr-base "${zephyr_base}" \
 			configure \
 			"modules/ec/zephyr/${path}" \
 			-B "${build_dir}"
