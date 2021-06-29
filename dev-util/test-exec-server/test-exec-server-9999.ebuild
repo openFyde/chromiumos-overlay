@@ -15,9 +15,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
-CROS_GO_WORKSPACE=(
-	"${S}"
-)
+CROS_GO_VERSION="${PF}"
 
 CROS_GO_BINARIES=(
 	"chromiumos/test/execution/cmd/testexecserver"
@@ -37,3 +35,13 @@ DEPEND="
 	dev-util/lro-server
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	# Disable cgo and PIE on building Tast binaries. See:
+	# https://crbug.com/976196
+	# https://github.com/golang/go/issues/30986#issuecomment-475626018
+	export CGO_ENABLED=0
+	export GOPIE=0
+
+	default
+}
