@@ -27,16 +27,21 @@ MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 )
 
-# TODO(alanlxl): Remove the deprecated 20201022 link after crbug.com/1136331.
 DOWNLOADABLE_MODELS=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20200206-downloadable.tflite"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20201022-downloadable.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20210201-downloadable.tflite"
+)
+
+# Preprocessor config pb files that are used in unit test should be placed into
+# PREPROCESSOR_PB_FOR_TEST.
+PREPROCESSOR_PB_FOR_TEST=(
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-preprocessor.pb"
 )
 
 SRC_URI="
 	${DOWNLOADABLE_MODELS[*]}
 	${MODELS_TO_INSTALL[*]}
+	${PREPROCESSOR_PB_FOR_TEST[*]}
 "
 
 LICENSE="BSD-Google"
@@ -139,7 +144,7 @@ platform_pkg_test() {
 	# MODELS_TO_INSTALL and DOWNLOADABLE_MODELS into it for use in unit
 	# tests.
 	mkdir "${T}/ml_models" || die
-	local all_test_models=( "${DOWNLOADABLE_MODELS[@]}" "${MODELS_TO_INSTALL[@]}" )
+	local all_test_models=( "${DOWNLOADABLE_MODELS[@]}" "${MODELS_TO_INSTALL[@]}" "${PREPROCESSOR_PB_FOR_TEST[@]}" )
 	local distfile_uri
 	for distfile_uri in "${all_test_models[@]}"; do
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
