@@ -33,7 +33,10 @@ CROS_GO_VET=(
 
 DEPEND="
 	dev-util/lro-server
+	dev-go/crypto
 	dev-go/grpc
+	dev-go/mock
+	dev-go/protobuf
 	chromeos-base/cros-config-api
 "
 RDEPEND="${DEPEND}"
