@@ -5,14 +5,25 @@ EAPI=7
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/autotest"
+	"chromiumos/config"
 	"chromiumos/platform/fw-testing-configs"
 )
+
 CROS_WORKON_LOCALNAME=(
 	"third_party/autotest/files"
+	"config"
 	"third_party/autotest/files/server/cros/faft/fw-testing-configs"
 )
+
+CROS_WORKON_SUBTREE=(
+	""
+	"python"
+	""
+)
+
 CROS_WORKON_DESTDIR=(
 	"${S}"
+	"${S}/config"
 	"${S}/server/cros/faft/fw-testing-configs"
 )
 
