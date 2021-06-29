@@ -106,6 +106,9 @@ USE="${USE} dns-proxy"
 # Enable iioservice to gather sensor information.
 USE="${USE} iioservice"
 
+# Enable feature daemon.
+USE="${USE} featured"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 

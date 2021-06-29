@@ -32,9 +32,9 @@ USE="${USE} -doc -profile -profiling -python"
 # Make stuff small.
 USE="${USE} -attestation -buffet -cellular chromeless_tty -crash_reporting"
 USE="${USE} -cros_disks cros_embedded -diagnostics -debugd -encrypted_stateful"
-USE="${USE} -gdmwimax -lorgnette -memd -mist -missive -ml_service -pam"
-USE="${USE} -passive_metrics -perfetto -power_management -secanomalyd -scanner"
-USE="${USE} -tpm -usb_bouncer -usbguard -vpn -wimax"
+USE="${USE} -featured -gdmwimax -lorgnette -memd -mist -missive -ml_service"
+USE="${USE} -pam -passive_metrics -perfetto -power_management -secanomalyd"
+USE="${USE} -scanner -tpm -usb_bouncer -usbguard -vpn -wimax"
 
 # Disable auth frameworks.
 USE="${USE} -kerberos -kerberos_daemon -system_proxy"
