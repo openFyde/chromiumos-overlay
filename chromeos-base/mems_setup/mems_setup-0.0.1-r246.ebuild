@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="08aee9d7a91dddd5977b31ca2a2833ba54f8d89a"
-CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "da73aae6d89c8e69c3740af612610792ce42b1a8" "956b1c75a21148c69a084aa4528169235fbae153" "359903647899af99fb1bc9ba9d666b0e78fcb3a8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="42d2ce92b564d57a78bf5ed29923f75cd90b8695"
+CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "aa0612733aca2d5ffa65470f07408228b473ebdb" "da73aae6d89c8e69c3740af612610792ce42b1a8" "956b1c75a21148c69a084aa4528169235fbae153" "359903647899af99fb1bc9ba9d666b0e78fcb3a8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Remove libmems from this list.
-CROS_WORKON_SUBTREE="common-mk iioservice mems_setup libmems .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config iioservice mems_setup libmems .gn"
 
 PLATFORM_SUBDIR="mems_setup"
 
@@ -21,11 +21,16 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_s
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="iioservice"
+IUSE="generated_cros_config iioservice unibuild"
 
 COMMON_DEPEND="
 	chromeos-base/libmems:=
-	net-libs/libiio:="
+	net-libs/libiio:=
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
+"
 
 RDEPEND="${COMMON_DEPEND}"
 

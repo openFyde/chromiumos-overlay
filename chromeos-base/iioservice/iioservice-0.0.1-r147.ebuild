@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="08aee9d7a91dddd5977b31ca2a2833ba54f8d89a"
+CROS_WORKON_COMMIT="42d2ce92b564d57a78bf5ed29923f75cd90b8695"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "da73aae6d89c8e69c3740af612610792ce42b1a8" "359903647899af99fb1bc9ba9d666b0e78fcb3a8" "791c6808b4f4f5f1c484108d66ff958d65f8f1e3")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,6 +23,7 @@ KEYWORDS="*"
 IUSE="+seccomp"
 
 RDEPEND="
+	!chromeos-base/chromeos-accelerometer-init
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/libmems:=
 	chromeos-base/mems_setup
