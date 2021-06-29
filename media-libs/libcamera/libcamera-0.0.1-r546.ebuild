@@ -8,7 +8,7 @@ CROS_WORKON_TREE="de796351846dc87f15224db9e76f9a886f96ecc0"
 CROS_WORKON_PROJECT="chromiumos/third_party/libcamera"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-inherit cros-workon meson
+inherit cros-camera cros-workon meson
 
 DESCRIPTION="Camera support library for Linux"
 HOMEPAGE="https://www.libcamera.org"
@@ -69,7 +69,7 @@ src_compile() {
 src_install() {
 	meson_src_install
 
-	dosym ../libcamera.so "/usr/$(get_libdir)/camera_hal/libcamera.so"
+	cros-camera_dohal "${D}/usr/$(get_libdir)/libcamera-hal.so" libcamera-hal.so
 
 	dostrip -x "/usr/$(get_libdir)/libcamera/"
 }
