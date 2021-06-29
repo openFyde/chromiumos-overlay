@@ -24,6 +24,7 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
+	app-arch/snappy
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 "
