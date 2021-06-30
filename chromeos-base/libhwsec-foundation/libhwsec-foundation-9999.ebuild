@@ -57,6 +57,8 @@ src_install() {
 	doins ./tpm/tpm_version.h
 
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
+
+	dosbin "${OUT}"/tpm_version_client
 }
 
 platform_pkg_test() {
