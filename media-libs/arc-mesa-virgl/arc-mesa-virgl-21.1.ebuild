@@ -4,8 +4,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="47eabd0e6b926535a68a7173eba2ceeb4ed9747e"
-CROS_WORKON_TREE="d663408cd6538b6fee669db87ea77f6a38a37177"
+CROS_WORKON_COMMIT="6590767abc319def29eb552b36f682aa88c38377"
+CROS_WORKON_TREE="6e29affb9ddb7e05c8dc976072dd95df839ffc38"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="arc-mesa-virgl"
 CROS_WORKON_EGIT_BRANCH="master"
@@ -135,16 +135,6 @@ src_prepare() {
 	fi
 
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
-
-	epatch "${FILESDIR}"/FROMLIST-egl-android-Increase-preferred-buffer-count-to-4.patch
-
-	epatch "${FILESDIR}"/CHROMIUM-hack-Override-GL_RENDERER-for-kindle-app.patch
-
-	# This is actually a reland of a reverted patch.
-	# See https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/216
-	epatch "${FILESDIR}"/UPSTREAM-virgl-fix-BGRA-emulation-artifacts-during-window-res.patch
-
-	epatch "${FILESDIR}"/UPSTREAM-Revert-virgl-Cache-depth-and-stencil-buffers.patch
 
 	default
 }
