@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libhws
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test tpm2"
+IUSE="test tpm tpm_dynamic tpm2"
 
 RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
@@ -52,6 +52,9 @@ src_install() {
 	doins ./error/caller_info.h
 	doins ./error/error_message.h
 	doins ./error/testing_helper.h
+
+	insinto /usr/include/libhwsec-foundation/tpm
+	doins ./tpm/tpm_version.h
 
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
 }
