@@ -132,6 +132,7 @@ IUSE="
 	vhost-user-devices
 	video_cards_amdgpu
 	video_cards_intel
+	video_cards_msm
 	virtio_gpu
 	vulkan
 	watchdog
