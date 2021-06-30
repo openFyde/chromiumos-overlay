@@ -7,8 +7,9 @@ did not make the changes in the NativeRegisterContextLinux_arm64.* files
 This patch replaces the no-longer-defined macros with their new functions
 or definitions from the commit referenced above.
 
-The intention is to also submit this change upstream (see
-https://reviews.llvm.org/D104826).
+This change has also been committed upstream (see
+https://reviews.llvm.org/D104826), in commit
+05915400b7f9933b95686116f2dc1370e7f96cfb (r431464).
 
 Author: cmtice@google.com
 Date: 2021-06-23
