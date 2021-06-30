@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="48236dd245bb804845d8d7d6309f1769c76cc2e8"
+CROS_WORKON_COMMIT="95ebbc37a591f93f0bf7911f350bbe67b346c8ab"
 CROS_WORKON_TREE="e1ccefbfeef648c4212cf53a99e488290712a30d"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
@@ -17,9 +17,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE=""
 
-CROS_GO_WORKSPACE=(
-	"${S}"
-)
+CROS_GO_VERSION="${PF}"
 
 CROS_GO_BINARIES=(
 	"chromiumos/test/execution/cmd/testexecserver"
@@ -39,3 +37,13 @@ DEPEND="
 	dev-util/lro-server
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	# Disable cgo and PIE on building Tast binaries. See:
+	# https://crbug.com/976196
+	# https://github.com/golang/go/issues/30986#issuecomment-475626018
+	export CGO_ENABLED=0
+	export GOPIE=0
+
+	default
+}
