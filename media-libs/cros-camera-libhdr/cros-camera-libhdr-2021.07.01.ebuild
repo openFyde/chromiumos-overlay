@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Chrome OS HDR related libraries ported from google3."
 
-IUSE="march_goldmont"
+IUSE="march_goldmont march_skylake"
 
 SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-camera-libhdr-${PV}.tar.bz2"
 
@@ -20,6 +20,8 @@ src_install() {
 	local march_path
 	if use march_goldmont; then
 		march_path="x86_64-goldmont"
+	elif use march_skylake; then
+		march_path="x86_64-skylake"
 	elif use amd64; then
 		march_path="x86_64"
 	fi
