@@ -81,13 +81,24 @@ src_install() {
 	mkdir -p "${bundle_dest}"
 	mv "${WORKDIR}/bundle" "${bundle_dest}"
 
-	exeinto "${TARGET_DIR}/project_toolkits"
-	local toolkit
 	shopt -s nullglob
-	for toolkit in "${BUILD_DIR}/"*"_install_factory_toolkit.run"; do
-		doexe "${toolkit}"
-	done
+	local list_of_toolkits=("${BUILD_DIR}/"*"_install_factory_toolkit.run")
 	shopt -u nullglob
+	if [[ "${#list_of_toolkits[@]}" -ne 0 ]]; then
+		local GZ=pigz
+		type pigz >/dev/null 2>&1 || GZ=gzip
+
+		local archive_path="${WORKDIR}/factory_project_toolkits.tar.gz"
+		local list_of_toolkit_names=()
+		local toolkit
+		for toolkit in "${list_of_toolkits[@]}"; do
+			list_of_toolkit_names+=( "$(basename "${toolkit}")" )
+		done
+		tar -I "${GZ}" -cvf "${archive_path}" \
+			-C "${BUILD_DIR}" "${list_of_toolkit_names[@]}" || die
+		exeinto "${TARGET_DIR}/project_toolkits"
+		doexe "${archive_path}"
+	fi
 
 	insinto "${CROS_FACTORY_BOARD_RESOURCES_DIR}"
 	doins "${BUILD_DIR}/resource/installer.tar"
