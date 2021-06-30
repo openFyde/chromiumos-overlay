@@ -19,9 +19,22 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 
+# The upstream repository (https://github.com/cybernoid/archivemount) does not
+# use git tags for e.g. its 0.8.12 release. These patches started from
+# https://github.com/cybernoid/archivemount/commit/321ded82f60c0d40278381365f8f84de82930cb0
+# committed on March 2018, the latest commit (as of 2021-07-01) that modified
+# the "0.8.12" section of the CHANGELOG file in that github repo. That commit's
+# archivemount.c file matches the one extracted from
+# https://www.cybernoia.de/software/archivemount/archivemount-0.8.12.tar.gz
+#
+# $ ls -l archivemount.c
+# -rwxr-x--- 1 nigeltao primarygroup 70673 Mar 28  2018 archivemount.c
+# $ sha256sum archivemount.c
+# 2835d91544f6e1a9f07475b4b729262da8dd8d96402052fa51cfbd43268b4455  archivemount.c
 PATCHES=(
 	"${FILESDIR}/archivemount-0.8.12-dev-fd.patch"
 	"${FILESDIR}/archivemount-0.8.12-raw-pathname.patch"
+	"${FILESDIR}/archivemount-0.8.12-fchdir.patch"
 )
 
 src_prepare() {

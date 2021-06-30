@@ -1,0 +1,74 @@
+commit 6d00c649cfc0398f2d39204714ea8eaa933dd754
+Author: Nigel Tao <nigeltao@golang.org>
+Date:   Wed Jun 30 12:49:12 2021 +1000
+
+    Don't fchdir at unmount when mounting read-only
+    
+    Prior to this commit, after the fuse_loop function returns (e.g. as a
+    result of "fusermount -u" or equivalent from a separate process), this
+    main function would call fchdir(oldpwd) unconditionally and then, if the
+    archive was modified (in memory), rewrite the archive on disk.
+    
+    This commit changes the "unconditionally" part so that fchdir is only
+    called if we're about to rewrite the archive on disk. Walking backwards,
+    the original working directory (the oldpwd variable) is no longer read
+    if options.readonly is true, as it is not used anywhere else.
+    
+    For a read-only mount, the fchdir would just be unnecessary work. More
+    importantly, when running archivemount (in read-only mode) in a
+    syscall-based sandbox (e.g. minijail), removing the unconditionality of
+    the fchdir call means fewer syscalls in our allow-list.
+
+diff --git a/archivemount.c b/archivemount.c
+index 64a3fc2..396bc81 100755
+--- a/archivemount.c
++++ b/archivemount.c
+@@ -2760,7 +2760,7 @@ main(int argc, char **argv)
+ {
+ 	struct stat st;
+ 	mode_t mtpt_mode;
+-	int oldpwd;
++	int oldpwd = -1;
+ 	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
+ 
+ 	/* parse cmdline args */
+@@ -2803,6 +2803,8 @@ main(int argc, char **argv)
+ 			archiveWriteable = 1;
+ 			close(archiveFd);
+ 		}
++		/* save directory this was started from */
++		oldpwd = open(".", 0);
+ 	}
+ 	/* We want the temporary fuser version of the archive to be writable,*/
+ 	/* despite never actually writing the changes to disk.*/
+@@ -2827,9 +2829,6 @@ main(int argc, char **argv)
+ 		//log("cache st_size = %ld",rawcache->st.st_size);
+ 	}
+ 
+-	/* save directory this was started from */
+-	oldpwd = open(".", 0);
+-
+ 	/* Initialize the node tree lock */
+ 	pthread_mutex_init(&lock, NULL);
+ 
+@@ -2908,17 +2907,15 @@ main(int argc, char **argv)
+ 	}
+ #endif
+ 
+-	/* go back to saved dir */
+-	{
++	/* save changes if modified */
++	if (archiveWriteable && !options.readonly && archiveModified && !options.nosave) {
++		/* go back to saved dir */
+ 		int fchdir_ret;
+ 		fchdir_ret = fchdir(oldpwd);
+ 		if (fchdir_ret != 0) {
+ 			log("fchdir() to old path failed\n");
+ 		}
+-	}
+ 
+-	/* save changes if modified */
+-	if (archiveWriteable && !options.readonly && archiveModified && !options.nosave) {
+ 		if (save(archiveFile) != 0) {
+ 			log("Saving new archive failed\n");
+ 		}
