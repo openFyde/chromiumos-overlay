@@ -1,6 +1,5 @@
 CONFIG_VENDOR_INTEL=y
 CONFIG_BOARD_INTEL_ADLRVP_M_EXT_EC=y
-CONFIG_MAINBOARD_SMBIOS_PRODUCT_NAME="adlrvp"
 
 # SPI Descriptor
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-adlrvp_m.bin"
