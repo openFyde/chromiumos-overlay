@@ -19,13 +19,17 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libhws
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test tpm2"
+IUSE="test fuzzer tpm tpm2 tpm_dynamic"
 
 COMMON_DEPEND="
 	chromeos-base/libhwsec-foundation
 	dev-libs/openssl:0=
-	!tpm2? ( app-crypt/trousers:= )
 	tpm2? ( chromeos-base/trunks:= )
+	tpm? ( app-crypt/trousers:= )
+	fuzzer? (
+		app-crypt/trousers:=
+		chromeos-base/trunks:=
+	)
 "
 
 RDEPEND="${COMMON_DEPEND}"
@@ -42,12 +46,13 @@ src_install() {
 	insinto /usr/include/chromeos/libhwsec/error
 	doins ./error/tpm_error.h
 
-	if ! use tpm2; then
+	if use tpm || use fuzzer; then
 		insinto /usr/include/chromeos/libhwsec/test_utils/tpm1
 		doins ./test_utils/tpm1/*.h
 		insinto /usr/include/chromeos/libhwsec/error
 		doins ./error/tpm1_error.h
-	else
+	fi
+	if use tpm2 || use fuzzer; then
 		insinto /usr/include/chromeos/libhwsec/error
 		doins ./error/tpm2_error.h
 	fi
