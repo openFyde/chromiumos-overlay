@@ -59,6 +59,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/async-trait-0.1*:=
 	=dev-rust/bitflags-1*:=
 	~dev-rust/cc-1.0.25:=
+	>=dev-rust/crc32fast-1.2.1:= <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/futures-0.3*:=
@@ -86,6 +87,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/smallvec-1.6.1:= <dev-rust/smallvec-2
 	=dev-rust/syn-1*:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	>=dev-rust/uuid-0.8.2:= <dev-rust/uuid-0.9
 	dev-rust/remain:=
 	dev-rust/vmm_vhost:=
 	tpm2? (
