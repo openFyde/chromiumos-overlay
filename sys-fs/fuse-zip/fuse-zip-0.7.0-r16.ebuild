@@ -15,7 +15,7 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="
-	chromeos-base/chrome-icu
+	>=chromeos-base/chrome-icu-89
 	dev-libs/libzip:=
 	sys-fs/fuse:0
 "
