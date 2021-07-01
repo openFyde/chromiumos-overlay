@@ -86,7 +86,11 @@ src_install() {
 	dosbin "${OUT}"/pinweaver_client
 	dosbin "${OUT}"/trunks_client
 	dosbin "${OUT}"/trunks_send
-	dosbin tpm_version
+	if use tpm_dynamic; then
+		newsbin tpm_version tpm2_version
+	else
+		dosbin tpm_version
+	fi
 	dosbin "${OUT}"/trunksd
 	dolib.so "${OUT}"/lib/libtrunks.so
 	# trunks_test library implements trunks mocks which
@@ -101,10 +105,10 @@ src_install() {
 	fi
 
 	insinto /usr/share/policy
-	newins trunksd-seccomp-${ARCH}.policy trunksd-seccomp.policy
+	newins "trunksd-seccomp-${ARCH}.policy" trunksd-seccomp.policy
 
 	if use pinweaver_csme && use generic_tpm2; then
-		newins csme/tpm_tunneld-seccomp-${ARCH}.policy tpm_tunneld-seccomp.policy
+		newins "csme/tpm_tunneld-seccomp-${ARCH}.policy" tpm_tunneld-seccomp.policy
 	fi
 
 	insinto /usr/include/trunks

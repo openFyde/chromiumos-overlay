@@ -12,7 +12,7 @@ SRC_URI="mirror://sourceforge/trousers/${PN}/${P}.tar.gz"
 LICENSE="CPL-1.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="libressl nls pkcs11 tpm debug"
+IUSE="libressl nls pkcs11 tpm tpm_dynamic debug"
 
 DEPEND="
 	tpm? ( >=app-crypt/trousers-0.3.0 )
@@ -42,14 +42,17 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	append-cppflags $(usex debug -DDEBUG -DNDEBUG)
+	append-cppflags "$(usex debug -DDEBUG -DNDEBUG)"
 
 	econf \
-		$(use_enable nls) \
-		$(use pkcs11 || echo --disable-pkcs11-support)
+		"$(use_enable nls)" \
+		"$(use pkcs11 || echo --disable-pkcs11-support)"
 }
 
 src_install() {
 	default
 	find "${D}" -name '*.la' -delete || die
+	if use tpm_dynamic; then
+		mv "${D}"/usr/sbin/tpm_version "${D}"/usr/sbin/tpm1_version || die
+	fi
 }
