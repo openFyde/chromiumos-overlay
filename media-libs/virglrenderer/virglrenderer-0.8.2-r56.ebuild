@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="3b29b0723d0c93513747acb9723b21a11cbe4014"
-CROS_WORKON_TREE="94d6b4d1ad00fab8205e120b659572f6c7de1bd2"
+CROS_WORKON_COMMIT="9b1144b56cf279da2a943b6f704ea9e18a79b418"
+CROS_WORKON_TREE="f85397352012c9f38130f20ef1a523347c75e375"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -38,6 +38,10 @@ DEPEND="${RDEPEND}
 	test? ( >=dev-libs/check-0.9.4 )
 	vulkan? ( dev-util/vulkan-headers )
 "
+
+PATCHES=(
+	"${FILESDIR}"/0001-vkr-add-support-for-globalFencing.patch
+)
 
 src_prepare() {
 	default
