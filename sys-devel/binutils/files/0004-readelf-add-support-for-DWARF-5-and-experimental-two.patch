@@ -1,4 +1,4 @@
-From 58c1565328927ed2b6966d695e8bc377b584cd5d Mon Sep 17 00:00:00 2001
+From 1c83b5fafca5615f9b202e4daaae929721f1a907 Mon Sep 17 00:00:00 2001
 From: Cary Coutant <ccoutant@google.com>
 Date: Tue, 6 Jan 2015 16:56:43 -0800
 Subject: [PATCH 04/14] readelf: add support for DWARF-5 and experimental
@@ -10,20 +10,20 @@ from upstream branch users/ccoutant/two-level-line-150331
   - https://sourceware.org/git/?p=binutils-gdb.git;a=shortlog;h=refs/heads/users/ccoutant/two-level-line-150331
 to binutils-2_27-branch.
 
-[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: rebased from v2.27 to v2.36.1]
 [TODO: make more use of the upstream implementation to slim our diff further]
 
 Change-Id: I26158b22c6a6652154b317db1ecf6d5c27d29337
 ---
- binutils/dwarf.c   | 992 +++++++++++++++++++++++++++------------------
+ binutils/dwarf.c   | 990 +++++++++++++++++++++++++++------------------
  binutils/readelf.c |   1 +
- 2 files changed, 595 insertions(+), 398 deletions(-)
+ 2 files changed, 594 insertions(+), 397 deletions(-)
 
 diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-index 91b61e3fdfe..eb59da29eaf 100644
+index 19475e6cec3..dec611874ed 100644
 --- a/binutils/dwarf.c
 +++ b/binutils/dwarf.c
-@@ -478,6 +478,9 @@ typedef struct State_Machine_Registers
+@@ -479,6 +479,9 @@ typedef struct State_Machine_Registers
    unsigned int file;
    unsigned int line;
    unsigned int column;
@@ -33,7 +33,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
    int is_stmt;
    int basic_block;
    unsigned char op_index;
-@@ -498,19 +501,65 @@ reset_state_machine (int is_stmt)
+@@ -499,19 +502,65 @@ reset_state_machine (int is_stmt)
    state_machine_regs.file = 1;
    state_machine_regs.line = 1;
    state_machine_regs.column = 0;
@@ -100,7 +100,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  {
    unsigned char op_code;
    size_t len, header_len;
-@@ -535,6 +584,8 @@ process_extended_line_op (unsigned char * data,
+@@ -536,6 +585,8 @@ process_extended_line_op (unsigned char * data,
      {
      case DW_LNE_end_sequence:
        printf (_("End of Sequence\n\n"));
@@ -109,7 +109,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
        reset_state_machine (is_stmt);
        break;
  
-@@ -579,8 +630,11 @@ process_extended_line_op (unsigned char * data,
+@@ -580,8 +631,11 @@ process_extended_line_op (unsigned char * data,
        break;
  
      case DW_LNE_set_discriminator:
@@ -123,8 +123,8 @@ index 91b61e3fdfe..eb59da29eaf 100644
        break;
  
      /* HP extensions.  */
-@@ -798,8 +852,7 @@ fetch_indexed_string (dwarf_vma idx, struct cu_tu_set *this_set,
-       
+@@ -799,8 +853,7 @@ fetch_indexed_string (dwarf_vma idx, struct cu_tu_set *this_set,
+ 
    if (this_set != NULL)
      index_offset += this_set->section_offsets [DW_SECT_STR_OFFSETS];
 -
@@ -133,7 +133,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
      {
        warn (_("DW_FORM_GNU_str_index offset too big: %s vs %s\n"),
  	    dwarf_vmatoa ("x", index_offset),
-@@ -4010,6 +4063,10 @@ load_debug_info (void * file)
+@@ -4070,6 +4123,10 @@ load_debug_info (void * file)
    return 0;
  }
  
@@ -144,7 +144,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  /* Read a DWARF .debug_line section header starting at DATA.
     Upon success returns an updated DATA pointer and the LINFO
     structure and the END_OF_SEQUENCE pointer will be filled in.
-@@ -4020,7 +4077,9 @@ read_debug_line_header (struct dwarf_section * section,
+@@ -4080,7 +4137,9 @@ read_debug_line_header (struct dwarf_section * section,
  			unsigned char * data,
  			unsigned char * end,
  			DWARF2_Internal_LineInfo * linfo,
@@ -155,7 +155,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  {
    unsigned char *hdrptr;
    unsigned int initial_length_size;
-@@ -4044,6 +4103,8 @@ read_debug_line_header (struct dwarf_section * section,
+@@ -4104,6 +4163,8 @@ read_debug_line_header (struct dwarf_section * section,
        linfo->li_offset_size = 4;
        initial_length_size = 4;
      }
@@ -164,7 +164,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  
    if (linfo->li_length + initial_length_size > section->size)
      {
-@@ -4068,17 +4129,25 @@ read_debug_line_header (struct dwarf_section * section,
+@@ -4128,17 +4189,25 @@ read_debug_line_header (struct dwarf_section * section,
    /* Get and check the version number.  */
    SAFE_BYTE_GET_AND_INC (linfo->li_version, hdrptr, 2, end);
  
@@ -192,7 +192,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
      {
        SAFE_BYTE_GET_AND_INC (linfo->li_address_size, hdrptr, 1, end);
  
-@@ -4127,131 +4196,448 @@ read_debug_line_header (struct dwarf_section * section,
+@@ -4187,131 +4256,448 @@ read_debug_line_header (struct dwarf_section * section,
    return hdrptr;
  }
  
@@ -203,23 +203,22 @@ index 91b61e3fdfe..eb59da29eaf 100644
 -			 const DWARF2_Internal_LineInfo *  linfo,
 -			 struct dwarf_section *            section,
 -			 bfd_boolean                       is_dir)
--{
++static void
++display_directory_table_v4 (unsigned char *start, unsigned char *end,
++			    unsigned char **pdata)
+ {
 -  unsigned char *format_start, format_count, *format, formati;
 -  dwarf_vma data_count, datai;
 -  unsigned int namepass, last_entry = 0;
 -  const char * table_name = is_dir ? N_("Directory Table") : N_("File Name Table");
--  
++  unsigned char *data = *pdata;
++  unsigned int last_dir_entry = 0;
+ 
 -  SAFE_BYTE_GET_AND_INC (format_count, data, 1, end);
 -  if (do_checks && format_count > 5)
 -    warn (_("Unexpectedly large number of columns in the %s (%u)\n"),
 -	  table_name, format_count);
-+static void
-+display_directory_table_v4 (unsigned char *start, unsigned char *end,
-+			    unsigned char **pdata)
-+{
-+  unsigned char *data = *pdata;
-+  unsigned int last_dir_entry = 0;
- 
+-
 -  format_start = data;
 -  for (formati = 0; formati < format_count; formati++)
 +  if (*data == 0)
@@ -404,7 +403,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
 +  free (content_forms);
  
 -  printf (_("  Entry"));
--  /* Delay displaying name as the last entry for better screen layout.  */ 
+-  /* Delay displaying name as the last entry for better screen layout.  */
 -  for (namepass = 0; namepass < 2; namepass++)
 -    {
 -      format = format_start;
@@ -467,12 +466,12 @@ index 91b61e3fdfe..eb59da29eaf 100644
 +      dwarf_vma uladv;
 +      unsigned int logical;
 +      int i;
++
++      printf ("  [0x%08lx]", (long)(data - start));
  
 -      printf ("  %d", last_entry++);
--      /* Delay displaying name as the last entry for better screen layout.  */ 
+-      /* Delay displaying name as the last entry for better screen layout.  */
 -      for (namepass = 0; namepass < 2; namepass++)
-+      printf ("  [0x%08lx]", (long)(data - start));
-+
 +      op_code = *data++;
 +
 +      if (op_code >= linfo->li_opcode_base)
@@ -483,6 +482,15 @@ index 91b61e3fdfe..eb59da29eaf 100644
 +	  op_code -= linfo->li_opcode_base;
 +	  uladv = (op_code / linfo->li_line_range);
 +	  if (linfo->li_max_ops_per_insn == 1)
++	    {
++	      uladv *= linfo->li_min_insn_length;
++	      state_machine_regs.address += uladv;
++	      printf (_("  Special opcode %d: "
++			"advance Address by %s to 0x%s"),
++		      op_code, dwarf_vmatoa ("u", uladv),
++		      dwarf_vmatoa ("x", state_machine_regs.address));
++	    }
++	  else
  	    {
 -	      dwarf_vma content_type, form;
 -
@@ -493,15 +501,6 @@ index 91b61e3fdfe..eb59da29eaf 100644
 -						  linfo->li_version, NULL,
 -			    ((content_type == DW_LNCT_path) != (namepass == 1)),
 -						  section, NULL, '\t', -1);
-+	      uladv *= linfo->li_min_insn_length;
-+	      state_machine_regs.address += uladv;
-+	      printf (_("  Special opcode %d: "
-+			"advance Address by %s to 0x%s"),
-+		      op_code, dwarf_vmatoa ("u", uladv),
-+		      dwarf_vmatoa ("x", state_machine_regs.address));
- 	    }
-+	  else
-+	    {
 +	      state_machine_regs.address
 +		+= ((state_machine_regs.op_index + uladv)
 +		    / linfo->li_max_ops_per_insn)
@@ -514,7 +513,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
 +		      op_code, dwarf_vmatoa ("u", uladv),
 +		      dwarf_vmatoa ("x", state_machine_regs.address),
 +		      state_machine_regs.op_index);
-+	    }
+ 	    }
 +	  adv = (op_code % linfo->li_line_range) + linfo->li_line_base;
 +	  state_machine_regs.line += adv;
 +	  printf (_(" and Line by %s to %d\n"),
@@ -738,7 +737,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  static int
  display_debug_lines_raw (struct dwarf_section *  section,
  			 unsigned char *         data,
-@@ -4259,7 +4645,9 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4319,7 +4705,9 @@ display_debug_lines_raw (struct dwarf_section *  section,
  			 void *                  file)
  {
    unsigned char *start = section->start;
@@ -749,7 +748,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  
    introduce (section, TRUE);
  
-@@ -4267,9 +4655,15 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4327,9 +4715,15 @@ display_debug_lines_raw (struct dwarf_section *  section,
      {
        static DWARF2_Internal_LineInfo saved_linfo;
        DWARF2_Internal_LineInfo linfo;
@@ -765,7 +764,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  
        if (const_strneq (section->name, ".debug_line.")
  	  /* Note: the following does not apply to .debug_line.dwo sections.
-@@ -4286,7 +4680,9 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4346,7 +4740,9 @@ display_debug_lines_raw (struct dwarf_section *  section,
  	     Since the section is a fragment it does not have the details
  	     needed to fill out a LineInfo structure, so instead we use the
  	     details from the last full debug_line section that we processed.  */
@@ -775,7 +774,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  	  standard_opcodes = NULL;
  	  linfo = saved_linfo;
  	  /* PR 17531: file: 0522b371.  */
-@@ -4299,16 +4695,17 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4359,16 +4755,17 @@ display_debug_lines_raw (struct dwarf_section *  section,
  	}
        else
  	{
@@ -797,7 +796,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  	    {
  	      printf (_("  Address size (bytes):        %d\n"), linfo.li_address_size);
  	      printf (_("  Segment selector (bytes):    %d\n"), linfo.li_segment_size);
-@@ -4322,6 +4719,13 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4382,6 +4779,13 @@ display_debug_lines_raw (struct dwarf_section *  section,
  	  printf (_("  Line Range:                  %d\n"), linfo.li_line_range);
  	  printf (_("  Opcode Base:                 %d\n"), linfo.li_opcode_base);
  
@@ -811,7 +810,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  	  /* PR 17512: file: 1665-6428-0.004.  */
  	  if (linfo.li_line_range == 0)
  	    {
-@@ -4349,314 +4753,100 @@ display_debug_lines_raw (struct dwarf_section *  section,
+@@ -4409,314 +4813,100 @@ display_debug_lines_raw (struct dwarf_section *  section,
  			      standard_opcodes[i - 1]),
  		    i, standard_opcodes[i - 1]);
  
@@ -838,19 +837,19 @@ index 91b61e3fdfe..eb59da29eaf 100644
 -
 -		  printf (_("\n The Directory Table (offset 0x%lx):\n"),
 -			  (long)(data - start));
-+	      /* Skip the fake directory and filename table.  */
-+	      data += 2;
- 
+-
 -		  while (data < end && *data != 0)
 -		    {
 -		      printf ("  %d\t%.*s\n", ++last_dir_entry, (int) (end - data), data);
++	      /* Skip the fake directory and filename table.  */
++	      data += 2;
+ 
+-		      data += strnlen ((char *) data, end - data) + 1;
+-		    }
 +	      /* Skip the fake extended opcode that wraps the rest
 +		 of the section.  */
 +	      data += 5;
  
--		      data += strnlen ((char *) data, end - data) + 1;
--		    }
--
 -		  /* PR 17512: file: 002-132094-0.004.  */
 -		  if (data >= end - 1)
 -		    break;
@@ -1199,7 +1198,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
      }
  
    return 1;
-@@ -4680,6 +4870,8 @@ display_debug_lines_decoded (struct dwarf_section *  section,
+@@ -4740,6 +4930,8 @@ display_debug_lines_decoded (struct dwarf_section *  section,
  			     void *                  fileptr)
  {
    static DWARF2_Internal_LineInfo saved_linfo;
@@ -1208,7 +1207,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  
    introduce (section, FALSE);
  
-@@ -4717,7 +4909,9 @@ display_debug_lines_decoded (struct dwarf_section *  section,
+@@ -4777,7 +4969,9 @@ display_debug_lines_decoded (struct dwarf_section *  section,
  	  unsigned char *hdrptr;
  
  	  if ((hdrptr = read_debug_line_header (section, data, end, & linfo,
@@ -1219,7 +1218,7 @@ index 91b61e3fdfe..eb59da29eaf 100644
  	      return 0;
  
  	  /* PR 17531: file: 0522b371.  */
-@@ -5413,6 +5607,8 @@ display_debug_lines (struct dwarf_section *section, void *file)
+@@ -5510,6 +5704,8 @@ display_debug_lines (struct dwarf_section *section, void *file)
    if (do_debug_lines == 0)
      do_debug_lines |= FLAG_DEBUG_LINES_RAW;
  
@@ -1229,10 +1228,10 @@ index 91b61e3fdfe..eb59da29eaf 100644
      retValRaw = display_debug_lines_raw (section, data, end, file);
  
 diff --git a/binutils/readelf.c b/binutils/readelf.c
-index 41547a2594b..4af4c0c6e1a 100644
+index ad16b4571c9..a842ffbd07c 100644
 --- a/binutils/readelf.c
 +++ b/binutils/readelf.c
-@@ -6443,6 +6443,7 @@ process_section_headers (Filedata * filedata)
+@@ -6573,6 +6573,7 @@ process_section_headers (Filedata * filedata)
  	      || (do_debug_macinfo  && const_strneq (name, "macro"))
  	      || (do_debug_str      && const_strneq (name, "str"))
  	      || (do_debug_str_offsets && const_strneq (name, "str_offsets"))
@@ -1241,5 +1240,5 @@ index 41547a2594b..4af4c0c6e1a 100644
  	      || (do_debug_loc      && const_strneq (name, "loclists"))
  	      || (do_debug_addr     && const_strneq (name, "addr"))
 -- 
-2.31.1
+2.32.0
 

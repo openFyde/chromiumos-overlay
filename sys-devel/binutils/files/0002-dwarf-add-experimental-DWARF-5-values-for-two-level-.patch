@@ -1,4 +1,4 @@
-From e5f06682e45bf2e088a6cd6096bce13d68f9122c Mon Sep 17 00:00:00 2001
+From fbd01745c4baf4a6f5c21f4e964e22d5724ffb4f Mon Sep 17 00:00:00 2001
 From: Cary Coutant <ccoutant@google.com>
 Date: Tue, 23 Dec 2014 14:44:58 -0800
 Subject: [PATCH 02/14] dwarf: add experimental DWARF-5 values for two-level
@@ -10,7 +10,7 @@ from upstream branch users/ccoutant/two-level-line-150331
   - https://sourceware.org/git/?p=binutils-gdb.git;a=shortlog;h=refs/heads/users/ccoutant/two-level-line-150331
 to binutils-2_27-branch.
 
-[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: rebased from v2.27 to v2.36.1]
 
 Change-Id: I9190449f8eee61fe824fe5bd031b5aa7e7629a11
 ---
@@ -18,7 +18,7 @@ Change-Id: I9190449f8eee61fe824fe5bd031b5aa7e7629a11
  1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/include/dwarf2.h b/include/dwarf2.h
-index 3f271fb0f7a..9c4203c22f7 100644
+index 50b6ddb1f11..8f4d6aab3ed 100644
 --- a/include/dwarf2.h
 +++ b/include/dwarf2.h
 @@ -244,7 +244,13 @@ enum dwarf_line_number_ops
@@ -58,5 +58,5 @@ index 3f271fb0f7a..9c4203c22f7 100644
      DW_LNCT_hi_user = 0x3fff
    };
 -- 
-2.31.1
+2.32.0
 
