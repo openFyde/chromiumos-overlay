@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5d33c6880518340b7f09bf45fba8bffb2d2856f2"
-CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "25d967e67fe49417bd813d6e9094ba20dc17881f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2204afc17049a6e8cdcbc2f4aab6612f46dd2499"
+CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "0eb5535e5c279ab6eac84ec1d11b3b2761884973" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,11 +29,14 @@ BDEPEND="
 	chromeos-base/chromeos-dbus-bindings
 "
 
+# r3700 because we moved the dbus headers for UserDataAuth from cryptohome into
+# cryptohome-client in that version.
 RDEPEND="
-	!<chromeos-base/cryptohome-0.0.1
+	!<chromeos-base/cryptohome-0.0.1-r3700
 "
 
 src_install() {
 	# Install D-Bus client library.
 	platform_install_dbus_client_lib "cryptohome"
+	platform_install_dbus_client_lib "user_data_auth"
 }
