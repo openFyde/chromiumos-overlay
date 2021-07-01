@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk libhwsec libtpmcrypto metrics tpm_manager trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation libtpmcrypto metrics tpm_manager trunks .gn"
 
 PLATFORM_SUBDIR="tpm_manager"
 
@@ -20,12 +20,15 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_ma
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="pinweaver_csme test tpm tpm2 fuzzer"
+IUSE="pinweaver_csme test tpm tpm_dynamic tpm2 fuzzer"
 
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 RDEPEND="
-	!tpm2? ( app-crypt/trousers )
+	tpm? ( app-crypt/trousers )
 	tpm2? (
 		chromeos-base/trunks
 	)
