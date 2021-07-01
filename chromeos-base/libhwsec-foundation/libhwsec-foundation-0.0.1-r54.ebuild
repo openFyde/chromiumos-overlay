@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c5410975d99bb0f3da043e50e5e961e0e0e6cc16"
-CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "6a2c77b2943b8c30c3e6edfbbd9fafd51b89474f" "81dfbbc1756a3b4224b447e7bf10a916d97c4f66" "0b612d0f1e8dbe59a5549b476f1e681e0b7fe94e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="bf3d6d39923daa7144cac6fdd04976b7dc867967"
+CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "6a2c77b2943b8c30c3e6edfbbd9fafd51b89474f" "81dfbbc1756a3b4224b447e7bf10a916d97c4f66" "fe569515c8be8851c7f1eb668a169cea141ce373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -34,6 +34,12 @@ RDEPEND="
 src_install() {
 	insinto /usr/include/libhwsec-foundation
 	doins ./hwsec-foundation_export.h
+	doins ./signature_traits.h
+
+	insinto /usr/include/libhwsec-foundation/syscaller
+	doins ./syscaller/syscaller.h
+	doins ./syscaller/syscaller_impl.h
+	doins ./syscaller/mock_syscaller.h
 
 	insinto /usr/include/libhwsec-foundation/tpm_error
 	doins ./tpm_error/tpm_error_data.h
