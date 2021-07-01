@@ -8,7 +8,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="attestation common-mk hwsec-test-utils trunks .gn"
+CROS_WORKON_SUBTREE="attestation common-mk hwsec-test-utils libhwsec libhwsec-foundation trunks .gn"
 
 PLATFORM_SUBDIR="hwsec-test-utils"
 
@@ -19,14 +19,17 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hwsec-
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test tpm tpm2"
-REQUIRED_USE="tpm2? ( !tpm )"
+IUSE="test tpm tpm_dynamic tpm2"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 RDEPEND="
 	tpm2? (
 		chromeos-base/trunks:=
 	)
-	!tpm2? (
+	tpm? (
 		app-crypt/trousers:=
 	)
 "
@@ -36,6 +39,7 @@ DEPEND="${RDEPEND}
 		chromeos-base/trunks:=[test?]
 	)
 	chromeos-base/attestation:=
+	chromeos-base/libhwsec-foundation:=
 	chromeos-base/system_api:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=

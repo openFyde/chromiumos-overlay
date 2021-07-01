@@ -19,8 +19,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/oobe_c
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="tpm tpm2"
-REQUIRED_USE="?? ( tpm tpm2 )"
+IUSE="tpm tpm_dynamic tpm2"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 COMMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=

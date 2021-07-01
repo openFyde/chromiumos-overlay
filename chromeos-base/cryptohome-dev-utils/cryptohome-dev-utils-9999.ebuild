@@ -20,9 +20,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crypto
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="tpm tpm2"
+IUSE="tpm tpm_dynamic tpm2"
 
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 COMMON_DEPEND="
 	tpm? (

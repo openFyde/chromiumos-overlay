@@ -29,6 +29,7 @@ IUSE="
 	pinweaver_csme
 	test
 	ti50_onboard
+	tpm_dynamic
 	tpm2_simulator
 	vtpm_proxy
 "
@@ -56,7 +57,7 @@ RDEPEND="
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	generic_tpm2? ( chromeos-base/chromeos-cr50-scripts )
-	!app-crypt/tpm-tools
+	!tpm_dynamic? ( !app-crypt/tpm-tools )
 	chromeos-base/libhwsec-foundation
 	"
 

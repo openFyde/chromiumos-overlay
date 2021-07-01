@@ -8,7 +8,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk tpm_softclear_utils trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation tpm_softclear_utils trunks .gn"
 
 PLATFORM_SUBDIR="tpm_softclear_utils"
 
@@ -19,16 +19,20 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_so
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test tpm tpm2"
-REQUIRED_USE="tpm2? ( !tpm )"
+IUSE="test tpm tpm_dynamic tpm2"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 RDEPEND="
 	tpm2? (
 		chromeos-base/trunks:=
 	)
-	!tpm2? (
+	tpm? (
 		app-crypt/trousers:=
 	)
+	chromeos-base/libhwsec-foundation:=
 "
 
 DEPEND="${RDEPEND}
