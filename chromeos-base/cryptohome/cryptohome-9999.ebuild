@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec secure_erase_file .gn"
+CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec libhwsec-foundation secure_erase_file .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="cryptohome"
@@ -26,12 +26,13 @@ IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
 	generated_cros_config generic_tpm2 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_stateful_partition mount_oop pinweaver selinux slow_mount systemd
-	test tpm tpm2 tpm2_simulator unibuild uprev-4-to-5
+	test tpm tpm_dynamic tpm2 tpm2_simulator unibuild uprev-4-to-5
 	user_session_isolation +vault_legacy_mount vtpm_proxy"
 
 REQUIRED_USE="
 	device_mapper
-	tpm2? ( !tpm )
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
 "
 
 COMMON_DEPEND="
