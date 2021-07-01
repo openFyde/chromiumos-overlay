@@ -1,0 +1,68 @@
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+CROS_WORKON_COMMIT=("b37fd8226bf8ea3303e63cb19c7548b06749331c" "0cd272f649185710d9de9f856970859a15e786a1")
+CROS_WORKON_TREE=("cdb94bf0861363f1ef4ce718311f72910d045991" "6e13fad7a9122339b914fcdeab45ec4e6fe80a53")
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform/tast-tests"
+	"chromiumos/platform/tast"
+)
+CROS_WORKON_LOCALNAME=(
+	"platform/tast-tests"
+	"platform/tast"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}"
+	"${S}/tast-base"
+)
+
+CROS_GO_WORKSPACE=(
+	"${CROS_WORKON_DESTDIR[@]}"
+)
+
+CROS_GO_TEST=(
+	# Also test support packages that live above local/bundles/.
+	"chromiumos/tast/..."
+)
+CROS_GO_VET=(
+	"${CROS_GO_TEST[@]}"
+)
+
+inherit cros-workon tast-bundle
+
+DESCRIPTION="Bundle of local integration tests for Chrome OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/"
+
+LICENSE="Apache-2.0 BSD-Google"
+SLOT="0/0"
+KEYWORDS="*"
+IUSE="arc chromeless_tty chromeless_tests cups"
+
+# Build-time dependencies should be added to tast-build-deps, not here.
+DEPEND="chromeos-base/tast-build-deps:="
+
+RDEPEND="
+	chromeos-base/policy-testserver
+	chromeos-base/tast-local-helpers-cros
+	chromeos-base/virtual-usb-printer
+	chromeos-base/wprgo
+	!chromeless_tty? (
+		!chromeless_tests? (
+			chromeos-base/drm-tests
+		)
+	)
+	dev-libs/openssl:0=
+	arc? (
+		chromeos-base/tast-local-apks-cros
+		dev-util/android-tools
+		dev-util/android-uiautomator-server
+	)
+	net-misc/curl
+	cups? (
+		net-print/ippsample
+	)
+	sys-apps/memtester
+	sys-apps/rootdev
+	virtual/udev
+"
