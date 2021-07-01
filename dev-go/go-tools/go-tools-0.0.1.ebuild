@@ -25,6 +25,8 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/tools/internal/gopathwalk"
 	"golang.org/x/tools/internal/packagesinternal"
 	"golang.org/x/tools/internal/typesinternal"
+	"golang.org/x/tools/imports"
+	"golang.org/x/tools/internal/imports"
 )
 
 CROS_GO_TEST=(

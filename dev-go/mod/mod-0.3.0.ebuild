@@ -9,7 +9,9 @@ CROS_GO_SOURCE="go.googlesource.com/mod:golang.org/x/mod v${PV}"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/mod/module"
+	"golang.org/x/mod/modfile"
 	"golang.org/x/mod/semver"
+	"golang.org/x/mod/internal/lazyregexp"
 )
 
 CROS_GO_TEST=(
