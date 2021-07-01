@@ -41,8 +41,6 @@ IUSE_TESTS="
 	+tests_network_WlanPresent
 	+tests_network_WlanRegulatory
 	+tests_network_WlanHasIP
-	tpm? ( +tests_network_VPNConnect )
-	tpm2? ( +tests_network_VPNConnect )
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
