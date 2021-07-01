@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chaps metrics trunks tpm_manager .gn"
+CROS_WORKON_SUBTREE="common-mk chaps libhwsec libhwsec-foundation metrics trunks tpm_manager .gn"
 
 PLATFORM_SUBDIR="chaps"
 
@@ -21,12 +21,15 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="systemd test tpm tpm2 fuzzer"
+IUSE="systemd test tpm tpm_dynamic tpm2 fuzzer"
 
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 RDEPEND="
-	!tpm2? (
+	tpm? (
 		app-crypt/trousers:=
 	)
 	tpm2? (
