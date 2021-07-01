@@ -3,18 +3,29 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("724be1b72ff38d022beb8834fb537f772e49b8ff" "22c5b21a61f6477ec943cde45a66526c0f2c11ad")
-CROS_WORKON_TREE=("c3b1a243c15aa4df59bdfb28735cdec2862cc5ca" "19a599e153588e7beddcc62b22f526879f2985cf")
+CROS_WORKON_COMMIT=("7f73e5791353f0d1d2a9a529e4fcde84661c67d1" "a4de23bdb1c2e5e3b98c7d3f9e59f018f778c1cd" "22c5b21a61f6477ec943cde45a66526c0f2c11ad")
+CROS_WORKON_TREE=("531a1a88da4c29d71578c8e46d48b682832b2df3" "e85cde022ba7a78777c6285f119721ebd0547b61" "19a599e153588e7beddcc62b22f526879f2985cf")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/autotest"
+	"chromiumos/config"
 	"chromiumos/platform/fw-testing-configs"
 )
+
 CROS_WORKON_LOCALNAME=(
 	"third_party/autotest/files"
+	"config"
 	"third_party/autotest/files/server/cros/faft/fw-testing-configs"
 )
+
+CROS_WORKON_SUBTREE=(
+	""
+	"python"
+	""
+)
+
 CROS_WORKON_DESTDIR=(
 	"${S}"
+	"${S}/config"
 	"${S}/server/cros/faft/fw-testing-configs"
 )
 
