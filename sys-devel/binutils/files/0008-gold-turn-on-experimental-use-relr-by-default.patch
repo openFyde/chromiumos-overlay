@@ -1,9 +1,9 @@
-From d72141f5b99358984a0d6ffcd3c06534d7077942 Mon Sep 17 00:00:00 2001
+From 9644176a9eff283bcbabc1ae6d5344b3a4c3397f Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Sat, 17 Mar 2018 15:31:31 -0800
 Subject: [PATCH 08/14] gold: turn on --experimental-use-relr by default.
 
-[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: rebased from v2.27 to v2.36.1]
 [Adrian Ratiu: regenerated as proper git format-patch.]
 
 Change-Id: I20cb32ebec8283017b8399d29fe8841a5c78aa0e
@@ -12,7 +12,7 @@ Change-Id: I20cb32ebec8283017b8399d29fe8841a5c78aa0e
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/gold/options.h b/gold/options.h
-index 6e32d5dd6ae..9e47e5de999 100644
+index 0c95a07404d..037b5854188 100644
 --- a/gold/options.h
 +++ b/gold/options.h
 @@ -846,7 +846,7 @@ class General_options
@@ -25,5 +25,5 @@ index 6e32d5dd6ae..9e47e5de999 100644
  	      N_("Do not generate RELR dynamic relocations"));
  
 -- 
-2.31.1
+2.32.0
 

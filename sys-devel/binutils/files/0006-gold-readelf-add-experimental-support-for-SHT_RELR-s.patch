@@ -1,4 +1,4 @@
-From 5e133fc4d0f29591715a9b4558664e3631456be4 Mon Sep 17 00:00:00 2001
+From 7f0baf118ae65399f2c4b8c7ccb33c69ddf7bc7e Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Tue, 19 Dec 2017 15:31:31 -0800
 Subject: [PATCH 06/14] gold, readelf: add experimental support for SHT_RELR
@@ -22,7 +22,7 @@ Bug: None
 Test: 'gold --experimental-use-relr' creates PIE binaries with
       '.relr.dyn' sections to store relative relocations.
 
-[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: rebased from v2.27 to v2.36.1]
 [Adrian Ratiu: squashed gold: simpler encoding for SHT_RELR sections.]
 ---
  bfd/elf-bfd.h            |   2 +-
@@ -47,10 +47,10 @@ Test: 'gold --experimental-use-relr' creates PIE binaries with
  19 files changed, 1057 insertions(+), 121 deletions(-)
 
 diff --git a/bfd/elf-bfd.h b/bfd/elf-bfd.h
-index c203e089525..5603caf9106 100644
+index 15206b4e876..3ea523ddfe3 100644
 --- a/bfd/elf-bfd.h
 +++ b/bfd/elf-bfd.h
-@@ -732,7 +732,7 @@ struct sym_cache
+@@ -735,7 +735,7 @@ struct elf_link_hash_table
  
  struct elf_size_info {
    unsigned char sizeof_ehdr, sizeof_phdr, sizeof_shdr;
@@ -60,10 +60,10 @@ index c203e089525..5603caf9106 100644
    /* The size of entries in the .hash section.  */
    unsigned char sizeof_hash_entry;
 diff --git a/bfd/elf.c b/bfd/elf.c
-index 9f291663992..d0c9bfa5e8b 100644
+index 84a5d942817..36de5112d2d 100644
 --- a/bfd/elf.c
 +++ b/bfd/elf.c
-@@ -1748,6 +1748,9 @@ _bfd_elf_print_private_bfd_data (bfd *abfd, void *farg)
+@@ -1750,6 +1750,9 @@ _bfd_elf_print_private_bfd_data (bfd *abfd, void *farg)
  	    case DT_RELA: name = "RELA"; break;
  	    case DT_RELASZ: name = "RELASZ"; break;
  	    case DT_RELAENT: name = "RELAENT"; break;
@@ -73,7 +73,7 @@ index 9f291663992..d0c9bfa5e8b 100644
  	    case DT_STRSZ: name = "STRSZ"; break;
  	    case DT_SYMENT: name = "SYMENT"; break;
  	    case DT_INIT: name = "INIT"; break;
-@@ -1785,6 +1788,7 @@ _bfd_elf_print_private_bfd_data (bfd *abfd, void *farg)
+@@ -1787,6 +1790,7 @@ _bfd_elf_print_private_bfd_data (bfd *abfd, void *farg)
  	    case DT_PLTPAD: name = "PLTPAD"; break;
  	    case DT_MOVETAB: name = "MOVETAB"; break;
  	    case DT_SYMINFO: name = "SYMINFO"; break;
@@ -81,7 +81,7 @@ index 9f291663992..d0c9bfa5e8b 100644
  	    case DT_RELACOUNT: name = "RELACOUNT"; break;
  	    case DT_RELCOUNT: name = "RELCOUNT"; break;
  	    case DT_FLAGS_1: name = "FLAGS_1"; break;
-@@ -2367,16 +2371,30 @@ bfd_section_from_shdr (bfd *abfd, unsigned int shindex)
+@@ -2342,16 +2346,30 @@ bfd_section_from_shdr (bfd *abfd, unsigned int shindex)
  
      case SHT_REL:
      case SHT_RELA:
@@ -115,7 +115,7 @@ index 9f291663992..d0c9bfa5e8b 100644
  	  goto fail;
  
  	/* Check for a bogus link to avoid crashing.  */
-@@ -2446,7 +2464,8 @@ bfd_section_from_shdr (bfd *abfd, unsigned int shindex)
+@@ -2421,7 +2439,8 @@ bfd_section_from_shdr (bfd *abfd, unsigned int shindex)
  	    || hdr->sh_info == SHN_UNDEF
  	    || hdr->sh_info >= num_sec
  	    || elf_elfsections (abfd)[hdr->sh_info]->sh_type == SHT_REL
@@ -126,10 +126,10 @@ index 9f291663992..d0c9bfa5e8b 100644
  	    ret = _bfd_elf_make_section_from_shdr (abfd, hdr, name,
  						   shindex);
 diff --git a/bfd/elf32-arm.c b/bfd/elf32-arm.c
-index 508f4236932..c45860a62bb 100644
+index d23f6c07e08..7bdd8c353fc 100644
 --- a/bfd/elf32-arm.c
 +++ b/bfd/elf32-arm.c
-@@ -19855,6 +19855,7 @@ const struct elf_size_info elf32_arm_size_info =
+@@ -19852,6 +19852,7 @@ const struct elf_size_info elf32_arm_size_info =
    sizeof (Elf32_External_Shdr),
    sizeof (Elf32_External_Rel),
    sizeof (Elf32_External_Rela),
@@ -138,7 +138,7 @@ index 508f4236932..c45860a62bb 100644
    sizeof (Elf32_External_Dyn),
    sizeof (Elf_External_Note),
 diff --git a/bfd/elfcode.h b/bfd/elfcode.h
-index 54ef8906379..ea9cf6b4108 100644
+index 4e99fcc6b9b..1bcc2c7e1ed 100644
 --- a/bfd/elfcode.h
 +++ b/bfd/elfcode.h
 @@ -80,6 +80,7 @@
@@ -149,7 +149,7 @@ index 54ef8906379..ea9cf6b4108 100644
  #define Elf_External_Dyn	NAME(Elf,External_Dyn)
  
  #define elf_core_file_failing_command	NAME(bfd_elf,core_file_failing_command)
-@@ -1938,6 +1939,7 @@ const struct elf_size_info NAME(_bfd_elf,size_info) = {
+@@ -1959,6 +1960,7 @@ const struct elf_size_info NAME(_bfd_elf,size_info) = {
    sizeof (Elf_External_Shdr),
    sizeof (Elf_External_Rel),
    sizeof (Elf_External_Rela),
@@ -158,7 +158,7 @@ index 54ef8906379..ea9cf6b4108 100644
    sizeof (Elf_External_Dyn),
    sizeof (Elf_External_Note),
 diff --git a/bfd/elfnn-aarch64.c b/bfd/elfnn-aarch64.c
-index 312d11b4ff9..b568565ef95 100644
+index 1ec405ef1e0..dd08a39f917 100644
 --- a/bfd/elfnn-aarch64.c
 +++ b/bfd/elfnn-aarch64.c
 @@ -9925,6 +9925,7 @@ const struct elf_size_info elfNN_aarch64_size_info =
@@ -170,10 +170,10 @@ index 312d11b4ff9..b568565ef95 100644
    sizeof (ElfNN_External_Dyn),
    sizeof (Elf_External_Note),
 diff --git a/binutils/readelf.c b/binutils/readelf.c
-index 4af4c0c6e1a..2b052c03f84 100644
+index a842ffbd07c..e3cfaee7c0c 100644
 --- a/binutils/readelf.c
 +++ b/binutils/readelf.c
-@@ -1138,6 +1138,80 @@ slurp_rel_relocs (Filedata *            filedata,
+@@ -1162,6 +1162,80 @@ slurp_rel_relocs (Filedata *            filedata,
    return TRUE;
  }
  
@@ -254,7 +254,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  /* Returns the reloc type extracted from the reloc info field.  */
  
  static unsigned int
-@@ -1191,6 +1265,7 @@ dump_relocations (Filedata *          filedata,
+@@ -1215,6 +1289,7 @@ dump_relocations (Filedata *          filedata,
  		  char *              strtab,
  		  unsigned long       strtablen,
  		  int                 is_rela,
@@ -262,7 +262,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  		  bfd_boolean         is_dynsym)
  {
    unsigned long i;
-@@ -1205,6 +1280,11 @@ dump_relocations (Filedata *          filedata,
+@@ -1229,6 +1304,11 @@ dump_relocations (Filedata *          filedata,
        if (!slurp_rela_relocs (filedata, rel_offset, rel_size, &rels, &rel_size))
  	return FALSE;
      }
@@ -274,7 +274,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
    else
      {
        if (!slurp_rel_relocs (filedata, rel_offset, rel_size, &rels, &rel_size))
-@@ -1220,6 +1300,13 @@ dump_relocations (Filedata *          filedata,
+@@ -1244,6 +1324,13 @@ dump_relocations (Filedata *          filedata,
  	  else
  	    printf (_(" Offset     Info    Type            Sym.Value  Sym. Name + Addend\n"));
  	}
@@ -288,7 +288,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
        else
  	{
  	  if (do_wide)
-@@ -1237,6 +1324,13 @@ dump_relocations (Filedata *          filedata,
+@@ -1261,6 +1348,13 @@ dump_relocations (Filedata *          filedata,
  	  else
  	    printf (_("  Offset          Info           Type           Sym. Value    Sym. Name + Addend\n"));
  	}
@@ -302,7 +302,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
        else
  	{
  	  if (do_wide)
-@@ -1634,7 +1728,9 @@ dump_relocations (Filedata *          filedata,
+@@ -1636,7 +1730,9 @@ dump_relocations (Filedata *          filedata,
  	  break;
  	}
  
@@ -313,7 +313,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  	printf (_("unrecognized: %-7lx"), (unsigned long) type & 0xffffffff);
        else
  	printf (do_wide ? "%-22s" : "%-17.17s", rtype);
-@@ -2174,6 +2270,9 @@ get_dynamic_type (Filedata * filedata, unsigned long type)
+@@ -2177,6 +2273,9 @@ get_dynamic_type (Filedata * filedata, unsigned long type)
      case DT_REL:	return "REL";
      case DT_RELSZ:	return "RELSZ";
      case DT_RELENT:	return "RELENT";
@@ -323,7 +323,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
      case DT_PLTREL:	return "PLTREL";
      case DT_DEBUG:	return "DEBUG";
      case DT_TEXTREL:	return "TEXTREL";
-@@ -2211,6 +2310,7 @@ get_dynamic_type (Filedata * filedata, unsigned long type)
+@@ -2214,6 +2313,7 @@ get_dynamic_type (Filedata * filedata, unsigned long type)
  
      case DT_TLSDESC_GOT: return "TLSDESC_GOT";
      case DT_TLSDESC_PLT: return "TLSDESC_PLT";
@@ -331,7 +331,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
      case DT_RELACOUNT:	return "RELACOUNT";
      case DT_RELCOUNT:	return "RELCOUNT";
      case DT_FLAGS_1:	return "FLAGS_1";
-@@ -4332,6 +4432,7 @@ get_section_type_name (Filedata * filedata, unsigned int sh_type)
+@@ -4365,6 +4465,7 @@ get_section_type_name (Filedata * filedata, unsigned int sh_type)
      case SHT_SYMTAB:		return "SYMTAB";
      case SHT_STRTAB:		return "STRTAB";
      case SHT_RELA:		return "RELA";
@@ -339,7 +339,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
      case SHT_HASH:		return "HASH";
      case SHT_DYNAMIC:		return "DYNAMIC";
      case SHT_NOTE:		return "NOTE";
-@@ -7400,12 +7501,14 @@ static struct
+@@ -7531,12 +7632,14 @@ static struct
    int reloc;
    int size;
    int rela;
@@ -357,7 +357,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  };
  
  /* Process the reloc section.  */
-@@ -7421,7 +7524,7 @@ process_relocs (Filedata * filedata)
+@@ -7552,7 +7655,7 @@ process_relocs (Filedata * filedata)
  
    if (do_using_dynamic)
      {
@@ -366,7 +366,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
        const char * name;
        bfd_boolean  has_dynamic_reloc;
        unsigned int i;
-@@ -7431,6 +7534,7 @@ process_relocs (Filedata * filedata)
+@@ -7562,6 +7665,7 @@ process_relocs (Filedata * filedata)
        for (i = 0; i < ARRAY_SIZE (dynamic_relocations); i++)
  	{
  	  is_rela = dynamic_relocations [i].rela;
@@ -374,7 +374,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  	  name = dynamic_relocations [i].name;
  	  rel_size = filedata->dynamic_info[dynamic_relocations [i].size];
  	  rel_offset = filedata->dynamic_info[dynamic_relocations [i].reloc];
-@@ -7465,7 +7569,7 @@ process_relocs (Filedata * filedata)
+@@ -7596,7 +7700,7 @@ process_relocs (Filedata * filedata)
  				filedata->num_dynamic_syms,
  				filedata->dynamic_strings,
  				filedata->dynamic_strings_length,
@@ -383,7 +383,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  	    }
  	}
  
-@@ -7487,7 +7591,8 @@ process_relocs (Filedata * filedata)
+@@ -7618,7 +7722,8 @@ process_relocs (Filedata * filedata)
  	   i++, section++)
  	{
  	  if (   section->sh_type != SHT_RELA
@@ -393,7 +393,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  	    continue;
  
  	  rel_offset = section->sh_offset;
-@@ -7495,7 +7600,7 @@ process_relocs (Filedata * filedata)
+@@ -7626,7 +7731,7 @@ process_relocs (Filedata * filedata)
  
  	  if (rel_size)
  	    {
@@ -402,7 +402,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  	      unsigned long num_rela;
  
  	      printf (_("\nRelocation section "));
-@@ -7512,6 +7617,7 @@ process_relocs (Filedata * filedata)
+@@ -7643,6 +7748,7 @@ process_relocs (Filedata * filedata)
  		      rel_offset, num_rela);
  
  	      is_rela = section->sh_type == SHT_RELA;
@@ -410,7 +410,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  
  	      if (section->sh_link != 0
  		  && section->sh_link < filedata->file_header.e_shnum)
-@@ -7533,14 +7639,14 @@ process_relocs (Filedata * filedata)
+@@ -7664,14 +7770,14 @@ process_relocs (Filedata * filedata)
  
  		  dump_relocations (filedata, rel_offset, rel_size,
  				    symtab, nsyms, strtab, strtablen,
@@ -428,7 +428,7 @@ index 4af4c0c6e1a..2b052c03f84 100644
  
  	      found = TRUE;
 diff --git a/elfcpp/elfcpp.h b/elfcpp/elfcpp.h
-index 9c7c6294e42..9bbe4bfef86 100644
+index fdee7ce3b8b..72e8848f361 100644
 --- a/elfcpp/elfcpp.h
 +++ b/elfcpp/elfcpp.h
 @@ -386,6 +386,10 @@ enum SHT
@@ -442,7 +442,7 @@ index 9c7c6294e42..9bbe4bfef86 100644
    SHT_SPARC_GOTDATA = 0x70000000,
  
    // ARM-specific section types.
-@@ -765,6 +769,13 @@ enum DT
+@@ -771,6 +775,13 @@ enum DT
  
    DT_VERSYM = 0x6ffffff0,
  
@@ -456,7 +456,7 @@ index 9c7c6294e42..9bbe4bfef86 100644
    // Specify the value of _GLOBAL_OFFSET_TABLE_.
    DT_PPC_GOT = 0x70000000,
  
-@@ -1047,6 +1058,7 @@ struct Elf_sizes
+@@ -1071,6 +1082,7 @@ struct Elf_sizes
    // Sizes of ELF reloc entries.
    static const int rel_size = sizeof(internal::Rel_data<size>);
    static const int rela_size = sizeof(internal::Rela_data<size>);
@@ -464,7 +464,7 @@ index 9c7c6294e42..9bbe4bfef86 100644
    // Size of ELF dynamic entry.
    static const int dyn_size = sizeof(internal::Dyn_data<size>);
    // Size of ELF version structures.
-@@ -1709,6 +1721,49 @@ class Rela_write
+@@ -1741,6 +1753,49 @@ class Rela_write
    internal::Rela_data<size>* p_;
  };
  
@@ -515,7 +515,7 @@ index 9c7c6294e42..9bbe4bfef86 100644
  
  template<bool big_endian>
 diff --git a/elfcpp/elfcpp_internal.h b/elfcpp/elfcpp_internal.h
-index 36a6d6205f7..0c9accaa826 100644
+index 4aa4428dca3..3289550b689 100644
 --- a/elfcpp/elfcpp_internal.h
 +++ b/elfcpp/elfcpp_internal.h
 @@ -180,6 +180,12 @@ struct Rela_data
@@ -532,7 +532,7 @@ index 36a6d6205f7..0c9accaa826 100644
  
  struct Mips64_rel_data
 diff --git a/gold/aarch64.cc b/gold/aarch64.cc
-index 07abe44931f..85854867cbd 100644
+index 33485de61f6..d5cf625cecd 100644
 --- a/gold/aarch64.cc
 +++ b/gold/aarch64.cc
 @@ -2899,6 +2899,8 @@ class Target_aarch64 : public Sized_target<size, big_endian>
@@ -800,7 +800,7 @@ index 07abe44931f..85854867cbd 100644
    // Emit any relocs we saved in an attempt to avoid generating COPY
    // relocs.
 diff --git a/gold/arm.cc b/gold/arm.cc
-index ad11c1bb007..e47b7b1278e 100644
+index a5a01bcd60e..7e11a02d97b 100644
 --- a/gold/arm.cc
 +++ b/gold/arm.cc
 @@ -2116,6 +2116,8 @@ class Target_arm : public Sized_target<32, big_endian>
@@ -1059,10 +1059,10 @@ index ad11c1bb007..e47b7b1278e 100644
        for (Stub_table_iterator sp = this->stub_tables_.begin();
  	   sp != this->stub_tables_.end();
 diff --git a/gold/layout.cc b/gold/layout.cc
-index 13e533aaf21..723a404d6ea 100644
+index a27cb071c75..73d1a47e4db 100644
 --- a/gold/layout.cc
 +++ b/gold/layout.cc
-@@ -5055,7 +5055,8 @@ void
+@@ -5068,7 +5068,8 @@ void
  Layout::add_target_dynamic_tags(bool use_rel, const Output_data* plt_got,
  				const Output_data* plt_rel,
  				const Output_data_reloc_generic* dyn_rel,
@@ -1072,7 +1072,7 @@ index 13e533aaf21..723a404d6ea 100644
  {
    Output_data_dynamic* odyn = this->dynamic_data_;
    if (odyn == NULL)
-@@ -5128,6 +5129,17 @@ Layout::add_target_dynamic_tags(bool use_rel, const Output_data* plt_got,
+@@ -5141,6 +5142,17 @@ Layout::add_target_dynamic_tags(bool use_rel, const Output_data* plt_got,
  	}
      }
  
@@ -1091,7 +1091,7 @@ index 13e533aaf21..723a404d6ea 100644
      {
        // The value of the DT_DEBUG tag is filled in by the dynamic
 diff --git a/gold/layout.h b/gold/layout.h
-index fd5878da18b..8a9d1864a67 100644
+index 0b378003679..04ceed35fbc 100644
 --- a/gold/layout.h
 +++ b/gold/layout.h
 @@ -945,7 +945,8 @@ class Layout
@@ -1105,7 +1105,7 @@ index fd5878da18b..8a9d1864a67 100644
    // Add a target-specific dynamic tag with constant value.
    void
 diff --git a/gold/options.h b/gold/options.h
-index ea379080a97..6e32d5dd6ae 100644
+index 927e0734bba..0c95a07404d 100644
 --- a/gold/options.h
 +++ b/gold/options.h
 @@ -846,6 +846,10 @@ class General_options
@@ -1120,7 +1120,7 @@ index ea379080a97..6e32d5dd6ae 100644
  	      N_("Export all dynamic symbols"),
  	      N_("Do not export all dynamic symbols"));
 diff --git a/gold/output.cc b/gold/output.cc
-index 75d2fc354a5..697f179097e 100644
+index b7505ffd72c..81d1e8dbd00 100644
 --- a/gold/output.cc
 +++ b/gold/output.cc
 @@ -1236,6 +1236,26 @@ Output_reloc<elfcpp::SHT_RELA, dynamic, size, big_endian>::write(
@@ -1175,7 +1175,7 @@ index 75d2fc354a5..697f179097e 100644
  // Class Output_relocatable_relocs.
  
  template<int sh_type, int size, bool big_endian>
-@@ -5544,6 +5575,26 @@ template
+@@ -5545,6 +5576,26 @@ template
  class Output_data_reloc<elfcpp::SHT_RELA, true, 64, true>;
  #endif
  
@@ -1203,7 +1203,7 @@ index 75d2fc354a5..697f179097e 100644
  template
  class Output_relocatable_relocs<elfcpp::SHT_REL, 32, false>;
 diff --git a/gold/output.h b/gold/output.h
-index 77b6697e067..aff10f4ab9a 100644
+index 9c44f6259a2..84e473ee5a2 100644
 --- a/gold/output.h
 +++ b/gold/output.h
 @@ -558,7 +558,6 @@ class Output_data
@@ -1573,7 +1573,7 @@ index 77b6697e067..aff10f4ab9a 100644
  // relocatable link.  The actual data is written out in the target
  // hook relocate_relocs.  This just saves space for it.
 diff --git a/gold/reloc-types.h b/gold/reloc-types.h
-index 3671063ef0f..ee5388df6d7 100644
+index 106c54c1be6..da435b3d7e9 100644
 --- a/gold/reloc-types.h
 +++ b/gold/reloc-types.h
 @@ -79,6 +79,26 @@ struct Reloc_types<elfcpp::SHT_RELA, size, big_endian>
@@ -1604,7 +1604,7 @@ index 3671063ef0f..ee5388df6d7 100644
  
  #endif // !defined(GOLD_RELOC_TYPE_SH)
 diff --git a/gold/x86_64.cc b/gold/x86_64.cc
-index 1d9d9209bf3..d4e57e84ed5 100644
+index 2e4b2a70134..5add876cd34 100644
 --- a/gold/x86_64.cc
 +++ b/gold/x86_64.cc
 @@ -698,12 +698,13 @@ class Target_x86_64 : public Sized_target<size, false>
@@ -1621,8 +1621,8 @@ index 1d9d9209bf3..d4e57e84ed5 100644
 +      rela_irelative_(NULL), relr_dyn_(NULL), copy_relocs_(elfcpp::R_X86_64_COPY),
        got_mod_index_offset_(-1U), tlsdesc_reloc_info_(),
        tls_base_symbol_defined_(false), isa_1_used_(0), isa_1_needed_(0),
-       feature_1_(0), object_isa_1_used_(0), object_feature_1_(0),
-@@ -982,6 +983,43 @@ class Target_x86_64 : public Sized_target<size, false>
+       feature_1_(0), feature_2_used_(0), feature_2_needed_(0),
+@@ -983,6 +984,43 @@ class Target_x86_64 : public Sized_target<size, false>
  		   Output_data_space* got_irelative,
  		   unsigned int plt_count);
  
@@ -1666,7 +1666,7 @@ index 1d9d9209bf3..d4e57e84ed5 100644
   private:
    // The class which scans relocations.
    class Scan
-@@ -1289,6 +1327,10 @@ class Target_x86_64 : public Sized_target<size, false>
+@@ -1290,6 +1328,10 @@ class Target_x86_64 : public Sized_target<size, false>
    Reloc_section*
    rela_irelative_section(Layout*);
  
@@ -1677,7 +1677,7 @@ index 1d9d9209bf3..d4e57e84ed5 100644
    // Add a potential copy relocation.
    void
    copy_reloc(Symbol_table* symtab, Layout* layout,
-@@ -1367,6 +1409,8 @@ class Target_x86_64 : public Sized_target<size, false>
+@@ -1368,6 +1410,8 @@ class Target_x86_64 : public Sized_target<size, false>
    Reloc_section* rela_dyn_;
    // The section to use for IRELATIVE relocs.
    Reloc_section* rela_irelative_;
@@ -1686,8 +1686,8 @@ index 1d9d9209bf3..d4e57e84ed5 100644
    // Relocs saved to avoid a COPY reloc.
    Copy_relocs<elfcpp::SHT_RELA, size, false> copy_relocs_;
    // Offset of the GOT entry for the TLS module index.
-@@ -1678,6 +1722,23 @@ Target_x86_64<size>::do_finalize_gnu_properties(Layout* layout) const
- 		 this->feature_1_);
+@@ -1708,6 +1752,23 @@ Target_x86_64<size>::do_finalize_gnu_properties(Layout* layout) const
+ 		 this->feature_2_needed_);
  }
  
 +// Get the RELR dynamic reloc section, creating it if necessary.
@@ -1710,7 +1710,7 @@ index 1d9d9209bf3..d4e57e84ed5 100644
  // Write the first three reserved words of the .got.plt section.
  // The remainder of the section is written while writing the PLT
  // in Output_data_plt_i386::do_write.
-@@ -3596,14 +3657,25 @@ Target_x86_64<size>::Scan::local(Symbol_table* symtab,
+@@ -3626,14 +3687,25 @@ Target_x86_64<size>::Scan::local(Symbol_table* symtab,
        if (parameters->options().output_is_position_independent())
  	{
  	  unsigned int r_sym = elfcpp::elf_r_sym<size>(reloc.get_r_info());
@@ -1744,7 +1744,7 @@ index 1d9d9209bf3..d4e57e84ed5 100644
  	}
        break;
  
-@@ -3621,12 +3693,22 @@ Target_x86_64<size>::Scan::local(Symbol_table* symtab,
+@@ -3651,12 +3723,22 @@ Target_x86_64<size>::Scan::local(Symbol_table* symtab,
  	  if (size == 32 && r_type == elfcpp::R_X86_64_32)
  	    {
  	      unsigned int r_sym = elfcpp::elf_r_sym<size>(reloc.get_r_info());
@@ -1773,7 +1773,7 @@ index 1d9d9209bf3..d4e57e84ed5 100644
  	      break;
  	    }
  
-@@ -3727,24 +3809,33 @@ Target_x86_64<size>::Scan::local(Symbol_table* symtab,
+@@ -3758,24 +3840,33 @@ Target_x86_64<size>::Scan::local(Symbol_table* symtab,
  	    // dynamic relocation for this symbol's GOT entry.
  	    if (parameters->options().output_is_position_independent())
  	      {
@@ -1817,7 +1817,7 @@ index 1d9d9209bf3..d4e57e84ed5 100644
  		  }
  	      }
  	  }
-@@ -4108,12 +4199,24 @@ Target_x86_64<size>::Scan::global(Symbol_table* symtab,
+@@ -4125,12 +4216,24 @@ Target_x86_64<size>::Scan::global(Symbol_table* symtab,
  		      || (size == 32 && r_type == elfcpp::R_X86_64_32))
  		     && gsym->can_use_relative_reloc(false))
  	      {
@@ -1848,7 +1848,7 @@ index 1d9d9209bf3..d4e57e84ed5 100644
  	      }
  	    else
  	      {
-@@ -4251,9 +4354,18 @@ Target_x86_64<size>::Scan::global(Symbol_table* symtab,
+@@ -4269,9 +4372,18 @@ Target_x86_64<size>::Scan::global(Symbol_table* symtab,
  		if (is_new)
  		  {
  		    unsigned int got_off = gsym->got_offset(GOT_TYPE_STANDARD);
@@ -1870,7 +1870,7 @@ index 1d9d9209bf3..d4e57e84ed5 100644
  		  }
  	      }
  	  }
-@@ -4522,7 +4634,8 @@ Target_x86_64<size>::do_finalize_sections(
+@@ -4540,7 +4652,8 @@ Target_x86_64<size>::do_finalize_sections(
  				  ? NULL
  				  : this->plt_->rela_plt());
    layout->add_target_dynamic_tags(false, this->got_plt_, rel_plt,
@@ -1881,10 +1881,10 @@ index 1d9d9209bf3..d4e57e84ed5 100644
    // Fill in some more dynamic tags.
    Output_data_dynamic* const odyn = layout->dynamic_data();
 diff --git a/include/elf/common.h b/include/elf/common.h
-index 4d94c4fd5b3..83374777d20 100644
+index e7d55ae0782..02e1bc7ca90 100644
 --- a/include/elf/common.h
 +++ b/include/elf/common.h
-@@ -526,6 +526,10 @@
+@@ -543,6 +543,10 @@
  #define SHT_GNU_verneed	SHT_SUNW_verneed
  #define SHT_GNU_versym	SHT_SUNW_versym
  
@@ -1895,7 +1895,7 @@ index 4d94c4fd5b3..83374777d20 100644
  #define SHT_LOPROC	0x70000000	/* Processor-specific semantics, lo */
  #define SHT_HIPROC	0x7FFFFFFF	/* Processor-specific semantics, hi */
  #define SHT_LOUSER	0x80000000	/* Application-specific semantics */
-@@ -1041,6 +1045,13 @@
+@@ -1085,6 +1089,13 @@
  /* This tag is a GNU extension to the Solaris version scheme.  */
  #define DT_VERSYM	0x6ffffff0
  
@@ -1910,7 +1910,7 @@ index 4d94c4fd5b3..83374777d20 100644
  #define DT_HIPROC	0x7fffffff
  
 diff --git a/include/elf/external.h b/include/elf/external.h
-index 230fdabd87a..6a43ebe9daf 100644
+index b24985687e6..9298021e5b9 100644
 --- a/include/elf/external.h
 +++ b/include/elf/external.h
 @@ -211,6 +211,10 @@ typedef struct {
@@ -1936,5 +1936,5 @@ index 230fdabd87a..6a43ebe9daf 100644
  
  typedef struct {
 -- 
-2.31.1
+2.32.0
 

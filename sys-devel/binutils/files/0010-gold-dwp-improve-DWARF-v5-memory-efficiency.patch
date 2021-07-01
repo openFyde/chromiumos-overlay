@@ -1,4 +1,4 @@
-From fe74a17d59227b435e92edb60a040357a59a8cf3 Mon Sep 17 00:00:00 2001
+From 587f10af7a332eafa4f4e8f5ef0c4f595a6fe5ff Mon Sep 17 00:00:00 2001
 From: Caroline Tice <cmtice@google.com>
 Date: Fri, 20 Nov 2020 11:05:19 -0800
 Subject: [PATCH 10/14] gold: dwp: improve DWARF v5 memory efficiency
@@ -8,7 +8,7 @@ DWARF v5. This is the second of three patches for DWARF v5.
 
 This patch created for Chrome OS by Caroline Tice.
 Date: 20-Nov-2020
-[Adrian Ratiu: rebased from v2.27 to v2.35.1]
+[Adrian Ratiu: rebased from v2.27 to v2.36.1]
 [Adrian Ratiu: regenerated as proper git format-patch.]
 
 Change-Id: I1f6fb66478d8e9eb9848e9628e2d2976b8d5be1d
@@ -19,7 +19,7 @@ Change-Id: I1f6fb66478d8e9eb9848e9628e2d2976b8d5be1d
  3 files changed, 77 insertions(+), 15 deletions(-)
 
 diff --git a/gold/dwp.cc b/gold/dwp.cc
-index 29aa57c4308..2beaa51879f 100644
+index 08300b220d5..d0c4d8bdfe4 100644
 --- a/gold/dwp.cc
 +++ b/gold/dwp.cc
 @@ -32,7 +32,7 @@
@@ -140,7 +140,7 @@ index 29aa57c4308..2beaa51879f 100644
    return EXIT_SUCCESS;
  }
 diff --git a/gold/stringpool.cc b/gold/stringpool.cc
-index 8918f6f054f..406733cd99b 100644
+index 1329b35e1f1..b046e482b2e 100644
 --- a/gold/stringpool.cc
 +++ b/gold/stringpool.cc
 @@ -491,6 +491,38 @@ Stringpool_template<Stringpool_char>::write_to_buffer(
@@ -183,7 +183,7 @@ index 8918f6f054f..406733cd99b 100644
  
  template<typename Stringpool_char>
 diff --git a/gold/stringpool.h b/gold/stringpool.h
-index 9217b17910f..f4d0030758e 100644
+index cceb97e7219..35e1ddcffb1 100644
 --- a/gold/stringpool.h
 +++ b/gold/stringpool.h
 @@ -285,6 +285,12 @@ class Stringpool_template
@@ -200,5 +200,5 @@ index 9217b17910f..f4d0030758e 100644
    void
    print_stats(const char*) const;
 -- 
-2.31.1
+2.32.0
 
