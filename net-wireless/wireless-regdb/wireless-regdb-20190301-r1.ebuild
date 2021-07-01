@@ -1,1 +1,0 @@
-wireless-regdb-20190301.ebuild

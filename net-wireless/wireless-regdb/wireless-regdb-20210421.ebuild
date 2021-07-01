@@ -1,28 +1,24 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-
-inherit eutils multilib
+EAPI=7
 
 MY_P="wireless-regdb-${PV:0:4}.${PV:4:2}.${PV:6:2}"
 DESCRIPTION="Binary regulatory database for CRDA"
-HOMEPAGE="https://wireless.kernel.org/en/developers/Regulatory"
+HOMEPAGE="https://wireless.wiki.kernel.org/en/developers/regulatory/wireless-regdb"
 SRC_URI="https://www.kernel.org/pub/software/network/${PN}/${MY_P}.tar.xz"
+S="${WORKDIR}/${MY_P}"
 
 LICENSE="ISC"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
-
-S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
 	"${FILESDIR}"/regdb-ar-5ghz.patch
 )
 
 src_compile() {
-	emake -j1 REGDB_AUTHOR=chromium
+	emake REGDB_AUTHOR=chromium
 }
 
 src_install() {
