@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("6f9011123f3656c45bb34148673aa110a22326b3" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_COMMIT=("e78b0d41f845ddecafe040e4165edd9aacd1135f" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "cd360f89c2a9c43343acba09894918cb5ef94620" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 inherit cros-constants
 
@@ -43,6 +43,7 @@ IUSE="+seccomp"
 RDEPEND="
 	chromeos-base/chaps:=
 	chromeos-base/cryptohome:=
+	chromeos-base/cryptohome-client:=
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 "

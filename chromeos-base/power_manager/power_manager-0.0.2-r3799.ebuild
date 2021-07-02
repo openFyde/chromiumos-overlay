@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6a9bb7c0482a94ac0809dc69e7959603d7865094"
+CROS_WORKON_COMMIT="e78b0d41f845ddecafe040e4165edd9aacd1135f"
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "47f6ceba57219100723f2671e0d507bd7605f22f" "aa0612733aca2d5ffa65470f07408228b473ebdb" "da73aae6d89c8e69c3740af612610792ce42b1a8" "6afbdaa45c9506f3d8dac247c674a3163733a870" "5ce455a8c11540c3d4b74b35c40c296738daa85e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -32,6 +32,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/chromeos-config-tools:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/tpm_manager-client:=
 	dev-libs/libnl:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
