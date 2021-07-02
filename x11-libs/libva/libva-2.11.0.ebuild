@@ -11,7 +11,7 @@ SRC_URI="https://github.com/intel/libva/releases/download/${PV}/${P}.tar.gz"
 KEYWORDS="*"
 LICENSE="MIT"
 SLOT="0/$(ver_cut 1)"
-IUSE="utils beanstalk internal intel_ihd_pavp"
+IUSE="utils intel_oemcrypto internal intel_ihd_pavp"
 
 VIDEO_CARDS="i965 amdgpu iHD"
 for x in ${VIDEO_CARDS}; do
@@ -28,14 +28,14 @@ BDEPEND="
 PDEPEND="
 	video_cards_i965? ( >=x11-libs/libva-intel-driver-2.0.0[${MULTILIB_USEDEP}] )
 	video_cards_iHD? (
-		beanstalk? (
+		intel_oemcrypto? (
 			internal? ( x11-libs/libva-intel-media-driver-pavp[${MULTILIB_USEDEP}] )
 			!internal? (
 				intel_ihd_pavp? ( x11-libs/libva-intel-media-driver-pavp[${MULTILIB_USEDEP}] )
 				!intel_ihd_pavp? ( ~x11-libs/libva-intel-media-driver-21.1.3[${MULTILIB_USEDEP}] )
 			)
 		)
-		!beanstalk? ( ~x11-libs/libva-intel-media-driver-21.1.3[${MULTILIB_USEDEP}] )
+		!intel_oemcrypto? ( ~x11-libs/libva-intel-media-driver-21.1.3[${MULTILIB_USEDEP}] )
 	)
 	video_cards_amdgpu? ( virtual/opengles[${MULTILIB_USEDEP}] )
 	utils? ( media-video/libva-utils )
