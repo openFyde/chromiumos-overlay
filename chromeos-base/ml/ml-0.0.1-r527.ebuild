@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="21d6b84e2b89db9398e6c77ecacfd04b85b0099e"
+CROS_WORKON_COMMIT="f818c789b94af8c54cfdf3512df946d7618fd665"
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "5776fdc7b66b2cd3fb3d41103d113155e9342890" "20d593bc4f76d08b642ac2d57ed2f4f9af04ce50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -65,7 +65,7 @@ RDEPEND="
 	media-libs/cros-camera-document-scanning:=[ondevice_document_scanner=]
 	>=dev-libs/libgrammar-0.0.4:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
-	dev-libs/libsuggest:=[ondevice_text_suggestions=]
+	>=dev-libs/libsuggest-0.0.9:=[ondevice_text_suggestions=]
 	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
 "
