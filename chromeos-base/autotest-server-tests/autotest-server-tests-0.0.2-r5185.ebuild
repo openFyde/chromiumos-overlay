@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="1eeed852ed7672f602954bc53075e688bf1c3ac7"
-CROS_WORKON_TREE="1cff11a58648f00630207121acb770c7405a415c"
+CROS_WORKON_COMMIT="8f5f17eddfebc7c57daeb5861e8e11f47050943b"
+CROS_WORKON_TREE="98cdf64703ca4c5a57b0c1d082b9c3fc42c8f697"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -111,10 +111,6 @@ SERVER_IUSE_TESTS="
 	+tests_display_ServerChameleonConnection
 	+tests_display_SuspendStress
 	+tests_display_SwitchMode
-	+tests_dummy_PassServer
-	+tests_dummy_FailServer
-	+tests_dummy_FlakyTestServer
-	+tests_stub_SynchronousOffloadServer
 	+tests_enterprise_ClearTPM
 	+tests_enterprise_KioskEnrollmentServer
 	+tests_enterprise_LongevityTrackerServer
@@ -348,7 +344,10 @@ SERVER_IUSE_TESTS="
 	+tests_servohost_Reboot
 	+tests_stress_ClientTestReboot
 	+tests_stress_EnrollmentRetainment
+	+tests_stub_FailServer
+	+tests_stub_PassServer
 	+tests_stub_ServerToClientPass
+	+tests_stub_SynchronousOffloadServer
 "
 
 IUSE_TESTS="${IUSE_TESTS}

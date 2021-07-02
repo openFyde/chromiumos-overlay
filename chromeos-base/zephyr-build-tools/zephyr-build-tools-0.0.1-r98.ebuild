@@ -25,9 +25,12 @@ IUSE=""
 BDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND="
 	dev-embedded/binman
+	dev-python/black[${PYTHON_USEDEP}]
 	dev-python/colorama[${PYTHON_USEDEP}]
 	dev-python/docopt[${PYTHON_USEDEP}]
+	dev-python/flake8[${PYTHON_USEDEP}]
 	dev-python/hypothesis[${PYTHON_USEDEP}]
+	dev-python/isort[${PYTHON_USEDEP}]
 	dev-python/jsonschema[${PYTHON_USEDEP}]
 	dev-python/pykwalify[${PYTHON_USEDEP}]
 	dev-python/pytest[${PYTHON_USEDEP}]
