@@ -63,7 +63,7 @@ RDEPEND="
 	media-libs/cros-camera-document-scanning:=[ondevice_document_scanner=]
 	>=dev-libs/libgrammar-0.0.4:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
-	dev-libs/libsuggest:=[ondevice_text_suggestions=]
+	>=dev-libs/libsuggest-0.0.9:=[ondevice_text_suggestions=]
 	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
 "
