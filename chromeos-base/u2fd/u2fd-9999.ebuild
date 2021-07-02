@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk trunks libhwsec metrics u2fd .gn"
+CROS_WORKON_SUBTREE="common-mk trunks libhwsec metrics u2fd libhwsec-foundation libhwsec .gn"
 
 PLATFORM_SUBDIR="u2fd"
 
@@ -64,6 +64,7 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer
 }
 
 platform_pkg_test() {
