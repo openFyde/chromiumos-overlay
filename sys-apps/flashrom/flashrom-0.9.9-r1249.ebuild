@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/flashrom/flashrom-0.9.4.ebuild,v 1.5 2011/09/20 16:03:21 nativemad Exp $
 
 EAPI=7
-CROS_WORKON_COMMIT="79a09bb49e65c49dd7e86da087dfef6711b4929d"
-CROS_WORKON_TREE="877be7b99ac821727b592f68e131628a7aa5217f"
+CROS_WORKON_COMMIT="2eb1d26a3cdd8b1461c0c1c523a59453ae19e862"
+CROS_WORKON_TREE="236e4bff2387cc1d80de3f55f392f1b19927d261"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -100,18 +100,10 @@ BDEPEND="sys-apps/diffutils"
 
 DOCS=( README.chromiumos Documentation/ )
 
-src_prepare() {
-	default
-	if use internal; then
-		# Set CONFIG_DEFAULT_PROGRAMMER to PROGRAMMER_INTERNAL
-		sed -e "s/PROGRAMMER_INVALID/PROGRAMMER_INTERNAL/" \
-			-i meson.build || die
-	fi
-}
-
 src_configure() {
 	local emesonargs=(
 		-Ddefault_library="$(usex static static shared)"
+		-Ddefault_programmer_name=internal
 		$(meson_use atahpt config_atahpt)
 		$(meson_use atapromise config_atapromise)
 		$(meson_use atavia config_atavia)
