@@ -14,7 +14,7 @@ HOMEPAGE="http://trousers.sf.net"
 LICENSE="CPL-1.0"
 KEYWORDS="~*"
 SLOT="0"
-IUSE="asan doc mocktpm systemd tss_trace"
+IUSE="asan doc mocktpm systemd tpm_dynamic tss_trace"
 
 COMMON_DEPEND="
 	chromeos-base/libhwsec-foundation
@@ -70,6 +70,12 @@ src_install() {
 	else
 		insinto /etc/init
 		doins init/*.conf
+
+		if use tpm_dynamic; then
+			sed -i '/env TPM_DYNAMIC=/s:=.*:=true:' \
+				"${D}/etc/init/tpm-probe.conf" ||
+				die "Can't activate tpm_dynamic in tpm-probe.conf"
+		fi
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/tcsd-pre-start.sh

@@ -79,6 +79,12 @@ src_install() {
 		doins trunksd.conf
 	fi
 
+	if use tpm_dynamic; then
+		sed -i '/env TPM_DYNAMIC=/s:=.*:=true:' \
+			"${D}/etc/init/trunksd.conf" ||
+			die "Can't activate tpm_dynamic in trunksd.conf"
+	fi
+
 	if use pinweaver_csme && use generic_tpm2; then
 		newins csme/tpm_tunneld.conf tpm_tunneld.conf
 	fi

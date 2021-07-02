@@ -57,7 +57,20 @@ src_install() {
 	# Install upstart config file.
 	insinto /etc/init
 	doins server/tpm_managerd.conf
-	if use tpm2; then
+	if use tpm_dynamic; then
+		conds=()
+		if use tpm; then
+			conds+=("started tcsd")
+		fi
+		if use tpm2; then
+			conds+=("started trunksd")
+		fi
+		cond=$(printf " or %s" "${conds[@]}")
+		cond=${cond:4}
+		sed -i "s/started tcsd/(${cond})/" \
+			"${D}/etc/init/tpm_managerd.conf" ||
+			die "Can't replace 'started tcsd' with '${cond}' in tpm_managerd.conf"
+	elif use tpm2; then
 		dep_job="trunksd"
 		if use pinweaver_csme; then
 			dep_job="tpm_tunneld"
