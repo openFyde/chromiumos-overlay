@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="66f00db8190f4927b1cca8203cc30eeefe2cc353"
-CROS_WORKON_TREE="8b8c2ee1306693fc53479eeeb8eab79cd41ba97e"
+CROS_WORKON_COMMIT="d71879b7e463596e1234f66a01c1228ebce3c4a2"
+CROS_WORKON_TREE="e95570097bff6ddcd77cfc3a86c1b24cc6110cc5"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -43,8 +43,6 @@ IUSE_TESTS="
 	+tests_network_WlanPresent
 	+tests_network_WlanRegulatory
 	+tests_network_WlanHasIP
-	tpm? ( +tests_network_VPNConnect )
-	tpm2? ( +tests_network_VPNConnect )
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
