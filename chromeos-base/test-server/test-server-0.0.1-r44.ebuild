@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d502bca13d070a197553c9fafefbb878fd0da1df"
-CROS_WORKON_TREE="40d357a47c05f7f526937b6a717846607da44b53"
+CROS_WORKON_COMMIT="93523236001db049f2894e57457e2dc0badb6ae2"
+CROS_WORKON_TREE="f516869b00a18951a894eb1360c73d9426e494fa"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="platform/dev"
 CROS_WORKON_SUBTREE="src"
@@ -18,10 +18,10 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE=""
 
-#TODO(jaquesc): Re-add dev-util/dut-server once the server has all functionality
 DEPEND="
 	dev-util/provision-server
 	dev-util/test-exec-server
 	dev-util/test-plan
+	dev-util/dut-server
 "
 RDEPEND="${DEPEND}"
