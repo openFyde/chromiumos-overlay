@@ -126,6 +126,28 @@ in the ebuild file.
 After running `ebuild manifest` as described in the section above, you should be
 able to start testing these changes via `sudo emerge dev-embedded/ti50-sdk`.
 
+Once tests are successful, upload the remaining artifacts to gs:
+
+```
+gsutil cp -n -a public-read /var/cache/chromeos-cache/distfiles/rust-${sha}-cargo-beta-x86_64-unknown-linux-gnu.tar.xz \
+    gs://chromeos-localmirror/distfiles/rust-${sha}-cargo-beta-x86_64-unknown-linux-gnu.tar.xz
+
+gsutil cp -n -a public-read /var/cache/chromeos-cache/distfiles/rust-${sha}-rustc-beta-x86_64-unknown-linux-gnu.tar.xz \
+    gs://chromeos-localmirror/distfiles/rust-${sha}-rustc-beta-x86_64-unknown-linux-gnu.tar.xz
+
+gsutil cp -n -a public-read /var/cache/chromeos-cache/distfiles/rust-${sha}-rustfmt-beta-x86_64-unknown-linux-gnu.tar.xz \
+    gs://chromeos-localmirror/distfiles/rust-${sha}-rustfmt-beta-x86_64-unknown-linux-gnu.tar.xz
+
+gsutil cp -n -a public-read /var/cache/chromeos-cache/distfiles/rust-${sha}-rust-std-beta-x86_64-unknown-linux-gnu.tar.xz \
+    gs://chromeos-localmirror/distfiles/rust-${sha}-rust-std-beta-x86_64-unknown-linux-gnu.tar.xz
+```
+
+Test out the emerge again by first clearing the cache:
+```
+rm -f /var/cache/chromeos-cache/distfiles/rust-${sha}-*
+sudo emerge dev-embedded/ti50-sdk
+```
+
 ## Iterative development
 
 Standard ebuild development practices apply here: `sudo emerge
