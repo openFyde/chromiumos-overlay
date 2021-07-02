@@ -98,18 +98,10 @@ BDEPEND="sys-apps/diffutils"
 
 DOCS=( README.chromiumos Documentation/ )
 
-src_prepare() {
-	default
-	if use internal; then
-		# Set CONFIG_DEFAULT_PROGRAMMER to PROGRAMMER_INTERNAL
-		sed -e "s/PROGRAMMER_INVALID/PROGRAMMER_INTERNAL/" \
-			-i meson.build || die
-	fi
-}
-
 src_configure() {
 	local emesonargs=(
 		-Ddefault_library="$(usex static static shared)"
+		-Ddefault_programmer_name=internal
 		$(meson_use atahpt config_atahpt)
 		$(meson_use atapromise config_atapromise)
 		$(meson_use atavia config_atavia)
