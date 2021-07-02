@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b7cc9f208439c63198d61f4743da833535228cc4"
+CROS_WORKON_COMMIT="584e52c2873cb502d7b5777db68c9569837acc6e"
 CROS_WORKON_TREE="0149e3fee635cf73d45f499fd0107544ef022f48"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -36,8 +36,13 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 src_test() {
+	# The io_uring implementation on kernels older than 5.10 was buggy so skip
+	# them if we're running on one of those kernels.
+	local cut_version="$(ver_cut 1-2 "$(uname -r)")"
+	if ver_test "${cut_version}" -lt 5.10; then
+		einfo "Skipping io_uring tests on kernel version < 5.10"
 	# TODO: Enable tests on ARM once the emulator supports io_uring.
-	if ! cros_rust_is_direct_exec; then
+	elif ! cros_rust_is_direct_exec; then
 		einfo "Skipping uring tests on non-x86 platform"
 		local skip_tests=(
 			ring
