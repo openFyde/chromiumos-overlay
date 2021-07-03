@@ -3,12 +3,12 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b1f1af4e25a27d13649522b2b5fb558c04f5a638"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "077cbc8381737e88b26a43a7f8f1191694d9c93b" "359903647899af99fb1bc9ba9d666b0e78fcb3a8" "791c6808b4f4f5f1c484108d66ff958d65f8f1e3")
+CROS_WORKON_COMMIT="01313780b1c7107b198b77b34b6801385fd55203"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5b2f02663ff11c566441f4d6ba6729799db2ea4a" "359903647899af99fb1bc9ba9d666b0e78fcb3a8" "791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "6afbdaa45c9506f3d8dac247c674a3163733a870")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/809389): Remove libmems from this list.
-CROS_WORKON_SUBTREE=".gn iioservice libmems common-mk"
+CROS_WORKON_SUBTREE=".gn iioservice libmems common-mk metrics"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -24,6 +24,7 @@ IUSE="+seccomp"
 
 RDEPEND="
 	!chromeos-base/chromeos-accelerometer-init
+	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/libmems:=
 	chromeos-base/mems_setup
