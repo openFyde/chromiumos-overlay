@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="46aef9692628aadaf7c43c81abe8ac552d78b687"
+CROS_WORKON_COMMIT="9e1d501d102204916880c59c07e2c368fcebedfb"
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "b6e10be01188be5862167b2a2c699a287ded5f6d" "6afbdaa45c9506f3d8dac247c674a3163733a870" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ IUSE="+samba asan fuzzer"
 
 COMMMON_DEPEND="
 	app-crypt/mit-krb5:=
+	chromeos-base/cryptohome-client:=
 	chromeos-base/libbrillo:=[asan?,fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	>=chromeos-base/minijail-0.0.1-r1477:=
