@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk dns-proxy metrics shill/dbus/client .gn"
+CROS_WORKON_SUBTREE="common-mk dns-proxy metrics shill/dbus/client shill/net .gn"
 
 PLATFORM_SUBDIR="dns-proxy"
 
@@ -26,6 +26,7 @@ COMMON_DEPEND="
 	chromeos-base/patchpanel:=
 	chromeos-base/patchpanel-client:=
 	chromeos-base/shill-dbus-client:=
+	chromeos-base/shill-net:=
 	dev-libs/protobuf:=
 	dev-libs/dbus-glib:=
 	sys-apps/dbus:=
