@@ -126,11 +126,11 @@ FUZZERS=(
 	crosvm_zimage_fuzzer
 )
 
-# Array of "<features>/<binary name>"
+# Array of binary names.
 VHOST_USER_BINARIES=(
-	"console/vhost-user-console-device"
-	"net/vhost-user-net-device"
-	"wl/vhost-user-wl-device"
+	"vhost-user-console-device"
+	"vhost-user-net-device"
+	"vhost-user-wl-device"
 )
 
 src_unpack() {
@@ -202,11 +202,9 @@ src_compile() {
 
 	if use vhost-user-devices; then
 		cd vhost_user_devices || die "failed to move directory"
-		for tuple in "${VHOST_USER_BINARIES[@]}"; do
-			local vhost_features="${tuple%/*}"
-			local binary="${tuple#*/}"
+		local binary
+		for binary in "${VHOST_USER_BINARIES[@]}"; do
 			ecargo_build -v \
-				--features "${vhost_features}" \
 				--bin "${binary}" \
 				|| die "cargo build failed"
 		done
@@ -353,8 +351,8 @@ src_install() {
 	# Install vhost-user device executable.
 	if use vhost-user-devices; then
 		local build_dir="$(cros-rust_get_build_dir)"
-		for tuple in "${VHOST_USER_BINARIES[@]}"; do
-			local binary="${tuple#*/}"
+		local binary
+		for binary in "${VHOST_USER_BINARIES[@]}"; do
 			dobin "${build_dir}/${binary}"
 		done
 	fi
