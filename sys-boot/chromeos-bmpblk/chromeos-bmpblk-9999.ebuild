@@ -117,8 +117,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/bmpblk/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="detachable diag_payload +minidiag physical_presence_power
-	physical_presence_recovery"
+IUSE="detachable physical_presence_power physical_presence_recovery"
 
 BDEPEND="${PYTHON_DEPS}"
 DEPEND=""
@@ -156,11 +155,6 @@ src_compile() {
 		export DETACHABLE=1
 	fi
 
-	# Both diag_payload and minidiag need additional UI images from
-	# chromeos-bmpblk.
-	if use diag_payload || use minidiag ; then
-		export DIAGNOSTIC_UI=1
-	fi
 	if use physical_presence_power ; then
 		export PHYSICAL_PRESENCE="power"
 	elif use physical_presence_recovery ; then

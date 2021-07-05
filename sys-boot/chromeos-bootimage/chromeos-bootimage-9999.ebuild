@@ -13,7 +13,7 @@ HOMEPAGE="http://www.chromium.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="diag_payload seabios wilco_ec zephyr_ec"
+IUSE="seabios wilco_ec zephyr_ec"
 IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 
 # 'ec_ro_sync' can be a solution for devices that will fail to complete recovery
@@ -259,7 +259,6 @@ setup_altfw() {
 	local target="$1"
 	local rom="$2"
 	local bl_list="${T}/altfw"
-	local have_default
 
 	einfo "Adding alternative firmware"
 
@@ -298,7 +297,6 @@ setup_altfw() {
 			# For now, use TianoCore as the default.
 			echo "0;altfw/tianocore;TianoCore;TianoCore bootloader" \
 				>> "${bl_list}"
-			have_default=y
 			einfo "  (sing TianoCore as default)"
 		else
 			ewarn "Not enough space for TianoCore: omitted"
@@ -331,25 +329,6 @@ setup_altfw() {
 		done
 		echo "3;altfw/seabios;SeaBIOS;SeaBIOS bootloader" \
 			>> "${bl_list}"
-	fi
-
-	# Add Diagnostic Payload if enabled
-	if use diag_payload; then
-		einfo "- Adding Diagnostic Payload"
-
-		do_cbfstool "${rom}" add-payload -r RW_LEGACY -n altfw/diag -c lzma -f \
-			"${CROS_FIRMWARE_ROOT}/diag_payload/${target}-diag.bin"
-		hash_altfw_payload "${rom}" diag
-		echo "5;altfw/diag;Diagnostics;System Diagnostics" \
-			>> "${bl_list}"
-
-		# Use Diag as the default if tianocore is not enabled
-		if [[ -z "${have_default}" ]]; then
-			echo "0;altfw/diag;Diagnostics;System Diagnostics" \
-				>> "${bl_list}"
-			have_default=y
-			einfo "  (using Diagnostics as default)"
-		fi
 	fi
 
 	# Add the list
