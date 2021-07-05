@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Chrome OS HDR related libraries ported from google3."
 
-IUSE="march_goldmont march_skylake"
+IUSE="march_tigerlake march_alderlake"
 
 SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-camera-libhdr-${PV}.tar.bz2"
 
@@ -18,10 +18,10 @@ S="${WORKDIR}"
 src_install() {
 	# march USE flag check should be put before amd64, arm, and arm64.
 	local march_path
-	if use march_goldmont; then
-		march_path="x86_64-goldmont"
-	elif use march_skylake; then
-		march_path="x86_64-skylake"
+	if use march_tigerlake; then
+		march_path="x86_64-tigerlake"
+	elif use march_alderlake; then
+		march_path="x86_64-alderlake"
 	elif use amd64; then
 		march_path="x86_64"
 	fi
