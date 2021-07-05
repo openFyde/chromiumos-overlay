@@ -194,6 +194,7 @@ CONFIG_FRAGMENTS=(
 	kvm_nested
 	lockdebug
 	lockstat
+	lpss_uart
 	mbim
 	memory_debug
 	minios_ramfs
@@ -546,6 +547,14 @@ CONFIG_PROVE_LOCKING=y
 CONFIG_DEBUG_ATOMIC_SLEEP=y
 CONFIG_LOCALVERSION=\"-lockdep\"
 ${lockstat_config}
+"
+
+lpss_uart_desc="Enable Intel LPSS UART serial ports"
+lpss_uart_config="
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_DMA=y
+CONFIG_SERIAL_8250_DW=y
+CONFIG_SERIAL_8250_LPSS=y
 "
 
 nfc_desc="Enable NFC support"
