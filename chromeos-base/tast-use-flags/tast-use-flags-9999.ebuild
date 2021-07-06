@@ -74,8 +74,6 @@ IUSE="
 	hps
 	iioservice
 	internal
-	+internal_mic
-	+internal_speaker
 	iwlwifi_rescan
 	kernel-3_18
 	kernel-4_4
