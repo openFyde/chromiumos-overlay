@@ -34,7 +34,7 @@ BDEPEND="
 BUILD_OUTPUT="${WORKDIR}/out_cros/"
 
 src_configure() {
-	tc-export CC CXX AR BUILD_CC BUILD_CXX BUILD_AR
+	tc-export CC CXX AR STRIP BUILD_CC BUILD_CXX BUILD_AR BUILD_STRIP
 	local target_cpu="${ARCH}"
 	# Make the "amd64" -> "x64" conversion for the GN arg |target_cpu|.
 	if [[ "${target_cpu}" == "amd64" ]]; then
@@ -64,10 +64,12 @@ ar=\"${BUILD_AR}\"
 cc=\"${BUILD_CC}\"
 cxx=\"${BUILD_CXX}\"
 linker=\"${linker_name}\"
+strip=\"${BUILD_STRIP}\"
 target_ar=\"${AR}\"
 target_cc=\"${CC}\"
 target_cxx=\"${CXX}\"
 target_linker=\"${linker_name}\"
+target_strip=\"${STRIP}\"
 target_cpu=\"${target_cpu}\"
 target_triplet=\"${CHOST}\"
 extra_target_cflags=\"${CFLAGS} ${warn_flags[*]}\"
