@@ -56,6 +56,7 @@ RDEPEND="
 	chromeos-base/runtime_probe[fuzzer]
 	>=chromeos-base/shill-0.0.1-r2205[fuzzer]
 	chromeos-base/smbprovider[fuzzer]
+	chromeos-base/sommelier[fuzzer]
 	chromeos-base/system-proxy[fuzzer]
 	chromeos-base/trunks[fuzzer]
 	chromeos-base/u2fd[fuzzer]

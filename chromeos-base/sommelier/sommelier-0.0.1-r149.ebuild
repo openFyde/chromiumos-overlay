@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="317d0c17e6b39a06230a46c9a98dc82a2388b8f6"
-CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "16e2f4b19e52dc8d1af3769cc66e190e23ccbcf8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a0080bfa2e72348a26c673d3edd38c9dd15bf21e"
+CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "bafaaeaf82833c9cc096c3ec6b199d247d5c471a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -27,10 +27,17 @@ REQUIRED_USE="kvm_guest"
 
 COMMON_DEPEND="
 	dev-libs/libevdev:=
-	media-libs/mesa:=[gbm]
-	x11-base/xwayland:=
 	x11-libs/libxkbcommon:=
 	x11-libs/pixman:=
+	x11-libs/libdrm:=
+	dev-libs/wayland:=
+	|| (
+		media-libs/mesa:=[gbm]
+		media-libs/minigbm:=
+	)
+	!fuzzer? (
+		x11-base/xwayland:=
+	)
 "
 
 RDEPEND="
@@ -46,6 +53,8 @@ DEPEND="
 
 src_install() {
 	dobin "${OUT}"/sommelier
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/sommelier_wayland_fuzzer
 }
 
 platform_pkg_test() {
