@@ -21,7 +21,7 @@ https://bugs.launchpad.net/hplip/+bug/1933552
  
      // Setup sentinal value to replace last pixel of curRow. Simplifies future end condition checking.
      uint32_t realLastPixel = getPixel(curRowPtr, lastPixel);
-+    int delta = realLastPixel < 0x8000 ? 0x100 : -0x100;
++    int delta = (realLastPixel & 0xff00U) < 0x8000U ? 0x100 : -0x100;
  
      uint32_t newLastPixel = realLastPixel;
      while ((getPixel (curRowPtr, lastPixel - 1) == newLastPixel) ||
