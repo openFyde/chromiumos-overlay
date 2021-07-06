@@ -143,6 +143,8 @@ src_install() {
 		doins init/send-mount-encrypted-metrics.conf
 		if use tpm2_simulator && ! use vtpm_proxy; then
 			newins init/lockbox-cache.conf.tpm2_simulator lockbox-cache.conf
+		elif use tpm_dynamic; then
+			newins init/lockbox-cache.conf.tpm_dynamic lockbox-cache.conf
 		else
 			doins init/lockbox-cache.conf
 		fi
@@ -181,6 +183,8 @@ src_install() {
 	exeinto /usr/share/cros/init
 	if use tpm2_simulator && ! use vtpm_proxy; then
 		newexe init/lockbox-cache.sh.tpm2_simulator lockbox-cache.sh
+	elif use tpm_dynamic; then
+		newexe init/lockbox-cache.sh.tpm_dynamic lockbox-cache.sh
 	else
 		doexe init/lockbox-cache.sh
 	fi
