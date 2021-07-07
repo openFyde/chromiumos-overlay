@@ -5,7 +5,18 @@ EAPI=7
 
 DESCRIPTION="Google3 face detection library."
 
-IUSE="march_alderlake march_bdver4 march_corei7 march_goldmont march_silvermont march_skylake march_tremont march_znver1 march_armv8"
+IUSE="
+	march_alderlake
+	march_armv8
+	march_bdver4
+	march_corei7
+	march_goldmont
+	march_silvermont
+	march_skylake
+	march_tigerlake
+	march_tremont
+	march_znver1
+"
 
 SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-facessd-lib-${PV}.tar.bz2"
 
@@ -30,6 +41,8 @@ src_install() {
 		dolib.so ./x86_64-silvermont/libfacessd_cros.so
 	elif use march_skylake; then
 		dolib.so ./x86_64-skylake/libfacessd_cros.so
+	elif use march_tigerlake; then
+		dolib.so ./x86_64-tigerlake/libfacessd_cros.so
 	elif use march_tremont; then
 		dolib.so ./x86_64-tremont/libfacessd_cros.so
 	elif use march_znver1; then
