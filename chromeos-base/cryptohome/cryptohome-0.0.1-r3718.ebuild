@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f87faac02649961a614de46ce37277c8a30332f0"
+CROS_WORKON_COMMIT="1445533ead99e2ad14ca0a37ab59ddbd4e9c5c0b"
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "61d4dc039f99dfbeacc84c3ee839bc87332a47d9" "81dfbbc1756a3b4224b447e7bf10a916d97c4f66" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -60,9 +60,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/secure-erase-file:=
 	chromeos-base/tpm_manager:=
-	dev-libs/dbus-glib:=
 	dev-libs/flatbuffers:=
-	dev-libs/glib:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 	sys-apps/flashmap:=
