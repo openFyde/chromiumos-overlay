@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/mafredri/cdp v0.28.0"
+CROS_GO_SOURCE="github.com/mafredri/cdp v0.31.0"
 
 CROS_GO_PACKAGES=(
 	"github.com/mafredri/cdp"
@@ -42,8 +42,3 @@ DEPEND="
 		dev-go/sync
 	)"
 RDEPEND="dev-go/websocket"
-
-src_prepare() {
-	EPATCH_OPTS="-d src/github.com/mafredri/cdp"
-	epatch "${FILESDIR}"/0001-Check-for-websocket.CloseError-in-session.Manager.wa.patch
-}
