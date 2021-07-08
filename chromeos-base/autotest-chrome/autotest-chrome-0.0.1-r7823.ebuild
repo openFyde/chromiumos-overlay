@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="62c9c7349ff74ebe560d4581d9e5cf4734c74a5c"
-CROS_WORKON_TREE="4566035397104eac2289351bf00da3e5b8f0d0c2"
+CROS_WORKON_COMMIT="37f953991c89c00426efc93343b050b8082627ec"
+CROS_WORKON_TREE="422c24fff6e41790fc8703b0c571a8f5f89ae8e1"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -236,6 +236,10 @@ IUSE_TESTS_ATOMIC="
 	drm_atomic? ( +tests_graphics_HwOverlays )
 "
 
+IUSE_TESTS_CHROMIUM="
+	+tests_chromium
+"
+
 IUSE_TESTS="
 	${IUSE_TESTS[*]}
 	${IUSE_TESTS_CELLULAR}
@@ -243,6 +247,7 @@ IUSE_TESTS="
 	${IUSE_TESTS_TPM}
 	${IUSE_TESTS_ARC}
 	${IUSE_TESTS_ATOMIC}
+	${IUSE_TESTS_CHROMIUM}
 "
 
 IUSE="
