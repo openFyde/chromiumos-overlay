@@ -25,6 +25,7 @@ RDEPEND="
 	media-libs/minigbm
 	fuzzer? (
 		virtual/opengles
+		vulkan? ( virtual/vulkan-icd )
 	)
 	vulkan? (
 		media-libs/vulkan-loader
@@ -83,6 +84,12 @@ src_install() {
 	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" \
 		"${WORKDIR}/${P}-build"/vtest/vtest_fuzzer \
 		--options "${FILESDIR}/vtest_fuzzer.options"
+
+	if use vulkan; then
+		fuzzer_install "${FILESDIR}/fuzzer-OWNERS" \
+			"${WORKDIR}/${P}-build"/tests/fuzzer/virgl_venus_fuzzer \
+			--options "${FILESDIR}/virgl_venus_fuzzer.options"
+	fi
 
 	find "${ED}"/usr -name 'lib*.la' -delete
 }
