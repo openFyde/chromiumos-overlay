@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="073c04c7e45ae0807185e09a096657b759553e7e"
+CROS_WORKON_COMMIT="336bb2c6f2f36e1fb5acc4b924c9340a480cd41b"
 CROS_WORKON_TREE=("791c6808b4f4f5f1c484108d66ff958d65f8f1e3" "857e1e74e954db52c98983bddfdc322d74249f37" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -28,6 +28,7 @@ REQUIRED_USE="kvm_guest"
 COMMON_DEPEND="
 	dev-libs/libevdev:=
 	x11-libs/libxkbcommon:=
+	x11-libs/libxcb:=
 	x11-libs/pixman:=
 	x11-libs/libdrm:=
 	dev-libs/wayland:=
