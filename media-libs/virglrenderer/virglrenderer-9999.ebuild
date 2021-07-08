@@ -26,7 +26,10 @@ RDEPEND="
 	fuzzer? (
 		virtual/opengles
 	)
-	vulkan? ( media-libs/vulkan-loader )
+	vulkan? (
+		media-libs/vulkan-loader
+		media-libs/vulkan-layers
+	)
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
@@ -59,6 +62,7 @@ src_configure() {
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
 		$(meson_use vulkan venus-experimental)
+		$(meson_use vulkan venus-validate)
 		--buildtype $(usex debug debug release)
 	)
 
