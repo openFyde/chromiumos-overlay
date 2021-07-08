@@ -19,12 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-# This package was renamed from  arcvm-vsock-proxy. Put a blocker to uninstall
-# the old package.
-# TODO(hashimoto): Remove this blocker later.
 RDEPEND="
-	!chromeos-base/arcvm-vsock-proxy
-
 	dev-libs/protobuf:=
 	sys-fs/fuse
 "
