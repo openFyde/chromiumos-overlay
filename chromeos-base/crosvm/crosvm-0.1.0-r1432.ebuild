@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="fde29976b1849766f56b97dce8ee648b2c6ace58"
-CROS_WORKON_TREE="77425d165bae76eb575b2f6ff45273f5e616ac3b"
+CROS_WORKON_COMMIT="fa32ced1e0b3141fd4698dae698d3676a0f22ab8"
+CROS_WORKON_TREE="f5334af7381d03d8b3dada200582710042d00d35"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -67,7 +67,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/gdbstub-0.4*:=
 	~dev-rust/getopts-0.2.18:=
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
-	dev-rust/libvda:=
 	dev-rust/minijail:=
 	~dev-rust/num_cpus-1.9.0:=
 	>=dev-rust/once_cell-1.7.2:= <dev-rust/once_cell-2
@@ -102,6 +101,12 @@ DEPEND="${COMMON_DEPEND}
 		=dev-rust/dbus-0.6*:=
 	)
 "
+
+# Rust tests are currently run on the host, not inside the target sysroot.
+# Hence we need to provide required runtime dependencies for tests at
+# build-time.
+# TODO(crbug.com/1154084): Remove when tests can run in sysroot.
+BDEPEND="test? ( chromeos-base/libvda:= )"
 
 get_seccomp_path() {
 	local seccomp_arch="unknown"
