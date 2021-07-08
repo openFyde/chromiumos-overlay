@@ -114,7 +114,7 @@ src_install() {
 	doins "${S}"/pinweaver.proto
 
 	insinto /usr/include/chromeos/dbus/trunks
-	doins "${S}"/interface.proto
+	doins "${S}"/trunks_interface.proto
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/trunks/libtrunks.pc
