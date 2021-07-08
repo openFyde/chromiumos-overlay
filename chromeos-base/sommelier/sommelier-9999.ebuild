@@ -26,6 +26,7 @@ REQUIRED_USE="kvm_guest"
 COMMON_DEPEND="
 	dev-libs/libevdev:=
 	x11-libs/libxkbcommon:=
+	x11-libs/libxcb:=
 	x11-libs/pixman:=
 	x11-libs/libdrm:=
 	dev-libs/wayland:=
