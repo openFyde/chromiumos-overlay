@@ -24,6 +24,10 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
+PATCHES=(
+	"${FILESDIR}/patches/0001-Use-fdatasync-instead-of-O_SYNC-on-storage.patch"
+)
+
 src_configure() {
 	sanitizers-setup-env
 }

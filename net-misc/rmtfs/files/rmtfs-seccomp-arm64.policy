@@ -10,6 +10,7 @@ close: 1
 exit: 1
 exit_group: 1
 fcntl: 1
+fdatasync: 1
 fstat: 1
 newfstatat: 1
 getdents64: 1
