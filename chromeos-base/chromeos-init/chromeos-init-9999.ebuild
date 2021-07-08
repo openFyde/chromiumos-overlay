@@ -22,7 +22,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 IUSE="
-	arcpp arcvm cros_embedded +debugd +encrypted_stateful +encrypted_reboot_vault
+	arcpp arcvm cros_embedded +encrypted_stateful +encrypted_reboot_vault
 	frecon lvm_stateful_partition kernel-3_18 +midi -s3halt +syslog systemd
 	+udev vivid vtconsole"
 
@@ -136,12 +136,6 @@ src_install_upstart() {
 		dosbin display_low_battery_alert
 	fi
 
-	if ! use debugd; then
-		sed -i '/^env PSTORE_GROUP=/s:=.*:=root:' \
-			"${D}/etc/init/pstore.conf" || \
-			die "Failed to replace PSTORE_GROUP in pstore.conf"
-	fi
-
 	if use midi; then
 		if use kernel-3_18; then
 			doins upstart/workaround-init/midi-workaround.conf
@@ -235,4 +229,7 @@ pkg_preinst() {
 	# by bootstat and ureadahead.
 	enewuser "debugfs-access"
 	enewgroup "debugfs-access"
+
+	# Create pstore-access group.
+	enewgroup pstore-access
 }
