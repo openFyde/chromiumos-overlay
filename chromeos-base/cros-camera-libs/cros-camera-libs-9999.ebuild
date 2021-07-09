@@ -110,6 +110,7 @@ src_install() {
 
 platform_pkg_test() {
 	local cros_camera_tests=(
+		camera_face_detection_test
 		cbm_test
 		embed_file_toc_test
 		future_test
