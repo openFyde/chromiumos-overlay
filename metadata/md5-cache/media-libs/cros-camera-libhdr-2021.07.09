@@ -1,0 +1,9 @@
+DEFINED_PHASES=install
+DESCRIPTION=Chrome OS HDR related libraries ported from google3.
+EAPI=7
+IUSE=march_tigerlake march_alderlake
+KEYWORDS=*
+LICENSE=BSD-Google
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/chromeos-camera-libhdr-2021.07.09.tar.bz2
+_md5_=c5ff9c858d0ba192a7f60b2532872a87
