@@ -301,7 +301,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-apps/snaggletooth-drivers|\
 		sys-boot/coreboot|\
 		sys-boot/depthcharge|\
-		sys-boot/libpayload|\
 		sys-boot/loonix-u-boot|\
 		sys-boot/u-boot|\
 		sys-devel/arc-llvm|\
@@ -390,7 +389,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-boot/coreboot|\
 		sys-boot/depthcharge|\
 		sys-boot/grub-lakitu|\
-		sys-boot/libpayload|\
 		sys-boot/syslinux|\
 		sys-firmware/chromeos-fpmcu-release-bloonchipper|\
 		sys-firmware/chromeos-fpmcu-release-dartmonkey|\
@@ -418,7 +416,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		media-libs/mali-drivers-valhall|\
 		net-libs/nodejs|\
 		sys-boot/coreboot|\
-		sys-boot/libpayload|\
 		sys-devel/arc-llvm|\
 		sys-devel/llvm) return 1;;
 		esac
@@ -454,8 +451,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		dev-embedded/coreboot-sdk|\
 		dev-libs/nspr|\
 		net-misc/nldaemon|\
-		sys-boot/coreboot|\
-		sys-boot/libpayload) return 1;;
+		sys-boot/coreboot) return 1;;
 		esac
 	}
 
