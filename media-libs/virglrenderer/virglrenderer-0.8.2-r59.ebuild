@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="30eff50d545ccd6914fcbbcef8aee1a67783ce0d"
-CROS_WORKON_TREE="7832e04f0b8556c52d822515c00afddb97c2edfb"
+CROS_WORKON_COMMIT="d2aa0783e581bf3dc5e6c7e000eae92dfa3d4b64"
+CROS_WORKON_TREE="58d781414fc17256c621707392ad623c9fdac7fe"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -28,7 +28,10 @@ RDEPEND="
 	fuzzer? (
 		virtual/opengles
 	)
-	vulkan? ( media-libs/vulkan-loader )
+	vulkan? (
+		media-libs/vulkan-loader
+		media-libs/vulkan-layers
+	)
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
@@ -61,6 +64,7 @@ src_configure() {
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
 		$(meson_use vulkan venus-experimental)
+		$(meson_use vulkan venus-validate)
 		--buildtype $(usex debug debug release)
 	)
 
