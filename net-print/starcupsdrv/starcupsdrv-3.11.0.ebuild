@@ -7,7 +7,7 @@ inherit eutils cros-sanitizers
 
 DESCRIPTION="CUPS filter and PPD files for Star Micronics printers"
 HOMEPAGE="http://www.starmicronics.com"
-SRC_URI="http://www.starmicronics.com/support/DriverFolder/drvr/starcupsdrv-${PV%_*}_linux_${PV#*_pre}.tar.gz -> starcupsdrv-${PV%_*}_linux_${PV#*_pre}.tar.gz"
+SRC_URI="http://www.starmicronics.com/support/DriverFolder/drvr/starcupsdrv-${PV}_linux.tar.gz -> starcupsdrv-${PV}_linux.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -17,10 +17,6 @@ IUSE=""
 DEPEND="net-print/cups:="
 RDEPEND="${DEPEND}"
 
-PATCHES=(
-	"${FILESDIR}/${PN}-3.6.0a-build-fix.patch"
-)
-
 src_unpack() {
 	default
 	unpack ./${PN}-${PV%_*}_linux/SourceCode/starcupsdrv-src-${PV%_*}.tar.gz
@@ -28,7 +24,6 @@ src_unpack() {
 }
 
 src_prepare() {
-	epatch "${PATCHES[@]}"
 	epatch_user
 }
 
@@ -40,5 +35,6 @@ src_configure() {
 src_install() {
 	exeinto "$(${SYSROOT}/usr/bin/cups-config --serverbin)/filter"
 	doexe install/rastertostar
+	doexe install/rastertostarm
 	doexe install/rastertostarlm
 }
