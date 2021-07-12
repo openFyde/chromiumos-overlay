@@ -4,13 +4,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4b4eb59cfb0011afa7ea6b79d6bca62acb8a0606"
-CROS_WORKON_TREE=("487d577f0b2a08f0526aabf33ec63115fe32a16c" "478cf8517ba1318f1c8d89d1a991194bd828d2ef" "bdd0cd96fdf09a755c9eb90627b9d211a3b83e10" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ec9116247a5c46a4b81ca1ba3506287af499ce6a"
+CROS_WORKON_TREE=("487d577f0b2a08f0526aabf33ec63115fe32a16c" "d46672fc3b800bb8eccba6af09b2be233e7e8271" "bdd0cd96fdf09a755c9eb90627b9d211a3b83e10" "e3877395b1ff2330abd454020d0bdb94ababa1e3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation trunks .gn"
 
 PLATFORM_SUBDIR="libhwsec"
 
@@ -27,6 +27,7 @@ COMMON_DEPEND="
 	chromeos-base/libhwsec-foundation
 	dev-libs/openssl:0=
 	!tpm2? ( app-crypt/trousers:= )
+	tpm2? ( chromeos-base/trunks:= )
 "
 
 RDEPEND="${COMMON_DEPEND}"
@@ -40,9 +41,17 @@ src_install() {
 	doins ./overalls/overalls.h
 	doins ./overalls/overalls_api.h
 
+	insinto /usr/include/chromeos/libhwsec/error
+	doins ./error/tpm_error.h
+
 	if ! use tpm2; then
 		insinto /usr/include/chromeos/libhwsec/test_utils/tpm1
 		doins ./test_utils/tpm1/*.h
+		insinto /usr/include/chromeos/libhwsec/error
+		doins ./error/tpm1_error.h
+	else
+		insinto /usr/include/chromeos/libhwsec/error
+		doins ./error/tpm2_error.h
 	fi
 
 	dolib.so "${OUT}"/lib/libhwsec.so
