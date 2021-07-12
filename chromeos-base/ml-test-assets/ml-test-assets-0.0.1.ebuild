@@ -27,7 +27,7 @@ S="${WORKDIR}"
 
 src_install() {
 	if use label_image || use benchmark_model; then
-		insinto /usr/share/ml-test-assets
+		insinto /usr/local/share/ml-test-assets
 		doins -r ./*
 	fi
 }
