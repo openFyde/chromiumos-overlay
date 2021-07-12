@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk rmad .gn"
 
 PLATFORM_SUBDIR="rmad"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="ChromeOS RMA daemon."
 HOMEPAGE=""
@@ -46,6 +46,8 @@ pkg_preinst() {
 
 src_install() {
 	dosbin "${OUT}/rmad"
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Install upstart configs and scripts.
 	insinto /etc/init
