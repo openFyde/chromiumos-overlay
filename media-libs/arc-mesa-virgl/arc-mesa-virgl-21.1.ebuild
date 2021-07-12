@@ -361,10 +361,6 @@ multilib_src_install() {
 }
 
 multilib_src_install_all_cheets() {
-	# Set driconf option to enable S3TC hardware decompression
-	insinto "${ARC_VM_PREFIX}/vendor/etc/"
-	doins "${FILESDIR}"/drirc
-
 	# For documentation on the feature set represented by each XML file
 	# installed into /vendor/etc/permissions, see
 	# <https://developer.android.com/reference/android/content/pm/PackageManager.html>.
@@ -427,10 +423,6 @@ multilib_src_install_all() {
 		multilib_src_install_all_cheets
 		return
 	fi
-
-	# Set driconf option to enable S3TC hardware decompression
-	insinto "/etc/"
-	doins "${FILESDIR}"/drirc
 }
 
 pkg_postinst() {
