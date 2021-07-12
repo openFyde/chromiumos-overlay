@@ -166,6 +166,9 @@ pepper_flash
 # aarch64 is somewhat deffective as of end of 2019, disable drivefs for arm64.
 drivefs
 
+# Unmask scanning on arm64.
+-scanner
+
 # Some SANE backends that we want to disable to conserve disk space
 # TODO(b/161252439): synchronize with x86.
 sane_backends_hp3900
