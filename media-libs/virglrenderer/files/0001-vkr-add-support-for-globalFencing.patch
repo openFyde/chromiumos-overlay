@@ -1,11 +1,31 @@
-From 85ea7a915c837265bb1a61515ccd37295aa580eb Mon Sep 17 00:00:00 2001
+From 7d45d5566ec1f35873690bcdf9d860ed24a8e5b2 Mon Sep 17 00:00:00 2001
 From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 4 Jun 2021 12:24:02 -0700
+Date: Mon, 12 Jul 2021 10:33:54 -0700
 Subject: [PATCH] vkr: add support for globalFencing
 
 Squashed commit of the following:
 
-commit 86e345c53b4cca905b769a1e33ec973db61a6390 (HEAD)
+commit 5fb6c11e74e0134391e3ca1647c57e1aa6d5363f
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Thu Jul 8 09:48:26 2021 -0700
+
+    virgl: global fencing with VIRGL_RENDERER_ASYNC_FENCE_CB
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+
+commit 755dab897146c538e2ea492fce18baf88fb210af
+Author: Chia-I Wu <olvaffe@gmail.com>
+Date:   Thu Jul 8 09:55:26 2021 -0700
+
+    virgl: clean up virgl_renderer_poll
+
+    Add a helper, timeline_poll_retired_fences, to poll retired fences.
+
+    Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+    Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
+
+commit 12039c253466ca871406f73c3e7bc9d9db63c9d4
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Jun 15 23:54:47 2021 -0700
 
@@ -20,7 +40,7 @@ Date:   Tue Jun 15 23:54:47 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit e4f7534699f0fb3fd76145aefe9531889ecaec1a
+commit 6e8ea71217570b893611967df713c1dc4cb7384e
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Jun 8 12:39:00 2021 -0700
 
@@ -29,7 +49,7 @@ Date:   Tue Jun 8 12:39:00 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 0506e4a0b08a5aefae747a80951bda75a4ccc7f1
+commit 755f2b2f67e46a5d6f6c4169209b748416604b8b
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:22:18 2021 -0700
 
@@ -47,7 +67,7 @@ Date:   Tue Mar 16 16:22:18 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 1384fa12467de52b43fd82bb0539afe5089f5e18
+commit 022dbd2af678cc0a795e2c2f232c4c9483bd8083
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:50:02 2021 -0700
 
@@ -60,7 +80,7 @@ Date:   Tue Mar 16 16:50:02 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 74a2502aeccec88bc864eeddd3aff20ecd0f1f67
+commit c8be9fbccc4a7ada5a0ffc14f9fb55b7c4efcbdc
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 11 14:33:44 2021 -0700
 
@@ -72,7 +92,7 @@ Date:   Fri Jun 11 14:33:44 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit bfff6a49c1cb369b5354b0b0eb53d91e8c702407
+commit cc6bd1d50e6b761fd9b289942971d26574e567dc
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 11 14:41:52 2021 -0700
 
@@ -83,7 +103,7 @@ Date:   Fri Jun 11 14:41:52 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit d23eba4c95b4e954975c64c5c94e72ad92077481
+commit e418707a74a3c594639724b9bc852bb828055890
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:21:35 2021 -0700
 
@@ -95,7 +115,7 @@ Date:   Tue Mar 16 16:21:35 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit b3cb1942e49dd16cdf4ce37a3e6a2f67dcc52b4b
+commit 31e227cfd36253e00a53da5deab4f0513d7d6a5e
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 4 12:24:02 2021 -0700
 
@@ -107,13 +127,13 @@ Date:   Fri Jun 4 12:24:02 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 ---
- src/virgl_context.h  |   6 ++
- src/virglrenderer.c  | 191 +++++++++++++++++++++++++++++++++++++++++--
- src/vkr_renderer.c   | 165 ++++++++++++++++++++++++++++++++++++-
+ src/virgl_context.h  |   6 +
+ src/virglrenderer.c  | 267 +++++++++++++++++++++++++++++++++++++++++--
+ src/vkr_renderer.c   | 171 ++++++++++++++++++++++++++-
  src/vrend_decode.c   |   6 +-
- src/vrend_renderer.c |   2 +-
+ src/vrend_renderer.c |   4 +-
  src/vrend_renderer.h |   3 +-
- 6 files changed, 360 insertions(+), 13 deletions(-)
+ 6 files changed, 442 insertions(+), 15 deletions(-)
 
 diff --git a/src/virgl_context.h b/src/virgl_context.h
 index ea86b31..871a148 100644
@@ -140,7 +160,7 @@ index ea86b31..871a148 100644
  
  struct virgl_context_foreach_args {
 diff --git a/src/virglrenderer.c b/src/virglrenderer.c
-index f05eb30..3fd8411 100644
+index 7250c1d..7d48463 100644
 --- a/src/virglrenderer.c
 +++ b/src/virglrenderer.c
 @@ -33,6 +33,7 @@
@@ -151,10 +171,12 @@ index f05eb30..3fd8411 100644
  #include "util/u_format.h"
  #include "util/u_math.h"
  #include "vkr_renderer.h"
-@@ -46,6 +47,18 @@
+@@ -46,6 +47,20 @@
  #include "virgl_resource.h"
  #include "virgl_util.h"
  
++#include "c11/threads.h"
++
 +#define VIRGL_RENDERER_FENCE_FLAG_TIMELINE (1u << 31)
 +
 +struct timeline_point {
@@ -170,32 +192,56 @@ index f05eb30..3fd8411 100644
  struct global_state {
     bool client_initialized;
     void *cookie;
-@@ -57,6 +70,10 @@ struct global_state {
+@@ -57,6 +72,15 @@ struct global_state {
     bool winsys_initialized;
     bool vrend_initialized;
     bool vkr_initialized;
 +
++   bool timeline_async_cb;
++   mtx_t timeline_mutex;
++   /* when timeline_async_cb is true, these can be accessed by the main thread
++    * and the sync threads simultaneously and are protected by timeline_mutex
++    */
 +   struct list_head timeline;
 +   uint32_t ctx0_retired_fence_id;
 +   struct list_head free_points;
  };
  
  static struct global_state state;
-@@ -175,10 +192,59 @@ void virgl_renderer_fill_caps(uint32_t set, uint32_t version,
+@@ -175,10 +199,111 @@ void virgl_renderer_fill_caps(uint32_t set, uint32_t version,
     }
  }
  
++static void timeline_lock(void)
++{
++   /* no check for state.timeline_async_cb because this should be cheap
++    * (cheaper than the if-check?) in the non-contended case
++    */
++   mtx_lock(&state.timeline_mutex);
++}
++
++static void timeline_unlock(void)
++{
++   mtx_unlock(&state.timeline_mutex);
++}
++
 +static struct timeline_point *timeline_point_alloc(uint32_t fence_id,
 +                                                   struct virgl_context *ctx)
 +{
 +   struct timeline_point *point;
++
++   timeline_lock();
 +   if (LIST_IS_EMPTY(&state.free_points)) {
++      timeline_unlock();
++
 +      point = malloc(sizeof(*point));
 +      if (!point)
 +         return NULL;
 +   } else {
 +      point = LIST_ENTRY(struct timeline_point, state.free_points.next, head);
 +      list_del(&point->head);
++
++      timeline_unlock();
 +   }
 +
 +   point->fence_id = fence_id;
@@ -205,27 +251,48 @@ index f05eb30..3fd8411 100644
 +   return point;
 +}
 +
-+static void timeline_point_free(struct timeline_point *point)
++static void timeline_point_add_locked(struct timeline_point *point)
++{
++   list_addtail(&point->head, &state.timeline);
++}
++
++static void timeline_point_free_locked(struct timeline_point *point)
 +{
 +   list_add(&point->head, &state.free_points);
 +}
 +
-+static bool timeline_point_match_context(const struct timeline_point *point,
-+                                         uint32_t ctx_id)
++static bool timeline_point_match_context_locked(const struct timeline_point *point,
++                                                uint32_t ctx_id)
 +{
 +   return point->context && point->context->ctx_id == ctx_id;
 +}
 +
-+static void timeline_point_set_signaled(struct timeline_point *point)
++static void timeline_point_set_signaled_locked(struct timeline_point *point)
 +{
 +   point->signaled = true;
 +   point->context = NULL;
 +}
 +
-+static bool timeline_point_is_signaled(const struct timeline_point *point)
++static bool timeline_point_is_signaled_locked(const struct timeline_point *point)
 +{
 +   return point->signaled ||
 +          (!point->context && point->fence_id <= state.ctx0_retired_fence_id);
++}
++
++static uint32_t timeline_poll_retired_fences_locked(void)
++{
++   uint32_t write_fence_id = 0;
++   struct timeline_point *point, *tmp;
++   LIST_FOR_EACH_ENTRY_SAFE(point, tmp, &state.timeline, head) {
++      if (!timeline_point_is_signaled_locked(point))
++         break;
++
++      write_fence_id = point->fence_id;
++      list_del(&point->head);
++      timeline_point_free_locked(point);
++   }
++
++   return write_fence_id;
 +}
 +
  static void per_context_fence_retire(struct virgl_context *ctx,
@@ -234,28 +301,43 @@ index f05eb30..3fd8411 100644
                                       void *fence_cookie)
  {
 +   if (flags & VIRGL_RENDERER_FENCE_FLAG_TIMELINE) {
-+      timeline_point_set_signaled(fence_cookie);
++      if (state.timeline_async_cb) {
++         uint32_t write_fence_id = 0;
++         timeline_lock();
++         timeline_point_set_signaled_locked(fence_cookie);
++         write_fence_id = timeline_poll_retired_fences_locked();
++         timeline_unlock();
++
++         if (write_fence_id)
++            state.cbs->write_fence(state.cookie, write_fence_id);
++      } else {
++         timeline_point_set_signaled_locked(fence_cookie);
++      }
++
 +      return;
 +   }
 +
     state.cbs->write_context_fence(state.cookie,
                                    ctx->ctx_id,
                                    queue_id,
-@@ -253,6 +319,13 @@ int virgl_renderer_context_create(uint32_t handle, uint32_t nlen, const char *na
+@@ -253,6 +378,16 @@ int virgl_renderer_context_create(uint32_t handle, uint32_t nlen, const char *na
  void virgl_renderer_context_destroy(uint32_t handle)
  {
     TRACE_FUNC();
 +
 +   struct timeline_point *point;
++
++   timeline_lock();
 +   LIST_FOR_EACH_ENTRY(point, &state.timeline, head) {
-+      if (timeline_point_match_context(point, handle))
-+         timeline_point_set_signaled(point);
++      if (timeline_point_match_context_locked(point, handle))
++         timeline_point_set_signaled_locked(point);
 +   }
++   timeline_unlock();
 +
     virgl_context_remove(handle);
  }
  
-@@ -379,13 +452,45 @@ void virgl_renderer_resource_detach_iov(int res_handle, struct iovec **iov_p, in
+@@ -379,13 +514,46 @@ void virgl_renderer_resource_detach_iov(int res_handle, struct iovec **iov_p, in
     virgl_resource_detach_iov(res);
  }
  
@@ -294,18 +376,19 @@ index f05eb30..3fd8411 100644
 +      ret = state.vrend_initialized ?
 +         vrend_renderer_create_ctx0_fence(fence_id) : EINVAL;
 +   }
-+   if (ret) {
-+      timeline_point_free(point);
-+      return ret;
-+   }
 +
-+   list_addtail(&point->head, &state.timeline);
++   timeline_lock();
++   if (ret)
++      timeline_point_free_locked(point);
++   else
++      timeline_point_add_locked(point);
++   timeline_unlock();
 +
-+   return 0;
++   return ret;
  }
  
  int virgl_renderer_context_create_fence(uint32_t ctx_id,
-@@ -505,11 +610,14 @@ void virgl_renderer_get_rect(int resource_id, struct iovec *iov, unsigned int nu
+@@ -505,11 +673,25 @@ void virgl_renderer_get_rect(int resource_id, struct iovec *iov, unsigned int nu
  }
  
  
@@ -317,12 +400,23 @@ index f05eb30..3fd8411 100644
     const uint32_t fence_id = (uint32_t)(uintptr_t)fence_cookie;
 -   state.cbs->write_fence(state.cookie, fence_id);
 +
-+   /* defer marking timeline_point signaled */
-+   state.ctx0_retired_fence_id = fence_id;
++   if (state.timeline_async_cb) {
++      uint32_t write_fence_id = 0;
++      timeline_lock();
++      state.ctx0_retired_fence_id = fence_id;
++      write_fence_id = timeline_poll_retired_fences_locked();
++      timeline_unlock();
++
++      if (write_fence_id)
++         state.cbs->write_fence(state.cookie, write_fence_id);
++   } else {
++      /* defer marking timeline_point signaled */
++      state.ctx0_retired_fence_id = fence_id;
++   }
  }
  
  static virgl_renderer_gl_context create_gl_context(int scanout_idx, struct virgl_gl_ctx_param *param)
-@@ -563,11 +671,38 @@ void *virgl_renderer_get_cursor_data(uint32_t resource_id, uint32_t *width, uint
+@@ -563,11 +745,33 @@ void *virgl_renderer_get_cursor_data(uint32_t resource_id, uint32_t *width, uint
                                               height);
  }
  
@@ -337,6 +431,10 @@ index f05eb30..3fd8411 100644
  void virgl_renderer_poll(void)
  {
     TRACE_FUNC();
++
++   if (state.timeline_async_cb)
++      return;
++
     if (state.vrend_initialized)
        vrend_renderer_check_fences();
 +
@@ -345,33 +443,28 @@ index f05eb30..3fd8411 100644
 +   args.data = NULL;
 +   virgl_context_foreach(&args);
 +
-+   uint32_t write_fence_id = 0;
-+   struct timeline_point *point, *tmp;
-+   LIST_FOR_EACH_ENTRY_SAFE(point, tmp, &state.timeline, head) {
-+      if (!timeline_point_is_signaled(point))
-+         break;
-+
-+      write_fence_id = point->fence_id;
-+      list_del(&point->head);
-+      timeline_point_free(point);
-+   }
-+
++   /* no locking needed because state.timeline_async_cb is false */
++   const uint32_t write_fence_id = timeline_poll_retired_fences_locked();
 +   if (write_fence_id)
 +      state.cbs->write_fence(state.cookie, write_fence_id);
  }
  
  void virgl_renderer_cleanup(UNUSED void *cookie)
-@@ -687,6 +822,9 @@ int virgl_renderer_init(void *cookie, int flags, struct virgl_renderer_callbacks
+@@ -691,6 +895,13 @@ int virgl_renderer_init(void *cookie, int flags, struct virgl_renderer_callbacks
        state.vkr_initialized = true;
     }
  
++#ifdef VIRGL_RENDERER_ASYNC_FENCE_CB
++   state.timeline_async_cb = flags & VIRGL_RENDERER_ASYNC_FENCE_CB;
++#endif
++   mtx_init(&state.timeline_mutex, mtx_plain);
 +   list_inithead(&state.timeline);
 +   list_inithead(&state.free_points);
 +
     return 0;
  
  fail:
-@@ -961,9 +1099,48 @@ virgl_renderer_resource_export_blob(uint32_t res_id, uint32_t *fd_type, int *fd)
+@@ -965,9 +1176,51 @@ virgl_renderer_resource_export_blob(uint32_t res_id, uint32_t *fd_type, int *fd)
     return 0;
  }
  
@@ -392,6 +485,8 @@ index f05eb30..3fd8411 100644
 -   return vrend_renderer_export_ctx0_fence(client_fence_id, fd);
 +
 +   int ret;
++
++   timeline_lock();
 +   if (LIST_IS_EMPTY(&state.timeline)) {
 +      ret = 0;
 +      *fd = -1;
@@ -403,7 +498,7 @@ index f05eb30..3fd8411 100644
 +         if (point->fence_id != client_fence_id)
 +            continue;
 +
-+         if (timeline_point_is_signaled(point)) {
++         if (timeline_point_is_signaled_locked(point)) {
 +            ret = 0;
 +            *fd = -1;
 +         } else if (point->context) {
@@ -414,6 +509,7 @@ index f05eb30..3fd8411 100644
 +         break;
 +      }
 +   }
++   timeline_unlock();
 +
 +   /* required by crosvm */
 +   if (!ret && *fd == -1)
@@ -422,7 +518,7 @@ index f05eb30..3fd8411 100644
 +   return ret;
  }
 diff --git a/src/vkr_renderer.c b/src/vkr_renderer.c
-index a7f4726..2831970 100644
+index badf42f..a5afbe4 100644
 --- a/src/vkr_renderer.c
 +++ b/src/vkr_renderer.c
 @@ -112,6 +112,8 @@ struct vkr_physical_device {
@@ -434,7 +530,7 @@ index a7f4726..2831970 100644
  };
  
  struct vkr_queue_sync {
-@@ -335,6 +337,9 @@ struct vkr_context {
+@@ -352,6 +354,9 @@ struct vkr_context {
     int fence_eventfd;
     struct list_head busy_queues;
  
@@ -444,7 +540,7 @@ index a7f4726..2831970 100644
     struct vkr_instance *instance;
  };
  
-@@ -923,6 +928,9 @@ vkr_instance_enumerate_physical_devices(struct vkr_instance *instance)
+@@ -957,6 +962,9 @@ vkr_instance_enumerate_physical_devices(struct vkr_instance *instance)
     if (result != VK_SUCCESS)
        return result;
  
@@ -454,7 +550,7 @@ index a7f4726..2831970 100644
     VkPhysicalDevice *handles = calloc(count, sizeof(*handles));
     struct vkr_physical_device **physical_devs = calloc(count, sizeof(*physical_devs));
     if (!handles || !physical_devs) {
-@@ -932,6 +940,8 @@ vkr_instance_enumerate_physical_devices(struct vkr_instance *instance)
+@@ -966,6 +974,8 @@ vkr_instance_enumerate_physical_devices(struct vkr_instance *instance)
     }
  
     result = vkEnumeratePhysicalDevices(instance->base.handle.instance, &count, handles);
@@ -463,7 +559,7 @@ index a7f4726..2831970 100644
     if (result != VK_SUCCESS) {
        free(physical_devs);
        free(handles);
-@@ -1245,6 +1255,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties(
+@@ -1279,6 +1289,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties(
     vkGetPhysicalDeviceQueueFamilyProperties(args->physicalDevice,
                                              args->pQueueFamilyPropertyCount,
                                              args->pQueueFamilyProperties);
@@ -476,7 +572,7 @@ index a7f4726..2831970 100644
  }
  
  static void
-@@ -1372,6 +1388,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties2(
+@@ -1406,6 +1422,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties2(
     vkGetPhysicalDeviceQueueFamilyProperties2(args->physicalDevice,
                                               args->pQueueFamilyPropertyCount,
                                               args->pQueueFamilyProperties);
@@ -489,7 +585,17 @@ index a7f4726..2831970 100644
  }
  
  static void
-@@ -1555,6 +1577,8 @@ vkr_queue_destroy(struct vkr_context *ctx, struct vkr_queue *queue)
+@@ -1620,7 +1642,8 @@ vkr_queue_thread(void *arg)
+       list_del(&sync->head);
+ 
+       if (vkr_renderer_flags & VKR_RENDERER_ASYNC_FENCE_CB) {
+-         ctx->base.fence_retire(&ctx->base, queue->base.id, sync->fence_cookie);
++         ctx->base.fence_retire(&ctx->base, sync->flags, queue->base.id,
++                                sync->fence_cookie);
+          vkr_device_free_queue_sync(queue->device, sync);
+       } else {
+          list_addtail(&sync->head, &queue->signaled_syncs);
+@@ -1659,6 +1682,8 @@ vkr_queue_destroy(struct vkr_context *ctx, struct vkr_queue *queue)
  
     list_del(&queue->head);
     list_del(&queue->busy_head);
@@ -498,7 +604,7 @@ index a7f4726..2831970 100644
  
     util_hash_table_remove_u64(ctx->object_table, queue->base.id);
  }
-@@ -1617,6 +1641,8 @@ vkr_queue_create(struct vkr_context *ctx,
+@@ -1720,6 +1745,8 @@ vkr_queue_create(struct vkr_context *ctx,
  
     list_addtail(&queue->head, &dev->queues);
     list_inithead(&queue->busy_head);
@@ -507,7 +613,7 @@ index a7f4726..2831970 100644
  
     util_hash_table_set_u64(ctx->object_table, queue->base.id, queue);
  
-@@ -1636,6 +1662,25 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
+@@ -1739,6 +1766,25 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
        return;
     }
  
@@ -533,7 +639,7 @@ index a7f4726..2831970 100644
     /* append extensions for our own use */
     const char **exts = NULL;
     uint32_t ext_count = args->pCreateInfo->enabledExtensionCount;
-@@ -1777,6 +1822,9 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
+@@ -1882,6 +1928,9 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
     list_inithead(&dev->free_syncs);
  
     util_hash_table_set_u64(ctx->object_table, dev->base.id, dev);
@@ -543,7 +649,7 @@ index a7f4726..2831970 100644
  }
  
  static void
-@@ -1806,6 +1854,9 @@ vkr_dispatch_vkDestroyDevice(struct vn_dispatch_context *dispatch,
+@@ -1913,6 +1962,9 @@ vkr_dispatch_vkDestroyDevice(struct vn_dispatch_context *dispatch,
     vn_replace_vkDestroyDevice_args_handle(args);
     vkDestroyDevice(args->device, NULL);
  
@@ -553,7 +659,7 @@ index a7f4726..2831970 100644
     util_hash_table_remove_u64(ctx->object_table, dev->base.id);
  }
  
-@@ -3910,6 +3961,7 @@ vkr_dispatch_vkGetVenusExperimentalFeatureData100000MESA(
+@@ -4017,6 +4069,7 @@ vkr_dispatch_vkGetVenusExperimentalFeatureData100000MESA(
  {
     const VkVenusExperimentalFeatures100000MESA features = {
        .memoryResourceAllocationSize = VK_TRUE,
@@ -561,7 +667,7 @@ index a7f4726..2831970 100644
     };
  
     vn_replace_vkGetVenusExperimentalFeatureData100000MESA_args_handle(args);
-@@ -4236,7 +4288,26 @@ vkr_context_submit_fence_locked(struct virgl_context *base,
+@@ -4343,7 +4396,29 @@ vkr_context_submit_fence_locked(struct virgl_context *base,
     struct vkr_queue *queue;
     VkResult result;
  
@@ -570,6 +676,9 @@ index a7f4726..2831970 100644
 +      queue = util_hash_table_get_u64(ctx->object_table, queue_id);
 +   } else if (ctx->queue_id_0_queue) {
 +      queue = ctx->queue_id_0_queue;
++   } else if (vkr_renderer_flags & VKR_RENDERER_ASYNC_FENCE_CB) {
++      ctx->base.fence_retire(&ctx->base, flags, 0, fence_cookie);
++      return 0;
 +   } else {
 +      struct vkr_queue_sync *sync = malloc(sizeof(*sync));
 +      if (!sync)
@@ -589,7 +698,7 @@ index a7f4726..2831970 100644
     if (!queue)
        return -EINVAL;
     struct vkr_device *dev = queue->device;
-@@ -4305,6 +4376,82 @@ vkr_context_submit_fence(struct virgl_context *base,
+@@ -4388,6 +4463,82 @@ vkr_context_submit_fence(struct virgl_context *base,
     return ret;
  }
  
@@ -616,7 +725,7 @@ index a7f4726..2831970 100644
 +   if (ctx->queue_id_0_queue) {
 +      struct vkr_queue *queue = ctx->queue_id_0_queue;
 +
-+      if (queue->has_thread) {
++      if (vkr_renderer_flags & VKR_RENDERER_THREAD_SYNC) {
 +         mtx_lock(&queue->mutex);
 +         sync = find_sync(&queue->signaled_syncs, fence_cookie);
 +      }
@@ -627,7 +736,7 @@ index a7f4726..2831970 100644
 +            sync_pending = true;
 +      }
 +
-+      if (queue->has_thread)
++      if (vkr_renderer_flags & VKR_RENDERER_THREAD_SYNC)
 +         mtx_unlock(&queue->mutex);
 +   }
 +
@@ -672,9 +781,9 @@ index a7f4726..2831970 100644
  static void
  vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
  {
-@@ -4312,6 +4459,12 @@ vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
-    struct vkr_queue_sync *sync, *sync_tmp;
-    struct vkr_queue *queue, *queue_tmp;
+@@ -4397,6 +4548,12 @@ vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
+ 
+    assert(!(vkr_renderer_flags & VKR_RENDERER_ASYNC_FENCE_CB));
  
 +   LIST_FOR_EACH_ENTRY_SAFE (sync, sync_tmp, &ctx->cpu_syncs, head) {
 +      ctx->base.fence_retire(&ctx->base, sync->flags, 0, sync->fence_cookie);
@@ -685,17 +794,17 @@ index a7f4726..2831970 100644
     /* flush first and once because the per-queue sync threads might write to
      * it any time
      */
-@@ -4326,7 +4479,8 @@ vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
+@@ -4411,7 +4568,8 @@ vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
        vkr_queue_retire_syncs(queue, &retired_syncs, &queue_empty);
  
        LIST_FOR_EACH_ENTRY_SAFE (sync, sync_tmp, &retired_syncs, head) {
 -         ctx->base.fence_retire(&ctx->base, queue->base.id, sync->fence_cookie);
 +         ctx->base.fence_retire(&ctx->base, sync->flags, queue->base.id,
 +                                sync->fence_cookie);
-          list_addtail(&sync->head, &dev->free_syncs);
+          vkr_device_free_queue_sync(dev, sync);
        }
  
-@@ -4659,6 +4813,10 @@ vkr_context_destroy(struct virgl_context *base)
+@@ -4748,6 +4906,10 @@ vkr_context_destroy(struct virgl_context *base)
     util_hash_table_destroy(ctx->resource_table);
     util_hash_table_destroy_u64(ctx->object_table);
  
@@ -706,7 +815,7 @@ index a7f4726..2831970 100644
     if (ctx->fence_eventfd >= 0)
        close(ctx->fence_eventfd);
  
-@@ -4683,6 +4841,7 @@ vkr_context_init_base(struct vkr_context *ctx)
+@@ -4772,6 +4934,7 @@ vkr_context_init_base(struct vkr_context *ctx)
     ctx->base.get_fencing_fd = vkr_context_get_fencing_fd;
     ctx->base.retire_fences = vkr_context_retire_fences;
     ctx->base.submit_fence = vkr_context_submit_fence;
@@ -714,7 +823,7 @@ index a7f4726..2831970 100644
  }
  
  static void
-@@ -4759,6 +4918,8 @@ vkr_context_create(size_t debug_len, const char *debug_name)
+@@ -4856,6 +5019,8 @@ vkr_context_create(size_t debug_len, const char *debug_name)
  
     list_inithead(&ctx->busy_queues);
  
@@ -749,10 +858,19 @@ index 35ccc23..177fd0a 100644
 +   ctx->export_fence = NULL;
  }
 diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
-index 1c115ce..6807d5a 100644
+index f941b8f..fbbc6d3 100644
 --- a/src/vrend_renderer.c
 +++ b/src/vrend_renderer.c
-@@ -9401,7 +9401,7 @@ void vrend_renderer_check_fences(void)
+@@ -6031,7 +6031,7 @@ static void wait_sync(struct vrend_fence *fence)
+    pipe_mutex_unlock(vrend_state.fence_mutex);
+ 
+    if (vrend_state.use_async_fence_cb) {
+-      ctx->fence_retire(fence->fence_cookie, ctx->fence_retire_data);
++      ctx->fence_retire(fence->flags, fence->fence_cookie, ctx->fence_retire_data);
+       free_fence_locked(fence);
+       return;
+    }
+@@ -9475,7 +9475,7 @@ void vrend_renderer_check_fences(void)
  
     LIST_FOR_EACH_ENTRY_SAFE(fence, stor, &retired_fences, fences) {
        struct vrend_context *ctx = fence->ctx;
@@ -762,7 +880,7 @@ index 1c115ce..6807d5a 100644
        free_fence_locked(fence);
     }
 diff --git a/src/vrend_renderer.h b/src/vrend_renderer.h
-index b132384..37982ff 100644
+index ac4031b..be2f225 100644
 --- a/src/vrend_renderer.h
 +++ b/src/vrend_renderer.h
 @@ -111,7 +111,8 @@ struct vrend_format_table {
@@ -776,5 +894,5 @@ index b132384..37982ff 100644
  
  struct vrend_if_cbs {
 -- 
-2.31.0
+2.32.0.93.g670b81a890-goog
 
