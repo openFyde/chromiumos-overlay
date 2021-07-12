@@ -60,6 +60,7 @@ IUSE="
 	gpu_sandbox_start_early
 	houdini
 	houdini64
+	houdini_dlc
 	kvm_guest
 	kvm_host
 	kvm_transition
