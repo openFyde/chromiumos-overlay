@@ -12,13 +12,13 @@ main() {
   local ret=0
 
   if [ "$#" -ne 0 ]; then
-	logger -t "${LOGGER_TAG}" "Too many arguments."
-	return 1
+    logger -t "${LOGGER_TAG}" "Too many arguments."
+    return 1
   fi
 
   local pending
-  read -ra pending < \
-    <(find /var/lib/fwupd/pending -type f -size -100c 2>/dev/null | xargs)
+  readarray -d $'\0' pending < \
+    <(find /var/lib/fwupd/pending -type f -size -100c -print0 2>/dev/null)
   if [ -z "${pending[*]}" ]; then
 	return "${ret}"
   fi
