@@ -33,6 +33,7 @@ IUSE_SANE_BACKENDS="
 	epjitsu
 	epson
 	epson2
+	epsonds
 	escl
 	fujitsu
 	genesys
