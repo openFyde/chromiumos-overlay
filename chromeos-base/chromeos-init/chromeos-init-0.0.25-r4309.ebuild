@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4b4eb59cfb0011afa7ea6b79d6bca62acb8a0606"
-CROS_WORKON_TREE=("487d577f0b2a08f0526aabf33ec63115fe32a16c" "c38b71380ee8574fe572fccfb1dba132fa789a30" "0013d80aa2227fc1b3e7673b9e227055d2184cc6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="fae0123ac860c76683fee3b9c5e0adb25c1cc315"
+CROS_WORKON_TREE=("487d577f0b2a08f0526aabf33ec63115fe32a16c" "443b865e58976175ea98ef956a5be390fcce307c" "0013d80aa2227fc1b3e7673b9e227055d2184cc6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -24,7 +24,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
 IUSE="
-	arcpp arcvm cros_embedded +debugd +encrypted_stateful +encrypted_reboot_vault
+	arcpp arcvm cros_embedded +encrypted_stateful +encrypted_reboot_vault
 	frecon lvm_stateful_partition kernel-3_18 +midi -s3halt +syslog systemd
 	+udev vivid vtconsole"
 
@@ -138,12 +138,6 @@ src_install_upstart() {
 		dosbin display_low_battery_alert
 	fi
 
-	if ! use debugd; then
-		sed -i '/^env PSTORE_GROUP=/s:=.*:=root:' \
-			"${D}/etc/init/pstore.conf" || \
-			die "Failed to replace PSTORE_GROUP in pstore.conf"
-	fi
-
 	if use midi; then
 		if use kernel-3_18; then
 			doins upstart/workaround-init/midi-workaround.conf
@@ -237,4 +231,7 @@ pkg_preinst() {
 	# by bootstat and ureadahead.
 	enewuser "debugfs-access"
 	enewgroup "debugfs-access"
+
+	# Create pstore-access group.
+	enewgroup pstore-access
 }
