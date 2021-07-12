@@ -84,6 +84,7 @@ ALL_BOARDS=(
 	bobcat
 	bolt
 	borealis
+	brask
 	bruteus
 	brya
 	brya-manatee
