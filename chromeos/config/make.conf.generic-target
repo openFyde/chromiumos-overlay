@@ -69,9 +69,9 @@ MARCH_TUNE=""
 # Allow a board to override or define additional settings.
 source make.conf.board
 
-# NOTE: Flags here apply to all of our toolchains, including GCC, clang, and
-# ARC++'s clang (which notably uses ld.bfd at times). Please tread carefully and
-# test thoroughly before adding flags here.
+# NOTE: Flags here apply to all of our C and C++ toolchains, including GCC,
+# clang, and ARC++'s clang (which notably uses ld.bfd at times). Please tread
+# carefully and test thoroughly before adding flags here.
 COMMON_COMPILER_FLAGS="-Os -pipe ${MARCH_TUNE} ${BOARD_COMPILER_FLAGS} \
 -g ${CXXEXCEPTIONS_FLAGS} -ffunction-sections -fdata-sections"
 CFLAGS="${CFLAGS} ${COMMON_COMPILER_FLAGS}"
@@ -80,6 +80,8 @@ CXXFLAGS="${CXXFLAGS} ${COMMON_COMPILER_FLAGS}"
 COMMON_COMPILER_FLAGS=""
 
 LDFLAGS="${LDFLAGS} -Wl,--gc-sections -Wl,--icf=all"
+
+CROS_BASE_RUSTFLAGS="${BOARD_RUSTFLAGS}"
 
 # Allow the user to override or define additional settings.
 source make.conf.user
