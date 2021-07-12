@@ -31,6 +31,12 @@ CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
 )
 
-DEPEND="chromeos-base/cros-config-api"
+DEPEND="
+	dev-go/go-tools
+	dev-go/grpc
+	dev-go/mock
+	dev-go/protobuf
+	chromeos-base/cros-config-api
+"
 
 RDEPEND="!<chromeos-base/test-server-0.0.1-r49"
