@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="40b6f1b5da1040ce3b11e48e148961151dc56a8b"
+CROS_WORKON_COMMIT="884ec7ad4d20b240e64d0a413eb3e96aa464a9d1"
 CROS_WORKON_TREE=("404240d78ae6865dc503e0ecef12b98f2940363c" "d46672fc3b800bb8eccba6af09b2be233e7e8271" "bdd0cd96fdf09a755c9eb90627b9d211a3b83e10" "0013d80aa2227fc1b3e7673b9e227055d2184cc6" "08a965b4db5ed9e70b5f55ef9402f722c630628b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -57,6 +57,7 @@ RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
+	generic_tpm2? ( chromeos-base/chromeos-cr50-scripts )
 	!app-crypt/tpm-tools
 	chromeos-base/libhwsec-foundation
 	"
