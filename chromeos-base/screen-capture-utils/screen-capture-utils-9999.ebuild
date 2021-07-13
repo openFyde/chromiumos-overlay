@@ -39,3 +39,7 @@ src_install() {
 	dosbin "${OUT}/kmsvnc"
 	dosbin "${OUT}/screenshot"
 }
+
+platform_pkg_test() {
+	platform test_all
+}
