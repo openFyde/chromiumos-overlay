@@ -45,7 +45,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="~*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack-driver"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -64,6 +64,9 @@ src_configure() {
 		append-cppflags "-D_Float16=__fp16"
 		append-cxxflags "-Xclang -fnative-half-type"
 		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
+	fi
+	if use xnnpack-driver; then
+		append-cppflags "-DNNAPI_USE_XNNPACK_DRIVER"
 	fi
 	if use minimal-driver; then
 		append-cppflags "-DNNAPI_USE_MINIMAL_DRIVER"
@@ -147,13 +150,38 @@ platform_pkg_test() {
 		# common a shared library.
 		# See: https://crbug.com/1067977, https://crbug.com/1069722
 		# https://github.com/google/sanitizers/wiki/AddressSanitizerContainerOverflow#false-positives
-		export ASAN_OPTIONS+=":detect_container_overflow=0:"
+		export ASAN_OPTIONS+=":detect_container_overflow=0:detect_odr_violation=0:"
 	fi
-
+	if use xnnpack-driver; then
+		# These tests don't currently work with the XNNPACK driver
+		gtest_excl_filter+="ValidationTestExecutionDeviceMemory.SetInputFromMemory*:"
+		gtest_excl_filter+="ValidationTestExecutionDeviceMemory.SetOutputFromMemory*:"
+		gtest_excl_filter+="TestGenerated/*.Test/maximum_broadcast*:"
+		gtest_excl_filter+="TestGenerated/*.Test/maximum_simple*:"
+		gtest_excl_filter+="TestGenerated/*.Test/minimum_broadcast*:"
+		gtest_excl_filter+="TestGenerated/*.Test/minimum_simple*:"
+		gtest_excl_filter+="TestGenerated/*.Test/pad*:"
+		gtest_excl_filter+="TestGenerated/*.Test/prelu*:"
+		gtest_excl_filter+="TestGenerated/*.Test/resize_bilinear_v1_3_align_corners*:"
+		gtest_excl_filter+="TestGenerated/*.Test/depthwise_conv2d_invalid_filter_dims_nhwc*:"
+		gtest_excl_filter+="TestGenerated/DeviceMemoryTest.Test/*:"
+	fi
 	local test_target
 	for test_target in "${tests[@]}"; do
 		platform_test "run" "${OUT}/${test_target}_testrunner" "0" "${gtest_excl_filter}" "${qemu_gtest_excl_filter}"
 	done
+
+	if use xnnpack-driver; then
+		platform_test "run" "${OUT}/runtime_xnn_testrunner"
+	fi
+}
+
+src_compile() {
+	platform_src_compile
+	if use xnnpack-driver; then
+		platform "compile" "xnn-driver"
+		platform "compile" "runtime_xnn_testrunner"
+	fi
 }
 
 src_install() {
@@ -170,8 +198,24 @@ src_install() {
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
 	dolib.so "${OUT}/lib/libnn-common.so"
 
+	einfo "Installing default driver"
+	echo -e "full:libfull-driver.so\ndefault:libfull-driver.so" >> "${OUT}/drivers"
+	dolib.so "${OUT}/lib/libfull-driver.so"
+
 	if ! use vendor-nnhal ; then
 		einfo "Installing reference vendor hal."
 		dolib.so "${OUT}/lib/libvendor-nn-hal.so"
 	fi
+	if use minimal-driver; then
+		einfo "Installing minimal drivers"
+		echo "minimal:libminimal-driver.so" >> "${OUT}/drivers"
+		dolib.so "${OUT}/lib/libminimal-driver.so"
+	fi
+	if use xnnpack-driver; then
+		einfo "Installing xnnpack drivers"
+		echo "xnnpack:libxnn-driver.so" >> "${OUT}/drivers"
+		dolib.so "${OUT}/lib/libxnn-driver.so"
+	fi
+
+	doenvd "${OUT}/drivers"
 }
