@@ -25,6 +25,7 @@ DEPEND="${RDEPEND}
 PATCHES=(
 	"${FILESDIR}/${P}-respect-wayland-configure-flags.patch"
 	"${FILESDIR}/0001-Remove-blitter-usage.patch"
+	"${FILESDIR}/0002-vp9hdec-fix-pCurrFrame-pMdfSurface-NULL-pointer-issu.patch"
 )
 
 src_prepare() {
