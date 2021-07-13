@@ -152,6 +152,7 @@ src_configure() {
 	fi
 
 	if use vulkan; then
+		vulkan_enable video_cards_llvmpipe swrast
 		vulkan_enable video_cards_intel intel
 		vulkan_enable video_cards_amdgpu amd
 	fi
@@ -165,12 +166,6 @@ src_configure() {
 
 	local egl_platforms=""
 	if use egl; then
-		egl_platforms="surfaceless"
-
-		if use drm; then
-			egl_platforms="${egl_platforms},drm"
-		fi
-
 		if use wayland; then
 			egl_platforms="${egl_platforms},wayland"
 		fi
@@ -179,6 +174,7 @@ src_configure() {
 			egl_platforms="${egl_platforms},x11"
 		fi
 	fi
+	egl_platforms="${egl_platforms##,}"
 
 	if use X; then
 		glx="dri"
@@ -196,6 +192,7 @@ src_configure() {
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
+		-Degl-native-platform="surfaceless"
 		$(meson_use egl)
 		$(meson_use gbm)
 		$(meson_use X gl)
