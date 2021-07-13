@@ -112,8 +112,16 @@ create_config() {
 	local base_board="$2"
 
 	if [[ -s "${FILESDIR}/configs/config.${board}" ]]; then
+		touch "${CONFIG}"
 
-		cp -v "${FILESDIR}/configs/config.${board}" "${CONFIG}"
+		if [[ -s "${FILESDIR}/configs/config.baseboard.${base_board}" ]]; then
+			cat "${FILESDIR}/configs/config.baseboard.${base_board}" >> "${CONFIG}"
+			# handle the case when "${CONFIG}" does not have a newline in the end.
+			echo >> "${CONFIG}"
+		fi
+
+		cat "${FILESDIR}/configs/config.${board}" >> "${CONFIG}"
+
 		# handle the case when "${CONFIG}" does not have a newline in the end.
 		echo >> "${CONFIG}"
 
