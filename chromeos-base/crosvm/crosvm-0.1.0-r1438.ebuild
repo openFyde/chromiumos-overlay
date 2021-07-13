@@ -130,6 +130,7 @@ FUZZERS=(
 
 # Array of "<features>/<binary name>"
 VHOST_USER_BINARIES=(
+	"console/vhost-user-console-device"
 	"net/vhost-user-net-device"
 	"wl/vhost-user-wl-device"
 )
