@@ -52,6 +52,7 @@ IUSE="
 	goma_thinlto
 	+highdpi
 	iioservice
+	intel_oemcrypto
 	internal_gles_conform
 	+libcxx
 	mojo
@@ -241,6 +242,7 @@ set_build_args() {
 		"is_debug=false"
 		"${EXTRA_GN_ARGS}"
 		"enable_pseudolocales=$(usetf cros-debug)"
+		"use_chromeos_protected_av1=$(usetf intel_oemcrypto)"
 		"use_chromeos_protected_media=$(usetf cdm_factory_daemon)"
 		"use_iioservice=$(usetf iioservice)"
 		"use_v4l2_codec=$(usetf v4l2_codec)"
