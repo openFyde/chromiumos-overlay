@@ -152,6 +152,7 @@ src_configure() {
 	fi
 
 	if use vulkan; then
+		vulkan_enable video_cards_llvmpipe swrast
 		vulkan_enable video_cards_intel intel
 		vulkan_enable video_cards_amdgpu amd
 	fi
@@ -165,8 +166,6 @@ src_configure() {
 
 	local egl_platforms=""
 	if use egl; then
-		egl_platforms="surfaceless"
-
 		if use drm; then
 			egl_platforms="${egl_platforms},drm"
 		fi
@@ -179,6 +178,7 @@ src_configure() {
 			egl_platforms="${egl_platforms},x11"
 		fi
 	fi
+	egl_platforms="${egl_platforms##,}"
 
 	if use X; then
 		glx="dri"
