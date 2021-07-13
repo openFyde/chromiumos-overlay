@@ -15,6 +15,10 @@ CROS_GO_PACKAGES=(
 	"chromiumos/tast/framework/protocol/..."
 )
 
+CROS_GO_TEST=(
+	"${CROS_GO_PACKAGES[@]}"
+)
+
 DESCRIPTION="Provides go bindings to proto APIs for tast"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast/"
 
