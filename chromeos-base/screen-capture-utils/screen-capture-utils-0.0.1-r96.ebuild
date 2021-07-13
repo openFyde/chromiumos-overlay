@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7d1e53ece9981821cc0d1881682b833fa8f335b6"
-CROS_WORKON_TREE=("404240d78ae6865dc503e0ecef12b98f2940363c" "4abc9fac8153750a03865f00a60126fc46c47d5f" "0013d80aa2227fc1b3e7673b9e227055d2184cc6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d27c1c5d5cfffd43ba19822d5614b0a527f1ea9b"
+CROS_WORKON_TREE=("404240d78ae6865dc503e0ecef12b98f2940363c" "8b89a9d0f47830aee3f4a77fbbc79490c1495812" "0013d80aa2227fc1b3e7673b9e227055d2184cc6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/809389): remove 'metrics' pulled in from header dependency.
@@ -40,4 +40,8 @@ DEPEND="${RDEPEND}
 src_install() {
 	dosbin "${OUT}/kmsvnc"
 	dosbin "${OUT}/screenshot"
+}
+
+platform_pkg_test() {
+	platform test_all
 }
