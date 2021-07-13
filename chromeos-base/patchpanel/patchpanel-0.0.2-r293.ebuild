@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c218b3ee460eedca8ebdf90999434f3cf98e44b5"
-CROS_WORKON_TREE=("404240d78ae6865dc503e0ecef12b98f2940363c" "6e90258293191c72a939a3b43660ea8eaf9d3281" "b547e7ccb8b47e759278d2c139823ad98a41bc46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7396625db76c300f9b1f1ab6adef323c190bb228"
+CROS_WORKON_TREE=("404240d78ae6865dc503e0ecef12b98f2940363c" "48ed3b9b041f1a432c4da4b7b49eaf19e4572d2a" "b547e7ccb8b47e759278d2c139823ad98a41bc46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -64,6 +64,7 @@ src_install() {
 
 	insinto /usr/include/chromeos/patchpanel/
 	patchpanel_header address_manager.h
+	patchpanel_header guest_type.h
 	patchpanel_header mac_address_generator.h
 	patchpanel_header net_util.h
 	patchpanel_header socket.h
