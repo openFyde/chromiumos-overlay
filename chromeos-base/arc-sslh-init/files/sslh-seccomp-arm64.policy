@@ -42,3 +42,7 @@ ioctl: arg1 == SIOCGIFNAME
 kill: 1
 lseek: 1
 fstatfs: 1
+writev: 1
+rt_sigprocmask: 1
+gettid: 1
+tgkill: 1
