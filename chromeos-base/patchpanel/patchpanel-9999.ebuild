@@ -62,6 +62,7 @@ src_install() {
 
 	insinto /usr/include/chromeos/patchpanel/
 	patchpanel_header address_manager.h
+	patchpanel_header guest_type.h
 	patchpanel_header mac_address_generator.h
 	patchpanel_header net_util.h
 	patchpanel_header socket.h
