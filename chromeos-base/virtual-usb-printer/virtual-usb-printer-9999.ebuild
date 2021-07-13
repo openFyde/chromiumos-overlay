@@ -43,6 +43,7 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/jpeg-util-testrunner"
 	platform_test "run" "${OUT}/load-config-testrunner"
 	platform_test "run" "${OUT}/smart-buffer-testrunner"
+	platform_test "run" "${OUT}/wrapped-test-case-step-testrunner"
 }
 
 src_install() {
