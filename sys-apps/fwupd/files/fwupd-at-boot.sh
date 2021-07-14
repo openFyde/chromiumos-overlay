@@ -40,6 +40,10 @@ main() {
       "ccgx"|"synaptics_cxaudio"|"synaptics_mst"|"vli")
         seconds=2
         ;;
+      "emmc")
+        # Trigger mmc/block events to adjust ownership
+        udevadm trigger --action=add --settle --subsystem-match=mmc --subsystem-match=block
+        ;;
       # USB4/TBT Retimer
       "thunderbolt")
         udevadm trigger --action=add --settle --subsystem-match=platform
