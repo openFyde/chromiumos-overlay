@@ -3,11 +3,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6520b08a7bab33fcff9fff4f0bc0ed635a94197a"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "49e3b5c529d012af19cb326eec9cf346538d4459" "6eeda5420b4a05356ce19cc8637dc97d4179c7c3" "334c8e0caef41ce68b04849338004bd466bd75a5" "6cdd3e4e16d9890ff8b5fe897e4cf5a94620c315" "404240d78ae6865dc503e0ecef12b98f2940363c" "0c32b7c859889403e93cba02daed08c9537ba10f" "903fe92b2526a414ef04db27fd52554a9693158a" "0013d80aa2227fc1b3e7673b9e227055d2184cc6")
+CROS_WORKON_COMMIT="c03feeae552bf92edc2506ca0cfe2317b57e7d60"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "404240d78ae6865dc503e0ecef12b98f2940363c" "0013d80aa2227fc1b3e7673b9e227055d2184cc6" "49e3b5c529d012af19cb326eec9cf346538d4459" "6eeda5420b4a05356ce19cc8637dc97d4179c7c3" "f65354b878eb75632712aaa3a60dcabb406c5c84" "560a621c9e735bbcfa4a9161204c6f614fec3b21" "334c8e0caef41ce68b04849338004bd466bd75a5" "6cdd3e4e16d9890ff8b5fe897e4cf5a94620c315" "0c32b7c859889403e93cba02daed08c9537ba10f" "903fe92b2526a414ef04db27fd52554a9693158a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/mojo common-mk iioservice/libiioservice_ipc iioservice/mojo metrics"
+CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo iioservice/libiioservice_ipc iioservice/mojo"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -19,7 +19,9 @@ DESCRIPTION="Chrome OS camera common libraries."
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="camera_feature_portrait_mode ipu6se"
+
+# 'camera_feature_hdrnet' and 'ipu6ep' are passed to and used in BUILD.gn files.
+IUSE="camera_feature_hdrnet camera_feature_portrait_mode ipu6ep ipu6se"
 
 BDEPEND="virtual/pkgconfig"
 
@@ -40,6 +42,7 @@ CONFLICTING_PACKAGES="
 RDEPEND="
 	${CONFLICTING_PACKAGES}
 	chromeos-base/cros-camera-android-deps:=
+	camera_feature_hdrnet? ( media-libs/cros-camera-libhdr:= )
 	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )
 	media-libs/libexif:=
 	media-libs/libsync:=
