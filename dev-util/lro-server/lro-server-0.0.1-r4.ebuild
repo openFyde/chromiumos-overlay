@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d9b2e0b95a66632da92a83aee63786d2779ef0e0"
+CROS_WORKON_COMMIT="22542fb28d3e7119396d9a50043fea93d203e801"
 CROS_WORKON_TREE="0a82488b21ac7734f64c67f4addb83f5f0eceb3f"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
@@ -33,6 +33,12 @@ CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
 )
 
-DEPEND="chromeos-base/cros-config-api"
+DEPEND="
+	dev-go/go-tools
+	dev-go/grpc
+	dev-go/mock
+	dev-go/protobuf
+	chromeos-base/cros-config-api
+"
 
 RDEPEND="!<chromeos-base/test-server-0.0.1-r49"
