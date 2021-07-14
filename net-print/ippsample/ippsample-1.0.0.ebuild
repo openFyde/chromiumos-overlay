@@ -48,9 +48,11 @@ src_configure() {
 src_install() {
 	default
 
-	# Install ippserver test prerequisites
+	# Install ippserver test prerequisites.
 	insinto /usr/local/share/ippsample
 	doins -r "${S}"/test
+	# Installing libcups should be left to net-print/cups (b/193691589).
+	rm "${D}/usr/$(get_libdir)/libcups.a" || die
 }
 
 src_test() {
