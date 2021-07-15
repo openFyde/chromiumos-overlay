@@ -39,6 +39,7 @@ BDEPEND="
 
 src_configure() {
 	emesonargs+=(
+		-Dexecmem=false
 		-Dllvm=disabled
 		-Ddri3=disabled
 		-Dshader-cache=disabled

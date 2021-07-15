@@ -176,6 +176,7 @@ src_configure() {
 	fi
 
 	emesonargs+=(
+		-Dexecmem=false
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
