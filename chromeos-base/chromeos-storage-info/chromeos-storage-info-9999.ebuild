@@ -19,7 +19,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="+mmc nvme +sata test"
+IUSE="mmc nvme +sata test"
 
 DEPEND=""
 
