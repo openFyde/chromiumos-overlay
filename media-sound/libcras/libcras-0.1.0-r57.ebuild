@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="d468e33178a76b9c3f0e28f3e1cbf518538d42b4"
+CROS_WORKON_COMMIT="f04a63375e0d0d9f1979bacde08c0f7597c8ae7f"
 CROS_WORKON_TREE="ec4dd0d4955052d5311671f6724e123d6753116c"
 CROS_RUST_SUBDIR="cras/client/libcras"
 
@@ -25,6 +25,7 @@ IUSE="test"
 
 DEPEND="
 	>=dev-rust/libc-0.2.44:=
+	dev-rust/cros_async:=
 	dev-rust/data_model:=
 	dev-rust/sys_util:=
 	media-sound/audio_streams:=
