@@ -291,8 +291,10 @@ RDEPEND="
 	!dev-python/socksipy
 	arc-camera1? ( chromeos-base/cros-camera )
 	arc-camera3? ( chromeos-base/cros-camera )
-	fwupd? ( sys-apps/fwupd )
-	mmc? ( sys-firmware/mmc-firmware )
+	fwupd? (
+		sys-apps/fwupd
+		mmc? ( sys-firmware/mmc-firmware )
+	)
 	smbprovider? (
 		chromeos-base/smbfs
 		chromeos-base/smbprovider
