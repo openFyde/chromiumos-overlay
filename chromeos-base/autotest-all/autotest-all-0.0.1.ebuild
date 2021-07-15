@@ -21,7 +21,6 @@ RDEPEND="
 	chromeos-base/autotest-tests
 	chromeos-base/autotest-tests-security
 	chromeos-base/autotest-tests-toolchain
-	dev-util/test-services
 	bluetooth? ( chromeos-base/autotest-server-tests-bluetooth )
 	cellular? ( chromeos-base/autotest-tests-cellular )
 	cheets? ( chromeos-base/autotest-tests-arc-public )
