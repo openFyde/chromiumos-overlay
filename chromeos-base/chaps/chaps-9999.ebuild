@@ -35,6 +35,7 @@ RDEPEND="
 	tpm2? (
 		chromeos-base/trunks:=
 	)
+	chromeos-base/chaps-client:=
 	chromeos-base/minijail:=
 	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
