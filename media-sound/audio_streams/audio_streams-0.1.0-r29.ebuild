@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="5bb2043d82a16b88a5353e167ca1d628a538744e"
+CROS_WORKON_COMMIT="f04a63375e0d0d9f1979bacde08c0f7597c8ae7f"
 CROS_WORKON_TREE="e5a0ad587f560a2b9eb5321c3eaff76ed3cf5626"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -22,6 +22,8 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
+	>=dev-rust/async-trait-0.1.36:= <dev-rust/async-trait-0.2
+	dev-rust/cros_async:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 "
