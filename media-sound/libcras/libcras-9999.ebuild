@@ -23,6 +23,7 @@ IUSE="test"
 
 DEPEND="
 	>=dev-rust/libc-0.2.44:=
+	dev-rust/cros_async:=
 	dev-rust/data_model:=
 	dev-rust/sys_util:=
 	media-sound/audio_streams:=
