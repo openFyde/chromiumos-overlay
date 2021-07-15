@@ -7,8 +7,8 @@ EAPI="7"
 # projects are declared. During emerge, both project sources are copied to
 # their respective destination directories, and one is chosen as the
 # "working directory" in src_unpack() below based on bluez-next USE flag.
-CROS_WORKON_COMMIT=("36bfbb522ca269e189445e4724fa39282a451fe4" "36bfbb522ca269e189445e4724fa39282a451fe4" "352cee4717fb031edb55ecf98e03a599c4439ddd")
-CROS_WORKON_TREE=("5c8d25435332ac2c7f89b5656ccac7ac54e9c98a" "5c8d25435332ac2c7f89b5656ccac7ac54e9c98a" "222eadaf67220ca68aa38117b584ffa2075edf43")
+CROS_WORKON_COMMIT=("36bfbb522ca269e189445e4724fa39282a451fe4" "36bfbb522ca269e189445e4724fa39282a451fe4" "16395e11db17c11a0866b1996cf801e750fcfc95")
+CROS_WORKON_TREE=("5c8d25435332ac2c7f89b5656ccac7ac54e9c98a" "5c8d25435332ac2c7f89b5656ccac7ac54e9c98a" "2d6b7fe7a6905298e24b5bdca054c0ec90d201e9")
 CROS_WORKON_LOCALNAME=("bluez/current" "bluez/next" "bluez/upstream")
 CROS_WORKON_PROJECT=("chromiumos/third_party/bluez" "chromiumos/third_party/bluez" "chromiumos/third_party/bluez")
 CROS_WORKON_OPTIONAL_CHECKOUT=(
