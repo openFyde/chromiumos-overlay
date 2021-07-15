@@ -8,8 +8,8 @@ if [[ ${PV} = *9999* ]]; then
 fi
 
 if [[ ${PV} != *9999* ]]; then
-	CROS_WORKON_COMMIT=138a29e30277b1039e9934fca5c782dc1e7a9f99
-	CROS_WORKON_TREE=79e9b31715154f1cfb9bc5e1a2bbc8ec4d5af188
+	CROS_WORKON_COMMIT=a91b7955265ccb52aeb27c911f81965279c73ebe
+	CROS_WORKON_TREE=4c9f92a4b0c02afa3e9f70080cc4372f1c498a16
 fi
 
 CROS_WORKON_PROJECT=chromiumos/third_party/igt-gpu-tools
