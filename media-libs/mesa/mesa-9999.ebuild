@@ -178,6 +178,7 @@ src_configure() {
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
+		-Dprefer-iris=false
 		-Dshader-cache-default=false
 		$(meson_feature egl)
 		$(meson_feature gbm)
