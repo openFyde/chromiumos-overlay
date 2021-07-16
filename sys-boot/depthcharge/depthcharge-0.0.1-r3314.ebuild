@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("de1b3252489374aac29ffc1bb361a04ae92832db" "22777bb5d531fac82da05c1fca6f02111b93e286")
-CROS_WORKON_TREE=("1c9c434126291dd8c59bd14d95a01fe5e878be47" "1c1e3e020d786280a3e010eca1ecb445cbdf4aa8")
+CROS_WORKON_COMMIT=("374b60890b38eea45bbae361dc804bf37f797901" "71aa26394ac18ec35ea9cbb08392faf8dca4fbcb")
+CROS_WORKON_TREE=("79f6d80f4e9d80c23208eeaaef742b291d382255" "4a6c8449dee713fe654ec48786a9a13c18263e3b")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/depthcharge"
 	"chromiumos/platform/vboot_reference"
@@ -13,8 +13,7 @@ DESCRIPTION="coreboot's depthcharge payload"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
-IUSE="detachable diag_payload fwconsole mocktpm pd_sync
-	unibuild verbose debug +minidiag
+IUSE="detachable fwconsole mocktpm pd_sync unibuild verbose debug
 	physical_presence_power physical_presence_recovery"
 
 DEPEND="
@@ -116,11 +115,6 @@ make_depthcharge() {
 	fi
 	if use detachable ; then
 		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
-	fi
-
-	# Both diag_payload and minidiag need special UI.
-	if use diag_payload || use minidiag ; then
-		echo "CONFIG_DIAGNOSTIC_UI=y" >> "${defconfig}"
 	fi
 
 	if use physical_presence_power || use physical_presence_recovery ; then
