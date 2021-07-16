@@ -21,15 +21,8 @@ KEYWORDS="*"
 
 IUSE="
 	minios
-	minios_ramfs
-"
-
-REQUIRED_USE="
-	minios? ( minios_ramfs )
-	minios_ramfs? ( minios )
 "
 
 RDEPEND="
 	minios? ( chromeos-base/minios )
-	chromeos-base/chromeos-initramfs
 "
