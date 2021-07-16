@@ -24,7 +24,7 @@ DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
 
 # SHA-1 or tag will both work.
-GIT_REF="${PV}"
+GIT_REF="a7eb696c6930ab3ab4191ce1cdaffd03ef09fd05"
 SRC_URI="https://github.com/alexpevzner/sane-airscan/archive/${GIT_REF}.tar.gz -> ${PN}-${GIT_REF}.tar.gz"
 S="${WORKDIR}/${PN}-${GIT_REF}"
 
@@ -36,7 +36,6 @@ FUZZERS=(
 
 PATCHES=(
 	"${FILESDIR}/${PN}-0.9.20-noasan.patch"
-	"${FILESDIR}/${PN}-0.9.26-add_justify.patch"
 )
 
 src_configure() {
