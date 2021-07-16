@@ -1,0 +1,63 @@
+From 6a8178747fe92f8a48730bc92cb5a6930a8f6a3e Mon Sep 17 00:00:00 2001
+From: Mark Lobodzinski <mark@lunarg.com>
+Date: Wed, 3 Feb 2021 09:23:56 -0600
+Subject: [PATCH] cmake: Enable/reenable compilation with RTTI
+
+Needed for typeid() usage.
+
+Change-Id: I5dd8e8eabe5096507e6e02d633a10db8e53aee6e
+---
+ BUILD.gn                     | 1 +
+ CMakeLists.txt               | 3 ---
+ build-android/jni/Android.mk | 2 +-
+ 3 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/BUILD.gn b/BUILD.gn
+index 2c58ab01..72bb8d97 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -284,6 +284,7 @@ foreach(layer_info, layers) {
+     defines = []
+     configs -= [ "//build/config/compiler:chromium_code" ]
+     configs += [ "//build/config/compiler:no_chromium_code" ]
++    configs += [ "//build/config/compiler:rtti"]
+     configs -= vulkan_undefine_configs
+     public_configs = [ ":vulkan_layer_config" ]
+     deps = [
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 994a9ef0..e1c7e388 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -130,7 +130,6 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID MATCHES "Clang")
+ 
+     set(CMAKE_C_STANDARD 99)
+     set(CMAKE_CXX_STANDARD 11)
+-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
+ 
+     # For GCC version 7.1 or greater, we need to disable the implicit fallthrough warning since there's no consistent way to satisfy
+     # all compilers until they all accept the C++17 standard.
+@@ -140,8 +139,6 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID MATCHES "Clang")
+ elseif(MSVC)
+     # Treat warnings as errors
+     add_compile_options("/WX")
+-    # Disable RTTI
+-    add_compile_options("/GR-")
+     # Warn about nested declarations
+     add_compile_options("/w34456")
+     # Warn about potentially uninitialized variables
+diff --git a/build-android/jni/Android.mk b/build-android/jni/Android.mk
+index 1d4f0e82..aef103fc 100644
+--- a/build-android/jni/Android.mk
++++ b/build-android/jni/Android.mk
+@@ -66,7 +66,7 @@ LOCAL_C_INCLUDES += $(VULKAN_INCLUDE) \
+                     $(LOCAL_PATH)/$(SRC_DIR)/layers/generated \
+                     $(LOCAL_PATH)/$(THIRD_PARTY)/shaderc/third_party/spirv-tools/external/spirv-headers/include
+ LOCAL_STATIC_LIBRARIES += layer_utils glslang SPIRV-Tools SPIRV-Tools-opt
+-LOCAL_CPPFLAGS += -std=c++11 -Wall -Werror -Wno-unused-function -Wno-unused-const-variable
++LOCAL_CPPFLAGS += -std=c++11 -Wall -Werror -Wno-unused-function -Wno-unused-const-variable -frtti
+ LOCAL_CPPFLAGS += -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_ANDROID_KHR -DVK_PROTOTYPES -fvisibility=hidden
+ LOCAL_LDLIBS    := -llog -landroid
+ LOCAL_LDFLAGS   += -Wl,-Bsymbolic
+-- 
+2.32.0.402.g57bb445576-goog
+

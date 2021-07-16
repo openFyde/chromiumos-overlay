@@ -37,6 +37,10 @@ DEPEND="${RDEPEND} ${PYTHON_DEPS}
 	)
 "
 
+PATCHES=(
+	"${FILESDIR}/BACKPORT-cmake-Enable-reenable-compilation-with-RTTI.patch"
+)
+
 multilib_src_configure() {
 	local mycmakeargs=(
 		-DCMAKE_SKIP_RPATH=ON
