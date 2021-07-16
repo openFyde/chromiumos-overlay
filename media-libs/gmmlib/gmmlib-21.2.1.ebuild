@@ -21,6 +21,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="${DEPEND}"
 
 PATCHES=(
+    "${FILESDIR}"/${PN}-20.2.2_conditional_testing.patch
 )
 
 multilib_src_configure() {
