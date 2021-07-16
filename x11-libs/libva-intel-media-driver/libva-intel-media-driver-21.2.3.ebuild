@@ -21,6 +21,7 @@ DEPEND=">=media-libs/gmmlib-21.2.1
 RDEPEND="${DEPEND}"
 
 PATCHES=(
+	"${FILESDIR}"/0001-Disable-IPC-usage.patch
 )
 
 src_configure() {
