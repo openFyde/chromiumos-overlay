@@ -157,6 +157,8 @@ src_prepare() {
 	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/11008
 	epatch "${FILESDIR}"/UPSTREAM-virgl-Fix-the-leak-of-hw_res-used-as-fence.patch
 
+	epatch "${FILESDIR}"/BACKPORT-egl-android-only-apply-front-rendering-usage-in-shar.patch
+
 	default
 }
 
