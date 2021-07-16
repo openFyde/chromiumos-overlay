@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit toolchain-funcs
+inherit toolchain-funcs cros-sanitizers
 
 DESCRIPTION="ippsample print testing utility"
 HOMEPAGE="https://github.com/istopwg/ippsample/blob/master/README.md"
@@ -36,6 +36,9 @@ PATCHES=(
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
 src_configure() {
+
+	sanitizers-setup-env
+
 	tc-export PKG_CONFIG
 
 	local myeconfargs=(
