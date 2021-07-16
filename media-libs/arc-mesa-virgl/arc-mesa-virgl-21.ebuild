@@ -159,6 +159,8 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/BACKPORT-egl-android-only-apply-front-rendering-usage-in-shar.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-frontend-dri-Expose-RGB-AX-_SRGB-as-well.patch
+
 	default
 }
 
