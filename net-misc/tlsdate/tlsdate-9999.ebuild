@@ -3,6 +3,7 @@
 
 EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/third_party/tlsdate"
+CROS_WORKON_EGIT_BRANCH=master
 
 inherit autotools flag-o-matic toolchain-funcs cros-sanitizers cros-workon cros-debug systemd user
 
