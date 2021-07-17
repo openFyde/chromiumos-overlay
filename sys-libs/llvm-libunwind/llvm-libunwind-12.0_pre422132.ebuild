@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit cros-constants cmake-multilib cmake-utils git-2 cros-llvm
+inherit cros-fuzzer cros-sanitizers cros-constants cmake-multilib cmake-utils git-2 cros-llvm
 
 DESCRIPTION="C++ runtime stack unwinder from LLVM"
 HOMEPAGE="https://github.com/llvm-mirror/libunwind"
@@ -58,6 +58,8 @@ should_enable_asserts() {
 }
 
 multilib_src_configure() {
+	# Disable sanitization of llvm-libunwind (b/193934733).
+	use_sanitizers && filter_sanitizers
 	# Allow targeting non-neon targets for armv7a.
 	if [[ ${CATEGORY} == cross-armv7a* ]] ; then
 		append-flags -mfpu=vfpv3
