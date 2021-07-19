@@ -107,6 +107,7 @@ IUSE_LINUX_FIRMWARE=(
 	qca6174a-5-bt
 	qca-wcn3990-bt
 	qca-wcn3991-bt
+	qca-wcn685x-bt
 	rockchip-dptx
 	rt2870
 	rtl8107e-1
@@ -188,6 +189,7 @@ LICENSE="
 	linux_firmware_qca6174a-5-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_qca-wcn3990-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_qca-wcn3991-bt? ( LICENSE.QualcommAtheros_ath10k )
+	linux_firmware_qca-wcn685x-bt? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_rockchip-dptx? ( LICENCE.rockchip )
 	linux_firmware_rt2870? ( LICENCE.ralink-firmware.txt LICENCE.ralink_a_mediatek_company_firmware )
 	linux_firmware_rtl8107e-1? ( LICENCE.rtl_nic )
@@ -364,9 +366,10 @@ src_install() {
 	use_fw mt8173-vpu && doins vpu_{d,p}.bin
 	use_fw nvidia-xusb && doins_subdir nvidia/tegra*/xusb.bin
 	use_fw qca6174a-3-bt && doins_subdir qca/{nvm,rampatch}_0044*.bin
-	use_fw qca6174a-5-bt && doins_subdir qca/{nvm,rampatch}_usb_*.bin
+	use_fw qca6174a-5-bt && doins_subdir qca/{nvm,rampatch}_usb_00000302*.bin
 	use_fw qca-wcn3990-bt && doins_subdir qca/{crbtfw21.tlv,crnv21.bin}
 	use_fw qca-wcn3991-bt && doins_subdir qca/{crbtfw32.tlv,crnv32.bin,crnv32u.bin}
+	use_fw qca-wcn685x-bt && doins_subdir qca/{nvm,rampatch}_usb_0013*.bin
 	use_fw rockchip-dptx && doins_subdir rockchip/dptx.bin
 	use_fw rtl8107e-1 && doins_subdir rtl_nic/rtl8107e-1.fw
 	use_fw rtl8107e-2 && doins_subdir rtl_nic/rtl8107e-2.fw
