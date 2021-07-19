@@ -31,6 +31,7 @@ COMMON_DEPEND="
 	dev-libs/re2:=
 	net-libs/grpc:=
 	virtual/libudev:=
+	sys-apps/pciutils:=
 "
 
 DEPEND="
