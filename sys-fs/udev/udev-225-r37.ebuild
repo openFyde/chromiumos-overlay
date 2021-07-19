@@ -2,21 +2,15 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI="7"
 
-inherit autotools bash-completion-r1 eutils multilib multilib-minimal toolchain-funcs udev user versionator
+inherit autotools bash-completion-r1 eutils multilib multilib-minimal toolchain-funcs udev user
 
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="git://anongit.freedesktop.org/systemd/systemd"
 	inherit git-r3
 else
-	patchset=
 	SRC_URI="https://github.com/systemd/systemd/archive/v${PV}.tar.gz -> systemd-${PV}.tar.gz"
-	if [[ -n "${patchset}" ]]; then
-		SRC_URI+="
-			https://dev.gentoo.org/~ssuominen/${P}-patches-${patchset}.tar.xz
-			https://dev.gentoo.org/~williamh/dist/${P}-patches-${patchset}.tar.xz"
-	fi
 	KEYWORDS="*"
 fi
 
@@ -29,6 +23,18 @@ IUSE="acl +kmod openrc selinux static-libs"
 
 RESTRICT="test"
 
+# Force new make >= -r4 to skip some parallel build issues
+BDEPEND="
+	dev-util/gperf
+	>=dev-util/intltool-0.50
+	>=sys-apps/coreutils-8.16
+	virtual/pkgconfig
+	>=sys-devel/make-3.82-r4
+	app-text/docbook-xml-dtd:4.2
+	app-text/docbook-xml-dtd:4.5
+	app-text/docbook-xsl-stylesheets
+	dev-libs/libxslt
+"
 COMMON_DEPEND=">=sys-apps/util-linux-2.24
 	sys-libs/libcap[${MULTILIB_USEDEP}]
 	acl? ( sys-apps/acl )
@@ -41,19 +47,9 @@ COMMON_DEPEND=">=sys-apps/util-linux-2.24
 		!<=app-emulation/emul-linux-x86-baselibs-20130224-r7
 		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32(-)]
 	)"
-# Force new make >= -r4 to skip some parallel build issues
 DEPEND="${COMMON_DEPEND}
-	dev-util/gperf
-	>=dev-util/intltool-0.50
-	>=sys-apps/coreutils-8.16
 	virtual/os-headers
-	virtual/pkgconfig
-	>=sys-devel/make-3.82-r4
-	>=sys-kernel/linux-headers-3.9
-	app-text/docbook-xml-dtd:4.2
-	app-text/docbook-xml-dtd:4.5
-	app-text/docbook-xsl-stylesheets
-	dev-libs/libxslt"
+	>=sys-kernel/linux-headers-3.9"
 RDEPEND="${COMMON_DEPEND}
 	!<sec-policy/selinux-base-2.20120725-r10"
 PDEPEND=">=sys-apps/hwids-20140304[udev]
@@ -87,7 +83,7 @@ PATCHES=(
 check_default_rules() {
 	# Make sure there are no sudden changes to upstream rules file
 	# (more for my own needs than anything else ...)
-	local udev_rules_md5=b8ad860dccae0ca51656b33c405ea2ca
+	local udev_rules_md5=870fa6b180bb6b9527905da2cf85e170
 	MD5=$(md5sum < "${S}"/rules/50-udev-default.rules)
 	MD5=${MD5/  -/}
 	if [[ ${MD5} != ${udev_rules_md5} ]]; then
@@ -99,6 +95,8 @@ check_default_rules() {
 
 src_prepare() {
 	if ! [[ ${PV} = 9999* ]]; then
+		check_default_rules
+
 		# secure_getenv() disable for non-glibc systems wrt bug #443030
 		if ! [[ $(grep -r secure_getenv * | wc -l) -eq 25 ]]; then
 			eerror "The line count for secure_getenv() failed, see bug #443030"
@@ -106,10 +104,7 @@ src_prepare() {
 		fi
 	fi
 
-	# backport some patches
-	if [[ -n "${patchset}" ]]; then
-		EPATCH_SUFFIX=patch EPATCH_FORCE=yes epatch
-	fi
+	default
 
 	cat <<-EOF > "${T}"/40-gentoo.rules
 	# Gentoo specific floppy and usb groups
@@ -123,14 +118,7 @@ src_prepare() {
 	# stub out the am_path_libcrypt function
 	echo 'AC_DEFUN([AM_PATH_LIBGCRYPT],[:])' > m4/gcrypt.m4
 
-	# apply user patches
-	epatch_user
-
 	eautoreconf
-
-	if ! [[ ${PV} = 9999* ]]; then
-		check_default_rules
-	fi
 
 	# Restore possibility of running --enable-static wrt #472608
 	sed -i \
@@ -141,8 +129,6 @@ src_prepare() {
 		echo '#define secure_getenv(x) NULL' >> config.h.in
 		sed -i -e '/error.*secure_getenv/s:.*:#define secure_getenv(x) NULL:' src/shared/missing.h || die
 	fi
-
-	epatch "${PATCHES[@]}"
 }
 
 src_configure() {
@@ -310,7 +296,7 @@ multilib_src_install() {
 multilib_src_install_all() {
 	dodoc TODO
 
-	prune_libtool_files --all
+	find "${D}"/usr -name '*.la' -delete
 	rm -f "${D}"/lib/udev/rules.d/99-systemd.rules
 	rm -f "${D}"/usr/share/doc/${PF}/{LICENSE.*,GVARIANT-SERIALIZATION,DIFFERENCES,PORTING-DBUS1,sd-shutdown.h}
 
