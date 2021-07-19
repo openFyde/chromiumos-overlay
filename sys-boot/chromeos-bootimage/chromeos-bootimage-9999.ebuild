@@ -22,7 +22,10 @@ IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 # this option.
 IUSE="${IUSE} ec_ro_sync"
 IUSE="${IUSE} +depthcharge"
-IUSE="${IUSE} payload-align-64"
+IUSE="${IUSE} payload-align-64 +payload-compress-lzma payload-compress-lz4"
+
+REQUIRED_USE="^^ ( payload-compress-lzma payload-compress-lz4 )"
+
 
 # No pre-unibuild boards build firmware on ToT anymore.  Assume
 # unibuild to keep ebuild clean.
@@ -112,7 +115,13 @@ add_payloads() {
 	local ro_payload=$2
 	local rw_payload=$3
 
-	local -a args=(-n fallback/payload -c lzma)
+	local -a args=(-n fallback/payload)
+
+	if use payload-compress-lzma; then
+		args+=(-c lzma)
+	elif use payload-compress-lz4; then
+		args+=(-c lz4)
+	fi
 
 	if use payload-align-64; then
 		args+=(-a 64)
