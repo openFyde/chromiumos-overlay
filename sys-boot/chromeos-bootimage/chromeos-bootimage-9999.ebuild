@@ -409,7 +409,7 @@ add_compressed_assets() {
 	while IFS= read -r -d '' file; do
 		do_cbfstool "${rom}" add -r "${cbfs_regions}" -f "${file}" \
 			-n "$(basename "${file}")" -t raw -c precompression
-	done < <(find "${asset_path}" -maxdepth 1 -type f -print0)
+	done < <(find "${asset_path}" -maxdepth 1 -type f -print0 | sort -z)
 
 	# Pre uni-builds have build_name not set. So check to avoid adding
 	# duplicate assets.
@@ -417,7 +417,8 @@ add_compressed_assets() {
 		while IFS= read -r -d '' file; do
 			do_cbfstool "${rom}" add -r "${cbfs_regions}" -f "${file}" \
 				-n "$(basename "${file}")" -t raw -c precompression
-		done < <(find "${asset_path}/${build_name}" -maxdepth 1 -type f -print0)
+		done < <(find "${asset_path}/${build_name}" -maxdepth 1 -type f -print0 \
+				| sort -z)
 	fi
 }
 
@@ -449,7 +450,7 @@ add_assets() {
 	while IFS= read -r -d '' file; do
 		do_cbfstool "${rom}" add -r COREBOOT,FW_MAIN_A,FW_MAIN_B \
 			-f "${file}" -n "$(basename "${file}")" -t raw
-	done < <(find "raw-assets-rw/${build_name}" -type f -print0)
+	done < <(find "raw-assets-rw/${build_name}" -type f -print0 | sort -z)
 }
 
 # Compress static and firmware target specific assets:
