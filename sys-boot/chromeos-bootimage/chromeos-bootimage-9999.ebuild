@@ -594,6 +594,9 @@ build_images() {
 	setup_altfw "${coreboot_build_target}" "${coreboot_file}"
 	setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
 
+	# Keeps the find commands from failing with directory not found
+	mkdir -p "raw-assets-rw/${build_name}"
+
 	check_assets "${coreboot_file}.serial" "${depthcharge_dev}"
 	add_assets "${coreboot_file}"
 	add_assets "${coreboot_file}.serial"
