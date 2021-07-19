@@ -21,7 +21,9 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="cr50_onboard ti50_onboard"
 
-COMMON_DEPEND=""
+COMMON_DEPEND="
+	chromeos-base/cryptohome-client:=
+"
 
 RDEPEND="
 	${COMMON_DEPEND}
